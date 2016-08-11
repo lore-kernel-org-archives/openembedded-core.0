@@ -1,20 +1,30 @@
-Return-Path: <markus.lehtonen@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id F1BD177236
+Return-Path: <adrian.ratiu@ni.com>
+Received: from ni.com (skprod2.natinst.com [130.164.80.23])
+	by mail.openembedded.org (Postfix) with ESMTP id 3811577228
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Aug 2016 13:31:53 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga103.fm.intel.com with ESMTP; 11 Aug 2016 06:31:55 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.28,505,1464678000"; d="scan'208";a="747340875"
-Received: from marquiz.fi.intel.com ([10.237.72.155])
-	by FMSMGA003.fm.intel.com with ESMTP; 11 Aug 2016 06:31:54 -0700
-From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
+	Thu, 11 Aug 2016 13:50:28 +0000 (UTC)
+Received: from us-aus-mgwout1.amer.corp.natinst.com (nb-snip2-1338.natinst.com
+	[130.164.19.135])
+	by us-aus-skprod2.natinst.com (8.15.0.59/8.15.0.59) with ESMTP id
+	u7BDoQai017964 for <openembedded-core@lists.openembedded.org>;
+	Thu, 11 Aug 2016 08:50:29 -0500
+Received: from adi-pc-linux.natinst.com ([130.164.14.198])
+	by us-aus-mgwout1.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6
+	HF1218) with ESMTP id 2016081108502618-239995 ;
+	Thu, 11 Aug 2016 08:50:26 -0500 
+From: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 11 Aug 2016 16:31:52 +0300
-Message-Id: <1470922312-28013-1-git-send-email-markus.lehtonen@linux.intel.com>
-X-Mailer: git-send-email 2.6.6
-Subject: [PATCH] oeqa.buildperf: use oe.path.remove()
+Date: Thu, 11 Aug 2016 16:49:15 +0300
+Message-Id: <20160811134915.7827-1-adrian.ratiu@ni.com>
+X-Mailer: git-send-email 2.9.2
+X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut1/AUS/H/NIC(Release
+	8.5.3FP6 HF1218|December 12, 2014) at 08/11/2016 08:50:26 AM,
+	Serialize by Router on US-AUS-MGWOut1/AUS/H/NIC(Release 8.5.3FP6
+	HF1218|December 12, 2014) at 08/11/2016 08:50:29 AM,
+	Serialize complete at 08/11/2016 08:50:29 AM
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
+	definitions=2016-08-11_10:, , signatures=0
+Subject: [PATCH] perl-native: backport libnm link fix
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,88 +37,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Aug 2016 13:31:54 -0000
+X-List-Received-Date: Thu, 11 Aug 2016 13:50:30 -0000
 
-Drop the self-baked force_rm() method.
+pre-5.25.0 perl by default tries to link to an antiquated libnm (new
+math) which is not used anymore since the early 1990's. After 2014
+another libnm appeared for NetworkManager causing build failures.
 
-Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
+Signed-off-by: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
 ---
- meta/lib/oeqa/buildperf/base.py        | 15 ++++-----------
- meta/lib/oeqa/buildperf/basic_tests.py |  5 +++--
- 2 files changed, 7 insertions(+), 13 deletions(-)
+ meta/recipes-devtools/perl/perl-native_5.22.1.bb   |  1 +
+ .../perl/perl/perl-remove-nm-from-libswanted.patch | 30 ++++++++++++++++++++++
+ 2 files changed, 31 insertions(+)
+ create mode 100644 meta/recipes-devtools/perl/perl/perl-remove-nm-from-libswanted.patch
 
-diff --git a/meta/lib/oeqa/buildperf/base.py b/meta/lib/oeqa/buildperf/base.py
-index 527563b..2af4d25 100644
---- a/meta/lib/oeqa/buildperf/base.py
-+++ b/meta/lib/oeqa/buildperf/base.py
-@@ -21,6 +21,7 @@ import time
- import traceback
- from datetime import datetime, timedelta
+diff --git a/meta/recipes-devtools/perl/perl-native_5.22.1.bb b/meta/recipes-devtools/perl/perl-native_5.22.1.bb
+index ed8222f..1c21522 100644
+--- a/meta/recipes-devtools/perl/perl-native_5.22.1.bb
++++ b/meta/recipes-devtools/perl/perl-native_5.22.1.bb
+@@ -11,6 +11,7 @@ SRC_URI += "\
+            file://debian/errno_ver.diff \
+            file://dynaloaderhack.patch \
+            file://perl-PathTools-don-t-filter-out-blib-from-INC.patch \
++           file://perl-remove-nm-from-libswanted.patch \
+           "
  
-+import oe.path
- from oeqa.utils.commands import runCmd, get_bb_vars
- from oeqa.utils.git import GitError, GitRepo
- 
-@@ -296,29 +297,21 @@ class BuildPerfTest(object):
-         shutil.move(self.bb_vars['BUILDSTATS_BASE'],
-                     os.path.join(self.out_dir, 'buildstats-' + self.name))
- 
--    @staticmethod
--    def force_rm(path):
--        """Equivalent of 'rm -rf'"""
--        if os.path.isfile(path) or os.path.islink(path):
--            os.unlink(path)
--        elif os.path.isdir(path):
--            shutil.rmtree(path)
--
-     def rm_tmp(self):
-         """Cleanup temporary/intermediate files and directories"""
-         log.debug("Removing temporary and cache files")
-         for name in ['bitbake.lock', 'conf/sanity_info',
-                      self.bb_vars['TMPDIR']]:
--            self.force_rm(name)
-+            oe.path.remove(name, recurse=True)
- 
-     def rm_sstate(self):
-         """Remove sstate directory"""
-         log.debug("Removing sstate-cache")
--        self.force_rm(self.bb_vars['SSTATE_DIR'])
-+        oe.path.remove(self.bb_vars['SSTATE_DIR'], recurse=True)
- 
-     def rm_cache(self):
-         """Drop bitbake caches"""
--        self.force_rm(self.bb_vars['PERSISTENT_DIR'])
-+        oe.path.remove(self.bb_vars['PERSISTENT_DIR'], recurse=True)
- 
-     @staticmethod
-     def sync():
-diff --git a/meta/lib/oeqa/buildperf/basic_tests.py b/meta/lib/oeqa/buildperf/basic_tests.py
-index ada5aba..81b2b5f 100644
---- a/meta/lib/oeqa/buildperf/basic_tests.py
-+++ b/meta/lib/oeqa/buildperf/basic_tests.py
-@@ -13,6 +13,7 @@
- import os
- import shutil
- 
-+import oe.path
- from . import BuildPerfTest, perf_test_case
- from oeqa.utils.commands import get_bb_vars
- 
-@@ -95,11 +96,11 @@ class Test3(BuildPerfTest):
-     def _run(self):
-         # Drop all caches and parse
-         self.rm_cache()
--        self.force_rm(os.path.join(self.bb_vars['TMPDIR'], 'cache'))
-+        oe.path.remove(os.path.join(self.bb_vars['TMPDIR'], 'cache'), True)
-         self.measure_cmd_resources(['bitbake', '-p'], 'parse_1',
-                                    'bitbake -p (no caches)')
-         # Drop tmp/cache
--        self.force_rm(os.path.join(self.bb_vars['TMPDIR'], 'cache'))
-+        oe.path.remove(os.path.join(self.bb_vars['TMPDIR'], 'cache'), True)
-         self.measure_cmd_resources(['bitbake', '-p'], 'parse_2',
-                                    'bitbake -p (no tmp/cache)')
-         # Parse with fully cached data
+ SRC_URI[md5sum] = "6671e4829cbaf9cecafa9a84f141b0a3"
+diff --git a/meta/recipes-devtools/perl/perl/perl-remove-nm-from-libswanted.patch b/meta/recipes-devtools/perl/perl/perl-remove-nm-from-libswanted.patch
+new file mode 100644
+index 0000000..c489f05
+--- /dev/null
++++ b/meta/recipes-devtools/perl/perl/perl-remove-nm-from-libswanted.patch
+@@ -0,0 +1,30 @@
++From 4732711e2548b6d734ca831d65dbcf501a89774e Mon Sep 17 00:00:00 2001
++From: Andreas Koenig <andk@cpan.org>
++Date: Sun, 3 Jan 2016 08:40:33 +0100
++Subject: [PATCH] Remove nm from libswanted
++
++Nm stood for "New Math" library in the context of 1994. 2014 a conflicting
++library libnm appeared that has a network manager context.
++
++Upstream-Status: Backport [commit 4732711e on branch blead, tag v5.25.0]
++
++---
++ Configure | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/Configure b/Configure
++index 0e71b4b..cfbdaa1 100755
++--- a/Configure
+++++ b/Configure
++@@ -1464,7 +1464,7 @@ libswanted_uselargefiles=''
++ : set usesocks on the Configure command line to enable socks.
++ : List of libraries we want.
++ : If anyone needs extra -lxxx, put those in a hint file.
++-libswanted="cl pthread socket bind inet nsl nm ndbm gdbm dbm db malloc dl ld"
+++libswanted="cl pthread socket bind inet nsl ndbm gdbm dbm db malloc dl ld"
++ libswanted="$libswanted sun m crypt sec util c cposix posix ucb bsd BSD"
++ : We probably want to search /usr/shlib before most other libraries.
++ : This is only used by the lib/ExtUtils/MakeMaker.pm routine extliblist.
++-- 
++2.9.2
++
 -- 
-2.6.6
+2.9.2
 
 
