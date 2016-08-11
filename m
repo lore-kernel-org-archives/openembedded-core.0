@@ -1,25 +1,29 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id ABCAE771D9
+Return-Path: <rpjday@crashcourse.ca>
+Received: from smtp486.redcondor.net (smtp486.redcondor.net [208.80.204.86])
+	by mail.openembedded.org (Postfix) with ESMTP id D5B117707B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Aug 2016 04:45:44 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by orsmga102.jf.intel.com with ESMTP; 10 Aug 2016 21:45:45 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.28,503,1464678000"; d="scan'208";a="863475707"
-Received: from unknown (HELO peggleto-mobl.ger.corp.intel.com)
-	([10.255.171.53])
-	by orsmga003.jf.intel.com with ESMTP; 10 Aug 2016 21:45:43 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 11 Aug 2016 16:45:07 +1200
-Message-Id: <8b812f1819f53d4f58454d094f7e8c9ea9879242.1470890478.git.paul.eggleton@linux.intel.com>
-X-Mailer: git-send-email 2.5.5
-In-Reply-To: <cover.1470890478.git.paul.eggleton@linux.intel.com>
-References: <cover.1470890478.git.paul.eggleton@linux.intel.com>
-In-Reply-To: <cover.1470890478.git.paul.eggleton@linux.intel.com>
-References: <cover.1470890478.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 10/10] classes/populate_sdk_ext: drop duplicated error message
+	Thu, 11 Aug 2016 06:34:09 +0000 (UTC)
+Received: from astoria.ccjclearline.com ([64.235.106.9])
+	by smtp486.redcondor.net ({6695537a-536a-45f9-a249-877c85428649})
+	via TCP (outbound) with ESMTPS id 20160811063408843_0486
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 11 Aug 2016 06:34:08 +0000
+X-RC-FROM: <rpjday@crashcourse.ca>
+X-RC-RCPT: <openembedded-core@lists.openembedded.org>
+Received: from [208.97.121.124] (port=40976 helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
+	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
+	id 1bXjaz-0004ow-Dz for openembedded-core@lists.openembedded.org;
+	Thu, 11 Aug 2016 02:36:01 -0400
+Date: Thu, 11 Aug 2016 03:34:00 -0300 (ADT)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@localhost.localdomain
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Message-ID: <alpine.LFD.2.20.1608110330520.25986@localhost.localdomain>
+User-Agent: Alpine 2.20 (LFD 67 2015-01-07)
+MIME-Version: 1.0
+X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
+Subject: what's with meta-yocto-bsp directory in openembedded-core?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,49 +36,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Aug 2016 04:45:44 -0000
+X-List-Received-Date: Thu, 11 Aug 2016 06:34:11 -0000
+Content-Type: multipart/mixed; BOUNDARY="8323328-121118623-1470897243=:25986"
 
-The preparation script itself prints out an error on failure, and we
-aren't redirecting its output anymore, so we no longer need to print out
-a message here when it fails. At the same time, make the message printed
-out by the script a little clearer - we're just writing the log out to
-the file, we shouldn't give the user an expectation that there will be
-extra details in there (other than the output produced by
-oe-init-build-env there won't be).
+--8323328-121118623-1470897243=:25986
+Content-Type: text/plain; charset=KOI8-R
+Content-Transfer-Encoding: 8BIT
 
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
----
- meta/classes/populate_sdk_ext.bbclass | 2 +-
- meta/files/ext-sdk-prepare.py         | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/classes/populate_sdk_ext.bbclass b/meta/classes/populate_sdk_ext.bbclass
-index f1ae7c1..b52ad41 100644
---- a/meta/classes/populate_sdk_ext.bbclass
-+++ b/meta/classes/populate_sdk_ext.bbclass
-@@ -578,7 +578,7 @@ sdk_ext_postinst() {
- 		# current working directory when first ran, nor will it set $1 when
- 		# sourcing a script. That is why this has to look so ugly.
- 		LOGFILE="$target_sdk_dir/preparing_build_system.log"
--		sh -c ". buildtools/environment-setup* > $LOGFILE && cd $target_sdk_dir/`dirname ${oe_init_build_env_path}` && set $target_sdk_dir && . $target_sdk_dir/${oe_init_build_env_path} $target_sdk_dir >> $LOGFILE && python $target_sdk_dir/ext-sdk-prepare.py $LOGFILE '${SDK_INSTALL_TARGETS}'" || { echo "ERROR: SDK preparation failed: see $LOGFILE for a slightly more detailed log"; echo "printf 'ERROR: this SDK was not fully installed and needs reinstalling\n'" >> $env_setup_script ; exit 1 ; }
-+		sh -c ". buildtools/environment-setup* > $LOGFILE && cd $target_sdk_dir/`dirname ${oe_init_build_env_path}` && set $target_sdk_dir && . $target_sdk_dir/${oe_init_build_env_path} $target_sdk_dir >> $LOGFILE && python $target_sdk_dir/ext-sdk-prepare.py $LOGFILE '${SDK_INSTALL_TARGETS}'" || { echo "printf 'ERROR: this SDK was not fully installed and needs reinstalling\n'" >> $env_setup_script ; exit 1 ; }
- 		rm $target_sdk_dir/ext-sdk-prepare.py
- 	fi
- 	echo done
-diff --git a/meta/files/ext-sdk-prepare.py b/meta/files/ext-sdk-prepare.py
-index 8b15982..78c1d16 100644
---- a/meta/files/ext-sdk-prepare.py
-+++ b/meta/files/ext-sdk-prepare.py
-@@ -59,7 +59,7 @@ def main():
-                 for line in f:
-                     logf.write(line)
-         if ret:
--            print('ERROR: SDK preparation failed: see %s' % logfile)
-+            print('ERROR: SDK preparation failed: error log written to %s' % logfile)
-             return ret
- 
- if __name__ == "__main__":
+  never noticed this before, but why is there a "meta-yocto-bsp"
+directory in the openembedded-core checkout that contains nothing but:
+
+.
+„€€ lib
+    „€€ oeqa
+        „€€ selftest
+            „€€ systemd_boot.py
+
+i can see the commit that put it there:
+
+  commit 3f859816aef3c3dba35cfbea15f0c56483205544
+  Author: Jose Perez Carranza <jose.perez.carranza@intel.com>
+  Date:   Mon Jul 4 16:15:07 2016 -0500
+
+    systemd_boot: Enable module to test systemd bootloader
+
+     Module systemd_boot created wtih a class "Systemdboot"
+     and a test case "test_efi_systemdboot_images_can_be_built"
+     to test new systemd bootloader.
+
+     [YOCTO #9706]
+
+    Signed-off-by: Jose Perez Carranza <jose.perez.carranza@intel.com>
+    Signed-off-by: Ross Burton <ross.burton@intel.com>
+
+just curious as to why it had to go in a directory whose name normally
+implies a layer.
+
+rday
+
 -- 
-2.5.5
 
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
 
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
+
+--8323328-121118623-1470897243=:25986--
