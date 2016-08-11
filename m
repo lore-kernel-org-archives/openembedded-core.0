@@ -1,44 +1,35 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 7B11E76806
+Return-Path: <adrian.ratiu@ni.com>
+Received: from ni.com (skprod2.natinst.com [130.164.80.23])
+	by mail.openembedded.org (Postfix) with ESMTP id 174CA6014F
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Aug 2016 08:39:11 +0000 (UTC)
-Received: by mail-wm0-f67.google.com with SMTP id q128so8650wma.1
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Aug 2016 01:39:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=Z+H2QsC2jDub4myk55tZY3FSM56H+q+ZT15KBY6kRIg=;
-	b=LUv9BcyXYVay9aawKze1kAByJxobI8gbzsgZxpQ1Lb/76FEtmrjyosp2GawBsJ6kGk
-	qlx4OYyCy1aPruONlX7hgaBMaGSmUlGfRaEjpKHvSbPG40w0p6C7Lv61o98/KHBl5Xmi
-	+wjsR3D210wAHcpfOSL8qPySDogspKG4NBL49GoGv0Cu4bL/4XP0mPFBPD1cMIwJHUdc
-	sj67uPZOpFXRFP4H364xEQDCx4kLpNRRLoqpIHZqT+bQ8bt2ISFOOVqCZDbb7aTCkoV2
-	PYI1nuG08W4xa+/Zm/pD6K1/sPShfB83Db5qwc43jh567a+4sb6iVXWCY54+cGGuCnHc
-	QF5A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=Z+H2QsC2jDub4myk55tZY3FSM56H+q+ZT15KBY6kRIg=;
-	b=eox57v+IdByRVS1vQA7M/ECyJ02nW9yt3r3MoN+IF9cMZOmkiKL7OMhpfSvH/BAjST
-	vuAQzDJ2G1xFdY2sCepFu9WpbyA1/k4LBcCH4zZr2ivLKo+wy6uZXv6o/W4urdN4Bnvk
-	tKO9DCRGPLuG9RKduux8upwtaaN3DNnhZ8etKv+WcAsp1xfIWpyInCXsSImU9yBYGQmM
-	oPFyWOISjoGY7J0NjN5NoEvf1vTsziV91CnxvtZEfKuxvOSBL+vKhBbE/P8M2UN8dOqH
-	zjYKR3ieugDjqaluFwd/OmjCuYMv1OqcDrLLUDBwTf2B/Im7M0LeQAuI42A9OdWBxyzf
-	AGIQ==
-X-Gm-Message-State: AEkooutFL2zx1FFBd7TslVUXVhLfBjK/TxPJu0QynzUCCdOJ3ZtBsrGF7oEJ7PJPkhNf2g==
-X-Received: by 10.194.100.129 with SMTP id ey1mr8069033wjb.60.1470904752305;
-	Thu, 11 Aug 2016 01:39:12 -0700 (PDT)
-Received: from e6520.adbgroup.pl ([91.230.58.65])
-	by smtp.gmail.com with ESMTPSA id
-	v203sm2051278wmv.2.2016.08.11.01.39.11
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 11 Aug 2016 01:39:11 -0700 (PDT)
-From: Andre McCurdy <armccurdy@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 11 Aug 2016 01:38:54 -0700
-Message-Id: <1470904734-7709-1-git-send-email-armccurdy@gmail.com>
-X-Mailer: git-send-email 1.9.1
-Subject: [PATCH] ccache.bbclass: don't remove CCACHE_DIR as part of do_clean
+	Thu, 11 Aug 2016 08:49:57 +0000 (UTC)
+Received: from us-aus-mgwout2.amer.corp.natinst.com (nb-snip2-1338.natinst.com
+	[130.164.19.135])
+	by us-aus-skprod2.natinst.com (8.15.0.59/8.15.0.59) with ESMTP id
+	u7B8nvbQ008494; Thu, 11 Aug 2016 03:49:57 -0500
+Received: from adi-pc-linux ([130.164.14.198])
+	by us-aus-mgwout2.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6
+	HF1218) with ESMTP id 2016081103495738-925521 ;
+	Thu, 11 Aug 2016 03:49:57 -0500 
+From: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
+To: "Burton\, Ross" <ross.burton@intel.com>
+In-Reply-To: <CAJTo0LYN2OoK5qBJiLpa_5YJ_qBDCqjEpqeWacnNqQ48Ad9FnA@mail.gmail.com>
+References: <20160810155851.17172-1-adrian.ratiu@ni.com>
+	<CAJTo0LYN2OoK5qBJiLpa_5YJ_qBDCqjEpqeWacnNqQ48Ad9FnA@mail.gmail.com>
+User-Agent: Notmuch/0.22.1 (https://notmuchmail.org) Emacs/25.1.50.1
+	(x86_64-unknown-linux-gnu)
+Date: Thu, 11 Aug 2016 11:48:46 +0300
+Message-ID: <87r39vn11t.fsf@ni.com>
+MIME-Version: 1.0
+X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut2/AUS/H/NIC(Release
+	8.5.3FP6 HF1218|December 12, 2014) at 08/11/2016 03:49:57 AM,
+	Serialize by Router on US-AUS-MGWOut2/AUS/H/NIC(Release 8.5.3FP6
+	HF1218|December 12, 2014) at 08/11/2016 03:49:57 AM,
+	Serialize complete at 08/11/2016 03:49:57 AM
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
+	definitions=2016-08-11_06:, , signatures=0
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH RESEND] kernel.bbclass: fix emit_depmod_pkgdata() workdir
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,34 +42,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Aug 2016 08:39:13 -0000
+X-List-Received-Date: Thu, 11 Aug 2016 08:49:59 -0000
+Content-Type: text/plain
 
-Removing the ccache directory as part of do_clean is unnecessarily
-conservative and defeats many of the benefits of ccache.
+On Wed, 10 Aug 2016, "Burton, Ross" <ross.burton@intel.com> wrote:
+> On 10 August 2016 at 16:58, Ioan-Adrian Ratiu <adrian.ratiu@ni.com> wrote:
+>
+>> bitbake commit 67a7b8b02 "build: don't use $B as the default cwd for
+>> functions" breaks the assumption that this function is running under
+>> ${B}. This causes build failures because System.map is under ${B}.
+>>
+>
+> For clarity, can the function simply always use absolute paths instead of
+> relying on cwd?
 
-The original justification for this behaviour was to avoid confusion
-in the corner case that the ccache directory becomes corrupted.
-However the standard approach for dealing with such highly unlikely
-corner cases (ie manually removing tmp) would also recover from
-corruption of the ccache directories, without the negative impact of
-defeating ccache during normal development.
+Yes, but other functions inside this bbclass also rely on cwd being
+${B}; should I modify only this one to absolute paths or modify all of
+these functions (do_shared_workdir, or do_strip) to maintain consistency?
 
-Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
----
- meta/classes/ccache.bbclass | 2 --
- 1 file changed, 2 deletions(-)
-
-diff --git a/meta/classes/ccache.bbclass b/meta/classes/ccache.bbclass
-index 2cdce46..2e9837c 100644
---- a/meta/classes/ccache.bbclass
-+++ b/meta/classes/ccache.bbclass
-@@ -4,5 +4,3 @@ CCACHE_DISABLE[unexport] = "1"
- 
- do_configure[dirs] =+ "${CCACHE_DIR}"
- do_kernel_configme[dirs] =+ "${CCACHE_DIR}"
--
--do_clean[cleandirs] += "${CCACHE_DIR}"
--- 
-1.9.1
-
+>
+> Ross
 
