@@ -1,47 +1,47 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f175.google.com (mail-io0-f175.google.com
-	[209.85.223.175])
-	by mail.openembedded.org (Postfix) with ESMTP id 40348731D2
+Received: from mail-it0-f53.google.com (mail-it0-f53.google.com
+	[209.85.214.53])
+	by mail.openembedded.org (Postfix) with ESMTP id 49CF1731D2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Aug 2016 16:20:55 +0000 (UTC)
-Received: by mail-io0-f175.google.com with SMTP id b62so628041iod.3
+	Thu, 11 Aug 2016 16:26:23 +0000 (UTC)
+Received: by mail-it0-f53.google.com with SMTP id x130so961870ite.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Aug 2016 09:20:56 -0700 (PDT)
+	Thu, 11 Aug 2016 09:26:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=n9cWtJkYqGJDh5Ybh/1NN1dc494KcGKZUmIZoDwYIks=;
-	b=zmU/Fgu+VBf91ujJQc5Oq190+qhqBuTVdabPnTQl4WKqohmkF9/jVgirkgZefah/Or
-	ZKDgbRIi/D2q9dE1f9/wM52BdrLYyyatLZC5OpAB7bj+3nJ1gbYAZtxi9TjgqkHgI+6Z
-	N/iyU6KGJiAjWgOFmW1V49mZ623J1GMR+rB49aVS7MWwKY+WzaunBabkkPCNQMzZdlD8
-	0UYgxgy8/CDp9CIqTN6LWNTIUIabHirX3UcMKv+ddrPXRd4geCknE1Xygr+ev6RjEa7D
-	jfQw8eKlzou9mc0beHUCTvxCeDAjle3mrOPWK+M4D4TRGx3LSSZEzJMTig/oQ9nKys75
-	LIiQ==
+	:cc; bh=mK1Sy18pDWpKP0+rUdk76Z8qeeo8mdjB9/+wFvRdQ7E=;
+	b=wW6l1G8ZcRI11a8j/fRRnjXYEqmB3/GMEg/hC4aq5o64l7rZ7fU9U/uEZuEDCIjkKF
+	6sIfDcAe1Pik4i73fmYRoOgLKnN3RZJtgaWQzUo7WfImgdrWM/6SyF9aYUN888z69XIt
+	wvRVNwD1WORM5/v70W5db89Pjht/LHI+G493YdtjfWs8IcpcW0mjh8AhFoaj+HXVSVmB
+	OozBy2eR4+b2OTjxYZtIdg3ZD3LRlDe93Zs5D2WGRbfmAB7aunQImzwq+nZIM//Ldg49
+	CWiKpEy9fRwEyMGSzIzBfoLjx4N1tSI9l0O2NsLiIQyk5XwG//pf8vN9Vz9gkteYaM7w
+	TQbw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=n9cWtJkYqGJDh5Ybh/1NN1dc494KcGKZUmIZoDwYIks=;
-	b=GjATnEFPu/1rJ1jmdVXL1e5WDXyyUth5XaF9Q3COeHrJEK9FlL8uZsjUtdVSWEJIuw
-	L0mbYK7Gbp55O/dOoboUN6vKLI1EW8ZdlYxyEB9p9oOapC4ZsBSVTe3BsGKW5KRTI+XH
-	P2+gbNvS8hm7sWSVpz0t04UbfSXsCgWLXU+Dr/1N4UcRwvCfO5WYjBZ34bWk7AxEWGKV
-	vmx4Wv3CpEnuoWNkqXTOvI2Lcvk7R1tvg8sxqdBOgW+VxltRYv1JB7duGVpS26R2jbRH
-	dmY/u8cpFxnYdXvB7b5P6ExJQo5hpVj6A2InQIc9k5utShqiWAL32eapLRynLtLkRtWH
-	+8IA==
-X-Gm-Message-State: AEkooutDBGkwdWuBw/npCmjMqsweO05aOxS8QQeGNAblnDLKIEPpD7KhkaJ8eDCNA4K5nKjUTNdd8k1edSOE6bE+
-X-Received: by 10.107.138.212 with SMTP id c81mr12290682ioj.148.1470932456218; 
-	Thu, 11 Aug 2016 09:20:56 -0700 (PDT)
+	bh=mK1Sy18pDWpKP0+rUdk76Z8qeeo8mdjB9/+wFvRdQ7E=;
+	b=kDNle14MjJXfCTeuFNA5RuBIFVtB7cJPOoe/Y0C00jkzsDnJPZCtAdAyb2onTIi1Gt
+	dORwjtT8KjCMe/0hLdG3sYQFJmISZsI+PQ2uqZZXM+9gwwbpKc3GnTQdfACL1abiEhM/
+	6FNMGDc/mfjt+Ik7MiRXUYJgoEsybPGlkmkOZ84LDBJ/TO78HTWnM7b7BcIz/t/xbvLO
+	+vnGhzAq+JLxWF734RvAEu67/QGJ2rTZDwndWWJjw6zBaF9a77fSh6wjK0xwB8talxks
+	/p9Ik8T41fCKxuTOvABqc8oh6xicnDtnrBnDaIklL1a4pewEcwOu8ahVCkXI/XD06g3/
+	GAEA==
+X-Gm-Message-State: AEkoouteNff6OmamleA4JL+Pwqwee/dOqgdlSZ7THAR+FpTUyo3qYZHc4dyqmPJ0hOu5iVfndIwVUZzbTGjBnO57
+X-Received: by 10.36.129.213 with SMTP id q204mr11262506itd.38.1470932784229; 
+	Thu, 11 Aug 2016 09:26:24 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.107.18.17 with HTTP; Thu, 11 Aug 2016 09:20:35 -0700 (PDT)
-In-Reply-To: <1470923804-25804-3-git-send-email-maxin.john@intel.com>
-References: <1470923804-25804-1-git-send-email-maxin.john@intel.com>
-	<1470923804-25804-3-git-send-email-maxin.john@intel.com>
+Received: by 10.107.18.17 with HTTP; Thu, 11 Aug 2016 09:26:03 -0700 (PDT)
+In-Reply-To: <8374cee610f770f4e027f92785bc0bed13334fbb.1470636212.git.Qi.Chen@windriver.com>
+References: <cover.1470636212.git.Qi.Chen@windriver.com>
+	<8374cee610f770f4e027f92785bc0bed13334fbb.1470636212.git.Qi.Chen@windriver.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 11 Aug 2016 17:20:35 +0100
-Message-ID: <CAJTo0LbHi3wemcUzxOjfphP63Nd3az5oqCWGK==EepMJ6Q56mA@mail.gmail.com>
-To: "Maxin B. John" <maxin.john@intel.com>
+Date: Thu, 11 Aug 2016 17:26:03 +0100
+Message-ID: <CAJTo0LaULRXouHYMfKCMUmtFERseR9vZhWXeC-yK9GLrMTwofQ@mail.gmail.com>
+To: Chen Qi <Qi.Chen@windriver.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/3] libpng: update 1.6.23 -> 1.6.24
+Subject: Re: [PATCH 1/1] bitbake.conf: change localedir
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,157 +54,89 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Aug 2016 16:20:57 -0000
-Content-Type: multipart/alternative; boundary=001a113ed9328abaed0539ce2628
+X-List-Received-Date: Thu, 11 Aug 2016 16:26:25 -0000
+Content-Type: multipart/alternative; boundary=94eb2c08b1fc17e7020539ce3a22
 
---001a113ed9328abaed0539ce2628
+--94eb2c08b1fc17e7020539ce3a22
 Content-Type: text/plain; charset=UTF-8
 
-On 11 August 2016 at 14:56, Maxin B. John <maxin.john@intel.com> wrote:
+On 8 August 2016 at 07:04, Chen Qi <Qi.Chen@windriver.com> wrote:
 
-> Updates in License files are due to changes in Copyright date
-> and Version.
+> Previously, localedir is set to "${libdir}/locale". This would result
+> in locale database installed in '/usr/lib64/locale' in some multilib case.
+> For example, if we build out a multilib x86-64 self-hosted image and we try
+> to build projects on this host, things broke and the following error
+> appears.
+>
+>   Please use a locale setting which supports utf-8.
+>   Python can't change the filesystem locale after loading so we need a
+> utf-8 when python starts or things won't work.
+>
+> This is because '/usr/lib/locale' is the default one. And actually the
+> nativesdk-glibc is now set to use '/usr/lib/locale'.
 >
 
-Always remember to run buildhistory-diff:
+This is irrelevant as nativesdk-glibc is configured to read the *hosts*
+locale directory.
 
-packages/corei7-64-poky-linux/libpng/libpng-dbg: RPROVIDES: removed all
-items "libpng-dbg (['= 1.6.23'])"
-  * PV changed from "1.6.23" to "1.6.24"
-packages/corei7-64-poky-linux/libpng/libpng-dbg: PKG changed from
-libpng16-dbg to libpng-dbg [default] - may indicate debian renaming failure
-  * PV changed from "1.6.23" to "1.6.24"
-packages/corei7-64-poky-linux/libpng/libpng-dev: RPROVIDES: removed all
-items "libpng-dev (['= 1.6.23'])"
-  * PV changed from "1.6.23" to "1.6.24"
-packages/corei7-64-poky-linux/libpng/libpng-dev: PKG changed from
-libpng16-dev to libpng-dev [default] - may indicate debian renaming failure
-  * PV changed from "1.6.23" to "1.6.24"
-packages/corei7-64-poky-linux/libpng/libpng-doc: RPROVIDES: removed all
-items "libpng-doc (['= 1.6.23'])"
-  * PV changed from "1.6.23" to "1.6.24"
-packages/corei7-64-poky-linux/libpng/libpng-doc: PKG changed from
-libpng16-doc to libpng-doc [default] - may indicate debian renaming failure
-  * PV changed from "1.6.23" to "1.6.24"
-packages/corei7-64-poky-linux/libpng/libpng-locale: RPROVIDES: removed all
-items "libpng-locale (['= 1.6.23'])"
-  * PV changed from "1.6.23" to "1.6.24"
-packages/corei7-64-poky-linux/libpng/libpng-locale: PKG changed from
-libpng16-locale to libpng-locale [default] - may indicate debian renaming
-failure
-  * PV changed from "1.6.23" to "1.6.24"
-packages/corei7-64-poky-linux/libpng/libpng-staticdev: RPROVIDES: removed
-all items "libpng-staticdev (['= 1.6.23'])"
-  * PV changed from "1.6.23" to "1.6.24"
-packages/corei7-64-poky-linux/libpng/libpng-staticdev: PKG changed from
-libpng16-staticdev to libpng-staticdev [default] - may indicate debian
-renaming failure
-  * PV changed from "1.6.23" to "1.6.24"
-packages/corei7-64-poky-linux/libpng/libpng-tools: RPROVIDES: removed all
-items "libpng-tools (['= 1.6.23'])"
-  * PV changed from "1.6.23" to "1.6.24"
-packages/corei7-64-poky-linux/libpng/libpng-tools: PKG changed from
-libpng16-tools to libpng-tools [default] - may indicate debian renaming
-failure
-  * PV changed from "1.6.23" to "1.6.24"
-packages/corei7-64-poky-linux/libpng/libpng: FILELIST: removed
-"/usr/lib/libpng16.so.16.23.0" added "/usr/lib/libpng16.so.16.24.0
-/usr/bin/pngcp"
-  * PV changed from "1.6.23" to "1.6.24"
-packages/corei7-64-poky-linux/libpng/libpng: PKGSIZE changed from 206747 to
-241683 (+16%)
-  * PV changed from "1.6.23" to "1.6.24"
-  * FILELIST: removed "/usr/lib/libpng16.so.16.23.0" added
-"/usr/lib/libpng16.so.16.24.0 /usr/bin/pngcp"
-packages/corei7-64-poky-linux/libpng/libpng: RPROVIDES: removed all items
-"libpng (['= 1.6.23'])"
-  * PV changed from "1.6.23" to "1.6.24"
-packages/corei7-64-poky-linux/libpng/libpng: PKG changed from libpng16-16
-to libpng [default] - may indicate debian renaming failure
-  * PV changed from "1.6.23" to "1.6.24"
 
-The relevant line is that PN added /usr/bin/pngcp, so the package is no
-longer a library package.  This should be in PN-tools (which should use
-FILES_PN-tools=${bindir} so this doesn't happen again).
+> Thus, we change the setting of 'localedir' to '${nonarch_libdir}/locale'
+> to
+> fix the above problem.
+>
+
+I see two issues here:
+1) should binary locales be considered shared in multilib environments?
+(libdir vs nonarch_libdir)
+2) what packages are not respecting this variable and hard-coding
+/usr/lib/locale?
+
+I'm guessing WR think yes to (1), and is the glibc patch you also sent the
+fundamental fix to (2)?
 
 Ross
 
---001a113ed9328abaed0539ce2628
+--94eb2c08b1fc17e7020539ce3a22
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 11 August 2016 at 14:56, Maxin B. John <span dir=3D"ltr">&lt;<a href=3D"=
-mailto:maxin.john@intel.com" target=3D"_blank">maxin.john@intel.com</a>&gt;=
-</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px=
- 0px 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);border-=
-left-style:solid;padding-left:1ex"><div id=3D":l8" class=3D"">Updates in Li=
-cense files are due to changes in Copyright date<br>
-and Version.<br></div></blockquote></div><br>Always remember to run buildhi=
-story-diff:</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_e=
-xtra"><div class=3D"gmail_extra">packages/corei7-64-poky-linux/libpng/libpn=
-g-dbg: RPROVIDES: removed all items &quot;libpng-dbg ([&#39;=3D 1.6.23&#39;=
-])&quot;</div><div class=3D"gmail_extra">=C2=A0 * PV changed from &quot;1.6=
-.23&quot; to &quot;1.6.24&quot;</div><div class=3D"gmail_extra">packages/co=
-rei7-64-poky-linux/libpng/libpng-dbg: PKG changed from libpng16-dbg to libp=
-ng-dbg [default] - may indicate debian renaming failure</div><div class=3D"=
-gmail_extra">=C2=A0 * PV changed from &quot;1.6.23&quot; to &quot;1.6.24&qu=
-ot;</div><div class=3D"gmail_extra">packages/corei7-64-poky-linux/libpng/li=
-bpng-dev: RPROVIDES: removed all items &quot;libpng-dev ([&#39;=3D 1.6.23&#=
-39;])&quot;</div><div class=3D"gmail_extra">=C2=A0 * PV changed from &quot;=
-1.6.23&quot; to &quot;1.6.24&quot;</div><div class=3D"gmail_extra">packages=
-/corei7-64-poky-linux/libpng/libpng-dev: PKG changed from libpng16-dev to l=
-ibpng-dev [default] - may indicate debian renaming failure</div><div class=
-=3D"gmail_extra">=C2=A0 * PV changed from &quot;1.6.23&quot; to &quot;1.6.2=
-4&quot;</div><div class=3D"gmail_extra">packages/corei7-64-poky-linux/libpn=
-g/libpng-doc: RPROVIDES: removed all items &quot;libpng-doc ([&#39;=3D 1.6.=
-23&#39;])&quot;</div><div class=3D"gmail_extra">=C2=A0 * PV changed from &q=
-uot;1.6.23&quot; to &quot;1.6.24&quot;</div><div class=3D"gmail_extra">pack=
-ages/corei7-64-poky-linux/libpng/libpng-doc: PKG changed from libpng16-doc =
-to libpng-doc [default] - may indicate debian renaming failure</div><div cl=
-ass=3D"gmail_extra">=C2=A0 * PV changed from &quot;1.6.23&quot; to &quot;1.=
-6.24&quot;</div><div class=3D"gmail_extra">packages/corei7-64-poky-linux/li=
-bpng/libpng-locale: RPROVIDES: removed all items &quot;libpng-locale ([&#39=
-;=3D 1.6.23&#39;])&quot;</div><div class=3D"gmail_extra">=C2=A0 * PV change=
-d from &quot;1.6.23&quot; to &quot;1.6.24&quot;</div><div class=3D"gmail_ex=
-tra">packages/corei7-64-poky-linux/libpng/libpng-locale: PKG changed from l=
-ibpng16-locale to libpng-locale [default] - may indicate debian renaming fa=
-ilure</div><div class=3D"gmail_extra">=C2=A0 * PV changed from &quot;1.6.23=
-&quot; to &quot;1.6.24&quot;</div><div class=3D"gmail_extra">packages/corei=
-7-64-poky-linux/libpng/libpng-staticdev: RPROVIDES: removed all items &quot=
-;libpng-staticdev ([&#39;=3D 1.6.23&#39;])&quot;</div><div class=3D"gmail_e=
-xtra">=C2=A0 * PV changed from &quot;1.6.23&quot; to &quot;1.6.24&quot;</di=
-v><div class=3D"gmail_extra">packages/corei7-64-poky-linux/libpng/libpng-st=
-aticdev: PKG changed from libpng16-staticdev to libpng-staticdev [default] =
-- may indicate debian renaming failure</div><div class=3D"gmail_extra">=C2=
-=A0 * PV changed from &quot;1.6.23&quot; to &quot;1.6.24&quot;</div><div cl=
-ass=3D"gmail_extra">packages/corei7-64-poky-linux/libpng/libpng-tools: RPRO=
-VIDES: removed all items &quot;libpng-tools ([&#39;=3D 1.6.23&#39;])&quot;<=
-/div><div class=3D"gmail_extra">=C2=A0 * PV changed from &quot;1.6.23&quot;=
- to &quot;1.6.24&quot;</div><div class=3D"gmail_extra">packages/corei7-64-p=
-oky-linux/libpng/libpng-tools: PKG changed from libpng16-tools to libpng-to=
-ols [default] - may indicate debian renaming failure</div><div class=3D"gma=
-il_extra">=C2=A0 * PV changed from &quot;1.6.23&quot; to &quot;1.6.24&quot;=
-</div><div class=3D"gmail_extra">packages/corei7-64-poky-linux/libpng/libpn=
-g: FILELIST: removed &quot;/usr/lib/libpng16.so.16.23.0&quot; added &quot;/=
-usr/lib/libpng16.so.16.24.0 /usr/bin/pngcp&quot;</div><div class=3D"gmail_e=
-xtra">=C2=A0 * PV changed from &quot;1.6.23&quot; to &quot;1.6.24&quot;</di=
-v><div class=3D"gmail_extra">packages/corei7-64-poky-linux/libpng/libpng: P=
-KGSIZE changed from 206747 to 241683 (+16%)</div><div class=3D"gmail_extra"=
->=C2=A0 * PV changed from &quot;1.6.23&quot; to &quot;1.6.24&quot;</div><di=
-v class=3D"gmail_extra">=C2=A0 * FILELIST: removed &quot;/usr/lib/libpng16.=
-so.16.23.0&quot; added &quot;/usr/lib/libpng16.so.16.24.0 /usr/bin/pngcp&qu=
-ot;</div><div class=3D"gmail_extra">packages/corei7-64-poky-linux/libpng/li=
-bpng: RPROVIDES: removed all items &quot;libpng ([&#39;=3D 1.6.23&#39;])&qu=
-ot;</div><div class=3D"gmail_extra">=C2=A0 * PV changed from &quot;1.6.23&q=
-uot; to &quot;1.6.24&quot;</div><div class=3D"gmail_extra">packages/corei7-=
-64-poky-linux/libpng/libpng: PKG changed from libpng16-16 to libpng [defaul=
-t] - may indicate debian renaming failure</div><div class=3D"gmail_extra">=
-=C2=A0 * PV changed from &quot;1.6.23&quot; to &quot;1.6.24&quot;</div><div=
- class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">The relevant li=
-ne is that PN added /usr/bin/pngcp, so the package is no longer a library p=
-ackage.=C2=A0 This should be in PN-tools (which should use FILES_PN-tools=
-=3D${bindir} so this doesn&#39;t happen again).</div><div class=3D"gmail_ex=
-tra"><br></div><div class=3D"gmail_extra">Ross</div></div></div>
+On 8 August 2016 at 07:04, Chen Qi <span dir=3D"ltr">&lt;<a href=3D"mailto:=
+Qi.Chen@windriver.com" target=3D"_blank">Qi.Chen@windriver.com</a>&gt;</spa=
+n> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;b=
+order-left:1px #ccc solid;padding-left:1ex"><div id=3D":1ir" class=3D"a3s a=
+XjCH m15668c12753f49ff">Previously, localedir is set to &quot;${libdir}/<sp=
+an class=3D"il">locale</span>&quot;. This would result<br>
+in <span class=3D"il">locale</span> database installed in &#39;/usr/lib64/<=
+span class=3D"il">locale</span>&#39; in some multilib case.<br>
+For example, if we build out a multilib x86-64 self-hosted image and we try=
+<br>
+to build projects on this host, things broke and the following error appear=
+s.<br>
+<br>
+=C2=A0 Please use a <span class=3D"il">locale</span> setting which supports=
+ utf-8.<br>
+=C2=A0 Python can&#39;t change the filesystem <span class=3D"il">locale</sp=
+an> after loading so we need a utf-8 when python starts or things won&#39;t=
+ work.<br>
+<br>
+This is because &#39;/usr/lib/<span class=3D"il">locale</span>&#39; is the =
+default one. And actually the<br>
+nativesdk-glibc is now set to use &#39;/usr/lib/<span class=3D"il">locale</=
+span>&#39;.<br></div></blockquote><div><br></div><div>This is irrelevant as=
+ nativesdk-glibc is configured to read the *hosts* locale directory.</div><=
+div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8e=
+x;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":1ir" class=3D"a3=
+s aXjCH m15668c12753f49ff">
+Thus, we change the setting of &#39;localedir&#39; to &#39;${nonarch_libdir=
+}/<span class=3D"il">locale</span>&#39; to<br>
+fix the above problem.</div></blockquote></div><br>I see two issues here:</=
+div><div class=3D"gmail_extra">1) should binary locales be considered share=
+d in multilib environments? (libdir vs nonarch_libdir)</div><div class=3D"g=
+mail_extra">2) what packages are not respecting this variable and hard-codi=
+ng /usr/lib/locale?</div><div class=3D"gmail_extra"><br></div><div class=3D=
+"gmail_extra">I&#39;m guessing WR think yes to (1), and is the glibc patch =
+you also sent the fundamental fix to (2)?</div><div class=3D"gmail_extra"><=
+br></div><div class=3D"gmail_extra">Ross</div></div>
 
---001a113ed9328abaed0539ce2628--
+--94eb2c08b1fc17e7020539ce3a22--
