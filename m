@@ -1,30 +1,29 @@
-Return-Path: <adrian.ratiu@ni.com>
-Received: from ni.com (skprod2.natinst.com [130.164.80.23])
-	by mail.openembedded.org (Postfix) with ESMTP id 3811577228
+Return-Path: <maxin.john@intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id DFCD477257
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Aug 2016 13:50:28 +0000 (UTC)
-Received: from us-aus-mgwout1.amer.corp.natinst.com (nb-snip2-1338.natinst.com
-	[130.164.19.135])
-	by us-aus-skprod2.natinst.com (8.15.0.59/8.15.0.59) with ESMTP id
-	u7BDoQai017964 for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Aug 2016 08:50:29 -0500
-Received: from adi-pc-linux.natinst.com ([130.164.14.198])
-	by us-aus-mgwout1.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6
-	HF1218) with ESMTP id 2016081108502618-239995 ;
-	Thu, 11 Aug 2016 08:50:26 -0500 
-From: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
+	Thu, 11 Aug 2016 13:55:55 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by fmsmga101.fm.intel.com with ESMTP; 11 Aug 2016 06:55:44 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.28,505,1464678000"; d="scan'208";a="863720837"
+Received: from linux.intel.com ([10.54.29.200])
+	by orsmga003.jf.intel.com with ESMTP; 11 Aug 2016 06:55:44 -0700
+Received: from mbabyjoh-desk.fi.intel.com (mbabyjoh-desk.fi.intel.com
+	[10.237.72.71])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by linux.intel.com (Postfix) with ESMTP id 67A986A4006
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 11 Aug 2016 06:55:29 -0700 (PDT)
+From: "Maxin B. John" <maxin.john@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 11 Aug 2016 16:49:15 +0300
-Message-Id: <20160811134915.7827-1-adrian.ratiu@ni.com>
-X-Mailer: git-send-email 2.9.2
-X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut1/AUS/H/NIC(Release
-	8.5.3FP6 HF1218|December 12, 2014) at 08/11/2016 08:50:26 AM,
-	Serialize by Router on US-AUS-MGWOut1/AUS/H/NIC(Release 8.5.3FP6
-	HF1218|December 12, 2014) at 08/11/2016 08:50:29 AM,
-	Serialize complete at 08/11/2016 08:50:29 AM
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
-	definitions=2016-08-11_10:, , signatures=0
-Subject: [PATCH] perl-native: backport libnm link fix
+Date: Thu, 11 Aug 2016 16:56:43 +0300
+Message-Id: <1470923804-25804-2-git-send-email-maxin.john@intel.com>
+X-Mailer: git-send-email 2.4.0
+In-Reply-To: <1470923804-25804-1-git-send-email-maxin.john@intel.com>
+References: <1470923804-25804-1-git-send-email-maxin.john@intel.com>
+Subject: [PATCH 2/3] iproute2: update 4.6.0 -> 4.7.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,68 +36,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Aug 2016 13:50:30 -0000
+X-List-Received-Date: Thu, 11 Aug 2016 13:55:57 -0000
 
-pre-5.25.0 perl by default tries to link to an antiquated libnm (new
-math) which is not used anymore since the early 1990's. After 2014
-another libnm appeared for NetworkManager causing build failures.
+4.6.0 -> 4.7.0
 
-Signed-off-by: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
+Signed-off-by: Maxin B. John <maxin.john@intel.com>
 ---
- meta/recipes-devtools/perl/perl-native_5.22.1.bb   |  1 +
- .../perl/perl/perl-remove-nm-from-libswanted.patch | 30 ++++++++++++++++++++++
- 2 files changed, 31 insertions(+)
- create mode 100644 meta/recipes-devtools/perl/perl/perl-remove-nm-from-libswanted.patch
+ .../iproute2/{iproute2_4.6.0.bb => iproute2_4.7.0.bb}                 | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-connectivity/iproute2/{iproute2_4.6.0.bb => iproute2_4.7.0.bb} (71%)
 
-diff --git a/meta/recipes-devtools/perl/perl-native_5.22.1.bb b/meta/recipes-devtools/perl/perl-native_5.22.1.bb
-index ed8222f..1c21522 100644
---- a/meta/recipes-devtools/perl/perl-native_5.22.1.bb
-+++ b/meta/recipes-devtools/perl/perl-native_5.22.1.bb
-@@ -11,6 +11,7 @@ SRC_URI += "\
-            file://debian/errno_ver.diff \
-            file://dynaloaderhack.patch \
-            file://perl-PathTools-don-t-filter-out-blib-from-INC.patch \
-+           file://perl-remove-nm-from-libswanted.patch \
+diff --git a/meta/recipes-connectivity/iproute2/iproute2_4.6.0.bb b/meta/recipes-connectivity/iproute2/iproute2_4.7.0.bb
+similarity index 71%
+rename from meta/recipes-connectivity/iproute2/iproute2_4.6.0.bb
+rename to meta/recipes-connectivity/iproute2/iproute2_4.7.0.bb
+index 4971937..426f989 100644
+--- a/meta/recipes-connectivity/iproute2/iproute2_4.6.0.bb
++++ b/meta/recipes-connectivity/iproute2/iproute2_4.7.0.bb
+@@ -5,8 +5,8 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/net/${BPN}/${BP}.tar.xz \
+            file://0001-iproute2-de-bash-scripts.patch \
+            file://iproute2-4.3.0-musl.patch \
            "
+-SRC_URI[md5sum] = "d015e437e4f744d51d3a1a53341826d5"
+-SRC_URI[sha256sum] = "74fc6a8ad085be095a159f8158bbaf385b42af9e101619f233f1ae466829d406"
++SRC_URI[md5sum] = "d4b205830cdc2702f8a0cbd6232129cd"
++SRC_URI[sha256sum] = "8f60dbcfb33a79daae0638f53bdcaa4310c0aa59ae39af8a234020dc69bb7b92"
  
- SRC_URI[md5sum] = "6671e4829cbaf9cecafa9a84f141b0a3"
-diff --git a/meta/recipes-devtools/perl/perl/perl-remove-nm-from-libswanted.patch b/meta/recipes-devtools/perl/perl/perl-remove-nm-from-libswanted.patch
-new file mode 100644
-index 0000000..c489f05
---- /dev/null
-+++ b/meta/recipes-devtools/perl/perl/perl-remove-nm-from-libswanted.patch
-@@ -0,0 +1,30 @@
-+From 4732711e2548b6d734ca831d65dbcf501a89774e Mon Sep 17 00:00:00 2001
-+From: Andreas Koenig <andk@cpan.org>
-+Date: Sun, 3 Jan 2016 08:40:33 +0100
-+Subject: [PATCH] Remove nm from libswanted
-+
-+Nm stood for "New Math" library in the context of 1994. 2014 a conflicting
-+library libnm appeared that has a network manager context.
-+
-+Upstream-Status: Backport [commit 4732711e on branch blead, tag v5.25.0]
-+
-+---
-+ Configure | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/Configure b/Configure
-+index 0e71b4b..cfbdaa1 100755
-+--- a/Configure
-++++ b/Configure
-+@@ -1464,7 +1464,7 @@ libswanted_uselargefiles=''
-+ : set usesocks on the Configure command line to enable socks.
-+ : List of libraries we want.
-+ : If anyone needs extra -lxxx, put those in a hint file.
-+-libswanted="cl pthread socket bind inet nsl nm ndbm gdbm dbm db malloc dl ld"
-++libswanted="cl pthread socket bind inet nsl ndbm gdbm dbm db malloc dl ld"
-+ libswanted="$libswanted sun m crypt sec util c cposix posix ucb bsd BSD"
-+ : We probably want to search /usr/shlib before most other libraries.
-+ : This is only used by the lib/ExtUtils/MakeMaker.pm routine extliblist.
-+-- 
-+2.9.2
-+
+ # CFLAGS are computed in Makefile and reference CCOPTS
+ #
 -- 
-2.9.2
+2.4.0
 
 
