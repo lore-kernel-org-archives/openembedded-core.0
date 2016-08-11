@@ -1,34 +1,44 @@
-Return-Path: <simo.kuusela@intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id E3D5B7016E
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 7B11E76806
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Aug 2016 08:32:00 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga101.fm.intel.com with ESMTP; 11 Aug 2016 01:32:01 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.28,503,1464678000"; 
-	d="scan'208,217";a="863571521"
-Received: from irsmsx104.ger.corp.intel.com ([163.33.3.159])
-	by orsmga003.jf.intel.com with ESMTP; 11 Aug 2016 01:32:01 -0700
-Received: from irsmsx111.ger.corp.intel.com (10.108.20.4) by
-	IRSMSX104.ger.corp.intel.com (163.33.3.159) with Microsoft SMTP Server
-	(TLS) id 14.3.248.2; Thu, 11 Aug 2016 09:31:59 +0100
-Received: from irsmsx104.ger.corp.intel.com ([169.254.5.203]) by
-	irsmsx111.ger.corp.intel.com ([169.254.2.19]) with mapi id
-	14.03.0248.002; Thu, 11 Aug 2016 09:31:59 +0100
-From: "Kuusela, Simo" <simo.kuusela@intel.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-CORE] Why Pythons default encoding is set to UTF-8?
-Thread-Index: AdHzqYRQmRY8QjC1Q/qc2VlaMsN3xwAAToLA
-Date: Thu, 11 Aug 2016 08:31:59 +0000
-Message-ID: <8C4744E0DF24D848970965DB9980B643805B20@IRSMSX104.ger.corp.intel.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [163.33.239.180]
-MIME-Version: 1.0
-Subject: Why Pythons default encoding is set to UTF-8?
+	Thu, 11 Aug 2016 08:39:11 +0000 (UTC)
+Received: by mail-wm0-f67.google.com with SMTP id q128so8650wma.1
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 11 Aug 2016 01:39:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=Z+H2QsC2jDub4myk55tZY3FSM56H+q+ZT15KBY6kRIg=;
+	b=LUv9BcyXYVay9aawKze1kAByJxobI8gbzsgZxpQ1Lb/76FEtmrjyosp2GawBsJ6kGk
+	qlx4OYyCy1aPruONlX7hgaBMaGSmUlGfRaEjpKHvSbPG40w0p6C7Lv61o98/KHBl5Xmi
+	+wjsR3D210wAHcpfOSL8qPySDogspKG4NBL49GoGv0Cu4bL/4XP0mPFBPD1cMIwJHUdc
+	sj67uPZOpFXRFP4H364xEQDCx4kLpNRRLoqpIHZqT+bQ8bt2ISFOOVqCZDbb7aTCkoV2
+	PYI1nuG08W4xa+/Zm/pD6K1/sPShfB83Db5qwc43jh567a+4sb6iVXWCY54+cGGuCnHc
+	QF5A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=Z+H2QsC2jDub4myk55tZY3FSM56H+q+ZT15KBY6kRIg=;
+	b=eox57v+IdByRVS1vQA7M/ECyJ02nW9yt3r3MoN+IF9cMZOmkiKL7OMhpfSvH/BAjST
+	vuAQzDJ2G1xFdY2sCepFu9WpbyA1/k4LBcCH4zZr2ivLKo+wy6uZXv6o/W4urdN4Bnvk
+	tKO9DCRGPLuG9RKduux8upwtaaN3DNnhZ8etKv+WcAsp1xfIWpyInCXsSImU9yBYGQmM
+	oPFyWOISjoGY7J0NjN5NoEvf1vTsziV91CnxvtZEfKuxvOSBL+vKhBbE/P8M2UN8dOqH
+	zjYKR3ieugDjqaluFwd/OmjCuYMv1OqcDrLLUDBwTf2B/Im7M0LeQAuI42A9OdWBxyzf
+	AGIQ==
+X-Gm-Message-State: AEkooutFL2zx1FFBd7TslVUXVhLfBjK/TxPJu0QynzUCCdOJ3ZtBsrGF7oEJ7PJPkhNf2g==
+X-Received: by 10.194.100.129 with SMTP id ey1mr8069033wjb.60.1470904752305;
+	Thu, 11 Aug 2016 01:39:12 -0700 (PDT)
+Received: from e6520.adbgroup.pl ([91.230.58.65])
+	by smtp.gmail.com with ESMTPSA id
+	v203sm2051278wmv.2.2016.08.11.01.39.11
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Thu, 11 Aug 2016 01:39:11 -0700 (PDT)
+From: Andre McCurdy <armccurdy@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 11 Aug 2016 01:38:54 -0700
+Message-Id: <1470904734-7709-1-git-send-email-armccurdy@gmail.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [PATCH] ccache.bbclass: don't remove CCACHE_DIR as part of do_clean
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,132 +51,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Aug 2016 08:32:03 -0000
-Content-Language: en-US
-Content-Type: multipart/alternative;
-	boundary="_000_8C4744E0DF24D848970965DB9980B643805B20IRSMSX104gercorpi_"
+X-List-Received-Date: Thu, 11 Aug 2016 08:39:13 -0000
 
---_000_8C4744E0DF24D848970965DB9980B643805B20IRSMSX104gercorpi_
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Removing the ccache directory as part of do_clean is unnecessarily
+conservative and defeats many of the benefits of ccache.
 
-Hi,
+The original justification for this behaviour was to avoid confusion
+in the corner case that the ccache directory becomes corrupted.
+However the standard approach for dealing with such highly unlikely
+corner cases (ie manually removing tmp) would also recover from
+corruption of the ccache directories, without the negative impact of
+defeating ccache during normal development.
 
-I recently ran all of the Pythons unit tests and 13 tests failed because th=
-e default encoding wasn't ASCII which is what Python uses by default. I fou=
-nd that in meta/recipes-devtools/python/python/sitecustomize.py there is a =
-line: sys.setdefaultencoding("utf8")
+Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+---
+ meta/classes/ccache.bbclass | 2 --
+ 1 file changed, 2 deletions(-)
 
-Does anyone know why this has been done? At least I didn't find any commit =
-message or reasoning for it.
+diff --git a/meta/classes/ccache.bbclass b/meta/classes/ccache.bbclass
+index 2cdce46..2e9837c 100644
+--- a/meta/classes/ccache.bbclass
++++ b/meta/classes/ccache.bbclass
+@@ -4,5 +4,3 @@ CCACHE_DISABLE[unexport] = "1"
+ 
+ do_configure[dirs] =+ "${CCACHE_DIR}"
+ do_kernel_configme[dirs] =+ "${CCACHE_DIR}"
+-
+-do_clean[cleandirs] += "${CCACHE_DIR}"
+-- 
+1.9.1
 
-Best regards,
-Simo Kuusela
 
----------------------------------------------------------------------
-Intel Finland Oy
-Registered Address: PL 281, 00181 Helsinki =
-
-Business Identity Code: 0357606 - 4 =
-
-Domiciled in Helsinki =
-
-
-This e-mail and any attachments may contain confidential material for
-the sole use of the intended recipient(s). Any review or distribution
-by others is strictly prohibited. If you are not the intended
-recipient, please contact the sender and delete all copies.
-
---_000_8C4744E0DF24D848970965DB9980B643805B20IRSMSX104gercorpi_
-Content-Type: text/html; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-
-<html xmlns:v=3D"urn:schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-micr=
-osoft-com:office:office" xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
-xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" xmlns=3D"http:=
-//www.w3.org/TR/REC-html40">
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii">
-<meta name=3D"Generator" content=3D"Microsoft Word 15 (filtered medium)">
-<style><!--
-/* Font Definitions */
-@font-face
-	{font-family:"Cambria Math";
-	panose-1:2 4 5 3 5 4 6 3 2 4;}
-@font-face
-	{font-family:Calibri;
-	panose-1:2 15 5 2 2 2 4 3 2 4;}
-/* Style Definitions */
-p.MsoNormal, li.MsoNormal, div.MsoNormal
-	{margin:0cm;
-	margin-bottom:.0001pt;
-	font-size:11.0pt;
-	font-family:"Calibri",sans-serif;
-	mso-fareast-language:EN-US;}
-a:link, span.MsoHyperlink
-	{mso-style-priority:99;
-	color:#0563C1;
-	text-decoration:underline;}
-a:visited, span.MsoHyperlinkFollowed
-	{mso-style-priority:99;
-	color:#954F72;
-	text-decoration:underline;}
-span.EmailStyle17
-	{mso-style-type:personal;
-	font-family:"Calibri",sans-serif;
-	color:windowtext;}
-span.EmailStyle18
-	{mso-style-type:personal-reply;
-	font-family:"Calibri",sans-serif;
-	color:#1F497D;}
-.MsoChpDefault
-	{mso-style-type:export-only;
-	font-size:10.0pt;}
-@page WordSection1
-	{size:612.0pt 792.0pt;
-	margin:70.85pt 2.0cm 70.85pt 2.0cm;}
-div.WordSection1
-	{page:WordSection1;}
---></style><!--[if gte mso 9]><xml>
-<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
-</xml><![endif]--><!--[if gte mso 9]><xml>
-<o:shapelayout v:ext=3D"edit">
-<o:idmap v:ext=3D"edit" data=3D"1" />
-</o:shapelayout></xml><![endif]-->
-</head>
-<body lang=3D"FI" link=3D"#0563C1" vlink=3D"#954F72">
-<div class=3D"WordSection1">
-<p class=3D"MsoNormal"><span lang=3D"EN-US">Hi,<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US"><o:p>&nbsp;</o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US">I recently ran all of the Pytho=
-ns unit tests and 13 tests failed because the default encoding wasn&#8217;t=
- ASCII which is what Python uses by default. I found that in meta/recipes-d=
-evtools/python/python/sitecustomize.py there
- is a line: sys.setdefaultencoding(&#8221;utf8&#8221;)<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US"><o:p>&nbsp;</o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US">Does anyone know why this has b=
-een done? At least I didn&#8217;t find any commit message or reasoning for =
-it.
-<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US"><o:p>&nbsp;</o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US">Best regards, <o:p></o:p></span=
-></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US">Simo Kuusela<o:p></o:p></span><=
-/p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US"><o:p>&nbsp;</o:p></span></p>
-</div>
-<p>---------------------------------------------------------------------<br>
-Intel Finland Oy<br>
-Registered Address: PL 281, 00181 Helsinki <br>
-Business Identity Code: 0357606 - 4 <br>
-Domiciled in Helsinki </p>
-
-<p>This e-mail and any attachments may contain confidential material for<br>
-the sole use of the intended recipient(s). Any review or distribution<br>
-by others is strictly prohibited. If you are not the intended<br>
-recipient, please contact the sender and delete all copies.</p></body>
-</html>
-
---_000_8C4744E0DF24D848970965DB9980B643805B20IRSMSX104gercorpi_--
