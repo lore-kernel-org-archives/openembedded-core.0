@@ -1,29 +1,47 @@
-Return-Path: <Dengke.Du@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 07985771E9
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io0-f178.google.com (mail-io0-f178.google.com
+	[209.85.223.178])
+	by mail.openembedded.org (Postfix) with ESMTP id 769297016E
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Aug 2016 08:53:37 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u7B8raHq011001
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
-	Thu, 11 Aug 2016 01:53:36 -0700
-Received: from [128.224.162.180] (128.224.162.180) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.248.2;
-	Thu, 11 Aug 2016 01:53:35 -0700
-References: <bfe3a375-f09b-7617-c209-0df28b24325a@case.edu>
-To: "Burton, Ross" <ross.burton@intel.com>
-From: "dengke.du@windriver.com" <dengke.du@windriver.com>
-X-Forwarded-Message-Id: <bfe3a375-f09b-7617-c209-0df28b24325a@case.edu>
-Message-ID: <57AC3D0E.9010502@windriver.com>
-Date: Thu, 11 Aug 2016 16:53:34 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.7.2
+	Thu, 11 Aug 2016 09:14:13 +0000 (UTC)
+Received: by mail-io0-f178.google.com with SMTP id b62so637377iod.3
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 11 Aug 2016 02:14:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=vbw0KTaQAmQTycM6oA5pPD5vGdQ8XuC2I4LBXzCIPSQ=;
+	b=0gL9lvcNpJ/RDF6TT+5gB8XT32CPv1s3nR7wGIp4htjFaTyF+P9Rf3CUioVoRovWs+
+	tiIEzU1uzj/03NErcsq+aId529Wd5YV8b+wDZV2t4SESpsGWvI38nXy7LHVdMUduJ4t8
+	tm4jOfou1SrtdRrWrBMsyNFryzqbTVtUzCiGV4PCvt1XF+1FKWUitPovBmEe1+GlEhgM
+	1w6n+Os+dzLNTgE/HDEI52jpBfnu7o7JupGIANoSTnuZSIEY1MBrcWpioSFimHfBRomH
+	MpK9n6BKmpdw5EX1kTbia9eAls7cU5QNuzonqChNSbT8XDfFJ1lmkPeonZX7zF/3MJ52
+	5rMg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=vbw0KTaQAmQTycM6oA5pPD5vGdQ8XuC2I4LBXzCIPSQ=;
+	b=PTfG+EI++Rz1VLkov+W9Dj/ON5/3C7HaT7DxPbcuROVZawATCNNdqvgbhimUFW7S4o
+	L7Z4DHhuvdOVKtLgsnDVIoRnNBPlAgk+KneJciNT98k0PJZjt0zG3NCGChHcK9sPaCr6
+	rGgty9YBI5Cngt2jKtiNA7ENVhwPa8J0ZB9SCWPkaH9S5hvSbqkG0BiRnLC71T9vAOWq
+	n3dw50q8qC+Edn9x9XJhft1cqV9H2ALdJHuRxkG5r9pn7Ig6k5QRTkIf1sHaIlHm4xnj
+	kx4VDNdHW5SS8kFOoDLk0UBKTEc81lQ9AhcYjopTy9kpWxg+DO1RYchfyFe2hcf4mlLP
+	Yugw==
+X-Gm-Message-State: AEkoousAxVzHfd0cda/+yQoDtjir34O7ltmNhm1CZUxMagEF0zVrR5jpaMf5Rfubm/j3RqQFi5RVGO3ZhCBmfpY0
+X-Received: by 10.107.135.142 with SMTP id r14mr11070354ioi.133.1470906854193; 
+	Thu, 11 Aug 2016 02:14:14 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <bfe3a375-f09b-7617-c209-0df28b24325a@case.edu>
-Cc: "openembedded-core@lists.openembedded.org >> Patches and discussions
-	about the oe-core layer" <openembedded-core@lists.openembedded.org>
-Subject: Re: bash: remove the format string "%q" in the unicode3.sub
+Received: by 10.107.18.17 with HTTP; Thu, 11 Aug 2016 02:13:53 -0700 (PDT)
+In-Reply-To: <1470864947-17916-1-git-send-email-michael.davis@essvote.com>
+References: <1470864947-17916-1-git-send-email-michael.davis@essvote.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 11 Aug 2016 10:13:53 +0100
+Message-ID: <CAJTo0LYpubvSWuWkRt_wH3jU2G+6-gAw_fNvUe5Rikfut-=BiA@mail.gmail.com>
+To: "Davis, Michael" <michael.davis@essvote.com>
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [meta-oe][PATCHv4] pcsc-lite: Seperate GPLV3 portions from BSD
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,163 +54,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Aug 2016 08:53:38 -0000
-Content-Type: multipart/alternative;
-	boundary="------------060209050001000800070504"
+X-List-Received-Date: Thu, 11 Aug 2016 09:14:15 -0000
+Content-Type: multipart/alternative; boundary=001a113eccbc8ad2230539c83025
 
---------------060209050001000800070504
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+--001a113eccbc8ad2230539c83025
+Content-Type: text/plain; charset=UTF-8
 
-Hi ross
+On 10 August 2016 at 22:36, Davis, Michael <michael.davis@essvote.com>
+wrote:
 
-After querying for the current maintainer of bash Chet Ramey, he said 
-the devel
-branch of bash have fixed it. So I will import those patchs later for 
-the bash tests
-suite.
-
-We can check the patchs at:
-
-http://git.savannah.gnu.org/cgit/bash.git/commit/tests/intl.right?h=devel&id=85ec0778f9d778e1820fb8c0e3e996f2d1103b45
-http://git.savannah.gnu.org/cgit/bash.git/diff/tests/intl.right?h=devel&id=74b8cbb41398b4453d8ba04d0cdd1b25f9dcb9e3
-
-//dengke
+> GPLV3 and BSD portions were originally placed in the same package.
+> The GPLv3 portion has been seperated into pcsc-lite-spy and
+> pcsc-lite-spy-dev so the package can be used with GPLv3 blacklisted.
 
 
--------- Forwarded Message --------
-Subject: 	Re: bash: remove the format string "%q" in the unicode3.sub
-Date: 	Tue, 9 Aug 2016 10:39:13 -0400
-From: 	Chet Ramey <chet.ramey@case.edu>
-Reply-To: 	chet.ramey@case.edu
-To: 	dengke.du@windriver.com <dengke.du@windriver.com>, bug-bash@gnu.org
-CC: 	chet.ramey@case.edu
+Wrong list still, meta-oe patches go to openembedded-devel@.
 
+Ross
 
+--001a113eccbc8ad2230539c83025
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On 8/9/16 3:18 AM, dengke.du@windriver.com wrote:
-> Hi all
->
-> When I run the tests for the bash, the sub-test unicode3.sub of intl.tests
-> failed.
->
-> The sub-test unicode3.sub contain the following:
->
->     payload=$'\065\247\100\063\231\053\306\123\070\237\242\352\263'
->     "$payload"
->     printf %q "$payload"
->
-> In this situation, the format string "%q" in command printf means that when the
-> character in the payload is not in {alpha & digit & punctuation & ISO
-> 646(7-bit)}, it
-> would print the string with ANSI-C style quoted string: $'...' , we can
-> check the source code
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 10 August 2016 at 22:36, Davis, Michael <span dir=3D"ltr">&lt;<a href=3D=
+"mailto:michael.davis@essvote.com" target=3D"_blank">michael.davis@essvote.=
+com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"mar=
+gin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><span class=3D"=
+">GPLV3 and BSD portions were originally placed in the same package.<br>
+</span>The GPLv3 portion has been seperated into pcsc-lite-spy and<br>
+pcsc-lite-spy-dev so the package can be used with GPLv3 blacklisted.</block=
+quote></div><br>Wrong list still, meta-oe patches go to openembedded-devel@=
+.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross=
+</div></div>
 
-This has already been changed in the devel branch (back in May, 2015), and
-the test case and tets output was changed at the same time.
-
--- 
-``The lyf so short, the craft so long to lerne.'' - Chaucer
-		 ``Ars longa, vita brevis'' - Hippocrates
-Chet Ramey, UTech, CWRU    chet@case.edu    http://cnswww.cns.cwru.edu/~chet/
-
-
-
-
---------------060209050001000800070504
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-
-<html>
-  <head>
-
-    <meta http-equiv="content-type" content="text/html; charset=utf-8">
-  </head>
-  <body bgcolor="#FFFFFF" text="#000000">
-    Hi ross<br>
-    <br>
-    After querying for the current maintainer of bash Chet Ramey, he
-    said the devel <br>
-    branch of bash have fixed it. So I will import those patchs later
-    for the bash tests<br>
-    suite.<br>
-    <br>
-    We can check the patchs at:<br>
-    <br>
-        
-<a class="moz-txt-link-freetext" href="http://git.savannah.gnu.org/cgit/bash.git/commit/tests/intl.right?h=devel&amp;id=85ec0778f9d778e1820fb8c0e3e996f2d1103b45">http://git.savannah.gnu.org/cgit/bash.git/commit/tests/intl.right?h=devel&amp;id=85ec0778f9d778e1820fb8c0e3e996f2d1103b45</a><br>
-        
-<a class="moz-txt-link-freetext" href="http://git.savannah.gnu.org/cgit/bash.git/diff/tests/intl.right?h=devel&amp;id=74b8cbb41398b4453d8ba04d0cdd1b25f9dcb9e3">http://git.savannah.gnu.org/cgit/bash.git/diff/tests/intl.right?h=devel&amp;id=74b8cbb41398b4453d8ba04d0cdd1b25f9dcb9e3</a><br>
-    <br>
-    //dengke<br>
-    <div class="moz-forward-container"><br>
-      <br>
-      -------- Forwarded Message --------
-      <table class="moz-email-headers-table" border="0" cellpadding="0"
-        cellspacing="0">
-        <tbody>
-          <tr>
-            <th align="RIGHT" nowrap="nowrap" valign="BASELINE">Subject:
-            </th>
-            <td>Re: bash: remove the format string "%q" in the
-              unicode3.sub</td>
-          </tr>
-          <tr>
-            <th align="RIGHT" nowrap="nowrap" valign="BASELINE">Date: </th>
-            <td>Tue, 9 Aug 2016 10:39:13 -0400</td>
-          </tr>
-          <tr>
-            <th align="RIGHT" nowrap="nowrap" valign="BASELINE">From: </th>
-            <td>Chet Ramey <a class="moz-txt-link-rfc2396E" href="mailto:chet.ramey@case.edu">&lt;chet.ramey@case.edu&gt;</a></td>
-          </tr>
-          <tr>
-            <th align="RIGHT" nowrap="nowrap" valign="BASELINE">Reply-To:
-            </th>
-            <td><a class="moz-txt-link-abbreviated" href="mailto:chet.ramey@case.edu">chet.ramey@case.edu</a></td>
-          </tr>
-          <tr>
-            <th align="RIGHT" nowrap="nowrap" valign="BASELINE">To: </th>
-            <td><a class="moz-txt-link-abbreviated" href="mailto:dengke.du@windriver.com">dengke.du@windriver.com</a> <a class="moz-txt-link-rfc2396E" href="mailto:dengke.du@windriver.com">&lt;dengke.du@windriver.com&gt;</a>,
-              <a class="moz-txt-link-abbreviated" href="mailto:bug-bash@gnu.org">bug-bash@gnu.org</a></td>
-          </tr>
-          <tr>
-            <th align="RIGHT" nowrap="nowrap" valign="BASELINE">CC: </th>
-            <td><a class="moz-txt-link-abbreviated" href="mailto:chet.ramey@case.edu">chet.ramey@case.edu</a></td>
-          </tr>
-        </tbody>
-      </table>
-      <br>
-      <br>
-      <pre>On 8/9/16 3:18 AM, <a class="moz-txt-link-abbreviated" href="mailto:dengke.du@windriver.com">dengke.du@windriver.com</a> wrote:
-&gt; Hi all
-&gt; 
-&gt; When I run the tests for the bash, the sub-test unicode3.sub of intl.tests
-&gt; failed.
-&gt; 
-&gt; The sub-test unicode3.sub contain the following:
-&gt; 
-&gt;     payload=$'\065\247\100\063\231\053\306\123\070\237\242\352\263'
-&gt;     "$payload"
-&gt;     printf %q "$payload"
-&gt; 
-&gt; In this situation, the format string "%q" in command printf means that when the
-&gt; character in the payload is not in {alpha &amp; digit &amp; punctuation &amp; ISO
-&gt; 646(7-bit)}, it
-&gt; would print the string with ANSI-C style quoted string: $'...' , we can
-&gt; check the source code
-
-This has already been changed in the devel branch (back in May, 2015), and
-the test case and tets output was changed at the same time.
-
--- 
-``The lyf so short, the craft so long to lerne.'' - Chaucer
-		 ``Ars longa, vita brevis'' - Hippocrates
-Chet Ramey, UTech, CWRU    <a class="moz-txt-link-abbreviated" href="mailto:chet@case.edu">chet@case.edu</a>    <a class="moz-txt-link-freetext" href="http://cnswww.cns.cwru.edu/~chet/">http://cnswww.cns.cwru.edu/~chet/</a>
-</pre>
-      <br>
-    </div>
-    <br>
-  </body>
-</html>
-
---------------060209050001000800070504--
+--001a113eccbc8ad2230539c83025--
