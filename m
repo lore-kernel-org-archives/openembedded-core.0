@@ -1,47 +1,46 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-it0-f53.google.com (mail-it0-f53.google.com
-	[209.85.214.53])
-	by mail.openembedded.org (Postfix) with ESMTP id B29AC771D9
+Received: from mail-io0-f180.google.com (mail-io0-f180.google.com
+	[209.85.223.180])
+	by mail.openembedded.org (Postfix) with ESMTP id D0107771A0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Aug 2016 09:15:25 +0000 (UTC)
-Received: by mail-it0-f53.google.com with SMTP id u186so7469283ita.0
+	Thu, 11 Aug 2016 09:21:22 +0000 (UTC)
+Received: by mail-io0-f180.google.com with SMTP id q83so820356iod.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Aug 2016 02:15:26 -0700 (PDT)
+	Thu, 11 Aug 2016 02:21:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to; 
-	bh=0vT9xb59RaBatowU29pRxyEMLiLJbpXtMQ1Qaj6OB5U=;
-	b=pKtdKwNAmsJGtktrtajAmQwKXRqnwK9k35tbVRxVYXC9qluw0k4cZBT4oGpbGewipn
-	xM7R2ddy+sihIbnPc7hT0b4FO4aec869uY7xek8Of6FQIAU6KjSKlrxPnktHEF0c1AkT
-	KZDquahfMNKPkcQG2EshjtqcQoCzp4VOKf1a4aqLiqA2nFpT6WN0PT0tghg6WPGbFPDz
-	xCgKMyl+e1BmwTYJ67djf/eauabpgFKLx2FqDAEjWNHy5xs0alYCVuYyMUQTQ4/KfEYY
-	WrTXu/YDUarOdSjcFyWX7h7y8tUkASeiq3VSpcZRzqPspIJEYEI9gRrpOQAOuOGXgBXv
-	r8+w==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=6TPCUPoDlcQRR2XHua0sTavuvH8JMBAJK0rexUTBeEc=;
+	b=cOScgG+zQicFDKWSdNbWgBq+Zm4C0vSlQxVHlmrzavo2EeSOOX5cRqBrMl2Jvr38yB
+	+OQUGNfqJ9kg9InFpJZJCrfFHZvehSvPjnkYdQk703iT5VLQfo1omSAHR3X07r5glTra
+	rTrGN5OE5z2Abo90XkvI2AojWOoHbMzcK4jQQc8T+1XMo/w85Dw1jIWZigH5hFff9TSr
+	sMMBeFp+OeEy38op81SLtfSlZE+nZ4+WUncGTj6out8I4YRnTAQ8YNbYZqTXkT7PCC8d
+	DdU6ih1FzHVrwl+bnMu5P9dMV+ikItDmsYUyQaeEaJEqmoK7RINZ1RFD/n1yZ3SSA+EZ
+	Pirg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to;
-	bh=0vT9xb59RaBatowU29pRxyEMLiLJbpXtMQ1Qaj6OB5U=;
-	b=iFIzFZxLCkgvhgv8/Pex5G9OT6rP8j0+tGxZqklqONWF5C+Jx73EfugSJcwfhmGZE9
-	GZ0B7BmjHaHgn25ijW08ibXf4fzXeSkB8dkcfZXw+Qry7gwqnt3gDNlorM0EjtShxc2B
-	Gol7t3EgqNgtdIsoMLgj/qlpMGUv8WoGCfnwZR0kvAVTbYdd5kSHwfaHizD61g4UdcuQ
-	9xuPm4baoEVQ5REkOFvHg+uyGUDqK9atpiS0pLK7ywc04ebnIyw2sJvpvMCMlA8aijuj
-	85D9+zYnmahpBr1iJHWyi/HXvh7w71yZSwXgwMnCB/33vrv60CviPkT4oukbVlNWFcCT
-	JeCg==
-X-Gm-Message-State: AEkoous02AO/TAU1JfI0eR1856MZwMxwM9i8zmRXIsKMqvSzzeGZ93AZ/dAX3GGrRRbNXiwpOmGSNRZA8rrwYwOA
-X-Received: by 10.36.87.140 with SMTP id u134mr8735667ita.38.1470906925640;
-	Thu, 11 Aug 2016 02:15:25 -0700 (PDT)
+	:message-id:subject:to:cc;
+	bh=6TPCUPoDlcQRR2XHua0sTavuvH8JMBAJK0rexUTBeEc=;
+	b=PkxDQ2Q2RQoZ+QHxhcMyzVoEz4ieqc2hTNVsBhz9pK5xC4DvqJ9HfkwLskGEipTscy
+	KOqhAT7PrFzsop9Sik4BhhxsUfxjtgN02ADBSz6jMEnyqv56ItIDazzsY3Q6zXM/ILyL
+	Urej7dcudQGu2fYKi/2zP2sP1vuQ9jhkaXi50CJUtUG2W7WrESZLLux7h7QwZviAgQby
+	hvu/UGR5nl8O5NrNkU61zWuPLnPx9EZmzful6abtYVHRnaCGhGIEQz80zFtyM7WLb8Kb
+	d3oJhQe17PkJURDJiwcuPVQnzD+QzYzPRNQOozzgiFbJtD8ulPTTJ3NwxtJF9MWBk7vR
+	hw/w==
+X-Gm-Message-State: AEkoouvfEMj9PNgZuOMtJudYwBBB1iSk75x9pL9Xs0JeyAV6cgNXG62SkcMIXPNbNkrBT5VG1k36KtiDeLwTg60Z
+X-Received: by 10.107.138.212 with SMTP id c81mr10013638ioj.148.1470907283147; 
+	Thu, 11 Aug 2016 02:21:23 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.107.18.17 with HTTP; Thu, 11 Aug 2016 02:15:05 -0700 (PDT)
-In-Reply-To: <20160811065752.vchy5fxukujie5pz@ad.chargestorm.se>
-References: <1470856303-24490-1-git-send-email-michael.davis@essvote.com>
-	<bbf4ea57-5a32-7696-3e70-3c11dc069ef1@windriver.com>
-	<20160811065752.vchy5fxukujie5pz@ad.chargestorm.se>
+Received: by 10.107.18.17 with HTTP; Thu, 11 Aug 2016 02:21:02 -0700 (PDT)
+In-Reply-To: <alpine.LFD.2.20.1608110330520.25986@localhost.localdomain>
+References: <alpine.LFD.2.20.1608110330520.25986@localhost.localdomain>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 11 Aug 2016 10:15:05 +0100
-Message-ID: <CAJTo0LbJ=EZftXe3xQ1cHexwDk6jPCCPf+X_oW+g00OLOrHD4w@mail.gmail.com>
-To: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [meta-oe][PATCH] pcsc-lite: Seperate GPLV3 portions from BSD
+Date: Thu, 11 Aug 2016 10:21:02 +0100
+Message-ID: <CAJTo0LZ9k1rFe=hk80RNvKVqFO2GK75u0Mwh40zhyx0F+rm+mA@mail.gmail.com>
+To: "Robert P. J. Day" <rpjday@crashcourse.ca>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: what's with meta-yocto-bsp directory in openembedded-core?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,35 +53,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Aug 2016 09:15:27 -0000
-Content-Type: multipart/alternative; boundary=001a1135018ccd02e00539c834cd
+X-List-Received-Date: Thu, 11 Aug 2016 09:21:25 -0000
+Content-Type: multipart/alternative; boundary=001a113ed9321c21950539c84ab7
 
---001a1135018ccd02e00539c834cd
+--001a113ed9321c21950539c84ab7
 Content-Type: text/plain; charset=UTF-8
 
-On 11 August 2016 at 07:57, Anders Darander <anders@chargestorm.se> wrote:
+On 11 August 2016 at 07:34, Robert P. J. Day <rpjday@crashcourse.ca> wrote:
 
-> Shouldn't the ${PN}-dev package have the combined license?
+> just curious as to why it had to go in a directory whose name normally
+> implies a layer.
 >
 
-Depends on whether the -dev package contains anything from the spy
-application, this really is case-by-case.
+Thanks to the s-o-b that appears to be my fault.  I'm guessing that I
+picked a patch into my poky clone that was actually intended for
+meta-yocto, Richard didn't notice that it was for meta-yocto-bsp when he
+merged as usually patches for different layers don't apply.  I'll ensure
+that this goes away and appears in the right place, thanks for noticing!
 
 Ross
 
---001a1135018ccd02e00539c834cd
+--001a113ed9321c21950539c84ab7
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 11 August 2016 at 07:57, Anders Darander <span dir=3D"ltr">&lt;<a href=
-=3D"mailto:anders@chargestorm.se" target=3D"_blank">anders@chargestorm.se</=
+On 11 August 2016 at 07:34, Robert P. J. Day <span dir=3D"ltr">&lt;<a href=
+=3D"mailto:rpjday@crashcourse.ca" target=3D"_blank">rpjday@crashcourse.ca</=
 a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0=
- 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":2ox" cla=
-ss=3D"a3s aXjCH m15678652a3a3d90a">Shouldn&#39;t the ${PN}-dev package have=
- the combined license?<br></div></blockquote></div><br>Depends on whether t=
-he -dev package contains anything from the spy application, this really is =
-case-by-case.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail=
-_extra">Ross</div></div>
+ 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":2mf" cla=
+ss=3D"a3s aXjCH m156785048b46f274">just curious as to why it had to go in a=
+ directory whose name normally<br>
+implies a layer.<br></div></blockquote></div><br>Thanks to the s-o-b that a=
+ppears to be my fault.=C2=A0 I&#39;m guessing that I picked a patch into my=
+ poky clone that was actually intended for meta-yocto, Richard didn&#39;t n=
+otice that it was for meta-yocto-bsp when he merged as usually patches for =
+different layers don&#39;t apply.=C2=A0 I&#39;ll ensure that this goes away=
+ and appears in the right place, thanks for noticing!</div><div class=3D"gm=
+ail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
 
---001a1135018ccd02e00539c834cd--
+--001a113ed9321c21950539c84ab7--
