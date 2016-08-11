@@ -1,29 +1,59 @@
-Return-Path: <rpjday@crashcourse.ca>
-Received: from smtp486.redcondor.net (smtp486.redcondor.net [208.80.204.86])
-	by mail.openembedded.org (Postfix) with ESMTP id D5B117707B
+Return-Path: <anders@chargestorm.se>
+Received: from mail-wm0-f49.google.com (mail-wm0-f49.google.com [74.125.82.49])
+	by mail.openembedded.org (Postfix) with ESMTP id B12A1760AD
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Aug 2016 06:34:09 +0000 (UTC)
-Received: from astoria.ccjclearline.com ([64.235.106.9])
-	by smtp486.redcondor.net ({6695537a-536a-45f9-a249-877c85428649})
-	via TCP (outbound) with ESMTPS id 20160811063408843_0486
+	Thu, 11 Aug 2016 06:57:55 +0000 (UTC)
+Received: by mail-wm0-f49.google.com with SMTP id o80so13419655wme.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Aug 2016 06:34:08 +0000
-X-RC-FROM: <rpjday@crashcourse.ca>
-X-RC-RCPT: <openembedded-core@lists.openembedded.org>
-Received: from [208.97.121.124] (port=40976 helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
-	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
-	id 1bXjaz-0004ow-Dz for openembedded-core@lists.openembedded.org;
-	Thu, 11 Aug 2016 02:36:01 -0400
-Date: Thu, 11 Aug 2016 03:34:00 -0300 (ADT)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@localhost.localdomain
-To: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Message-ID: <alpine.LFD.2.20.1608110330520.25986@localhost.localdomain>
-User-Agent: Alpine 2.20 (LFD 67 2015-01-07)
+	Wed, 10 Aug 2016 23:57:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=chargestorm-se.20150623.gappssmtp.com; s=20150623;
+	h=date:from:to:subject:message-id:mail-followup-to:references
+	:mime-version:content-disposition:in-reply-to:organization
+	:user-agent; bh=9JGw75PyMuiQuR4WQF185iUiKYALmfQku2t9Q5AE0Ik=;
+	b=UXpwk3RUjj5dwWXBTKOpzDq/Ilc+1LQM6VkYp6TTf7Eauin6vezj872AnzTmGH6Yli
+	JWM2KDu7LTd3tqtSbO4Q9IRKcBoDbvoiho9ymUgJwsC3RE78N+pjKSWn72iQUb9HdX23
+	pNwvESmbHZY79sbkXKxZGUGiV4OeOoyfXN+V2KuTGy0vb+MHtZW6KAZeETYr38asn3mJ
+	UG7F3u1FSZik6Ek/F44i3i23qeEWPNFZYH1TUYf6GmHnXm8DaGyP75Vez4F0o2Cp4mtV
+	6nyFQPwpj/fXR0zkOkeDb6EqALf/hteCfvhiKlTETgh9WUSNnd4Q6rDuAwCY9pRwy3+6
+	aFNg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:date:from:to:subject:message-id:mail-followup-to
+	:references:mime-version:content-disposition:in-reply-to
+	:organization:user-agent;
+	bh=9JGw75PyMuiQuR4WQF185iUiKYALmfQku2t9Q5AE0Ik=;
+	b=Li8lsTBX3CxxEYEc0DtflfWt42X7qHmItSCD/LAtUb1UMK7wSclZvcOq2XsZyDr9vp
+	Fvcn4BlTopmm1CNF8quVSuKBieLnNT5wuLaRGFkFWVLHF/mIAUU+uW1GG255gOu1104e
+	Hc2vdQnKHx4VljLcAhwQKXRJFo1lN25lViiK8KW+xI4lv2kNJTefDAxYCSe9xF20p2fL
+	iw4fEFwaqKfihFAwzeusgl6atQa1E8gbkP+uY/pvrBRkU/cefHL6/bha3xtyW/gUjTYW
+	r2WXwAaOjGn1aUGTT8zp/6wZk0TaJiYlueRWkdRSC61U4NG6/6k09BpfpsTRDkAZttsW
+	fdtA==
+X-Gm-Message-State: AEkoouumKcjwOmjhEsJFeg3ap1Ii+Y5uEDWqlmnob2PIWwqIIVmN/zLufvcsbczTQb9ezA==
+X-Received: by 10.25.147.197 with SMTP id v188mr1400544lfd.9.1470898674928;
+	Wed, 10 Aug 2016 23:57:54 -0700 (PDT)
+Received: from ad.chargestorm.se (h83-209-191-235.cust.se.alltele.net.
+	[83.209.191.235]) by smtp.gmail.com with ESMTPSA id
+	l129sm283408lfl.37.2016.08.10.23.57.54
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Wed, 10 Aug 2016 23:57:54 -0700 (PDT)
+Date: Thu, 11 Aug 2016 08:57:52 +0200
+From: Anders Darander <anders@chargestorm.se>
+To: openembedded-core@lists.openembedded.org
+Message-ID: <20160811065752.vchy5fxukujie5pz@ad.chargestorm.se>
+Mail-Followup-To: openembedded-core@lists.openembedded.org
+References: <1470856303-24490-1-git-send-email-michael.davis@essvote.com>
+	<bbf4ea57-5a32-7696-3e70-3c11dc069ef1@windriver.com>
 MIME-Version: 1.0
-X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
-Subject: what's with meta-yocto-bsp directory in openembedded-core?
+In-Reply-To: <bbf4ea57-5a32-7696-3e70-3c11dc069ef1@windriver.com>
+X-Accept-Language: sv, en, de
+X-GPG-Fingerprint: 5AF0 B2E9 78FE 9D75 D110  6F8F 3E31 84D7 920E 938C
+X-GPG-Key-Id: 0x920E938C
+X-GPG-Keyserver: hkp://keys.gnupg.net
+Organization: ChargeStorm AB
+User-Agent: Mutt/1.6.2-neo (2016-07-23)
+Subject: Re: [meta-oe][PATCH] pcsc-lite: Seperate GPLV3 portions from BSD
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,53 +66,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Aug 2016 06:34:11 -0000
-Content-Type: multipart/mixed; BOUNDARY="8323328-121118623-1470897243=:25986"
+X-List-Received-Date: Thu, 11 Aug 2016 06:57:56 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
---8323328-121118623-1470897243=:25986
-Content-Type: text/plain; charset=KOI8-R
-Content-Transfer-Encoding: 8BIT
+* Mark Hatle <mark.hatle@windriver.com> [160810 22:18]:
 
+> On 8/10/16 2:12 PM, Davis, Michael wrote:
+> > GPLV3 and BSD portions were originally placed in the same package.
+> > The GPLv3 portion has been seperated into pcsc-lite-spy so the package can be used with GPLv3 blacklisted.
 
-  never noticed this before, but why is there a "meta-yocto-bsp"
-directory in the openembedded-core checkout that contains nothing but:
+> > Signed-off-by: Michael Davis <michael.davis@essvote.com>
+> > ---
+> >  meta-oe/recipes-support/pcsc-lite/pcsc-lite_1.8.13.bb | 11 +++++++----
+> >  1 file changed, 7 insertions(+), 4 deletions(-)
 
-.
-„€€ lib
-    „€€ oeqa
-        „€€ selftest
-            „€€ systemd_boot.py
+> > diff --git a/meta-oe/recipes-support/pcsc-lite/pcsc-lite_1.8.13.bb b/meta-oe/recipes-support/pcsc-lite/pcsc-lite_1.8.13.bb
+> > index cc72549..e1d405b 100644
+> > --- a/meta-oe/recipes-support/pcsc-lite/pcsc-lite_1.8.13.bb
+> > +++ b/meta-oe/recipes-support/pcsc-lite/pcsc-lite_1.8.13.bb
+> > @@ -1,6 +1,7 @@
+> >  SUMMARY = "PC/SC Lite smart card framework and applications"
+> >  HOMEPAGE = "http://pcsclite.alioth.debian.org/"
+> > -LICENSE = "BSD & GPLv3+"
+> > +LICENSE = "BSD" 
 
-i can see the commit that put it there:
+> LICENSE should be the overall license(s) of the sources used to produce the
+> binaries.
 
-  commit 3f859816aef3c3dba35cfbea15f0c56483205544
-  Author: Jose Perez Carranza <jose.perez.carranza@intel.com>
-  Date:   Mon Jul 4 16:15:07 2016 -0500
+> So in this case you'd want to do:
 
-    systemd_boot: Enable module to test systemd bootloader
+> LICENSE = "BSD & GPLv3+"
+> LICENSE_${PN} = "BSD"
+> LICENSE_${PN}-lib = "BSD"
+> ...
+> LICENSE_${PN}-spy = "GPLv3+"
+> LICENSE_${PN}-dev = "GPLv3+"
 
-     Module systemd_boot created wtih a class "Systemdboot"
-     and a test case "test_efi_systemdboot_images_can_be_built"
-     to test new systemd bootloader.
+Shouldn't the ${PN}-dev package have the combined license?
 
-     [YOCTO #9706]
-
-    Signed-off-by: Jose Perez Carranza <jose.perez.carranza@intel.com>
-    Signed-off-by: Ross Burton <ross.burton@intel.com>
-
-just curious as to why it had to go in a directory whose name normally
-implies a layer.
-
-rday
+Cheers,
+Anders
 
 -- 
+Anders Darander, Senior System Architect
+ChargeStorm AB / eStorm AB
 
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
-
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
-
---8323328-121118623-1470897243=:25986--
