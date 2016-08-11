@@ -1,25 +1,25 @@
 Return-Path: <paul.eggleton@linux.intel.com>
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 4CF10771D7
+	by mail.openembedded.org (Postfix) with ESMTP id 4CE11771D1
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 11 Aug 2016 04:45:28 +0000 (UTC)
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by orsmga102.jf.intel.com with ESMTP; 10 Aug 2016 21:45:25 -0700
+	by orsmga102.jf.intel.com with ESMTP; 10 Aug 2016 21:45:28 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.28,503,1464678000"; d="scan'208";a="863475623"
+X-IronPort-AV: E=Sophos;i="5.28,503,1464678000"; d="scan'208";a="863475637"
 Received: from unknown (HELO peggleto-mobl.ger.corp.intel.com)
 	([10.255.171.53])
-	by orsmga003.jf.intel.com with ESMTP; 10 Aug 2016 21:45:23 -0700
+	by orsmga003.jf.intel.com with ESMTP; 10 Aug 2016 21:45:25 -0700
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 11 Aug 2016 16:44:59 +1200
-Message-Id: <0c94799c7fde5ee1fd17e0c6dad720ad98e5d938.1470890478.git.paul.eggleton@linux.intel.com>
+Date: Thu, 11 Aug 2016 16:45:00 +1200
+Message-Id: <97516475467161429710576f1c340553d0618a9f.1470890478.git.paul.eggleton@linux.intel.com>
 X-Mailer: git-send-email 2.5.5
 In-Reply-To: <cover.1470890478.git.paul.eggleton@linux.intel.com>
 References: <cover.1470890478.git.paul.eggleton@linux.intel.com>
 In-Reply-To: <cover.1470890478.git.paul.eggleton@linux.intel.com>
 References: <cover.1470890478.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 02/10] classes/populate_sdk_ext: ensure eSDK can build without uninative enabled
+Subject: [PATCH 03/10] classes/populate_sdk_ext: handle lack of uninative when filtering sstate
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,66 +34,39 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 11 Aug 2016 04:45:28 -0000
 
-We were relying on uninative being enabled in the build in which the
-eSDK was being produced, which is not the case for example for OE-Core's
-default configuration. Move the code that copies the uninative tarball
-and writes the checksum to copy_buildsystem so that it happens early
-enough for that part of the configuration to be set up when we do the
-filtering (which requires running bitbake).
+If the build in which the eSDK is being built isn't using uninative,
+this will have an effect on NATIVELSBSTRING, which will mean that the
+eSDK installer won't be able to find any of the native sstate packages.
+To keep things simple, under this scenario just disable uninative
+temporarily while we run the SDK installer to help us check the presence
+of the sstate artifacts we need. Ideally I'd rather not have things like
+this that are artificial in this verification step, but on the other
+hand this was the least ugly way to solve the problem.
 
 Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
 ---
- meta/classes/populate_sdk_ext.bbclass | 19 ++++++++++---------
- 1 file changed, 10 insertions(+), 9 deletions(-)
+ meta/classes/populate_sdk_ext.bbclass | 5 +++++
+ 1 file changed, 5 insertions(+)
 
 diff --git a/meta/classes/populate_sdk_ext.bbclass b/meta/classes/populate_sdk_ext.bbclass
-index f6b0834..f758d98 100644
+index f758d98..c16e228 100644
 --- a/meta/classes/populate_sdk_ext.bbclass
 +++ b/meta/classes/populate_sdk_ext.bbclass
-@@ -233,6 +233,14 @@ python copy_buildsystem () {
-         f.write('    $' + '{SDKBASEMETAPATH}/workspace \\\n')
-         f.write('    "\n')
+@@ -108,9 +108,14 @@ def create_filtered_tasklist(d, sdkbasepath, tasklistfile, conf_initpath):
+     # Create a temporary build directory that we can pass to the env setup script
+     shutil.copyfile(sdkbasepath + '/conf/local.conf', sdkbasepath + '/conf/local.conf.bak')
+     try:
++        # Force the use of sstate from the build system
+         with open(sdkbasepath + '/conf/local.conf', 'a') as f:
+             f.write('\nSSTATE_DIR_forcevariable = "%s"\n' % d.getVar('SSTATE_DIR', True))
+             f.write('SSTATE_MIRRORS_forcevariable = ""\n')
++            # Drop uninative if the build isn't using it (or else NATIVELSBSTRING will
++            # be different and we won't be able to find our native sstate)
++            if not bb.data.inherits_class('uninative', d):
++                f.write('INHERIT_remove = "uninative"\n')
  
-+    # Copy uninative tarball
-+    # For now this is where uninative.bbclass expects the tarball
-+    uninative_file = d.expand('${SDK_DEPLOY}/${BUILD_ARCH}-nativesdk-libc.tar.bz2')
-+    uninative_checksum = bb.utils.sha256_file(uninative_file)
-+    uninative_outdir = '%s/downloads/uninative/%s' % (baseoutpath, uninative_checksum)
-+    bb.utils.mkdirhier(uninative_outdir)
-+    shutil.copy(uninative_file, uninative_outdir)
-+
-     env_whitelist = (d.getVar('BB_ENV_EXTRAWHITE', True) or '').split()
-     env_whitelist_values = {}
- 
-@@ -267,7 +275,8 @@ python copy_buildsystem () {
-             # Write a newline just in case there's none at the end of the original
-             f.write('\n')
- 
--            f.write('INHERIT += "%s"\n\n' % 'uninative')
-+            f.write('INHERIT += "%s"\n' % 'uninative')
-+            f.write('UNINATIVE_CHECKSUM[%s] = "%s"\n\n' % (d.getVar('BUILD_ARCH', True), uninative_checksum))
-             f.write('CONF_VERSION = "%s"\n\n' % d.getVar('CONF_VERSION', False))
- 
-             # Some classes are not suitable for SDK, remove them from INHERIT
-@@ -446,18 +455,10 @@ install_tools() {
- 	lnr ${SDK_OUTPUT}/${SDKPATH}/${scriptrelpath}/recipetool ${SDK_OUTPUT}/${SDKPATHNATIVE}${bindir_nativesdk}/recipetool
- 	touch ${SDK_OUTPUT}/${SDKPATH}/.devtoolbase
- 
--	localconf=${SDK_OUTPUT}/${SDKPATH}/conf/local.conf
--
- 	# find latest buildtools-tarball and install it
- 	buildtools_path=`ls -t1 ${SDK_DEPLOY}/${@extsdk_get_buildtools_filename(d)} | head -n1`
- 	install $buildtools_path ${SDK_OUTPUT}/${SDKPATH}
- 
--	# For now this is where uninative.bbclass expects the tarball
--	chksum=`sha256sum ${SDK_DEPLOY}/${BUILD_ARCH}-nativesdk-libc.tar.bz2 | cut -f 1 -d ' '`
--	install -d ${SDK_OUTPUT}/${SDKPATH}/downloads/uninative/$chksum/
--	install ${SDK_DEPLOY}/${BUILD_ARCH}-nativesdk-libc.tar.bz2 ${SDK_OUTPUT}/${SDKPATH}/downloads/uninative/$chksum/
--	echo "UNINATIVE_CHECKSUM[${BUILD_ARCH}] = '$chksum'" >> ${SDK_OUTPUT}/${SDKPATH}/conf/local.conf
--
- 	install -m 0644 ${COREBASE}/meta/files/ext-sdk-prepare.py ${SDK_OUTPUT}/${SDKPATH}
- }
- do_populate_sdk_ext[file-checksums] += "${COREBASE}/meta/files/ext-sdk-prepare.py:True"
+         # Unfortunately the default SDKPATH (or even a custom value) may contain characters that bitbake
+         # will not allow in its COREBASE path, so we need to rename the directory temporarily
 -- 
 2.5.5
 
