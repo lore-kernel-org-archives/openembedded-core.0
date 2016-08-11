@@ -1,22 +1,49 @@
-Return-Path: <alejandro.hernandez@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 934AF7721C
+Return-Path: <ross.burton@intel.com>
+Received: from mail-it0-f54.google.com (mail-it0-f54.google.com
+	[209.85.214.54])
+	by mail.openembedded.org (Postfix) with ESMTP id F005B7721D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Aug 2016 18:15:17 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga103.fm.intel.com with ESMTP; 11 Aug 2016 11:15:18 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.28,506,1464678000"; d="scan'208";a="747462775"
-Received: from yctb02.ostc.intel.com (HELO yctb02.otcr.jf.intel.com)
-	([10.54.69.56])
-	by FMSMGA003.fm.intel.com with ESMTP; 11 Aug 2016 11:15:19 -0700
-From: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 11 Aug 2016 18:12:02 +0000
-Message-Id: <1470939122-32434-1-git-send-email-alejandro.hernandez@linux.intel.com>
-X-Mailer: git-send-email 2.6.6
-Cc: Roy Li <rongqing.li@windriver.com>
-Subject: [PATCH][jethro] systemd: re-enable mount propagation for udevd
+	Thu, 11 Aug 2016 19:15:09 +0000 (UTC)
+Received: by mail-it0-f54.google.com with SMTP id f6so5388559ith.0
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 11 Aug 2016 12:15:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=+xDCWkjakDZCf9B2BmGtSh96qNSY3RW9xceYcY6HyyA=;
+	b=s5RUjOED1RLjyXk220pA7Nn3+tSsGCe9q+CN6mQYlOFkR5d7B3B/n7OBwAncg6SG4C
+	eAfSYsy2BjKKwCyF0j1pojbcInZMmYZPMXaG2vswULqb3DSiAdsqAqiSVwM/q6yyARve
+	r9xSWiRs9e1y9S9gy+NQ/VCdPviO438JlIzvkdnQkR+VMKNc0lGS/pwZYIp2RrWazRm4
+	YzM6FQfhEY/TD3VycacRGBG6inOxRb6pugPpG52lNqwXlSljibPQHZThwHv/91rHL8nV
+	Znxf4EaERriFhA1z1C5e/oPqC5F2oZSPq10NTdSSg5maYLH+ah4OkHtAFXe6wSxuMvdO
+	UAnQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=+xDCWkjakDZCf9B2BmGtSh96qNSY3RW9xceYcY6HyyA=;
+	b=P+mjeCzUcMEIdXb5VplGDfLLq1m159LexIq/ycatvzloUsKMjWip0hIOKHBxVxUSCz
+	kwEmd6VX9hUZrb3DNE+zE+FDP30oLo0YOZEBK6gEKBlEWUwZOuZizIff4WgOXJPT77bD
+	eHzh4H3VNyulQx8f6/AyNUCjxnU2wMKz6/nSldIZMxIdSHbJgeQ5LEkWu2uBCpLNzxpl
+	/0+lECgfRd6imqgeQ61kiWiA652InFVy5fgFmwCFliU2C9rZ0Z4FGhdpRKQaDdNTCX2M
+	+AN7K+ZDWAD0K8QqFFS5FFtiGjXLDpP2eCbt7e+fbX+N9/ENrIMZpdystPyTqrBkHYE0
+	7luA==
+X-Gm-Message-State: AEkooutEAVmXhFeKDAq636y7gQI5N/fr+uiN1ZFr8BJPPd6er6mmZ1bUCWDSmPtpVYxZmYo8pxpUA7fYkXu4/sHJ
+X-Received: by 10.36.129.213 with SMTP id q204mr12189121itd.38.1470942910154; 
+	Thu, 11 Aug 2016 12:15:10 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.107.18.17 with HTTP; Thu, 11 Aug 2016 12:14:49 -0700 (PDT)
+In-Reply-To: <6cac214c-b73f-af4d-655f-f911788cdc3e@windriver.com>
+References: <cover.1470636212.git.Qi.Chen@windriver.com>
+	<8374cee610f770f4e027f92785bc0bed13334fbb.1470636212.git.Qi.Chen@windriver.com>
+	<CAJTo0LaULRXouHYMfKCMUmtFERseR9vZhWXeC-yK9GLrMTwofQ@mail.gmail.com>
+	<6cac214c-b73f-af4d-655f-f911788cdc3e@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 11 Aug 2016 20:14:49 +0100
+Message-ID: <CAJTo0LZ__iBciY-YgeDXebKBXUVh4Snapz9+Yj0QDME34U783Q@mail.gmail.com>
+To: Mark Hatle <mark.hatle@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] bitbake.conf: change localedir
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,79 +56,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Aug 2016 18:15:17 -0000
+X-List-Received-Date: Thu, 11 Aug 2016 19:15:10 -0000
+Content-Type: multipart/alternative; boundary=94eb2c08b1fca52ca40539d09532
 
-From: Roy Li <rongqing.li@windriver.com>
+--94eb2c08b1fca52ca40539d09532
+Content-Type: text/plain; charset=UTF-8
 
-With MountFlags=slave, those mounts then become private to the systemd-udevd
-namespace and are no longer accessible from outside the namespace, which is
-not expected
+On 11 August 2016 at 18:11, Mark Hatle <mark.hatle@windriver.com> wrote:
 
-[YOCTO #8613]
+> Binary locales have an endian and alignment setting to them.  If a platform
+> supports both big and little endian, this common locale would not work.
+> (That
+> is extremely rare....)  Also if a platform supports different alignments in
+> different libraries that could cause an impact as well.  (This is also
+> extremely
+> unlikely.)
+>
 
-(From OE-Core rev: 73f43d857fe0102033f25491007b6dbe3d5fa8ee)
+So by that logic this patch should be rejected, right?
 
-Signed-off-by: Roy Li <rongqing.li@windriver.com>
-Signed-off-by: Ross Burton <ross.burton@intel.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit f2092e67ea880301058396b831a9a18905317d0d)
-Signed-off-by: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
----
- ...dev-re-enable-mount-propagation-for-udevd.patch | 31 ++++++++++++++++++++++
- meta/recipes-core/systemd/systemd_225.bb           |  1 +
- 2 files changed, 32 insertions(+)
- create mode 100644 meta/recipes-core/systemd/systemd/udev-re-enable-mount-propagation-for-udevd.patch
+This path is for the compiled locale definitions - LC_TYPE etc and the
+locale archive, right?  So it's only glibc-locales that ships in here, not
+other packages (just trying to check my assumptions)
 
-diff --git a/meta/recipes-core/systemd/systemd/udev-re-enable-mount-propagation-for-udevd.patch b/meta/recipes-core/systemd/systemd/udev-re-enable-mount-propagation-for-udevd.patch
-new file mode 100644
-index 0000000..23e22d4
---- /dev/null
-+++ b/meta/recipes-core/systemd/systemd/udev-re-enable-mount-propagation-for-udevd.patch
-@@ -0,0 +1,31 @@
-+From: Michael Biebl <biebl@debian.org>
-+Date: Sat, 27 Sep 2014 04:19:24 +0200
-+Subject: udev: re-enable mount propagation for udevd
-+
-+Upstream-Status: Backport [http://http.debian.net/debian/pool/main/s/systemd/systemd_215-17+deb8u4.debian.tar.xz]
-+
-+laptop-mode-tools remounts file systems from within a udev rule to apply
-+certain mount options. With MountFlags=slave, those mounts then become private
-+to the systemd-udevd namespace and are no longer accessible from outside the
-+namespace.
-+While the root cause is the broken behaviour of laptop-mode-tools, with mount
-+propagation turned off, this can result in a read-only root file system.
-+Therefore revert the relevant parts from commit
-+c2c13f2df42e0691aecabe3979ea81cd7faa35c7 to re-enable mount propagation for
-+udevd.
-+
-+Once affected packages have been fixed, this patch should be dropped
-+again.
-+
-+Closes: #762018
-+diff --git a/units/systemd-udevd.service.in b/units/systemd-udevd.service.in
-+index e7216d6..1e9a600 100644
-+--- a/units/systemd-udevd.service.in
-++++ b/units/systemd-udevd.service.in
-+@@ -21,6 +21,5 @@ Sockets=systemd-udevd-control.socket systemd-udevd-kernel.socket
-+ Restart=always
-+ RestartSec=0
-+ ExecStart=@rootlibexecdir@/systemd-udevd
-+-MountFlags=slave
-+ KillMode=mixed
-+ WatchdogSec=1min
-diff --git a/meta/recipes-core/systemd/systemd_225.bb b/meta/recipes-core/systemd/systemd_225.bb
-index 18c2448..a2122e0 100644
---- a/meta/recipes-core/systemd/systemd_225.bb
-+++ b/meta/recipes-core/systemd/systemd_225.bb
-@@ -46,6 +46,7 @@ SRC_URI = "git://github.com/systemd/systemd.git;protocol=git \
-            file://init \
-            file://run-ptest \
-            file://rules-whitelist-hd-devices.patch \
-+           file://udev-re-enable-mount-propagation-for-udevd.patch \
-           "
- SRC_URI_append_qemuall = " file://qemuall_io_latency-core-device.c-Change-the-default-device-timeout-to-2.patch"
- 
--- 
-2.6.6
+Ross
 
+--94eb2c08b1fca52ca40539d09532
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 11 August 2016 at 18:11, Mark Hatle <span dir=3D"ltr">&lt;<a href=3D"mai=
+lto:mark.hatle@windriver.com" target=3D"_blank">mark.hatle@windriver.com</a=
+>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 =
+0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":2fc" clas=
+s=3D"a3s aXjCH m1567a96d46492747">Binary locales have an endian and alignme=
+nt setting to them.=C2=A0 If a platform<br>
+supports both big and little endian, this common locale would not work.=C2=
+=A0 (That<br>
+is extremely rare....)=C2=A0 Also if a platform supports different alignmen=
+ts in<br>
+different libraries that could cause an impact as well.=C2=A0 (This is also=
+ extremely<br>
+unlikely.)<br></div></blockquote></div><br>So by that logic this patch shou=
+ld be rejected, right?</div><div class=3D"gmail_extra"><br></div><div class=
+=3D"gmail_extra">This path is for the compiled locale definitions - LC_TYPE=
+ etc and the locale archive, right?=C2=A0 So it&#39;s only glibc-locales th=
+at ships in here, not other packages (just trying to check my assumptions)<=
+/div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</=
+div></div>
+
+--94eb2c08b1fca52ca40539d09532--
