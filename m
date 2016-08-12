@@ -1,36 +1,32 @@
-Return-Path: <radzy@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 9AE3C6FEFA
+Return-Path: <adrian.ratiu@ni.com>
+X-Greylist: delayed 815 seconds by postgrey-1.34 at layers.openembedded.org;
+	Fri, 12 Aug 2016 15:19:00 UTC
+Received: from ni.com (skprod3.natinst.com [130.164.80.24])
+	by mail.openembedded.org (Postfix) with ESMTP id E50B97725D
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 Aug 2016 14:30:47 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u7CEUk8p013157
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 12 Aug 2016 07:30:46 -0700 (PDT)
-Received: from ALA-MBA.corp.ad.wrs.com ([169.254.3.25]) by
-	ALA-HCB.corp.ad.wrs.com ([147.11.189.41]) with mapi id 14.03.0248.002;
-	Fri, 12 Aug 2016 07:30:45 -0700
-From: "Radzykewycz, T (Radzy)" <radzy@windriver.com>
-To: "Hatle, Mark" <mark.hatle@windriver.com>, Khem Raj <raj.khem@gmail.com>
-Thread-Topic: [OE-core] [PATCH 1/1] bitbake.conf: change localedir
-Thread-Index: AQHR8+0mtq59FkZPR0SBRs648x2U7qBEdGEAgAArnQCAAS5/AP//lOQQ
-Date: Fri, 12 Aug 2016 14:30:44 +0000
-Message-ID: <33006C99F5A5194A9B7A7715DFA3E3830110038191@ALA-MBA.corp.ad.wrs.com>
-References: <cover.1470636212.git.Qi.Chen@windriver.com>
-	<8374cee610f770f4e027f92785bc0bed13334fbb.1470636212.git.Qi.Chen@windriver.com>
-	<CAJTo0LaULRXouHYMfKCMUmtFERseR9vZhWXeC-yK9GLrMTwofQ@mail.gmail.com>
-	<6cac214c-b73f-af4d-655f-f911788cdc3e@windriver.com>
-	<F7382BD1-F606-47F7-9EF2-7F347F9D06D7@gmail.com>,
-	<72a12581-2f16-eb5b-185e-adc82ae5d262@windriver.com>
-In-Reply-To: <72a12581-2f16-eb5b-185e-adc82ae5d262@windriver.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [147.11.216.87]
-MIME-Version: 1.0
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] bitbake.conf: change localedir
+	Fri, 12 Aug 2016 15:19:00 +0000 (UTC)
+Received: from us-aus-mgwout1.amer.corp.natinst.com (nb-snip2-1338.natinst.com
+	[130.164.19.135])
+	by us-aus-skprod3.natinst.com (8.15.0.59/8.15.0.59) with ESMTP id
+	u7CF5P5R028773 for <openembedded-core@lists.openembedded.org>;
+	Fri, 12 Aug 2016 10:05:25 -0500
+Received: from adi-pc-linux.natinst.com ([130.164.14.198])
+	by us-aus-mgwout1.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6
+	HF1218) with ESMTP id 2016081210052511-292784 ;
+	Fri, 12 Aug 2016 10:05:25 -0500 
+From: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 12 Aug 2016 18:04:12 +0300
+Message-Id: <20160812150412.3445-1-adrian.ratiu@ni.com>
+X-Mailer: git-send-email 2.9.2
+X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut1/AUS/H/NIC(Release
+	8.5.3FP6 HF1218|December 12, 2014) at 08/12/2016 10:05:25 AM,
+	Serialize by Router on US-AUS-MGWOut1/AUS/H/NIC(Release 8.5.3FP6
+	HF1218|December 12, 2014) at 08/12/2016 10:05:25 AM,
+	Serialize complete at 08/12/2016 10:05:25 AM
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
+	definitions=2016-08-12_06:, , signatures=0
+Subject: [PATCH] initscripts: Check for logrotate in dmesg.sh
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,146 +39,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 12 Aug 2016 14:30:50 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 12 Aug 2016 15:19:01 -0000
 
+From: Ovidiu Vancea <ovidiu.vancea@ni.com>
 
-________________________________________
-> From: openembedded-core-bounces@lists.openembedded.org [openembedded-core=
--bounces@lists.openembedded.org] on behalf of Mark Hatle [mark.hatle@windri=
-ver.com]
-> Sent: Friday, August 12, 2016 6:50 AM
-> To: Khem Raj
-> Cc: OE-core
-> Subject: Re: [OE-core] [PATCH 1/1] bitbake.conf: change localedir
->=20
-> On 8/11/16 2:47 PM, Khem Raj wrote:
-> >
-> >> On Aug 11, 2016, at 10:11 AM, Mark Hatle <mark.hatle@windriver.com> wr=
-ote:
-> >>
-> >> On 8/11/16 11:26 AM, Burton, Ross wrote:
-> >>>
-> >>> On 8 August 2016 at 07:04, Chen Qi <Qi.Chen@windriver.com
-> >>> <mailto:Qi.Chen@windriver.com>> wrote:
-> >>>
-> >>>    Previously, localedir is set to "${libdir}/locale". This would res=
-ult
-> >>>    in locale database installed in '/usr/lib64/locale' in some multil=
-ib case.
-> >>>    For example, if we build out a multilib x86-64 self-hosted image a=
-nd we try
-> >>>    to build projects on this host, things broke and the following err=
-or appears.
-> >>>
-> >>>      Please use a locale setting which supports utf-8.
-> >>>      Python can't change the filesystem locale after loading so we ne=
-ed a utf-8
-> >>>    when python starts or things won't work.
-> >>>
-> >>>    This is because '/usr/lib/locale' is the default one. And actually=
- the
-> >>>    nativesdk-glibc is now set to use '/usr/lib/locale'.
-> >>>
-> >>>
-> >>> This is irrelevant as nativesdk-glibc is configured to read the *host=
-s* locale
-> >>> directory.
-> >>>
-> >>>
-> >>>    Thus, we change the setting of 'localedir' to '${nonarch_libdir}/l=
-ocale' to
-> >>>    fix the above problem.
-> >>>
-> >>>
-> >>> I see two issues here:
-> >>> 1) should binary locales be considered shared in multilib environment=
-s? (libdir
-> >>> vs nonarch_libdir)
-> >>> 2) what packages are not respecting this variable and hard-coding /us=
-r/lib/locale?
-> >>>
-> >>> I'm guessing WR think yes to (1), and is the glibc patch you also sen=
-t the
-> >>> fundamental fix to (2)?
-> >>
-> >> Binary locales have an endian and alignment setting to them.  If a pla=
-tform
-> >> supports both big and little endian, this common locale would not work=
-.  (That
-> >> is extremely rare....)  Also if a platform supports different alignmen=
-ts in
-> >> different libraries that could cause an impact as well.  (This is also=
- extremely
-> >> unlikely.)
-> >
-> > Are there any practical existing usecases ?
->=20
-> At one point there was talk about running little endian and big endian po=
-wer on
-> the same machine.  Same with ARM.  I've never actually seen this implemen=
-ted.
+Autodetect previously hardcoded logrotate location because it can be
+installed in multiple places like /usr/bin/logrotate which is very
+common besides /usr/sbin
 
-I have seen it implemented, but it was an odd situation.
+Signed-off-by: Ovidiu Vancea <ovidiu.vancea@ni.com>
+Signed-off-by: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
+---
+ meta/recipes-core/initscripts/initscripts-1.0/dmesg.sh | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ mode change 100644 => 100755 meta/recipes-core/initscripts/initscripts-1.0/dmesg.sh
 
-IIRC: on Android, an app used a native library in one endian
-when the system was running the other.  The context was a bug
-report, where the comment (and what brought it to my attention)
-was disgust that this was being done.
+diff --git a/meta/recipes-core/initscripts/initscripts-1.0/dmesg.sh b/meta/recipes-core/initscripts/initscripts-1.0/dmesg.sh
+old mode 100644
+new mode 100755
+index a97b068..2b9eba6
+--- a/meta/recipes-core/initscripts/initscripts-1.0/dmesg.sh
++++ b/meta/recipes-core/initscripts/initscripts-1.0/dmesg.sh
+@@ -8,8 +8,8 @@
+ ### END INIT INFO
+ 
+ if [ -f /var/log/dmesg ]; then
+-	if [ -f /usr/sbin/logrotate ]; then
+-		logrotate -f /etc/logrotate-dmesg.conf
++	if LOGPATH=$(which logrotate); then
++		$LOGPATH -f /etc/logrotate-dmesg.conf
+ 	else
+ 		mv -f /var/log/dmesg /var/log/dmesg.old
+ 	fi
+-- 
+2.9.2
 
-Not sure this is relevant to this discussion, but it's one data
-point to indicate that it was actually done, though not for a
-normal Linux system.
-
-Enjoy!
-
-				-- radzy
-
-> The alignment was an issue between different S/390 multilibs at one point=
-.  But
-> I've not followed it to see if that is still true.  (Not that S/390 is a =
-target
-> for what we're doing.)
->=20
-> So to my knowledge I'm not aware of any use cases we regularly use in the=
- Yocto
-> Project -- but I'm also not aware of -all- use-cases.
->=20
-> I think the best compromise may be to ensure the value is configurable.  =
-Set it
-> to the combined location -- with a note that if the multilibs have a diff=
-erent
-> endian or alignment setting, to use the older setting breaking them into =
-the
-> multilibs.  (I don't know what, if any changes this would require in glib=
-c to
-> know when to use which dir...)
->=20
-> Plan for the optimized case, support the unusual case.
->=20
-> --Mark
->=20
-> >>
-> >> The not-binary locales have no such issues BTW.
-> >>
-> >> --Mark
-> >>
-> >>> Ross
-> >>>
-> >>>
-> >>
-> >> --
-> >> _______________________________________________
-> >> Openembedded-core mailing list
-> >> Openembedded-core@lists.openembedded.org
-> >> http://lists.openembedded.org/mailman/listinfo/openembedded-core
-> >
->=20
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
