@@ -1,22 +1,46 @@
-Return-Path: <markus.lehtonen@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 8823E7725C
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wm0-f51.google.com (mail-wm0-f51.google.com [74.125.82.51])
+	by mail.openembedded.org (Postfix) with ESMTP id 5E0107723F
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 Aug 2016 09:11:47 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga103.jf.intel.com with ESMTP; 12 Aug 2016 02:11:41 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.28,509,1464678000"; d="scan'208";a="1024239512"
-Received: from marquiz.fi.intel.com ([10.237.72.155])
-	by fmsmga001.fm.intel.com with ESMTP; 12 Aug 2016 02:11:39 -0700
-From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
+	Fri, 12 Aug 2016 10:26:25 +0000 (UTC)
+Received: by mail-wm0-f51.google.com with SMTP id i5so23773944wmg.0
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 12 Aug 2016 03:26:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=y65tonafLdcgiwQ+TTYsQ+oyWNTYRFvSe2aayfXMUdo=;
+	b=o/KUYl/OwOJd9EnqyjDkrDEzwnKk8Nk5TEhNM3VsGWPig3CEHLQy9nzBo13cG2vHHm
+	+csfQITYkVjvVfj9jREOZnV+VfY8fIeKGf4+NfmBC4+9fy3R3sggsq3ZAIYaTmFb0gm/
+	H/bTQH3Cuo8Cc16dGAH+mStEWR9DcY7eY6EV7iHpFUrslgOwGl3ewoR7hbUorumDL3Nt
+	bUlgAd1HM9IOyDljZbS7NbWTijoqVfkY5Is2GYvE9U6hownatHz+jh/vW1+iLwcd0+N5
+	drAUMZPIcfQQaVcQ4QTvERFVLoJ41wUOhgzCtsks4nsJ8Vywllbxy7IOjnETDQwQEUYz
+	iRPQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=y65tonafLdcgiwQ+TTYsQ+oyWNTYRFvSe2aayfXMUdo=;
+	b=VwX3272wYg8QarIkhTwaJA1mp4TwjkXfG4NzUmpLTcO8kGG2Nva3z0j0xU3LwATQaa
+	ov8bxE/YbzO75PcsHawG0ayc1L8evMAA/igjqPnMgaqLJb5Nle62Xr7vM+DKVNRcCBZU
+	0AO1s8IGUC4VkoZs0QfAa4ZOoV40sHtIOFOhmioKzC1fFt0XeyCHX6kYt1wQpRH8l4rm
+	1+izl05YfqxIZGfuPLx4L2SYrtrmu6TcGg4oFIyV6LuxgX8Yp73qMK6n4vB3+s/BZAUN
+	VFMisvAyeEGgAKTlGRshKVFKJ3kHVtf9P1bBkZ9EyTiqOsX1Me4a0yN7BFlRxPxdgks/
+	mPhw==
+X-Gm-Message-State: AEkoouvA3bjD8R1Gtc+rgegVRDa1zH+uy9MPwIpAyO2ZUNhjBU0n2ZATI/MrzqDBq6eZi8De
+X-Received: by 10.28.128.15 with SMTP id b15mr2367824wmd.100.1470997585566;
+	Fri, 12 Aug 2016 03:26:25 -0700 (PDT)
+Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
+	by smtp.gmail.com with ESMTPSA id
+	lv9sm6866584wjb.22.2016.08.12.03.26.24
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Fri, 12 Aug 2016 03:26:24 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 12 Aug 2016 12:11:26 +0300
-Message-Id: <1470993086-23718-10-git-send-email-markus.lehtonen@linux.intel.com>
-X-Mailer: git-send-email 2.6.6
-In-Reply-To: <1470993086-23718-1-git-send-email-markus.lehtonen@linux.intel.com>
-References: <1470993086-23718-1-git-send-email-markus.lehtonen@linux.intel.com>
-Subject: [PATCH 9/9] oeqa.buildperf: be more verbose about failed commands
+Date: Fri, 12 Aug 2016 11:26:23 +0100
+Message-Id: <1470997583-13210-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 2.8.1
+Subject: [PATCH] curl: upgrade to 7.50.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,47 +53,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 12 Aug 2016 09:11:48 -0000
+X-List-Received-Date: Fri, 12 Aug 2016 10:26:28 -0000
 
-Log failures of commands whose output is stored.
-
-Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/lib/oeqa/buildperf/base.py | 12 +++++++++---
- 1 file changed, 9 insertions(+), 3 deletions(-)
+ meta/recipes-support/curl/{curl_7.50.0.bb => curl_7.50.1.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-support/curl/{curl_7.50.0.bb => curl_7.50.1.bb} (94%)
 
-diff --git a/meta/lib/oeqa/buildperf/base.py b/meta/lib/oeqa/buildperf/base.py
-index 7ea3183..af169e1 100644
---- a/meta/lib/oeqa/buildperf/base.py
-+++ b/meta/lib/oeqa/buildperf/base.py
-@@ -23,7 +23,7 @@ import unittest
- from datetime import datetime, timedelta
- from functools import partial
+diff --git a/meta/recipes-support/curl/curl_7.50.0.bb b/meta/recipes-support/curl/curl_7.50.1.bb
+similarity index 94%
+rename from meta/recipes-support/curl/curl_7.50.0.bb
+rename to meta/recipes-support/curl/curl_7.50.1.bb
+index 6a5be25..a21419a 100644
+--- a/meta/recipes-support/curl/curl_7.50.0.bb
++++ b/meta/recipes-support/curl/curl_7.50.1.bb
+@@ -14,8 +14,8 @@ SRC_URI = "http://curl.haxx.se/download/curl-${PV}.tar.bz2 \
+ #
+ SRC_URI += " file://configure_ac.patch"
  
--from oeqa.utils.commands import runCmd, get_bb_vars
-+from oeqa.utils.commands import CommandError, runCmd, get_bb_vars
- from oeqa.utils.git import GitError, GitRepo
+-SRC_URI[md5sum] = "9e463ff8fdc1b5daa81c850c514980ec"
+-SRC_URI[sha256sum] = "608dfe2db77f48db792c387e7791aca55a25f0b42385707ad927164199ecfa9a"
++SRC_URI[md5sum] = "015f6a0217ca6f2c5442ca406476920b"
++SRC_URI[sha256sum] = "3c12c5f54ccaa1d40abc65d672107dcc75d3e1fcb38c267484334280096e5156"
  
- # Get logger for this module
-@@ -216,9 +216,15 @@ class BuildPerfTestCase(unittest.TestCase):
+ inherit autotools pkgconfig binconfig multilib_header
  
-     def log_cmd_output(self, cmd):
-         """Run a command and log it's output"""
-+        cmd_str = cmd if isinstance(cmd, str) else ' '.join(cmd)
-+        log.info("Logging command: %s", cmd_str)
-         cmd_log = os.path.join(self.out_dir, 'commands.log')
--        with open(cmd_log, 'a') as fobj:
--            runCmd2(cmd, stdout=fobj)
-+        try:
-+            with open(cmd_log, 'a') as fobj:
-+                runCmd2(cmd, stdout=fobj)
-+        except CommandError as err:
-+            log.error("Command failed: %s", err.retcode)
-+            raise
- 
-     def measure_cmd_resources(self, cmd, name, legend):
-         """Measure system resource usage of a command"""
 -- 
-2.6.6
+2.8.1
 
 
