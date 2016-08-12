@@ -1,46 +1,48 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f51.google.com (mail-wm0-f51.google.com [74.125.82.51])
-	by mail.openembedded.org (Postfix) with ESMTP id 5E0107723F
+Received: from mail-it0-f46.google.com (mail-it0-f46.google.com
+	[209.85.214.46])
+	by mail.openembedded.org (Postfix) with ESMTP id 472377723F
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 Aug 2016 10:26:25 +0000 (UTC)
-Received: by mail-wm0-f51.google.com with SMTP id i5so23773944wmg.0
+	Fri, 12 Aug 2016 10:26:57 +0000 (UTC)
+Received: by mail-it0-f46.google.com with SMTP id x130so8400057ite.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 Aug 2016 03:26:26 -0700 (PDT)
+	Fri, 12 Aug 2016 03:26:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=y65tonafLdcgiwQ+TTYsQ+oyWNTYRFvSe2aayfXMUdo=;
-	b=o/KUYl/OwOJd9EnqyjDkrDEzwnKk8Nk5TEhNM3VsGWPig3CEHLQy9nzBo13cG2vHHm
-	+csfQITYkVjvVfj9jREOZnV+VfY8fIeKGf4+NfmBC4+9fy3R3sggsq3ZAIYaTmFb0gm/
-	H/bTQH3Cuo8Cc16dGAH+mStEWR9DcY7eY6EV7iHpFUrslgOwGl3ewoR7hbUorumDL3Nt
-	bUlgAd1HM9IOyDljZbS7NbWTijoqVfkY5Is2GYvE9U6hownatHz+jh/vW1+iLwcd0+N5
-	drAUMZPIcfQQaVcQ4QTvERFVLoJ41wUOhgzCtsks4nsJ8Vywllbxy7IOjnETDQwQEUYz
-	iRPQ==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=uFfvxVDl3+rNLF52s06Nh9Wfc7zlpr7mub5NPDOavDI=;
+	b=Uy8z/OrBTSNOY0cKgu1mjNBykRu3WWKI6OplJB+f60szqUuRZmaA1A5J6rUdeG03NC
+	RZSxjnQxDF+jwXufqsn09zp7FKGh7aGwk57la764/KWt1SbWUraLaKRmlJfWTxlHG7Vk
+	69V49Wr4cpLshkv4IOVPLUsr+uWri2SSpY4RNTlYtrKt72nCfIzmFSJjSBzJACsm1R9E
+	pyl+bimowR53xTXqCbfxS5+X/22+r4+6DgQY52fiKnbv+li2IHGJyKH9hR+tvMrgt94h
+	Tim2SNjCzjnOBBKn2W59bCQoUSCFqeHWdwMRvQgw78PHdZ9nDodkJvb28hBSG4FsJH/n
+	AhrQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=y65tonafLdcgiwQ+TTYsQ+oyWNTYRFvSe2aayfXMUdo=;
-	b=VwX3272wYg8QarIkhTwaJA1mp4TwjkXfG4NzUmpLTcO8kGG2Nva3z0j0xU3LwATQaa
-	ov8bxE/YbzO75PcsHawG0ayc1L8evMAA/igjqPnMgaqLJb5Nle62Xr7vM+DKVNRcCBZU
-	0AO1s8IGUC4VkoZs0QfAa4ZOoV40sHtIOFOhmioKzC1fFt0XeyCHX6kYt1wQpRH8l4rm
-	1+izl05YfqxIZGfuPLx4L2SYrtrmu6TcGg4oFIyV6LuxgX8Yp73qMK6n4vB3+s/BZAUN
-	VFMisvAyeEGgAKTlGRshKVFKJ3kHVtf9P1bBkZ9EyTiqOsX1Me4a0yN7BFlRxPxdgks/
-	mPhw==
-X-Gm-Message-State: AEkoouvA3bjD8R1Gtc+rgegVRDa1zH+uy9MPwIpAyO2ZUNhjBU0n2ZATI/MrzqDBq6eZi8De
-X-Received: by 10.28.128.15 with SMTP id b15mr2367824wmd.100.1470997585566;
-	Fri, 12 Aug 2016 03:26:25 -0700 (PDT)
-Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id
-	lv9sm6866584wjb.22.2016.08.12.03.26.24
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 12 Aug 2016 03:26:24 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 12 Aug 2016 11:26:23 +0100
-Message-Id: <1470997583-13210-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 2.8.1
-Subject: [PATCH] curl: upgrade to 7.50.1
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=uFfvxVDl3+rNLF52s06Nh9Wfc7zlpr7mub5NPDOavDI=;
+	b=e5aWnXdT4jKbVsDEQQV+eBQPPivvHFGxtzmPSCfl7j48GB2jtouuJtlfmrQrKZFCs0
+	hqlWDaWAIQ7IwWqiJ7wMhpPbV1JDpmb2CTNu9/0ViFhwQhHblNqe7nYJW63jHKfr1jfF
+	gXun1BMc6KCQYDhfV6iL/oZ96f6CXShUkcfzRjp6VxKLtXJo7bYEMfoPU+KKl/IjWj+Z
+	uxnr6bZIBIL4FNllbzXuC9vA0nsmn5gbPYtAyHVDAG2csroN8yJ3+EtiqGUt54Bgdw/V
+	/If4SHHvNLa4YJzRjf+ZBVIq2mDNwykpsxo3rQhnYbQq/5nv2nntKXUETrSnXSGNWqEF
+	YGEg==
+X-Gm-Message-State: AEkoouvHb5R4tZ5J5QElqHgrIs4AfApXlWzn7z16F0+6u6T8vCzcoxTltjPqRo7WiSBpy1agKxSKK/Ut8wkh5I7M
+X-Received: by 10.36.129.213 with SMTP id q204mr2419865itd.38.1470997618373;
+	Fri, 12 Aug 2016 03:26:58 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.107.18.17 with HTTP; Fri, 12 Aug 2016 03:26:38 -0700 (PDT)
+In-Reply-To: <BCEB06E0-9F66-470B-9691-95CA0DA1968C@gmail.com>
+References: <1470786256-25154-1-git-send-email-akuster808@gmail.com>
+	<CAJTo0Lap6sa53wkDi_dJr-yRZiGkwHc_fuDmt8OG5ob7tgyAeA@mail.gmail.com>
+	<BCEB06E0-9F66-470B-9691-95CA0DA1968C@gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 12 Aug 2016 11:26:38 +0100
+Message-ID: <CAJTo0LZF6-fUnEh2YV2wdknbmq8LaqQEH7XejQFf1AGkEBq5gA@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH][master] curl: Update to 7.50.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,33 +55,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 12 Aug 2016 10:26:28 -0000
+X-List-Received-Date: Fri, 12 Aug 2016 10:26:58 -0000
+Content-Type: multipart/alternative; boundary=94eb2c08b1fc8242f10539dd52df
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-support/curl/{curl_7.50.0.bb => curl_7.50.1.bb} | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-support/curl/{curl_7.50.0.bb => curl_7.50.1.bb} (94%)
+--94eb2c08b1fc8242f10539dd52df
+Content-Type: text/plain; charset=UTF-8
 
-diff --git a/meta/recipes-support/curl/curl_7.50.0.bb b/meta/recipes-support/curl/curl_7.50.1.bb
-similarity index 94%
-rename from meta/recipes-support/curl/curl_7.50.0.bb
-rename to meta/recipes-support/curl/curl_7.50.1.bb
-index 6a5be25..a21419a 100644
---- a/meta/recipes-support/curl/curl_7.50.0.bb
-+++ b/meta/recipes-support/curl/curl_7.50.1.bb
-@@ -14,8 +14,8 @@ SRC_URI = "http://curl.haxx.se/download/curl-${PV}.tar.bz2 \
- #
- SRC_URI += " file://configure_ac.patch"
- 
--SRC_URI[md5sum] = "9e463ff8fdc1b5daa81c850c514980ec"
--SRC_URI[sha256sum] = "608dfe2db77f48db792c387e7791aca55a25f0b42385707ad927164199ecfa9a"
-+SRC_URI[md5sum] = "015f6a0217ca6f2c5442ca406476920b"
-+SRC_URI[sha256sum] = "3c12c5f54ccaa1d40abc65d672107dcc75d3e1fcb38c267484334280096e5156"
- 
- inherit autotools pkgconfig binconfig multilib_header
- 
--- 
-2.8.1
+On 12 August 2016 at 06:47, Khem Raj <raj.khem@gmail.com> wrote:
 
+> 7.50.0 has broken API which was fixed with 7.50.1 so we should upgrade
+> asap.
+>
 
+Patch sent.
+
+Ross
+
+--94eb2c08b1fc8242f10539dd52df
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 12 August 2016 at 06:47, Khem Raj <span dir=3D"ltr">&lt;<a href=3D"mailt=
+o:raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt;</span> w=
+rote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;borde=
+r-left:1px #ccc solid;padding-left:1ex"><div>7.50.0 has broken API which wa=
+s fixed with 7.50.1 so we should upgrade asap.</div></blockquote></div><br>=
+Patch sent.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_e=
+xtra">Ross</div></div>
+
+--94eb2c08b1fc8242f10539dd52df--
