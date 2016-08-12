@@ -1,48 +1,42 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qk0-f196.google.com (mail-qk0-f196.google.com
-	[209.85.220.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 7FC5C6FEFA
+Return-Path: <andre.draszik@gmail.com>
+Received: from mail-wm0-f66.google.com (mail-wm0-f66.google.com [74.125.82.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 527737723D
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 Aug 2016 07:29:09 +0000 (UTC)
-Received: by mail-qk0-f196.google.com with SMTP id v123so1432449qkh.3
+	Fri, 12 Aug 2016 07:42:20 +0000 (UTC)
+Received: by mail-wm0-f66.google.com with SMTP id q128so1360544wma.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 Aug 2016 00:29:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=w6GPe73GcB4uF/xxFtYloAO8aJEHwb7VRsArqyVj2ao=;
-	b=qtkvM061mlWdx51+EbsewoFhuOTiKZpAuiFVLLfDE10T9C5Ifv14dDx6SfOUft0xDn
-	OlpS3WQigNg65sw/Ejugj4zr2f1p15OzStPZAQv9j8P3XJP5AxyXVnpokhYfb+UNGpOc
-	fMg6anpQRJKj53J9YFSbhewLcYBiELcM4stqGTJj/6WoLerM2sYBi+pGP1BQN7VVKQSH
-	x1g+NZYynM3wTTgxICNc8x4tZugxiMql5jKvJHPqscYK5QS213Tbw5mlr6hPN9cnu/Hh
-	5OzwSVC2rZHBzpQt2lscnJnWLon+R7BGKxitfEnFpjI1RepHFKc2Ol0gWSBHvscunonR
-	mYGA==
+	Fri, 12 Aug 2016 00:42:21 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=w6GPe73GcB4uF/xxFtYloAO8aJEHwb7VRsArqyVj2ao=;
-	b=JKnvB0cfwNo6yIZrO6vyg++vQsb1T3Qd6vdtnlzyO2Y4k8qkCupfjUJ95DWHyQfGJ2
-	HCacv4XJKguy81hVysK8uk2nYk8+rNgpEV5mH52sYz+q9/obFC5ex2AD6yuAzLlpsEtZ
-	x7Yes1rAX3RM8PPJkfF/Jaxd2SwS2cqE02JK5no+Tl8Qi9P/CL7EyUoThg1LxoZHHWNa
-	hXAik8bbfR7LlUQ7jlAI6J07+dhaoBjTY5l+j4gNqah8VGfuMRmc+fGO7KM6G57nhugO
-	Ob1Brd2K35EkIqCq1X/SG+DNGy+l/m8VcCayiqSTV4hsvxkGS+CtwJeQP4zTlJBj7vm2
-	A0tA==
-X-Gm-Message-State: AEkooutVEipmy4AqSapNppTfg3a88LqzDZ23yM4FmXC62pOW3IrbFwQS3JSxVUsnr0M66fc6Y6mJSBgBcBjEWA==
-X-Received: by 10.55.155.140 with SMTP id d134mr16309040qke.145.1470986949740; 
-	Fri, 12 Aug 2016 00:29:09 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.55.215.13 with HTTP; Fri, 12 Aug 2016 00:28:39 -0700 (PDT)
-In-Reply-To: <1470986810.4987.8.camel@andred.net>
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=QUm++Ls/n0IgYZ3woGOfKbon71UjG1diBAGAd1Ai/ek=;
+	b=c6YdmWlMZ6oJDcJqvsPxynYPSU8OXqbV4IetYi1RlIIy4lsteAkVPOAWOUlRN6eZT0
+	kvXXhyyn0I5brc0HeevijTe3efCGA/jaIEdx2MVkSnT2CEWusJxllN1F6jV5t+cRztZy
+	W6xCqqPNCXgWDblJvIohdcehPTj4BTXYns2YG0woMfx9ijIPrmvPv8GfR50dxzVrz/QN
+	ijovCvL3QAyMu550Pq4Fi3PTJAi9lbdJhg8TZwcvAEr+RAr/Nypam9vzWqnMv1yAMVbR
+	BHL/T760HXN4j2kb2oE9hAa/xRekcwKe7a76dLbAns451fMmXL1cqg8yCwxEBVkbarie
+	fO+Q==
+X-Gm-Message-State: AEkoouvjApQa8+Gjxl0cVXRgvJP4jTj4zMB9HN525yAuZ5Hb9F8KE4eHRiw1jiMIHE3GZg==
+X-Received: by 10.28.39.133 with SMTP id n127mr1564890wmn.6.1470987740227;
+	Fri, 12 Aug 2016 00:42:20 -0700 (PDT)
+Received: from localhost ([185.46.212.59]) by smtp.gmail.com with ESMTPSA id
+	bw9sm6231971wjc.33.2016.08.12.00.42.19
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Fri, 12 Aug 2016 00:42:19 -0700 (PDT)
+Message-ID: <1470987751.4987.13.camel@andred.net>
+From: =?ISO-8859-1?Q?Andr=E9?= Draszik <git@andred.net>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Date: Fri, 12 Aug 2016 08:42:31 +0100
+In-Reply-To: <CAMKF1sqdpxYYrKnLkJ1VofY=qz5FEKsKWBo_7WrU+Cm_Kp1fDQ@mail.gmail.com>
 References: <1470924371-1675-1-git-send-email-git@andred.net>
 	<3A0FE7FC-807D-4CED-8673-DA28B5F36A88@gmail.com>
 	<1470986810.4987.8.camel@andred.net>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 12 Aug 2016 00:28:39 -0700
-Message-ID: <CAMKF1sqdpxYYrKnLkJ1VofY=qz5FEKsKWBo_7WrU+Cm_Kp1fDQ@mail.gmail.com>
-To: =?UTF-8?Q?Andr=C3=A9_Draszik?= <git@andred.net>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
+	<CAMKF1sqdpxYYrKnLkJ1VofY=qz5FEKsKWBo_7WrU+Cm_Kp1fDQ@mail.gmail.com>
+X-Mailer: Evolution 3.20.4-1+b1 
+Mime-Version: 1.0
 Subject: Re: [PATCH] libnl: musl fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -56,42 +50,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 12 Aug 2016 07:29:09 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 12 Aug 2016 07:42:22 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Fri, Aug 12, 2016 at 12:26 AM, Andr=C3=A9 Draszik <git@andred.net> wrote=
-:
-> On Thu, 2016-08-11 at 22:45 -0700, Khem Raj wrote:
->> >
->> > On Aug 11, 2016, at 7:06 AM, Andr=C3=A9 Draszik <git@andred.net> wrote=
-:
->> >
->> > The libnl+musl combination has two issues at the moment:
->> > a) a public header file #include's an incorrect file
->> >   (sys/poll.h instead of poll.h), which causes warnings and
->> >   potentially errors (-Werror) in a musl based system
->> > b) musl only ever provides the XSI version of strerror_r()
->> >
->>
->> yes so you can check for something like
->> (_POSIX_C_SOURCE >=3D 200112L || _XOPEN_SOURCE >=3D 600) && ! _GNU_SOURC=
-E
->> use XSI version
->> else use GNU version
->
-> Well, the feature test is supposed to be set by the user (libnl in this
-> case), and evaluated by the c library (musl). libnl explicitly sets
-> _GNU_SOURCE, i.e. it expects the glibc version.
+On Fri, 2016-08-12 at 00:28 -0700, Khem Raj wrote:
+> On Fri, Aug 12, 2016 at 12:26 AM, André Draszik <git@andred.net> wrote:
+> > 
+> > On Thu, 2016-08-11 at 22:45 -0700, Khem Raj wrote:
+> > > 
+> > > > 
+> > > > 
+> > > > On Aug 11, 2016, at 7:06 AM, André Draszik <git@andred.net> wrote:
+> > > > 
+> > > > The libnl+musl combination has two issues at the moment:
+> > > > a) a public header file #include's an incorrect file
+> > > >   (sys/poll.h instead of poll.h), which causes warnings and
+> > > >   potentially errors (-Werror) in a musl based system
+> > > > b) musl only ever provides the XSI version of strerror_r()
+> > > > 
+> > > 
+> > > yes so you can check for something like
+> > > (_POSIX_C_SOURCE >= 200112L || _XOPEN_SOURCE >= 600) && ! _GNU_SOURCE
+> > > use XSI version
+> > > else use GNU version
+> > 
+> > Well, the feature test is supposed to be set by the user (libnl in this
+> > case), and evaluated by the c library (musl). libnl explicitly sets
+> > _GNU_SOURCE, i.e. it expects the glibc version.
+> 
+> I see. It is something which should atleast be brought up with
+> upstream as an issue
+> they may just say, we need GNU version but atleast we will know
 
-I see. It is something which should atleast be brought up with
-upstream as an issue
-they may just say, we need GNU version but atleast we will know
+It's actually quite a bad thing... There might be many users (you mentioned
+perf) out there which all are silently breaking because of this missing
+interface in musl. If you look at the patch, in the musl case the result was
+effectively a printf of an *int* with a *string format* specifier...
 
-> Given musl doesn't provide the glibc version, and apart from implementing
-> the other version in musl, I don't see any viable alternative other than
-> what I posted.
-> One could #undefine _GNU_SOURCE and #define POSIX_C_SOURCE as appropriate
-> during compilation of the affected files, but that might have other side-
-> effects, and would be a major deviation from upstream...
+Maybe it'd be worth to convince musl to implement it (uclibc does), or at
+least to emit an #error?
+
+I only noticed by coincidence...
+
+
+Cheers,
+Andre'
+
 
