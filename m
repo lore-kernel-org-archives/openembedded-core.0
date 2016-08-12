@@ -1,22 +1,22 @@
 Return-Path: <markus.lehtonen@linux.intel.com>
 Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 533D77724B
+	by mail.openembedded.org (Postfix) with ESMTP id 330CD7723F
 	for <openembedded-core@lists.openembedded.org>;
 	Fri, 12 Aug 2016 09:11:47 +0000 (UTC)
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
 	by orsmga103.jf.intel.com with ESMTP; 12 Aug 2016 02:11:40 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.28,509,1464678000"; d="scan'208";a="1024239506"
+X-IronPort-AV: E=Sophos;i="5.28,509,1464678000"; d="scan'208";a="1024239504"
 Received: from marquiz.fi.intel.com ([10.237.72.155])
 	by fmsmga001.fm.intel.com with ESMTP; 12 Aug 2016 02:11:38 -0700
 From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 12 Aug 2016 12:11:25 +0300
-Message-Id: <1470993086-23718-9-git-send-email-markus.lehtonen@linux.intel.com>
+Date: Fri, 12 Aug 2016 12:11:24 +0300
+Message-Id: <1470993086-23718-8-git-send-email-markus.lehtonen@linux.intel.com>
 X-Mailer: git-send-email 2.6.6
 In-Reply-To: <1470993086-23718-1-git-send-email-markus.lehtonen@linux.intel.com>
 References: <1470993086-23718-1-git-send-email-markus.lehtonen@linux.intel.com>
-Subject: [PATCH 8/9] oe-build-perf-test: write logger output into file only
+Subject: [PATCH 7/9] oeqa.buildperf: introduce runCmd2()
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,76 +31,98 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 12 Aug 2016 09:11:48 -0000
 
-Write the output from the Python logger only into the log file. This way
-the console output from the script is cleaner and not mixed with the
-logger records.
+Special runCmd() for build perf tests which doesn't raise an
+AssertionError when the command fails. This causes command failures to
+be detected as test errors instead of test failures. This way "failed"
+state of tests is reserved for future making it possible to set e.g.
+thresholds for certain measurement results.
 
 Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
 ---
- scripts/oe-build-perf-test | 25 +++++++++++++------------
- 1 file changed, 13 insertions(+), 12 deletions(-)
+ meta/lib/oeqa/buildperf/__init__.py |  3 ++-
+ meta/lib/oeqa/buildperf/base.py     | 15 ++++++++++-----
+ 2 files changed, 12 insertions(+), 6 deletions(-)
 
-diff --git a/scripts/oe-build-perf-test b/scripts/oe-build-perf-test
-index 786c715..e857ca6 100755
---- a/scripts/oe-build-perf-test
-+++ b/scripts/oe-build-perf-test
-@@ -33,10 +33,7 @@ from oeqa.buildperf import (BuildPerfTestLoader, BuildPerfTestResult,
- from oeqa.utils.commands import runCmd
+diff --git a/meta/lib/oeqa/buildperf/__init__.py b/meta/lib/oeqa/buildperf/__init__.py
+index 85abf3a..605f429 100644
+--- a/meta/lib/oeqa/buildperf/__init__.py
++++ b/meta/lib/oeqa/buildperf/__init__.py
+@@ -14,5 +14,6 @@ from .base import (BuildPerfTestCase,
+                    BuildPerfTestLoader,
+                    BuildPerfTestResult,
+                    BuildPerfTestRunner,
+-                   KernelDropCaches)
++                   KernelDropCaches,
++                   runCmd2)
+ from .test_basic import *
+diff --git a/meta/lib/oeqa/buildperf/base.py b/meta/lib/oeqa/buildperf/base.py
+index 9711a6a..7ea3183 100644
+--- a/meta/lib/oeqa/buildperf/base.py
++++ b/meta/lib/oeqa/buildperf/base.py
+@@ -21,6 +21,7 @@ import time
+ import traceback
+ import unittest
+ from datetime import datetime, timedelta
++from functools import partial
  
+ from oeqa.utils.commands import runCmd, get_bb_vars
+ from oeqa.utils.git import GitError, GitRepo
+@@ -28,6 +29,10 @@ from oeqa.utils.git import GitError, GitRepo
+ # Get logger for this module
+ log = logging.getLogger('build-perf')
  
--# Set-up logging
--LOG_FORMAT = '[%(asctime)s] %(levelname)s: %(message)s'
--logging.basicConfig(level=logging.INFO, format=LOG_FORMAT)
--log = logging.getLogger()
-+log = None
- 
- 
- def acquire_lock(lock_f):
-@@ -71,15 +68,18 @@ def pre_run_sanity_check():
-     return True
- 
- 
--def setup_file_logging(log_file):
-+def setup_logging(log_file):
-     """Setup loggin to file"""
-+    global log
++# Our own version of runCmd which does not raise AssertErrors which would cause
++# errors to interpreted as failures
++runCmd2 = partial(runCmd, assert_error=False)
 +
-     log_dir = os.path.dirname(log_file)
-     if not os.path.exists(log_dir):
-         os.makedirs(log_dir)
--    formatter = logging.Formatter(LOG_FORMAT)
--    handler = logging.FileHandler(log_file)
--    handler.setFormatter(formatter)
--    log.addHandler(handler)
-+
-+    log_format = '[%(asctime)s] %(levelname)s: %(message)s'
-+    logging.basicConfig(level=logging.INFO, filename=log_file,
-+                        format=log_format)
-+    log = logging.getLogger()
+ 
+ class KernelDropCaches(object):
+     """Container of the functions for dropping kernel caches"""
+@@ -39,7 +44,7 @@ class KernelDropCaches(object):
+         from getpass import getpass
+         from locale import getdefaultlocale
+         cmd = ['sudo', '-k', '-n', 'tee', '/proc/sys/vm/drop_caches']
+-        ret = runCmd(cmd, ignore_status=True, data=b'0')
++        ret = runCmd2(cmd, ignore_status=True, data=b'0')
+         if ret.output.startswith('sudo:'):
+             pass_str = getpass(
+                 "\nThe script requires sudo access to drop caches between "
+@@ -59,7 +64,7 @@ class KernelDropCaches(object):
+             input_data = b''
+         cmd += ['tee', '/proc/sys/vm/drop_caches']
+         input_data += b'3'
+-        runCmd(cmd, data=input_data)
++        runCmd2(cmd, data=input_data)
  
  
- def archive_build_conf(out_dir):
-@@ -112,6 +112,10 @@ def main(argv=None):
-     """Script entry point"""
-     args = parse_args(argv)
+ def time_cmd(cmd, **kwargs):
+@@ -71,7 +76,7 @@ def time_cmd(cmd, **kwargs):
+         timecmd += cmd
+         # TODO: 'ignore_status' could/should be removed when globalres.log is
+         # deprecated. The function would just raise an exception, instead
+-        ret = runCmd(timecmd, ignore_status=True, **kwargs)
++        ret = runCmd2(timecmd, ignore_status=True, **kwargs)
+         timedata = tmpf.file.read()
+     return ret, timedata
  
-+    # Set-up logging
-+    out_dir = args.out_dir.format(date=datetime.now().strftime('%Y%m%d%H%M%S'))
-+    setup_logging(os.path.join(out_dir, 'output.log'))
-+
-     if args.debug:
-         log.setLevel(logging.DEBUG)
+@@ -213,7 +218,7 @@ class BuildPerfTestCase(unittest.TestCase):
+         """Run a command and log it's output"""
+         cmd_log = os.path.join(self.out_dir, 'commands.log')
+         with open(cmd_log, 'a') as fobj:
+-            runCmd(cmd, stdout=fobj)
++            runCmd2(cmd, stdout=fobj)
  
-@@ -129,9 +133,6 @@ def main(argv=None):
-     # Load build perf tests
-     loader = BuildPerfTestLoader()
-     suite = loader.discover(start_dir=os.path.dirname(oeqa.buildperf.__file__))
--    # Set-up log file
--    out_dir = args.out_dir.format(date=datetime.now().strftime('%Y%m%d%H%M%S'))
--    setup_file_logging(os.path.join(out_dir, 'output.log'))
- 
-     # Run actual tests
-     archive_build_conf(out_dir)
+     def measure_cmd_resources(self, cmd, name, legend):
+         """Measure system resource usage of a command"""
+@@ -261,7 +266,7 @@ class BuildPerfTestCase(unittest.TestCase):
+         """Estimate disk usage of a file or directory"""
+         # TODO: 'ignore_status' could/should be removed when globalres.log is
+         # deprecated. The function would just raise an exception, instead
+-        ret = runCmd(['du', '-s', path], ignore_status=True)
++        ret = runCmd2(['du', '-s', path], ignore_status=True)
+         if ret.status:
+             log.error("du failed, disk usage will be reported as 0")
+             size = 0
 -- 
 2.6.6
 
