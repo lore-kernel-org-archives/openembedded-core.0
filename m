@@ -1,26 +1,30 @@
-Return-Path: <Dengke.Du@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 42D9A771C5
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id E02CE73D27
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 Aug 2016 02:08:06 +0000 (UTC)
+	Fri, 12 Aug 2016 03:28:08 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u7C287cZ005448
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Aug 2016 19:08:07 -0700 (PDT)
-Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.248.2;
-	Thu, 11 Aug 2016 19:08:06 -0700
-From: Dengke Du <dengke.du@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 11 Aug 2016 22:08:03 -0400
-Message-ID: <18de1b4818af9e90e4578af9335497c5edd7ae9f.1470967099.git.dengke.du@windriver.com>
-X-Mailer: git-send-email 2.8.1
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u7C3S65Z008589
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
+	Thu, 11 Aug 2016 20:28:06 -0700
+Received: from [128.224.162.229] (128.224.162.229) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.248.2;
+	Thu, 11 Aug 2016 20:28:05 -0700
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <cover.1470636212.git.Qi.Chen@windriver.com>
+	<8374cee610f770f4e027f92785bc0bed13334fbb.1470636212.git.Qi.Chen@windriver.com>
+	<CAJTo0LaULRXouHYMfKCMUmtFERseR9vZhWXeC-yK9GLrMTwofQ@mail.gmail.com>
+From: ChenQi <Qi.Chen@windriver.com>
+Message-ID: <57AD4247.7080704@windriver.com>
+Date: Fri, 12 Aug 2016 11:28:07 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.7.2
 MIME-Version: 1.0
-In-Reply-To: <cover.1470967099.git.dengke.du@windriver.com>
-References: <cover.1470967099.git.dengke.du@windriver.com>
-Subject: [PATCH V2 1/1] bash: fix run-intl ptest failed
+In-Reply-To: <CAJTo0LaULRXouHYMfKCMUmtFERseR9vZhWXeC-yK9GLrMTwofQ@mail.gmail.com>
+X-Originating-IP: [128.224.162.229]
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] bitbake.conf: change localedir
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,198 +37,243 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 12 Aug 2016 02:08:07 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 12 Aug 2016 03:28:10 -0000
+Content-Type: multipart/alternative;
+	boundary="------------080403070204080903030206"
+
+--------------080403070204080903030206
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+
+On 08/12/2016 12:26 AM, Burton, Ross wrote:
+>
+> On 8 August 2016 at 07:04, Chen Qi <Qi.Chen@windriver.com 
+> <mailto:Qi.Chen@windriver.com>> wrote:
+>
+>     Previously, localedir is set to "${libdir}/locale". This would result
+>     in locale database installed in '/usr/lib64/locale' in some
+>     multilib case.
+>     For example, if we build out a multilib x86-64 self-hosted image
+>     and we try
+>     to build projects on this host, things broke and the following
+>     error appears.
+>
+>       Please use a locale setting which supports utf-8.
+>       Python can't change the filesystem locale after loading so we
+>     need a utf-8 when python starts or things won't work.
+>
+>     This is because '/usr/lib/locale' is the default one. And actually the
+>     nativesdk-glibc is now set to use '/usr/lib/locale'.
+>
+>
+> This is irrelevant as nativesdk-glibc is configured to read the 
+> *hosts* locale directory.
+
+Hi Ross,
+
+I think I didn't state things clearly. Sorry for that.
+I mentioned nativesdk-glibc because of the following use case.
+On a self-hosted image, which is built out by Yocto, we install 
+buildtools-tarball, make use of it and start building. This is why I 
+mentioned nativesdk-glibc.
+
+
+>     Thus, we change the setting of 'localedir' to
+>     '${nonarch_libdir}/locale' to
+>     fix the above problem.
+>
+>
+> I see two issues here:
+> 1) should binary locales be considered shared in multilib 
+> environments? (libdir vs nonarch_libdir)
+
+I think yes.
+Below is something from glibc source. The file is 
+git/sysdeps/unix/sysv/linux/x86_64/64/configure.
+
+     # Locale data can be shared between 32-bit and 64-bit libraries.
+     libc_cv_complocaledir='${exec_prefix}/lib/locale'
+
+You can see that it states clearly that the binary data could be shared 
+and it uses 'lib'.
+
+> 2) what packages are not respecting this variable and hard-coding 
+> /usr/lib/locale?
+>
+
+I don't know. But the manual of locale has stated clearly that 
+'/usr/lib/locale' is the default directory.
+Something from the manual below.
+
+        LOCPATH
+
+                The directory where locale data is stored.  By default, 
+/usr/lib/locale is used.
+
+
+> I'm guessing WR think yes to (1), and is the glibc patch you also sent 
+> the fundamental fix to (2)?
+>
+
+I don't know why the glibc patch is needed.
+At a first glance, I think it might be related to 
+GLIBC_INTERNAL_USE_BINARY_LOCALE handling. The value of this variable is 
+overridden in our bbappend file.
+This might also be related to cross-localedef recipe.
+
+Best Regards,
+Chen Qi
+
+> Ross
+
+
+--------------080403070204080903030206
+Content-Type: text/html; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 
-1. Filter the extra white space in intl.right
+<html>
+  <head>
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+  </head>
+  <body bgcolor="#FFFFFF" text="#000000">
+    <div class="moz-cite-prefix">On 08/12/2016 12:26 AM, Burton, Ross
+      wrote:<br>
+    </div>
+    <blockquote
+cite="mid:CAJTo0LaULRXouHYMfKCMUmtFERseR9vZhWXeC-yK9GLrMTwofQ@mail.gmail.com"
+      type="cite">
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <div dir="ltr">
+        <div class="gmail_extra"><br>
+          <div class="gmail_quote">On 8 August 2016 at 07:04, Chen Qi <span
+              dir="ltr">&lt;<a moz-do-not-send="true"
+                href="mailto:Qi.Chen@windriver.com" target="_blank">Qi.Chen@windriver.com</a>&gt;</span>
+            wrote:<br>
+            <blockquote class="gmail_quote" style="margin:0 0 0
+              .8ex;border-left:1px #ccc solid;padding-left:1ex">
+              <div id=":1ir" class="a3s aXjCH m15668c12753f49ff">Previously,
+                localedir is set to "${libdir}/<span class="il">locale</span>".
+                This would result<br>
+                in <span class="il">locale</span> database installed in
+                '/usr/lib64/<span class="il">locale</span>' in some
+                multilib case.<br>
+                For example, if we build out a multilib x86-64
+                self-hosted image and we try<br>
+                to build projects on this host, things broke and the
+                following error appears.<br>
+                <br>
+                  Please use a <span class="il">locale</span> setting
+                which supports utf-8.<br>
+                  Python can't change the filesystem <span class="il">locale</span>
+                after loading so we need a utf-8 when python starts or
+                things won't work.<br>
+                <br>
+                This is because '/usr/lib/<span class="il">locale</span>'
+                is the default one. And actually the<br>
+                nativesdk-glibc is now set to use '/usr/lib/<span
+                  class="il">locale</span>'.<br>
+              </div>
+            </blockquote>
+            <div><br>
+            </div>
+            <div>This is irrelevant as nativesdk-glibc is configured to
+              read the *hosts* locale directory.</div>
+            <div> </div>
+          </div>
+        </div>
+      </div>
+    </blockquote>
+    <br>
+    Hi Ross,<br>
+    <br>
+    I think I didn't state things clearly. Sorry for that.<br>
+    I mentioned nativesdk-glibc because of the following use case.<br>
+    On a self-hosted image, which is built out by Yocto, we install
+    buildtools-tarball, make use of it and start building. This is why I
+    mentioned nativesdk-glibc.<br>
+    <br>
+    <br>
+    <blockquote
+cite="mid:CAJTo0LaULRXouHYMfKCMUmtFERseR9vZhWXeC-yK9GLrMTwofQ@mail.gmail.com"
+      type="cite">
+      <div dir="ltr">
+        <div class="gmail_extra">
+          <div class="gmail_quote">
+            <blockquote class="gmail_quote" style="margin:0 0 0
+              .8ex;border-left:1px #ccc solid;padding-left:1ex">
+              <div id=":1ir" class="a3s aXjCH m15668c12753f49ff">
+                Thus, we change the setting of 'localedir' to
+                '${nonarch_libdir}/<span class="il">locale</span>' to<br>
+                fix the above problem.</div>
+            </blockquote>
+          </div>
+          <br>
+          I see two issues here:</div>
+        <div class="gmail_extra">1) should binary locales be considered
+          shared in multilib environments? (libdir vs nonarch_libdir)</div>
+      </div>
+    </blockquote>
+    <br>
+    I think yes.<br>
+    Below is something from glibc source. The file is
+    git/sysdeps/unix/sysv/linux/x86_64/64/configure.<br>
+    <br>
+        # Locale data can be shared between 32-bit and 64-bit libraries.<br>
+        libc_cv_complocaledir='${exec_prefix}/lib/locale'<br>
+    <br>
+    You can see that it states clearly that the binary data could be
+    shared and it uses 'lib'.<br>
+    <br>
+    <blockquote
+cite="mid:CAJTo0LaULRXouHYMfKCMUmtFERseR9vZhWXeC-yK9GLrMTwofQ@mail.gmail.com"
+      type="cite">
+      <div dir="ltr">
+        <div class="gmail_extra">2) what packages are not respecting
+          this variable and hard-coding /usr/lib/locale?</div>
+        <div class="gmail_extra"><br>
+        </div>
+      </div>
+    </blockquote>
+    <br>
+    I don't know. But the manual of locale has stated clearly that
+    '/usr/lib/locale' is the default directory.<br>
+    Something from the manual below.<br>
+    <br>
+           LOCPATH<br>
+    <br>
+                   The directory where locale data is stored.  By
+    default, /usr/lib/locale is used.<br>
+    <br>
+    <br>
+    <blockquote
+cite="mid:CAJTo0LaULRXouHYMfKCMUmtFERseR9vZhWXeC-yK9GLrMTwofQ@mail.gmail.com"
+      type="cite">
+      <div dir="ltr">
+        <div class="gmail_extra">I'm guessing WR think yes to (1), and
+          is the glibc patch you also sent the fundamental fix to (2)?</div>
+        <div class="gmail_extra"><br>
+        </div>
+      </div>
+    </blockquote>
+    <br>
+    I don't know why the glibc patch is needed.<br>
+    At a first glance, I think it might be related to
+    GLIBC_INTERNAL_USE_BINARY_LOCALE handling. The value of this
+    variable is overridden in our bbappend file.<br>
+    This might also be related to cross-localedef recipe.<br>
+    <br>
+    Best Regards,<br>
+    Chen Qi<br>
+    <br>
+    <blockquote
+cite="mid:CAJTo0LaULRXouHYMfKCMUmtFERseR9vZhWXeC-yK9GLrMTwofQ@mail.gmail.com"
+      type="cite">
+      <div dir="ltr">
+        <div class="gmail_extra">Ross</div>
+      </div>
+    </blockquote>
+    <br>
+  </body>
+</html>
 
-   When the sub-test unicode2.sub of intl.tests executed, it produced
-   compact results without extra white space, compared to intl.right,
-   it failed.
-
-   So we need to filter the extra white space in intl.right.
-
-   Import this patch for intl.right from bash devel branch:
-
-	http://git.savannah.gnu.org/cgit/bash.git/log/?h=devel
-
-   Commit is:
-
-	85ec0778f9d778e1820fb8c0e3e996f2d1103b45
-
-2. Change intl.right correspond to the unicode3.sub's output
-
-   In sub-test unicode3.sub of intl.tests have this:
-
-		printf %q "$payload"
-
-   The payload variable was assigned by ASCII characters, when using
-   '%q' format strings, it means print the associated argument shell-quoted.
-
-   When the strings contain the non-alpha && non-digit && non-punctuation &&
-   non-ISO 646 character(7-bit), it would output like this: " $'...', ANSI-C
-   style quoted string. We can check the bash source code at:
-
-	http://git.savannah.gnu.org/cgit/bash.git/tree/builtins/printf.def#n557
-	http://git.savannah.gnu.org/cgit/bash.git/tree/lib/sh/strtrans.c#n331
-
-   So we need to change the intl.right contain the correct output of unicode3.sub.
-
-   Import parts of this patch for intl.right from bash devel branch:
-
-	http://git.savannah.gnu.org/cgit/bash.git/log/?h=devel
-
-   Commit is:
-
-	74b8cbb41398b4453d8ba04d0cdd1b25f9dcb9e3
-
-NOTE:
-   Ensure the system contain fr-fr & de-de locales
-
-   Some tests of intl.tests need to change locales to accomplish. So you need add
-   the following to a conf file:
-
-		IMAGE_LINGUAS = "en-us fr-fr de-de"
-
-Signed-off-by: Dengke Du <dengke.du@windriver.com>
----
- meta/recipes-extended/bash/bash/fix-run-intl.patch | 110 +++++++++++++++++++++
- meta/recipes-extended/bash/bash_4.3.30.bb          |   3 +-
- 2 files changed, 112 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-extended/bash/bash/fix-run-intl.patch
-
-diff --git a/meta/recipes-extended/bash/bash/fix-run-intl.patch b/meta/recipes-extended/bash/bash/fix-run-intl.patch
-new file mode 100644
-index 0000000..d4a3409
---- /dev/null
-+++ b/meta/recipes-extended/bash/bash/fix-run-intl.patch
-@@ -0,0 +1,110 @@
-+From a00d3161fd7b6a698bdd2ed5f0ac5faac580ee2a Mon Sep 17 00:00:00 2001
-+From: Dengke Du <dengke.du@windriver.com>
-+Date: Wed, 3 Aug 2016 23:13:00 -0400
-+Subject: [PATCH] fix run-intl failed
-+
-+1. Filter extra white space of intl.right
-+
-+   Due to the extra white space of intl.right, when the result of
-+   sub-test unicode2.sub of intl.tests compared to it, the test
-+   failed.
-+
-+   So we need to filter the extra white space of intl.right.
-+
-+   Import this patch for intl.right from bash devel branch:
-+
-+	http://git.savannah.gnu.org/cgit/bash.git/log/?h=devel
-+
-+   commit is:
-+
-+	85ec0778f9d778e1820fb8c0e3e996f2d1103b45
-+
-+2. Change intl.right correspond to the unicode3.sub's output
-+
-+   In sub-test unicode3.sub of intl.tests, the payload value is:
-+
-+	payload=$'\065\247\100\063\231\053\306\123\070\237\242\352\263'
-+
-+   It used quoted string expansion(escaped octal) to assign ASCII
-+   characters to variables. So when the test run the following:
-+
-+	printf %q "$payload"
-+
-+   It produced:
-+
-+	$'5\247@3\231+\306S8\237\242\352\263'
-+
-+   When compared to the intl.right(contain the converted character), it failed.
-+
-+   Import parts of patch for intl.right from bash devel branch:
-+
-+	http://git.savannah.gnu.org/cgit/bash.git/log/?h=devel
-+
-+   commit is:
-+
-+	74b8cbb41398b4453d8ba04d0cdd1b25f9dcb9e3
-+
-+Upstream-Status: Backport
-+
-+Signed-off-by: Dengke Du <dengke.du@windriver.com>
-+---
-+ tests/intl.right | 30 +++++++++++++++---------------
-+ 1 file changed, 15 insertions(+), 15 deletions(-)
-+
-+diff --git a/tests/intl.right b/tests/intl.right
-+index acf108a..1efdfbe 100644
-+--- a/tests/intl.right
-++++ b/tests/intl.right
-+@@ -18,34 +18,34 @@ aéb
-+ 1.0000
-+ 1,0000
-+ Passed all 1378 Unicode tests
-+-0000000   303 277 012                                                    
-++0000000 303 277 012
-+ 0000003
-+-0000000   303 277 012                                                    
-++0000000 303 277 012
-+ 0000003
-+-0000000   303 277 012                                                    
-++0000000 303 277 012
-+ 0000003
-+-0000000   303 277 012                                                    
-++0000000 303 277 012
-+ 0000003
-+-0000000   357 277 277 012                                                
-++0000000 357 277 277 012
-+ 0000004
-+-0000000   357 277 277 012                                                
-++0000000 357 277 277 012
-+ 0000004
-+-0000000   012                                                            
-++0000000 012
-+ 0000001
-+-0000000   012                                                            
-++0000000 012
-+ 0000001
-+-0000000   012                                                            
-++0000000 012
-+ 0000001
-+-0000000   012                                                            
-++0000000 012
-+ 0000001
-+-0000000   303 277 012                                                    
-++0000000 303 277 012
-+ 0000003
-+-0000000   303 277 012                                                    
-++0000000 303 277 012
-+ 0000003
-+-0000000   303 277 012                                                    
-++0000000 303 277 012
-+ 0000003
-+-0000000   101 040 302 243 040 305 222 012                                
-++0000000 101 040 302 243 040 305 222 012
-+ 0000010
-+ ./unicode3.sub: line 2: 5�@3�+�S8���: command not found
-+-5�@3�+�S8���
-++$'5\247@3\231+\306S8\237\242\352\263'
-+ + : $'5\247@3\231+\306S8\237\242\352\263'
-+-- 
-+2.8.1
-+
-diff --git a/meta/recipes-extended/bash/bash_4.3.30.bb b/meta/recipes-extended/bash/bash_4.3.30.bb
-index 95ed392..3f0dd8b 100644
---- a/meta/recipes-extended/bash/bash_4.3.30.bb
-+++ b/meta/recipes-extended/bash/bash_4.3.30.bb
-@@ -20,7 +20,8 @@ SRC_URI = "${GNU_MIRROR}/bash/${BP}.tar.gz;name=tarball \
-            file://test-output.patch \
-            file://fix-run-coproc-run-heredoc-run-execscript-run-test-f.patch \
-            file://run-ptest \
--	   file://fix-run-builtins.patch \
-+           file://fix-run-builtins.patch \
-+           file://fix-run-intl.patch \
-            "
- 
- SRC_URI[tarball.md5sum] = "a27b3ee9be83bd3ba448c0ff52b28447"
--- 
-2.8.1
-
-
+--------------080403070204080903030206--
