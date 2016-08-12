@@ -1,27 +1,20 @@
-Return-Path: <maxin.john@intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 9885976806
+Return-Path: <markus.lehtonen@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id E4CCD77240
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 Aug 2016 08:52:52 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by orsmga102.jf.intel.com with ESMTP; 12 Aug 2016 01:52:53 -0700
+	Fri, 12 Aug 2016 09:11:30 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga103.jf.intel.com with ESMTP; 12 Aug 2016 02:11:33 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.28,509,1464678000"; d="scan'208";a="1039906906"
-Received: from mbabyjoh-desk.fi.intel.com (HELO
-	mbabyjoh-desk.ger.corp.intel.com) ([10.237.72.71])
-	by fmsmga002.fm.intel.com with ESMTP; 12 Aug 2016 01:52:52 -0700
-Date: Fri, 12 Aug 2016 11:54:02 +0300
-From: "Maxin B. John" <maxin.john@intel.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Message-ID: <20160812085402.GA4205@mbabyjoh-desk.ger.corp.intel.com>
-References: <1470923804-25804-1-git-send-email-maxin.john@intel.com>
-	<1470923804-25804-3-git-send-email-maxin.john@intel.com>
-	<CAJTo0LbHi3wemcUzxOjfphP63Nd3az5oqCWGK==EepMJ6Q56mA@mail.gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <CAJTo0LbHi3wemcUzxOjfphP63Nd3az5oqCWGK==EepMJ6Q56mA@mail.gmail.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/3] libpng: update 1.6.23 -> 1.6.24
+X-IronPort-AV: E=Sophos;i="5.28,509,1464678000"; d="scan'208";a="1024239476"
+Received: from marquiz.fi.intel.com ([10.237.72.155])
+	by fmsmga001.fm.intel.com with ESMTP; 12 Aug 2016 02:11:31 -0700
+From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 12 Aug 2016 12:11:17 +0300
+Message-Id: <1470993086-23718-1-git-send-email-markus.lehtonen@linux.intel.com>
+X-Mailer: git-send-email 2.6.6
+Subject: [PATCH 0/9] oe-build-perf-test: use Python unittest framework
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,33 +27,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 12 Aug 2016 08:52:53 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Fri, 12 Aug 2016 09:11:31 -0000
 
-Hi Ross,
+This patchset converts the lately added oe-build-perf-test (and oeqa.buildperf)
+to utilize the Python's unittest framework. Unittest (framework) provides a lot
+of functionality and it should make future development of build perf tests
+easier. As of now, the most visible change is different console output from the
+oe-build-perf-test script.
 
->On Thu, Aug 11, 2016 at 05:20:35PM +0100, Burton, Ross wrote:
->>On 11 August 2016 at 14:56, Maxin B. John <maxin.john@intel.com> wrote:
->>
->> Updates in License files are due to changes in Copyright date
->> and Version.
->>
-> Always remember to run buildhistory-diff:
+The first patch renames the .py file containing the actual tests. It is
+cosmetic but would make oeqa.buildperf module more consistent by requiring all
+(possible) future test files to start with a 'test' prefix, too.
 
-Thanks, I will take care of it.
+The next five patches actually convert the buildperf tests to use Python
+unittest framework. This conversion is one bigger change that is split into
+multiple smaller patches in order to make it more comprehensible. The patches
+are dependent on each other and all of them should be applied as a unit.
 
->>packages/corei7-64-poky-linux/libpng/libpng: PKG changed from libpng16-16 to libpng [default] - may indicate debian renaming failure
->> * PV changed from "1.6.23" to "1.6.24"
->The relevant line is that PN added /usr/bin/pngcp, so the package is no longer
->a library package.  This should be in PN-tools (which should use 
->FILES_PN-tools=${bindir} so this doesn't happen again).
->
+The seventh patch aligns test status better with how they are expected to be
+used (test failure vs. test error).
 
-Ok, will update and resend it.
+The last two patches improve the console output of the script.
 
-> Ross
 
-Best Regards,
-Maxin
+The following changes since commit 5ed0d5a7d9b051a551a6de644bf6a42b87c12471:
+
+  dbus: backport stdint.h build fix (2016-08-10 10:45:33 +0100)
+
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib marquiz/buildperf/unittest
+  http://git.openembedded.org/openembedded-core-contrib/log/?h=marquiz/buildperf/unittest
+
+
+Markus Lehtonen (9):
+  oeqa.buildperf: rename module containing basic tests
+  oeqa.buildperf: derive BuildPerfTestCase class from unitest.TestCase
+  oeqa.buildperf: add BuildPerfTestLoader class
+  oeqa.buildperf: add BuildPerfTestResult class
+  oeqa.buildperf: convert test cases to unittest
+  oe-build-perf-test: use new unittest based framework
+  oeqa.buildperf: introduce runCmd2()
+  oe-build-perf-test: write logger output into file only
+  oeqa.buildperf: be more verbose about failed commands
+
+ meta/lib/oeqa/buildperf/__init__.py    |  10 +-
+ meta/lib/oeqa/buildperf/base.py        | 245 +++++++++++++++++----------------
+ meta/lib/oeqa/buildperf/basic_tests.py | 133 ------------------
+ meta/lib/oeqa/buildperf/test_basic.py  | 121 ++++++++++++++++
+ scripts/oe-build-perf-test             |  54 +++++---
+ 5 files changed, 294 insertions(+), 269 deletions(-)
+ delete mode 100644 meta/lib/oeqa/buildperf/basic_tests.py
+ create mode 100644 meta/lib/oeqa/buildperf/test_basic.py
+
+-- 
+2.6.6
+
 
