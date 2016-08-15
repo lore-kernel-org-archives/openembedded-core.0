@@ -1,47 +1,45 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-it0-f51.google.com (mail-it0-f51.google.com
-	[209.85.214.51])
-	by mail.openembedded.org (Postfix) with ESMTP id A174773189
+Return-Path: <liu.ming50@gmail.com>
+Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 422BA76536
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Aug 2016 13:27:50 +0000 (UTC)
-Received: by mail-it0-f51.google.com with SMTP id u186so37300913ita.0
+	Mon, 15 Aug 2016 14:58:05 +0000 (UTC)
+Received: by mail-wm0-f67.google.com with SMTP id i138so11491258wmf.3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Aug 2016 06:27:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=yt8UaIkHv1+KXB0v0JFn2XHc66+NsciP2ATSw4RsFKA=;
-	b=kA6eqTw0wVX9ZdRPUJsZK2MvJLl0fg0Cd6vQxVaIMT1JSSxq6cwQLZgph1T6X+aHIL
-	X73gly5fJ53HHmd2JJ6UbumeQGoYsOHgNF3BnEkRDCHglnh3/vMTaTs6jxEuanIt+hbR
-	fwC6Eidpbxp3CrS8f2309yYXDMwsAYO2aog8hRtQMkpgJosp3RsNTuO3eBOofSn/6Y1R
-	5LjahbVVJcuUz73/VORh0K1f4wm0jdgdviGqeT3E/vyGoM3vNqS8yPGAVI1S3pQW4WY7
-	IdeM72/LyoAEvQ4BvtjkPzNtvStxFbqWha9eKlKbnS+et8iohMtdcJU/vfjT2GUmIzqu
-	YGVA==
+	Mon, 15 Aug 2016 07:58:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=2FeGeaCNGKpteAIMBPXxQWolcUQc296huUh+0TraIuY=;
+	b=LADN85MOzHH18wgqhvIdC2qIK5woYjewb9iMBhKZHXNuUSf/v+R5BEyJLYvq+Qf0Uf
+	Awj7Tbf0Jems2N10KIvdwPR0OhThNnqX0eUIsB97ZWCwKQclwM4xtzxO2SsjwrfMpGey
+	qDp1B8AtobzumnUcC9W6Y5n70OrrjU6x5DNY/8HrDMuXQQl5O423cX2VKGs9En/wNF3L
+	j8ws17gtTK4pwECaQWl5x/AkIwonjeS6prKx3Ho5MQVZJgvSH5vbnse93aqgFf78Iy0C
+	VPHqm8K38uMkBgm2bMuqphfoqEz4LkyFQ2wlUzIon1v04Kh0dp6fziF4JL3CHBLUwN6Q
+	aSsA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=yt8UaIkHv1+KXB0v0JFn2XHc66+NsciP2ATSw4RsFKA=;
-	b=byFVKFL2Vp5sGMcoxUzf7CGIJLnyu4e9gOi2BzpwIGpZ8gwvHEd68KLmvetfMEmWPj
-	HpFeNkomONMB7+x5evgMM/7598zc4lPlov8LwW/WBHnyBE/OIyjZUSY4eVTvW1ZWgfTT
-	CdAQocrmCC00vklYAfkz6l92qP9tBKcccm7PCGsRaGf0jW9HnzcfhJTQDk0KiwmNu78U
-	DEwZ2mSHFYUOekhIXoMahQsGIP+pijQ+Wi1GX2SN126Mdvt+k+kED6kcXXHZmFjeeEXI
-	3aFQu1CMCulKeMk3BrzKooKvC7nS82s2MnTRf+hEGJhmZl4CV7bB1ld8PnGhwWG5xozs
-	Rl7g==
-X-Gm-Message-State: AEkooutdtx2WrAQ4PkIsdqAOISG25mJ2L++U4lZXorgO6urVAKsiEN021GeF9vUNa1ELjR/V+GloMKWe2RIw7GD1
-X-Received: by 10.36.129.213 with SMTP id q204mr14421948itd.38.1471267671625; 
-	Mon, 15 Aug 2016 06:27:51 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.107.18.17 with HTTP; Mon, 15 Aug 2016 06:27:31 -0700 (PDT)
-In-Reply-To: <5e7ef6c13822259be4c3a29b2a8105a9d02d7f08.1471026724.git.alejandro.hernandez@linux.intel.com>
-References: <cover.1471026724.git.alejandro.hernandez@linux.intel.com>
-	<5e7ef6c13822259be4c3a29b2a8105a9d02d7f08.1471026724.git.alejandro.hernandez@linux.intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 15 Aug 2016 14:27:31 +0100
-Message-ID: <CAJTo0LZRJstnjZngeN8+JBesgcSa5QcAUVAmyNB3Wri-A4o62w@mail.gmail.com>
-To: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/3] python3.5-manifest: Fixes several dependencies on the newest python3
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=2FeGeaCNGKpteAIMBPXxQWolcUQc296huUh+0TraIuY=;
+	b=AjPmfboTor5/yxJzTXav3KWNYWkPEEYQ9Ws7H8bhpMK4asGqaH4GumTYD/2p+ZoQIN
+	VERpHyJB1uXOtgXSyxM2Djd/y7i2b1uPs18llzRemZtaAhEtyFJ+GLSgLPMtFrk1VsLr
+	+/myOJZnxXumBJMtNKLRRleql9ZJktd5YaJJUE5ToeP+pHReJeCfTjtPWfnNH0Rl8HgX
+	3UOQNUJaWeyJYpN3V+JjJYUX0ngEcJzdJ3Tut9bjOFP6ykSqbVMNMjOraAN78ZffP4Pv
+	T5HeNA2ZiUeh/9yJaBPn6m3DTULDxFcpOP/wU3qqfhzTyYzsKwVDT9pUa0n7wped0b1n
+	oOQQ==
+X-Gm-Message-State: AEkoouuio5Xl+oqRFD3RbuhE2YzKCg11ncWEXUCTF6aknSgPFX+KNHDftmdFYrLLSRoXlA==
+X-Received: by 10.25.21.32 with SMTP id l32mr5218685lfi.158.1471273086125;
+	Mon, 15 Aug 2016 07:58:06 -0700 (PDT)
+Received: from localhost.localdomain (m77-218-245-174.cust.tele2.se.
+	[77.218.245.174])
+	by smtp.gmail.com with ESMTPSA id g88sm73501ljg.26.2016.08.15.07.58.04
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Mon, 15 Aug 2016 07:58:04 -0700 (PDT)
+From: Ming Liu <liu.ming50@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 15 Aug 2016 16:58:02 +0200
+Message-Id: <1471273082-14460-1-git-send-email-liu.ming50@gmail.com>
+X-Mailer: git-send-email 1.9.1
+Cc: yue.tao@windriver.com, Ming Liu <peter.x.liu@external.atlascopco.com>
+Subject: [PATCH] bootchart2: fixes a BOOTLOG_DEST typo
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,118 +52,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 15 Aug 2016 13:27:52 -0000
-Content-Type: multipart/alternative; boundary=94eb2c08b1fcefe86e053a1c32af
+X-List-Received-Date: Mon, 15 Aug 2016 14:58:06 -0000
 
---94eb2c08b1fcefe86e053a1c32af
-Content-Type: text/plain; charset=UTF-8
+From: Ming Liu <peter.x.liu@external.atlascopco.com>
 
-On 12 August 2016 at 22:03, Alejandro Hernandez <
-alejandro.hernandez@linux.intel.com> wrote:
+A flaw was observed in bootchartd that BUILDLOG_DEST should actually be
+BOOTLOG_DEST, this seems to be a typo or mix-up which has been fixed in
+upstream.
 
-> +    m.addPackage( "${PN}-subprocess", "Python subprocess support",
-> "${PN}-core ${PN}-io ${PN}-re ${PN}-fcntl ${PN}-pickle ${PN}-signal
-> ${PN}-selectors",
-> +    "subprocess.* lib-dynload/_posixsubprocess.*.so" )
->
+Cherry pick the fix since bootchart2 0.14.8 is still the newest release
+so far.
 
-This sort of thing is happening far more though, as the following are all
-part of python3-misc:
+Signed-off-by: Ming Liu <peter.x.liu@external.atlascopco.com>
+---
+ ...ed-Missing-default-value-for-BOOTLOG_DEST.patch | 28 ++++++++++++++++++++++
+ .../bootchart2/bootchart2_0.14.8.bb                |  1 +
+ 2 files changed, 29 insertions(+)
+ create mode 100644 meta/recipes-devtools/bootchart2/bootchart2/0001-Fixed-Missing-default-value-for-BOOTLOG_DEST.patch
 
-        /usr/lib/python3.5/lib-dynload/_bz2.cpython-35m-x86_64-linux-gnu.so
-        /usr/lib/python3.5/lib-dynload/_
-crypt.cpython-35m-x86_64-linux-gnu.so
-        /usr/lib/python3.5/lib-dynload/_
-decimal.cpython-35m-x86_64-linux-gnu.so
-        /usr/lib/python3.5/lib-dynload/_lzma.cpython-35m-x86_64-linux-gnu.so
-        /usr/lib/python3.5/lib-dynload/_md5.cpython-35m-x86_64-linux-gnu.so
-        /usr/lib/python3.5/lib-dynload/_
-opcode.cpython-35m-x86_64-linux-gnu.so
-        /usr/lib/python3.5/lib-dynload/_
-pickle.cpython-35m-x86_64-linux-gnu.so
-        /usr/lib/python3.5/lib-dynload/_sha1.cpython-35m-x86_64-linux-gnu.so
-        /usr/lib/python3.5/lib-dynload/_
-testbuffer.cpython-35m-x86_64-linux-gnu.so
-        /usr/lib/python3.5/lib-dynload/_
-testcapi.cpython-35m-x86_64-linux-gnu.so
-        /usr/lib/python3.5/lib-dynload/_
-testimportmultiple.cpython-35m-x86_64-linux-gnu.so
-        /usr/lib/python3.5/lib-dynload/_
-testmultiphase.cpython-35m-x86_64-linux-gnu.so
-        /usr/lib/python3.5/lib-dynload/spwd.cpython-35m-x86_64-linux-gnu.so
-        /usr/lib/python3.5/lib-dynload/
-xxlimited.cpython-35m-x86_64-linux-gnu.so
+diff --git a/meta/recipes-devtools/bootchart2/bootchart2/0001-Fixed-Missing-default-value-for-BOOTLOG_DEST.patch b/meta/recipes-devtools/bootchart2/bootchart2/0001-Fixed-Missing-default-value-for-BOOTLOG_DEST.patch
+new file mode 100644
+index 0000000..dd76ce7
+--- /dev/null
++++ b/meta/recipes-devtools/bootchart2/bootchart2/0001-Fixed-Missing-default-value-for-BOOTLOG_DEST.patch
+@@ -0,0 +1,28 @@
++From 2225ab2038bfe50f16f972e39d89bcd0bd7767f5 Mon Sep 17 00:00:00 2001
++From: Steffen Pankratz <kratz00@gmx.de>
++Date: Tue, 9 Feb 2016 13:49:42 +0100
++Subject: [PATCH] Fixed: Missing default value for BOOTLOG_DEST
++
++Upstream-Status: Backport
++
++BUILDLOG_DEST seems to be a typo or mix-up which was introduced with 281d1df80884bf2969c509ec60ee8a6593524fe8
++---
++ bootchartd.in | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/bootchartd.in b/bootchartd.in
++index f58ab9e..30af677 100755
++--- a/bootchartd.in
+++++ b/bootchartd.in
++@@ -37,7 +37,7 @@ PATH="/sbin:/bin:/usr/sbin:/usr/bin:$PATH"
++ 
++ # Defaults, in case we can't find our configuration
++ SAMPLE_HZ=50
++-BUILDLOG_DEST=/var/log/bootchart.tgz
+++BOOTLOG_DEST=/var/log/bootchart.tgz
++ AUTO_RENDER="no"
++ AUTO_RENDER_DIR="/var/log"
++ AUTO_RENDER_FORMAT="png"
++-- 
++1.9.1
++
+diff --git a/meta/recipes-devtools/bootchart2/bootchart2_0.14.8.bb b/meta/recipes-devtools/bootchart2/bootchart2_0.14.8.bb
+index d0555c3..e6b6611 100644
+--- a/meta/recipes-devtools/bootchart2/bootchart2_0.14.8.bb
++++ b/meta/recipes-devtools/bootchart2/bootchart2_0.14.8.bb
+@@ -92,6 +92,7 @@ UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>\d+\.\d+(\.\d+)*)"
+ 
+ SRC_URI = "git://github.com/mmeeks/bootchart.git \
+            file://bootchartd_stop.sh \
++           file://0001-Fixed-Missing-default-value-for-BOOTLOG_DEST.patch \
+           "
+ 
+ S = "${WORKDIR}/git"
+-- 
+1.9.1
 
-Some of those look like test suites, some look like part of -core, some
-should be in other modules.
 
-When should we admit that arbitrary splitting of the core library isn't
-working and maybe we should just do something similar to Ubuntu and have a
-minimal/full split instead?
-
-Ross
-
---94eb2c08b1fcefe86e053a1c32af
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 12 August 2016 at 22:03, Alejandro Hernandez <span dir=3D"ltr">&lt;<a hr=
-ef=3D"mailto:alejandro.hernandez@linux.intel.com" target=3D"_blank">alejand=
-ro.hernandez@linux.intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"=
-gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border=
--left-color:rgb(204,204,204);border-left-style:solid;padding-left:1ex"><div=
- id=3D":h7" class=3D"">+=C2=A0 =C2=A0 m.addPackage( &quot;${PN}-subprocess&=
-quot;, &quot;<span class=3D"">Python</span> subprocess support&quot;, &quot=
-;${PN}-core ${PN}-io ${PN}-re ${PN}-fcntl ${PN}-pickle ${PN}-signal ${PN}-s=
-electors&quot;,<br>
-+=C2=A0 =C2=A0 &quot;subprocess.* lib-dynload/_posixsubprocess.*<wbr>.so&qu=
-ot; )<br></div></blockquote></div><br>This sort of thing is happening far m=
-ore though, as the following are all part of python3-misc:</div><div class=
-=3D"gmail_extra"><br></div><div class=3D"gmail_extra"><div class=3D"gmail_e=
-xtra">=C2=A0 =C2=A0 =C2=A0 =C2=A0 /usr/lib/python3.5/lib-dynload/_<a href=
-=3D"http://bz2.cpython-35m-x86_64-linux-gnu.so">bz2.cpython-35m-x86_64-linu=
-x-gnu.so</a></div><div class=3D"gmail_extra">=C2=A0 =C2=A0 =C2=A0 =C2=A0 /u=
-sr/lib/python3.5/lib-dynload/_<a href=3D"http://crypt.cpython-35m-x86_64-li=
-nux-gnu.so">crypt.cpython-35m-x86_64-linux-gnu.so</a></div><div class=3D"gm=
-ail_extra">=C2=A0 =C2=A0 =C2=A0 =C2=A0 /usr/lib/python3.5/lib-dynload/_<a h=
-ref=3D"http://decimal.cpython-35m-x86_64-linux-gnu.so">decimal.cpython-35m-=
-x86_64-linux-gnu.so</a></div><div class=3D"gmail_extra">=C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 /usr/lib/python3.5/lib-dynload/_<a href=3D"http://lzma.cpython-3=
-5m-x86_64-linux-gnu.so">lzma.cpython-35m-x86_64-linux-gnu.so</a></div><div =
-class=3D"gmail_extra">=C2=A0 =C2=A0 =C2=A0 =C2=A0 /usr/lib/python3.5/lib-dy=
-nload/_<a href=3D"http://md5.cpython-35m-x86_64-linux-gnu.so">md5.cpython-3=
-5m-x86_64-linux-gnu.so</a></div><div class=3D"gmail_extra">=C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 /usr/lib/python3.5/lib-dynload/_<a href=3D"http://opcode.cpyt=
-hon-35m-x86_64-linux-gnu.so">opcode.cpython-35m-x86_64-linux-gnu.so</a></di=
-v><div class=3D"gmail_extra">=C2=A0 =C2=A0 =C2=A0 =C2=A0 /usr/lib/python3.5=
-/lib-dynload/_<a href=3D"http://pickle.cpython-35m-x86_64-linux-gnu.so">pic=
-kle.cpython-35m-x86_64-linux-gnu.so</a></div><div class=3D"gmail_extra">=C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 /usr/lib/python3.5/lib-dynload/_<a href=3D"http://=
-sha1.cpython-35m-x86_64-linux-gnu.so">sha1.cpython-35m-x86_64-linux-gnu.so<=
-/a></div><div class=3D"gmail_extra">=C2=A0 =C2=A0 =C2=A0 =C2=A0 /usr/lib/py=
-thon3.5/lib-dynload/_<a href=3D"http://testbuffer.cpython-35m-x86_64-linux-=
-gnu.so">testbuffer.cpython-35m-x86_64-linux-gnu.so</a></div><div class=3D"g=
-mail_extra">=C2=A0 =C2=A0 =C2=A0 =C2=A0 /usr/lib/python3.5/lib-dynload/_<a =
-href=3D"http://testcapi.cpython-35m-x86_64-linux-gnu.so">testcapi.cpython-3=
-5m-x86_64-linux-gnu.so</a></div><div class=3D"gmail_extra">=C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 /usr/lib/python3.5/lib-dynload/_<a href=3D"http://testimportm=
-ultiple.cpython-35m-x86_64-linux-gnu.so">testimportmultiple.cpython-35m-x86=
-_64-linux-gnu.so</a></div><div class=3D"gmail_extra">=C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 /usr/lib/python3.5/lib-dynload/_<a href=3D"http://testmultiphase.cpy=
-thon-35m-x86_64-linux-gnu.so">testmultiphase.cpython-35m-x86_64-linux-gnu.s=
-o</a></div><div class=3D"gmail_extra">=C2=A0 =C2=A0 =C2=A0 =C2=A0 /usr/lib/=
-python3.5/lib-dynload/<a href=3D"http://spwd.cpython-35m-x86_64-linux-gnu.s=
-o">spwd.cpython-35m-x86_64-linux-gnu.so</a></div><div class=3D"gmail_extra"=
->=C2=A0 =C2=A0 =C2=A0 =C2=A0 /usr/lib/python3.5/lib-dynload/<a href=3D"http=
-://xxlimited.cpython-35m-x86_64-linux-gnu.so">xxlimited.cpython-35m-x86_64-=
-linux-gnu.so</a></div><div class=3D"gmail_extra"><br></div><div class=3D"gm=
-ail_extra">Some of those look like test suites, some look like part of -cor=
-e, some should be in other modules.</div><div class=3D"gmail_extra"><br></d=
-iv><div class=3D"gmail_extra">When should we admit that arbitrary splitting=
- of the core library isn&#39;t working and maybe we should just do somethin=
-g similar to Ubuntu and have a minimal/full split instead?</div><div class=
-=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div></div=
->
-
---94eb2c08b1fcefe86e053a1c32af--
