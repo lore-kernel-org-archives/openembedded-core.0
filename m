@@ -1,54 +1,54 @@
 Return-Path: <bruce.ashfield@gmail.com>
 Received: from mail-it0-f67.google.com (mail-it0-f67.google.com
 	[209.85.214.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 58AD277115
+	by mail.openembedded.org (Postfix) with ESMTP id EFA9D7713C
 	for <openembedded-core@lists.openembedded.org>;
 	Mon, 15 Aug 2016 18:27:02 +0000 (UTC)
-Received: by mail-it0-f67.google.com with SMTP id d65so3864346ith.0
+Received: by mail-it0-f67.google.com with SMTP id f6so3857902ith.2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Aug 2016 11:27:03 -0700 (PDT)
+	Mon, 15 Aug 2016 11:27:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
 	:in-reply-to:references;
-	bh=jvnjhFOdaXly8rDx9cWXRoj8vsoDFk2n9py8CZcR9d8=;
-	b=M1B9OH2u8LoqIdxbTog7xPcQjx2/e4FYtnJ25hfECVhfm7BOicVi3MKuvpP7fv/d2v
-	0VsPiiaxtOVttfyfGYh0whLl7vD8TZJRg6+R8RMzjdXc7Jwj6cian0NDcLglwv4OyHSE
-	DYEy/BsEK/zzNik1B3els78nNCjBH9XmbuEiqao7A0a0IA9xZ4KVlP8uVLDL1+tH3EPT
-	ixmu6forUXnVhTLISSLhalMmjVCcA0J3tYGfqTxmU0mxHfU37g0IFkVrDaMF3imVxbpm
-	QFCdMs47kbaCs8Qa6kSTnGLQYoXNO0tvuFyXMoLWz7TEgv7BxNDoaOG0vb+mRQNQTasa
-	3q9g==
+	bh=LGHAAJmaOylbG7/tS/U3BtLiXj6Y1U/h9bt/GaKLGhk=;
+	b=OdGasr7/CLQybByLnoU0XG5iELkcuYT9SY9AdctA/R4dOMvWFY7i4Oy+2Bdwhxerfc
+	V4C7tMHaO/7gOn/0kX1oKvSO6tGneHgN6kJsF3Lg9suLfCowFxqU0LU+44eojH2MPdCj
+	nQTrCJGCesmWmODGuYgoXC2V/RZSA3hJ6PgoSEcJCCEgB528zkS4xsMBA+iIkVJUtd2K
+	nEEo9Dliorh/kifL9SYsQ0zdQ6EMWZ13wlj5Wt/IpQKhViiMbKbsfc6lRBD+BvOjMOJ7
+	LEpU/etrS9aHOaizK7PxchpgAXKTCkj9WWV2RPzpwr9W2fSxjzvJHbNUJFYGmFaRRZpM
+	URaA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
 	:in-reply-to:references:in-reply-to:references;
-	bh=jvnjhFOdaXly8rDx9cWXRoj8vsoDFk2n9py8CZcR9d8=;
-	b=IlsZZn0QPf44N/ek3sYr6fhbFh6cNZABHeUTlUEG0wfE9pT8M+2/ba0C4NXFgX1fUk
-	Xt7WNvjzU25MCHlwrri0DvMPd8dOJrWgpZzfUKjpjXerQZ5xOtZx03B8DF2rhRANJ825
-	mpZ1zBSHHCcwNwuXSemTI8657Q2B9uD5/Xh0eMQPqlrl2fsPjIzyFtj8WD03XkewjxSn
-	GPwF9aWZTnPDmxfHOncjDpHtJGEPga9Tldw1hQxQ15Z2GiB8z0u/3vfwusleZTUr/QYj
-	vq07SLcCsv6Q0qA0JNZlt1robNQKfuz5koCI/odywqt8ig5WywcbBeCErbJAnzNbd16K
-	P1KA==
-X-Gm-Message-State: AEkoouszupYVbP8lImGbFhxOsHp1eq+z107nL613CWNhdSqyoCvSG5BwOcQcm+NlUteStg==
-X-Received: by 10.36.61.67 with SMTP id n64mr10075414itn.74.1471285623072;
+	bh=LGHAAJmaOylbG7/tS/U3BtLiXj6Y1U/h9bt/GaKLGhk=;
+	b=mOg6GnhIQ6jPXaCiRv0SW/8pnag/1yIux6n1O/8Zk9e79rRpu2yxwLja2xN7fnRJYh
+	bsphHSZ+090vDSAYwRgEWtGAm40WciAyqy0AsrYC0+y/YKL2ySzsMiqrmM7f4uUGRNQ/
+	oIH089Hg59ae8HO0CUDhae8Bh2sQ7eDxd1ZSLgt9KwUuMewYn+pDfRx3pZuddfFPadMd
+	wIUSDpPnem3Z9VPLgJjwqJSbiKNDHYhd0dwXPWSxRNA9j3Tf6/rRdLkKivWIDMTRRuUi
+	694LlmwATqjbg9j2Zj/2fax0Uo0D+EcWX0Jxhdm1+oYOnGJDSTFcI7sN3K6LYcza7FkN
+	7pQg==
+X-Gm-Message-State: AEkoouutvz2VggGvaEfu81Bps3Wkye8LBuM393AhpEb0TSR9+NvhATpdiqzPt16yg7DM9g==
+X-Received: by 10.36.219.65 with SMTP id c62mr15065528itg.44.1471285623739;
 	Mon, 15 Aug 2016 11:27:03 -0700 (PDT)
 Received: from localhost.localdomain
 	(CPEe8de27b71faa-CMbcc810032faf.cpe.net.cable.rogers.com.
 	[174.112.43.94])
-	by smtp.gmail.com with ESMTPSA id 65sm7908858itl.16.2016.08.15.11.27.02
+	by smtp.gmail.com with ESMTPSA id 65sm7908858itl.16.2016.08.15.11.27.03
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 15 Aug 2016 11:27:02 -0700 (PDT)
+	Mon, 15 Aug 2016 11:27:03 -0700 (PDT)
 Sender: Bruce Ashfield <bruce.ashfield@gmail.com>
 From: Bruce Ashfield <bruce.ashfield@windriver.com>
 To: richard.purdie@linuxfoundation.org
-Date: Mon, 15 Aug 2016 14:26:56 -0400
-Message-Id: <a68dd58391c30a64e3b0830152b0ffbce04f90cb.1471281772.git.bruce@zedd.org>
+Date: Mon, 15 Aug 2016 14:26:57 -0400
+Message-Id: <9b6185357833cbc91c7dacf7fe74abe1f63036de.1471281772.git.bruce@zedd.org>
 X-Mailer: git-send-email 2.5.0
 In-Reply-To: <cover.1471281772.git.bruce@zedd.org>
 References: <cover.1471281772.git.bruce@zedd.org>
 In-Reply-To: <cover.1471281772.git.bruce@zedd.org>
 References: <cover.1471281772.git.bruce@zedd.org>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 2/6] linux-yocto/4.1: bump to v4.1.29
+Subject: [PATCH 3/6] linux-yocto/4.1: config updates
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,94 +61,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 15 Aug 2016 18:27:02 -0000
+X-List-Received-Date: Mon, 15 Aug 2016 18:27:03 -0000
 
-Integrating the korg 4.1.29 -stable release
+Integrating the following configuration changes:
+
+ features: usb-net: provide more coverage on USB network devices
+ features: broxton: enable iTCO watchdog support
+ features: broxton: enable iSMT support
+ features: broxton: enable LPC bridge function for Intel ICH and SCH
 
 Signed-off-by: Bruce Ashfield <bruce@zedd.org>
 ---
- meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb   |  6 +++---
- meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb |  6 +++---
- meta/recipes-kernel/linux/linux-yocto_4.1.bb      | 20 ++++++++++----------
- 3 files changed, 16 insertions(+), 16 deletions(-)
+ meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb   | 2 +-
+ meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb | 2 +-
+ meta/recipes-kernel/linux/linux-yocto_4.1.bb      | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb b/meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb
-index 6411175..d25911d 100644
+index d25911d..0fd78ff 100644
 --- a/meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb
 +++ b/meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb
-@@ -11,13 +11,13 @@ python () {
-         raise bb.parse.SkipPackage("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
+@@ -12,7 +12,7 @@ python () {
  }
  
--SRCREV_machine ?= "5772feaf5827e42e1950a91d95b2fc3c1845b5c6"
--SRCREV_meta ?= "0d6de63d4603b9cc3a4a68391bcb5156b9b0cf96"
-+SRCREV_machine ?= "b1e722634976e1bcf9dc73bcbcfe3487c3fd7e4d"
-+SRCREV_meta ?= "71dddd41d8395014d942ac8f20f1255751cb144f"
+ SRCREV_machine ?= "b1e722634976e1bcf9dc73bcbcfe3487c3fd7e4d"
+-SRCREV_meta ?= "71dddd41d8395014d942ac8f20f1255751cb144f"
++SRCREV_meta ?= "497e2eb5c259c4ac434d09555b33da9ed4a8667e"
  
  SRC_URI = "git://git.yoctoproject.org/linux-yocto-4.1.git;branch=${KBRANCH};name=machine \
             git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.1;destsuffix=${KMETA}"
- 
--LINUX_VERSION ?= "4.1.28"
-+LINUX_VERSION ?= "4.1.29"
- 
- PV = "${LINUX_VERSION}+git${SRCPV}"
- 
 diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb
-index 9eae2e1..afc8819 100644
+index afc8819..485843d 100644
 --- a/meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb
 +++ b/meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb
-@@ -4,13 +4,13 @@ KCONFIG_MODE = "--allnoconfig"
- 
- require recipes-kernel/linux/linux-yocto.inc
- 
--LINUX_VERSION ?= "4.1.28"
-+LINUX_VERSION ?= "4.1.29"
- 
- KMETA = "kernel-meta"
+@@ -10,7 +10,7 @@ KMETA = "kernel-meta"
  KCONF_BSP_AUDIT_LEVEL = "2"
  
--SRCREV_machine ?= "f6ab3612272bb22bac371403121609c66c50cd45"
--SRCREV_meta ?= "0d6de63d4603b9cc3a4a68391bcb5156b9b0cf96"
-+SRCREV_machine ?= "053af7be9159a0b5a016a3e399de1484e51f26cd"
-+SRCREV_meta ?= "71dddd41d8395014d942ac8f20f1255751cb144f"
+ SRCREV_machine ?= "053af7be9159a0b5a016a3e399de1484e51f26cd"
+-SRCREV_meta ?= "71dddd41d8395014d942ac8f20f1255751cb144f"
++SRCREV_meta ?= "497e2eb5c259c4ac434d09555b33da9ed4a8667e"
  
  PV = "${LINUX_VERSION}+git${SRCPV}"
  
 diff --git a/meta/recipes-kernel/linux/linux-yocto_4.1.bb b/meta/recipes-kernel/linux/linux-yocto_4.1.bb
-index 8ba0bea..b17d591 100644
+index b17d591..d3963f9 100644
 --- a/meta/recipes-kernel/linux/linux-yocto_4.1.bb
 +++ b/meta/recipes-kernel/linux/linux-yocto_4.1.bb
-@@ -11,20 +11,20 @@ KBRANCH_qemux86  ?= "standard/base"
- KBRANCH_qemux86-64 ?= "standard/base"
- KBRANCH_qemumips64 ?= "standard/mti-malta64"
- 
--SRCREV_machine_qemuarm ?= "2f133a201f2bbde4ce33731d1596d5144360bf87"
--SRCREV_machine_qemuarm64 ?= "f6ab3612272bb22bac371403121609c66c50cd45"
--SRCREV_machine_qemumips ?= "d1cbc627631f706d19e8e4518bfc38b266f3fb9f"
--SRCREV_machine_qemuppc ?= "d1699ce26291a3e07113057ad7e235f7891e73fb"
--SRCREV_machine_qemux86 ?= "f6ab3612272bb22bac371403121609c66c50cd45"
--SRCREV_machine_qemux86-64 ?= "f6ab3612272bb22bac371403121609c66c50cd45"
--SRCREV_machine_qemumips64 ?= "725278e5cbc402139051032a7b2137f6707c46d6"
--SRCREV_machine ?= "f6ab3612272bb22bac371403121609c66c50cd45"
--SRCREV_meta ?= "0d6de63d4603b9cc3a4a68391bcb5156b9b0cf96"
-+SRCREV_machine_qemuarm ?= "09b5eed6e905503646514803787d82f504013144"
-+SRCREV_machine_qemuarm64 ?= "053af7be9159a0b5a016a3e399de1484e51f26cd"
-+SRCREV_machine_qemumips ?= "582073e7a49b0847052be78254805f33635dc837"
-+SRCREV_machine_qemuppc ?= "0914d10f46f22582e955b06590768ec51e8a91c3"
-+SRCREV_machine_qemux86 ?= "053af7be9159a0b5a016a3e399de1484e51f26cd"
-+SRCREV_machine_qemux86-64 ?= "053af7be9159a0b5a016a3e399de1484e51f26cd"
-+SRCREV_machine_qemumips64 ?= "ca25d7656f7eaeb8454a182cfa38fb704ec85276"
-+SRCREV_machine ?= "053af7be9159a0b5a016a3e399de1484e51f26cd"
-+SRCREV_meta ?= "71dddd41d8395014d942ac8f20f1255751cb144f"
+@@ -19,7 +19,7 @@ SRCREV_machine_qemux86 ?= "053af7be9159a0b5a016a3e399de1484e51f26cd"
+ SRCREV_machine_qemux86-64 ?= "053af7be9159a0b5a016a3e399de1484e51f26cd"
+ SRCREV_machine_qemumips64 ?= "ca25d7656f7eaeb8454a182cfa38fb704ec85276"
+ SRCREV_machine ?= "053af7be9159a0b5a016a3e399de1484e51f26cd"
+-SRCREV_meta ?= "71dddd41d8395014d942ac8f20f1255751cb144f"
++SRCREV_meta ?= "497e2eb5c259c4ac434d09555b33da9ed4a8667e"
  
  SRC_URI = "git://git.yoctoproject.org/linux-yocto-4.1.git;name=machine;branch=${KBRANCH}; \
             git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.1;destsuffix=${KMETA}"
- 
--LINUX_VERSION ?= "4.1.28"
-+LINUX_VERSION ?= "4.1.29"
- 
- PV = "${LINUX_VERSION}+git${SRCPV}"
- 
 -- 
 2.5.0
 
