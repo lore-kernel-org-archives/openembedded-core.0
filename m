@@ -1,30 +1,30 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 594AB758DB
+	by mail.openembedded.org (Postfix) with ESMTP id 64A2F74197
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Aug 2016 16:56:44 +0000 (UTC)
+	Mon, 15 Aug 2016 17:05:27 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u7FGuimo010625 for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Aug 2016 17:56:44 +0100
+	u7FH5Skk011089 for <openembedded-core@lists.openembedded.org>;
+	Mon, 15 Aug 2016 18:05:28 +0100
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id GtS5CdpcuqKY
+	with LMTP id nyHg9eaUUAMH
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Aug 2016 17:56:44 +0100 (BST)
+	Mon, 15 Aug 2016 18:05:28 +0100 (BST)
 Received: from hex ([192.168.3.34]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u7FGue5J010622
+	u7FH5ORk011086
 	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Aug 2016 17:56:41 +0100
-Message-ID: <1471280200.20391.90.camel@linuxfoundation.org>
+	Mon, 15 Aug 2016 18:05:25 +0100
+Message-ID: <1471280724.20391.101.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Mon, 15 Aug 2016 17:56:40 +0100
+Date: Mon, 15 Aug 2016 18:05:24 +0100
 X-Mailer: Evolution 3.16.5-1ubuntu3.1 
 Mime-Version: 1.0
-Subject: [PATCH] oeqa/oetest: Improve subprocess error reporting
+Subject: [PATCH] report-error: Fix tracebacks
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,36 +37,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 15 Aug 2016 16:56:46 -0000
+X-List-Received-Date: Mon, 15 Aug 2016 17:05:28 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-Without this, we get to know the command failed and the exit code but 
-have no idea how the command failed since we don't get the output by 
-default.
-
-This makes it much easier to see what went wrong and stand a chance of 
-fixing it.
+Currently the code gives tracebacks if there are no recipes to be built in a 
+BuildStarted event. Parse the list into a string rather than just taking the
+first item. There is nothing special about the first time.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-diff --git a/meta/lib/oeqa/oetest.py b/meta/lib/oeqa/oetest.py
-index 5146312..fe103e8 100644
---- a/meta/lib/oeqa/oetest.py
-+++ b/meta/lib/oeqa/oetest.py
-@@ -136,6 +136,12 @@ class oeRuntimeTest(oeTest):
-             if status != 0:
-                 return status
- 
-+class OETestCalledProcessError(subprocess.CalledProcessError):
-+    def __str__(self):
-+        return "Command '%s' returned non-zero exit status %d with output %s and stderr %s" % (self.cmd, self.returncode, self.output, self.stderr)
-+
-+subprocess.CalledProcessError = OETestCalledProcessError
-+
- class oeSDKTest(oeTest):
-     def __init__(self, methodName='runTest'):
-         self.sdktestdir = oeSDKTest.tc.sdktestdir
+diff --git a/meta/classes/report-error.bbclass b/meta/classes/report-error.bbclass
+index c8c15bd..5bb231e 100644
+--- a/meta/classes/report-error.bbclass
++++ b/meta/classes/report-error.bbclass
+@@ -42,7 +42,7 @@ python errorreport_handler () {
+             data['distro'] = e.data.getVar("DISTRO", True)
+             data['target_sys'] = e.data.getVar("TARGET_SYS", True)
+             data['failures'] = []
+-            data['component'] = e.getPkgs()[0]
++            data['component'] = " ".join(e.getPkgs())
+             data['branch_commit'] = str(base_detect_branch(e.data)) + ": " + str(base_detect_revision(e.data))
+             lock = bb.utils.lockfile(datafile + '.lock')
+             errorreport_savedata(e, data, "error-report.txt")
 
 
 
