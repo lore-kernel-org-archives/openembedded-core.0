@@ -1,54 +1,54 @@
 Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-it0-f66.google.com (mail-it0-f66.google.com
-	[209.85.214.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 95DD577115
+Received: from mail-it0-f65.google.com (mail-it0-f65.google.com
+	[209.85.214.65])
+	by mail.openembedded.org (Postfix) with ESMTP id D6D9577115
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Aug 2016 18:27:05 +0000 (UTC)
-Received: by mail-it0-f66.google.com with SMTP id d65so3864434ith.0
+	Mon, 15 Aug 2016 18:27:04 +0000 (UTC)
+Received: by mail-it0-f65.google.com with SMTP id d65so3864418ith.0
 	for <openembedded-core@lists.openembedded.org>;
 	Mon, 15 Aug 2016 11:27:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
 	:in-reply-to:references;
-	bh=cDFUuGNXcqglxhuFCzYBVwGKJkSyTGs3V4PRKUBF9XM=;
-	b=wUsLTNMBpjU/t9Pgz7ZyDRD9e0ohMg6exnzGkG5FGF8Z1faA0Exe2KGw64wjSxls41
-	+KmmhBa0yfDZ4CasQHAAmub81Fl/uJuGBLlbhDhzbsQBD1cPLvp3nvsskj7ByqwTKFVd
-	IshMY5nohWqpd32DzsN0MxCN3RdwAYunO8QtWsiXsN9wt7cszv/M0pFHmatXHpfQGUuC
-	/tqLs23fdwe5AvlZ85CDNpbqi7A6Ic+//ilvFns8WdIajqK2110DwJodBauFQ5lh7Zz6
-	uklCjN30lAzI19la08WKYoQxoYpkorCfWRrtzy98CwlGYkc9niYsLXiAbadfcaMpDDPC
-	VD4A==
+	bh=zW99AjFn9mEUuW/sEcMyFQSH7tCC98QjfTJ4nf3LpkU=;
+	b=U+gWdO5nw9zrkNJcPfWAizrFMlaHFjyWcmOiJq4q+Mw7JOCg14u8iqMNVoSbuwzRLl
+	8rT0UOqOo6fHMsQANiOERu3CzSlYlOzoP5UWlgHwuuwyc7qJm4gGUaljkB17NV5MvIBI
+	yXZyNUaajIXl2gw/CMxV+zs6Y0AfiwkU7MY+kJ+xrGWbTUmnQRMAz6qdb8tKk1jSFq77
+	3Q2vWuTPzrTA6rfUzRplvCWHInRmoQQUVaGwy/Quk0Li6jF6hQt/GAGNas+Ol/w8tnNG
+	wY9hJQhnPaW5dq1kwIfDCMkJ9otGAoz4X9KTxCQdRRyeGjeQapXZvDCTMDRvlzmslr9O
+	Fg+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
 	:in-reply-to:references:in-reply-to:references;
-	bh=cDFUuGNXcqglxhuFCzYBVwGKJkSyTGs3V4PRKUBF9XM=;
-	b=XRK15ttiT/3Etdavd5hKrUkoZCJ1m2t7YQ7CUww27aE4W1OEw8sKr35x3/a31uH+9a
-	slliH+3RAOnSIeiTgoPS0XVvRpAN7rnq4JZd/UpBTSUJgjXlQNegzcPhfvVP880Imh2D
-	QQHZkMM7cwyRI5hZsZZTtAvnRafFIXH+jDWRBnMV38UvVK2Ii9iYKCPeCqruAd34tiKi
-	ODmkrLU49PT4d2AaBgvZ+CGFVNsOuscHJFfsj1q1ng3jcvrRKKiOQ1HSFtO0G6nvAgHi
-	GT6UxSa5chkwFEH5Spj4zbzM8InfMVoGbc/SLiH4prF8f3hKogZoVKspQHJ3vx+DNtDC
-	wzFw==
-X-Gm-Message-State: AEkoouuY8cWrevoOJ0uP/uXEDL36b4UmrNY1Bd2WI1FJw6szhH8ASsjLBTFeK4LQST+pJg==
-X-Received: by 10.36.39.195 with SMTP id g186mr14653558ita.53.1471285626109;
-	Mon, 15 Aug 2016 11:27:06 -0700 (PDT)
+	bh=zW99AjFn9mEUuW/sEcMyFQSH7tCC98QjfTJ4nf3LpkU=;
+	b=V0iuFMYNmrO6BknqJ0TPhR46UZX6J5/1urT6fwzGfvVeqyg/+D3HmYOV529L1F126K
+	ZXshuyLGPKvV0xCMzLjFCo9hzxqn7hexJeueXzOEvBXRIj5f0bWnCr864NGRiegYNMAV
+	9LUWFLYOdjqH9BLLh0BxvbThUNepsbu9XdMWnZS+52FPIXTWmvPhpUVbLfbaMp0A6rKQ
+	C3Dwo2vcewuUhu9HCvs+6FsnZQkqGGHSwpjzEms6AKYGSVmACCCWhARVLTCkq7FagL8d
+	U94iwLJ0ylhxUOXeH8rJOfDvYZVSPmXrnLNgdk7WAdlVxSVonXMjKVqfWz23xwA2s1ds
+	xLzw==
+X-Gm-Message-State: AEkoousu4z0QzgZf9ZDEIY1R3z+XXiDsixwwCfKUneQB5CflI5CVUxz08XafVo/8EEI3ng==
+X-Received: by 10.36.83.213 with SMTP id n204mr16086347itb.61.1471285625303;
+	Mon, 15 Aug 2016 11:27:05 -0700 (PDT)
 Received: from localhost.localdomain
 	(CPEe8de27b71faa-CMbcc810032faf.cpe.net.cable.rogers.com.
 	[174.112.43.94])
-	by smtp.gmail.com with ESMTPSA id 65sm7908858itl.16.2016.08.15.11.27.05
+	by smtp.gmail.com with ESMTPSA id 65sm7908858itl.16.2016.08.15.11.27.04
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 15 Aug 2016 11:27:05 -0700 (PDT)
+	Mon, 15 Aug 2016 11:27:04 -0700 (PDT)
 Sender: Bruce Ashfield <bruce.ashfield@gmail.com>
 From: Bruce Ashfield <bruce.ashfield@windriver.com>
 To: richard.purdie@linuxfoundation.org
-Date: Mon, 15 Aug 2016 14:27:00 -0400
-Message-Id: <9122780c8c60296ef0df0f260165466024e9cb69.1471281772.git.bruce@zedd.org>
+Date: Mon, 15 Aug 2016 14:26:59 -0400
+Message-Id: <ff62fe65ad3bae260ec0951caddf428632ef35de.1471281772.git.bruce@zedd.org>
 X-Mailer: git-send-email 2.5.0
 In-Reply-To: <cover.1471281772.git.bruce@zedd.org>
 References: <cover.1471281772.git.bruce@zedd.org>
 In-Reply-To: <cover.1471281772.git.bruce@zedd.org>
 References: <cover.1471281772.git.bruce@zedd.org>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 6/6] yocto-bsp/yocto-kernel: update to work with the latest kern-tools
+Subject: [PATCH 5/6] kernel-yocto: streamline patch, configuration and audit phases
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,143 +61,268 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 15 Aug 2016 18:27:05 -0000
+X-List-Received-Date: Mon, 15 Aug 2016 18:27:06 -0000
 
-With some recent changes in the kern tools, we can drop some changes in
-the yocto-bsp and yocto-kernel tools that ensured proper patching and
-BSP inheritance.
+We've been running with a set of kern-tools that were designed to work
+with build systems that knew nothing about git, trees, commits, etc.
 
-In particular, we no longer need to signify the start of patching, and
-we must instruct the tools that we only want configuration fragments
-via inheritance .. no patches (since they are already applied).
+As such, there's been a set of shims/wrappers in place to work with
+within bitbake/oe-core. These were the *me scripts: createme, updateme,
+patchme and configme.
+
+With this commit, we strip that legacy code and use the tools directly.
+This means less complexity, fewer corner cases .. and no surprises
+when the tools are arunning. As another benefit, the tools consume
+much less time during a typical build and have no noticeable impact
+on the overall build time.
+
+Existing .scc files, features, and processing are not impacted as
+these tools are compatible with existing feature descriptions and
+kerne configuration fragments.
+
+The audit of kernel configuration fragments is now detached
+from the linux-yocto build structure and process. This means that
+they can eventually be tweaked to offer kernel audit to any type of
+kernel build and configuration process.
+
+Additionally, the kernel symbol audit phase can now resolve symbol
+dependencies and offer guidance when a symbol is missing:
+
+   WARNING: linux-yocto-4.4.15+gitAUTOINC+b030d96c7b_f5e2c49d58-r0 do_kernel_configcheck: [kernel config]: specified values did not make it into the kernel's final configuration:
+
+   ---------- CONFIG_BT_6LOWPAN -----------------
+   Config: CONFIG_BT_6LOWPAN
+   From: /home/bruce/poky/build/tmp/work-shared/qemux86-64/kernel-source/.kernel-meta/configs/standard/features/bluetooth/bluetooth.cfg
+   Requested value:  CONFIG_BT_6LOWPAN=y
+   Actual value:
+
+   Config 'BT_6LOWPAN' has the following conditionals:
+     BT_LE && 6LOWPAN (value: "n")
+   Dependency values are:
+     BT_LE [y] 6LOWPAN [n]
 
 Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
 ---
- scripts/lib/bsp/kernel.py                                      |  1 -
- .../arch/arm/recipes-kernel/linux/files/machine-standard.scc   |  2 +-
- .../arch/i386/recipes-kernel/linux/files/machine-standard.scc  |  2 +-
- .../arch/mips/recipes-kernel/linux/files/machine-standard.scc  |  2 +-
- .../mips64/recipes-kernel/linux/files/machine-standard.scc     |  2 +-
- .../powerpc/recipes-kernel/linux/files/machine-standard.scc    |  2 +-
- .../arch/qemu/recipes-kernel/linux/files/machine-standard.scc  | 10 +++++-----
- .../x86_64/recipes-kernel/linux/files/machine-standard.scc     |  2 +-
- 8 files changed, 11 insertions(+), 12 deletions(-)
+ meta/classes/kernel-yocto.bbclass                  | 143 ++++++++-------------
+ .../kern-tools/kern-tools-native_git.bb            |   4 +-
+ 2 files changed, 55 insertions(+), 92 deletions(-)
 
-diff --git a/scripts/lib/bsp/kernel.py b/scripts/lib/bsp/kernel.py
-index 32cab3b..a3ee325 100644
---- a/scripts/lib/bsp/kernel.py
-+++ b/scripts/lib/bsp/kernel.py
-@@ -331,7 +331,6 @@ def write_patch_items(scripts_path, machine, patch_items):
-     patch list [${machine}-user-patches.scc].
-     """
-     f = open_user_file(scripts_path, machine, machine+"-user-patches.scc", "w")
--    f.write("mark patching start\n")
-     for item in patch_items:
-         f.write("patch " + item + "\n")
-     f.close()
-diff --git a/scripts/lib/bsp/substrate/target/arch/arm/recipes-kernel/linux/files/machine-standard.scc b/scripts/lib/bsp/substrate/target/arch/arm/recipes-kernel/linux/files/machine-standard.scc
-index 405972d..8a88157 100644
---- a/scripts/lib/bsp/substrate/target/arch/arm/recipes-kernel/linux/files/machine-standard.scc
-+++ b/scripts/lib/bsp/substrate/target/arch/arm/recipes-kernel/linux/files/machine-standard.scc
-@@ -3,7 +3,7 @@ define KMACHINE {{=machine}}
+diff --git a/meta/classes/kernel-yocto.bbclass b/meta/classes/kernel-yocto.bbclass
+index a9d4205..8650e55 100644
+--- a/meta/classes/kernel-yocto.bbclass
++++ b/meta/classes/kernel-yocto.bbclass
+@@ -119,77 +119,42 @@ do_kernel_metadata() {
+ 	patches="${@" ".join(find_patches(d))}"
+ 	feat_dirs="${@" ".join(find_kernel_feature_dirs(d))}"
  
- define KARCH arm
+-	# add any explicitly referenced features onto the end of the feature
+-	# list that is passed to the kernel build scripts.
+-	if [ -n "${KERNEL_FEATURES}" ]; then
+-		for feat in ${KERNEL_FEATURES}; do
+-			addon_features="$addon_features --feature $feat"
+-		done
+-	fi
+-
+ 	# check for feature directories/repos/branches that were part of the
+ 	# SRC_URI. If they were supplied, we convert them into include directives
+ 	# for the update part of the process
+-	if [ -n "${feat_dirs}" ]; then
+-	    for f in ${feat_dirs}; do
++	for f in ${feat_dirs}; do
+ 		if [ -d "${WORKDIR}/$f/meta" ]; then
+-		    includes="$includes -I${WORKDIR}/$f/meta"
++			includes="$includes -I${WORKDIR}/$f/meta"
+ 		elif [ -d "${WORKDIR}/$f" ]; then
+-		    includes="$includes -I${WORKDIR}/$f"
++			includes="$includes -I${WORKDIR}/$f"
+ 		fi
+-	    done
+-	fi
++	done
++	for s in ${sccs}; do
++		sdir=$(dirname $s)
++		includes="$includes -I${sdir}"
++	done
  
--include {{=map_standard_kbranch(need_new_kbranch, new_kbranch, existing_kbranch)}}
-+include {{=map_standard_kbranch(need_new_kbranch, new_kbranch, existing_kbranch)}} nopatch
- {{ if need_new_kbranch == "y": }}
- define KTYPE {{=new_kbranch}}
- branch {{=machine}}
-diff --git a/scripts/lib/bsp/substrate/target/arch/i386/recipes-kernel/linux/files/machine-standard.scc b/scripts/lib/bsp/substrate/target/arch/i386/recipes-kernel/linux/files/machine-standard.scc
-index 67a54be..38d1ca5 100644
---- a/scripts/lib/bsp/substrate/target/arch/i386/recipes-kernel/linux/files/machine-standard.scc
-+++ b/scripts/lib/bsp/substrate/target/arch/i386/recipes-kernel/linux/files/machine-standard.scc
-@@ -3,7 +3,7 @@ define KMACHINE {{=machine}}
+-	# updates or generates the target description
+-	updateme ${updateme_flags} -DKDESC=${KMACHINE}:${LINUX_KERNEL_TYPE} \
+-                         ${includes} ${addon_features} ${ARCH} ${KMACHINE} ${sccs} ${patches}
+-	if [ $? -ne 0 ]; then
+-		bbfatal_log "Could not update ${machine_branch}"
+-	fi
++	# expand kernel features into their full path equivalents
++	bsp_definition=$(spp ${includes} --find -DKMACHINE=${KMACHINE} -DKTYPE=${LINUX_KERNEL_TYPE})
++	meta_dir=$(kgit --meta)
++
++	# run1: pull all the configuration fragments, no matter where they come from
++	scc --force -o ${S}/${meta_dir}:cfg,meta ${includes} ${bsp_definition} ${sccs} ${patches} ${KERNEL_FEATURES}
++
++	# run2: only generate patches for elements that have been passed on the SRC_URI
++	scc --force -o ${S}/${meta_dir}:patch --cmds patch ${includes} ${sccs} ${patches} ${KERNEL_FEATURES}
+ }
  
- define KARCH i386
+ do_patch() {
+ 	cd ${S}
  
--include {{=map_standard_kbranch(need_new_kbranch, new_kbranch, existing_kbranch)}}
-+include {{=map_standard_kbranch(need_new_kbranch, new_kbranch, existing_kbranch)}} nopatch
- {{ if need_new_kbranch == "y": }}
- define KTYPE {{=new_kbranch}}
- branch {{=machine}}
-diff --git a/scripts/lib/bsp/substrate/target/arch/mips/recipes-kernel/linux/files/machine-standard.scc b/scripts/lib/bsp/substrate/target/arch/mips/recipes-kernel/linux/files/machine-standard.scc
-index 7c9dc52..b34f3d3 100644
---- a/scripts/lib/bsp/substrate/target/arch/mips/recipes-kernel/linux/files/machine-standard.scc
-+++ b/scripts/lib/bsp/substrate/target/arch/mips/recipes-kernel/linux/files/machine-standard.scc
-@@ -3,7 +3,7 @@ define KMACHINE {{=machine}}
+-	# executes and modifies the source tree as required
+-	patchme ${KMACHINE}
+-	if [ $? -ne 0 ]; then
+-		bberror "Could not apply patches for ${KMACHINE}."
+-		bbfatal_log "Patch failures can be resolved in the linux source directory ${S})"
+-	fi
+-
+-	# check to see if the specified SRCREV is reachable from the final branch.
+-	# if it wasn't something wrong has happened, and we should error.
+-	machine_srcrev="${SRCREV_machine}"
+-	if [ -z "${machine_srcrev}" ]; then
+-		# fallback to SRCREV if a non machine_meta tree is being built
+-		machine_srcrev="${SRCREV}"
+-		# if SRCREV cannot be reached something is wrong.
+-		if [ -z "${machine_srcrev}" ]; then
+-			bbfatal "Neither SRCREV_machine or SRCREV was specified!"
+-		fi
+-	fi
+-
+-        if [ -n "${KMETA_AUDIT}" ]; then
+-            current_branch=`git rev-parse --abbrev-ref HEAD`
+-            machine_branch="${@ get_machine_branch(d, "${KBRANCH}" )}"
+-            if [ "${current_branch}" != "${machine_branch}" ]; then
+-                bbwarn "After meta data application, the kernel tree branch is ${current_branch}."
+-                bbwarn "The SRC_URI specified branch ${machine_branch}."
+-                bbwarn ""
+-                bbwarn "The branch will be forced to ${machine_branch}, but this means the board meta data"
+-                bbwarn "(.scc files) do not match the SRC_URI specification."
+-                bbwarn ""
+-                bbwarn "The meta data and branch ${machine_branch} should be inspected to ensure the proper"
+-                bbwarn "kernel is being built."
+-                git checkout -f ${machine_branch}
+-            fi
+-        fi
+-
+-	if [ "${machine_srcrev}" != "AUTOINC" ]; then
+-		if ! [ "$(git rev-parse --verify ${machine_srcrev}~0)" = "$(git merge-base ${machine_srcrev} HEAD)" ]; then
+-			bberror "SRCREV ${machine_srcrev} was specified, but is not reachable"
+-			bbfatal "Check the BSP description for incorrect branch selection, or other errors."
++	meta_dir=$(kgit --meta)
++	(cd ${meta_dir}; ln -sf patch.queue series)
++	if [ -f "${meta_dir}/series" ]; then
++		kgit-s2q --gen -v --patches .kernel-meta/
++		if [ $? -ne 0 ]; then
++			bberror "Could not apply patches for ${KMACHINE}."
++			bbfatal_log "Patch failures can be resolved in the linux source directory ${S})"
+ 		fi
+ 	fi
+ }
+@@ -258,26 +223,37 @@ do_kernel_metadata[depends] = "kern-tools-native:do_populate_sysroot"
  
- define KARCH mips
+ do_kernel_configme[dirs] += "${S} ${B}"
+ do_kernel_configme() {
+-	bbnote "kernel configme"
+-	export KMETA=${KMETA}
++	set +e
  
--include {{=map_standard_kbranch(need_new_kbranch, new_kbranch, existing_kbranch)}}
-+include {{=map_standard_kbranch(need_new_kbranch, new_kbranch, existing_kbranch)}} nopatch
- {{ if need_new_kbranch == "y": }}
- define KTYPE {{=new_kbranch}}
- branch {{=machine}}
-diff --git a/scripts/lib/bsp/substrate/target/arch/mips64/recipes-kernel/linux/files/machine-standard.scc b/scripts/lib/bsp/substrate/target/arch/mips64/recipes-kernel/linux/files/machine-standard.scc
-index 7c9dc52..b34f3d3 100644
---- a/scripts/lib/bsp/substrate/target/arch/mips64/recipes-kernel/linux/files/machine-standard.scc
-+++ b/scripts/lib/bsp/substrate/target/arch/mips64/recipes-kernel/linux/files/machine-standard.scc
-@@ -3,7 +3,7 @@ define KMACHINE {{=machine}}
+-	if [ -n "${KCONFIG_MODE}" ]; then
+-		configmeflags=${KCONFIG_MODE}
+-	else
+-		# If a defconfig was passed, use =n as the baseline, which is achieved
+-		# via --allnoconfig
++	# translate the kconfig_mode into something that merge_config.sh
++	# understands
++	case ${KCONFIG_MODE} in
++		allnoconfig)
++			config_flags="-n"
++			;;
++		alldefconfig)
++			config_flags=""
++			;;
++	    *)
+ 		if [ -f ${WORKDIR}/defconfig ]; then
+-			configmeflags="--allnoconfig"
++			config_flags="-n"
+ 		fi
+-	fi
++	    ;;
++	esac
  
- define KARCH mips
+ 	cd ${S}
+-	PATH=${PATH}:${S}/scripts/util
+-	configme ${configmeflags} --reconfig --output ${B} ${LINUX_KERNEL_TYPE} ${KMACHINE}
++
++	meta_dir=$(kgit --meta)
++	configs="$(scc --configs -o ${meta_dir})"
++	if [ -z "${configs}" ]; then
++		bbfatal_log "Could not find configuration queue (${meta_dir}/config.queue)"
++	fi
++
++	ARCH=${ARCH} merge_config.sh -O ${B} ${config_flags} ${configs} > ${meta_dir}/cfg/merge_config_build.log 2>&1
+ 	if [ $? -ne 0 ]; then
+ 		bbfatal_log "Could not configure ${KMACHINE}-${LINUX_KERNEL_TYPE}"
+ 	fi
+-	
++
+ 	echo "# Global settings from linux recipe" >> ${B}/.config
+ 	echo "CONFIG_LOCALVERSION="\"${LINUX_VERSION_EXTENSION}\" >> ${B}/.config
+ }
+@@ -295,36 +271,23 @@ python do_kernel_configcheck() {
+         kmeta = "." + kmeta
  
--include {{=map_standard_kbranch(need_new_kbranch, new_kbranch, existing_kbranch)}}
-+include {{=map_standard_kbranch(need_new_kbranch, new_kbranch, existing_kbranch)}} nopatch
- {{ if need_new_kbranch == "y": }}
- define KTYPE {{=new_kbranch}}
- branch {{=machine}}
-diff --git a/scripts/lib/bsp/substrate/target/arch/powerpc/recipes-kernel/linux/files/machine-standard.scc b/scripts/lib/bsp/substrate/target/arch/powerpc/recipes-kernel/linux/files/machine-standard.scc
-index 89b344f..c166fcd 100644
---- a/scripts/lib/bsp/substrate/target/arch/powerpc/recipes-kernel/linux/files/machine-standard.scc
-+++ b/scripts/lib/bsp/substrate/target/arch/powerpc/recipes-kernel/linux/files/machine-standard.scc
-@@ -3,7 +3,7 @@ define KMACHINE {{=machine}}
+     pathprefix = "export PATH=%s:%s; " % (d.getVar('PATH', True), "${S}/scripts/util/")
+-    cmd = d.expand("cd ${S}; kconf_check -config %s/meta-series ${S} ${B}" % kmeta)
++
++    cmd = d.expand("scc --configs -o ${S}/.kernel-meta")
++    ret, configs = oe.utils.getstatusoutput("%s%s" % (pathprefix, cmd))
++
++    cmd = d.expand("cd ${S}; kconf_check --report -o ${S}/%s/cfg/ ${B}/.config ${S} %s" % (kmeta,configs))
+     ret, result = oe.utils.getstatusoutput("%s%s" % (pathprefix, cmd))
  
- define KARCH powerpc
+     config_check_visibility = int(d.getVar( "KCONF_AUDIT_LEVEL", True ) or 0)
+     bsp_check_visibility = int(d.getVar( "KCONF_BSP_AUDIT_LEVEL", True ) or 0)
  
--include {{=map_standard_kbranch(need_new_kbranch, new_kbranch, existing_kbranch)}}
-+include {{=map_standard_kbranch(need_new_kbranch, new_kbranch, existing_kbranch)}} nopatch
- {{ if need_new_kbranch == "y": }}
- define KTYPE {{=new_kbranch}}
- branch {{=machine}}
-diff --git a/scripts/lib/bsp/substrate/target/arch/qemu/recipes-kernel/linux/files/machine-standard.scc b/scripts/lib/bsp/substrate/target/arch/qemu/recipes-kernel/linux/files/machine-standard.scc
-index 14554da..43cf642 100644
---- a/scripts/lib/bsp/substrate/target/arch/qemu/recipes-kernel/linux/files/machine-standard.scc
-+++ b/scripts/lib/bsp/substrate/target/arch/qemu/recipes-kernel/linux/files/machine-standard.scc
-@@ -4,15 +4,15 @@ define KMACHINE {{=machine}}
- define KARCH {{=qemuarch}}
+     # if config check visibility is non-zero, report dropped configuration values
+-    mismatch_file = "${S}/" + kmeta + "/" + "mismatch.cfg"
++    mismatch_file = d.expand("${S}/%s/cfg/mismatch.txt" % kmeta)
+     if os.path.exists(mismatch_file):
+         if config_check_visibility:
+             with open (mismatch_file, "r") as myfile:
+                 results = myfile.read()
+                 bb.warn( "[kernel config]: specified values did not make it into the kernel's final configuration:\n\n%s" % results)
+-
+-    # if config check visibility is level 2 or higher, report non-hardware options
+-    nonhw_file = "${S}/" + kmeta + "/" + "nonhw_report.cfg"
+-    if os.path.exists(nonhw_file):
+-        if config_check_visibility > 1:
+-            with open (nonhw_file, "r") as myfile:
+-                results = myfile.read()
+-                bb.warn( "[kernel config]: BSP specified non-hw configuration:\n\n%s" % results)
+-
+-    bsp_desc = "${S}/" + kmeta + "/" + "top_tgt"
+-    if os.path.exists(bsp_desc) and bsp_check_visibility > 1:
+-        with open (bsp_desc, "r") as myfile:
+-            bsp_tgt = myfile.read()
+-            m = re.match("^(.*)scratch.obj(.*)$", bsp_tgt)
+-            if not m is None:
+-                bb.warn( "[kernel]: An auto generated BSP description was used, this normally indicates a misconfiguration.\n" +
+-                         "Check that your machine (%s) has an associated kernel description." % "${MACHINE}" )
+ }
  
- {{ if qemuarch == "i386" or qemuarch == "x86_64": }}
--include {{=map_standard_kbranch(need_new_kbranch, new_kbranch, existing_kbranch)}}
-+include {{=map_standard_kbranch(need_new_kbranch, new_kbranch, existing_kbranch)}} nopatch
- {{ if qemuarch == "arm": }}
--include bsp/arm-versatile-926ejs/arm-versatile-926ejs-standard
-+include bsp/arm-versatile-926ejs/arm-versatile-926ejs-standard nopatch
- {{ if qemuarch == "powerpc": }}
--include bsp/qemu-ppc32/qemu-ppc32-standard
-+include bsp/qemu-ppc32/qemu-ppc32-standard nopatch
- {{ if qemuarch == "mips": }}
--include bsp/mti-malta32/mti-malta32-be-standard
-+include bsp/mti-malta32/mti-malta32-be-standard nopatch
- {{ if qemuarch == "mips64": }}
--include bsp/mti-malta64/mti-malta64-be-standard
-+include bsp/mti-malta64/mti-malta64-be-standard nopatch
- {{ if need_new_kbranch == "y": }}
- define KTYPE {{=new_kbranch}}
- branch {{=machine}}
-diff --git a/scripts/lib/bsp/substrate/target/arch/x86_64/recipes-kernel/linux/files/machine-standard.scc b/scripts/lib/bsp/substrate/target/arch/x86_64/recipes-kernel/linux/files/machine-standard.scc
-index 9c9cc90..a2b2910 100644
---- a/scripts/lib/bsp/substrate/target/arch/x86_64/recipes-kernel/linux/files/machine-standard.scc
-+++ b/scripts/lib/bsp/substrate/target/arch/x86_64/recipes-kernel/linux/files/machine-standard.scc
-@@ -3,7 +3,7 @@ define KMACHINE {{=machine}}
+ # Ensure that the branches (BSP and meta) are on the locations specified by
+diff --git a/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb b/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
+index c3ded98..6877a0c 100644
+--- a/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
++++ b/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
+@@ -1,10 +1,10 @@
+ SUMMARY = "Tools for managing Yocto Project style branched kernels"
+ LICENSE = "GPLv2"
+-LIC_FILES_CHKSUM = "file://git/tools/kgit;beginline=5;endline=9;md5=d8d1d729a70cd5f52972f8884b80743d"
++LIC_FILES_CHKSUM = "file://git/tools/kgit;beginline=5;endline=9;md5=a6c2fa8aef1bda400e2828845ba0d06c"
  
- define KARCH x86_64
+ DEPENDS = "git-native"
  
--include {{=map_standard_kbranch(need_new_kbranch, new_kbranch, existing_kbranch)}}
-+include {{=map_standard_kbranch(need_new_kbranch, new_kbranch, existing_kbranch)}} nopatch
- {{ if need_new_kbranch == "y": }}
- define KTYPE {{=new_kbranch}}
- branch {{=machine}}
+-SRCREV = "a6a6f6e1e738d2ecd26b675e9bec867105703416"
++SRCREV = "4b5de9011b31ff92ba2b6e052ab818b09affd905"
+ PR = "r12"
+ PV = "0.2+git${SRCPV}"
+ 
 -- 
 2.5.0
 
