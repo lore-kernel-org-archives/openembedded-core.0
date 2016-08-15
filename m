@@ -1,53 +1,25 @@
-Return-Path: <kristian.amlie@mender.io>
-Received: from mail-wm0-f46.google.com (mail-wm0-f46.google.com [74.125.82.46])
-	by mail.openembedded.org (Postfix) with ESMTP id CA4EC77109
+Return-Path: <Hongxu.Jia@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 8B2F276FF2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Aug 2016 06:39:00 +0000 (UTC)
-Received: by mail-wm0-f46.google.com with SMTP id f65so74287205wmi.0
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 14 Aug 2016 23:39:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=mender-io.20150623.gappssmtp.com; s=20150623;
-	h=subject:to:references:cc:from:message-id:date:user-agent
-	:mime-version:in-reply-to:content-transfer-encoding;
-	bh=Hld0noVsWQZ+EnPg42e2stjHBMlfLkHjZYxTzLkYF+Q=;
-	b=I794qPgXqGxwu5FI/z9GAY8L4kudtADWmzSS9llRgJ2KO3d1PSyNIL7w17x4zdnm7g
-	7yu3lqd9x093V/hR0WpDyxxqKHrpKK5r1Rsd9EQu/F5A3NfQpoBN5nAXuZbcNA4g7CaX
-	tt1J3Ue3S6vpGawvXVuPaBNZh4MKiGNa260/Zibo+83Z/IJpzogrYOISYAjG0yZqLrln
-	te/iRImZ0Nwz9lkGUB11+SJhYativbXQiZb1C2giDi3J5QtvD0/fcQJyWnSyBMtuQ7dO
-	sLenzeCAJlWlLaZJ+gQGF4KFs+Tko2OZUMMNg6w8vhUB1TGE3DtIA0JNCqgBMCYSw0dp
-	Fh8Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:subject:to:references:cc:from:message-id:date
-	:user-agent:mime-version:in-reply-to:content-transfer-encoding;
-	bh=Hld0noVsWQZ+EnPg42e2stjHBMlfLkHjZYxTzLkYF+Q=;
-	b=V4CFyDCPNXCvJQMu54lC1DVyS/S5fOZrT8QhubgpfiqGTh3xUr5ROLGbPZkCKHVrGo
-	RvJoLvcAfwwHkevrmM53xEMBW2Gg6SEdrnHJ06S4Wy1/22bpfekYUY+p5jeRfFGV72CQ
-	MIAk3VEYak9tXidHJcfYbD5mx8TDHxGGAq4qR1PHwddE3cSmPWvV5MegGEt9svr1X7h7
-	8dhSEME3bISenEjL3to6e4S5naN84qkEBSnR3GgPPz3Li+NAfhkRhU0ewbV7FlEPlzLJ
-	hEMiuPjI+CK/tAdWfEpj+rdRtnyRES8kln3bhx6DS4cDZedz3XVxRBC9gLRvgCcZzp/3
-	S8aw==
-X-Gm-Message-State: AEkoouuHpPVQ5ZlWdCHM4G7a5hpSnzhJbrHlDW3YLnLzt5KCt9FlxVupeNbeoW3Nxa4y1A==
-X-Received: by 10.25.89.15 with SMTP id n15mr4844686lfb.163.1471243140559;
-	Sun, 14 Aug 2016 23:39:00 -0700 (PDT)
-Received: from [10.25.0.170] ([195.159.140.90])
-	by smtp.googlemail.com with ESMTPSA id
-	f22sm3590929lji.13.2016.08.14.23.38.59
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 14 Aug 2016 23:38:59 -0700 (PDT)
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <1469001221-26502-1-git-send-email-kristian.amlie@mender.io>
-	<CAJTo0LbW8c7V=5vHXML8srwVgzacqGJp2o0M4OOReVE42DnW0g@mail.gmail.com>
-From: Kristian Amlie <kristian.amlie@mender.io>
-Message-ID: <ddcae3ee-b5a1-c9b8-b53d-50a4001f3eeb@mender.io>
-Date: Mon, 15 Aug 2016 08:38:59 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.2.0
+	Mon, 15 Aug 2016 07:36:04 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u7F7a3Hx011685
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
+	Mon, 15 Aug 2016 00:36:04 -0700
+Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.248.2;
+	Mon, 15 Aug 2016 00:36:02 -0700
+From: Hongxu Jia <hongxu.jia@windriver.com>
+To: <openembedded-core@lists.openembedded.org>, <ross.burton@intel.com>
+Date: Mon, 15 Aug 2016 03:35:57 -0400
+Message-ID: <faeb2b06075448d9a14faf6bc149582783531ad7.1471246475.git.hongxu.jia@windriver.com>
+X-Mailer: git-send-email 2.8.1
+In-Reply-To: <cover.1471246474.git.hongxu.jia@windriver.com>
+References: <cover.1471246474.git.hongxu.jia@windriver.com>
 MIME-Version: 1.0
-In-Reply-To: <CAJTo0LbW8c7V=5vHXML8srwVgzacqGJp2o0M4OOReVE42DnW0g@mail.gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [krogoth] systemd network service fails to start on boot
+Subject: [PATCH 1/3] man-pages: upgrade to 4.07
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,27 +32,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 15 Aug 2016 06:39:02 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 15 Aug 2016 07:36:05 -0000
+Content-Type: text/plain
 
-On 09/08/16 12:01, Burton, Ross wrote:
-> 
-> On 20 July 2016 at 08:53, Kristian Amlie <kristian.amlie@mender.io
-> <mailto:kristian.amlie@mender.io>> wrote:
-> 
->     on our krogoth build the systemd network service does not start, and it
->     seems to be because of missing users, which has already been fixed on
->     master. I've cherry-picked the two patches that fixed the problem for
->     us. Note that they are not written by me, but by other people on this
->     list. I hope they can be applied to krogoth.
-> 
-> 
-> Can you send the two patches to this list, with the [krogoth] tag in the
-> subject, and your signed-off-by to confirm that you've tested them?
+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+---
+ .../man-pages/{man-pages_4.06.bb => man-pages_4.07.bb}                | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-extended/man-pages/{man-pages_4.06.bb => man-pages_4.07.bb} (86%)
 
-So, I did what you asked. Is there anything else missing?
-
+diff --git a/meta/recipes-extended/man-pages/man-pages_4.06.bb b/meta/recipes-extended/man-pages/man-pages_4.07.bb
+similarity index 86%
+rename from meta/recipes-extended/man-pages/man-pages_4.06.bb
+rename to meta/recipes-extended/man-pages/man-pages_4.07.bb
+index b61473c..76a3fd8 100644
+--- a/meta/recipes-extended/man-pages/man-pages_4.06.bb
++++ b/meta/recipes-extended/man-pages/man-pages_4.07.bb
+@@ -7,8 +7,8 @@ LICENSE = "GPLv2+"
+ LIC_FILES_CHKSUM = "file://README;md5=8f2a3d43057d458e5066714980567a60"
+ SRC_URI = "${KERNELORG_MIRROR}/linux/docs/${BPN}/Archive/${BP}.tar.gz"
+ 
+-SRC_URI[md5sum] = "ab79fc245336ce0192548e7ccecd4ee6"
+-SRC_URI[sha256sum] = "b377960eba7fcc7ea3a7070734a1627105a1ad15dd61ae5443ade863a06e9811"
++SRC_URI[md5sum] = "05ba1cb21e99d02bd7bc1a59378965d2"
++SRC_URI[sha256sum] = "c973351131931f7700f5e9fbf4ef366c43ea7c1515d282e8d5db9c77590c4c93"
+ 
+ RDEPENDS_${PN} = "man"
+ 
 -- 
-Kristian
+2.8.1
+
 
