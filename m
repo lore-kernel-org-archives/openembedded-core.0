@@ -1,53 +1,53 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pa0-f66.google.com (mail-pa0-f66.google.com
-	[209.85.220.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 91D367713C
+Received: from mail-pf0-f195.google.com (mail-pf0-f195.google.com
+	[209.85.192.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 8487773204
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Aug 2016 20:56:35 +0000 (UTC)
-Received: by mail-pa0-f66.google.com with SMTP id hh10so4104863pac.1
+	Mon, 15 Aug 2016 20:58:03 +0000 (UTC)
+Received: by mail-pf0-f195.google.com with SMTP id h186so4240337pfg.2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Aug 2016 13:56:36 -0700 (PDT)
+	Mon, 15 Aug 2016 13:58:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=subject:to:references:from:message-id:date:user-agent:mime-version
 	:in-reply-to:content-transfer-encoding;
-	bh=/e5ugGvFqHqx5JzESTvf+Kid1Deo6uN2beNdqOomzAg=;
-	b=tIBgoutWhWS14raznZgykc/8rVHuBQ3we/2VcW8628ygfl5kF1oexes8yOPODRhyz3
-	Fy+xtXGTyxJRAmXJh/QGN7ULWsIOHliVftVnbdVwJgMKXRjeQ3tHSbi0adOtAAreERO0
-	Muk/F+ofW0z4jAhHf0lVkNgrcl4lzBMiw0VL1DSrrWJEqlTFo4GiwF1rVz2MwwSlpb9x
-	7sq54Qii7fSmN3ECTI+9UxSH1q7NV+87mNKNjpHRPa3PTj1UM7gEV/P4U6jRha1Mar9f
-	AdvM9QgoX9ArkHA2ODaQ5aZQnkHy7zpfIexQtqVJPFsGVxYqxEACyeBnWQeUb6Or/2UJ
-	f4ew==
+	bh=YjXFMJhT7uVjngsLRwxRg66FE0qGo6RhJ4Ckvh/UsXw=;
+	b=tOluGfdMrpi6geSuPlAO91hsdbIkva/hc+mfR4YcBY9TWbjdIXYt1QECOtlYuvxMth
+	jv0a/Zp5nAfHXcvftZ92OIbx387+oYdta+q/LsFVwLY/8vg1GGBofzsK7kFzjSvsdmao
+	ghbJHYwh0H0cgnMRswSSvdksuER79vbN58mgXDmEY8zoliQ/oHKVOWtnLuEA4+jSpMxM
+	VgCT/77FL7K5q+wW0VHLcWwICB336ip2c5tOUzUDtcnGJecTMZ/Cn958wxiW/TusC9af
+	KyWaEbwte9cWlzVliKrxfA1eV0Z/SRQkFZifN8sBkaYxP38HdSTP5wwUqTNffnqVDrZL
+	4nnQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:subject:to:references:from:message-id:date
 	:user-agent:mime-version:in-reply-to:content-transfer-encoding;
-	bh=/e5ugGvFqHqx5JzESTvf+Kid1Deo6uN2beNdqOomzAg=;
-	b=XIotwAaTsYRtpj55pKF2zlDN6jV6fgmfyOYGMHgjIAjHtVrtS3whSMrW9MWldz91M1
-	VUANPamgIzA+vigzM9wSk1FZoZEf9vIlT4NixXwoi5xeVv0Jmj9sy41KyDTFHnffY/jt
-	heLSAGpf8XnG0aBThd/gQOYU5P0Zal26Tq32ME5r2ImLiVGvRzMT1DEMbWgObIG4sWZk
-	vHYcpjD3QaYbSYRgYIMjRpEIM86SYEoQT5eX2ER5xfMmlfh/A+dSU/wSGIUjdJK3i9Or
-	+Xv6lDERegnag9YzkcZPpYGpZzCnjB2sP7Uc/n7CMT52o1AgLDCNN0ZB2kZyIx8x4qrP
-	+jpA==
-X-Gm-Message-State: AEkoouunGUL2ozqwKdOT0N08mmXbm4AEE9LcueWLp7Re+MRav39+DrUnOWY4s+kqyi2rNQ==
-X-Received: by 10.66.254.39 with SMTP id af7mr1685944pad.37.1471294595831;
-	Mon, 15 Aug 2016 13:56:35 -0700 (PDT)
+	bh=YjXFMJhT7uVjngsLRwxRg66FE0qGo6RhJ4Ckvh/UsXw=;
+	b=LYaWDK6EkueW40KqndewiaG4M3cv0OAv7Xlh5Lv55bXOid+OPoXvDKD8l5FRstkw6g
+	CDra2xw/dXWZBnRe3pFtimab/NBJGJkdV4lFgPeB2r78f9CkP2kZ8SRIkzE2y/5gwhmp
+	Zu0ft4OvhorCcmes1tfa/sf+R2EIdVkq7pUAwyLSukMYTWYYxgLi0WutOxcQFUDFVa3m
+	zUv9wtrRl0KjDTlLcOJ+LelH1G7cd3WVDdiHw8gJAxFgFdskeZLIAWA6851Apa9kF+x5
+	+xUnCF09mNHhWTL35d7pbPmQ53Ej03g3Vc36Viy3dBYjwnhAQ5fdD7llYt5ocEe6mBAF
+	tPkg==
+X-Gm-Message-State: AEkoousHzoUoBvOQsknsoZQpoh3qNXQysdbsy+LZUbB27fthMy83ify+6P98tAguv3Ak7g==
+X-Received: by 10.98.88.131 with SMTP id m125mr5937369pfb.63.1471294683210;
+	Mon, 15 Aug 2016 13:58:03 -0700 (PDT)
 Received: from ?IPv6:2601:202:4001:9ea0:94d9:eae7:71b3:4646?
 	([2601:202:4001:9ea0:94d9:eae7:71b3:4646])
 	by smtp.googlemail.com with ESMTPSA id
-	j21sm33503342pfj.75.2016.08.15.13.56.34
+	q4sm33557608pfb.18.2016.08.15.13.58.01
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 15 Aug 2016 13:56:34 -0700 (PDT)
+	Mon, 15 Aug 2016 13:58:02 -0700 (PDT)
 To: openembedded-core@lists.openembedded.org
-References: <1470671116-1997-1-git-send-email-tom.hochstein@nxp.com>
+References: <1468588941-2574-1-git-send-email-pascal.bach@siemens.com>
 From: akuster808 <akuster808@gmail.com>
-Message-ID: <57B22C81.7040405@gmail.com>
-Date: Mon, 15 Aug 2016 13:56:33 -0700
+Message-ID: <57B22CD8.2020908@gmail.com>
+Date: Mon, 15 Aug 2016 13:58:00 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
 	Thunderbird/38.8.0
 MIME-Version: 1.0
-In-Reply-To: <1470671116-1997-1-git-send-email-tom.hochstein@nxp.com>
-Subject: Re: [krogoth][PATCH] mesa-demos: Fix OpenGL ES configurability
+In-Reply-To: <1468588941-2574-1-git-send-email-pascal.bach@siemens.com>
+Subject: Re: [krogoth][PATCH] gcc, qemuppc: Explicitly disable forcing SPE flags for 4.9
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,85 +60,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 15 Aug 2016 20:56:38 -0000
+X-List-Received-Date: Mon, 15 Aug 2016 20:58:03 -0000
 Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 
 
 
-On 08/08/2016 08:45 AM, Tom Hochstein wrote:
-> The most recent patch 0011-drop-demos-dependant-on-obsolete-MESA_screen_surface.patch
-> incorrectly removed the configuration constructs that allowed the
-> package to be configured without OpenGL ES support.
+On 07/15/2016 06:22 AM, Pascal Bach wrote:
+> This ports the missing changes from commit: 7a51776a830167e43cbd185505f62f328704e271
+> from 5.3 to 4.9 so that qemuppc can be compiled.
 > 
-> Signed-off-by: Tom Hochstein <tom.hochstein@nxp.com>
-> ---
->  .../mesa-demos/0012-Fix-gles-configurability.patch | 39 ++++++++++++++++++++++
->  meta/recipes-graphics/mesa/mesa-demos_8.2.0.bb     |  1 +
->  2 files changed, 40 insertions(+)
->  create mode 100644 meta/recipes-graphics/mesa/mesa-demos/0012-Fix-gles-configurability.patch
+> Signed-off-by: Pascal Bach <pascal.bach@siemens.com>
 
-merged to staging.
+merged to staging
 
-Thanks,
+thanks,
 Armin
+> ---
+>  ...Enable-SPE-AltiVec-generation-on-powepc-linux-target.patch | 11 +++++++++++
+>  1 file changed, 11 insertions(+)
 > 
-> diff --git a/meta/recipes-graphics/mesa/mesa-demos/0012-Fix-gles-configurability.patch b/meta/recipes-graphics/mesa/mesa-demos/0012-Fix-gles-configurability.patch
-> new file mode 100644
-> index 0000000..0b437a4
-> --- /dev/null
-> +++ b/meta/recipes-graphics/mesa/mesa-demos/0012-Fix-gles-configurability.patch
-> @@ -0,0 +1,39 @@
-> +Index: mesa-demos-8.2.0/src/egl/opengles1/Makefile.am
+> diff --git a/meta/recipes-devtools/gcc/gcc-4.9/0049-Enable-SPE-AltiVec-generation-on-powepc-linux-target.patch b/meta/recipes-devtools/gcc/gcc-4.9/0049-Enable-SPE-AltiVec-generation-on-powepc-linux-target.patch
+> index b98f8ff..77fa18a 100644
+> --- a/meta/recipes-devtools/gcc/gcc-4.9/0049-Enable-SPE-AltiVec-generation-on-powepc-linux-target.patch
+> +++ b/meta/recipes-devtools/gcc/gcc-4.9/0049-Enable-SPE-AltiVec-generation-on-powepc-linux-target.patch
+> @@ -37,6 +37,17 @@ index cb7a94e..d392c2b 100644
+>   	extra_options="${extra_options} rs6000/sysv4.opt"
+>   	tmake_file="rs6000/t-fprules rs6000/t-ppcos ${tmake_file} rs6000/t-ppccomm"
+>   	case ${target} in
+> +Index: gcc-4.9.3/gcc/config/rs6000/linuxspe.h
 > +===================================================================
-> +--- mesa-demos-8.2.0.orig/src/egl/opengles1/Makefile.am	2016-07-29 10:52:50.131729547 -0500
-> ++++ mesa-demos-8.2.0/src/egl/opengles1/Makefile.am	2016-07-29 10:59:26.000000000 -0500
-> +@@ -36,6 +36,8 @@
-> + 	$(EGL_LIBS) \
-> + 	-lm
-> + 
-> ++if HAVE_EGL
-> ++if HAVE_GLESV1
-> + bin_PROGRAMS =
-> + 
-> + if HAVE_X11
-> +@@ -76,3 +78,5 @@
-> + torus_x11_LDADD = ../eglut/libeglut_x11.la
-> + tri_x11_LDADD = ../eglut/libeglut_x11.la
-> + endif
-> ++endif
-> ++endif
-> +Index: mesa-demos-8.2.0/src/egl/opengles2/Makefile.am
-> +===================================================================
-> +--- mesa-demos-8.2.0.orig/src/egl/opengles2/Makefile.am	2016-07-29 10:52:50.131729547 -0500
-> ++++ mesa-demos-8.2.0/src/egl/opengles2/Makefile.am	2016-07-29 10:59:03.000000000 -0500
-> +@@ -33,6 +33,8 @@
-> + 	$(EGL_LIBS) \
-> + 	-lm
-> + 
-> ++if HAVE_EGL
-> ++if HAVE_GLESV2
-> + bin_PROGRAMS =
-> + 
-> + if HAVE_WAYLAND
-> +@@ -53,4 +55,5 @@
-> + es2gears_x11_LDADD = ../eglut/libeglut_x11.la
-> + es2tri_LDADD = $(X11_LIBS)
-> + endif
+> +--- gcc-4.9.3.orig/gcc/config/rs6000/linuxspe.h
+> ++++ gcc-4.9.3/gcc/config/rs6000/linuxspe.h
+> +@@ -27,6 +27,3 @@
+> + #undef	TARGET_DEFAULT
+> + #define TARGET_DEFAULT MASK_STRICT_ALIGN
+> + #endif
 > +-
-> ++endif
-> ++endif
-> diff --git a/meta/recipes-graphics/mesa/mesa-demos_8.2.0.bb b/meta/recipes-graphics/mesa/mesa-demos_8.2.0.bb
-> index 2df9bba..8e12d82 100644
-> --- a/meta/recipes-graphics/mesa/mesa-demos_8.2.0.bb
-> +++ b/meta/recipes-graphics/mesa/mesa-demos_8.2.0.bb
-> @@ -21,6 +21,7 @@ SRC_URI = "ftp://ftp.freedesktop.org/pub/mesa/demos/${PV}/${BPN}-${PV}.tar.bz2 \
->      file://0009-glsl-perf-Install-.glsl-.vert-.frag-files.patch \
->      file://0010-sharedtex_mt-fix-rendering-thread-hang.patch \
->      file://0011-drop-demos-dependant-on-obsolete-MESA_screen_surface.patch \
-> +    file://0012-Fix-gles-configurability.patch \
->  "
->  SRC_URI[md5sum] = "72613a2c8c013716db02e3ff59d29061"
->  SRC_URI[sha256sum] = "e4bfecb5816ddd4b7b37c1bc876b63f1f7f06fda5879221a9774d0952f90ba92"
+> +-#undef  ASM_DEFAULT_SPEC
+> +-#define	ASM_DEFAULT_SPEC "-mppc -mspe -me500"
+>  -- 
+>  1.7.9.5
+>  
 > 
 
