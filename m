@@ -1,45 +1,29 @@
-Return-Path: <liu.ming50@gmail.com>
-Received: from mail-wm0-f66.google.com (mail-wm0-f66.google.com [74.125.82.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 913DA7711B
+Return-Path: <Dengke.Du@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id AAADA7711B
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 Aug 2016 07:01:52 +0000 (UTC)
-Received: by mail-wm0-f66.google.com with SMTP id i5so14739235wmg.2
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 Aug 2016 00:01:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=XyVpYWfQXyt4yMfIk1pB7EwJWCpkrZN+Us+Qz7929bI=;
-	b=BRKpluHu/JKYuTG3FuV0jyfB3VskuSsHfKzcW50sqCO76+Y9/ZlwZAfqa807LGrPpz
-	/p0t27eUMhqKHmq1e0UKHtWiHUEoR/WJPAJiG3ln8wgeMnffQARDG/wKIo0D0eEE46Ni
-	iEoMwSCBzBxtfYPYmH1KZWNN2viHuEZs08bHwVYNdUJQrjaMmw4iE1eKPw7DgTuq+Wp4
-	EGd+y3hEzOgLEty2kr5WSnytWUfAITnOalddSBl5YQyo90xaTq8wGNEacnfj4mswOf3Y
-	o7sbcRr9R4bbUlA4raCNG9FQ4wXG0UYk+MsG4O8fKcWW04ZGdJhHMqlGFetcInf6lFBn
-	0YIw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=XyVpYWfQXyt4yMfIk1pB7EwJWCpkrZN+Us+Qz7929bI=;
-	b=ffMU2PiBsFRoYsXj49Wg6rXz+HsoQlny7yQvtdHehoffAMQG9jI3yaYa1EMJaJji/2
-	5mp6b9DjzopuXTIgEvrSY0Jm7Gao+OGMK+CI8jCg/6K/35GraoyL1iHTZBzvEZqVq9XN
-	vtPf7poeS3YIH2nqgGbrCbaKZrlIjxTi7cJ3WsRtnh6bVmMDDFnxKFQOPHP0drAxgyMb
-	trgml9/YFNflNk2Yl4aGiUr7ZOjJ7qCPmt9ziz0mKtuFvrafjbX4cOdWT7EwB0q+rW9H
-	xJDkFp4zRPn7ImedbZSahFOIoKHOpSDBSdlKBld6XBGxuTWsjLY/ApQW7lp2HY+MLGtt
-	1CpQ==
-X-Gm-Message-State: AEkoousQsQ3VyVF9Y/ozgGW7T2o+VSz+QMcouLh4BPsSTgy17IafvqwgLW6W5yEhvCupbw==
-X-Received: by 10.25.219.10 with SMTP id s10mr5797827lfg.101.1471330912375;
-	Tue, 16 Aug 2016 00:01:52 -0700 (PDT)
-Received: from localhost.localdomain (m77-218-246-155.cust.tele2.se.
-	[77.218.246.155])
-	by smtp.gmail.com with ESMTPSA id 196sm583412ljf.5.2016.08.16.00.01.50
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 16 Aug 2016 00:01:51 -0700 (PDT)
-From: Ming Liu <liu.ming50@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 16 Aug 2016 09:01:48 +0200
-Message-Id: <1471330908-26345-1-git-send-email-liu.ming50@gmail.com>
-X-Mailer: git-send-email 1.9.1
-Cc: yue.tao@windriver.com, Ming Liu <peter.x.liu@external.atlascopco.com>
-Subject: [PATCH V2] bootchart2: fixes a BOOTLOG_DEST typo
+	Tue, 16 Aug 2016 07:09:59 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u7G79vbM017620
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 16 Aug 2016 00:09:57 -0700 (PDT)
+Received: from [128.224.162.225] (128.224.162.225) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.248.2;
+	Tue, 16 Aug 2016 00:09:56 -0700
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <cover.1470967099.git.dengke.du@windriver.com>
+	<18de1b4818af9e90e4578af9335497c5edd7ae9f.1470967099.git.dengke.du@windriver.com>
+	<CAJTo0Lamk-EkyDpjsWw0DxKooqTd1=+0+f7kZD8Aa1yXCXQ5og@mail.gmail.com>
+From: "dengke.du@windriver.com" <dengke.du@windriver.com>
+Message-ID: <57B2BC42.101@windriver.com>
+Date: Tue, 16 Aug 2016 15:09:54 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.7.2
+MIME-Version: 1.0
+In-Reply-To: <CAJTo0Lamk-EkyDpjsWw0DxKooqTd1=+0+f7kZD8Aa1yXCXQ5og@mail.gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH V2 1/1] bash: fix run-intl ptest failed
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,73 +36,87 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 16 Aug 2016 07:01:54 -0000
+X-List-Received-Date: Tue, 16 Aug 2016 07:10:01 -0000
+Content-Type: multipart/alternative;
+	boundary="------------050804010907020208040800"
 
-From: Ming Liu <peter.x.liu@external.atlascopco.com>
+--------------050804010907020208040800
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
 
-A flaw was observed in bootchartd that BUILDLOG_DEST should actually be
-BOOTLOG_DEST, this seems to be a typo or mix-up which has been fixed in
-upstream.
+OK, I will add it now.
 
-Cherry pick the fix since bootchart2 0.14.8 is still the newest release
-so far.
+//dengke
 
-Signed-off-by: Ming Liu <peter.x.liu@external.atlascopco.com>
----
- ...ed-Missing-default-value-for-BOOTLOG_DEST.patch | 30 ++++++++++++++++++++++
- .../bootchart2/bootchart2_0.14.8.bb                |  1 +
- 2 files changed, 31 insertions(+)
- create mode 100644 meta/recipes-devtools/bootchart2/bootchart2/0001-Fixed-Missing-default-value-for-BOOTLOG_DEST.patch
-
-diff --git a/meta/recipes-devtools/bootchart2/bootchart2/0001-Fixed-Missing-default-value-for-BOOTLOG_DEST.patch b/meta/recipes-devtools/bootchart2/bootchart2/0001-Fixed-Missing-default-value-for-BOOTLOG_DEST.patch
-new file mode 100644
-index 0000000..f710461
---- /dev/null
-+++ b/meta/recipes-devtools/bootchart2/bootchart2/0001-Fixed-Missing-default-value-for-BOOTLOG_DEST.patch
-@@ -0,0 +1,30 @@
-+From 2225ab2038bfe50f16f972e39d89bcd0bd7767f5 Mon Sep 17 00:00:00 2001
-+From: Steffen Pankratz <kratz00@gmx.de>
-+Date: Tue, 9 Feb 2016 13:49:42 +0100
-+Subject: [PATCH] Fixed: Missing default value for BOOTLOG_DEST
-+
-+Upstream-Status: Backport
-+
-+BUILDLOG_DEST seems to be a typo or mix-up which was introduced with 281d1df80884bf2969c509ec60ee8a6593524fe8
-+
-+Signed-off-by: Steffen Pankratz <kratz00@gmx.de>
-+---
-+ bootchartd.in | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/bootchartd.in b/bootchartd.in
-+index f58ab9e..30af677 100755
-+--- a/bootchartd.in
-++++ b/bootchartd.in
-+@@ -37,7 +37,7 @@ PATH="/sbin:/bin:/usr/sbin:/usr/bin:$PATH"
-+ 
-+ # Defaults, in case we can't find our configuration
-+ SAMPLE_HZ=50
-+-BUILDLOG_DEST=/var/log/bootchart.tgz
-++BOOTLOG_DEST=/var/log/bootchart.tgz
-+ AUTO_RENDER="no"
-+ AUTO_RENDER_DIR="/var/log"
-+ AUTO_RENDER_FORMAT="png"
-+-- 
-+1.9.1
-+
-diff --git a/meta/recipes-devtools/bootchart2/bootchart2_0.14.8.bb b/meta/recipes-devtools/bootchart2/bootchart2_0.14.8.bb
-index d0555c3..e6b6611 100644
---- a/meta/recipes-devtools/bootchart2/bootchart2_0.14.8.bb
-+++ b/meta/recipes-devtools/bootchart2/bootchart2_0.14.8.bb
-@@ -92,6 +92,7 @@ UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>\d+\.\d+(\.\d+)*)"
- 
- SRC_URI = "git://github.com/mmeeks/bootchart.git \
-            file://bootchartd_stop.sh \
-+           file://0001-Fixed-Missing-default-value-for-BOOTLOG_DEST.patch \
-           "
- 
- S = "${WORKDIR}/git"
--- 
-1.9.1
+On 2016年08月15日 23:03, Burton, Ross wrote:
+>
+> On 12 August 2016 at 03:08, Dengke Du <dengke.du@windriver.com 
+> <mailto:dengke.du@windriver.com>> wrote:
+>
+>     NOTE:
+>        Ensure the system contain fr-fr & de-de locales
+>
+>        Some tests of intl.tests need to change locales to accomplish.
+>     So you need add
+>        the following to a conf file:
+>
+>                     IMAGE_LINGUAS = "en-us fr-fr de-de"
+>
+>
+> Would it be possible to sanity check this in the run-ptest, so if the 
+> required locales are not present it emits a warning?
+>
+> Ross
 
 
+--------------050804010907020208040800
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+
+<html>
+  <head>
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+  </head>
+  <body bgcolor="#FFFFFF" text="#000000">
+    OK, I will add it now.<br>
+    <br>
+    //dengke<br>
+    <br>
+    <div class="moz-cite-prefix">On 2016年08月15日 23:03, Burton, Ross
+      wrote:<br>
+    </div>
+    <blockquote
+cite="mid:CAJTo0Lamk-EkyDpjsWw0DxKooqTd1=+0+f7kZD8Aa1yXCXQ5og@mail.gmail.com"
+      type="cite">
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <div dir="ltr">
+        <div class="gmail_extra"><br>
+          <div class="gmail_quote">On 12 August 2016 at 03:08, Dengke Du
+            <span dir="ltr">&lt;<a moz-do-not-send="true"
+                href="mailto:dengke.du@windriver.com" target="_blank">dengke.du@windriver.com</a>&gt;</span>
+            wrote:<br>
+            <blockquote class="gmail_quote" style="margin:0 0 0
+              .8ex;border-left:1px #ccc solid;padding-left:1ex">
+              <div id=":mb" class="a3s aXjCH m1567c82dfd21aa19">NOTE:<br>
+                   Ensure the system contain fr-fr &amp; de-de locales<br>
+                <br>
+                   Some tests of intl.tests need to change locales to
+                accomplish. So you need add<br>
+                   the following to a conf file:<br>
+                <br>
+                                IMAGE_LINGUAS = "en-us fr-fr de-de"</div>
+            </blockquote>
+          </div>
+          <br>
+          Would it be possible to sanity check this in the run-ptest, so
+          if the required locales are not present it emits a warning?</div>
+        <div class="gmail_extra"><br>
+        </div>
+        <div class="gmail_extra">Ross</div>
+      </div>
+    </blockquote>
+    <br>
+  </body>
+</html>
+
+--------------050804010907020208040800--
