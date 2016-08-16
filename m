@@ -1,50 +1,20 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f172.google.com (mail-io0-f172.google.com
-	[209.85.223.172])
-	by mail.openembedded.org (Postfix) with ESMTP id D2D1473190
+Return-Path: <william.c.randle@intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 3FB8273177
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 Aug 2016 22:41:15 +0000 (UTC)
-Received: by mail-io0-f172.google.com with SMTP id m101so121095857ioi.2
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 Aug 2016 15:41:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=WQwzF8bXJgQAJ5+TtZLHBvzZEOV5WVuERVccCctLbDw=;
-	b=Ew/plQYvs6cas+KR9A2jZ7Xh/DYpNkvD8PsQesZGXOqe8DduPUWFJa+w7uS1f9YyO9
-	ZV3tE2snWvIN1pMdWEKAu8awgIl5WOrvlFr9+DE2IA7od5NYN4MDVVGfFLKJ9j1tHbcB
-	OyH0hdxI/6CSHMrNuyl0FjClNm3MVrQrAbeQTZofmth0sP1azWbc1w/g/yCx9/8Yln99
-	hheGnAJs8zH/EO++lFVAuxanYARhEgOo3wRo2HuSC3q2EefwcactUK9+Gfh35vkAGThS
-	ArfsxsqaXrYd84GbUknL/s9uh7b25V+AyHvRUZDsxWJihVWMouaA880DnJOFEJMQX3a7
-	ZoEQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=WQwzF8bXJgQAJ5+TtZLHBvzZEOV5WVuERVccCctLbDw=;
-	b=GF4RPjKCrmQEZRq48phmt5p5BQj61jmbj9GDL4hfupUxRFXzZhKc+DAnjTILImb+99
-	CtiIZ3s93eZ1POf9m7YzPJhRzMryP4LYMsF4Y7Zw/5AqHeoCnL3ttQjAUUuo0KS0PWUu
-	/BSsqeu8YyMLIE6YmefiedXwKCbyB22tHzKXxX3ZmzqCpDN3oowy6I2EzxvGEkxPmi8Q
-	2xZVgU2FUzDy6IQvxUQA3k0ubZFEoH8QY8NaA0uisMrwmr98cx5AS9Tn2UF9Wx/t+LNG
-	Nrtc2peQyk3oMSwOF1PjQZwfN01aiv//kXc737BfJmnlIZXR3fsu8OsOonAo8tBnc0Uk
-	sqpQ==
-X-Gm-Message-State: AEkoout1Wr1Vh12eV1BKpiz2l8ka2NnhJO5+VtddbOYqaM2TpQb9WvejX4KwqH+XGBohv5Q/G+3qBmK4Rif3SXd/
-X-Received: by 10.107.154.196 with SMTP id c187mr41662895ioe.99.1471387275650; 
-	Tue, 16 Aug 2016 15:41:15 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.107.18.17 with HTTP; Tue, 16 Aug 2016 15:40:55 -0700 (PDT)
-In-Reply-To: <CAP9ODKp7XCfL7ozG0GU2x6KfKXW1KJ5jLbVi6guWWKPnpKKLHg@mail.gmail.com>
-References: <1470762907-25824-1-git-send-email-manjukumar.harthikote-matha@xilinx.com>
-	<CAP9ODKrzOHomALoD28h7nJ6xT5puNkrzbd1FZVr=xij_wYUsxg@mail.gmail.com>
-	<00da7e65-bfa1-0ffc-a2bb-1b44e0978864@xilinx.com>
-	<CAP9ODKp7XCfL7ozG0GU2x6KfKXW1KJ5jLbVi6guWWKPnpKKLHg@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 16 Aug 2016 23:40:55 +0100
-Message-ID: <CAJTo0LZe0X13aKjrqprgDuND+B8F7QVFooJRCWqqbJ5xrTyGAg@mail.gmail.com>
-To: Otavio Salvador <otavio.salvador@ossystems.com.br>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] u-boot.inc: Enable out-of-tree builds
+	Tue, 16 Aug 2016 23:08:26 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by fmsmga103.fm.intel.com with ESMTP; 16 Aug 2016 16:08:15 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.28,529,1464678000"; d="scan'208";a="866582852"
+Received: from wcrandle-mobl1.jf.intel.com ([10.7.199.73])
+	by orsmga003.jf.intel.com with ESMTP; 16 Aug 2016 16:08:15 -0700
+From: Bill Randle <william.c.randle@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 16 Aug 2016 16:08:11 -0700
+Message-Id: <1471388891-839-1-git-send-email-william.c.randle@intel.com>
+X-Mailer: git-send-email 2.5.5
+Subject: [PATCH] testimage: allow using kvm when running qemux86* machines
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,36 +27,81 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 16 Aug 2016 22:41:18 -0000
-Content-Type: multipart/alternative; boundary=001a1140e81ee48328053a380b86
+X-List-Received-Date: Tue, 16 Aug 2016 23:08:27 -0000
 
---001a1140e81ee48328053a380b86
-Content-Type: text/plain; charset=UTF-8
+Using kvm can provide significant speedups when running qemux86* machines
+on an x86* host. Enabled by using the new QEMU_USE_KVM variable.
 
-On 16 August 2016 at 23:00, Otavio Salvador <
-otavio.salvador@ossystems.com.br> wrote:
+[YOCTO #9298]
 
-> But you removed the suffix from the binaries it seems
->
+Signed-off-by: Bill Randle <william.c.randle@intel.com>
+---
+ meta/lib/oeqa/targetcontrol.py    |  7 +++++++
+ meta/lib/oeqa/utils/qemurunner.py | 11 +++++++++--
+ 2 files changed, 16 insertions(+), 2 deletions(-)
 
-Just double-checked the diff, I think the line wrapping is making you think
-that.  Or, paste the hunk that is broken please.
+diff --git a/meta/lib/oeqa/targetcontrol.py b/meta/lib/oeqa/targetcontrol.py
+index 768c463..3209ef0 100644
+--- a/meta/lib/oeqa/targetcontrol.py
++++ b/meta/lib/oeqa/targetcontrol.py
+@@ -125,6 +125,12 @@ class QemuTarget(BaseTarget):
+         dump_target_cmds = d.getVar("testimage_dump_target", True)
+         dump_host_cmds = d.getVar("testimage_dump_host", True)
+         dump_dir = d.getVar("TESTIMAGE_DUMP_DIR", True)
++        if d.getVar("QEMU_USE_KVM", False) is not None \
++           and d.getVar("QEMU_USE_KVM", False) == "True" \
++           and "x86" in d.getVar("MACHINE", True):
++            use_kvm = True
++        else:
++            use_kvm = False
+ 
+         # Log QemuRunner log output to a file
+         import oe.path
+@@ -153,6 +159,7 @@ class QemuTarget(BaseTarget):
+                             display = d.getVar("BB_ORIGENV", False).getVar("DISPLAY", True),
+                             logfile = self.qemulog,
+                             boottime = int(d.getVar("TEST_QEMUBOOT_TIMEOUT", True)),
++                            use_kvm = use_kvm,
+                             dump_dir = dump_dir,
+                             dump_host_cmds = d.getVar("testimage_dump_host", True))
+ 
+diff --git a/meta/lib/oeqa/utils/qemurunner.py b/meta/lib/oeqa/utils/qemurunner.py
+index df73120..77e506f 100644
+--- a/meta/lib/oeqa/utils/qemurunner.py
++++ b/meta/lib/oeqa/utils/qemurunner.py
+@@ -29,7 +29,7 @@ re_control_char = re.compile('[%s]' % re.escape("".join(control_chars)))
+ 
+ class QemuRunner:
+ 
+-    def __init__(self, machine, rootfs, display, tmpdir, deploy_dir_image, logfile, boottime, dump_dir, dump_host_cmds):
++    def __init__(self, machine, rootfs, display, tmpdir, deploy_dir_image, logfile, boottime, dump_dir, dump_host_cmds, use_kvm):
+ 
+         # Popen object for runqemu
+         self.runqemu = None
+@@ -49,6 +49,7 @@ class QemuRunner:
+         self.boottime = boottime
+         self.logged = False
+         self.thread = None
++        self.use_kvm = use_kvm
+ 
+         self.runqemutime = 60
+         self.host_dumper = HostDumper(dump_host_cmds, dump_dir)
+@@ -133,7 +134,13 @@ class QemuRunner:
+         self.origchldhandler = signal.getsignal(signal.SIGCHLD)
+         signal.signal(signal.SIGCHLD, self.handleSIGCHLD)
+ 
+-        launch_cmd = 'runqemu tcpserial=%s %s %s %s' % (self.serverport, self.machine, self.rootfs, self.qemuparams)
++        launch_cmd = 'runqemu '
++        if self.use_kvm:
++            logger.info('Using kvm for runqemu')
++            launch_cmd += 'kvm '
++        else:
++            logger.info('Not using kvm for runqemu')
++        launch_cmd += 'tcpserial=%s %s %s %s' % (self.serverport, self.machine, self.rootfs, self.qemuparams)
+         # FIXME: We pass in stdin=subprocess.PIPE here to work around stty
+         # blocking at the end of the runqemu script when using this within
+         # oe-selftest (this makes stty error out immediately). There ought
+-- 
+2.5.5
 
-Ross
 
---001a1140e81ee48328053a380b86
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 16 August 2016 at 23:00, Otavio Salvador <span dir=3D"ltr">&lt;<a href=
-=3D"mailto:otavio.salvador@ossystems.com.br" target=3D"_blank">otavio.salva=
-dor@ossystems.com.br</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_qu=
-ote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex=
-"><div id=3D":9l" class=3D"a3s aXjCH m156955fe94988f81">But you removed the=
- suffix from the binaries it seems<br></div></blockquote><div><br></div><di=
-v>Just double-checked the diff, I think the line wrapping is making you thi=
-nk that.=C2=A0 Or, paste the hunk that is broken please.</div><div><br></di=
-v><div>Ross=C2=A0</div></div><br></div></div>
-
---001a1140e81ee48328053a380b86--
