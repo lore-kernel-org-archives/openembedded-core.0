@@ -1,59 +1,47 @@
-Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-ua0-f193.google.com (mail-ua0-f193.google.com
-	[209.85.217.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 9EBAF6011C
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io0-f172.google.com (mail-io0-f172.google.com
+	[209.85.223.172])
+	by mail.openembedded.org (Postfix) with ESMTP id D2D1473190
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 Aug 2016 22:00:42 +0000 (UTC)
-Received: by mail-ua0-f193.google.com with SMTP id 74so7558527uau.3
+	Tue, 16 Aug 2016 22:41:15 +0000 (UTC)
+Received: by mail-io0-f172.google.com with SMTP id m101so121095857ioi.2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 Aug 2016 15:00:43 -0700 (PDT)
+	Tue, 16 Aug 2016 15:41:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
-	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
-	:cc; bh=85E8L4UXDO05NrH6g84rrk9U14SFGadmwFEw2415d0Y=;
-	b=HR1dxglu2HUUnUB4ln5hWe2S+5UDGK6JrE1XbhW1mIZYzo/n90UMPmoMwxz/KC30k6
-	UuOiGmPEdgo65O8aFsl8Dz08X1WiC7pmjqy+5F/Ohp7lyBHkLe8YiF2OBgYy85QnB9dK
-	rg492hogMH9rdUbn7nOq7Bv9ByuaK1572KgkrQk5C2ypL6pqbDM7/QLO+oriFinAeo9J
-	7fuCNuBD3hLQlXJ9IzVUR8vkWa6LDwTbJ9nKuFd7+QVKvf38kR7csq1dj+7tfK0jQdFe
-	ZHpLTeUWeEn+kqJNlyMzxNVb+6KGdznu1vn5gvwvbPdBtXGGEcEoYkrxIT1jNsr76OBF
-	VIaA==
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=WQwzF8bXJgQAJ5+TtZLHBvzZEOV5WVuERVccCctLbDw=;
+	b=Ew/plQYvs6cas+KR9A2jZ7Xh/DYpNkvD8PsQesZGXOqe8DduPUWFJa+w7uS1f9YyO9
+	ZV3tE2snWvIN1pMdWEKAu8awgIl5WOrvlFr9+DE2IA7od5NYN4MDVVGfFLKJ9j1tHbcB
+	OyH0hdxI/6CSHMrNuyl0FjClNm3MVrQrAbeQTZofmth0sP1azWbc1w/g/yCx9/8Yln99
+	hheGnAJs8zH/EO++lFVAuxanYARhEgOo3wRo2HuSC3q2EefwcactUK9+Gfh35vkAGThS
+	ArfsxsqaXrYd84GbUknL/s9uh7b25V+AyHvRUZDsxWJihVWMouaA880DnJOFEJMQX3a7
+	ZoEQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=85E8L4UXDO05NrH6g84rrk9U14SFGadmwFEw2415d0Y=;
-	b=WQAhaibt44Oj97NlzUmk17c9nbsh2omKjkcx8l+7dIJncgyrDbwCDQnBzMvh1mCUrL
-	dfumlXH0KKZKZnxSMdQ+6N0AuO3gXfxm2CPl2QvhrEzo9XrzJ/Pdv1yQjTQKuW4ddw4G
-	0SGDc2BbDFoClC2OFXkHC5LpbQmPlPMztUy/bYUT8uHRDZODhk98BnjbBzPeJ4hJVSQr
-	ND0ioN4+crjCUi23KgMfilFwzIfN9k0KdIfGWkTJtrpIPXkkWa/ED/CrYli3XJqfysVF
-	ybPuRZVn0zKzz82CTtaYrb1Yo5NGSdDHMWqOs5hRjeUBnJVoOvvTE9fm0Bw7p48DKwCv
-	Greg==
-X-Gm-Message-State: AEkoouto+J6785XBJGStOg7mSJDke3gRfTMHwkgpuqQ/Oomp0Gahd3G/MTi5sqeqqx+uVQ==
-X-Received: by 10.159.36.206 with SMTP id 72mr4786491uar.126.1471384842571;
-	Tue, 16 Aug 2016 15:00:42 -0700 (PDT)
-Received: from mail-ua0-f175.google.com (mail-ua0-f175.google.com.
-	[209.85.217.175]) by smtp.gmail.com with ESMTPSA id
-	u16sm6077514uau.25.2016.08.16.15.00.41
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 16 Aug 2016 15:00:41 -0700 (PDT)
-From: Otavio Salvador <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by mail-ua0-f175.google.com with SMTP id 74so144700543uau.0
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 Aug 2016 15:00:41 -0700 (PDT)
-X-Received: by 10.176.64.196 with SMTP id i62mr6642689uad.154.1471384841114;
-	Tue, 16 Aug 2016 15:00:41 -0700 (PDT)
+	bh=WQwzF8bXJgQAJ5+TtZLHBvzZEOV5WVuERVccCctLbDw=;
+	b=GF4RPjKCrmQEZRq48phmt5p5BQj61jmbj9GDL4hfupUxRFXzZhKc+DAnjTILImb+99
+	CtiIZ3s93eZ1POf9m7YzPJhRzMryP4LYMsF4Y7Zw/5AqHeoCnL3ttQjAUUuo0KS0PWUu
+	/BSsqeu8YyMLIE6YmefiedXwKCbyB22tHzKXxX3ZmzqCpDN3oowy6I2EzxvGEkxPmi8Q
+	2xZVgU2FUzDy6IQvxUQA3k0ubZFEoH8QY8NaA0uisMrwmr98cx5AS9Tn2UF9Wx/t+LNG
+	Nrtc2peQyk3oMSwOF1PjQZwfN01aiv//kXc737BfJmnlIZXR3fsu8OsOonAo8tBnc0Uk
+	sqpQ==
+X-Gm-Message-State: AEkoout1Wr1Vh12eV1BKpiz2l8ka2NnhJO5+VtddbOYqaM2TpQb9WvejX4KwqH+XGBohv5Q/G+3qBmK4Rif3SXd/
+X-Received: by 10.107.154.196 with SMTP id c187mr41662895ioe.99.1471387275650; 
+	Tue, 16 Aug 2016 15:41:15 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.31.138.78 with HTTP; Tue, 16 Aug 2016 15:00:40 -0700 (PDT)
-In-Reply-To: <00da7e65-bfa1-0ffc-a2bb-1b44e0978864@xilinx.com>
+Received: by 10.107.18.17 with HTTP; Tue, 16 Aug 2016 15:40:55 -0700 (PDT)
+In-Reply-To: <CAP9ODKp7XCfL7ozG0GU2x6KfKXW1KJ5jLbVi6guWWKPnpKKLHg@mail.gmail.com>
 References: <1470762907-25824-1-git-send-email-manjukumar.harthikote-matha@xilinx.com>
 	<CAP9ODKrzOHomALoD28h7nJ6xT5puNkrzbd1FZVr=xij_wYUsxg@mail.gmail.com>
 	<00da7e65-bfa1-0ffc-a2bb-1b44e0978864@xilinx.com>
-Date: Tue, 16 Aug 2016 19:00:40 -0300
-X-Gmail-Original-Message-ID: <CAP9ODKp7XCfL7ozG0GU2x6KfKXW1KJ5jLbVi6guWWKPnpKKLHg@mail.gmail.com>
-Message-ID: <CAP9ODKp7XCfL7ozG0GU2x6KfKXW1KJ5jLbVi6guWWKPnpKKLHg@mail.gmail.com>
-To: Manjukumar Harthikote Matha <manjukumar.harthikote-matha@xilinx.com>
+	<CAP9ODKp7XCfL7ozG0GU2x6KfKXW1KJ5jLbVi6guWWKPnpKKLHg@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 16 Aug 2016 23:40:55 +0100
+Message-ID: <CAJTo0LZe0X13aKjrqprgDuND+B8F7QVFooJRCWqqbJ5xrTyGAg@mail.gmail.com>
+To: Otavio Salvador <otavio.salvador@ossystems.com.br>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH v2] u-boot.inc: Enable out-of-tree builds
@@ -69,35 +57,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 16 Aug 2016 22:00:44 -0000
+X-List-Received-Date: Tue, 16 Aug 2016 22:41:18 -0000
+Content-Type: multipart/alternative; boundary=001a1140e81ee48328053a380b86
+
+--001a1140e81ee48328053a380b86
 Content-Type: text/plain; charset=UTF-8
 
-On Tue, Aug 16, 2016 at 6:28 PM, Manjukumar Harthikote Matha
-<manjukumar.harthikote-matha@xilinx.com> wrote:
-> Hi Otavio,
+On 16 August 2016 at 23:00, Otavio Salvador <
+otavio.salvador@ossystems.com.br> wrote:
+
+> But you removed the suffix from the binaries it seems
 >
-> On 08/16/2016 05:48 AM, Otavio Salvador wrote:
->>
->> On Tue, Aug 9, 2016 at 2:15 PM, Manjukumar Matha
->> <manjukumar.harthikote-matha@xilinx.com> wrote:
->>>
->>> This patch enabled out-of-tree builds for u-boot. This also helps
->>> building
->>> u-boot using EXTERNALSRC flow
->>>
->>> Signed-off-by: Manjukumar Matha <manjukumar.harthikote-matha@xilinx.com>
->>
->>
->> It seems to have mixed changes; why you are changing the install behavior?
->>
-> Previously all the build fragments were available at ${S}. With this patch
-> the build fragments are now at ${B}. So changing do_install to get the fetch
-> the build fragments from ${B}
 
-But you removed the suffix from the binaries it seems.
+Just double-checked the diff, I think the line wrapping is making you think
+that.  Or, paste the hunk that is broken please.
 
--- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+Ross
 
+--001a1140e81ee48328053a380b86
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 16 August 2016 at 23:00, Otavio Salvador <span dir=3D"ltr">&lt;<a href=
+=3D"mailto:otavio.salvador@ossystems.com.br" target=3D"_blank">otavio.salva=
+dor@ossystems.com.br</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_qu=
+ote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex=
+"><div id=3D":9l" class=3D"a3s aXjCH m156955fe94988f81">But you removed the=
+ suffix from the binaries it seems<br></div></blockquote><div><br></div><di=
+v>Just double-checked the diff, I think the line wrapping is making you thi=
+nk that.=C2=A0 Or, paste the hunk that is broken please.</div><div><br></di=
+v><div>Ross=C2=A0</div></div><br></div></div>
+
+--001a1140e81ee48328053a380b86--
