@@ -1,47 +1,38 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-it0-f41.google.com (mail-it0-f41.google.com
-	[209.85.214.41])
-	by mail.openembedded.org (Postfix) with ESMTP id A8FC375C60
+Return-Path: <andre.draszik@gmail.com>
+Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 302B7760A5
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 Aug 2016 10:27:43 +0000 (UTC)
-Received: by mail-it0-f41.google.com with SMTP id n128so29331266ith.1
+	Tue, 16 Aug 2016 10:38:16 +0000 (UTC)
+Received: by mail-wm0-f67.google.com with SMTP id o80so15703123wme.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 Aug 2016 03:27:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=R82rkvv2gprwjSsWYhfoDvbDMaBwz5zV/JJaFCJc23Y=;
-	b=DRHHCPX6UwRRUpUfR3/KPvzr8Ku+bbmH/7Zw19iid+HNnaT01mlErFjDUAO6RTg2IN
-	JyaXXVhikDK9OGL5gYL47yxA1ane4LZO4uCk831NByvGW0PFz8nnJGndc4ljfjHfAuOA
-	eQGikRstoAX+rJ1ifzi8G9fHU4zaY1JZDEZapfSDX0YiZqMiptLEAfuzcWu4AOIeqDz0
-	i/oWj51lNEC8iFJIz9HhVOgMBXdEDBpr3535PSfTDzhk38z+6Y1MxQzXrnen4UqAJchS
-	mpvaoW4SmHRMtjTL9uN+gp2tqqj7BaDD35I6E3MrIJVcVu/bCB92JZUCjDerVFXAmvFx
-	0DJA==
+	Tue, 16 Aug 2016 03:38:17 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=R82rkvv2gprwjSsWYhfoDvbDMaBwz5zV/JJaFCJc23Y=;
-	b=dFJDEPlT3K3duCBK4Zka259eFMMJnf2BcNII/YavYyZsJx+Fpnr53LLDpWuDTFHKru
-	1r0uGyNZElgGWxWeuOYqI1gDD4cZFgNlTi8XT10ZaytPnUdSbklL90A3PAt1T5+CUmK3
-	XFo1T5qNu9NvKwUnqkWnhrQQ6Vl2t2f0S+4SM7fPFQtaZXXOZGlWi9jQzIXJCbiuHomA
-	QR8YelE1SYQ7ML3fc9hdM2pYOrS63B9Y0z+YWZCieaacIEAyDDgEoDx7V6K4DwH+Q6yq
-	vVb3vB5CIU7SmETUf2bx4WPxeoo9OsnsNRT9mtO1LuP033+K0sbGiGhJSCeqhaQsAGLl
-	DWNw==
-X-Gm-Message-State: AEkooutSuSa+FukNVCRBpAwIpOiO//hcZqwTqjiHNvUNWF0Ux2+5JCTl/RILmDgiXqrGWYbjyuWlVzFZOEH8xDFB
-X-Received: by 10.36.19.75 with SMTP id 72mr19708008itz.83.1471343264632; Tue,
-	16 Aug 2016 03:27:44 -0700 (PDT)
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=958NY9eMH5eB2rABrxIP035r/2JGofdoUahpzLNBIII=;
+	b=ELu7H4/2TOmqq5H7soBydRKgQstFkZlDk+UYoO3GavStabmiFxKVO35BBp5SRW8S4h
+	Js9HQgz06gitSN7UH6dgfj4TZy5u89CJsp0vXiYuXs1e4VW9xVL0U5EuHQCJlRSpmQa6
+	+XjIW3c+pv6a1r9Rbic9h/mnSrMYsJFS0jbsb8NeS0r78dACwmgYti0kNHE5hn3WkM1a
+	SbIV+851gxRS4Z1DO4By7H+uvX7pv6pqQF2NiKVt0nhmydLIvro5gln0Lh63D+WxgNT5
+	3Pg2XCXIHd15F/q+9MLhHl+ODDkCyVXgX9t6CpOiTqnBrrEVuI/Lg/aCdvE8nQqv7ja+
+	qEqw==
+X-Gm-Message-State: AEkoouuXb5NDwrNaqIZDaskdHJzb2Ty+y/LX51DC8l6SDood7o6fk+64lB0CCv/1kF34yQ==
+X-Received: by 10.28.172.195 with SMTP id v186mr4793971wme.97.1471343895913;
+	Tue, 16 Aug 2016 03:38:15 -0700 (PDT)
+Received: from tfsielt31850.tycofs.com ([77.107.218.170])
+	by smtp.gmail.com with ESMTPSA id
+	wc3sm26012009wjc.47.2016.08.16.03.38.14
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 16 Aug 2016 03:38:14 -0700 (PDT)
+From: =?UTF-8?q?Andr=C3=A9=20Draszik?= <git@andred.net>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 16 Aug 2016 11:38:34 +0100
+Message-Id: <1471343914-1689-1-git-send-email-git@andred.net>
+X-Mailer: git-send-email 2.8.1
 MIME-Version: 1.0
-Received: by 10.107.18.17 with HTTP; Tue, 16 Aug 2016 03:27:24 -0700 (PDT)
-In-Reply-To: <edcd29bb-7b7f-f8e1-88ae-ae33bc1413c0@xilinx.com>
-References: <1470762907-25824-1-git-send-email-manjukumar.harthikote-matha@xilinx.com>
-	<edcd29bb-7b7f-f8e1-88ae-ae33bc1413c0@xilinx.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 16 Aug 2016 11:27:24 +0100
-Message-ID: <CAJTo0LafPs_QCN6BjzM7Sskb9v9MXW1g21Y__BTuVJT6Fcgmig@mail.gmail.com>
-To: Manjukumar Harthikote Matha <manjukumar.harthikote-matha@xilinx.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] u-boot.inc: Enable out-of-tree builds
+Subject: [PATCH] connman: add missing space in _append
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,38 +45,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 16 Aug 2016 10:27:44 -0000
-Content-Type: multipart/alternative; boundary=001a1145180aa1ba94053a2dcccb
-
---001a1145180aa1ba94053a2dcccb
+X-List-Received-Date: Tue, 16 Aug 2016 10:38:18 -0000
 Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On 16 August 2016 at 01:50, Manjukumar Harthikote Matha <
-manjukumar.harthikote-matha@xilinx.com> wrote:
+We do that everywhere else, and otherwise anybody
+extending SRC_URI through bbappend must know to
+add a space at the end, which is an unusual
+requirement.
 
-> Is there something fundamentally broken with this patch? It just enables
-> out of tree build for u-boot source.
->
+Signed-off-by: André Draszik <git@andred.net>
+---
+ meta/recipes-connectivity/connman/connman_1.33.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-No, it's in my staging branch and appears to work.  Should be in master
-soon.
+diff --git a/meta/recipes-connectivity/connman/connman_1.33.bb b/meta/recipes-connectivity/connman/connman_1.33.bb
+index 6c7e10c..6ea1a08 100644
+--- a/meta/recipes-connectivity/connman/connman_1.33.bb
++++ b/meta/recipes-connectivity/connman/connman_1.33.bb
+@@ -6,7 +6,7 @@ SRC_URI  = "${KERNELORG_MIRROR}/linux/network/${BPN}/${BP}.tar.xz \
+             file://no-version-scripts.patch \
+             file://includes.patch \
+             "
+-SRC_URI_append_libc-musl = "file://0002-resolve-musl-does-not-implement-res_ninit.patch"
++SRC_URI_append_libc-musl = " file://0002-resolve-musl-does-not-implement-res_ninit.patch"
+ 
+ SRC_URI[md5sum] = "c51903fd3e7a6a371d12ac5d72a1fa01"
+ SRC_URI[sha256sum] = "bc8946036fa70124d663136f9f6b6238d897ca482782df907b07a428b09df5a0"
+-- 
+2.8.1
 
-Ross
 
---001a1145180aa1ba94053a2dcccb
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 16 August 2016 at 01:50, Manjukumar Harthikote Matha <span dir=3D"ltr">&=
-lt;<a href=3D"mailto:manjukumar.harthikote-matha@xilinx.com" target=3D"_bla=
-nk">manjukumar.harthikote-matha@xilinx.com</a>&gt;</span> wrote:<br><blockq=
-uote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc =
-solid;padding-left:1ex"><div id=3D":d3" class=3D"a3s aXjCH m15690d742e0e4b4=
-e">Is there something fundamentally broken with this patch? It just enables=
- out of tree build for u-boot source.<br></div></blockquote></div><br>No, i=
-t&#39;s in my staging branch and appears to work.=C2=A0 Should be in master=
- soon.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra"=
->Ross</div></div>
-
---001a1145180aa1ba94053a2dcccb--
