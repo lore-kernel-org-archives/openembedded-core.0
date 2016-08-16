@@ -1,44 +1,33 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f181.google.com (mail-io0-f181.google.com
-	[209.85.223.181])
-	by mail.openembedded.org (Postfix) with ESMTP id A860F65D00
+Return-Path: <adrian.ratiu@ni.com>
+Received: from ni.com (skprod2.natinst.com [130.164.80.23])
+	by mail.openembedded.org (Postfix) with ESMTP id 10332731AC
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 Aug 2016 13:18:42 +0000 (UTC)
-Received: by mail-io0-f181.google.com with SMTP id m101so106667680ioi.2
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 Aug 2016 06:18:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=ttne+ePlQJKz9tbXUca28pxDJM6tMg6ylJIIxz50lTw=;
-	b=dOLWKDBcLIttHNqapVeoEevO34EPGwvYDM4ywYhKNZav3t+uR6V4F+uzuUwJY+kqkW
-	kscGmFXwRURG10SkyOOgEyiNnxYkkpDnBQ8ahHCEXDtTPFf0bQu43lnX7rgqmfrOPkcu
-	Lr6fRa+3z+tszCwbecU5Jz64HkTwI2El1zkmUQUbe+LUJwoxy3US1oKsqXNeqmJq7VWL
-	PWKYLrjjqHwCbl6uTvAo+z5jwTf6+Auyj/+kO+oojZ4WGfyPvDFjmVht6hvbg0+2vDIk
-	u3WaBoS/stlJAAcrQBw1iY1NMLY3SsnFkpqkoTunoXK9Jdi1KISWHiensK7rTG9KKJHx
-	b9hw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=ttne+ePlQJKz9tbXUca28pxDJM6tMg6ylJIIxz50lTw=;
-	b=TO0IigmJPLqXnR4/Z4IDanFADjsLq+d3h71omwSeXF5kAm7pRO09VGfqmMYb/86TRz
-	1fG+/SNtYu+uAyd0UayFsFwTCDmBGfbA/KqEDBgCsqDrXqA1Fb8tqs4o32XtltFUqroT
-	BJHHdRy3xAl/URAV6fySEEIvo1GBkhZeim5NCh31QlH4KtvJIgiQMAG/a1IPuigk70bl
-	VCbpd8NotKE6uQHbZSftv38GmyiifeLxR7Pldr/cGKd7OK0Bk91fScnDxBn84UjfOIP1
-	W/cTkC6R2aAEHeASoyDWaDIgoNyqldPf/M7RyDTjeDN2/upndYVU5M2XqSPdDD4mkISg
-	Mpjg==
-X-Gm-Message-State: AEkoouuyM4h80RwZt4TdQHF7QyqtMZKgXsFeGeFmWj7hf1rTRZq0Zx9MrkVPz8RqJBAERJhHKGMPaTvj3yvN+l8c
-X-Received: by 10.107.154.196 with SMTP id c187mr38755610ioe.99.1471353523546; 
-	Tue, 16 Aug 2016 06:18:43 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.107.18.17 with HTTP; Tue, 16 Aug 2016 06:18:23 -0700 (PDT)
-In-Reply-To: <20160812131549.32088-1-adrian.ratiu@ni.com>
+	Tue, 16 Aug 2016 13:49:16 +0000 (UTC)
+Received: from us-aus-mgwout1.amer.corp.natinst.com (nb-snip2-1338.natinst.com
+	[130.164.19.135])
+	by us-aus-skprod2.natinst.com (8.15.0.59/8.15.0.59) with ESMTP id
+	u7GDn0XU019690; Tue, 16 Aug 2016 08:49:15 -0500
+Received: from adi-pc-linux ([130.164.14.198])
+	by us-aus-mgwout1.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6
+	HF1218) with ESMTP id 2016081608403115-397786 ;
+	Tue, 16 Aug 2016 08:40:31 -0500 
+From: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
+To: "Burton\, Ross" <ross.burton@intel.com>
+In-Reply-To: <CAJTo0LYORQDBfrtEdkuhk7F1f=a2fgZP8fr34ZZtaoy110YUeQ@mail.gmail.com>
 References: <20160812131549.32088-1-adrian.ratiu@ni.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 16 Aug 2016 14:18:23 +0100
-Message-ID: <CAJTo0LYORQDBfrtEdkuhk7F1f=a2fgZP8fr34ZZtaoy110YUeQ@mail.gmail.com>
-To: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
+	<CAJTo0LYORQDBfrtEdkuhk7F1f=a2fgZP8fr34ZZtaoy110YUeQ@mail.gmail.com>
+User-Agent: Notmuch/0.22.1 (https://notmuchmail.org) Emacs/25.1.50.1
+	(x86_64-unknown-linux-gnu)
+Date: Tue, 16 Aug 2016 16:39:12 +0300
+Message-ID: <874m6kn88v.fsf@ni.com>
+MIME-Version: 1.0
+X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut1/AUS/H/NIC(Release
+	8.5.3FP6 HF1218|December 12, 2014) at 08/16/2016 08:40:31 AM,
+	Serialize by Router on US-AUS-MGWOut1/AUS/H/NIC(Release 8.5.3FP6
+	HF1218|December 12, 2014) at 08/16/2016 08:49:15 AM,
+	Serialize complete at 08/16/2016 08:49:15 AM
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
+	definitions=2016-08-16_09:, , signatures=0
 Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] grub: split grub-editenv into it's own package
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -53,38 +42,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 16 Aug 2016 13:18:44 -0000
-Content-Type: multipart/alternative; boundary=001a1140e81e1c424a053a303033
+X-List-Received-Date: Tue, 16 Aug 2016 13:49:17 -0000
+Content-Type: text/plain
 
---001a1140e81e1c424a053a303033
-Content-Type: text/plain; charset=UTF-8
-
-On 12 August 2016 at 14:15, Ioan-Adrian Ratiu <adrian.ratiu@ni.com> wrote:
-
-> +PACKAGES =+ "grub-editenv"
-> +
-> +FILES_grub-editenv = "${bindir}/grub-editenv"
+On Tue, 16 Aug 2016, "Burton, Ross" <ross.burton@intel.com> wrote:
+> On 12 August 2016 at 14:15, Ioan-Adrian Ratiu <adrian.ratiu@ni.com> wrote:
 >
+>> +PACKAGES =+ "grub-editenv"
+>> +
+>> +FILES_grub-editenv = "${bindir}/grub-editenv"
+>>
+>
+> Shouldn't grub rdepend, or at least rrecommend, grub-editenv?
 
-Shouldn't grub rdepend, or at least rrecommend, grub-editenv?
+Good catch. RDEPENDS_grub would preserve the previous behaviour.
+I'll send v2.
 
-Ross
+Thank you!
 
---001a1140e81e1c424a053a303033
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+>
+> Ross
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 12 August 2016 at 14:15, Ioan-Adrian Ratiu <span dir=3D"ltr">&lt;<a href=
-=3D"mailto:adrian.ratiu@ni.com" target=3D"_blank">adrian.ratiu@ni.com</a>&g=
-t;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0=
- .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":xb" class=3D=
-"a3s aXjCH m1567ee6952b129ce">+PACKAGES =3D+ &quot;<span class=3D"il">grub<=
-/span>-editenv&quot;<br>
-+<br>
-+FILES_grub-editenv =3D &quot;${bindir}/<span class=3D"il">grub</span>-edit=
-env&quot;</div></blockquote></div><br>Shouldn&#39;t grub rdepend, or at lea=
-st rrecommend, grub-editenv?</div><div class=3D"gmail_extra"><br></div><div=
- class=3D"gmail_extra">Ross</div></div>
-
---001a1140e81e1c424a053a303033--
