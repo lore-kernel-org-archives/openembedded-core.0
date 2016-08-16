@@ -1,38 +1,46 @@
-Return-Path: <clord@mozilla.com>
-Received: from mail-io0-f171.google.com (mail-io0-f171.google.com
-	[209.85.223.171])
-	by mail.openembedded.org (Postfix) with ESMTP id 4D8BC73D27
+Return-Path: <ross.burton@intel.com>
+Received: from mail-it0-f49.google.com (mail-it0-f49.google.com
+	[209.85.214.49])
+	by mail.openembedded.org (Postfix) with ESMTP id BA8E973216
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 Aug 2016 16:41:28 +0000 (UTC)
-Received: by mail-io0-f171.google.com with SMTP id b62so112429540iod.3
+	Tue, 16 Aug 2016 16:49:09 +0000 (UTC)
+Received: by mail-it0-f49.google.com with SMTP id f6so72846088ith.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 Aug 2016 09:41:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mozilla.com; s=google;
-	h=mime-version:from:date:message-id:subject:to;
-	bh=FsJPVAjFypYrr9YF98BLrl5mgw/7gdMiqI1R+0/sPgA=;
-	b=ejnKYt3uxfdxvs9v4IcR/Qs+o8Ife0PEgC6DSc/Kipy03M/KM7MYtzQmyV2tlhYEe1
-	8f3XgoFmraXxCTqSsLqA169/4MFHAd1dx+sBRE/AXV177axCKNctmIigQPhBc0NSElvm
-	uKJE2UGeIdGEqxPtFnfsGryprlxB22QJw5Qg0=
+	Tue, 16 Aug 2016 09:49:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=PBbCNQtQWBKhLgxw9tlJhg7TIdv9DRxCUHp2eFhHpFo=;
+	b=HQR9ZcPsT6o3570RTBb1PJmDY+RL1C/svIVf4ZjlHyD03MCnCwb2IvDdea+NuY9yD+
+	xexaK6G2g7h5MHRl5IkurwcohIfA9MQvkFF9rFl/j72ezdEH+Dj/Phbsm79TIWgJXTOD
+	ym1iXJgEZZCvDGS/8SG0ws1m0t5IGENya9H3h4t9y8VRtwRmAdpXOSJJaPhapWViFZkh
+	BR6tt1eUDvzRxaO7OPreBHOHgtcbmKthsjmxuYOM0R/qO/Nvk3RqWW4OzdqQn4BUdpIh
+	0mmpCHhcVKIrv6ejhqwANW/ptIRjI9nFDougYO2wgvVHatlwqTrtslMxnVmLqeb5HxBe
+	Quyg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-	bh=FsJPVAjFypYrr9YF98BLrl5mgw/7gdMiqI1R+0/sPgA=;
-	b=U6QezPhxqEQn5UgF9R5qyayIOkjlhAjmedbiCrpGmNMF2A6fWMePmGt2ZUAweHW3Hl
-	crSIjMCisMUh3/Dte+AOTgUdYowzv+dl0kWqGi8+ZWsixwEgVosdCxurGlBhpLX/YI7t
-	8r+sUYMuC6XT0NfBkyqeVmx6bTn4lSAb4b2PD1+HnICX2fXA1nHTlUGcA+jKE5GkrZx0
-	kSvW+6BQl6pC2iVKN4D0lESXViR8Axl5At98HK5c419etfDMvNpdjSdGYB393IRs6PzV
-	i/twcMSoR/01DCiD9Nj5NKJRzJxIvLf2qeY2C2ZnoCo8b4WOcTFwq2TxliAge+t0fD8N
-	cXyg==
-X-Gm-Message-State: AEkoousBGzDgqWwcH8Tf4OFZgqD9/BGb61e9khtErHZIQrBe3+F7ta8WcVlL6hbngJOSIB9C7tKMZ+pcdjh0I6UT
-X-Received: by 10.107.169.207 with SMTP id f76mr7035786ioj.192.1471365688775; 
-	Tue, 16 Aug 2016 09:41:28 -0700 (PDT)
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=PBbCNQtQWBKhLgxw9tlJhg7TIdv9DRxCUHp2eFhHpFo=;
+	b=FF/zxuE9m/jj5j3omKrfC9LUF1HCxCvSd7Sk70+4XiAEmWAbczQTbOL5UFhXZinddo
+	kbLuNNdutqlbDEURGug+WcMSatJAjpHJYWo/kQ2HAvB22X5cclDYvVlVSpAAG02mhjNg
+	mq44LHr5V/QKCJx2J4HIr1TfVNT1itRtYTxlabsyZ+KffUQd/YdnTpv2kOLMWrfYPKBd
+	lqAKUx0FiKDclv8lxwaVH7kgOb4dwHT1pEJlroodGC1SDfN9M2tFsFwHStAZFM9MBxJF
+	/j4AaK5AClZpksIlQJz1Arz8ZKyQ8l+jR2ayRrpXPtNsUDlh8m8ziwo0Ne+34WRhBD53
+	27Jg==
+X-Gm-Message-State: AEkooutmP0B+2YrpJJHMR32n9tZo9IvdE9hqDHXVHb+o9+kh7A216RveVQpZpNN9GV1DfgwxdM6F30kO/kgtHWOO
+X-Received: by 10.36.20.75 with SMTP id 72mr21962877itg.83.1471366149742; Tue,
+	16 Aug 2016 09:49:09 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.36.23.212 with HTTP; Tue, 16 Aug 2016 09:41:28 -0700 (PDT)
-From: Christopher Lord <clord@mozilla.com>
-Date: Tue, 16 Aug 2016 17:41:28 +0100
-Message-ID: <CABDc_zW0Mi9a5G+neZMSAC5mRVo8LC-62ew_X9PiKM8uVxhAUA@mail.gmail.com>
-To: openembedded-core@lists.openembedded.org
-Subject: npm.bbclass
+Received: by 10.107.18.17 with HTTP; Tue, 16 Aug 2016 09:48:49 -0700 (PDT)
+In-Reply-To: <CABDc_zW0Mi9a5G+neZMSAC5mRVo8LC-62ew_X9PiKM8uVxhAUA@mail.gmail.com>
+References: <CABDc_zW0Mi9a5G+neZMSAC5mRVo8LC-62ew_X9PiKM8uVxhAUA@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 16 Aug 2016 17:48:49 +0100
+Message-ID: <CAJTo0LYw1yyeQ16rbQyjLRyyarr4kSzvzAXyUt_8kssV5Jer+A@mail.gmail.com>
+To: Christopher Lord <clord@mozilla.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: npm.bbclass
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,78 +53,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 16 Aug 2016 16:41:28 -0000
-Content-Type: multipart/alternative; boundary=001a1142773836f360053a33058b
+X-List-Received-Date: Tue, 16 Aug 2016 16:49:11 -0000
+Content-Type: multipart/alternative; boundary=001a11446942b0d848053a3320de
 
---001a1142773836f360053a33058b
+--001a11446942b0d848053a3320de
 Content-Type: text/plain; charset=UTF-8
 
-I've been using npm.bbclass with various node projects we're working on in
-the Connected Devices team at Mozilla, and had some questions/comments
-about behaviour (note that I'm basing this off of ostro master, which I
-unfortunately have to use as no other Intel Edison bsp is adequate);
+On 16 August 2016 at 17:41, Christopher Lord <clord@mozilla.com> wrote:
 
-- Is there a good reason the npm fetcher only works with a registry? It
-seems it could get most (all?) pertinent information from a package.json in
-the root of a repository.
+> - Any patches end up getting packaged because they get put in the srcdir.
+> I'm guessing this isn't intentional (or maybe it is?)
+>
 
-- Is there a reason to split the package like it does? Node projects tend
-to have huge dependency trees, it makes updating and distributing
-node-based applications a bit of a chore if they end up split into 20
-packages, most of which have no use separately. It would be great if there
-was at least a way to disable this.
+This isn't intentional - I've love to move the patches out of ${S} but
+that's non-trivial - so npm.bbclass should be skipping that directory.
 
-- The information about packaging non-registry software here:
-https://wiki.yoctoproject.org/wiki/TipsAndTricks/NPM is incomplete - you
-also need to generate a shrinkwrap and install that into the srcdir, or
-you're very likely to get failures doing dependency resolution. Not an OE
-issue, but I guess Yocto folks also read this list and it's related :)
+Ross
 
-- Any patches end up getting packaged because they get put in the srcdir.
-I'm guessing this isn't intentional (or maybe it is?)
-
-Just wanted to provide some feedback. It's fantastic that OE has the
-ability to package node software, and despite the teething difficulties,
-I've appreciated its availability!
-
-Cheers,
-
---Chris
-
---001a1142773836f360053a33058b
+--001a11446942b0d848053a3320de
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div><div><div><div><div><div><div>I&#39;ve been using npm=
-.bbclass with=20
-various node projects we&#39;re working on in the Connected Devices team at=
-=20
-Mozilla, and had some questions/comments about behaviour (note that I&#39;m=
- basing=20
-this off of ostro master, which I unfortunately have to use as no other=20
-Intel Edison bsp is adequate);<br><br></div>- Is there a good reason the
- npm fetcher only works with a registry? It seems it could get most=20
-(all?) pertinent information from a package.json in the root of a=20
-repository.<br><br></div>- Is there a reason to split the package like=20
-it does? Node projects tend to have huge dependency trees, it makes=20
-updating and distributing node-based applications a bit of a chore if=20
-they end up split into 20 packages, most of which have no use=20
-separately. It would be great if there was at least a way to disable this.<=
-br><br></div>- The information about packaging non-registry software here: =
-<a href=3D"https://wiki.yoctoproject.org/wiki/TipsAndTricks/NPM" target=3D"=
-_blank">https://wiki.yoctoproject.org/<wbr>wiki/TipsAndTricks/NPM</a>
- is incomplete - you also need to generate a shrinkwrap and install that
- into the srcdir, or you&#39;re very likely to get failures doing dependenc=
-y
- resolution. Not an OE issue, but I guess Yocto folks also read this=20
-list and it&#39;s related :)<br><br></div>- Any patches end up getting pack=
-aged because they get put in the srcdir. I&#39;m guessing this isn&#39;t in=
-tentional (or maybe it is?)<br><br></div>Just
- wanted to provide some feedback. It&#39;s fantastic that OE has the abilit=
-y
- to package node software, and despite the teething difficulties, I&#39;ve=
-=20
-appreciated its availability!<br><br></div>Cheers,<br><br></div>--Chris</di=
-v>
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 16 August 2016 at 17:41, Christopher Lord <span dir=3D"ltr">&lt;<a href=
+=3D"mailto:clord@mozilla.com" target=3D"_blank">clord@mozilla.com</a>&gt;</=
+span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8e=
+x;border-left:1px #ccc solid;padding-left:1ex"><div>- Any patches end up ge=
+tting packaged because they get put in the srcdir. I&#39;m guessing this is=
+n&#39;t intentional (or maybe it is?)<br></div></blockquote></div><br>This =
+isn&#39;t intentional - I&#39;ve love to move the patches out of ${S} but t=
+hat&#39;s non-trivial - so npm.bbclass should be skipping that directory.</=
+div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</d=
+iv></div>
 
---001a1142773836f360053a33058b--
+--001a11446942b0d848053a3320de--
