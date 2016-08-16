@@ -1,47 +1,46 @@
-Return-Path: <ulfalizer@gmail.com>
-Received: from mail-ua0-f171.google.com (mail-ua0-f171.google.com
-	[209.85.217.171])
-	by mail.openembedded.org (Postfix) with ESMTP id DB6EE7318F
+Return-Path: <ross.burton@intel.com>
+Received: from mail-it0-f43.google.com (mail-it0-f43.google.com
+	[209.85.214.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 04DFA7318F
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 Aug 2016 15:56:09 +0000 (UTC)
-Received: by mail-ua0-f171.google.com with SMTP id k90so128630823uak.1
+	Tue, 16 Aug 2016 16:00:55 +0000 (UTC)
+Received: by mail-it0-f43.google.com with SMTP id x131so19305612ite.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 Aug 2016 08:56:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	Tue, 16 Aug 2016 09:00:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=IDE7JtuRgrd1H/CSUzTamDhwxMa9o8ugisojMOggtqA=;
-	b=SuMPNkl+GdXbnctTdUaN9Rifd/mZ+gE2CkRp9x+50qs+Jl8NXVop0AyCxNAqVBkTGd
-	sIG2S4FIKInGkaZa1SvnScSaHtZ+ReQ1OQmpAKg7kUu4yN13bOxn/nsW2O1hvwn+lJR/
-	l5G8WrcauvD6ulkWvxcemrIED5tAQ2VfQs5Pb+E6h/fzemotbLQsHypUye/28srMKm1S
-	fSwwOGvijcVZPG19P8iyxbS1Y5yKgC9pXXvNtoj/dvw6FoIGEBQXmobiTkVp8VfIODJ2
-	eabepdql+dIhtyj2IT1PD4wxlyAQ/ABtEwRsIOos0vIo7sU27wJwQRRqAiHADCjKPH9o
-	FOgg==
+	:cc; bh=/+J1ibKX80CTpB+y1hQ+p46OzBIUZtOrg0VZ1g3jJrk=;
+	b=BvWZnkPryQtAss4oXA6GbUGriWqxMC0CeEHaDMJe6UVPWT2mUlFu5ivJEd31PFnbsw
+	hYI/troy+yuJVIc6kI5I4iV6nxLqxmUZZ7lK3hudzYi6lJMmTG1RfwCgwk3frfotGD+O
+	y5gOfV4eep96U3jQoJ302EZNIJR7dnPM80/rc+7rUyna/2Psd+v8t5mM799Kb8dwL1X3
+	nwQoI3UVmwGHXKBQw38J/QfnSbA8C9d0IXXqQjW1iBijpC9mprBK1I83CWZjLdORw+EK
+	Ea6e+XUNvgjO5TLR1Qs+NdFGHgmyjXZUYs6DnNLAPqiwcTS1diDFwBRVmXHNVHoor1+g
+	3fsA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=IDE7JtuRgrd1H/CSUzTamDhwxMa9o8ugisojMOggtqA=;
-	b=IZlVzW+FD3BR6yNCqqFpK/UUZd8iFHV8gjg/5k3RqlRiqlQo66yo2ur6tMSAu0fiX/
-	Ue6I3FRefUWrY4Kz1d/ScqOBFqvbK5Eeurf4AwrYKUDYQ3qcV69xTYhLjw72AgnNjl0G
-	rsG7ilTDuZhlNtT3na4HfJ/qA/mSriCfRDiq8fLuVHB6w7QmY4LbKrei9BRUNHPwADhT
-	Bk2BSQDJ25f5qD7/75TJ7dJFnHfwS6G46DpSL7ZPNRwJ/xyNYGI54NKQpRtKsIIezC3i
-	KddsPCiR+0hc0Dc8Ru5aES69R4GwBcjAKNpNzD/gupeHMPX5TGmBTtIaVVnCZFRwPioy
-	Mk2Q==
-X-Gm-Message-State: AEkooutGzfVsYuaLqYldxzWLiGaCULpon6uc6MmXg02P85Y5PV7s3VwlO1qonZXuj6kIpYKPNe1TLkw7pvexlg==
-X-Received: by 10.159.37.106 with SMTP id 97mr5784586uaz.27.1471362969808;
-	Tue, 16 Aug 2016 08:56:09 -0700 (PDT)
+	bh=/+J1ibKX80CTpB+y1hQ+p46OzBIUZtOrg0VZ1g3jJrk=;
+	b=e3hKN5qWTnRH5Lkkv5v2gWXTaoMvi2NFE3Omr4ctqDXA7gL7dD3jZdks+c4CYLPQUi
+	IwZUI5yCcCt8Djs4CzrTrZAHkZ6VtEhXZn9Y2+LaJdaZICIK8fh3N8bXThbFU9vFcm9j
+	IrTSFrpDeJRNPH5kuAVTIrvGwazPhh4KmN2jDa63GcrOUNvHIygOOjwKqH5OlnCt/+4N
+	Wn4Zzd36JBcAGkeuO7a5xI9pBa0mvSHwIKymoC81MUjauyDs1WdzGErmoAf+76Awj0n9
+	HQ+N/tCQvm+t3HcvSf4KmP4rCBafUZqYG2/VNG3otvUI7oYYokoS/ahbs1daCWwEgTn2
+	LvaA==
+X-Gm-Message-State: AEkooutEWI0sHV/OUXGs+nhDlM6COpAVCy+g7eCZ5WJSEVLPNsDGIYMrJP3uDhXIVSTXIWXp72qMZU2J/fDY4tJh
+X-Received: by 10.36.216.138 with SMTP id b132mr22999502itg.38.1471363256082; 
+	Tue, 16 Aug 2016 09:00:56 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.103.124.70 with HTTP; Tue, 16 Aug 2016 08:56:09 -0700 (PDT)
-In-Reply-To: <alpine.LFD.2.20.1608161147270.9338@ca624034.mitel.com>
-References: <alpine.LFD.2.20.1608160956340.7804@ca624034.mitel.com>
-	<CAFkk2KRY=fWTOSUbxV_gm-np9r=4JBrsQ+Zy0FZb0H4Gbhfd+A@mail.gmail.com>
-	<alpine.LFD.2.20.1608161147270.9338@ca624034.mitel.com>
-From: Ulf Magnusson <ulfalizer@gmail.com>
-Date: Tue, 16 Aug 2016 17:56:09 +0200
-Message-ID: <CAFkk2KSVc3rqAieBHzkayJQT7YHxJhYoD0PSqp-YFL0CYMLkvg@mail.gmail.com>
-To: "Robert P. J. Day" <rpjday@crashcourse.ca>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: subtle weirdness when you combine "_append" with "+="?
+Received: by 10.107.18.17 with HTTP; Tue, 16 Aug 2016 09:00:35 -0700 (PDT)
+In-Reply-To: <cover.1471281772.git.bruce@zedd.org>
+References: <cover.1471281772.git.bruce@zedd.org>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 16 Aug 2016 17:00:35 +0100
+Message-ID: <CAJTo0LZC5wZ7yY=bb5EouWZEqR4ta0s4Oe07vkzQXzFGMjOp6w@mail.gmail.com>
+To: Bruce Ashfield <bruce.ashfield@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/6] kernel-yocto: consolidated pull request
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,62 +53,100 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 16 Aug 2016 15:56:11 -0000
+X-List-Received-Date: Tue, 16 Aug 2016 16:00:56 -0000
+Content-Type: multipart/alternative; boundary=94eb2c05ae92371d9e053a32742a
+
+--94eb2c05ae92371d9e053a32742a
 Content-Type: text/plain; charset=UTF-8
 
-On Tue, Aug 16, 2016 at 5:49 PM, Robert P. J. Day <rpjday@crashcourse.ca> wrote:
-> On Tue, 16 Aug 2016, Ulf Magnusson wrote:
+On 15 August 2016 at 19:26, Bruce Ashfield <bruce.ashfield@windriver.com>
+wrote:
+
+> Are the important part of this series, and a significant contribution to
+> the
+> fall release. I've been testing these for some time, and we've run the
+> kernel lab and yocto-bsp scripts against the tools. We haven't found a
+> regression yet, but I'm sure there are some lurking. These definitely need
+> cycles on the autobuilders.
 >
->> On Tue, Aug 16, 2016 at 4:02 PM, Robert P. J. Day <rpjday@crashcourse.ca> wrote:
->> >
->> >   was about to submit a small number of patches to clean up redundancy
->> > when people combine "_append" with "+=" (because it offends my
->> > delicate sensibilities), and ran across this in oe-core,
->> > unfs3_0.9.22.r497.bb:
->> >
->> >   DEPENDS_append_class-nativesdk += "flex-nativesdk"
->> >
->> > uh, what?
->> >
->> >   most of the time, i assume the above doesn't hurt, it's just ...
->> > silly. but normally, with "_append", you *need* to add the leading
->> > space explicitly, and that's not being done above. so does that mean
->> > that combining "_append" with "+=" *does* generate a leading space?
->> > that just makes my head hurt -- the possibility that "_append" is
->> > being used in a way that normally makes it fail, only to have "+="
->> > step in and save the day. at which point "_append" saves processing
->> > that until the end of parsing? yeesh.
->> >
->> >   thoughts?
->>
->> By the point the += is handled, the override won't have been interpreted
->> yet. My guess is that += fetches the value of the variable
->> "DEPENDS_append_class-nativesdk", gets back the empty string, and
->> adds a space followed by "flex-nativesdk" to that.
->>
->> The resulting " flex-nativesdk" is then interpreted as usual when the
->> overrides are handled.
->>
->> You might like the note I added to
->> https://www.yoctoproject.org/docs/2.2/bitbake-user-manual/bitbake-user-manual.html#override-style-operation-advantages
->> by the way. :)
->
->   that note is pretty much what i've been whining about for a long
-> time. :-) in any event, when one sees something like the above:
 
-The intent of the note was to discourage use of '+=' together with _append,
-because it's redundant and potentially confusing. Do you think it fails
-(even in context)? :/
+qemux86 throws these warnings at me:
 
->
->   DEPENDS_append_class-nativesdk += "flex-nativesdk"
->
-> what is the *proper* cleanup?
+WARNING: linux-yocto-4.4.15+gitAUTOINC+b030d96c7b_ddab242999-r0
+do_kernel_configcheck: [kernel config]: specified values did not make it
+into the kernel's final configuration:
 
-I'd say the following:
+---------- CONFIG_BT_6LOWPAN -----------------
+Config: CONFIG_BT_6LOWPAN
+From:
+/data/poky-master/tmp-glibc/work-shared/qemux86/kernel-source/.kernel-meta/configs/standard/features/bluetooth/bluetooth.cfg
+Requested value:  CONFIG_BT_6LOWPAN=y
+Actual value:
 
-DEPENDS_append_class-nativesdk = " flex-nativesdk"
+Config 'BT_6LOWPAN' has the following conditionals:
+  BT_LE && 6LOWPAN (value: "n")
+Dependency values are:
+  BT_LE [y] 6LOWPAN [n]
 
-Cheers,
-Ulf
+---------- CONFIG_BT_CMTP -----------------
+Config: CONFIG_BT_CMTP
+From:
+/data/poky-master/tmp-glibc/work-shared/qemux86/kernel-source/.kernel-meta/configs/standard/features/bluetooth/bluetooth.cfg
+Requested value:  CONFIG_BT_CMTP=m
+Actual value:
 
+Config 'BT_CMTP' has the following conditionals:
+  BT_BREDR && ISDN_CAPI (value: "n")
+Dependency values are:
+  BT_BREDR [y] ISDN_CAPI [n]
+
+Ross
+
+--94eb2c05ae92371d9e053a32742a
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 15 August 2016 at 19:26, Bruce Ashfield <span dir=3D"ltr">&lt;<a href=3D=
+"mailto:bruce.ashfield@windriver.com" target=3D"_blank">bruce.ashfield@wind=
+river.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=
+=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-color:rgb(20=
+4,204,204);border-left-style:solid;padding-left:1ex"><div id=3D":2qp" class=
+=3D"">Are the important part of this series, and a significant contribution=
+ to the<br>
+fall release. I&#39;ve been testing these for some time, and we&#39;ve run =
+the<br>
+kernel lab and yocto-bsp scripts against the tools. We haven&#39;t found a<=
+br>
+regression yet, but I&#39;m sure there are some lurking. These definitely n=
+eed<br>
+cycles on the autobuilders.</div></blockquote></div><br>qemux86 throws thes=
+e warnings at me:</div><div class=3D"gmail_extra"><br></div><div class=3D"g=
+mail_extra"><div class=3D"gmail_extra">WARNING: linux-yocto-4.4.15+gitAUTOI=
+NC+b030d96c7b_ddab242999-r0 do_kernel_configcheck: [kernel config]: specifi=
+ed values did not make it into the kernel&#39;s final configuration:</div><=
+div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">---------- C=
+ONFIG_BT_6LOWPAN -----------------</div><div class=3D"gmail_extra">Config: =
+CONFIG_BT_6LOWPAN</div><div class=3D"gmail_extra">From: /data/poky-master/t=
+mp-glibc/work-shared/qemux86/kernel-source/.kernel-meta/configs/standard/fe=
+atures/bluetooth/bluetooth.cfg</div><div class=3D"gmail_extra">Requested va=
+lue: =C2=A0CONFIG_BT_6LOWPAN=3Dy</div><div class=3D"gmail_extra">Actual val=
+ue:</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Co=
+nfig &#39;BT_6LOWPAN&#39; has the following conditionals:</div><div class=
+=3D"gmail_extra">=C2=A0 BT_LE &amp;&amp; 6LOWPAN (value: &quot;n&quot;)</di=
+v><div class=3D"gmail_extra">Dependency values are:</div><div class=3D"gmai=
+l_extra">=C2=A0 BT_LE [y] 6LOWPAN [n]</div><div class=3D"gmail_extra"><br><=
+/div><div class=3D"gmail_extra">---------- CONFIG_BT_CMTP -----------------=
+</div><div class=3D"gmail_extra">Config: CONFIG_BT_CMTP</div><div class=3D"=
+gmail_extra">From: /data/poky-master/tmp-glibc/work-shared/qemux86/kernel-s=
+ource/.kernel-meta/configs/standard/features/bluetooth/bluetooth.cfg</div><=
+div class=3D"gmail_extra">Requested value: =C2=A0CONFIG_BT_CMTP=3Dm</div><d=
+iv class=3D"gmail_extra">Actual value:</div><div class=3D"gmail_extra"><br>=
+</div><div class=3D"gmail_extra">Config &#39;BT_CMTP&#39; has the following=
+ conditionals:</div><div class=3D"gmail_extra">=C2=A0 BT_BREDR &amp;&amp; I=
+SDN_CAPI (value: &quot;n&quot;)</div><div class=3D"gmail_extra">Dependency =
+values are:</div><div class=3D"gmail_extra">=C2=A0 BT_BREDR [y] ISDN_CAPI [=
+n]</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ros=
+s</div></div></div>
+
+--94eb2c05ae92371d9e053a32742a--
