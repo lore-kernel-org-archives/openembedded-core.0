@@ -1,29 +1,20 @@
-Return-Path: <Dengke.Du@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id AAADA7711B
+Return-Path: <markus.lehtonen@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id D1C3F7713C
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 Aug 2016 07:09:59 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u7G79vbM017620
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 16 Aug 2016 00:09:57 -0700 (PDT)
-Received: from [128.224.162.225] (128.224.162.225) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.248.2;
-	Tue, 16 Aug 2016 00:09:56 -0700
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <cover.1470967099.git.dengke.du@windriver.com>
-	<18de1b4818af9e90e4578af9335497c5edd7ae9f.1470967099.git.dengke.du@windriver.com>
-	<CAJTo0Lamk-EkyDpjsWw0DxKooqTd1=+0+f7kZD8Aa1yXCXQ5og@mail.gmail.com>
-From: "dengke.du@windriver.com" <dengke.du@windriver.com>
-Message-ID: <57B2BC42.101@windriver.com>
-Date: Tue, 16 Aug 2016 15:09:54 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.7.2
-MIME-Version: 1.0
-In-Reply-To: <CAJTo0Lamk-EkyDpjsWw0DxKooqTd1=+0+f7kZD8Aa1yXCXQ5og@mail.gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH V2 1/1] bash: fix run-intl ptest failed
+	Tue, 16 Aug 2016 07:26:31 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by orsmga101.jf.intel.com with ESMTP; 16 Aug 2016 00:26:32 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.28,529,1464678000"; d="scan'208";a="749292012"
+Received: from marquiz.fi.intel.com ([10.237.72.155])
+	by FMSMGA003.fm.intel.com with ESMTP; 16 Aug 2016 00:26:12 -0700
+From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 16 Aug 2016 10:26:11 +0300
+Message-Id: <1471332371-31761-1-git-send-email-markus.lehtonen@linux.intel.com>
+X-Mailer: git-send-email 2.6.6
+Subject: [PATCH v2 0/9] oe-build-perf-test: use Python unittest framework
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,87 +27,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 16 Aug 2016 07:10:01 -0000
-Content-Type: multipart/alternative;
-	boundary="------------050804010907020208040800"
+X-List-Received-Date: Tue, 16 Aug 2016 07:26:33 -0000
 
---------------050804010907020208040800
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
+Patch #8, i.e. the patch suppressing logger output was too aggressive in v1 of
+this patchset. We want to get most of the logger output to stderr, after all.
+In v2 the logger output to stderr is only disabled during the time the tests
+are being run.
 
-OK, I will add it now.
-
-//dengke
-
-On 2016年08月15日 23:03, Burton, Ross wrote:
->
-> On 12 August 2016 at 03:08, Dengke Du <dengke.du@windriver.com 
-> <mailto:dengke.du@windriver.com>> wrote:
->
->     NOTE:
->        Ensure the system contain fr-fr & de-de locales
->
->        Some tests of intl.tests need to change locales to accomplish.
->     So you need add
->        the following to a conf file:
->
->                     IMAGE_LINGUAS = "en-us fr-fr de-de"
->
->
-> Would it be possible to sanity check this in the run-ptest, so if the 
-> required locales are not present it emits a warning?
->
-> Ross
+Other patches are not changed (except for rebase on top of the latest master).
 
 
---------------050804010907020208040800
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+The following changes since commit a92c196449c516fe51786d429078bbb1213bb029:
 
-<html>
-  <head>
-    <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-  </head>
-  <body bgcolor="#FFFFFF" text="#000000">
-    OK, I will add it now.<br>
-    <br>
-    //dengke<br>
-    <br>
-    <div class="moz-cite-prefix">On 2016年08月15日 23:03, Burton, Ross
-      wrote:<br>
-    </div>
-    <blockquote
-cite="mid:CAJTo0Lamk-EkyDpjsWw0DxKooqTd1=+0+f7kZD8Aa1yXCXQ5og@mail.gmail.com"
-      type="cite">
-      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-      <div dir="ltr">
-        <div class="gmail_extra"><br>
-          <div class="gmail_quote">On 12 August 2016 at 03:08, Dengke Du
-            <span dir="ltr">&lt;<a moz-do-not-send="true"
-                href="mailto:dengke.du@windriver.com" target="_blank">dengke.du@windriver.com</a>&gt;</span>
-            wrote:<br>
-            <blockquote class="gmail_quote" style="margin:0 0 0
-              .8ex;border-left:1px #ccc solid;padding-left:1ex">
-              <div id=":mb" class="a3s aXjCH m1567c82dfd21aa19">NOTE:<br>
-                   Ensure the system contain fr-fr &amp; de-de locales<br>
-                <br>
-                   Some tests of intl.tests need to change locales to
-                accomplish. So you need add<br>
-                   the following to a conf file:<br>
-                <br>
-                                IMAGE_LINGUAS = "en-us fr-fr de-de"</div>
-            </blockquote>
-          </div>
-          <br>
-          Would it be possible to sanity check this in the run-ptest, so
-          if the required locales are not present it emits a warning?</div>
-        <div class="gmail_extra"><br>
-        </div>
-        <div class="gmail_extra">Ross</div>
-      </div>
-    </blockquote>
-    <br>
-  </body>
-</html>
+  Allow for simultaneous do_rootfs tasks with rpm (2016-08-11 13:36:06 +0100)
 
---------------050804010907020208040800--
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib marquiz/buildperf/unittest
+  http://git.openembedded.org/openembedded-core-contrib/log/?h=marquiz/buildperf/unittest
+
+
+Markus Lehtonen (9):
+  oeqa.buildperf: rename module containing basic tests
+  oeqa.buildperf: derive BuildPerfTestCase class from unitest.TestCase
+  oeqa.buildperf: add BuildPerfTestLoader class
+  oeqa.buildperf: add BuildPerfTestResult class
+  oeqa.buildperf: convert test cases to unittest
+  oe-build-perf-test: use new unittest based framework
+  oeqa.buildperf: introduce runCmd2()
+  oe-build-perf-test: suppress logger output when tests are being run
+  oeqa.buildperf: be more verbose about failed commands
+
+ meta/lib/oeqa/buildperf/__init__.py    |  10 +-
+ meta/lib/oeqa/buildperf/base.py        | 245 +++++++++++++++++----------------
+ meta/lib/oeqa/buildperf/basic_tests.py | 133 ------------------
+ meta/lib/oeqa/buildperf/test_basic.py  | 121 ++++++++++++++++
+ scripts/oe-build-perf-test             |  65 ++++++---
+ 5 files changed, 307 insertions(+), 267 deletions(-)
+ delete mode 100644 meta/lib/oeqa/buildperf/basic_tests.py
+ create mode 100644 meta/lib/oeqa/buildperf/test_basic.py
+
+-- 
+2.6.6
+
+
