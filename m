@@ -1,64 +1,45 @@
-Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-ua0-f182.google.com (mail-ua0-f182.google.com
-	[209.85.217.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 2AA31758DB
+Return-Path: <liu.ming50@gmail.com>
+Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 91F4F75E2D
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Aug 2016 11:22:56 +0000 (UTC)
-Received: by mail-ua0-f182.google.com with SMTP id k90so166753811uak.1
+	Wed, 17 Aug 2016 11:26:15 +0000 (UTC)
+Received: by mail-wm0-f65.google.com with SMTP id o80so23087320wme.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Aug 2016 04:22:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
-	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
-	:cc; bh=d2BDiCBHuPeQQdrC3H/SgXfb0AL0B/291lIbLsrPleA=;
-	b=OgsUIRSw/q+lykNm1x52aPS1c+CFiprcFOKcVOcF5+KfI3MlW14uAR5CUTOSWwBf//
-	YJf3yN29zZj6X4/wCS28etidRGziXktE1iNQKZ89D/jh6u3L9eXP9/TzMbr6liQRrB/E
-	LzI23mI6d2kg4KM1YbXR96ypbt3sjSd/GDc2ZVZuGHK6XmhWrV5F9dmoKm69g/hYfNfN
-	5foGMv9ntBmgFiPsv9jwZUjDFTclxegas8ts5yhZzFBkJTYyc4tLFii3m1pDOre2AvuW
-	seKOUXRJEeoZ1yET0Lrs0WNWN3yhsotpcoqJ/bjGZvYbCIVmVyEgcDQ7Jz15+kkWd1fQ
-	27Lw==
+	Wed, 17 Aug 2016 04:26:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=d4fDImmVHomGvXFE2Jk2jZeRMMY9eWAShkBejVTHigg=;
+	b=J/0B5wFo/9Nup+4XuvCgp1UTD15iNL/wOgV47BiQeq8E+S4cvm6yfbAwm8YvwJm/Ka
+	YP2Myw8JYfgFLpNmbf6ald0TVe/cysGGsNXwuHuv2OzR/gSldr0axnf5m4PXhgav3zdI
+	2J6STVsCL5r3ov1reTOyOr+31MdcBJxlB5pMxwW8W/e3UvjBuwde/F9C+rhGcnKAGlBv
+	BxoXmckuzBdIcRFpFfaoTzhzjcbyqYA7Cfy/RPS5kqxkz1xZNfS6wHF0pYnPEsVMY65V
+	/QPjESeYWo6zTmE2da8CFsMFvEKkYs2daCyhoAOpGLRBlyJfKWMnsQ9QDDpq618Xf4lE
+	y/Kg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
-	:message-id:subject:to:cc;
-	bh=d2BDiCBHuPeQQdrC3H/SgXfb0AL0B/291lIbLsrPleA=;
-	b=e+oykl7S7S5tjG6v68XskiDosBrs8w8biiOTj93Qva8uFwPRidbIqESVpoxkzy4Vsf
-	xLYAfwVo3rlqcdgUj17rwsmOdPtRpKns5xwD4ZN6WxkDR8J5ZMGhpUv6C2qoUawtvbCr
-	2G2kSopkRogjTKAmh/pRpcVU7t1zinnKtHB87XLQA+60IKgarl6r7yGfkmzT7PeUBdTT
-	BYaXKA3gshIOB6Q82PXIQHfro6Sb/xNKzL68UsErbG4aIuzD246pgl62c+ZrxF8+2L/D
-	AEwdIY/xjewwJX2ke3IufNisDD36Zn/I9EVpmKeYfbELLxghbYU7baCNX3EinfZ1IZ79
-	6xLA==
-X-Gm-Message-State: AEkoout7sVrH+t/OEHjUxfgAegYCshsxzH1p0yvTIHKY88XfObtFJemJzTQwDRen3ZvOnQ==
-X-Received: by 10.176.82.71 with SMTP id j7mr12361301uaa.66.1471432976870;
-	Wed, 17 Aug 2016 04:22:56 -0700 (PDT)
-Received: from mail-ua0-f172.google.com (mail-ua0-f172.google.com.
-	[209.85.217.172])
-	by smtp.gmail.com with ESMTPSA id k13sm6615704vki.9.2016.08.17.04.22.55
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 17 Aug 2016 04:22:55 -0700 (PDT)
-From: Otavio Salvador <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by mail-ua0-f172.google.com with SMTP id 97so166631420uav.3
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Aug 2016 04:22:55 -0700 (PDT)
-X-Received: by 10.31.149.132 with SMTP id x126mr20119983vkd.71.1471432974997; 
-	Wed, 17 Aug 2016 04:22:54 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.31.138.78 with HTTP; Wed, 17 Aug 2016 04:22:54 -0700 (PDT)
-In-Reply-To: <CAJTo0LZe0X13aKjrqprgDuND+B8F7QVFooJRCWqqbJ5xrTyGAg@mail.gmail.com>
-References: <1470762907-25824-1-git-send-email-manjukumar.harthikote-matha@xilinx.com>
-	<CAP9ODKrzOHomALoD28h7nJ6xT5puNkrzbd1FZVr=xij_wYUsxg@mail.gmail.com>
-	<00da7e65-bfa1-0ffc-a2bb-1b44e0978864@xilinx.com>
-	<CAP9ODKp7XCfL7ozG0GU2x6KfKXW1KJ5jLbVi6guWWKPnpKKLHg@mail.gmail.com>
-	<CAJTo0LZe0X13aKjrqprgDuND+B8F7QVFooJRCWqqbJ5xrTyGAg@mail.gmail.com>
-Date: Wed, 17 Aug 2016 08:22:54 -0300
-X-Gmail-Original-Message-ID: <CAP9ODKr4jD3H7HQegX5zTLY5et_MhtsUq4-2Z66=C7=w6KUhhQ@mail.gmail.com>
-Message-ID: <CAP9ODKr4jD3H7HQegX5zTLY5et_MhtsUq4-2Z66=C7=w6KUhhQ@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] u-boot.inc: Enable out-of-tree builds
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=d4fDImmVHomGvXFE2Jk2jZeRMMY9eWAShkBejVTHigg=;
+	b=MJBMu/1okBaj9YUbehwecPTW5I3pXcvHt3CM6d8/bYlYoJExxWQlYTMvIBTaX1CorF
+	ZsRHd10f+wFf3qi0SUfdG17JmTLtV9lS9WlI9f92gb+21sRzhbgtAZvRRisb+9AOvKRH
+	MnxobQOZWnbPnI4kT2pFgRTu4aXm8rA6eavRqiA8lE8jtNLfot9dOu52ctQy0rCc4khg
+	+UWPVTJPguGmog9NOXBxP/2Zm8iWAWr+XVnUEJ81ZDhwXjG2sor5ZKLzFBtcKIr2mRbL
+	6ZI288+HKXdGs/1mK+iJ2UvZFkD6wQaW6Dd4qTgS+fYNJr2bdIKkkN8SkJb4RPa1aySv
+	+2HA==
+X-Gm-Message-State: AEkoousYCKM2TL5Tdu8BzzjrbAYGIj3vwnaP2vTxgdhlFtCS5KRIOFsDES4Zz+DC9WyJ6Q==
+X-Received: by 10.46.1.224 with SMTP id f93mr6855978lji.44.1471433175273;
+	Wed, 17 Aug 2016 04:26:15 -0700 (PDT)
+Received: from localhost.localdomain (m83-185-244-190.cust.tele2.se.
+	[83.185.244.190]) by smtp.gmail.com with ESMTPSA id
+	g72sm1471901lji.43.2016.08.17.04.26.12
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 17 Aug 2016 04:26:13 -0700 (PDT)
+From: Ming Liu <liu.ming50@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 17 Aug 2016 13:26:09 +0200
+Message-Id: <1471433169-15298-1-git-send-email-liu.ming50@gmail.com>
+X-Mailer: git-send-email 1.9.1
+Cc: yue.tao@windriver.com, Ming Liu <peter.x.liu@external.atlascopco.com>
+Subject: [PATCH V3] bootchart2: fixes a BOOTLOG_DEST typo
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -71,23 +52,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 Aug 2016 11:22:57 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 17 Aug 2016 11:26:17 -0000
 
-On Tue, Aug 16, 2016 at 7:40 PM, Burton, Ross <ross.burton@intel.com> wrote:
->
-> On 16 August 2016 at 23:00, Otavio Salvador
-> <otavio.salvador@ossystems.com.br> wrote:
->>
->> But you removed the suffix from the binaries it seems
->
-> Just double-checked the diff, I think the line wrapping is making you think
-> that.  Or, paste the hunk that is broken please.
+From: Ming Liu <peter.x.liu@external.atlascopco.com>
 
-I think you are right Ross, sorry for the noise.
+A flaw was observed in bootchartd that BUILDLOG_DEST should actually be
+BOOTLOG_DEST, this seems to be a typo or mix-up which has been fixed in
+upstream.
 
+Cherry pick the fix since bootchart2 0.14.8 is still the newest release
+so far.
+
+Signed-off-by: Ming Liu <peter.x.liu@external.atlascopco.com>
+---
+ ...ed-Missing-default-value-for-BOOTLOG_DEST.patch | 30 ++++++++++++++++++++++
+ .../bootchart2/bootchart2_0.14.8.bb                |  1 +
+ 2 files changed, 31 insertions(+)
+ create mode 100644 meta/recipes-devtools/bootchart2/bootchart2/0001-Fixed-Missing-default-value-for-BOOTLOG_DEST.patch
+
+diff --git a/meta/recipes-devtools/bootchart2/bootchart2/0001-Fixed-Missing-default-value-for-BOOTLOG_DEST.patch b/meta/recipes-devtools/bootchart2/bootchart2/0001-Fixed-Missing-default-value-for-BOOTLOG_DEST.patch
+new file mode 100644
+index 0000000..118814a
+--- /dev/null
++++ b/meta/recipes-devtools/bootchart2/bootchart2/0001-Fixed-Missing-default-value-for-BOOTLOG_DEST.patch
+@@ -0,0 +1,30 @@
++From 2225ab2038bfe50f16f972e39d89bcd0bd7767f5 Mon Sep 17 00:00:00 2001
++From: Steffen Pankratz <kratz00@gmx.de>
++Date: Tue, 9 Feb 2016 13:49:42 +0100
++Subject: [PATCH] Fixed: Missing default value for BOOTLOG_DEST
++
++Upstream-Status: Backport
++
++BUILDLOG_DEST seems to be a typo or mix-up which was introduced with 281d1df80884bf2969c509ec60ee8a6593524fe8
++
++Signed-off-by: Peter Liu <peter.x.liu@external.atlascopco.com>
++---
++ bootchartd.in | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/bootchartd.in b/bootchartd.in
++index f58ab9e..30af677 100755
++--- a/bootchartd.in
+++++ b/bootchartd.in
++@@ -37,7 +37,7 @@ PATH="/sbin:/bin:/usr/sbin:/usr/bin:$PATH"
++ 
++ # Defaults, in case we can't find our configuration
++ SAMPLE_HZ=50
++-BUILDLOG_DEST=/var/log/bootchart.tgz
+++BOOTLOG_DEST=/var/log/bootchart.tgz
++ AUTO_RENDER="no"
++ AUTO_RENDER_DIR="/var/log"
++ AUTO_RENDER_FORMAT="png"
++-- 
++1.9.1
++
+diff --git a/meta/recipes-devtools/bootchart2/bootchart2_0.14.8.bb b/meta/recipes-devtools/bootchart2/bootchart2_0.14.8.bb
+index d039b1b..cc79a93 100644
+--- a/meta/recipes-devtools/bootchart2/bootchart2_0.14.8.bb
++++ b/meta/recipes-devtools/bootchart2/bootchart2_0.14.8.bb
+@@ -92,6 +92,7 @@ UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>\d+\.\d+(\.\d+)*)"
+ 
+ SRC_URI = "git://github.com/mmeeks/bootchart.git \
+            file://bootchartd_stop.sh \
++           file://0001-Fixed-Missing-default-value-for-BOOTLOG_DEST.patch \
+           "
+ 
+ S = "${WORKDIR}/git"
 -- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+1.9.1
+
 
