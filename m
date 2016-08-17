@@ -1,29 +1,33 @@
-Return-Path: <paul.eggleton@intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 9F3D673199
+Return-Path: <rpjday@crashcourse.ca>
+Received: from smtp684.redcondor.net (smtp684.redcondor.net [208.80.206.84])
+	by mail.openembedded.org (Postfix) with ESMTP id 2439B73174
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Aug 2016 12:40:24 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by orsmga103.jf.intel.com with ESMTP; 17 Aug 2016 05:40:25 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.28,529,1464678000"; d="scan'208";a="866912001"
-Received: from sananes-mobl2.ger.corp.intel.com (HELO
-	peggleto-mobl.ger.corp.intel.com) ([10.254.116.91])
-	by orsmga003.jf.intel.com with ESMTP; 17 Aug 2016 05:40:24 -0700
-From: Paul Eggleton <paul.eggleton@intel.com>
-To: Brendan Le Foll <brendan.le.foll@intel.com>,
-	Christopher Lord <clord@mozilla.com>
-Date: Wed, 17 Aug 2016 07:40:23 -0500
-Message-ID: <3036338.LeAAZU0Ur8@peggleto-mobl.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.14.10 (Linux/4.6.6-200.fc23.x86_64; KDE/4.14.20; x86_64; ;
-	)
-In-Reply-To: <20160817101112.GA20728@hippo.iwi.intel.com>
-References: <CABDc_zW0Mi9a5G+neZMSAC5mRVo8LC-62ew_X9PiKM8uVxhAUA@mail.gmail.com>
-	<20160817101112.GA20728@hippo.iwi.intel.com>
+	Wed, 17 Aug 2016 13:21:32 +0000 (UTC)
+Received: from astoria.ccjclearline.com ([64.235.106.9])
+	by smtp684.redcondor.net ({700db0a8-6fb7-4c8b-9b2a-6812225182d8})
+	via TCP (outbound) with ESMTPS id 20160817132130565_0684;
+	Wed, 17 Aug 2016 13:21:30 +0000
+X-RC-FROM: <rpjday@crashcourse.ca>
+Received: from [216.191.234.70] (port=23128 helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
+	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
+	id 1ba0oU-0005QU-MG; Wed, 17 Aug 2016 09:23:22 -0400
+Date: Wed, 17 Aug 2016 09:21:15 -0400 (EDT)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@ca624034.mitel.com
+To: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <92B4EF25-FE41-4310-B78A-554EA37BF507@gmail.com>
+Message-ID: <alpine.LFD.2.20.1608170913100.11255@ca624034.mitel.com>
+References: <alpine.LFD.2.20.1608160956340.7804@ca624034.mitel.com>
+	<CAFkk2KRY=fWTOSUbxV_gm-np9r=4JBrsQ+Zy0FZb0H4Gbhfd+A@mail.gmail.com>
+	<alpine.LFD.2.20.1608161147270.9338@ca624034.mitel.com>
+	<CAFkk2KSVc3rqAieBHzkayJQT7YHxJhYoD0PSqp-YFL0CYMLkvg@mail.gmail.com>
+	<92B4EF25-FE41-4310-B78A-554EA37BF507@gmail.com>
+User-Agent: Alpine 2.20 (LFD 67 2015-01-07)
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: npm.bbclass
+X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: subtle weirdness when you combine "_append" with "+="?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,51 +40,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 Aug 2016 12:40:24 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Wed, 17 Aug 2016 13:21:33 -0000
+Content-Type: text/plain; charset=US-ASCII
 
-Hey Chris, long time!
+On Tue, 16 Aug 2016, Khem Raj wrote:
 
-On Wed, 17 Aug 2016 11:11:13 Brendan Le Foll wrote:
-> >    - Is there a reason to split the package like it does? Node projects
-> >    tend to have huge dependency trees, it makes updating and distributing
-> >    node-based applications a bit of a chore if they end up split into 20
-> >    packages, most of which have no use separately. It would be great if
-> >    there was at least a way to disable this.
-> 
-> Paul added this, the worry was that we wanted to make sure all the
-> licenses where tracked properly of the package etc...
+  ... big snip ...
 
-Right, that is why we do the splitting - if you want the licenses and actual 
-packages used to be fully represented in the image license manifest then they 
-really do have to be split this way. Honestly I view this ugliness more as an 
-artifact of how npm works (i.e. every dependency is handled separately instead 
-of trying to ensure only one instance of a particular package).
+> the _append/_prepend in conjunction with += is a undocumented
+> behavior however, I do not see it as much a side effect. But in
+> future bitbake may silently change its behavior, so I agree its
+> always good to stay in safe waters.
 
-> I'm not a huge fan either to be honest. Maybe we can have a npm-no-
-> split.bbclass would that be ok - Paul? It's in python
-> populate_packages_prepend in npm.bbclass.
+  so just to finalize this discussion, my thoughts on a reasonable and
+meaningful standard for append/prepend/etc/etc would be to *always*
+use the "mathematical" operators +=/.=/=+/=. except in two situations:
 
-Sure, but rather than a separate class I would just add a variable such as 
-NPM_SPLIT_PACKAGES that defaults to "1" and then you can set it to "0" either 
-globally or in each recipe.
+  1) when parsing *must* be delayed until the end, or
+  2) when combining the operation with an override (for which i'm
+     quite sure there is no equivalent when using +=, etc, right?)
 
-> >    - Any patches end up getting packaged because they get put in the
-> >    srcdir. I'm guessing this isn't intentional (or maybe it is?)
-> >    Just wanted to provide some feedback. It's fantastic that OE has the
-> >    ability to package node software, and despite the teething
-> >    difficulties, I've appreciated its availability!
-> 
-> That is a good point, didn't think about it tbh. in npm.bbclass we
-> could maybe delete everything that looks like a patch before
-> compilation, little bit worried there might be nasty side effects but
-> I can try :)
+i'm a big fan of simplicity, in the sense that, if an append operation
+does not *require* "_append", it shouldn't use it. because if i see an
+expression:
 
-This is definitely not intentional, but the way we have been dealing with npm 
-it makes it easy for stuff like this to leak into the output packages. I guess 
-we just need to delete them under ${D} after the files are installed there.
+  VAR_append = "..."
 
-Cheers,
-Paul
+then i immediately wonder if there is a *reason* for using "_append"
+rather than "+=" or ".=", or if that is just the developer's personal
+preference. and i really, really, really hate having to guess.
+
+  oh, and of course, never, ever combine "_append" with "+=" or ".=".
+does that sound like a reasonable coding style?
+
+rday
+
+-- 
+
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
+
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
+
+
 
