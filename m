@@ -1,37 +1,38 @@
-Return-Path: <william.c.randle@intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id ADC2D7016E
+Return-Path: <andre.draszik@gmail.com>
+Received: from mail-wm0-f66.google.com (mail-wm0-f66.google.com [74.125.82.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 9C8617016E
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Aug 2016 15:19:49 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 17 Aug 2016 08:19:50 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.28,529,1464678000"; 
-	d="scan'208,217";a="1042836358"
-Received: from orsmsx106.amr.corp.intel.com ([10.22.225.133])
-	by fmsmga002.fm.intel.com with ESMTP; 17 Aug 2016 08:19:46 -0700
-Received: from orsmsx161.amr.corp.intel.com (10.22.240.84) by
-	ORSMSX106.amr.corp.intel.com (10.22.225.133) with Microsoft SMTP Server
-	(TLS) id 14.3.248.2; Wed, 17 Aug 2016 08:19:45 -0700
-Received: from orsmsx105.amr.corp.intel.com ([169.254.2.201]) by
-	ORSMSX161.amr.corp.intel.com ([169.254.4.17]) with mapi id
-	14.03.0248.002; Wed, 17 Aug 2016 08:19:45 -0700
-From: "Randle, William C" <william.c.randle@intel.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>, "daicy.fnst@cn.fujitsu.com"
-	<daicy.fnst@cn.fujitsu.com>
-Thread-Topic: [OE-core] [PATCH] dbus: 1.10.8 -> 1.11.2
-Thread-Index: AQHR+FBqS+PYpTRN8EqQGr8eE8pRoaBNukmA
-Date: Wed, 17 Aug 2016 15:19:45 +0000
-Message-ID: <1471447185.2860.53.camel@intel.com>
-References: <1461850657-5088-1-git-send-email-daicy.fnst@cn.fujitsu.com>
-In-Reply-To: <1461850657-5088-1-git-send-email-daicy.fnst@cn.fujitsu.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.7.199.73]
+	Wed, 17 Aug 2016 15:25:44 +0000 (UTC)
+Received: by mail-wm0-f66.google.com with SMTP id o80so25280019wme.0
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 17 Aug 2016 08:25:45 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=jTRLH0oTKfmtnlRrAsZyXL3UO4J7kOEi0c+hbwe/wMk=;
+	b=bLsQPhinlyZWzNRWBMZxFvcXldnB0yEQBE1utM7R/fS+d/cIn8cfqb7izCi1nBb4sv
+	phsyFt19i+t5W4scQq23C2HQ3vLgykw6uzwRSykFIAub1xXdQboSl/xuUGyhGWvEf0Ii
+	y5HmpbIWULLEAXW+j01JJ/Ng4yWe5wG/FPVdsfgIHhJZtjhlrcJKkihstgJoaGgK2hRV
+	qT06hE0KqvLT2/WWmGhhFs2hVfo5ijKXnf5HLTz+ymLdpDF19cwLR2aWBEPCkO3uhqpS
+	EaZDLFEcCCXP9pZ9hQCjbOV8yF3yl6T3OSOCNWK+am5UzkMklw7GZJ87OGvR9LeR4mZs
+	aAFQ==
+X-Gm-Message-State: AEkoouu2EUd72MLP39du2uBYkVzoLnxmf1KzyLqmw5c40RCSMPF56AGmg9AaXAukOD8tWQ==
+X-Received: by 10.194.118.132 with SMTP id km4mr42977913wjb.158.1471447544333; 
+	Wed, 17 Aug 2016 08:25:44 -0700 (PDT)
+Received: from tfsielt31850.tycofs.com ([77.107.218.170])
+	by smtp.gmail.com with ESMTPSA id
+	a21sm27188657wma.10.2016.08.17.08.25.42
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 17 Aug 2016 08:25:43 -0700 (PDT)
+From: =?UTF-8?q?Andr=C3=A9=20Draszik?= <git@andred.net>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 17 Aug 2016 16:25:36 +0100
+Message-Id: <20160817152538.14181-1-git@andred.net>
+X-Mailer: git-send-email 2.9.3
 MIME-Version: 1.0
-Subject: Re: [PATCH] dbus: 1.10.8 -> 1.11.2
+Subject: [PATCH 0/2] fixing kernel module cross-recipe dependency
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,37 +45,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 Aug 2016 15:19:49 -0000
-Content-Language: en-US
-Content-Type: multipart/alternative;
-	boundary="_000_1471447185286053camelintelcom_"
+X-List-Received-Date: Wed, 17 Aug 2016 15:25:46 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
---_000_1471447185286053camelintelcom_
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Hi,
 
-T24gVGh1LCAyMDE2LTA0LTI4IGF0IDE2OjM3ICswMzAwLCBEYWkgQ2FpeXVuIHdyb3RlOg0KDQpV
-cGdyYWRlIGRidXMgZnJvbSAxLjEwLjggdG8gMS4xMS4yLg0KDQoNCg0KDQpZb3UgbWlnaHQgd2Fu
-dCB0byB1cGRhdGUgdGhlIGRhdGUvdGltZSBvZiB0aGUgbWFjaGluZSB5b3UgdXNlZCB0byBwb3N0
-IHlvdXIgcGF0Y2hlcy4gV2l0aCBhIGRhdGUgb2YgQXByaWwgMjgsIHlvdXIgZW1haWwgY291bGQg
-ZWFzaWx5IGJlIG1pc3NlZCBieSBzb21lb25lIHNvcnRpbmcgYW5kIHJlYWRpbmcgbWVzc2FnZXMg
-YnkgZGF0ZS4NCg0KICAgIC1CaWxsDQo=
+In a situation where multiple external kernel modules are built
+from multiple independent recipes, we currently don't generate
+correct runtime dependencies of the packages created.
 
---_000_1471447185286053camelintelcom_
-Content-Type: text/html; charset="utf-8"
-Content-ID: <A7A7F1BF566DD247A0B2F676F46C6A83@intel.com>
-Content-Transfer-Encoding: base64
+This (small) series of patches attempts to address this.
 
-PGh0bWw+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIgY29udGVudD0i
-dGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjwvaGVhZD4NCjxib2R5IGJnY29sb3I9IiNmN2Y3
-ZjciIHRleHQ9IiMyYzJjMmMiIGxpbms9IiM0YTkwZDkiIHZsaW5rPSIjNGE5MGQ5Ij4NCjxkaXY+
-T24gVGh1LCAyMDE2LTA0LTI4IGF0IDE2OjM3ICYjNDM7MDMwMCwgRGFpIENhaXl1biB3cm90ZTo8
-L2Rpdj4NCjxibG9ja3F1b3RlIHR5cGU9ImNpdGUiPg0KPHByZT5VcGdyYWRlIGRidXMgZnJvbSAx
-LjEwLjggdG8gMS4xMS4yLg0KDQoNCjwvcHJlPg0KPC9ibG9ja3F1b3RlPg0KPGRpdj48YnI+DQo8
-L2Rpdj4NCjxkaXY+WW91IG1pZ2h0IHdhbnQgdG8gdXBkYXRlIHRoZSBkYXRlL3RpbWUgb2YgdGhl
-IG1hY2hpbmUgeW91IHVzZWQgdG8gcG9zdCB5b3VyIHBhdGNoZXMuIFdpdGggYSBkYXRlIG9mIEFw
-cmlsIDI4LCB5b3VyIGVtYWlsIGNvdWxkIGVhc2lseSBiZSBtaXNzZWQgYnkgc29tZW9uZSBzb3J0
-aW5nIGFuZCByZWFkaW5nIG1lc3NhZ2VzIGJ5IGRhdGUuPC9kaXY+DQo8ZGl2Pjxicj4NCjwvZGl2
-Pg0KPGRpdj4mbmJzcDsgJm5ic3A7IC1CaWxsPC9kaXY+DQo8L2JvZHk+DQo8L2h0bWw+DQo=
+It's working well for me but there'll likely be cases I haven't
+considered.
 
---_000_1471447185286053camelintelcom_--
+Cheers,
+Andre'
+
+
