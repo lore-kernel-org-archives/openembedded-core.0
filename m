@@ -1,22 +1,20 @@
 Return-Path: <california.l.sullivan@intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 01CE060762
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 0414E75EE7
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Aug 2016 02:18:00 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by orsmga101.jf.intel.com with ESMTP; 16 Aug 2016 19:17:59 -0700
+	Wed, 17 Aug 2016 02:27:58 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 16 Aug 2016 19:27:59 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.28,529,1464678000"; d="scan'208";a="866670710"
+X-IronPort-AV: E=Sophos;i="5.28,529,1464678000"; d="scan'208";a="1015661361"
 Received: from clsulliv.jf.intel.com ([10.7.201.156])
-	by orsmga003.jf.intel.com with ESMTP; 16 Aug 2016 19:17:59 -0700
+	by orsmga001.jf.intel.com with ESMTP; 16 Aug 2016 19:27:59 -0700
 From: California Sullivan <california.l.sullivan@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 16 Aug 2016 22:14:55 -0700
-Message-Id: <1471410895-3159-3-git-send-email-california.l.sullivan@intel.com>
+Date: Tue, 16 Aug 2016 22:25:01 -0700
+Message-Id: <1471411501-3523-1-git-send-email-california.l.sullivan@intel.com>
 X-Mailer: git-send-email 2.5.5
-In-Reply-To: <1471410895-3159-1-git-send-email-california.l.sullivan@intel.com>
-References: <1471410895-3159-1-git-send-email-california.l.sullivan@intel.com>
-Subject: [PATCH 3/3] parselogs.py: Add failed to setup card detect gpio error on x86
+Subject: [PATCH RFC 1/1] kernel.bbclass: Add kernel_version_sanity_check function
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,29 +27,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 Aug 2016 02:18:01 -0000
+X-List-Received-Date: Wed, 17 Aug 2016 02:27:59 -0000
 
-This error has occurred on the MinnowBoard Max and Turbot since its
-inception. It supposedly indicates a non-working SD card reader, but
-ours works fine. Whitelist the error.
+The kernel being built should match what the recipe claims it is
+building. This function ensures that happens for anyone using
+LINUX_VERSION as they should. As it will likely break outside kernels
+not using LINUX_VERSION, only enable the function for linux-yocto for
+now.
 
 Signed-off-by: California Sullivan <california.l.sullivan@intel.com>
 ---
- meta/lib/oeqa/runtime/parselogs.py | 1 +
- 1 file changed, 1 insertion(+)
+I'm not absolutely sure this is the correct path to solve the issue.
+This patch relies on LINUX_VERSION being set which isn't a guarantee.
+There is probably a more general solution that I'm not thinking of.
 
-diff --git a/meta/lib/oeqa/runtime/parselogs.py b/meta/lib/oeqa/runtime/parselogs.py
-index 69d0783..9f954bc 100644
---- a/meta/lib/oeqa/runtime/parselogs.py
-+++ b/meta/lib/oeqa/runtime/parselogs.py
-@@ -55,6 +55,7 @@ x86_common = [
-     'Could not enable PowerButton event',
-     'probe of LNXPWRBN:00 failed with error -22',
-     'pmd_set_huge: Cannot satisfy',
-+    'failed to setup card detect gpio',
- ] + common_errors
+ meta/classes/kernel.bbclass               | 21 +++++++++++++++++++++
+ meta/recipes-kernel/linux/linux-yocto.inc |  1 +
+ 2 files changed, 22 insertions(+)
+
+diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+index db42744..ac2611f 100644
+--- a/meta/classes/kernel.bbclass
++++ b/meta/classes/kernel.bbclass
+@@ -330,6 +330,27 @@ kernel_do_install() {
+ }
+ do_install[prefuncs] += "package_get_auto_pr"
  
- qemux86_common = [
++# Must be ran some time after do_kernel_checkout or else Makefile won't be in ${S}/Makefile
++do_kernel_version_sanity_check() {
++	# The Makefile determines the kernel version shown at runtime
++	# Don't use KERNEL_VERSION because the headers it grabs the version from aren't generated until do_compile
++	VERSION=$(grep "^VERSION =" ${S}/Makefile | sed s/.*=\ //)
++	PATCHLEVEL=$(grep "^PATCHLEVEL =" ${S}/Makefile | sed s/.*=\ //)
++	SUBLEVEL=$(grep "^SUBLEVEL =" ${S}/Makefile | sed s/.*=\ //)
++
++	# If SUBLEVEL is zero or doesn't exist we ignore it as VERSION.PATCHLEVEL is normal
++	if [ -n "${SUBLEVEL}" ] && [ "${SUBLEVEL}" != "0" ]; then
++		if [ "${VERSION}.${PATCHLEVEL}.${SUBLEVEL}" != "${LINUX_VERSION}" ]; then
++			bbfatal "LINUX_VERSION (${LINUX_VERSION}) does not match kernel being built (${VERSION}.${PATCHLEVEL}.${SUBLEVEL}).\nTo fix this correct the LINUX_VERSION variable in your kernel recipe."
++		fi
++	else
++		if [ "${VERSION}.${PATCHLEVEL}" != "${LINUX_VERSION}" ]; then
++			bbfatal "LINUX_VERSION (${LINUX_VERSION}) does not match kernel being built (${VERSION}.${PATCHLEVEL}).\nTo fix this correct the LINUX_VERSION variable in your kernel recipe."
++		fi
++	fi
++	exit 0
++}
++
+ addtask shared_workdir after do_compile before do_compile_kernelmodules
+ addtask shared_workdir_setscene
+ 
+diff --git a/meta/recipes-kernel/linux/linux-yocto.inc b/meta/recipes-kernel/linux/linux-yocto.inc
+index 98a48ec..d979662 100644
+--- a/meta/recipes-kernel/linux/linux-yocto.inc
++++ b/meta/recipes-kernel/linux/linux-yocto.inc
+@@ -55,6 +55,7 @@ do_install_append(){
+ }
+ 
+ # extra tasks
++addtask kernel_version_sanity_check after do_kernel_checkout before do_compile
+ addtask kernel_link_images after do_compile before do_install
+ addtask validate_branches before do_patch after do_kernel_checkout
+ addtask kernel_configcheck after do_configure before do_compile
 -- 
 2.5.5
 
