@@ -1,30 +1,29 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 3FC6C758DB
+Return-Path: <paul.eggleton@intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 9F3D673199
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Aug 2016 11:54:30 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u7HBsUuI003197 for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Aug 2016 12:54:30 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id Vufc8K3ZzRio
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Aug 2016 12:54:30 +0100 (BST)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u7HBsRVV003192
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Aug 2016 12:54:28 +0100
-Message-ID: <1471434867.20391.163.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Wed, 17 Aug 2016 12:54:27 +0100
-X-Mailer: Evolution 3.16.5-1ubuntu3.1 
-Mime-Version: 1.0
-Subject: [PATCH] busybox: Backport makefile fix from upstream
+	Wed, 17 Aug 2016 12:40:24 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by orsmga103.jf.intel.com with ESMTP; 17 Aug 2016 05:40:25 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.28,529,1464678000"; d="scan'208";a="866912001"
+Received: from sananes-mobl2.ger.corp.intel.com (HELO
+	peggleto-mobl.ger.corp.intel.com) ([10.254.116.91])
+	by orsmga003.jf.intel.com with ESMTP; 17 Aug 2016 05:40:24 -0700
+From: Paul Eggleton <paul.eggleton@intel.com>
+To: Brendan Le Foll <brendan.le.foll@intel.com>,
+	Christopher Lord <clord@mozilla.com>
+Date: Wed, 17 Aug 2016 07:40:23 -0500
+Message-ID: <3036338.LeAAZU0Ur8@peggleto-mobl.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.14.10 (Linux/4.6.6-200.fc23.x86_64; KDE/4.14.20; x86_64; ;
+	)
+In-Reply-To: <20160817101112.GA20728@hippo.iwi.intel.com>
+References: <CABDc_zW0Mi9a5G+neZMSAC5mRVo8LC-62ew_X9PiKM8uVxhAUA@mail.gmail.com>
+	<20160817101112.GA20728@hippo.iwi.intel.com>
+MIME-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: npm.bbclass
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,74 +36,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 Aug 2016 11:54:31 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 17 Aug 2016 12:40:24 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-This at least partially addresses one of the build races we've seen
-on the autobuilder in busybox. Its a straightforward backport from 
-upstream.
+Hey Chris, long time!
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+On Wed, 17 Aug 2016 11:11:13 Brendan Le Foll wrote:
+> >    - Is there a reason to split the package like it does? Node projects
+> >    tend to have huge dependency trees, it makes updating and distributing
+> >    node-based applications a bit of a chore if they end up split into 20
+> >    packages, most of which have no use separately. It would be great if
+> >    there was at least a way to disable this.
+> 
+> Paul added this, the worry was that we wanted to make sure all the
+> licenses where tracked properly of the package etc...
 
-diff --git a/meta/recipes-core/busybox/busybox/makefile-fix-backport.patch b/meta/recipes-core/busybox/busybox/makefile-fix-backport.patch
-new file mode 100644
-index 0000000..2e9842e
---- /dev/null
-+++ b/meta/recipes-core/busybox/busybox/makefile-fix-backport.patch
-@@ -0,0 +1,40 @@
-+From 9e5820a86277818c2f83c11c2aa76d7f0a38283e Mon Sep 17 00:00:00 2001
-+From: Denys Vlasenko <vda.linux@googlemail.com>
-+Date: Sun, 14 Aug 2016 02:54:27 +0200
-+Subject: build system: fix include/NUM_APPLETS.h generation
-+
-+TBH, it's more like "work around my bad makefile-fu" than "fix"...
-+
-+Signed-off-by: Denys Vlasenko <vda.linux@googlemail.com>
-+---
-+ applets/Kbuild.src | 7 ++-----
-+ 1 file changed, 2 insertions(+), 5 deletions(-)
-+
-+Upstream-Status: Backport
-+
-+diff --git a/applets/Kbuild.src b/applets/Kbuild.src
-+index b612399..5cc1827 100644
-+--- a/applets/Kbuild.src
-++++ b/applets/Kbuild.src
-+@@ -29,7 +29,7 @@ applets/applets.o: include/usage_compressed.h include/applet_tables.h
-+ 
-+ applets/applet_tables: .config include/applets.h
-+ applets/usage:         .config include/applets.h
-+-applets/usage_pod:     .config include/applet_tables.h include/applets.h
-++applets/usage_pod:     .config include/applets.h include/applet_tables.h include/NUM_APPLETS.h
-+ 
-+ quiet_cmd_gen_usage_compressed = GEN     include/usage_compressed.h
-+       cmd_gen_usage_compressed = $(srctree_slash)applets/usage_compressed include/usage_compressed.h applets
-+@@ -40,8 +40,5 @@ include/usage_compressed.h: applets/usage $(srctree_slash)applets/usage_compress
-+ quiet_cmd_gen_applet_tables = GEN     include/applet_tables.h
-+       cmd_gen_applet_tables = applets/applet_tables include/applet_tables.h include/NUM_APPLETS.h
-+ 
-+-include/applet_tables.h: applets/applet_tables
-+-	$(call cmd,gen_applet_tables)
-+-
-+-include/NUM_APPLETS.h: applets/applet_tables
-++include/applet_tables.h include/NUM_APPLETS.h: applets/applet_tables
-+ 	$(call cmd,gen_applet_tables)
-+-- 
-+cgit v0.12
-+
-diff --git a/meta/recipes-core/busybox/busybox_1.24.1.bb b/meta/recipes-core/busybox/busybox_1.24.1.bb
-index d3dc2a2..7edd32d 100644
---- a/meta/recipes-core/busybox/busybox_1.24.1.bb
-+++ b/meta/recipes-core/busybox/busybox_1.24.1.bb
-@@ -48,6 +48,7 @@ SRC_URI = "http://www.busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
-            file://CVE-2016-2147.patch \
-            file://CVE-2016-2147_2.patch \
-            file://ip_fix_problem_on_mips64_n64_big_endian_musl_systems.patch \
-+           file://makefile-fix-backport.patch \
- "
- SRC_URI_append_libc-musl = " file://musl.cfg "
- 
+Right, that is why we do the splitting - if you want the licenses and actual 
+packages used to be fully represented in the image license manifest then they 
+really do have to be split this way. Honestly I view this ugliness more as an 
+artifact of how npm works (i.e. every dependency is handled separately instead 
+of trying to ensure only one instance of a particular package).
 
+> I'm not a huge fan either to be honest. Maybe we can have a npm-no-
+> split.bbclass would that be ok - Paul? It's in python
+> populate_packages_prepend in npm.bbclass.
 
+Sure, but rather than a separate class I would just add a variable such as 
+NPM_SPLIT_PACKAGES that defaults to "1" and then you can set it to "0" either 
+globally or in each recipe.
+
+> >    - Any patches end up getting packaged because they get put in the
+> >    srcdir. I'm guessing this isn't intentional (or maybe it is?)
+> >    Just wanted to provide some feedback. It's fantastic that OE has the
+> >    ability to package node software, and despite the teething
+> >    difficulties, I've appreciated its availability!
+> 
+> That is a good point, didn't think about it tbh. in npm.bbclass we
+> could maybe delete everything that looks like a patch before
+> compilation, little bit worried there might be nasty side effects but
+> I can try :)
+
+This is definitely not intentional, but the way we have been dealing with npm 
+it makes it easy for stuff like this to leak into the output packages. I guess 
+we just need to delete them under ${D} after the files are installed there.
+
+Cheers,
+Paul
 
