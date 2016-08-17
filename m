@@ -1,34 +1,35 @@
-Return-Path: <jeremy.rosen@smile.fr>
-X-Greylist: delayed 327 seconds by postgrey-1.34 at layers.openembedded.org;
-	Wed, 17 Aug 2016 14:17:26 UTC
-Received: from idris.smile.fr (idris.smile.fr [91.216.209.19])
-	by mail.openembedded.org (Postfix) with ESMTP id 0088273285
+Return-Path: <rpjday@crashcourse.ca>
+Received: from smtp685.redcondor.net (smtp685.redcondor.net [208.80.206.85])
+	by mail.openembedded.org (Postfix) with ESMTP id B80E17328A
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Aug 2016 14:17:26 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by idris.smile.fr (Postfix) with ESMTP id 86CFA1EE09DE
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Aug 2016 16:11:59 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at smile.fr
-Received: from idris.smile.fr ([127.0.0.1])
-	by localhost (bluemind-mta.prod.vitry.intranet [127.0.0.1])
-	(amavisd-new, port 10024) with ESMTP id knANg7ePr6Va
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Aug 2016 16:11:59 +0200 (CEST)
-Received: from [10.9.18.224] (229.29.205.77.rev.sfr.net [77.205.29.229])
-	by idris.smile.fr (Postfix) with ESMTPSA id 484EA1EE0839
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Aug 2016 16:11:59 +0200 (CEST)
-To: openembedded-core@lists.openembedded.org
-References: <alpine.LFD.2.20.1608170956050.12816@ca624034.mitel.com>
-From: =?UTF-8?B?SsOpcsOpbXkgUm9zZW4=?= <jeremy.rosen@smile.fr>
-Message-ID: <a1c7979f-5b89-44fd-f7c9-137cbb887654@smile.fr>
-Date: Wed, 17 Aug 2016 16:11:58 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Firefox/45.0 Icedove/45.2.0
+	Wed, 17 Aug 2016 14:24:12 +0000 (UTC)
+Received: from astoria.ccjclearline.com ([64.235.106.9])
+	by smtp685.redcondor.net ({20c8e40f-6b6c-4c9e-abff-1640ea7bf404})
+	via TCP (outbound) with ESMTPS id 20160817142410775_0685;
+	Wed, 17 Aug 2016 07:24:10 -0700
+X-RC-FROM: <rpjday@crashcourse.ca>
+Received: from [216.191.234.70] (port=22444 helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
+	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
+	id 1ba1n9-0003GB-Ik; Wed, 17 Aug 2016 10:26:03 -0400
+Date: Wed, 17 Aug 2016 10:23:59 -0400 (EDT)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@ca624034.mitel.com
+To: Ulf Magnusson <ulfalizer@gmail.com>
+In-Reply-To: <CAFkk2KSt7rLiTim2oiHZMVKezVgtuegSraR0ePQWmdBhxbd6SQ@mail.gmail.com>
+Message-ID: <alpine.LFD.2.20.1608171020570.13500@ca624034.mitel.com>
+References: <alpine.LFD.2.20.1608160956340.7804@ca624034.mitel.com>
+	<CAFkk2KRY=fWTOSUbxV_gm-np9r=4JBrsQ+Zy0FZb0H4Gbhfd+A@mail.gmail.com>
+	<alpine.LFD.2.20.1608161147270.9338@ca624034.mitel.com>
+	<CAFkk2KSVc3rqAieBHzkayJQT7YHxJhYoD0PSqp-YFL0CYMLkvg@mail.gmail.com>
+	<92B4EF25-FE41-4310-B78A-554EA37BF507@gmail.com>
+	<alpine.LFD.2.20.1608170913100.11255@ca624034.mitel.com>
+	<CAFkk2KSt7rLiTim2oiHZMVKezVgtuegSraR0ePQWmdBhxbd6SQ@mail.gmail.com>
+User-Agent: Alpine 2.20 (LFD 67 2015-01-07)
 MIME-Version: 1.0
-In-Reply-To: <alpine.LFD.2.20.1608170956050.12816@ca624034.mitel.com>
-Subject: Re: what means IMAGE_ROOTFS_EXTRA_SPACE_append += "+ 3000000"?
+X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: subtle weirdness when you combine "_append" with "+="?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,40 +42,76 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 Aug 2016 14:17:27 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 17 Aug 2016 14:24:13 -0000
+Content-Type: text/plain; charset=US-ASCII
 
+On Wed, 17 Aug 2016, Ulf Magnusson wrote:
 
-
-On 17/08/2016 16:01, Robert P. J. Day wrote:
->    as in, what's with the "+" in that "+ 3000000" value? i've never
-> seen that before, and i took a quick look under classes/ to try to
-> figure out what's happening, but i'm still confused.
-you're reading too much into this
-
-"+ 3000000" will append the string "+ 3000000" to the string contained 
-in the IMAGE_ROOTFS_EXTRA_SPACE variable
-
-I am not sure who consumes that variable, but I assume it's something 
-that's able to do math and will properly compute the final value.
-
-you can always run "bitbake -e core-image-kernel-dev" in a pager an look 
-at the final value to see what's happening...
-
->    this is all in aid of the aforementioned "+=" cleanup, and i can see
-> some inconsistency as to whether there should be a leading space or
-> not in the assigned value:
+> On Wed, Aug 17, 2016 at 3:21 PM, Robert P. J. Day <rpjday@crashcourse.ca> wrote:
+> > On Tue, 16 Aug 2016, Khem Raj wrote:
+> >
+> >   ... big snip ...
+> >
+> >> the _append/_prepend in conjunction with += is a undocumented
+> >> behavior however, I do not see it as much a side effect. But in
+> >> future bitbake may silently change its behavior, so I agree its
+> >> always good to stay in safe waters.
+> >
+> >   so just to finalize this discussion, my thoughts on a reasonable and
+> > meaningful standard for append/prepend/etc/etc would be to *always*
+> > use the "mathematical" operators +=/.=/=+/=. except in two situations:
+> >
+> >   1) when parsing *must* be delayed until the end, or
 >
-> classes/rootfs_rpm.bbclass:IMAGE_ROOTFS_EXTRA_SPACE_append = "${@bb.utils.contains("PACKAGE_INSTALL", "smartpm", " + 102400", "" ,d)}"
-> recipes-core/images/core-image-minimal.bb:IMAGE_ROOTFS_EXTRA_SPACE_append = "${@bb.utils.contains("DISTRO_FEATURES", "systemd", " + 4096", "" ,d)}"
-> recipes-extended/images/core-image-kernel-dev.bb:IMAGE_ROOTFS_EXTRA_SPACE_append += "+ 3000000"
+> I agree as long as that *must* also includes the kind of situation
+> described for foo.bbclass in
+> https://www.yoctoproject.org/docs/2.2/bitbake-user-manual/bitbake-user-manual.html#override-style-operation-advantages.
+> I think you ought to follow the principle of least surprise.
+
+  agreed. i guess a simpler way to state it is that one should never
+use "_append" unless it's necessary. that pretty much covers all
+situations.
+
+> >   2) when combining the operation with an override (for which i'm
+> >      quite sure there is no equivalent when using +=, etc, right?)
+> >
+> > i'm a big fan of simplicity, in the sense that, if an append operation
+> > does not *require* "_append", it shouldn't use it. because if i see an
+> > expression:
+> >
+> >   VAR_append = "..."
+> >
+> > then i immediately wonder if there is a *reason* for using "_append"
+> > rather than "+=" or ".=", or if that is just the developer's personal
+> > preference. and i really, really, really hate having to guess.
+> >
+> >   oh, and of course, never, ever combine "_append" with "+=" or ".=".
+> > does that sound like a reasonable coding style?
 >
-> and the YP reference manual says nothing about a possible "+":
+> Sounds reasonable to me. Using _append rather than += can also be
+> a bug in certain situations. For example, the following does not
+> guarantee that " value1 value2" appears right after "--flag":
 >
-> http://www.yoctoproject.org/docs/latest/ref-manual/ref-manual.html#var-IMAGE_ROOTFS_EXTRA_SPACE
+> FLAGS = "--flag"
+> FLAGS_append = " value1"
+> FLAGS_append = " value2"
 >
-> rday
->
+> Any earlier FLAGS_append value would appear before those two.
+
+  i don't see that as a "bug"; it's exactly the way it *should*
+operate. the above is more an example of someone not *understanding*
+how those operators work.
+
+rday
+
+-- 
+
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
+
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
 
 
