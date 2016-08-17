@@ -1,25 +1,27 @@
 Return-Path: <francisco.j.pedraza.gonzalez@intel.com>
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id D7B816013D
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id DC0F66013D
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Aug 2016 22:31:08 +0000 (UTC)
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-	by fmsmga104.fm.intel.com with ESMTP; 17 Aug 2016 15:31:10 -0700
+	Wed, 17 Aug 2016 22:31:09 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by fmsmga103.fm.intel.com with ESMTP; 17 Aug 2016 15:31:10 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.28,535,1464678000"; d="scan'208";a="157417384"
+X-IronPort-AV: E=Sophos;i="5.28,535,1464678000"; d="scan'208";a="867218188"
 Received: from linux.intel.com ([10.54.29.200])
-	by fmsmga004.fm.intel.com with ESMTP; 17 Aug 2016 15:31:08 -0700
+	by orsmga003.jf.intel.com with ESMTP; 17 Aug 2016 15:31:09 -0700
 Received: from fjpedraz-MOBL3.zpn.intel.com (conejo-nuc.zpn.intel.com
 	[10.219.128.66])
-	by linux.intel.com (Postfix) with ESMTP id 4827C6A4080;
+	by linux.intel.com (Postfix) with ESMTP id D064B6A4080;
 	Wed, 17 Aug 2016 15:30:52 -0700 (PDT)
 From: Francisco Pedraza <francisco.j.pedraza.gonzalez@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 17 Aug 2016 17:30:59 -0500
-Message-Id: <1471473060-27026-1-git-send-email-francisco.j.pedraza.gonzalez@intel.com>
+Date: Wed, 17 Aug 2016 17:31:00 -0500
+Message-Id: <1471473060-27026-2-git-send-email-francisco.j.pedraza.gonzalez@intel.com>
 X-Mailer: git-send-email 2.5.0
+In-Reply-To: <1471473060-27026-1-git-send-email-francisco.j.pedraza.gonzalez@intel.com>
+References: <1471473060-27026-1-git-send-email-francisco.j.pedraza.gonzalez@intel.com>
 Cc: Francisco Pedraza <francisco.j.pedraza.gonzalez@intel.com>
-Subject: [PATCH 1/2] oeqa/sdkext: Adds test cases for devtool extensible SDK
+Subject: [PATCH 2/2] oeqa/selftest Adds eSDK test cases to devtool verification.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,173 +34,170 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 Aug 2016 22:31:09 -0000
+X-List-Received-Date: Wed, 17 Aug 2016 22:31:11 -0000
 
-Adds test cases in order to increase devtool verification.
-The changes cover add, reset, build make, build cmake,
-extend autotools recipe creation, kernel module and node.js.
+The covered functions are, install libraries headers, image generation binary feeds and
+sdk update devtool.
 
 Signed-off-by: Francisco Pedraza <francisco.j.pedraza.gonzalez@intel.com>
 ---
- meta/lib/oeqa/sdkext/devtool.py                    | 90 ++++++++++++++++++++--
- .../oeqa/sdkext/files/myapp_cmake/CMakeLists.txt   | 11 +++
- meta/lib/oeqa/sdkext/files/myapp_cmake/myapp.c     |  9 +++
- 3 files changed, 103 insertions(+), 7 deletions(-)
- create mode 100644 meta/lib/oeqa/sdkext/files/myapp_cmake/CMakeLists.txt
- create mode 100644 meta/lib/oeqa/sdkext/files/myapp_cmake/myapp.c
+ meta/lib/oeqa/selftest/eSDK.py | 147 +++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 147 insertions(+)
+ create mode 100644 meta/lib/oeqa/selftest/eSDK.py
 
-diff --git a/meta/lib/oeqa/sdkext/devtool.py b/meta/lib/oeqa/sdkext/devtool.py
-index c5bb310..5d955eb 100644
---- a/meta/lib/oeqa/sdkext/devtool.py
-+++ b/meta/lib/oeqa/sdkext/devtool.py
-@@ -1,32 +1,108 @@
- import shutil
--
+diff --git a/meta/lib/oeqa/selftest/eSDK.py b/meta/lib/oeqa/selftest/eSDK.py
+new file mode 100644
+index 0000000..76fe660
+--- /dev/null
++++ b/meta/lib/oeqa/selftest/eSDK.py
+@@ -0,0 +1,147 @@
++import unittest
++import tempfile
++import shutil
++import os
++import glob
++import logging
 +import subprocess
-+import urllib.request
- from oeqa.oetest import oeSDKExtTest
- from oeqa.utils.decorators import *
- 
- class DevtoolTest(oeSDKExtTest):
--
-     @classmethod
-     def setUpClass(self):
-         self.myapp_src = os.path.join(self.tc.sdkextfilesdir, "myapp")
-         self.myapp_dst = os.path.join(self.tc.sdktestdir, "myapp")
-         shutil.copytree(self.myapp_src, self.myapp_dst)
- 
-+        self.myapp_cmake_src = os.path.join(self.tc.sdkextfilesdir, "myapp_cmake")
-+        self.myapp_cmake_dst = os.path.join(self.tc.sdktestdir, "myapp_cmake")
-+        shutil.copytree(self.myapp_cmake_src, self.myapp_cmake_dst)
++import oeqa.utils.ftools as ftools
++from oeqa.utils.decorators import testcase 
++from oeqa.selftest.base import oeSelfTest
++from oeqa.utils.commands import runCmd, bitbake, get_bb_var
++from oeqa.utils.httpserver import HTTPService
 +
-+    def _test_devtool_build(self, directory):
-+        self._run('devtool add myapp %s' % directory)
-+        try:
-+            self._run('devtool build myapp')
-+        except Exception as e:
-+            print(e.output)
-+            self._run('devtool reset myapp')
-+            raise e
-+        self._run('devtool reset myapp')
++class oeSDKExtSelfTest(oeSelfTest):
++    """
++    # Bugzilla Test Plan: 6033
++    # This code is planned to be part of the automation for eSDK containig
++    # Install libraries and headers, image generation binary feeds, Node.js Installation, Node.js test recipes 
++    # and sdk update devtool.
++    """
 +
-+    def _test_devtool_build_package(self, directory):
-+        self._run('devtool add myapp %s' % directory)
-+        try:
-+            self._run('devtool package myapp')
-+        except Exception as e:
-+            print(e.output)
-+            self._run('devtool reset myapp')
-+            raise e
-+        self._run('devtool reset myapp')
-+
-     def test_devtool_location(self):
-         output = self._run('which devtool')
-         self.assertEqual(output.startswith(self.tc.sdktestdir), True, \
-             msg="Seems that devtool isn't the eSDK one: %s" % output)
--
++    @staticmethod
++    def get_esdk_environment(env_eSDK, tmpdir_eSDKQA):
++        # XXX: at this time use the first env need to investigate
++        # what environment load oe-selftest, i586, x86_64
++        pattern = os.path.join(tmpdir_eSDKQA, 'environment-setup-*')
++        return glob.glob(pattern)[0]
 +    
-     @skipUnlessPassed('test_devtool_location')
-     def test_devtool_add_reset(self):
-         self._run('devtool add myapp %s' % self.myapp_dst)
-         self._run('devtool reset myapp')
++    @staticmethod
++    def run_esdk_cmd(env_eSDK, tmpdir_eSDKQA, cmd, postconfig=None, **options):
++        if postconfig:
++            esdk_conf_file = os.path.join(tmpdir_eSDKQA, 'conf', 'local.conf')
++            with open(esdk_conf_file, 'a+') as f:
++                f.write(postconfig)
++        if not options:
++            options = {}
++        if not 'shell' in options:
++            options['shell'] = True
++
++        runCmd("cd %s; . %s; %s" % (tmpdir_eSDKQA, env_eSDK, cmd), **options)
++
++    @staticmethod
++    def generate_eSDK(image):
++        pn_task = '%s -c populate_sdk_ext' % image
++        bitbake(pn_task)
++
++    @staticmethod
++    def get_eSDK_toolchain(image):
++        pn_task = '%s -c populate_sdk_ext' % image
++
++        sdk_deploy = get_bb_var('SDK_DEPLOY', pn_task)
++        toolchain_name = get_bb_var('TOOLCHAINEXT_OUTPUTNAME', pn_task)
++        return os.path.join(sdk_deploy, toolchain_name + '.sh')
 +    
-+    @testcase(1473)
-+    @skipUnlessPassed('test_devtool_location')
-+    def test_devtool_build_make(self):
-+        self._test_devtool_build(self.myapp_dst)
++
++    @classmethod
++    def setUpClass(cls):
++        # Start to serve sstate dir
++        sstate_dir = os.path.join(os.environ['BUILDDIR'], 'sstate-cache')
++        cls.http_service = HTTPService(sstate_dir)
++        cls.http_service.start()
++
++        http_url = "127.0.0.1:%d" % cls.http_service.port
++ 
++        image = 'core-image-minimal'
++
++        cls.tmpdir_eSDKQA = tempfile.mkdtemp(prefix='eSDKQA')
++        oeSDKExtSelfTest.generate_eSDK(image)
++
++        # Install eSDK
++        ext_sdk_path = oeSDKExtSelfTest.get_eSDK_toolchain(image)
++        runCmd("%s -y -d \"%s\"" % (ext_sdk_path, cls.tmpdir_eSDKQA))
++
++        cls.env_eSDK = oeSDKExtSelfTest.get_esdk_environment('', cls.tmpdir_eSDKQA)
++
++        # Configure eSDK to use sstate mirror from poky
++        sstate_config="""
++SDK_LOCAL_CONF_WHITELIST = "SSTATE_MIRRORS"
++SSTATE_MIRRORS =  "file://.* http://%s/PATH"
++        """ % http_url
++        with open(os.path.join(cls.tmpdir_eSDKQA, 'conf', 'local.conf'), 'a+') as f:
++            f.write(sstate_config)
++
++        # Common variables
++        cls.package_nodejs = "npm://registry.npmjs.org;name=forever;version=0.15.1"
++      
++    @classmethod
++    def tearDownClass(cls):
++        shutil.rmtree(cls.tmpdir_eSDKQA)
++        cls.http_service.stop()
++
++    @testcase (1471)
++    def test_install_libraries_headers(self):
++        pn_sstate = 'bc'
++        bitbake(pn_sstate)
++        cmd = "devtool sdk-install %s " % pn_sstate
++        oeSDKExtSelfTest.run_esdk_cmd(self.env_eSDK, self.tmpdir_eSDKQA, cmd)
 +    
-+    @testcase(1474)
-+    @skipUnlessPassed('test_devtool_location')
-+    def test_devtool_build_esdk_package(self):
-+        self._test_devtool_build_package(self.myapp_dst)
- 
-+    @testcase(1479)
-     @skipUnlessPassed('test_devtool_location')
--    def test_devtool_build(self):
--        self._run('devtool add myapp %s' % self.myapp_dst)
--        self._run('devtool build myapp')
--        self._run('devtool reset myapp')
-+    def test_devtool_build_cmake(self):
-+        self._test_devtool_build(self.myapp_cmake_dst)
-+    
-+    @testcase(1482)
-+    @skipUnlessPassed('test_devtool_location')
-+    def test_extend_autotools_recipe_creation(self):
-+        req = 'https://github.com/rdfa/librdfa'
-+        recipe = "bbexample"
-+        self._run('devtool add %s %s' % (recipe, req) )
++    @testcase(1472)
++    def test_image_generation_binary_feeds(self):
++        image = 'core-image-minimal'
++        cmd = "devtool build-image %s" % image
++        oeSDKExtSelfTest.run_esdk_cmd(self.env_eSDK, self.tmpdir_eSDKQA, cmd)
++
++
++    @testcase(1487)
++    def test_sdkupdate_devtool(self):
++        image = 'core-image-sato'
++
++        tmpdir_publish_eSDK = tempfile.mkdtemp(prefix='publish_eSDK')
++
++        http_service = HTTPService(tmpdir_publish_eSDK)
++        http_service.start()
++        http_url = "http://127.0.0.1:%d" % http_service.port
++
++        sstate_config = """
++SDK_LOCAL_CONF_WHITELIST = "SSTATE_MIRRORS"
++SSTATE_MIRRORS =  "file://.* http://%s/PATH"
++EXAMPLE_VAR = "qemux86"        
++        """ %http_url
++        
++        with open (os.path.join(self.tmpdir_eSDKQA, 'conf', 'local.conf'), 'a+') as f:
++            f.write(sstate_config)
++
 +        try:
-+            self._run('devtool build %s' % recipe)
-+        except Exception as e:
-+            print(e.output)
-+            self._run('devtool reset %s' % recipe)
-+            raise e
-+        self._run('devtool reset %s' % recipe)
++            oeSDKExtSelfTest.generate_eSDK(image)
++            ext_sdk_path_sato = oeSDKExtSelfTest.get_eSDK_toolchain(image)
++          
++            cmd = "oe-publish-sdk %s %s" % (ext_sdk_path_sato, tmpdir_publish_eSDK)
++            subprocess.check_output(cmd, shell=True)
 +
-+    @testcase(1484)
-+    @skipUnlessPassed('test_devtool_location')
-+    def test_devtool_kernelmodule(self):
-+        docfile = 'git://github.com/Mange/rtl8192eu-linux-driver.git'
-+        recipe = 'rtl-linux-driver'
-+        self._run('devtool add %s %s' % (recipe, docfile) )
-+        try:
-+            self._run('devtool build %s' % recipe)
-+        except Exception as e:
-+            print(e.output)
-+            self._run('devtool reset %s' % recipe)
-+            raise e
-+        self._run('devtool reset %s' % recipe)
++            cmd = 'devtool sdk-update %s' % http_url
++            oeSDKExtSelfTest.run_esdk_cmd(self.env_eSDK, tmpdir_publish_eSDK, cmd)
++            with open(os.path.join(self.tmpdir_eSDKQA, 'conf', 'local.conf')) as f:
++                for line in f:
++                    if line.strip() == 'EXAMPLE_VAR = "qemux86"':
++                        break
++                else:
++                    self.fail("Test configuration missing.")
 +
-+    @testcase(1478)
-+    @skipUnlessPassed('test_devtool_location')
-+    def test_recipes_for_nodejs(self):
-+        package_nodejs = "npm://registry.npmjs.org;name=forever;version=0.15.1"
-+        self._run('devtool add %s ' % package_nodejs)
-+        try:
-+            self._run('devtool build %s ' % package_nodejs)
-+        except Exception as e:
-+            print(e.output)
-+            self._run('devtool reset %s' % package_nodejs)
-+            raise e
-+        self._run('devtool reset %s '% package_nodejs)
++        finally:
++            http_service.stop()
++            shutil.rmtree(tmpdir_publish_eSDK)
++            self.remove_config(sstate_config)
 +
- 
-     @classmethod
-     def tearDownClass(self):
-         shutil.rmtree(self.myapp_dst)
-+        shutil.rmtree(self.myapp_cmake_dst)
-diff --git a/meta/lib/oeqa/sdkext/files/myapp_cmake/CMakeLists.txt b/meta/lib/oeqa/sdkext/files/myapp_cmake/CMakeLists.txt
-new file mode 100644
-index 0000000..19d773d
---- /dev/null
-+++ b/meta/lib/oeqa/sdkext/files/myapp_cmake/CMakeLists.txt
-@@ -0,0 +1,11 @@
-+cmake_minimum_required (VERSION 2.6)
-+project (myapp)
-+# The version number.
-+set (myapp_VERSION_MAJOR 1)
-+set (myapp_VERSION_MINOR 0)
-+
-+# add the executable
-+add_executable (myapp myapp.c)
-+
-+install(TARGETS myapp
-+        RUNTIME DESTINATION bin)
-diff --git a/meta/lib/oeqa/sdkext/files/myapp_cmake/myapp.c b/meta/lib/oeqa/sdkext/files/myapp_cmake/myapp.c
-new file mode 100644
-index 0000000..f0b63f0
---- /dev/null
-+++ b/meta/lib/oeqa/sdkext/files/myapp_cmake/myapp.c
-@@ -0,0 +1,9 @@
-+#include <stdio.h>
-+
-+int
-+main(int argc, char *argv[])
-+{
-+	printf("Hello world\n");
-+
-+	return 0;
-+}
++if __name__ == '__main__':
++    unittest.main()
 -- 
 2.5.0
 
