@@ -1,38 +1,64 @@
-Return-Path: <tanuk@iki.fi>
-Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com
-	[66.111.4.26])
-	by mail.openembedded.org (Postfix) with ESMTP id 8D32676312
+Return-Path: <otavio.salvador@ossystems.com.br>
+Received: from mail-ua0-f182.google.com (mail-ua0-f182.google.com
+	[209.85.217.182])
+	by mail.openembedded.org (Postfix) with ESMTP id 2AA31758DB
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Aug 2016 11:20:45 +0000 (UTC)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
-	by mailout.nyi.internal (Postfix) with ESMTP id 77583207F9
+	Wed, 17 Aug 2016 11:22:56 +0000 (UTC)
+Received: by mail-ua0-f182.google.com with SMTP id k90so166753811uak.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Aug 2016 07:20:46 -0400 (EDT)
-Received: from frontend1 ([10.202.2.160])
-	by compute1.internal (MEProxy); Wed, 17 Aug 2016 07:20:46 -0400
-DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; d=
-	messagingengine.com; h=date:from:in-reply-to:in-reply-to
-	:message-id:references:references:subject:to:x-sasl-enc
-	:x-sasl-enc; s=smtpout; bh=hKCwI6n27uupHVvN6PMwLPOwh4E=; b=F90M1
-	GD4fnRz0SQvSmmc0Me7BDEtunbi0qd80o/fhWJNL0BW8/LYat95ilQAtOT8pmxbK
-	wD5V+Ibx3wE0iSGkPYqd3wqt6hs3GgB+iSU4IPKe+OPP33to0lhduBwyvdZLEKrI
-	yhIIID5/XDoU90Rky7Xa0akgaZIg0BTWxeaZkw=
-X-Sasl-enc: B7wwUS/k7qvoA3/i3DOxIab5S+rJfMxW+3RmPBd7ssoP 1471432846
-Received: from laptop.tanuk.dy.fi (a88-113-211-72.elisa-laajakaista.fi
-	[88.113.211.72])
-	by mail.messagingengine.com (Postfix) with ESMTPA id EF4EEF285F
+	Wed, 17 Aug 2016 04:22:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
+	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
+	:cc; bh=d2BDiCBHuPeQQdrC3H/SgXfb0AL0B/291lIbLsrPleA=;
+	b=OgsUIRSw/q+lykNm1x52aPS1c+CFiprcFOKcVOcF5+KfI3MlW14uAR5CUTOSWwBf//
+	YJf3yN29zZj6X4/wCS28etidRGziXktE1iNQKZ89D/jh6u3L9eXP9/TzMbr6liQRrB/E
+	LzI23mI6d2kg4KM1YbXR96ypbt3sjSd/GDc2ZVZuGHK6XmhWrV5F9dmoKm69g/hYfNfN
+	5foGMv9ntBmgFiPsv9jwZUjDFTclxegas8ts5yhZzFBkJTYyc4tLFii3m1pDOre2AvuW
+	seKOUXRJEeoZ1yET0Lrs0WNWN3yhsotpcoqJ/bjGZvYbCIVmVyEgcDQ7Jz15+kkWd1fQ
+	27Lw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
+	:message-id:subject:to:cc;
+	bh=d2BDiCBHuPeQQdrC3H/SgXfb0AL0B/291lIbLsrPleA=;
+	b=e+oykl7S7S5tjG6v68XskiDosBrs8w8biiOTj93Qva8uFwPRidbIqESVpoxkzy4Vsf
+	xLYAfwVo3rlqcdgUj17rwsmOdPtRpKns5xwD4ZN6WxkDR8J5ZMGhpUv6C2qoUawtvbCr
+	2G2kSopkRogjTKAmh/pRpcVU7t1zinnKtHB87XLQA+60IKgarl6r7yGfkmzT7PeUBdTT
+	BYaXKA3gshIOB6Q82PXIQHfro6Sb/xNKzL68UsErbG4aIuzD246pgl62c+ZrxF8+2L/D
+	AEwdIY/xjewwJX2ke3IufNisDD36Zn/I9EVpmKeYfbELLxghbYU7baCNX3EinfZ1IZ79
+	6xLA==
+X-Gm-Message-State: AEkoout7sVrH+t/OEHjUxfgAegYCshsxzH1p0yvTIHKY88XfObtFJemJzTQwDRen3ZvOnQ==
+X-Received: by 10.176.82.71 with SMTP id j7mr12361301uaa.66.1471432976870;
+	Wed, 17 Aug 2016 04:22:56 -0700 (PDT)
+Received: from mail-ua0-f172.google.com (mail-ua0-f172.google.com.
+	[209.85.217.172])
+	by smtp.gmail.com with ESMTPSA id k13sm6615704vki.9.2016.08.17.04.22.55
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 17 Aug 2016 04:22:55 -0700 (PDT)
+From: Otavio Salvador <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by mail-ua0-f172.google.com with SMTP id 97so166631420uav.3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Aug 2016 07:20:45 -0400 (EDT)
-From: Tanu Kaskinen <tanuk@iki.fi>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 17 Aug 2016 14:20:30 +0300
-Message-Id: <9b4cf246d85d0fe99e34b781b0d5ffa64d7ba1c3.1471432659.git.tanuk@iki.fi>
-X-Mailer: git-send-email 2.8.1
-In-Reply-To: <cover.1471432658.git.tanuk@iki.fi>
-References: <cover.1471432658.git.tanuk@iki.fi>
-In-Reply-To: <cover.1471432658.git.tanuk@iki.fi>
-References: <cover.1471432658.git.tanuk@iki.fi>
-Subject: [PATCH 2/2] alsa-utils: 1.1.1 -> 1.1.2
+	Wed, 17 Aug 2016 04:22:55 -0700 (PDT)
+X-Received: by 10.31.149.132 with SMTP id x126mr20119983vkd.71.1471432974997; 
+	Wed, 17 Aug 2016 04:22:54 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.31.138.78 with HTTP; Wed, 17 Aug 2016 04:22:54 -0700 (PDT)
+In-Reply-To: <CAJTo0LZe0X13aKjrqprgDuND+B8F7QVFooJRCWqqbJ5xrTyGAg@mail.gmail.com>
+References: <1470762907-25824-1-git-send-email-manjukumar.harthikote-matha@xilinx.com>
+	<CAP9ODKrzOHomALoD28h7nJ6xT5puNkrzbd1FZVr=xij_wYUsxg@mail.gmail.com>
+	<00da7e65-bfa1-0ffc-a2bb-1b44e0978864@xilinx.com>
+	<CAP9ODKp7XCfL7ozG0GU2x6KfKXW1KJ5jLbVi6guWWKPnpKKLHg@mail.gmail.com>
+	<CAJTo0LZe0X13aKjrqprgDuND+B8F7QVFooJRCWqqbJ5xrTyGAg@mail.gmail.com>
+Date: Wed, 17 Aug 2016 08:22:54 -0300
+X-Gmail-Original-Message-ID: <CAP9ODKr4jD3H7HQegX5zTLY5et_MhtsUq4-2Z66=C7=w6KUhhQ@mail.gmail.com>
+Message-ID: <CAP9ODKr4jD3H7HQegX5zTLY5et_MhtsUq4-2Z66=C7=w6KUhhQ@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2] u-boot.inc: Enable out-of-tree builds
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,55 +71,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 Aug 2016 11:20:45 -0000
+X-List-Received-Date: Wed, 17 Aug 2016 11:22:57 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Changelog:
-http://www.alsa-project.org/main/index.php/Changes_v1.1.1_v1.1.2
+On Tue, Aug 16, 2016 at 7:40 PM, Burton, Ross <ross.burton@intel.com> wrote:
+>
+> On 16 August 2016 at 23:00, Otavio Salvador
+> <otavio.salvador@ossystems.com.br> wrote:
+>>
+>> But you removed the suffix from the binaries it seems
+>
+> Just double-checked the diff, I think the line wrapping is making you think
+> that.  Or, paste the hunk that is broken please.
 
-The FFT code in alsabat changed from double precision to single
-precision floating point numbers, which is why the fftw dependency
-changed to fftwf.
+I think you are right Ross, sorry for the noise.
 
-Signed-off-by: Tanu Kaskinen <tanuk@iki.fi>
----
- .../{alsa-utils-scripts_1.1.1.bb => alsa-utils-scripts_1.1.2.bb}    | 0
- .../alsa/{alsa-utils_1.1.1.bb => alsa-utils_1.1.2.bb}               | 6 +++---
- 2 files changed, 3 insertions(+), 3 deletions(-)
- rename meta/recipes-multimedia/alsa/{alsa-utils-scripts_1.1.1.bb => alsa-utils-scripts_1.1.2.bb} (100%)
- rename meta/recipes-multimedia/alsa/{alsa-utils_1.1.1.bb => alsa-utils_1.1.2.bb} (96%)
-
-diff --git a/meta/recipes-multimedia/alsa/alsa-utils-scripts_1.1.1.bb b/meta/recipes-multimedia/alsa/alsa-utils-scripts_1.1.2.bb
-similarity index 100%
-rename from meta/recipes-multimedia/alsa/alsa-utils-scripts_1.1.1.bb
-rename to meta/recipes-multimedia/alsa/alsa-utils-scripts_1.1.2.bb
-diff --git a/meta/recipes-multimedia/alsa/alsa-utils_1.1.1.bb b/meta/recipes-multimedia/alsa/alsa-utils_1.1.2.bb
-similarity index 96%
-rename from meta/recipes-multimedia/alsa/alsa-utils_1.1.1.bb
-rename to meta/recipes-multimedia/alsa/alsa-utils_1.1.2.bb
-index ddb1644..a22d999 100644
---- a/meta/recipes-multimedia/alsa/alsa-utils_1.1.1.bb
-+++ b/meta/recipes-multimedia/alsa/alsa-utils_1.1.2.bb
-@@ -14,7 +14,7 @@ PACKAGECONFIG ??= "udev"
- # enabling/disabling fftw. The configure script doesn't support that, however
- # (at least in any obvious way), so for now we only support alsabat with fftw
- # or no alsabat at all.
--PACKAGECONFIG[bat] = "--enable-bat,--disable-bat,fftw"
-+PACKAGECONFIG[bat] = "--enable-bat,--disable-bat,fftwf"
- 
- PACKAGECONFIG[udev] = "--with-udev-rules-dir=`pkg-config --variable=udevdir udev`/rules.d,,udev"
- PACKAGECONFIG[xmlto] = "--enable-xmlto, --disable-xmlto, xmlto-native docbook-xml-dtd4-native docbook-xsl-stylesheets-native"
-@@ -23,8 +23,8 @@ SRC_URI = "ftp://ftp.alsa-project.org/pub/utils/alsa-utils-${PV}.tar.bz2 \
-            file://0001-alsactl-don-t-let-systemd-unit-restore-the-volume-wh.patch \
-           "
- 
--SRC_URI[md5sum] = "f8d00ad5fba757b4c3735d066cc288e2"
--SRC_URI[sha256sum] = "89757c9abaf420831b088fce354d492acc170bd02bb50eb7392c175f594b8041"
-+SRC_URI[md5sum] = "38ac7c781f80c41c02b4664d8cbafa87"
-+SRC_URI[sha256sum] = "7af603c0877d1251599d65b4fbc372e63a54371b888f5c26c6a86ac1d0519071"
- 
- # lazy hack. needs proper fixing in gettext.m4, see
- # http://bugs.openembedded.org/show_bug.cgi?id=2348
 -- 
-2.8.1
-
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
