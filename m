@@ -1,53 +1,47 @@
-Return-Path: <mike.looijmans@topicproducts.com>
-X-Greylist: delayed 1677 seconds by postgrey-1.34 at layers.openembedded.org;
-	Wed, 17 Aug 2016 07:32:57 UTC
-Received: from mx6-12.smtp.antispamcloud.com (mx6-12.smtp.antispamcloud.com
-	[95.211.2.203])
-	by mail.openembedded.org (Postfix) with ESMTP id DD7406013D
-	for <Openembedded-core@lists.openembedded.org>;
-	Wed, 17 Aug 2016 07:32:57 +0000 (UTC)
-Received: from [37.74.225.130] (helo=TOP-EX01.TOPIC.LOCAL)
-	by mx6.antispamcloud.com with esmtps (TLSv1:AES256-SHA:256)
-	(Exim 4.85) (envelope-from <mike.looijmans@topicproducts.com>)
-	id 1bZuuG-0004B1-NH for Openembedded-core@lists.openembedded.org;
-	Wed, 17 Aug 2016 09:04:58 +0200
-Received: from [192.168.80.121] (192.168.80.121) by TOP-EX01.TOPIC.LOCAL
-	(192.168.10.102) with Microsoft SMTP Server id 14.3.224.2;
-	Wed, 17 Aug 2016 09:04:55 +0200
-To: "openembedded-core@lists.openembedded.org >> OE-core"
-	<Openembedded-core@lists.openembedded.org>
-References: <1470742582-309-1-git-send-email-mike.looijmans@topic.nl>
-From: Mike Looijmans <mike.looijmans@topic.nl>
-Organization: TOPIC
-Message-ID: <57B40C96.2000005@topic.nl>
-Date: Wed, 17 Aug 2016 09:04:54 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.8.0
+Return-Path: <jussi.kukkonen@intel.com>
+Received: from mail-oi0-f44.google.com (mail-oi0-f44.google.com
+	[209.85.218.44])
+	by mail.openembedded.org (Postfix) with ESMTP id 66E7F6013D
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 17 Aug 2016 07:36:39 +0000 (UTC)
+Received: by mail-oi0-f44.google.com with SMTP id c15so129254895oig.0
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 17 Aug 2016 00:36:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=rJlab0PojAw7cW/unT3BapMKJWlxFX8Krko4RD50Q5k=;
+	b=2A4tTy30dbeyE15SHXbNf81Ji5UVMAt6pkE1pvWCDqTg+zqxo1HpSlakr1ZvYj+EU/
+	BpLPMmYQ/GF09WNnhbUG3yhLi8/Q9Hk1fJslW8ieBjoRP78yCohX+wePT9BFs26QQWHb
+	owzHPXSApW90Fb/PN2mLu39xBf7yS9JhKP8M0wNhw4T5mpvx0Fw26lg2Rc+YDzWXm8TR
+	R6iD8oi8bL6V9BvMRUlCezbTPVmt3tYbHt/bGu3BkV2j8/fHTJdQWq/+r7V9AMipwEHU
+	PRgrhIqv3V8YvQsstCTAayh2Q/yVOH4vX5tcUTOTGhIV8Yg8BpnNMWJjIr+u4TK+QLYl
+	J+GA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=rJlab0PojAw7cW/unT3BapMKJWlxFX8Krko4RD50Q5k=;
+	b=gTtvy6FK9vferYntnTNtOGGRUm4UHJvy+CPwO4vs5emej5sZAq+5oieNHIy/6BgukP
+	16jHht5xo+BLMuHM4Grck7/fbPKCcmwZJzD+JULGehURVB34JdvWZHdb4gofZli7akLC
+	ycXTBzr64Nv40LqOAoxBtK0TU792kiB5lczBU3u0Rg+2AXgvhU9sKyAFLc4SlZ7gAbAK
+	zMtYiZtMPkbdOvUxNfO4NlE21gSF6cCe9V0oXhn6uJJ3ZerM5pUgaOQAYAMPENicgTfY
+	sIwF71JSgfRrtvrp7DSmZv7hbPS4HnLHsuSLisbD/8bf+bUhLrsi1mgJzV1jyHqVmwes
+	ce8g==
+X-Gm-Message-State: AEkoouv+teGbm2OeDbUYC1A47FMLAFCB5k/gf/25XIVE7ehkLzmw48qCaOx0ZExCU1AsSS0/XfQoJt00rY2ERiw6
+X-Received: by 10.202.104.4 with SMTP id d4mr19577244oic.160.1471419400579;
+	Wed, 17 Aug 2016 00:36:40 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <1470742582-309-1-git-send-email-mike.looijmans@topic.nl>
-X-Originating-IP: [192.168.80.121]
-X-EXCLAIMER-MD-CONFIG: 9833cda7-5b21-4d34-9a38-8d025ddc3664
-X-EXCLAIMER-MD-BIFURCATION-INSTANCE: 0
-X-Filter-ID: s0sct1PQhAABKnZB5plbIbbvfIHzQjPVmPLZeVYSu3xU9luQrU+8/8qthi+0Jd/W6KAUC/fjyuDn
-	NXFr4uarw2ggrN+bCKyRV12i0wK0eHOM+/sFVMoIHnzxJpiwTwAmqWxCevbUegdCrqkn8BN/sbj/
-	kr1uWvhVMCtfj6/xQtWU2yOX8PQJGjCrFTzGoLEGPGJhHBOWqgEeWHQHvZlYrGcbqmWOs2dFjGYT
-	w2b5EDcccBIk1Sag4dKiqCrF8eZZlyTbTpSJSkzczSD2RcFt/e/6EUxK+1ThVeXBHjTgRxvXcWpW
-	rY6lCH8L7CDV11D5JM7Xk65yci5j+xTRr7HgZJNWyY7q5BA/5iDO7tJWc5LW0A0HkzG7uPVDzc3F
-	/UDJomVIDsS/itDc6L24kzSY8UBJuULIpDl323znR+D07qQWgmfZjarUMmGH47dIAOWiRBdQ80wr
-	wyng3wNtDYr6IWSdEOMftBjsWb6BDQzjSsEw7+KMtoemwN8keIAcPKMB1JWPW1ubUBpCfn6LoGhW
-	5JLDrkU04HNuE4ewywcImK2qper/Wlj3tQMgTfRj0yOiHVubdt64TrW+16rWYcvELgEiRQv+PVjj
-	wa+Z5RFCOMTCDlDCdwdba0d1n0maN/2EFoZhgIWGXDpZLX0x9G05RlUGXEqeSRtBFSfro95dU95R
-	bJFIA5gJVfyuxDRMraMz
-X-Report-Abuse-To: spam@mx99.antispamcloud.com
-X-Originating-IP: 37.74.225.130
-X-SpamExperts-Domain: topic.nl
-X-SpamExperts-Username: 37.74.225.128/28
-Authentication-Results: antispamcloud.com;
-	auth=pass smtp.auth=37.74.225.128/28@topic.nl
-X-SpamExperts-Outgoing-Class: ham
-X-SpamExperts-Outgoing-Evidence: SB/global_tokens (0.00862253438089)
-X-Recommended-Action: accept
-Subject: Re: [PATCH] dropbear/init: Allow extra arguments for key generation
+Received: by 10.202.241.11 with HTTP; Wed, 17 Aug 2016 00:36:10 -0700 (PDT)
+In-Reply-To: <1461850657-5088-1-git-send-email-daicy.fnst@cn.fujitsu.com>
+References: <1461850657-5088-1-git-send-email-daicy.fnst@cn.fujitsu.com>
+From: Jussi Kukkonen <jussi.kukkonen@intel.com>
+Date: Wed, 17 Aug 2016 10:36:10 +0300
+Message-ID: <CAHiDW_GFUTsHUg3e=1QjOf+ZgUx6WptY9G2UcW_M_89Oxdr_Jw@mail.gmail.com>
+To: Dai Caiyun <daicy.fnst@cn.fujitsu.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] dbus: 1.10.8 -> 1.11.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,442 +54,141 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 Aug 2016 07:33:00 -0000
-X-Groupsio-MsgNum: 85817
-Content-Type: multipart/related;
-	boundary="_612de6fc-6492-4670-97e1-472614848952_"
+X-List-Received-Date: Wed, 17 Aug 2016 07:36:42 -0000
+Content-Type: multipart/alternative; boundary=001a1140e81aafff93053a3f8668
 
---_612de6fc-6492-4670-97e1-472614848952_
-Content-Type: text/html; charset="utf-8"; format=flowed
+--001a1140e81aafff93053a3f8668
+Content-Type: text/plain; charset=UTF-8
+
+On 28 April 2016 at 16:37, Dai Caiyun <daicy.fnst@cn.fujitsu.com> wrote:
+
+> Upgrade dbus from 1.10.8 to 1.11.2.
+>
+
+1.11 is the development branch, we should not upgrade to it without a
+really good reason.
+
+Also, is there something wrong with your date settings? The date header is
+from April.
+
+Jussi
+
+
+> Signed-off-by: Dai Caiyun <daicy.fnst@cn.fujitsu.com>
+> ---
+>  meta/recipes-core/dbus/{dbus_1.10.8.bb => dbus_1.11.2.bb} | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>  rename meta/recipes-core/dbus/{dbus_1.10.8.bb => dbus_1.11.2.bb} (98%)
+>
+> diff --git a/meta/recipes-core/dbus/dbus_1.10.8.bb
+> b/meta/recipes-core/dbus/dbus_1.11.2.bb
+> similarity index 98%
+> rename from meta/recipes-core/dbus/dbus_1.10.8.bb
+> rename to meta/recipes-core/dbus/dbus_1.11.2.bb
+> index 62dd8bb..b8c12c5 100644
+> --- a/meta/recipes-core/dbus/dbus_1.10.8.bb
+> +++ b/meta/recipes-core/dbus/dbus_1.11.2.bb
+> @@ -20,8 +20,8 @@ SRC_URI = "http://dbus.freedesktop.org/
+> releases/dbus/dbus-${PV}.tar.gz \
+>             file://0001-configure.ac-explicitely-check-stdint.h.patch \
+>  "
+>
+> -SRC_URI[md5sum] = "e912e930f249454752512aa7ac864d43"
+> -SRC_URI[sha256sum] = "baf3d22baa26d3bdd9edc587736cd5
+> 562196ce67996d65b82103bedbe1f0c014"
+> +SRC_URI[md5sum] = "957a07f066f3730d2bb3ea0932f0081b"
+> +SRC_URI[sha256sum] = "5abc4c57686fa82669ad0039830788
+> f9b03fdc4fff487f0ccf6c9d56ba2645c9"
+>
+>  inherit useradd autotools pkgconfig gettext update-rc.d
+> upstream-version-is-even
+>
+> --
+> 2.7.4
+>
+>
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+
+--001a1140e81aafff93053a3f8668
+Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-<HTML><HEAD><!-- Template generated by Exclaimer Mail Disclaimers on 09:04:=
-55 woensdag, 17 augustus 2016 -->
-<STYLE type=3Dtext/css>P.ImprintUniqueID {
-	MARGIN: 0cm 0cm 0pt
-}
-LI.ImprintUniqueID {
-	MARGIN: 0cm 0cm 0pt
-}
-DIV.ImprintUniqueID {
-	MARGIN: 0cm 0cm 0pt
-}
-TABLE.ImprintUniqueIDTable {
-	MARGIN: 0cm 0cm 0pt
-}
-DIV.Section1 {
-	page: Section1
-}
-</STYLE>
-</HEAD>
-<BODY>
-<P class=3DImprintUniqueID><div>Ping!<br /><br />Any comments?<br /><br />O=
-n 09-08-16 13:36, Mike Looijmans wrote:<br />&gt; This patch adds DROPBEAR_=
-RSAKEY_ARGS and DROPBEAR_DSSKEY_ARGS optional<br />&gt; parameters to /etc/=
-default/dropbear. The contents are simply passed to<br />&gt; the &#39;drop=
-bearkey&#39; program when generating a host key.<br />&gt;<br />&gt; The de=
-fault keysize for RSA is currently 2048 bits. It takes a CortexA9<br />&gt;=
- running at 700MHz between 4 and 10 seconds to calculate a keypair. The<br =
-/>&gt; board boots Linux in about a second, but you have to wait for severa=
-l<br />&gt; seconds because of the keypair generation. This patch allows on=
-e to put<br />&gt; the line DROPBEAR_RSAKEY_ARGS=3D"-s 1024" into /etc/defa=
-ult/dropbear, and<br />&gt; have a host key generated in about 0.2 seconds =
-on the same CPU. This is<br />&gt; particulary useful for read-only rootfs =
-systems which generate a key on<br />&gt; each boot.<br />&gt;<br />&gt; Si=
-gned-off-by: Mike Looijmans &lt;mike.looijmans@topic.nl&gt;<br />&gt; ---<b=
-r />&gt; meta/recipes-core/dropbear/dropbear/init | 4 ++--<br />&gt; 1 file=
- changed, 2 insertions(+), 2 deletions(-)<br />&gt;<br />&gt; diff --git a/=
-meta/recipes-core/dropbear/dropbear/init<br />&gt; b/meta/recipes-core/drop=
-bear/dropbear/init<br />&gt; index e8fed3f..434bd6b 100755<br />&gt; --- a/=
-meta/recipes-core/dropbear/dropbear/init<br />&gt; +++ b/meta/recipes-core/=
-dropbear/dropbear/init<br />&gt; @@ -62,13 +62,13 @@ for t in $DROPBEAR_KEY=
-TYPES; do<br />&gt; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;i=
-f [ -f "$DROPBEAR_RSAKEY" -a ! -s "$DROPBEAR_RSAKEY" ]; then<br />&gt; &nbs=
-p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp;rm $DROPBEAR_RSAKEY || true<br />&gt; &nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fi<br />&gt; - &nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;test -f $DROPBEAR_RSAKEY || dropbearkey -t rsa -f $DR=
-OPBEAR_RSAKEY<br />&gt; + &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;test -f=
- $DROPBEAR_RSAKEY || dropbearkey -t rsa -f $DROPBEAR_RSAKEY<br />&gt; $DROP=
-BEAR_RSAKEY_ARGS<br />&gt; &nbsp;&nbsp;;;<br />&gt; &nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;dsa)<br />&gt; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;if [ -f "$DROPBEAR_DSSKEY" -a ! -s "$DROPBEAR_DSSKEY" ]; then<br />&gt; &n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;rm $DROPBEAR_DSSKEY || true<br />&gt; &nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fi<br />&gt; - &nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp;test -f $DROPBEAR_DSSKEY || dropbearkey -t dss -f $=
-DROPBEAR_DSSKEY<br />&gt; + &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;test =
--f $DROPBEAR_DSSKEY || dropbearkey -t dss -f $DROPBEAR_DSSKEY<br />&gt; $DR=
-OPBEAR_DSSKEY_ARGS<br />&gt; &nbsp;&nbsp;;;<br />&gt; &nbsp;&nbsp;&nbsp;esa=
-c<br />&gt; done<br />&gt; --<br />&gt; 1.9.1<br />&gt;<br />&gt; Kind rega=
-rds,<br />&gt;<br />&gt; Mike Looijmans<br />&gt;<br />&gt; System Expert<b=
-r />&gt;<br />&gt;<br />&gt;<br />&gt; *TOPIC Products*<br />&gt;<br />&gt;=
- &nbsp;<br />&gt;<br />&gt; &nbsp;<br />&gt;<br />&gt; Materiaalweg 4<br />=
-&gt;<br />&gt; &nbsp;<br />&gt;<br />&gt; &nbsp;<br />&gt;<br />&gt; 5681 R=
-J Best<br />&gt;<br />&gt; &nbsp;<br />&gt;<br />&gt; T:<br />&gt;<br />&gt=
-; &nbsp;<br />&gt;<br />&gt; +31 (0) 499 33 69 69<br />&gt;<br />&gt; Postb=
-us 440<br />&gt;<br />&gt; &nbsp;<br />&gt;<br />&gt; E:<br />&gt;<br />&gt=
-; &nbsp;<br />&gt;<br />&gt; mike.looijmans@topicproducts.com<br />&gt;<br =
-/>&gt; 5680 AK Best<br />&gt;<br />&gt; &nbsp;<br />&gt;<br />&gt; W:<br />=
-&gt;<br />&gt; &nbsp;<br />&gt;<br />&gt; www.topicproducts.com &lt;http://=
-www.topicproducts.com&gt;<br />&gt;<br />&gt; The Netherlands &nbsp;&nbsp;&=
-nbsp;<br />&gt;<br />&gt; &lt;https://www.facebook.com/TopicProducts&gt;&lt=
-;https://twitter.com/TopicProducts&gt;&lt;https://www.linkedin.com/company/=
-topic-embedded-products&gt;<br />&gt; Please consider the environment befor=
-e printing this e-mail<br />&gt;<br />&gt;<br />&gt; Topic zoekt gedreven (=
-embedded) software specialisten!<br />&gt; &lt;http://topic.nl/vacancy/topi=
-c-zoekt-technische-software-engineers/&gt;<br />&gt;<br /><br /></div></P>
-<P class=3DImprintUniqueID><FONT face=3D"Calibri Light"></FONT>&nbsp;</P>
-<P class=3DImprintUniqueID><FONT face=3D"Calibri Light">Kind regards,</FONT=
-></P>
-<P class=3DImprintUniqueID><FONT face=3D"Calibri Light"></FONT>&nbsp;</P>
-<P class=3DImprintUniqueID><font style=3D'font-family:Calibri Light;font-si=
-ze:12pt;font-weight:bold;'>Mike Looijmans</font></P>
-<P class=3DImprintUniqueID><font style=3D'font-family:Calibri Light;font-si=
-ze:12pt;'>System Expert</font></P>
-<P class=3DImprintUniqueID><FONT face=3D"Calibri Light"></FONT>&nbsp;</P>
-<P class=3DImprintUniqueID><FONT face=3D"Calibri Light"></FONT></P>
-<P class=3DImprintUniqueID><FONT face=3D"Calibri Light"></FONT></P>
-<P class=3DImprintUniqueID><img width=3D375 height=3D74 style=3D'border: 0p=
-x Solid ; 'src=3D"cid:image188c63.PNG@b4f8a702.46ba7ebf"><BR /><BR /></P>
-<P class=3DImprintUniqueID>
-<TABLE class=3DImprintUniqueIDTable style=3D"HEIGHT: 72px; BORDER-COLLAPSE:=
- collapse; WIDTH: 475px" cellSpacing=3D0 cols=3D3 cellPadding=3D0 border=3D=
-0>
-  <TBODY>
-  <TR>
-    <TD style=3D"WIDTH: 205px">
-      <P class=3DImprintUniqueID><FONT size=3D1 face=3D"Calibri Light"><STR=
-ONG>TOPIC
-      Products</STRONG></FONT></P></TD>
-    <TD style=3D"WIDTH: 6px">
-      <P class=3DImprintUniqueID><FONT size=3D1 face=3D"Calibri Light"></FO=
-NT>&nbsp;</P></TD>
-    <TD style=3D"WIDTH: 256px">
-      <P class=3DImprintUniqueID><FONT size=3D1 face=3D"Calibri Light"></FO=
-NT>&nbsp;</P></TD></TR>
-  <TR>
-    <TD>
-      <P class=3DImprintUniqueID><FONT size=3D1 face=3D"Calibri Light">Mate=
-riaalweg
-      4</FONT></P></TD>
-    <TD style=3D"WIDTH: 29px">
-      <P class=3DImprintUniqueID><FONT size=3D1 face=3D"Calibri Light"></FO=
-NT>&nbsp;</P></TD>
-    <TD>
-      <P class=3DImprintUniqueID><FONT size=3D1 face=3D"Calibri Light"></FO=
-NT>&nbsp;</P></TD></TR>
-  <TR>
-    <TD>
-      <P class=3DImprintUniqueID><FONT size=3D1 face=3D"Calibri Light">5681
-      RJ&nbsp;Best</FONT></P></TD>
-    <TD>
-      <P class=3DImprintUniqueID><FONT size=3D1 face=3D"Calibri Light">T:</=
-FONT></P></TD>
-    <TD>
-      <P class=3DImprintUniqueID><FONT size=3D1 face=3D"Calibri Light">+31 =
-(0) 499 33
-      69 69</FONT></P></TD></TR>
-  <TR>
-    <TD style=3D"HEIGHT: 14px">
-      <P class=3DImprintUniqueID><FONT size=3D1 face=3D"Calibri Light">Post=
-bus
-      440</FONT></P></TD>
-    <TD>
-      <P class=3DImprintUniqueID><FONT size=3D1 face=3D"Calibri Light">E:</=
-FONT></P></TD>
-    <TD>
-      <P class=3DImprintUniqueID><font style=3D'font-family:Calibri Light;f=
-ont-size:8pt;'>mike.looijmans@topicproducts.com</font></P></TD></TR>
-  <TR>
-    <TD>
-      <P class=3DImprintUniqueID><FONT size=3D1 face=3D"Calibri Light">5680=
- AK
-      Best</FONT></P></TD>
-    <TD>
-      <P class=3DImprintUniqueID><FONT size=3D1 face=3D"Calibri Light">W:</=
-FONT></P></TD>
-    <TD>
-      <P class=3DImprintUniqueID><FONT size=3D1 face=3D"Calibri Light"><A h=
-ref=3D"http://www.topicproducts.com">www.topicproducts.com</A></FONT></P></=
-TD></TR>
-  <TR>
-    <TD><FONT size=3D1 face=3D"Calibri Light">The Netherlands</FONT></TD>
-    <TD><FONT size=3D1 face=3D"Calibri Light"></FONT></TD></TD>
-    <TD><FONT size=3D1 face=3D"Calibri Light"></FONT></TD>
-    <TD><FONT size=3D1 face=3D"Calibri Light"></FONT></TD></TR></TBODY></TA=
-BLE></P>
-<P class=3DImprintUniqueID><A href=3D"https://www.facebook.com/TopicProduct=
-s"><FONT size=3D1 face=3D"Calibri Light"><IMG id=3DIMG1 border=3D0 src=3D"c=
-id:image0faedc.JPG@9f6d8356.4bb8182d" width=3D20 height=3D19 /> </FONT></A>=
-<A href=3D"https://twitter.com/TopicProducts"><FONT size=3D1 face=3D"Calibr=
-i Light"><IMG id=3DIMG1 border=3D0 src=3D"cid:image770862.JPG@fc94d670.439c=
-9cfb" width=3D20 height=3D19 /></FONT></A><A href=3D"https://www.linkedin.c=
-om/company/topic-embedded-products"><FONT size=3D1 face=3D"Calibri Light"><=
-IMG id=3DIMG1 border=3D0 src=3D"cid:image9a10ac.JPG@ecd4fb18.4cb54942" widt=
-h=3D20 height=3D18 /></FONT></A><BR /><FONT color=3Dgreen size=3D1 face=3D"=
-Calibri Light">Please consider the environment before printing this
-e-mail<BR /></FONT></P><BR /><A href=3D"http://topic.nl/vacancy/topic-zoekt=
--technische-software-engineers/"><font style=3D'font-family:Arial;font-size=
-:8pt;'>Topic zoekt gedreven (embedded) software specialisten!</font></A><BR=
- /><BR />
-<P class=3DImprintUniqueID></P>
-<P><FONT face=3D"Calibri Light"></FONT></P>
-<P><FONT face=3D"Calibri Light"></FONT></P></FONT></EM></BODY></HTML>
+<div dir=3D"ltr"><div class=3D"gmail_extra"><div class=3D"gmail_quote">On 2=
+8 April 2016 at 16:37, Dai Caiyun <span dir=3D"ltr">&lt;<a href=3D"mailto:d=
+aicy.fnst@cn.fujitsu.com" target=3D"_blank">daicy.fnst@cn.fujitsu.com</a>&g=
+t;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0=
+ .8ex;border-left:1px #ccc solid;padding-left:1ex">Upgrade dbus from 1.10.8=
+ to 1.11.2.<br></blockquote><div><br></div><div>1.11 is the development bra=
+nch, we should not upgrade to it without a really good reason.</div><div><b=
+r></div><div>Also, is there something wrong with your date settings? The da=
+te header is from April.</div><div><br></div><div>Jussi=C2=A0</div><div>=C2=
+=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;borde=
+r-left:1px #ccc solid;padding-left:1ex">
+Signed-off-by: Dai Caiyun &lt;<a href=3D"mailto:daicy.fnst@cn.fujitsu.com">=
+daicy.fnst@cn.fujitsu.com</a>&gt;<br>
+---<br>
+=C2=A0meta/recipes-core/dbus/{<a href=3D"http://dbus_1.10.8.bb" rel=3D"nore=
+ferrer" target=3D"_blank">dbus_<wbr>1.10.8.bb</a> =3D&gt; <a href=3D"http:/=
+/dbus_1.11.2.bb" rel=3D"noreferrer" target=3D"_blank">dbus_1.11.2.bb</a>} |=
+ 4 ++--<br>
+=C2=A01 file changed, 2 insertions(+), 2 deletions(-)<br>
+=C2=A0rename meta/recipes-core/dbus/{<a href=3D"http://dbus_1.10.8.bb" rel=
+=3D"noreferrer" target=3D"_blank">dbus_<wbr>1.10.8.bb</a> =3D&gt; <a href=
+=3D"http://dbus_1.11.2.bb" rel=3D"noreferrer" target=3D"_blank">dbus_1.11.2=
+.bb</a>} (98%)<br>
+<br>
+diff --git a/meta/recipes-core/dbus/<a href=3D"http://dbus_1.10.8.bb" rel=
+=3D"noreferrer" target=3D"_blank">dbus_<wbr>1.10.8.bb</a> b/meta/recipes-co=
+re/dbus/<a href=3D"http://dbus_1.11.2.bb" rel=3D"noreferrer" target=3D"_bla=
+nk">dbus_<wbr>1.11.2.bb</a><br>
+similarity index 98%<br>
+rename from meta/recipes-core/dbus/<a href=3D"http://dbus_1.10.8.bb" rel=3D=
+"noreferrer" target=3D"_blank">dbus_1.<wbr>10.8.bb</a><br>
+rename to meta/recipes-core/dbus/<a href=3D"http://dbus_1.11.2.bb" rel=3D"n=
+oreferrer" target=3D"_blank">dbus_1.<wbr>11.2.bb</a><br>
+index 62dd8bb..b8c12c5 100644<br>
+--- a/meta/recipes-core/dbus/<a href=3D"http://dbus_1.10.8.bb" rel=3D"noref=
+errer" target=3D"_blank">dbus_<wbr>1.10.8.bb</a><br>
++++ b/meta/recipes-core/dbus/<a href=3D"http://dbus_1.11.2.bb" rel=3D"noref=
+errer" target=3D"_blank">dbus_<wbr>1.11.2.bb</a><br>
+@@ -20,8 +20,8 @@ SRC_URI =3D &quot;<a href=3D"http://dbus.freedesktop.org/=
+releases/dbus/dbus-${PV}.tar.gz" rel=3D"noreferrer" target=3D"_blank">http:=
+//dbus.freedesktop.org/<wbr>releases/dbus/dbus-${PV}.tar.<wbr>gz</a> \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://0001-configure.ac-<wbr>exp=
+licitely-check-stdint.h.<wbr>patch \<br>
+=C2=A0&quot;<br>
+<br>
+-SRC_URI[md5sum] =3D &quot;<wbr>e912e930f249454752512aa7ac864d<wbr>43&quot;=
+<br>
+-SRC_URI[sha256sum] =3D &quot;<wbr>baf3d22baa26d3bdd9edc587736cd5<wbr>56219=
+6ce67996d65b82103bedbe1f0<wbr>c014&quot;<br>
++SRC_URI[md5sum] =3D &quot;<wbr>957a07f066f3730d2bb3ea0932f008<wbr>1b&quot;=
+<br>
++SRC_URI[sha256sum] =3D &quot;<wbr>5abc4c57686fa82669ad0039830788<wbr>f9b03=
+fdc4fff487f0ccf6c9d56ba26<wbr>45c9&quot;<br>
+<br>
+=C2=A0inherit useradd autotools pkgconfig gettext update-rc.d upstream-vers=
+ion-is-even<br>
+<span class=3D"HOEnZb"><font color=3D"#888888"><br>
+--<br>
+2.7.4<br>
+<br>
+<br>
+<br>
+--<br>
+______________________________<wbr>_________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
+re@lists.<wbr>openembedded.org</a><br>
+<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
+" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/<wbr>m=
+ailman/listinfo/openembedded-<wbr>core</a><br>
+</font></span></blockquote></div><br></div></div>
 
---_612de6fc-6492-4670-97e1-472614848952_
-Content-Type: image/png
-Content-Transfer-Encoding: base64
-Content-ID: <image188c63.PNG@b4f8a702.46ba7ebf>
-Content-Disposition: inline; filename="image188c63.PNG"
-Content-Location: image188c63.PNG
-Content-Description: image188c63.PNG
-
-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
-AAAAAElFTkSuQmCC
-
---_612de6fc-6492-4670-97e1-472614848952_
-Content-Type: image/jpeg
-Content-Transfer-Encoding: base64
-Content-ID: <image0faedc.JPG@9f6d8356.4bb8182d>
-Content-Disposition: inline; filename="image0faedc.JPG"
-Content-Location: image0faedc.JPG
-Content-Description: image0faedc.JPG
-
-/9j/4AAQSkZJRgABAQEAYABgAAD/4QAiRXhpZgAATU0AKgAAAAgAAQESAAMAAAABAAEAAAAAAAD/
-2wBDAAIBAQIBAQICAgICAgICAwUDAwMDAwYEBAMFBwYHBwcGBwcICQsJCAgKCAcHCg0KCgsMDAwM
-BwkODw0MDgsMDAz/2wBDAQICAgMDAwYDAwYMCAcIDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwM
-DAwMDAwMDAwMDAwMDAwMDAwMDAwMDAz/wAARCAATABQDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEA
-AAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJx
-FDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNk
-ZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJ
-ytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQF
-BgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMz
-UvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3
-eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna
-4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwD3/wDaq/bN1S5/aP8AGFj/AMJY8Z0nU57M
-Qrd+X5KpIyhdpPAAGMDjv1zXt/gj4T6zov7Jd98RvG2ofE5dTkMxsdK0yAlrWNVYx3FwrKT5J272
-fIAQjrmvzj/bY8Ppc/tk/EzzFGJfEN6QGH3lMzj8ehH4V9i/Ez46+No/+CHnhbVf+E014a7qHiaX
-Sru8F8ftFxYl7uM27t1MWxVXaeMAV+347K6scFglheWPtJQi3bXWN+z0dnf/AIc+Bw+IpyrVnVbf
-Km9/P1+4++f2Bvi7c/GL9k/wn4gur7+1JryGVTdB9/mhJXUfMeWwBjPfHeiuH/4JFaa1j/wT88BQ
-7DH5cdyu0jG3FzLxRX5NmtGEMbWhHZSkvxZ9Jh61b2UfRfkjqvjB+wh8JPiN46ute1jwTp13q2pf
-vrmcTTRec/QsVRwu44GSBknk5Nc4f+CdXwYnKxt4HtTGrAhft13tBz6ebRRU0c1xsIKEK00ktlJ2
-/M7pYWi5XcF9yPofwZ4E0f4eeFbHQ9E0+303SdNiENtbQAqkS9fxJJJJOSSSTkmiiivN5pN3b1Ov
-lS0R/9k=
-
---_612de6fc-6492-4670-97e1-472614848952_
-Content-Type: image/jpeg
-Content-Transfer-Encoding: base64
-Content-ID: <image770862.JPG@fc94d670.439c9cfb>
-Content-Disposition: inline; filename="image770862.JPG"
-Content-Location: image770862.JPG
-Content-Description: image770862.JPG
-
-/9j/4AAQSkZJRgABAQEAYABgAAD/4QAiRXhpZgAATU0AKgAAAAgAAQESAAMAAAABAAEAAAAAAAD/
-2wBDAAIBAQIBAQICAgICAgICAwUDAwMDAwYEBAMFBwYHBwcGBwcICQsJCAgKCAcHCg0KCgsMDAwM
-BwkODw0MDgsMDAz/2wBDAQICAgMDAwYDAwYMCAcIDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwM
-DAwMDAwMDAwMDAwMDAwMDAwMDAwMDAz/wAARCAATABQDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEA
-AAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJx
-FDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNk
-ZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJ
-ytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQF
-BgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMz
-UvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3
-eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna
-4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwD9RPhzfN8bfjF46bVPEmrrZ+H51hW3sbvy
-W3O7gZODgKFOAB+lc38Wfh747+Gen6tq8PiJr7QdOcyCdNRBnWDcAskicYxkBsZxWP8ACLWI9B+L
-/wAUtNjmhh1TXLyGeyWaVYhdeTLJvjVmwNxD5AJGdpA5ruf2kPEM/iL4EeJLO60mHwer2qlZorqJ
-zqbCRf8ARSvLYfknb02c8Zr9U5KtLFwhTtyS5FZpaJqOqV03q3qk/PY/m363TxOXVKlVy9pH2sua
-LlrJSnZSdnFKyi7ScdGmt9fb/wBlr4gXPj34HaLqd1cfbJpldTMDneFcqMk/SisH9hzT2tf2ZvDs
-e0rsEoIPGP3rUV8BmVKEcZVjHZSl+Z+0ZDisRUyzDVJat04N+riit8TvgL4R1PxlNfTaLC1zep58
-zLLIod2Jy20MAM9TgdeetYc3wA8ITwAto6ZUjBFxKMf+PUUVzRzLFxSjGrKy/vP/ADPUqcP5XUk5
-1MNTbd224Rbb+4978KeFtP8ACvh200/T7ZLWztYwkUSE4UdT1OSSSSSeSTRRRXJzN6tnqRhGK5Yq
-yR//2Q==
-
---_612de6fc-6492-4670-97e1-472614848952_
-Content-Type: image/jpeg
-Content-Transfer-Encoding: base64
-Content-ID: <image9a10ac.JPG@ecd4fb18.4cb54942>
-Content-Disposition: inline; filename="image9a10ac.JPG"
-Content-Location: image9a10ac.JPG
-Content-Description: image9a10ac.JPG
-
-/9j/4AAQSkZJRgABAQEAYABgAAD/2wBDAAIBAQIBAQICAgICAgICAwUDAwMDAwYEBAMFBwYHBwcG
-BwcICQsJCAgKCAcHCg0KCgsMDAwMBwkODw0MDgsMDAz/2wBDAQICAgMDAwYDAwYMCAcIDAwMDAwM
-DAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAz/wAARCAASABQDASIA
-AhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQA
-AAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3
-ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWm
-p6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEA
-AwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSEx
-BhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElK
-U1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3
-uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwD6i+EP
-xt0H48fBf4l+L0/4SmfVvDeqxWiTCNVtYbmebaFuC5yxd3AyD/EMZJOdfx18N/ip8MvAOt+J9c8J
-ajp2i+HImuNRm82OWSCEAlpRCrF3jA3ZYAj5T1wc/L3wE/ah8N/sy/Aj41/DTxTYa9b+KPFHimxu
-lhjgiC2LWN7G80UwkdWST90wA2nnGSOo9H1X/gqB4C1P9r746ePini4+H/ib4HXwvpFo/kmW2uRb
-pHvlj8/ZHHuDncpY/MeOTj9brZLio1Z+wp3huut1aG1u95a67bH4jR4lwTowWIqpTtZq9rO9TVpp
-3taCtp8R+g//AASd+NVr8eP2RbbWbGW6ms4dXvbOIzoU4SQE7QSTtyxIz60Vwv8AwQP8O3Xh3/gn
-do4uLeSCK71i/uLZ2XC3MRkCiRDgZQsrAHviivzjO6UaWYVqcNlJr8T9W4frzr5ZQrVN5Qi/vR9Z
-658MPDXifUWvNS8PaHqF2wCtPc2EUshA6Asyk8YH5VTHwP8ABY/5lDwv/wCCqD2/2fYfkKKK68P/
-AAYlT+J+rOnhhS3hWONVREAVVUYCgdABRRRXgvc9VbH/2Q==
-
---_612de6fc-6492-4670-97e1-472614848952_--
+--001a1140e81aafff93053a3f8668--
