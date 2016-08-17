@@ -1,29 +1,34 @@
-Return-Path: <rpjday@crashcourse.ca>
-Received: from smtp685.redcondor.net (smtp685.redcondor.net [208.80.206.85])
-	by mail.openembedded.org (Postfix) with ESMTP id 7D8A273CBD
+Return-Path: <jeremy.rosen@smile.fr>
+X-Greylist: delayed 327 seconds by postgrey-1.34 at layers.openembedded.org;
+	Wed, 17 Aug 2016 14:17:26 UTC
+Received: from idris.smile.fr (idris.smile.fr [91.216.209.19])
+	by mail.openembedded.org (Postfix) with ESMTP id 0088273285
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Aug 2016 14:16:53 +0000 (UTC)
-Received: from astoria.ccjclearline.com ([64.235.106.9])
-	by smtp685.redcondor.net ({20c8e40f-6b6c-4c9e-abff-1640ea7bf404})
-	via TCP (outbound) with ESMTPS id 20160817141652236_0685
+	Wed, 17 Aug 2016 14:17:26 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by idris.smile.fr (Postfix) with ESMTP id 86CFA1EE09DE
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Aug 2016 07:16:52 -0700
-X-RC-FROM: <rpjday@crashcourse.ca>
-X-RC-RCPT: <openembedded-core@lists.openembedded.org>
-Received: from [216.191.234.70] (port=30737 helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
-	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
-	id 1ba1g6-0002Rh-6u for openembedded-core@lists.openembedded.org;
-	Wed, 17 Aug 2016 10:18:46 -0400
-Date: Wed, 17 Aug 2016 10:16:41 -0400 (EDT)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@ca624034.mitel.com
-To: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Message-ID: <alpine.LFD.2.20.1608171013230.13392@ca624034.mitel.com>
-User-Agent: Alpine 2.20 (LFD 67 2015-01-07)
+	Wed, 17 Aug 2016 16:11:59 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at smile.fr
+Received: from idris.smile.fr ([127.0.0.1])
+	by localhost (bluemind-mta.prod.vitry.intranet [127.0.0.1])
+	(amavisd-new, port 10024) with ESMTP id knANg7ePr6Va
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 17 Aug 2016 16:11:59 +0200 (CEST)
+Received: from [10.9.18.224] (229.29.205.77.rev.sfr.net [77.205.29.229])
+	by idris.smile.fr (Postfix) with ESMTPSA id 484EA1EE0839
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 17 Aug 2016 16:11:59 +0200 (CEST)
+To: openembedded-core@lists.openembedded.org
+References: <alpine.LFD.2.20.1608170956050.12816@ca624034.mitel.com>
+From: =?UTF-8?B?SsOpcsOpbXkgUm9zZW4=?= <jeremy.rosen@smile.fr>
+Message-ID: <a1c7979f-5b89-44fd-f7c9-137cbb887654@smile.fr>
+Date: Wed, 17 Aug 2016 16:11:58 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Firefox/45.0 Icedove/45.2.0
 MIME-Version: 1.0
-X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
-Subject: [PATCH] unfs3: Simplify simultaneous usage of "_append" and "+="
+In-Reply-To: <alpine.LFD.2.20.1608170956050.12816@ca624034.mitel.com>
+Subject: Re: what means IMAGE_ROOTFS_EXTRA_SPACE_append += "+ 3000000"?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,43 +41,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 Aug 2016 14:16:55 -0000
-Content-Type: text/plain; charset=US-ASCII
+X-List-Received-Date: Wed, 17 Aug 2016 14:17:27 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 
 
-Signed-off-by: Robert P. J. Day <rpjday@crashcourse.ca>
 
----
+On 17/08/2016 16:01, Robert P. J. Day wrote:
+>    as in, what's with the "+" in that "+ 3000000" value? i've never
+> seen that before, and i took a quick look under classes/ to try to
+> figure out what's happening, but i'm still confused.
+you're reading too much into this
 
-  for pedantic consistency, i also removed the *trailing* space from
-the libtirpc line, since subsequent appends should be responsible for
-adding the necessary leading space. i wonder if that will break
-anything...
+"+ 3000000" will append the string "+ 3000000" to the string contained 
+in the IMAGE_ROOTFS_EXTRA_SPACE variable
 
-diff --git a/meta/recipes-devtools/unfs3/unfs3_0.9.22.r497.bb b/meta/recipes-devtools/unfs3/unfs3_0.9.22.r497.bb
-index eba1139..e7574fb 100644
---- a/meta/recipes-devtools/unfs3/unfs3_0.9.22.r497.bb
-+++ b/meta/recipes-devtools/unfs3/unfs3_0.9.22.r497.bb
-@@ -9,8 +9,8 @@ RECIPE_UPSTREAM_DATE = "Oct 08, 2015"
- CHECK_DATE = "Dec 10, 2015"
+I am not sure who consumes that variable, but I assume it's something 
+that's able to do math and will properly compute the final value.
 
- DEPENDS = "flex-native bison-native flex"
--DEPENDS_append_libc-musl = " libtirpc "
--DEPENDS_append_class-nativesdk += "flex-nativesdk"
-+DEPENDS_append_libc-musl = " libtirpc"
-+DEPENDS_append_class-nativesdk = " flex-nativesdk"
+you can always run "bitbake -e core-image-kernel-dev" in a pager an look 
+at the final value to see what's happening...
 
- MOD_PV = "497"
- S = "${WORKDIR}/trunk"
-
--- 
-
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
-
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
+>    this is all in aid of the aforementioned "+=" cleanup, and i can see
+> some inconsistency as to whether there should be a leading space or
+> not in the assigned value:
+>
+> classes/rootfs_rpm.bbclass:IMAGE_ROOTFS_EXTRA_SPACE_append = "${@bb.utils.contains("PACKAGE_INSTALL", "smartpm", " + 102400", "" ,d)}"
+> recipes-core/images/core-image-minimal.bb:IMAGE_ROOTFS_EXTRA_SPACE_append = "${@bb.utils.contains("DISTRO_FEATURES", "systemd", " + 4096", "" ,d)}"
+> recipes-extended/images/core-image-kernel-dev.bb:IMAGE_ROOTFS_EXTRA_SPACE_append += "+ 3000000"
+>
+> and the YP reference manual says nothing about a possible "+":
+>
+> http://www.yoctoproject.org/docs/latest/ref-manual/ref-manual.html#var-IMAGE_ROOTFS_EXTRA_SPACE
+>
+> rday
+>
 
 
