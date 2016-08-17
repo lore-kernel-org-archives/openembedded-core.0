@@ -1,32 +1,30 @@
-Return-Path: <wangxin2015.fnst@cn.fujitsu.com>
+Return-Path: <daicy.fnst@cn.fujitsu.com>
 Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
-	by mail.openembedded.org (Postfix) with ESMTP id 20AF6731DF
+	by mail.openembedded.org (Postfix) with ESMTP id B90886FF9B
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Aug 2016 09:05:38 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.22,518,1449504000"; d="scan'208";a="10006249"
+	Wed, 17 Aug 2016 09:26:30 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.22,518,1449504000"; d="scan'208";a="10007013"
 Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 17 Aug 2016 17:05:39 +0800
-Received: from G08CNEXCHPEKD02.g08.fujitsu.local (unknown [10.167.33.83])
-	by cn.fujitsu.com (Postfix) with ESMTP id 1621642BC52D
+	by heian.cn.fujitsu.com with ESMTP; 17 Aug 2016 17:26:30 +0800
+Received: from G08CNEXCHPEKD03.g08.fujitsu.local (unknown [10.167.33.85])
+	by cn.fujitsu.com (Postfix) with ESMTP id EA7D442EB201
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Aug 2016 17:05:40 +0800 (CST)
-Received: from ubuntu.g08.fujitsu.local (10.167.226.120) by
-	G08CNEXCHPEKD02.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.279.2; Wed, 17 Aug 2016 17:05:39 +0800
-From: Wang Xin <wangxin2015.fnst@cn.fujitsu.com>
+	Wed, 17 Aug 2016 17:26:28 +0800 (CST)
+Received: from localhost.localdomain (10.167.226.25) by
+	G08CNEXCHPEKD03.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
+	Server (TLS) id 14.3.279.2; Wed, 17 Aug 2016 17:26:28 +0800
+From: Dai Caiyun <daicy.fnst@cn.fujitsu.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 17 Aug 2016 05:05:36 -0400
-Message-ID: <1471424736-10547-1-git-send-email-wangxin2015.fnst@cn.fujitsu.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <CAJTo0LabQxr69EodUwHuuzjbrdi6kWDumjvYpYHpk3n5VPWugg@mail.gmail.com>
-References: <CAJTo0LabQxr69EodUwHuuzjbrdi6kWDumjvYpYHpk3n5VPWugg@mail.gmail.com>
+Date: Wed, 17 Aug 2016 17:25:17 +0800
+Message-ID: <1471425917-5930-1-git-send-email-daicy.fnst@cn.fujitsu.com>
+X-Mailer: git-send-email 1.7.9.5
 MIME-Version: 1.0
-X-Originating-IP: [10.167.226.120]
-X-yoursite-MailScanner-ID: 1621642BC52D.A4438
+X-Originating-IP: [10.167.226.25]
+X-yoursite-MailScanner-ID: EA7D442EB201.AE284
 X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: wangxin2015.fnst@cn.fujitsu.com
+X-yoursite-MailScanner-From: daicy.fnst@cn.fujitsu.com
 X-Spam-Status: No
-Subject: [PATCH v2] adwaita-icon-theme: 3.18.0 -> 3.20
+Subject: [PATCH] dbus: 1.10.8 -> 1.10.10
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,35 +37,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 Aug 2016 09:05:39 -0000
+X-List-Received-Date: Wed, 17 Aug 2016 09:26:31 -0000
 Content-Type: text/plain
 
-Upgrade adwaita-icon-theme from 3.18.0 to 3.20.
+Upgrade dbus from 1.10.8 to 1.10.10.
 
-Signed-off-by: Wang Xin <wangxin2015.fnst@cn.fujitsu.com>
+Signed-off-by: Dai Caiyun <daicy.fnst@cn.fujitsu.com>
 ---
- .../{adwaita-icon-theme_3.18.0.bb => adwaita-icon-theme_3.20.bb}      | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-gnome/gnome/{adwaita-icon-theme_3.18.0.bb => adwaita-icon-theme_3.20.bb} (92%)
+ meta/recipes-core/dbus/{dbus-test_1.10.8.bb => dbus-test_1.10.10.bb} | 4 ++--
+ meta/recipes-core/dbus/{dbus_1.10.8.bb => dbus_1.10.10.bb}           | 4 ++--
+ 2 files changed, 4 insertions(+), 4 deletions(-)
+ rename meta/recipes-core/dbus/{dbus-test_1.10.8.bb => dbus-test_1.10.10.bb} (93%)
+ rename meta/recipes-core/dbus/{dbus_1.10.8.bb => dbus_1.10.10.bb} (98%)
 
-diff --git a/meta/recipes-gnome/gnome/adwaita-icon-theme_3.18.0.bb b/meta/recipes-gnome/gnome/adwaita-icon-theme_3.20.bb
-similarity index 92%
-rename from meta/recipes-gnome/gnome/adwaita-icon-theme_3.18.0.bb
-rename to meta/recipes-gnome/gnome/adwaita-icon-theme_3.20.bb
-index 34b82b7..5fcc92f 100644
---- a/meta/recipes-gnome/gnome/adwaita-icon-theme_3.18.0.bb
-+++ b/meta/recipes-gnome/gnome/adwaita-icon-theme_3.20.bb
-@@ -14,8 +14,8 @@ MAJ_VER = "${@oe.utils.trim_version("${PV}", 2)}"
- SRC_URI = "${GNOME_MIRROR}/${BPN}/${MAJ_VER}/${BPN}-${PV}.tar.xz \
-           "
+diff --git a/meta/recipes-core/dbus/dbus-test_1.10.8.bb b/meta/recipes-core/dbus/dbus-test_1.10.10.bb
+similarity index 93%
+rename from meta/recipes-core/dbus/dbus-test_1.10.8.bb
+rename to meta/recipes-core/dbus/dbus-test_1.10.10.bb
+index 87dcd37..650b7ab 100644
+--- a/meta/recipes-core/dbus/dbus-test_1.10.8.bb
++++ b/meta/recipes-core/dbus/dbus-test_1.10.10.bb
+@@ -17,8 +17,8 @@ SRC_URI = "http://dbus.freedesktop.org/releases/dbus/dbus-${PV}.tar.gz \
+            file://clear-guid_from_server-if-send_negotiate_unix_f.patch \
+            "
  
--SRC_URI[md5sum] = "ec1fa3fde83ad166ae7075a97dc1ec4b"
--SRC_URI[sha256sum] = "5e9ce726001fdd8ee93c394fdc3cdb9e1603bbed5b7c62df453ccf521ec50e58"
-+SRC_URI[md5sum] = "411be2bd68dd8b0a3c86aca2eb351ce4"
-+SRC_URI[sha256sum] = "7a0a887349f340dd644032f89d81264b694c4b006bd51af1c2c368d431e7ae35"
+-SRC_URI[md5sum] = "e912e930f249454752512aa7ac864d43"
+-SRC_URI[sha256sum] = "baf3d22baa26d3bdd9edc587736cd5562196ce67996d65b82103bedbe1f0c014"
++SRC_URI[md5sum] = "495676d240eb982921b3ad1343526849"
++SRC_URI[sha256sum] = "9d8f1d069ab4d1a0255d7b400ea3bcef4430c42e729b1012abb2890e3f739a43"
  
- do_install_append() {
- 	# Build uses gtk-encode-symbolic-svg to create png versions:
+ S="${WORKDIR}/dbus-${PV}"
+ FILESEXTRAPATHS =. "${FILE_DIRNAME}/dbus:"
+diff --git a/meta/recipes-core/dbus/dbus_1.10.8.bb b/meta/recipes-core/dbus/dbus_1.10.10.bb
+similarity index 98%
+rename from meta/recipes-core/dbus/dbus_1.10.8.bb
+rename to meta/recipes-core/dbus/dbus_1.10.10.bb
+index 62dd8bb..4db0b9b 100644
+--- a/meta/recipes-core/dbus/dbus_1.10.8.bb
++++ b/meta/recipes-core/dbus/dbus_1.10.10.bb
+@@ -20,8 +20,8 @@ SRC_URI = "http://dbus.freedesktop.org/releases/dbus/dbus-${PV}.tar.gz \
+            file://0001-configure.ac-explicitely-check-stdint.h.patch \
+ "
+ 
+-SRC_URI[md5sum] = "e912e930f249454752512aa7ac864d43"
+-SRC_URI[sha256sum] = "baf3d22baa26d3bdd9edc587736cd5562196ce67996d65b82103bedbe1f0c014"
++SRC_URI[md5sum] = "495676d240eb982921b3ad1343526849"
++SRC_URI[sha256sum] = "9d8f1d069ab4d1a0255d7b400ea3bcef4430c42e729b1012abb2890e3f739a43"
+ 
+ inherit useradd autotools pkgconfig gettext update-rc.d upstream-version-is-even
+ 
 -- 
 2.7.4
 
