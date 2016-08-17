@@ -1,29 +1,23 @@
-Return-Path: <daicy.fnst@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
-	by mail.openembedded.org (Postfix) with ESMTP id D0B576FFEF
+Return-Path: <Hongxu.Jia@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 7F9F9731E6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Aug 2016 07:49:10 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.22,518,1449504000"; d="scan'208";a="10003056"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 17 Aug 2016 15:49:05 +0800
-Received: from G08CNEXCHPEKD03.g08.fujitsu.local (unknown [10.167.33.85])
-	by cn.fujitsu.com (Postfix) with ESMTP id 1E38142CD117
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Aug 2016 15:49:05 +0800 (CST)
-Received: from localhost.localdomain (10.167.226.25) by
-	G08CNEXCHPEKD03.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.279.2; Wed, 17 Aug 2016 15:49:03 +0800
-From: Dai Caiyun <daicy.fnst@cn.fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-Message-ID: <1461855641-5375-1-git-send-email-daicy.fnst@cn.fujitsu.com>
-X-Mailer: git-send-email 1.7.9.5
+	Wed, 17 Aug 2016 08:57:32 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u7H8vWNS001064
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 17 Aug 2016 01:57:33 -0700 (PDT)
+Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.248.2;
+	Wed, 17 Aug 2016 01:57:32 -0700
+From: Hongxu Jia <hongxu.jia@windriver.com>
+To: <openembedded-core@lists.openembedded.org>, <ross.burton@intel.com>
+Date: Wed, 17 Aug 2016 04:57:29 -0400
+Message-ID: <cover.1471424152.git.hongxu.jia@windriver.com>
+X-Mailer: git-send-email 2.8.1
 MIME-Version: 1.0
-X-Originating-IP: [10.167.226.25]
-X-yoursite-MailScanner-ID: 1E38142CD117.A8FCC
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: daicy.fnst@cn.fujitsu.com
-X-Spam-Status: No
-Subject: [PATCH] dbus-test: 1.10.8 -> 1.11.2
+Subject: [PATCH 0/1] grub: fix load module all_video failed
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,40 +30,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-Date: Wed, 17 Aug 2016 07:49:12 -0000
-X-Original-Date: Thu, 28 Apr 2016 18:00:41 +0300
-X-List-Received-Date: Wed, 17 Aug 2016 07:49:12 -0000
+X-List-Received-Date: Wed, 17 Aug 2016 08:57:33 -0000
 Content-Type: text/plain
 
-Upgrade dbus-test from 1.10.8 to 1.11.2.
 
-Signed-off-by: Dai Caiyun <daicy.fnst@cn.fujitsu.com>
----
- meta/recipes-core/dbus/{dbus-test_1.10.8.bb => dbus-test_1.11.2.bb} | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-core/dbus/{dbus-test_1.10.8.bb => dbus-test_1.11.2.bb} (93%)
+The following changes since commit 6b66e9317f4ec3a69f98f29836aafa35b52f3fc7:
 
-diff --git a/meta/recipes-core/dbus/dbus-test_1.10.8.bb b/meta/recipes-core/dbus/dbus-test_1.11.2.bb
-similarity index 93%
-rename from meta/recipes-core/dbus/dbus-test_1.10.8.bb
-rename to meta/recipes-core/dbus/dbus-test_1.11.2.bb
-index 87dcd37..03110b1 100644
---- a/meta/recipes-core/dbus/dbus-test_1.10.8.bb
-+++ b/meta/recipes-core/dbus/dbus-test_1.11.2.bb
-@@ -17,8 +17,8 @@ SRC_URI = "http://dbus.freedesktop.org/releases/dbus/dbus-${PV}.tar.gz \
-            file://clear-guid_from_server-if-send_negotiate_unix_f.patch \
-            "
- 
--SRC_URI[md5sum] = "e912e930f249454752512aa7ac864d43"
--SRC_URI[sha256sum] = "baf3d22baa26d3bdd9edc587736cd5562196ce67996d65b82103bedbe1f0c014"
-+SRC_URI[md5sum] = "957a07f066f3730d2bb3ea0932f0081b"
-+SRC_URI[sha256sum] = "5abc4c57686fa82669ad0039830788f9b03fdc4fff487f0ccf6c9d56ba2645c9"
- 
- S="${WORKDIR}/dbus-${PV}"
- FILESEXTRAPATHS =. "${FILE_DIRNAME}/dbus:"
+  Allow for simultaneous do_rootfs tasks with rpm (2016-08-12 15:25:22 +0100)
+
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib hongxu/fix-grub
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=hongxu/fix-grub
+
+Hongxu Jia (1):
+  grub: fix load module all_video failed
+
+ ...-explicitly-keeps-symbole-.module_license.patch | 61 ++++++++++++++++++++++
+ meta/recipes-bsp/grub/grub2.inc                    |  1 +
+ 2 files changed, 62 insertions(+)
+ create mode 100644 meta/recipes-bsp/grub/files/grub-module-explicitly-keeps-symbole-.module_license.patch
+
 -- 
-2.7.4
-
-
+2.8.1
 
 
