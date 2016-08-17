@@ -1,24 +1,33 @@
-Return-Path: <Alexandru.Moise@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 005AF6E668
+Return-Path: <tanuk@iki.fi>
+Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com
+	[66.111.4.26])
+	by mail.openembedded.org (Postfix) with ESMTP id 05B9B73191
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Aug 2016 10:26:53 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u7HAQrmR004252
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Wed, 17 Aug 2016 11:20:40 +0000 (UTC)
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+	by mailout.nyi.internal (Postfix) with ESMTP id 546D9207DF
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Aug 2016 03:26:53 -0700 (PDT)
-Received: from obsrwr.corp.ad.wrs.com (128.224.18.158) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.248.2; Wed, 17 Aug 2016 03:26:52 -0700
-From: Alexandru Moise <alexandru.moise@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 17 Aug 2016 13:26:48 +0300
-Message-ID: <1471429608-28971-1-git-send-email-alexandru.moise@windriver.com>
-X-Mailer: git-send-email 1.9.1
-MIME-Version: 1.0
-Subject: [PATCH] Fix S4U2Self KDC crash when anon is restricted
+	Wed, 17 Aug 2016 07:20:40 -0400 (EDT)
+Received: from frontend1 ([10.202.2.160])
+	by compute1.internal (MEProxy); Wed, 17 Aug 2016 07:20:40 -0400
+DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; d=
+	messagingengine.com; h=date:from:message-id:subject:to
+	:x-sasl-enc:x-sasl-enc; s=smtpout; bh=GWRcn5ut0jzEPYr0s3pn4NAI7b
+	g=; b=MVeULJCY7UExw5paRVxkhRVS9602FFoS3Hz1LyQQ5t23tMSngQy5kl2/hV
+	z3YSYta6GEZEjoPfvGm94TWRSCVPPyo/jhVuivakE8zWlGA5bGW/ns4cOjYlkus6
+	/g9B6yHzmr0+p1QAG8Sfrl09PNZgl6e0gjDhX5R4PkUMiPmp8=
+X-Sasl-enc: p41HUEGbvjVXNvnvX+3d6aboriovCqae93KZjY4+gMZN 1471432839
+Received: from laptop.tanuk.dy.fi (a88-113-211-72.elisa-laajakaista.fi
+	[88.113.211.72])
+	by mail.messagingengine.com (Postfix) with ESMTPA id C4F0CF285F
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 17 Aug 2016 07:20:39 -0400 (EDT)
+From: Tanu Kaskinen <tanuk@iki.fi>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 17 Aug 2016 14:20:28 +0300
+Message-Id: <cover.1471432658.git.tanuk@iki.fi>
+X-Mailer: git-send-email 2.8.1
+Subject: [PATCH 0/2] Update alsa recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,107 +40,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 Aug 2016 10:26:55 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 17 Aug 2016 11:20:41 -0000
 
-This is CVE-2016-3120
+The following changes since commit c86bf80abd87acb0da5860806822c64ec9dee089:
 
-The validate_as_request function in kdc_util.c in the Key Distribution
-Center (KDC) in MIT Kerberos 5 (aka krb5) before 1.13.6 and 1.4.x before
-1.14.3, when restrict_anonymous_to_tgt is enabled, uses an incorrect
-client data structure, which allows remote authenticated users to cause
-a denial of service (NULL pointer dereference and daemon crash) via an
-S4U2Self request.
+  oeqa.buildperf: use oe.path.remove() (2016-08-17 10:35:27 +0100)
 
-Signed-off-by: Alexandru Moise <alexandru.moise@windriver.com>
----
- .../krb5/krb5/krb5-CVE-2016-3120.patch             | 63 ++++++++++++++++++++++
- meta-oe/recipes-connectivity/krb5/krb5_1.13.2.bb   |  1 +
- 2 files changed, 64 insertions(+)
- create mode 100644 meta-oe/recipes-connectivity/krb5/krb5/krb5-CVE-2016-3120.patch
+are available in the git repository at:
 
-diff --git a/meta-oe/recipes-connectivity/krb5/krb5/krb5-CVE-2016-3120.patch b/meta-oe/recipes-connectivity/krb5/krb5/krb5-CVE-2016-3120.patch
-new file mode 100644
-index 0000000..dbc46bb
---- /dev/null
-+++ b/meta-oe/recipes-connectivity/krb5/krb5/krb5-CVE-2016-3120.patch
-@@ -0,0 +1,63 @@
-+From 5b9b82d0696f1ffd4e693c1f8eafc0915b15e85b Mon Sep 17 00:00:00 2001
-+From: Greg Hudson <ghudson@mit.edu>
-+Date: Tue, 19 Jul 2016 11:00:28 -0400
-+Subject: [PATCH] Fix S4U2Self KDC crash when anon is restricted
-+
-+cherry-picked from 93b4a6306a0026cf1cc31ac4bd8a49ba5d034ba7 upstream
-+
-+In validate_as_request(), when enforcing restrict_anonymous_to_tgt,
-+use client.princ instead of request->client; the latter is NULL when
-+validating S4U2Self requests.
-+
-+CVE-2016-3120:
-+
-+In MIT krb5 1.9 and later, an authenticated attacker can cause krb5kdc
-+to dereference a null pointer if the restrict_anonymous_to_tgt option
-+is set to true, by making an S4U2Self request.
-+
-+  CVSSv2 Vector: AV:N/AC:H/Au:S/C:N/I:N/A:C/E:H/RL:OF/RC:C
-+
-+ticket: 8458 (new)
-+target_version: 1.14-next
-+target_version: 1.13-next
-+
-+Upstream-Status: Backport
-+
-+Signed-off-by: Alexandru Moise <alexandru.moise@windriver.com>
-+---
-+ src/kdc/kdc_util.c    | 2 +-
-+ src/tests/t_pkinit.py | 5 +++++
-+ 2 files changed, 6 insertions(+), 1 deletion(-)
-+
-+diff --git a/src/kdc/kdc_util.c b/src/kdc/kdc_util.c
-+index 48be1ae..10daec4 100644
-+--- a/src/kdc/kdc_util.c
-++++ b/src/kdc/kdc_util.c
-+@@ -700,7 +700,7 @@ validate_as_request(kdc_realm_t *kdc_active_realm,
-+         return(KDC_ERR_MUST_USE_USER2USER);
-+     }
-+ 
-+-    if (check_anon(kdc_active_realm, request->client, request->server) != 0) {
-++    if (check_anon(kdc_active_realm, client.princ, request->server) != 0) {
-+         *status = "ANONYMOUS NOT ALLOWED";
-+         return(KDC_ERR_POLICY);
-+     }
-+diff --git a/src/tests/t_pkinit.py b/src/tests/t_pkinit.py
-+index 762e322..d27d05b 100644
-+--- a/src/tests/t_pkinit.py
-++++ b/src/tests/t_pkinit.py
-+@@ -94,6 +94,11 @@ out = realm.run([kvno, realm.host_princ], expected_code=1)
-+ if 'KDC policy rejects request' not in out:
-+     fail('Wrong error for restricted anonymous PKINIT')
-+ 
-++# Regression test for #8458: S4U2Self requests crash the KDC if
-++# anonymous is restricted.
-++realm.kinit(realm.host_princ, flags=['-k'])
-++realm.run([kvno, '-U', 'user', realm.host_princ])
-++
-+ # Go back to a normal KDC and disable anonymous PKINIT.
-+ realm.stop_kdc()
-+ realm.start_kdc()
-+-- 
-+2.5.0
-+
-diff --git a/meta-oe/recipes-connectivity/krb5/krb5_1.13.2.bb b/meta-oe/recipes-connectivity/krb5/krb5_1.13.2.bb
-index 500e194..776eed4 100644
---- a/meta-oe/recipes-connectivity/krb5/krb5_1.13.2.bb
-+++ b/meta-oe/recipes-connectivity/krb5/krb5_1.13.2.bb
-@@ -36,6 +36,7 @@ SRC_URI = "http://web.mit.edu/kerberos/dist/${BPN}/${SHRT_VER}/${BP}-signed.tar
-            file://krb5-admin-server.service \
-            file://krb5-CVE-2016-3119.patch;striplevel=2 \
-            file://0001-Work-around-uninitialized-warning-in-cc_kcm.c.patch;striplevel=2 \
-+	   file://krb5-CVE-2016-3120.patch;striplevel=2 \
- "
- SRC_URI[md5sum] = "f7ebfa6c99c10b16979ebf9a98343189"
- SRC_URI[sha256sum] = "e528c30b0209c741f6f320cb83122ded92f291802b6a1a1dc1a01dcdb3ff6de1"
+  git://git.openembedded.org/openembedded-core-contrib tanuk/updates
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=tanuk/updates
+
+Tanu Kaskinen (2):
+  alsa-lib: 1.1.1 -> 1.1.2
+  alsa-utils: 1.1.1 -> 1.1.2
+
+ ...fix-appl-pointer-not-correct-when-mmap_co.patch | 137 ---------------------
+ .../avoid-including-sys-poll.h-directly.patch      |  20 +--
+ .../alsa/{alsa-lib_1.1.1.bb => alsa-lib_1.1.2.bb}  |   5 +-
+ ...cripts_1.1.1.bb => alsa-utils-scripts_1.1.2.bb} |   0
+ .../{alsa-utils_1.1.1.bb => alsa-utils_1.1.2.bb}   |   6 +-
+ 5 files changed, 15 insertions(+), 153 deletions(-)
+ delete mode 100755 meta/recipes-multimedia/alsa/alsa-lib/0001-pcm_plugin-fix-appl-pointer-not-correct-when-mmap_co.patch
+ rename meta/recipes-multimedia/alsa/{alsa-lib_1.1.1.bb => alsa-lib_1.1.2.bb} (88%)
+ rename meta/recipes-multimedia/alsa/{alsa-utils-scripts_1.1.1.bb => alsa-utils-scripts_1.1.2.bb} (100%)
+ rename meta/recipes-multimedia/alsa/{alsa-utils_1.1.1.bb => alsa-utils_1.1.2.bb} (96%)
+
 -- 
-2.7.4
+2.8.1
 
 
