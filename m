@@ -1,25 +1,53 @@
-Return-Path: <Liam.Howlett@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 5AFF46612C
+Return-Path: <iwamatsu@nigauri.org>
+Received: from mail-it0-f68.google.com (mail-it0-f68.google.com
+	[209.85.214.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 5DD50731FA
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Aug 2016 19:05:11 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u7HJ5CK3008522
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Wed, 17 Aug 2016 21:57:41 +0000 (UTC)
+Received: by mail-it0-f68.google.com with SMTP id j124so671316ith.3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Aug 2016 12:05:12 -0700 (PDT)
-Received: from yow-lhowlett-d0.corp.ad.wrs.com (128.224.56.234) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.248.2; Wed, 17 Aug 2016 12:05:11 -0700
-From: "Liam R. Howlett" <Liam.Howlett@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 17 Aug 2016 15:05:10 -0400
-Message-ID: <1471460711-6976-1-git-send-email-Liam.Howlett@WindRiver.com>
-X-Mailer: git-send-email 2.1.4
+	Wed, 17 Aug 2016 14:57:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=nigauri-org.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:sender:in-reply-to:references:from:date:message-id
+	:subject:to:cc;
+	bh=sqtd9TKI6RlX0h9DCopu8plavFKs0P5qPZcqI9dIAnc=;
+	b=lGNhlPs/zXNfpVbL9VG/9kMMXSQVo5HRygsHt6idsc/HNbfi8/8Rf7DT7U5LSBsgUR
+	rCYLRZkPLhbxMfprUy/HYbpOL39eOLKpU0cwwXAJ0A7SEVdgJC/6BUzTxDJBSbufIUbt
+	1RwfkNVC2NyAFIPWGG9ssAaxARjwvNuEka3qOHkZvk7dzdtDpF1e6Drrze4MJ49tXvr/
+	DXnS6p985HT0uFZRCAUojVo96KqDARcc4rM2FwIqVLvlsmBj5klWu6OT3pYR7f6ki1HU
+	nI6vPJoqFP1oBY3rxdnyNF2fCvjBx8z5TrW3zizX9PpFh6KQ7xd7wHXFyCdlB049cc8t
+	8x7A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:sender:in-reply-to:references:from
+	:date:message-id:subject:to:cc;
+	bh=sqtd9TKI6RlX0h9DCopu8plavFKs0P5qPZcqI9dIAnc=;
+	b=irGXe43x41LG/uy+Djb4lQpzmXQAevPfuS2WFZajzyqMvAhrRQf0SJuDduLYdJDOt3
+	KgUfOqlQJHzXES3+hLJiq6D02zPhTV2JzBVqwuQGqOtdKExZH+ml9dKTxedEgx3WEUDy
+	bednY3+JelK4TIgO2UZyd61m7rw/I5N88PBnrSKCapuwWJCCS06F7R/ZBZoD5pUsiYjm
+	vWlwQ1FA+ORkHSYQ+gZc6Osbsy+MOCdXRXax5z56PeaTbjF7h6pT1lau73AI7Mb8Tz3A
+	GM5k3bRWLk6d3yTrVWor29sTVuZ0SN3i13tQ9CisjHMPGnSOT1+vl9KGknz8kajv1m9Q
+	rHgA==
+X-Gm-Message-State: AEkoouuCxI2NZ0fK/WllDKr9qQRuFDMpTbPEDwJF9zwuFf79YcQ3C76nL45gt7xK7N36OGeseVgRRlYLOjcqBw==
+X-Received: by 10.36.0.4 with SMTP id 4mr7160542ita.34.1471471061997; Wed, 17
+	Aug 2016 14:57:41 -0700 (PDT)
 MIME-Version: 1.0
-Cc: Liam.Howlett@WindRiver.com
-Subject: [PATCH v2 0/1] wget: Add --ssh-askpass support
+Sender: iwamatsu@nigauri.org
+Received: by 10.107.138.86 with HTTP; Wed, 17 Aug 2016 14:57:11 -0700 (PDT)
+In-Reply-To: <CAJTo0LbugaY9L8YZ8ZOooZMYiPy_51fxAe7DTc6j+=1YVtEKjQ@mail.gmail.com>
+References: <1470581318-33390-1-git-send-email-iwamatsu@debian.org>
+	<1470604793.8166.21.camel@linuxfoundation.org>
+	<CABMQnVLd=-S__w==bheAeTwg_hkdy47F8=b+w0h0ZB7L65qNZw@mail.gmail.com>
+	<CAJTo0LbugaY9L8YZ8ZOooZMYiPy_51fxAe7DTc6j+=1YVtEKjQ@mail.gmail.com>
+From: Nobuhiro Iwamatsu <iwamatsu@debian.org>
+Date: Thu, 18 Aug 2016 06:57:11 +0900
+X-Google-Sender-Auth: k7VlNPx0bGBTBANW2xWrE442Kog
+Message-ID: <CABMQnVJjdbpPammLQfFhq3nR6nBHt+=75vED9sVdZwsYnzunaQ@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] mmc-utils: update to latest git revision
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,30 +60,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 Aug 2016 19:05:14 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 17 Aug 2016 21:57:44 -0000
+Content-Type: text/plain; charset=UTF-8
 
-This adds the --ssh-askpass=COMMAND option which is disabled by default.
+Hi,
 
---use-askpass=COMMAND will request the username and password for a given
-URL by executing the external program COMMAND.  If COMMAND is left
-blank, then the external program in the environment variable
-WGET_ASKPASS will be used.  If WGET_ASKPASS is not set then the
-environment variable SSH_ASKPASS is used.  If there is no value set, an
-error is returned.  If an error occurs requesting the username or
-password, wget will exit.
+2016-08-08 19:25 GMT+09:00 Burton, Ross <ross.burton@intel.com>:
+>
+> On 8 August 2016 at 11:09, Nobuhiro Iwamatsu <iwamatsu@debian.org> wrote:
+>>
+>> mmc-utils will change the revision of Git in version 0.1. We are using
+>> the now of any revision in PV,
+>> we do not know from version of package.
+>> Because I want to be seen that this revision from the package, I has
+>> been added SRCPV to PV.
+>
+>
+> The question was why should we build an arbitrary git snapshot instead of a
+> tested release?
+>
+> Ross
 
-Signed-off-by: Liam R. Howlett <Liam.Howlett@WindRiver.com>
+Thank you for your point.
+I did not know about the update of git snapshot.
+Please let question. If the software is not been released by the version ,
+whether we are the right to manage how a recipe?
 
-Liam R. Howlett (1):
-  wget: Add --ssh-askpass support
-
- .../0001-Add-use-askpass-COMMAND-support.patch     | 355 +++++++++++++++++++++
- meta/recipes-extended/wget/wget_1.18.bb            |   1 +
- 2 files changed, 356 insertions(+)
- create mode 100644 meta/recipes-extended/wget/wget/0001-Add-use-askpass-COMMAND-support.patch
+Best regards,
+  Nobuhiro
 
 -- 
-1.9.1
-
+Nobuhiro Iwamatsu
+   iwamatsu at {nigauri.org / debian.org}
+   GPG ID: 40AD1FA6
 
