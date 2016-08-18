@@ -1,30 +1,24 @@
-Return-Path: <daicy.fnst@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
-	by mail.openembedded.org (Postfix) with ESMTP id 31A5573177
+Return-Path: <Dengke.Du@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id B09986014F
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Aug 2016 02:09:31 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.22,518,1449504000"; d="scan'208";a="10027426"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 18 Aug 2016 10:09:25 +0800
-Received: from G08CNEXCHPEKD03.g08.fujitsu.local (unknown [10.167.33.85])
-	by cn.fujitsu.com (Postfix) with ESMTP id 4B84442BC500
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Aug 2016 10:09:21 +0800 (CST)
-Received: from localhost.localdomain (10.167.226.25) by
-	G08CNEXCHPEKD03.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.279.2; Thu, 18 Aug 2016 10:09:20 +0800
-From: Dai Caiyun <daicy.fnst@cn.fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 18 Aug 2016 10:08:06 +0800
-Message-ID: <1471486086-8512-1-git-send-email-daicy.fnst@cn.fujitsu.com>
-X-Mailer: git-send-email 1.7.9.5
+	Thu, 18 Aug 2016 03:11:00 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u7I3AxGK027658
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 17 Aug 2016 20:10:59 -0700 (PDT)
+Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.248.2;
+	Wed, 17 Aug 2016 20:10:59 -0700
+From: Dengke Du <dengke.du@windriver.com>
+To: <ross.burton@intel.com>
+Date: Wed, 17 Aug 2016 23:10:57 -0400
+Message-ID: <1471489857-252977-1-git-send-email-dengke.du@windriver.com>
+X-Mailer: git-send-email 2.8.1
 MIME-Version: 1.0
-X-Originating-IP: [10.167.226.25]
-X-yoursite-MailScanner-ID: 4B84442BC500.AB35E
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: daicy.fnst@cn.fujitsu.com
-X-Spam-Status: No
-Subject: [PATCH] kexec-tools: 2.0.12 -> 2.0.13
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH V2] bash: fix run-intl ptest failed
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,38 +31,227 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 Aug 2016 02:09:32 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 18 Aug 2016 03:11:02 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Upgrade kexec-tools from 2.0.12 to 2.0.13.
+1. Filter the extra white space in intl.right
 
-Signed-off-by: Dai Caiyun <daicy.fnst@cn.fujitsu.com>
+   When the sub-test unicode2.sub of intl.tests executed, it produced
+   compact results without extra white space, compared to intl.right,
+   it failed.
+
+   So we need to filter the extra white space in intl.right.
+
+   Import this patch for intl.right from bash devel branch:
+
+	http://git.savannah.gnu.org/cgit/bash.git/log/?h=devel
+
+   Commit is:
+
+	85ec0778f9d778e1820fb8c0e3e996f2d1103b45
+
+2. Change intl.right correspond to the unicode3.sub's output
+
+   In sub-test unicode3.sub of intl.tests have this:
+
+		printf %q "$payload"
+
+   The payload variable was assigned by ASCII characters, when using
+   '%q' format strings, it means print the associated argument shell-quoted.
+
+   When the strings contain the non-alpha && non-digit && non-punctuation &&
+   non-ISO 646 character(7-bit), it would output like this: " $'...', ANSI-C
+   style quoted string. We can check the bash source code at:
+
+	http://git.savannah.gnu.org/cgit/bash.git/tree/builtins/printf.def#n557
+	http://git.savannah.gnu.org/cgit/bash.git/tree/lib/sh/strtrans.c#n331
+
+   So we need to change the intl.right contain the correct output of unicode3.sub.
+
+   Import parts of this patch for intl.right from bash devel branch:
+
+	http://git.savannah.gnu.org/cgit/bash.git/log/?h=devel
+
+   Commit is:
+
+	74b8cbb41398b4453d8ba04d0cdd1b25f9dcb9e3
+
+3. Add the sanity check for locales
+
+   When run the intl.tests, we need the following locales:
+
+	en_US & fr_FR & de_DE
+
+   So add the locales check for the intl.tests in run-ptest.
+
+Signed-off-by: Dengke Du <dengke.du@windriver.com>
 ---
- .../kexec/{kexec-tools_2.0.12.bb => kexec-tools_2.0.13.bb}            | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-kernel/kexec/{kexec-tools_2.0.12.bb => kexec-tools_2.0.13.bb} (88%)
+ meta/recipes-extended/bash/bash/fix-run-intl.patch | 110 +++++++++++++++++++++
+ meta/recipes-extended/bash/bash/run-ptest          |  20 ++++
+ meta/recipes-extended/bash/bash_4.3.30.bb          |   3 +-
+ 3 files changed, 132 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-extended/bash/bash/fix-run-intl.patch
 
-diff --git a/meta/recipes-kernel/kexec/kexec-tools_2.0.12.bb b/meta/recipes-kernel/kexec/kexec-tools_2.0.13.bb
-similarity index 88%
-rename from meta/recipes-kernel/kexec/kexec-tools_2.0.12.bb
-rename to meta/recipes-kernel/kexec/kexec-tools_2.0.13.bb
-index 59376c8..338a7d9 100644
---- a/meta/recipes-kernel/kexec/kexec-tools_2.0.12.bb
-+++ b/meta/recipes-kernel/kexec/kexec-tools_2.0.13.bb
-@@ -10,8 +10,8 @@ SRC_URI += " \
-             file://0001-vmcore-dmesg-Define-_GNU_SOURCE.patch \
-          "
+diff --git a/meta/recipes-extended/bash/bash/fix-run-intl.patch b/meta/recipes-extended/bash/bash/fix-run-intl.patch
+new file mode 100644
+index 0000000..d4a3409
+--- /dev/null
++++ b/meta/recipes-extended/bash/bash/fix-run-intl.patch
+@@ -0,0 +1,110 @@
++From a00d3161fd7b6a698bdd2ed5f0ac5faac580ee2a Mon Sep 17 00:00:00 2001
++From: Dengke Du <dengke.du@windriver.com>
++Date: Wed, 3 Aug 2016 23:13:00 -0400
++Subject: [PATCH] fix run-intl failed
++
++1. Filter extra white space of intl.right
++
++   Due to the extra white space of intl.right, when the result of
++   sub-test unicode2.sub of intl.tests compared to it, the test
++   failed.
++
++   So we need to filter the extra white space of intl.right.
++
++   Import this patch for intl.right from bash devel branch:
++
++	http://git.savannah.gnu.org/cgit/bash.git/log/?h=devel
++
++   commit is:
++
++	85ec0778f9d778e1820fb8c0e3e996f2d1103b45
++
++2. Change intl.right correspond to the unicode3.sub's output
++
++   In sub-test unicode3.sub of intl.tests, the payload value is:
++
++	payload=$'\065\247\100\063\231\053\306\123\070\237\242\352\263'
++
++   It used quoted string expansion(escaped octal) to assign ASCII
++   characters to variables. So when the test run the following:
++
++	printf %q "$payload"
++
++   It produced:
++
++	$'5\247@3\231+\306S8\237\242\352\263'
++
++   When compared to the intl.right(contain the converted character), it failed.
++
++   Import parts of patch for intl.right from bash devel branch:
++
++	http://git.savannah.gnu.org/cgit/bash.git/log/?h=devel
++
++   commit is:
++
++	74b8cbb41398b4453d8ba04d0cdd1b25f9dcb9e3
++
++Upstream-Status: Backport
++
++Signed-off-by: Dengke Du <dengke.du@windriver.com>
++---
++ tests/intl.right | 30 +++++++++++++++---------------
++ 1 file changed, 15 insertions(+), 15 deletions(-)
++
++diff --git a/tests/intl.right b/tests/intl.right
++index acf108a..1efdfbe 100644
++--- a/tests/intl.right
+++++ b/tests/intl.right
++@@ -18,34 +18,34 @@ a√©b
++ 1.0000
++ 1,0000
++ Passed all 1378 Unicode tests
++-0000000   303 277 012                                                    
+++0000000 303 277 012
++ 0000003
++-0000000   303 277 012                                                    
+++0000000 303 277 012
++ 0000003
++-0000000   303 277 012                                                    
+++0000000 303 277 012
++ 0000003
++-0000000   303 277 012                                                    
+++0000000 303 277 012
++ 0000003
++-0000000   357 277 277 012                                                
+++0000000 357 277 277 012
++ 0000004
++-0000000   357 277 277 012                                                
+++0000000 357 277 277 012
++ 0000004
++-0000000   012                                                            
+++0000000 012
++ 0000001
++-0000000   012                                                            
+++0000000 012
++ 0000001
++-0000000   012                                                            
+++0000000 012
++ 0000001
++-0000000   012                                                            
+++0000000 012
++ 0000001
++-0000000   303 277 012                                                    
+++0000000 303 277 012
++ 0000003
++-0000000   303 277 012                                                    
+++0000000 303 277 012
++ 0000003
++-0000000   303 277 012                                                    
+++0000000 303 277 012
++ 0000003
++-0000000   101 040 302 243 040 305 222 012                                
+++0000000 101 040 302 243 040 305 222 012
++ 0000010
++ ./unicode3.sub: line 2: 5ß@3ô+∆S8ü¢Í≥: command not found
++-5ß@3ô+∆S8ü¢Í≥
+++$'5\247@3\231+\306S8\237\242\352\263'
++ + : $'5\247@3\231+\306S8\237\242\352\263'
++-- 
++2.8.1
++
+diff --git a/meta/recipes-extended/bash/bash/run-ptest b/meta/recipes-extended/bash/bash/run-ptest
+index 2098fa4..c61fabd 100644
+--- a/meta/recipes-extended/bash/bash/run-ptest
++++ b/meta/recipes-extended/bash/bash/run-ptest
+@@ -1,2 +1,22 @@
+ #!/bin/sh
++
++en_US=`locale -a | grep en_US*`
++fr_FR=`locale -a | grep fr_FR*`
++de_DE=`locale -a | grep de_DE*`
++
++if [ -z "$en_US" ]
++then
++        echo "Warning: The en_US* locales is needed to run the intl.tests, please add it."
++fi
++ 
++if [ -z "$fr_FR" ]
++then
++        echo "Warning: The fr_FR* locales is needed to run the intl.tests, please add it."
++fi
++ 
++if [ -z "$de_DE" ]
++then
++        echo "Warning: The de_DE* locales is needed to run the intl.tests, please add it."
++fi
++
+ make -k THIS_SH=/bin/bash BUILD_DIR=`pwd` srcdir=`pwd`  runtest
+diff --git a/meta/recipes-extended/bash/bash_4.3.30.bb b/meta/recipes-extended/bash/bash_4.3.30.bb
+index 79efaed..765562f 100644
+--- a/meta/recipes-extended/bash/bash_4.3.30.bb
++++ b/meta/recipes-extended/bash/bash_4.3.30.bb
+@@ -27,8 +27,9 @@ SRC_URI = "${GNU_MIRROR}/bash/${BP}.tar.gz;name=tarball \
+            file://test-output.patch \
+            file://fix-run-coproc-run-heredoc-run-execscript-run-test-f.patch \
+            file://run-ptest \
+-	   file://fix-run-builtins.patch \
++           file://fix-run-builtins.patch \
+            file://0001-help-fix-printf-format-security-warning.patch \
++           file://fix-run-intl.patch \
+            "
  
--SRC_URI[md5sum] = "10ddaae0e86af54407b164a1f5a39cc3"
--SRC_URI[sha256sum] = "cc7b60dad0da202004048a6179d8a53606943062dd627a2edba45a8ea3a85135"
-+SRC_URI[md5sum] = "b7595eb4705e482ee6fc1121a5b6131b"
-+SRC_URI[sha256sum] = "70df562d76213e54833228379710ada1afd98a86ee1ce5644eaa68c54e102e25"
- 
- PACKAGES =+ "kexec kdump vmcore-dmesg"
- 
+ SRC_URI[tarball.md5sum] = "a27b3ee9be83bd3ba448c0ff52b28447"
 -- 
-2.7.4
-
-
+2.8.1
 
 
