@@ -1,46 +1,46 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-it0-f51.google.com (mail-it0-f51.google.com
-	[209.85.214.51])
-	by mail.openembedded.org (Postfix) with ESMTP id 23C7273257
+Return-Path: <liu.ming50@gmail.com>
+Received: from mail-lf0-f67.google.com (mail-lf0-f67.google.com
+	[209.85.215.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 0B76E7325A
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Aug 2016 11:36:59 +0000 (UTC)
-Received: by mail-it0-f51.google.com with SMTP id x131so23906549ite.0
+	Thu, 18 Aug 2016 12:22:00 +0000 (UTC)
+Received: by mail-lf0-f67.google.com with SMTP id 33so1703155lfw.3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Aug 2016 04:37:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=tcfGkswt92fZj3EOHU3yf+C2pNObU3FJX0BMbDgl+A4=;
-	b=Pb/v767hDQURXr4cWauzgZPY1CIQ2puG/g3dZrw4h9FqxLUA8HUkF65Pq+sDZHktzU
-	GT/dXznGUPdzS6M/prPfBnQQntQIE96+PvOsr+s5mZuOoARFgT0PIfmV+EbAdJHSamaX
-	W6t/FzWd+KUefaKZ7P0hawa8m1kpE5Jw3GOKbWyvSxc2+mrTsjlH0Ytye0GiP7RXYz3s
-	x3dbOi2Sw7KtALM+OLOIL/XRWqQu+ZHohcHprK/ShZlGwttVODjYG6j8rs5385RBvA8J
-	/3B+YOyC3bDcjbhfaS4eLZpwJXf0Tq3HNEhtBey6/aBiscF32KDLdiT8LFDB08sJYUx1
-	C/Rg==
+	Thu, 18 Aug 2016 05:22:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=MoLG6fbsa/33LYq9BLLMuB4DywloaWNHsLrwN4yXqLk=;
+	b=edCvOpo3XKwriBTzhGUy4zrNr62xFDwxZ7KJND1lnaeY2m/m6zG87ywxzWW3yh1m9x
+	QWj7iLhEGeGYDie67YA4EBeBhUYmj1+eJYg3zhsuRKrQ2WMPAZfTmS2RTqSgVMblYVRb
+	3Ge+1NHAN4LCVBqPo8X8BrgU9XSnfk7QYzXx3XD9M/LTMAfyaAwKwnNip3ZbbowEq2vH
+	tltFvp8dykQKS8cqwSmtqN70VG08dMOQspwglLHkkIrdeeKgB12AxPP9+sp4uacnuLcx
+	gdAO1hLQYO0ol+SDxR/9jZHskxA128PSoEcELYis3BNkF+Ibbg9a5qD4WVzmonBV97f5
+	wEGw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=tcfGkswt92fZj3EOHU3yf+C2pNObU3FJX0BMbDgl+A4=;
-	b=M0Zopxmhg+K1QJDDpnNoZgzmvHlXFaCAUaYBXKGmdJMjHCALhEHmEByh0zQghNkO6R
-	1ODdGhH3kv0qFb/aZ7B7l02z1pCfRVfzliWSXYbIgivs8B2B+Z4B8urPW5u08ZngUJ/t
-	G4QKJtpxbbqIoYyIU+TUiZSyjEPXuqiF6ujAR+d79U3AwA7rshEbNpELmPDeLZAre0ms
-	AiQFyPwoe64aojSWdXGTFcJg4DTyr70jKvnt/kwnkOcqg2M9Xzga53SzMCIGUiKaUWLL
-	88TNMtrVgj7kvnaVrHoo/4d9Op30Bp8DHQrSGuRscfMAtShtV7PXokSqQ5pNZKoNdOUG
-	uhjw==
-X-Gm-Message-State: AEkoouuvXFSDOT8Gb192EyOoBdmaom3E3HmbL28cOQ/Gz8ZRsiQWYwZndPfVC4O7HGIfAv/6PXLE3j1/WCkML7FT
-X-Received: by 10.36.129.213 with SMTP id q204mr35262793itd.38.1471520220473; 
-	Thu, 18 Aug 2016 04:37:00 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.107.18.17 with HTTP; Thu, 18 Aug 2016 04:36:40 -0700 (PDT)
-In-Reply-To: <alpine.LFD.2.20.1608170956050.12816@ca624034.mitel.com>
-References: <alpine.LFD.2.20.1608170956050.12816@ca624034.mitel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 18 Aug 2016 12:36:40 +0100
-Message-ID: <CAJTo0LbY7x-e_iGa3qNOAKMwB+wudoDkORQgB3t-6WB4pVhNHg@mail.gmail.com>
-To: "Robert P. J. Day" <rpjday@crashcourse.ca>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: what means IMAGE_ROOTFS_EXTRA_SPACE_append += "+ 3000000"?
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=MoLG6fbsa/33LYq9BLLMuB4DywloaWNHsLrwN4yXqLk=;
+	b=PEGVkkkCL/Cqy9WI1tKuuCnKh6NvIadsiyms6pzOhx/FWKCMYID49zR1vQ5LDZlHGV
+	732pPglsjXJZuYLtbkd9YNSULy0v4/oXbORupnoeJDky+fgM1gb0fBgeukEaoM3dq4JC
+	7egtV2s/C6l4FEnulsyu/tzknTCmrvw2YHj8lobyxrvfwm4gqIYu42Bat2EV2rF4C/ht
+	CvHJDgUNLAfHpQgkMm+Kaen8oFdwHivMv9EYrCgZrmwQxMx1o/5kpq9/FjRDvaSKczWs
+	5YulK8OpK68wD9prtjjsxi9XxBW+tB8H5hCUabPHKWrN0SI12I/UebL6+RVFMSr3PD1t
+	foAg==
+X-Gm-Message-State: AEkooutGek+OPvrNOrthocEO5ysygUwa45Z+pe8zcc4+jCzvbz6xmYqwN/ER+pHuSjNdag==
+X-Received: by 10.25.83.198 with SMTP id h189mr607840lfb.130.1471522920599;
+	Thu, 18 Aug 2016 05:22:00 -0700 (PDT)
+Received: from localhost.localdomain (m77-218-244-232.cust.tele2.se.
+	[77.218.244.232])
+	by smtp.gmail.com with ESMTPSA id 83sm305603ljj.14.2016.08.18.05.21.59
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Thu, 18 Aug 2016 05:21:59 -0700 (PDT)
+From: Ming Liu <liu.ming50@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 18 Aug 2016 14:21:57 +0200
+Message-Id: <1471522917-24176-1-git-send-email-liu.ming50@gmail.com>
+X-Mailer: git-send-email 1.9.1
+Cc: yue.tao@windriver.com, Ming Liu <peter.x.liu@external.atlascopco.com>
+Subject: [PATCH] lib/oe/terminal.py: use an absolute path to execute oe-gnome-terminal-phonehome
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,35 +53,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 Aug 2016 11:37:00 -0000
-Content-Type: multipart/alternative; boundary=94eb2c08b1fc058156053a57008d
+X-List-Received-Date: Thu, 18 Aug 2016 12:22:03 -0000
 
---94eb2c08b1fc058156053a57008d
-Content-Type: text/plain; charset=UTF-8
+From: Ming Liu <peter.x.liu@external.atlascopco.com>
 
-On 17 August 2016 at 15:01, Robert P. J. Day <rpjday@crashcourse.ca> wrote:
+A flaw was found on my Ubuntu 14.04.5 LTS, on which that gnome-terminal is
+the default terminal, when I run any of the tasks:
+bitbake busybox -c menuconfig/devshell/devpyshell
+bitbake virtual/kernel -c menuconfig/devshell/devpyshell
 
-> recipes-extended/images/core-image-kernel-dev.bb:IMAGE_ROOTFS_EXTRA_SPACE_append
-> += "+ 3000000"
->
+I got a error as follows:
+"Failed to execute child process "oe-gnome-terminal-phonehome" (No such file or directory)"
 
-I'm guessing that's a mistake, it doesn't need a +.
+Seems the environment of the process calling Popen is not passed to the
+child process, this behaviour is a known issue in Python bug tracker:
+http://bugs.python.org/issue8557
 
-Ross
+I think it could be fixed by using an absolute path instead.
 
---94eb2c08b1fc058156053a57008d
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Ming Liu <peter.x.liu@external.atlascopco.com>
+---
+ meta/lib/oe/terminal.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 17 August 2016 at 15:01, Robert P. J. Day <span dir=3D"ltr">&lt;<a href=
-=3D"mailto:rpjday@crashcourse.ca" target=3D"_blank">rpjday@crashcourse.ca</=
-a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0=
- 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":4ta" cla=
-ss=3D"a3s aXjCH m15698cfdea19e7d4">recipes-extended/images/core-<wbr>image-=
-kernel-dev.bb:IMAGE_<wbr>ROOTFS_EXTRA_SPACE_append +=3D &quot;+ 3000000&quo=
-t;<br></div></blockquote></div><br>I&#39;m guessing that&#39;s a mistake, i=
-t doesn&#39;t need a +.</div><div class=3D"gmail_extra"><br></div><div clas=
-s=3D"gmail_extra">Ross</div></div>
+diff --git a/meta/lib/oe/terminal.py b/meta/lib/oe/terminal.py
+index 3901ad3..5c3e0aa 100644
+--- a/meta/lib/oe/terminal.py
++++ b/meta/lib/oe/terminal.py
+@@ -67,7 +67,7 @@ class Gnome(XTerminal):
+         import tempfile
+         pidfile = tempfile.NamedTemporaryFile(delete = False).name
+         try:
+-            sh_cmd = "oe-gnome-terminal-phonehome " + pidfile + " " + sh_cmd
++            sh_cmd = bb.utils.which(os.getenv('PATH'), "oe-gnome-terminal-phonehome") + " " + pidfile + " " + sh_cmd
+             XTerminal.__init__(self, sh_cmd, title, env, d)
+             while os.stat(pidfile).st_size <= 0:
+                 continue
+-- 
+1.9.1
 
---94eb2c08b1fc058156053a57008d--
+
