@@ -1,30 +1,45 @@
-Return-Path: <rpjday@crashcourse.ca>
-Received: from smtp685.redcondor.net (smtp685.redcondor.net [208.80.206.85])
-	by mail.openembedded.org (Postfix) with ESMTP id C47D8769F8
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qt0-f195.google.com (mail-qt0-f195.google.com
+	[209.85.216.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 25669731CB
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Aug 2016 16:21:40 +0000 (UTC)
-Received: from astoria.ccjclearline.com ([64.235.106.9])
-	by smtp685.redcondor.net ({20c8e40f-6b6c-4c9e-abff-1640ea7bf404})
-	via TCP (outbound) with ESMTPS id 20160818162131368_0685;
-	Thu, 18 Aug 2016 09:21:31 -0700
-X-RC-FROM: <rpjday@crashcourse.ca>
-Received: from [216.191.234.70] (port=26535 helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
-	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
-	id 1baQ6F-0003Ir-VX; Thu, 18 Aug 2016 12:23:24 -0400
-Date: Thu, 18 Aug 2016 12:21:19 -0400 (EDT)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@ca624034.mitel.com
-To: =?ISO-8859-15?Q?Andr=E9_Draszik?= <git@andred.net>
-In-Reply-To: <20160818161503.20738-4-git@andred.net>
-Message-ID: <alpine.LFD.2.20.1608181216420.30892@ca624034.mitel.com>
-References: <20160818161503.20738-1-git@andred.net>
-	<20160818161503.20738-4-git@andred.net>
-User-Agent: Alpine 2.20 (LFD 67 2015-01-07)
-MIME-Version: 1.0
-X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 4/4] gettext_0.16.1: whitespace changes to align with v0.19.8.1
+	Thu, 18 Aug 2016 16:41:10 +0000 (UTC)
+Received: by mail-qt0-f195.google.com with SMTP id c52so1347657qte.1
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 18 Aug 2016 09:41:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=p5IlZ76E6Dr7JTZgoqc8fbsQ7cLVPSceiDIJRsoeC9w=;
+	b=KLqEj6PjLB2LgaWJEyjS2k8Vt3zU8AseLeZyJFCyXHLJLXO0yBdkLN0R8MX3sySrBL
+	Z4md9gN+EOJfV7QzvAr/igT/1G3sU5NtYUPFNby3Z4BpLwZVuyPfLJhw7F+PRi51pv5W
+	ZkdLD5oTCMJJsSBKM8HKMK3PUOKoAH+W0TtVB5rVmUnDr4APsZ4Ol59gUv5K4nXzR3Uo
+	njxquSXZqNVjIJcBcAfg4RMGRotOEXEdkz5dwhlALWY68lzR+U5U9gS9Mhw7mxQrB1rz
+	BEsc3qWR3ECDi5Y5hEP/aIBZQL+9GzYExJKoLqcw7g00jU5yt9jFPbs1bEmff3O20Vol
+	1+iQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=p5IlZ76E6Dr7JTZgoqc8fbsQ7cLVPSceiDIJRsoeC9w=;
+	b=Z4p35ZTowhcrXXQFeFr+iika9RvykQeHZvpvJP0qroS3pdqVQMRaeKJfN0TMnHng2v
+	FgcDHMAyaXWrSjCwKg+HXkh+R+bEK9JnekkiKq7szbwKRor2jt1+BBGkWpvNj+DMuUwV
+	+1gc0jbMEkiE4DrmK+thsF5aAn7Ul9KH9d0UQ1PJ7G7CmLXvgyhWEzODFMRQ5ec3wqqF
+	DVQw2LaeSW/r1Q3C78auWIWwRqE0Erbw7QEpO5LaugwhOeDBuKs3ttT8PyYzG4SPVMv5
+	Kfxl7M0g5P4lFMJ8uje8hlb83WAoZ83CjPB72wyqmO4thzfcX0/suuGidaVO6MeSRiVm
+	mzwA==
+X-Gm-Message-State: AEkooutNkEU3sN9JylJok6ATqEM4GkRI3Tv3WUBzQjR0vwzKJ+pTiuufja9afnWa6tUoyg==
+X-Received: by 10.237.53.206 with SMTP id d14mr3578263qte.83.1471538471066;
+	Thu, 18 Aug 2016 09:41:11 -0700 (PDT)
+Received: from dvm-wcdcc-khem-002.novalocal (a-96-118-179-135.sys.comcast.net.
+	[96.118.179.135]) by smtp.gmail.com with ESMTPSA id
+	x185sm1492264qkb.14.2016.08.18.09.41.09
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 18 Aug 2016 09:41:09 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 18 Aug 2016 16:41:01 +0000
+Message-Id: <1471538461-27065-1-git-send-email-raj.khem@gmail.com>
+X-Mailer: git-send-email 1.8.3.1
+Subject: [PATCH] Specify extra paths
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,42 +52,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 Aug 2016 16:21:41 -0000
-Content-Type: multipart/mixed;
-	BOUNDARY="2071690107-1080945671-1471537281=:30892"
+X-List-Received-Date: Thu, 18 Aug 2016 16:41:11 -0000
 
---2071690107-1080945671-1471537281=:30892
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8BIT
+Some layers have gstreamer plugin recipes which include
+the .inc files from OE-Core but they do not get to find
+the patch that is being forced by the .inc file and
+ends up with errors like
 
-On Thu, 18 Aug 2016, André Draszik wrote:
+WARNING: /mnt/oe/meta-qcom/recipes-multimedia/gstreamer/gstreamer1.0-plugins-v4l2.bb: Unable to get checksum for gstreamer1.0-plugins-v4l2 SRC_URI entry 0001-introspection.m4-prefix-pkgconfig-paths-with-PKG_CON.patch: file could not be fo
+und
 
-> +LDFLAGS_prepend_libc-uclibc = " -lrt -lpthread "
+This path prepend fixes it
 
-  i'm not a big fan of doing the above; that is, adding *both* leading
-and trailing space to a string, just to play it safe. i know it
-doesn't hurt, but it's sloppy and might actually conceal incorrect
-string values elsewhere.
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins.inc | 1 +
+ 1 file changed, 1 insertion(+)
 
-  if you're "_append"ing, then the string should have only a leading
-space; if you're "_prepend"ing, then only a trailing space. the reason
-for that is that, if you're rigorous like that, you might actually
-catch a string that *doesn't* have the appropriate spaces, but is
-getting away with it only because a string elsewhere is being generous
-and covering for it.
-
-  and, yes, i *am* that pedantic.
-
-rday
-
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins.inc b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins.inc
+index 2dcec50..b066941 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins.inc
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins.inc
+@@ -28,6 +28,7 @@ EXTRA_OECONF = " \
+     --disable-examples \
+ "
+ 
++FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
+ SRC_URI_append = " file://0001-introspection.m4-prefix-pkgconfig-paths-with-PKG_CON.patch"
+ 
+ delete_pkg_m4_file() {
 -- 
+1.8.3.1
 
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
 
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
-
---2071690107-1080945671-1471537281=:30892--
