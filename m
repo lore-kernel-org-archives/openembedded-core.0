@@ -1,40 +1,40 @@
 Return-Path: <andre.draszik@gmail.com>
 Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 159DE76E4A
+	by mail.openembedded.org (Postfix) with ESMTP id ED7F176988
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Aug 2016 16:15:06 +0000 (UTC)
-Received: by mail-wm0-f65.google.com with SMTP id o80so280265wme.0
+	Thu, 18 Aug 2016 16:15:07 +0000 (UTC)
+Received: by mail-wm0-f65.google.com with SMTP id i138so263399wmf.3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Aug 2016 09:15:07 -0700 (PDT)
+	Thu, 18 Aug 2016 09:15:08 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=Q9rtUNqdJeN4v6+H4OWoeIRJkM2OUInL72bnfhS6d5Q=;
-	b=Jslj7DWGCUbzB70Fxuhn5xVm5cXT2ll70JXZccgZaT7CzF5rwUuArwU6dtebG8Sw1c
-	7uBmEDwmMazoGDZz1OyPnAeuA7vrDPR0+z6radEW1egUorSBorjOdRZ970YoAIJmakEo
-	+d6qxy0PFwSJo2P/fThlzWr+7bFHR2TxJ/gluuvzgwb8Kzw5LfOhNnrRucUBpYKiiqiR
-	9JwY4cxTgOT+ikLLdQ8nwntWSS3D/Ds9C0A7KyTJnFwCwTt4R1d+vGT6AZgSsZqF/lCa
-	azmzA0DX12PmK/C/F7cRQEmjwCM2/cSwOAUT/tqxT8Fd5JOpm/gEXLLeCZtvWo30jXtD
-	0R6g==
-X-Gm-Message-State: AEkoouvPRsVUbfK7wPDfyRK55/5GYs/RV9SKTCCJDundHfOQEPHfEw1KMVepHwuja1VFGw==
-X-Received: by 10.194.47.7 with SMTP id z7mr2844531wjm.63.1471536906417;
-	Thu, 18 Aug 2016 09:15:06 -0700 (PDT)
+	bh=1k5LGL1mIuxe5R1vOguD4mAnVbb+JnMx5+NXKBNOTk0=;
+	b=jikkm9IqgNTyYCLUirTGE1iNWupXg7K7a6aTeJDghel2JeiPSHVQkdJb9c6OC6X5PW
+	0ZvEIYCNXzmi5E/9/EtfvyXVvvvCRntU/hG8V0uQvnyW03Zw+Pyr9jrExPwoE0AcXghC
+	f76FEwREhI/tqIG9u/grVf8Cx/YvK1AdeorF5ZStBAis4k5MMRpfik1GrJ91hNgiavjk
+	6RK0MHCDd8p6TW7hBlfXI9ZvTG54afxCTxYBL0B260fpvU1oXEXw9wYg9mrRywsa73ej
+	6xt5eRkEyhFV7/1hWnH9zYj/+gZKk3TVvUF3Obhp7doGuF9KlxpfWeVAmBP8CSwVoy+m
+	ceHQ==
+X-Gm-Message-State: AEkoousNTVvnp3dplKEh+AT/PwtVH7g2AFgPpV6m5lf0AXkPULRGr7RCA9wgZLgIbbKqMw==
+X-Received: by 10.194.236.68 with SMTP id us4mr2680400wjc.12.1471536907672;
+	Thu, 18 Aug 2016 09:15:07 -0700 (PDT)
 Received: from tfsielt31850.tycofs.com ([77.107.218.170])
 	by smtp.gmail.com with ESMTPSA id
-	al10sm2921327wjc.12.2016.08.18.09.15.05
+	al10sm2921327wjc.12.2016.08.18.09.15.06
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 18 Aug 2016 09:15:05 -0700 (PDT)
+	Thu, 18 Aug 2016 09:15:06 -0700 (PDT)
 From: =?UTF-8?q?Andr=C3=A9=20Draszik?= <git@andred.net>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 18 Aug 2016 17:15:01 +0100
-Message-Id: <20160818161503.20738-2-git@andred.net>
+Date: Thu, 18 Aug 2016 17:15:02 +0100
+Message-Id: <20160818161503.20738-3-git@andred.net>
 X-Mailer: git-send-email 2.9.3
 In-Reply-To: <20160818161503.20738-1-git@andred.net>
 References: <20160818161503.20738-1-git@andred.net>
 MIME-Version: 1.0
-Subject: [PATCH 2/4] gettext_0.16.1: fix lispdir configure option
+Subject: [PATCH 3/4] gettext_0.16.1: align configure options with v0.19.8.1 recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,34 +47,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 Aug 2016 16:15:07 -0000
+X-List-Received-Date: Thu, 18 Aug 2016 16:15:08 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-The option is called --with(out)-lispdir, not --with(out)-lisp
+It doesn't look like we need any of those features, so
+let's disable them explicitly.
 
 Signed-off-by: André Draszik <git@andred.net>
 ---
- meta/recipes-core/gettext/gettext_0.16.1.bb | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ meta/recipes-core/gettext/gettext_0.16.1.bb | 3 +++
+ 1 file changed, 3 insertions(+)
 
 diff --git a/meta/recipes-core/gettext/gettext_0.16.1.bb b/meta/recipes-core/gettext/gettext_0.16.1.bb
-index 5a58578..6710c8d 100644
+index 6710c8d..93f5fcd 100644
 --- a/meta/recipes-core/gettext/gettext_0.16.1.bb
 +++ b/meta/recipes-core/gettext/gettext_0.16.1.bb
-@@ -30,7 +30,11 @@ PARALLEL_MAKE = ""
+@@ -32,6 +32,9 @@ inherit autotools texinfo
  
- inherit autotools texinfo
- 
--EXTRA_OECONF += "--without-lisp --disable-csharp --disable-openmp --without-emacs"
-+EXTRA_OECONF += "--without-lispdir \
-+                 --disable-csharp \
-+                 --disable-openmp \
-+                 --without-emacs \
-+                "
- EXTRA_OECONF_append_libc-musl = "\
-                                  gt_cv_func_gnugettext1_libc=yes \
-                                  gt_cv_func_gnugettext2_libc=yes \
+ EXTRA_OECONF += "--without-lispdir \
+                  --disable-csharp \
++                 --disable-libasprintf \
++                 --disable-java \
++                 --disable-native-java \
+                  --disable-openmp \
+                  --without-emacs \
+                 "
 -- 
 2.9.3
 
