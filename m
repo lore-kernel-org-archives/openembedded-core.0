@@ -1,24 +1,26 @@
 Return-Path: <mark.hatle@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 0892477026
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 15D9E7706C
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Aug 2016 17:04:18 +0000 (UTC)
+	Thu, 18 Aug 2016 17:04:20 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u7IH4JZe001838
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u7IH4Lmo019966
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Aug 2016 10:04:19 -0700 (PDT)
+	Thu, 18 Aug 2016 10:04:21 -0700 (PDT)
 Received: from msp-dhcp15.wrs.com (172.25.34.15) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.40) with Microsoft SMTP Server id 14.3.248.2;
-	Thu, 18 Aug 2016 10:04:19 -0700
+	Thu, 18 Aug 2016 10:04:20 -0700
 From: Mark Hatle <mark.hatle@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 18 Aug 2016 12:04:14 -0500
-Message-ID: <cover.1471539779.git.mark.hatle@windriver.com>
+Date: Thu, 18 Aug 2016 12:04:15 -0500
+Message-ID: <b6bbdff553e3b63cb10ae5a033f2c4a030ae977f.1471539779.git.mark.hatle@windriver.com>
 X-Mailer: git-send-email 2.5.5
+In-Reply-To: <cover.1471539779.git.mark.hatle@windriver.com>
+References: <cover.1471539779.git.mark.hatle@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/3] Re-enable prelink for IA32 and MIPS
+Subject: [PATCH 1/3] prelink: Move to latest version of prelink
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,29 +33,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 Aug 2016 17:04:20 -0000
+X-List-Received-Date: Thu, 18 Aug 2016 17:04:22 -0000
 Content-Type: text/plain
 
-*** BLURB HERE ***
-The following changes since commit ecc8d346223030ee06aa6d83427f757982e948e4:
+* Uprev rtld emulation to glibc-2.23
+* Fix compilation warnings
+* Add additional debug scopes
+* Change rtld build_local_scope to be breadth-first
+* Fix LD_PRELOAD emulation
+* Change function reordering to work with latest binutils
 
-  sanity: Require bitbake 1.31.1 for multi-config changes (2016-08-18 10:07:18 +0100)
+Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+---
+ meta/recipes-devtools/prelink/prelink_git.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib mhatle/prelink
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=mhatle/prelink
-
-Mark Hatle (3):
-  prelink: Move to latest version of prelink
-  local.conf.sample: Disable ARM and PPC due to prelink test case
-    failures
-  Revert "local.conf.sample: Disable prelink by default"
-
- meta/conf/local.conf.sample                  | 12 ++++++++++--
- meta/recipes-devtools/prelink/prelink_git.bb |  2 +-
- 2 files changed, 11 insertions(+), 3 deletions(-)
-
+diff --git a/meta/recipes-devtools/prelink/prelink_git.bb b/meta/recipes-devtools/prelink/prelink_git.bb
+index e223ef6..5d9f260 100644
+--- a/meta/recipes-devtools/prelink/prelink_git.bb
++++ b/meta/recipes-devtools/prelink/prelink_git.bb
+@@ -8,7 +8,7 @@ and executables, so that far fewer relocations need to be resolved at \
+ runtime and thus programs come up faster."
+ LICENSE = "GPLv2"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=c93c0550bd3173f4504b2cbd8991e50b"
+-SRCREV = "927979bbd115eeb8a75db3231906ef6aca4c4eb6"
++SRCREV = "ef20628dd78b92e1a3123afc67b64cf010bdd9e4"
+ PV = "1.0+git${SRCPV}"
+ 
+ #
 -- 
 2.5.5
 
