@@ -1,40 +1,41 @@
 Return-Path: <andre.draszik@gmail.com>
-Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 3090A731D2
+Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 4A088763F0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Aug 2016 07:56:30 +0000 (UTC)
-Received: by mail-wm0-f68.google.com with SMTP id o80so3788811wme.0
+	Thu, 18 Aug 2016 07:56:31 +0000 (UTC)
+Received: by mail-wm0-f65.google.com with SMTP id q128so3758327wma.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Aug 2016 00:56:31 -0700 (PDT)
+	Thu, 18 Aug 2016 00:56:32 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=iPl2dOa13J602sLvZ1tvI7ijdeBxJ8t6qid3nROowD8=;
-	b=XawBK9tZrH/C7o5WVt/KQXQ8huwO8v95MYOZAb9sC8E22iJm42v3vJ+4m+nwIy3DtF
-	oTbtKeTCJdC3P0hWRg2+waUF+uduN71Ay+8iw9NV3y+UTU9E6qTmWb0bEVvS1Qz5ga3B
-	tWJ2GePdbjADXb0IK3MoOCOjyHMUWj/Bgvp6ryFiUSQGUwh6Af3PyTrD1X1lq7WBKsDv
-	RCF3uxxlvwQ+Mq8PKdJHXXdQVLC503T22++p3UUw/Hi02YkrTAhK1P+yKqewlw1cDBwo
-	OIgWMLXvQVSWoKxHennPDktW7tlQqEu+31s9gHvZvW8Bv2PyfG3shOmUiP7vP5f/3UrN
-	bC/g==
-X-Gm-Message-State: AEkoouuy2SbByY0lUho2dOFgoyIF+ld5wwNsEbanmsCbEg7xnDzfJwdL9yjCtc6JUeexYw==
-X-Received: by 10.28.24.5 with SMTP id 5mr30798425wmy.6.1471506990354;
-	Thu, 18 Aug 2016 00:56:30 -0700 (PDT)
+	bh=lzCPilZz8lc8SEcIAbHcIHkDDmoWjcCmb5DVYIQUw20=;
+	b=UP9L1G1yUIC+WeyJo740G2HXizQ5yka3FoCDa+G8Tx2y/F73C+FtkTNqIOSZv3MRph
+	50Em+UXvXttKQx7LxJRxl0I8UfZG6B1dp0nDwWITdacMoOmJ/SV5/yam7oNxaRkePLqm
+	QZM/99bHvjupX7B+n6FCrYZ1AuPAYELxhPY5xadyweHJcGnxf8Qws4wbBOmVwDybXWqt
+	hap/oC+B6f8i/myT+R+fkXiohmWGfm/Pk9QgNXCXzPaC40682eiFOKfYdB05+3W5h3BY
+	W1oX6cPCXHpTRv5ae134EVVC9AGhClJvTNwYDyHbH3YzosoHbE8xtINALWse1QdKmuDB
+	J2cg==
+X-Gm-Message-State: AEkoouv+GZwubqepxXm3Hi7GHKjcfriVRapX7x2YI1wLXHqjEd4BcRzj1EDVj5wUo0yUQg==
+X-Received: by 10.28.20.77 with SMTP id 74mr30517273wmu.1.1471506991434;
+	Thu, 18 Aug 2016 00:56:31 -0700 (PDT)
 Received: from tfsielt31850.tycofs.com ([77.107.218.170])
 	by smtp.gmail.com with ESMTPSA id
-	q65sm1318701wmd.24.2016.08.18.00.56.29
+	q65sm1318701wmd.24.2016.08.18.00.56.30
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 18 Aug 2016 00:56:29 -0700 (PDT)
+	Thu, 18 Aug 2016 00:56:30 -0700 (PDT)
 From: =?UTF-8?q?Andr=C3=A9=20Draszik?= <git@andred.net>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 18 Aug 2016 08:56:23 +0100
-Message-Id: <20160818075626.15973-1-git@andred.net>
+Date: Thu, 18 Aug 2016 08:56:24 +0100
+Message-Id: <20160818075626.15973-2-git@andred.net>
 X-Mailer: git-send-email 2.9.3
-In-Reply-To: <20160817152538.14181-1-git@andred.net>
+In-Reply-To: <20160818075626.15973-1-git@andred.net>
 References: <20160817152538.14181-1-git@andred.net>
+	<20160818075626.15973-1-git@andred.net>
 MIME-Version: 1.0
-Subject: [PATCH v2 0/3] fixing kernel module cross-recipe dependency
+Subject: [PATCH v2 1/3] module.bbclass: use Module.symvers for dependants
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,23 +52,83 @@ X-List-Received-Date: Thu, 18 Aug 2016 07:56:32 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Hi,
+When compiling multiple external kernel modules, where one
+depends on the other, there are two problems at the
+moment:
+1) we get compile time warnings from the kernel build
+   system due to missing symbols (from modpost).
+2) Any modules generated are missing dependency
+   information (in the .modinfo elf section) for any
+   dependencies outside the current source tree and
+   outside the kernel itself.
 
-In a situation where multiple external kernel modules are built
-from multiple independent recipes, we currently don't generate
-correct runtime dependencies of the packages created.
+This is expected, but the kernel build system has a way to
+deal with this - the dependent module is expected to
+specify KBUILD_EXTRA_SYMBOLS (as a space-separated list)
+to point to any and all Module.symvers of kernel modules
+that are dependencies.
 
-This (small) series of patches attempts to address this.
+While 1) by itself is not really a big issue, 2) prevents
+the packaging process from generating cross-source tree
+package dependencies.
 
-It's working well for me but there'll likely be cases I haven't
-considered.
+As a first step to solve the missing dependencies in
+packages created, we:
+1) install Module.symvers of all external kernel module
+   builds (into a location that is automatically packaged
+   into the -dev package)
+2) make use of KBUILD_EXTRA_SYMBOLS and pass the location
+   of all Module.symvers of all kernel-module-* packages
+   we depend on
 
-v2 of this patchset:
-- slightly rewords the commit message 1/3
-- fixes a typo in commit message 2/3
-- removes some variables that are now unused and were missed in 3/3
+This solves both problems mentioned above.
 
-Cheers,
-Andre'
+Signed-off-by: André Draszik <git@andred.net>
+---
+ meta/classes/module.bbclass | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
+
+diff --git a/meta/classes/module.bbclass b/meta/classes/module.bbclass
+index 01c9309..68e3d34 100644
+--- a/meta/classes/module.bbclass
++++ b/meta/classes/module.bbclass
+@@ -8,6 +8,15 @@ EXTRA_OEMAKE += "KERNEL_SRC=${STAGING_KERNEL_DIR}"
+ 
+ MODULES_INSTALL_TARGET ?= "modules_install"
+ 
++python __anonymous () {
++    depends = d.getVar('DEPENDS', True)
++    extra_symbols = []
++    for dep in depends.split():
++        if dep.startswith("kernel-module-"):
++            extra_symbols.append("${STAGING_INCDIR}/" + dep + "/Module.symvers")
++    d.setVar('KBUILD_EXTRA_SYMBOLS', " ".join(extra_symbols))
++}
++
+ module_do_compile() {
+ 	unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS
+ 	oe_runmake KERNEL_PATH=${STAGING_KERNEL_DIR}   \
+@@ -15,6 +24,7 @@ module_do_compile() {
+ 		   CC="${KERNEL_CC}" LD="${KERNEL_LD}" \
+ 		   AR="${KERNEL_AR}" \
+ 	           O=${STAGING_KERNEL_BUILDDIR} \
++		   KBUILD_EXTRA_SYMBOLS="${KBUILD_EXTRA_SYMBOLS}" \
+ 		   ${MAKE_TARGETS}
+ }
+ 
+@@ -24,6 +34,11 @@ module_do_install() {
+ 	           CC="${KERNEL_CC}" LD="${KERNEL_LD}" \
+ 	           O=${STAGING_KERNEL_BUILDDIR} \
+ 	           ${MODULES_INSTALL_TARGET}
++
++	install -d -m0755 ${D}${includedir}/${BPN}
++	cp -a --no-preserve=ownership ${B}/Module.symvers ${D}${includedir}/${BPN}
++	# it doesn't actually seem to matter which path is specified here
++	sed -e 's:${B}/::g' -i ${D}${includedir}/${BPN}/Module.symvers
+ }
+ 
+ EXPORT_FUNCTIONS do_compile do_install
+-- 
+2.9.3
 
 
