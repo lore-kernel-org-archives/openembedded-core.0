@@ -1,22 +1,30 @@
-Return-Path: <stephano.cetola@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 87D4F760A5
+Return-Path: <daicy.fnst@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
+	by mail.openembedded.org (Postfix) with ESMTP id 31A5573177
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Aug 2016 23:25:27 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by fmsmga101.fm.intel.com with ESMTP; 17 Aug 2016 16:25:27 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.28,536,1464678000"; d="scan'208";a="1037454886"
-Received: from pequod.jf.intel.com ([10.7.201.50])
-	by orsmga002.jf.intel.com with ESMTP; 17 Aug 2016 16:25:27 -0700
-From: Stephano Cetola <stephano.cetola@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 17 Aug 2016 16:25:33 -0700
-Message-Id: <20160817232533.92478-2-stephano.cetola@linux.intel.com>
-X-Mailer: git-send-email 2.9.3
-In-Reply-To: <20160817232533.92478-1-stephano.cetola@linux.intel.com>
-References: <20160817232533.92478-1-stephano.cetola@linux.intel.com>
-Subject: [PATCH V5] rootfs.py: allow removal of unneeded packages
+	Thu, 18 Aug 2016 02:09:31 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.22,518,1449504000"; d="scan'208";a="10027426"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 18 Aug 2016 10:09:25 +0800
+Received: from G08CNEXCHPEKD03.g08.fujitsu.local (unknown [10.167.33.85])
+	by cn.fujitsu.com (Postfix) with ESMTP id 4B84442BC500
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 18 Aug 2016 10:09:21 +0800 (CST)
+Received: from localhost.localdomain (10.167.226.25) by
+	G08CNEXCHPEKD03.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
+	Server (TLS) id 14.3.279.2; Thu, 18 Aug 2016 10:09:20 +0800
+From: Dai Caiyun <daicy.fnst@cn.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 18 Aug 2016 10:08:06 +0800
+Message-ID: <1471486086-8512-1-git-send-email-daicy.fnst@cn.fujitsu.com>
+X-Mailer: git-send-email 1.7.9.5
+MIME-Version: 1.0
+X-Originating-IP: [10.167.226.25]
+X-yoursite-MailScanner-ID: 4B84442BC500.AB35E
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: daicy.fnst@cn.fujitsu.com
+X-Spam-Status: No
+Subject: [PATCH] kexec-tools: 2.0.12 -> 2.0.13
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,36 +37,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 Aug 2016 23:25:27 -0000
+X-List-Received-Date: Thu, 18 Aug 2016 02:09:32 -0000
+Content-Type: text/plain
 
-Current functionality allows for the removal of certain packages
-based on the read-only image feature. This patch extends this
-functionality by adding the FORCE_RO_REMOVE variable, which will
-remove these packages regardless of any image features.
+Upgrade kexec-tools from 2.0.12 to 2.0.13.
 
-[ YOCTO #9491 ]
-
-Signed-off-by: Stephano Cetola <stephano.cetola@linux.intel.com>
+Signed-off-by: Dai Caiyun <daicy.fnst@cn.fujitsu.com>
 ---
- meta/lib/oe/rootfs.py | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ .../kexec/{kexec-tools_2.0.12.bb => kexec-tools_2.0.13.bb}            | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-kernel/kexec/{kexec-tools_2.0.12.bb => kexec-tools_2.0.13.bb} (88%)
 
-diff --git a/meta/lib/oe/rootfs.py b/meta/lib/oe/rootfs.py
-index ed0bab1..7c620e9 100644
---- a/meta/lib/oe/rootfs.py
-+++ b/meta/lib/oe/rootfs.py
-@@ -253,7 +253,9 @@ class Rootfs(object, metaclass=ABCMeta):
+diff --git a/meta/recipes-kernel/kexec/kexec-tools_2.0.12.bb b/meta/recipes-kernel/kexec/kexec-tools_2.0.13.bb
+similarity index 88%
+rename from meta/recipes-kernel/kexec/kexec-tools_2.0.12.bb
+rename to meta/recipes-kernel/kexec/kexec-tools_2.0.13.bb
+index 59376c8..338a7d9 100644
+--- a/meta/recipes-kernel/kexec/kexec-tools_2.0.12.bb
++++ b/meta/recipes-kernel/kexec/kexec-tools_2.0.13.bb
+@@ -10,8 +10,8 @@ SRC_URI += " \
+             file://0001-vmcore-dmesg-Define-_GNU_SOURCE.patch \
+          "
  
-         image_rorfs = bb.utils.contains("IMAGE_FEATURES", "read-only-rootfs",
-                                         True, False, self.d)
--        if image_rorfs:
-+        image_rorfs_force = self.d.getVar('FORCE_RO_REMOVE', True)
-+
-+        if image_rorfs or image_rorfs_force == "1":
-             # Remove components that we don't need if it's a read-only rootfs
-             unneeded_pkgs = self.d.getVar("ROOTFS_RO_UNNEEDED", True).split()
-             pkgs_installed = image_list_installed_packages(self.d)
+-SRC_URI[md5sum] = "10ddaae0e86af54407b164a1f5a39cc3"
+-SRC_URI[sha256sum] = "cc7b60dad0da202004048a6179d8a53606943062dd627a2edba45a8ea3a85135"
++SRC_URI[md5sum] = "b7595eb4705e482ee6fc1121a5b6131b"
++SRC_URI[sha256sum] = "70df562d76213e54833228379710ada1afd98a86ee1ce5644eaa68c54e102e25"
+ 
+ PACKAGES =+ "kexec kdump vmcore-dmesg"
+ 
 -- 
-2.9.3
+2.7.4
+
+
 
 
