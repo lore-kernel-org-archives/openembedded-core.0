@@ -1,47 +1,45 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-it0-f52.google.com (mail-it0-f52.google.com
-	[209.85.214.52])
-	by mail.openembedded.org (Postfix) with ESMTP id 48B0E77058
+Return-Path: <alistair23@gmail.com>
+Received: from mail-oi0-f66.google.com (mail-oi0-f66.google.com
+	[209.85.218.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 725EE7016E
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Aug 2016 19:01:37 +0000 (UTC)
-Received: by mail-it0-f52.google.com with SMTP id e63so6761563ith.1
+	Thu, 18 Aug 2016 21:36:34 +0000 (UTC)
+Received: by mail-oi0-f66.google.com with SMTP id b22so4783543oii.3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Aug 2016 12:01:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	Thu, 18 Aug 2016 14:36:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=e5D4SW3zYAzS82kzcAWU1xtxqT8MZ78F2BRZvIU7nMg=;
-	b=CgXk7rMXo/zDyFJoDgKBvz+7YLvEbWEd8irOtw2ePvRtomKpwRkRNRDqX6S1t5+miC
-	dv0pSS4I+FJ/dos2MEqQmtR5pfbhNS/swbH9rXM9MPJaohU2rv2ni8S+oXIh3IWuW2vQ
-	9HbweQNP0nrEyqgFctI3hRQ0GaonNf0434Zqi8/x4DJb2RMOBbnTPt54guUoywYH+6RO
-	VzzbeE8yrKMlArhw56ahJktvRh15pNcGgPSd8aeC52CVJdxdQ2+6TIxst0oqUNEFhAa2
-	4jvJSrMeHjn2mLG1r6mjtoMnINfxUKpSoLzdtNoFXCk0tSSXc9Mc1hE5kqp9veDAGe/0
-	OhJA==
+	:cc; bh=rnwhNCN03M5USyWCwWg5mqMO7+iuZ2peUNtNW0i5R7s=;
+	b=cA0/h4QM/LhAYQAYsca0iz4IuPyCtBfRlpyPIYC/vk+knVMXcVZZ2xSUEa3qXHkpWs
+	RcIR66lR6sogY0wBi+0X4ujNHR8DG/cqUsa5eBl5BSETj1Ilm+pdymiD0MY1AW16auyT
+	Ml4UD8fDyI3uYP8IO8jJErqGo6nYQOKxcx1YfXCPEOzef/0ESKQp1xQgZJJQCF1H0pgb
+	AGjCP6tYzgOnUSuKEUhAZ8SEOin/HAjtpeUUSnJ76an47jm3vABEA2k2Ic4Bqr/NsiM/
+	oHZXAkR+dTjUgH/TbsZR5mIFSKL8ya221ckhG0LRLE4TzdhUVl7D60FJ7Fbq5IqgQtPS
+	pt2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=e5D4SW3zYAzS82kzcAWU1xtxqT8MZ78F2BRZvIU7nMg=;
-	b=dRY4Z2OK7x0hnN592UkUOEdNqJxyzTG9n6ZCIuttRqsBPssk+QpO6cFwNQkYgbvHON
-	IUuAZNfZjPCjy6NyopYWMnkjhDmjCrfzsEMoHMa1sGPHf2TQCO8Mw8eO38k9Q22Bp16t
-	cHflTnX97Cf9SGyZjcwFeHEzXxyLItP2Uuc7dApjlD8Zfa76KQqw1xLVAJQ6tXGPekGs
-	I17bPSqw4RlUgDZp0gZ2xqOLTEPKQFLfxOo6xAViUsyyKmhrRD8qO6C+Bt7bDHAc9xs7
-	QrXKkdDV7AQDBiOuh8cylFnJk31hdG7fWx7gDvFeO3obZzYvIQCgu/4tYTHDZqUfriku
-	gsLw==
-X-Gm-Message-State: AEkoousPePA8kxwympPhe1+Pn93rHrb2tGqZbmqR6bK9Krg0hX3jOc5kz456N5vhitCHteRh9G2k96sCeRuY8OQK
-X-Received: by 10.36.57.211 with SMTP id l202mr1393521ita.22.1471546898544;
-	Thu, 18 Aug 2016 12:01:38 -0700 (PDT)
+	bh=rnwhNCN03M5USyWCwWg5mqMO7+iuZ2peUNtNW0i5R7s=;
+	b=gUXISXb8wl+pgNGcyCOPHi8hCHDVOdDdFmYGekXTZDXJktKLphC3kuH/MDELDwWwLt
+	pCLdeJCggLQJz8SdcQn9uL+tdrhmhsb4yYMVsMOA95cC+FzcyBvSfBKilHK7bZd3s5XM
+	cwq8JUxiOqIIcOhvxLlkIc1EDADHghS/E965y+1CeuwHDyfbRwUBLrxOEaWPgqbcQyN9
+	wqGdwueLL9ecgwB58hPOAg4Vsh0py+xBFNWlC/bGD6O/PDNDAb6Checp42VOHONhmSFQ
+	GjVNygWgq9hRCaRHBvRdoK37Py9ybVJ8AdI5gY6kT4kcBhXqyBppdC1d96aTUl5b7kG0
+	mKOg==
+X-Gm-Message-State: AEkoouv51nleNXkAC/Hb0fWayY6f8R51ig6tGcmg4d4HNKUZkhhgW+fwQfz4fZXM5U+pK0+4rdqS71uMclC3RQ==
+X-Received: by 10.157.56.187 with SMTP id p56mr2609899otc.69.1471556194568;
+	Thu, 18 Aug 2016 14:36:34 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.107.18.17 with HTTP; Thu, 18 Aug 2016 12:01:18 -0700 (PDT)
-In-Reply-To: <1471424736-10547-1-git-send-email-wangxin2015.fnst@cn.fujitsu.com>
-References: <CAJTo0LabQxr69EodUwHuuzjbrdi6kWDumjvYpYHpk3n5VPWugg@mail.gmail.com>
-	<1471424736-10547-1-git-send-email-wangxin2015.fnst@cn.fujitsu.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 18 Aug 2016 20:01:18 +0100
-Message-ID: <CAJTo0LYu=Cnm0s-k3GMxnSZ3WziEUNvLjGRCgGW9CBHMo1EHdQ@mail.gmail.com>
-To: Wang Xin <wangxin2015.fnst@cn.fujitsu.com>
+Received: by 10.182.33.229 with HTTP; Thu, 18 Aug 2016 14:36:04 -0700 (PDT)
+In-Reply-To: <cover.1471500427.git.liezhi.yang@windriver.com>
+References: <cover.1471500427.git.liezhi.yang@windriver.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Thu, 18 Aug 2016 14:36:04 -0700
+Message-ID: <CAKmqyKNdnFbHRVsxYNhqQH05XwSv54ES71X-SeveKwCykq2BXw@mail.gmail.com>
+To: Robert Yang <liezhi.yang@windriver.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] adwaita-icon-theme: 3.18.0 -> 3.20
+Subject: Re: [PATCH 0/8] runqemu: refactor it and remove machine knowledge
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,148 +52,103 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 Aug 2016 19:01:38 -0000
-Content-Type: multipart/alternative; boundary=001a114ab3ca289446053a5d36b9
-
---001a114ab3ca289446053a5d36b9
+X-List-Received-Date: Thu, 18 Aug 2016 21:36:34 -0000
 Content-Type: text/plain; charset=UTF-8
 
-This produces:
-
-WARNING: adwaita-icon-theme-3.20-r0 do_configure: QA Issue:
-adwaita-icon-theme depends on intltool but doesn't use it
-[redundant-intltool]
-
-Please remove the dependency on intltool and verify the build still works
-with a clean sysroot.
-
-Roos
-
-On 17 August 2016 at 10:05, Wang Xin <wangxin2015.fnst@cn.fujitsu.com>
-wrote:
-
-> Upgrade adwaita-icon-theme from 3.18.0 to 3.20.
+On Wed, Aug 17, 2016 at 11:15 PM, Robert Yang <liezhi.yang@windriver.com> wrote:
+> Previously, runqemu had hard coded machine knowledge, which limited its
+> usage, for example, qemu can boot genericx86, but runqemu can't, we need
+> edit runqemu/runqemu-internal a lot if we want to boot genericx86.
 >
-> Signed-off-by: Wang Xin <wangxin2015.fnst@cn.fujitsu.com>
-> ---
->  .../{adwaita-icon-theme_3.18.0.bb => adwaita-icon-theme_3.20.bb}      |
-> 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->  rename meta/recipes-gnome/gnome/{adwaita-icon-theme_3.18.0.bb =>
-> adwaita-icon-theme_3.20.bb} (92%)
+> Now bsp conf files can set vars to make it can be boot by runqemu, and
+> qemuboot.bbclass will save these info to DEPLOY_DIR_IMAGE/qemuboot.py.
+> Please see qemuboot.bbclass' comments on how to set the vars.
 >
-> diff --git a/meta/recipes-gnome/gnome/adwaita-icon-theme_3.18.0.bb
-> b/meta/recipes-gnome/gnome/adwaita-icon-theme_3.20.bb
-> similarity index 92%
-> rename from meta/recipes-gnome/gnome/adwaita-icon-theme_3.18.0.bb
-> rename to meta/recipes-gnome/gnome/adwaita-icon-theme_3.20.bb
-> index 34b82b7..5fcc92f 100644
-> --- a/meta/recipes-gnome/gnome/adwaita-icon-theme_3.18.0.bb
-> +++ b/meta/recipes-gnome/gnome/adwaita-icon-theme_3.20.bb
-> @@ -14,8 +14,8 @@ MAJ_VER = "${@oe.utils.trim_version("${PV}", 2)}"
->  SRC_URI = "${GNOME_MIRROR}/${BPN}/${MAJ_VER}/${BPN}-${PV}.tar.xz \
->            "
+> * Re-write it in python3, which can reduce lines from 1239 to about 750
+>   lines
+> * All the machine knowledges are gone
+> * Most of the TUN_ARCH knowledge are gone except aarch64 and powerpc,
+>   it's not easy to remove the two, so leave them there atm
+> * All the previous options are preserved, and there is a new way to run
+>   runqemu: (it doesn't need run "bitake -e" in such a case)
+>   $ runqemu tmp/deploy/images/qemux86
+>   or:
+>   $ runqemu tmp/deploy/images/qemuarm/<image>.ext4
+>   or:
+>   $ runqemu tmp/deploy/images/qemuarm/qemuboot.py
+> * Fixed audio support, not limited on x86 or x86_64
+> * The kvm support is not limited on x86 or x86_64
+> * Fix SLIRP mode
+> * Fix NFS boot, it will extract <image>.tar.bz2 or tar.gz to
+>   DEPLOY_DIR_IMAGE/<image>-nfsroot when no NFS_DIR, and remove it after
+>   stop.
+> * More bsps can be boot, such as genericx86 and genericx86-64.
+> * The patch for qemuzynq, qemuzynqmp, qemumicroblaze has been sent to
+>   meta-xilinx' mailing list.
+> * I can't find any qemush4 bsp or how to build it, so it is not
+>   considered atm.
 >
-> -SRC_URI[md5sum] = "ec1fa3fde83ad166ae7075a97dc1ec4b"
-> -SRC_URI[sha256sum] = "5e9ce726001fdd8ee93c394fdc3cdb
-> 9e1603bbed5b7c62df453ccf521ec50e58"
-> +SRC_URI[md5sum] = "411be2bd68dd8b0a3c86aca2eb351ce4"
-> +SRC_URI[sha256sum] = "7a0a887349f340dd644032f89d8126
-> 4b694c4b006bd51af1c2c368d431e7ae35"
+> * Tested the following machines, all of them work well:
+>   genericx86 genericx86-64
+>   qemuarm qemuarm64
+>   qemumips qemumips64 qemuppc
+>   qemux86 qemux86-64
+>   qemuzynq qemuzynqmp
 >
->  do_install_append() {
->         # Build uses gtk-encode-symbolic-svg to create png versions:
+> And also test "bitbake core-image-sato -ctestimage" which uses runqemu, it
+> also works.
+>
+> // Robert
+>
+> The following changes since commit c86bf80abd87acb0da5860806822c64ec9dee089:
+>
+>   oeqa.buildperf: use oe.path.remove() (2016-08-17 10:35:27 +0100)
+>
+> are available in the git repository at:
+>
+>   git://git.openembedded.org/openembedded-core-contrib rbt/runqemu
+>   http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/runqemu
+>
+> Robert Yang (8):
+>   qemu.inc: inherit qemu-boot.bbclass
+>   arm: set vars for runqemu
+>   qemuarm64.conf: set vars for runqemu
+>   arch-x86.inc: set vars for runqemu
+>   arch-mips.inc: set vars for runqemu
+>   qemuppc.conf: set vars for runqemu
+>   qemuboot.bbclass: add it for runqemu
+>  runqemu: refactor it and remove machine knowledge
+
+Your patches are a different order in the git tree you have above.
+Which one is the correct ordering?
+
+The idea of this patch set looks great!
+
+Thanks,
+
+Alistair
+
+>
+>  meta/classes/qemuboot.bbclass                |   59 ++
+>  meta/conf/machine/include/mips/arch-mips.inc |    6 +
+>  meta/conf/machine/include/qemu.inc           |    2 +
+>  meta/conf/machine/include/tune-cortexa8.inc  |    4 +
+>  meta/conf/machine/include/x86/arch-x86.inc   |   15 +
+>  meta/conf/machine/qemuarm.conf               |    5 +
+>  meta/conf/machine/qemuarm64.conf             |    9 +
+>  meta/conf/machine/qemuppc.conf               |    6 +
+>  scripts/runqemu                              | 1261 +++++++++++++++-----------
+>  scripts/runqemu-internal                     |  739 ---------------
+>  10 files changed, 842 insertions(+), 1264 deletions(-)
+>  create mode 100644 meta/classes/qemuboot.bbclass
+>  delete mode 100755 scripts/runqemu-internal
+>
 > --
-> 2.7.4
->
->
+> 2.9.0
 >
 > --
 > _______________________________________________
 > Openembedded-core mailing list
 > Openembedded-core@lists.openembedded.org
 > http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
 
---001a114ab3ca289446053a5d36b9
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">This produces:<div><br></div><div>WARNING: adwaita-icon-th=
-eme-3.20-r0 do_configure: QA Issue: adwaita-icon-theme depends on intltool =
-but doesn&#39;t use it [redundant-intltool]<br></div><div><br></div><div>Pl=
-ease remove the dependency on intltool and verify the build still works wit=
-h a clean sysroot.</div><div><br></div><div>Roos</div></div><div class=3D"g=
-mail_extra"><br><div class=3D"gmail_quote">On 17 August 2016 at 10:05, Wang=
- Xin <span dir=3D"ltr">&lt;<a href=3D"mailto:wangxin2015.fnst@cn.fujitsu.co=
-m" target=3D"_blank">wangxin2015.fnst@cn.fujitsu.com</a>&gt;</span> wrote:<=
-br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left=
-:1px #ccc solid;padding-left:1ex"><div class=3D"HOEnZb"><div class=3D"h5">U=
-pgrade adwaita-icon-theme from 3.18.0 to 3.20.<br>
-<br>
-Signed-off-by: Wang Xin &lt;<a href=3D"mailto:wangxin2015.fnst@cn.fujitsu.c=
-om">wangxin2015.fnst@cn.fujitsu.<wbr>com</a>&gt;<br>
----<br>
-=C2=A0.../{<a href=3D"http://adwaita-icon-theme_3.18.0.bb" rel=3D"noreferre=
-r" target=3D"_blank">adwaita-icon-theme_3.18.<wbr>0.bb</a> =3D&gt; <a href=
-=3D"http://adwaita-icon-theme_3.20.bb" rel=3D"noreferrer" target=3D"_blank"=
->adwaita-icon-theme_3.20.bb</a>}=C2=A0 =C2=A0 =C2=A0 | 4 ++--<br>
-=C2=A01 file changed, 2 insertions(+), 2 deletions(-)<br>
-=C2=A0rename meta/recipes-gnome/gnome/{<a href=3D"http://adwaita-icon-theme=
-_3.18.0.bb" rel=3D"noreferrer" target=3D"_blank">adwa<wbr>ita-icon-theme_3.=
-18.0.bb</a> =3D&gt; <a href=3D"http://adwaita-icon-theme_3.20.bb" rel=3D"no=
-referrer" target=3D"_blank">adwaita-icon-theme_3.20.bb</a>} (92%)<br>
-<br>
-diff --git a/meta/recipes-gnome/gnome/<a href=3D"http://adwaita-icon-theme_=
-3.18.0.bb" rel=3D"noreferrer" target=3D"_blank">adw<wbr>aita-icon-theme_3.1=
-8.0.bb</a> b/meta/recipes-gnome/gnome/<a href=3D"http://adwaita-icon-theme_=
-3.20.bb" rel=3D"noreferrer" target=3D"_blank">adw<wbr>aita-icon-theme_3.20.=
-bb</a><br>
-similarity index 92%<br>
-rename from meta/recipes-gnome/gnome/<a href=3D"http://adwaita-icon-theme_3=
-.18.0.bb" rel=3D"noreferrer" target=3D"_blank">adwai<wbr>ta-icon-theme_3.18=
-.0.bb</a><br>
-rename to meta/recipes-gnome/gnome/<a href=3D"http://adwaita-icon-theme_3.2=
-0.bb" rel=3D"noreferrer" target=3D"_blank">adwai<wbr>ta-icon-theme_3.20.bb<=
-/a><br>
-index 34b82b7..5fcc92f 100644<br>
---- a/meta/recipes-gnome/gnome/<a href=3D"http://adwaita-icon-theme_3.18.0.=
-bb" rel=3D"noreferrer" target=3D"_blank">adw<wbr>aita-icon-theme_3.18.0.bb<=
-/a><br>
-+++ b/meta/recipes-gnome/gnome/<a href=3D"http://adwaita-icon-theme_3.20.bb=
-" rel=3D"noreferrer" target=3D"_blank">adw<wbr>aita-icon-theme_3.20.bb</a><=
-br>
-@@ -14,8 +14,8 @@ MAJ_VER =3D &quot;${@oe.utils.trim_version(&quot;${<wbr>P=
-V}&quot;, 2)}&quot;<br>
-=C2=A0SRC_URI =3D &quot;${GNOME_MIRROR}/${BPN}/${MAJ_<wbr>VER}/${BPN}-${PV}=
-.tar.xz \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;<br>
-<br>
--SRC_URI[md5sum] =3D &quot;<wbr>ec1fa3fde83ad166ae7075a97dc1ec<wbr>4b&quot;=
-<br>
--SRC_URI[sha256sum] =3D &quot;<wbr>5e9ce726001fdd8ee93c394fdc3cdb<wbr>9e160=
-3bbed5b7c62df453ccf521ec5<wbr>0e58&quot;<br>
-+SRC_URI[md5sum] =3D &quot;<wbr>411be2bd68dd8b0a3c86aca2eb351c<wbr>e4&quot;=
-<br>
-+SRC_URI[sha256sum] =3D &quot;<wbr>7a0a887349f340dd644032f89d8126<wbr>4b694=
-c4b006bd51af1c2c368d431e7<wbr>ae35&quot;<br>
-<br>
-=C2=A0do_install_append() {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 # Build uses gtk-encode-symbolic-svg to create =
-png versions:<br>
---<br>
-2.7.4<br>
-<br>
-<br>
-<br>
---<br>
-______________________________<wbr>_________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
-re@lists.<wbr>openembedded.org</a><br>
-<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
-" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/<wbr>m=
-ailman/listinfo/openembedded-<wbr>core</a><br>
-</div></div></blockquote></div><br></div>
-
---001a114ab3ca289446053a5d36b9--
