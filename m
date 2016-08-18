@@ -1,24 +1,30 @@
-Return-Path: <Awais_Belal@mentor.com>
-Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
-	by mail.openembedded.org (Postfix) with ESMTP id EAF7773232
+Return-Path: <rpjday@crashcourse.ca>
+Received: from smtp486.redcondor.net (smtp486.redcondor.net [208.80.204.86])
+	by mail.openembedded.org (Postfix) with ESMTP id 200256FFEF
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Aug 2016 12:38:12 +0000 (UTC)
-Received: from nat-ies.mentorg.com ([192.94.31.2]
-	helo=SVR-IES-FEM-01.mgc.mentorg.com)
-	by relay1.mentorg.com with esmtp 
-	id 1baMaL-0000NP-4m from Awais_Belal@mentor.com 
-	for openembedded-core@lists.openembedded.org;
-	Thu, 18 Aug 2016 05:38:13 -0700
-Received: from awais-Precision-M4700.pkl.mentorg.com (137.202.0.76) by
-	SVR-IES-FEM-01.mgc.mentorg.com (137.202.0.104) with Microsoft SMTP
-	Server id 14.3.224.2; Thu, 18 Aug 2016 13:38:11 +0100
-From: Awais Belal <awais_belal@mentor.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 18 Aug 2016 17:37:58 +0500
-Message-ID: <1471523878-32164-1-git-send-email-awais_belal@mentor.com>
-X-Mailer: git-send-email 1.9.1
+	Thu, 18 Aug 2016 13:15:57 +0000 (UTC)
+Received: from astoria.ccjclearline.com ([64.235.106.9])
+	by smtp486.redcondor.net ({6695537a-536a-45f9-a249-877c85428649})
+	via TCP (outbound) with ESMTPS id 20160818131553558_0486;
+	Thu, 18 Aug 2016 13:15:53 +0000
+X-RC-FROM: <rpjday@crashcourse.ca>
+Received: from [216.191.234.70] (port=30846 helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
+	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
+	id 1baNCb-0008Lr-Qw; Thu, 18 Aug 2016 09:17:45 -0400
+Date: Thu, 18 Aug 2016 09:15:41 -0400 (EDT)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@ca624034.mitel.com
+To: "Burton, Ross" <ross.burton@intel.com>
+In-Reply-To: <CAJTo0LbY7x-e_iGa3qNOAKMwB+wudoDkORQgB3t-6WB4pVhNHg@mail.gmail.com>
+Message-ID: <alpine.LFD.2.20.1608180914320.18547@ca624034.mitel.com>
+References: <alpine.LFD.2.20.1608170956050.12816@ca624034.mitel.com>
+	<CAJTo0LbY7x-e_iGa3qNOAKMwB+wudoDkORQgB3t-6WB4pVhNHg@mail.gmail.com>
+User-Agent: Alpine 2.20 (LFD 67 2015-01-07)
 MIME-Version: 1.0
-Subject: [PATCH] insane.bbclass: handle INSANE_SKIP for license-checksum
+X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: what means IMAGE_ROOTFS_EXTRA_SPACE_append += "+ 3000000"?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,38 +37,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 Aug 2016 12:38:13 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 18 Aug 2016 13:15:59 -0000
+Content-Type: text/plain; charset=US-ASCII
 
-The function populate_lic_qa_checksum() is used to do the
-QA test for license-checksum but it does not handle the
-scenario where a package adds license-checksum to its
-INSANE_SKIP and hence fails in such condition.
-This patch adds handling of INSANE_SKIP to the
-populate_lic_qa_checksum() function so it returns
-cleanly in such a scenario.
+On Thu, 18 Aug 2016, Burton, Ross wrote:
 
-Signed-off-by: Awais Belal <awais_belal@mentor.com>
----
- meta/classes/insane.bbclass | 4 ++++
- 1 file changed, 4 insertions(+)
+>
+> On 17 August 2016 at 15:01, Robert P. J. Day <rpjday@crashcourse.ca> wrote:
+>       recipes-extended/images/core-image-kernel-dev.bb:IMAGE_ROOTFS_EXTRA_SPACE_append += "+ 3000000"
+>
+>
+> I'm guessing that's a mistake, it doesn't need a +.
 
-diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
-index 2cb8cc0..719ecd4 100644
---- a/meta/classes/insane.bbclass
-+++ b/meta/classes/insane.bbclass
-@@ -697,6 +697,10 @@ python populate_lic_qa_checksum() {
-     if lic == "CLOSED":
-         return
- 
-+    if 'license-checksum' in (d.getVar('INSANE_SKIP_' + pn, True) or "").split():
-+        bb.note("Skipping %s for license-checksum QA test", pn)
-+        return
-+
-     if not lic_files and d.getVar('SRC_URI', True):
-         package_qa_handle_error("license-checksum", pn + ": Recipe file fetches files and does not have license file information (LIC_FILES_CHKSUM)", d)
-         return
+  i think you misunderstood, i was curious about the "+" *inside" the
+string, but it's pretty clear that it's just adding to the current
+value of that variable somewhere.
+
+rday
+
 -- 
-1.9.1
+
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
+
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
 
 
