@@ -1,46 +1,51 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-it0-f44.google.com (mail-it0-f44.google.com
-	[209.85.214.44])
-	by mail.openembedded.org (Postfix) with ESMTP id C857E7318D
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pf0-f172.google.com (mail-pf0-f172.google.com
+	[209.85.192.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 4A6A27318D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Aug 2016 16:50:07 +0000 (UTC)
-Received: by mail-it0-f44.google.com with SMTP id n128so2996004ith.1
+	Thu, 18 Aug 2016 16:50:45 +0000 (UTC)
+Received: by mail-pf0-f172.google.com with SMTP id x72so3520pfd.2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Aug 2016 09:50:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=8IWLEdfE73wF8w2mcXGw+4tlJJlie0XAtrX/QXxoRcs=;
-	b=oXDer7uGSTiPk3x6s0uYc6+pnY3RZEHIFnio4CzsNlx78I3zdQKsrf49RS/WqqrznZ
-	2E0zHHjK7P8aMJ5N+G2pX8tZXxnfKyTmzYeYgvSfRrKzomEg8n7ESjMVAXFR7PRDmRlc
-	0kMm66I6In7tf9TuqIV+rTm+XgVP4XbeKKuN1qOzOuiVEYSgVd2/6bUk4EcaCNs4vUZm
-	GR9K0Xw5KtZEJK6XXHJskITtcl9ipZoGd+/VmcGhxBYzKCujcr/xHIhSSTKmgzWIuwQo
-	SfzFat4YjnpnedGknc/hAPKFl3nfmq0Qzfndd+vqb+s48VdM9PDD1xyicR6jSvh+qWce
-	jkTQ==
+	Thu, 18 Aug 2016 09:50:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=subject:mime-version:from:in-reply-to:date:cc:message-id:references
+	:to; bh=DosBO5y4BJkSLRLMBlNbjdICUT0AchcAIymmvTMv2os=;
+	b=hCoNNe21gBp/QJ0UNEzVV1fbB4sMU5WTPRvv+PR+LtTKHVRVziWc4gcptJp3jr/eu+
+	rSTXCchqb/qqKKxxKuZX5ChY5A+6+Hi9Luo3jN+JsHHDoq7LmIxh4xN34E8s4fwmnK5R
+	/p7/UaGWEK/skdbaW3MFlZ1Y67Ms2VHpCE5xOuJDEfgqgkwhQ94L2atkTOYtlxl238UP
+	/EEI407y1JNylt7RyKIKesfz0SyDYO3PTuJmEckvS7n924XY69zoATeF8707k+xR2CAf
+	JbeoVv8DTEXpP93aqjHH9UB41QoBDTP0AQCd2Fa68ivT7NFgjKIlQxwMp8kyk8YnQvPc
+	ed+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=8IWLEdfE73wF8w2mcXGw+4tlJJlie0XAtrX/QXxoRcs=;
-	b=M+SButPwo6vC2ZoYRz+h1uMhWS+Pk05Og2h6F4zxq6uEJT4vhn5gsPDnttYV31DwSS
-	OJXebzRwh0luip17G2j5l32On0Ht9zdODhqJYdzmueksYq1Qe/XUXbeSZdgtRxSc9YXc
-	5FuFpOxKRaH6/M5ls3iXyV4c9PQI3eNt5jDcVwAQS2eEndSpu0oBYalRjDiFri6PPdFt
-	zDjVQV7gMNuxFgl2Lnk0Cy74yNlkeKkYkAHppCNCLA+Ik6l2BVHFA+1n9zIsSU4lEFtX
-	dXhrBcQO0xID4WLVfftIbMEe/zcNlm9Qzer1U0x9VLs3n4A3mvlZayCc0G3GANv2Vbt5
-	cC6w==
-X-Gm-Message-State: AEkoouvUBEEGXskWWVfwkkYtsFldIF7dSngo1FjcggldqQWXfjRZmg2WV5HjZsodtAsKhvXPLtbRfQfFmiKjVouN
-X-Received: by 10.36.19.75 with SMTP id 72mr574103itz.83.1471539007781; Thu,
-	18 Aug 2016 09:50:07 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.107.18.17 with HTTP; Thu, 18 Aug 2016 09:49:47 -0700 (PDT)
-In-Reply-To: <1471523878-32164-1-git-send-email-awais_belal@mentor.com>
-References: <1471523878-32164-1-git-send-email-awais_belal@mentor.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 18 Aug 2016 17:49:47 +0100
-Message-ID: <CAJTo0LbyQ7Uo=fg1NRSjpnNFZOHci=3XAdGXzF0wCQoSE+FY2A@mail.gmail.com>
-To: Awais Belal <awais_belal@mentor.com>
+	h=x-gm-message-state:subject:mime-version:from:in-reply-to:date:cc
+	:message-id:references:to;
+	bh=DosBO5y4BJkSLRLMBlNbjdICUT0AchcAIymmvTMv2os=;
+	b=DI8xhzJ28CDvgWp2ZiqC9Z26W8+7fazLGtg6g6Gd6e0H4QbGEKIp+U9jOGDKlv6SZp
+	PbS/L6wEdEoTl5Iz+sDAwYnaTDhZkZAvbXPSspA1qtHvEsRkp+sgEQvafVDa0KWUnBgI
+	TcTSADAwf1yulrD8UKoH4RC6GxTEhmSJHBvOypnRtTcNd6eUFoCn7aCYXnn0n49SbuXk
+	doqSOsv5dHiWfPrE28PeuHCruzx0J3ffcf0A64X7DKxWn0R4157dmElIOi3zUn0yusHh
+	HNG1MU6jTm3EDbENN8rvw4YBcKevd5kntSEOjK9697o7e/WYz2RUmxBKiW5qv5K8Sxzj
+	+3vQ==
+X-Gm-Message-State: AEkoousS//jPrRvKbyDcwq/VXWONLKTKFCP+cniysIDw8T1Ap+0fXgzxhK+34ZDbvzG71g==
+X-Received: by 10.98.79.27 with SMTP id d27mr5701933pfb.127.1471539046701;
+	Thu, 18 Aug 2016 09:50:46 -0700 (PDT)
+Received: from [10.0.0.112] ([76.126.209.57])
+	by smtp.gmail.com with ESMTPSA id y2sm5040273pan.31.2016.08.18.09.50.45
+	(version=TLS1 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Thu, 18 Aug 2016 09:50:45 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 9.3 \(3124\))
+X-Pgp-Agent: GPGMail
+From: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <CAJTo0LYU11Jvqyv+D=qgreP8mGYchLQF1JJbosNmtBo6ONtSeQ@mail.gmail.com>
+Date: Thu, 18 Aug 2016 09:50:49 -0700
+Message-Id: <2670E9D0-AF83-4FE0-A846-ADC4384298BC@gmail.com>
+References: <1471538461-27065-1-git-send-email-raj.khem@gmail.com>
+	<CAJTo0LYU11Jvqyv+D=qgreP8mGYchLQF1JJbosNmtBo6ONtSeQ@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+X-Mailer: Apple Mail (2.3124)
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] insane.bbclass: handle INSANE_SKIP for license-checksum
+Subject: Re: [PATCH] Specify extra paths
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,47 +58,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 Aug 2016 16:50:07 -0000
-Content-Type: multipart/alternative; boundary=001a1145180ad51663053a5b5f0f
+X-List-Received-Date: Thu, 18 Aug 2016 16:50:46 -0000
+X-Groupsio-MsgNum: 85907
+Content-Type: multipart/signed;
+	boundary="Apple-Mail=_94E22586-D45F-4236-A8C1-6EF25EB1E575";
+	protocol="application/pgp-signature"; micalg=pgp-sha1
 
---001a1145180ad51663053a5b5f0f
-Content-Type: text/plain; charset=UTF-8
+--Apple-Mail=_94E22586-D45F-4236-A8C1-6EF25EB1E575
+Content-Type: multipart/alternative;
+	boundary="Apple-Mail=_8E607E7B-FBFD-4D5C-9EA7-3519ED86AD67"
 
-On 18 August 2016 at 13:37, Awais Belal <awais_belal@mentor.com> wrote:
-
-> The function populate_lic_qa_checksum() is used to do the
-> QA test for license-checksum but it does not handle the
-> scenario where a package adds license-checksum to its
-> INSANE_SKIP and hence fails in such condition.
-> This patch adds handling of INSANE_SKIP to the
-> populate_lic_qa_checksum() function so it returns
-> cleanly in such a scenario.
->
-
-Is that really a sanity check that we want to be skipping?  What's the use
-case for this?
-
-Ross
-
---001a1145180ad51663053a5b5f0f
-Content-Type: text/html; charset=UTF-8
+--Apple-Mail=_8E607E7B-FBFD-4D5C-9EA7-3519ED86AD67
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=us-ascii
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 18 August 2016 at 13:37, Awais Belal <span dir=3D"ltr">&lt;<a href=3D"ma=
-ilto:awais_belal@mentor.com" target=3D"_blank">awais_belal@mentor.com</a>&g=
-t;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0=
- .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":38j" class=
-=3D"a3s aXjCH m1569da951ef93e97">The function populate_lic_qa_checksum() is=
- used to do the<br>
-QA test for license-checksum but it does not handle the<br>
-scenario where a package adds license-checksum to its<br>
-INSANE_SKIP and hence fails in such condition.<br>
-This patch adds handling of INSANE_SKIP to the<br>
-populate_lic_qa_checksum() function so it returns<br>
-cleanly in such a scenario.</div></blockquote></div><br>Is that really a sa=
-nity check that we want to be skipping?=C2=A0 What&#39;s the use case for t=
-his?</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">R=
-oss</div></div>
 
---001a1145180ad51663053a5b5f0f--
+> On Aug 18, 2016, at 9:47 AM, Burton, Ross <ross.burton@intel.com> =
+wrote:
+>=20
+>=20
+> On 18 August 2016 at 17:41, Khem Raj <raj.khem@gmail.com =
+<mailto:raj.khem@gmail.com>> wrote:
+> Some layers have gstreamer plugin recipes which include
+> the .inc files from OE-Core but they do not get to find
+> the patch that is being forced by the .inc file and
+> ends up with errors like
+>=20
+> Bad commit message as you don't specify the module.
+>=20
+> But should this SRC_URI_append be in the common plugins.inc anyway?  =
+Are there out-of-tree modules that don't use gst-common and so the patch =
+won't apply?
+
+yes there are see
+=
+https://github.com/ndechesne/meta-qcom/blob/master/recipes-multimedia/gstr=
+eamer/gstreamer1.0-plugins-v4l2.bb =
+<https://github.com/ndechesne/meta-qcom/blob/master/recipes-multimedia/gst=
+reamer/gstreamer1.0-plugins-v4l2.bb>
+
+
+
+>=20
+> Ross
+
+
+--Apple-Mail=_8E607E7B-FBFD-4D5C-9EA7-3519ED86AD67
+Content-Transfer-Encoding: 7bit
+Content-Type: text/html;
+	charset=us-ascii
+
+<html><head><meta http-equiv="Content-Type" content="text/html charset=us-ascii"></head><body style="word-wrap: break-word; -webkit-nbsp-mode: space; -webkit-line-break: after-white-space;" class=""><br class=""><div><blockquote type="cite" class=""><div class="">On Aug 18, 2016, at 9:47 AM, Burton, Ross &lt;<a href="mailto:ross.burton@intel.com" class="">ross.burton@intel.com</a>&gt; wrote:</div><br class="Apple-interchange-newline"><div class=""><div dir="ltr" class=""><div class="gmail_extra"><br class=""><div class="gmail_quote">On 18 August 2016 at 17:41, Khem Raj <span dir="ltr" class="">&lt;<a href="mailto:raj.khem@gmail.com" target="_blank" class="">raj.khem@gmail.com</a>&gt;</span> wrote:<br class=""><blockquote class="gmail_quote" style="margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=":1w0" class="a3s aXjCH m1569e8858d13a109">Some layers have gstreamer plugin recipes which include<br class="">
+the .inc files from OE-Core but they do not get to find<br class="">
+the patch that is being forced by the .inc file and<br class="">
+ends up with errors like<br class=""></div></blockquote></div><br class="">Bad commit message as you don't specify the module.</div><div class="gmail_extra"><br class=""></div><div class="gmail_extra">But should this SRC_URI_append be in the common plugins.inc anyway?&nbsp; Are there out-of-tree modules that don't use gst-common and so the patch won't apply?</div></div></div></blockquote><div><br class=""></div><div>yes there are see</div><div><a href="https://github.com/ndechesne/meta-qcom/blob/master/recipes-multimedia/gstreamer/gstreamer1.0-plugins-v4l2.bb" class="">https://github.com/ndechesne/meta-qcom/blob/master/recipes-multimedia/gstreamer/gstreamer1.0-plugins-v4l2.bb</a></div><div><br class=""></div><div><br class=""></div><br class=""><blockquote type="cite" class=""><div class=""><div dir="ltr" class=""><div class="gmail_extra"><br class=""></div><div class="gmail_extra">Ross</div></div>
+</div></blockquote></div><br class=""></body></html>
+
+--Apple-Mail=_8E607E7B-FBFD-4D5C-9EA7-3519ED86AD67--
+
+--Apple-Mail=_94E22586-D45F-4236-A8C1-6EF25EB1E575
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+	filename=signature.asc
+Content-Type: application/pgp-signature;
+	name=signature.asc
+Content-Description: Message signed with OpenPGP using GPGMail
+
+-----BEGIN PGP SIGNATURE-----
+Comment: GPGTools - https://gpgtools.org
+
+iEYEARECAAYFAle152kACgkQuwUzVZGdMxSVWwCfQ+5OhGXGhkRb+VLAUnCpS9nr
+C5AAninH8Imozjf5X5jZQbCN1QLgUBkx
+=crZM
+-----END PGP SIGNATURE-----
+
+--Apple-Mail=_94E22586-D45F-4236-A8C1-6EF25EB1E575--
