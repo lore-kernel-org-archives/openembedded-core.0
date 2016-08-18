@@ -1,46 +1,46 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-it0-f53.google.com (mail-it0-f53.google.com
-	[209.85.214.53])
-	by mail.openembedded.org (Postfix) with ESMTP id 2F8F273257
+Received: from mail-it0-f51.google.com (mail-it0-f51.google.com
+	[209.85.214.51])
+	by mail.openembedded.org (Postfix) with ESMTP id 23C7273257
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Aug 2016 11:34:17 +0000 (UTC)
-Received: by mail-it0-f53.google.com with SMTP id e63so23868171ith.1
+	Thu, 18 Aug 2016 11:36:59 +0000 (UTC)
+Received: by mail-it0-f51.google.com with SMTP id x131so23906549ite.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Aug 2016 04:34:18 -0700 (PDT)
+	Thu, 18 Aug 2016 04:37:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=AHwNfuAYzaS6yBKw+56sSAY5p7I/6F35JIfmeY+o6QQ=;
-	b=ID+Z9DX27liqskrxoEBiGX2YQq7Vcr6WUkfuPxMcBPiW43F8qjqRp60MBi0E1SaQGL
-	xoehYkepSXGS+Y+wmZmIA8MppaZ6a/OIIVMECwBIwgVv1+7785LGKas9+Zw8IksHnBcM
-	IKyn97t9LqfJRdTs2Jfbos2vcSUy+Hoy2F1zq+BXjvKhg98jFvmHKRKOtL50PRcu9MqL
-	uuWt038eGd9CttZ9TK3IdTf5NMG8VpCgGQfGbanD10Jgz5Y7JT8oRwg12poKwvO1/Sl4
-	66k3S5FYu2S68UW49nDLRh0ZWtm0ZCVv2LL32ZAt97jSwLNUmLvK/sRzmazyX3RZ0dah
-	XHqA==
+	:cc; bh=tcfGkswt92fZj3EOHU3yf+C2pNObU3FJX0BMbDgl+A4=;
+	b=Pb/v767hDQURXr4cWauzgZPY1CIQ2puG/g3dZrw4h9FqxLUA8HUkF65Pq+sDZHktzU
+	GT/dXznGUPdzS6M/prPfBnQQntQIE96+PvOsr+s5mZuOoARFgT0PIfmV+EbAdJHSamaX
+	W6t/FzWd+KUefaKZ7P0hawa8m1kpE5Jw3GOKbWyvSxc2+mrTsjlH0Ytye0GiP7RXYz3s
+	x3dbOi2Sw7KtALM+OLOIL/XRWqQu+ZHohcHprK/ShZlGwttVODjYG6j8rs5385RBvA8J
+	/3B+YOyC3bDcjbhfaS4eLZpwJXf0Tq3HNEhtBey6/aBiscF32KDLdiT8LFDB08sJYUx1
+	C/Rg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=AHwNfuAYzaS6yBKw+56sSAY5p7I/6F35JIfmeY+o6QQ=;
-	b=Mn6j8A564v7rD6TgQ2/TjuKE/mru3hlLnOFjo8oAXjsGPxgZr7H+nM7QGh+XM1j0+M
-	u38AKiZas7eBHVK9gSuo5oivPtwRXbQuNPU5D7d1eKVmgSMPDVuZUcPOqiwTHyQ8r9T1
-	KtIOjT29adbUtpiYmA5xO9Y3OeF18AzPa5Z78zCbdC97IsNw4NQqm/vqcsk3vb+tWuw5
-	lPgPaECoSVgAe+9UuXwNZdEovJpNRY6bLAOLPgG8m7m/ZoW32JVFPBCWlxf3Wy0I87J3
-	8z/WQ9i85x1igp8AIcCTwYSr/b2N+Sg0IqYpoMhDdX9u7En4hzrDNJLSEJdTYlCLIPbs
-	eL2A==
-X-Gm-Message-State: AEkooutXLiw3CqxwNecr8SImYEo1EFX9rvQvKPvylP916ykL/OVvGh0N1xOgcTpc82rYBqyx9q+71XuMSpylAj9k
-X-Received: by 10.36.216.138 with SMTP id b132mr2710325itg.38.1471520057784;
-	Thu, 18 Aug 2016 04:34:17 -0700 (PDT)
+	bh=tcfGkswt92fZj3EOHU3yf+C2pNObU3FJX0BMbDgl+A4=;
+	b=M0Zopxmhg+K1QJDDpnNoZgzmvHlXFaCAUaYBXKGmdJMjHCALhEHmEByh0zQghNkO6R
+	1ODdGhH3kv0qFb/aZ7B7l02z1pCfRVfzliWSXYbIgivs8B2B+Z4B8urPW5u08ZngUJ/t
+	G4QKJtpxbbqIoYyIU+TUiZSyjEPXuqiF6ujAR+d79U3AwA7rshEbNpELmPDeLZAre0ms
+	AiQFyPwoe64aojSWdXGTFcJg4DTyr70jKvnt/kwnkOcqg2M9Xzga53SzMCIGUiKaUWLL
+	88TNMtrVgj7kvnaVrHoo/4d9Op30Bp8DHQrSGuRscfMAtShtV7PXokSqQ5pNZKoNdOUG
+	uhjw==
+X-Gm-Message-State: AEkoouuvXFSDOT8Gb192EyOoBdmaom3E3HmbL28cOQ/Gz8ZRsiQWYwZndPfVC4O7HGIfAv/6PXLE3j1/WCkML7FT
+X-Received: by 10.36.129.213 with SMTP id q204mr35262793itd.38.1471520220473; 
+	Thu, 18 Aug 2016 04:37:00 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.107.18.17 with HTTP; Thu, 18 Aug 2016 04:33:57 -0700 (PDT)
-In-Reply-To: <1471499308-1666-1-git-send-email-wangxin2015.fnst@cn.fujitsu.com>
-References: <1471499308-1666-1-git-send-email-wangxin2015.fnst@cn.fujitsu.com>
+Received: by 10.107.18.17 with HTTP; Thu, 18 Aug 2016 04:36:40 -0700 (PDT)
+In-Reply-To: <alpine.LFD.2.20.1608170956050.12816@ca624034.mitel.com>
+References: <alpine.LFD.2.20.1608170956050.12816@ca624034.mitel.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 18 Aug 2016 12:33:57 +0100
-Message-ID: <CAJTo0LZy-mx4K=eSJdNRq12JVDzGwW+Oe0uf40YRZAmyWVJsZQ@mail.gmail.com>
-To: Wang Xin <wangxin2015.fnst@cn.fujitsu.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] gdk-pixbuf: 2.34.0 -> 2.35.3
+Date: Thu, 18 Aug 2016 12:36:40 +0100
+Message-ID: <CAJTo0LbY7x-e_iGa3qNOAKMwB+wudoDkORQgB3t-6WB4pVhNHg@mail.gmail.com>
+To: "Robert P. J. Day" <rpjday@crashcourse.ca>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: what means IMAGE_ROOTFS_EXTRA_SPACE_append += "+ 3000000"?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,35 +53,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 Aug 2016 11:34:18 -0000
-Content-Type: multipart/alternative; boundary=94eb2c05ae9253100e053a56f66e
+X-List-Received-Date: Thu, 18 Aug 2016 11:37:00 -0000
+Content-Type: multipart/alternative; boundary=94eb2c08b1fc058156053a57008d
 
---94eb2c05ae9253100e053a56f66e
+--94eb2c08b1fc058156053a57008d
 Content-Type: text/plain; charset=UTF-8
 
-On 18 August 2016 at 06:48, Wang Xin <wangxin2015.fnst@cn.fujitsu.com>
-wrote:
+On 17 August 2016 at 15:01, Robert P. J. Day <rpjday@crashcourse.ca> wrote:
 
-> Upgrade gdk-pixbuf from 2.34.0 to 2.35.3.
+> recipes-extended/images/core-image-kernel-dev.bb:IMAGE_ROOTFS_EXTRA_SPACE_append
+> += "+ 3000000"
 >
 
-2.35.x is a development release, so stick with 2.34.x until 2.36.0 is
-available.
+I'm guessing that's a mistake, it doesn't need a +.
 
 Ross
 
---94eb2c05ae9253100e053a56f66e
+--94eb2c08b1fc058156053a57008d
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 18 August 2016 at 06:48, Wang Xin <span dir=3D"ltr">&lt;<a href=3D"mailt=
-o:wangxin2015.fnst@cn.fujitsu.com" target=3D"_blank">wangxin2015.fnst@cn.fu=
-jitsu.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=
-=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=
-=3D":4ip" class=3D"a3s aXjCH m1569c3311408dd51">Upgrade gdk-pixbuf from 2.3=
-4.0 to 2.35.3.<br></div></blockquote></div><br>2.35.x is a development rele=
-ase, so stick with 2.34.x until 2.36.0 is available.</div><div class=3D"gma=
-il_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
+On 17 August 2016 at 15:01, Robert P. J. Day <span dir=3D"ltr">&lt;<a href=
+=3D"mailto:rpjday@crashcourse.ca" target=3D"_blank">rpjday@crashcourse.ca</=
+a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0=
+ 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":4ta" cla=
+ss=3D"a3s aXjCH m15698cfdea19e7d4">recipes-extended/images/core-<wbr>image-=
+kernel-dev.bb:IMAGE_<wbr>ROOTFS_EXTRA_SPACE_append +=3D &quot;+ 3000000&quo=
+t;<br></div></blockquote></div><br>I&#39;m guessing that&#39;s a mistake, i=
+t doesn&#39;t need a +.</div><div class=3D"gmail_extra"><br></div><div clas=
+s=3D"gmail_extra">Ross</div></div>
 
---94eb2c05ae9253100e053a56f66e--
+--94eb2c08b1fc058156053a57008d--
