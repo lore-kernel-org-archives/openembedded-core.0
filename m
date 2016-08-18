@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 43880760AC
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 6845176420
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Aug 2016 06:15:46 +0000 (UTC)
+	Thu, 18 Aug 2016 06:15:47 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u7I6FlC9016297
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u7I6Fmmt013133
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Aug 2016 23:15:47 -0700
+	Wed, 17 Aug 2016 23:15:48 -0700 (PDT)
 Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Wed, 17 Aug 2016 23:15:46 -0700
+	Wed, 17 Aug 2016 23:15:47 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 17 Aug 2016 23:15:38 -0700
-Message-ID: <81602d89c0c8902e59a3cc221a12324693d55b36.1471500427.git.liezhi.yang@windriver.com>
+Date: Wed, 17 Aug 2016 23:15:39 -0700
+Message-ID: <2264e3921d9993a4065af2b544da3ea3ce0297b7.1471500427.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.9.0
 In-Reply-To: <cover.1471500427.git.liezhi.yang@windriver.com>
 References: <cover.1471500427.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 2/8] arm: set vars for runqemu
+Subject: [PATCH 3/8] qemuarm64.conf: set vars for runqemu
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,39 +36,28 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Thu, 18 Aug 2016 06:15:47 -0000
 Content-Type: text/plain
 
-These info are from old runqemu.
-
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- meta/conf/machine/include/tune-cortexa8.inc | 4 ++++
- meta/conf/machine/qemuarm.conf              | 5 +++++
- 2 files changed, 9 insertions(+)
+ meta/conf/machine/qemuarm64.conf | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-diff --git a/meta/conf/machine/include/tune-cortexa8.inc b/meta/conf/machine/include/tune-cortexa8.inc
-index c8ce021..d853306 100644
---- a/meta/conf/machine/include/tune-cortexa8.inc
-+++ b/meta/conf/machine/include/tune-cortexa8.inc
-@@ -34,3 +34,7 @@ PACKAGE_EXTRA_ARCHS_tune-cortexa8hf             = "${PACKAGE_EXTRA_ARCHS_tune-ar
- PACKAGE_EXTRA_ARCHS_tune-cortexa8thf            = "${PACKAGE_EXTRA_ARCHS_tune-armv7athf} cortexa8hf-vfp cortexa8t2hf-vfp"
- PACKAGE_EXTRA_ARCHS_tune-cortexa8hf-neon        = "${PACKAGE_EXTRA_ARCHS_tune-armv7ahf-neon}  cortexa8hf-vfp cortexa8hf-neon"
- PACKAGE_EXTRA_ARCHS_tune-cortexa8thf-neon       = "${PACKAGE_EXTRA_ARCHS_tune-armv7athf-neon} cortexa8hf-vfp cortexa8hf-neon cortexa8t2hf-vfp cortexa8t2hf-neon"
+diff --git a/meta/conf/machine/qemuarm64.conf b/meta/conf/machine/qemuarm64.conf
+index f59fb15..fd73583 100644
+--- a/meta/conf/machine/qemuarm64.conf
++++ b/meta/conf/machine/qemuarm64.conf
+@@ -8,3 +8,12 @@ require conf/machine/include/qemu.inc
+ KERNEL_IMAGETYPE = "Image"
+ 
+ SERIAL_CONSOLES = "38400;ttyAMA0 38400;hvc0"
 +
 +# For runqemu
-+QB_SYSTEM_NAME = "qemu-system-arm"
-+QB_CPU = "-cpu cortex-a8"
-diff --git a/meta/conf/machine/qemuarm.conf b/meta/conf/machine/qemuarm.conf
-index cdad03f..34686cf 100644
---- a/meta/conf/machine/qemuarm.conf
-+++ b/meta/conf/machine/qemuarm.conf
-@@ -10,3 +10,8 @@ KERNEL_IMAGETYPE = "zImage"
- 
- SERIAL_CONSOLES = "115200;ttyAMA0 115200;ttyAMA1"
- 
-+# For runqemu
-+QB_SYSTEM_NAME = "qemu-system-arm"
-+QB_MACHINE = "-machine versatilepb"
-+QB_KERNEL_CMDLINE_APPEND = "console=ttyAMA0,115200 console=tty"
-+QB_OPT_APPEND = "-show-cursor -usb -usbdevice tablet"
++QB_SYSTEM_NAME = "qemu-system-aarch64"
++QB_MEM = "-m 512"
++QB_MACHINE = "-machine virt"
++QB_CPU = "-cpu cortex-a57"
++QB_SERIAL_OPT = "-device virtio-serial-device -chardev null,id=virtcon -device virtconsole,chardev=virtcon"
++QB_KERNEL_CMDLINE_APPEND = "console=ttyAMA0,38400"
++QB_OPT_APPEND = "-show-cursor"
 -- 
 2.9.0
 
