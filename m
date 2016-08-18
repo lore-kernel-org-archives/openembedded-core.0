@@ -1,29 +1,27 @@
-Return-Path: <rpjday@crashcourse.ca>
-Received: from smtp684.redcondor.net (smtp684.redcondor.net [208.80.206.84])
-	by mail.openembedded.org (Postfix) with ESMTP id CEA287318E
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id C59A77318E
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Aug 2016 09:24:06 +0000 (UTC)
-Received: from astoria.ccjclearline.com ([64.235.106.9])
-	by smtp684.redcondor.net ({700db0a8-6fb7-4c8b-9b2a-6812225182d8})
-	via TCP (outbound) with ESMTPS id 20160818092405640_0684
+	Thu, 18 Aug 2016 09:50:59 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u7I9p0tl026914
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Aug 2016 09:24:05 +0000
-X-RC-FROM: <rpjday@crashcourse.ca>
-X-RC-RCPT: <openembedded-core@lists.openembedded.org>
-Received: from [216.191.234.70] (port=32255 helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
-	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
-	id 1baJaK-0003aY-0q for openembedded-core@lists.openembedded.org;
-	Thu, 18 Aug 2016 05:26:00 -0400
-Date: Thu, 18 Aug 2016 05:23:55 -0400 (EDT)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@ca624034.mitel.com
-To: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Message-ID: <alpine.LFD.2.20.1608180521500.16440@ca624034.mitel.com>
-User-Agent: Alpine 2.20 (LFD 67 2015-01-07)
+	Thu, 18 Aug 2016 02:51:00 -0700 (PDT)
+Received: from [128.224.162.240] (128.224.162.240) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.248.2;
+	Thu, 18 Aug 2016 02:50:59 -0700
+To: <openembedded-core@lists.openembedded.org>
+References: <cover.1471500427.git.liezhi.yang@windriver.com>
+From: Robert Yang <liezhi.yang@windriver.com>
+Message-ID: <54c03f3a-3752-b1cf-fd89-5f541f0639b9@windriver.com>
+Date: Thu, 18 Aug 2016 17:50:58 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.2.0
 MIME-Version: 1.0
-X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
-Subject: [PATCH] core-image-kernel-dev.bb: Standardize use of _append and leading space.
+In-Reply-To: <cover.1471500427.git.liezhi.yang@windriver.com>
+Subject: V2 Re: [PATCH 0/8] runqemu: refactor it and remove machine knowledge
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,39 +34,146 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 Aug 2016 09:24:09 -0000
-Content-Type: text/plain; charset=US-ASCII
+X-List-Received-Date: Thu, 18 Aug 2016 09:51:01 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
 
+Hi,
 
-Signed-off-by: Robert P. J. Day <rpjday@crashcourse.ca>
+Here is V2, mainly fix RP's comments: (talked via IRC)
 
----
+* Remove a kvm commit message since qemu-kvm can only run target when
+   its arch is the same as the host arch:
+   The kvm support is not limited on x86 or x86_64
 
-  Tweak that line to use the same format as all other examples
-involving that variable, for consistency.
+* Fix a typo in commit message: qemu-boot.bbclass -> qemuboot.bbclass,
+   You may wonder why I use qemuboot.bbclass but not qemu-boot.bbclass,
+   this is because the bbclass will save vars into qemuboot.py, the
+   qemuboot.py can't be qemu-boot.py here, otherwise,
+   "import qemu-boot.py" doesn't work since "-" is not a validate identifier,
+    so use "qemuboot" to make them unify.
 
-diff --git a/meta/recipes-extended/images/core-image-kernel-dev.bb b/meta/recipes-extended/images/core-image-kernel-dev.bb
-index 26b88c9..a40b3aa 100644
---- a/meta/recipes-extended/images/core-image-kernel-dev.bb
-+++ b/meta/recipes-extended/images/core-image-kernel-dev.bb
-@@ -14,7 +14,7 @@ CORE_IMAGE_EXTRA_INSTALL += "${KERNEL_DEV_MODULE} \
-                             "
+* Reorder the patches to make sure they don't break the bisect build.
 
- # We need extra space for things like kernel builds, etc.
--IMAGE_ROOTFS_EXTRA_SPACE_append += "+ 3000000"
-+IMAGE_ROOTFS_EXTRA_SPACE_append = " + 3000000"
+* Update commit message:
+   "Fix SLIRP mode" -> "Fix SLIRP mode, add help message, avoid mixing with tap"
 
- # Let's define our own subset to test, we can later add a on-target kernel build even!
- DEFAULT_TEST_SUITES = "ping ssh df connman syslog scp date parselogs"
+======================
+Updated in the repo:
 
--- 
+The following changes since commit ecc8d346223030ee06aa6d83427f757982e948e4:
 
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
+   sanity: Require bitbake 1.31.1 for multi-config changes (2016-08-18 10:07:18 
++0100)
 
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
+are available in the git repository at:
 
+   git://git.openembedded.org/openembedded-core-contrib rbt/runqemu
+ 
+http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/runqemu
+
+Robert Yang (8):
+   qemuboot.bbclass: add it for runqemu
+   arm: set vars for runqemu
+   qemuarm64.conf: set vars for runqemu
+   arch-x86.inc: set vars for runqemu
+   arch-mips.inc: set vars for runqemu
+   qemuppc.conf: set vars for runqemu
+   qemu.inc: inherit qemuboot.bbclass
+   runqemu: refactor it and remove machine knowledge
+
+  meta/classes/qemuboot.bbclass                |   59 ++
+  meta/conf/machine/include/mips/arch-mips.inc |    6 +
+  meta/conf/machine/include/qemu.inc           |    2 +
+  meta/conf/machine/include/tune-cortexa8.inc  |    4 +
+  meta/conf/machine/include/x86/arch-x86.inc   |   15 +
+  meta/conf/machine/qemuarm.conf               |    5 +
+  meta/conf/machine/qemuarm64.conf             |    9 +
+  meta/conf/machine/qemuppc.conf               |    6 +
+  scripts/runqemu                              | 1260 +++++++++++++++-----------
+  scripts/runqemu-internal                     |  739 ---------------
+  10 files changed, 841 insertions(+), 1264 deletions(-)
+  create mode 100644 meta/classes/qemuboot.bbclass
+  delete mode 100755 scripts/runqemu-internal
+
+// Robert
+
+On 08/18/2016 02:15 PM, Robert Yang wrote:
+> Previously, runqemu had hard coded machine knowledge, which limited its
+> usage, for example, qemu can boot genericx86, but runqemu can't, we need
+> edit runqemu/runqemu-internal a lot if we want to boot genericx86.
+>
+> Now bsp conf files can set vars to make it can be boot by runqemu, and
+> qemuboot.bbclass will save these info to DEPLOY_DIR_IMAGE/qemuboot.py.
+> Please see qemuboot.bbclass' comments on how to set the vars.
+>
+> * Re-write it in python3, which can reduce lines from 1239 to about 750
+>   lines
+> * All the machine knowledges are gone
+> * Most of the TUN_ARCH knowledge are gone except aarch64 and powerpc,
+>   it's not easy to remove the two, so leave them there atm
+> * All the previous options are preserved, and there is a new way to run
+>   runqemu: (it doesn't need run "bitake -e" in such a case)
+>   $ runqemu tmp/deploy/images/qemux86
+>   or:
+>   $ runqemu tmp/deploy/images/qemuarm/<image>.ext4
+>   or:
+>   $ runqemu tmp/deploy/images/qemuarm/qemuboot.py
+> * Fixed audio support, not limited on x86 or x86_64
+> * The kvm support is not limited on x86 or x86_64
+> * Fix SLIRP mode
+> * Fix NFS boot, it will extract <image>.tar.bz2 or tar.gz to
+>   DEPLOY_DIR_IMAGE/<image>-nfsroot when no NFS_DIR, and remove it after
+>   stop.
+> * More bsps can be boot, such as genericx86 and genericx86-64.
+> * The patch for qemuzynq, qemuzynqmp, qemumicroblaze has been sent to
+>   meta-xilinx' mailing list.
+> * I can't find any qemush4 bsp or how to build it, so it is not
+>   considered atm.
+>
+> * Tested the following machines, all of them work well:
+>   genericx86 genericx86-64
+>   qemuarm qemuarm64
+>   qemumips qemumips64 qemuppc
+>   qemux86 qemux86-64
+>   qemuzynq qemuzynqmp
+>
+> And also test "bitbake core-image-sato -ctestimage" which uses runqemu, it
+> also works.
+>
+> // Robert
+>
+> The following changes since commit c86bf80abd87acb0da5860806822c64ec9dee089:
+>
+>   oeqa.buildperf: use oe.path.remove() (2016-08-17 10:35:27 +0100)
+>
+> are available in the git repository at:
+>
+>   git://git.openembedded.org/openembedded-core-contrib rbt/runqemu
+>   http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/runqemu
+>
+> Robert Yang (8):
+>   qemu.inc: inherit qemu-boot.bbclass
+>   arm: set vars for runqemu
+>   qemuarm64.conf: set vars for runqemu
+>   arch-x86.inc: set vars for runqemu
+>   arch-mips.inc: set vars for runqemu
+>   qemuppc.conf: set vars for runqemu
+>   qemuboot.bbclass: add it for runqemu
+>   runqemu: refactor it and remove machine knowledge
+>
+>  meta/classes/qemuboot.bbclass                |   59 ++
+>  meta/conf/machine/include/mips/arch-mips.inc |    6 +
+>  meta/conf/machine/include/qemu.inc           |    2 +
+>  meta/conf/machine/include/tune-cortexa8.inc  |    4 +
+>  meta/conf/machine/include/x86/arch-x86.inc   |   15 +
+>  meta/conf/machine/qemuarm.conf               |    5 +
+>  meta/conf/machine/qemuarm64.conf             |    9 +
+>  meta/conf/machine/qemuppc.conf               |    6 +
+>  scripts/runqemu                              | 1261 +++++++++++++++-----------
+>  scripts/runqemu-internal                     |  739 ---------------
+>  10 files changed, 842 insertions(+), 1264 deletions(-)
+>  create mode 100644 meta/classes/qemuboot.bbclass
+>  delete mode 100755 scripts/runqemu-internal
+>
 
