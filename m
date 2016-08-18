@@ -1,41 +1,41 @@
 Return-Path: <andre.draszik@gmail.com>
-Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 4A088763F0
+Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
+	by mail.openembedded.org (Postfix) with ESMTP id A71AC763F0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Aug 2016 07:56:31 +0000 (UTC)
-Received: by mail-wm0-f65.google.com with SMTP id q128so3758327wma.1
+	Thu, 18 Aug 2016 07:56:32 +0000 (UTC)
+Received: by mail-wm0-f68.google.com with SMTP id q128so3758431wma.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Aug 2016 00:56:32 -0700 (PDT)
+	Thu, 18 Aug 2016 00:56:33 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=lzCPilZz8lc8SEcIAbHcIHkDDmoWjcCmb5DVYIQUw20=;
-	b=UP9L1G1yUIC+WeyJo740G2HXizQ5yka3FoCDa+G8Tx2y/F73C+FtkTNqIOSZv3MRph
-	50Em+UXvXttKQx7LxJRxl0I8UfZG6B1dp0nDwWITdacMoOmJ/SV5/yam7oNxaRkePLqm
-	QZM/99bHvjupX7B+n6FCrYZ1AuPAYELxhPY5xadyweHJcGnxf8Qws4wbBOmVwDybXWqt
-	hap/oC+B6f8i/myT+R+fkXiohmWGfm/Pk9QgNXCXzPaC40682eiFOKfYdB05+3W5h3BY
-	W1oX6cPCXHpTRv5ae134EVVC9AGhClJvTNwYDyHbH3YzosoHbE8xtINALWse1QdKmuDB
-	J2cg==
-X-Gm-Message-State: AEkoouv+GZwubqepxXm3Hi7GHKjcfriVRapX7x2YI1wLXHqjEd4BcRzj1EDVj5wUo0yUQg==
-X-Received: by 10.28.20.77 with SMTP id 74mr30517273wmu.1.1471506991434;
-	Thu, 18 Aug 2016 00:56:31 -0700 (PDT)
+	bh=b7FBD7Nnwq97x7LyG7478m8xLV0D4EP8rmSM3/qw4x4=;
+	b=dFM80iX6nFJ+IkB7oUGzGTpxgAInu3n+gRhPvR9AVE0IxyGgFl+xPgw2TEyKLgii4k
+	ShQgRpo8FMyuQFkYuAjOIkaR+edrzSFNw2p3EA4cc1oRMB8U/hA8St8bs4fnJarYly60
+	eZk9qJ+reDqR/DUnWt5i9j6ZQFeMBOUp7skZNv6JbyVXCc9m93S8X6h4r4N7iaVPFRtR
+	BfqbB85W91fTVA6eT9WedDmpxTZOBS8Jn4ZUvSvcROeUGcMeTUkEblwcY5i6WbvJ6SPD
+	pD5UOAUyPrAPQ0UqG3/1zWvEfbrwaZMNEOZbpiecDZ6tymWbDlxXt3csidABJOiFSLbV
+	gAag==
+X-Gm-Message-State: AEkooutpl4ejolJ6LLKwv4vGhcURlWAv0+oS0B64Dm1Szm/Qw1QaRke3up3SsXx1sfikvA==
+X-Received: by 10.28.203.134 with SMTP id b128mr1201543wmg.36.1471506992571;
+	Thu, 18 Aug 2016 00:56:32 -0700 (PDT)
 Received: from tfsielt31850.tycofs.com ([77.107.218.170])
 	by smtp.gmail.com with ESMTPSA id
-	q65sm1318701wmd.24.2016.08.18.00.56.30
+	q65sm1318701wmd.24.2016.08.18.00.56.31
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 18 Aug 2016 00:56:30 -0700 (PDT)
+	Thu, 18 Aug 2016 00:56:31 -0700 (PDT)
 From: =?UTF-8?q?Andr=C3=A9=20Draszik?= <git@andred.net>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 18 Aug 2016 08:56:24 +0100
-Message-Id: <20160818075626.15973-2-git@andred.net>
+Date: Thu, 18 Aug 2016 08:56:25 +0100
+Message-Id: <20160818075626.15973-3-git@andred.net>
 X-Mailer: git-send-email 2.9.3
 In-Reply-To: <20160818075626.15973-1-git@andred.net>
 References: <20160817152538.14181-1-git@andred.net>
 	<20160818075626.15973-1-git@andred.net>
 MIME-Version: 1.0
-Subject: [PATCH v2 1/3] module.bbclass: use Module.symvers for dependants
+Subject: [PATCH v2 2/3] kernel-module-split.bbclass: generate dependencies across recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,82 +52,49 @@ X-List-Received-Date: Thu, 18 Aug 2016 07:56:32 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-When compiling multiple external kernel modules, where one
-depends on the other, there are two problems at the
-moment:
-1) we get compile time warnings from the kernel build
-   system due to missing symbols (from modpost).
-2) Any modules generated are missing dependency
-   information (in the .modinfo elf section) for any
-   dependencies outside the current source tree and
-   outside the kernel itself.
+The information retrieved via depmod is incomplete with
+regards to kernel modules that are dependencies, in
+particular where two kernel modules are built from
+different source trees / recipes, which leads to incomplete
+dependency information for packages created.
 
-This is expected, but the kernel build system has a way to
-deal with this - the dependent module is expected to
-specify KBUILD_EXTRA_SYMBOLS (as a space-separated list)
-to point to any and all Module.symvers of kernel modules
-that are dependencies.
+So far, our packages created didn't contain dependencies on
+packages created by other recipes, as we solely use depmod
+for that, and depmod can only work well after *all* kernel
+modules have been copied into one place - it doesn't work
+well in a staged approach.
 
-While 1) by itself is not really a big issue, 2) prevents
-the packaging process from generating cross-source tree
-package dependencies.
-
-As a first step to solve the missing dependencies in
-packages created, we:
-1) install Module.symvers of all external kernel module
-   builds (into a location that is automatically packaged
-   into the -dev package)
-2) make use of KBUILD_EXTRA_SYMBOLS and pass the location
-   of all Module.symvers of all kernel-module-* packages
-   we depend on
-
-This solves both problems mentioned above.
+Now that all .ko have correct dependency information at packaging
+time, we can use that information to properly track dependencies
+across recipies, and can combine the information from the
+.modinfo elf section with the information from depmod.
 
 Signed-off-by: André Draszik <git@andred.net>
 ---
- meta/classes/module.bbclass | 15 +++++++++++++++
- 1 file changed, 15 insertions(+)
+ meta/classes/kernel-module-split.bbclass | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
 
-diff --git a/meta/classes/module.bbclass b/meta/classes/module.bbclass
-index 01c9309..68e3d34 100644
---- a/meta/classes/module.bbclass
-+++ b/meta/classes/module.bbclass
-@@ -8,6 +8,15 @@ EXTRA_OEMAKE += "KERNEL_SRC=${STAGING_KERNEL_DIR}"
+diff --git a/meta/classes/kernel-module-split.bbclass b/meta/classes/kernel-module-split.bbclass
+index ed42d2b..db0ad33 100644
+--- a/meta/classes/kernel-module-split.bbclass
++++ b/meta/classes/kernel-module-split.bbclass
+@@ -173,7 +173,15 @@ python split_kernel_module_packages () {
+             d.setVar('DESCRIPTION_' + pkg, old_desc + "; " + vals["description"])
  
- MODULES_INSTALL_TARGET ?= "modules_install"
- 
-+python __anonymous () {
-+    depends = d.getVar('DEPENDS', True)
-+    extra_symbols = []
-+    for dep in depends.split():
-+        if dep.startswith("kernel-module-"):
-+            extra_symbols.append("${STAGING_INCDIR}/" + dep + "/Module.symvers")
-+    d.setVar('KBUILD_EXTRA_SYMBOLS', " ".join(extra_symbols))
-+}
-+
- module_do_compile() {
- 	unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS
- 	oe_runmake KERNEL_PATH=${STAGING_KERNEL_DIR}   \
-@@ -15,6 +24,7 @@ module_do_compile() {
- 		   CC="${KERNEL_CC}" LD="${KERNEL_LD}" \
- 		   AR="${KERNEL_AR}" \
- 	           O=${STAGING_KERNEL_BUILDDIR} \
-+		   KBUILD_EXTRA_SYMBOLS="${KBUILD_EXTRA_SYMBOLS}" \
- 		   ${MAKE_TARGETS}
- }
- 
-@@ -24,6 +34,11 @@ module_do_install() {
- 	           CC="${KERNEL_CC}" LD="${KERNEL_LD}" \
- 	           O=${STAGING_KERNEL_BUILDDIR} \
- 	           ${MODULES_INSTALL_TARGET}
-+
-+	install -d -m0755 ${D}${includedir}/${BPN}
-+	cp -a --no-preserve=ownership ${B}/Module.symvers ${D}${includedir}/${BPN}
-+	# it doesn't actually seem to matter which path is specified here
-+	sed -e 's:${B}/::g' -i ${D}${includedir}/${BPN}/Module.symvers
- }
- 
- EXPORT_FUNCTIONS do_compile do_install
+         rdepends = bb.utils.explode_dep_versions2(d.getVar('RDEPENDS_' + pkg, True) or "")
+-        for dep in get_dependencies(file, pattern, format):
++        modinfo_deps = []
++        if "depends" in vals and vals["depends"] != "":
++            for dep in vals["depends"].split(","):
++                on = legitimize_package_name(dep)
++                dependency_pkg = format % on
++                modinfo_deps.append(dependency_pkg)
++        depmod_deps = get_dependencies(file, pattern, format)
++        all_deps = list(set(modinfo_deps + depmod_deps))
++        for dep in all_deps:
+             if not dep in rdepends:
+                 rdepends[dep] = []
+         d.setVar('RDEPENDS_' + pkg, bb.utils.join_deps(rdepends, commasep=False))
 -- 
 2.9.3
 
