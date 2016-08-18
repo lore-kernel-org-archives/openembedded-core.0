@@ -1,52 +1,52 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f193.google.com (mail-pf0-f193.google.com
-	[209.85.192.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 4C50A731C9
+Received: from mail-pf0-f173.google.com (mail-pf0-f173.google.com
+	[209.85.192.173])
+	by mail.openembedded.org (Postfix) with ESMTP id DCEBC731C9
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Aug 2016 17:34:52 +0000 (UTC)
-Received: by mail-pf0-f193.google.com with SMTP id y134so69669pfg.3
+	Thu, 18 Aug 2016 17:58:09 +0000 (UTC)
+Received: by mail-pf0-f173.google.com with SMTP id h186so471694pfg.3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Aug 2016 10:34:54 -0700 (PDT)
+	Thu, 18 Aug 2016 10:58:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=subject:mime-version:from:in-reply-to:date:cc:message-id:references
-	:to; bh=YdGgKlGF3/LP5S3IV7Z+hTAyQ8f8Rcjf2V+X5kXVBIo=;
-	b=NK8A/tBYi4gllU+pRuf9HsBf2rmaVeb9KPoGP/DeVRE3tb0N5wAnAACMG5hT0oWTQQ
-	ce0+e5NkRVAeBT1Jdvegykjkxbv+lvBjP1+XkJ4kGsq9lFzSvRmhRFnmSIdr4jJ+/VVH
-	n5QnJOgLK86lw5fEJIiEYqx0aKQjhFbYG8bmYNW+QvlNh0pBscCDuw7JaizT67iHiiBt
-	tBfeAliFBk/LkPP6J4wbaugBAElRaaxrCisDr5DWl2JxI/am3XE7dcj5Q8CXjML1Q/GH
-	8Utcxw+QvLb1etsq28bynpOv/anWzlNyFDUqT1Z5fCxz8exMeLl2/It4n4MSj1BilUeF
-	eGSg==
+	:to; bh=OGee1szbwr/li3aeIuV3vY7ChnRKCd3Vcsw2QR2/Pew=;
+	b=Sg9joozUZnNE/R1mIyRqiJvL1RJpFqIIN4RUZjJbrSTAv1VbmLEXHHEPyw5ZfRkgX7
+	J8NR1mc6xP/Kody0wpgMpdtv2PxovNMKbPKLPGrD2GvlXPbdgVLSPlnXlWcaYXzth6iN
+	hl/rq+v0YVC9XbacI6muk7h0f6yilBSX+8H2+AvyxAdwzhCM2+I77BRK7P8ZWOvHtlG8
+	pR9vW6R24rZAX7geKAwBd66PQyUW6WoC77PKi5P6iDmnvTEIQOxxO7ZSMhwmVjgZvvle
+	NnlpmD6fHnAXsY1HJ1ofc/bkT67ca49RC/Ii71Ch/i9Mjxs2Zy+IVBxWLv3YbiMH07AU
+	bHsg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:subject:mime-version:from:in-reply-to:date:cc
 	:message-id:references:to;
-	bh=YdGgKlGF3/LP5S3IV7Z+hTAyQ8f8Rcjf2V+X5kXVBIo=;
-	b=CPm7UE4WHT7mH8VcbC09YBkkBxh1zE2RqQsSYeVaepH1T9uqTVqYPdGuP78mwkZo57
-	1NfMxqF9GE/2iLr6xRgNCgzCg70PZfZ9sIPx79jli4WyLKPAbLmniydLkJZgNbFRTDCi
-	dhkmtK4FgY/uA+5fvpPxUoRAuXp9rhjhsmxY9AMcqCdoG5AGm3nqBOVmazAJf4FaML+4
-	fP/UjsoAfu3JPCeEUpnLjrj+eNPBlkwRo5HoUZpaU536eEAaeT+xJ8ukcSVwS6iAN1H9
-	FyBOsk/LMVH0K61LHlz6CUxszFygG8LsHL2cdZIT6HSgwDX9Q1Y5Hg9PpWyzzXbP7DUX
-	af0g==
-X-Gm-Message-State: AEkoouvZX+QFlG4FZVkl4Ywgs2obFomBCHepV9TeLLQJfYWnmqFKpYcdQCbFQybOZCH9/w==
-X-Received: by 10.98.71.140 with SMTP id p12mr6032809pfi.93.1471541693712;
-	Thu, 18 Aug 2016 10:34:53 -0700 (PDT)
+	bh=OGee1szbwr/li3aeIuV3vY7ChnRKCd3Vcsw2QR2/Pew=;
+	b=Ndfd+kl4Phx+icBtAlXhORrgktKVSZHUyeUYyiHrqS4HoeDYVHfJXtJqyu/wFno89Y
+	xo6OF0TOzrsXc2btnTDsyV2oqgaIwSCSSNerc/dEYqakdqvjGqg5lgOOOCldokcnEAw/
+	HbDijlSEcsuCFKR8zZ93QHUSAgJc1IOrmhcPwgHjGka5zGwChdbA0cfVX3oD6s7+HNfg
+	zvBGWohgOhh8InpP3g4EWQeSS1iZf1Kkjadjzu+q05EDbehnpVKLyvA81HsOKRvbgKf4
+	I9c+dew8FFhaOZvAWvHVWHUYSpoRmumK90wThBvbNVf1wDgn1qLI4OXnxjngVxGq+yFo
+	fIrw==
+X-Gm-Message-State: AEkooutF8PMtEmJ3HfgfkrMfp7n0NQrtsxZW+dKmQxF8X7QkLBNgqHBhV3NIXan4sr5tnQ==
+X-Received: by 10.98.108.3 with SMTP id h3mr6272688pfc.162.1471543090349;
+	Thu, 18 Aug 2016 10:58:10 -0700 (PDT)
 Received: from ?IPv6:2601:647:4c00:3edf:e111:2047:280c:be38?
 	([2601:647:4c00:3edf:e111:2047:280c:be38])
-	by smtp.gmail.com with ESMTPSA id w64sm230435pfb.93.2016.08.18.10.34.52
+	by smtp.gmail.com with ESMTPSA id a5sm324297pfc.89.2016.08.18.10.58.09
 	(version=TLS1 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 18 Aug 2016 10:34:52 -0700 (PDT)
+	Thu, 18 Aug 2016 10:58:09 -0700 (PDT)
 Mime-Version: 1.0 (Mac OS X Mail 9.3 \(3124\))
 X-Pgp-Agent: GPGMail
 From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <20160818170824.lql76v2c7bbfs46t@jama>
-Date: Thu, 18 Aug 2016 10:34:47 -0700
-Message-Id: <2ADD064C-4C6C-4437-9A67-BB2F09534050@gmail.com>
-References: <1471538461-27065-1-git-send-email-raj.khem@gmail.com>
-	<20160818170824.lql76v2c7bbfs46t@jama>
-To: Martin Jansa <martin.jansa@gmail.com>
+In-Reply-To: <CAJTo0LZy-mx4K=eSJdNRq12JVDzGwW+Oe0uf40YRZAmyWVJsZQ@mail.gmail.com>
+Date: Thu, 18 Aug 2016 10:58:04 -0700
+Message-Id: <56847BB1-DCA8-446D-9418-2D42098A7073@gmail.com>
+References: <1471499308-1666-1-git-send-email-wangxin2015.fnst@cn.fujitsu.com>
+	<CAJTo0LZy-mx4K=eSJdNRq12JVDzGwW+Oe0uf40YRZAmyWVJsZQ@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
 X-Mailer: Apple Mail (2.3124)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] Specify extra paths
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] gdk-pixbuf: 2.34.0 -> 2.35.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,88 +59,83 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 Aug 2016 17:34:53 -0000
-X-Groupsio-MsgNum: 85914
+X-List-Received-Date: Thu, 18 Aug 2016 17:58:10 -0000
+X-Groupsio-MsgNum: 85915
 Content-Type: multipart/signed;
-	boundary="Apple-Mail=_BF1DE422-E22A-4488-91B0-CB0CC712CAC2";
+	boundary="Apple-Mail=_6968D3A5-5292-4783-8D9D-145342F43E53";
 	protocol="application/pgp-signature"; micalg=pgp-sha1
 
---Apple-Mail=_BF1DE422-E22A-4488-91B0-CB0CC712CAC2
+--Apple-Mail=_6968D3A5-5292-4783-8D9D-145342F43E53
+Content-Type: multipart/alternative;
+	boundary="Apple-Mail=_6747993F-E7EA-4813-9764-07A4DDA12E88"
+
+--Apple-Mail=_6747993F-E7EA-4813-9764-07A4DDA12E88
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain;
 	charset=us-ascii
 
 
-> On Aug 18, 2016, at 10:08 AM, Martin Jansa <martin.jansa@gmail.com> =
+> On Aug 18, 2016, at 4:33 AM, Burton, Ross <ross.burton@intel.com> =
 wrote:
 >=20
-> On Thu, Aug 18, 2016 at 04:41:01PM +0000, Khem Raj wrote:
->> Some layers have gstreamer plugin recipes which include
->> the .inc files from OE-Core but they do not get to find
->> the patch that is being forced by the .inc file and
->> ends up with errors like
->>=20
->> WARNING: =
-/mnt/oe/meta-qcom/recipes-multimedia/gstreamer/gstreamer1.0-plugins-v4l2.b=
-b: Unable to get checksum for gstreamer1.0-plugins-v4l2 SRC_URI entry =
-0001-introspection.m4-prefix-pkgconfig-paths-with-PKG_CON.patch: file =
-could not be fo
->> und
 >=20
-> Isn't it better to move this SRC_URI_append to the individual .bb =
-files?
+> On 18 August 2016 at 06:48, Wang Xin <wangxin2015.fnst@cn.fujitsu.com =
+<mailto:wangxin2015.fnst@cn.fujitsu.com>> wrote:
+> Upgrade gdk-pixbuf from 2.34.0 to 2.35.3.
 >=20
-> Other versions of plugins might not be able to apply this .patch and
-> such recipes will need to use SRC_URI_remove (or SRC_URI with =
-override)
-> to get rid of this.
+> 2.35.x is a development release, so stick with 2.34.x until 2.36.0 is =
+available.
 
-I thought of doing that, but then this patch is needed for g-ir to work =
-in cross env.
-may be its better to also expose the SRCREV and SRC_URI or common repo =
-in the inc file
-in case where external plugins would like to override that, then they =
-will automatically
-remove the patch too.
+perhaps recipe updater script should account for such presets ?
 
 >=20
->>=20
->> This path prepend fixes it
->>=20
->> Signed-off-by: Khem Raj <raj.khem@gmail.com>
->> ---
->> meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins.inc | 1 +
->> 1 file changed, 1 insertion(+)
->>=20
->> diff --git =
-a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins.inc =
-b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins.inc
->> index 2dcec50..b066941 100644
->> --- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins.inc
->> +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins.inc
->> @@ -28,6 +28,7 @@ EXTRA_OECONF =3D " \
->>     --disable-examples \
->> "
->>=20
->> +FILESEXTRAPATHS_prepend :=3D "${THISDIR}/files:"
->> SRC_URI_append =3D " =
-file://0001-introspection.m4-prefix-pkgconfig-paths-with-PKG_CON.patch"
->>=20
->> delete_pkg_m4_file() {
->> --
->> 1.8.3.1
->>=20
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->=20
+> Ross
 > --
-> Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
 
---Apple-Mail=_BF1DE422-E22A-4488-91B0-CB0CC712CAC2
+--Apple-Mail=_6747993F-E7EA-4813-9764-07A4DDA12E88
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/html;
+	charset=us-ascii
+
+<html><head><meta http-equiv=3D"Content-Type" content=3D"text/html =
+charset=3Dus-ascii"></head><body style=3D"word-wrap: break-word; =
+-webkit-nbsp-mode: space; -webkit-line-break: after-white-space;" =
+class=3D""><br class=3D""><div><blockquote type=3D"cite" class=3D""><div =
+class=3D"">On Aug 18, 2016, at 4:33 AM, Burton, Ross &lt;<a =
+href=3D"mailto:ross.burton@intel.com" =
+class=3D"">ross.burton@intel.com</a>&gt; wrote:</div><br =
+class=3D"Apple-interchange-newline"><div class=3D""><div dir=3D"ltr" =
+class=3D""><div class=3D"gmail_extra"><br class=3D""><div =
+class=3D"gmail_quote">On 18 August 2016 at 06:48, Wang Xin <span =
+dir=3D"ltr" class=3D"">&lt;<a =
+href=3D"mailto:wangxin2015.fnst@cn.fujitsu.com" target=3D"_blank" =
+class=3D"">wangxin2015.fnst@cn.fujitsu.com</a>&gt;</span> wrote:<br =
+class=3D""><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 =
+.8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":4ip" =
+class=3D"a3s aXjCH m1569c3311408dd51">Upgrade gdk-pixbuf from 2.34.0 to =
+2.35.3.<br class=3D""></div></blockquote></div><br class=3D"">2.35.x is =
+a development release, so stick with 2.34.x until 2.36.0 is =
+available.</div></div></div></blockquote><div><br =
+class=3D""></div><div>perhaps recipe updater script should account for =
+such presets ?&nbsp;</div><br class=3D""><blockquote type=3D"cite" =
+class=3D""><div class=3D""><div dir=3D"ltr" class=3D""><div =
+class=3D"gmail_extra"><br class=3D""></div><div =
+class=3D"gmail_extra">Ross</div></div>
+-- <br class=3D"">_______________________________________________<br =
+class=3D"">Openembedded-core mailing list<br class=3D""><a =
+href=3D"mailto:Openembedded-core@lists.openembedded.org" =
+class=3D"">Openembedded-core@lists.openembedded.org</a><br =
+class=3D"">http://lists.openembedded.org/mailman/listinfo/openembedded-cor=
+e<br class=3D""></div></blockquote></div><br class=3D""></body></html>=
+
+--Apple-Mail=_6747993F-E7EA-4813-9764-07A4DDA12E88--
+
+--Apple-Mail=_6968D3A5-5292-4783-8D9D-145342F43E53
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment;
 	filename=signature.asc
@@ -151,9 +146,9 @@ Content-Description: Message signed with OpenPGP using GPGMail
 -----BEGIN PGP SIGNATURE-----
 Comment: GPGTools - https://gpgtools.org
 
-iEYEARECAAYFAle18bsACgkQuwUzVZGdMxQNOACdH3+5BpsDRGiXeInSfvOO9OYk
-dJEAn36f0YfA7GyY3LMu6rLS4ln/Man0
-=T/sI
+iEYEARECAAYFAle19zAACgkQuwUzVZGdMxQGRgCeJpqiVTeeptUBJDxxA5Nk7grq
+Ac4An1YMpK9o7AVCdD1yEnhfrS0zfjkW
+=GbtL
 -----END PGP SIGNATURE-----
 
---Apple-Mail=_BF1DE422-E22A-4488-91B0-CB0CC712CAC2--
+--Apple-Mail=_6968D3A5-5292-4783-8D9D-145342F43E53--
