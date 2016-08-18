@@ -1,46 +1,52 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-it0-f51.google.com (mail-it0-f51.google.com
-	[209.85.214.51])
-	by mail.openembedded.org (Postfix) with ESMTP id 055A8731CB
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pa0-f66.google.com (mail-pa0-f66.google.com
+	[209.85.220.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 9E8F17318D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Aug 2016 16:47:48 +0000 (UTC)
-Received: by mail-it0-f51.google.com with SMTP id x131so3253543ite.0
+	Thu, 18 Aug 2016 16:49:06 +0000 (UTC)
+Received: by mail-pa0-f66.google.com with SMTP id vy10so2118479pac.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Aug 2016 09:47:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=8M/pBSHR+A3EqH9odNme6Gyp2frivNahipuXEvEz7bU=;
-	b=Wh77il/ui6cAQqcxZfL8DyFkOeEUgWxkZEC6x3CPmUkFFrHZNlZycTG8/r3EXFfy0l
-	iYJwqyJ82f5+siVqsvAvDfxKP1iDRwxGES6iJwoF6GpAiGGww12vaAavnhWhR0hZ32SF
-	qRGSdnDU9ks56tpud20y702Y1cIWtYOU9Z/wJIrzVIwh3jaNKVH8s3m+I5Iq1qUX+AQE
-	JSoO4r4X6CoJ2Gp/+8LlIiBDj1vF6tXZ+NEgc3SJ76usHOYttFp18sbwy2DDcPf9QGKG
-	WIQGSYNY4yOMnifQULrxqQnF5RV/bsJPALmXSivQAZ9R8cVgivX37F2Ex8xmkDl5+xLZ
-	vEig==
+	Thu, 18 Aug 2016 09:49:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=subject:mime-version:from:in-reply-to:date:cc:message-id:references
+	:to; bh=p9imNkeaIZ3mOCAcMZvXfOGtyheUffJjxsKmBekjmJY=;
+	b=Qll0kYKsoGv4WpgTRFNKM5Lclfzif9kE34prR5Jgn2NCwvFGwcx3BUD43W8Ih/vJcG
+	p2HqpXEP3fKSWOaygI7HzDBGNJ9/j1APVY9ewSGEqNfBrKO9W1+P07Sz0iMfLr0oOy7Q
+	kJLXBbVhrWU3AOU/Sq2PtB219dflb2qtTwTlJ96pXghLMymHZ4h81R67YiTYVcQEeJZI
+	WCx0RlT5QGcQW5chDJTQmmDY7o7VWFjep0w5UPL61Chl4I3A7qxQBE6yja6UfPu/GHg3
+	T8am5qnCbQ5PflwuYA/uAW3KlGW1Vz3BRRWvRbQ1bRrRHcbHpiIWz/0LDDcfuBHNzJ/M
+	6uHg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=8M/pBSHR+A3EqH9odNme6Gyp2frivNahipuXEvEz7bU=;
-	b=czyc6Qg9+5bAhQY04SPi6RlsPwpFfxGxNw+px6R1rRlo6uqSDwBPg8GPYB6h6FcqWT
-	H6Rp7J72KUc1mD9i9zqU5xxjxruinKV8iOCMJNkkwnTR2V90m4B59bjnz+WvwGlBFZe1
-	djYVCVn5IcoEAxgCkPQSYGuBcL6F3vA/kLbhOkGj65+wsv4wXZWbl5vjrWz5ZFO/65D8
-	IWgDFETOoyf8G43gxYeJA1wOaBI2mQsnQFTT+FvDWslmO+0PWbkk01ySDvhlF3fkt1Vw
-	mcLEBd3mmiWtCgJ6Z9OE5874tfrfoewncek5yHWZuvKBj26LYMeIAZGc21+RfN3/+8wp
-	vKUw==
-X-Gm-Message-State: AEkoouv/PUWsY4PxaTxQ7C2x9A7n2bOg+T2YbvxPtht9wilBbuAaBMmKOZJnWCUEB5P0AgRahB1zyBi0LbqoEO1L
-X-Received: by 10.36.121.206 with SMTP id z197mr693820itc.22.1471538869310;
-	Thu, 18 Aug 2016 09:47:49 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.107.18.17 with HTTP; Thu, 18 Aug 2016 09:47:29 -0700 (PDT)
-In-Reply-To: <1471538461-27065-1-git-send-email-raj.khem@gmail.com>
-References: <1471538461-27065-1-git-send-email-raj.khem@gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 18 Aug 2016 17:47:29 +0100
-Message-ID: <CAJTo0LYU11Jvqyv+D=qgreP8mGYchLQF1JJbosNmtBo6ONtSeQ@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] Specify extra paths
+	h=x-gm-message-state:subject:mime-version:from:in-reply-to:date:cc
+	:message-id:references:to;
+	bh=p9imNkeaIZ3mOCAcMZvXfOGtyheUffJjxsKmBekjmJY=;
+	b=Ok10cYTbCGsvTAkY0w9t+4MYSaMipQzZnMJDtp6IoSdMWK4H8VQfF3dbaCy1d3yGfa
+	dFXCiTpAgcC6tYqm/eiRBFYzXhBeM/EaIJNJmhzvDa/l1sFqTWKykYmt2rRf29rRPbYv
+	3MAMpMaKLWVdartx2/vLujdqFRvdRu0Ruj4Ytxs95i+pvi0+ta9SyPOVdvsaFIoElWzY
+	/ZxUnAOKRcI0tIx0Z3R8fs2rhxEwTbZcwLu9o6ktGeeV5nK40IHH+Xaqed6vaIK9QVLP
+	aCjPgNXq+eakn8IbwWTfh0r4gxSVYz74If1cP66mpN8zrzQJ2/WBYbt7eo2sXhByLtbG
+	I1uQ==
+X-Gm-Message-State: AEkoousYhcCGSf8vmqPjbkDNY7yLBOL4g3CXuKH1y0GdjodBhjvXbn465A29mCfnIiXzRQ==
+X-Received: by 10.66.86.170 with SMTP id q10mr5629991paz.105.1471538946937;
+	Thu, 18 Aug 2016 09:49:06 -0700 (PDT)
+Received: from ?IPv6:2601:647:4c00:3edf:e111:2047:280c:be38?
+	([2601:647:4c00:3edf:e111:2047:280c:be38])
+	by smtp.gmail.com with ESMTPSA id h1sm5006390pay.48.2016.08.18.09.49.05
+	(version=TLS1 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Thu, 18 Aug 2016 09:49:05 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 9.3 \(3124\))
+X-Pgp-Agent: GPGMail
+From: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <547D2FE2-0FAA-42C8-A9D3-BF0E2FCD1C6B@gmail.com>
+Date: Thu, 18 Aug 2016 09:49:05 -0700
+Message-Id: <89A43EA1-0412-422D-8CCA-0E571C6DB710@gmail.com>
+References: <1471527992.16712.6.camel@linuxfoundation.org>
+	<547D2FE2-0FAA-42C8-A9D3-BF0E2FCD1C6B@gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+X-Mailer: Apple Mail (2.3124)
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] libunwind: Fix build race conflict with gcc and musl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,46 +59,159 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 Aug 2016 16:47:49 -0000
-Content-Type: multipart/alternative; boundary=001a114aa820944837053a5b57c2
+X-List-Received-Date: Thu, 18 Aug 2016 16:49:07 -0000
+X-Groupsio-MsgNum: 85905
+Content-Type: multipart/signed;
+	boundary="Apple-Mail=_3EBF98E7-4B45-45D9-9758-C8BCA31811BD";
+	protocol="application/pgp-signature"; micalg=pgp-sha1
 
---001a114aa820944837053a5b57c2
-Content-Type: text/plain; charset=UTF-8
-
-On 18 August 2016 at 17:41, Khem Raj <raj.khem@gmail.com> wrote:
-
-> Some layers have gstreamer plugin recipes which include
-> the .inc files from OE-Core but they do not get to find
-> the patch that is being forced by the .inc file and
-> ends up with errors like
->
-
-Bad commit message as you don't specify the module.
-
-But should this SRC_URI_append be in the common plugins.inc anyway?  Are
-there out-of-tree modules that don't use gst-common and so the patch won't
-apply?
-
-Ross
-
---001a114aa820944837053a5b57c2
-Content-Type: text/html; charset=UTF-8
+--Apple-Mail=_3EBF98E7-4B45-45D9-9758-C8BCA31811BD
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=utf-8
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 18 August 2016 at 17:41, Khem Raj <span dir=3D"ltr">&lt;<a href=3D"mailt=
-o:raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt;</span> w=
-rote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;borde=
-r-left:1px #ccc solid;padding-left:1ex"><div id=3D":1w0" class=3D"a3s aXjCH=
- m1569e8858d13a109">Some layers have gstreamer plugin recipes which include=
-<br>
-the .inc files from OE-Core but they do not get to find<br>
-the patch that is being forced by the .inc file and<br>
-ends up with errors like<br></div></blockquote></div><br>Bad commit message=
- as you don&#39;t specify the module.</div><div class=3D"gmail_extra"><br><=
-/div><div class=3D"gmail_extra">But should this SRC_URI_append be in the co=
-mmon plugins.inc anyway?=C2=A0 Are there out-of-tree modules that don&#39;t=
- use gst-common and so the patch won&#39;t apply?</div><div class=3D"gmail_=
-extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
 
---001a114aa820944837053a5b57c2--
+> On Aug 18, 2016, at 9:43 AM, Khem Raj <raj.khem@gmail.com> wrote:
+>=20
+>=20
+>> On Aug 18, 2016, at 6:46 AM, Richard Purdie =
+<richard.purdie@linuxfoundation.org> wrote:
+>>=20
+>> Building libunwind, then gcc-runtime causes build failures. This is =
+hard
+>> to fix since gcc-runtime wants the internal gcc unwind.h header but =
+libunwind
+>> wants to provide this. There are differences in include behaviour =
+between gcc
+>> and glibc which are by design.
+>=20
+> based upon C library being musl or glibc
+>=20
+>>=20
+>> This patch hacks around the issue by looking for a define used during =
+gcc-runtime's
+>> build and skipping to the internal header in that case. The patch is =
+only enabled
+>> on musl and is the best workaround I could come up with to unblock =
+failing builds
+>> on our auto builder.
+>=20
+> I also saw gcc build failures not only gcc-runtime. I am not able to =
+find the logs
+> once I have a reproducer, I will check if it was in libstdc++ as well =
+or elsewhere
+> nevertheless this is ok to go in.
+
+It was compiling gcc itself for arm/musl target see
+
+http://errors.yoctoproject.org/Errors/Details/73163/
+
+thats why I disabled it on world builds on arm. Real fix would be
+for gcc to get its act together.
+
+>=20
+>>=20
+>> [YOCTO #10129]
+>>=20
+>> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+>>=20
+>> diff --git =
+a/meta/recipes-support/libunwind/libunwind/musl-header-conflict.patch =
+b/meta/recipes-support/libunwind/libunwind/musl-header-conflict.patch
+>> new file mode 100644
+>> index 0000000..79f63fd
+>> --- /dev/null
+>> +++ =
+b/meta/recipes-support/libunwind/libunwind/musl-header-conflict.patch
+>> @@ -0,0 +1,37 @@
+>> +If you:
+>> +
+>> +TCLIBC=3Dmusl bitbake unwind
+>> +TCLIBC=3Dmusl bitbake gcc-runtime -c cleansstate
+>> +TCLIBC=3Dmusl bitbake gcc-runtime
+>> +
+>> +you will see libstdc++ fail to build due to finding libunwind's =
+header file.
+>> +
+>> +Khem: "When we build any of gcc components they expect to use =
+internal version
+>> +and that works with glibc based gcc since the search headers first =
+look into gcc
+>> +headers, however with musl the gcc headers are searched after the =
+standard
+>> +headers ( which is by design the right thing )."
+>> +
+>> +This patch hacks around the issue by looking for a define used =
+during gcc-runtime's
+>> +build and skipping to the internal header in that case.
+>> +
+>> +[YOCTO #10129]
+>> +
+>> +RP 2016/8/18
+>> +
+>> +Upstream-Status: Inappropriate [really need to fix gcc]
+>> +
+>> +Index: git/include/unwind.h
+>> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>> +--- git.orig/include/unwind.h
+>> ++++ git/include/unwind.h
+>> +@@ -23,6 +23,10 @@ LIABLE FOR ANY CLAIM, DAMAGES OR OTHER L
+>> + OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN =
+CONNECTION
+>> + WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.  */
+>> +
+>> ++#ifdef _GLIBCXX_SHARED
+>> ++#include_next <unwind.h>
+>> ++#endif
+>=20
+> This is a solution we can live with since _GLIBCXX_SHARED is gcc =
+internal define, it wont
+> be visible to other packages.
+>=20
+>> ++
+>> + #ifndef _UNWIND_H
+>> + #define _UNWIND_H
+>> +
+>> diff --git a/meta/recipes-support/libunwind/libunwind_git.bb =
+b/meta/recipes-support/libunwind/libunwind_git.bb
+>> index 6d1d9fb..cd4cb89 100644
+>> --- a/meta/recipes-support/libunwind/libunwind_git.bb
+>> +++ b/meta/recipes-support/libunwind/libunwind_git.bb
+>> @@ -13,6 +13,7 @@ SRC_URI =3D "git://git.sv.gnu.org/libunwind.git \
+>>           =
+file://0001-ppc32-Consider-ucontext-mismatches-between-glibc-and.patch \
+>>           "
+>>=20
+>> +SRC_URI_append_libc-musl =3D " file://musl-header-conflict.patch=E2=80=
+=9D
+>=20
+> It should be fine to use it in general too.
+>=20
+>> EXTRA_OECONF_append_libc-musl =3D " --disable-documentation =
+--disable-tests "
+>>=20
+>> # http://errors.yoctoproject.org/Errors/Details/20487/
+>>=20
+>>=20
+>=20
+
+
+--Apple-Mail=_3EBF98E7-4B45-45D9-9758-C8BCA31811BD
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+	filename=signature.asc
+Content-Type: application/pgp-signature;
+	name=signature.asc
+Content-Description: Message signed with OpenPGP using GPGMail
+
+-----BEGIN PGP SIGNATURE-----
+Comment: GPGTools - https://gpgtools.org
+
+iEYEARECAAYFAle15wUACgkQuwUzVZGdMxT/kQCfbdeDJNKSiX8XJKLKIGO3eeiV
+fXkAn3qViBFREgmob5UKxkPoVps3kG5C
+=GTVI
+-----END PGP SIGNATURE-----
+
+--Apple-Mail=_3EBF98E7-4B45-45D9-9758-C8BCA31811BD--
