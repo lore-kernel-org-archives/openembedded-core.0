@@ -1,50 +1,46 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f173.google.com (mail-pf0-f173.google.com
-	[209.85.192.173])
-	by mail.openembedded.org (Postfix) with ESMTP id DCEBC731C9
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io0-f169.google.com (mail-io0-f169.google.com
+	[209.85.223.169])
+	by mail.openembedded.org (Postfix) with ESMTP id 2291B77038
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Aug 2016 17:58:09 +0000 (UTC)
-Received: by mail-pf0-f173.google.com with SMTP id h186so471694pfg.3
+	Thu, 18 Aug 2016 18:12:02 +0000 (UTC)
+Received: by mail-io0-f169.google.com with SMTP id 38so26577972iol.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Aug 2016 10:58:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=subject:mime-version:from:in-reply-to:date:cc:message-id:references
-	:to; bh=OGee1szbwr/li3aeIuV3vY7ChnRKCd3Vcsw2QR2/Pew=;
-	b=Sg9joozUZnNE/R1mIyRqiJvL1RJpFqIIN4RUZjJbrSTAv1VbmLEXHHEPyw5ZfRkgX7
-	J8NR1mc6xP/Kody0wpgMpdtv2PxovNMKbPKLPGrD2GvlXPbdgVLSPlnXlWcaYXzth6iN
-	hl/rq+v0YVC9XbacI6muk7h0f6yilBSX+8H2+AvyxAdwzhCM2+I77BRK7P8ZWOvHtlG8
-	pR9vW6R24rZAX7geKAwBd66PQyUW6WoC77PKi5P6iDmnvTEIQOxxO7ZSMhwmVjgZvvle
-	NnlpmD6fHnAXsY1HJ1ofc/bkT67ca49RC/Ii71Ch/i9Mjxs2Zy+IVBxWLv3YbiMH07AU
-	bHsg==
+	Thu, 18 Aug 2016 11:12:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=q5c9v6O1uwC79ZBTeovAUJasyTs54VE9PIfzRu71yas=;
+	b=ICoHVVRYBeqT4Y2N3nsTXTqmpXIDU+t/qwL39R8ZNb6+/nxMFJZQdb3ttk7c1lUbHB
+	bGfkayJmCrYejO0mWxPxCoBgzUF+l3VfrpakSsWVDlFEKzEijzFrfyqwKR9yuRZTn366
+	dmRee1R7MMuYftt5ukhYN6nA5VPoURexj3mbO2ebajcMKDzXyNfv8kTy/3V0cNlP0+R5
+	9WceWdlZIIZgPJPjsqDnc8zaLohWX72xnzcursMRIfx8r6rEuhVwoW5mxcp1d8b2UN54
+	OhAqBrikecC0Q6xk3gXNVly1A46X1UZD+GtVdfkoIkVGgzAs1nupoG2AzK/LdmWooiNG
+	5cvg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:subject:mime-version:from:in-reply-to:date:cc
-	:message-id:references:to;
-	bh=OGee1szbwr/li3aeIuV3vY7ChnRKCd3Vcsw2QR2/Pew=;
-	b=Ndfd+kl4Phx+icBtAlXhORrgktKVSZHUyeUYyiHrqS4HoeDYVHfJXtJqyu/wFno89Y
-	xo6OF0TOzrsXc2btnTDsyV2oqgaIwSCSSNerc/dEYqakdqvjGqg5lgOOOCldokcnEAw/
-	HbDijlSEcsuCFKR8zZ93QHUSAgJc1IOrmhcPwgHjGka5zGwChdbA0cfVX3oD6s7+HNfg
-	zvBGWohgOhh8InpP3g4EWQeSS1iZf1Kkjadjzu+q05EDbehnpVKLyvA81HsOKRvbgKf4
-	I9c+dew8FFhaOZvAWvHVWHUYSpoRmumK90wThBvbNVf1wDgn1qLI4OXnxjngVxGq+yFo
-	fIrw==
-X-Gm-Message-State: AEkooutF8PMtEmJ3HfgfkrMfp7n0NQrtsxZW+dKmQxF8X7QkLBNgqHBhV3NIXan4sr5tnQ==
-X-Received: by 10.98.108.3 with SMTP id h3mr6272688pfc.162.1471543090349;
-	Thu, 18 Aug 2016 10:58:10 -0700 (PDT)
-Received: from ?IPv6:2601:647:4c00:3edf:e111:2047:280c:be38?
-	([2601:647:4c00:3edf:e111:2047:280c:be38])
-	by smtp.gmail.com with ESMTPSA id a5sm324297pfc.89.2016.08.18.10.58.09
-	(version=TLS1 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 18 Aug 2016 10:58:09 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 9.3 \(3124\))
-X-Pgp-Agent: GPGMail
-From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <CAJTo0LZy-mx4K=eSJdNRq12JVDzGwW+Oe0uf40YRZAmyWVJsZQ@mail.gmail.com>
-Date: Thu, 18 Aug 2016 10:58:04 -0700
-Message-Id: <56847BB1-DCA8-446D-9418-2D42098A7073@gmail.com>
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=q5c9v6O1uwC79ZBTeovAUJasyTs54VE9PIfzRu71yas=;
+	b=AHPOca+x37ySCJpTaiC5monjopNJrvdgX8/7gl6svdJGAFqxHjnB3F+BcNDDyMhj2V
+	aU6sUNdwaJMVTYVrdYfJg0/I899plIpfnbDRDqmNQKKNezJzEuTst86yStTOJflNSNG7
+	+eHgyFcuH03aqhB2H574g1ekXQCnWSrkYug+x0y1+Z3HiT4xAVpQZ00KqOT7sm5+h0wb
+	ZrfDfkDszSUaS0oc8/b9/1EozCzunhUUGlzywbcdzkT/m7F7Ya2AJDj78OlB0iskn0vO
+	ZjNLSG0Nq7/wfq8QvY6wib8ISrno3asDFnHdE9jn9F+kbdkHvQ3VAgoue+URsz9t2nRI
+	D8vQ==
+X-Gm-Message-State: AEkoousZEuy1mX6aBb0WqySAvPNTBsVpwx6wpCzACNtAqFGzAZHTgahOk8UzpF3pqv48CkcAxTEZApHqcl7FkiHi
+X-Received: by 10.107.154.196 with SMTP id c187mr4588528ioe.99.1471543923419; 
+	Thu, 18 Aug 2016 11:12:03 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.107.18.17 with HTTP; Thu, 18 Aug 2016 11:11:43 -0700 (PDT)
+In-Reply-To: <56847BB1-DCA8-446D-9418-2D42098A7073@gmail.com>
 References: <1471499308-1666-1-git-send-email-wangxin2015.fnst@cn.fujitsu.com>
 	<CAJTo0LZy-mx4K=eSJdNRq12JVDzGwW+Oe0uf40YRZAmyWVJsZQ@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-X-Mailer: Apple Mail (2.3124)
+	<56847BB1-DCA8-446D-9418-2D42098A7073@gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 18 Aug 2016 19:11:43 +0100
+Message-ID: <CAJTo0LZJRJFC71=xEa_EQUiOTZNWR8QPGtnJvSWqqGLqM_QjcQ@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] gdk-pixbuf: 2.34.0 -> 2.35.3
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -59,96 +55,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 Aug 2016 17:58:10 -0000
-X-Groupsio-MsgNum: 85915
-Content-Type: multipart/signed;
-	boundary="Apple-Mail=_6968D3A5-5292-4783-8D9D-145342F43E53";
-	protocol="application/pgp-signature"; micalg=pgp-sha1
+X-List-Received-Date: Thu, 18 Aug 2016 18:12:03 -0000
+Content-Type: multipart/alternative; boundary=001a1140e81ed3c1d2053a5c84e9
 
---Apple-Mail=_6968D3A5-5292-4783-8D9D-145342F43E53
-Content-Type: multipart/alternative;
-	boundary="Apple-Mail=_6747993F-E7EA-4813-9764-07A4DDA12E88"
+--001a1140e81ed3c1d2053a5c84e9
+Content-Type: text/plain; charset=UTF-8
 
---Apple-Mail=_6747993F-E7EA-4813-9764-07A4DDA12E88
+On 18 August 2016 at 18:58, Khem Raj <raj.khem@gmail.com> wrote:
+
+> perhaps recipe updater script should account for such presets ?
+>
+
+It does:  http://recipes.yoctoproject.org/rrs/recipedetail/451/ says
+up-to-date as we have 2.34.0 despite there being 2.35.3.
+
+These upgrades have been done without reference to the tooling we've got.
+
+Ross
+
+--001a1140e81ed3c1d2053a5c84e9
+Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=us-ascii
 
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 18 August 2016 at 18:58, Khem Raj <span dir=3D"ltr">&lt;<a href=3D"mailt=
+o:raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt;</span> w=
+rote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8e=
+x;border-left-width:1px;border-left-color:rgb(204,204,204);border-left-styl=
+e:solid;padding-left:1ex"><div>perhaps recipe updater script should account=
+ for such presets ?=C2=A0</div></blockquote></div><br>It does: =C2=A0<a hre=
+f=3D"http://recipes.yoctoproject.org/rrs/recipedetail/451/">http://recipes.=
+yoctoproject.org/rrs/recipedetail/451/</a> says up-to-date as we have 2.34.=
+0 despite there being 2.35.3.</div><div class=3D"gmail_extra"><br></div><di=
+v class=3D"gmail_extra">These upgrades have been done without reference to =
+the tooling we&#39;ve got.</div><div class=3D"gmail_extra"><br></div><div c=
+lass=3D"gmail_extra">Ross</div></div>
 
-> On Aug 18, 2016, at 4:33 AM, Burton, Ross <ross.burton@intel.com> =
-wrote:
->=20
->=20
-> On 18 August 2016 at 06:48, Wang Xin <wangxin2015.fnst@cn.fujitsu.com =
-<mailto:wangxin2015.fnst@cn.fujitsu.com>> wrote:
-> Upgrade gdk-pixbuf from 2.34.0 to 2.35.3.
->=20
-> 2.35.x is a development release, so stick with 2.34.x until 2.36.0 is =
-available.
-
-perhaps recipe updater script should account for such presets ?
-
->=20
-> Ross
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
-
-
---Apple-Mail=_6747993F-E7EA-4813-9764-07A4DDA12E88
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/html;
-	charset=us-ascii
-
-<html><head><meta http-equiv=3D"Content-Type" content=3D"text/html =
-charset=3Dus-ascii"></head><body style=3D"word-wrap: break-word; =
--webkit-nbsp-mode: space; -webkit-line-break: after-white-space;" =
-class=3D""><br class=3D""><div><blockquote type=3D"cite" class=3D""><div =
-class=3D"">On Aug 18, 2016, at 4:33 AM, Burton, Ross &lt;<a =
-href=3D"mailto:ross.burton@intel.com" =
-class=3D"">ross.burton@intel.com</a>&gt; wrote:</div><br =
-class=3D"Apple-interchange-newline"><div class=3D""><div dir=3D"ltr" =
-class=3D""><div class=3D"gmail_extra"><br class=3D""><div =
-class=3D"gmail_quote">On 18 August 2016 at 06:48, Wang Xin <span =
-dir=3D"ltr" class=3D"">&lt;<a =
-href=3D"mailto:wangxin2015.fnst@cn.fujitsu.com" target=3D"_blank" =
-class=3D"">wangxin2015.fnst@cn.fujitsu.com</a>&gt;</span> wrote:<br =
-class=3D""><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 =
-.8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":4ip" =
-class=3D"a3s aXjCH m1569c3311408dd51">Upgrade gdk-pixbuf from 2.34.0 to =
-2.35.3.<br class=3D""></div></blockquote></div><br class=3D"">2.35.x is =
-a development release, so stick with 2.34.x until 2.36.0 is =
-available.</div></div></div></blockquote><div><br =
-class=3D""></div><div>perhaps recipe updater script should account for =
-such presets ?&nbsp;</div><br class=3D""><blockquote type=3D"cite" =
-class=3D""><div class=3D""><div dir=3D"ltr" class=3D""><div =
-class=3D"gmail_extra"><br class=3D""></div><div =
-class=3D"gmail_extra">Ross</div></div>
--- <br class=3D"">_______________________________________________<br =
-class=3D"">Openembedded-core mailing list<br class=3D""><a =
-href=3D"mailto:Openembedded-core@lists.openembedded.org" =
-class=3D"">Openembedded-core@lists.openembedded.org</a><br =
-class=3D"">http://lists.openembedded.org/mailman/listinfo/openembedded-cor=
-e<br class=3D""></div></blockquote></div><br class=3D""></body></html>=
-
---Apple-Mail=_6747993F-E7EA-4813-9764-07A4DDA12E88--
-
---Apple-Mail=_6968D3A5-5292-4783-8D9D-145342F43E53
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP using GPGMail
-
------BEGIN PGP SIGNATURE-----
-Comment: GPGTools - https://gpgtools.org
-
-iEYEARECAAYFAle19zAACgkQuwUzVZGdMxQGRgCeJpqiVTeeptUBJDxxA5Nk7grq
-Ac4An1YMpK9o7AVCdD1yEnhfrS0zfjkW
-=GbtL
------END PGP SIGNATURE-----
-
---Apple-Mail=_6968D3A5-5292-4783-8D9D-145342F43E53--
+--001a1140e81ed3c1d2053a5c84e9--
