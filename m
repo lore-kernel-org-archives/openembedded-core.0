@@ -1,30 +1,24 @@
-Return-Path: <daicy.fnst@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
-	by mail.openembedded.org (Postfix) with ESMTP id 98E286AC00
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id CE3DD75C60
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Aug 2016 05:55:30 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.22,518,1449504000"; d="scan'208";a="10033166"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 18 Aug 2016 13:55:31 +0800
-Received: from G08CNEXCHPEKD03.g08.fujitsu.local (unknown [10.167.33.85])
-	by cn.fujitsu.com (Postfix) with ESMTP id 8132742BC504
+	Thu, 18 Aug 2016 06:15:45 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u7I6Fj8j013129
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Aug 2016 13:55:32 +0800 (CST)
-Received: from localhost.localdomain (10.167.226.25) by
-	G08CNEXCHPEKD03.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.279.2; Thu, 18 Aug 2016 13:55:32 +0800
-From: Dai Caiyun <daicy.fnst@cn.fujitsu.com>
+	Wed, 17 Aug 2016 23:15:45 -0700 (PDT)
+Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
+	Wed, 17 Aug 2016 23:15:44 -0700
+From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 18 Aug 2016 13:54:18 +0800
-Message-ID: <1471499658-9442-1-git-send-email-daicy.fnst@cn.fujitsu.com>
-X-Mailer: git-send-email 1.7.9.5
+Date: Wed, 17 Aug 2016 23:15:36 -0700
+Message-ID: <cover.1471500427.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 2.9.0
 MIME-Version: 1.0
-X-Originating-IP: [10.167.226.25]
-X-yoursite-MailScanner-ID: 8132742BC504.ABA20
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: daicy.fnst@cn.fujitsu.com
-X-Spam-Status: No
-Subject: [PATCH] libdrm: 2.4.68 -> 2.4.70
+Subject: [PATCH 0/8] runqemu: refactor it and remove machine knowledge
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,51 +31,87 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 Aug 2016 05:55:33 -0000
+X-List-Received-Date: Thu, 18 Aug 2016 06:15:46 -0000
 Content-Type: text/plain
 
-Upgrade libdrm from 2.4.68 to 2.4.70.
+Previously, runqemu had hard coded machine knowledge, which limited its
+usage, for example, qemu can boot genericx86, but runqemu can't, we need
+edit runqemu/runqemu-internal a lot if we want to boot genericx86.
 
-Signed-off-by: Dai Caiyun <daicy.fnst@cn.fujitsu.com>
----
- meta/recipes-graphics/drm/libdrm/fix_O_CLOEXEC_undeclared.patch  | 2 +-
- meta/recipes-graphics/drm/{libdrm_2.4.68.bb => libdrm_2.4.70.bb} | 4 ++--
- 2 files changed, 3 insertions(+), 3 deletions(-)
- rename meta/recipes-graphics/drm/{libdrm_2.4.68.bb => libdrm_2.4.70.bb} (92%)
+Now bsp conf files can set vars to make it can be boot by runqemu, and
+qemuboot.bbclass will save these info to DEPLOY_DIR_IMAGE/qemuboot.py.
+Please see qemuboot.bbclass' comments on how to set the vars.
 
-diff --git a/meta/recipes-graphics/drm/libdrm/fix_O_CLOEXEC_undeclared.patch b/meta/recipes-graphics/drm/libdrm/fix_O_CLOEXEC_undeclared.patch
-index 286e548..4708bf1 100644
---- a/meta/recipes-graphics/drm/libdrm/fix_O_CLOEXEC_undeclared.patch
-+++ b/meta/recipes-graphics/drm/libdrm/fix_O_CLOEXEC_undeclared.patch
-@@ -19,6 +19,6 @@ diff -Naur libdrm-2.4.66-orig/tests/drmdevice.c libdrm-2.4.66/tests/drmdevice.c
-   */
-  
- +#include <config.h>
-+ #include <errno.h>
-  #include <stdio.h>
-  #include <stdlib.h>
-- #include <sys/stat.h>
-diff --git a/meta/recipes-graphics/drm/libdrm_2.4.68.bb b/meta/recipes-graphics/drm/libdrm_2.4.70.bb
-similarity index 92%
-rename from meta/recipes-graphics/drm/libdrm_2.4.68.bb
-rename to meta/recipes-graphics/drm/libdrm_2.4.70.bb
-index 758f801..632c30e 100644
---- a/meta/recipes-graphics/drm/libdrm_2.4.68.bb
-+++ b/meta/recipes-graphics/drm/libdrm_2.4.70.bb
-@@ -15,8 +15,8 @@ SRC_URI = "http://dri.freedesktop.org/libdrm/${BP}.tar.bz2 \
-            file://fix_O_CLOEXEC_undeclared.patch \
-           "
- 
--SRC_URI[md5sum] = "bcc96848d969cecf28223f668eeff354"
--SRC_URI[sha256sum] = "5b4bd9a5922929bc716411cb74061fbf31b06ba36feb89bc1358a91a8d0ca9df"
-+SRC_URI[md5sum] = "920957cfe25a80efb02be9bd90bf3c1e"
-+SRC_URI[sha256sum] = "b17d4b39ed97ca0e4cffa0db06ff609e617bac94646ec38e8e0579d530540e7b"
- 
- inherit autotools pkgconfig
- 
+* Re-write it in python3, which can reduce lines from 1239 to about 750
+  lines
+* All the machine knowledges are gone
+* Most of the TUN_ARCH knowledge are gone except aarch64 and powerpc,
+  it's not easy to remove the two, so leave them there atm
+* All the previous options are preserved, and there is a new way to run
+  runqemu: (it doesn't need run "bitake -e" in such a case)
+  $ runqemu tmp/deploy/images/qemux86
+  or:
+  $ runqemu tmp/deploy/images/qemuarm/<image>.ext4
+  or:
+  $ runqemu tmp/deploy/images/qemuarm/qemuboot.py
+* Fixed audio support, not limited on x86 or x86_64
+* The kvm support is not limited on x86 or x86_64
+* Fix SLIRP mode
+* Fix NFS boot, it will extract <image>.tar.bz2 or tar.gz to
+  DEPLOY_DIR_IMAGE/<image>-nfsroot when no NFS_DIR, and remove it after
+  stop.
+* More bsps can be boot, such as genericx86 and genericx86-64.
+* The patch for qemuzynq, qemuzynqmp, qemumicroblaze has been sent to
+  meta-xilinx' mailing list.
+* I can't find any qemush4 bsp or how to build it, so it is not
+  considered atm.
+
+* Tested the following machines, all of them work well:
+  genericx86 genericx86-64
+  qemuarm qemuarm64
+  qemumips qemumips64 qemuppc
+  qemux86 qemux86-64
+  qemuzynq qemuzynqmp
+
+And also test "bitbake core-image-sato -ctestimage" which uses runqemu, it
+also works.
+
+// Robert
+
+The following changes since commit c86bf80abd87acb0da5860806822c64ec9dee089:
+
+  oeqa.buildperf: use oe.path.remove() (2016-08-17 10:35:27 +0100)
+
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib rbt/runqemu
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/runqemu
+
+Robert Yang (8):
+  qemu.inc: inherit qemu-boot.bbclass
+  arm: set vars for runqemu
+  qemuarm64.conf: set vars for runqemu
+  arch-x86.inc: set vars for runqemu
+  arch-mips.inc: set vars for runqemu
+  qemuppc.conf: set vars for runqemu
+  qemuboot.bbclass: add it for runqemu
+  runqemu: refactor it and remove machine knowledge
+
+ meta/classes/qemuboot.bbclass                |   59 ++
+ meta/conf/machine/include/mips/arch-mips.inc |    6 +
+ meta/conf/machine/include/qemu.inc           |    2 +
+ meta/conf/machine/include/tune-cortexa8.inc  |    4 +
+ meta/conf/machine/include/x86/arch-x86.inc   |   15 +
+ meta/conf/machine/qemuarm.conf               |    5 +
+ meta/conf/machine/qemuarm64.conf             |    9 +
+ meta/conf/machine/qemuppc.conf               |    6 +
+ scripts/runqemu                              | 1261 +++++++++++++++-----------
+ scripts/runqemu-internal                     |  739 ---------------
+ 10 files changed, 842 insertions(+), 1264 deletions(-)
+ create mode 100644 meta/classes/qemuboot.bbclass
+ delete mode 100755 scripts/runqemu-internal
+
 -- 
-2.7.4
-
-
+2.9.0
 
 
