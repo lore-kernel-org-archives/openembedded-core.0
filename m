@@ -1,26 +1,26 @@
 Return-Path: <mark.hatle@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 15D9E7706C
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 852F27704E
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Aug 2016 17:04:20 +0000 (UTC)
+	Thu, 18 Aug 2016 17:04:22 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u7IH4Lmo019966
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u7IH4MM3032186
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Aug 2016 10:04:21 -0700 (PDT)
+	Thu, 18 Aug 2016 10:04:22 -0700
 Received: from msp-dhcp15.wrs.com (172.25.34.15) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.40) with Microsoft SMTP Server id 14.3.248.2;
-	Thu, 18 Aug 2016 10:04:20 -0700
+	Thu, 18 Aug 2016 10:04:21 -0700
 From: Mark Hatle <mark.hatle@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 18 Aug 2016 12:04:15 -0500
-Message-ID: <b6bbdff553e3b63cb10ae5a033f2c4a030ae977f.1471539779.git.mark.hatle@windriver.com>
+Date: Thu, 18 Aug 2016 12:04:16 -0500
+Message-ID: <ac8bfa5987396bae636ebb152128755967d3ce83.1471539779.git.mark.hatle@windriver.com>
 X-Mailer: git-send-email 2.5.5
 In-Reply-To: <cover.1471539779.git.mark.hatle@windriver.com>
 References: <cover.1471539779.git.mark.hatle@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/3] prelink: Move to latest version of prelink
+Subject: [PATCH 2/3] local.conf.sample: Disable ARM and PPC due to prelink test case failures
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,31 +36,35 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Thu, 18 Aug 2016 17:04:22 -0000
 Content-Type: text/plain
 
-* Uprev rtld emulation to glibc-2.23
-* Fix compilation warnings
-* Add additional debug scopes
-* Change rtld build_local_scope to be breadth-first
-* Fix LD_PRELOAD emulation
-* Change function reordering to work with latest binutils
+Internal prelink test cases reloc8 and reloc9 are failing on both ARM
+and PPC systems.  Disable them by removing the prelink from the
+IMAGE_CLASSES setting.
 
 Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
 ---
- meta/recipes-devtools/prelink/prelink_git.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/conf/local.conf.sample | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-diff --git a/meta/recipes-devtools/prelink/prelink_git.bb b/meta/recipes-devtools/prelink/prelink_git.bb
-index e223ef6..5d9f260 100644
---- a/meta/recipes-devtools/prelink/prelink_git.bb
-+++ b/meta/recipes-devtools/prelink/prelink_git.bb
-@@ -8,7 +8,7 @@ and executables, so that far fewer relocations need to be resolved at \
- runtime and thus programs come up faster."
- LICENSE = "GPLv2"
- LIC_FILES_CHKSUM = "file://COPYING;md5=c93c0550bd3173f4504b2cbd8991e50b"
--SRCREV = "927979bbd115eeb8a75db3231906ef6aca4c4eb6"
-+SRCREV = "ef20628dd78b92e1a3123afc67b64cf010bdd9e4"
- PV = "1.0+git${SRCPV}"
+diff --git a/meta/conf/local.conf.sample b/meta/conf/local.conf.sample
+index 2949ffb..8879a08 100644
+--- a/meta/conf/local.conf.sample
++++ b/meta/conf/local.conf.sample
+@@ -132,6 +132,15 @@ EXTRA_IMAGE_FEATURES ?= "debug-tweaks"
+ # image-prelink disabled for now due to issues with IFUNC symbol relocation
+ USER_CLASSES ?= "buildstats image-mklibs"
+ 
++# Prelinker tests are currently failing on ARM and PPC.  Prevent us from
++# running on those architectures until the failure is explained.
++USER_CLASSES_remove_arm = 'image-prelink'
++USER_CLASSES_remove_armeb = 'image-prelink'
++USER_CLASSES_remove_aarch64 = 'image-prelink'
++USER_CLASSES_remove_aarch64eb = 'image-prelink'
++USER_CLASSES_remove_powerpc = 'image-prelink'
++USER_CLASSES_remove_powerpc64 = 'image-prelink'
++
  
  #
+ # Runtime testing of images
 -- 
 2.5.5
 
