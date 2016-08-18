@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id EED6675CF1
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 43880760AC
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Aug 2016 06:15:45 +0000 (UTC)
+	Thu, 18 Aug 2016 06:15:46 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u7I6FjZM012597
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u7I6FlC9016297
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Aug 2016 23:15:46 -0700 (PDT)
+	Wed, 17 Aug 2016 23:15:47 -0700
 Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Wed, 17 Aug 2016 23:15:45 -0700
+	Wed, 17 Aug 2016 23:15:46 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 17 Aug 2016 23:15:37 -0700
-Message-ID: <c325b48bdb1481233033ac12ba8c3a1e576563fc.1471500427.git.liezhi.yang@windriver.com>
+Date: Wed, 17 Aug 2016 23:15:38 -0700
+Message-ID: <81602d89c0c8902e59a3cc221a12324693d55b36.1471500427.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.9.0
 In-Reply-To: <cover.1471500427.git.liezhi.yang@windriver.com>
 References: <cover.1471500427.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/8] qemu.inc: inherit qemu-boot.bbclass
+Subject: [PATCH 2/8] arm: set vars for runqemu
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,26 +33,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 Aug 2016 06:15:46 -0000
+X-List-Received-Date: Thu, 18 Aug 2016 06:15:47 -0000
 Content-Type: text/plain
 
-All qemu boards should be able to boot by runqemu.
+These info are from old runqemu.
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- meta/conf/machine/include/qemu.inc | 2 ++
- 1 file changed, 2 insertions(+)
+ meta/conf/machine/include/tune-cortexa8.inc | 4 ++++
+ meta/conf/machine/qemuarm.conf              | 5 +++++
+ 2 files changed, 9 insertions(+)
 
-diff --git a/meta/conf/machine/include/qemu.inc b/meta/conf/machine/include/qemu.inc
-index f44dbe6..2bc4dc2 100644
---- a/meta/conf/machine/include/qemu.inc
-+++ b/meta/conf/machine/include/qemu.inc
-@@ -29,3 +29,5 @@ EXTRA_IMAGEDEPENDS += "qemu-native qemu-helper-native"
- KERNEL_FEATURES_append_pn-linux-yocto = " features/nfsd/nfsd-enable.scc"
- 
- MACHINE_EXTRA_RRECOMMENDS += "rng-tools"
+diff --git a/meta/conf/machine/include/tune-cortexa8.inc b/meta/conf/machine/include/tune-cortexa8.inc
+index c8ce021..d853306 100644
+--- a/meta/conf/machine/include/tune-cortexa8.inc
++++ b/meta/conf/machine/include/tune-cortexa8.inc
+@@ -34,3 +34,7 @@ PACKAGE_EXTRA_ARCHS_tune-cortexa8hf             = "${PACKAGE_EXTRA_ARCHS_tune-ar
+ PACKAGE_EXTRA_ARCHS_tune-cortexa8thf            = "${PACKAGE_EXTRA_ARCHS_tune-armv7athf} cortexa8hf-vfp cortexa8t2hf-vfp"
+ PACKAGE_EXTRA_ARCHS_tune-cortexa8hf-neon        = "${PACKAGE_EXTRA_ARCHS_tune-armv7ahf-neon}  cortexa8hf-vfp cortexa8hf-neon"
+ PACKAGE_EXTRA_ARCHS_tune-cortexa8thf-neon       = "${PACKAGE_EXTRA_ARCHS_tune-armv7athf-neon} cortexa8hf-vfp cortexa8hf-neon cortexa8t2hf-vfp cortexa8t2hf-neon"
 +
-+IMAGE_CLASSES += "qemuboot"
++# For runqemu
++QB_SYSTEM_NAME = "qemu-system-arm"
++QB_CPU = "-cpu cortex-a8"
+diff --git a/meta/conf/machine/qemuarm.conf b/meta/conf/machine/qemuarm.conf
+index cdad03f..34686cf 100644
+--- a/meta/conf/machine/qemuarm.conf
++++ b/meta/conf/machine/qemuarm.conf
+@@ -10,3 +10,8 @@ KERNEL_IMAGETYPE = "zImage"
+ 
+ SERIAL_CONSOLES = "115200;ttyAMA0 115200;ttyAMA1"
+ 
++# For runqemu
++QB_SYSTEM_NAME = "qemu-system-arm"
++QB_MACHINE = "-machine versatilepb"
++QB_KERNEL_CMDLINE_APPEND = "console=ttyAMA0,115200 console=tty"
++QB_OPT_APPEND = "-show-cursor -usb -usbdevice tablet"
 -- 
 2.9.0
 
