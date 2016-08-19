@@ -1,24 +1,28 @@
-Return-Path: <Awais_Belal@mentor.com>
-Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
-	by mail.openembedded.org (Postfix) with ESMTP id 23D5460670
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id 9031573204
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Aug 2016 11:08:17 +0000 (UTC)
-Received: from nat-ies.mentorg.com ([192.94.31.2]
-	helo=SVR-IES-FEM-01.mgc.mentorg.com)
-	by relay1.mentorg.com with esmtp 
-	id 1bahes-0002OK-1Y from Awais_Belal@mentor.com 
-	for openembedded-core@lists.openembedded.org;
-	Fri, 19 Aug 2016 04:08:18 -0700
-Received: from awais-Precision-M4700.pkl.mentorg.com (137.202.0.76) by
-	SVR-IES-FEM-01.mgc.mentorg.com (137.202.0.104) with Microsoft SMTP
-	Server id 14.3.224.2; Fri, 19 Aug 2016 12:08:16 +0100
-From: Awais Belal <awais_belal@mentor.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 19 Aug 2016 16:08:13 +0500
-Message-ID: <1471604893-5003-1-git-send-email-awais_belal@mentor.com>
-X-Mailer: git-send-email 1.9.1
+	Fri, 19 Aug 2016 12:42:33 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by fmsmga104.fm.intel.com with ESMTP; 19 Aug 2016 05:42:20 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.28,544,1464678000"; d="scan'208";a="750925392"
+Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.49])
+	([10.237.68.49])
+	by FMSMGA003.fm.intel.com with ESMTP; 19 Aug 2016 05:42:21 -0700
+To: openembedded-core@lists.openembedded.org
+References: <1471499308-1666-1-git-send-email-wangxin2015.fnst@cn.fujitsu.com>
+	<CAJTo0LZy-mx4K=eSJdNRq12JVDzGwW+Oe0uf40YRZAmyWVJsZQ@mail.gmail.com>
+	<56847BB1-DCA8-446D-9418-2D42098A7073@gmail.com>
+	<CAJTo0LZJRJFC71=xEa_EQUiOTZNWR8QPGtnJvSWqqGLqM_QjcQ@mail.gmail.com>
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Message-ID: <8b30fc2d-26ea-03bd-58ea-cdbf00e74b36@linux.intel.com>
+Date: Fri, 19 Aug 2016 15:41:16 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Icedove/45.2.0
 MIME-Version: 1.0
-Subject: [PATCH] asciidoc-native: add dependency on docbook-xml-dtd4-native
+In-Reply-To: <CAJTo0LZJRJFC71=xEa_EQUiOTZNWR8QPGtnJvSWqqGLqM_QjcQ@mail.gmail.com>
+Subject: Re: [PATCH] gdk-pixbuf: 2.34.0 -> 2.35.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,33 +35,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 19 Aug 2016 11:08:18 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 19 Aug 2016 12:42:36 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 
-During the compilation phase asciidoc runs a2x for validation
-of some xmls which in turn invokes xmllint with --nonet
-parameter that requires DTDs to be available locally in order
-to succeed otherwise the do_compile fails.
-We now add a direct dependency on docbook-xml-dtd4 so the
-DTDs are always available locally.
+On 08/18/2016 09:11 PM, Burton, Ross wrote:
+>
+> On 18 August 2016 at 18:58, Khem Raj <raj.khem@gmail.com
+> <mailto:raj.khem@gmail.com>> wrote:
+>
+>     perhaps recipe updater script should account for such presets ?
+>
+>
+> It does:  http://recipes.yoctoproject.org/rrs/recipedetail/451/ says
+> up-to-date as we have 2.34.0 despite there being 2.35.3.
+>
+> These upgrades have been done without reference to the tooling we've got.
 
-Signed-off-by: Awais Belal <awais_belal@mentor.com>
----
- meta/recipes-extended/asciidoc/asciidoc_8.6.9.bb | 1 +
- 1 file changed, 1 insertion(+)
+Also the recipe itself inherits upstream-version-is-even class - that 
+means odd versions are development snapshots and should be ignored.
 
-diff --git a/meta/recipes-extended/asciidoc/asciidoc_8.6.9.bb b/meta/recipes-extended/asciidoc/asciidoc_8.6.9.bb
-index 1500b0a..7597c0e 100644
---- a/meta/recipes-extended/asciidoc/asciidoc_8.6.9.bb
-+++ b/meta/recipes-extended/asciidoc/asciidoc_8.6.9.bb
-@@ -16,5 +16,6 @@ SRC_URI[sha256sum] = "78db9d0567c8ab6570a6eff7ffdf84eadd91f2dfc0a92a2d0105d323ca
- inherit distutils autotools-brokensep
- 
- export DESTDIR = "${D}"
-+DEPENDS_class-native = "docbook-xml-dtd4-native"
- RDEPENDS_${PN} += "python" 
- BBCLASSEXTEND = "native"
--- 
-1.9.1
+Alex
 
 
