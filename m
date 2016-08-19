@@ -1,27 +1,28 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id C7B6A770A6
+	by mail.openembedded.org (Postfix) with ESMTP id 847DE760A3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Aug 2016 22:14:02 +0000 (UTC)
+	Fri, 19 Aug 2016 22:50:03 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u7JME0sO018635; Fri, 19 Aug 2016 23:14:00 +0100
+	u7JMo0Mn019629; Fri, 19 Aug 2016 23:50:00 +0100
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id toUHgFi4Y9ss; Fri, 19 Aug 2016 23:14:00 +0100 (BST)
+	with LMTP id p1M_5fdzRFaE; Fri, 19 Aug 2016 23:50:00 +0100 (BST)
 Received: from hex ([192.168.3.34]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u7JMDsIL018628
+	u7JMnr0l019623
 	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Fri, 19 Aug 2016 23:13:56 +0100
-Message-ID: <1471644834.16712.59.camel@linuxfoundation.org>
+	Fri, 19 Aug 2016 23:49:55 +0100
+Message-ID: <1471646993.16712.60.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Francisco Pedraza <francisco.j.pedraza.gonzalez@intel.com>,
 	openembedded-core@lists.openembedded.org
-Date: Fri, 19 Aug 2016 23:13:54 +0100
-In-Reply-To: <1471473060-27026-2-git-send-email-francisco.j.pedraza.gonzalez@intel.com>
+Date: Fri, 19 Aug 2016 23:49:53 +0100
+In-Reply-To: <1471644834.16712.59.camel@linuxfoundation.org>
 References: <1471473060-27026-1-git-send-email-francisco.j.pedraza.gonzalez@intel.com>
 	<1471473060-27026-2-git-send-email-francisco.j.pedraza.gonzalez@intel.com>
+	<1471644834.16712.59.camel@linuxfoundation.org>
 X-Mailer: Evolution 3.16.5-1ubuntu3.1 
 Mime-Version: 1.0
 Subject: Re: [PATCH 2/2] oeqa/selftest Adds eSDK test cases to devtool verification.
@@ -37,31 +38,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 19 Aug 2016 22:14:03 -0000
+X-List-Received-Date: Fri, 19 Aug 2016 22:50:05 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Wed, 2016-08-17 at 17:31 -0500, Francisco Pedraza wrote:
-> The covered functions are, install libraries headers, image
-> generation binary feeds and
-> sdk update devtool.
+On Fri, 2016-08-19 at 23:13 +0100, Richard Purdie wrote:
+> On Wed, 2016-08-17 at 17:31 -0500, Francisco Pedraza wrote:
+> > The covered functions are, install libraries headers, image
+> > generation binary feeds and
+> > sdk update devtool.
+> > 
+> > Signed-off-by: Francisco Pedraza <
+> > francisco.j.pedraza.gonzalez@intel.com>
+> > ---
+> >  meta/lib/oeqa/selftest/eSDK.py | 147
+> > +++++++++++++++++++++++++++++++++++++++++
+> >  1 file changed, 147 insertions(+)
+> >  create mode 100644 meta/lib/oeqa/selftest/eSDK.py
 > 
-> Signed-off-by: Francisco Pedraza <
-> francisco.j.pedraza.gonzalez@intel.com>
-> ---
->  meta/lib/oeqa/selftest/eSDK.py | 147
-> +++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 147 insertions(+)
->  create mode 100644 meta/lib/oeqa/selftest/eSDK.py
+> I do love the idea of this and having more tests but the kernel
+> module
+> ESDK test fails on ppc and mips:
+> 
+> https://autobuilder.yoctoproject.org/main/builders/nightly-ppc/builds
+> /911/steps/Running%20ESDK%20Sanity%20Tests/logs/stdio
+> 
+> https://autobuilder.yoctoproject.org/main/builders/nightly-mips/build
+> s/898
 
-I do love the idea of this and having more tests but the kernel module
-ESDK test fails on ppc and mips:
+and:
 
-https://autobuilder.yoctoproject.org/main/builders/nightly-ppc/builds/911/steps/Running%20ESDK%20Sanity%20Tests/logs/stdio
+https://autobuilder.yoctoproject.org/main/builders/nightly-oe-selftest/builds/649/steps/Running%20oe-selftest/logs/stdio
 
-https://autobuilder.yoctoproject.org/main/builders/nightly-mips/builds/898
+(sorry!)
 
 Cheers,
 
 Richard
+
 
