@@ -1,49 +1,49 @@
-Return-Path: <nathan@nathanrossi.com>
-Received: from mail-yb0-f173.google.com (mail-yb0-f173.google.com
-	[209.85.213.173])
-	by mail.openembedded.org (Postfix) with ESMTP id 18FC176294
+Return-Path: <jussi.kukkonen@intel.com>
+Received: from mail-oi0-f42.google.com (mail-oi0-f42.google.com
+	[209.85.218.42])
+	by mail.openembedded.org (Postfix) with ESMTP id AF73D73211
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Aug 2016 08:52:29 +0000 (UTC)
-Received: by mail-yb0-f173.google.com with SMTP id e31so13522395ybi.3
+	Fri, 19 Aug 2016 09:00:21 +0000 (UTC)
+Received: by mail-oi0-f42.google.com with SMTP id 4so55566319oih.2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Aug 2016 01:52:30 -0700 (PDT)
+	Fri, 19 Aug 2016 02:00:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=nathanrossi.com; s=google;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=A89ZXf90c8vPv5p133JKqn4SQs6oX1jyEu8TBABEjpw=;
-	b=i6EhPJ5mu61pLfxq0RR9wSghebE8ER5zSLzVEFDIP2btmjYtLsHfnFq6dkr1VPGYue
-	lm2iycJofdwmLt/KVVosHo0WmKRIu8+rW/e+VKu0Nn8u0WOaSBIdt2chRq/7AL7XolCW
-	gdgmoCRyWhZ8xkON9/MHgi9vwLjhX4dFxTSgu/02WdCwaW5XtNaysPkf/oYN6TKr7bay
-	ZRhlIYE0mXcZdZWzIwmL14EKE9WF1l8DTyQHLjWI10Hgu57RCkaTlzdLCAjcAatLXsNY
-	1IeMrwxSifL7Dwf3gLTpv33lNca76LUdAzE9FtqhmZFOhDfUoxJctbMYsJPUqWrsSoGl
-	mW2A==
+	:cc; bh=Qo/cQDMT5wz2WuHVDiyIgPaLt4iRXVmyPHsAhFXFtSI=;
+	b=sYNHCoMkyHwK7B6dPNJW6JZJTM6BRjOBkG+wiJGkfE5TTefdCmTqc6DjxMddDhIVHL
+	TTnhPl3OMCsNwx/AMOtHq4cPDv6jN4rTj9m2plyQMi0rCPe6gJHGjSj8atux1ASz4UI7
+	KZbnQblf/itTTjkm53kDO+6ZzlL7x2cDZntuxLhZsFBhd/D1TGlhAij3vEgsYunpv7ek
+	p+2WkmxosZw5oKnMHYZSIB3IE7wJjrRE5sPYeZrlIxTvPQ/jZ845rqFeaYT1KW7AhLHE
+	3G6X1L9RfA4IZvNrnEvItPgKdq63wapN9vBz/X3McFak+H+wPOmHPS5L4IPo+xq2SgaC
+	ZKkw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=A89ZXf90c8vPv5p133JKqn4SQs6oX1jyEu8TBABEjpw=;
-	b=es9u+45yM44sJh6tNmG90+Bck7tMrZv6jwc7VyPeB9nXbLpOdUn5P66vJHhz0ORZSy
-	iwF9GcvO7UjFp3jm1uld9OXt/Z6k/4qrPqQ13J2y+dRS7ktkpJcm7nz8yJ5WSIDsMxk6
-	DCnZXKJ4xvZh7xPM3WWe1S9R1jWgfJuj7kYuIgr65b8+pxpZGcVCKyUR9aBnyhglmNlL
-	q3yysnhnIEF0s0agO/Guys2PtF8p2S0yL3OnF5i/X9il93qJn8l+csxMAJMd8qDnRM3e
-	MFH/iYigJaFMoxowTWJUts3uXFLySSeubA0hoKjvU/qJgaHb3egNH2bs2vfXxm+UNCKm
-	1U2w==
-X-Gm-Message-State: AEkoouslEm5i4dZP6Z9lU3CpBEdJIkolLEi8I/r3gZXA9ZePipxxOT+qYn0s4GD9vaF3ZSnoFDD0wDyKfH3CRw==
-X-Received: by 10.37.90.4 with SMTP id o4mr4922802ybb.81.1471596750040; Fri,
-	19 Aug 2016 01:52:30 -0700 (PDT)
+	bh=Qo/cQDMT5wz2WuHVDiyIgPaLt4iRXVmyPHsAhFXFtSI=;
+	b=LAwlDKRX7rXkOtXt11jJhG96drV6/01A1rvnGlVnhlACYYppcSVVV6WMPjx1Gu7n1s
+	MgaDAN5XLIu9tu067shu93nwQ7NFV/xHGVyQnfSBSNaEjWZX37+6mQIv/xRjDxilvgR7
+	G13FbtruGgeZG42shZ5oIhrxW7NFXAunOWrK2ybNiYzS69htfcPCJ0pXJ4Y4rKaDjMjW
+	FQS5EZMuWd++mWeJ+qQ1I0saX2OVak4I7qheHZLvKtSFomlvO5Ky0viYmDdBN0mpwgnA
+	MhQB9lUR4X2oVfjDIPUh4uhc28afMzu3dRBKgyHs3wSPXWU5Vf/W4DRK2IjAnXsMKTKM
+	zhGQ==
+X-Gm-Message-State: AEkooutiET3gn3PAPt01sdmLMQuPn/q51KzxMifhOH19qUBYSvH129EUW8p+ol5HLPIC4CWbuB5M+wS/NIm/5j/Q
+X-Received: by 10.157.46.119 with SMTP id c52mr4236565otd.6.1471597221741;
+	Fri, 19 Aug 2016 02:00:21 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.129.168.73 with HTTP; Fri, 19 Aug 2016 01:52:29 -0700 (PDT)
-In-Reply-To: <b12c5727-4592-dda5-dee4-2660d81c172b@windriver.com>
-References: <cover.1471589537.git.liezhi.yang@windriver.com>
-	<0aabeafcf0db424445e40bc8bb1d91cde03e0cb7.1471589537.git.liezhi.yang@windriver.com>
-	<CA+aJhH3tmZqz-Re4m20eo=nQAA6MU1bOtc4LJbfCXR1hWceE_Q@mail.gmail.com>
-	<b12c5727-4592-dda5-dee4-2660d81c172b@windriver.com>
-From: Nathan Rossi <nathan@nathanrossi.com>
-Date: Fri, 19 Aug 2016 18:52:29 +1000
-Message-ID: <CA+aJhH04RL+vQ3KH9ehm+LA9XHu9AEqr_gcKvGr6WRUr=s6SiA@mail.gmail.com>
-To: Robert Yang <liezhi.yang@windriver.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH V3 8/8] runqemu: refactor it and remove machine knowledge
+Received: by 10.202.241.11 with HTTP; Fri, 19 Aug 2016 01:59:51 -0700 (PDT)
+In-Reply-To: <C43D7C6FFC265C429F44FEB1C68F1B25633DBCAA@G08CNEXMBPEKD03.g08.fujitsu.local>
+References: <CAJTo0LbCgGpLwVFSd9NCNDSxp6ZW0=i7EQKAYcnL5VBr-UzLqA@mail.gmail.com>
+	<1471428098-10774-1-git-send-email-wangxin2015.fnst@cn.fujitsu.com>
+	<CAJTo0LaGp6_ipQSETzApT+beA-FUGD5jGKv5=0cqubhuhJgukw@mail.gmail.com>
+	<C43D7C6FFC265C429F44FEB1C68F1B25633DBCAA@G08CNEXMBPEKD03.g08.fujitsu.local>
+From: Jussi Kukkonen <jussi.kukkonen@intel.com>
+Date: Fri, 19 Aug 2016 11:59:51 +0300
+Message-ID: <CAHiDW_EOqi1qsP3AF_a3oqfg7smFb=EL=puyzyUfH+BK92_pOw@mail.gmail.com>
+To: "Wang, Xin" <wangxin2015.fnst@cn.fujitsu.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2] bind: 9.10.3-P3 -> 9.11.0b2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,357 +56,371 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 19 Aug 2016 08:52:30 -0000
+X-List-Received-Date: Fri, 19 Aug 2016 09:00:21 -0000
+Content-Type: multipart/alternative; boundary=001a113d1334a7a34e053a68ed65
+
+--001a113d1334a7a34e053a68ed65
 Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Aug 19, 2016 at 6:20 PM, Robert Yang <liezhi.yang@windriver.com> wrote:
->
->
-> On 08/19/2016 03:52 PM, Nathan Rossi wrote:
->>
->> On Fri, Aug 19, 2016 at 4:55 PM, Robert Yang <liezhi.yang@windriver.com>
->> wrote:
->>>
->>> Previously, runqemu had hard coded machine knowledge, which limited its
->>> usage, for example, qemu can boot genericx86, but runqemu can't, we need
->>> edit runqemu/runqemu-internal a lot if we want to boot genericx86.
->>>
->>> Now bsp conf files can set vars to make it can be boot by runqemu, and
->>> qemuboot.bbclass will save these info to DEPLOY_DIR_IMAGE/qemuboot.py.
->>> Please see qemuboot.bbclass' comments on how to set the vars.
->>>
->>
->> -- snip --
->>
->>> +
->>> +
->>> +    def setup_slirp(self):
->>> +        if self.fstype == 'nfs':
->>> +            self.setup_nfs()
->>> +        if self.get('TUNE_ARCH') == 'aarch64':
->>> +            raise Exception("aarch64 doesn't support slirp mode")
->>
->>
->> This doesn't seem quite right? because slirp works fine with the
->> qemuzynqmp machine which is aarch64 (based on the patch you provided
->> for meta-xilinx). This looks to be specific to the qemuarm64 machine?
->
->
-> Yes, thanks for the testing.
->
-> When I first tested run qemuzynqmp, the following patch didn't get merged,
-> so it didn't work with slirp:
->
-> commit e5c6a78db46192800669f1b392351f6b52f3e20c
-> Author:     Alistair Francis <alistair.francis@xilinx.com>
-> AuthorDate: Wed Jun 15 13:43:23 2016 -0700
-> Commit:     Richard Purdie <richard.purdie@linuxfoundation.org>
-> CommitDate: Wed Aug 10 10:45:32 2016 +0100
->
->     runqemu: qemuzynqmp: Add Linux boot support
->
->     Add support to direct boot Linux instead of just booting u-boot.
->
->
-> And for qemuarm64, the old code:
-> QEMU_NETWORK_CMD="-netdev tap,id=net0,ifname=$TAP,script=no,downscript=no
-> -device virtio-net-device,netdev=net0 "
->
-> It hardcoded TAP, and didn't work with slirp when I tested it, so I
-> added the checking to avoid unexpected errors. Does anyone know how
-> to boot qemuarm64 by slirp, please ?
+On 19 August 2016 at 11:00, Wang, Xin <wangxin2015.fnst@cn.fujitsu.com>
+wrote:
 
-I was able to boot qemuarm64 with slirp, here is a patch (its a quick
-hack specific for qemuarm64).
-
-diff --git a/scripts/runqemu b/scripts/runqemu
-index 7633bcb..ccf46a9 100755
---- a/scripts/runqemu
-+++ b/scripts/runqemu
-@@ -552,8 +552,9 @@ class BaseConfig(object):
-         if self.fstype == 'nfs':
-             self.setup_nfs()
-         self.append('KERNEL_CMDLINE_SCRIPT', ' ip=dhcp')
--        self.rootfs_options = '-drive file=%s,if=virtio,format=raw' %
-self.rootfs
--        self.set('QB_NETWORK_CMD', '')
-+        qemu_network_cmd = '-netdev user,id=net0 -device
-virtio-net-device,netdev=net0'
-+        self.rootfs_options = '-drive
-id=disk0,file=%s,if=none,format=raw -device
-virtio-blk-device,drive=disk0' % self.rootfs
-+        self.set('QB_NETWORK_CMD', qemu_network_cmd)
-
-     def setup_tap(self):
-         """Setup tap"""
-
-Note the rootfs_options set, it appears this is in the setup_tap as
-well, and is required to get the disk to appear. Might need to
-refactor the drive setup into the "setup_final"? or a
-setup_disk/rootfs function?
-
->
-> I tested "runqemu qemuzynqmp slirp" just now, it works, so I will remove
-> this checking in the repo.
->
-> For further work, if there are more bsps which can not be boot by slirp,
-> maybe we can add a var like QB_SLIRP_SUPPORTED = "0" or "1", and default
-> to 1, if the bsp sets '0' then error out.
-
-It might be worth having a QB_SLIRP_CMD = "", this would allow
-machines to setup the args for slirp/user mode networking and tap
-networking separately.
-
->
-> Removed the checking, and updated in the repo:
->
->         if self.get('TUNE_ARCH') == 'aarch64':
->             raise Exception("aarch64 doesn't support slirp mode")
->
-> // Robert
+> I checked the build directory, and didn=E2=80=99t find those files that y=
+ou refer
+> to. I guess my configuration may be different with yours. Can I see your
+> log.do_configure file, thanks.
 >
 >
->>
->> Regards,
->> Nathan
->>
->>> +        self.append('KERNEL_CMDLINE_SCRIPT', ' ip=dhcp')
->>> +        self.rootfs_options = '-drive file=%s,if=virtio,format=raw' %
->>> self.rootfs
->>> +        self.set('QB_NETWORK_CMD', '')
->>> +
->>> +    def setup_tap(self):
->>> +        """Setup tap"""
->>> +
->>> +        # This file is created when runqemu-gen-tapdevs creates a bank
->>> of tap
->>> +        # devices, indicating that the user should not bring up new ones
->>> using
->>> +        # sudo.
->>> +        nosudo_flag = '/etc/runqemu-nosudo'
->>> +        self.qemuifup = shutil.which('runqemu-ifup')
->>> +        self.qemuifdown = shutil.which('runqemu-ifdown')
->>> +        ip = shutil.which('ip')
->>> +        lockdir = "/tmp/qemu-tap-locks"
->>> +
->>> +        if not (self.qemuifup and self.qemuifdown and ip):
->>> +            raise Exception("runqemu-ifup, runqemu-ifdown or ip not
->>> found")
->>> +
->>> +        if not os.path.exists(lockdir):
->>> +            os.mkdir(lockdir)
->>> +
->>> +        cmd = '%s link' % ip
->>> +        logger.info('Running %s...' % cmd)
->>> +        ip_link = subprocess.Popen(cmd, shell=True,
->>> stdout=subprocess.PIPE).stdout.read().decode('utf-8')
->>> +        # Matches line like: 6: tap0: <foo>
->>> +        possibles = re.findall('^[1-9]+: +(tap[0-9]+): <.*', ip_link,
->>> re.M)
->>> +        tap = ""
->>> +        use_preconf_tap = False
->>> +        for p in possibles:
->>> +            lockfile = os.path.join(lockdir, p)
->>> +            if os.path.exists('%s.skip' % lockfile):
->>> +                logger.info('Found %s.skip, skipping %s' % (lockfile,
->>> p))
->>> +                continue
->>> +            if acquire_lock(lockfile):
->>> +                self.lockfile = lockfile
->>> +                tap = p
->>> +                logger.info("Using preconfigured tap device %s" % tap)
->>> +                logger.info("If this is not intended, touch %s.skip to
->>> make runqemu skip %s." %(lockfile, tap))
->>> +                use_preconf_tap = True
->>> +                break
->>> +
->>> +        if not tap:
->>> +            if os.path.exists(nosudo_flag):
->>> +                logger.error("Error: There are no available tap devices
->>> to use for networking,")
->>> +                logger.error("and I see %s exists, so I am not going to
->>> try creating" % nosudo_flag)
->>> +                raise Exception("a new one with sudo.")
->>> +
->>> +            gid = os.getgid()
->>> +            uid = os.getuid()
->>> +            logger.info("Setting up tap interface under sudo")
->>> +            cmd = 'sudo %s %s %s %s' % (self.qemuifup, uid, gid,
->>> self.get('STAGING_DIR_NATIVE'))
->>> +            tap = subprocess.Popen(cmd, shell=True,
->>> stdout=subprocess.PIPE).stdout.read().decode('utf-8')
->>> +            self.cleantap = True
->>> +            logger.info('Created tap: %s' % tap)
->>> +
->>> +        self.tap = tap
->>> +        n0 = tap[3:]
->>> +        n1 = int(n0) * 2 + 1
->>> +        n2 = n1 + 1
->>> +        self.nfs_instance = n0
->>> +        if self.fstype == 'nfs':
->>> +            self.setup_nfs()
->>> +        self.append("KERNEL_CMDLINE_SCRIPT", "
->>> ip=192.168.7.%s::192.168.7.%s:255.255.255.0" % (n2, n1))
->>> +        qemu_tap_cmd = "-net
->>> tap,vlan=0,ifname=%s,script=no,downscript=no" % self.tap
->>> +        self.rootfs_options = '-drive file=%s,if=virtio,format=raw' %
->>> self.rootfs
->>> +        if self.get('TUNE_ARCH') == 'aarch64':
->>> +            qemu_network_cmd = '-netdev
->>> tap,id=net0,ifname=%s,script=no,downscript=no -device
->>> virtio-net-device,netdev=net0' % self.tap
->>> +            self.rootfs_options = '-drive
->>> id=disk0,file=%s,if=none,format=raw -device virtio-blk-device,drive=disk0' %
->>> self.rootfs
->>> +        elif self.get('TUNE_ARCH') == 'powerpc':
->>> +            qemu_network_cmd = '%s ' % qemu_tap_cmd
->>> +        else:
->>> +            qemu_network_cmd = "-net nic,model=virtio %s " %
->>> qemu_tap_cmd
->>> +        if self.vhost_enabled:
->>> +            qemu_network_cmd += ',vhost=on'
->>> +        self.weak_assign('QB_NETWORK_CMD', qemu_network_cmd)
->>> +
->>> +    def setup_network(self):
->>> +        cmd = "stty -g"
->>> +        self.saved_stty = subprocess.Popen(cmd, shell=True,
->>> stdout=subprocess.PIPE).stdout.read().decode('utf-8')
->>> +        if self.slirp_enabled:
->>> +            self.setup_slirp()
->>> +        else:
->>> +            self.setup_tap()
->>> +
->>> +        if self.fstype in ('cpio.gz', 'cpio'):
->>> +            self.set('QB_NETWORK_CMD', '')
->>> +            self.kernel_cmdline = 'root=/dev/ram0 rw debugshell'
->>> +            self.rootfs_options = '-initrd %s' % self.rootfs
->>> +        else:
->>> +            if self.fstype in self.vmtypes:
->>> +                if self.fstype == 'iso':
->>> +                    vm_drive = '-cdrom %s' % self.rootfs
->>> +                else:
->>> +                    cmd1 = "grep -q 'root=/dev/sd' %s" % self.rootfs
->>> +                    cmd2 = "grep -q 'root=/dev/hd' %s" % self.rootfs
->>> +                    if subprocess.call(cmd1, shell=True) == 0:
->>> +                        logger.info('Using scsi drive')
->>> +                        vm_drive = '-drive if=none,id=hd,file=%s -device
->>> virtio-scsi-pci,id=scsi -device scsi-hd,drive=hd' % self.rootfs
->>> +                    elif subprocess.call(cmd2, shell=True) == 0:
->>> +                        logger.info('Using scsi drive')
->>> +                        vm_drive = self.rootfs
->>> +                    else:
->>> +                        logger.warn("Can't detect drive type %s" %
->>> self.rootfs)
->>> +                        logger.warn('Tring to use virtio block drive')
->>> +                        vm_drive = '-drive if=virtio,file=%s' %
->>> self.rootfs
->>> +                self.rootfs_options = '%s -no-reboot' % vm_drive
->>> +            self.kernel_cmdline = 'root=%s rw highres=off' %
->>> (self.get('KERNEL_ROOT'))
->>> +
->>> +        if self.fstype == 'nfs':
->>> +            self.rootfs_options = ''
->>> +            k_root = '/dev/nfs nfsroot=%s:%s,%s' % (self.nfs_server,
->>> self.nfs_dir, self.unfs_opts)
->>> +            self.kernel_cmdline = 'root=%s rw highres=off' % k_root
->>> +
->>> +        self.weak_assign('QB_ROOTFS_OPTIONS', self.rootfs_options)
->>> +
->>> +    def setup_final(self):
->>> +        qemu_system = self.get('QB_SYSTEM_NAME')
->>> +        if not qemu_system:
->>> +            raise Exception("Failed to boot, QB_SYSTEM_NAME is NULL!")
->>> +
->>> +        qemu_bin = '%s/%s' % (self.get('STAGING_BINDIR_NATIVE'),
->>> qemu_system)
->>> +        if not os.access(qemu_bin, os.X_OK):
->>> +            raise Exception("No QEMU binary '%s' could be found" %
->>> qemu_bin)
->>> +
->>> +        self.qemu_opt = "%s %s %s %s %s %s" % (qemu_bin,
->>> self.get('QB_NETWORK_CMD'), self.get('QEMU_OPT_SCRIPT'),
->>> self.get('QB_ROOTFS_OPTIONS'), self.get('QB_DTB'),
->>> self.get('QB_OPT_APPEND'))
->>> +
->>> +        if self.serialstdio:
->>> +            logger.info("Interrupt character is '^]'")
->>> +            cmd = "stty intr ^]"
->>> +            subprocess.call(cmd, shell=True)
->>> +
->>> +        first_serial = ""
->>> +        if not re.search("-nographic", self.qemu_opt):
->>> +            first_serial = "-serial mon:vc"
->>> +        # We always want a ttyS1. Since qemu by default adds a serial
->>> +        # port when nodefaults is not specified, it seems that all that
->>> +        # would be needed is to make sure a "-serial" is there. However,
->>> +        # it appears that when "-serial" is specified, it ignores the
->>> +        # default serial port that is normally added.  So here we make
->>> +        # sure to add two -serial if there are none. And only one if
->>> +        # there is one -serial already.
->>> +        serial_num = len(re.findall("-serial", self.qemu_opt))
->>> +        if serial_num == 0:
->>> +            self.qemu_opt += " %s %s" % (first_serial,
->>> self.get("QB_SERIAL_OPT"))
->>> +        elif serial_num == 1:
->>> +            self.qemu_opt += " %s" % self.get("QB_SERIAL_OPT")
->>> +
->>> +    def start_qemu(self):
->>> +        if self.kernel:
->>> +            kernel_opts = "-kernel %s -append '%s %s %s'" %
->>> (self.kernel, self.kernel_cmdline, self.get('KERNEL_CMDLINE_SCRIPT'),
->>> self.get('QB_KERNEL_CMDLINE_APPEND'))
->>> +        else:
->>> +            kernel_opts = ""
->>> +        cmd = "%s %s" % (self.qemu_opt, kernel_opts)
->>> +        logger.info('Running %s' % cmd)
->>> +        if subprocess.call(cmd, shell=True) != 0:
->>> +            raise Exception('Failed to run %s' % cmd)
->>> +
->>> +    def cleanup(self):
->>> +        if self.cleantap:
->>> +            cmd = 'sudo %s %s %s' % (self.qemuifdown, self.tap,
->>> self.get('STAGING_DIR_NATIVE'))
->>> +            logger.info('Running %s' % cmd)
->>> +            subprocess.call(cmd, shell=True)
->>> +        if self.lockfile:
->>> +            logger.info("Releasing lockfile of preconfigured tap device
->>> '%s'" % self.tap)
->>> +            release_lock(self.lockfile)
->>> +
->>> +        if self.nfs_running:
->>> +            logger.info("Shutting down the userspace NFS server...")
->>> +            cmd = "runqemu-export-rootfs stop %s" % self.nfs_dir
->>> +            logger.info('Running %s' % cmd)
->>> +            subprocess.call(cmd, shell=True)
->>> +
->>> +        if self.saved_stty:
->>> +            cmd = "stty %s" % self.saved_stty
->>> +            subprocess.call(cmd, shell=True)
->>> +
->>> +        if self.clean_nfs_dir:
->>> +            logger.info('Removing %s' % self.nfs_dir)
->>> +            shutil.rmtree(self.nfs_dir)
->>> +            shutil.rmtree('%s.pseudo_state' % self.nfs_dir)
->>> +
->>> +def main():
->>> +    if len(sys.argv) == 1 or "help" in sys.argv:
->>> +        print_usage()
->>> +        return 0
->>> +    config = BaseConfig()
->>> +    config.check_args()
->>
->>
->> When it fails to parse the args instead of showing the python
->> exception info (with call stack, etc), it should show the exception
->> message and the runqemu usage.
->>
->> Regards,
->> Nathan
->>
+You should not need that. configure.in clearly enables/disables things at
+build time based on availability of python and some specific modules. I
+don't know if new bind should be built with python or not but the decision
+should be explicit in the recipe: --with-python / --without-python look
+like the correct options.
 
-You may not have seen this comment, since I accidentally put two
-"Regards," in my previous email.
+Jussi
 
-Regards,
-Nathan
 
+> *From:* Burton, Ross [mailto:ross.burton@intel.com]
+> *Sent:* Thursday, August 18, 2016 10:00 PM
+> *To:* Wang, Xin/=E7=8E=8B =E9=91=AB
+> *Cc:* OE-core
+> *Subject:* Re: [OE-core] [PATCH v2] bind: 9.10.3-P3 -> 9.11.0b2
+>
+>
+>
+>
+>
+> On 17 August 2016 at 11:01, Wang Xin <wangxin2015.fnst@cn.fujitsu.com>
+> wrote:
+>
+> 4) Modify do_install_append(), since the dnssec-coverage file and
+> dnssec-checkds file do not exist.
+>
+>
+>
+> When I build bind this happens:
+>
+>
+>
+> ERROR: bind-9.11.0b2-r0 do_package: QA Issue: bind: Files/directories wer=
+e
+> installed but not shipped in any package:
+>
+>   /usr/lib
+>
+>   /usr/lib/python2.7
+>
+>   /usr/lib/python2.7/site-packages
+>
+>   /usr/lib/python2.7/site-packages/isc-2.0-py2.7.egg-info
+>
+>   /usr/lib/python2.7/site-packages/isc
+>
+>   /usr/lib/python2.7/site-packages/isc/parsetab.py
+>
+>   /usr/lib/python2.7/site-packages/isc/coverage.pyc
+>
+>   /usr/lib/python2.7/site-packages/isc/keyevent.py
+>
+>   /usr/lib/python2.7/site-packages/isc/rndc.pyc
+>
+>   /usr/lib/python2.7/site-packages/isc/keyseries.pyc
+>
+>   /usr/lib/python2.7/site-packages/isc/keyevent.pyc
+>
+>   /usr/lib/python2.7/site-packages/isc/checkds.py
+>
+>   /usr/lib/python2.7/site-packages/isc/__init__.py
+>
+>   /usr/lib/python2.7/site-packages/isc/keymgr.pyc
+>
+>   /usr/lib/python2.7/site-packages/isc/keydict.pyc
+>
+>   /usr/lib/python2.7/site-packages/isc/keymgr.py
+>
+>   /usr/lib/python2.7/site-packages/isc/__init__.pyc
+>
+>   /usr/lib/python2.7/site-packages/isc/rndc.py
+>
+>   /usr/lib/python2.7/site-packages/isc/keyzone.py
+>
+>   /usr/lib/python2.7/site-packages/isc/eventlist.pyc
+>
+>   /usr/lib/python2.7/site-packages/isc/checkds.pyc
+>
+>   /usr/lib/python2.7/site-packages/isc/coverage.py
+>
+>   /usr/lib/python2.7/site-packages/isc/keyseries.py
+>
+>   /usr/lib/python2.7/site-packages/isc/keydict.py
+>
+>   /usr/lib/python2.7/site-packages/isc/eventlist.py
+>
+>   /usr/lib/python2.7/site-packages/isc/utils.py
+>
+>   /usr/lib/python2.7/site-packages/isc/policy.py
+>
+>   /usr/lib/python2.7/site-packages/isc/dnskey.pyc
+>
+>   /usr/lib/python2.7/site-packages/isc/keyzone.pyc
+>
+>   /usr/lib/python2.7/site-packages/isc/utils.pyc
+>
+>   /usr/lib/python2.7/site-packages/isc/policy.pyc
+>
+>   /usr/lib/python2.7/site-packages/isc/parsetab.pyc
+>
+>   /usr/lib/python2.7/site-packages/isc/dnskey.py
+>
+>
+>
+> I'm guessing there's a non-deterministic dependency on python which is wh=
+y
+> you thought those tools were not installed, and why I see a build error.
+>
+>
+>
+> Ross
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+>
+
+--001a113d1334a7a34e053a68ed65
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><div class=3D"gmail_quote">On 1=
+9 August 2016 at 11:00, Wang, Xin <span dir=3D"ltr">&lt;<a href=3D"mailto:w=
+angxin2015.fnst@cn.fujitsu.com" target=3D"_blank">wangxin2015.fnst@cn.fujit=
+su.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"=
+margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
+
+
+
+
+
+<div lang=3D"EN-US" link=3D"blue" vlink=3D"purple">
+<div>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
+libri&quot;,&quot;sans-serif&quot;;color:black">I checked the build directo=
+ry, and didn=E2=80=99t find those files that you refer to. I guess my confi=
+guration may be different with yours. Can I see your log.do_configure
+ file, thanks.<u></u><u></u></span></p>
+<p class=3D"MsoNormal"><b><span style=3D"font-size:10.0pt;font-family:&quot=
+;Tahoma&quot;,&quot;sans-serif&quot;"></span></b></p></div></div></blockquo=
+te><div><br></div><div>You should not need that. <a href=3D"http://configur=
+e.in">configure.in</a> clearly enables/disables things at build time based =
+on availability of python and some specific modules. I don&#39;t know if ne=
+w bind should be built with python or not but the decision should be explic=
+it in the recipe: --with-python / --without-python look like the correct op=
+tions.=C2=A0</div><div><br></div><div>Jussi</div><div>=C2=A0</div><blockquo=
+te class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc so=
+lid;padding-left:1ex"><div lang=3D"EN-US" link=3D"blue" vlink=3D"purple"><d=
+iv><p class=3D"MsoNormal"><b><span style=3D"font-size:10.0pt;font-family:&q=
+uot;Tahoma&quot;,&quot;sans-serif&quot;">From:</span></b><span style=3D"fon=
+t-size:10.0pt;font-family:&quot;Tahoma&quot;,&quot;sans-serif&quot;"> Burto=
+n, Ross [mailto:<a href=3D"mailto:ross.burton@intel.com" target=3D"_blank">=
+ross.burton@intel.com</a>]
+<br>
+<b>Sent:</b> Thursday, August 18, 2016 10:00 PM<br>
+<b>To:</b> Wang, Xin/</span><span lang=3D"ZH-CN" style=3D"font-size:10.0pt;=
+font-family:=E5=AE=8B=E4=BD=93">=E7=8E=8B</span><span lang=3D"ZH-CN" style=
+=3D"font-size:10.0pt;font-family:&quot;Tahoma&quot;,&quot;sans-serif&quot;"=
+>
+</span><span lang=3D"ZH-CN" style=3D"font-size:10.0pt;font-family:=E5=AE=8B=
+=E4=BD=93">=E9=91=AB</span><span style=3D"font-size:10.0pt;font-family:&quo=
+t;Tahoma&quot;,&quot;sans-serif&quot;"><br>
+<b>Cc:</b> OE-core<br>
+<b>Subject:</b> Re: [OE-core] [PATCH v2] bind: 9.10.3-P3 -&gt; 9.11.0b2<u><=
+/u><u></u></span></p><div><div class=3D"h5">
+<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
+<div>
+<div>
+<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
+<div>
+<p class=3D"MsoNormal">On 17 August 2016 at 11:01, Wang Xin &lt;<a href=3D"=
+mailto:wangxin2015.fnst@cn.fujitsu.com" target=3D"_blank">wangxin2015.fnst@=
+cn.fujitsu.<wbr>com</a>&gt; wrote:<u></u><u></u></p>
+<div>
+<p class=3D"MsoNormal">4) Modify do_install_append(), since the dnssec-cove=
+rage file and dnssec-checkds file do not exist.<u></u><u></u></p>
+</div>
+</div>
+<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
+<div>
+<p class=3D"MsoNormal">When I build bind this happens:<u></u><u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal">ERROR: bind-9.11.0b2-r0 do_package: QA Issue: bind: =
+Files/directories were installed but not shipped in any package:<u></u><u><=
+/u></p>
+</div>
+<div>
+<p class=3D"MsoNormal">=C2=A0 /usr/lib<u></u><u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal">=C2=A0 /usr/lib/python2.7<u></u><u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal">=C2=A0 /usr/lib/python2.7/site-<wbr>packages<u></u><=
+u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal">=C2=A0 /usr/lib/python2.7/site-<wbr>packages/isc-2.0=
+-py2.7.egg-<wbr>info<u></u><u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal">=C2=A0 /usr/lib/python2.7/site-<wbr>packages/isc<u><=
+/u><u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal">=C2=A0 /usr/lib/python2.7/site-<wbr>packages/isc/par=
+setab.py<u></u><u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal">=C2=A0 /usr/lib/python2.7/site-<wbr>packages/isc/cov=
+erage.pyc<u></u><u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal">=C2=A0 /usr/lib/python2.7/site-<wbr>packages/isc/key=
+event.py<u></u><u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal">=C2=A0 /usr/lib/python2.7/site-<wbr>packages/isc/rnd=
+c.pyc<u></u><u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal">=C2=A0 /usr/lib/python2.7/site-<wbr>packages/isc/key=
+series.pyc<u></u><u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal">=C2=A0 /usr/lib/python2.7/site-<wbr>packages/isc/key=
+event.pyc<u></u><u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal">=C2=A0 /usr/lib/python2.7/site-<wbr>packages/isc/che=
+ckds.py<u></u><u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal">=C2=A0 /usr/lib/python2.7/site-<wbr>packages/isc/__i=
+nit__.py<u></u><u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal">=C2=A0 /usr/lib/python2.7/site-<wbr>packages/isc/key=
+mgr.pyc<u></u><u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal">=C2=A0 /usr/lib/python2.7/site-<wbr>packages/isc/key=
+dict.pyc<u></u><u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal">=C2=A0 /usr/lib/python2.7/site-<wbr>packages/isc/key=
+mgr.py<u></u><u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal">=C2=A0 /usr/lib/python2.7/site-<wbr>packages/isc/__i=
+nit__.pyc<u></u><u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal">=C2=A0 /usr/lib/python2.7/site-<wbr>packages/isc/rnd=
+c.py<u></u><u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal">=C2=A0 /usr/lib/python2.7/site-<wbr>packages/isc/key=
+zone.py<u></u><u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal">=C2=A0 /usr/lib/python2.7/site-<wbr>packages/isc/eve=
+ntlist.pyc<u></u><u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal">=C2=A0 /usr/lib/python2.7/site-<wbr>packages/isc/che=
+ckds.pyc<u></u><u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal">=C2=A0 /usr/lib/python2.7/site-<wbr>packages/isc/cov=
+erage.py<u></u><u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal">=C2=A0 /usr/lib/python2.7/site-<wbr>packages/isc/key=
+series.py<u></u><u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal">=C2=A0 /usr/lib/python2.7/site-<wbr>packages/isc/key=
+dict.py<u></u><u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal">=C2=A0 /usr/lib/python2.7/site-<wbr>packages/isc/eve=
+ntlist.py<u></u><u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal">=C2=A0 /usr/lib/python2.7/site-<wbr>packages/isc/uti=
+ls.py<u></u><u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal">=C2=A0 /usr/lib/python2.7/site-<wbr>packages/isc/pol=
+icy.py<u></u><u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal">=C2=A0 /usr/lib/python2.7/site-<wbr>packages/isc/dns=
+key.pyc<u></u><u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal">=C2=A0 /usr/lib/python2.7/site-<wbr>packages/isc/key=
+zone.pyc<u></u><u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal">=C2=A0 /usr/lib/python2.7/site-<wbr>packages/isc/uti=
+ls.pyc<u></u><u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal">=C2=A0 /usr/lib/python2.7/site-<wbr>packages/isc/pol=
+icy.pyc<u></u><u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal">=C2=A0 /usr/lib/python2.7/site-<wbr>packages/isc/par=
+setab.pyc<u></u><u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal">=C2=A0 /usr/lib/python2.7/site-<wbr>packages/isc/dns=
+key.py<u></u><u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal">I&#39;m guessing there&#39;s a non-deterministic dep=
+endency on python which is why you thought those tools were not installed, =
+and why I see a build error.<u></u><u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal">Ross<u></u><u></u></p>
+</div>
+</div>
+</div>
+</div></div></div>
+</div>
+
+<br>--<br>
+______________________________<wbr>_________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
+re@lists.<wbr>openembedded.org</a><br>
+<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
+" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/<wbr>m=
+ailman/listinfo/openembedded-<wbr>core</a><br>
+<br></blockquote></div><br></div></div>
+
+--001a113d1334a7a34e053a68ed65--
