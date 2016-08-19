@@ -1,29 +1,30 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id E6F8670057
+	by mail.openembedded.org (Postfix) with ESMTP id C7B6A770A6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Aug 2016 22:09:42 +0000 (UTC)
+	Fri, 19 Aug 2016 22:14:02 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u7JM9ZVF018431; Fri, 19 Aug 2016 23:09:35 +0100
+	u7JME0sO018635; Fri, 19 Aug 2016 23:14:00 +0100
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id xr6rcxUCgT2J; Fri, 19 Aug 2016 23:09:34 +0100 (BST)
+	with LMTP id toUHgFi4Y9ss; Fri, 19 Aug 2016 23:14:00 +0100 (BST)
 Received: from hex ([192.168.3.34]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u7JM9WVS018428
+	u7JMDsIL018628
 	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Fri, 19 Aug 2016 23:09:33 +0100
-Message-ID: <1471644572.16712.58.camel@linuxfoundation.org>
+	Fri, 19 Aug 2016 23:13:56 +0100
+Message-ID: <1471644834.16712.59.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Dai Caiyun <daicy.fnst@cn.fujitsu.com>,
+To: Francisco Pedraza <francisco.j.pedraza.gonzalez@intel.com>,
 	openembedded-core@lists.openembedded.org
-Date: Fri, 19 Aug 2016 23:09:32 +0100
-In-Reply-To: <1471486086-8512-1-git-send-email-daicy.fnst@cn.fujitsu.com>
-References: <1471486086-8512-1-git-send-email-daicy.fnst@cn.fujitsu.com>
+Date: Fri, 19 Aug 2016 23:13:54 +0100
+In-Reply-To: <1471473060-27026-2-git-send-email-francisco.j.pedraza.gonzalez@intel.com>
+References: <1471473060-27026-1-git-send-email-francisco.j.pedraza.gonzalez@intel.com>
+	<1471473060-27026-2-git-send-email-francisco.j.pedraza.gonzalez@intel.com>
 X-Mailer: Evolution 3.16.5-1ubuntu3.1 
 Mime-Version: 1.0
-Subject: Re: [PATCH] kexec-tools: 2.0.12 -> 2.0.13
+Subject: Re: [PATCH 2/2] oeqa/selftest Adds eSDK test cases to devtool verification.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,20 +37,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 19 Aug 2016 22:09:43 -0000
+X-List-Received-Date: Fri, 19 Aug 2016 22:14:03 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Thu, 2016-08-18 at 10:08 +0800, Dai Caiyun wrote:
-> Upgrade kexec-tools from 2.0.12 to 2.0.13.
+On Wed, 2016-08-17 at 17:31 -0500, Francisco Pedraza wrote:
+> The covered functions are, install libraries headers, image
+> generation binary feeds and
+> sdk update devtool.
+> 
+> Signed-off-by: Francisco Pedraza <
+> francisco.j.pedraza.gonzalez@intel.com>
+> ---
+>  meta/lib/oeqa/selftest/eSDK.py | 147
+> +++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 147 insertions(+)
+>  create mode 100644 meta/lib/oeqa/selftest/eSDK.py
 
-Sadly this doesn't build on arm:
+I do love the idea of this and having more tests but the kernel module
+ESDK test fails on ppc and mips:
 
-https://autobuilder.yoctoproject.org/main/builders/nightly-arm/builds/924/steps/BuildImages/logs/stdio
+https://autobuilder.yoctoproject.org/main/builders/nightly-ppc/builds/911/steps/Running%20ESDK%20Sanity%20Tests/logs/stdio
 
-https://autobuilder.yoctoproject.org/main/builders/nightly-arm-lsb/builds/868/steps/BuildImages/logs/stdio
-
-https://autobuilder.yoctoproject.org/main/builders/nightly-arm64/builds/529/steps/BuildImages/logs/stdio
+https://autobuilder.yoctoproject.org/main/builders/nightly-mips/builds/898
 
 Cheers,
 
