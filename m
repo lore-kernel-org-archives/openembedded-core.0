@@ -1,48 +1,26 @@
-Return-Path: <fabio.berton@ossystems.com.br>
-Received: from mail-lf0-f65.google.com (mail-lf0-f65.google.com
-	[209.85.215.65])
-	by mail.openembedded.org (Postfix) with ESMTP id E05F977071
+Return-Path: <jianxun.zhang@linux.intel.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id 70EA9731CB
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Aug 2016 18:56:58 +0000 (UTC)
-Received: by mail-lf0-f65.google.com with SMTP id l89so3436564lfi.2
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Aug 2016 11:56:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=unZ/HEqhTJPw6gWH2gTTUIFA0okptjnEb796yGeFZJM=;
-	b=Iko5/fHg88z/fqheNvJhyWF1UIhe0VAAiybv7/qIbaPkpeKpj7DmTqjG7KTS32XbHi
-	EXwonJ1SHOjUZNk8E13p5oMhLq0/b24Coff+19w0x5B3+5p6DQ9Vl8kUOM2sP6cLmNXH
-	KHKfFuVBi/gUqY34J0hJlanDjEPg8kB3eGbN45C604IKR4/GGSi8OVOXVp2oC+22jJpo
-	FXuGpS7hgGPOauz/yfFeqW/Ilm0lkpJeowgrauSXaUggZaZNCfd6xR5YrT3cPZKeMs5/
-	UzYNOAIhmw9KRWboin6PlQL+3b9V06NyXmfMu+Y3GyTtJK4dWOoaZG0iN3TAP+Igmsd2
-	1B+A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=unZ/HEqhTJPw6gWH2gTTUIFA0okptjnEb796yGeFZJM=;
-	b=HiLh++ESvMWHCYbQLJaA47Go19BoRmccGmcTX4aaN8p+KNZ1IyBq0Z0GnW9NwP8SrV
-	KlSErM81wY+WwxyCWfzUk4aFWnx4LJmr2b0Ur8DgddUm2cM6RMBpHZaD91CkfAn3veGu
-	Rx7onDoW10boqezjiG/iJhZhZ4IJfh4W3EZd2GDmuedVPNTBj0YH7hRlHuQ2Uf86M+xI
-	AyiUYEkV9mqwJWyflA5XZd/lHMSyZaxuGEQwkgGveANvQgoVNtXN14BOt7lJwX/my7gA
-	/iyZmF4QMx+lRyAgPTTuaTNfe3CxDy/9xRDFW+6ZTfJBUvY4bcqrkW3cRBsFLs5v++OA
-	f19Q==
-X-Gm-Message-State: AEkoout2QEbteERmpgh1iGeB616iWFVjkcw39wQ6F7ndCtPX6Rbgsn94HsjqOJlnTiQQlv3gBwfATGO221o8ug==
-X-Received: by 10.25.158.140 with SMTP id h134mr2093615lfe.0.1471633019168;
-	Fri, 19 Aug 2016 11:56:59 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.25.7.8 with HTTP; Fri, 19 Aug 2016 11:56:28 -0700 (PDT)
-X-Originating-IP: [177.127.4.56]
-In-Reply-To: <1471373249-323-2-git-send-email-fabio.berton@ossystems.com.br>
-References: <1471373249-323-1-git-send-email-fabio.berton@ossystems.com.br>
-	<1471373249-323-2-git-send-email-fabio.berton@ossystems.com.br>
-From: Fabio Berton <fabio.berton@ossystems.com.br>
-Date: Fri, 19 Aug 2016 15:56:28 -0300
-Message-ID: <CAAPZna1A-VUosmEW47aVfvTQU6hYhtY1zinB7_q=0xnPK-oGpQ@mail.gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Otavio Salvador <otavio@ossystems.com.br>
-Subject: Re: [PATCH 2/2] python3-native: Extend python3-native rproviders
+	Fri, 19 Aug 2016 19:59:43 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga104.fm.intel.com with ESMTP; 19 Aug 2016 12:59:44 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.28,546,1464678000"; d="scan'208";a="1044389509"
+Received: from jzhang80-mac02.jf.intel.com ([10.24.1.231])
+	by fmsmga002.fm.intel.com with ESMTP; 19 Aug 2016 12:59:44 -0700
+Mime-Version: 1.0 (Mac OS X Mail 9.3 \(3124\))
+From: Jianxun Zhang <jianxun.zhang@linux.intel.com>
+In-Reply-To: <1471620578.16712.45.camel@linuxfoundation.org>
+Date: Fri, 19 Aug 2016 12:59:42 -0700
+Message-Id: <2EA0E17F-9402-4909-9017-B83DB2C525FA@linux.intel.com>
+References: <1471620578.16712.45.camel@linuxfoundation.org>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+X-Mailer: Apple Mail (2.3124)
+Cc: "Zhang, Jianxun" <jianxun.zhang@intel.com>,
+	"saul.wold" <saul.wold@intel.com>,
+	openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] parselogs: Ignore uvesafb timeouts
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,154 +33,78 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 19 Aug 2016 18:57:00 -0000
-Content-Type: multipart/alternative; boundary=001a114102a458fed8053a7143a8
-
---001a114102a458fed8053a7143a8
-Content-Type: text/plain; charset=UTF-8
-
-ping?
-
-On Tue, Aug 16, 2016 at 3:47 PM, Fabio Berton <fabio.berton@ossystems.com.br
-> wrote:
-
-> Add the following modules to RPROVIDES:
->
->   - python3-email-native
->   - python3-io-native
->   - python3-json-native
->   - python3-lang-native
->   - python3-misc-native
->   - python3-netclient-native
->   - python3-netserver-native
->   - python3-numbers-native
->   - python3-pkgutil-native
->   - python3-pprint-native
->   - python3-re-native
->   - python3-shell-native
->   - python3-subprocess-native
->   - python3-threading-native
->   - python3-unittest-native
->
-> Signed-off-by: Fabio Berton <fabio.berton@ossystems.com.br>
-> Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
-> ---
->  meta/recipes-devtools/python/python3-native_3.5.2.bb | 14 ++++++++++++++
->  1 file changed, 14 insertions(+)
->
-> diff --git a/meta/recipes-devtools/python/python3-native_3.5.2.bb
-> b/meta/recipes-devtools/python/python3-native_3.5.2.bb
-> index 3334cba..594f15c 100644
-> --- a/meta/recipes-devtools/python/python3-native_3.5.2.bb
-> +++ b/meta/recipes-devtools/python/python3-native_3.5.2.bb
-> @@ -46,9 +46,23 @@ RPROVIDES += " \
->      python3-compression-native \
->      python3-core-native \
->      python3-distutils-native \
-> +    python3-email-native \
->      python3-importlib-native \
->      python3-io-native \
-> +    python3-json-native \
-> +    python3-lang-native \
-> +    python3-misc-native \
-> +    python3-netclient-native \
-> +    python3-netserver-native \
-> +    python3-numbers-native \
-> +    python3-pkgutil-native \
-> +    python3-pprint-native \
-> +    python3-re-native \
-> +    python3-shell-native \
-> +    python3-subprocess-native \
->      python3-textutils-native \
-> +    python3-threading-native \
-> +    python3-unittest-native \
->  "
->
->  EXTRA_OECONF_append = " --bindir=${bindir}/${PN} --without-ensurepip"
-> --
-> 2.1.4
->
->
-
---001a114102a458fed8053a7143a8
-Content-Type: text/html; charset=UTF-8
+X-List-Received-Date: Fri, 19 Aug 2016 19:59:45 -0000
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_default" style=3D"font-family:monospac=
-e,monospace;font-size:small">ping?<br></div></div><div class=3D"gmail_extra=
-"><br><div class=3D"gmail_quote">On Tue, Aug 16, 2016 at 3:47 PM, Fabio Ber=
-ton <span dir=3D"ltr">&lt;<a href=3D"mailto:fabio.berton@ossystems.com.br" =
-target=3D"_blank">fabio.berton@ossystems.com.br</a>&gt;</span> wrote:<br><b=
-lockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px =
-#ccc solid;padding-left:1ex"><span class=3D"">Add the following modules to =
-RPROVIDES:<br>
-<br>
-=C2=A0 - python3-email-native<br>
-=C2=A0 - python3-io-native<br>
-=C2=A0 - python3-json-native<br>
-=C2=A0 - python3-lang-native<br>
-=C2=A0 - python3-misc-native<br>
-=C2=A0 - python3-netclient-native<br>
-=C2=A0 - python3-netserver-native<br>
-=C2=A0 - python3-numbers-native<br>
-=C2=A0 - python3-pkgutil-native<br>
-=C2=A0 - python3-pprint-native<br>
-=C2=A0 - python3-re-native<br>
-=C2=A0 - python3-shell-native<br>
-=C2=A0 - python3-subprocess-native<br>
-=C2=A0 - python3-threading-native<br>
-=C2=A0 - python3-unittest-native<br>
-<br>
-Signed-off-by: Fabio Berton &lt;<a href=3D"mailto:fabio.berton@ossystems.co=
-m.br">fabio.berton@ossystems.com.br</a><wbr>&gt;<br>
-</span>Signed-off-by: Otavio Salvador &lt;<a href=3D"mailto:otavio@ossystem=
-s.com.br">otavio@ossystems.com.br</a>&gt;<br>
-<div class=3D"HOEnZb"><div class=3D"h5">---<br>
-=C2=A0meta/recipes-devtools/python/<a href=3D"http://python3-native_3.5.2.b=
-b" rel=3D"noreferrer" target=3D"_blank">p<wbr>ython3-native_3.5.2.bb</a> | =
-14 ++++++++++++++<br>
-=C2=A01 file changed, 14 insertions(+)<br>
-<br>
-diff --git a/meta/recipes-devtools/<wbr>python/<a href=3D"http://python3-na=
-tive_3.5.2.bb" rel=3D"noreferrer" target=3D"_blank">python3-native_3.5.2.bb=
-</a> b/meta/recipes-devtools/<wbr>python/<a href=3D"http://python3-native_3=
-.5.2.bb" rel=3D"noreferrer" target=3D"_blank">python3-native_3.5.2.bb</a><b=
-r>
-index 3334cba..594f15c 100644<br>
---- a/meta/recipes-devtools/<wbr>python/<a href=3D"http://python3-native_3.=
-5.2.bb" rel=3D"noreferrer" target=3D"_blank">python3-native_3.5.2.bb</a><br=
->
-+++ b/meta/recipes-devtools/<wbr>python/<a href=3D"http://python3-native_3.=
-5.2.bb" rel=3D"noreferrer" target=3D"_blank">python3-native_3.5.2.bb</a><br=
->
-@@ -46,9 +46,23 @@ RPROVIDES +=3D &quot; \<br>
-=C2=A0 =C2=A0 =C2=A0python3-compression-native \<br>
-=C2=A0 =C2=A0 =C2=A0python3-core-native \<br>
-=C2=A0 =C2=A0 =C2=A0python3-distutils-native \<br>
-+=C2=A0 =C2=A0 python3-email-native \<br>
-=C2=A0 =C2=A0 =C2=A0python3-importlib-native \<br>
-=C2=A0 =C2=A0 =C2=A0python3-io-native \<br>
-+=C2=A0 =C2=A0 python3-json-native \<br>
-+=C2=A0 =C2=A0 python3-lang-native \<br>
-+=C2=A0 =C2=A0 python3-misc-native \<br>
-+=C2=A0 =C2=A0 python3-netclient-native \<br>
-+=C2=A0 =C2=A0 python3-netserver-native \<br>
-+=C2=A0 =C2=A0 python3-numbers-native \<br>
-+=C2=A0 =C2=A0 python3-pkgutil-native \<br>
-+=C2=A0 =C2=A0 python3-pprint-native \<br>
-+=C2=A0 =C2=A0 python3-re-native \<br>
-+=C2=A0 =C2=A0 python3-shell-native \<br>
-+=C2=A0 =C2=A0 python3-subprocess-native \<br>
-=C2=A0 =C2=A0 =C2=A0python3-textutils-native \<br>
-+=C2=A0 =C2=A0 python3-threading-native \<br>
-+=C2=A0 =C2=A0 python3-unittest-native \<br>
-=C2=A0&quot;<br>
-<br>
-=C2=A0EXTRA_OECONF_append =3D &quot; --bindir=3D${bindir}/${PN} --without-e=
-nsurepip&quot;<br>
---<br>
-2.1.4<br>
-<br>
-</div></div></blockquote></div><br></div>
 
---001a114102a458fed8053a7143a8--
+> On Aug 19, 2016, at 8:29 AM, Richard Purdie =
+<richard.purdie@linuxfoundation.org> wrote:
+>=20
+> We're periodically seeing uvesafb timeouts on the autobuilder. =
+Whitelist these
+> errors as there is little it seems we can do about them and we =
+therefore
+> choose to ignore them rather than fail the builds.
+>=20
+> [YOCTO #8245]
+>=20
+> There is a better solution proposed in the bug with a -1 timeout =
+however
+> this avoids failed builds until such times as that is implemented.
+I am working on the -1 timeout patch. It could take another several days =
+for dev and validation in next week.
+
+Please just go ahead to merge this for any urgency. Refer to my inline =
+clarification too.
+>=20
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+>=20
+> diff --git a/meta/lib/oeqa/runtime/parselogs.py =
+b/meta/lib/oeqa/runtime/parselogs.py
+> index 1cfe804..777af57 100644
+> --- a/meta/lib/oeqa/runtime/parselogs.py
+> +++ b/meta/lib/oeqa/runtime/parselogs.py
+> @@ -63,6 +63,9 @@ qemux86_common =3D [
+>     "fail to add MMCONFIG information, can't access extended PCI =
+configuration space under this bridge.",
+>     "can't claim BAR ",
+>     'amd_nb: Cannot enumerate AMD northbridges',
+> +    'uvesafb: 5000 ms task timeout error=E2=80=99,
+This line will be whitelisted even when the -1 timeout patch is in =
+because we cannot fix bandwidth issue on AB server and still wanna keep =
+this log visible as heads up.
+> +    'detected fb_set_par error, error code: -22',
+> +    'uvesafb: mode switch failed=E2=80=99\
+These errors from callers should not be whitelisted with the -1 timeout =
+patch. Once we have that patch merged, they are still valid errors to =
+indicate a non-timeout root case, or that patch doesn=E2=80=99t do the =
+expected job. The problem of whitelisting  is we could miss other cases =
+in call chains, or cover other root causes of a same error. This is =
+another variant:
+
+[  126.670550] uvesafb: 5000 ms task timeout error
+[  126.673310] uvesafb: Getting VBE info block failed (eax=3D0x4f00, =
+err=3D1)
+[  126.673684] uvesafb: vbe_init() failed with -22
+
+(bz8245 comment #23)
+
+You may want to add =E2=80=9CGetting VBE..=E2=80=9D lines in this patch =
+too, just don=E2=80=99t be confused when seeing another new uncaught =
+variant.
+
+
+
+> ] + common_errors
+>=20
+> ignore_errors =3D {=20
+>=20
+>=20
+> --=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
+
