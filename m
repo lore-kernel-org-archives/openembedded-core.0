@@ -1,46 +1,29 @@
-Return-Path: <net147@gmail.com>
-Received: from mail-pa0-f68.google.com (mail-pa0-f68.google.com
-	[209.85.220.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 7556276809
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id B5CDD76FFA
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Aug 2016 12:51:56 +0000 (UTC)
-Received: by mail-pa0-f68.google.com with SMTP id vy10so3424330pac.0
+	Fri, 19 Aug 2016 12:56:25 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u7JCuPbg025145
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Aug 2016 05:51:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=ojYnQ1pHAxpSa4VXMms1QMAS2xcamIkePgqRYepWSco=;
-	b=f5vAfWreXAPJICEMO8X8z4OiHWCj0/k82sNK+/NyPYp61yTZ4JJIuceUtSI2+9cImp
-	ojeIg6uGN22yjsewtbpgqfadC3qM8NO7gHtnn/AA1IQD70UqUI0Sn9qhgWvh8q22p44x
-	f9TuVMdxLjxakiYRyEmzONNY5oWQDSmNfvE0kBIedRj39pJR4irAW24Brsazkqwzlivc
-	EX5jEdBvOsoTc4E6426+A24cdPktMloDSBzmnv9+CpDsMUtdn3zuQEvoxH8/Wt0WAuAL
-	e5+GqyncwEhQbVp+edQEqkFK0hpLq+D+1REK6D9tu1xmVWx10b1Efz2kj/sfarHWIJVk
-	MR2A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=ojYnQ1pHAxpSa4VXMms1QMAS2xcamIkePgqRYepWSco=;
-	b=diPnDuDrYKcpWMSpHzzT9/Yi+JWyRmIU4UpJM4XYRkB39tmGnNrcVjZiEehw2rpjTT
-	ZgXDt2klJCzBs3Cipf7fwg9E8eH5NT6o2iUXYQmho3APUT0yT/PRXcE9jp5xhKPMeZNe
-	mMajzkqsm24tIZgWuOthSbbUGMpadoz9emsmCXj54UfbXRSDd/Zpwvm2ujejGh0e9Mb5
-	2cJ0CbIPdjrq5D4HW9hunGr09fmfAfsjZT8oEoPRUV2WZk4VEtln5i8w6/dWeCDnL6A+
-	94nA8BuTLZGJ06XTd9ukCSC978cXEQkgq3In8yAvQEdjcF9J5AHCRMqRSnH6x+gQC1+T
-	9Q4A==
-X-Gm-Message-State: AEkooutZ40CszYAW1e8d6DRqH/Q1QZOBohd0NyOwJtaajnu3rfWInQjN+uo2W0JXzicBpQ==
-X-Received: by 10.66.242.166 with SMTP id wr6mr13420688pac.147.1471611117748; 
-	Fri, 19 Aug 2016 05:51:57 -0700 (PDT)
-Received: from 60-242-179-244.static.tpgi.com.au
-	(60-242-179-244.static.tpgi.com.au. [60.242.179.244])
-	by smtp.gmail.com with ESMTPSA id
-	fj19sm11520346pab.37.2016.08.19.05.51.56
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 19 Aug 2016 05:51:57 -0700 (PDT)
-From: Jonathan Liu <net147@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 19 Aug 2016 22:51:12 +1000
-Message-Id: <20160819125112.6315-1-net147@gmail.com>
-X-Mailer: git-send-email 2.9.3
-Subject: [krogoth][master][PATCH] image-vm.bbclass: remove old images if RM_OLD_IMAGE is enabled
+	Fri, 19 Aug 2016 05:56:25 -0700 (PDT)
+Received: from soho-mhatle-m.local (172.25.36.235) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
+	Fri, 19 Aug 2016 05:56:25 -0700
+To: <openembedded-core@lists.openembedded.org>
+References: <cover.1471539779.git.mark.hatle@windriver.com>
+	<ac8bfa5987396bae636ebb152128755967d3ce83.1471539779.git.mark.hatle@windriver.com>
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+Message-ID: <d25a976d-7206-b00d-16de-bf308a6d82f0@windriver.com>
+Date: Fri, 19 Aug 2016 07:56:24 -0500
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:45.0)
+	Gecko/20100101 Thunderbird/45.2.0
+MIME-Version: 1.0
+In-Reply-To: <ac8bfa5987396bae636ebb152128755967d3ce83.1471539779.git.mark.hatle@windriver.com>
+Subject: Re: [PATCH 2/3] local.conf.sample: Disable ARM and PPC due to prelink test case failures
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,47 +36,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 19 Aug 2016 12:52:00 -0000
+X-List-Received-Date: Fri, 19 Aug 2016 12:56:25 -0000
+Content-Type: text/plain; charset="windows-1252"
+Content-Transfer-Encoding: 7bit
 
-[YOCTO #10164]
+Just an FYI - I've investigated the ARM and PPC failures further.  It looks like
+it may be a binutils problem.
 
-Signed-off-by: Jonathan Liu <net147@gmail.com>
----
- meta/classes/image-vm.bbclass | 13 +++++++++++--
- 1 file changed, 11 insertions(+), 2 deletions(-)
+Both of the failed tests link applications using the arguments "-Wl,-z,nocopyreloc"
 
-diff --git a/meta/classes/image-vm.bbclass b/meta/classes/image-vm.bbclass
-index 72f7b4b..bf57e2c 100644
---- a/meta/classes/image-vm.bbclass
-+++ b/meta/classes/image-vm.bbclass
-@@ -105,8 +105,12 @@ build_boot_dd() {
- 	dd if=${ROOTFS} of=$IMAGE conv=notrunc seek=$OFFSET bs=512
- 
- 	cd ${DEPLOY_DIR_IMAGE}
--	rm -f ${DEPLOY_DIR_IMAGE}/${IMAGE_LINK_NAME}.hdddirect
--	ln -s ${IMAGE_NAME}.hdddirect ${DEPLOY_DIR_IMAGE}/${IMAGE_LINK_NAME}.hdddirect
-+
-+	if [ "${RM_OLD_IMAGE}" = "1" ] && [ -L ${DEPLOY_DIR_IMAGE}/${IMAGE_LINK_NAME}.hdddirect ]; then
-+		rm -f $(readlink -f ${DEPLOY_DIR_IMAGE}/${IMAGE_LINK_NAME}.hdddirect)
-+	fi
-+
-+	ln -sf ${IMAGE_NAME}.hdddirect ${DEPLOY_DIR_IMAGE}/${IMAGE_LINK_NAME}.hdddirect
- } 
- 
- python do_bootdirectdisk() {
-@@ -142,6 +146,11 @@ DISK_SIGNATURE_GENERATED := "${@generate_disk_signature()}"
- run_qemu_img (){
-     type="$1"
-     qemu-img convert -O $type ${DEPLOY_DIR_IMAGE}/${IMAGE_LINK_NAME}.hdddirect ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.$type
-+
-+    if [ "${RM_OLD_IMAGE}" = "1" ] && [ -L ${DEPLOY_DIR_IMAGE}/${IMAGE_LINK_NAME}.$type ]; then
-+        rm -f $(readlink -f ${DEPLOY_DIR_IMAGE}/${IMAGE_LINK_NAME}.$type)
-+    fi
-+
-     ln -sf ${IMAGE_NAME}.$type ${DEPLOY_DIR_IMAGE}/${IMAGE_LINK_NAME}.$type
- }
- create_vmdk_image () {
--- 
-2.9.3
+Once this has been done, the executable will not run.  (Aborts very early.)
+
+I'm currently verifying if this did work in the past.
+
+--Mark
+
+On 8/18/16 12:04 PM, Mark Hatle wrote:
+> Internal prelink test cases reloc8 and reloc9 are failing on both ARM
+> and PPC systems.  Disable them by removing the prelink from the
+> IMAGE_CLASSES setting.
+> 
+> Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+> ---
+>  meta/conf/local.conf.sample | 9 +++++++++
+>  1 file changed, 9 insertions(+)
+> 
+> diff --git a/meta/conf/local.conf.sample b/meta/conf/local.conf.sample
+> index 2949ffb..8879a08 100644
+> --- a/meta/conf/local.conf.sample
+> +++ b/meta/conf/local.conf.sample
+> @@ -132,6 +132,15 @@ EXTRA_IMAGE_FEATURES ?= "debug-tweaks"
+>  # image-prelink disabled for now due to issues with IFUNC symbol relocation
+>  USER_CLASSES ?= "buildstats image-mklibs"
+>  
+> +# Prelinker tests are currently failing on ARM and PPC.  Prevent us from
+> +# running on those architectures until the failure is explained.
+> +USER_CLASSES_remove_arm = 'image-prelink'
+> +USER_CLASSES_remove_armeb = 'image-prelink'
+> +USER_CLASSES_remove_aarch64 = 'image-prelink'
+> +USER_CLASSES_remove_aarch64eb = 'image-prelink'
+> +USER_CLASSES_remove_powerpc = 'image-prelink'
+> +USER_CLASSES_remove_powerpc64 = 'image-prelink'
+> +
+>  
+>  #
+>  # Runtime testing of images
+> 
 
 
