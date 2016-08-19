@@ -1,30 +1,30 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 8517D73212
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id D5C96731D2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Aug 2016 01:45:43 +0000 (UTC)
+	Fri, 19 Aug 2016 01:49:17 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u7J1jh8O023530
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u7J1nH7S012737
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Aug 2016 18:45:44 -0700 (PDT)
-Received: from soho-mhatle-m.local (172.25.36.235) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Thu, 18 Aug 2016 18:45:43 -0700
-To: Robert Yang <liezhi.yang@windriver.com>,
+	Thu, 18 Aug 2016 18:49:17 -0700
+Received: from [128.224.162.240] (128.224.162.240) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.248.2;
+	Thu, 18 Aug 2016 18:49:16 -0700
+To: Mark Hatle <mark.hatle@windriver.com>,
 	<openembedded-core@lists.openembedded.org>
 References: <cover.1471500427.git.liezhi.yang@windriver.com>
 	<25cd51bc-61e5-574d-65c0-542b2d2821a5@windriver.com>
 	<85880f5d-89bf-a784-c617-08a3002bb8cd@windriver.com>
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-Message-ID: <42bcaa76-5dbc-e799-c53b-0b6a9c4bcb7f@windriver.com>
-Date: Thu, 18 Aug 2016 20:45:42 -0500
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:45.0)
-	Gecko/20100101 Thunderbird/45.2.0
+	<42bcaa76-5dbc-e799-c53b-0b6a9c4bcb7f@windriver.com>
+From: Robert Yang <liezhi.yang@windriver.com>
+Message-ID: <530d37a6-4e5c-eca9-6101-60c4e6db7944@windriver.com>
+Date: Fri, 19 Aug 2016 09:49:15 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.2.0
 MIME-Version: 1.0
-In-Reply-To: <85880f5d-89bf-a784-c617-08a3002bb8cd@windriver.com>
+In-Reply-To: <42bcaa76-5dbc-e799-c53b-0b6a9c4bcb7f@windriver.com>
 Subject: Re: [PATCH 0/8] runqemu: refactor it and remove machine knowledge
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -38,131 +38,143 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 19 Aug 2016 01:45:43 -0000
-Content-Type: text/plain; charset="windows-1252"
+X-List-Received-Date: Fri, 19 Aug 2016 01:49:20 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 8/18/16 8:06 PM, Robert Yang wrote:
-> 
-> 
-> On 08/19/2016 05:47 AM, Mark Hatle wrote:
->> General comment on the patch set.
->>
->> I do like what this change is trying to accomplish.  However, I think putting
->> QEMU knowledge into the 'arch' is a bad idea -- unless it's being used to run
->> the emulator for build-time work.
->>
->> The arch could very well be used by kernels that simply can't run in QEMU.  I'd
->> prefer if the QEMU settings were .inc files that were included into BSPs that
->> were compatible or something like that -- keep them out of the tunes, but make
->> it easy for a BSP creator to include them.
-> 
-> Hi Mark,
-> 
-> Thanks for your reply, did you mean the settings that I put into files
-> like arch-x86.inc ? The benefit is that we can reduce duplicated code,
-> otherwise we would have at least 4 copies for x86/x86_64, (qemux86, qemux86-64,
-> genericx86, genericx86-64 and perhaps more bsps out of oe-core. Put the
-> settings in files like arch-x86.inc is harmless in my opinion, and the bsp
-> conf files can override them easily.
 
-My concern is this is mixing BSP settings with the tunings.  It is also defining
-qemu compatibility for things that may not be compatible with qemu.
 
-As far as the duplicated code issue, I'd suggest these chunks be put into
-something like:
-
-conf/machine/qemux86.inc
-conf/machine/qemux86-64.inc
-
-And then have those included by the regular BSP files, or another BSP as necessary.
-
---Mark
-
-> // Robert
-> 
->>
->> --Mark
->>
->> On 8/18/16 1:15 AM, Robert Yang wrote:
->>> Previously, runqemu had hard coded machine knowledge, which limited its
->>> usage, for example, qemu can boot genericx86, but runqemu can't, we need
->>> edit runqemu/runqemu-internal a lot if we want to boot genericx86.
->>>
->>> Now bsp conf files can set vars to make it can be boot by runqemu, and
->>> qemuboot.bbclass will save these info to DEPLOY_DIR_IMAGE/qemuboot.py.
->>> Please see qemuboot.bbclass' comments on how to set the vars.
->>>
->>> * Re-write it in python3, which can reduce lines from 1239 to about 750
->>>   lines
->>> * All the machine knowledges are gone
->>> * Most of the TUN_ARCH knowledge are gone except aarch64 and powerpc,
->>>   it's not easy to remove the two, so leave them there atm
->>> * All the previous options are preserved, and there is a new way to run
->>>   runqemu: (it doesn't need run "bitake -e" in such a case)
->>>   $ runqemu tmp/deploy/images/qemux86
->>>   or:
->>>   $ runqemu tmp/deploy/images/qemuarm/<image>.ext4
->>>   or:
->>>   $ runqemu tmp/deploy/images/qemuarm/qemuboot.py
->>> * Fixed audio support, not limited on x86 or x86_64
->>> * The kvm support is not limited on x86 or x86_64
->>> * Fix SLIRP mode
->>> * Fix NFS boot, it will extract <image>.tar.bz2 or tar.gz to
->>>   DEPLOY_DIR_IMAGE/<image>-nfsroot when no NFS_DIR, and remove it after
->>>   stop.
->>> * More bsps can be boot, such as genericx86 and genericx86-64.
->>> * The patch for qemuzynq, qemuzynqmp, qemumicroblaze has been sent to
->>>   meta-xilinx' mailing list.
->>> * I can't find any qemush4 bsp or how to build it, so it is not
->>>   considered atm.
->>>
->>> * Tested the following machines, all of them work well:
->>>   genericx86 genericx86-64
->>>   qemuarm qemuarm64
->>>   qemumips qemumips64 qemuppc
->>>   qemux86 qemux86-64
->>>   qemuzynq qemuzynqmp
->>>
->>> And also test "bitbake core-image-sato -ctestimage" which uses runqemu, it
->>> also works.
->>>
->>> // Robert
->>>
->>> The following changes since commit c86bf80abd87acb0da5860806822c64ec9dee089:
->>>
->>>   oeqa.buildperf: use oe.path.remove() (2016-08-17 10:35:27 +0100)
->>>
->>> are available in the git repository at:
->>>
->>>   git://git.openembedded.org/openembedded-core-contrib rbt/runqemu
->>>   http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/runqemu
->>>
->>> Robert Yang (8):
->>>   qemu.inc: inherit qemu-boot.bbclass
->>>   arm: set vars for runqemu
->>>   qemuarm64.conf: set vars for runqemu
->>>   arch-x86.inc: set vars for runqemu
->>>   arch-mips.inc: set vars for runqemu
->>>   qemuppc.conf: set vars for runqemu
->>>   qemuboot.bbclass: add it for runqemu
->>>   runqemu: refactor it and remove machine knowledge
->>>
->>>  meta/classes/qemuboot.bbclass                |   59 ++
->>>  meta/conf/machine/include/mips/arch-mips.inc |    6 +
->>>  meta/conf/machine/include/qemu.inc           |    2 +
->>>  meta/conf/machine/include/tune-cortexa8.inc  |    4 +
->>>  meta/conf/machine/include/x86/arch-x86.inc   |   15 +
->>>  meta/conf/machine/qemuarm.conf               |    5 +
->>>  meta/conf/machine/qemuarm64.conf             |    9 +
->>>  meta/conf/machine/qemuppc.conf               |    6 +
->>>  scripts/runqemu                              | 1261 +++++++++++++++-----------
->>>  scripts/runqemu-internal                     |  739 ---------------
->>>  10 files changed, 842 insertions(+), 1264 deletions(-)
->>>  create mode 100644 meta/classes/qemuboot.bbclass
->>>  delete mode 100755 scripts/runqemu-internal
->>>
+On 08/19/2016 09:45 AM, Mark Hatle wrote:
+> On 8/18/16 8:06 PM, Robert Yang wrote:
 >>
 >>
+>> On 08/19/2016 05:47 AM, Mark Hatle wrote:
+>>> General comment on the patch set.
+>>>
+>>> I do like what this change is trying to accomplish.  However, I think putting
+>>> QEMU knowledge into the 'arch' is a bad idea -- unless it's being used to run
+>>> the emulator for build-time work.
+>>>
+>>> The arch could very well be used by kernels that simply can't run in QEMU.  I'd
+>>> prefer if the QEMU settings were .inc files that were included into BSPs that
+>>> were compatible or something like that -- keep them out of the tunes, but make
+>>> it easy for a BSP creator to include them.
+>>
+>> Hi Mark,
+>>
+>> Thanks for your reply, did you mean the settings that I put into files
+>> like arch-x86.inc ? The benefit is that we can reduce duplicated code,
+>> otherwise we would have at least 4 copies for x86/x86_64, (qemux86, qemux86-64,
+>> genericx86, genericx86-64 and perhaps more bsps out of oe-core. Put the
+>> settings in files like arch-x86.inc is harmless in my opinion, and the bsp
+>> conf files can override them easily.
+>
+> My concern is this is mixing BSP settings with the tunings.  It is also defining
+> qemu compatibility for things that may not be compatible with qemu.
 
+I have the same concern, too.
+
+>
+> As far as the duplicated code issue, I'd suggest these chunks be put into
+> something like:
+>
+> conf/machine/qemux86.inc
+> conf/machine/qemux86-64.inc
+
+Thanks, I will move them out of the tunes files.
+
+// Robert
+
+>
+> And then have those included by the regular BSP files, or another BSP as necessary.
+>
+> --Mark
+>
+>> // Robert
+>>
+>>>
+>>> --Mark
+>>>
+>>> On 8/18/16 1:15 AM, Robert Yang wrote:
+>>>> Previously, runqemu had hard coded machine knowledge, which limited its
+>>>> usage, for example, qemu can boot genericx86, but runqemu can't, we need
+>>>> edit runqemu/runqemu-internal a lot if we want to boot genericx86.
+>>>>
+>>>> Now bsp conf files can set vars to make it can be boot by runqemu, and
+>>>> qemuboot.bbclass will save these info to DEPLOY_DIR_IMAGE/qemuboot.py.
+>>>> Please see qemuboot.bbclass' comments on how to set the vars.
+>>>>
+>>>> * Re-write it in python3, which can reduce lines from 1239 to about 750
+>>>>   lines
+>>>> * All the machine knowledges are gone
+>>>> * Most of the TUN_ARCH knowledge are gone except aarch64 and powerpc,
+>>>>   it's not easy to remove the two, so leave them there atm
+>>>> * All the previous options are preserved, and there is a new way to run
+>>>>   runqemu: (it doesn't need run "bitake -e" in such a case)
+>>>>   $ runqemu tmp/deploy/images/qemux86
+>>>>   or:
+>>>>   $ runqemu tmp/deploy/images/qemuarm/<image>.ext4
+>>>>   or:
+>>>>   $ runqemu tmp/deploy/images/qemuarm/qemuboot.py
+>>>> * Fixed audio support, not limited on x86 or x86_64
+>>>> * The kvm support is not limited on x86 or x86_64
+>>>> * Fix SLIRP mode
+>>>> * Fix NFS boot, it will extract <image>.tar.bz2 or tar.gz to
+>>>>   DEPLOY_DIR_IMAGE/<image>-nfsroot when no NFS_DIR, and remove it after
+>>>>   stop.
+>>>> * More bsps can be boot, such as genericx86 and genericx86-64.
+>>>> * The patch for qemuzynq, qemuzynqmp, qemumicroblaze has been sent to
+>>>>   meta-xilinx' mailing list.
+>>>> * I can't find any qemush4 bsp or how to build it, so it is not
+>>>>   considered atm.
+>>>>
+>>>> * Tested the following machines, all of them work well:
+>>>>   genericx86 genericx86-64
+>>>>   qemuarm qemuarm64
+>>>>   qemumips qemumips64 qemuppc
+>>>>   qemux86 qemux86-64
+>>>>   qemuzynq qemuzynqmp
+>>>>
+>>>> And also test "bitbake core-image-sato -ctestimage" which uses runqemu, it
+>>>> also works.
+>>>>
+>>>> // Robert
+>>>>
+>>>> The following changes since commit c86bf80abd87acb0da5860806822c64ec9dee089:
+>>>>
+>>>>   oeqa.buildperf: use oe.path.remove() (2016-08-17 10:35:27 +0100)
+>>>>
+>>>> are available in the git repository at:
+>>>>
+>>>>   git://git.openembedded.org/openembedded-core-contrib rbt/runqemu
+>>>>   http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/runqemu
+>>>>
+>>>> Robert Yang (8):
+>>>>   qemu.inc: inherit qemu-boot.bbclass
+>>>>   arm: set vars for runqemu
+>>>>   qemuarm64.conf: set vars for runqemu
+>>>>   arch-x86.inc: set vars for runqemu
+>>>>   arch-mips.inc: set vars for runqemu
+>>>>   qemuppc.conf: set vars for runqemu
+>>>>   qemuboot.bbclass: add it for runqemu
+>>>>   runqemu: refactor it and remove machine knowledge
+>>>>
+>>>>  meta/classes/qemuboot.bbclass                |   59 ++
+>>>>  meta/conf/machine/include/mips/arch-mips.inc |    6 +
+>>>>  meta/conf/machine/include/qemu.inc           |    2 +
+>>>>  meta/conf/machine/include/tune-cortexa8.inc  |    4 +
+>>>>  meta/conf/machine/include/x86/arch-x86.inc   |   15 +
+>>>>  meta/conf/machine/qemuarm.conf               |    5 +
+>>>>  meta/conf/machine/qemuarm64.conf             |    9 +
+>>>>  meta/conf/machine/qemuppc.conf               |    6 +
+>>>>  scripts/runqemu                              | 1261 +++++++++++++++-----------
+>>>>  scripts/runqemu-internal                     |  739 ---------------
+>>>>  10 files changed, 842 insertions(+), 1264 deletions(-)
+>>>>  create mode 100644 meta/classes/qemuboot.bbclass
+>>>>  delete mode 100755 scripts/runqemu-internal
+>>>>
+>>>
+>>>
+>
+>
 
