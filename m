@@ -1,57 +1,30 @@
-Return-Path: <andrew.goodbody@cambrionix.com>
-X-Greylist: delayed 414 seconds by postgrey-1.34 at layers.openembedded.org;
-	Fri, 19 Aug 2016 09:40:13 UTC
-Received: from mail1.bemta3.messagelabs.com (mail1.bemta3.messagelabs.com
-	[195.245.230.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 8C2D765CBB
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Aug 2016 09:40:13 +0000 (UTC)
-Received: from [85.158.137.35] by server-12.bemta-3.messagelabs.com id
-	04/40-09160-F52D6B75; Fri, 19 Aug 2016 09:33:19 +0000
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrMIsWRWlGSWpSXmKPExsVyU6Zrom78pW3
-	hBvN/C1rc+fmO3YHR49zGFYwBjFGsmXlJ+RUJrBnrHr5lLGhmqpg14zJbA+Mlxi5GLg4hgU2M
-	EmvOX2WDcPYySjx9dYqli5GTg03ATGLXq3XsILaIQJTEzV3PwGxhAR2Jk182MEHEDSWm/3vOA
-	mHrSUz9tZwRxGYRUJWYu20pM4jNK+AqsW5TB5jNKCAr8aVxNZjNLCAucevJfLA5EgICEkv2nG
-	eGsEUlXj7+xwphG0hsXbqPBcJWkPjRewqqxlri34O7TBBzdCQW7P7EBmFrSyxb+Bpqr6DEyZl
-	PWCYwCs9Csm4WkpZZSFpmIWlZwMiyilGjOLWoLLVI19BIL6koMz2jJDcxM0fX0MBYLze1uDgx
-	PTUnMalYLzk/dxMjMAIYgGAH46tu50OMkhxMSqK8v/S3hQvxJeWnVGYkFmfEF5XmpBYfYpTh4
-	FCS4OW7CJQTLEpNT61Iy8wBxiJMWoKDR0mE9/YFoDRvcUFibnFmOkTqFKMux4Ift9cyCbHk5e
-	elSonzXgQpEgApyijNgxsBSwuXGGWlhHkZgY4S4ilILcrNLEGVf8UozsGoJMy7DGQKT2ZeCdy
-	mV0BHMAEdwcu/BeSIkkSElFQDY2V+QWnpTkFmzopXL4VnfhMM8P7beL4navrVqHPKx5IElY/+
-	4b51/fdUHqn3E103Poq4eFrgiejmg0e7tk4vNbKK67+WUXNi0k/DvXmLWX387r5+9lCncbvTk
-	8+/hFI3G15fs32b9wTditbl8/r6Tk3uCup2T67/pqW5869Lbz4jZ2Hg1kbOHCWW4oxEQy3mou
-	JEAHilVvsGAwAA
-X-Env-Sender: andrew.goodbody@cambrionix.com
-X-Msg-Ref: server-5.tower-134.messagelabs.com!1471599198!44276152!2
-X-Originating-IP: [217.28.138.145]
-X-StarScan-Received: 
-X-StarScan-Version: 8.84; banners=-,-,-
-X-VirusChecked: Checked
-Received: (qmail 24924 invoked from network); 19 Aug 2016 09:33:19 -0000
-Received: from smtp.hs20.net (HELO outlook.hs20.net) (217.28.138.145)
-	by server-5.tower-134.messagelabs.com with AES256-SHA256 encrypted SMTP;
-	19 Aug 2016 09:33:19 -0000
-Received: from SEHSTE15D2BE2.hs20.net (172.18.251.29) by
-	SEHSTE15D2BE5.hs20.net (172.18.251.32) with Microsoft SMTP Server (TLS)
-	id 15.0.1178.4; Fri, 19 Aug 2016 10:33:18 +0100
-Received: from SEHSTE15D2BE2.hs20.net ([fe80::84cd:cdd2:84c4:a64a]) by
-	SEHSTE15D2BE2.hs20.net ([fe80::84cd:cdd2:84c4:a64a%21]) with mapi id
-	15.00.1178.000; Fri, 19 Aug 2016 10:33:18 +0100
-From: Andrew Goodbody <andrew.goodbody@cambrionix.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: Build of u-boot with gold is broken
-Thread-Index: AdH5VjLhAuTAF19QS3yoE/njm4xwfA==
-Date: Fri, 19 Aug 2016 09:33:17 +0000
-Message-ID: <cf64ae59ea584fb18975ca5f33464981@SEHSTE15D2BE2.hs20.net>
-Accept-Language: en-GB, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [46.17.166.30]
-x-exclaimer-md-config: 266e7a57-cddd-49fd-bdea-19bca6d40303
-MIME-Version: 1.0
-Subject: Build of u-boot with gold is broken
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 50F6E7002B;
+	Fri, 19 Aug 2016 10:14:09 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u7JAE9Na016936; Fri, 19 Aug 2016 11:14:09 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id 6xD-2N64YUPJ; Fri, 19 Aug 2016 11:14:09 +0100 (BST)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u7JAE4XL016933
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Fri, 19 Aug 2016 11:14:05 +0100
+Message-ID: <1471601644.16712.23.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Khem Raj <raj.khem@gmail.com>, OE Core mailing list
+	<openembedded-core@lists.openembedded.org>, Yocto Discussion Mailing List
+	<yocto@yoctoproject.org>, OpenEmbedded Devel List
+	<openembedded-devel@lists.openembedded.org>
+Date: Fri, 19 Aug 2016 11:14:04 +0100
+In-Reply-To: <888B09F3-F9A2-49C1-86E8-E33FA1FE6521@gmail.com>
+References: <888B09F3-F9A2-49C1-86E8-E33FA1FE6521@gmail.com>
+X-Mailer: Evolution 3.16.5-1ubuntu3.1 
+Mime-Version: 1.0
+Subject: Re: [RFT] gcc 6.2 RC1 update
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -64,17 +37,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 19 Aug 2016 09:40:16 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 19 Aug 2016 10:14:10 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Hi,
+On Tue, 2016-08-16 at 11:55 -0700, Khem Raj wrote:
+> Hi All
+> 
+> I have put together recipe upgrade for upcoming gcc 6.2 release now
+> that it entered RC phase. With gcc 6.2 the recipes are using tarballs
+> instead of git fetcher as promised :)
+> Please help testing it out in your setups and report any issues you
+> see.
+> 
+> The commit you need to cherry-pick for OE-core is this one
+> 
+> https://github.com/kraj/openembedded-core/commit/0319b603761a16e65d70
+> 4336112c3709a8bf771c
+> 
+> Thank you for your help
 
-It looks like the recent change to meta/recipes-bsp/u-boot/u-boot.inc to en=
-able out of tree builds for u-boot does not work with gold.
-The sed at line 70 fails as it is being executed in an empty build director=
-y and so there is no config.mk.
+I put this through the autobuilder and it passed so I've merged it. I
+did this quickly as we're putting a "pre M3" build through a QA cycle
+and I wanted to get some of the more invasive changes into that build
+so we don't have a stampeding herd of patches breaking everything
+coming up to the final feature freeze for 2.2.
 
-Andrew
+In other news, we are now also testing musl world builds on the
+autobuilder as part of regular testing.
+
+Cheers,
+
+Richard
+
+
 
