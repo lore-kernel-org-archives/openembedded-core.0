@@ -1,32 +1,32 @@
 Return-Path: <wangxin2015.fnst@cn.fujitsu.com>
 Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
-	by mail.openembedded.org (Postfix) with ESMTP id 2775D6FFCD
+	by mail.openembedded.org (Postfix) with ESMTP id CC5816FFCD
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Aug 2016 07:45:57 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.22,518,1449504000"; d="scan'208";a="10075958"
+	Fri, 19 Aug 2016 07:47:38 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.22,518,1449504000"; d="scan'208";a="10076007"
 Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 19 Aug 2016 15:45:50 +0800
+	by heian.cn.fujitsu.com with ESMTP; 19 Aug 2016 15:47:39 +0800
 Received: from G08CNEXCHPEKD02.g08.fujitsu.local (unknown [10.167.33.83])
-	by cn.fujitsu.com (Postfix) with ESMTP id CA77942CD10F
+	by cn.fujitsu.com (Postfix) with ESMTP id E53A142CD111
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Aug 2016 15:45:49 +0800 (CST)
+	Fri, 19 Aug 2016 15:47:36 +0800 (CST)
 Received: from ubuntu.g08.fujitsu.local (10.167.226.120) by
 	G08CNEXCHPEKD02.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.279.2; Fri, 19 Aug 2016 15:45:49 +0800
+	Server (TLS) id 14.3.279.2; Fri, 19 Aug 2016 15:47:36 +0800
 From: Wang Xin <wangxin2015.fnst@cn.fujitsu.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 19 Aug 2016 03:45:46 -0400
-Message-ID: <1471592746-1412-1-git-send-email-wangxin2015.fnst@cn.fujitsu.com>
+Date: Fri, 19 Aug 2016 03:47:33 -0400
+Message-ID: <1471592853-1509-1-git-send-email-wangxin2015.fnst@cn.fujitsu.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <CAJTo0LYu=Cnm0s-k3GMxnSZ3WziEUNvLjGRCgGW9CBHMo1EHdQ@mail.gmail.com>
 References: <CAJTo0LYu=Cnm0s-k3GMxnSZ3WziEUNvLjGRCgGW9CBHMo1EHdQ@mail.gmail.com>
 MIME-Version: 1.0
 X-Originating-IP: [10.167.226.120]
-X-yoursite-MailScanner-ID: CA77942CD10F.AA63C
+X-yoursite-MailScanner-ID: E53A142CD111.A66A4
 X-yoursite-MailScanner: Found to be clean
 X-yoursite-MailScanner-From: wangxin2015.fnst@cn.fujitsu.com
 X-Spam-Status: No
-Subject: [PATCH] adwaita-icon-theme: 3.18.0 -> 3.20
+Subject: [PATCH v3] adwaita-icon-theme: 3.18.0 -> 3.20
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,7 +39,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 19 Aug 2016 07:45:59 -0000
+X-List-Received-Date: Fri, 19 Aug 2016 07:47:39 -0000
 Content-Type: text/plain
 
 1) Upgrade adwaita-icon-theme from 3.18.0 to 3.20.
