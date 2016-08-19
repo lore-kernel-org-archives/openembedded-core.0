@@ -1,23 +1,29 @@
-Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id DEE9C70018
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 1BF8077086
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Aug 2016 14:36:27 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by orsmga102.jf.intel.com with ESMTP; 19 Aug 2016 07:36:09 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.28,544,1464678000"; d="scan'208";a="750966153"
-Received: from linux.intel.com ([10.54.29.200])
-	by FMSMGA003.fm.intel.com with ESMTP; 19 Aug 2016 07:36:10 -0700
-Received: from ed.fi.intel.com (ed.fi.intel.com [10.237.72.179])
-	by linux.intel.com (Postfix) with ESMTP id 1B3C36A4006;
-	Fri, 19 Aug 2016 07:35:51 -0700 (PDT)
-From: Ed Bartosh <ed.bartosh@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 19 Aug 2016 17:35:53 +0300
-Message-Id: <1471617353-3904-1-git-send-email-ed.bartosh@linux.intel.com>
-X-Mailer: git-send-email 2.6.6
-Subject: [PATCH] image_types: use COMPRESSIONTYPES variable for backward compatibility
+	Fri, 19 Aug 2016 14:43:58 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u7JEhwqC030498; Fri, 19 Aug 2016 15:43:58 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id S39TFWLQe3DC; Fri, 19 Aug 2016 15:43:58 +0100 (BST)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u7JEht2n030494
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Fri, 19 Aug 2016 15:43:56 +0100
+Message-ID: <1471617835.16712.39.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Carlos Rafael Giani <dv@pseudoterminal.org>,
+	openembedded-core@lists.openembedded.org
+Date: Fri, 19 Aug 2016 15:43:55 +0100
+In-Reply-To: <c1f61bbb-02ac-2ae8-9016-55a00ff71a15@pseudoterminal.org>
+References: <c1f61bbb-02ac-2ae8-9016-55a00ff71a15@pseudoterminal.org>
+X-Mailer: Evolution 3.16.5-1ubuntu3.1 
+Mime-Version: 1.0
+Subject: Re: Why are verbose makefiles enabled by default in cmake bbclass ?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,37 +36,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 19 Aug 2016 14:36:31 -0000
+X-List-Received-Date: Fri, 19 Aug 2016 14:43:59 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Recent renaming of COMPRESSIONTYPES variable can break recipes that
-still use it. Including value of COMPRESSIONTYPES variable into
-CONVERSIONTYPES should prevent this.
+On Fri, 2016-08-19 at 16:10 +0200, Carlos Rafael Giani wrote:
+> Hello,
+> 
+> in a project, I'd like to disable verbose makefiles (the bbclass sets
+> CMAKE_VERBOSE_MAKEFILE to 1), since the log output becomes very
+> large, 
+> and finding compiler errors becomes more difficult. I think there is
+> no 
+> problem in overriding the default in my recipe. However, I wonder if 
+> there was a specific reason for setting CMAKE_VERBOSE_MAKEFILE to 1
+> in 
+> the cmake.bbclass, or if this was just preference. Any ideas?
 
-Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
----
- meta/classes/image_types.bbclass | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+People tend to report errors based on the log files and its tedious to
+have to ask them to reproduce the error after having to turn on verbose
+output. We do this in a few places to aid bug reporting.
 
-diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
-index 4d92866..2e852af 100644
---- a/meta/classes/image_types.bbclass
-+++ b/meta/classes/image_types.bbclass
-@@ -316,7 +316,13 @@ IMAGE_TYPES = " \
-     wic wic.gz wic.bz2 wic.lzma \
- "
- 
--CONVERSIONTYPES = "gz bz2 lzma xz lz4 zip sum md5sum sha1sum sha224sum sha256sum sha384sum sha512sum bmap"
-+# Compression is a special case of conversion. The old variable
-+# names are still supported for backward-compatibility. When defining
-+# new compression or conversion commands, use CONVERSIONTYPES and
-+# CONVERSION_CMD/DEPENDS.
-+COMPRESSIONTYPES ?= ""
-+
-+CONVERSIONTYPES = "gz bz2 lzma xz lz4 zip sum md5sum sha1sum sha224sum sha256sum sha384sum sha512sum bmap ${COMPRESSIONTYPES}"
- CONVERSION_CMD_lzma = "lzma -k -f -7 ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}"
- CONVERSION_CMD_gz = "gzip -f -9 -c ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} > ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.gz"
- CONVERSION_CMD_bz2 = "pbzip2 -f -k ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}"
--- 
-2.6.6
+Cheers,
+
+Richard
 
 
