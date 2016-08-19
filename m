@@ -1,31 +1,57 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 4783865CBB
+Return-Path: <andrew.goodbody@cambrionix.com>
+X-Greylist: delayed 414 seconds by postgrey-1.34 at layers.openembedded.org;
+	Fri, 19 Aug 2016 09:40:13 UTC
+Received: from mail1.bemta3.messagelabs.com (mail1.bemta3.messagelabs.com
+	[195.245.230.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 8C2D765CBB
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Aug 2016 09:34:01 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u7J9Y2S1017278
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 19 Aug 2016 02:34:02 -0700 (PDT)
-Received: from [128.224.162.240] (128.224.162.240) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.248.2;
-	Fri, 19 Aug 2016 02:34:01 -0700
-To: Nathan Rossi <nathan@nathanrossi.com>
-References: <cover.1471589537.git.liezhi.yang@windriver.com>
-	<0aabeafcf0db424445e40bc8bb1d91cde03e0cb7.1471589537.git.liezhi.yang@windriver.com>
-	<CA+aJhH3tmZqz-Re4m20eo=nQAA6MU1bOtc4LJbfCXR1hWceE_Q@mail.gmail.com>
-	<b12c5727-4592-dda5-dee4-2660d81c172b@windriver.com>
-	<CA+aJhH04RL+vQ3KH9ehm+LA9XHu9AEqr_gcKvGr6WRUr=s6SiA@mail.gmail.com>
-From: Robert Yang <liezhi.yang@windriver.com>
-Message-ID: <18f9b162-d7f5-52e0-4aa4-588e37f25919@windriver.com>
-Date: Fri, 19 Aug 2016 17:34:00 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.2.0
+	Fri, 19 Aug 2016 09:40:13 +0000 (UTC)
+Received: from [85.158.137.35] by server-12.bemta-3.messagelabs.com id
+	04/40-09160-F52D6B75; Fri, 19 Aug 2016 09:33:19 +0000
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrMIsWRWlGSWpSXmKPExsVyU6Zrom78pW3
+	hBvN/C1rc+fmO3YHR49zGFYwBjFGsmXlJ+RUJrBnrHr5lLGhmqpg14zJbA+Mlxi5GLg4hgU2M
+	EmvOX2WDcPYySjx9dYqli5GTg03ATGLXq3XsILaIQJTEzV3PwGxhAR2Jk182MEHEDSWm/3vOA
+	mHrSUz9tZwRxGYRUJWYu20pM4jNK+AqsW5TB5jNKCAr8aVxNZjNLCAucevJfLA5EgICEkv2nG
+	eGsEUlXj7+xwphG0hsXbqPBcJWkPjRewqqxlri34O7TBBzdCQW7P7EBmFrSyxb+Bpqr6DEyZl
+	PWCYwCs9Csm4WkpZZSFpmIWlZwMiyilGjOLWoLLVI19BIL6koMz2jJDcxM0fX0MBYLze1uDgx
+	PTUnMalYLzk/dxMjMAIYgGAH46tu50OMkhxMSqK8v/S3hQvxJeWnVGYkFmfEF5XmpBYfYpTh4
+	FCS4OW7CJQTLEpNT61Iy8wBxiJMWoKDR0mE9/YFoDRvcUFibnFmOkTqFKMux4Ift9cyCbHk5e
+	elSonzXgQpEgApyijNgxsBSwuXGGWlhHkZgY4S4ilILcrNLEGVf8UozsGoJMy7DGQKT2ZeCdy
+	mV0BHMAEdwcu/BeSIkkSElFQDY2V+QWnpTkFmzopXL4VnfhMM8P7beL4navrVqHPKx5IElY/+
+	4b51/fdUHqn3E103Poq4eFrgiejmg0e7tk4vNbKK67+WUXNi0k/DvXmLWX387r5+9lCncbvTk
+	8+/hFI3G15fs32b9wTditbl8/r6Tk3uCup2T67/pqW5869Lbz4jZ2Hg1kbOHCWW4oxEQy3mou
+	JEAHilVvsGAwAA
+X-Env-Sender: andrew.goodbody@cambrionix.com
+X-Msg-Ref: server-5.tower-134.messagelabs.com!1471599198!44276152!2
+X-Originating-IP: [217.28.138.145]
+X-StarScan-Received: 
+X-StarScan-Version: 8.84; banners=-,-,-
+X-VirusChecked: Checked
+Received: (qmail 24924 invoked from network); 19 Aug 2016 09:33:19 -0000
+Received: from smtp.hs20.net (HELO outlook.hs20.net) (217.28.138.145)
+	by server-5.tower-134.messagelabs.com with AES256-SHA256 encrypted SMTP;
+	19 Aug 2016 09:33:19 -0000
+Received: from SEHSTE15D2BE2.hs20.net (172.18.251.29) by
+	SEHSTE15D2BE5.hs20.net (172.18.251.32) with Microsoft SMTP Server (TLS)
+	id 15.0.1178.4; Fri, 19 Aug 2016 10:33:18 +0100
+Received: from SEHSTE15D2BE2.hs20.net ([fe80::84cd:cdd2:84c4:a64a]) by
+	SEHSTE15D2BE2.hs20.net ([fe80::84cd:cdd2:84c4:a64a%21]) with mapi id
+	15.00.1178.000; Fri, 19 Aug 2016 10:33:18 +0100
+From: Andrew Goodbody <andrew.goodbody@cambrionix.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: Build of u-boot with gold is broken
+Thread-Index: AdH5VjLhAuTAF19QS3yoE/njm4xwfA==
+Date: Fri, 19 Aug 2016 09:33:17 +0000
+Message-ID: <cf64ae59ea584fb18975ca5f33464981@SEHSTE15D2BE2.hs20.net>
+Accept-Language: en-GB, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [46.17.166.30]
+x-exclaimer-md-config: 266e7a57-cddd-49fd-bdea-19bca6d40303
 MIME-Version: 1.0
-In-Reply-To: <CA+aJhH04RL+vQ3KH9ehm+LA9XHu9AEqr_gcKvGr6WRUr=s6SiA@mail.gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH V3 8/8] runqemu: refactor it and remove machine knowledge
+Subject: Build of u-boot with gold is broken
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,390 +64,17 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 19 Aug 2016 09:34:02 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 19 Aug 2016 09:40:16 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
+Hi,
 
+It looks like the recent change to meta/recipes-bsp/u-boot/u-boot.inc to en=
+able out of tree builds for u-boot does not work with gold.
+The sed at line 70 fails as it is being executed in an empty build director=
+y and so there is no config.mk.
 
-On 08/19/2016 04:52 PM, Nathan Rossi wrote:
-> On Fri, Aug 19, 2016 at 6:20 PM, Robert Yang <liezhi.yang@windriver.com> wrote:
->>
->>
->> On 08/19/2016 03:52 PM, Nathan Rossi wrote:
->>>
->>> On Fri, Aug 19, 2016 at 4:55 PM, Robert Yang <liezhi.yang@windriver.com>
->>> wrote:
->>>>
->>>> Previously, runqemu had hard coded machine knowledge, which limited its
->>>> usage, for example, qemu can boot genericx86, but runqemu can't, we need
->>>> edit runqemu/runqemu-internal a lot if we want to boot genericx86.
->>>>
->>>> Now bsp conf files can set vars to make it can be boot by runqemu, and
->>>> qemuboot.bbclass will save these info to DEPLOY_DIR_IMAGE/qemuboot.py.
->>>> Please see qemuboot.bbclass' comments on how to set the vars.
->>>>
->>>
->>> -- snip --
->>>
->>>> +
->>>> +
->>>> +    def setup_slirp(self):
->>>> +        if self.fstype == 'nfs':
->>>> +            self.setup_nfs()
->>>> +        if self.get('TUNE_ARCH') == 'aarch64':
->>>> +            raise Exception("aarch64 doesn't support slirp mode")
->>>
->>>
->>> This doesn't seem quite right? because slirp works fine with the
->>> qemuzynqmp machine which is aarch64 (based on the patch you provided
->>> for meta-xilinx). This looks to be specific to the qemuarm64 machine?
->>
->>
->> Yes, thanks for the testing.
->>
->> When I first tested run qemuzynqmp, the following patch didn't get merged,
->> so it didn't work with slirp:
->>
->> commit e5c6a78db46192800669f1b392351f6b52f3e20c
->> Author:     Alistair Francis <alistair.francis@xilinx.com>
->> AuthorDate: Wed Jun 15 13:43:23 2016 -0700
->> Commit:     Richard Purdie <richard.purdie@linuxfoundation.org>
->> CommitDate: Wed Aug 10 10:45:32 2016 +0100
->>
->>     runqemu: qemuzynqmp: Add Linux boot support
->>
->>     Add support to direct boot Linux instead of just booting u-boot.
->>
->>
->> And for qemuarm64, the old code:
->> QEMU_NETWORK_CMD="-netdev tap,id=net0,ifname=$TAP,script=no,downscript=no
->> -device virtio-net-device,netdev=net0 "
->>
->> It hardcoded TAP, and didn't work with slirp when I tested it, so I
->> added the checking to avoid unexpected errors. Does anyone know how
->> to boot qemuarm64 by slirp, please ?
->
-> I was able to boot qemuarm64 with slirp, here is a patch (its a quick
-> hack specific for qemuarm64).
->
-> diff --git a/scripts/runqemu b/scripts/runqemu
-> index 7633bcb..ccf46a9 100755
-> --- a/scripts/runqemu
-> +++ b/scripts/runqemu
-> @@ -552,8 +552,9 @@ class BaseConfig(object):
->          if self.fstype == 'nfs':
->              self.setup_nfs()
->          self.append('KERNEL_CMDLINE_SCRIPT', ' ip=dhcp')
-> -        self.rootfs_options = '-drive file=%s,if=virtio,format=raw' %
-> self.rootfs
-> -        self.set('QB_NETWORK_CMD', '')
-> +        qemu_network_cmd = '-netdev user,id=net0 -device
-> virtio-net-device,netdev=net0'
-> +        self.rootfs_options = '-drive
-> id=disk0,file=%s,if=none,format=raw -device
-> virtio-blk-device,drive=disk0' % self.rootfs
-> +        self.set('QB_NETWORK_CMD', qemu_network_cmd)
-
-Cool, this can boot aarch64 bsp, though it fails on other archs'
-bsps such as qemuarm, qemux86, we can use QB_SLIRP_CMD as
-you suggested to fix the problem.
-
-$ runqemu nographic tmp/deploy/images/qemuarm slirp
-[snip]
-qemu-system-arm: -device virtio-net-device,netdev=net0: No 'virtio-bus' bus 
-found for device 'virtio-net-device'
-[snip]
-
-
->
->      def setup_tap(self):
->          """Setup tap"""
->
-> Note the rootfs_options set, it appears this is in the setup_tap as
-> well, and is required to get the disk to appear. Might need to
-> refactor the drive setup into the "setup_final"? or a
-> setup_disk/rootfs function?
-
-Set rootfs_options in setup_final() was what I had did before, but it
-would make code more complicated, the problem is slirp, tap, cpio,
-nfs, ext2/3/4, iso and vmdk have different rootfs_options, and plus
-aarch64 is special, so if we don't set it when we check each of them,
-and move the set to setup_final(), then we have to do the check again.
-
->
->>
->> I tested "runqemu qemuzynqmp slirp" just now, it works, so I will remove
->> this checking in the repo.
->>
->> For further work, if there are more bsps which can not be boot by slirp,
->> maybe we can add a var like QB_SLIRP_SUPPORTED = "0" or "1", and default
->> to 1, if the bsp sets '0' then error out.
->
-> It might be worth having a QB_SLIRP_CMD = "", this would allow
-> machines to setup the args for slirp/user mode networking and tap
-> networking separately.
-
-See above, sounds good, will do.
-
->
->>
->> Removed the checking, and updated in the repo:
->>
->>         if self.get('TUNE_ARCH') == 'aarch64':
->>             raise Exception("aarch64 doesn't support slirp mode")
->>
->> // Robert
->>
->>
->>>
->>> Regards,
->>> Nathan
->>>
->>>> +        self.append('KERNEL_CMDLINE_SCRIPT', ' ip=dhcp')
->>>> +        self.rootfs_options = '-drive file=%s,if=virtio,format=raw' %
->>>> self.rootfs
->>>> +        self.set('QB_NETWORK_CMD', '')
->>>> +
->>>> +    def setup_tap(self):
->>>> +        """Setup tap"""
->>>> +
->>>> +        # This file is created when runqemu-gen-tapdevs creates a bank
->>>> of tap
->>>> +        # devices, indicating that the user should not bring up new ones
->>>> using
->>>> +        # sudo.
->>>> +        nosudo_flag = '/etc/runqemu-nosudo'
->>>> +        self.qemuifup = shutil.which('runqemu-ifup')
->>>> +        self.qemuifdown = shutil.which('runqemu-ifdown')
->>>> +        ip = shutil.which('ip')
->>>> +        lockdir = "/tmp/qemu-tap-locks"
->>>> +
->>>> +        if not (self.qemuifup and self.qemuifdown and ip):
->>>> +            raise Exception("runqemu-ifup, runqemu-ifdown or ip not
->>>> found")
->>>> +
->>>> +        if not os.path.exists(lockdir):
->>>> +            os.mkdir(lockdir)
->>>> +
->>>> +        cmd = '%s link' % ip
->>>> +        logger.info('Running %s...' % cmd)
->>>> +        ip_link = subprocess.Popen(cmd, shell=True,
->>>> stdout=subprocess.PIPE).stdout.read().decode('utf-8')
->>>> +        # Matches line like: 6: tap0: <foo>
->>>> +        possibles = re.findall('^[1-9]+: +(tap[0-9]+): <.*', ip_link,
->>>> re.M)
->>>> +        tap = ""
->>>> +        use_preconf_tap = False
->>>> +        for p in possibles:
->>>> +            lockfile = os.path.join(lockdir, p)
->>>> +            if os.path.exists('%s.skip' % lockfile):
->>>> +                logger.info('Found %s.skip, skipping %s' % (lockfile,
->>>> p))
->>>> +                continue
->>>> +            if acquire_lock(lockfile):
->>>> +                self.lockfile = lockfile
->>>> +                tap = p
->>>> +                logger.info("Using preconfigured tap device %s" % tap)
->>>> +                logger.info("If this is not intended, touch %s.skip to
->>>> make runqemu skip %s." %(lockfile, tap))
->>>> +                use_preconf_tap = True
->>>> +                break
->>>> +
->>>> +        if not tap:
->>>> +            if os.path.exists(nosudo_flag):
->>>> +                logger.error("Error: There are no available tap devices
->>>> to use for networking,")
->>>> +                logger.error("and I see %s exists, so I am not going to
->>>> try creating" % nosudo_flag)
->>>> +                raise Exception("a new one with sudo.")
->>>> +
->>>> +            gid = os.getgid()
->>>> +            uid = os.getuid()
->>>> +            logger.info("Setting up tap interface under sudo")
->>>> +            cmd = 'sudo %s %s %s %s' % (self.qemuifup, uid, gid,
->>>> self.get('STAGING_DIR_NATIVE'))
->>>> +            tap = subprocess.Popen(cmd, shell=True,
->>>> stdout=subprocess.PIPE).stdout.read().decode('utf-8')
->>>> +            self.cleantap = True
->>>> +            logger.info('Created tap: %s' % tap)
->>>> +
->>>> +        self.tap = tap
->>>> +        n0 = tap[3:]
->>>> +        n1 = int(n0) * 2 + 1
->>>> +        n2 = n1 + 1
->>>> +        self.nfs_instance = n0
->>>> +        if self.fstype == 'nfs':
->>>> +            self.setup_nfs()
->>>> +        self.append("KERNEL_CMDLINE_SCRIPT", "
->>>> ip=192.168.7.%s::192.168.7.%s:255.255.255.0" % (n2, n1))
->>>> +        qemu_tap_cmd = "-net
->>>> tap,vlan=0,ifname=%s,script=no,downscript=no" % self.tap
->>>> +        self.rootfs_options = '-drive file=%s,if=virtio,format=raw' %
->>>> self.rootfs
->>>> +        if self.get('TUNE_ARCH') == 'aarch64':
->>>> +            qemu_network_cmd = '-netdev
->>>> tap,id=net0,ifname=%s,script=no,downscript=no -device
->>>> virtio-net-device,netdev=net0' % self.tap
->>>> +            self.rootfs_options = '-drive
->>>> id=disk0,file=%s,if=none,format=raw -device virtio-blk-device,drive=disk0' %
->>>> self.rootfs
->>>> +        elif self.get('TUNE_ARCH') == 'powerpc':
->>>> +            qemu_network_cmd = '%s ' % qemu_tap_cmd
->>>> +        else:
->>>> +            qemu_network_cmd = "-net nic,model=virtio %s " %
->>>> qemu_tap_cmd
->>>> +        if self.vhost_enabled:
->>>> +            qemu_network_cmd += ',vhost=on'
->>>> +        self.weak_assign('QB_NETWORK_CMD', qemu_network_cmd)
->>>> +
->>>> +    def setup_network(self):
->>>> +        cmd = "stty -g"
->>>> +        self.saved_stty = subprocess.Popen(cmd, shell=True,
->>>> stdout=subprocess.PIPE).stdout.read().decode('utf-8')
->>>> +        if self.slirp_enabled:
->>>> +            self.setup_slirp()
->>>> +        else:
->>>> +            self.setup_tap()
->>>> +
->>>> +        if self.fstype in ('cpio.gz', 'cpio'):
->>>> +            self.set('QB_NETWORK_CMD', '')
->>>> +            self.kernel_cmdline = 'root=/dev/ram0 rw debugshell'
->>>> +            self.rootfs_options = '-initrd %s' % self.rootfs
->>>> +        else:
->>>> +            if self.fstype in self.vmtypes:
->>>> +                if self.fstype == 'iso':
->>>> +                    vm_drive = '-cdrom %s' % self.rootfs
->>>> +                else:
->>>> +                    cmd1 = "grep -q 'root=/dev/sd' %s" % self.rootfs
->>>> +                    cmd2 = "grep -q 'root=/dev/hd' %s" % self.rootfs
->>>> +                    if subprocess.call(cmd1, shell=True) == 0:
->>>> +                        logger.info('Using scsi drive')
->>>> +                        vm_drive = '-drive if=none,id=hd,file=%s -device
->>>> virtio-scsi-pci,id=scsi -device scsi-hd,drive=hd' % self.rootfs
->>>> +                    elif subprocess.call(cmd2, shell=True) == 0:
->>>> +                        logger.info('Using scsi drive')
->>>> +                        vm_drive = self.rootfs
->>>> +                    else:
->>>> +                        logger.warn("Can't detect drive type %s" %
->>>> self.rootfs)
->>>> +                        logger.warn('Tring to use virtio block drive')
->>>> +                        vm_drive = '-drive if=virtio,file=%s' %
->>>> self.rootfs
->>>> +                self.rootfs_options = '%s -no-reboot' % vm_drive
->>>> +            self.kernel_cmdline = 'root=%s rw highres=off' %
->>>> (self.get('KERNEL_ROOT'))
->>>> +
->>>> +        if self.fstype == 'nfs':
->>>> +            self.rootfs_options = ''
->>>> +            k_root = '/dev/nfs nfsroot=%s:%s,%s' % (self.nfs_server,
->>>> self.nfs_dir, self.unfs_opts)
->>>> +            self.kernel_cmdline = 'root=%s rw highres=off' % k_root
->>>> +
->>>> +        self.weak_assign('QB_ROOTFS_OPTIONS', self.rootfs_options)
->>>> +
->>>> +    def setup_final(self):
->>>> +        qemu_system = self.get('QB_SYSTEM_NAME')
->>>> +        if not qemu_system:
->>>> +            raise Exception("Failed to boot, QB_SYSTEM_NAME is NULL!")
->>>> +
->>>> +        qemu_bin = '%s/%s' % (self.get('STAGING_BINDIR_NATIVE'),
->>>> qemu_system)
->>>> +        if not os.access(qemu_bin, os.X_OK):
->>>> +            raise Exception("No QEMU binary '%s' could be found" %
->>>> qemu_bin)
->>>> +
->>>> +        self.qemu_opt = "%s %s %s %s %s %s" % (qemu_bin,
->>>> self.get('QB_NETWORK_CMD'), self.get('QEMU_OPT_SCRIPT'),
->>>> self.get('QB_ROOTFS_OPTIONS'), self.get('QB_DTB'),
->>>> self.get('QB_OPT_APPEND'))
->>>> +
->>>> +        if self.serialstdio:
->>>> +            logger.info("Interrupt character is '^]'")
->>>> +            cmd = "stty intr ^]"
->>>> +            subprocess.call(cmd, shell=True)
->>>> +
->>>> +        first_serial = ""
->>>> +        if not re.search("-nographic", self.qemu_opt):
->>>> +            first_serial = "-serial mon:vc"
->>>> +        # We always want a ttyS1. Since qemu by default adds a serial
->>>> +        # port when nodefaults is not specified, it seems that all that
->>>> +        # would be needed is to make sure a "-serial" is there. However,
->>>> +        # it appears that when "-serial" is specified, it ignores the
->>>> +        # default serial port that is normally added.  So here we make
->>>> +        # sure to add two -serial if there are none. And only one if
->>>> +        # there is one -serial already.
->>>> +        serial_num = len(re.findall("-serial", self.qemu_opt))
->>>> +        if serial_num == 0:
->>>> +            self.qemu_opt += " %s %s" % (first_serial,
->>>> self.get("QB_SERIAL_OPT"))
->>>> +        elif serial_num == 1:
->>>> +            self.qemu_opt += " %s" % self.get("QB_SERIAL_OPT")
->>>> +
->>>> +    def start_qemu(self):
->>>> +        if self.kernel:
->>>> +            kernel_opts = "-kernel %s -append '%s %s %s'" %
->>>> (self.kernel, self.kernel_cmdline, self.get('KERNEL_CMDLINE_SCRIPT'),
->>>> self.get('QB_KERNEL_CMDLINE_APPEND'))
->>>> +        else:
->>>> +            kernel_opts = ""
->>>> +        cmd = "%s %s" % (self.qemu_opt, kernel_opts)
->>>> +        logger.info('Running %s' % cmd)
->>>> +        if subprocess.call(cmd, shell=True) != 0:
->>>> +            raise Exception('Failed to run %s' % cmd)
->>>> +
->>>> +    def cleanup(self):
->>>> +        if self.cleantap:
->>>> +            cmd = 'sudo %s %s %s' % (self.qemuifdown, self.tap,
->>>> self.get('STAGING_DIR_NATIVE'))
->>>> +            logger.info('Running %s' % cmd)
->>>> +            subprocess.call(cmd, shell=True)
->>>> +        if self.lockfile:
->>>> +            logger.info("Releasing lockfile of preconfigured tap device
->>>> '%s'" % self.tap)
->>>> +            release_lock(self.lockfile)
->>>> +
->>>> +        if self.nfs_running:
->>>> +            logger.info("Shutting down the userspace NFS server...")
->>>> +            cmd = "runqemu-export-rootfs stop %s" % self.nfs_dir
->>>> +            logger.info('Running %s' % cmd)
->>>> +            subprocess.call(cmd, shell=True)
->>>> +
->>>> +        if self.saved_stty:
->>>> +            cmd = "stty %s" % self.saved_stty
->>>> +            subprocess.call(cmd, shell=True)
->>>> +
->>>> +        if self.clean_nfs_dir:
->>>> +            logger.info('Removing %s' % self.nfs_dir)
->>>> +            shutil.rmtree(self.nfs_dir)
->>>> +            shutil.rmtree('%s.pseudo_state' % self.nfs_dir)
->>>> +
->>>> +def main():
->>>> +    if len(sys.argv) == 1 or "help" in sys.argv:
->>>> +        print_usage()
->>>> +        return 0
->>>> +    config = BaseConfig()
->>>> +    config.check_args()
->>>
->>>
->>> When it fails to parse the args instead of showing the python
->>> exception info (with call stack, etc), it should show the exception
->>> message and the runqemu usage.
->>>
->>> Regards,
->>> Nathan
->>>
->
-> You may not have seen this comment, since I accidentally put two
-> "Regards," in my previous email.
-
-Yes, I had missed this, print the full help text seems too more,
-I will print "See 'runqemu help' on how to use it"
-
-// Robert
-
->
-> Regards,
-> Nathan
->
+Andrew
 
