@@ -1,47 +1,38 @@
-Return-Path: <nathan@nathanrossi.com>
-Received: from mail-yw0-f172.google.com (mail-yw0-f172.google.com
-	[209.85.161.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 9263777060
+Return-Path: <wangxin2015.fnst@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
+	by mail.openembedded.org (Postfix) with ESMTP id EDD9E60762
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Aug 2016 07:52:28 +0000 (UTC)
-Received: by mail-yw0-f172.google.com with SMTP id z8so8559764ywa.1
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Aug 2016 00:52:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=nathanrossi.com; s=google;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=EWHEiUmX3cmBAL1z313DQEQP6/IsKMSi5+r4FL7PPpE=;
-	b=GEhfp3olz0cRB3MeqtBH4lgw1HnIsDxlaawgGboNT/obFD97gImaGfWgawiIZiI4bf
-	yjfUkZNd/awUeEaIe66qfLdE3oBImKZjjnDGSObkmFHtVriqcE3N+IqbUxRURqWcG7Gy
-	Btld/yuElZHzHskT1+oBo3NazTXhneEU0IY8eln5jWJCF0xsB4TAIFsT1HPpzri0LeK5
-	Ugty492QcJWylwD7hP4XjzrA1FgJ3pHdo0MC+o0Fqof3+iJGSl37MB3DooAeY0ts/Wzo
-	GvB0FiV4/2+btupJAofe+dDee0crlF6tM+Fgga8RUhGCK6kw2F5eocXkI7M5h4/QrZN5
-	0j3g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=EWHEiUmX3cmBAL1z313DQEQP6/IsKMSi5+r4FL7PPpE=;
-	b=OXFIWQ9nCN52fDs2gX56/jxUHnpyGh9MmX4Xr2SUH66wdSaLbxHvSQQh9BtuYqrvHS
-	uvq7NYjB6b0hQE4Y3ZD9hFOc3tMEYaVcBAilC6CzWCgjdkUNHpCtdpRBDhwfIga7SeDW
-	GpIiOsQi/347e2swoK8MQuVgcl48gQvskQRL8Q2CiXwZYsHbVq9uuZHnvtbCdnhy63tx
-	7l/jLY5e5zGrHrpVX/nCE4C2iPnT7xodMwG/QcMfv+zC+uckavt/7MgBMci74JNjZbaG
-	O5IhPazMiVqdX2BHpDMMyJt/rAkPc9mDA6I+EGPpaXSL9zFTGKOG90Ojde4MuykpV0+L
-	79xA==
-X-Gm-Message-State: AEkoouuYDo1n33cmDGJRfSpEDvVXxeNjnc0ULHyZvuSg1Tl4xJVRJ/bC/0T44etZoQ7LxQRkDY+AB9nYkK7qww==
-X-Received: by 10.13.206.3 with SMTP id q3mr5190316ywd.139.1471593148660; Fri,
-	19 Aug 2016 00:52:28 -0700 (PDT)
+	Fri, 19 Aug 2016 08:00:20 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.22,518,1449504000"; d="scan'208,217";a="10076505"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 19 Aug 2016 16:00:20 +0800
+Received: from G08CNEXCHPEKD03.g08.fujitsu.local (unknown [10.167.33.85])
+	by cn.fujitsu.com (Postfix) with ESMTP id 38D0742CD102;
+	Fri, 19 Aug 2016 16:00:18 +0800 (CST)
+Received: from G08CNEXMBPEKD03.g08.fujitsu.local ([10.167.33.86]) by
+	G08CNEXCHPEKD03.g08.fujitsu.local ([10.167.33.85]) with mapi id
+	14.03.0279.002; Fri, 19 Aug 2016 16:00:18 +0800
+From: "Wang, Xin" <wangxin2015.fnst@cn.fujitsu.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Thread-Topic: [OE-core] [PATCH v2] bind: 9.10.3-P3 -> 9.11.0b2
+Thread-Index: AQHR+VjY6jsvlngkCk6xJ6gilL3DzaBP6yKw
+Date: Fri, 19 Aug 2016 08:00:17 +0000
+Message-ID: <C43D7C6FFC265C429F44FEB1C68F1B25633DBCAA@G08CNEXMBPEKD03.g08.fujitsu.local>
+References: <CAJTo0LbCgGpLwVFSd9NCNDSxp6ZW0=i7EQKAYcnL5VBr-UzLqA@mail.gmail.com>
+	<1471428098-10774-1-git-send-email-wangxin2015.fnst@cn.fujitsu.com>
+	<CAJTo0LaGp6_ipQSETzApT+beA-FUGD5jGKv5=0cqubhuhJgukw@mail.gmail.com>
+In-Reply-To: <CAJTo0LaGp6_ipQSETzApT+beA-FUGD5jGKv5=0cqubhuhJgukw@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.167.226.120]
 MIME-Version: 1.0
-Received: by 10.129.168.73 with HTTP; Fri, 19 Aug 2016 00:52:28 -0700 (PDT)
-In-Reply-To: <0aabeafcf0db424445e40bc8bb1d91cde03e0cb7.1471589537.git.liezhi.yang@windriver.com>
-References: <cover.1471589537.git.liezhi.yang@windriver.com>
-	<0aabeafcf0db424445e40bc8bb1d91cde03e0cb7.1471589537.git.liezhi.yang@windriver.com>
-From: Nathan Rossi <nathan@nathanrossi.com>
-Date: Fri, 19 Aug 2016 17:52:28 +1000
-Message-ID: <CA+aJhH3tmZqz-Re4m20eo=nQAA6MU1bOtc4LJbfCXR1hWceE_Q@mail.gmail.com>
-To: Robert Yang <liezhi.yang@windriver.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH V3 8/8] runqemu: refactor it and remove machine knowledge
+X-yoursite-MailScanner-ID: 38D0742CD102.A791A
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: wangxin2015.fnst@cn.fujitsu.com
+X-Spam-Status: No
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2] bind: 9.10.3-P3 -> 9.11.0b2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,229 +45,246 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 19 Aug 2016 07:52:29 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 19 Aug 2016 08:00:22 -0000
+Content-Language: zh-CN
+Content-Type: multipart/alternative;
+	boundary="_000_C43D7C6FFC265C429F44FEB1C68F1B25633DBCAAG08CNEXMBPEKD03_"
 
-On Fri, Aug 19, 2016 at 4:55 PM, Robert Yang <liezhi.yang@windriver.com> wrote:
-> Previously, runqemu had hard coded machine knowledge, which limited its
-> usage, for example, qemu can boot genericx86, but runqemu can't, we need
-> edit runqemu/runqemu-internal a lot if we want to boot genericx86.
->
-> Now bsp conf files can set vars to make it can be boot by runqemu, and
-> qemuboot.bbclass will save these info to DEPLOY_DIR_IMAGE/qemuboot.py.
-> Please see qemuboot.bbclass' comments on how to set the vars.
->
+--_000_C43D7C6FFC265C429F44FEB1C68F1B25633DBCAAG08CNEXMBPEKD03_
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
--- snip --
+SSBjaGVja2VkIHRoZSBidWlsZCBkaXJlY3RvcnksIGFuZCBkaWRu4oCZdCBm
+aW5kIHRob3NlIGZpbGVzIHRoYXQgeW91IHJlZmVyIHRvLiBJIGd1ZXNzIG15
+IGNvbmZpZ3VyYXRpb24gbWF5IGJlIGRpZmZlcmVudCB3aXRoIHlvdXJzLiBD
+YW4gSSBzZWUgeW91ciBsb2cuZG9fY29uZmlndXJlIGZpbGUsIHRoYW5rcy4N
+CkZyb206IEJ1cnRvbiwgUm9zcyBbbWFpbHRvOnJvc3MuYnVydG9uQGludGVs
+LmNvbV0NClNlbnQ6IFRodXJzZGF5LCBBdWd1c3QgMTgsIDIwMTYgMTA6MDAg
+UE0NClRvOiBXYW5nLCBYaW4v546LIOmRqw0KQ2M6IE9FLWNvcmUNClN1Ympl
+Y3Q6IFJlOiBbT0UtY29yZV0gW1BBVENIIHYyXSBiaW5kOiA5LjEwLjMtUDMg
+LT4gOS4xMS4wYjINCg0KDQpPbiAxNyBBdWd1c3QgMjAxNiBhdCAxMTowMSwg
+V2FuZyBYaW4gPHdhbmd4aW4yMDE1LmZuc3RAY24uZnVqaXRzdS5jb208bWFp
+bHRvOndhbmd4aW4yMDE1LmZuc3RAY24uZnVqaXRzdS5jb20+PiB3cm90ZToN
+CjQpIE1vZGlmeSBkb19pbnN0YWxsX2FwcGVuZCgpLCBzaW5jZSB0aGUgZG5z
+c2VjLWNvdmVyYWdlIGZpbGUgYW5kIGRuc3NlYy1jaGVja2RzIGZpbGUgZG8g
+bm90IGV4aXN0Lg0KDQpXaGVuIEkgYnVpbGQgYmluZCB0aGlzIGhhcHBlbnM6
+DQoNCkVSUk9SOiBiaW5kLTkuMTEuMGIyLXIwIGRvX3BhY2thZ2U6IFFBIElz
+c3VlOiBiaW5kOiBGaWxlcy9kaXJlY3RvcmllcyB3ZXJlIGluc3RhbGxlZCBi
+dXQgbm90IHNoaXBwZWQgaW4gYW55IHBhY2thZ2U6DQogIC91c3IvbGliDQog
+IC91c3IvbGliL3B5dGhvbjIuNw0KICAvdXNyL2xpYi9weXRob24yLjcvc2l0
+ZS1wYWNrYWdlcw0KICAvdXNyL2xpYi9weXRob24yLjcvc2l0ZS1wYWNrYWdl
+cy9pc2MtMi4wLXB5Mi43LmVnZy1pbmZvDQogIC91c3IvbGliL3B5dGhvbjIu
+Ny9zaXRlLXBhY2thZ2VzL2lzYw0KICAvdXNyL2xpYi9weXRob24yLjcvc2l0
+ZS1wYWNrYWdlcy9pc2MvcGFyc2V0YWIucHkNCiAgL3Vzci9saWIvcHl0aG9u
+Mi43L3NpdGUtcGFja2FnZXMvaXNjL2NvdmVyYWdlLnB5Yw0KICAvdXNyL2xp
+Yi9weXRob24yLjcvc2l0ZS1wYWNrYWdlcy9pc2Mva2V5ZXZlbnQucHkNCiAg
+L3Vzci9saWIvcHl0aG9uMi43L3NpdGUtcGFja2FnZXMvaXNjL3JuZGMucHlj
+DQogIC91c3IvbGliL3B5dGhvbjIuNy9zaXRlLXBhY2thZ2VzL2lzYy9rZXlz
+ZXJpZXMucHljDQogIC91c3IvbGliL3B5dGhvbjIuNy9zaXRlLXBhY2thZ2Vz
+L2lzYy9rZXlldmVudC5weWMNCiAgL3Vzci9saWIvcHl0aG9uMi43L3NpdGUt
+cGFja2FnZXMvaXNjL2NoZWNrZHMucHkNCiAgL3Vzci9saWIvcHl0aG9uMi43
+L3NpdGUtcGFja2FnZXMvaXNjL19faW5pdF9fLnB5DQogIC91c3IvbGliL3B5
+dGhvbjIuNy9zaXRlLXBhY2thZ2VzL2lzYy9rZXltZ3IucHljDQogIC91c3Iv
+bGliL3B5dGhvbjIuNy9zaXRlLXBhY2thZ2VzL2lzYy9rZXlkaWN0LnB5Yw0K
+ICAvdXNyL2xpYi9weXRob24yLjcvc2l0ZS1wYWNrYWdlcy9pc2Mva2V5bWdy
+LnB5DQogIC91c3IvbGliL3B5dGhvbjIuNy9zaXRlLXBhY2thZ2VzL2lzYy9f
+X2luaXRfXy5weWMNCiAgL3Vzci9saWIvcHl0aG9uMi43L3NpdGUtcGFja2Fn
+ZXMvaXNjL3JuZGMucHkNCiAgL3Vzci9saWIvcHl0aG9uMi43L3NpdGUtcGFj
+a2FnZXMvaXNjL2tleXpvbmUucHkNCiAgL3Vzci9saWIvcHl0aG9uMi43L3Np
+dGUtcGFja2FnZXMvaXNjL2V2ZW50bGlzdC5weWMNCiAgL3Vzci9saWIvcHl0
+aG9uMi43L3NpdGUtcGFja2FnZXMvaXNjL2NoZWNrZHMucHljDQogIC91c3Iv
+bGliL3B5dGhvbjIuNy9zaXRlLXBhY2thZ2VzL2lzYy9jb3ZlcmFnZS5weQ0K
+ICAvdXNyL2xpYi9weXRob24yLjcvc2l0ZS1wYWNrYWdlcy9pc2Mva2V5c2Vy
+aWVzLnB5DQogIC91c3IvbGliL3B5dGhvbjIuNy9zaXRlLXBhY2thZ2VzL2lz
+Yy9rZXlkaWN0LnB5DQogIC91c3IvbGliL3B5dGhvbjIuNy9zaXRlLXBhY2th
+Z2VzL2lzYy9ldmVudGxpc3QucHkNCiAgL3Vzci9saWIvcHl0aG9uMi43L3Np
+dGUtcGFja2FnZXMvaXNjL3V0aWxzLnB5DQogIC91c3IvbGliL3B5dGhvbjIu
+Ny9zaXRlLXBhY2thZ2VzL2lzYy9wb2xpY3kucHkNCiAgL3Vzci9saWIvcHl0
+aG9uMi43L3NpdGUtcGFja2FnZXMvaXNjL2Ruc2tleS5weWMNCiAgL3Vzci9s
+aWIvcHl0aG9uMi43L3NpdGUtcGFja2FnZXMvaXNjL2tleXpvbmUucHljDQog
+IC91c3IvbGliL3B5dGhvbjIuNy9zaXRlLXBhY2thZ2VzL2lzYy91dGlscy5w
+eWMNCiAgL3Vzci9saWIvcHl0aG9uMi43L3NpdGUtcGFja2FnZXMvaXNjL3Bv
+bGljeS5weWMNCiAgL3Vzci9saWIvcHl0aG9uMi43L3NpdGUtcGFja2FnZXMv
+aXNjL3BhcnNldGFiLnB5Yw0KICAvdXNyL2xpYi9weXRob24yLjcvc2l0ZS1w
+YWNrYWdlcy9pc2MvZG5za2V5LnB5DQoNCkknbSBndWVzc2luZyB0aGVyZSdz
+IGEgbm9uLWRldGVybWluaXN0aWMgZGVwZW5kZW5jeSBvbiBweXRob24gd2hp
+Y2ggaXMgd2h5IHlvdSB0aG91Z2h0IHRob3NlIHRvb2xzIHdlcmUgbm90IGlu
+c3RhbGxlZCwgYW5kIHdoeSBJIHNlZSBhIGJ1aWxkIGVycm9yLg0KDQpSb3Nz
+DQoKCg==
 
-> +
-> +
-> +    def setup_slirp(self):
-> +        if self.fstype == 'nfs':
-> +            self.setup_nfs()
-> +        if self.get('TUNE_ARCH') == 'aarch64':
-> +            raise Exception("aarch64 doesn't support slirp mode")
+--_000_C43D7C6FFC265C429F44FEB1C68F1B25633DBCAAG08CNEXMBPEKD03_
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-This doesn't seem quite right? because slirp works fine with the
-qemuzynqmp machine which is aarch64 (based on the patch you provided
-for meta-xilinx). This looks to be specific to the qemuarm64 machine?
+PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwi
+IHhtbG5zOm89InVybjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9m
+ZmljZSIgeG1sbnM6dz0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTpvZmZp
+Y2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNv
+bS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5v
+cmcvVFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9
+IkNvbnRlbnQtVHlwZSIgY29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0
+Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRvciIgY29udGVudD0iTWljcm9z
+b2Z0IFdvcmQgMTQgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxlPjwhLS0N
+Ci8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1m
+YW1pbHk65a6L5L2TOw0KCXBhbm9zZS0xOjIgMSA2IDAgMyAxIDEgMSAxIDE7
+fQ0KQGZvbnQtZmFjZQ0KCXtmb250LWZhbWlseToiQ2FtYnJpYSBNYXRoIjsN
+CglwYW5vc2UtMToyIDQgNSAzIDUgNCA2IDMgMiA0O30NCkBmb250LWZhY2UN
+Cgl7Zm9udC1mYW1pbHk6Q2FsaWJyaTsNCglwYW5vc2UtMToyIDE1IDUgMiAy
+IDIgNCAzIDIgNDt9DQpAZm9udC1mYWNlDQoJe2ZvbnQtZmFtaWx5OiJcQOWu
+i+S9kyI7DQoJcGFub3NlLTE6MiAxIDYgMCAzIDEgMSAxIDEgMTt9DQpAZm9u
+dC1mYWNlDQoJe2ZvbnQtZmFtaWx5OlRhaG9tYTsNCglwYW5vc2UtMToyIDEx
+IDYgNCAzIDUgNCA0IDIgNDt9DQovKiBTdHlsZSBEZWZpbml0aW9ucyAqLw0K
+cC5Nc29Ob3JtYWwsIGxpLk1zb05vcm1hbCwgZGl2Lk1zb05vcm1hbA0KCXtt
+YXJnaW46MGNtOw0KCW1hcmdpbi1ib3R0b206LjAwMDFwdDsNCglmb250LXNp
+emU6MTIuMHB0Ow0KCWZvbnQtZmFtaWx5OiJUaW1lcyBOZXcgUm9tYW4iLCJz
+ZXJpZiI7fQ0KYTpsaW5rLCBzcGFuLk1zb0h5cGVybGluaw0KCXttc28tc3R5
+bGUtcHJpb3JpdHk6OTk7DQoJY29sb3I6Ymx1ZTsNCgl0ZXh0LWRlY29yYXRp
+b246dW5kZXJsaW5lO30NCmE6dmlzaXRlZCwgc3Bhbi5Nc29IeXBlcmxpbmtG
+b2xsb3dlZA0KCXttc28tc3R5bGUtcHJpb3JpdHk6OTk7DQoJY29sb3I6cHVy
+cGxlOw0KCXRleHQtZGVjb3JhdGlvbjp1bmRlcmxpbmU7fQ0Kc3Bhbi5FbWFp
+bFN0eWxlMTcNCgl7bXNvLXN0eWxlLXR5cGU6cGVyc29uYWwtcmVwbHk7DQoJ
+Zm9udC1mYW1pbHk6IkNhbGlicmkiLCJzYW5zLXNlcmlmIjsNCgljb2xvcjoj
+MUY0OTdEO30NCi5Nc29DaHBEZWZhdWx0DQoJe21zby1zdHlsZS10eXBlOmV4
+cG9ydC1vbmx5Ow0KCWZvbnQtZmFtaWx5OiJDYWxpYnJpIiwic2Fucy1zZXJp
+ZiI7fQ0KQHBhZ2UgV29yZFNlY3Rpb24xDQoJe3NpemU6NjEyLjBwdCA3OTIu
+MHB0Ow0KCW1hcmdpbjo3Mi4wcHQgOTAuMHB0IDcyLjBwdCA5MC4wcHQ7fQ0K
+ZGl2LldvcmRTZWN0aW9uMQ0KCXtwYWdlOldvcmRTZWN0aW9uMTt9DQotLT48
+L3N0eWxlPjwhLS1baWYgZ3RlIG1zbyA5XT48eG1sPg0KPG86c2hhcGVkZWZh
+dWx0cyB2OmV4dD0iZWRpdCIgc3BpZG1heD0iMTAyNiIgLz4NCjwveG1sPjwh
+W2VuZGlmXS0tPjwhLS1baWYgZ3RlIG1zbyA5XT48eG1sPg0KPG86c2hhcGVs
+YXlvdXQgdjpleHQ9ImVkaXQiPg0KPG86aWRtYXAgdjpleHQ9ImVkaXQiIGRh
+dGE9IjEiIC8+DQo8L286c2hhcGVsYXlvdXQ+PC94bWw+PCFbZW5kaWZdLS0+
+DQo8L2hlYWQ+DQo8Ym9keSBsYW5nPSJFTi1VUyIgbGluaz0iYmx1ZSIgdmxp
+bms9InB1cnBsZSI+DQo8ZGl2IGNsYXNzPSJXb3JkU2VjdGlvbjEiPg0KPHAg
+Y2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4w
+cHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OywmcXVvdDtzYW5z
+LXNlcmlmJnF1b3Q7O2NvbG9yOmJsYWNrIj5JIGNoZWNrZWQgdGhlIGJ1aWxk
+IGRpcmVjdG9yeSwgYW5kIGRpZG7igJl0IGZpbmQgdGhvc2UgZmlsZXMgdGhh
+dCB5b3UgcmVmZXIgdG8uIEkgZ3Vlc3MgbXkgY29uZmlndXJhdGlvbiBtYXkg
+YmUgZGlmZmVyZW50IHdpdGggeW91cnMuIENhbiBJIHNlZSB5b3VyIGxvZy5k
+b19jb25maWd1cmUNCiBmaWxlLCB0aGFua3MuPG86cD48L286cD48L3NwYW4+
+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PGI+PHNwYW4gc3R5bGU9ImZv
+bnQtc2l6ZToxMC4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7VGFob21hJnF1b3Q7
+LCZxdW90O3NhbnMtc2VyaWYmcXVvdDsiPkZyb206PC9zcGFuPjwvYj48c3Bh
+biBzdHlsZT0iZm9udC1zaXplOjEwLjBwdDtmb250LWZhbWlseTomcXVvdDtU
+YWhvbWEmcXVvdDssJnF1b3Q7c2Fucy1zZXJpZiZxdW90OyI+IEJ1cnRvbiwg
+Um9zcyBbbWFpbHRvOnJvc3MuYnVydG9uQGludGVsLmNvbV0NCjxicj4NCjxi
+PlNlbnQ6PC9iPiBUaHVyc2RheSwgQXVndXN0IDE4LCAyMDE2IDEwOjAwIFBN
+PGJyPg0KPGI+VG86PC9iPiBXYW5nLCBYaW4vPC9zcGFuPjxzcGFuIGxhbmc9
+IlpILUNOIiBzdHlsZT0iZm9udC1zaXplOjEwLjBwdDtmb250LWZhbWlseTrl
+rovkvZMiPueOizwvc3Bhbj48c3BhbiBsYW5nPSJaSC1DTiIgc3R5bGU9ImZv
+bnQtc2l6ZToxMC4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7VGFob21hJnF1b3Q7
+LCZxdW90O3NhbnMtc2VyaWYmcXVvdDsiPg0KPC9zcGFuPjxzcGFuIGxhbmc9
+IlpILUNOIiBzdHlsZT0iZm9udC1zaXplOjEwLjBwdDtmb250LWZhbWlseTrl
+rovkvZMiPumRqzwvc3Bhbj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjEwLjBw
+dDtmb250LWZhbWlseTomcXVvdDtUYWhvbWEmcXVvdDssJnF1b3Q7c2Fucy1z
+ZXJpZiZxdW90OyI+PGJyPg0KPGI+Q2M6PC9iPiBPRS1jb3JlPGJyPg0KPGI+
+U3ViamVjdDo8L2I+IFJlOiBbT0UtY29yZV0gW1BBVENIIHYyXSBiaW5kOiA5
+LjEwLjMtUDMgLSZndDsgOS4xMS4wYjI8bzpwPjwvbzpwPjwvc3Bhbj48L3A+
+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48bzpwPiZuYnNwOzwvbzpwPjwvcD4N
+CjxkaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PG86cD4mbmJz
+cDs8L286cD48L3A+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+T24g
+MTcgQXVndXN0IDIwMTYgYXQgMTE6MDEsIFdhbmcgWGluICZsdDs8YSBocmVm
+PSJtYWlsdG86d2FuZ3hpbjIwMTUuZm5zdEBjbi5mdWppdHN1LmNvbSIgdGFy
+Z2V0PSJfYmxhbmsiPndhbmd4aW4yMDE1LmZuc3RAY24uZnVqaXRzdS5jb208
+L2E+Jmd0OyB3cm90ZTo8bzpwPjwvbzpwPjwvcD4NCjxkaXYgaWQ9IjozdWYi
+Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+NCkgTW9kaWZ5IGRvX2luc3RhbGxf
+YXBwZW5kKCksIHNpbmNlIHRoZSBkbnNzZWMtY292ZXJhZ2UgZmlsZSBhbmQg
+ZG5zc2VjLWNoZWNrZHMgZmlsZSBkbyBub3QgZXhpc3QuPG86cD48L286cD48
+L3A+DQo8L2Rpdj4NCjwvZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PG86
+cD4mbmJzcDs8L286cD48L3A+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1h
+bCI+V2hlbiBJIGJ1aWxkIGJpbmQgdGhpcyBoYXBwZW5zOjxvOnA+PC9vOnA+
+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PG86
+cD4mbmJzcDs8L286cD48L3A+DQo8L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0i
+TXNvTm9ybWFsIj5FUlJPUjogYmluZC05LjExLjBiMi1yMCBkb19wYWNrYWdl
+OiBRQSBJc3N1ZTogYmluZDogRmlsZXMvZGlyZWN0b3JpZXMgd2VyZSBpbnN0
+YWxsZWQgYnV0IG5vdCBzaGlwcGVkIGluIGFueSBwYWNrYWdlOjxvOnA+PC9v
+OnA+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+
+Jm5ic3A7IC91c3IvbGliPG86cD48L286cD48L3A+DQo8L2Rpdj4NCjxkaXY+
+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj4mbmJzcDsgL3Vzci9saWIvcHl0aG9u
+Mi43PG86cD48L286cD48L3A+DQo8L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0i
+TXNvTm9ybWFsIj4mbmJzcDsgL3Vzci9saWIvcHl0aG9uMi43L3NpdGUtcGFj
+a2FnZXM8bzpwPjwvbzpwPjwvcD4NCjwvZGl2Pg0KPGRpdj4NCjxwIGNsYXNz
+PSJNc29Ob3JtYWwiPiZuYnNwOyAvdXNyL2xpYi9weXRob24yLjcvc2l0ZS1w
+YWNrYWdlcy9pc2MtMi4wLXB5Mi43LmVnZy1pbmZvPG86cD48L286cD48L3A+
+DQo8L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj4mbmJzcDsg
+L3Vzci9saWIvcHl0aG9uMi43L3NpdGUtcGFja2FnZXMvaXNjPG86cD48L286
+cD48L3A+DQo8L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj4m
+bmJzcDsgL3Vzci9saWIvcHl0aG9uMi43L3NpdGUtcGFja2FnZXMvaXNjL3Bh
+cnNldGFiLnB5PG86cD48L286cD48L3A+DQo8L2Rpdj4NCjxkaXY+DQo8cCBj
+bGFzcz0iTXNvTm9ybWFsIj4mbmJzcDsgL3Vzci9saWIvcHl0aG9uMi43L3Np
+dGUtcGFja2FnZXMvaXNjL2NvdmVyYWdlLnB5YzxvOnA+PC9vOnA+PC9wPg0K
+PC9kaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+Jm5ic3A7IC91
+c3IvbGliL3B5dGhvbjIuNy9zaXRlLXBhY2thZ2VzL2lzYy9rZXlldmVudC5w
+eTxvOnA+PC9vOnA+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1z
+b05vcm1hbCI+Jm5ic3A7IC91c3IvbGliL3B5dGhvbjIuNy9zaXRlLXBhY2th
+Z2VzL2lzYy9ybmRjLnB5YzxvOnA+PC9vOnA+PC9wPg0KPC9kaXY+DQo8ZGl2
+Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+Jm5ic3A7IC91c3IvbGliL3B5dGhv
+bjIuNy9zaXRlLXBhY2thZ2VzL2lzYy9rZXlzZXJpZXMucHljPG86cD48L286
+cD48L3A+DQo8L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj4m
+bmJzcDsgL3Vzci9saWIvcHl0aG9uMi43L3NpdGUtcGFja2FnZXMvaXNjL2tl
+eWV2ZW50LnB5YzxvOnA+PC9vOnA+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0KPHAg
+Y2xhc3M9Ik1zb05vcm1hbCI+Jm5ic3A7IC91c3IvbGliL3B5dGhvbjIuNy9z
+aXRlLXBhY2thZ2VzL2lzYy9jaGVja2RzLnB5PG86cD48L286cD48L3A+DQo8
+L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj4mbmJzcDsgL3Vz
+ci9saWIvcHl0aG9uMi43L3NpdGUtcGFja2FnZXMvaXNjL19faW5pdF9fLnB5
+PG86cD48L286cD48L3A+DQo8L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNv
+Tm9ybWFsIj4mbmJzcDsgL3Vzci9saWIvcHl0aG9uMi43L3NpdGUtcGFja2Fn
+ZXMvaXNjL2tleW1nci5weWM8bzpwPjwvbzpwPjwvcD4NCjwvZGl2Pg0KPGRp
+dj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPiZuYnNwOyAvdXNyL2xpYi9weXRo
+b24yLjcvc2l0ZS1wYWNrYWdlcy9pc2Mva2V5ZGljdC5weWM8bzpwPjwvbzpw
+PjwvcD4NCjwvZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPiZu
+YnNwOyAvdXNyL2xpYi9weXRob24yLjcvc2l0ZS1wYWNrYWdlcy9pc2Mva2V5
+bWdyLnB5PG86cD48L286cD48L3A+DQo8L2Rpdj4NCjxkaXY+DQo8cCBjbGFz
+cz0iTXNvTm9ybWFsIj4mbmJzcDsgL3Vzci9saWIvcHl0aG9uMi43L3NpdGUt
+cGFja2FnZXMvaXNjL19faW5pdF9fLnB5YzxvOnA+PC9vOnA+PC9wPg0KPC9k
+aXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+Jm5ic3A7IC91c3Iv
+bGliL3B5dGhvbjIuNy9zaXRlLXBhY2thZ2VzL2lzYy9ybmRjLnB5PG86cD48
+L286cD48L3A+DQo8L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFs
+Ij4mbmJzcDsgL3Vzci9saWIvcHl0aG9uMi43L3NpdGUtcGFja2FnZXMvaXNj
+L2tleXpvbmUucHk8bzpwPjwvbzpwPjwvcD4NCjwvZGl2Pg0KPGRpdj4NCjxw
+IGNsYXNzPSJNc29Ob3JtYWwiPiZuYnNwOyAvdXNyL2xpYi9weXRob24yLjcv
+c2l0ZS1wYWNrYWdlcy9pc2MvZXZlbnRsaXN0LnB5YzxvOnA+PC9vOnA+PC9w
+Pg0KPC9kaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+Jm5ic3A7
+IC91c3IvbGliL3B5dGhvbjIuNy9zaXRlLXBhY2thZ2VzL2lzYy9jaGVja2Rz
+LnB5YzxvOnA+PC9vOnA+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9
+Ik1zb05vcm1hbCI+Jm5ic3A7IC91c3IvbGliL3B5dGhvbjIuNy9zaXRlLXBh
+Y2thZ2VzL2lzYy9jb3ZlcmFnZS5weTxvOnA+PC9vOnA+PC9wPg0KPC9kaXY+
+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+Jm5ic3A7IC91c3IvbGli
+L3B5dGhvbjIuNy9zaXRlLXBhY2thZ2VzL2lzYy9rZXlzZXJpZXMucHk8bzpw
+PjwvbzpwPjwvcD4NCjwvZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3Jt
+YWwiPiZuYnNwOyAvdXNyL2xpYi9weXRob24yLjcvc2l0ZS1wYWNrYWdlcy9p
+c2Mva2V5ZGljdC5weTxvOnA+PC9vOnA+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0K
+PHAgY2xhc3M9Ik1zb05vcm1hbCI+Jm5ic3A7IC91c3IvbGliL3B5dGhvbjIu
+Ny9zaXRlLXBhY2thZ2VzL2lzYy9ldmVudGxpc3QucHk8bzpwPjwvbzpwPjwv
+cD4NCjwvZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPiZuYnNw
+OyAvdXNyL2xpYi9weXRob24yLjcvc2l0ZS1wYWNrYWdlcy9pc2MvdXRpbHMu
+cHk8bzpwPjwvbzpwPjwvcD4NCjwvZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJN
+c29Ob3JtYWwiPiZuYnNwOyAvdXNyL2xpYi9weXRob24yLjcvc2l0ZS1wYWNr
+YWdlcy9pc2MvcG9saWN5LnB5PG86cD48L286cD48L3A+DQo8L2Rpdj4NCjxk
+aXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj4mbmJzcDsgL3Vzci9saWIvcHl0
+aG9uMi43L3NpdGUtcGFja2FnZXMvaXNjL2Ruc2tleS5weWM8bzpwPjwvbzpw
+PjwvcD4NCjwvZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPiZu
+YnNwOyAvdXNyL2xpYi9weXRob24yLjcvc2l0ZS1wYWNrYWdlcy9pc2Mva2V5
+em9uZS5weWM8bzpwPjwvbzpwPjwvcD4NCjwvZGl2Pg0KPGRpdj4NCjxwIGNs
+YXNzPSJNc29Ob3JtYWwiPiZuYnNwOyAvdXNyL2xpYi9weXRob24yLjcvc2l0
+ZS1wYWNrYWdlcy9pc2MvdXRpbHMucHljPG86cD48L286cD48L3A+DQo8L2Rp
+dj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj4mbmJzcDsgL3Vzci9s
+aWIvcHl0aG9uMi43L3NpdGUtcGFja2FnZXMvaXNjL3BvbGljeS5weWM8bzpw
+PjwvbzpwPjwvcD4NCjwvZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3Jt
+YWwiPiZuYnNwOyAvdXNyL2xpYi9weXRob24yLjcvc2l0ZS1wYWNrYWdlcy9p
+c2MvcGFyc2V0YWIucHljPG86cD48L286cD48L3A+DQo8L2Rpdj4NCjxkaXY+
+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj4mbmJzcDsgL3Vzci9saWIvcHl0aG9u
+Mi43L3NpdGUtcGFja2FnZXMvaXNjL2Ruc2tleS5weTxvOnA+PC9vOnA+PC9w
+Pg0KPC9kaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PG86cD4m
+bmJzcDs8L286cD48L3A+DQo8L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNv
+Tm9ybWFsIj5JJ20gZ3Vlc3NpbmcgdGhlcmUncyBhIG5vbi1kZXRlcm1pbmlz
+dGljIGRlcGVuZGVuY3kgb24gcHl0aG9uIHdoaWNoIGlzIHdoeSB5b3UgdGhv
+dWdodCB0aG9zZSB0b29scyB3ZXJlIG5vdCBpbnN0YWxsZWQsIGFuZCB3aHkg
+SSBzZWUgYSBidWlsZCBlcnJvci48bzpwPjwvbzpwPjwvcD4NCjwvZGl2Pg0K
+PGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxvOnA+Jm5ic3A7PC9vOnA+
+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+Um9z
+czxvOnA+PC9vOnA+PC9wPg0KPC9kaXY+DQo8L2Rpdj4NCjwvZGl2Pg0KPC9k
+aXY+DQo8L2JvZHk+DQo8L2h0bWw+DQo=
 
-Regards,
-Nathan
-
-> +        self.append('KERNEL_CMDLINE_SCRIPT', ' ip=dhcp')
-> +        self.rootfs_options = '-drive file=%s,if=virtio,format=raw' % self.rootfs
-> +        self.set('QB_NETWORK_CMD', '')
-> +
-> +    def setup_tap(self):
-> +        """Setup tap"""
-> +
-> +        # This file is created when runqemu-gen-tapdevs creates a bank of tap
-> +        # devices, indicating that the user should not bring up new ones using
-> +        # sudo.
-> +        nosudo_flag = '/etc/runqemu-nosudo'
-> +        self.qemuifup = shutil.which('runqemu-ifup')
-> +        self.qemuifdown = shutil.which('runqemu-ifdown')
-> +        ip = shutil.which('ip')
-> +        lockdir = "/tmp/qemu-tap-locks"
-> +
-> +        if not (self.qemuifup and self.qemuifdown and ip):
-> +            raise Exception("runqemu-ifup, runqemu-ifdown or ip not found")
-> +
-> +        if not os.path.exists(lockdir):
-> +            os.mkdir(lockdir)
-> +
-> +        cmd = '%s link' % ip
-> +        logger.info('Running %s...' % cmd)
-> +        ip_link = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE).stdout.read().decode('utf-8')
-> +        # Matches line like: 6: tap0: <foo>
-> +        possibles = re.findall('^[1-9]+: +(tap[0-9]+): <.*', ip_link, re.M)
-> +        tap = ""
-> +        use_preconf_tap = False
-> +        for p in possibles:
-> +            lockfile = os.path.join(lockdir, p)
-> +            if os.path.exists('%s.skip' % lockfile):
-> +                logger.info('Found %s.skip, skipping %s' % (lockfile, p))
-> +                continue
-> +            if acquire_lock(lockfile):
-> +                self.lockfile = lockfile
-> +                tap = p
-> +                logger.info("Using preconfigured tap device %s" % tap)
-> +                logger.info("If this is not intended, touch %s.skip to make runqemu skip %s." %(lockfile, tap))
-> +                use_preconf_tap = True
-> +                break
-> +
-> +        if not tap:
-> +            if os.path.exists(nosudo_flag):
-> +                logger.error("Error: There are no available tap devices to use for networking,")
-> +                logger.error("and I see %s exists, so I am not going to try creating" % nosudo_flag)
-> +                raise Exception("a new one with sudo.")
-> +
-> +            gid = os.getgid()
-> +            uid = os.getuid()
-> +            logger.info("Setting up tap interface under sudo")
-> +            cmd = 'sudo %s %s %s %s' % (self.qemuifup, uid, gid, self.get('STAGING_DIR_NATIVE'))
-> +            tap = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE).stdout.read().decode('utf-8')
-> +            self.cleantap = True
-> +            logger.info('Created tap: %s' % tap)
-> +
-> +        self.tap = tap
-> +        n0 = tap[3:]
-> +        n1 = int(n0) * 2 + 1
-> +        n2 = n1 + 1
-> +        self.nfs_instance = n0
-> +        if self.fstype == 'nfs':
-> +            self.setup_nfs()
-> +        self.append("KERNEL_CMDLINE_SCRIPT", " ip=192.168.7.%s::192.168.7.%s:255.255.255.0" % (n2, n1))
-> +        qemu_tap_cmd = "-net tap,vlan=0,ifname=%s,script=no,downscript=no" % self.tap
-> +        self.rootfs_options = '-drive file=%s,if=virtio,format=raw' % self.rootfs
-> +        if self.get('TUNE_ARCH') == 'aarch64':
-> +            qemu_network_cmd = '-netdev tap,id=net0,ifname=%s,script=no,downscript=no -device virtio-net-device,netdev=net0' % self.tap
-> +            self.rootfs_options = '-drive id=disk0,file=%s,if=none,format=raw -device virtio-blk-device,drive=disk0' % self.rootfs
-> +        elif self.get('TUNE_ARCH') == 'powerpc':
-> +            qemu_network_cmd = '%s ' % qemu_tap_cmd
-> +        else:
-> +            qemu_network_cmd = "-net nic,model=virtio %s " % qemu_tap_cmd
-> +        if self.vhost_enabled:
-> +            qemu_network_cmd += ',vhost=on'
-> +        self.weak_assign('QB_NETWORK_CMD', qemu_network_cmd)
-> +
-> +    def setup_network(self):
-> +        cmd = "stty -g"
-> +        self.saved_stty = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE).stdout.read().decode('utf-8')
-> +        if self.slirp_enabled:
-> +            self.setup_slirp()
-> +        else:
-> +            self.setup_tap()
-> +
-> +        if self.fstype in ('cpio.gz', 'cpio'):
-> +            self.set('QB_NETWORK_CMD', '')
-> +            self.kernel_cmdline = 'root=/dev/ram0 rw debugshell'
-> +            self.rootfs_options = '-initrd %s' % self.rootfs
-> +        else:
-> +            if self.fstype in self.vmtypes:
-> +                if self.fstype == 'iso':
-> +                    vm_drive = '-cdrom %s' % self.rootfs
-> +                else:
-> +                    cmd1 = "grep -q 'root=/dev/sd' %s" % self.rootfs
-> +                    cmd2 = "grep -q 'root=/dev/hd' %s" % self.rootfs
-> +                    if subprocess.call(cmd1, shell=True) == 0:
-> +                        logger.info('Using scsi drive')
-> +                        vm_drive = '-drive if=none,id=hd,file=%s -device virtio-scsi-pci,id=scsi -device scsi-hd,drive=hd' % self.rootfs
-> +                    elif subprocess.call(cmd2, shell=True) == 0:
-> +                        logger.info('Using scsi drive')
-> +                        vm_drive = self.rootfs
-> +                    else:
-> +                        logger.warn("Can't detect drive type %s" % self.rootfs)
-> +                        logger.warn('Tring to use virtio block drive')
-> +                        vm_drive = '-drive if=virtio,file=%s' % self.rootfs
-> +                self.rootfs_options = '%s -no-reboot' % vm_drive
-> +            self.kernel_cmdline = 'root=%s rw highres=off' % (self.get('KERNEL_ROOT'))
-> +
-> +        if self.fstype == 'nfs':
-> +            self.rootfs_options = ''
-> +            k_root = '/dev/nfs nfsroot=%s:%s,%s' % (self.nfs_server, self.nfs_dir, self.unfs_opts)
-> +            self.kernel_cmdline = 'root=%s rw highres=off' % k_root
-> +
-> +        self.weak_assign('QB_ROOTFS_OPTIONS', self.rootfs_options)
-> +
-> +    def setup_final(self):
-> +        qemu_system = self.get('QB_SYSTEM_NAME')
-> +        if not qemu_system:
-> +            raise Exception("Failed to boot, QB_SYSTEM_NAME is NULL!")
-> +
-> +        qemu_bin = '%s/%s' % (self.get('STAGING_BINDIR_NATIVE'), qemu_system)
-> +        if not os.access(qemu_bin, os.X_OK):
-> +            raise Exception("No QEMU binary '%s' could be found" % qemu_bin)
-> +
-> +        self.qemu_opt = "%s %s %s %s %s %s" % (qemu_bin, self.get('QB_NETWORK_CMD'), self.get('QEMU_OPT_SCRIPT'), self.get('QB_ROOTFS_OPTIONS'), self.get('QB_DTB'), self.get('QB_OPT_APPEND'))
-> +
-> +        if self.serialstdio:
-> +            logger.info("Interrupt character is '^]'")
-> +            cmd = "stty intr ^]"
-> +            subprocess.call(cmd, shell=True)
-> +
-> +        first_serial = ""
-> +        if not re.search("-nographic", self.qemu_opt):
-> +            first_serial = "-serial mon:vc"
-> +        # We always want a ttyS1. Since qemu by default adds a serial
-> +        # port when nodefaults is not specified, it seems that all that
-> +        # would be needed is to make sure a "-serial" is there. However,
-> +        # it appears that when "-serial" is specified, it ignores the
-> +        # default serial port that is normally added.  So here we make
-> +        # sure to add two -serial if there are none. And only one if
-> +        # there is one -serial already.
-> +        serial_num = len(re.findall("-serial", self.qemu_opt))
-> +        if serial_num == 0:
-> +            self.qemu_opt += " %s %s" % (first_serial, self.get("QB_SERIAL_OPT"))
-> +        elif serial_num == 1:
-> +            self.qemu_opt += " %s" % self.get("QB_SERIAL_OPT")
-> +
-> +    def start_qemu(self):
-> +        if self.kernel:
-> +            kernel_opts = "-kernel %s -append '%s %s %s'" % (self.kernel, self.kernel_cmdline, self.get('KERNEL_CMDLINE_SCRIPT'), self.get('QB_KERNEL_CMDLINE_APPEND'))
-> +        else:
-> +            kernel_opts = ""
-> +        cmd = "%s %s" % (self.qemu_opt, kernel_opts)
-> +        logger.info('Running %s' % cmd)
-> +        if subprocess.call(cmd, shell=True) != 0:
-> +            raise Exception('Failed to run %s' % cmd)
-> +
-> +    def cleanup(self):
-> +        if self.cleantap:
-> +            cmd = 'sudo %s %s %s' % (self.qemuifdown, self.tap, self.get('STAGING_DIR_NATIVE'))
-> +            logger.info('Running %s' % cmd)
-> +            subprocess.call(cmd, shell=True)
-> +        if self.lockfile:
-> +            logger.info("Releasing lockfile of preconfigured tap device '%s'" % self.tap)
-> +            release_lock(self.lockfile)
-> +
-> +        if self.nfs_running:
-> +            logger.info("Shutting down the userspace NFS server...")
-> +            cmd = "runqemu-export-rootfs stop %s" % self.nfs_dir
-> +            logger.info('Running %s' % cmd)
-> +            subprocess.call(cmd, shell=True)
-> +
-> +        if self.saved_stty:
-> +            cmd = "stty %s" % self.saved_stty
-> +            subprocess.call(cmd, shell=True)
-> +
-> +        if self.clean_nfs_dir:
-> +            logger.info('Removing %s' % self.nfs_dir)
-> +            shutil.rmtree(self.nfs_dir)
-> +            shutil.rmtree('%s.pseudo_state' % self.nfs_dir)
-> +
-> +def main():
-> +    if len(sys.argv) == 1 or "help" in sys.argv:
-> +        print_usage()
-> +        return 0
-> +    config = BaseConfig()
-> +    config.check_args()
-
-When it fails to parse the args instead of showing the python
-exception info (with call stack, etc), it should show the exception
-message and the runqemu usage.
-
-Regards,
-Nathan
-
+--_000_C43D7C6FFC265C429F44FEB1C68F1B25633DBCAAG08CNEXMBPEKD03_--
