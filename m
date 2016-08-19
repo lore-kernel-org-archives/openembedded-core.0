@@ -1,38 +1,47 @@
-Return-Path: <wangxin2015.fnst@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
-	by mail.openembedded.org (Postfix) with ESMTP id 1C49160762
+Return-Path: <nathan@nathanrossi.com>
+Received: from mail-yw0-f172.google.com (mail-yw0-f172.google.com
+	[209.85.161.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 9263777060
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Aug 2016 07:51:40 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.22,518,1449504000"; d="scan'208,217";a="10076190"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 19 Aug 2016 15:51:41 +0800
-Received: from G08CNEXCHPEKD03.g08.fujitsu.local (unknown [10.167.33.85])
-	by cn.fujitsu.com (Postfix) with ESMTP id 67C1C42BC534;
-	Fri, 19 Aug 2016 15:51:38 +0800 (CST)
-Received: from G08CNEXMBPEKD03.g08.fujitsu.local ([10.167.33.86]) by
-	G08CNEXCHPEKD03.g08.fujitsu.local ([10.167.33.85]) with mapi id
-	14.03.0279.002; Fri, 19 Aug 2016 15:51:38 +0800
-From: "Wang, Xin" <wangxin2015.fnst@cn.fujitsu.com>
-To: Khem Raj <raj.khem@gmail.com>, "Burton, Ross" <ross.burton@intel.com>
-Thread-Topic: [OE-core] [PATCH] gdk-pixbuf: 2.34.0 -> 2.35.3
-Thread-Index: AQHR+UR7lVt7zwo3wU2wKwrIXANOCqBOe30AgAFuq4A=
-Date: Fri, 19 Aug 2016 07:51:38 +0000
-Message-ID: <C43D7C6FFC265C429F44FEB1C68F1B25633DBC94@G08CNEXMBPEKD03.g08.fujitsu.local>
-References: <1471499308-1666-1-git-send-email-wangxin2015.fnst@cn.fujitsu.com>
-	<CAJTo0LZy-mx4K=eSJdNRq12JVDzGwW+Oe0uf40YRZAmyWVJsZQ@mail.gmail.com>
-	<56847BB1-DCA8-446D-9418-2D42098A7073@gmail.com>
-In-Reply-To: <56847BB1-DCA8-446D-9418-2D42098A7073@gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.167.226.120]
+	Fri, 19 Aug 2016 07:52:28 +0000 (UTC)
+Received: by mail-yw0-f172.google.com with SMTP id z8so8559764ywa.1
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 19 Aug 2016 00:52:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=nathanrossi.com; s=google;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=EWHEiUmX3cmBAL1z313DQEQP6/IsKMSi5+r4FL7PPpE=;
+	b=GEhfp3olz0cRB3MeqtBH4lgw1HnIsDxlaawgGboNT/obFD97gImaGfWgawiIZiI4bf
+	yjfUkZNd/awUeEaIe66qfLdE3oBImKZjjnDGSObkmFHtVriqcE3N+IqbUxRURqWcG7Gy
+	Btld/yuElZHzHskT1+oBo3NazTXhneEU0IY8eln5jWJCF0xsB4TAIFsT1HPpzri0LeK5
+	Ugty492QcJWylwD7hP4XjzrA1FgJ3pHdo0MC+o0Fqof3+iJGSl37MB3DooAeY0ts/Wzo
+	GvB0FiV4/2+btupJAofe+dDee0crlF6tM+Fgga8RUhGCK6kw2F5eocXkI7M5h4/QrZN5
+	0j3g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=EWHEiUmX3cmBAL1z313DQEQP6/IsKMSi5+r4FL7PPpE=;
+	b=OXFIWQ9nCN52fDs2gX56/jxUHnpyGh9MmX4Xr2SUH66wdSaLbxHvSQQh9BtuYqrvHS
+	uvq7NYjB6b0hQE4Y3ZD9hFOc3tMEYaVcBAilC6CzWCgjdkUNHpCtdpRBDhwfIga7SeDW
+	GpIiOsQi/347e2swoK8MQuVgcl48gQvskQRL8Q2CiXwZYsHbVq9uuZHnvtbCdnhy63tx
+	7l/jLY5e5zGrHrpVX/nCE4C2iPnT7xodMwG/QcMfv+zC+uckavt/7MgBMci74JNjZbaG
+	O5IhPazMiVqdX2BHpDMMyJt/rAkPc9mDA6I+EGPpaXSL9zFTGKOG90Ojde4MuykpV0+L
+	79xA==
+X-Gm-Message-State: AEkoouuYDo1n33cmDGJRfSpEDvVXxeNjnc0ULHyZvuSg1Tl4xJVRJ/bC/0T44etZoQ7LxQRkDY+AB9nYkK7qww==
+X-Received: by 10.13.206.3 with SMTP id q3mr5190316ywd.139.1471593148660; Fri,
+	19 Aug 2016 00:52:28 -0700 (PDT)
 MIME-Version: 1.0
-X-yoursite-MailScanner-ID: 67C1C42BC534.A779C
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: wangxin2015.fnst@cn.fujitsu.com
-X-Spam-Status: No
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] gdk-pixbuf: 2.34.0 -> 2.35.3
+Received: by 10.129.168.73 with HTTP; Fri, 19 Aug 2016 00:52:28 -0700 (PDT)
+In-Reply-To: <0aabeafcf0db424445e40bc8bb1d91cde03e0cb7.1471589537.git.liezhi.yang@windriver.com>
+References: <cover.1471589537.git.liezhi.yang@windriver.com>
+	<0aabeafcf0db424445e40bc8bb1d91cde03e0cb7.1471589537.git.liezhi.yang@windriver.com>
+From: Nathan Rossi <nathan@nathanrossi.com>
+Date: Fri, 19 Aug 2016 17:52:28 +1000
+Message-ID: <CA+aJhH3tmZqz-Re4m20eo=nQAA6MU1bOtc4LJbfCXR1hWceE_Q@mail.gmail.com>
+To: Robert Yang <liezhi.yang@windriver.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH V3 8/8] runqemu: refactor it and remove machine knowledge
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,187 +54,229 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 19 Aug 2016 07:51:42 -0000
-Content-Language: zh-CN
-Content-Type: multipart/alternative;
-	boundary="_000_C43D7C6FFC265C429F44FEB1C68F1B25633DBC94G08CNEXMBPEKD03_"
+X-List-Received-Date: Fri, 19 Aug 2016 07:52:29 -0000
+Content-Type: text/plain; charset=UTF-8
 
---_000_C43D7C6FFC265C429F44FEB1C68F1B25633DBC94G08CNEXMBPEKD03_
-Content-Type: text/plain; charset="gb2312"
-Content-Transfer-Encoding: base64
+On Fri, Aug 19, 2016 at 4:55 PM, Robert Yang <liezhi.yang@windriver.com> wrote:
+> Previously, runqemu had hard coded machine knowledge, which limited its
+> usage, for example, qemu can boot genericx86, but runqemu can't, we need
+> edit runqemu/runqemu-internal a lot if we want to boot genericx86.
+>
+> Now bsp conf files can set vars to make it can be boot by runqemu, and
+> qemuboot.bbclass will save these info to DEPLOY_DIR_IMAGE/qemuboot.py.
+> Please see qemuboot.bbclass' comments on how to set the vars.
+>
 
-VGhlcmUgaXMgbm8gMi4zNi54LCBzbyBzdGljayB3aXRoIDIuMzQueC4NCg0K
-RnJvbTogS2hlbSBSYWogW21haWx0bzpyYWoua2hlbUBnbWFpbC5jb21dDQpT
-ZW50OiBGcmlkYXksIEF1Z3VzdCAxOSwgMjAxNiAxOjU4IEFNDQpUbzogQnVy
-dG9uLCBSb3NzDQpDYzogV2FuZywgWGluL831IPbOOyBPRS1jb3JlDQpTdWJq
-ZWN0OiBSZTogW09FLWNvcmVdIFtQQVRDSF0gZ2RrLXBpeGJ1ZjogMi4zNC4w
-IC0+IDIuMzUuMw0KDQoNCk9uIEF1ZyAxOCwgMjAxNiwgYXQgNDozMyBBTSwg
-QnVydG9uLCBSb3NzIDxyb3NzLmJ1cnRvbkBpbnRlbC5jb208bWFpbHRvOnJv
-c3MuYnVydG9uQGludGVsLmNvbT4+IHdyb3RlOg0KDQoNCk9uIDE4IEF1Z3Vz
-dCAyMDE2IGF0IDA2OjQ4LCBXYW5nIFhpbiA8d2FuZ3hpbjIwMTUuZm5zdEBj
-bi5mdWppdHN1LmNvbTxtYWlsdG86d2FuZ3hpbjIwMTUuZm5zdEBjbi5mdWpp
-dHN1LmNvbT4+IHdyb3RlOg0KVXBncmFkZSBnZGstcGl4YnVmIGZyb20gMi4z
-NC4wIHRvIDIuMzUuMy4NCg0KMi4zNS54IGlzIGEgZGV2ZWxvcG1lbnQgcmVs
-ZWFzZSwgc28gc3RpY2sgd2l0aCAyLjM0LnggdW50aWwgMi4zNi4wIGlzIGF2
-YWlsYWJsZS4NCg0KcGVyaGFwcyByZWNpcGUgdXBkYXRlciBzY3JpcHQgc2hv
-dWxkIGFjY291bnQgZm9yIHN1Y2ggcHJlc2V0cyA/DQoNCg0KDQpSb3NzDQot
-LQ0KX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX18NCk9wZW5lbWJlZGRlZC1jb3JlIG1haWxpbmcgbGlzdA0KT3BlbmVt
-YmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZzxtYWlsdG86T3Bl
-bmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZz4NCmh0dHA6
-Ly9saXN0cy5vcGVuZW1iZWRkZWQub3JnL21haWxtYW4vbGlzdGluZm8vb3Bl
-bmVtYmVkZGVkLWNvcmUNCg0KCgo=
+-- snip --
 
---_000_C43D7C6FFC265C429F44FEB1C68F1B25633DBC94G08CNEXMBPEKD03_
-Content-Type: text/html; charset="gb2312"
-Content-Transfer-Encoding: quoted-printable
+> +
+> +
+> +    def setup_slirp(self):
+> +        if self.fstype == 'nfs':
+> +            self.setup_nfs()
+> +        if self.get('TUNE_ARCH') == 'aarch64':
+> +            raise Exception("aarch64 doesn't support slirp mode")
 
-<html>
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dgb2312">
-<meta name=3D"Generator" content=3D"Microsoft Word 14 (filtered medium)">
-<style><!--
-/* Font Definitions */
-@font-face
-	{font-family:SimSun;
-	panose-1:2 1 6 0 3 1 1 1 1 1;}
-@font-face
-	{font-family:"Cambria Math";
-	panose-1:2 4 5 3 5 4 6 3 2 4;}
-@font-face
-	{font-family:Calibri;
-	panose-1:2 15 5 2 2 2 4 3 2 4;}
-@font-face
-	{font-family:SimSun;
-	panose-1:2 1 6 0 3 1 1 1 1 1;}
-@font-face
-	{font-family:Tahoma;
-	panose-1:2 11 6 4 3 5 4 4 2 4;}
-/* Style Definitions */
-p.MsoNormal, li.MsoNormal, div.MsoNormal
-	{margin:0cm;
-	margin-bottom:.0001pt;
-	font-size:12.0pt;
-	font-family:"Times New Roman","serif";}
-a:link, span.MsoHyperlink
-	{mso-style-priority:99;
-	color:blue;
-	text-decoration:underline;}
-a:visited, span.MsoHyperlinkFollowed
-	{mso-style-priority:99;
-	color:purple;
-	text-decoration:underline;}
-span.EmailStyle17
-	{mso-style-type:personal-reply;
-	font-family:"Calibri","sans-serif";
-	color:#1F497D;}
-.MsoChpDefault
-	{mso-style-type:export-only;
-	font-size:10.0pt;}
-@page WordSection1
-	{size:612.0pt 792.0pt;
-	margin:72.0pt 90.0pt 72.0pt 90.0pt;}
-div.WordSection1
-	{page:WordSection1;}
---></style><!--[if gte mso 9]><xml>
-<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
-</xml><![endif]--><!--[if gte mso 9]><xml>
-<o:shapelayout v:ext=3D"edit">
-<o:idmap v:ext=3D"edit" data=3D"1" />
-</o:shapelayout></xml><![endif]-->
-</head>
-<body lang=3D"EN-US" link=3D"blue" vlink=3D"purple">
-<div class=3D"WordSection1">
-<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
-libri&quot;,&quot;sans-serif&quot;;color:#1F497D">There is no
-</span>2.36.x, so stick with 2.34.x.<span style=3D"font-size:11.0pt;font-fa=
-mily:&quot;Calibri&quot;,&quot;sans-serif&quot;;color:#1F497D"><o:p></o:p><=
-/span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
-libri&quot;,&quot;sans-serif&quot;;color:#1F497D"><o:p>&nbsp;</o:p></span><=
-/p>
-<div>
-<div style=3D"border:none;border-top:solid #B5C4DF 1.0pt;padding:3.0pt 0cm =
-0cm 0cm">
-<p class=3D"MsoNormal"><b><span style=3D"font-size:10.0pt;font-family:&quot=
-;Tahoma&quot;,&quot;sans-serif&quot;">From:</span></b><span style=3D"font-s=
-ize:10.0pt;font-family:&quot;Tahoma&quot;,&quot;sans-serif&quot;"> Khem Raj=
- [mailto:raj.khem@gmail.com]
-<br>
-<b>Sent:</b> Friday, August 19, 2016 1:58 AM<br>
-<b>To:</b> Burton, Ross<br>
-<b>Cc:</b> Wang, Xin/</span><span lang=3D"ZH-CN" style=3D"font-size:10.0pt;=
-font-family:SimSun">=CD=F5</span><span lang=3D"ZH-CN" style=3D"font-size:10=
-.0pt;font-family:&quot;Tahoma&quot;,&quot;sans-serif&quot;">
-</span><span lang=3D"ZH-CN" style=3D"font-size:10.0pt;font-family:SimSun">=
-=F6=CE</span><span style=3D"font-size:10.0pt;font-family:&quot;Tahoma&quot;=
-,&quot;sans-serif&quot;">; OE-core<br>
-<b>Subject:</b> Re: [OE-core] [PATCH] gdk-pixbuf: 2.34.0 -&gt; 2.35.3<o:p><=
-/o:p></span></p>
-</div>
-</div>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<div>
-<blockquote style=3D"margin-top:5.0pt;margin-bottom:5.0pt">
-<div>
-<p class=3D"MsoNormal">On Aug 18, 2016, at 4:33 AM, Burton, Ross &lt;<a hre=
-f=3D"mailto:ross.burton@intel.com">ross.burton@intel.com</a>&gt; wrote:<o:p=
-></o:p></p>
-</div>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<div>
-<div>
-<div>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<div>
-<p class=3D"MsoNormal">On 18 August 2016 at 06:48, Wang Xin &lt;<a href=3D"=
-mailto:wangxin2015.fnst@cn.fujitsu.com" target=3D"_blank">wangxin2015.fnst@=
-cn.fujitsu.com</a>&gt; wrote:<o:p></o:p></p>
-<div id=3D":4ip">
-<p class=3D"MsoNormal">Upgrade gdk-pixbuf from 2.34.0 to 2.35.3.<o:p></o:p>=
-</p>
-</div>
-</div>
-<p class=3D"MsoNormal"><br>
-2.35.x is a development release, so stick with 2.34.x until 2.36.0 is avail=
-able.<o:p></o:p></p>
-</div>
-</div>
-</div>
-</blockquote>
-<div>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-</div>
-<div>
-<p class=3D"MsoNormal">perhaps recipe updater script should account for suc=
-h presets ?&nbsp;<o:p></o:p></p>
-</div>
-<p class=3D"MsoNormal"><br>
-<br>
-<o:p></o:p></p>
-<div>
-<div>
-<div>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-</div>
-<div>
-<p class=3D"MsoNormal">Ross<o:p></o:p></p>
-</div>
-</div>
-<p class=3D"MsoNormal">-- <br>
-_______________________________________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
-re@lists.openembedded.org</a><br>
-<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
-">http://lists.openembedded.org/mailman/listinfo/openembedded-core</a><o:p>=
-</o:p></p>
-</div>
-</div>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-</div>
-</body>
-</html>
+This doesn't seem quite right? because slirp works fine with the
+qemuzynqmp machine which is aarch64 (based on the patch you provided
+for meta-xilinx). This looks to be specific to the qemuarm64 machine?
 
---_000_C43D7C6FFC265C429F44FEB1C68F1B25633DBC94G08CNEXMBPEKD03_--
+Regards,
+Nathan
+
+> +        self.append('KERNEL_CMDLINE_SCRIPT', ' ip=dhcp')
+> +        self.rootfs_options = '-drive file=%s,if=virtio,format=raw' % self.rootfs
+> +        self.set('QB_NETWORK_CMD', '')
+> +
+> +    def setup_tap(self):
+> +        """Setup tap"""
+> +
+> +        # This file is created when runqemu-gen-tapdevs creates a bank of tap
+> +        # devices, indicating that the user should not bring up new ones using
+> +        # sudo.
+> +        nosudo_flag = '/etc/runqemu-nosudo'
+> +        self.qemuifup = shutil.which('runqemu-ifup')
+> +        self.qemuifdown = shutil.which('runqemu-ifdown')
+> +        ip = shutil.which('ip')
+> +        lockdir = "/tmp/qemu-tap-locks"
+> +
+> +        if not (self.qemuifup and self.qemuifdown and ip):
+> +            raise Exception("runqemu-ifup, runqemu-ifdown or ip not found")
+> +
+> +        if not os.path.exists(lockdir):
+> +            os.mkdir(lockdir)
+> +
+> +        cmd = '%s link' % ip
+> +        logger.info('Running %s...' % cmd)
+> +        ip_link = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE).stdout.read().decode('utf-8')
+> +        # Matches line like: 6: tap0: <foo>
+> +        possibles = re.findall('^[1-9]+: +(tap[0-9]+): <.*', ip_link, re.M)
+> +        tap = ""
+> +        use_preconf_tap = False
+> +        for p in possibles:
+> +            lockfile = os.path.join(lockdir, p)
+> +            if os.path.exists('%s.skip' % lockfile):
+> +                logger.info('Found %s.skip, skipping %s' % (lockfile, p))
+> +                continue
+> +            if acquire_lock(lockfile):
+> +                self.lockfile = lockfile
+> +                tap = p
+> +                logger.info("Using preconfigured tap device %s" % tap)
+> +                logger.info("If this is not intended, touch %s.skip to make runqemu skip %s." %(lockfile, tap))
+> +                use_preconf_tap = True
+> +                break
+> +
+> +        if not tap:
+> +            if os.path.exists(nosudo_flag):
+> +                logger.error("Error: There are no available tap devices to use for networking,")
+> +                logger.error("and I see %s exists, so I am not going to try creating" % nosudo_flag)
+> +                raise Exception("a new one with sudo.")
+> +
+> +            gid = os.getgid()
+> +            uid = os.getuid()
+> +            logger.info("Setting up tap interface under sudo")
+> +            cmd = 'sudo %s %s %s %s' % (self.qemuifup, uid, gid, self.get('STAGING_DIR_NATIVE'))
+> +            tap = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE).stdout.read().decode('utf-8')
+> +            self.cleantap = True
+> +            logger.info('Created tap: %s' % tap)
+> +
+> +        self.tap = tap
+> +        n0 = tap[3:]
+> +        n1 = int(n0) * 2 + 1
+> +        n2 = n1 + 1
+> +        self.nfs_instance = n0
+> +        if self.fstype == 'nfs':
+> +            self.setup_nfs()
+> +        self.append("KERNEL_CMDLINE_SCRIPT", " ip=192.168.7.%s::192.168.7.%s:255.255.255.0" % (n2, n1))
+> +        qemu_tap_cmd = "-net tap,vlan=0,ifname=%s,script=no,downscript=no" % self.tap
+> +        self.rootfs_options = '-drive file=%s,if=virtio,format=raw' % self.rootfs
+> +        if self.get('TUNE_ARCH') == 'aarch64':
+> +            qemu_network_cmd = '-netdev tap,id=net0,ifname=%s,script=no,downscript=no -device virtio-net-device,netdev=net0' % self.tap
+> +            self.rootfs_options = '-drive id=disk0,file=%s,if=none,format=raw -device virtio-blk-device,drive=disk0' % self.rootfs
+> +        elif self.get('TUNE_ARCH') == 'powerpc':
+> +            qemu_network_cmd = '%s ' % qemu_tap_cmd
+> +        else:
+> +            qemu_network_cmd = "-net nic,model=virtio %s " % qemu_tap_cmd
+> +        if self.vhost_enabled:
+> +            qemu_network_cmd += ',vhost=on'
+> +        self.weak_assign('QB_NETWORK_CMD', qemu_network_cmd)
+> +
+> +    def setup_network(self):
+> +        cmd = "stty -g"
+> +        self.saved_stty = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE).stdout.read().decode('utf-8')
+> +        if self.slirp_enabled:
+> +            self.setup_slirp()
+> +        else:
+> +            self.setup_tap()
+> +
+> +        if self.fstype in ('cpio.gz', 'cpio'):
+> +            self.set('QB_NETWORK_CMD', '')
+> +            self.kernel_cmdline = 'root=/dev/ram0 rw debugshell'
+> +            self.rootfs_options = '-initrd %s' % self.rootfs
+> +        else:
+> +            if self.fstype in self.vmtypes:
+> +                if self.fstype == 'iso':
+> +                    vm_drive = '-cdrom %s' % self.rootfs
+> +                else:
+> +                    cmd1 = "grep -q 'root=/dev/sd' %s" % self.rootfs
+> +                    cmd2 = "grep -q 'root=/dev/hd' %s" % self.rootfs
+> +                    if subprocess.call(cmd1, shell=True) == 0:
+> +                        logger.info('Using scsi drive')
+> +                        vm_drive = '-drive if=none,id=hd,file=%s -device virtio-scsi-pci,id=scsi -device scsi-hd,drive=hd' % self.rootfs
+> +                    elif subprocess.call(cmd2, shell=True) == 0:
+> +                        logger.info('Using scsi drive')
+> +                        vm_drive = self.rootfs
+> +                    else:
+> +                        logger.warn("Can't detect drive type %s" % self.rootfs)
+> +                        logger.warn('Tring to use virtio block drive')
+> +                        vm_drive = '-drive if=virtio,file=%s' % self.rootfs
+> +                self.rootfs_options = '%s -no-reboot' % vm_drive
+> +            self.kernel_cmdline = 'root=%s rw highres=off' % (self.get('KERNEL_ROOT'))
+> +
+> +        if self.fstype == 'nfs':
+> +            self.rootfs_options = ''
+> +            k_root = '/dev/nfs nfsroot=%s:%s,%s' % (self.nfs_server, self.nfs_dir, self.unfs_opts)
+> +            self.kernel_cmdline = 'root=%s rw highres=off' % k_root
+> +
+> +        self.weak_assign('QB_ROOTFS_OPTIONS', self.rootfs_options)
+> +
+> +    def setup_final(self):
+> +        qemu_system = self.get('QB_SYSTEM_NAME')
+> +        if not qemu_system:
+> +            raise Exception("Failed to boot, QB_SYSTEM_NAME is NULL!")
+> +
+> +        qemu_bin = '%s/%s' % (self.get('STAGING_BINDIR_NATIVE'), qemu_system)
+> +        if not os.access(qemu_bin, os.X_OK):
+> +            raise Exception("No QEMU binary '%s' could be found" % qemu_bin)
+> +
+> +        self.qemu_opt = "%s %s %s %s %s %s" % (qemu_bin, self.get('QB_NETWORK_CMD'), self.get('QEMU_OPT_SCRIPT'), self.get('QB_ROOTFS_OPTIONS'), self.get('QB_DTB'), self.get('QB_OPT_APPEND'))
+> +
+> +        if self.serialstdio:
+> +            logger.info("Interrupt character is '^]'")
+> +            cmd = "stty intr ^]"
+> +            subprocess.call(cmd, shell=True)
+> +
+> +        first_serial = ""
+> +        if not re.search("-nographic", self.qemu_opt):
+> +            first_serial = "-serial mon:vc"
+> +        # We always want a ttyS1. Since qemu by default adds a serial
+> +        # port when nodefaults is not specified, it seems that all that
+> +        # would be needed is to make sure a "-serial" is there. However,
+> +        # it appears that when "-serial" is specified, it ignores the
+> +        # default serial port that is normally added.  So here we make
+> +        # sure to add two -serial if there are none. And only one if
+> +        # there is one -serial already.
+> +        serial_num = len(re.findall("-serial", self.qemu_opt))
+> +        if serial_num == 0:
+> +            self.qemu_opt += " %s %s" % (first_serial, self.get("QB_SERIAL_OPT"))
+> +        elif serial_num == 1:
+> +            self.qemu_opt += " %s" % self.get("QB_SERIAL_OPT")
+> +
+> +    def start_qemu(self):
+> +        if self.kernel:
+> +            kernel_opts = "-kernel %s -append '%s %s %s'" % (self.kernel, self.kernel_cmdline, self.get('KERNEL_CMDLINE_SCRIPT'), self.get('QB_KERNEL_CMDLINE_APPEND'))
+> +        else:
+> +            kernel_opts = ""
+> +        cmd = "%s %s" % (self.qemu_opt, kernel_opts)
+> +        logger.info('Running %s' % cmd)
+> +        if subprocess.call(cmd, shell=True) != 0:
+> +            raise Exception('Failed to run %s' % cmd)
+> +
+> +    def cleanup(self):
+> +        if self.cleantap:
+> +            cmd = 'sudo %s %s %s' % (self.qemuifdown, self.tap, self.get('STAGING_DIR_NATIVE'))
+> +            logger.info('Running %s' % cmd)
+> +            subprocess.call(cmd, shell=True)
+> +        if self.lockfile:
+> +            logger.info("Releasing lockfile of preconfigured tap device '%s'" % self.tap)
+> +            release_lock(self.lockfile)
+> +
+> +        if self.nfs_running:
+> +            logger.info("Shutting down the userspace NFS server...")
+> +            cmd = "runqemu-export-rootfs stop %s" % self.nfs_dir
+> +            logger.info('Running %s' % cmd)
+> +            subprocess.call(cmd, shell=True)
+> +
+> +        if self.saved_stty:
+> +            cmd = "stty %s" % self.saved_stty
+> +            subprocess.call(cmd, shell=True)
+> +
+> +        if self.clean_nfs_dir:
+> +            logger.info('Removing %s' % self.nfs_dir)
+> +            shutil.rmtree(self.nfs_dir)
+> +            shutil.rmtree('%s.pseudo_state' % self.nfs_dir)
+> +
+> +def main():
+> +    if len(sys.argv) == 1 or "help" in sys.argv:
+> +        print_usage()
+> +        return 0
+> +    config = BaseConfig()
+> +    config.check_args()
+
+When it fails to parse the args instead of showing the python
+exception info (with call stack, etc), it should show the exception
+message and the runqemu usage.
+
+Regards,
+Nathan
+
