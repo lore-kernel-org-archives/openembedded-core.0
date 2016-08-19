@@ -1,25 +1,24 @@
-Return-Path: <andrej.valek@siemens.com>
-Received: from thoth.sbs.de (thoth.sbs.de [192.35.17.2])
-	by mail.openembedded.org (Postfix) with ESMTP id 3581777085
+Return-Path: <Awais_Belal@mentor.com>
+Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
+	by mail.openembedded.org (Postfix) with ESMTP id 23D5460670
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Aug 2016 10:51:14 +0000 (UTC)
-Received: from mail3.siemens.de (mail3.siemens.de [139.25.208.14])
-	by thoth.sbs.de (8.15.2/8.15.2) with ESMTPS id u7JApEZv025122
-	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Aug 2016 12:51:14 +0200
-Received: from dev.sbt.siemens.com ([163.242.50.167])
-	by mail3.siemens.de (8.15.2/8.15.2) with ESMTP id u7JApEin017999;
-	Fri, 19 Aug 2016 12:51:14 +0200
-Received: from dev.sbt.siemens.com (localhost [127.0.0.1])
-	by dev.sbt.siemens.com (Postfix) with ESMTP id 0774D9E055;
-	Fri, 19 Aug 2016 12:51:14 +0200 (CEST)
-From: Andrej Valek <andrej.valek@siemens.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 19 Aug 2016 12:51:06 +0200
-Message-Id: <1471603866-30047-1-git-send-email-andrej.valek@siemens.com>
-X-Mailer: git-send-email 2.1.4
-Subject: [PATCH] openssl: fix add missing dependencies building for test directory
+	Fri, 19 Aug 2016 11:08:17 +0000 (UTC)
+Received: from nat-ies.mentorg.com ([192.94.31.2]
+	helo=SVR-IES-FEM-01.mgc.mentorg.com)
+	by relay1.mentorg.com with esmtp 
+	id 1bahes-0002OK-1Y from Awais_Belal@mentor.com 
+	for openembedded-core@lists.openembedded.org;
+	Fri, 19 Aug 2016 04:08:18 -0700
+Received: from awais-Precision-M4700.pkl.mentorg.com (137.202.0.76) by
+	SVR-IES-FEM-01.mgc.mentorg.com (137.202.0.104) with Microsoft SMTP
+	Server id 14.3.224.2; Fri, 19 Aug 2016 12:08:16 +0100
+From: Awais Belal <awais_belal@mentor.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 19 Aug 2016 16:08:13 +0500
+Message-ID: <1471604893-5003-1-git-send-email-awais_belal@mentor.com>
+X-Mailer: git-send-email 1.9.1
+MIME-Version: 1.0
+Subject: [PATCH] asciidoc-native: add dependency on docbook-xml-dtd4-native
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,34 +31,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 19 Aug 2016 10:51:17 -0000
+X-List-Received-Date: Fri, 19 Aug 2016 11:08:18 -0000
+Content-Type: text/plain
 
-Regarding the last commit about missing dependencies, another issue
-was found. The problem was found, while ptest has been built with some
-set extra settings. It means, when ptest is going to be built,
-it is necessary to rebuild dependencies for test directory too.
+During the compilation phase asciidoc runs a2x for validation
+of some xmls which in turn invokes xmllint with --nonet
+parameter that requires DTDs to be available locally in order
+to succeed otherwise the do_compile fails.
+We now add a direct dependency on docbook-xml-dtd4 so the
+DTDs are always available locally.
 
-Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
-Signed-off-by: Pascal Bach <pascal.bach@siemens.com>
+Signed-off-by: Awais Belal <awais_belal@mentor.com>
 ---
- meta/recipes-connectivity/openssl/openssl.inc | 3 +++
- 1 file changed, 3 insertions(+)
+ meta/recipes-extended/asciidoc/asciidoc_8.6.9.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-connectivity/openssl/openssl.inc b/meta/recipes-connectivity/openssl/openssl.inc
-index 267ad0b..1fc2d3b 100644
---- a/meta/recipes-connectivity/openssl/openssl.inc
-+++ b/meta/recipes-connectivity/openssl/openssl.inc
-@@ -154,6 +154,9 @@ do_compile () {
- }
+diff --git a/meta/recipes-extended/asciidoc/asciidoc_8.6.9.bb b/meta/recipes-extended/asciidoc/asciidoc_8.6.9.bb
+index 1500b0a..7597c0e 100644
+--- a/meta/recipes-extended/asciidoc/asciidoc_8.6.9.bb
++++ b/meta/recipes-extended/asciidoc/asciidoc_8.6.9.bb
+@@ -16,5 +16,6 @@ SRC_URI[sha256sum] = "78db9d0567c8ab6570a6eff7ffdf84eadd91f2dfc0a92a2d0105d323ca
+ inherit distutils autotools-brokensep
  
- do_compile_ptest () {
-+	# build dependencies for test directory too
-+	export DIRS="$DIRS test"
-+	oe_runmake depend
- 	oe_runmake buildtest
- }
- 
+ export DESTDIR = "${D}"
++DEPENDS_class-native = "docbook-xml-dtd4-native"
+ RDEPENDS_${PN} += "python" 
+ BBCLASSEXTEND = "native"
 -- 
-2.1.4
+1.9.1
 
 
