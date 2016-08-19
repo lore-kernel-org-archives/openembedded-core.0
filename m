@@ -1,28 +1,24 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id AC90973285
+Return-Path: <joshua.g.lock@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id E0835760A3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Aug 2016 15:29:46 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u7JFTi5L002019; Fri, 19 Aug 2016 16:29:44 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id t1j6mWYqlra2; Fri, 19 Aug 2016 16:29:44 +0100 (BST)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u7JFTc7o002016
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Fri, 19 Aug 2016 16:29:39 +0100
-Message-ID: <1471620578.16712.45.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Fri, 19 Aug 2016 16:29:38 +0100
-X-Mailer: Evolution 3.16.5-1ubuntu3.1 
-Mime-Version: 1.0
-Cc: "Zhang, Jianxun" <jianxun.zhang@intel.com>,
-	"saul.wold" <saul.wold@intel.com>
-Subject: [PATCH] parselogs: Ignore uvesafb timeouts
+	Fri, 19 Aug 2016 15:34:59 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga101.fm.intel.com with ESMTP; 19 Aug 2016 08:35:00 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.28,544,1464678000"; d="scan'208";a="1017407573"
+Received: from jlock-mobl1.ger.corp.intel.com ([10.252.27.178])
+	by orsmga001.jf.intel.com with ESMTP; 19 Aug 2016 08:34:59 -0700
+From: Joshua Lock <joshua.g.lock@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 19 Aug 2016 16:34:46 +0100
+Message-Id: <3d0c1a2e16f3e7d08d2be97a4b9540f0ba713e94.1471620482.git.joshua.g.lock@intel.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <cover.1471620482.git.joshua.g.lock@intel.com>
+References: <cover.1471620482.git.joshua.g.lock@intel.com>
+In-Reply-To: <cover.1471620482.git.joshua.g.lock@intel.com>
+References: <cover.1471620482.git.joshua.g.lock@intel.com>
+Subject: [PATCH 1/5] security_flags: remove invalid linker option
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,35 +31,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 19 Aug 2016 15:29:47 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 19 Aug 2016 15:35:01 -0000
 
-We're periodically seeing uvesafb timeouts on the autobuilder. Whitelist these
-errors as there is little it seems we can do about them and we therefore
-choose to ignore them rather than fail the builds.
+-fstack-protector-* is a compiler option, not a linker option.
 
-[YOCTO #8245]
+[YOCTO #9948]
 
-There is a better solution proposed in the bug with a -1 timeout however
-this avoids failed builds until such times as that is implemented.
+Signed-off-by: Joshua Lock <joshua.g.lock@intel.com>
+---
+ meta/conf/distro/include/security_flags.inc | 9 ++-------
+ 1 file changed, 2 insertions(+), 7 deletions(-)
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-
-diff --git a/meta/lib/oeqa/runtime/parselogs.py b/meta/lib/oeqa/runtime/parselogs.py
-index 1cfe804..777af57 100644
---- a/meta/lib/oeqa/runtime/parselogs.py
-+++ b/meta/lib/oeqa/runtime/parselogs.py
-@@ -63,6 +63,9 @@ qemux86_common = [
-     "fail to add MMCONFIG information, can't access extended PCI configuration space under this bridge.",
-     "can't claim BAR ",
-     'amd_nb: Cannot enumerate AMD northbridges',
-+    'uvesafb: 5000 ms task timeout error',
-+    'detected fb_set_par error, error code: -22',
-+    'uvesafb: mode switch failed'\
- ] + common_errors
+diff --git a/meta/conf/distro/include/security_flags.inc b/meta/conf/distro/include/security_flags.inc
+index 20f48de..77fade6 100644
+--- a/meta/conf/distro/include/security_flags.inc
++++ b/meta/conf/distro/include/security_flags.inc
+@@ -15,8 +15,8 @@ SECURITY_STRINGFORMAT ?= "-Wformat -Wformat-security -Werror=format-security"
+ SECURITY_CFLAGS ?= "-fstack-protector-strong -pie -fpie ${lcl_maybe_fortify} ${SECURITY_STRINGFORMAT}"
+ SECURITY_NO_PIE_CFLAGS ?= "-fstack-protector-strong ${lcl_maybe_fortify} ${SECURITY_STRINGFORMAT}"
  
- ignore_errors = { 
-
+-SECURITY_LDFLAGS ?= "-fstack-protector-strong -Wl,-z,relro,-z,now"
+-SECURITY_X_LDFLAGS ?= "-fstack-protector-strong -Wl,-z,relro"
++SECURITY_LDFLAGS ?= "-Wl,-z,relro,-z,now"
++SECURITY_X_LDFLAGS ?= "-Wl,-z,relro"
+ 
+ # powerpc does not get on with pie for reasons not looked into as yet
+ SECURITY_CFLAGS_powerpc = "-fstack-protector-strong ${lcl_maybe_fortify}"
+@@ -100,11 +100,6 @@ SECURITY_STRINGFORMAT_pn-oh-puzzles = ""
+ TARGET_CFLAGS_append_class-target = " ${SECURITY_CFLAGS}"
+ TARGET_LDFLAGS_append_class-target = " ${SECURITY_LDFLAGS}"
+ 
+-SECURITY_LDFLAGS_remove_pn-gcc-runtime = "-fstack-protector-strong"
+-SECURITY_LDFLAGS_remove_pn-glibc = "-fstack-protector-strong"
+-SECURITY_LDFLAGS_remove_pn-glibc-initial = "-fstack-protector-strong"
+-SECURITY_LDFLAGS_remove_pn-uclibc = "-fstack-protector-strong"
+-SECURITY_LDFLAGS_remove_pn-uclibc-initial = "-fstack-protector-strong"
+ SECURITY_LDFLAGS_pn-xf86-video-fbdev = "${SECURITY_X_LDFLAGS}"
+ SECURITY_LDFLAGS_pn-xf86-video-intel = "${SECURITY_X_LDFLAGS}"
+ SECURITY_LDFLAGS_pn-xf86-video-omapfb = "${SECURITY_X_LDFLAGS}"
+-- 
+2.7.4
 
 
