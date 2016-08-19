@@ -1,38 +1,25 @@
-Return-Path: <andre.draszik@gmail.com>
-Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 28C6877051
+Return-Path: <andrej.valek@siemens.com>
+Received: from thoth.sbs.de (thoth.sbs.de [192.35.17.2])
+	by mail.openembedded.org (Postfix) with ESMTP id 3581777085
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Aug 2016 10:49:05 +0000 (UTC)
-Received: by mail-wm0-f68.google.com with SMTP id o80so2947337wme.0
+	Fri, 19 Aug 2016 10:51:14 +0000 (UTC)
+Received: from mail3.siemens.de (mail3.siemens.de [139.25.208.14])
+	by thoth.sbs.de (8.15.2/8.15.2) with ESMTPS id u7JApEZv025122
+	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Aug 2016 03:49:06 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=mIYoQ4IfCnMY0OOVoNOAsUW+q33sPFjX23A+wY3K+Bg=;
-	b=AFqF7dfJ3Jr4giXy9HDkU13hQTUwDLByNT3b3mSWxG7MCrIQzaNqTlnHdDfm/ZFl8d
-	wu7UOlrq5tM49kFWJutM8/DIro0RO8qzuvZ/j5hYUKNehTMWsFZggMAhpb6eJYMqKysD
-	KSQPQTe4SYvtplVwkpp4rGfXEiidPnKp6pONGW6o4kIdGTLgkjZOKhMy4w2c5S+Y5ifM
-	C66QGyIbyVz2CNIGVMyIuNWaWZgGLYQFEpC5YhmFJkOr3CmATXvn4dN2pLc6c2FsPyj0
-	vaHUxeHrGSAtYjV5NEETIZ9Cd1q7E7OIRcWHZHwsXL47rf9t65CjXPtGAn8oor2ZAVE8
-	oMdQ==
-X-Gm-Message-State: AEkoous5orA5QwPu5wreBvtZi2jVOK7IMgdWJFl/JdRRCDfBGl+XnAOkUTNgXj3RX9ETQg==
-X-Received: by 10.194.47.206 with SMTP id f14mr6459518wjn.98.1471603745122;
-	Fri, 19 Aug 2016 03:49:05 -0700 (PDT)
-Received: from tfsielt31850.tycofs.com ([77.107.218.170])
-	by smtp.gmail.com with ESMTPSA id
-	jv9sm6494544wjb.45.2016.08.19.03.49.03
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 19 Aug 2016 03:49:03 -0700 (PDT)
-From: =?UTF-8?q?Andr=C3=A9=20Draszik?= <git@andred.net>
+	Fri, 19 Aug 2016 12:51:14 +0200
+Received: from dev.sbt.siemens.com ([163.242.50.167])
+	by mail3.siemens.de (8.15.2/8.15.2) with ESMTP id u7JApEin017999;
+	Fri, 19 Aug 2016 12:51:14 +0200
+Received: from dev.sbt.siemens.com (localhost [127.0.0.1])
+	by dev.sbt.siemens.com (Postfix) with ESMTP id 0774D9E055;
+	Fri, 19 Aug 2016 12:51:14 +0200 (CEST)
+From: Andrej Valek <andrej.valek@siemens.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 19 Aug 2016 11:49:02 +0100
-Message-Id: <20160819104903.11167-1-git@andred.net>
-X-Mailer: git-send-email 2.9.3
-MIME-Version: 1.0
-Subject: [PATCH] libffi: fix a typo (mips)
+Date: Fri, 19 Aug 2016 12:51:06 +0200
+Message-Id: <1471603866-30047-1-git-send-email-andrej.valek@siemens.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH] openssl: fix add missing dependencies building for test directory
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,34 +32,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 19 Aug 2016 10:49:06 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 19 Aug 2016 10:51:17 -0000
 
-While code elsewhere checks for
-MIPS_INSTRUCTION_SET == mips16e in order to decide how
-to compile, hence the typo doesn't affect behaviour, the
-intention was to set it to 'mips', as is done everywhere
-else. Fixing the typo also helps to avoid confusion.
+Regarding the last commit about missing dependencies, another issue
+was found. The problem was found, while ptest has been built with some
+set extra settings. It means, when ptest is going to be built,
+it is necessary to rebuild dependencies for test directory too.
 
-Signed-off-by: André Draszik <git@andred.net>
+Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
+Signed-off-by: Pascal Bach <pascal.bach@siemens.com>
 ---
- meta/recipes-support/libffi/libffi_3.2.1.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-connectivity/openssl/openssl.inc | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/meta/recipes-support/libffi/libffi_3.2.1.bb b/meta/recipes-support/libffi/libffi_3.2.1.bb
-index 42ab108..0aff3f5 100644
---- a/meta/recipes-support/libffi/libffi_3.2.1.bb
-+++ b/meta/recipes-support/libffi/libffi_3.2.1.bb
-@@ -25,6 +25,6 @@ FILES_${PN}-dev += "${libdir}/libffi-${PV}"
+diff --git a/meta/recipes-connectivity/openssl/openssl.inc b/meta/recipes-connectivity/openssl/openssl.inc
+index 267ad0b..1fc2d3b 100644
+--- a/meta/recipes-connectivity/openssl/openssl.inc
++++ b/meta/recipes-connectivity/openssl/openssl.inc
+@@ -154,6 +154,9 @@ do_compile () {
+ }
  
- # Doesn't compile in MIPS16e mode due to use of hand-written
- # assembly
--MIPS_INSTRUCTION_SET = "mips16"
-+MIPS_INSTRUCTION_SET = "mips"
+ do_compile_ptest () {
++	# build dependencies for test directory too
++	export DIRS="$DIRS test"
++	oe_runmake depend
+ 	oe_runmake buildtest
+ }
  
- BBCLASSEXTEND = "native nativesdk"
 -- 
-2.9.3
+2.1.4
 
 
