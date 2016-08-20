@@ -1,41 +1,57 @@
-Return-Path: <gary@mlbassoc.com>
-Received: from mail.analogue-micro.com (mail.analogue-micro.com
-	[217.144.149.242])
-	by mail.openembedded.org (Postfix) with ESMTP id 52D9B731D6
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pa0-f68.google.com (mail-pa0-f68.google.com
+	[209.85.220.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 73731731BD
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 20 Aug 2016 14:15:22 +0000 (UTC)
-Received: by mail.analogue-micro.com (Postfix, from userid 999)
-	id 14DE568A01B; Sat, 20 Aug 2016 15:15:23 +0100 (BST)
-X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
-	loki.analogue-micro-ltd.com
-X-Spam-Level: *
-X-Spam-Status: No, score=1.7 required=5.0 tests=ALL_TRUSTED,BAYES_20,
-	DNS_FROM_AHBL_RHSBL autolearn=no version=3.3.2
-Received: from zeus.mlbassoc.com (unknown [10.8.0.2])
-	by mail.analogue-micro.com (Postfix) with ESMTP id 17D4968A019;
-	Sat, 20 Aug 2016 15:15:14 +0100 (BST)
-Received: from [127.0.0.1] (localhost.localdomain [127.0.0.1])
-	by zeus.mlbassoc.com (Postfix) with ESMTP id BFA2267402E7;
-	Sat, 20 Aug 2016 16:15:13 +0200 (CEST)
-From: Gary Thomas <gary@mlbassoc.com>
-To: Khem Raj <raj.khem@gmail.com>
-References: <888B09F3-F9A2-49C1-86E8-E33FA1FE6521@gmail.com>
-	<1471601644.16712.23.camel@linuxfoundation.org>
-	<D00F6189-93E5-47F1-B2CB-E07F1F0C2B50@gmail.com>
-	<57474cfd-86fc-be7b-f73f-27c1948dd116@mlbassoc.com>
-	<ce173fb7-93f8-79bb-7aa0-8fa9b4c103d9@mlbassoc.com>
-	<CAMKF1souM0vyia11_+J7QJrRz6ansi4vZ6cx1teWL78eXtnGFw@mail.gmail.com>
-	<34192b46-68b3-98ba-58f2-d416b9fa2596@mlbassoc.com>
-	<70318F10-8EFC-4724-9437-38C08B38D153@gmail.com>
-Message-ID: <f7585833-c0d2-9a5d-b73d-46a7820a47aa@mlbassoc.com>
-Date: Sat, 20 Aug 2016 16:15:13 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.2.0
-MIME-Version: 1.0
-In-Reply-To: <70318F10-8EFC-4724-9437-38C08B38D153@gmail.com>
+	Sat, 20 Aug 2016 14:51:38 +0000 (UTC)
+Received: by mail-pa0-f68.google.com with SMTP id hh10so5068779pac.1
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 20 Aug 2016 07:51:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=subject:mime-version:from:in-reply-to:date:cc:message-id:references
+	:to; bh=R/Zpbx+fi5d5AyMy/CP6secQCzSQCv+QzcUeMrvT+MQ=;
+	b=eWpFqd2nUEdNOJ0R3c/y9nIn3KfkbqHPORFDl9Rgc1SkD2/lBVYLk7Ft3LVJudxFK0
+	Ke7Yei3EecJJIQOZYKBlBqPgyWFw7Aw8Z4eusKv5bjQ6ng1FGsEUdz8oAwLFwsOYsBxK
+	qEji0DNR7OCDRa0BJuDc0WFt0Kv6p+58044KM0mAyINlbvJOR+Dd6CwYxgNFCUwLpkUM
+	iB59Ugvt0dWnReMEWOfDtsEnnNRN0ze0CUA0Pu+k/SEElk8dZprJTJYkZV20W6qDBc91
+	tKLjfXDHTFheZcI+zeAzXAdaXqcvse67IMx9mORG14jGE0phOK7+ebuZm+M29q1UtjW7
+	UEZg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:subject:mime-version:from:in-reply-to:date:cc
+	:message-id:references:to;
+	bh=R/Zpbx+fi5d5AyMy/CP6secQCzSQCv+QzcUeMrvT+MQ=;
+	b=jWgdIgfhodxNJqS2agw0wRVSG/iDNN/EI/w0/lcV2AfzrW6CHbMq3IAWvAaUIl8fx8
+	RDaxWocaXSuKtNE8GH3VjRy1CeMMziltG1bQHheaHwwWf8VkMOZQ/7b9PGOMyd02W9uK
+	H5dBxaxIZStlc4kBOhM/C9g1deNdIqaNSh2rxm7GKXautUGP82fWYVYMiF2As/VrnMdv
+	Np84nnSaKZ2eTKQdoAO6ilr1cSgpPrvK8s1ZFEoyv7YvclvTKVSqAvYUR95R+UVQZClN
+	wEbWkQuFaOOfITubUaTPEnS36no0zIMIBY97Y77vBsDIwtT1cEiEhijSl7nLZYFxoo1O
+	rkiw==
+X-Gm-Message-State: AEkooutiv3PhXIDzfqUVwwgz8tGfm+i7Sw5lIYDVrDwgWIqjFPrKWoiKH85BrWBhth8GHw==
+X-Received: by 10.66.164.70 with SMTP id yo6mr24105659pab.47.1471704699274;
+	Sat, 20 Aug 2016 07:51:39 -0700 (PDT)
+Received: from ?IPv6:2601:646:8882:b8c:4511:33bb:3b5e:4f35?
+	([2601:646:8882:b8c:4511:33bb:3b5e:4f35])
+	by smtp.gmail.com with ESMTPSA id
+	l128sm14682548pfl.21.2016.08.20.07.51.38
+	(version=TLS1 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Sat, 20 Aug 2016 07:51:38 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 9.3 \(3124\))
+X-Pgp-Agent: GPGMail
+From: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <1470987751.4987.13.camel@andred.net>
+Date: Sat, 20 Aug 2016 07:51:41 -0700
+Message-Id: <7A51C236-FD8D-424C-9468-5796F4E54E10@gmail.com>
+References: <1470924371-1675-1-git-send-email-git@andred.net>
+	<3A0FE7FC-807D-4CED-8673-DA28B5F36A88@gmail.com>
+	<1470986810.4987.8.camel@andred.net>
+	<CAMKF1sqdpxYYrKnLkJ1VofY=qz5FEKsKWBo_7WrU+Cm_Kp1fDQ@mail.gmail.com>
+	<1470987751.4987.13.camel@andred.net>
+To: =?utf-8?Q?Andr=C3=A9_Draszik?= <git@andred.net>
+X-Mailer: Apple Mail (2.3124)
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [RFT] gcc 6.2 RC1 update
+Subject: Re: [PATCH] libnl: musl fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,105 +64,106 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 20 Aug 2016 14:15:23 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Sat, 20 Aug 2016 14:51:39 -0000
+X-Groupsio-MsgNum: 86015
+Content-Type: multipart/signed;
+	boundary="Apple-Mail=_4A4BE57D-A825-4143-A501-40642CD9FB2F";
+	protocol="application/pgp-signature"; micalg=pgp-sha1
 
-On 2016-08-19 18:01, Khem Raj wrote:
->
->> On Aug 19, 2016, at 8:05 AM, Gary Thomas <gary@mlbassoc.com> wrote:
->>
->> On 2016-08-19 16:59, Khem Raj wrote:
->>> This is a long standing assembler error. Which I never get to bottom of. Rwboorinf the build machine helps
->>                                                                           ^^^^^^^^^
->>
->> What does this mean?  As I mentioned, it worked fine before you updated to 6.2
->
-> ‘rebooting’, ( blame the phone keyboard) this is a memory block that returns wrong string and somehow related to allocations in assembler, if its the same error as I know of. It does not have to do with
-> gcc.
->
-
-Fair enough, but a machine reboot wasn't needed.  The actual problem came from
-this recent commit:
-    commit 08a54713acf424f45d8588c5c149a6053c9ac9c5
-    Author: Manjukumar Matha <manjukumar.harthikote-matha@xilinx.com>
-    Date:   Tue Aug 9 10:15:07 2016 -0700
-      u-boot.inc: Enable out-of-tree builds
-
-This change broke some FSL specific code (in meta-fsl-arm) that expected to
-run in the GIT tree and not a separate 'build' directory - patch already sent.
-
-Sorry for the noise (and blaming the GCC update which otherwise has been very unpainful)
-
->>
->>>
->>>
->>> On Aug 19, 2016 7:06 AM, "Gary Thomas" <gary@mlbassoc.com <mailto:gary@mlbassoc.com>> wrote:
->>>
->>>    On 2016-08-19 16:04, Gary Thomas wrote:
->>>
->>>        On 2016-08-19 15:40, Khem Raj wrote:
->>>
->>>
->>>                On Aug 19, 2016, at 3:14 AM, Richard Purdie <richard.purdie@linuxfoundation.org
->>>                <mailto:richard.purdie@linuxfoundation.org>> wrote:
->>>
->>>                On Tue, 2016-08-16 at 11:55 -0700, Khem Raj wrote:
->>>
->>>                    Hi All
->>>
->>>                    I have put together recipe upgrade for upcoming gcc 6.2 release now
->>>                    that it entered RC phase. With gcc 6.2 the recipes are using tarballs
->>>                    instead of git fetcher as promised :)
->>>                    Please help testing it out in your setups and report any issues you
->>>                    see.
->>>
->>>                    The commit you need to cherry-pick for OE-core is this one
->>>
->>>                    https://github.com/kraj/openembedded-core/commit/0319b603761a16e65d70
->>>                    <https://github.com/kraj/openembedded-core/commit/0319b603761a16e65d70>
->>>                    4336112c3709a8bf771c
->>>
->>>                    Thank you for your help
->>>
->>>
->>>                I put this through the autobuilder and it passed so I've merged it. I
->>>                did this quickly as we're putting a "pre M3" build through a QA cycle
->>>                and I wanted to get some of the more invasive changes into that build
->>>                so we don't have a stampeding herd of patches breaking everything
->>>                coming up to the final feature freeze for 2.2.
->>>
->>>                In other news, we are now also testing musl world builds on the
->>>                autobuilder as part of regular testing.
->>>
->>>
->>>            Fantastic !
->>>
->>>
->>>        Problem using this to build meta-fsl-arm:u-boot-fslc for i.MX6:
->>>            CC      lib/asm-offsets.s
->>>            lib/asm-offsets.c:1:0: error: bad value (armv5) for -march= switch
->>>
->>>        This worked fine with GCC/6.1 (git)
->>>
->>>        Ideas?
->>>
->>>
->>>    Also, the bitbake "do_compile log" didn't show me this at all,
->>>    I had to get it by running 'bitbake u-boot-fslc -c devshell' and
->>>    then 'make' to see the error :-(
->>
->> --
->> ------------------------------------------------------------
->> Gary Thomas                 |  Consulting for the
->> MLB Associates              |    Embedded world
->> ------------------------------------------------------------
->
+--Apple-Mail=_4A4BE57D-A825-4143-A501-40642CD9FB2F
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=utf-8
 
 
--- 
-------------------------------------------------------------
-Gary Thomas                 |  Consulting for the
-MLB Associates              |    Embedded world
-------------------------------------------------------------
+> On Aug 12, 2016, at 12:42 AM, Andr=C3=A9 Draszik <git@andred.net> =
+wrote:
+>=20
+> On Fri, 2016-08-12 at 00:28 -0700, Khem Raj wrote:
+>> On Fri, Aug 12, 2016 at 12:26 AM, Andr=C3=A9 Draszik <git@andred.net> =
+wrote:
+>>>=20
+>>> On Thu, 2016-08-11 at 22:45 -0700, Khem Raj wrote:
+>>>>=20
+>>>>>=20
+>>>>>=20
+>>>>> On Aug 11, 2016, at 7:06 AM, Andr=C3=A9 Draszik <git@andred.net> =
+wrote:
+>>>>>=20
+>>>>> The libnl+musl combination has two issues at the moment:
+>>>>> a) a public header file #include's an incorrect file
+>>>>>   (sys/poll.h instead of poll.h), which causes warnings and
+>>>>>   potentially errors (-Werror) in a musl based system
+>>>>> b) musl only ever provides the XSI version of strerror_r()
+>>>>>=20
+>>>>=20
+>>>> yes so you can check for something like
+>>>> (_POSIX_C_SOURCE >=3D 200112L || _XOPEN_SOURCE >=3D 600) && ! =
+_GNU_SOURCE
+>>>> use XSI version
+>>>> else use GNU version
+>>>=20
+>>> Well, the feature test is supposed to be set by the user (libnl in =
+this
+>>> case), and evaluated by the c library (musl). libnl explicitly sets
+>>> _GNU_SOURCE, i.e. it expects the glibc version.
+>>=20
+>> I see. It is something which should atleast be brought up with
+>> upstream as an issue
+>> they may just say, we need GNU version but atleast we will know
+>=20
+> It's actually quite a bad thing... There might be many users (you =
+mentioned
+> perf) out there which all are silently breaking because of this =
+missing
+> interface in musl. If you look at the patch, in the musl case the =
+result was
+> effectively a printf of an *int* with a *string format* specifier...
+>=20
+> Maybe it'd be worth to convince musl to implement it (uclibc does), or =
+at
+> least to emit an #error?
 
+Thinking more on this, there is an alternative to use strerror_l() =
+rather
+than strerror_r(), that will avoid the non-confirming versions issue, =
+moreover
+strerror_() is now recommended by posix to replace strerror_r() usage.
+
+see
+
+http://austingroupbugs.net/view.php?id=3D655
+
+I think this is going to be a better solution since its portable.
+
+>=20
+> I only noticed by coincidence...
+>=20
+>=20
+> Cheers,
+> Andre'
+>=20
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
+
+--Apple-Mail=_4A4BE57D-A825-4143-A501-40642CD9FB2F
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+	filename=signature.asc
+Content-Type: application/pgp-signature;
+	name=signature.asc
+Content-Description: Message signed with OpenPGP using GPGMail
+
+-----BEGIN PGP SIGNATURE-----
+Comment: GPGTools - https://gpgtools.org
+
+iEYEARECAAYFAle4boEACgkQuwUzVZGdMxQa/QCeLCnFvroDiBA+2qYNVR+Z1K0d
+4KMAniJWS1XXIwYI6Ml2440jlhfgMnRH
+=TZHn
+-----END PGP SIGNATURE-----
+
+--Apple-Mail=_4A4BE57D-A825-4143-A501-40642CD9FB2F--
