@@ -1,24 +1,41 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id E77957711B
+Return-Path: <gary@mlbassoc.com>
+Received: from mail.analogue-micro.com (mail.analogue-micro.com
+	[217.144.149.242])
+	by mail.openembedded.org (Postfix) with ESMTP id 52D9B731D6
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 20 Aug 2016 04:30:47 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u7K4UaW9012903
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 19 Aug 2016 21:30:36 -0700 (PDT)
-Received: from yow-bashfiel-d4.wrs.com (128.224.56.94) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.248.2; Fri, 19 Aug 2016 21:30:35 -0700
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-To: <richard.purdie@linuxfoundation.org>
-Date: Sat, 20 Aug 2016 00:30:33 -0400
-Message-ID: <cover.1471667296.git.bruce.ashfield@windriver.com>
-X-Mailer: git-send-email 2.5.0
+	Sat, 20 Aug 2016 14:15:22 +0000 (UTC)
+Received: by mail.analogue-micro.com (Postfix, from userid 999)
+	id 14DE568A01B; Sat, 20 Aug 2016 15:15:23 +0100 (BST)
+X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
+	loki.analogue-micro-ltd.com
+X-Spam-Level: *
+X-Spam-Status: No, score=1.7 required=5.0 tests=ALL_TRUSTED,BAYES_20,
+	DNS_FROM_AHBL_RHSBL autolearn=no version=3.3.2
+Received: from zeus.mlbassoc.com (unknown [10.8.0.2])
+	by mail.analogue-micro.com (Postfix) with ESMTP id 17D4968A019;
+	Sat, 20 Aug 2016 15:15:14 +0100 (BST)
+Received: from [127.0.0.1] (localhost.localdomain [127.0.0.1])
+	by zeus.mlbassoc.com (Postfix) with ESMTP id BFA2267402E7;
+	Sat, 20 Aug 2016 16:15:13 +0200 (CEST)
+From: Gary Thomas <gary@mlbassoc.com>
+To: Khem Raj <raj.khem@gmail.com>
+References: <888B09F3-F9A2-49C1-86E8-E33FA1FE6521@gmail.com>
+	<1471601644.16712.23.camel@linuxfoundation.org>
+	<D00F6189-93E5-47F1-B2CB-E07F1F0C2B50@gmail.com>
+	<57474cfd-86fc-be7b-f73f-27c1948dd116@mlbassoc.com>
+	<ce173fb7-93f8-79bb-7aa0-8fa9b4c103d9@mlbassoc.com>
+	<CAMKF1souM0vyia11_+J7QJrRz6ansi4vZ6cx1teWL78eXtnGFw@mail.gmail.com>
+	<34192b46-68b3-98ba-58f2-d416b9fa2596@mlbassoc.com>
+	<70318F10-8EFC-4724-9437-38C08B38D153@gmail.com>
+Message-ID: <f7585833-c0d2-9a5d-b73d-46a7820a47aa@mlbassoc.com>
+Date: Sat, 20 Aug 2016 16:15:13 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.2.0
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 0/2] linux-yocto/4.1/4.4: -stable and configuration updates
+In-Reply-To: <70318F10-8EFC-4724-9437-38C08B38D153@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [RFT] gcc 6.2 RC1 update
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,46 +48,105 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 20 Aug 2016 04:30:49 -0000
-Content-Type: text/plain
+X-List-Received-Date: Sat, 20 Aug 2016 14:15:23 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Hi all,
+On 2016-08-19 18:01, Khem Raj wrote:
+>
+>> On Aug 19, 2016, at 8:05 AM, Gary Thomas <gary@mlbassoc.com> wrote:
+>>
+>> On 2016-08-19 16:59, Khem Raj wrote:
+>>> This is a long standing assembler error. Which I never get to bottom of. Rwboorinf the build machine helps
+>>                                                                           ^^^^^^^^^
+>>
+>> What does this mean?  As I mentioned, it worked fine before you updated to 6.2
+>
+> ‘rebooting’, ( blame the phone keyboard) this is a memory block that returns wrong string and somehow related to allocations in assembler, if its the same error as I know of. It does not have to do with
+> gcc.
+>
 
-Here are the next set of -stable updates for the linux-yocto kernels. These
-contain some CVE fixes that folks have been asking about, so I've queued
-and sent them right away.
+Fair enough, but a machine reboot wasn't needed.  The actual problem came from
+this recent commit:
+    commit 08a54713acf424f45d8588c5c149a6053c9ac9c5
+    Author: Manjukumar Matha <manjukumar.harthikote-matha@xilinx.com>
+    Date:   Tue Aug 9 10:15:07 2016 -0700
+      u-boot.inc: Enable out-of-tree builds
 
-I built and ran qemuppc against 4.1.30 and wasn't able to see any instability,
-but will continue to run stress tests.
+This change broke some FSL specific code (in meta-fsl-arm) that expected to
+run in the GIT tree and not a separate 'build' directory - patch already sent.
 
-4.4.18 was built and booted against qemu*
+Sorry for the noise (and blaming the GCC update which otherwise has been very unpainful)
 
-Cheers,
+>>
+>>>
+>>>
+>>> On Aug 19, 2016 7:06 AM, "Gary Thomas" <gary@mlbassoc.com <mailto:gary@mlbassoc.com>> wrote:
+>>>
+>>>    On 2016-08-19 16:04, Gary Thomas wrote:
+>>>
+>>>        On 2016-08-19 15:40, Khem Raj wrote:
+>>>
+>>>
+>>>                On Aug 19, 2016, at 3:14 AM, Richard Purdie <richard.purdie@linuxfoundation.org
+>>>                <mailto:richard.purdie@linuxfoundation.org>> wrote:
+>>>
+>>>                On Tue, 2016-08-16 at 11:55 -0700, Khem Raj wrote:
+>>>
+>>>                    Hi All
+>>>
+>>>                    I have put together recipe upgrade for upcoming gcc 6.2 release now
+>>>                    that it entered RC phase. With gcc 6.2 the recipes are using tarballs
+>>>                    instead of git fetcher as promised :)
+>>>                    Please help testing it out in your setups and report any issues you
+>>>                    see.
+>>>
+>>>                    The commit you need to cherry-pick for OE-core is this one
+>>>
+>>>                    https://github.com/kraj/openembedded-core/commit/0319b603761a16e65d70
+>>>                    <https://github.com/kraj/openembedded-core/commit/0319b603761a16e65d70>
+>>>                    4336112c3709a8bf771c
+>>>
+>>>                    Thank you for your help
+>>>
+>>>
+>>>                I put this through the autobuilder and it passed so I've merged it. I
+>>>                did this quickly as we're putting a "pre M3" build through a QA cycle
+>>>                and I wanted to get some of the more invasive changes into that build
+>>>                so we don't have a stampeding herd of patches breaking everything
+>>>                coming up to the final feature freeze for 2.2.
+>>>
+>>>                In other news, we are now also testing musl world builds on the
+>>>                autobuilder as part of regular testing.
+>>>
+>>>
+>>>            Fantastic !
+>>>
+>>>
+>>>        Problem using this to build meta-fsl-arm:u-boot-fslc for i.MX6:
+>>>            CC      lib/asm-offsets.s
+>>>            lib/asm-offsets.c:1:0: error: bad value (armv5) for -march= switch
+>>>
+>>>        This worked fine with GCC/6.1 (git)
+>>>
+>>>        Ideas?
+>>>
+>>>
+>>>    Also, the bitbake "do_compile log" didn't show me this at all,
+>>>    I had to get it by running 'bitbake u-boot-fslc -c devshell' and
+>>>    then 'make' to see the error :-(
+>>
+>> --
+>> ------------------------------------------------------------
+>> Gary Thomas                 |  Consulting for the
+>> MLB Associates              |    Embedded world
+>> ------------------------------------------------------------
+>
 
-Bruce
-
-The following changes since commit f038f069977170e323c9c6884c69e0b9e1cf1c6f:
-
-  local.conf.sample: Disable ARM and PPC due to prelink test case failures (2016-08-19 10:23:55 +0100)
-
-are available in the git repository at:
-
-  git://git.pokylinux.org/poky-contrib zedd/kernel
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
-
-Bruce Ashfield (2):
-  linux-yocto/4.1/4.4: -stable updates and configuration changes
-  linux-yocto/4.4: fix configuration warnings
-
- meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb   |  6 +++---
- meta/recipes-kernel/linux/linux-yocto-rt_4.4.bb   |  6 +++---
- meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb |  6 +++---
- meta/recipes-kernel/linux/linux-yocto-tiny_4.4.bb |  6 +++---
- meta/recipes-kernel/linux/linux-yocto_4.1.bb      | 20 ++++++++++----------
- meta/recipes-kernel/linux/linux-yocto_4.4.bb      | 20 ++++++++++----------
- 6 files changed, 32 insertions(+), 32 deletions(-)
 
 -- 
-2.5.0
-
+------------------------------------------------------------
+Gary Thomas                 |  Consulting for the
+MLB Associates              |    Embedded world
+------------------------------------------------------------
 
