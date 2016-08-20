@@ -1,31 +1,20 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 847DE760A3
+Return-Path: <pranav.tipnis@intel.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id 17FF576802
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Aug 2016 22:50:03 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u7JMo0Mn019629; Fri, 19 Aug 2016 23:50:00 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id p1M_5fdzRFaE; Fri, 19 Aug 2016 23:50:00 +0100 (BST)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u7JMnr0l019623
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Fri, 19 Aug 2016 23:49:55 +0100
-Message-ID: <1471646993.16712.60.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Francisco Pedraza <francisco.j.pedraza.gonzalez@intel.com>,
-	openembedded-core@lists.openembedded.org
-Date: Fri, 19 Aug 2016 23:49:53 +0100
-In-Reply-To: <1471644834.16712.59.camel@linuxfoundation.org>
-References: <1471473060-27026-1-git-send-email-francisco.j.pedraza.gonzalez@intel.com>
-	<1471473060-27026-2-git-send-email-francisco.j.pedraza.gonzalez@intel.com>
-	<1471644834.16712.59.camel@linuxfoundation.org>
-X-Mailer: Evolution 3.16.5-1ubuntu3.1 
-Mime-Version: 1.0
-Subject: Re: [PATCH 2/2] oeqa/selftest Adds eSDK test cases to devtool verification.
+	Sat, 20 Aug 2016 01:34:32 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga104.fm.intel.com with ESMTP; 19 Aug 2016 18:34:33 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.28,547,1464678000"; d="scan'208";a="1044523128"
+Received: from pranav.fm.intel.com ([10.80.42.9])
+	by fmsmga002.fm.intel.com with ESMTP; 19 Aug 2016 18:34:35 -0700
+From: Pranav Tipnis <pranav.tipnis@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 19 Aug 2016 18:28:40 -0700
+Message-Id: <1471656521-52469-1-git-send-email-pranav.tipnis@intel.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [PATCH 0/1] Fix corrupted path in startup.nsh for iso image
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,42 +27,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 19 Aug 2016 22:50:05 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sat, 20 Aug 2016 01:34:33 -0000
 
-On Fri, 2016-08-19 at 23:13 +0100, Richard Purdie wrote:
-> On Wed, 2016-08-17 at 17:31 -0500, Francisco Pedraza wrote:
-> > The covered functions are, install libraries headers, image
-> > generation binary feeds and
-> > sdk update devtool.
-> > 
-> > Signed-off-by: Francisco Pedraza <
-> > francisco.j.pedraza.gonzalez@intel.com>
-> > ---
-> >  meta/lib/oeqa/selftest/eSDK.py | 147
-> > +++++++++++++++++++++++++++++++++++++++++
-> >  1 file changed, 147 insertions(+)
-> >  create mode 100644 meta/lib/oeqa/selftest/eSDK.py
-> 
-> I do love the idea of this and having more tests but the kernel
-> module
-> ESDK test fails on ppc and mips:
-> 
-> https://autobuilder.yoctoproject.org/main/builders/nightly-ppc/builds
-> /911/steps/Running%20ESDK%20Sanity%20Tests/logs/stdio
-> 
-> https://autobuilder.yoctoproject.org/main/builders/nightly-mips/build
-> s/898
+Hi,
 
-and:
+startup.nsh for iso image has corrupted text because of echo command.
+This patch switches to printf similar to the one submitted by
+Christopher Larson for non-iso image.
 
-https://autobuilder.yoctoproject.org/main/builders/nightly-oe-selftest/builds/649/steps/Running%20oe-selftest/logs/stdio
+Regards,
+Pranav
 
-(sorry!)
+Pranav Tipnis (1):
+  grub-efi.bbclass: Fix path in startup.nsh for iso image.
 
-Cheers,
+ meta/classes/grub-efi.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Richard
+-- 
+1.9.1
 
 
