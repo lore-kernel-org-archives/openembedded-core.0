@@ -1,44 +1,47 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pa0-f65.google.com (mail-pa0-f65.google.com
-	[209.85.220.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 2A3D0731BD
+Received: from mail-pa0-f68.google.com (mail-pa0-f68.google.com
+	[209.85.220.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 3CD8B76312
 	for <openembedded-core@lists.openembedded.org>;
 	Sat, 20 Aug 2016 15:03:08 +0000 (UTC)
-Received: by mail-pa0-f65.google.com with SMTP id cf3so5042109pad.2
+Received: by mail-pa0-f68.google.com with SMTP id vy10so5061532pac.0
 	for <openembedded-core@lists.openembedded.org>;
 	Sat, 20 Aug 2016 08:03:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
 	bh=TfOeB7965jSu8YhO7pJEIel48cJD8qDJ2MXCmMNc1fo=;
-	b=nMQPrNcBJ24x4HW+dqbxTLHmioAiJ1s0G/0DSiiP6isuHkDlGXvUSsSONeEI/ERcpZ
-	u2SXm2TJfz3imIezKJawNLVFx63CR5+CFQmJ8Uq3K8+tsZz4TmADYU4Wv7ISf5FbsmWL
-	GZaZ/b1+c9MrWXjAWnnVv0CG4DbU46ussWDnEL7hlNETsQeKbhAjkhP1PzAxQMEowSFN
-	htplJ3XNQiro0m1s2g7J4HPjzwk+b2kPLjB3gszZDNeT44Z/Lr0n8b/Whgtgbb1QUP5U
-	B9totU8LahoibNIIXdQNBHiTpvwdl+bFxty3ajzYmmgpbn7ch9sAMwG6WpglmPKqPyp+
-	BefQ==
+	b=eZHRWterISSNYAmYFJ5REWmSnWhb1Z9eh0rFw/qu4Mj0EKQVUsAzDOh+t1AvNtDtzz
+	wmTslTVqQP8z6VsR1dWEE0I/RwE4UxdWfdwf9gARF4+oGnFfGtYSu0LwPCZP262Ch26t
+	HLYGq++XO2LnvDVVzjVHDeTkmFVIPFJdbFhwa6Yhez+F2iZ/r7k+/FTikRVWkurqSvyh
+	ILnF7NT5+o4VZlQFgeLSJH6j+8ALuak6j1KNV5as8AkPfdXNv/mIeP65FUfgrl0+UWV8
+	XD8VUPsU1ncsW1J3X4uuFF4eaa65maFNP30DM+OcezeP3rgWLhvz2JSMrIvRpG8Z6bEw
+	nr0g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
 	bh=TfOeB7965jSu8YhO7pJEIel48cJD8qDJ2MXCmMNc1fo=;
-	b=Cj8LNgBeeoxjgc4ObknJjFFJ1qiyx1QqEnOux8zf42LdCsOZ2VAzo5Hhu/3JZF7Gqi
-	cVG2VHK0kA9WHSGTzIJzixijnyCt7Enq7GUmdgVtvtqIkORYmVcVFsdBWdiAGXE6Nu0U
-	bZi3YJdZtUhuwrsqEPovLBgp3/RHDMkhWEwR40776c/ThqGhza4J80q+jVsKBj5SNeXH
-	QuAjmO4kXHNmz3PVEIXXR5IiiJsADBNZbvzQJ3LPqh37zgR5cPCnXxkS8vNMrXnsu4VE
-	7n1I0t8y+Xebx1ZqDPeYu701fbLnNpCBPkC5Wb40nvekgrns9U5dD8cEwOgcM+l6lFt6
-	Hzng==
-X-Gm-Message-State: AEkoouthtnvf66TgNC0kJcaofrKjTpLOWhUifBfTPoTUBPDJdPErzbikJEQrRPGaUQFMHw==
-X-Received: by 10.66.78.35 with SMTP id y3mr24476781paw.40.1471705389009;
+	b=gNdfIAttjaexwdZOIBeIAh1djJIY0eY5nv+14vJBOBQcfkraJaEOPV724PcYOLk/yl
+	Wjp9KGEZi0AtDhSsZOck2Ggk2cPPvR89fNNPNhyP49yKPoCCGXnYeina9SBGwVQI9pzo
+	GJrzZowzHuRVzZcwoZT6p20U1/cP2qmMqZJJtJLBLEWxVEkP2V6GvX2j/5Cf42GJvliD
+	TljgUS6CuKcSGxuwRhie9fLlM8ivNnTkI5KPmTpCNwNo4I1vuhTiz8eyxX7XmkT+LGfi
+	EABYF/zzoGXRGaaWm6jeneB6UhG8iWwFDl8MF9yFrpt1x03C6Nr928bnQ/WiknY+eBcN
+	yEBg==
+X-Gm-Message-State: AEkoous+uM1xSxraIh4DOXRnLRARcgDHDkFD0PoBsF4cXD46kxGwMCT58kVOyYVuC+2dIQ==
+X-Received: by 10.66.148.7 with SMTP id to7mr24833162pab.128.1471705389720;
 	Sat, 20 Aug 2016 08:03:09 -0700 (PDT)
 Received: from localhost.localdomain (c-76-102-32-192.hsd1.ca.comcast.net.
 	[76.102.32.192]) by smtp.gmail.com with ESMTPSA id
-	n80sm14754199pfi.19.2016.08.20.08.03.07
+	n80sm14754199pfi.19.2016.08.20.08.03.09
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sat, 20 Aug 2016 08:03:08 -0700 (PDT)
+	Sat, 20 Aug 2016 08:03:09 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat, 20 Aug 2016 08:02:59 -0700
-Message-Id: <20160820150300.15345-1-raj.khem@gmail.com>
+Date: Sat, 20 Aug 2016 08:03:00 -0700
+Message-Id: <20160820150300.15345-2-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.9.3
+In-Reply-To: <20160820150300.15345-1-raj.khem@gmail.com>
+References: <20160820150300.15345-1-raj.khem@gmail.com>
 Subject: [PATCH] xserver-xf86-config: pre-load int10 and exa modules
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
