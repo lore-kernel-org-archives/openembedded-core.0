@@ -1,32 +1,28 @@
-Return-Path: <rpjday@crashcourse.ca>
-Received: from smtp684.redcondor.net (smtp684.redcondor.net [208.80.206.84])
-	by mail.openembedded.org (Postfix) with ESMTP id 081E26FF73
+Return-Path: <philip@balister.org>
+X-Greylist: delayed 400 seconds by postgrey-1.34 at layers.openembedded.org;
+	Sun, 21 Aug 2016 18:25:59 UTC
+Received: from starfish.geekisp.com (starfish.geekisp.com [216.168.135.166])
+	by mail.openembedded.org (Postfix) with SMTP id A02D66E660
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 21 Aug 2016 15:51:29 +0000 (UTC)
-Received: from astoria.ccjclearline.com ([64.235.106.9])
-	by smtp684.redcondor.net ({700db0a8-6fb7-4c8b-9b2a-6812225182d8})
-	via TCP (outbound) with ESMTPS id 20160821155128544_0684;
-	Sun, 21 Aug 2016 15:51:28 +0000
-X-RC-FROM: <rpjday@crashcourse.ca>
-Received: from [174.114.62.25] (port=41844 helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
-	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
-	id 1bbV3q-0007RZ-SU; Sun, 21 Aug 2016 11:53:22 -0400
-Date: Sun, 21 Aug 2016 11:51:14 -0400 (EDT)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@localhost.localdomain
-To: Tom Rini <trini@konsulko.com>
-In-Reply-To: <20160821150452.GR5342@bill-the-cat>
-Message-ID: <alpine.LFD.2.20.1608211146290.20716@localhost.localdomain>
-References: <alpine.LFD.2.20.1608181237130.2886@ca624034.mitel.com>
-	<20160819201637.GO5342@bill-the-cat>
-	<alpine.LFD.2.20.1608210955340.18845@localhost.localdomain>
-	<20160821150452.GR5342@bill-the-cat>
-User-Agent: Alpine 2.20 (LFD 67 2015-01-07)
+	Sun, 21 Aug 2016 18:25:59 +0000 (UTC)
+Received: (qmail 26944 invoked by uid 1003); 21 Aug 2016 18:19:19 -0000
+Received: from unknown (HELO ?192.168.1.3?) (philip@opensdr.com@88.111.155.240)
+	by mail.geekisp.com with (DHE-RSA-AES128-SHA encrypted) SMTP;
+	21 Aug 2016 18:19:19 -0000
+To: Yile Ku <stiffstone@gmail.com>
+References: <CAAGP=A-h9Rj3TyET=m=rsq=kQ8FBLm+N4vysOYjxu4YPysTQOg@mail.gmail.com>
+	<CAMKF1spEqhVCsFXeDFnpsHyRHCKsmyRbp51REjb6uFBe=k3dwA@mail.gmail.com>
+	<CAMKF1srwHc-hj_4q-z3a0U-H7GtdWJVS05JgnxTjynOgf37c9Q@mail.gmail.com>
+From: Philip Balister <philip@balister.org>
+Message-ID: <b8558002-1c9d-3639-207c-78ce0d4d6fe8@balister.org>
+Date: Sun, 21 Aug 2016 19:19:16 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.1.1
 MIME-Version: 1.0
-X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: how can i add u-boot-fw-utils to my build without u-boot being part of the build?
+In-Reply-To: <CAMKF1srwHc-hj_4q-z3a0U-H7GtdWJVS05JgnxTjynOgf37c9Q@mail.gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: daisy compile problem with meta-sdr
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,84 +35,384 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 21 Aug 2016 15:51:33 -0000
-Content-Type: text/plain; charset=US-ASCII
+X-List-Received-Date: Sun, 21 Aug 2016 18:26:01 -0000
+Content-Type: text/plain; charset=windows-1252
+Content-Transfer-Encoding: 7bit
 
-On Sun, 21 Aug 2016, Tom Rini wrote:
+On 08/21/2016 05:18 AM, Khem Raj wrote:
+> It seems it needs dependency on gnuradio. Do you have that expressed in
+> recipe and make sure gnuradio is packaging its cmake support when building
+> 
+> On Aug 20, 2016 7:30 PM, "Yile Ku" <stiffstone@gmail.com> wrote:
+> 
+> I do a bitbake gnuradio-dev-image and get the following:
+> NOTE: Preparing runqueue
+> NOTE: Executing SetScene Tasks
+> NOTE: Executing RunQueue Tasks
+> ERROR: Function failed: do_configure (log file is located at
+> /opt/QorIQ-SDK-V1.8-20150619-yocto/build_b4860qds-64b_
+> release/tmp/work/ppc64e6500-fsl-linux/gr-framers/0.0.1+
+> gitAUTOINC+eff6098884-r0/temp/log.do_configure.10951)
+> ERROR: Logfile of failure stored in: /opt/QorIQ-SDK-V1.8-20150619-
+> yocto/build_b4860qds-64b_release/tmp/work/ppc64e6500-
+> fsl-linux/gr-framers/0.0.1+gitAUTOINC+eff6098884-r0/temp/
+> log.do_configure.10951
+> Log data follows:
+> | DEBUG: Executing python function sysroot_cleansstate
+> | DEBUG: Python function sysroot_cleansstate finished
+> | DEBUG: SITE files ['endian-big', 'bit-64', 'powerpc-common',
+> 'common-linux', 'common-glibc', 'powerpc-linux', 'powerpc64-linux',
+> 'common']
+> | DEBUG: Executing shell function autotools_preconfigure
+> | DEBUG: Shell function autotools_preconfigure finished
+> | DEBUG: Executing python function autotools_copy_aclocals
+> | DEBUG: Python function autotools_copy_aclocals finished
+> | DEBUG: Executing shell function do_configure
+> | -- The CXX compiler identification is GNU 4.9.2
+> | -- The C compiler identification is GNU 4.9.2
+> | -- Check for working CXX compiler: /opt/QorIQ-SDK-V1.8-20150619-
+> yocto/build_b4860qds-64b_release/tmp/sysroots/x86_64-
+> linux/usr/bin/ppc64e6500-fsl-linux/powerpc64-fsl-linux-g++
+> | -- Check for working CXX compiler: /opt/QorIQ-SDK-V1.8-20150619-
+> yocto/build_b4860qds-64b_release/tmp/sysroots/x86_64-
+> linux/usr/bin/ppc64e6500-fsl-linux/powerpc64-fsl-linux-g++ -- works
+> | -- Detecting CXX compiler ABI info
+> | -- Detecting CXX compiler ABI info - done
+> | -- Check for working C compiler: /opt/QorIQ-SDK-V1.8-20150619-
+> yocto/build_b4860qds-64b_release/tmp/sysroots/x86_64-
+> linux/usr/bin/ppc64e6500-fsl-linux/powerpc64-fsl-linux-gcc
+> | -- Check for working C compiler: /opt/QorIQ-SDK-V1.8-20150619-
+> yocto/build_b4860qds-64b_release/tmp/sysroots/x86_64-
+> linux/usr/bin/ppc64e6500-fsl-linux/powerpc64-fsl-linux-gcc -- works
+> | -- Detecting C compiler ABI info
+> | -- Detecting C compiler ABI info - done
+> | -- Build type not specified: defaulting to release.
+> | -- Boost version: 1.55.0
+> | -- Found the following Boost libraries:
+> | --   filesystem
+> | --   system
+> | CMake Warning at CMakeLists.txt:87 (find_package):
+> |   By not providing "FindGnuradio.cmake" in CMAKE_MODULE_PATH this project
+> has
+> |   asked CMake to find a package configuration file provided by "Gnuradio",
+> |   but CMake did not find one.
+> |
+> |   Could not find a package configuration file provided by "Gnuradio"
+> |   (requested version 3.7) with any of the following names:
+> |
+> |     GnuradioConfig.cmake
+> |     gnuradio-config.cmake
 
-> On Sun, Aug 21, 2016 at 09:59:22AM -0400, Robert P. J. Day wrote:
-> > On Fri, 19 Aug 2016, Tom Rini wrote:
-> >
-> > > On Thu, Aug 18, 2016 at 12:41:25PM -0400, Robert P. J. Day wrote:
-> > > >
-> > > >   i want to add the u-boot-fw-utils recipe to my current build,
-> > > > but u-boot is *not* part of the relevant BSP layer -- u-boot is
-> > > > being configured and built elsewhere, and that's not changing for
-> > > > the foreseeable future.
-> > > >
-> > > >   the good news is that those utilities don't need to have any
-> > > > info on the default environment for u-boot -- they need only have
-> > > > access to the environment in flash, and there is a
-> > > > /etc/fw_env.config file that is all set up and ready to go and
-> > > > referring to the correct device and offset in flash.
-> > > >
-> > > >   so how do i specify that i want to add that recipe to my build,
-> > > > while saying, "don't worry about the default environment, you
-> > > > don't need it." can that be done? thanks.
-> > >
-> > > The "easy" way out here is to just set a valid (as in, compiles)
-> > > UBOOT_MACHINE and then not worry about installing U-Boot from the OE
-> > > build.  You can ASSUME_PROVIDED away u-boot itself, but you still
-> > > need to have a UBOOT_MACHINE set so that we configure U-Boot before
-> > > building the tools (And you must configure before building).
-> >
-> >   the problem is that the machine is a custom tweaking of an existing
-> > platform in u-boot, so that a regular checkout of u-boot won't have a
-> > defconfig for that machine. the entirety of u-boot for this target
-> > board is configured and built elsewhere, so i'm just trying to figure
-> > out what little i need to supply to get a build of those fw-utils in
-> > my image.
-> >
-> >   i suppose i can just use an existing machine that's compatible --
-> > beyond that, i assume all i need to supply is a /etc/fw_env.config
-> > file defining where in flash the environment is to be manipulated.
-> >
-> >   i realize this is a weird scenario, it's just what i have to work
-> > with for the time being.
->
-> This is a fairly common scenario I think.  I'm doing it myself right
-> now for a customer :)  And what I'm doing is having OE build U-Boot
-> for the reference platform (and not using that U-Boot) and re-use
-> that config for building u-boot-fw-utils (which we do need) and
-> providing a good fw_env.config just like you suggest.
+Looks like the process for compiling OOT modules isn't finding some
+cmake files. I suspect some issues relating to ppc64 as this stuff has
+worked on arm and intel builds.
 
-  i apologize for being clueless, but i'm still unclear on what i need
-to do here, and in my case, i'm going in the opposite direction.
+Look in the sysroot and see if these files are in there. Maybe they are
+getting installed somewhere the OOT modules can't find them.
 
-  currently, u-boot is being configured and compiled standalone -- not
-as part of OE. and that build works just fine, so i can grab whatever
-(little?) i need from that build to then add to an actual OE build so
-i can just add u-boot-fw-utils to an existing image.
+Philip
 
-  as i read it, for an OE build of u-boot, i need to supply either
-UBOOT_MACHINE or UBOOT_CONFIG. so in this case, what would i do? my
-assumption until now is that i need to add to the OE build just enough
-to get the fw utils to build, and i'd do that by setting either of
-those variables. and i already have the appropriate fw_env.config file
-ready to go.
 
-  so what precisely do i need to do here?
-
-rday
-
--- 
-
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
-
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
-
+> |
+> |   Add the installation prefix of "Gnuradio" to CMAKE_PREFIX_PATH or set
+> |   "Gnuradio_DIR" to a directory containing one of the above files.  If
+> |   "Gnuradio" provides a separate development package or SDK, be sure it
+> has
+> |   been installed.
+> |
+> |
+> | -- Found PkgConfig: /opt/QorIQ-SDK-V1.8-20150619-yocto/build_b4860qds-64b_
+> release/tmp/sysroots/x86_64-linux/usr/bin/pkg-config (found version "0.28")
+> | -- checking for module 'cppunit'
+> | --   found cppunit, version 1.13.1
+> | -- Found CPPUNIT: /opt/QorIQ-SDK-V1.8-20150619-yocto/build_b4860qds-64b_
+> release/tmp/sysroots/b4860qds-64b/usr/lib64/libcppunit.so;dl
+> | CMake Error at CMakeLists.txt:98 (message):
+> |   GnuRadio Runtime required to compile framers
+> |
+> |
+> | -- Configuring incomplete, errors occurred!
+> | See also "/opt/QorIQ-SDK-V1.8-20150619-yocto/build_b4860qds-64b_
+> release/tmp/work/ppc64e6500-fsl-linux/gr-framers/0.0.1+
+> gitAUTOINC+eff6098884-r0/build/CMakeFiles/CMakeOutput.log".
+> | WARNING: exit code 1 from a shell command.
+> | ERROR: Function failed: do_configure (log file is located at
+> /opt/QorIQ-SDK-V1.8-20150619-yocto/build_b4860qds-64b_
+> release/tmp/work/ppc64e6500-fsl-linux/gr-framers/0.0.1+
+> gitAUTOINC+eff6098884-r0/temp/log.do_configure.10951)
+> ERROR: Function failed: do_configure (log file is located at
+> /opt/QorIQ-SDK-V1.8-20150619-yocto/build_b4860qds-64b_
+> release/tmp/work/ppc64e6500-fsl-linux/gr-mapper/0.0.3+
+> gitAUTOINC+db0686fbdf-r0/temp/log.do_configure.10949)
+> ERROR: Logfile of failure stored in: /opt/QorIQ-SDK-V1.8-20150619-
+> yocto/build_b4860qds-64b_release/tmp/work/ppc64e6500-
+> fsl-linux/gr-mapper/0.0.3+gitAUTOINC+db0686fbdf-r0/temp/
+> log.do_configure.10949
+> Log data follows:
+> | DEBUG: Executing python function sysroot_cleansstate
+> | DEBUG: Python function sysroot_cleansstate finished
+> | DEBUG: SITE files ['endian-big', 'bit-64', 'powerpc-common',
+> 'common-linux', 'common-glibc', 'powerpc-linux', 'powerpc64-linux',
+> 'common']
+> | DEBUG: Executing shell function autotools_preconfigure
+> | DEBUG: Shell function autotools_preconfigure finished
+> | DEBUG: Executing python function autotools_copy_aclocals
+> | DEBUG: Python function autotools_copy_aclocals finished
+> | DEBUG: Executing shell function do_configure
+> | -- The CXX compiler identification is GNU 4.9.2
+> | -- The C compiler identification is GNU 4.9.2
+> | -- Check for working CXX compiler: /opt/QorIQ-SDK-V1.8-20150619-
+> yocto/build_b4860qds-64b_release/tmp/sysroots/x86_64-
+> linux/usr/bin/ppc64e6500-fsl-linux/powerpc64-fsl-linux-g++
+> | -- Check for working CXX compiler: /opt/QorIQ-SDK-V1.8-20150619-
+> yocto/build_b4860qds-64b_release/tmp/sysroots/x86_64-
+> linux/usr/bin/ppc64e6500-fsl-linux/powerpc64-fsl-linux-g++ -- works
+> | -- Detecting CXX compiler ABI info
+> | -- Detecting CXX compiler ABI info - done
+> | -- Check for working C compiler: /opt/QorIQ-SDK-V1.8-20150619-
+> yocto/build_b4860qds-64b_release/tmp/sysroots/x86_64-
+> linux/usr/bin/ppc64e6500-fsl-linux/powerpc64-fsl-linux-gcc
+> | -- Check for working C compiler: /opt/QorIQ-SDK-V1.8-20150619-
+> yocto/build_b4860qds-64b_release/tmp/sysroots/x86_64-
+> linux/usr/bin/ppc64e6500-fsl-linux/powerpc64-fsl-linux-gcc -- works
+> | -- Detecting C compiler ABI info
+> | -- Detecting C compiler ABI info - done
+> | -- Build type not specified: defaulting to release.
+> | -- Boost version: 1.55.0
+> | -- Found the following Boost libraries:
+> | --   filesystem
+> | --   system
+> | -- Found PkgConfig: /opt/QorIQ-SDK-V1.8-20150619-yocto/build_b4860qds-64b_
+> release/tmp/sysroots/x86_64-linux/usr/bin/pkg-config (found version "0.28")
+> | -- checking for module 'cppunit'
+> | --   found cppunit, version 1.13.1
+> | -- Found CPPUNIT: /opt/QorIQ-SDK-V1.8-20150619-yocto/build_b4860qds-64b_
+> release/tmp/sysroots/b4860qds-64b/usr/lib64/libcppunit.so;dl
+> | CMake Warning at CMakeLists.txt:114 (find_package):
+> |   By not providing "FindGnuradio.cmake" in CMAKE_MODULE_PATH this project
+> has
+> |   asked CMake to find a package configuration file provided by "Gnuradio",
+> |   but CMake did not find one.
+> |
+> |   Could not find a package configuration file provided by "Gnuradio" with
+> any
+> |   of the following names:
+> |
+> |     GnuradioConfig.cmake
+> |     gnuradio-config.cmake
+> |
+> |   Add the installation prefix of "Gnuradio" to CMAKE_PREFIX_PATH or set
+> |   "Gnuradio_DIR" to a directory containing one of the above files.  If
+> |   "Gnuradio" provides a separate development package or SDK, be sure it
+> has
+> |   been installed.
+> |
+> |
+> | CMake Error at CMakeLists.txt:125 (message):
+> |   GnuRadio Runtime required to compile mapper
+> |
+> |
+> | -- Configuring incomplete, errors occurred!
+> | See also "/opt/QorIQ-SDK-V1.8-20150619-yocto/build_b4860qds-64b_
+> release/tmp/work/ppc64e6500-fsl-linux/gr-mapper/0.0.3+
+> gitAUTOINC+db0686fbdf-r0/build/CMakeFiles/CMakeOutput.log".
+> | WARNING: exit code 1 from a shell command.
+> | ERROR: Function failed: do_configure (log file is located at
+> /opt/QorIQ-SDK-V1.8-20150619-yocto/build_b4860qds-64b_
+> release/tmp/work/ppc64e6500-fsl-linux/gr-mapper/0.0.3+
+> gitAUTOINC+db0686fbdf-r0/temp/log.do_configure.10949)
+> ERROR: Function failed: do_configure (log file is located at
+> /opt/QorIQ-SDK-V1.8-20150619-yocto/build_b4860qds-64b_
+> release/tmp/work/ppc64e6500-fsl-linux/gr-mac/0.0.1+
+> gitAUTOINC+3ed6f08933-r0/temp/log.do_configure.10950)
+> ERROR: Logfile of failure stored in: /opt/QorIQ-SDK-V1.8-20150619-
+> yocto/build_b4860qds-64b_release/tmp/work/ppc64e6500-fsl-linux/gr-mac/0.0.1+
+> gitAUTOINC+3ed6f08933-r0/temp/log.do_configure.10950
+> Log data follows:
+> | DEBUG: Executing python function sysroot_cleansstate
+> | DEBUG: Python function sysroot_cleansstate finished
+> | DEBUG: SITE files ['endian-big', 'bit-64', 'powerpc-common',
+> 'common-linux', 'common-glibc', 'powerpc-linux', 'powerpc64-linux',
+> 'common']
+> | DEBUG: Executing shell function autotools_preconfigure
+> | DEBUG: Shell function autotools_preconfigure finished
+> | DEBUG: Executing python function autotools_copy_aclocals
+> | DEBUG: Python function autotools_copy_aclocals finished
+> | DEBUG: Executing shell function do_configure
+> | -- The CXX compiler identification is GNU 4.9.2
+> | -- The C compiler identification is GNU 4.9.2
+> | -- Check for working CXX compiler: /opt/QorIQ-SDK-V1.8-20150619-
+> yocto/build_b4860qds-64b_release/tmp/sysroots/x86_64-
+> linux/usr/bin/ppc64e6500-fsl-linux/powerpc64-fsl-linux-g++
+> | -- Check for working CXX compiler: /opt/QorIQ-SDK-V1.8-20150619-
+> yocto/build_b4860qds-64b_release/tmp/sysroots/x86_64-
+> linux/usr/bin/ppc64e6500-fsl-linux/powerpc64-fsl-linux-g++ -- works
+> | -- Detecting CXX compiler ABI info
+> | -- Detecting CXX compiler ABI info - done
+> | -- Check for working C compiler: /opt/QorIQ-SDK-V1.8-20150619-
+> yocto/build_b4860qds-64b_release/tmp/sysroots/x86_64-
+> linux/usr/bin/ppc64e6500-fsl-linux/powerpc64-fsl-linux-gcc
+> | -- Check for working C compiler: /opt/QorIQ-SDK-V1.8-20150619-
+> yocto/build_b4860qds-64b_release/tmp/sysroots/x86_64-
+> linux/usr/bin/ppc64e6500-fsl-linux/powerpc64-fsl-linux-gcc -- works
+> | -- Detecting C compiler ABI info
+> | -- Detecting C compiler ABI info - done
+> | -- Build type not specified: defaulting to release.
+> | -- Boost version: 1.55.0
+> | -- Found the following Boost libraries:
+> | --   filesystem
+> | --   system
+> | CMake Warning at CMakeLists.txt:88 (find_package):
+> |   By not providing "FindGnuradio.cmake" in CMAKE_MODULE_PATH this project
+> has
+> |   asked CMake to find a package configuration file provided by "Gnuradio",
+> |   but CMake did not find one.
+> |
+> |   Could not find a package configuration file provided by "Gnuradio" with
+> any
+> |   of the following names:
+> |
+> |     GnuradioConfig.cmake
+> |     gnuradio-config.cmake
+> |
+> |   Add the installation prefix of "Gnuradio" to CMAKE_PREFIX_PATH or set
+> |   "Gnuradio_DIR" to a directory containing one of the above files.  If
+> |   "Gnuradio" provides a separate development package or SDK, be sure it
+> has
+> |   been installed.
+> |
+> |
+> | -- Found PkgConfig: /opt/QorIQ-SDK-V1.8-20150619-yocto/build_b4860qds-64b_
+> release/tmp/sysroots/x86_64-linux/usr/bin/pkg-config (found version "0.28")
+> | -- checking for module 'cppunit'
+> | --   found cppunit, version 1.13.1
+> | -- Found CPPUNIT: /opt/QorIQ-SDK-V1.8-20150619-yocto/build_b4860qds-64b_
+> release/tmp/sysroots/b4860qds-64b/usr/lib64/libcppunit.so;dl
+> | CMake Error at CMakeLists.txt:100 (message):
+> |   GnuRadio Runtime required to compile mac
+> |
+> |
+> | -- Configuring incomplete, errors occurred!
+> | See also "/opt/QorIQ-SDK-V1.8-20150619-yocto/build_b4860qds-64b_
+> release/tmp/work/ppc64e6500-fsl-linux/gr-mac/0.0.1+gitAUTOINC+3ed6f08933-r0/
+> build/CMakeFiles/CMakeOutput.log".
+> | WARNING: exit code 1 from a shell command.
+> | ERROR: Function failed: do_configure (log file is located at
+> /opt/QorIQ-SDK-V1.8-20150619-yocto/build_b4860qds-64b_
+> release/tmp/work/ppc64e6500-fsl-linux/gr-mac/0.0.1+
+> gitAUTOINC+3ed6f08933-r0/temp/log.do_configure.10950)
+> ERROR: Task 1959 (/opt/QorIQ-SDK-V1.8-20150619-yocto/meta-sdr/recipes-
+> support/gr-framers/gr-framers_git.bb, do_configure) failed with exit code
+> '1'
+> ERROR: Task 1985 (/opt/QorIQ-SDK-V1.8-20150619-yocto/meta-sdr/recipes-
+> support/gr-mapper/gr-mapper_git.bb, do_configure) failed with exit code '1'
+> ERROR: Task 1972 (/opt/QorIQ-SDK-V1.8-20150619-yocto/meta-sdr/recipes-
+> support/gr-mac/gr-mac_git.bb, do_configure) failed with exit code '1'
+> ERROR: Function failed: do_configure (log file is located at
+> /opt/QorIQ-SDK-V1.8-20150619-yocto/build_b4860qds-64b_
+> release/tmp/work/ppc64e6500-fsl-linux/gr-message-tools/0.
+> 0.2+gitAUTOINC+c4ed7e3c1e-r0/temp/log.do_configure.10948)
+> ERROR: Logfile of failure stored in: /opt/QorIQ-SDK-V1.8-20150619-
+> yocto/build_b4860qds-64b_release/tmp/work/ppc64e6500-
+> fsl-linux/gr-message-tools/0.0.2+gitAUTOINC+c4ed7e3c1e-r0/
+> temp/log.do_configure.10948
+> Log data follows:
+> | DEBUG: Executing python function sysroot_cleansstate
+> | DEBUG: Python function sysroot_cleansstate finished
+> | DEBUG: SITE files ['endian-big', 'bit-64', 'powerpc-common',
+> 'common-linux', 'common-glibc', 'powerpc-linux', 'powerpc64-linux',
+> 'common']
+> | DEBUG: Executing shell function autotools_preconfigure
+> | DEBUG: Shell function autotools_preconfigure finished
+> | DEBUG: Executing python function autotools_copy_aclocals
+> | DEBUG: Python function autotools_copy_aclocals finished
+> | DEBUG: Executing shell function do_configure
+> | -- The CXX compiler identification is GNU 4.9.2
+> | -- The C compiler identification is GNU 4.9.2
+> | -- Check for working CXX compiler: /opt/QorIQ-SDK-V1.8-20150619-
+> yocto/build_b4860qds-64b_release/tmp/sysroots/x86_64-
+> linux/usr/bin/ppc64e6500-fsl-linux/powerpc64-fsl-linux-g++
+> | -- Check for working CXX compiler: /opt/QorIQ-SDK-V1.8-20150619-
+> yocto/build_b4860qds-64b_release/tmp/sysroots/x86_64-
+> linux/usr/bin/ppc64e6500-fsl-linux/powerpc64-fsl-linux-g++ -- works
+> | -- Detecting CXX compiler ABI info
+> | -- Detecting CXX compiler ABI info - done
+> | -- Check for working C compiler: /opt/QorIQ-SDK-V1.8-20150619-
+> yocto/build_b4860qds-64b_release/tmp/sysroots/x86_64-
+> linux/usr/bin/ppc64e6500-fsl-linux/powerpc64-fsl-linux-gcc
+> | -- Check for working C compiler: /opt/QorIQ-SDK-V1.8-20150619-
+> yocto/build_b4860qds-64b_release/tmp/sysroots/x86_64-
+> linux/usr/bin/ppc64e6500-fsl-linux/powerpc64-fsl-linux-gcc -- works
+> | -- Detecting C compiler ABI info
+> | -- Detecting C compiler ABI info - done
+> | -- Build type not specified: defaulting to release.
+> | -- Boost version: 1.55.0
+> | -- Found the following Boost libraries:
+> | --   filesystem
+> | --   system
+> | -- Found PkgConfig: /opt/QorIQ-SDK-V1.8-20150619-yocto/build_b4860qds-64b_
+> release/tmp/sysroots/x86_64-linux/usr/bin/pkg-config (found version "0.28")
+> | -- checking for module 'gnuradio-runtime'
+> | --   found gnuradio-runtime, version 3.7.10
+> | -- Found GNURADIO_RUNTIME: /opt/QorIQ-SDK-V1.8-20150619-
+> yocto/build_b4860qds-64b_release/tmp/sysroots/b4860qds-
+> 64b/usr/lib64/libgnuradio-runtime.so
+> | -- checking for module 'cppunit'
+> | --   found cppunit, version 1.13.1
+> | -- Found CPPUNIT: /opt/QorIQ-SDK-V1.8-20150619-yocto/build_b4860qds-64b_
+> release/tmp/sysroots/b4860qds-64b/usr/lib64/libcppunit.so;dl
+> | CMake Error at CMakeLists.txt:94 (find_package):
+> |   By not providing "FindGnuradio.cmake" in CMAKE_MODULE_PATH this project
+> has
+> |   asked CMake to find a package configuration file provided by "Gnuradio",
+> |   but CMake did not find one.
+> |
+> |   Could not find a package configuration file provided by "Gnuradio"
+> |   (requested version 3.7.2) with any of the following names:
+> |
+> |     GnuradioConfig.cmake
+> |     gnuradio-config.cmake
+> |
+> |   Add the installation prefix of "Gnuradio" to CMAKE_PREFIX_PATH or set
+> |   "Gnuradio_DIR" to a directory containing one of the above files.  If
+> |   "Gnuradio" provides a separate development package or SDK, be sure it
+> has
+> |   been installed.
+> |
+> |
+> | -- Configuring incomplete, errors occurred!
+> | See also "/opt/QorIQ-SDK-V1.8-20150619-yocto/build_b4860qds-64b_
+> release/tmp/work/ppc64e6500-fsl-linux/gr-message-tools/0.
+> 0.2+gitAUTOINC+c4ed7e3c1e-r0/build/CMakeFiles/CMakeOutput.log".
+> | WARNING: exit code 1 from a shell command.
+> | ERROR: Function failed: do_configure (log file is located at
+> /opt/QorIQ-SDK-V1.8-20150619-yocto/build_b4860qds-64b_
+> release/tmp/work/ppc64e6500-fsl-linux/gr-message-tools/0.
+> 0.2+gitAUTOINC+c4ed7e3c1e-r0/temp/log.do_configure.10948)
+> ERROR: Task 1998 (/opt/QorIQ-SDK-V1.8-20150619-yocto/meta-sdr/recipes-
+> support/gr-message-tools/gr-message-tools_git.bb, do_configure) failed with
+> exit code '1'
+> NOTE: Tasks Summary: Attempted 3576 tasks of which 3572 didn't need to be
+> rerun and 4 failed.
+> Waiting for 0 running tasks to finish:
+> 
+> Summary: 4 tasks failed:
+>   /opt/QorIQ-SDK-V1.8-20150619-yocto/meta-sdr/recipes-support/gr-framers/
+> gr-framers_git.bb, do_configure
+>   /opt/QorIQ-SDK-V1.8-20150619-yocto/meta-sdr/recipes-support/gr-mapper/
+> gr-mapper_git.bb, do_configure
+>   /opt/QorIQ-SDK-V1.8-20150619-yocto/meta-sdr/recipes-support/gr-mac/
+> gr-mac_git.bb, do_configure
+>   /opt/QorIQ-SDK-V1.8-20150619-yocto/meta-sdr/recipes-
+> support/gr-message-tools/gr-message-tools_git.bb, do_configure
+> Summary: There were 4 ERROR mes
+> 
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> 
+> 
+> 
 
