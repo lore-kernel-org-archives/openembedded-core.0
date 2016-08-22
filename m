@@ -1,50 +1,46 @@
-Return-Path: <fabio.berton@ossystems.com.br>
-Received: from mail-qk0-f196.google.com (mail-qk0-f196.google.com
-	[209.85.220.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 09F8073259
+Return-Path: <ross.burton@intel.com>
+Received: from mail-it0-f54.google.com (mail-it0-f54.google.com
+	[209.85.214.54])
+	by mail.openembedded.org (Postfix) with ESMTP id 09AA7766E1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Aug 2016 18:58:10 +0000 (UTC)
-Received: by mail-qk0-f196.google.com with SMTP id o1so8974637qkd.2
+	Mon, 22 Aug 2016 19:35:24 +0000 (UTC)
+Received: by mail-it0-f54.google.com with SMTP id f6so97405106ith.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Aug 2016 11:58:11 -0700 (PDT)
+	Mon, 22 Aug 2016 12:35:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:organization; bh=5JTyAM0rUHCrGljt7FxcmfP0k/dCMfoNaMaAYcHNEC4=;
-	b=tKkw9/otVAGRfBgHGh1ANZ+Nv449d4wK1LpV2hUSGZvflFlfhr+F4rpYySCpDUS1Kq
-	ImdT3MJLC2tjElsEpfyJ0zm3kq2WC846GMw1//ZhF6mPqeOJp7r97RYtTKF4d5j+TTJ+
-	f+pGyHSDRzpoKxDIjObkN3gslUWWpCuIorVKhwXUqD1/lAfFRaUiub6W7sS+oaG/1kIV
-	hb0oh1LnQi1nWD+XoVc8whvEUhXeqW/2yqIBly1z2RY8ob8vxXkSSCu8rlgZTYRtI+PH
-	ji66kvsUCU4XWw0DCVY2zh1B7HhliGRzVscjh3hMQNKiFsZRpaDIg8RS9vRl5e/OBP/S
-	KQUg==
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=5lQ60zn8ifaBFlWDUXh6+2Q0GdbPMJg511I6rcAyZoQ=;
+	b=MK0QbntOMBV6TVORFLmXO0h8da0ctEyp1S5ebwQsISK+O3tOsurmArv2zJUjmIypi5
+	zj37BwsXP/OCrcfp9lN3pE/S2/c94hwkItNm9zs2gEjsGYe5jrfxnKQ84/p6EXnGaKLj
+	oUUuS+s2vDgL6ryvK0Hfokj5CEJ5nRCvdKbRCtor3rKGIDMlJLhe1H1PblFWUbGL31EQ
+	sxfN3sH+jBf/B2iFnDCU6PtxUaouhSoCERIm9CyTbzbqW1b872O46wOSZHwQuzWmNNC1
+	3pDJVYkTPYLtcSg7vTpLMBG0ouyTlJriRJdxG3mIKsm75xF3siq8zqGbhhZ8pBZ2enVY
+	tbfQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references:organization;
-	bh=5JTyAM0rUHCrGljt7FxcmfP0k/dCMfoNaMaAYcHNEC4=;
-	b=K1Stbr1mATR+Wrh6qFvwU45ixd4Bh8dF0XtVYW7zIEbtBCWCgeL5IGdDA6/oawb1VY
-	/FHWgX8xEsAKSYUjOy0kEx3k9dmhkOZBA4HWFTbTz04tNXu2lNtwpzj/zHQVGXNpniO6
-	TA2RAtsNGHcyqqfxQdkQjPi4WE8mmMZx3wlsYKaHrD/ttLzSpgs/eMtldJUTPubZyrDa
-	xKTSYzalsHfx4fR5wfrGxaSni8LDjHKkiYDTTbcEOHD73oyjZRcWAVRrmfSXbGia34OI
-	LjsUVH4HrcnHd7+m4g5Q3r+J6RLA0ExW5QBVldt6e6HJeX8pIvg8huanCfUy2k4y2VAX
-	AH/A==
-X-Gm-Message-State: AEkoouun9x/zdyYaB6v2SpUsjkfbW5Jp+Hmr+JxXRtKAlBU3YDcNIDxJ2ZqLDd7fLMFlUA==
-X-Received: by 10.55.156.135 with SMTP id f129mr25781977qke.160.1471892291063; 
-	Mon, 22 Aug 2016 11:58:11 -0700 (PDT)
-Received: from monster.lab.ossystems.com.br ([177.127.4.56])
-	by smtp.gmail.com with ESMTPSA id
-	l189sm12018766qke.27.2016.08.22.11.58.08
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 22 Aug 2016 11:58:10 -0700 (PDT)
-From: Fabio Berton <fabio.berton@ossystems.com.br>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 22 Aug 2016 15:57:53 -0300
-Message-Id: <1471892273-5919-2-git-send-email-fabio.berton@ossystems.com.br>
-X-Mailer: git-send-email 2.1.4
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=5lQ60zn8ifaBFlWDUXh6+2Q0GdbPMJg511I6rcAyZoQ=;
+	b=g2xH/TDgj9/RtXx00PbTLm4zc1j01pm2CAJVedJBS3DhEX1lvgv0ysOmW05WRgRawl
+	bi/kd83G9e95N/s9XBNPWZPfUYje6Eq8Lk2I/6Dg+9Quo9RKR+LYSCb5K0JQpgmUuXaH
+	ehZl80CcelPuJKfEGku1ei7WwI8mAqPXdEQO8u8rV+Fp3MqOox6FbeDEjIYyP4o+9wyx
+	HvUXPYZ/TA2fbqXemj9MKs6V14JHSb4DsKkOFdbXPOB/3BMWlSadrB/r9c++k4HfU/dP
+	Q4IT6DZywqiAEnK293NMBHQOSIfDti9xWgEge1xWBTJ5h1jRBDIaqnUnEzph8PbN70M+
+	Z6Ww==
+X-Gm-Message-State: AEkoouvk5X/xKuZAi8F53axE/iUvouRlMyIwl8IRp6cdJwiDkIJpEpm+rT/unAxabmUz8HrypEYHxF95zh/8cLxe
+X-Received: by 10.36.20.204 with SMTP id 195mr16212239itg.83.1471894525548;
+	Mon, 22 Aug 2016 12:35:25 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.107.18.17 with HTTP; Mon, 22 Aug 2016 12:35:05 -0700 (PDT)
 In-Reply-To: <1471892273-5919-1-git-send-email-fabio.berton@ossystems.com.br>
 References: <1471892273-5919-1-git-send-email-fabio.berton@ossystems.com.br>
-Organization: O.S. Systems Software LTDA.
-Subject: [PATCH 2/2] python-3.5-manifest: Add argparse module
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 22 Aug 2016 20:35:05 +0100
+Message-ID: <CAJTo0Lat=0OP-r9aO=SLMc_PcO-Z2wGEihUN7NifDzouAiR6-w@mail.gmail.com>
+To: Fabio Berton <fabio.berton@ossystems.com.br>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/2] python-3.5-manifest: Rename Queue module to queue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,41 +53,116 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 22 Aug 2016 18:58:11 -0000
+X-List-Received-Date: Mon, 22 Aug 2016 19:35:25 -0000
+Content-Type: multipart/alternative; boundary=001a1143e4e457bc08053aae26ad
 
-Adding argparse module from Python's standard library.
+--001a1143e4e457bc08053aae26ad
+Content-Type: text/plain; charset=UTF-8
 
-Signed-off-by: Fabio Berton <fabio.berton@ossystems.com.br>
----
- meta/recipes-devtools/python/python-3.5-manifest.inc | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+As per the comment at the top of the file, please modify the script and
+then re-generate the manifest.
 
-diff --git a/meta/recipes-devtools/python/python-3.5-manifest.inc b/meta/recipes-devtools/python/python-3.5-manifest.inc
-index 3e07a11..574acee 100644
---- a/meta/recipes-devtools/python/python-3.5-manifest.inc
-+++ b/meta/recipes-devtools/python/python-3.5-manifest.inc
-@@ -5,14 +5,18 @@
- 
-  
- 
--PROVIDES+="${PN}-2to3 ${PN}-asyncio ${PN}-audio ${PN}-codecs ${PN}-compile ${PN}-compression ${PN}-core ${PN}-crypt ${PN}-ctypes ${PN}-curses ${PN}-datetime ${PN}-db ${PN}-debugger ${PN}-dev ${PN}-difflib ${PN}-distutils ${PN}-distutils-staticdev ${PN}-doctest ${PN}-email ${PN}-enum ${PN}-fcntl ${PN}-gdbm ${PN}-html ${PN}-idle ${PN}-image ${PN}-importlib ${PN}-io ${PN}-json ${PN}-lang ${PN}-logging ${PN}-mailbox ${PN}-math ${PN}-mime ${PN}-mmap ${PN}-multiprocessing ${PN}-netclient ${PN}-netserver ${PN}-numbers ${PN}-pickle ${PN}-pkgutil ${PN}-pprint ${PN}-profile ${PN}-pydoc ${PN}-re ${PN}-readline ${PN}-reprlib ${PN}-resource ${PN}-selectors ${PN}-shell ${PN}-signal ${PN}-smtpd ${PN}-sqlite3 ${PN}-sqlite3-tests ${PN}-stringold ${PN}-subprocess ${PN}-syslog ${PN}-terminal ${PN}-tests ${PN}-textutils ${PN}-threading ${PN}-tkinter ${PN}-unittest ${PN}-unixadmin ${PN}-xml ${PN}-xmlrpc "
-+PROVIDES+="${PN}-2to3 ${PN}-argparse ${PN}-asyncio ${PN}-audio ${PN}-codecs ${PN}-compile ${PN}-compression ${PN}-core ${PN}-crypt ${PN}-ctypes ${PN}-curses ${PN}-datetime ${PN}-db ${PN}-debugger ${PN}-dev ${PN}-difflib ${PN}-distutils ${PN}-distutils-staticdev ${PN}-doctest ${PN}-email ${PN}-enum ${PN}-fcntl ${PN}-gdbm ${PN}-html ${PN}-idle ${PN}-image ${PN}-importlib ${PN}-io ${PN}-json ${PN}-lang ${PN}-logging ${PN}-mailbox ${PN}-math ${PN}-mime ${PN}-mmap ${PN}-multiprocessing ${PN}-netclient ${PN}-netserver ${PN}-numbers ${PN}-pickle ${PN}-pkgutil ${PN}-pprint ${PN}-profile ${PN}-pydoc ${PN}-re ${PN}-readline ${PN}-reprlib ${PN}-resource ${PN}-selectors ${PN}-shell ${PN}-signal ${PN}-smtpd ${PN}-sqlite3 ${PN}-sqlite3-tests ${PN}-stringold ${PN}-subprocess ${PN}-syslog ${PN}-terminal ${PN}-tests ${PN}-textutils ${PN}-threading ${PN}-tkinter ${PN}-unittest ${PN}-unixadmin ${PN}-xml ${PN}-xmlrpc "
- 
--PACKAGES="${PN}-dbg ${PN}-2to3 ${PN}-asyncio ${PN}-audio ${PN}-codecs ${PN}-compile ${PN}-compression ${PN}-core ${PN}-crypt ${PN}-ctypes ${PN}-curses ${PN}-datetime ${PN}-db ${PN}-debugger ${PN}-dev ${PN}-difflib ${PN}-distutils-staticdev ${PN}-distutils ${PN}-doctest ${PN}-email ${PN}-enum ${PN}-fcntl ${PN}-gdbm ${PN}-html ${PN}-idle ${PN}-image ${PN}-importlib ${PN}-io ${PN}-json ${PN}-lang ${PN}-logging ${PN}-mailbox ${PN}-math ${PN}-mime ${PN}-mmap ${PN}-multiprocessing ${PN}-netclient ${PN}-netserver ${PN}-numbers ${PN}-pickle ${PN}-pkgutil ${PN}-pprint ${PN}-profile ${PN}-pydoc ${PN}-re ${PN}-readline ${PN}-reprlib ${PN}-resource ${PN}-selectors ${PN}-shell ${PN}-signal ${PN}-smtpd ${PN}-sqlite3 ${PN}-sqlite3-tests ${PN}-stringold ${PN}-subprocess ${PN}-syslog ${PN}-terminal ${PN}-tests ${PN}-textutils ${PN}-threading ${PN}-tkinter ${PN}-unittest ${PN}-unixadmin ${PN}-xml ${PN}-xmlrpc ${PN}-modules"
-+PACKAGES="${PN}-dbg ${PN}-2to3 ${PN}-argparse ${PN}-asyncio ${PN}-audio ${PN}-codecs ${PN}-compile ${PN}-compression ${PN}-core ${PN}-crypt ${PN}-ctypes ${PN}-curses ${PN}-datetime ${PN}-db ${PN}-debugger ${PN}-dev ${PN}-difflib ${PN}-distutils-staticdev ${PN}-distutils ${PN}-doctest ${PN}-email ${PN}-enum ${PN}-fcntl ${PN}-gdbm ${PN}-html ${PN}-idle ${PN}-image ${PN}-importlib ${PN}-io ${PN}-json ${PN}-lang ${PN}-logging ${PN}-mailbox ${PN}-math ${PN}-mime ${PN}-mmap ${PN}-multiprocessing ${PN}-netclient ${PN}-netserver ${PN}-numbers ${PN}-pickle ${PN}-pkgutil ${PN}-pprint ${PN}-profile ${PN}-pydoc ${PN}-re ${PN}-readline ${PN}-reprlib ${PN}-resource ${PN}-selectors ${PN}-shell ${PN}-signal ${PN}-smtpd ${PN}-sqlite3 ${PN}-sqlite3-tests ${PN}-stringold ${PN}-subprocess ${PN}-syslog ${PN}-terminal ${PN}-tests ${PN}-textutils ${PN}-threading ${PN}-tkinter ${PN}-unittest ${PN}-unixadmin ${PN}-xml ${PN}-xmlrpc ${PN}-modules"
- 
- SUMMARY_${PN}-2to3="Python automated Python 2 to 3 code translator"
- RDEPENDS_${PN}-2to3="${PN}-core"
- FILES_${PN}-2to3="${libdir}/python3.5/lib2to3 "
- 
-+SUMMARY_${PN}-argparse="Python command line argument parser"
-+RDEPENDS_${PN}-argparse="${PN}-core ${PN}-codecs ${PN}-textutils"
-+FILES_${PN}-argparse="${libdir}/python3.5/argparse.* "
-+
- SUMMARY_${PN}-asyncio="Python Asynchronous I/O, event loop, coroutines and tasks"
- RDEPENDS_${PN}-asyncio="${PN}-core"
- FILES_${PN}-asyncio="${libdir}/python3.5/asyncio "
--- 
-2.1.4
+Also when adding new modules, please give a rationale for a new module
+(i.e. was previously in -misc) and why it can't be added to an existing
+package.
 
+Ross
 
+On 22 August 2016 at 19:57, Fabio Berton <fabio.berton@ossystems.com.br>
+wrote:
+
+> The Queue module has been renamed to queue in Python 3.
+>
+> Signed-off-by: Fabio Berton <fabio.berton@ossystems.com.br>
+> ---
+>  meta/recipes-devtools/python/python-3.5-manifest.inc | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/recipes-devtools/python/python-3.5-manifest.inc
+> b/meta/recipes-devtools/python/python-3.5-manifest.inc
+> index b9c2fec..3e07a11 100644
+> --- a/meta/recipes-devtools/python/python-3.5-manifest.inc
+> +++ b/meta/recipes-devtools/python/python-3.5-manifest.inc
+> @@ -247,7 +247,7 @@ FILES_${PN}-textutils="${
+> libdir}/python3.5/lib-dynload/_csv.*.so ${libdir}/pytho
+>
+>  SUMMARY_${PN}-threading="Python threading & synchronization support"
+>  RDEPENDS_${PN}-threading="${PN}-core ${PN}-lang"
+> -FILES_${PN}-threading="${libdir}/python3.5/_threading_local.*
+> ${libdir}/python3.5/dummy_thread.* ${libdir}/python3.5/dummy_threading.*
+> ${libdir}/python3.5/mutex.* ${libdir}/python3.5/threading.*
+> ${libdir}/python3.5/Queue.* "
+> +FILES_${PN}-threading="${libdir}/python3.5/_threading_local.*
+> ${libdir}/python3.5/dummy_thread.* ${libdir}/python3.5/dummy_threading.*
+> ${libdir}/python3.5/mutex.* ${libdir}/python3.5/threading.*
+> ${libdir}/python3.5/queue.* "
+>
+>  SUMMARY_${PN}-tkinter="Python Tcl/Tk bindings"
+>  RDEPENDS_${PN}-tkinter="${PN}-core"
+> --
+> 2.1.4
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+
+--001a1143e4e457bc08053aae26ad
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">As per the comment at the top of the file, please modify t=
+he script and then re-generate the manifest.<div><br></div><div>Also when a=
+dding new modules, please give a rationale for a new module (i.e. was previ=
+ously in -misc) and why it can&#39;t be added to an existing package.</div>=
+<div><br></div><div>Ross</div></div><div class=3D"gmail_extra"><br><div cla=
+ss=3D"gmail_quote">On 22 August 2016 at 19:57, Fabio Berton <span dir=3D"lt=
+r">&lt;<a href=3D"mailto:fabio.berton@ossystems.com.br" target=3D"_blank">f=
+abio.berton@ossystems.com.br</a>&gt;</span> wrote:<br><blockquote class=3D"=
+gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-=
+left:1ex">The Queue module has been renamed to queue in Python 3.<br>
+<br>
+Signed-off-by: Fabio Berton &lt;<a href=3D"mailto:fabio.berton@ossystems.co=
+m.br">fabio.berton@ossystems.com.br</a><wbr>&gt;<br>
+---<br>
+=C2=A0meta/recipes-devtools/python/<wbr>python-3.5-manifest.inc | 2 +-<br>
+=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
+<br>
+diff --git a/meta/recipes-devtools/<wbr>python/python-3.5-manifest.inc b/me=
+ta/recipes-devtools/<wbr>python/python-3.5-manifest.inc<br>
+index b9c2fec..3e07a11 100644<br>
+--- a/meta/recipes-devtools/<wbr>python/python-3.5-manifest.inc<br>
++++ b/meta/recipes-devtools/<wbr>python/python-3.5-manifest.inc<br>
+@@ -247,7 +247,7 @@ FILES_${PN}-textutils=3D&quot;${<wbr>libdir}/python3.5/=
+lib-dynload/<wbr>_csv.*.so ${libdir}/pytho<br>
+<br>
+=C2=A0SUMMARY_${PN}-threading=3D&quot;<wbr>Python threading &amp; synchroni=
+zation support&quot;<br>
+=C2=A0RDEPENDS_${PN}-threading=3D&quot;${<wbr>PN}-core ${PN}-lang&quot;<br>
+-FILES_${PN}-threading=3D&quot;${<wbr>libdir}/python3.5/_threading_<wbr>loc=
+al.* ${libdir}/python3.5/dummy_<wbr>thread.* ${libdir}/python3.5/dummy_<wbr=
+>threading.* ${libdir}/python3.5/mutex.* ${libdir}/python3.5/threading.<wbr=
+>* ${libdir}/python3.5/Queue.* &quot;<br>
++FILES_${PN}-threading=3D&quot;${<wbr>libdir}/python3.5/_threading_<wbr>loc=
+al.* ${libdir}/python3.5/dummy_<wbr>thread.* ${libdir}/python3.5/dummy_<wbr=
+>threading.* ${libdir}/python3.5/mutex.* ${libdir}/python3.5/threading.<wbr=
+>* ${libdir}/python3.5/queue.* &quot;<br>
+<br>
+=C2=A0SUMMARY_${PN}-tkinter=3D&quot;Python Tcl/Tk bindings&quot;<br>
+=C2=A0RDEPENDS_${PN}-tkinter=3D&quot;${PN}-<wbr>core&quot;<br>
+<span class=3D"HOEnZb"><font color=3D"#888888">--<br>
+2.1.4<br>
+<br>
+--<br>
+______________________________<wbr>_________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
+re@lists.<wbr>openembedded.org</a><br>
+<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
+" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/<wbr>m=
+ailman/listinfo/openembedded-<wbr>core</a><br>
+</font></span></blockquote></div><br></div>
+
+--001a1143e4e457bc08053aae26ad--
