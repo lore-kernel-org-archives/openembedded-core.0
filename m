@@ -1,26 +1,26 @@
 Return-Path: <Jackie.Huang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id A822D731F6
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id DE5F075CF1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Aug 2016 09:21:28 +0000 (UTC)
+	Mon, 22 Aug 2016 09:21:30 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u7M9LThg024209
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u7M9LVWo019683
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Aug 2016 02:21:29 -0700 (PDT)
+	Mon, 22 Aug 2016 02:21:31 -0700
 Received: from pek-hostel-deb01.wrs.com (128.224.153.151) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.248.2; Mon, 22 Aug 2016 02:21:28 -0700
+	14.3.248.2; Mon, 22 Aug 2016 02:21:30 -0700
 From: <jackie.huang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 22 Aug 2016 17:05:59 +0800
-Message-ID: <9545277b9a7e15a6871a9344f5886809fc2f876b.1471857001.git.jackie.huang@windriver.com>
+Date: Mon, 22 Aug 2016 17:06:00 +0800
+Message-ID: <162efbaacf9be8d1d0d20d61d72a871001106e8b.1471857001.git.jackie.huang@windriver.com>
 X-Mailer: git-send-email 2.8.3
 In-Reply-To: <cover.1471857001.git.jackie.huang@windriver.com>
 References: <cover.1471857001.git.jackie.huang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 06/17] libxml2: control ipv6 support based on DISTRO_FEATURES
+Subject: [PATCH 07/17] libxmu: control ipv6 support based on DISTRO_FEATURES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,7 +33,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 22 Aug 2016 09:21:28 -0000
+X-List-Received-Date: Mon, 22 Aug 2016 09:21:31 -0000
 Content-Type: text/plain
 
 From: Jackie Huang <jackie.huang@windriver.com>
@@ -43,26 +43,20 @@ on DISTRO_FEATURES.
 
 Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
 ---
- meta/recipes-core/libxml/libxml2_2.9.4.bb | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ meta/recipes-graphics/xorg-lib/libxmu_1.1.2.bb | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/meta/recipes-core/libxml/libxml2_2.9.4.bb b/meta/recipes-core/libxml/libxml2_2.9.4.bb
-index e2febf0..265d2b7 100644
---- a/meta/recipes-core/libxml/libxml2_2.9.4.bb
-+++ b/meta/recipes-core/libxml/libxml2_2.9.4.bb
-@@ -38,8 +38,11 @@ RDEPENDS_${PN}-ptest_append_libc-glibc = " glibc-gconv-ebcdic-us glibc-gconv-ibm
+diff --git a/meta/recipes-graphics/xorg-lib/libxmu_1.1.2.bb b/meta/recipes-graphics/xorg-lib/libxmu_1.1.2.bb
+index 003baec..d5935ff 100644
+--- a/meta/recipes-graphics/xorg-lib/libxmu_1.1.2.bb
++++ b/meta/recipes-graphics/xorg-lib/libxmu_1.1.2.bb
+@@ -30,3 +30,6 @@ BBCLASSEXTEND = "native"
  
- export PYTHON_SITE_PACKAGES="${PYTHON_SITEPACKAGES_DIR}"
- 
--PACKAGECONFIG ??= "python"
-+PACKAGECONFIG ??= "python \
-+    ${@bb.utils.contains('DISTRO_FEATURES', 'ipv6', 'ipv6', '', d)} \
-+"
- PACKAGECONFIG[python] = "--with-python=${PYTHON},--without-python,python"
+ SRC_URI[md5sum] = "41d92ab627dfa06568076043f3e089e4"
+ SRC_URI[sha256sum] = "756edc7c383254eef8b4e1b733c3bf1dc061b523c9f9833ac7058378b8349d0b"
++
++PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'ipv6', 'ipv6', '', d)}"
 +PACKAGECONFIG[ipv6] = "--enable-ipv6,--disable-ipv6,"
- 
- # WARNING: zlib is require for RPM use
- EXTRA_OECONF = "--without-debug --without-legacy --with-catalog --without-docbook --with-c14n --without-lzma --with-fexceptions"
 -- 
 2.8.1
 
