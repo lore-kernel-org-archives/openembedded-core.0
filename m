@@ -1,26 +1,25 @@
-Return-Path: <Jackie.Huang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 40E32731F6
+Return-Path: <ed.bartosh@linux.intel.com>
+X-Greylist: delayed 574 seconds by postgrey-1.34 at layers.openembedded.org;
+	Mon, 22 Aug 2016 09:27:07 UTC
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+	by mail.openembedded.org (Postfix) with ESMTP id D64F7731BA
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Aug 2016 09:21:45 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u7M9LkwT024679
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Aug 2016 02:21:46 -0700 (PDT)
-Received: from pek-hostel-deb01.wrs.com (128.224.153.151) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.248.2; Mon, 22 Aug 2016 02:21:45 -0700
-From: <jackie.huang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 22 Aug 2016 17:06:10 +0800
-Message-ID: <f433689de91bb8b82db6add4492ec038f798592d.1471857001.git.jackie.huang@windriver.com>
-X-Mailer: git-send-email 2.8.3
-In-Reply-To: <cover.1471857001.git.jackie.huang@windriver.com>
-References: <cover.1471857001.git.jackie.huang@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH 17/17] xhost: control ipv6 support based on DISTRO_FEATURES
+	Mon, 22 Aug 2016 09:27:07 +0000 (UTC)
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+	by orsmga104.jf.intel.com with ESMTP; 22 Aug 2016 02:17:34 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.28,559,1464678000"; d="scan'208";a="159260558"
+Received: from linux.intel.com ([10.54.29.200])
+	by fmsmga004.fm.intel.com with ESMTP; 22 Aug 2016 02:17:34 -0700
+Received: from ed.fi.intel.com (ed.fi.intel.com [10.237.72.179])
+	by linux.intel.com (Postfix) with ESMTP id 197196A4080;
+	Mon, 22 Aug 2016 02:17:15 -0700 (PDT)
+From: Ed Bartosh <ed.bartosh@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 22 Aug 2016 12:17:28 +0300
+Message-Id: <1471857448-3738-1-git-send-email-ed.bartosh@linux.intel.com>
+X-Mailer: git-send-email 2.6.6
+Subject: [PATCH] rm_work: don't remove timestamps of image tasks
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,31 +32,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 22 Aug 2016 09:21:45 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 22 Aug 2016 09:27:08 -0000
 
-From: Jackie Huang <jackie.huang@windriver.com>
+Excluded removal of do_bootimg, do_bootdirectdisk and do_vmimg
+timestamps to prevent unneeded rootfs rebuilds.
 
-Add PACKAGECONFIG for ipv6 and control it based
-on DISTRO_FEATURES.
+[YOCTO #10159]
 
-Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
+Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
 ---
- meta/recipes-graphics/xorg-app/xhost_1.0.7.bb | 3 +++
- 1 file changed, 3 insertions(+)
+ meta/classes/rm_work.bbclass | 12 ++++--------
+ 1 file changed, 4 insertions(+), 8 deletions(-)
 
-diff --git a/meta/recipes-graphics/xorg-app/xhost_1.0.7.bb b/meta/recipes-graphics/xorg-app/xhost_1.0.7.bb
-index 825737f..f23d258 100644
---- a/meta/recipes-graphics/xorg-app/xhost_1.0.7.bb
-+++ b/meta/recipes-graphics/xorg-app/xhost_1.0.7.bb
-@@ -15,3 +15,6 @@ PE = "1"
- 
- SRC_URI[md5sum] = "f5d490738b148cb7f2fe760f40f92516"
- SRC_URI[sha256sum] = "93e619ee15471f576cfb30c663e18f5bc70aca577a63d2c2c03f006a7837c29a"
-+
-+PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'ipv6', 'ipv6', '', d)}"
-+PACKAGECONFIG[ipv6] = "--enable-ipv6,--disable-ipv6,"
+diff --git a/meta/classes/rm_work.bbclass b/meta/classes/rm_work.bbclass
+index 3e6c5ac..b71a9d1 100644
+--- a/meta/classes/rm_work.bbclass
++++ b/meta/classes/rm_work.bbclass
+@@ -66,14 +66,10 @@ do_rm_work () {
+                 i=dummy
+                 break
+                 ;;
+-            *do_rootfs*)
+-               i=dummy
+-               break
+-               ;;
+-            *do_image*)
+-               i=dummy
+-               break
+-               ;;
++            *do_rootfs*|*do_image*|*do_bootimg*|*do_bootdirectdisk*|*do_vmimg*)
++                i=dummy
++                break
++                ;;
+             *do_build*)
+                 i=dummy
+                 break
 -- 
-2.8.1
+2.6.6
 
 
