@@ -1,26 +1,26 @@
 Return-Path: <Jackie.Huang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id EAB48731F6
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 3F0E075C51
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Aug 2016 09:21:23 +0000 (UTC)
+	Mon, 22 Aug 2016 09:21:24 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u7M9LNhC024383
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u7M9LPfu024206
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Aug 2016 02:21:23 -0700 (PDT)
+	Mon, 22 Aug 2016 02:21:25 -0700 (PDT)
 Received: from pek-hostel-deb01.wrs.com (128.224.153.151) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.248.2; Mon, 22 Aug 2016 02:21:22 -0700
+	14.3.248.2; Mon, 22 Aug 2016 02:21:24 -0700
 From: <jackie.huang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 22 Aug 2016 17:05:55 +0800
-Message-ID: <4ca8ed295f82aa338b7c5e3b816b176ba2a2b840.1471857001.git.jackie.huang@windriver.com>
+Date: Mon, 22 Aug 2016 17:05:56 +0800
+Message-ID: <45e505ad5e67b452e5190b2e708b92d690849cc1.1471857001.git.jackie.huang@windriver.com>
 X-Mailer: git-send-email 2.8.3
 In-Reply-To: <cover.1471857001.git.jackie.huang@windriver.com>
 References: <cover.1471857001.git.jackie.huang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 02/17] libice: control ipv6 support based on DISTRO_FEATURES
+Subject: [PATCH 03/17] libpcap: control ipv6 support based on DISTRO_FEATURES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,21 +43,30 @@ on DISTRO_FEATURES.
 
 Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
 ---
- meta/recipes-graphics/xorg-lib/libice_1.0.9.bb | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ meta/recipes-connectivity/libpcap/libpcap.inc | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-graphics/xorg-lib/libice_1.0.9.bb b/meta/recipes-graphics/xorg-lib/libice_1.0.9.bb
-index 5049b7e..b361ad6 100644
---- a/meta/recipes-graphics/xorg-lib/libice_1.0.9.bb
-+++ b/meta/recipes-graphics/xorg-lib/libice_1.0.9.bb
-@@ -23,5 +23,6 @@ BBCLASSEXTEND = "native"
- SRC_URI[md5sum] = "addfb1e897ca8079531669c7c7711726"
- SRC_URI[sha256sum] = "8f7032f2c1c64352b5423f6b48a8ebdc339cc63064af34d66a6c9aa79759e202"
+diff --git a/meta/recipes-connectivity/libpcap/libpcap.inc b/meta/recipes-connectivity/libpcap/libpcap.inc
+index b7601b0..7b29a52 100644
+--- a/meta/recipes-connectivity/libpcap/libpcap.inc
++++ b/meta/recipes-connectivity/libpcap/libpcap.inc
+@@ -20,12 +20,15 @@ inherit autotools binconfig-disabled pkgconfig bluetooth
  
--PACKAGECONFIG ??= ""
-+PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'ipv6', 'ipv6', '', d)}"
- PACKAGECONFIG[arc4] = "ac_cv_lib_bsd_arc4random_buf=yes,ac_cv_lib_bsd_arc4random_buf=no,libbsd"
+ EXTRA_OECONF = "--with-pcap=linux"
+ 
+-PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'bluetooth', '${BLUEZ}', '', d)}"
++PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'bluetooth', '${BLUEZ}', '', d)} \
++                   ${@bb.utils.contains('DISTRO_FEATURES', 'ipv6', 'ipv6', '', d)} \
++"
+ PACKAGECONFIG[bluez4] = "--enable-bluetooth,--disable-bluetooth,bluez4"
+ # Add a dummy PACKAGECONFIG for bluez5 since it is not supported by libpcap.
+ PACKAGECONFIG[bluez5] = ",,"
+ PACKAGECONFIG[canusb] = "--enable-canusb,--enable-canusb=no,libusb"
+ PACKAGECONFIG[dbus] = "--enable-dbus,--disable-dbus,dbus"
 +PACKAGECONFIG[ipv6] = "--enable-ipv6,--disable-ipv6,"
+ PACKAGECONFIG[libnl] = "--with-libnl,--without-libnl,libnl"
+ 
+ CPPFLAGS_prepend = "-I${S} "
 -- 
 2.8.1
 
