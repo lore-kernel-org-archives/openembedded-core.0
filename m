@@ -1,26 +1,26 @@
 Return-Path: <Jackie.Huang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 0985B731F6
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 942CF731F6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Aug 2016 09:21:36 +0000 (UTC)
+	Mon, 22 Aug 2016 09:21:37 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u7M9LauF024586
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u7M9LcmE024215
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Aug 2016 02:21:37 -0700 (PDT)
+	Mon, 22 Aug 2016 02:21:38 -0700 (PDT)
 Received: from pek-hostel-deb01.wrs.com (128.224.153.151) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.248.2; Mon, 22 Aug 2016 02:21:36 -0700
+	14.3.248.2; Mon, 22 Aug 2016 02:21:37 -0700
 From: <jackie.huang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 22 Aug 2016 17:06:04 +0800
-Message-ID: <4d6b6badd460a3196ff7d1a007360344ff3e2bfa.1471857001.git.jackie.huang@windriver.com>
+Date: Mon, 22 Aug 2016 17:06:05 +0800
+Message-ID: <c1a0e4efd2edd88b38b37a0097ad96c23339c745.1471857001.git.jackie.huang@windriver.com>
 X-Mailer: git-send-email 2.8.3
 In-Reply-To: <cover.1471857001.git.jackie.huang@windriver.com>
 References: <cover.1471857001.git.jackie.huang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 11/17] psmisc: control ipv6 support based on DISTRO_FEATURES
+Subject: [PATCH 12/17] pulseaudio: control ipv6 support based on DISTRO_FEATURES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,7 +33,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 22 Aug 2016 09:21:36 -0000
+X-List-Received-Date: Mon, 22 Aug 2016 09:21:37 -0000
 Content-Type: text/plain
 
 From: Jackie Huang <jackie.huang@windriver.com>
@@ -43,23 +43,29 @@ on DISTRO_FEATURES.
 
 Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
 ---
- meta/recipes-extended/psmisc/psmisc.inc | 3 +++
- 1 file changed, 3 insertions(+)
+ meta/recipes-multimedia/pulseaudio/pulseaudio.inc | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/recipes-extended/psmisc/psmisc.inc b/meta/recipes-extended/psmisc/psmisc.inc
-index 68e0656..98a8470 100644
---- a/meta/recipes-extended/psmisc/psmisc.inc
-+++ b/meta/recipes-extended/psmisc/psmisc.inc
-@@ -15,6 +15,9 @@ S = "${WORKDIR}/psmisc-${PV}"
+diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
+index 299982b..6ed79ef 100644
+--- a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
++++ b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
+@@ -42,6 +42,7 @@ PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'bluetooth', '${BLUEZ
+                    ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11', '', d)} \
+                    ${@bb.utils.contains('DISTRO_FEATURES', '3g', 'ofono', '', d)} \
+                    ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'systemd', '', d)} \
++                   ${@bb.utils.contains('DISTRO_FEATURES', 'ipv6', 'ipv6', '', d)} \
+                    dbus \
+                    "
  
- inherit autotools gettext
- 
-+PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'ipv6', 'ipv6', '', d)}"
+@@ -59,6 +60,7 @@ PACKAGECONFIG[jack] = "--enable-jack,--disable-jack,jack"
+ PACKAGECONFIG[autospawn-for-root] = ",,,"
+ PACKAGECONFIG[lirc] = "--enable-lirc,--disable-lirc,lirc"
+ PACKAGECONFIG[webrtc] = "--enable-webrtc-aec,--disable-webrtc-aec,webrtc-audio-processing"
 +PACKAGECONFIG[ipv6] = "--enable-ipv6,--disable-ipv6,"
-+
- ALLOW_EMPTY_${PN} = "1"
  
- PACKAGES =+ "fuser fuser-doc killall killall-doc pstree pstree-doc"
+ EXTRA_OECONF_append_arm = "${@bb.utils.contains("TUNE_FEATURES", "neon", "", " --enable-neon-opt=no", d)}"
+ EXTRA_OECONF_append_armeb = "${@bb.utils.contains("TUNE_FEATURES", "neon", "", " --enable-neon-opt=no", d)}"
 -- 
 2.8.1
 
