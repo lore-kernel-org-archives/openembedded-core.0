@@ -1,28 +1,64 @@
-Return-Path: <maxin.john@intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 99069607A4
+Return-Path: <enrico.scholz@sigma-chemnitz.de>
+Received: from mail.cvg.de (mail.cvg.de [62.153.82.30])
+	by mail.openembedded.org (Postfix) with ESMTP id A3D0A607A4
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Aug 2016 11:14:19 +0000 (UTC)
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-	by orsmga103.jf.intel.com with ESMTP; 22 Aug 2016 04:14:19 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.28,559,1464678000"; 
-   d="scan'208";a="472121"
-Received: from linux.intel.com ([10.54.29.200])
-	by fmsmga005.fm.intel.com with ESMTP; 22 Aug 2016 04:14:19 -0700
-Received: from mbabyjoh-desk.fi.intel.com (mbabyjoh-desk.fi.intel.com
-	[10.237.72.71])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by linux.intel.com (Postfix) with ESMTP id 354086A4080
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Aug 2016 04:14:01 -0700 (PDT)
-From: "Maxin B. John" <maxin.john@intel.com>
+	Mon, 22 Aug 2016 11:16:05 +0000 (UTC)
+Received: from mail-mta-0.intern.sigma-chemnitz.de
+	(mail-mta-0.intern.sigma-chemnitz.de [192.168.12.76])
+	by mailout-1.intern.sigma-chemnitz.de (8.14.7/8.14.7) with ESMTP id
+	u7MBG36R022377
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256
+	verify=OK) for <openembedded-core@lists.openembedded.org>;
+	Mon, 22 Aug 2016 13:16:04 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sigma-chemnitz.de;
+	s=v2012061000; t=1471864564;
+	bh=7aGrRkMs0M5ecemL4TQgD9mhtQUfC7nn+D5DqcSazNo=;
+	h=From:To:Cc:Subject:References:Date:In-Reply-To:Message-ID:
+	MIME-Version:Content-Type:Sender;
+	b=Y7fy+Aos9oTaZwX34YEPL0mKVfQf6nmmtn9IAY3KYlDN17jR+aUEbOjvvsG84xYIO
+	B8MuYX8TtL0H22lcvMg76aKxUf9YJnmUM+tRVfA7HART+BSGDXup65nRubjuS9Hh5e
+	NkjZGaG9eEheK44E4d+n3R9AeASawtv5tehRR73U=
+Received: from reddoxx.intern.sigma-chemnitz.de
+	(reddoxx.intern.sigma-chemnitz.de [192.168.0.193])
+	by mail-mta-0.intern.sigma-chemnitz.de (8.14.7/8.14.7) with ESMTP id
+	u7MBFlr7014564 for <openembedded-core@lists.openembedded.org> from
+	enrico.scholz@sigma-chemnitz.de; Mon, 22 Aug 2016 13:15:48 +0200
+Received: from mail-msa-0.intern.sigma-chemnitz.de ( [192.168.12.77]) by
+	reddoxx.intern.sigma-chemnitz.de
+	(Reddoxx engine) with SMTP id 2D2CEAFC4B7;
+	Mon, 22 Aug 2016 13:15:38 +0200
+Received: from ensc-virt.intern.sigma-chemnitz.de
+	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
+	by mail-msa-0.intern.sigma-chemnitz.de (8.14.7/8.14.7) with ESMTP id
+	u7MBFj8u014561
+	(version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
+	Mon, 22 Aug 2016 13:15:45 +0200
+Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
+	4.86_2) (envelope-from <ensc@sigma-chemnitz.de>)
+	id 1bbnCj-0005Ag-M1; Mon, 22 Aug 2016 13:15:45 +0200
+From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 22 Aug 2016 14:15:39 +0300
-Message-Id: <1471864541-9848-1-git-send-email-maxin.john@intel.com>
-X-Mailer: git-send-email 2.4.0
-Subject: [krogoth][PATCH 1/3] curl: security fix for CVE-2016-5419
+References: <cover.1471246474.git.hongxu.jia@windriver.com>
+	<f2d0736dd176c21c4ef1d539a7e82dbfd1367f2a.1471246475.git.hongxu.jia@windriver.com>
+	<ly1t1hjg44.fsf@ensc-virt.intern.sigma-chemnitz.de>
+	<CAJTo0LY1L1zadYdw+AH=hVD6xu5r9sRap_G7+iALhf9q41Excw@mail.gmail.com>
+Mail-Followup-To: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+Date: Mon, 22 Aug 2016 13:15:45 +0200
+In-Reply-To: <CAJTo0LY1L1zadYdw+AH=hVD6xu5r9sRap_G7+iALhf9q41Excw@mail.gmail.com>
+	(Ross Burton's message of "Mon, 22 Aug 2016 11:18:22 +0100")
+Message-ID: <lywpj9hx5q.fsf_-_@ensc-virt.intern.sigma-chemnitz.de>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/25.0.95 (gnu/linux)
+MIME-Version: 1.0
+Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+X-DSPAM-Result: Innocent
+X-DSPAM-Probability: 0
+X-DSPAM-Confidence: 1
+X-Spam-Score: -1.9
+X-Spam-Level: -
+X-Spam-Tests: AWL, BAYES_50, DKIM_ADSP_ALL, RP_MATCHES_RCVD, SPF_NEUTRAL,
+	DSPAM_INNOCENT
+X-Scanned-By: MIMEDefang 2.78
+Subject: sysroot flags in $CC (was: [PATCH 3/3] ncurses: upgrade to 6.0+20160625)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,115 +71,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 22 Aug 2016 11:14:20 -0000
+X-List-Received-Date: Mon, 22 Aug 2016 11:16:09 -0000
+Content-Type: text/plain
 
-Affected versions: libcurl 7.1 to and including 7.50.0
+"Burton, Ross" <ross.burton-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
+writes:
 
-Signed-off-by: Maxin B. John <maxin.john@intel.com>
----
- meta/recipes-support/curl/curl/CVE-2016-5419.patch | 76 ++++++++++++++++++++++
- meta/recipes-support/curl/curl_7.47.1.bb           |  4 +-
- 2 files changed, 79 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-support/curl/curl/CVE-2016-5419.patch
+>> This breaks the build with OE because it tries to split our $CC.
+>> E.g. with
+>>
+>> | CC = ccache arm-linux-gnueabi-gcc -march=armv7ve ... --sysroot=...
+>>
+>> configure will warn
+>>
+>> | your environment misuses the CC variable to hold CFLAGS/CPPFLAGS options
+>>
+>> and messes up CFLAGS completely so that 'arm-linux-gnuebi-gcc' becomes
+>> part of it :(
+>>
+>
+> I've long wondered about changing our abuse of CC to hold the sysroot,
 
-diff --git a/meta/recipes-support/curl/curl/CVE-2016-5419.patch b/meta/recipes-support/curl/curl/CVE-2016-5419.patch
-new file mode 100644
-index 0000000..2bea362
---- /dev/null
-+++ b/meta/recipes-support/curl/curl/CVE-2016-5419.patch
-@@ -0,0 +1,76 @@
-+From 247d890da88f9ee817079e246c59f3d7d12fde5f Mon Sep 17 00:00:00 2001
-+From: Daniel Stenberg <daniel@haxx.se>
-+Date: Fri, 1 Jul 2016 13:32:31 +0200
-+Subject: [PATCH] TLS: switch off SSL session id when client cert is used
-+
-+
-+Bug: https://curl.haxx.se/docs/adv_20160803A.html
-+Reported-by: Bru Rom
-+Contributions-by: Eric Rescorla and Ray Satiro
-+
-+Upstream-Status: Backport
-+https://curl.haxx.se/CVE-2016-5419.patch
-+
-+CVE: CVE-2016-5419
-+Signed-off-by: Maxin B. John <maxin.john@intel.com>
-+---
-+ lib/url.c       |  1 +
-+ lib/urldata.h   |  1 +
-+ lib/vtls/vtls.c | 10 ++++++++++
-+ 3 files changed, 12 insertions(+)
-+
-+diff --git a/lib/url.c b/lib/url.c
-+index 258a286..e547e5c 100644
-+--- a/lib/url.c
-++++ b/lib/url.c
-+@@ -6123,6 +6123,7 @@ static CURLcode create_conn(struct Curl_easy *data,
-+   data->set.ssl.random_file = data->set.str[STRING_SSL_RANDOM_FILE];
-+   data->set.ssl.egdsocket = data->set.str[STRING_SSL_EGDSOCKET];
-+   data->set.ssl.cipher_list = data->set.str[STRING_SSL_CIPHER_LIST];
-++  data->set.ssl.clientcert = data->set.str[STRING_CERT];
-+ #ifdef USE_TLS_SRP
-+   data->set.ssl.username = data->set.str[STRING_TLSAUTH_USERNAME];
-+   data->set.ssl.password = data->set.str[STRING_TLSAUTH_PASSWORD];
-+diff --git a/lib/urldata.h b/lib/urldata.h
-+index 611c5a7..3cf7ed9 100644
-+--- a/lib/urldata.h
-++++ b/lib/urldata.h
-+@@ -351,6 +351,7 @@ struct ssl_config_data {
-+   char *CAfile;          /* certificate to verify peer against */
-+   const char *CRLfile;   /* CRL to check certificate revocation */
-+   const char *issuercert;/* optional issuer certificate filename */
-++  char *clientcert;
-+   char *random_file;     /* path to file containing "random" data */
-+   char *egdsocket;       /* path to file containing the EGD daemon socket */
-+   char *cipher_list;     /* list of ciphers to use */
-+diff --git a/lib/vtls/vtls.c b/lib/vtls/vtls.c
-+index d3e41cd..33e209d 100644
-+--- a/lib/vtls/vtls.c
-++++ b/lib/vtls/vtls.c
-+@@ -156,6 +156,15 @@ Curl_clone_ssl_config(struct ssl_config_data *source,
-+   else
-+     dest->random_file = NULL;
-+ 
-++  if(source->clientcert) {
-++    dest->clientcert = strdup(source->clientcert);
-++    if(!dest->clientcert)
-++      return FALSE;
-++    dest->sessionid = FALSE;
-++  }
-++  else
-++    dest->clientcert = NULL;
-++
-+   return TRUE;
-+ }
-+ 
-+@@ -166,6 +175,7 @@ void Curl_free_ssl_config(struct ssl_config_data* sslc)
-+   Curl_safefree(sslc->cipher_list);
-+   Curl_safefree(sslc->egdsocket);
-+   Curl_safefree(sslc->random_file);
-++  Curl_safefree(sslc->clientcert);
-+ }
-+ 
-+ 
-+-- 
-+2.4.0
-+
-diff --git a/meta/recipes-support/curl/curl_7.47.1.bb b/meta/recipes-support/curl/curl_7.47.1.bb
-index c2173d8..945840b 100644
---- a/meta/recipes-support/curl/curl_7.47.1.bb
-+++ b/meta/recipes-support/curl/curl_7.47.1.bb
-@@ -10,7 +10,9 @@ SRC_URI = "http://curl.haxx.se/download/curl-${PV}.tar.bz2"
- # curl likes to set -g0 in CFLAGS, so we stop it
- # from mucking around with debug options
- #
--SRC_URI += " file://configure_ac.patch"
-+SRC_URI += " file://configure_ac.patch \
-+             file://CVE-2016-5419.patch \
-+           "
- 
- SRC_URI[md5sum] = "9ea3123449439bbd960cd25cf98796fb"
- SRC_URI[sha256sum] = "ddc643ab9382e24bbe4747d43df189a0a6ce38fcb33df041b9cb0b3cd47ae98f"
+I do not think, that this is such a big abuse.  There are no flags
+where these options can/should be placed instead of.  CPPFLAGS would
+work for automake projects but lot of other buildsystems do not know
+this variable.
+
+Writing them into CFLAGS (and CXXFLAGS and FFLAGS and ...) would still
+require them in CPPFLAGS too (for 'gcc -E' cases).  They will appear
+twice (CPPFLAGS + xFLAGS) in automake project which is not a big deal
+but a little bit ugly.
+
+
+Enrico
 -- 
-2.4.0
-
+SIGMA Chemnitz GmbH       Registergericht:   Amtsgericht Chemnitz HRB 1750
+Am Erlenwald 13           Geschaeftsfuehrer: Grit Freitag, Frank Pyritz
+09128 Chemnitz
 
