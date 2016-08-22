@@ -1,26 +1,26 @@
 Return-Path: <Jackie.Huang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 9276C75C60
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 07517766A3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Aug 2016 09:21:31 +0000 (UTC)
+	Mon, 22 Aug 2016 09:21:32 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u7M9LWLS024543
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u7M9LYhB024212
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Aug 2016 02:21:32 -0700 (PDT)
+	Mon, 22 Aug 2016 02:21:34 -0700 (PDT)
 Received: from pek-hostel-deb01.wrs.com (128.224.153.151) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.248.2; Mon, 22 Aug 2016 02:21:31 -0700
+	14.3.248.2; Mon, 22 Aug 2016 02:21:33 -0700
 From: <jackie.huang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 22 Aug 2016 17:06:01 +0800
-Message-ID: <17199b8d0a663bc1e8fa5bee8981e1fe8dd9a49b.1471857001.git.jackie.huang@windriver.com>
+Date: Mon, 22 Aug 2016 17:06:02 +0800
+Message-ID: <2e1d7e39339e78e7fb216299f85d1d0e2df2c25c.1471857001.git.jackie.huang@windriver.com>
 X-Mailer: git-send-email 2.8.3
 In-Reply-To: <cover.1471857001.git.jackie.huang@windriver.com>
 References: <cover.1471857001.git.jackie.huang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 08/17] lighttpd: control ipv6 support based on DISTRO_FEATURES
+Subject: [PATCH 09/17] nfs-utils: control ipv6 support based on DISTRO_FEATURES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,7 +33,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 22 Aug 2016 09:21:31 -0000
+X-List-Received-Date: Mon, 22 Aug 2016 09:21:33 -0000
 Content-Type: text/plain
 
 From: Jackie Huang <jackie.huang@windriver.com>
@@ -43,26 +43,28 @@ on DISTRO_FEATURES.
 
 Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
 ---
- meta/recipes-extended/lighttpd/lighttpd_1.4.39.bb | 5 ++++-
+ meta/recipes-connectivity/nfs-utils/nfs-utils_1.3.3.bb | 5 ++++-
  1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-extended/lighttpd/lighttpd_1.4.39.bb b/meta/recipes-extended/lighttpd/lighttpd_1.4.39.bb
-index 378accb..5d1ac58 100644
---- a/meta/recipes-extended/lighttpd/lighttpd_1.4.39.bb
-+++ b/meta/recipes-extended/lighttpd/lighttpd_1.4.39.bb
-@@ -26,8 +26,11 @@ SRC_URI = "http://download.lighttpd.net/lighttpd/releases-1.4.x/lighttpd-${PV}.t
- SRC_URI[md5sum] = "63c7563be1c7a7a9819a51f07f1af8b2"
- SRC_URI[sha256sum] = "7eb9a1853c3d6dd5851682b0733a729ba4158d6bdff80974d5ef5f1f6887365b"
+diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils_1.3.3.bb b/meta/recipes-connectivity/nfs-utils/nfs-utils_1.3.3.bb
+index 285bd2c..8540503 100644
+--- a/meta/recipes-connectivity/nfs-utils/nfs-utils_1.3.3.bb
++++ b/meta/recipes-connectivity/nfs-utils/nfs-utils_1.3.3.bb
+@@ -64,10 +64,13 @@ EXTRA_OECONF = "--with-statduser=rpcuser \
+                 --with-statdpath=/var/lib/nfs/statd \
+                "
  
--PACKAGECONFIG ??= "openssl"
-+PACKAGECONFIG ??= "openssl \
+-PACKAGECONFIG ??= "tcp-wrappers"
++PACKAGECONFIG ??= "tcp-wrappers \
 +    ${@bb.utils.contains('DISTRO_FEATURES', 'ipv6', 'ipv6', '', d)} \
 +"
- PACKAGECONFIG[openssl] = "--with-openssl, --without-openssl, openssl"
+ PACKAGECONFIG_remove_libc-musl = "tcp-wrappers"
+ PACKAGECONFIG[tcp-wrappers] = "--with-tcp-wrappers,--without-tcp-wrappers,tcp-wrappers"
+ PACKAGECONFIG[nfsidmap] = "--enable-nfsidmap,--disable-nfsidmap,keyutils"
 +PACKAGECONFIG[ipv6] = "--enable-ipv6,--disable-ipv6,"
  
- EXTRA_OECONF = " \
-              --without-bzip2 \
+ INHIBIT_AUTO_STAGE = "1"
+ 
 -- 
 2.8.1
 
