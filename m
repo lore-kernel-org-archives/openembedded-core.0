@@ -1,42 +1,27 @@
-Return-Path: <andre.draszik@gmail.com>
-Received: from mail-wm0-f66.google.com (mail-wm0-f66.google.com [74.125.82.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 6B10F731F9
+Return-Path: <maxin.john@intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 157CE7017B
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Aug 2016 08:02:46 +0000 (UTC)
-Received: by mail-wm0-f66.google.com with SMTP id o80so12232823wme.0
+	Mon, 22 Aug 2016 08:38:09 +0000 (UTC)
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+	by orsmga101.jf.intel.com with ESMTP; 22 Aug 2016 01:38:11 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.28,559,1464678000"; d="scan'208";a="159249743"
+Received: from linux.intel.com ([10.54.29.200])
+	by fmsmga004.fm.intel.com with ESMTP; 22 Aug 2016 01:38:11 -0700
+Received: from mbabyjoh-desk.fi.intel.com (mbabyjoh-desk.fi.intel.com
+	[10.237.72.71])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by linux.intel.com (Postfix) with ESMTP id A8B116A4080
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Aug 2016 01:02:48 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=/2J7LwBLsW9VGhsDw7j50qIFJaFj/0Z6CFupW2cthPk=;
-	b=SDBF65eaurupmqVZ9RuWH2SjY3JFyNP7hegH7A7tlTkGFGCwjpAAWSuo5AZ/APe1Cb
-	83l4ndfKy1qeJ8u7h8VZyX3/Mp1+EWq8y/GDe0XWw/FJl0HTUxf861nT/vA0nOXybn5/
-	POUvwX6u/IcFVdNHXEFFcDq/okB8hRTNI679aeWwycb0H7MriF4BQiJxIM4mikbl6tbz
-	4oJPRsadKqlVXy/D8GVTjjbUPMMt13W+6PAfZsRETQHy9SylFsHwrMJD52lgFHpxyscJ
-	IFq/RnxQOPzC93IdQv2BwMCoJdL4JgIQQ3fLzWmmHbOhKCsrRtQQuJz923sVh9mmb3Vc
-	knkw==
-X-Gm-Message-State: AEkoouuQwo3zTi65OJiyGzIhU8WuwbVz8sjqcS9O7YAYITymY8ykgDWo1HpPAkHY2QcEUg==
-X-Received: by 10.28.191.14 with SMTP id p14mr14966779wmf.39.1471852966888;
-	Mon, 22 Aug 2016 01:02:46 -0700 (PDT)
-Received: from localhost ([185.46.212.59]) by smtp.gmail.com with ESMTPSA id
-	v189sm19709054wmv.12.2016.08.22.01.02.45
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Mon, 22 Aug 2016 01:02:45 -0700 (PDT)
-Message-ID: <1471852964.3713.7.camel@andred.net>
-From: =?ISO-8859-1?Q?Andr=E9?= Draszik <git@andred.net>
+	Mon, 22 Aug 2016 01:37:52 -0700 (PDT)
+From: "Maxin B. John" <maxin.john@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 22 Aug 2016 09:02:44 +0100
-In-Reply-To: <1471632399.5679.22.camel@linux.intel.com>
-References: <cover.1471620482.git.joshua.g.lock@intel.com>
-	<cover.1471620482.git.joshua.g.lock@intel.com>
-	<d7af57b9c8284eaa96fa6c0a560c0047b03fb911.1471620482.git.joshua.g.lock@intel.com>
-	<9D776326-1F02-4F8E-B61C-DF3971141312@gmail.com>
-	<1471632399.5679.22.camel@linux.intel.com>
-X-Mailer: Evolution 3.20.4-1+b1 
-Mime-Version: 1.0
-Subject: Re: [PATCH 2/5] security_flags: pass ssp-buffer-size param to stack protector
+Date: Mon, 22 Aug 2016 11:39:31 +0300
+Message-Id: <1471855173-19517-1-git-send-email-maxin.john@intel.com>
+X-Mailer: git-send-email 2.4.0
+Subject: [jethro][PATCH 1/3] curl: security fix for CVE-2016-5419
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,104 +34,112 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 22 Aug 2016 08:02:47 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 22 Aug 2016 08:38:11 -0000
 
-On Fr, 2016-08-19 at 19:46 +0100, Joshua G Lock wrote:
-> On Fri, 2016-08-19 at 10:07 -0700, Khem Raj wrote:
-> > 
-> > > 
-> > > 
-> > > On Aug 19, 2016, at 8:34 AM, Joshua Lock <joshua.g.lock@intel.com>
-> > > wrote:
-> > > 
-> > > This tells the compiler to use a canary to protect any function
-> > > which
-> > > declares a character array of 4 or more bytes on its stack, rather
-> > > than the default of 8 or more bytes.
-> > 
-> > Thats fine, however, it slows down the code, strong option was a
-> > compromise
-> > otherwise we could just use fstack-protector-all
-> 
-> It's my understanding that the ssp-buffer-size parameter changes the
-> size of buffer the base, fstack-protector, protections affect and that
-> the performance impact is less significant than adding protections to
-> all functions via stack-protector-all?
+Affected versions: libcurl 7.1 to and including 7.50.0
 
-I understand it as follows instead:
+Signed-off-by: Maxin B. John <maxin.john@intel.com>
+---
+ meta/recipes-support/curl/curl/CVE-2016-5419.patch | 76 ++++++++++++++++++++++
+ meta/recipes-support/curl/curl_7.44.0.bb           |  1 +
+ 2 files changed, 77 insertions(+)
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2016-5419.patch
 
---param=ssp-buffer-size=X only makes sense together with -fstack-protector, as -fstack-protector can to be configured for the minimum size of arrays to protect (8 by default, if --param=ssp-buffer-size= is not given).
+diff --git a/meta/recipes-support/curl/curl/CVE-2016-5419.patch b/meta/recipes-support/curl/curl/CVE-2016-5419.patch
+new file mode 100644
+index 0000000..2bea362
+--- /dev/null
++++ b/meta/recipes-support/curl/curl/CVE-2016-5419.patch
+@@ -0,0 +1,76 @@
++From 247d890da88f9ee817079e246c59f3d7d12fde5f Mon Sep 17 00:00:00 2001
++From: Daniel Stenberg <daniel@haxx.se>
++Date: Fri, 1 Jul 2016 13:32:31 +0200
++Subject: [PATCH] TLS: switch off SSL session id when client cert is used
++
++
++Bug: https://curl.haxx.se/docs/adv_20160803A.html
++Reported-by: Bru Rom
++Contributions-by: Eric Rescorla and Ray Satiro
++
++Upstream-Status: Backport
++https://curl.haxx.se/CVE-2016-5419.patch
++
++CVE: CVE-2016-5419
++Signed-off-by: Maxin B. John <maxin.john@intel.com>
++---
++ lib/url.c       |  1 +
++ lib/urldata.h   |  1 +
++ lib/vtls/vtls.c | 10 ++++++++++
++ 3 files changed, 12 insertions(+)
++
++diff --git a/lib/url.c b/lib/url.c
++index 258a286..e547e5c 100644
++--- a/lib/url.c
+++++ b/lib/url.c
++@@ -6123,6 +6123,7 @@ static CURLcode create_conn(struct Curl_easy *data,
++   data->set.ssl.random_file = data->set.str[STRING_SSL_RANDOM_FILE];
++   data->set.ssl.egdsocket = data->set.str[STRING_SSL_EGDSOCKET];
++   data->set.ssl.cipher_list = data->set.str[STRING_SSL_CIPHER_LIST];
+++  data->set.ssl.clientcert = data->set.str[STRING_CERT];
++ #ifdef USE_TLS_SRP
++   data->set.ssl.username = data->set.str[STRING_TLSAUTH_USERNAME];
++   data->set.ssl.password = data->set.str[STRING_TLSAUTH_PASSWORD];
++diff --git a/lib/urldata.h b/lib/urldata.h
++index 611c5a7..3cf7ed9 100644
++--- a/lib/urldata.h
+++++ b/lib/urldata.h
++@@ -351,6 +351,7 @@ struct ssl_config_data {
++   char *CAfile;          /* certificate to verify peer against */
++   const char *CRLfile;   /* CRL to check certificate revocation */
++   const char *issuercert;/* optional issuer certificate filename */
+++  char *clientcert;
++   char *random_file;     /* path to file containing "random" data */
++   char *egdsocket;       /* path to file containing the EGD daemon socket */
++   char *cipher_list;     /* list of ciphers to use */
++diff --git a/lib/vtls/vtls.c b/lib/vtls/vtls.c
++index d3e41cd..33e209d 100644
++--- a/lib/vtls/vtls.c
+++++ b/lib/vtls/vtls.c
++@@ -156,6 +156,15 @@ Curl_clone_ssl_config(struct ssl_config_data *source,
++   else
++     dest->random_file = NULL;
++ 
+++  if(source->clientcert) {
+++    dest->clientcert = strdup(source->clientcert);
+++    if(!dest->clientcert)
+++      return FALSE;
+++    dest->sessionid = FALSE;
+++  }
+++  else
+++    dest->clientcert = NULL;
+++
++   return TRUE;
++ }
++ 
++@@ -166,6 +175,7 @@ void Curl_free_ssl_config(struct ssl_config_data* sslc)
++   Curl_safefree(sslc->cipher_list);
++   Curl_safefree(sslc->egdsocket);
++   Curl_safefree(sslc->random_file);
+++  Curl_safefree(sslc->clientcert);
++ }
++ 
++ 
++-- 
++2.4.0
++
+diff --git a/meta/recipes-support/curl/curl_7.44.0.bb b/meta/recipes-support/curl/curl_7.44.0.bb
+index 419ed83..dcd63aa 100644
+--- a/meta/recipes-support/curl/curl_7.44.0.bb
++++ b/meta/recipes-support/curl/curl_7.44.0.bb
+@@ -13,6 +13,7 @@ SRC_URI = "http://curl.haxx.se/download/curl-${PV}.tar.bz2 \
+ # from mucking around with debug options
+ #
+ SRC_URI += " file://configure_ac.patch \
++             file://CVE-2016-5419.patch \
+              file://CVE-2016-0754.patch \
+              file://CVE-2016-0755.patch"
+ 
+-- 
+2.4.0
 
---param=ssp-buffer-size=X does not make sense with -fstack-protector-strong as this version protects arrays of *any* size anyway.
-
-https://gcc.gnu.org/ml/gcc-patches/2012-06/msg00974.html
-  -> This also has the design doc towards the end.
-https://lwn.net/Articles/584225/
-
-So I don't think this patch is needed at all...
-
-
-> FWIW, the related options in Fedora and Ubuntu:
-> 
-> * Ubuntu: -fstack-protector --param=ssp-buffer-size=4 (default in
-> hardened builds)
-> * Fedora: -fstack-protector-strong --param=ssp-buffer-size=4 (default
-> in all builds)
-
-Debian (sid) uses -fstack-protector-strong (without ssp-buffer-size).
-
-
-
-Cheers,
-Andre'
-
-
-> 
-> Regards,
-> 
-> Joshua
-> 
-> > 
-> > > 
-> > > 
-> > > 
-> > > Signed-off-by: Joshua Lock <joshua.g.lock@intel.com>
-> > > ---
-> > > meta/conf/distro/include/security_flags.inc | 4 ++--
-> > > 1 file changed, 2 insertions(+), 2 deletions(-)
-> > > 
-> > > diff --git a/meta/conf/distro/include/security_flags.inc
-> > > b/meta/conf/distro/include/security_flags.inc
-> > > index 77fade6..691cea1 100644
-> > > --- a/meta/conf/distro/include/security_flags.inc
-> > > +++ b/meta/conf/distro/include/security_flags.inc
-> > > @@ -12,8 +12,8 @@ lcl_maybe_fortify = "${@base_conditional('DEBUG_B
-> > > UILD','1','','-D_FORTIFY_SOURCE
-> > > # Error on use of format strings that represent possible security
-> > > problems
-> > > SECURITY_STRINGFORMAT ?= "-Wformat -Wformat-security
-> > > -Werror=format-security"
-> > > 
-> > > -SECURITY_CFLAGS ?= "-fstack-protector-strong -pie -fpie
-> > > ${lcl_maybe_fortify} ${SECURITY_STRINGFORMAT}"
-> > > -SECURITY_NO_PIE_CFLAGS ?= "-fstack-protector-strong
-> > > ${lcl_maybe_fortify} ${SECURITY_STRINGFORMAT}"
-> > > +SECURITY_CFLAGS ?= "-fstack-protector-strong --param ssp-buffer-
-> > > size=4 -pie -fpie ${lcl_maybe_fortify} ${SECURITY_STRINGFORMAT}"
-> > > +SECURITY_NO_PIE_CFLAGS ?= "-fstack-protector-strong --param ssp-
-> > > buffer-size=4 ${lcl_maybe_fortify} ${SECURITY_STRINGFORMAT}"
-> > > 
-> > > SECURITY_LDFLAGS ?= "-Wl,-z,relro,-z,now"
-> > > SECURITY_X_LDFLAGS ?= "-Wl,-z,relro"
-> > > --
-> > > 2.7.4
-> > > 
-> > > --
-> > > _______________________________________________
-> > > Openembedded-core mailing list
-> > > Openembedded-core@lists.openembedded.org
-> > > http://lists.openembedded.org/mailman/listinfo/openembedded-core
-> > 
 
