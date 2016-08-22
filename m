@@ -1,36 +1,47 @@
-Return-Path: <joe.slater@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 2120065D00;
-	Mon, 22 Aug 2016 17:01:59 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u7MH1w6n025992
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 22 Aug 2016 10:01:59 -0700 (PDT)
-Received: from ALA-MBA.corp.ad.wrs.com ([169.254.3.25]) by
-	ALA-HCB.corp.ad.wrs.com ([147.11.189.41]) with mapi id 14.03.0248.002;
-	Mon, 22 Aug 2016 10:01:58 -0700
-From: "Slater, Joseph" <joe.slater@windriver.com>
-To: Martin Jansa <martin.jansa@gmail.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [oe-commits] [openembedded-core] 01/02: systemd-compat-units:
-	pkg_postinst() does not work
-Thread-Index: AQHR/IBhsPKwEaNa1kuAHYMUG1T3PqBVM/Qw
-Date: Mon, 22 Aug 2016 17:01:57 +0000
-Message-ID: <007BD92917A2324FA403BCF9A464CF84B6209B91@ALA-MBA.corp.ad.wrs.com>
-References: <20160818155231.26598.41172@opal.openembedded.org>
-	<20160818155232.98F9250386@opal.openembedded.org>
-	<20160822142037.mreue353yrb6kvgs@jama>
-In-Reply-To: <20160822142037.mreue353yrb6kvgs@jama>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [147.11.216.160]
-MIME-Version: 1.0
-Cc: "openembedded-commits@lists.openembedded.org"
-	<openembedded-commits@lists.openembedded.org>
-Subject: Re: [oe-commits] [openembedded-core] 01/02: systemd-compat-units: pkg_postinst() does not work
+Return-Path: <fabio.berton@ossystems.com.br>
+Received: from mail-qt0-f193.google.com (mail-qt0-f193.google.com
+	[209.85.216.193])
+	by mail.openembedded.org (Postfix) with ESMTP id DA330731C1
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 22 Aug 2016 18:58:08 +0000 (UTC)
+Received: by mail-qt0-f193.google.com with SMTP id q11so3075682qtb.2
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 22 Aug 2016 11:58:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
+	h=from:to:cc:subject:date:message-id:organization;
+	bh=KJBxup5fm4BhiO37x4/DeW5o8sAITi6dS4xkTwiANTc=;
+	b=CJgeZuh1Mi2LQduB42o5seYwhDbIyPe2Tajadf9VZ8CeQIE5dGIMOf+loMc+7WkHw2
+	nNcZ5OUzSOzC0BWrNMXQq6+RAFdV+nN+SPjL8dlEkGKgu4wyUAbfTZlNmRjZsW4k4jwl
+	z4+vvgJfAx6gZyfckI8hmy+pd8yFSAbX04wZmvPtIljOGiGXhDeSmKhZynkT4vY0lJFS
+	A7hGwzqbJXvkwWB/fyv/Tin5T2ay2MLlpxCiO1dfm6ibv4vb3qdJrjqiZWmLj1IKjLNv
+	ZfRTv2SHDXtLyx19Ni9Y2PKrv/rSA+SWnM6FBFwQzbn7o0uF+nP7nJwqT8d1MGcN8R4z
+	LOOw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:organization;
+	bh=KJBxup5fm4BhiO37x4/DeW5o8sAITi6dS4xkTwiANTc=;
+	b=PDeufobLIlv0yZk7YQK+2x5C6DDyKuRnEo89KHSyo73yx3EN/+6zkITX0UPAQdPME6
+	GkRY5LEVNdZrNV/7cMbmmihsOGd0Co6GbtUHECVJPQPGluyTSIhgeo2Nsj+6yzoiby1N
+	rBsjdUDi50Wc+baCf3UYbLTb6QgPLadWK9xvm03v4tIZdEGGVi/KtZ2yt5gHwcpRTNz/
+	KuHtrGjvc6JBZRth96PYbnD7hqh1UUremDnHqMGfUA09uwitPk5Bo5Ebsg2uiXqr6+gu
+	MLQwAFqOO6kac0wl1g2OiiJ238+u1x0h1vhQXUHEPLGAD9o3Nxit86aIj3Y2OQ6iQlll
+	R0jw==
+X-Gm-Message-State: AEkoouuhgaDeh3Q2g3vYEW6FMq2VxLsGgch71feMe3UTwsVrOsxurS0MpwYwssFhHkfiXg==
+X-Received: by 10.200.43.174 with SMTP id m43mr25754485qtm.74.1471892288246;
+	Mon, 22 Aug 2016 11:58:08 -0700 (PDT)
+Received: from monster.lab.ossystems.com.br ([177.127.4.56])
+	by smtp.gmail.com with ESMTPSA id
+	l189sm12018766qke.27.2016.08.22.11.58.05
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Mon, 22 Aug 2016 11:58:07 -0700 (PDT)
+From: Fabio Berton <fabio.berton@ossystems.com.br>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 22 Aug 2016 15:57:52 -0300
+Message-Id: <1471892273-5919-1-git-send-email-fabio.berton@ossystems.com.br>
+X-Mailer: git-send-email 2.1.4
+Organization: O.S. Systems Software LTDA.
+Subject: [PATCH 1/2] python-3.5-manifest: Rename Queue module to queue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,102 +54,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 22 Aug 2016 17:02:01 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 22 Aug 2016 18:58:09 -0000
 
-At the cost of a little build time, I guess we could lose the inherit allar=
-ch.
-As a practical matter, we could get rid of the RDEPEND (or make it a DEPEND=
-?),
-but that seems wrong, somehow.
+The Queue module has been renamed to queue in Python 3.
 
-Joe
+Signed-off-by: Fabio Berton <fabio.berton@ossystems.com.br>
+---
+ meta/recipes-devtools/python/python-3.5-manifest.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> -----Original Message-----
-> From: Martin Jansa [mailto:martin.jansa@gmail.com]
-> Sent: Monday, August 22, 2016 7:21 AM
-> To: openembedded-core@lists.openembedded.org; Slater, Joseph
-> Cc: openembedded-commits@lists.openembedded.org
-> Subject: Re: [oe-commits] [openembedded-core] 01/02: systemd-compat-units=
-: pkg_postinst()
-> does not work
->=20
-> On Thu, Aug 18, 2016 at 03:52:33PM +0000, git@git.openembedded.org wrote:
-> > rpurdie pushed a commit to branch master
-> > in repository openembedded-core.
-> >
-> > commit 8183309080aee45746daaff46b0506b09b5bd269
-> > Author: Joe Slater <jslater@windriver.com>
-> > AuthorDate: Mon Aug 15 16:04:53 2016 -0700
-> >
-> >     systemd-compat-units: pkg_postinst() does not work
-> >
-> >     The test for various files is wrong and will always be
-> >     true, even if init.d does not exist.
-> >
-> >     Exit if init.d does not exist, and correctly test for
-> >     file existence otherwise.
-> >
-> >     Signed-off-by: Joe Slater <jslater@windriver.com>
-> >     Signed-off-by: Ross Burton <ross.burton@intel.com>
-> > ---
-> >  meta/recipes-core/systemd/systemd-compat-units.bb | 17 ++++++++++-----=
---
-> >  1 file changed, 10 insertions(+), 7 deletions(-)
-> >
-> > diff --git a/meta/recipes-core/systemd/systemd-compat-units.bb b/meta/r=
-ecipes-
-> core/systemd/systemd-compat-units.bb
-> > index 0b8ff09..90811da 100644
-> > --- a/meta/recipes-core/systemd/systemd-compat-units.bb
-> > +++ b/meta/recipes-core/systemd/systemd-compat-units.bb
-> > @@ -23,21 +23,24 @@ SYSTEMD_DISABLED_SYSV_SERVICES =3D " \
-> >  "
-> >
-> >  pkg_postinst_${PN} () {
-> > -	cd $D${sysconfdir}/init.d
-> >
-> > -	echo "Disabling the following sysv scripts: "
-> > +	cd $D${sysconfdir}/init.d  ||  exit 0
-> >
-> > -	OPTS=3D""
-> > +	echo "Disabling the following sysv scripts: "
-> >
-> >  	if [ -n "$D" ]; then
-> >  		OPTS=3D"--root=3D$D"
-> > +	else
-> > +		OPTS=3D""
-> >  	fi
-> >
-> >  	for i in ${SYSTEMD_DISABLED_SYSV_SERVICES} ; do
-> > -		if [ \( -e $i -o $i.sh \) -a ! \( -e $D${sysconfdir}/systemd/system/=
-$i.service -
-> o  -e $D${systemd_unitdir}/system/$i.service \) ] ; then
-> > -			echo -n "$i: " ; systemctl ${OPTS} mask $i.service
-> > +		if [ -e $i -o -e $i.sh ]  &&   ! [ -e $D${sysconfdir}/systemd/system=
-/$i.service
-> -o -e $D${systemd_unitdir}/system/$i.service ] ; then
-> > +			echo -n "$i: "
-> > +			systemctl $OPTS mask $i.service
-> >  		fi
-> > -	done ; echo
-> > +	done
-> > +	echo
-> >  }
-> >
-> > -RDPEPENDS_${PN} =3D "systemd"
-> > +RDEPENDS_${PN} =3D "systemd"
->=20
-> This is good typo fix, but also causes allarch systemd-compat-units to
-> RDEPENDS on TUNE_PKGARCH systemd as reported in:
-> http://lists.openembedded.org/pipermail/openembedded-core/2016-August/125=
-483.html
->=20
-> So either please exclude it in layer.conf for drop this runtime
-> dependency completely.
->=20
-> --
-> Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+diff --git a/meta/recipes-devtools/python/python-3.5-manifest.inc b/meta/recipes-devtools/python/python-3.5-manifest.inc
+index b9c2fec..3e07a11 100644
+--- a/meta/recipes-devtools/python/python-3.5-manifest.inc
++++ b/meta/recipes-devtools/python/python-3.5-manifest.inc
+@@ -247,7 +247,7 @@ FILES_${PN}-textutils="${libdir}/python3.5/lib-dynload/_csv.*.so ${libdir}/pytho
+ 
+ SUMMARY_${PN}-threading="Python threading & synchronization support"
+ RDEPENDS_${PN}-threading="${PN}-core ${PN}-lang"
+-FILES_${PN}-threading="${libdir}/python3.5/_threading_local.* ${libdir}/python3.5/dummy_thread.* ${libdir}/python3.5/dummy_threading.* ${libdir}/python3.5/mutex.* ${libdir}/python3.5/threading.* ${libdir}/python3.5/Queue.* "
++FILES_${PN}-threading="${libdir}/python3.5/_threading_local.* ${libdir}/python3.5/dummy_thread.* ${libdir}/python3.5/dummy_threading.* ${libdir}/python3.5/mutex.* ${libdir}/python3.5/threading.* ${libdir}/python3.5/queue.* "
+ 
+ SUMMARY_${PN}-tkinter="Python Tcl/Tk bindings"
+ RDEPENDS_${PN}-tkinter="${PN}-core"
+-- 
+2.1.4
+
 
