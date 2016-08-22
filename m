@@ -1,49 +1,36 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-it0-f44.google.com (mail-it0-f44.google.com
-	[209.85.214.44])
-	by mail.openembedded.org (Postfix) with ESMTP id 397616FF73
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Aug 2016 16:08:50 +0000 (UTC)
-Received: by mail-it0-f44.google.com with SMTP id f6so86703937ith.0
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Aug 2016 09:08:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=gczdnwBZV4+s8pPH44K/WJ1YpA4rBNLUwJQ654kNwO0=;
-	b=zLOxBj+9pQKiKsTs00g0zYgv42xyMTuuFY9L0U/3Nf1dOzNxeSi09LYJ4UKDDr5vao
-	Cd70H071pwX27vyBKtRzkLyfx42Ytc/iTM/TYLWDR8h4lvp8U3CFCvM1UAQdSe7uZ1lI
-	I175nvWx9zg9yGNgNzExQ4QMFV2dgreieJDQaC/wfxuau3FJa1ioMKKQnJBGCAq05ctk
-	Ppuy+3TovBkaHx8MeSK5PB3NVdaJhtrq4Uohr1SGqkghHMR7Bx/am3cJmctHripoJMuZ
-	kTeLs8iX9xO3wyR5R2+/4On8EhD767JES+tzex5dx4/fpqUtg+otxumQDi3yOltv/mYm
-	8mnQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=gczdnwBZV4+s8pPH44K/WJ1YpA4rBNLUwJQ654kNwO0=;
-	b=jzIHdYz4uBL+Wmq3dU1tWc7rtB6KmGjMxXNh/EWnQpATD8MT55K/2Yy+IJNwEZib0d
-	CUHDtcURIt8cSIQqhjy4FTXDMP9njf5z1OnON9lCta6u9jSjRwfNQgBTL/E+loc+2YkV
-	V2e/2oldBArfOoJu7hBwhHMp1yYmTI0N1gegPvD5o6/wDH5Uk5TqEfTSVRq2iZRroijH
-	02/SBOTkBQ0LSW7OUn7ApNX5tjqdpYoDy/qeIVJ+Q0fxYoq3N9ouRwvTK3NBI360Qtwd
-	SrcW9B8jP28cumAVOE1RpMMS2IFE0orKYDXnOOkqsNz41W+pPG4ZnKQOoBoteVfFx+rF
-	B+zQ==
-X-Gm-Message-State: AEkoouvGaowUAZKN/Veq6XBkTrrmaZe9kcI/y7NEiV+A/rUZuyD4qE/GF8RaW1chVzIs4HW50vM/xme9fNvKXzdW
-X-Received: by 10.36.57.211 with SMTP id l202mr21928826ita.22.1471882131355;
-	Mon, 22 Aug 2016 09:08:51 -0700 (PDT)
+Return-Path: <joe.slater@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 2120065D00;
+	Mon, 22 Aug 2016 17:01:59 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u7MH1w6n025992
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 22 Aug 2016 10:01:59 -0700 (PDT)
+Received: from ALA-MBA.corp.ad.wrs.com ([169.254.3.25]) by
+	ALA-HCB.corp.ad.wrs.com ([147.11.189.41]) with mapi id 14.03.0248.002;
+	Mon, 22 Aug 2016 10:01:58 -0700
+From: "Slater, Joseph" <joe.slater@windriver.com>
+To: Martin Jansa <martin.jansa@gmail.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [oe-commits] [openembedded-core] 01/02: systemd-compat-units:
+	pkg_postinst() does not work
+Thread-Index: AQHR/IBhsPKwEaNa1kuAHYMUG1T3PqBVM/Qw
+Date: Mon, 22 Aug 2016 17:01:57 +0000
+Message-ID: <007BD92917A2324FA403BCF9A464CF84B6209B91@ALA-MBA.corp.ad.wrs.com>
+References: <20160818155231.26598.41172@opal.openembedded.org>
+	<20160818155232.98F9250386@opal.openembedded.org>
+	<20160822142037.mreue353yrb6kvgs@jama>
+In-Reply-To: <20160822142037.mreue353yrb6kvgs@jama>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [147.11.216.160]
 MIME-Version: 1.0
-Received: by 10.107.18.17 with HTTP; Mon, 22 Aug 2016 09:08:31 -0700 (PDT)
-In-Reply-To: <20160822142711.26042-2-clemens.lang@bmw-carit.de>
-References: <2e948106-ac15-2c16-5bb6-f234079be725@embed.me.uk>
-	<20160822142711.26042-1-clemens.lang@bmw-carit.de>
-	<20160822142711.26042-2-clemens.lang@bmw-carit.de>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 22 Aug 2016 17:08:31 +0100
-Message-ID: <CAJTo0Lb1+G+cF2tFkVpA14w_1borw95msdtiRPDUPz0-RPMPDQ@mail.gmail.com>
-To: Clemens Lang <clemens.lang@bmw-carit.de>
-Cc: Thomas Witt <Thomas.Witt@bmw.de>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] cmake.bbclass: call cmake with a relative path
+Cc: "openembedded-commits@lists.openembedded.org"
+	<openembedded-commits@lists.openembedded.org>
+Subject: Re: [oe-commits] [openembedded-core] 01/02: systemd-compat-units: pkg_postinst() does not work
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,63 +43,102 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 22 Aug 2016 16:08:52 -0000
-Content-Type: multipart/alternative; boundary=001a114ab3ca975025053aab43b9
-
---001a114ab3ca975025053aab43b9
-Content-Type: text/plain; charset=UTF-8
-
-On 22 August 2016 at 15:27, Clemens Lang <clemens.lang@bmw-carit.de> wrote:
-
-> CMake wants a relative path for CMAKE_INSTALL_*DIR, an absolute path
-> breaks cross-compilation. This fact is documented in the following
-> ticket: https://cmake.org/Bug/view.php?id=14367
->
-> $sysconfdir and $localstatedir are not relative to $prefix, so they are
-> still set as absolute paths. With his change ${PROJECT}Targets.cmake
-> that are generated by cmakes "export" function will contain relative
-> paths instead of absolute ones.
->
-
-Seems to work in my testing, but this breaks piglit's bash-completion logic
-again (resulting in it not installing the file).  If you understand cmake
-then having a quick look at that would be much appreciated.  For reference
-the buildhistory-diff log is:
-
-packages/corei7-64-poky-linux/piglit/piglit-bash-completion: FILELIST:
-removed all items "/usr/share/bash-completion/completions/piglit:
-
-Ross
-
---001a114ab3ca975025053aab43b9
-Content-Type: text/html; charset=UTF-8
+X-List-Received-Date: Mon, 22 Aug 2016 17:02:01 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 22 August 2016 at 15:27, Clemens Lang <span dir=3D"ltr">&lt;<a href=3D"m=
-ailto:clemens.lang@bmw-carit.de" target=3D"_blank">clemens.lang@bmw-carit.d=
-e</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margi=
-n:0px 0px 0px 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204=
-);border-left-style:solid;padding-left:1ex"><span class=3D"">CMake</span> w=
-ants a relative path for CMAKE_INSTALL_*DIR, an absolute path<br>
-breaks cross-compilation. This fact is documented in the following<br>
-ticket: <a href=3D"https://cmake.org/Bug/view.php?id=3D14367" rel=3D"norefe=
-rrer" target=3D"_blank">https://<span class=3D"">cmake</span>.org/Bug/view.=
-<wbr>php?id=3D14367</a><br>
-<br>
-$sysconfdir and $localstatedir are not relative to $prefix, so they are<br>
-still set as absolute paths. With his change ${PROJECT}Targets.<span class=
-=3D"">cmake</span><br>
-that are generated by cmakes &quot;export&quot; function will contain relat=
-ive<br>
-paths instead of absolute ones.<br></blockquote></div><br>Seems to work in =
-my testing, but this breaks piglit&#39;s bash-completion logic again (resul=
-ting in it not installing the file).=C2=A0 If you understand cmake then hav=
-ing a quick look at that would be much appreciated.=C2=A0 For reference the=
- buildhistory-diff log is:</div><div class=3D"gmail_extra"><br></div><div c=
-lass=3D"gmail_extra">packages/corei7-64-poky-linux/piglit/piglit-bash-compl=
-etion: FILELIST: removed all items &quot;/usr/share/bash-completion/complet=
-ions/piglit:<br></div><div class=3D"gmail_extra"><br></div><div class=3D"gm=
-ail_extra">Ross</div></div>
+At the cost of a little build time, I guess we could lose the inherit allar=
+ch.
+As a practical matter, we could get rid of the RDEPEND (or make it a DEPEND=
+?),
+but that seems wrong, somehow.
 
---001a114ab3ca975025053aab43b9--
+Joe
+
+> -----Original Message-----
+> From: Martin Jansa [mailto:martin.jansa@gmail.com]
+> Sent: Monday, August 22, 2016 7:21 AM
+> To: openembedded-core@lists.openembedded.org; Slater, Joseph
+> Cc: openembedded-commits@lists.openembedded.org
+> Subject: Re: [oe-commits] [openembedded-core] 01/02: systemd-compat-units=
+: pkg_postinst()
+> does not work
+>=20
+> On Thu, Aug 18, 2016 at 03:52:33PM +0000, git@git.openembedded.org wrote:
+> > rpurdie pushed a commit to branch master
+> > in repository openembedded-core.
+> >
+> > commit 8183309080aee45746daaff46b0506b09b5bd269
+> > Author: Joe Slater <jslater@windriver.com>
+> > AuthorDate: Mon Aug 15 16:04:53 2016 -0700
+> >
+> >     systemd-compat-units: pkg_postinst() does not work
+> >
+> >     The test for various files is wrong and will always be
+> >     true, even if init.d does not exist.
+> >
+> >     Exit if init.d does not exist, and correctly test for
+> >     file existence otherwise.
+> >
+> >     Signed-off-by: Joe Slater <jslater@windriver.com>
+> >     Signed-off-by: Ross Burton <ross.burton@intel.com>
+> > ---
+> >  meta/recipes-core/systemd/systemd-compat-units.bb | 17 ++++++++++-----=
+--
+> >  1 file changed, 10 insertions(+), 7 deletions(-)
+> >
+> > diff --git a/meta/recipes-core/systemd/systemd-compat-units.bb b/meta/r=
+ecipes-
+> core/systemd/systemd-compat-units.bb
+> > index 0b8ff09..90811da 100644
+> > --- a/meta/recipes-core/systemd/systemd-compat-units.bb
+> > +++ b/meta/recipes-core/systemd/systemd-compat-units.bb
+> > @@ -23,21 +23,24 @@ SYSTEMD_DISABLED_SYSV_SERVICES =3D " \
+> >  "
+> >
+> >  pkg_postinst_${PN} () {
+> > -	cd $D${sysconfdir}/init.d
+> >
+> > -	echo "Disabling the following sysv scripts: "
+> > +	cd $D${sysconfdir}/init.d  ||  exit 0
+> >
+> > -	OPTS=3D""
+> > +	echo "Disabling the following sysv scripts: "
+> >
+> >  	if [ -n "$D" ]; then
+> >  		OPTS=3D"--root=3D$D"
+> > +	else
+> > +		OPTS=3D""
+> >  	fi
+> >
+> >  	for i in ${SYSTEMD_DISABLED_SYSV_SERVICES} ; do
+> > -		if [ \( -e $i -o $i.sh \) -a ! \( -e $D${sysconfdir}/systemd/system/=
+$i.service -
+> o  -e $D${systemd_unitdir}/system/$i.service \) ] ; then
+> > -			echo -n "$i: " ; systemctl ${OPTS} mask $i.service
+> > +		if [ -e $i -o -e $i.sh ]  &&   ! [ -e $D${sysconfdir}/systemd/system=
+/$i.service
+> -o -e $D${systemd_unitdir}/system/$i.service ] ; then
+> > +			echo -n "$i: "
+> > +			systemctl $OPTS mask $i.service
+> >  		fi
+> > -	done ; echo
+> > +	done
+> > +	echo
+> >  }
+> >
+> > -RDPEPENDS_${PN} =3D "systemd"
+> > +RDEPENDS_${PN} =3D "systemd"
+>=20
+> This is good typo fix, but also causes allarch systemd-compat-units to
+> RDEPENDS on TUNE_PKGARCH systemd as reported in:
+> http://lists.openembedded.org/pipermail/openembedded-core/2016-August/125=
+483.html
+>=20
+> So either please exclude it in layer.conf for drop this runtime
+> dependency completely.
+>=20
+> --
+> Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
