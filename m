@@ -1,33 +1,24 @@
-Return-Path: <maxin.john@intel.com>
-X-Greylist: delayed 579 seconds by postgrey-1.34 at layers.openembedded.org;
-	Mon, 22 Aug 2016 08:47:52 UTC
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 6341A731E5
+Return-Path: <Jackie.Huang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 7E2C16FFCD
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Aug 2016 08:47:52 +0000 (UTC)
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-	by fmsmga105.fm.intel.com with ESMTP; 22 Aug 2016 01:38:14 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.28,559,1464678000"; 
-   d="scan'208";a="449826"
-Received: from linux.intel.com ([10.54.29.200])
-	by orsmga004.jf.intel.com with ESMTP; 22 Aug 2016 01:38:13 -0700
-Received: from mbabyjoh-desk.fi.intel.com (mbabyjoh-desk.fi.intel.com
-	[10.237.72.71])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by linux.intel.com (Postfix) with ESMTP id EB24C6A4080
+	Mon, 22 Aug 2016 09:21:19 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u7M9LJeu024203
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Aug 2016 01:37:56 -0700 (PDT)
-From: "Maxin B. John" <maxin.john@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 22 Aug 2016 11:39:33 +0300
-Message-Id: <1471855173-19517-3-git-send-email-maxin.john@intel.com>
-X-Mailer: git-send-email 2.4.0
-In-Reply-To: <1471855173-19517-1-git-send-email-maxin.john@intel.com>
-References: <1471855173-19517-1-git-send-email-maxin.john@intel.com>
+	Mon, 22 Aug 2016 02:21:19 -0700 (PDT)
+Received: from pek-hostel-deb01.wrs.com (128.224.153.151) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.248.2; Mon, 22 Aug 2016 02:21:18 -0700
+From: <jackie.huang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 22 Aug 2016 17:05:53 +0800
+Message-ID: <cover.1471857001.git.jackie.huang@windriver.com>
+X-Mailer: git-send-email 2.8.3
 MIME-Version: 1.0
-Subject: [jethro][PATCH 3/3] curl: security fix for CVE-2016-5421
+Subject: [PATCH 00/17] control ipv6 support based on DISTRO_FEATURES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,74 +31,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 22 Aug 2016 08:47:52 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 22 Aug 2016 09:21:19 -0000
+Content-Type: text/plain
 
-Affected versions: libcurl 7.32.0 to and including 7.50.0
+From: Jackie Huang <jackie.huang@windriver.com>
 
-Signed-off-by: Maxin B. John <maxin.john@intel.com>
----
- meta/recipes-support/curl/curl/CVE-2016-5421.patch | 36 ++++++++++++++++++++++
- meta/recipes-support/curl/curl_7.44.0.bb           |  1 +
- 2 files changed, 37 insertions(+)
- create mode 100644 meta/recipes-support/curl/curl/CVE-2016-5421.patch
+There is ipv6 configure option for these packages, and we need to them
+to be controled by DISTRO_FEATURES.
 
-diff --git a/meta/recipes-support/curl/curl/CVE-2016-5421.patch b/meta/recipes-support/curl/curl/CVE-2016-5421.patch
-new file mode 100644
-index 0000000..862da75
---- /dev/null
-+++ b/meta/recipes-support/curl/curl/CVE-2016-5421.patch
-@@ -0,0 +1,36 @@
-+From 75dc096e01ef1e21b6c57690d99371dedb2c0b80 Mon Sep 17 00:00:00 2001
-+From: Daniel Stenberg <daniel@haxx.se>
-+Date: Sun, 31 Jul 2016 01:09:04 +0200
-+Subject: [PATCH] curl_multi_cleanup: clear connection pointer for easy handles
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=UTF-8
-+Content-Transfer-Encoding: 8bit
-+
-+Bug: https://curl.haxx.se/docs/adv_20160803C.html
-+Reported-by: Marcelo Echeverria and Fernando Muñoz
-+
-+Upstream-Status: Backport
-+https://curl.haxx.se/CVE-2016-5421.patch
-+
-+CVE: CVE-2016-5421
-+Signed-off-by: Maxin B. John <maxin.john@intel.com>
-+---
-+ lib/multi.c | 2 ++
-+ 1 file changed, 2 insertions(+)
-+
-+diff --git a/lib/multi.c b/lib/multi.c
-+index 9ee3523..8bb9366 100644
-+--- a/lib/multi.c
-++++ b/lib/multi.c
-+@@ -2157,6 +2157,8 @@ static void close_all_connections(struct Curl_multi *multi)
-+     conn->data = multi->closure_handle;
-+ 
-+     sigpipe_ignore(conn->data, &pipe_st);
-++    conn->data->easy_conn = NULL; /* clear the easy handle's connection
-++                                     pointer */
-+     /* This will remove the connection from the cache */
-+     (void)Curl_disconnect(conn, FALSE);
-+     sigpipe_restore(&pipe_st);
-+-- 
-+2.4.0
-+
-diff --git a/meta/recipes-support/curl/curl_7.44.0.bb b/meta/recipes-support/curl/curl_7.44.0.bb
-index 917bd27..dfb7142 100644
---- a/meta/recipes-support/curl/curl_7.44.0.bb
-+++ b/meta/recipes-support/curl/curl_7.44.0.bb
-@@ -13,6 +13,7 @@ SRC_URI = "http://curl.haxx.se/download/curl-${PV}.tar.bz2 \
- # from mucking around with debug options
- #
- SRC_URI += " file://configure_ac.patch \
-+             file://CVE-2016-5421.patch \
-              file://CVE-2016-5420.patch \
-              file://CVE-2016-5419.patch \
-              file://CVE-2016-0754.patch \
+Tested with and without ipv6 in DISTRO_FEATURES on qemux86-64 and qemuarm.
+
+--
+The following changes since commit f078ccf1ac60488169853724c35126cc056f975d:
+
+  bitbake: siggen: Fix file variable typo in compare_sigfiles (2016-08-20 16:11:29 +0100)
+
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib.git jhuang0/r_ipv6_160822_0
+  http://git.pokylinux.org/cgit.cgi//log/?h=jhuang0/r_ipv6_160822_0
+
+Jackie Huang (17):
+  apr: control ipv6 support based on DISTRO_FEATURES
+  libice: control ipv6 support based on DISTRO_FEATURES
+  libpcap: control ipv6 support based on DISTRO_FEATURES
+  libsm: control ipv6 support based on DISTRO_FEATURES
+  libxfont: control ipv6 support based on DISTRO_FEATURES
+  libxml2: control ipv6 support based on DISTRO_FEATURES
+  libxmu: control ipv6 support based on DISTRO_FEATURES
+  lighttpd: control ipv6 support based on DISTRO_FEATURES
+  nfs-utils: control ipv6 support based on DISTRO_FEATURES
+  nspr: control ipv6 support based on DISTRO_FEATURES
+  psmisc: control ipv6 support based on DISTRO_FEATURES
+  pulseaudio: control ipv6 support based on DISTRO_FEATURES
+  rsync: use rsync.inc to avoid duplicated codes
+  rsync: control ipv6 support based on DISTRO_FEATURES
+  wget: control ipv6 support based on DISTRO_FEATURES
+  xauth: control ipv6 support based on DISTRO_FEATURES
+  xhost: control ipv6 support based on DISTRO_FEATURES
+
+ meta/recipes-connectivity/libpcap/libpcap.inc      |  5 ++++-
+ .../nfs-utils/nfs-utils_1.3.3.bb                   |  5 ++++-
+ meta/recipes-core/libxml/libxml2_2.9.4.bb          |  5 ++++-
+ meta/recipes-devtools/rsync/rsync.inc              |  7 ++----
+ meta/recipes-devtools/rsync/rsync_2.6.9.bb         | 25 ++++++----------------
+ meta/recipes-devtools/rsync/rsync_3.1.2.bb         |  8 ++++++-
+ meta/recipes-extended/lighttpd/lighttpd_1.4.39.bb  |  5 ++++-
+ meta/recipes-extended/psmisc/psmisc.inc            |  3 +++
+ meta/recipes-extended/wget/wget.inc                |  5 +++--
+ meta/recipes-graphics/xorg-app/xauth_1.0.9.bb      |  3 +++
+ meta/recipes-graphics/xorg-app/xhost_1.0.7.bb      |  3 +++
+ meta/recipes-graphics/xorg-lib/libice_1.0.9.bb     |  3 ++-
+ meta/recipes-graphics/xorg-lib/libsm_1.2.2.bb      |  3 +++
+ meta/recipes-graphics/xorg-lib/libxfont_1.5.1.bb   |  3 +++
+ meta/recipes-graphics/xorg-lib/libxmu_1.1.2.bb     |  3 +++
+ meta/recipes-multimedia/pulseaudio/pulseaudio.inc  |  2 ++
+ meta/recipes-support/apr/apr_1.5.2.bb              |  3 +++
+ meta/recipes-support/nspr/nspr_4.12.bb             |  3 +++
+ 18 files changed, 62 insertions(+), 32 deletions(-)
+
 -- 
-2.4.0
+2.8.1
 
 
