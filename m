@@ -1,62 +1,33 @@
-Return-Path: <Javier.Viguera@digi.com>
-X-Greylist: delayed 430 seconds by postgrey-1.34 at layers.openembedded.org;
-	Mon, 22 Aug 2016 08:41:30 UTC
-Received: from mail1.bemta12.messagelabs.com (mail1.bemta12.messagelabs.com
-	[216.82.251.16])
-	by mail.openembedded.org (Postfix) with ESMTP id 3263C731E5
+Return-Path: <maxin.john@intel.com>
+X-Greylist: delayed 579 seconds by postgrey-1.34 at layers.openembedded.org;
+	Mon, 22 Aug 2016 08:47:52 UTC
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 6341A731E5
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Aug 2016 08:41:30 +0000 (UTC)
-Received: from [216.82.249.147] by server-16.bemta-12.messagelabs.com id
-	F9/78-14081-C09BAB75; Mon, 22 Aug 2016 08:34:20 +0000
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrAIsWRWlGSWpSXmKPExsXi5LtOQJd7565
-	wgyU7rSzu/HzHbnHwwxRGByaPNVNPMnqc27iCMYApijUzLym/IoE14+H548wFtzgrNq+Yw9bA
-	+Jm9i5GLQ0hgFaNEy/atTBDOYkaJh42/WLsYOTmEBeIlJixaBmaLCOhJfP/fCdXRySRxcOUzF
-	pAEs0CUxKTZr8BsNqCiyZeeMIPYvALWEn9X7AezWQRUJbr2XmIDsUUFwiVWzoTo5RUQlDg58w
-	mYzSngIdHwYSdQPQfQTHuJB1vLIMbLSzRvnQ02RkhAReLg0suMILYEUHzT5rPsELaJxMWru9k
-	gbEOJ77O+sUDY0hJ7+xYyT2AUnoVk2yyEDbOQbFjAyLyKUaM4tagstUjX2FAvqSgzPaMkNzEz
-	R9fQ0EgvN7W4ODE9NScxqVgvOT93EyMw9OsZGBh3MP754nuIUZKDSUmU16x1Z7gQX1J+SmVGY
-	nFGfFFpTmrxIUYZDg4lCd5D23eFCwkWpaanVqRl5gCjECYtwcGjJMLLsAMozVtckJhbnJkOkT
-	rFqMsxbfeDtUxCLHn5ealS4rynQWYIgBRllObBjYAlhEuMslLCvIwMDAxCPAWpRbmZJajyrxj
-	FORiVhHl/gkzhycwrgdv0CugIJqAjrv/fDnJESSJCSqqBMdnJrF5vesr1rzp/TffUnb8bNkWX
-	jUsmqdL47Epef9+u2nVBPLdP+RbctJtXqWizuDx0o2Wld8VJD14+wchb81s6NDTdy+OO5ipIh
-	wR/i4hy+e5qEzn32u9f7xZMzDRQt7g3t/C+guHN4BefFzY6LGH8q/Lm3akE601HI+S3LU0rXd
-	F9Z5GUEktxRqKhFnNRcSIAMlNSRAMDAAA=
-X-Env-Sender: Javier.Viguera@digi.com
-X-Msg-Ref: server-15.tower-29.messagelabs.com!1471854859!39555439!1
-X-Originating-IP: [66.77.174.16]
-X-StarScan-Received: 
-X-StarScan-Version: 8.84; banners=-,-,-
-X-VirusChecked: Checked
-Received: (qmail 11664 invoked from network); 22 Aug 2016 08:34:19 -0000
-Received: from owa.digi.com (HELO MCL-VMS-XCH01.digi.com) (66.77.174.16)
-	by server-15.tower-29.messagelabs.com with SMTP;
-	22 Aug 2016 08:34:19 -0000
-Received: from DOR-SMS-XCH01.digi.com (10.49.8.99) by MCL-VMS-XCH01.digi.com
-	(10.5.8.49) with Microsoft SMTP Server (TLS) id 14.3.301.0;
-	Mon, 22 Aug 2016 03:34:16 -0500
-Received: from [10.101.2.54] (10.101.2.54) by dor-sms-xch01.digi.com
-	(10.49.8.99) with Microsoft SMTP Server (TLS) id 14.3.301.0;
-	Mon, 22 Aug 2016 10:34:12 +0200
-To: "Robert P. J. Day" <rpjday@crashcourse.ca>
-References: <alpine.LFD.2.20.1608181237130.2886@ca624034.mitel.com>
-	<20160819201637.GO5342@bill-the-cat>
-	<alpine.LFD.2.20.1608210955340.18845@localhost.localdomain>
-	<20160821150452.GR5342@bill-the-cat>
-	<alpine.LFD.2.20.1608211146290.20716@localhost.localdomain>
-From: Javier Viguera <javier.viguera@digi.com>
-Message-ID: <47213dd7-8a1a-23a8-68a9-8e7c7452b9f6@digi.com>
-Date: Mon, 22 Aug 2016 10:34:06 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.2.0
+	Mon, 22 Aug 2016 08:47:52 +0000 (UTC)
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+	by fmsmga105.fm.intel.com with ESMTP; 22 Aug 2016 01:38:14 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.28,559,1464678000"; 
+   d="scan'208";a="449826"
+Received: from linux.intel.com ([10.54.29.200])
+	by orsmga004.jf.intel.com with ESMTP; 22 Aug 2016 01:38:13 -0700
+Received: from mbabyjoh-desk.fi.intel.com (mbabyjoh-desk.fi.intel.com
+	[10.237.72.71])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by linux.intel.com (Postfix) with ESMTP id EB24C6A4080
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 22 Aug 2016 01:37:56 -0700 (PDT)
+From: "Maxin B. John" <maxin.john@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 22 Aug 2016 11:39:33 +0300
+Message-Id: <1471855173-19517-3-git-send-email-maxin.john@intel.com>
+X-Mailer: git-send-email 2.4.0
+In-Reply-To: <1471855173-19517-1-git-send-email-maxin.john@intel.com>
+References: <1471855173-19517-1-git-send-email-maxin.john@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <alpine.LFD.2.20.1608211146290.20716@localhost.localdomain>
-X-Originating-IP: [10.101.2.54]
-X-KSE-AntiSpam-Interceptor-Info: protection disabled
-X-KSE-Antivirus-Interceptor-Info: scan successful
-X-KSE-Antivirus-Info: Clean
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: how can i add u-boot-fw-utils to my build without u-boot being part of the build?
+Subject: [jethro][PATCH 3/3] curl: security fix for CVE-2016-5421
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -69,41 +40,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 22 Aug 2016 08:41:31 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
+X-List-Received-Date: Mon, 22 Aug 2016 08:47:52 -0000
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Hi Robert,
+Affected versions: libcurl 7.32.0 to and including 7.50.0
 
-On 21/08/16 17:51, Robert P. J. Day wrote:
->
->   i apologize for being clueless, but i'm still unclear on what i need
-> to do here, and in my case, i'm going in the opposite direction.
->
->   currently, u-boot is being configured and compiled standalone -- not
-> as part of OE. and that build works just fine, so i can grab whatever
-> (little?) i need from that build to then add to an actual OE build so
-> i can just add u-boot-fw-utils to an existing image.
->
->   as i read it, for an OE build of u-boot, i need to supply either
-> UBOOT_MACHINE or UBOOT_CONFIG. so in this case, what would i do? my
-> assumption until now is that i need to add to the OE build just enough
-> to get the fw utils to build, and i'd do that by setting either of
-> those variables. and i already have the appropriate fw_env.config file
-> ready to go.
->
->   so what precisely do i need to do here?
+Signed-off-by: Maxin B. John <maxin.john@intel.com>
+---
+ meta/recipes-support/curl/curl/CVE-2016-5421.patch | 36 ++++++++++++++++++++++
+ meta/recipes-support/curl/curl_7.44.0.bb           |  1 +
+ 2 files changed, 37 insertions(+)
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2016-5421.patch
 
-Have you tried to override UBOOT_CONFIG in a u-boot-fw-utils bbappend?
-
-Have a look at how we do that (using sandbox_defconfig) in meta-digi-arm:
-
-https://github.com/digi-embedded/meta-digi/blob/jethro/meta-digi-arm/recipes-bsp/u-boot/u-boot-fw-utils_%25.bbappend
-
-Hope this helps.
-
+diff --git a/meta/recipes-support/curl/curl/CVE-2016-5421.patch b/meta/recipes-support/curl/curl/CVE-2016-5421.patch
+new file mode 100644
+index 0000000..862da75
+--- /dev/null
++++ b/meta/recipes-support/curl/curl/CVE-2016-5421.patch
+@@ -0,0 +1,36 @@
++From 75dc096e01ef1e21b6c57690d99371dedb2c0b80 Mon Sep 17 00:00:00 2001
++From: Daniel Stenberg <daniel@haxx.se>
++Date: Sun, 31 Jul 2016 01:09:04 +0200
++Subject: [PATCH] curl_multi_cleanup: clear connection pointer for easy handles
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
++
++Bug: https://curl.haxx.se/docs/adv_20160803C.html
++Reported-by: Marcelo Echeverria and Fernando MuÃ±oz
++
++Upstream-Status: Backport
++https://curl.haxx.se/CVE-2016-5421.patch
++
++CVE: CVE-2016-5421
++Signed-off-by: Maxin B. John <maxin.john@intel.com>
++---
++ lib/multi.c | 2 ++
++ 1 file changed, 2 insertions(+)
++
++diff --git a/lib/multi.c b/lib/multi.c
++index 9ee3523..8bb9366 100644
++--- a/lib/multi.c
+++++ b/lib/multi.c
++@@ -2157,6 +2157,8 @@ static void close_all_connections(struct Curl_multi *multi)
++     conn->data = multi->closure_handle;
++ 
++     sigpipe_ignore(conn->data, &pipe_st);
+++    conn->data->easy_conn = NULL; /* clear the easy handle's connection
+++                                     pointer */
++     /* This will remove the connection from the cache */
++     (void)Curl_disconnect(conn, FALSE);
++     sigpipe_restore(&pipe_st);
++-- 
++2.4.0
++
+diff --git a/meta/recipes-support/curl/curl_7.44.0.bb b/meta/recipes-support/curl/curl_7.44.0.bb
+index 917bd27..dfb7142 100644
+--- a/meta/recipes-support/curl/curl_7.44.0.bb
++++ b/meta/recipes-support/curl/curl_7.44.0.bb
+@@ -13,6 +13,7 @@ SRC_URI = "http://curl.haxx.se/download/curl-${PV}.tar.bz2 \
+ # from mucking around with debug options
+ #
+ SRC_URI += " file://configure_ac.patch \
++             file://CVE-2016-5421.patch \
+              file://CVE-2016-5420.patch \
+              file://CVE-2016-5419.patch \
+              file://CVE-2016-0754.patch \
 -- 
-Javier Viguera
-Software Engineer
-Digi International® Spain S.A.U.
+2.4.0
+
 
