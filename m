@@ -1,24 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 67A0C731F9
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 2F4C9731CB
 	for <openembedded-core@lists.openembedded.org>;
 	Mon, 22 Aug 2016 07:52:49 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u7M7qnoT011080
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u7M7qorb023622
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Aug 2016 00:52:49 -0700 (PDT)
+	Mon, 22 Aug 2016 00:52:50 -0700 (PDT)
 Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Mon, 22 Aug 2016 00:52:48 -0700
+	Mon, 22 Aug 2016 00:52:49 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 22 Aug 2016 00:52:37 -0700
-Message-ID: <cover.1471850849.git.liezhi.yang@windriver.com>
+Date: Mon, 22 Aug 2016 00:52:38 -0700
+Message-ID: <f9dc96bb51e2d344407d689fdb4528a1f4597fae.1471850849.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.9.0
+In-Reply-To: <cover.1471850849.git.liezhi.yang@windriver.com>
+References: <cover.1471850849.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH V4 00/11] runqemu: refactor it and remove machine knowledge
+Subject: [PATCH V4 01/11] qemuboot.bbclass: add it for runqemu
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,134 +36,90 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Mon, 22 Aug 2016 07:52:51 -0000
 Content-Type: text/plain
 
-* V4
-  - Now the conf files can use @TAP@, @ROOTFS@ and @PORT@ when set vars
-    for runqemu, so all the arch info are gone. And also update comments
-    in qemuboot.bbclass.
-  - Add var QB_SLIRP_OPT for slirp mode as Nathan suggested, also add
-    QB_TAP_OPT whichi is for tap mode.
-  - Print "Try 'runqemu help' on how to use it" when failed to parse args
-    as Nathan suggested.
-  - Fix device locking problems.
-  - Fix nativesdk-qemu-helper.
-  - Fix comments for qemurunner.py/qemutinyrunner.py
+It saves vars in ${DEPLOY_DIR_IMAGE}/qemuboot.py, and runqemu will
+import it.
 
-* V3 
-  - Move the qemu boot settings out of tune files (e.g., arch-x86.inc)
-    to avoid mixing BSP settings with the tunings as Mark suggested. and
-    put them to <machine>.conf or <qemuboot>.inc file.
+The bsp which can be boot by runqemu will inherit it.
 
-* V2 
-  - Fixes for RP's comments
-    a) Remove a kvm commit message since qemu-kvm can only run target when
-       its arch is the same as the host arch:
-       The kvm support is not limited on x86 or x86_64
-    
-    b) Fix a typo in commit message: qemu-boot.bbclass -> qemuboot.bbclass,
-       You may wonder why I use qemuboot.bbclass but not qemu-boot.bbclass,
-       this is because the bbclass will save vars into qemuboot.py, the
-       qemuboot.py can't be qemu-boot.py here, otherwise,
-       "import qemu-boot.py" doesn't work since "-" is not a validate
-       identifier, so use "qemuboot" to make them unify.
-    
-    c) Reorder the patches to make sure they don't break the bisect build.
-  
-  - Update commit message:
-    "Fix SLIRP mode" -> "Fix SLIRP mode, add help message, avoid mixing
-  with tap" 
-
-* V1
-  Previously, runqemu had hard coded machine knowledge, which limited its
-  usage, for example, qemu can boot genericx86, but runqemu can't, we need
-  edit runqemu/runqemu-internal a lot if we want to boot genericx86.
-  
-  Now bsp conf files can set vars to make it can be boot by runqemu, and
-  qemuboot.bbclass will save these info to DEPLOY_DIR_IMAGE/qemuboot.py.
-  Please see qemuboot.bbclass' comments on how to set the vars.
-  
-  - Re-write it in python3, which can reduce lines from 1239 to about 750
-    lines
-  - All the machine knowledges are gone
-  - All of the TUN_ARCH knowledge are gone (FIXED in V4)
-  - All the previous options are preserved, and there is a new way to run
-    runqemu: (it doesn't need run "bitake -e" in such a case)
-    $ runqemu tmp/deploy/images/qemux86
-    or:
-    $ runqemu tmp/deploy/images/qemuarm/<image>.ext4
-    or:
-    $ runqemu tmp/deploy/images/qemuarm/qemuboot.py
-  - Fixed audio support, not limited on x86 or x86_64
-  - The kvm support is not limited on x86 or x86_64 (REMOVED by V2)
-  - Fix SLIRP mode (FIXED by V2)
-  - Fix NFS boot, it will extract <image>.tar.bz2 or tar.gz to
-    DEPLOY_DIR_IMAGE/<image>-nfsroot when no NFS_DIR, and remove it after
-    stop.
-  - More bsps can be boot, such as genericx86 and genericx86-64.
-  - The patch for qemuzynq, qemuzynqmp, qemumicroblaze has been sent to
-    meta-xilinx' mailing list.
-  - I can't find any qemush4 bsp or how to build it, so it is not
-    considered atm.
-  
-  - Tested the following machines, all of them work well.
-    genericx86 genericx86-64
-    qemuarm qemuarm64
-    qemumips qemumips64 qemuppc
-    qemux86 qemux86-64
-    qemuzynq qemuzynqmp
-  
-    Tested ext4, nfs, slirp, vmdk, iso and cpio.gz when they are available.
-  
-  And also test "bitbake core-image-sato -ctestimage" which uses runqemu,
-  it works, well.
-
-// Robert
-
-The following changes since commit 0865a5b8b8fbf478fb4b2310f808bcffff84a091:
-
-  packagefeed-stability.bbclass: cleansstate should remove pkgs from deploy dir (2016-08-20 16:05:29 +0100)
-
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib rbt/runqemu
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/runqemu
-
-Robert Yang (11):
-  qemuboot.bbclass: add it for runqemu
-  qemuarm.conf: set vars for runqemu
-  qemuarm64.conf: set vars for runqemu
-  qemux86.conf/qemux86-64.conf: set vars for runqemu
-  qemumips/qemumips64.conf: set vars for runqemu
-  qemuppc.conf: set vars for runqemu
-  qemu.inc: inherit qemuboot.bbclass
-  runqemu: refactor it and remove machine knowledge
-  python-3.5-manifest.inc: the signal module RDEPENDS on enum
-  nativesdk-qemu-helper: fix for new runqemu
-  qemurunner.py/qemutinyrunner.py: remove runqemu-internal
-
- meta/classes/qemuboot.bbclass                      |   67 +
- meta/conf/machine/include/qemu.inc                 |    2 +
- meta/conf/machine/include/qemuboot-mips.inc        |    7 +
- meta/conf/machine/include/qemuboot-x86.inc         |   14 +
- meta/conf/machine/qemuarm.conf                     |    5 +
- meta/conf/machine/qemuarm64.conf                   |   13 +
- meta/conf/machine/qemumips.conf                    |    1 +
- meta/conf/machine/qemumips64.conf                  |    1 +
- meta/conf/machine/qemuppc.conf                     |    7 +
- meta/conf/machine/qemux86-64.conf                  |    1 +
- meta/conf/machine/qemux86.conf                     |    1 +
- meta/lib/oeqa/utils/qemurunner.py                  |    2 +-
- meta/lib/oeqa/utils/qemutinyrunner.py              |    2 +-
- .../python/python-3.5-manifest.inc                 |    2 +-
- .../qemu/nativesdk-qemu-helper_1.0.bb              |    9 +-
- scripts/contrib/python/generate-manifest-3.5.py    |    2 +-
- scripts/runqemu                                    | 1287 ++++++++++++--------
- scripts/runqemu-internal                           |  739 -----------
- 18 files changed, 890 insertions(+), 1272 deletions(-)
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+---
+ meta/classes/qemuboot.bbclass | 67 +++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 67 insertions(+)
  create mode 100644 meta/classes/qemuboot.bbclass
- create mode 100644 meta/conf/machine/include/qemuboot-mips.inc
- create mode 100644 meta/conf/machine/include/qemuboot-x86.inc
- delete mode 100755 scripts/runqemu-internal
 
+diff --git a/meta/classes/qemuboot.bbclass b/meta/classes/qemuboot.bbclass
+new file mode 100644
+index 0000000..2e5e9f4
+--- /dev/null
++++ b/meta/classes/qemuboot.bbclass
+@@ -0,0 +1,67 @@
++# Help runqemu boot target board, "QB" means Qemu Boot, the following
++# vars can be set in conf files, such as <bsp.conf> to make it can be
++# boot by runqemu:
++#
++# QB_SYSTEM_NAME: qemu name, e.g., "qemu-system-i386"
++# QB_OPT_APPEND: options to append to qemu, e.g., "-show-cursor"
++# QB_DEFAULT_KERNEL: default kernel to boot, e.g., "bzImage"
++# QB_DEFAULT_FSTYPE: default FSTYPE to boot, e.g., "ext4"
++# QB_MEM: memory, e.g., "-m 512"
++# QB_MACHINE: qemu machine, e.g., "-machine virt"
++# QB_CPU: qemu cpu, e.g., "-cpu qemu32"
++# QB_CPU_KVM: the similar to QB_CPU, but used when kvm, e.g., '-cpu kvm64',
++#             set it when support kvm.
++# QB_KERNEL_CMDLINE_APPEND: options to append to kernel's -append
++#                           option, e.g., "console=ttyS0 console=tty"
++# QB_DTB: qemu dtb name
++# QB_AUDIO_DRV: qemu audio driver, e.g., "alsa", set it when support audio
++# QB_AUDIO_OPT: qemu audio option, e.g., "-soundhw ac97,es1370", used
++#               when QB_AUDIO_DRV is set.
++# QB_KERNEL_ROOT: kernel's root, e.g., /dev/vda
++# QB_TAP_OPT: netowrk option for 'tap' mode, e.g.,
++#             "-netdev tap,id=net0,ifname=@TAP@,script=no,downscript=no -device virtio-net-device,netdev=net0"
++#              Note, runqemu will replace "@TAP@" with the one which is used, such as tap0, tap1 ...
++# QB_SLIRP_OPT: network option for SLIRP mode, e.g.,
++#             "-netdev user,id=net0 -device virtio-net-device,netdev=net0"
++# QB_ROOTFS_OPT: used as rootfs, e.g.,
++#               "-drive id=disk0,file=@ROOTFS@,if=none,format=raw -device virtio-blk-device,drive=disk0"
++#              Note, runqemu will replace "@ROOTFS@" with the one which is used, such as core-image-minimal-qemuarm64.ext4.
++# QB_SERIAL_OPT: serial port, e.g., "-serial mon:stdio"
++# QB_TCPSERIAL_OPT: tcp serial port option, e.g.,
++#                   " -device virtio-serial-device -chardev socket,id=virtcon,port=@PORT@,host=127.0.0.1 -device virtconsole,chardev=virtcon"
++#                   Note, runqemu will replace "@PORT@" with the port number which is used.
++#
++# Usage:
++# IMAGE_CLASSES += "qemuboot"
++# See "runqemu help" for more info
++
++do_qemuboot_vars[nostamp] = "1"
++
++QB_MEM ?= "-m 256"
++QB_SERIAL_OPT ?= "-serial mon:stdio -serial null"
++QB_DEFAULT_KERNEL ?= "${KERNEL_IMAGETYPE}"
++QB_DEFAULT_FSTYPE ?= "ext4"
++QB_OPT_APPEND ?= "-show-cursor"
++
++do_qemuboot_vars[dirs] = "${DEPLOY_DIR_IMAGE}"
++python do_qemuboot_vars() {
++    build_vars = ['MACHINE', 'TUNE_ARCH', 'DEPLOY_DIR_IMAGE', \
++                'IMAGE_LINK_NAME', 'STAGING_DIR_NATIVE', \
++                'STAGING_BINDIR_NATIVE', 'STAGING_DIR_HOST']
++
++    # Vars from bsp
++    qb_vars = []
++
++    for k in d.keys():
++        if k.startswith('QB_'):
++            qb_vars.append(k)
++
++    out_file = "%s/%s" % (d.getVar('DEPLOY_DIR_IMAGE', True), 'qemuboot.py')
++    with open(out_file, 'w') as f:
++        f.write('config_bsp = {\n')
++        for k in build_vars + qb_vars:
++            f.write("    '%s': '%s',\n" % (k, d.getVar(k, True)))
++        f.write('}\n')
++}
++
++addtask do_qemuboot_vars before do_build
 -- 
 2.9.0
 
