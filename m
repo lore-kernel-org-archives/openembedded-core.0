@@ -1,32 +1,45 @@
-Return-Path: <wangxin2015.fnst@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
-	by mail.openembedded.org (Postfix) with ESMTP id 1630070057
+Return-Path: <andre.draszik@gmail.com>
+Received: from mail-wm0-f66.google.com (mail-wm0-f66.google.com [74.125.82.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 7EF42731DF
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Aug 2016 09:53:00 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.22,518,1449504000"; d="scan'208";a="10148361"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 22 Aug 2016 17:52:54 +0800
-Received: from G08CNEXCHPEKD02.g08.fujitsu.local (unknown [10.167.33.83])
-	by cn.fujitsu.com (Postfix) with ESMTP id 37CEF42EB203
+	Mon, 22 Aug 2016 09:54:11 +0000 (UTC)
+Received: by mail-wm0-f66.google.com with SMTP id i5so12632174wmg.2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Aug 2016 17:52:54 +0800 (CST)
-Received: from ubuntu.g08.fujitsu.local (10.167.226.120) by
-	G08CNEXCHPEKD02.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.279.2; Mon, 22 Aug 2016 17:52:57 +0800
-From: Wang Xin <wangxin2015.fnst@cn.fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 22 Aug 2016 05:52:50 -0400
-Message-ID: <1471859570-1536-1-git-send-email-wangxin2015.fnst@cn.fujitsu.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <CAHiDW_EOqi1qsP3AF_a3oqfg7smFb=EL=puyzyUfH+BK92_pOw@mail.gmail.com>
-References: <CAHiDW_EOqi1qsP3AF_a3oqfg7smFb=EL=puyzyUfH+BK92_pOw@mail.gmail.com>
-MIME-Version: 1.0
-X-Originating-IP: [10.167.226.120]
-X-yoursite-MailScanner-ID: 37CEF42EB203.A918D
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: wangxin2015.fnst@cn.fujitsu.com
-X-Spam-Status: No
-Subject: [PATCH v3] bind: 9.10.3-P3 -> 9.11.0b2
+	Mon, 22 Aug 2016 02:54:13 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=I1ACUxtAxPkPhv21l23N33sJs+LJOVRmZFd42MUiB+c=;
+	b=cs0LxWPwTMQFaLR2zV//oXJthiFw6kujY9Pulmj7Pc0DepZ8jhYYeo9MnYUr4gUxCn
+	Sw0EgaBWLXbWF3kQyBKimIjNueF0/kzILprGe1/0JTOUNqvGX11BRy/ZWz4jV7U7ffV0
+	3l51DdK+YV7LxIIMPt44mvL7MlRhAE2VX+2bF56BNpLwWWwztxCBfaQ1VEyI+8qf5M+M
+	YNTsWYaeu71G15lxBJFrbAkRgOqzfDU5LelZMqGIBpvCt3TyT3cuXuTuaHQEo2AIYhyk
+	TvM9kEnGZJnNjuj2pt+wkYOqJ1/MOnibsK+4Yb0UNATL9Ix7cDw3Rtlwx4JI19d2JcLp
+	5wIA==
+X-Gm-Message-State: AEkoousiF5B759RL4cAgZe6Mj0S4GyUAtJdOSnryTa4iruwru1Cp0PFwh/GKxZ1WCeUFsA==
+X-Received: by 10.28.227.11 with SMTP id a11mr13824685wmh.29.1471859652158;
+	Mon, 22 Aug 2016 02:54:12 -0700 (PDT)
+Received: from localhost ([185.46.212.59])
+	by smtp.gmail.com with ESMTPSA id 4sm20311543wmu.2.2016.08.22.02.54.11
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Mon, 22 Aug 2016 02:54:11 -0700 (PDT)
+Message-ID: <1471859650.3713.10.camel@andred.net>
+From: =?ISO-8859-1?Q?Andr=E9?= Draszik <git@andred.net>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Date: Mon, 22 Aug 2016 10:54:10 +0100
+In-Reply-To: <7A51C236-FD8D-424C-9468-5796F4E54E10@gmail.com>
+References: <1470924371-1675-1-git-send-email-git@andred.net>
+	<3A0FE7FC-807D-4CED-8673-DA28B5F36A88@gmail.com>
+	<1470986810.4987.8.camel@andred.net>
+	<CAMKF1sqdpxYYrKnLkJ1VofY=qz5FEKsKWBo_7WrU+Cm_Kp1fDQ@mail.gmail.com>
+	<1470987751.4987.13.camel@andred.net>
+	<7A51C236-FD8D-424C-9468-5796F4E54E10@gmail.com>
+X-Mailer: Evolution 3.20.4-1+b1 
+Mime-Version: 1.0
+Subject: Re: [PATCH] libnl: musl fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,88 +52,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 22 Aug 2016 09:53:03 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 22 Aug 2016 09:54:14 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-1) Upgrade bind from 9.10.3-P3 to 9.11.0b2.
-2) Delete some patchers, since they are no use.
-    bind-confgen-build-unix.o-once.patch
-    CVE-2016-1285.patch
-    CVE-2016-1286_1.patch
-    CVE-2016-1286_2.patch
-    CVE-2016-2088.patch
-3) Modify LIC_FILES_CHKSUM, since the date in it has been changed, But the LICENSE has not been changed.
-4) Modify EXTRA_OECONF, enable python3.
+On Sa, 2016-08-20 at 07:51 -0700, Khem Raj wrote:
+> > 
+> > 
+> Thinking more on this, there is an alternative to use strerror_l() rather
+> than strerror_r(), that will avoid the non-confirming versions issue,
+> moreover
+> strerror_() is now recommended by posix to replace strerror_r() usage.
+> 
+> see
+> 
+> http://austingroupbugs.net/view.php?id=655
+> 
+> I think this is going to be a better solution since its portable.
 
-Signed-off-by: Wang Xin <wangxin2015.fnst@cn.fujitsu.com>
----
- .../bind/{bind_9.10.3-P3.bb => bind_9.11.0b2.bb}        | 17 ++++++-----------
- 1 file changed, 6 insertions(+), 11 deletions(-)
- rename meta/recipes-connectivity/bind/{bind_9.10.3-P3.bb => bind_9.11.0b2.bb} (85%)
-
-diff --git a/meta/recipes-connectivity/bind/bind_9.10.3-P3.bb b/meta/recipes-connectivity/bind/bind_9.11.0b2.bb
-similarity index 85%
-rename from meta/recipes-connectivity/bind/bind_9.10.3-P3.bb
-rename to meta/recipes-connectivity/bind/bind_9.11.0b2.bb
-index a99f0dd..7747494 100644
---- a/meta/recipes-connectivity/bind/bind_9.10.3-P3.bb
-+++ b/meta/recipes-connectivity/bind/bind_9.11.0b2.bb
-@@ -3,7 +3,7 @@ HOMEPAGE = "http://www.isc.org/sw/bind/"
- SECTION = "console/network"
- 
- LICENSE = "ISC & BSD"
--LIC_FILES_CHKSUM = "file://COPYRIGHT;md5=0a95f52a0ab6c5f52dedc9a45e7abb3f"
-+LIC_FILES_CHKSUM = "file://COPYRIGHT;md5=26895b6b2e11695fb4756065b885d5d9"
- 
- DEPENDS = "openssl libcap"
- 
-@@ -16,22 +16,17 @@ SRC_URI = "ftp://ftp.isc.org/isc/bind9/${PV}/${BPN}-${PV}.tar.gz \
-            file://named.service \
-            file://bind9 \
-            file://init.d-add-support-for-read-only-rootfs.patch \
--           file://bind-confgen-build-unix.o-once.patch \
-            file://0001-build-use-pkg-config-to-find-libxml2.patch \
-            file://bind-ensure-searching-for-json-headers-searches-sysr.patch \
-            file://0001-gen.c-extend-DIRNAMESIZE-from-256-to-512.patch \
-            file://0001-lib-dns-gen.c-fix-too-long-error.patch \
--           file://CVE-2016-1285.patch \
--           file://CVE-2016-1286_1.patch \
--           file://CVE-2016-1286_2.patch \
--           file://CVE-2016-2088.patch \
-            "
- 
--SRC_URI[md5sum] = "bcf7e772b616f7259420a3edc5df350a"
--SRC_URI[sha256sum] = "690810d1fbb72afa629e74638d19cd44e28d2b2e5eb63f55c705ad85d1a4cb83"
-+SRC_URI[md5sum] = "30db652baa5c227a61f8f4ca9b7ad9c2"
-+SRC_URI[sha256sum] = "440e7fa7c4e241c13028699ab107fc4c3efd1719012b1af356d39db5ab49109d"
- 
- ENABLE_IPV6 = "--enable-ipv6=${@bb.utils.contains('DISTRO_FEATURES', 'ipv6', 'yes', 'no', d)}"
--EXTRA_OECONF = " ${ENABLE_IPV6} --with-randomdev=/dev/random --disable-threads \
-+EXTRA_OECONF = " ${ENABLE_IPV6} --with-python=python --with-randomdev=/dev/random --disable-threads \
-                  --disable-devpoll --disable-epoll --with-gost=no \
-                  --with-gssapi=no --with-ecdsa=yes \
-                  --sysconfdir=${sysconfdir}/bind \
-@@ -62,7 +57,7 @@ RDEPENDS_${PN}-dev = ""
- PACKAGE_BEFORE_PN += "${PN}-utils"
- FILES_${PN}-utils = "${bindir}/host ${bindir}/dig"
- FILES_${PN}-dev += "${bindir}/isc-config.h"
--FILES_${PN} += "${sbindir}/generate-rndc-key.sh"
-+FILES_${PN} += "${sbindir}/generate-rndc-key.sh ${libdir}/*"
- 
- do_install_prepend() {
- 	# clean host path in isc-config.sh before the hardlink created
-@@ -81,7 +76,7 @@ do_install_append() {
- 	install -d "${D}${sysconfdir}/init.d"
- 	install -m 644 ${S}/conf/* "${D}${sysconfdir}/bind/"
- 	install -m 755 "${S}/init.d" "${D}${sysconfdir}/init.d/bind"
--	sed -i -e '1s,#!.*python,#! /usr/bin/python3,' ${D}${sbindir}/dnssec-coverage ${D}${sbindir}/dnssec-checkds
-+	sed -i -e '1s,#!.*python,#! /usr/bin/python3,' ${D}${sbindir}/dnssec-coverage ${D}${sbindir}/dnssec-checkds ${D}${sbindir}/dnssec-keymgr
- 
- 	# Install systemd related files
- 	install -d ${D}${sbindir}
--- 
-2.7.4
+Yeah, you're right. Let me cook up something...
 
 
+Cheers,
+Andre'
 
 
