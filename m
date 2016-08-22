@@ -1,48 +1,29 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-it0-f54.google.com (mail-it0-f54.google.com
-	[209.85.214.54])
-	by mail.openembedded.org (Postfix) with ESMTP id 8E636731DD
+Return-Path: <joshua.g.lock@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 5F7D27017B
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Aug 2016 10:18:42 +0000 (UTC)
-Received: by mail-it0-f54.google.com with SMTP id f6so77973852ith.0
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Aug 2016 03:18:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=MFbLbPNMa12d5c2Ov8N2jA0llUZcDjGbcW9AXLMyGK0=;
-	b=ZunYoDdaEda51BMep7uu02gbK2twoopx5t6JYedL61AOilmGhgP0RJMNgHu89lL4HY
-	VNd1GjFvzP6Avf6jqpJvsI4DBwOnk0iWayeAZAx2QEYyYZnWt6D8vXaZM9n5whDJ7Y57
-	UtgneS/HWgR61ksefOX3FP/pQ9dYzZCpNmbU8FgwAxSNscxVDd9cmXJGswGlKH97dp7G
-	tYFl6qfrUe10nMZQgW/ZWim/C9P+5LEMgIJZBQiBliX4/BN602a9Py3UugAsHRCAkrwO
-	aHxq1h6H8FJu8AX42rbLBLziBhPvR4dBeelWjCneDRK3fpatEC/iFbjyzv/Lw2YfAuXC
-	36Nw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=MFbLbPNMa12d5c2Ov8N2jA0llUZcDjGbcW9AXLMyGK0=;
-	b=FdTwjybMPoDOxbKlVFF/oiLs7YjxeF3UpdANC65dW3rkc2S22rUBzSj+Ay0lhaHwL3
-	/scJ5Nh1c1WSgX2KweQgeWCoiw2SiKw3Hc/ox4l2g/xS+6yDL5q+kfk1rJyadBdBZ51j
-	Ihrlrl85rygUn0YkORQ2STuyHh5qy09I1Bf2chToFAG+wyPQlAXCYQq6Bdm9vyQhVLql
-	1qbhsXYA6PcZjs+npCcQhQ2RQCteEobzOyw84De5gLB4Gg8Xmd5tpXMvs1raey74Qjuy
-	tRwOBRly0KgUVz9o1+yF0lUOsULDxzu6ZEvY8wKDGHnoWmgY0WpMM5TIiIhAUau6fkIn
-	JSfQ==
-X-Gm-Message-State: AEkooutS4WBxZrM7HsezHFvVHIvy8gDpROUTW3jziXT2HICytwDUy9m2nMzyywxCKgDRRUscaxFNBpFN+xuw2NHJ
-X-Received: by 10.36.57.211 with SMTP id l202mr20014106ita.22.1471861122939;
-	Mon, 22 Aug 2016 03:18:42 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.107.18.17 with HTTP; Mon, 22 Aug 2016 03:18:22 -0700 (PDT)
-In-Reply-To: <ly1t1hjg44.fsf@ensc-virt.intern.sigma-chemnitz.de>
-References: <cover.1471246474.git.hongxu.jia@windriver.com>
-	<f2d0736dd176c21c4ef1d539a7e82dbfd1367f2a.1471246475.git.hongxu.jia@windriver.com>
-	<ly1t1hjg44.fsf@ensc-virt.intern.sigma-chemnitz.de>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 22 Aug 2016 11:18:22 +0100
-Message-ID: <CAJTo0LY1L1zadYdw+AH=hVD6xu5r9sRap_G7+iALhf9q41Excw@mail.gmail.com>
-To: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/3] ncurses: upgrade to 6.0+20160625
+	Mon, 22 Aug 2016 10:42:49 +0000 (UTC)
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+	by fmsmga101.fm.intel.com with ESMTP; 22 Aug 2016 03:42:50 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.28,559,1464678000"; d="scan'208";a="159281933"
+Received: from jlock-mobl1.ger.corp.intel.com ([10.252.24.69])
+	by fmsmga004.fm.intel.com with ESMTP; 22 Aug 2016 03:42:48 -0700
+Message-ID: <1471862567.5256.18.camel@linux.intel.com>
+From: Joshua Lock <joshua.g.lock@linux.intel.com>
+To: =?ISO-8859-1?Q?Andr=E9?= Draszik <git@andred.net>, 
+	openembedded-core@lists.openembedded.org
+Date: Mon, 22 Aug 2016 11:42:47 +0100
+In-Reply-To: <1471852964.3713.7.camel@andred.net>
+References: <cover.1471620482.git.joshua.g.lock@intel.com>
+	<cover.1471620482.git.joshua.g.lock@intel.com>
+	<d7af57b9c8284eaa96fa6c0a560c0047b03fb911.1471620482.git.joshua.g.lock@intel.com>
+	<9D776326-1F02-4F8E-B61C-DF3971141312@gmail.com>
+	<1471632399.5679.22.camel@linux.intel.com>
+	<1471852964.3713.7.camel@andred.net>
+X-Mailer: Evolution 3.20.5 (3.20.5-1.fc24) 
+Mime-Version: 1.0
+Subject: Re: [PATCH 2/5] security_flags: pass ssp-buffer-size param to stack protector
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,59 +36,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 22 Aug 2016 10:18:44 -0000
-Content-Type: multipart/alternative; boundary=001a114ab3ca645070053aa65f00
+X-List-Received-Date: Mon, 22 Aug 2016 10:42:50 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
---001a114ab3ca645070053aa65f00
-Content-Type: text/plain; charset=UTF-8
+On Mon, 2016-08-22 at 09:02 +0100, André Draszik wrote:
+> On Fr, 2016-08-19 at 19:46 +0100, Joshua G Lock wrote:
+> > 
+> > On Fri, 2016-08-19 at 10:07 -0700, Khem Raj wrote:
+> > > 
+> > > 
+> > > > 
+> > > > 
+> > > > 
+> > > > On Aug 19, 2016, at 8:34 AM, Joshua Lock <joshua.g.lock@intel.c
+> > > > om>
+> > > > wrote:
+> > > > 
+> > > > This tells the compiler to use a canary to protect any function
+> > > > which
+> > > > declares a character array of 4 or more bytes on its stack,
+> > > > rather
+> > > > than the default of 8 or more bytes.
+> > > 
+> > > Thats fine, however, it slows down the code, strong option was a
+> > > compromise
+> > > otherwise we could just use fstack-protector-all
+> > 
+> > It's my understanding that the ssp-buffer-size parameter changes
+> > the
+> > size of buffer the base, fstack-protector, protections affect and
+> > that
+> > the performance impact is less significant than adding protections
+> > to
+> > all functions via stack-protector-all?
+> 
+> I understand it as follows instead:
+> 
+> --param=ssp-buffer-size=X only makes sense together with -fstack-
+> protector, as -fstack-protector can to be configured for the minimum
+> size of arrays to protect (8 by default, if --param=ssp-buffer-size=
+> is not given).
+> 
+> --param=ssp-buffer-size=X does not make sense with -fstack-protector-
+> strong as this version protects arrays of *any* size anyway.
+> 
+> https://gcc.gnu.org/ml/gcc-patches/2012-06/msg00974.html
+>   -> This also has the design doc towards the end.
+> https://lwn.net/Articles/584225/
+> 
+> So I don't think this patch is needed at all...
 
-On 22 August 2016 at 10:40, Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-wrote:
+Thanks for the link, having read the patch and design doc I'm inclined
+to agree.
 
-> This breaks the build with OE because it tries to split our $CC.
-> E.g. with
->
-> | CC = ccache arm-linux-gnueabi-gcc -march=armv7ve ... --sysroot=...
->
-> configure will warn
->
-> | your environment misuses the CC variable to hold CFLAGS/CPPFLAGS options
->
-> and messes up CFLAGS completely so that 'arm-linux-gnuebi-gcc' becomes
-> part of it :(
->
+> > 
+> > FWIW, the related options in Fedora and Ubuntu:
+> > 
+> > * Ubuntu: -fstack-protector --param=ssp-buffer-size=4 (default in
+> > hardened builds)
+> > * Fedora: -fstack-protector-strong --param=ssp-buffer-size=4
+> > (default
+> > in all builds)
+> 
+> Debian (sid) uses -fstack-protector-strong (without ssp-buffer-size).
+> 
 
-I've long wondered about changing our abuse of CC to hold the sysroot,
-ncurses isn't the first recipe we've had to patch over this...
+Thanks, I couldn't find a Debian system on Friday evening.
 
-Ross
+Regards,
 
---001a114ab3ca645070053aa65f00
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Joshua
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 22 August 2016 at 10:40, Enrico Scholz <span dir=3D"ltr">&lt;<a href=3D"=
-mailto:enrico.scholz@sigma-chemnitz.de" target=3D"_blank">enrico.scholz@sig=
-ma-chemnitz.de</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" s=
-tyle=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div=
- id=3D":565" class=3D"a3s aXjCH m156b1a0a8ea27843">This breaks the build wi=
-th OE because it tries to split our $CC.<br>
-E.g. with<br>
-<br>
-| CC =3D ccache arm-linux-gnueabi-gcc -march=3Darmv7ve ... --sysroot=3D...<=
-br>
-<br>
-configure will warn<br>
-<br>
-| your environment misuses the CC variable to hold CFLAGS/CPPFLAGS options<=
-br>
-<br>
-and messes up CFLAGS completely so that &#39;arm-linux-gnuebi-gcc&#39; beco=
-mes<br>
-part of it :(</div></blockquote></div><br>I&#39;ve long wondered about chan=
-ging our abuse of CC to hold the sysroot, ncurses isn&#39;t the first recip=
-e we&#39;ve had to patch over this...</div><div class=3D"gmail_extra"><br><=
-/div><div class=3D"gmail_extra">Ross</div></div>
-
---001a114ab3ca645070053aa65f00--
