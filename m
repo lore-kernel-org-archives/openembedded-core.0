@@ -1,53 +1,49 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qk0-f174.google.com (mail-qk0-f174.google.com
-	[209.85.220.174])
-	by mail.openembedded.org (Postfix) with ESMTP id B8D356E64A
+Return-Path: <ross.burton@intel.com>
+Received: from mail-it0-f44.google.com (mail-it0-f44.google.com
+	[209.85.214.44])
+	by mail.openembedded.org (Postfix) with ESMTP id 397616FF73
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Aug 2016 15:46:18 +0000 (UTC)
-Received: by mail-qk0-f174.google.com with SMTP id l2so86282997qkf.3
+	Mon, 22 Aug 2016 16:08:50 +0000 (UTC)
+Received: by mail-it0-f44.google.com with SMTP id f6so86703937ith.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Aug 2016 08:46:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	Mon, 22 Aug 2016 09:08:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=FUoMbztUttIFQddjsBQs0f5WF1rCEAW1fnkmlAaVmFw=;
-	b=UTnorIbzoKDDMxxpEgpo1cJVBvAbGJgwkSXeyk5qkcA1fWXEwRJdTHu2lHyGhx9Jez
-	F6OVerPe7NnT3c6bRE5wObhD98/Y3M8Yt5lfR+SpNL6IkGWA0LUTaqNArVKAwtARIDTZ
-	Hn7lMGb0PfPf4cRCOzRTZ+rleSryM0CYqcZeobi/aHgUDGudDclF6xx/ZiblA60V5LeH
-	SXG6s7jEmR9CEWmWVs5iYSBqQ2xVSFAQs0GmmoKROPcF4Po0vtkba0ZhUckWQbTRv5iQ
-	qLXnc7t7ruqvEGZ77JpGGiCSmOeFVHQt5FMXOEPs1YuqY9M12d3P/eu0xhnclUSxG8rX
-	FFIQ==
+	:cc; bh=gczdnwBZV4+s8pPH44K/WJ1YpA4rBNLUwJQ654kNwO0=;
+	b=zLOxBj+9pQKiKsTs00g0zYgv42xyMTuuFY9L0U/3Nf1dOzNxeSi09LYJ4UKDDr5vao
+	Cd70H071pwX27vyBKtRzkLyfx42Ytc/iTM/TYLWDR8h4lvp8U3CFCvM1UAQdSe7uZ1lI
+	I175nvWx9zg9yGNgNzExQ4QMFV2dgreieJDQaC/wfxuau3FJa1ioMKKQnJBGCAq05ctk
+	Ppuy+3TovBkaHx8MeSK5PB3NVdaJhtrq4Uohr1SGqkghHMR7Bx/am3cJmctHripoJMuZ
+	kTeLs8iX9xO3wyR5R2+/4On8EhD767JES+tzex5dx4/fpqUtg+otxumQDi3yOltv/mYm
+	8mnQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=FUoMbztUttIFQddjsBQs0f5WF1rCEAW1fnkmlAaVmFw=;
-	b=B446QxZzVOVPPg4w3LCRrOUJA/Q0qXZd9Ceia3drLnRgW/Qg69QkgI4aUhC5IovgEG
-	GKpriJxE34ErxeX6g0H3gXYc8DpUN3E+kkPkrPw3i3BBW5rn4NZS1jGlSraV38f2VHeS
-	AhrB0ufCjJfyPsyP5PxbUwb5Er53FrkCRPfqigYVP4AHqBJRJfzaxD4+dwHV39+QyHqi
-	8vn3/MTy0gYLxm/58eI4bjEZ9rABu/3vKTndc9/j7WJ805l3shmDj+uBR9do+hLCGUbJ
-	aEanosdJxljFWV0e6Gvbug9h+5giWz8EkjeSqGDWwrLwfZHktFpYV+TaSMhtkkssCIyP
-	XCnw==
-X-Gm-Message-State: AEkoouvIXXoC4fAppGLYDUk+awYgdw5b6E4t3v614ZZQVyiQVeidrD5ybzeJSXhNT3uBm1zzJRhac4CLePDxrA==
-X-Received: by 10.55.27.106 with SMTP id b103mr23816147qkb.224.1471880778962; 
-	Mon, 22 Aug 2016 08:46:18 -0700 (PDT)
+	bh=gczdnwBZV4+s8pPH44K/WJ1YpA4rBNLUwJQ654kNwO0=;
+	b=jzIHdYz4uBL+Wmq3dU1tWc7rtB6KmGjMxXNh/EWnQpATD8MT55K/2Yy+IJNwEZib0d
+	CUHDtcURIt8cSIQqhjy4FTXDMP9njf5z1OnON9lCta6u9jSjRwfNQgBTL/E+loc+2YkV
+	V2e/2oldBArfOoJu7hBwhHMp1yYmTI0N1gegPvD5o6/wDH5Uk5TqEfTSVRq2iZRroijH
+	02/SBOTkBQ0LSW7OUn7ApNX5tjqdpYoDy/qeIVJ+Q0fxYoq3N9ouRwvTK3NBI360Qtwd
+	SrcW9B8jP28cumAVOE1RpMMS2IFE0orKYDXnOOkqsNz41W+pPG4ZnKQOoBoteVfFx+rF
+	B+zQ==
+X-Gm-Message-State: AEkoouvGaowUAZKN/Veq6XBkTrrmaZe9kcI/y7NEiV+A/rUZuyD4qE/GF8RaW1chVzIs4HW50vM/xme9fNvKXzdW
+X-Received: by 10.36.57.211 with SMTP id l202mr21928826ita.22.1471882131355;
+	Mon, 22 Aug 2016 09:08:51 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.55.215.13 with HTTP; Mon, 22 Aug 2016 08:46:17 -0700 (PDT)
-Received: by 10.55.215.13 with HTTP; Mon, 22 Aug 2016 08:46:17 -0700 (PDT)
-In-Reply-To: <CAJTo0LYL9eiid4PKOj8OgY81Z3KANhtHkwh1RGGhNQi4+RXehg@mail.gmail.com>
-References: <1471499308-1666-1-git-send-email-wangxin2015.fnst@cn.fujitsu.com>
-	<CAJTo0LZy-mx4K=eSJdNRq12JVDzGwW+Oe0uf40YRZAmyWVJsZQ@mail.gmail.com>
-	<56847BB1-DCA8-446D-9418-2D42098A7073@gmail.com>
-	<CAJTo0LZJRJFC71=xEa_EQUiOTZNWR8QPGtnJvSWqqGLqM_QjcQ@mail.gmail.com>
-	<8b30fc2d-26ea-03bd-58ea-cdbf00e74b36@linux.intel.com>
-	<020C25BC-315C-4ED3-8268-DB7CC4C0A52A@gmail.com>
-	<CAJTo0LYL9eiid4PKOj8OgY81Z3KANhtHkwh1RGGhNQi4+RXehg@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 22 Aug 2016 08:46:17 -0700
-Message-ID: <CAMKF1sqHpOyuBrnqG2spbQRqhg1oQx04KrUL7DLffNTXWM4Gag@mail.gmail.com>
-To: Ross Burton <ross.burton@intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] gdk-pixbuf: 2.34.0 -> 2.35.3
+Received: by 10.107.18.17 with HTTP; Mon, 22 Aug 2016 09:08:31 -0700 (PDT)
+In-Reply-To: <20160822142711.26042-2-clemens.lang@bmw-carit.de>
+References: <2e948106-ac15-2c16-5bb6-f234079be725@embed.me.uk>
+	<20160822142711.26042-1-clemens.lang@bmw-carit.de>
+	<20160822142711.26042-2-clemens.lang@bmw-carit.de>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 22 Aug 2016 17:08:31 +0100
+Message-ID: <CAJTo0Lb1+G+cF2tFkVpA14w_1borw95msdtiRPDUPz0-RPMPDQ@mail.gmail.com>
+To: Clemens Lang <clemens.lang@bmw-carit.de>
+Cc: Thomas Witt <Thomas.Witt@bmw.de>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] cmake.bbclass: call cmake with a relative path
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,49 +56,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 22 Aug 2016 15:46:19 -0000
-Content-Type: multipart/alternative; boundary=001a1147f56afb6202053aaaf2ca
+X-List-Received-Date: Mon, 22 Aug 2016 16:08:52 -0000
+Content-Type: multipart/alternative; boundary=001a114ab3ca975025053aab43b9
 
---001a1147f56afb6202053aaaf2ca
+--001a114ab3ca975025053aab43b9
 Content-Type: text/plain; charset=UTF-8
 
-On Aug 22, 2016 8:20 AM, "Burton, Ross" <ross.burton@intel.com> wrote:
->
->
-> On 19 August 2016 at 17:52, Khem Raj <raj.khem@gmail.com> wrote:
->>
->> good point, will this class give me some sort of parsing error, if I try
-to update to odd version ?
->
->
-> No it simply sets the variables so that the recipe reporting service
-won't propose an upgrade to a development release.
->
-> There may be a good reason for the upgrade to a development release (for
-example if you're developing a system and are tracking an upstream
-development series), so aborting the build would be overkill.
+On 22 August 2016 at 15:27, Clemens Lang <clemens.lang@bmw-carit.de> wrote:
 
-A parsing note or warning would not hurt imo
+> CMake wants a relative path for CMAKE_INSTALL_*DIR, an absolute path
+> breaks cross-compilation. This fact is documented in the following
+> ticket: https://cmake.org/Bug/view.php?id=14367
 >
-> Ross
+> $sysconfdir and $localstatedir are not relative to $prefix, so they are
+> still set as absolute paths. With his change ${PROJECT}Targets.cmake
+> that are generated by cmakes "export" function will contain relative
+> paths instead of absolute ones.
+>
 
---001a1147f56afb6202053aaaf2ca
+Seems to work in my testing, but this breaks piglit's bash-completion logic
+again (resulting in it not installing the file).  If you understand cmake
+then having a quick look at that would be much appreciated.  For reference
+the buildhistory-diff log is:
+
+packages/corei7-64-poky-linux/piglit/piglit-bash-completion: FILELIST:
+removed all items "/usr/share/bash-completion/completions/piglit:
+
+Ross
+
+--001a114ab3ca975025053aab43b9
 Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-<p dir="ltr"></p>
-<p dir="ltr">On Aug 22, 2016 8:20 AM, &quot;Burton, Ross&quot; &lt;<a href="mailto:ross.burton@intel.com">ross.burton@intel.com</a>&gt; wrote:<br>
-&gt;<br>
-&gt;<br>
-&gt; On 19 August 2016 at 17:52, Khem Raj &lt;<a href="mailto:raj.khem@gmail.com">raj.khem@gmail.com</a>&gt; wrote:<br>
-&gt;&gt;<br>
-&gt;&gt; good point, will this class give me some sort of parsing error, if I try to update to odd version ?<br>
-&gt;<br>
-&gt;<br>
-&gt; No it simply sets the variables so that the recipe reporting service won&#39;t propose an upgrade to a development release.<br>
-&gt;<br>
-&gt; There may be a good reason for the upgrade to a development release (for example if you&#39;re developing a system and are tracking an upstream development series), so aborting the build would be overkill.</p>
-<p dir="ltr">A parsing note or warning would not hurt imo<br>
-&gt;<br>
-&gt; Ross<br></p>
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 22 August 2016 at 15:27, Clemens Lang <span dir=3D"ltr">&lt;<a href=3D"m=
+ailto:clemens.lang@bmw-carit.de" target=3D"_blank">clemens.lang@bmw-carit.d=
+e</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margi=
+n:0px 0px 0px 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204=
+);border-left-style:solid;padding-left:1ex"><span class=3D"">CMake</span> w=
+ants a relative path for CMAKE_INSTALL_*DIR, an absolute path<br>
+breaks cross-compilation. This fact is documented in the following<br>
+ticket: <a href=3D"https://cmake.org/Bug/view.php?id=3D14367" rel=3D"norefe=
+rrer" target=3D"_blank">https://<span class=3D"">cmake</span>.org/Bug/view.=
+<wbr>php?id=3D14367</a><br>
+<br>
+$sysconfdir and $localstatedir are not relative to $prefix, so they are<br>
+still set as absolute paths. With his change ${PROJECT}Targets.<span class=
+=3D"">cmake</span><br>
+that are generated by cmakes &quot;export&quot; function will contain relat=
+ive<br>
+paths instead of absolute ones.<br></blockquote></div><br>Seems to work in =
+my testing, but this breaks piglit&#39;s bash-completion logic again (resul=
+ting in it not installing the file).=C2=A0 If you understand cmake then hav=
+ing a quick look at that would be much appreciated.=C2=A0 For reference the=
+ buildhistory-diff log is:</div><div class=3D"gmail_extra"><br></div><div c=
+lass=3D"gmail_extra">packages/corei7-64-poky-linux/piglit/piglit-bash-compl=
+etion: FILELIST: removed all items &quot;/usr/share/bash-completion/complet=
+ions/piglit:<br></div><div class=3D"gmail_extra"><br></div><div class=3D"gm=
+ail_extra">Ross</div></div>
 
---001a1147f56afb6202053aaaf2ca--
+--001a114ab3ca975025053aab43b9--
