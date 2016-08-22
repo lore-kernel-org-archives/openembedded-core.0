@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 8967375C51
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id B013F76E3F
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Aug 2016 07:52:56 +0000 (UTC)
+	Mon, 22 Aug 2016 07:52:57 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u7M7qvm1011089
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u7M7qvKJ023631
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Aug 2016 00:52:57 -0700 (PDT)
+	Mon, 22 Aug 2016 00:52:58 -0700 (PDT)
 Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Mon, 22 Aug 2016 00:52:56 -0700
+	Mon, 22 Aug 2016 00:52:57 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 22 Aug 2016 00:52:46 -0700
-Message-ID: <0f1b231e37198a836a19f1f6a3f6b1734261cc60.1471850849.git.liezhi.yang@windriver.com>
+Date: Mon, 22 Aug 2016 00:52:47 -0700
+Message-ID: <baacff2d7912689ccc25b76e0529b9e3417c7d1f.1471850849.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.9.0
 In-Reply-To: <cover.1471850849.git.liezhi.yang@windriver.com>
 References: <cover.1471850849.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH V4 09/11] python-3.5-manifest.inc: the signal module RDEPENDS on enum
+Subject: [PATCH V4 10/11] nativesdk-qemu-helper: fix for new runqemu
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,50 +33,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 22 Aug 2016 07:52:56 -0000
+X-List-Received-Date: Mon, 22 Aug 2016 07:52:57 -0000
 Content-Type: text/plain
 
-Fixed:
-$ python3
->>> import signal
-Traceback (most recent call last):
-  File "<stdin>", line 1, in <module>
-  File "/path/to/sdk/sysroots/x86_64-pokysdk-linux/usr/lib/python3.5/signal.py", line 4, in <module>
-    from enum import IntEnum as _IntEnum
-ImportError: No module named 'enum'
+There is no runqemu-internal anymore, and it is a python script now
+which requires several python modules.
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- meta/recipes-devtools/python/python-3.5-manifest.inc | 2 +-
- scripts/contrib/python/generate-manifest-3.5.py      | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ meta/recipes-devtools/qemu/nativesdk-qemu-helper_1.0.bb | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
 
-diff --git a/meta/recipes-devtools/python/python-3.5-manifest.inc b/meta/recipes-devtools/python/python-3.5-manifest.inc
-index b9c2fec..bc6842b 100644
---- a/meta/recipes-devtools/python/python-3.5-manifest.inc
-+++ b/meta/recipes-devtools/python/python-3.5-manifest.inc
-@@ -206,7 +206,7 @@ RDEPENDS_${PN}-shell="${PN}-core ${PN}-re ${PN}-compression"
- FILES_${PN}-shell="${libdir}/python3.5/cmd.* ${libdir}/python3.5/commands.* ${libdir}/python3.5/dircache.* ${libdir}/python3.5/fnmatch.* ${libdir}/python3.5/glob.* ${libdir}/python3.5/popen2.* ${libdir}/python3.5/shlex.* ${libdir}/python3.5/shutil.* "
+diff --git a/meta/recipes-devtools/qemu/nativesdk-qemu-helper_1.0.bb b/meta/recipes-devtools/qemu/nativesdk-qemu-helper_1.0.bb
+index 51d1c59..63e5fd5 100644
+--- a/meta/recipes-devtools/qemu/nativesdk-qemu-helper_1.0.bb
++++ b/meta/recipes-devtools/qemu/nativesdk-qemu-helper_1.0.bb
+@@ -1,15 +1,16 @@
+ SUMMARY = "Qemu helper scripts"
+ LICENSE = "GPLv2"
+-RDEPENDS_${PN} = "nativesdk-qemu"
+-PR = "r9"
++RDEPENDS_${PN} = "nativesdk-qemu nativesdk-python3-subprocess \
++                  nativesdk-python3-shell nativesdk-python3-fcntl \
++                "
  
- SUMMARY_${PN}-signal="Python set handlers for asynchronous events support"
--RDEPENDS_${PN}-signal="${PN}-core"
-+RDEPENDS_${PN}-signal="${PN}-core ${PN}-enum"
- FILES_${PN}-signal="${libdir}/python3.5/signal.* "
++PR = "r9"
  
- SUMMARY_${PN}-smtpd="Python Simple Mail Transport Daemon"
-diff --git a/scripts/contrib/python/generate-manifest-3.5.py b/scripts/contrib/python/generate-manifest-3.5.py
-index 3a88018..9f53dbe 100755
---- a/scripts/contrib/python/generate-manifest-3.5.py
-+++ b/scripts/contrib/python/generate-manifest-3.5.py
-@@ -345,7 +345,7 @@ if __name__ == "__main__":
-     m.addPackage( "${PN}-shell", "Python shell-like functionality", "${PN}-core ${PN}-re ${PN}-compression",
-     "cmd.* commands.* dircache.* fnmatch.* glob.* popen2.* shlex.* shutil.*" )
+ LIC_FILES_CHKSUM = "file://${WORKDIR}/tunctl.c;endline=4;md5=ff3a09996bc5fff6bc5d4e0b4c28f999 \
+-                    file://${COREBASE}/scripts/runqemu;endline=18;md5=77fbe442a88b1bcdc29c3ba67733b21b"
++                    file://${COREBASE}/scripts/runqemu;endline=19;md5=a8ad1905c709a2deaa057608ebaf705a"
  
--    m.addPackage( "${PN}-signal", "Python set handlers for asynchronous events support", "${PN}-core",
-+    m.addPackage( "${PN}-signal", "Python set handlers for asynchronous events support", "${PN}-core ${PN}-enum",
-     "signal.*" )
  
-     m.addPackage( "${PN}-subprocess", "Python subprocess support", "${PN}-core ${PN}-io ${PN}-re ${PN}-fcntl ${PN}-pickle ${PN}-threading ${PN}-signal ${PN}-selectors",
+ SRC_URI = "file://${COREBASE}/scripts/runqemu \
+-           file://${COREBASE}/scripts/runqemu-internal \
+            file://${COREBASE}/scripts/runqemu-addptable2image \
+            file://${COREBASE}/scripts/runqemu-gen-tapdevs \
+            file://${COREBASE}/scripts/runqemu-ifup \
 -- 
 2.9.0
 
