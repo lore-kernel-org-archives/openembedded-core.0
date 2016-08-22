@@ -1,60 +1,32 @@
-Return-Path: <enrico.scholz@sigma-chemnitz.de>
-Received: from mail.cvg.de (mail.cvg.de [62.153.82.30])
-	by mail.openembedded.org (Postfix) with ESMTP id 7CE6A731DB
+Return-Path: <maxin.john@intel.com>
+X-Greylist: delayed 566 seconds by postgrey-1.34 at layers.openembedded.org;
+	Mon, 22 Aug 2016 11:23:47 UTC
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+	by mail.openembedded.org (Postfix) with ESMTP id C3DA0731DB
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Aug 2016 11:21:48 +0000 (UTC)
-Received: from mail-mta-0.intern.sigma-chemnitz.de
-	(mail-mta-0.intern.sigma-chemnitz.de [192.168.12.76])
-	by mailout-1.intern.sigma-chemnitz.de (8.14.7/8.14.7) with ESMTP id
-	u7MBLlWS024563
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256
-	verify=OK) for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Aug 2016 13:21:47 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sigma-chemnitz.de;
-	s=v2012061000; t=1471864908;
-	bh=KlmghrDcfH6vzPcFIob4nf1Q/CWLAk1TmpqQ97M10Sg=;
-	h=From:To:Cc:Subject:References:Date:In-Reply-To:Message-ID:
-	MIME-Version:Content-Type:Sender;
-	b=ESMsIJTKniNP24GZgNIXPutOWwMG5TdOwNpT0WAcAmKQ3fIzwiWft54fYNu075qbF
-	3mwtIsSJ3wVu5ZYKCXqglZSw7g7A25QYgFdd0Zlg2tjrSt9pOqNEqpBCBqNcXkgXQr
-	ZE4hfP4nJY1CsrJhLTeoYT4OzzZ4agkvbf28aEbY=
-Received: from reddoxx.intern.sigma-chemnitz.de
-	(reddoxx.intern.sigma-chemnitz.de [192.168.0.193])
-	by mail-mta-0.intern.sigma-chemnitz.de (8.14.7/8.14.7) with ESMTP id
-	u7MBLTSE014671 for <openembedded-core@lists.openembedded.org> from
-	enrico.scholz@sigma-chemnitz.de; Mon, 22 Aug 2016 13:21:30 +0200
-Received: from mail-msa-0.intern.sigma-chemnitz.de ( [192.168.12.77]) by
-	reddoxx.intern.sigma-chemnitz.de
-	(Reddoxx engine) with SMTP id E6E0F8454B;
-	Mon, 22 Aug 2016 13:21:21 +0200
-Received: from ensc-virt.intern.sigma-chemnitz.de
-	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
-	by mail-msa-0.intern.sigma-chemnitz.de (8.14.7/8.14.7) with ESMTP id
-	u7MBLSTx014668
-	(version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
-	Mon, 22 Aug 2016 13:21:28 +0200
-Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
-	4.86_2) (envelope-from <ensc@sigma-chemnitz.de>)
-	id 1bbnIG-0005DF-0Z; Mon, 22 Aug 2016 13:21:28 +0200
-From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-To: "Burton\, Ross" <ross.burton@intel.com>
-References: <cover.1471246474.git.hongxu.jia@windriver.com>
-	<f2d0736dd176c21c4ef1d539a7e82dbfd1367f2a.1471246475.git.hongxu.jia@windriver.com>
-	<ly1t1hjg44.fsf@ensc-virt.intern.sigma-chemnitz.de>
-	<CAJTo0LY1L1zadYdw+AH=hVD6xu5r9sRap_G7+iALhf9q41Excw@mail.gmail.com>
-Date: Mon, 22 Aug 2016 13:21:27 +0200
-In-Reply-To: <CAJTo0LY1L1zadYdw+AH=hVD6xu5r9sRap_G7+iALhf9q41Excw@mail.gmail.com>
-	(Ross Burton's message of "Mon, 22 Aug 2016 11:18:22 +0100")
-Message-ID: <lyshtxhww8.fsf@ensc-virt.intern.sigma-chemnitz.de>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/25.0.95 (gnu/linux)
+	Mon, 22 Aug 2016 11:23:47 +0000 (UTC)
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+	by orsmga104.jf.intel.com with ESMTP; 22 Aug 2016 04:14:23 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.28,559,1464678000"; d="scan'208";a="159290468"
+Received: from linux.intel.com ([10.54.29.200])
+	by fmsmga004.fm.intel.com with ESMTP; 22 Aug 2016 04:14:24 -0700
+Received: from mbabyjoh-desk.fi.intel.com (mbabyjoh-desk.fi.intel.com
+	[10.237.72.71])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by linux.intel.com (Postfix) with ESMTP id 06CE66A408D
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 22 Aug 2016 04:14:05 -0700 (PDT)
+From: "Maxin B. John" <maxin.john@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 22 Aug 2016 14:15:41 +0300
+Message-Id: <1471864541-9848-3-git-send-email-maxin.john@intel.com>
+X-Mailer: git-send-email 2.4.0
+In-Reply-To: <1471864541-9848-1-git-send-email-maxin.john@intel.com>
+References: <1471864541-9848-1-git-send-email-maxin.john@intel.com>
 MIME-Version: 1.0
-Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-X-Spam-Score: 2.1
-X-Spam-Level: ##
-X-Spam-Tests: AWL,BAYES_50,DKIM_ADSP_ALL,RP_MATCHES_RCVD,SPF_NEUTRAL
-X-Scanned-By: MIMEDefang 2.78
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/3] ncurses: upgrade to 6.0+20160625
+Subject: [krogoth][PATCH 3/3] curl: security fix for CVE-2016-5421
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -67,36 +39,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 22 Aug 2016 11:21:50 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 22 Aug 2016 11:23:50 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-"Burton, Ross" <ross.burton@intel.com> writes:
+Affected versions: libcurl 7.32.0 to and including 7.50.0
 
->> This breaks the build with OE because it tries to split our $CC.
->> E.g. with
->>
->> | CC = ccache arm-linux-gnueabi-gcc -march=armv7ve ... --sysroot=...
->>
->> configure will warn
->>
->> | your environment misuses the CC variable to hold CFLAGS/CPPFLAGS options
->>
->> and messes up CFLAGS completely so that 'arm-linux-gnuebi-gcc' becomes
->> part of it :(
->>
-> ncurses isn't the first recipe we've had to patch over this...
+Signed-off-by: Maxin B. John <maxin.john@intel.com>
+---
+ meta/recipes-support/curl/curl/CVE-2016-5421.patch | 36 ++++++++++++++++++++++
+ meta/recipes-support/curl/curl_7.47.1.bb           |  1 +
+ 2 files changed, 37 insertions(+)
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2016-5421.patch
 
-ncurses is ugly because it uses its own private version of autoconf.  We
-will have to patch a lot of (compiled) 'configure' scripts, or (which I
-prefer) create a local wrapper script for $CC.
+diff --git a/meta/recipes-support/curl/curl/CVE-2016-5421.patch b/meta/recipes-support/curl/curl/CVE-2016-5421.patch
+new file mode 100644
+index 0000000..862da75
+--- /dev/null
++++ b/meta/recipes-support/curl/curl/CVE-2016-5421.patch
+@@ -0,0 +1,36 @@
++From 75dc096e01ef1e21b6c57690d99371dedb2c0b80 Mon Sep 17 00:00:00 2001
++From: Daniel Stenberg <daniel@haxx.se>
++Date: Sun, 31 Jul 2016 01:09:04 +0200
++Subject: [PATCH] curl_multi_cleanup: clear connection pointer for easy handles
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
++
++Bug: https://curl.haxx.se/docs/adv_20160803C.html
++Reported-by: Marcelo Echeverria and Fernando Muñoz
++
++Upstream-Status: Backport
++https://curl.haxx.se/CVE-2016-5421.patch
++
++CVE: CVE-2016-5421
++Signed-off-by: Maxin B. John <maxin.john@intel.com>
++---
++ lib/multi.c | 2 ++
++ 1 file changed, 2 insertions(+)
++
++diff --git a/lib/multi.c b/lib/multi.c
++index 9ee3523..8bb9366 100644
++--- a/lib/multi.c
+++++ b/lib/multi.c
++@@ -2157,6 +2157,8 @@ static void close_all_connections(struct Curl_multi *multi)
++     conn->data = multi->closure_handle;
++ 
++     sigpipe_ignore(conn->data, &pipe_st);
+++    conn->data->easy_conn = NULL; /* clear the easy handle's connection
+++                                     pointer */
++     /* This will remove the connection from the cache */
++     (void)Curl_disconnect(conn, FALSE);
++     sigpipe_restore(&pipe_st);
++-- 
++2.4.0
++
+diff --git a/meta/recipes-support/curl/curl_7.47.1.bb b/meta/recipes-support/curl/curl_7.47.1.bb
+index 8d459c7..6c71760 100644
+--- a/meta/recipes-support/curl/curl_7.47.1.bb
++++ b/meta/recipes-support/curl/curl_7.47.1.bb
+@@ -13,6 +13,7 @@ SRC_URI = "http://curl.haxx.se/download/curl-${PV}.tar.bz2"
+ SRC_URI += " file://configure_ac.patch \
+              file://CVE-2016-5419.patch \
+              file://CVE-2016-5420.patch \
++             file://CVE-2016-5421.patch \
+            "
+ 
+ SRC_URI[md5sum] = "9ea3123449439bbd960cd25cf98796fb"
+-- 
+2.4.0
 
-I wrote an upstream bug report ([1]), but it probably has to go through
-moderation first and is not visible yet.
-
-
-
-Enrico
-
-Footnotes: 
-[1]  https://lists.gnu.org/archive/html/bug-ncurses/
 
