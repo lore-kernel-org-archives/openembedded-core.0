@@ -1,48 +1,49 @@
-Return-Path: <jussi.kukkonen@intel.com>
-Received: from mail-oi0-f45.google.com (mail-oi0-f45.google.com
-	[209.85.218.45])
-	by mail.openembedded.org (Postfix) with ESMTP id 9E34E731E5
+Return-Path: <fabio.berton@ossystems.com.br>
+Received: from mail-lf0-f67.google.com (mail-lf0-f67.google.com
+	[209.85.215.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 6B2B07318C
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Aug 2016 10:53:11 +0000 (UTC)
-Received: by mail-oi0-f45.google.com with SMTP id f189so190338423oig.3
+	Tue, 23 Aug 2016 11:46:37 +0000 (UTC)
+Received: by mail-lf0-f67.google.com with SMTP id 33so7656139lfw.3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Aug 2016 03:53:12 -0700 (PDT)
+	Tue, 23 Aug 2016 04:46:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=Vfewzj0ylwN87zO2LJJZRKf/JH2DegrHjZ6MvVKGT8I=;
-	b=JbcQYqCKf/QT2DULU/07dQDw950/U3A3bO0Quxn9tSzI/iaS2C0Hneorx2xkU+S9q2
-	MrSnNsFBfkZkw2UVBr0l87FR2v34FbO0damtZrjO7iHUbZ3d8FfbBj9KZ0PiBSJZJ+b/
-	kV4EfqjSmRQhvtEqCW5rBziezzP59APLq8f0Xc/YEVcWN/88jHG/FkfK2Ci1qzBgxfmg
-	KnTcLLf8qUnFChWVJe37sVMVdFo6MujHAxXmJEFxYlL/Q+Y91JMh0sH2cBv/16vE0nP6
-	4DrxjwGzmNloHSkO1tayHdw+Mmk5KMwwkaYGuvKxRNlnZ4bdn4Zp/QCOhaxnyI/kJDAL
-	GkqQ==
+	:cc; bh=im19idGHDSTfAcW5nup472MeMWfx2Ycy2C7AVbbF5cg=;
+	b=AMrlccipxLO+NHGEAxB1+IdER8va0YR5MhJCQyYJQf3W6IjoFMweu0YqlY1gxtV7pN
+	A7nFbMJxiKprvBlts8509SDBBM3xJUdxxNwe6bMRN/nx6vw3oc8hem6BnaiQr3JJTzWW
+	CXvZgdznmX5JGLhbvFGLonPj5p8dU8UbhYjHcevel3L9Jn3Agz01/nOsnQ8BP1tM/9/n
+	iQuXMBqPvqMcsrvpt4ZLI4pG6Dgr63eH+T0uXandNMH12qzZcsBh27bc5THPv6TvC++j
+	om+jpPh8M7xAkQGMZ8ObKzZHrkOgCzXHXo+vpExUeh50ns/N9uug/vofvD/upTyRYpTU
+	1H+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=Vfewzj0ylwN87zO2LJJZRKf/JH2DegrHjZ6MvVKGT8I=;
-	b=FI+b6SxeEMfd05itC6hx5HPrD9YNvLY31O3MpRe59xxIjNAaHz4BOvUWOKo63Bj3Z8
-	WquQgcUo5VBDVUA6XdzHaAn8aoqlAg4eYWejfn1Nv2e1aDb42yTVGxhr8AyCZyot0INR
-	t252+zkMcVtXvRU5Svo/1Il0V82GsijHKyzIlus+XbH4Hnx8j+C9aGUkX5IJIjEPjBiu
-	qLl1+kehOaVc7bszarkdMg4EYUYQJZaAIZjfeJOM7+6tpErzaDGyXX2kCNZa5pcMl9y5
-	9pXAuaHBVvOVSJaZ+II70HnI/89ik1zf2/15XR4+kVmvajBEsc1N4utV6ZprDanMTjZr
-	E7qw==
-X-Gm-Message-State: AEkoouufCFOQxypoYtJEBpBXKb+ED91Z40AWaDKM4yMXpWYZMiutjeQiBsUDuj5BKmrrvsG5Ffp35OobNc7KgHTO
-X-Received: by 10.157.54.162 with SMTP id h31mr16384015otc.97.1471949591618;
-	Tue, 23 Aug 2016 03:53:11 -0700 (PDT)
+	bh=im19idGHDSTfAcW5nup472MeMWfx2Ycy2C7AVbbF5cg=;
+	b=ksdvydXiD+qJjrzQUNd4DKGkUwSSlgQ3O4j2C/qyZ6PKuRwWSe/pcyqLFxX0dRdmM1
+	OVBNiP/gkK1HjNOW/MARdkc/fcLoyeNgpwFV55FHpNTAQpAljVrMcKgOg70aDxe404rK
+	49ZHXZ1XCtFlN0pRqBkYN1mykesLEr6CT3mef5PZ4U2rGoL3bjQVkrtMKy5FhYut3++b
+	OpjnJG7SMSo4YrsAJGlW9XkWIGh7Lv5c5v6aFZ+w1iP84TAlJ92Ro6BG3P9NuJ/B2I9+
+	5j5G1tZQ0KROOaJpBR1b5MdWCv5edVekz8vPPot/2mitE7wLQ/NlS3/zmeTvqnqfTVqS
+	nX0w==
+X-Gm-Message-State: AEkooutzVryZv+x/8JYkjgahhnJzeDb4fD1m8vNd0kAVGaWna6rbIIIzFKx9DH2YAQcPu+m4WkQRXSemTHfk/w==
+X-Received: by 10.25.157.19 with SMTP id g19mr8413177lfe.216.1471952796237;
+	Tue, 23 Aug 2016 04:46:36 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.202.241.11 with HTTP; Tue, 23 Aug 2016 03:52:41 -0700 (PDT)
-In-Reply-To: <1471945649-3164-1-git-send-email-mubinusm@xilinx.com>
-References: <1471945649-3164-1-git-send-email-mubinusm@xilinx.com>
-From: Jussi Kukkonen <jussi.kukkonen@intel.com>
-Date: Tue, 23 Aug 2016 13:52:41 +0300
-Message-ID: <CAHiDW_EN1ZpGUZuP+zJDOtUqnpP+fgtFzMYc=7ZsnJA-eJZXfA@mail.gmail.com>
-To: Mubin Sayyed <mubin.usman.sayyed@xilinx.com>
-Cc: Mubin Sayyed <mubinusm@xilinx.com>,
-	Patches and discussions about the oe-core layer
+Received: by 10.25.7.8 with HTTP; Tue, 23 Aug 2016 04:46:05 -0700 (PDT)
+X-Originating-IP: [177.127.4.56]
+In-Reply-To: <CAHiDW_HVkdb2dt=RiqrG+abyD1MqcnTkceZqm3ZspUPzh69GhA@mail.gmail.com>
+References: <1471892273-5919-1-git-send-email-fabio.berton@ossystems.com.br>
+	<CAHiDW_HVkdb2dt=RiqrG+abyD1MqcnTkceZqm3ZspUPzh69GhA@mail.gmail.com>
+From: Fabio Berton <fabio.berton@ossystems.com.br>
+Date: Tue, 23 Aug 2016 08:46:05 -0300
+Message-ID: <CAAPZna2KCKiy=huVRxOmYZ4udgGQgba+awbxz6cZObJpCnPxnA@mail.gmail.com>
+To: Jussi Kukkonen <jussi.kukkonen@intel.com>
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [meta-oe] [master] [PATCH 0/3] Added cpu benchmarks
+Subject: Re: [PATCH 1/2] python-3.5-manifest: Rename Queue module to queue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,99 +56,132 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 23 Aug 2016 10:53:13 -0000
-Content-Type: multipart/alternative; boundary=001a113e2a30895138053abaf877
+X-List-Received-Date: Tue, 23 Aug 2016 11:46:39 -0000
+Content-Type: multipart/alternative; boundary=001a11402ebe8bd572053abbb78d
 
---001a113e2a30895138053abaf877
+--001a11402ebe8bd572053abbb78d
 Content-Type: text/plain; charset=UTF-8
 
-On 23 August 2016 at 12:47, Mubin Sayyed <mubin.usman.sayyed@xilinx.com>
+Ok.
+
+I'll send a v2 using using generate-manifest script.
+
+Thanks.
+
+On Tue, Aug 23, 2016 at 5:08 AM, Jussi Kukkonen <jussi.kukkonen@intel.com>
 wrote:
 
-> Added recipes for cpu benchmarks dhrystone,whetstone and linpack.
+> On 22 August 2016 at 21:57, Fabio Berton <fabio.berton@ossystems.com.br>
+> wrote:
 >
-> Mubin Sayyed (3):
->   benchmarks:Added recipe for whetstone benchmarks
->   benchmarks:Added recipe for dhrystone
->   benchmarks:Added recipe for linpack
+>> The Queue module has been renamed to queue in Python 3.
+>>
+>> Signed-off-by: Fabio Berton <fabio.berton@ossystems.com.br>
+>> ---
+>>  meta/recipes-devtools/python/python-3.5-manifest.inc | 2 +-
+>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>>
+> This file is generated from scripts/contrib/python/generat
+> e-manifest-3.5.py, please modify that file and run it to produce the new
+> manifest.inc.
 >
->  .../recipes-benchmark/dhrystone/dhrystone_2.1.bb   | 22
-> ++++++++++++++++++++++
->  meta-oe/recipes-benchmark/linpack/linpack_1.0.bb   | 22
-> ++++++++++++++++++++++
->  .../recipes-benchmark/whetstone/whetstone_1.0.bb   | 22
-> ++++++++++++++++++++++
->  3 files changed, 66 insertions(+)
->  create mode 100644 meta-oe/recipes-benchmark/dhrystone/dhrystone_2.1.bb
->  create mode 100644 meta-oe/recipes-benchmark/linpack/linpack_1.0.bb
->  create mode 100644 meta-oe/recipes-benchmark/whetstone/whetstone_1.0.bb
+> Jussi
+>
+>
+>
+>> diff --git a/meta/recipes-devtools/python/python-3.5-manifest.inc
+>> b/meta/recipes-devtools/python/python-3.5-manifest.inc
+>> index b9c2fec..3e07a11 100644
+>> --- a/meta/recipes-devtools/python/python-3.5-manifest.inc
+>> +++ b/meta/recipes-devtools/python/python-3.5-manifest.inc
+>> @@ -247,7 +247,7 @@ FILES_${PN}-textutils="${libdi
+>> r}/python3.5/lib-dynload/_csv.*.so ${libdir}/pytho
+>>
+>>  SUMMARY_${PN}-threading="Python threading & synchronization support"
+>>  RDEPENDS_${PN}-threading="${PN}-core ${PN}-lang"
+>> -FILES_${PN}-threading="${libdir}/python3.5/_threading_local.*
+>> ${libdir}/python3.5/dummy_thread.* ${libdir}/python3.5/dummy_threading.*
+>> ${libdir}/python3.5/mutex.* ${libdir}/python3.5/threading.*
+>> ${libdir}/python3.5/Queue.* "
+>> +FILES_${PN}-threading="${libdir}/python3.5/_threading_local.*
+>> ${libdir}/python3.5/dummy_thread.* ${libdir}/python3.5/dummy_threading.*
+>> ${libdir}/python3.5/mutex.* ${libdir}/python3.5/threading.*
+>> ${libdir}/python3.5/queue.* "
+>>
+>>  SUMMARY_${PN}-tkinter="Python Tcl/Tk bindings"
+>>  RDEPENDS_${PN}-tkinter="${PN}-core"
+>> --
+>> 2.1.4
+>>
+>> --
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>>
+>
 >
 
-Hi,
-
-Please send meta-oe patches to openembedded-devel@lists.openembedded.org.
-
-Thanks,
-  Jussi
-
-
---
-> 1.9.1
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
-
---001a113e2a30895138053abaf877
+--001a11402ebe8bd572053abbb78d
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><div class=3D"gmail_quote">On 2=
-3 August 2016 at 12:47, Mubin Sayyed <span dir=3D"ltr">&lt;<a href=3D"mailt=
-o:mubin.usman.sayyed@xilinx.com" target=3D"_blank">mubin.usman.sayyed@xilin=
-x.com</a><wbr>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=
-=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
--left:1ex">Added recipes for cpu benchmarks dhrystone,whetstone and linpack=
-.<br>
+<div dir=3D"ltr"><div class=3D"gmail_default" style=3D"font-family:monospac=
+e,monospace;font-size:small"><div class=3D"gmail_default" style=3D"font-fam=
+ily:monospace,monospace;font-size:small">Ok.<br><br></div><div class=3D"gma=
+il_default" style=3D"font-family:monospace,monospace;font-size:small">I&#39=
+;ll send a v2 using using generate-manifest script.<br><br></div>Thanks.</d=
+iv></div><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">On Tue, =
+Aug 23, 2016 at 5:08 AM, Jussi Kukkonen <span dir=3D"ltr">&lt;<a href=3D"ma=
+ilto:jussi.kukkonen@intel.com" target=3D"_blank">jussi.kukkonen@intel.com</=
+a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0=
+ 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div dir=3D"ltr"><di=
+v class=3D"gmail_extra"><div class=3D"gmail_quote"><span class=3D"">On 22 A=
+ugust 2016 at 21:57, Fabio Berton <span dir=3D"ltr">&lt;<a href=3D"mailto:f=
+abio.berton@ossystems.com.br" target=3D"_blank">fabio.berton@ossystems.com.=
+br</a><wbr>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D=
+"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-le=
+ft:1ex">The Queue module has been renamed to queue in Python 3.<br>
 <br>
-Mubin Sayyed (3):<br>
-=C2=A0 benchmarks:Added recipe for whetstone benchmarks<br>
-=C2=A0 benchmarks:Added recipe for dhrystone<br>
-=C2=A0 benchmarks:Added recipe for linpack<br>
+Signed-off-by: Fabio Berton &lt;<a href=3D"mailto:fabio.berton@ossystems.co=
+m.br" target=3D"_blank">fabio.berton@ossystems.com.br</a><wbr>&gt;<br>
+---<br>
+=C2=A0meta/recipes-devtools/python/<wbr>python-3.5-manifest.inc | 2 +-<br>
+=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
+<br></blockquote><div><br></div></span><div>This file is generated from scr=
+ipts/contrib/python/<a href=3D"http://generate-manifest-3.5.py" target=3D"_=
+blank">generat<wbr>e-manifest-3.5.py</a>, please modify that file and run i=
+t to produce the new manifest.inc.</div><div><br></div><div>Jussi</div><div=
+><br></div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"marg=
+in:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1e=
+x"><span class=3D"">
+diff --git a/meta/recipes-devtools/python<wbr>/python-3.5-manifest.inc b/me=
+ta/recipes-devtools/python<wbr>/python-3.5-manifest.inc<br>
+index b9c2fec..3e07a11 100644<br>
+--- a/meta/recipes-devtools/python<wbr>/python-3.5-manifest.inc<br>
++++ b/meta/recipes-devtools/python<wbr>/python-3.5-manifest.inc<br>
+@@ -247,7 +247,7 @@ FILES_${PN}-textutils=3D&quot;${libdi<wbr>r}/python3.5/=
+lib-dynload/_csv.<wbr>*.so ${libdir}/pytho<br>
 <br>
-=C2=A0.../recipes-benchmark/dhrysto<wbr>ne/<a href=3D"http://dhrystone_2.1.=
-bb" rel=3D"noreferrer" target=3D"_blank">dhrystone_2.1.bb</a>=C2=A0 =C2=A0|=
- 22 ++++++++++++++++++++++<br>
-=C2=A0meta-oe/recipes-benchmark/lin<wbr>pack/<a href=3D"http://linpack_1.0.=
-bb" rel=3D"noreferrer" target=3D"_blank">linpack_1.0.bb</a>=C2=A0 =C2=A0| 2=
-2 ++++++++++++++++++++++<br>
-=C2=A0.../recipes-benchmark/whetsto<wbr>ne/<a href=3D"http://whetstone_1.0.=
-bb" rel=3D"noreferrer" target=3D"_blank">whetstone_1.0.bb</a>=C2=A0 =C2=A0|=
- 22 ++++++++++++++++++++++<br>
-=C2=A03 files changed, 66 insertions(+)<br>
-=C2=A0create mode 100644 meta-oe/recipes-benchmark/dhry<wbr>stone/<a href=
-=3D"http://dhrystone_2.1.bb" rel=3D"noreferrer" target=3D"_blank">dhrystone=
-_2.1.bb</a><br>
-=C2=A0create mode 100644 meta-oe/recipes-benchmark/linp<wbr>ack/<a href=3D"=
-http://linpack_1.0.bb" rel=3D"noreferrer" target=3D"_blank">linpack_1.0.bb<=
-/a><br>
-=C2=A0create mode 100644 meta-oe/recipes-benchmark/whet<wbr>stone/<a href=
-=3D"http://whetstone_1.0.bb" rel=3D"noreferrer" target=3D"_blank">whetstone=
-_1.0.bb</a><br></blockquote><div>=C2=A0</div><div>Hi,</div><div><br></div><=
-div>Please send meta-oe patches to=C2=A0<span style=3D"font-size:12.8px"><a=
- href=3D"mailto:openembedded-devel@lists.openembedded.org">openembedded-dev=
-el@lists.openembedded.org</a>.</span></div><div><span style=3D"font-size:12=
-.8px"><br></span></div><div><span style=3D"font-size:12.8px">Thanks,</span>=
-</div><div><span style=3D"font-size:12.8px">=C2=A0 Jussi</span></div><div><=
-br></div><div><br></div><blockquote class=3D"gmail_quote" style=3D"margin:0=
-px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><=
-span><font color=3D"#888888">
---<br>
-1.9.1<br>
+=C2=A0SUMMARY_${PN}-threading=3D&quot;Pyth<wbr>on threading &amp; synchroni=
+zation support&quot;<br>
+=C2=A0RDEPENDS_${PN}-threading=3D&quot;${P<wbr>N}-core ${PN}-lang&quot;<br>
+-FILES_${PN}-threading=3D&quot;${libd<wbr>ir}/python3.5/_threading_local<wb=
+r>.* ${libdir}/python3.5/dummy_thre<wbr>ad.* ${libdir}/python3.5/dummy_thre=
+<wbr>ading.* ${libdir}/python3.5/mutex.* ${libdir}/python3.5/threading.<wbr=
+>* ${libdir}/python3.5/Queue.* &quot;<br>
++FILES_${PN}-threading=3D&quot;${libd<wbr>ir}/python3.5/_threading_local<wb=
+r>.* ${libdir}/python3.5/dummy_thre<wbr>ad.* ${libdir}/python3.5/dummy_thre=
+<wbr>ading.* ${libdir}/python3.5/mutex.* ${libdir}/python3.5/threading.<wbr=
+>* ${libdir}/python3.5/queue.* &quot;<br>
 <br>
+=C2=A0SUMMARY_${PN}-tkinter=3D&quot;Python Tcl/Tk bindings&quot;<br>
+=C2=A0RDEPENDS_${PN}-tkinter=3D&quot;${PN}<wbr>-core&quot;<br>
+</span><span><font color=3D"#888888"><span class=3D"HOEnZb"><font color=3D"=
+#888888">--<br>
+2.1.4<br>
+<br></font></span><span class=3D"">
 --<br>
 ______________________________<wbr>_________________<br>
 Openembedded-core mailing list<br>
@@ -156,6 +190,7 @@ k">Openembedded-core@lists.openem<wbr>bedded.org</a><br>
 <a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
 " rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/<wbr>m=
 ailman/listinfo/openembedded-<wbr>core</a><br>
-</font></span></blockquote></div><br></div></div>
+</span></font></span></blockquote></div><br></div></div>
+</blockquote></div><br></div>
 
---001a113e2a30895138053abaf877--
+--001a11402ebe8bd572053abbb78d--
