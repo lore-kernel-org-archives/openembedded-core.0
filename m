@@ -1,24 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 1DA847016E
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 824B775E2D
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Aug 2016 00:39:23 +0000 (UTC)
+	Tue, 23 Aug 2016 00:39:24 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u7N0dNfM009389
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u7N0dPL9003526
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Aug 2016 17:39:23 -0700
+	Mon, 22 Aug 2016 17:39:25 -0700 (PDT)
 Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Mon, 22 Aug 2016 17:39:22 -0700
+	Mon, 22 Aug 2016 17:39:24 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 22 Aug 2016 17:39:19 -0700
-Message-ID: <cover.1471912673.git.liezhi.yang@windriver.com>
+Date: Mon, 22 Aug 2016 17:39:21 -0700
+Message-ID: <1c8e809f656bd55ac96723b77d73f7b3a067f17f.1471912673.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.9.0
+In-Reply-To: <cover.1471912673.git.liezhi.yang@windriver.com>
+References: <cover.1471912673.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/3] Packages upgrade
+Subject: [PATCH 2/3] subversion: 1.9.3 -> 1.9.4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,30 +36,31 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Tue, 23 Aug 2016 00:39:25 -0000
 Content-Type: text/plain
 
-The following changes since commit 0865a5b8b8fbf478fb4b2310f808bcffff84a091:
-
-  packagefeed-stability.bbclass: cleansstate should remove pkgs from deploy dir (2016-08-20 16:05:29 +0100)
-
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib rbt/pu
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/pu
-
-Robert Yang (3):
-  git: 2.9.2 -> 2.9.3
-  subversion: 1.9.3 -> 1.9.4
-  nasm: 2.11.08 -> 2.12.02
-
- meta/recipes-devtools/git/git_2.9.2.bb                        | 11 -----------
- meta/recipes-devtools/git/git_2.9.3.bb                        | 11 +++++++++++
- .../nasm/{nasm_2.11.08.bb => nasm_2.12.02.bb}                 |  5 ++---
- .../subversion/{subversion_1.9.3.bb => subversion_1.9.4.bb}   |  5 +++--
- 4 files changed, 16 insertions(+), 16 deletions(-)
- delete mode 100644 meta/recipes-devtools/git/git_2.9.2.bb
- create mode 100644 meta/recipes-devtools/git/git_2.9.3.bb
- rename meta/recipes-devtools/nasm/{nasm_2.11.08.bb => nasm_2.12.02.bb} (81%)
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+---
+ .../subversion/{subversion_1.9.3.bb => subversion_1.9.4.bb}          | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
  rename meta/recipes-devtools/subversion/{subversion_1.9.3.bb => subversion_1.9.4.bb} (96%)
 
+diff --git a/meta/recipes-devtools/subversion/subversion_1.9.3.bb b/meta/recipes-devtools/subversion/subversion_1.9.4.bb
+similarity index 96%
+rename from meta/recipes-devtools/subversion/subversion_1.9.3.bb
+rename to meta/recipes-devtools/subversion/subversion_1.9.4.bb
+index 626276d..3ce83c1 100644
+--- a/meta/recipes-devtools/subversion/subversion_1.9.3.bb
++++ b/meta/recipes-devtools/subversion/subversion_1.9.4.bb
+@@ -15,8 +15,9 @@ SRC_URI = "${APACHE_MIRROR}/${BPN}/${BPN}-${PV}.tar.bz2 \
+            file://serf.m4-Regex-modified-to-allow-D-in-paths.patch \
+            file://0001-Fix-libtool-name-in-configure.ac.patch \
+            "
+-SRC_URI[md5sum] = "243036eb28b50ce517fc228eb3250add"
+-SRC_URI[sha256sum] = "8bbf6bb125003d88ee1c22935a36b7b1ab7d957e0c8b5fbfe5cb6310b6e86ae0"
++
++SRC_URI[md5sum] = "29121a038f87641055a8183f49e9739f"
++SRC_URI[sha256sum] = "1267f9e2ab983f260623bee841e6c9cc458bf4bf776238ed5f100983f79e9299"
+ 
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=af81ae49ba359e70626c05e9bf313709"
+ 
 -- 
 2.9.0
 
