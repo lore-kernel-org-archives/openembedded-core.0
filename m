@@ -1,47 +1,44 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-it0-f41.google.com (mail-it0-f41.google.com
-	[209.85.214.41])
-	by mail.openembedded.org (Postfix) with ESMTP id C18837318E
+Return-Path: <ulfalizer@gmail.com>
+Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
+	by mail.openembedded.org (Postfix) with ESMTP id D528D6E660
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Aug 2016 20:25:26 +0000 (UTC)
-Received: by mail-it0-f41.google.com with SMTP id n128so156567624ith.1
+	Tue, 23 Aug 2016 20:31:10 +0000 (UTC)
+Received: by mail-wm0-f67.google.com with SMTP id o80so19643317wme.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Aug 2016 13:25:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=yRVBNGjiefzBVFdj0xvrfAMbxlhh5U7VEtnf653Xt8Y=;
-	b=WQoXuPdrW9gBggDo4lxPSKlfnGtF2Jj02TQQCAAioygAbk/5H1PlrVcXZeLK31cm/5
-	GoTCqeFKy+rG9sa/l92lzzLx7WnDA6AMmyXRzw9gMiJau1tjFTbzg44MJMcZDNYsY0I6
-	UhfFqJ2tcbjAES/2lBtFZzekBYOh4EVsKk0E1su9sUdJhrWpcYvfPW9uP5SXdCsCSNPx
-	qyS2a7e9JgNSKY+M1k5A6EU9Mfz8QluH+GY+pnTsBRC46EKHBQ+GiwPVEuEIrVk30vzb
-	qdRsYL1wCAEbmIsjg/pFktRsYJTscPY162jbD6yzphpwlWYTe0X6JMkQVmeAgaW/AuCF
-	EMOg==
+	Tue, 23 Aug 2016 13:31:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=pCRL13wJtSiplXc2i/OSArgUZwfvWVgkZVgPKIgEUgw=;
+	b=W11mfp9WzVOrlb+NvDVmamcdhBAfYIyn2oHNoxwIZ5RMkyIlcBhv15hjC1TJFmJeEf
+	DDsTlxlkSkgsg9kbjrpNXgrjMsxvZYcpRrJ6ngGMtFs1Rbp2fAENgatOFQbV6UhfHnk0
+	oPql2edYz+atKd5H4QpiQeQ0lfi1cIU7IpjFQ+aK7YECvsQzhTITZh0GSKmB6irdRR1Q
+	x1hE8Py4B5UIfrapGsRo5yhNpkk0KcscIjoFEcofeT9TGKihmdcx0qt+fL2xVCcjC9tx
+	2qMGxEpH9Sae0BuBPfreAf5mOkg+KZauszMHga5ehpn8Z4evdxz9cwdwMoTMGPIlyGU4
+	gPEw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=yRVBNGjiefzBVFdj0xvrfAMbxlhh5U7VEtnf653Xt8Y=;
-	b=UpEKwDpBh1RF1GPiFfuRHjV2bndd6xLO0AG4OnPPXz1eOpZnXqw9+/b78JdnFmpxPT
-	iEmRByuhWT71H1IulALblRum6Rn6zjcGr6+vViYSpVFL8RvX5HaXiMt4HhqGKmrg1WLk
-	2MukzAawOojNQUPJlJlzgshm4JuDqAl0cuC7RHhZYgH/MGlavCuVwxLd6sL9wZ5Z/1um
-	+wu2yj8J5YWkIMQ3fOebFBpGogVnkZ1R9WcFu46CQV/O793gRB/94UpcWo/gGGu2uwOq
-	BZ9rlgiij5EmDiv/DylBEBltqcLqo+dHCLx9JI6v88q8CFZok4je0Ac+4H4KUFQ1pCmJ
-	A0SQ==
-X-Gm-Message-State: AEkooutNuFHWDfInvYVMf+ayJgZlJtTfFi38no8j0NYooXp0BbyUvPWri9Zx9XJv5g9orokKaBfMgb4cJCZrO4to
-X-Received: by 10.36.20.204 with SMTP id 195mr22614088itg.83.1471983927079;
-	Tue, 23 Aug 2016 13:25:27 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.107.18.17 with HTTP; Tue, 23 Aug 2016 13:25:06 -0700 (PDT)
-In-Reply-To: <cf64ae59ea584fb18975ca5f33464981@SEHSTE15D2BE2.hs20.net>
-References: <cf64ae59ea584fb18975ca5f33464981@SEHSTE15D2BE2.hs20.net>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 23 Aug 2016 21:25:06 +0100
-Message-ID: <CAJTo0LbYUFLWAhiM+WF3dYzrcLksTLDCQUDqDVr4w0m9050jdA@mail.gmail.com>
-To: Andrew Goodbody <andrew.goodbody@cambrionix.com>
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: Build of u-boot with gold is broken
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=pCRL13wJtSiplXc2i/OSArgUZwfvWVgkZVgPKIgEUgw=;
+	b=GyoHNX1O9IIEayiEb5AcarKSEPDZv2dG4tBa9s2BmHo55V1Tvk+pLmkoAsvjF50p28
+	sxg1lYfKvLGNC7R6QEfLETk/U5Q6UIcb/V3E+WUzXHTMKWFitcSYeMfX0n2U7aaNAlsj
+	gQWwi7xaPPXn7IHnDiZBCRipLUapDUFrfZwvmcW/+fxS32VEMDPXth9e835sfdBETD/o
+	E1NxFAbCH8ZzocLJ0xdAJUHEnlmLAjfE5XbgRveR3SvmaSIwgsOjYkvVkP6LrpToCtAg
+	DRSnJiV3rzcv2L5ZC/Eu5BWRXMb8VVs1vsVWvSMmoXHzlsdAnC738i4mRhwzcr3eKNaO
+	nf3A==
+X-Gm-Message-State: AEkoousPM0RYZDpQXKsyo1vIaK+toTR6aDraThSEbO7eryxmMLKTAKNQ4CCV/YseGuFR5g==
+X-Received: by 10.28.88.144 with SMTP id m138mr20432896wmb.79.1471984270785;
+	Tue, 23 Aug 2016 13:31:10 -0700 (PDT)
+Received: from huvuddator.home (ip5f5bfeda.dynamic.kabel-deutschland.de.
+	[95.91.254.218])
+	by smtp.gmail.com with ESMTPSA id i1sm5769635wjf.12.2016.08.23.13.31.09
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Tue, 23 Aug 2016 13:31:09 -0700 (PDT)
+From: Ulf Magnusson <ulfalizer@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 23 Aug 2016 22:30:48 +0200
+Message-Id: <1471984248-6943-1-git-send-email-ulfalizer@gmail.com>
+X-Mailer: git-send-email 2.5.0
+Subject: [PATCH v2] useradd.bblass: Simplify target overrides
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,37 +51,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 23 Aug 2016 20:25:27 -0000
-Content-Type: multipart/alternative; boundary=001a1143e4e416c39d053ac2f777
+X-List-Received-Date: Tue, 23 Aug 2016 20:31:12 -0000
 
---001a1143e4e416c39d053ac2f777
-Content-Type: text/plain; charset=UTF-8
+The current style might be a leftover from when _class-target did not
+exist.
 
-On 19 August 2016 at 10:33, Andrew Goodbody <andrew.goodbody@cambrionix.com>
-wrote:
+Also change the assignment to SSTATECLEANFUNCS to an append, which makes
+more sense. useradd.bbclass is the only user of SSTATECLEANFUNCS as of
+writing, so it won't make any functional difference.
+---
+ meta/classes/useradd.bbclass | 31 ++++++++-----------------------
+ 1 file changed, 8 insertions(+), 23 deletions(-)
 
-> The sed at line 70 fails as it is being executed in an empty build
-> directory and so there is no config.mk.
->
+diff --git a/meta/classes/useradd.bbclass b/meta/classes/useradd.bbclass
+index 8d51fb5..25526ef 100644
+--- a/meta/classes/useradd.bbclass
++++ b/meta/classes/useradd.bbclass
+@@ -3,11 +3,7 @@ inherit useradd_base
+ # base-passwd-cross provides the default passwd and group files in the
+ # target sysroot, and shadow -native and -sysroot provide the utilities
+ # and support files needed to add and modify user and group accounts
+-DEPENDS_append = "${USERADDDEPENDS}"
+-USERADDDEPENDS = " base-files shadow-native shadow-sysroot shadow"
+-USERADDDEPENDS_class-cross = ""
+-USERADDDEPENDS_class-native = ""
+-USERADDDEPENDS_class-nativesdk = ""
++DEPENDS_append_class-target = " base-files shadow-native shadow-sysroot shadow"
+ 
+ # This preinstall function can be run in four different contexts:
+ #
+@@ -157,28 +153,17 @@ if test "x${STAGING_DIR_TARGET}" != "x"; then
+ fi
+ }
+ 
+-SSTATECLEANFUNCS = "userdel_sysroot_sstate"
+-SSTATECLEANFUNCS_class-cross = ""
+-SSTATECLEANFUNCS_class-native = ""
+-SSTATECLEANFUNCS_class-nativesdk = ""
++SSTATECLEANFUNCS_append_class-target = " userdel_sysroot_sstate"
+ 
+ do_install[prefuncs] += "${SYSROOTFUNC}"
+-SYSROOTFUNC = "useradd_sysroot"
+-SYSROOTFUNC_class-cross = ""
+-SYSROOTFUNC_class-native = ""
+-SYSROOTFUNC_class-nativesdk = ""
+-SSTATEPREINSTFUNCS += "${SYSROOTPOSTFUNC}"
+-SYSROOTPOSTFUNC = "useradd_sysroot_sstate"
+-SYSROOTPOSTFUNC_class-cross = ""
+-SYSROOTPOSTFUNC_class-native = ""
+-SYSROOTPOSTFUNC_class-nativesdk = ""
+-
+-USERADDSETSCENEDEPS = "${MLPREFIX}base-passwd:do_populate_sysroot_setscene pseudo-native:do_populate_sysroot_setscene shadow-native:do_populate_sysroot_setscene ${MLPREFIX}shadow-sysroot:do_populate_sysroot_setscene"
+-USERADDSETSCENEDEPS_class-cross = ""
+-USERADDSETSCENEDEPS_class-native = ""
+-USERADDSETSCENEDEPS_class-nativesdk = ""
++SYSROOTFUNC_class-target = "useradd_sysroot"
++SYSROOTFUNC = ""
++
++SSTATEPREINSTFUNCS_append_class-target = " useradd_sysroot_sstate"
++
+ do_package_setscene[depends] += "${USERADDSETSCENEDEPS}"
+ do_populate_sysroot_setscene[depends] += "${USERADDSETSCENEDEPS}"
++USERADDSETSCENEDEPS_class-target = "${MLPREFIX}base-passwd:do_populate_sysroot_setscene pseudo-native:do_populate_sysroot_setscene shadow-native:do_populate_sysroot_setscene ${MLPREFIX}shadow-sysroot:do_populate_sysroot_setscene"
+ 
+ # Recipe parse-time sanity checks
+ def update_useradd_after_parse(d):
+-- 
+2.5.0
 
-For fame and glory, can you send a tested patch to fix this?
 
-Ross
-
---001a1143e4e416c39d053ac2f777
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 19 August 2016 at 10:33, Andrew Goodbody <span dir=3D"ltr">&lt;<a href=
-=3D"mailto:andrew.goodbody@cambrionix.com" target=3D"_blank">andrew.goodbod=
-y@cambrionix.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote"=
- style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><d=
-iv id=3D":259" class=3D"a3s aXjCH m156a22c8989e4746">The sed at line 70 fai=
-ls as it is being executed in an empty build directory and so there is no <=
-a href=3D"http://config.mk" rel=3D"noreferrer" target=3D"_blank">config.mk<=
-/a>.<br></div></blockquote><div><br></div><div>For fame and glory, can you =
-send a tested patch to fix this?</div><div><br></div><div>Ross=C2=A0</div><=
-/div><br></div></div>
-
---001a1143e4e416c39d053ac2f777--
