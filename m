@@ -1,31 +1,27 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 4FB32700F3
+X-Greylist: delayed 566 seconds by postgrey-1.34 at layers.openembedded.org;
+	Tue, 23 Aug 2016 12:23:45 UTC
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+	by mail.openembedded.org (Postfix) with ESMTP id E82E26FFFE
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Aug 2016 12:05:17 +0000 (UTC)
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-	by fmsmga101.fm.intel.com with ESMTP; 23 Aug 2016 05:05:17 -0700
+	Tue, 23 Aug 2016 12:23:45 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga105.fm.intel.com with ESMTP; 23 Aug 2016 05:14:20 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.28,565,1464678000"; d="scan'208";a="159778342"
+X-IronPort-AV: E=Sophos;i="5.28,565,1464678000"; d="scan'208";a="1018992997"
 Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.49])
 	([10.237.68.49])
-	by fmsmga004.fm.intel.com with ESMTP; 23 Aug 2016 05:05:18 -0700
-To: Khem Raj <raj.khem@gmail.com>
-References: <1471499308-1666-1-git-send-email-wangxin2015.fnst@cn.fujitsu.com>
-	<CAJTo0LZy-mx4K=eSJdNRq12JVDzGwW+Oe0uf40YRZAmyWVJsZQ@mail.gmail.com>
-	<56847BB1-DCA8-446D-9418-2D42098A7073@gmail.com>
-	<CAJTo0LZJRJFC71=xEa_EQUiOTZNWR8QPGtnJvSWqqGLqM_QjcQ@mail.gmail.com>
-	<8b30fc2d-26ea-03bd-58ea-cdbf00e74b36@linux.intel.com>
-	<020C25BC-315C-4ED3-8268-DB7CC4C0A52A@gmail.com>
+	by orsmga001.jf.intel.com with ESMTP; 23 Aug 2016 05:14:19 -0700
+To: openembedded-core@lists.openembedded.org
+References: <20160823012731.22993-1-raj.khem@gmail.com>
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <61613289-16aa-4b3d-19d3-8a8efcc3be94@linux.intel.com>
-Date: Tue, 23 Aug 2016 15:04:17 +0300
+Message-ID: <39624d78-d684-3ab5-7287-8e1f526d37d5@linux.intel.com>
+Date: Tue, 23 Aug 2016 15:13:20 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
 	Icedove/45.2.0
 MIME-Version: 1.0
-In-Reply-To: <020C25BC-315C-4ED3-8268-DB7CC4C0A52A@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] gdk-pixbuf: 2.34.0 -> 2.35.3
+In-Reply-To: <20160823012731.22993-1-raj.khem@gmail.com>
+Subject: Re: [PATCH] gcc: Update to final 6.2.0 release
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,24 +34,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 23 Aug 2016 12:05:20 -0000
+X-List-Received-Date: Tue, 23 Aug 2016 12:23:47 -0000
 Content-Type: text/plain; charset=windows-1252; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 08/19/2016 07:52 PM, Khem Raj wrote:
->
+On 08/23/2016 04:27 AM, Khem Raj wrote:
+> -#BASEURI ?= "${GNU_MIRROR}/gcc/gcc-${PV}/gcc-${PV}.tar.bz2"
+> +BASEURI ?= "${GNU_MIRROR}/gcc/gcc-${PV}/gcc-${PV}.tar.bz2"
+>  #SRCREV = "bd9a826d5448db11d29d2ec5884e7e679066f140"
+>  #BASEURI ?= "git://github.com/gcc-mirror/gcc;branch=gcc-6-branch;protocol=git"
+> -BASEURI ?= "ftp://sourceware.org/pub/gcc/snapshots/6.2.0-RC-20160815/gcc-6.2.0-RC-20160815.tar.bz2"
+> +#BASEURI ?= "ftp://sourceware.org/pub/gcc/snapshots/6.2.0-RC-20160815/gcc-6.2.0-RC-20160815.tar.bz2"
+> -S = "${TMPDIR}/work-shared/gcc-${PV}-${PR}/gcc-${PV}${SNAP}"
+> +S = "${TMPDIR}/work-shared/gcc-${PV}-${PR}/gcc-${PV}"
+>  #S = "${TMPDIR}/work-shared/gcc-${PV}-${PR}/git"
+>  B = "${WORKDIR}/gcc-${PV}/build.${HOST_SYS}.${TARGET_SYS}"
 
->>> It does:  http://recipes.yoctoproject.org/rrs/recipedetail/451/ says
->>> up-to-date as we have 2.34.0 despite there being 2.35.3.
->>>
->>> These upgrades have been done without reference to the tooling we've got.
->>
->> Also the recipe itself inherits upstream-version-is-even class - that means odd versions are development snapshots and should be ignored.
->
-> good point, will this class give me some sort of parsing error, if I try to update to odd version ?
-
-Not at the moment, but if you can suggest how this could be done, I'll 
-add it (perhaps as a warning though).
+The commented out lines should be dropped, they're just clutter.
 
 Alex
 
