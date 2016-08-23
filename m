@@ -1,53 +1,28 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pa0-f41.google.com (mail-pa0-f41.google.com
-	[209.85.220.41])
-	by mail.openembedded.org (Postfix) with ESMTP id C4EF470057
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id BAE767016E
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Aug 2016 23:21:38 +0000 (UTC)
-Received: by mail-pa0-f41.google.com with SMTP id hb8so23215240pac.2
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Aug 2016 16:21:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=subject:mime-version:from:in-reply-to:date:cc:message-id:references
-	:to; bh=J5gjX90W9dBZPBkDSIzjSfPWfM7qAnNcAXqViwwigM0=;
-	b=KJ3bZzvp9BBj+wsTm/UyfnTkma6bYq1votYoHAPKgoe7NNJWm/CKbIGB5jk5jRB8Xn
-	ArVdrRCm8Qr7bK4FlTqa/MaZlLnUrDMYHkINVDADbRpWwZeWQ5srAoh+GZagetsl7zrJ
-	F6xwICycgaHwhsfeYjn25wsKens86+PhKYLqc+SduAZt6qHhi9oIeazGK2n1y+iZi5Hb
-	UgPBR/TFL+Y4rhvd6pVBMchVKv69uZxcNmaeNA9F+HkWHSyGHOu1lj02xqyLBgoarknO
-	xPstDqvwoKOXz2ag4H5yL55pK9jfelKJ0w9f1dmycgGozBq8BYRRfPFx8SdXhaGaT48p
-	opbA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:subject:mime-version:from:in-reply-to:date:cc
-	:message-id:references:to;
-	bh=J5gjX90W9dBZPBkDSIzjSfPWfM7qAnNcAXqViwwigM0=;
-	b=E1uSItvTF+DX4T8JOEJ6AXZ5lumG2zWLUDNq6ECXO34hH3zfQL34fsyme2KmF+tznB
-	7nPCkPe86y+51Y1dZ9PicfDf4b3v40NzIH2zES/lCFkp6qNEw29HIYk4K/9i0C7ITglY
-	spxxfQNy61eWYE2eYXa1FdiYDTE85TQPBPqq4UBANdD2NAsOGUm6aJ3tXSHcurUH1MWX
-	Fo80eaB3ZSc6GZgkijQuSGiBRKzWa2OxMdJw/LVBJGX5CnLvwbiFLGzszVWtecWYpvRt
-	KlYef1GbKbwuS77MaB1s1fZ3CHZH2eAmDGqetIxQtH77NZA+W/VvdWixMz0/3Q+/egrm
-	BPlg==
-X-Gm-Message-State: AEkoousa3q/ROdea6GyZbO4dZKt4z7IsNj3OxB0+RtvwtrAHbhqyl7XfBTRG+iyftxx42Q==
-X-Received: by 10.66.172.237 with SMTP id bf13mr47761243pac.42.1471908098717; 
-	Mon, 22 Aug 2016 16:21:38 -0700 (PDT)
-Received: from ?IPv6:2601:646:8882:b8c:cc1a:9997:ad6b:9b03?
-	([2601:646:8882:b8c:cc1a:9997:ad6b:9b03])
-	by smtp.gmail.com with ESMTPSA id d9sm284273pan.7.2016.08.22.16.21.37
-	(version=TLS1 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 22 Aug 2016 16:21:37 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 9.3 \(3124\))
-X-Pgp-Agent: GPGMail
-From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <877fb8ih9t.fsf@babayev.com>
-Date: Mon, 22 Aug 2016 16:21:51 -0700
-Message-Id: <74C0D260-699E-447C-B450-0499FCB6DA8C@gmail.com>
-References: <877fb8ih9t.fsf@babayev.com>
-To: Ruslan Babayev <ruslan@babayev.com>,
- Armin Kuster <akuster808@gmail.com>
-X-Mailer: Apple Mail (2.3124)
-Cc: Patches and discussions about the oe-core layer
+	Tue, 23 Aug 2016 00:27:11 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u7N0RBpu003485
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 22 Aug 2016 17:27:11 -0700 (PDT)
+Received: from [128.224.162.240] (128.224.162.240) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.248.2;
+	Mon, 22 Aug 2016 17:27:10 -0700
+To: =?UTF-8?B?QW7DrWJhbCBMaW3Ds24=?= <anibal.limon@linux.intel.com>,
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: krogoth: musl-1.1.15 is broken on mips
+References: <cover.1471850849.git.liezhi.yang@windriver.com>
+	<57BB562C.40409@linux.intel.com>
+From: Robert Yang <liezhi.yang@windriver.com>
+Message-ID: <69d8206d-73aa-d267-8836-b46a99f0d271@windriver.com>
+Date: Tue, 23 Aug 2016 08:27:09 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.2.0
+MIME-Version: 1.0
+In-Reply-To: <57BB562C.40409@linux.intel.com>
+Subject: Re: [PATCH V4 00/11] runqemu: refactor it and remove machine knowledge
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,66 +35,156 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 22 Aug 2016 23:21:39 -0000
-X-Groupsio-MsgNum: 86110
-Content-Type: multipart/signed;
-	boundary="Apple-Mail=_0972E114-D809-49DF-A90E-002F23B702C1";
-	protocol="application/pgp-signature"; micalg=pgp-sha1
-
---Apple-Mail=_0972E114-D809-49DF-A90E-002F23B702C1
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=us-ascii
+X-List-Received-Date: Tue, 23 Aug 2016 00:27:11 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 8bit
 
 
-> On Aug 22, 2016, at 3:13 PM, Ruslan Babayev <ruslan@babayev.com> =
-wrote:
->=20
-> Hi Khem,
->=20
-> musl-1.1.15 has a change which broke mips arch. This was reverted =
-later
-> but 1.1.16 is not out yet.
 
-Yes I am aware if this and it has been fixed in master for sometime now.
-=
-http://git.openembedded.org/openembedded-core/commit/meta/recipes-core/mus=
-l/musl_git.bb?id=3D681b75cb7c1ad88774d611119c9a7f6d076ff2c5
+On 08/23/2016 03:44 AM, Aníbal Limón wrote:
+> Hi Robert,
+>
+> May be your v4 now cover the current failures but only for notice,
+> here's some example.
+>
+> https://autobuilder.yoctoproject.org/main/builders/nightly-arm/builds/926/steps/Running%20Sanity%20Tests/logs/stdio
 
-Armin
+Yes, RP found this on Saturday, I've fixed it in V4.
 
-Can we cherry-pick the above commit to krogoth please ?
+// Robert
 
-
->=20
-> You need to use at least
->=20
-> =
-https://git.musl-libc.org/cgit/musl/commit/?id=3D39494a273eaa6b714e0fa0c59=
-ce7a1f5fbc80a1e
->=20
-> I just tried it with my custom krogoth based distro on an Octeon3 =
-board
-> and seems to work fine now.
->=20
+>
 > Cheers,
-> Ruslan
+> 	alimon
+>
+> On 08/22/2016 02:52 AM, Robert Yang wrote:
+>> * V4
+>>   - Now the conf files can use @TAP@, @ROOTFS@ and @PORT@ when set vars
+>>     for runqemu, so all the arch info are gone. And also update comments
+>>     in qemuboot.bbclass.
+>>   - Add var QB_SLIRP_OPT for slirp mode as Nathan suggested, also add
+>>     QB_TAP_OPT whichi is for tap mode.
+>>   - Print "Try 'runqemu help' on how to use it" when failed to parse args
+>>     as Nathan suggested.
+>>   - Fix device locking problems.
+>>   - Fix nativesdk-qemu-helper.
+>>   - Fix comments for qemurunner.py/qemutinyrunner.py
+>>
+>> * V3
+>>   - Move the qemu boot settings out of tune files (e.g., arch-x86.inc)
+>>     to avoid mixing BSP settings with the tunings as Mark suggested. and
+>>     put them to <machine>.conf or <qemuboot>.inc file.
+>>
+>> * V2
+>>   - Fixes for RP's comments
+>>     a) Remove a kvm commit message since qemu-kvm can only run target when
+>>        its arch is the same as the host arch:
+>>        The kvm support is not limited on x86 or x86_64
+>>
+>>     b) Fix a typo in commit message: qemu-boot.bbclass -> qemuboot.bbclass,
+>>        You may wonder why I use qemuboot.bbclass but not qemu-boot.bbclass,
+>>        this is because the bbclass will save vars into qemuboot.py, the
+>>        qemuboot.py can't be qemu-boot.py here, otherwise,
+>>        "import qemu-boot.py" doesn't work since "-" is not a validate
+>>        identifier, so use "qemuboot" to make them unify.
+>>
+>>     c) Reorder the patches to make sure they don't break the bisect build.
+>>
+>>   - Update commit message:
+>>     "Fix SLIRP mode" -> "Fix SLIRP mode, add help message, avoid mixing
+>>   with tap"
+>>
+>> * V1
+>>   Previously, runqemu had hard coded machine knowledge, which limited its
+>>   usage, for example, qemu can boot genericx86, but runqemu can't, we need
+>>   edit runqemu/runqemu-internal a lot if we want to boot genericx86.
+>>
+>>   Now bsp conf files can set vars to make it can be boot by runqemu, and
+>>   qemuboot.bbclass will save these info to DEPLOY_DIR_IMAGE/qemuboot.py.
+>>   Please see qemuboot.bbclass' comments on how to set the vars.
+>>
+>>   - Re-write it in python3, which can reduce lines from 1239 to about 750
+>>     lines
+>>   - All the machine knowledges are gone
+>>   - All of the TUN_ARCH knowledge are gone (FIXED in V4)
+>>   - All the previous options are preserved, and there is a new way to run
+>>     runqemu: (it doesn't need run "bitake -e" in such a case)
+>>     $ runqemu tmp/deploy/images/qemux86
+>>     or:
+>>     $ runqemu tmp/deploy/images/qemuarm/<image>.ext4
+>>     or:
+>>     $ runqemu tmp/deploy/images/qemuarm/qemuboot.py
+>>   - Fixed audio support, not limited on x86 or x86_64
+>>   - The kvm support is not limited on x86 or x86_64 (REMOVED by V2)
+>>   - Fix SLIRP mode (FIXED by V2)
+>>   - Fix NFS boot, it will extract <image>.tar.bz2 or tar.gz to
+>>     DEPLOY_DIR_IMAGE/<image>-nfsroot when no NFS_DIR, and remove it after
+>>     stop.
+>>   - More bsps can be boot, such as genericx86 and genericx86-64.
+>>   - The patch for qemuzynq, qemuzynqmp, qemumicroblaze has been sent to
+>>     meta-xilinx' mailing list.
+>>   - I can't find any qemush4 bsp or how to build it, so it is not
+>>     considered atm.
+>>
+>>   - Tested the following machines, all of them work well.
+>>     genericx86 genericx86-64
+>>     qemuarm qemuarm64
+>>     qemumips qemumips64 qemuppc
+>>     qemux86 qemux86-64
+>>     qemuzynq qemuzynqmp
+>>
+>>     Tested ext4, nfs, slirp, vmdk, iso and cpio.gz when they are available.
+>>
+>>   And also test "bitbake core-image-sato -ctestimage" which uses runqemu,
+>>   it works, well.
+>>
+>> // Robert
+>>
+>> The following changes since commit 0865a5b8b8fbf478fb4b2310f808bcffff84a091:
+>>
+>>   packagefeed-stability.bbclass: cleansstate should remove pkgs from deploy dir (2016-08-20 16:05:29 +0100)
+>>
+>> are available in the git repository at:
+>>
+>>   git://git.openembedded.org/openembedded-core-contrib rbt/runqemu
+>>   http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/runqemu
+>>
+>> Robert Yang (11):
+>>   qemuboot.bbclass: add it for runqemu
+>>   qemuarm.conf: set vars for runqemu
+>>   qemuarm64.conf: set vars for runqemu
+>>   qemux86.conf/qemux86-64.conf: set vars for runqemu
+>>   qemumips/qemumips64.conf: set vars for runqemu
+>>   qemuppc.conf: set vars for runqemu
+>>   qemu.inc: inherit qemuboot.bbclass
+>>   runqemu: refactor it and remove machine knowledge
+>>   python-3.5-manifest.inc: the signal module RDEPENDS on enum
+>>   nativesdk-qemu-helper: fix for new runqemu
+>>   qemurunner.py/qemutinyrunner.py: remove runqemu-internal
+>>
+>>  meta/classes/qemuboot.bbclass                      |   67 +
+>>  meta/conf/machine/include/qemu.inc                 |    2 +
+>>  meta/conf/machine/include/qemuboot-mips.inc        |    7 +
+>>  meta/conf/machine/include/qemuboot-x86.inc         |   14 +
+>>  meta/conf/machine/qemuarm.conf                     |    5 +
+>>  meta/conf/machine/qemuarm64.conf                   |   13 +
+>>  meta/conf/machine/qemumips.conf                    |    1 +
+>>  meta/conf/machine/qemumips64.conf                  |    1 +
+>>  meta/conf/machine/qemuppc.conf                     |    7 +
+>>  meta/conf/machine/qemux86-64.conf                  |    1 +
+>>  meta/conf/machine/qemux86.conf                     |    1 +
+>>  meta/lib/oeqa/utils/qemurunner.py                  |    2 +-
+>>  meta/lib/oeqa/utils/qemutinyrunner.py              |    2 +-
+>>  .../python/python-3.5-manifest.inc                 |    2 +-
+>>  .../qemu/nativesdk-qemu-helper_1.0.bb              |    9 +-
+>>  scripts/contrib/python/generate-manifest-3.5.py    |    2 +-
+>>  scripts/runqemu                                    | 1287 ++++++++++++--------
+>>  scripts/runqemu-internal                           |  739 -----------
+>>  18 files changed, 890 insertions(+), 1272 deletions(-)
+>>  create mode 100644 meta/classes/qemuboot.bbclass
+>>  create mode 100644 meta/conf/machine/include/qemuboot-mips.inc
+>>  create mode 100644 meta/conf/machine/include/qemuboot-x86.inc
+>>  delete mode 100755 scripts/runqemu-internal
+>>
+>
 
-
---Apple-Mail=_0972E114-D809-49DF-A90E-002F23B702C1
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP using GPGMail
-
------BEGIN PGP SIGNATURE-----
-Comment: GPGTools - https://gpgtools.org
-
-iEYEARECAAYFAle7iRMACgkQuwUzVZGdMxQrygCcCMflRlFUtJogx3fq83Eius3E
-6FwAnRBtVXM0naRbeBY8KSbxtAYwmi9+
-=nYhP
------END PGP SIGNATURE-----
-
---Apple-Mail=_0972E114-D809-49DF-A90E-002F23B702C1--
