@@ -1,45 +1,26 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pa0-f68.google.com (mail-pa0-f68.google.com
-	[209.85.220.68])
-	by mail.openembedded.org (Postfix) with ESMTP id C0E0B70031
+Return-Path: <Kai.Kang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id C9DE26FF7F
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Aug 2016 01:27:38 +0000 (UTC)
-Received: by mail-pa0-f68.google.com with SMTP id cf3so8909248pad.2
+	Tue, 23 Aug 2016 02:01:17 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u7N21IJS004044
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Aug 2016 18:27:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=pKxVhq1nouLrFQZ12d02B8OhSOMnhksTL71MjLYcvH8=;
-	b=gYj4diS2YF1kDlkcubENG7PwFB9gO/gkPbYiU7Eta9J0Us6zmG2zK/EvEhgQQLJHYJ
-	pfqMw3iUjLWyvmSlM5EkYo4kuSkAbxGKsNU/ydIGwmDfzsz4Eor4VhUKJU+at6xhTsks
-	sMoHJZOfXt0DZ+TseAT6sS/0biv52rky7fB6WLqmS1qAK6kSNbNselGD9nvCXfAsAyJ7
-	pp9qlmrihAvEJeZng72nLvn9ZFjoLpa53rw/is8eN5M/VZc9bvB48TVUxbQgF0amQJJd
-	MPVkj9XXm+wH1s7DXIqi6sPBakPSco5ZAb5Ji8/32dbaWAu5t4abSgIUcro+19qYEobu
-	xveg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=pKxVhq1nouLrFQZ12d02B8OhSOMnhksTL71MjLYcvH8=;
-	b=LMyQ/eTPwLit3HXShvdmyaZTlmtnxpWkFjX6e5pX+3OjwpZ5Nij+0TP9e+raDAWLmd
-	sixT7Zd4yuK47LSYO8dhQfczP2P89ItgNd3nVLRcX2wpDyzwpDxL9obsegblzT1qSQXu
-	oyQOh0G0BjjFyZfHcxkVlupVoOA03Zsq424mcN+s0c1KG5MxqbNITYMmE33MRYIICQOc
-	7XFx276DGdnNj+hQF+z9CCyuP+FxnBNWAZ974yLNiSnR35L0NOiO413THL8xoKoFkES8
-	5sO3AuGyt4WmT2o/IeLE9/iPNIANT0Ms0edO05zU444oS5eL2gbEcQYevxkWNfi4R+m+
-	I5Kw==
-X-Gm-Message-State: AEkoousfri3MBs2hxuPd6xhpTKhxZm8pZTdOdNsWumBmfJ7WaEBhqytPswqWSv2OWW6c7Q==
-X-Received: by 10.66.221.229 with SMTP id qh5mr47438444pac.66.1471915659406;
-	Mon, 22 Aug 2016 18:27:39 -0700 (PDT)
-Received: from localhost.localdomain (c-76-102-32-192.hsd1.ca.comcast.net.
-	[76.102.32.192])
-	by smtp.gmail.com with ESMTPSA id yv9sm598220pab.0.2016.08.22.18.27.37
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 22 Aug 2016 18:27:38 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 22 Aug 2016 18:27:31 -0700
-Message-Id: <20160823012731.22993-1-raj.khem@gmail.com>
+	Mon, 22 Aug 2016 19:01:18 -0700 (PDT)
+Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.248.2; Mon, 22 Aug 2016 19:01:17 -0700
+From: <kai.kang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 23 Aug 2016 09:59:52 +0800
+Message-ID: <9e30df083af2d4888f3aa500a34e4f9663e21996.1471857211.git.kai.kang@windriver.com>
 X-Mailer: git-send-email 2.9.3
-Subject: [PATCH] gcc: Update to final 6.2.0 release
+In-Reply-To: <cover.1471857211.git.kai.kang@windriver.com>
+References: <cover.1471857211.git.kai.kang@windriver.com>
+MIME-Version: 1.0
+Subject: [PATCH 1/1] openssh: fix CVE-2016-6515
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,57 +33,97 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 23 Aug 2016 01:27:40 -0000
+X-List-Received-Date: Tue, 23 Aug 2016 02:01:18 -0000
+Content-Type: text/plain
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+From: Kai Kang <kai.kang@windriver.com>
+
+Backport patch to fix CVE-2016-6515 from:
+
+https://anongit.mindrot.org/openssh.git/commit/?id=fcd135c
+
+Signed-off-by: Kai Kang <kai.kang@windriver.com>
 ---
- meta/recipes-devtools/gcc/gcc-6.2.inc | 14 ++++++--------
- 1 file changed, 6 insertions(+), 8 deletions(-)
+ .../openssh/openssh/fix-CVE-2016-6515.patch        | 57 ++++++++++++++++++++++
+ meta/recipes-connectivity/openssh/openssh_7.2p2.bb |  1 +
+ 2 files changed, 58 insertions(+)
+ create mode 100644 meta/recipes-connectivity/openssh/openssh/fix-CVE-2016-6515.patch
 
-diff --git a/meta/recipes-devtools/gcc/gcc-6.2.inc b/meta/recipes-devtools/gcc/gcc-6.2.inc
-index f42f5ea..b118995 100644
---- a/meta/recipes-devtools/gcc/gcc-6.2.inc
-+++ b/meta/recipes-devtools/gcc/gcc-6.2.inc
-@@ -4,11 +4,9 @@ require gcc-common.inc
+diff --git a/meta/recipes-connectivity/openssh/openssh/fix-CVE-2016-6515.patch b/meta/recipes-connectivity/openssh/openssh/fix-CVE-2016-6515.patch
+new file mode 100644
+index 0000000..466d572
+--- /dev/null
++++ b/meta/recipes-connectivity/openssh/openssh/fix-CVE-2016-6515.patch
+@@ -0,0 +1,57 @@
++Upstream-Status: Backport
++
++Backport patch to fix CVE-2016-6515 from:
++
++https://anongit.mindrot.org/openssh.git/commit/?id=fcd135c
++
++Signed-off-by: Kai Kang <kai.kang@windriver.com>
++---
++From fcd135c9df440bcd2d5870405ad3311743d78d97 Mon Sep 17 00:00:00 2001
++From: "dtucker@openbsd.org" <dtucker@openbsd.org>
++Date: Thu, 21 Jul 2016 01:39:35 +0000
++Subject: upstream commit
++
++Skip passwords longer than 1k in length so clients can't
++easily DoS sshd by sending very long passwords, causing it to spend CPU
++hashing them. feedback djm@, ok markus@.
++
++Brought to our attention by tomas.kuthan at oracle.com, shilei-c at
++360.cn and coredump at autistici.org
++
++Upstream-ID: d0af7d4a2190b63ba1d38eec502bc4be0be9e333
++---
++ auth-passwd.c | 7 ++++++-
++ 1 file changed, 6 insertions(+), 1 deletion(-)
++
++diff --git a/auth-passwd.c b/auth-passwd.c
++index 530b5d4..996c2cf 100644
++--- a/auth-passwd.c
+++++ b/auth-passwd.c
++@@ -1,4 +1,4 @@
++-/* $OpenBSD: auth-passwd.c,v 1.44 2014/07/15 15:54:14 millert Exp $ */
+++/* $OpenBSD: auth-passwd.c,v 1.45 2016/07/21 01:39:35 dtucker Exp $ */
++ /*
++  * Author: Tatu Ylonen <ylo@cs.hut.fi>
++  * Copyright (c) 1995 Tatu Ylonen <ylo@cs.hut.fi>, Espoo, Finland
++@@ -66,6 +66,8 @@ extern login_cap_t *lc;
++ #define DAY		(24L * 60 * 60) /* 1 day in seconds */
++ #define TWO_WEEKS	(2L * 7 * DAY)	/* 2 weeks in seconds */
++ 
+++#define MAX_PASSWORD_LEN	1024
+++
++ void
++ disable_forwarding(void)
++ {
++@@ -87,6 +89,9 @@ auth_password(Authctxt *authctxt, const char *password)
++ 	static int expire_checked = 0;
++ #endif
++ 
+++	if (strlen(password) > MAX_PASSWORD_LEN)
+++		return 0;
+++
++ #ifndef HAVE_CYGWIN
++ 	if (pw->pw_uid == 0 && options.permit_root_login != PERMIT_YES)
++ 		ok = 0;
++-- 
++cgit v0.12
++
+diff --git a/meta/recipes-connectivity/openssh/openssh_7.2p2.bb b/meta/recipes-connectivity/openssh/openssh_7.2p2.bb
+index 3df825b..d48c5fb 100644
+--- a/meta/recipes-connectivity/openssh/openssh_7.2p2.bb
++++ b/meta/recipes-connectivity/openssh/openssh_7.2p2.bb
+@@ -25,6 +25,7 @@ SRC_URI = "http://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}.tar
+            file://CVE-2015-8325.patch \
+            file://openssh-7.1p1-conditional-compile-des-in-cipher.patch \
+            file://openssh-7.1p1-conditional-compile-des-in-pkcs11.patch \
++           file://fix-CVE-2016-6515.patch \
+            "
  
- PV = "6.2.0"
- 
--SNAP = "-RC-20160815"
--
- # BINV should be incremented to a revision after a minor gcc release
- 
--BINV = "6.1.1"
-+BINV = "6.2.0"
- 
- FILESEXTRAPATHS =. "${FILE_DIRNAME}/gcc-6.2:${FILE_DIRNAME}/gcc-6.2/backport:"
- 
-@@ -26,10 +24,10 @@ LIC_FILES_CHKSUM = "\
- "
- 
- 
--#BASEURI ?= "${GNU_MIRROR}/gcc/gcc-${PV}/gcc-${PV}.tar.bz2"
-+BASEURI ?= "${GNU_MIRROR}/gcc/gcc-${PV}/gcc-${PV}.tar.bz2"
- #SRCREV = "bd9a826d5448db11d29d2ec5884e7e679066f140"
- #BASEURI ?= "git://github.com/gcc-mirror/gcc;branch=gcc-6-branch;protocol=git"
--BASEURI ?= "ftp://sourceware.org/pub/gcc/snapshots/6.2.0-RC-20160815/gcc-6.2.0-RC-20160815.tar.bz2"
-+#BASEURI ?= "ftp://sourceware.org/pub/gcc/snapshots/6.2.0-RC-20160815/gcc-6.2.0-RC-20160815.tar.bz2"
- 
- SRC_URI = "\
-            ${BASEURI} \
-@@ -84,10 +82,10 @@ SRC_URI = "\
- "
- BACKPORTS = ""
- 
--SRC_URI[md5sum] = "9ef78bb894dfb38f567416eb67a68989"
--SRC_URI[sha256sum] = "0754995253eb0efc061264b1c4e99efcaee45489a8b940ac5d2fd52e6773f27e"
-+SRC_URI[md5sum] = "9768625159663b300ae4de2f4745fcc4"
-+SRC_URI[sha256sum] = "9944589fc722d3e66308c0ce5257788ebd7872982a718aa2516123940671b7c5"
- 
--S = "${TMPDIR}/work-shared/gcc-${PV}-${PR}/gcc-${PV}${SNAP}"
-+S = "${TMPDIR}/work-shared/gcc-${PV}-${PR}/gcc-${PV}"
- #S = "${TMPDIR}/work-shared/gcc-${PV}-${PR}/git"
- B = "${WORKDIR}/gcc-${PV}/build.${HOST_SYS}.${TARGET_SYS}"
- 
+ PAM_SRC_URI = "file://sshd"
 -- 
 2.9.3
 
