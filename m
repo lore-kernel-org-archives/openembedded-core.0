@@ -1,36 +1,53 @@
-Return-Path: <gary@mlbassoc.com>
-Received: from mail.analogue-micro.com (mail.analogue-micro.com
-	[217.144.149.242])
-	by mail.openembedded.org (Postfix) with ESMTP id E693A734B8
+Return-Path: <peter.kjellerstedt@axis.com>
+Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
+	by mail.openembedded.org (Postfix) with ESMTP id CBC1F766A3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Aug 2016 12:49:14 +0000 (UTC)
-Received: by mail.analogue-micro.com (Postfix, from userid 999)
-	id 71AF868A01B; Tue, 23 Aug 2016 13:49:15 +0100 (BST)
-X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
-	loki.analogue-micro-ltd.com
-X-Spam-Level: *
-X-Spam-Status: No, score=1.7 required=5.0 tests=ALL_TRUSTED,BAYES_40,
-	DNS_FROM_AHBL_RHSBL autolearn=no version=3.3.2
-Received: from zeus.mlbassoc.com (unknown [10.8.0.2])
-	by mail.analogue-micro.com (Postfix) with ESMTP id E24BC68A019;
-	Tue, 23 Aug 2016 13:49:14 +0100 (BST)
-Received: from [127.0.0.1] (localhost.localdomain [127.0.0.1])
-	by zeus.mlbassoc.com (Postfix) with ESMTP id 8EB176740276;
-	Tue, 23 Aug 2016 14:49:14 +0200 (CEST)
-To: Martin Jansa <martin.jansa@gmail.com>
-References: <20160823012731.22993-1-raj.khem@gmail.com>
-	<39624d78-d684-3ab5-7287-8e1f526d37d5@linux.intel.com>
-	<0b221b07-9c5f-c28c-c082-7eb7510c5e17@mlbassoc.com>
-	<20160823124103.revwci7cwvxafwzd@jama>
-From: Gary Thomas <gary@mlbassoc.com>
-Message-ID: <0f73b94f-2cf7-a428-be02-8b691217ab69@mlbassoc.com>
-Date: Tue, 23 Aug 2016 14:49:14 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.2.0
+	Tue, 23 Aug 2016 13:34:22 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bastet.se.axis.com (Postfix) with ESMTP id 9DEB018194;
+	Tue, 23 Aug 2016 15:34:22 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
+Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024)
+	with LMTP id XoPIMT5rfUr9; Tue, 23 Aug 2016 15:34:17 +0200 (CEST)
+Received: from boulder.se.axis.com (boulder.se.axis.com [10.0.2.104])
+	by bastet.se.axis.com (Postfix) with ESMTP id 79327181A7;
+	Tue, 23 Aug 2016 15:34:17 +0200 (CEST)
+Received: from boulder.se.axis.com (localhost [127.0.0.1])
+	by postfix.imss71 (Postfix) with ESMTP id 60B6F1B0E;
+	Tue, 23 Aug 2016 15:34:17 +0200 (CEST)
+Received: from thoth.se.axis.com (thoth.se.axis.com [10.0.2.173])
+	by boulder.se.axis.com (Postfix) with ESMTP id 552241857;
+	Tue, 23 Aug 2016 15:34:17 +0200 (CEST)
+Received: from XBOX04.axis.com (xbox04.axis.com [10.0.5.18])
+	by thoth.se.axis.com (Postfix) with ESMTP id 53368316;
+	Tue, 23 Aug 2016 15:34:17 +0200 (CEST)
+Received: from XBOX02.axis.com (10.0.5.16) by XBOX04.axis.com (10.0.5.18) with
+	Microsoft SMTP Server (TLS) id 15.0.1156.6;
+	Tue, 23 Aug 2016 15:34:16 +0200
+Received: from XBOX02.axis.com ([fe80::d00f:cb52:1b56:20d]) by XBOX02.axis.com
+	([fe80::d00f:cb52:1b56:20d%21]) with mapi id 15.00.1156.000;
+	Tue, 23 Aug 2016 15:34:17 +0200
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: =?utf-8?B?SsOpcsOpbXkgUm9zZW4=?= <jeremy.rosen@smile.fr>
+Thread-Topic: [OE-core] [PATCH 2/8] [cross] export CC family from BUILD_* for
+	cross compilers
+Thread-Index: AQHR/Q+jPAy6rQ1muUyvHlpKK6DqkKBWi7fQ
+Date: Tue, 23 Aug 2016 13:34:17 +0000
+Message-ID: <d169ac6b8ab445bb82c11de39098ec05@XBOX02.axis.com>
+References: <cover.a6e9ec329c3b0f51ecee82d0eb2842bbb091de1f.1471936926.git-series.jeremy.rosen@smile.fr>
+	<b0afbd8bead81db639e1ff2a74aab06c1aa73adc.1471936926.git-series.jeremy.rosen@smile.fr>
+In-Reply-To: <b0afbd8bead81db639e1ff2a74aab06c1aa73adc.1471936926.git-series.jeremy.rosen@smile.fr>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.0.5.60]
 MIME-Version: 1.0
-In-Reply-To: <20160823124103.revwci7cwvxafwzd@jama>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] gcc: Update to final 6.2.0 release
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/8] [cross] export CC family from BUILD_* for	cross compilers
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,41 +60,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 23 Aug 2016 12:49:17 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 23 Aug 2016 13:34:23 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-On 2016-08-23 14:41, Martin Jansa wrote:
-> On Tue, Aug 23, 2016 at 02:29:27PM +0200, Gary Thomas wrote:
->> On 2016-08-23 14:13, Alexander Kanavin wrote:
->>> On 08/23/2016 04:27 AM, Khem Raj wrote:
->>>> -#BASEURI ?= "${GNU_MIRROR}/gcc/gcc-${PV}/gcc-${PV}.tar.bz2"
->>>> +BASEURI ?= "${GNU_MIRROR}/gcc/gcc-${PV}/gcc-${PV}.tar.bz2"
->>>>  #SRCREV = "bd9a826d5448db11d29d2ec5884e7e679066f140"
->>>>  #BASEURI ?= "git://github.com/gcc-mirror/gcc;branch=gcc-6-branch;protocol=git"
->>>> -BASEURI ?= "ftp://sourceware.org/pub/gcc/snapshots/6.2.0-RC-20160815/gcc-6.2.0-RC-20160815.tar.bz2"
->>>> +#BASEURI ?= "ftp://sourceware.org/pub/gcc/snapshots/6.2.0-RC-20160815/gcc-6.2.0-RC-20160815.tar.bz2"
->>>> -S = "${TMPDIR}/work-shared/gcc-${PV}-${PR}/gcc-${PV}${SNAP}"
->>>> +S = "${TMPDIR}/work-shared/gcc-${PV}-${PR}/gcc-${PV}"
->>>>  #S = "${TMPDIR}/work-shared/gcc-${PV}-${PR}/git"
->>>>  B = "${WORKDIR}/gcc-${PV}/build.${HOST_SYS}.${TARGET_SYS}"
->>>
->>> The commented out lines should be dropped, they're just clutter.
->>
->> Also, how "final" is it when the URL points to a "xxx-RC-yyy"?  Seems
->> a bit premature...
->
-> If you read it a bit more carefully you'll notice that it doesn't point
-> to "xxx-RC-yyy"?
->
-> Only your reply was a bit premature :).
->
-
-Indeed, all those extra lines...  Sorry for the noise :-(
-
--- 
-------------------------------------------------------------
-Gary Thomas                 |  Consulting for the
-MLB Associates              |    Embedded world
-------------------------------------------------------------
+PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBvcGVuZW1iZWRkZWQtY29yZS1i
+b3VuY2VzQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNCj4gW21haWx0bzpvcGVuZW1iZWRkZWQtY29y
+ZS1ib3VuY2VzQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmddIE9uIEJlaGFsZiBPZg0KPiBKw6lyw6lt
+eSBSb3Nlbg0KPiBTZW50OiBkZW4gMjMgYXVndXN0aSAyMDE2IDA5OjI1DQo+IFRvOiBvcGVuZW1i
+ZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnDQo+IFN1YmplY3Q6IFtPRS1jb3JlXSBb
+UEFUQ0ggMi84XSBbY3Jvc3NdIGV4cG9ydCBDQyBmYW1pbHkgZnJvbSBCVUlMRF8qDQo+IGZvciBj
+cm9zcyBjb21waWxlcnMNCj4gDQo+IGNyb3NzLWNvbXBpbGVycyBhcmUgbmF0aXZlIHJlY2lwZXMg
+dGhhdCBuZWVkIHRvIGJlIGNvbXBpbGVkIGJ5IHRoZSBob3N0J3MNCj4gY29tcGlsZXIuIEhvd2V2
+ZXIgdGhlbiBkbyBub3QgdXNlIG5hdGl2ZS5iYmNsYXNzDQoNCkNoYW5nZSAidGhlbiIgdG8gInRo
+ZXkiLg0KDQovL1BldGVyDQoNCg==
 
