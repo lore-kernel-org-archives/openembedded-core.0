@@ -1,47 +1,45 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-it0-f45.google.com (mail-it0-f45.google.com
-	[209.85.214.45])
-	by mail.openembedded.org (Postfix) with ESMTP id 1CC5776294
+Received: from mail-wm0-f43.google.com (mail-wm0-f43.google.com [74.125.82.43])
+	by mail.openembedded.org (Postfix) with ESMTP id EDB2576651
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Aug 2016 14:53:55 +0000 (UTC)
-Received: by mail-it0-f45.google.com with SMTP id e63so152109331ith.1
+	Tue, 23 Aug 2016 15:01:49 +0000 (UTC)
+Received: by mail-wm0-f43.google.com with SMTP id o80so199906104wme.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Aug 2016 07:53:56 -0700 (PDT)
+	Tue, 23 Aug 2016 08:01:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=LFnWYs2CGAl5v+TYMDLUfjb9GqhPhM84KFsZWUtIHqc=;
-	b=XR0P8OYC5sfPyi1eu02SbZBeSUUl6FoXVi5Gv/AV5bP35f39sMV0oJMj3KMwScXtJH
-	DTpWzGtNi2RVJfMucAAqyVtoAudJ/8ydsMYh/GdeS7XfJLMkPXcoehdbcXLTrBg1VTmO
-	soOuhP0w0LMJnSRPrxJPeEtnvI/HJht0mGU7T8nWpK8DrF5qz3h+pVXEB4miNV21WuKy
-	eOIMh6jggzKeiTmbcZ64KgX4kdRr3KHeFcb4sz4t/jCdvRqMFyZ/6PBSFBdMb++Aw5D/
-	ibZS1BczvRmaIcMEAy5ZMvusuLGd4yG88LMvJ+pBHChLLMLr7TvI56Ii4u6mYHuIdKE2
-	87RQ==
+	h=from:to:subject:date:message-id;
+	bh=DqxvQsCt5mbJPOPvsBWjHl1c8P1TcZYR7wgqYqDo9N8=;
+	b=m42KX3qZnWquYDqRvYBSHOe7epb9U/8pYZgivtXHOvNjWB5KYlFtALbiUQ7PdC7WL/
+	MnEXqdXCrtMN/ZQ5oT933fh07BHkY51JsMTc/xZh7A2r8OJRqwd/HXHKarmWlsjI+L2h
+	BzGbCoImk9Lf/4cvSr0g/bhMM7/ZZNAsawdcfhuRTWsjSNhFxXmJpiX72XTUaxhB42/N
+	7ADp9bdvi2s8wLzfW/RlryxQ7fK/o5WNkS3LSGPaH4owapG84qu5tMDa/0HjXLbz6hcs
+	Pbp6qEnSA1Wbt1XXud5Q1DCNXMyMCGnam3bHLeyHm+zk/hb8VoHd2VdOBuX9X5bt0rOB
+	wIfA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=LFnWYs2CGAl5v+TYMDLUfjb9GqhPhM84KFsZWUtIHqc=;
-	b=Lb3tRsBczNFKurt2cZPtoGKJfOLs6K9gJTqOjcZi1BZ4Coh0aTz2770CMogHSm/fY9
-	8XeNJqtBfWxcFN4smNytIaD6MRWUXlyMNvSJq1uiSi5SbxkWkVrpeGBI25Ufcci3Na+k
-	gs5K+0DXYi7VWJ0c/c5vGAjMAQi5359GJJFTD2mCZFElorTtjuGgL+RbOKfaFAKWy6FK
-	3qGD7MQ3YnVKXMhGgIDHhAE09Ikimn2YoNSNCjltYSlvPEdlJibBzD07Db0v/rsOKfy+
-	vuFj9m5HezPUktB1CCi9BVm+LEbG44sdgONosvWuS3Vw4ExPvU/t4sJVgXBjwWOwIOA7
-	14cw==
-X-Gm-Message-State: AEkooutDd2VYgf/O6io6E9pNzjSbjDOOT7pvLFnDHwJxQpEhPX7rlIOyWF/nwy1l2Q9KLl+VoBseXO3vEPIevJNt
-X-Received: by 10.36.19.75 with SMTP id 72mr26706531itz.83.1471964036524; Tue,
-	23 Aug 2016 07:53:56 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.107.18.17 with HTTP; Tue, 23 Aug 2016 07:53:36 -0700 (PDT)
-In-Reply-To: <9492b5e7b4b350b21762201a11f189e35c0cfb04.1471936926.git-series.jeremy.rosen@smile.fr>
-References: <cover.a6e9ec329c3b0f51ecee82d0eb2842bbb091de1f.1471936926.git-series.jeremy.rosen@smile.fr>
-	<9492b5e7b4b350b21762201a11f189e35c0cfb04.1471936926.git-series.jeremy.rosen@smile.fr>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 23 Aug 2016 15:53:36 +0100
-Message-ID: <CAJTo0LZfB-Lu75cvN9CBN3Xx9uqpLMEWdPMJZL5MFGSy0+bciw@mail.gmail.com>
-To: =?UTF-8?B?SsOpcsOpbXkgUm9zZW4=?= <jeremy.rosen@smile.fr>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 7/8] [sanity] fix hardcoded references to gcc
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=DqxvQsCt5mbJPOPvsBWjHl1c8P1TcZYR7wgqYqDo9N8=;
+	b=O/fERFRCQ/TqMTdYsI+yolAX8NSeS2Hd0TlDzA8dI7v3J9yPmqVaoZObenmCrxz1sA
+	S8xN/E6rmkMrtouB3FKV6MROq5SwfWFKjdkK+TtqPTYPCO/pnOPgyz828JP3Z7y9ofPU
+	fQMtUBWZ7phT0pTlX63nR6KzlM0zavWRzPQQtOCgop+cLGJHCoccReHWZtmnAtG9mGhA
+	uMQVe3WPWOqnvKzpfpzQztk7bFqHWDfjlFQCcRhMtFkeZWF4YaH28NKfVpYvmT0vVtr6
+	SXjlen95AYimiAhuBGVbdCbZXTw2zw76E/lrwhDR9kspv//fNcwgxWFn24dJm5yyHeIt
+	R9LA==
+X-Gm-Message-State: AEkooutF6SiUGEYMLZCPSOFBN0j3IIqhmX015MO0ipVmiwjojvocLZSV/LPhcH5+6pVltMZi
+X-Received: by 10.28.152.5 with SMTP id a5mr19674429wme.76.1471964509304;
+	Tue, 23 Aug 2016 08:01:49 -0700 (PDT)
+Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
+	by smtp.gmail.com with ESMTPSA id a2sm4257907wjg.46.2016.08.23.08.01.28
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Tue, 23 Aug 2016 08:01:29 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 23 Aug 2016 16:01:26 +0100
+Message-Id: <1471964486-27814-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 2.8.1
+Subject: [PATCH] utils: check_app_exists: strip whitespace from binary when searching
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,67 +52,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 23 Aug 2016 14:53:57 -0000
-Content-Type: multipart/alternative; boundary=001a1145180a8558e1053abe5528
+X-List-Received-Date: Tue, 23 Aug 2016 15:01:51 -0000
 
---001a1145180a8558e1053abe5528
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+It's possible that the binary to be searched for contains whitespace which will
+cause the search to fail, so strip any whitespace before looking.
 
-On 23 August 2016 at 08:25, J=C3=A9r=C3=A9my Rosen <jeremy.rosen@smile.fr> =
-wrote:
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/classes/utils.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> Signed-off-by: J=C3=A9r=C3=A9my Rosen <jeremy.rosen@smile.fr>
->
+diff --git a/meta/classes/utils.bbclass b/meta/classes/utils.bbclass
+index ce639b2..59ace44 100644
+--- a/meta/classes/utils.bbclass
++++ b/meta/classes/utils.bbclass
+@@ -303,7 +303,7 @@ hardlinkdir () {
+ 
+ 
+ def check_app_exists(app, d):
+-    app = d.expand(app)
++    app = d.expand(app).strip()
+     path = d.getVar('PATH', d, True)
+     return bool(bb.utils.which(path, app))
+ 
+-- 
+2.8.1
 
-Did you test this patch with a totally clean build directory?
 
-ross@flashheart ~/Yocto/poky/boofo (mut %)
-$ bitbake m4
-ERROR:  OE-core's config sanity checker detected a potential
-misconfiguration.
-    Either fix the cause of this error or at your own risk disable the
-checker (see sanity.conf).
-    Following is the list of potential problems / advisories:
-
-    Please install the following missing utilities: C Compiler (gcc ),C++
-Compiler (g++ )
-
-I think this is because BUILD_CC by default contains whitespace, and
-bb.utils.which looks for "gcc ".  I added a strip() to check_app_exists and
-it passed, so can you please verify that your series doesn't regress when
-BUILD_CC isn't overridden?
-
-Ross
-
---001a1145180a8558e1053abe5528
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 23 August 2016 at 08:25, J=C3=A9r=C3=A9my Rosen <span dir=3D"ltr">&lt;<a=
- href=3D"mailto:jeremy.rosen@smile.fr" target=3D"_blank">jeremy.rosen@smile=
-.fr</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"mar=
-gin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,2=
-04);border-left-style:solid;padding-left:1ex"><div id=3D":1u0" class=3D"">S=
-igned-off-by: J=C3=A9r=C3=A9my Rosen &lt;<a href=3D"mailto:jeremy.rosen@smi=
-le.fr">jeremy.rosen@smile.fr</a>&gt;<br></div></blockquote></div><br>Did yo=
-u test this patch with a totally clean build directory?</div><div class=3D"=
-gmail_extra"><br></div><div class=3D"gmail_extra"><div class=3D"gmail_extra=
-">ross@flashheart ~/Yocto/poky/boofo (mut %)</div><div class=3D"gmail_extra=
-">$ bitbake m4</div><div class=3D"gmail_extra">ERROR: =C2=A0OE-core&#39;s c=
-onfig sanity checker detected a potential misconfiguration.</div><div class=
-=3D"gmail_extra">=C2=A0 =C2=A0 Either fix the cause of this error or at you=
-r own risk disable the checker (see sanity.conf).</div><div class=3D"gmail_=
-extra">=C2=A0 =C2=A0 Following is the list of potential problems / advisori=
-es:</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">=
-=C2=A0 =C2=A0 Please install the following missing utilities: C Compiler (g=
-cc ),C++ Compiler (g++ )</div><div class=3D"gmail_extra"><br></div><div cla=
-ss=3D"gmail_extra">I think this is because BUILD_CC by default contains whi=
-tespace, and bb.utils.which looks for &quot;gcc &quot;.=C2=A0 I added a str=
-ip() to check_app_exists and it passed, so can you please verify that your =
-series doesn&#39;t regress when BUILD_CC isn&#39;t overridden?</div><div cl=
-ass=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div></=
-div>
-
---001a1145180a8558e1053abe5528--
