@@ -1,47 +1,53 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-it0-f48.google.com (mail-it0-f48.google.com
-	[209.85.214.48])
-	by mail.openembedded.org (Postfix) with ESMTP id 91312731D6
+Return-Path: <akuster808@gmail.com>
+Received: from mail-qt0-f195.google.com (mail-qt0-f195.google.com
+	[209.85.216.195])
+	by mail.openembedded.org (Postfix) with ESMTP id D98FF60762
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Aug 2016 16:33:29 +0000 (UTC)
-Received: by mail-it0-f48.google.com with SMTP id x131so158050524ite.0
+	Tue, 23 Aug 2016 16:51:51 +0000 (UTC)
+Received: by mail-qt0-f195.google.com with SMTP id c52so4003828qte.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Aug 2016 09:33:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=07sMoj2ps2msi2FezgrwTVTu+cLtxYbWSn41Pc8kDRA=;
-	b=o40qMmPakz/Kejid0SPLVdVnbswEmT/B7gZ9kP64bDlkkFu109tzJhDJ4WmkbH0MPa
-	RK+FjTNOjk/MVq7foyhFnGplXgPMNoCFrzb5wEkGmWSgqyORWKR9CS7bEG85vTUgxbOK
-	d8F6Vb7GDHTu2XGP7KQCKBo/3lssGMuOvz56/aXInlBX2MtBZV5V0b9q8wTcIg6am3bX
-	KB9FhF4J3uyEC6ZDN7V3fjgkomvOtVsv3zDJwB2ojUm3CvTL+b6RCi6WhHhB2T3V95cx
-	DstTu2KFtbMymzX+lscwLTwPvmWT5y0tdtp96bnzdYA8IoFC9lAF77JWkCVpX7J14HCi
-	uRuQ==
+	Tue, 23 Aug 2016 09:51:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=subject:to:references:cc:from:message-id:date:user-agent
+	:mime-version:in-reply-to:content-transfer-encoding;
+	bh=6WRMyZ705madBibF6vHslJSQbsUGAqAT6IoOPxoFqRI=;
+	b=rcl+x96mV4Lpd02k7baO3VY5KRX4DtL5jqQkMMBtpLmd13nLINvzuU5OZS/stDzuaA
+	N97tf2pw5JLvLMFTtqPTEzFUGqqXzChAYKyK39dELuzt7e5Jj796PUqDGaGc3bl4s2WR
+	kAOkdbDKJUsIDdmqU2IKHVLRvQsPdfS575gnXgjjogtlkm5LQXHH1e6kmlAnL5Tdc805
+	YbZVYIeMQQg9fpI1bYINcpu83BCfnvnMqUJcKCsxQ9y5A0SjePEb5Xy/Z5cc0EhQxGXj
+	bh6KkvrEjCBaKc6ukMnQSnvknhI2S1o4LXYbRxiCQgJep4F/bw3G7ue3nyFawxUWGxgR
+	yc6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=07sMoj2ps2msi2FezgrwTVTu+cLtxYbWSn41Pc8kDRA=;
-	b=cd1T+uo1Z0hbCt1axdHkvG8cd+LeW1fwxNLEKcZXQDMz1MmelDoFp3dBygjkhatZtK
-	388h4mZmgReIDsHFLPaEDsmAD4R/V/THf/t2wJqUv8OOVhwnvR4cwx3CvlytcG1SX13/
-	pJtWZrmkyeE2NN2TV6u8QQeQgWqE+RTHdtSKz5p90ufqmjy/spsKTYUfH2/ZSQ4r3o0E
-	vRQWH0v/AwnP6fYx/yQa6XNrdb35YiEtmBO7NGnGZBZmsexlm1UDvTDmpmQSHJQ2PUKq
-	VqSiRYVF9wfSmJjNEE3RMJFbGuHJuy6CrbRvFFuOVTrxbSu/Mtw/n6TprdTiaeRZU7Mr
-	6PAA==
-X-Gm-Message-State: AEkoouvbmu6qfvrhVEn2aUi3UEhq//hsHUdn5F271vW2w7wqV5fXtYYy3mNDtjd+jUTsy5xD1L7PkRDtu54Y623r
-X-Received: by 10.36.129.213 with SMTP id q204mr29264578itd.38.1471970010258; 
-	Tue, 23 Aug 2016 09:33:30 -0700 (PDT)
+	h=x-gm-message-state:subject:to:references:cc:from:message-id:date
+	:user-agent:mime-version:in-reply-to:content-transfer-encoding;
+	bh=6WRMyZ705madBibF6vHslJSQbsUGAqAT6IoOPxoFqRI=;
+	b=DEwgvBLJErVOpTxDQvC+A3b+ucYrQ23c0E5cJYyX71ixONF8myaN43PE67iQ2eWUQB
+	zADrMaaB/7W4Dk/xmiKMUXjlkDQa2622Nm6CFQa+y1ZxTfVTglOoWoNNpIV3QFOTd7DP
+	3T9fQOKM/2GN0w5vVb8W72uZt1/qW5GU5gzGVn6r05JDodY7avCIr1HyFIAI1JycObZs
+	tYymotWern4EsJGx3Yd7bCsAdRLcBewRJV3mbi3lwStZQoXqpkv9R4oQ3qWGcA34u+an
+	+WingkCHWGwnmfJ1dsg1TD7NRK4FjWQjhykBdFeDs3UEsXt5kIbRo24FsTjtF4+dZE+f
+	5TQg==
+X-Gm-Message-State: AEkooutdVQ9wiBFTD7Fj1X9vil6zo/oalmX/VLehlHkBKMFuKHBxXoD9jtxZ+BU/Fbg8aA==
+X-Received: by 10.237.37.216 with SMTP id y24mr30880522qtc.58.1471971112443;
+	Tue, 23 Aug 2016 09:51:52 -0700 (PDT)
+Received: from [10.26.31.149] ([151.124.225.52])
+	by smtp.gmail.com with ESMTPSA id s52sm2245369qtc.4.2016.08.23.09.51.47
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 23 Aug 2016 09:51:51 -0700 (PDT)
+To: Khem Raj <raj.khem@gmail.com>, Ruslan Babayev <ruslan@babayev.com>
+References: <877fb8ih9t.fsf@babayev.com>
+	<74C0D260-699E-447C-B450-0499FCB6DA8C@gmail.com>
+From: akuster808 <akuster808@gmail.com>
+Message-ID: <c33e034a-f2f5-c224-db2f-5e86dcccf75e@gmail.com>
+Date: Tue, 23 Aug 2016 09:51:40 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.2.0
 MIME-Version: 1.0
-Received: by 10.107.18.17 with HTTP; Tue, 23 Aug 2016 09:33:09 -0700 (PDT)
-In-Reply-To: <9e30df083af2d4888f3aa500a34e4f9663e21996.1471857211.git.kai.kang@windriver.com>
-References: <cover.1471857211.git.kai.kang@windriver.com>
-	<9e30df083af2d4888f3aa500a34e4f9663e21996.1471857211.git.kai.kang@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 23 Aug 2016 17:33:09 +0100
-Message-ID: <CAJTo0LZ+_JhV6L=NSgKaVGzWTjibuGzp0GhEANaa2Go=ASdf_A@mail.gmail.com>
-To: Kang Kai <kai.kang@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] openssh: fix CVE-2016-6515
+In-Reply-To: <74C0D260-699E-447C-B450-0499FCB6DA8C@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: krogoth: musl-1.1.15 is broken on mips
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,45 +60,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 23 Aug 2016 16:33:30 -0000
-Content-Type: multipart/alternative; boundary=94eb2c08b1fc951935053abfb993
+X-List-Received-Date: Tue, 23 Aug 2016 16:51:54 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 
---94eb2c08b1fc951935053abfb993
-Content-Type: text/plain; charset=UTF-8
 
-On 23 August 2016 at 02:59, <kai.kang@windriver.com> wrote:
 
-> From: Kai Kang <kai.kang@windriver.com>
+On 08/22/2016 04:21 PM, Khem Raj wrote:
+>> On Aug 22, 2016, at 3:13 PM, Ruslan Babayev <ruslan@babayev.com> wrote:
+>>
+>> Hi Khem,
+>>
+>> musl-1.1.15 has a change which broke mips arch. This was reverted later
+>> but 1.1.16 is not out yet.
+> Yes I am aware if this and it has been fixed in master for sometime now.
+> http://git.openembedded.org/openembedded-core/commit/meta/recipes-core/musl/musl_git.bb?id=681b75cb7c1ad88774d611119c9a7f6d076ff2c5
 >
-> Backport patch to fix CVE-2016-6515 from:
+> Armin
 >
-> https://anongit.mindrot.org/openssh.git/commit/?id=fcd135c
+> Can we cherry-pick the above commit to krogoth please ?
+
+Sure thing. Will get it after my vacation.
+
+-armin
 >
+>
+>> You need to use at least
+>>
+>> https://git.musl-libc.org/cgit/musl/commit/?id=39494a273eaa6b714e0fa0c59ce7a1f5fbc80a1e
+>>
+>> I just tried it with my custom krogoth based distro on an Octeon3 board
+>> and seems to work fine now.
+>>
+>> Cheers,
+>> Ruslan
 
-We've already had an upgrade to 7.3 in master(-next), so this would only be
-appropriate for the stable branches.
 
-Ross
-
---94eb2c08b1fc951935053abfb993
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 23 August 2016 at 02:59,  <span dir=3D"ltr">&lt;<a href=3D"mailto:kai.ka=
-ng@windriver.com" target=3D"_blank">kai.kang@windriver.com</a>&gt;</span> w=
-rote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;borde=
-r-left:1px #ccc solid;padding-left:1ex"><div id=3D":1hy" class=3D"a3s aXjCH=
- m156b5222ca2617c0">From: Kai Kang &lt;<a href=3D"mailto:kai.kang@windriver=
-.com">kai.kang@windriver.com</a>&gt;<br>
-<br>
-Backport patch to fix CVE-2016-6515 from:<br>
-<br>
-<a href=3D"https://anongit.mindrot.org/openssh.git/commit/?id=3Dfcd135c" re=
-l=3D"noreferrer" target=3D"_blank">https://anongit.mindrot.org/<wbr><span c=
-lass=3D"il">openssh</span>.git/commit/?id=3Dfcd135c</a></div></blockquote><=
-/div><br>We&#39;ve already had an upgrade to 7.3 in master(-next), so this =
-would only be appropriate for the stable branches.</div><div class=3D"gmail=
-_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
-
---94eb2c08b1fc951935053abfb993--
