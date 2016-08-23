@@ -1,46 +1,46 @@
-Return-Path: <fabio.berton@ossystems.com.br>
-Received: from mail-qt0-f194.google.com (mail-qt0-f194.google.com
-	[209.85.216.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 025AB7318E
+Return-Path: <ross.burton@intel.com>
+Received: from mail-it0-f50.google.com (mail-it0-f50.google.com
+	[209.85.214.50])
+	by mail.openembedded.org (Postfix) with ESMTP id 287BB6FF60
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Aug 2016 19:13:50 +0000 (UTC)
-Received: by mail-qt0-f194.google.com with SMTP id u25so4128166qtb.3
+	Tue, 23 Aug 2016 20:19:32 +0000 (UTC)
+Received: by mail-it0-f50.google.com with SMTP id x131so170165755ite.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Aug 2016 12:13:51 -0700 (PDT)
+	Tue, 23 Aug 2016 13:19:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id:organization;
-	bh=ysfPaBujJIytiU74K4tFRMUJxiW0N4NmSTuoDUGFyEo=;
-	b=fv2u0k1kliumX53jns3s7wy3L/eXTiMvTksFoXhcL1pXb5B4gbRSWBrUtQLgOktekQ
-	GAfbj2FFkcKdXFex3GltmytqQm/FJoABZDb8umCqBTOoqEvbN8m6HovHoxgt06uNrXv1
-	MIr2EZrQbaf19lptIEWu1H1wfU+gcwLuDR56muVjk+t2kMZvAbdeNvHoUXdS5SuQfM1r
-	axrQaz+OCgkCywHrL9gWMknthsxSYJ4WQBKHukAlKuJ9/Ki3m5JCUNHoF8WLEuncFCDQ
-	pbXQxCMKHQ4Takug1iYAl1ovJz51aqzdMm+yk1xQ+CIHTcUvPIVK+kPmCfkaYCaL/814
-	1BvA==
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=gKyv/z0/eT3X4htyH18FpGVzLwQXFaY6N5YrM7uq2uE=;
+	b=fn22E9hSb6XqEluwWgFsIm2318hLGjlmn/4f9U3bxPIMT+awML/od/vSEeNONdsavF
+	Guz+bGfC3fBxpXgg16Qh+MXwB2ESQBM02IYzi4Y+jxYz97SM6BZAv37BI/9vkicsR61P
+	0uC0UXERLkQOlTEGSTaaOx+mNAR0/ehage0wOuQOtYKHFu91hQZZdDozR3GUmjSDea24
+	gHQItpXyg8NTU+yMjNB/juSdJHx69DLHF5jLSqCoBDUm7oMQ+ADmlotCX1kbKGOoMpkQ
+	ZUHJhz7kfjov0JEjmReKAbsD9pEJUtY97WzWj4hMnV6JHZ2RIHnJH4HgBymJBZ63RdbY
+	JWEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:organization;
-	bh=ysfPaBujJIytiU74K4tFRMUJxiW0N4NmSTuoDUGFyEo=;
-	b=jaGhPTKVvYBojqPgT3QwoH2TF7vW2KAh+Dgv56NRkX4qhTUGrlRBanIvkHQViiSZTL
-	98NKK3f0YvH8MT6hfrmkIH73bbfneEB2FLwbHgkmJpDW4EDZDIfwU28wQyRN50jb5F5q
-	Y0tI/dlZyWvoz9L7ihTTGEUYg3KhltkJuUWhcsfCiTAyg4Hqj4In52bNRYtcK0jk2Eyn
-	p811X8O9GSdtJOhtVVTIfY4p+NJDNxewPv9COfp5rUbcYG8Dad7ve/q3BamCUD8CgjyR
-	jeYx47eSnD6XFB/Sp9RSg+A6NMGpOD/B2VbdNnhCEYUMw+pSFhPRKPunji+SwxfD+Puk
-	H79Q==
-X-Gm-Message-State: AEkoouv3EBOHjtD4U10PrknwezSaSDde9Y3C4Pwrkc248dbXjwC0qLrQLDC67BaKRpKn7g==
-X-Received: by 10.237.47.225 with SMTP id m88mr32564245qtd.106.1471979630717; 
-	Tue, 23 Aug 2016 12:13:50 -0700 (PDT)
-Received: from berton.lab.ossystems.com.br ([177.127.4.56])
-	by smtp.gmail.com with ESMTPSA id p70sm2577983qke.1.2016.08.23.12.13.48
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 23 Aug 2016 12:13:49 -0700 (PDT)
-From: Fabio Berton <fabio.berton@ossystems.com.br>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 23 Aug 2016 16:13:37 -0300
-Message-Id: <1471979617-9800-1-git-send-email-fabio.berton@ossystems.com.br>
-X-Mailer: git-send-email 2.1.4
-Organization: O.S. Systems Software LTDA.
-Subject: [PATCH] piglit: Add python3-argparse module to RDEPENDS
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=gKyv/z0/eT3X4htyH18FpGVzLwQXFaY6N5YrM7uq2uE=;
+	b=E8lz8F/u538n2qDN7wFHdWHwU6jopcwZfoPrkzM0FHS2ckXBUO3ZwoU7d48f0lzr5Z
+	VkC/s63MJgTYGVUjKh7D69jsNtTJ5q6gDO3Z48Yp4hBx4Egf+ORAVuINMZVPmPY0VEzF
+	1GT7vx9GmuM8AaGzlrezb0F8bF4Bum6wEbuAgoCTYkeGGyNJy6BAIXEkfSmGNRmAsk2y
+	okKmy4E/1BvNzKU+plOXayJ++B5n049DZ6kuZBLqjCvvFej0ixPh3HPYTkbvmkCel/JH
+	cWZ3IzT3k/Qu76hYfz72QJl3rO/gdk/+KUcdz2nM/ZmXdSREzl8MbyS9dgXpvakk9U53
+	kfHQ==
+X-Gm-Message-State: AEkooust8yaH83PPgVbIAVb3eGa94aNsTPaTwZbAmg1mQmkJTj9pQKFrxc1RowVF3Yh/SDIRRDpIq/NZHW6uxPxi
+X-Received: by 10.107.135.142 with SMTP id r14mr34713153ioi.133.1471983573288; 
+	Tue, 23 Aug 2016 13:19:33 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.107.18.17 with HTTP; Tue, 23 Aug 2016 13:19:12 -0700 (PDT)
+In-Reply-To: <CAFkk2KRmMbNhL=V82H-vuYmvRBDMxKOE7c-J=u2=YGHBPmYYSg@mail.gmail.com>
+References: <CAFkk2KRmMbNhL=V82H-vuYmvRBDMxKOE7c-J=u2=YGHBPmYYSg@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 23 Aug 2016 21:19:12 +0100
+Message-ID: <CAJTo0LYHdKXnViZqojAFJV2TLXemvui3WovbVONJ38ZEVmDbcw@mail.gmail.com>
+To: Ulf Magnusson <ulfalizer@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] useradd.bblass: Simplify target overrides
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,31 +53,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 23 Aug 2016 19:13:53 -0000
+X-List-Received-Date: Tue, 23 Aug 2016 20:19:33 -0000
+Content-Type: multipart/alternative; boundary=001a113eccbc005e2b053ac2e213
 
-Python module argparse was removed from python3-misc package, so we
-need to add new python3-argparse package to RDEPENDS.
+--001a113eccbc005e2b053ac2e213
+Content-Type: text/plain; charset=UTF-8
 
-Signed-off-by: Fabio Berton <fabio.berton@ossystems.com.br>
----
- meta/recipes-graphics/piglit/piglit_git.bb | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+On 9 August 2016 at 02:48, Ulf Magnusson <ulfalizer@gmail.com> wrote:
 
-diff --git a/meta/recipes-graphics/piglit/piglit_git.bb b/meta/recipes-graphics/piglit/piglit_git.bb
-index df90c4d..b2ca553 100644
---- a/meta/recipes-graphics/piglit/piglit_git.bb
-+++ b/meta/recipes-graphics/piglit/piglit_git.bb
-@@ -46,7 +46,8 @@ do_install() {
- RDEPENDS_${PN} = "waffle python3 python3-mako python3-json \
- 	python3-subprocess python3-misc python3-importlib \
- 	python3-unixadmin python3-xml python3-multiprocessing \
--	python3-six python3-shell python3-io mesa-demos bash \
-+	python3-six python3-shell python3-io python3-argparse \
-+	mesa-demos bash \
- 	"
- 
- INSANE_SKIP_${PN} += "dev-so already-stripped"
--- 
-2.1.4
+> The current style might be a leftover from when _class-target did not
+> exist.
+>
 
+Can you rebase and resend this please?  It's a great patch but for some
+reason git isn't happy and refuses to apply it.
 
+Ross
+
+--001a113eccbc005e2b053ac2e213
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 9 August 2016 at 02:48, Ulf Magnusson <span dir=3D"ltr">&lt;<a href=3D"m=
+ailto:ulfalizer@gmail.com" target=3D"_blank">ulfalizer@gmail.com</a>&gt;</s=
+pan> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex=
+;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":2bh" class=3D"a3s=
+ aXjCH m1566cfd11ea656ce">The current style might be a leftover from when _=
+class-target did not<br>
+exist.<br></div></blockquote></div><br>Can you rebase and resend this pleas=
+e?=C2=A0 It&#39;s a great patch but for some reason git isn&#39;t happy and=
+ refuses to apply it.</div><div class=3D"gmail_extra"><br></div><div class=
+=3D"gmail_extra">Ross</div></div>
+
+--001a113eccbc005e2b053ac2e213--
