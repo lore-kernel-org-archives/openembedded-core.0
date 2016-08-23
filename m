@@ -1,34 +1,47 @@
-Return-Path: <jeremy.rosen@smile.fr>
-Received: from idris.smile.fr (idris.smile.fr [91.216.209.19])
-	by mail.openembedded.org (Postfix) with ESMTP id 84208769F8
+Return-Path: <ross.burton@intel.com>
+Received: from mail-it0-f52.google.com (mail-it0-f52.google.com
+	[209.85.214.52])
+	by mail.openembedded.org (Postfix) with ESMTP id 3F41576988
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Aug 2016 13:48:39 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by idris.smile.fr (Postfix) with ESMTP id DCCE91EE0814;
-	Tue, 23 Aug 2016 15:48:39 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at smile.fr
-Received: from idris.smile.fr ([127.0.0.1])
-	by localhost (bluemind-mta.prod.vitry.intranet [127.0.0.1])
-	(amavisd-new, port 10024)
-	with ESMTP id 54Dhl5p3B9Gv; Tue, 23 Aug 2016 15:48:39 +0200 (CEST)
-Received: from [10.5.19.152] (unknown [193.56.60.161])
-	by idris.smile.fr (Postfix) with ESMTPSA id B03B81EE0813;
-	Tue, 23 Aug 2016 15:48:38 +0200 (CEST)
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-References: <cover.a6e9ec329c3b0f51ecee82d0eb2842bbb091de1f.1471936926.git-series.jeremy.rosen@smile.fr>
-	<d703e7a1226ccde6956de23fc1b04a7fa00c5086.1471936926.git-series.jeremy.rosen@smile.fr>
-	<CADkTA4NU-X9mif2cK03piq+6YyrGtw8ak-A9ysfvwrUu3eVX3Q@mail.gmail.com>
-	<CADkTA4OTbF_nTfz7Afi33mDX2yBe7SVC+DXA7NAH9tme=RZ7aA@mail.gmail.com>
-From: =?UTF-8?B?SsOpcsOpbXkgUm9zZW4=?= <jeremy.rosen@smile.fr>
-Message-ID: <bddc80dd-d95d-5cfc-0aea-6f8154c09563@smile.fr>
-Date: Tue, 23 Aug 2016 15:48:37 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Firefox/45.0 Icedove/45.2.0
+	Tue, 23 Aug 2016 14:03:24 +0000 (UTC)
+Received: by mail-it0-f52.google.com with SMTP id e63so148932649ith.1
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 23 Aug 2016 07:03:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=if0eQvHhNnAcSZ6pfUi5hQB3qNyZl2WUb2ZzgKDPuCQ=;
+	b=OotLkFXDPcCcFJvyMYEugp5mpVrHYahMdhcGkonHJU+Q8xL8tAU6IUS89YhB8OPjov
+	KpgJcrwR6eUqPMHmZDOQ/nAwcCkdPVWbamo++W70V66sONgdmg9PnlBAork3bF+jKnFl
+	uuq/RmwcgQTZgMbaEPvk50S0JFpHs/udgj20MxhJ8lVjkDW3hoX40QYXMkkbUvgzMDu0
+	G6WC/XpfG5fT/hOPRBY2yQddjQ24nYtHE7e0NjV+qaMGjnz2ooUWgLZB00HAPs4H//bR
+	6lBNJBaiPsFuEF/q+u8h+gBJXfd1QltkgMIRoZ+YotVeDbwEtyZhngwQ/JOD7dLg8Yeb
+	FZRg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=if0eQvHhNnAcSZ6pfUi5hQB3qNyZl2WUb2ZzgKDPuCQ=;
+	b=L8f/ICqYpoIUqCdE5uJ8qWIPIuN3+R79Z2FV6ajS4fxaVXMjJ46+5yhf0awSGW3jvi
+	A+u4nmjv4zR+OzeR+Tnz/wS68ONGjh23S3g9oZ6mmRSOQ+IjHOON+qw2Pla9tzhBcATe
+	cBkWhb0F6jGnWe0ExFimRGvmXUn+s4BPIVjHb4V3rQ4RRCcZ5zoa7TlWbd2v/OGQ9PNc
+	0cmY1Qj6K6kDxeixf3ofpTKsxJ1/9i6RU6zEdKVml0EGaY7iGMtPFTBJMAFvKVjHbesq
+	2xSp2cI3CfkmwlXaHg8ndHtfKYu5GqqwhwoFWtrmdjMKFpzRhz+UM5Azrdnp14vPaGRn
+	Ut9g==
+X-Gm-Message-State: AEkooutAYIacPKDmZLqepq/Z8ahLPPb/oq8XwFcVhJV1R3UcVcWHivfXw3E7rS2AGeXNOAu7B6vv4YUriIzM/fwV
+X-Received: by 10.107.138.212 with SMTP id c81mr28809657ioj.148.1471961005078; 
+	Tue, 23 Aug 2016 07:03:25 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CADkTA4OTbF_nTfz7Afi33mDX2yBe7SVC+DXA7NAH9tme=RZ7aA@mail.gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 4/8] [linux-yocto] allow overriding compiler name in KConfig
+Received: by 10.107.18.17 with HTTP; Tue, 23 Aug 2016 07:03:04 -0700 (PDT)
+In-Reply-To: <206bf819f402d94d3261b1f4590330ef41449e4d.1471936926.git-series.jeremy.rosen@smile.fr>
+References: <cover.a6e9ec329c3b0f51ecee82d0eb2842bbb091de1f.1471936926.git-series.jeremy.rosen@smile.fr>
+	<206bf819f402d94d3261b1f4590330ef41449e4d.1471936926.git-series.jeremy.rosen@smile.fr>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 23 Aug 2016 15:03:04 +0100
+Message-ID: <CAJTo0LY4gVCD24Tc9ZJnUh0s+Lgzztk=2zG9ew14LFa6GBCGRg@mail.gmail.com>
+To: =?UTF-8?B?SsOpcsOpbXkgUm9zZW4=?= <jeremy.rosen@smile.fr>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 8/8] [glibc] remove hard-coded reference to gcc -E
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,467 +54,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 23 Aug 2016 13:48:41 -0000
-Content-Type: multipart/alternative;
-	boundary="------------565573ADD519B4DAD2DD8D3E"
+X-List-Received-Date: Tue, 23 Aug 2016 14:03:27 -0000
+Content-Type: multipart/alternative; boundary=001a113ed932d4feec053abda02d
 
---------------565573ADD519B4DAD2DD8D3E
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+--001a113ed932d4feec053abda02d
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+On 23 August 2016 at 08:25, J=C3=A9r=C3=A9my Rosen <jeremy.rosen@smile.fr> =
+wrote:
 
+> +-open F, "cat C-translit.h.in | gcc -E - |" || die "Cannot preprocess
+> input file";
+> ++open F, 'cat C-translit.h.in | $CPP - |' || die "Cannot preprocess
+> input file";
+>
 
-On 23/08/2016 15:41, Bruce Ashfield wrote:
->
->
-> On Tue, Aug 23, 2016 at 9:36 AM, Bruce Ashfield 
-> <bruce.ashfield@gmail.com <mailto:bruce.ashfield@gmail.com>> wrote:
->
->     On Tue, Aug 23, 2016 at 3:25 AM, Jérémy Rosen
->     <jeremy.rosen@smile.fr <mailto:jeremy.rosen@smile.fr>> wrote:
->
->         The KConfig infrastructure hardwires the compiler name to gcc,
->         which breaks
->         the BUILD_CC feature. This is needed even when cross compiling
->         because
->         make *config rely on the kconfig infrastructure
->
->
->     Can you elaborate ? I'm not aware of any issues with either the
->     host builds or
->     target builds with the kernel.
->
->
-> Aha. I found the 0/N for the series.
->
-> And my answer is still the same. These belong upstream, and since the 
-> kernel is fairly
-> picky about the compiler and compiler versions, I don't see a pressing 
-> need to carry
-> something like this until it makes it into the mainline kernel.
->
-> My answer to 'can't assume the name of gcc', is to make sure that your 
-> environment
-> and path is fully understood, and make your compiler available as 
-> 'gcc', versus trying
-> to patch multiple recipes.
+Patch is missing an Upstream-Status, and I expect if you allowed for CPP to
+be unset then there's a chance you can get this upstream.
 
-Ok, my 0/N maybe was not as clear as I hoped. I don't want to compile 
-without a gcc binary. I want to make sure that when I set BUILD_* to a 
-specific version of gcc (gcc-5 in my case) only that version of the 
-compiler can be used.
+${CPP:-gcc -E} should do the trick.
 
-As pointed, jethro can only be compiled on a machine where the default 
-compiler is gcc-5. Having gcc-5 installed is not enough, it needs to be 
-default. The BUILD_* feature was meant to prevent that, i'm just fixing it
+Ross
 
-As I have stated elsewhere, I am upstreaming the patches in parlallel 
-(only the glibc patch is left at this point, since I found a way to drop 
-the kconfig ones) hopefully I will be able to add the "submitted 
-upstream" tag on V2.
+--001a113ed932d4feec053abda02d
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-In the meantime, I mainly wanted comments on the approch and I was 
-wondering how to makes sure some sort of autmated QA test could detect 
-that sort of problems.
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 23 August 2016 at 08:25, J=C3=A9r=C3=A9my Rosen <span dir=3D"ltr">&lt;<a=
+ href=3D"mailto:jeremy.rosen@smile.fr" target=3D"_blank">jeremy.rosen@smile=
+.fr</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"mar=
+gin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,2=
+04);border-left-style:solid;padding-left:1ex"><div id=3D":oq" class=3D"">+-=
+open F, &quot;cat <a href=3D"http://C-translit.h.in" rel=3D"noreferrer" tar=
+get=3D"_blank">C-translit.h.in</a> | gcc -E - |&quot; || die &quot;Cannot p=
+reprocess input file&quot;;<br>
+++open F, &#39;cat <a href=3D"http://C-translit.h.in" rel=3D"noreferrer" ta=
+rget=3D"_blank">C-translit.h.in</a> | $CPP - |&#39; || die &quot;Cannot pre=
+process input file&quot;;<br></div></blockquote></div><br>Patch is missing =
+an Upstream-Status, and I expect if you allowed for CPP to be unset then th=
+ere&#39;s a chance you can get this upstream.</div><div class=3D"gmail_extr=
+a"><br></div><div class=3D"gmail_extra">${CPP:-gcc -E} should do the trick.=
+</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross<=
+/div></div>
 
-Hope this helps
-Jeremy
-
->
-> Cheers,
->
-> Bruce
->
->
->     If there's an issue, we need to fix it upstream .. not here.
->
->         ---
->          meta/recipes-kernel/linux/linux-yocto.inc              |  4 ++++
->          meta/recipes-kernel/linux/linux-yocto/0001-Allow-overriding-host-compiler-name-from-environment.patch
->         | 32 ++++++++++++++++++++++++++++++++
->          2 files changed, 36 insertions(+), 0 deletions(-)
->          create mode 100644
->         meta/recipes-kernel/linux/linux-yocto/0001-Allow-overriding-host-compiler-name-from-environment.patch
->
->         diff --git a/meta/recipes-kernel/linux/linux-yocto.inc
->         b/meta/recipes-kernel/linux/linux-yocto.inc
->         index 98a48ec..63c1531 100644
->         --- a/meta/recipes-kernel/linux/linux-yocto.inc
->         +++ b/meta/recipes-kernel/linux/linux-yocto.inc
->         @@ -58,3 +58,7 @@ do_install_append(){
->          addtask kernel_link_images after do_compile before do_install
->          addtask validate_branches before do_patch after
->         do_kernel_checkout
->          addtask kernel_configcheck after do_configure before do_compile
->         +
->         +SRC_URI_append = "
->         file://0001-Allow-overriding-host-compiler-name-from-environment.patch"
->
->
->     We don't carry patches to linux-yocto like this, they are sent to
->     the linux-yocto mailing list, and
->     integrated into the tree itself.
->
->     Bruce
->
->         +export HOSTCC = "${BUILD_CC}"
->         +export HOSTCXX = "${BUILD_CXX}"
->         diff --git
->         a/meta/recipes-kernel/linux/linux-yocto/0001-Allow-overriding-host-compiler-name-from-environment.patch
->         b/meta/recipes-kernel/linux/linux-
->
->         yocto/0001-Allow-overriding-host-compiler-name-from-environment.patch
->         new file mode 100644
->         index 0000000..6fcfbc8
->         --- /dev/null
->         +++
->         b/meta/recipes-kernel/linux/linux-yocto/0001-Allow-overriding-host-compiler-name-from-environment.patch
->         @@ -0,0 +1,32 @@
->         +From 0ce4c4f29b5d456a7707e870c7affe524f7c8807 Mon Sep 17
->         00:00:00 2001
->         +From: =?UTF-8?q?J=C3=A9r=C3=A9my=20Rosen?=
->         <jeremy.rosen@smile.fr <mailto:jeremy.rosen@smile.fr>>
->         +Date: Tue, 16 Aug 2016 22:39:29 +0200
->         +Subject: [PATCH] Allow overriding host-compiler name from
->         environment
->         + variables
->         +
->         +---
->         + Makefile | 8 ++++----
->         + 1 file changed, 4 insertions(+), 4 deletions(-)
->         +
->         +diff --git a/Makefile b/Makefile
->         +index 70dea02..1f0d2d2 100644
->         +--- a/Makefile
->         ++++ b/Makefile
->         +@@ -295,10 +295,10 @@ CONFIG_SHELL := $(shell if [ -x
->         "$$BASH" ]; then echo $$BASH; \
->         +         else if [ -x /bin/bash ]; then echo /bin/bash; \
->         +         else echo sh; fi ; fi)
->         +
->         +-HOSTCC       = gcc
->         +-HOSTCXX      = g++
->         +-HOSTCFLAGS   = -Wall -Wmissing-prototypes
->         -Wstrict-prototypes -O2 -fomit-frame-pointer -std=gnu89
->         +-HOSTCXXFLAGS = -O2
->         ++HOSTCC       ?= gcc
->         ++HOSTCXX      ?= g++
->         ++HOSTCFLAGS   ?= -Wall -Wmissing-prototypes
->         -Wstrict-prototypes -O2 -fomit-frame-pointer -std=gnu89
->         ++HOSTCXXFLAGS ?= -O2
->         +
->         + ifeq ($(shell $(HOSTCC) -v 2>&1 | grep -c "clang version"), 1)
->         + HOSTCFLAGS  += -Wno-unused-value -Wno-unused-parameter \
->         +--
->         +2.8.1
->         +
->         --
->         git-series 0.8.9
->         --
->         _______________________________________________
->         Openembedded-core mailing list
->         Openembedded-core@lists.openembedded.org
->         <mailto:Openembedded-core@lists.openembedded.org>
->         http://lists.openembedded.org/mailman/listinfo/openembedded-core
->         <http://lists.openembedded.org/mailman/listinfo/openembedded-core>
->
->
->
->
->     -- 
->     "Thou shalt not follow the NULL pointer, for chaos and madness
->     await thee at its end"
->
->
->
->
-> -- 
-> "Thou shalt not follow the NULL pointer, for chaos and madness await 
-> thee at its end"
-
-
---------------565573ADD519B4DAD2DD8D3E
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: 8bit
-
-<html>
-  <head>
-    <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-  </head>
-  <body bgcolor="#FFFFFF" text="#000000">
-    <p><br>
-    </p>
-    <br>
-    <div class="moz-cite-prefix">On 23/08/2016 15:41, Bruce Ashfield
-      wrote:<br>
-    </div>
-    <blockquote
-cite="mid:CADkTA4OTbF_nTfz7Afi33mDX2yBe7SVC+DXA7NAH9tme=RZ7aA@mail.gmail.com"
-      type="cite">
-      <div dir="ltr"><br>
-        <div class="gmail_extra"><br>
-          <div class="gmail_quote">On Tue, Aug 23, 2016 at 9:36 AM,
-            Bruce Ashfield <span dir="ltr">&lt;<a
-                moz-do-not-send="true"
-                href="mailto:bruce.ashfield@gmail.com" target="_blank">bruce.ashfield@gmail.com</a>&gt;</span>
-            wrote:<br>
-            <blockquote class="gmail_quote" style="margin:0 0 0
-              .8ex;border-left:1px #ccc solid;padding-left:1ex">
-              <div dir="ltr">
-                <div>
-                  <div class="gmail_extra">
-                    <div class="gmail_quote"><span class="">On Tue, Aug
-                        23, 2016 at 3:25 AM, Jérémy Rosen <span
-                          dir="ltr">&lt;<a moz-do-not-send="true"
-                            href="mailto:jeremy.rosen@smile.fr"
-                            target="_blank">jeremy.rosen@smile.fr</a>&gt;</span>
-                        wrote:<br>
-                        <blockquote class="gmail_quote" style="margin:0
-                          0 0 .8ex;border-left:1px #ccc
-                          solid;padding-left:1ex">The KConfig
-                          infrastructure hardwires the compiler name to
-                          gcc, which breaks<br>
-                          the BUILD_CC feature. This is needed even when
-                          cross compiling because<br>
-                          make *config rely on the kconfig
-                          infrastructure<br>
-                        </blockquote>
-                        <div><br>
-                        </div>
-                      </span>
-                      <div>Can you elaborate ? I'm not aware of any
-                        issues with either the host builds or<br>
-                      </div>
-                      <div>target builds with the kernel.<br>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </blockquote>
-            <div><br>
-            </div>
-            <div>Aha. I found the 0/N for the series.<br>
-              <br>
-            </div>
-            <div>And my answer is still the same. These belong upstream,
-              and since the kernel is fairly<br>
-            </div>
-            <div>picky about the compiler and compiler versions, I don't
-              see a pressing need to carry<br>
-            </div>
-            <div>something like this until it makes it into the mainline
-              kernel.<br>
-              <br>
-            </div>
-            <div>My answer to 'can't assume the name of gcc', is to make
-              sure that your environment<br>
-            </div>
-            <div>and path is fully understood, and make your compiler
-              available as 'gcc', versus trying<br>
-            </div>
-            <div>to patch multiple recipes.<br>
-            </div>
-          </div>
-        </div>
-      </div>
-    </blockquote>
-    <br>
-    Ok, my 0/N maybe was not as clear as I hoped. I don't want to
-    compile without a gcc binary. I want to make sure that when I set
-    BUILD_* to a specific version of gcc (gcc-5 in my case) only that
-    version of the compiler can be used.<br>
-    <br>
-    As pointed, jethro can only be compiled on a machine where the
-    default compiler is gcc-5. Having gcc-5 installed is not enough, it
-    needs to be default. The BUILD_* feature was meant to prevent that,
-    i'm just fixing it<br>
-    <br>
-    As I have stated elsewhere, I am upstreaming the patches in
-    parlallel (only the glibc patch is left at this point, since I found
-    a way to drop the kconfig ones) hopefully I will be able to add the
-    "submitted upstream" tag on V2.<br>
-    <br>
-    In the meantime, I mainly wanted comments on the approch and I was
-    wondering how to makes sure some sort of autmated QA test could
-    detect that sort of problems.<br>
-    <br>
-    Hope this helps<br>
-    Jeremy<br>
-    <br>
-    <blockquote
-cite="mid:CADkTA4OTbF_nTfz7Afi33mDX2yBe7SVC+DXA7NAH9tme=RZ7aA@mail.gmail.com"
-      type="cite">
-      <div dir="ltr">
-        <div class="gmail_extra">
-          <div class="gmail_quote">
-            <div><br>
-            </div>
-            <div>Cheers,<br>
-              <br>
-            </div>
-            <div>Bruce<br>
-            </div>
-            <div> </div>
-            <blockquote class="gmail_quote" style="margin:0 0 0
-              .8ex;border-left:1px #ccc solid;padding-left:1ex">
-              <div dir="ltr">
-                <div>
-                  <div class="gmail_extra">
-                    <div class="gmail_quote">
-                      <div><br>
-                      </div>
-                      <div>If there's an issue, we need to fix it
-                        upstream .. not here.<br>
-                      </div>
-                      <span class="">
-                        <div> </div>
-                        <blockquote class="gmail_quote" style="margin:0
-                          0 0 .8ex;border-left:1px #ccc
-                          solid;padding-left:1ex">
-                          ---<br>
-                           meta/recipes-kernel/linux/lin<wbr>ux-yocto.inc 
-                                                                       
-                                       |  4 ++++<br>
-                           meta/recipes-kernel/linux/lin<wbr>ux-yocto/0001-Allow-overriding<wbr>-host-compiler-name-from-<wbr>environment.patch
-                          | 32 ++++++++++++++++++++++++++++++<wbr>++<br>
-                           2 files changed, 36 insertions(+), 0
-                          deletions(-)<br>
-                           create mode 100644
-                          meta/recipes-kernel/linux/linu<wbr>x-yocto/0001-Allow-overriding-<wbr>host-compiler-name-from-<wbr>environment.patch<br>
-                          <br>
-                          diff --git a/meta/recipes-kernel/linux/li<wbr>nux-yocto.inc
-                          b/meta/recipes-kernel/linux/li<wbr>nux-yocto.inc<br>
-                          index 98a48ec..63c1531 100644<br>
-                          --- a/meta/recipes-kernel/linux/li<wbr>nux-yocto.inc<br>
-                          +++ b/meta/recipes-kernel/linux/li<wbr>nux-yocto.inc<br>
-                          @@ -58,3 +58,7 @@ do_install_append(){<br>
-                           addtask kernel_link_images after do_compile
-                          before do_install<br>
-                           addtask validate_branches before do_patch
-                          after do_kernel_checkout<br>
-                           addtask kernel_configcheck after do_configure
-                          before do_compile<br>
-                          +<br>
-                          +SRC_URI_append = "
-                          <a class="moz-txt-link-freetext" href="file://0001-Allow-overriding-h">file://0001-Allow-overriding-h</a><wbr>ost-compiler-name-from-environ<wbr>ment.patch"<br>
-                        </blockquote>
-                        <div><br>
-                        </div>
-                      </span>
-                      <div>We don't carry patches to linux-yocto like
-                        this, they are sent to the linux-yocto mailing
-                        list, and<br>
-                      </div>
-                      <div>integrated into the tree itself.<br>
-                        <br>
-                      </div>
-                      <div>Bruce<br>
-                      </div>
-                      <div>
-                        <div class="h5">
-                          <div> </div>
-                          <blockquote class="gmail_quote"
-                            style="margin:0 0 0 .8ex;border-left:1px
-                            #ccc solid;padding-left:1ex">
-                            +export HOSTCC = "${BUILD_CC}"<br>
-                            +export HOSTCXX = "${BUILD_CXX}"<br>
-                            diff --git a/meta/recipes-kernel/linux/li<wbr>nux-yocto/0001-Allow-overridin<wbr>g-host-compiler-name-from-<wbr>environment.patch
-                            b/meta/recipes-kernel/linux/li<wbr>nux-</blockquote>
-                          <blockquote class="gmail_quote"
-                            style="margin:0 0 0 .8ex;border-left:1px
-                            #ccc solid;padding-left:1ex">yocto/0001-Allow-overriding-<wbr>host-compiler-name-from-<wbr>environment.patch<br>
-                            new file mode 100644<br>
-                            index 0000000..6fcfbc8<br>
-                            --- /dev/null<br>
-                            +++ b/meta/recipes-kernel/linux/li<wbr>nux-yocto/0001-Allow-overridin<wbr>g-host-compiler-name-from-<wbr>environment.patch<br>
-                            @@ -0,0 +1,32 @@<br>
-                            +From 0ce4c4f29b5d456a7707e870c7affe<wbr>524f7c8807
-                            Mon Sep 17 00:00:00 2001<br>
-                            +From: =?UTF-8?q?J=C3=A9r=C3=A9my=20R<wbr>osen?=
-                            &lt;<a moz-do-not-send="true"
-                              href="mailto:jeremy.rosen@smile.fr"
-                              target="_blank">jeremy.rosen@smile.fr</a>&gt;<br>
-                            +Date: Tue, 16 Aug 2016 22:39:29 +0200<br>
-                            +Subject: [PATCH] Allow overriding
-                            host-compiler name from environment<br>
-                            + variables<br>
-                            +<br>
-                            +---<br>
-                            + Makefile | 8 ++++----<br>
-                            + 1 file changed, 4 insertions(+), 4
-                            deletions(-)<br>
-                            +<br>
-                            +diff --git a/Makefile b/Makefile<br>
-                            +index 70dea02..1f0d2d2 100644<br>
-                            +--- a/Makefile<br>
-                            ++++ b/Makefile<br>
-                            +@@ -295,10 +295,10 @@ CONFIG_SHELL :=
-                            $(shell if [ -x "$$BASH" ]; then echo
-                            $$BASH; \<br>
-                            +         else if [ -x /bin/bash ]; then
-                            echo /bin/bash; \<br>
-                            +         else echo sh; fi ; fi)<br>
-                            +<br>
-                            +-HOSTCC       = gcc<br>
-                            +-HOSTCXX      = g++<br>
-                            +-HOSTCFLAGS   = -Wall -Wmissing-prototypes
-                            -Wstrict-prototypes -O2 -fomit-frame-pointer
-                            -std=gnu89<br>
-                            +-HOSTCXXFLAGS = -O2<br>
-                            ++HOSTCC       ?= gcc<br>
-                            ++HOSTCXX      ?= g++<br>
-                            ++HOSTCFLAGS   ?= -Wall -Wmissing-prototypes
-                            -Wstrict-prototypes -O2 -fomit-frame-pointer
-                            -std=gnu89<br>
-                            ++HOSTCXXFLAGS ?= -O2<br>
-                            +<br>
-                            + ifeq ($(shell $(HOSTCC) -v 2&gt;&amp;1 |
-                            grep -c "clang version"), 1)<br>
-                            + HOSTCFLAGS  += -Wno-unused-value
-                            -Wno-unused-parameter \<br>
-                            +--<br>
-                            +2.8.1<br>
-                            +<br>
-                            <span><font color="#888888">--<br>
-                                git-series 0.8.9<br>
-                                --<br>
-                                ______________________________<wbr>_________________<br>
-                                Openembedded-core mailing list<br>
-                                <a moz-do-not-send="true"
-                                  href="mailto:Openembedded-core@lists.openembedded.org"
-                                  target="_blank">Openembedded-core@lists.openem<wbr>bedded.org</a><br>
-                                <a moz-do-not-send="true"
-                                  href="http://lists.openembedded.org/mailman/listinfo/openembedded-core"
-                                  rel="noreferrer" target="_blank">http://lists.openembedded.org/<wbr>mailman/listinfo/openembedded-<wbr>core</a><br>
-                              </font></span></blockquote>
-                        </div>
-                      </div>
-                    </div>
-                    <span class="HOEnZb"><font color="#888888"><br>
-                        <br clear="all">
-                        <br>
-                        -- <br>
-                        <div data-smartmail="gmail_signature">"Thou
-                          shalt not follow the NULL pointer, for chaos
-                          and madness await thee at its end"</div>
-                      </font></span></div>
-                </div>
-              </div>
-            </blockquote>
-          </div>
-          <br>
-          <br clear="all">
-          <br>
-          -- <br>
-          <div class="gmail_signature" data-smartmail="gmail_signature">"Thou
-            shalt not follow the NULL pointer, for chaos and madness
-            await thee at its end"</div>
-        </div>
-      </div>
-    </blockquote>
-    <br>
-  </body>
-</html>
-
---------------565573ADD519B4DAD2DD8D3E--
+--001a113ed932d4feec053abda02d--
