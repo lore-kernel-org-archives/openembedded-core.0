@@ -1,32 +1,47 @@
-Return-Path: <jeremy.rosen@smile.fr>
-Received: from idris.smile.fr (idris.smile.fr [91.216.209.19])
-	by mail.openembedded.org (Postfix) with ESMTP id 2AA5176294
+Return-Path: <ross.burton@intel.com>
+Received: from mail-it0-f45.google.com (mail-it0-f45.google.com
+	[209.85.214.45])
+	by mail.openembedded.org (Postfix) with ESMTP id 1CC5776294
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Aug 2016 14:49:45 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by idris.smile.fr (Postfix) with ESMTP id 368391EE07A3;
-	Tue, 23 Aug 2016 16:49:45 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at smile.fr
-Received: from idris.smile.fr ([127.0.0.1])
-	by localhost (bluemind-mta.prod.vitry.intranet [127.0.0.1])
-	(amavisd-new, port 10024)
-	with ESMTP id 1Fdjt0w7DwGY; Tue, 23 Aug 2016 16:49:45 +0200 (CEST)
-Received: from [10.5.19.152] (unknown [193.56.60.161])
-	by idris.smile.fr (Postfix) with ESMTPSA id DCE691EE075F;
-	Tue, 23 Aug 2016 16:49:44 +0200 (CEST)
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <cover.a6e9ec329c3b0f51ecee82d0eb2842bbb091de1f.1471936926.git-series.jeremy.rosen@smile.fr>
-	<b0afbd8bead81db639e1ff2a74aab06c1aa73adc.1471936926.git-series.jeremy.rosen@smile.fr>
-	<CAJTo0LYBVwQgyCKOuobgZ+Zz25v38gLydPDGspxydb0=MiL5=A@mail.gmail.com>
-From: =?UTF-8?B?SsOpcsOpbXkgUm9zZW4=?= <jeremy.rosen@smile.fr>
-Message-ID: <43920457-0ec6-9ef4-136a-78e2ecff03ce@smile.fr>
-Date: Tue, 23 Aug 2016 16:49:44 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Firefox/45.0 Icedove/45.2.0
+	Tue, 23 Aug 2016 14:53:55 +0000 (UTC)
+Received: by mail-it0-f45.google.com with SMTP id e63so152109331ith.1
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 23 Aug 2016 07:53:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=LFnWYs2CGAl5v+TYMDLUfjb9GqhPhM84KFsZWUtIHqc=;
+	b=XR0P8OYC5sfPyi1eu02SbZBeSUUl6FoXVi5Gv/AV5bP35f39sMV0oJMj3KMwScXtJH
+	DTpWzGtNi2RVJfMucAAqyVtoAudJ/8ydsMYh/GdeS7XfJLMkPXcoehdbcXLTrBg1VTmO
+	soOuhP0w0LMJnSRPrxJPeEtnvI/HJht0mGU7T8nWpK8DrF5qz3h+pVXEB4miNV21WuKy
+	eOIMh6jggzKeiTmbcZ64KgX4kdRr3KHeFcb4sz4t/jCdvRqMFyZ/6PBSFBdMb++Aw5D/
+	ibZS1BczvRmaIcMEAy5ZMvusuLGd4yG88LMvJ+pBHChLLMLr7TvI56Ii4u6mYHuIdKE2
+	87RQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=LFnWYs2CGAl5v+TYMDLUfjb9GqhPhM84KFsZWUtIHqc=;
+	b=Lb3tRsBczNFKurt2cZPtoGKJfOLs6K9gJTqOjcZi1BZ4Coh0aTz2770CMogHSm/fY9
+	8XeNJqtBfWxcFN4smNytIaD6MRWUXlyMNvSJq1uiSi5SbxkWkVrpeGBI25Ufcci3Na+k
+	gs5K+0DXYi7VWJ0c/c5vGAjMAQi5359GJJFTD2mCZFElorTtjuGgL+RbOKfaFAKWy6FK
+	3qGD7MQ3YnVKXMhGgIDHhAE09Ikimn2YoNSNCjltYSlvPEdlJibBzD07Db0v/rsOKfy+
+	vuFj9m5HezPUktB1CCi9BVm+LEbG44sdgONosvWuS3Vw4ExPvU/t4sJVgXBjwWOwIOA7
+	14cw==
+X-Gm-Message-State: AEkooutDd2VYgf/O6io6E9pNzjSbjDOOT7pvLFnDHwJxQpEhPX7rlIOyWF/nwy1l2Q9KLl+VoBseXO3vEPIevJNt
+X-Received: by 10.36.19.75 with SMTP id 72mr26706531itz.83.1471964036524; Tue,
+	23 Aug 2016 07:53:56 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAJTo0LYBVwQgyCKOuobgZ+Zz25v38gLydPDGspxydb0=MiL5=A@mail.gmail.com>
+Received: by 10.107.18.17 with HTTP; Tue, 23 Aug 2016 07:53:36 -0700 (PDT)
+In-Reply-To: <9492b5e7b4b350b21762201a11f189e35c0cfb04.1471936926.git-series.jeremy.rosen@smile.fr>
+References: <cover.a6e9ec329c3b0f51ecee82d0eb2842bbb091de1f.1471936926.git-series.jeremy.rosen@smile.fr>
+	<9492b5e7b4b350b21762201a11f189e35c0cfb04.1471936926.git-series.jeremy.rosen@smile.fr>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 23 Aug 2016 15:53:36 +0100
+Message-ID: <CAJTo0LZfB-Lu75cvN9CBN3Xx9uqpLMEWdPMJZL5MFGSy0+bciw@mail.gmail.com>
+To: =?UTF-8?B?SsOpcsOpbXkgUm9zZW4=?= <jeremy.rosen@smile.fr>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/8] [cross] export CC family from BUILD_* for cross compilers
+Subject: Re: [PATCH 7/8] [sanity] fix hardcoded references to gcc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,172 +54,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 23 Aug 2016 14:49:46 -0000
-Content-Type: multipart/alternative;
-	boundary="------------DB2C9267DF1E94F444D29D96"
+X-List-Received-Date: Tue, 23 Aug 2016 14:53:57 -0000
+Content-Type: multipart/alternative; boundary=001a1145180a8558e1053abe5528
 
---------------DB2C9267DF1E94F444D29D96
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+--001a1145180a8558e1053abe5528
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+On 23 August 2016 at 08:25, J=C3=A9r=C3=A9my Rosen <jeremy.rosen@smile.fr> =
+wrote:
 
-
-On 23/08/2016 16:46, Burton, Ross wrote:
-> FYI, git am strips anything inside [square brackets] when applying, so 
-> your [cross] etc doesn't make it into the series.  If you submit a v2 
-> please change [cross] to cross:.
->
-I didn't know that... will fix
-
-> Ross
->
-> On 23 August 2016 at 08:25, Jérémy Rosen <jeremy.rosen@smile.fr 
-> <mailto:jeremy.rosen@smile.fr>> wrote:
->
->     cross-compilers are native recipes that need to be compiled by the
->     host's
->     compiler. However then do not use native.bbclass
->
->     As a consequence, the various CC, CXX etc environment variables
->     are not
->     correctly set and they will not honor the host compiler name provided
->     by the BUILD_* variables.
->
->     Signed-off-by: Jérémy Rosen <jeremy.rosen@smile.fr
->     <mailto:jeremy.rosen@smile.fr>>
->     ---
->      meta/classes/cross.bbclass | 12 ++++++++++++
->      1 file changed, 12 insertions(+), 0 deletions(-)
->
->     diff --git a/meta/classes/cross.bbclass b/meta/classes/cross.bbclass
->     index 81d1c9d..8d1e779 100644
->     --- a/meta/classes/cross.bbclass
->     +++ b/meta/classes/cross.bbclass
->     @@ -68,4 +68,16 @@ do_install () {
->
->      USE_NLS = "no"
->
->     +export CC = "${BUILD_CC}"
->     +export CXX = "${BUILD_CXX}"
->     +export FC = "${BUILD_FC}"
->     +export CPP = "${BUILD_CPP}"
->     +export LD = "${BUILD_LD}"
->     +export CCLD = "${BUILD_CCLD}"
->     +export AR = "${BUILD_AR}"
->     +export AS = "${BUILD_AS}"
->     +export RANLIB = "${BUILD_RANLIB}"
->     +export STRIP = "${BUILD_STRIP}"
->     +export NM = "${BUILD_NM}"
->     +
->      inherit nopackages
->     --
->     git-series 0.8.9
->     --
->     _______________________________________________
->     Openembedded-core mailing list
->     Openembedded-core@lists.openembedded.org
->     <mailto:Openembedded-core@lists.openembedded.org>
->     http://lists.openembedded.org/mailman/listinfo/openembedded-core
->     <http://lists.openembedded.org/mailman/listinfo/openembedded-core>
->
+> Signed-off-by: J=C3=A9r=C3=A9my Rosen <jeremy.rosen@smile.fr>
 >
 
+Did you test this patch with a totally clean build directory?
 
---------------DB2C9267DF1E94F444D29D96
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: 8bit
+ross@flashheart ~/Yocto/poky/boofo (mut %)
+$ bitbake m4
+ERROR:  OE-core's config sanity checker detected a potential
+misconfiguration.
+    Either fix the cause of this error or at your own risk disable the
+checker (see sanity.conf).
+    Following is the list of potential problems / advisories:
 
-<html>
-  <head>
-    <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-  </head>
-  <body bgcolor="#FFFFFF" text="#000000">
-    <p><br>
-    </p>
-    <br>
-    <div class="moz-cite-prefix">On 23/08/2016 16:46, Burton, Ross
-      wrote:<br>
-    </div>
-    <blockquote
-cite="mid:CAJTo0LYBVwQgyCKOuobgZ+Zz25v38gLydPDGspxydb0=MiL5=A@mail.gmail.com"
-      type="cite">
-      <div dir="ltr">FYI, git am strips anything inside [square
-        brackets] when applying, so your [cross] etc doesn't make it
-        into the series.  If you submit a v2 please change [cross] to
-        cross:.
-        <div><br>
-        </div>
-      </div>
-    </blockquote>
-    I didn't know that... will fix<br>
-    <br>
-    <blockquote
-cite="mid:CAJTo0LYBVwQgyCKOuobgZ+Zz25v38gLydPDGspxydb0=MiL5=A@mail.gmail.com"
-      type="cite">
-      <div dir="ltr">
-        <div>Ross</div>
-      </div>
-      <div class="gmail_extra"><br>
-        <div class="gmail_quote">On 23 August 2016 at 08:25, Jérémy
-          Rosen <span dir="ltr">&lt;<a moz-do-not-send="true"
-              href="mailto:jeremy.rosen@smile.fr" target="_blank">jeremy.rosen@smile.fr</a>&gt;</span>
-          wrote:<br>
-          <blockquote class="gmail_quote" style="margin:0 0 0
-            .8ex;border-left:1px #ccc solid;padding-left:1ex">cross-compilers
-            are native recipes that need to be compiled by the host's<br>
-            compiler. However then do not use native.bbclass<br>
-            <br>
-            As a consequence, the various CC, CXX etc environment
-            variables are not<br>
-            correctly set and they will not honor the host compiler name
-            provided<br>
-            by the BUILD_* variables.<br>
-            <br>
-            Signed-off-by: Jérémy Rosen &lt;<a moz-do-not-send="true"
-              href="mailto:jeremy.rosen@smile.fr">jeremy.rosen@smile.fr</a>&gt;<br>
-            ---<br>
-             meta/classes/cross.bbclass | 12 ++++++++++++<br>
-             1 file changed, 12 insertions(+), 0 deletions(-)<br>
-            <br>
-            diff --git a/meta/classes/cross.bbclass
-            b/meta/classes/cross.bbclass<br>
-            index 81d1c9d..8d1e779 100644<br>
-            --- a/meta/classes/cross.bbclass<br>
-            +++ b/meta/classes/cross.bbclass<br>
-            @@ -68,4 +68,16 @@ do_install () {<br>
-            <br>
-             USE_NLS = "no"<br>
-            <br>
-            +export CC = "${BUILD_CC}"<br>
-            +export CXX = "${BUILD_CXX}"<br>
-            +export FC = "${BUILD_FC}"<br>
-            +export CPP = "${BUILD_CPP}"<br>
-            +export LD = "${BUILD_LD}"<br>
-            +export CCLD = "${BUILD_CCLD}"<br>
-            +export AR = "${BUILD_AR}"<br>
-            +export AS = "${BUILD_AS}"<br>
-            +export RANLIB = "${BUILD_RANLIB}"<br>
-            +export STRIP = "${BUILD_STRIP}"<br>
-            +export NM = "${BUILD_NM}"<br>
-            +<br>
-             inherit nopackages<br>
-            <span class="HOEnZb"><font color="#888888">--<br>
-                git-series 0.8.9<br>
-                --<br>
-                ______________________________<wbr>_________________<br>
-                Openembedded-core mailing list<br>
-                <a moz-do-not-send="true"
-                  href="mailto:Openembedded-core@lists.openembedded.org">Openembedded-core@lists.<wbr>openembedded.org</a><br>
-                <a moz-do-not-send="true"
-                  href="http://lists.openembedded.org/mailman/listinfo/openembedded-core"
-                  rel="noreferrer" target="_blank">http://lists.openembedded.org/<wbr>mailman/listinfo/openembedded-<wbr>core</a><br>
-              </font></span></blockquote>
-        </div>
-        <br>
-      </div>
-    </blockquote>
-    <br>
-  </body>
-</html>
+    Please install the following missing utilities: C Compiler (gcc ),C++
+Compiler (g++ )
 
---------------DB2C9267DF1E94F444D29D96--
+I think this is because BUILD_CC by default contains whitespace, and
+bb.utils.which looks for "gcc ".  I added a strip() to check_app_exists and
+it passed, so can you please verify that your series doesn't regress when
+BUILD_CC isn't overridden?
+
+Ross
+
+--001a1145180a8558e1053abe5528
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 23 August 2016 at 08:25, J=C3=A9r=C3=A9my Rosen <span dir=3D"ltr">&lt;<a=
+ href=3D"mailto:jeremy.rosen@smile.fr" target=3D"_blank">jeremy.rosen@smile=
+.fr</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"mar=
+gin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,2=
+04);border-left-style:solid;padding-left:1ex"><div id=3D":1u0" class=3D"">S=
+igned-off-by: J=C3=A9r=C3=A9my Rosen &lt;<a href=3D"mailto:jeremy.rosen@smi=
+le.fr">jeremy.rosen@smile.fr</a>&gt;<br></div></blockquote></div><br>Did yo=
+u test this patch with a totally clean build directory?</div><div class=3D"=
+gmail_extra"><br></div><div class=3D"gmail_extra"><div class=3D"gmail_extra=
+">ross@flashheart ~/Yocto/poky/boofo (mut %)</div><div class=3D"gmail_extra=
+">$ bitbake m4</div><div class=3D"gmail_extra">ERROR: =C2=A0OE-core&#39;s c=
+onfig sanity checker detected a potential misconfiguration.</div><div class=
+=3D"gmail_extra">=C2=A0 =C2=A0 Either fix the cause of this error or at you=
+r own risk disable the checker (see sanity.conf).</div><div class=3D"gmail_=
+extra">=C2=A0 =C2=A0 Following is the list of potential problems / advisori=
+es:</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">=
+=C2=A0 =C2=A0 Please install the following missing utilities: C Compiler (g=
+cc ),C++ Compiler (g++ )</div><div class=3D"gmail_extra"><br></div><div cla=
+ss=3D"gmail_extra">I think this is because BUILD_CC by default contains whi=
+tespace, and bb.utils.which looks for &quot;gcc &quot;.=C2=A0 I added a str=
+ip() to check_app_exists and it passed, so can you please verify that your =
+series doesn&#39;t regress when BUILD_CC isn&#39;t overridden?</div><div cl=
+ass=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div></=
+div>
+
+--001a1145180a8558e1053abe5528--
