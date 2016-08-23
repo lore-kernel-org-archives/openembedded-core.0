@@ -1,45 +1,46 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-it0-f45.google.com (mail-it0-f45.google.com
-	[209.85.214.45])
-	by mail.openembedded.org (Postfix) with ESMTP id 6D4C677042
+Received: from mail-wm0-f47.google.com (mail-wm0-f47.google.com [74.125.82.47])
+	by mail.openembedded.org (Postfix) with ESMTP id 1A36877054
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Aug 2016 16:09:57 +0000 (UTC)
-Received: by mail-it0-f45.google.com with SMTP id x131so156652776ite.0
+	Tue, 23 Aug 2016 16:10:04 +0000 (UTC)
+Received: by mail-wm0-f47.google.com with SMTP id o80so202447076wme.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Aug 2016 09:09:58 -0700 (PDT)
+	Tue, 23 Aug 2016 09:10:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to; 
-	bh=tluOzUzWM1w/E3NPJS9jDC6LIteIVVNDNzxFg1MpSRs=;
-	b=ACqo6lYy6huEjlfK0SdJU2kzR8aMkrDhPuiJcS4yCYDGZtAtmXD/aitCXr9R74GUp1
-	cODBBqCimK3CaEYhvT39dkkqI8z2hhW5opCASM0oI7MmlWUFC79xsidFa7EvLweL3Y0+
-	cXgM+bfpgzRFRDjNJdI8ak5ync0AmnAR1naNwRNu1RwyyH8v/+hESsiFXd5pMJJPERpw
-	ChKikhpkwj1bYpINirVIFSeaCUkjbrpcvSIXUXcx5wKW+FsrjYnlr1kbNCo2xSrffINE
-	Gy3YGi/hfk5JvMstPIDZwnIQGwvpJPAIIxoxwuzwzn9DcXi/Rj+5JjF/aySMH5j1O2yN
-	zpFg==
+	h=from:to:subject:date:message-id;
+	bh=TFFrJmm6Er/ME5aetoWgihH91apYzb0bncf9W3sxByA=;
+	b=VNvlo/kLewTAk/Vo6Y8mwZim5AjdiAdwuRIXornVcjToiNxXR8A7PXLYBfITX6m5rM
+	CvK3HttJ5kbNIJaBlLG2Gh09KpAD9WjcsZQTAs5TUew+c2xIr4ZfKzSSo0v9i9bEYELt
+	xzi5Gz8//uNtzGVGtOt1NBe9Y8dnSHeaUT+G8Nc+dSmVQoU+I4S6H6cvXM7wXQfmx6A5
+	VZSommnvMMNy9g/mHXpxyIthlSFn4c8FL4IkrOEcldtW+UZB4iNAIfmaS8VFXKEPfiMP
+	eH8sPbpcUnySu/yCDgWHDHz+LL9ybVgc1J4i8Z8GUQZg5eQemOwK1W455Hk4knBEKsfQ
+	FXJw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to;
-	bh=tluOzUzWM1w/E3NPJS9jDC6LIteIVVNDNzxFg1MpSRs=;
-	b=evk95nXaZNyI+yQoVSGkgk3m/3gy0tCmlgFiuHY8CtHBP15qMi810Mm1GdO+yrpI+L
-	f2BK5uJSraBMnsC3QDj5QaJPT3198w0oCZzbyqtiN/yyVbH7JlGkNuWwqS5JXSygmtDS
-	WS5WlQKMnIPc3tEC8Si8Hfpc2M89Q5PwpP2FNkqwuCryDqXnVQNvn0kdELQdHSpJI/wD
-	MdCBb3V8bYs+SJSu/o02CLd4IyU1/Ub9UnoeefGIqV0UFE9l2rHDa5jB0Z3ebtoDgI8/
-	9Q74ZMOfuIkmu3+ctHANKjZJgI+lGO+EvIlGaQDTP/Xy7S4gv32maXMer5UiWbWqRprb
-	UPFA==
-X-Gm-Message-State: AEkooutkwI6gnE193ClHeivnxnoyq11Oz16tAp5WcLXfUPzsS+gd4WT2cXll4FbbiJDdVOyxbsM4UaMEwrIfrh/S
-X-Received: by 10.107.138.212 with SMTP id c81mr29499735ioj.148.1471968597716; 
-	Tue, 23 Aug 2016 09:09:57 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.107.18.17 with HTTP; Tue, 23 Aug 2016 09:09:37 -0700 (PDT)
-In-Reply-To: <1471897513-13103-1-git-send-email-ross.burton@intel.com>
-References: <1471897513-13103-1-git-send-email-ross.burton@intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 23 Aug 2016 17:09:37 +0100
-Message-ID: <CAJTo0LZB=JZd78XzKnQdhcga4nn-DmbADH5fR0GV7jsz48+LUg@mail.gmail.com>
-To: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] core-image-weston: add sudo to image explicitly
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=TFFrJmm6Er/ME5aetoWgihH91apYzb0bncf9W3sxByA=;
+	b=DrYpoUC4VBWEitm2GhQ3zQv/xGJajzewDo6sivPU/I6ydyZfZEKE8PAz1QsyUlSn3M
+	DzPEXOtBLgXQNvJyeM0ZK+O1ERLqczbRcs76yw34OMT5IZeZQpqtIzH4Sh+a4jNqjL3N
+	sFP3Bv8+jUXS9nlt8UE4hcThPPTFksRx4YqqvzXyMSW1Tjnf2cjlL9wC9nWZw+hpHxB/
+	wvCqgM12YLULWpgev7PGC/3ghBjeFMgnK3OwbuCw2bJFQcSHNeJstZJaJjyWXZhoPG9e
+	FocshcCbaFGc7kP8Rqcl1g72rN3hcRDwKBRl6vjuWOCL6pANeZ/1vzt2G6zJI+bsnSPH
+	z1xA==
+X-Gm-Message-State: AEkoouvr1ctoS7Qn7j/xG+ZZQ2FX6wp4g92aaLqvZDeRQpW4F7QqNvxtnNn16HufpiksKR3B
+X-Received: by 10.28.196.136 with SMTP id u130mr19807806wmf.83.1471968604598; 
+	Tue, 23 Aug 2016 09:10:04 -0700 (PDT)
+Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
+	by smtp.gmail.com with ESMTPSA id
+	207sm28269238wmb.7.2016.08.23.09.10.03
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Tue, 23 Aug 2016 09:10:03 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 23 Aug 2016 17:09:58 +0100
+Message-Id: <1471968598-15585-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 2.8.1
+Subject: [PATCH] oeqa/runtime/rpm: use su instead of sudo
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,39 +53,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 23 Aug 2016 16:09:58 -0000
-Content-Type: multipart/alternative; boundary=001a113ed932636d10053abf65b0
+X-List-Received-Date: Tue, 23 Aug 2016 16:10:05 -0000
 
---001a113ed932636d10053abf65b0
-Content-Type: text/plain; charset=UTF-8
+This test works fine with su, which is more likely to be installed in images
+than sudo.
 
-On 22 August 2016 at 21:25, Ross Burton <ross.burton@intel.com> wrote:
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/lib/oeqa/runtime/rpm.py | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-> This is a very rough image for testing purposes, and the OE automated tests
-> expect that non-minimal images have sudo in (for the RPM tests), so
-> install sudo
-> explicitly.
->
+diff --git a/meta/lib/oeqa/runtime/rpm.py b/meta/lib/oeqa/runtime/rpm.py
+index 624c515..4d03ecb 100644
+--- a/meta/lib/oeqa/runtime/rpm.py
++++ b/meta/lib/oeqa/runtime/rpm.py
+@@ -53,9 +53,9 @@ class RpmInstallRemoveTest(oeRuntimeTest):
+     def test_rpm_query_nonroot(self):
+         (status, output) = self.target.run('useradd test1')
+         self.assertTrue(status == 0, msg="Failed to create new user: " + output)
+-        (status, output) = self.target.run('sudo -u test1 id')
++        (status, output) = self.target.run('su -c id test1')
+         self.assertTrue('(test1)' in output, msg="Failed to execute as new user")
+-        (status, output) = self.target.run('sudo -u test1 rpm -qa')
++        (status, output) = self.target.run('su -c "rpm -qa" test1 ')
+         self.assertEqual(status, 0, msg="status: %s. Cannot run rpm -qa: %s" % (status, output))
+ 
+     @testcase(195)
+@@ -98,4 +98,3 @@ class RpmInstallRemoveTest(oeRuntimeTest):
+     @classmethod
+     def tearDownClass(self):
+         oeRuntimeTest.tc.target.run('rm -f /tmp/rpm-doc.rpm')
+-
+-- 
+2.8.1
 
-Retracting this, there's a better fix.
 
-Ross
-
---001a113ed932636d10053abf65b0
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 22 August 2016 at 21:25, Ross Burton <span dir=3D"ltr">&lt;<a href=3D"ma=
-ilto:ross.burton@intel.com" target=3D"_blank">ross.burton@intel.com</a>&gt;=
-</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .=
-8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":237" class=3D"=
-a3s aXjCH m156b3edb6f3f511e">This is a very rough image for testing purpose=
-s, and the OE automated tests<br>
-expect that non-minimal images have sudo in (for the RPM tests), so install=
- sudo<br>
-explicitly.</div></blockquote></div><br>Retracting this, there&#39;s a bett=
-er fix.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra=
-">Ross</div></div>
-
---001a113ed932636d10053abf65b0--
