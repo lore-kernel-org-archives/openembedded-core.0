@@ -1,45 +1,48 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f43.google.com (mail-wm0-f43.google.com [74.125.82.43])
-	by mail.openembedded.org (Postfix) with ESMTP id EDB2576651
+Received: from mail-it0-f54.google.com (mail-it0-f54.google.com
+	[209.85.214.54])
+	by mail.openembedded.org (Postfix) with ESMTP id 6919F6AC4B
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Aug 2016 15:01:49 +0000 (UTC)
-Received: by mail-wm0-f43.google.com with SMTP id o80so199906104wme.1
+	Tue, 23 Aug 2016 15:11:25 +0000 (UTC)
+Received: by mail-it0-f54.google.com with SMTP id e63so153230982ith.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Aug 2016 08:01:50 -0700 (PDT)
+	Tue, 23 Aug 2016 08:11:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=DqxvQsCt5mbJPOPvsBWjHl1c8P1TcZYR7wgqYqDo9N8=;
-	b=m42KX3qZnWquYDqRvYBSHOe7epb9U/8pYZgivtXHOvNjWB5KYlFtALbiUQ7PdC7WL/
-	MnEXqdXCrtMN/ZQ5oT933fh07BHkY51JsMTc/xZh7A2r8OJRqwd/HXHKarmWlsjI+L2h
-	BzGbCoImk9Lf/4cvSr0g/bhMM7/ZZNAsawdcfhuRTWsjSNhFxXmJpiX72XTUaxhB42/N
-	7ADp9bdvi2s8wLzfW/RlryxQ7fK/o5WNkS3LSGPaH4owapG84qu5tMDa/0HjXLbz6hcs
-	Pbp6qEnSA1Wbt1XXud5Q1DCNXMyMCGnam3bHLeyHm+zk/hb8VoHd2VdOBuX9X5bt0rOB
-	wIfA==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=1lp3ptcDho/A1ldaEGxwqAFYg8uu8U8m/tbAKxvkK0U=;
+	b=gCgnSP1OL2GY5WirfIi1q4ymRv6/Ay5hYki5sEOwzUcO3pG4XSvHnfoPOS3LIi3AxP
+	VbDHRqzprtEr4B/izIbbf0KwTGe24J+z0ANe/cPxPKsc/UX/wIZ5uomSB8HbRo80YBz8
+	jK6pf6Q9pYBjhqUidL75YO/EHElBsznFvvw2Cy/wi+U1nocQYoLLJbB+d+X6H2WtBVGF
+	3r6QzSGMtzC8g7ZfC+x6TXJwBQYbuD9a178tRWbL9SWllYswCFAxXQCKUl4SWmJQRcl4
+	F+qTHUySDfVuX85vCugUafpV04awcg0Xsu/a9gQ0pVaSTefMMKklM85OnwJIUTmlNEQY
+	Lzrw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=DqxvQsCt5mbJPOPvsBWjHl1c8P1TcZYR7wgqYqDo9N8=;
-	b=O/fERFRCQ/TqMTdYsI+yolAX8NSeS2Hd0TlDzA8dI7v3J9yPmqVaoZObenmCrxz1sA
-	S8xN/E6rmkMrtouB3FKV6MROq5SwfWFKjdkK+TtqPTYPCO/pnOPgyz828JP3Z7y9ofPU
-	fQMtUBWZ7phT0pTlX63nR6KzlM0zavWRzPQQtOCgop+cLGJHCoccReHWZtmnAtG9mGhA
-	uMQVe3WPWOqnvKzpfpzQztk7bFqHWDfjlFQCcRhMtFkeZWF4YaH28NKfVpYvmT0vVtr6
-	SXjlen95AYimiAhuBGVbdCbZXTw2zw76E/lrwhDR9kspv//fNcwgxWFn24dJm5yyHeIt
-	R9LA==
-X-Gm-Message-State: AEkooutF6SiUGEYMLZCPSOFBN0j3IIqhmX015MO0ipVmiwjojvocLZSV/LPhcH5+6pVltMZi
-X-Received: by 10.28.152.5 with SMTP id a5mr19674429wme.76.1471964509304;
-	Tue, 23 Aug 2016 08:01:49 -0700 (PDT)
-Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id a2sm4257907wjg.46.2016.08.23.08.01.28
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 23 Aug 2016 08:01:29 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 23 Aug 2016 16:01:26 +0100
-Message-Id: <1471964486-27814-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 2.8.1
-Subject: [PATCH] utils: check_app_exists: strip whitespace from binary when searching
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=1lp3ptcDho/A1ldaEGxwqAFYg8uu8U8m/tbAKxvkK0U=;
+	b=K1djRc5sryVPlT/RRbxRwy4lh01tg58DEdfFJvbYyEbqlaV87k4dx94agEhE+Ukt8b
+	bVKGKX+fC3Qa+ZwXWtwXB6tvHr9tt3bgCBV/2zwWTbWpeaK1VJTKsYY+phAfs7k+uBiH
+	kRrPGeH0E9e8GBjA9jYG/UaLI6T9j1zkW78eS1q3RPKitPJVOUuhT1uFROj2wkVgNkoU
+	F0ywS7SZ6Oov0pMOJ1828Rpogz8OPj/pzdC3WYXyj0M0Qwbs23sL/duIFKn6XL1B4NDc
+	1UebSkeQUGHhA2b//smPCJt/Wp5rfc3bMp4M9trTmSBU0j0NvM/mtV5fNF28hJ0vygAZ
+	T7yQ==
+X-Gm-Message-State: AEkoouuB4hh9Efw7dQNYl4DMYWqj2ZZyMomQ9UcgZUX1spVlbeZRrTrvTtcn2qWincb4gsJDj9YtHSVrkaxEtOg2
+X-Received: by 10.36.121.206 with SMTP id z197mr28139294itc.22.1471965084846; 
+	Tue, 23 Aug 2016 08:11:24 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.107.18.17 with HTTP; Tue, 23 Aug 2016 08:11:04 -0700 (PDT)
+In-Reply-To: <CAJTo0LZfB-Lu75cvN9CBN3Xx9uqpLMEWdPMJZL5MFGSy0+bciw@mail.gmail.com>
+References: <cover.a6e9ec329c3b0f51ecee82d0eb2842bbb091de1f.1471936926.git-series.jeremy.rosen@smile.fr>
+	<9492b5e7b4b350b21762201a11f189e35c0cfb04.1471936926.git-series.jeremy.rosen@smile.fr>
+	<CAJTo0LZfB-Lu75cvN9CBN3Xx9uqpLMEWdPMJZL5MFGSy0+bciw@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 23 Aug 2016 16:11:04 +0100
+Message-ID: <CAJTo0LabeTgBw5Vqtt5LRLSvRG8y+bRWhbF2di7AyiFXoDPc=Q@mail.gmail.com>
+To: =?UTF-8?B?SsOpcsOpbXkgUm9zZW4=?= <jeremy.rosen@smile.fr>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 7/8] [sanity] fix hardcoded references to gcc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,30 +55,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 23 Aug 2016 15:01:51 -0000
+X-List-Received-Date: Tue, 23 Aug 2016 15:11:25 -0000
+Content-Type: multipart/alternative; boundary=001a114aa82001236b053abe9404
 
-It's possible that the binary to be searched for contains whitespace which will
-cause the search to fail, so strip any whitespace before looking.
+--001a114aa82001236b053abe9404
+Content-Type: text/plain; charset=UTF-8
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/classes/utils.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On 23 August 2016 at 15:53, Burton, Ross <ross.burton@intel.com> wrote:
 
-diff --git a/meta/classes/utils.bbclass b/meta/classes/utils.bbclass
-index ce639b2..59ace44 100644
---- a/meta/classes/utils.bbclass
-+++ b/meta/classes/utils.bbclass
-@@ -303,7 +303,7 @@ hardlinkdir () {
- 
- 
- def check_app_exists(app, d):
--    app = d.expand(app)
-+    app = d.expand(app).strip()
-     path = d.getVar('PATH', d, True)
-     return bool(bb.utils.which(path, app))
- 
--- 
-2.8.1
+> I think this is because BUILD_CC by default contains whitespace, and
+> bb.utils.which looks for "gcc ".  I added a strip() to check_app_exists and
+> it passed, so can you please verify that your series doesn't regress when
+> BUILD_CC isn't overridden?
+>
 
+Patch sent to fix check_app_exists().  It currently just strips whitespace
+and doesn't handle someone passing "foo --bar" to check_app_exists but this
+is still a step in the right direction.
 
+Ross
+
+--001a114aa82001236b053abe9404
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 23 August 2016 at 15:53, Burton, Ross <span dir=3D"ltr">&lt;<a href=3D"m=
+ailto:ross.burton@intel.com" target=3D"_blank">ross.burton@intel.com</a>&gt=
+;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 =
+.8ex;border-left:1px #ccc solid;padding-left:1ex"><div class=3D"gmail_extra=
+">I think this is because BUILD_CC by default contains whitespace, and bb.u=
+tils.which looks for &quot;gcc &quot;.=C2=A0 I added a strip() to check_app=
+_exists and it passed, so can you please verify that your series doesn&#39;=
+t regress when BUILD_CC isn&#39;t overridden?</div></blockquote><div><br></=
+div><div>Patch sent to fix check_app_exists().=C2=A0 It currently just stri=
+ps whitespace and doesn&#39;t handle someone passing &quot;foo --bar&quot; =
+to check_app_exists but this is still a step in the right direction.</div><=
+div><br></div><div>Ross=C2=A0</div></div><br></div></div>
+
+--001a114aa82001236b053abe9404--
