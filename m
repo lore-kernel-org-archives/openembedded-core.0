@@ -1,57 +1,26 @@
-Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-ua0-f172.google.com (mail-ua0-f172.google.com
-	[209.85.217.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 405CF6FFFE
+Return-Path: <jianxun.zhang@linux.intel.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id EAF9260125
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Aug 2016 22:59:00 +0000 (UTC)
-Received: by mail-ua0-f172.google.com with SMTP id 97so270571821uav.3
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Aug 2016 15:59:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
-	h=from:mime-version:date:message-id:subject:to:cc;
-	bh=JwKK25m34m+VwshUsD1eK6sqFEkB5wTnFk4grKfHWYw=;
-	b=ZELJpj3dL280Vf5HhxGJ/gR/hdOW73lJaMx3IV9z8hZnZ7A+9n2T7HwU+VAnrVDW0V
-	Ud74vdb9ebunn7FiwW9FN8h0pBCUJo9a7ajugM7ubdKEfa8JGEdFs82pjt6psagWlRqH
-	OG1Ok/5Om1YvRMZw79BRyQPm9RUos+JCBix11GIXCtCoZf+4tLYAGuwPm7bmXTUNZP7J
-	9YEoXo/FZiGfm5vDWoXnyduOmVGJdUPx3wdmILoz4frphwnvCncTO+STqZUUF069g++W
-	30A42ySJAEnjX9a/RhOwxEm8o74fiQ50iimQYMjbl+PYrDkdjt6Wur1Ja2Aj81/lcvJX
-	PeHA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:mime-version:date:message-id:subject:to:cc;
-	bh=JwKK25m34m+VwshUsD1eK6sqFEkB5wTnFk4grKfHWYw=;
-	b=m2jF8LcY3ERw+8gs/hpPJROaLJDWYnpzmGJt7ZQi48YGQOky53SnEo8LNs92Vjq/dW
-	hP6qC8sDIgbLAvDSgK5phuNY+OSyEEwyFwdAJkgalZHqxzb6lLtd34EwHPoO7LVD8nMR
-	nPIKD0K9ujktpjt/ptCzsNnBF4SwwLd8TSEZqydjgimBXhI/aSXBAHMYW7Y13GDaITYf
-	6QXLikmviQMUXxioKpc5AM86qkVlvgl1xyhppF09GkjcPJm4Q4JLoSAQp0IT+etcct54
-	n9eHK+MtGzbYdppNrC8i3qau5HbWS9OyCOhlYp9JMZhZWDSWZDGN80scYaMK87vE96sy
-	uEKQ==
-X-Gm-Message-State: AEkoousXUyeCj2AwanHkmSI0fF8f/JgOM2EkZo+wxqIUWoI6wvfYkTgAiGlsLkiyhmX8Rg==
-X-Received: by 10.31.56.201 with SMTP id f192mr9522664vka.6.1471993140607;
-	Tue, 23 Aug 2016 15:59:00 -0700 (PDT)
-Received: from mail-ua0-f175.google.com (mail-ua0-f175.google.com.
-	[209.85.217.175])
-	by smtp.gmail.com with ESMTPSA id 89sm1360195uai.3.2016.08.23.15.58.59
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 23 Aug 2016 15:58:59 -0700 (PDT)
-From: Otavio Salvador <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by mail-ua0-f175.google.com with SMTP id 74so270896926uau.0
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Aug 2016 15:58:59 -0700 (PDT)
-X-Received: by 10.176.0.212 with SMTP id 78mr13127785uaj.107.1471993138836;
-	Tue, 23 Aug 2016 15:58:58 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.31.154.68 with HTTP; Tue, 23 Aug 2016 15:58:58 -0700 (PDT)
-Date: Tue, 23 Aug 2016 19:58:58 -0300
-X-Gmail-Original-Message-ID: <CAP9ODKq61gqG+EU2g=K+6SPZqZHo_gv_u6-fEd6FJDG=2EE7qQ@mail.gmail.com>
-Message-ID: <CAP9ODKq61gqG+EU2g=K+6SPZqZHo_gv_u6-fEd6FJDG=2EE7qQ@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
+	Wed, 24 Aug 2016 00:41:03 +0000 (UTC)
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+	by fmsmga104.fm.intel.com with ESMTP; 23 Aug 2016 17:41:04 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.28,568,1464678000"; 
+   d="scan'208";a="1006274"
+Received: from dgilrut-mobl.amr.corp.intel.com ([10.254.19.98])
+	by orsmga004.jf.intel.com with ESMTP; 23 Aug 2016 17:41:04 -0700
+Mime-Version: 1.0 (Mac OS X Mail 9.3 \(3124\))
+From: Jianxun Zhang <jianxun.zhang@linux.intel.com>
+In-Reply-To: <1471011020888.78139@saabgroup.com>
+Date: Tue, 23 Aug 2016 17:41:06 -0700
+Message-Id: <91A8506F-5CE5-4A57-A177-40E499A9284A@linux.intel.com>
+References: <1471011020888.78139@saabgroup.com>
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+X-Mailer: Apple Mail (2.3124)
+Cc: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Cc: Daiane Angolini <angolini@gmail.com>
-Subject: [ANN] Heading for the Yocto Project open book
+Subject: Re: [PATCH] kernel.bbclass: include signing keys when copying files required for module builds
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -64,46 +33,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 23 Aug 2016 22:59:02 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 24 Aug 2016 00:41:04 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-Hello everyone,
+Bruce,
+Ping~~~
+Could you or anyone have a look on this patch? It is for =
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D9805
 
-Today is an important day for Daiane and I. We want to announce we are
-working on an open book which will cover the Yocto Project from a more
-general perspective.
+Thanks
 
-We wrote a book[1] about the Yocto Project in past (released in July
-2014) and it has been a very pleasant experience to follow its
-repercussion. However the fact that a printed book is a static book
-and we cannot keep updating it with errata fixes, improvements and new
-contents, has been driving us crazy. So after a lot of thinking we
-decided to start a new book.
 
-1. http://amzn.to/1qJHycB
+> On Aug 12, 2016, at 7:10 AM, Waldo Mattias =
+<Mattias.Waldo@saabgroup.com> wrote:
+>=20
+> The absence of certs/signing_key.* in $kerneldir made signing of
+> out-of-tree kernel modules fail (silently). Add copying of these files
+> during the shared_workdir task.
+>=20
+> Signed-off-by: Mattias Waldo <mattias.waldo@saabgroup.com>
+> ---
+> meta/classes/kernel.bbclass | 2 ++
+> 1 file changed, 2 insertions(+)
+>=20
+> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+> index 6e3e81e..2bfd65c 100644
+> --- a/meta/classes/kernel.bbclass
+> +++ b/meta/classes/kernel.bbclass
+> @@ -295,6 +295,8 @@ do_shared_workdir () {
+>        cp .config $kerneldir/
+>        mkdir -p $kerneldir/include/config
+>        cp include/config/kernel.release =
+$kerneldir/include/config/kernel.release
+> +       mkdir -p $kerneldir/certs
+> +       cp certs/signing_key.* $kerneldir/certs
+>=20
+>        # We can also copy over all the generated files and avoid =
+special cases
+>        # like version.h, but we've opted to keep this small until file =
+creep starts
+> --
+> 2.9.2
+>=20
+>=20
+>=20
+>=20
+> --=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
-We have never driven a project like this, and we faced several
-stepping stones during the planning on how it would work, including
-for example royalties and authorship.
-
-If ever there is a printed version (ebook is always going to be free)
-of the book, we want to give back in return of all the help we got
-from the projects, donating 100% of the book's royalties to the
-OpenEmbedded Project. We are in the process of including the book on
-Amazon and Google Play store services but the PDF[2] and the Git[3]
-repositories are already available.
-
-2. http://bit.ly/2bToiu8
-3. http://bit.ly/2bM856N
-
-As this discussion is off-topic for the forums here in copy, please
-get in touch with Daiane and I directly if you have any suggestion,
-critic, feedback or comment.
-
-Best Regards,
-
--- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
