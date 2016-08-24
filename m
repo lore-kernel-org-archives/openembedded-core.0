@@ -1,46 +1,47 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f54.google.com (mail-wm0-f54.google.com [74.125.82.54])
-	by mail.openembedded.org (Postfix) with ESMTP id 1C6B27318F
+Received: from mail-it0-f54.google.com (mail-it0-f54.google.com
+	[209.85.214.54])
+	by mail.openembedded.org (Postfix) with ESMTP id B3FDF731F7
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Aug 2016 21:53:40 +0000 (UTC)
-Received: by mail-wm0-f54.google.com with SMTP id i5so44655695wmg.0
+	Wed, 24 Aug 2016 21:54:35 +0000 (UTC)
+Received: by mail-it0-f54.google.com with SMTP id x131so237061285ite.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Aug 2016 14:53:41 -0700 (PDT)
+	Wed, 24 Aug 2016 14:54:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=P1KZlOZ6YcYf82Uyzl3NsIBHqwbGFdWZZEttirZVRlc=;
-	b=IGux5sszgxVczR9Pvz4MHQS5O30ergHDpgx4TgI07RumdV8S60sCiw9eRgGpjonm7g
-	0B33bUxu3/fEEjiL/v1Eu3nQc5gT4ORH+cSbb7Eleh0N5eFosHmo54pNI7qtgdeRSKfk
-	GN5q6ckLrl+lTdORKefhcY35b1m+qn9A5GICjwXv6+5IpEtPA+AuZ4duXMOYkcI/CNKQ
-	ZqfmLYsEh1UhbVf8kACwYAu9c10Luii4ODV27ta2+v9IpSA8WPGVro71MjG3YNevePhc
-	z7KTvMAnsj1PQ1LD4lMuxtYNG1lbeWfCpSGDFLueNE54ullbFt/K+U1WphRDvuPmkKOE
-	uX2g==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=nx6vUdPkvQf3YfrdByz2RHU1NKYi+F8oXyAooSYFSsM=;
+	b=rKX5acVfpd+/L0JBmosO14aeW1rMJK4+pYGtfs0DXRKAL8Wb8myhW2WRVI1N3dhaXq
+	jKUKpwlXLVtQ7PLASXYM5xJ/6xNtgehDR0ydBWjvlBr9eJRBxneAlFk6x913M/bW5JQW
+	CFMQwnFxb4r0uH2qejJ5uu+NFS+vmLe0q3zRDDjkItBqYjFq6caZ2v4PVsux3qqIwvva
+	irOurPeP9Hg8+i90/DJaUEzAOPvgEDQ+1rIYThTbH0UpwrwQ1TfTBsXDt/K4sEz6DzTs
+	c4Y91/bg5HK1ttTszt8Yj2s1Xnlc4UkFLbw/H1Mdjw790I6NQN/pDDQeRdVyVtTEJObK
+	zqMA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=P1KZlOZ6YcYf82Uyzl3NsIBHqwbGFdWZZEttirZVRlc=;
-	b=aiP1kg7DXJg5BOXnWMpyUtF9iocVkZDtwrsfDQS9VBx2ULXdanxmJQCDpIcGBWoWlM
-	LdrqXheWgUi/J1kOsWTQR/VRbD3KbtlxIsf/tWB9dIQXmCDQLFVlQNKwf2zhMD8js33D
-	V4OFHbf74DOT0D8zflAH92gurNGJOIP5fUmGDsaonoeXyxG/9x336H1xM15nY3CUdwN6
-	aY6tmDLG3khgSw8uNq3g/SvaoG9zgc8gpE/tZ8u/Gk6uHe05XP2RwzHydJBV2fNvHGUq
-	7U0+iVX7sKH2l4xMmMSwX1dMhqttY2J35HhKT9blUKUccKQJ2l58m8u40o1ryKSmYMxQ
-	em1A==
-X-Gm-Message-State: AE9vXwOUlZH1BykbuJvpyFbJ8J1qE/V7b8YtVP/Issb2Z6rXKtvn7z9CwZuEnCary0JeQ+c/
-X-Received: by 10.28.70.5 with SMTP id t5mr3904208wma.46.1472075620589;
-	Wed, 24 Aug 2016 14:53:40 -0700 (PDT)
-Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id
-	p71sm35653772wmf.9.2016.08.24.14.53.39
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 24 Aug 2016 14:53:39 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 24 Aug 2016 22:53:38 +0100
-Message-Id: <1472075618-3211-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 2.8.1
-Subject: [PATCH] linux-firmware: set a preferred provider for brcmfmac-sdio.bin
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=nx6vUdPkvQf3YfrdByz2RHU1NKYi+F8oXyAooSYFSsM=;
+	b=bcSkGBbEYganX53itqRDX7hekmpuFgqBuzXEnmsXv/PxBYAwMuA9S7fi7nbGXu7Cnj
+	c42IDv0PoqK/Qtia9Ea47I67kq6GbFxbmqu45JUdixo7zDdh/NfeVwYcr+bJjyWKNp09
+	sCHsPWi6VX2rqN7VCiKt6urc3V5Gtngx07Bav/dneo5Ft9ZCbNYZ+DCRD5v4D1SunKc8
+	TR4+mfipYpEywoHiyTxlRXqxcIkpoipkvFGJLtMtRWE8A1dU4DkpBxbjw5BqRQESqJWL
+	Xm63RTAUmxNPzQyN4NaGHTYu++JmY8p3wBaTH2xmSQUf3xmCpPww9Coreewb3+67UdQb
+	yDPg==
+X-Gm-Message-State: AEkoouumUXvne/Q4IO5WfQz2ehvgLnVCzb9oC4qbHR5BrhPg4Es05/6L+Vq4H1lcQfSICbam8rbhUSV6+316aoy8
+X-Received: by 10.36.129.213 with SMTP id q204mr1399785itd.38.1472075676347;
+	Wed, 24 Aug 2016 14:54:36 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.107.18.17 with HTTP; Wed, 24 Aug 2016 14:54:16 -0700 (PDT)
+In-Reply-To: <7d4ba06b-e9d5-a518-68b8-1d5f01ea34bf@windriver.com>
+References: <1471371380-21952-1-git-send-email-jslater@windriver.com>
+	<7d4ba06b-e9d5-a518-68b8-1d5f01ea34bf@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 24 Aug 2016 22:54:16 +0100
+Message-ID: <CAJTo0LaXSK=G1bk141VWiYOojZrv0dN5PDezYZK_4A98mmvG=Q@mail.gmail.com>
+To: Randy MacLeod <randy.macleod@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] useradd: do not delete users and groups during configure
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,32 +54,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 Aug 2016 21:53:41 -0000
+X-List-Received-Date: Wed, 24 Aug 2016 21:54:36 -0000
+Content-Type: multipart/alternative; boundary=94eb2c08b1fcc5872c053ad8537b
 
-This recipe packages six alternatives to brcmfmac-sdio.bin but as they all have
-equal priority there is no determinism on what provider will be used if they are
-all installed.
+--94eb2c08b1fcc5872c053ad8537b
+Content-Type: text/plain; charset=UTF-8
 
-Arbitrarily select 4339 to be the highest priority.
+On 24 August 2016 at 16:29, Randy MacLeod <randy.macleod@windriver.com>
+wrote:
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-kernel/linux-firmware/linux-firmware_git.bb | 1 +
- 1 file changed, 1 insertion(+)
+> I don't see this in oe-core/master[-next] yet.
+>
 
-diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
-index 948dfa8..ed0c6ec 100644
---- a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
-+++ b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
-@@ -433,6 +433,7 @@ ALTERNATIVE_linux-firmware-bcm4330 = "brcmfmac-sdio.bin"
- ALTERNATIVE_TARGET_linux-firmware-bcm4330[brcmfmac-sdio.bin] = "/lib/firmware/brcm/brcmfmac4330-sdio.bin"
- ALTERNATIVE_linux-firmware-bcm4339 = "brcmfmac-sdio.bin"
- ALTERNATIVE_TARGET_linux-firmware-bcm4339[brcmfmac-sdio.bin] = "/lib/firmware/brcm/brcmfmac4339-sdio.bin"
-+ALTERNATIVE_PRIORITY_linux-firmware-bcm4339[brcmfmac-sdio.bin] = "20"
- 
- RDEPENDS_${PN}-bcm4329 += "${PN}-broadcom-license"
- RDEPENDS_${PN}-bcm4330 += "${PN}-broadcom-license"
--- 
-2.8.1
+It's in mut so assuming it doesn't break anything may be in master next
+week.
 
+Ross
 
+--94eb2c08b1fcc5872c053ad8537b
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 24 August 2016 at 16:29, Randy MacLeod <span dir=3D"ltr">&lt;<a href=3D"=
+mailto:randy.macleod@windriver.com" target=3D"_blank">randy.macleod@windriv=
+er.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"=
+margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":=
+1q3" class=3D"a3s aXjCH m156bd2c4c69e9def">I don&#39;t see this in oe-core/=
+master[-next] yet.<br></div></blockquote></div><br>It&#39;s in mut so assum=
+ing it doesn&#39;t break anything may be in master next week.</div><div cla=
+ss=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
+
+--94eb2c08b1fcc5872c053ad8537b--
