@@ -1,29 +1,27 @@
-Return-Path: <Kai.Kang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 4E3EA731D1
+Return-Path: <mariano.lopez@linux.intel.com>
+X-Greylist: delayed 558 seconds by postgrey-1.34 at layers.openembedded.org;
+	Thu, 25 Aug 2016 03:10:47 UTC
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+	by mail.openembedded.org (Postfix) with ESMTP id 4D87E6FFFE
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Aug 2016 01:39:44 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u7P1di4E015518
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
-	Wed, 24 Aug 2016 18:39:44 -0700
-Received: from [128.224.162.231] (128.224.162.231) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Wed, 24 Aug 2016 18:39:43 -0700
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <cover.1472001956.git.kai.kang@windriver.com>
-	<57BCFC8F.1060706@windriver.com>
-	<CAJTo0Lbz3T+eqGmGGWtHRtDPOG4KyvyxQ0GXziXcNQbudyN+5w@mail.gmail.com>
-From: Kang Kai <Kai.Kang@windriver.com>
-Message-ID: <57BE4C5E.2000208@windriver.com>
-Date: Thu, 25 Aug 2016 09:39:42 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.6.0
-MIME-Version: 1.0
-In-Reply-To: <CAJTo0Lbz3T+eqGmGGWtHRtDPOG4KyvyxQ0GXziXcNQbudyN+5w@mail.gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/2] Toggle bind configure options
+	Thu, 25 Aug 2016 03:10:47 +0000 (UTC)
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+	by orsmga105.jf.intel.com with ESMTP; 24 Aug 2016 20:01:32 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.28,573,1464678000"; d="scan'208";a="160610171"
+Received: from yctb01.ostc.intel.com (HELO yctb01.otcr.intel.com)
+	([10.54.69.55])
+	by fmsmga004.fm.intel.com with ESMTP; 24 Aug 2016 20:01:32 -0700
+From: mariano.lopez@linux.intel.com
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 24 Aug 2016 18:58:35 +0000
+Message-Id: <3db205473defdc2b149238045075ac5d0a77a732.1472060412.git.mariano.lopez@linux.intel.com>
+X-Mailer: git-send-email 2.6.6
+In-Reply-To: <cover.1472060412.git.mariano.lopez@linux.intel.com>
+References: <cover.1472060412.git.mariano.lopez@linux.intel.com>
+In-Reply-To: <cover.1472060412.git.mariano.lopez@linux.intel.com>
+References: <cover.1472060412.git.mariano.lopez@linux.intel.com>
+Subject: [PATCHv4 2/2] cve-check.bbclass: Add class
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,93 +34,304 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 25 Aug 2016 01:39:45 -0000
-Content-Type: multipart/alternative;
-	boundary="------------010907040205060705070502"
+X-List-Received-Date: Thu, 25 Aug 2016 03:10:48 -0000
 
---------------010907040205060705070502
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
+From: Mariano Lopez <mariano.lopez@linux.intel.com>
 
-On 2016年08月25日 04:10, Burton, Ross wrote:
->
-> On 24 August 2016 at 02:46, Kang Kai <Kai.Kang@windriver.com 
-> <mailto:Kai.Kang@windriver.com>> wrote:
->
->     I didn't see Wangxin's work to upgrade bind. So please comment the
->     patches, and I will rebase them when the upgrade patch is merged.
->
->
-> Looks good to me!
+This class adds a new task for all the recipes to use
+cve-check-tool in order to look for public CVEs affecting
+the packages generated.
 
-Thanks.
+It is possible to use this class when building an image,
+building a recipe, or using the "world" or "universe" cases.
 
---Kai
+In order to use this class it must be inherited and it will
+add the task automatically to every recipe.
 
->
-> Ross
+[YOCTO #7515]
 
+Co-authored by Ross Burton & Mariano Lopez
 
+Signed-off-by: Mariano Lopez <mariano.lopez@linux.intel.com>
+---
+ meta/classes/cve-check.bbclass | 267 +++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 267 insertions(+)
+ create mode 100644 meta/classes/cve-check.bbclass
+
+diff --git a/meta/classes/cve-check.bbclass b/meta/classes/cve-check.bbclass
+new file mode 100644
+index 0000000..8251ca7
+--- /dev/null
++++ b/meta/classes/cve-check.bbclass
+@@ -0,0 +1,267 @@
++# This class is used to check recipes against public CVEs.
++#
++# In order to use this class just inherit the class in the
++# local.conf file and it will add the cve_check task for
++# every recipe. The task can be used per recipe, per image,
++# or using the special cases "world" and "universe". The
++# cve_check task will print a warning for every unpatched
++# CVE found and generate a file in the recipe WORKDIR/cve
++# directory. If an image is build it will generate a report
++# in DEPLOY_DIR_IMAGE for all the packages used.
++#
++# Example:
++#   bitbake -c cve_check openssl
++#   bitbake core-image-sato
++#   bitbake -k -c cve_check universe
++#
++# DISCLAIMER
++#
++# This class/tool is meant to be used as support and not
++# the only method to check against CVEs. Running this tool
++# doesn't guarantee your packages are free of CVEs.
++
++CVE_CHECK_DB_DIR ?= "${DL_DIR}/CVE_CHECK"
++CVE_CHECK_DB_FILE ?= "${CVE_CHECK_DB_DIR}/nvd.db"
++
++CVE_CHECK_LOCAL_DIR ?= "${WORKDIR}/cve"
++CVE_CHECK_LOCAL_FILE ?= "${CVE_CHECK_LOCAL_DIR}/cve.log"
++CVE_CHECK_TMP_FILE ?= "${TMPDIR}/cve_check"
++
++CVE_CHECK_DIR ??= "${DEPLOY_DIR}/cve"
++CVE_CHECK_MANIFEST ?= "${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.cve"
++CVE_CHECK_COPY_FILES ??= "1"
++CVE_CHECK_CREATE_MANIFEST ??= "1"
++
++# Whitelist for packages (PN)
++CVE_CHECK_PN_WHITELIST = "\
++    glibc-locale \
++"
++
++# Whitelist for CVE and version of package
++CVE_CHECK_CVE_WHITELIST = "{\
++    'CVE-2014-2524': ('6.3',), \
++}"
++
++python do_cve_check () {
++    """
++    Check recipe for patched and unpatched CVEs
++    """
++
++    if os.path.exists(d.getVar("CVE_CHECK_TMP_FILE", True)):
++        patched_cves = get_patches_cves(d)
++        patched, unpatched = check_cves(d, patched_cves)
++        if patched or unpatched:
++            cve_data = get_cve_info(d, patched + unpatched)
++            cve_write_data(d, patched, unpatched, cve_data)
++    else:
++        bb.note("Failed to update CVE database, skipping CVE check")
++}
++
++addtask cve_check after do_unpack before do_build
++do_cve_check[depends] = "cve-check-tool-native:do_populate_cve_db"
++do_cve_check[nostamp] = "1"
++
++python cve_check_cleanup () {
++    """
++    Delete the file used to gather all the CVE information.
++    """
++
++    bb.utils.remove(e.data.getVar("CVE_CHECK_TMP_FILE", True))
++}
++
++addhandler cve_check_cleanup
++cve_check_cleanup[eventmask] = "bb.cooker.CookerExit"
++
++python cve_check_write_rootfs_manifest () {
++    """
++    Create CVE manifest when building an image
++    """
++
++    import shutil
++
++    if os.path.exists(d.getVar("CVE_CHECK_TMP_FILE", True)):
++        bb.note("Writing rootfs CVE manifest")
++        deploy_dir = d.getVar("DEPLOY_DIR_IMAGE", True)
++        link_name = d.getVar("IMAGE_LINK_NAME", True)
++        manifest_name = d.getVar("CVE_CHECK_MANIFEST", True)
++        cve_tmp_file = d.getVar("CVE_CHECK_TMP_FILE", True)
++
++        shutil.copyfile(cve_tmp_file, manifest_name)
++
++        if manifest_name and os.path.exists(manifest_name):
++            manifest_link = os.path.join(deploy_dir, "%s.cve" % link_name)
++            # If we already have another manifest, update symlinks
++            if os.path.exists(os.path.realpath(manifest_link)):
++                if d.getVar('RM_OLD_IMAGE', True) == "1":
++                    os.remove(os.path.realpath(manifest_link))
++                os.remove(manifest_link)
++            os.symlink(os.path.basename(manifest_name), manifest_link)
++            bb.plain("Image CVE report stored in: %s" % manifest_name)
++}
++
++ROOTFS_POSTPROCESS_COMMAND_prepend = "${@'cve_check_write_rootfs_manifest; ' if d.getVar('CVE_CHECK_CREATE_MANIFEST', True) == '1' else ''}"
++
++def get_patches_cves(d):
++    """
++    Get patches that solve CVEs using the "CVE: " tag.
++    """
++
++    import re
++
++    pn = d.getVar("PN", True)
++    cve_match = re.compile("CVE:( CVE\-\d{4}\-\d+)+")
++    patched_cves = set()
++    bb.debug(2, "Looking for patches that solves CVEs for %s" % pn)
++    for url in src_patches(d):
++        patch_file = bb.fetch.decodeurl(url)[2]
++        with open(patch_file, "r", encoding="utf-8") as f:
++            try:
++                patch_text = f.read()
++            except UnicodeDecodeError:
++                bb.debug(1, "Failed to read patch %s using UTF-8 encoding"
++                        " trying with iso8859-1" %  patch_file)
++                f.close()
++                with open(patch_file, "r", encoding="iso8859-1") as f:
++                    patch_text = f.read()
++
++        # Search for the "CVE: " line
++        match = cve_match.search(patch_text)
++        if match:
++            # Get only the CVEs without the "CVE: " tag
++            cves = patch_text[match.start()+5:match.end()]
++            for cve in cves.split():
++                bb.debug(2, "Patch %s solves %s" % (patch_file, cve))
++                patched_cves.add(cve)
++        else:
++            bb.debug(2, "Patch %s doesn't solve CVEs" % patch_file)
++
++    return patched_cves
++
++def check_cves(d, patched_cves):
++    """
++    Run cve-check-tool looking for patched and unpatched CVEs.
++    """
++
++    import ast, csv, tempfile, subprocess, io
++
++    cves_patched = []
++    cves_unpatched = []
++    bpn = d.getVar("BPN", True)
++    pv = d.getVar("PV", True).split("git+")[0]
++    cves = " ".join(patched_cves)
++    cve_db_dir = d.getVar("CVE_CHECK_DB_DIR", True)
++    cve_whitelist = ast.literal_eval(d.getVar("CVE_CHECK_CVE_WHITELIST", True))
++    cve_cmd = "cve-check-tool"
++    cmd = [cve_cmd, "--no-html", "--csv", "--not-affected", "-t", "faux", "-d", cve_db_dir]
++
++    # If the recipe has been whitlisted we return empty lists
++    if d.getVar("PN", True) in d.getVar("CVE_CHECK_PN_WHITELIST", True).split():
++        bb.note("Recipe has been whitelisted, skipping check")
++        return ([], [])
++
++    # It is needed to export the proxies to download the database using HTTP
++    bb.utils.export_proxies(d)
++
++    try:
++        # Write the faux CSV file to be used with cve-check-tool
++        fd, faux = tempfile.mkstemp(prefix="cve-faux-")
++        with os.fdopen(fd, "w") as f:
++            f.write("%s,%s,%s," % (bpn, pv, cves))
++        cmd.append(faux)
++
++        output = subprocess.check_output(cmd, stderr=subprocess.STDOUT).decode("utf-8")
++        bb.debug(2, "Output of command %s:\n%s" % ("\n".join(cmd), output))
++    except subprocess.CalledProcessError as e:
++        bb.warn("Couldn't check for CVEs: %s (output %s)" % (e, e.output))
++    finally:
++        os.remove(faux)
++
++    for row in csv.reader(io.StringIO(output)):
++        # Third row has the unpatched CVEs
++        if row[2]:
++            for cve in row[2].split():
++                # Skip if the CVE has been whitlisted for the current version
++                if pv in cve_whitelist.get(cve,[]):
++                    bb.note("%s-%s has been whitelisted for %s" % (bpn, pv, cve))
++                else:
++                    cves_unpatched.append(cve)
++                    bb.debug(2, "%s-%s is not patched for %s" % (bpn, pv, cve))
++        # Fourth row has patched CVEs
++        if row[3]:
++            for cve in row[3].split():
++                cves_patched.append(cve)
++                bb.debug(2, "%s-%s is patched for %s" % (bpn, pv, cve))
++
++    return (cves_patched, cves_unpatched)
++
++def get_cve_info(d, cves):
++    """
++    Get CVE information from the database used by cve-check-tool.
++
++    Unfortunately the only way to get CVE info is set the output to
++    html (hard to parse) or query directly the database.
++    """
++
++    try:
++        import sqlite3
++    except ImportError:
++        from pysqlite2 import dbapi2 as sqlite3
++
++    cve_data = {}
++    db_file = d.getVar("CVE_CHECK_DB_FILE", True)
++    placeholder = ",".join("?" * len(cves))
++    query = "SELECT * FROM NVD WHERE id IN (%s)" % placeholder
++    conn = sqlite3.connect(db_file)
++    cur = conn.cursor()
++    for row in cur.execute(query, tuple(cves)):
++        cve_data[row[0]] = {}
++        cve_data[row[0]]["summary"] = row[1]
++        cve_data[row[0]]["score"] = row[2]
++        cve_data[row[0]]["modified"] = row[3]
++        cve_data[row[0]]["vector"] = row[4]
++    conn.close()
++
++    return cve_data
++
++def cve_write_data(d, patched, unpatched, cve_data):
++    """
++    Write CVE information in WORKDIR; and to CVE_CHECK_DIR, and
++    CVE manifest if enabled.
++    """
++
++    cve_file = d.getVar("CVE_CHECK_LOCAL_FILE", True)
++    nvd_link = "https://web.nvd.nist.gov/view/vuln/detail?vulnId="
++    write_string = ""
++    first_alert = True
++    bb.utils.mkdirhier(d.getVar("CVE_CHECK_LOCAL_DIR", True))
++
++    for cve in sorted(cve_data):
++        write_string += "PACKAGE NAME: %s\n" % d.getVar("PN", True)
++        write_string += "PACKAGE VERSION: %s\n" % d.getVar("PV", True)
++        write_string += "CVE: %s\n" % cve
++        if cve in patched:
++            write_string += "CVE STATUS: Patched\n"
++        else:
++            write_string += "CVE STATUS: Unpatched\n"
++            if first_alert:
++                bb.warn("Found unpatched CVE, for more information check %s" % cve_file)
++                first_alert = False
++        write_string += "CVE SUMMARY: %s\n" % cve_data[cve]["summary"]
++        write_string += "CVSS v2 BASE SCORE: %s\n" % cve_data[cve]["score"]
++        write_string += "VECTOR: %s\n" % cve_data[cve]["vector"]
++        write_string += "MORE INFORMATION: %s%s\n\n" % (nvd_link, cve)
++
++    with open(cve_file, "w") as f:
++        bb.note("Writing file %s with CVE information" % cve_file)
++        f.write(write_string)
++
++    if d.getVar("CVE_CHECK_COPY_FILES", True) == "1":
++        cve_dir = d.getVar("CVE_CHECK_DIR", True)
++        bb.utils.mkdirhier(cve_dir)
++        deploy_file = os.path.join(cve_dir, d.getVar("PN", True))
++        with open(deploy_file, "w") as f:
++            f.write(write_string)
++
++    if d.getVar("CVE_CHECK_CREATE_MANIFEST", True) == "1":
++        with open(d.getVar("CVE_CHECK_TMP_FILE", True), "a") as f:
++            f.write("%s" % write_string)
 -- 
-Regards,
-Neil | Kai Kang
+2.6.6
 
 
---------------010907040205060705070502
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-
-<html>
-  <head>
-    <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-  </head>
-  <body bgcolor="#FFFFFF" text="#000000">
-    <div class="moz-cite-prefix">On 2016年08月25日 04:10, Burton, Ross
-      wrote:<br>
-    </div>
-    <blockquote
-cite="mid:CAJTo0Lbz3T+eqGmGGWtHRtDPOG4KyvyxQ0GXziXcNQbudyN+5w@mail.gmail.com"
-      type="cite">
-      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-      <div dir="ltr">
-        <div class="gmail_extra"><br>
-          <div class="gmail_quote">On 24 August 2016 at 02:46, Kang Kai
-            <span dir="ltr">&lt;<a moz-do-not-send="true"
-                href="mailto:Kai.Kang@windriver.com" target="_blank">Kai.Kang@windriver.com</a>&gt;</span>
-            wrote:<br>
-            <blockquote class="gmail_quote" style="margin:0 0 0
-              .8ex;border-left:1px #ccc solid;padding-left:1ex">
-              <div id=":14p" class="a3s aXjCH m156ba3b4f59cc3eb">I
-                didn't see Wangxin's work to upgrade bind. So please
-                comment the patches, and I will rebase them when the
-                upgrade patch is merged.<br>
-              </div>
-            </blockquote>
-          </div>
-          <br>
-          Looks good to me!</div>
-      </div>
-    </blockquote>
-    <br>
-    Thanks.<br>
-    <br>
-    --Kai<br>
-    <br>
-    <blockquote
-cite="mid:CAJTo0Lbz3T+eqGmGGWtHRtDPOG4KyvyxQ0GXziXcNQbudyN+5w@mail.gmail.com"
-      type="cite">
-      <div dir="ltr">
-        <div class="gmail_extra"><br>
-        </div>
-        <div class="gmail_extra">Ross</div>
-      </div>
-    </blockquote>
-    <br>
-    <br>
-    <pre class="moz-signature" cols="72">-- 
-Regards,
-Neil | Kai Kang</pre>
-  </body>
-</html>
-
---------------010907040205060705070502--
