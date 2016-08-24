@@ -1,47 +1,42 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-it0-f41.google.com (mail-it0-f41.google.com
-	[209.85.214.41])
-	by mail.openembedded.org (Postfix) with ESMTP id BAE02731BD
+Received: from mail-it0-f50.google.com (mail-it0-f50.google.com
+	[209.85.214.50])
+	by mail.openembedded.org (Postfix) with ESMTP id DD6ED7318F
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Aug 2016 21:12:24 +0000 (UTC)
-Received: by mail-it0-f41.google.com with SMTP id n128so57579091ith.1
+	Wed, 24 Aug 2016 21:42:48 +0000 (UTC)
+Received: by mail-it0-f50.google.com with SMTP id e63so236901153ith.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Aug 2016 14:12:25 -0700 (PDT)
+	Wed, 24 Aug 2016 14:42:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=6i7N4rviDVrnAnH/oDb+fVqhJie+vltW5fvkfz2Aqmo=;
-	b=E5gEl8KanjfMFVEJluOXJRElfRZzU1O7YEBY0jiE578aKQZoY32Qo1bo+7rq/JP4TR
-	H9OYjJomvTthp8NJrT+FTYAAk8r5NN2m9r2mBqjsnncx8gwcPPHQTH+5CBMURDiXvFbm
-	Te1jwOjk453r7JAneqCrLTVpnA4BGc/s22cAH3fO/uayilDWhSsfrq0LAbplrSHlP7Xz
-	WCRUsUPy8pB9xb3Gr+jhHzEmR2uteOdRIqaeDqjch0vG68oXU51aYU3V7vrHYPtPhBX/
-	jeVG+gUOrp/sZEWoPSAvxpiQ1RgvrkteLwLSBwDH6O/a4E2xwcWlZiB59gV5H526AgAP
-	/jGw==
+	h=mime-version:from:date:message-id:subject:to;
+	bh=HoFJ0Vs4tAipJnbrUq+AqdsOh/A9I0Y4IlVwIXWLc3k=;
+	b=SeQpxf5GDoHq+B+EuXKYsvUolIazUHfAdgUFqM/UABjXy+m5MZwTztFrffAUD6Tese
+	L8jWOopNZLVh6JOoOYYQ4hSA94DiQVUY1JU3lpqveq+X3UiWqPFBdOAILUrpZtiR6zkz
+	SwrDX15TJUsYGvvZ+NQ6z2G0VpaA4Ow7LTiFH4mB+wBo9A70TmCyipU4TISM/jiGHSm/
+	Yjfzh/VhF2UhhO9Du49UyoMXrtErEHTni6CsLGRAk1pRzKGkMbF0jR0fpMVnFRF5NN+o
+	eXyhaKgqLNZgeQlf5fr0zPmUK2jLIK8mi4L5c1UwRnw8X1fERNlmZAbDtJnO+UVYgRuq
+	J2Mw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=6i7N4rviDVrnAnH/oDb+fVqhJie+vltW5fvkfz2Aqmo=;
-	b=lEm/sreuhbzpVTi7m+rZXiPL/VcIfVOYeFSuEXWZ11wUj7fhSJYOWaYQGTGp9oWsI3
-	Ld935WZlBlzG+f8sJHha6dupvDnQPvEFX5NKQJbASWUrvZFgooaqiVr/GRDpBYeWerO/
-	qwCwxLBLc7CMNJj1p0BqIn9ooOnvErYvv8YEg7kNlfQYgXk8ZAj6c+qkFKNLtg2NbTlF
-	uwVhy6er4miy6r0W6Tu/QSFz1+qbtS1VLfSCfUP8qMzH8R/8qxNQL1H159y9zHrxEEzB
-	HHIus7zlHZMNLaxm+FCQI+KExLYGoWvWcgTiuFn5leEHuKxVAlNZPgnhZUBwdT4Rujx8
-	t6nA==
-X-Gm-Message-State: AE9vXwNTMaM9wnD1/i442RIfamupZcvLCdjXDdvXBtNeOddr3YnPXVinIyINO8/lHyZwOOPBPG+OSlKuorix1Zf9
-X-Received: by 10.107.135.142 with SMTP id r14mr6933678ioi.133.1472073144738; 
-	Wed, 24 Aug 2016 14:12:24 -0700 (PDT)
+	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+	bh=HoFJ0Vs4tAipJnbrUq+AqdsOh/A9I0Y4IlVwIXWLc3k=;
+	b=fSyEVsXPIU2+0PxhNMHNHyv77F53mQQlwsJNi/D1W6w2SyvcG7OK6T27NsBMnoS9EB
+	wJEc0L57CkDFfEgonmfrL18u9YYZ0FF7OUnJafJaCEHU9x24Q3UaqpE/9hHMqJuSMoa9
+	TQnHTiZDI6JP0EgCxoxlPxySEKhuR9w1RbTPn+ydtH4gMwNT3NSlwkEjmMaa1c+UWb7i
+	ygxjUxRrPWQ8MWuJ4bFWhdgUt5iwzOMJ+rWTl6c2SWKLO2xXXX1Gupl7a/1rcFHdOC/7
+	E2gOlE3Qeeqz9IUYMLnrWhT2ZVtcIgPqaIwhA9SIZXSWrYs4Mc3DBLcZ80t61Yz56KeH
+	Ff5g==
+X-Gm-Message-State: AE9vXwNmJ+N3BGNKs70GMtCVz/ocd87XA3HJvaOVgqPs3g36f1y9eq3QpWtwffByxqD4nwNWX4WNuyHH2QIq105S
+X-Received: by 10.107.135.142 with SMTP id r14mr7071192ioi.133.1472074969157; 
+	Wed, 24 Aug 2016 14:42:49 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.107.18.17 with HTTP; Wed, 24 Aug 2016 14:12:04 -0700 (PDT)
-In-Reply-To: <1471859570-1536-1-git-send-email-wangxin2015.fnst@cn.fujitsu.com>
-References: <CAHiDW_EOqi1qsP3AF_a3oqfg7smFb=EL=puyzyUfH+BK92_pOw@mail.gmail.com>
-	<1471859570-1536-1-git-send-email-wangxin2015.fnst@cn.fujitsu.com>
+Received: by 10.107.18.17 with HTTP; Wed, 24 Aug 2016 14:42:28 -0700 (PDT)
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 24 Aug 2016 22:12:04 +0100
-Message-ID: <CAJTo0LZaZj0CdXQAivEqyBQusc4HT54u6_0x943G58XQy-6wiA@mail.gmail.com>
-To: Wang Xin <wangxin2015.fnst@cn.fujitsu.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v3] bind: 9.10.3-P3 -> 9.11.0b2
+Date: Wed, 24 Aug 2016 22:42:28 +0100
+Message-ID: <CAJTo0LaQopnGT2j0y-+evnSkCfXN_ew311LsqP_zJ4+uq6CmBg@mail.gmail.com>
+To: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Broadcom firmware
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,58 +49,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 Aug 2016 21:12:25 -0000
-Content-Type: multipart/alternative; boundary=001a113eccbce02fe5053ad7bc6b
+X-List-Received-Date: Wed, 24 Aug 2016 21:42:50 -0000
+Content-Type: multipart/alternative; boundary=001a113eccbc9ea5a7053ad82996
 
---001a113eccbce02fe5053ad7bc6b
+--001a113eccbc9ea5a7053ad82996
 Content-Type: text/plain; charset=UTF-8
 
-On 22 August 2016 at 10:52, Wang Xin <wangxin2015.fnst@cn.fujitsu.com>
-wrote:
+Every time I do an image build this is in the buildhistory:
 
-> +EXTRA_OECONF = " ${ENABLE_IPV6} --with-python=python
-> --with-randomdev=/dev/random --disable-threads \
-> @@ -81,7 +76,7 @@ do_install_append() {
->         install -d "${D}${sysconfdir}/init.d"
->         install -m 644 ${S}/conf/* "${D}${sysconfdir}/bind/"
->         install -m 755 "${S}/init.d" "${D}${sysconfdir}/init.d/bind"
-> -       sed -i -e '1s,#!.*python,#! /usr/bin/python3,'
-> ${D}${sbindir}/dnssec-coverage ${D}${sbindir}/dnssec-checkds
-> +       sed -i -e '1s,#!.*python,#! /usr/bin/python3,'
-> ${D}${sbindir}/dnssec-coverage ${D}${sbindir}/dnssec-checkds
-> ${D}${sbindir}/dnssec-keymgr
->
+  /lib/firmware/brcm/brcmfmac-sdio.bin changed symlink target from
+/lib/firmware/brcm/brcmfmac4339-sdio.bin to
+/lib/firmware/brcm/brcmfmac4329-sdio.bin
 
-Would passing --with-python=python3 mean you can remove the sed entirely?
+Because linux-firmware has alternatives for brcmfmac-sdio.bin but none of
+the choices is preferred.  If I made the 4339 file preferred by bumping its
+priority, would anyone object?
 
 Ross
 
---001a113eccbce02fe5053ad7bc6b
+--001a113eccbc9ea5a7053ad82996
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 22 August 2016 at 10:52, Wang Xin <span dir=3D"ltr">&lt;<a href=3D"mailt=
-o:wangxin2015.fnst@cn.fujitsu.com" target=3D"_blank">wangxin2015.fnst@cn.fu=
-jitsu.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=
-=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=
-=3D":2js" class=3D"a3s aXjCH m156b1abd22fd9413">+EXTRA_OECONF =3D &quot; ${=
-ENABLE_IPV6} --with-python=3Dpython --with-randomdev=3D/dev/random --disabl=
-e-threads \<br>
-@@ -81,7 +76,7 @@ do_install_append() {<br>
-<span class=3D"">=C2=A0 =C2=A0 =C2=A0 =C2=A0 install -d &quot;${D}${sysconf=
-dir}/init.d&quot;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 install -m 644 ${S}/conf/* &quot;${D}${sysconfd=
-ir}/bind/&quot;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 install -m 755 &quot;${S}/init.d&quot; &quot;${=
-D}${sysconfdir}/init.d/<wbr>bind&quot;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0sed -i -e &#39;1s,#!.*python,#! /usr/bin/python=
-3,&#39; ${D}${sbindir}/dnssec-coverage ${D}${sbindir}/dnssec-checkds<br>
-</span>+=C2=A0 =C2=A0 =C2=A0 =C2=A0sed -i -e &#39;1s,#!.*python,#! /usr/bin=
-/python3,&#39; ${D}${sbindir}/dnssec-coverage ${D}${sbindir}/dnssec-checkds=
- ${D}${sbindir}/dnssec-keymgr</div></blockquote></div><br></div><div class=
-=3D"gmail_extra">Would passing --with-python=3Dpython3 mean you can remove =
-the sed entirely?</div><div class=3D"gmail_extra"><br></div><div class=3D"g=
-mail_extra">Ross</div></div>
+<div dir=3D"ltr"><div>Every time I do an image build this is in the buildhi=
+story:</div><div><br></div>=C2=A0 /lib/firmware/brcm/brcmfmac-sdio.bin chan=
+ged symlink target from /lib/firmware/brcm/brcmfmac4339-sdio.bin to /lib/fi=
+rmware/brcm/brcmfmac4329-sdio.bin<br><div><br></div><div>Because linux-firm=
+ware has alternatives for brcmfmac-sdio.bin but none of the choices is pref=
+erred.=C2=A0 If I made the 4339 file preferred by bumping its priority, wou=
+ld anyone object?</div><div><br></div><div>Ross</div></div>
 
---001a113eccbce02fe5053ad7bc6b--
+--001a113eccbc9ea5a7053ad82996--
