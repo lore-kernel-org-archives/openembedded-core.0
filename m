@@ -1,22 +1,22 @@
 Return-Path: <markus.lehtonen@linux.intel.com>
 Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id 643C2731BA
+	by mail.openembedded.org (Postfix) with ESMTP id 6D627731BD
 	for <openembedded-core@lists.openembedded.org>;
 	Wed, 24 Aug 2016 07:13:25 +0000 (UTC)
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by fmsmga104.fm.intel.com with ESMTP; 24 Aug 2016 00:13:17 -0700
+	by fmsmga104.fm.intel.com with ESMTP; 24 Aug 2016 00:13:18 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.28,569,1464678000"; d="scan'208";a="1040620609"
+X-IronPort-AV: E=Sophos;i="5.28,569,1464678000"; d="scan'208";a="1040620618"
 Received: from marquiz.fi.intel.com ([10.237.72.155])
-	by orsmga002.jf.intel.com with ESMTP; 24 Aug 2016 00:13:16 -0700
+	by orsmga002.jf.intel.com with ESMTP; 24 Aug 2016 00:13:17 -0700
 From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 24 Aug 2016 10:12:55 +0300
-Message-Id: <1472022789-13028-6-git-send-email-markus.lehtonen@linux.intel.com>
+Date: Wed, 24 Aug 2016 10:12:56 +0300
+Message-Id: <1472022789-13028-7-git-send-email-markus.lehtonen@linux.intel.com>
 X-Mailer: git-send-email 2.6.6
 In-Reply-To: <1472022789-13028-1-git-send-email-markus.lehtonen@linux.intel.com>
 References: <1472022789-13028-1-git-send-email-markus.lehtonen@linux.intel.com>
-Subject: [PATCH 05/19] oeqa.utils.git: implement GitRepo.get_current_branch()
+Subject: [PATCH 06/19] oeqa.utils.git.GitRepo: new arg to require topdir
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,48 +31,46 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 24 Aug 2016 07:13:25 -0000
 
+Add a new 'is_topdir' argument to the GitRepo init method which
+validates that the given path is the top directory of a Git repository.
+Without this argument GitRepo also accepts subdirectories of a Git
+repository (in which case GitRepo will point to the parent directory
+that is the top directory of this repository) which may have undesired
+in some cases.
+
 Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
 ---
- meta/lib/oeqa/buildperf/base.py | 7 ++-----
- meta/lib/oeqa/utils/git.py      | 8 ++++++++
- 2 files changed, 10 insertions(+), 5 deletions(-)
+ meta/lib/oeqa/utils/git.py | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
 
-diff --git a/meta/lib/oeqa/buildperf/base.py b/meta/lib/oeqa/buildperf/base.py
-index 6a8d9fe..adc3da3 100644
---- a/meta/lib/oeqa/buildperf/base.py
-+++ b/meta/lib/oeqa/buildperf/base.py
-@@ -116,12 +116,9 @@ class BuildPerfTestResult(unittest.TextTestResult):
-             if not rev:
-                 rev = self.repo.rev_parse('HEAD')
-             if not branch:
--                try:
--                    # Strip 11 chars, i.e. 'refs/heads' from the beginning
--                    branch = self.repo.run_cmd(['symbolic-ref', 'HEAD'])[11:]
--                except GitError:
-+                branch = self.repo.get_current_branch()
-+                if not branch:
-                     log.debug('Currently on detached HEAD')
--                    branch = None
-         return str(rev), str(branch)
- 
-     def addSuccess(self, test):
 diff --git a/meta/lib/oeqa/utils/git.py b/meta/lib/oeqa/utils/git.py
-index 6474654..0fc8112 100644
+index 0fc8112..ca84680 100644
 --- a/meta/lib/oeqa/utils/git.py
 +++ b/meta/lib/oeqa/utils/git.py
-@@ -46,4 +46,12 @@ class GitRepo(object):
-             # Revision does not exist
-             return None
- 
-+    def get_current_branch(self):
-+        """Get current branch"""
-+        try:
-+            # Strip 11 chars, i.e. 'refs/heads' from the beginning
-+            return self.run_cmd(['symbolic-ref', 'HEAD'])[11:]
-+        except GitError:
-+            return None
+@@ -4,6 +4,8 @@
+ # Released under the MIT license (see COPYING.MIT)
+ #
+ """Git repository interactions"""
++import os
 +
+ from oeqa.utils.commands import runCmd
  
+ 
+@@ -13,9 +15,12 @@ class GitError(Exception):
+ 
+ class GitRepo(object):
+     """Class representing a Git repository clone"""
+-    def __init__(self, cwd):
++    def __init__(self, path, is_topdir=False):
+         self.top_dir = self._run_git_cmd_at(['rev-parse', '--show-toplevel'],
+-                                            cwd)
++                                            path)
++        realpath = os.path.realpath(path)
++        if is_topdir and realpath != self.top_dir:
++            raise GitError("{} is not a Git top directory".format(realpath))
+ 
+     @staticmethod
+     def _run_git_cmd_at(git_args, cwd, **kwargs):
 -- 
 2.6.6
 
