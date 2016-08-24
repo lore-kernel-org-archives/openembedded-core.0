@@ -1,24 +1,24 @@
-Return-Path: <Zhenbo.Gao@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id D66006AC37
+Return-Path: <Kai.Kang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 6E7DA731BD
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Aug 2016 09:12:52 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u7O9Cpn4023664
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
-	Wed, 24 Aug 2016 02:12:51 -0700
-Received: from pek-zgao-d1.corp.ad.wrs.com (128.224.162.171) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.248.2; Wed, 24 Aug 2016 02:12:50 -0700
-From: Zhenbo Gao <zhenbo.gao@windriver.com>
-To: <richard.purdie@linuxfoundation.org>,
-	<openembedded-core@lists.openembedded.org>, <zhenbo.gao@windriver.com>
-Date: Wed, 24 Aug 2016 17:12:38 +0800
-Message-ID: <1472029958-18720-1-git-send-email-zhenbo.gao@windriver.com>
-X-Mailer: git-send-email 1.9.1
+	Wed, 24 Aug 2016 09:28:08 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u7O9S8NA019236
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 24 Aug 2016 02:28:09 -0700 (PDT)
+Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.248.2; Wed, 24 Aug 2016 02:28:07 -0700
+From: <kai.kang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 24 Aug 2016 17:26:36 +0800
+Message-ID: <cover.1472030722.git.kai.kang@windriver.com>
+X-Mailer: git-send-email 2.9.3
 MIME-Version: 1.0
-Subject: [PATCH] groff: correct the location path for awk
+Subject: [PATCH 0/1] bash: fix interpreter of ptest script
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,34 +31,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 Aug 2016 09:12:55 -0000
+X-List-Received-Date: Wed, 24 Aug 2016 09:28:09 -0000
 Content-Type: text/plain
 
-awk is located at /usr/bin/, but not /bin/
+From: Kai Kang <kai.kang@windriver.com>
 
-Signed-off-by: Zhenbo Gao <zhenbo.gao@windriver.com>
----
- meta/recipes-extended/groff/groff_1.22.3.bb | 6 ++++++
- 1 file changed, 6 insertions(+)
+The following changes since commit 94646f4828c2aa11a89996763edaa2e9d57106a9:
 
-diff --git a/meta/recipes-extended/groff/groff_1.22.3.bb b/meta/recipes-extended/groff/groff_1.22.3.bb
-index 4bffa81..af5acbe 100644
---- a/meta/recipes-extended/groff/groff_1.22.3.bb
-+++ b/meta/recipes-extended/groff/groff_1.22.3.bb
-@@ -56,6 +56,12 @@ do_install_append() {
- 	if [ -e ${D}${libdir}/charset.alias ]; then
- 		rm -rf ${D}${libdir}/charset.alias
- 	fi
-+
-+	# awk is located at /usr/bin/, not /bin/
-+	SPECIAL_AWK=`find ${D} -name special.awk`
-+	if [ -f ${SPECIAL_AWK} ]; then
-+		sed -i -e 's:#!.*awk:#! ${USRBINPATH}/awk:' ${SPECIAL_AWK}
-+	fi
- }
- 
- do_install_append_class-native() {
+  oeqa/buildiptables: Switch from netfilter.org to yoctoproject.org mirror (2016-08-23 17:59:43 +0100)
+
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib kangkai/bash
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=kangkai/bash
+
+Kai Kang (1):
+  bash: fix interpreter of ptest script
+
+ meta/recipes-extended/bash/bash.inc | 2 ++
+ 1 file changed, 2 insertions(+)
+
 -- 
-1.9.1
+2.9.3
 
 
