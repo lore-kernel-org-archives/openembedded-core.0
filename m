@@ -1,27 +1,25 @@
 Return-Path: <mariano.lopez@linux.intel.com>
-X-Greylist: delayed 558 seconds by postgrey-1.34 at layers.openembedded.org;
-	Thu, 25 Aug 2016 03:10:47 UTC
 Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by mail.openembedded.org (Postfix) with ESMTP id 4D87E6FFFE
+	by mail.openembedded.org (Postfix) with ESMTP id D794E6FFFE
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Aug 2016 03:10:47 +0000 (UTC)
+	Thu, 25 Aug 2016 03:10:59 +0000 (UTC)
 Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-	by orsmga105.jf.intel.com with ESMTP; 24 Aug 2016 20:01:32 -0700
+	by orsmga105.jf.intel.com with ESMTP; 24 Aug 2016 20:01:31 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.28,573,1464678000"; d="scan'208";a="160610171"
+X-IronPort-AV: E=Sophos;i="5.28,573,1464678000"; d="scan'208";a="160610142"
 Received: from yctb01.ostc.intel.com (HELO yctb01.otcr.intel.com)
 	([10.54.69.55])
-	by fmsmga004.fm.intel.com with ESMTP; 24 Aug 2016 20:01:32 -0700
+	by fmsmga004.fm.intel.com with ESMTP; 24 Aug 2016 20:01:30 -0700
 From: mariano.lopez@linux.intel.com
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 24 Aug 2016 18:58:35 +0000
-Message-Id: <3db205473defdc2b149238045075ac5d0a77a732.1472060412.git.mariano.lopez@linux.intel.com>
+Date: Wed, 24 Aug 2016 18:58:34 +0000
+Message-Id: <2ea1073b1b15da51334a47814732d809fc1d4a3a.1472060412.git.mariano.lopez@linux.intel.com>
 X-Mailer: git-send-email 2.6.6
 In-Reply-To: <cover.1472060412.git.mariano.lopez@linux.intel.com>
 References: <cover.1472060412.git.mariano.lopez@linux.intel.com>
 In-Reply-To: <cover.1472060412.git.mariano.lopez@linux.intel.com>
 References: <cover.1472060412.git.mariano.lopez@linux.intel.com>
-Subject: [PATCHv4 2/2] cve-check.bbclass: Add class
+Subject: [PATCHv4 1/2] cve-check-tool: Add recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,303 +32,149 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 25 Aug 2016 03:10:48 -0000
+X-List-Received-Date: Thu, 25 Aug 2016 03:11:00 -0000
 
 From: Mariano Lopez <mariano.lopez@linux.intel.com>
 
-This class adds a new task for all the recipes to use
-cve-check-tool in order to look for public CVEs affecting
-the packages generated.
+cve-check-tool is a program for public CVEs checking.
+This tool also seek to determine if a vulnerability has
+been addressed by a patch.
 
-It is possible to use this class when building an image,
-building a recipe, or using the "world" or "universe" cases.
-
-In order to use this class it must be inherited and it will
-add the task automatically to every recipe.
+The recipe also includes the do_populate_cve_db task
+that will populate the database used by the tool.
 
 [YOCTO #7515]
 
-Co-authored by Ross Burton & Mariano Lopez
-
 Signed-off-by: Mariano Lopez <mariano.lopez@linux.intel.com>
 ---
- meta/classes/cve-check.bbclass | 267 +++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 267 insertions(+)
- create mode 100644 meta/classes/cve-check.bbclass
+ .../cve-check-tool/cve-check-tool_5.6.4.bb         | 59 ++++++++++++++++++++++
+ .../check-for-malloc_trim-before-using-it.patch    | 51 +++++++++++++++++++
+ 2 files changed, 110 insertions(+)
+ create mode 100644 meta/recipes-devtools/cve-check-tool/cve-check-tool_5.6.4.bb
+ create mode 100644 meta/recipes-devtools/cve-check-tool/files/check-for-malloc_trim-before-using-it.patch
 
-diff --git a/meta/classes/cve-check.bbclass b/meta/classes/cve-check.bbclass
+diff --git a/meta/recipes-devtools/cve-check-tool/cve-check-tool_5.6.4.bb b/meta/recipes-devtools/cve-check-tool/cve-check-tool_5.6.4.bb
 new file mode 100644
-index 0000000..8251ca7
+index 0000000..56a3b99
 --- /dev/null
-+++ b/meta/classes/cve-check.bbclass
-@@ -0,0 +1,267 @@
-+# This class is used to check recipes against public CVEs.
-+#
-+# In order to use this class just inherit the class in the
-+# local.conf file and it will add the cve_check task for
-+# every recipe. The task can be used per recipe, per image,
-+# or using the special cases "world" and "universe". The
-+# cve_check task will print a warning for every unpatched
-+# CVE found and generate a file in the recipe WORKDIR/cve
-+# directory. If an image is build it will generate a report
-+# in DEPLOY_DIR_IMAGE for all the packages used.
-+#
-+# Example:
-+#   bitbake -c cve_check openssl
-+#   bitbake core-image-sato
-+#   bitbake -k -c cve_check universe
-+#
-+# DISCLAIMER
-+#
-+# This class/tool is meant to be used as support and not
-+# the only method to check against CVEs. Running this tool
-+# doesn't guarantee your packages are free of CVEs.
++++ b/meta/recipes-devtools/cve-check-tool/cve-check-tool_5.6.4.bb
+@@ -0,0 +1,59 @@
++SUMMARY = "cve-check-tool"
++DESCRIPTION = "cve-check-tool is a tool for checking known (public) CVEs.\
++The tool will identify potentially vunlnerable software packages within Linux distributions through version matching."
++HOMEPAGE = "https://github.com/ikeydoherty/cve-check-tool"
++SECTION = "Development/Tools"
++LICENSE = "GPL-2.0+"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=e8c1458438ead3c34974bc0be3a03ed6"
 +
-+CVE_CHECK_DB_DIR ?= "${DL_DIR}/CVE_CHECK"
-+CVE_CHECK_DB_FILE ?= "${CVE_CHECK_DB_DIR}/nvd.db"
++SRC_URI = "https://github.com/ikeydoherty/${BPN}/releases/download/v${PV}/${BP}.tar.xz \
++           file://check-for-malloc_trim-before-using-it.patch \
++          "
 +
-+CVE_CHECK_LOCAL_DIR ?= "${WORKDIR}/cve"
-+CVE_CHECK_LOCAL_FILE ?= "${CVE_CHECK_LOCAL_DIR}/cve.log"
-+CVE_CHECK_TMP_FILE ?= "${TMPDIR}/cve_check"
++SRC_URI[md5sum] = "c5f4247140fc9be3bf41491d31a34155"
++SRC_URI[sha256sum] = "b8f283be718af8d31232ac1bfc10a0378fb958aaaa49af39168f8acf501e6a5b"
 +
-+CVE_CHECK_DIR ??= "${DEPLOY_DIR}/cve"
-+CVE_CHECK_MANIFEST ?= "${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.cve"
-+CVE_CHECK_COPY_FILES ??= "1"
-+CVE_CHECK_CREATE_MANIFEST ??= "1"
++DEPENDS = "libcheck glib-2.0 json-glib curl libxml2 sqlite3 openssl ca-certificates"
 +
-+# Whitelist for packages (PN)
-+CVE_CHECK_PN_WHITELIST = "\
-+    glibc-locale \
-+"
++RDEPENDS_${PN} = "ca-certificates"
 +
-+# Whitelist for CVE and version of package
-+CVE_CHECK_CVE_WHITELIST = "{\
-+    'CVE-2014-2524': ('6.3',), \
-+}"
++inherit pkgconfig autotools
 +
-+python do_cve_check () {
-+    """
-+    Check recipe for patched and unpatched CVEs
-+    """
++EXTRA_OECONF = "--disable-coverage"
++CFLAGS += "-Wno-error=pedantic"
 +
-+    if os.path.exists(d.getVar("CVE_CHECK_TMP_FILE", True)):
-+        patched_cves = get_patches_cves(d)
-+        patched, unpatched = check_cves(d, patched_cves)
-+        if patched or unpatched:
-+            cve_data = get_cve_info(d, patched + unpatched)
-+            cve_write_data(d, patched, unpatched, cve_data)
-+    else:
-+        bb.note("Failed to update CVE database, skipping CVE check")
-+}
++python do_populate_cve_db () {
++    import subprocess
++    import time
 +
-+addtask cve_check after do_unpack before do_build
-+do_cve_check[depends] = "cve-check-tool-native:do_populate_cve_db"
-+do_cve_check[nostamp] = "1"
++    if d.getVar("BB_NO_NETWORK", True) == "1":
++        bb.error("BB_NO_NETWORK is set; Can't update cve-check-tool database, "
++                  "CVEs won't be checked")
++        return
 +
-+python cve_check_cleanup () {
-+    """
-+    Delete the file used to gather all the CVE information.
-+    """
-+
-+    bb.utils.remove(e.data.getVar("CVE_CHECK_TMP_FILE", True))
-+}
-+
-+addhandler cve_check_cleanup
-+cve_check_cleanup[eventmask] = "bb.cooker.CookerExit"
-+
-+python cve_check_write_rootfs_manifest () {
-+    """
-+    Create CVE manifest when building an image
-+    """
-+
-+    import shutil
-+
-+    if os.path.exists(d.getVar("CVE_CHECK_TMP_FILE", True)):
-+        bb.note("Writing rootfs CVE manifest")
-+        deploy_dir = d.getVar("DEPLOY_DIR_IMAGE", True)
-+        link_name = d.getVar("IMAGE_LINK_NAME", True)
-+        manifest_name = d.getVar("CVE_CHECK_MANIFEST", True)
-+        cve_tmp_file = d.getVar("CVE_CHECK_TMP_FILE", True)
-+
-+        shutil.copyfile(cve_tmp_file, manifest_name)
-+
-+        if manifest_name and os.path.exists(manifest_name):
-+            manifest_link = os.path.join(deploy_dir, "%s.cve" % link_name)
-+            # If we already have another manifest, update symlinks
-+            if os.path.exists(os.path.realpath(manifest_link)):
-+                if d.getVar('RM_OLD_IMAGE', True) == "1":
-+                    os.remove(os.path.realpath(manifest_link))
-+                os.remove(manifest_link)
-+            os.symlink(os.path.basename(manifest_name), manifest_link)
-+            bb.plain("Image CVE report stored in: %s" % manifest_name)
-+}
-+
-+ROOTFS_POSTPROCESS_COMMAND_prepend = "${@'cve_check_write_rootfs_manifest; ' if d.getVar('CVE_CHECK_CREATE_MANIFEST', True) == '1' else ''}"
-+
-+def get_patches_cves(d):
-+    """
-+    Get patches that solve CVEs using the "CVE: " tag.
-+    """
-+
-+    import re
-+
-+    pn = d.getVar("PN", True)
-+    cve_match = re.compile("CVE:( CVE\-\d{4}\-\d+)+")
-+    patched_cves = set()
-+    bb.debug(2, "Looking for patches that solves CVEs for %s" % pn)
-+    for url in src_patches(d):
-+        patch_file = bb.fetch.decodeurl(url)[2]
-+        with open(patch_file, "r", encoding="utf-8") as f:
-+            try:
-+                patch_text = f.read()
-+            except UnicodeDecodeError:
-+                bb.debug(1, "Failed to read patch %s using UTF-8 encoding"
-+                        " trying with iso8859-1" %  patch_file)
-+                f.close()
-+                with open(patch_file, "r", encoding="iso8859-1") as f:
-+                    patch_text = f.read()
-+
-+        # Search for the "CVE: " line
-+        match = cve_match.search(patch_text)
-+        if match:
-+            # Get only the CVEs without the "CVE: " tag
-+            cves = patch_text[match.start()+5:match.end()]
-+            for cve in cves.split():
-+                bb.debug(2, "Patch %s solves %s" % (patch_file, cve))
-+                patched_cves.add(cve)
-+        else:
-+            bb.debug(2, "Patch %s doesn't solve CVEs" % patch_file)
-+
-+    return patched_cves
-+
-+def check_cves(d, patched_cves):
-+    """
-+    Run cve-check-tool looking for patched and unpatched CVEs.
-+    """
-+
-+    import ast, csv, tempfile, subprocess, io
-+
-+    cves_patched = []
-+    cves_unpatched = []
-+    bpn = d.getVar("BPN", True)
-+    pv = d.getVar("PV", True).split("git+")[0]
-+    cves = " ".join(patched_cves)
-+    cve_db_dir = d.getVar("CVE_CHECK_DB_DIR", True)
-+    cve_whitelist = ast.literal_eval(d.getVar("CVE_CHECK_CVE_WHITELIST", True))
-+    cve_cmd = "cve-check-tool"
-+    cmd = [cve_cmd, "--no-html", "--csv", "--not-affected", "-t", "faux", "-d", cve_db_dir]
-+
-+    # If the recipe has been whitlisted we return empty lists
-+    if d.getVar("PN", True) in d.getVar("CVE_CHECK_PN_WHITELIST", True).split():
-+        bb.note("Recipe has been whitelisted, skipping check")
-+        return ([], [])
-+
-+    # It is needed to export the proxies to download the database using HTTP
 +    bb.utils.export_proxies(d)
-+
++    # In case we don't inherit cve-check class, use default values defined in the class.
++    cve_dir = d.getVar("CVE_CHECK_DB_DIR", True) or d.expand("${DL_DIR}/CVE_CHECK")
++    cve_file = d.getVar("CVE_CHECK_TMP_FILE", True) or d.expand("${TMPDIR}/cve_check")
++    cve_cmd = "cve-check-update"
++    cmd = [cve_cmd, "-d", cve_dir]
++    bb.debug(1, "Updating cve-check-tool database located in %s" % cve_dir)
 +    try:
-+        # Write the faux CSV file to be used with cve-check-tool
-+        fd, faux = tempfile.mkstemp(prefix="cve-faux-")
-+        with os.fdopen(fd, "w") as f:
-+            f.write("%s,%s,%s," % (bpn, pv, cves))
-+        cmd.append(faux)
++        output = subprocess.check_output(cmd, stderr=subprocess.STDOUT)
++        bb.debug(2, "Command '%s' returned:\n%s" % ("\n".join(cmd), output))
++        time_utc = time.gmtime(time.time())
++        time_format = "%Y-%m-%d %H:%M:%S"
++        with open(cve_file, "w") as f:
++            f.write("CVE database was updated on %s UTC\n\n"
++                    % time.strftime(time_format, time_utc))
 +
-+        output = subprocess.check_output(cmd, stderr=subprocess.STDOUT).decode("utf-8")
-+        bb.debug(2, "Output of command %s:\n%s" % ("\n".join(cmd), output))
 +    except subprocess.CalledProcessError as e:
-+        bb.warn("Couldn't check for CVEs: %s (output %s)" % (e, e.output))
-+    finally:
-+        os.remove(faux)
++        bb.warn("Error in executing cve-check-update: %s (output %s)" % (e, e.output))
++        if bb.data.inherits_class('cve-check', d):
++            bb.warn("Failed to update cve-check-tool database, CVEs won't be checked")
++}
 +
-+    for row in csv.reader(io.StringIO(output)):
-+        # Third row has the unpatched CVEs
-+        if row[2]:
-+            for cve in row[2].split():
-+                # Skip if the CVE has been whitlisted for the current version
-+                if pv in cve_whitelist.get(cve,[]):
-+                    bb.note("%s-%s has been whitelisted for %s" % (bpn, pv, cve))
-+                else:
-+                    cves_unpatched.append(cve)
-+                    bb.debug(2, "%s-%s is not patched for %s" % (bpn, pv, cve))
-+        # Fourth row has patched CVEs
-+        if row[3]:
-+            for cve in row[3].split():
-+                cves_patched.append(cve)
-+                bb.debug(2, "%s-%s is patched for %s" % (bpn, pv, cve))
++addtask populate_cve_db after do_populate_sysroot
++do_populate_cve_db[nostamp] = "1"
 +
-+    return (cves_patched, cves_unpatched)
++BBCLASSEXTEND = "native nativesdk"
+diff --git a/meta/recipes-devtools/cve-check-tool/files/check-for-malloc_trim-before-using-it.patch b/meta/recipes-devtools/cve-check-tool/files/check-for-malloc_trim-before-using-it.patch
+new file mode 100644
+index 0000000..0774ad9
+--- /dev/null
++++ b/meta/recipes-devtools/cve-check-tool/files/check-for-malloc_trim-before-using-it.patch
+@@ -0,0 +1,51 @@
++From ce64633b9733e962b8d8482244301f614d8b5845 Mon Sep 17 00:00:00 2001
++From: Khem Raj <raj.khem@gmail.com>
++Date: Mon, 22 Aug 2016 22:54:24 -0700
++Subject: [PATCH] Check for malloc_trim before using it
 +
-+def get_cve_info(d, cves):
-+    """
-+    Get CVE information from the database used by cve-check-tool.
++malloc_trim is gnu specific and not all libc
++implement it, threfore write a configure check
++to poke for it first and use the define to
++guard its use.
 +
-+    Unfortunately the only way to get CVE info is set the output to
-+    html (hard to parse) or query directly the database.
-+    """
++Helps in compiling on musl based systems
 +
-+    try:
-+        import sqlite3
-+    except ImportError:
-+        from pysqlite2 import dbapi2 as sqlite3
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++---
++Upstream-Status: Submitted [https://github.com/ikeydoherty/cve-check-tool/pull/48]
++ configure.ac | 2 ++
++ src/core.c   | 4 ++--
++ 2 files changed, 4 insertions(+), 2 deletions(-)
 +
-+    cve_data = {}
-+    db_file = d.getVar("CVE_CHECK_DB_FILE", True)
-+    placeholder = ",".join("?" * len(cves))
-+    query = "SELECT * FROM NVD WHERE id IN (%s)" % placeholder
-+    conn = sqlite3.connect(db_file)
-+    cur = conn.cursor()
-+    for row in cur.execute(query, tuple(cves)):
-+        cve_data[row[0]] = {}
-+        cve_data[row[0]]["summary"] = row[1]
-+        cve_data[row[0]]["score"] = row[2]
-+        cve_data[row[0]]["modified"] = row[3]
-+        cve_data[row[0]]["vector"] = row[4]
-+    conn.close()
++diff --git a/configure.ac b/configure.ac
++index d3b66ce..79c3542 100644
++--- a/configure.ac
+++++ b/configure.ac
++@@ -19,6 +19,8 @@ m4_define([json_required_version], [0.16.0])
++ m4_define([openssl_required_version],[1.0.0])
++ # TODO: Set minimum sqlite
++ 
+++AC_CHECK_FUNCS_ONCE(malloc_trim)
+++
++ PKG_CHECK_MODULES(CVE_CHECK_TOOL,
++                  [
++                   glib-2.0 >= glib_required_version,
++diff --git a/src/core.c b/src/core.c
++index 6263031..0d5df29 100644
++--- a/src/core.c
+++++ b/src/core.c
++@@ -498,9 +498,9 @@ bool cve_db_load(CveDB *self, const char *fname)
++         }
++ 
++         b = true;
++-
+++#ifdef HAVE_MALLOC_TRIM
++         malloc_trim(0);
++-
+++#endif
++         xmlFreeTextReader(r);
++         if (fd) {
++                 close(fd);
++-- 
++2.9.3
 +
-+    return cve_data
-+
-+def cve_write_data(d, patched, unpatched, cve_data):
-+    """
-+    Write CVE information in WORKDIR; and to CVE_CHECK_DIR, and
-+    CVE manifest if enabled.
-+    """
-+
-+    cve_file = d.getVar("CVE_CHECK_LOCAL_FILE", True)
-+    nvd_link = "https://web.nvd.nist.gov/view/vuln/detail?vulnId="
-+    write_string = ""
-+    first_alert = True
-+    bb.utils.mkdirhier(d.getVar("CVE_CHECK_LOCAL_DIR", True))
-+
-+    for cve in sorted(cve_data):
-+        write_string += "PACKAGE NAME: %s\n" % d.getVar("PN", True)
-+        write_string += "PACKAGE VERSION: %s\n" % d.getVar("PV", True)
-+        write_string += "CVE: %s\n" % cve
-+        if cve in patched:
-+            write_string += "CVE STATUS: Patched\n"
-+        else:
-+            write_string += "CVE STATUS: Unpatched\n"
-+            if first_alert:
-+                bb.warn("Found unpatched CVE, for more information check %s" % cve_file)
-+                first_alert = False
-+        write_string += "CVE SUMMARY: %s\n" % cve_data[cve]["summary"]
-+        write_string += "CVSS v2 BASE SCORE: %s\n" % cve_data[cve]["score"]
-+        write_string += "VECTOR: %s\n" % cve_data[cve]["vector"]
-+        write_string += "MORE INFORMATION: %s%s\n\n" % (nvd_link, cve)
-+
-+    with open(cve_file, "w") as f:
-+        bb.note("Writing file %s with CVE information" % cve_file)
-+        f.write(write_string)
-+
-+    if d.getVar("CVE_CHECK_COPY_FILES", True) == "1":
-+        cve_dir = d.getVar("CVE_CHECK_DIR", True)
-+        bb.utils.mkdirhier(cve_dir)
-+        deploy_file = os.path.join(cve_dir, d.getVar("PN", True))
-+        with open(deploy_file, "w") as f:
-+            f.write(write_string)
-+
-+    if d.getVar("CVE_CHECK_CREATE_MANIFEST", True) == "1":
-+        with open(d.getVar("CVE_CHECK_TMP_FILE", True), "a") as f:
-+            f.write("%s" % write_string)
 -- 
 2.6.6
 
