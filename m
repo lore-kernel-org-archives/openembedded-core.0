@@ -1,28 +1,52 @@
-Return-Path: <Randy.MacLeod@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id D325260722
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pa0-f68.google.com (mail-pa0-f68.google.com
+	[209.85.220.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 7B4E6607A4
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Aug 2016 15:29:26 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u7OFTQDK032421
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	Wed, 24 Aug 2016 16:54:32 +0000 (UTC)
+Received: by mail-pa0-f68.google.com with SMTP id vy10so1478905pac.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Aug 2016 08:29:26 -0700
-Received: from [128.224.56.232] (128.224.56.232) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Wed, 24 Aug 2016 08:29:23 -0700
-To: <openembedded-core@lists.openembedded.org>
-References: <1471371380-21952-1-git-send-email-jslater@windriver.com>
-From: Randy MacLeod <randy.macleod@windriver.com>
-Message-ID: <7d4ba06b-e9d5-a518-68b8-1d5f01ea34bf@windriver.com>
-Date: Wed, 24 Aug 2016 11:29:23 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.2.0
-MIME-Version: 1.0
-In-Reply-To: <1471371380-21952-1-git-send-email-jslater@windriver.com>
-X-Originating-IP: [128.224.56.232]
-Subject: Re: [PATCH 1/1] useradd: do not delete users and groups during configure
+	Wed, 24 Aug 2016 09:54:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=subject:mime-version:from:in-reply-to:date:cc:message-id:references
+	:to; bh=vPgFj252COGD/sw7KGqsiYl5Xj6hQsnKIAm/JgkrEd4=;
+	b=dHi9YHMS/RWuQjgMqg9Iu8ZB9CwaHPtgghpYTs3X5EgHMzqYyjbyvn4B+a4qWrg5Yv
+	bUgYFyWj0V7rencgjqOSvL/3iYV91T23bQ7xkODBvwBuksI5WZFgls4pjQv4PWY/nUEm
+	1zdmYC4GH2b+gq0QTlsj49Aa5yEiugwyqYfo2pQvnE3v+qhl7N1idDORNbfBt+Mhi4nS
+	Ixv2pCHvhGFhFerd7Co7eDRDKuAbXEEwhYT8j2XOSaeCnOjH+WGtsj5Ciz4cIsswlYX/
+	1HV1U7enO2rcjYG8zOc2/4F2d3hhYnGNWQSVTUil3FQcJlsVytFJfCP6mxdgfH3pfee8
+	xksw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:subject:mime-version:from:in-reply-to:date:cc
+	:message-id:references:to;
+	bh=vPgFj252COGD/sw7KGqsiYl5Xj6hQsnKIAm/JgkrEd4=;
+	b=gsH4gt5IGRv8ZD5MpMK5jLupBuNcjClXyzVxeIfvIAWeC9tWeFhXqD7VZS3Nz6fq+d
+	NrGsWjXsBLjtYddEXtqOZUc054Ck5E1n8LHQiVM3TFtjf4FNZ8uENJYBCGdmkIjx0aOZ
+	23qQNvDNxvkPfcj0roH6YKCbClAtIwZX2W1sbeNTrUdFEMaGCcgSD449LUZZMhnkxd21
+	KMlfMnEX4LqsMsOdZZKd9V9BhMdsBvua/NTU47PpDec6zSoXqPPaIeE29ukv82xGlgZs
+	RG4XN/rdO0S9hXNP8cGCYP7gSWdZSbf/QlbB+mrmIRNPukhIT34TcvRsEAOh+ZrCL1w9
+	Vrqg==
+X-Gm-Message-State: AE9vXwNkDXl1H17r1o/m/0McIp17TfYQtogAIqK+SjSom6mQKr0WeoDZE99/S5xqXn6nFw==
+X-Received: by 10.66.182.232 with SMTP id eh8mr7485702pac.146.1472057672873;
+	Wed, 24 Aug 2016 09:54:32 -0700 (PDT)
+Received: from ?IPv6:2601:646:8882:b8c:a95a:5453:ca61:abd?
+	([2601:646:8882:b8c:a95a:5453:ca61:abd])
+	by smtp.gmail.com with ESMTPSA id
+	c125sm14964227pfc.40.2016.08.24.09.54.31
+	(version=TLS1 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 24 Aug 2016 09:54:31 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 9.3 \(3124\))
+X-Pgp-Agent: GPGMail
+From: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <20160824122236.26445-1-adrian.ratiu@ni.com>
+Date: Wed, 24 Aug 2016 09:54:52 -0700
+Message-Id: <066B71BA-5F46-44D5-B23F-8077F6848E2B@gmail.com>
+References: <20160824122236.26445-1-adrian.ratiu@ni.com>
+To: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
+X-Mailer: Apple Mail (2.3124)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] linux-firmware: package carl9170 separately
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,43 +59,107 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 Aug 2016 15:29:28 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 24 Aug 2016 16:54:36 -0000
+X-Groupsio-MsgNum: 86247
+Content-Type: multipart/signed;
+	boundary="Apple-Mail=_9DAC6489-409F-440C-89F1-4A4352C92C56";
+	protocol="application/pgp-signature"; micalg=pgp-sha1
 
-On 2016-08-16 02:16 PM, Joe Slater wrote:
-> If two recipes both create the same users and groups, the
-> second recipe can delete items created by the first causing
-> things like "chown" to fail for the first recipe.
->
-> Signed-off-by: Joe Slater <jslater@windriver.com>
+--Apple-Mail=_9DAC6489-409F-440C-89F1-4A4352C92C56
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=us-ascii
+
+
+> On Aug 24, 2016, at 5:22 AM, Ioan-Adrian Ratiu <adrian.ratiu@ni.com> =
+wrote:
+>=20
+> carl9170 is an atheros-based firmware, the succesor of ar9170 which is
+> deprecated and its driver (ar9170) was removed from the kernel tree.
+> carl9170 comes both as a binary blob and also with free sources; the
+> sources are deleted in linux-firmware.bb to avoid depeding on =
+bash/etc.
+>=20
+> Package the carl9170 binary firmware separately because it is needed
+> by various usb dongles and installing whole linux-firmware is =
+overkill.
+
+while you are at it. Can you also scrutinize the license needs for this =
+firmware ?
+should it require packaging a license file explicitly into rootfs or =
+some such
+
+>=20
+> Also we should keep ar9170 as is because OOT drivers might still use =
+it.
+>=20
+> Signed-off-by: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
 > ---
->  meta/classes/useradd.bbclass |    2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta/classes/useradd.bbclass b/meta/classes/useradd.bbclass
-> index 8d51fb5..6df9822 100644
-> --- a/meta/classes/useradd.bbclass
-> +++ b/meta/classes/useradd.bbclass
-> @@ -129,7 +129,7 @@ useradd_sysroot_sstate () {
->
->  userdel_sysroot_sstate () {
->  if test "x${STAGING_DIR_TARGET}" != "x"; then
-> -    if [ "${BB_CURRENTTASK}" = "configure" -o "${BB_CURRENTTASK}" = "clean" ]; then
-> +    if [ "${BB_CURRENTTASK}" = "clean" ]; then
->          export PSEUDO="${FAKEROOTENV} PSEUDO_LOCALSTATEDIR=${STAGING_DIR_TARGET}${localstatedir}/pseudo ${STAGING_DIR_NATIVE}${bindir_native}/pseudo"
->          OPT="--root ${STAGING_DIR_TARGET}"
->
->
+> meta/recipes-kernel/linux-firmware/linux-firmware_git.bb | 6 +++++-
+> 1 file changed, 5 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb =
+b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
+> index 948dfa8..1657445 100644
+> --- a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
+> +++ b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
+> @@ -226,7 +226,7 @@ PACKAGES =3D+ "${PN}-ralink-license ${PN}-ralink \
+>              ${PN}-vt6656-license ${PN}-vt6656 \
+>              ${PN}-rtl-license ${PN}-rtl8192cu ${PN}-rtl8192ce =
+${PN}-rtl8192su \
+>              ${PN}-broadcom-license ${PN}-bcm4329 ${PN}-bcm4330 =
+${PN}-bcm4334 ${PN}-bcm43340 ${PN}-bcm4339 ${PN}-bcm4354 \
+> -             ${PN}-atheros-license ${PN}-ar9170 ${PN}-ath6k =
+${PN}-ath9k \
+> +             ${PN}-atheros-license ${PN}-ar9170 ${PN}-carl9170 =
+${PN}-ath6k ${PN}-ath9k \
+>              ${PN}-ar3k-license  ${PN}-ar3k  ${PN}-ath10k-license  =
+${PN}-ath10k  \
+>              \
+>              ${PN}-iwlwifi-license ${PN}-iwlwifi \
+> @@ -255,6 +255,9 @@ FILES_${PN}-atheros-license =3D =
+"/lib/firmware/LICENCE.atheros_firmware"
+> FILES_${PN}-ar9170 =3D " \
+>   /lib/firmware/ar9170*.fw \
+> "
+> +FILES_${PN}-carl9170 =3D " \
+> +  /lib/firmware/carl9170*.fw \
+> +"
+> FILES_${PN}-ath6k =3D " \
+>   /lib/firmware/ath6k \
+> "
+> @@ -266,6 +269,7 @@ FILES_${PN}-ath9k =3D " \
+> "
+>=20
+> RDEPENDS_${PN}-ar9170 +=3D "${PN}-atheros-license"
+> +RDEPENDS_${PN}-carl9170 +=3D "${PN}-atheros-license"
+> RDEPENDS_${PN}-ath6k +=3D "${PN}-atheros-license"
+> RDEPENDS_${PN}-ath9k +=3D "${PN}-atheros-license"
+>=20
+> --
+> 2.9.3
+>=20
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
 
-I don't see this in oe-core/master[-next] yet.
+--Apple-Mail=_9DAC6489-409F-440C-89F1-4A4352C92C56
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+	filename=signature.asc
+Content-Type: application/pgp-signature;
+	name=signature.asc
+Content-Description: Message signed with OpenPGP using GPGMail
 
-Is there a better solution or should the recipes
-that create the user (ftp in this case), be modified some how?
+-----BEGIN PGP SIGNATURE-----
+Comment: GPGTools - https://gpgtools.org
 
--- 
-# Randy MacLeod. SMTS, Linux, Wind River
-Direct: 613.963.1350 | 350 Terry Fox Drive, Suite 200, Ottawa, ON, 
-Canada, K2K 2W5
+iEYEARECAAYFAle90WEACgkQuwUzVZGdMxQ1MACgj4ivfDW3o3AJEUY5QjlWmy8F
+c6QAnA4KOpv21nX40geGk7UMSLLa8CPF
+=x9KG
+-----END PGP SIGNATURE-----
 
+--Apple-Mail=_9DAC6489-409F-440C-89F1-4A4352C92C56--
