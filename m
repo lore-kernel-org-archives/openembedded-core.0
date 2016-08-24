@@ -1,47 +1,25 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-it0-f41.google.com (mail-it0-f41.google.com
-	[209.85.214.41])
-	by mail.openembedded.org (Postfix) with ESMTP id A777160125
+Return-Path: <francisco.j.pedraza.gonzalez@intel.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id 0B24B7318C
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Aug 2016 20:17:21 +0000 (UTC)
-Received: by mail-it0-f41.google.com with SMTP id x131so232314611ite.0
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Aug 2016 13:17:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=APgKv7QuSSiWDXAyHWem5DooFWpw/fHLLiaSN57PX9E=;
-	b=Y6TYR8YAErSvHOUzPNJUrRO0HXIL/TYhn/N9bibg5U31Ah1TspdzBmY/GWjhegg//z
-	a71zeSC0+K4XuG4OTlsPW+5xVPW8QJcJIxj1BbPH0sEbIhUaRY0U1btpSDZDSJei4EBW
-	TxTZijLCRpswT8D9LoVE93TK9OHEezY7dHgt8LOjSGuTuxPS3ZLFKwh1V1ofVj2zO+ih
-	8OYh77ObzOn5ucYDBsSgiH7r+BbVL1zDDyRk5prQz1BoMRb+ES9uTP/PscsaQ4keoJ8s
-	cTsB20YO4ym+MGH2qPJoFKrEspkt9LFcLFLrpfrpi1aCpCMsdUcLBNxrPHVZVcgByyj0
-	p9fg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=APgKv7QuSSiWDXAyHWem5DooFWpw/fHLLiaSN57PX9E=;
-	b=N/EJo6duCVWUP595cVZUBa4gdmvJG/EYI7O+6HasSvOke1pndR9BzMQeUsIE5L6i3B
-	zHSsvBBx8IW1XDOauADauz6kPn8CVXxu2eDLJIZ0p8FZEEGHl6JDY8WPo8vaaDhHQtm7
-	A2nqfEEvj4wD+rz6RQhAUDRR5gkWIOp00+c2+dH1rPyCqUO9rWaThusJW7ALlfz+z/0A
-	tzqGrq3ccMpwlw7I9d6RemAzDWse9jjOD+bR3oOVIsqTgrb6yVJOIXN37wBWb0bhyMfr
-	qpPqLgx70IcyL0YyWwyRBtguTRgtG9XINumnIX1EoUIbXnrwhdAjiloIn2qZ5uQOnyWD
-	Pqsw==
-X-Gm-Message-State: AE9vXwPPZ0d50glgGd72UhZVfmva8PHORvoaE4gAe7x9Fj5Jy6FsNsQJwA4kV9MpaBQ75AsF8DZSJXlGr+Esjict
-X-Received: by 10.107.135.142 with SMTP id r14mr6671098ioi.133.1472069841868; 
-	Wed, 24 Aug 2016 13:17:21 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.107.18.17 with HTTP; Wed, 24 Aug 2016 13:17:01 -0700 (PDT)
-In-Reply-To: <1958d06a6f3885b5d7f767c3eb955054d2b40ec1.1472030722.git.kai.kang@windriver.com>
-References: <cover.1472030722.git.kai.kang@windriver.com>
-	<1958d06a6f3885b5d7f767c3eb955054d2b40ec1.1472030722.git.kai.kang@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 24 Aug 2016 21:17:01 +0100
-Message-ID: <CAJTo0LZVkqHztCrpi9nc4E_vq6Aa4ibi5SBOc5QRWrBVt+7wPg@mail.gmail.com>
-To: Kang Kai <kai.kang@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] bash: fix interpreter of ptest script
+	Wed, 24 Aug 2016 20:50:16 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by fmsmga104.fm.intel.com with ESMTP; 24 Aug 2016 13:50:16 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.28,572,1464678000"; d="scan'208";a="1040989588"
+Received: from linux.intel.com ([10.54.29.200])
+	by orsmga002.jf.intel.com with ESMTP; 24 Aug 2016 13:50:18 -0700
+Received: from fjpedraz-MOBL3.zpn.intel.com (unknown [10.219.128.66])
+	by linux.intel.com (Postfix) with ESMTP id 2843E6A4006;
+	Wed, 24 Aug 2016 13:49:58 -0700 (PDT)
+From: Francisco Pedraza <francisco.j.pedraza.gonzalez@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 24 Aug 2016 15:50:07 -0500
+Message-Id: <1472071807-21085-1-git-send-email-francisco.j.pedraza.gonzalez@intel.com>
+X-Mailer: git-send-email 2.5.0
+Cc: Francisco Pedraza <francisco.j.pedraza.gonzalez@intel.com>,
+	paul.eggleton@linux.intel.com
+Subject: [PATCH v2] /oeqa/sdkext Adds verification for devtool on eSDK.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,37 +32,174 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 Aug 2016 20:17:22 -0000
-Content-Type: multipart/alternative; boundary=001a113eccbc0264fd053ad6f8e2
+X-List-Received-Date: Wed, 24 Aug 2016 20:50:17 -0000
 
---001a113eccbc0264fd053ad6f8e2
-Content-Type: text/plain; charset=UTF-8
+The covered funcions are, build make, build esdk package, build cmake
+extend autotools recipe creation, kernel module,
+node.js installation and recipe creation.
 
-On 24 August 2016 at 10:26, <kai.kang@windriver.com> wrote:
+Signed-off-by: Francisco Pedraza <francisco.j.pedraza.gonzalez@intel.com>
+---
+ meta/lib/oeqa/sdkext/devtool.py                    | 90 ++++++++++++++++++++--
+ .../oeqa/sdkext/files/myapp_cmake/CMakeLists.txt   | 11 +++
+ meta/lib/oeqa/sdkext/files/myapp_cmake/myapp.c     |  9 +++
+ 3 files changed, 103 insertions(+), 7 deletions(-)
+ create mode 100644 meta/lib/oeqa/sdkext/files/myapp_cmake/CMakeLists.txt
+ create mode 100644 meta/lib/oeqa/sdkext/files/myapp_cmake/myapp.c
 
-> The interpreter of bash ptest script tests/getopts5.sub is
-> /local/bin/bash which is not suitable for oe. Use /bin/bash instead.
->
+diff --git a/meta/lib/oeqa/sdkext/devtool.py b/meta/lib/oeqa/sdkext/devtool.py
+index c5bb310..ba12799 100644
+--- a/meta/lib/oeqa/sdkext/devtool.py
++++ b/meta/lib/oeqa/sdkext/devtool.py
+@@ -1,32 +1,108 @@
+ import shutil
+-
++import subprocess
++import urllib.request
+ from oeqa.oetest import oeSDKExtTest
+ from oeqa.utils.decorators import *
+ 
+ class DevtoolTest(oeSDKExtTest):
+-
+     @classmethod
+     def setUpClass(self):
+         self.myapp_src = os.path.join(self.tc.sdkextfilesdir, "myapp")
+         self.myapp_dst = os.path.join(self.tc.sdktestdir, "myapp")
+         shutil.copytree(self.myapp_src, self.myapp_dst)
+ 
++        self.myapp_cmake_src = os.path.join(self.tc.sdkextfilesdir, "myapp_cmake")
++        self.myapp_cmake_dst = os.path.join(self.tc.sdktestdir, "myapp_cmake")
++        shutil.copytree(self.myapp_cmake_src, self.myapp_cmake_dst)
++
++    def _test_devtool_build(self, directory):
++        self._run('devtool add myapp %s' % directory)
++        try:
++            self._run('devtool build myapp')
++        except Exception as e:
++            print(e.output)
++            self._run('devtool reset myapp')
++            raise e
++        self._run('devtool reset myapp')
++
++    def _test_devtool_build_package(self, directory):
++        self._run('devtool add myapp %s' % directory)
++        try:
++            self._run('devtool package myapp')
++        except Exception as e:
++            print(e.output)
++            self._run('devtool reset myapp')
++            raise e
++        self._run('devtool reset myapp')
++
+     def test_devtool_location(self):
+         output = self._run('which devtool')
+         self.assertEqual(output.startswith(self.tc.sdktestdir), True, \
+             msg="Seems that devtool isn't the eSDK one: %s" % output)
+-
++    
+     @skipUnlessPassed('test_devtool_location')
+     def test_devtool_add_reset(self):
+         self._run('devtool add myapp %s' % self.myapp_dst)
+         self._run('devtool reset myapp')
++    
++    @testcase(1473)
++    @skipUnlessPassed('test_devtool_location')
++    def test_devtool_build_make(self):
++        self._test_devtool_build(self.myapp_dst)
++    
++    @testcase(1474)
++    @skipUnlessPassed('test_devtool_location')
++    def test_devtool_build_esdk_package(self):
++        self._test_devtool_build_package(self.myapp_dst)
+ 
++    @testcase(1479)
+     @skipUnlessPassed('test_devtool_location')
+-    def test_devtool_build(self):
+-        self._run('devtool add myapp %s' % self.myapp_dst)
+-        self._run('devtool build myapp')
+-        self._run('devtool reset myapp')
++    def test_devtool_build_cmake(self):
++        self._test_devtool_build(self.myapp_cmake_dst)
++    
++    @testcase(1482)
++    @skipUnlessPassed('test_devtool_location')
++    def test_extend_autotools_recipe_creation(self):
++        req = 'https://github.com/rdfa/librdfa'
++        recipe = "bbexample"
++        self._run('devtool add %s %s' % (recipe, req) )
++        try:
++            self._run('devtool build %s' % recipe)
++        except Exception as e:
++            print(e.output)
++            self._run('devtool reset %s' % recipe)
++            raise e
++        self._run('devtool reset %s' % recipe)
++
++    @testcase(1484)
++    @skipUnlessPassed('test_devtool_location')
++    def test_devtool_kernelmodule(self):
++        docfile = 'https://github.com/umlaeute/v4l2loopback.git'
++        recipe = 'v4l2loopback-driver'
++        self._run('devtool add %s %s' % (recipe, docfile) )
++        try:
++            self._run('devtool build %s' % recipe)
++        except Exception as e:
++            print(e.output)
++            self._run('devtool reset %s' % recipe)
++            raise e
++        self._run('devtool reset %s' % recipe)
++
++    @testcase(1478)
++    @skipUnlessPassed('test_devtool_location')
++    def test_recipes_for_nodejs(self):
++        package_nodejs = "npm://registry.npmjs.org;name=forever;version=0.15.1"
++        self._run('devtool add %s ' % package_nodejs)
++        try:
++            self._run('devtool build %s ' % package_nodejs)
++        except Exception as e:
++            print(e.output)
++            self._run('devtool reset %s' % package_nodejs)
++            raise e
++        self._run('devtool reset %s '% package_nodejs)
++
+ 
+     @classmethod
+     def tearDownClass(self):
+         shutil.rmtree(self.myapp_dst)
++        shutil.rmtree(self.myapp_cmake_dst)
+diff --git a/meta/lib/oeqa/sdkext/files/myapp_cmake/CMakeLists.txt b/meta/lib/oeqa/sdkext/files/myapp_cmake/CMakeLists.txt
+new file mode 100644
+index 0000000..19d773d
+--- /dev/null
++++ b/meta/lib/oeqa/sdkext/files/myapp_cmake/CMakeLists.txt
+@@ -0,0 +1,11 @@
++cmake_minimum_required (VERSION 2.6)
++project (myapp)
++# The version number.
++set (myapp_VERSION_MAJOR 1)
++set (myapp_VERSION_MINOR 0)
++
++# add the executable
++add_executable (myapp myapp.c)
++
++install(TARGETS myapp
++        RUNTIME DESTINATION bin)
+diff --git a/meta/lib/oeqa/sdkext/files/myapp_cmake/myapp.c b/meta/lib/oeqa/sdkext/files/myapp_cmake/myapp.c
+new file mode 100644
+index 0000000..f0b63f0
+--- /dev/null
++++ b/meta/lib/oeqa/sdkext/files/myapp_cmake/myapp.c
+@@ -0,0 +1,9 @@
++#include <stdio.h>
++
++int
++main(int argc, char *argv[])
++{
++	printf("Hello world\n");
++
++	return 0;
++}
+-- 
+2.5.0
 
-Presumably this test is executed under bash explicitly, so is this really
-worth fixing?
 
-Ross
-
---001a113eccbc0264fd053ad6f8e2
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 24 August 2016 at 10:26,  <span dir=3D"ltr">&lt;<a href=3D"mailto:kai.ka=
-ng@windriver.com" target=3D"_blank">kai.kang@windriver.com</a>&gt;</span> w=
-rote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;borde=
-r-left:1px #ccc solid;padding-left:1ex"><div id=3D":146" class=3D"a3s aXjCH=
- m156bbe1983a7dd13">The interpreter of bash ptest script tests/getopts5.sub=
- is<br>
-/local/bin/bash which is not suitable for oe. Use /bin/bash instead.<br></d=
-iv></blockquote></div><br>Presumably this test is executed under bash expli=
-citly, so is this really worth fixing?</div><div class=3D"gmail_extra"><br>=
-</div><div class=3D"gmail_extra">Ross</div></div>
-
---001a113eccbc0264fd053ad6f8e2--
