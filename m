@@ -1,22 +1,33 @@
-Return-Path: <markus.lehtonen@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 359327687B
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 6C9737318F
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Aug 2016 07:13:35 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga103.jf.intel.com with ESMTP; 24 Aug 2016 00:13:37 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.28,569,1464678000"; d="scan'208";a="1040620686"
-Received: from marquiz.fi.intel.com ([10.237.72.155])
-	by orsmga002.jf.intel.com with ESMTP; 24 Aug 2016 00:13:31 -0700
-From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 24 Aug 2016 10:13:09 +0300
-Message-Id: <1472022789-13028-20-git-send-email-markus.lehtonen@linux.intel.com>
-X-Mailer: git-send-email 2.6.6
-In-Reply-To: <1472022789-13028-1-git-send-email-markus.lehtonen@linux.intel.com>
-References: <1472022789-13028-1-git-send-email-markus.lehtonen@linux.intel.com>
-Subject: [PATCH 19/19] build-perf-test-wrapper.sh: make workdir configurable
+	Wed, 24 Aug 2016 07:18:49 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u7O7IlHm028292; Wed, 24 Aug 2016 08:18:47 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id CXdHxeIeWQE0; Wed, 24 Aug 2016 08:18:47 +0100 (BST)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u7O7Ij67028288
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Wed, 24 Aug 2016 08:18:46 +0100
+Message-ID: <1472023124.16712.127.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Mike Looijmans <mike.looijmans@topic.nl>, Peter Kjellerstedt
+	<peter.kjellerstedt@axis.com>, Martin Jansa <martin.jansa@gmail.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Date: Wed, 24 Aug 2016 08:18:44 +0100
+In-Reply-To: <57BD403E.3080305@topic.nl>
+References: <0bf5343047414781867c8fc56c68ccba@XBOX02.axis.com>
+	<1471966349.16712.106.camel@linuxfoundation.org>
+	<57BD403E.3080305@topic.nl>
+X-Mailer: Evolution 3.16.5-1ubuntu3.1 
+Mime-Version: 1.0
+Subject: Re: inherit allarch and use RDEPENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,69 +40,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 Aug 2016 07:13:36 -0000
+X-List-Received-Date: Wed, 24 Aug 2016 07:18:51 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-New command line argument '-w' may be used to specify work dir other
-than the default <GIT_DIR>/build-perf-test.
+On Wed, 2016-08-24 at 08:35 +0200, Mike Looijmans wrote:
+> First time I've heard about this limitation, I don't understand 
+> what's this about either. I've been telling people to put their arch 
+> or machine specific code into a seperate package and RDEPEND on it 
+> from an allarch package that holds the Python code that calls into
+> that.
+> 
+> We haven't seen any problems with that.
+> 
+> So what is the bad thing that would happen if we don't set the 
+> SIGGEN_EXCLUDE... variables in the layer.conf file?
 
-Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
----
- scripts/contrib/build-perf-test-wrapper.sh | 12 +++++++++---
- 1 file changed, 9 insertions(+), 3 deletions(-)
+If you have an allarch recipe X and you depend on a tune or machine
+specific package from it, what you'll see is that when you switch
+MACHINE (with a different tune), the recipe X will rebuild each time.
+This is obviously suboptimal however its not the end of the world. It
+is problematic if you're using PR server.
 
-diff --git a/scripts/contrib/build-perf-test-wrapper.sh b/scripts/contrib/build-perf-test-wrapper.sh
-index ef2a46e..efc2b79 100755
---- a/scripts/contrib/build-perf-test-wrapper.sh
-+++ b/scripts/contrib/build-perf-test-wrapper.sh
-@@ -29,6 +29,7 @@ Optional arguments:
-                     disable tarball archiving
-   -c COMMITISH      test (checkout) this commit
-   -C GIT_REPO       commit results into Git
-+  -w WORK_DIR       work dir for this script
- EOF
- }
- 
-@@ -37,7 +38,7 @@ EOF
- archive_dir=~/perf-results/archives
- commitish=""
- results_repo=""
--while getopts "ha:c:C:" opt; do
-+while getopts "ha:c:C:w:" opt; do
-     case $opt in
-         h)  usage
-             exit 0
-@@ -48,13 +49,14 @@ while getopts "ha:c:C:" opt; do
-             ;;
-         C)  results_repo=`realpath "$OPTARG"`
-             ;;
-+        w)  base_dir=`realpath "$OPTARG"`
-+            ;;
-         *)  usage
-             exit 1
-             ;;
-     esac
- done
- 
--
- echo "Running on `uname -n`"
- if ! git_topdir=$(git rev-parse --show-toplevel); then
-         echo "The current working dir doesn't seem to be a git clone. Please cd there before running `basename $0`"
-@@ -76,9 +78,13 @@ if [ -n "$commitish" ]; then
- fi
- 
- # Setup build environment
-+if [ -z "$base_dir" ]; then
-+    base_dir="$git_topdir/build-perf-test"
-+fi
-+echo "Using working dir $base_dir"
-+
- timestamp=`date "+%Y%m%d%H%M%S"`
- git_rev=$(git rev-parse --short HEAD)  || exit 1
--base_dir="$git_topdir/build-perf-test"
- build_dir="$base_dir/build-$git_rev-$timestamp"
- results_dir="$base_dir/results-$git_rev-$timestamp"
- globalres_log="$base_dir/globalres.log"
--- 
-2.6.6
+The reason it rebuilds is that its checksum has a dependency on
+something which is tune or machine specific, you change MACHINE, the
+checksum changes and the allarch recipe's checksum changes.
+
+If we remove the dependency from the task checksum, the problem isn't
+there and it doesn't rebuild, however there are some circumstances
+where this could be an issue, e.g. if a dependency name was renamed by
+debian.bbclass for example.
+
+The mechanism for removing such a dependency is the one I've mentioned
+in layer.conf.
+
+You can see if you have a problem with your layers by running:
+
+oe-selftest -r sstatetests.SStateTests.test_sstate_allarch_samesigs
+
+Does that make the issue any clearer?
+
+Related bugs:
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=7298
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=8078
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=7724
+
+Cheers,
+
+Richard
+
 
 
