@@ -1,35 +1,28 @@
-Return-Path: <mark.hatle@windriver.com>
+Return-Path: <Randy.MacLeod@windriver.com>
 Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 324C47017B
+	by mail.openembedded.org (Postfix) with ESMTP id D325260722
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Aug 2016 14:42:39 +0000 (UTC)
+	Wed, 24 Aug 2016 15:29:26 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u7OEgblJ031330
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
-	Wed, 24 Aug 2016 07:42:38 -0700
-Received: from soho-mhatle-m.local (172.25.36.235) by ALA-HCA.corp.ad.wrs.com
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u7OFTQDK032421
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 24 Aug 2016 08:29:26 -0700
+Received: from [128.224.56.232] (128.224.56.232) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Wed, 24 Aug 2016 07:42:36 -0700
-To: =?UTF-8?B?SsOpcsOpbXkgUm9zZW4=?= <jeremy.rosen@smile.fr>, "Burton, Ross"
-	<ross.burton@intel.com>
-References: <cover.a6e9ec329c3b0f51ecee82d0eb2842bbb091de1f.1471936926.git-series.jeremy.rosen@smile.fr>
-	<4878b5cf9dd13a06a3c6aa1c9c126527918e0f62.1471936926.git-series.jeremy.rosen@smile.fr>
-	<CAJTo0LbHr7Bi20zYEG5+1383UkSb8=YmKATxOoP57DO-ZKX1Aw@mail.gmail.com>
-	<ff5fb210-3bed-d6e7-8c07-6c3a9079c90b@windriver.com>
-	<17a87fc8-1cae-2393-ca91-67aa82b2e200@smile.fr>
-	<0d5d7656-0bdb-faac-17ca-f156f3654e81@windriver.com>
-	<a5c693a1-42a3-2234-291c-eef54f9a4358@smile.fr>
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-Message-ID: <1e3cae90-026d-d2b8-bf7e-a7d2be57804b@windriver.com>
-Date: Wed, 24 Aug 2016 09:42:35 -0500
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:45.0)
-	Gecko/20100101 Thunderbird/45.2.0
+	Wed, 24 Aug 2016 08:29:23 -0700
+To: <openembedded-core@lists.openembedded.org>
+References: <1471371380-21952-1-git-send-email-jslater@windriver.com>
+From: Randy MacLeod <randy.macleod@windriver.com>
+Message-ID: <7d4ba06b-e9d5-a518-68b8-1d5f01ea34bf@windriver.com>
+Date: Wed, 24 Aug 2016 11:29:23 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.2.0
 MIME-Version: 1.0
-In-Reply-To: <a5c693a1-42a3-2234-291c-eef54f9a4358@smile.fr>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/8] [rpm] force a configure before make distclean
+In-Reply-To: <1471371380-21952-1-git-send-email-jslater@windriver.com>
+X-Originating-IP: [128.224.56.232]
+Subject: Re: [PATCH 1/1] useradd: do not delete users and groups during configure
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,48 +35,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 Aug 2016 14:42:40 -0000
-Content-Type: text/plain; charset="windows-1252"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 24 Aug 2016 15:29:28 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On 8/24/16 9:17 AM, Jérémy Rosen wrote:
-> 
-> 
-> On 24/08/2016 16:13, Mark Hatle wrote:
->>
->> Make often has a rule looking at the time stamp of specific files and re-running
->> specific autotools if they are 'out of date'.  That COULD be the cause of the
->> errant call to gcc?
-> that would make sense...
->>
->> I have not observed the above occurring -- but the key thing is that syck needs
->> to be cleaned of the generated files.  We don't want to run any host commands
->> other then clean it.
->>
->> If you have to replace it with something else, you will need to identify all of
->> the files that need to be cleaned and manually remove them avoiding the
->> distclean call.
->>
->> Easiest way to do that.... extract the source for syck, back it up, run the make
->> distclean.. compare the difference and use that list as a replacement 'cleanup'
->> command.
-> 
-> That wouldn't be very robust to future change in syck, i'm afraid... but 
-> i'll have a look.
+On 2016-08-16 02:16 PM, Joe Slater wrote:
+> If two recipes both create the same users and groups, the
+> second recipe can delete items created by the first causing
+> things like "chown" to fail for the first recipe.
+>
+> Signed-off-by: Joe Slater <jslater@windriver.com>
+> ---
+>  meta/classes/useradd.bbclass |    2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/classes/useradd.bbclass b/meta/classes/useradd.bbclass
+> index 8d51fb5..6df9822 100644
+> --- a/meta/classes/useradd.bbclass
+> +++ b/meta/classes/useradd.bbclass
+> @@ -129,7 +129,7 @@ useradd_sysroot_sstate () {
+>
+>  userdel_sysroot_sstate () {
+>  if test "x${STAGING_DIR_TARGET}" != "x"; then
+> -    if [ "${BB_CURRENTTASK}" = "configure" -o "${BB_CURRENTTASK}" = "clean" ]; then
+> +    if [ "${BB_CURRENTTASK}" = "clean" ]; then
+>          export PSEUDO="${FAKEROOTENV} PSEUDO_LOCALSTATEDIR=${STAGING_DIR_TARGET}${localstatedir}/pseudo ${STAGING_DIR_NATIVE}${bindir_native}/pseudo"
+>          OPT="--root ${STAGING_DIR_TARGET}"
+>
+>
 
-There is nothing robust about this change for future work.  Future versions will
-have to do the work in a different way -- and hopefully won't have pre-built
-crap slipped into the download that we have to cleanup.
 
-So I have no concern about future proofing this, as I know the next integration
--will- be different in this case.
+I don't see this in oe-core/master[-next] yet.
 
---Mark
+Is there a better solution or should the recipes
+that create the user (ftp in this case), be modified some how?
 
->>
->> --Mark
->>
->>
-> 
-
+-- 
+# Randy MacLeod. SMTS, Linux, Wind River
+Direct: 613.963.1350 | 350 Terry Fox Drive, Suite 200, Ottawa, ON, 
+Canada, K2K 2W5
 
