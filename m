@@ -1,37 +1,30 @@
-Return-Path: <clemens.lang@bmw-carit.de>
-Received: from cit-hm8-gw01.bmw-carit.de (cit-hm8-mail01.bmw-carit.de
-	[212.118.206.84])
-	by mail.openembedded.org (Postfix) with ESMTP id 1133B60119
+Return-Path: <adrian.ratiu@ni.com>
+Received: from ni.com (skprod2.natinst.com [130.164.80.23])
+	by mail.openembedded.org (Postfix) with ESMTP id 3A0C4731F7
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Aug 2016 12:07:49 +0000 (UTC)
-Received: from [172.20.0.50] (port=8437 helo=cit-hm8-mail01.bmw-carit.de)
-	by cit-hm8-gw01.bmw-carit.de with esmtps (TLSv1:AES256-SHA:256)
-	(Exim 4.82_1-5b7a7c0-XX) (envelope-from <Clemens.Lang@bmw-carit.de>)
-	id 1bcWy6-0002NT-1h for openembedded-core@lists.openembedded.org;
-	Wed, 24 Aug 2016 14:07:42 +0200
-Received: from ULM-DC01.bmw-carit.intra ([fe80::41cf:62be:aacc:1aad]) by
-	ULM-DC01.bmw-carit.intra ([fe80::41cf:62be:aacc:1aad%11]) with mapi id
-	14.03.0123.003; Wed, 24 Aug 2016 14:07:42 +0200
-X-CTCH-RefID: str=0001.0A0C0206.57BD8E0E.0126, ss=1, re=0.000, recu=0.000,
-	reip=0.000, cl=1, cld=1, fgs=0
-From: Clemens Lang <Clemens.Lang@bmw-carit.de>
-To: OE-core <openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH] gitpkgv: Fix $GITPKV for a single named git
-	source
-Thread-Index: AQHR87fSPG0v/SVK+km4Sp05/KsMuqBEsX4AgBMyywCAABL5AA==
-Date: Wed, 24 Aug 2016 12:07:41 +0000
-Message-ID: <DD9635D8-AD46-4D40-8742-DFD14B845D37@bmw-carit.de>
-References: <1470909853-22262-1-git-send-email-clemens.lang@bmw-carit.de>
-	<1470909853-22262-2-git-send-email-clemens.lang@bmw-carit.de>
-	<C48DE607-9EB8-48E1-9421-EBB46F94AFAA@gmail.com>
-	<27C6E91D-E9A6-404D-AEE4-C41018631C33@bmw-carit.de>
-In-Reply-To: <27C6E91D-E9A6-404D-AEE4-C41018631C33@bmw-carit.de>
-Accept-Language: de-DE, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [172.20.20.86]
-MIME-Version: 1.0
-Subject: Re: [PATCH] gitpkgv: Fix $GITPKV for a single named git source
+	Wed, 24 Aug 2016 12:26:59 +0000 (UTC)
+Received: from us-aus-mgwout1.amer.corp.natinst.com (nb-snip2-1338.natinst.com
+	[130.164.19.135])
+	by us-aus-skprod2.natinst.com (8.15.0.59/8.15.0.59) with ESMTP id
+	u7OCR0Hv025346 for <openembedded-core@lists.openembedded.org>;
+	Wed, 24 Aug 2016 07:27:00 -0500
+Received: from adi-pc-linux.natinst.com ([130.164.14.198])
+	by us-aus-mgwout1.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6
+	HF1218) with ESMTP id 2016082407235184-114616 ;
+	Wed, 24 Aug 2016 07:23:51 -0500 
+From: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 24 Aug 2016 15:22:36 +0300
+Message-Id: <20160824122236.26445-1-adrian.ratiu@ni.com>
+X-Mailer: git-send-email 2.9.3
+X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut1/AUS/H/NIC(Release
+	8.5.3FP6 HF1218|December 12, 2014) at 08/24/2016 07:23:52 AM,
+	Serialize by Router on US-AUS-MGWOut1/AUS/H/NIC(Release 8.5.3FP6
+	HF1218|December 12, 2014) at 08/24/2016 07:27:00 AM,
+	Serialize complete at 08/24/2016 07:27:00 AM
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
+	definitions=2016-08-24_07:, , signatures=0
+Subject: [PATCH] linux-firmware: package carl9170 separately
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,24 +37,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 Aug 2016 12:07:52 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <5D27BC0D986C844CACFD6F950B98A3C4@bmw-carit.de>
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Wed, 24 Aug 2016 12:27:01 -0000
 
-SGksDQoNCkNsZW1lbnMgTGFuZyA8Q2xlbWVucy5MYW5nQGJtdy1jYXJpdC5kZT4gd3JvdGU6DQoN
-Cj4gU2hhbWVsZXNzIGJ1bXAuIEkgaGF2ZW7igJl0IGhlYXJkIGFueSBmZWVkYmFjayBvbiB0aGlz
-IG90aGVyIHRoYW4gdGhpcyDigJxsb29rcw0KPiBnb29k4oCdIGNvbW1lbnQsIGJ1dCBpdCBpc27i
-gJl0IG1lcmdlZC4gSXMgdGhlcmUgYSBwcm9ibGVtIHdpdGggdGhlIHBhdGNoPw0KDQpNeSBhcG9s
-b2dpZXMsIGl0IHNlZW1zIHRoaXMgcGF0Y2ggc2hvdWxkIGhhdmUgZ29uZSB0byBvcGVuZW1iZWRk
-ZWQtZGV2ZWwgIA0KcmF0aGVyIHRoYW4gdGhpcyBsaXN0LiBJ4oCZbGwgcmVwb3N0IGl0IG92ZXIg
-dGhlcmUuDQoNCi0tIA0KQ2xlbWVucyBMYW5nIOKAoiBEZXZlbG9wbWVudCBTcGVjaWFsaXN0DQpC
-TVcgQ2FyIElUIEdtYkgg4oCiIExpc2UtTWVpdG5lci1TdHIuIDE0IOKAoiA4OTA4MSBVbG0g4oCi
-IGh0dHA6Ly9ibXctY2FyaXQuY29tDQotLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tDQpCTVcgQ2FyIElUIEdtYkgN
-Ckdlc2Now6RmdHNmw7xocmVyOiBNaWNoYWVsIFfDvHJ0ZW5iZXJnZXIgdW5kIEFsZXhpcyBUcm9s
-aW4NClNpdHogdW5kIFJlZ2lzdGVyZ2VyaWNodDogTcO8bmNoZW4gSFJCIDEzNDgxMA0KLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLQ0K
+carl9170 is an atheros-based firmware, the succesor of ar9170 which is
+deprecated and its driver (ar9170) was removed from the kernel tree.
+carl9170 comes both as a binary blob and also with free sources; the
+sources are deleted in linux-firmware.bb to avoid depeding on bash/etc.
+
+Package the carl9170 binary firmware separately because it is needed
+by various usb dongles and installing whole linux-firmware is overkill.
+
+Also we should keep ar9170 as is because OOT drivers might still use it.
+
+Signed-off-by: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
+---
+ meta/recipes-kernel/linux-firmware/linux-firmware_git.bb | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
+index 948dfa8..1657445 100644
+--- a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
++++ b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
+@@ -226,7 +226,7 @@ PACKAGES =+ "${PN}-ralink-license ${PN}-ralink \
+              ${PN}-vt6656-license ${PN}-vt6656 \
+              ${PN}-rtl-license ${PN}-rtl8192cu ${PN}-rtl8192ce ${PN}-rtl8192su \
+              ${PN}-broadcom-license ${PN}-bcm4329 ${PN}-bcm4330 ${PN}-bcm4334 ${PN}-bcm43340 ${PN}-bcm4339 ${PN}-bcm4354 \
+-             ${PN}-atheros-license ${PN}-ar9170 ${PN}-ath6k ${PN}-ath9k \
++             ${PN}-atheros-license ${PN}-ar9170 ${PN}-carl9170 ${PN}-ath6k ${PN}-ath9k \
+              ${PN}-ar3k-license  ${PN}-ar3k  ${PN}-ath10k-license  ${PN}-ath10k  \
+              \
+              ${PN}-iwlwifi-license ${PN}-iwlwifi \
+@@ -255,6 +255,9 @@ FILES_${PN}-atheros-license = "/lib/firmware/LICENCE.atheros_firmware"
+ FILES_${PN}-ar9170 = " \
+   /lib/firmware/ar9170*.fw \
+ "
++FILES_${PN}-carl9170 = " \
++  /lib/firmware/carl9170*.fw \
++"
+ FILES_${PN}-ath6k = " \
+   /lib/firmware/ath6k \
+ "
+@@ -266,6 +269,7 @@ FILES_${PN}-ath9k = " \
+ "
+ 
+ RDEPENDS_${PN}-ar9170 += "${PN}-atheros-license"
++RDEPENDS_${PN}-carl9170 += "${PN}-atheros-license"
+ RDEPENDS_${PN}-ath6k += "${PN}-atheros-license"
+ RDEPENDS_${PN}-ath9k += "${PN}-atheros-license"
+ 
+-- 
+2.9.3
+
 
