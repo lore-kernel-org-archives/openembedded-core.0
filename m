@@ -1,56 +1,24 @@
-Return-Path: <Mattias.Waldo@saabgroup.com>
-X-Greylist: delayed 1998 seconds by postgrey-1.34 at layers.openembedded.org;
-	Thu, 25 Aug 2016 14:37:37 UTC
-Received: from weald.air.saab.se (weald.air.saab.se [136.163.212.3])
-	by mail.openembedded.org (Postfix) with ESMTP id 41EC7731E5
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 4A30C731E5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Aug 2016 14:37:37 +0000 (UTC)
-Received: from mailhub2.air.saab.se ([136.163.213.5])
-	by weald.air.saab.se (8.14.4/8.14.4) with ESMTP id u7PE4G98031278
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=FAIL);
-	Thu, 25 Aug 2016 16:04:16 +0200
-Received: from corpappl846.corp.saab.se (corpappl846.corp.saab.se
-	[136.163.113.246])
-	by mailhub2.air.saab.se (8.13.8/8.13.8) with ESMTP id u7PE3xYA004368
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL);
-	Thu, 25 Aug 2016 16:03:59 +0200
-Received: from CORPAPPL846.corp.saab.se (136.163.113.246) by
-	corpappl846.corp.saab.se (136.163.113.246) with Microsoft SMTP Server
-	(TLS) id 15.0.1178.4; Thu, 25 Aug 2016 16:03:59 +0200
-Received: from CORPAPPL846.corp.saab.se ([136.163.113.246]) by
-	corpappl846.corp.saab.se ([136.163.113.246]) with mapi id
-	15.00.1178.000; Thu, 25 Aug 2016 16:03:58 +0200
-From: Waldo Mattias <Mattias.Waldo@saabgroup.com>
-To: "'Burton, Ross'" <ross.burton@intel.com>
-Thread-Topic: [OE-core] [PATCH v2] kernel.bbclass: include signing keys when
-	copying files required for module builds
-Thread-Index: AQHR/tfhEIC1F9djFUSJAG5vPiXoL6BZtI3w
-Date: Thu, 25 Aug 2016 14:02:44 +0000
-Deferred-Delivery: Thu, 25 Aug 2016 14:03:43 +0000
-Message-ID: <d1de964429ad4bf695a1f8584910ee27@corpappl846.corp.saab.se>
-References: <1472116833486.43456@saabgroup.com>
-	<CAJTo0Lam5us06i_nJtooYcA3T87nCFjAgZ=Gz_3kh-M0GNHisw@mail.gmail.com>
-In-Reply-To: <CAJTo0Lam5us06i_nJtooYcA3T87nCFjAgZ=Gz_3kh-M0GNHisw@mail.gmail.com>
-Accept-Language: sv-SE, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [136.163.113.239]
+	Thu, 25 Aug 2016 14:41:07 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u7PEf88d002379
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 25 Aug 2016 07:41:08 -0700
+Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
+	Thu, 25 Aug 2016 07:41:07 -0700
+From: Robert Yang <liezhi.yang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 25 Aug 2016 07:40:57 -0700
+Message-ID: <cover.1472120966.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 2.9.0
 MIME-Version: 1.0
-X-Saab-MailScanner-Information: Please contact the ISP for more information
-X-Saab-MailScanner-ID: u7PE3xYA004368
-X-Saab-MailScanner: Found to be clean
-X-Saab-MailScanner-SpamCheck: not spam (whitelisted),
-	SpamAssassin (not cached, score=1.001, required 5, HTML_MESSAGE 0.00,
-	PB_NE_FROMS 1.00)
-X-Saab-MailScanner-From: mattias.waldo@saabgroup.com
-X-Saab-MailScanner-Watermark: 1472738640.03495@6txLAJdfV/JQqSrl3JZwuw
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.4.3
-	(weald.air.saab.se [136.163.212.3]);
-	Thu, 25 Aug 2016 16:04:17 +0200 (CEST)
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] kernel.bbclass: include signing keys when copying files required for module builds
+Subject: [PATCH V5 00/10] runqemu: refactor it and remove machine knowledge
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -63,133 +31,145 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 25 Aug 2016 14:37:39 -0000
-Content-Language: en-US
-Content-Type: multipart/alternative;
-	boundary="_000_d1de964429ad4bf695a1f8584910ee27corpappl846corpsaabse_"
+X-List-Received-Date: Thu, 25 Aug 2016 14:41:08 -0000
+Content-Type: text/plain
 
---_000_d1de964429ad4bf695a1f8584910ee27corpappl846corpsaabse_
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+* V5
+  - Fix race issues when building multi image recipes at the same time, they
+    might write qemuboo.py at the same time in the past. Now each image has
+    a unique ${IMAGE_LINK_NAME}.runqemu.conf.
 
-Tm8sIEkgYmFzZWQgaXQgb24ga3JvZ290aOKApnNvcnJ5LiBJ4oCZbGwgZ2V0IGJhY2sgdG8geW91
-IHdpdGggYW4gdXBkYXRlLiBUaGFua3MhDQoNClJlZ2FyZHMsDQoNCk1hdHRpYXMNCg0KRnJvbTog
-QnVydG9uLCBSb3NzIFttYWlsdG86cm9zcy5idXJ0b25AaW50ZWwuY29tXQ0KU2VudDogZGVuIDI1
-IGF1Z3VzdGkgMjAxNiAxNTo1MQ0KVG86IFdhbGRvIE1hdHRpYXMgPE1hdHRpYXMuV2FsZG9Ac2Fh
-Ymdyb3VwLmNvbT4NCkNjOiBvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3Jn
-DQpTdWJqZWN0OiBSZTogW09FLWNvcmVdIFtQQVRDSCB2Ml0ga2VybmVsLmJiY2xhc3M6IGluY2x1
-ZGUgc2lnbmluZyBrZXlzIHdoZW4gY29weWluZyBmaWxlcyByZXF1aXJlZCBmb3IgbW9kdWxlIGJ1
-aWxkcw0KDQoNCk9uIDI1IEF1Z3VzdCAyMDE2IGF0IDEwOjIwLCBXYWxkbyBNYXR0aWFzIDxNYXR0
-aWFzLldhbGRvQHNhYWJncm91cC5jb208bWFpbHRvOk1hdHRpYXMuV2FsZG9Ac2FhYmdyb3VwLmNv
-bT4+IHdyb3RlOg0KVGhlIGFic2VuY2Ugb2YgY2VydHMvc2lnbmluZ19rZXkuKiBpbiAka2VybmVs
-ZGlyIG1hZGUgc2lnbmluZyBvZg0Kb3V0LW9mLXRyZWUga2VybmVsIG1vZHVsZXMgZmFpbCAoc2ls
-ZW50bHkpLiBBZGQgY29weWluZyBvZiB0aGVzZSBmaWxlcw0KZHVyaW5nIHRoZSBzaGFyZWRfd29y
-a2RpciB0YXNrLg0KDQpBcmUgeW91IHN1cmUgdGhhdCB5b3UgYmFzZWQgdGhpcyBvbiBjdXJyZW50
-IG1hc3Rlcj8NCg0KQXBwbHlpbmc6IGtlcm5lbC5iYmNsYXNzOiBpbmNsdWRlIHNpZ25pbmcga2V5
-cyB3aGVuIGNvcHlpbmcgZmlsZXMgcmVxdWlyZWQgZm9yIG1vZHVsZSBidWlsZHMNClVzaW5nIGlu
-ZGV4IGluZm8gdG8gcmVjb25zdHJ1Y3QgYSBiYXNlIHRyZWUuLi4NCk0gICAgICAgICBtZXRhL2Ns
-YXNzZXMva2VybmVsLmJiY2xhc3MNCmVycm9yOiBwYXRjaCBmYWlsZWQ6IG1ldGEvY2xhc3Nlcy9r
-ZXJuZWwuYmJjbGFzczoyOTUNCmVycm9yOiBtZXRhL2NsYXNzZXMva2VybmVsLmJiY2xhc3M6IHBh
-dGNoIGRvZXMgbm90IGFwcGx5DQplcnJvcjogRGlkIHlvdSBoYW5kIGVkaXQgeW91ciBwYXRjaD8N
-Ckl0IGRvZXMgbm90IGFwcGx5IHRvIGJsb2JzIHJlY29yZGVkIGluIGl0cyBpbmRleC4NClBhdGNo
-IGZhaWxlZCBhdCAwMDAxIGtlcm5lbC5iYmNsYXNzOiBpbmNsdWRlIHNpZ25pbmcga2V5cyB3aGVu
-IGNvcHlpbmcgZmlsZXMgcmVxdWlyZWQgZm9yIG1vZHVsZSBidWlsZHMNCg0KUm9zcw0K
+  - qemuboot.py -> ${IMAGE_LINK_NAME}.runqemu.conf, I used "import qemuboot.py",
+    but now we can't "import ${IMAGE_LINK_NAME}.runqemu.py" since
+    IMAGE_LINK_NAME contains dash "-", so rename it to .conf and use configparser
+    to read/write it.
 
---_000_d1de964429ad4bf695a1f8584910ee27corpappl846corpsaabse_
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: base64
+* V4
+  - Now the conf files can use @TAP@, @ROOTFS@ and @PORT@ when set vars
+    for runqemu, so all the arch info are gone. And also update comments
+    in qemuboot.bbclass.
+  - Add var QB_SLIRP_OPT for slirp mode as Nathan suggested, also add
+    QB_TAP_OPT whichi is for tap mode.
+  - Print "Try 'runqemu help' on how to use it" when failed to parse args
+    as Nathan suggested.
+  - Fix device locking problems.
+  - Fix nativesdk-qemu-helper.
+  - Fix comments for qemurunner.py/qemutinyrunner.py
 
-PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
-bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
-YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
-cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
-VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
-Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
-ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTUgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
-PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
-IkNhbWJyaWEgTWF0aCI7DQoJcGFub3NlLTE6MiA0IDUgMyA1IDQgNiAzIDIgNDt9DQpAZm9udC1m
-YWNlDQoJe2ZvbnQtZmFtaWx5OkNhbGlicmk7DQoJcGFub3NlLTE6MiAxNSA1IDIgMiAyIDQgMyAy
-IDQ7fQ0KLyogU3R5bGUgRGVmaW5pdGlvbnMgKi8NCnAuTXNvTm9ybWFsLCBsaS5Nc29Ob3JtYWws
-IGRpdi5Nc29Ob3JtYWwNCgl7bWFyZ2luOjBjbTsNCgltYXJnaW4tYm90dG9tOi4wMDAxcHQ7DQoJ
-Zm9udC1zaXplOjEyLjBwdDsNCglmb250LWZhbWlseToiVGltZXMgTmV3IFJvbWFuIixzZXJpZjt9
-DQphOmxpbmssIHNwYW4uTXNvSHlwZXJsaW5rDQoJe21zby1zdHlsZS1wcmlvcml0eTo5OTsNCglj
-b2xvcjpibHVlOw0KCXRleHQtZGVjb3JhdGlvbjp1bmRlcmxpbmU7fQ0KYTp2aXNpdGVkLCBzcGFu
-Lk1zb0h5cGVybGlua0ZvbGxvd2VkDQoJe21zby1zdHlsZS1wcmlvcml0eTo5OTsNCgljb2xvcjpw
-dXJwbGU7DQoJdGV4dC1kZWNvcmF0aW9uOnVuZGVybGluZTt9DQpzcGFuLkVtYWlsU3R5bGUxNw0K
-CXttc28tc3R5bGUtdHlwZTpwZXJzb25hbC1yZXBseTsNCglmb250LWZhbWlseToiQ2FsaWJyaSIs
-c2Fucy1zZXJpZjsNCgljb2xvcjojMUY0OTdEO30NCi5Nc29DaHBEZWZhdWx0DQoJe21zby1zdHls
-ZS10eXBlOmV4cG9ydC1vbmx5Ow0KCWZvbnQtZmFtaWx5OiJDYWxpYnJpIixzYW5zLXNlcmlmOw0K
-CW1zby1mYXJlYXN0LWxhbmd1YWdlOkVOLVVTO30NCkBwYWdlIFdvcmRTZWN0aW9uMQ0KCXtzaXpl
-OjYxMi4wcHQgNzkyLjBwdDsNCgltYXJnaW46NzAuODVwdCA3MC44NXB0IDcwLjg1cHQgNzAuODVw
-dDt9DQpkaXYuV29yZFNlY3Rpb24xDQoJe3BhZ2U6V29yZFNlY3Rpb24xO30NCi0tPjwvc3R5bGU+
-PCEtLVtpZiBndGUgbXNvIDldPjx4bWw+DQo8bzpzaGFwZWRlZmF1bHRzIHY6ZXh0PSJlZGl0IiBz
-cGlkbWF4PSIxMDI2IiAvPg0KPC94bWw+PCFbZW5kaWZdLS0+PCEtLVtpZiBndGUgbXNvIDldPjx4
-bWw+DQo8bzpzaGFwZWxheW91dCB2OmV4dD0iZWRpdCI+DQo8bzppZG1hcCB2OmV4dD0iZWRpdCIg
-ZGF0YT0iMSIgLz4NCjwvbzpzaGFwZWxheW91dD48L3htbD48IVtlbmRpZl0tLT4NCjwvaGVhZD4N
-Cjxib2R5IGxhbmc9IkVOLUdCIiBsaW5rPSJibHVlIiB2bGluaz0icHVycGxlIj4NCjxkaXYgY2xh
-c3M9IldvcmRTZWN0aW9uMSI+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0iZm9u
-dC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LHNhbnMtc2VyaWY7
-Y29sb3I6IzFGNDk3RDttc28tZmFyZWFzdC1sYW5ndWFnZTpFTi1VUyI+Tm8sIEkgYmFzZWQgaXQg
-b24ga3JvZ290aOKApnNvcnJ5LiBJ4oCZbGwgZ2V0IGJhY2sgdG8geW91IHdpdGggYW4gdXBkYXRl
-LiBUaGFua3MhPG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNw
-YW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90
-OyxzYW5zLXNlcmlmO2NvbG9yOiMxRjQ5N0Q7bXNvLWZhcmVhc3QtbGFuZ3VhZ2U6RU4tVVMiPjxv
-OnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0
-eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssc2Fu
-cy1zZXJpZjtjb2xvcjojMUY0OTdEO21zby1mYXJlYXN0LWxhbmd1YWdlOkVOLVVTIj5SZWdhcmRz
-LDxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxl
-PSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssc2Fucy1z
-ZXJpZjtjb2xvcjojMUY0OTdEO21zby1mYXJlYXN0LWxhbmd1YWdlOkVOLVVTIj48bzpwPiZuYnNw
-OzwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0iZm9u
-dC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LHNhbnMtc2VyaWY7
-Y29sb3I6IzFGNDk3RDttc28tZmFyZWFzdC1sYW5ndWFnZTpFTi1VUyI+TWF0dGlhczxvOnA+PC9v
-OnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJmb250LXNp
-emU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssc2Fucy1zZXJpZjtjb2xv
-cjojMUY0OTdEO21zby1mYXJlYXN0LWxhbmd1YWdlOkVOLVVTIj48bzpwPiZuYnNwOzwvbzpwPjwv
-c3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48Yj48c3BhbiBsYW5nPSJFTi1VUyIgc3R5
-bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OyxzYW5z
-LXNlcmlmIj5Gcm9tOjwvc3Bhbj48L2I+PHNwYW4gbGFuZz0iRU4tVVMiIHN0eWxlPSJmb250LXNp
-emU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssc2Fucy1zZXJpZiI+IEJ1
-cnRvbiwgUm9zcyBbbWFpbHRvOnJvc3MuYnVydG9uQGludGVsLmNvbV0NCjxicj4NCjxiPlNlbnQ6
-PC9iPiBkZW4gMjUgYXVndXN0aSAyMDE2IDE1OjUxPGJyPg0KPGI+VG86PC9iPiBXYWxkbyBNYXR0
-aWFzICZsdDtNYXR0aWFzLldhbGRvQHNhYWJncm91cC5jb20mZ3Q7PGJyPg0KPGI+Q2M6PC9iPiBv
-cGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnPGJyPg0KPGI+U3ViamVjdDo8
-L2I+IFJlOiBbT0UtY29yZV0gW1BBVENIIHYyXSBrZXJuZWwuYmJjbGFzczogaW5jbHVkZSBzaWdu
-aW5nIGtleXMgd2hlbiBjb3B5aW5nIGZpbGVzIHJlcXVpcmVkIGZvciBtb2R1bGUgYnVpbGRzPG86
-cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PG86cD4mbmJzcDs8L286
-cD48L3A+DQo8ZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxvOnA+Jm5ic3A7PC9v
-OnA+PC9wPg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPk9uIDI1IEF1Z3VzdCAyMDE2IGF0
-IDEwOjIwLCBXYWxkbyBNYXR0aWFzICZsdDs8YSBocmVmPSJtYWlsdG86TWF0dGlhcy5XYWxkb0Bz
-YWFiZ3JvdXAuY29tIiB0YXJnZXQ9Il9ibGFuayI+TWF0dGlhcy5XYWxkb0BzYWFiZ3JvdXAuY29t
-PC9hPiZndDsgd3JvdGU6PG86cD48L286cD48L3A+DQo8YmxvY2txdW90ZSBzdHlsZT0iYm9yZGVy
-Om5vbmU7Ym9yZGVyLWxlZnQ6c29saWQgI0NDQ0NDQyAxLjBwdDtwYWRkaW5nOjBjbSAwY20gMGNt
-IDYuMHB0O21hcmdpbi1sZWZ0OjQuOHB0O21hcmdpbi1yaWdodDowY20iPg0KPGRpdiBpZD0iOjE5
-eCI+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj5UaGUgYWJzZW5jZSBvZiBjZXJ0cy9zaWduaW5nX2tl
-eS4qIGluICRrZXJuZWxkaXIgbWFkZSBzaWduaW5nIG9mPGJyPg0Kb3V0LW9mLXRyZWUga2VybmVs
-IG1vZHVsZXMgZmFpbCAoc2lsZW50bHkpLiBBZGQgY29weWluZyBvZiB0aGVzZSBmaWxlczxicj4N
-CmR1cmluZyB0aGUgc2hhcmVkX3dvcmtkaXIgdGFzay48bzpwPjwvbzpwPjwvcD4NCjwvZGl2Pg0K
-PC9ibG9ja3F1b3RlPg0KPC9kaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48YnI+DQpBcmUgeW91
-IHN1cmUgdGhhdCB5b3UgYmFzZWQgdGhpcyBvbiBjdXJyZW50IG1hc3Rlcj88bzpwPjwvbzpwPjwv
-cD4NCjwvZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxvOnA+Jm5ic3A7PC9vOnA+
-PC9wPg0KPC9kaXY+DQo8ZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPkFwcGx5aW5n
-OiBrZXJuZWwuYmJjbGFzczogaW5jbHVkZSBzaWduaW5nIGtleXMgd2hlbiBjb3B5aW5nIGZpbGVz
-IHJlcXVpcmVkIGZvciBtb2R1bGUgYnVpbGRzPG86cD48L286cD48L3A+DQo8L2Rpdj4NCjxkaXY+
-DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj5Vc2luZyBpbmRleCBpbmZvIHRvIHJlY29uc3RydWN0IGEg
-YmFzZSB0cmVlLi4uPG86cD48L286cD48L3A+DQo8L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNv
-Tm9ybWFsIj5NJm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7
-IG1ldGEvY2xhc3Nlcy9rZXJuZWwuYmJjbGFzczxvOnA+PC9vOnA+PC9wPg0KPC9kaXY+DQo8ZGl2
-Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+ZXJyb3I6IHBhdGNoIGZhaWxlZDogbWV0YS9jbGFzc2Vz
-L2tlcm5lbC5iYmNsYXNzOjI5NTxvOnA+PC9vOnA+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0KPHAgY2xh
-c3M9Ik1zb05vcm1hbCI+ZXJyb3I6IG1ldGEvY2xhc3Nlcy9rZXJuZWwuYmJjbGFzczogcGF0Y2gg
-ZG9lcyBub3QgYXBwbHk8bzpwPjwvbzpwPjwvcD4NCjwvZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJN
-c29Ob3JtYWwiPmVycm9yOiBEaWQgeW91IGhhbmQgZWRpdCB5b3VyIHBhdGNoPzxvOnA+PC9vOnA+
-PC9wPg0KPC9kaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+SXQgZG9lcyBub3QgYXBw
-bHkgdG8gYmxvYnMgcmVjb3JkZWQgaW4gaXRzIGluZGV4LjxvOnA+PC9vOnA+PC9wPg0KPC9kaXY+
-DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+UGF0Y2ggZmFpbGVkIGF0IDAwMDEga2VybmVs
-LmJiY2xhc3M6IGluY2x1ZGUgc2lnbmluZyBrZXlzIHdoZW4gY29weWluZyBmaWxlcyByZXF1aXJl
-ZCBmb3IgbW9kdWxlIGJ1aWxkczxvOnA+PC9vOnA+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0KPHAgY2xh
-c3M9Ik1zb05vcm1hbCI+PG86cD4mbmJzcDs8L286cD48L3A+DQo8L2Rpdj4NCjxkaXY+DQo8cCBj
-bGFzcz0iTXNvTm9ybWFsIj5Sb3NzPG86cD48L286cD48L3A+DQo8L2Rpdj4NCjwvZGl2Pg0KPC9k
-aXY+DQo8L2Rpdj4NCjwvYm9keT4NCjwvaHRtbD4NCg==
+* V3 
+  - Move the qemu boot settings out of tune files (e.g., arch-x86.inc)
+    to avoid mixing BSP settings with the tunings as Mark suggested. and
+    put them to <machine>.conf or <qemuboot>.inc file.
 
---_000_d1de964429ad4bf695a1f8584910ee27corpappl846corpsaabse_--
+* V2 
+  - Fixes for RP's comments
+    a) Remove a kvm commit message since qemu-kvm can only run target when
+       its arch is the same as the host arch:
+       The kvm support is not limited on x86 or x86_64
+    
+    b) Fix a typo in commit message: qemu-boot.bbclass -> qemuboot.bbclass,
+       You may wonder why I use qemuboot.bbclass but not qemu-boot.bbclass,
+       this is because the bbclass will save vars into qemuboot.conf, the
+       qemuboot.conf can't be qemu-boot.py here, otherwise,
+       "import qemu-boot.py" doesn't work since "-" is not a validate
+       identifier, so use "qemuboot" to make them unify.
+    
+    c) Reorder the patches to make sure they don't break the bisect build.
+  
+  - Update commit message:
+    "Fix SLIRP mode" -> "Fix SLIRP mode, add help message, avoid mixing
+  with tap" 
+
+* V1
+  Previously, runqemu had hard coded machine knowledge, which limited its
+  usage, for example, qemu can boot genericx86, but runqemu can't, we need
+  edit runqemu/runqemu-internal a lot if we want to boot genericx86.
+  
+  Now bsp conf files can set vars to make it can be boot by runqemu, and
+  qemuboot.bbclass will save these info to DEPLOY_DIR_IMAGE/qemuboot.conf.
+  Please see qemuboot.bbclass' comments on how to set the vars.
+  
+  - Re-write it in python3, which can reduce lines from 1239 to about 750
+    lines
+  - All the machine knowledges are gone
+  - All of the TUN_ARCH knowledge are gone (FIXED in V4)
+  - All the previous options are preserved, and there is a new way to run
+    runqemu: (it doesn't need run "bitake -e" in such a case)
+    $ runqemu tmp/deploy/images/qemux86
+    or:
+    $ runqemu tmp/deploy/images/qemuarm/<image>.ext4
+    or:
+    $ runqemu tmp/deploy/images/qemuarm/qemuboot.conf
+  - Fixed audio support, not limited on x86 or x86_64
+  - The kvm support is not limited on x86 or x86_64 (REMOVED by V2)
+  - Fix SLIRP mode (FIXED by V2)
+  - Fix NFS boot, it will extract <image>.tar.bz2 or tar.gz to
+    DEPLOY_DIR_IMAGE/<image>-nfsroot when no NFS_DIR, and remove it after
+    stop.
+  - More bsps can be boot, such as genericx86 and genericx86-64.
+  - The patch for qemuzynq, qemuzynqmp, qemumicroblaze has been sent to
+    meta-xilinx' mailing list.
+  - I can't find any qemush4 bsp or how to build it, so it is not
+    considered atm.
+  
+  - Tested the following machines, all of them work well.
+    genericx86 genericx86-64
+    qemuarm qemuarm64
+    qemumips qemumips64 qemuppc
+    qemux86 qemux86-64
+    qemuzynq qemuzynqmp
+  
+    Tested ext4, nfs, slirp, vmdk, iso and cpio.gz when they are available.
+  
+  And also test "bitbake core-image-sato -ctestimage" which uses runqemu,
+  it works, well.
+
+// Robert
+
+The following changes since commit a7f1435c4c26237cdb55066c9f5408b4fdf016aa:
+
+  combo-layer: python3: fix UnicodeDecodeError (2016-08-24 13:58:24 +0100)
+
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib rbt/runqemu
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/runqemu
+
+Robert Yang (10):
+  qemuboot.bbclass: add it for runqemu
+  qemuarm.conf: set vars for runqemu
+  qemuarm64.conf: set vars for runqemu
+  qemux86.conf/qemux86-64.conf: set vars for runqemu
+  qemumips/qemumips64.conf: set vars for runqemu
+  qemuppc.conf: set vars for runqemu
+  qemu.inc: inherit qemuboot.bbclass
+  runqemu: refactor it and remove machine knowledge
+  nativesdk-qemu-helper: fix for new runqemu
+  qemurunner.py/qemutinyrunner.py: remove runqemu-internal
+
+ meta/classes/qemuboot.bbclass                      |   75 ++
+ meta/conf/machine/include/qemu.inc                 |    2 +
+ meta/conf/machine/include/qemuboot-mips.inc        |    7 +
+ meta/conf/machine/include/qemuboot-x86.inc         |   14 +
+ meta/conf/machine/qemuarm.conf                     |    5 +
+ meta/conf/machine/qemuarm64.conf                   |   13 +
+ meta/conf/machine/qemumips.conf                    |    1 +
+ meta/conf/machine/qemumips64.conf                  |    1 +
+ meta/conf/machine/qemuppc.conf                     |    7 +
+ meta/conf/machine/qemux86-64.conf                  |    1 +
+ meta/conf/machine/qemux86.conf                     |    1 +
+ meta/lib/oeqa/utils/qemurunner.py                  |    2 +-
+ meta/lib/oeqa/utils/qemutinyrunner.py              |    2 +-
+ .../qemu/nativesdk-qemu-helper_1.0.bb              |    9 +-
+ scripts/runqemu                                    | 1332 ++++++++++++--------
+ scripts/runqemu-internal                           |  739 -----------
+ 16 files changed, 941 insertions(+), 1270 deletions(-)
+ create mode 100644 meta/classes/qemuboot.bbclass
+ create mode 100644 meta/conf/machine/include/qemuboot-mips.inc
+ create mode 100644 meta/conf/machine/include/qemuboot-x86.inc
+ delete mode 100755 scripts/runqemu-internal
+
+-- 
+2.9.0
+
+
