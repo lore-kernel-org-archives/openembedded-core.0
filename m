@@ -1,46 +1,47 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-it0-f48.google.com (mail-it0-f48.google.com
-	[209.85.214.48])
-	by mail.openembedded.org (Postfix) with ESMTP id 0831B6612D
+Received: from mail-it0-f54.google.com (mail-it0-f54.google.com
+	[209.85.214.54])
+	by mail.openembedded.org (Postfix) with ESMTP id D048873216
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Aug 2016 13:45:07 +0000 (UTC)
-Received: by mail-it0-f48.google.com with SMTP id f6so90329216ith.0
+	Thu, 25 Aug 2016 13:51:46 +0000 (UTC)
+Received: by mail-it0-f54.google.com with SMTP id f6so90673541ith.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Aug 2016 06:45:08 -0700 (PDT)
+	Thu, 25 Aug 2016 06:51:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=8DOs0YRbSkIkiXkwsXCEd7XIMNxQt6pV/9KfHDLE+f4=;
-	b=PQcDg7/Zv7qLfNyf41RCOhhHAd/jtSBammmrF75MAtOQosh8qa5m6OPnGg4uWOKhfy
-	D+cGuc0fc3wk5DXsWdRnoyqDoHpZA/mwbENg8fpFGJAfrHlDYtZJosmgs5SRImobts6W
-	DTKyu14YkCoRS24v0RJ1iZfyWz+HoL9mCTBtnZatcty2gNmQy7q8Pu+aLiwjkz/sMiDk
-	eXG4vpbmTnWtNeX6rI3tdzxUxZrVuBdNQMnW4xGsdzuaEujRgSfvRnPfEeMsRkCf5Kuo
-	cxuu4Gqv3JRgUf+NFc9l2a7U+yr2HSQnZ/ftx9DwJYkEWhIzDz+JqHzdTefOnMxPmHLM
-	Woeg==
+	:cc; bh=cVFkV3ZRJqwl3tHqTrD+Gtm4tmgN3/hY07Dh0pTNeT4=;
+	b=Zrga5Ir7FKJcO542eTSgjhftRu/3OIposIuLzHsRwa0slEV+Kni4ntjJxnu0nzksh/
+	3DeccnZmOJfMosMrYzROD78T3DD2JTuXHV1rwmVnuNOgsdocklTDeP4UaO3zGcB+LzzF
+	XaaMYw4newCAFOH6ezynB+yN95OXilAwthRiUEsk3iRQWVaSqKOQ/E1KVzAhTd+XievK
+	qqrKS98L8D1M8EMgpGgGc0B1NV2E8O23k7lkmt93K2kBbuQwrjk4ziVSugEFhb9+hwrc
+	mxwj/OL32R59aIMH1Xb1syhcUaMG3+RemvOyzfhy5bSwFllDQwCHbeZJveeaionf0dLz
+	9heQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=8DOs0YRbSkIkiXkwsXCEd7XIMNxQt6pV/9KfHDLE+f4=;
-	b=YXr0aAocetvvnIDuk33cXI5auCkw9NnHKh7ayfmciyrJAQAIi1Yq4pGTtpLOlaIPfY
-	RNAREG8vXCBK2kwoX6RmtPIVeahSVWOdAUCGVp+PydTj1Mcv3tt4tchjYJ6/mUzIE3Ft
-	23Fv3+E3fcg44J9Jf4FG8szIkoRMB6uwDDw7adx6VGjoTzeHfBDUtjX8NyFta5nX0JV9
-	fIgU+uGIJGMvX6ASv47WGf9luOy2iDrybciVgBGOK7TAOMxE2Y2pFP1RGOWk6EefI3CU
-	DSvyeYZvBBctSvDIZyU8DQpUHmQ3mr9NQObcRUQgH+qFFo51OxmOASDf8CTa2IeHwxCE
-	5WAQ==
-X-Gm-Message-State: AEkoous1meKDsjV1gDJk9VvNNG1ei48fRIgYcJ5vQ5tLRoK8Imv5lAcTc7Ts+8f1N4Rbb5WiqrBk8vxO4QQueYuI
-X-Received: by 10.36.121.206 with SMTP id z197mr5418963itc.22.1472132708036;
-	Thu, 25 Aug 2016 06:45:08 -0700 (PDT)
+	bh=cVFkV3ZRJqwl3tHqTrD+Gtm4tmgN3/hY07Dh0pTNeT4=;
+	b=VjGCeGC6isSwhv63sH1P4KZwmbPEuzS1VAhM0jL15RPkHCwpdkA018BCXoqwGmpTPa
+	KYWIeEPTJU2j1R9glhVE/QIuXRggBck0Yrw+sh0TkvDRxtSTDbdVHu1rYGkPwiS08/Hq
+	nXyw6DPW3jYDj+EZ+/7ghm7f1Ke/O+lQIdu7XyN36oSAlm9t/AiIfAK+IRYbmD3f+A89
+	414RGi6y0rtN8REq6AD5PYMc9Lm940JBjHS/m6kaac1T3P1Rzm4k3lQn8bMLNgLZKKNx
+	R90sDqecRvtQreSBoAf5ctcX/XnwzY5PbC25cjcIFLFr1XEhWfD4gPgu9UOkMohMnJIm
+	vKDA==
+X-Gm-Message-State: AEkoouv3BV/5exy9lIudA94VU5e8sZ8ZbLEIbD/4G2AnRlJZpjsxjigZEOyPDALMmk8UJMf+z4Y5LLOqNYmcTeyz
+X-Received: by 10.36.20.204 with SMTP id 195mr5098628itg.83.1472133107744;
+	Thu, 25 Aug 2016 06:51:47 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.107.18.17 with HTTP; Thu, 25 Aug 2016 06:44:47 -0700 (PDT)
-In-Reply-To: <20160820203609.5599-1-raj.khem@gmail.com>
-References: <20160820203609.5599-1-raj.khem@gmail.com>
+Received: by 10.107.18.17 with HTTP; Thu, 25 Aug 2016 06:51:27 -0700 (PDT)
+In-Reply-To: <1472116833486.43456@saabgroup.com>
+References: <1472116833486.43456@saabgroup.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 25 Aug 2016 14:44:47 +0100
-Message-ID: <CAJTo0LbPUuXx=N=BsncbdceCVpR=ZerdzqkRpgn2T5uz38p8nQ@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH V2] xserver-xf86-config: pre-load int10 and exa modules
+Date: Thu, 25 Aug 2016 14:51:27 +0100
+Message-ID: <CAJTo0Lam5us06i_nJtooYcA3T87nCFjAgZ=Gz_3kh-M0GNHisw@mail.gmail.com>
+To: Waldo Mattias <Mattias.Waldo@saabgroup.com>
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2] kernel.bbclass: include signing keys when copying files required for module builds
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,47 +54,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 25 Aug 2016 13:45:09 -0000
-Content-Type: multipart/alternative; boundary=001a114aa820200b31053ae59b45
+X-List-Received-Date: Thu, 25 Aug 2016 13:51:49 -0000
+Content-Type: multipart/alternative; boundary=001a1143e4e4f31bd2053ae5b262
 
---001a114aa820200b31053ae59b45
+--001a1143e4e4f31bd2053ae5b262
 Content-Type: text/plain; charset=UTF-8
 
-On 20 August 2016 at 21:36, Khem Raj <raj.khem@gmail.com> wrote:
+On 25 August 2016 at 10:20, Waldo Mattias <Mattias.Waldo@saabgroup.com>
+wrote:
 
-> @@ -3,7 +3,7 @@ Section "Module"
->      Load "fb"
->      Load "shadow"
->      Load "shadowfb"
-> +    Load "int10"
->      Load "vbe"
->      Load "vgahw"
->  EndSection
+> The absence of certs/signing_key.* in $kerneldir made signing of
+> out-of-tree kernel modules fail (silently). Add copying of these files
+> during the shared_workdir task.
 >
 
-The log says "int10 and exa" but V2 has lost all exa references.  Is this
-intentional?
+Are you sure that you based this on current master?
+
+Applying: kernel.bbclass: include signing keys when copying files required
+for module builds
+Using index info to reconstruct a base tree...
+M meta/classes/kernel.bbclass
+error: patch failed: meta/classes/kernel.bbclass:295
+error: meta/classes/kernel.bbclass: patch does not apply
+error: Did you hand edit your patch?
+It does not apply to blobs recorded in its index.
+Patch failed at 0001 kernel.bbclass: include signing keys when copying
+files required for module builds
 
 Ross
 
---001a114aa820200b31053ae59b45
+--001a1143e4e4f31bd2053ae5b262
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 20 August 2016 at 21:36, Khem Raj <span dir=3D"ltr">&lt;<a href=3D"mailt=
-o:raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt;</span> w=
-rote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;borde=
-r-left:1px #ccc solid;padding-left:1ex"><div id=3D":1dk" class=3D"a3s aXjCH=
- m156a9ab57fb91d94">@@ -3,7 +3,7 @@ Section &quot;Module&quot;<br>
-=C2=A0 =C2=A0 =C2=A0Load &quot;fb&quot;<br>
-=C2=A0 =C2=A0 =C2=A0Load &quot;shadow&quot;<br>
-=C2=A0 =C2=A0 =C2=A0Load &quot;shadowfb&quot;<br>
-+=C2=A0 =C2=A0 Load &quot;int10&quot;<br>
-=C2=A0 =C2=A0 =C2=A0Load &quot;vbe&quot;<br>
-=C2=A0 =C2=A0 =C2=A0Load &quot;vgahw&quot;<br>
-=C2=A0EndSection</div></blockquote><div><br></div><div>The log says &quot;i=
-nt10 and exa&quot; but V2 has lost all exa references.=C2=A0 Is this intent=
-ional?</div><div><br></div><div>Ross=C2=A0</div></div></div></div>
+On 25 August 2016 at 10:20, Waldo Mattias <span dir=3D"ltr">&lt;<a href=3D"=
+mailto:Mattias.Waldo@saabgroup.com" target=3D"_blank">Mattias.Waldo@saabgro=
+up.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"=
+margin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-color:rgb(204,20=
+4,204);border-left-style:solid;padding-left:1ex"><div id=3D":19x" class=3D"=
+">The absence of certs/signing_key.* in $kerneldir made signing of<br>
+out-of-tree kernel modules fail (silently). Add copying of these files<br>
+during the shared_workdir task.<br></div></blockquote></div><br>Are you sur=
+e that you based this on current master?</div><div class=3D"gmail_extra"><b=
+r></div><div class=3D"gmail_extra"><div class=3D"gmail_extra">Applying: ker=
+nel.bbclass: include signing keys when copying files required for module bu=
+ilds</div><div class=3D"gmail_extra">Using index info to reconstruct a base=
+ tree...</div><div class=3D"gmail_extra">M<span class=3D"" style=3D"white-s=
+pace:pre">	</span>meta/classes/kernel.bbclass</div><div class=3D"gmail_extr=
+a">error: patch failed: meta/classes/kernel.bbclass:295</div><div class=3D"=
+gmail_extra">error: meta/classes/kernel.bbclass: patch does not apply</div>=
+<div class=3D"gmail_extra">error: Did you hand edit your patch?</div><div c=
+lass=3D"gmail_extra">It does not apply to blobs recorded in its index.</div=
+><div class=3D"gmail_extra">Patch failed at 0001 kernel.bbclass: include si=
+gning keys when copying files required for module builds</div><div class=3D=
+"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div></div>
 
---001a114aa820200b31053ae59b45--
+--001a1143e4e4f31bd2053ae5b262--
