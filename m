@@ -1,29 +1,53 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 4E1406612D
+Return-Path: <patrick.ohly@intel.com>
+Received: from mail-it0-f46.google.com (mail-it0-f46.google.com
+	[209.85.214.46])
+	by mail.openembedded.org (Postfix) with ESMTP id 0D5F66AC4B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Aug 2016 04:04:42 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u7P44eHa018770
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
-	Wed, 24 Aug 2016 21:04:40 -0700
-Received: from server.local (147.11.119.189) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.248.2;
-	Wed, 24 Aug 2016 21:04:39 -0700
-To: "Burton, Ross" <ross.burton@intel.com>, California Sullivan
-	<california.l.sullivan@intel.com>
-References: <1471411501-3523-1-git-send-email-california.l.sullivan@intel.com>
-	<CAJTo0LZPhnJq+VO5X2R-_FE7-qzSCrQh5XWWpp-vRze5NOnqpA@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-Message-ID: <b33ff9d7-165c-e7b4-5268-c1f866a59529@windriver.com>
-Date: Thu, 25 Aug 2016 00:04:38 -0400
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:45.0)
-	Gecko/20100101 Thunderbird/45.2.0
-MIME-Version: 1.0
-In-Reply-To: <CAJTo0LZPhnJq+VO5X2R-_FE7-qzSCrQh5XWWpp-vRze5NOnqpA@mail.gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH RFC 1/1] kernel.bbclass: Add kernel_version_sanity_check function
+	Thu, 25 Aug 2016 07:01:14 +0000 (UTC)
+Received: by mail-it0-f46.google.com with SMTP id e63so255565787ith.1
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 25 Aug 2016 00:01:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:organization:mime-version:content-transfer-encoding;
+	bh=I9UXmYUdyMNOUTiHjyTk7lnmMt3j3ahHkW4BAIGQTMA=;
+	b=Ig2SqMNXvjsIZjPA+tIKANRu6nQbpV5CE06KXvnYur3apIxuJZnMQUwbfFbgSHOK8H
+	L6ZM6xtVwehYkprdEMZIG6eATQEJ+5Lu58ybqvBufrPf6NY8wvXT/cm5x6UEp1sv/Sr/
+	JvIcgc7GsgzLbrDiB2QoJ9WcQCJ+vdHBMB9vAOUNrpDRi2qFiT5nmocEW29n50UDunk0
+	HB4/8S/I3iUKuUXwHIMotkl1YNIYe2kIsvN/UPthRXNz9ua4gl5R4hrJxiK0tcq4swbE
+	58F7300c9Ja/hVTNRto7i5oEWuGCCoZR1W7KfXaHlfJU+L9FvXA2A4Rwt/PMkEzg3flu
+	wJGA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:organization:mime-version:content-transfer-encoding;
+	bh=I9UXmYUdyMNOUTiHjyTk7lnmMt3j3ahHkW4BAIGQTMA=;
+	b=S0rxBMy+Tuuf8Ijm1+Wr3SjjU9PNotZDDIRPPKKlPliGezLm6E9O9Oal6jsATclNUp
+	69tR7Ks6URIVgMMiCDmXMtejoQBLDSASXKl56mpHroDso5tNBfZSsEV4S6MjRnzEscYD
+	53aTM/4ULMEpjCV+2zFsASFarRzAefQ26/oZDQTlJy98Tvq1bbL56hOxM0I2pLnFar9K
+	vmmUqEujiLfwX8X1m4V8nCq/AdczRk/po8YnrhPzu9syFp3lQu9HkSeyqPfd8twQ8F7D
+	xLeNEQKUsuUjPUOhIMVL+O+RYrGjIzDeeQSKHFl3sNa5Aia7Fj9VLvCMV/T+S5yZ0RW7
+	5DQw==
+X-Gm-Message-State: AEkoousaI2sBerZnR93Pz9Wn+XfqIzWhbDY29Xf2dyrE7yLrrakMRxbOoueFYlpTmmhpZUKi
+X-Received: by 10.107.13.129 with SMTP id 123mr9650910ion.47.1472108475410;
+	Thu, 25 Aug 2016 00:01:15 -0700 (PDT)
+Received: from pohly-mobl1 (p5DE8EAE2.dip0.t-ipconnect.de. [93.232.234.226])
+	by smtp.gmail.com with ESMTPSA id
+	k69sm4989897ioi.20.2016.08.25.00.01.12
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 25 Aug 2016 00:01:13 -0700 (PDT)
+Message-ID: <1472108470.396.1.camel@intel.com>
+From: Patrick Ohly <patrick.ohly@intel.com>
+To: Joe Slater <jslater@windriver.com>
+Date: Thu, 25 Aug 2016 09:01:10 +0200
+In-Reply-To: <1471903951-2925-1-git-send-email-jslater@windriver.com>
+References: <1471903951-2925-1-git-send-email-jslater@windriver.com>
+Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
+X-Mailer: Evolution 3.12.9-1+b1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/1] systemd-compat-units: do not inherit allarch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,40 +60,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 25 Aug 2016 04:04:44 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
+X-List-Received-Date: Thu, 25 Aug 2016 07:01:16 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 2016-08-24 5:56 PM, Burton, Ross wrote:
-> Bruce, can you have a look at this?
+On Mon, 2016-08-22 at 15:12 -0700, Joe Slater wrote:
+> Even though we are just a script, we do depend on
+> systemd being on the target and need an RDEPENDS
+> which means we cannot also be allarch.
+> 
+> Signed-off-by: Joe Slater <jslater@windriver.com>
+> ---
+>  meta/recipes-core/systemd/systemd-compat-units.bb |    2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/meta/recipes-core/systemd/systemd-compat-units.bb b/meta/recipes-core/systemd/systemd-compat-units.bb
+> index f246e83..421fc06 100644
+> --- a/meta/recipes-core/systemd/systemd-compat-units.bb
+> +++ b/meta/recipes-core/systemd/systemd-compat-units.bb
+> @@ -9,7 +9,7 @@ DEPENDS = "systemd-systemctl-native"
+>  
+>  S = "${WORKDIR}"
+>  
+> -inherit allarch distro_features_check
+> +inherit distro_features_check
 
-Wow. 8 days ago, and I admit that I didn't notice it go past.
++1 from me. The alternative solution would be to add
+"systemd-compat-units->systemd" to SIGGEN_EXCLUDE_SAFE_RECIPE_DEPS in
+meta/conf/layer.conf, but that's more complicated and probably not worth
+it.
 
-Yes, I'll have a look at this during the day on Thursday.
+-- 
+Best Regards, Patrick Ohly
 
-Bruce
+The content of this message is my personal opinion only and although
+I am an employee of Intel, the statements I make here in no way
+represent Intel's position on the issue, nor am I authorized to speak
+on behalf of Intel on this matter.
 
->
-> Ross
->
-> On 17 August 2016 at 06:25, California Sullivan
-> <california.l.sullivan@intel.com
-> <mailto:california.l.sullivan@intel.com>> wrote:
->
->     The kernel being built should match what the recipe claims it is
->     building. This function ensures that happens for anyone using
->     LINUX_VERSION as they should. As it will likely break outside kernels
->     not using LINUX_VERSION, only enable the function for linux-yocto for
->     now.
->
->     Signed-off-by: California Sullivan <california.l.sullivan@intel.com
->     <mailto:california.l.sullivan@intel.com>>
->     ---
->     I'm not absolutely sure this is the correct path to solve the issue.
->     This patch relies on LINUX_VERSION being set which isn't a guarantee.
->     There is probably a more general solution that I'm not thinking of.
->
->
->
+
 
 
