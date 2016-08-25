@@ -1,49 +1,54 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-it0-f48.google.com (mail-it0-f48.google.com
-	[209.85.214.48])
-	by mail.openembedded.org (Postfix) with ESMTP id 9CDC46AC4B
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pa0-f52.google.com (mail-pa0-f52.google.com
+	[209.85.220.52])
+	by mail.openembedded.org (Postfix) with ESMTP id 33D1960119
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Aug 2016 16:48:06 +0000 (UTC)
-Received: by mail-it0-f48.google.com with SMTP id x131so282539895ite.0
+	Thu, 25 Aug 2016 16:57:05 +0000 (UTC)
+Received: by mail-pa0-f52.google.com with SMTP id di2so18472471pad.3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Aug 2016 09:48:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=RUI1SDs94F+cZuQ448X0N90fD+GA9y/mqAOX7I2AUd8=;
-	b=swhUQyRnejkog6ditzKKl46geAwkmvdGDXY+F16aEquhy0+FeLWWvJOJ4VFa/XnBl6
-	UQKH23tDTiH+yeEs41jBhbf9DNcYHYCVb7sanew+/Sl/xIIG5erPlv9xuKBZJ7YR6NOc
-	adYolR/wkDSK6AtYqFW4sUStkNvyBzgAaJiKtvI1yXGZmzjvy4qgJUD5MdbDymKtnDAa
-	Vrynu25RnZ3I3+o3nkJl32c0YvHQCQ8UPAx3sZwl+58Hn09RMw8JZnPjxVeXV7vVJ2yj
-	E25A2D7Jrz0tSF0nLegXJnPr34Fv/2uAsHUsgLfehpBuPyJ04vv8LOwQJ1QvsB1r4mBl
-	sIWQ==
+	Thu, 25 Aug 2016 09:57:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=subject:mime-version:from:in-reply-to:date:cc:message-id:references
+	:to; bh=cPK7jL+H3TGujqrmbOPskYWUe4pPf9G4rTd1Fdlo7lY=;
+	b=FU4y8jHzP9OqOigcY23J3/PXFTNoAyZ6JjiHdhavri1QPFGjRK33YzKHT/fit/phJY
+	+qwK0vX/LrVgQXZlOsTUZL0IuWh2B/kuFVBwdNjSOJu5r3L24AR2YZjkfNXmNSfKM2NT
+	Q1I59qWgNZLLdr72ErpsxxNUMrAr/Cv+VMOuf7NfcAbgKS3hGmfR5IZU670M209teFJO
+	vMChf4l6r3zcOmafP1AeQvo0vdwr7rJUWlGqOu20kIukOi+0MPmXO8gumoCX3s++q59M
+	NvuuKaV6FFczsh+U3IY7e+2v0PZUflWXwnUWs4uZ79glET8URCkApyZoJC69GaBOqkgY
+	GocQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=RUI1SDs94F+cZuQ448X0N90fD+GA9y/mqAOX7I2AUd8=;
-	b=PhsvYMAqdZCiWKjSE56UsNSuivvvUXGOlnfgYW7WKNehykU5Lcn2qWMGr11LELQuH+
-	2RT36wYu4PM+TTg7Oi/cioywOseT3ZUViaMnNfjXAf9kWE3KuRUDDym1cYzg5pS+IwHk
-	/rL4/kzmFO6+DUgmt4uSgWy7VXE5sdPu98bv8Vi9dz3A7wBAPDAE7pEMRySUadap/glg
-	iRniSLCt01IcXZPPvnxMuGM1Ihu09AylsAotbYlimykiIeDaWiRKQkkdgAnn/fBxFDCb
-	0GPFXvetJAJBNTG+hP4cB0J3k1dOryj71tMjNhDojsp0C7NfyLxcQaHddre8MNywDxzl
-	Z/0g==
-X-Gm-Message-State: AEkoouvJEFfh2m0qCyuh+qP220uVusaq/KU0xGkLvuFS+iKsPXTqU7Iqm3Zy+5p440u9MaK/ujiG45ieo04S2xMx
-X-Received: by 10.107.138.212 with SMTP id c81mr11139978ioj.148.1472143686566; 
-	Thu, 25 Aug 2016 09:48:06 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.107.18.17 with HTTP; Thu, 25 Aug 2016 09:47:46 -0700 (PDT)
-In-Reply-To: <0d4dab927efa4c5db4572715cb1dcaac@corpappl846.corp.saab.se>
-References: <1472116833486.43456@saabgroup.com>
-	<CAJTo0Lam5us06i_nJtooYcA3T87nCFjAgZ=Gz_3kh-M0GNHisw@mail.gmail.com>
-	<0d4dab927efa4c5db4572715cb1dcaac@corpappl846.corp.saab.se>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 25 Aug 2016 17:47:46 +0100
-Message-ID: <CAJTo0LZpw-zvq9ei_KM3H2G7mVQCiSDoJhk0NaJgtGd-5-4a_A@mail.gmail.com>
-To: Waldo Mattias <Mattias.Waldo@saabgroup.com>
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] kernel.bbclass: include signing keys when copying files required for module builds
+	h=x-gm-message-state:subject:mime-version:from:in-reply-to:date:cc
+	:message-id:references:to;
+	bh=cPK7jL+H3TGujqrmbOPskYWUe4pPf9G4rTd1Fdlo7lY=;
+	b=BCTFMB8hwX+8zvMTMcvDSl68MZK0giWn5c67JHBXs5Qzund/HlJI+Wl1PpywdnrEo+
+	Nd1B6OUdlfEwMu0aqo17RojVVG0rtjZfzcWrnRebY8rJgRfth0b47BqvwJO2OW9L28Id
+	jrP4LHksCnCN1ZqdOfDNS0DbsOykkNZkX1gVqTgE3D+qrG0VngNY4sk/393C+z494In7
+	b1riHYyZCqDP76C90X2T8EUozGQ7OTyQnvoNtF87Cgb1YbwRMcpDj+o4i/QNQH8QmOks
+	tHK1ZxE45XfAnSRCSB6kSojcYbEoLxBlnzY+/Yh7EIzWnaLd6iXDfkS+Fx+kqhTLBMsO
+	tsRA==
+X-Gm-Message-State: AE9vXwPEdmMENpjtiy2E+ydJ3aIg9n4bkl0NVAn6Vr61NqygyEI1VqmLjdwdRSKVuP77qw==
+X-Received: by 10.66.13.200 with SMTP id j8mr17993029pac.150.1472144226275;
+	Thu, 25 Aug 2016 09:57:06 -0700 (PDT)
+Received: from ?IPv6:2601:647:4c00:3edf:157a:f659:3403:a165?
+	([2601:647:4c00:3edf:157a:f659:3403:a165])
+	by smtp.gmail.com with ESMTPSA id
+	s12sm22170462pfj.73.2016.08.25.09.57.05
+	(version=TLS1 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Thu, 25 Aug 2016 09:57:05 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 9.3 \(3124\))
+X-Pgp-Agent: GPGMail
+From: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <CAJTo0LYmUmp8+KBwdJUYqNDHmxLjG+YUCviE4e+pmXOJGpjJ2g@mail.gmail.com>
+Date: Thu, 25 Aug 2016 09:57:32 -0700
+Message-Id: <EFF516A8-3F18-4735-B2B9-EB285AE19F87@gmail.com>
+References: <cover.1472060412.git.mariano.lopez@linux.intel.com>
+	<2ea1073b1b15da51334a47814732d809fc1d4a3a.1472060412.git.mariano.lopez@linux.intel.com>
+	<CAJTo0LYmUmp8+KBwdJUYqNDHmxLjG+YUCviE4e+pmXOJGpjJ2g@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+X-Mailer: Apple Mail (2.3124)
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCHv4 1/2] cve-check-tool: Add recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,53 +61,97 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 25 Aug 2016 16:48:06 -0000
-Content-Type: multipart/alternative; boundary=001a113ed9327f8972053ae82983
+X-List-Received-Date: Thu, 25 Aug 2016 16:57:08 -0000
+X-Groupsio-MsgNum: 86304
+Content-Type: multipart/signed;
+	boundary="Apple-Mail=_BF6783A3-C21C-4386-91A8-286A8EFE0A85";
+	protocol="application/pgp-signature"; micalg=pgp-sha1
 
---001a113ed9327f8972053ae82983
-Content-Type: text/plain; charset=UTF-8
+--Apple-Mail=_BF6783A3-C21C-4386-91A8-286A8EFE0A85
+Content-Type: multipart/alternative;
+	boundary="Apple-Mail=_AFF6A370-271B-4374-889B-FAE1F794D926"
+
+--Apple-Mail=_AFF6A370-271B-4374-889B-FAE1F794D926
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=us-ascii
 
-On 25 August 2016 at 16:16, Waldo Mattias <Mattias.Waldo@saabgroup.com>
+
+> On Aug 25, 2016, at 7:28 AM, Burton, Ross <ross.burton@intel.com> =
 wrote:
+>=20
+>=20
+> On 24 August 2016 at 19:58, <mariano.lopez@linux.intel.com =
+<mailto:mariano.lopez@linux.intel.com>> wrote:
+> +CFLAGS +=3D "-Wno-error=3Dpedantic"
+>=20
+> This doesn't work in native builds, as the native class reassigns the =
+value at the last minute.  You'll have to use _append.
 
-> Version 3 of the patch submitted, this time based on current master =E2=
-=80=93
-> thanks for your patience!
->
->
-Something really odd is going on here...  the references blobs in the patch
-don't exist according to my git, and it looks like the whitespace is being
-mangled.  Can you verify that you're basing this patch from origin/master
-or poky or oe-core, and use git-send-email to ensure that the whitespace
-doesn't get trashed?
+this change is needed with musl, so it may not cause issues per se but I =
+agree using append is better here
 
-I'd normally just manually apply but something odd is happening and I'd
-like to figure out what it is!
+>=20
+> Ross
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
-Ross
 
---001a113ed9327f8972053ae82983
-Content-Type: text/html; charset=UTF-8
+--Apple-Mail=_AFF6A370-271B-4374-889B-FAE1F794D926
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/html;
+	charset=us-ascii
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 25 August 2016 at 16:16, Waldo Mattias <span dir=3D"ltr">&lt;<a href=3D"=
-mailto:Mattias.Waldo@saabgroup.com" target=3D"_blank">Mattias.Waldo@saabgro=
-up.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"=
-margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><p class=3D"=
-MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Calibri&quot;,=
-sans-serif;color:#1f497d">Version 3 of the patch submitted, this time based=
- on current master =E2=80=93 thanks for your patience!<u></u><u></u></span>=
-</p>
-<p class=3D"MsoNormal"></p></blockquote></div><br>Something really odd is g=
-oing on here... =C2=A0the references blobs in the patch don&#39;t exist acc=
-ording to my git, and it looks like the whitespace is being mangled.=C2=A0 =
-Can you verify that you&#39;re basing this patch from origin/master or poky=
- or oe-core, and use git-send-email to ensure that the whitespace doesn&#39=
-;t get trashed?</div><div class=3D"gmail_extra"><br></div><div class=3D"gma=
-il_extra">I&#39;d normally just manually apply but something odd is happeni=
-ng and I&#39;d like to figure out what it is!</div><div class=3D"gmail_extr=
-a"><br></div><div class=3D"gmail_extra">Ross</div></div>
+<html><head><meta http-equiv=3D"Content-Type" content=3D"text/html =
+charset=3Dus-ascii"></head><body style=3D"word-wrap: break-word; =
+-webkit-nbsp-mode: space; -webkit-line-break: after-white-space;" =
+class=3D""><br class=3D""><div><blockquote type=3D"cite" class=3D""><div =
+class=3D"">On Aug 25, 2016, at 7:28 AM, Burton, Ross &lt;<a =
+href=3D"mailto:ross.burton@intel.com" =
+class=3D"">ross.burton@intel.com</a>&gt; wrote:</div><br =
+class=3D"Apple-interchange-newline"><div class=3D""><div dir=3D"ltr" =
+class=3D""><div class=3D"gmail_extra"><br class=3D""><div =
+class=3D"gmail_quote">On 24 August 2016 at 19:58,  <span dir=3D"ltr" =
+class=3D"">&lt;<a href=3D"mailto:mariano.lopez@linux.intel.com" =
+target=3D"_blank" class=3D"">mariano.lopez@linux.intel.com</a>&gt;</span> =
+wrote:<br class=3D""><blockquote class=3D"gmail_quote" style=3D"margin:0 =
+0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":19t" =
+class=3D"a3s aXjCH m156bfa5c1b1bd960">+CFLAGS +=3D =
+"-Wno-error=3Dpedantic"<br class=3D""></div></blockquote></div><br =
+class=3D"">This doesn't work in native builds, as the native class =
+reassigns the value at the last minute.&nbsp; You'll have to use =
+_append.</div></div></div></blockquote><div><br class=3D""></div><div>this=
+ change is needed with musl, so it may not cause issues per se but I =
+agree using append is better here</div><br class=3D""><blockquote =
+type=3D"cite" class=3D""><div class=3D""><div dir=3D"ltr" class=3D""><div =
+class=3D"gmail_extra"><br class=3D""></div><div =
+class=3D"gmail_extra">Ross</div></div>
+-- <br class=3D"">_______________________________________________<br =
+class=3D"">Openembedded-core mailing list<br class=3D""><a =
+href=3D"mailto:Openembedded-core@lists.openembedded.org" =
+class=3D"">Openembedded-core@lists.openembedded.org</a><br =
+class=3D"">http://lists.openembedded.org/mailman/listinfo/openembedded-cor=
+e<br class=3D""></div></blockquote></div><br class=3D""></body></html>=
 
---001a113ed9327f8972053ae82983--
+--Apple-Mail=_AFF6A370-271B-4374-889B-FAE1F794D926--
+
+--Apple-Mail=_BF6783A3-C21C-4386-91A8-286A8EFE0A85
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+	filename=signature.asc
+Content-Type: application/pgp-signature;
+	name=signature.asc
+Content-Description: Message signed with OpenPGP using GPGMail
+
+-----BEGIN PGP SIGNATURE-----
+Comment: GPGTools - https://gpgtools.org
+
+iEYEARECAAYFAle/I4AACgkQuwUzVZGdMxRaygCfSj/i8SZjqZAgDSainxA8m+Fs
+XhcAoIiZQIUV1CZ6ecfsarLjtFVrw7EA
+=M4/a
+-----END PGP SIGNATURE-----
+
+--Apple-Mail=_BF6783A3-C21C-4386-91A8-286A8EFE0A85--
