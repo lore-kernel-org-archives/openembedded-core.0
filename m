@@ -1,35 +1,29 @@
-Return-Path: <rpjday@crashcourse.ca>
-Received: from smtp486.redcondor.net (smtp486.redcondor.net [208.80.204.86])
-	by mail.openembedded.org (Postfix) with ESMTP id 7CF437318A
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 0B15C731E5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Aug 2016 14:31:37 +0000 (UTC)
-Received: from astoria.ccjclearline.com ([64.235.106.9])
-	by smtp486.redcondor.net ({6695537a-536a-45f9-a249-877c85428649})
-	via TCP (outbound) with ESMTPS id 20160825143126887_0486;
-	Thu, 25 Aug 2016 14:31:26 +0000
-X-RC-FROM: <rpjday@crashcourse.ca>
-Received: from [216.191.234.70] (port=19506 helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
-	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
-	id 1bcvic-00063G-DT; Thu, 25 Aug 2016 10:33:22 -0400
-Date: Thu, 25 Aug 2016 10:31:11 -0400 (EDT)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@ca624034.mitel.com
-To: Javier Viguera <javier.viguera@digi.com>
-In-Reply-To: <47213dd7-8a1a-23a8-68a9-8e7c7452b9f6@digi.com>
-Message-ID: <alpine.LFD.2.20.1608251029270.12847@ca624034.mitel.com>
-References: <alpine.LFD.2.20.1608181237130.2886@ca624034.mitel.com>
-	<20160819201637.GO5342@bill-the-cat>
-	<alpine.LFD.2.20.1608210955340.18845@localhost.localdomain>
-	<20160821150452.GR5342@bill-the-cat>
-	<alpine.LFD.2.20.1608211146290.20716@localhost.localdomain>
-	<47213dd7-8a1a-23a8-68a9-8e7c7452b9f6@digi.com>
-User-Agent: Alpine 2.20 (LFD 67 2015-01-07)
-MIME-Version: 1.0
-X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
-Cc: "openembedded-core@lists.openembedded.org"
+	Thu, 25 Aug 2016 14:36:44 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u7PEagQf007619
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 25 Aug 2016 07:36:43 -0700 (PDT)
+Received: from [128.224.162.240] (128.224.162.240) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.248.2;
+	Thu, 25 Aug 2016 07:36:42 -0700
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: how can i add u-boot-fw-utils to my build without u-boot being part of the build?
+References: <cover.1471850849.git.liezhi.yang@windriver.com>
+	<1471943106.16712.101.camel@linuxfoundation.org>
+	<180a3a72-1b44-dafa-77e7-1905f9374947@windriver.com>
+From: Robert Yang <liezhi.yang@windriver.com>
+Message-ID: <6ee635df-666d-90bb-b296-7aa76714cbcc@windriver.com>
+Date: Thu, 25 Aug 2016 22:36:40 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.2.0
+MIME-Version: 1.0
+In-Reply-To: <180a3a72-1b44-dafa-77e7-1905f9374947@windriver.com>
+Subject: Re: [PATCH V4 00/11] runqemu: refactor it and remove machine knowledge
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,53 +36,84 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 25 Aug 2016 14:31:40 -0000
-Content-Type: text/plain; charset=US-ASCII
+X-List-Received-Date: Thu, 25 Aug 2016 14:36:46 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Mon, 22 Aug 2016, Javier Viguera wrote:
 
-> Hi Robert,
+
+On 08/23/2016 05:21 PM, Robert Yang wrote:
 >
-> On 21/08/16 17:51, Robert P. J. Day wrote:
-> >
-> >   i apologize for being clueless, but i'm still unclear on what i need
-> > to do here, and in my case, i'm going in the opposite direction.
-> >
-> >   currently, u-boot is being configured and compiled standalone -- not
-> > as part of OE. and that build works just fine, so i can grab whatever
-> > (little?) i need from that build to then add to an actual OE build so
-> > i can just add u-boot-fw-utils to an existing image.
-> >
-> >   as i read it, for an OE build of u-boot, i need to supply either
-> > UBOOT_MACHINE or UBOOT_CONFIG. so in this case, what would i do? my
-> > assumption until now is that i need to add to the OE build just enough
-> > to get the fw utils to build, and i'd do that by setting either of
-> > those variables. and i already have the appropriate fw_env.config file
-> > ready to go.
-> >
-> >   so what precisely do i need to do here?
 >
-> Have you tried to override UBOOT_CONFIG in a u-boot-fw-utils bbappend?
+> On 08/23/2016 05:05 PM, Richard Purdie wrote:
+>> On Mon, 2016-08-22 at 00:52 -0700, Robert Yang wrote:
+>>> * V4
+>>>   - Now the conf files can use @TAP@, @ROOTFS@ and @PORT@ when set
+>>> vars
+>>>     for runqemu, so all the arch info are gone. And also update
+>>> comments
+>>>     in qemuboot.bbclass.
+>>>   - Add var QB_SLIRP_OPT for slirp mode as Nathan suggested, also add
+>>>     QB_TAP_OPT whichi is for tap mode.
+>>>   - Print "Try 'runqemu help' on how to use it" when failed to parse
+>>> args
+>>>     as Nathan suggested.
+>>>   - Fix device locking problems.
+>>>   - Fix nativesdk-qemu-helper.
+>>>   - Fix comments for qemurunner.py/qemutinyrunner.py
+>>
+>> This is looking much better, thanks but we've still had some issues:
+>>
+>> https://autobuilder.yoctoproject.org/main/builders/nightly-rpm/builds/870/steps/Running%20Sanity%20Tests/logs/stdio
+>>
+>> https://autobuilder.yoctoproject.org/main/builders/nightly-deb/builds/856/steps/Running%20Sanity%20Tests/logs/stdio
+>>
+>> https://autobuilder.yoctoproject.org/main/builders/nightly-rpm/builds/870/steps/Running%20Sanity%20Tests/logs/stdio
+>>
 >
-> Have a look at how we do that (using sandbox_defconfig) in meta-digi-arm:
+> Sorry, these should be race issues, I will fix it.
+
+Hi RP,
+
+I've fixed the problem and will send a V5. I have tried to test it on my
+autobuilder, but it's running out of disk space last tonight. It is still in
+building today, and didn't see any problems by now, I will reply if I see.
+
 >
-> https://github.com/digi-embedded/meta-digi/blob/jethro/meta-digi-arm/recipes-bsp/u-boot/u-boot-fw-utils_%25.bbappend
+>>
+>> and:
+>>
+>> https://autobuilder.yoctoproject.org/main/builders/nightly-oe-selftest/builds/652/steps/Running%20oe-selftest/logs/stdio
+>>
+>>
+>> I'm also not sure what caused these, whether it was this patchset or
+>> not:
+>>
+>> https://autobuilder.yoctoproject.org/main/builders/nightly-arm/builds/927/steps/Running%20ESDK%20Sanity%20Tests/logs/stdio
+>>
+>> https://autobuilder.yoctoproject.org/main/builders/nightly-mips/builds/901/steps/Running%20ESDK%20Sanity%20Tests/logs/stdio
+>>
+>> https://autobuilder.yoctoproject.org/main/builders/nightly-ppc/builds/914/steps/Running%20ESDK%20Sanity%20Tests/logs/stdio
+>>
+>> https://autobuilder.yoctoproject.org/main/builders/nightly-x86/builds/914/steps/Running%20ESDK%20Sanity%20Tests/logs/stdio
+>>
+>> https://autobuilder.yoctoproject.org/main/builders/nightly-x86-64/builds/935
+>
+> I'm not sure either, need more investigations.
 
-  ah, this is kind of what i suspected would work ... a generic
-sandbox build, accompanied by the appropriate /etc/fw_etc.config file.
-i'm assuming that's not x86-specific since you're using it with one of
-your ARM boards. thanks, i'll give it a shot.
+I think that this isn't caused by runqemu patches since the error doesn't
+seem like relate to runqemu, and I can't reproduce it.
 
-rday
+// Robert
 
--- 
-
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
-
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
-
+>
+> // Robert
+>
+>>
+>> Cheers,
+>>
+>> Richard
+>>
+>>
+>>
 
