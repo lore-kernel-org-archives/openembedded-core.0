@@ -1,48 +1,22 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-it0-f48.google.com (mail-it0-f48.google.com
-	[209.85.214.48])
-	by mail.openembedded.org (Postfix) with ESMTP id B3E8C6612C
+Return-Path: <mariano.lopez@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id B7B486E668
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Aug 2016 17:12:26 +0000 (UTC)
-Received: by mail-it0-f48.google.com with SMTP id n128so101857226ith.1
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Aug 2016 10:12:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=HXeSHKCWk1Qzk106m8TUvuFHlZ29BlYQFSXBsiVUNNA=;
-	b=Mujc7O1hMFOUn3NWlVWJLBI//RZm1ZUQWBLzYh/DBBrN5u7JVjtVWWZQOr1UdtpCwp
-	9TOYSr1HlBvf6vTWo1FfbMGgu3YmcITW5n6/2XWwiGxDeDqQNA9ZqoZMC7CFH6F/O8Us
-	eNYXhCsqzBYKNFHlFRQb21TNIfBuC7CyT03pwqIX+q7s8tB86WQuJibbQpTD1sx5XP92
-	FNEVTPYMUCu+F2csRYfk03arI15GznpG5/EApmpqvpfJyu53tb8ecsZOF7erQnRM/36j
-	JvnllTYlrFZbRHFqJUwF75xJcMW8BLuys7IL80dsaRGmZN/ZnEnhaodvwxSehYGysF7c
-	phmA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=HXeSHKCWk1Qzk106m8TUvuFHlZ29BlYQFSXBsiVUNNA=;
-	b=farx6fWjhKP6lwKZIYwopg3zONKK7jyZ14vP8glNSXTpmOu/2y7JV3jQTvrhz855aL
-	FKPcR8wpauOzfShzy3vPXn9hFg/X/kiEiJ5cIIK6cY7NwQz1jgVzLpKemwJiRFQ6eyAU
-	jd7wwjjx9qqBaBfsdPFkKD1ZI44Ur5gY8ZOk8kHX+3Aym0sk4Xocp/20Q1gIo5j8Eprk
-	SZSeajkS5Oo7W1rgH/lEg9fg2IO6W8FYxSY50j8wCgNmX5H8GFRh7ynoGM/z1/NWx31c
-	J+ffTAOkULY2Ql2n6fZDHusDXMS9FWCHsYgecHx0dCnwB3r6RPz3n12yokKR0nrsrNUk
-	rAUg==
-X-Gm-Message-State: AEkoousVpzO1Hs1U0FM1NY8VqpXetAg6gKKzTy2XUqNuFiza62HlL0/sOEKxyOrk+RAXz13m+1Nm2PmEquvbPL/D
-X-Received: by 10.36.121.206 with SMTP id z197mr6563730itc.22.1472145146965;
-	Thu, 25 Aug 2016 10:12:26 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.107.18.17 with HTTP; Thu, 25 Aug 2016 10:12:06 -0700 (PDT)
-In-Reply-To: <EFF516A8-3F18-4735-B2B9-EB285AE19F87@gmail.com>
-References: <cover.1472060412.git.mariano.lopez@linux.intel.com>
-	<2ea1073b1b15da51334a47814732d809fc1d4a3a.1472060412.git.mariano.lopez@linux.intel.com>
-	<CAJTo0LYmUmp8+KBwdJUYqNDHmxLjG+YUCviE4e+pmXOJGpjJ2g@mail.gmail.com>
-	<EFF516A8-3F18-4735-B2B9-EB285AE19F87@gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 25 Aug 2016 18:12:06 +0100
-Message-ID: <CAJTo0LZ6-mTh_bxQooreSNuZYtxZx6oupSqP6G5TM76h98YhmQ@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
+	Thu, 25 Aug 2016 21:04:11 +0000 (UTC)
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+	by orsmga102.jf.intel.com with ESMTP; 25 Aug 2016 14:04:12 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.28,577,1464678000"; d="scan'208";a="161006724"
+Received: from yctb01.ostc.intel.com (HELO yctb01.otcr.intel.com)
+	([10.54.69.55])
+	by fmsmga004.fm.intel.com with ESMTP; 25 Aug 2016 14:04:12 -0700
+From: mariano.lopez@linux.intel.com
+To: ross.burton@intel.com,
+	openembedded-core@lists.openembedded.org
+Date: Thu, 25 Aug 2016 13:01:18 +0000
+Message-Id: <1472130078-43004-1-git-send-email-mariano.lopez@linux.intel.com>
+X-Mailer: git-send-email 2.6.6
+In-Reply-To: <CAJTo0LZ6-mTh_bxQooreSNuZYtxZx6oupSqP6G5TM76h98YhmQ@mail.gmail.com>
 Subject: Re: [PATCHv4 1/2] cve-check-tool: Add recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -56,34 +30,150 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 25 Aug 2016 17:12:26 -0000
-Content-Type: multipart/alternative; boundary=001a114aa8208b1f4b053ae88068
+X-List-Received-Date: Thu, 25 Aug 2016 21:04:12 -0000
 
---001a114aa8208b1f4b053ae88068
-Content-Type: text/plain; charset=UTF-8
+From: Mariano Lopez <mariano.lopez@linux.intel.com>
 
-On 25 August 2016 at 17:57, Khem Raj <raj.khem@gmail.com> wrote:
+cve-check-tool is a program for public CVEs checking.
+This tool also seek to determine if a vulnerability has
+been addressed by a patch.
 
-> this change is needed with musl, so it may not cause issues per se but I
-> agree using append is better here
->
+The recipe also includes the do_populate_cve_db task
+that will populate the database used by the tool.
 
-It's needed for compiling with gcc6 too.
+[YOCTO #7515]
 
-Ross
+Signed-off-by: Mariano Lopez <mariano.lopez@linux.intel.com>
+---
+ .../cve-check-tool/cve-check-tool_5.6.4.bb         | 59 ++++++++++++++++++++++
+ .../check-for-malloc_trim-before-using-it.patch    | 51 +++++++++++++++++++
+ 2 files changed, 110 insertions(+)
+ create mode 100644 meta/recipes-devtools/cve-check-tool/cve-check-tool_5.6.4.bb
+ create mode 100644 meta/recipes-devtools/cve-check-tool/files/check-for-malloc_trim-before-using-it.patch
 
---001a114aa8208b1f4b053ae88068
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+diff --git a/meta/recipes-devtools/cve-check-tool/cve-check-tool_5.6.4.bb b/meta/recipes-devtools/cve-check-tool/cve-check-tool_5.6.4.bb
+new file mode 100644
+index 0000000..1165559
+--- /dev/null
++++ b/meta/recipes-devtools/cve-check-tool/cve-check-tool_5.6.4.bb
+@@ -0,0 +1,59 @@
++SUMMARY = "cve-check-tool"
++DESCRIPTION = "cve-check-tool is a tool for checking known (public) CVEs.\
++The tool will identify potentially vunlnerable software packages within Linux distributions through version matching."
++HOMEPAGE = "https://github.com/ikeydoherty/cve-check-tool"
++SECTION = "Development/Tools"
++LICENSE = "GPL-2.0+"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=e8c1458438ead3c34974bc0be3a03ed6"
++
++SRC_URI = "https://github.com/ikeydoherty/${BPN}/releases/download/v${PV}/${BP}.tar.xz \
++           file://check-for-malloc_trim-before-using-it.patch \
++          "
++
++SRC_URI[md5sum] = "c5f4247140fc9be3bf41491d31a34155"
++SRC_URI[sha256sum] = "b8f283be718af8d31232ac1bfc10a0378fb958aaaa49af39168f8acf501e6a5b"
++
++DEPENDS = "libcheck glib-2.0 json-glib curl libxml2 sqlite3 openssl ca-certificates"
++
++RDEPENDS_${PN} = "ca-certificates"
++
++inherit pkgconfig autotools
++
++EXTRA_OECONF = "--disable-coverage"
++CFLAGS_append = " -Wno-error=pedantic"
++
++python do_populate_cve_db () {
++    import subprocess
++    import time
++
++    if d.getVar("BB_NO_NETWORK", True) == "1":
++        bb.error("BB_NO_NETWORK is set; Can't update cve-check-tool database, "
++                  "CVEs won't be checked")
++        return
++
++    bb.utils.export_proxies(d)
++    # In case we don't inherit cve-check class, use default values defined in the class.
++    cve_dir = d.getVar("CVE_CHECK_DB_DIR", True) or d.expand("${DL_DIR}/CVE_CHECK")
++    cve_file = d.getVar("CVE_CHECK_TMP_FILE", True) or d.expand("${TMPDIR}/cve_check")
++    cve_cmd = "cve-check-update"
++    cmd = [cve_cmd, "-d", cve_dir]
++    bb.debug(1, "Updating cve-check-tool database located in %s" % cve_dir)
++    try:
++        output = subprocess.check_output(cmd, stderr=subprocess.STDOUT)
++        bb.debug(2, "Command '%s' returned:\n%s" % ("\n".join(cmd), output))
++        time_utc = time.gmtime(time.time())
++        time_format = "%Y-%m-%d %H:%M:%S"
++        with open(cve_file, "w") as f:
++            f.write("CVE database was updated on %s UTC\n\n"
++                    % time.strftime(time_format, time_utc))
++
++    except subprocess.CalledProcessError as e:
++        bb.warn("Error in executing cve-check-update: %s (output %s)" % (e, e.output))
++        if bb.data.inherits_class('cve-check', d):
++            bb.warn("Failed to update cve-check-tool database, CVEs won't be checked")
++}
++
++addtask populate_cve_db after do_populate_sysroot
++do_populate_cve_db[nostamp] = "1"
++
++BBCLASSEXTEND = "native nativesdk"
+diff --git a/meta/recipes-devtools/cve-check-tool/files/check-for-malloc_trim-before-using-it.patch b/meta/recipes-devtools/cve-check-tool/files/check-for-malloc_trim-before-using-it.patch
+new file mode 100644
+index 0000000..0774ad9
+--- /dev/null
++++ b/meta/recipes-devtools/cve-check-tool/files/check-for-malloc_trim-before-using-it.patch
+@@ -0,0 +1,51 @@
++From ce64633b9733e962b8d8482244301f614d8b5845 Mon Sep 17 00:00:00 2001
++From: Khem Raj <raj.khem@gmail.com>
++Date: Mon, 22 Aug 2016 22:54:24 -0700
++Subject: [PATCH] Check for malloc_trim before using it
++
++malloc_trim is gnu specific and not all libc
++implement it, threfore write a configure check
++to poke for it first and use the define to
++guard its use.
++
++Helps in compiling on musl based systems
++
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++---
++Upstream-Status: Submitted [https://github.com/ikeydoherty/cve-check-tool/pull/48]
++ configure.ac | 2 ++
++ src/core.c   | 4 ++--
++ 2 files changed, 4 insertions(+), 2 deletions(-)
++
++diff --git a/configure.ac b/configure.ac
++index d3b66ce..79c3542 100644
++--- a/configure.ac
+++++ b/configure.ac
++@@ -19,6 +19,8 @@ m4_define([json_required_version], [0.16.0])
++ m4_define([openssl_required_version],[1.0.0])
++ # TODO: Set minimum sqlite
++ 
+++AC_CHECK_FUNCS_ONCE(malloc_trim)
+++
++ PKG_CHECK_MODULES(CVE_CHECK_TOOL,
++                  [
++                   glib-2.0 >= glib_required_version,
++diff --git a/src/core.c b/src/core.c
++index 6263031..0d5df29 100644
++--- a/src/core.c
+++++ b/src/core.c
++@@ -498,9 +498,9 @@ bool cve_db_load(CveDB *self, const char *fname)
++         }
++ 
++         b = true;
++-
+++#ifdef HAVE_MALLOC_TRIM
++         malloc_trim(0);
++-
+++#endif
++         xmlFreeTextReader(r);
++         if (fd) {
++                 close(fd);
++-- 
++2.9.3
++
+-- 
+2.6.6
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 25 August 2016 at 17:57, Khem Raj <span dir=3D"ltr">&lt;<a href=3D"mailt=
-o:raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt;</span> w=
-rote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;borde=
-r-left:1px #ccc solid;padding-left:1ex"><div>this change is needed with mus=
-l, so it may not cause issues per se but I agree using append is better her=
-e</div></blockquote></div><br>It&#39;s needed for compiling with gcc6 too.<=
-/div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</=
-div></div>
 
---001a114aa8208b1f4b053ae88068--
