@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id E3FBF731E5
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 0911A7328A
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Aug 2016 14:41:09 +0000 (UTC)
+	Thu, 25 Aug 2016 14:41:10 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u7PEfAiF007668
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u7PEfBGX002386
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Aug 2016 07:41:10 -0700 (PDT)
+	Thu, 25 Aug 2016 07:41:11 -0700
 Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
 	Thu, 25 Aug 2016 07:41:10 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 25 Aug 2016 07:41:00 -0700
-Message-ID: <8cb8b7e0255f1b066e345ea2b5a8b3df77484889.1472120966.git.liezhi.yang@windriver.com>
+Date: Thu, 25 Aug 2016 07:41:01 -0700
+Message-ID: <a1e773efb3838a483b2441a6d81c0d2841dd5f2a.1472120966.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.9.0
 In-Reply-To: <cover.1472120966.git.liezhi.yang@windriver.com>
 References: <cover.1472120966.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH V5 03/10] qemuarm64.conf: set vars for runqemu
+Subject: [PATCH V5 04/10] qemux86.conf/qemux86-64.conf: set vars for runqemu
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,35 +33,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 25 Aug 2016 14:41:10 -0000
+X-List-Received-Date: Thu, 25 Aug 2016 14:41:11 -0000
 Content-Type: text/plain
+
+Add qemuboot-x86.inc to reduce duplicated code, the x86/x86_64 bsps
+which can be boot by runqemu can require qemuboot-x86.inc.
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- meta/conf/machine/qemuarm64.conf | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+ meta/conf/machine/include/qemuboot-x86.inc | 14 ++++++++++++++
+ meta/conf/machine/qemux86-64.conf          |  1 +
+ meta/conf/machine/qemux86.conf             |  1 +
+ 3 files changed, 16 insertions(+)
+ create mode 100644 meta/conf/machine/include/qemuboot-x86.inc
 
-diff --git a/meta/conf/machine/qemuarm64.conf b/meta/conf/machine/qemuarm64.conf
-index f59fb15..df76ee6 100644
---- a/meta/conf/machine/qemuarm64.conf
-+++ b/meta/conf/machine/qemuarm64.conf
-@@ -8,3 +8,16 @@ require conf/machine/include/qemu.inc
- KERNEL_IMAGETYPE = "Image"
- 
- SERIAL_CONSOLES = "38400;ttyAMA0 38400;hvc0"
-+
+diff --git a/meta/conf/machine/include/qemuboot-x86.inc b/meta/conf/machine/include/qemuboot-x86.inc
+new file mode 100644
+index 0000000..2ff3ca9
+--- /dev/null
++++ b/meta/conf/machine/include/qemuboot-x86.inc
+@@ -0,0 +1,14 @@
 +# For runqemu
-+QB_SYSTEM_NAME = "qemu-system-aarch64"
-+QB_MEM = "-m 512"
-+QB_MACHINE = "-machine virt"
-+QB_CPU = "-cpu cortex-a57"
-+QB_KERNEL_CMDLINE_APPEND = "console=ttyAMA0,38400"
-+QB_OPT_APPEND = "-show-cursor"
-+QB_TAP_OPT = "-netdev tap,id=net0,ifname=@TAP@,script=no,downscript=no -device virtio-net-device,netdev=net0"
-+QB_SLIRP_OPT = "-netdev user,id=net0 -device virtio-net-device,netdev=net0"
-+QB_ROOTFS_OPT = "-drive id=disk0,file=@ROOTFS@,if=none,format=raw -device virtio-blk-device,drive=disk0"
-+QB_SERIAL_OPT = "-device virtio-serial-device -chardev null,id=virtcon -device virtconsole,chardev=virtcon"
-+QB_TCPSERIAL_OPT = " -device virtio-serial-device -chardev socket,id=virtcon,port=@PORT@,host=127.0.0.1 -device virtconsole,chardev=virtcon"
++IMAGE_CLASSES += "qemuboot"
++QB_SYSTEM_NAME_x86 = "qemu-system-i386"
++QB_CPU_x86 = "-cpu qemu32"
++QB_CPU_KVM_x86 = "-cpu kvm32"
++
++QB_SYSTEM_NAME_x86-64 = "qemu-system-x86_64"
++QB_CPU_x86-64 = "-cpu core2duo"
++QB_CPU_KVM_x86-64 = "-cpu kvm64"
++
++QB_AUDIO_DRV = "alsa"
++QB_AUDIO_OPT = "-soundhw ac97,es1370"
++QB_KERNEL_CMDLINE_APPEND = "vga=0 uvesafb.mode_option=640x480-32 oprofile.timer=1"
++QB_OPT_APPEND = "-vga vmware -show-cursor -usb -usbdevice tablet"
+diff --git a/meta/conf/machine/qemux86-64.conf b/meta/conf/machine/qemux86-64.conf
+index ac2c039..b191ddd 100644
+--- a/meta/conf/machine/qemux86-64.conf
++++ b/meta/conf/machine/qemux86-64.conf
+@@ -10,6 +10,7 @@ PREFERRED_PROVIDER_virtual/libgles2 ?= "mesa"
+ require conf/machine/include/qemu.inc
+ DEFAULTTUNE ?= "core2-64"
+ require conf/machine/include/tune-core2.inc
++require conf/machine/include/qemuboot-x86.inc
+ 
+ KERNEL_IMAGETYPE = "bzImage"
+ 
+diff --git a/meta/conf/machine/qemux86.conf b/meta/conf/machine/qemux86.conf
+index 5d22e52..8555fd6 100644
+--- a/meta/conf/machine/qemux86.conf
++++ b/meta/conf/machine/qemux86.conf
+@@ -9,6 +9,7 @@ PREFERRED_PROVIDER_virtual/libgles2 ?= "mesa"
+ 
+ require conf/machine/include/qemu.inc
+ require conf/machine/include/tune-i586.inc
++require conf/machine/include/qemuboot-x86.inc
+ 
+ KERNEL_IMAGETYPE = "bzImage"
+ 
 -- 
 2.9.0
 
