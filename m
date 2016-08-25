@@ -1,33 +1,34 @@
 Return-Path: <Mattias.Waldo@saabgroup.com>
 Received: from weald2.air.saab.se (weald2.air.saab.se [146.75.247.197])
-	by mail.openembedded.org (Postfix) with ESMTP id 1942F6E64A
+	by mail.openembedded.org (Postfix) with ESMTP id 4F4776E64A
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Aug 2016 15:13:20 +0000 (UTC)
-Received: from mailhub1.air.saab.se ([136.163.213.4])
-	by weald2.air.saab.se (8.14.4/8.14.4) with ESMTP id u7PFDKo3026436
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Aug 2016 17:13:21 +0200
+	Thu, 25 Aug 2016 15:17:39 +0000 (UTC)
+Received: from mailhub2.air.saab.se ([136.163.213.5])
+	by weald2.air.saab.se (8.14.4/8.14.4) with ESMTP id u7PFHbZj027886
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=FAIL);
+	Thu, 25 Aug 2016 17:17:37 +0200
 Received: from corpappl844.corp.saab.se (corpappl844.corp.saab.se
 	[136.163.113.244])
-	by mailhub1.air.saab.se (8.13.8/8.13.8) with ESMTP id u7PFDCJW010598
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Aug 2016 17:13:12 +0200
+	by mailhub2.air.saab.se (8.13.8/8.13.8) with ESMTP id u7PFHUQk005765
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL);
+	Thu, 25 Aug 2016 17:17:30 +0200
 Received: from CORPAPPL846.corp.saab.se (136.163.113.246) by
 	corpappl844.corp.saab.se (136.163.113.244) with Microsoft SMTP Server
-	(TLS) id 15.0.1178.4; Thu, 25 Aug 2016 17:13:12 +0200
+	(TLS) id 15.0.1178.4; Thu, 25 Aug 2016 17:17:30 +0200
 Received: from CORPAPPL846.corp.saab.se ([136.163.113.246]) by
 	corpappl846.corp.saab.se ([136.163.113.246]) with mapi id
-	15.00.1178.000; Thu, 25 Aug 2016 17:13:12 +0200
+	15.00.1178.000; Thu, 25 Aug 2016 17:17:30 +0200
 From: Waldo Mattias <Mattias.Waldo@saabgroup.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core][PATCH v3] kernel.bbclass: include signing keys when
-	copying  files required for module builds
-Thread-Index: AQHR/txxXm+dlK3LeUql2MiQ/xfvcQ==
-Date: Thu, 25 Aug 2016 15:13:11 +0000
-Message-ID: <1472137991773.23686@saabgroup.com>
+To: "'Burton, Ross'" <ross.burton@intel.com>
+Thread-Topic: [OE-core] [PATCH v2] kernel.bbclass: include signing keys when
+	copying files required for module builds
+Thread-Index: AQHR/tfhEIC1F9djFUSJAG5vPiXoL6BZyTLA
+Date: Thu, 25 Aug 2016 15:16:00 +0000
+Deferred-Delivery: Thu, 25 Aug 2016 15:17:00 +0000
+Message-ID: <0d4dab927efa4c5db4572715cb1dcaac@corpappl846.corp.saab.se>
+References: <1472116833486.43456@saabgroup.com>
+	<CAJTo0Lam5us06i_nJtooYcA3T87nCFjAgZ=Gz_3kh-M0GNHisw@mail.gmail.com>
+In-Reply-To: <CAJTo0Lam5us06i_nJtooYcA3T87nCFjAgZ=Gz_3kh-M0GNHisw@mail.gmail.com>
 Accept-Language: sv-SE, en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
@@ -35,17 +36,19 @@ x-ms-exchange-transport-fromentityheader: Hosted
 x-originating-ip: [136.163.113.239]
 MIME-Version: 1.0
 X-Saab-MailScanner-Information: Please contact the ISP for more information
-X-Saab-MailScanner-ID: u7PFDCJW010598
+X-Saab-MailScanner-ID: u7PFHUQk005765
 X-Saab-MailScanner: Found to be clean
 X-Saab-MailScanner-SpamCheck: not spam (whitelisted),
-	SpamAssassin (not cached, score=0.5, required 5, BAYES_00 -0.50,
+	SpamAssassin (not cached, score=1.001, required 5, HTML_MESSAGE 0.00,
 	PB_NE_FROMS 1.00)
 X-Saab-MailScanner-From: mattias.waldo@saabgroup.com
-X-Saab-MailScanner-Watermark: 1472742792.90686@1pkMtPtqK4ke+MjmGrI+vQ
+X-Saab-MailScanner-Watermark: 1472743051.73404@7vGQPJ3GEAvjf8w55hIdLw
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.4.3
 	(weald2.air.saab.se [136.163.212.4]);
-	Thu, 25 Aug 2016 17:13:21 +0200 (CEST)
-Subject: [PATCH v3] kernel.bbclass: include signing keys when copying files required for module builds
+	Thu, 25 Aug 2016 17:17:37 +0200 (CEST)
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2] kernel.bbclass: include signing keys when copying files required for module builds
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,39 +61,134 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 25 Aug 2016 15:13:21 -0000
-Content-Language: sv-SE
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 25 Aug 2016 15:17:43 -0000
+Content-Language: en-US
+Content-Type: multipart/alternative;
+	boundary="_000_0d4dab927efa4c5db4572715cb1dcaaccorpappl846corpsaabse_"
 
-The absence of certs/signing_key.* in $kerneldir made signing of=0A=
-out-of-tree kernel modules fail (silently). Add copying of these=0A=
-files during the shared_workdir task.=0A=
-=0A=
-Signed-off-by: Mattias Waldo <mattias.waldo@saabgroup.com>=0A=
----=0A=
- meta/classes/kernel.bbclass | 2 ++=0A=
- 1 file changed, 2 insertions(+)=0A=
-=0A=
-diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass=0A=
-index db42744..07761e7 100644=0A=
---- a/meta/classes/kernel.bbclass=0A=
-+++ b/meta/classes/kernel.bbclass=0A=
-@@ -364,6 +364,8 @@ do_shared_workdir () {=0A=
-        cp .config $kerneldir/=0A=
-        mkdir -p $kerneldir/include/config=0A=
-        cp include/config/kernel.release $kerneldir/include/config/kernel.r=
-elease=0A=
-+       mkdir -p $kerneldir/certs=0A=
-+       cp certs/signing_key.* $kerneldir/certs=0A=
-=0A=
-        # We can also copy over all the generated files and avoid special c=
-ases=0A=
-        # like version.h, but we've opted to keep this small until file cre=
-ep starts=0A=
---=0A=
-2.9.3=0A=
-=0A=
-=0A=
-=0A=
+--_000_0d4dab927efa4c5db4572715cb1dcaaccorpappl846corpsaabse_
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
+VmVyc2lvbiAzIG9mIHRoZSBwYXRjaCBzdWJtaXR0ZWQsIHRoaXMgdGltZSBiYXNlZCBvbiBjdXJy
+ZW50IG1hc3RlciDigJMgdGhhbmtzIGZvciB5b3VyIHBhdGllbmNlIQ0KDQpSZWdhcmRzLA0KDQpN
+YXR0aWFzDQoNCkZyb206IEJ1cnRvbiwgUm9zcyBbbWFpbHRvOnJvc3MuYnVydG9uQGludGVsLmNv
+bV0NClNlbnQ6IGRlbiAyNSBhdWd1c3RpIDIwMTYgMTU6NTENClRvOiBXYWxkbyBNYXR0aWFzIDxN
+YXR0aWFzLldhbGRvQHNhYWJncm91cC5jb20+DQpDYzogb3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMu
+b3BlbmVtYmVkZGVkLm9yZw0KU3ViamVjdDogUmU6IFtPRS1jb3JlXSBbUEFUQ0ggdjJdIGtlcm5l
+bC5iYmNsYXNzOiBpbmNsdWRlIHNpZ25pbmcga2V5cyB3aGVuIGNvcHlpbmcgZmlsZXMgcmVxdWly
+ZWQgZm9yIG1vZHVsZSBidWlsZHMNCg0KDQpPbiAyNSBBdWd1c3QgMjAxNiBhdCAxMDoyMCwgV2Fs
+ZG8gTWF0dGlhcyA8TWF0dGlhcy5XYWxkb0BzYWFiZ3JvdXAuY29tPG1haWx0bzpNYXR0aWFzLldh
+bGRvQHNhYWJncm91cC5jb20+PiB3cm90ZToNClRoZSBhYnNlbmNlIG9mIGNlcnRzL3NpZ25pbmdf
+a2V5LiogaW4gJGtlcm5lbGRpciBtYWRlIHNpZ25pbmcgb2YNCm91dC1vZi10cmVlIGtlcm5lbCBt
+b2R1bGVzIGZhaWwgKHNpbGVudGx5KS4gQWRkIGNvcHlpbmcgb2YgdGhlc2UgZmlsZXMNCmR1cmlu
+ZyB0aGUgc2hhcmVkX3dvcmtkaXIgdGFzay4NCg0KQXJlIHlvdSBzdXJlIHRoYXQgeW91IGJhc2Vk
+IHRoaXMgb24gY3VycmVudCBtYXN0ZXI/DQoNCkFwcGx5aW5nOiBrZXJuZWwuYmJjbGFzczogaW5j
+bHVkZSBzaWduaW5nIGtleXMgd2hlbiBjb3B5aW5nIGZpbGVzIHJlcXVpcmVkIGZvciBtb2R1bGUg
+YnVpbGRzDQpVc2luZyBpbmRleCBpbmZvIHRvIHJlY29uc3RydWN0IGEgYmFzZSB0cmVlLi4uDQpN
+ICAgICAgICAgbWV0YS9jbGFzc2VzL2tlcm5lbC5iYmNsYXNzDQplcnJvcjogcGF0Y2ggZmFpbGVk
+OiBtZXRhL2NsYXNzZXMva2VybmVsLmJiY2xhc3M6Mjk1DQplcnJvcjogbWV0YS9jbGFzc2VzL2tl
+cm5lbC5iYmNsYXNzOiBwYXRjaCBkb2VzIG5vdCBhcHBseQ0KZXJyb3I6IERpZCB5b3UgaGFuZCBl
+ZGl0IHlvdXIgcGF0Y2g/DQpJdCBkb2VzIG5vdCBhcHBseSB0byBibG9icyByZWNvcmRlZCBpbiBp
+dHMgaW5kZXguDQpQYXRjaCBmYWlsZWQgYXQgMDAwMSBrZXJuZWwuYmJjbGFzczogaW5jbHVkZSBz
+aWduaW5nIGtleXMgd2hlbiBjb3B5aW5nIGZpbGVzIHJlcXVpcmVkIGZvciBtb2R1bGUgYnVpbGRz
+DQoNClJvc3MNCg==
+
+--_000_0d4dab927efa4c5db4572715cb1dcaaccorpappl846corpsaabse_
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: base64
+
+PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
+bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
+YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
+cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
+VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
+Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
+ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTUgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
+PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
+IkNhbWJyaWEgTWF0aCI7DQoJcGFub3NlLTE6MiA0IDUgMyA1IDQgNiAzIDIgNDt9DQpAZm9udC1m
+YWNlDQoJe2ZvbnQtZmFtaWx5OkNhbGlicmk7DQoJcGFub3NlLTE6MiAxNSA1IDIgMiAyIDQgMyAy
+IDQ7fQ0KLyogU3R5bGUgRGVmaW5pdGlvbnMgKi8NCnAuTXNvTm9ybWFsLCBsaS5Nc29Ob3JtYWws
+IGRpdi5Nc29Ob3JtYWwNCgl7bWFyZ2luOjBjbTsNCgltYXJnaW4tYm90dG9tOi4wMDAxcHQ7DQoJ
+Zm9udC1zaXplOjEyLjBwdDsNCglmb250LWZhbWlseToiVGltZXMgTmV3IFJvbWFuIixzZXJpZjt9
+DQphOmxpbmssIHNwYW4uTXNvSHlwZXJsaW5rDQoJe21zby1zdHlsZS1wcmlvcml0eTo5OTsNCglj
+b2xvcjpibHVlOw0KCXRleHQtZGVjb3JhdGlvbjp1bmRlcmxpbmU7fQ0KYTp2aXNpdGVkLCBzcGFu
+Lk1zb0h5cGVybGlua0ZvbGxvd2VkDQoJe21zby1zdHlsZS1wcmlvcml0eTo5OTsNCgljb2xvcjpw
+dXJwbGU7DQoJdGV4dC1kZWNvcmF0aW9uOnVuZGVybGluZTt9DQpzcGFuLkVtYWlsU3R5bGUxNw0K
+CXttc28tc3R5bGUtdHlwZTpwZXJzb25hbC1yZXBseTsNCglmb250LWZhbWlseToiQ2FsaWJyaSIs
+c2Fucy1zZXJpZjsNCgljb2xvcjojMUY0OTdEO30NCi5Nc29DaHBEZWZhdWx0DQoJe21zby1zdHls
+ZS10eXBlOmV4cG9ydC1vbmx5Ow0KCWZvbnQtZmFtaWx5OiJDYWxpYnJpIixzYW5zLXNlcmlmOw0K
+CW1zby1mYXJlYXN0LWxhbmd1YWdlOkVOLVVTO30NCkBwYWdlIFdvcmRTZWN0aW9uMQ0KCXtzaXpl
+OjYxMi4wcHQgNzkyLjBwdDsNCgltYXJnaW46NzAuODVwdCA3MC44NXB0IDcwLjg1cHQgNzAuODVw
+dDt9DQpkaXYuV29yZFNlY3Rpb24xDQoJe3BhZ2U6V29yZFNlY3Rpb24xO30NCi0tPjwvc3R5bGU+
+PCEtLVtpZiBndGUgbXNvIDldPjx4bWw+DQo8bzpzaGFwZWRlZmF1bHRzIHY6ZXh0PSJlZGl0IiBz
+cGlkbWF4PSIxMDI2IiAvPg0KPC94bWw+PCFbZW5kaWZdLS0+PCEtLVtpZiBndGUgbXNvIDldPjx4
+bWw+DQo8bzpzaGFwZWxheW91dCB2OmV4dD0iZWRpdCI+DQo8bzppZG1hcCB2OmV4dD0iZWRpdCIg
+ZGF0YT0iMSIgLz4NCjwvbzpzaGFwZWxheW91dD48L3htbD48IVtlbmRpZl0tLT4NCjwvaGVhZD4N
+Cjxib2R5IGxhbmc9IkVOLUdCIiBsaW5rPSJibHVlIiB2bGluaz0icHVycGxlIj4NCjxkaXYgY2xh
+c3M9IldvcmRTZWN0aW9uMSI+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0iZm9u
+dC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LHNhbnMtc2VyaWY7
+Y29sb3I6IzFGNDk3RDttc28tZmFyZWFzdC1sYW5ndWFnZTpFTi1VUyI+VmVyc2lvbiAzIG9mIHRo
+ZSBwYXRjaCBzdWJtaXR0ZWQsIHRoaXMgdGltZSBiYXNlZCBvbiBjdXJyZW50IG1hc3RlciDigJMg
+dGhhbmtzIGZvciB5b3VyIHBhdGllbmNlITxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNz
+PSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZx
+dW90O0NhbGlicmkmcXVvdDssc2Fucy1zZXJpZjtjb2xvcjojMUY0OTdEO21zby1mYXJlYXN0LWxh
+bmd1YWdlOkVOLVVTIj48bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNv
+Tm9ybWFsIj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtD
+YWxpYnJpJnF1b3Q7LHNhbnMtc2VyaWY7Y29sb3I6IzFGNDk3RDttc28tZmFyZWFzdC1sYW5ndWFn
+ZTpFTi1VUyI+UmVnYXJkcyw8bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9y
+bWFsIj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxp
+YnJpJnF1b3Q7LHNhbnMtc2VyaWY7Y29sb3I6IzFGNDk3RDttc28tZmFyZWFzdC1sYW5ndWFnZTpF
+Ti1VUyI+PG86cD4mbmJzcDs8L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+
+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZx
+dW90OyxzYW5zLXNlcmlmO2NvbG9yOiMxRjQ5N0Q7bXNvLWZhcmVhc3QtbGFuZ3VhZ2U6RU4tVVMi
+Pk1hdHRpYXM8bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3Bh
+biBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7
+LHNhbnMtc2VyaWY7Y29sb3I6IzFGNDk3RDttc28tZmFyZWFzdC1sYW5ndWFnZTpFTi1VUyI+PG86
+cD4mbmJzcDs8L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PGI+PHNwYW4g
+bGFuZz0iRU4tVVMiIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0Nh
+bGlicmkmcXVvdDssc2Fucy1zZXJpZiI+RnJvbTo8L3NwYW4+PC9iPjxzcGFuIGxhbmc9IkVOLVVT
+IiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7
+LHNhbnMtc2VyaWYiPiBCdXJ0b24sIFJvc3MgW21haWx0bzpyb3NzLmJ1cnRvbkBpbnRlbC5jb21d
+DQo8YnI+DQo8Yj5TZW50OjwvYj4gZGVuIDI1IGF1Z3VzdGkgMjAxNiAxNTo1MTxicj4NCjxiPlRv
+OjwvYj4gV2FsZG8gTWF0dGlhcyAmbHQ7TWF0dGlhcy5XYWxkb0BzYWFiZ3JvdXAuY29tJmd0Ozxi
+cj4NCjxiPkNjOjwvYj4gb3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZzxi
+cj4NCjxiPlN1YmplY3Q6PC9iPiBSZTogW09FLWNvcmVdIFtQQVRDSCB2Ml0ga2VybmVsLmJiY2xh
+c3M6IGluY2x1ZGUgc2lnbmluZyBrZXlzIHdoZW4gY29weWluZyBmaWxlcyByZXF1aXJlZCBmb3Ig
+bW9kdWxlIGJ1aWxkczxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwi
+PjxvOnA+Jm5ic3A7PC9vOnA+PC9wPg0KPGRpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFs
+Ij48bzpwPiZuYnNwOzwvbzpwPjwvcD4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj5PbiAy
+NSBBdWd1c3QgMjAxNiBhdCAxMDoyMCwgV2FsZG8gTWF0dGlhcyAmbHQ7PGEgaHJlZj0ibWFpbHRv
+Ok1hdHRpYXMuV2FsZG9Ac2FhYmdyb3VwLmNvbSIgdGFyZ2V0PSJfYmxhbmsiPk1hdHRpYXMuV2Fs
+ZG9Ac2FhYmdyb3VwLmNvbTwvYT4mZ3Q7IHdyb3RlOjxvOnA+PC9vOnA+PC9wPg0KPGJsb2NrcXVv
+dGUgc3R5bGU9ImJvcmRlcjpub25lO2JvcmRlci1sZWZ0OnNvbGlkICNDQ0NDQ0MgMS4wcHQ7cGFk
+ZGluZzowY20gMGNtIDBjbSA2LjBwdDttYXJnaW4tbGVmdDo0LjhwdDttYXJnaW4tcmlnaHQ6MGNt
+Ij4NCjxkaXYgaWQ9IjoxOXgiPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+VGhlIGFic2VuY2Ugb2Yg
+Y2VydHMvc2lnbmluZ19rZXkuKiBpbiAka2VybmVsZGlyIG1hZGUgc2lnbmluZyBvZjxicj4NCm91
+dC1vZi10cmVlIGtlcm5lbCBtb2R1bGVzIGZhaWwgKHNpbGVudGx5KS4gQWRkIGNvcHlpbmcgb2Yg
+dGhlc2UgZmlsZXM8YnI+DQpkdXJpbmcgdGhlIHNoYXJlZF93b3JrZGlyIHRhc2suPG86cD48L286
+cD48L3A+DQo8L2Rpdj4NCjwvYmxvY2txdW90ZT4NCjwvZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1h
+bCI+PGJyPg0KQXJlIHlvdSBzdXJlIHRoYXQgeW91IGJhc2VkIHRoaXMgb24gY3VycmVudCBtYXN0
+ZXI/PG86cD48L286cD48L3A+DQo8L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48
+bzpwPiZuYnNwOzwvbzpwPjwvcD4NCjwvZGl2Pg0KPGRpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNv
+Tm9ybWFsIj5BcHBseWluZzoga2VybmVsLmJiY2xhc3M6IGluY2x1ZGUgc2lnbmluZyBrZXlzIHdo
+ZW4gY29weWluZyBmaWxlcyByZXF1aXJlZCBmb3IgbW9kdWxlIGJ1aWxkczxvOnA+PC9vOnA+PC9w
+Pg0KPC9kaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+VXNpbmcgaW5kZXggaW5mbyB0
+byByZWNvbnN0cnVjdCBhIGJhc2UgdHJlZS4uLjxvOnA+PC9vOnA+PC9wPg0KPC9kaXY+DQo8ZGl2
+Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+TSZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZu
+YnNwOyZuYnNwOyZuYnNwOyBtZXRhL2NsYXNzZXMva2VybmVsLmJiY2xhc3M8bzpwPjwvbzpwPjwv
+cD4NCjwvZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPmVycm9yOiBwYXRjaCBmYWls
+ZWQ6IG1ldGEvY2xhc3Nlcy9rZXJuZWwuYmJjbGFzczoyOTU8bzpwPjwvbzpwPjwvcD4NCjwvZGl2
+Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPmVycm9yOiBtZXRhL2NsYXNzZXMva2VybmVs
+LmJiY2xhc3M6IHBhdGNoIGRvZXMgbm90IGFwcGx5PG86cD48L286cD48L3A+DQo8L2Rpdj4NCjxk
+aXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj5lcnJvcjogRGlkIHlvdSBoYW5kIGVkaXQgeW91ciBw
+YXRjaD88bzpwPjwvbzpwPjwvcD4NCjwvZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwi
+Pkl0IGRvZXMgbm90IGFwcGx5IHRvIGJsb2JzIHJlY29yZGVkIGluIGl0cyBpbmRleC48bzpwPjwv
+bzpwPjwvcD4NCjwvZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPlBhdGNoIGZhaWxl
+ZCBhdCAwMDAxIGtlcm5lbC5iYmNsYXNzOiBpbmNsdWRlIHNpZ25pbmcga2V5cyB3aGVuIGNvcHlp
+bmcgZmlsZXMgcmVxdWlyZWQgZm9yIG1vZHVsZSBidWlsZHM8bzpwPjwvbzpwPjwvcD4NCjwvZGl2
+Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxvOnA+Jm5ic3A7PC9vOnA+PC9wPg0KPC9k
+aXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+Um9zczxvOnA+PC9vOnA+PC9wPg0KPC9k
+aXY+DQo8L2Rpdj4NCjwvZGl2Pg0KPC9kaXY+DQo8L2JvZHk+DQo8L2h0bWw+DQo=
+
+--_000_0d4dab927efa4c5db4572715cb1dcaaccorpappl846corpsaabse_--
