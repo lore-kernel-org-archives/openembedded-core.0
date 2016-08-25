@@ -1,46 +1,35 @@
-Return-Path: <niqingliang2003@gmail.com>
-Received: from mail-ua0-f170.google.com (mail-ua0-f170.google.com
-	[209.85.217.170])
-	by mail.openembedded.org (Postfix) with ESMTP id A5AB86FF76
+Return-Path: <rpjday@crashcourse.ca>
+Received: from smtp486.redcondor.net (smtp486.redcondor.net [208.80.204.86])
+	by mail.openembedded.org (Postfix) with ESMTP id 1408E6010B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Aug 2016 10:13:45 +0000 (UTC)
-Received: by mail-ua0-f170.google.com with SMTP id k90so75464083uak.1
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Aug 2016 03:13:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=F+jtkdaAl1SigsRRLE7exbgIxLvR2SvLsslsAJx5nYE=;
-	b=0FZCkNAqP/aFg35ZzEUNV9VriH5mwiQJXEqOmo1ZLwkXztO6bK4iuncLnSeUzfj3li
-	NxE96573tlYqnXrzXY61nqopiGvIBT8UxiCrRJYKvfkT1tBywsQriYwf3Gm6nwSuvB0n
-	R6wwLLxcmHWLCzokM5LFSj/EIQ5PqyXb+wJol4ZLBbYzdc1uTryUo8KmjYnusvaMbAyA
-	7wOxeNME56y0lnNWyrcaaOIj+akaaIrgicGbwZu/JOd/AQ32LAaXuH3ID4bbeIf0ORhA
-	D2HstIWVZ1ht7jPhY5Pw+i/I5B2gG0G8ivQahTidlzdna6f3Yh73n+3rTz9QoOPYQeaG
-	gvlA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=F+jtkdaAl1SigsRRLE7exbgIxLvR2SvLsslsAJx5nYE=;
-	b=UY7xY1tnJcN/lV7swFUixTFbn/Shet3pKnQAunK4Q2yleQpzd7wnyXC2c2hj5NNCvl
-	rK/ApaHwa5m781kBiqs0IIh0BCtdtocteI/g90PbbTQTwphIk3XVOkwhTWmZJGmYcFLl
-	vj6HC/yreGvv+h+b4w88lVVDiCSnL2L2bn6BJh/oc3cV/MWbAq/9IsSpOFHAE0w79RQF
-	jRY6seAfySA4KFF3GTJ2PT92UuwxUpqWHe0XdLL5Ji7S/ZodIhBA0nsyEbBJVbuJDydx
-	A8YspL+CWIaSBhdGVvxboiuhQcdzlGR99v+lIl3D2sipkS82B8nNh3PI5UdwdC8/7oGu
-	Kymg==
-X-Gm-Message-State: AEkooutCInIuBbeXOsnpaHOhmv582L/XZnB9k2BGMaMhzqijO7/Y84Ra+0LvCT1T+CGLvqgmGULHmHStA7svSg==
-X-Received: by 10.31.178.23 with SMTP id b23mr4417848vkf.72.1472120025662;
-	Thu, 25 Aug 2016 03:13:45 -0700 (PDT)
+	Thu, 25 Aug 2016 10:52:11 +0000 (UTC)
+Received: from astoria.ccjclearline.com ([64.235.106.9])
+	by smtp486.redcondor.net ({6695537a-536a-45f9-a249-877c85428649})
+	via TCP (outbound) with ESMTPS id 20160825105209488_0486;
+	Thu, 25 Aug 2016 10:52:09 +0000
+X-RC-FROM: <rpjday@crashcourse.ca>
+Received: from [216.191.234.70] (port=56927 helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
+	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
+	id 1bcsIO-0000NJ-LO; Thu, 25 Aug 2016 06:54:04 -0400
+Date: Thu, 25 Aug 2016 06:51:55 -0400 (EDT)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@ca624034.mitel.com
+To: Javier Viguera <javier.viguera@digi.com>
+In-Reply-To: <47213dd7-8a1a-23a8-68a9-8e7c7452b9f6@digi.com>
+Message-ID: <alpine.LFD.2.20.1608250647580.27611@ca624034.mitel.com>
+References: <alpine.LFD.2.20.1608181237130.2886@ca624034.mitel.com>
+	<20160819201637.GO5342@bill-the-cat>
+	<alpine.LFD.2.20.1608210955340.18845@localhost.localdomain>
+	<20160821150452.GR5342@bill-the-cat>
+	<alpine.LFD.2.20.1608211146290.20716@localhost.localdomain>
+	<47213dd7-8a1a-23a8-68a9-8e7c7452b9f6@digi.com>
+User-Agent: Alpine 2.20 (LFD 67 2015-01-07)
 MIME-Version: 1.0
-Received: by 10.103.14.71 with HTTP; Thu, 25 Aug 2016 03:13:45 -0700 (PDT)
-In-Reply-To: <CAJTo0LYcCDfuqVBrVKTGXySzP4OLTCm_cXGs5yr_sL04EMi=MA@mail.gmail.com>
-References: <CADwFkYehX7aM8Oqiu+jv85iOe54J6wUFbKUs7OdENoUsF_rUfA@mail.gmail.com>
-	<CAJTo0LYcCDfuqVBrVKTGXySzP4OLTCm_cXGs5yr_sL04EMi=MA@mail.gmail.com>
-From: Yi Qingliang <niqingliang2003@gmail.com>
-Date: Thu, 25 Aug 2016 10:13:45 +0000
-Message-ID: <CADwFkYc84cV0m9NYkEzCpXtOEAMkxhTCybDz18C_sx0Ck-hqvA@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [meta-qt5] the QV4 engine will crash result in SIGSEGV
+X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: how can i add u-boot-fw-utils to my build without u-boot being part of the build?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,31 +42,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 25 Aug 2016 10:13:45 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 25 Aug 2016 10:52:13 -0000
+Content-Type: text/plain; charset=US-ASCII
 
-sorry!
+On Mon, 22 Aug 2016, Javier Viguera wrote:
 
-On Thu, Aug 25, 2016 at 9:34 AM, Burton, Ross <ross.burton@intel.com> wrote:
-> meta-qt5 bugs should go to openembedded-devel@, not -core@.
+> Hi Robert,
 >
-> Ross
+> On 21/08/16 17:51, Robert P. J. Day wrote:
+> >
+> >   i apologize for being clueless, but i'm still unclear on what i
+> > need to do here, and in my case, i'm going in the opposite
+> > direction.
+> >
+> >   currently, u-boot is being configured and compiled standalone --
+> > not as part of OE. and that build works just fine, so i can grab
+> > whatever (little?) i need from that build to then add to an actual
+> > OE build so i can just add u-boot-fw-utils to an existing image.
+> >
+> >   as i read it, for an OE build of u-boot, i need to supply either
+> > UBOOT_MACHINE or UBOOT_CONFIG. so in this case, what would i do?
+> > my assumption until now is that i need to add to the OE build just
+> > enough to get the fw utils to build, and i'd do that by setting
+> > either of those variables. and i already have the appropriate
+> > fw_env.config file ready to go.
+> >
+> >   so what precisely do i need to do here?
 >
-> On 25 August 2016 at 08:45, Yi Qingliang <niqingliang2003@gmail.com> wrote:
->>
->> bug detail:
->> https://bugs.archlinux.org/task/49723
->>
->> patch:
->>
->> https://git.archlinux.org/svntogit/packages.git/tree/trunk/qt5-declarative-gcc6.patch?h=packages/qt5-declarative
->>
->> Yi Qingliang
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> Have you tried to override UBOOT_CONFIG in a u-boot-fw-utils
+> bbappend?
+
+  i did figure out a while back that i needed to set at least one of
+UBOOT_MACHINE or UBOOT_CONFIG, and since i couldn't set the former,
+clearly, i needed to figure out how to set the latter, i just didn't
+know what was supposed to go into it. am i just missing it, or is
+there an actual example of what would go into a UBOOT_CONFIG variable?
+
+> Have a look at how we do that (using sandbox_defconfig) in
+> meta-digi-arm:
 >
+> https://github.com/digi-embedded/meta-digi/blob/jethro/meta-digi-arm/recipes-bsp/u-boot/u-boot-fw-utils_%25.bbappend
 >
+> Hope this helps.
+
+  ok, will check that out later today, thanks. is there, in fact, any
+OE/YP documentation that shows a detailed example of how to do that?
+i'm fairly familiar with the OE/YP manuals, but i don't recall
+tripping over anything like that.
+
+rday
+
+-- 
+
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
+
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
+
 
