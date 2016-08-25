@@ -1,21 +1,29 @@
-Return-Path: <mariano.lopez@linux.intel.com>
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by mail.openembedded.org (Postfix) with ESMTP id D96CD6FFFE
+Return-Path: <Bruce.Ashfield@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 4E1406612D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Aug 2016 03:11:12 +0000 (UTC)
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-	by orsmga105.jf.intel.com with ESMTP; 24 Aug 2016 20:01:29 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.28,573,1464678000"; d="scan'208";a="160610126"
-Received: from yctb01.ostc.intel.com (HELO yctb01.otcr.intel.com)
-	([10.54.69.55])
-	by fmsmga004.fm.intel.com with ESMTP; 24 Aug 2016 20:01:29 -0700
-From: mariano.lopez@linux.intel.com
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 24 Aug 2016 18:58:33 +0000
-Message-Id: <cover.1472060412.git.mariano.lopez@linux.intel.com>
-X-Mailer: git-send-email 2.6.6
-Subject: [PATCHv4 0/2] Add initial capability to check CVEs for recipes
+	Thu, 25 Aug 2016 04:04:42 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u7P44eHa018770
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
+	Wed, 24 Aug 2016 21:04:40 -0700
+Received: from server.local (147.11.119.189) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.248.2;
+	Wed, 24 Aug 2016 21:04:39 -0700
+To: "Burton, Ross" <ross.burton@intel.com>, California Sullivan
+	<california.l.sullivan@intel.com>
+References: <1471411501-3523-1-git-send-email-california.l.sullivan@intel.com>
+	<CAJTo0LZPhnJq+VO5X2R-_FE7-qzSCrQh5XWWpp-vRze5NOnqpA@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+Message-ID: <b33ff9d7-165c-e7b4-5268-c1f866a59529@windriver.com>
+Date: Thu, 25 Aug 2016 00:04:38 -0400
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:45.0)
+	Gecko/20100101 Thunderbird/45.2.0
+MIME-Version: 1.0
+In-Reply-To: <CAJTo0LZPhnJq+VO5X2R-_FE7-qzSCrQh5XWWpp-vRze5NOnqpA@mail.gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH RFC 1/1] kernel.bbclass: Add kernel_version_sanity_check function
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,63 +36,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 25 Aug 2016 03:11:13 -0000
+X-List-Received-Date: Thu, 25 Aug 2016 04:04:44 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-From: Mariano Lopez <mariano.lopez@linux.intel.com>
+On 2016-08-24 5:56 PM, Burton, Ross wrote:
+> Bruce, can you have a look at this?
 
-This series add the cve-check-tool recipe, a tool used to identify
-potentially vulnerable software through version matching. It will
-check if a vulnerability has been addressed by a patch.
+Wow. 8 days ago, and I admit that I didn't notice it go past.
 
-Also add the new cve-check class that will add a task for all recipes
-to check for CVEs using cve-check-tool. This tool can be used by recipe,
-mage (will generate an image report in deploy dir), and with "world"
-and "universe"
+Yes, I'll have a look at this during the day on Thursday.
 
-To run it just inherit the class and enter:
+Bruce
 
-bitbake -c cve_check <recipe>
-
-Changes in v2:
-
-- Set the explicit dependency of cve-check-tool-native:do_populate_cve_db
-  in the cve-check class
-- Squashed patch 2 into patch 1
-
-Changes in v3:
-
-- Support for python3
-- Add check for BB_NO_NETWORK
-
-Changes in v4:
-
-- Support for GCC 6 adding -Wno-error=pedantic to CFLAGS
-- Support for musl thanks to patch from Khem
-- Tweaks when building the the CVE database
-- Fix license
-
-The following changes since commit a81b326933d15f08e06780f92d8dc0d4efb3cd23:
-
-  combo-layer: python3: fix UnicodeDecodeError (2016-08-24 13:58:28 +0100)
-
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib mariano/bug7515v5
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=mariano/bug7515v5
-
-Mariano Lopez (2):
-  cve-check-tool: Add recipe
-  cve-check.bbclass: Add class
-
- meta/classes/cve-check.bbclass                     | 267 +++++++++++++++++++++
- .../cve-check-tool/cve-check-tool_5.6.4.bb         |  59 +++++
- .../check-for-malloc_trim-before-using-it.patch    |  51 ++++
- 3 files changed, 377 insertions(+)
- create mode 100644 meta/classes/cve-check.bbclass
- create mode 100644 meta/recipes-devtools/cve-check-tool/cve-check-tool_5.6.4.bb
- create mode 100644 meta/recipes-devtools/cve-check-tool/files/check-for-malloc_trim-before-using-it.patch
-
--- 
-2.6.6
+>
+> Ross
+>
+> On 17 August 2016 at 06:25, California Sullivan
+> <california.l.sullivan@intel.com
+> <mailto:california.l.sullivan@intel.com>> wrote:
+>
+>     The kernel being built should match what the recipe claims it is
+>     building. This function ensures that happens for anyone using
+>     LINUX_VERSION as they should. As it will likely break outside kernels
+>     not using LINUX_VERSION, only enable the function for linux-yocto for
+>     now.
+>
+>     Signed-off-by: California Sullivan <california.l.sullivan@intel.com
+>     <mailto:california.l.sullivan@intel.com>>
+>     ---
+>     I'm not absolutely sure this is the correct path to solve the issue.
+>     This patch relies on LINUX_VERSION being set which isn't a guarantee.
+>     There is probably a more general solution that I'm not thinking of.
+>
+>
+>
 
 
