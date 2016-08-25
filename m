@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id C470D73286
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 0E22D731E5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Aug 2016 14:41:11 +0000 (UTC)
+	Thu, 25 Aug 2016 14:41:13 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u7PEfCmD007671
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u7PEfDSe002389
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Aug 2016 07:41:12 -0700 (PDT)
+	Thu, 25 Aug 2016 07:41:14 -0700
 Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Thu, 25 Aug 2016 07:41:11 -0700
+	Thu, 25 Aug 2016 07:41:12 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 25 Aug 2016 07:41:02 -0700
-Message-ID: <acfa743dcfc0cf0cf0900de320606fdcbb8c72cf.1472120966.git.liezhi.yang@windriver.com>
+Date: Thu, 25 Aug 2016 07:41:03 -0700
+Message-ID: <6b0c8c39a48ff31068df8137646abe456309390e.1472120966.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.9.0
 In-Reply-To: <cover.1472120966.git.liezhi.yang@windriver.com>
 References: <cover.1472120966.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH V5 05/10] qemumips/qemumips64.conf: set vars for runqemu
+Subject: [PATCH V5 06/10] qemuppc.conf: set vars for runqemu
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,54 +36,26 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Thu, 25 Aug 2016 14:41:13 -0000
 Content-Type: text/plain
 
-Add qemuboot-mips.inc to reduce duplicated code, the various mips bsps
-which can be boot by runqemu can require qemuboot-mips.inc
-
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- meta/conf/machine/include/qemuboot-mips.inc | 7 +++++++
- meta/conf/machine/qemumips.conf             | 1 +
- meta/conf/machine/qemumips64.conf           | 1 +
- 3 files changed, 9 insertions(+)
- create mode 100644 meta/conf/machine/include/qemuboot-mips.inc
+ meta/conf/machine/qemuppc.conf | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/meta/conf/machine/include/qemuboot-mips.inc b/meta/conf/machine/include/qemuboot-mips.inc
-new file mode 100644
-index 0000000..0f04b81
---- /dev/null
-+++ b/meta/conf/machine/include/qemuboot-mips.inc
-@@ -0,0 +1,7 @@
+diff --git a/meta/conf/machine/qemuppc.conf b/meta/conf/machine/qemuppc.conf
+index bf0038d..580bbca 100644
+--- a/meta/conf/machine/qemuppc.conf
++++ b/meta/conf/machine/qemuppc.conf
+@@ -11,3 +11,10 @@ KERNEL_IMAGETYPE = "vmlinux"
+ 
+ SERIAL_CONSOLES = "115200;ttyS0 115200;ttyS1"
+ 
 +# For runqemu
-+IMAGE_CLASSES += "qemuboot"
-+QB_MEM = "-m 256"
-+QB_MACHINE = "-machine malta"
++QB_SYSTEM_NAME = "qemu-system-ppc"
++QB_MACHINE = "-machine mac99"
++QB_CPU = "-cpu G4"
 +QB_KERNEL_CMDLINE_APPEND = "console=ttyS0 console=tty"
-+QB_OPT_APPEND = "-vga cirrus -show-cursor -usb -usbdevice tablet"
-+QB_SYSTEM_NAME = "qemu-system-${TUNE_ARCH}"
-diff --git a/meta/conf/machine/qemumips.conf b/meta/conf/machine/qemumips.conf
-index fbf8137..3182ea1 100644
---- a/meta/conf/machine/qemumips.conf
-+++ b/meta/conf/machine/qemumips.conf
-@@ -4,6 +4,7 @@
- 
- require conf/machine/include/qemu.inc
- require conf/machine/include/tune-mips32r2.inc
-+require conf/machine/include/qemuboot-mips.inc
- 
- KERNEL_IMAGETYPE = "vmlinux"
- KERNEL_ALT_IMAGETYPE = "vmlinux.bin"
-diff --git a/meta/conf/machine/qemumips64.conf b/meta/conf/machine/qemumips64.conf
-index 8c3f1fe..9529f4c 100644
---- a/meta/conf/machine/qemumips64.conf
-+++ b/meta/conf/machine/qemumips64.conf
-@@ -4,6 +4,7 @@
- 
- require conf/machine/include/qemu.inc
- require conf/machine/include/tune-mips64.inc
-+require conf/machine/include/qemuboot-mips.inc
- 
- KERNEL_IMAGETYPE = "vmlinux"
- KERNEL_ALT_IMAGETYPE = "vmlinux.bin"
++QB_OPT_APPEND = "-show-cursor -usb -usbdevice tablet"
++QB_TAP_OPT = "-net tap,vlan=0,ifname=@TAP@,script=no,downscript=no -net nic,model=pcnet"
 -- 
 2.9.0
 
