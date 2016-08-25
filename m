@@ -1,54 +1,46 @@
-Return-Path: <Mattias.Waldo@saabgroup.com>
-Received: from weald2.air.saab.se (weald2.air.saab.se [146.75.247.197])
-	by mail.openembedded.org (Postfix) with ESMTP id 4F4776E64A
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from mail-qk0-f194.google.com (mail-qk0-f194.google.com
+	[209.85.220.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 6BB496FF7B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Aug 2016 15:17:39 +0000 (UTC)
-Received: from mailhub2.air.saab.se ([136.163.213.5])
-	by weald2.air.saab.se (8.14.4/8.14.4) with ESMTP id u7PFHbZj027886
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=FAIL);
-	Thu, 25 Aug 2016 17:17:37 +0200
-Received: from corpappl844.corp.saab.se (corpappl844.corp.saab.se
-	[136.163.113.244])
-	by mailhub2.air.saab.se (8.13.8/8.13.8) with ESMTP id u7PFHUQk005765
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL);
-	Thu, 25 Aug 2016 17:17:30 +0200
-Received: from CORPAPPL846.corp.saab.se (136.163.113.246) by
-	corpappl844.corp.saab.se (136.163.113.244) with Microsoft SMTP Server
-	(TLS) id 15.0.1178.4; Thu, 25 Aug 2016 17:17:30 +0200
-Received: from CORPAPPL846.corp.saab.se ([136.163.113.246]) by
-	corpappl846.corp.saab.se ([136.163.113.246]) with mapi id
-	15.00.1178.000; Thu, 25 Aug 2016 17:17:30 +0200
-From: Waldo Mattias <Mattias.Waldo@saabgroup.com>
-To: "'Burton, Ross'" <ross.burton@intel.com>
-Thread-Topic: [OE-core] [PATCH v2] kernel.bbclass: include signing keys when
-	copying files required for module builds
-Thread-Index: AQHR/tfhEIC1F9djFUSJAG5vPiXoL6BZyTLA
-Date: Thu, 25 Aug 2016 15:16:00 +0000
-Deferred-Delivery: Thu, 25 Aug 2016 15:17:00 +0000
-Message-ID: <0d4dab927efa4c5db4572715cb1dcaac@corpappl846.corp.saab.se>
-References: <1472116833486.43456@saabgroup.com>
-	<CAJTo0Lam5us06i_nJtooYcA3T87nCFjAgZ=Gz_3kh-M0GNHisw@mail.gmail.com>
-In-Reply-To: <CAJTo0Lam5us06i_nJtooYcA3T87nCFjAgZ=Gz_3kh-M0GNHisw@mail.gmail.com>
-Accept-Language: sv-SE, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [136.163.113.239]
+	Thu, 25 Aug 2016 15:52:43 +0000 (UTC)
+Received: by mail-qk0-f194.google.com with SMTP id o1so3901854qkd.2
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 25 Aug 2016 08:52:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=puVh/vnQSDljUu7+UfGgYEZU4vy/316v5OLLS6W1tjI=;
+	b=lauF9mDQkrXWQrdOkyzCWMrv61PsM4IVrMKqowTu7b3v1fzmAGItsMNQ+xCT61Iykd
+	hMNY1WpLvRmBKN9yAnmuQ89mOhbv/cJJgRCCS/RO/0Yyqj4o6l0SnZkp6M2CEyACKNQz
+	Oq80NNF5AYgDw7U3Xmp+pDu2PA2RWxnl0J+924/6Mno4/XXqjrIoK6VQrJmv0yn+9Zh+
+	/tAcRSns9Y6nQYDyL7qsXaKP3X8Jbc0F7xicYRyhLCoMg/8OMh8CSC3G0zm8YjRjTxq1
+	Da3iBoE8bnE14sfUC+hPmgfpwAkQsNa69JOnR22a5YHnfcxZpGOQG5V4pMbIQDSMi4Ul
+	PxQw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=puVh/vnQSDljUu7+UfGgYEZU4vy/316v5OLLS6W1tjI=;
+	b=ciXBzQNNiqwAqaJiO1RzTJUKmr2bvQio2fHU1X65bDdyOknM4AwUlj0e1793jzGbKS
+	bRu+oUVlt0z2Ats6b/2IVfr81qCTMoSdGnr8rlTPHbCFTAsNYGZ31wR3LpByQtKgA6jl
+	rAVkAPGHy9xFuKHQfOLC6acYJdm8EL6ji0DLSF2uIKijhbEkU7jdIKfoWiWdI0BhYBA6
+	s0taXXfiiBzDH0VfBTg6+L0jLRxFbl/cAq/4K/DF8j+kJzhUhmWTXx5bWzLZRVCfejIm
+	7xFSi2SE0CWbbkovKuat14ik1Grib+VNCmT8uy4dYA5vuaRE15e1QhXT8JrvcbHdVcDR
+	cTnQ==
+X-Gm-Message-State: AE9vXwOYiYtmqos/Lr1wwvVxwiaz7K+HZ8fjs5Q8+GmOsEELuSoCyqlVw4abzbZuad4MBJEaCs75RISFV0fotw==
+X-Received: by 10.55.166.137 with SMTP id p131mr11159739qke.161.1472140364401; 
+	Thu, 25 Aug 2016 08:52:44 -0700 (PDT)
 MIME-Version: 1.0
-X-Saab-MailScanner-Information: Please contact the ISP for more information
-X-Saab-MailScanner-ID: u7PFHUQk005765
-X-Saab-MailScanner: Found to be clean
-X-Saab-MailScanner-SpamCheck: not spam (whitelisted),
-	SpamAssassin (not cached, score=1.001, required 5, HTML_MESSAGE 0.00,
-	PB_NE_FROMS 1.00)
-X-Saab-MailScanner-From: mattias.waldo@saabgroup.com
-X-Saab-MailScanner-Watermark: 1472743051.73404@7vGQPJ3GEAvjf8w55hIdLw
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.4.3
-	(weald2.air.saab.se [136.163.212.4]);
-	Thu, 25 Aug 2016 17:17:37 +0200 (CEST)
+Received: by 10.200.50.137 with HTTP; Thu, 25 Aug 2016 08:52:43 -0700 (PDT)
+In-Reply-To: <1472137991773.23686@saabgroup.com>
+References: <1472137991773.23686@saabgroup.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Thu, 25 Aug 2016 11:52:43 -0400
+Message-ID: <CADkTA4PaWd4Gm7P=u+xB5M9yBxz6yitk11nK4qN76dSOar5ExA@mail.gmail.com>
+To: Waldo Mattias <Mattias.Waldo@saabgroup.com>
 Cc: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] kernel.bbclass: include signing keys when copying files required for module builds
+Subject: Re: [PATCH v3] kernel.bbclass: include signing keys when copying files required for module builds
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,134 +53,129 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 25 Aug 2016 15:17:43 -0000
-Content-Language: en-US
-Content-Type: multipart/alternative;
-	boundary="_000_0d4dab927efa4c5db4572715cb1dcaaccorpappl846corpsaabse_"
+X-List-Received-Date: Thu, 25 Aug 2016 15:52:44 -0000
+Content-Type: multipart/alternative; boundary=94eb2c06eda07ad133053ae763f8
 
---_000_0d4dab927efa4c5db4572715cb1dcaaccorpappl846corpsaabse_
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+--94eb2c06eda07ad133053ae763f8
+Content-Type: text/plain; charset=UTF-8
 
-VmVyc2lvbiAzIG9mIHRoZSBwYXRjaCBzdWJtaXR0ZWQsIHRoaXMgdGltZSBiYXNlZCBvbiBjdXJy
-ZW50IG1hc3RlciDigJMgdGhhbmtzIGZvciB5b3VyIHBhdGllbmNlIQ0KDQpSZWdhcmRzLA0KDQpN
-YXR0aWFzDQoNCkZyb206IEJ1cnRvbiwgUm9zcyBbbWFpbHRvOnJvc3MuYnVydG9uQGludGVsLmNv
-bV0NClNlbnQ6IGRlbiAyNSBhdWd1c3RpIDIwMTYgMTU6NTENClRvOiBXYWxkbyBNYXR0aWFzIDxN
-YXR0aWFzLldhbGRvQHNhYWJncm91cC5jb20+DQpDYzogb3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMu
-b3BlbmVtYmVkZGVkLm9yZw0KU3ViamVjdDogUmU6IFtPRS1jb3JlXSBbUEFUQ0ggdjJdIGtlcm5l
-bC5iYmNsYXNzOiBpbmNsdWRlIHNpZ25pbmcga2V5cyB3aGVuIGNvcHlpbmcgZmlsZXMgcmVxdWly
-ZWQgZm9yIG1vZHVsZSBidWlsZHMNCg0KDQpPbiAyNSBBdWd1c3QgMjAxNiBhdCAxMDoyMCwgV2Fs
-ZG8gTWF0dGlhcyA8TWF0dGlhcy5XYWxkb0BzYWFiZ3JvdXAuY29tPG1haWx0bzpNYXR0aWFzLldh
-bGRvQHNhYWJncm91cC5jb20+PiB3cm90ZToNClRoZSBhYnNlbmNlIG9mIGNlcnRzL3NpZ25pbmdf
-a2V5LiogaW4gJGtlcm5lbGRpciBtYWRlIHNpZ25pbmcgb2YNCm91dC1vZi10cmVlIGtlcm5lbCBt
-b2R1bGVzIGZhaWwgKHNpbGVudGx5KS4gQWRkIGNvcHlpbmcgb2YgdGhlc2UgZmlsZXMNCmR1cmlu
-ZyB0aGUgc2hhcmVkX3dvcmtkaXIgdGFzay4NCg0KQXJlIHlvdSBzdXJlIHRoYXQgeW91IGJhc2Vk
-IHRoaXMgb24gY3VycmVudCBtYXN0ZXI/DQoNCkFwcGx5aW5nOiBrZXJuZWwuYmJjbGFzczogaW5j
-bHVkZSBzaWduaW5nIGtleXMgd2hlbiBjb3B5aW5nIGZpbGVzIHJlcXVpcmVkIGZvciBtb2R1bGUg
-YnVpbGRzDQpVc2luZyBpbmRleCBpbmZvIHRvIHJlY29uc3RydWN0IGEgYmFzZSB0cmVlLi4uDQpN
-ICAgICAgICAgbWV0YS9jbGFzc2VzL2tlcm5lbC5iYmNsYXNzDQplcnJvcjogcGF0Y2ggZmFpbGVk
-OiBtZXRhL2NsYXNzZXMva2VybmVsLmJiY2xhc3M6Mjk1DQplcnJvcjogbWV0YS9jbGFzc2VzL2tl
-cm5lbC5iYmNsYXNzOiBwYXRjaCBkb2VzIG5vdCBhcHBseQ0KZXJyb3I6IERpZCB5b3UgaGFuZCBl
-ZGl0IHlvdXIgcGF0Y2g/DQpJdCBkb2VzIG5vdCBhcHBseSB0byBibG9icyByZWNvcmRlZCBpbiBp
-dHMgaW5kZXguDQpQYXRjaCBmYWlsZWQgYXQgMDAwMSBrZXJuZWwuYmJjbGFzczogaW5jbHVkZSBz
-aWduaW5nIGtleXMgd2hlbiBjb3B5aW5nIGZpbGVzIHJlcXVpcmVkIGZvciBtb2R1bGUgYnVpbGRz
-DQoNClJvc3MNCg==
+On Thu, Aug 25, 2016 at 11:13 AM, Waldo Mattias <Mattias.Waldo@saabgroup.com
+> wrote:
 
---_000_0d4dab927efa4c5db4572715cb1dcaaccorpappl846corpsaabse_
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: base64
+> The absence of certs/signing_key.* in $kerneldir made signing of
+> out-of-tree kernel modules fail (silently). Add copying of these
+> files during the shared_workdir task.
+>
 
-PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
-bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
-YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
-cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
-VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
-Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
-ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTUgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
-PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
-IkNhbWJyaWEgTWF0aCI7DQoJcGFub3NlLTE6MiA0IDUgMyA1IDQgNiAzIDIgNDt9DQpAZm9udC1m
-YWNlDQoJe2ZvbnQtZmFtaWx5OkNhbGlicmk7DQoJcGFub3NlLTE6MiAxNSA1IDIgMiAyIDQgMyAy
-IDQ7fQ0KLyogU3R5bGUgRGVmaW5pdGlvbnMgKi8NCnAuTXNvTm9ybWFsLCBsaS5Nc29Ob3JtYWws
-IGRpdi5Nc29Ob3JtYWwNCgl7bWFyZ2luOjBjbTsNCgltYXJnaW4tYm90dG9tOi4wMDAxcHQ7DQoJ
-Zm9udC1zaXplOjEyLjBwdDsNCglmb250LWZhbWlseToiVGltZXMgTmV3IFJvbWFuIixzZXJpZjt9
-DQphOmxpbmssIHNwYW4uTXNvSHlwZXJsaW5rDQoJe21zby1zdHlsZS1wcmlvcml0eTo5OTsNCglj
-b2xvcjpibHVlOw0KCXRleHQtZGVjb3JhdGlvbjp1bmRlcmxpbmU7fQ0KYTp2aXNpdGVkLCBzcGFu
-Lk1zb0h5cGVybGlua0ZvbGxvd2VkDQoJe21zby1zdHlsZS1wcmlvcml0eTo5OTsNCgljb2xvcjpw
-dXJwbGU7DQoJdGV4dC1kZWNvcmF0aW9uOnVuZGVybGluZTt9DQpzcGFuLkVtYWlsU3R5bGUxNw0K
-CXttc28tc3R5bGUtdHlwZTpwZXJzb25hbC1yZXBseTsNCglmb250LWZhbWlseToiQ2FsaWJyaSIs
-c2Fucy1zZXJpZjsNCgljb2xvcjojMUY0OTdEO30NCi5Nc29DaHBEZWZhdWx0DQoJe21zby1zdHls
-ZS10eXBlOmV4cG9ydC1vbmx5Ow0KCWZvbnQtZmFtaWx5OiJDYWxpYnJpIixzYW5zLXNlcmlmOw0K
-CW1zby1mYXJlYXN0LWxhbmd1YWdlOkVOLVVTO30NCkBwYWdlIFdvcmRTZWN0aW9uMQ0KCXtzaXpl
-OjYxMi4wcHQgNzkyLjBwdDsNCgltYXJnaW46NzAuODVwdCA3MC44NXB0IDcwLjg1cHQgNzAuODVw
-dDt9DQpkaXYuV29yZFNlY3Rpb24xDQoJe3BhZ2U6V29yZFNlY3Rpb24xO30NCi0tPjwvc3R5bGU+
-PCEtLVtpZiBndGUgbXNvIDldPjx4bWw+DQo8bzpzaGFwZWRlZmF1bHRzIHY6ZXh0PSJlZGl0IiBz
-cGlkbWF4PSIxMDI2IiAvPg0KPC94bWw+PCFbZW5kaWZdLS0+PCEtLVtpZiBndGUgbXNvIDldPjx4
-bWw+DQo8bzpzaGFwZWxheW91dCB2OmV4dD0iZWRpdCI+DQo8bzppZG1hcCB2OmV4dD0iZWRpdCIg
-ZGF0YT0iMSIgLz4NCjwvbzpzaGFwZWxheW91dD48L3htbD48IVtlbmRpZl0tLT4NCjwvaGVhZD4N
-Cjxib2R5IGxhbmc9IkVOLUdCIiBsaW5rPSJibHVlIiB2bGluaz0icHVycGxlIj4NCjxkaXYgY2xh
-c3M9IldvcmRTZWN0aW9uMSI+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0iZm9u
-dC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LHNhbnMtc2VyaWY7
-Y29sb3I6IzFGNDk3RDttc28tZmFyZWFzdC1sYW5ndWFnZTpFTi1VUyI+VmVyc2lvbiAzIG9mIHRo
-ZSBwYXRjaCBzdWJtaXR0ZWQsIHRoaXMgdGltZSBiYXNlZCBvbiBjdXJyZW50IG1hc3RlciDigJMg
-dGhhbmtzIGZvciB5b3VyIHBhdGllbmNlITxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNz
-PSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZx
-dW90O0NhbGlicmkmcXVvdDssc2Fucy1zZXJpZjtjb2xvcjojMUY0OTdEO21zby1mYXJlYXN0LWxh
-bmd1YWdlOkVOLVVTIj48bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNv
-Tm9ybWFsIj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtD
-YWxpYnJpJnF1b3Q7LHNhbnMtc2VyaWY7Y29sb3I6IzFGNDk3RDttc28tZmFyZWFzdC1sYW5ndWFn
-ZTpFTi1VUyI+UmVnYXJkcyw8bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9y
-bWFsIj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxp
-YnJpJnF1b3Q7LHNhbnMtc2VyaWY7Y29sb3I6IzFGNDk3RDttc28tZmFyZWFzdC1sYW5ndWFnZTpF
-Ti1VUyI+PG86cD4mbmJzcDs8L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+
-PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZx
-dW90OyxzYW5zLXNlcmlmO2NvbG9yOiMxRjQ5N0Q7bXNvLWZhcmVhc3QtbGFuZ3VhZ2U6RU4tVVMi
-Pk1hdHRpYXM8bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3Bh
-biBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7
-LHNhbnMtc2VyaWY7Y29sb3I6IzFGNDk3RDttc28tZmFyZWFzdC1sYW5ndWFnZTpFTi1VUyI+PG86
-cD4mbmJzcDs8L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PGI+PHNwYW4g
-bGFuZz0iRU4tVVMiIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0Nh
-bGlicmkmcXVvdDssc2Fucy1zZXJpZiI+RnJvbTo8L3NwYW4+PC9iPjxzcGFuIGxhbmc9IkVOLVVT
-IiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7
-LHNhbnMtc2VyaWYiPiBCdXJ0b24sIFJvc3MgW21haWx0bzpyb3NzLmJ1cnRvbkBpbnRlbC5jb21d
-DQo8YnI+DQo8Yj5TZW50OjwvYj4gZGVuIDI1IGF1Z3VzdGkgMjAxNiAxNTo1MTxicj4NCjxiPlRv
-OjwvYj4gV2FsZG8gTWF0dGlhcyAmbHQ7TWF0dGlhcy5XYWxkb0BzYWFiZ3JvdXAuY29tJmd0Ozxi
-cj4NCjxiPkNjOjwvYj4gb3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZzxi
-cj4NCjxiPlN1YmplY3Q6PC9iPiBSZTogW09FLWNvcmVdIFtQQVRDSCB2Ml0ga2VybmVsLmJiY2xh
-c3M6IGluY2x1ZGUgc2lnbmluZyBrZXlzIHdoZW4gY29weWluZyBmaWxlcyByZXF1aXJlZCBmb3Ig
-bW9kdWxlIGJ1aWxkczxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwi
-PjxvOnA+Jm5ic3A7PC9vOnA+PC9wPg0KPGRpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFs
-Ij48bzpwPiZuYnNwOzwvbzpwPjwvcD4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj5PbiAy
-NSBBdWd1c3QgMjAxNiBhdCAxMDoyMCwgV2FsZG8gTWF0dGlhcyAmbHQ7PGEgaHJlZj0ibWFpbHRv
-Ok1hdHRpYXMuV2FsZG9Ac2FhYmdyb3VwLmNvbSIgdGFyZ2V0PSJfYmxhbmsiPk1hdHRpYXMuV2Fs
-ZG9Ac2FhYmdyb3VwLmNvbTwvYT4mZ3Q7IHdyb3RlOjxvOnA+PC9vOnA+PC9wPg0KPGJsb2NrcXVv
-dGUgc3R5bGU9ImJvcmRlcjpub25lO2JvcmRlci1sZWZ0OnNvbGlkICNDQ0NDQ0MgMS4wcHQ7cGFk
-ZGluZzowY20gMGNtIDBjbSA2LjBwdDttYXJnaW4tbGVmdDo0LjhwdDttYXJnaW4tcmlnaHQ6MGNt
-Ij4NCjxkaXYgaWQ9IjoxOXgiPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+VGhlIGFic2VuY2Ugb2Yg
-Y2VydHMvc2lnbmluZ19rZXkuKiBpbiAka2VybmVsZGlyIG1hZGUgc2lnbmluZyBvZjxicj4NCm91
-dC1vZi10cmVlIGtlcm5lbCBtb2R1bGVzIGZhaWwgKHNpbGVudGx5KS4gQWRkIGNvcHlpbmcgb2Yg
-dGhlc2UgZmlsZXM8YnI+DQpkdXJpbmcgdGhlIHNoYXJlZF93b3JrZGlyIHRhc2suPG86cD48L286
-cD48L3A+DQo8L2Rpdj4NCjwvYmxvY2txdW90ZT4NCjwvZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1h
-bCI+PGJyPg0KQXJlIHlvdSBzdXJlIHRoYXQgeW91IGJhc2VkIHRoaXMgb24gY3VycmVudCBtYXN0
-ZXI/PG86cD48L286cD48L3A+DQo8L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48
-bzpwPiZuYnNwOzwvbzpwPjwvcD4NCjwvZGl2Pg0KPGRpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNv
-Tm9ybWFsIj5BcHBseWluZzoga2VybmVsLmJiY2xhc3M6IGluY2x1ZGUgc2lnbmluZyBrZXlzIHdo
-ZW4gY29weWluZyBmaWxlcyByZXF1aXJlZCBmb3IgbW9kdWxlIGJ1aWxkczxvOnA+PC9vOnA+PC9w
-Pg0KPC9kaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+VXNpbmcgaW5kZXggaW5mbyB0
-byByZWNvbnN0cnVjdCBhIGJhc2UgdHJlZS4uLjxvOnA+PC9vOnA+PC9wPg0KPC9kaXY+DQo8ZGl2
-Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+TSZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZu
-YnNwOyZuYnNwOyZuYnNwOyBtZXRhL2NsYXNzZXMva2VybmVsLmJiY2xhc3M8bzpwPjwvbzpwPjwv
-cD4NCjwvZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPmVycm9yOiBwYXRjaCBmYWls
-ZWQ6IG1ldGEvY2xhc3Nlcy9rZXJuZWwuYmJjbGFzczoyOTU8bzpwPjwvbzpwPjwvcD4NCjwvZGl2
-Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPmVycm9yOiBtZXRhL2NsYXNzZXMva2VybmVs
-LmJiY2xhc3M6IHBhdGNoIGRvZXMgbm90IGFwcGx5PG86cD48L286cD48L3A+DQo8L2Rpdj4NCjxk
-aXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj5lcnJvcjogRGlkIHlvdSBoYW5kIGVkaXQgeW91ciBw
-YXRjaD88bzpwPjwvbzpwPjwvcD4NCjwvZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwi
-Pkl0IGRvZXMgbm90IGFwcGx5IHRvIGJsb2JzIHJlY29yZGVkIGluIGl0cyBpbmRleC48bzpwPjwv
-bzpwPjwvcD4NCjwvZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPlBhdGNoIGZhaWxl
-ZCBhdCAwMDAxIGtlcm5lbC5iYmNsYXNzOiBpbmNsdWRlIHNpZ25pbmcga2V5cyB3aGVuIGNvcHlp
-bmcgZmlsZXMgcmVxdWlyZWQgZm9yIG1vZHVsZSBidWlsZHM8bzpwPjwvbzpwPjwvcD4NCjwvZGl2
-Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxvOnA+Jm5ic3A7PC9vOnA+PC9wPg0KPC9k
-aXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+Um9zczxvOnA+PC9vOnA+PC9wPg0KPC9k
-aXY+DQo8L2Rpdj4NCjwvZGl2Pg0KPC9kaXY+DQo8L2JvZHk+DQo8L2h0bWw+DQo=
+I had been pinged on one of the earlier revisions of this, and I can say
+that this looks
+fine to me.
 
---_000_0d4dab927efa4c5db4572715cb1dcaaccorpappl846corpsaabse_--
+Acked-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+
+Bruce
+
+
+>
+> Signed-off-by: Mattias Waldo <mattias.waldo@saabgroup.com>
+> ---
+>  meta/classes/kernel.bbclass | 2 ++
+>  1 file changed, 2 insertions(+)
+>
+> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+> index db42744..07761e7 100644
+> --- a/meta/classes/kernel.bbclass
+> +++ b/meta/classes/kernel.bbclass
+> @@ -364,6 +364,8 @@ do_shared_workdir () {
+>         cp .config $kerneldir/
+>         mkdir -p $kerneldir/include/config
+>         cp include/config/kernel.release $kerneldir/include/config/
+> kernel.release
+> +       mkdir -p $kerneldir/certs
+> +       cp certs/signing_key.* $kerneldir/certs
+>
+>         # We can also copy over all the generated files and avoid special
+> cases
+>         # like version.h, but we've opted to keep this small until file
+> creep starts
+> --
+> 2.9.3
+>
+>
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+
+
+
+-- 
+"Thou shalt not follow the NULL pointer, for chaos and madness await thee
+at its end"
+
+--94eb2c06eda07ad133053ae763f8
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><div class=3D"gmail_quo=
+te">On Thu, Aug 25, 2016 at 11:13 AM, Waldo Mattias <span dir=3D"ltr">&lt;<=
+a href=3D"mailto:Mattias.Waldo@saabgroup.com" target=3D"_blank">Mattias.Wal=
+do@saabgroup.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote"=
+ style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><s=
+pan class=3D"">The absence of certs/signing_key.* in $kerneldir made signin=
+g of<br>
+out-of-tree kernel modules fail (silently). Add copying of these<br>
+files during the shared_workdir task.<br></span></blockquote><div><br></div=
+><div>I had been pinged on one of the earlier revisions of this, and I can =
+say that this looks<br></div><div>fine to me.<br><br></div><div>Acked-by: B=
+ruce Ashfield &lt;<a href=3D"mailto:bruce.ashfield@windriver.com">bruce.ash=
+field@windriver.com</a>&gt;<br><br></div><div>Bruce<br></div><div>=C2=A0</d=
+iv><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left=
+:1px #ccc solid;padding-left:1ex"><span class=3D"">
+<br>
+</span><span class=3D"">Signed-off-by: Mattias Waldo &lt;<a href=3D"mailto:=
+mattias.waldo@saabgroup.com">mattias.waldo@saabgroup.com</a>&gt;<br>
+---<br>
+=C2=A0meta/classes/kernel.bbclass | 2 ++<br>
+=C2=A01 file changed, 2 insertions(+)<br>
+<br>
+diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass<br>
+</span>index db42744..07761e7 100644<br>
+--- a/meta/classes/kernel.bbclass<br>
++++ b/meta/classes/kernel.bbclass<br>
+@@ -364,6 +364,8 @@ do_shared_workdir () {<br>
+<div class=3D"HOEnZb"><div class=3D"h5">=C2=A0 =C2=A0 =C2=A0 =C2=A0 cp .con=
+fig $kerneldir/<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 mkdir -p $kerneldir/include/config<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 cp include/config/kernel.release $kerneldir/inc=
+lude/config/<wbr>kernel.release<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0mkdir -p $kerneldir/certs<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0cp certs/signing_key.* $kerneldir/certs<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 # We can also copy over all the generated files=
+ and avoid special cases<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 # like version.h, but we&#39;ve opted to keep t=
+his small until file creep starts<br>
+--<br>
+2.9.3<br>
+<br>
+<br>
+<br>
+--<br>
+______________________________<wbr>_________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
+re@lists.<wbr>openembedded.org</a><br>
+<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
+" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/<wbr>m=
+ailman/listinfo/openembedded-<wbr>core</a><br>
+</div></div></blockquote></div><br><br clear=3D"all"><br>-- <br><div class=
+=3D"gmail_signature" data-smartmail=3D"gmail_signature">&quot;Thou shalt no=
+t follow the NULL pointer, for chaos and madness await thee at its end&quot=
+;</div>
+</div></div>
+
+--94eb2c06eda07ad133053ae763f8--
