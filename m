@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 0911A7328A
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id C470D73286
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Aug 2016 14:41:10 +0000 (UTC)
+	Thu, 25 Aug 2016 14:41:11 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u7PEfBGX002386
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u7PEfCmD007671
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Aug 2016 07:41:11 -0700
+	Thu, 25 Aug 2016 07:41:12 -0700 (PDT)
 Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Thu, 25 Aug 2016 07:41:10 -0700
+	Thu, 25 Aug 2016 07:41:11 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 25 Aug 2016 07:41:01 -0700
-Message-ID: <a1e773efb3838a483b2441a6d81c0d2841dd5f2a.1472120966.git.liezhi.yang@windriver.com>
+Date: Thu, 25 Aug 2016 07:41:02 -0700
+Message-ID: <acfa743dcfc0cf0cf0900de320606fdcbb8c72cf.1472120966.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.9.0
 In-Reply-To: <cover.1472120966.git.liezhi.yang@windriver.com>
 References: <cover.1472120966.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH V5 04/10] qemux86.conf/qemux86-64.conf: set vars for runqemu
+Subject: [PATCH V5 05/10] qemumips/qemumips64.conf: set vars for runqemu
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,64 +33,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 25 Aug 2016 14:41:11 -0000
+X-List-Received-Date: Thu, 25 Aug 2016 14:41:13 -0000
 Content-Type: text/plain
 
-Add qemuboot-x86.inc to reduce duplicated code, the x86/x86_64 bsps
-which can be boot by runqemu can require qemuboot-x86.inc.
+Add qemuboot-mips.inc to reduce duplicated code, the various mips bsps
+which can be boot by runqemu can require qemuboot-mips.inc
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- meta/conf/machine/include/qemuboot-x86.inc | 14 ++++++++++++++
- meta/conf/machine/qemux86-64.conf          |  1 +
- meta/conf/machine/qemux86.conf             |  1 +
- 3 files changed, 16 insertions(+)
- create mode 100644 meta/conf/machine/include/qemuboot-x86.inc
+ meta/conf/machine/include/qemuboot-mips.inc | 7 +++++++
+ meta/conf/machine/qemumips.conf             | 1 +
+ meta/conf/machine/qemumips64.conf           | 1 +
+ 3 files changed, 9 insertions(+)
+ create mode 100644 meta/conf/machine/include/qemuboot-mips.inc
 
-diff --git a/meta/conf/machine/include/qemuboot-x86.inc b/meta/conf/machine/include/qemuboot-x86.inc
+diff --git a/meta/conf/machine/include/qemuboot-mips.inc b/meta/conf/machine/include/qemuboot-mips.inc
 new file mode 100644
-index 0000000..2ff3ca9
+index 0000000..0f04b81
 --- /dev/null
-+++ b/meta/conf/machine/include/qemuboot-x86.inc
-@@ -0,0 +1,14 @@
++++ b/meta/conf/machine/include/qemuboot-mips.inc
+@@ -0,0 +1,7 @@
 +# For runqemu
 +IMAGE_CLASSES += "qemuboot"
-+QB_SYSTEM_NAME_x86 = "qemu-system-i386"
-+QB_CPU_x86 = "-cpu qemu32"
-+QB_CPU_KVM_x86 = "-cpu kvm32"
-+
-+QB_SYSTEM_NAME_x86-64 = "qemu-system-x86_64"
-+QB_CPU_x86-64 = "-cpu core2duo"
-+QB_CPU_KVM_x86-64 = "-cpu kvm64"
-+
-+QB_AUDIO_DRV = "alsa"
-+QB_AUDIO_OPT = "-soundhw ac97,es1370"
-+QB_KERNEL_CMDLINE_APPEND = "vga=0 uvesafb.mode_option=640x480-32 oprofile.timer=1"
-+QB_OPT_APPEND = "-vga vmware -show-cursor -usb -usbdevice tablet"
-diff --git a/meta/conf/machine/qemux86-64.conf b/meta/conf/machine/qemux86-64.conf
-index ac2c039..b191ddd 100644
---- a/meta/conf/machine/qemux86-64.conf
-+++ b/meta/conf/machine/qemux86-64.conf
-@@ -10,6 +10,7 @@ PREFERRED_PROVIDER_virtual/libgles2 ?= "mesa"
- require conf/machine/include/qemu.inc
- DEFAULTTUNE ?= "core2-64"
- require conf/machine/include/tune-core2.inc
-+require conf/machine/include/qemuboot-x86.inc
- 
- KERNEL_IMAGETYPE = "bzImage"
- 
-diff --git a/meta/conf/machine/qemux86.conf b/meta/conf/machine/qemux86.conf
-index 5d22e52..8555fd6 100644
---- a/meta/conf/machine/qemux86.conf
-+++ b/meta/conf/machine/qemux86.conf
-@@ -9,6 +9,7 @@ PREFERRED_PROVIDER_virtual/libgles2 ?= "mesa"
++QB_MEM = "-m 256"
++QB_MACHINE = "-machine malta"
++QB_KERNEL_CMDLINE_APPEND = "console=ttyS0 console=tty"
++QB_OPT_APPEND = "-vga cirrus -show-cursor -usb -usbdevice tablet"
++QB_SYSTEM_NAME = "qemu-system-${TUNE_ARCH}"
+diff --git a/meta/conf/machine/qemumips.conf b/meta/conf/machine/qemumips.conf
+index fbf8137..3182ea1 100644
+--- a/meta/conf/machine/qemumips.conf
++++ b/meta/conf/machine/qemumips.conf
+@@ -4,6 +4,7 @@
  
  require conf/machine/include/qemu.inc
- require conf/machine/include/tune-i586.inc
-+require conf/machine/include/qemuboot-x86.inc
+ require conf/machine/include/tune-mips32r2.inc
++require conf/machine/include/qemuboot-mips.inc
  
- KERNEL_IMAGETYPE = "bzImage"
+ KERNEL_IMAGETYPE = "vmlinux"
+ KERNEL_ALT_IMAGETYPE = "vmlinux.bin"
+diff --git a/meta/conf/machine/qemumips64.conf b/meta/conf/machine/qemumips64.conf
+index 8c3f1fe..9529f4c 100644
+--- a/meta/conf/machine/qemumips64.conf
++++ b/meta/conf/machine/qemumips64.conf
+@@ -4,6 +4,7 @@
  
+ require conf/machine/include/qemu.inc
+ require conf/machine/include/tune-mips64.inc
++require conf/machine/include/qemuboot-mips.inc
+ 
+ KERNEL_IMAGETYPE = "vmlinux"
+ KERNEL_ALT_IMAGETYPE = "vmlinux.bin"
 -- 
 2.9.0
 
