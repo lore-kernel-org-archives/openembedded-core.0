@@ -1,29 +1,56 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 0B15C731E5
+Return-Path: <Mattias.Waldo@saabgroup.com>
+X-Greylist: delayed 1998 seconds by postgrey-1.34 at layers.openembedded.org;
+	Thu, 25 Aug 2016 14:37:37 UTC
+Received: from weald.air.saab.se (weald.air.saab.se [136.163.212.3])
+	by mail.openembedded.org (Postfix) with ESMTP id 41EC7731E5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Aug 2016 14:36:44 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u7PEagQf007619
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 25 Aug 2016 07:36:43 -0700 (PDT)
-Received: from [128.224.162.240] (128.224.162.240) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.248.2;
-	Thu, 25 Aug 2016 07:36:42 -0700
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	<openembedded-core@lists.openembedded.org>
-References: <cover.1471850849.git.liezhi.yang@windriver.com>
-	<1471943106.16712.101.camel@linuxfoundation.org>
-	<180a3a72-1b44-dafa-77e7-1905f9374947@windriver.com>
-From: Robert Yang <liezhi.yang@windriver.com>
-Message-ID: <6ee635df-666d-90bb-b296-7aa76714cbcc@windriver.com>
-Date: Thu, 25 Aug 2016 22:36:40 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.2.0
+	Thu, 25 Aug 2016 14:37:37 +0000 (UTC)
+Received: from mailhub2.air.saab.se ([136.163.213.5])
+	by weald.air.saab.se (8.14.4/8.14.4) with ESMTP id u7PE4G98031278
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=FAIL);
+	Thu, 25 Aug 2016 16:04:16 +0200
+Received: from corpappl846.corp.saab.se (corpappl846.corp.saab.se
+	[136.163.113.246])
+	by mailhub2.air.saab.se (8.13.8/8.13.8) with ESMTP id u7PE3xYA004368
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL);
+	Thu, 25 Aug 2016 16:03:59 +0200
+Received: from CORPAPPL846.corp.saab.se (136.163.113.246) by
+	corpappl846.corp.saab.se (136.163.113.246) with Microsoft SMTP Server
+	(TLS) id 15.0.1178.4; Thu, 25 Aug 2016 16:03:59 +0200
+Received: from CORPAPPL846.corp.saab.se ([136.163.113.246]) by
+	corpappl846.corp.saab.se ([136.163.113.246]) with mapi id
+	15.00.1178.000; Thu, 25 Aug 2016 16:03:58 +0200
+From: Waldo Mattias <Mattias.Waldo@saabgroup.com>
+To: "'Burton, Ross'" <ross.burton@intel.com>
+Thread-Topic: [OE-core] [PATCH v2] kernel.bbclass: include signing keys when
+	copying files required for module builds
+Thread-Index: AQHR/tfhEIC1F9djFUSJAG5vPiXoL6BZtI3w
+Date: Thu, 25 Aug 2016 14:02:44 +0000
+Deferred-Delivery: Thu, 25 Aug 2016 14:03:43 +0000
+Message-ID: <d1de964429ad4bf695a1f8584910ee27@corpappl846.corp.saab.se>
+References: <1472116833486.43456@saabgroup.com>
+	<CAJTo0Lam5us06i_nJtooYcA3T87nCFjAgZ=Gz_3kh-M0GNHisw@mail.gmail.com>
+In-Reply-To: <CAJTo0Lam5us06i_nJtooYcA3T87nCFjAgZ=Gz_3kh-M0GNHisw@mail.gmail.com>
+Accept-Language: sv-SE, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [136.163.113.239]
 MIME-Version: 1.0
-In-Reply-To: <180a3a72-1b44-dafa-77e7-1905f9374947@windriver.com>
-Subject: Re: [PATCH V4 00/11] runqemu: refactor it and remove machine knowledge
+X-Saab-MailScanner-Information: Please contact the ISP for more information
+X-Saab-MailScanner-ID: u7PE3xYA004368
+X-Saab-MailScanner: Found to be clean
+X-Saab-MailScanner-SpamCheck: not spam (whitelisted),
+	SpamAssassin (not cached, score=1.001, required 5, HTML_MESSAGE 0.00,
+	PB_NE_FROMS 1.00)
+X-Saab-MailScanner-From: mattias.waldo@saabgroup.com
+X-Saab-MailScanner-Watermark: 1472738640.03495@6txLAJdfV/JQqSrl3JZwuw
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.4.3
+	(weald.air.saab.se [136.163.212.3]);
+	Thu, 25 Aug 2016 16:04:17 +0200 (CEST)
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2] kernel.bbclass: include signing keys when copying files required for module builds
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,84 +63,133 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 25 Aug 2016 14:36:46 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 25 Aug 2016 14:37:39 -0000
+Content-Language: en-US
+Content-Type: multipart/alternative;
+	boundary="_000_d1de964429ad4bf695a1f8584910ee27corpappl846corpsaabse_"
 
+--_000_d1de964429ad4bf695a1f8584910ee27corpappl846corpsaabse_
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
+Tm8sIEkgYmFzZWQgaXQgb24ga3JvZ290aOKApnNvcnJ5LiBJ4oCZbGwgZ2V0IGJhY2sgdG8geW91
+IHdpdGggYW4gdXBkYXRlLiBUaGFua3MhDQoNClJlZ2FyZHMsDQoNCk1hdHRpYXMNCg0KRnJvbTog
+QnVydG9uLCBSb3NzIFttYWlsdG86cm9zcy5idXJ0b25AaW50ZWwuY29tXQ0KU2VudDogZGVuIDI1
+IGF1Z3VzdGkgMjAxNiAxNTo1MQ0KVG86IFdhbGRvIE1hdHRpYXMgPE1hdHRpYXMuV2FsZG9Ac2Fh
+Ymdyb3VwLmNvbT4NCkNjOiBvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3Jn
+DQpTdWJqZWN0OiBSZTogW09FLWNvcmVdIFtQQVRDSCB2Ml0ga2VybmVsLmJiY2xhc3M6IGluY2x1
+ZGUgc2lnbmluZyBrZXlzIHdoZW4gY29weWluZyBmaWxlcyByZXF1aXJlZCBmb3IgbW9kdWxlIGJ1
+aWxkcw0KDQoNCk9uIDI1IEF1Z3VzdCAyMDE2IGF0IDEwOjIwLCBXYWxkbyBNYXR0aWFzIDxNYXR0
+aWFzLldhbGRvQHNhYWJncm91cC5jb208bWFpbHRvOk1hdHRpYXMuV2FsZG9Ac2FhYmdyb3VwLmNv
+bT4+IHdyb3RlOg0KVGhlIGFic2VuY2Ugb2YgY2VydHMvc2lnbmluZ19rZXkuKiBpbiAka2VybmVs
+ZGlyIG1hZGUgc2lnbmluZyBvZg0Kb3V0LW9mLXRyZWUga2VybmVsIG1vZHVsZXMgZmFpbCAoc2ls
+ZW50bHkpLiBBZGQgY29weWluZyBvZiB0aGVzZSBmaWxlcw0KZHVyaW5nIHRoZSBzaGFyZWRfd29y
+a2RpciB0YXNrLg0KDQpBcmUgeW91IHN1cmUgdGhhdCB5b3UgYmFzZWQgdGhpcyBvbiBjdXJyZW50
+IG1hc3Rlcj8NCg0KQXBwbHlpbmc6IGtlcm5lbC5iYmNsYXNzOiBpbmNsdWRlIHNpZ25pbmcga2V5
+cyB3aGVuIGNvcHlpbmcgZmlsZXMgcmVxdWlyZWQgZm9yIG1vZHVsZSBidWlsZHMNClVzaW5nIGlu
+ZGV4IGluZm8gdG8gcmVjb25zdHJ1Y3QgYSBiYXNlIHRyZWUuLi4NCk0gICAgICAgICBtZXRhL2Ns
+YXNzZXMva2VybmVsLmJiY2xhc3MNCmVycm9yOiBwYXRjaCBmYWlsZWQ6IG1ldGEvY2xhc3Nlcy9r
+ZXJuZWwuYmJjbGFzczoyOTUNCmVycm9yOiBtZXRhL2NsYXNzZXMva2VybmVsLmJiY2xhc3M6IHBh
+dGNoIGRvZXMgbm90IGFwcGx5DQplcnJvcjogRGlkIHlvdSBoYW5kIGVkaXQgeW91ciBwYXRjaD8N
+Ckl0IGRvZXMgbm90IGFwcGx5IHRvIGJsb2JzIHJlY29yZGVkIGluIGl0cyBpbmRleC4NClBhdGNo
+IGZhaWxlZCBhdCAwMDAxIGtlcm5lbC5iYmNsYXNzOiBpbmNsdWRlIHNpZ25pbmcga2V5cyB3aGVu
+IGNvcHlpbmcgZmlsZXMgcmVxdWlyZWQgZm9yIG1vZHVsZSBidWlsZHMNCg0KUm9zcw0K
 
-On 08/23/2016 05:21 PM, Robert Yang wrote:
->
->
-> On 08/23/2016 05:05 PM, Richard Purdie wrote:
->> On Mon, 2016-08-22 at 00:52 -0700, Robert Yang wrote:
->>> * V4
->>>   - Now the conf files can use @TAP@, @ROOTFS@ and @PORT@ when set
->>> vars
->>>     for runqemu, so all the arch info are gone. And also update
->>> comments
->>>     in qemuboot.bbclass.
->>>   - Add var QB_SLIRP_OPT for slirp mode as Nathan suggested, also add
->>>     QB_TAP_OPT whichi is for tap mode.
->>>   - Print "Try 'runqemu help' on how to use it" when failed to parse
->>> args
->>>     as Nathan suggested.
->>>   - Fix device locking problems.
->>>   - Fix nativesdk-qemu-helper.
->>>   - Fix comments for qemurunner.py/qemutinyrunner.py
->>
->> This is looking much better, thanks but we've still had some issues:
->>
->> https://autobuilder.yoctoproject.org/main/builders/nightly-rpm/builds/870/steps/Running%20Sanity%20Tests/logs/stdio
->>
->> https://autobuilder.yoctoproject.org/main/builders/nightly-deb/builds/856/steps/Running%20Sanity%20Tests/logs/stdio
->>
->> https://autobuilder.yoctoproject.org/main/builders/nightly-rpm/builds/870/steps/Running%20Sanity%20Tests/logs/stdio
->>
->
-> Sorry, these should be race issues, I will fix it.
+--_000_d1de964429ad4bf695a1f8584910ee27corpappl846corpsaabse_
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-Hi RP,
+PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
+bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
+YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
+cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
+VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
+Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
+ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTUgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
+PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
+IkNhbWJyaWEgTWF0aCI7DQoJcGFub3NlLTE6MiA0IDUgMyA1IDQgNiAzIDIgNDt9DQpAZm9udC1m
+YWNlDQoJe2ZvbnQtZmFtaWx5OkNhbGlicmk7DQoJcGFub3NlLTE6MiAxNSA1IDIgMiAyIDQgMyAy
+IDQ7fQ0KLyogU3R5bGUgRGVmaW5pdGlvbnMgKi8NCnAuTXNvTm9ybWFsLCBsaS5Nc29Ob3JtYWws
+IGRpdi5Nc29Ob3JtYWwNCgl7bWFyZ2luOjBjbTsNCgltYXJnaW4tYm90dG9tOi4wMDAxcHQ7DQoJ
+Zm9udC1zaXplOjEyLjBwdDsNCglmb250LWZhbWlseToiVGltZXMgTmV3IFJvbWFuIixzZXJpZjt9
+DQphOmxpbmssIHNwYW4uTXNvSHlwZXJsaW5rDQoJe21zby1zdHlsZS1wcmlvcml0eTo5OTsNCglj
+b2xvcjpibHVlOw0KCXRleHQtZGVjb3JhdGlvbjp1bmRlcmxpbmU7fQ0KYTp2aXNpdGVkLCBzcGFu
+Lk1zb0h5cGVybGlua0ZvbGxvd2VkDQoJe21zby1zdHlsZS1wcmlvcml0eTo5OTsNCgljb2xvcjpw
+dXJwbGU7DQoJdGV4dC1kZWNvcmF0aW9uOnVuZGVybGluZTt9DQpzcGFuLkVtYWlsU3R5bGUxNw0K
+CXttc28tc3R5bGUtdHlwZTpwZXJzb25hbC1yZXBseTsNCglmb250LWZhbWlseToiQ2FsaWJyaSIs
+c2Fucy1zZXJpZjsNCgljb2xvcjojMUY0OTdEO30NCi5Nc29DaHBEZWZhdWx0DQoJe21zby1zdHls
+ZS10eXBlOmV4cG9ydC1vbmx5Ow0KCWZvbnQtZmFtaWx5OiJDYWxpYnJpIixzYW5zLXNlcmlmOw0K
+CW1zby1mYXJlYXN0LWxhbmd1YWdlOkVOLVVTO30NCkBwYWdlIFdvcmRTZWN0aW9uMQ0KCXtzaXpl
+OjYxMi4wcHQgNzkyLjBwdDsNCgltYXJnaW46NzAuODVwdCA3MC44NXB0IDcwLjg1cHQgNzAuODVw
+dDt9DQpkaXYuV29yZFNlY3Rpb24xDQoJe3BhZ2U6V29yZFNlY3Rpb24xO30NCi0tPjwvc3R5bGU+
+PCEtLVtpZiBndGUgbXNvIDldPjx4bWw+DQo8bzpzaGFwZWRlZmF1bHRzIHY6ZXh0PSJlZGl0IiBz
+cGlkbWF4PSIxMDI2IiAvPg0KPC94bWw+PCFbZW5kaWZdLS0+PCEtLVtpZiBndGUgbXNvIDldPjx4
+bWw+DQo8bzpzaGFwZWxheW91dCB2OmV4dD0iZWRpdCI+DQo8bzppZG1hcCB2OmV4dD0iZWRpdCIg
+ZGF0YT0iMSIgLz4NCjwvbzpzaGFwZWxheW91dD48L3htbD48IVtlbmRpZl0tLT4NCjwvaGVhZD4N
+Cjxib2R5IGxhbmc9IkVOLUdCIiBsaW5rPSJibHVlIiB2bGluaz0icHVycGxlIj4NCjxkaXYgY2xh
+c3M9IldvcmRTZWN0aW9uMSI+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0iZm9u
+dC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LHNhbnMtc2VyaWY7
+Y29sb3I6IzFGNDk3RDttc28tZmFyZWFzdC1sYW5ndWFnZTpFTi1VUyI+Tm8sIEkgYmFzZWQgaXQg
+b24ga3JvZ290aOKApnNvcnJ5LiBJ4oCZbGwgZ2V0IGJhY2sgdG8geW91IHdpdGggYW4gdXBkYXRl
+LiBUaGFua3MhPG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNw
+YW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90
+OyxzYW5zLXNlcmlmO2NvbG9yOiMxRjQ5N0Q7bXNvLWZhcmVhc3QtbGFuZ3VhZ2U6RU4tVVMiPjxv
+OnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0
+eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssc2Fu
+cy1zZXJpZjtjb2xvcjojMUY0OTdEO21zby1mYXJlYXN0LWxhbmd1YWdlOkVOLVVTIj5SZWdhcmRz
+LDxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxl
+PSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssc2Fucy1z
+ZXJpZjtjb2xvcjojMUY0OTdEO21zby1mYXJlYXN0LWxhbmd1YWdlOkVOLVVTIj48bzpwPiZuYnNw
+OzwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0iZm9u
+dC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LHNhbnMtc2VyaWY7
+Y29sb3I6IzFGNDk3RDttc28tZmFyZWFzdC1sYW5ndWFnZTpFTi1VUyI+TWF0dGlhczxvOnA+PC9v
+OnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJmb250LXNp
+emU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssc2Fucy1zZXJpZjtjb2xv
+cjojMUY0OTdEO21zby1mYXJlYXN0LWxhbmd1YWdlOkVOLVVTIj48bzpwPiZuYnNwOzwvbzpwPjwv
+c3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48Yj48c3BhbiBsYW5nPSJFTi1VUyIgc3R5
+bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OyxzYW5z
+LXNlcmlmIj5Gcm9tOjwvc3Bhbj48L2I+PHNwYW4gbGFuZz0iRU4tVVMiIHN0eWxlPSJmb250LXNp
+emU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssc2Fucy1zZXJpZiI+IEJ1
+cnRvbiwgUm9zcyBbbWFpbHRvOnJvc3MuYnVydG9uQGludGVsLmNvbV0NCjxicj4NCjxiPlNlbnQ6
+PC9iPiBkZW4gMjUgYXVndXN0aSAyMDE2IDE1OjUxPGJyPg0KPGI+VG86PC9iPiBXYWxkbyBNYXR0
+aWFzICZsdDtNYXR0aWFzLldhbGRvQHNhYWJncm91cC5jb20mZ3Q7PGJyPg0KPGI+Q2M6PC9iPiBv
+cGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnPGJyPg0KPGI+U3ViamVjdDo8
+L2I+IFJlOiBbT0UtY29yZV0gW1BBVENIIHYyXSBrZXJuZWwuYmJjbGFzczogaW5jbHVkZSBzaWdu
+aW5nIGtleXMgd2hlbiBjb3B5aW5nIGZpbGVzIHJlcXVpcmVkIGZvciBtb2R1bGUgYnVpbGRzPG86
+cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PG86cD4mbmJzcDs8L286
+cD48L3A+DQo8ZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxvOnA+Jm5ic3A7PC9v
+OnA+PC9wPg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPk9uIDI1IEF1Z3VzdCAyMDE2IGF0
+IDEwOjIwLCBXYWxkbyBNYXR0aWFzICZsdDs8YSBocmVmPSJtYWlsdG86TWF0dGlhcy5XYWxkb0Bz
+YWFiZ3JvdXAuY29tIiB0YXJnZXQ9Il9ibGFuayI+TWF0dGlhcy5XYWxkb0BzYWFiZ3JvdXAuY29t
+PC9hPiZndDsgd3JvdGU6PG86cD48L286cD48L3A+DQo8YmxvY2txdW90ZSBzdHlsZT0iYm9yZGVy
+Om5vbmU7Ym9yZGVyLWxlZnQ6c29saWQgI0NDQ0NDQyAxLjBwdDtwYWRkaW5nOjBjbSAwY20gMGNt
+IDYuMHB0O21hcmdpbi1sZWZ0OjQuOHB0O21hcmdpbi1yaWdodDowY20iPg0KPGRpdiBpZD0iOjE5
+eCI+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj5UaGUgYWJzZW5jZSBvZiBjZXJ0cy9zaWduaW5nX2tl
+eS4qIGluICRrZXJuZWxkaXIgbWFkZSBzaWduaW5nIG9mPGJyPg0Kb3V0LW9mLXRyZWUga2VybmVs
+IG1vZHVsZXMgZmFpbCAoc2lsZW50bHkpLiBBZGQgY29weWluZyBvZiB0aGVzZSBmaWxlczxicj4N
+CmR1cmluZyB0aGUgc2hhcmVkX3dvcmtkaXIgdGFzay48bzpwPjwvbzpwPjwvcD4NCjwvZGl2Pg0K
+PC9ibG9ja3F1b3RlPg0KPC9kaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48YnI+DQpBcmUgeW91
+IHN1cmUgdGhhdCB5b3UgYmFzZWQgdGhpcyBvbiBjdXJyZW50IG1hc3Rlcj88bzpwPjwvbzpwPjwv
+cD4NCjwvZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxvOnA+Jm5ic3A7PC9vOnA+
+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPkFwcGx5aW5n
+OiBrZXJuZWwuYmJjbGFzczogaW5jbHVkZSBzaWduaW5nIGtleXMgd2hlbiBjb3B5aW5nIGZpbGVz
+IHJlcXVpcmVkIGZvciBtb2R1bGUgYnVpbGRzPG86cD48L286cD48L3A+DQo8L2Rpdj4NCjxkaXY+
+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj5Vc2luZyBpbmRleCBpbmZvIHRvIHJlY29uc3RydWN0IGEg
+YmFzZSB0cmVlLi4uPG86cD48L286cD48L3A+DQo8L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNv
+Tm9ybWFsIj5NJm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7
+IG1ldGEvY2xhc3Nlcy9rZXJuZWwuYmJjbGFzczxvOnA+PC9vOnA+PC9wPg0KPC9kaXY+DQo8ZGl2
+Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+ZXJyb3I6IHBhdGNoIGZhaWxlZDogbWV0YS9jbGFzc2Vz
+L2tlcm5lbC5iYmNsYXNzOjI5NTxvOnA+PC9vOnA+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0KPHAgY2xh
+c3M9Ik1zb05vcm1hbCI+ZXJyb3I6IG1ldGEvY2xhc3Nlcy9rZXJuZWwuYmJjbGFzczogcGF0Y2gg
+ZG9lcyBub3QgYXBwbHk8bzpwPjwvbzpwPjwvcD4NCjwvZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJN
+c29Ob3JtYWwiPmVycm9yOiBEaWQgeW91IGhhbmQgZWRpdCB5b3VyIHBhdGNoPzxvOnA+PC9vOnA+
+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+SXQgZG9lcyBub3QgYXBw
+bHkgdG8gYmxvYnMgcmVjb3JkZWQgaW4gaXRzIGluZGV4LjxvOnA+PC9vOnA+PC9wPg0KPC9kaXY+
+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+UGF0Y2ggZmFpbGVkIGF0IDAwMDEga2VybmVs
+LmJiY2xhc3M6IGluY2x1ZGUgc2lnbmluZyBrZXlzIHdoZW4gY29weWluZyBmaWxlcyByZXF1aXJl
+ZCBmb3IgbW9kdWxlIGJ1aWxkczxvOnA+PC9vOnA+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0KPHAgY2xh
+c3M9Ik1zb05vcm1hbCI+PG86cD4mbmJzcDs8L286cD48L3A+DQo8L2Rpdj4NCjxkaXY+DQo8cCBj
+bGFzcz0iTXNvTm9ybWFsIj5Sb3NzPG86cD48L286cD48L3A+DQo8L2Rpdj4NCjwvZGl2Pg0KPC9k
+aXY+DQo8L2Rpdj4NCjwvYm9keT4NCjwvaHRtbD4NCg==
 
-I've fixed the problem and will send a V5. I have tried to test it on my
-autobuilder, but it's running out of disk space last tonight. It is still in
-building today, and didn't see any problems by now, I will reply if I see.
-
->
->>
->> and:
->>
->> https://autobuilder.yoctoproject.org/main/builders/nightly-oe-selftest/builds/652/steps/Running%20oe-selftest/logs/stdio
->>
->>
->> I'm also not sure what caused these, whether it was this patchset or
->> not:
->>
->> https://autobuilder.yoctoproject.org/main/builders/nightly-arm/builds/927/steps/Running%20ESDK%20Sanity%20Tests/logs/stdio
->>
->> https://autobuilder.yoctoproject.org/main/builders/nightly-mips/builds/901/steps/Running%20ESDK%20Sanity%20Tests/logs/stdio
->>
->> https://autobuilder.yoctoproject.org/main/builders/nightly-ppc/builds/914/steps/Running%20ESDK%20Sanity%20Tests/logs/stdio
->>
->> https://autobuilder.yoctoproject.org/main/builders/nightly-x86/builds/914/steps/Running%20ESDK%20Sanity%20Tests/logs/stdio
->>
->> https://autobuilder.yoctoproject.org/main/builders/nightly-x86-64/builds/935
->
-> I'm not sure either, need more investigations.
-
-I think that this isn't caused by runqemu patches since the error doesn't
-seem like relate to runqemu, and I can't reproduce it.
-
-// Robert
-
->
-> // Robert
->
->>
->> Cheers,
->>
->> Richard
->>
->>
->>
-
+--_000_d1de964429ad4bf695a1f8584910ee27corpappl846corpsaabse_--
