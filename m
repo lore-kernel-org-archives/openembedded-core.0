@@ -1,46 +1,49 @@
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-qk0-f194.google.com (mail-qk0-f194.google.com
-	[209.85.220.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 6BB496FF7B
+Return-Path: <ross.burton@intel.com>
+Received: from mail-it0-f48.google.com (mail-it0-f48.google.com
+	[209.85.214.48])
+	by mail.openembedded.org (Postfix) with ESMTP id 9CDC46AC4B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Aug 2016 15:52:43 +0000 (UTC)
-Received: by mail-qk0-f194.google.com with SMTP id o1so3901854qkd.2
+	Thu, 25 Aug 2016 16:48:06 +0000 (UTC)
+Received: by mail-it0-f48.google.com with SMTP id x131so282539895ite.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Aug 2016 08:52:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	Thu, 25 Aug 2016 09:48:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=puVh/vnQSDljUu7+UfGgYEZU4vy/316v5OLLS6W1tjI=;
-	b=lauF9mDQkrXWQrdOkyzCWMrv61PsM4IVrMKqowTu7b3v1fzmAGItsMNQ+xCT61Iykd
-	hMNY1WpLvRmBKN9yAnmuQ89mOhbv/cJJgRCCS/RO/0Yyqj4o6l0SnZkp6M2CEyACKNQz
-	Oq80NNF5AYgDw7U3Xmp+pDu2PA2RWxnl0J+924/6Mno4/XXqjrIoK6VQrJmv0yn+9Zh+
-	/tAcRSns9Y6nQYDyL7qsXaKP3X8Jbc0F7xicYRyhLCoMg/8OMh8CSC3G0zm8YjRjTxq1
-	Da3iBoE8bnE14sfUC+hPmgfpwAkQsNa69JOnR22a5YHnfcxZpGOQG5V4pMbIQDSMi4Ul
-	PxQw==
+	:cc; bh=RUI1SDs94F+cZuQ448X0N90fD+GA9y/mqAOX7I2AUd8=;
+	b=swhUQyRnejkog6ditzKKl46geAwkmvdGDXY+F16aEquhy0+FeLWWvJOJ4VFa/XnBl6
+	UQKH23tDTiH+yeEs41jBhbf9DNcYHYCVb7sanew+/Sl/xIIG5erPlv9xuKBZJ7YR6NOc
+	adYolR/wkDSK6AtYqFW4sUStkNvyBzgAaJiKtvI1yXGZmzjvy4qgJUD5MdbDymKtnDAa
+	Vrynu25RnZ3I3+o3nkJl32c0YvHQCQ8UPAx3sZwl+58Hn09RMw8JZnPjxVeXV7vVJ2yj
+	E25A2D7Jrz0tSF0nLegXJnPr34Fv/2uAsHUsgLfehpBuPyJ04vv8LOwQJ1QvsB1r4mBl
+	sIWQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=puVh/vnQSDljUu7+UfGgYEZU4vy/316v5OLLS6W1tjI=;
-	b=ciXBzQNNiqwAqaJiO1RzTJUKmr2bvQio2fHU1X65bDdyOknM4AwUlj0e1793jzGbKS
-	bRu+oUVlt0z2Ats6b/2IVfr81qCTMoSdGnr8rlTPHbCFTAsNYGZ31wR3LpByQtKgA6jl
-	rAVkAPGHy9xFuKHQfOLC6acYJdm8EL6ji0DLSF2uIKijhbEkU7jdIKfoWiWdI0BhYBA6
-	s0taXXfiiBzDH0VfBTg6+L0jLRxFbl/cAq/4K/DF8j+kJzhUhmWTXx5bWzLZRVCfejIm
-	7xFSi2SE0CWbbkovKuat14ik1Grib+VNCmT8uy4dYA5vuaRE15e1QhXT8JrvcbHdVcDR
-	cTnQ==
-X-Gm-Message-State: AE9vXwOYiYtmqos/Lr1wwvVxwiaz7K+HZ8fjs5Q8+GmOsEELuSoCyqlVw4abzbZuad4MBJEaCs75RISFV0fotw==
-X-Received: by 10.55.166.137 with SMTP id p131mr11159739qke.161.1472140364401; 
-	Thu, 25 Aug 2016 08:52:44 -0700 (PDT)
+	bh=RUI1SDs94F+cZuQ448X0N90fD+GA9y/mqAOX7I2AUd8=;
+	b=PhsvYMAqdZCiWKjSE56UsNSuivvvUXGOlnfgYW7WKNehykU5Lcn2qWMGr11LELQuH+
+	2RT36wYu4PM+TTg7Oi/cioywOseT3ZUViaMnNfjXAf9kWE3KuRUDDym1cYzg5pS+IwHk
+	/rL4/kzmFO6+DUgmt4uSgWy7VXE5sdPu98bv8Vi9dz3A7wBAPDAE7pEMRySUadap/glg
+	iRniSLCt01IcXZPPvnxMuGM1Ihu09AylsAotbYlimykiIeDaWiRKQkkdgAnn/fBxFDCb
+	0GPFXvetJAJBNTG+hP4cB0J3k1dOryj71tMjNhDojsp0C7NfyLxcQaHddre8MNywDxzl
+	Z/0g==
+X-Gm-Message-State: AEkoouvJEFfh2m0qCyuh+qP220uVusaq/KU0xGkLvuFS+iKsPXTqU7Iqm3Zy+5p440u9MaK/ujiG45ieo04S2xMx
+X-Received: by 10.107.138.212 with SMTP id c81mr11139978ioj.148.1472143686566; 
+	Thu, 25 Aug 2016 09:48:06 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.200.50.137 with HTTP; Thu, 25 Aug 2016 08:52:43 -0700 (PDT)
-In-Reply-To: <1472137991773.23686@saabgroup.com>
-References: <1472137991773.23686@saabgroup.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Thu, 25 Aug 2016 11:52:43 -0400
-Message-ID: <CADkTA4PaWd4Gm7P=u+xB5M9yBxz6yitk11nK4qN76dSOar5ExA@mail.gmail.com>
+Received: by 10.107.18.17 with HTTP; Thu, 25 Aug 2016 09:47:46 -0700 (PDT)
+In-Reply-To: <0d4dab927efa4c5db4572715cb1dcaac@corpappl846.corp.saab.se>
+References: <1472116833486.43456@saabgroup.com>
+	<CAJTo0Lam5us06i_nJtooYcA3T87nCFjAgZ=Gz_3kh-M0GNHisw@mail.gmail.com>
+	<0d4dab927efa4c5db4572715cb1dcaac@corpappl846.corp.saab.se>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 25 Aug 2016 17:47:46 +0100
+Message-ID: <CAJTo0LZpw-zvq9ei_KM3H2G7mVQCiSDoJhk0NaJgtGd-5-4a_A@mail.gmail.com>
 To: Waldo Mattias <Mattias.Waldo@saabgroup.com>
 Cc: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v3] kernel.bbclass: include signing keys when copying files required for module builds
+Subject: Re: [PATCH v2] kernel.bbclass: include signing keys when copying files required for module builds
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,129 +56,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 25 Aug 2016 15:52:44 -0000
-Content-Type: multipart/alternative; boundary=94eb2c06eda07ad133053ae763f8
+X-List-Received-Date: Thu, 25 Aug 2016 16:48:06 -0000
+Content-Type: multipart/alternative; boundary=001a113ed9327f8972053ae82983
 
---94eb2c06eda07ad133053ae763f8
+--001a113ed9327f8972053ae82983
 Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Aug 25, 2016 at 11:13 AM, Waldo Mattias <Mattias.Waldo@saabgroup.com
-> wrote:
+On 25 August 2016 at 16:16, Waldo Mattias <Mattias.Waldo@saabgroup.com>
+wrote:
 
-> The absence of certs/signing_key.* in $kerneldir made signing of
-> out-of-tree kernel modules fail (silently). Add copying of these
-> files during the shared_workdir task.
->
-
-I had been pinged on one of the earlier revisions of this, and I can say
-that this looks
-fine to me.
-
-Acked-by: Bruce Ashfield <bruce.ashfield@windriver.com>
-
-Bruce
-
-
->
-> Signed-off-by: Mattias Waldo <mattias.waldo@saabgroup.com>
-> ---
->  meta/classes/kernel.bbclass | 2 ++
->  1 file changed, 2 insertions(+)
->
-> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-> index db42744..07761e7 100644
-> --- a/meta/classes/kernel.bbclass
-> +++ b/meta/classes/kernel.bbclass
-> @@ -364,6 +364,8 @@ do_shared_workdir () {
->         cp .config $kerneldir/
->         mkdir -p $kerneldir/include/config
->         cp include/config/kernel.release $kerneldir/include/config/
-> kernel.release
-> +       mkdir -p $kerneldir/certs
-> +       cp certs/signing_key.* $kerneldir/certs
->
->         # We can also copy over all the generated files and avoid special
-> cases
->         # like version.h, but we've opted to keep this small until file
-> creep starts
-> --
-> 2.9.3
+> Version 3 of the patch submitted, this time based on current master =E2=
+=80=93
+> thanks for your patience!
 >
 >
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
+Something really odd is going on here...  the references blobs in the patch
+don't exist according to my git, and it looks like the whitespace is being
+mangled.  Can you verify that you're basing this patch from origin/master
+or poky or oe-core, and use git-send-email to ensure that the whitespace
+doesn't get trashed?
 
+I'd normally just manually apply but something odd is happening and I'd
+like to figure out what it is!
 
+Ross
 
--- 
-"Thou shalt not follow the NULL pointer, for chaos and madness await thee
-at its end"
-
---94eb2c06eda07ad133053ae763f8
+--001a113ed9327f8972053ae82983
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><div class=3D"gmail_quo=
-te">On Thu, Aug 25, 2016 at 11:13 AM, Waldo Mattias <span dir=3D"ltr">&lt;<=
-a href=3D"mailto:Mattias.Waldo@saabgroup.com" target=3D"_blank">Mattias.Wal=
-do@saabgroup.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote"=
- style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><s=
-pan class=3D"">The absence of certs/signing_key.* in $kerneldir made signin=
-g of<br>
-out-of-tree kernel modules fail (silently). Add copying of these<br>
-files during the shared_workdir task.<br></span></blockquote><div><br></div=
-><div>I had been pinged on one of the earlier revisions of this, and I can =
-say that this looks<br></div><div>fine to me.<br><br></div><div>Acked-by: B=
-ruce Ashfield &lt;<a href=3D"mailto:bruce.ashfield@windriver.com">bruce.ash=
-field@windriver.com</a>&gt;<br><br></div><div>Bruce<br></div><div>=C2=A0</d=
-iv><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left=
-:1px #ccc solid;padding-left:1ex"><span class=3D"">
-<br>
-</span><span class=3D"">Signed-off-by: Mattias Waldo &lt;<a href=3D"mailto:=
-mattias.waldo@saabgroup.com">mattias.waldo@saabgroup.com</a>&gt;<br>
----<br>
-=C2=A0meta/classes/kernel.bbclass | 2 ++<br>
-=C2=A01 file changed, 2 insertions(+)<br>
-<br>
-diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass<br>
-</span>index db42744..07761e7 100644<br>
---- a/meta/classes/kernel.bbclass<br>
-+++ b/meta/classes/kernel.bbclass<br>
-@@ -364,6 +364,8 @@ do_shared_workdir () {<br>
-<div class=3D"HOEnZb"><div class=3D"h5">=C2=A0 =C2=A0 =C2=A0 =C2=A0 cp .con=
-fig $kerneldir/<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 mkdir -p $kerneldir/include/config<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 cp include/config/kernel.release $kerneldir/inc=
-lude/config/<wbr>kernel.release<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0mkdir -p $kerneldir/certs<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0cp certs/signing_key.* $kerneldir/certs<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 # We can also copy over all the generated files=
- and avoid special cases<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 # like version.h, but we&#39;ve opted to keep t=
-his small until file creep starts<br>
---<br>
-2.9.3<br>
-<br>
-<br>
-<br>
---<br>
-______________________________<wbr>_________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
-re@lists.<wbr>openembedded.org</a><br>
-<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
-" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/<wbr>m=
-ailman/listinfo/openembedded-<wbr>core</a><br>
-</div></div></blockquote></div><br><br clear=3D"all"><br>-- <br><div class=
-=3D"gmail_signature" data-smartmail=3D"gmail_signature">&quot;Thou shalt no=
-t follow the NULL pointer, for chaos and madness await thee at its end&quot=
-;</div>
-</div></div>
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 25 August 2016 at 16:16, Waldo Mattias <span dir=3D"ltr">&lt;<a href=3D"=
+mailto:Mattias.Waldo@saabgroup.com" target=3D"_blank">Mattias.Waldo@saabgro=
+up.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"=
+margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><p class=3D"=
+MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Calibri&quot;,=
+sans-serif;color:#1f497d">Version 3 of the patch submitted, this time based=
+ on current master =E2=80=93 thanks for your patience!<u></u><u></u></span>=
+</p>
+<p class=3D"MsoNormal"></p></blockquote></div><br>Something really odd is g=
+oing on here... =C2=A0the references blobs in the patch don&#39;t exist acc=
+ording to my git, and it looks like the whitespace is being mangled.=C2=A0 =
+Can you verify that you&#39;re basing this patch from origin/master or poky=
+ or oe-core, and use git-send-email to ensure that the whitespace doesn&#39=
+;t get trashed?</div><div class=3D"gmail_extra"><br></div><div class=3D"gma=
+il_extra">I&#39;d normally just manually apply but something odd is happeni=
+ng and I&#39;d like to figure out what it is!</div><div class=3D"gmail_extr=
+a"><br></div><div class=3D"gmail_extra">Ross</div></div>
 
---94eb2c06eda07ad133053ae763f8--
+--001a113ed9327f8972053ae82983--
