@@ -1,31 +1,36 @@
-Return-Path: <rpjday@crashcourse.ca>
-Received: from smtp486.redcondor.net (smtp486.redcondor.net [208.80.204.86])
-	by mail.openembedded.org (Postfix) with ESMTP id ABB516014F
+Return-Path: <jeremy.rosen@smile.fr>
+Received: from idris.smile.fr (idris.smile.fr [91.216.209.19])
+	by mail.openembedded.org (Postfix) with ESMTP id CEC19601B8
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Aug 2016 11:08:18 +0000 (UTC)
-Received: from astoria.ccjclearline.com ([64.235.106.9])
-	by smtp486.redcondor.net ({6695537a-536a-45f9-a249-877c85428649})
-	via TCP (outbound) with ESMTPS id 20160825110818664_0486
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Aug 2016 11:08:18 +0000
-X-RC-FROM: <rpjday@crashcourse.ca>
-X-RC-RCPT: <openembedded-core@lists.openembedded.org>
-Received: from [216.191.234.70] (port=34894 helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
-	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
-	id 1bcsY2-0002WT-HY for openembedded-core@lists.openembedded.org;
-	Thu, 25 Aug 2016 07:10:14 -0400
-Date: Thu, 25 Aug 2016 07:08:05 -0400 (EDT)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@ca624034.mitel.com
-To: OE Core mailing list <openembedded-core@lists.openembedded.org>
-In-Reply-To: <alpine.LFD.2.20.1608250702210.28355@ca624034.mitel.com>
-Message-ID: <alpine.LFD.2.20.1608250707340.5813@ca624034.mitel.com>
-References: <alpine.LFD.2.20.1608250702210.28355@ca624034.mitel.com>
-User-Agent: Alpine 2.20 (LFD 67 2015-01-07)
+	Thu, 25 Aug 2016 12:40:35 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by idris.smile.fr (Postfix) with ESMTP id A77971EE0AA8;
+	Thu, 25 Aug 2016 14:40:35 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at smile.fr
+Received: from idris.smile.fr ([127.0.0.1])
+	by localhost (bluemind-mta.prod.vitry.intranet [127.0.0.1])
+	(amavisd-new, port 10024)
+	with ESMTP id TNsUr7KRK06a; Thu, 25 Aug 2016 14:40:35 +0200 (CEST)
+Received: from [10.5.19.152] (bob75-2-81-56-46-209.fbx.proxad.net
+	[81.56.46.209])
+	by idris.smile.fr (Postfix) with ESMTPSA id 6383B1EE0AA7;
+	Thu, 25 Aug 2016 14:40:35 +0200 (CEST)
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <cover.a6e9ec329c3b0f51ecee82d0eb2842bbb091de1f.1471936926.git-series.jeremy.rosen@smile.fr>
+	<9bf820ce898dc5e0127b0108efb64f7095887732.1471936926.git-series.jeremy.rosen@smile.fr>
+	<9301FDF2-F2EB-414C-A671-9B87ED5F0D3C@gmail.com>
+	<0c795b84-5305-072b-4540-8a3e3049d5b2@smile.fr>
+	<17d95410-d50f-80f6-665c-35405a72e11a@smile.fr>
+	<CAJTo0LZ_44oh+u0Muv=qu7Qj4eUfHBvoS4pVrND8bZqY0EZPhg@mail.gmail.com>
+From: =?UTF-8?B?SsOpcsOpbXkgUm9zZW4=?= <jeremy.rosen@smile.fr>
+Message-ID: <cd135782-5368-e383-1e13-7763c3075a4b@smile.fr>
+Date: Thu, 25 Aug 2016 14:40:34 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Firefox/45.0 Icedove/45.2.0
 MIME-Version: 1.0
-X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
-Subject: Re: why does BBFILE_COLLECTIONS get assigned with "+="?
+In-Reply-To: <CAJTo0LZ_44oh+u0Muv=qu7Qj4eUfHBvoS4pVrND8bZqY0EZPhg@mail.gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/8] [autotools] export CCLD_FOR_BUILD
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,31 +43,130 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 25 Aug 2016 11:08:19 -0000
-Content-Type: text/plain; charset=US-ASCII
+X-List-Received-Date: Thu, 25 Aug 2016 12:40:36 -0000
+Content-Type: multipart/alternative;
+	boundary="------------A8743B07C36A8A98AA91C1A3"
 
-On Thu, 25 Aug 2016, Robert P. J. Day wrote:
+--------------A8743B07C36A8A98AA91C1A3
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
+
+
+On 24/08/2016 21:56, Burton, Ross wrote:
 >
->   not sure why i never noticed this before, but why do layers *append*
-> to BBFILE_COLLECTIONS rather than just assigning the layer name with a
-> simple assignment? is this just to allow alternate names for the same
-> layer? can't believe this is the first time i ever noticed this. is
-> there an actual example where this is being used?
+> On 24 August 2016 at 12:28, Jérémy Rosen <jeremy.rosen@smile.fr 
+> <mailto:jeremy.rosen@smile.fr>> wrote:
+>
+>     ok, so CC_FOR_BUILD seems to be a common convention and
+>     CCLD_FOR_BUILD seems only used by our patch for pcre. Fixing it to
+>     use CC_FOR_BUILD for linking is trivial
+>
+>     but the patch is marked as submitted upstream, so Fahad... what is
+>     the status ? how can we do that ?
+>
+>     I can also set CCLD_FOR_BUILD in ther .bb file instead of
+>     autotools.bbclass, that's trivial... the question is whether we
+>     should fix the patch or not...
+>
+>
+> CC_FOR_BUILD and CPP_FOR_BUILD are de facto standards by virtue of 
+> being part of autoconf-archive: 
+> https://www.gnu.org/software/autoconf-archive/ax_prog_cc_for_build.html
+>
+> Looking at the patch wouldn't it be possible to avoid the entire .c -> 
+> .o -> binary process and just go from .c -> binary via CC_FOR_BUILD?
+Probably, but again the patch has been pushed upstream by someone else 
+and I need to contact that person first to see how to handle it.
 
-  never mind ... just realized that variable represents the *entirety*
-of the BBFILEs, not just for that layer. duh.
+I can avoid that by defining CCLD_FOR_BUILD in the recipe, but since I 
+need to wait for glibc for v2 anyway, I'm not in a rush...
 
-rday
-
--- 
-
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
-
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
+if I have no news, I'll do that for V2
 
 
+Regards
+Jeremy
+>
+> Ross
+
+
+--------------A8743B07C36A8A98AA91C1A3
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: 8bit
+
+<html>
+  <head>
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+  </head>
+  <body bgcolor="#FFFFFF" text="#000000">
+    <p><br>
+    </p>
+    <br>
+    <div class="moz-cite-prefix">On 24/08/2016 21:56, Burton, Ross
+      wrote:<br>
+    </div>
+    <blockquote
+cite="mid:CAJTo0LZ_44oh+u0Muv=qu7Qj4eUfHBvoS4pVrND8bZqY0EZPhg@mail.gmail.com"
+      type="cite">
+      <div dir="ltr">
+        <div class="gmail_extra"><br>
+          <div class="gmail_quote">On 24 August 2016 at 12:28, Jérémy
+            Rosen <span dir="ltr">&lt;<a moz-do-not-send="true"
+                href="mailto:jeremy.rosen@smile.fr" target="_blank">jeremy.rosen@smile.fr</a>&gt;</span>
+            wrote:<br>
+            <blockquote class="gmail_quote" style="margin:0px 0px 0px
+0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);border-left-style:solid;padding-left:1ex">
+              <div id=":124" class="">ok, so CC_FOR_BUILD seems to be a
+                common convention and CCLD_FOR_BUILD seems only used by
+                our patch for pcre. Fixing it to use CC_FOR_BUILD for
+                linking is trivial<br>
+                <br>
+                but the patch is marked as submitted upstream, so
+                Fahad... what is the status ? how can we do that ?<br>
+                <br>
+                I can also set CCLD_FOR_BUILD in ther .bb file instead
+                of autotools.bbclass, that's trivial... the question is
+                whether we should fix the patch or not...<br>
+              </div>
+            </blockquote>
+            <div><br>
+            </div>
+            <div>CC_FOR_BUILD and CPP_FOR_BUILD are de facto standards
+              by virtue of being part of autoconf-archive: <a
+                moz-do-not-send="true"
+href="https://www.gnu.org/software/autoconf-archive/ax_prog_cc_for_build.html">https://www.gnu.org/software/autoconf-archive/ax_prog_cc_for_build.html</a></div>
+            <div> <br>
+            </div>
+          </div>
+          Looking at the patch wouldn't it be possible to avoid the
+          entire .c -&gt; .o -&gt; binary process and just go from .c
+          -&gt; binary via CC_FOR_BUILD?</div>
+      </div>
+    </blockquote>
+    Probably, but again the patch has been pushed upstream by someone
+    else and I need to contact that person first to see how to handle
+    it.<br>
+    <br>
+    I can avoid that by defining CCLD_FOR_BUILD in the recipe, but since
+    I need to wait for glibc for v2 anyway, I'm not in a rush...<br>
+    <br>
+    if I have no news, I'll do that for V2<br>
+    <br>
+    <br>
+    Regards<br>
+    Jeremy<br>
+    <blockquote
+cite="mid:CAJTo0LZ_44oh+u0Muv=qu7Qj4eUfHBvoS4pVrND8bZqY0EZPhg@mail.gmail.com"
+      type="cite">
+      <div dir="ltr">
+        <div class="gmail_extra"><br>
+        </div>
+        <div class="gmail_extra">Ross</div>
+      </div>
+    </blockquote>
+    <br>
+  </body>
+</html>
+
+--------------A8743B07C36A8A98AA91C1A3--
