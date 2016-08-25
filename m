@@ -1,47 +1,29 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-it0-f45.google.com (mail-it0-f45.google.com
-	[209.85.214.45])
-	by mail.openembedded.org (Postfix) with ESMTP id 3353B6011F
+Return-Path: <Kai.Kang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 7457B6E668
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Aug 2016 21:56:36 +0000 (UTC)
-Received: by mail-it0-f45.google.com with SMTP id f6so59123348ith.0
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Aug 2016 14:56:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=EGy84UF/fq6N47vYxA8tXk8WPKRH9HS8wegYZf3ZHMI=;
-	b=RMe0jaovC9M5pOTKlH/DgmcIJCeqUquSGpSV3FtwgDrCnux5gBTGwQuIYrPG1BFjpl
-	0oQQPv0asEui71EocR8VOgI8jbxnvQxuZDw6Y/Uey3n16dKQBBknbL6rMfjqEscW2lFi
-	fam3i7A+4IBcjYRF8aNIT7d7RGi2KIjAdfxKse4+0c7Gi1LyTwgVRWM6lT3dhjDKLJx8
-	9yAX/oUPmP4kffNgpo1kAXwGzsnnjdocqcrU10DsNLZko9Xu8+Ab5+fsUdxktrCAsGRj
-	Ta1IE25J9ZgfTwRRDtAddwZMMomME3jwTuZLT2aguq3RBlVaPt7a1NLe+lpNN6u0IrPs
-	9fOQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=EGy84UF/fq6N47vYxA8tXk8WPKRH9HS8wegYZf3ZHMI=;
-	b=GjsruYGd+TL6byzLy5cVD8qtawA6t7qmGqvsol3c9nit0lPGdeSIwOQZNX1QEFMkG6
-	cVwHmsWPxIbn4FMy0+5Da28l2MqKA3P/RMGcK4txen/eBdTywDB4A9wS/VMTHBj8XPYI
-	Dc4i6EMU57gNMgEFN9wySjvbRB4v0IUMHB/1XDUY8ZM6aH+3WL0WcFf2LfUhC6u0CTw5
-	Dt08cyfU98PQLrmJ5SZo/06wRcrbJnt2CAFUANqXH4Rz4312fjIA9u6I5C3gS2SVGC+q
-	AIe16XkxlI5+mQRrYUitQStCaM3f/gpLY1AptdOIMPWw811AzMLotGNPNviTq+IJiOIa
-	jOzg==
-X-Gm-Message-State: AE9vXwPBtkN8QEZS6dLBJilUKFG2nrQRvliakxZznyGSdC4sJcew5EyVzWjB3D3A0k8bTopmKP7mvozpD04bUZ3y
-X-Received: by 10.107.135.142 with SMTP id r14mr7123232ioi.133.1472075797478; 
-	Wed, 24 Aug 2016 14:56:37 -0700 (PDT)
+	Thu, 25 Aug 2016 01:39:19 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u7P1dJla028809
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 24 Aug 2016 18:39:19 -0700 (PDT)
+Received: from [128.224.162.231] (128.224.162.231) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
+	Wed, 24 Aug 2016 18:39:19 -0700
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <cover.1472030722.git.kai.kang@windriver.com>
+	<1958d06a6f3885b5d7f767c3eb955054d2b40ec1.1472030722.git.kai.kang@windriver.com>
+	<CAJTo0LZVkqHztCrpi9nc4E_vq6Aa4ibi5SBOc5QRWrBVt+7wPg@mail.gmail.com>
+From: Kang Kai <Kai.Kang@windriver.com>
+Message-ID: <57BE4C45.3050007@windriver.com>
+Date: Thu, 25 Aug 2016 09:39:17 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.6.0
 MIME-Version: 1.0
-Received: by 10.107.18.17 with HTTP; Wed, 24 Aug 2016 14:56:17 -0700 (PDT)
-In-Reply-To: <1471411501-3523-1-git-send-email-california.l.sullivan@intel.com>
-References: <1471411501-3523-1-git-send-email-california.l.sullivan@intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 24 Aug 2016 22:56:17 +0100
-Message-ID: <CAJTo0LZPhnJq+VO5X2R-_FE7-qzSCrQh5XWWpp-vRze5NOnqpA@mail.gmail.com>
-To: California Sullivan <california.l.sullivan@intel.com>, 
-	Bruce Ashfield <bruce.ashfield@windriver.com>
+In-Reply-To: <CAJTo0LZVkqHztCrpi9nc4E_vq6Aa4ibi5SBOc5QRWrBVt+7wPg@mail.gmail.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH RFC 1/1] kernel.bbclass: Add kernel_version_sanity_check function
+Subject: Re: [PATCH 1/1] bash: fix interpreter of ptest script
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,58 +36,99 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 Aug 2016 21:56:37 -0000
-Content-Type: multipart/alternative; boundary=001a113eccbcfdd15a053ad85a06
+X-List-Received-Date: Thu, 25 Aug 2016 01:39:20 -0000
+Content-Type: multipart/alternative;
+	boundary="------------090603000308000407010605"
 
---001a113eccbcfdd15a053ad85a06
-Content-Type: text/plain; charset=UTF-8
+--------------090603000308000407010605
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Bruce, can you have a look at this?
-
-Ross
-
-On 17 August 2016 at 06:25, California Sullivan <
-california.l.sullivan@intel.com> wrote:
-
-> The kernel being built should match what the recipe claims it is
-> building. This function ensures that happens for anyone using
-> LINUX_VERSION as they should. As it will likely break outside kernels
-> not using LINUX_VERSION, only enable the function for linux-yocto for
-> now.
+On 2016年08月25日 04:17, Burton, Ross wrote:
 >
-> Signed-off-by: California Sullivan <california.l.sullivan@intel.com>
-> ---
-> I'm not absolutely sure this is the correct path to solve the issue.
-> This patch relies on LINUX_VERSION being set which isn't a guarantee.
-> There is probably a more general solution that I'm not thinking of.
+> On 24 August 2016 at 10:26, <kai.kang@windriver.com 
+> <mailto:kai.kang@windriver.com>> wrote:
 >
-
---001a113eccbcfdd15a053ad85a06
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra">Bruce, can you have a look at t=
-his?</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">R=
-oss</div><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">On 17 Au=
-gust 2016 at 06:25, California Sullivan <span dir=3D"ltr">&lt;<a href=3D"ma=
-ilto:california.l.sullivan@intel.com" target=3D"_blank">california.l.sulliv=
-an@intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" sty=
-le=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div i=
-d=3D":wn" class=3D"a3s aXjCH m1569d1c8aa453ec3">The kernel being built shou=
-ld match what the recipe claims it is<br>
-building. This function ensures that happens for anyone using<br>
-LINUX_VERSION as they should. As it will likely break outside kernels<br>
-not using LINUX_VERSION, only enable the function for linux-yocto for<br>
-now.<br>
-<br>
-Signed-off-by: California Sullivan &lt;<a href=3D"mailto:california.l.sulli=
-van@intel.com">california.l.sullivan@intel.<wbr>com</a>&gt;<br>
----<br>
-I&#39;m not absolutely sure this is the correct path to solve the issue.<br=
+>     The interpreter of bash ptest script tests/getopts5.sub is
+>     /local/bin/bash which is not suitable for oe. Use /bin/bash instead.
 >
-This patch relies on LINUX_VERSION being set which isn&#39;t a guarantee.<b=
-r>
-There is probably a more general solution that I&#39;m not thinking of.</di=
-v></blockquote></div><br><br></div></div>
+>
+> Presumably this test is executed under bash explicitly, so is this 
+> really worth fixing?
 
---001a113eccbcfdd15a053ad85a06--
+I sent the patch to bash maillist and it is not accepted too.
+So please ignore it. Thanks.
+
+
+--Kai
+
+>
+> Ross
+
+
+-- 
+Regards,
+Neil | Kai Kang
+
+
+--------------090603000308000407010605
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+
+<html>
+  <head>
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+  </head>
+  <body bgcolor="#FFFFFF" text="#000000">
+    <div class="moz-cite-prefix">On 2016年08月25日 04:17, Burton, Ross
+      wrote:<br>
+    </div>
+    <blockquote
+cite="mid:CAJTo0LZVkqHztCrpi9nc4E_vq6Aa4ibi5SBOc5QRWrBVt+7wPg@mail.gmail.com"
+      type="cite">
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <div dir="ltr">
+        <div class="gmail_extra"><br>
+          <div class="gmail_quote">On 24 August 2016 at 10:26, <span
+              dir="ltr">&lt;<a moz-do-not-send="true"
+                href="mailto:kai.kang@windriver.com" target="_blank">kai.kang@windriver.com</a>&gt;</span>
+            wrote:<br>
+            <blockquote class="gmail_quote" style="margin:0 0 0
+              .8ex;border-left:1px #ccc solid;padding-left:1ex">
+              <div id=":146" class="a3s aXjCH m156bbe1983a7dd13">The
+                interpreter of bash ptest script tests/getopts5.sub is<br>
+                /local/bin/bash which is not suitable for oe. Use
+                /bin/bash instead.<br>
+              </div>
+            </blockquote>
+          </div>
+          <br>
+          Presumably this test is executed under bash explicitly, so is
+          this really worth fixing?</div>
+      </div>
+    </blockquote>
+    <br>
+    I sent the patch to bash maillist and it is not accepted too.<br>
+    So please ignore it. Thanks.<br>
+    <br>
+    <br>
+    --Kai<br>
+    <br>
+    <blockquote
+cite="mid:CAJTo0LZVkqHztCrpi9nc4E_vq6Aa4ibi5SBOc5QRWrBVt+7wPg@mail.gmail.com"
+      type="cite">
+      <div dir="ltr">
+        <div class="gmail_extra"><br>
+        </div>
+        <div class="gmail_extra">Ross</div>
+      </div>
+    </blockquote>
+    <br>
+    <br>
+    <pre class="moz-signature" cols="72">-- 
+Regards,
+Neil | Kai Kang</pre>
+  </body>
+</html>
+
+--------------090603000308000407010605--
