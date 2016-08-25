@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 3768A731E5
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id E3FBF731E5
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 25 Aug 2016 14:41:09 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u7PEf9j9002383
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u7PEfAiF007668
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Aug 2016 07:41:10 -0700
+	Thu, 25 Aug 2016 07:41:10 -0700 (PDT)
 Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Thu, 25 Aug 2016 07:41:09 -0700
+	Thu, 25 Aug 2016 07:41:10 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 25 Aug 2016 07:40:59 -0700
-Message-ID: <71cb65f01b4bd820432197a41a27bff54dcc60b0.1472120966.git.liezhi.yang@windriver.com>
+Date: Thu, 25 Aug 2016 07:41:00 -0700
+Message-ID: <8cb8b7e0255f1b066e345ea2b5a8b3df77484889.1472120966.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.9.0
 In-Reply-To: <cover.1472120966.git.liezhi.yang@windriver.com>
 References: <cover.1472120966.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH V5 02/10] qemuarm.conf: set vars for runqemu
+Subject: [PATCH V5 03/10] qemuarm64.conf: set vars for runqemu
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,29 +33,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 25 Aug 2016 14:41:09 -0000
+X-List-Received-Date: Thu, 25 Aug 2016 14:41:10 -0000
 Content-Type: text/plain
-
-These info are from old runqemu.
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- meta/conf/machine/qemuarm.conf | 5 +++++
- 1 file changed, 5 insertions(+)
+ meta/conf/machine/qemuarm64.conf | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
-diff --git a/meta/conf/machine/qemuarm.conf b/meta/conf/machine/qemuarm.conf
-index cdad03f..34686cf 100644
---- a/meta/conf/machine/qemuarm.conf
-+++ b/meta/conf/machine/qemuarm.conf
-@@ -10,3 +10,8 @@ KERNEL_IMAGETYPE = "zImage"
+diff --git a/meta/conf/machine/qemuarm64.conf b/meta/conf/machine/qemuarm64.conf
+index f59fb15..df76ee6 100644
+--- a/meta/conf/machine/qemuarm64.conf
++++ b/meta/conf/machine/qemuarm64.conf
+@@ -8,3 +8,16 @@ require conf/machine/include/qemu.inc
+ KERNEL_IMAGETYPE = "Image"
  
- SERIAL_CONSOLES = "115200;ttyAMA0 115200;ttyAMA1"
- 
+ SERIAL_CONSOLES = "38400;ttyAMA0 38400;hvc0"
++
 +# For runqemu
-+QB_SYSTEM_NAME = "qemu-system-arm"
-+QB_MACHINE = "-machine versatilepb"
-+QB_KERNEL_CMDLINE_APPEND = "console=ttyAMA0,115200 console=tty"
-+QB_OPT_APPEND = "-show-cursor -usb -usbdevice tablet"
++QB_SYSTEM_NAME = "qemu-system-aarch64"
++QB_MEM = "-m 512"
++QB_MACHINE = "-machine virt"
++QB_CPU = "-cpu cortex-a57"
++QB_KERNEL_CMDLINE_APPEND = "console=ttyAMA0,38400"
++QB_OPT_APPEND = "-show-cursor"
++QB_TAP_OPT = "-netdev tap,id=net0,ifname=@TAP@,script=no,downscript=no -device virtio-net-device,netdev=net0"
++QB_SLIRP_OPT = "-netdev user,id=net0 -device virtio-net-device,netdev=net0"
++QB_ROOTFS_OPT = "-drive id=disk0,file=@ROOTFS@,if=none,format=raw -device virtio-blk-device,drive=disk0"
++QB_SERIAL_OPT = "-device virtio-serial-device -chardev null,id=virtcon -device virtconsole,chardev=virtcon"
++QB_TCPSERIAL_OPT = " -device virtio-serial-device -chardev socket,id=virtcon,port=@PORT@,host=127.0.0.1 -device virtconsole,chardev=virtcon"
 -- 
 2.9.0
 
