@@ -1,29 +1,29 @@
 Return-Path: <Kai.Kang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 7457B6E668
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 4E3EA731D1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Aug 2016 01:39:19 +0000 (UTC)
+	Thu, 25 Aug 2016 01:39:44 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u7P1dJla028809
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 24 Aug 2016 18:39:19 -0700 (PDT)
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u7P1di4E015518
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
+	Wed, 24 Aug 2016 18:39:44 -0700
 Received: from [128.224.162.231] (128.224.162.231) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Wed, 24 Aug 2016 18:39:19 -0700
+	Wed, 24 Aug 2016 18:39:43 -0700
 To: "Burton, Ross" <ross.burton@intel.com>
-References: <cover.1472030722.git.kai.kang@windriver.com>
-	<1958d06a6f3885b5d7f767c3eb955054d2b40ec1.1472030722.git.kai.kang@windriver.com>
-	<CAJTo0LZVkqHztCrpi9nc4E_vq6Aa4ibi5SBOc5QRWrBVt+7wPg@mail.gmail.com>
+References: <cover.1472001956.git.kai.kang@windriver.com>
+	<57BCFC8F.1060706@windriver.com>
+	<CAJTo0Lbz3T+eqGmGGWtHRtDPOG4KyvyxQ0GXziXcNQbudyN+5w@mail.gmail.com>
 From: Kang Kai <Kai.Kang@windriver.com>
-Message-ID: <57BE4C45.3050007@windriver.com>
-Date: Thu, 25 Aug 2016 09:39:17 +0800
+Message-ID: <57BE4C5E.2000208@windriver.com>
+Date: Thu, 25 Aug 2016 09:39:42 +0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
 	Thunderbird/38.6.0
 MIME-Version: 1.0
-In-Reply-To: <CAJTo0LZVkqHztCrpi9nc4E_vq6Aa4ibi5SBOc5QRWrBVt+7wPg@mail.gmail.com>
+In-Reply-To: <CAJTo0Lbz3T+eqGmGGWtHRtDPOG4KyvyxQ0GXziXcNQbudyN+5w@mail.gmail.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] bash: fix interpreter of ptest script
+Subject: Re: [PATCH 0/2] Toggle bind configure options
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,29 +36,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 25 Aug 2016 01:39:20 -0000
+X-List-Received-Date: Thu, 25 Aug 2016 01:39:45 -0000
 Content-Type: multipart/alternative;
-	boundary="------------090603000308000407010605"
+	boundary="------------010907040205060705070502"
 
---------------090603000308000407010605
+--------------010907040205060705070502
 Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Transfer-Encoding: 8bit
 
-On 2016年08月25日 04:17, Burton, Ross wrote:
+On 2016年08月25日 04:10, Burton, Ross wrote:
 >
-> On 24 August 2016 at 10:26, <kai.kang@windriver.com 
-> <mailto:kai.kang@windriver.com>> wrote:
+> On 24 August 2016 at 02:46, Kang Kai <Kai.Kang@windriver.com 
+> <mailto:Kai.Kang@windriver.com>> wrote:
 >
->     The interpreter of bash ptest script tests/getopts5.sub is
->     /local/bin/bash which is not suitable for oe. Use /bin/bash instead.
+>     I didn't see Wangxin's work to upgrade bind. So please comment the
+>     patches, and I will rebase them when the upgrade patch is merged.
 >
 >
-> Presumably this test is executed under bash explicitly, so is this 
-> really worth fixing?
+> Looks good to me!
 
-I sent the patch to bash maillist and it is not accepted too.
-So please ignore it. Thanks.
-
+Thanks.
 
 --Kai
 
@@ -71,7 +68,7 @@ Regards,
 Neil | Kai Kang
 
 
---------------090603000308000407010605
+--------------010907040205060705070502
 Content-Type: text/html; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 
@@ -80,42 +77,39 @@ Content-Transfer-Encoding: 8bit
     <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
   </head>
   <body bgcolor="#FFFFFF" text="#000000">
-    <div class="moz-cite-prefix">On 2016年08月25日 04:17, Burton, Ross
+    <div class="moz-cite-prefix">On 2016年08月25日 04:10, Burton, Ross
       wrote:<br>
     </div>
     <blockquote
-cite="mid:CAJTo0LZVkqHztCrpi9nc4E_vq6Aa4ibi5SBOc5QRWrBVt+7wPg@mail.gmail.com"
+cite="mid:CAJTo0Lbz3T+eqGmGGWtHRtDPOG4KyvyxQ0GXziXcNQbudyN+5w@mail.gmail.com"
       type="cite">
       <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
       <div dir="ltr">
         <div class="gmail_extra"><br>
-          <div class="gmail_quote">On 24 August 2016 at 10:26, <span
-              dir="ltr">&lt;<a moz-do-not-send="true"
-                href="mailto:kai.kang@windriver.com" target="_blank">kai.kang@windriver.com</a>&gt;</span>
+          <div class="gmail_quote">On 24 August 2016 at 02:46, Kang Kai
+            <span dir="ltr">&lt;<a moz-do-not-send="true"
+                href="mailto:Kai.Kang@windriver.com" target="_blank">Kai.Kang@windriver.com</a>&gt;</span>
             wrote:<br>
             <blockquote class="gmail_quote" style="margin:0 0 0
               .8ex;border-left:1px #ccc solid;padding-left:1ex">
-              <div id=":146" class="a3s aXjCH m156bbe1983a7dd13">The
-                interpreter of bash ptest script tests/getopts5.sub is<br>
-                /local/bin/bash which is not suitable for oe. Use
-                /bin/bash instead.<br>
+              <div id=":14p" class="a3s aXjCH m156ba3b4f59cc3eb">I
+                didn't see Wangxin's work to upgrade bind. So please
+                comment the patches, and I will rebase them when the
+                upgrade patch is merged.<br>
               </div>
             </blockquote>
           </div>
           <br>
-          Presumably this test is executed under bash explicitly, so is
-          this really worth fixing?</div>
+          Looks good to me!</div>
       </div>
     </blockquote>
     <br>
-    I sent the patch to bash maillist and it is not accepted too.<br>
-    So please ignore it. Thanks.<br>
-    <br>
+    Thanks.<br>
     <br>
     --Kai<br>
     <br>
     <blockquote
-cite="mid:CAJTo0LZVkqHztCrpi9nc4E_vq6Aa4ibi5SBOc5QRWrBVt+7wPg@mail.gmail.com"
+cite="mid:CAJTo0Lbz3T+eqGmGGWtHRtDPOG4KyvyxQ0GXziXcNQbudyN+5w@mail.gmail.com"
       type="cite">
       <div dir="ltr">
         <div class="gmail_extra"><br>
@@ -131,4 +125,4 @@ Neil | Kai Kang</pre>
   </body>
 </html>
 
---------------090603000308000407010605--
+--------------010907040205060705070502--
