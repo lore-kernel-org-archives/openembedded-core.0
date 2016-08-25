@@ -1,47 +1,48 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-it0-f54.google.com (mail-it0-f54.google.com
-	[209.85.214.54])
-	by mail.openembedded.org (Postfix) with ESMTP id D048873216
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-ua0-f175.google.com (mail-ua0-f175.google.com
+	[209.85.217.175])
+	by mail.openembedded.org (Postfix) with ESMTP id BB6356FF9F
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Aug 2016 13:51:46 +0000 (UTC)
-Received: by mail-it0-f54.google.com with SMTP id f6so90673541ith.0
+	Thu, 25 Aug 2016 14:06:50 +0000 (UTC)
+Received: by mail-ua0-f175.google.com with SMTP id n59so85259387uan.2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Aug 2016 06:51:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	Thu, 25 Aug 2016 07:06:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=cVFkV3ZRJqwl3tHqTrD+Gtm4tmgN3/hY07Dh0pTNeT4=;
-	b=Zrga5Ir7FKJcO542eTSgjhftRu/3OIposIuLzHsRwa0slEV+Kni4ntjJxnu0nzksh/
-	3DeccnZmOJfMosMrYzROD78T3DD2JTuXHV1rwmVnuNOgsdocklTDeP4UaO3zGcB+LzzF
-	XaaMYw4newCAFOH6ezynB+yN95OXilAwthRiUEsk3iRQWVaSqKOQ/E1KVzAhTd+XievK
-	qqrKS98L8D1M8EMgpGgGc0B1NV2E8O23k7lkmt93K2kBbuQwrjk4ziVSugEFhb9+hwrc
-	mxwj/OL32R59aIMH1Xb1syhcUaMG3+RemvOyzfhy5bSwFllDQwCHbeZJveeaionf0dLz
-	9heQ==
+	:cc; bh=dHCDhxBPNm1M0+kyC6Pd5QAstnzVcmmsxmsvPxVkkdU=;
+	b=wOPXpVI+I3UUxLojhwlqX0LNopX7mUcPwuPB34Zd/KzEHDO9/br8ow/FkzqGJd9Q29
+	uJ/Ein46rwgT6bEhOht2JdHun/JsEa7AezEHX9B7CjV9fFB7zN6xsMENNVbfIYyNVwId
+	OzEOwjrbAix3UcsX1B6X9cE1A+96/+PNPKIexFOQZN4AdoLsE3T68Zkpdh7OHIqhoVfV
+	mJb9722wwNIoJCi1sMObrVLqvp/nxz6WBi5Tpjn/GbPxtFBpGhP5qvJ32jKXzcbFu24L
+	um9LRD7kDE0NTdqeLPOiqT23YYmWYAc7mZ6GHEVsr63nX5X5f1BYdf3ARv3Qe3oz+1UD
+	t8vA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=cVFkV3ZRJqwl3tHqTrD+Gtm4tmgN3/hY07Dh0pTNeT4=;
-	b=VjGCeGC6isSwhv63sH1P4KZwmbPEuzS1VAhM0jL15RPkHCwpdkA018BCXoqwGmpTPa
-	KYWIeEPTJU2j1R9glhVE/QIuXRggBck0Yrw+sh0TkvDRxtSTDbdVHu1rYGkPwiS08/Hq
-	nXyw6DPW3jYDj+EZ+/7ghm7f1Ke/O+lQIdu7XyN36oSAlm9t/AiIfAK+IRYbmD3f+A89
-	414RGi6y0rtN8REq6AD5PYMc9Lm940JBjHS/m6kaac1T3P1Rzm4k3lQn8bMLNgLZKKNx
-	R90sDqecRvtQreSBoAf5ctcX/XnwzY5PbC25cjcIFLFr1XEhWfD4gPgu9UOkMohMnJIm
-	vKDA==
-X-Gm-Message-State: AEkoouv3BV/5exy9lIudA94VU5e8sZ8ZbLEIbD/4G2AnRlJZpjsxjigZEOyPDALMmk8UJMf+z4Y5LLOqNYmcTeyz
-X-Received: by 10.36.20.204 with SMTP id 195mr5098628itg.83.1472133107744;
-	Thu, 25 Aug 2016 06:51:47 -0700 (PDT)
+	bh=dHCDhxBPNm1M0+kyC6Pd5QAstnzVcmmsxmsvPxVkkdU=;
+	b=MTwmTtfI8yZ7bk5ZTYJs4PbZrpNvidGFHH72nfZLBc9d5soV/JVYS2ajSf2GJYYxOP
+	Cyf/E0gz2hwVh2ngONYh3nSMbUm55d6vWxd8szYg6EJwN8VCm2vGEqh/LcWxX5Z4nAps
+	lvb5ziP+fd1/dL52WIraTQ7lQ2DQV+f/9E8EMPz0HmF6JdatIOwK/Y9A3SUHswGRgeJB
+	M3a9J+/YBiwX4mLTg9AIoVJiaEnIR5mVT6bCdVvKC6ync0FmYCeOySvlsmPXDmNLhAC8
+	ws117CipIOjzmQwtG2zIS6D+Ybu7SE2vjVjY4TgRIkDcW2+9gTgydFN27As5Ny+QhQMM
+	o47w==
+X-Gm-Message-State: AE9vXwMPcQskihPJZr1udYqx+Id23EV658yB8L+8/pv2ywqfC4u0vpyYumjXvfBA1KUKQkhTMI4Wq8skZka85A==
+X-Received: by 10.176.6.196 with SMTP id g62mr5079883uag.142.1472134010870;
+	Thu, 25 Aug 2016 07:06:50 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.107.18.17 with HTTP; Thu, 25 Aug 2016 06:51:27 -0700 (PDT)
-In-Reply-To: <1472116833486.43456@saabgroup.com>
-References: <1472116833486.43456@saabgroup.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 25 Aug 2016 14:51:27 +0100
-Message-ID: <CAJTo0Lam5us06i_nJtooYcA3T87nCFjAgZ=Gz_3kh-M0GNHisw@mail.gmail.com>
-To: Waldo Mattias <Mattias.Waldo@saabgroup.com>
-Cc: "openembedded-core@lists.openembedded.org"
+Received: by 10.176.64.138 with HTTP; Thu, 25 Aug 2016 07:06:49 -0700 (PDT)
+Received: by 10.176.64.138 with HTTP; Thu, 25 Aug 2016 07:06:49 -0700 (PDT)
+In-Reply-To: <CAJTo0LbPUuXx=N=BsncbdceCVpR=ZerdzqkRpgn2T5uz38p8nQ@mail.gmail.com>
+References: <20160820203609.5599-1-raj.khem@gmail.com>
+	<CAJTo0LbPUuXx=N=BsncbdceCVpR=ZerdzqkRpgn2T5uz38p8nQ@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Thu, 25 Aug 2016 07:06:49 -0700
+Message-ID: <CAMKF1sp-ttXWxcjsVWT44p=a0AH5t6C8P2MYTLvES42D3hj41A@mail.gmail.com>
+To: Ross Burton <ross.burton@intel.com>
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] kernel.bbclass: include signing keys when copying files required for module builds
+Subject: Re: [PATCH V2] xserver-xf86-config: pre-load int10 and exa modules
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,60 +55,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 25 Aug 2016 13:51:49 -0000
-Content-Type: multipart/alternative; boundary=001a1143e4e4f31bd2053ae5b262
+X-List-Received-Date: Thu, 25 Aug 2016 14:06:51 -0000
+Content-Type: multipart/alternative; boundary=94eb2c1243bac7a406053ae5e860
 
---001a1143e4e4f31bd2053ae5b262
+--94eb2c1243bac7a406053ae5e860
 Content-Type: text/plain; charset=UTF-8
 
-On 25 August 2016 at 10:20, Waldo Mattias <Mattias.Waldo@saabgroup.com>
-wrote:
-
-> The absence of certs/signing_key.* in $kerneldir made signing of
-> out-of-tree kernel modules fail (silently). Add copying of these files
-> during the shared_workdir task.
+On Aug 25, 2016 6:45 AM, "Burton, Ross" <ross.burton@intel.com> wrote:
 >
+>
+> On 20 August 2016 at 21:36, Khem Raj <raj.khem@gmail.com> wrote:
+>>
+>> @@ -3,7 +3,7 @@ Section "Module"
+>>      Load "fb"
+>>      Load "shadow"
+>>      Load "shadowfb"
+>> +    Load "int10"
+>>      Load "vbe"
+>>      Load "vgahw"
+>>  EndSection
+>
+>
+> The log says "int10 and exa" but V2 has lost all exa references.  Is this
+intentional?
 
-Are you sure that you based this on current master?
+Yes. It is not needed on qemu. I should have updated commit msg.
+>
+> Ross
 
-Applying: kernel.bbclass: include signing keys when copying files required
-for module builds
-Using index info to reconstruct a base tree...
-M meta/classes/kernel.bbclass
-error: patch failed: meta/classes/kernel.bbclass:295
-error: meta/classes/kernel.bbclass: patch does not apply
-error: Did you hand edit your patch?
-It does not apply to blobs recorded in its index.
-Patch failed at 0001 kernel.bbclass: include signing keys when copying
-files required for module builds
-
-Ross
-
---001a1143e4e4f31bd2053ae5b262
+--94eb2c1243bac7a406053ae5e860
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 25 August 2016 at 10:20, Waldo Mattias <span dir=3D"ltr">&lt;<a href=3D"=
-mailto:Mattias.Waldo@saabgroup.com" target=3D"_blank">Mattias.Waldo@saabgro=
-up.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"=
-margin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-color:rgb(204,20=
-4,204);border-left-style:solid;padding-left:1ex"><div id=3D":19x" class=3D"=
-">The absence of certs/signing_key.* in $kerneldir made signing of<br>
-out-of-tree kernel modules fail (silently). Add copying of these files<br>
-during the shared_workdir task.<br></div></blockquote></div><br>Are you sur=
-e that you based this on current master?</div><div class=3D"gmail_extra"><b=
-r></div><div class=3D"gmail_extra"><div class=3D"gmail_extra">Applying: ker=
-nel.bbclass: include signing keys when copying files required for module bu=
-ilds</div><div class=3D"gmail_extra">Using index info to reconstruct a base=
- tree...</div><div class=3D"gmail_extra">M<span class=3D"" style=3D"white-s=
-pace:pre">	</span>meta/classes/kernel.bbclass</div><div class=3D"gmail_extr=
-a">error: patch failed: meta/classes/kernel.bbclass:295</div><div class=3D"=
-gmail_extra">error: meta/classes/kernel.bbclass: patch does not apply</div>=
-<div class=3D"gmail_extra">error: Did you hand edit your patch?</div><div c=
-lass=3D"gmail_extra">It does not apply to blobs recorded in its index.</div=
-><div class=3D"gmail_extra">Patch failed at 0001 kernel.bbclass: include si=
-gning keys when copying files required for module builds</div><div class=3D=
-"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div></div>
+<p dir=3D"ltr"></p>
+<p dir=3D"ltr">On Aug 25, 2016 6:45 AM, &quot;Burton, Ross&quot; &lt;<a hre=
+f=3D"mailto:ross.burton@intel.com">ross.burton@intel.com</a>&gt; wrote:<br>
+&gt;<br>
+&gt;<br>
+&gt; On 20 August 2016 at 21:36, Khem Raj &lt;<a href=3D"mailto:raj.khem@gm=
+ail.com">raj.khem@gmail.com</a>&gt; wrote:<br>
+&gt;&gt;<br>
+&gt;&gt; @@ -3,7 +3,7 @@ Section &quot;Module&quot;<br>
+&gt;&gt; =C2=A0 =C2=A0 =C2=A0Load &quot;fb&quot;<br>
+&gt;&gt; =C2=A0 =C2=A0 =C2=A0Load &quot;shadow&quot;<br>
+&gt;&gt; =C2=A0 =C2=A0 =C2=A0Load &quot;shadowfb&quot;<br>
+&gt;&gt; +=C2=A0 =C2=A0 Load &quot;int10&quot;<br>
+&gt;&gt; =C2=A0 =C2=A0 =C2=A0Load &quot;vbe&quot;<br>
+&gt;&gt; =C2=A0 =C2=A0 =C2=A0Load &quot;vgahw&quot;<br>
+&gt;&gt; =C2=A0EndSection<br>
+&gt;<br>
+&gt;<br>
+&gt; The log says &quot;int10 and exa&quot; but V2 has lost all exa referen=
+ces.=C2=A0 Is this intentional?</p>
+<p dir=3D"ltr">Yes. It is not needed on qemu. I should have updated commit =
+msg. <br>
+&gt;<br>
+&gt; Ross=C2=A0<br></p>
 
---001a1143e4e4f31bd2053ae5b262--
+--94eb2c1243bac7a406053ae5e860--
