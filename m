@@ -1,24 +1,29 @@
-Return-Path: <Alexandru.Moise@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 945FA6E667
+Return-Path: <Mingli.Yu@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id CADF17422C
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Aug 2016 09:11:04 +0000 (UTC)
+	Fri, 26 Aug 2016 09:32:02 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u7Q9B3re005680
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Aug 2016 02:11:04 -0700 (PDT)
-Received: from obsrwr.corp.ad.wrs.com (128.224.19.94) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.248.2; Fri, 26 Aug 2016 02:11:03 -0700
-From: Alexandru Moise <alexandru.moise@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 26 Aug 2016 12:10:53 +0300
-Message-ID: <1472202653-12368-1-git-send-email-alexandru.moise@windriver.com>
-X-Mailer: git-send-email 1.9.1
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u7Q9W1eh030213
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
+	Fri, 26 Aug 2016 02:32:01 -0700
+Received: from [128.224.163.140] (128.224.163.140) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.248.2;
+	Fri, 26 Aug 2016 02:31:59 -0700
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <1472178349-32199-1-git-send-email-mingli.yu@windriver.com>
+	<CAJTo0Lajz4nb5S5T4rq=F6fmfGvRPEuAyKF=U-OZdWfo+JoOqQ@mail.gmail.com>
+From: "Yu, Mingli" <mingli.yu@windriver.com>
+Message-ID: <57C00BB4.8050607@windriver.com>
+Date: Fri, 26 Aug 2016 17:28:20 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.4.0
 MIME-Version: 1.0
-Subject: [PATCH] vim: split tools directory into vim-tools package
+In-Reply-To: <CAJTo0Lajz4nb5S5T4rq=F6fmfGvRPEuAyKF=U-OZdWfo+JoOqQ@mail.gmail.com>
+X-Originating-IP: [128.224.163.140]
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/4] groff: add file-homedir-perl to RDEPENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,51 +36,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 26 Aug 2016 09:11:04 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 26 Aug 2016 09:32:03 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Normal install of vim packs with it also the /usr/share/vim/vim*/tools
-directory that consist of a bunch of scripts such as "vim132" that
-just starts up vim in 132 column mode for VT-100 terminals and
-lookalikes.
 
-Created the vim-tools separate package for the tools directory. If
-anyone needs these scripts they can be added to the fs image together
-with their dependencies.
 
-Signed-off-by: Alexandru Moise <alexandru.moise@windriver.com>
----
- meta-oe/recipes-support/vim/vim_7.4.1689.bb | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+On 2016年08月26日 16:55, Burton, Ross wrote:
+>
+> On 26 August 2016 at 03:25, <mingli.yu@windriver.com
+> <mailto:mingli.yu@windriver.com>> wrote:
+>
+>     The series add file-homedir-perl to RDEPENDS for groff as
+>     glilypond rdepends on File/HomeDir.pm provided by file-homedir-perl
+>
+>
+> Isn't lilypond the music score layout tool?
 
-diff --git a/meta-oe/recipes-support/vim/vim_7.4.1689.bb b/meta-oe/recipes-support/vim/vim_7.4.1689.bb
-index 5e6282b..f94a497 100644
---- a/meta-oe/recipes-support/vim/vim_7.4.1689.bb
-+++ b/meta-oe/recipes-support/vim/vim_7.4.1689.bb
-@@ -78,12 +78,13 @@ do_install() {
- 
- PARALLEL_MAKEINST = ""
- 
--PACKAGES =+ "${PN}-common ${PN}-syntax ${PN}-help ${PN}-tutor ${PN}-vimrc"
-+PACKAGES =+ "${PN}-common ${PN}-syntax ${PN}-help ${PN}-tutor ${PN}-vimrc ${PN}-tools"
- FILES_${PN}-syntax = "${datadir}/${BPN}/${VIMDIR}/syntax"
- FILES_${PN}-help = "${datadir}/${BPN}/${VIMDIR}/doc"
- FILES_${PN}-tutor = "${datadir}/${BPN}/${VIMDIR}/tutor ${bindir}/${BPN}tutor"
- FILES_${PN}-vimrc = "${datadir}/${BPN}/vimrc"
- FILES_${PN}-data = "${datadir}/${BPN}"
-+FILES_${PN}-tools = "${datadir}/${BPN}/${VIMDIR}/tools"
- FILES_${PN}-common = " \
-     ${datadir}/${BPN}/${VIMDIR}/*.vim \
-     ${datadir}/${BPN}/${VIMDIR}/autoload \
-@@ -97,7 +98,6 @@ FILES_${PN}-common = " \
-     ${datadir}/${BPN}/${VIMDIR}/plugin \
-     ${datadir}/${BPN}/${VIMDIR}/print \
-     ${datadir}/${BPN}/${VIMDIR}/spell \
--    ${datadir}/${BPN}/${VIMDIR}/tools \
- "
- 
- RDEPENDS_${PN} = "ncurses-terminfo-base"
--- 
-1.9.1
+glilypond which is provided by groff transforms sheet music written in 
+the lilypond language into the groff language using the .PSPIC request, 
+such that groff can transform it into a format that can be displayed 
+directly.
 
+  This seems very
+> specialist.  I suggest adding the new recipes to meta-perl, and then if
+> someone does want to use it then the requirements are available.
+>
+> Unless you're only hitting this because of testing, in which case I'd
+> suggest skipping this test.
+
+The command glilypond needs File::HomeDir perl module which is provided 
+by file-homedir-perl
+
+Thanks,
+Grace
+
+>
+> Ross
 
