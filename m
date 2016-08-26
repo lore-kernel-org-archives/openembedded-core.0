@@ -1,25 +1,25 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 6322B77081
+	by mail.openembedded.org (Postfix) with ESMTP id 7895376E4A
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Aug 2016 14:30:39 +0000 (UTC)
+	Fri, 26 Aug 2016 14:30:40 +0000 (UTC)
 Received: from orsmga004.jf.intel.com ([10.7.209.38])
-	by orsmga103.jf.intel.com with ESMTP; 26 Aug 2016 07:30:40 -0700
+	by orsmga103.jf.intel.com with ESMTP; 26 Aug 2016 07:30:41 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.28,581,1464678000"; 
-   d="scan'208";a="1525573"
+   d="scan'208";a="1525576"
 Received: from kanavin-desktop.fi.intel.com ([10.237.68.49])
-	by orsmga004.jf.intel.com with ESMTP; 26 Aug 2016 07:30:39 -0700
+	by orsmga004.jf.intel.com with ESMTP; 26 Aug 2016 07:30:40 -0700
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 26 Aug 2016 17:28:30 +0300
-Message-Id: <0f25e976600b396d9d11026dd79a8d85940cacad.1472221205.git.alexander.kanavin@linux.intel.com>
+Date: Fri, 26 Aug 2016 17:28:31 +0300
+Message-Id: <fd8fbac1d47c9369b32b73850bdcbc216a4f58e1.1472221205.git.alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.9.3
 In-Reply-To: <cover.1472221205.git.alexander.kanavin@linux.intel.com>
 References: <cover.1472221205.git.alexander.kanavin@linux.intel.com>
 In-Reply-To: <cover.1472221205.git.alexander.kanavin@linux.intel.com>
 References: <cover.1472221205.git.alexander.kanavin@linux.intel.com>
-Subject: [PATCH 15/28] libidn: enable gtk-doc
+Subject: [PATCH 16/28] libuser: enable gtk-doc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,26 +32,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 26 Aug 2016 14:30:39 -0000
+X-List-Received-Date: Fri, 26 Aug 2016 14:30:40 -0000
 
 Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- meta/recipes-extended/libidn/libidn_1.33.bb | 2 +-
+ meta/recipes-extended/libuser/libuser_0.62.bb | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-extended/libidn/libidn_1.33.bb b/meta/recipes-extended/libidn/libidn_1.33.bb
-index 26cabd6..d3d0f55 100644
---- a/meta/recipes-extended/libidn/libidn_1.33.bb
-+++ b/meta/recipes-extended/libidn/libidn_1.33.bb
-@@ -12,7 +12,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=df4be47940a91ee69556f5f71eed4aec \
-                     file://src/idn.c;endline=20;md5=09e97034a8877b3451cb65065fc2c06e"
- DEPENDS = "virtual/libiconv"
+diff --git a/meta/recipes-extended/libuser/libuser_0.62.bb b/meta/recipes-extended/libuser/libuser_0.62.bb
+index 960f789..3d0b516 100644
+--- a/meta/recipes-extended/libuser/libuser_0.62.bb
++++ b/meta/recipes-extended/libuser/libuser_0.62.bb
+@@ -22,7 +22,7 @@ SRC_URI[sha256sum] = "a58ff4fabb01a25043b142185a33eeea961109dd60d4b40b6a9df4fa3c
  
--inherit pkgconfig autotools gettext texinfo
-+inherit pkgconfig autotools gettext texinfo gtk-doc
+ DEPENDS = "popt libpam glib-2.0 docbook-utils-native linuxdoc-tools-native python3"
  
- SRC_URI = "${GNU_MIRROR}/libidn/${BPN}-${PV}.tar.gz \
-            file://libidn_fix_for_automake-1.12.patch \
+-inherit autotools gettext python3native python3-dir pkgconfig
++inherit autotools gettext python3native python3-dir pkgconfig gtk-doc
+ 
+ EXTRA_OEMAKE = "PYTHON_CPPFLAGS=-I${STAGING_INCDIR}/${PYTHON_DIR}${PYTHON_ABI}"
+ 
 -- 
 2.9.3
 
