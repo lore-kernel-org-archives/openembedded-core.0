@@ -1,24 +1,29 @@
-Return-Path: <joshua.g.lock@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 986AF770CB
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 5EAEC7706C
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Aug 2016 15:43:14 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga103.jf.intel.com with ESMTP; 26 Aug 2016 08:43:16 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.28,581,1464678000"; d="scan'208";a="1020782691"
-Received: from jlock-mobl1.ger.corp.intel.com ([10.252.3.89])
-	by orsmga001.jf.intel.com with ESMTP; 26 Aug 2016 08:43:15 -0700
-From: Joshua Lock <joshua.g.lock@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 26 Aug 2016 16:43:06 +0100
-Message-Id: <387803c1b2b8c0f2b3b29b55be61c27b52b4e7f0.1472225461.git.joshua.g.lock@intel.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <cover.1472225461.git.joshua.g.lock@intel.com>
+	Fri, 26 Aug 2016 15:48:58 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u7QFmx6v007238
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 26 Aug 2016 08:48:59 -0700
+Received: from soho-mhatle-m.local (172.25.36.235) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
+	Fri, 26 Aug 2016 08:48:58 -0700
+To: <openembedded-core@lists.openembedded.org>
 References: <cover.1472225461.git.joshua.g.lock@intel.com>
-In-Reply-To: <cover.1472225461.git.joshua.g.lock@intel.com>
-References: <cover.1472225461.git.joshua.g.lock@intel.com>
-Subject: [PATCH 2/2] oe.path: preserve xattr in copytree() and copyhardlinktree()
+	<387803c1b2b8c0f2b3b29b55be61c27b52b4e7f0.1472225461.git.joshua.g.lock@intel.com>
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+Message-ID: <921e5cf0-9980-1133-ec0b-bc874ae9c4fb@windriver.com>
+Date: Fri, 26 Aug 2016 10:48:57 -0500
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:45.0)
+	Gecko/20100101 Thunderbird/45.2.0
+MIME-Version: 1.0
+In-Reply-To: <387803c1b2b8c0f2b3b29b55be61c27b52b4e7f0.1472225461.git.joshua.g.lock@intel.com>
+Subject: Re: [PATCH 2/2] oe.path: preserve xattr in copytree() and copyhardlinktree()
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,55 +36,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 26 Aug 2016 15:43:14 -0000
+X-List-Received-Date: Fri, 26 Aug 2016 15:49:01 -0000
+Content-Type: text/plain; charset="windows-1252"
+Content-Transfer-Encoding: 7bit
 
-Pass appropriate options to tar invocations in copytree() and
-copyhardlinktree() to ensure that any extended attributes on the files
-are preserved during the copy.
+On 8/26/16 10:43 AM, Joshua Lock wrote:
+> Pass appropriate options to tar invocations in copytree() and
+> copyhardlinktree() to ensure that any extended attributes on the files
+> are preserved during the copy.
+> 
+> We have to drop the use cpio in "Copy-pass" mode in copyhardlinktree()
+> because cpio doesn't support extended attributes on files. Instead we
+> revert back to using cp with different patterns depending on whether
+> or not the directory contains dot files.
+> 
+> [YOCTO #9857]
+> 
+> Signed-off-by: Joshua Lock <joshua.g.lock@intel.com>
+> ---
+>  meta/lib/oe/path.py | 11 ++++++++---
+>  1 file changed, 8 insertions(+), 3 deletions(-)
+> 
+> diff --git a/meta/lib/oe/path.py b/meta/lib/oe/path.py
+> index 3c07df3..631c3b4 100644
+> --- a/meta/lib/oe/path.py
+> +++ b/meta/lib/oe/path.py
+> @@ -65,7 +65,7 @@ def copytree(src, dst):
+>      # This way we also preserve hardlinks between files in the tree.
+>  
+>      bb.utils.mkdirhier(dst)
+> -    cmd = 'tar -cf - -C %s -p . | tar -xf - -C %s' % (src, dst)
+> +    cmd = "tar --xattrs --xattrs-include='*' -cf - -C %s -p . | tar --xattrs --xattrs-include='*' -xf - -C %s" % (src, dst)
+>      subprocess.check_output(cmd, shell=True, stderr=subprocess.STDOUT)
+>  
+>  def copyhardlinktree(src, dst):
+> @@ -77,9 +77,14 @@ def copyhardlinktree(src, dst):
+>      if (os.stat(src).st_dev ==  os.stat(dst).st_dev):
+>          # Need to copy directories only with tar first since cp will error if two 
+>          # writers try and create a directory at the same time
+> -        cmd = 'cd %s; find . -type d -print | tar -cf - -C %s -p --no-recursion --files-from - | tar -xf - -C %s' % (src, src, dst)
+> +        cmd = "cd %s; find . -type d -print | tar --xattrs --xattrs-include='*' -cf - -C %s -p --no-recursion --files-from - | tar --xattrs --xattrs-include='*' -xf - -C %s" % (src, src, dst)
+>          subprocess.check_output(cmd, shell=True, stderr=subprocess.STDOUT)
+> -        cmd = 'cd %s; find . -print0 | cpio --null -pdlu %s' % (src, dst)
 
-We have to drop the use cpio in "Copy-pass" mode in copyhardlinktree()
-because cpio doesn't support extended attributes on files. Instead we
-revert back to using cp with different patterns depending on whether
-or not the directory contains dot files.
+The reason why cpio was originally used had to do with filenames that had spaces
+or other special characters in them.  (this is why the -print0 was used)
 
-[YOCTO #9857]
+I don't object to the change, but we need to make sure that that will still work
+properly.
 
-Signed-off-by: Joshua Lock <joshua.g.lock@intel.com>
----
- meta/lib/oe/path.py | 11 ++++++++---
- 1 file changed, 8 insertions(+), 3 deletions(-)
+(Also I thought CPIO -could- do xattrs in the current versions...)
 
-diff --git a/meta/lib/oe/path.py b/meta/lib/oe/path.py
-index 3c07df3..631c3b4 100644
---- a/meta/lib/oe/path.py
-+++ b/meta/lib/oe/path.py
-@@ -65,7 +65,7 @@ def copytree(src, dst):
-     # This way we also preserve hardlinks between files in the tree.
- 
-     bb.utils.mkdirhier(dst)
--    cmd = 'tar -cf - -C %s -p . | tar -xf - -C %s' % (src, dst)
-+    cmd = "tar --xattrs --xattrs-include='*' -cf - -C %s -p . | tar --xattrs --xattrs-include='*' -xf - -C %s" % (src, dst)
-     subprocess.check_output(cmd, shell=True, stderr=subprocess.STDOUT)
- 
- def copyhardlinktree(src, dst):
-@@ -77,9 +77,14 @@ def copyhardlinktree(src, dst):
-     if (os.stat(src).st_dev ==  os.stat(dst).st_dev):
-         # Need to copy directories only with tar first since cp will error if two 
-         # writers try and create a directory at the same time
--        cmd = 'cd %s; find . -type d -print | tar -cf - -C %s -p --no-recursion --files-from - | tar -xf - -C %s' % (src, src, dst)
-+        cmd = "cd %s; find . -type d -print | tar --xattrs --xattrs-include='*' -cf - -C %s -p --no-recursion --files-from - | tar --xattrs --xattrs-include='*' -xf - -C %s" % (src, src, dst)
-         subprocess.check_output(cmd, shell=True, stderr=subprocess.STDOUT)
--        cmd = 'cd %s; find . -print0 | cpio --null -pdlu %s' % (src, dst)
-+        if os.path.isdir(src):
-+            import glob
-+            if len(glob.glob('%s/.??*' % src)) > 0:
-+                src = src + '/.??* '
-+            src = src + '/*'
-+        cmd = 'cp -afl --preserve=xattr %s %s' % (src, dst)
-         subprocess.check_output(cmd, shell=True, stderr=subprocess.STDOUT)
-     else:
-         copytree(src, dst)
--- 
-2.7.4
+--Mark
+
+> +        if os.path.isdir(src):
+> +            import glob
+> +            if len(glob.glob('%s/.??*' % src)) > 0:
+> +                src = src + '/.??* '
+> +            src = src + '/*'
+> +        cmd = 'cp -afl --preserve=xattr %s %s' % (src, dst)
+>          subprocess.check_output(cmd, shell=True, stderr=subprocess.STDOUT)
+>      else:
+>          copytree(src, dst)
+> 
 
 
