@@ -1,21 +1,46 @@
-Return-Path: <anibal.limon@linux.intel.com>
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id E4D6660722
+Return-Path: <ricardo.ribalda@gmail.com>
+Received: from mail-lf0-f65.google.com (mail-lf0-f65.google.com
+	[209.85.215.65])
+	by mail.openembedded.org (Postfix) with ESMTP id DCD7D6011C
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Aug 2016 15:21:07 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga104.fm.intel.com with ESMTP; 26 Aug 2016 08:21:08 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.28,581,1464678000"; d="scan'208";a="871446456"
-Received: from alimonb-mobl1.zpn.intel.com ([10.219.5.146])
-	by orsmga003.jf.intel.com with ESMTP; 26 Aug 2016 08:21:07 -0700
-From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 26 Aug 2016 10:21:26 -0500
-Message-Id: <1472224886-2449-1-git-send-email-anibal.limon@linux.intel.com>
-X-Mailer: git-send-email 2.1.4
-Cc: joshua.g.lock@intel.com
-Subject: [PATCH] uzip: Revert "unzip: fix security issues"
+	Fri, 26 Aug 2016 15:30:57 +0000 (UTC)
+Received: by mail-lf0-f65.google.com with SMTP id k135so3954773lfb.1
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 26 Aug 2016 08:30:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=exg+l27HUeSXF8PJ9XyHtNCnxIzARLd468CBOdlrZzU=;
+	b=EgJ7Y2nhHaGdBEMqqAO9dEKWLTK5s+ude10C1/ek1+OJV4yIc3Jrt9SZRhZXBuu0z/
+	nqH8s37dz/jpOcIZZyQKMPbTNWAunb6Z+GRfZAdqbe8qfxJd+33YvUT+KxPhHgoYkVee
+	f7akXvWRpvzHa9Q06N5u9Qw9x2K/g9SPgh+7yGsF127QjAtwuAZq5hxwpHLi7Bk2AXIr
+	DL/Q0PGsOcVavz9BJYFPTqakeIO1/5PfhIjFaI16ftDN4/iY5isYtvOR2I0wKEy3COsB
+	5zuRTUBnok1054p6kCgqLoxYUMaEGzaVTowrli1FLQM53xQuOypTz9PtaRjfzBzqeirQ
+	/sJQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=exg+l27HUeSXF8PJ9XyHtNCnxIzARLd468CBOdlrZzU=;
+	b=fvA5/O3m9zMOXyz4tyuoeEwVKhnrAN89g7J8a3JE73T1UmxfXrY1MpCkp5Iu/6t9Wa
+	HkoNs6tRb20MWUmHxHwFyLtn8OID2moKJFrypjs+QHwO/cqJO4Y9QBrL7jh8nvn9VdsX
+	uv5BIfHn54gGRVRBKaG/pB+okqW8FznPT1gGlNc6ZmTkSiWVgQlYJs8fX5UbJ1h8RqfI
+	fQk11L6NgrXgoBn5NR5CsxGU17FwU+KXUy4cdXtiU0qbMRX7eRgWr2df5fGXQjHppcmm
+	1nn7P6VsX/ciZTtXzOZoo7RRUPANFYBTtLy4p4RCF8xazjWV2SYzBoecrDxBZ3LRd8vj
+	qEjA==
+X-Gm-Message-State: AE9vXwP1dJQYXK53NBNOtQMoGkPsGPEBh8Xumr7uUhEJ694qFj0t81aXKf1YHHZhTnnITA==
+X-Received: by 10.46.71.19 with SMTP id u19mr1573538lja.23.1472225457488;
+	Fri, 26 Aug 2016 08:30:57 -0700 (PDT)
+Received: from neopili.qtec.com
+	(cpe.xe-3-0-1-778.vbrnqe10.dk.customer.tdc.net. [80.197.57.18])
+	by smtp.gmail.com with ESMTPSA id 21sm4084344ljf.7.2016.08.26.08.30.56
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 26 Aug 2016 08:30:56 -0700 (PDT)
+From: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
+To: openembedded-core@lists.openembedded.org,
+	ross.burton@intel.com
+Date: Fri, 26 Aug 2016 17:30:54 +0200
+Message-Id: <20160826153054.27316-1-ricardo.ribalda@gmail.com>
+X-Mailer: git-send-email 2.9.3
+Subject: [PATCH v2] python-3.5-manifest.inc: the core module RDEPENDS on misc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,194 +53,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 26 Aug 2016 15:21:08 -0000
+X-List-Received-Date: Fri, 26 Aug 2016 15:31:01 -0000
 
-This security patch brokes the unzip output [1] so revert it
-in the meantime for the right fix.
+Fixes:
 
-[YOCTO #9551]
-[YOCTO #10140]
+root@qt5022:~# python3
+Python 3.5.1 (default, Aug  5 2016, 13:25:54)
+[GCC 5.3.0] on linux
+Type "help", "copyright", "credits" or "license" for more information.
+>>> import collections
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+  File "/usr/lib/python3.5/collections/__init__.py", line 10, in <module>
+    from operator import itemgetter as _itemgetter, eq as _eq
+ImportError: No module named 'operator'
+>>>
 
-[1] https://bugzilla.yoctoproject.org/show_bug.cgi?id=10140#c0
+root@qt5022:~# dpkg -S /usr/lib/python3.5/collections/__init__.py
+python3-core: /usr/lib/python3.5/collections/__init__.py
 
-This reverts commit 763a3d424bccf559a8d6add3dc1f2746c82f2933.
+Reported-by: Dimitrios Katsaros <patcherwork@gmail.com>
+Signed-off-by: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
 ---
- meta/conf/distro/include/security_flags.inc        |   1 +
- .../unzip/unzip/fix-security-format.patch          | 139 ---------------------
- meta/recipes-extended/unzip/unzip_6.0.bb           |   1 -
- 3 files changed, 1 insertion(+), 140 deletions(-)
- delete mode 100644 meta/recipes-extended/unzip/unzip/fix-security-format.patch
 
-diff --git a/meta/conf/distro/include/security_flags.inc b/meta/conf/distro/include/security_flags.inc
-index 20f48de..f552e21 100644
---- a/meta/conf/distro/include/security_flags.inc
-+++ b/meta/conf/distro/include/security_flags.inc
-@@ -96,6 +96,7 @@ SECURITY_STRINGFORMAT_pn-gcc = ""
- SECURITY_STRINGFORMAT_pn-gettext = ""
- SECURITY_STRINGFORMAT_pn-kexec-tools = ""
- SECURITY_STRINGFORMAT_pn-oh-puzzles = ""
-+SECURITY_STRINGFORMAT_pn-unzip = ""
+v2: also hack the generate file
+ meta/recipes-devtools/python/python-3.5-manifest.inc | 2 +-
+ scripts/contrib/python/generate-manifest-3.5.py      | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/meta/recipes-devtools/python/python-3.5-manifest.inc b/meta/recipes-devtools/python/python-3.5-manifest.inc
+index 304611432e37..fb05d6d36df3 100644
+--- a/meta/recipes-devtools/python/python-3.5-manifest.inc
++++ b/meta/recipes-devtools/python/python-3.5-manifest.inc
+@@ -38,7 +38,7 @@ RDEPENDS_${PN}-compression="${PN}-core ${PN}-codecs ${PN}-importlib ${PN}-thread
+ FILES_${PN}-compression="${libdir}/python3.5/gzip.* ${libdir}/python3.5/zipfile.* ${libdir}/python3.5/tarfile.* ${libdir}/python3.5/lib-dynload/bz2.*.so ${libdir}/python3.5/lib-dynload/zlib.*.so "
  
- TARGET_CFLAGS_append_class-target = " ${SECURITY_CFLAGS}"
- TARGET_LDFLAGS_append_class-target = " ${SECURITY_LDFLAGS}"
-diff --git a/meta/recipes-extended/unzip/unzip/fix-security-format.patch b/meta/recipes-extended/unzip/unzip/fix-security-format.patch
-deleted file mode 100644
-index c82f502..0000000
---- a/meta/recipes-extended/unzip/unzip/fix-security-format.patch
-+++ /dev/null
-@@ -1,139 +0,0 @@
--unzip: Fixing security formatting issues
--
--Fix security formatting issues related to sprintf parameters expeted. 
--
--[YOCTO #9551]
--[https://bugzilla.yoctoproject.org/show_bug.cgi?id=9551]
--
--Upstream-Status: Pending
--
--Signed-off-by: Edwin Plauchu <edwin.plauchu.camacho@intel.com>
--
--diff --git a/unzpriv.h b/unzpriv.h
--index c8d3eab..85e693a 100644
----- a/unzpriv.h
--+++ b/unzpriv.h
--@@ -1006,7 +1006,7 @@
-- #    define LoadFarStringSmall(x)   Qstrfix(x)
-- #    define LoadFarStringSmall2(x)  Qstrfix(x)
-- #  else
---#    define LoadFarString(x)        (char *)(x)
--+#    define LoadFarString(x)        "%s",(char *)(x)
-- #    define LoadFarStringSmall(x)   (char *)(x)
-- #    define LoadFarStringSmall2(x)  (char *)(x)
-- #  endif
--diff --git a/fileio.c b/fileio.c
--index 36bfea3..ca779c2 100644
----- a/fileio.c
--+++ b/fileio.c
--@@ -588,8 +588,8 @@ unsigned readbuf(__G__ buf, size)   /* return number of bytes read into buf */
--             else if (G.incnt < 0) {
--                 /* another hack, but no real harm copying same thing twice */
--                 (*G.message)((zvoid *)&G,
---                  (uch *)LoadFarString(ReadError),  /* CANNOT use slide */
---                  (ulg)strlen(LoadFarString(ReadError)), 0x401);
--+                  (uch *)(char*)(ReadError),  /* CANNOT use slide */
--+                  (ulg)strlen((char*)(ReadError)), 0x401);
--                 return 0;  /* discarding some data; better than lock-up */
--             }
--             /* buffer ALWAYS starts on a block boundary:  */
--@@ -631,8 +631,8 @@ int readbyte(__G)   /* refill inbuf and return a byte if available, else EOF */
--         } else if (G.incnt < 0) {  /* "fail" (abort, retry, ...) returns this */
--             /* another hack, but no real harm copying same thing twice */
--             (*G.message)((zvoid *)&G,
---              (uch *)LoadFarString(ReadError),
---              (ulg)strlen(LoadFarString(ReadError)), 0x401);
--+              (uch *)(char*)(ReadError),
--+              (ulg)strlen((char*)(ReadError)), 0x401);
--             echon();
-- #ifdef WINDLL
--             longjmp(dll_error_return, 1);
--@@ -1356,7 +1356,7 @@ int UZ_EXP UzpMessagePrnt(pG, buf, size, flag)
--                 ++((Uz_Globs *)pG)->lines;
--                 if (((Uz_Globs *)pG)->lines >= ((Uz_Globs *)pG)->height)
--                     (*((Uz_Globs *)pG)->mpause)((zvoid *)pG,
---                      LoadFarString(MorePrompt), 1);
--+                      (char*)(MorePrompt), 1);
--             }
-- #endif /* MORE */
--             if (MSG_STDERR(flag) && ((Uz_Globs *)pG)->UzO.tflag &&
--@@ -1416,7 +1416,7 @@ int UZ_EXP UzpMessagePrnt(pG, buf, size, flag)
--                     ((Uz_Globs *)pG)->sol = TRUE;
--                     q = p + 1;
--                     (*((Uz_Globs *)pG)->mpause)((zvoid *)pG,
---                      LoadFarString(MorePrompt), 1);
--+                      (char*)(MorePrompt), 1);
--                 }
--             }
--             INCSTR(p);
--@@ -2176,7 +2176,7 @@ int do_string(__G__ length, option)   /* return PK-type error code */
--                     (*G.message)((zvoid *)&G, slide, (ulg)(q-slide), 0);
--                     q = slide;
--                     if (pause && G.extract_flag) /* don't pause for list/test */
---                        (*G.mpause)((zvoid *)&G, LoadFarString(QuitPrompt), 0);
--+                        (*G.mpause)((zvoid *)&G, (char*)(QuitPrompt), 0);
--                 }
--             }
--             (*G.message)((zvoid *)&G, slide, (ulg)(q-slide), 0);
--diff --git a/unzip.c b/unzip.c
--index 2d94a38..ca135af 100644
----- a/unzip.c
--+++ b/unzip.c
--@@ -1079,7 +1079,7 @@ int unzip(__G__ argc, argv)
-- #ifndef _WIN32_WCE /* Win CE does not support environment variables */
--         if ((error = envargs(&argc, &argv, LoadFarStringSmall(EnvZipInfo),
--                              LoadFarStringSmall2(EnvZipInfo2))) != PK_OK)
---            perror(LoadFarString(NoMemEnvArguments));
--+            perror((char*)(NoMemEnvArguments));
-- #endif
--     } else
-- #endif /* !NO_ZIPINFO */
--@@ -1088,7 +1088,7 @@ int unzip(__G__ argc, argv)
-- #ifndef _WIN32_WCE /* Win CE does not support environment variables */
--         if ((error = envargs(&argc, &argv, LoadFarStringSmall(EnvUnZip),
--                              LoadFarStringSmall2(EnvUnZip2))) != PK_OK)
---            perror(LoadFarString(NoMemEnvArguments));
--+            perror((char*)(NoMemEnvArguments));
-- #endif
--     }
-- 
--diff --git a/zipinfo.c b/zipinfo.c
--index 0ac75b3..8a0887c 100644
----- a/zipinfo.c
--+++ b/zipinfo.c
--@@ -1640,14 +1640,14 @@ static int zi_long(__G__ pEndprev, error_in_archive)
-- 
--                         *types = '\0';
--                         if (*ef_ptr & 1) {
---                            strcpy(types, LoadFarString(UTmodification));
--+                            strcpy(types, (char*)(UTmodification));
--                             ++num;
--                         }
--                         if (*ef_ptr & 2) {
--                             len = strlen(types);
--                             if (num)
--                                 types[len++] = '/';
---                            strcpy(types+len, LoadFarString(UTaccess));
--+                            strcpy(types+len, (char*)(UTaccess));
--                             ++num;
--                             if (*pEndprev > 0L)
--                                 *pEndprev += 4L;
--@@ -1656,7 +1656,7 @@ static int zi_long(__G__ pEndprev, error_in_archive)
--                             len = strlen(types);
--                             if (num)
--                                 types[len++] = '/';
---                            strcpy(types+len, LoadFarString(UTcreation));
--+                            strcpy(types+len, (char *)(UTcreation));
--                             ++num;
--                             if (*pEndprev > 0L)
--                                 *pEndprev += 4L;
--@@ -2331,7 +2331,7 @@ static char *zi_time(__G__ datetimez, modtimez, d_t_str)
--             /* time conversion error in verbose listing format,
--              * return string with '?' instead of data
--              */
---            return (strcpy(d_t_str, LoadFarString(lngYMDHMSTimeError)));
--+            return (strcpy(d_t_str, (char*)(lngYMDHMSTimeError)));
--     } else
--         t = (struct tm *)NULL;
--     if (t != (struct tm *)NULL) {
--
-diff --git a/meta/recipes-extended/unzip/unzip_6.0.bb b/meta/recipes-extended/unzip/unzip_6.0.bb
-index 547379c..2397606 100644
---- a/meta/recipes-extended/unzip/unzip_6.0.bb
-+++ b/meta/recipes-extended/unzip/unzip_6.0.bb
-@@ -16,7 +16,6 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/infozip/UnZip%206.x%20%28latest%29/UnZip%206.0/
- 	file://11-cve-2014-8141-getzip64data.patch \
- 	file://CVE-2015-7696.patch \
- 	file://CVE-2015-7697.patch \
--        file://fix-security-format.patch \
- "
+ SUMMARY_${PN}-core="Python interpreter and core modules"
+-RDEPENDS_${PN}-core="${PN}-lang ${PN}-re ${PN}-reprlib ${PN}-codecs ${PN}-io ${PN}-math"
++RDEPENDS_${PN}-core="${PN}-lang ${PN}-re ${PN}-reprlib ${PN}-codecs ${PN}-io ${PN}-math ${PN}-misc"
+ FILES_${PN}-core="${libdir}/python3.5/__future__.* ${libdir}/python3.5/_abcoll.* ${libdir}/python3.5/abc.* ${libdir}/python3.5/ast.* ${libdir}/python3.5/copy.* ${libdir}/python3.5/copyreg.* ${libdir}/python3.5/configparser.* ${libdir}/python3.5/genericpath.* ${libdir}/python3.5/getopt.* ${libdir}/python3.5/linecache.* ${libdir}/python3.5/new.* ${libdir}/python3.5/os.* ${libdir}/python3.5/posixpath.* ${libdir}/python3.5/struct.* ${libdir}/python3.5/warnings.* ${libdir}/python3.5/site.* ${libdir}/python3.5/stat.* ${libdir}/python3.5/UserDict.* ${libdir}/python3.5/UserList.* ${libdir}/python3.5/UserString.* ${libdir}/python3.5/lib-dynload/binascii.*.so ${libdir}/python3.5/lib-dynload/_struct.*.so ${libdir}/python3.5/lib-dynload/time.*.so ${libdir}/python3.5/lib-dynload/xreadlines.*.so ${libdir}/python3.5/types.* ${libdir}/python3.5/platform.* ${bindir}/python* ${libdir}/python3.5/_weakrefset.* ${libdir}/python3.5/sysconfig.* ${libdir}/python3.5/_sysconfigdata.* ${libdir}/python3.5/config/Makefile ${includedir}/python${PYTHON_BINABI}/pyconfig*.h ${libdir}/python${PYTHON_MAJMIN}/collections ${libdir}/python${PYTHON_MAJMIN}/_collections_abc.* ${libdir}/python${PYTHON_MAJMIN}/_sitebuiltins.* ${libdir}/python${PYTHON_MAJMIN}/sitecustomize.py "
  
- SRC_URI[md5sum] = "62b490407489521db863b523a7f86375"
+ SUMMARY_${PN}-crypt="Python basic cryptographic and hashing support"
+diff --git a/scripts/contrib/python/generate-manifest-3.5.py b/scripts/contrib/python/generate-manifest-3.5.py
+index 2906cc66d042..1cac9a7fe1c6 100755
+--- a/scripts/contrib/python/generate-manifest-3.5.py
++++ b/scripts/contrib/python/generate-manifest-3.5.py
+@@ -166,7 +166,7 @@ if __name__ == "__main__":
+     # Parameters: revision, name, description, dependencies, filenames
+     #
+ 
+-    m.addPackage( "${PN}-core", "Python interpreter and core modules", "${PN}-lang ${PN}-re ${PN}-reprlib ${PN}-codecs ${PN}-io ${PN}-math",
++    m.addPackage( "${PN}-core", "Python interpreter and core modules", "${PN}-lang ${PN}-re ${PN}-reprlib ${PN}-codecs ${PN}-io ${PN}-math ${PN}-misc",
+     "__future__.* _abcoll.* abc.* ast.* copy.* copyreg.* configparser.* " +
+     "genericpath.* getopt.* linecache.* new.* " +
+     "os.* posixpath.* struct.* " +
 -- 
-2.1.4
+2.9.3
 
 
