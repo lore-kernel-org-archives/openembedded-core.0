@@ -1,30 +1,37 @@
-Return-Path: <s.mueller-klieser@phytec.de>
-Received: from root.phytec.de (mail.phycore.de [217.6.246.34])
-	by mail.openembedded.org (Postfix) with ESMTP id 1C7D37687B
+Return-Path: <andre.draszik@gmail.com>
+Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 609547016E
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Aug 2016 10:16:12 +0000 (UTC)
-Received: from idefix.phytec.de (idefix.phytec.de [172.16.0.10])
-	by root.phytec.de (Postfix) with ESMTP id 8B394A00431
+	Fri, 26 Aug 2016 10:31:54 +0000 (UTC)
+Received: by mail-wm0-f67.google.com with SMTP id q128so10788654wma.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Aug 2016 12:16:20 +0200 (CEST)
-Received: from lws-mklieser.phytec.de ([172.16.10.21])
-	by idefix.phytec.de (IBM Domino Release 9.0.1FP5 HF413)
-	with ESMTP id 2016082612161144-108750 ;
-	Fri, 26 Aug 2016 12:16:11 +0200 
-From: =?UTF-8?q?Stefan=20M=C3=BCller-Klieser?= <s.mueller-klieser@phytec.de>
+	Fri, 26 Aug 2016 03:31:55 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=9UCFZ7I34U4EWjugr7OBVEyy8NBIJe/ZWNs8Ro+F26o=;
+	b=kVQSVfbqi33R0WYR2bvcUfgxQe2jwQkls/dKUjHvYjfJlrgMr7Ibp1XJDfmy/LCBSy
+	4dksw2PKN1mBV3Nymq44B7J7mL5ui2vOduPt9Bbqou/GdqkXlHgGfo3rkkRpgTIDevWU
+	7WbQDG4Ohr9fFY6RRZjuNYG6Kzi6jPe1eY+0I8fKihJImC05boMq4eVpnl2KlNrgxwv5
+	VfUIq5Vz94MQOLk8qiMXXoDIT9XHt02jrhv8YXtU3tkebEA3HsDUanOuk8sEblJMBg8h
+	kqMBMZwwYAbvnMsWKSxw5K7fPM0f7zWiFXuYBPo5Fh5pSiyzT/CoP5IAtpCcqFiaD3pl
+	fCNQ==
+X-Gm-Message-State: AE9vXwN34f3478RRWyB1nWnyDA84uk1TRkcIW7dIlYQA0krBOf8HNDGDBnweSONHoZo/UA==
+X-Received: by 10.28.44.85 with SMTP id s82mr2952649wms.73.1472207514654;
+	Fri, 26 Aug 2016 03:31:54 -0700 (PDT)
+Received: from tfsielt31850.tycofs.com ([77.107.218.170])
+	by smtp.gmail.com with ESMTPSA id i1sm19328827wjl.9.2016.08.26.03.31.53
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 26 Aug 2016 03:31:53 -0700 (PDT)
+From: =?UTF-8?q?Andr=C3=A9=20Draszik?= <git@andred.net>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 26 Aug 2016 12:16:11 +0200
-Message-Id: <1472206573-29621-8-git-send-email-s.mueller-klieser@phytec.de>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <1472206573-29621-1-git-send-email-s.mueller-klieser@phytec.de>
-References: <1472206573-29621-1-git-send-email-s.mueller-klieser@phytec.de>
+Date: Fri, 26 Aug 2016 11:31:50 +0100
+Message-Id: <20160826103152.6211-1-git@andred.net>
+X-Mailer: git-send-email 2.9.3
 MIME-Version: 1.0
-X-MIMETrack: Itemize by SMTP Server on Idefix/Phytec(Release 9.0.1FP5
-	HF413|March 21, 2016) at 26.08.2016 12:16:11,
-	Serialize by Router on Idefix/Phytec(Release 9.0.1FP5 HF413|March 21,
-	2016) at 26.08.2016 12:16:11
-X-TNEFEvaluated: 1
-Subject: [PATCH 7/9] linux-libc-headers: remove EXTRA_OEMAKE workaround
+Subject: [PATCH 1/3] libnl: fix packaging mistakes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,37 +44,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 26 Aug 2016 10:16:12 -0000
+X-List-Received-Date: Fri, 26 Aug 2016 10:31:55 -0000
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-The default of EXTRA=5FOEMAKE is already empty since commit:
+- *.la files belong into -dev packages
+- the genl-ctrl-list command line utility should go to into the CLI
+  package, so as to prevent the libnl-genl library package from
+  pulling in all of the command line utilities (as genl-ctrl-list
+  is linked against libnl-cli-3.so.200)
 
-OE-Core rev: aeb653861a0ec39ea7a014c0622980edcbf653fa
-bitbake.conf: Remove unhelpful default value for EXTRA=5FOEMAKE
-
-Signed-off-by: Stefan M=C3=BCller-Klieser <s.mueller-klieser@phytec.de>
+Signed-off-by: André Draszik <git@andred.net>
 ---
- meta/recipes-kernel/linux-libc-headers/linux-libc-headers.inc | 3 ---
- 1 file changed, 3 deletions(-)
+ meta/recipes-support/libnl/libnl_3.2.25.bb | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers.inc =
-b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers.inc
-index 92acf8a..c701b39 100644
---- a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers.inc
-+++ b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers.inc
-@@ -50,9 +50,6 @@ SRC=5FURI =3D "${KERNELORG=5FMIRROR}/linux/kernel/v${HEAD=
-ER=5FFETCH=5FVER}/linux-${PV}.tar
-=20
- S =3D "${WORKDIR}/linux-${PV}"
-=20
--# For the kernel, we don't want the '-e MAKEFLAGS=3D' in EXTRA=5FOEMAKE.
--EXTRA=5FOEMAKE =3D ""
--
- do=5Fconfigure() {
- 	oe=5Frunmake allnoconfig
- }
---=20
-1.9.1
+diff --git a/meta/recipes-support/libnl/libnl_3.2.25.bb b/meta/recipes-support/libnl/libnl_3.2.25.bb
+index cabe841..2624915 100644
+--- a/meta/recipes-support/libnl/libnl_3.2.25.bb
++++ b/meta/recipes-support/libnl/libnl_3.2.25.bb
+@@ -25,18 +25,18 @@ FILES_${PN} = "${libdir}/libnl-3.so.* \
+                ${sysconfdir}"
+ RREPLACES_${PN} = "libnl2"
+ RCONFLICTS_${PN} = "libnl2"
++FILES_${PN}-dev += "${libdir}/libnl/cli/*/*.la"
+ FILES_${PN}-staticdev += "${libdir}/libnl/cli/*/*.a"
+ 
+-PACKAGES += "${PN}-cli ${PN}-route ${PN}-nf ${PN}-genl ${PN}-idiag"
++PACKAGES += "${PN}-cli ${PN}-genl ${PN}-idiag ${PN}-nf ${PN}-route"
+ FILES_${PN}-cli   = "${libdir}/libnl-cli-3.so.* \
+                      ${libdir}/libnl/cli/*/*.so \
+-                     ${libdir}/libnl/cli/*/*.la \
++                     ${sbindir}/genl-ctrl-list \
+                      ${sbindir}/nl-*"
+-FILES_${PN}-route = "${libdir}/libnl-route-3.so.*"
++FILES_${PN}-genl  = "${libdir}/libnl-genl-3.so.* \
++                     ${libdir}/libnl-genl.so.*"
+ FILES_${PN}-idiag = "${libdir}/libnl-idiag-3.so.*"
+ FILES_${PN}-nf    = "${libdir}/libnl-nf-3.so.*"
+-FILES_${PN}-genl  = "${libdir}/libnl-genl-3.so.* \
+-                     ${libdir}/libnl-genl.so.* \
+-                     ${sbindir}/genl-ctrl-list"
++FILES_${PN}-route = "${libdir}/libnl-route-3.so.*"
+ RREPLACES_${PN}-genl = "libnl-genl2 libnl-genl-3-200"
+ RCONFLICTS_${PN}-genl = "libnl-genl2 libnl-genl-3-200"
+-- 
+2.9.3
 
 
