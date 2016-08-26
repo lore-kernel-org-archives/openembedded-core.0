@@ -1,52 +1,48 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f173.google.com (mail-pf0-f173.google.com
-	[209.85.192.173])
-	by mail.openembedded.org (Postfix) with ESMTP id 3190277086
+Return-Path: <fabio.berton@ossystems.com.br>
+Received: from mail-lf0-f44.google.com (mail-lf0-f44.google.com
+	[209.85.215.44])
+	by mail.openembedded.org (Postfix) with ESMTP id C91A373191
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Aug 2016 17:41:11 +0000 (UTC)
-Received: by mail-pf0-f173.google.com with SMTP id h186so30575262pfg.3
+	Fri, 26 Aug 2016 18:15:11 +0000 (UTC)
+Received: by mail-lf0-f44.google.com with SMTP id l89so62241811lfi.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Aug 2016 10:41:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:subject:from:in-reply-to:date:message-id:references:to; 
-	bh=OR75TfoZlzgT24rqs5zRFwnt9LpzjC1LaBFXliycz9M=;
-	b=FTTck9IZoOyTv6C2dGsqYJMyYJnR6pStzstdFS6b9/zOE9+PrmfcE6/88Zrl8IUxbn
-	9KyMgJ8nkN3sHw67AIbFBJJl/nsS86vc2pCiEg66iZ/CG67fvKEJY8AZpmSzwwQqIQYe
-	q0ovajERMjak82OKwfggoTDPxoHEYtbYmRPDJk5INCXo58LoRTMFelCdDmB6cZyXb1jv
-	ZeEl9/6hjZ88UG3CfYcq85EFtuGHUMF0/wSrxr0cUHpf3cMV+yqRcL7XMjJhszuwwB0f
-	utTchGlrHCPWCOaFEUcMAUPJKi9Q7vNi54zeaIzTvVrebs6Ol5+P/QKPxpSo0gXmBJyT
-	v0kA==
+	Fri, 26 Aug 2016 11:15:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=j+G1ZSVaZvyzu1XM2TvzthIXrTKUMsv/XbhqB9cnHsI=;
+	b=dglNVAo4azgj4dNxv3sPVtLZpVNc1oHGldAZeUG8qMJ1/ANqx73vI5Y3EEksiS+pu6
+	JidCAjboEbEkSbSrmciXMeDBNt8LqBhXTo1z7p/r6TKbemu9q9mekYR2RZiAejxrxRNz
+	iWrksLs9KuzyArdzzTG3GRsd1f1OniNstC2PLfA3rN16ZHuehvceb0kquhtIK1th0Nng
+	36+AsHjQDZEgxGTBJjTLPjYYjm8DnLYPwyzGb4fYLH/uWrGJXygqjjkt+ddKepm1kuSH
+	Ola1DtmoiHSkuo9RinT3y1aum58FrVBAJSam77MMBtZFPfHlnoAeoAJkH4nK1r8kbWuM
+	IAGA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:subject:from:in-reply-to:date
-	:message-id:references:to;
-	bh=OR75TfoZlzgT24rqs5zRFwnt9LpzjC1LaBFXliycz9M=;
-	b=joHJJG6llK1W7EoCJwfqNaiemUocdqEK0FIR9PiSeRaJc4Nfw9kAP+g23ec6SGLHe3
-	I6bFXhqtmSunxpysQOo6E3WaTk6BZZy8LaG58ylu7Adw01g5xV1jhue2lCr28kj7xyWC
-	+7r7gb2y5amiIe/QJEv7busUdQb0/4UIwc4boHdctXK/eCll02bz+0uPmUYIGahc6BcN
-	pgDrOTMNdnD6ihcn5KOUG4F5Bfyp1iU9L6FRuFakKqDIAHFSVgQKZ1yEl2OcRfdSrrfz
-	WNDw5uVMtf2f8tASbFZAPRRwo4teknOUscv/6YOSbhlgC9lWBYMbT03A3fF3ZOtVo7AS
-	BcrA==
-X-Gm-Message-State: AE9vXwOgnVpDpAj7FDgGxK9NVx1OdSbjU2MAJltCIhJM6wbNg9hGUmUm47VXzOpvBJWJnQ==
-X-Received: by 10.98.86.85 with SMTP id k82mr8171631pfb.82.1472233271877;
-	Fri, 26 Aug 2016 10:41:11 -0700 (PDT)
-Received: from ?IPv6:2601:647:4c00:3edf:fd71:b54b:e502:fedc?
-	([2601:647:4c00:3edf:fd71:b54b:e502:fedc])
-	by smtp.gmail.com with ESMTPSA id
-	zk7sm30273626pac.41.2016.08.26.10.41.11
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 26 Aug 2016 10:41:11 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 9.3 \(3124\))
-X-Pgp-Agent: GPGMail
-From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <20160826173423.31040-1-raj.khem@gmail.com>
-Date: Fri, 26 Aug 2016 10:41:42 -0700
-Message-Id: <345E27C8-845E-4AF3-8A6B-2190F572E557@gmail.com>
-References: <20160826173423.31040-1-raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-X-Mailer: Apple Mail (2.3124)
-Subject: Re: [PATCH] bash: Fix build with clang+security flags
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=j+G1ZSVaZvyzu1XM2TvzthIXrTKUMsv/XbhqB9cnHsI=;
+	b=lV9yiBkvMZZNqzXObHdIvYLQdCqsLFCJ115KjMrdUnga220ExxLgLuDabpg33Lc+X8
+	Y4Rupu1tAwYvIqxNvhzwYlkOrTfGSKWuodV1GMdVzWOOQQU2sn3jQ5+HhI7Y0NDtRmVm
+	2IvGtXubdQ+Yizef8NMXZQ2eQ8ulFNQ+aPLkjeDoCdWMzVq+3drUf2kEmX4ybKIHZzYv
+	cZZ+KhfLWD4deiHHubNy23l+R1KR6/p1avc8Psda60FsfeeIyC5qeWSyn6kV1vcQmHJn
+	5MZHM7/zUrT2oo4TIIeHUbVxnACnpayv6dmELAtzJz4WDcuqwrTDz6w88+44GHOCDh7b
+	FPbA==
+X-Gm-Message-State: AE9vXwPM8aDyRyK3Hcci/FC+BlZ7sHw72Nb6MzrgXz8lPLwXYtkbiyIppQkbRri/tMkCo/DXCz1ZPRoNw6GtMw==
+X-Received: by 10.25.139.214 with SMTP id n205mr1806349lfd.84.1472235311410;
+	Fri, 26 Aug 2016 11:15:11 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.25.7.8 with HTTP; Fri, 26 Aug 2016 11:14:40 -0700 (PDT)
+X-Originating-IP: [177.127.4.56]
+In-Reply-To: <20160826153054.27316-1-ricardo.ribalda@gmail.com>
+References: <20160826153054.27316-1-ricardo.ribalda@gmail.com>
+From: Fabio Berton <fabio.berton@ossystems.com.br>
+Date: Fri, 26 Aug 2016 15:14:40 -0300
+Message-ID: <CAAPZna3477dZ6jJDGSuJWMjJX14cUDTtKxzOmpnOm-OZ6smszQ@mail.gmail.com>
+To: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2] python-3.5-manifest.inc: the core module RDEPENDS on misc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,358 +55,247 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 26 Aug 2016 17:41:13 -0000
-X-Groupsio-MsgNum: 86386
-Content-Type: multipart/signed;
-	boundary="Apple-Mail=_75A8399C-873E-469E-8A9E-B205C87D4E7E";
-	protocol="application/pgp-signature"; micalg=pgp-sha1
+X-List-Received-Date: Fri, 26 Aug 2016 18:15:14 -0000
+Content-Type: multipart/alternative; boundary=001a113fb9f4c34e8c053afd7e9a
 
---Apple-Mail=_75A8399C-873E-469E-8A9E-B205C87D4E7E
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=us-ascii
+--001a113fb9f4c34e8c053afd7e9a
+Content-Type: text/plain; charset=UTF-8
 
-ignore it
+Hi Ricardo,
 
-> On Aug 26, 2016, at 10:34 AM, Khem Raj <raj.khem@gmail.com> wrote:
->=20
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Are you using krogoth branch? If yes, look here:
+http://cgit.openembedded.org/openembedded-core/tree/meta/recipes-devtools/python/python-3.5-manifest.inc?h=krogoth#n122
+
+It's missing ${libdir}/python3.5/operator.*
+
+You don't need to add misc package to core.
+
+Fabio.
+
+On Fri, Aug 26, 2016 at 12:30 PM, Ricardo Ribalda Delgado <
+ricardo.ribalda@gmail.com> wrote:
+
+> Fixes:
+>
+> root@qt5022:~# python3
+> Python 3.5.1 (default, Aug  5 2016, 13:25:54)
+> [GCC 5.3.0] on linux
+> Type "help", "copyright", "credits" or "license" for more information.
+> >>> import collections
+> Traceback (most recent call last):
+>   File "<stdin>", line 1, in <module>
+>   File "/usr/lib/python3.5/collections/__init__.py", line 10, in <module>
+>     from operator import itemgetter as _itemgetter, eq as _eq
+> ImportError: No module named 'operator'
+> >>>
+>
+> root@qt5022:~# dpkg -S /usr/lib/python3.5/collections/__init__.py
+> python3-core: /usr/lib/python3.5/collections/__init__.py
+>
+> Reported-by: Dimitrios Katsaros <patcherwork@gmail.com>
+> Signed-off-by: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
 > ---
-> ...1-help-fix-printf-format-security-warning.patch | 223 =
-++++++++++++++++++++-
-> meta/recipes-extended/bash/bash_4.3.30.bb          |   2 +
-> 2 files changed, 218 insertions(+), 7 deletions(-)
->=20
-> diff --git =
-a/meta/recipes-extended/bash/bash/0001-help-fix-printf-format-security-war=
-ning.patch =
-b/meta/recipes-extended/bash/bash/0001-help-fix-printf-format-security-war=
-ning.patch
-> index 5405c84..516debb 100644
-> --- =
-a/meta/recipes-extended/bash/bash/0001-help-fix-printf-format-security-war=
-ning.patch
-> +++ =
-b/meta/recipes-extended/bash/bash/0001-help-fix-printf-format-security-war=
-ning.patch
-> @@ -17,10 +17,10 @@ Upstream-Status: Pending
->  builtins/help.def | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> -diff --git a/builtins/help.def b/builtins/help.def
-> -index 1894f17..cf624c6 100644
-> ---- a/builtins/help.def
-> -+++ b/builtins/help.def
-> +Index: bash-4.3.30/builtins/help.def
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +--- bash-4.3.30.orig/builtins/help.def
-> ++++ bash-4.3.30/builtins/help.def
-> @@ -127,7 +127,7 @@ help_builtin (list)
->=20
->    if (glob_pattern_p (list->word->word))
-> @@ -30,6 +30,215 @@ index 1894f17..cf624c6 100644
->        print_word_list (list, ", ");
->        printf ("'\n\n");
->      }
-> ---
-> -2.8.1
-> -
-> +Index: bash-4.3.30/shell.c
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +--- bash-4.3.30.orig/shell.c
-> ++++ bash-4.3.30/shell.c
-> +@@ -1864,7 +1864,7 @@ show_shell_usage (fp, extra)
-> +     {
-> +       fprintf (fp, _("Type `%s -c \"help set\"' for more information =
-about shell options.\n"), shell_name);
-> +       fprintf (fp, _("Type `%s -c help' for more information about =
-shell builtin commands.\n"), shell_name);
-> +-      fprintf (fp, _("Use the `bashbug' command to report =
-bugs.\n"));
-> ++      fprintf (fp, "%s", _("Use the `bashbug' command to report =
-bugs.\n"));
-> +     }
-> + }
+>
+> v2: also hack the generate file
+>  meta/recipes-devtools/python/python-3.5-manifest.inc | 2 +-
+>  scripts/contrib/python/generate-manifest-3.5.py      | 2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/meta/recipes-devtools/python/python-3.5-manifest.inc
+> b/meta/recipes-devtools/python/python-3.5-manifest.inc
+> index 304611432e37..fb05d6d36df3 100644
+> --- a/meta/recipes-devtools/python/python-3.5-manifest.inc
+> +++ b/meta/recipes-devtools/python/python-3.5-manifest.inc
+> @@ -38,7 +38,7 @@ RDEPENDS_${PN}-compression="${PN}-core ${PN}-codecs
+> ${PN}-importlib ${PN}-thread
+>  FILES_${PN}-compression="${libdir}/python3.5/gzip.*
+> ${libdir}/python3.5/zipfile.* ${libdir}/python3.5/tarfile.*
+> ${libdir}/python3.5/lib-dynload/bz2.*.so ${libdir}/python3.5/lib-dynload/zlib.*.so
+> "
+>
+>  SUMMARY_${PN}-core="Python interpreter and core modules"
+> -RDEPENDS_${PN}-core="${PN}-lang ${PN}-re ${PN}-reprlib ${PN}-codecs
+> ${PN}-io ${PN}-math"
+> +RDEPENDS_${PN}-core="${PN}-lang ${PN}-re ${PN}-reprlib ${PN}-codecs
+> ${PN}-io ${PN}-math ${PN}-misc"
+>  FILES_${PN}-core="${libdir}/python3.5/__future__.*
+> ${libdir}/python3.5/_abcoll.* ${libdir}/python3.5/abc.*
+> ${libdir}/python3.5/ast.* ${libdir}/python3.5/copy.*
+> ${libdir}/python3.5/copyreg.* ${libdir}/python3.5/configparser.*
+> ${libdir}/python3.5/genericpath.* ${libdir}/python3.5/getopt.*
+> ${libdir}/python3.5/linecache.* ${libdir}/python3.5/new.*
+> ${libdir}/python3.5/os.* ${libdir}/python3.5/posixpath.*
+> ${libdir}/python3.5/struct.* ${libdir}/python3.5/warnings.*
+> ${libdir}/python3.5/site.* ${libdir}/python3.5/stat.*
+> ${libdir}/python3.5/UserDict.* ${libdir}/python3.5/UserList.*
+> ${libdir}/python3.5/UserString.* ${libdir}/python3.5/lib-dynload/binascii.*.so
+> ${libdir}/python3.5/lib-dynload/_struct.*.so ${libdir}/python3.5/lib-dynload/time.*.so
+> ${libdir}/python3.5/lib-dynload/xreadlines.*.so
+> ${libdir}/python3.5/types.* ${libdir}/python3.5/platform.*
+> ${bindir}/python* ${libdir}/python3.5/_weakrefset.*
+> ${libdir}/python3.5/sysconfig.* ${libdir}/python3.5/_sysconfigdata.*
+> ${libdir}/python
+>  3.5/config/Makefile ${includedir}/python${PYTHON_BINABI}/pyconfig*.h
+> ${libdir}/python${PYTHON_MAJMIN}/collections ${libdir}/python${PYTHON_MAJMIN}/_collections_abc.*
+> ${libdir}/python${PYTHON_MAJMIN}/_sitebuiltins.* ${libdir}/python${PYTHON_MAJMIN}/sitecustomize.py
+> "
+>
+>  SUMMARY_${PN}-crypt="Python basic cryptographic and hashing support"
+> diff --git a/scripts/contrib/python/generate-manifest-3.5.py
+> b/scripts/contrib/python/generate-manifest-3.5.py
+> index 2906cc66d042..1cac9a7fe1c6 100755
+> --- a/scripts/contrib/python/generate-manifest-3.5.py
+> +++ b/scripts/contrib/python/generate-manifest-3.5.py
+> @@ -166,7 +166,7 @@ if __name__ == "__main__":
+>      # Parameters: revision, name, description, dependencies, filenames
+>      #
+>
+> -    m.addPackage( "${PN}-core", "Python interpreter and core modules",
+> "${PN}-lang ${PN}-re ${PN}-reprlib ${PN}-codecs ${PN}-io ${PN}-math",
+> +    m.addPackage( "${PN}-core", "Python interpreter and core modules",
+> "${PN}-lang ${PN}-re ${PN}-reprlib ${PN}-codecs ${PN}-io ${PN}-math
+> ${PN}-misc",
+>      "__future__.* _abcoll.* abc.* ast.* copy.* copyreg.* configparser.* "
 > +
-> +Index: bash-4.3.30/error.c
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +--- bash-4.3.30.orig/error.c
-> ++++ bash-4.3.30/error.c
-> +@@ -170,7 +170,7 @@ programming_error (format, va_alist)
-> +   fprintf (stderr, "Report this to %s\n", the_current_maintainer);
-> + #endif
-> +
-> +-  fprintf (stderr, _("Aborting..."));
-> ++  fprintf (stderr, "%s", _("Aborting..."));
-> +   fflush (stderr);
-> +
-> +   abort ();
-> +@@ -262,12 +262,12 @@ internal_warning (format, va_alist)
-> +   va_list args;
-> +
-> +   error_prolog (1);
-> +-  fprintf (stderr, _("warning: "));
-> ++  fprintf (stderr, "%s", _("warning: "));
-> +
-> +   SH_VA_START (args, format);
-> +
-> +   vfprintf (stderr, format, args);
-> +-  fprintf (stderr, "\n");
-> ++  fprintf (stderr, "%s", "\n");
-> +
-> +   va_end (args);
-> + }
-> +Index: bash-4.3.30/eval.c
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +--- bash-4.3.30.orig/eval.c
-> ++++ bash-4.3.30/eval.c
-> +@@ -186,7 +186,7 @@ static sighandler
-> + alrm_catcher(i)
-> +      int i;
-> + {
-> +-  printf (_("\007timed out waiting for input: auto-logout\n"));
-> ++  printf ("%s", _("\007timed out waiting for input: =
-auto-logout\n"));
-> +   fflush (stdout);
-> +   bash_logout ();	/* run ~/.bash_logout if this is a login shell =
-*/
-> +   jump_to_top_level (EXITPROG);
-> +Index: bash-4.3.30/execute_cmd.c
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +--- bash-4.3.30.orig/execute_cmd.c
-> ++++ bash-4.3.30/execute_cmd.c
-> +@@ -2284,7 +2284,7 @@ execute_pipeline (command, asynchronous,
-> +       /* Make a pipeline between the two commands. */
-> +       if (pipe (fildes) < 0)
-> + 	{
-> +-	  sys_error (_("pipe error"));
-> ++	  sys_error ("%s", _("pipe error"));
-> + #if defined (JOB_CONTROL)
-> + 	  terminate_current_pipeline ();
-> + 	  kill_current_pipeline ();
-> +Index: bash-4.3.30/make_cmd.c
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +--- bash-4.3.30.orig/make_cmd.c
-> ++++ bash-4.3.30/make_cmd.c
-> +@@ -320,9 +320,9 @@ make_arith_for_command (exprs, action, l
-> +   if (nsemi !=3D 3)
-> +     {
-> +       if (nsemi < 3)
-> +-	parser_error (lineno, _("syntax error: arithmetic expression =
-required"));
-> ++	parser_error (lineno, "%s", _("syntax error: arithmetic =
-expression required"));
-> +       else
-> +-	parser_error (lineno, _("syntax error: `;' unexpected"));
-> ++	parser_error (lineno, "%s", _("syntax error: `;' unexpected"));
-> +       parser_error (lineno, _("syntax error: `((%s))'"), =
-exprs->word->word);
-> +       free (init);
-> +       free (test);
-> +Index: bash-4.3.30/parse.y
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +--- bash-4.3.30.orig/parse.y
-> ++++ bash-4.3.30/parse.y
-> +@@ -4204,7 +4204,7 @@ cond_error ()
-> +   char *etext;
-> +
-> +   if (EOF_Reached && cond_token !=3D COND_ERROR)		/* [[ */
-> +-    parser_error (cond_lineno, _("unexpected EOF while looking for =
-`]]'"));
-> ++    parser_error (cond_lineno, "%s", _("unexpected EOF while looking =
-for `]]'"));
-> +   else if (cond_token !=3D COND_ERROR)
-> +     {
-> +       if (etext =3D error_token_from_token (cond_token))
-> +@@ -4213,7 +4213,7 @@ cond_error ()
-> + 	  free (etext);
-> + 	}
-> +       else
-> +-	parser_error (cond_lineno, _("syntax error in conditional =
-expression"));
-> ++	parser_error (cond_lineno, "%s", _("syntax error in conditional =
-expression"));
-> +     }
-> + }
-> +
-> +@@ -4295,7 +4295,7 @@ cond_term ()
-> + 	      free (etext);
-> + 	    }
-> + 	  else
-> +-	    parser_error (lineno, _("expected `)'"));
-> ++	    parser_error (lineno, "%s",  _("expected `)'"));
-> + 	  COND_RETURN_ERROR ();
-> + 	}
-> +       term =3D make_cond_node (COND_EXPR, (WORD_DESC *)NULL, term, =
-(COND_COM *)NULL);
-> +@@ -4327,7 +4327,7 @@ cond_term ()
-> + 	      free (etext);
-> + 	    }
-> + 	  else
-> +-	    parser_error (line_number, _("unexpected argument to =
-conditional unary operator"));
-> ++	    parser_error (line_number, "%s", _("unexpected argument to =
-conditional unary operator"));
-> + 	  COND_RETURN_ERROR ();
-> + 	}
-> +
-> +@@ -4377,7 +4377,7 @@ cond_term ()
-> + 	      free (etext);
-> + 	    }
-> + 	  else
-> +-	    parser_error (line_number, _("conditional binary operator =
-expected"));
-> ++	    parser_error (line_number, "%s", _("conditional binary =
-operator expected"));
-> + 	  dispose_cond_node (tleft);
-> + 	  COND_RETURN_ERROR ();
-> + 	}
-> +@@ -4403,7 +4403,7 @@ cond_term ()
-> + 	      free (etext);
-> + 	    }
-> + 	  else
-> +-	    parser_error (line_number, _("unexpected argument to =
-conditional binary operator"));
-> ++	    parser_error (line_number, "%s", _("unexpected argument to =
-conditional binary operator"));
-> + 	  dispose_cond_node (tleft);
-> + 	  dispose_word (op);
-> + 	  COND_RETURN_ERROR ();
-> +@@ -6023,7 +6023,7 @@ parse_compound_assignment (retlenp)
-> + 	{
-> + 	  current_token =3D tok;	/* for error reporting */
-> + 	  if (tok =3D=3D yacc_EOF)	/* ( */
-> +-	    parser_error (orig_line_number, _("unexpected EOF while =
-looking for matching `)'"));
-> ++	    parser_error (orig_line_number, "%s", _("unexpected EOF =
-while looking for matching `)'"));
-> + 	  else
-> + 	    yyerror(NULL);	/* does the right thing */
-> + 	  if (wl)
-> +Index: bash-4.3.30/print_cmd.c
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +--- bash-4.3.30.orig/print_cmd.c
-> ++++ bash-4.3.30/print_cmd.c
-> +@@ -375,7 +375,7 @@ xtrace_set (fd, fp)
-> +     }
-> +   if (fp =3D=3D 0)
-> +     {
-> +-      internal_error (_("xtrace_set: NULL file pointer"));
-> ++      internal_error ("%s", _("xtrace_set: NULL file pointer"));
-> +       return;
-> +     }
-> +   if (fd >=3D 0 && fileno (fp) !=3D fd)
-> +Index: bash-4.3.30/variables.c
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +--- bash-4.3.30.orig/variables.c
-> ++++ bash-4.3.30/variables.c
-> +@@ -2237,7 +2237,7 @@ make_local_variable (name)
-> +
-> +   if (vc =3D=3D 0)
-> +     {
-> +-      internal_error (_("make_local_variable: no function context at =
-current scope"));
-> ++      internal_error ("%s", _("make_local_variable: no function =
-context at current scope"));
-> +       return ((SHELL_VAR *)NULL);
-> +     }
-> +   else if (vc->table =3D=3D 0)
-> +@@ -3685,7 +3685,7 @@ all_local_variables ()
-> +
-> +   if (vc =3D=3D 0)
-> +     {
-> +-      internal_error (_("all_local_variables: no function context at =
-current scope"));
-> ++      internal_error ("%s", _("all_local_variables: no function =
-context at current scope"));
-> +       return (SHELL_VAR **)NULL;
-> +     }
-> +   if (vc->table =3D=3D 0 || HASH_ENTRIES (vc->table) =3D=3D 0 || =
-vc_haslocals (vc) =3D=3D 0)
-> +@@ -4404,7 +4404,7 @@ pop_var_context ()
-> +   vcxt =3D shell_variables;
-> +   if (vc_isfuncenv (vcxt) =3D=3D 0)
-> +     {
-> +-      internal_error (_("pop_var_context: head of shell_variables =
-not a function context"));
-> ++      internal_error ("%s", _("pop_var_context: head of =
-shell_variables not a function context"));
-> +       return;
-> +     }
-> +
-> +@@ -4417,7 +4417,7 @@ pop_var_context ()
-> +       dispose_var_context (vcxt);
-> +     }
-> +   else
-> +-    internal_error (_("pop_var_context: no global_variables =
-context"));
-> ++    internal_error ("%s", _("pop_var_context: no global_variables =
-context"));
-> + }
-> +
-> + /* Delete the HASH_TABLEs for all variable contexts beginning at =
-VCXT, and
-> +@@ -4491,7 +4491,7 @@ pop_scope (is_special)
-> +   vcxt =3D shell_variables;
-> +   if (vc_istempscope (vcxt) =3D=3D 0)
-> +     {
-> +-      internal_error (_("pop_scope: head of shell_variables not a =
-temporary environment scope"));
-> ++      internal_error ("%s", _("pop_scope: head of shell_variables =
-not a temporary environment scope"));
-> +       return;
-> +     }
-> +
-> diff --git a/meta/recipes-extended/bash/bash_4.3.30.bb =
-b/meta/recipes-extended/bash/bash_4.3.30.bb
-> index 765562f..4a1b181 100644
-> --- a/meta/recipes-extended/bash/bash_4.3.30.bb
-> +++ b/meta/recipes-extended/bash/bash_4.3.30.bb
-> @@ -69,3 +69,5 @@ SRC_URI[patch046.md5sum] =3D =
-"7e5fb09991c077076b86e0e057798913"
-> SRC_URI[patch046.sha256sum] =3D =
-"b3b456a6b690cd293353f17e22d92a202b3c8bce587ae5f2667c20c9ab6f688f"
->=20
-> BBCLASSEXTEND =3D "nativesdk"
-> +
-> +TOOLCHAIN =3D "gcc"
+>      "genericpath.* getopt.* linecache.* new.* " +
+>      "os.* posixpath.* struct.* " +
 > --
 > 2.9.3
->=20
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
 
+--001a113fb9f4c34e8c053afd7e9a
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
---Apple-Mail=_75A8399C-873E-469E-8A9E-B205C87D4E7E
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP using GPGMail
+<div dir=3D"ltr">Hi Ricardo,<br><br>Are you using krogoth branch? If yes, l=
+ook here:<br><a href=3D"http://cgit.openembedded.org/openembedded-core/tree=
+/meta/recipes-devtools/python/python-3.5-manifest.inc?h=3Dkrogoth#n122">htt=
+p://cgit.openembedded.org/openembedded-core/tree/meta/recipes-devtools/pyth=
+on/python-3.5-manifest.inc?h=3Dkrogoth#n122</a><br><br>It&#39;s missing ${l=
+ibdir}/python3.5/operator.*<br><br>You don&#39;t need to add misc package t=
+o core.<br><br>Fabio.<div class=3D"gmail_default" style=3D"font-family:mono=
+space,monospace;font-size:small"><code><span class=3D""></span></code></div=
+></div><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">On Fri, Au=
+g 26, 2016 at 12:30 PM, Ricardo Ribalda Delgado <span dir=3D"ltr">&lt;<a hr=
+ef=3D"mailto:ricardo.ribalda@gmail.com" target=3D"_blank">ricardo.ribalda@g=
+mail.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=
+=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><span cl=
+ass=3D"">Fixes:<br>
+<br>
+root@qt5022:~# python3<br>
+Python 3.5.1 (default, Aug=C2=A0 5 2016, 13:25:54)<br>
+[GCC 5.3.0] on linux<br>
+Type &quot;help&quot;, &quot;copyright&quot;, &quot;credits&quot; or &quot;=
+license&quot; for more information.<br>
+&gt;&gt;&gt; import collections<br>
+Traceback (most recent call last):<br>
+=C2=A0 File &quot;&lt;stdin&gt;&quot;, line 1, in &lt;module&gt;<br>
+=C2=A0 File &quot;/usr/lib/python3.5/<wbr>collections/__init__.py&quot;, li=
+ne 10, in &lt;module&gt;<br>
+=C2=A0 =C2=A0 from operator import itemgetter as _itemgetter, eq as _eq<br>
+ImportError: No module named &#39;operator&#39;<br>
+&gt;&gt;&gt;<br>
+<br>
+root@qt5022:~# dpkg -S /usr/lib/python3.5/<wbr>collections/__init__.py<br>
+python3-core: /usr/lib/python3.5/<wbr>collections/__init__.py<br>
+<br>
+Reported-by: Dimitrios Katsaros &lt;<a href=3D"mailto:patcherwork@gmail.com=
+">patcherwork@gmail.com</a>&gt;<br>
+Signed-off-by: Ricardo Ribalda Delgado &lt;<a href=3D"mailto:ricardo.ribald=
+a@gmail.com">ricardo.ribalda@gmail.com</a>&gt;<br>
+---<br>
+<br>
+</span>v2: also hack the generate file<br>
+=C2=A0meta/recipes-devtools/python/<wbr>python-3.5-manifest.inc | 2 +-<br>
+=C2=A0scripts/contrib/python/<a href=3D"http://generate-manifest-3.5.py" re=
+l=3D"noreferrer" target=3D"_blank">generat<wbr>e-manifest-3.5.py</a>=C2=A0 =
+=C2=A0 =C2=A0 | 2 +-<br>
+=C2=A02 files changed, 2 insertions(+), 2 deletions(-)<br>
+<span class=3D""><br>
+diff --git a/meta/recipes-devtools/<wbr>python/python-3.5-manifest.inc b/me=
+ta/recipes-devtools/<wbr>python/python-3.5-manifest.inc<br>
+index 304611432e37..fb05d6d36df3 100644<br>
+--- a/meta/recipes-devtools/<wbr>python/python-3.5-manifest.inc<br>
++++ b/meta/recipes-devtools/<wbr>python/python-3.5-manifest.inc<br>
+@@ -38,7 +38,7 @@ RDEPENDS_${PN}-compression=3D&quot;${<wbr>PN}-core ${PN}-=
+codecs ${PN}-importlib ${PN}-thread<br>
+=C2=A0FILES_${PN}-compression=3D&quot;${<wbr>libdir}/python3.5/gzip.* ${lib=
+dir}/python3.5/zipfile.* ${libdir}/python3.5/tarfile.* ${libdir}/python3.5/=
+lib-<wbr>dynload/bz2.*.so ${libdir}/python3.5/lib-<wbr>dynload/zlib.*.so &q=
+uot;<br>
+<br>
+=C2=A0SUMMARY_${PN}-core=3D&quot;Python interpreter and core modules&quot;<=
+br>
+-RDEPENDS_${PN}-core=3D&quot;${PN}-<wbr>lang ${PN}-re ${PN}-reprlib ${PN}-c=
+odecs ${PN}-io ${PN}-math&quot;<br>
++RDEPENDS_${PN}-core=3D&quot;${PN}-<wbr>lang ${PN}-re ${PN}-reprlib ${PN}-c=
+odecs ${PN}-io ${PN}-math ${PN}-misc&quot;<br>
+=C2=A0FILES_${PN}-core=3D&quot;${libdir}/<wbr>python3.5/__future__.* ${libd=
+ir}/python3.5/_abcoll.* ${libdir}/python3.5/abc.* ${libdir}/python3.5/ast.*=
+ ${libdir}/python3.5/copy.* ${libdir}/python3.5/copyreg.* ${libdir}/python3=
+.5/<wbr>configparser.* ${libdir}/python3.5/<wbr>genericpath.* ${libdir}/pyt=
+hon3.5/getopt.* ${libdir}/python3.5/linecache.<wbr>* ${libdir}/python3.5/ne=
+w.* ${libdir}/python3.5/os.* ${libdir}/python3.5/posixpath.<wbr>* ${libdir}=
+/python3.5/struct.* ${libdir}/python3.5/warnings.* ${libdir}/python3.5/site=
+.* ${libdir}/python3.5/stat.* ${libdir}/python3.5/UserDict.* ${libdir}/pyth=
+on3.5/UserList.* ${libdir}/python3.5/<wbr>UserString.* ${libdir}/python3.5/=
+lib-<wbr>dynload/binascii.*.so ${libdir}/python3.5/lib-<wbr>dynload/_struct=
+.*.so ${libdir}/python3.5/lib-<wbr>dynload/time.*.so ${libdir}/python3.5/li=
+b-<wbr>dynload/xreadlines.*.so ${libdir}/python3.5/types.* ${libdir}/python=
+3.5/platform.* ${bindir}/python* ${libdir}/python3.5/_<wbr>weakrefset.* ${l=
+ibdir}/python3.5/sysconfig.<wbr>* ${libdir}/python3.5/_<wbr>sysconfigdata.*=
+ ${libdir}/python<br>
+=C2=A03.5/config/Makefile ${includedir}/python${PYTHON_<wbr>BINABI}/pyconfi=
+g*.h ${libdir}/python${PYTHON_<wbr>MAJMIN}/collections ${libdir}/python${PY=
+THON_<wbr>MAJMIN}/_collections_abc.* ${libdir}/python${PYTHON_<wbr>MAJMIN}/=
+_sitebuiltins.* ${libdir}/python${PYTHON_<wbr>MAJMIN}/sitecustomize.py &quo=
+t;<br>
+<br>
+=C2=A0SUMMARY_${PN}-crypt=3D&quot;Python basic cryptographic and hashing su=
+pport&quot;<br>
+</span>diff --git a/scripts/contrib/python/<a href=3D"http://generate-manif=
+est-3.5.py" rel=3D"noreferrer" target=3D"_blank">gener<wbr>ate-manifest-3.5=
+.py</a> b/scripts/contrib/python/<a href=3D"http://generate-manifest-3.5.py=
+" rel=3D"noreferrer" target=3D"_blank">gener<wbr>ate-manifest-3.5.py</a><br=
+>
+index 2906cc66d042..1cac9a7fe1c6 100755<br>
+--- a/scripts/contrib/python/<a href=3D"http://generate-manifest-3.5.py" re=
+l=3D"noreferrer" target=3D"_blank">gener<wbr>ate-manifest-3.5.py</a><br>
++++ b/scripts/contrib/python/<a href=3D"http://generate-manifest-3.5.py" re=
+l=3D"noreferrer" target=3D"_blank">gener<wbr>ate-manifest-3.5.py</a><br>
+@@ -166,7 +166,7 @@ if __name__ =3D=3D &quot;__main__&quot;:<br>
+=C2=A0 =C2=A0 =C2=A0# Parameters: revision, name, description, dependencies=
+, filenames<br>
+=C2=A0 =C2=A0 =C2=A0#<br>
+<br>
+-=C2=A0 =C2=A0 m.addPackage( &quot;${PN}-core&quot;, &quot;Python interpret=
+er and core modules&quot;, &quot;${PN}-lang ${PN}-re ${PN}-reprlib ${PN}-co=
+decs ${PN}-io ${PN}-math&quot;,<br>
++=C2=A0 =C2=A0 m.addPackage( &quot;${PN}-core&quot;, &quot;Python interpret=
+er and core modules&quot;, &quot;${PN}-lang ${PN}-re ${PN}-reprlib ${PN}-co=
+decs ${PN}-io ${PN}-math ${PN}-misc&quot;,<br>
+=C2=A0 =C2=A0 =C2=A0&quot;__future__.* _abcoll.* abc.* ast.* copy.* copyreg=
+.* configparser.* &quot; +<br>
+=C2=A0 =C2=A0 =C2=A0&quot;genericpath.* getopt.* linecache.* new.* &quot; +=
+<br>
+=C2=A0 =C2=A0 =C2=A0&quot;os.* posixpath.* struct.* &quot; +<br>
+<div class=3D"HOEnZb"><div class=3D"h5">--<br>
+2.9.3<br>
+<br>
+--<br>
+______________________________<wbr>_________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
+re@lists.<wbr>openembedded.org</a><br>
+<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
+" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/<wbr>m=
+ailman/listinfo/openembedded-<wbr>core</a><br>
+</div></div></blockquote></div><br></div>
 
------BEGIN PGP SIGNATURE-----
-Comment: GPGTools - https://gpgtools.org
-
-iEYEARECAAYFAlfAf1oACgkQuwUzVZGdMxQHrwCbB7THV/yUWxhaRSJtRUVCn5xJ
-8UoAmgP8whzwlLuHsWX07gQdciXDsSZb
-=HH6D
------END PGP SIGNATURE-----
-
---Apple-Mail=_75A8399C-873E-469E-8A9E-B205C87D4E7E--
+--001a113fb9f4c34e8c053afd7e9a--
