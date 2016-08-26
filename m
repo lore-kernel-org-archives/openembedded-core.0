@@ -1,24 +1,26 @@
-Return-Path: <Yuanjie.Huang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 2368F73166
+Return-Path: <Mingli.Yu@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 1A34B7318F
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Aug 2016 01:57:35 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u7Q1vZ6M017678
+	Fri, 26 Aug 2016 02:27:24 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u7Q2RPPd013410
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Aug 2016 18:57:36 -0700 (PDT)
-Received: from pek-yhuang1-d1.wrs.com (128.224.162.170) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.248.2; Thu, 25 Aug 2016 18:57:35 -0700
-From: Yuanjie Huang <Yuanjie.Huang@windriver.com>
+	Thu, 25 Aug 2016 19:27:25 -0700 (PDT)
+Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.248.2; Thu, 25 Aug 2016 19:27:24 -0700
+From: <mingli.yu@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 26 Aug 2016 09:57:33 +0800
-Message-ID: <20160826015733.16951-1-Yuanjie.Huang@windriver.com>
-X-Mailer: git-send-email 2.9.2
+Date: Fri, 26 Aug 2016 10:25:46 +0800
+Message-ID: <1472178349-32199-2-git-send-email-mingli.yu@windriver.com>
+X-Mailer: git-send-email 2.8.1
+In-Reply-To: <1472178349-32199-1-git-send-email-mingli.yu@windriver.com>
+References: <1472178349-32199-1-git-send-email-mingli.yu@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH] openssh: fix potential signed overflow to enable compilation with -ftrapv
+Subject: [PATCH 1/4] groff: add file-homedir-perl to RDEPENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,143 +33,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 26 Aug 2016 01:57:37 -0000
+X-List-Received-Date: Fri, 26 Aug 2016 02:27:25 -0000
 Content-Type: text/plain
 
-From: Yuanjie Huang <yuanjie.huang@windriver.com>
+From: Mingli Yu <Mingli.Yu@windriver.com>
 
-Pointer arithmatic results in implementation defined signed integer
-type, so that 's - src' in strlcpy and others may trigger signed overflow.
-In case of compilation by gcc or clang with -ftrapv option, the overflow
-would lead to program abort.
+* Add file-homedir-perl to RDEPENDS for groff
+  as glilypond provided by groff depends on
+  File/HomeDir.pm provided by file-homedir-perl,
+  otherwise comes below error
 
-Upstream-status: Submitted [https://bugzilla.mindrot.org/show_bug.cgi?id=2608]
+  root@super_micro-1:~# glilypond -h
+  Can't locate File/HomeDir.pm in @INC (you may need to
+  install the File::HomeDir module) (@INC contains: /etc/perl
+  /usr/lib64/perl/site_perl/5.22.1/ /usr/lib64/perl/site_perl/5.22.1
+  /usr/lib64/perl/vendor_perl/5.22.1/
+  /usr/lib64/perl/vendor_perl/5.22.1 /usr/lib64/perl/5.22.1/
+  /usr/lib64/perl/5.22.1 /usr/local/lib/site_perl
+  /usr/lib64/perl/5.22.1 .) at /usr/bin/glilypond line 79.
+  BEGIN failed--compilation aborted at /usr/bin/glilypond line 79.
 
-Signed-off-by: Yuanjie Huang <yuanjie.huang@windriver.com>
+Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
 ---
- ...ial-signed-overflow-in-pointer-arithmatic.patch | 99 ++++++++++++++++++++++
- meta/recipes-connectivity/openssh/openssh_7.3p1.bb |  1 +
- 2 files changed, 100 insertions(+)
- create mode 100644 meta/recipes-connectivity/openssh/openssh/fix-potential-signed-overflow-in-pointer-arithmatic.patch
+ meta/recipes-extended/groff/groff_1.22.3.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-connectivity/openssh/openssh/fix-potential-signed-overflow-in-pointer-arithmatic.patch b/meta/recipes-connectivity/openssh/openssh/fix-potential-signed-overflow-in-pointer-arithmatic.patch
-new file mode 100644
-index 0000000..df64a14
---- /dev/null
-+++ b/meta/recipes-connectivity/openssh/openssh/fix-potential-signed-overflow-in-pointer-arithmatic.patch
-@@ -0,0 +1,99 @@
-+From 3328e98bcbf2930cd7eea3e6c92ad5dcbdf4794f Mon Sep 17 00:00:00 2001
-+From: Yuanjie Huang <yuanjie.huang@windriver.com>
-+Date: Wed, 24 Aug 2016 03:15:43 +0000
-+Subject: [PATCH] Fix potential signed overflow in pointer arithmatic
-+
-+Pointer arithmatic results in implementation defined signed integer
-+type, so that 's - src' in strlcpy and others may trigger signed overflow.
-+In case of compilation by gcc or clang with -ftrapv option, the overflow
-+would lead to program abort.
-+
-+Upstream-status: Submitted [http://bugzilla.mindrot.org/show_bug.cgi?id=2608]
-+
-+Signed-off-by: Yuanjie Huang <yuanjie.huang@windriver.com>
-+---
-+ openbsd-compat/strlcat.c | 8 ++++++--
-+ openbsd-compat/strlcpy.c | 8 ++++++--
-+ openbsd-compat/strnlen.c | 8 ++++++--
-+ 3 files changed, 18 insertions(+), 6 deletions(-)
-+
-+diff --git a/openbsd-compat/strlcat.c b/openbsd-compat/strlcat.c
-+index bcc1b61..e758ebf 100644
-+--- a/openbsd-compat/strlcat.c
-++++ b/openbsd-compat/strlcat.c
-+@@ -23,6 +23,7 @@
-+ 
-+ #include <sys/types.h>
-+ #include <string.h>
-++#include <stdint.h>
-+ 
-+ /*
-+  * Appends src to string dst of size siz (unlike strncat, siz is the
-+@@ -55,8 +56,11 @@ strlcat(char *dst, const char *src, size_t siz)
-+ 		s++;
-+ 	}
-+ 	*d = '\0';
-+-
-+-	return(dlen + (s - src));	/* count does not include NUL */
-++        /*
-++	 * Cast pointers to unsigned type before calculation, to avoid signed
-++	 * overflow when the string ends where the MSB has changed.
-++	 */
-++	return (dlen + ((uintptr_t)s - (uintptr_t)src));	/* count does not include NUL */
-+ }
-+ 
-+ #endif /* !HAVE_STRLCAT */
-+diff --git a/openbsd-compat/strlcpy.c b/openbsd-compat/strlcpy.c
-+index b4b1b60..b06f374 100644
-+--- a/openbsd-compat/strlcpy.c
-++++ b/openbsd-compat/strlcpy.c
-+@@ -23,6 +23,7 @@
-+ 
-+ #include <sys/types.h>
-+ #include <string.h>
-++#include <stdint.h>
-+ 
-+ /*
-+  * Copy src to string dst of size siz.  At most siz-1 characters
-+@@ -51,8 +52,11 @@ strlcpy(char *dst, const char *src, size_t siz)
-+ 		while (*s++)
-+ 			;
-+ 	}
-+-
-+-	return(s - src - 1);	/* count does not include NUL */
-++        /*
-++	 * Cast pointers to unsigned type before calculation, to avoid signed
-++	 * overflow when the string ends where the MSB has changed.
-++	 */
-++	return ((uintptr_t)s - (uintptr_t)src - 1);	/* count does not include NUL */
-+ }
-+ 
-+ #endif /* !HAVE_STRLCPY */
-+diff --git a/openbsd-compat/strnlen.c b/openbsd-compat/strnlen.c
-+index 93d5155..9b8de5d 100644
-+--- a/openbsd-compat/strnlen.c
-++++ b/openbsd-compat/strnlen.c
-+@@ -23,6 +23,7 @@
-+ #include <sys/types.h>
-+ 
-+ #include <string.h>
-++#include <stdint.h>
-+ 
-+ size_t
-+ strnlen(const char *str, size_t maxlen)
-+@@ -31,7 +32,10 @@ strnlen(const char *str, size_t maxlen)
-+ 
-+ 	for (cp = str; maxlen != 0 && *cp != '\0'; cp++, maxlen--)
-+ 		;
-+-
-+-	return (size_t)(cp - str);
-++        /*
-++	 * Cast pointers to unsigned type before calculation, to avoid signed
-++	 * overflow when the string ends where the MSB has changed.
-++	 */
-++	return (size_t)((uintptr_t)cp - (uintptr_t)str);
-+ }
-+ #endif
-+-- 
-+1.9.1
-+
-diff --git a/meta/recipes-connectivity/openssh/openssh_7.3p1.bb b/meta/recipes-connectivity/openssh/openssh_7.3p1.bb
-index b319726..039b0ff 100644
---- a/meta/recipes-connectivity/openssh/openssh_7.3p1.bb
-+++ b/meta/recipes-connectivity/openssh/openssh_7.3p1.bb
-@@ -24,6 +24,7 @@ SRC_URI = "http://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}.tar
-            file://run-ptest \
-            file://openssh-7.1p1-conditional-compile-des-in-cipher.patch \
-            file://openssh-7.1p1-conditional-compile-des-in-pkcs11.patch \
-+           file://fix-potential-signed-overflow-in-pointer-arithmatic.patch \
-            "
+diff --git a/meta/recipes-extended/groff/groff_1.22.3.bb b/meta/recipes-extended/groff/groff_1.22.3.bb
+index af5acbe..7ea028f 100644
+--- a/meta/recipes-extended/groff/groff_1.22.3.bb
++++ b/meta/recipes-extended/groff/groff_1.22.3.bb
+@@ -17,7 +17,7 @@ SRC_URI[sha256sum] = "3a48a9d6c97750bfbd535feeb5be0111db6406ddb7bb79fc680809cda6
  
- PAM_SRC_URI = "file://sshd"
+ DEPENDS = "groff-native"
+ DEPENDS_class-native = ""
+-RDEPENDS_${PN} += "perl sed"
++RDEPENDS_${PN} += "perl sed file-homedir-perl"
+ 
+ inherit autotools texinfo
+ 
 -- 
-2.7.4
+2.8.1
 
 
