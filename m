@@ -1,46 +1,21 @@
-Return-Path: <ricardo.ribalda@gmail.com>
-Received: from mail-lf0-f67.google.com (mail-lf0-f67.google.com
-	[209.85.215.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 301FB6612C
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 6A990734B8
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Aug 2016 14:27:19 +0000 (UTC)
-Received: by mail-lf0-f67.google.com with SMTP id k135so3881219lfb.1
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Aug 2016 07:27:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=oHNFKKbW9hM3sb60f5CQqj5x4FlAbqTKomOgYt5zi14=;
-	b=rZqIrhmYSxIESzeZav0+jQIR54T9zkqd/Azd759H8TlXxvSL6muxX8Wup1/NRmPMj8
-	MjN3LQrYgM91RdOPOFUbrAwkXp+Pkv9RiE+q8EADDbHrPjkuqKqpD/0sWIT1abP6enLz
-	ukoooRd+1GXGe6+NTPJcIzmqt+7oy12UCFJ+bDMbDD8tki0k7JtC4nZ4tDrFBN6eUX4K
-	7fCyao6a/6y/N1yJ3T20+BygiP2cCTkY4fxXjYUIyWudVudbW7eQJ624h/v6/jnfxbYt
-	wYZyPqILd2ZiwzQpHps9/82/SrP6V5YGcz6kug41PKD4WPd0KfnSTWtz+jmd2TOeHvrZ
-	SsoA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=oHNFKKbW9hM3sb60f5CQqj5x4FlAbqTKomOgYt5zi14=;
-	b=Ht7YmmRu2jc5ZrZZaD9GZ/S0VXOsmIebjQ7Q8LmiNo0yxB8R5cydd3bWxV/LoGbi1b
-	sg6WpcaQzPBzy5nsFfi/GvVDWDrwt73hpUDfNyJa2xUvURYoxsrfFLaWpU/BJwbSwMUf
-	OYMLlK8Q1lPJyYVpnJuQSWv1WJR70sFEXj96u/AI3pGQ860h7Xvk3ZqxQHctfuzX6Mfl
-	x/CAj5Of0h8qTgXYwetJlkHsBimHppDZ3bg5kPB7xUgo7smIiuBZWpsVnKg2hcOHmNcO
-	XVqRHUrDnlra3v8yHNg5iV0UiV4n2y+Ry5uTqtZ8aeOwkDV4Ey+apQditcER1E6pTeZ6
-	BWUw==
-X-Gm-Message-State: AE9vXwM2gR2di01Jv4WfitVVksH2fiios6FiKWnjqC+9m6J7waim9CfeI3c6s4aZhrX8Dw==
-X-Received: by 10.25.218.75 with SMTP id r72mr1281206lfg.131.1472221639475;
-	Fri, 26 Aug 2016 07:27:19 -0700 (PDT)
-Received: from neopili.qtec.com
-	(cpe.xe-3-0-1-778.vbrnqe10.dk.customer.tdc.net. [80.197.57.18])
-	by smtp.gmail.com with ESMTPSA id g3sm3995122lfe.14.2016.08.26.07.27.18
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 26 Aug 2016 07:27:18 -0700 (PDT)
-From: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
-To: openembedded-core@lists.openembedded.org,
-	ross.burton@intel.com
-Date: Fri, 26 Aug 2016 16:27:13 +0200
-Message-Id: <20160826142713.18380-1-ricardo.ribalda@gmail.com>
+	Fri, 26 Aug 2016 14:30:22 +0000 (UTC)
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+	by orsmga103.jf.intel.com with ESMTP; 26 Aug 2016 07:30:23 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.28,581,1464678000"; 
+   d="scan'208";a="1525514"
+Received: from kanavin-desktop.fi.intel.com ([10.237.68.49])
+	by orsmga004.jf.intel.com with ESMTP; 26 Aug 2016 07:30:22 -0700
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 26 Aug 2016 17:28:15 +0300
+Message-Id: <cover.1472221205.git.alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.9.3
-Subject: [PATCH] python-3.5-manifest.inc: the core module RDEPENDS on misc
+Subject: [PATCH 00/28] Enable gtk-doc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,44 +28,111 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 26 Aug 2016 14:27:21 -0000
+X-List-Received-Date: Fri, 26 Aug 2016 14:30:23 -0000
 
-Fixes:
+This patchset adds gtk-doc support to OE-core. It requires running
+transient binaries during build time, which is achieved via qemu,
+and so there are all the same caveats as with gobject-introspection.
 
-root@qt5022:~# python3
-Python 3.5.1 (default, Aug  5 2016, 13:25:54)
-[GCC 5.3.0] on linux
-Type "help", "copyright", "credits" or "license" for more information.
->>> import collections
-Traceback (most recent call last):
-  File "<stdin>", line 1, in <module>
-  File "/usr/lib/python3.5/collections/__init__.py", line 10, in <module>
-    from operator import itemgetter as _itemgetter, eq as _eq
-ImportError: No module named 'operator'
->>>
+Gtk-doc generation happens if 'api-documentation' distro feature is enabled
+(it is by default), and 'qemu-usermode' is in machine features. Disable
+the former if api documentation is not needed in your distro; disable the latter
+if qemu does not work correctly for your target machine.
 
-root@qt5022:~# dpkg -S /usr/lib/python3.5/collections/__init__.py
-python3-core: /usr/lib/python3.5/collections/__init__.py
+Gtk-doc support is a part of a broader task to enable API documentation
+support in OE-core; later on I will add support for doxygen and docbook, enable
+more manpages, and clean up the legacy SGML stack if possible.
 
-Reported-by: Dimitrios Katsaros <patcherwork@gmail.com>
-Signed-off-by: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
----
- meta/recipes-devtools/python/python-3.5-manifest.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+The following changes since commit a81b326933d15f08e06780f92d8dc0d4efb3cd23:
 
-diff --git a/meta/recipes-devtools/python/python-3.5-manifest.inc b/meta/recipes-devtools/python/python-3.5-manifest.inc
-index 304611432e37..fb05d6d36df3 100644
---- a/meta/recipes-devtools/python/python-3.5-manifest.inc
-+++ b/meta/recipes-devtools/python/python-3.5-manifest.inc
-@@ -38,7 +38,7 @@ RDEPENDS_${PN}-compression="${PN}-core ${PN}-codecs ${PN}-importlib ${PN}-thread
- FILES_${PN}-compression="${libdir}/python3.5/gzip.* ${libdir}/python3.5/zipfile.* ${libdir}/python3.5/tarfile.* ${libdir}/python3.5/lib-dynload/bz2.*.so ${libdir}/python3.5/lib-dynload/zlib.*.so "
- 
- SUMMARY_${PN}-core="Python interpreter and core modules"
--RDEPENDS_${PN}-core="${PN}-lang ${PN}-re ${PN}-reprlib ${PN}-codecs ${PN}-io ${PN}-math"
-+RDEPENDS_${PN}-core="${PN}-lang ${PN}-re ${PN}-reprlib ${PN}-codecs ${PN}-io ${PN}-math ${PN}-misc"
- FILES_${PN}-core="${libdir}/python3.5/__future__.* ${libdir}/python3.5/_abcoll.* ${libdir}/python3.5/abc.* ${libdir}/python3.5/ast.* ${libdir}/python3.5/copy.* ${libdir}/python3.5/copyreg.* ${libdir}/python3.5/configparser.* ${libdir}/python3.5/genericpath.* ${libdir}/python3.5/getopt.* ${libdir}/python3.5/linecache.* ${libdir}/python3.5/new.* ${libdir}/python3.5/os.* ${libdir}/python3.5/posixpath.* ${libdir}/python3.5/struct.* ${libdir}/python3.5/warnings.* ${libdir}/python3.5/site.* ${libdir}/python3.5/stat.* ${libdir}/python3.5/UserDict.* ${libdir}/python3.5/UserList.* ${libdir}/python3.5/UserString.* ${libdir}/python3.5/lib-dynload/binascii.*.so ${libdir}/python3.5/lib-dynload/_struct.*.so ${libdir}/python3.5/lib-dynload/time.*.so ${libdir}/python3.5/lib-dynload/xreadlines.*.so ${libdir}/python3.5/types.* ${libdir}/python3.5/platform.* ${bindir}/python* ${libdir}/python3.5/_weakrefset.* ${libdir}/python3.5/sysconfig.* ${libdir}/python3.5/_sysconfigdata.* ${libdir}/python3.5/config/Makefile ${includedir}/python${PYTHON_BINABI}/pyconfig*.h ${libdir}/python${PYTHON_MAJMIN}/collections ${libdir}/python${PYTHON_MAJMIN}/_collections_abc.* ${libdir}/python${PYTHON_MAJMIN}/_sitebuiltins.* ${libdir}/python${PYTHON_MAJMIN}/sitecustomize.py "
- 
- SUMMARY_${PN}-crypt="Python basic cryptographic and hashing support"
+  combo-layer: python3: fix UnicodeDecodeError (2016-08-24 13:58:28 +0100)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib akanavin/enable-documentation
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=akanavin/enable-documentation
+
+Alexander Kanavin (28):
+  source-highlight: add a recipe
+  gtk-doc: add a recipe, remove gtk-doc-stub
+  bitbake.conf: add "api-documentation" to default distro features
+  gtk-doc.bbclass: enable building gtk-doc based documentation
+  kmod: do not let gtkdocize fail
+  systemd: drop unused gtkdoc-related variable
+  libglade: remove the recipe
+  gstreamer1.0: enable gtk-doc support
+  webkitgtk: enable gtk-doc support
+  gcr: disable gtk-doc on x86_64
+  gcr, libsecret, webkitgtk: disable gtk-doc on mips64
+  webkitgtk: re-enable introspection on powerpc
+  dbus-glib: enable gtk-doc
+  orc: enable gtk-doc
+  libidn: enable gtk-doc
+  libuser: enable gtk-doc
+  gdk-pixbuf: enable gtk-doc
+  gnome-desktop3: enable gtk-doc
+  json-glib: enable gtk-doc
+  libgudev: enable gtk-doc
+  libenck3: enable gtk-doc
+  cairo: enable gtk-doc
+  harfbuzz: enable gtk-doc
+  gnutls: enable gtk-doc
+  libtasn1: enable gtk-doc
+  libsoup-2.4: enable gtk-doc
+  p11-kit: enable gtk-doc
+  util-linux: do not enable gtk-doc and explain why
+
+ meta/classes/gtk-doc.bbclass                       |  72 ++-
+ meta/conf/bitbake.conf                             |   2 +-
+ meta/conf/distro/include/security_flags.inc        |   1 +
+ meta/recipes-core/dbus/dbus-glib.inc               |   2 +-
+ meta/recipes-core/systemd/systemd_230.bb           |   2 -
+ meta/recipes-core/util-linux/util-linux.inc        |   1 +
+ meta/recipes-devtools/orc/orc_0.4.25.bb            |   2 +-
+ meta/recipes-extended/libidn/libidn_1.33.bb        |   2 +-
+ meta/recipes-extended/libuser/libuser_0.62.bb      |   2 +-
+ meta/recipes-gnome/gcr/gcr_3.20.0.bb               |   4 +-
+ meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.34.0.bb |   2 +-
+ .../gnome-desktop/gnome-desktop3_3.20.2.bb         |   2 +-
+ ...t-Import-introspection-stub-machinery-too.patch | 305 -------------
+ .../recipes-gnome/gtk-doc-stub/gtk-doc-stub_git.bb |  33 --
+ meta/recipes-gnome/gtk-doc/gtk-doc_1.25.bb         |  37 ++
+ meta/recipes-gnome/json-glib/json-glib_1.2.2.bb    |   2 +-
+ .../libglade/libglade-2.6.4/glade-cruft.patch      | 102 -----
+ .../libglade/libglade-2.6.4/no-xml2.patch          | 501 ---------------------
+ .../libglade-2.6.4/python_environment.patch        |  14 -
+ meta/recipes-gnome/libglade/libglade_2.6.4.bb      |  31 --
+ meta/recipes-gnome/libgudev/libgudev_230.bb        |   2 +-
+ meta/recipes-gnome/libsecret/libsecret_0.18.5.bb   |   2 +-
+ meta/recipes-gnome/libwnck/libwnck3_3.20.1.bb      |   2 +-
+ meta/recipes-graphics/cairo/cairo.inc              |   2 +-
+ meta/recipes-graphics/harfbuzz/harfbuzz_1.3.0.bb   |   2 +-
+ meta/recipes-kernel/kmod/kmod.inc                  |   2 +-
+ .../gstreamer/gstreamer1.0-libav.inc               |   2 +-
+ .../gstreamer/gstreamer1.0-omx.inc                 |   2 +-
+ .../gstreamer/gstreamer1.0-plugins.inc             |  14 +-
+ .../gstreamer/gstreamer1.0-rtsp-server.inc         |  14 +-
+ meta/recipes-multimedia/gstreamer/gstreamer1.0.inc |  16 +-
+ ...c-settings-so-that-gtkdoc-generation-work.patch |  49 ++
+ meta/recipes-sato/webkit/webkitgtk_2.12.3.bb       |  13 +-
+ meta/recipes-support/gnutls/gnutls.inc             |   4 +-
+ meta/recipes-support/gnutls/libtasn1_4.9.bb        |   2 +-
+ meta/recipes-support/libsoup/libsoup-2.4_2.54.1.bb |   2 +-
+ meta/recipes-support/p11-kit/p11-kit_0.22.1.bb     |  22 +-
+ ...light.pc.in-do-not-add-Boost-s-libraries-.patch |  30 ++
+ .../source-highlight/source-highlight_3.1.8.bb     |  28 ++
+ 39 files changed, 287 insertions(+), 1042 deletions(-)
+ delete mode 100644 meta/recipes-gnome/gtk-doc-stub/files/0001-Revert-Import-introspection-stub-machinery-too.patch
+ delete mode 100644 meta/recipes-gnome/gtk-doc-stub/gtk-doc-stub_git.bb
+ create mode 100644 meta/recipes-gnome/gtk-doc/gtk-doc_1.25.bb
+ delete mode 100644 meta/recipes-gnome/libglade/libglade-2.6.4/glade-cruft.patch
+ delete mode 100644 meta/recipes-gnome/libglade/libglade-2.6.4/no-xml2.patch
+ delete mode 100644 meta/recipes-gnome/libglade/libglade-2.6.4/python_environment.patch
+ delete mode 100644 meta/recipes-gnome/libglade/libglade_2.6.4.bb
+ create mode 100644 meta/recipes-sato/webkit/files/0001-Tweak-gtkdoc-settings-so-that-gtkdoc-generation-work.patch
+ create mode 100644 meta/recipes-support/source-highlight/files/0001-source-highlight.pc.in-do-not-add-Boost-s-libraries-.patch
+ create mode 100644 meta/recipes-support/source-highlight/source-highlight_3.1.8.bb
+
 -- 
 2.9.3
 
