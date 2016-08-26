@@ -1,54 +1,48 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f193.google.com (mail-pf0-f193.google.com
-	[209.85.192.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 4C01F77042
+Return-Path: <fabio.berton@ossystems.com.br>
+Received: from mail-qk0-f196.google.com (mail-qk0-f196.google.com
+	[209.85.220.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 26DA777074
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Aug 2016 19:02:24 +0000 (UTC)
-Received: by mail-pf0-f193.google.com with SMTP id y134so5301652pfg.3
+	Fri, 26 Aug 2016 19:56:02 +0000 (UTC)
+Received: by mail-qk0-f196.google.com with SMTP id r128so6424679qkc.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Aug 2016 12:02:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=subject:to:references:from:organization:message-id:date:user-agent
-	:mime-version:in-reply-to:content-transfer-encoding;
-	bh=0ZQfoTjuQCV3Dv7mxCNSfKvq/WLHB61G4PZDnitKovE=;
-	b=wLMclvixvvCXaqaECxf81rTsszlMBh3fUZfd/+iSozYUVLDK7q6OpWM3PrhB9A6leA
-	jgCTB1I0PyKtZ9GSXd8zIyefiENHku/QPLd7LdwLxoRzWWu5tIvb+FDQfnQ3u820Sg1C
-	q7mbnEXkMOARtL6Ayh4Ni869BQMw3Eeo/lb+qf/Mq1to7B2zii8LYh7UJviCuH4cC/hk
-	M6YuEEn9esANVnlzn9lGs8gQ0s5rjrChc8PsVWgpQn+fSwjr/HinPzUz+oSDUJU3oEMl
-	UFpHo+yy9vA62Y3CsjZxUsr0RIcM9qouB6UK1t0PmMFnLdV1rGVXkAqgf4tt6W7CY1uO
-	UAJA==
+	Fri, 26 Aug 2016 12:56:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
+	h=from:to:cc:subject:date:message-id:organization;
+	bh=ImgQ0rVk2sCtrLefc2EUUbrjONE2uT3EaVPwK0ox8cY=;
+	b=AMCTDXv/ef/DwvqZcI6+NPCWaiP+XVJ75584imvEOj/IWR8K14TgfYKg6qldfG2Yz7
+	gK3LSFfwMi23v0CEr1O5N7hQPitm0YzwmA0ohf7AABnNQLinRj0ismHMYfS9xoMIG5kG
+	Oo7YBzB/BxxY4b2bB2MFYE2UowBkJs6jLUztA/ghVsl2td9pzk0bBbB1yK5aHrnjmSBF
+	CGFve+PgKVJpaF6pxreTuRDgHlUuUAkSvJjG7d7iiTNacPocelOHv1tgWrEDUo9qY6E6
+	k9YjLjJBKbC6IzWOnqKK4OTWN8JpbYGloe3ZdM4kPZyrTguUOKjNc0DYcUhyC1GMf3gJ
+	gEdw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:subject:to:references:from:organization
-	:message-id:date:user-agent:mime-version:in-reply-to
-	:content-transfer-encoding;
-	bh=0ZQfoTjuQCV3Dv7mxCNSfKvq/WLHB61G4PZDnitKovE=;
-	b=gK0P6rQkm3FPcY+cYEm9NMLlmj4Cuw4cyKGavmSCDT194Nt3/a5rkuNoWYqjP2qwHu
-	NygtSsydXDrKaSj6Z9BVMx4vPpqVwo+M9POu2v44ux6dOdU4bGTjNEPmC4tes2flAXzE
-	0sIW62hiKQ9EUfLpddzBBWq/75NPXAk20iDux/NiP7zKKENWlPS/mVkGQMCa3MBR9z9m
-	4kePLn5AvT0q3kkvyL5yCUITFDb78ZS0ofOXLFHtqiDQFTHcnoAatr1/89m+Vckcug/U
-	9m61cJAZ6WqP8u2R7LXjnyTDTyjDD5JH8QKtxJWcF80/34uiMpcAgoNnXtldAzUZqzs7
-	0Vkg==
-X-Gm-Message-State: AE9vXwN5BCs/rs8arLumkZcyiqAP8I/nL0A8DCRMCk9d9EReWIAEODpt6006l2vE6UXhWw==
-X-Received: by 10.98.53.68 with SMTP id c65mr8745908pfa.66.1472238144490;
-	Fri, 26 Aug 2016 12:02:24 -0700 (PDT)
-Received: from CACSVMO-14452.local ([2601:647:4c00:3edf:fd71:b54b:e502:fedc])
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:organization;
+	bh=ImgQ0rVk2sCtrLefc2EUUbrjONE2uT3EaVPwK0ox8cY=;
+	b=OVY4iqKK1O8+jG4lnrXG2mQVLXbIlUpBVk7nLvpTwHM9y+BveIw9DzNzIJpQmeR7D8
+	3vJCuVln97vQ1pmPtRaEgv5UAeZnWzdlieWx1NRUcjDgeRnXfIO9kJsyASuT2rRDPj4h
+	nHQelpCCQbkUgBMVva8c8WosOIOrk6I4yNM2YJQ+9SFsTZx9Nj1uJPWohMJlsVdG38no
+	T0pcRgAXmJRHPgL0C++PMNeYxfFQ57BwbORdNRoqfa7964eY2g9pO9iaw5izqfNW92qk
+	rGophHxLJlzjVDRWLg0Cj9rw32aGC2zvrH2ddCE3JSyspsQ5Cmsc06S7CLXuVzNbopaK
+	69gg==
+X-Gm-Message-State: AE9vXwMLGdKf6yC/EnhTGTZBKGOkXD16l+2lzjqX8MIRBo9ZdCBPYXaepkEBb06u350RTg==
+X-Received: by 10.55.153.68 with SMTP id b65mr5665950qke.54.1472241363165;
+	Fri, 26 Aug 2016 12:56:03 -0700 (PDT)
+Received: from monster.lab.ossystems.com.br ([177.127.4.56])
 	by smtp.gmail.com with ESMTPSA id
-	r2sm30603035pal.14.2016.08.26.12.02.23
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 26 Aug 2016 12:02:23 -0700 (PDT)
-To: =?UTF-8?Q?Andr=c3=a9_Draszik?= <git@andred.net>,
-	openembedded-core@lists.openembedded.org
-References: <20160826103152.6211-1-git@andred.net>
-From: Khem Raj <raj.khem@gmail.com>
-Organization: himvis.com
-Message-ID: <78584d41-d0c2-058c-c048-fb5864e24383@gmail.com>
-Date: Fri, 26 Aug 2016 12:02:58 -0700
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:45.0)
-	Gecko/20100101 Thunderbird/45.2.0
-MIME-Version: 1.0
-In-Reply-To: <20160826103152.6211-1-git@andred.net>
-Subject: Re: [PATCH 1/3] libnl: fix packaging mistakes
+	e33sm11237486qta.47.2016.08.26.12.55.59
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Fri, 26 Aug 2016 12:56:02 -0700 (PDT)
+From: Fabio Berton <fabio.berton@ossystems.com.br>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 26 Aug 2016 16:55:01 -0300
+Message-Id: <1472241302-7437-1-git-send-email-fabio.berton@ossystems.com.br>
+X-Mailer: git-send-email 2.1.4
+Organization: O.S. Systems Software LTDA.
+Cc: Otavio Salvador <otavio@ossystems.com.br>
+Subject: [PATCH 1/2] watchdog: Add wd_keepalive package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,52 +55,196 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 26 Aug 2016 19:02:25 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 26 Aug 2016 19:56:03 -0000
 
-this series looks ok to me.
+This is a simplified version of the watchdog daemon. It only opens
+/dev/watchdog, and keeps writing to it often enough to keep the kernel
+from resetting, at least once per minute. Each write delays the reboot
+time another minute. After a minute of inactivity the watchdog hardware
+will cause a reset. In the case of the software watchdog the ability to
+reboot will depend on the state of the machines and interrupts.
 
-On 8/26/16 3:31 AM, André Draszik wrote:
-> - *.la files belong into -dev packages
-> - the genl-ctrl-list command line utility should go to into the CLI
->   package, so as to prevent the libnl-genl library package from
->   pulling in all of the command line utilities (as genl-ctrl-list
->   is linked against libnl-cli-3.so.200)
-> 
-> Signed-off-by: André Draszik <git@andred.net>
-> ---
->  meta/recipes-support/libnl/libnl_3.2.25.bb | 12 ++++++------
->  1 file changed, 6 insertions(+), 6 deletions(-)
-> 
-> diff --git a/meta/recipes-support/libnl/libnl_3.2.25.bb b/meta/recipes-support/libnl/libnl_3.2.25.bb
-> index cabe841..2624915 100644
-> --- a/meta/recipes-support/libnl/libnl_3.2.25.bb
-> +++ b/meta/recipes-support/libnl/libnl_3.2.25.bb
-> @@ -25,18 +25,18 @@ FILES_${PN} = "${libdir}/libnl-3.so.* \
->                 ${sysconfdir}"
->  RREPLACES_${PN} = "libnl2"
->  RCONFLICTS_${PN} = "libnl2"
-> +FILES_${PN}-dev += "${libdir}/libnl/cli/*/*.la"
->  FILES_${PN}-staticdev += "${libdir}/libnl/cli/*/*.a"
->  
-> -PACKAGES += "${PN}-cli ${PN}-route ${PN}-nf ${PN}-genl ${PN}-idiag"
-> +PACKAGES += "${PN}-cli ${PN}-genl ${PN}-idiag ${PN}-nf ${PN}-route"
->  FILES_${PN}-cli   = "${libdir}/libnl-cli-3.so.* \
->                       ${libdir}/libnl/cli/*/*.so \
-> -                     ${libdir}/libnl/cli/*/*.la \
-> +                     ${sbindir}/genl-ctrl-list \
->                       ${sbindir}/nl-*"
-> -FILES_${PN}-route = "${libdir}/libnl-route-3.so.*"
-> +FILES_${PN}-genl  = "${libdir}/libnl-genl-3.so.* \
-> +                     ${libdir}/libnl-genl.so.*"
->  FILES_${PN}-idiag = "${libdir}/libnl-idiag-3.so.*"
->  FILES_${PN}-nf    = "${libdir}/libnl-nf-3.so.*"
-> -FILES_${PN}-genl  = "${libdir}/libnl-genl-3.so.* \
-> -                     ${libdir}/libnl-genl.so.* \
-> -                     ${sbindir}/genl-ctrl-list"
-> +FILES_${PN}-route = "${libdir}/libnl-route-3.so.*"
->  RREPLACES_${PN}-genl = "libnl-genl2 libnl-genl-3-200"
->  RCONFLICTS_${PN}-genl = "libnl-genl2 libnl-genl-3-200"
-> 
+Installs wd_keepalive binary and enable initscript.
+
+Signed-off-by: Fabio Berton <fabio.berton@ossystems.com.br>
+Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+---
+ .../watchdog/watchdog/wd_keepalive.init            | 121 +++++++++++++++++++++
+ meta/recipes-extended/watchdog/watchdog_5.15.bb    |  23 +++-
+ 2 files changed, 141 insertions(+), 3 deletions(-)
+ create mode 100644 meta/recipes-extended/watchdog/watchdog/wd_keepalive.init
+
+diff --git a/meta/recipes-extended/watchdog/watchdog/wd_keepalive.init b/meta/recipes-extended/watchdog/watchdog/wd_keepalive.init
+new file mode 100644
+index 0000000..1d3e4c5
+--- /dev/null
++++ b/meta/recipes-extended/watchdog/watchdog/wd_keepalive.init
+@@ -0,0 +1,121 @@
++#!/bin/sh
++#/etc/init.d/wd_keepalive: start wd_keepalive daemon.
++
++### BEGIN INIT INFO
++# Provides:          wd_keepalive
++# Short-Description: Start watchdog keepalive daemon
++# Required-Start:    $remote_fs
++# Required-Stop:     $remote_fs
++# X-Start-Before:    $all
++# Default-Start:     2 3 4 5
++# Default-Stop
++### END INIT INFO
++
++PATH=/bin:/usr/bin:/sbin:/usr/sbin
++
++test -x /usr/sbin/wd_keepalive || exit 0
++
++# For configuration of the init script use the file
++# /etc/default/watchdog, do not edit this init script.
++
++# Set run_watchdog to 1 to start watchdog or 0 to disable it.
++run_watchdog=0
++
++# Specify additional watchdog options here (see manpage).
++watchdog_options=""
++
++# Specify module to load
++watchdog_module="none"
++
++[ -e /etc/default/watchdog ] && . /etc/default/watchdog
++
++NAME=wd_keepalive
++DAEMON=/usr/sbin/wd_keepalive
++
++STOP_RETRY_SCHEDULE='TERM/10/forever/KILL/1'
++
++# . /lib/lsb/init-functions
++
++# Mock Debian stuff
++log_begin_msg() {
++    echo -n $*
++}
++
++log_end_msg() {
++    if [ "$1" = "0" ]; then
++        echo 'done'
++    else
++        echo 'error'
++    fi
++}
++
++log_daemon_msg() {
++    echo $*
++}
++
++log_progress_msg() {
++    echo $*
++}
++
++
++case "$1" in
++  start)
++    if [ $run_watchdog = 1 ]
++    then
++        [ ${watchdog_module:-none} != "none" ] && /sbin/modprobe $watchdog_module
++	echo -n "Starting watchdog keepalive daemon: "
++	if start-stop-daemon --start --quiet \
++	    --exec $DAEMON -- $watchdog_options
++	then
++	    echo wd_keepalive.
++	else
++	    echo
++	fi
++    fi
++    ;;
++
++  stop)
++    if [ $run_watchdog = 1 ]
++    then
++	echo -n "Stopping watchdog keepalive daemon: "
++	if start-stop-daemon --stop --quiet --pidfile /var/run/$NAME.pid \
++	    $STOP_RETRY_SCHEDULE
++	then
++	    echo wd_keepalive.
++	else
++	    echo
++	fi
++    fi
++    ;;
++
++  status)
++    status_of_proc "$DAEMON" "$NAME" && exit 0 || exit $?
++    ;;
++
++  restart)
++    $0 force-reload
++    ;;
++
++  force-reload)
++    if [ $run_watchdog = 0 ]; then exit 0; fi
++    echo -n "Restarting $NAME daemon."
++    start-stop-daemon --stop --quiet --pidfile /var/run/$NAME.pid \
++	$STOP_RETRY_SCHEDULE
++    echo -n "."
++    if start-stop-daemon --start --quiet --pidfile /var/run/$NAME.pid \
++	--exec $DAEMON -- $watchdog_options
++    then
++	echo "done."
++    else
++	echo
++    fi
++    ;;
++
++  *)
++    echo "Usage: /etc/init.d/wd_keepalive {start|stop|status|restart|force-reload}"
++    exit 1
++
++esac
++
++exit 0
++
+diff --git a/meta/recipes-extended/watchdog/watchdog_5.15.bb b/meta/recipes-extended/watchdog/watchdog_5.15.bb
+index ee1a893..1c0049c 100644
+--- a/meta/recipes-extended/watchdog/watchdog_5.15.bb
++++ b/meta/recipes-extended/watchdog/watchdog_5.15.bb
+@@ -12,6 +12,7 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/watchdog/watchdog-${PV}.tar.gz \
+            file://0001-Include-linux-param.h-for-EXEC_PAGESIZE-definition.patch \
+            file://watchdog-init.patch \
+            file://watchdog-conf.patch \
++           file://wd_keepalive.init \
+ "
+ 
+ SRC_URI[md5sum] = "678c32f6f35a0492c9c1b76b4aa88828"
+@@ -28,11 +29,27 @@ CFLAGS_append_libc-musl = " -I${STAGING_INCDIR}/tirpc "
+ LDFLAGS_append_libc-musl = " -ltirpc "
+ EXTRA_OECONF_append_libc-musl = " --disable-nfs "
+ 
+-INITSCRIPT_NAME = "watchdog.sh"
+-INITSCRIPT_PARAMS = "start 15 1 2 3 4 5 . stop 85 0 6 ."
++INITSCRIPT_PACKAGES = "${PN} ${PN}-keepalive"
+ 
+-RRECOMMENDS_${PN} = "kernel-module-softdog"
++INITSCRIPT_NAME_${PN} = "watchdog.sh"
++INITSCRIPT_PARAMS_${PN} = "start 15 1 2 3 4 5 . stop 85 0 6 ."
++
++INITSCRIPT_NAME_${PN}-keepalive = "wd_keepalive"
++INITSCRIPT_PARAMS_${PN}-keepalive = "start 15 1 2 3 4 5 . stop 85 0 6 ."
+ 
+ do_install_append() {
+ 	install -D ${S}/redhat/watchdog.init ${D}/${sysconfdir}/init.d/watchdog.sh
++    install -Dm 0755 ${WORKDIR}/wd_keepalive.init ${D}${sysconfdir}/init.d/wd_keepalive
+ }
++
++PACKAGES =+ "${PN}-keepalive"
++
++FILES_${PN}-keepalive = " \
++    ${sysconfdir}/init.d/wd_keepalive \
++    ${sbindir}/wd_keepalive \
++"
++
++RDEPENDS_${PN} += "${PN}-keepalive"
++
++RRECOMMENDS_${PN} = "kernel-module-softdog"
++
+-- 
+2.1.4
+
 
