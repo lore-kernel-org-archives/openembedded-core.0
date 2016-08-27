@@ -1,56 +1,30 @@
-Return-Path: <Mattias.Waldo@saabgroup.com>
-Received: from weald.air.saab.se (weald.air.saab.se [136.163.212.3])
-	by mail.openembedded.org (Postfix) with ESMTP id 84F80731FA
+Return-Path: <gary@mlbassoc.com>
+Received: from mail.analogue-micro.com (mail.analogue-micro.com
+	[217.144.149.242])
+	by mail.openembedded.org (Postfix) with ESMTP id E37AF60110
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 27 Aug 2016 09:53:29 +0000 (UTC)
-Received: from mailhub2.air.saab.se ([136.163.213.5])
-	by weald.air.saab.se (8.14.4/8.14.4) with ESMTP id u7R9rPZ9019084
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=FAIL);
-	Sat, 27 Aug 2016 11:53:26 +0200
-Received: from corpappl847.corp.saab.se (corpappl847.corp.saab.se
-	[136.163.113.247])
-	by mailhub2.air.saab.se (8.13.8/8.13.8) with ESMTP id u7R9rHDE021505
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL);
-	Sat, 27 Aug 2016 11:53:18 +0200
-Received: from CORPAPPL846.corp.saab.se (136.163.113.246) by
-	corpappl847.corp.saab.se (136.163.113.247) with Microsoft SMTP Server
-	(TLS) id 15.0.1178.4; Sat, 27 Aug 2016 11:53:17 +0200
-Received: from CORPAPPL846.corp.saab.se ([136.163.113.246]) by
-	corpappl846.corp.saab.se ([136.163.113.246]) with mapi id
-	15.00.1178.000; Sat, 27 Aug 2016 11:53:17 +0200
-From: Waldo Mattias <Mattias.Waldo@saabgroup.com>
-To: "'Burton, Ross'" <ross.burton@intel.com>
-Thread-Topic: [OE-core] [PATCH v2] kernel.bbclass: include signing keys when
-	copying files required for module builds
-Thread-Index: AQHR/tfhEIC1F9djFUSJAG5vPiXoL6BZyTLA///4ZwCAAtB4YA==
-Date: Sat, 27 Aug 2016 09:51:54 +0000
-Deferred-Delivery: Sat, 27 Aug 2016 09:52:54 +0000
-Message-ID: <df5f4bccddba4e2ab56952d30b092629@corpappl846.corp.saab.se>
-References: <1472116833486.43456@saabgroup.com>
-	<CAJTo0Lam5us06i_nJtooYcA3T87nCFjAgZ=Gz_3kh-M0GNHisw@mail.gmail.com>
-	<0d4dab927efa4c5db4572715cb1dcaac@corpappl846.corp.saab.se>
-	<CAJTo0LZpw-zvq9ei_KM3H2G7mVQCiSDoJhk0NaJgtGd-5-4a_A@mail.gmail.com>
-In-Reply-To: <CAJTo0LZpw-zvq9ei_KM3H2G7mVQCiSDoJhk0NaJgtGd-5-4a_A@mail.gmail.com>
-Accept-Language: sv-SE, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [136.163.113.239]
+	Sat, 27 Aug 2016 10:30:26 +0000 (UTC)
+Received: by mail.analogue-micro.com (Postfix, from userid 999)
+	id 3E16D68A019; Sat, 27 Aug 2016 11:30:26 +0100 (BST)
+X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
+	loki.analogue-micro-ltd.com
+X-Spam-Level: *
+X-Spam-Status: No, score=1.7 required=5.0 tests=ALL_TRUSTED,BAYES_20,
+	DNS_FROM_AHBL_RHSBL autolearn=no version=3.3.2
+Received: from zeus.mlbassoc.com (unknown [10.8.0.2])
+	by mail.analogue-micro.com (Postfix) with ESMTP id B0C9368A019;
+	Sat, 27 Aug 2016 11:30:25 +0100 (BST)
+Received: from [127.0.0.1] (localhost.localdomain [127.0.0.1])
+	by zeus.mlbassoc.com (Postfix) with ESMTP id B585767402AF;
+	Sat, 27 Aug 2016 12:30:24 +0200 (CEST)
+To: OE-core <openembedded-core@lists.openembedded.org>
+From: Gary Thomas <gary@mlbassoc.com>
+Message-ID: <48a58ad6-9d18-2443-22f2-3eb07f6aa7b8@mlbassoc.com>
+Date: Sat, 27 Aug 2016 12:30:23 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.2.0
 MIME-Version: 1.0
-X-Saab-MailScanner-Information: Please contact the ISP for more information
-X-Saab-MailScanner-ID: u7R9rHDE021505
-X-Saab-MailScanner: Found to be clean
-X-Saab-MailScanner-SpamCheck: not spam (whitelisted),
-	SpamAssassin (not cached, score=1.001, required 5, HTML_MESSAGE 0.00,
-	PB_NE_FROMS 1.00)
-X-Saab-MailScanner-From: mattias.waldo@saabgroup.com
-X-Saab-MailScanner-Watermark: 1472896400.37031@92cMApczLZ8M/VHh4enRrw
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.4.3
-	(weald.air.saab.se [136.163.212.3]);
-	Sat, 27 Aug 2016 11:53:26 +0200 (CEST)
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] kernel.bbclass: include signing keys when copying files required for module builds
+Subject: pointercal-xinput?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -63,125 +37,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 27 Aug 2016 09:53:31 -0000
-Content-Language: en-US
-Content-Type: multipart/alternative;
-	boundary="_000_df5f4bccddba4e2ab56952d30b092629corpappl846corpsaabse_"
+X-List-Received-Date: Sat, 27 Aug 2016 10:30:28 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
---_000_df5f4bccddba4e2ab56952d30b092629corpappl846corpsaabse_
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Is this recipe relevant any more (since pointercal was removed)?
+   ${Poky}/meta/recipes-graphics/xinput-calibrator/pointercal-xinput_0.0.bb
 
-VmVyc2lvbiA0IG9mIHRoZSBwYXRjaCBzZWVtcyB0byBhcHBseSBjbGVhbmx5LCBhdCBsZWFzdCB0
-byBteSBsb2NhbCBvZS1jb3JlIGFuZCBwb2t5IHJlcG9zLiBJIGd1ZXNzIG15IGF0dGVtcHQgdG8g
-b3V0c21hcnQgdGhlIGNvbXBhbnkgZmlyZXdhbGwgZ290IHRhYnMgYW5kIHNwYWNlcyBtaXhlZCB1
-cCDigJMgaW4gdGhlIGVuZCwgSSBoYWQgdG8gcmUtc2VuZCB0aGUgcGF0Y2ggZnJvbSBteSBvd24g
-TGludXggbWFjaGluZS4gVGhhbmtzIGFnYWluIGZvciB5b3VyIHBhdGllbmNlLg0KDQovTWF0dGlh
-cw0KDQpGcm9tOiBCdXJ0b24sIFJvc3MgW21haWx0bzpyb3NzLmJ1cnRvbkBpbnRlbC5jb21dDQpT
-ZW50OiBkZW4gMjUgYXVndXN0aSAyMDE2IDE4OjQ4DQpUbzogV2FsZG8gTWF0dGlhcyA8TWF0dGlh
-cy5XYWxkb0BzYWFiZ3JvdXAuY29tPg0KQ2M6IG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5l
-bWJlZGRlZC5vcmcNClN1YmplY3Q6IFJlOiBbT0UtY29yZV0gW1BBVENIIHYyXSBrZXJuZWwuYmJj
-bGFzczogaW5jbHVkZSBzaWduaW5nIGtleXMgd2hlbiBjb3B5aW5nIGZpbGVzIHJlcXVpcmVkIGZv
-ciBtb2R1bGUgYnVpbGRzDQoNCg0KT24gMjUgQXVndXN0IDIwMTYgYXQgMTY6MTYsIFdhbGRvIE1h
-dHRpYXMgPE1hdHRpYXMuV2FsZG9Ac2FhYmdyb3VwLmNvbTxtYWlsdG86TWF0dGlhcy5XYWxkb0Bz
-YWFiZ3JvdXAuY29tPj4gd3JvdGU6DQpWZXJzaW9uIDMgb2YgdGhlIHBhdGNoIHN1Ym1pdHRlZCwg
-dGhpcyB0aW1lIGJhc2VkIG9uIGN1cnJlbnQgbWFzdGVyIOKAkyB0aGFua3MgZm9yIHlvdXIgcGF0
-aWVuY2UhDQoNClNvbWV0aGluZyByZWFsbHkgb2RkIGlzIGdvaW5nIG9uIGhlcmUuLi4gIHRoZSBy
-ZWZlcmVuY2VzIGJsb2JzIGluIHRoZSBwYXRjaCBkb24ndCBleGlzdCBhY2NvcmRpbmcgdG8gbXkg
-Z2l0LCBhbmQgaXQgbG9va3MgbGlrZSB0aGUgd2hpdGVzcGFjZSBpcyBiZWluZyBtYW5nbGVkLiAg
-Q2FuIHlvdSB2ZXJpZnkgdGhhdCB5b3UncmUgYmFzaW5nIHRoaXMgcGF0Y2ggZnJvbSBvcmlnaW4v
-bWFzdGVyIG9yIHBva3kgb3Igb2UtY29yZSwgYW5kIHVzZSBnaXQtc2VuZC1lbWFpbCB0byBlbnN1
-cmUgdGhhdCB0aGUgd2hpdGVzcGFjZSBkb2Vzbid0IGdldCB0cmFzaGVkPw0KDQpJJ2Qgbm9ybWFs
-bHkganVzdCBtYW51YWxseSBhcHBseSBidXQgc29tZXRoaW5nIG9kZCBpcyBoYXBwZW5pbmcgYW5k
-IEknZCBsaWtlIHRvIGZpZ3VyZSBvdXQgd2hhdCBpdCBpcyENCg0KUm9zcw0K
+It, along with a .bbappend in meta-fsl-arm, is giving me runtime
+errors:
+   Using calibration data stored in /etc/pointercal.xinput
+   Invalid format 42060
+   unable to find device EETI eGalax Touch Screen
+   Warning: error parsing geometry string - using defaults.
+   Using calibration data stored in /etc/pointercal.xinput
+   Invalid format 42060
+   unable to find device EETI eGalax Touch Screen
+   Warning: error parsing geometry string - using defaults.
 
---_000_df5f4bccddba4e2ab56952d30b092629corpappl846corpsaabse_
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: base64
+-- 
+------------------------------------------------------------
+Gary Thomas                 |  Consulting for the
+MLB Associates              |    Embedded world
+------------------------------------------------------------
 
-PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
-bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
-YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
-cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
-VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
-Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
-ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTUgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
-PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
-Q2FsaWJyaTsNCglwYW5vc2UtMToyIDE1IDUgMiAyIDIgNCAzIDIgNDt9DQovKiBTdHlsZSBEZWZp
-bml0aW9ucyAqLw0KcC5Nc29Ob3JtYWwsIGxpLk1zb05vcm1hbCwgZGl2Lk1zb05vcm1hbA0KCXtt
-YXJnaW46MGNtOw0KCW1hcmdpbi1ib3R0b206LjAwMDFwdDsNCglmb250LXNpemU6MTIuMHB0Ow0K
-CWZvbnQtZmFtaWx5OiJUaW1lcyBOZXcgUm9tYW4iLHNlcmlmO30NCmE6bGluaywgc3Bhbi5Nc29I
-eXBlcmxpbmsNCgl7bXNvLXN0eWxlLXByaW9yaXR5Ojk5Ow0KCWNvbG9yOmJsdWU7DQoJdGV4dC1k
-ZWNvcmF0aW9uOnVuZGVybGluZTt9DQphOnZpc2l0ZWQsIHNwYW4uTXNvSHlwZXJsaW5rRm9sbG93
-ZWQNCgl7bXNvLXN0eWxlLXByaW9yaXR5Ojk5Ow0KCWNvbG9yOnB1cnBsZTsNCgl0ZXh0LWRlY29y
-YXRpb246dW5kZXJsaW5lO30NCnNwYW4uRW1haWxTdHlsZTE3DQoJe21zby1zdHlsZS10eXBlOnBl
-cnNvbmFsLXJlcGx5Ow0KCWZvbnQtZmFtaWx5OiJDYWxpYnJpIixzYW5zLXNlcmlmOw0KCWNvbG9y
-OiMxRjQ5N0Q7fQ0KLk1zb0NocERlZmF1bHQNCgl7bXNvLXN0eWxlLXR5cGU6ZXhwb3J0LW9ubHk7
-DQoJZm9udC1mYW1pbHk6IkNhbGlicmkiLHNhbnMtc2VyaWY7DQoJbXNvLWZhcmVhc3QtbGFuZ3Vh
-Z2U6RU4tVVM7fQ0KQHBhZ2UgV29yZFNlY3Rpb24xDQoJe3NpemU6NjEyLjBwdCA3OTIuMHB0Ow0K
-CW1hcmdpbjo3MC44NXB0IDcwLjg1cHQgNzAuODVwdCA3MC44NXB0O30NCmRpdi5Xb3JkU2VjdGlv
-bjENCgl7cGFnZTpXb3JkU2VjdGlvbjE7fQ0KLS0+PC9zdHlsZT48IS0tW2lmIGd0ZSBtc28gOV0+
-PHhtbD4NCjxvOnNoYXBlZGVmYXVsdHMgdjpleHQ9ImVkaXQiIHNwaWRtYXg9IjEwMjYiIC8+DQo8
-L3htbD48IVtlbmRpZl0tLT48IS0tW2lmIGd0ZSBtc28gOV0+PHhtbD4NCjxvOnNoYXBlbGF5b3V0
-IHY6ZXh0PSJlZGl0Ij4NCjxvOmlkbWFwIHY6ZXh0PSJlZGl0IiBkYXRhPSIxIiAvPg0KPC9vOnNo
-YXBlbGF5b3V0PjwveG1sPjwhW2VuZGlmXS0tPg0KPC9oZWFkPg0KPGJvZHkgbGFuZz0iRU4tR0Ii
-IGxpbms9ImJsdWUiIHZsaW5rPSJwdXJwbGUiPg0KPGRpdiBjbGFzcz0iV29yZFNlY3Rpb24xIj4N
-CjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQt
-ZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssc2Fucy1zZXJpZjtjb2xvcjojMUY0OTdEO21zby1m
-YXJlYXN0LWxhbmd1YWdlOkVOLVVTIj5WZXJzaW9uIDQgb2YgdGhlIHBhdGNoIHNlZW1zIHRvIGFw
-cGx5IGNsZWFubHksIGF0IGxlYXN0IHRvIG15IGxvY2FsIG9lLWNvcmUgYW5kIHBva3kgcmVwb3Mu
-IEkgZ3Vlc3MgbXkgYXR0ZW1wdCB0byBvdXRzbWFydCB0aGUgY29tcGFueQ0KIGZpcmV3YWxsIGdv
-dCB0YWJzIGFuZCBzcGFjZXMgbWl4ZWQgdXAg4oCTIGluIHRoZSBlbmQsIEkgaGFkIHRvIHJlLXNl
-bmQgdGhlIHBhdGNoIGZyb20gbXkgb3duIExpbnV4IG1hY2hpbmUuIFRoYW5rcyBhZ2FpbiBmb3Ig
-eW91ciBwYXRpZW5jZS48bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFs
-Ij48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJp
-JnF1b3Q7LHNhbnMtc2VyaWY7Y29sb3I6IzFGNDk3RDttc28tZmFyZWFzdC1sYW5ndWFnZTpFTi1V
-UyI+PG86cD4mbmJzcDs8L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNw
-YW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90
-OyxzYW5zLXNlcmlmO2NvbG9yOiMxRjQ5N0Q7bXNvLWZhcmVhc3QtbGFuZ3VhZ2U6RU4tVVMiPi9N
-YXR0aWFzPG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4g
-c3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90Oyxz
-YW5zLXNlcmlmO2NvbG9yOiMxRjQ5N0Q7bXNvLWZhcmVhc3QtbGFuZ3VhZ2U6RU4tVVMiPjxvOnA+
-Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4NCjxkaXYgc3R5bGU9ImJvcmRlcjpub25lO2JvcmRlci1s
-ZWZ0OnNvbGlkIGJsdWUgMS41cHQ7cGFkZGluZzowY20gMGNtIDBjbSA0LjBwdCI+DQo8ZGl2Pg0K
-PGRpdiBzdHlsZT0iYm9yZGVyOm5vbmU7Ym9yZGVyLXRvcDpzb2xpZCAjRTFFMUUxIDEuMHB0O3Bh
-ZGRpbmc6My4wcHQgMGNtIDBjbSAwY20iPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PGI+PHNwYW4g
-bGFuZz0iRU4tVVMiIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0Nh
-bGlicmkmcXVvdDssc2Fucy1zZXJpZiI+RnJvbTo8L3NwYW4+PC9iPjxzcGFuIGxhbmc9IkVOLVVT
-IiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7
-LHNhbnMtc2VyaWYiPiBCdXJ0b24sIFJvc3MgW21haWx0bzpyb3NzLmJ1cnRvbkBpbnRlbC5jb21d
-DQo8YnI+DQo8Yj5TZW50OjwvYj4gZGVuIDI1IGF1Z3VzdGkgMjAxNiAxODo0ODxicj4NCjxiPlRv
-OjwvYj4gV2FsZG8gTWF0dGlhcyAmbHQ7TWF0dGlhcy5XYWxkb0BzYWFiZ3JvdXAuY29tJmd0Ozxi
-cj4NCjxiPkNjOjwvYj4gb3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZzxi
-cj4NCjxiPlN1YmplY3Q6PC9iPiBSZTogW09FLWNvcmVdIFtQQVRDSCB2Ml0ga2VybmVsLmJiY2xh
-c3M6IGluY2x1ZGUgc2lnbmluZyBrZXlzIHdoZW4gY29weWluZyBmaWxlcyByZXF1aXJlZCBmb3Ig
-bW9kdWxlIGJ1aWxkczxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjwvZGl2Pg0KPC9kaXY+DQo8cCBj
-bGFzcz0iTXNvTm9ybWFsIj48bzpwPiZuYnNwOzwvbzpwPjwvcD4NCjxkaXY+DQo8ZGl2Pg0KPHAg
-Y2xhc3M9Ik1zb05vcm1hbCI+PG86cD4mbmJzcDs8L286cD48L3A+DQo8ZGl2Pg0KPHAgY2xhc3M9
-Ik1zb05vcm1hbCI+T24gMjUgQXVndXN0IDIwMTYgYXQgMTY6MTYsIFdhbGRvIE1hdHRpYXMgJmx0
-OzxhIGhyZWY9Im1haWx0bzpNYXR0aWFzLldhbGRvQHNhYWJncm91cC5jb20iIHRhcmdldD0iX2Js
-YW5rIj5NYXR0aWFzLldhbGRvQHNhYWJncm91cC5jb208L2E+Jmd0OyB3cm90ZTo8bzpwPjwvbzpw
-PjwvcD4NCjxibG9ja3F1b3RlIHN0eWxlPSJib3JkZXI6bm9uZTtib3JkZXItbGVmdDpzb2xpZCAj
-Q0NDQ0NDIDEuMHB0O3BhZGRpbmc6MGNtIDBjbSAwY20gNi4wcHQ7bWFyZ2luLWxlZnQ6NC44cHQ7
-bWFyZ2luLXJpZ2h0OjBjbSI+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIiBzdHlsZT0ibXNvLW1hcmdp
-bi10b3AtYWx0OmF1dG87bXNvLW1hcmdpbi1ib3R0b20tYWx0OmF1dG8iPjxzcGFuIHN0eWxlPSJm
-b250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssc2Fucy1zZXJp
-Zjtjb2xvcjojMUY0OTdEIj5WZXJzaW9uIDMgb2YgdGhlIHBhdGNoIHN1Ym1pdHRlZCwgdGhpcyB0
-aW1lIGJhc2VkIG9uIGN1cnJlbnQgbWFzdGVyIOKAkyB0aGFua3MgZm9yIHlvdXIgcGF0aWVuY2Uh
-PC9zcGFuPjxvOnA+PC9vOnA+PC9wPg0KPC9ibG9ja3F1b3RlPg0KPC9kaXY+DQo8cCBjbGFzcz0i
-TXNvTm9ybWFsIj48YnI+DQpTb21ldGhpbmcgcmVhbGx5IG9kZCBpcyBnb2luZyBvbiBoZXJlLi4u
-ICZuYnNwO3RoZSByZWZlcmVuY2VzIGJsb2JzIGluIHRoZSBwYXRjaCBkb24ndCBleGlzdCBhY2Nv
-cmRpbmcgdG8gbXkgZ2l0LCBhbmQgaXQgbG9va3MgbGlrZSB0aGUgd2hpdGVzcGFjZSBpcyBiZWlu
-ZyBtYW5nbGVkLiZuYnNwOyBDYW4geW91IHZlcmlmeSB0aGF0IHlvdSdyZSBiYXNpbmcgdGhpcyBw
-YXRjaCBmcm9tIG9yaWdpbi9tYXN0ZXIgb3IgcG9reSBvciBvZS1jb3JlLCBhbmQgdXNlIGdpdC1z
-ZW5kLWVtYWlsDQogdG8gZW5zdXJlIHRoYXQgdGhlIHdoaXRlc3BhY2UgZG9lc24ndCBnZXQgdHJh
-c2hlZD88bzpwPjwvbzpwPjwvcD4NCjwvZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwi
-PjxvOnA+Jm5ic3A7PC9vOnA+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1h
-bCI+SSdkIG5vcm1hbGx5IGp1c3QgbWFudWFsbHkgYXBwbHkgYnV0IHNvbWV0aGluZyBvZGQgaXMg
-aGFwcGVuaW5nIGFuZCBJJ2QgbGlrZSB0byBmaWd1cmUgb3V0IHdoYXQgaXQgaXMhPG86cD48L286
-cD48L3A+DQo8L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48bzpwPiZuYnNwOzwv
-bzpwPjwvcD4NCjwvZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPlJvc3M8bzpwPjwv
-bzpwPjwvcD4NCjwvZGl2Pg0KPC9kaXY+DQo8L2Rpdj4NCjwvZGl2Pg0KPC9ib2R5Pg0KPC9odG1s
-Pg0K
-
---_000_df5f4bccddba4e2ab56952d30b092629corpappl846corpsaabse_--
