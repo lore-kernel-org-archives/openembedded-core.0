@@ -1,58 +1,46 @@
-Return-Path: <enrico.scholz@sigma-chemnitz.de>
-Received: from mail.cvg.de (mail.cvg.de [62.153.82.30])
-	by mail.openembedded.org (Postfix) with ESMTP id 83B486011F
+Return-Path: <jkrishnanjanappa@mvista.com>
+Received: from mail-pa0-f54.google.com (mail-pa0-f54.google.com
+	[209.85.220.54])
+	by mail.openembedded.org (Postfix) with ESMTP id 91EED6FF76
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 28 Aug 2016 14:20:29 +0000 (UTC)
-Received: from mail-mta-0.intern.sigma-chemnitz.de
-	(mail-mta-0.intern.sigma-chemnitz.de [192.168.12.76])
-	by mailout-1.intern.sigma-chemnitz.de (8.14.7/8.14.7) with ESMTP id
-	u7SEKQ00028093
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256
-	verify=OK) for <openembedded-core@lists.openembedded.org>;
-	Sun, 28 Aug 2016 16:20:27 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sigma-chemnitz.de;
-	s=v2012061000; t=1472394027;
-	bh=vkBSqOB/K79R3FlwQnkTSMA9ngOzlpkuH1aXaeWM17U=;
-	h=From:To:Cc:Subject:References:Date:In-Reply-To:Message-ID:
-	MIME-Version:Content-Type:Sender;
-	b=mXnzu6AkW47Eie5zfcNV2CmrAb8t/CLpo+hjqbFlRpA7KOzmXIMECj5ptvVXsH4T9
-	ojEziS7JXLe8/xIhEIoiDTglI/Ys2dRdL4xCaFrThqO/0iw3WnQNWQdy4wzrB5MnuK
-	RJM2BPsNJAYeJdlpxc5dUTidcZzaGHmRzHlVgRMs=
-Received: from reddoxx.intern.sigma-chemnitz.de
-	(reddoxx.intern.sigma-chemnitz.de [192.168.0.193])
-	by mail-mta-0.intern.sigma-chemnitz.de (8.14.7/8.14.7) with ESMTP id
-	u7SEK8Sv028923 for <openembedded-core@lists.openembedded.org> from
-	enrico.scholz@sigma-chemnitz.de; Sun, 28 Aug 2016 16:20:08 +0200
-Received: from mail-msa-0.intern.sigma-chemnitz.de ( [192.168.12.77]) by
-	reddoxx.intern.sigma-chemnitz.de
-	(Reddoxx engine) with SMTP id 68BEF8F3727;
-	Sun, 28 Aug 2016 16:19:33 +0200
-Received: from ensc-virt.intern.sigma-chemnitz.de
-	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
-	by mail-msa-0.intern.sigma-chemnitz.de (8.14.7/8.14.7) with ESMTP id
-	u7SEJoBT028916
-	(version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
-	Sun, 28 Aug 2016 16:19:50 +0200
-Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
-	4.86_2) (envelope-from <ensc@sigma-chemnitz.de>)
-	id 1be0wA-00051B-45; Sun, 28 Aug 2016 16:19:50 +0200
-From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+	Sun, 28 Aug 2016 18:31:15 +0000 (UTC)
+Received: by mail-pa0-f54.google.com with SMTP id ci2so1498517pad.3
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 28 Aug 2016 11:31:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=mvista-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:cc:subject:date:message-id;
+	bh=7hUQGcEYnvx7K6AkdXg0+eAQgfxwmNgKdjTOeAtnqJw=;
+	b=hXhZliy2eLEtzZ+gPq6OmuYuNgSsQS+ELK1H9VekIbawg8dQECsTG/ZjQlJ4wHW34O
+	9ap4VvkzwGDX8banwqdLfZzNjuh8VYAoE+CGa61nBtPk60orILBE7GrFVCDHqgiH6oYF
+	iPzcSnBbEnH6TkozXpyyDnnMAUY1O78+8pecPSbeiQCPD3GvhOkBgApjR5dkAucW9smR
+	9H+lil0o7kDICiiCJkuhZPXSGuxZqujBlshGE1ALroxFxrKTMCboeoXYyS3rgbL3vK51
+	GvypDIfWPh+2HrwptaqJ4oVXuM9x5wMd+GC2zfzp6YKz/wJ8SbxP2ClGMLo0ZS0X33uJ
+	IZCw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=7hUQGcEYnvx7K6AkdXg0+eAQgfxwmNgKdjTOeAtnqJw=;
+	b=OtSHYRJDvgrFtP6JfcctZGUkzxoIXvilKE4k1i0BniVboNyxgrG+fnKH/sC49ufAhw
+	hKouOhxbpcDyhQQmG5O+b1AsixMCCJ8vjShRy5cued7moWYA5Mc6GRUDrjmdP4IObkqw
+	3XJGOVSU9RwgeH+WPwUK1mZa23WxLD/N5hGYGdUwTdmE3qckdqBD+9nFWX6C8cNox3Wi
+	iyMr5Jnys0LO8cY/yNC+jeoQmarWN257XQKxPzXyIBxqcPWw8sPP/hohu7c88NHSwBOl
+	lIHPFbkOl8I4ZTyeIRgticrTdlm7EOuaDOqqayRmBZu9oAO8O2/2vFttQ0gvjF+REGgq
+	l9ZA==
+X-Gm-Message-State: AE9vXwPDQANf7mMcymZJkC7FCMWDUv/LIO/0Ifhwuj6fWv8sSbxrkp3q3AJTKqMlmSDE3/t9
+X-Received: by 10.66.21.167 with SMTP id w7mr25143548pae.62.1472409075776;
+	Sun, 28 Aug 2016 11:31:15 -0700 (PDT)
+Received: from localhost.mvista.com ([111.93.218.67])
+	by smtp.gmail.com with ESMTPSA id
+	xx7sm43383086pac.3.2016.08.28.11.31.13
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Sun, 28 Aug 2016 11:31:14 -0700 (PDT)
+From: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
 To: openembedded-core@lists.openembedded.org
-References: <1470821429-6094-1-git-send-email-maxin.john@intel.com>
-	<1470821429-6094-8-git-send-email-maxin.john@intel.com>
-Mail-Followup-To: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-Date: Sun, 28 Aug 2016 16:19:50 +0200
-In-Reply-To: <1470821429-6094-8-git-send-email-maxin.john@intel.com> (Maxin
-	B. John's message of "Wed, 10 Aug 2016 12:30:26 +0300")
-Message-ID: <ly4m65562h.fsf@ensc-virt.intern.sigma-chemnitz.de>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/25.0.95 (gnu/linux)
-MIME-Version: 1.0
-Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-X-Spam-Score: -0.3
-X-Spam-Tests: AWL,BAYES_00,DKIM_ADSP_ALL,RP_MATCHES_RCVD,SPF_NEUTRAL
-X-Scanned-By: MIMEDefang 2.78
-Cc: "Maxin B. John" <maxin.john-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH 07/10] tslib: remove recipe
+Date: Mon, 29 Aug 2016 00:01:03 +0530
+Message-Id: <1472409063-18107-1-git-send-email-jkrishnanjanappa@mvista.com>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH] glibc-scripts: add RDEPENDS on libsotruss package required by sotruss script
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -65,21 +53,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 28 Aug 2016 14:20:32 -0000
-Content-Type: text/plain
+X-List-Received-Date: Sun, 28 Aug 2016 18:31:15 -0000
 
-"Maxin B. John" <maxin.john-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
-writes:
+It solves below error observed on qemux86 target:
+root@qemux86:~# sotruss ./hello
+ERROR: ld.so: object '/usr/$LIB/audit/sotruss-lib.so' cannot be loaded as audit
+interface: cannot open shared object file; ignored.
+Hello World
+root@qemux86:~#
 
-> Modern systems generally use the kernel driver or libinput instead
+With this change, we get:
+root@qemux86:~# sotruss ./hello
+          hello -> libc.so.6      :*__libc_start_main(0x8048300, 0x1,
+0xbfc86274)
+          hello -> libc.so.6      :*puts(0x804851c, 0xb74af000, 0x0)
+Hello World
+root@qemux86:~#
 
-This is wrong.  afaik, 'tslib' is more or less mandatory for systems with
-resistive touchscreens (which are often used in industrial environments).
-Kernel interface does not suffice there because values *must* be calibrated
-(usually per device and periodically since parameters change with time) and
-"smoothed".
+Signed-off-by: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
+---
+ meta/recipes-core/glibc/glibc-scripts.inc | 4 ++++
+ 1 file changed, 4 insertions(+)
 
+diff --git a/meta/recipes-core/glibc/glibc-scripts.inc b/meta/recipes-core/glibc/glibc-scripts.inc
+index 3a06773..bce0a42 100644
+--- a/meta/recipes-core/glibc/glibc-scripts.inc
++++ b/meta/recipes-core/glibc/glibc-scripts.inc
+@@ -14,3 +14,7 @@ do_install() {
+ 		install -m 0755 ${SRC}/$i ${D}${bindir}/
+ 	done
+ }
++
++# sotruss script requires sotruss-lib.so (given by libsotruss package), 
++# to produce trace of the library calls.
++RDEPENDS_${PN} += "libsotruss"
+-- 
+2.7.4
 
-
-Enrico
 
