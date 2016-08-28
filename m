@@ -1,30 +1,58 @@
-Return-Path: <gary@mlbassoc.com>
-Received: from mail.analogue-micro.com (mail.analogue-micro.com
-	[217.144.149.242])
-	by mail.openembedded.org (Postfix) with ESMTP id E37AF60110
+Return-Path: <enrico.scholz@sigma-chemnitz.de>
+Received: from mail.cvg.de (mail.cvg.de [62.153.82.30])
+	by mail.openembedded.org (Postfix) with ESMTP id 83B486011F
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 27 Aug 2016 10:30:26 +0000 (UTC)
-Received: by mail.analogue-micro.com (Postfix, from userid 999)
-	id 3E16D68A019; Sat, 27 Aug 2016 11:30:26 +0100 (BST)
-X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
-	loki.analogue-micro-ltd.com
-X-Spam-Level: *
-X-Spam-Status: No, score=1.7 required=5.0 tests=ALL_TRUSTED,BAYES_20,
-	DNS_FROM_AHBL_RHSBL autolearn=no version=3.3.2
-Received: from zeus.mlbassoc.com (unknown [10.8.0.2])
-	by mail.analogue-micro.com (Postfix) with ESMTP id B0C9368A019;
-	Sat, 27 Aug 2016 11:30:25 +0100 (BST)
-Received: from [127.0.0.1] (localhost.localdomain [127.0.0.1])
-	by zeus.mlbassoc.com (Postfix) with ESMTP id B585767402AF;
-	Sat, 27 Aug 2016 12:30:24 +0200 (CEST)
-To: OE-core <openembedded-core@lists.openembedded.org>
-From: Gary Thomas <gary@mlbassoc.com>
-Message-ID: <48a58ad6-9d18-2443-22f2-3eb07f6aa7b8@mlbassoc.com>
-Date: Sat, 27 Aug 2016 12:30:23 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.2.0
+	Sun, 28 Aug 2016 14:20:29 +0000 (UTC)
+Received: from mail-mta-0.intern.sigma-chemnitz.de
+	(mail-mta-0.intern.sigma-chemnitz.de [192.168.12.76])
+	by mailout-1.intern.sigma-chemnitz.de (8.14.7/8.14.7) with ESMTP id
+	u7SEKQ00028093
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256
+	verify=OK) for <openembedded-core@lists.openembedded.org>;
+	Sun, 28 Aug 2016 16:20:27 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sigma-chemnitz.de;
+	s=v2012061000; t=1472394027;
+	bh=vkBSqOB/K79R3FlwQnkTSMA9ngOzlpkuH1aXaeWM17U=;
+	h=From:To:Cc:Subject:References:Date:In-Reply-To:Message-ID:
+	MIME-Version:Content-Type:Sender;
+	b=mXnzu6AkW47Eie5zfcNV2CmrAb8t/CLpo+hjqbFlRpA7KOzmXIMECj5ptvVXsH4T9
+	ojEziS7JXLe8/xIhEIoiDTglI/Ys2dRdL4xCaFrThqO/0iw3WnQNWQdy4wzrB5MnuK
+	RJM2BPsNJAYeJdlpxc5dUTidcZzaGHmRzHlVgRMs=
+Received: from reddoxx.intern.sigma-chemnitz.de
+	(reddoxx.intern.sigma-chemnitz.de [192.168.0.193])
+	by mail-mta-0.intern.sigma-chemnitz.de (8.14.7/8.14.7) with ESMTP id
+	u7SEK8Sv028923 for <openembedded-core@lists.openembedded.org> from
+	enrico.scholz@sigma-chemnitz.de; Sun, 28 Aug 2016 16:20:08 +0200
+Received: from mail-msa-0.intern.sigma-chemnitz.de ( [192.168.12.77]) by
+	reddoxx.intern.sigma-chemnitz.de
+	(Reddoxx engine) with SMTP id 68BEF8F3727;
+	Sun, 28 Aug 2016 16:19:33 +0200
+Received: from ensc-virt.intern.sigma-chemnitz.de
+	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
+	by mail-msa-0.intern.sigma-chemnitz.de (8.14.7/8.14.7) with ESMTP id
+	u7SEJoBT028916
+	(version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
+	Sun, 28 Aug 2016 16:19:50 +0200
+Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
+	4.86_2) (envelope-from <ensc@sigma-chemnitz.de>)
+	id 1be0wA-00051B-45; Sun, 28 Aug 2016 16:19:50 +0200
+From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+To: openembedded-core@lists.openembedded.org
+References: <1470821429-6094-1-git-send-email-maxin.john@intel.com>
+	<1470821429-6094-8-git-send-email-maxin.john@intel.com>
+Mail-Followup-To: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+Date: Sun, 28 Aug 2016 16:19:50 +0200
+In-Reply-To: <1470821429-6094-8-git-send-email-maxin.john@intel.com> (Maxin
+	B. John's message of "Wed, 10 Aug 2016 12:30:26 +0300")
+Message-ID: <ly4m65562h.fsf@ensc-virt.intern.sigma-chemnitz.de>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/25.0.95 (gnu/linux)
 MIME-Version: 1.0
-Subject: pointercal-xinput?
+Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+X-Spam-Score: -0.3
+X-Spam-Tests: AWL,BAYES_00,DKIM_ADSP_ALL,RP_MATCHES_RCVD,SPF_NEUTRAL
+X-Scanned-By: MIMEDefang 2.78
+Cc: "Maxin B. John" <maxin.john-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
+Subject: Re: [PATCH 07/10] tslib: remove recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,27 +65,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 27 Aug 2016 10:30:28 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sun, 28 Aug 2016 14:20:32 -0000
+Content-Type: text/plain
 
-Is this recipe relevant any more (since pointercal was removed)?
-   ${Poky}/meta/recipes-graphics/xinput-calibrator/pointercal-xinput_0.0.bb
+"Maxin B. John" <maxin.john-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
+writes:
 
-It, along with a .bbappend in meta-fsl-arm, is giving me runtime
-errors:
-   Using calibration data stored in /etc/pointercal.xinput
-   Invalid format 42060
-   unable to find device EETI eGalax Touch Screen
-   Warning: error parsing geometry string - using defaults.
-   Using calibration data stored in /etc/pointercal.xinput
-   Invalid format 42060
-   unable to find device EETI eGalax Touch Screen
-   Warning: error parsing geometry string - using defaults.
+> Modern systems generally use the kernel driver or libinput instead
 
--- 
-------------------------------------------------------------
-Gary Thomas                 |  Consulting for the
-MLB Associates              |    Embedded world
-------------------------------------------------------------
+This is wrong.  afaik, 'tslib' is more or less mandatory for systems with
+resistive touchscreens (which are often used in industrial environments).
+Kernel interface does not suffice there because values *must* be calibrated
+(usually per device and periodically since parameters change with time) and
+"smoothed".
+
+
+
+Enrico
 
