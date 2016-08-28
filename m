@@ -1,46 +1,30 @@
-Return-Path: <jkrishnanjanappa@mvista.com>
-Received: from mail-pa0-f54.google.com (mail-pa0-f54.google.com
-	[209.85.220.54])
-	by mail.openembedded.org (Postfix) with ESMTP id 91EED6FF76
+Return-Path: <paul.eggleton@linux.intel.com>
+X-Greylist: delayed 574 seconds by postgrey-1.34 at layers.openembedded.org;
+	Sun, 28 Aug 2016 21:57:47 UTC
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 856226010B
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 28 Aug 2016 18:31:15 +0000 (UTC)
-Received: by mail-pa0-f54.google.com with SMTP id ci2so1498517pad.3
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 28 Aug 2016 11:31:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=mvista-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id;
-	bh=7hUQGcEYnvx7K6AkdXg0+eAQgfxwmNgKdjTOeAtnqJw=;
-	b=hXhZliy2eLEtzZ+gPq6OmuYuNgSsQS+ELK1H9VekIbawg8dQECsTG/ZjQlJ4wHW34O
-	9ap4VvkzwGDX8banwqdLfZzNjuh8VYAoE+CGa61nBtPk60orILBE7GrFVCDHqgiH6oYF
-	iPzcSnBbEnH6TkozXpyyDnnMAUY1O78+8pecPSbeiQCPD3GvhOkBgApjR5dkAucW9smR
-	9H+lil0o7kDICiiCJkuhZPXSGuxZqujBlshGE1ALroxFxrKTMCboeoXYyS3rgbL3vK51
-	GvypDIfWPh+2HrwptaqJ4oVXuM9x5wMd+GC2zfzp6YKz/wJ8SbxP2ClGMLo0ZS0X33uJ
-	IZCw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=7hUQGcEYnvx7K6AkdXg0+eAQgfxwmNgKdjTOeAtnqJw=;
-	b=OtSHYRJDvgrFtP6JfcctZGUkzxoIXvilKE4k1i0BniVboNyxgrG+fnKH/sC49ufAhw
-	hKouOhxbpcDyhQQmG5O+b1AsixMCCJ8vjShRy5cued7moWYA5Mc6GRUDrjmdP4IObkqw
-	3XJGOVSU9RwgeH+WPwUK1mZa23WxLD/N5hGYGdUwTdmE3qckdqBD+9nFWX6C8cNox3Wi
-	iyMr5Jnys0LO8cY/yNC+jeoQmarWN257XQKxPzXyIBxqcPWw8sPP/hohu7c88NHSwBOl
-	lIHPFbkOl8I4ZTyeIRgticrTdlm7EOuaDOqqayRmBZu9oAO8O2/2vFttQ0gvjF+REGgq
-	l9ZA==
-X-Gm-Message-State: AE9vXwPDQANf7mMcymZJkC7FCMWDUv/LIO/0Ifhwuj6fWv8sSbxrkp3q3AJTKqMlmSDE3/t9
-X-Received: by 10.66.21.167 with SMTP id w7mr25143548pae.62.1472409075776;
-	Sun, 28 Aug 2016 11:31:15 -0700 (PDT)
-Received: from localhost.mvista.com ([111.93.218.67])
-	by smtp.gmail.com with ESMTPSA id
-	xx7sm43383086pac.3.2016.08.28.11.31.13
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sun, 28 Aug 2016 11:31:14 -0700 (PDT)
-From: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 29 Aug 2016 00:01:03 +0530
-Message-Id: <1472409063-18107-1-git-send-email-jkrishnanjanappa@mvista.com>
-X-Mailer: git-send-email 2.7.4
-Subject: [PATCH] glibc-scripts: add RDEPENDS on libsotruss package required by sotruss script
+	Sun, 28 Aug 2016 21:57:47 +0000 (UTC)
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+	by fmsmga105.fm.intel.com with ESMTP; 28 Aug 2016 14:48:14 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.28,593,1464678000"; 
+   d="scan'208";a="2085599"
+Received: from aupadhy1-mobl4.gar.corp.intel.com (HELO
+	peggleto-mobl.ger.corp.intel.com) ([10.255.181.46])
+	by fmsmga006.fm.intel.com with ESMTP; 28 Aug 2016 14:48:12 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Humberto Ibarra <humberto.ibarra.lopez@intel.com>
+Date: Mon, 29 Aug 2016 09:48:09 +1200
+Message-ID: <32722850.I1xrKX1UQb@peggleto-mobl.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.14.10 (Linux/4.6.6-200.fc23.x86_64; KDE/4.14.20; x86_64; ;
+	)
+In-Reply-To: <1472245661-28013-1-git-send-email-humberto.ibarra.lopez@intel.com>
+References: <1472245661-28013-1-git-send-email-humberto.ibarra.lopez@intel.com>
+MIME-Version: 1.0
+Cc: joshua.g.lock@intel.com, openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v3] The current syntax of oe-selftest is messy. This patch reorganizes it in a clearer way by grouping all functions in a 'run' subcommand and a 'list' subcommand.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,41 +37,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 28 Aug 2016 18:31:15 -0000
+X-List-Received-Date: Sun, 28 Aug 2016 21:57:49 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-It solves below error observed on qemux86 target:
-root@qemux86:~# sotruss ./hello
-ERROR: ld.so: object '/usr/$LIB/audit/sotruss-lib.so' cannot be loaded as audit
-interface: cannot open shared object file; ignored.
-Hello World
-root@qemux86:~#
+Hi Humberto,
 
-With this change, we get:
-root@qemux86:~# sotruss ./hello
-          hello -> libc.so.6      :*__libc_start_main(0x8048300, 0x1,
-0xbfc86274)
-          hello -> libc.so.6      :*puts(0x804851c, 0xb74af000, 0x0)
-Hello World
-root@qemux86:~#
+On Fri, 26 Aug 2016 16:07:41 Humberto Ibarra wrote:
+> A different patch is going to be send to avoid this syntax change from
+> breaking autobuilder. Both patches belong to same bug (8938) and should be
+> integrated together.
 
-Signed-off-by: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
----
- meta/recipes-core/glibc/glibc-scripts.inc | 4 ++++
- 1 file changed, 4 insertions(+)
+This patch is missing a shortlog (short summary in the first line of the 
+commit message).
 
-diff --git a/meta/recipes-core/glibc/glibc-scripts.inc b/meta/recipes-core/glibc/glibc-scripts.inc
-index 3a06773..bce0a42 100644
---- a/meta/recipes-core/glibc/glibc-scripts.inc
-+++ b/meta/recipes-core/glibc/glibc-scripts.inc
-@@ -14,3 +14,7 @@ do_install() {
- 		install -m 0755 ${SRC}/$i ${D}${bindir}/
- 	done
- }
-+
-+# sotruss script requires sotruss-lib.so (given by libsotruss package), 
-+# to produce trace of the library calls.
-+RDEPENDS_${PN} += "libsotruss"
+Thanks,
+Paul
+
 -- 
-2.7.4
 
+Paul Eggleton
+Intel Open Source Technology Centre
 
