@@ -1,30 +1,26 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-X-Greylist: delayed 574 seconds by postgrey-1.34 at layers.openembedded.org;
-	Sun, 28 Aug 2016 21:57:47 UTC
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 856226010B
+Return-Path: <Mingli.Yu@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 6B71E6FEFE
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 28 Aug 2016 21:57:47 +0000 (UTC)
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-	by fmsmga105.fm.intel.com with ESMTP; 28 Aug 2016 14:48:14 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.28,593,1464678000"; 
-   d="scan'208";a="2085599"
-Received: from aupadhy1-mobl4.gar.corp.intel.com (HELO
-	peggleto-mobl.ger.corp.intel.com) ([10.255.181.46])
-	by fmsmga006.fm.intel.com with ESMTP; 28 Aug 2016 14:48:12 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Humberto Ibarra <humberto.ibarra.lopez@intel.com>
-Date: Mon, 29 Aug 2016 09:48:09 +1200
-Message-ID: <32722850.I1xrKX1UQb@peggleto-mobl.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.14.10 (Linux/4.6.6-200.fc23.x86_64; KDE/4.14.20; x86_64; ;
-	)
-In-Reply-To: <1472245661-28013-1-git-send-email-humberto.ibarra.lopez@intel.com>
-References: <1472245661-28013-1-git-send-email-humberto.ibarra.lopez@intel.com>
+	Mon, 29 Aug 2016 02:18:28 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u7T2ISGl003216
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 28 Aug 2016 19:18:28 -0700 (PDT)
+Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.248.2; Sun, 28 Aug 2016 19:18:27 -0700
+From: <mingli.yu@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 29 Aug 2016 10:16:19 +0800
+Message-ID: <1472436999-27335-2-git-send-email-mingli.yu@windriver.com>
+X-Mailer: git-send-email 2.8.1
+In-Reply-To: <1472436999-27335-1-git-send-email-mingli.yu@windriver.com>
+References: <1472436999-27335-1-git-send-email-mingli.yu@windriver.com>
 MIME-Version: 1.0
-Cc: joshua.g.lock@intel.com, openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v3] The current syntax of oe-selftest is messy. This patch reorganizes it in a clearer way by grouping all functions in a 'run' subcommand and a 'list' subcommand.
+Subject: [PATCH 01/21] ltp: add libwww-perl-perl to RDEPENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,25 +33,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 28 Aug 2016 21:57:49 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Mon, 29 Aug 2016 02:18:30 -0000
+Content-Type: text/plain
 
-Hi Humberto,
+From: Mingli Yu <Mingli.Yu@windriver.com>
 
-On Fri, 26 Aug 2016 16:07:41 Humberto Ibarra wrote:
-> A different patch is going to be send to avoid this syntax change from
-> breaking autobuilder. Both patches belong to same bug (8938) and should be
-> integrated together.
+* Add libwww-perl-perl to RDEPENDS for ltp as
+  STPfailure_report.pl provided by ltp depends
+  on LWP/Simple.pm which is provided by libwww-perl-perl,
+  otherwise comes below error
 
-This patch is missing a shortlog (short summary in the first line of the 
-commit message).
+  root@super_micro-1:~# /opt/ltp/bin/STPfailure_report.pl -h
+  Can't locate LWP/Simple.pm in @INC (you may need to
+  install the LWP::Simple module) (@INC contains: /etc/perl
+  /usr/lib64/perl/site_perl/5.22.1/
+  /usr/lib64/perl/site_perl/5.22.1
+  /usr/lib64/perl/vendor_perl/5.22.1/
+  /usr/lib64/perl/vendor_perl/5.22.1
+  /usr/lib64/perl/5.22.1/ /usr/lib64/perl/5.22.1
+  /usr/local/lib/site_perl /usr/lib64/perl/5.22.1 .)
+  at /opt/ltp/bin/STPfailure_report.pl line 33.
+  BEGIN failed--compilation aborted at
+  /opt/ltp/bin/STPfailure_report.pl line 33.
 
-Thanks,
-Paul
+Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
+---
+ meta/recipes-extended/ltp/ltp_20160126.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/meta/recipes-extended/ltp/ltp_20160126.bb b/meta/recipes-extended/ltp/ltp_20160126.bb
+index 278f492..0d3ca1d 100644
+--- a/meta/recipes-extended/ltp/ltp_20160126.bb
++++ b/meta/recipes-extended/ltp/ltp_20160126.bb
+@@ -96,7 +96,7 @@ do_install(){
+     cp -r testcases/open_posix_testsuite ${D}/opt/ltp/testcases
+ }
+ 
+-RDEPENDS_${PN} = "perl e2fsprogs-mke2fs python-core libaio bash gawk expect ldd"
++RDEPENDS_${PN} = "perl e2fsprogs-mke2fs python-core libaio bash gawk expect ldd libwww-perl-perl"
+ 
+ FILES_${PN}-staticdev += "/opt/ltp/lib/libmem.a"
+ 
 -- 
+2.8.1
 
-Paul Eggleton
-Intel Open Source Technology Centre
 
