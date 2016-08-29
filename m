@@ -1,26 +1,26 @@
 Return-Path: <Mingli.Yu@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 3EB57731DA
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id D27E57002B
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Aug 2016 02:18:57 +0000 (UTC)
+	Mon, 29 Aug 2016 02:18:58 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u7T2IwXb012214
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u7T2IxrI018356
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 28 Aug 2016 19:18:58 -0700 (PDT)
+	Sun, 28 Aug 2016 19:18:59 -0700
 Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.248.2; Sun, 28 Aug 2016 19:18:57 -0700
+	14.3.248.2; Sun, 28 Aug 2016 19:18:58 -0700
 From: <mingli.yu@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 29 Aug 2016 10:16:38 +0800
-Message-ID: <1472436999-27335-21-git-send-email-mingli.yu@windriver.com>
+Date: Mon, 29 Aug 2016 10:16:39 +0800
+Message-ID: <1472436999-27335-22-git-send-email-mingli.yu@windriver.com>
 X-Mailer: git-send-email 2.8.1
 In-Reply-To: <1472436999-27335-1-git-send-email-mingli.yu@windriver.com>
 References: <1472436999-27335-1-git-send-email-mingli.yu@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 20/21] compress-raw-zlib-perl: add new recipe
+Subject: [PATCH 21/21] net-ssleay-perl: add new recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,47 +33,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 29 Aug 2016 02:18:57 -0000
+X-List-Received-Date: Mon, 29 Aug 2016 02:18:59 -0000
 Content-Type: text/plain
 
 From: Mingli Yu <Mingli.Yu@windriver.com>
 
-* Add new recipe compress-raw-zlib-perl as io-compress-perl
-  rdepends on compress-raw-zlib-perl
+* Add new recipe net-ssleay-perl as io-socket-ssl-perl
+  rdepends on net-ssleay-perl
 
 Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
 ---
- .../perl/compress-raw-zlib-perl_2.069.bb           | 28 ++++++++++++++++++++++
- 1 file changed, 28 insertions(+)
- create mode 100644 meta/recipes-devtools/perl/compress-raw-zlib-perl_2.069.bb
+ meta/recipes-devtools/perl/net-ssleay-perl_1.72.bb | 37 ++++++++++++++++++++++
+ 1 file changed, 37 insertions(+)
+ create mode 100644 meta/recipes-devtools/perl/net-ssleay-perl_1.72.bb
 
-diff --git a/meta/recipes-devtools/perl/compress-raw-zlib-perl_2.069.bb b/meta/recipes-devtools/perl/compress-raw-zlib-perl_2.069.bb
+diff --git a/meta/recipes-devtools/perl/net-ssleay-perl_1.72.bb b/meta/recipes-devtools/perl/net-ssleay-perl_1.72.bb
 new file mode 100644
-index 0000000..1c833c1
+index 0000000..87aeb80
 --- /dev/null
-+++ b/meta/recipes-devtools/perl/compress-raw-zlib-perl_2.069.bb
-@@ -0,0 +1,28 @@
-+DESCRIPTION = "The Compress::Raw::Zlib module provides a Perl interface to the \
-+zlib compression library."
++++ b/meta/recipes-devtools/perl/net-ssleay-perl_1.72.bb
+@@ -0,0 +1,37 @@
++DESCRIPTION = "Net::SSLeay module contains perl bindings to openssl \
++(<http://www.openssl.org>) library."
 +
 +SECTION = "libs"
-+LICENSE = "Artistic-1.0 | GPL-2.0"
++LICENSE = "Artisticv1 | GPLv1+"
 +PR = "r0"
 +
 +MAINTAINER=	"Poky <poky@yoctoproject.org>"
-+HOMEPAGE=	"https://metacpan.org/release/Compress-Raw-Zlib"
++HOMEPAGE=	"https://metacpan.org/release/Net-SSLeay"
 +
 +LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/Artistic-1.0;md5=cda03bbdc3c1951996392b872397b798 \
-+file://${COMMON_LICENSE_DIR}/GPL-2.0;md5=801f80980d171dd6425610833a22dbe6"
++file://${COMMON_LICENSE_DIR}/GPL-1.0;md5=e9e36a9de734199567a4d769498f743d"
 +
-+SRC_URI = "https://cpan.metacpan.org/authors/id/P/PM/PMQS/Compress-Raw-Zlib-${PV}.tar.gz"
++DEPENDS = "zlib openssl"
++RDEPENDS_${PN} += "zlib openssl"
 +
-+SRC_URI[md5sum] = "c1f99178e6e29b0037785afa6d8bbcff"
-+SRC_URI[sha256sum] = "9a647fe7d2e6122370372a11c1e3a2e2b54c90bba595cad170854fdaa8a64619"
++SRC_URI = "https://cpan.metacpan.org/authors/id/M/MI/MIKEM/Net-SSLeay-${PV}.tar.gz"
 +
-+S = "${WORKDIR}/Compress-Raw-Zlib-${PV}"
++SRC_URI[md5sum] = "a740d7792dbac8ca8c4eb38d3b8fbd01"
++SRC_URI[sha256sum] = "1baac39f0f12cee515d8bec633175bb5916ca542e5356e26420437bd6195d2f4"
++
++S = "${WORKDIR}/Net-SSLeay-${PV}"
 +
 +inherit cpan
++
++do_configure() {
++	export OPENSSL_PREFIX="${STAGING_DIR_TARGET}/usr"
++	export LIBC="$(find ${STAGING_DIR_TARGET}/${base_libdir}/ -name 'libc-*.so')"
++	cpan_do_configure
++}
 +
 +do_compile() {
 +	export LIBC="$(find ${STAGING_DIR_TARGET}/${base_libdir}/ -name 'libc-*.so')"
