@@ -1,37 +1,36 @@
 Return-Path: <adrian.ratiu@ni.com>
 Received: from ni.com (skprod3.natinst.com [130.164.80.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 3D65765CBF
+	by mail.openembedded.org (Postfix) with ESMTP id 5E04365CBF
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Aug 2016 13:10:26 +0000 (UTC)
-Received: from us-aus-mgwout2.amer.corp.natinst.com (nb-snip2-1338.natinst.com
+	Mon, 29 Aug 2016 13:15:49 +0000 (UTC)
+Received: from us-aus-mgwout1.amer.corp.natinst.com (nb-snip2-1338.natinst.com
 	[130.164.19.135])
 	by us-aus-skprod3.natinst.com (8.15.0.59/8.15.0.59) with ESMTP id
-	u7TDAQDc007951; Mon, 29 Aug 2016 08:10:26 -0500
+	u7TDFo6S016127; Mon, 29 Aug 2016 08:15:50 -0500
 Received: from adi-pc-linux ([130.164.14.198])
-	by us-aus-mgwout2.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6
-	HF1218) with ESMTP id 2016082908102588-265426 ;
-	Mon, 29 Aug 2016 08:10:25 -0500 
+	by us-aus-mgwout1.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6
+	HF1218) with ESMTP id 2016082908155021-266141 ;
+	Mon, 29 Aug 2016 08:15:50 -0500 
 From: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
 To: Bruce Ashfield <bruce.ashfield@gmail.com>
-In-Reply-To: <CADkTA4MS=7NyodK3chia_1Ev-cr_jNvyMnUWKWSstZZxFMTb5Q@mail.gmail.com>
-References: <20160829091905.1068-1-adrian.ratiu@ni.com>
-	<CADkTA4MS=7NyodK3chia_1Ev-cr_jNvyMnUWKWSstZZxFMTb5Q@mail.gmail.com>
+In-Reply-To: <CADkTA4PF0Qws1rcdfZ=UU12quLjPZnfXPjqf8vq23Ytemd6enQ@mail.gmail.com>
+References: <20160829091958.1125-1-adrian.ratiu@ni.com>
+	<CADkTA4PF0Qws1rcdfZ=UU12quLjPZnfXPjqf8vq23Ytemd6enQ@mail.gmail.com>
 User-Agent: Notmuch/0.22.1 (https://notmuchmail.org) Emacs/25.1.50.1
 	(x86_64-unknown-linux-gnu)
-Date: Mon, 29 Aug 2016 16:09:03 +0300
-Message-ID: <87shtnvi1c.fsf@adi-pc-linux.i-did-not-set--mail-host-address--so-tickle-me>
+Date: Mon, 29 Aug 2016 16:14:27 +0300
+Message-ID: <87poorvhsc.fsf@ni.com>
 MIME-Version: 1.0
-X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut2/AUS/H/NIC(Release
-	8.5.3FP6 HF1218|December 12, 2014) at 08/29/2016 08:10:26 AM,
-	Serialize by Router on US-AUS-MGWOut2/AUS/H/NIC(Release 8.5.3FP6
-	HF1218|December 12, 2014) at 08/29/2016 08:10:26 AM,
-	Serialize complete at 08/29/2016 08:10:26 AM
+X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut1/AUS/H/NIC(Release
+	8.5.3FP6 HF1218|December 12, 2014) at 08/29/2016 08:15:50 AM,
+	Serialize by Router on US-AUS-MGWOut1/AUS/H/NIC(Release 8.5.3FP6
+	HF1218|December 12, 2014) at 08/29/2016 08:15:50 AM,
+	Serialize complete at 08/29/2016 08:15:50 AM
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
 	definitions=2016-08-29_06:, , signatures=0
-Cc: Yocto Project Discussion <yocto@yoctoproject.org>,
-	Patches and discussions about the oe-core layer
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [yocto-kernel-tools][PATCH] merge_configs.sh: fail loudly if make also fails
+Subject: Re: [PATCH] kernel-yocto: do_kernel_configme: Fix silent sysroot poisoning error
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,70 +43,103 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 29 Aug 2016 13:10:27 -0000
+X-List-Received-Date: Mon, 29 Aug 2016 13:15:52 -0000
 Content-Type: text/plain
 
 On Mon, 29 Aug 2016, Bruce Ashfield <bruce.ashfield@gmail.com> wrote:
 > On Mon, Aug 29, 2016 at 5:19 AM, Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
 > wrote:
 >
->> merge_configs.sh calls make on the generated kernel config from
->> the defconfig + fragments to fill in any missing symbols. make
->> can fail and this can lead to nasty errors further on in the
->> build like generating an unbootable kernel image.
+>> do_kernel_configme calls merge_config.sh (installed in the sysroot by
+>> the kern-tools-native recipe) which calls make to fill in any missing
+>> symbols from the resulting merged config.
+>
+>
+> That's not what it does ... but that isn't important.
+
+Can you please explain in a simple sentence what it does?
+
+>
+>
 >>
->> Check the make return code and fail loudly if non-zero.
+>> This errors out on my system because of sysroot poisoning [1]. Here is
+>> a partial output from my .kernel-meta/cfg/merge_config_build.log (this
+>> file is created in do_kernel_configme() while callig merge_config.sh):
+>>
+>> make[1]: Entering directory '/media/adi/ssd/nilrt-master/
+>> build/tmp-glibc/work/x64-nilrt-linux/linux-nilrt/4.1+
+>> gitAUTOINC+a7e53ecc27-r0/linux-x64-standard-build'
+>>   HOSTCC  scripts/basic/fixdep
+>> /media/adi/ssd/nilrt-master/build/tmp-glibc/work-shared/
+>> x64/kernel-source/scripts/basic/fixdep.c:106:23: fatal error:
+>> sys/types.h: No such file or directory
+>> compilation terminated.
+>> make[2]: *** [/media/adi/ssd/nilrt-master/build/tmp-glibc/work-shared/
+>> x64/kernel-source/scripts/basic/Makefile:22: scripts/basic/x86_64-nilrt-linux-fixdep]
+>> Error 1
 >>
 >
-> We don't want merge config to fail in a scenario like this. It is up to
-> whatever
-> calls merge_config to add that sort of logic. Which is what I do with the
-> kernel
-> audit phase of linux-yocto.
+> This just means that we are missing a dependency. Everything that
+> merge_config
+> needs should be already in place before it runs, i.e. do_kernel_metadata
+> should
+> have already run and built any host tools that it needs.
 
-Why exactly don't we want to check for errors here? Anyone calling
-merge_configs has no way of knowing if this make call failed if we don't
-check its return code and pass the error up the call chain.
-
->
-> If you do want to try and make it fail in a scenario like this, the patch
-> needs to
-> go to the linux kernel mailing list.
-
-I don't understand how sending this patch to lkml helps because
-yocto-kernel-tools is a yocto/oe project and is outside the kernel
-codebase, no?
+This is not a missing dependency. The problem is the make command called
+in merge_configs fails silently because of a misconfigured sysroot. The
+correct sysroot is in the TOOLCHAIN_OPTIONS variable and it does not get
+passed to the make call in merge_configs.
 
 >
-> Cheers,
+> How are you managing to trigger this error ? I've done plenty of builds,
+> and haven't
+> seen this one before.
+
+Every one of my builds error out in that make call from merge_config
+without this change because make does not search in the correct sysroot.
+
 >
 > Bruce
 >
 >
 >>
+>> This issue is hard to debug because merge_config.sh does NOT check the
+>> error output of its make call (this is added in the second patch) and
+>> even though make errors out, the build continues as if nothing happened
+>> and compiles a kernel with garbage configs (the .config generated by
+>> do_kernel_configme is empty and gets filled later) which doesn't boot.
+>>
+>> Adding $TOOLCHAIN_OPTIONS to $CFLAGS before calling merge_configs.sh
+>> fixes the error because $TOOLCHAIN_OPTIONS defines the sysroot and make
+>> uses it to correctly compile & fill all missing kernel config options.
+>>
+>> [1] http://lists.openembedded.org/pipermail/openembedded-core/
+>> 2014-October/098253.html
+>>
 >> Signed-off-by: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
 >> ---
->>  tools/merge_config.sh | 5 ++++-
->>  1 file changed, 4 insertions(+), 1 deletion(-)
+>>  meta/classes/kernel-yocto.bbclass | 2 +-
+>>  1 file changed, 1 insertion(+), 1 deletion(-)
 >>
->> diff --git a/tools/merge_config.sh b/tools/merge_config.sh
->> index 67d1314..5212f37 100755
->> --- a/tools/merge_config.sh
->> +++ b/tools/merge_config.sh
->> @@ -152,7 +152,10 @@ fi
->>  # alldefconfig: Fills in any missing symbols with Kconfig default
->>  # allnoconfig: Fills in any missing symbols with # CONFIG_* is not set
->>  make KCONFIG_ALLCONFIG=$TMP_FILE $OUTPUT_ARG $ALLTARGET
->> -
->> +if [ "$?" -ne 0 ]; then
->> +    echo "Make failed to fill missing config symbols. Exit." >&2
->> +    exit 1
->> +fi
->
->
->>  # Check all specified config values took (might have missed-dependency
->> issues)
->>  for CFG in $(sed -n "$SED_CONFIG_EXP" $TMP_FILE); do
+>> diff --git a/meta/classes/kernel-yocto.bbclass
+>> b/meta/classes/kernel-yocto.bbclass
+>> index 8650e55..4397a9d 100644
+>> --- a/meta/classes/kernel-yocto.bbclass
+>> +++ b/meta/classes/kernel-yocto.bbclass
+>> @@ -249,7 +249,7 @@ do_kernel_configme() {
+>>                 bbfatal_log "Could not find configuration queue
+>> (${meta_dir}/config.queue)"
+>>         fi
+>>
+>> -       ARCH=${ARCH} merge_config.sh -O ${B} ${config_flags} ${configs} >
+>> ${meta_dir}/cfg/merge_config_build.log 2>&1
+>> +       CFLAGS="${CFLAGS} ${TOOLCHAIN_OPTIONS}" ARCH=${ARCH}
+>> merge_config.sh -O ${B} ${config_flags} ${configs} >
+>> ${meta_dir}/cfg/merge_config_build.log 2>&1
+>>         if [ $? -ne 0 ]; then
+>>                 bbfatal_log "Could not configure
+>> ${KMACHINE}-${LINUX_KERNEL_TYPE}"
+>>         fi
 >> --
 >> 2.9.3
 >>
