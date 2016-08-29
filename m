@@ -1,36 +1,24 @@
-Return-Path: <adrian.ratiu@ni.com>
-Received: from ni.com (skprod2.natinst.com [130.164.80.23])
-	by mail.openembedded.org (Postfix) with ESMTP id B387765CBF
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id D7868600B3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Aug 2016 14:07:06 +0000 (UTC)
-Received: from us-aus-mgwout2.amer.corp.natinst.com (nb-snip2-1338.natinst.com
-	[130.164.19.135])
-	by us-aus-skprod2.natinst.com (8.15.0.59/8.15.0.59) with ESMTP id
-	u7TE76G5025797; Mon, 29 Aug 2016 09:07:06 -0500
-Received: from adi-pc-linux ([130.164.14.198])
-	by us-aus-mgwout2.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6
-	HF1218) with ESMTP id 2016082909070626-268016 ;
-	Mon, 29 Aug 2016 09:07:06 -0500 
-From: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-In-Reply-To: <CADkTA4PF0Qws1rcdfZ=UU12quLjPZnfXPjqf8vq23Ytemd6enQ@mail.gmail.com>
-References: <20160829091958.1125-1-adrian.ratiu@ni.com>
-	<CADkTA4PF0Qws1rcdfZ=UU12quLjPZnfXPjqf8vq23Ytemd6enQ@mail.gmail.com>
-User-Agent: Notmuch/0.22.1 (https://notmuchmail.org) Emacs/25.1.50.1
-	(x86_64-unknown-linux-gnu)
-Date: Mon, 29 Aug 2016 17:05:44 +0300
-Message-ID: <87fupnvfev.fsf@ni.com>
-MIME-Version: 1.0
-X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut2/AUS/H/NIC(Release
-	8.5.3FP6 HF1218|December 12, 2014) at 08/29/2016 09:07:06 AM,
-	Serialize by Router on US-AUS-MGWOut2/AUS/H/NIC(Release 8.5.3FP6
-	HF1218|December 12, 2014) at 08/29/2016 09:07:06 AM,
-	Serialize complete at 08/29/2016 09:07:06 AM
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
-	definitions=2016-08-29_07:, , signatures=0
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] kernel-yocto: do_kernel_configme: Fix silent sysroot poisoning error
+	Mon, 29 Aug 2016 14:31:57 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by orsmga103.jf.intel.com with ESMTP; 29 Aug 2016 07:31:59 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.28,596,1464678000"; d="scan'208";a="1048688644"
+Received: from kanavin-desktop.fi.intel.com ([10.237.68.49])
+	by fmsmga002.fm.intel.com with ESMTP; 29 Aug 2016 07:31:57 -0700
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 29 Aug 2016 17:30:08 +0300
+Message-Id: <0f283314fc5c33bad623d8fa9a7e8c227fbe8a62.1472480768.git.alexander.kanavin@linux.intel.com>
+X-Mailer: git-send-email 2.9.3
+In-Reply-To: <cover.1472480768.git.alexander.kanavin@linux.intel.com>
+References: <cover.1472480768.git.alexander.kanavin@linux.intel.com>
+In-Reply-To: <cover.1472480768.git.alexander.kanavin@linux.intel.com>
+References: <cover.1472480768.git.alexander.kanavin@linux.intel.com>
+Subject: [PATCH 01/15] libwebp: upgrade to 0.5.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,109 +31,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 29 Aug 2016 14:07:09 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 29 Aug 2016 14:31:59 -0000
 
-On Mon, 29 Aug 2016, Bruce Ashfield <bruce.ashfield@gmail.com> wrote:
-> On Mon, Aug 29, 2016 at 5:19 AM, Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
-> wrote:
->
->> do_kernel_configme calls merge_config.sh (installed in the sysroot by
->> the kern-tools-native recipe) which calls make to fill in any missing
->> symbols from the resulting merged config.
->
->
-> That's not what it does ... but that isn't important.
->
->
->>
->> This errors out on my system because of sysroot poisoning [1]. Here is
->> a partial output from my .kernel-meta/cfg/merge_config_build.log (this
->> file is created in do_kernel_configme() while callig merge_config.sh):
->>
->> make[1]: Entering directory '/media/adi/ssd/nilrt-master/
->> build/tmp-glibc/work/x64-nilrt-linux/linux-nilrt/4.1+
->> gitAUTOINC+a7e53ecc27-r0/linux-x64-standard-build'
->>   HOSTCC  scripts/basic/fixdep
->> /media/adi/ssd/nilrt-master/build/tmp-glibc/work-shared/
->> x64/kernel-source/scripts/basic/fixdep.c:106:23: fatal error:
->> sys/types.h: No such file or directory
->> compilation terminated.
->> make[2]: *** [/media/adi/ssd/nilrt-master/build/tmp-glibc/work-shared/
->> x64/kernel-source/scripts/basic/Makefile:22: scripts/basic/x86_64-nilrt-linux-fixdep]
->> Error 1
->>
->
-> This just means that we are missing a dependency. Everything that
-> merge_config
-> needs should be already in place before it runs, i.e. do_kernel_metadata
-> should
-> have already run and built any host tools that it needs.
->
-> How are you managing to trigger this error ? I've done plenty of builds,
-> and haven't
-> seen this one before.
+Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+---
+ meta/recipes-multimedia/webp/{libwebp_0.5.0.bb => libwebp_0.5.1.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-multimedia/webp/{libwebp_0.5.0.bb => libwebp_0.5.1.bb} (92%)
 
-Maybe some context is in order for how I build the kernel. I'm using a
-custom kernel recipe which inherits from linux-yocto.inc. My kernel
-tree contains a defconfig which is passed to OE in my kernel recipe
-using KBUILD_DEFCONFIG and KCONFIG_MODE="--alldefconfig".
+diff --git a/meta/recipes-multimedia/webp/libwebp_0.5.0.bb b/meta/recipes-multimedia/webp/libwebp_0.5.1.bb
+similarity index 92%
+rename from meta/recipes-multimedia/webp/libwebp_0.5.0.bb
+rename to meta/recipes-multimedia/webp/libwebp_0.5.1.bb
+index c89adac..222bd56 100644
+--- a/meta/recipes-multimedia/webp/libwebp_0.5.0.bb
++++ b/meta/recipes-multimedia/webp/libwebp_0.5.1.bb
+@@ -14,8 +14,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=6e8dee932c26f2dab503abf70c96d8bb \
+                     file://PATENTS;md5=c6926d0cb07d296f886ab6e0cc5a85b7"
+ 
+ SRC_URI = "http://downloads.webmproject.org/releases/webp/${BP}.tar.gz"
+-SRC_URI[md5sum] = "ba81eb9bf23e3c69a2f5cc8dcdb5938f"
+-SRC_URI[sha256sum] = "5cd3bb7b623aff1f4e70bd611dc8dbabbf7688fd5eb225b32e02e09e37dfb274"
++SRC_URI[md5sum] = "3d7db92ebba5b4f679413d25c6040881"
++SRC_URI[sha256sum] = "6ad66c6fcd60a023de20b6856b03da8c7d347269d76b1fd9c3287e8b5e8813df"
+ 
+ UPSTREAM_CHECK_URI = "http://downloads.webmproject.org/releases/webp/index.html"
+ 
+-- 
+2.9.3
 
-I have no configuration fragments.
-
-As expected I need the merge_configs script to automatically fill in any
-missing CONFIG symbols before building the kernel and this is where it
-fails because the sysroot is poisoned since 2014.
-
->
-> Bruce
->
->
->>
->> This issue is hard to debug because merge_config.sh does NOT check the
->> error output of its make call (this is added in the second patch) and
->> even though make errors out, the build continues as if nothing happened
->> and compiles a kernel with garbage configs (the .config generated by
->> do_kernel_configme is empty and gets filled later) which doesn't boot.
->>
->> Adding $TOOLCHAIN_OPTIONS to $CFLAGS before calling merge_configs.sh
->> fixes the error because $TOOLCHAIN_OPTIONS defines the sysroot and make
->> uses it to correctly compile & fill all missing kernel config options.
->>
->> [1] http://lists.openembedded.org/pipermail/openembedded-core/
->> 2014-October/098253.html
->>
->> Signed-off-by: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
->> ---
->>  meta/classes/kernel-yocto.bbclass | 2 +-
->>  1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/meta/classes/kernel-yocto.bbclass
->> b/meta/classes/kernel-yocto.bbclass
->> index 8650e55..4397a9d 100644
->> --- a/meta/classes/kernel-yocto.bbclass
->> +++ b/meta/classes/kernel-yocto.bbclass
->> @@ -249,7 +249,7 @@ do_kernel_configme() {
->>                 bbfatal_log "Could not find configuration queue
->> (${meta_dir}/config.queue)"
->>         fi
->>
->> -       ARCH=${ARCH} merge_config.sh -O ${B} ${config_flags} ${configs} >
->> ${meta_dir}/cfg/merge_config_build.log 2>&1
->> +       CFLAGS="${CFLAGS} ${TOOLCHAIN_OPTIONS}" ARCH=${ARCH}
->> merge_config.sh -O ${B} ${config_flags} ${configs} >
->> ${meta_dir}/cfg/merge_config_build.log 2>&1
->>         if [ $? -ne 0 ]; then
->>                 bbfatal_log "Could not configure
->> ${KMACHINE}-${LINUX_KERNEL_TYPE}"
->>         fi
->> --
->> 2.9.3
->>
->>
->
->
-> -- 
-> "Thou shalt not follow the NULL pointer, for chaos and madness await thee
-> at its end"
 
