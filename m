@@ -1,26 +1,26 @@
 Return-Path: <Mingli.Yu@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id D00AD731DD
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 3E1007318D
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Aug 2016 02:18:49 +0000 (UTC)
+	Mon, 29 Aug 2016 02:18:51 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u7T2IoOk018349
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u7T2Iqrm003281
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 28 Aug 2016 19:18:50 -0700
+	Sun, 28 Aug 2016 19:18:52 -0700 (PDT)
 Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.248.2; Sun, 28 Aug 2016 19:18:49 -0700
+	14.3.248.2; Sun, 28 Aug 2016 19:18:51 -0700
 From: <mingli.yu@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 29 Aug 2016 10:16:33 +0800
-Message-ID: <1472436999-27335-16-git-send-email-mingli.yu@windriver.com>
+Date: Mon, 29 Aug 2016 10:16:34 +0800
+Message-ID: <1472436999-27335-17-git-send-email-mingli.yu@windriver.com>
 X-Mailer: git-send-email 2.8.1
 In-Reply-To: <1472436999-27335-1-git-send-email-mingli.yu@windriver.com>
 References: <1472436999-27335-1-git-send-email-mingli.yu@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 15/21] io-html-perl: add new recipe
+Subject: [PATCH 16/21] io-compress-perl: add new recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,54 +33,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 29 Aug 2016 02:18:50 -0000
+X-List-Received-Date: Mon, 29 Aug 2016 02:18:51 -0000
 Content-Type: text/plain
 
 From: Mingli Yu <Mingli.Yu@windriver.com>
 
-* Add new recipe io-html-perl as http-message-perl
-  rdepends on io-html-perl
+* Add new recipe io-compress-perl as net-http-perl
+  rdepends on io-compress-perl
 
 Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
 ---
- meta/recipes-devtools/perl/io-html-perl_1.001.bb | 30 ++++++++++++++++++++++++
- 1 file changed, 30 insertions(+)
- create mode 100644 meta/recipes-devtools/perl/io-html-perl_1.001.bb
+ .../perl/io-compress-perl_2.069.bb                 | 25 ++++++++++++++++++++++
+ 1 file changed, 25 insertions(+)
+ create mode 100644 meta/recipes-devtools/perl/io-compress-perl_2.069.bb
 
-diff --git a/meta/recipes-devtools/perl/io-html-perl_1.001.bb b/meta/recipes-devtools/perl/io-html-perl_1.001.bb
+diff --git a/meta/recipes-devtools/perl/io-compress-perl_2.069.bb b/meta/recipes-devtools/perl/io-compress-perl_2.069.bb
 new file mode 100644
-index 0000000..d384389
+index 0000000..43b51b4
 --- /dev/null
-+++ b/meta/recipes-devtools/perl/io-html-perl_1.001.bb
-@@ -0,0 +1,30 @@
-+DESCRIPTION = "IO::HTML provides an easy way to open a file containing HTML while \
-+automatically determining its encoding. It uses the HTML5 encoding \
-+sniffing \
-+algorithm specified in section 8.2.2.2 of the draft standard."
++++ b/meta/recipes-devtools/perl/io-compress-perl_2.069.bb
+@@ -0,0 +1,25 @@
++DESCRIPTION = "This module provides a Perl interface that allows writing compressed \
++data to files or buffer as defined in RFC 1952."
 +
 +SECTION = "libs"
 +LICENSE = "Artistic-1.0 | GPL-2.0"
 +PR = "r0"
 +
 +MAINTAINER=	"Poky <poky@yoctoproject.org>"
-+HOMEPAGE=	"https://metacpan.org/release/IO-HTML"
++HOMEPAGE=	"https://metacpan.org/release/IO-Compress"
 +
 +LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/Artistic-1.0;md5=cda03bbdc3c1951996392b872397b798 \
 +file://${COMMON_LICENSE_DIR}/GPL-2.0;md5=801f80980d171dd6425610833a22dbe6"
 +
-+SRC_URI = "http://cpan.metacpan.org/authors/id/C/CJ/CJM/IO-HTML-${PV}.tar.gz"
++SRC_URI = "https://cpan.metacpan.org/authors/id/P/PM/PMQS/IO-Compress-${PV}.tar.gz"
 +
-+SRC_URI[md5sum] = "3f8958718844dc96b9f6946f21d70d22"
-+SRC_URI[sha256sum] = "ea78d2d743794adc028bc9589538eb867174b4e165d7d8b5f63486e6b828e7e0"
++SRC_URI[md5sum] = "b26925161e3f01919f60344d1bbb49c4"
++SRC_URI[sha256sum] = "e9d36d93e12874536ecbf6c1db80aae34236645798b3501b479c78e09da3f28c"
++RDEPENDS_${PN} += "compress-raw-bzip2-perl"
++RDEPENDS_${PN} += "compress-raw-zlib-perl"
 +
-+S = "${WORKDIR}/IO-HTML-${PV}"
++S = "${WORKDIR}/IO-Compress-${PV}"
 +
 +inherit cpan
-+
-+do_compile() {
-+	export LIBC="$(find ${STAGING_DIR_TARGET}/${base_libdir}/ -name 'libc-*.so')"
-+	cpan_do_compile
-+}
 +
 +BBCLASSEXTEND = "native"
 -- 
