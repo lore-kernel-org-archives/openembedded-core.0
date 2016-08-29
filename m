@@ -1,20 +1,20 @@
-Return-Path: <stephano.cetola@linux.intel.com>
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
-	by mail.openembedded.org (Postfix) with ESMTP id 35F9B6612C
+Return-Path: <juro.bystricky@intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id E252A600B3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Aug 2016 22:25:36 +0000 (UTC)
+	Mon, 29 Aug 2016 22:45:22 +0000 (UTC)
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga104.jf.intel.com with ESMTP; 29 Aug 2016 15:25:37 -0700
+	by fmsmga101.fm.intel.com with ESMTP; 29 Aug 2016 15:45:24 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.30,253,1470726000"; d="scan'208";a="1021956199"
-Received: from pequod.jf.intel.com ([10.7.201.50])
-	by orsmga001.jf.intel.com with ESMTP; 29 Aug 2016 15:25:37 -0700
-From: Stephano Cetola <stephano.cetola@linux.intel.com>
+X-IronPort-AV: E=Sophos;i="5.30,253,1470726000"; d="scan'208";a="1021961632"
+Received: from juro-precision-t5610.jf.intel.com ([10.7.198.149])
+	by orsmga001.jf.intel.com with ESMTP; 29 Aug 2016 15:45:23 -0700
+From: Juro Bystricky <juro.bystricky@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 29 Aug 2016 15:24:32 -0700
-Message-Id: <20160829222432.6123-1-stephano.cetola@linux.intel.com>
-X-Mailer: git-send-email 2.9.3
-Subject: [PATCH] provide better error message when runqemu-ifup fails
+Date: Mon, 29 Aug 2016 15:45:35 -0700
+Message-Id: <1472510736-3148-1-git-send-email-juro.bystricky@intel.com>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH 0/1] MIPS tune mips64-n32
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,32 +27,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 29 Aug 2016 22:25:37 -0000
+X-List-Received-Date: Mon, 29 Aug 2016 22:45:23 -0000
 
-If runqemu-ifup fails hen running testimage, a rather cryptic error
-regarding "no tty present" is displayed. If this step fails, we
-should at least point the user at runqemu-gen-tapdevs. A quick search
-of this term in the manual will lead them to "Enabling Runtime Tests
-on QEMU" which should give them all the info they need.
+This patch fixes the issue where a mips CPP compiler configured with n32
+cannot find c++ include files:
 
-Signed-off-by: Stephano Cetola <stephano.cetola@linux.intel.com>
----
- scripts/runqemu-internal | 1 +
- 1 file changed, 1 insertion(+)
+#include <bits/c++config.h>
+int main()
+{
+    return 0;
+}
 
-diff --git a/scripts/runqemu-internal b/scripts/runqemu-internal
-index d10466d..3d728c0 100755
---- a/scripts/runqemu-internal
-+++ b/scripts/runqemu-internal
-@@ -153,6 +153,7 @@ else
-             if [ $? -ne 0 ]; then
-                 # Re-run standalone to see verbose errors
-                 sudo $QEMUIFUP $USERID $GROUPID $OECORE_NATIVE_SYSROOT
-+                echo "ERROR: Failed to setup tap device. Run runqemu-gen-tapdevs to manually create."
-                 return 1
-             fi
-             LOCKFILE="$LOCKDIR/$tap"
+error: bits/c++config.h: No such file or directory
+|  #include <bits/c++config.h>
+
+Although the file c++config.h does exist, CPP cannot find it
+as the file is not in the directory CPP expects it to be in.
+The fix consists of creating a symlink with the name the directory
+CPP expects and point it to the location where the  CPP files
+actualy reside.
+
+The patch was tested with two configurations, single compiler
+and multilib (both of which used to fail the testsdk):
+
+MACHINE="qemumips64"
+require conf/multilib.conf
+MULTILIBS = "multilib:lib64 multilib:lib32"
+DEFAULTTUNE = "mips64-n32"
+DEFAULTTUNE_virtclass-multilib-lib64 = "mips64"
+DEFAULTTUNE_virtclass-multilib-lib32 = "mips32r2"
+USER_CLASSES += " testsdk "
+
+bitbake core-image-minimal -c populate_sdk
+bitbake core_image_minimal -c testsdk
+
+MACHINE="qemumips64"
+DEFAULTTUNE = "mips64-n32"
+USER_CLASSES += " testsdk "
+
+bitbake core-image-minimal -c populate_sdk
+bitbake core_image_minimal -c testsdk
+
+
+Juro Bystricky (1):
+  gcc-runtime.inc: add CPP support for mips64-n32 tune
+
+ meta/recipes-devtools/gcc/gcc-runtime.inc | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
+
 -- 
-2.9.3
+2.7.4
 
 
