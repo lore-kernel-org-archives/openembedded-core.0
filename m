@@ -1,25 +1,21 @@
 Return-Path: <paul.eggleton@linux.intel.com>
 Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-	by mail.openembedded.org (Postfix) with ESMTP id DE17C731AC
+	by mail.openembedded.org (Postfix) with ESMTP id DD2A360670
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Aug 2016 07:30:00 +0000 (UTC)
+	Mon, 29 Aug 2016 07:29:58 +0000 (UTC)
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga105.fm.intel.com with ESMTP; 29 Aug 2016 00:30:01 -0700
+	by fmsmga105.fm.intel.com with ESMTP; 29 Aug 2016 00:29:59 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.28,595,1464678000"; d="scan'208";a="754567556"
+X-IronPort-AV: E=Sophos;i="5.28,595,1464678000"; d="scan'208";a="754567544"
 Received: from aupadhy1-mobl4.gar.corp.intel.com (HELO
 	peggleto-mobl.ger.corp.intel.com) ([10.255.181.46])
-	by FMSMGA003.fm.intel.com with ESMTP; 29 Aug 2016 00:29:59 -0700
+	by FMSMGA003.fm.intel.com with ESMTP; 29 Aug 2016 00:29:57 -0700
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 29 Aug 2016 19:27:59 +1200
-Message-Id: <9c568e925942778edeb8b3dfd7f2c3c470a7621f.1472455666.git.paul.eggleton@linux.intel.com>
+Date: Mon, 29 Aug 2016 19:27:58 +1200
+Message-Id: <cover.1472455666.git.paul.eggleton@linux.intel.com>
 X-Mailer: git-send-email 2.5.5
-In-Reply-To: <cover.1472455666.git.paul.eggleton@linux.intel.com>
-References: <cover.1472455666.git.paul.eggleton@linux.intel.com>
-In-Reply-To: <cover.1472455666.git.paul.eggleton@linux.intel.com>
-References: <cover.1472455666.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 1/1] oe-selftest: devtool: fix test after recent change
+Subject: [PATCH 0/1] oe-selftest: devtool: fix test after recent change
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,31 +30,21 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Mon, 29 Aug 2016 07:30:02 -0000
 
-OE-Core commit d3057cba0b01484712fcee3c52373c143608a436 fixed handling
-of wildcard bbappends, which means that this test's expectations about
-the bbappend file name are no longer met. devtool finish is meant to use
-wildcard bbappends so fix the test accordingly.
+The following changes since commit 00027aee12f4bbc9a4ba607c91fcc1e0e8257fa2:
 
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
----
+  core-image-kernel-dev.bb: Standardize use of _append and leading space. (2016-08-25 23:03:26 +0100)
+
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib paule/oe-selftest-devtool-fix
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/oe-selftest-devtool-fix
+
+Paul Eggleton (1):
+  oe-selftest: devtool: fix test after recent change
+
  meta/lib/oeqa/selftest/devtool.py | 4 +++-
  1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/meta/lib/oeqa/selftest/devtool.py b/meta/lib/oeqa/selftest/devtool.py
-index 08fe8df..e992dcf 100644
---- a/meta/lib/oeqa/selftest/devtool.py
-+++ b/meta/lib/oeqa/selftest/devtool.py
-@@ -1331,7 +1331,9 @@ class DevtoolTests(DevtoolBase):
-         result = runCmd('git status --porcelain .', cwd=recipedir)
-         if result.output.strip():
-             self.fail('Recipe directory for %s contains the following unexpected changes after finish:\n%s' % (recipe, result.output.strip()))
--        appendfile = os.path.join(appenddir, os.path.splitext(os.path.basename(oldrecipefile))[0] + '.bbappend')
-+        recipefn = os.path.splitext(os.path.basename(oldrecipefile))[0]
-+        recipefn = recipefn.split('_')[0] + '_%'
-+        appendfile = os.path.join(appenddir, recipefn + '.bbappend')
-         self.assertTrue(os.path.exists(appendfile), 'bbappend %s should have been created but wasn\'t' % appendfile)
-         newdir = os.path.join(appenddir, recipe)
-         files = os.listdir(newdir)
 -- 
 2.5.5
 
