@@ -1,42 +1,25 @@
-Return-Path: <nicolas.dechesne@linaro.org>
-Received: from mail-wm0-f47.google.com (mail-wm0-f47.google.com [74.125.82.47])
-	by mail.openembedded.org (Postfix) with ESMTP id 38DEB601D4
+Return-Path: <maxin.john@intel.com>
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+	by mail.openembedded.org (Postfix) with ESMTP id 9AEB16B6EA
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Aug 2016 09:41:14 +0000 (UTC)
-Received: by mail-wm0-f47.google.com with SMTP id f65so70605430wmi.0
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Aug 2016 02:41:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=from:to:cc:subject:date:message-id;
-	bh=c/bXib6ktHn+ugL72zYBdBQ1mdY2gomLLAzhp4cvmdA=;
-	b=HGzk6twJn3vnKD15lc6e9CQg4NqwnSmfpHYPjpeRlE9Z5sI1Y3kuvx/Ht+n3qrphUG
-	Qps+Z6LZ3oEpVY43YllM7UG9bfSDXFvC+cuZnyfbszXTThuBu+96A8A8eJq3XuWcRVqm
-	rHZgiSTp0PiH83yPva6qi14rxNn9w8WGmwElE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=c/bXib6ktHn+ugL72zYBdBQ1mdY2gomLLAzhp4cvmdA=;
-	b=lZxMdxHRk3IHEDNvSp/jhkkO65v3Qookd/uHj1iDaPNWod2mdXg/LvjxZcihScGSFc
-	cOxMuLqfT/mLLwEGD5k2R2p3LWxM2ES22n2iKaIQnCYUsky3BgGJ3GB4OZPamaNHzaqw
-	2owgEIe6hM3HBVJcZbIKxq65NL+9rvoYJF31RQtXe5t/93a4xEWcGL4Osas7rx6fLaq6
-	09KNIzhxzFX5lHjmjrmAM+NJUsr80pOYmA5ByfgecrDWhzrRu4taVsGjEL8FjA2s53Rt
-	L/xamVM7fEDTKRNWLWfoxhD2dPiiZJDlsWOsea/eh5WX3tmLufcGFdw2pMfQ6LjKfe4o
-	YpKQ==
-X-Gm-Message-State: AE9vXwMrtbzDqnCBXKrEfNhBZxH0CAG9rNwqnnNhrL9FTC91Ol75B5Ntp64a8loJyxyseh/B
-X-Received: by 10.28.155.212 with SMTP id d203mr9139579wme.103.1472463674974; 
-	Mon, 29 Aug 2016 02:41:14 -0700 (PDT)
-Received: from hackbox.linaro.org ([81.128.185.36])
-	by smtp.gmail.com with ESMTPSA id
-	pm1sm33438125wjb.40.2016.08.29.02.41.14
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 29 Aug 2016 02:41:14 -0700 (PDT)
-From: Nicolas Dechesne <nicolas.dechesne@linaro.org>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 29 Aug 2016 10:40:35 +0100
-Message-Id: <1472463635-1124-1-git-send-email-nicolas.dechesne@linaro.org>
-X-Mailer: git-send-email 2.7.0
-Cc: Nicolas Dechesne <nicolas.dechesne@linaro.org>
-Subject: [PATCH v2] gstreamer1.0-plugins-bad: add packageconfig for egl
+	Mon, 29 Aug 2016 10:31:57 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by orsmga105.jf.intel.com with ESMTP; 29 Aug 2016 03:31:57 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.28,596,1464678000"; d="scan'208";a="872140600"
+Received: from mbabyjoh-desk.fi.intel.com (HELO
+	mbabyjoh-desk.ger.corp.intel.com) ([10.237.72.71])
+	by orsmga003.jf.intel.com with ESMTP; 29 Aug 2016 03:31:56 -0700
+Date: Mon, 29 Aug 2016 13:31:33 +0300
+From: "Maxin B. John" <maxin.john@intel.com>
+To: Gary Thomas <gary@mlbassoc.com>
+Message-ID: <20160829103132.GA5724@mbabyjoh-desk.ger.corp.intel.com>
+References: <48a58ad6-9d18-2443-22f2-3eb07f6aa7b8@mlbassoc.com>
+MIME-Version: 1.0
+In-Reply-To: <48a58ad6-9d18-2443-22f2-3eb07f6aa7b8@mlbassoc.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: pointercal-xinput?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,56 +32,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 29 Aug 2016 09:41:15 -0000
+X-List-Received-Date: Mon, 29 Aug 2016 10:31:58 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-In commit 9c3a94aea1d (gstreamer1.0-plugins-bad: Move EGL requirement for
-Wayland), --enable-egl was explicitely added to the wayland packageconfig. While
-this is correct that enabling wayland requires egl, it should be possible to
-enable egl without wayland, even when using X11. For example, glimagesink can be
-used for GPU based color conversion using EGL/GLES.
+Hi Gary,
 
-As such, let's make egl and wayland two separate PACKAGECONFIG flags.
+On Sat, Aug 27, 2016 at 12:30:23PM +0200, Gary Thomas wrote:
+> Is this recipe relevant any more (since pointercal was removed)?
+>   ${Poky}/meta/recipes-graphics/xinput-calibrator/pointercal-xinput_0.0.bb
 
-Signed-off-by: Nicolas Dechesne <nicolas.dechesne@linaro.org>
----
-Changes in v2:
- * Set egl flag when wayland is set in DISTRO_FEATURES, instead of hardcoding 
-   --enable-egl directly from wayland PACAKGECONFIG
+Yes, it is still used by the xinput_calibrator binary. 
 
- meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+If there is a  pointercal file (/etc/pointercal.xinput) defined for the device,
+xinput_calibrator use it. Otherwise, the startup script runs the calibrator
+and save the ‘xinput’ commands printed on stdout in the pointercal file.
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc
-index d8c8179..a815c50 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc
-@@ -21,7 +21,7 @@ PACKAGECONFIG ??= " \
-     ${PACKAGECONFIG_GL} \
-     ${@bb.utils.contains('DISTRO_FEATURES', 'bluetooth', 'bluez', '', d)} \
-     ${@bb.utils.contains('DISTRO_FEATURES', 'directfb', 'directfb', '', d)} \
--    ${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'wayland', '', d)} \
-+    ${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'wayland egl', '', d)} \
-     bz2 curl dash dtls hls neon rsvg sbc smoothstreaming sndfile uvch264 webp \
- "
- 
-@@ -32,6 +32,7 @@ PACKAGECONFIG[curl]            = "--enable-curl,--disable-curl,curl"
- PACKAGECONFIG[dash]            = "--enable-dash,--disable-dash,libxml2"
- PACKAGECONFIG[directfb]        = "--enable-directfb,--disable-directfb,directfb"
- PACKAGECONFIG[dtls]            = "--enable-dtls,--disable-dtls,openssl"
-+PACKAGECONFIG[egl]             = "--enable-egl,--disable-egl,virtual/egl"
- PACKAGECONFIG[faac]            = "--enable-faac,--disable-faac,faac"
- PACKAGECONFIG[faad]            = "--enable-faad,--disable-faad,faad2"
- PACKAGECONFIG[flite]           = "--enable-flite,--disable-flite,flite-alsa"
-@@ -58,7 +59,7 @@ PACKAGECONFIG[srtp]            = "--enable-srtp,--disable-srtp,libsrtp"
- PACKAGECONFIG[uvch264]         = "--enable-uvch264,--disable-uvch264,libusb1 libgudev"
- PACKAGECONFIG[voaacenc]        = "--enable-voaacenc,--disable-voaacenc,vo-aacenc"
- PACKAGECONFIG[voamrwbenc]      = "--enable-voamrwbenc,--disable-voamrwbenc,vo-amrwbenc"
--PACKAGECONFIG[wayland]         = "--enable-wayland --enable-egl,--disable-wayland --disable-egl,wayland-native wayland virtual/egl"
-+PACKAGECONFIG[wayland]         = "--enable-wayland,--disable-wayland,wayland-native wayland"
- PACKAGECONFIG[webp]            = "--enable-webp,--disable-webp,libwebp"
- 
- # these plugins have not been ported to 1.0 (yet):
--- 
-2.7.0
+https://github.com/tias/xinput_calibrator/wiki/Making-calibration-values-permanent
 
+Have tried a core-image-sato build with meta-fsl-arm for imx28evk to locate the
+obvious failures. Build was successful. 
+
+> It, along with a .bbappend in meta-fsl-arm, is giving me runtime
+> errors:
+>   Using calibration data stored in /etc/pointercal.xinput
+>   Invalid format 42060
+>   unable to find device EETI eGalax Touch Screen
+>   Warning: error parsing geometry string - using defaults.
+>   Using calibration data stored in /etc/pointercal.xinput
+>   Invalid format 42060
+>   unable to find device EETI eGalax Touch Screen
+>   Warning: error parsing geometry string - using defaults.
+
+Are you using this specific touch screen in your device? 
+
+Most probably, we should fix the pointercal.xinput file in meta-fsl-arm for the
+latest xinput_calibrator, for your machine. Please do file a bug.
+
+Best Regards,
+Maxin
 
