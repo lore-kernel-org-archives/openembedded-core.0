@@ -1,56 +1,30 @@
-Return-Path: <kristian.amlie@mender.io>
-Received: from mail-lf0-f53.google.com (mail-lf0-f53.google.com
-	[209.85.215.53])
-	by mail.openembedded.org (Postfix) with ESMTP id CE6837002B
+Return-Path: <adrian.ratiu@ni.com>
+Received: from ni.com (skprod2.natinst.com [130.164.80.23])
+	by mail.openembedded.org (Postfix) with ESMTP id 36F2460620
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Aug 2016 09:00:02 +0000 (UTC)
-Received: by mail-lf0-f53.google.com with SMTP id b199so96076651lfe.0
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Aug 2016 02:00:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=mender-io.20150623.gappssmtp.com; s=20150623;
-	h=subject:to:references:from:message-id:date:user-agent:mime-version
-	:in-reply-to:content-transfer-encoding;
-	bh=S7x2319/PT/MjoA5REXNKFBMqQUgNjBy/2Sfj72SB/0=;
-	b=XRorkz8UEw2w0c1z5bhurqux1Pm1YGCDViW6orw4jBMw0EqdKun5fql8izjPgHLIYR
-	ODSoSpwChxO+E/Mp6xUkjqcKjrqDtEwFHlGgWewCC1gcNvrhHieTFrE55HrOSps3WBgw
-	U5CVeDET7kJOZjffL2b543wR3Q9WN1mgse5g+DjfzaySRSJJAhnkCrHLv2m4tbDMqPlJ
-	zjCmQB25SkwnJGKNHwofCdJOdt36FcRJ5OBVUPmcIvAjdzjOJuZkRRm4PyrKrRKloN86
-	LAp3b3ldBtSTQfMCGkAGFJ9qxRCxHGMvIins5nFooC0Wiu3l47QNEO8gd7BycWngnoQ9
-	HN4w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:subject:to:references:from:message-id:date
-	:user-agent:mime-version:in-reply-to:content-transfer-encoding;
-	bh=S7x2319/PT/MjoA5REXNKFBMqQUgNjBy/2Sfj72SB/0=;
-	b=JQhGKKAGDvRs4XgybXAjJ6umSEdvOLRWSl+QdhNhC9lTQQjSF+yOZFN4u4v/MzZvow
-	UiNNpW3fbO/VP7bwoIoi7olLv1q3LSN3DTY0Hc9SJttOHGZenCuKyxfLf2+Dy4NR3BWj
-	hC/7GO+1b64mFm0/cmNIoorp3TDPlaw/gUY51BRu3qRKUc2xgY5kR6n6+1LZYwuE1k0K
-	hA/svgCQwkiYSbEQKUFAmCM64rTmgSDMKZH23SA+lvmepnxs5hcFduD6ah4IqGVUSGEO
-	j0A7GQlw4TvJ5lq393UaNNBJKL9SSoUGU+NEg0xAahFm3nlZMQ8AoU+tNh2rwg6NlO5t
-	FEpw==
-X-Gm-Message-State: AE9vXwN2YNMI5T9KDOSpYh8vdi9ToGYUtq3SJjWvQQvXt88v30oPrv6fiFfISHJ7+2eRyg==
-X-Received: by 10.25.215.35 with SMTP id o35mr5115106lfg.40.1472461202401;
-	Mon, 29 Aug 2016 02:00:02 -0700 (PDT)
-Received: from [10.25.0.170] ([195.159.140.90])
-	by smtp.googlemail.com with ESMTPSA id
-	g29sm6219772lji.45.2016.08.29.02.00.01
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 29 Aug 2016 02:00:01 -0700 (PDT)
-To: akuster808 <akuster808@gmail.com>, openembedded-core@lists.openembedded.org
-References: <1469001221-26502-1-git-send-email-kristian.amlie@mender.io>
-	<CAJTo0LbW8c7V=5vHXML8srwVgzacqGJp2o0M4OOReVE42DnW0g@mail.gmail.com>
-	<ddcae3ee-b5a1-c9b8-b53d-50a4001f3eeb@mender.io>
-	<CAJTo0LbauTnzYsW=fVkM5zG4BqsYShDhwr0=d5HNX=XPSi8zFw@mail.gmail.com>
-	<57B22C24.2070604@gmail.com>
-From: Kristian Amlie <kristian.amlie@mender.io>
-Message-ID: <750bf9cc-ef3d-1ec0-6a48-604d20d85772@mender.io>
-Date: Mon, 29 Aug 2016 11:00:01 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.2.0
-MIME-Version: 1.0
-In-Reply-To: <57B22C24.2070604@gmail.com>
-Subject: Re: [krogoth] systemd network service fails to start on boot
+	Mon, 29 Aug 2016 09:20:28 +0000 (UTC)
+Received: from us-aus-mgwout2.amer.corp.natinst.com (nb-snip2-1338.natinst.com
+	[130.164.19.135])
+	by us-aus-skprod2.natinst.com (8.15.0.59/8.15.0.59) with ESMTP id
+	u7T9KSFN004604; Mon, 29 Aug 2016 04:20:28 -0500
+Received: from adi-pc-linux.natinst.com ([130.164.14.198])
+	by us-aus-mgwout2.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6
+	HF1218) with ESMTP id 2016082904202808-258389 ;
+	Mon, 29 Aug 2016 04:20:28 -0500 
+From: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 29 Aug 2016 12:19:05 +0300
+Message-Id: <20160829091905.1068-1-adrian.ratiu@ni.com>
+X-Mailer: git-send-email 2.9.3
+X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut2/AUS/H/NIC(Release
+	8.5.3FP6 HF1218|December 12, 2014) at 08/29/2016 04:20:28 AM,
+	Serialize by Router on US-AUS-MGWOut2/AUS/H/NIC(Release 8.5.3FP6
+	HF1218|December 12, 2014) at 08/29/2016 04:20:28 AM,
+	Serialize complete at 08/29/2016 04:20:28 AM
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
+	definitions=2016-08-29_04:, , signatures=0
+Cc: yocto@yoctoproject.org
+Subject: [yocto-kernel-tools][PATCH] merge_configs.sh: fail loudly if make also fails
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -63,30 +37,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 29 Aug 2016 09:00:03 -0000
-Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 29 Aug 2016 09:20:30 -0000
 
-On 15/08/16 22:55, akuster808 wrote:
-> 
-> 
-> On 08/15/2016 02:24 AM, Burton, Ross wrote:
->> On 15 August 2016 at 07:38, Kristian Amlie <kristian.amlie@mender.io> wrote:
->>
->>> So, I did what you asked. Is there anything else missing?
->>>
->>
->> No, just wait for the krogoth maintainer to pick up the patches.
-> 
-> pulling to staging.
-> 
-> thanks armin
+merge_configs.sh calls make on the generated kernel config from
+the defconfig + fragments to fill in any missing symbols. make
+can fail and this can lead to nasty errors further on in the
+build like generating an unbootable kernel image.
 
-So, any idea when this will end up in the krogoth branch? I see the
-branch has moved forward, but this is still missing.
+Check the make return code and fail loudly if non-zero.
 
-Systemd has been broken on krogoth for over a month now...
+Signed-off-by: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
+---
+ tools/merge_config.sh | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
+diff --git a/tools/merge_config.sh b/tools/merge_config.sh
+index 67d1314..5212f37 100755
+--- a/tools/merge_config.sh
++++ b/tools/merge_config.sh
+@@ -152,7 +152,10 @@ fi
+ # alldefconfig: Fills in any missing symbols with Kconfig default
+ # allnoconfig: Fills in any missing symbols with # CONFIG_* is not set
+ make KCONFIG_ALLCONFIG=$TMP_FILE $OUTPUT_ARG $ALLTARGET
+-
++if [ "$?" -ne 0 ]; then
++    echo "Make failed to fill missing config symbols. Exit." >&2
++    exit 1
++fi
+ 
+ # Check all specified config values took (might have missed-dependency issues)
+ for CFG in $(sed -n "$SED_CONFIG_EXP" $TMP_FILE); do
 -- 
-Kristian
+2.9.3
+
 
