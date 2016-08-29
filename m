@@ -1,28 +1,25 @@
-Return-Path: <Mingli.Yu@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id A1A6B6E630
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+	by mail.openembedded.org (Postfix) with ESMTP id DE17C731AC
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Aug 2016 02:32:39 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u7T2WdD9018967
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 28 Aug 2016 19:32:39 -0700
-Received: from [128.224.163.140] (128.224.163.140) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.248.2;
-	Sun, 28 Aug 2016 19:32:38 -0700
-To: <openembedded-core@lists.openembedded.org>
-References: <1472436999-27335-1-git-send-email-mingli.yu@windriver.com>
-From: "Yu, Mingli" <mingli.yu@windriver.com>
-Message-ID: <57C39DE4.1090309@windriver.com>
-Date: Mon, 29 Aug 2016 10:28:52 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.4.0
-MIME-Version: 1.0
-In-Reply-To: <1472436999-27335-1-git-send-email-mingli.yu@windriver.com>
-X-Originating-IP: [128.224.163.140]
-Subject: Re: Review request 0/21: ltp: add libwww-perl-perl to RDEPENDS
+	Mon, 29 Aug 2016 07:30:00 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by fmsmga105.fm.intel.com with ESMTP; 29 Aug 2016 00:30:01 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.28,595,1464678000"; d="scan'208";a="754567556"
+Received: from aupadhy1-mobl4.gar.corp.intel.com (HELO
+	peggleto-mobl.ger.corp.intel.com) ([10.255.181.46])
+	by FMSMGA003.fm.intel.com with ESMTP; 29 Aug 2016 00:29:59 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 29 Aug 2016 19:27:59 +1200
+Message-Id: <9c568e925942778edeb8b3dfd7f2c3c470a7621f.1472455666.git.paul.eggleton@linux.intel.com>
+X-Mailer: git-send-email 2.5.5
+In-Reply-To: <cover.1472455666.git.paul.eggleton@linux.intel.com>
+References: <cover.1472455666.git.paul.eggleton@linux.intel.com>
+In-Reply-To: <cover.1472455666.git.paul.eggleton@linux.intel.com>
+References: <cover.1472455666.git.paul.eggleton@linux.intel.com>
+Subject: [PATCH 1/1] oe-selftest: devtool: fix test after recent change
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,81 +32,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 29 Aug 2016 02:32:39 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 29 Aug 2016 07:30:02 -0000
 
+OE-Core commit d3057cba0b01484712fcee3c52373c143608a436 fixed handling
+of wildcard bbappends, which means that this test's expectations about
+the bbappend file name are no longer met. devtool finish is meant to use
+wildcard bbappends so fix the test accordingly.
 
+Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+---
+ meta/lib/oeqa/selftest/devtool.py | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-On 2016年08月29日 10:16, mingli.yu@windriver.com wrote:
-> The series add libwww-perl-perl to RDEPENDS for ltp as
-> STPfailure_report.pl provided by ltp depends
-> on LWP/Simple.pm which is provided by libwww-perl-perl
->
-> Add new recipe libwww-perl-perl as lftp rdepends
-> on libwww-perl-perl
+diff --git a/meta/lib/oeqa/selftest/devtool.py b/meta/lib/oeqa/selftest/devtool.py
+index 08fe8df..e992dcf 100644
+--- a/meta/lib/oeqa/selftest/devtool.py
++++ b/meta/lib/oeqa/selftest/devtool.py
+@@ -1331,7 +1331,9 @@ class DevtoolTests(DevtoolBase):
+         result = runCmd('git status --porcelain .', cwd=recipedir)
+         if result.output.strip():
+             self.fail('Recipe directory for %s contains the following unexpected changes after finish:\n%s' % (recipe, result.output.strip()))
+-        appendfile = os.path.join(appenddir, os.path.splitext(os.path.basename(oldrecipefile))[0] + '.bbappend')
++        recipefn = os.path.splitext(os.path.basename(oldrecipefile))[0]
++        recipefn = recipefn.split('_')[0] + '_%'
++        appendfile = os.path.join(appenddir, recipefn + '.bbappend')
+         self.assertTrue(os.path.exists(appendfile), 'bbappend %s should have been created but wasn\'t' % appendfile)
+         newdir = os.path.join(appenddir, recipe)
+         files = os.listdir(newdir)
+-- 
+2.5.5
 
-Sorry for the typo, s/lftp/ltp/
-
-Thanks,
-Grace
-
->
-> Add encode-locale-perl recipe as libwww-perl-perl
-> rdepends on encode-locale-perl
->
-> Add new recipe file-listing-perl as libwww-perl-perl
-> rdepends on file-listing-perl
->
-> Add new recipe html-parser-perl as libwww-perl-perl
-> rdepends on html-parser-perl
->
-> Add new recipe http-cookies-perl as libwww-perl-perl
-> rdepends on http-cookies-perl
->
-> Add new recipe http-daemon-perl as libwww-perl-perl
-> rdepends on http-daemon-perl
->
-> Add new recipe http-date-perl as libwww-perl-perl
-> rdepends on http-date-perl
->
-> Add new recipe http-message-perl as libwww-perl-perl
-> rdepends on http-message-perl
->
-> Add new recipe http-negotiate-perl as libwww-perl-perl
-> rdepends on http-negotiate-perl
->
-> Add new recipe lwp-mediatypes-perl as libwww-perl-perl
-> rdepends on lwp-mediatypes-perl
->
-> Add new recipe net-http-perl as libwww-perl-perl
-> rdepends on net-http-perl
->
-> Add new recipe uri-perl as libwww-perl-perl
-> rdepends on uri-perl
->
-> Add new recipe www-robotrules-perl as libwww-perl-perl
-> rdepends on www-robotrules-perl
->
-> Add new recipe io-html-perl as http-message-perl
-> rdepends on io-html-perl
->
-> Add new recipe io-compress-perl as net-http-perl
-> rdepends on io-compress-perl
->
-> Add new recipe io-socket-ssl-perl as net-http-perl
-> rdepends on io-socket-ssl-perl
->
-> Add new recipe html-tagset-perl as html-parser-perl
-> rdepends on html-tagset-perl
->
-> Add new recipe compress-raw-bzip2-perl as io-compress-perl
-> rdepends on compress-raw-bzip2-perl
->
-> Add new recipe compress-raw-zlib-perl as io-compress-perl
-> rdepends on compress-raw-zlib-perl
->
-> Add new recipe net-ssleay-perl as io-socket-ssl-perl
-> rdepends on net-ssleay-perl
->
 
