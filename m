@@ -1,40 +1,40 @@
 Return-Path: <andre.draszik@gmail.com>
 Received: from mail-wm0-f66.google.com (mail-wm0-f66.google.com [74.125.82.66])
-	by mail.openembedded.org (Postfix) with ESMTP id D890D6FEFA
+	by mail.openembedded.org (Postfix) with ESMTP id 740946FEFA
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Aug 2016 11:55:15 +0000 (UTC)
-Received: by mail-wm0-f66.google.com with SMTP id o80so9223937wme.0
+	Mon, 29 Aug 2016 11:55:16 +0000 (UTC)
+Received: by mail-wm0-f66.google.com with SMTP id i5so9199211wmg.2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Aug 2016 04:55:16 -0700 (PDT)
+	Mon, 29 Aug 2016 04:55:17 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=MTNr13NQ8XBDC8eCKo08wGwEo+kfxFGhi0X7zLEusiI=;
-	b=UGiHnped96G5eqeWj2BZzD+5Ah9J7TSTp/njqYVO2uEjOAW3kM5TJh3yKkE7FXPlVW
-	/Iwxw2WCR4+Pk8ZN3pabTJk6A5EV/8N6WUIpTbivtlN82QMrpbsh6Kc8zmCtCxI0zj6Q
-	yhdptWuR+mq78oi94VvhEPitVNWXfSIbhj1dkag6QAhAvrTawjj0692ZPwRGz8t+O+E/
-	IFqG3CKPa744zBvIoM2jHVnD8W5YGR8DqCDbLsZBsmt0u9d9WhU1kTsGuMUEe9hKe6IW
-	nMcYfgff1oJLqPCyytddqV5YFft6HrgfzonCaie6CJ4ZpzBY1bivPqs94nL6E5RKmFdX
-	sDOg==
-X-Gm-Message-State: AE9vXwMHXicWwc617MZf66zuHsB7DCgEoWN5lP0kNyIontQEXp1EHrUgOH4cFocsXUioNw==
-X-Received: by 10.28.29.215 with SMTP id d206mr9730206wmd.75.1472471715325;
-	Mon, 29 Aug 2016 04:55:15 -0700 (PDT)
+	bh=wPWxb+X3UAr1yeNqpQLavMI6SldR4Ro2b+SrYwhN6pA=;
+	b=dBNmDqwFHNHWPIhaw69lK81qtsZnGXsb1kSlvNBCvyN0S9N9+25MDtNrsEUOjedDRu
+	hJzoi1LBCTmkU1wvrNsKiepp3PJUQwwjAU5ZAtNRfz56+USRr20iNEM7i0naPJ6/gdwe
+	LQAY3xy3yoZ/BhM+vc0MN6B6nVT41zRvDP6JkZCtX4XVqzidXZ4JbyiSJsoABCCIdEvJ
+	QfVUuLNAcv5eUl6Ql8UmQTq+fg8rR1RetRWKTaR03PR3FZZk9r4glsEzxxDGcgJCDA3q
+	q17hAtX66+HSjz51fX/8ZZbiM0d5QEFh+M2uOTQlfaMnjjZP+777XOKz1je/0fAnZbSX
+	iFtw==
+X-Gm-Message-State: AE9vXwPptX/55aHoroPuM10KJQ2ktP2iunWKxaHbx5ktiX9jJU/2Dl30ayT/70YTdq1I3Q==
+X-Received: by 10.28.126.75 with SMTP id z72mr10495550wmc.74.1472471716592;
+	Mon, 29 Aug 2016 04:55:16 -0700 (PDT)
 Received: from tfsielt31850.tycofs.com ([77.107.218.170])
-	by smtp.gmail.com with ESMTPSA id o5sm9137789wmg.16.2016.08.29.04.55.14
+	by smtp.gmail.com with ESMTPSA id o5sm9137789wmg.16.2016.08.29.04.55.15
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 29 Aug 2016 04:55:14 -0700 (PDT)
+	Mon, 29 Aug 2016 04:55:15 -0700 (PDT)
 From: =?UTF-8?q?Andr=C3=A9=20Draszik?= <git@andred.net>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 29 Aug 2016 12:55:08 +0100
-Message-Id: <20160829115510.19560-2-git@andred.net>
+Date: Mon, 29 Aug 2016 12:55:09 +0100
+Message-Id: <20160829115510.19560-3-git@andred.net>
 X-Mailer: git-send-email 2.9.3
 In-Reply-To: <20160829115510.19560-1-git@andred.net>
 References: <20160829110341.13100-1-git@andred.net>
 	<20160829115510.19560-1-git@andred.net>
 MIME-Version: 1.0
-Subject: [PATCH v2 1/3] boost: fix a musl compilation warning
+Subject: [PATCH v2 2/3] boost: fix compilation using soft float toolchains
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,74 +51,105 @@ X-List-Received-Date: Mon, 29 Aug 2016 11:55:16 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
+In particular mips*-nf
+
 Signed-off-by: André Draszik <git@andred.net>
 ---
- ...detail-socket_types.hpp-fix-poll.h-includ.patch | 46 ++++++++++++++++++++++
+ .../boost/0002-config-gcc-BOOST_NO_FENV_H.patch    | 75 ++++++++++++++++++++++
  meta/recipes-support/boost/boost_1.61.0.bb         |  1 +
- 2 files changed, 47 insertions(+)
- create mode 100644 meta/recipes-support/boost/boost/0001-boost-asio-detail-socket_types.hpp-fix-poll.h-includ.patch
+ 2 files changed, 76 insertions(+)
+ create mode 100644 meta/recipes-support/boost/boost/0002-config-gcc-BOOST_NO_FENV_H.patch
 
-diff --git a/meta/recipes-support/boost/boost/0001-boost-asio-detail-socket_types.hpp-fix-poll.h-includ.patch b/meta/recipes-support/boost/boost/0001-boost-asio-detail-socket_types.hpp-fix-poll.h-includ.patch
+diff --git a/meta/recipes-support/boost/boost/0002-config-gcc-BOOST_NO_FENV_H.patch b/meta/recipes-support/boost/boost/0002-config-gcc-BOOST_NO_FENV_H.patch
 new file mode 100644
-index 0000000..0e3f005
+index 0000000..55a0c07
 --- /dev/null
-+++ b/meta/recipes-support/boost/boost/0001-boost-asio-detail-socket_types.hpp-fix-poll.h-includ.patch
-@@ -0,0 +1,46 @@
-+From 40192301130dcd913aa6d9cb9dba9e5f8dbd9d16 Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-support/boost/boost/0002-config-gcc-BOOST_NO_FENV_H.patch
+@@ -0,0 +1,75 @@
++From c97b70d96b63ec116a486e3b599dd505d13f5478 Mon Sep 17 00:00:00 2001
 +From: =?UTF-8?q?Andr=C3=A9=20Draszik?= <adraszik@tycoint.com>
-+Date: Wed, 24 Aug 2016 21:01:43 +0100
-+Subject: [PATCH 1/3] use POSIX poll.h instead of sys/poll.h
++Date: Wed, 24 Aug 2016 20:58:59 +0100
++Subject: [PATCH 2/3] config: gcc: #define BOOST_NO_FENV_H on FPU-less arches
 +
-+POSIX specifies that <poll.h> is the correct header to
-+include for poll()
-+  http://pubs.opengroup.org/onlinepubs/009695399/functions/poll.html
-+whereas <sys/poll.h> is only needed for ancient glibc (<2.3),
-+so let's follow POSIX instead.
++gcc.compile.c++ <builddir>/boost/bin.v2/libs/test/build/gcc-4.3.1/release/threading-multi/execution_monitor.o
 +
-+As a side-effect, this silences a warning when compiling
-+against the musl C-library:
++    "mipsel-poky-linux-musl-g++" "-mel" "-mabi=32" "-msoft-float" "-march=mips32r2" "-mips16" "-minterlink-compressed" "-mtune=24kec" "-mdsp" "-Wl,-O1" "-Wl,--as-needed" "-fstack-protector-strong" "-Wl,-z,relro,-z,now" "--sysroot=<sysroot>"  -ftemplate-depth-128 -O2 -pipe -g -feliminate-unused-debug-types -fdebug-prefix-map=<srcdir>=/usr/src/debug/boost/1.61.0-r0 -fdebug-prefix-map=<sysroot_host>= -fdebug-prefix-map=<sysroot>= -fstack-protector-strong -pie -fpie -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -fvisibility-inlines-hidden -O3 -finline-functions -Wno-inline -Wall -pedantic -pthread -fPIC -Wno-variadic-macros -DBOOST_ALL_NO_LIB=1 -DBOOST_CHRONO_DYN_LINK=1 -DBOOST_SYSTEM_DYN_LINK=1 -DBOOST_SYSTEM_NO_DEPRECATED -DBOOST_TEST_DYN_LINK=1 -DBOOST_TIMER_DYN_LINK=1 -DNDEBUG  -I"." -c -o "<builddir>/boost/bin.v2/libs/test/build/gcc-4.3.1/release/threading-multi/execution_monitor.o" "libs/test/src/execution_monitor.cpp"
 +
-+In file included from ./boost/asio/detail/socket_types.hpp:61:0,
-+                 from ./boost/asio/ip/address_v4.hpp:21,
-+                 from ./boost/asio/ip/address.hpp:21,
-+                 from libs/log/src/init_from_settings.cpp:65:
-+<sysroot>/usr/include/sys/poll.h:1:2: warning: #warning redirecting incorrect #include <sys/poll.h> to <poll.h> [-Wcpp]
-+ #warning redirecting incorrect #include <sys/poll.h> to <poll.h>
-+  ^~~~~~~
++In file included from ./boost/test/impl/execution_monitor.ipp:31:0,
++                 from libs/test/src/execution_monitor.cpp:16:
++./boost/test/execution_monitor.hpp:491:27: error: 'FE_DIVBYZERO' was not declared in this scope
++     BOOST_FPE_DIVBYZERO = FE_DIVBYZERO,
++                           ^~~~~~~~~~~~
++./boost/test/execution_monitor.hpp:492:27: error: 'FE_INEXACT' was not declared in this scope
++     BOOST_FPE_INEXACT   = FE_INEXACT,
++                           ^~~~~~~~~~
++./boost/test/execution_monitor.hpp:493:27: error: 'FE_INVALID' was not declared in this scope
++     BOOST_FPE_INVALID   = FE_INVALID,
++                           ^~~~~~~~~~
++./boost/test/execution_monitor.hpp:494:27: error: 'FE_OVERFLOW' was not declared in this scope
++     BOOST_FPE_OVERFLOW  = FE_OVERFLOW,
++                           ^~~~~~~~~~~
++./boost/test/execution_monitor.hpp:495:27: error: 'FE_UNDERFLOW' was not declared in this scope
++     BOOST_FPE_UNDERFLOW = FE_UNDERFLOW,
++                           ^~~~~~~~~~~~
 +
-+etc.
++The reason is that some (notably FPU-less) architectures,
++including mips*-nf, don't define/implement some of the
++floating point constants, even though fenv.h is
++available.
++
++At least on MIPS, while FE_ALL_EXCEPT is #define'd, its
++value is 0.
++
++A similar problem exists on FPU-less ARM machines.
++
++  https://svn.boost.org/trac/boost/ticket/11756
++
++Other projects have similar issues, e.g. pixman, and
++apply similar work-arounds:
++  https://lists.freedesktop.org/archives/pixman/2014-February/003172.html
 +
 +Signed-off-by: André Draszik <adraszik@tycoint.com>
 +---
-+Upstream-Status: Submitted https://svn.boost.org/trac/boost/ticket/12419
-+ boost/asio/detail/socket_types.hpp | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
++Upstream-Status: Submitted https://svn.boost.org/trac/boost/ticket/11756
++ boost/config/compiler/gcc.hpp | 18 ++++++++++++++++++
++ 1 file changed, 18 insertions(+)
 +
-+diff --git a/boost/asio/detail/socket_types.hpp b/boost/asio/detail/socket_types.hpp
-+index e8c7109..7e65d3c 100644
-+--- a/boost/asio/detail/socket_types.hpp
-++++ b/boost/asio/detail/socket_types.hpp
-+@@ -58,7 +58,7 @@
-+ #else
-+ # include <sys/ioctl.h>
-+ # if !defined(__SYMBIAN32__)
-+-#  include <sys/poll.h>
-++#  include <poll.h>
-+ # endif
-+ # include <sys/types.h>
-+ # include <sys/stat.h>
++diff --git a/boost/config/compiler/gcc.hpp b/boost/config/compiler/gcc.hpp
++index fbd3dd9..7c4fd06 100644
++--- a/boost/config/compiler/gcc.hpp
+++++ b/boost/config/compiler/gcc.hpp
++@@ -262,6 +262,18 @@
++ #  define BOOST_NO_CXX14_BINARY_LITERALS
++ #endif
++ 
+++// C++11 floating-point environment
+++#if !defined(BOOST_NO_FENV_H)
+++   // Some (notably FPU-less) architectures,
+++   // including mips*-nf, don't define/implement some of
+++   // the floating point constants, even though fenv.h
+++   // is available.
+++#  include <bits/fenv.h>
+++#  if !defined(FE_ALL_EXCEPT) || (FE_ALL_EXCEPT == 0)
+++#    define BOOST_NO_FENV_H
+++#  endif
+++#endif
+++
++ // C++14 features in 4.9.0 and later
++ //
++ #if (BOOST_GCC_VERSION < 40900) || (__cplusplus < 201300)
 +-- 
 +2.9.3
 +
 diff --git a/meta/recipes-support/boost/boost_1.61.0.bb b/meta/recipes-support/boost/boost_1.61.0.bb
-index 1116444..41ff203 100644
+index 41ff203..294703a 100644
 --- a/meta/recipes-support/boost/boost_1.61.0.bb
 +++ b/meta/recipes-support/boost/boost_1.61.0.bb
-@@ -5,4 +5,5 @@ SRC_URI += "\
-     file://arm-intrinsics.patch \
+@@ -6,4 +6,5 @@ SRC_URI += "\
      file://consider-hardfp.patch \
      file://boost-CVE-2012-2677.patch \
-+    file://0001-boost-asio-detail-socket_types.hpp-fix-poll.h-includ.patch \
+     file://0001-boost-asio-detail-socket_types.hpp-fix-poll.h-includ.patch \
++    file://0002-config-gcc-BOOST_NO_FENV_H.patch \
  "
 -- 
 2.9.3
