@@ -1,42 +1,48 @@
-Return-Path: <andre.draszik@gmail.com>
+Return-Path: <martin.jansa@gmail.com>
 Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 7BC006010D
+	by mail.openembedded.org (Postfix) with ESMTP id 484266057A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Aug 2016 14:19:27 +0000 (UTC)
-Received: by mail-wm0-f68.google.com with SMTP id i138so3380949wmf.3
+	Tue, 30 Aug 2016 14:20:00 +0000 (UTC)
+Received: by mail-wm0-f68.google.com with SMTP id i138so3383131wmf.3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Aug 2016 07:19:28 -0700 (PDT)
+	Tue, 30 Aug 2016 07:20:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=kDGY2awzLaeVN0kpWS8wJUh3Nst7yYCHSijAyE+Y8Bw=;
+	b=kQrXmcjcuVVOgHYyylWQkUzHMe/nNHUvG8oGG2u36gUqitlhs+5pHbJX0xzMUWqvSF
+	l1VBDuoHdwPd23G9w3qDdvU6ev6XJyYJxGEeexElRzyVi2idkWrJB/1p2dej+KpcO7Gt
+	JjdgD+DSLdHKOna7tmxw4tXXaiGkTXKiBju9etc640CqXVKxbFAYepamz5OyBmJKE7mC
+	H6e8A5NlCiflCsuDJJnYsRUuyQRuLgKTrwEzODz/MhBaoc2L9OsCWoFueH+U5H/eGe29
+	YttCXcJ9WMDtW9FMj9bXAdintCPkJivui+7z54V7kPuRWSbQU/GR9S1k2AIhV/AjXDVi
+	9ZuA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=xDxO6MlEcbHCvpgFazcNfzEVNFTX81N4IoehDs1QYlA=;
-	b=UiJZictEv+F7KKuOp0FsxzyOziyibMiAG5OTQrRNOjl7LeNIOF9tlOIEwwPrxXMMsx
-	DPu3mtGCOjzNReSOKzuPKzF/+O7fi8BWUpvDG57oT9LC2o43JbCen9RlPeNAuWKGS8+3
-	++ZS0nsN2a1zThOGi+VNOLoNL771uKKhCM66JdKbdB9yzNdBB9saai3JruIP5KR/F7kT
-	c/ZdzW3UmjmgCcXgQ0Y8UFg8GX4yoUl/272PJEJn2eQyNvSQvDbExh6km05aR2i2uPT7
-	WVnIgq781bWcD4RN0tt5+zxAHJHliiSBsqmjgKgv+jYkuxD6VVO8Zlc7tbQ0kr3xsLLp
-	Szdw==
-X-Gm-Message-State: AE9vXwPfzNf9nLp3eCaNzt04PtXteOvZJV52qcIDdlZV3+KoiqXMam0mOjxK4QYUJcvCAA==
-X-Received: by 10.28.107.144 with SMTP id a16mr3935796wmi.75.1472566768004;
-	Tue, 30 Aug 2016 07:19:28 -0700 (PDT)
-Received: from localhost ([185.46.212.59]) by smtp.gmail.com with ESMTPSA id
-	e5sm18928814wma.13.2016.08.30.07.19.26
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Tue, 30 Aug 2016 07:19:27 -0700 (PDT)
-Message-ID: <1472566766.8449.29.camel@andred.net>
-From: =?ISO-8859-1?Q?Andr=E9?= Draszik <git@andred.net>
-To: Bruce Ashfield <bruce.ashfield@windriver.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Tue, 30 Aug 2016 15:19:26 +0100
-In-Reply-To: <94a7387f-cc88-2e7f-21b6-57970dfdbb04@windriver.com>
-References: <cover.1471281772.git.bruce@zedd.org>
-	<ff62fe65ad3bae260ec0951caddf428632ef35de.1471281772.git.bruce@zedd.org>
-	<1472547914.8449.25.camel@andred.net>
-	<94a7387f-cc88-2e7f-21b6-57970dfdbb04@windriver.com>
-X-Mailer: Evolution 3.20.5-1 
-Mime-Version: 1.0
-Subject: Re: [PATCH 5/6] kernel-yocto: streamline patch, configuration and audit phases
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=kDGY2awzLaeVN0kpWS8wJUh3Nst7yYCHSijAyE+Y8Bw=;
+	b=PBpH5+0l2Lk49DlZ5OuwRfRndy51SuMTn1TtmgBFWV4q3+9UchQOZ3t6vfjRQ502T5
+	tPfFOSqDHIbqNTBFhUf2VlztcXlYPZNfyX++bP7IHevHcFUofSiAHpnmFnKXjmgafM2l
+	jnMmt3P5SP4Fe/PPDqFAQtnJs9igtVR76cO9JYnApaqjq48Z9pBLM2SK0rtui69X0Ofj
+	XtyZYC153uy42mLlfkuMFNyeEHdbM0QoADu2oTbuGRbYSAFs+dIOXaq9qf1z6mxxTXfo
+	KeMkF+IL/9mda59pnRVYflsUmhv5OFxcwtk4pnK71YxgMrnJUuFcXt9FffUKV2dohNvm
+	G2Sg==
+X-Gm-Message-State: AE9vXwOX6cx0QVwByjckRcNNeMYnSce9C4R1QI61esu3HG8CxmTnjehl3CyHxXy7mLMrTw==
+X-Received: by 10.28.129.145 with SMTP id c139mr4218099wmd.102.1472566800737; 
+	Tue, 30 Aug 2016 07:20:00 -0700 (PDT)
+Received: from localhost (ip-89-176-104-169.net.upcbroadband.cz.
+	[89.176.104.169]) by smtp.gmail.com with ESMTPSA id
+	kq2sm39772875wjc.41.2016.08.30.07.19.59
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 30 Aug 2016 07:19:59 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 30 Aug 2016 16:19:58 +0200
+Message-Id: <20160830141958.13775-1-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 2.9.2
+In-Reply-To: <20160823131840.dkxlcyn3rrfe35cu@jama>
+References: <20160823131840.dkxlcyn3rrfe35cu@jama>
+Subject: [PATCH] base, autotools: Append PACKAGECONFIG_CONFARGS to EXTRA_OECONF only in autotools.bbclass
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,45 +55,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 30 Aug 2016 14:19:30 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 30 Aug 2016 14:20:00 -0000
 
-On Di, 2016-08-30 at 09:05 -0400, Bruce Ashfield wrote:
-> On 2016-08-30 05:05 AM, André Draszik wrote:
-> > 
-> > My kmeta stuff is located directly inside two meta-* layers (i.e. not in
-> > an
-> > extra git repo), where the 2nd layer's kernel recipes .bbappends to the
-> > 1st
-> > one with additional kmeta things.
-> > 
-> > This used to work fine, but since this commit it doesn't anymore as only
-> > the
-> > kmeta stuff from the 2nd layer is being copied into workdir.
-> > 
-> > Have I been doing something that wasn't guaranteed / supposed to work in
-> > the
-> > first place? Or should that still work? Is it worth fixing or should I
-> > rethink my approach?
-> 
-> That was complexity that I had tried to remove, but thinking on it a
-> bit, I think I can restore that without adding much complexity.
-> 
-> I'm just finishing work on the 4.8 kernel today, and can look at this
-> tomorrow.
+* recipes which don't inherit autotools or cmake bbclass and want to
+  use the configure options from PACKAGECONFIG need to handle
+  PACKAGECONFIG_CONFARGS themselves.
 
-Thank you Bruce!
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+---
+ meta/classes/autotools.bbclass | 2 ++
+ meta/classes/base.bbclass      | 6 ------
+ 2 files changed, 2 insertions(+), 6 deletions(-)
 
-> Do you have any public layers that I can reference to pull together a
-> test case ?
-
-Unfortunately not :-(
-
-But I'm happy to test and report back!
-
-
-Cheers,
-Andre'
+diff --git a/meta/classes/autotools.bbclass b/meta/classes/autotools.bbclass
+index 076899c..47a0190 100644
+--- a/meta/classes/autotools.bbclass
++++ b/meta/classes/autotools.bbclass
+@@ -131,6 +131,8 @@ autotools_postconfigure(){
+ 
+ EXTRACONFFUNCS ??= ""
+ 
++EXTRA_OECONF_append = " ${PACKAGECONFIG_CONFARGS}"
++
+ do_configure[prefuncs] += "autotools_preconfigure autotools_copy_aclocals ${EXTRACONFFUNCS}"
+ do_configure[postfuncs] += "autotools_postconfigure"
+ 
+diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
+index 79edfe5..a31a53f 100644
+--- a/meta/classes/base.bbclass
++++ b/meta/classes/base.bbclass
+@@ -431,12 +431,6 @@ python () {
+         appendVar('RDEPENDS_${PN}', extrardeps)
+         appendVar('PACKAGECONFIG_CONFARGS', extraconf)
+ 
+-        # TODO: once all recipes/classes abusing EXTRA_OECONF
+-        # to get PACKAGECONFIG options are fixed to use PACKAGECONFIG_CONFARGS
+-        # move this appendVar to autotools.bbclass.
+-        if not bb.data.inherits_class('cmake', d):
+-            appendVar('EXTRA_OECONF', extraconf)
+-
+     pn = d.getVar('PN', True)
+     license = d.getVar('LICENSE', True)
+     if license == "INVALID":
+-- 
+2.9.2
 
 
