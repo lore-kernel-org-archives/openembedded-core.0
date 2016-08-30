@@ -1,64 +1,46 @@
-Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-ua0-f182.google.com (mail-ua0-f182.google.com
-	[209.85.217.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 32F1F6011C
+Return-Path: <ricardo.ribalda@gmail.com>
+Received: from mail-wm0-f46.google.com (mail-wm0-f46.google.com [74.125.82.46])
+	by mail.openembedded.org (Postfix) with ESMTP id 4F9436011C
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Aug 2016 13:36:30 +0000 (UTC)
-Received: by mail-ua0-f182.google.com with SMTP id l94so32715566ual.0
+	Tue, 30 Aug 2016 13:37:52 +0000 (UTC)
+Received: by mail-wm0-f46.google.com with SMTP id o80so36434073wme.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Aug 2016 06:36:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
-	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
-	:cc; bh=4F9Ykm4J0I8P3ov5Mk0RLagCZGsCFqa2HtbLcMOS5Rs=;
-	b=VpgKJJMdzHpaD4puxkCoZm5A+GKOTaHyr477ZVpxEpSwYxXJSgX16f9OUZlURfDglu
-	B8sA6nhSkaz6BlZWquCKGBV6yVN4LZrrGJtspzL8Gtij5D4H+WIeDTlF0dCUzqRCVqfQ
-	ON4w1oqz03wfzypMtxx2G8Kqr2qM+5FDkrRWW1vsauDeT+36KJ5RfbnmI40p3lyiHS1V
-	2lPYJ/CRHkZrAe9cDldD7kvdkKK07FTd7A7ZnqQYTRFMtjqQHeNG2Ioa3fEY1he4ET54
-	nRJFpFuaBxrWZlCVH2wEqsbQmS995suddHixYAOY618JgWKHEFjJ2Z57seTrPo5DHAxx
-	8Aow==
+	Tue, 30 Aug 2016 06:37:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=tjYiAFaoiN6FcjaVSWQhiBup2f6Z4piOu6IwS/LYF5Y=;
+	b=xp50mUys5yI4cDOmI4bcjcI/G3bA8OMtBXknu0vy5HRuopEl41mHbhivTLJgqkDRQv
+	GKc8D10IkTLpRK4R6hcqnFbpLbv8zEq5wnikPozkFm9JjdF8K2uwjqOmBMymFRBso1Fl
+	ySc1ox6tbHUnlqokvknYQAIu3PvnvIckkgPBqa9Oh1bZSV74qn/xEh1+F0LCDlmohTN+
+	ptgO/jXNEWPMDqUf9PusY88Pas82BysEVx1MTR2UoY4jWQwg235Qa02lhDgfQln+RYmV
+	ClbRzvYvQ3odAaSJvJO7VDAjKtzxz9IyLy5/J6mPdfBhzk67F2weKf0s5xoimXxGd+x5
+	Wlhw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=4F9Ykm4J0I8P3ov5Mk0RLagCZGsCFqa2HtbLcMOS5Rs=;
-	b=ELSAgV8AWCKQtubLUOOR1ayo+zgyJcT0YwlEJewatzRP9LsfkedSnJWQne1OhAwicy
-	MA5PTpWG0O0lSPTLCYViHz3u6uOBQim26xJG5qitLPNE7Bga4Ozx+BPWKwl5f15X8E/N
-	GvdxaZRRk3GXVtqtGBucQ3ASrDt9vWzsvIDhCXO+qI6kJUwKyDfsDSvJD3xwK07upIvr
-	Z1diCzTcxNM/2x9FkMW3Plx4PE+/3KaI/YJTeUcj9zKF37/prWr/t9d6q0aswJx1nMfI
-	FXTcm68rzeWjAI0kDY0n4bIetv69s3Mo/ga0O1CN1kqHQwACohjp58C1zBEhYg7yNzfC
-	znWw==
-X-Gm-Message-State: AE9vXwMw8mv1cLFVzK1ji4OTqrdpALAWNVFlbGWuje8OpbVO9A8L2rB/xEvtiKD1UOjIyg==
-X-Received: by 10.31.87.194 with SMTP id l185mr2149801vkb.32.1472564190515;
-	Tue, 30 Aug 2016 06:36:30 -0700 (PDT)
-Received: from mail-ua0-f174.google.com (mail-ua0-f174.google.com.
-	[209.85.217.174])
-	by smtp.gmail.com with ESMTPSA id 2sm8294521uay.14.2016.08.30.06.36.28
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 30 Aug 2016 06:36:28 -0700 (PDT)
-From: Otavio Salvador <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by mail-ua0-f174.google.com with SMTP id l94so32713007ual.0
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Aug 2016 06:36:28 -0700 (PDT)
-X-Received: by 10.31.94.73 with SMTP id s70mr2088018vkb.78.1472564188444; Tue,
-	30 Aug 2016 06:36:28 -0700 (PDT)
+	bh=tjYiAFaoiN6FcjaVSWQhiBup2f6Z4piOu6IwS/LYF5Y=;
+	b=HZ99Pt1zIw1kYG5QjXbmadq4q3TYUl5yTbkgzMJxTTA+mPp0NaKYaH/8C589pWSQMk
+	6glV6/rmX+C4r/x3HaIRywKIzvxijKlTnnyfUSvSTkTC5Z/CrvESpnaYyue7LWDXAwFl
+	Fy9o8M33vlytgVOqteP2oiEkXU1g0AlpAlnfjTBgOnFLxCF50vPhg+hJxhxCP3mRazzg
+	B1VSwd3lhS/uA7kSjTiQD//JUE0vkrMNtgU/2Mz/SmGwbB9uMqWeeMXMMUCcv666Ena5
+	GoFJISGMrpeRvmBBiEG+tcHR3QEkzkfcymUxoUys2iI2o23tmKIeiJFckMZeMpxntkKs
+	17Sw==
+X-Gm-Message-State: AE9vXwNvayrqZWgoXs7Vm5CEABPRiVpOsHxksPlDukR1ehYp8LZntIglU+oMfDxU/MZjRcuxAOKU55H4g47u7w==
+X-Received: by 10.28.131.208 with SMTP id f199mr3785635wmd.116.1472564273254; 
+	Tue, 30 Aug 2016 06:37:53 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.31.154.68 with HTTP; Tue, 30 Aug 2016 06:36:27 -0700 (PDT)
-In-Reply-To: <20160830112159.GB3482@linux.intel.com>
-References: <cover.1472548574.git.ed.bartosh@linux.intel.com>
-	<CAP9ODKrOOs2ofhCzxdV0ZCULDCO9r2RgKZpcNxhH_fe56so0PA@mail.gmail.com>
-	<20160830103536.GA3482@linux.intel.com>
-	<CAP9ODKqrhofQDSL9zfhJC6HFKbk0bxnDhoaaqbn6ooj-0jqX8Q@mail.gmail.com>
-	<20160830112159.GB3482@linux.intel.com>
-Date: Tue, 30 Aug 2016 10:36:27 -0300
-X-Gmail-Original-Message-ID: <CAP9ODKoB8emv-7Hb06+mS3tXwaWN4Zpekf0hyt02iu1x1ZpjnA@mail.gmail.com>
-Message-ID: <CAP9ODKoB8emv-7Hb06+mS3tXwaWN4Zpekf0hyt02iu1x1ZpjnA@mail.gmail.com>
-To: Ed Bartosh <ed.bartosh@linux.intel.com>
+Received: by 10.28.139.148 with HTTP; Tue, 30 Aug 2016 06:37:32 -0700 (PDT)
+In-Reply-To: <CAAPZna3477dZ6jJDGSuJWMjJX14cUDTtKxzOmpnOm-OZ6smszQ@mail.gmail.com>
+References: <20160826153054.27316-1-ricardo.ribalda@gmail.com>
+	<CAAPZna3477dZ6jJDGSuJWMjJX14cUDTtKxzOmpnOm-OZ6smszQ@mail.gmail.com>
+From: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
+Date: Tue, 30 Aug 2016 15:37:32 +0200
+Message-ID: <CAPybu_37jJw6-drnv3vGa6sHraKynB_dHbAmVBwz0BhUWUNDRA@mail.gmail.com>
+To: Fabio Berton <fabio.berton@ossystems.com.br>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 00/18] Provide list of deployment artifacts
+Subject: Re: [PATCH v2] python-3.5-manifest.inc: the core module RDEPENDS on misc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -71,17 +53,13 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 30 Aug 2016 13:36:31 -0000
+X-List-Received-Date: Tue, 30 Aug 2016 13:37:53 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On Tue, Aug 30, 2016 at 8:21 AM, Ed Bartosh <ed.bartosh@linux.intel.com> wrote:
->> So it is always going to be skipped?
-> Yes it is for do_image_complete and do_populate_sdk tasks for now.
+Hi Fabio
 
-Oh ok.
+Thanks for your the reply. Yes I was using krogoth. There is no need
+for my patch in master.
 
--- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+Thanks for your help!
 
