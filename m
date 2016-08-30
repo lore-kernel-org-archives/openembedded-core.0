@@ -1,50 +1,31 @@
-Return-Path: <schnitzeltony@googlemail.com>
-Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
-	by mail.openembedded.org (Postfix) with ESMTP id C316660620
+Return-Path: <Bruce.Ashfield@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 95926606D0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Aug 2016 17:14:30 +0000 (UTC)
-Received: by mail-wm0-f68.google.com with SMTP id i138so4038212wmf.3
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Aug 2016 10:14:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=googlemail.com; s=20120113;
-	h=from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=P5boaUCBAXj0bkQovB4zV3WAzBRld48FVyso6KNCJlY=;
-	b=hGXSOgbjqZsFuaC/ob1whuLYCnDg8fSdgC67NGWlMqawmZHFNAnpTQbCLTX1C3JJyb
-	OaTr6Xvq4BMxQlc40K9BUXfu4jkSC6ZmWigM1tb/YWtLmI9m7FYtMu71Iq+TsbWmJHm4
-	gMuj5mT1zCFJzo20EnuhpDnWI20ghMNoHioI32dDKlCZ2exfRDvRMeESIJuVL4VDIxAp
-	9xsnJUbJPGW7My7unkLXaEnKI+DPfU/BuK3RgJjNjAlfhotI5uiGBbBTumYFqeVuxG1J
-	oIpFezCyEtr0myvMwe5a5QdQonjmOQ4NCBBmZkXQ2iBeKzDKgV5CmwZr5H1Qmp4zSUrZ
-	D3Cw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=P5boaUCBAXj0bkQovB4zV3WAzBRld48FVyso6KNCJlY=;
-	b=GJgH9sSeugKKzfAWtp5kopmKwZLVes7qB+tITvMgRHwDXedhs2gTkBnI6gZTKWNbKU
-	5Z0EHyx7TL6iYV3kkMNgEh1B1Szm/Q479SzAwwWQE2mDQIML+hq6dymTGZcxH7512bgh
-	19orJzeprC89NyitTvUvF5NacsRe1iS3fQbAztf7E/WoCuAzjqFVMiulFlgymBw+zFQG
-	r/BraYOfdMAZxOVEQvpdwmrBGqJNjvDictq56AgSU1GFvMPuTBjV5LAK1e/1GSHAUqTr
-	fMp8NlQ8H1+uzVDFqf7Ph7Kk8WCmeDlHrjHtPBn8v50kW3yJG+163d9o49ZplVG6o7+S
-	uNNA==
-X-Gm-Message-State: AE9vXwMDBk4zHA8VXm7oqmPuHp0k8wCZcFXui8kq59DLC+XTPGq3IDnV7jbjOhNTVMvTkA==
-X-Received: by 10.194.57.244 with SMTP id l20mr4314442wjq.1.1472577270469;
-	Tue, 30 Aug 2016 10:14:30 -0700 (PDT)
-Received: from localhost.localdomain
-	(ip-95-222-156-64.hsi15.unitymediagroup.de. [95.222.156.64])
-	by smtp.googlemail.com with ESMTPSA id
-	e5sm19601476wma.13.2016.08.30.10.14.29
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 30 Aug 2016 10:14:29 -0700 (PDT)
-From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@googlemail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 30 Aug 2016 19:14:00 +0200
-Message-Id: <1472577240-5378-1-git-send-email-schnitzeltony@googlemail.com>
-X-Mailer: git-send-email 2.5.5
+	Tue, 30 Aug 2016 18:35:57 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u7UIZiZC004247
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 30 Aug 2016 11:35:44 -0700 (PDT)
+Received: from server.local (128.224.20.237) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.248.2;
+	Tue, 30 Aug 2016 11:35:43 -0700
+To: =?UTF-8?Q?Andr=c3=a9_Draszik?= <git@andred.net>,
+	<openembedded-core@lists.openembedded.org>
+References: <cover.1471281772.git.bruce@zedd.org>
+	<ff62fe65ad3bae260ec0951caddf428632ef35de.1471281772.git.bruce@zedd.org>
+	<1472547914.8449.25.camel@andred.net>
+	<94a7387f-cc88-2e7f-21b6-57970dfdbb04@windriver.com>
+	<1472566766.8449.29.camel@andred.net>
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+Message-ID: <78886c10-2951-9a57-31dd-0e1e78d19815@windriver.com>
+Date: Tue, 30 Aug 2016 14:35:42 -0400
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:45.0)
+	Gecko/20100101 Thunderbird/45.2.0
 MIME-Version: 1.0
-Subject: [RFC][PATCH] cmake-native: work around gcc6's '-isystem'-allergy
+In-Reply-To: <1472566766.8449.29.camel@andred.net>
+Subject: Re: [PATCH 5/6] kernel-yocto: streamline patch, configuration and audit phases
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,89 +38,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 30 Aug 2016 17:14:33 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 30 Aug 2016 18:35:58 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Transfer-Encoding: 8bit
 
-since gcc6 we see many cmake/c++ based packets failing with:
+On 2016-08-30 10:19 AM, André Draszik wrote:
+> On Di, 2016-08-30 at 09:05 -0400, Bruce Ashfield wrote:
+>> On 2016-08-30 05:05 AM, André Draszik wrote:
+>>>
+>>> My kmeta stuff is located directly inside two meta-* layers (i.e. not in
+>>> an
+>>> extra git repo), where the 2nd layer's kernel recipes .bbappends to the
+>>> 1st
+>>> one with additional kmeta things.
+>>>
+>>> This used to work fine, but since this commit it doesn't anymore as only
+>>> the
+>>> kmeta stuff from the 2nd layer is being copied into workdir.
+>>>
+>>> Have I been doing something that wasn't guaranteed / supposed to work in
+>>> the
+>>> first place? Or should that still work? Is it worth fixing or should I
+>>> rethink my approach?
+>>
+>> That was complexity that I had tried to remove, but thinking on it a
+>> bit, I think I can restore that without adding much complexity.
+>>
+>> I'm just finishing work on the 4.8 kernel today, and can look at this
+>> tomorrow.
+>
+> Thank you Bruce!
 
-| fatal error: stdlib.h: No such file or directory
+Can you clarify for me if you are are using SRC_URI items tagged with
+'kmeta', i.e. a directory of fragments, or are you just adding .cfg/.scc
+items directly to the SRC_URI ?
 
-a fix from gcc is not to expect [1] so work around by replacing '-isystem' by
-'-I' for c++.
+Bruce
 
-Build tested with many recipes in meta-qt5-extra / meta-oe inheriting cmake.
-
-[1] https://gcc.gnu.org/bugzilla/show_bug.cgi?id=70129
-
-Signed-off-by: Andreas Müller <schnitzeltony@googlemail.com>
----
- meta/recipes-devtools/cmake/cmake-native_3.6.1.bb  |  1 +
- .../0001-GNU.cmake-replace-isystem-by-I.patch      | 42 ++++++++++++++++++++++
- 2 files changed, 43 insertions(+)
- create mode 100644 meta/recipes-devtools/cmake/cmake/0001-GNU.cmake-replace-isystem-by-I.patch
-
-diff --git a/meta/recipes-devtools/cmake/cmake-native_3.6.1.bb b/meta/recipes-devtools/cmake/cmake-native_3.6.1.bb
-index 33930fb..900091e 100644
---- a/meta/recipes-devtools/cmake/cmake-native_3.6.1.bb
-+++ b/meta/recipes-devtools/cmake/cmake-native_3.6.1.bb
-@@ -6,6 +6,7 @@ DEPENDS += "bzip2-native zlib-native"
- 
- SRC_URI += "\
-     file://cmlibarchive-disable-ext2fs.patch \
-+    file://0001-GNU.cmake-replace-isystem-by-I.patch \
- "
- 
- # Disable ccmake since we don't depend on ncurses
-diff --git a/meta/recipes-devtools/cmake/cmake/0001-GNU.cmake-replace-isystem-by-I.patch b/meta/recipes-devtools/cmake/cmake/0001-GNU.cmake-replace-isystem-by-I.patch
-new file mode 100644
-index 0000000..4c06490
---- /dev/null
-+++ b/meta/recipes-devtools/cmake/cmake/0001-GNU.cmake-replace-isystem-by-I.patch
-@@ -0,0 +1,42 @@
-+From a84d20abe6bc68f8d1a597a22af1ca98d62a5ce4 Mon Sep 17 00:00:00 2001
-+From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@googlemail.com>
-+Date: Fri, 26 Aug 2016 12:14:12 +0200
-+Subject: [PATCH] GNU.cmake: replace -isystem by -I
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=UTF-8
-+Content-Transfer-Encoding: 8bit
-+
-+since gcc6 we see many c++ based packes failing with:
-+
-+| fatal error: stdlib.h: No such file or directory
-+
-+a fix from gcc is not to expect [1] so work around
-+
-+[1] https://gcc.gnu.org/bugzilla/show_bug.cgi?id=70129
-+
-+Upstream-Status: Pending
-+
-+Signed-off-by: Andreas Müller <schnitzeltony@googlemail.com>
-+---
-+ Modules/Compiler/GNU.cmake | 6 +++++-
-+ 1 file changed, 5 insertions(+), 1 deletion(-)
-+
-+diff --git a/Modules/Compiler/GNU.cmake b/Modules/Compiler/GNU.cmake
-+index c2d393d..9d1477d 100644
-+--- a/Modules/Compiler/GNU.cmake
-++++ b/Modules/Compiler/GNU.cmake
-+@@ -53,6 +53,10 @@ macro(__compiler_gnu lang)
-+   set(CMAKE_${lang}_CREATE_PREPROCESSED_SOURCE "<CMAKE_${lang}_COMPILER> <DEFINES> <INCLUDES> <FLAGS> -E <SOURCE> > <PREPROCESSED_SOURCE>")
-+   set(CMAKE_${lang}_CREATE_ASSEMBLY_SOURCE "<CMAKE_${lang}_COMPILER> <DEFINES> <INCLUDES> <FLAGS> -S <SOURCE> -o <ASSEMBLY_SOURCE>")
-+   if(NOT APPLE OR NOT CMAKE_${lang}_COMPILER_VERSION VERSION_LESS 4) # work around #4462
-+-    set(CMAKE_INCLUDE_SYSTEM_FLAG_${lang} "-isystem ")
-++    if("${lang}" STREQUAL "CXX")
-++      set(CMAKE_INCLUDE_SYSTEM_FLAG_${lang} "-I ")
-++    else()
-++      set(CMAKE_INCLUDE_SYSTEM_FLAG_${lang} "-isystem ")
-++    endif()
-+   endif()
-+ endmacro()
-+-- 
-+2.5.5
-+
--- 
-2.5.5
+>
+>> Do you have any public layers that I can reference to pull together a
+>> test case ?
+>
+> Unfortunately not :-(
+>
+> But I'm happy to test and report back!
+>
+>
+> Cheers,
+> Andre'
+>
 
 
