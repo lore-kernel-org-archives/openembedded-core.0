@@ -1,28 +1,20 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id 0D083605BA
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id E9A2860110
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Aug 2016 12:24:29 +0000 (UTC)
+	Tue, 30 Aug 2016 12:28:22 +0000 (UTC)
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga104.fm.intel.com with ESMTP; 30 Aug 2016 05:24:30 -0700
+	by fmsmga101.fm.intel.com with ESMTP; 30 Aug 2016 05:28:23 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.30,256,1470726000"; d="scan'208";a="1033125746"
-Received: from unknown (HELO peggleto-mobl.ger.corp.intel.com)
-	([10.255.182.37])
-	by fmsmga001.fm.intel.com with ESMTP; 30 Aug 2016 05:24:29 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Joshua Lock <joshua.g.lock@intel.com>
-Date: Wed, 31 Aug 2016 00:24:25 +1200
-Message-ID: <2362757.E7EAftXMYC@peggleto-mobl.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.14.10 (Linux/4.6.7-200.fc23.x86_64; KDE/4.14.20; x86_64; ;
-	)
-In-Reply-To: <81a35da5b46204d44e1d94346255b38590d49d9b.1472225461.git.joshua.g.lock@intel.com>
-References: <cover.1472225461.git.joshua.g.lock@intel.com>
-	<81a35da5b46204d44e1d94346255b38590d49d9b.1472225461.git.joshua.g.lock@intel.com>
-MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/2] buildtools-tarball: add tar
+X-IronPort-AV: E=Sophos;i="5.30,256,1470726000"; d="scan'208";a="1033127020"
+Received: from kanavin-desktop.fi.intel.com ([10.237.68.49])
+	by fmsmga001.fm.intel.com with ESMTP; 30 Aug 2016 05:28:23 -0700
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 30 Aug 2016 15:26:51 +0300
+Message-Id: <20160830122653.16162-1-alexander.kanavin@linux.intel.com>
+X-Mailer: git-send-email 2.9.3
+Subject: [PATCH 1/3] iso-codes: update to 3.70
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,41 +27,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 30 Aug 2016 12:24:32 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Tue, 30 Aug 2016 12:28:24 -0000
 
-On Fri, 26 Aug 2016 16:43:05 Joshua Lock wrote:
-> We'd like to make use of features which aren't available in tar
-> versions prior to 1.27, therefore add tar to the buildtools-tarball
-> so that older distributions can still perform builds.
-> 
-> Signed-off-by: Joshua Lock <joshua.g.lock@intel.com>
-> ---
->  meta/recipes-core/meta/buildtools-tarball.bb | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/meta/recipes-core/meta/buildtools-tarball.bb
-> b/meta/recipes-core/meta/buildtools-tarball.bb index 34df531..f28a8c3
-> 100644
-> --- a/meta/recipes-core/meta/buildtools-tarball.bb
-> +++ b/meta/recipes-core/meta/buildtools-tarball.bb
-> @@ -24,6 +24,7 @@ TOOLCHAIN_HOST_TASK ?= "\
->      nativesdk-ca-certificates \
->      nativesdk-texinfo \
->      nativesdk-locale-base-en-us \
-> +    nativesdk-tar \
->      "
-> 
->  SDK_PACKAGE_ARCHS += "buildtools-dummy-${SDKPKGSUFFIX}"
+Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+---
+ .../iso-codes/{iso-codes_3.69.bb => iso-codes_3.70.bb}                | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-support/iso-codes/{iso-codes_3.69.bb => iso-codes_3.70.bb} (76%)
 
-Er, tar is already in buildtools-tarball... right?
-
-Cheers,
-Paul
-
+diff --git a/meta/recipes-support/iso-codes/iso-codes_3.69.bb b/meta/recipes-support/iso-codes/iso-codes_3.70.bb
+similarity index 76%
+rename from meta/recipes-support/iso-codes/iso-codes_3.69.bb
+rename to meta/recipes-support/iso-codes/iso-codes_3.70.bb
+index 105949f..7edd8b7 100644
+--- a/meta/recipes-support/iso-codes/iso-codes_3.69.bb
++++ b/meta/recipes-support/iso-codes/iso-codes_3.70.bb
+@@ -3,8 +3,8 @@ LICENSE = "LGPLv2.1"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
+ 
+ SRC_URI = "https://pkg-isocodes.alioth.debian.org/downloads/iso-codes-${PV}.tar.xz"
+-SRC_URI[md5sum] = "33ed5ea7eed84a7609f041c838fc96d7"
+-SRC_URI[sha256sum] = "3f285d3c13f4dccfbdb9e432f172403ac1a54ab432616f10556eb18c23a1c0b2"
++SRC_URI[md5sum] = "c61f8f02eecf978d3710ff594e43ca7e"
++SRC_URI[sha256sum] = "41e2fbaec2ed57e767b94f175d0dcd31b627aeb23b75cd604605a6fb6109d61f"
+ 
+ # inherit gettext cannot be used, because it adds gettext-native to BASEDEPENDS which
+ # are inhibited by allarch
 -- 
+2.9.3
 
-Paul Eggleton
-Intel Open Source Technology Centre
 
