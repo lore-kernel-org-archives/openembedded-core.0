@@ -1,26 +1,24 @@
 Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 10C8360797
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 19F806FFE8
 	for <openembedded-core@lists.openembedded.org>;
 	Tue, 30 Aug 2016 16:49:12 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u7UGnCDG003116
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u7UGn9QR014227
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 30 Aug 2016 09:49:12 -0700 (PDT)
+	Tue, 30 Aug 2016 09:49:09 -0700 (PDT)
 Received: from yow-bashfiel-d4.wrs.com (128.224.56.94) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.248.2; Tue, 30 Aug 2016 09:49:11 -0700
+	14.3.248.2; Tue, 30 Aug 2016 09:49:08 -0700
 From: Bruce Ashfield <bruce.ashfield@windriver.com>
 To: <richard.purdie@linuxfoundation.org>
-Date: Tue, 30 Aug 2016 12:48:59 -0400
-Message-ID: <11b53fe4579c57fb474776674ef52f78b0720562.1472574514.git.bruce.ashfield@windriver.com>
+Date: Tue, 30 Aug 2016 12:48:58 -0400
+Message-ID: <cover.1472574514.git.bruce.ashfield@windriver.com>
 X-Mailer: git-send-email 2.5.0
-In-Reply-To: <cover.1472574514.git.bruce.ashfield@windriver.com>
-References: <cover.1472574514.git.bruce.ashfield@windriver.com>
 MIME-Version: 1.0
 Cc: saul.wold@intel.com, openembedded-core@lists.openembedded.org
-Subject: [PATCH 1/9] linux-yocto: introduce v4.8 recipes
+Subject: [PATCH 0/9] linux-yocto: v4.8 + fixes + configuration updates + RFC
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,135 +34,137 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Tue, 30 Aug 2016 16:49:14 -0000
 Content-Type: text/plain
 
-Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
----
- meta/recipes-kernel/linux/linux-yocto-rt_4.8.bb   | 36 +++++++++++++++++++
- meta/recipes-kernel/linux/linux-yocto-tiny_4.8.bb | 23 +++++++++++++
- meta/recipes-kernel/linux/linux-yocto_4.8.bb      | 42 +++++++++++++++++++++++
- 3 files changed, 101 insertions(+)
+Hi all,
+
+Here's the latest updates to the linux-yoco* baseline support. There are
+three distinct blocks in the consolidated pull request, with the biggest
+being the introduction of a 4.8 named kernel and 4.8 based libc-headers.
+
+The others are fixes to the kernel-yocto processing and kernel meta data
+updates. As such, these commits can be taken in isolation to the 4.8
+update that I've included in the pull request.
+
+  kernel-yocto: test for empty artifacts
+  linux-yocto/4.x: configuration updates
+  kernel-yocto: do_kernel_configme: Fix silent sysroot poisoning error
+
+On the topic of the version 4.8:
+
+  - This is the intended 'newest' kernel for the upcoming fall release
+    cycle. We will have a shiny new one this time around.
+    
+  - yes it is a -rc4 release, but the version wasn't chosen by mistake
+    (or lightly). It was the typical balancing act.
+    
+       - It is nice to work through the development cycle of the
+         upstream kernel, since we can send fixes in realtime to the
+         mainline tree .. but this is the side effect of the choice,
+         not the reason
+
+       - This version balances a new enough kernel, LTS/LTSI, -rt,
+         platform updates (ARM/x86) and the timing of the release.
+
+         The LTS/LTSI kernels are either too old at the moment, and
+         won't get a port of major patch series like -rt. Hence why
+         v4.8 shoots the difference between the options and gives us
+         a good baseline to update in the upcoming months, and one that
+         we can compliment with other kernel versions later.
+
+      - The delta between any -rcX releases is small, so following this
+        through until its release is not a big issue.
+
+build/boot testing:
+
+  - I've built and booted qemu* with core-image-sato, so it is known
+    to build and have a sane runtime for all arches. I've also built
+    the typical packages that misbehave (lttng, perf, etc).
+
+  - The versatile platform switched to a device tree boot in the 4.7
+    timeframe. As such, I had to patch runqemu to use a device tree
+    .. and use that device tree conditionally, since we have to support
+    older kernels at the same time as 4.7+
+
+  - I know that there are pending changes to the way runqemu works, but
+    I patched what I had in master .. these can be updated/adjusted if
+    need be.
+
+libc-headers update:
+
+  - Since there are milestone builds coming up, I wanted to get the 4.8
+    libc headers in place. Which meant that I had to do some different
+    things to use the testing kernel tarball, and to get the version of
+    the package right.
+
+    This might cause us version stepping issues .. so anyone looking at
+    this can suggest what I need to do to avoid them, and I can update
+    and rebase the series with the proper fix.
+
+The linux-yocto-4.8 repository:
+   
+  - There have been comments about the linux-yocto* repos filling up
+    download directories, and consuming people's bandwidth.  Since we
+    don't have a shallow clone or reference clone way to deal with the
+    amount of shared kernel blobs, I've simultaneously generated a v4.8
+    kernel in a repository that could be re-used over time.
+
+      http://git.yoctoproject.org/cgit/cgit.cgi/linux-yocto/
+
+    The proposal is that if we really want to avoid separate kernel trees,
+    and keep the ability to rebase/remove/amend old commits to keep the
+    tree clean, that I can insert the version number into the branches
+    as a marker. Comments on this approach are welcome, since if we go this
+    way, I need to adjust all the KBRANCH variables.
+
+I'll follow up with commits to change the default qemu version to 4.8 once
+there's general agreement about the options on this.
+
+Cheers,
+
+Bruce
+
+The following changes since commit 2fedd226c3385f1ac160b3aa0bfadbded85e288c:
+
+  ref-manual: Fixed small wording in PKGR in the glossary (2016-08-25 23:09:29 +0100)
+
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib zedd/kernel
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
+
+Bruce Ashfield (8):
+  linux-yocto: introduce v4.8 recipes
+  perf: adapt to Makefile.config
+  qemuarm: add device tree support
+  linux-yocto-dev: bump to v4.8+
+  libc-headers: update to v4.8
+  linux-yocto/4.8: add qemuarm device tree specification
+  kernel-yocto: test for empty artifacts
+  linux-yocto/4.x: configuration updates
+
+Ioan-Adrian Ratiu (1):
+  kernel-yocto: do_kernel_configme: Fix silent sysroot poisoning error
+
+ meta/classes/kernel-yocto.bbclass                  | 12 ++++--
+ meta/conf/distro/include/tcmode-default.inc        |  2 +-
+ .../linux-libc-headers/linux-libc-headers_4.8.bb   | 13 +++++++
+ meta/recipes-kernel/linux/linux-yocto-dev.bb       |  4 +-
+ meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb    |  2 +-
+ meta/recipes-kernel/linux/linux-yocto-rt_4.4.bb    |  2 +-
+ meta/recipes-kernel/linux/linux-yocto-rt_4.8.bb    | 38 +++++++++++++++++++
+ meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb  |  2 +-
+ meta/recipes-kernel/linux/linux-yocto-tiny_4.4.bb  |  2 +-
+ meta/recipes-kernel/linux/linux-yocto-tiny_4.8.bb  | 25 ++++++++++++
+ meta/recipes-kernel/linux/linux-yocto_4.1.bb       |  2 +-
+ meta/recipes-kernel/linux/linux-yocto_4.4.bb       |  2 +-
+ meta/recipes-kernel/linux/linux-yocto_4.8.bb       | 44 ++++++++++++++++++++++
+ meta/recipes-kernel/perf/perf.bb                   |  9 ++++-
+ scripts/runqemu-internal                           |  3 ++
+ 15 files changed, 150 insertions(+), 12 deletions(-)
+ create mode 100644 meta/recipes-kernel/linux-libc-headers/linux-libc-headers_4.8.bb
  create mode 100644 meta/recipes-kernel/linux/linux-yocto-rt_4.8.bb
  create mode 100644 meta/recipes-kernel/linux/linux-yocto-tiny_4.8.bb
  create mode 100644 meta/recipes-kernel/linux/linux-yocto_4.8.bb
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_4.8.bb b/meta/recipes-kernel/linux/linux-yocto-rt_4.8.bb
-new file mode 100644
-index 000000000000..9adf52322dc0
---- /dev/null
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_4.8.bb
-@@ -0,0 +1,36 @@
-+KBRANCH ?= "standard/preempt-rt/base"
-+
-+require recipes-kernel/linux/linux-yocto.inc
-+
-+# Skip processing of this recipe if it is not explicitly specified as the
-+# PREFERRED_PROVIDER for virtual/kernel. This avoids errors when trying
-+# to build multiple virtual/kernel providers, e.g. as dependency of
-+# core-image-rt-sdk, core-image-rt.
-+python () {
-+    if d.getVar("PREFERRED_PROVIDER_virtual/kernel", True) != "linux-yocto-rt":
-+        raise bb.parse.SkipPackage("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
-+}
-+
-+SRCREV_machine ?= "a7d71794e4e38d2f861c1b1dbff761ae0b0836b3"
-+SRCREV_meta ?= "8cb7317502c2577f8c83eaf1c061603023824313"
-+
-+SRC_URI = "git://git.yoctoproject.org/linux-yocto-4.8.git;branch=${KBRANCH};name=machine \
-+           git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.8;destsuffix=${KMETA}"
-+
-+LINUX_VERSION ?= "4.8-rc4"
-+
-+PV = "${LINUX_VERSION}+git${SRCPV}"
-+
-+KMETA = "kernel-meta"
-+KCONF_BSP_AUDIT_LEVEL = "2"
-+
-+LINUX_KERNEL_TYPE = "preempt-rt"
-+
-+COMPATIBLE_MACHINE = "(qemux86|qemux86-64|qemuarm|qemuppc|qemumips)"
-+
-+# Functionality flags
-+KERNEL_EXTRA_FEATURES ?= "features/netfilter/netfilter.scc features/taskstats/taskstats.scc"
-+KERNEL_FEATURES_append = " ${KERNEL_EXTRA_FEATURES}"
-+KERNEL_FEATURES_append_qemuall=" cfg/virtio.scc"
-+KERNEL_FEATURES_append_qemux86=" cfg/sound.scc cfg/paravirt_kvm.scc"
-+KERNEL_FEATURES_append_qemux86-64=" cfg/sound.scc"
-diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_4.8.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_4.8.bb
-new file mode 100644
-index 000000000000..a157c2aa80cd
---- /dev/null
-+++ b/meta/recipes-kernel/linux/linux-yocto-tiny_4.8.bb
-@@ -0,0 +1,23 @@
-+KBRANCH ?= "standard/tiny/common-pc"
-+LINUX_KERNEL_TYPE = "tiny"
-+KCONFIG_MODE = "--allnoconfig"
-+
-+require recipes-kernel/linux/linux-yocto.inc
-+
-+LINUX_VERSION ?= "4.8-rc4"
-+
-+KMETA = "kernel-meta"
-+KCONF_BSP_AUDIT_LEVEL = "2"
-+
-+SRCREV_machine ?= "3eab887a55424fc2c27553b7bfe32330df83f7b8"
-+SRCREV_meta ?= "8cb7317502c2577f8c83eaf1c061603023824313"
-+
-+PV = "${LINUX_VERSION}+git${SRCPV}"
-+
-+SRC_URI = "git://git.yoctoproject.org/linux-yocto-4.8.git;branch=${KBRANCH};name=machine \
-+           git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.8;destsuffix=${KMETA}"
-+
-+COMPATIBLE_MACHINE = "(qemux86$)"
-+
-+# Functionality flags
-+KERNEL_FEATURES = ""
-diff --git a/meta/recipes-kernel/linux/linux-yocto_4.8.bb b/meta/recipes-kernel/linux/linux-yocto_4.8.bb
-new file mode 100644
-index 000000000000..c92f7bcd18c2
---- /dev/null
-+++ b/meta/recipes-kernel/linux/linux-yocto_4.8.bb
-@@ -0,0 +1,42 @@
-+KBRANCH ?= "standard/base"
-+
-+require recipes-kernel/linux/linux-yocto.inc
-+
-+# board specific branches
-+KBRANCH_qemuarm  ?= "standard/arm-versatile-926ejs"
-+KBRANCH_qemuarm64 ?= "standard/qemuarm64"
-+KBRANCH_qemumips ?= "standard/mti-malta32"
-+KBRANCH_qemuppc  ?= "standard/qemuppc"
-+KBRANCH_qemux86  ?= "standard/base"
-+KBRANCH_qemux86-64 ?= "standard/base"
-+KBRANCH_qemumips64 ?= "standard/mti-malta64"
-+
-+SRCREV_machine_qemuarm ?= "20544507201f870a365c43759e5dea1ab49a2d68"
-+SRCREV_machine_qemuarm64 ?= "3eab887a55424fc2c27553b7bfe32330df83f7b8"
-+SRCREV_machine_qemumips ?= "03d4caf37d133a923e49b8ad6d814ee299cf92c7"
-+SRCREV_machine_qemuppc ?= "3eab887a55424fc2c27553b7bfe32330df83f7b8"
-+SRCREV_machine_qemux86 ?= "a7d71794e4e38d2f861c1b1dbff761ae0b0836b3"
-+SRCREV_machine_qemux86-64 ?= "a7d71794e4e38d2f861c1b1dbff761ae0b0836b3"
-+SRCREV_machine_qemumips64 ?= "a4793b209b32964533e37ebd28a72b757c0f651a"
-+SRCREV_machine ?= "a7d71794e4e38d2f861c1b1dbff761ae0b0836b3"
-+SRCREV_meta ?= "8cb7317502c2577f8c83eaf1c061603023824313"
-+
-+SRC_URI = "git://git.yoctoproject.org/linux-yocto-4.8.git;name=machine;branch=${KBRANCH}; \
-+           git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.8;destsuffix=${KMETA}"
-+
-+LINUX_VERSION ?= "4.8-rc4"
-+
-+PV = "${LINUX_VERSION}+git${SRCPV}"
-+
-+KMETA = "kernel-meta"
-+KCONF_BSP_AUDIT_LEVEL = "2"
-+
-+COMPATIBLE_MACHINE = "qemuarm|qemuarm64|qemux86|qemuppc|qemumips|qemumips64|qemux86-64"
-+
-+# Functionality flags
-+KERNEL_EXTRA_FEATURES ?= "features/netfilter/netfilter.scc"
-+KERNEL_FEATURES_append = " ${KERNEL_EXTRA_FEATURES}"
-+KERNEL_FEATURES_append_qemuall=" cfg/virtio.scc"
-+KERNEL_FEATURES_append_qemux86=" cfg/sound.scc cfg/paravirt_kvm.scc"
-+KERNEL_FEATURES_append_qemux86-64=" cfg/sound.scc cfg/paravirt_kvm.scc"
-+KERNEL_FEATURES_append = " ${@bb.utils.contains("TUNE_FEATURES", "mx32", " cfg/x32.scc", "" ,d)}"
 -- 
 2.5.0
 
