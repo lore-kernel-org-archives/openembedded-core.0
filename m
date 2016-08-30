@@ -1,35 +1,26 @@
-Return-Path: <ed.bartosh@linux.intel.com>
+Return-Path: <joshua.g.lock@linux.intel.com>
 Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 0CB5673695
+	by mail.openembedded.org (Postfix) with ESMTP id 1795370030
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Aug 2016 11:22:11 +0000 (UTC)
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-	by fmsmga103.fm.intel.com with ESMTP; 30 Aug 2016 04:22:10 -0700
+	Tue, 30 Aug 2016 12:00:08 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by fmsmga103.fm.intel.com with ESMTP; 30 Aug 2016 05:00:09 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.30,256,1470726000"; d="scan'208";a="162431890"
-Received: from linux.intel.com ([10.54.29.200])
-	by fmsmga004.fm.intel.com with ESMTP; 30 Aug 2016 04:22:11 -0700
-Received: from linux.intel.com (vmed.fi.intel.com [10.237.72.68])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by linux.intel.com (Postfix) with ESMTP id C44296A4080;
-	Tue, 30 Aug 2016 04:21:49 -0700 (PDT)
-Date: Tue, 30 Aug 2016 14:21:59 +0300
-From: Ed Bartosh <ed.bartosh@linux.intel.com>
-To: Otavio Salvador <otavio.salvador@ossystems.com.br>
-Message-ID: <20160830112159.GB3482@linux.intel.com>
-Reply-To: ed.bartosh@linux.intel.com
-References: <cover.1472548574.git.ed.bartosh@linux.intel.com>
-	<CAP9ODKrOOs2ofhCzxdV0ZCULDCO9r2RgKZpcNxhH_fe56so0PA@mail.gmail.com>
-	<20160830103536.GA3482@linux.intel.com>
-	<CAP9ODKqrhofQDSL9zfhJC6HFKbk0bxnDhoaaqbn6ooj-0jqX8Q@mail.gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <CAP9ODKqrhofQDSL9zfhJC6HFKbk0bxnDhoaaqbn6ooj-0jqX8Q@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 00/18] Provide list of deployment artifacts
+X-IronPort-AV: E=Sophos;i="5.30,256,1470726000"; d="scan'208";a="1043382904"
+Received: from jlock-mobl1.ld.intel.com ([10.103.239.28])
+	by orsmga002.jf.intel.com with ESMTP; 30 Aug 2016 05:00:08 -0700
+Message-ID: <1472558407.3054.5.camel@linux.intel.com>
+From: Joshua Lock <joshua.g.lock@linux.intel.com>
+To: Mark Hatle <mark.hatle@windriver.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Tue, 30 Aug 2016 13:00:07 +0100
+In-Reply-To: <921e5cf0-9980-1133-ec0b-bc874ae9c4fb@windriver.com>
+References: <cover.1472225461.git.joshua.g.lock@intel.com>
+	<387803c1b2b8c0f2b3b29b55be61c27b52b4e7f0.1472225461.git.joshua.g.lock@intel.com>
+	<921e5cf0-9980-1133-ec0b-bc874ae9c4fb@windriver.com>
+X-Mailer: Evolution 3.20.5 (3.20.5-1.fc24) 
+Mime-Version: 1.0
+Subject: Re: [PATCH 2/2] oe.path: preserve xattr in copytree() and copyhardlinktree()
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,49 +33,103 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 30 Aug 2016 11:22:12 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Tue, 30 Aug 2016 12:00:10 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Tue, Aug 30, 2016 at 07:58:31AM -0300, Otavio Salvador wrote:
-> On Tue, Aug 30, 2016 at 7:35 AM, Ed Bartosh <ed.bartosh@linux.intel.com> wrote:
-> > On Tue, Aug 30, 2016 at 07:21:20AM -0300, Otavio Salvador wrote:
-> >> On Tue, Aug 30, 2016 at 6:29 AM, Ed Bartosh <ed.bartosh@linux.intel.com> wrote:
-> >> > Hi,
-> >> >
-> >> > This is a fix for Bug #9869 - Provide a per-target manifest of files which were, or would have been, produced
-> >> >
-> >> > The list of artifacts produced by deployment tasks (do_deploy, do_image_complete and do_populate_sdk[_ext] is
-> >> > obtained from sstate manifests and fired as a TaskArtifacts metadata event. This should allow Toaster to
-> >> > handle artifacts in simple way and remove a lot of current Toaster code doing guess work.
-> >> >
-> >> > To generate manifests for do_image_complete and do_populate_sdk they have been put under sstate control.
-> >> >
-> >> > To avoid storing big files(images and sdk installer) in sstate new variable SSTATE_SKIP_CREATION has been
-> >> > set in image.bbclass and populate_sdk_base.bbclass and sstate code was modified to avoid adding files
-> >> > to sstate if SSTATE_SKIP_CREATION is set.
-> >>
-> >> SKIP creation of what?
-> > SKIP creation of SSTATE entity.
+On Fri, 2016-08-26 at 10:48 -0500, Mark Hatle wrote:
+> On 8/26/16 10:43 AM, Joshua Lock wrote:
+> > 
+> > Pass appropriate options to tar invocations in copytree() and
+> > copyhardlinktree() to ensure that any extended attributes on the
+> > files
+> > are preserved during the copy.
+> > 
+> > We have to drop the use cpio in "Copy-pass" mode in
+> > copyhardlinktree()
+> > because cpio doesn't support extended attributes on files. Instead
+> > we
+> > revert back to using cp with different patterns depending on
+> > whether
+> > or not the directory contains dot files.
+> > 
+> > [YOCTO #9857]
+> > 
+> > Signed-off-by: Joshua Lock <joshua.g.lock@intel.com>
+> > ---
+> >  meta/lib/oe/path.py | 11 ++++++++---
+> >  1 file changed, 8 insertions(+), 3 deletions(-)
+> > 
+> > diff --git a/meta/lib/oe/path.py b/meta/lib/oe/path.py
+> > index 3c07df3..631c3b4 100644
+> > --- a/meta/lib/oe/path.py
+> > +++ b/meta/lib/oe/path.py
+> > @@ -65,7 +65,7 @@ def copytree(src, dst):
+> >      # This way we also preserve hardlinks between files in the
+> > tree.
+> >  
+> >      bb.utils.mkdirhier(dst)
+> > -    cmd = 'tar -cf - -C %s -p . | tar -xf - -C %s' % (src, dst)
+> > +    cmd = "tar --xattrs --xattrs-include='*' -cf - -C %s -p . |
+> > tar --xattrs --xattrs-include='*' -xf - -C %s" % (src, dst)
+> >      subprocess.check_output(cmd, shell=True,
+> > stderr=subprocess.STDOUT)
+> >  
+> >  def copyhardlinktree(src, dst):
+> > @@ -77,9 +77,14 @@ def copyhardlinktree(src, dst):
+> >      if (os.stat(src).st_dev ==  os.stat(dst).st_dev):
+> >          # Need to copy directories only with tar first since cp
+> > will error if two 
+> >          # writers try and create a directory at the same time
+> > -        cmd = 'cd %s; find . -type d -print | tar -cf - -C %s -p
+> > --no-recursion --files-from - | tar -xf - -C %s' % (src, src, dst)
+> > +        cmd = "cd %s; find . -type d -print | tar --xattrs --
+> > xattrs-include='*' -cf - -C %s -p --no-recursion --files-from - |
+> > tar --xattrs --xattrs-include='*' -xf - -C %s" % (src, src, dst)
+> >          subprocess.check_output(cmd, shell=True,
+> > stderr=subprocess.STDOUT)
+> > -        cmd = 'cd %s; find . -print0 | cpio --null -pdlu %s' %
+> > (src, dst)
 > 
-> I know but of WHAT?
-Of anything we don't want to put to sstate. In this patchset it's set
-for do_image_complete and do_populate_sdk, so it's for images and sdk
-installer.
+> The reason why cpio was originally used had to do with filenames that
+> had spaces
+> or other special characters in them.  (this is why the -print0 was
+> used)
+> 
+> I don't object to the change, but we need to make sure that that will
+> still work
+> properly.
+> 
+> (Also I thought CPIO -could- do xattrs in the current versions...)
 
-> SSTATE_SKIP_IMAGE_CREATION would be a clearer name for me.
-I'm not sure about it. I'd need one more variable
-SSTATE_SKIP_SDK_INSTALLER if I go this way.
+It doesn't preserve xattrs the way we currently invoke it and I can't
+see anything about xattrs in the man pages on Ubuntu or Fedora (which
+both have different man pages for cpio)
 
-> >> Variable name seems a little vague for me. Even
-> >> needing the manifest, does it makes sense to store the image and SDK
-> >> on sstate?
-> > It doesn't and skipping this is a purpose of introducing SSTATE_SKIP_CREATION variable.
->
-> So it is always going to be skipped?
-Yes it is for do_image_complete and do_populate_sdk tasks for now.
+I'm going to submit a v2 of this series that:
 
---
+a) adds a test to ensure files with spaces and other special characters
+are correctly copied.
+b) adds a test to ensure that xattr on a file are preserved.
+
 Regards,
-Ed
+
+Joshua
+
+> 
+> --Mark
+> 
+> > 
+> > +        if os.path.isdir(src):
+> > +            import glob
+> > +            if len(glob.glob('%s/.??*' % src)) > 0:
+> > +                src = src + '/.??* '
+> > +            src = src + '/*'
+> > +        cmd = 'cp -afl --preserve=xattr %s %s' % (src, dst)
+> >          subprocess.check_output(cmd, shell=True,
+> > stderr=subprocess.STDOUT)
+> >      else:
+> >          copytree(src, dst)
+> > 
+> 
 
