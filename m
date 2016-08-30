@@ -1,47 +1,52 @@
-Return-Path: <fabio.berton@ossystems.com.br>
-Received: from mail-qk0-f195.google.com (mail-qk0-f195.google.com
-	[209.85.220.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 7EF7F601D3
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pf0-f178.google.com (mail-pf0-f178.google.com
+	[209.85.192.178])
+	by mail.openembedded.org (Postfix) with ESMTP id 7B2BA6011F
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Aug 2016 19:19:29 +0000 (UTC)
-Received: by mail-qk0-f195.google.com with SMTP id v123so1967371qkh.3
+	Tue, 30 Aug 2016 19:35:45 +0000 (UTC)
+Received: by mail-pf0-f178.google.com with SMTP id h186so10821570pfg.3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Aug 2016 12:19:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id:organization;
-	bh=L09KOYOzmWAhNUEfxwOPnBLA3i+tMjwW43RMTJANBr8=;
-	b=a6gAtea8QGrb2Cmn8+740q3y6epVjyrHb8XA6UckzS4nLUS2HW1UqEZNYpLr4yZnUB
-	uLYiuor0BmK4YXxPgKrawebA5SFk7LZDT1LZ8BvfeJdBwZwutHBPr3+et/JiSzDHp5NH
-	ILCKse5z4Ajv+CPK8yf0c6Wr7sUYUW71c8V2kN7XwEuswsH8UfvV1PnPC/op5BMaCNas
-	5gXlyGl7IkSg2RUd20BMKacVzK9oITr3fPfcB74NFgWeRWUH1LfM4gPBi9tG11oQGtfD
-	sPLbG4EbxykiG47AJcxLAD15pn9+m/HoN5qEHC+6f/lxzv+0AjHviuVlekY8i4aT6yrK
-	IYPw==
+	Tue, 30 Aug 2016 12:35:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=subject:mime-version:from:in-reply-to:date:cc:message-id:references
+	:to; bh=AcxVt4ynA87kJKSrnol7JotuLNKxdp3unAIIhsMrQW0=;
+	b=X7BmbaTdErv93u9BymYbZxVO1g2vcJ8Hb6kvCaLxytl7QK+yQUbtLqLusFg8RFfPcL
+	UxnE8uDerxBMopNjjvBGpnGDdsPYYakHtXAiCeV69djJFJ67adndm4/88CM7NgsrjPnA
+	+5M1Ub5FkZArM5P5R2BLVtFreeVOcUJ2e65LmCa8JRRIhMzaSu21JRsbANXUeI5dnZaS
+	k+G4gMpLxbmFhEAxe906VXNBPn/oehRIskhxdrggUKbeM2I8ZUNZYAwYL03hR8Ujzsnb
+	N8Q34mRs/tke31y1fGJDdQFTIJpf6Co4b5mWo1/6x+jwIfQ8o7+/xcNpInlPDOWVYYnQ
+	cWwA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:organization;
-	bh=L09KOYOzmWAhNUEfxwOPnBLA3i+tMjwW43RMTJANBr8=;
-	b=BVsheKYaK/lNBj99KmpZOV9aL0URdOAiRVP9ifSHI3mfR1hkmPodEpyU6cmb17dnm/
-	iW0LFT5bR3Vna1B04/FzVvlAJaciNGVZj0FT7uXw1A9P0hwA+/CmcGBRHlO4ak5XieTL
-	MeeGWD9NRhXfvXU82x8ia23qZHVv8hAM/n07PDjtK0kCopVKjyH1jArq3xCiyMn8B0Lr
-	uGceNCJRiNa64nKPuTjZR1TxsxcCDsBpXdGBJdYqYs5Ne0JSlo/AWYZVZQzw4rP+dkTu
-	+MO8KpmfjpY7k9laXltjoB51zhcYTwEduPWpqlXREbhQfxB1v1ZaTN4mexLJoDXFcKlY
-	0O2w==
-X-Gm-Message-State: AE9vXwPAqRxXixXFMgFZ2ZDGMaHyU7Nil1S4yBhTkDB4iyDYKCHT9lMJO1E38Yz0gRNHEQ==
-X-Received: by 10.233.239.149 with SMTP id d143mr6742985qkg.176.1472584769759; 
-	Tue, 30 Aug 2016 12:19:29 -0700 (PDT)
-Received: from monster.lab.ossystems.com.br ([177.100.224.8])
+	h=x-gm-message-state:subject:mime-version:from:in-reply-to:date:cc
+	:message-id:references:to;
+	bh=AcxVt4ynA87kJKSrnol7JotuLNKxdp3unAIIhsMrQW0=;
+	b=lIUdeQL29s4rPOkbaRvmOwKRaWH0mthNjgXxLcuc+DTtk+C96SbbRiYgB2OOIxBe7w
+	1Dc1wKpuGbJnM3uauutJYfMNvSz3z1kbAE+QJVXlLG5YgTkbzX/f1bZlauEP0Kw3/v/V
+	Rt59kRj3zAgLPOb957ZeYR/rOCyloGislLHSj6zdwVsl2dKAuNdhb0JxcCFsHYuUrW/O
+	EHn964iI8sxDVyhLfloU3MeJe45FlJcGNPPzRlIXjLEe+tA6f660u8nU0dr0sJ8ajGwi
+	ReRYFxYf6LleM8zEoseG9R2llPV2nZ684zz87w1akIsb6YT/jlavZwSvvULV2rzcUhBn
+	jyHQ==
+X-Gm-Message-State: AE9vXwOrzYWCwGTNsbj/GDbZiD9+7QZZnRyy1wod+/7qqc7nyZ8byMlBKJUVYsykcH3mVw==
+X-Received: by 10.98.13.84 with SMTP id v81mr9352939pfi.108.1472585746378;
+	Tue, 30 Aug 2016 12:35:46 -0700 (PDT)
+Received: from ?IPv6:2601:646:8882:b8c:c41a:14c:2188:df04?
+	([2601:646:8882:b8c:c41a:14c:2188:df04])
 	by smtp.gmail.com with ESMTPSA id
-	f62sm22523511qka.3.2016.08.30.12.19.27
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 30 Aug 2016 12:19:28 -0700 (PDT)
-From: Fabio Berton <fabio.berton@ossystems.com.br>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 30 Aug 2016 16:19:12 -0300
-Message-Id: <1472584752-24827-1-git-send-email-fabio.berton@ossystems.com.br>
-X-Mailer: git-send-email 2.1.4
-Organization: O.S. Systems Software LTDA.
-Subject: [PATCH] linux-firmware: Bump revision to 7534e19
+	c66sm59095464pfd.24.2016.08.30.12.35.43
+	(version=TLS1 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Tue, 30 Aug 2016 12:35:43 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 9.3 \(3124\))
+X-Pgp-Agent: GPGMail
+From: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <6564e30c-bf94-8476-ac22-0be131193ebd@embed.me.uk>
+Date: Tue, 30 Aug 2016 12:36:33 -0700
+Message-Id: <FB035085-D1DE-41C6-A40E-5F74745D908E@gmail.com>
+References: <6564e30c-bf94-8476-ac22-0be131193ebd@embed.me.uk>
+To: Jack Mitchell <ml@embed.me.uk>
+X-Mailer: Apple Mail (2.3124)
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: gcc 6.1+ and isystem
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,36 +59,90 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 30 Aug 2016 19:19:31 -0000
+X-List-Received-Date: Tue, 30 Aug 2016 19:35:47 -0000
+X-Groupsio-MsgNum: 86578
+Content-Type: multipart/signed;
+	boundary="Apple-Mail=_6E724455-06CB-4101-AC85-DF06D83E1CA4";
+	protocol="application/pgp-signature"; micalg=pgp-sha1
 
-Signed-off-by: Fabio Berton <fabio.berton@ossystems.com.br>
----
- meta/recipes-kernel/linux-firmware/linux-firmware_git.bb | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
-index ed0c6ec..5314ff9 100644
---- a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
-+++ b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
-@@ -112,7 +112,7 @@ LIC_FILES_CHKSUM = "\
-     file://LICENCE.xc4000;md5=0ff51d2dc49fce04814c9155081092f0 \
-     file://LICENCE.xc5000;md5=1e170c13175323c32c7f4d0998d53f66 \
-     file://LICENCE.xc5000c;md5=12b02efa3049db65d524aeb418dd87ca \
--    file://WHENCE;md5=fc7f8a9fce11037078e90df415baad71 \
-+    file://WHENCE;md5=0eb5bc029ecbe85c54524114cf17ed0e \
- "
- 
- # These are not common licenses, set NO_GENERIC_LICENSE for them
-@@ -172,7 +172,7 @@ NO_GENERIC_LICENSE[Firmware-xc5000] = "LICENCE.xc5000"
- NO_GENERIC_LICENSE[Firmware-xc5000c] = "LICENCE.xc5000c"
- NO_GENERIC_LICENSE[WHENCE] = "WHENCE"
- 
--SRCREV = "cccb6a0da98372bd66787710249727ad6b0aaf72"
-+SRCREV = "7534e191256629a20c02e04d5f6d0439c48de80a"
- PE = "1"
- PV = "0.0+git${SRCPV}"
- 
--- 
-2.1.4
+--Apple-Mail=_6E724455-06CB-4101-AC85-DF06D83E1CA4
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=us-ascii
 
 
+> On Aug 30, 2016, at 8:37 AM, Jack Mitchell <ml@embed.me.uk> wrote:
+>=20
+> Some of the headers shipped with gcc 6.1 and above now use =
+#include_next to try to and do clever things with munging system header =
+files. Our injection of isystem into the build at =
+'meta/conf/bitbake.conf' seems to be causing some programs to fail to =
+compile. A full explanation can be found at [1], a bug report from GCC =
+specifying that it should only be used in extreme cases at [2].
+
+you can say with isystem gcc let its users play smart things with its =
+internal header search path order.
+
+>=20
+> Since we seem to be adding -isystem unconditionally to BUILD_CFLAGS =
+from bitbake, and that the default behavior has now changed should this =
+be revisited? I'll admit that I am no where near experienced enough with =
+GCC and friends internals to make a call on this one, I'm just looking =
+for some input.
+>=20
+
+Yes, I am aware of this fact and there has been a change to remove =
+-isystem from BUILDSDK_CPPFLAGS, the problem with
+BUILD_CPPFLAGS is different since it was added intentionally to override =
+the system headers is in direct conflict with
+what -isystem use is recommended for. If we were just complementing the =
+default system includedirs it would be different
+however. Should be not use -isystem by default systemwide ? may be. but =
+we need to understand the effects
+where, we now more or less build host packages against our own staged =
+headers and link/run them using the hosts
+libraries and this combination has been working however ugly it may look =
+like. It also means we are using same headers
+across all host distros which is good but then we run the host apps =
+against the host libraries, causing another combination
+more than often host systems have injected bugs into tools ( e.g. cross =
+compilers ) which have shown to exhibit on target
+very hard to trace issues like such have happened.
+
+Can we then just act as a fallback to provide missing headers, after =
+system headers, it falls into same problems or ordering
+and while the header might be found in build sysroot, another header =
+that this header needs may be needed from system
+
+may be some tests by removing this from build options could be tried =
+out, native packages like qt5 and  python3
+should be tested since those definitely play their own games with =
+headers.
+
+
+> Regards,
+> Jack.
+>=20
+> [1] =
+http://stackoverflow.com/questions/37218953/isystem-on-a-system-include-di=
+rectory-causes-errors
+> [2] https://gcc.gnu.org/bugzilla/show_bug.cgi?id=3D70129
+
+
+--Apple-Mail=_6E724455-06CB-4101-AC85-DF06D83E1CA4
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+	filename=signature.asc
+Content-Type: application/pgp-signature;
+	name=signature.asc
+Content-Description: Message signed with OpenPGP using GPGMail
+
+-----BEGIN PGP SIGNATURE-----
+Comment: GPGTools - https://gpgtools.org
+
+iEYEARECAAYFAlfF4EYACgkQuwUzVZGdMxTiXwCeMKOIz4vueIv7IjBSTIC+jdjY
+BjwAn2SZz4RXSV8kiss+rRvaDpf0/8/z
+=zKZS
+-----END PGP SIGNATURE-----
+
+--Apple-Mail=_6E724455-06CB-4101-AC85-DF06D83E1CA4--
