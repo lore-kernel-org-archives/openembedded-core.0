@@ -1,26 +1,29 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 3533260797
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id D46E360762
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Aug 2016 16:49:22 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u7UGnMds014250
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 30 Aug 2016 09:49:22 -0700 (PDT)
-Received: from yow-bashfiel-d4.wrs.com (128.224.56.94) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.248.2; Tue, 30 Aug 2016 09:49:21 -0700
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-To: <richard.purdie@linuxfoundation.org>
-Date: Tue, 30 Aug 2016 12:49:07 -0400
-Message-ID: <a17f05c7987ad332bd073637ac78c219b7826e5f.1472574514.git.bruce.ashfield@windriver.com>
-X-Mailer: git-send-email 2.5.0
-In-Reply-To: <cover.1472574514.git.bruce.ashfield@windriver.com>
-References: <cover.1472574514.git.bruce.ashfield@windriver.com>
-MIME-Version: 1.0
-Cc: saul.wold@intel.com, openembedded-core@lists.openembedded.org
-Subject: [PATCH 9/9] linux-yocto/4.x: configuration updates
+	Tue, 30 Aug 2016 17:00:48 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u7UH0jO5008732; Tue, 30 Aug 2016 18:00:45 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id WGP5lI6_AYX4; Tue, 30 Aug 2016 18:00:45 +0100 (BST)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u7UH0hYf008728
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Tue, 30 Aug 2016 18:00:44 +0100
+Message-ID: <1472576443.29583.33.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Jack Mitchell <ml@embed.me.uk>, OE-core
+	<openembedded-core@lists.openembedded.org>
+Date: Tue, 30 Aug 2016 18:00:43 +0100
+In-Reply-To: <6564e30c-bf94-8476-ac22-0be131193ebd@embed.me.uk>
+References: <6564e30c-bf94-8476-ac22-0be131193ebd@embed.me.uk>
+X-Mailer: Evolution 3.16.5-1ubuntu3.1 
+Mime-Version: 1.0
+Subject: Re: gcc 6.1+ and isystem
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,110 +36,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 30 Aug 2016 16:49:22 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 30 Aug 2016 17:00:52 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Integrating a series to expliclity set the quark build to 32 bits
-and avoid 64 bit x86 defaults.
+On Tue, 2016-08-30 at 16:37 +0100, Jack Mitchell wrote:
+> Some of the headers shipped with gcc 6.1 and above now use
+> #include_next 
+> to try to and do clever things with munging system header files. Our 
+> injection of isystem into the build at 'meta/conf/bitbake.conf' seems
+> to 
+> be causing some programs to fail to compile. A full explanation can
+> be 
+> found at [1], a bug report from GCC specifying that it should only be
+> used in extreme cases at [2].
+> 
+> Since we seem to be adding -isystem unconditionally to BUILD_CFLAGS
+> from 
+> bitbake, and that the default behavior has now changed should this be
+> revisited? I'll admit that I am no where near experienced enough with
+> GCC and friends internals to make a call on this one, I'm just
+> looking 
+> for some input.
 
-We also have a series of commits that fix configuration warnings on
-x86 platforms:
+Its been a long time since we've looked at the native build flags and
+the world is a different place from when they were first implemented
+around a decade ago. I did cull some bits occasionally but more cleanup
+remains and it could be we can change it. A build of all the native
+recipes trying to replace it with a -I flag would likely be the first
+step...
 
- intel-quark.cfg: Explicitly disable CONFIG_64BIT
- common-pc-drivers.cfg: Remove I2O configs
- features: Fix dependencies and =m vs =y discrepancies for corei7
- intel-core2-32.cfg: Explicitly disable CONFIG_64BIT
- features: Add 6lowpan feature and add it where necessary
+Cheers,
 
-Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
----
- meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb   | 2 +-
- meta/recipes-kernel/linux/linux-yocto-rt_4.4.bb   | 2 +-
- meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb | 2 +-
- meta/recipes-kernel/linux/linux-yocto-tiny_4.4.bb | 2 +-
- meta/recipes-kernel/linux/linux-yocto_4.1.bb      | 2 +-
- meta/recipes-kernel/linux/linux-yocto_4.4.bb      | 2 +-
- 6 files changed, 6 insertions(+), 6 deletions(-)
-
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb b/meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb
-index c31692614d01..9a4a2ff7897e 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb
-@@ -12,7 +12,7 @@ python () {
- }
- 
- SRCREV_machine ?= "b88e2b5805213daeb0136fdd8c840dc0254a3d21"
--SRCREV_meta ?= "3e7c4fbbbc0ca217ddb3d3ee5235d5ad582e0c56"
-+SRCREV_meta ?= "f7984d610b3e0dcffc52db019400ebce53ae28d7"
- 
- SRC_URI = "git://git.yoctoproject.org/linux-yocto-4.1.git;branch=${KBRANCH};name=machine \
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.1;destsuffix=${KMETA}"
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_4.4.bb b/meta/recipes-kernel/linux/linux-yocto-rt_4.4.bb
-index 9b0a44b79166..fc0e2a431e0a 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_4.4.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_4.4.bb
-@@ -12,7 +12,7 @@ python () {
- }
- 
- SRCREV_machine ?= "9135adcfb01432abe4a95a50fca5d0395239f798"
--SRCREV_meta ?= "6a12efcabe8d48e323afd277fa672eae9b7e12c2"
-+SRCREV_meta ?= "698835841165b68089604398f68fd8bc3f79cb65"
- 
- SRC_URI = "git://git.yoctoproject.org/linux-yocto-4.4.git;branch=${KBRANCH};name=machine \
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.4;destsuffix=${KMETA}"
-diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb
-index 72aac116905e..7fe2bde3a96f 100644
---- a/meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb
-@@ -10,7 +10,7 @@ KMETA = "kernel-meta"
- KCONF_BSP_AUDIT_LEVEL = "2"
- 
- SRCREV_machine ?= "0847ed67f89b5a8bbaaa0a7b6cfa2a99ef34834f"
--SRCREV_meta ?= "3e7c4fbbbc0ca217ddb3d3ee5235d5ad582e0c56"
-+SRCREV_meta ?= "f7984d610b3e0dcffc52db019400ebce53ae28d7"
- 
- PV = "${LINUX_VERSION}+git${SRCPV}"
- 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_4.4.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_4.4.bb
-index 114bd746d64b..1334a8606e34 100644
---- a/meta/recipes-kernel/linux/linux-yocto-tiny_4.4.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-tiny_4.4.bb
-@@ -10,7 +10,7 @@ KMETA = "kernel-meta"
- KCONF_BSP_AUDIT_LEVEL = "2"
- 
- SRCREV_machine ?= "0a0c93f29c0d65c00abdd2f6d1eb89134fae9525"
--SRCREV_meta ?= "6a12efcabe8d48e323afd277fa672eae9b7e12c2"
-+SRCREV_meta ?= "698835841165b68089604398f68fd8bc3f79cb65"
- 
- PV = "${LINUX_VERSION}+git${SRCPV}"
- 
-diff --git a/meta/recipes-kernel/linux/linux-yocto_4.1.bb b/meta/recipes-kernel/linux/linux-yocto_4.1.bb
-index 6b75a8a6892b..b7e7e7d4fa65 100644
---- a/meta/recipes-kernel/linux/linux-yocto_4.1.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_4.1.bb
-@@ -19,7 +19,7 @@ SRCREV_machine_qemux86 ?= "0847ed67f89b5a8bbaaa0a7b6cfa2a99ef34834f"
- SRCREV_machine_qemux86-64 ?= "0847ed67f89b5a8bbaaa0a7b6cfa2a99ef34834f"
- SRCREV_machine_qemumips64 ?= "106ed721d21c595dfb993a8990c3a29830dfc166"
- SRCREV_machine ?= "0847ed67f89b5a8bbaaa0a7b6cfa2a99ef34834f"
--SRCREV_meta ?= "3e7c4fbbbc0ca217ddb3d3ee5235d5ad582e0c56"
-+SRCREV_meta ?= "f7984d610b3e0dcffc52db019400ebce53ae28d7"
- 
- SRC_URI = "git://git.yoctoproject.org/linux-yocto-4.1.git;name=machine;branch=${KBRANCH}; \
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.1;destsuffix=${KMETA}"
-diff --git a/meta/recipes-kernel/linux/linux-yocto_4.4.bb b/meta/recipes-kernel/linux/linux-yocto_4.4.bb
-index f45007a361f2..8661452c74fa 100644
---- a/meta/recipes-kernel/linux/linux-yocto_4.4.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_4.4.bb
-@@ -19,7 +19,7 @@ SRCREV_machine_qemux86 ?= "0a0c93f29c0d65c00abdd2f6d1eb89134fae9525"
- SRCREV_machine_qemux86-64 ?= "0a0c93f29c0d65c00abdd2f6d1eb89134fae9525"
- SRCREV_machine_qemumips64 ?= "aa125473aef74e7731b14f6b56c1b50589fcd668"
- SRCREV_machine ?= "0a0c93f29c0d65c00abdd2f6d1eb89134fae9525"
--SRCREV_meta ?= "6a12efcabe8d48e323afd277fa672eae9b7e12c2"
-+SRCREV_meta ?= "698835841165b68089604398f68fd8bc3f79cb65"
- 
- SRC_URI = "git://git.yoctoproject.org/linux-yocto-4.4.git;name=machine;branch=${KBRANCH}; \
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.4;destsuffix=${KMETA}"
--- 
-2.5.0
-
+Richard
 
