@@ -1,49 +1,36 @@
-Return-Path: <jussi.kukkonen@intel.com>
-Received: from mail-oi0-f45.google.com (mail-oi0-f45.google.com
-	[209.85.218.45])
-	by mail.openembedded.org (Postfix) with ESMTP id 470636E668
+Return-Path: <juro.bystricky@intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 498546E668
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Aug 2016 15:15:14 +0000 (UTC)
-Received: by mail-oi0-f45.google.com with SMTP id f189so30099183oig.3
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Aug 2016 08:15:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=1BvtV8KvgxRTr4KSLz/BB0wLmHZoKk725UspeQrA/kM=;
-	b=ULaLxOBv4rfzSuxNHPoltsIFmP2gnlwvsRslRGL3RnbJHcWdRqA+qBjVZFHgYTplQU
-	LYhlLr9u36eP+KGJtNf0kzxPI4WOANEhNTwxrPn1g0iS76dY6xkbmDIQELSQ2K/oLE6Y
-	if3uul1QQ90ANw7twlAJDdY0lC9LgrHCWbhKPdYwthNZrpv6GrJDxtuUfh6n21SXvZNE
-	3DGDWq2cBacMrIV0xhuart7NrZLhrYYq/+gZrRK8i92CJ6pD1EMGWRAjZAwGjm19TqMx
-	JYjGub9bDJ1REUsRYNs6Ml5+mX2fxiE8yzWM9TvwTA0owGGxSpCNwU12/9AFM9UgNMkD
-	pU+Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=1BvtV8KvgxRTr4KSLz/BB0wLmHZoKk725UspeQrA/kM=;
-	b=cn0aEw4+GoHiWmEFbCl50rJ/WSHcimWg/nv6lO07F6yhkg51cUbQRfTsvN+ERd79Zv
-	76+gMWiS2I8nXXDNCX0d5kYQvksrkYwimzm8O9CYZsL5KS/iGLYK9uLNKKAtqVyvmYf6
-	kBnvT8mHIz04TQ5+ajchP/vrsfFDmTwhyBPorQyv2UE7Ufhtc6CB71nja8dyKbs3M6L0
-	jsva9BfPjab4M2a+A4gNMvPHtvlmDry76eTAN+iBPhKyd87gpP/IDfWLhuRkb4cRIWjI
-	4LqOQyp2mX+678Iu5r0aZlZA4IqIqR2NTaabJqUCvJ72/m6s1TNIGtnnbRz6RZbGaQJt
-	XDzw==
-X-Gm-Message-State: AE9vXwMTKlmPQkFlhy8ptKlhg4dINGC5YnSEyYCdhB+zWQBQRZoahb2ulcUlSPTuhVS/XmJQtn8Uu8VpMcP3YPZ5
-X-Received: by 10.157.30.202 with SMTP id n68mr4755647otn.15.1472570115458;
-	Tue, 30 Aug 2016 08:15:15 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.202.241.11 with HTTP; Tue, 30 Aug 2016 08:14:45 -0700 (PDT)
-In-Reply-To: <CAHiDW_GGyG+-_xatGAX7taNtM+DpWr-j3=bHdZdCi0LGvUYyNw@mail.gmail.com>
-References: <20160830021713.16392-1-edwin.plauchu.camacho@linux.intel.com>
-	<CAHiDW_GGyG+-_xatGAX7taNtM+DpWr-j3=bHdZdCi0LGvUYyNw@mail.gmail.com>
-From: Jussi Kukkonen <jussi.kukkonen@intel.com>
-Date: Tue, 30 Aug 2016 18:14:45 +0300
-Message-ID: <CAHiDW_EYdXYYjgFfFOZ9SJnCcyHqQfqOWjB5m1_Sa27xMH4Q4w@mail.gmail.com>
-To: Edwin Plauchu <edwin.plauchu.camacho@linux.intel.com>
-Cc: Edwin Plauchu <edwin.plauchu.camacho@intel.com>,
-	Patches and discussions about the oe-core layer
+	Tue, 30 Aug 2016 15:47:27 +0000 (UTC)
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+	by orsmga103.jf.intel.com with ESMTP; 30 Aug 2016 08:47:28 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.30,257,1470726000"; 
+   d="scan'208";a="2829515"
+Received: from orsmsx109.amr.corp.intel.com ([10.22.240.7])
+	by orsmga004.jf.intel.com with ESMTP; 30 Aug 2016 08:47:28 -0700
+Received: from orsmsx112.amr.corp.intel.com ([169.254.3.251]) by
+	ORSMSX109.amr.corp.intel.com ([169.254.11.150]) with mapi id
+	14.03.0248.002; Tue, 30 Aug 2016 08:47:28 -0700
+From: "Bystricky, Juro" <juro.bystricky@intel.com>
+To: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH V1] unzip: fixes strange output
+Thread-Topic: [OE-core] [PATCH 1/1] gcc-runtime.inc: add CPP support for
+	mips64-n32 tune
+Thread-Index: AQHSAkcR3GB1r9R5Ukq5ITVbXIEP2KBhPAAAgABqzeA=
+Date: Tue, 30 Aug 2016 15:47:27 +0000
+Message-ID: <6E51916E4A1F32428260031F4C7CD2B611881DDD@ORSMSX112.amr.corp.intel.com>
+References: <1472510736-3148-1-git-send-email-juro.bystricky@intel.com>
+	<1472510736-3148-2-git-send-email-juro.bystricky@intel.com>
+	<91bed634-2b94-5920-65bc-d0844bc6f01d@windriver.com>
+In-Reply-To: <91bed634-2b94-5920-65bc-d0844bc6f01d@windriver.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.22.254.139]
+MIME-Version: 1.0
+Subject: Re: [PATCH 1/1] gcc-runtime.inc: add CPP support for mips64-n32 tune
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,106 +43,145 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 30 Aug 2016 15:15:15 -0000
-Content-Type: multipart/alternative; boundary=001a113ba450a3ea13053b4b7227
-
---001a113ba450a3ea13053b4b7227
-Content-Type: text/plain; charset=UTF-8
-
-On 30 August 2016 at 10:21, Jussi Kukkonen <jussi.kukkonen@intel.com> wrote:
-
-> On 30 August 2016 at 05:17, Edwin Plauchu <edwin.plauchu.camacho@linux.
-> intel.com> wrote:
-> >
-> > From: Edwin Plauchu <edwin.plauchu.camacho@intel.com>
-> >
-> > This fixes commit 763a3d424bccf559a8d6add3dc1f2746c82f2933
-> >
-> > Output was strange when using unzip to extract zip file.
-> > This patch fixed so.
-> >
-> > [YOCTO #9551]
-> >
-> > Signed-off-by: Edwin Plauchu <edwin.plauchu.camacho@intel.com>
-> > ---
-> >  .../unzip/unzip/fix-security-format.patch          | 198
-> ++++++++-------------
-> >  1 file changed, 78 insertions(+), 120 deletions(-)
-> >
-> > diff --git a/meta/recipes-extended/unzip/unzip/fix-security-format.patch
-> b/meta/recipes-extended/unzip/unzip/fix-security-format.patch
-> > index c82f502..8e9b06c 100644
-> > --- a/meta/recipes-extended/unzip/unzip/fix-security-format.patch
-> > +++ b/meta/recipes-extended/unzip/unzip/fix-security-format.patch
-> > @@ -9,131 +9,89 @@ Upstream-Status: Pending
-> >
-> >  Signed-off-by: Edwin Plauchu <edwin.plauchu.camacho@intel.com>
-> >
-> > -diff --git a/unzpriv.h b/unzpriv.h
-> > -index c8d3eab..85e693a 100644
-> > ---- a/unzpriv.h
-> > -+++ b/unzpriv.h
-> > -@@ -1006,7 +1006,7 @@
-> > - #    define LoadFarStringSmall(x)   Qstrfix(x)
-> > - #    define LoadFarStringSmall2(x)  Qstrfix(x)
-> > - #  else
-> > --#    define LoadFarString(x)        (char *)(x)
-> > -+#    define LoadFarString(x)        "%s",(char *)(x)
->
-> LoadFarString is used a _lot_ in various different ways, usually as
-> argument to another macro or function. This sort of macro change seems
-> potentially very dangerous in C, have you checked this is ok in every case?.
->
-
-Edwin just pointed out to me that the patch actually removes this macro
-change, and he's correct. My patch-of-patch reading failure.
-
-So I'm fine with this patch, sorry for noise.
-  Jussi
-
---001a113ba450a3ea13053b4b7227
-Content-Type: text/html; charset=UTF-8
+X-List-Received-Date: Tue, 30 Aug 2016 15:47:29 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><div class=3D"gmail_quote">On 3=
-0 August 2016 at 10:21, Jussi Kukkonen <span dir=3D"ltr">&lt;<a href=3D"mai=
-lto:jussi.kukkonen@intel.com" target=3D"_blank">jussi.kukkonen@intel.com</a=
->&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 =
-0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div dir=3D"ltr"><div=
-><div class=3D"h5">On 30 August 2016 at 05:17, Edwin Plauchu &lt;<a href=3D=
-"mailto:edwin.plauchu.camacho@linux.intel.com" target=3D"_blank">edwin.plau=
-chu.camacho@linux.<wbr>intel.com</a>&gt; wrote:<br>&gt;<br>&gt; From: Edwin=
- Plauchu &lt;<a href=3D"mailto:edwin.plauchu.camacho@intel.com" target=3D"_=
-blank">edwin.plauchu.camacho@intel.<wbr>com</a>&gt;<br>&gt;<br>&gt; This fi=
-xes commit 763a3d424bccf559a8d6add3dc1f27<wbr>46c82f2933<br>&gt;<br>&gt; Ou=
-tput was strange when using unzip to extract zip file.<br>&gt; This patch f=
-ixed so.<br>&gt;<br>&gt; [YOCTO #9551]<br>&gt;<br>&gt; Signed-off-by: Edwin=
- Plauchu &lt;<a href=3D"mailto:edwin.plauchu.camacho@intel.com" target=3D"_=
-blank">edwin.plauchu.camacho@intel.<wbr>com</a>&gt;<br>&gt; ---<br>&gt; =C2=
-=A0.../unzip/unzip/fix-security-<wbr>format.patch =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0| 198 ++++++++-------------<br>&gt; =C2=A01 file changed, 78 inse=
-rtions(+), 120 deletions(-)<br>&gt;<br>&gt; diff --git a/meta/recipes-exten=
-ded/unzip/<wbr>unzip/fix-security-format.<wbr>patch b/meta/recipes-extended=
-/unzip/<wbr>unzip/fix-security-format.<wbr>patch<br>&gt; index c82f502..8e9=
-b06c 100644<br>&gt; --- a/meta/recipes-extended/unzip/<wbr>unzip/fix-securi=
-ty-format.<wbr>patch<br>&gt; +++ b/meta/recipes-extended/unzip/<wbr>unzip/f=
-ix-security-format.<wbr>patch<br>&gt; @@ -9,131 +9,89 @@ Upstream-Status: P=
-ending<br>&gt;<br>&gt; =C2=A0Signed-off-by: Edwin Plauchu &lt;<a href=3D"ma=
-ilto:edwin.plauchu.camacho@intel.com" target=3D"_blank">edwin.plauchu.camac=
-ho@intel.<wbr>com</a>&gt;<br>&gt;<br>&gt; -diff --git a/unzpriv.h b/unzpriv=
-.h<br>&gt; -index c8d3eab..85e693a 100644<br>&gt; ---- a/unzpriv.h<br>&gt; =
--+++ b/unzpriv.h<br>&gt; -@@ -1006,7 +1006,7 @@<br>&gt; - # =C2=A0 =C2=A0de=
-fine LoadFarStringSmall(x) =C2=A0 Qstrfix(x)<br>&gt; - # =C2=A0 =C2=A0defin=
-e LoadFarStringSmall2(x) =C2=A0Qstrfix(x)<br>&gt; - # =C2=A0else<br>&gt; --=
-# =C2=A0 =C2=A0define LoadFarString(x) =C2=A0 =C2=A0 =C2=A0 =C2=A0(char *)(=
-x)<br>&gt; -+# =C2=A0 =C2=A0define LoadFarString(x) =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0&quot;%s&quot;,(char *)(x)<br><br></div></div>LoadFarString is used a=
- _lot_ in various different ways, usually as argument to another macro or f=
-unction. This sort of macro change seems potentially very dangerous in C, h=
-ave you checked this is ok in every case?.<br></div></blockquote><div><br><=
-/div><div>Edwin just pointed out to me that the patch actually removes this=
- macro change, and he&#39;s correct. My patch-of-patch reading failure.</di=
-v><div><br></div><div>So I&#39;m fine with this patch, sorry for noise.</di=
-v><div>=C2=A0=C2=A0Jussi</div><div><br></div></div></div></div>
+The way I see it, there are basically three ways to fix this issue:
+1. Modify gcc configuration so a different CPP path is searched, one that a=
+ctually exists
+2. "Create" the folder CPP assumes in the configured search path (via symli=
+nks)
+3. Use environment variable CPP_INCLUDE_PATH (in modified environment scrip=
+ts)
 
---001a113ba450a3ea13053b4b7227--
+Obviously, option #1 is the cleanest solution, but it is a bit more invasiv=
+e
+(would require configuring gcc with different --target=3Dxxx).=20
+Maybe this should be addressed in the next Yocto release, I think it is too=
+ late to do this for this release.
+
+As for option #2:
+mip64 multilib creates three distinct toolchains, two of them work fine, bu=
+t only because they have already adopted option #2. So using similar approa=
+ch to fix the third toolchain is also a matter of consistency. If you insta=
+ll the generated SDK, you will see there are three symlinks now (i.e. folde=
+r <path>/c++/6.2.0)instead of two.
+
+Using option #3 would fix the problem, but if we use it, we should use it c=
+onsistently for all toolchains.
+
+Juro
+
+> -----Original Message-----
+> From: openembedded-core-bounces@lists.openembedded.org
+> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of Ma=
+rk
+> Hatle
+> Sent: Monday, August 29, 2016 7:24 PM
+> To: openembedded-core@lists.openembedded.org
+> Subject: Re: [OE-core] [PATCH 1/1] gcc-runtime.inc: add CPP support for
+> mips64-n32 tune
+>=20
+> On 8/30/16 6:45 AM, Juro Bystricky wrote:
+> > This patch fixes the problem where the CPP compiler cannot find include
+> files.
+> > The compiler is configured to look for the files in places that do not
+> exist.
+> > When querying the CPP for search paths, we observe messages such as
+> these:
+> >
+> > multilib configuration:
+> >
+> > MACHINE=3D"qemumips64"
+> > require conf/multilib.conf
+> > MULTILIBS =3D "multilib:lib64 multilib:lib32"
+> > DEFAULTTUNE =3D "mips64-n32"
+> > DEFAULTTUNE_virtclass-multilib-lib64 =3D "mips64"
+> > DEFAULTTUNE_virtclass-multilib-lib32 =3D "mips32r2"
+> >
+> > ignoring nonexistent directory "<path>/sysroots/mips64-n32-poky-linux-
+> gnun32/usr/include/c++/6.2.0/mips64-poky-linux/32
+> >
+> > single lib configuration:
+> > MACHINE=3D"qemumips64"
+> > DEFAULTTUNE =3D "mips64-n32"
+> > ignoring nonexistent directory "<path>/sysroots/mips64-n32-poky-linux-
+> gnun32/usr/include/c++/6.2.0/mips64-poky-linux/
+> >
+> > To fix this, create a symlink of the name CPP expects and point it to t=
+he
+> corresponding "gnun32" directory.
+> >
+> > [YOCTO#10142]
+> >
+> > Signed-off-by: Juro Bystricky <juro.bystricky@intel.com>
+> > ---
+> >  meta/recipes-devtools/gcc/gcc-runtime.inc | 10 ++++++++++
+> >  1 file changed, 10 insertions(+)
+> >
+> > diff --git a/meta/recipes-devtools/gcc/gcc-runtime.inc b/meta/recipes-
+> devtools/gcc/gcc-runtime.inc
+> > index 526be55..9791e21 100644
+> > --- a/meta/recipes-devtools/gcc/gcc-runtime.inc
+> > +++ b/meta/recipes-devtools/gcc/gcc-runtime.inc
+> > @@ -82,6 +82,16 @@ do_install_append_class-target () {
+> >  	if [ "${TARGET_OS}" =3D "linux-gnuspe" ]; then
+> >  		ln -s ${TARGET_SYS}
+> ${D}${includedir}/c++/${BINV}/${TARGET_ARCH}${TARGET_VENDOR}-linux
+> >  	fi
+> > +
+> > +	if [ "${TARGET_OS}" =3D "linux-gnun32" ]; then
+> > +		if [ "${MULTILIBS}" !=3D "" ]; then
+> > +			mkdir ${D}${includedir}/c++/${BINV}/${TARGET_ARCH}-
+> pokymllib64-linux
+> > +			ln -s ../${TARGET_SYS}
+> ${D}${includedir}/c++/${BINV}/${TARGET_ARCH}-pokymllib64-linux/32
+> > +		else
+> > +			ln -s ${TARGET_SYS}
+> ${D}${includedir}/c++/${BINV}/${TARGET_ARCH}${TARGET_VENDOR}-linux
+> > +		fi
+> > +	fi
+> > +
+>=20
+> It would be better if you can query the compiler that was produced for th=
+e
+> path
+> it is expecting.  (Often you can run it and capture the result with a
+> specific
+> command.  Then use that path as the input.  Simply verify if the expected
+> C++
+> path and the compiler path are the same, if not setup the link -- they ar=
+e
+> the
+> same continue on.)
+>=20
+> There may be a more simple solution however then all of this.
+>=20
+> In the environment file for the SDK, you can add the CPP_INCLUDE variable
+> and
+> set it to the right value... this will require a change to the environmen=
+t
+> setup
+> and a way to known the right value and the end location.
+>=20
+> BTW I believe the problem is the difference between the SDK view and the
+> host/cross compile view of the multilibs and such.  Something gets out of
+> sync
+> and needs to be manually fixed.
+>=20
+> --Mark
+>=20
+> >  	if [ "${TCLIBC}" !=3D "glibc" ]; then
+> >  		case "${TARGET_OS}" in
+> >  			"linux-musl" | "linux-uclibc" | "linux-*spe")
+> extra_target_os=3D"linux";;
+> >
+>=20
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
