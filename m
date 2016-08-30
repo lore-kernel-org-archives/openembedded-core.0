@@ -1,36 +1,50 @@
-Return-Path: <juro.bystricky@intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 498546E668
+Return-Path: <schnitzeltony@googlemail.com>
+Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 7A1E36E668
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Aug 2016 15:47:27 +0000 (UTC)
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-	by orsmga103.jf.intel.com with ESMTP; 30 Aug 2016 08:47:28 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.30,257,1470726000"; 
-   d="scan'208";a="2829515"
-Received: from orsmsx109.amr.corp.intel.com ([10.22.240.7])
-	by orsmga004.jf.intel.com with ESMTP; 30 Aug 2016 08:47:28 -0700
-Received: from orsmsx112.amr.corp.intel.com ([169.254.3.251]) by
-	ORSMSX109.amr.corp.intel.com ([169.254.11.150]) with mapi id
-	14.03.0248.002; Tue, 30 Aug 2016 08:47:28 -0700
-From: "Bystricky, Juro" <juro.bystricky@intel.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH 1/1] gcc-runtime.inc: add CPP support for
-	mips64-n32 tune
-Thread-Index: AQHSAkcR3GB1r9R5Ukq5ITVbXIEP2KBhPAAAgABqzeA=
-Date: Tue, 30 Aug 2016 15:47:27 +0000
-Message-ID: <6E51916E4A1F32428260031F4C7CD2B611881DDD@ORSMSX112.amr.corp.intel.com>
-References: <1472510736-3148-1-git-send-email-juro.bystricky@intel.com>
-	<1472510736-3148-2-git-send-email-juro.bystricky@intel.com>
-	<91bed634-2b94-5920-65bc-d0844bc6f01d@windriver.com>
-In-Reply-To: <91bed634-2b94-5920-65bc-d0844bc6f01d@windriver.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.22.254.139]
+	Tue, 30 Aug 2016 15:51:41 +0000 (UTC)
+Received: by mail-wm0-f68.google.com with SMTP id o80so3771899wme.0
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 30 Aug 2016 08:51:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=googlemail.com; s=20120113;
+	h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=SxFIZPTGxLbzE9xQzT/+tAWSxjV6NdVrhomt6F+58qA=;
+	b=AJnTi3iP2ddvaG0AxOnegM+vJYOxnOYXhZZLMn0paVTyPsUzCjI9oQ9vQVBMUmGZgm
+	GQCTEy4gHlzpo1FvVLb9AT9XyVRDTxAZpdHDvSveJsWFcCShfZI7uDHdrJ6wA8j+mDNk
+	sNf/nXFo2ywZY4ujG1L2sB1CKN3N3USDpOXdA7OCR3SnPas+AyGqbyf0Zs3EEvuEwcdH
+	uzrBOQagwrqM7kGbhcML0wvsjWfwaQ0/2+YQ0vBkyFwFEKJtTyuXbF+HjN1rhX9zlDE3
+	qynrNhBVCTzUX9tcbXvIdk6Q1tqFwO2jfLp26myoaE2iDjucKnIUcuNdHyBGurohzTMf
+	7Uvg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=SxFIZPTGxLbzE9xQzT/+tAWSxjV6NdVrhomt6F+58qA=;
+	b=G3CRPdXtw68DA9JXBO7BA4jpl/jftNCL2Dn64dXDFD1ca5m9o1ASePbQOCNpj2rRMe
+	/+ZSQIPom8mSHJFOSqNtr9r+82YHa3Jq8ECQRQ36dPVHf1f8HtLNfeRCb7cV/oJo6cO1
+	rN63WR114yp9JHKi7VXpXJdH9dtm0LVvdp0aTg96w+IZx0onk/jFpffLQhZxTFvkzN4b
+	JmibrF5a+vfb8HTG0LbXx8rjZjT6Dxuc4WFLODQm8x3xMx0b88kDcLt+oj9pETOiqkrr
+	0rRT+TzdRVP7GKOQ8LeFl8y6tb+lrs0kqX0cojVrogst783uaZFlqHrv7MotrECIP1wh
+	L/Yg==
+X-Gm-Message-State: AE9vXwO8DSxnGGDQG0Z7upem2Kx+x1SSoa5Uz4Boz4k4YDboJVMyVqzK83+BpcAhGnUZHg==
+X-Received: by 10.28.101.5 with SMTP id z5mr15537259wmb.9.1472572301056;
+	Tue, 30 Aug 2016 08:51:41 -0700 (PDT)
+Received: from localhost.localdomain
+	(ip-95-222-156-64.hsi15.unitymediagroup.de. [95.222.156.64])
+	by smtp.googlemail.com with ESMTPSA id
+	s184sm19295156wmb.11.2016.08.30.08.51.40
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 30 Aug 2016 08:51:40 -0700 (PDT)
+From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@googlemail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 30 Aug 2016 17:51:04 +0200
+Message-Id: <1472572264-17009-1-git-send-email-schnitzeltony@googlemail.com>
+X-Mailer: git-send-email 2.5.5
 MIME-Version: 1.0
-Subject: Re: [PATCH 1/1] gcc-runtime.inc: add CPP support for mips64-n32 tune
+Subject: [PATCH] flex: fix gcc-6 failure
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,145 +57,106 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 30 Aug 2016 15:47:29 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 30 Aug 2016 15:51:41 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-The way I see it, there are basically three ways to fix this issue:
-1. Modify gcc configuration so a different CPP path is searched, one that a=
-ctually exists
-2. "Create" the folder CPP assumes in the configured search path (via symli=
-nks)
-3. Use environment variable CPP_INCLUDE_PATH (in modified environment scrip=
-ts)
+Gcc-6 does not allow c++ comments withing c-code. Files generated by flex
+can fail with:
 
-Obviously, option #1 is the cleanest solution, but it is a bit more invasiv=
-e
-(would require configuring gcc with different --target=3Dxxx).=20
-Maybe this should be addressed in the next Yocto release, I think it is too=
- late to do this for this release.
+| error: C++ style comments are not allowed in ISO C90
+| num_to_alloc = 1; // After all that talk, this was set to 1 anyways...
 
-As for option #2:
-mip64 multilib creates three distinct toolchains, two of them work fine, bu=
-t only because they have already adopted option #2. So using similar approa=
-ch to fix the third toolchain is also a matter of consistency. If you insta=
-ll the generated SDK, you will see there are three symlinks now (i.e. folde=
-r <path>/c++/6.2.0)instead of two.
+Signed-off-by: Andreas Müller <schnitzeltony@googlemail.com>
+---
+ ...oid-c-comments-in-c-code-fails-with-gcc-6.patch | 64 ++++++++++++++++++++++
+ meta/recipes-devtools/flex/flex_2.6.0.bb           |  1 +
+ 2 files changed, 65 insertions(+)
+ create mode 100644 meta/recipes-devtools/flex/flex/0002-avoid-c-comments-in-c-code-fails-with-gcc-6.patch
 
-Using option #3 would fix the problem, but if we use it, we should use it c=
-onsistently for all toolchains.
+diff --git a/meta/recipes-devtools/flex/flex/0002-avoid-c-comments-in-c-code-fails-with-gcc-6.patch b/meta/recipes-devtools/flex/flex/0002-avoid-c-comments-in-c-code-fails-with-gcc-6.patch
+new file mode 100644
+index 0000000..438ca5f
+--- /dev/null
++++ b/meta/recipes-devtools/flex/flex/0002-avoid-c-comments-in-c-code-fails-with-gcc-6.patch
+@@ -0,0 +1,64 @@
++From 7072befe1397af4eb01c3ff7edf99f0cd5076089 Mon Sep 17 00:00:00 2001
++From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@googlemail.com>
++Date: Tue, 30 Aug 2016 14:25:32 +0200
++Subject: [PATCH] avoid c++ comments in c-code - fails with gcc-6
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
++
++fixes:
++
++| error: C++ style comments are not allowed in ISO C90
++| num_to_alloc = 1; // After all that talk, this was set to 1 anyways...
++
++Upstream-Status: Pending
++
++Signed-off-by: Andreas Müller <schnitzeltony@googlemail.com>
++---
++ src/flex.skl | 2 +-
++ src/scan.c   | 2 +-
++ src/skel.c   | 2 +-
++ 3 files changed, 3 insertions(+), 3 deletions(-)
++
++diff --git a/src/flex.skl b/src/flex.skl
++index 73a0b9e..ed71627 100644
++--- a/src/flex.skl
+++++ b/src/flex.skl
++@@ -2350,7 +2350,7 @@ void yyFlexLexer::yyensure_buffer_stack(void)
++ 		 * scanner will even need a stack. We use 2 instead of 1 to avoid an
++ 		 * immediate realloc on the next call.
++          */
++-		num_to_alloc = 1; // After all that talk, this was set to 1 anyways...
+++		num_to_alloc = 1; /* After all that talk, this was set to 1 anyways... */
++ 		YY_G(yy_buffer_stack) = (struct yy_buffer_state**)yyalloc
++ 								(num_to_alloc * sizeof(struct yy_buffer_state*)
++ 								M4_YY_CALL_LAST_ARG);
++diff --git a/src/scan.c b/src/scan.c
++index b55df2d..f1dce75 100644
++--- a/src/scan.c
+++++ b/src/scan.c
++@@ -4672,7 +4672,7 @@ static void yyensure_buffer_stack (void)
++ 		 * scanner will even need a stack. We use 2 instead of 1 to avoid an
++ 		 * immediate realloc on the next call.
++          */
++-		num_to_alloc = 1; // After all that talk, this was set to 1 anyways...
+++		num_to_alloc = 1; /* After all that talk, this was set to 1 anyways...*/
++ 		(yy_buffer_stack) = (struct yy_buffer_state**)yyalloc
++ 								(num_to_alloc * sizeof(struct yy_buffer_state*)
++ 								);
++diff --git a/src/skel.c b/src/skel.c
++index ef657d3..26cc889 100644
++--- a/src/skel.c
+++++ b/src/skel.c
++@@ -2561,7 +2561,7 @@ const char *skel[] = {
++   "		 * scanner will even need a stack. We use 2 instead of 1 to avoid an",
++   "		 * immediate realloc on the next call.",
++   "         */",
++-  "		num_to_alloc = 1; // After all that talk, this was set to 1 anyways...",
+++  "		num_to_alloc = 1; /* After all that talk, this was set to 1 anyways... */",
++   "		YY_G(yy_buffer_stack) = (struct yy_buffer_state**)yyalloc",
++   "								(num_to_alloc * sizeof(struct yy_buffer_state*)",
++   "								M4_YY_CALL_LAST_ARG);",
++-- 
++2.5.5
++
+diff --git a/meta/recipes-devtools/flex/flex_2.6.0.bb b/meta/recipes-devtools/flex/flex_2.6.0.bb
+index f6d136c..db2cf1c 100644
+--- a/meta/recipes-devtools/flex/flex_2.6.0.bb
++++ b/meta/recipes-devtools/flex/flex_2.6.0.bb
+@@ -14,6 +14,7 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/flex/flex-${PV}.tar.bz2 \
+            file://run-ptest \
+            file://do_not_create_pdf_doc.patch \
+            file://0001-tests-add-a-target-for-building-tests-without-runnin.patch \
++           file://0002-avoid-c-comments-in-c-code-fails-with-gcc-6.patch \
+            ${@bb.utils.contains('PTEST_ENABLED', '1', '', 'file://disable-tests.patch', d)} \
+            "
+ 
+-- 
+2.5.5
 
-Juro
-
-> -----Original Message-----
-> From: openembedded-core-bounces@lists.openembedded.org
-> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of Ma=
-rk
-> Hatle
-> Sent: Monday, August 29, 2016 7:24 PM
-> To: openembedded-core@lists.openembedded.org
-> Subject: Re: [OE-core] [PATCH 1/1] gcc-runtime.inc: add CPP support for
-> mips64-n32 tune
->=20
-> On 8/30/16 6:45 AM, Juro Bystricky wrote:
-> > This patch fixes the problem where the CPP compiler cannot find include
-> files.
-> > The compiler is configured to look for the files in places that do not
-> exist.
-> > When querying the CPP for search paths, we observe messages such as
-> these:
-> >
-> > multilib configuration:
-> >
-> > MACHINE=3D"qemumips64"
-> > require conf/multilib.conf
-> > MULTILIBS =3D "multilib:lib64 multilib:lib32"
-> > DEFAULTTUNE =3D "mips64-n32"
-> > DEFAULTTUNE_virtclass-multilib-lib64 =3D "mips64"
-> > DEFAULTTUNE_virtclass-multilib-lib32 =3D "mips32r2"
-> >
-> > ignoring nonexistent directory "<path>/sysroots/mips64-n32-poky-linux-
-> gnun32/usr/include/c++/6.2.0/mips64-poky-linux/32
-> >
-> > single lib configuration:
-> > MACHINE=3D"qemumips64"
-> > DEFAULTTUNE =3D "mips64-n32"
-> > ignoring nonexistent directory "<path>/sysroots/mips64-n32-poky-linux-
-> gnun32/usr/include/c++/6.2.0/mips64-poky-linux/
-> >
-> > To fix this, create a symlink of the name CPP expects and point it to t=
-he
-> corresponding "gnun32" directory.
-> >
-> > [YOCTO#10142]
-> >
-> > Signed-off-by: Juro Bystricky <juro.bystricky@intel.com>
-> > ---
-> >  meta/recipes-devtools/gcc/gcc-runtime.inc | 10 ++++++++++
-> >  1 file changed, 10 insertions(+)
-> >
-> > diff --git a/meta/recipes-devtools/gcc/gcc-runtime.inc b/meta/recipes-
-> devtools/gcc/gcc-runtime.inc
-> > index 526be55..9791e21 100644
-> > --- a/meta/recipes-devtools/gcc/gcc-runtime.inc
-> > +++ b/meta/recipes-devtools/gcc/gcc-runtime.inc
-> > @@ -82,6 +82,16 @@ do_install_append_class-target () {
-> >  	if [ "${TARGET_OS}" =3D "linux-gnuspe" ]; then
-> >  		ln -s ${TARGET_SYS}
-> ${D}${includedir}/c++/${BINV}/${TARGET_ARCH}${TARGET_VENDOR}-linux
-> >  	fi
-> > +
-> > +	if [ "${TARGET_OS}" =3D "linux-gnun32" ]; then
-> > +		if [ "${MULTILIBS}" !=3D "" ]; then
-> > +			mkdir ${D}${includedir}/c++/${BINV}/${TARGET_ARCH}-
-> pokymllib64-linux
-> > +			ln -s ../${TARGET_SYS}
-> ${D}${includedir}/c++/${BINV}/${TARGET_ARCH}-pokymllib64-linux/32
-> > +		else
-> > +			ln -s ${TARGET_SYS}
-> ${D}${includedir}/c++/${BINV}/${TARGET_ARCH}${TARGET_VENDOR}-linux
-> > +		fi
-> > +	fi
-> > +
->=20
-> It would be better if you can query the compiler that was produced for th=
-e
-> path
-> it is expecting.  (Often you can run it and capture the result with a
-> specific
-> command.  Then use that path as the input.  Simply verify if the expected
-> C++
-> path and the compiler path are the same, if not setup the link -- they ar=
-e
-> the
-> same continue on.)
->=20
-> There may be a more simple solution however then all of this.
->=20
-> In the environment file for the SDK, you can add the CPP_INCLUDE variable
-> and
-> set it to the right value... this will require a change to the environmen=
-t
-> setup
-> and a way to known the right value and the end location.
->=20
-> BTW I believe the problem is the difference between the SDK view and the
-> host/cross compile view of the multilibs and such.  Something gets out of
-> sync
-> and needs to be manually fixed.
->=20
-> --Mark
->=20
-> >  	if [ "${TCLIBC}" !=3D "glibc" ]; then
-> >  		case "${TARGET_OS}" in
-> >  			"linux-musl" | "linux-uclibc" | "linux-*spe")
-> extra_target_os=3D"linux";;
-> >
->=20
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
