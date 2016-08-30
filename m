@@ -1,24 +1,47 @@
-Return-Path: <philip@balister.org>
-Received: from starfish.geekisp.com (starfish.geekisp.com [216.168.135.166])
-	by mail.openembedded.org (Postfix) with SMTP id 03D8960670
+Return-Path: <fabio.berton@ossystems.com.br>
+Received: from mail-qk0-f195.google.com (mail-qk0-f195.google.com
+	[209.85.220.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 7EF7F601D3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Aug 2016 18:47:18 +0000 (UTC)
-Received: (qmail 9003 invoked by uid 1003); 30 Aug 2016 18:47:18 -0000
-Received: from unknown (HELO ?192.168.11.142?)
-	(philip@opensdr.com@71.171.12.218)
-	by mail.geekisp.com with (DHE-RSA-AES128-SHA encrypted) SMTP;
-	30 Aug 2016 18:47:18 -0000
-To: Jack Mitchell <ml@embed.me.uk>,
-	OE-core <openembedded-core@lists.openembedded.org>
-References: <6564e30c-bf94-8476-ac22-0be131193ebd@embed.me.uk>
-From: Philip Balister <philip@balister.org>
-Message-ID: <3ad18432-f58d-5ff3-3f18-8e39e1a43cfa@balister.org>
-Date: Tue, 30 Aug 2016 14:47:17 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.2.0
-MIME-Version: 1.0
-In-Reply-To: <6564e30c-bf94-8476-ac22-0be131193ebd@embed.me.uk>
-Subject: Re: gcc 6.1+ and isystem
+	Tue, 30 Aug 2016 19:19:29 +0000 (UTC)
+Received: by mail-qk0-f195.google.com with SMTP id v123so1967371qkh.3
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 30 Aug 2016 12:19:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
+	h=from:to:cc:subject:date:message-id:organization;
+	bh=L09KOYOzmWAhNUEfxwOPnBLA3i+tMjwW43RMTJANBr8=;
+	b=a6gAtea8QGrb2Cmn8+740q3y6epVjyrHb8XA6UckzS4nLUS2HW1UqEZNYpLr4yZnUB
+	uLYiuor0BmK4YXxPgKrawebA5SFk7LZDT1LZ8BvfeJdBwZwutHBPr3+et/JiSzDHp5NH
+	ILCKse5z4Ajv+CPK8yf0c6Wr7sUYUW71c8V2kN7XwEuswsH8UfvV1PnPC/op5BMaCNas
+	5gXlyGl7IkSg2RUd20BMKacVzK9oITr3fPfcB74NFgWeRWUH1LfM4gPBi9tG11oQGtfD
+	sPLbG4EbxykiG47AJcxLAD15pn9+m/HoN5qEHC+6f/lxzv+0AjHviuVlekY8i4aT6yrK
+	IYPw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:organization;
+	bh=L09KOYOzmWAhNUEfxwOPnBLA3i+tMjwW43RMTJANBr8=;
+	b=BVsheKYaK/lNBj99KmpZOV9aL0URdOAiRVP9ifSHI3mfR1hkmPodEpyU6cmb17dnm/
+	iW0LFT5bR3Vna1B04/FzVvlAJaciNGVZj0FT7uXw1A9P0hwA+/CmcGBRHlO4ak5XieTL
+	MeeGWD9NRhXfvXU82x8ia23qZHVv8hAM/n07PDjtK0kCopVKjyH1jArq3xCiyMn8B0Lr
+	uGceNCJRiNa64nKPuTjZR1TxsxcCDsBpXdGBJdYqYs5Ne0JSlo/AWYZVZQzw4rP+dkTu
+	+MO8KpmfjpY7k9laXltjoB51zhcYTwEduPWpqlXREbhQfxB1v1ZaTN4mexLJoDXFcKlY
+	0O2w==
+X-Gm-Message-State: AE9vXwPAqRxXixXFMgFZ2ZDGMaHyU7Nil1S4yBhTkDB4iyDYKCHT9lMJO1E38Yz0gRNHEQ==
+X-Received: by 10.233.239.149 with SMTP id d143mr6742985qkg.176.1472584769759; 
+	Tue, 30 Aug 2016 12:19:29 -0700 (PDT)
+Received: from monster.lab.ossystems.com.br ([177.100.224.8])
+	by smtp.gmail.com with ESMTPSA id
+	f62sm22523511qka.3.2016.08.30.12.19.27
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Tue, 30 Aug 2016 12:19:28 -0700 (PDT)
+From: Fabio Berton <fabio.berton@ossystems.com.br>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 30 Aug 2016 16:19:12 -0300
+Message-Id: <1472584752-24827-1-git-send-email-fabio.berton@ossystems.com.br>
+X-Mailer: git-send-email 2.1.4
+Organization: O.S. Systems Software LTDA.
+Subject: [PATCH] linux-firmware: Bump revision to 7534e19
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,37 +54,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 30 Aug 2016 18:47:19 -0000
-Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 30 Aug 2016 19:19:31 -0000
 
-On 08/30/2016 11:37 AM, Jack Mitchell wrote:
-> Some of the headers shipped with gcc 6.1 and above now use #include_next
-> to try to and do clever things with munging system header files. Our
-> injection of isystem into the build at 'meta/conf/bitbake.conf' seems to
-> be causing some programs to fail to compile. A full explanation can be
-> found at [1], a bug report from GCC specifying that it should only be
-> used in extreme cases at [2].
-> 
-> Since we seem to be adding -isystem unconditionally to BUILD_CFLAGS from
-> bitbake, and that the default behavior has now changed should this be
-> revisited? I'll admit that I am no where near experienced enough with
-> GCC and friends internals to make a call on this one, I'm just looking
-> for some input.
+Signed-off-by: Fabio Berton <fabio.berton@ossystems.com.br>
+---
+ meta/recipes-kernel/linux-firmware/linux-firmware_git.bb | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-I think this issue is casuing me trouble building GNU Radio with qt5
-support also. I'll try and verify this. I never did figure out where the
--isystem came from. Thanks for the email Jack!
+diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
+index ed0c6ec..5314ff9 100644
+--- a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
++++ b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
+@@ -112,7 +112,7 @@ LIC_FILES_CHKSUM = "\
+     file://LICENCE.xc4000;md5=0ff51d2dc49fce04814c9155081092f0 \
+     file://LICENCE.xc5000;md5=1e170c13175323c32c7f4d0998d53f66 \
+     file://LICENCE.xc5000c;md5=12b02efa3049db65d524aeb418dd87ca \
+-    file://WHENCE;md5=fc7f8a9fce11037078e90df415baad71 \
++    file://WHENCE;md5=0eb5bc029ecbe85c54524114cf17ed0e \
+ "
+ 
+ # These are not common licenses, set NO_GENERIC_LICENSE for them
+@@ -172,7 +172,7 @@ NO_GENERIC_LICENSE[Firmware-xc5000] = "LICENCE.xc5000"
+ NO_GENERIC_LICENSE[Firmware-xc5000c] = "LICENCE.xc5000c"
+ NO_GENERIC_LICENSE[WHENCE] = "WHENCE"
+ 
+-SRCREV = "cccb6a0da98372bd66787710249727ad6b0aaf72"
++SRCREV = "7534e191256629a20c02e04d5f6d0439c48de80a"
+ PE = "1"
+ PV = "0.0+git${SRCPV}"
+ 
+-- 
+2.1.4
 
-Philip
-
-
-> 
-> Regards,
-> Jack.
-> 
-> [1]
-> http://stackoverflow.com/questions/37218953/isystem-on-a-system-include-directory-causes-errors
-> 
-> [2] https://gcc.gnu.org/bugzilla/show_bug.cgi?id=70129
 
