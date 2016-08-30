@@ -1,24 +1,20 @@
-Return-Path: <Jackie.Huang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 6F5EE60746
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Aug 2016 08:24:33 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u7U8OXMW026598
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Aug 2016 01:24:33 -0700 (PDT)
-Received: from pek-hostel-deb01.wrs.com (128.224.153.151) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.248.2; Tue, 30 Aug 2016 01:24:32 -0700
-From: <jackie.huang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 30 Aug 2016 16:08:51 +0800
-Message-ID: <20160830080851.29283-1-jackie.huang@windriver.com>
-X-Mailer: git-send-email 2.8.3
-MIME-Version: 1.0
-Subject: [PATCH] meta-ide-support: set noexec for tasks
+Return-Path: <jussi.kukkonen@intel.com>
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+	by mail.openembedded.org (Postfix) with ESMTP id A513460107;
+	Tue, 30 Aug 2016 08:31:59 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by fmsmga105.fm.intel.com with ESMTP; 30 Aug 2016 01:32:00 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.30,255,1470726000"; d="scan'208";a="754969490"
+Received: from theory.fi.intel.com ([10.237.72.196])
+	by FMSMGA003.fm.intel.com with ESMTP; 30 Aug 2016 01:31:59 -0700
+From: Jussi Kukkonen <jussi.kukkonen@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 30 Aug 2016 11:31:55 +0300
+Message-Id: <cover.1472467394.git.jussi.kukkonen@intel.com>
+X-Mailer: git-send-email 2.1.4
+Cc: openembedded-devel@lists.openembedded.org
+Subject: [PATCH 0/3] Clean up X init (oe-core vs meta-oe)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,45 +27,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 30 Aug 2016 08:24:35 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 30 Aug 2016 08:32:00 -0000
 
-From: Jackie Huang <jackie.huang@windriver.com>
+Goals:
+* Less confusing duplication between oe-core and meta-oe
+  (currently just adding meta-oe to BBLAYERS completely
+  changes X init because meta-oe provides another version of
+  xserver-nodm-init)
+* Make it easier to keep X init in sync between systemd and sysvinit
 
-The recipe is to generate an environment script in
-do_populate_ide_support for using an IDE, the tasks
-listed are not needed, so set 'noexec' for them.
+The xserver-nodm-init patch merges in functionality from
+xserver-nodm-init-2.0 from meta-oe: The combined "Xserver" script
+deprecates the ones in x11-common (oe-core) and xserver-common
+(meta-oe), and should work with other parts of either x11-common
+or xserver-common. In particular these differences still exist:
+ * Xsession files are different
+ * xserver-common generates X binary name and arguments at runtime
 
-Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
----
- meta/recipes-core/meta/meta-ide-support.bb | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+I believe the xserver-nodm-init-2.0 recipe can be removed after this
+patch with one caveat: The people who assume they will get
+xserver-common (meta-oe) without explicitly asking for it will be
+surprised. The x11 packagegroup has "VIRTUAL-RUNTIME_xserver_common"
+selection which will work but it does not seem to be commonly used.
 
-diff --git a/meta/recipes-core/meta/meta-ide-support.bb b/meta/recipes-core/meta/meta-ide-support.bb
-index 86c57cd..ee87a45 100644
---- a/meta/recipes-core/meta/meta-ide-support.bb
-+++ b/meta/recipes-core/meta/meta-ide-support.bb
-@@ -9,6 +9,19 @@ PR = "r3"
- 
- inherit meta toolchain-scripts
- 
-+do_fetch[noexec] = "1"
-+do_unpack[noexec] = "1"
-+do_patch[noexec] = "1"
-+do_configure[noexec] = "1"
-+do_compile[noexec] = "1"
-+do_install[noexec] = "1"
-+do_package[noexec] = "1"
-+do_packagedata[noexec] = "1"
-+do_package_write_ipk[noexec] = "1"
-+do_package_write_rpm[noexec] = "1"
-+do_package_write_deb[noexec] = "1"
-+do_populate_sysroot[noexec] = "1"
-+
- do_populate_ide_support () {
-   toolchain_create_tree_env_script
- }
+I'd be happy to take advice on how to minimize problems from the above as
+well as on how to handle the version problems: should I bump the recipe
+version above 2.0?
+
+Sorry about the timing wrt M3 freeze: This consumed much more time
+than planned. We can postpone if it looks too scary at this point.
+
+Jussi
+
+
+
+The following changes since commit 2fedd226c3385f1ac160b3aa0bfadbded85e288c:
+
+  ref-manual: Fixed small wording in PKGR in the glossary (2016-08-25 23:09:29 +0100)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib jku/xserver-nodm
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=jku/xserver-nodm
+
+Jussi Kukkonen (3):
+  base-files: Add shell test quoting
+  xserver-nodm-init: Deprecate /etc/X11/Xserver
+  x11-common: Remove Xserver script
+
+ meta/recipes-core/base-files/base-files/profile    |  2 +-
+ .../x11-common/x11-common/Xserver.in               | 12 ------
+ meta/recipes-graphics/x11-common/x11-common_0.1.bb | 10 +----
+ .../x11-common/xserver-nodm-init.bb                | 47 +++++++++++++---------
+ .../x11-common/xserver-nodm-init/Xserver           | 25 ++++++++++++
+ .../x11-common/xserver-nodm-init/Xusername         |  1 -
+ .../x11-common/xserver-nodm-init/xserver-nodm      | 10 +++--
+ .../x11-common/xserver-nodm-init/xserver-nodm.conf |  1 -
+ .../xserver-nodm-init/xserver-nodm.conf.in         |  7 ++++
+ ...server-nodm.service => xserver-nodm.service.in} |  4 +-
+ 10 files changed, 69 insertions(+), 50 deletions(-)
+ delete mode 100644 meta/recipes-graphics/x11-common/x11-common/Xserver.in
+ create mode 100644 meta/recipes-graphics/x11-common/xserver-nodm-init/Xserver
+ delete mode 100644 meta/recipes-graphics/x11-common/xserver-nodm-init/Xusername
+ delete mode 100644 meta/recipes-graphics/x11-common/xserver-nodm-init/xserver-nodm.conf
+ create mode 100644 meta/recipes-graphics/x11-common/xserver-nodm-init/xserver-nodm.conf.in
+ rename meta/recipes-graphics/x11-common/xserver-nodm-init/{xserver-nodm.service => xserver-nodm.service.in} (76%)
+
 -- 
-2.7.4
+2.1.4
 
 
