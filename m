@@ -1,24 +1,26 @@
 Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 19F806FFE8
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 0604C7318A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Aug 2016 16:49:12 +0000 (UTC)
+	Tue, 30 Aug 2016 16:49:15 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u7UGn9QR014227
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 30 Aug 2016 09:49:09 -0700 (PDT)
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u7UGnD5j009305
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
+	Tue, 30 Aug 2016 09:49:13 -0700
 Received: from yow-bashfiel-d4.wrs.com (128.224.56.94) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.248.2; Tue, 30 Aug 2016 09:49:08 -0700
+	14.3.248.2; Tue, 30 Aug 2016 09:49:12 -0700
 From: Bruce Ashfield <bruce.ashfield@windriver.com>
 To: <richard.purdie@linuxfoundation.org>
-Date: Tue, 30 Aug 2016 12:48:58 -0400
-Message-ID: <cover.1472574514.git.bruce.ashfield@windriver.com>
+Date: Tue, 30 Aug 2016 12:49:00 -0400
+Message-ID: <c50e7f2d790ac08c77060101f16129a4d02adc34.1472574514.git.bruce.ashfield@windriver.com>
 X-Mailer: git-send-email 2.5.0
+In-Reply-To: <cover.1472574514.git.bruce.ashfield@windriver.com>
+References: <cover.1472574514.git.bruce.ashfield@windriver.com>
 MIME-Version: 1.0
 Cc: saul.wold@intel.com, openembedded-core@lists.openembedded.org
-Subject: [PATCH 0/9] linux-yocto: v4.8 + fixes + configuration updates + RFC
+Subject: [PATCH 2/9] perf: adapt to Makefile.config
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,140 +33,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 30 Aug 2016 16:49:14 -0000
+X-List-Received-Date: Tue, 30 Aug 2016 16:49:16 -0000
 Content-Type: text/plain
 
-Hi all,
+commit 4842576cd857 [perf tools: Move config/Makefile into Makefile.config]
+relocated the configuration Makefile of perf. As such, we need to adapt
+our fixup routines to work with the Makefile no matter where it is.
 
-Here's the latest updates to the linux-yoco* baseline support. There are
-three distinct blocks in the consolidated pull request, with the biggest
-being the introduction of a 4.8 named kernel and 4.8 based libc-headers.
+Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+---
+ meta/recipes-kernel/perf/perf.bb | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
 
-The others are fixes to the kernel-yocto processing and kernel meta data
-updates. As such, these commits can be taken in isolation to the 4.8
-update that I've included in the pull request.
-
-  kernel-yocto: test for empty artifacts
-  linux-yocto/4.x: configuration updates
-  kernel-yocto: do_kernel_configme: Fix silent sysroot poisoning error
-
-On the topic of the version 4.8:
-
-  - This is the intended 'newest' kernel for the upcoming fall release
-    cycle. We will have a shiny new one this time around.
-    
-  - yes it is a -rc4 release, but the version wasn't chosen by mistake
-    (or lightly). It was the typical balancing act.
-    
-       - It is nice to work through the development cycle of the
-         upstream kernel, since we can send fixes in realtime to the
-         mainline tree .. but this is the side effect of the choice,
-         not the reason
-
-       - This version balances a new enough kernel, LTS/LTSI, -rt,
-         platform updates (ARM/x86) and the timing of the release.
-
-         The LTS/LTSI kernels are either too old at the moment, and
-         won't get a port of major patch series like -rt. Hence why
-         v4.8 shoots the difference between the options and gives us
-         a good baseline to update in the upcoming months, and one that
-         we can compliment with other kernel versions later.
-
-      - The delta between any -rcX releases is small, so following this
-        through until its release is not a big issue.
-
-build/boot testing:
-
-  - I've built and booted qemu* with core-image-sato, so it is known
-    to build and have a sane runtime for all arches. I've also built
-    the typical packages that misbehave (lttng, perf, etc).
-
-  - The versatile platform switched to a device tree boot in the 4.7
-    timeframe. As such, I had to patch runqemu to use a device tree
-    .. and use that device tree conditionally, since we have to support
-    older kernels at the same time as 4.7+
-
-  - I know that there are pending changes to the way runqemu works, but
-    I patched what I had in master .. these can be updated/adjusted if
-    need be.
-
-libc-headers update:
-
-  - Since there are milestone builds coming up, I wanted to get the 4.8
-    libc headers in place. Which meant that I had to do some different
-    things to use the testing kernel tarball, and to get the version of
-    the package right.
-
-    This might cause us version stepping issues .. so anyone looking at
-    this can suggest what I need to do to avoid them, and I can update
-    and rebase the series with the proper fix.
-
-The linux-yocto-4.8 repository:
-   
-  - There have been comments about the linux-yocto* repos filling up
-    download directories, and consuming people's bandwidth.  Since we
-    don't have a shallow clone or reference clone way to deal with the
-    amount of shared kernel blobs, I've simultaneously generated a v4.8
-    kernel in a repository that could be re-used over time.
-
-      http://git.yoctoproject.org/cgit/cgit.cgi/linux-yocto/
-
-    The proposal is that if we really want to avoid separate kernel trees,
-    and keep the ability to rebase/remove/amend old commits to keep the
-    tree clean, that I can insert the version number into the branches
-    as a marker. Comments on this approach are welcome, since if we go this
-    way, I need to adjust all the KBRANCH variables.
-
-I'll follow up with commits to change the default qemu version to 4.8 once
-there's general agreement about the options on this.
-
-Cheers,
-
-Bruce
-
-The following changes since commit 2fedd226c3385f1ac160b3aa0bfadbded85e288c:
-
-  ref-manual: Fixed small wording in PKGR in the glossary (2016-08-25 23:09:29 +0100)
-
-are available in the git repository at:
-
-  git://git.pokylinux.org/poky-contrib zedd/kernel
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
-
-Bruce Ashfield (8):
-  linux-yocto: introduce v4.8 recipes
-  perf: adapt to Makefile.config
-  qemuarm: add device tree support
-  linux-yocto-dev: bump to v4.8+
-  libc-headers: update to v4.8
-  linux-yocto/4.8: add qemuarm device tree specification
-  kernel-yocto: test for empty artifacts
-  linux-yocto/4.x: configuration updates
-
-Ioan-Adrian Ratiu (1):
-  kernel-yocto: do_kernel_configme: Fix silent sysroot poisoning error
-
- meta/classes/kernel-yocto.bbclass                  | 12 ++++--
- meta/conf/distro/include/tcmode-default.inc        |  2 +-
- .../linux-libc-headers/linux-libc-headers_4.8.bb   | 13 +++++++
- meta/recipes-kernel/linux/linux-yocto-dev.bb       |  4 +-
- meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb    |  2 +-
- meta/recipes-kernel/linux/linux-yocto-rt_4.4.bb    |  2 +-
- meta/recipes-kernel/linux/linux-yocto-rt_4.8.bb    | 38 +++++++++++++++++++
- meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb  |  2 +-
- meta/recipes-kernel/linux/linux-yocto-tiny_4.4.bb  |  2 +-
- meta/recipes-kernel/linux/linux-yocto-tiny_4.8.bb  | 25 ++++++++++++
- meta/recipes-kernel/linux/linux-yocto_4.1.bb       |  2 +-
- meta/recipes-kernel/linux/linux-yocto_4.4.bb       |  2 +-
- meta/recipes-kernel/linux/linux-yocto_4.8.bb       | 44 ++++++++++++++++++++++
- meta/recipes-kernel/perf/perf.bb                   |  9 ++++-
- scripts/runqemu-internal                           |  3 ++
- 15 files changed, 150 insertions(+), 12 deletions(-)
- create mode 100644 meta/recipes-kernel/linux-libc-headers/linux-libc-headers_4.8.bb
- create mode 100644 meta/recipes-kernel/linux/linux-yocto-rt_4.8.bb
- create mode 100644 meta/recipes-kernel/linux/linux-yocto-tiny_4.8.bb
- create mode 100644 meta/recipes-kernel/linux/linux-yocto_4.8.bb
-
+diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/perf/perf.bb
+index d4855488aeb0..88e3a0a78cd7 100644
+--- a/meta/recipes-kernel/perf/perf.bb
++++ b/meta/recipes-kernel/perf/perf.bb
+@@ -133,11 +133,17 @@ do_configure_prepend () {
+     # with each other if its in the shared source directory
+     #
+     if [ -e "${S}/tools/perf/config/Makefile" ]; then
++        perfconfig="${S}/tools/perf/config/Makefile"
++    fi
++    if [ -e "${S}/tools/perf/Makefile.config" ]; then
++        perfconfig="${S}/tools/perf/Makefile.config"
++    fi
++    if [ -n "${perfconfig}" ]; then
+         # Match $(prefix)/$(lib) and $(prefix)/lib
+         sed -i -e 's,^libdir = \($(prefix)/.*lib\),libdir ?= \1,' \
+                -e 's,^perfexecdir = \(.*\),perfexecdir ?= \1,' \
+                -e 's,\ .config-detected, $(OUTPUT)/config-detected,g' \
+-            ${S}/tools/perf/config/Makefile
++            ${perfconfig}
+     fi
+     # The man pages installation is "$(INSTALL) -d -m 755 $(DESTDIR)$(man1dir)"
+     # in ${S}/tools/perf/Documentation/Makefile, if the mandir set to '?=', it
+@@ -214,6 +220,7 @@ RDEPENDS_${PN}-tests =+ "python"
+ RSUGGESTS_SCRIPTING = "${@perf_feature_enabled('perf-scripting', '${PN}-perl ${PN}-python', '',d)}"
+ RSUGGESTS_${PN} += "${PN}-archive ${PN}-tests ${RSUGGESTS_SCRIPTING}"
+ 
++#FILES_${PN} += "${libexecdir}/perf-core ${exec_prefix}/libexec/perf-core /usr/lib64/traceevent ${libdir}/traceevent"
+ FILES_${PN} += "${libexecdir}/perf-core ${exec_prefix}/libexec/perf-core ${libdir}/traceevent"
+ FILES_${PN}-archive = "${libdir}/perf/perf-core/perf-archive"
+ FILES_${PN}-tests = "${libdir}/perf/perf-core/tests ${libexecdir}/perf-core/tests"
 -- 
 2.5.0
 
