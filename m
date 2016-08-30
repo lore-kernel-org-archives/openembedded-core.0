@@ -1,26 +1,26 @@
 Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id BF6C56FFE8
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id A9C4D731DA
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Aug 2016 16:49:17 +0000 (UTC)
+	Tue, 30 Aug 2016 16:49:18 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u7UGnGTF009309
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
-	Tue, 30 Aug 2016 09:49:17 -0700
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u7UGnI2d014244
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 30 Aug 2016 09:49:18 -0700 (PDT)
 Received: from yow-bashfiel-d4.wrs.com (128.224.56.94) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.248.2; Tue, 30 Aug 2016 09:49:16 -0700
+	14.3.248.2; Tue, 30 Aug 2016 09:49:17 -0700
 From: Bruce Ashfield <bruce.ashfield@windriver.com>
 To: <richard.purdie@linuxfoundation.org>
-Date: Tue, 30 Aug 2016 12:49:03 -0400
-Message-ID: <89463ec6e33f6ba793867711eb18d82ee58bc85b.1472574514.git.bruce.ashfield@windriver.com>
+Date: Tue, 30 Aug 2016 12:49:04 -0400
+Message-ID: <36310d26aea517e3d3498719ec3c05cd5c281b29.1472574514.git.bruce.ashfield@windriver.com>
 X-Mailer: git-send-email 2.5.0
 In-Reply-To: <cover.1472574514.git.bruce.ashfield@windriver.com>
 References: <cover.1472574514.git.bruce.ashfield@windriver.com>
 MIME-Version: 1.0
 Cc: saul.wold@intel.com, openembedded-core@lists.openembedded.org
-Subject: [PATCH 5/9] libc-headers: update to v4.8
+Subject: [PATCH 6/9] linux-yocto/4.8: add qemuarm device tree specification
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,50 +33,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 30 Aug 2016 16:49:17 -0000
+X-List-Received-Date: Tue, 30 Aug 2016 16:49:18 -0000
 Content-Type: text/plain
 
-Updating the libc-headers to use the 4.8 kernel as the default.
+4.7+ requires a device tree for the arm versatile family of platforms.
+We add the definition to our 4.8 linux-yocto recipes so we can continue
+to boot!
 
 Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
 ---
- meta/conf/distro/include/tcmode-default.inc                 |  2 +-
- .../linux-libc-headers/linux-libc-headers_4.8.bb            | 13 +++++++++++++
- 2 files changed, 14 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-kernel/linux-libc-headers/linux-libc-headers_4.8.bb
+ meta/recipes-kernel/linux/linux-yocto-dev.bb      | 2 ++
+ meta/recipes-kernel/linux/linux-yocto-rt_4.8.bb   | 2 ++
+ meta/recipes-kernel/linux/linux-yocto-tiny_4.8.bb | 2 ++
+ meta/recipes-kernel/linux/linux-yocto_4.8.bb      | 2 ++
+ 4 files changed, 8 insertions(+)
 
-diff --git a/meta/conf/distro/include/tcmode-default.inc b/meta/conf/distro/include/tcmode-default.inc
-index 7c73411de0a2..79855963282b 100644
---- a/meta/conf/distro/include/tcmode-default.inc
-+++ b/meta/conf/distro/include/tcmode-default.inc
-@@ -28,7 +28,7 @@ BINUVERSION ?= "2.27%"
- GDBVERSION ?= "7.11%"
- GLIBCVERSION ?= "2.24"
- UCLIBCVERSION ?= "1.0%"
--LINUXLIBCVERSION ?= "4.4"
-+LINUXLIBCVERSION ?= "4.8%"
+diff --git a/meta/recipes-kernel/linux/linux-yocto-dev.bb b/meta/recipes-kernel/linux/linux-yocto-dev.bb
+index 91c58bfccafa..dbe58477f54e 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-dev.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-dev.bb
+@@ -43,6 +43,8 @@ PV = "${LINUX_VERSION}+git${SRCPV}"
  
- PREFERRED_VERSION_gcc ?= "${GCCVERSION}"
- PREFERRED_VERSION_gcc-cross-${TARGET_ARCH} ?= "${GCCVERSION}"
-diff --git a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_4.8.bb b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_4.8.bb
-new file mode 100644
-index 000000000000..f80f02cb1896
---- /dev/null
-+++ b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_4.8.bb
-@@ -0,0 +1,13 @@
-+require linux-libc-headers.inc
+ COMPATIBLE_MACHINE = "(qemuarm|qemux86|qemuppc|qemumips|qemumips64|qemux86-64)"
+ 
++KERNEL_DEVICETREE_qemuarm = "versatile-pb.dtb"
 +
-+SRC_URI_forcevariable = "${KERNELORG_MIRROR}/linux/kernel/v${HEADER_FETCH_VER}/testing/linux-4.8-rc4.tar.${KORG_ARCHIVE_COMPRESSION}"
-+PV = "4.8-rc4"
+ # Functionality flags
+ KERNEL_EXTRA_FEATURES ?= "features/netfilter/netfilter.scc features/taskstats/taskstats.scc"
+ KERNEL_FEATURES_append = " ${KERNEL_EXTRA_FEATURES}"
+diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_4.8.bb b/meta/recipes-kernel/linux/linux-yocto-rt_4.8.bb
+index 9adf52322dc0..c602bd3b2c9c 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-rt_4.8.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-rt_4.8.bb
+@@ -28,6 +28,8 @@ LINUX_KERNEL_TYPE = "preempt-rt"
+ 
+ COMPATIBLE_MACHINE = "(qemux86|qemux86-64|qemuarm|qemuppc|qemumips)"
+ 
++KERNEL_DEVICETREE_qemuarm = "versatile-pb.dtb"
 +
-+SRC_URI_append_libc-musl = "\
-+    file://0001-libc-compat.h-fix-some-issues-arising-from-in6.h.patch \
-+    file://0002-libc-compat.h-prevent-redefinition-of-struct-ethhdr.patch \
-+    file://0003-remove-inclusion-of-sysinfo.h-in-kernel.h.patch \
-+   "
+ # Functionality flags
+ KERNEL_EXTRA_FEATURES ?= "features/netfilter/netfilter.scc features/taskstats/taskstats.scc"
+ KERNEL_FEATURES_append = " ${KERNEL_EXTRA_FEATURES}"
+diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_4.8.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_4.8.bb
+index a157c2aa80cd..ea89eebe6617 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-tiny_4.8.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-tiny_4.8.bb
+@@ -21,3 +21,5 @@ COMPATIBLE_MACHINE = "(qemux86$)"
+ 
+ # Functionality flags
+ KERNEL_FEATURES = ""
 +
-+SRC_URI[md5sum] = "269067213995c7742730ce53b8140c90"
-+SRC_URI[sha256sum] = "8f07a0d76a7d1a30490582ba9642b7f28370102bc4acc4bb4b2586c8eabf4447"
++KERNEL_DEVICETREE_qemuarm = "versatile-pb.dtb"
+diff --git a/meta/recipes-kernel/linux/linux-yocto_4.8.bb b/meta/recipes-kernel/linux/linux-yocto_4.8.bb
+index c92f7bcd18c2..cf31d3c846bd 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_4.8.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_4.8.bb
+@@ -31,6 +31,8 @@ PV = "${LINUX_VERSION}+git${SRCPV}"
+ KMETA = "kernel-meta"
+ KCONF_BSP_AUDIT_LEVEL = "2"
+ 
++KERNEL_DEVICETREE_qemuarm = "versatile-pb.dtb"
++
+ COMPATIBLE_MACHINE = "qemuarm|qemuarm64|qemux86|qemuppc|qemumips|qemumips64|qemux86-64"
+ 
+ # Functionality flags
 -- 
 2.5.0
 
