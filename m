@@ -1,29 +1,28 @@
 Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 02AD175C60
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 741BB731F7
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Aug 2016 09:31:15 +0000 (UTC)
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-	by fmsmga103.fm.intel.com with ESMTP; 30 Aug 2016 02:31:18 -0700
+	Tue, 30 Aug 2016 09:31:17 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 30 Aug 2016 02:31:18 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.30,255,1470726000"; 
-   d="scan'208";a="2696256"
+X-IronPort-AV: E=Sophos;i="5.30,255,1470726000"; d="scan'208";a="1022174751"
 Received: from linux.intel.com ([10.54.29.200])
-	by orsmga004.jf.intel.com with ESMTP; 30 Aug 2016 02:31:17 -0700
+	by orsmga001.jf.intel.com with ESMTP; 30 Aug 2016 02:31:18 -0700
 Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.68])
-	by linux.intel.com (Postfix) with ESMTP id 4AB2C6A4080
+	by linux.intel.com (Postfix) with ESMTP id 5EF7C6A4080
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Aug 2016 02:30:57 -0700 (PDT)
+	Tue, 30 Aug 2016 02:30:58 -0700 (PDT)
 From: Ed Bartosh <ed.bartosh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 30 Aug 2016 12:29:44 +0300
-Message-Id: <1f8d8e14b217e600e8ba5ab4bf21626f63c3eefb.1472548574.git.ed.bartosh@linux.intel.com>
+Date: Tue, 30 Aug 2016 12:29:45 +0300
+Message-Id: <2d1d350737272a75238bd15c0fcad40059ef9e32.1472548574.git.ed.bartosh@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1472548574.git.ed.bartosh@linux.intel.com>
 References: <cover.1472548574.git.ed.bartosh@linux.intel.com>
 In-Reply-To: <cover.1472548574.git.ed.bartosh@linux.intel.com>
 References: <cover.1472548574.git.ed.bartosh@linux.intel.com>
-Subject: [PATCH 11/18] rootfs.py: use DEPLOYDIR instead of DEPLOY_DIR_IMAGE
+Subject: [PATCH 12/18] image.bbclass: put image_complete under sstate control
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,44 +35,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 30 Aug 2016 09:31:16 -0000
+X-List-Received-Date: Tue, 30 Aug 2016 09:31:17 -0000
 
-Updated the code of Rootfs class to use DEPLOYDIR variable
-as it's now used as a new deployment destination.
+Adding image_complete task should make sstate machinery
+to generate manifest for deployed images and do final
+deployment to DEPLOY_DIR_IMAGE.
 
 Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
 ---
- meta/lib/oe/rootfs.py | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ meta/classes/image.bbclass | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/meta/lib/oe/rootfs.py b/meta/lib/oe/rootfs.py
-index 7c620e9..076bc33 100644
---- a/meta/lib/oe/rootfs.py
-+++ b/meta/lib/oe/rootfs.py
-@@ -19,7 +19,7 @@ class Rootfs(object, metaclass=ABCMeta):
-         self.d = d
-         self.pm = None
-         self.image_rootfs = self.d.getVar('IMAGE_ROOTFS', True)
--        self.deploy_dir_image = self.d.getVar('DEPLOY_DIR_IMAGE', True)
-+        self.deploydir = self.d.getVar('DEPLOYDIR', True)
-         self.progress_reporter = progress_reporter
+diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+index ea3792a7..3bfc328 100644
+--- a/meta/classes/image.bbclass
++++ b/meta/classes/image.bbclass
+@@ -264,6 +264,9 @@ do_image[dirs] = "${TOPDIR}"
+ do_image[umask] = "022"
+ addtask do_image after do_rootfs before do_build
  
-         self.install_order = Manifest.INSTALL_ORDER
-@@ -182,12 +182,12 @@ class Rootfs(object, metaclass=ABCMeta):
++DEPLOYDIR = "${WORKDIR}/deploy-${PN}"
++SSTATETASKS += "do_image_complete"
++
+ fakeroot python do_image_complete () {
+     from oe.utils import execute_pre_post_process
  
-         bb.utils.mkdirhier(self.image_rootfs)
+@@ -273,6 +276,8 @@ fakeroot python do_image_complete () {
+ }
+ do_image_complete[dirs] = "${TOPDIR}"
+ do_image_complete[umask] = "022"
++do_image_complete[sstate-inputdirs] = "${DEPLOYDIR}"
++do_image_complete[sstate-outputdirs] = "${DEPLOY_DIR_IMAGE}"
+ addtask do_image_complete after do_image before do_build
  
--        bb.utils.mkdirhier(self.deploy_dir_image)
-+        bb.utils.mkdirhier(self.deploydir)
- 
-         shutil.copytree(postinst_intercepts_dir, intercepts_dir)
- 
-         shutil.copy(self.d.expand("${COREBASE}/meta/files/deploydir_readme.txt"),
--                    self.deploy_dir_image +
-+                    self.deploydir +
-                     "/README_-_DO_NOT_DELETE_FILES_IN_THIS_DIRECTORY.txt")
- 
-         execute_pre_post_process(self.d, pre_process_cmds)
+ # Add image-level QA/sanity checks to IMAGE_QA_COMMANDS
 -- 
 2.1.4
 
