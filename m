@@ -1,29 +1,24 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id ECA6460017
+Return-Path: <edwin.plauchu.camacho@linux.intel.com>
+X-Greylist: delayed 600 seconds by postgrey-1.34 at layers.openembedded.org;
+	Tue, 30 Aug 2016 02:26:02 UTC
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+	by mail.openembedded.org (Postfix) with ESMTP id 7B17F605BA
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Aug 2016 02:24:20 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u7U2OKmt024277
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Aug 2016 19:24:20 -0700 (PDT)
-Received: from soho-mhatle-m.corp.ad.wrs.com (172.25.34.15) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.248.2; Mon, 29 Aug 2016 19:24:17 -0700
-To: <openembedded-core@lists.openembedded.org>
-References: <1472510736-3148-1-git-send-email-juro.bystricky@intel.com>
-	<1472510736-3148-2-git-send-email-juro.bystricky@intel.com>
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-Message-ID: <91bed634-2b94-5920-65bc-d0844bc6f01d@windriver.com>
-Date: Tue, 30 Aug 2016 10:24:16 +0800
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:45.0)
-	Gecko/20100101 Thunderbird/45.2.0
-MIME-Version: 1.0
-In-Reply-To: <1472510736-3148-2-git-send-email-juro.bystricky@intel.com>
-Subject: Re: [PATCH 1/1] gcc-runtime.inc: add CPP support for mips64-n32 tune
+	Tue, 30 Aug 2016 02:26:02 +0000 (UTC)
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+	by orsmga105.jf.intel.com with ESMTP; 29 Aug 2016 19:16:03 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.30,253,1470726000"; 
+   d="scan'208";a="2492934"
+Received: from pianodaemon-contraption.zpn.intel.com ([10.219.128.75])
+	by fmsmga005.fm.intel.com with ESMTP; 29 Aug 2016 19:16:02 -0700
+From: Edwin Plauchu <edwin.plauchu.camacho@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 29 Aug 2016 21:17:13 -0500
+Message-Id: <20160830021713.16392-1-edwin.plauchu.camacho@linux.intel.com>
+X-Mailer: git-send-email 2.9.3
+Cc: Edwin Plauchu <edwin.plauchu.camacho@intel.com>
+Subject: [PATCH V1] unzip: fixes strange output
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,80 +31,237 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 30 Aug 2016 02:24:22 -0000
-Content-Type: text/plain; charset="windows-1252"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 30 Aug 2016 02:26:03 -0000
 
-On 8/30/16 6:45 AM, Juro Bystricky wrote:
-> This patch fixes the problem where the CPP compiler cannot find include files.
-> The compiler is configured to look for the files in places that do not exist.
-> When querying the CPP for search paths, we observe messages such as these:
-> 
-> multilib configuration:
-> 
-> MACHINE="qemumips64"
-> require conf/multilib.conf
-> MULTILIBS = "multilib:lib64 multilib:lib32"
-> DEFAULTTUNE = "mips64-n32"
-> DEFAULTTUNE_virtclass-multilib-lib64 = "mips64"
-> DEFAULTTUNE_virtclass-multilib-lib32 = "mips32r2"
-> 
-> ignoring nonexistent directory "<path>/sysroots/mips64-n32-poky-linux-gnun32/usr/include/c++/6.2.0/mips64-poky-linux/32
-> 
-> single lib configuration:
-> MACHINE="qemumips64"
-> DEFAULTTUNE = "mips64-n32"
-> ignoring nonexistent directory "<path>/sysroots/mips64-n32-poky-linux-gnun32/usr/include/c++/6.2.0/mips64-poky-linux/
-> 
-> To fix this, create a symlink of the name CPP expects and point it to the corresponding "gnun32" directory.
-> 
-> [YOCTO#10142]
-> 
-> Signed-off-by: Juro Bystricky <juro.bystricky@intel.com>
-> ---
->  meta/recipes-devtools/gcc/gcc-runtime.inc | 10 ++++++++++
->  1 file changed, 10 insertions(+)
-> 
-> diff --git a/meta/recipes-devtools/gcc/gcc-runtime.inc b/meta/recipes-devtools/gcc/gcc-runtime.inc
-> index 526be55..9791e21 100644
-> --- a/meta/recipes-devtools/gcc/gcc-runtime.inc
-> +++ b/meta/recipes-devtools/gcc/gcc-runtime.inc
-> @@ -82,6 +82,16 @@ do_install_append_class-target () {
->  	if [ "${TARGET_OS}" = "linux-gnuspe" ]; then
->  		ln -s ${TARGET_SYS} ${D}${includedir}/c++/${BINV}/${TARGET_ARCH}${TARGET_VENDOR}-linux
->  	fi
-> +
-> +	if [ "${TARGET_OS}" = "linux-gnun32" ]; then
-> +		if [ "${MULTILIBS}" != "" ]; then
-> +			mkdir ${D}${includedir}/c++/${BINV}/${TARGET_ARCH}-pokymllib64-linux
-> +			ln -s ../${TARGET_SYS} ${D}${includedir}/c++/${BINV}/${TARGET_ARCH}-pokymllib64-linux/32
-> +		else
-> +			ln -s ${TARGET_SYS} ${D}${includedir}/c++/${BINV}/${TARGET_ARCH}${TARGET_VENDOR}-linux
-> +		fi
-> +	fi
-> +
+From: Edwin Plauchu <edwin.plauchu.camacho@intel.com>
 
-It would be better if you can query the compiler that was produced for the path
-it is expecting.  (Often you can run it and capture the result with a specific
-command.  Then use that path as the input.  Simply verify if the expected C++
-path and the compiler path are the same, if not setup the link -- they are the
-same continue on.)
+This fixes commit 763a3d424bccf559a8d6add3dc1f2746c82f2933
 
-There may be a more simple solution however then all of this.
+Output was strange when using unzip to extract zip file.
+This patch fixed so.
 
-In the environment file for the SDK, you can add the CPP_INCLUDE variable and
-set it to the right value... this will require a change to the environment setup
-and a way to known the right value and the end location.
+[YOCTO #9551]
 
-BTW I believe the problem is the difference between the SDK view and the
-host/cross compile view of the multilibs and such.  Something gets out of sync
-and needs to be manually fixed.
+Signed-off-by: Edwin Plauchu <edwin.plauchu.camacho@intel.com>
+---
+ .../unzip/unzip/fix-security-format.patch          | 198 ++++++++-------------
+ 1 file changed, 78 insertions(+), 120 deletions(-)
 
---Mark
-
->  	if [ "${TCLIBC}" != "glibc" ]; then
->  		case "${TARGET_OS}" in
->  			"linux-musl" | "linux-uclibc" | "linux-*spe") extra_target_os="linux";;
-> 
+diff --git a/meta/recipes-extended/unzip/unzip/fix-security-format.patch b/meta/recipes-extended/unzip/unzip/fix-security-format.patch
+index c82f502..8e9b06c 100644
+--- a/meta/recipes-extended/unzip/unzip/fix-security-format.patch
++++ b/meta/recipes-extended/unzip/unzip/fix-security-format.patch
+@@ -9,131 +9,89 @@ Upstream-Status: Pending
+ 
+ Signed-off-by: Edwin Plauchu <edwin.plauchu.camacho@intel.com>
+ 
+-diff --git a/unzpriv.h b/unzpriv.h
+-index c8d3eab..85e693a 100644
+---- a/unzpriv.h
+-+++ b/unzpriv.h
+-@@ -1006,7 +1006,7 @@
+- #    define LoadFarStringSmall(x)   Qstrfix(x)
+- #    define LoadFarStringSmall2(x)  Qstrfix(x)
+- #  else
+--#    define LoadFarString(x)        (char *)(x)
+-+#    define LoadFarString(x)        "%s",(char *)(x)
+- #    define LoadFarStringSmall(x)   (char *)(x)
+- #    define LoadFarStringSmall2(x)  (char *)(x)
+- #  endif
+-diff --git a/fileio.c b/fileio.c
+-index 36bfea3..ca779c2 100644
+---- a/fileio.c
+-+++ b/fileio.c
+-@@ -588,8 +588,8 @@ unsigned readbuf(__G__ buf, size)   /* return number of bytes read into buf */
+-             else if (G.incnt < 0) {
+-                 /* another hack, but no real harm copying same thing twice */
+-                 (*G.message)((zvoid *)&G,
+--                  (uch *)LoadFarString(ReadError),  /* CANNOT use slide */
+--                  (ulg)strlen(LoadFarString(ReadError)), 0x401);
+-+                  (uch *)(char*)(ReadError),  /* CANNOT use slide */
+-+                  (ulg)strlen((char*)(ReadError)), 0x401);
+-                 return 0;  /* discarding some data; better than lock-up */
+-             }
+-             /* buffer ALWAYS starts on a block boundary:  */
+-@@ -631,8 +631,8 @@ int readbyte(__G)   /* refill inbuf and return a byte if available, else EOF */
+-         } else if (G.incnt < 0) {  /* "fail" (abort, retry, ...) returns this */
+-             /* another hack, but no real harm copying same thing twice */
+-             (*G.message)((zvoid *)&G,
+--              (uch *)LoadFarString(ReadError),
+--              (ulg)strlen(LoadFarString(ReadError)), 0x401);
+-+              (uch *)(char*)(ReadError),
+-+              (ulg)strlen((char*)(ReadError)), 0x401);
+-             echon();
+- #ifdef WINDLL
+-             longjmp(dll_error_return, 1);
+-@@ -1356,7 +1356,7 @@ int UZ_EXP UzpMessagePrnt(pG, buf, size, flag)
+-                 ++((Uz_Globs *)pG)->lines;
+-                 if (((Uz_Globs *)pG)->lines >= ((Uz_Globs *)pG)->height)
+-                     (*((Uz_Globs *)pG)->mpause)((zvoid *)pG,
+--                      LoadFarString(MorePrompt), 1);
+-+                      (char*)(MorePrompt), 1);
+-             }
+- #endif /* MORE */
+-             if (MSG_STDERR(flag) && ((Uz_Globs *)pG)->UzO.tflag &&
+-@@ -1416,7 +1416,7 @@ int UZ_EXP UzpMessagePrnt(pG, buf, size, flag)
+-                     ((Uz_Globs *)pG)->sol = TRUE;
+-                     q = p + 1;
+-                     (*((Uz_Globs *)pG)->mpause)((zvoid *)pG,
+--                      LoadFarString(MorePrompt), 1);
+-+                      (char*)(MorePrompt), 1);
++diff --git a/extract.c b/extract.c
++index 7cd9123..25c5a62 100644
++--- a/extract.c
+++++ b/extract.c
++@@ -475,7 +475,7 @@ int extract_or_test_files(__G)    /* return PK-type error code */
++                     Info(slide, 0x401, ((char *)slide,
++                       LoadFarString(CentSigMsg), j + blknum*DIR_BLKSIZ + 1));
++                     Info(slide, 0x401, ((char *)slide,
++-                      LoadFarString(ReportMsg)));
+++                      "%s",LoadFarString(ReportMsg)));
++                     error_in_archive = PK_BADERR;
+                  }
++                 reached_end = TRUE;     /* ...so no more left to do */
++@@ -754,8 +754,8 @@ int extract_or_test_files(__G)    /* return PK-type error code */
++
++ #ifndef SFX
++     if (no_endsig_found) {                      /* just to make sure */
++-        Info(slide, 0x401, ((char *)slide, LoadFarString(EndSigMsg)));
++-        Info(slide, 0x401, ((char *)slide, LoadFarString(ReportMsg)));
+++        Info(slide, 0x401, ((char *)slide, "%s", LoadFarString(EndSigMsg)));
+++        Info(slide, 0x401, ((char *)slide, "%s", LoadFarString(ReportMsg)));
++         if (!error_in_archive)       /* don't overwrite stronger error */
++             error_in_archive = PK_WARN;
++     }
++diff --git a/list.c b/list.c
++index 15e0011..0b484f6 100644
++--- a/list.c
+++++ b/list.c
++@@ -181,7 +181,7 @@ int list_files(__G)    /* return PK-type error code */
++                 Info(slide, 0x401,
++                      ((char *)slide, LoadFarString(CentSigMsg), j));
++                 Info(slide, 0x401,
++-                     ((char *)slide, LoadFarString(ReportMsg)));
+++                     ((char *)slide, "%s", LoadFarString(ReportMsg)));
++                 return PK_BADERR;   /* sig not found */
+              }
+-             INCSTR(p);
+-@@ -2176,7 +2176,7 @@ int do_string(__G__ length, option)   /* return PK-type error code */
+-                     (*G.message)((zvoid *)&G, slide, (ulg)(q-slide), 0);
+-                     q = slide;
+-                     if (pause && G.extract_flag) /* don't pause for list/test */
+--                        (*G.mpause)((zvoid *)&G, LoadFarString(QuitPrompt), 0);
+-+                        (*G.mpause)((zvoid *)&G, (char*)(QuitPrompt), 0);
+-                 }
++         }
++@@ -507,7 +507,7 @@ int list_files(__G)    /* return PK-type error code */
++             && (!G.ecrec.is_zip64_archive)
++             && (memcmp(G.sig, end_central_sig, 4) != 0)
++            ) {          /* just to make sure again */
++-            Info(slide, 0x401, ((char *)slide, LoadFarString(EndSigMsg)));
+++            Info(slide, 0x401, ((char *)slide, "%s", LoadFarString(EndSigMsg)));
++             error_in_archive = PK_WARN;   /* didn't find sig */
++         }
++
++@@ -591,7 +591,7 @@ int get_time_stamp(__G__ last_modtime, nmember)  /* return PK-type error code */
++                 Info(slide, 0x401,
++                      ((char *)slide, LoadFarString(CentSigMsg), j));
++                 Info(slide, 0x401,
++-                     ((char *)slide, LoadFarString(ReportMsg)));
+++                     ((char *)slide, "%s", LoadFarString(ReportMsg)));
++                 return PK_BADERR;   /* sig not found */
+              }
+-             (*G.message)((zvoid *)&G, slide, (ulg)(q-slide), 0);
+-diff --git a/unzip.c b/unzip.c
+-index 2d94a38..ca135af 100644
+---- a/unzip.c
+-+++ b/unzip.c
+-@@ -1079,7 +1079,7 @@ int unzip(__G__ argc, argv)
+- #ifndef _WIN32_WCE /* Win CE does not support environment variables */
+-         if ((error = envargs(&argc, &argv, LoadFarStringSmall(EnvZipInfo),
+-                              LoadFarStringSmall2(EnvZipInfo2))) != PK_OK)
+--            perror(LoadFarString(NoMemEnvArguments));
+-+            perror((char*)(NoMemEnvArguments));
+- #endif
+-     } else
+- #endif /* !NO_ZIPINFO */
+-@@ -1088,7 +1088,7 @@ int unzip(__G__ argc, argv)
+- #ifndef _WIN32_WCE /* Win CE does not support environment variables */
+-         if ((error = envargs(&argc, &argv, LoadFarStringSmall(EnvUnZip),
+-                              LoadFarStringSmall2(EnvUnZip2))) != PK_OK)
+--            perror(LoadFarString(NoMemEnvArguments));
+-+            perror((char*)(NoMemEnvArguments));
+- #endif
+-     }
++         }
++@@ -674,7 +674,7 @@ int get_time_stamp(__G__ last_modtime, nmember)  /* return PK-type error code */
++   ---------------------------------------------------------------------------*/
+  
++     if (memcmp(G.sig, end_central_sig, 4)) {    /* just to make sure again */
++-        Info(slide, 0x401, ((char *)slide, LoadFarString(EndSigMsg)));
+++        Info(slide, 0x401, ((char *)slide, "%s", LoadFarString(EndSigMsg)));
++         error_in_archive = PK_WARN;
++     }
++     if (*nmember == 0L && error_in_archive <= PK_WARN)
+ diff --git a/zipinfo.c b/zipinfo.c
+-index 0ac75b3..8a0887c 100644
++index 0ac75b3..1e7fa82 100644
+ --- a/zipinfo.c
+ +++ b/zipinfo.c
+-@@ -1640,14 +1640,14 @@ static int zi_long(__G__ pEndprev, error_in_archive)
++@@ -833,7 +833,7 @@ int zipinfo(__G)   /* return PK-type error code */
++                 Info(slide, 0x401,
++                      ((char *)slide, LoadFarString(CentSigMsg), j));
++                 Info(slide, 0x401,
++-                     ((char *)slide, LoadFarString(ReportMsg)));
+++                     ((char *)slide, "%s", LoadFarString(ReportMsg)));
++                 error_in_archive = PK_BADERR;   /* sig not found */
++                 break;
++             }
++@@ -1022,7 +1022,7 @@ int zipinfo(__G)   /* return PK-type error code */
++             && (!G.ecrec.is_zip64_archive)
++             && (memcmp(G.sig, end_central_sig, 4) != 0)
++            ) {          /* just to make sure again */
++-            Info(slide, 0x401, ((char *)slide, LoadFarString(EndSigMsg)));
+++            Info(slide, 0x401, ((char *)slide, "%s", LoadFarString(EndSigMsg)));
++             error_in_archive = PK_WARN;   /* didn't find sig */
++         }
+  
+-                         *types = '\0';
+-                         if (*ef_ptr & 1) {
+--                            strcpy(types, LoadFarString(UTmodification));
+-+                            strcpy(types, (char*)(UTmodification));
+-                             ++num;
+-                         }
+-                         if (*ef_ptr & 2) {
+-                             len = strlen(types);
+-                             if (num)
+-                                 types[len++] = '/';
+--                            strcpy(types+len, LoadFarString(UTaccess));
+-+                            strcpy(types+len, (char*)(UTaccess));
+-                             ++num;
+-                             if (*pEndprev > 0L)
+-                                 *pEndprev += 4L;
+-@@ -1656,7 +1656,7 @@ static int zi_long(__G__ pEndprev, error_in_archive)
+-                             len = strlen(types);
+-                             if (num)
+-                                 types[len++] = '/';
+--                            strcpy(types+len, LoadFarString(UTcreation));
+-+                            strcpy(types+len, (char *)(UTcreation));
+-                             ++num;
+-                             if (*pEndprev > 0L)
+-                                 *pEndprev += 4L;
+-@@ -2331,7 +2331,7 @@ static char *zi_time(__G__ datetimez, modtimez, d_t_str)
+-             /* time conversion error in verbose listing format,
+-              * return string with '?' instead of data
+-              */
+--            return (strcpy(d_t_str, LoadFarString(lngYMDHMSTimeError)));
+-+            return (strcpy(d_t_str, (char*)(lngYMDHMSTimeError)));
+-     } else
+-         t = (struct tm *)NULL;
+-     if (t != (struct tm *)NULL) {
+-
+-- 
+2.9.3
 
 
