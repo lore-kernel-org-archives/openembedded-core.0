@@ -1,31 +1,24 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 95926606D0
+Return-Path: <philip@balister.org>
+Received: from starfish.geekisp.com (starfish.geekisp.com [216.168.135.166])
+	by mail.openembedded.org (Postfix) with SMTP id 03D8960670
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Aug 2016 18:35:57 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u7UIZiZC004247
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 30 Aug 2016 11:35:44 -0700 (PDT)
-Received: from server.local (128.224.20.237) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.248.2;
-	Tue, 30 Aug 2016 11:35:43 -0700
-To: =?UTF-8?Q?Andr=c3=a9_Draszik?= <git@andred.net>,
-	<openembedded-core@lists.openembedded.org>
-References: <cover.1471281772.git.bruce@zedd.org>
-	<ff62fe65ad3bae260ec0951caddf428632ef35de.1471281772.git.bruce@zedd.org>
-	<1472547914.8449.25.camel@andred.net>
-	<94a7387f-cc88-2e7f-21b6-57970dfdbb04@windriver.com>
-	<1472566766.8449.29.camel@andred.net>
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-Message-ID: <78886c10-2951-9a57-31dd-0e1e78d19815@windriver.com>
-Date: Tue, 30 Aug 2016 14:35:42 -0400
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:45.0)
-	Gecko/20100101 Thunderbird/45.2.0
+	Tue, 30 Aug 2016 18:47:18 +0000 (UTC)
+Received: (qmail 9003 invoked by uid 1003); 30 Aug 2016 18:47:18 -0000
+Received: from unknown (HELO ?192.168.11.142?)
+	(philip@opensdr.com@71.171.12.218)
+	by mail.geekisp.com with (DHE-RSA-AES128-SHA encrypted) SMTP;
+	30 Aug 2016 18:47:18 -0000
+To: Jack Mitchell <ml@embed.me.uk>,
+	OE-core <openembedded-core@lists.openembedded.org>
+References: <6564e30c-bf94-8476-ac22-0be131193ebd@embed.me.uk>
+From: Philip Balister <philip@balister.org>
+Message-ID: <3ad18432-f58d-5ff3-3f18-8e39e1a43cfa@balister.org>
+Date: Tue, 30 Aug 2016 14:47:17 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.2.0
 MIME-Version: 1.0
-In-Reply-To: <1472566766.8449.29.camel@andred.net>
-Subject: Re: [PATCH 5/6] kernel-yocto: streamline patch, configuration and audit phases
+In-Reply-To: <6564e30c-bf94-8476-ac22-0be131193ebd@embed.me.uk>
+Subject: Re: gcc 6.1+ and isystem
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,54 +31,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 30 Aug 2016 18:35:58 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 30 Aug 2016 18:47:19 -0000
+Content-Type: text/plain; charset=windows-1252
+Content-Transfer-Encoding: 7bit
 
-On 2016-08-30 10:19 AM, André Draszik wrote:
-> On Di, 2016-08-30 at 09:05 -0400, Bruce Ashfield wrote:
->> On 2016-08-30 05:05 AM, André Draszik wrote:
->>>
->>> My kmeta stuff is located directly inside two meta-* layers (i.e. not in
->>> an
->>> extra git repo), where the 2nd layer's kernel recipes .bbappends to the
->>> 1st
->>> one with additional kmeta things.
->>>
->>> This used to work fine, but since this commit it doesn't anymore as only
->>> the
->>> kmeta stuff from the 2nd layer is being copied into workdir.
->>>
->>> Have I been doing something that wasn't guaranteed / supposed to work in
->>> the
->>> first place? Or should that still work? Is it worth fixing or should I
->>> rethink my approach?
->>
->> That was complexity that I had tried to remove, but thinking on it a
->> bit, I think I can restore that without adding much complexity.
->>
->> I'm just finishing work on the 4.8 kernel today, and can look at this
->> tomorrow.
->
-> Thank you Bruce!
+On 08/30/2016 11:37 AM, Jack Mitchell wrote:
+> Some of the headers shipped with gcc 6.1 and above now use #include_next
+> to try to and do clever things with munging system header files. Our
+> injection of isystem into the build at 'meta/conf/bitbake.conf' seems to
+> be causing some programs to fail to compile. A full explanation can be
+> found at [1], a bug report from GCC specifying that it should only be
+> used in extreme cases at [2].
+> 
+> Since we seem to be adding -isystem unconditionally to BUILD_CFLAGS from
+> bitbake, and that the default behavior has now changed should this be
+> revisited? I'll admit that I am no where near experienced enough with
+> GCC and friends internals to make a call on this one, I'm just looking
+> for some input.
 
-Can you clarify for me if you are are using SRC_URI items tagged with
-'kmeta', i.e. a directory of fragments, or are you just adding .cfg/.scc
-items directly to the SRC_URI ?
+I think this issue is casuing me trouble building GNU Radio with qt5
+support also. I'll try and verify this. I never did figure out where the
+-isystem came from. Thanks for the email Jack!
 
-Bruce
+Philip
 
->
->> Do you have any public layers that I can reference to pull together a
->> test case ?
->
-> Unfortunately not :-(
->
-> But I'm happy to test and report back!
->
->
-> Cheers,
-> Andre'
->
 
+> 
+> Regards,
+> Jack.
+> 
+> [1]
+> http://stackoverflow.com/questions/37218953/isystem-on-a-system-include-directory-causes-errors
+> 
+> [2] https://gcc.gnu.org/bugzilla/show_bug.cgi?id=70129
 
