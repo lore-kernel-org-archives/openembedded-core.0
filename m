@@ -1,28 +1,59 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 1E0446057A
+Return-Path: <otavio.salvador@ossystems.com.br>
+Received: from mail-ua0-f175.google.com (mail-ua0-f175.google.com
+	[209.85.217.175])
+	by mail.openembedded.org (Postfix) with ESMTP id AE7ED60746
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Aug 2016 10:10:11 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u7UA87hE012840; Tue, 30 Aug 2016 11:08:07 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id fu7KV0g6_aYf; Tue, 30 Aug 2016 11:08:07 +0100 (BST)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u7UA85oR012835
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Tue, 30 Aug 2016 11:08:06 +0100
-Message-ID: <1472551684.29583.19.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Ed Bartosh <ed.bartosh@linux.intel.com>,
-	openembedded-core@lists.openembedded.org
-Date: Tue, 30 Aug 2016 11:08:04 +0100
+	Tue, 30 Aug 2016 10:21:23 +0000 (UTC)
+Received: by mail-ua0-f175.google.com with SMTP id i32so24410741uai.2
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 30 Aug 2016 03:21:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
+	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
+	:cc; bh=q2QDxHDYf08/xj+ZqfnqL4NW55adww4dmGbCbSu7G6Q=;
+	b=UUfe3IbYqfJSWDz675dDR0SL2MnnQgt1NhyzbDI9HRkLkKWk4AEO25UfE+fya+y0yA
+	bXZNt19pbJ9TXcoTfpasAC+G9/9UAeJTpCQDMzVifIr6C90J5845FQVXGWGhE+3sMTcg
+	2E0BYOtQpq+3FJkUtmELlCV8GhJUnLVv2LFfvvXrNDGsMhvSPRabIbnToMv8XYSjVdsZ
+	vi8sniUuzXkPLhDS8PagdJ+Es+EJsW+FVSIyV0XInZoaRmrr0b4PTUYswo8JGT2uZCRu
+	QITMulUDAM55s9IVPsA0uiv8M0EsEHOKaCUZH3JqleBDStB6LuZCytT+ufWPqsV7YChE
+	a7Sw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
+	:message-id:subject:to:cc;
+	bh=q2QDxHDYf08/xj+ZqfnqL4NW55adww4dmGbCbSu7G6Q=;
+	b=lOTEidvNuurO0t9ay/agIP/Ku+y+gMMc1hAHc62GoW90MC8zRlhEAamfeJEb9IX0fK
+	DgocUqSrH3mKNlDl+/Md/bVzXQ89ZouaccDpFhrJJ4l5DMW6nHwvZ5bC/LX2reu7CR5v
+	ud4QVIpZgCsRWCTmmpQIkdb5g4uBpHi8ZwdCoaBlOfimXZdq0UhKp2esgLzqyspJLpab
+	FuKOWu6+xgxy5xlG2R4RqNvdzuq05NKmllZHweYl/TSE63WgbWEvfPn6C32C4Qb1FotW
+	NXmm1xEWdWRUjuWGWptcvlylM1Xw4ePkFtBh6fk54f2dgcbCBtbPcjHE0Wr4oeaSr4Nu
+	drBg==
+X-Gm-Message-State: AE9vXwOKzjkXjkzh7DFD6uMmZLH+oI5i3OoG2zg4P3JN8hNrtsLwLVUJqOMe/xcQSUiMdA==
+X-Received: by 10.31.9.137 with SMTP id 131mr1597786vkj.117.1472552483692;
+	Tue, 30 Aug 2016 03:21:23 -0700 (PDT)
+Received: from mail-ua0-f173.google.com (mail-ua0-f173.google.com.
+	[209.85.217.173]) by smtp.gmail.com with ESMTPSA id
+	b127sm2719430vke.7.2016.08.30.03.21.21
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 30 Aug 2016 03:21:22 -0700 (PDT)
+From: Otavio Salvador <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by mail-ua0-f173.google.com with SMTP id m60so24326167uam.3
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 30 Aug 2016 03:21:21 -0700 (PDT)
+X-Received: by 10.159.35.47 with SMTP id 44mr1372857uae.107.1472552481543;
+	Tue, 30 Aug 2016 03:21:21 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.31.154.68 with HTTP; Tue, 30 Aug 2016 03:21:20 -0700 (PDT)
 In-Reply-To: <cover.1472548574.git.ed.bartosh@linux.intel.com>
 References: <cover.1472548574.git.ed.bartosh@linux.intel.com>
-X-Mailer: Evolution 3.16.5-1ubuntu3.1 
-Mime-Version: 1.0
+Date: Tue, 30 Aug 2016 07:21:20 -0300
+X-Gmail-Original-Message-ID: <CAP9ODKrOOs2ofhCzxdV0ZCULDCO9r2RgKZpcNxhH_fe56so0PA@mail.gmail.com>
+Message-ID: <CAP9ODKrOOs2ofhCzxdV0ZCULDCO9r2RgKZpcNxhH_fe56so0PA@mail.gmail.com>
+To: Ed Bartosh <ed.bartosh@linux.intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 00/18] Provide list of deployment artifacts
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -36,48 +67,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 30 Aug 2016 10:10:13 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 30 Aug 2016 10:21:23 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Hi Ed,
-
-On Tue, 2016-08-30 at 12:29 +0300, Ed Bartosh wrote:
-> This is a fix for Bug #9869 - Provide a per-target manifest of files
-> which were, or would have been, produced
-> 
-> The list of artifacts produced by deployment tasks (do_deploy,
-> do_image_complete and do_populate_sdk[_ext] is
-> obtained from sstate manifests and fired as a TaskArtifacts metadata
-> event. This should allow Toaster to
-> handle artifacts in simple way and remove a lot of current Toaster
-> code doing guess work.
-> 
-> To generate manifests for do_image_complete and do_populate_sdk they
-> have been put under sstate control.
-> 
-> To avoid storing big files(images and sdk installer) in sstate new
-> variable SSTATE_SKIP_CREATION has been
-> set in image.bbclass and populate_sdk_base.bbclass and sstate code
-> was modified to avoid adding files
+On Tue, Aug 30, 2016 at 6:29 AM, Ed Bartosh <ed.bartosh@linux.intel.com> wrote:
+> Hi,
+>
+> This is a fix for Bug #9869 - Provide a per-target manifest of files which were, or would have been, produced
+>
+> The list of artifacts produced by deployment tasks (do_deploy, do_image_complete and do_populate_sdk[_ext] is
+> obtained from sstate manifests and fired as a TaskArtifacts metadata event. This should allow Toaster to
+> handle artifacts in simple way and remove a lot of current Toaster code doing guess work.
+>
+> To generate manifests for do_image_complete and do_populate_sdk they have been put under sstate control.
+>
+> To avoid storing big files(images and sdk installer) in sstate new variable SSTATE_SKIP_CREATION has been
+> set in image.bbclass and populate_sdk_base.bbclass and sstate code was modified to avoid adding files
 > to sstate if SSTATE_SKIP_CREATION is set.
 
-I'd like to see this series reordered to:
+SKIP creation of what? Variable name seems a little vague for me. Even
+needing the manifest, does it makes sense to store the image and SDK
+on sstate?
 
-a) Set DEPLOYDIR in image.bbclass/populate_sdk_base.bbclass to point at
-DEPLOY_DIR_IMAGE
-b) Add SSTATE_SKIP_CREATION support
-c) Make all the DEPLOY_DIR_IMAGE -> DEPLOYDIR changes in one patch
-d) Enable sstate for images (change DEPLOYDIR definition, add the flags
-including cleandirs, stamp-extra, set SSTATE_SKIP_CREATION)
-e) As per d but for populate_sdk_base
-
-That way it applies incrementally and like changes are all grouped
-together. It will mean some commit messages are longer and squashed
-together but I think that is fine.
-
-Cheers,
-
-Richard
-
+-- 
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
