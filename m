@@ -1,24 +1,24 @@
-Return-Path: <Jackie.Huang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id E5A1D6FFE8
+Return-Path: <ed.bartosh@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 40A5B731B0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Aug 2016 09:19:03 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u7U9J4qo027085
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Tue, 30 Aug 2016 09:30:07 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by fmsmga103.fm.intel.com with ESMTP; 30 Aug 2016 02:30:09 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.30,255,1470726000"; d="scan'208";a="872529002"
+Received: from linux.intel.com ([10.54.29.200])
+	by orsmga003.jf.intel.com with ESMTP; 30 Aug 2016 02:30:08 -0700
+Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.68])
+	by linux.intel.com (Postfix) with ESMTP id 3D4126A4080
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Aug 2016 02:19:04 -0700 (PDT)
-Received: from pek-hostel-deb01.wrs.com (128.224.153.151) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.248.2; Tue, 30 Aug 2016 02:19:03 -0700
-From: <jackie.huang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 30 Aug 2016 17:03:22 +0800
-Message-ID: <20160830090322.23831-1-jackie.huang@windriver.com>
-X-Mailer: git-send-email 2.8.3
-MIME-Version: 1.0
-Subject: [PATCH v2] meta-ide-support: inherit nopackages
+	Tue, 30 Aug 2016 02:29:48 -0700 (PDT)
+From: Ed Bartosh <ed.bartosh@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 30 Aug 2016 12:29:33 +0300
+Message-Id: <cover.1472548574.git.ed.bartosh@linux.intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH 00/18] Provide list of deployment artifacts
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,34 +31,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 30 Aug 2016 09:19:04 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 30 Aug 2016 09:30:09 -0000
 
-From: Jackie Huang <jackie.huang@windriver.com>
+Hi,
 
-The recipe is to generate an environment script in
-do_populate_ide_support for using an IDE and it
-doesn't generate packages at all, so inherit nopackages
+This is a fix for Bug #9869 - Provide a per-target manifest of files which were, or would have been, produced
 
-Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
----
- meta/recipes-core/meta/meta-ide-support.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+The list of artifacts produced by deployment tasks (do_deploy, do_image_complete and do_populate_sdk[_ext] is
+obtained from sstate manifests and fired as a TaskArtifacts metadata event. This should allow Toaster to
+handle artifacts in simple way and remove a lot of current Toaster code doing guess work.
 
-diff --git a/meta/recipes-core/meta/meta-ide-support.bb b/meta/recipes-core/meta/meta-ide-support.bb
-index 86c57cd..c4ddcfc 100644
---- a/meta/recipes-core/meta/meta-ide-support.bb
-+++ b/meta/recipes-core/meta/meta-ide-support.bb
-@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=4d92cd373abda3937c2bc47fbc49d
- DEPENDS = "virtual/libc gdb-cross-${TARGET_ARCH} qemu-native qemu-helper-native unfs3-native"
- PR = "r3"
- 
--inherit meta toolchain-scripts
-+inherit meta toolchain-scripts nopackages
- 
- do_populate_ide_support () {
-   toolchain_create_tree_env_script
--- 
-2.8.1
+To generate manifests for do_image_complete and do_populate_sdk they have been put under sstate control.
+
+To avoid storing big files(images and sdk installer) in sstate new variable SSTATE_SKIP_CREATION has been
+set in image.bbclass and populate_sdk_base.bbclass and sstate code was modified to avoid adding files
+to sstate if SSTATE_SKIP_CREATION is set.
+
+The following changes since commit 087c580b286816265f487e02746bfa6e26081554:
+
+  init-install: Fixes the install script failing when not finding any mmcblk devices (2016-08-30 07:57:50 +0100)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib ed/oe-core/artifacts-9869
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=ed/oe-core/artifacts-9869
+
+Ed Bartosh (18):
+  image-live.bbclass: deploy images to DEPLOYDIR
+  image-vm.bbclass: deploy images to DEPLOYDIR
+  image.bbclass: deploy images to DEPLOYDIR
+  image.bbclass: deploy images to DEPLOYDIR
+  image_types_uboot.bbclass: deploy images to DEPLOYDIR
+  syslinux.bbclass: deploy bootloader to DEPLOYDIR
+  build-appliance-image: process images in DEPLOYDIR
+  populate_sdk_base.bbclass: deploy sdk artifacts to DEPLOYDIR
+  rootfs-postcommands.bbclass: generate manifest in DEPLOYDIR
+  selftest: renamed variable
+  rootfs.py: use DEPLOYDIR instead of DEPLOY_DIR_IMAGE
+  image.bbclass: put image_complete under sstate control
+  image.bbclass: cleanup DEPLOYDIR
+  populate_sdk_base: put populate_sdk under sstate control
+  sstate.bbclass: skip packaging if SSTATE_SKIP_CREATION is set
+  image: populate_sdk_base: skip sstate creation
+  image: populate_sdk_base: set stamp-extra-info flag
+  toaster: fire TaskArtifacts event
+
+ meta/classes/image-live.bbclass                    | 12 +++---
+ meta/classes/image-vm.bbclass                      | 22 +++++------
+ meta/classes/image.bbclass                         | 14 +++++--
+ meta/classes/image_types.bbclass                   | 44 +++++++++++-----------
+ meta/classes/image_types_uboot.bbclass             |  2 +-
+ meta/classes/populate_sdk_base.bbclass             | 28 +++++++++-----
+ meta/classes/rootfs-postcommands.bbclass           |  4 +-
+ meta/classes/sstate.bbclass                        |  2 +
+ meta/classes/syslinux.bbclass                      |  2 +-
+ meta/classes/toaster.bbclass                       | 17 +++++++++
+ meta/lib/oe/rootfs.py                              |  6 +--
+ meta/lib/oeqa/selftest/imagefeatures.py            |  4 +-
+ .../images/build-appliance-image_15.0.0.bb         |  8 ++--
+ 13 files changed, 100 insertions(+), 65 deletions(-)
+
+--
+Regards,
+Ed
 
 
