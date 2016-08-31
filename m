@@ -1,26 +1,24 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 78530731F6
+Return-Path: <Mingli.Yu@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 5187B6FF84
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 31 Aug 2016 01:48:48 +0000 (UTC)
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-	by orsmga103.jf.intel.com with ESMTP; 30 Aug 2016 18:48:49 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.30,259,1470726000"; 
-   d="scan'208";a="2895737"
-Received: from ashuvini-mobl.gar.corp.intel.com (HELO
-	peggleto-mobl.ger.corp.intel.com) ([10.255.145.135])
-	by fmsmga005.fm.intel.com with ESMTP; 30 Aug 2016 18:48:47 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 31 Aug 2016 13:48:06 +1200
-Message-Id: <8fa0c221a4e40a09c5092ff658847bd9082fd666.1472607521.git.paul.eggleton@linux.intel.com>
-X-Mailer: git-send-email 2.5.5
-In-Reply-To: <cover.1472607521.git.paul.eggleton@linux.intel.com>
-References: <cover.1472607521.git.paul.eggleton@linux.intel.com>
-In-Reply-To: <cover.1472607521.git.paul.eggleton@linux.intel.com>
-References: <cover.1472607521.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 2/2] scripts/contrib: update scripts for changes to internal API
+	Wed, 31 Aug 2016 02:12:22 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u7V2CMbp007478
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 30 Aug 2016 19:12:22 -0700 (PDT)
+Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.248.2; Tue, 30 Aug 2016 19:12:20 -0700
+From: <mingli.yu@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 31 Aug 2016 10:10:25 +0800
+Message-ID: <1472609425-11924-1-git-send-email-mingli.yu@windriver.com>
+X-Mailer: git-send-email 2.8.1
+MIME-Version: 1.0
+Subject: [PATCH] ltp: remove useless script STPfailure_report.pl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,103 +31,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 31 Aug 2016 01:48:48 -0000
+X-List-Received-Date: Wed, 31 Aug 2016 02:12:23 -0000
+Content-Type: text/plain
 
-The multiconfig changes altered some of the functions being called here,
-so update the calls. Make use of the new Tinfoil.parse_recipe_file()
-function to make parsing easier.
+From: Mingli Yu <Mingli.Yu@windriver.com>
 
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+* Remove useless script STPfailure_report.pl to
+  avoid confusing about this script fails to run
+  as it lacks dependency on some perl module such
+  as LWP::Simple
+
+  - The script STPfailure_report.pl previously is
+    added as a tool to analyze failures from LTP
+    runs on the OSDL's Scaleable Test Platform (STP) as below:
+
+    commit f0573facbbbf14798cc5b7d4653a5e46b4b95fa5
+    Author: robbiew <robbiew>
+    Date: Wed Apr 28 19:21:39 2004 +0000
+
+    Added tool for analyzing failures from LTP runs on
+    the OSDL's Scaleable Test Platform (STP)
+
+  - And the script STPfailure_report.pl mainly accesses
+    http://khack.osdl.org to retrieve ltp test results
+    run on OSDL's Scaleable Test Platform (STP) and prints
+    the reports, and now the website http://khack.osdl.org
+    not accessible, so the script is useless and drop it
+    and not ship it on target system
+
+Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
 ---
- scripts/contrib/devtool-stress.py           | 6 +++---
- scripts/contrib/list-packageconfig-flags.py | 7 +++----
- scripts/contrib/verify-homepage.py          | 6 +++---
- 3 files changed, 9 insertions(+), 10 deletions(-)
+ meta/recipes-extended/ltp/ltp_20160126.bb | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/scripts/contrib/devtool-stress.py b/scripts/contrib/devtool-stress.py
-index 7ba0984..d555c51 100755
---- a/scripts/contrib/devtool-stress.py
-+++ b/scripts/contrib/devtool-stress.py
-@@ -43,15 +43,15 @@ def select_recipes(args):
-     tinfoil = bb.tinfoil.Tinfoil()
-     tinfoil.prepare(False)
+diff --git a/meta/recipes-extended/ltp/ltp_20160126.bb b/meta/recipes-extended/ltp/ltp_20160126.bb
+index 278f492..7631e0e 100644
+--- a/meta/recipes-extended/ltp/ltp_20160126.bb
++++ b/meta/recipes-extended/ltp/ltp_20160126.bb
+@@ -92,6 +92,14 @@ do_install(){
+     install -d ${D}/opt/ltp/
+     oe_runmake DESTDIR=${D} SKIP_IDCHECK=1 install
  
--    pkg_pn = tinfoil.cooker.recipecache.pkg_pn
--    (latest_versions, preferred_versions) = bb.providers.findProviders(tinfoil.config_data, tinfoil.cooker.recipecache, pkg_pn)
-+    pkg_pn = tinfoil.cooker.recipecaches[''].pkg_pn
-+    (latest_versions, preferred_versions) = bb.providers.findProviders(tinfoil.config_data, tinfoil.cooker.recipecaches[''], pkg_pn)
- 
-     skip_classes = args.skip_classes.split(',')
- 
-     recipelist = []
-     for pn in sorted(pkg_pn):
-         pref = preferred_versions[pn]
--        inherits = [os.path.splitext(os.path.basename(f))[0] for f in tinfoil.cooker.recipecache.inherits[pref[1]]]
-+        inherits = [os.path.splitext(os.path.basename(f))[0] for f in tinfoil.cooker.recipecaches[''].inherits[pref[1]]]
-         for cls in skip_classes:
-             if cls in inherits:
-                 break
-diff --git a/scripts/contrib/list-packageconfig-flags.py b/scripts/contrib/list-packageconfig-flags.py
-index 1af7de3..389fb97 100755
---- a/scripts/contrib/list-packageconfig-flags.py
-+++ b/scripts/contrib/list-packageconfig-flags.py
-@@ -37,7 +37,6 @@ if not bitbakepath:
-     sys.stderr.write("Unable to find bitbake by searching parent directory of this script or PATH\n")
-     sys.exit(1)
- 
--import bb.cache
- import bb.cooker
- import bb.providers
- import bb.tinfoil
-@@ -45,7 +44,7 @@ import bb.tinfoil
- def get_fnlist(bbhandler, pkg_pn, preferred):
-     ''' Get all recipe file names '''
-     if preferred:
--        (latest_versions, preferred_versions) = bb.providers.findProviders(bbhandler.config_data, bbhandler.cooker.recipecache, pkg_pn)
-+        (latest_versions, preferred_versions) = bb.providers.findProviders(bbhandler.config_data, bbhandler.cooker.recipecaches[''], pkg_pn)
- 
-     fn_list = []
-     for pn in sorted(pkg_pn):
-@@ -58,11 +57,11 @@ def get_fnlist(bbhandler, pkg_pn, preferred):
- 
- def get_recipesdata(bbhandler, preferred):
-     ''' Get data of all available recipes which have PACKAGECONFIG flags '''
--    pkg_pn = bbhandler.cooker.recipecache.pkg_pn
-+    pkg_pn = bbhandler.cooker.recipecaches[''].pkg_pn
- 
-     data_dict = {}
-     for fn in get_fnlist(bbhandler, pkg_pn, preferred):
--        data = bb.cache.Cache.loadDataFull(fn, bbhandler.cooker.collection.get_file_appends(fn), bbhandler.config_data)
-+        data = bbhandler.parse_recipe_file(fn)
-         flags = data.getVarFlags("PACKAGECONFIG")
-         flags.pop('doc', None)
-         if flags:
-diff --git a/scripts/contrib/verify-homepage.py b/scripts/contrib/verify-homepage.py
-index 04917e8..d39dd1d 100755
---- a/scripts/contrib/verify-homepage.py
-+++ b/scripts/contrib/verify-homepage.py
-@@ -33,17 +33,17 @@ def wgetHomepage(pn, homepage):
-         return 0
- 
- def verifyHomepage(bbhandler):
--    pkg_pn = bbhandler.cooker.recipecache.pkg_pn
-+    pkg_pn = bbhandler.cooker.recipecaches[''].pkg_pn
-     pnlist = sorted(pkg_pn)
-     count = 0
-     checked = []
-     for pn in pnlist:
-         for fn in pkg_pn[pn]:
-             # There's no point checking multiple BBCLASSEXTENDed variants of the same recipe
--            realfn, _ = bb.cache.Cache.virtualfn2realfn(fn)
-+            realfn, _, _ = bb.cache.virtualfn2realfn(fn)
-             if realfn in checked:
-                 continue
--            data = bb.cache.Cache.loadDataFull(realfn, bbhandler.cooker.collection.get_file_appends(realfn), bbhandler.config_data)
-+            data = bbhandler.parse_recipe_file(realfn)
-             homepage = data.getVar("HOMEPAGE", True)
-             if homepage:
-                 try:
++    # fixup not deploy STPfailure_report.pl to avoid confusing about it fails to run
++    # as it lacks dependency on some perl moudle such as LWP::Simple
++    # And this script previously works as a tool for analyzing failures from LTP
++    # runs on the OSDL's Scaleable Test Platform (STP) and it mainly accesses
++    # http://khack.osdl.org to retrieve ltp test results run on
++    # OSDL's Scaleable Test Platform, but now http://khack.osdl.org unaccessible
++    rm -rf ${D}/opt/ltp/bin/STPfailure_report.pl
++
+     # Copy POSIX test suite into ${D}/opt/ltp/testcases by manual
+     cp -r testcases/open_posix_testsuite ${D}/opt/ltp/testcases
+ }
 -- 
-2.5.5
+2.8.1
 
 
