@@ -1,29 +1,25 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 1295065CBA
+Return-Path: <ed.bartosh@linux.intel.com>
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 2C3A7700F3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 31 Aug 2016 11:00:23 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u7VB0COn018370; Wed, 31 Aug 2016 12:00:20 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id rH_O9tQ8YJX7; Wed, 31 Aug 2016 12:00:20 +0100 (BST)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u7VB0Hlt018376
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Wed, 31 Aug 2016 12:00:18 +0100
-Message-ID: <1472641217.29583.81.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Bruce Ashfield <bruce.ashfield@windriver.com>
-Date: Wed, 31 Aug 2016 12:00:17 +0100
-In-Reply-To: <cover.1472574514.git.bruce.ashfield@windriver.com>
-References: <cover.1472574514.git.bruce.ashfield@windriver.com>
-X-Mailer: Evolution 3.16.5-1ubuntu3.1 
-Mime-Version: 1.0
-Cc: saul.wold@intel.com, openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 0/9] linux-yocto: v4.8 + fixes + configuration updates + RFC
+	Wed, 31 Aug 2016 11:03:07 +0000 (UTC)
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+	by fmsmga105.fm.intel.com with ESMTP; 31 Aug 2016 04:03:08 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.30,261,1470726000"; 
+   d="scan'208";a="3102507"
+Received: from linux.intel.com ([10.54.29.200])
+	by orsmga005.jf.intel.com with ESMTP; 31 Aug 2016 04:03:08 -0700
+Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.68])
+	by linux.intel.com (Postfix) with ESMTP id DDB626A4006
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 31 Aug 2016 04:02:47 -0700 (PDT)
+From: Ed Bartosh <ed.bartosh@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 31 Aug 2016 14:02:49 +0300
+Message-Id: <cover.1472641071.git.ed.bartosh@linux.intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH v2 0/6] Provide list of deployment artifacts
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,22 +32,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 31 Aug 2016 11:00:26 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 31 Aug 2016 11:03:10 -0000
 
-Just to update I have:
+Hi,
 
-* Put a runqemu patch in master-next that works with new and old 
-  kernels to handle the dtb issue
-* Updated the musl patches in libc-headers
-* Updated lttng-* to avoid build failures with 4.8
-* Switched the default qemu kernel 4.4 -> 4.8 in poky so we get 
-  testing of 4.8
+This is a fix for Bug #9869 - Provide a per-target manifest of files which were, or would have been, produced
 
-I'm waiting on the next build so see what issues remain from here.
+The list of artifacts produced by deployment tasks (do_deploy, do_image_complete and do_populate_sdk[_ext] is
+obtained from sstate manifests and fired as a TaskArtifacts metadata event. This should allow Toaster to
+handle artifacts in simple way and remove a lot of current Toaster code doing guess work.
 
-Cheers,
+To generate manifests for do_image_complete and do_populate_sdk they have been put under sstate control.
 
-Richard
+To avoid storing big files(images and sdk installer) in sstate new variable SSTATE_SKIP_CREATION has been
+set in image.bbclass and populate_sdk_base.bbclass and sstate code was modified to avoid adding files
+to sstate if SSTATE_SKIP_CREATION is set.
+
+Changes in v2: Reorganized patchset to make it bisectable (Thanks Richard)
+               Used task in the name of DEPLOYDIR to avoid using the same directory for different tasks of the same recipe
+
+The following changes since commit 087c580b286816265f487e02746bfa6e26081554:
+
+  init-install: Fixes the install script failing when not finding any mmcblk devices (2016-08-30 07:57:50 +0100)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib ed/oe-core/artifacts-9869.v2
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=ed/oe-core/artifacts-9869.v2
+
+Ed Bartosh (6):
+  image: populate_sdk_base: add DEPLOYDIR variable
+  sstate.bbclass: skip packaging if SSTATE_SKIP_CREATION is set
+  image: populate_sdk: deploy images to DEPLOYDIR
+  image.bbclass: put image_complete under sstate control
+  populate_sdk_base: put populate_sdk under sstate control
+  toaster: fire TaskArtifacts event
+
+ meta/classes/image-live.bbclass                    | 12 +++---
+ meta/classes/image-vm.bbclass                      | 22 +++++------
+ meta/classes/image.bbclass                         | 14 +++++--
+ meta/classes/image_types.bbclass                   | 44 +++++++++++-----------
+ meta/classes/image_types_uboot.bbclass             |  2 +-
+ meta/classes/populate_sdk_base.bbclass             | 27 ++++++++-----
+ meta/classes/rootfs-postcommands.bbclass           |  4 +-
+ meta/classes/sstate.bbclass                        |  2 +
+ meta/classes/syslinux.bbclass                      |  2 +-
+ meta/classes/toaster.bbclass                       | 17 +++++++++
+ meta/lib/oe/rootfs.py                              |  6 +--
+ meta/lib/oeqa/selftest/imagefeatures.py            |  4 +-
+ .../images/build-appliance-image_15.0.0.bb         |  8 ++--
+ 13 files changed, 99 insertions(+), 65 deletions(-)
+
+-- 
+2.1.4
+
 
