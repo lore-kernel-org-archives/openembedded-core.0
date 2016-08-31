@@ -1,51 +1,49 @@
-Return-Path: <twoerner@gmail.com>
-Received: from mail-it0-f42.google.com (mail-it0-f42.google.com
-	[209.85.214.42])
-	by mail.openembedded.org (Postfix) with ESMTP id 5F9FD6FF7B;
-	Wed, 31 Aug 2016 09:41:09 +0000 (UTC)
-Received: by mail-it0-f42.google.com with SMTP id e124so32855107ith.0;
-	Wed, 31 Aug 2016 02:41:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-disposition:content-transfer-encoding:in-reply-to
-	:user-agent; bh=94m6vZtWcJG+xrMwsNN3967fJHKx2lVVSpLjggLCpRI=;
-	b=B2adwE+LBYt9YLSrW64Bhd+zZvM75Fu26q10kwVMhYYCAR8F0+c2RTjyL5kQ2K3sjx
-	gvOLophDRdaay895i7adLsN5G6vm86oJ6lJTdgb8LAcr9yH6T295qIu4VhyFAahLUtLr
-	PnYrwWK/AiQMkl28iDOnFfbkvEwVjQeTeKW/uaAZhybuU347YANPdURr+qdoyI1Gn9Cf
-	eKTyGwGp4wMawbWJLEojz3CVgNljAky9OBtNKlCn6AE17P7TomHEGw/jAwQ8icrsIPe7
-	1TCui9kaJIKAzI/9vW1FJcUOTHy1//c8ROxV1hrLLKbLKSYkIxu/VaBrZi1FjcQRdbZY
-	K/bQ==
+Return-Path: <schnitzeltony@googlemail.com>
+Received: from mail-ua0-f194.google.com (mail-ua0-f194.google.com
+	[209.85.217.194])
+	by mail.openembedded.org (Postfix) with ESMTP id CF4FE6FEFA
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 31 Aug 2016 10:15:44 +0000 (UTC)
+Received: by mail-ua0-f194.google.com with SMTP id 76so2638246uak.0
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 31 Aug 2016 03:15:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=googlemail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-transfer-encoding;
+	bh=HuwBaXpcr9lNlRu6dwu7bv5YTNmj3TOyC52cp++yrQE=;
+	b=EawefNp/GQdSzjsISE7EaJk7LHjfbUo9fRAXbh6rdytMhzSBdt4W8lBJx7ZeUMIydM
+	hVwxM2xZFYjTQqlf4IShB0HUcj3Q/5Eg46iZ+QvGM/YV7xPQ5AbrHBdJOMyaL58lxF3G
+	p2D2prHPHnUE3Zr2uIKSaqexbt5TcJlF7CSGQ6hiGfH7aHgLcjdxNuuSHuL7jRHsJj/O
+	VQCHMiPSkc40Aq94Mbd/uB3NkaGkLbasmOxsup44DPEVOe00X7eU/EJs9WXNK6FjomiE
+	tYhEtQMHY9FVGxq6aEm/oRIsQjjGYkD9aB6tCiW+IfiLd3YB9RGOaUSrlzEfYNTe8WAf
+	4dtg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-	:mime-version:content-disposition:content-transfer-encoding
-	:in-reply-to:user-agent;
-	bh=94m6vZtWcJG+xrMwsNN3967fJHKx2lVVSpLjggLCpRI=;
-	b=BRnat4ALWIijGv8S9OyMOccGhRtw6Kvioprq0C5Qm3652wfcbVU0uNIA7KEtdCAuBv
-	urMSpoXD0688gbB4b9wrKWwoHexbJ5OuLIOtjrvHURLziAa1SFz2gz6QriwEZk82PoW4
-	c6ly3aMACw+FqtRWMsFnP8Rn7ornFPX81kPJKXOtzwEUk60mfMQzl41bPxFR7N52KAat
-	Qv1EXrgzKv4yFoT+hikPj8cHAbpILBVDv/n0UuJukc/N3AVp4O6TCxBE7joVRFf5Os+C
-	2jJown3HaG48w7o2K3TGaDPOUhtk8erfzak3LIHTrbKOOloHhk0Zy12q4yG1nND4MQyx
-	DrKQ==
-X-Gm-Message-State: AE9vXwNmIri4rxo4r4h6Ad/fCc9RZPcGCcwJYoe2of7WuyApOQo1Ajkpl6MUpUKH6jMtVw==
-X-Received: by 10.36.88.131 with SMTP id f125mr10888370itb.46.1472636470640;
-	Wed, 31 Aug 2016 02:41:10 -0700 (PDT)
-Received: from openSUSE-i7.site (dsl-67-55-28-109.acanac.net. [67.55.28.109])
-	by smtp.gmail.com with ESMTPSA id
-	f65sm4016654ita.10.2016.08.31.02.41.09
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 31 Aug 2016 02:41:09 -0700 (PDT)
-Date: Wed, 31 Aug 2016 05:41:06 -0400
-From: Trevor Woerner <twoerner@gmail.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Message-ID: <20160831094106.GA11085@openSUSE-i7.site>
-References: <20160826155154.6fzokkxh5hsuvxld@jama>
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=HuwBaXpcr9lNlRu6dwu7bv5YTNmj3TOyC52cp++yrQE=;
+	b=YQG2qZ5yP1GkwBsDKfiXmD74pkEyvChAoNd9paH5kezgrbnGPbAnXaUaWS5RmuUwNz
+	FPcZaLtC7710F/J3lmM3m7okqD0gmOwCK3aNQwynpCYPcimJY/krgD+0MlMIosF24SXG
+	p9e8eyrKKoB9vSQdszjwssICQNjlRyv5oyo0KmPZvGEYjonPMDZS6fTNF9vxLTwjVxs4
+	amlOi9Lafo+yQMUkrKjED2Y1aSG9zdRdMOrATxkzV3NICJYMMp/h0tkZIooOtvH19gIM
+	5IqQOLVaY4GNfa/5OtgcwSI1A1uRc16YGT4C++1pm76hi3g5e4O2SVj6YgF8UdrEZ5xU
+	eMrA==
+X-Gm-Message-State: AE9vXwNoExJpSHOEO+9vptm4f5FXom9cbc3vavZmiUDmT03yQ6vPde6rjHqSFSeym8RL1zMkg2+6AI1fLU6t9w==
+X-Received: by 10.159.34.177 with SMTP id 46mr4994400uan.111.1472638545297;
+	Wed, 31 Aug 2016 03:15:45 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20160826155154.6fzokkxh5hsuvxld@jama>
-User-Agent: Mutt/1.6.0 (2016-04-01)
-Cc: openembedded-devel@lists.openembedded.org,
-	openembedded-core@lists.openembedded.org
-Subject: Re: State of bitbake world 2016-08-24
+Received: by 10.176.65.130 with HTTP; Wed, 31 Aug 2016 03:15:44 -0700 (PDT)
+In-Reply-To: <e6cfe9ed-fb20-7966-43b5-e8d7d8666470@embed.me.uk>
+References: <1472577240-5378-1-git-send-email-schnitzeltony@googlemail.com>
+	<e6cfe9ed-fb20-7966-43b5-e8d7d8666470@embed.me.uk>
+From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
+Date: Wed, 31 Aug 2016 12:15:44 +0200
+Message-ID: <CALbNGRTyPiF+jk47Co9N83GCC_jJfYAcEyL8hcP+Jeo+VjzcjA@mail.gmail.com>
+To: Jack Mitchell <ml@embed.me.uk>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [RFC][PATCH] cmake-native: work around gcc6's '-isystem'-allergy
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,77 +56,130 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 31 Aug 2016 09:41:12 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+X-List-Received-Date: Wed, 31 Aug 2016 10:15:46 -0000
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-On Fri 2016-08-26 @ 05:51:54 PM, Martin Jansa wrote:
-> =3D=3D=3D common-x86 (1) =3D=3D=3D
->     * meta-browser/recipes-browser/chromium/chromium-wayland_48.0.2548.0.=
-bb:do_patch
+On Wed, Aug 31, 2016 at 11:25 AM, Jack Mitchell <ml@embed.me.uk> wrote:
+> On 30/08/16 18:14, Andreas M=C3=BCller wrote:
+>>
+>> since gcc6 we see many cmake/c++ based packets failing with:
+>>
+>> | fatal error: stdlib.h: No such file or directory
+>>
+>> a fix from gcc is not to expect [1] so work around by replacing '-isyste=
+m'
+>> by
+>> '-I' for c++.
+>>
+>> Build tested with many recipes in meta-qt5-extra / meta-oe inheriting
+>> cmake.
+>>
+>> [1] https://gcc.gnu.org/bugzilla/show_bug.cgi?id=3D70129
+>>
+>> Signed-off-by: Andreas M=C3=BCller <schnitzeltony@googlemail.com>
+>> ---
+>>  meta/recipes-devtools/cmake/cmake-native_3.6.1.bb  |  1 +
+>>  .../0001-GNU.cmake-replace-isystem-by-I.patch      | 42
+>> ++++++++++++++++++++++
+>>  2 files changed, 43 insertions(+)
+>>  create mode 100644
+>> meta/recipes-devtools/cmake/cmake/0001-GNU.cmake-replace-isystem-by-I.pa=
+tch
+>>
+>> diff --git a/meta/recipes-devtools/cmake/cmake-native_3.6.1.bb
+>> b/meta/recipes-devtools/cmake/cmake-native_3.6.1.bb
+>> index 33930fb..900091e 100644
+>> --- a/meta/recipes-devtools/cmake/cmake-native_3.6.1.bb
+>> +++ b/meta/recipes-devtools/cmake/cmake-native_3.6.1.bb
+>> @@ -6,6 +6,7 @@ DEPENDS +=3D "bzip2-native zlib-native"
+>>
+>>  SRC_URI +=3D "\
+>>      file://cmlibarchive-disable-ext2fs.patch \
+>> +    file://0001-GNU.cmake-replace-isystem-by-I.patch \
+>>  "
+>>
+>>  # Disable ccmake since we don't depend on ncurses
+>> diff --git
+>> a/meta/recipes-devtools/cmake/cmake/0001-GNU.cmake-replace-isystem-by-I.=
+patch
+>> b/meta/recipes-devtools/cmake/cmake/0001-GNU.cmake-replace-isystem-by-I.=
+patch
+>> new file mode 100644
+>> index 0000000..4c06490
+>> --- /dev/null
+>> +++
+>> b/meta/recipes-devtools/cmake/cmake/0001-GNU.cmake-replace-isystem-by-I.=
+patch
+>> @@ -0,0 +1,42 @@
+>> +From a84d20abe6bc68f8d1a597a22af1ca98d62a5ce4 Mon Sep 17 00:00:00 2001
+>> +From: =3D?UTF-8?q?Andreas=3D20M=3DC3=3DBCller?=3D <schnitzeltony@google=
+mail.com>
+>> +Date: Fri, 26 Aug 2016 12:14:12 +0200
+>> +Subject: [PATCH] GNU.cmake: replace -isystem by -I
+>> +MIME-Version: 1.0
+>> +Content-Type: text/plain; charset=3DUTF-8
+>> +Content-Transfer-Encoding: 8bit
+>> +
+>> +since gcc6 we see many c++ based packes failing with:
+>> +
+>> +| fatal error: stdlib.h: No such file or directory
+>> +
+>> +a fix from gcc is not to expect [1] so work around
+>> +
+>> +[1] https://gcc.gnu.org/bugzilla/show_bug.cgi?id=3D70129
+>> +
+>> +Upstream-Status: Pending
+>> +
+>> +Signed-off-by: Andreas M=C3=BCller <schnitzeltony@googlemail.com>
+>> +---
+>> + Modules/Compiler/GNU.cmake | 6 +++++-
+>> + 1 file changed, 5 insertions(+), 1 deletion(-)
+>> +
+>> +diff --git a/Modules/Compiler/GNU.cmake b/Modules/Compiler/GNU.cmake
+>> +index c2d393d..9d1477d 100644
+>> +--- a/Modules/Compiler/GNU.cmake
+>> ++++ b/Modules/Compiler/GNU.cmake
+>> +@@ -53,6 +53,10 @@ macro(__compiler_gnu lang)
+>> +   set(CMAKE_${lang}_CREATE_PREPROCESSED_SOURCE "<CMAKE_${lang}_COMPILE=
+R>
+>> <DEFINES> <INCLUDES> <FLAGS> -E <SOURCE> > <PREPROCESSED_SOURCE>")
+>> +   set(CMAKE_${lang}_CREATE_ASSEMBLY_SOURCE "<CMAKE_${lang}_COMPILER>
+>> <DEFINES> <INCLUDES> <FLAGS> -S <SOURCE> -o <ASSEMBLY_SOURCE>")
+>> +   if(NOT APPLE OR NOT CMAKE_${lang}_COMPILER_VERSION VERSION_LESS 4) #
+>> work around #4462
+>> +-    set(CMAKE_INCLUDE_SYSTEM_FLAG_${lang} "-isystem ")
+>> ++    if("${lang}" STREQUAL "CXX")
+>> ++      set(CMAKE_INCLUDE_SYSTEM_FLAG_${lang} "-I ")
+>> ++    else()
+>> ++      set(CMAKE_INCLUDE_SYSTEM_FLAG_${lang} "-isystem ")
+>> ++    endif()
+>> +   endif()
+>> + endmacro()
+>> +--
+>> +2.5.5
+>> +
+>>
+>
+> Thanks for the patch Andreas, this fixes my build for now but as you
+> mentioned is a bit of a hack to get round the issue. As this fixes my
+> problem does it mean that it's not bitbake which is injecting the isystem=
+,
+> but instead a CMake recipe somewhere?
+>
+> Regards,
+> Jack.
+> --
+I don't know your recipe but I think -isystem in bitbake.conf would
+only cause trouble for native recipes.
 
-It was pointed out to me that while re-organizing the chromium recipes I
-dropped an important line in chromium-wayland. However this recipe didn't
-succeed before and my goal was to make chromium (on x11) succeed. So even w=
-ith
-the fix I'm not sure chromium-wayland is going to be okay.
+As a heavy cmake-qt5 user (kde/lxqt/hawaii) I had many failing
+cross-recipes not finding stdlib.h. After reading the gcc-bug I check
+compile logs and they were full of -isystem on sysroot/usr/include -
+had no idea where they came from.
+First I grepped oe-core but did not find suspicious (e.g bitbake.conf
+- see above). Then I grepped cmake sources and found GNU.cmake,
+patched it to affect c++ only and my build errors were gone.
 
-> =3D=3D=3D qemux86 (1) =3D=3D=3D
->     * meta-browser/recipes-browser/chromium/chromium_52.0.2743.76.bb:do_c=
-ompile
-
-This one surprised me since I perform a chromium build every night on my CI
-farm. Looking at your build logs I find:
-
-| [2278/20239] CXX obj.host/third_party/icu/source/common/icuuc.servrbf.o
-| FAILED: obj.host/third_party/icu/source/common/icuuc.servrbf.o
-| g++  -MMD -MF obj.host/third_party/icu/source/common/icuuc.servrbf.o.d -D=
-U_USING_ICU_NAMESPACE=3D0 -DHAVE_DLOPEN=3D0 -DUCONFIG_ONLY_HTML_CONVERSION=
-=3D1 -DU_CHARSET_IS_UTF8=3D1 -DV8_DEPRECATION_WARNINGS -D_FILE_OFFSET_BITS=
-=3D64 -DDISABLE_NACL -DU_STATIC_IMPLEMENTATION -DCHROMIUM_BUILD -DUI_COMPOS=
-ITOR_IMAGE_TRANSPORT -DUSE_AURA=3D1 -DUSE_PANGO=3D1 -DUSE_CAIRO=3D1 -DUSE_D=
-EFAULT_RENDER_THEME=3D1 -DUSE_LIBJPEG_TURBO=3D1 -DUSE_X11=3D1 -DUSE_CLIPBOA=
-RD_AURAX11=3D1 -DENABLE_WEBRTC=3D1 -DENABLE_MEDIA_ROUTER=3D1 -DENABLE_PEPPE=
-R_CDMS -DENABLE_NOTIFICATIONS -DENABLE_TOPCHROME_MD=3D1 -DUSE_UDEV -DFIELDT=
-RIAL_TESTING_ENABLED -DENABLE_TASK_MANAGER=3D1 -DENABLE_EXTENSIONS=3D1 -DEN=
-ABLE_PDF=3D1 -DENABLE_PLUGINS=3D1 -DENABLE_SESSION_SERVICE=3D1 -DENABLE_THE=
-MES=3D1 -DENABLE_PRINTING=3D1 -DENABLE_BASIC_PRINTING=3D1 -DENABLE_PRINT_PR=
-EVIEW=3D1 -DENABLE_SPELLCHECK=3D1 -DENABLE_CAPTIVE_PORTAL_DETECTION=3D1 -DE=
-NABLE_SUPERVISED_USERS=3D1 -DENABLE_MDNS=3D1 -DENABLE_SERVICE_DISCOVERY=3D1=
- -DFULL_SAFE_BROWSING -DSAFE_BROWSING_CSD -DSAFE_BROWSING_DB_LOCAL -DU_COMM=
-ON_IMPLEMENTATION -DU_ICUDATAENTRY_IN_COMMON -DU_ENABLE_DYLOAD=3D0 -DU_NOEX=
-CEPT=3D -DUSE_LIBPCI=3D1 -DUSE_GLIB=3D1 -DUSE_NSS_CERTS=3D1 -DNDEBUG -DNVAL=
-GRIND -DDYNAMIC_ANNOTATIONS_ENABLED=3D0 -I../../third_party/icu/source/comm=
-on -I../../third_party/icu/source/i18n -Igen -fstack-protector --param=3Dss=
-p-buffer-size=3D4  -pthread -fno-strict-aliasing -Wno-extra -Wno-unused-par=
-ameter -Wno-missing-field-initializers -fvisibility=3Dhidden -pipe -fPIC -W=
-no-unused-local-typedefs -Wno-deprecated-declarations -Wno-unused-function =
--m32 -O2 -fno-ident -fdata-sections -ffunction-sections -funwind-tables -fn=
-o-exceptions -fno-rtti -fno-threadsafe-statics -fvisibility-inlines-hidden =
--frtti -Wno-deprecated -std=3Dgnu++11 -Wno-narrowing  -c ../../third_party/=
-icu/source/common/servrbf.cpp -o obj.host/third_party/icu/source/common/icu=
-uc.servrbf.o
-| In file included from ../../third_party/icu/source/common/unicode/std_str=
-ing.h:33:0,
-|                  from ../../third_party/icu/source/common/unicode/unistr.=
-h:31,
-|                  from ../../third_party/icu/source/common/unicode/strenum=
-=2Eh:14,
-|                  from ../../third_party/icu/source/common/unicode/uenum.h=
-:24,
-|                  from ../../third_party/icu/source/common/unicode/uloc.h:=
-25,
-|                  from ../../third_party/icu/source/common/unicode/ures.h:=
-27,
-|                  from ../../third_party/icu/source/common/unicode/resbund=
-=2Eh:51,
-|                  from ../../third_party/icu/source/common/servrbf.cpp:13:
-| /usr/include/c++/4.8/string:38:28: fatal error: bits/c++config.h: No such=
- file or directory
-|  #include <bits/c++config.h>
-
-Odd. It looks like your build is picking up your host's c++ compiler version
-4.8 (?). The odd thing is, my build machine also does not have a
-/usr/include/bits/c++config.h but my compile succeeds.
+Andreas
 
