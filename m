@@ -1,29 +1,33 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 3051D731F7
+Return-Path: <Bruce.Ashfield@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 4712873286
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 31 Aug 2016 19:52:44 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by orsmga102.jf.intel.com with ESMTP; 31 Aug 2016 12:52:45 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.30,263,1470726000"; d="scan'208";a="1049813005"
-Received: from clim59-mobl.gar.corp.intel.com (HELO
-	peggleto-mobl.ger.corp.intel.com) ([10.255.178.177])
-	by fmsmga002.fm.intel.com with ESMTP; 31 Aug 2016 12:52:42 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Date: Thu, 01 Sep 2016 07:52:40 +1200
-Message-ID: <1776923.VAIBD4FQEE@peggleto-mobl.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.14.10 (Linux/4.6.7-200.fc23.x86_64; KDE/4.14.20; x86_64; ;
-	)
-In-Reply-To: <1472640944.29583.77.camel@linuxfoundation.org>
-References: <cover.1472607521.git.paul.eggleton@linux.intel.com>
-	<88fde4c5d43e2b6ebced1462705241222fb9734a.1472607521.git.paul.eggleton@linux.intel.com>
-	<1472640944.29583.77.camel@linuxfoundation.org>
+	Wed, 31 Aug 2016 20:18:10 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u7VKHwjX013558
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
+	Wed, 31 Aug 2016 13:17:59 -0700
+Received: from server.local (147.11.116.125) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.248.2;
+	Wed, 31 Aug 2016 13:17:58 -0700
+To: =?UTF-8?Q?Andr=c3=a9_Draszik?= <git@andred.net>
+References: <cover.1471281772.git.bruce@zedd.org>
+	<ff62fe65ad3bae260ec0951caddf428632ef35de.1471281772.git.bruce@zedd.org>
+	<1472547914.8449.25.camel@andred.net>
+	<94a7387f-cc88-2e7f-21b6-57970dfdbb04@windriver.com>
+	<1472566766.8449.29.camel@andred.net>
+	<78886c10-2951-9a57-31dd-0e1e78d19815@windriver.com>
+	<1472633650.12967.15.camel@andred.net>
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+Message-ID: <81c8d462-9f65-cd7c-7dfe-f3acd2e21e18@windriver.com>
+Date: Wed, 31 Aug 2016 16:17:56 -0400
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:45.0)
+	Gecko/20100101 Thunderbird/45.2.0
 MIME-Version: 1.0
+In-Reply-To: <1472633650.12967.15.camel@andred.net>
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/2] scripts: ensure tinfoil is shut down correctly
+Subject: Re: [PATCH 5/6] kernel-yocto: streamline patch, configuration and audit phases
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,28 +40,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 31 Aug 2016 19:52:45 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Wed, 31 Aug 2016 20:18:13 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Wed, 31 Aug 2016 11:55:44 Richard Purdie wrote:
-> On Wed, 2016-08-31 at 13:48 +1200, Paul Eggleton wrote:
-> > We should always shut down tinfoil when we're finished with it,
-> > either
-> > by explicitly calling the shutdown() method or by using it as a
-> > context manager ("with ...").
-> 
-> Could I trouble you to rebase this onto master-next please? It
-> currently has conflicts which didn't seem immediately obvious to me to
-> resolve.
+On 2016-08-31 4:54 AM, André Draszik wrote:
+> On Di, 2016-08-30 at 14:35 -0400, Bruce Ashfield wrote:
+>> Can you clarify for me if you are are using SRC_URI items tagged with
+>> 'kmeta', i.e. a directory of fragments, or are you just adding .cfg/.scc
+>> items directly to the SRC_URI ?
+>
+> I do both:
+>
+> in the 1st layer, my kernel recipe boils down to:
+>
+> SRC_URI = "\
+>     git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git;protocol=git;nocheckout=1;branch=${KBRANCH} \
+>     file://0001-a-patch.patch \
+>     file://kernel-meta;type=kmeta;destsuffix=${KMETA} \
+> "
+>
+> KERNEL_FEATURES_append = " patches/some-patches.scc"
+> KERNEL_FEATURES_append = " patches/more-patches.scc"
+> KERNEL_FEATURES_append = " patches/even-more-patches.scc"
+>
+> some of the above in turn include additional .scc items recursively.
+>
+>
+> In the 2nd layer, my .bbappend boils down to:
+>
+> FILESEXTRAPATHS_prepend := "${THISDIR}/${BPN}-4.4:"
+>
+> KERNEL_FEATURES_append_tgm = " patches/tgm.scc"
+>
+> 2nd-layer.scc is located in ${THISDIR}/kernel-meta/patches/ in the 2nd
+> layer. I don't specifically add another SRC_URI item tagged with 'kmeta' (or
+> any other explicit SRC_URI item for that matter).
 
-Done - I've pushed a new paule/tinfoil-fixes-oe branch.
+One more clarification. From our problem description, are you saying
+that in your runs, only the meta data from layer2 is getting copied
+and not that from layer1 ?
 
-Cheers,
-Paul
+I ran my sanity test, and saw meta data from both my layers copied ..
+so I'm worried that I misunderstood the issue you are seeing.
 
--- 
+But looking at the code, I can definitely do some minor tweaks in this
+area .. I'm just trying to get the reproducer nailed down.
 
-Paul Eggleton
-Intel Open Source Technology Centre
+Bruce
+
+>
+>
+> Andre'
+>
+
 
