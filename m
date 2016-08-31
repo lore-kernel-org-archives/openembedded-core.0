@@ -1,23 +1,44 @@
-Return-Path: <jussi.kukkonen@intel.com>
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by mail.openembedded.org (Postfix) with ESMTP id 89D5060746
+Return-Path: <andre.draszik@gmail.com>
+Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 7CDF760746
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 31 Aug 2016 08:50:16 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga105.jf.intel.com with ESMTP; 31 Aug 2016 01:50:17 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.30,261,1470726000"; d="scan'208";a="1033523804"
-Received: from theory.fi.intel.com ([10.237.72.196])
-	by fmsmga001.fm.intel.com with ESMTP; 31 Aug 2016 01:50:14 -0700
-From: Jussi Kukkonen <jussi.kukkonen@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 31 Aug 2016 11:50:03 +0300
-Message-Id: <1472633403-13862-1-git-send-email-jussi.kukkonen@intel.com>
-X-Mailer: git-send-email 2.1.4
-In-Reply-To: <f6ef8fb895e0b0b4263ae5ebba8756137b5756c0.1472480768.git.alexander.kanavin@linux.intel.com>
-References: <f6ef8fb895e0b0b4263ae5ebba8756137b5756c0.1472480768.git.alexander.kanavin@linux.intel.com>
-MIME-Version: 1.0
-Subject: [PATCHv2 08/15] gnutls: update to 3.5.3
+	Wed, 31 Aug 2016 08:54:12 +0000 (UTC)
+Received: by mail-wm0-f68.google.com with SMTP id i5so6537747wmg.2
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 31 Aug 2016 01:54:13 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=Oec80GvLGSI9btgOJFx8WDSezozLkYvjftbgx/GKAEo=;
+	b=l1BDfbQyM5fBJ2IC8Kkc8483iKfsoKmu1gIlaEzrTz2JquNWpGdPoaRmbrSDKPFfbu
+	mGAk5Cx+f/e1NL6uX5Jhs8Bbb+1qcgrrZTaFWgC1x6w8zfrTiqI+nkH8aXkkK+7zqAgM
+	5IiVh6D73W96bbmcJ/e/y6ZBBqKyU/BYL6EGpH2AMVqVZyTKP/zpS6G5EvDXwJXFQ+h4
+	k2jeQmRm2b6Ie56FgGBI3+CAegp4tKiU1P3GZcjkPYmvQr+qlRFdsxJhquRS5TIhCJPR
+	ebtAwaSr6dwI96LOZYoDLj6L7ckfhg7/UskXforwdc8+YJyq7g6yKW92JlEwM0bD31sN
+	Y3Xw==
+X-Gm-Message-State: AE9vXwNG0/KZKwq57V9t3N83bdKuiWwApY9Nx0MGc7ADJtxCGANkcdmiwQrU/T9HAF0e9w==
+X-Received: by 10.194.96.2 with SMTP id do2mr7915282wjb.174.1472633652725;
+	Wed, 31 Aug 2016 01:54:12 -0700 (PDT)
+Received: from localhost ([185.46.212.59])
+	by smtp.gmail.com with ESMTPSA id d62sm7863927wmd.7.2016.08.31.01.54.11
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Wed, 31 Aug 2016 01:54:11 -0700 (PDT)
+Message-ID: <1472633650.12967.15.camel@andred.net>
+From: =?ISO-8859-1?Q?Andr=E9?= Draszik <git@andred.net>
+To: Bruce Ashfield <bruce.ashfield@windriver.com>
+Date: Wed, 31 Aug 2016 09:54:10 +0100
+In-Reply-To: <78886c10-2951-9a57-31dd-0e1e78d19815@windriver.com>
+References: <cover.1471281772.git.bruce@zedd.org>
+	<ff62fe65ad3bae260ec0951caddf428632ef35de.1471281772.git.bruce@zedd.org>
+	<1472547914.8449.25.camel@andred.net>
+	<94a7387f-cc88-2e7f-21b6-57970dfdbb04@windriver.com>
+	<1472566766.8449.29.camel@andred.net>
+	<78886c10-2951-9a57-31dd-0e1e78d19815@windriver.com>
+X-Mailer: Evolution 3.20.5-1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 5/6] kernel-yocto: streamline patch, configuration and audit phases
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,83 +51,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 31 Aug 2016 08:50:17 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 31 Aug 2016 08:54:12 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Add patch to fix compile without libtasn headers.
+On Di, 2016-08-30 at 14:35 -0400, Bruce Ashfield wrote:
+> Can you clarify for me if you are are using SRC_URI items tagged with
+> 'kmeta', i.e. a directory of fragments, or are you just adding .cfg/.scc
+> items directly to the SRC_URI ?
 
-Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
----
+I do both:
 
-Changes since v1:
-* Add patch to fix compile without libtasn headers
+in the 1st layer, my kernel recipe boils down to:
 
-Thanks,
- Jussi
+SRC_URI = "\
+    git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git;protocol=git;nocheckout=1;branch=${KBRANCH} \
+    file://0001-a-patch.patch \
+    file://kernel-meta;type=kmeta;destsuffix=${KMETA} \
+"
+
+KERNEL_FEATURES_append = " patches/some-patches.scc"
+KERNEL_FEATURES_append = " patches/more-patches.scc"
+KERNEL_FEATURES_append = " patches/even-more-patches.scc"
+
+some of the above in turn include additional .scc items recursively.
 
 
- ...001-Use-correct-include-dir-with-minitasn.patch | 31 ++++++++++++++++++++++
- .../gnutls/{gnutls_3.5.1.bb => gnutls_3.5.3.bb}    |  5 ++--
- 2 files changed, 34 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-support/gnutls/gnutls/0001-Use-correct-include-dir-with-minitasn.patch
- rename meta/recipes-support/gnutls/{gnutls_3.5.1.bb => gnutls_3.5.3.bb} (50%)
+In the 2nd layer, my .bbappend boils down to:
 
-diff --git a/meta/recipes-support/gnutls/gnutls/0001-Use-correct-include-dir-with-minitasn.patch b/meta/recipes-support/gnutls/gnutls/0001-Use-correct-include-dir-with-minitasn.patch
-new file mode 100644
-index 0000000..d7dd7cf
---- /dev/null
-+++ b/meta/recipes-support/gnutls/gnutls/0001-Use-correct-include-dir-with-minitasn.patch
-@@ -0,0 +1,31 @@
-+From 2651b08477f42dd7a05ea7d6df410fb2c46de4fb Mon Sep 17 00:00:00 2001
-+From: Jussi Kukkonen <jussi.kukkonen@intel.com>
-+Date: Wed, 31 Aug 2016 11:04:06 +0300
-+Subject: [PATCH] Use correct include dir with minitasn
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=UTF-8
-+Content-Transfer-Encoding: 8bit
-+
-+This allows compiling certtool-cfg without libtasn headers.
-+
-+Upstream-Status: Submitted [https://gitlab.com/gnutls/gnutls/merge_requests/54]
-+Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
-+---
-+ src/Makefile.am | 1 +
-+ 1 file changed, 1 insertion(+)
-+
-+diff --git a/src/Makefile.am b/src/Makefile.am
-+index 182f3a5..cf65388 100644
-+--- a/src/Makefile.am
-++++ b/src/Makefile.am
-+@@ -146,6 +146,7 @@ libcmd_cli_debug_la_SOURCES = cli-debug-args.def cli-debug-args.c cli-debug-args
-+ COMMON_LIBS = $(LIBOPTS) $(LTLIBINTL)
-+ if ENABLE_MINITASN1
-+ COMMON_LIBS += ../lib/minitasn1/libminitasn1.la ../gl/libgnu.la 
-++AM_CPPFLAGS += -I$(top_srcdir)/lib/minitasn1
-+ else
-+ COMMON_LIBS += $(LIBTASN1_LIBS)
-+ endif
-+-- 
-+2.9.3
-+
-diff --git a/meta/recipes-support/gnutls/gnutls_3.5.1.bb b/meta/recipes-support/gnutls/gnutls_3.5.3.bb
-similarity index 50%
-rename from meta/recipes-support/gnutls/gnutls_3.5.1.bb
-rename to meta/recipes-support/gnutls/gnutls_3.5.3.bb
-index 85d9904..1bdca6a 100644
---- a/meta/recipes-support/gnutls/gnutls_3.5.1.bb
-+++ b/meta/recipes-support/gnutls/gnutls_3.5.3.bb
-@@ -3,6 +3,7 @@ require gnutls.inc
- SRC_URI += "file://correct_rpl_gettimeofday_signature.patch \
-             file://0001-configure.ac-fix-sed-command.patch \
-             file://use-pkg-config-to-locate-zlib.patch \
-+            file://0001-Use-correct-include-dir-with-minitasn.patch \
-            "
--SRC_URI[md5sum] = "cb48bb0cf36d329f7321c6cdc0d7ae36"
--SRC_URI[sha256sum] = "bc4a0f80a627c3aca6e7ea59d30e50cda118c61e0e3fab367ff1451d6ec8bdbd"
-+SRC_URI[md5sum] = "6c2c7f40ddf52933ee3ca474cb8cb63c"
-+SRC_URI[sha256sum] = "92c4bc999a10a1b95299ebefaeea8333f19d8a98d957a35b5eae74881bdb1fef"
--- 
-2.1.4
+FILESEXTRAPATHS_prepend := "${THISDIR}/${BPN}-4.4:"
+
+KERNEL_FEATURES_append_tgm = " patches/tgm.scc"
+
+2nd-layer.scc is located in ${THISDIR}/kernel-meta/patches/ in the 2nd
+layer. I don't specifically add another SRC_URI item tagged with 'kmeta' (or
+any other explicit SRC_URI item for that matter).
+
+
+Andre'
 
 
