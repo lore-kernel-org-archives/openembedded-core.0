@@ -1,26 +1,18 @@
-Return-Path: <Wenzong.Fan@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 54E816FFD7
+Return-Path: <ml@embed.me.uk>
+Received: from owm.eumx.net (eumx.net [91.82.101.43])
+	by mail.openembedded.org (Postfix) with ESMTP id CB0C96014F
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 31 Aug 2016 09:21:05 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u7V9L3OP010636
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 31 Aug 2016 02:21:04 -0700 (PDT)
-Received: from [128.224.162.177] (128.224.162.177) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.248.2;
-	Wed, 31 Aug 2016 02:21:02 -0700
-To: "'Patches and discussions about the oe-core layer'"
-	<openembedded-core@lists.openembedded.org>, <seebs@seebs.net>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>
-From: wenzong fan <wenzong.fan@windriver.com>
-Message-ID: <e33a2d23-6067-cf14-57ab-d40623a3597a@windriver.com>
-Date: Wed, 31 Aug 2016 17:21:00 +0800
+	Wed, 31 Aug 2016 09:25:35 +0000 (UTC)
+To: openembedded-core@lists.openembedded.org
+References: <1472577240-5378-1-git-send-email-schnitzeltony@googlemail.com>
+From: Jack Mitchell <ml@embed.me.uk>
+Message-ID: <e6cfe9ed-fb20-7966-43b5-e8d7d8666470@embed.me.uk>
+Date: Wed, 31 Aug 2016 10:25:51 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
 	Thunderbird/45.2.0
 MIME-Version: 1.0
-Subject: pseudo 1.8.1 doesn't work with docker & dumb-init
+In-Reply-To: <1472577240-5378-1-git-send-email-schnitzeltony@googlemail.com>
+Subject: Re: [RFC][PATCH] cmake-native: work around gcc6's '-isystem'-allergy
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,73 +25,96 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 31 Aug 2016 09:21:06 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 31 Aug 2016 09:25:37 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Hi Experts,
+On 30/08/16 18:14, Andreas Müller wrote:
+> since gcc6 we see many cmake/c++ based packets failing with:
+>
+> | fatal error: stdlib.h: No such file or directory
+>
+> a fix from gcc is not to expect [1] so work around by replacing '-isystem' by
+> '-I' for c++.
+>
+> Build tested with many recipes in meta-qt5-extra / meta-oe inheriting cmake.
+>
+> [1] https://gcc.gnu.org/bugzilla/show_bug.cgi?id=70129
+>
+> Signed-off-by: Andreas Müller <schnitzeltony@googlemail.com>
+> ---
+>  meta/recipes-devtools/cmake/cmake-native_3.6.1.bb  |  1 +
+>  .../0001-GNU.cmake-replace-isystem-by-I.patch      | 42 ++++++++++++++++++++++
+>  2 files changed, 43 insertions(+)
+>  create mode 100644 meta/recipes-devtools/cmake/cmake/0001-GNU.cmake-replace-isystem-by-I.patch
+>
+> diff --git a/meta/recipes-devtools/cmake/cmake-native_3.6.1.bb b/meta/recipes-devtools/cmake/cmake-native_3.6.1.bb
+> index 33930fb..900091e 100644
+> --- a/meta/recipes-devtools/cmake/cmake-native_3.6.1.bb
+> +++ b/meta/recipes-devtools/cmake/cmake-native_3.6.1.bb
+> @@ -6,6 +6,7 @@ DEPENDS += "bzip2-native zlib-native"
+>
+>  SRC_URI += "\
+>      file://cmlibarchive-disable-ext2fs.patch \
+> +    file://0001-GNU.cmake-replace-isystem-by-I.patch \
+>  "
+>
+>  # Disable ccmake since we don't depend on ncurses
+> diff --git a/meta/recipes-devtools/cmake/cmake/0001-GNU.cmake-replace-isystem-by-I.patch b/meta/recipes-devtools/cmake/cmake/0001-GNU.cmake-replace-isystem-by-I.patch
+> new file mode 100644
+> index 0000000..4c06490
+> --- /dev/null
+> +++ b/meta/recipes-devtools/cmake/cmake/0001-GNU.cmake-replace-isystem-by-I.patch
+> @@ -0,0 +1,42 @@
+> +From a84d20abe6bc68f8d1a597a22af1ca98d62a5ce4 Mon Sep 17 00:00:00 2001
+> +From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@googlemail.com>
+> +Date: Fri, 26 Aug 2016 12:14:12 +0200
+> +Subject: [PATCH] GNU.cmake: replace -isystem by -I
+> +MIME-Version: 1.0
+> +Content-Type: text/plain; charset=UTF-8
+> +Content-Transfer-Encoding: 8bit
+> +
+> +since gcc6 we see many c++ based packes failing with:
+> +
+> +| fatal error: stdlib.h: No such file or directory
+> +
+> +a fix from gcc is not to expect [1] so work around
+> +
+> +[1] https://gcc.gnu.org/bugzilla/show_bug.cgi?id=70129
+> +
+> +Upstream-Status: Pending
+> +
+> +Signed-off-by: Andreas Müller <schnitzeltony@googlemail.com>
+> +---
+> + Modules/Compiler/GNU.cmake | 6 +++++-
+> + 1 file changed, 5 insertions(+), 1 deletion(-)
+> +
+> +diff --git a/Modules/Compiler/GNU.cmake b/Modules/Compiler/GNU.cmake
+> +index c2d393d..9d1477d 100644
+> +--- a/Modules/Compiler/GNU.cmake
+> ++++ b/Modules/Compiler/GNU.cmake
+> +@@ -53,6 +53,10 @@ macro(__compiler_gnu lang)
+> +   set(CMAKE_${lang}_CREATE_PREPROCESSED_SOURCE "<CMAKE_${lang}_COMPILER> <DEFINES> <INCLUDES> <FLAGS> -E <SOURCE> > <PREPROCESSED_SOURCE>")
+> +   set(CMAKE_${lang}_CREATE_ASSEMBLY_SOURCE "<CMAKE_${lang}_COMPILER> <DEFINES> <INCLUDES> <FLAGS> -S <SOURCE> -o <ASSEMBLY_SOURCE>")
+> +   if(NOT APPLE OR NOT CMAKE_${lang}_COMPILER_VERSION VERSION_LESS 4) # work around #4462
+> +-    set(CMAKE_INCLUDE_SYSTEM_FLAG_${lang} "-isystem ")
+> ++    if("${lang}" STREQUAL "CXX")
+> ++      set(CMAKE_INCLUDE_SYSTEM_FLAG_${lang} "-I ")
+> ++    else()
+> ++      set(CMAKE_INCLUDE_SYSTEM_FLAG_${lang} "-isystem ")
+> ++    endif()
+> +   endif()
+> + endmacro()
+> +--
+> +2.5.5
+> +
+>
 
-While I trying to build Yocto in Docker Container which using dumb-init 
-as init system, I found the build always be stopped at some point and 
-the container was terminated as well with below errors:
+Thanks for the patch Andreas, this fixes my build for now but as you 
+mentioned is a bit of a hack to get round the issue. As this fixes my 
+problem does it mean that it's not bitbake which is injecting the 
+isystem, but instead a CMake recipe somewhere?
 
-     Child process timeout after 2 seconds.
-     Child process exit status 4: lock_held
-
-Sometimes there's not any obvious error message.
-
-After some `git bisect` testing, I believe the issue was started since 
-commit:
-
-----------------------
-9df3cdf42d8c1216682f497f0b166a43ef9f4184 is the first bad commit
-commit 9df3cdf42d8c1216682f497f0b166a43ef9f4184
-Author: Richard Purdie <richard.purdie@linuxfoundation.org>
-Date: Tue Jul 5 13:18:31 2016 +0100
-
-     pseudo: Upgrade to 1.8.1
-
-     * Drop patches where the changes exist upstream
-     * Fetch from git as no tarball is available for 1.8.1
-     * Move common code to pseudo.inc
-     * Update patchset in git recipe
-
-     (From OE-Core rev: 0c36984d4c501d12fa91cf7371511641585cc256)
------------------------
-
-Finally I narrowed it down to pseudo commit:
-
-------------------------
-commit 77ee254a6c974aad9bcab2c58c9ee9e0880c9718
-Author: Peter Seebach <peter.seebach@windriver.com>
-Date: Tue Mar 1 16:21:15 2016 -0600
-
-     Server launch reworking.
-
-     This is the big overhaul to have the server provide meaningful exit 
-status
-     to clients.
-
-     In the process, I discovered that the server was running with 
-signals blocked
-     if launched by a client, which is not a good thing, and prevented 
-this from
-     working as intended.
-
-     Still looking to see why more than one server spawn seems to happen.
-------------------------
-
-I also created a testcase for reproducing the issue at:
-
-     https://github.com/WenzongFan/docker-build-yocto
-
-For dumb-init please refer to:
-
-     https://github.com/Yelp/dumb-init
-
-Could anyone help to fix the signal handling in pseudo?
-
-
-Thanks
-Wenzong
+Regards,
+Jack.
 
