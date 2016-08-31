@@ -1,48 +1,47 @@
 Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-qt0-f171.google.com (mail-qt0-f171.google.com
-	[209.85.216.171])
-	by mail.openembedded.org (Postfix) with ESMTP id EFD5D6010B
+Received: from mail-qk0-f194.google.com (mail-qk0-f194.google.com
+	[209.85.220.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 8F6636010B
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 31 Aug 2016 12:38:08 +0000 (UTC)
-Received: by mail-qt0-f171.google.com with SMTP id 93so24344493qtg.2
+	Wed, 31 Aug 2016 12:40:15 +0000 (UTC)
+Received: by mail-qk0-f194.google.com with SMTP id n66so3416133qkf.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 31 Aug 2016 05:38:09 -0700 (PDT)
+	Wed, 31 Aug 2016 05:40:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=56KxsZ8+Ht0Rjiq/p57FJJ/39hVofXp6ajejtnHqEHo=;
-	b=bnEG5o4A33Y0eOPSKmnRDCDJAZ5fHzHy6aPeKLodiCnb1aU61P/cYfi6lHc4oGv7eg
-	J1DTX9bakl7FQmDUp4Yd3bmRzDKHfFHWdyShlnh3v/X2IMNmwUQN1a46y0VaX/zfTmEY
-	VQcP8xRsBx08BFD+SfPo5Dr1UKSVMpX61d7FAaj9l1Q8lU+FpVpHlXw8CKEZBK3pvEIx
-	gkha5CTDX2DzK8CO1If/tYs08do5C++bYHOy9eSMkDeo95DPwD6/lH6NSuQaDfOYJcEI
-	sLNhtciV6Ae9ZjM1E12QMIvkX3ps8B6dDAy/144oSB1QnWl0WhCTrGXW4r6WSBSrpjwM
-	UGRw==
+	:cc; bh=uW6tHQN53iceFb2Zve+5C7ANUE8lDSgi6fp/t2bf8u0=;
+	b=qOvKww3Il+VDOcL9ANcFpQTHDSV5aDDzGa8M9KYJ7OGetcCdUlyi0z/OHbHCnKssg3
+	31qo1ztmfLugfJrc7yC+MvWjXEwyOAlxF9MYZ0x5aC27DZbq/wn0QFpJQOC8BRe0YAdd
+	rcACsWbL+lpQO+odbz49dN6FLbSY9ARL13ebVaJ+LoVJZj41mshWRrlhQSQlJcJlE854
+	bcfmVTX4Agn55iqQV98X3tjXRRKAkZbQBC2sSoMzPPUj3QTIj9Kb9iR8l8cES+yXoo9S
+	+DOC9H++m99H5B1h363O/u9hMbWypO+78j7WJTrjAf2zDHSy3MMwF5404jk/4Mv3pVME
+	gfrQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=56KxsZ8+Ht0Rjiq/p57FJJ/39hVofXp6ajejtnHqEHo=;
-	b=EFtJttV/6ZUmUe7dIc4vc0GCrSCuFtdCeFhZ0X7nXsulLlJnHxAtK800yHeSXKccMF
-	V7Jk9xfQfK4Pa/nMhRP7FyZHr6NqTyvINdcfPwG9uslQeBgwSqjW5k/Z9sb609tKr73w
-	EW6AQ76hw2GQZhvJdxrGwQGhHOf5PdsOvVwhMb3q4D967M/GIcxfU7G4djy+ej2JF11p
-	fNNXVWaAcqTgqJHlznehQXYoHBEgUBk/Bw8w0JHAL1JNy71L91uFiOC24JysdM5Ul27T
-	h7pOurXm44Pv+8hHvjRabrt1yytqKaJA8BNzA06mwuLne0Zl9hCc1sXSLvvwbDU7VrvF
-	OlBg==
-X-Gm-Message-State: AE9vXwON0mwBoa23ZaJNmr3Lbf+1FN4wPEAigBdzii6euZUEZo+8snIX1pT3KvqQv49oBCNK6I9dqljOCVWXPQ==
-X-Received: by 10.200.47.164 with SMTP id l33mr10499492qta.19.1472647088905;
-	Wed, 31 Aug 2016 05:38:08 -0700 (PDT)
+	bh=uW6tHQN53iceFb2Zve+5C7ANUE8lDSgi6fp/t2bf8u0=;
+	b=Bo3UwqjE5xUbCegLc3uFLAqYPZiejnbLnh4EZro1lvq5wlsqCLD3t8E/xQnhiYkKPw
+	CjeiMEC38YInbjJPUY2vsoXAnNowN71fEHKatrYNguYPeN+QDdaAKdeCRzXcmE0Xa0Vp
+	s30tBhYTj53wJ886ggfXlmQSHDnkIBmKvfkfmSuzeUdTj4pBE0bRQULthM+0Z0N8LLqF
+	1AffoYyux0PJ6O/As/TfpIaCP3DEHt9CzUuALfS+juvrDhOS1wJrS7yJDchLfTQb6Ckb
+	ZoiF+Inkg6YvBTGAo+7tL12f0SmSURwRFIJXlQsJAGu+VgdYPpogxHNeG/U2YXjE1ZoS
+	wZHQ==
+X-Gm-Message-State: AE9vXwPeM5eDdh5qMO3QS6b9DehoRfnI3MK7r9nAMSLS1IlPZf4UKON14k0+3ZIxNrfZ8Lvbd1W3nBHwIDgFgQ==
+X-Received: by 10.55.176.67 with SMTP id z64mr10803037qke.74.1472647216448;
+	Wed, 31 Aug 2016 05:40:16 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.237.53.83 with HTTP; Wed, 31 Aug 2016 05:38:08 -0700 (PDT)
-In-Reply-To: <1472627972.29583.62.camel@linuxfoundation.org>
+Received: by 10.237.53.83 with HTTP; Wed, 31 Aug 2016 05:40:15 -0700 (PDT)
+In-Reply-To: <1472641217.29583.81.camel@linuxfoundation.org>
 References: <cover.1472574514.git.bruce.ashfield@windriver.com>
-	<89463ec6e33f6ba793867711eb18d82ee58bc85b.1472574514.git.bruce.ashfield@windriver.com>
-	<1472627972.29583.62.camel@linuxfoundation.org>
+	<1472641217.29583.81.camel@linuxfoundation.org>
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Wed, 31 Aug 2016 08:38:08 -0400
-Message-ID: <CADkTA4NJTcO9T2Ji69v-RTcgS7ryXG4QkFTpJh=S5pOe+W3Qyg@mail.gmail.com>
+Date: Wed, 31 Aug 2016 08:40:15 -0400
+Message-ID: <CADkTA4OD_SY_NNySADMiv+n6dWEqj15dnn9mO5-_MSHSe5jb4w@mail.gmail.com>
 To: Richard Purdie <richard.purdie@linuxfoundation.org>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>, Saul Wold <saul.wold@intel.com>
-Subject: Re: [PATCH 5/9] libc-headers: update to v4.8
+Subject: Re: [PATCH 0/9] linux-yocto: v4.8 + fixes + configuration updates + RFC
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,45 +54,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 31 Aug 2016 12:38:09 -0000
-Content-Type: multipart/alternative; boundary=001a11378e1a9d4cad053b5d5e98
+X-List-Received-Date: Wed, 31 Aug 2016 12:40:16 -0000
+Content-Type: multipart/alternative; boundary=94eb2c06fece374d5e053b5d6694
 
---001a11378e1a9d4cad053b5d5e98
+--94eb2c06fece374d5e053b5d6694
 Content-Type: text/plain; charset=UTF-8
 
-On Wed, Aug 31, 2016 at 3:19 AM, Richard Purdie <
+On Wed, Aug 31, 2016 at 7:00 AM, Richard Purdie <
 richard.purdie@linuxfoundation.org> wrote:
 
-> On Tue, 2016-08-30 at 12:49 -0400, Bruce Ashfield wrote:
-> > Updating the libc-headers to use the 4.8 kernel as the default.
-> >
-> > Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
-> > ---
-> >  meta/conf/distro/include/tcmode-default.inc                 |  2 +-
-> >  .../linux-libc-headers/linux-libc-headers_4.8.bb            | 13
-> > +++++++++++++
-> >  2 files changed, 14 insertions(+), 1 deletion(-)
-> >  create mode 100644 meta/recipes-kernel/linux-libc-headers/linux-libc
-> > -headers_4.8.bb
+> Just to update I have:
 >
-> The musl patches fail to apply on the new version:
+> * Put a runqemu patch in master-next that works with new and old
+>   kernels to handle the dtb issue
 >
-> https://autobuilder.yoctoproject.org/main/builders/poky-tiny/builds/928
-> /steps/BuildImages/logs/stdio
+
+Hmm. I tested 4.4 and 4.8 with the ones that I did.
 
 
-I can drop those patches, but that's all that I can really offer, since
-even if
-I ported them, I don't build or test with musl.
+> * Updated the musl patches in libc-headers
+>
 
-What's the preference ? I do a "they apply" port, or just drop them until
-someone
-else who knows musl can do the port ?
+ok. Ignore my previous email on this one!
+
+
+> * Updated lttng-* to avoid build failures with 4.8
+>
+
+What were you seeing here ? I built lttng and didn't see the failure ..
+I'm wondering if I was held back on 4.4 when I did those builds. I'll go
+investigate,
+since that is rather annoying as I was explicitly covering perf/lttng to
+rule that out.
 
 Bruce
 
 
+> * Switched the default qemu kernel 4.4 -> 4.8 in poky so we get
+>   testing of 4.8
 >
+> I'm waiting on the next build so see what issues remain from here.
 >
 > Cheers,
 >
@@ -111,50 +111,37 @@ Bruce
 "Thou shalt not follow the NULL pointer, for chaos and madness await thee
 at its end"
 
---001a11378e1a9d4cad053b5d5e98
+--94eb2c06fece374d5e053b5d6694
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><div class=3D"gmail_quo=
-te">On Wed, Aug 31, 2016 at 3:19 AM, Richard Purdie <span dir=3D"ltr">&lt;<=
+te">On Wed, Aug 31, 2016 at 7:00 AM, Richard Purdie <span dir=3D"ltr">&lt;<=
 a href=3D"mailto:richard.purdie@linuxfoundation.org" target=3D"_blank">rich=
 ard.purdie@linuxfoundation.org</a>&gt;</span> wrote:<br><blockquote class=
 =3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padd=
-ing-left:1ex"><span class=3D"">On Tue, 2016-08-30 at 12:49 -0400, Bruce Ash=
-field wrote:<br>
-&gt; Updating the libc-headers to use the 4.8 kernel as the default.<br>
-&gt;<br>
-&gt; Signed-off-by: Bruce Ashfield &lt;<a href=3D"mailto:bruce.ashfield@win=
-driver.com">bruce.ashfield@windriver.com</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 meta/conf/distro/include/<wbr>tcmode-default.inc=C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 2 +-<br>
-&gt;=C2=A0 .../linux-libc-headers/<a href=3D"http://linux-libc-headers_4.8.=
-bb" rel=3D"noreferrer" target=3D"_blank">linux-<wbr>libc-headers_4.8.bb</a>=
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 13<br>
-&gt; +++++++++++++<br>
-&gt;=C2=A0 2 files changed, 14 insertions(+), 1 deletion(-)<br>
-&gt;=C2=A0 create mode 100644 meta/recipes-kernel/linux-<wbr>libc-headers/l=
-inux-libc<br>
-&gt; -<a href=3D"http://headers_4.8.bb" rel=3D"noreferrer" target=3D"_blank=
-">headers_4.8.bb</a><br>
+ing-left:1ex">Just to update I have:<br>
 <br>
-</span>The musl patches fail to apply on the new version:<br>
+* Put a runqemu patch in master-next that works with new and old<br>
+=C2=A0 kernels to handle the dtb issue<br></blockquote><br><div>Hmm. I test=
+ed 4.4 and 4.8 with the ones that I did. <br></div><div>=C2=A0</div><blockq=
+uote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc =
+solid;padding-left:1ex">
+* Updated the musl patches in libc-headers<br></blockquote><div><br></div><=
+div>ok. Ignore my previous email on this one!<br></div><div>=C2=A0</div><bl=
+ockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #=
+ccc solid;padding-left:1ex">
+* Updated lttng-* to avoid build failures with 4.8<br></blockquote><div><br=
+></div><div>What were you seeing here ? I built lttng and didn&#39;t see th=
+e failure .. <br>I&#39;m wondering if I was held back on 4.4 when I did tho=
+se builds. I&#39;ll go investigate, <br>since that is rather annoying as I =
+was explicitly covering perf/lttng to rule that out.<br><br></div><div>Bruc=
+e<br></div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"marg=
+in:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
+* Switched the default qemu kernel 4.4 -&gt; 4.8 in poky so we get<br>
+=C2=A0 testing of 4.8<br>
 <br>
-<a href=3D"https://autobuilder.yoctoproject.org/main/builders/poky-tiny/bui=
-lds/928
-/steps/BuildImages/logs/stdio" rel=3D"noreferrer" target=3D"_blank">https:/=
-/autobuilder.<wbr>yoctoproject.org/main/<wbr>builders/poky-tiny/builds/928<=
-br>
-/steps/BuildImages/logs/stdio</a></blockquote><br></div><div class=3D"gmail=
-_quote">I can drop those patches, but that&#39;s all that I can really offe=
-r, since even if<br></div><div class=3D"gmail_quote">I ported them, I don&#=
-39;t build or test with musl.<br><br></div><div class=3D"gmail_quote">What&=
-#39;s the preference ? I do a &quot;they apply&quot; port, or just drop the=
-m until someone<br></div><div class=3D"gmail_quote">else who knows musl can=
- do the port ?<br><br></div><div class=3D"gmail_quote">Bruce<br></div><div =
-class=3D"gmail_quote"><div>=C2=A0</div><blockquote class=3D"gmail_quote" st=
-yle=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><br>
+I&#39;m waiting on the next build so see what issues remain from here.<br>
 <br>
 Cheers,<br>
 <br>
@@ -173,4 +160,4 @@ t follow the NULL pointer, for chaos and madness await thee at its end&quot=
 ;</div>
 </div></div>
 
---001a11378e1a9d4cad053b5d5e98--
+--94eb2c06fece374d5e053b5d6694--
