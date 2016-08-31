@@ -1,22 +1,29 @@
-Return-Path: <seebs@seebs.net>
-Received: from mail.plethora.net (mail.plethora.net [184.173.250.112])
-	by mail.openembedded.org (Postfix) with ESMTP id C9C777318D
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id C67E060107
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 31 Aug 2016 15:48:29 +0000 (UTC)
-Received: from [10.10.10.132] (home.seebs.net [74.122.98.108])
-	by mail.plethora.net (Postfix) with ESMTPSA id A1F04C4993;
-	Wed, 31 Aug 2016 10:48:29 -0500 (CDT)
-From: Seebs <seebs@seebs.net>
-To: "wenzong fan" <wenzong.fan@windriver.com>
-Date: Wed, 31 Aug 2016 10:48:28 -0500
-Message-ID: <1A4DD5F0-D89E-4FC1-820A-457817B4FCD3@seebs.net>
-In-Reply-To: <e33a2d23-6067-cf14-57ab-d40623a3597a@windriver.com>
-References: <e33a2d23-6067-cf14-57ab-d40623a3597a@windriver.com>
-MIME-Version: 1.0
-X-Mailer: MailMate (1.9.4r5234)
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: pseudo 1.8.1 doesn't work with docker & dumb-init
+	Wed, 31 Aug 2016 16:57:58 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u7VGvw9O005798; Wed, 31 Aug 2016 17:57:58 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id mHYBwSVJT_D1; Wed, 31 Aug 2016 17:57:58 +0100 (BST)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u7VGvrT6005795
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Wed, 31 Aug 2016 17:57:54 +0100
+Message-ID: <1472662673.29583.90.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>,
+	openembedded-core@lists.openembedded.org
+Date: Wed, 31 Aug 2016 17:57:53 +0100
+In-Reply-To: <lya8ftx7w4.fsf@ensc-virt.intern.sigma-chemnitz.de>
+References: <lya8ftx7w4.fsf@ensc-virt.intern.sigma-chemnitz.de>
+X-Mailer: Evolution 3.16.5-1ubuntu3.1 
+Mime-Version: 1.0
+Subject: Re: Replacement for tslib?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,16 +36,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 31 Aug 2016 15:48:31 -0000
-Content-Type: text/plain; format=flowed
+X-List-Received-Date: Wed, 31 Aug 2016 16:57:59 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On 31 Aug 2016, at 4:21, wenzong fan wrote:
+On Wed, 2016-08-31 at 17:42 +0200, Enrico Scholz wrote:
+> Hello,
+> 
+> tslib is more or less mandatory for resistive touchscreens but it was
+> removed some days ago.  This breaks e.g. meta-qt5 layer which depends 
+> on it.
+> 
+> Is this removal really final (which would be really bad, because
+> resistive
+> touchscreens are used e.g. in industrial environments)?
 
-> Finally I narrowed it down to pseudo commit:
+The underlying pressure was from xcalibrate never having been merged
+into x11 and hence needing to replace xtscal by xinput-calibrate. With
+that change, the need for tslib wasn't clear.
 
-Yes, that makes sense, we expect that there'd be potential issues, but I 
-didn't have a reproducer for any. Thanks! I'll see whether it reproduces 
-for me now. Any specific version of docker I might need?
+Its was also frustrating having two sets of pointercal files, one for
+xinput-calibrate and one for tslib.
 
--s
+That said, I can see the need for tslib and if that is the only way to
+support these touchscreens in qt5/qt4 we might have to reconsider that.
+
+Are you sure the kernel interfaces that xinput is using don't work for
+qt4/qt5? If not, we may need to reconsider tslib...
+
+Cheers,
+
+Richard
 
