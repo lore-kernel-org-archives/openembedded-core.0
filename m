@@ -1,30 +1,30 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id B9D846E668
+	by mail.openembedded.org (Postfix) with ESMTP id 5B3896E668
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 31 Aug 2016 10:31:33 +0000 (UTC)
+	Wed, 31 Aug 2016 10:32:13 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u7VAVQLl016119 for <openembedded-core@lists.openembedded.org>;
-	Wed, 31 Aug 2016 11:31:32 +0100
+	u7VAWDGR016221 for <openembedded-core@lists.openembedded.org>;
+	Wed, 31 Aug 2016 11:32:13 +0100
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id JaOY2IT7zE-T
+	with LMTP id XWDOmzRnqti7
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 31 Aug 2016 11:31:32 +0100 (BST)
+	Wed, 31 Aug 2016 11:32:13 +0100 (BST)
 Received: from hex ([192.168.3.34]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u7VAVT34016130
+	u7VAWBh8016208
 	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 31 Aug 2016 11:31:30 +0100
-Message-ID: <1472639489.29583.68.camel@linuxfoundation.org>
+	Wed, 31 Aug 2016 11:32:12 +0100
+Message-ID: <1472639531.29583.69.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Wed, 31 Aug 2016 11:31:29 +0100
+Date: Wed, 31 Aug 2016 11:32:11 +0100
 X-Mailer: Evolution 3.16.5-1ubuntu3.1 
 Mime-Version: 1.0
-Subject: [PATCH] lttng-ust: Update 2.7.1 -> 2.8.1
+Subject: [PATCH] lttng-tools: Update 2.7.1 -> 2.8.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,72 +37,112 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 31 Aug 2016 10:31:34 -0000
+X-List-Received-Date: Wed, 31 Aug 2016 10:32:14 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Drop aarch64_be patch which is now upstream.
-Update doc patch to apply to latest version.
+Drop backported patch.
+Update ust configure option.
+Update location of xml m4 file.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-diff --git a/meta/recipes-kernel/lttng/lttng-ust/lttng-ust-add-support-for-aarch64_be.patch b/meta/recipes-kernel/lttng/lttng-ust/lttng-ust-add-support-for-aarch64_be.patch
+diff --git a/meta/recipes-kernel/lttng/lttng-tools/stop-using-SIGUNUSED.patch b/meta/recipes-kernel/lttng/lttng-tools/stop-using-SIGUNUSED.patch
 deleted file mode 100644
-index 9b37a4a..0000000
---- a/meta/recipes-kernel/lttng/lttng-ust/lttng-ust-add-support-for-aarch64_be.patch
+index bd4f7d1..0000000
+--- a/meta/recipes-kernel/lttng/lttng-tools/stop-using-SIGUNUSED.patch
 +++ /dev/null
-@@ -1,17 +0,0 @@
--lttng-ust: add support for aarch64_be
+@@ -1,51 +0,0 @@
+-From 1f54181c2df1fb92c3323a6dbf8273fb66b883b6 Mon Sep 17 00:00:00 2001
+-From: =?UTF-8?q?J=C3=A9r=C3=A9mie=20Galarneau?=
+- <jeremie.galarneau@efficios.com>
+-Date: Sat, 17 Oct 2015 19:41:47 -0400
+-Subject: [PATCH] Port: Don't use SIGUNUSED which is not defined on Solaris
+-MIME-Version: 1.0
+-Content-Type: text/plain; charset=UTF-8
+-Content-Transfer-Encoding: 8bit
+-Organization: O.S. Systems Software LTDA.
 -
--Upstream-Status: Pending
+-Upstream-Status: Backport [2.8.0]
 -
--Signed-off-by: Tudor Florea <tudor.florea@enea.com>
+-Signed-off-by: Jérémie Galarneau <jeremie.galarneau@efficios.com>
+----
+- src/common/runas.c | 18 +++++-------------
+- 1 file changed, 5 insertions(+), 13 deletions(-)
 -
--diff --ruN a/configure.ac b/configure.ac
----- a/configure.ac	2016-02-18 14:54:54.651713647 +0100
--+++ b/configure.ac	2016-02-18 14:56:11.057865297 +0100
--@@ -240,6 +240,7 @@
-- 	s390x) NO_UNALIGNED_ACCESS=1 ;;
--         arm*) NO_UNALIGNED_ACCESS=1 ;;
-- 	aarch64) NO_UNALIGNED_ACCESS=1 ;;
--+        aarch64_be) NO_UNALIGNED_ACCESS=1 ;;
-- 	mips*) NO_UNALIGNED_ACCESS=1 ;;
-- 	tile*) NO_UNALIGNED_ACCESS=1 ;;
-- 	*)
-diff --git a/meta/recipes-kernel/lttng/lttng-ust/lttng-ust-doc-examples-disable.patch b/meta/recipes-kernel/lttng/lttng-ust/lttng-ust-doc-examples-disable.patch
-index b68a989..caf0b8b 100644
---- a/meta/recipes-kernel/lttng/lttng-ust/lttng-ust-doc-examples-disable.patch
-+++ b/meta/recipes-kernel/lttng/lttng-ust/lttng-ust-doc-examples-disable.patch
-@@ -11,7 +11,7 @@ Index: doc/Makefile.am
- --- a/doc/Makefile.am
- +++ b/doc/Makefile.am
- @@ -1,4 +1,4 @@
---SUBDIRS = . examples
-+-SUBDIRS = . man examples
- +SUBDIRS = .
-  
-  dist_man_MANS = man/lttng-gen-tp.1 \
-diff --git a/meta/recipes-kernel/lttng/lttng-ust_git.bb b/meta/recipes-kernel/lttng/lttng-ust_git.bb
-index f5a12b1..a642a32 100644
---- a/meta/recipes-kernel/lttng/lttng-ust_git.bb
-+++ b/meta/recipes-kernel/lttng/lttng-ust_git.bb
-@@ -18,13 +18,12 @@ RPROVIDES_${PN} = "lttng2-ust"
- RREPLACES_${PN} = "lttng2-ust"
- RCONFLICTS_${PN} = "lttng2-ust"
+-diff --git a/src/common/runas.c b/src/common/runas.c
+-index 57f7382..0825470 100644
+---- a/src/common/runas.c
+-+++ b/src/common/runas.c
+-@@ -530,21 +530,13 @@ int run_as_rmdir_recursive(const char *path, uid_t uid, gid_t gid)
+- static
+- int reset_sighandler(void)
+- {
+--	int sig, ret = 0;
+-+	int sig;
+- 
+--	for (sig = SIGHUP; sig <= SIGUNUSED; sig++) {
+--		/* Skip unblockable signals. */
+--		if (sig == SIGKILL || sig == SIGSTOP) {
+--			continue;
+--		}
+--		if (signal(sig, SIG_DFL) == SIG_ERR) {
+--			PERROR("reset signal %d", sig);
+--			ret = -1;
+--			goto end;
+--		}
+-+	DBG("Resetting run_as worker signal handlers to default");
+-+	for (sig = 1; sig <= 31; sig++) {
+-+		(void) signal(sig, SIG_DFL);
+- 	}
+--end:
+--	return ret;
+-+	return 0;
+- }
+- 
+- static
+--- 
+-2.6.2
+-
+diff --git a/meta/recipes-kernel/lttng/lttng-tools_git.bb b/meta/recipes-kernel/lttng/lttng-tools_git.bb
+index fe1e2a3..e2f3032 100644
+--- a/meta/recipes-kernel/lttng/lttng-tools_git.bb
++++ b/meta/recipes-kernel/lttng/lttng-tools_git.bb
+@@ -13,8 +13,8 @@ DEPENDS = "liburcu popt libxml2"
+ RDEPENDS_${PN} = "libgcc"
+ RDEPENDS_${PN}-ptest += "make perl bash"
  
--SRCREV = "f89c1a3cf2b06a4970b9154c00ff6409870aefb5"
-+SRCREV = "514a87f3b64181e384399935a5708a8f85b0cc83"
- PE = "2"
+-SRCREV = "a90f2c1e10b759782653a81815625e9d1bbb75ca"
 -PV = "2.7.1+git${SRCPV}"
++SRCREV = "d11e0dba0df9024b8613c51e167a379b91e8b20b"
 +PV = "2.8.1+git${SRCPV}"
  
--SRC_URI = "git://git.lttng.org/lttng-ust.git;branch=stable-2.7 \
-+SRC_URI = "git://git.lttng.org/lttng-ust.git;branch=stable-2.8 \
-            file://lttng-ust-doc-examples-disable.patch \
--           file://lttng-ust-add-support-for-aarch64_be.patch \
-           "
+ PYTHON_OPTION = "am_cv_python_pyexecdir='${PYTHON_SITEPACKAGES_DIR}' \
+                  am_cv_python_pythondir='${PYTHON_SITEPACKAGES_DIR}' \
+@@ -22,12 +22,11 @@ PYTHON_OPTION = "am_cv_python_pyexecdir='${PYTHON_SITEPACKAGES_DIR}' \
+ "
+ PACKAGECONFIG ??= "lttng-ust"
+ PACKAGECONFIG[python] = "--enable-python-bindings ${PYTHON_OPTION},,python3 swig-native"
+-PACKAGECONFIG[lttng-ust] = "--enable-lttng-ust, --disable-lttng-ust, lttng-ust"
++PACKAGECONFIG[lttng-ust] = "--with-lttng-ust, --without-lttng-ust, lttng-ust"
+ PACKAGECONFIG[kmod] = "--enable-kmod, --disable-kmod, kmod"
+ PACKAGECONFIG_remove_libc-musl = "lttng-ust"
  
- do_install_append() {
+-SRC_URI = "git://git.lttng.org/lttng-tools.git;branch=stable-2.7 \
+-           file://stop-using-SIGUNUSED.patch \
++SRC_URI = "git://git.lttng.org/lttng-tools.git;branch=stable-2.8 \
+            file://runtest-2.4.0.patch \
+            file://run-ptest"
+ 
+@@ -51,7 +50,7 @@ INSANE_SKIP_${PN}-dbg = "libexec"
+ 
+ do_configure_prepend () {
+ 	# Delete a shipped m4 file that overrides our patched one
+-	rm -f ${S}/config/libxml.m4
++	rm -f ${S}/m4/libxml.m4
+ }
+ 
+ do_install_ptest () {
 
 
 
