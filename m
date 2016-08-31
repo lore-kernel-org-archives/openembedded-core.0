@@ -1,20 +1,30 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 663316E668
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 7A9FD65CBA
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 31 Aug 2016 10:34:18 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga102.fm.intel.com with ESMTP; 31 Aug 2016 03:34:19 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.30,261,1470726000"; d="scan'208";a="872940912"
-Received: from kanavin-desktop.fi.intel.com ([10.237.68.49])
-	by orsmga003.jf.intel.com with ESMTP; 31 Aug 2016 03:34:18 -0700
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 31 Aug 2016 13:32:46 +0300
-Message-Id: <20160831103246.26968-1-alexander.kanavin@linux.intel.com>
-X-Mailer: git-send-email 2.9.3
-Subject: [PATCH] gtk-doc: do not inherit perlnative and pythonnative
+	Wed, 31 Aug 2016 10:55:48 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u7VAtlA6018196; Wed, 31 Aug 2016 11:55:47 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id fwHO_lEzl7II; Wed, 31 Aug 2016 11:55:47 +0100 (BST)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u7VAtjUa018193
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Wed, 31 Aug 2016 11:55:46 +0100
+Message-ID: <1472640944.29583.77.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>,
+	openembedded-core@lists.openembedded.org
+Date: Wed, 31 Aug 2016 11:55:44 +0100
+In-Reply-To: <88fde4c5d43e2b6ebced1462705241222fb9734a.1472607521.git.paul.eggleton@linux.intel.com>
+References: <cover.1472607521.git.paul.eggleton@linux.intel.com>
+	<88fde4c5d43e2b6ebced1462705241222fb9734a.1472607521.git.paul.eggleton@linux.intel.com>
+X-Mailer: Evolution 3.16.5-1ubuntu3.1 
+Mime-Version: 1.0
+Subject: Re: [PATCH 1/2] scripts: ensure tinfoil is shut down correctly
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,33 +37,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 31 Aug 2016 10:34:19 -0000
+X-List-Received-Date: Wed, 31 Aug 2016 10:55:49 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-This avoids having the full paths of perl and python written
-into gtk-doc scripts, which can trigger build failures and doesn't
-work at all on targets.
+On Wed, 2016-08-31 at 13:48 +1200, Paul Eggleton wrote:
+> We should always shut down tinfoil when we're finished with it,
+> either
+> by explicitly calling the shutdown() method or by using it as a
+> context manager ("with ...").
 
-Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
----
- meta/recipes-gnome/gtk-doc/gtk-doc_1.25.bb | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Could I trouble you to rebase this onto master-next please? It
+currently has conflicts which didn't seem immediately obvious to me to
+resolve.
 
-diff --git a/meta/recipes-gnome/gtk-doc/gtk-doc_1.25.bb b/meta/recipes-gnome/gtk-doc/gtk-doc_1.25.bb
-index 0585ca9..79d4e43 100644
---- a/meta/recipes-gnome/gtk-doc/gtk-doc_1.25.bb
-+++ b/meta/recipes-gnome/gtk-doc/gtk-doc_1.25.bb
-@@ -5,8 +5,8 @@ HOMEPAGE = "http://www.gtk.org/gtk-doc/"
- LICENSE = "GPLv2"
- LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f"
- 
--inherit gnomebase pythonnative perlnative
--DEPENDS_append = "libxslt xmlto source-highlight-native"
-+inherit gnomebase
-+DEPENDS_append = " libxslt xmlto source-highlight-native"
- EXTRA_OECONF_append = " --with-highlight=source-highlight"
- EXTRA_OECONF_append_class-native = " --with-xml-catalog=${sysconfdir}/xml/catalog.xml"
- 
--- 
-2.9.3
+Cheers,
 
+Richard
 
