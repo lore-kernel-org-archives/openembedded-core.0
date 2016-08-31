@@ -1,47 +1,48 @@
 Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-qk0-f194.google.com (mail-qk0-f194.google.com
-	[209.85.220.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 8F6636010B
+Received: from mail-qt0-f196.google.com (mail-qt0-f196.google.com
+	[209.85.216.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 574DC731B0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 31 Aug 2016 12:40:15 +0000 (UTC)
-Received: by mail-qk0-f194.google.com with SMTP id n66so3416133qkf.0
+	Wed, 31 Aug 2016 12:44:12 +0000 (UTC)
+Received: by mail-qt0-f196.google.com with SMTP id c52so1691400qte.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 31 Aug 2016 05:40:16 -0700 (PDT)
+	Wed, 31 Aug 2016 05:44:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=uW6tHQN53iceFb2Zve+5C7ANUE8lDSgi6fp/t2bf8u0=;
-	b=qOvKww3Il+VDOcL9ANcFpQTHDSV5aDDzGa8M9KYJ7OGetcCdUlyi0z/OHbHCnKssg3
-	31qo1ztmfLugfJrc7yC+MvWjXEwyOAlxF9MYZ0x5aC27DZbq/wn0QFpJQOC8BRe0YAdd
-	rcACsWbL+lpQO+odbz49dN6FLbSY9ARL13ebVaJ+LoVJZj41mshWRrlhQSQlJcJlE854
-	bcfmVTX4Agn55iqQV98X3tjXRRKAkZbQBC2sSoMzPPUj3QTIj9Kb9iR8l8cES+yXoo9S
-	+DOC9H++m99H5B1h363O/u9hMbWypO+78j7WJTrjAf2zDHSy3MMwF5404jk/4Mv3pVME
-	gfrQ==
+	:cc; bh=zq5UXqzi9pKLi3n1ga+X8LeD8F7T8439OOVYADd6KP4=;
+	b=fKxeI7JNFWtPsLVLNiEhy2950OspE2kd2K5DnwX64y8XZTCfrGj6DgEOob625HR8ZN
+	1cj74x6LFJnx9jWGvfUqocKp7phqRK7gjVUMIDmn79b5vrVAwCBhyc9WerfTyXae8jWu
+	EU9ealzjZ90CnLjs3qne75EXhyRdh9oEs7626qaa5ahFyhC+fc3Eaxw2K4P8YOPmBumf
+	HvnrcpEmNLLIPLarnv7DdT4RaHkA8lDIOttzBkS9mywBZfIUWiscQU7C2uBIWUTi2ZrI
+	VitCbtMPSwbBDJoOa1FhsKCMjmfVrp51gAih3DPV34yiwQ5IfUmHyWMCP9aJRykG4irY
+	KV5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=uW6tHQN53iceFb2Zve+5C7ANUE8lDSgi6fp/t2bf8u0=;
-	b=Bo3UwqjE5xUbCegLc3uFLAqYPZiejnbLnh4EZro1lvq5wlsqCLD3t8E/xQnhiYkKPw
-	CjeiMEC38YInbjJPUY2vsoXAnNowN71fEHKatrYNguYPeN+QDdaAKdeCRzXcmE0Xa0Vp
-	s30tBhYTj53wJ886ggfXlmQSHDnkIBmKvfkfmSuzeUdTj4pBE0bRQULthM+0Z0N8LLqF
-	1AffoYyux0PJ6O/As/TfpIaCP3DEHt9CzUuALfS+juvrDhOS1wJrS7yJDchLfTQb6Ckb
-	ZoiF+Inkg6YvBTGAo+7tL12f0SmSURwRFIJXlQsJAGu+VgdYPpogxHNeG/U2YXjE1ZoS
-	wZHQ==
-X-Gm-Message-State: AE9vXwPeM5eDdh5qMO3QS6b9DehoRfnI3MK7r9nAMSLS1IlPZf4UKON14k0+3ZIxNrfZ8Lvbd1W3nBHwIDgFgQ==
-X-Received: by 10.55.176.67 with SMTP id z64mr10803037qke.74.1472647216448;
-	Wed, 31 Aug 2016 05:40:16 -0700 (PDT)
+	bh=zq5UXqzi9pKLi3n1ga+X8LeD8F7T8439OOVYADd6KP4=;
+	b=DwqnuArPciJqME+Kqlndw8chsCYD/B+pCpndbru/WFd4x7Tu7zvV0hNoi4c+XIMT1i
+	l09RpRgnn0x0mh3R88yPpRkh8HB2lvjocQ/jjrECK4i0Fy2DEmZb2BV7/WK9qvRET5z2
+	3aarrgFMIwuqEdb+reMiy7yGFvwsb3m9OaKiYSoA5g1OJgtxABRfVYVrEClNQsjFyaor
+	rAKGnEj36wkAFbQkXXNEgxt/xk49qI+10YT2yPdyApyjTCEXC2ZHQl2mNBvTRea+bhF+
+	pvxK7AN2uQdlFs8oXAiCjF7LRSsk8E2M66w0PVzxaRAMGWvw3iSn57DkcDw5zZERMYLl
+	4qfA==
+X-Gm-Message-State: AE9vXwM7h1i4TV1Lufir+VQHSHenTiEorZRi3zfic63lozWPBPcPUvL0OAd+W3PRZg1dMcM7/FzTCmQa/3oZyw==
+X-Received: by 10.237.47.1 with SMTP id l1mr10577376qtd.124.1472647453467;
+	Wed, 31 Aug 2016 05:44:13 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.237.53.83 with HTTP; Wed, 31 Aug 2016 05:40:15 -0700 (PDT)
-In-Reply-To: <1472641217.29583.81.camel@linuxfoundation.org>
+Received: by 10.237.53.83 with HTTP; Wed, 31 Aug 2016 05:44:12 -0700 (PDT)
+In-Reply-To: <1472628175.29583.64.camel@linuxfoundation.org>
 References: <cover.1472574514.git.bruce.ashfield@windriver.com>
-	<1472641217.29583.81.camel@linuxfoundation.org>
+	<7a16ab60139050fc112ae798e763f1270e7abbfd.1472574514.git.bruce.ashfield@windriver.com>
+	<1472628175.29583.64.camel@linuxfoundation.org>
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Wed, 31 Aug 2016 08:40:15 -0400
-Message-ID: <CADkTA4OD_SY_NNySADMiv+n6dWEqj15dnn9mO5-_MSHSe5jb4w@mail.gmail.com>
+Date: Wed, 31 Aug 2016 08:44:12 -0400
+Message-ID: <CADkTA4McwPvagc7z4gO1a88NkAZLsE3EZTvh=bU+aqht78nx8g@mail.gmail.com>
 To: Richard Purdie <richard.purdie@linuxfoundation.org>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>, Saul Wold <saul.wold@intel.com>
-Subject: Re: [PATCH 0/9] linux-yocto: v4.8 + fixes + configuration updates + RFC
+Subject: Re: [PATCH 3/9] qemuarm: add device tree support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,50 +55,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 31 Aug 2016 12:40:16 -0000
-Content-Type: multipart/alternative; boundary=94eb2c06fece374d5e053b5d6694
+X-List-Received-Date: Wed, 31 Aug 2016 12:44:13 -0000
+Content-Type: multipart/alternative; boundary=94eb2c1252f25811e1053b5d7432
 
---94eb2c06fece374d5e053b5d6694
+--94eb2c1252f25811e1053b5d7432
 Content-Type: text/plain; charset=UTF-8
 
-On Wed, Aug 31, 2016 at 7:00 AM, Richard Purdie <
+On Wed, Aug 31, 2016 at 3:22 AM, Richard Purdie <
 richard.purdie@linuxfoundation.org> wrote:
 
-> Just to update I have:
+> On Tue, 2016-08-30 at 12:49 -0400, Bruce Ashfield wrote:
+> > As of the 4.7 kernel qemuarm must be booted with a dtb. To allow
+> > older and recent kernels to both boot qemuarm, we add the device
+> > tree definitions only to recipes that need it (linux-yocto-dev)
+> > and make runqemu detect and use the dtb if present.
+> >
+> > Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+> > ---
+> >  scripts/runqemu-internal | 3 +++
+> >  1 file changed, 3 insertions(+)
 >
-> * Put a runqemu patch in master-next that works with new and old
->   kernels to handle the dtb issue
+> This doesn't work with Roberts runqemu conversion to python.
+>
+> I did try adding http://git.yoctoproject.org/cgit.cgi/poky/commit/?h=ma
+> ster-next&id=e91d7bf00bfab5142bc290425103971b897c208b however this
+> requires the use of the dtb file and doesn't work with older kernels.
+> I'll see if I can come up with something better based on kernel
+> PREFERRED_VERSION...
 >
 
-Hmm. I tested 4.4 and 4.8 with the ones that I did.
+Yah. I mentioned this one in my 0/N, I was working against the current
+master
+(I should just work against master-next for these .. mental note for next
+time).
 
-
-> * Updated the musl patches in libc-headers
->
-
-ok. Ignore my previous email on this one!
-
-
-> * Updated lttng-* to avoid build failures with 4.8
->
-
-What were you seeing here ? I built lttng and didn't see the failure ..
-I'm wondering if I was held back on 4.4 when I did those builds. I'll go
-investigate,
-since that is rather annoying as I was explicitly covering perf/lttng to
-rule that out.
 
 Bruce
 
 
-> * Switched the default qemu kernel 4.4 -> 4.8 in poky so we get
->   testing of 4.8
->
-> I'm waiting on the next build so see what issues remain from here.
 >
 > Cheers,
 >
 > Richard
+>
 > --
 > _______________________________________________
 > Openembedded-core mailing list
@@ -111,42 +111,52 @@ Bruce
 "Thou shalt not follow the NULL pointer, for chaos and madness await thee
 at its end"
 
---94eb2c06fece374d5e053b5d6694
+--94eb2c1252f25811e1053b5d7432
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><div class=3D"gmail_quo=
-te">On Wed, Aug 31, 2016 at 7:00 AM, Richard Purdie <span dir=3D"ltr">&lt;<=
+te">On Wed, Aug 31, 2016 at 3:22 AM, Richard Purdie <span dir=3D"ltr">&lt;<=
 a href=3D"mailto:richard.purdie@linuxfoundation.org" target=3D"_blank">rich=
 ard.purdie@linuxfoundation.org</a>&gt;</span> wrote:<br><blockquote class=
 =3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padd=
-ing-left:1ex">Just to update I have:<br>
+ing-left:1ex"><span class=3D"">On Tue, 2016-08-30 at 12:49 -0400, Bruce Ash=
+field wrote:<br>
+&gt; As of the 4.7 kernel qemuarm must be booted with a dtb. To allow<br>
+&gt; older and recent kernels to both boot qemuarm, we add the device<br>
+&gt; tree definitions only to recipes that need it (linux-yocto-dev)<br>
+&gt; and make runqemu detect and use the dtb if present.<br>
+&gt;<br>
+&gt; Signed-off-by: Bruce Ashfield &lt;<a href=3D"mailto:bruce.ashfield@win=
+driver.com">bruce.ashfield@windriver.com</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 scripts/runqemu-internal | 3 +++<br>
+&gt;=C2=A0 1 file changed, 3 insertions(+)<br>
 <br>
-* Put a runqemu patch in master-next that works with new and old<br>
-=C2=A0 kernels to handle the dtb issue<br></blockquote><br><div>Hmm. I test=
-ed 4.4 and 4.8 with the ones that I did. <br></div><div>=C2=A0</div><blockq=
-uote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc =
-solid;padding-left:1ex">
-* Updated the musl patches in libc-headers<br></blockquote><div><br></div><=
-div>ok. Ignore my previous email on this one!<br></div><div>=C2=A0</div><bl=
-ockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #=
-ccc solid;padding-left:1ex">
-* Updated lttng-* to avoid build failures with 4.8<br></blockquote><div><br=
-></div><div>What were you seeing here ? I built lttng and didn&#39;t see th=
-e failure .. <br>I&#39;m wondering if I was held back on 4.4 when I did tho=
-se builds. I&#39;ll go investigate, <br>since that is rather annoying as I =
-was explicitly covering perf/lttng to rule that out.<br><br></div><div>Bruc=
-e<br></div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"marg=
-in:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
-* Switched the default qemu kernel 4.4 -&gt; 4.8 in poky so we get<br>
-=C2=A0 testing of 4.8<br>
+</span>This doesn&#39;t work with Roberts runqemu conversion to python.<br>
 <br>
-I&#39;m waiting on the next build so see what issues remain from here.<br>
+I did try adding <a href=3D"http://git.yoctoproject.org/cgit.cgi/poky/commi=
+t/?h=3Dma
+ster-next&amp;id=3De91d7bf00bfab5142bc290425103971b897c208b" rel=3D"norefer=
+rer" target=3D"_blank">http://git.yoctoproject.org/<wbr>cgit.cgi/poky/commi=
+t/?h=3Dma<br>
+ster-next&amp;id=3D<wbr>e91d7bf00bfab5142bc29042510397<wbr>1b897c208b</a> h=
+owever this<br>
+requires the use of the dtb file and doesn&#39;t work with older kernels.<b=
+r>
+I&#39;ll see if I can come up with something better based on kernel<br>
+PREFERRED_VERSION...<br></blockquote><div><br></div><div>Yah. I mentioned t=
+his one in my 0/N, I was working against the current master<br></div><div>(=
+I should just work against master-next for these .. mental note for next ti=
+me).<br><br><br></div><div>Bruce</div><div>=C2=A0<br></div><blockquote clas=
+s=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;pad=
+ding-left:1ex">
 <br>
 Cheers,<br>
 <br>
 Richard<br>
-<div class=3D"HOEnZb"><div class=3D"h5">--<br>
+<div class=3D"HOEnZb"><div class=3D"h5"><br>
+--<br>
 ______________________________<wbr>_________________<br>
 Openembedded-core mailing list<br>
 <a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
@@ -160,4 +170,4 @@ t follow the NULL pointer, for chaos and madness await thee at its end&quot=
 ;</div>
 </div></div>
 
---94eb2c06fece374d5e053b5d6694--
+--94eb2c1252f25811e1053b5d7432--
