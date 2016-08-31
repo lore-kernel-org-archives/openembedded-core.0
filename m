@@ -1,28 +1,30 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id B64A760762
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id C7C9060125
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 31 Aug 2016 06:57:30 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u7V6vTxg014221
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 30 Aug 2016 23:57:29 -0700 (PDT)
-Received: from [128.224.162.240] (128.224.162.240) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.248.2;
-	Tue, 30 Aug 2016 23:57:28 -0700
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>,
-	<openembedded-core@lists.openembedded.org>
-References: <cover.1472480768.git.alexander.kanavin@linux.intel.com>
-	<e702a991cf06c5270d3b0c767beee8baa5ed4c36.1472480768.git.alexander.kanavin@linux.intel.com>
-From: Robert Yang <liezhi.yang@windriver.com>
-Message-ID: <1e793cfe-71fd-fcea-c86c-86cb916ac939@windriver.com>
-Date: Wed, 31 Aug 2016 14:57:27 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.2.0
-MIME-Version: 1.0
-In-Reply-To: <e702a991cf06c5270d3b0c767beee8baa5ed4c36.1472480768.git.alexander.kanavin@linux.intel.com>
-Subject: Re: [PATCH 09/15] kexec-tools: update to 2.0.13
+	Wed, 31 Aug 2016 07:19:40 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u7V7JZ7N007164; Wed, 31 Aug 2016 08:19:35 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id 738LiNXe7Itd; Wed, 31 Aug 2016 08:19:35 +0100 (BST)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u7V7JWbZ007161
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Wed, 31 Aug 2016 08:19:33 +0100
+Message-ID: <1472627972.29583.62.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Bruce Ashfield <bruce.ashfield@windriver.com>
+Date: Wed, 31 Aug 2016 08:19:32 +0100
+In-Reply-To: <89463ec6e33f6ba793867711eb18d82ee58bc85b.1472574514.git.bruce.ashfield@windriver.com>
+References: <cover.1472574514.git.bruce.ashfield@windriver.com>
+	<89463ec6e33f6ba793867711eb18d82ee58bc85b.1472574514.git.bruce.ashfield@windriver.com>
+X-Mailer: Evolution 3.16.5-1ubuntu3.1 
+Mime-Version: 1.0
+Cc: saul.wold@intel.com, openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 5/9] libc-headers: update to v4.8
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,42 +37,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 31 Aug 2016 06:57:32 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
+X-List-Received-Date: Wed, 31 Aug 2016 07:19:45 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-Hello,
-
-It seems that this one causes build errors on arm AFAIK:
-
-https://autobuilder.yoctoproject.org/main/builders/nightly-arm/builds/933/steps/BuildImages/logs/stdio
-
-// Robert
-
-On 08/29/2016 10:30 PM, Alexander Kanavin wrote:
-> Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+On Tue, 2016-08-30 at 12:49 -0400, Bruce Ashfield wrote:
+> Updating the libc-headers to use the 4.8 kernel as the default.
+> 
+> Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
 > ---
->  .../kexec/{kexec-tools_2.0.12.bb => kexec-tools_2.0.13.bb}            | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->  rename meta/recipes-kernel/kexec/{kexec-tools_2.0.12.bb => kexec-tools_2.0.13.bb} (88%)
->
-> diff --git a/meta/recipes-kernel/kexec/kexec-tools_2.0.12.bb b/meta/recipes-kernel/kexec/kexec-tools_2.0.13.bb
-> similarity index 88%
-> rename from meta/recipes-kernel/kexec/kexec-tools_2.0.12.bb
-> rename to meta/recipes-kernel/kexec/kexec-tools_2.0.13.bb
-> index 59376c8..338a7d9 100644
-> --- a/meta/recipes-kernel/kexec/kexec-tools_2.0.12.bb
-> +++ b/meta/recipes-kernel/kexec/kexec-tools_2.0.13.bb
-> @@ -10,8 +10,8 @@ SRC_URI += " \
->              file://0001-vmcore-dmesg-Define-_GNU_SOURCE.patch \
->           "
->
-> -SRC_URI[md5sum] = "10ddaae0e86af54407b164a1f5a39cc3"
-> -SRC_URI[sha256sum] = "cc7b60dad0da202004048a6179d8a53606943062dd627a2edba45a8ea3a85135"
-> +SRC_URI[md5sum] = "b7595eb4705e482ee6fc1121a5b6131b"
-> +SRC_URI[sha256sum] = "70df562d76213e54833228379710ada1afd98a86ee1ce5644eaa68c54e102e25"
->
->  PACKAGES =+ "kexec kdump vmcore-dmesg"
->
->
+>  meta/conf/distro/include/tcmode-default.inc                 |  2 +-
+>  .../linux-libc-headers/linux-libc-headers_4.8.bb            | 13
+> +++++++++++++
+>  2 files changed, 14 insertions(+), 1 deletion(-)
+>  create mode 100644 meta/recipes-kernel/linux-libc-headers/linux-libc
+> -headers_4.8.bb
+
+The musl patches fail to apply on the new version:
+
+https://autobuilder.yoctoproject.org/main/builders/poky-tiny/builds/928
+/steps/BuildImages/logs/stdio
+
+Cheers,
+
+Richard
 
