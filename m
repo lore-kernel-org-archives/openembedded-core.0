@@ -1,44 +1,26 @@
-Return-Path: <andre.draszik@gmail.com>
-Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 7CDF760746
+Return-Path: <Wenzong.Fan@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 54E816FFD7
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 31 Aug 2016 08:54:12 +0000 (UTC)
-Received: by mail-wm0-f68.google.com with SMTP id i5so6537747wmg.2
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 31 Aug 2016 01:54:13 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=Oec80GvLGSI9btgOJFx8WDSezozLkYvjftbgx/GKAEo=;
-	b=l1BDfbQyM5fBJ2IC8Kkc8483iKfsoKmu1gIlaEzrTz2JquNWpGdPoaRmbrSDKPFfbu
-	mGAk5Cx+f/e1NL6uX5Jhs8Bbb+1qcgrrZTaFWgC1x6w8zfrTiqI+nkH8aXkkK+7zqAgM
-	5IiVh6D73W96bbmcJ/e/y6ZBBqKyU/BYL6EGpH2AMVqVZyTKP/zpS6G5EvDXwJXFQ+h4
-	k2jeQmRm2b6Ie56FgGBI3+CAegp4tKiU1P3GZcjkPYmvQr+qlRFdsxJhquRS5TIhCJPR
-	ebtAwaSr6dwI96LOZYoDLj6L7ckfhg7/UskXforwdc8+YJyq7g6yKW92JlEwM0bD31sN
-	Y3Xw==
-X-Gm-Message-State: AE9vXwNG0/KZKwq57V9t3N83bdKuiWwApY9Nx0MGc7ADJtxCGANkcdmiwQrU/T9HAF0e9w==
-X-Received: by 10.194.96.2 with SMTP id do2mr7915282wjb.174.1472633652725;
-	Wed, 31 Aug 2016 01:54:12 -0700 (PDT)
-Received: from localhost ([185.46.212.59])
-	by smtp.gmail.com with ESMTPSA id d62sm7863927wmd.7.2016.08.31.01.54.11
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Wed, 31 Aug 2016 01:54:11 -0700 (PDT)
-Message-ID: <1472633650.12967.15.camel@andred.net>
-From: =?ISO-8859-1?Q?Andr=E9?= Draszik <git@andred.net>
-To: Bruce Ashfield <bruce.ashfield@windriver.com>
-Date: Wed, 31 Aug 2016 09:54:10 +0100
-In-Reply-To: <78886c10-2951-9a57-31dd-0e1e78d19815@windriver.com>
-References: <cover.1471281772.git.bruce@zedd.org>
-	<ff62fe65ad3bae260ec0951caddf428632ef35de.1471281772.git.bruce@zedd.org>
-	<1472547914.8449.25.camel@andred.net>
-	<94a7387f-cc88-2e7f-21b6-57970dfdbb04@windriver.com>
-	<1472566766.8449.29.camel@andred.net>
-	<78886c10-2951-9a57-31dd-0e1e78d19815@windriver.com>
-X-Mailer: Evolution 3.20.5-1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 5/6] kernel-yocto: streamline patch, configuration and audit phases
+	Wed, 31 Aug 2016 09:21:05 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u7V9L3OP010636
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 31 Aug 2016 02:21:04 -0700 (PDT)
+Received: from [128.224.162.177] (128.224.162.177) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.248.2;
+	Wed, 31 Aug 2016 02:21:02 -0700
+To: "'Patches and discussions about the oe-core layer'"
+	<openembedded-core@lists.openembedded.org>, <seebs@seebs.net>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>
+From: wenzong fan <wenzong.fan@windriver.com>
+Message-ID: <e33a2d23-6067-cf14-57ab-d40623a3597a@windriver.com>
+Date: Wed, 31 Aug 2016 17:21:00 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.2.0
+MIME-Version: 1.0
+Subject: pseudo 1.8.1 doesn't work with docker & dumb-init
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,43 +33,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 31 Aug 2016 08:54:12 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 31 Aug 2016 09:21:06 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Di, 2016-08-30 at 14:35 -0400, Bruce Ashfield wrote:
-> Can you clarify for me if you are are using SRC_URI items tagged with
-> 'kmeta', i.e. a directory of fragments, or are you just adding .cfg/.scc
-> items directly to the SRC_URI ?
+Hi Experts,
 
-I do both:
+While I trying to build Yocto in Docker Container which using dumb-init 
+as init system, I found the build always be stopped at some point and 
+the container was terminated as well with below errors:
 
-in the 1st layer, my kernel recipe boils down to:
+     Child process timeout after 2 seconds.
+     Child process exit status 4: lock_held
 
-SRC_URI = "\
-    git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git;protocol=git;nocheckout=1;branch=${KBRANCH} \
-    file://0001-a-patch.patch \
-    file://kernel-meta;type=kmeta;destsuffix=${KMETA} \
-"
+Sometimes there's not any obvious error message.
 
-KERNEL_FEATURES_append = " patches/some-patches.scc"
-KERNEL_FEATURES_append = " patches/more-patches.scc"
-KERNEL_FEATURES_append = " patches/even-more-patches.scc"
+After some `git bisect` testing, I believe the issue was started since 
+commit:
 
-some of the above in turn include additional .scc items recursively.
+----------------------
+9df3cdf42d8c1216682f497f0b166a43ef9f4184 is the first bad commit
+commit 9df3cdf42d8c1216682f497f0b166a43ef9f4184
+Author: Richard Purdie <richard.purdie@linuxfoundation.org>
+Date: Tue Jul 5 13:18:31 2016 +0100
+
+     pseudo: Upgrade to 1.8.1
+
+     * Drop patches where the changes exist upstream
+     * Fetch from git as no tarball is available for 1.8.1
+     * Move common code to pseudo.inc
+     * Update patchset in git recipe
+
+     (From OE-Core rev: 0c36984d4c501d12fa91cf7371511641585cc256)
+-----------------------
+
+Finally I narrowed it down to pseudo commit:
+
+------------------------
+commit 77ee254a6c974aad9bcab2c58c9ee9e0880c9718
+Author: Peter Seebach <peter.seebach@windriver.com>
+Date: Tue Mar 1 16:21:15 2016 -0600
+
+     Server launch reworking.
+
+     This is the big overhaul to have the server provide meaningful exit 
+status
+     to clients.
+
+     In the process, I discovered that the server was running with 
+signals blocked
+     if launched by a client, which is not a good thing, and prevented 
+this from
+     working as intended.
+
+     Still looking to see why more than one server spawn seems to happen.
+------------------------
+
+I also created a testcase for reproducing the issue at:
+
+     https://github.com/WenzongFan/docker-build-yocto
+
+For dumb-init please refer to:
+
+     https://github.com/Yelp/dumb-init
+
+Could anyone help to fix the signal handling in pseudo?
 
 
-In the 2nd layer, my .bbappend boils down to:
-
-FILESEXTRAPATHS_prepend := "${THISDIR}/${BPN}-4.4:"
-
-KERNEL_FEATURES_append_tgm = " patches/tgm.scc"
-
-2nd-layer.scc is located in ${THISDIR}/kernel-meta/patches/ in the 2nd
-layer. I don't specifically add another SRC_URI item tagged with 'kmeta' (or
-any other explicit SRC_URI item for that matter).
-
-
-Andre'
-
+Thanks
+Wenzong
 
