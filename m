@@ -1,46 +1,40 @@
-Return-Path: <mattias.waldo@gmail.com>
-Received: from mail-qk0-f196.google.com (mail-qk0-f196.google.com
-	[209.85.220.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 38D1876651
+Return-Path: <andre.draszik@gmail.com>
+Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
+	by mail.openembedded.org (Postfix) with ESMTP id B018D7016E
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  1 Sep 2016 14:40:12 +0000 (UTC)
-Received: by mail-qk0-f196.google.com with SMTP id r128so5896013qkc.1
+	Thu,  1 Sep 2016 16:04:12 +0000 (UTC)
+Received: by mail-wm0-f68.google.com with SMTP id i138so13222862wmf.3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 01 Sep 2016 07:40:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=H0KLceTU3dWesinB/YP4m+AltKou6gv8divvXaTQE+g=;
-	b=GotCG+M1y+/rOZ6u7sk0wA4/VyGERqzTIsSDEBz92wzIYO+ZpRPh9GjB3zMNJkcnJL
-	Q72EQAeV+vwpaFO4J8/QOJVpHkuGU+hxWE8JirhUkh6P4J3MJCWdRFDPbnMWAJvX5rde
-	a+FjBRKhsXrSDcu2aRH57LM+rVBaTy3YhtDSQVqFOX9VALE99t59BWNB82utCk5QogSV
-	6kJGlC62kCoBNMfSlF/aAMlts8x3qBMJBapE3GMzWvSqwPfN+C+fy2mxECkYOmpBZufH
-	flz/OY5i5kG8oinWzzxeyNGUHhHdDzLS/TwUQKJWPNa3xQyHGEzl0oD8Z8umopMV+KPH
-	rOIA==
+	Thu, 01 Sep 2016 09:04:13 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=H0KLceTU3dWesinB/YP4m+AltKou6gv8divvXaTQE+g=;
-	b=Oqp8dv8c4SKMfxXbp329mZa/FB6jth7Br9r2ZiNyT/u1UvzVK98kFWxIAOHAwxND6v
-	u6dIIkDnx6xbvCXRUe9esegUoxQmG794VCjbPwIR1sbm8qwprQ04EVQ/T+LmJ55WoMPB
-	Ix6f0iQ89rxstN2xpifk/frWCWNA+FLZfI1EvkxHbJHiy/u20V1+zKiWqKGEqi/4AObS
-	7muXSJk56Cx9ue8F8d2oVLqnw4TKyf9rimWHJIMxI4Rex8AP/qWSSFIt5g1NkyJznVKV
-	eL9sG5BLgK+xdHyg6t87SPlCMjFhTVVh2XEsYdghvCqSA3zKoOeIG6ZRA87jcwhZQgKl
-	pyLQ==
-X-Gm-Message-State: AE9vXwPr+yPNLKfeDJ3Rxf/QRac29UBzkKUjh2LTytRoikw7Wskbhpp3/fPx4qNBRUkozOm6zQ8w0PDRnWXTaA==
-X-Received: by 10.55.155.11 with SMTP id d11mr13898771qke.156.1472740813413;
-	Thu, 01 Sep 2016 07:40:13 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.55.78.23 with HTTP; Thu, 1 Sep 2016 07:40:13 -0700 (PDT)
-In-Reply-To: <1472597121.29583.59.camel@linuxfoundation.org>
-References: <1472237886-7172-1-git-send-email-mattias.waldo@gmail.com>
-	<1472597121.29583.59.camel@linuxfoundation.org>
-From: Mattias Waldo <mattias.waldo@gmail.com>
-Date: Thu, 1 Sep 2016 16:40:13 +0200
-Message-ID: <CACy21+Pck_hs8Rdez_WAvdLyP3x_xJEegHZDQubZRP7g4X6z0A@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=oYpJ/+QtdePaqyUvP47Ahtx7VxsIMgkb06uou7MgLsA=;
+	b=GzeHOXG8LF20eWLrYx9QiRTBqKBC9KaVV5SAH+/6CLVIkE4Tgkgyt15bHfHN6S9nvL
+	3MGn+nRHgvAZjKcckqjW3s6eK4r8hYKoWBedLJl81ewj/gtaXu/WGZlh1BzfNjBEuCtA
+	oXmma+RwUR4u8revLwbN37c6ZuFLszHnPzyqNijxQFcfhhd4Pk9HOs4upF3t5iqsPykE
+	k1P5F00Ld7NNL3VksO5Rc7nUQwYVETdZvC7VkLz+SbjeUViC+pLnUaPjr6ROR9VuZj1v
+	x+hA75cjn2WVxHwObhXPD9eupq6P0TxosGnWjVeflZO946MACIiUAxi8cesx2lz323xJ
+	id8Q==
+X-Gm-Message-State: AE9vXwPmhllWOWijXInAORvOZ2JcnT4ajFenEBDRF4ZJlEblj0turyHGvb4teDnuQ4dZlQ==
+X-Received: by 10.28.10.194 with SMTP id 185mr26527034wmk.53.1472745852558;
+	Thu, 01 Sep 2016 09:04:12 -0700 (PDT)
+Received: from localhost ([185.46.212.59]) by smtp.gmail.com with ESMTPSA id
+	b128sm29921023wmb.21.2016.09.01.09.04.10
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Thu, 01 Sep 2016 09:04:11 -0700 (PDT)
+Message-ID: <1472745847.27417.49.camel@andred.net>
+From: =?ISO-8859-1?Q?Andr=E9?= Draszik <git@andred.net>
+To: Robert Yang <liezhi.yang@windriver.com>
+Date: Thu, 01 Sep 2016 17:04:07 +0100
+In-Reply-To: <95e22ec6-7453-6a40-8359-37cdde69dd20@windriver.com>
+References: <20160826103152.6211-1-git@andred.net>
+	<95e22ec6-7453-6a40-8359-37cdde69dd20@windriver.com>
+X-Mailer: Evolution 3.20.5-1 
+Mime-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v4] kernel.bbclass: include signing keys when copying files required for module builds
+Subject: Re: [PATCH 1/3] libnl: fix packaging mistakes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,85 +47,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 01 Sep 2016 14:40:14 -0000
-Content-Type: multipart/alternative; boundary=94eb2c075ad407a96c053b733105
+X-List-Received-Date: Thu, 01 Sep 2016 16:04:13 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
---94eb2c075ad407a96c053b733105
-Content-Type: text/plain; charset=UTF-8
+On Do, 2016-09-01 at 16:19 +0800, Robert Yang wrote:
+> It seems that this series cause errors when multilib:
+> 
+> https://autobuilder.yoctoproject.org/main/builders/nightly-multilib/builds
+> /930/steps/BuildImages_2/logs/stdio
+> 
+> // Robert
 
-Hi!
+Thanks Robert. I didn't get a chance to look at this today. But tomorrow!
 
-I just submitted version 5 of the patch, which hopefully doesn't break the
-build. In addition it should handle both 4.1 and 4.4 versions of the Linux
-kernel, which use different locations for their signing key files.
+Andre'
 
-Regards,
 
-Mattias
-
-On Wed, Aug 31, 2016 at 12:45 AM, Richard Purdie <
-richard.purdie@linuxfoundation.org> wrote:
-
-> On Fri, 2016-08-26 at 20:58 +0200, Mattias Waldo wrote:
-> > The absence of certs/signing_key.* in $kerneldir made signing of
-> > out-of-tree kernel modules fail (silently). Add copying of these
-> > files during the shared_workdir task.
-> >
-> > Signed-off-by: Mattias Waldo <mattias.waldo@saabgroup.com>
-> > ---
-> >  meta/classes/kernel.bbclass | 2 ++
-> >  1 file changed, 2 insertions(+)
->
-> Sadly this breaks the build when you don't have any keys:
->
-> e.g.: https://autobuilder.yoctoproject.org/main/builders/build-applianc
-> e/builds/892/steps/BuildImages_1/logs/stdio
->
-> but there were many many other failures :(
->
-> Cheers,
->
-> Richard
->
-
---94eb2c075ad407a96c053b733105
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div><div><div>Hi!<br><br></div>I just submitted version 5=
- of the patch, which hopefully doesn&#39;t break the build. In addition it =
-should handle both 4.1 and 4.4 versions of the Linux kernel, which use diff=
-erent locations for their signing key files.<br><br></div>Regards,<br><br><=
-/div>Mattias<br></div><div class=3D"gmail_extra"><br><div class=3D"gmail_qu=
-ote">On Wed, Aug 31, 2016 at 12:45 AM, Richard Purdie <span dir=3D"ltr">&lt=
-;<a href=3D"mailto:richard.purdie@linuxfoundation.org" target=3D"_blank">ri=
-chard.purdie@linuxfoundation.org</a>&gt;</span> wrote:<br><blockquote class=
-=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padd=
-ing-left:1ex">On Fri, 2016-08-26 at 20:58 +0200, Mattias Waldo wrote:<br>
-&gt; The absence of certs/signing_key.* in $kerneldir made signing of<br>
-&gt; out-of-tree kernel modules fail (silently). Add copying of these<br>
-&gt; files during the shared_workdir task.<br>
-&gt;<br>
-&gt; Signed-off-by: Mattias Waldo &lt;<a href=3D"mailto:mattias.waldo@saabg=
-roup.com">mattias.waldo@saabgroup.com</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 meta/classes/kernel.bbclass | 2 ++<br>
-&gt;=C2=A0 1 file changed, 2 insertions(+)<br>
-<br>
-Sadly this breaks the build when you don&#39;t have any keys:<br>
-<br>
-e.g.: <a href=3D"https://autobuilder.yoctoproject.org/main/builders/build-a=
-pplianc
-e/builds/892/steps/BuildImages_1/logs/stdio" rel=3D"noreferrer" target=3D"_=
-blank">https://autobuilder.<wbr>yoctoproject.org/main/<wbr>builders/build-a=
-pplianc<br>
-e/builds/892/steps/<wbr>BuildImages_1/logs/stdio</a><br>
-<br>
-but there were many many other failures :(<br>
-<br>
-Cheers,<br>
-<br>
-Richard<br>
-</blockquote></div><br></div>
-
---94eb2c075ad407a96c053b733105--
