@@ -1,23 +1,20 @@
-Return-Path: <humberto.ibarra.lopez@intel.com>
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
-	by mail.openembedded.org (Postfix) with ESMTP id 5DC51731C2
+Return-Path: <juro.bystricky@intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 8EDB773166
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  1 Sep 2016 18:54:35 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga104.jf.intel.com with ESMTP; 01 Sep 2016 11:54:36 -0700
+	Thu,  1 Sep 2016 20:07:29 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga101.fm.intel.com with ESMTP; 01 Sep 2016 13:07:29 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.30,268,1470726000"; d="scan'208";a="1034368212"
-Received: from jhibarra-mobl1.zpn.intel.com ([10.219.26.58])
-	by fmsmga001.fm.intel.com with ESMTP; 01 Sep 2016 11:54:35 -0700
-From: Humberto Ibarra <humberto.ibarra.lopez@intel.com>
+X-IronPort-AV: E=Sophos;i="5.30,268,1470726000"; d="scan'208";a="1023868810"
+Received: from juro-precision-t5610.jf.intel.com ([10.7.198.149])
+	by orsmga001.jf.intel.com with ESMTP; 01 Sep 2016 13:07:29 -0700
+From: Juro Bystricky <juro.bystricky@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  1 Sep 2016 13:56:40 -0500
-Message-Id: <1472756200-4001-3-git-send-email-humberto.ibarra.lopez@intel.com>
-X-Mailer: git-send-email 2.4.11
-In-Reply-To: <1472756200-4001-1-git-send-email-humberto.ibarra.lopez@intel.com>
-References: <1472756200-4001-1-git-send-email-humberto.ibarra.lopez@intel.com>
-Cc: joshua.g.lock@intel.com
-Subject: [PATCH v4 2/2] oe-selftest: Add syntax version tracking to oe-selftest
+Date: Thu,  1 Sep 2016 13:07:36 -0700
+Message-Id: <1472760457-8822-1-git-send-email-juro.bystricky@intel.com>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH 0/1] Fix glib build for mips64
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,60 +27,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 01 Sep 2016 18:54:35 -0000
+X-List-Received-Date: Thu, 01 Sep 2016 20:07:29 -0000
 
-Add a version field and option to argparse so the sntax version can be tracked
+The attached patch fixes a problem observed on AB, in particular
+https://autobuilder.yoctoproject.org/main/builders/nightly-multilib/builds/930/steps/BuildImages_5/logs/stdio
 
-[YOCTO #8938]
+glib build failed, hence core-image-minimal was not built, hence SDK tests were not ran.
 
-Signed-off-by: Humberto Ibarra <humberto.ibarra.lopez@intel.com>
----
- scripts/oe-selftest | 16 +++++++++++++++-
- 1 file changed, 15 insertions(+), 1 deletion(-)
+The test patch was tested with:
+MACHINE = "qemumips64"
 
-diff --git a/scripts/oe-selftest b/scripts/oe-selftest
-index e0ef0c1..ef996b6 100755
---- a/scripts/oe-selftest
-+++ b/scripts/oe-selftest
-@@ -48,6 +48,9 @@ import oeqa.utils.ftools as ftools
- from oeqa.utils.commands import runCmd, get_bb_var, get_test_layer
- from oeqa.selftest.base import oeSelfTest, get_available_machines
- 
-+# command syntax version
-+__version__ = "2.0"
-+
- try:
-     import xmlrunner
-     from xmlrunner.result import _XMLTestResult as TestResult
-@@ -499,8 +502,8 @@ def main():
-     description = "Script that runs unit tests against bitbake and other Yocto related tools. The goal is to validate tools functionality and metadata integrity. Refer to https://wiki.yoctoproject.org/wiki/Oe-selftest for more information."
-     parser = argparse_oe.ArgumentParser(description=description)
- 
-+    parser.add_argument('--version', action='store_true', help = 'print the oe-selftest version and exit.')
-     subparsers = parser.add_subparsers(title='subcommands', metavar='<subcommand>')
--    subparsers.required = True
- 
-     class IncludeAction(argparse.Action):
-         #def __init__(self, option_strings, dest, nargs=None, **kwargs):
-@@ -549,6 +552,17 @@ def main():
- 
-     args = parser.parse_args()
- 
-+    if args.version:
-+        print("Oe-selftest %s" % __version__)
-+
-+    if args._subparser_name is None:
-+        if args.version:
-+            return 0
-+        else:
-+            print("oe-selftest: error: the following arguments are required: <subcommand>")
-+            parser.print_help()
-+            return 2
-+
-     if args._subparser_name == 'list':
- 
-         args.list_arg = args.list_arg or 'tests'
+require conf/multilib.conf
+MULTILIBS = "multilib:lib64 multilib:lib32"
+DEFAULTTUNE = "mips64-n32"
+DEFAULTTUNE_virtclass-multilib-lib64 = "mips64"
+DEFAULTTUNE_virtclass-multilib-lib32 = "mips32r2"
+QEMU_USE_KVM = "True"
+
+USER_CLASSES += " testsdk "
+
+
+Build Configuration:
+BB_VERSION        = "1.31.1"
+BUILD_SYS         = "x86_64-linux"
+NATIVELSBSTRING   = "universal"
+TARGET_SYS        = "mips64-poky-linux-gnun32"
+MACHINE           = "qemumips64"
+DISTRO            = "poky"
+DISTRO_VERSION    = "2.1+snapshot-20160901"
+TUNE_FEATURES     = "n32 bigendian fpu-hard"
+TARGET_FPU        = ""
+meta
+meta-poky
+meta-yocto-bsp    = "master-next:df6d79dc8faba6ca997beebd32242bd65fe962bd"
+
+
+$ bitbake core-image-minimal -c populate_sdk
+$ bitbake core-image-minimal -c testsdk
+
+
+Juro Bystricky (1):
+  glib: disable gtk-doc on mips64
+
+ meta/recipes-core/glib-2.0/glib.inc | 1 +
+ 1 file changed, 1 insertion(+)
+
 -- 
-2.4.11
+2.7.4
 
 
