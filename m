@@ -1,35 +1,22 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id D24A473166
+Return-Path: <ml@embed.me.uk>
+Received: from owm.eumx.net (eumx.net [91.82.101.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 461D76FF78
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  1 Sep 2016 20:21:20 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u81KLAsF001042
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 1 Sep 2016 13:21:10 -0700 (PDT)
-Received: from server.local (147.11.116.204) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.248.2;
-	Thu, 1 Sep 2016 13:21:09 -0700
-To: =?UTF-8?Q?Andr=c3=a9_Draszik?= <git@andred.net>
-References: <cover.1471281772.git.bruce@zedd.org>
-	<ff62fe65ad3bae260ec0951caddf428632ef35de.1471281772.git.bruce@zedd.org>
-	<1472547914.8449.25.camel@andred.net>
-	<94a7387f-cc88-2e7f-21b6-57970dfdbb04@windriver.com>
-	<1472566766.8449.29.camel@andred.net>
-	<78886c10-2951-9a57-31dd-0e1e78d19815@windriver.com>
-	<1472633650.12967.15.camel@andred.net>
-	<81c8d462-9f65-cd7c-7dfe-f3acd2e21e18@windriver.com>
-	<1472746455.27417.57.camel@andred.net>
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-Message-ID: <cfa28fd7-e1cf-c1fd-ef90-198bf21cd96b@windriver.com>
-Date: Thu, 1 Sep 2016 16:21:08 -0400
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:45.0)
-	Gecko/20100101 Thunderbird/45.2.0
+	Thu,  1 Sep 2016 20:52:08 +0000 (UTC)
+To: =?UTF-8?Q?Andreas_M=c3=bcller?= <schnitzeltony@googlemail.com>
+References: <1472577240-5378-1-git-send-email-schnitzeltony@googlemail.com>
+	<e6cfe9ed-fb20-7966-43b5-e8d7d8666470@embed.me.uk>
+	<CALbNGRTyPiF+jk47Co9N83GCC_jJfYAcEyL8hcP+Jeo+VjzcjA@mail.gmail.com>
+From: Jack Mitchell <ml@embed.me.uk>
+Message-ID: <da482a08-fe10-dfe3-2174-ed133e4d0a5a@embed.me.uk>
+Date: Thu, 1 Sep 2016 21:51:52 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.2.0
 MIME-Version: 1.0
-In-Reply-To: <1472746455.27417.57.camel@andred.net>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 5/6] kernel-yocto: streamline patch, configuration and audit phases
+In-Reply-To: <CALbNGRTyPiF+jk47Co9N83GCC_jJfYAcEyL8hcP+Jeo+VjzcjA@mail.gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [RFC][PATCH] cmake-native: work around gcc6's '-isystem'-allergy
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,93 +29,139 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 01 Sep 2016 20:21:22 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
+X-List-Received-Date: Thu, 01 Sep 2016 20:52:10 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-On 2016-09-01 12:14 PM, André Draszik wrote:
-> On Mi, 2016-08-31 at 16:17 -0400, Bruce Ashfield wrote:
->> On 2016-08-31 4:54 AM, André Draszik wrote:
+On 31/08/16 11:15, Andreas Müller wrote:
+> On Wed, Aug 31, 2016 at 11:25 AM, Jack Mitchell <ml@embed.me.uk> wrote:
+>> On 30/08/16 18:14, Andreas Müller wrote:
+>>> since gcc6 we see many cmake/c++ based packets failing with:
 >>>
->>> On Di, 2016-08-30 at 14:35 -0400, Bruce Ashfield wrote:
->>>>
->>>> Can you clarify for me if you are are using SRC_URI items tagged with
->>>> 'kmeta', i.e. a directory of fragments, or are you just adding
->>>> .cfg/.scc
->>>> items directly to the SRC_URI ?
+>>> | fatal error: stdlib.h: No such file or directory
 >>>
->>> I do both:
+>>> a fix from gcc is not to expect [1] so work around by replacing '-isystem'
+>>> by
+>>> '-I' for c++.
 >>>
->>> in the 1st layer, my kernel recipe boils down to:
+>>> Build tested with many recipes in meta-qt5-extra / meta-oe inheriting
+>>> cmake.
 >>>
->>> SRC_URI = "\
->>>     git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-
->>> stable.git;protocol=git;nocheckout=1;branch=${KBRANCH} \
->>>     file://0001-a-patch.patch \
->>>     file://kernel-meta;type=kmeta;destsuffix=${KMETA} \
->>> "
+>>> [1] https://gcc.gnu.org/bugzilla/show_bug.cgi?id=70129
 >>>
->>> KERNEL_FEATURES_append = " patches/some-patches.scc"
->>> KERNEL_FEATURES_append = " patches/more-patches.scc"
->>> KERNEL_FEATURES_append = " patches/even-more-patches.scc"
+>>> Signed-off-by: Andreas Müller <schnitzeltony@googlemail.com>
+>>> ---
+>>>   meta/recipes-devtools/cmake/cmake-native_3.6.1.bb  |  1 +
+>>>   .../0001-GNU.cmake-replace-isystem-by-I.patch      | 42
+>>> ++++++++++++++++++++++
+>>>   2 files changed, 43 insertions(+)
+>>>   create mode 100644
+>>> meta/recipes-devtools/cmake/cmake/0001-GNU.cmake-replace-isystem-by-I.patch
 >>>
->>> some of the above in turn include additional .scc items recursively.
+>>> diff --git a/meta/recipes-devtools/cmake/cmake-native_3.6.1.bb
+>>> b/meta/recipes-devtools/cmake/cmake-native_3.6.1.bb
+>>> index 33930fb..900091e 100644
+>>> --- a/meta/recipes-devtools/cmake/cmake-native_3.6.1.bb
+>>> +++ b/meta/recipes-devtools/cmake/cmake-native_3.6.1.bb
+>>> @@ -6,6 +6,7 @@ DEPENDS += "bzip2-native zlib-native"
 >>>
+>>>   SRC_URI += "\
+>>>       file://cmlibarchive-disable-ext2fs.patch \
+>>> +    file://0001-GNU.cmake-replace-isystem-by-I.patch \
+>>>   "
 >>>
->>> In the 2nd layer, my .bbappend boils down to:
+>>>   # Disable ccmake since we don't depend on ncurses
+>>> diff --git
+>>> a/meta/recipes-devtools/cmake/cmake/0001-GNU.cmake-replace-isystem-by-I.patch
+>>> b/meta/recipes-devtools/cmake/cmake/0001-GNU.cmake-replace-isystem-by-I.patch
+>>> new file mode 100644
+>>> index 0000000..4c06490
+>>> --- /dev/null
+>>> +++
+>>> b/meta/recipes-devtools/cmake/cmake/0001-GNU.cmake-replace-isystem-by-I.patch
+>>> @@ -0,0 +1,42 @@
+>>> +From a84d20abe6bc68f8d1a597a22af1ca98d62a5ce4 Mon Sep 17 00:00:00 2001
+>>> +From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@googlemail.com>
+>>> +Date: Fri, 26 Aug 2016 12:14:12 +0200
+>>> +Subject: [PATCH] GNU.cmake: replace -isystem by -I
+>>> +MIME-Version: 1.0
+>>> +Content-Type: text/plain; charset=UTF-8
+>>> +Content-Transfer-Encoding: 8bit
+>>> +
+>>> +since gcc6 we see many c++ based packes failing with:
+>>> +
+>>> +| fatal error: stdlib.h: No such file or directory
+>>> +
+>>> +a fix from gcc is not to expect [1] so work around
+>>> +
+>>> +[1] https://gcc.gnu.org/bugzilla/show_bug.cgi?id=70129
+>>> +
+>>> +Upstream-Status: Pending
+>>> +
+>>> +Signed-off-by: Andreas Müller <schnitzeltony@googlemail.com>
+>>> +---
+>>> + Modules/Compiler/GNU.cmake | 6 +++++-
+>>> + 1 file changed, 5 insertions(+), 1 deletion(-)
+>>> +
+>>> +diff --git a/Modules/Compiler/GNU.cmake b/Modules/Compiler/GNU.cmake
+>>> +index c2d393d..9d1477d 100644
+>>> +--- a/Modules/Compiler/GNU.cmake
+>>> ++++ b/Modules/Compiler/GNU.cmake
+>>> +@@ -53,6 +53,10 @@ macro(__compiler_gnu lang)
+>>> +   set(CMAKE_${lang}_CREATE_PREPROCESSED_SOURCE "<CMAKE_${lang}_COMPILER>
+>>> <DEFINES> <INCLUDES> <FLAGS> -E <SOURCE> > <PREPROCESSED_SOURCE>")
+>>> +   set(CMAKE_${lang}_CREATE_ASSEMBLY_SOURCE "<CMAKE_${lang}_COMPILER>
+>>> <DEFINES> <INCLUDES> <FLAGS> -S <SOURCE> -o <ASSEMBLY_SOURCE>")
+>>> +   if(NOT APPLE OR NOT CMAKE_${lang}_COMPILER_VERSION VERSION_LESS 4) #
+>>> work around #4462
+>>> +-    set(CMAKE_INCLUDE_SYSTEM_FLAG_${lang} "-isystem ")
+>>> ++    if("${lang}" STREQUAL "CXX")
+>>> ++      set(CMAKE_INCLUDE_SYSTEM_FLAG_${lang} "-I ")
+>>> ++    else()
+>>> ++      set(CMAKE_INCLUDE_SYSTEM_FLAG_${lang} "-isystem ")
+>>> ++    endif()
+>>> +   endif()
+>>> + endmacro()
+>>> +--
+>>> +2.5.5
+>>> +
 >>>
->>> FILESEXTRAPATHS_prepend := "${THISDIR}/${BPN}-4.4:"
->>>
->>> KERNEL_FEATURES_append_tgm = " patches/tgm.scc"
->>>
->>> 2nd-layer.scc is located in ${THISDIR}/kernel-meta/patches/ in the 2nd
->>> layer. I don't specifically add another SRC_URI item tagged with 'kmeta'
->>> (or
->>> any other explicit SRC_URI item for that matter).
+>> Thanks for the patch Andreas, this fixes my build for now but as you
+>> mentioned is a bit of a hack to get round the issue. As this fixes my
+>> problem does it mean that it's not bitbake which is injecting the isystem,
+>> but instead a CMake recipe somewhere?
 >>
->> One more clarification. From our problem description, are you saying
->> that in your runs, only the meta data from layer2 is getting copied
->> and not that from layer1 ?
+>> Regards,
+>> Jack.
+>> --
+> I don't know your recipe but I think -isystem in bitbake.conf would
+> only cause trouble for native recipes.
 >
-> That is what I had inferred from the error message:
+> As a heavy cmake-qt5 user (kde/lxqt/hawaii) I had many failing
+> cross-recipes not finding stdlib.h. After reading the gcc-bug I check
+> compile logs and they were full of -isystem on sysroot/usr/include -
+> had no idea where they came from.
+> First I grepped oe-core but did not find suspicious (e.g bitbake.conf
+> - see above). Then I grepped cmake sources and found GNU.cmake,
+> patched it to affect c++ only and my build errors were gone.
 >
-> | DEBUG: Executing shell function do_kernel_metadata
-> | ERROR. input file "patches/some-patches.scc" does not exist
-> | ERROR: could not process input files: <2nd_layer>/recipes-kernel/linux/linux-ramips-4.4/tgm/defconfig <1st_layer>/recipes-kernel/linux/linux-ramips-4.4/0001-a-patch.patch patches/some-patches.scc patches/more-patches.scc patches/even-more-patches.scc patches/tgm.scc
-> |        See /tmp/tmp.mPP1jtatxm for details
-> | ERROR. input file "patches/some-patches.scc" does not exist
-> | ERROR: could not process input files: <2nd_layer>/recipes-kernel/linux/linux-ramips-4.4/tgm/defconfig <1st_layer>/recipes-kernel/linux/linux-ramips-4.4/0001-a-patch.patch patches/some-patches.scc patches/more-patches.scc patches/even-more-patches.scc patches/tgm.scc
-> |        See /tmp/tmp.v9LU9ccpbl for details
-> | WARNING: exit code 1 from a shell command.
->
->
->> I ran my sanity test, and saw meta data from both my layers copied ..
->> so I'm worried that I misunderstood the issue you are seeing.
->
-> I can see that they are actually copied indeed, but it doesn't find them...
-> The file /tmp/tmp.v9LU9ccpbl mentioned above is empty.
+> Andreas
 
-Yah, that's a temporary file used in the processing. I'm going to clean
-up the logging a bit as I work through this.
+So I finally narrowed down what was causing my recipe to fail. For some 
+bizzar reason cmake sets all includes that have come from imported 
+targets as system includes. It's bonkers but there is very little 
+documentation around it and I'm not sure why it would be like that. 
+However, there is a magic flag [1], this may be worthwhile setting in 
+our cmake class and sdk toolchain file as I can't imagine any reason why 
+we would want it to work in the default manner.
 
-I think I can fix things with some path manipulations, but am still
-working on it.
+If anyone who has been having issues with cmake and isystem, if they 
+could try doing setting CMAKE_NO_SYSTEM_FROM_IMPORTED to on in thier 
+cmake.bbclass and report back if that fixes things. It's possible my 
+earlier bitbake suggestion was a red herring.
 
->
->> But looking at the code, I can definitely do some minor tweaks in this
->> area .. I'm just trying to get the reproducer nailed down.
->
-> I can try to create one for you if you prefer tomorrow, rather than wasting
-> your time with this, if you don't get any further?
+Cheers,
+Jack.
 
-I'm going to be trying this later tonight (Thursday, Eastern Time), but
-even if you can throw a mock up out, it will help me debug more.
-
-Bruce
-
->
->
-> Andre'
->
-
+[1] https://cmake.org/cmake/help/v3.0/prop_tgt/NO_SYSTEM_FROM_IMPORTED.html
 
