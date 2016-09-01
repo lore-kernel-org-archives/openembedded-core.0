@@ -1,30 +1,24 @@
-Return-Path: <wangxin2015.fnst@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
-	by mail.openembedded.org (Postfix) with ESMTP id EE9CA607A5
+Return-Path: <Dengke.Du@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id A879F6FFD7
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  1 Sep 2016 09:08:08 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.22,518,1449504000"; d="scan'208";a="10505875"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 01 Sep 2016 17:08:02 +0800
-Received: from G08CNEXCHPEKD02.g08.fujitsu.local (unknown [10.167.33.83])
-	by cn.fujitsu.com (Postfix) with ESMTP id D4AC840144FF
+	Thu,  1 Sep 2016 09:42:12 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u819gCXp023511
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  1 Sep 2016 17:08:00 +0800 (CST)
-Received: from ubuntu.g08.fujitsu.local (10.167.226.120) by
-	G08CNEXCHPEKD02.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.279.2; Thu, 1 Sep 2016 17:08:00 +0800
-From: Wang Xin <wangxin2015.fnst@cn.fujitsu.com>
+	Thu, 1 Sep 2016 02:42:12 -0700 (PDT)
+Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.248.2;
+	Thu, 1 Sep 2016 02:42:11 -0700
+From: Dengke Du <dengke.du@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 1 Sep 2016 05:07:56 -0400
-Message-ID: <1472720876-2295-1-git-send-email-wangxin2015.fnst@cn.fujitsu.com>
-X-Mailer: git-send-email 1.9.1
+Date: Thu, 1 Sep 2016 05:42:09 -0400
+Message-ID: <cover.1472708502.git.dengke.du@windriver.com>
+X-Mailer: git-send-email 2.8.1
 MIME-Version: 1.0
-X-Originating-IP: [10.167.226.120]
-X-yoursite-MailScanner-ID: D4AC840144FF.A63AC
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: wangxin2015.fnst@cn.fujitsu.com
-X-Spam-Status: No
-Subject: [PATCH] swig: 3.0.8 -> 3.0.10
+Subject: [PATCH 0/1] busybox: fix "sed n (flushes pattern space, terminates early)" testcase failure
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,36 +31,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 01 Sep 2016 09:08:12 -0000
+X-List-Received-Date: Thu, 01 Sep 2016 09:42:13 -0000
 Content-Type: text/plain
 
-Upgrade swig from 3.0.8 to 3.0.10.
+The following changes since commit 2fedd226c3385f1ac160b3aa0bfadbded85e288c:
 
-Signed-off-by: Wang Xin <wangxin2015.fnst@cn.fujitsu.com>
----
- meta/recipes-devtools/swig/{swig_3.0.8.bb => swig_3.0.10.bb} | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-devtools/swig/{swig_3.0.8.bb => swig_3.0.10.bb} (58%)
+  ref-manual: Fixed small wording in PKGR in the glossary (2016-08-25 23:09:29 +0100)
 
-diff --git a/meta/recipes-devtools/swig/swig_3.0.8.bb b/meta/recipes-devtools/swig/swig_3.0.10.bb
-similarity index 58%
-rename from meta/recipes-devtools/swig/swig_3.0.8.bb
-rename to meta/recipes-devtools/swig/swig_3.0.10.bb
-index c1b820e..44c26c4 100644
---- a/meta/recipes-devtools/swig/swig_3.0.8.bb
-+++ b/meta/recipes-devtools/swig/swig_3.0.10.bb
-@@ -3,6 +3,6 @@ require ${BPN}.inc
- SRC_URI += "file://0001-Use-proc-self-exe-for-swig-swiglib-on-non-Win32-plat.patch \
-             file://0001-configure-use-pkg-config-for-pcre-detection.patch \
-            "
--SRC_URI[md5sum] = "c96a1d5ecb13d38604d7e92148c73c97"
--SRC_URI[sha256sum] = "58a475dbbd4a4d7075e5fe86d4e54c9edde39847cdb96a3053d87cb64a23a453"
-+SRC_URI[md5sum] = "bb4ab8047159469add7d00910e203124"
-+SRC_URI[sha256sum] = "2939aae39dec06095462f1b95ce1c958ac80d07b926e48871046d17c0094f44c"
- 
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib dengke/busybox-fix-sed-n-testcase-failure
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=dengke/busybox-fix-sed-n-testcase-failure
+
+Dengke Du (1):
+  busybox: fix "sed n (flushes pattern space, terminates early)"
+    testcase failure
+
+ ...-n-flushes-pattern-space-terminates-early.patch | 72 ++++++++++++++++++++++
+ meta/recipes-core/busybox/busybox_1.24.1.bb        |  1 +
+ 2 files changed, 73 insertions(+)
+ create mode 100644 meta/recipes-core/busybox/busybox/0001-sed-fix-sed-n-flushes-pattern-space-terminates-early.patch
+
 -- 
-2.7.4
-
-
+2.8.1
 
 
