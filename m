@@ -1,22 +1,28 @@
-Return-Path: <ml@embed.me.uk>
-Received: from owm.eumx.net (eumx.net [91.82.101.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 461D76FF78
+Return-Path: <Randy.MacLeod@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 7EC866010D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  1 Sep 2016 20:52:08 +0000 (UTC)
-To: =?UTF-8?Q?Andreas_M=c3=bcller?= <schnitzeltony@googlemail.com>
-References: <1472577240-5378-1-git-send-email-schnitzeltony@googlemail.com>
-	<e6cfe9ed-fb20-7966-43b5-e8d7d8666470@embed.me.uk>
-	<CALbNGRTyPiF+jk47Co9N83GCC_jJfYAcEyL8hcP+Jeo+VjzcjA@mail.gmail.com>
-From: Jack Mitchell <ml@embed.me.uk>
-Message-ID: <da482a08-fe10-dfe3-2174-ed133e4d0a5a@embed.me.uk>
-Date: Thu, 1 Sep 2016 21:51:52 +0100
+	Thu,  1 Sep 2016 21:59:22 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u81LxLpT025543
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 1 Sep 2016 14:59:21 -0700 (PDT)
+Received: from [172.25.44.6] (172.25.44.6) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
+	Thu, 1 Sep 2016 14:59:21 -0700
+To: <openembedded-core@lists.openembedded.org>, Alexander Kanavin
+	<alexander.kanavin@linux.intel.com>
+References: <cover.1472221205.git.alexander.kanavin@linux.intel.com>
+From: Randy MacLeod <randy.macleod@windriver.com>
+Message-ID: <075b7a5f-14d8-5999-2fda-da8bae3d893e@windriver.com>
+Date: Thu, 1 Sep 2016 17:59:19 -0400
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
 	Thunderbird/45.2.0
 MIME-Version: 1.0
-In-Reply-To: <CALbNGRTyPiF+jk47Co9N83GCC_jJfYAcEyL8hcP+Jeo+VjzcjA@mail.gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [RFC][PATCH] cmake-native: work around gcc6's '-isystem'-allergy
+In-Reply-To: <cover.1472221205.git.alexander.kanavin@linux.intel.com>
+X-Originating-IP: [172.25.44.6]
+Subject: Re: [PATCH 00/28] Enable gtk-doc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,139 +35,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 01 Sep 2016 20:52:10 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 01 Sep 2016 21:59:23 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On 31/08/16 11:15, Andreas Müller wrote:
-> On Wed, Aug 31, 2016 at 11:25 AM, Jack Mitchell <ml@embed.me.uk> wrote:
->> On 30/08/16 18:14, Andreas Müller wrote:
->>> since gcc6 we see many cmake/c++ based packets failing with:
->>>
->>> | fatal error: stdlib.h: No such file or directory
->>>
->>> a fix from gcc is not to expect [1] so work around by replacing '-isystem'
->>> by
->>> '-I' for c++.
->>>
->>> Build tested with many recipes in meta-qt5-extra / meta-oe inheriting
->>> cmake.
->>>
->>> [1] https://gcc.gnu.org/bugzilla/show_bug.cgi?id=70129
->>>
->>> Signed-off-by: Andreas Müller <schnitzeltony@googlemail.com>
->>> ---
->>>   meta/recipes-devtools/cmake/cmake-native_3.6.1.bb  |  1 +
->>>   .../0001-GNU.cmake-replace-isystem-by-I.patch      | 42
->>> ++++++++++++++++++++++
->>>   2 files changed, 43 insertions(+)
->>>   create mode 100644
->>> meta/recipes-devtools/cmake/cmake/0001-GNU.cmake-replace-isystem-by-I.patch
->>>
->>> diff --git a/meta/recipes-devtools/cmake/cmake-native_3.6.1.bb
->>> b/meta/recipes-devtools/cmake/cmake-native_3.6.1.bb
->>> index 33930fb..900091e 100644
->>> --- a/meta/recipes-devtools/cmake/cmake-native_3.6.1.bb
->>> +++ b/meta/recipes-devtools/cmake/cmake-native_3.6.1.bb
->>> @@ -6,6 +6,7 @@ DEPENDS += "bzip2-native zlib-native"
->>>
->>>   SRC_URI += "\
->>>       file://cmlibarchive-disable-ext2fs.patch \
->>> +    file://0001-GNU.cmake-replace-isystem-by-I.patch \
->>>   "
->>>
->>>   # Disable ccmake since we don't depend on ncurses
->>> diff --git
->>> a/meta/recipes-devtools/cmake/cmake/0001-GNU.cmake-replace-isystem-by-I.patch
->>> b/meta/recipes-devtools/cmake/cmake/0001-GNU.cmake-replace-isystem-by-I.patch
->>> new file mode 100644
->>> index 0000000..4c06490
->>> --- /dev/null
->>> +++
->>> b/meta/recipes-devtools/cmake/cmake/0001-GNU.cmake-replace-isystem-by-I.patch
->>> @@ -0,0 +1,42 @@
->>> +From a84d20abe6bc68f8d1a597a22af1ca98d62a5ce4 Mon Sep 17 00:00:00 2001
->>> +From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@googlemail.com>
->>> +Date: Fri, 26 Aug 2016 12:14:12 +0200
->>> +Subject: [PATCH] GNU.cmake: replace -isystem by -I
->>> +MIME-Version: 1.0
->>> +Content-Type: text/plain; charset=UTF-8
->>> +Content-Transfer-Encoding: 8bit
->>> +
->>> +since gcc6 we see many c++ based packes failing with:
->>> +
->>> +| fatal error: stdlib.h: No such file or directory
->>> +
->>> +a fix from gcc is not to expect [1] so work around
->>> +
->>> +[1] https://gcc.gnu.org/bugzilla/show_bug.cgi?id=70129
->>> +
->>> +Upstream-Status: Pending
->>> +
->>> +Signed-off-by: Andreas Müller <schnitzeltony@googlemail.com>
->>> +---
->>> + Modules/Compiler/GNU.cmake | 6 +++++-
->>> + 1 file changed, 5 insertions(+), 1 deletion(-)
->>> +
->>> +diff --git a/Modules/Compiler/GNU.cmake b/Modules/Compiler/GNU.cmake
->>> +index c2d393d..9d1477d 100644
->>> +--- a/Modules/Compiler/GNU.cmake
->>> ++++ b/Modules/Compiler/GNU.cmake
->>> +@@ -53,6 +53,10 @@ macro(__compiler_gnu lang)
->>> +   set(CMAKE_${lang}_CREATE_PREPROCESSED_SOURCE "<CMAKE_${lang}_COMPILER>
->>> <DEFINES> <INCLUDES> <FLAGS> -E <SOURCE> > <PREPROCESSED_SOURCE>")
->>> +   set(CMAKE_${lang}_CREATE_ASSEMBLY_SOURCE "<CMAKE_${lang}_COMPILER>
->>> <DEFINES> <INCLUDES> <FLAGS> -S <SOURCE> -o <ASSEMBLY_SOURCE>")
->>> +   if(NOT APPLE OR NOT CMAKE_${lang}_COMPILER_VERSION VERSION_LESS 4) #
->>> work around #4462
->>> +-    set(CMAKE_INCLUDE_SYSTEM_FLAG_${lang} "-isystem ")
->>> ++    if("${lang}" STREQUAL "CXX")
->>> ++      set(CMAKE_INCLUDE_SYSTEM_FLAG_${lang} "-I ")
->>> ++    else()
->>> ++      set(CMAKE_INCLUDE_SYSTEM_FLAG_${lang} "-isystem ")
->>> ++    endif()
->>> +   endif()
->>> + endmacro()
->>> +--
->>> +2.5.5
->>> +
->>>
->> Thanks for the patch Andreas, this fixes my build for now but as you
->> mentioned is a bit of a hack to get round the issue. As this fixes my
->> problem does it mean that it's not bitbake which is injecting the isystem,
->> but instead a CMake recipe somewhere?
->>
->> Regards,
->> Jack.
->> --
-> I don't know your recipe but I think -isystem in bitbake.conf would
-> only cause trouble for native recipes.
+On 2016-08-26 10:28 AM, Alexander Kanavin wrote:
+> This patchset adds gtk-doc support to OE-core. It requires running
+> transient binaries during build time, which is achieved via qemu,
+> and so there are all the same caveats as with gobject-introspection.
 >
-> As a heavy cmake-qt5 user (kde/lxqt/hawaii) I had many failing
-> cross-recipes not finding stdlib.h. After reading the gcc-bug I check
-> compile logs and they were full of -isystem on sysroot/usr/include -
-> had no idea where they came from.
-> First I grepped oe-core but did not find suspicious (e.g bitbake.conf
-> - see above). Then I grepped cmake sources and found GNU.cmake,
-> patched it to affect c++ only and my build errors were gone.
->
-> Andreas
 
-So I finally narrowed down what was causing my recipe to fail. For some 
-bizzar reason cmake sets all includes that have come from imported 
-targets as system includes. It's bonkers but there is very little 
-documentation around it and I'm not sure why it would be like that. 
-However, there is a magic flag [1], this may be worthwhile setting in 
-our cmake class and sdk toolchain file as I can't imagine any reason why 
-we would want it to work in the default manner.
+Cool but...
 
-If anyone who has been having issues with cmake and isystem, if they 
-could try doing setting CMAKE_NO_SYSTEM_FROM_IMPORTED to on in thier 
-cmake.bbclass and report back if that fixes things. It's possible my 
-earlier bitbake suggestion was a red herring.
+> Gtk-doc generation happens if 'api-documentation' distro feature is enabled
+> (it is by default), and 'qemu-usermode' is in machine features.
 
-Cheers,
-Jack.
+Should this really be enabled by default?
+What does it do to a typical build wrt time and space?
 
-[1] https://cmake.org/cmake/help/v3.0/prop_tgt/NO_SYSTEM_FROM_IMPORTED.html
+../Randy
+
+
+
+-- 
+# Randy MacLeod. SMTS, Linux, Wind River
+Direct: 613.963.1350 | 350 Terry Fox Drive, Suite 200, Ottawa, ON, 
+Canada, K2K 2W5
 
