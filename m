@@ -1,30 +1,24 @@
-Return-Path: <adrian.ratiu@ni.com>
-Received: from ni.com (skprod2.natinst.com [130.164.80.23])
-	by mail.openembedded.org (Postfix) with ESMTP id D135070034
+Return-Path: <Bruce.Ashfield@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id BB958731B9
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  1 Sep 2016 12:46:56 +0000 (UTC)
-Received: from us-aus-mgwout1.amer.corp.natinst.com (nb-snip2-1338.natinst.com
-	[130.164.19.135])
-	by us-aus-skprod2.natinst.com (8.15.0.59/8.15.0.59) with ESMTP id
-	u81Cku2f026921 for <openembedded-core@lists.openembedded.org>;
-	Thu, 1 Sep 2016 07:46:56 -0500
-Received: from adi-pc-linux.natinst.com ([130.164.14.198])
-	by us-aus-mgwout1.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6
-	HF1218) with ESMTP id 2016090107465662-398259 ;
-	Thu, 1 Sep 2016 07:46:56 -0500 
-From: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 1 Sep 2016 15:45:39 +0300
-Message-Id: <20160901124539.6423-1-adrian.ratiu@ni.com>
-X-Mailer: git-send-email 2.9.3
-X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut1/AUS/H/NIC(Release
-	8.5.3FP6 HF1218|December 12, 2014) at 09/01/2016 07:46:56 AM,
-	Serialize by Router on US-AUS-MGWOut1/AUS/H/NIC(Release 8.5.3FP6
-	HF1218|December 12, 2014) at 09/01/2016 07:46:57 AM,
-	Serialize complete at 09/01/2016 07:46:57 AM
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
-	definitions=2016-09-01_05:, , signatures=0
-Subject: [PATCH v2] linux-firmware: package carl9170 separately
+	Thu,  1 Sep 2016 14:11:03 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u81EAx8f021851
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 1 Sep 2016 07:11:00 -0700 (PDT)
+Received: from yow-bashfiel-d4.wrs.com (128.224.56.94) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.248.2; Thu, 1 Sep 2016 07:10:59 -0700
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+To: <richard.purdie@linuxfoundation.org>
+Date: Thu, 1 Sep 2016 10:10:58 -0400
+Message-ID: <1472739058-20109-1-git-send-email-bruce.ashfield@windriver.com>
+X-Mailer: git-send-email 2.5.0
+MIME-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH] linux-yocto/4.1: backport virtio HW_RANDOM_VIRTIO config
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,58 +31,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 01 Sep 2016 12:46:58 -0000
+X-List-Received-Date: Thu, 01 Sep 2016 14:11:03 -0000
+Content-Type: text/plain
 
-Package the carl9170 binary firmware separately because it is needed
-by various usb dongles and installing whole linux-firmware is overkill.
+We enabled HW_RANDOM_VIRTIO for the 4.4+ kernels, but it is also needed
+for 4.1 to ensure that VMs have sufficient entropy. Without this entropy
+networking on qemuppc starves and triggers intermittent errors.
 
-carl9170 is an atheros-based firmware, the succesor of ar9170 which is
-deprecated and its driver (ar9170) was removed from the kernel tree.
-carl9170 comes both as a binary blob and also with free sources; the
-sources are deleted in linux-firmware.bb to avoid depeding on bash/etc.
-
-Also we should keep ar9170 as is because OOT drivers might still use it.
-
-The license for carl9170 is GPLv2 (sources are beside the bin in the
-linux-firmware git repo).
-
-Signed-off-by: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
+Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
 ---
- meta/recipes-kernel/linux-firmware/linux-firmware_git.bb | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb   | 2 +-
+ meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb | 2 +-
+ meta/recipes-kernel/linux/linux-yocto_4.1.bb      | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
-index ed0c6ec..14f1f77 100644
---- a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
-+++ b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
-@@ -226,7 +226,7 @@ PACKAGES =+ "${PN}-ralink-license ${PN}-ralink \
-              ${PN}-vt6656-license ${PN}-vt6656 \
-              ${PN}-rtl-license ${PN}-rtl8192cu ${PN}-rtl8192ce ${PN}-rtl8192su \
-              ${PN}-broadcom-license ${PN}-bcm4329 ${PN}-bcm4330 ${PN}-bcm4334 ${PN}-bcm43340 ${PN}-bcm4339 ${PN}-bcm4354 \
--             ${PN}-atheros-license ${PN}-ar9170 ${PN}-ath6k ${PN}-ath9k \
-+             ${PN}-atheros-license ${PN}-ar9170 ${PN}-carl9170 ${PN}-ath6k ${PN}-ath9k \
-              ${PN}-ar3k-license  ${PN}-ar3k  ${PN}-ath10k-license  ${PN}-ath10k  \
-              \
-              ${PN}-iwlwifi-license ${PN}-iwlwifi \
-@@ -255,6 +255,9 @@ FILES_${PN}-atheros-license = "/lib/firmware/LICENCE.atheros_firmware"
- FILES_${PN}-ar9170 = " \
-   /lib/firmware/ar9170*.fw \
- "
-+FILES_${PN}-carl9170 = " \
-+  /lib/firmware/carl9170*.fw \
-+"
- FILES_${PN}-ath6k = " \
-   /lib/firmware/ath6k \
- "
-@@ -266,6 +269,7 @@ FILES_${PN}-ath9k = " \
- "
+diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb b/meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb
+index 9a4a2ff7897e..f0d6a81a9c54 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb
+@@ -12,7 +12,7 @@ python () {
+ }
  
- RDEPENDS_${PN}-ar9170 += "${PN}-atheros-license"
-+RDEPENDS_${PN}-carl9170 += "${PN}-atheros-license"
- RDEPENDS_${PN}-ath6k += "${PN}-atheros-license"
- RDEPENDS_${PN}-ath9k += "${PN}-atheros-license"
+ SRCREV_machine ?= "b88e2b5805213daeb0136fdd8c840dc0254a3d21"
+-SRCREV_meta ?= "f7984d610b3e0dcffc52db019400ebce53ae28d7"
++SRCREV_meta ?= "9d0f0db8442a5ccb3f2ce81e2e43d96b6515a45a"
  
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto-4.1.git;branch=${KBRANCH};name=machine \
+            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.1;destsuffix=${KMETA}"
+diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb
+index 7fe2bde3a96f..092a224451e1 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb
+@@ -10,7 +10,7 @@ KMETA = "kernel-meta"
+ KCONF_BSP_AUDIT_LEVEL = "2"
+ 
+ SRCREV_machine ?= "0847ed67f89b5a8bbaaa0a7b6cfa2a99ef34834f"
+-SRCREV_meta ?= "f7984d610b3e0dcffc52db019400ebce53ae28d7"
++SRCREV_meta ?= "9d0f0db8442a5ccb3f2ce81e2e43d96b6515a45a"
+ 
+ PV = "${LINUX_VERSION}+git${SRCPV}"
+ 
+diff --git a/meta/recipes-kernel/linux/linux-yocto_4.1.bb b/meta/recipes-kernel/linux/linux-yocto_4.1.bb
+index b7e7e7d4fa65..e23d7da58881 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_4.1.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_4.1.bb
+@@ -19,7 +19,7 @@ SRCREV_machine_qemux86 ?= "0847ed67f89b5a8bbaaa0a7b6cfa2a99ef34834f"
+ SRCREV_machine_qemux86-64 ?= "0847ed67f89b5a8bbaaa0a7b6cfa2a99ef34834f"
+ SRCREV_machine_qemumips64 ?= "106ed721d21c595dfb993a8990c3a29830dfc166"
+ SRCREV_machine ?= "0847ed67f89b5a8bbaaa0a7b6cfa2a99ef34834f"
+-SRCREV_meta ?= "f7984d610b3e0dcffc52db019400ebce53ae28d7"
++SRCREV_meta ?= "9d0f0db8442a5ccb3f2ce81e2e43d96b6515a45a"
+ 
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto-4.1.git;name=machine;branch=${KBRANCH}; \
+            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.1;destsuffix=${KMETA}"
 -- 
-2.9.3
+2.5.0
 
 
