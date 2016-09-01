@@ -1,27 +1,24 @@
-Return-Path: <Qi.Chen@windriver.com>
+Return-Path: <Mingli.Yu@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id C96D86FF60
+	by mail.openembedded.org (Postfix) with ESMTP id 7666073D27
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  1 Sep 2016 07:10:25 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u817APVp016183
+	Thu,  1 Sep 2016 07:21:19 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u817LKd1017568
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 1 Sep 2016 00:10:25 -0700 (PDT)
-Received: from [128.224.162.229] (128.224.162.229) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.248.2;
-	Thu, 1 Sep 2016 00:10:24 -0700
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-From: ChenQi <Qi.Chen@windriver.com>
-Message-ID: <57C7D481.1070502@windriver.com>
-Date: Thu, 1 Sep 2016 15:10:57 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.7.2
+	Thu, 1 Sep 2016 00:21:20 -0700 (PDT)
+Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.248.2; Thu, 1 Sep 2016 00:21:19 -0700
+From: <mingli.yu@windriver.com>
+To: <li.wang@windriver.com>, <openembedded-core@lists.openembedded.org>
+Date: Thu, 1 Sep 2016 15:19:16 +0800
+Message-ID: <1472714356-6328-1-git-send-email-mingli.yu@windriver.com>
+X-Mailer: git-send-email 2.8.1
 MIME-Version: 1.0
-X-Originating-IP: [128.224.162.229]
-Subject: 'qemumips64 + systemd + pam' results in being not able to login
+Subject: [PATCH] gawk: fix command location in ptest script
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,28 +31,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 01 Sep 2016 07:10:26 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 01 Sep 2016 07:21:20 -0000
+Content-Type: text/plain
 
-Hi All,
+From: Li Wang <li.wang@windriver.com>
 
-Recently I noticed that if we start a systemd based qemumips64 target 
-with 'pam' enabled in DISTRO_FEATURES, we could not login in 
-successfully. After you provide username and password to the login 
-prompt, the login prompt just comes up again.
+* Correct the command location in ptest scripts such as
+  update the line "#!/bin/awk -f" to "#!/usr/bin/awk -f" in the
+  file /usr/lib64/gawk/ptest/test/fcall_exit2.awk belongs
+  to package gawk-ptest and the line "#!/usr/local/bin/gawk -f"
+  to "#!/usr/bin/gawk -f" in the file
+  /usr/lib64/gawk/ptest/test/fnarydel.awk
 
-Below is some error information.
+Signed-off-by: Li Wang <li.wang@windriver.com>
+Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
+---
+ meta/recipes-extended/gawk/gawk_4.1.3.bb | 2 ++
+ 1 file changed, 2 insertions(+)
 
-Received SIGCHLD from PID 175 (login).
-Child 175 (login) died (code=dumped, status=10/BUS)
-serial-getty@ttyS0.service: Child 175 belongs to serial-getty@ttyS0.service
-serial-getty@ttyS0.service: Main process exited, code=dumped, status=10/BUS
+diff --git a/meta/recipes-extended/gawk/gawk_4.1.3.bb b/meta/recipes-extended/gawk/gawk_4.1.3.bb
+index 6ca7f3e..1aeb450 100644
+--- a/meta/recipes-extended/gawk/gawk_4.1.3.bb
++++ b/meta/recipes-extended/gawk/gawk_4.1.3.bb
+@@ -43,4 +43,6 @@ do_install_ptest() {
+ 	for i in `grep -vE "@|^$|#|Gt-dummy" ${S}/test/Maketests |awk -F: '{print $1}'` Maketests; \
+ 	  do cp ${S}/test/$i* ${D}${PTEST_PATH}/test; \
+ 	done
++	sed -i -e 's|/usr/local/bin|${bindir}|g' \
++	    -e 's|#!${base_bindir}/awk|#!${bindir}/awk|g' ${D}${PTEST_PATH}/test/*.awk
+ }
+-- 
+2.8.1
 
-I've investigated this problem, but I could not find the root cause.
-Has any of you also seen the same problem?
-Anyone has any idea what's going on here?
-
-Best Regards,
-Chen Qi
 
