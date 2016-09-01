@@ -1,24 +1,46 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id BB958731B9
+Return-Path: <mattias.waldo@gmail.com>
+Received: from mail-lf0-f65.google.com (mail-lf0-f65.google.com
+	[209.85.215.65])
+	by mail.openembedded.org (Postfix) with ESMTP id B1FCA75C60
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  1 Sep 2016 14:11:03 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u81EAx8f021851
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 1 Sep 2016 07:11:00 -0700 (PDT)
-Received: from yow-bashfiel-d4.wrs.com (128.224.56.94) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.248.2; Thu, 1 Sep 2016 07:10:59 -0700
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-To: <richard.purdie@linuxfoundation.org>
-Date: Thu, 1 Sep 2016 10:10:58 -0400
-Message-ID: <1472739058-20109-1-git-send-email-bruce.ashfield@windriver.com>
-X-Mailer: git-send-email 2.5.0
-MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH] linux-yocto/4.1: backport virtio HW_RANDOM_VIRTIO config
+	Thu,  1 Sep 2016 14:36:58 +0000 (UTC)
+Received: by mail-lf0-f65.google.com with SMTP id k135so4225137lfb.1
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 01 Sep 2016 07:36:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=uyysSKuopfhk2zz/7YCo2o/FpQ1gsjY5jAjy7S0xsOU=;
+	b=eXNffivUOb+rQkp1ZEWGFeo+BlJTFjrzWCmdEkDMM/lhWKN2vsdBCIQ4uFSFWk35n5
+	bWM6RBuy6pMgFZEI0A1RD9bOasLEIeCa2P6ItJKlozcoVqrBlMQUJkVXZ/dkT/PhLqVB
+	CQcHKuD4eoFJHyRcC5Qogj+JBLhLHjm2QnYTKSq1Rf/lXKtrCJStPFqZq4p60akTO5Qw
+	bkqXaMNyah57GnkWT8CnJ1X/xcrVdQyvz+m8mQMYsQFgEI2lPXj1hJcYZQPPjDA1W4vq
+	qW195XP0Ju2SBxjhkrYktc0ZC4i48p0T2uq/jyG8dHD0IvBN89i+pJ49OnELqavjnRO4
+	3yRg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=uyysSKuopfhk2zz/7YCo2o/FpQ1gsjY5jAjy7S0xsOU=;
+	b=fYecf6593wRM6XrL1jTv2WN8wlJxl2eH4AECde1uaVfF2kxbntiNcPmmYalM/kYu0N
+	kTTnPvhwlh0f1rLRftTwBOZvfoPyG5QI1oxmVjj0E4/IPQxV8FNyk4q6tmgaA8qICEiZ
+	S5CWE8mqckchcxzEIX1SKZHF1PBeD38H7DXiswp/hU7+7zvy/Z7rpLvCtZm7jzAoEOLw
+	zw4WaQsen0VDD1P8ZkeBB7s6Uw1FVCV2KUbt0q2lU79qRx6OS5etUjhO0G2Y0BWAHDc4
+	VF0AUW5g2w0HwDbWUBemw6ceSYUuEKQUiTydnvbNOOuPGaMgok6C5zZcC5X9lncisu8s
+	7RtQ==
+X-Gm-Message-State: AE9vXwO7D3NOaG70Pjn6jsZ9J63RhDQGz46UItDwCGjcYoyFkRfYOKlRMKk3p5dP+lwTTw==
+X-Received: by 10.25.23.210 with SMTP id 79mr5753735lfx.200.1472740617945;
+	Thu, 01 Sep 2016 07:36:57 -0700 (PDT)
+Received: from localhost.lan.
+	(c-6dc5e455.04-597-6c6b701.cust.bredbandsbolaget.se.
+	[85.228.197.109])
+	by smtp.gmail.com with ESMTPSA id h22sm993530lji.21.2016.09.01.07.36.56
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Thu, 01 Sep 2016 07:36:57 -0700 (PDT)
+From: Mattias Waldo <mattias.waldo@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  1 Sep 2016 16:36:25 +0200
+Message-Id: <1472740585-27888-1-git-send-email-mattias.waldo@gmail.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [PATCH v5] kernel.bbclass: include signing keys when copying files required for module builds
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,60 +53,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 01 Sep 2016 14:11:03 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 01 Sep 2016 14:37:00 -0000
 
-We enabled HW_RANDOM_VIRTIO for the 4.4+ kernels, but it is also needed
-for 4.1 to ensure that VMs have sufficient entropy. Without this entropy
-networking on qemuppc starves and triggers intermittent errors.
+The absence of signing_key.* in $kerneldir made signing of
+out-of-tree kernel modules fail (silently). Add copying of these
+files during the shared_workdir task.
 
-Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+Signed-off-by: Mattias Waldo <mattias.waldo@saabgroup.com>
 ---
- meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb   | 2 +-
- meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb | 2 +-
- meta/recipes-kernel/linux/linux-yocto_4.1.bb      | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
+ meta/classes/kernel.bbclass | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb b/meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb
-index 9a4a2ff7897e..f0d6a81a9c54 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb
-@@ -12,7 +12,7 @@ python () {
- }
+diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+index db42744..4460824 100644
+--- a/meta/classes/kernel.bbclass
++++ b/meta/classes/kernel.bbclass
+@@ -364,6 +364,14 @@ do_shared_workdir () {
+ 	cp .config $kerneldir/
+ 	mkdir -p $kerneldir/include/config
+ 	cp include/config/kernel.release $kerneldir/include/config/kernel.release
++	if [ -e certs/signing_key.pem ]; then
++		# The signing_key.* files are stored in the certs/ dir in
++		# newer Linux kernels
++		mkdir -p $kerneldir/certs
++		cp certs/signing_key.* $kerneldir/certs/
++	elif [ -e signing_key.priv ]; then
++		cp signing_key.* $kerneldir/
++	fi
  
- SRCREV_machine ?= "b88e2b5805213daeb0136fdd8c840dc0254a3d21"
--SRCREV_meta ?= "f7984d610b3e0dcffc52db019400ebce53ae28d7"
-+SRCREV_meta ?= "9d0f0db8442a5ccb3f2ce81e2e43d96b6515a45a"
- 
- SRC_URI = "git://git.yoctoproject.org/linux-yocto-4.1.git;branch=${KBRANCH};name=machine \
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.1;destsuffix=${KMETA}"
-diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb
-index 7fe2bde3a96f..092a224451e1 100644
---- a/meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb
-@@ -10,7 +10,7 @@ KMETA = "kernel-meta"
- KCONF_BSP_AUDIT_LEVEL = "2"
- 
- SRCREV_machine ?= "0847ed67f89b5a8bbaaa0a7b6cfa2a99ef34834f"
--SRCREV_meta ?= "f7984d610b3e0dcffc52db019400ebce53ae28d7"
-+SRCREV_meta ?= "9d0f0db8442a5ccb3f2ce81e2e43d96b6515a45a"
- 
- PV = "${LINUX_VERSION}+git${SRCPV}"
- 
-diff --git a/meta/recipes-kernel/linux/linux-yocto_4.1.bb b/meta/recipes-kernel/linux/linux-yocto_4.1.bb
-index b7e7e7d4fa65..e23d7da58881 100644
---- a/meta/recipes-kernel/linux/linux-yocto_4.1.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_4.1.bb
-@@ -19,7 +19,7 @@ SRCREV_machine_qemux86 ?= "0847ed67f89b5a8bbaaa0a7b6cfa2a99ef34834f"
- SRCREV_machine_qemux86-64 ?= "0847ed67f89b5a8bbaaa0a7b6cfa2a99ef34834f"
- SRCREV_machine_qemumips64 ?= "106ed721d21c595dfb993a8990c3a29830dfc166"
- SRCREV_machine ?= "0847ed67f89b5a8bbaaa0a7b6cfa2a99ef34834f"
--SRCREV_meta ?= "f7984d610b3e0dcffc52db019400ebce53ae28d7"
-+SRCREV_meta ?= "9d0f0db8442a5ccb3f2ce81e2e43d96b6515a45a"
- 
- SRC_URI = "git://git.yoctoproject.org/linux-yocto-4.1.git;name=machine;branch=${KBRANCH}; \
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.1;destsuffix=${KMETA}"
+ 	# We can also copy over all the generated files and avoid special cases
+ 	# like version.h, but we've opted to keep this small until file creep starts
 -- 
-2.5.0
+1.9.1
 
 
