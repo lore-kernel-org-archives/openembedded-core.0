@@ -1,21 +1,23 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id D6439736B6
+	by mail.openembedded.org (Postfix) with ESMTP id 2AD2E736B6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  2 Sep 2016 12:08:15 +0000 (UTC)
+	Fri,  2 Sep 2016 12:08:16 +0000 (UTC)
 Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-	by orsmga101.jf.intel.com with ESMTP; 02 Sep 2016 05:08:15 -0700
+	by orsmga101.jf.intel.com with ESMTP; 02 Sep 2016 05:08:17 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.30,270,1470726000"; 
-   d="scan'208";a="3965489"
+   d="scan'208";a="3965496"
 Received: from kanavin-desktop.fi.intel.com ([10.237.68.49])
-	by fmsmga006.fm.intel.com with ESMTP; 02 Sep 2016 05:08:14 -0700
+	by fmsmga006.fm.intel.com with ESMTP; 02 Sep 2016 05:08:15 -0700
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  2 Sep 2016 15:06:43 +0300
-Message-Id: <20160902120645.5271-1-alexander.kanavin@linux.intel.com>
+Date: Fri,  2 Sep 2016 15:06:44 +0300
+Message-Id: <20160902120645.5271-2-alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.9.3
-Subject: [PATCH 1/3] pango: fix gtk-doc build when x11 is not in use
+In-Reply-To: <20160902120645.5271-1-alexander.kanavin@linux.intel.com>
+References: <20160902120645.5271-1-alexander.kanavin@linux.intel.com>
+Subject: [PATCH 2/3] clutter-1.0: do not use the prepackaged clutter.types file when generating gtk-doc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,178 +32,174 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 02 Sep 2016 12:08:16 -0000
 
+Doing so will fail when x11 is disabled in particular.
+
 Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- ...reation-of-docs-pango.types-it-is-build-c.patch | 147 +++++++++++++++++++++
- meta/recipes-graphics/pango/pango_1.40.1.bb        |   1 +
- 2 files changed, 148 insertions(+)
- create mode 100644 meta/recipes-graphics/pango/pango/0001-Enforce-recreation-of-docs-pango.types-it-is-build-c.patch
+ ...ter.types-as-it-is-build-configuration-sp.patch | 143 +++++++++++++++++++++
+ .../recipes-graphics/clutter/clutter-1.0_1.26.0.bb |   1 +
+ 2 files changed, 144 insertions(+)
+ create mode 100644 meta/recipes-graphics/clutter/clutter-1.0/0001-Remove-clutter.types-as-it-is-build-configuration-sp.patch
 
-diff --git a/meta/recipes-graphics/pango/pango/0001-Enforce-recreation-of-docs-pango.types-it-is-build-c.patch b/meta/recipes-graphics/pango/pango/0001-Enforce-recreation-of-docs-pango.types-it-is-build-c.patch
+diff --git a/meta/recipes-graphics/clutter/clutter-1.0/0001-Remove-clutter.types-as-it-is-build-configuration-sp.patch b/meta/recipes-graphics/clutter/clutter-1.0/0001-Remove-clutter.types-as-it-is-build-configuration-sp.patch
 new file mode 100644
-index 0000000..6784a10
+index 0000000..7b3c198
 --- /dev/null
-+++ b/meta/recipes-graphics/pango/pango/0001-Enforce-recreation-of-docs-pango.types-it-is-build-c.patch
-@@ -0,0 +1,147 @@
-+From 526a6a9fc9a1cfe75c521c8bb39b61754fe42fe8 Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-graphics/clutter/clutter-1.0/0001-Remove-clutter.types-as-it-is-build-configuration-sp.patch
+@@ -0,0 +1,143 @@
++From 3a0404dfbc65c6a864e01d1200a48074e19d5def Mon Sep 17 00:00:00 2001
 +From: Alexander Kanavin <alex.kanavin@gmail.com>
-+Date: Fri, 2 Sep 2016 14:00:24 +0300
-+Subject: [PATCH] Enforce recreation of docs/pango.types; it is build
-+ configuration-specific.
-+
-+In particular, it needs to exclude references to PangoXft if Xft is not available.
++Date: Fri, 2 Sep 2016 14:28:38 +0300
++Subject: [PATCH] Remove clutter.types as it is build configuration-specific.
 +
 +Upstream-Status: Pending
 +Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 +---
-+ docs/Makefile.am | 17 ++++--------
-+ docs/pango.types | 80 --------------------------------------------------------
-+ 2 files changed, 5 insertions(+), 92 deletions(-)
-+ delete mode 100644 docs/pango.types
++ doc/reference/clutter.types | 122 --------------------------------------------
++ 1 file changed, 122 deletions(-)
++ delete mode 100644 doc/reference/clutter.types
 +
-+diff --git a/docs/Makefile.am b/docs/Makefile.am
-+index f5f1317..8947a99 100644
-+--- a/docs/Makefile.am
-++++ b/docs/Makefile.am
-+@@ -49,6 +49,10 @@ IGNORE_HFILES=			\
-+ 	pangocoretext-private.h		\
-+ 	pangoatsui-private.h
-+ 
-++if !HAVE_XFT
-++IGNORE_HFILES += pangoxft pangoxft-render.h
-++endif
-++
-+ # CFLAGS and LDFLAGS for compiling scan program. Only needed
-+ # if $(DOC_MODULE).types is non-empty.
-+ INCLUDES =               	\
-+@@ -103,16 +107,6 @@ include $(top_srcdir)/gtk-doc.make
-+ # This line really belongs in gtk-doc.mk
-+ $(REPORT_FILES): sgml-build.stamp
-+ 
-+-pango.types:
-+-	@echo "Rebuilding $@"
-+-	@LANG=C; LIST=$$(grep 'pango_[_a-zA-Z0-9]*_get_type' $(HFILE_GLOB) | grep -v '\(private\|atsui\|core_text\|win32\)' | sed 's/\([^:]*:\).*\(pango[_a-zA-Z0-9]*_get_type\).*/\1\2/') && \
-+-	echo "$$LIST" | sed 's/.*\/\(pango\/.*\):.*/#include <\1>/' | sort -u > $@.tmp && \
-+-	echo >> $@.tmp && \
-+-	echo "$$LIST" | cut -d : -f 2 | sort -u >> $@.tmp && \
-+-	mv $@.tmp $@
-+-
-+-BUILT_SOURCES = pango.types
-+-
-+ ########################################################################
-+ 
-+ MAINTAINERCLEANFILES = $(BUILT_SOURCES)
-+@@ -120,8 +114,7 @@ EXTRA_DIST +=				\
-+ 	layout.fig			\
-+ 	layout.eps			\
-+ 	version.xml.in			\
-+-	check.docs			\
-+-	pango.types
-++	check.docs
-+ 
-+ # force doc rebulid after configure
-+ dist-hook-local: dist-local-check-no-cross-references all-local
-+diff --git a/docs/pango.types b/docs/pango.types
++diff --git a/doc/reference/clutter.types b/doc/reference/clutter.types
 +deleted file mode 100644
-+index 7d93cda..0000000
-+--- a/docs/pango.types
++index 0037acc..0000000
++--- a/doc/reference/clutter.types
 ++++ /dev/null
-+@@ -1,80 +0,0 @@
-+-#include <pango/pango-attributes.h>
-+-#include <pango/pango-context.h>
-+-#include <pango/pango-engine.h>
-+-#include <pango/pango-enum-types.h>
-+-#include <pango/pango-font.h>
-+-#include <pango/pango-fontmap.h>
-+-#include <pango/pango-fontset.h>
-+-#include <pango/pango-glyph-item.h>
-+-#include <pango/pango-glyph.h>
-+-#include <pango/pango-item.h>
-+-#include <pango/pango-language.h>
-+-#include <pango/pango-layout.h>
-+-#include <pango/pango-matrix.h>
-+-#include <pango/pango-ot.h>
-+-#include <pango/pango-renderer.h>
-+-#include <pango/pango-tabs.h>
-+-#include <pango/pangocairo-fc.h>
-+-#include <pango/pangocairo.h>
-+-#include <pango/pangofc-decoder.h>
-+-#include <pango/pangofc-font.h>
-+-#include <pango/pangofc-fontmap.h>
-+-#include <pango/pangoft2.h>
-+-#include <pango/pangoxft-render.h>
-+-#include <pango/pangoxft.h>
-+-
-+-pango_alignment_get_type
-+-pango_attr_list_get_type
-+-pango_attr_type_get_type
-+-pango_bidi_type_get_type
-+-pango_cairo_fc_font_map_get_type
-+-pango_cairo_font_get_type
-+-pango_cairo_font_map_get_type
-+-pango_color_get_type
-+-pango_context_get_type
-+-pango_coverage_level_get_type
-+-pango_direction_get_type
-+-pango_ellipsize_mode_get_type
-+-pango_engine_get_type
-+-pango_engine_lang_get_type
-+-pango_engine_shape_get_type
-+-pango_fc_decoder_get_type
-+-pango_fc_font_get_type
-+-pango_fc_font_map_get_type
-+-pango_font_description_get_type
-+-pango_font_face_get_type
-+-pango_font_family_get_type
-+-pango_font_get_type
-+-pango_font_map_get_type
-+-pango_font_mask_get_type
-+-pango_font_metrics_get_type
-+-pango_fontset_get_type
-+-pango_fontset_simple_get_type
-+-pango_ft2_font_map_get_type
-+-pango_glyph_item_get_type
-+-pango_glyph_item_iter_get_type
-+-pango_glyph_string_get_type
-+-pango_gravity_get_type
-+-pango_gravity_hint_get_type
-+-pango_item_get_type
-+-pango_language_get_type
-+-pango_layout_get_type
-+-pango_layout_iter_get_type
-+-pango_layout_line_get_type
-+-pango_matrix_get_type
-+-pango_ot_info_get_type
-+-pango_ot_ruleset_get_type
-+-pango_render_part_get_type
-+-pango_renderer_get_type
-+-pango_script_get_type
-+-pango_stretch_get_type
-+-pango_style_get_type
-+-pango_tab_align_get_type
-+-pango_tab_array_get_type
-+-pango_underline_get_type
-+-pango_variant_get_type
-+-pango_weight_get_type
-+-pango_wrap_mode_get_type
-+-pango_xft_font_get_type
-+-pango_xft_font_map_get_type
-+-pango_xft_renderer_get_type
++@@ -1,122 +0,0 @@
++-cally_actor_get_type
++-cally_clone_get_type
++-cally_group_get_type
++-cally_rectangle_get_type
++-cally_root_get_type
++-cally_stage_get_type
++-cally_text_get_type
++-cally_texture_get_type
++-cally_util_get_type
++-clutter_action_get_type
++-clutter_actor_box_get_type
++-clutter_actor_get_type
++-clutter_actor_meta_get_type
++-clutter_align_constraint_get_type
++-clutter_alpha_get_type
++-clutter_animatable_get_type
++-clutter_animation_get_type
++-clutter_animator_get_type
++-clutter_animator_key_get_type
++-clutter_backend_get_type
++-clutter_behaviour_depth_get_type
++-clutter_behaviour_ellipse_get_type
++-clutter_behaviour_get_type
++-clutter_behaviour_opacity_get_type
++-clutter_behaviour_path_get_type
++-clutter_behaviour_rotate_get_type
++-clutter_behaviour_scale_get_type
++-clutter_bin_layout_get_type
++-clutter_bind_constraint_get_type
++-clutter_binding_pool_get_type
++-clutter_blur_effect_get_type
++-clutter_box_get_type
++-clutter_box_layout_get_type
++-clutter_brightness_contrast_effect_get_type
++-clutter_cairo_texture_get_type
++-clutter_canvas_get_type
++-clutter_child_meta_get_type
++-clutter_click_action_get_type
++-clutter_clip_node_get_type
++-clutter_clone_get_type
++-clutter_color_get_type
++-clutter_color_node_get_type
++-clutter_colorize_effect_get_type
++-clutter_constraint_get_type
++-clutter_container_get_type
++-clutter_content_get_type
++-clutter_deform_effect_get_type
++-clutter_desaturate_effect_get_type
++-clutter_device_manager_get_type
++-clutter_drag_action_get_type
++-clutter_drop_action_get_type
++-clutter_effect_get_type
++-clutter_event_get_type
++-clutter_event_sequence_get_type
++-clutter_fixed_layout_get_type
++-clutter_flow_layout_get_type
++-clutter_fog_get_type
++-clutter_geometry_get_type
++-clutter_gesture_action_get_type
++-clutter_glx_texture_pixmap_get_type
++-clutter_grid_layout_get_type
++-clutter_group_get_type
++-clutter_image_get_type
++-clutter_input_device_get_type
++-clutter_interval_get_type
++-clutter_keyframe_transition_get_type
++-clutter_knot_get_type
++-clutter_layout_manager_get_type
++-clutter_layout_meta_get_type
++-clutter_list_model_get_type
++-clutter_margin_get_type
++-clutter_media_get_type
++-clutter_model_get_type
++-clutter_model_iter_get_type
++-clutter_offscreen_effect_get_type
++-clutter_page_turn_effect_get_type
++-clutter_paint_node_get_type
++-clutter_paint_volume_get_type
++-clutter_pan_action_get_type
++-clutter_param_color_get_type
++-clutter_param_fixed_get_type
++-clutter_param_units_get_type
++-clutter_path_constraint_get_type
++-clutter_path_get_type
++-clutter_path_node_get_type
++-clutter_perspective_get_type
++-clutter_pipeline_node_get_type
++-clutter_point_get_type
++-clutter_property_transition_get_type
++-clutter_rect_get_type
++-clutter_rectangle_get_type
++-clutter_rotate_action_get_type
++-clutter_score_get_type
++-clutter_script_get_type
++-clutter_scriptable_get_type
++-clutter_scroll_actor_get_type
++-clutter_settings_get_type
++-clutter_shader_effect_get_type
++-clutter_shader_float_get_type
++-clutter_shader_get_type
++-clutter_shader_int_get_type
++-clutter_shader_matrix_get_type
++-clutter_size_get_type
++-clutter_snap_constraint_get_type
++-clutter_stage_get_type
++-clutter_stage_manager_get_type
++-clutter_state_get_type
++-clutter_state_key_get_type
++-clutter_swipe_action_get_type
++-clutter_table_layout_get_type
++-clutter_tap_action_get_type
++-clutter_text_buffer_get_type
++-clutter_text_get_type
++-clutter_text_node_get_type
++-clutter_texture_get_type
++-clutter_texture_node_get_type
++-clutter_timeline_get_type
++-clutter_transition_get_type
++-clutter_transition_group_get_type
++-clutter_units_get_type
++-clutter_vertex_get_type
++-clutter_zoom_action_get_type
 +-- 
 +2.9.3
 +
-diff --git a/meta/recipes-graphics/pango/pango_1.40.1.bb b/meta/recipes-graphics/pango/pango_1.40.1.bb
-index 60288a1..f9f344a 100644
---- a/meta/recipes-graphics/pango/pango_1.40.1.bb
-+++ b/meta/recipes-graphics/pango/pango_1.40.1.bb
-@@ -15,6 +15,7 @@ inherit gnomebase gtk-doc ptest-gnome upstream-version-is-even gobject-introspec
- 
- SRC_URI += "file://run-ptest \
-             file://0001-Drop-introspection-macros-from-acinclude.m4.patch \
-+            file://0001-Enforce-recreation-of-docs-pango.types-it-is-build-c.patch \
- "
- SRC_URI[archive.md5sum] = "6fc88c6529890d6c8e03074d57a3eceb"
- SRC_URI[archive.sha256sum] = "e27af54172c72b3ac6be53c9a4c67053e16c905e02addcf3a603ceb2005c1a40"
+diff --git a/meta/recipes-graphics/clutter/clutter-1.0_1.26.0.bb b/meta/recipes-graphics/clutter/clutter-1.0_1.26.0.bb
+index fba9959..dfa1cfe 100644
+--- a/meta/recipes-graphics/clutter/clutter-1.0_1.26.0.bb
++++ b/meta/recipes-graphics/clutter/clutter-1.0_1.26.0.bb
+@@ -6,4 +6,5 @@ SRC_URI[archive.md5sum] = "b065e9ca53d1f6bc1ec26aeb27338bb7"
+ SRC_URI[archive.sha256sum] = "67514e7824b3feb4723164084b36d6ce1ae41cb3a9897e9f1a56c8334993ce06"
+ SRC_URI += "file://install-examples.patch \
+             file://run-installed-tests-with-tap-output.patch \
++            file://0001-Remove-clutter.types-as-it-is-build-configuration-sp.patch \
+             file://run-ptest"
 -- 
 2.9.3
 
