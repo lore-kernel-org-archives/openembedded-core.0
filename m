@@ -1,30 +1,24 @@
-Return-Path: <Mingli.Yu@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 454B360762
+Return-Path: <seebs@seebs.net>
+Received: from mail.plethora.net (mail.plethora.net [184.173.250.112])
+	by mail.openembedded.org (Postfix) with ESMTP id BF1AF76E4A
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  2 Sep 2016 01:58:02 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u821w0Yn003210
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 1 Sep 2016 18:58:01 -0700 (PDT)
-Received: from [128.224.163.140] (128.224.163.140) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.248.2;
-	Thu, 1 Sep 2016 18:58:00 -0700
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <1472178349-32199-1-git-send-email-mingli.yu@windriver.com>
-	<CAJTo0Lajz4nb5S5T4rq=F6fmfGvRPEuAyKF=U-OZdWfo+JoOqQ@mail.gmail.com>
-	<57C00BB4.8050607@windriver.com>
-From: "Yu, Mingli" <mingli.yu@windriver.com>
-Message-ID: <57C8DBBD.7020701@windriver.com>
-Date: Fri, 2 Sep 2016 09:54:05 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.4.0
+	Fri,  2 Sep 2016 02:10:07 +0000 (UTC)
+Received: from [10.10.10.132] (home.seebs.net [74.122.98.108])
+	by mail.plethora.net (Postfix) with ESMTPSA id 97678C4993
+	for <openembedded-core@lists.openembedded.org>;
+	Thu,  1 Sep 2016 21:10:06 -0500 (CDT)
+From: Seebs <seebs@seebs.net>
+To: "Patches and discussions about the oe-core layer"
+	<openembedded-core@lists.openembedded.org>
+Date: Thu, 01 Sep 2016 21:10:03 -0500
+Message-ID: <BDCB4B3D-E034-4AFD-915C-8DDE5B66D76D@seebs.net>
+In-Reply-To: <b59ea47c-1b82-c480-5d9f-7dfb8051f83a@windriver.com>
+References: <e33a2d23-6067-cf14-57ab-d40623a3597a@windriver.com>
+	<1A4DD5F0-D89E-4FC1-820A-457817B4FCD3@seebs.net>
+	<b59ea47c-1b82-c480-5d9f-7dfb8051f83a@windriver.com>
 MIME-Version: 1.0
-In-Reply-To: <57C00BB4.8050607@windriver.com>
-X-Originating-IP: [128.224.163.140]
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/4] groff: add file-homedir-perl to RDEPENDS
+X-Mailer: MailMate (1.9.5r5260)
+Subject: Re: pseudo 1.8.1 doesn't work with docker & dumb-init
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,46 +31,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 02 Sep 2016 01:58:04 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 02 Sep 2016 02:10:12 -0000
+Content-Type: text/plain; format=flowed
 
-ping
+On 1 Sep 2016, at 20:33, wenzong fan wrote:
 
-Thanks,
+> No, I didn't think it's related to any specific docker version.
+>
+> I tested it on "Docker version 1.7.1, build 786b29d" & "Docker version 
+> 1.11.2, build b9f10c9".
+>
+> BTW, I also tested the docker build w/o dumb-init, and the build works 
+> ...
 
-On 2016年08月26日 17:28, Yu, Mingli wrote:
->
->
-> On 2016年08月26日 16:55, Burton, Ross wrote:
->>
->> On 26 August 2016 at 03:25, <mingli.yu@windriver.com
->> <mailto:mingli.yu@windriver.com>> wrote:
->>
->>     The series add file-homedir-perl to RDEPENDS for groff as
->>     glilypond rdepends on File/HomeDir.pm provided by file-homedir-perl
->>
->>
->> Isn't lilypond the music score layout tool?
->
-> glilypond which is provided by groff transforms sheet music written in
-> the lilypond language into the groff language using the .PSPIC request,
-> such that groff can transform it into a format that can be displayed
-> directly.
->
->   This seems very
->> specialist.  I suggest adding the new recipes to meta-perl, and then if
->> someone does want to use it then the requirements are available.
->>
->> Unless you're only hitting this because of testing, in which case I'd
->> suggest skipping this test.
->
-> The command glilypond needs File::HomeDir perl module which is provided
-> by file-homedir-perl
->
-> Thanks,
-> Grace
->
->>
->> Ross
+Yeah, it's definitely specific in some way to docker.
+
+However, it doesn't appear to be 100% reproducible; I just tried a build 
+with your reproducer and it completed without problems. (Unless the 
+problems are more subtle, and don't prevent a build.) So this one's 
+gonna be really fun to track down.
+
+-s
 
