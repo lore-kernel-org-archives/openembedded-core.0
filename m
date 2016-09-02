@@ -1,36 +1,30 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 330F77318D
+Return-Path: <wangxin2015.fnst@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
+	by mail.openembedded.org (Postfix) with ESMTP id B9C86731AE
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  2 Sep 2016 04:38:01 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u824bngI004149
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 1 Sep 2016 21:37:50 -0700 (PDT)
-Received: from server.local (147.11.117.43) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.248.2;
-	Thu, 1 Sep 2016 21:37:49 -0700
-To: =?UTF-8?Q?Andr=c3=a9_Draszik?= <git@andred.net>
-References: <cover.1471281772.git.bruce@zedd.org>
-	<ff62fe65ad3bae260ec0951caddf428632ef35de.1471281772.git.bruce@zedd.org>
-	<1472547914.8449.25.camel@andred.net>
-	<94a7387f-cc88-2e7f-21b6-57970dfdbb04@windriver.com>
-	<1472566766.8449.29.camel@andred.net>
-	<78886c10-2951-9a57-31dd-0e1e78d19815@windriver.com>
-	<1472633650.12967.15.camel@andred.net>
-	<81c8d462-9f65-cd7c-7dfe-f3acd2e21e18@windriver.com>
-	<1472746455.27417.57.camel@andred.net>
-	<27e6e15a-a78d-dafc-ecab-4a5c58fba529@windriver.com>
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-Message-ID: <d2df4e94-5c25-27ff-f73d-660f15e69ed5@windriver.com>
-Date: Fri, 2 Sep 2016 00:37:48 -0400
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:45.0)
-	Gecko/20100101 Thunderbird/45.2.0
+	Fri,  2 Sep 2016 05:11:45 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.22,518,1449504000"; d="scan'208";a="10537978"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 02 Sep 2016 13:11:37 +0800
+Received: from G08CNEXCHPEKD02.g08.fujitsu.local (unknown [10.167.33.83])
+	by cn.fujitsu.com (Postfix) with ESMTP id 626D0403C868
+	for <openembedded-core@lists.openembedded.org>;
+	Fri,  2 Sep 2016 13:11:35 +0800 (CST)
+Received: from ubuntu.g08.fujitsu.local (10.167.226.120) by
+	G08CNEXCHPEKD02.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
+	Server (TLS) id 14.3.279.2; Fri, 2 Sep 2016 13:11:35 +0800
+From: Wang Xin <wangxin2015.fnst@cn.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 2 Sep 2016 01:11:32 -0400
+Message-ID: <1472793092-1371-1-git-send-email-wangxin2015.fnst@cn.fujitsu.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-In-Reply-To: <27e6e15a-a78d-dafc-ecab-4a5c58fba529@windriver.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 5/6] kernel-yocto: streamline patch, configuration and audit phases
+X-Originating-IP: [10.167.226.120]
+X-yoursite-MailScanner-ID: 626D0403C868.A4887
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: wangxin2015.fnst@cn.fujitsu.com
+X-Spam-Status: No
+Subject: [PATCH] sysstat: 11.3.5 -> 11.4.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,121 +37,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 02 Sep 2016 04:38:03 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 02 Sep 2016 05:11:49 -0000
+Content-Type: text/plain
 
-On 2016-09-01 11:18 PM, Bruce Ashfield wrote:
-> On 2016-09-01 12:14 PM, André Draszik wrote:
->> On Mi, 2016-08-31 at 16:17 -0400, Bruce Ashfield wrote:
->>> On 2016-08-31 4:54 AM, André Draszik wrote:
->>>>
->>>> On Di, 2016-08-30 at 14:35 -0400, Bruce Ashfield wrote:
->>>>>
->>>>> Can you clarify for me if you are are using SRC_URI items tagged with
->>>>> 'kmeta', i.e. a directory of fragments, or are you just adding
->>>>> .cfg/.scc
->>>>> items directly to the SRC_URI ?
->>>>
->>>> I do both:
->>>>
->>>> in the 1st layer, my kernel recipe boils down to:
->>>>
->>>> SRC_URI = "\
->>>>     git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-
->>>> stable.git;protocol=git;nocheckout=1;branch=${KBRANCH} \
->>>>     file://0001-a-patch.patch \
->>>>     file://kernel-meta;type=kmeta;destsuffix=${KMETA} \
->>>> "
->>>>
->>>> KERNEL_FEATURES_append = " patches/some-patches.scc"
->>>> KERNEL_FEATURES_append = " patches/more-patches.scc"
->>>> KERNEL_FEATURES_append = " patches/even-more-patches.scc"
->>>>
->>>> some of the above in turn include additional .scc items recursively.
->>>>
->>>>
->>>> In the 2nd layer, my .bbappend boils down to:
->>>>
->>>> FILESEXTRAPATHS_prepend := "${THISDIR}/${BPN}-4.4:"
->>>>
->>>> KERNEL_FEATURES_append_tgm = " patches/tgm.scc"
->>>>
->>>> 2nd-layer.scc is located in ${THISDIR}/kernel-meta/patches/ in the 2nd
->>>> layer. I don't specifically add another SRC_URI item tagged with
->>>> 'kmeta'
->>>> (or
->>>> any other explicit SRC_URI item for that matter).
->>>
->>> One more clarification. From our problem description, are you saying
->>> that in your runs, only the meta data from layer2 is getting copied
->>> and not that from layer1 ?
->>
->> That is what I had inferred from the error message:
->>
->> | DEBUG: Executing shell function do_kernel_metadata
->> | ERROR. input file "patches/some-patches.scc" does not exist
->> | ERROR: could not process input files:
->> <2nd_layer>/recipes-kernel/linux/linux-ramips-4.4/tgm/defconfig
->> <1st_layer>/recipes-kernel/linux/linux-ramips-4.4/0001-a-patch.patch
->> patches/some-patches.scc patches/more-patches.scc
->> patches/even-more-patches.scc patches/tgm.scc
->> |        See /tmp/tmp.mPP1jtatxm for details
->> | ERROR. input file "patches/some-patches.scc" does not exist
->> | ERROR: could not process input files:
->> <2nd_layer>/recipes-kernel/linux/linux-ramips-4.4/tgm/defconfig
->> <1st_layer>/recipes-kernel/linux/linux-ramips-4.4/0001-a-patch.patch
->> patches/some-patches.scc patches/more-patches.scc
->> patches/even-more-patches.scc patches/tgm.scc
->> |        See /tmp/tmp.v9LU9ccpbl for details
->> | WARNING: exit code 1 from a shell command.
->>
->>
->>> I ran my sanity test, and saw meta data from both my layers copied ..
->>> so I'm worried that I misunderstood the issue you are seeing.
->>
->> I can see that they are actually copied indeed, but it doesn't find
->> them...
->> The file /tmp/tmp.v9LU9ccpbl mentioned above is empty.
->>
->>> But looking at the code, I can definitely do some minor tweaks in this
->>> area .. I'm just trying to get the reproducer nailed down.
->>
->> I can try to create one for you if you prefer tomorrow, rather than
->> wasting
->> your time with this, if you don't get any further?
->
-> I was able to trigger a similar trap to the above. And yes, it was sort
-> of working by luck before.
+Upgrade sysstat from 11.3.5 to 11.4.0.
 
-I spoke too soon. The error that I was able to trigger was valid,
-and in fact, when I tried the same test on krogoth it also failed
-there as well.
+Signed-off-by: Wang Xin <wangxin2015.fnst@cn.fujitsu.com>
+---
+ .../recipes-extended/sysstat/{sysstat_11.3.5.bb => sysstat_11.4.0.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-extended/sysstat/{sysstat_11.3.5.bb => sysstat_11.4.0.bb} (53%)
 
-So there is something I still don't have right in the two layers to
-trigger the same scenario you are seeing.
+diff --git a/meta/recipes-extended/sysstat/sysstat_11.3.5.bb b/meta/recipes-extended/sysstat/sysstat_11.4.0.bb
+similarity index 53%
+rename from meta/recipes-extended/sysstat/sysstat_11.3.5.bb
+rename to meta/recipes-extended/sysstat/sysstat_11.4.0.bb
+index 0dfeea3..69f83fc 100644
+--- a/meta/recipes-extended/sysstat/sysstat_11.3.5.bb
++++ b/meta/recipes-extended/sysstat/sysstat_11.4.0.bb
+@@ -4,5 +4,5 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=a23a74b3f4caf9616230789d94217acb"
+ 
+ SRC_URI += "file://0001-Include-needed-headers-explicitly.patch"
+ 
+-SRC_URI[md5sum] = "be990a83663e419e7d46eaf6e43103e9"
+-SRC_URI[sha256sum] = "aa06ab8132d618ed7737346ac882732d54c9f2956f6ab3c9d36657c5e1923709"
++SRC_URI[md5sum] = "ee7b8c0b139a11a7a3418dc0658ca1be"
++SRC_URI[sha256sum] = "b8518ca88acfcbc474a406022ee9c0c3210ccef4f0ec80e5b3e8c41dda8c16f2"
+-- 
+2.7.4
 
-If you could do that mock up, it would help immensely.
 
-Also, if you are open to changing the layer structure a bit, I could
-always suggest a new way to organize things.
-
-Cheers,
-
-Bruce
-
->
-> I need to stare at this for a few hours and figure out the right way to
-> restore similar behaviour. But now .. sleep.
->
-> Cheers,
->
-> Bruce
->
->>
->>
->> Andre'
->>
->
 
 
