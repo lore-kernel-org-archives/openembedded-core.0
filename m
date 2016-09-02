@@ -1,25 +1,25 @@
 Return-Path: <Zubair.Kakakhel@imgtec.com>
 Received: from mailapp01.imgtec.com (mailapp01.imgtec.com [195.59.15.196])
-	by mail.openembedded.org (Postfix) with ESMTP id CBC8D7713E
+	by mail.openembedded.org (Postfix) with ESMTP id CD92577142
 	for <openembedded-core@lists.openembedded.org>;
 	Fri,  2 Sep 2016 16:17:30 +0000 (UTC)
 Received: from HHMAIL01.hh.imgtec.org (unknown [10.100.10.19])
-	by Forcepoint Email with ESMTPS id 1E646DE1CBEE9
+	by Forcepoint Email with ESMTPS id 311D32DE7232D
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  2 Sep 2016 17:01:50 +0100 (IST)
+	Fri,  2 Sep 2016 17:01:48 +0100 (IST)
 Received: from zkakakhel-linux.le.imgtec.org (192.168.154.45) by
 	HHMAIL01.hh.imgtec.org (10.100.10.21) with Microsoft SMTP Server (TLS)
-	id 14.3.294.0; Fri, 2 Sep 2016 17:01:52 +0100
+	id 14.3.294.0; Fri, 2 Sep 2016 17:01:50 +0100
 From: Zubair Lutfullah Kakakhel <Zubair.Kakakhel@imgtec.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 2 Sep 2016 17:01:42 +0100
-Message-ID: <1472832102-8067-5-git-send-email-Zubair.Kakakhel@imgtec.com>
+Date: Fri, 2 Sep 2016 17:01:39 +0100
+Message-ID: <1472832102-8067-2-git-send-email-Zubair.Kakakhel@imgtec.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <1472832102-8067-1-git-send-email-Zubair.Kakakhel@imgtec.com>
 References: <1472832102-8067-1-git-send-email-Zubair.Kakakhel@imgtec.com>
 MIME-Version: 1.0
 X-Originating-IP: [192.168.154.45]
-Subject: [PATCH 4/4] valgrind: Disable for MIPS Soft Float
+Subject: [PATCH 1/4] packagegroup-core-sdk: Disable sanitizers for mipsel
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,29 +35,25 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Fri, 02 Sep 2016 16:17:31 -0000
 Content-Type: text/plain
 
-Valgrind doesn't build for MIPS soft float. Disable the build until
-the package has support for it.
+These are not available on mipsel yet, so disable them.
 
 Signed-off-by: Zubair Lutfullah Kakakhel <Zubair.Kakakhel@imgtec.com>
 ---
- meta/recipes-devtools/valgrind/valgrind_3.11.0.bb | 4 ++++
- 1 file changed, 4 insertions(+)
+ meta/recipes-core/packagegroups/packagegroup-core-sdk.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-devtools/valgrind/valgrind_3.11.0.bb b/meta/recipes-devtools/valgrind/valgrind_3.11.0.bb
-index 13354f4..3d49131 100644
---- a/meta/recipes-devtools/valgrind/valgrind_3.11.0.bb
-+++ b/meta/recipes-devtools/valgrind/valgrind_3.11.0.bb
-@@ -38,6 +38,10 @@ COMPATIBLE_HOST_armv4 = 'null'
- COMPATIBLE_HOST_armv5 = 'null'
- COMPATIBLE_HOST_armv6 = 'null'
- 
-+# valgrind doesn't like mips soft float
-+COMPATIBLE_HOST_mips = "${@bb.utils.contains("TARGET_FPU", "soft", "null", "mips-poky-linux", d)}"
-+COMPATIBLE_HOST_mipsel = "${@bb.utils.contains("TARGET_FPU", "soft", "null", "mipsel-poky-linux", d)}"
-+
- inherit autotools ptest
- 
- EXTRA_OECONF = "--enable-tls --without-mpicc"
+diff --git a/meta/recipes-core/packagegroups/packagegroup-core-sdk.bb b/meta/recipes-core/packagegroups/packagegroup-core-sdk.bb
+index ea07e98..aceba78 100644
+--- a/meta/recipes-core/packagegroups/packagegroup-core-sdk.bb
++++ b/meta/recipes-core/packagegroups/packagegroup-core-sdk.bb
+@@ -29,6 +29,7 @@ RDEPENDS_packagegroup-core-sdk = "\
+ SANITIZERS = "libasan-dev libubsan-dev"
+ SANITIZERS_aarch64 = ""
+ SANITIZERS_mips = ""
++SANITIZERS_mipsel = ""
+ SANITIZERS_mips64 = ""
+ SANITIZERS_mips64n32 = ""
+ SANITIZERS_nios2 = ""
 -- 
 1.9.1
 
