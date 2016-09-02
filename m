@@ -1,30 +1,29 @@
-Return-Path: <wangxin2015.fnst@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
-	by mail.openembedded.org (Postfix) with ESMTP id B9C86731AE
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 27D8B77041
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  2 Sep 2016 05:11:45 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.22,518,1449504000"; d="scan'208";a="10537978"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 02 Sep 2016 13:11:37 +0800
-Received: from G08CNEXCHPEKD02.g08.fujitsu.local (unknown [10.167.33.83])
-	by cn.fujitsu.com (Postfix) with ESMTP id 626D0403C868
-	for <openembedded-core@lists.openembedded.org>;
-	Fri,  2 Sep 2016 13:11:35 +0800 (CST)
-Received: from ubuntu.g08.fujitsu.local (10.167.226.120) by
-	G08CNEXCHPEKD02.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.279.2; Fri, 2 Sep 2016 13:11:35 +0800
-From: Wang Xin <wangxin2015.fnst@cn.fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 2 Sep 2016 01:11:32 -0400
-Message-ID: <1472793092-1371-1-git-send-email-wangxin2015.fnst@cn.fujitsu.com>
-X-Mailer: git-send-email 1.9.1
+	Fri,  2 Sep 2016 05:18:38 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u825IWHe004243
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 1 Sep 2016 22:18:32 -0700 (PDT)
+Received: from [128.224.162.240] (128.224.162.240) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.248.2;
+	Thu, 1 Sep 2016 22:18:32 -0700
+To: =?UTF-8?Q?Andr=c3=a9_Draszik?= <git@andred.net>
+References: <20160826103152.6211-1-git@andred.net>
+	<95e22ec6-7453-6a40-8359-37cdde69dd20@windriver.com>
+	<1472745847.27417.49.camel@andred.net>
+From: Robert Yang <liezhi.yang@windriver.com>
+Message-ID: <2d19df33-e988-522c-b96c-8b83c4356acf@windriver.com>
+Date: Fri, 2 Sep 2016 13:18:30 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.2.0
 MIME-Version: 1.0
-X-Originating-IP: [10.167.226.120]
-X-yoursite-MailScanner-ID: 626D0403C868.A4887
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: wangxin2015.fnst@cn.fujitsu.com
-X-Spam-Status: No
-Subject: [PATCH] sysstat: 11.3.5 -> 11.4.0
+In-Reply-To: <1472745847.27417.49.camel@andred.net>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/3] libnl: fix packaging mistakes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,35 +36,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 02 Sep 2016 05:11:49 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 02 Sep 2016 05:18:39 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Upgrade sysstat from 11.3.5 to 11.4.0.
+Hi André,
 
-Signed-off-by: Wang Xin <wangxin2015.fnst@cn.fujitsu.com>
----
- .../recipes-extended/sysstat/{sysstat_11.3.5.bb => sysstat_11.4.0.bb} | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-extended/sysstat/{sysstat_11.3.5.bb => sysstat_11.4.0.bb} (53%)
+The autobuilder still gets errors on this, I will send a patch for it now.
 
-diff --git a/meta/recipes-extended/sysstat/sysstat_11.3.5.bb b/meta/recipes-extended/sysstat/sysstat_11.4.0.bb
-similarity index 53%
-rename from meta/recipes-extended/sysstat/sysstat_11.3.5.bb
-rename to meta/recipes-extended/sysstat/sysstat_11.4.0.bb
-index 0dfeea3..69f83fc 100644
---- a/meta/recipes-extended/sysstat/sysstat_11.3.5.bb
-+++ b/meta/recipes-extended/sysstat/sysstat_11.4.0.bb
-@@ -4,5 +4,5 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=a23a74b3f4caf9616230789d94217acb"
- 
- SRC_URI += "file://0001-Include-needed-headers-explicitly.patch"
- 
--SRC_URI[md5sum] = "be990a83663e419e7d46eaf6e43103e9"
--SRC_URI[sha256sum] = "aa06ab8132d618ed7737346ac882732d54c9f2956f6ab3c9d36657c5e1923709"
-+SRC_URI[md5sum] = "ee7b8c0b139a11a7a3418dc0658ca1be"
-+SRC_URI[sha256sum] = "b8518ca88acfcbc474a406022ee9c0c3210ccef4f0ec80e5b3e8c41dda8c16f2"
--- 
-2.7.4
+// Robert
 
-
-
+On 09/02/2016 12:04 AM, André Draszik wrote:
+> On Do, 2016-09-01 at 16:19 +0800, Robert Yang wrote:
+>> It seems that this series cause errors when multilib:
+>>
+>> https://autobuilder.yoctoproject.org/main/builders/nightly-multilib/builds
+>> /930/steps/BuildImages_2/logs/stdio
+>>
+>> // Robert
+>
+> Thanks Robert. I didn't get a chance to look at this today. But tomorrow!
+>
+> Andre'
+>
+>
 
