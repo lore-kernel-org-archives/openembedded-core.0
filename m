@@ -1,62 +1,58 @@
-Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-ua0-f180.google.com (mail-ua0-f180.google.com
-	[209.85.217.180])
-	by mail.openembedded.org (Postfix) with ESMTP id 5DBA87710C
+Return-Path: <enrico.scholz@sigma-chemnitz.de>
+Received: from mail.cvg.de (mail.cvg.de [62.153.82.30])
+	by mail.openembedded.org (Postfix) with ESMTP id BC4E67325A
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  2 Sep 2016 12:34:32 +0000 (UTC)
-Received: by mail-ua0-f180.google.com with SMTP id l94so176544413ual.0
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 02 Sep 2016 05:34:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
-	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
-	:cc; bh=IQaf6q61yjXMFeG1oII3FVDmdh0y+duRa+9i2RAZ5CA=;
-	b=TKx5uI5lhEoW8G8jA/1z7mrJ9qS63d9o7wVoWCAyLreSPUTP1pTtU5zosr2LmLwP7e
-	EE25S6aCy1PIx3i5BbMTo9H8y5rEqXPlPcjFqmN1lkL8tSYSTJCZS8i2ZY29FhtRcF5E
-	5kWVPVL7CO5votFwMvyqEt5ml1r5fQg4dfA+r2/l89NsPXzUzKFdDSCaL0CyjamudfiJ
-	pyokDcKiHc3FlNbZMYUJWIMyRx9O1b2+iQOHKSc5D/V+1UiW5D7VrUjc8E6EZssCrV50
-	ywdA+ysysfHMm42q6a2goUic9yLOfl7MRaTRkC+BjDHSwd2+nRUbDgd1AqwxS4V2Sv4R
-	sL2w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
-	:message-id:subject:to:cc;
-	bh=IQaf6q61yjXMFeG1oII3FVDmdh0y+duRa+9i2RAZ5CA=;
-	b=O5KWsmXAVwSd+Bs4ZCb1l+R1vzhba1dG6xMIIlzQDQTQ5u5aI/M1xupvT84hrS38Tp
-	hWbmBOFJkefSIdcxJ8wwJfZQpMz0WwysG+CjIK3wHINlUyarHXhjC0SyM+JVVGP0hJke
-	cs+VtwI2pljlVSZb8xNuGdFbvfP5zBaNjeBUbdQ0eJ+0Fv2Wb+C34osLCDkT5lX3I3xS
-	dBnw/dSOXqDE4Xso6RVH0lsXQIP0raJiqJG2zx1CuP/+ygVL/cgHkgX/7itSX8vjOv9Q
-	JhI3Z2/k/XEI4sbwcJr9O7i4msLVakxaQR/yPD8U1Lh5dTRhv5uTBysRc9crQuqUfD0R
-	t0Rg==
-X-Gm-Message-State: AE9vXwPq9q+og8G4EaET/5VDYD5pkert9DomkBCzB9/IeELRhKX1l/IiD9D9ukTVC+iA3g==
-X-Received: by 10.176.4.85 with SMTP id 79mr4546653uav.129.1472819672669;
-	Fri, 02 Sep 2016 05:34:32 -0700 (PDT)
-Received: from mail-vk0-f46.google.com (mail-vk0-f46.google.com.
-	[209.85.213.46])
-	by smtp.gmail.com with ESMTPSA id w66sm776494vkw.13.2016.09.02.05.34.31
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 02 Sep 2016 05:34:31 -0700 (PDT)
-From: Otavio Salvador <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by mail-vk0-f46.google.com with SMTP id v189so21805339vkv.1
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 02 Sep 2016 05:34:31 -0700 (PDT)
-X-Received: by 10.31.161.137 with SMTP id k131mr12732487vke.122.1472819670786; 
-	Fri, 02 Sep 2016 05:34:30 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.31.154.68 with HTTP; Fri, 2 Sep 2016 05:34:29 -0700 (PDT)
-In-Reply-To: <CAJTo0LafVEqcVF02+naw8JvbzF2fi2y+Ws=OH0+=OgAyDNSt1A@mail.gmail.com>
+	Fri,  2 Sep 2016 12:43:31 +0000 (UTC)
+Received: from mail-mta-0.intern.sigma-chemnitz.de
+	(mail-mta-0.intern.sigma-chemnitz.de [192.168.12.76])
+	by mailout-1.intern.sigma-chemnitz.de (8.14.7/8.14.7) with ESMTP id
+	u82ChPuV013422
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256
+	verify=OK) for <openembedded-core@lists.openembedded.org>;
+	Fri, 2 Sep 2016 14:43:25 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sigma-chemnitz.de;
+	s=v2012061000; t=1472820206;
+	bh=P8rPevg5AZVRpLVdFv9c6YJEdXbOzdR1qW0G3P5IVm0=;
+	h=From:To:Cc:Subject:References:Date:In-Reply-To:Message-ID:
+	MIME-Version:Content-Type:Sender;
+	b=JtOLuym6ROsgbKWvCdn0ZPXJD550VyIDGCTL23vswzfYwfy59ZfQVeYG2HIUH3hqn
+	7e/6OyLiF/wQhmCIiYd4fo8Gm54G8Jo1t42lukvglhsuKWa6HQUOIHCogNW1T10OpR
+	ROgzyu+yhD1rZ3o/jSlk0V03c6CHB63cjGhA+8DU=
+Received: from reddoxx.intern.sigma-chemnitz.de
+	(reddoxx.intern.sigma-chemnitz.de [192.168.0.193])
+	by mail-mta-0.intern.sigma-chemnitz.de (8.14.7/8.14.7) with ESMTP id
+	u82Ch4dm019976 for <openembedded-core@lists.openembedded.org> from
+	enrico.scholz@sigma-chemnitz.de; Fri, 2 Sep 2016 14:43:05 +0200
+Received: from mail-msa-0.intern.sigma-chemnitz.de ( [192.168.12.77]) by
+	reddoxx.intern.sigma-chemnitz.de
+	(Reddoxx engine) with SMTP id 91047CE8DDB;
+	Fri, 2 Sep 2016 14:42:40 +0200
+Received: from ensc-virt.intern.sigma-chemnitz.de
+	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
+	by mail-msa-0.intern.sigma-chemnitz.de (8.14.7/8.14.7) with ESMTP id
+	u82Ch33k019973
+	(version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
+	Fri, 2 Sep 2016 14:43:03 +0200
+Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
+	4.86_2) (envelope-from <ensc@sigma-chemnitz.de>)
+	id 1bfnoF-00012j-BF; Fri, 02 Sep 2016 14:43:03 +0200
+From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+To: "Burton\, Ross" <ross.burton@intel.com>
 References: <lya8ftx7w4.fsf@ensc-virt.intern.sigma-chemnitz.de>
 	<1472662673.29583.90.camel@linuxfoundation.org>
 	<ly60qgxzp3.fsf@ensc-virt.intern.sigma-chemnitz.de>
 	<CAJTo0LafVEqcVF02+naw8JvbzF2fi2y+Ws=OH0+=OgAyDNSt1A@mail.gmail.com>
-Date: Fri, 2 Sep 2016 09:34:29 -0300
-X-Gmail-Original-Message-ID: <CAP9ODKrUAz1dNOZQhVxf6JqaV+g89gzfuzd7pMSiWwkDtsGkwA@mail.gmail.com>
-Message-ID: <CAP9ODKrUAz1dNOZQhVxf6JqaV+g89gzfuzd7pMSiWwkDtsGkwA@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>,
-	OE-core <openembedded-core@lists.openembedded.org>
+Date: Fri, 02 Sep 2016 14:43:03 +0200
+In-Reply-To: <CAJTo0LafVEqcVF02+naw8JvbzF2fi2y+Ws=OH0+=OgAyDNSt1A@mail.gmail.com>
+	(Ross Burton's message of "Fri, 2 Sep 2016 12:56:40 +0100")
+Message-ID: <ly1t12xyjs.fsf@ensc-virt.intern.sigma-chemnitz.de>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/25.0.95 (gnu/linux)
+MIME-Version: 1.0
+Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+X-Spam-Score: -0.8
+X-Spam-Tests: AWL,BAYES_00,DKIM_ADSP_ALL,RP_MATCHES_RCVD,SPF_NEUTRAL
+X-Scanned-By: MIMEDefang 2.78
+Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: Replacement for tslib?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -70,30 +66,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 02 Sep 2016 12:34:35 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 02 Sep 2016 12:43:33 -0000
+Content-Type: text/plain
 
-On Fri, Sep 2, 2016 at 8:56 AM, Burton, Ross <ross.burton@intel.com> wrote:
->
-> On 1 September 2016 at 00:53, Enrico Scholz
-> <enrico.scholz@sigma-chemnitz.de> wrote:
->>
->> I am not aware of any way how /dev/input/eventX values can be calibrated
->> within the kernel.
->>
->> Most capacitive touchscreens are doing this calibration in hardware
->> so that values correspond 1:1 to screen coordinates.  But resistive
->> touchscreens return usually only the raw 10-12 bit ADC values in
->> ABS_X/Y.
->
->
-> tslib is still available in meta-oe, or I'd suggest looking at libinput.
+"Burton, Ross" <ross.burton@intel.com> writes:
 
-The biggest problem with libinput at this moment is the lack of an
-utility to calibrate it.
+> tslib is still available in meta-oe,
 
--- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+really?  In fef7b1feb79c7b43623760e2cdf4e68bd0dbd526, a
+
+| find -name '*tslib*'
+
+returns only xf86-input-tslib, but not plain tslib.
+
+
+Enrico
 
