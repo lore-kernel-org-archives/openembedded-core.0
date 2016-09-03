@@ -1,41 +1,31 @@
-Return-Path: <andre.draszik@gmail.com>
-Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 725E17716E
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 6F47377112
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  3 Sep 2016 00:12:37 +0000 (UTC)
-Received: by mail-wm0-f68.google.com with SMTP id v143so4748286wmv.1
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 02 Sep 2016 17:12:38 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=PJ/VOrAV1EqCV06dv8nl09/2eBjshRLahGkwH8I9a5I=;
-	b=iQC8rnJ+r/z8R9JCCLeI0IKK0HTnv32XVISBgZpilRENQi2TKyElTONWdctNFVXnOY
-	jhSBCGTGJiXb2tNr/yxBaEixBahafjbkU3bU3FReJKGGDnwFeLM4jzJ+WR86kVv1JhgH
-	/neZqG9k1xpbF52P6A7/621BRcyQA8fypQTteMoP0haBBZm53yrRv0TLXIgyLSdFVNQi
-	EPO8DPSQ8Ii8gNVY70I7y9ipHXz9zd+dr5dLyxWVkCWYvQz+edcIAHKPJD3RneoYsr7c
-	77grB9wdV69RL0Q+pGUAIQTArIPy+12xWZmGZJ8p/u0czkS9ZKMCVAqA4xzTFGBvWS8A
-	uwyQ==
-X-Gm-Message-State: AE9vXwNddLhMk7rso4ijy4LNTCFH7zDbZwqClchJvFi/+r4Jwq1WO/ugaShcINxqzEXEhg==
-X-Received: by 10.194.117.104 with SMTP id kd8mr4493836wjb.113.1472861557255; 
-	Fri, 02 Sep 2016 17:12:37 -0700 (PDT)
-Received: from tfsielt31850.tycofs.com (31-187-15-27.dynamic.upc.ie.
-	[31.187.15.27]) by smtp.gmail.com with ESMTPSA id
-	a3sm12765902wjw.15.2016.09.02.17.12.36
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 02 Sep 2016 17:12:36 -0700 (PDT)
-From: =?UTF-8?q?Andr=C3=A9=20Draszik?= <git@andred.net>
-To: openembedded-core@lists.openembedded.org
-Date: Sat,  3 Sep 2016 01:12:22 +0100
-Message-Id: <20160903001222.2864-4-git@andred.net>
-X-Mailer: git-send-email 2.9.3
-In-Reply-To: <20160903001222.2864-1-git@andred.net>
-References: <20160829110341.13100-1-git@andred.net>
-	<20160903001222.2864-1-git@andred.net>
+	Sat,  3 Sep 2016 02:29:28 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u832T8HJ014717
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Fri, 2 Sep 2016 19:29:09 -0700 (PDT)
+Received: from [128.224.162.240] (128.224.162.240) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.248.2;
+	Fri, 2 Sep 2016 19:29:08 -0700
+To: =?UTF-8?Q?Andr=c3=a9_Draszik?= <git@andred.net>
+References: <cover.1472794137.git.liezhi.yang@windriver.com>
+	<b506d54a2cb91ebf6e166775b9f05c0311c650d0.1472794137.git.liezhi.yang@windriver.com>
+	<1472804818.9440.14.camel@andred.net>
+	<4c8005dd-65b2-145d-86aa-5470cd21b2e8@windriver.com>
+	<1472815640.9440.45.camel@andred.net>
+From: Robert Yang <liezhi.yang@windriver.com>
+Message-ID: <d78d1ee3-4b8c-9430-648f-cceb4764b8c5@windriver.com>
+Date: Sat, 3 Sep 2016 10:29:07 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.2.0
 MIME-Version: 1.0
-Subject: [PATCH v3 3/3] boost: fix MIPS16e compilation
+In-Reply-To: <1472815640.9440.45.camel@andred.net>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/1] libnl: remove RREPLACES and RCONFLICTS for libnl-genl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,100 +38,81 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 03 Sep 2016 00:12:37 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Sat, 03 Sep 2016 02:29:31 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Transfer-Encoding: 8bit
 
-Backport upstream patch to use g++ 4.1+ __sync intrinsics
-instead of incompatible hand-written assembly when
-compiling for MIPS16e
 
-Upstream-Status: Backport https://svn.boost.org/trac/boost/ticket/12418
 
-Signed-off-by: André Draszik <git@andred.net>
----
- ...ips-assembly-doesn-t-compile-in-mips16e-m.patch | 60 ++++++++++++++++++++++
- meta/recipes-support/boost/boost_1.61.0.bb         |  1 +
- 2 files changed, 61 insertions(+)
- create mode 100644 meta/recipes-support/boost/boost/0003-smart_ptr-mips-assembly-doesn-t-compile-in-mips16e-m.patch
+On 09/02/2016 07:27 PM, André Draszik wrote:
+> On Fr, 2016-09-02 at 17:53 +0800, Robert Yang wrote:
+>> Good questions, the libnl-genl2 in provides is introduced by
+>> REPLACES_${PN}-genl = "libnl-genl2", so libnl-genl2 should be preserved.
+>> And there was no libnl-genl.rpm in the past, but libnl-3-genl.rpm,
+>> please see commit message for more info.
+>>
+>> Here is the updated patch:
+>>
+>>    git://git.openembedded.org/openembedded-core-contrib rbt/libnl
+>>    http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=
+>> rbt/libnl
+>>
+>> Robert Yang (1):
+>>    libnl: fix RREPLACES and RCONFLICTS for libnl-genl
+>>
+>>
+>> Subject: [PATCH 1/1] libnl: fix RREPLACES and RCONFLICTS for libnl-genl
+>>
+>> The libnl-genl.rpm provides libnl-genl-3-200 after the following 2 fixes:
+>> libnl: update to v3.2.28
+>> libnl: fix packaging mistakes
+>>
+>> $ rpm -qp --provides
+>> tmp/deploy/rpm/core2_64/libnl-genl-3-200-3.2.28-r0.4.core2_64.rpm
+>> elf(buildid) = 4e753b2361ba0b02f162244a87cc0680796e46cc
+>> libnl-genl = 3.2.28
+>> libnl-genl-3.so.200()(64bit)
+>> libnl-genl-3.so.200(libnl_3)(64bit)
+>> libnl-genl2
+>> libnl-genl-3-200 = 1:3.2.28-r0.4
+>>
+>> Note, the libnl-genl2 is introduced by REPLACES_${PN}-genl = "libnl-
+>> genl2".
+>
+> Ah, ok. And so is the last line, libnl-genl-3-200, I suppose. (The IPK
+> backend doesn't seem to do that)
+>
+>> So that we don't need set libnl-genl-3-200 in the RREPLACES and
+>> RCONFLICTS, otherwise it would cause do_rootfs errors when install both
+>> libnl-genl.rpm and lib32-libnl-genl.rpm:
+>>
+>> Computing transaction...error: Can't install
+>> libnl-genl-3-200-1:3.2.28-r0.0@core2_64: conflicted package
+>> libnl-genl-3-200-1:3.2.28-r0.0@lib32_x86 is locked
+>>
+>> We didn't meet this error before was because there was no libnl-genl.rpm,
+>                                                             ^^^^^^^^^^^^^^^
+> Should that be libnl-genl-3-200.rpm ?
+>
+>> but libnl-3-genl.rpm, and it doesn't provide libnl-genl-3-200 by default.
+>
+> OK.
+>
+> So now that there is nothing in ${bindir} of the -genl package anymore, it
+> applies the normal package renaming using the SONAME, resulting in libnl-
+> genl-3-200.
+>
+> Whereas previously it used ${PN}-genl as package name, where PN was set to
+> libnl-3 during package creation. Why was it libnl-3 (why did it not use
+> libnl-3-200 as prefix)?
 
-diff --git a/meta/recipes-support/boost/boost/0003-smart_ptr-mips-assembly-doesn-t-compile-in-mips16e-m.patch b/meta/recipes-support/boost/boost/0003-smart_ptr-mips-assembly-doesn-t-compile-in-mips16e-m.patch
-new file mode 100644
-index 0000000..2b48d0d
---- /dev/null
-+++ b/meta/recipes-support/boost/boost/0003-smart_ptr-mips-assembly-doesn-t-compile-in-mips16e-m.patch
-@@ -0,0 +1,60 @@
-+From 4f19d72ca94418431e068cfd4ffb96ed9b289f6c Mon Sep 17 00:00:00 2001
-+From: =?UTF-8?q?Andr=C3=A9=20Draszik?= <adraszik@tycoint.com>
-+Date: Wed, 24 Aug 2016 17:34:59 +0100
-+Subject: [PATCH 3/4] smart_ptr: mips assembly doesn't compile in mips16e mode
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=UTF-8
-+Content-Transfer-Encoding: 8bit
-+
-+gcc.compile.c++ <builddir>/boost/bin.v2/libs/date_time/build/gcc-4.3.1/release/threading-multi/gregorian/greg_month.o
-+
-+    "mipsel-poky-linux-musl-g++" "-mel" "-mabi=32" "-msoft-float" "-march=mips32r2" "-mips16" "-minterlink-compressed" "-mtune=24kec" "-mdsp" "-Wl,-O1" "-Wl,--as-needed" "-fstack-protector-strong" "-Wl,-z,relro,-z,now" "--sysroot=<sysroot>"  -ftemplate-depth-128 -O2 -pipe -g -feliminate-unused-debug-types -fdebug-prefix-map=<srcdir>=/usr/src/debug/boost/1.61.0-r0 -fdebug-prefix-map=<sysroot_host>= -fdebug-prefix-map=<sysroot>= -fstack-protector-strong -pie -fpie -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -fvisibility-inlines-hidden -O3 -finline-functions -Wno-inline -Wall -pthread -fPIC  -DBOOST_ALL_DYN_LINK=1 -DBOOST_ALL_NO_LIB=1 -DDATE_TIME_INLINE -DNDEBUG  -I"." -c -o "<builddir>/boost/bin.v2/libs/date_time/build/gcc-4.3.1/release/threading-multi/gregorian/greg_month.o" "libs/date_time/src/gregorian/greg_month.cpp"
-+
-+{standard input}: Assembler messages:
-+{standard input}:17603: Warning: the `dsp' extension requires MIPS32 revision 2 or greater
-+{standard input}:17604: Error: unrecognized opcode `ll $3,4($16)'
-+{standard input}:17606: Error: unrecognized opcode `sc $2,4($16)'
-+{standard input}:17734: Error: unrecognized opcode `ll $3,8($16)'
-+{standard input}:17736: Error: unrecognized opcode `sc $2,8($16)'
-+{standard input}:18084: Error: unrecognized opcode `ll $3,4($4)'
-+{standard input}:18086: Error: unrecognized opcode `sc $2,4($4)'
-+{standard input}:18318: Error: unrecognized opcode `ll $3,8($4)'
-+{standard input}:18320: Error: unrecognized opcode `sc $2,8($4)'
-+{standard input}:19921: Error: unrecognized opcode `ll $3,4($2)'
-+{standard input}:19923: Error: unrecognized opcode `sc $3,4($2)'
-+{standard input}:20199: Error: unrecognized opcode `ll $4,4($16)'
-+{standard input}:20201: Error: unrecognized opcode `sc $2,4($16)'
-+{standard input}:23392: Error: unrecognized opcode `ll $4,8($16)'
-+{standard input}:23394: Error: unrecognized opcode `sc $2,8($16)'
-+...failed updating 1 target...
-+
-+boost/smart_ptr/detail/sp_counted_base_gcc_mips.hpp
-+contains hand-written MIPS assembly, which is not compatible
-+with the MIPS16e instruction set.
-+
-+By not using this file in MIPS16e mode, we fallback to using
-+g++ 4.1+ __sync intrinsics (__sync_fetch_and_add() and
-+__sync_val_compare_and_swap()) which are working fine.
-+
-+Signed-off-by: André Draszik <adraszik@tycoint.com>
-+---
-+Upstream-Status: Backport https://svn.boost.org/trac/boost/ticket/12418
-+ boost/smart_ptr/detail/sp_counted_base.hpp | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/boost/smart_ptr/detail/sp_counted_base.hpp b/boost/smart_ptr/detail/sp_counted_base.hpp
-+index 0addf07..0995ca8 100644
-+--- a/boost/smart_ptr/detail/sp_counted_base.hpp
-++++ b/boost/smart_ptr/detail/sp_counted_base.hpp
-+@@ -65,7 +65,7 @@
-+ #elif defined( __GNUC__ ) && ( defined( __powerpc__ ) || defined( __ppc__ ) || defined( __ppc ) ) && !defined(__PATHSCALE__) && !defined( _AIX )
-+ # include <boost/smart_ptr/detail/sp_counted_base_gcc_ppc.hpp>
-+ 
-+-#elif defined( __GNUC__ ) && ( defined( __mips__ ) || defined( _mips ) ) && !defined(__PATHSCALE__)
-++#elif defined( __GNUC__ ) && ( defined( __mips__ ) || defined( _mips ) ) && !defined(__PATHSCALE__) && !defined( __mips16 )
-+ # include <boost/smart_ptr/detail/sp_counted_base_gcc_mips.hpp>
-+ 
-+ #elif defined( BOOST_SP_HAS_SYNC )
-+-- 
-+2.9.3
-+
-diff --git a/meta/recipes-support/boost/boost_1.61.0.bb b/meta/recipes-support/boost/boost_1.61.0.bb
-index de482ee..6926e84 100644
---- a/meta/recipes-support/boost/boost_1.61.0.bb
-+++ b/meta/recipes-support/boost/boost_1.61.0.bb
-@@ -7,4 +7,5 @@ SRC_URI += "\
-     file://boost-CVE-2012-2677.patch \
-     file://0001-boost-asio-detail-socket_types.hpp-fix-poll.h-includ.patch \
-     file://0002-boost-test-execution_monitor.hpp-fix-mips-soft-float.patch \
-+    file://0003-smart_ptr-mips-assembly-doesn-t-compile-in-mips16e-m.patch \
- "
--- 
-2.9.3
+The rename is done by debian.bbclass, you can take a look into it.
 
+// Robert
+
+>
+> Cheers,
+> Andre'
+>
+>
 
