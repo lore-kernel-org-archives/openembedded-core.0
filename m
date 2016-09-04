@@ -1,30 +1,22 @@
-Return-Path: <marex@denx.de>
-Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.9])
-	by mail.openembedded.org (Postfix) with ESMTP id 34499773B4
+Return-Path: <stefan@agner.ch>
+Received: from mail.kmu-office.ch (mail.kmu-office.ch [178.209.48.109])
+	by mail.openembedded.org (Postfix) with ESMTP id C61927725D
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  4 Sep 2016 16:28:39 +0000 (UTC)
-Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
-	by mail-out.m-online.net (Postfix) with ESMTP id 3sRyky506Lz3hjXT;
-	Sun,  4 Sep 2016 18:20:26 +0200 (CEST)
-Received: from localhost (dynscan1.mnet-online.de [192.168.6.68])
-	by mail.m-online.net (Postfix) with ESMTP id 3sRyky4ksDzvkGP;
-	Sun,  4 Sep 2016 18:20:26 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at mnet-online.de
-Received: from mail.mnet-online.de ([192.168.8.182])
-	by localhost (dynscan1.mail.m-online.net [192.168.6.68]) (amavisd-new,
-	port 10024)
-	with ESMTP id duDM9Le6gXng; Sun,  4 Sep 2016 18:20:25 +0200 (CEST)
-X-Auth-Info: HjS6Ap+yxZIU62+kS4R+pXdYff7xlQAYYUHqF9kDz7E=
-Received: from chi.lan (unknown [195.140.253.167])
-	by mail.mnet-online.de (Postfix) with ESMTPA;
-	Sun,  4 Sep 2016 18:20:25 +0200 (CEST)
-From: Marek Vasut <marex@denx.de>
+	Sun,  4 Sep 2016 20:26:09 +0000 (UTC)
+Received: from trochilidae.toradex.int (unknown
+	[IPv6:2601:602:8802:504f:3e97:eff:fe92:db3b])
+	by mail.kmu-office.ch (Postfix) with ESMTPSA id 8AED65C0644;
+	Sun,  4 Sep 2016 22:21:00 +0200 (CEST)
+From: Stefan Agner <stefan@agner.ch>
 To: openembedded-core@lists.openembedded.org
-Date: Sun,  4 Sep 2016 18:20:20 +0200
-Message-Id: <20160904162020.13197-1-marex@denx.de>
-X-Mailer: git-send-email 2.9.3
-Cc: Marek Vasut <marex@denx.de>
-Subject: [PATCH] libcap: Replace EXTRA_OECONF with PACKAGECONFIG_CONFARGS
+Date: Sun,  4 Sep 2016 13:25:55 -0700
+Message-Id: <20160904202555.30636-1-stefan@agner.ch>
+X-Mailer: git-send-email 2.9.0
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=agner.ch; s=dkim;
+	t=1473020461; bh=qt1NboPhGJPafb3iDpOJ9fESrEOyv1YdcxSJ4U+qDD8=;
+	h=From:To:Cc:Subject:Date:Message-Id;
+	b=hiiE7N5hwCAhtGABNZer1eP50+aJzZvbeLcBpurM4emnstO0A9J6pTUUrpCt9FCARmwOF1FoGSMRQByu50FXoB316YbQ+oNsRAasVRWCPLsBV1yfybi1i8kgzkysuPxX1plerMeK5rAMNJwL1hg9m5qrLaf/WVXp5CKbG1k8qgU=
+Subject: [PATCH] busybox: avoid circular dependency when using initramfs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,45 +29,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 04 Sep 2016 16:28:40 -0000
+X-List-Received-Date: Sun, 04 Sep 2016 20:26:13 -0000
 
-When building libcap and DISTRO_FEATURES does not contain pam,
-the build will fail on missing pam headers. This is because the
-bits from EXTRA_OECONF moved to PACKAGECONFIG_CONFARGS and thus
-the necessary options are not propagated to oe_runmake anymore.
-Replace EXTRA_OECONF with PACKAGECONFIG_CONFARGS to fix this.
+The kernel does not automatically mount devtmpfs when using initramfs
+based booting (even when using CONFIG_DEVTMPFS_MOUNT). If the rootfs
+is built with USE_DEVFS=1 (which is the default), the system ends up
+with a completely empty /dev to begin with.
 
-| arm-poky-linux-gnueabi-gcc  -march=armv7-a -mfpu=vfp  -mfloat-abi=softfp --sysroot=/b/tmp/sysroots/board  -O2 -pipe -g -feliminate-unused-debug-types -fdebug-prefix-map=/b/tmp/work/armv7a-vfp-poky-linux-gnueabi/libcap/2.25-r0=/usr/src/debug/libcap/2.25-r0 -fdebug-prefix-map=/b/tmp/sysroots/x86_64-linux= -fdebug-prefix-map=/b/tmp/sysroots/board=  -D_LARGEFILE64_SOURCE -D_FILE_OFFSET_BITS=64 -Dlinux -Wall -Wwrite-strings -Wpointer-arith -Wcast-qual -Wcast-align -Wstrict-prototypes -Wmissing-prototypes -Wnested-externs -Winline -Wshadow -g  -Dlinux -Wall -Wwrite-strings -Wpointer-arith -Wcast-qual -Wcast-align -Wstrict-prototypes -Wmissing-prototypes -Wnested-externs -Winline -Wshadow -g  -fPIC -I/b/tmp/work/armv7a-vfp-poky-linux-gnueabi/libcap/2.25-r0/libcap-2.25/pam_cap/../libcap/include/uapi -I/b/tmp/work/armv7a-vfp-poky-linux-gnueabi/libcap/2.25-r0/libcap-2.25/pam_cap/../libcap/include -c pam_cap.c -o pam_cap.o
-| pam_cap.c:19:34: fatal error: security/pam_modules.h: No such file or directory
-|  #include <security/pam_modules.h>
-|                                   ^
-| compilation terminated.
+Busybox uses the first entry in inittab slightly different than
+other init systems:
+<id>: WARNING: This field has a non-traditional meaning for BusyBox init!
 
-Signed-off-by: Marek Vasut <marex@denx.de>
+The id field is used by BusyBox init to specify the controlling tty for
+the specified process to run on.  The contents of this field are
+appended to "/dev/" and used as-is.
+
+Since /dev/null is not there yet, Busybox throws errors instead of
+executing the commands, and hence never mounts devtmpfs:
+init started: BusyBox v1.24.1 (2016-09-04 11:53:14 PDT)
+can't open /dev/null: No such file or directory
+can't open /dev/null: No such file or directory
+can't open /dev/null: No such file or directory
+can't open /dev/null: No such file or directory
+can't open /dev/null: No such file or directory
+can't open /dev/null: No such file or directory
+can't open /dev/null: No such file or directory
+
+Avoid this circular dependency by not specifing <id>. With that
+Busybox ends up using the stdio of the init process and executes
+the inittab just fine.
+
+Signed-off-by: Stefan Agner <stefan@agner.ch>
 ---
- meta/recipes-support/libcap/libcap_2.25.bb | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/recipes-core/busybox/files/inittab | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
-diff --git a/meta/recipes-support/libcap/libcap_2.25.bb b/meta/recipes-support/libcap/libcap_2.25.bb
-index 8f3f11e..7ced4be 100644
---- a/meta/recipes-support/libcap/libcap_2.25.bb
-+++ b/meta/recipes-support/libcap/libcap_2.25.bb
-@@ -47,12 +47,12 @@ EXTRA_OEMAKE_append_class-target = " SYSTEM_HEADERS=${STAGING_INCDIR}"
- CFLAGS += "-D_LARGEFILE64_SOURCE -D_FILE_OFFSET_BITS=64"
+diff --git a/meta/recipes-core/busybox/files/inittab b/meta/recipes-core/busybox/files/inittab
+index bfec4a7..2bc831c 100644
+--- a/meta/recipes-core/busybox/files/inittab
++++ b/meta/recipes-core/busybox/files/inittab
+@@ -1,13 +1,13 @@
+ # This is run first except when booting in single-user mode.
  
- do_compile() {
--	oe_runmake ${EXTRA_OECONF}
-+	oe_runmake ${PACKAGECONFIG_CONFARGS}
- }
+ # Startup the system
+-null::sysinit:/bin/mount -t proc proc /proc
+-null::sysinit:/bin/mount -t sysfs sysfs /sys
+-null::sysinit:/bin/mount -t devtmpfs devtmpfs /dev
+-null::sysinit:/bin/mount -o remount,rw /
+-null::sysinit:/bin/mkdir -p /dev/pts
+-null::sysinit:/bin/mount -t devpts devpts /dev/pts
+-null::sysinit:/bin/mount -a
++::sysinit:/bin/mount -t proc proc /proc
++::sysinit:/bin/mount -t sysfs sysfs /sys
++::sysinit:/bin/mount -t devtmpfs devtmpfs /dev
++::sysinit:/bin/mount -o remount,rw /
++::sysinit:/bin/mkdir -p /dev/pts
++::sysinit:/bin/mount -t devpts devpts /dev/pts
++::sysinit:/bin/mount -a
  
- do_install() {
- 	oe_runmake install \
--		${EXTRA_OECONF} \
-+		${PACKAGECONFIG_CONFARGS} \
- 		DESTDIR="${D}" \
- 		prefix="${prefix}" \
- 		SBINDIR="${sbindir}"
+ ::sysinit:/etc/init.d/rcS
+ 
 -- 
-2.9.3
+2.9.0
 
 
