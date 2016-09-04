@@ -1,30 +1,30 @@
 Return-Path: <marex@denx.de>
 Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.9])
-	by mail.openembedded.org (Postfix) with ESMTP id 912F17735A
+	by mail.openembedded.org (Postfix) with ESMTP id 34499773B4
 	for <openembedded-core@lists.openembedded.org>;
 	Sun,  4 Sep 2016 16:28:39 +0000 (UTC)
 Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
-	by mail-out.m-online.net (Postfix) with ESMTP id 3sRylR49vCz3hjXZ;
-	Sun,  4 Sep 2016 18:20:51 +0200 (CEST)
+	by mail-out.m-online.net (Postfix) with ESMTP id 3sRyky506Lz3hjXT;
+	Sun,  4 Sep 2016 18:20:26 +0200 (CEST)
 Received: from localhost (dynscan1.mnet-online.de [192.168.6.68])
-	by mail.m-online.net (Postfix) with ESMTP id 3sRylR3xnTzvkGP;
-	Sun,  4 Sep 2016 18:20:51 +0200 (CEST)
+	by mail.m-online.net (Postfix) with ESMTP id 3sRyky4ksDzvkGP;
+	Sun,  4 Sep 2016 18:20:26 +0200 (CEST)
 X-Virus-Scanned: amavisd-new at mnet-online.de
 Received: from mail.mnet-online.de ([192.168.8.182])
 	by localhost (dynscan1.mail.m-online.net [192.168.6.68]) (amavisd-new,
 	port 10024)
-	with ESMTP id Ce7I9CH65W1T; Sun,  4 Sep 2016 18:20:49 +0200 (CEST)
-X-Auth-Info: uq5uiLwkEHFqRGxDNQ1/NnqDXByUceJgZeMmrwgiI/o=
+	with ESMTP id duDM9Le6gXng; Sun,  4 Sep 2016 18:20:25 +0200 (CEST)
+X-Auth-Info: HjS6Ap+yxZIU62+kS4R+pXdYff7xlQAYYUHqF9kDz7E=
 Received: from chi.lan (unknown [195.140.253.167])
 	by mail.mnet-online.de (Postfix) with ESMTPA;
-	Sun,  4 Sep 2016 18:20:49 +0200 (CEST)
+	Sun,  4 Sep 2016 18:20:25 +0200 (CEST)
 From: Marek Vasut <marex@denx.de>
 To: openembedded-core@lists.openembedded.org
-Date: Sun,  4 Sep 2016 18:20:44 +0200
-Message-Id: <20160904162044.13263-1-marex@denx.de>
+Date: Sun,  4 Sep 2016 18:20:20 +0200
+Message-Id: <20160904162020.13197-1-marex@denx.de>
 X-Mailer: git-send-email 2.9.3
 Cc: Marek Vasut <marex@denx.de>
-Subject: [PATCH] u-boot: Set u-boot binary permissions to 0644
+Subject: [PATCH] libcap: Replace EXTRA_OECONF with PACKAGECONFIG_CONFARGS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,143 +39,42 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Sun, 04 Sep 2016 16:28:40 -0000
 
-The U-Boot binary is not an executable, it is a binary file,
-set it's permissions to 0644 instead of 0755.
+When building libcap and DISTRO_FEATURES does not contain pam,
+the build will fail on missing pam headers. This is because the
+bits from EXTRA_OECONF moved to PACKAGECONFIG_CONFARGS and thus
+the necessary options are not propagated to oe_runmake anymore.
+Replace EXTRA_OECONF with PACKAGECONFIG_CONFARGS to fix this.
+
+| arm-poky-linux-gnueabi-gcc  -march=armv7-a -mfpu=vfp  -mfloat-abi=softfp --sysroot=/b/tmp/sysroots/board  -O2 -pipe -g -feliminate-unused-debug-types -fdebug-prefix-map=/b/tmp/work/armv7a-vfp-poky-linux-gnueabi/libcap/2.25-r0=/usr/src/debug/libcap/2.25-r0 -fdebug-prefix-map=/b/tmp/sysroots/x86_64-linux= -fdebug-prefix-map=/b/tmp/sysroots/board=  -D_LARGEFILE64_SOURCE -D_FILE_OFFSET_BITS=64 -Dlinux -Wall -Wwrite-strings -Wpointer-arith -Wcast-qual -Wcast-align -Wstrict-prototypes -Wmissing-prototypes -Wnested-externs -Winline -Wshadow -g  -Dlinux -Wall -Wwrite-strings -Wpointer-arith -Wcast-qual -Wcast-align -Wstrict-prototypes -Wmissing-prototypes -Wnested-externs -Winline -Wshadow -g  -fPIC -I/b/tmp/work/armv7a-vfp-poky-linux-gnueabi/libcap/2.25-r0/libcap-2.25/pam_cap/../libcap/include/uapi -I/b/tmp/work/armv7a-vfp-poky-linux-gnueabi/libcap/2.25-r0/libcap-2.25/pam_cap/../libcap/include -c pam_cap.c -o pam_cap.o
+| pam_cap.c:19:34: fatal error: security/pam_modules.h: No such file or directory
+|  #include <security/pam_modules.h>
+|                                   ^
+| compilation terminated.
 
 Signed-off-by: Marek Vasut <marex@denx.de>
 ---
- meta/recipes-bsp/u-boot/u-boot.inc | 28 ++++++++++++++--------------
- 1 file changed, 14 insertions(+), 14 deletions(-)
+ meta/recipes-support/libcap/libcap_2.25.bb | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-bsp/u-boot/u-boot.inc b/meta/recipes-bsp/u-boot/u-boot.inc
-index 915da8e..2a94d26 100644
---- a/meta/recipes-bsp/u-boot/u-boot.inc
-+++ b/meta/recipes-bsp/u-boot/u-boot.inc
-@@ -120,7 +120,7 @@ do_install () {
-                 if [ $j -eq $i ]
-                 then
-                     install -d ${D}/boot
--                    install ${B}/${config}/u-boot-${type}.${UBOOT_SUFFIX} ${D}/boot/u-boot-${type}-${PV}-${PR}.${UBOOT_SUFFIX}
-+                    install -m 644 ${B}/${config}/u-boot-${type}.${UBOOT_SUFFIX} ${D}/boot/u-boot-${type}-${PV}-${PR}.${UBOOT_SUFFIX}
-                     ln -sf u-boot-${type}-${PV}-${PR}.${UBOOT_SUFFIX} ${D}/boot/${UBOOT_BINARY}-${type}
-                     ln -sf u-boot-${type}-${PV}-${PR}.${UBOOT_SUFFIX} ${D}/boot/${UBOOT_BINARY}
-                 fi
-@@ -130,7 +130,7 @@ do_install () {
-         unset  i
-     else
-         install -d ${D}/boot
--        install ${B}/${UBOOT_BINARY} ${D}/boot/${UBOOT_IMAGE}
-+        install -m 644 ${B}/${UBOOT_BINARY} ${D}/boot/${UBOOT_IMAGE}
-         ln -sf ${UBOOT_IMAGE} ${D}/boot/${UBOOT_BINARY}
-     fi
+diff --git a/meta/recipes-support/libcap/libcap_2.25.bb b/meta/recipes-support/libcap/libcap_2.25.bb
+index 8f3f11e..7ced4be 100644
+--- a/meta/recipes-support/libcap/libcap_2.25.bb
++++ b/meta/recipes-support/libcap/libcap_2.25.bb
+@@ -47,12 +47,12 @@ EXTRA_OEMAKE_append_class-target = " SYSTEM_HEADERS=${STAGING_INCDIR}"
+ CFLAGS += "-D_LARGEFILE64_SOURCE -D_FILE_OFFSET_BITS=64"
  
-@@ -144,7 +144,7 @@ do_install () {
-                     j=$(expr $j + 1);
-                     if [ $j -eq $i ]
-                     then
--                        install ${B}/${config}/${UBOOT_ELF} ${D}/boot/u-boot-${type}-${PV}-${PR}.${UBOOT_ELF_SUFFIX}
-+                        install -m 644 ${B}/${config}/${UBOOT_ELF} ${D}/boot/u-boot-${type}-${PV}-${PR}.${UBOOT_ELF_SUFFIX}
-                         ln -sf u-boot-${type}-${PV}-${PR}.${UBOOT_ELF_SUFFIX} ${D}/boot/${UBOOT_BINARY}-${type}
-                         ln -sf u-boot-${type}-${PV}-${PR}.${UBOOT_ELF_SUFFIX} ${D}/boot/${UBOOT_BINARY}
-                     fi
-@@ -153,7 +153,7 @@ do_install () {
-             done
-             unset i
-         else
--            install ${B}/${UBOOT_ELF} ${D}/boot/${UBOOT_ELF_IMAGE}
-+            install -m 644 ${B}/${UBOOT_ELF} ${D}/boot/${UBOOT_ELF_IMAGE}
-             ln -sf ${UBOOT_ELF_IMAGE} ${D}/boot/${UBOOT_ELF_BINARY}
-         fi
-     fi
-@@ -173,7 +173,7 @@ do_install () {
-                     j=$(expr $j + 1);
-                     if [ $j -eq $i ]
-                     then
--                         install ${B}/${config}/${SPL_BINARY} ${D}/boot/${SPL_IMAGE}-${type}-${PV}-${PR}
-+                         install -m 644 ${B}/${config}/${SPL_BINARY} ${D}/boot/${SPL_IMAGE}-${type}-${PV}-${PR}
-                          ln -sf ${SPL_IMAGE}-${type}-${PV}-${PR} ${D}/boot/${SPL_BINARYNAME}-${type}
-                          ln -sf ${SPL_IMAGE}-${type}-${PV}-${PR} ${D}/boot/${SPL_BINARYNAME}
-                     fi
-@@ -182,14 +182,14 @@ do_install () {
-             done
-             unset  i
-         else
--            install ${B}/${SPL_BINARY} ${D}/boot/${SPL_IMAGE}
-+            install -m 644 ${B}/${SPL_BINARY} ${D}/boot/${SPL_IMAGE}
-             ln -sf ${SPL_IMAGE} ${D}/boot/${SPL_BINARYNAME}
-         fi
-     fi
- 
-     if [ -n "${UBOOT_ENV}" ]
-     then
--        install ${WORKDIR}/${UBOOT_ENV_BINARY} ${D}/boot/${UBOOT_ENV_IMAGE}
-+        install -m 644 ${WORKDIR}/${UBOOT_ENV_BINARY} ${D}/boot/${UBOOT_ENV_IMAGE}
-         ln -sf ${UBOOT_ENV_IMAGE} ${D}/boot/${UBOOT_ENV_BINARY}
-     fi
+ do_compile() {
+-	oe_runmake ${EXTRA_OECONF}
++	oe_runmake ${PACKAGECONFIG_CONFARGS}
  }
-@@ -206,7 +206,7 @@ do_deploy () {
-                 if [ $j -eq $i ]
-                 then
-                     install -d ${DEPLOYDIR}
--                    install ${B}/${config}/u-boot-${type}.${UBOOT_SUFFIX} ${DEPLOYDIR}/u-boot-${type}-${PV}-${PR}.${UBOOT_SUFFIX}
-+                    install -m 644 ${B}/${config}/u-boot-${type}.${UBOOT_SUFFIX} ${DEPLOYDIR}/u-boot-${type}-${PV}-${PR}.${UBOOT_SUFFIX}
-                     cd ${DEPLOYDIR}
-                     ln -sf u-boot-${type}-${PV}-${PR}.${UBOOT_SUFFIX} ${UBOOT_SYMLINK}-${type}
-                     ln -sf u-boot-${type}-${PV}-${PR}.${UBOOT_SUFFIX} ${UBOOT_SYMLINK}
-@@ -219,7 +219,7 @@ do_deploy () {
-         unset  i
-     else
-         install -d ${DEPLOYDIR}
--        install ${B}/${UBOOT_BINARY} ${DEPLOYDIR}/${UBOOT_IMAGE}
-+        install -m 644 ${B}/${UBOOT_BINARY} ${DEPLOYDIR}/${UBOOT_IMAGE}
-         cd ${DEPLOYDIR}
-         rm -f ${UBOOT_BINARY} ${UBOOT_SYMLINK}
-         ln -sf ${UBOOT_IMAGE} ${UBOOT_SYMLINK}
-@@ -236,7 +236,7 @@ do_deploy () {
-                     j=$(expr $j + 1);
-                     if [ $j -eq $i ]
-                     then
--                        install ${B}/${config}/${UBOOT_ELF} ${DEPLOYDIR}/u-boot-${type}-${PV}-${PR}.${UBOOT_ELF_SUFFIX}
-+                        install -m 644 ${B}/${config}/${UBOOT_ELF} ${DEPLOYDIR}/u-boot-${type}-${PV}-${PR}.${UBOOT_ELF_SUFFIX}
-                         ln -sf u-boot-${type}-${PV}-${PR}.${UBOOT_ELF_SUFFIX} ${DEPLOYDIR}/${UBOOT_ELF_BINARY}-${type}
-                         ln -sf u-boot-${type}-${PV}-${PR}.${UBOOT_ELF_SUFFIX} ${DEPLOYDIR}/${UBOOT_ELF_BINARY}
-                         ln -sf u-boot-${type}-${PV}-${PR}.${UBOOT_ELF_SUFFIX} ${DEPLOYDIR}/${UBOOT_ELF_SYMLINK}-${type}
-@@ -247,7 +247,7 @@ do_deploy () {
-             done
-             unset i
-         else
--            install ${B}/${UBOOT_ELF} ${DEPLOYDIR}/${UBOOT_ELF_IMAGE}
-+            install -m 644 ${B}/${UBOOT_ELF} ${DEPLOYDIR}/${UBOOT_ELF_IMAGE}
-             ln -sf ${UBOOT_ELF_IMAGE} ${DEPLOYDIR}/${UBOOT_ELF_BINARY}
-             ln -sf ${UBOOT_ELF_IMAGE} ${DEPLOYDIR}/${UBOOT_ELF_SYMLINK}
-         fi
-@@ -264,7 +264,7 @@ do_deploy () {
-                      j=$(expr $j + 1);
-                      if [ $j -eq $i ]
-                      then
--                         install ${B}/${config}/${SPL_BINARY} ${DEPLOYDIR}/${SPL_IMAGE}-${type}-${PV}-${PR}
-+                         install -m 644 ${B}/${config}/${SPL_BINARY} ${DEPLOYDIR}/${SPL_IMAGE}-${type}-${PV}-${PR}
-                          rm -f ${DEPLOYDIR}/${SPL_BINARYNAME} ${DEPLOYDIR}/${SPL_SYMLINK}-${type}
-                          ln -sf ${SPL_IMAGE}-${type}-${PV}-${PR} ${DEPLOYDIR}/${SPL_BINARYNAME}-${type}
-                          ln -sf ${SPL_IMAGE}-${type}-${PV}-${PR} ${DEPLOYDIR}/${SPL_BINARYNAME}
-@@ -276,7 +276,7 @@ do_deploy () {
-              done
-              unset  i
-          else
--             install ${B}/${SPL_BINARY} ${DEPLOYDIR}/${SPL_IMAGE}
-+             install -m 644 ${B}/${SPL_BINARY} ${DEPLOYDIR}/${SPL_IMAGE}
-              rm -f ${DEPLOYDIR}/${SPL_BINARYNAME} ${DEPLOYDIR}/${SPL_SYMLINK}
-              ln -sf ${SPL_IMAGE} ${DEPLOYDIR}/${SPL_BINARYNAME}
-              ln -sf ${SPL_IMAGE} ${DEPLOYDIR}/${SPL_SYMLINK}
-@@ -286,7 +286,7 @@ do_deploy () {
  
-     if [ -n "${UBOOT_ENV}" ]
-     then
--        install ${WORKDIR}/${UBOOT_ENV_BINARY} ${DEPLOYDIR}/${UBOOT_ENV_IMAGE}
-+        install -m 644 ${WORKDIR}/${UBOOT_ENV_BINARY} ${DEPLOYDIR}/${UBOOT_ENV_IMAGE}
-         rm -f ${DEPLOYDIR}/${UBOOT_ENV_BINARY} ${DEPLOYDIR}/${UBOOT_ENV_SYMLINK}
-         ln -sf ${UBOOT_ENV_IMAGE} ${DEPLOYDIR}/${UBOOT_ENV_BINARY}
-         ln -sf ${UBOOT_ENV_IMAGE} ${DEPLOYDIR}/${UBOOT_ENV_SYMLINK}
+ do_install() {
+ 	oe_runmake install \
+-		${EXTRA_OECONF} \
++		${PACKAGECONFIG_CONFARGS} \
+ 		DESTDIR="${D}" \
+ 		prefix="${prefix}" \
+ 		SBINDIR="${sbindir}"
 -- 
 2.9.3
 
