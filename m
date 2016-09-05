@@ -1,27 +1,33 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 6530C77261
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 7C71B7720B
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  5 Sep 2016 09:13:22 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u859DKZb003601
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 5 Sep 2016 02:13:23 -0700 (PDT)
-Received: from [128.224.162.240] (128.224.162.240) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.248.2;
-	Mon, 5 Sep 2016 02:13:20 -0700
-To: <openembedded-core@lists.openembedded.org>
-References: <cover.1473064099.git.liezhi.yang@windriver.com>
-From: Robert Yang <liezhi.yang@windriver.com>
-Message-ID: <d5d4b909-aa2e-ebd7-676b-e5746719dc66@windriver.com>
-Date: Mon, 5 Sep 2016 17:13:18 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.2.0
-MIME-Version: 1.0
-In-Reply-To: <cover.1473064099.git.liezhi.yang@windriver.com>
-Subject: Re: [PATCH 0/2] meta: fix gobject-introspection-native and coreutils-native
+	Mon,  5 Sep 2016 11:02:41 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u85B2CYK002374; Mon, 5 Sep 2016 12:02:39 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id FGa4azrPVp2m; Mon,  5 Sep 2016 12:02:39 +0100 (BST)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u85B2YH0002398
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Mon, 5 Sep 2016 12:02:35 +0100
+Message-ID: <1473073354.20226.9.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Marek Vasut <marex@denx.de>, openembedded-core@lists.openembedded.org
+Date: Mon, 05 Sep 2016 12:02:34 +0100
+In-Reply-To: <00e9ef55-2e08-5c92-0a5a-32e9ce1f61fa@denx.de>
+References: <20160904162130.13313-1-marex@denx.de>
+	<1473024487.20226.3.camel@linuxfoundation.org>
+	<9f3a5dfd-8303-b6d0-cd5e-07f2aac7c588@denx.de>
+	<1473027091.20226.4.camel@linuxfoundation.org>
+	<252ea4f7-871c-60a5-0a2f-f59a5d35683e@denx.de>
+	<00e9ef55-2e08-5c92-0a5a-32e9ce1f61fa@denx.de>
+X-Mailer: Evolution 3.18.5.2-0ubuntu3 
+Mime-Version: 1.0
+Subject: Re: [PATCH 1/2] u-boot: Factor out common bits
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,42 +40,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 05 Sep 2016 09:13:23 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
+X-List-Received-Date: Mon, 05 Sep 2016 11:02:46 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
+On Mon, 2016-09-05 at 00:33 +0200, Marek Vasut wrote:
+> On 09/05/2016 12:23 AM, Marek Vasut wrote:
+> > On 09/05/2016 12:11 AM, Richard Purdie wrote:
+> > > On Sun, 2016-09-04 at 23:49 +0200, Marek Vasut wrote:
+> > > > On 09/04/2016 11:28 PM, Richard Purdie wrote:
+> > > > > On Sun, 2016-09-04 at 18:21 +0200, Marek Vasut wrote:
+> > > > Yes, except when new version of U-Boot comes out and we want to
+> > > > perform
+> > > > update of the u-boot{,mkimage,fw-utils} recipes, with this
+> > > > current
+> > > > patch
+> > > > as is, we'd only have to rename these recipes and change the
+> > > > version
+> > > > in
+> > > > u-boot-common.inc . With your proposal, we'd have to not only
+> > > > rename
+> > > > the
+> > > > recipes and tweak u-boot-common.inc, but also edit their
+> > > > content and
+> > > > change the "require u-boot-common_20yy.mm.inc" bit, which adds
+> > > > some
+> > > > toil.
+> > > Unless its:
+> > > 
+> > > require u-boot-common_${PV}.inc
+> > > 
+> > > since it should be able to extract PV from the filename...
+> > Ah right, thanks :)
+> > 
+> > I'll rebuild/retest and send a V2 .
+> > 
+> I was a bit hasty, the u-boot.inc includes u-boot-common.inc without
+> having PV set. Any idea how to deal with that ?
 
-Sorry, please use the patch on oe-core-contrib:
+Just put includes in the versioned files rather than from u-boot.inc?
 
-   git://git.openembedded.org/openembedded-core-contrib rbt/2fixes
-   http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/2fixes
+Cheers,
 
-Robert Yang (2):
-   coreutils: enable xattr for native
-   gobject-introspection: set GI_SCANNER_DISABLE_CACHE for native
+Richard
 
-
-On 09/05/2016 04:29 PM, Robert Yang wrote:
-> The following changes since commit 0a024bf2f2ed14be9b6e3e8e911e826969ff9b7e:
->
->   poky: Update to linux-yocto 4.8 (2016-09-04 16:58:53 +0100)
->
-> are available in the git repository at:
->
->   git://git.pokylinux.org/poky-contrib rbt/2fixes
->   http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=rbt/2fixes
-
-This was poky-contrib.
-
-// Robert
-
->
-> Robert Yang (2):
->   coreutils: enable xattr for native
->   gobject-introspection: set GI_SCANNER_DISABLE_CACHE for native
->
->  meta/recipes-core/coreutils/coreutils_8.25.bb                          | 3 ++-
->  .../gobject-introspection/gobject-introspection_1.48.0.bb              | 2 +-
->  2 files changed, 3 insertions(+), 2 deletions(-)
->
 
