@@ -1,24 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 96B8C7723C
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id D10B57723C
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  5 Sep 2016 08:29:49 +0000 (UTC)
+	Mon,  5 Sep 2016 08:29:51 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u858TnZ1028549
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u858TpwN024973
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 5 Sep 2016 01:29:50 -0700
+	Mon, 5 Sep 2016 01:29:51 -0700 (PDT)
 Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Mon, 5 Sep 2016 01:29:48 -0700
+	Mon, 5 Sep 2016 01:29:50 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 5 Sep 2016 01:29:46 -0700
-Message-ID: <cover.1473064099.git.liezhi.yang@windriver.com>
+Date: Mon, 5 Sep 2016 01:29:47 -0700
+Message-ID: <c1b186a9c643bb747190725f83d64e7f8c5b6c4c.1473064099.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.9.0
+In-Reply-To: <cover.1473064099.git.liezhi.yang@windriver.com>
+References: <cover.1473064099.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/2] meta: fix gobject-introspection-native and coreutils-native
+Subject: [PATCH 1/2] coreutils: enable xattr for native
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,26 +33,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 05 Sep 2016 08:29:50 -0000
+X-List-Received-Date: Mon, 05 Sep 2016 08:29:52 -0000
 Content-Type: text/plain
 
-The following changes since commit 0a024bf2f2ed14be9b6e3e8e911e826969ff9b7e:
+The lib/oe/path.py requires xattr, fixed:
+Subprocess output:
+cp: cannot preserve extended attributes, cp is built without xattr support
 
-  poky: Update to linux-yocto 4.8 (2016-09-04 16:58:53 +0100)
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+---
+ meta/recipes-core/coreutils/coreutils_8.25.bb | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-are available in the git repository at:
-
-  git://git.pokylinux.org/poky-contrib rbt/2fixes
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=rbt/2fixes
-
-Robert Yang (2):
-  coreutils: enable xattr for native
-  gobject-introspection: set GI_SCANNER_DISABLE_CACHE for native
-
- meta/recipes-core/coreutils/coreutils_8.25.bb                          | 3 ++-
- .../gobject-introspection/gobject-introspection_1.48.0.bb              | 2 +-
- 2 files changed, 3 insertions(+), 2 deletions(-)
-
+diff --git a/meta/recipes-core/coreutils/coreutils_8.25.bb b/meta/recipes-core/coreutils/coreutils_8.25.bb
+index fc8d061..df6ad38 100644
+--- a/meta/recipes-core/coreutils/coreutils_8.25.bb
++++ b/meta/recipes-core/coreutils/coreutils_8.25.bb
+@@ -38,7 +38,8 @@ PACKAGECONFIG_class-target ??= "\
+     ${@bb.utils.contains('DISTRO_FEATURES', 'xattr', 'xattr', '', d)} \
+ "
+ 
+-PACKAGECONFIG_class-native ??= ""
++# The lib/oe/path.py requires xattr
++PACKAGECONFIG_class-native ??= "xattr"
+ 
+ # with, without, depends, rdepends
+ #
 -- 
 2.9.0
 
