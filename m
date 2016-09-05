@@ -1,52 +1,52 @@
 Return-Path: <joshuagloe@gmail.com>
 Received: from mail-pf0-f194.google.com (mail-pf0-f194.google.com
 	[209.85.192.194])
-	by mail.openembedded.org (Postfix) with ESMTP id EE70D773B5
+	by mail.openembedded.org (Postfix) with ESMTP id 25FE1773B5
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  5 Sep 2016 13:59:33 +0000 (UTC)
-Received: by mail-pf0-f194.google.com with SMTP id g202so9863803pfb.1
+	Mon,  5 Sep 2016 13:59:36 +0000 (UTC)
+Received: by mail-pf0-f194.google.com with SMTP id a143so6565686pfa.3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 05 Sep 2016 06:59:34 -0700 (PDT)
+	Mon, 05 Sep 2016 06:59:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:in-reply-to:references;
-	bh=W8dBtCd+sFu/QKmh6pjdHCm+bnNCmSP+HCDejzSvve8=;
-	b=fWSVudWGMuVvpKxedXutji15K/ei8FGZhEzwmbQW+KT1Jq6+tJa8F08BhaZ84t97x+
-	PScB4X7Ox920t52Z/N9A9miKHv6hirWaxB4apWg/7FHz3Jz37ifujo8xYJ1G1geBzUKO
-	CnBvQAFfS9CjFWYt7QeBRVxMZTe2hFg/zp2zaf8LQ5ogbgIB3bQO2NYsLLlzAIod5oR1
-	WuTcj5ZcYvk4ocltUEZaTEKvJ7OTfCz0dS01uz5wxDrPUcW57P0pwCzbHFXJjlu7MhWp
-	Psot2hnu6W5l6yiZMUX1nJzxpW0m26LlHag9EFBn8DGt7SlSWG/aJ1yu+rf3jSNKGJQc
-	82sw==
+	bh=aDzRE89YvaEogL+ZLZTJiBERG5yg6t+0mEUETtlmZR8=;
+	b=hb06MBT7pvUCbSycYNtGnqfwuuYK2o2rzY/iDDtRDkTyOj7tZoapI7TumSDNCbY8oO
+	9x2r4mqbq5M/I2UTxDCHpbPpdx6hqxnjkA/werzgFMxKqo41bz81xCGRAxjCiShbNN17
+	DQW4cdgyjDW2rFW+JpCL9Mt5yGnEdzRxxUPmIkseTtxTE2jN8mwUD9+dstizJyRyAonC
+	YDgEZ+PSkyIV26LoccOlRfC4Vn9qCbvAICBFZR5MEgxbaDjMNinBEbjaXfueWCZSRTYF
+	dXTbT8zOOk8O38zqfbeKcunUDwsSgcp+gNOMAd8dUAqNnuXSZ779r6A6UJjdjsns0MLu
+	bvxw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:in-reply-to:references;
-	bh=W8dBtCd+sFu/QKmh6pjdHCm+bnNCmSP+HCDejzSvve8=;
-	b=ljWeQrRVulVfCQWYlASMWFHtkkjko0eyFkaWnp7GH8FvTGpIgQuDHPz7hqgVYRkDTS
-	+sNMuJRZn/OVJ9qTQMOymqbAXw/yo900CnQaco2Q6U7SKDyKbiHbvXXE4z6pN7y6BRYj
-	VuBTa2BYzgAlou19khg8wQ3n/hm3FrreJwcqOhc9+RkR6sFQ6jXQjuCMDzyKZPK4d7H4
-	N82dl8wdl7/TyB61k1iGRMWcEgEKXtz/xjJbhxp0wqn6S6RcjVOfK7rEWQcmfkLSSQmq
-	Os/MtO6wjinKtVzwTJuDdrk2YUF9LYEQN3tXrPtOiH7FkpPkjgrdMpm2uNUER1KfXAyd
-	qutQ==
-X-Gm-Message-State: AE9vXwPb8diY7cXYRTOPZwnp0UR/X0P/hYChXr0M8nDagR3d3HAXV8J/xpsj6WxE5AZBwA==
-X-Received: by 10.98.200.81 with SMTP id z78mr27129340pff.2.1473083974452;
-	Mon, 05 Sep 2016 06:59:34 -0700 (PDT)
+	bh=aDzRE89YvaEogL+ZLZTJiBERG5yg6t+0mEUETtlmZR8=;
+	b=mALVAHfqRcuEybrifk7KzYsk6HYuo+CpWBvQssl0m9UBN42pMOYu5y0ElY3LxMJ+fZ
+	S6OjPj1iEUlfTUvnPhUHWvtbsl2MR7L/cFMvro2e5x1d/0pxaMCRFK9K2P7dX7sB5zRv
+	U7UYvghY+9oTHkrfCFj1GfQuPnpD/aHUVx/2WB2BSD8Fgd/V0FRlIoYFC6mgbbpKIS2E
+	r9gx75KSrFAbNATmPbu+VYofWOzdbGX8nRbmQCtuUM8D4g4OPPz6oJPaGsffXZrQlkR4
+	QJZzW+E7QAaFJjzE27w5ThqukfWswATg88HaTZxTygwg3k5yKH0CiTrZgmEVZ7QHySOo
+	JtHQ==
+X-Gm-Message-State: AE9vXwMPGJHtqPF/j2dtTLotZPbGhlI3mrUvPD1YdPK01iyJQ5ljcNdXIFOQbzUeEbQQzA==
+X-Received: by 10.98.158.3 with SMTP id s3mr21003359pfd.117.1473083976884;
+	Mon, 05 Sep 2016 06:59:36 -0700 (PDT)
 Received: from jlock-mobl1.ger.corp.intel.com ([192.55.54.42])
 	by smtp.gmail.com with ESMTPSA id
-	u1sm33982460pfu.12.2016.09.05.06.59.32
+	u1sm33982460pfu.12.2016.09.05.06.59.34
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 05 Sep 2016 06:59:33 -0700 (PDT)
+	Mon, 05 Sep 2016 06:59:36 -0700 (PDT)
 From: Joshua Lock <joshuagloe@gmail.com>
 X-Google-Original-From: Joshua Lock <joshua.g.lock@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  5 Sep 2016 14:59:11 +0100
-Message-Id: <a3afe52f17b6fb3b698201ae72743c6ef9e78b3a.1473083836.git.joshua.g.lock@intel.com>
+Date: Mon,  5 Sep 2016 14:59:12 +0100
+Message-Id: <6180658762c54732ad9d8db624f2f0502996ff9b.1473083836.git.joshua.g.lock@intel.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1473083836.git.joshua.g.lock@intel.com>
 References: <cover.1473083836.git.joshua.g.lock@intel.com>
 In-Reply-To: <cover.1473083836.git.joshua.g.lock@intel.com>
 References: <cover.1473083836.git.joshua.g.lock@intel.com>
-Subject: [PATCH 3/4] runqemu: assume artefacts are relative to *.qemuboot.conf
+Subject: [PATCH 4/4] runqemu: get NATIVE dirs from env when in source OE build dir
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,53 +59,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 05 Sep 2016 13:59:34 -0000
+X-List-Received-Date: Mon, 05 Sep 2016 13:59:36 -0000
 
-When runqemu is started with a *.qemuboot.conf arg assume that image
-artefacts are relative to that file, rather than in whatever
-directory the DEPLOY_DIR_IMAGE variable in the conf file points to.
+When we're running from a sourced OE build directory parse the
+STAGING_* directories from the bitbake environment, rather than
+using those hard-coded in the conf file.
 
 Signed-off-by: Joshua Lock <joshua.g.lock@intel.com>
 ---
- scripts/runqemu | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+ scripts/runqemu | 22 ++++++++++++++++++++++
+ 1 file changed, 22 insertions(+)
 
 diff --git a/scripts/runqemu b/scripts/runqemu
-index 1599848..cfe7bff 100755
+index cfe7bff..5a97802 100755
 --- a/scripts/runqemu
 +++ b/scripts/runqemu
-@@ -143,6 +143,7 @@ class BaseConfig(object):
-         self.nfs_server = ''
-         self.rootfs = ''
-         self.qemuboot = ''
-+        self.qbconfload = False
-         self.kernel = ''
-         self.kernel_cmdline = ''
-         self.kernel_cmdline_script = ''
-@@ -239,6 +240,7 @@ class BaseConfig(object):
-         """
-         if p.endswith('.qemuboot.conf'):
-             self.qemuboot = p
-+            self.qbconfload = True
-         elif re.search('\.bin$', p) or re.search('bzImage', p) or \
-              re.search('zImage', p) or re.search('vmlinux', p) or \
-              re.search('fitImage', p) or re.search('uImage', p):
-@@ -544,6 +546,15 @@ class BaseConfig(object):
-             k_upper = k.upper()
-             self.set(k_upper, v)
+@@ -555,6 +555,16 @@ class BaseConfig(object):
+                 logger.info('Setting DEPLOY_DIR_IMAGE to folder containing %s (%s)' % (self.qemuboot, imgdir))
+                 self.set('DEPLOY_DIR_IMAGE', imgdir)
  
-+        # When we're started with a *.qemuboot.conf arg assume that image
-+        # artefacts are relative to that file, rather than in whatever
-+        # directory DEPLOY_DIR_IMAGE in the conf file points to.
-+        if self.qbconfload:
-+            imgdir = os.path.dirname(self.qemuboot)
-+            if imgdir != self.get('DEPLOY_DIR_IMAGE'):
-+                logger.info('Setting DEPLOY_DIR_IMAGE to folder containing %s (%s)' % (self.qemuboot, imgdir))
-+                self.set('DEPLOY_DIR_IMAGE', imgdir)
++        # When we're running from a sourced OE environment use the STAGING_*
++        # directories from the environment.
++        if self.bitbake_e:
++            native_vars = ['STAGING_DIR_NATIVE', 'STAGING_BINDIR_NATIVE']
++            for nv in native_vars:
++                s = re.search('^%s="(.*)"' % nv, self.bitbake_e, re.M)
++                if s and s.group(1) != self.get(nv):
++                    logger.info('Overriding conf file setting of %s to %s from Bitbake environment' % (nv, s.group(1)))
++                    self.set(nv, s.group(1))
 +
      def print_config(self):
          logger.info('Continuing with the following parameters:\n')
          if not self.fstype in self.vmtypes:
+@@ -815,6 +825,17 @@ class BaseConfig(object):
+             shutil.rmtree(self.nfs_dir)
+             shutil.rmtree('%s.pseudo_state' % self.nfs_dir)
+ 
++    def check_sourced_env(self):
++        bitbake = shutil.which('bitbake')
++        if bitbake and not self.bitbake_e:
++            mach = self.get('MACHINE')
++            if mach:
++                cmd = 'MACHINE=%s bitbake -e' % mach
++            else:
++                cmd = 'bitbake -e'
++            logger.info('Running %s...' % cmd)
++            self.bitbake_e = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE).stdout.read().decode('utf-8')
++
+ def main():
+     if len(sys.argv) == 1 or "help" in sys.argv:
+         print_usage()
+@@ -826,6 +847,7 @@ def main():
+         logger.error(esc)
+         logger.error("Try 'runqemu help' on how to use it")
+         return 1
++    config.check_sourced_env()
+     config.read_qemuboot()
+     config.check_and_set()
+     config.print_config()
 -- 
 2.7.4
 
