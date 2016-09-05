@@ -1,47 +1,52 @@
 Return-Path: <joshuagloe@gmail.com>
-Received: from mail-pf0-f195.google.com (mail-pf0-f195.google.com
-	[209.85.192.195])
-	by mail.openembedded.org (Postfix) with ESMTP id BC69075CF1
+Received: from mail-pf0-f196.google.com (mail-pf0-f196.google.com
+	[209.85.192.196])
+	by mail.openembedded.org (Postfix) with ESMTP id D817475CF1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  5 Sep 2016 13:35:20 +0000 (UTC)
-Received: by mail-pf0-f195.google.com with SMTP id i6so9828167pfe.0
+	Mon,  5 Sep 2016 13:35:22 +0000 (UTC)
+Received: by mail-pf0-f196.google.com with SMTP id g202so9838790pfb.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 05 Sep 2016 06:35:21 -0700 (PDT)
+	Mon, 05 Sep 2016 06:35:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:subject:date:message-id;
-	bh=4ueoTF9zjMU7LPMGnMFWvS5nS+wCh9OInkV+Q13s+ys=;
-	b=Gn2nWnW3n9n/vzXeSCKBIoRDkq7iCtQ2FsFdxPPEy8ItRLQN26NRwJaQp1I6IWTwXy
-	uoHTW9AMuYw7KuodAu+fugixuj6tzvCYEgveV/JMAw3p92Xm4P0u9Sbab5tknZ/B1aSX
-	JmBQsy1+u4CT1Z0UTle7+UKhtTuWyvSk2C6mlF7A8HWWLnRpp6AJAGHWoVxM8LIiXXke
-	zipWIcG8l+bjY0qP6DcBBPFILeMJUy19gFgiTkZXrv8l/kg8N9gp4yNszKOWua/IzmEG
-	HEgGRNXaRxvh+XPOLjx0FRmK+TLcmoTTjzt0JCMpHwSG/WseRAlr2JyagkibVONCq0ZI
-	VW/g==
+	h=from:to:subject:date:message-id:in-reply-to:references:in-reply-to
+	:references; bh=rgJ9U+UxUoXbZCsmHRMFe6gXlfFE/6WUowGIHplaM4E=;
+	b=lim2tTyxLzjG9kUNhYa5s1+vNuoeAeHRq+FvmvRZ0WSiKxm/pYwyFOOf4UJEG8yNCb
+	nkI4ClzxtMRjt0ZHQQ/3OZo4x6oUsDhpq5KfdlMgx5MUs5euCA2gkH8ajMWn2AF4M4uy
+	Qk5FY5sD+D0Ic1CdsgWg35YjBrIYzcXB7zKznRg7EHsTlxbWme2txVU6G0vPL4DqyXY6
+	2TAbbbBDp8t5DyS2xLutjwUI7XFXJOxO2Y57OswnvQ3P/Upd9BsKkGNXS0D4+UWEFqEv
+	AOVu74eqldgt/Ybn7zmx+P4ZC0IAYeY+65/C2EV3GKd8q/LfgnU5ZIN3oOWcBHmoGSxh
+	guKw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=4ueoTF9zjMU7LPMGnMFWvS5nS+wCh9OInkV+Q13s+ys=;
-	b=FsbnSRZDGV3qTlnhTr892lVRHUEeY8dU+yrCdFz0eeGuD+7+tOPf5t13hJLzs741Oq
-	MVq/FnU4Fr/1vy8mgcPZ74OMZCUWgxHvEpbDVvhhxHdvEH+jqBOOTQKiI3VM0wsFc0Gy
-	9HhPZzjWhY+e75emvPsHX9ZodQY7ka8uDinyghDmZHXVIiB3IF6EE0fQ2V66uMTzeD4D
-	1MTzqpFPnkk8EYex8Vex+XzLIBPypwCWWjS0rVp5gFSyO4S0rv83yPrR3aLfH/GvQKFz
-	fnzn+x3YgYM0+mxDi54pnY4uxpTFgXwCvlXW3Sf8Db64r3cEQ0COf6+OAYpaq4NrOKei
-	Srjg==
-X-Gm-Message-State: AE9vXwOAZuVKYXeOWlMMMqAGJ1MIB2mhAPYPtC3hABhahzGGM/PoUhk8+z4J5x2gQ3cfPQ==
-X-Received: by 10.98.7.200 with SMTP id 69mr63545192pfh.33.1473082521009;
-	Mon, 05 Sep 2016 06:35:21 -0700 (PDT)
+	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+	:references:in-reply-to:references;
+	bh=rgJ9U+UxUoXbZCsmHRMFe6gXlfFE/6WUowGIHplaM4E=;
+	b=hjT2JK578KJrSNQIRHLYdSzY+8a/7vVyoH4ztcM1BbMK6wpOXH7pesCpuccH6MvRFM
+	ad6G2g11ebJIBra0edfz2P2mcHqdjOEa+y6SIXAMRWJvYC9/UA23ObEXZLto5jvWKj+V
+	6EPjh8r3rJVCrys63nNE0x8WkUX5nYN5BEp3bnEWlysSX00n/HT3ojqUw3OmNWf4k+hj
+	pTrWArFL13anatp0RXmryT1DlOkHTY88akxzNBOePRh3NRaKW0pexcn6Qzj8qm6Y3Frk
+	MuQxr0hoAoq4ILuZ26zBe/8PiwNrnQwKD/P60SoKO3ilctJSt0zExhmpsbMumpwr2K9v
+	PstQ==
+X-Gm-Message-State: AE9vXwOGaEn1SxhfxOL1bJ1YkvZ2omvgX47XaBkIMZnd1pZpI4Px0N309EJ25xGkmUJXAg==
+X-Received: by 10.98.222.5 with SMTP id h5mr55671591pfg.144.1473082523224;
+	Mon, 05 Sep 2016 06:35:23 -0700 (PDT)
 Received: from jlock-mobl1.ger.corp.intel.com ([192.55.54.42])
 	by smtp.gmail.com with ESMTPSA id
-	a71sm15312551pfg.38.2016.09.05.06.35.18
+	a71sm15312551pfg.38.2016.09.05.06.35.21
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 05 Sep 2016 06:35:20 -0700 (PDT)
+	Mon, 05 Sep 2016 06:35:22 -0700 (PDT)
 From: Joshua Lock <joshuagloe@gmail.com>
 X-Google-Original-From: Joshua Lock <joshua.g.lock@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  5 Sep 2016 14:35:08 +0100
-Message-Id: <cover.1473064318.git.joshua.g.lock@intel.com>
+Date: Mon,  5 Sep 2016 14:35:09 +0100
+Message-Id: <967bc92b0b4daec99210ebca7ef0b896ef22de38.1473064318.git.joshua.g.lock@intel.com>
 X-Mailer: git-send-email 2.7.4
-Subject: [PATCH 0/2] Fix oe.path.copyhardlinktree()
+In-Reply-To: <cover.1473064318.git.joshua.g.lock@intel.com>
+References: <cover.1473064318.git.joshua.g.lock@intel.com>
+In-Reply-To: <cover.1473064318.git.joshua.g.lock@intel.com>
+References: <cover.1473064318.git.joshua.g.lock@intel.com>
+Subject: [PATCH 1/2] oe.path: fix copyhardlinktree()
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,32 +59,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 05 Sep 2016 13:35:21 -0000
+X-List-Received-Date: Mon, 05 Sep 2016 13:35:22 -0000
 
-My recent change to preserve extended attributes in oe.path resulted in a
-copyhardlinktree() being broken when the source contains hidden files.
+The change to preserve extended attributes in copytree() and
+copyhardlinktree() (e591d69103a40ec4f76d1132a6039d9cb1555103)
+resulted in an incorrect cp invocation in copyhardlinktree() when
+the source directory contained hidden files.
 
-This series includes a fix for copyhardlinktree() and a simple selftest for 
-copyhardlinktree() which ensures the source and destination have the same number
-of files after a copy.
+This was because the passed src was modified in place but some code
+paths expected it to remain unmodified from the passed value.
+Resolve the issue by constructing a new source string, rather than
+modifying the passed in string.
 
-The following changes since commit 9b08503eabf78bc1b114416523b41dcce3449f58:
+Signed-off-by: Joshua Lock <joshua.g.lock@intel.com>
+---
+ meta/lib/oe/path.py | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
 
-  toaster: fire TaskArtifacts event (2016-09-04 00:05:13 +0100)
-
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib joshuagl/copyhard
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=joshuagl/copyhard
-
-Joshua Lock (2):
-  oe.path: fix copyhardlinktree()
-  selftest/liboe: add a test for copyhardlinktree()
-
- meta/lib/oe/path.py             |  9 ++++++---
- meta/lib/oeqa/selftest/liboe.py | 29 +++++++++++++++++++++++++++++
- 2 files changed, 35 insertions(+), 3 deletions(-)
-
+diff --git a/meta/lib/oe/path.py b/meta/lib/oe/path.py
+index 631c3b4..06a5af2 100644
+--- a/meta/lib/oe/path.py
++++ b/meta/lib/oe/path.py
+@@ -79,12 +79,15 @@ def copyhardlinktree(src, dst):
+         # writers try and create a directory at the same time
+         cmd = "cd %s; find . -type d -print | tar --xattrs --xattrs-include='*' -cf - -C %s -p --no-recursion --files-from - | tar --xattrs --xattrs-include='*' -xf - -C %s" % (src, src, dst)
+         subprocess.check_output(cmd, shell=True, stderr=subprocess.STDOUT)
++        source = ''
+         if os.path.isdir(src):
+             import glob
+             if len(glob.glob('%s/.??*' % src)) > 0:
+-                src = src + '/.??* '
+-            src = src + '/*'
+-        cmd = 'cp -afl --preserve=xattr %s %s' % (src, dst)
++                source = '%s/.??* ' % src
++            source = source + '%s/*' % src
++        else:
++            source = src
++        cmd = 'cp -afl --preserve=xattr %s %s' % (source, dst)
+         subprocess.check_output(cmd, shell=True, stderr=subprocess.STDOUT)
+     else:
+         copytree(src, dst)
 -- 
 2.7.4
+
 
