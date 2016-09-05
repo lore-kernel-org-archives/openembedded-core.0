@@ -1,74 +1,46 @@
-Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-vk0-f42.google.com (mail-vk0-f42.google.com
-	[209.85.213.42])
-	by mail.openembedded.org (Postfix) with ESMTP id 64C2E6FF9F
+Return-Path: <joshuagloe@gmail.com>
+Received: from mail-pa0-f66.google.com (mail-pa0-f66.google.com
+	[209.85.220.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 5E5967731C
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  5 Sep 2016 19:52:23 +0000 (UTC)
-Received: by mail-vk0-f42.google.com with SMTP id j189so74366151vkc.2
+	Mon,  5 Sep 2016 20:33:09 +0000 (UTC)
+Received: by mail-pa0-f66.google.com with SMTP id gi6so91167pac.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 05 Sep 2016 12:52:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
-	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
-	:cc; bh=hlwbESZnL3draJkeQO7dGOqi/3HT4ThVPozC0BvcOOw=;
-	b=JhiJBOBbIV2VdJoHrTaVbuWB+PnVZXu1noBBYzIgIcY6l52XvXtr94nPKb7x/MunpX
-	w8KM71pO1k1PWNEBm09us+uX7Wi95ttnIu8zh86zLrQYhZhntH82REtYzAIDhqt2Winl
-	jSe3bfyH1hi+9AfPW0vN//V4otdyxlmZEl3gkzWBM8LpKeaDbmvEdGO83KzVbpt7B+Fa
-	HCds74Cll2//ZaCzeQDFMbbfVS8whXqbs91i8QXiKcTvf/bmnn9aHwvE8iq7AkXfiwxg
-	ipChsQTnk3s29qmMgIBS2LzDi1KnQyb2yZ0uIQDk3iJhmgJkPP0QdOKK1lq5LnzJlEIP
-	Ixag==
+	Mon, 05 Sep 2016 13:33:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=gEiFofx5kYiN8+xL17kEkji+Rd33lvk4LtQZSbiK5iA=;
+	b=h4xHaaqCWhk94V2Oi09LqmrrHncltRow4EyqRzDBcJvJo9y5T/L0p91nbiSzc2DwPg
+	rMiUStCNFGsH5UT2WzPuYGrY6Q1lzIzxsamrYI3sGqieAfVa8XjtlesG5wKUUYAaREtu
+	EOJ9VOTYFCvlpFv/a8KO+EgGbvBpwaaqak6mHf1fFl62flJKp0WxGR4vZoZgpzct2/QE
+	dEw9vuPgDTjIipUr3EY9xfbNJN+aUKbfW/GhPFrXtTCZWX7SkS5LoYPqKN9wn15/WLD0
+	Km0QN+WlMlsMsi5Y5an+H36U+TX7rIyLSB4nKgH6Z/g4un0o1eyxNukLhU4eCxZwXWgo
+	DGoA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
-	:message-id:subject:to:cc;
-	bh=hlwbESZnL3draJkeQO7dGOqi/3HT4ThVPozC0BvcOOw=;
-	b=HFxkqb5ku+A0kV7oJl0iU5TChCqtwoeckHbnS+QOpIeo4kBkkdceKpv6dY2EN2bsmo
-	LxySK6v1J4JGAqPjYGNQPgNLJH024tSfHoJTIjhzsuNCERpjkqefF9kBs5nUU5bBfF+S
-	CJz+AB2pxl9ZIETwghECsFbvbLPAah7tu/gowZZa/Tf13iW++OnmjoIgrvnhKj68V2kD
-	pwEH2+5R91mZ5AA0Q8HWiUJqiS956i92UTeJa5nTx/PDr4PTa5biLdZr1N+Ven1/fuLI
-	GoPPj1n3+659mkdGwQgytosMhBAL6G+ulFUjwc1JstO3h+XhB99+tkMEoXoWq0v8xEWh
-	kL/g==
-X-Gm-Message-State: AE9vXwMoWYRZDxkD7+tekIs1FfibhHd4B34kUpH/bzsZhgBoTDt46bwiKdDXSxQUgqe25w==
-X-Received: by 10.31.4.85 with SMTP id 82mr23317113vke.155.1473105144073;
-	Mon, 05 Sep 2016 12:52:24 -0700 (PDT)
-Received: from mail-ua0-f170.google.com (mail-ua0-f170.google.com.
-	[209.85.217.170]) by smtp.gmail.com with ESMTPSA id
-	m190sm1962315vke.7.2016.09.05.12.52.22
-	for <openembedded-core@lists.openembedded.org>
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=gEiFofx5kYiN8+xL17kEkji+Rd33lvk4LtQZSbiK5iA=;
+	b=RdRW42DvqnamAWnOL6SzzIeJoCi13BqrJ2cPSSp6x1UBNds9TSiRBMaQPJl/SqoK8A
+	8yc49qUpqU5FMyugoxsARoL7UmKRa2WsMeIb+mPs1HzYPmkyyFMPxAtP4P4+19/Yc908
+	4BNfBMRBT4pW6W8gmbzyjuiO6GR83kkUR7vvJ0yC2yrp4SxQ0eoWHMgj2AqFfTamfenf
+	HSZXwgw2numcDPcm0V/iKJJ4GH3Kw0ORDyHOHvDJ/PHV+XmuafCJYHPOi1grJKRMYqvp
+	PGWeXgj9fOgfFKMxCWqjIWoogfLpxnxeS2ckaY28Sh6/tE2tA/5OAi3lhi+ASkhbX1oh
+	InIA==
+X-Gm-Message-State: AE9vXwMCLeahwOHv5RVh8KVaEhmu0ofFQrpYcDf/U4BlVAg8g3AqlpGWW8n2w5mZjiQ62g==
+X-Received: by 10.66.163.129 with SMTP id yi1mr858451pab.47.1473107590892;
+	Mon, 05 Sep 2016 13:33:10 -0700 (PDT)
+Received: from jlock-mobl1.ger.corp.intel.com ([192.55.54.43])
+	by smtp.gmail.com with ESMTPSA id
+	m24sm35402875pfi.34.2016.09.05.13.33.08
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 05 Sep 2016 12:52:22 -0700 (PDT)
-From: Otavio Salvador <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by mail-ua0-f170.google.com with SMTP id i32so237514222uai.2
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 05 Sep 2016 12:52:22 -0700 (PDT)
-X-Received: by 10.176.64.161 with SMTP id i30mr18833683uad.107.1473105141728; 
-	Mon, 05 Sep 2016 12:52:21 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.31.154.68 with HTTP; Mon, 5 Sep 2016 12:52:20 -0700 (PDT)
-In-Reply-To: <1a682b94-a0e2-cc93-92c3-f97e5abf4edd@denx.de>
-References: <20160904162130.13313-1-marex@denx.de>
-	<1473024487.20226.3.camel@linuxfoundation.org>
-	<9f3a5dfd-8303-b6d0-cd5e-07f2aac7c588@denx.de>
-	<1473027091.20226.4.camel@linuxfoundation.org>
-	<252ea4f7-871c-60a5-0a2f-f59a5d35683e@denx.de>
-	<00e9ef55-2e08-5c92-0a5a-32e9ce1f61fa@denx.de>
-	<1473073354.20226.9.camel@linuxfoundation.org>
-	<1fbc36ad-f031-9f85-7861-1ba302273ace@denx.de>
-	<CAP9ODKqO1ffXbra1QU0F6CwyXWW2sU5A9UoSuXeNtyMu=DbHAg@mail.gmail.com>
-	<15ec9cec-d76f-233e-486a-89afb93083de@denx.de>
-	<CAP9ODKp_ypN2JVrbcLnaHW_Unsr5N8eMD8-+4s_FQWjdg0AnqQ@mail.gmail.com>
-	<d3411db9-1d02-d493-72e6-e85625f849a9@denx.de>
-	<CAP9ODKpB9ofyxgNJtt3DpxNiVzKvF_ta708xZvj9vuNUZFyoAg@mail.gmail.com>
-	<1473104036.20226.16.camel@linuxfoundation.org>
-	<1a682b94-a0e2-cc93-92c3-f97e5abf4edd@denx.de>
-Date: Mon, 5 Sep 2016 16:52:20 -0300
-X-Gmail-Original-Message-ID: <CAP9ODKpZ+jeZ46rHbqz3jnDtGrhi1Nh+x8Et4-JkxEPzdLj5Lg@mail.gmail.com>
-Message-ID: <CAP9ODKpZ+jeZ46rHbqz3jnDtGrhi1Nh+x8Et4-JkxEPzdLj5Lg@mail.gmail.com>
-To: Marek Vasut <marex@denx.de>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] u-boot: Factor out common bits
+	Mon, 05 Sep 2016 13:33:10 -0700 (PDT)
+From: Joshua Lock <joshuagloe@gmail.com>
+X-Google-Original-From: Joshua Lock <joshua.g.lock@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  5 Sep 2016 21:32:54 +0100
+Message-Id: <cover.1473107499.git.joshua.g.lock@intel.com>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH v2 0/3] Python3 runqemu
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -81,44 +53,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 05 Sep 2016 19:52:24 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 05 Sep 2016 20:33:10 -0000
 
-On Mon, Sep 5, 2016 at 4:47 PM, Marek Vasut <marex@denx.de> wrote:
-> On 09/05/2016 09:33 PM, Richard Purdie wrote:
->> On Mon, 2016-09-05 at 13:26 -0300, Otavio Salvador wrote:
->>> On Mon, Sep 5, 2016 at 1:24 PM, Marek Vasut <marex@denx.de> wrote:
->>>>
->>>> On 09/05/2016 06:22 PM, Otavio Salvador wrote:
->>>>>
->>>>> On Mon, Sep 5, 2016 at 1:16 PM, Marek Vasut <marex@denx.de>
->>>>> wrote:
->>>>> I would love to see the proposed patches.
->>>>>
->>>> That'd depend on whether they'd be NAK'd right away for breaking
->>>> BSPs or
->>>> not.
->>> It will depends on the type of breakage and the benefits it puts on
->>> the table.
->>
->> I would note that we are past feature freeze at this point and I'm
->> struggling to get stability in the patches we have queued without
->> anything in addition to that.
->>
->> If there is a pressing attractive reason we should do this now I'm
->> willing to listen but it might be better waiting for 2.3...
->
-> Definitely wait for 2.3 with any disruptive changes please.
->
-> U-Boot 2016.09 will be out on september 12th, but I don't know if that
-> can make it into 2.2 release. I can certainly send a patch to update
-> the recipe.
+This small series against master-next (as the python3 runqemu hasn't made it to
+master yet) fixes the new runqemu for a workflow of mine where I build on a
+headless machine and copy images locally to test them with runqemu.
 
-I would support its addition; the risk of it is small and the set of
-reference BSP is also small so should be fine.
+Changes since v1:
+* drop a patch to replace an ls -t call with Python's glob()
+* Fix and enhance reading STAGING_*_NATIVE from the bitbake environment, tested
+  with artefacts in a completely different path to the build path and invoking 
+  with both the qemuboot.conf file as the arg to runqemu and the parent 
+  directory.
+
+The following changes since commit 5b3ac3cd92d1f021c06b22eaa0e74ab8dfb22764:
+
+  kernel-module-split.bbclass: no need for running depmod (2016-09-05 17:45:53 +0100)
+
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib joshuagl/runqemu
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=joshuagl/runqemu
+
+Joshua Lock (3):
+  runqemu: fix typos
+  runqemu: assume artefacts are relative to *.qemuboot.conf
+  runqemu: better handle running on a host with different paths
+
+ scripts/runqemu | 57 ++++++++++++++++++++++++++++++++++++++++++++++++++++++---
+ 1 file changed, 54 insertions(+), 3 deletions(-)
 
 -- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+2.7.4
 
