@@ -1,21 +1,61 @@
-Return-Path: <reinette.chatre@intel.com>
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id 4AE2177261
+Return-Path: <anders@chargestorm.se>
+Received: from mail-lf0-f42.google.com (mail-lf0-f42.google.com
+	[209.85.215.42])
+	by mail.openembedded.org (Postfix) with ESMTP id 4904F7725A
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  5 Sep 2016 05:48:40 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga104.fm.intel.com with ESMTP; 04 Sep 2016 22:48:42 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.30,285,1470726000"; d="scan'208";a="757204260"
-Received: from rchatre-builder.jf.intel.com ([10.54.39.160])
-	by FMSMGA003.fm.intel.com with ESMTP; 04 Sep 2016 22:48:41 -0700
-From: Reinette Chatre <reinette.chatre@intel.com>
-To: akuster808@gmail.com
-Date: Sun,  4 Sep 2016 22:39:35 -0700
-Message-Id: <dab710df735a64356168e89f751ea1104031936c.1473053756.git.reinette.chatre@intel.com>
-X-Mailer: git-send-email 2.7.4
-Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH][krogoth] binutils: advance SRCREV to obtain versioned symbols
+	Mon,  5 Sep 2016 06:58:24 +0000 (UTC)
+Received: by mail-lf0-f42.google.com with SMTP id l131so26564254lfl.2
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 04 Sep 2016 23:58:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=chargestorm-se.20150623.gappssmtp.com; s=20150623;
+	h=date:from:to:subject:message-id:mail-followup-to:references
+	:mime-version:content-disposition:in-reply-to:organization
+	:user-agent; bh=P+AaLkuApLC3XqUA6d6XpltBCSVa6c8S8lltmKgJRLw=;
+	b=ksqGtODdQu5aorAGFaG4DyasT94u/rfjgUSJgFy/bPmmHkTI7D6FzSI2AlI2OHh8MG
+	eGwoO45M5eHdDyM22XUF90rA8uAVp0osH3gLj0lEnQgQtsBJYYxJYr1xhpJZsrtHtdMu
+	OvRsj8fTA8Wm4oEYQCejfc6T742Ap9GOtm4HSwcu/4Zgy9HSjkSf1jh5hpyNZH36wIgs
+	ZAFF6XbcWDx6l40OeIOpzkOwjmntu4EcLa5vE0paF5j8SquB0FcwG0q3pF/awG1dHAAF
+	SyVTF3uFDd5fEWpy8vG0vKzOwAMTO4uWBAgyEIxQqHBBrJu34RTigRoj9qah44uZJ9hP
+	BXew==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:date:from:to:subject:message-id:mail-followup-to
+	:references:mime-version:content-disposition:in-reply-to
+	:organization:user-agent;
+	bh=P+AaLkuApLC3XqUA6d6XpltBCSVa6c8S8lltmKgJRLw=;
+	b=M/JG592FZ8mBzgU4S443ozQF+uHKMQ7ByWJT8F77i1Fclgj/GKVw/1gSSY71Ucc5cm
+	WD/vO0frcO8pxHw5JfMRlREqJMcFJvUq+tZnvsdNa8P80lIL2aiKtJu98Lk1Z3Tbaq2T
+	wvGebciez+zo8mXGir9qwPX2slwHAhlW5rLtsi7h2otp7bZ7ulkeXAJeHeAjuiiwvTCQ
+	VtUCMc4BOwdmFz2+WvVtpC2kpxzWQOgxGFFMbRVgpcUi4iNdmV1C2bDcIdnxoHncdl6a
+	ByAj6y5MQwhG8uOn5oi6DAP8KOGmDxprdGpfTTHAuwQe+XPkTfDgq5EtKA0Vpct4BagA
+	+8Tg==
+X-Gm-Message-State: AE9vXwPjQ/rsl4Gs8FNh9khpmzeX+XNlI1t9sg75+C5w6o0DuvJEgv+ia0fP7XKja1XoYg==
+X-Received: by 10.25.218.75 with SMTP id r72mr8156406lfg.131.1473058704572;
+	Sun, 04 Sep 2016 23:58:24 -0700 (PDT)
+Received: from ad.chargestorm.se (h83-209-191-235.cust.se.alltele.net.
+	[83.209.191.235]) by smtp.gmail.com with ESMTPSA id
+	s82sm4501735lja.14.2016.09.04.23.58.23
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Sun, 04 Sep 2016 23:58:23 -0700 (PDT)
+Date: Mon, 5 Sep 2016 08:58:22 +0200
+From: Anders Darander <anders@chargestorm.se>
+To: openembedded-core@lists.openembedded.org
+Message-ID: <20160905065822.fivzxjjyotyzifgt@ad.chargestorm.se>
+Mail-Followup-To: openembedded-core@lists.openembedded.org
+References: <cover.1472221205.git.alexander.kanavin@linux.intel.com>
+	<075b7a5f-14d8-5999-2fda-da8bae3d893e@windriver.com>
+	<e83ab03a-ae9f-cf9a-2838-1b16b15a4e16@linux.intel.com>
+MIME-Version: 1.0
+In-Reply-To: <e83ab03a-ae9f-cf9a-2838-1b16b15a4e16@linux.intel.com>
+X-Accept-Language: sv, en, de
+X-GPG-Fingerprint: 5AF0 B2E9 78FE 9D75 D110  6F8F 3E31 84D7 920E 938C
+X-GPG-Key-Id: 0x920E938C
+X-GPG-Keyserver: hkp://keys.gnupg.net
+Organization: ChargeStorm AB
+User-Agent: NeoMutt/ (1.7.0)
+Subject: Re: [PATCH 00/28] Enable gtk-doc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,60 +68,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 05 Sep 2016 05:48:42 -0000
+X-List-Received-Date: Mon, 05 Sep 2016 06:58:25 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Libraries needing versioned symbols, for example mysql, are not
-supported by current version of binutils in krogoth.
+* Alexander Kanavin <alexander.kanavin@linux.intel.com> [160902 17:08]:
 
-When mysql library from MariaDB is compiled with the current
-version of binutils we encounter errors at runtime as seen
-below where php linked to mysql tries to run:
+> On 09/02/2016 12:59 AM, Randy MacLeod wrote:
+> > > Gtk-doc generation happens if 'api-documentation' distro feature is
+> > > enabled
+> > > (it is by default), and 'qemu-usermode' is in machine features.
 
-php: relocation error: php: symbol mysql_server_init, version
- libmysqlclient_16 not defined in file libmysqlclient.so.18
- with link time reference
+> > Should this really be enabled by default?
+> > What does it do to a typical build wrt time and space?
 
-Above error appears even though symbols exist in library:
+> The default distro feature list also includes all of the available
+> communication stacks, full x11 stack, pulseaudio etc. It seems to me that
+> the aim is to enable as many various features as possible by default.
+> Distros can and should trim the list to their specific needs.
 
-   245: 000000000001ecc0     0 FUNC    GLOBAL DEFAULT   13 mysql_server_init@@libmysqlclient_16
-   279: 000000000001ecc0   297 FUNC    GLOBAL DEFAULT   13 mysql_server_init@@libmysqlclient_18
+Sure, but as far as I remember, doc building is disabled in most cases.
+And personally, I'd prefer to have the doc-generation disabled per
+default. (As usually, most people I've met, won't use the doc's built
+here anyway).
 
-The problem results from a bug in binutils that has already been
-fixed upstream as well as on the 2.26 and 2.27 branches. We advance
-the SRCREV on the 2.26 branch used in krogoth release to pick up the fix.
-
-Details about bug: https://sourceware.org/bugzilla/show_bug.cgi?id=19698
-
-Signed-off-by: Reinette Chatre <reinette.chatre@intel.com>
----
-Hi Armin,
-
-This is not a backport of a fix on master since binutils recipe in master
-builds from binutils v2.27 branch that already contains this fix.
-
-Please do consider it for the krogoth stable branch.
-
-Thank you
-
-Reinette
-
- meta/recipes-devtools/binutils/binutils-2.26.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/recipes-devtools/binutils/binutils-2.26.inc b/meta/recipes-devtools/binutils/binutils-2.26.inc
-index 703eac2..06ce245 100644
---- a/meta/recipes-devtools/binutils/binutils-2.26.inc
-+++ b/meta/recipes-devtools/binutils/binutils-2.26.inc
-@@ -18,7 +18,7 @@ BINUPV = "${@binutils_branch_version(d)}"
- 
- UPSTREAM_CHECK_GITTAGREGEX = "binutils-(?P<pver>\d+_(\d_?)*)"
- 
--SRCREV = "71fa566a9cf2597b60a58c1d7c148bab637454a6"
-+SRCREV = "544ddf9322b1b83982e5cb84a54d084ee7e718ea"
- SRC_URI = "\
-      git://sourceware.org/git/binutils-gdb.git;branch=binutils-${BINUPV}-branch;protocol=git \
-      file://0002-configure-widen-the-regexp-for-SH-architectures.patch \
 -- 
-2.7.4
-
+Anders Darander, Senior System Architect
+ChargeStorm AB / eStorm AB
 
