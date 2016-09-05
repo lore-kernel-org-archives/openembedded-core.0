@@ -1,61 +1,28 @@
-Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-vk0-f65.google.com (mail-vk0-f65.google.com
-	[209.85.213.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 0DD8F77382
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 9CD67773AE
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  5 Sep 2016 14:45:42 +0000 (UTC)
-Received: by mail-vk0-f65.google.com with SMTP id x187so3253688vkx.1
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 05 Sep 2016 07:45:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
-	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
-	:cc; bh=xEWQ14gbRWpDFN59CUxdAkygKgWZH12WDx6K1GJZp8U=;
-	b=gvs6HrqPBrPkIt+lV2yI1ejQzNKn7OP0bTiRXcrk2rn8u9NIvhX5dF8QvwOuFhCNVE
-	wiaPEcm1QCbcAEGfbfe6O06ouK6SAROT9CMT5ee3ylUbEakcmvecTQf4NhKyoeQqzdKg
-	A8CUKX7fJSu4Msqv8dYmT3RT4nvmseZHjM7XihWrCxeYSWWQooALOXrXg5Y2CtF2pFju
-	UYOz4ht1wEDQNKmsWZNO5ptxgMRKetn/OdKr5YwTVm2v3DT5ar4zF7/CRc48hBu6ZJmT
-	dV4c86WIa/q1neQmZInA6JOETJcyF1+32jxqxT5zI7FuTUcChfewUh9eRHM/iN7dI6ac
-	1lhQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
-	:message-id:subject:to:cc;
-	bh=xEWQ14gbRWpDFN59CUxdAkygKgWZH12WDx6K1GJZp8U=;
-	b=PKcpjFiR5/21anlxXOmV2iAAHIpeM5hzQFdbh/HbLuRxo9BZriKBp5L83N389BQyd1
-	2AbnOrjR9dLoxLvL3ZmMa4abmcOuXTS3eXnJLT2mUhdIDSpJZwLZM0pP4v7xa8UJCwyu
-	M1CPAKn9QZJ3YHB0FXE22hujl7nQ5Kxx/FRZZzd2e8EPL4Lr1jWbdYPsiyz5PvRBNzwF
-	ALfbEqvjJszhC+QLy0bzNPIJIun0cZkvI0XrwYcQMnY3Xrdy0lR4mglVEd3iZ9rnpw8U
-	8N/83s8nQgrMFkH0L7smuHKg1G0h8VC98TQmSmI35PTdITAAOBNMWGpZpLvCbdwtxePV
-	L3XQ==
-X-Gm-Message-State: AE9vXwNCj7OZ2ESavHUwvvxQo2bajXXQFODX3dIKTlZ+gMAM+YYB0AzbvyW4o0LaOTr7PA==
-X-Received: by 10.31.13.197 with SMTP id 188mr22766998vkn.87.1473086743270;
-	Mon, 05 Sep 2016 07:45:43 -0700 (PDT)
-Received: from mail-ua0-f171.google.com (mail-ua0-f171.google.com.
-	[209.85.217.171]) by smtp.gmail.com with ESMTPSA id
-	g194sm4188743vke.19.2016.09.05.07.45.42
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 05 Sep 2016 07:45:42 -0700 (PDT)
-From: Otavio Salvador <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by mail-ua0-f171.google.com with SMTP id u68so8276249uau.1
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 05 Sep 2016 07:45:42 -0700 (PDT)
-X-Received: by 10.176.2.10 with SMTP id 10mr11784987uas.79.1473086741799; Mon,
-	05 Sep 2016 07:45:41 -0700 (PDT)
+	Mon,  5 Sep 2016 14:47:47 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u85Elk0E005299
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
+	Mon, 5 Sep 2016 07:47:46 -0700
+Received: from [128.224.162.240] (128.224.162.240) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.248.2;
+	Mon, 5 Sep 2016 07:47:45 -0700
+To: Joshua Lock <joshuagloe@gmail.com>,
+	<openembedded-core@lists.openembedded.org>
+References: <cover.1473083836.git.joshua.g.lock@intel.com>
+	<6180658762c54732ad9d8db624f2f0502996ff9b.1473083836.git.joshua.g.lock@intel.com>
+From: Robert Yang <liezhi.yang@windriver.com>
+Message-ID: <a08a52ab-c834-d104-695f-491d297a4e1d@windriver.com>
+Date: Mon, 5 Sep 2016 22:47:44 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.2.0
 MIME-Version: 1.0
-Received: by 10.31.154.68 with HTTP; Mon, 5 Sep 2016 07:45:41 -0700 (PDT)
-In-Reply-To: <1473086651.20226.14.camel@linuxfoundation.org>
-References: <1472639558.29583.70.camel@linuxfoundation.org>
-	<CAP9ODKq8Z8z4a7SoZoxzOz8GrEWnsoZZoL8Se++wMMWJp6yzsQ@mail.gmail.com>
-	<1473086651.20226.14.camel@linuxfoundation.org>
-Date: Mon, 5 Sep 2016 11:45:41 -0300
-X-Gmail-Original-Message-ID: <CAP9ODKpGJ3mSZXJgAX2Mi-z_2jFCQp4yJ5WE93K8taCrLQFcbQ@mail.gmail.com>
-Message-ID: <CAP9ODKpGJ3mSZXJgAX2Mi-z_2jFCQp4yJ5WE93K8taCrLQFcbQ@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] lttng-modules: Update 2.7.3 -> 2.8.0+master
+In-Reply-To: <6180658762c54732ad9d8db624f2f0502996ff9b.1473083836.git.joshua.g.lock@intel.com>
+Subject: Re: [PATCH 4/4] runqemu: get NATIVE dirs from env when in source OE build dir
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -68,43 +35,96 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 05 Sep 2016 14:45:44 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 05 Sep 2016 14:47:48 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Mon, Sep 5, 2016 at 11:44 AM, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> On Mon, 2016-09-05 at 11:40 -0300, Otavio Salvador wrote:
->> On Wed, Aug 31, 2016 at 7:32 AM, Richard Purdie
->> <richard.purdie@linuxfoundation.org> wrote:
->> >
->> > We need master for the changes to work with 4.8 kernels.
->> >
->> > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
->> This broken for kernels which does not enable CONFIG_TRACEPOINTS.
->>
->> Up to now, the lttng-modules build were fine if this was disabled
->> just
->> printing a warning on the build. Now it makes build fail.
->>
->> The behaviour changes was made on:
->>
->> https://github.com/lttng/lttng-modules/commit/ca62d279e2e83fd46b8a04e
->> 6ad4471e9f8fc7c47
+Hi Josh,
+
+Thanks for fixing this, I got errors when test this patch:
+
+$ runqemu tmp/deploy/images/qemux86/
+runqemu - INFO - Running bitbake -e...
+Traceback (most recent call last):
+   File "/buildarea/lyang1/poky/scripts/runqemu", line 864, in <module>
+     ret = main()
+   File "/buildarea/lyang1/poky/scripts/runqemu", line 851, in main
+     config.read_qemuboot()
+   File "/buildarea/lyang1/poky/scripts/runqemu", line 536, in read_qemuboot
+     self.qemuboot = qbs.split[0]
+AttributeError: 'list' object has no attribute 'split'
+
+And after your patches, it always need run "bitbake -e", this makes
+us can't use runqemu when another build is running:
+ERROR: Only one copy of bitbake should be run against a build directory
+
+Maybe we check STAGING_DIR_NATIVE, STAGING_BINDIR_NATIVE
+and STAGING_DIR_HOST, if they are existed, then we don't need run bitbake -e.
+
+And please see my comments below.
+
+On 09/05/2016 09:59 PM, Joshua Lock wrote:
+> When we're running from a sourced OE build directory parse the
+> STAGING_* directories from the bitbake environment, rather than
+> using those hard-coded in the conf file.
 >
-> Hmm, any idea how we should proceed then?
-
-Is there a mechanism to check for a kernel config prior build?
-
->> Another thing I noticed is that we ought to be using stable-2.8
->> branch or name the recipe accordingly as master is in fact 2.9-pre.
+> Signed-off-by: Joshua Lock <joshua.g.lock@intel.com>
+> ---
+>  scripts/runqemu | 22 ++++++++++++++++++++++
+>  1 file changed, 22 insertions(+)
 >
-> We'll need to rename it then as there are changes in master needed for
-> 4.8 kernels which is why I upgraded it in the first place.
+> diff --git a/scripts/runqemu b/scripts/runqemu
+> index cfe7bff..5a97802 100755
+> --- a/scripts/runqemu
+> +++ b/scripts/runqemu
+> @@ -555,6 +555,16 @@ class BaseConfig(object):
+>                  logger.info('Setting DEPLOY_DIR_IMAGE to folder containing %s (%s)' % (self.qemuboot, imgdir))
+>                  self.set('DEPLOY_DIR_IMAGE', imgdir)
+>
+> +        # When we're running from a sourced OE environment use the STAGING_*
+> +        # directories from the environment.
+> +        if self.bitbake_e:
+> +            native_vars = ['STAGING_DIR_NATIVE', 'STAGING_BINDIR_NATIVE']
+> +            for nv in native_vars:
+> +                s = re.search('^%s="(.*)"' % nv, self.bitbake_e, re.M)
+> +                if s and s.group(1) != self.get(nv):
+> +                    logger.info('Overriding conf file setting of %s to %s from Bitbake environment' % (nv, s.group(1)))
+> +                    self.set(nv, s.group(1))
+> +
+>      def print_config(self):
+>          logger.info('Continuing with the following parameters:\n')
+>          if not self.fstype in self.vmtypes:
+> @@ -815,6 +825,17 @@ class BaseConfig(object):
+>              shutil.rmtree(self.nfs_dir)
+>              shutil.rmtree('%s.pseudo_state' % self.nfs_dir)
+>
+> +    def check_sourced_env(self):
+> +        bitbake = shutil.which('bitbake')
+> +        if bitbake and not self.bitbake_e:
+> +            mach = self.get('MACHINE')
+> +            if mach:
+> +                cmd = 'MACHINE=%s bitbake -e' % mach
+> +            else:
+> +                cmd = 'bitbake -e'
+> +            logger.info('Running %s...' % cmd)
+> +            self.bitbake_e = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE).stdout.read().decode('utf-8')
 
-No; the 2.8 branch does support 4.8 ;-)
+I think that we need check whether the command is successed
+or not, and print errors if it is failed to run.
 
--- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+// Robert
+
+> +
+>  def main():
+>      if len(sys.argv) == 1 or "help" in sys.argv:
+>          print_usage()
+> @@ -826,6 +847,7 @@ def main():
+>          logger.error(esc)
+>          logger.error("Try 'runqemu help' on how to use it")
+>          return 1
+> +    config.check_sourced_env()
+>      config.read_qemuboot()
+>      config.check_and_set()
+>      config.print_config()
+>
 
