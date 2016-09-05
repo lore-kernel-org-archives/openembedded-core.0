@@ -1,24 +1,21 @@
-Return-Path: <Zhixiong.Chi@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 1845D77254
+Return-Path: <reinette.chatre@intel.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id 4AE2177261
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  5 Sep 2016 04:08:18 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u8548Gxn023893
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 4 Sep 2016 21:08:17 -0700 (PDT)
-Received: from pek-zchi-d1.corp.ad.wrs.com (128.224.162.239) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.248.2; Sun, 4 Sep 2016 21:08:14 -0700
-From: Zhixiong Chi <Zhixiong.Chi@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 5 Sep 2016 12:08:13 +0800
-Message-ID: <1473048493-13773-1-git-send-email-Zhixiong.Chi@windriver.com>
-X-Mailer: git-send-email 1.9.1
-MIME-Version: 1.0
-Subject: [PATCH] rpm: ensure rpm2cpio call rpm relocation code
+	Mon,  5 Sep 2016 05:48:40 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by fmsmga104.fm.intel.com with ESMTP; 04 Sep 2016 22:48:42 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.30,285,1470726000"; d="scan'208";a="757204260"
+Received: from rchatre-builder.jf.intel.com ([10.54.39.160])
+	by FMSMGA003.fm.intel.com with ESMTP; 04 Sep 2016 22:48:41 -0700
+From: Reinette Chatre <reinette.chatre@intel.com>
+To: akuster808@gmail.com
+Date: Sun,  4 Sep 2016 22:39:35 -0700
+Message-Id: <dab710df735a64356168e89f751ea1104031936c.1473053756.git.reinette.chatre@intel.com>
+X-Mailer: git-send-email 2.7.4
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH][krogoth] binutils: advance SRCREV to obtain versioned symbols
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,72 +28,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 05 Sep 2016 04:08:20 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 05 Sep 2016 05:48:42 -0000
 
-We need to call rpmcliInit to ensure the rpm relocation code is called.
-when we allow rpm2cpio to be relocatable, The adjusted path used to find
-the macro files was being built into the binary and this path was valid
-for the machine it was built on and some of our other build machines,
-but invalid on some others, and was not being properly overridden at
-runtime.
+Libraries needing versioned symbols, for example mysql, are not
+supported by current version of binutils in krogoth.
 
-when we export the wrsdk and source the sdk, then execute rpm2cpio xxx.rpm|cpio -t.
-we will get the following error :
-"rpm-5.4.14/rpmdb/dbconfig.c:493:
-db3New: Assertion `dbOpts != ((void *)0) && *dbOpts != '\0'' failed.
+When mysql library from MariaDB is compiled with the current
+version of binutils we encounter errors at runtime as seen
+below where php linked to mysql tries to run:
 
-Signed-off-by: Zhixiong Chi <Zhixiong.Chi@windriver.com>
+php: relocation error: php: symbol mysql_server_init, version
+ libmysqlclient_16 not defined in file libmysqlclient.so.18
+ with link time reference
+
+Above error appears even though symbols exist in library:
+
+   245: 000000000001ecc0     0 FUNC    GLOBAL DEFAULT   13 mysql_server_init@@libmysqlclient_16
+   279: 000000000001ecc0   297 FUNC    GLOBAL DEFAULT   13 mysql_server_init@@libmysqlclient_18
+
+The problem results from a bug in binutils that has already been
+fixed upstream as well as on the 2.26 and 2.27 branches. We advance
+the SRCREV on the 2.26 branch used in krogoth release to pick up the fix.
+
+Details about bug: https://sourceware.org/bugzilla/show_bug.cgi?id=19698
+
+Signed-off-by: Reinette Chatre <reinette.chatre@intel.com>
 ---
- ...-ensure-rpm2cpio-call-rpm-relocation-code.patch | 25 ++++++++++++++++++++++
- meta/recipes-devtools/rpm/rpm_5.4.16.bb            |  1 +
- 2 files changed, 26 insertions(+)
- create mode 100644 meta/recipes-devtools/rpm/rpm/rpm-ensure-rpm2cpio-call-rpm-relocation-code.patch
+Hi Armin,
 
-diff --git a/meta/recipes-devtools/rpm/rpm/rpm-ensure-rpm2cpio-call-rpm-relocation-code.patch b/meta/recipes-devtools/rpm/rpm/rpm-ensure-rpm2cpio-call-rpm-relocation-code.patch
-new file mode 100644
-index 0000000..63af100
---- /dev/null
-+++ b/meta/recipes-devtools/rpm/rpm/rpm-ensure-rpm2cpio-call-rpm-relocation-code.patch
-@@ -0,0 +1,25 @@
-+We need to call rpmcliInit to ensure the rpm relocation code is called
-+and it correctly honours the relocation environmental variables.
-+
-+when we export the wrsdk and source the sdk, then execute rpm2cpio xxx.rpm|cpio -t.
-+we will get the following error :
-+"rpm-5.4.14/rpmdb/dbconfig.c:493:
-+db3New: Assertion `dbOpts != ((void *)0) && *dbOpts != '\0'' failed.
-+
-+Upstream-Status: Pending
-+
-+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-+Signed-off-by: Zhixiong Chi <zhixiong.chi@windriver.com>
-+Index: rpm-5.4.15/tools/rpm2cpio.c
-+===================================================================
-+--- rpm-5.4.15.orig/tools/rpm2cpio.c	2012-04-27 01:46:51.000000000 +0800
-++++ rpm-5.4.15/tools/rpm2cpio.c	2016-09-05 11:07:30.419903338 +0800
-+@@ -87,6 +87,8 @@
-+ #endif
-+ 	(void) rpmtsSetVSFlags(ts, vsflags);
-+ 
-++	rpmcliInit(argc, argv, NULL);
-++
-+ 	/*@-mustmod@*/      /* LCL: segfault */
-+ 	rc = rpmReadPackageFile(ts, fdi, "rpm2cpio", &h);
-+ 	/*@=mustmod@*/
-diff --git a/meta/recipes-devtools/rpm/rpm_5.4.16.bb b/meta/recipes-devtools/rpm/rpm_5.4.16.bb
-index 84adef6..55acd25 100644
---- a/meta/recipes-devtools/rpm/rpm_5.4.16.bb
-+++ b/meta/recipes-devtools/rpm/rpm_5.4.16.bb
-@@ -118,6 +118,7 @@ SRC_URI += " \
- 	   file://0001-Disable-__sync_add_and_fetch_8-on-nios2.patch \
- 	   file://gcc6-stdlib.patch \
- 	   file://0001-system.h-query.c-support-nosignature.patch \
-+	   file://rpm-ensure-rpm2cpio-call-rpm-relocation-code.patch \
- "
+This is not a backport of a fix on master since binutils recipe in master
+builds from binutils v2.27 branch that already contains this fix.
+
+Please do consider it for the krogoth stable branch.
+
+Thank you
+
+Reinette
+
+ meta/recipes-devtools/binutils/binutils-2.26.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/recipes-devtools/binutils/binutils-2.26.inc b/meta/recipes-devtools/binutils/binutils-2.26.inc
+index 703eac2..06ce245 100644
+--- a/meta/recipes-devtools/binutils/binutils-2.26.inc
++++ b/meta/recipes-devtools/binutils/binutils-2.26.inc
+@@ -18,7 +18,7 @@ BINUPV = "${@binutils_branch_version(d)}"
  
- # OE specific changes
+ UPSTREAM_CHECK_GITTAGREGEX = "binutils-(?P<pver>\d+_(\d_?)*)"
+ 
+-SRCREV = "71fa566a9cf2597b60a58c1d7c148bab637454a6"
++SRCREV = "544ddf9322b1b83982e5cb84a54d084ee7e718ea"
+ SRC_URI = "\
+      git://sourceware.org/git/binutils-gdb.git;branch=binutils-${BINUPV}-branch;protocol=git \
+      file://0002-configure-widen-the-regexp-for-SH-architectures.patch \
 -- 
-1.9.1
+2.7.4
 
 
