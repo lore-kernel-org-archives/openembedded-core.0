@@ -1,32 +1,24 @@
-Return-Path: <Mingli.Yu@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 3C5EB60851
+Return-Path: <Zhixiong.Chi@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 1845D77254
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  5 Sep 2016 01:54:55 +0000 (UTC)
+	Mon,  5 Sep 2016 04:08:18 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u851sre9019899
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
-	Sun, 4 Sep 2016 18:54:53 -0700
-Received: from [128.224.163.140] (128.224.163.140) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.248.2;
-	Sun, 4 Sep 2016 18:54:51 -0700
-To: Richard Purdie <richard.purdie@linuxfoundation.org>, "Burton, Ross"
-	<ross.burton@intel.com>
-References: <1472178349-32199-1-git-send-email-mingli.yu@windriver.com>
-	<CAJTo0Lajz4nb5S5T4rq=F6fmfGvRPEuAyKF=U-OZdWfo+JoOqQ@mail.gmail.com>
-	<57C00BB4.8050607@windriver.com> <57C8DBBD.7020701@windriver.com>
-	<1472816491.29583.154.camel@linuxfoundation.org>
-From: "Yu, Mingli" <mingli.yu@windriver.com>
-Message-ID: <57CCCF78.2070405@windriver.com>
-Date: Mon, 5 Sep 2016 09:50:48 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.4.0
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u8548Gxn023893
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 4 Sep 2016 21:08:17 -0700 (PDT)
+Received: from pek-zchi-d1.corp.ad.wrs.com (128.224.162.239) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.3.248.2; Sun, 4 Sep 2016 21:08:14 -0700
+From: Zhixiong Chi <Zhixiong.Chi@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 5 Sep 2016 12:08:13 +0800
+Message-ID: <1473048493-13773-1-git-send-email-Zhixiong.Chi@windriver.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-In-Reply-To: <1472816491.29583.154.camel@linuxfoundation.org>
-X-Originating-IP: [128.224.163.140]
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/4] groff: add file-homedir-perl to RDEPENDS
+Subject: [PATCH] rpm: ensure rpm2cpio call rpm relocation code
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,27 +31,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 05 Sep 2016 01:54:57 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 05 Sep 2016 04:08:20 -0000
+Content-Type: text/plain
 
+We need to call rpmcliInit to ensure the rpm relocation code is called.
+when we allow rpm2cpio to be relocatable, The adjusted path used to find
+the macro files was being built into the binary and this path was valid
+for the machine it was built on and some of our other build machines,
+but invalid on some others, and was not being properly overridden at
+runtime.
 
+when we export the wrsdk and source the sdk, then execute rpm2cpio xxx.rpm|cpio -t.
+we will get the following error :
+"rpm-5.4.14/rpmdb/dbconfig.c:493:
+db3New: Assertion `dbOpts != ((void *)0) && *dbOpts != '\0'' failed.
 
-On 2016年09月02日 19:41, Richard Purdie wrote:
-> On Fri, 2016-09-02 at 09:54 +0800, Yu, Mingli wrote:
->> ping
->
-> I'm with Ross here. We don't often have need for sheet music conversion
-> in groff in embedded or IoT devices. I'd prefer to have configuration
-> to disable this.
+Signed-off-by: Zhixiong Chi <Zhixiong.Chi@windriver.com>
+---
+ ...-ensure-rpm2cpio-call-rpm-relocation-code.patch | 25 ++++++++++++++++++++++
+ meta/recipes-devtools/rpm/rpm_5.4.16.bb            |  1 +
+ 2 files changed, 26 insertions(+)
+ create mode 100644 meta/recipes-devtools/rpm/rpm/rpm-ensure-rpm2cpio-call-rpm-relocation-code.patch
 
-Okay, thanks Richard for respond!
+diff --git a/meta/recipes-devtools/rpm/rpm/rpm-ensure-rpm2cpio-call-rpm-relocation-code.patch b/meta/recipes-devtools/rpm/rpm/rpm-ensure-rpm2cpio-call-rpm-relocation-code.patch
+new file mode 100644
+index 0000000..63af100
+--- /dev/null
++++ b/meta/recipes-devtools/rpm/rpm/rpm-ensure-rpm2cpio-call-rpm-relocation-code.patch
+@@ -0,0 +1,25 @@
++We need to call rpmcliInit to ensure the rpm relocation code is called
++and it correctly honours the relocation environmental variables.
++
++when we export the wrsdk and source the sdk, then execute rpm2cpio xxx.rpm|cpio -t.
++we will get the following error :
++"rpm-5.4.14/rpmdb/dbconfig.c:493:
++db3New: Assertion `dbOpts != ((void *)0) && *dbOpts != '\0'' failed.
++
++Upstream-Status: Pending
++
++Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
++Signed-off-by: Zhixiong Chi <zhixiong.chi@windriver.com>
++Index: rpm-5.4.15/tools/rpm2cpio.c
++===================================================================
++--- rpm-5.4.15.orig/tools/rpm2cpio.c	2012-04-27 01:46:51.000000000 +0800
+++++ rpm-5.4.15/tools/rpm2cpio.c	2016-09-05 11:07:30.419903338 +0800
++@@ -87,6 +87,8 @@
++ #endif
++ 	(void) rpmtsSetVSFlags(ts, vsflags);
++ 
+++	rpmcliInit(argc, argv, NULL);
+++
++ 	/*@-mustmod@*/      /* LCL: segfault */
++ 	rc = rpmReadPackageFile(ts, fdi, "rpm2cpio", &h);
++ 	/*@=mustmod@*/
+diff --git a/meta/recipes-devtools/rpm/rpm_5.4.16.bb b/meta/recipes-devtools/rpm/rpm_5.4.16.bb
+index 84adef6..55acd25 100644
+--- a/meta/recipes-devtools/rpm/rpm_5.4.16.bb
++++ b/meta/recipes-devtools/rpm/rpm_5.4.16.bb
+@@ -118,6 +118,7 @@ SRC_URI += " \
+ 	   file://0001-Disable-__sync_add_and_fetch_8-on-nios2.patch \
+ 	   file://gcc6-stdlib.patch \
+ 	   file://0001-system.h-query.c-support-nosignature.patch \
++	   file://rpm-ensure-rpm2cpio-call-rpm-relocation-code.patch \
+ "
+ 
+ # OE specific changes
+-- 
+1.9.1
 
-Thanks,
-
->
-> Cheers,
->
-> Richard
->
 
