@@ -1,25 +1,27 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 9BFE4772D9
+Return-Path: <marex@denx.de>
+Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.9])
+	by mail.openembedded.org (Postfix) with ESMTP id BC87D773D0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  5 Sep 2016 19:34:02 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u85JY29x020731; Mon, 5 Sep 2016 20:34:02 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id mBn1dB_6lH-c; Mon,  5 Sep 2016 20:34:01 +0100 (BST)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u85JXufM020728
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Mon, 5 Sep 2016 20:33:57 +0100
-Message-ID: <1473104036.20226.16.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Otavio Salvador <otavio.salvador@ossystems.com.br>, Marek Vasut
-	<marex@denx.de>
-Date: Mon, 05 Sep 2016 20:33:56 +0100
-In-Reply-To: <CAP9ODKpB9ofyxgNJtt3DpxNiVzKvF_ta708xZvj9vuNUZFyoAg@mail.gmail.com>
+	Mon,  5 Sep 2016 19:47:48 +0000 (UTC)
+Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
+	by mail-out.m-online.net (Postfix) with ESMTP id 3sSgHm5Vpkz3hjTs;
+	Mon,  5 Sep 2016 21:47:48 +0200 (CEST)
+Received: from localhost (dynscan1.mnet-online.de [192.168.6.68])
+	by mail.m-online.net (Postfix) with ESMTP id 3sSgHm596Jzvknn;
+	Mon,  5 Sep 2016 21:47:48 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at mnet-online.de
+Received: from mail.mnet-online.de ([192.168.8.182])
+	by localhost (dynscan1.mail.m-online.net [192.168.6.68]) (amavisd-new,
+	port 10024)
+	with ESMTP id Gzyac9dAH5Lw; Mon,  5 Sep 2016 21:47:47 +0200 (CEST)
+X-Auth-Info: 7q4CtBt1aZtRXkAEYoLpArHYN4NZweixFolPV19pU6U=
+Received: from [IPv6:::1] (unknown [195.140.253.167])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mail.mnet-online.de (Postfix) with ESMTPSA;
+	Mon,  5 Sep 2016 21:47:47 +0200 (CEST)
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	Otavio Salvador <otavio.salvador@ossystems.com.br>
 References: <20160904162130.13313-1-marex@denx.de>
 	<1473024487.20226.3.camel@linuxfoundation.org>
 	<9f3a5dfd-8303-b6d0-cd5e-07f2aac7c588@denx.de>
@@ -33,8 +35,14 @@ References: <20160904162130.13313-1-marex@denx.de>
 	<CAP9ODKp_ypN2JVrbcLnaHW_Unsr5N8eMD8-+4s_FQWjdg0AnqQ@mail.gmail.com>
 	<d3411db9-1d02-d493-72e6-e85625f849a9@denx.de>
 	<CAP9ODKpB9ofyxgNJtt3DpxNiVzKvF_ta708xZvj9vuNUZFyoAg@mail.gmail.com>
-X-Mailer: Evolution 3.18.5.2-0ubuntu3 
-Mime-Version: 1.0
+	<1473104036.20226.16.camel@linuxfoundation.org>
+From: Marek Vasut <marex@denx.de>
+Message-ID: <1a682b94-a0e2-cc93-92c3-f97e5abf4edd@denx.de>
+Date: Mon, 5 Sep 2016 21:47:46 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Icedove/45.2.0
+MIME-Version: 1.0
+In-Reply-To: <1473104036.20226.16.camel@linuxfoundation.org>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 1/2] u-boot: Factor out common bits
@@ -50,34 +58,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 05 Sep 2016 19:34:04 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Mon, 05 Sep 2016 19:47:51 -0000
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
 
-On Mon, 2016-09-05 at 13:26 -0300, Otavio Salvador wrote:
-> On Mon, Sep 5, 2016 at 1:24 PM, Marek Vasut <marex@denx.de> wrote:
-> > 
-> > On 09/05/2016 06:22 PM, Otavio Salvador wrote:
-> > > 
-> > > On Mon, Sep 5, 2016 at 1:16 PM, Marek Vasut <marex@denx.de>
-> > > wrote:
-> > > I would love to see the proposed patches.
-> > > 
-> > That'd depend on whether they'd be NAK'd right away for breaking
-> > BSPs or
-> > not.
-> It will depends on the type of breakage and the benefits it puts on
-> the table.
+On 09/05/2016 09:33 PM, Richard Purdie wrote:
+> On Mon, 2016-09-05 at 13:26 -0300, Otavio Salvador wrote:
+>> On Mon, Sep 5, 2016 at 1:24 PM, Marek Vasut <marex@denx.de> wrote:
+>>>
+>>> On 09/05/2016 06:22 PM, Otavio Salvador wrote:
+>>>>
+>>>> On Mon, Sep 5, 2016 at 1:16 PM, Marek Vasut <marex@denx.de>
+>>>> wrote:
+>>>> I would love to see the proposed patches.
+>>>>
+>>> That'd depend on whether they'd be NAK'd right away for breaking
+>>> BSPs or
+>>> not.
+>> It will depends on the type of breakage and the benefits it puts on
+>> the table.
+> 
+> I would note that we are past feature freeze at this point and I'm
+> struggling to get stability in the patches we have queued without
+> anything in addition to that.
+> 
+> If there is a pressing attractive reason we should do this now I'm
+> willing to listen but it might be better waiting for 2.3...
 
-I would note that we are past feature freeze at this point and I'm
-struggling to get stability in the patches we have queued without
-anything in addition to that.
+Definitely wait for 2.3 with any disruptive changes please.
 
-If there is a pressing attractive reason we should do this now I'm
-willing to listen but it might be better waiting for 2.3...
+U-Boot 2016.09 will be out on september 12th, but I don't know if that
+can make it into 2.2 release. I can certainly send a patch to update
+the recipe.
 
-Cheers,
-
-Richard
-
+-- 
+Best regards,
+Marek Vasut
 
