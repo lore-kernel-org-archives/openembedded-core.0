@@ -1,42 +1,41 @@
-Return-Path: <marex@denx.de>
-Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.9])
-	by mail.openembedded.org (Postfix) with ESMTP id A7F9377241
+Return-Path: <andre.draszik@gmail.com>
+Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 051CD772EC
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  5 Sep 2016 11:05:03 +0000 (UTC)
-Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
-	by mail-out.m-online.net (Postfix) with ESMTP id 3sSRhY4r6mz3hjQg;
-	Mon,  5 Sep 2016 13:05:01 +0200 (CEST)
-Received: from localhost (dynscan1.mnet-online.de [192.168.6.68])
-	by mail.m-online.net (Postfix) with ESMTP id 3sSRhY4PNszvkX5;
-	Mon,  5 Sep 2016 13:05:01 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at mnet-online.de
-Received: from mail.mnet-online.de ([192.168.8.182])
-	by localhost (dynscan1.mail.m-online.net [192.168.6.68]) (amavisd-new,
-	port 10024)
-	with ESMTP id azxvYqzZIGeh; Mon,  5 Sep 2016 13:05:00 +0200 (CEST)
-X-Auth-Info: RzrmrTdl3TEDDlhvetonyv0JIgPjXXgYkt4KYql2LW4=
-Received: from [IPv6:::1] (unknown [195.140.253.167])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mail.mnet-online.de (Postfix) with ESMTPSA;
-	Mon,  5 Sep 2016 13:05:00 +0200 (CEST)
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	openembedded-core@lists.openembedded.org
-References: <20160904162130.13313-1-marex@denx.de>
-	<1473024487.20226.3.camel@linuxfoundation.org>
-	<9f3a5dfd-8303-b6d0-cd5e-07f2aac7c588@denx.de>
-	<1473027091.20226.4.camel@linuxfoundation.org>
-	<252ea4f7-871c-60a5-0a2f-f59a5d35683e@denx.de>
-	<00e9ef55-2e08-5c92-0a5a-32e9ce1f61fa@denx.de>
-	<1473073354.20226.9.camel@linuxfoundation.org>
-From: Marek Vasut <marex@denx.de>
-Message-ID: <1fbc36ad-f031-9f85-7861-1ba302273ace@denx.de>
-Date: Mon, 5 Sep 2016 13:04:59 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Icedove/45.2.0
-MIME-Version: 1.0
-In-Reply-To: <1473073354.20226.9.camel@linuxfoundation.org>
-Subject: Re: [PATCH 1/2] u-boot: Factor out common bits
+	Mon,  5 Sep 2016 11:18:26 +0000 (UTC)
+Received: by mail-wm0-f68.google.com with SMTP id w207so12802606wmw.0
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 05 Sep 2016 04:18:27 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=QayfHMg8pAq3AwPQtCOxN5sa189qz0BAU73WLzRyqrk=;
+	b=WsP592ehBWUy/OQSJ5PZamhKGJneC2seXKvuZ7Vwh4rC2/wqFPnDcrQBvItYZ/Ds19
+	3z5c9JLKdXIYcIA+hhUc61E98dSLjAjU5CDHN9HXANN7ph+iJyckflBb/ZrQL64bhOpt
+	JrphLtQu31BfrSyNyWAYJ11SBFX9w0DRnncwFbqkH2xzwcSDuOXadvyfv7excZnEGnt5
+	bdRW8HpXKbwurx2sBD82em3gGWWwQflyG2mOTvJuCUZU7HeAZwPiKzfq1/IFXs/e4cN3
+	nvOz8ZpWWrEx/5sKY9Tj1U27LrJ2rnYjsRDczhzSZ+seDV8VSRHCq23lZGOobgsPGv4e
+	+bGA==
+X-Gm-Message-State: AE9vXwNc2dl1ScmttHCTAi+ms1t0Fy+tOpLTCCQbh2Jj1GAViRGKXy+oAhT3gYe8aR5H+A==
+X-Received: by 10.194.92.77 with SMTP id ck13mr5731675wjb.11.1473074306735;
+	Mon, 05 Sep 2016 04:18:26 -0700 (PDT)
+Received: from localhost ([185.46.212.59]) by smtp.gmail.com with ESMTPSA id
+	w129sm20333393wmd.9.2016.09.05.04.18.25
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Mon, 05 Sep 2016 04:18:25 -0700 (PDT)
+Message-ID: <1473074303.17211.13.camel@andred.net>
+From: =?ISO-8859-1?Q?Andr=E9?= Draszik <git@andred.net>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 05 Sep 2016 12:18:23 +0100
+In-Reply-To: <1472207936.19220.11.camel@andred.net>
+References: <20160817152538.14181-1-git@andred.net>
+	<20160818075626.15973-1-git@andred.net>
+	<1472207936.19220.11.camel@andred.net>
+X-Mailer: Evolution 3.20.5-1 
+Mime-Version: 1.0
+Subject: Re: [PATCH v2 0/3] fixing kernel module cross-recipe dependency
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,53 +48,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 05 Sep 2016 11:05:05 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 05 Sep 2016 11:18:27 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On 09/05/2016 01:02 PM, Richard Purdie wrote:
-> On Mon, 2016-09-05 at 00:33 +0200, Marek Vasut wrote:
->> On 09/05/2016 12:23 AM, Marek Vasut wrote:
->>> On 09/05/2016 12:11 AM, Richard Purdie wrote:
->>>> On Sun, 2016-09-04 at 23:49 +0200, Marek Vasut wrote:
->>>>> On 09/04/2016 11:28 PM, Richard Purdie wrote:
->>>>>> On Sun, 2016-09-04 at 18:21 +0200, Marek Vasut wrote:
->>>>> Yes, except when new version of U-Boot comes out and we want to
->>>>> perform
->>>>> update of the u-boot{,mkimage,fw-utils} recipes, with this
->>>>> current
->>>>> patch
->>>>> as is, we'd only have to rename these recipes and change the
->>>>> version
->>>>> in
->>>>> u-boot-common.inc . With your proposal, we'd have to not only
->>>>> rename
->>>>> the
->>>>> recipes and tweak u-boot-common.inc, but also edit their
->>>>> content and
->>>>> change the "require u-boot-common_20yy.mm.inc" bit, which adds
->>>>> some
->>>>> toil.
->>>> Unless its:
->>>>
->>>> require u-boot-common_${PV}.inc
->>>>
->>>> since it should be able to extract PV from the filename...
->>> Ah right, thanks :)
->>>
->>> I'll rebuild/retest and send a V2 .
->>>
->> I was a bit hasty, the u-boot.inc includes u-boot-common.inc without
->> having PV set. Any idea how to deal with that ?
+On Fr, 2016-08-26 at 11:38 +0100, André Draszik wrote:
+> On Do, 2016-08-18 at 08:56 +0100, André Draszik wrote:
+> > 
+> > In a situation where multiple external kernel modules are built
+> > from multiple independent recipes, we currently don't generate
+> > correct runtime dependencies of the packages created.
+> > 
+> > This (small) series of patches attempts to address this.
 > 
-> Just put includes in the versioned files rather than from u-boot.inc?
+> Is there anything wrong with these patches?
 
-Wouldn't that break some BSPs ? I factored out code from the u-boot.inc
-afterall.
+I don't want to be rude, just in case this series ended up under the radar,
+I'm asking again :-)
 
-Thanks!
+a.
 
--- 
-Best regards,
-Marek Vasut
 
