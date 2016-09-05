@@ -1,26 +1,52 @@
-Return-Path: <marex@denx.de>
-Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.10])
-	by mail.openembedded.org (Postfix) with ESMTP id 13B9F773D6
+Return-Path: <otavio.salvador@ossystems.com.br>
+Received: from mail-ua0-f181.google.com (mail-ua0-f181.google.com
+	[209.85.217.181])
+	by mail.openembedded.org (Postfix) with ESMTP id B3369605BA
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  5 Sep 2016 16:18:52 +0000 (UTC)
-Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
-	by mail-out.m-online.net (Postfix) with ESMTP id 3sSZfh2n2Kz3hklQ;
-	Mon,  5 Sep 2016 18:18:52 +0200 (CEST)
-Received: from localhost (dynscan1.mnet-online.de [192.168.6.68])
-	by mail.m-online.net (Postfix) with ESMTP id 3sSZfh17Tnzvkdl;
-	Mon,  5 Sep 2016 18:18:52 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at mnet-online.de
-Received: from mail.mnet-online.de ([192.168.8.182])
-	by localhost (dynscan1.mail.m-online.net [192.168.6.68]) (amavisd-new,
-	port 10024)
-	with ESMTP id 04okTWy6iAlg; Mon,  5 Sep 2016 18:18:51 +0200 (CEST)
-X-Auth-Info: 0SxeDTkHbJfLy4RxDKYpUGGZjbyPbWD98wmVIzYvUvc=
-Received: from [IPv6:::1] (unknown [195.140.253.167])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mail.mnet-online.de (Postfix) with ESMTPSA;
-	Mon,  5 Sep 2016 18:18:51 +0200 (CEST)
-To: Otavio Salvador <otavio.salvador@ossystems.com.br>
+	Mon,  5 Sep 2016 16:23:00 +0000 (UTC)
+Received: by mail-ua0-f181.google.com with SMTP id i32so233971379uai.2
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 05 Sep 2016 09:23:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
+	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
+	:cc; bh=DLkd1kjPkM6YTmynYVOZiI/c7wL0eSKZB8Z6Xaeq1ZI=;
+	b=FzzAF8DB+9d/IMLLqoeEK2qGwVoZ/QQzZS5NKcYxH77XQIxA86Rr9le0jsTgCo4XVd
+	3sm29V4+lGUJHFlkMA/Kmh07+VCA7qQDVI43RNZ/kY7lyG40MsHSMzrShBYbWM6lgktu
+	0wT8rRRzrYoVb3VHFQkZiVp3NzaabcbVUTU9e/U7mbdiOs4286wAXwjAEO25vkmlMK78
+	ETlXPHGHaXbtqOIBNAnUxgR6cV13/HiNRmXz+ePwmaSPT7huwI7BU+odzR3yqUM6lz6H
+	31gkDv4/SdPelW1FN0KzszU1Prhw65b8Z+4RQ0GEVhUSQj37aFNLqQ0PweXUyNxWUPwF
+	/XpQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
+	:message-id:subject:to:cc;
+	bh=DLkd1kjPkM6YTmynYVOZiI/c7wL0eSKZB8Z6Xaeq1ZI=;
+	b=dMlirmUgp5Ye2PvkU5tGo63xHe+G79elT+Gc9ERDAZywL2IBakW62cF2BpEJOXJiG5
+	NoW9dh7IPFO3Wf+Oj3ntbVnKYxi6oSRPjy3KWTdb6nWdOuZffoP1Eba6vVkpULxljHyy
+	s2TRAbhq+ZXS2CHFhjHyQPvrE1POPTyYC1AClDZKDksPjjWFH6+PI3sup8vdVGdojr1J
+	0G9ddtkICvACmlzWnHH1CPI+2hc3r3GReDDqt4jzRqhNxXO6+OJMRsBmDr5e1ebfa+nn
+	QqwwoBFvnrR6Q4drFdtPBNd0Izd7fzaq5sB4H2fPCB3v4B3bQ64YNsYexdCDnmJwS37m
+	CKCw==
+X-Gm-Message-State: AE9vXwMs9QhgWWGuTowSNmS9gq5qKbdeQIHjfs5WRVP7OgaTZlSDQvUUABEzAYxLdWCvrA==
+X-Received: by 10.176.69.199 with SMTP id u65mr705901uau.132.1473092579769;
+	Mon, 05 Sep 2016 09:22:59 -0700 (PDT)
+Received: from mail-vk0-f41.google.com (mail-vk0-f41.google.com.
+	[209.85.213.41])
+	by smtp.gmail.com with ESMTPSA id 61sm4342508uax.13.2016.09.05.09.22.58
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 05 Sep 2016 09:22:58 -0700 (PDT)
+From: Otavio Salvador <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by mail-vk0-f41.google.com with SMTP id w124so80235697vkd.3
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 05 Sep 2016 09:22:58 -0700 (PDT)
+X-Received: by 10.31.163.198 with SMTP id m189mr4410753vke.72.1473092577985;
+	Mon, 05 Sep 2016 09:22:57 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.31.154.68 with HTTP; Mon, 5 Sep 2016 09:22:57 -0700 (PDT)
+In-Reply-To: <15ec9cec-d76f-233e-486a-89afb93083de@denx.de>
 References: <20160904162130.13313-1-marex@denx.de>
 	<1473024487.20226.3.camel@linuxfoundation.org>
 	<9f3a5dfd-8303-b6d0-cd5e-07f2aac7c588@denx.de>
@@ -30,13 +56,11 @@ References: <20160904162130.13313-1-marex@denx.de>
 	<1473073354.20226.9.camel@linuxfoundation.org>
 	<1fbc36ad-f031-9f85-7861-1ba302273ace@denx.de>
 	<CAP9ODKqO1ffXbra1QU0F6CwyXWW2sU5A9UoSuXeNtyMu=DbHAg@mail.gmail.com>
-From: Marek Vasut <marex@denx.de>
-Message-ID: <15ec9cec-d76f-233e-486a-89afb93083de@denx.de>
-Date: Mon, 5 Sep 2016 18:16:29 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Icedove/45.2.0
-MIME-Version: 1.0
-In-Reply-To: <CAP9ODKqO1ffXbra1QU0F6CwyXWW2sU5A9UoSuXeNtyMu=DbHAg@mail.gmail.com>
+	<15ec9cec-d76f-233e-486a-89afb93083de@denx.de>
+Date: Mon, 5 Sep 2016 13:22:57 -0300
+X-Gmail-Original-Message-ID: <CAP9ODKp_ypN2JVrbcLnaHW_Unsr5N8eMD8-+4s_FQWjdg0AnqQ@mail.gmail.com>
+Message-ID: <CAP9ODKp_ypN2JVrbcLnaHW_Unsr5N8eMD8-+4s_FQWjdg0AnqQ@mail.gmail.com>
+To: Marek Vasut <marex@denx.de>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 1/2] u-boot: Factor out common bits
@@ -52,61 +76,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 05 Sep 2016 16:18:54 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 05 Sep 2016 16:23:00 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On 09/05/2016 03:51 PM, Otavio Salvador wrote:
-> On Mon, Sep 5, 2016 at 8:04 AM, Marek Vasut <marex@denx.de> wrote:
->> On 09/05/2016 01:02 PM, Richard Purdie wrote:
->>> On Mon, 2016-09-05 at 00:33 +0200, Marek Vasut wrote:
->>>> On 09/05/2016 12:23 AM, Marek Vasut wrote:
->>>>> On 09/05/2016 12:11 AM, Richard Purdie wrote:
->>>>>> On Sun, 2016-09-04 at 23:49 +0200, Marek Vasut wrote:
->>>>>>> On 09/04/2016 11:28 PM, Richard Purdie wrote:
->>>>>>>> On Sun, 2016-09-04 at 18:21 +0200, Marek Vasut wrote:
->>>>>>> Yes, except when new version of U-Boot comes out and we want to
->>>>>>> perform
->>>>>>> update of the u-boot{,mkimage,fw-utils} recipes, with this
->>>>>>> current
->>>>>>> patch
->>>>>>> as is, we'd only have to rename these recipes and change the
->>>>>>> version
->>>>>>> in
->>>>>>> u-boot-common.inc . With your proposal, we'd have to not only
->>>>>>> rename
->>>>>>> the
->>>>>>> recipes and tweak u-boot-common.inc, but also edit their
->>>>>>> content and
->>>>>>> change the "require u-boot-common_20yy.mm.inc" bit, which adds
->>>>>>> some
->>>>>>> toil.
->>>>>> Unless its:
->>>>>>
->>>>>> require u-boot-common_${PV}.inc
->>>>>>
->>>>>> since it should be able to extract PV from the filename...
->>>>> Ah right, thanks :)
->>>>>
->>>>> I'll rebuild/retest and send a V2 .
->>>>>
->>>> I was a bit hasty, the u-boot.inc includes u-boot-common.inc without
->>>> having PV set. Any idea how to deal with that ?
->>>
->>> Just put includes in the versioned files rather than from u-boot.inc?
+On Mon, Sep 5, 2016 at 1:16 PM, Marek Vasut <marex@denx.de> wrote:
+> On 09/05/2016 03:51 PM, Otavio Salvador wrote:
+>> On Mon, Sep 5, 2016 at 8:04 AM, Marek Vasut <marex@denx.de> wrote:
+>>> Wouldn't that break some BSPs ? I factored out code from the u-boot.inc
+>>> afterall.
 >>
->> Wouldn't that break some BSPs ? I factored out code from the u-boot.inc
->> afterall.
-> 
-> It will but I consider this fine for master as this clean up the
-> recipes and ensures people goes on the review process while upgrading
-> it.
-> 
-The u-boot recipe mess would need _far_ more cleanup . If you don't mind
-me breaking all sorts of BSPs , I would gladly do far more intrusive
-changes. What do you say ?
+>> It will but I consider this fine for master as this clean up the
+>> recipes and ensures people goes on the review process while upgrading
+>> it.
+>>
+> The u-boot recipe mess would need _far_ more cleanup . If you don't mind
+> me breaking all sorts of BSPs , I would gladly do far more intrusive
+> changes. What do you say ?
+
+I would love to see the proposed patches.
 
 -- 
-Best regards,
-Marek Vasut
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
