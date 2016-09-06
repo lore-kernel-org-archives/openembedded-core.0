@@ -1,41 +1,27 @@
-Return-Path: <andre.draszik@gmail.com>
-Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 21F4C7755B
+Return-Path: <amarnath.valluri@intel.com>
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+	by mail.openembedded.org (Postfix) with ESMTP id CDCE777499
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  6 Sep 2016 11:35:16 +0000 (UTC)
-Received: by mail-wm0-f68.google.com with SMTP id w207so18003054wmw.0
+	Tue,  6 Sep 2016 13:12:34 +0000 (UTC)
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+	by orsmga104.jf.intel.com with ESMTP; 06 Sep 2016 06:12:34 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.30,291,1470726000"; 
+   d="scan'208";a="5105735"
+Received: from linux.intel.com ([10.54.29.200])
+	by fmsmga006.fm.intel.com with ESMTP; 06 Sep 2016 06:12:34 -0700
+Received: from avalluri-GigaByte.fi.intel.com (avalluri-gigabyte.fi.intel.com
+	[10.237.72.170]) (using TLSv1 with cipher AES128-SHA (128/128 bits))
+	(No client certificate requested)
+	by linux.intel.com (Postfix) with ESMTP id B37456A4006
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 06 Sep 2016 04:35:18 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=0q5nOzdJtlaZiGFizG/gykftiHndySbCzfERym6mkFk=;
-	b=mMwIygZY/6awYJmxKSs3ef1dLh+FxJ/KwjPbjDchkD/YD94mXdD0VDGoHqamsc2wGC
-	BhKLsx7Gsg55sd3adlA9qhGQ86tBsafEH2co6VYewDqwH7ytxeUeJISKjDwuMEopijsH
-	zNJyuGuaJpex1eAHmQA+TTrAQejYAqidWBRmUXVPpslHZV9hqVwqbZ8M8NSxY8cJBPCn
-	WRkTXZaN76MrkDQ7nbsEf6y+EpqTB6u7uAWCmQfpEVmpy+G9BTgfyCz/LXcbtxmfcbaZ
-	0Pi6Oaz0w9zwQ1/rBByHS6h9Lx0jdMOnvZUMz2PI/oCni+er96BPcaQdx/9kuN1reJ+x
-	khkQ==
-X-Gm-Message-State: AE9vXwPDGA7wSaNIL77VBktNOF2GJlBzWliQDLK6xR2nyQ9EOfyRYINsdDjXVgGfwcwbSQ==
-X-Received: by 10.28.238.87 with SMTP id m84mr21225169wmh.44.1473161717410;
-	Tue, 06 Sep 2016 04:35:17 -0700 (PDT)
-Received: from localhost ([185.46.212.59]) by smtp.gmail.com with ESMTPSA id
-	wc3sm32908101wjc.47.2016.09.06.04.35.16
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Tue, 06 Sep 2016 04:35:16 -0700 (PDT)
-Message-ID: <1473161713.3374.3.camel@andred.net>
-From: =?ISO-8859-1?Q?Andr=E9?= Draszik <git@andred.net>
-To: Zubair Lutfullah Kakakhel <Zubair.Kakakhel@imgtec.com>
-Date: Tue, 06 Sep 2016 12:35:13 +0100
-In-Reply-To: <1472913207.20786.6.camel@andred.net>
-References: <1472832102-8067-1-git-send-email-Zubair.Kakakhel@imgtec.com>
-	<1472832102-8067-4-git-send-email-Zubair.Kakakhel@imgtec.com>
-	<1472913207.20786.6.camel@andred.net>
-X-Mailer: Evolution 3.20.5-1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 3/4] libffi: Add patch for MIPS soft float
+	Tue,  6 Sep 2016 06:12:12 -0700 (PDT)
+From: Amarnath Valluri <amarnath.valluri@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  6 Sep 2016 16:13:06 +0300
+Message-Id: <1473167586-11640-1-git-send-email-amarnath.valluri@intel.com>
+X-Mailer: git-send-email 2.5.0
+Subject: [PATCH] classes/populate_sdk_ext: exclude image tasks from locked signatures
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,29 +34,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 06 Sep 2016 11:35:19 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 06 Sep 2016 13:12:35 -0000
 
-On Sa, 2016-09-03 at 15:33 +0100, André Draszik wrote:
-> It looks like you are a few days to late - a slightly different patch was
-> applied upstream:
-> 
-> https://github.com/libffi/libffi/pull/272
-> 
-> It'd be good if you could update your OE patch to reference that one
-> instead, so that we get a real backport (unless it has problems of
-> course...)
+Tasks for image recipes cannot be locked and should be excluded from eSDK
+generated locked-sigs.inc. get_sdk_install_targets() was not returning right
+image targets to be excluded incase of 'minimal' sdk. This change fixes the issue.
 
-I took the liberty to do just that
-http://lists.openembedded.org/pipermail/openembedded-core/2016-September/126
-183.html
+Signed-off-by: Amarnath Valluri <amarnath.valluri@intel.com>
+---
+ meta/classes/populate_sdk_ext.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Thank you for starting this thread :-)
+diff --git a/meta/classes/populate_sdk_ext.bbclass b/meta/classes/populate_sdk_ext.bbclass
+index d8d123a..1a15d2a 100644
+--- a/meta/classes/populate_sdk_ext.bbclass
++++ b/meta/classes/populate_sdk_ext.bbclass
+@@ -43,7 +43,7 @@ SDK_TARGETS ?= "${PN}"
+ 
+ def get_sdk_install_targets(d, images_only=False):
+     sdk_install_targets = ''
+-    if d.getVar('SDK_EXT_TYPE', True) != 'minimal':
++    if images_only or d.getVar('SDK_EXT_TYPE', True) != 'minimal':
+         sdk_install_targets = d.getVar('SDK_TARGETS', True)
+ 
+         depd = d.getVar('BB_TASKDEPDATA', False)
+-- 
+2.5.0
 
-Cheers,
-Andre'
+---------------------------------------------------------------------
+Intel Finland Oy
+Registered Address: PL 281, 00181 Helsinki 
+Business Identity Code: 0357606 - 4 
+Domiciled in Helsinki 
 
-> > > > 
-> > 
+This e-mail and any attachments may contain confidential material for
+the sole use of the intended recipient(s). Any review or distribution
+by others is strictly prohibited. If you are not the intended
+recipient, please contact the sender and delete all copies.
+
 
