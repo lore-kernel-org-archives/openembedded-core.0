@@ -1,30 +1,30 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 9BBA477583
+	by mail.openembedded.org (Postfix) with ESMTP id 67B0877534
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  6 Sep 2016 13:44:45 +0000 (UTC)
+	Tue,  6 Sep 2016 13:46:12 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u86Dijh7030072 for <openembedded-core@lists.openembedded.org>;
-	Tue, 6 Sep 2016 14:44:45 +0100
+	u86DkDlA030222 for <openembedded-core@lists.openembedded.org>;
+	Tue, 6 Sep 2016 14:46:13 +0100
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id utK3kz_mEidC
+	with LMTP id AldtmwvppUpK
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  6 Sep 2016 14:44:45 +0100 (BST)
+	Tue,  6 Sep 2016 14:46:13 +0100 (BST)
 Received: from hex ([192.168.3.34]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u86DifJb030013
+	u86DkAuu030219
 	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 6 Sep 2016 14:44:42 +0100
-Message-ID: <1473169481.20226.49.camel@linuxfoundation.org>
+	Tue, 6 Sep 2016 14:46:11 +0100
+Message-ID: <1473169570.20226.51.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Tue, 06 Sep 2016 14:44:41 +0100
+Date: Tue, 06 Sep 2016 14:46:10 +0100
 X-Mailer: Evolution 3.18.5.2-0ubuntu3 
 Mime-Version: 1.0
-Subject: [PATCH] oeqa: Use snapshot instead of copying the rootfs image
+Subject: [PATCH] runqemu: Allow unique network interface MAC addresses
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,60 +37,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 06 Sep 2016 13:44:46 -0000
+X-List-Received-Date: Tue, 06 Sep 2016 13:46:13 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 
-Rather than copying images, use the snapshot option to qemu. This fixes a regression
-caused by the recent runqemu changes where the wrong images were being testes since
-the image is copied without the qemuboot.conf file. This means the latest image is
-found by runqemu rather than the specified one, leading to various confused testing
-results.
-
-It could be fixed by copying more files but use snapshot mode instead.
+Current qemu instances all share the same MAC address. This shouldn't be an
+issue as they are all on separate network interfaces, however on the slight
+chance this is causing problems, its easy enough to ensure we use unique
+MAC addresses based on the IP numbers we assign.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-diff --git a/meta/lib/oeqa/targetcontrol.py b/meta/lib/oeqa/targetcontrol.py
-index 3209ef0..24669f4 100644
---- a/meta/lib/oeqa/targetcontrol.py
-+++ b/meta/lib/oeqa/targetcontrol.py
-@@ -119,8 +119,7 @@ class QemuTarget(BaseTarget):
+diff --git a/meta/conf/machine/qemuarm64.conf b/meta/conf/machine/qemuarm64.conf
+index df76ee6..da59c33 100644
+--- a/meta/conf/machine/qemuarm64.conf
++++ b/meta/conf/machine/qemuarm64.conf
+@@ -16,7 +16,7 @@ QB_MACHINE = "-machine virt"
+ QB_CPU = "-cpu cortex-a57"
+ QB_KERNEL_CMDLINE_APPEND = "console=ttyAMA0,38400"
+ QB_OPT_APPEND = "-show-cursor"
+-QB_TAP_OPT = "-netdev tap,id=net0,ifname=@TAP@,script=no,downscript=no -device virtio-net-device,netdev=net0"
++QB_TAP_OPT = "-netdev tap,id=net0,ifname=@TAP@,script=no,downscript=no -device virtio-net-device,netdev=net0,mac=@MAC@"
+ QB_SLIRP_OPT = "-netdev user,id=net0 -device virtio-net-device,netdev=net0"
+ QB_ROOTFS_OPT = "-drive id=disk0,file=@ROOTFS@,if=none,format=raw -device virtio-blk-device,drive=disk0"
+ QB_SERIAL_OPT = "-device virtio-serial-device -chardev null,id=virtcon -device virtconsole,chardev=virtcon"
+diff --git a/meta/conf/machine/qemuppc.conf b/meta/conf/machine/qemuppc.conf
+index 939c834..e4c8dac 100644
+--- a/meta/conf/machine/qemuppc.conf
++++ b/meta/conf/machine/qemuppc.conf
+@@ -17,4 +17,4 @@ QB_MACHINE = "-machine mac99"
+ QB_CPU = "-cpu G4"
+ QB_KERNEL_CMDLINE_APPEND = "console=ttyS0 console=tty"
+ QB_OPT_APPEND = "-show-cursor -usb -usbdevice tablet"
+-QB_TAP_OPT = "-netdev tap,id=net0,ifname=@TAP@,script=no,downscript=no -device virtio-net-pci,netdev=net0"
++QB_TAP_OPT = "-netdev tap,id=net0,ifname=@TAP@,script=no,downscript=no -device virtio-net-pci,netdev=net0,mac=@MAC@"
+diff --git a/scripts/runqemu b/scripts/runqemu
+index 867e818..2b5e588 100755
+--- a/scripts/runqemu
++++ b/scripts/runqemu
+@@ -681,11 +681,12 @@ class BaseConfig(object):
+         if self.fstype == 'nfs':
+             self.setup_nfs()
+         self.kernel_cmdline_script += " ip=192.168.7.%s::192.168.7.%s:255.255.255.0" % (n2, n1)
++        mac = "52:54:00:12:34:%02x" % n2
+         qb_tap_opt = self.get('QB_TAP_OPT')
+         if qb_tap_opt:
+-            qemu_tap_opt = qb_tap_opt.replace('@TAP@', tap)
++            qemu_tap_opt = qb_tap_opt.replace('@TAP@', tap).replace('@MAC@', mac)
+         else:
+-            qemu_tap_opt = "-net nic,model=virtio -net tap,vlan=0,ifname=%s,script=no,downscript=no" % self.tap
++            qemu_tap_opt = "-net nic,model=virtio,mac=%s -net tap,vlan=0,ifname=%s,script=no,downscript=no" % (mac, self.tap)
  
-         self.image_fstype = self.get_image_fstype(d)
-         self.qemulog = os.path.join(self.testdir, "qemu_boot_log.%s" % self.datetime)
--        self.origrootfs = os.path.join(d.getVar("DEPLOY_DIR_IMAGE", True),  d.getVar("IMAGE_LINK_NAME", True) + '.' + self.image_fstype)
--        self.rootfs = os.path.join(self.testdir, d.getVar("IMAGE_LINK_NAME", True) + '-testimage.' + self.image_fstype)
-+        self.rootfs = os.path.join(d.getVar("DEPLOY_DIR_IMAGE", True),  d.getVar("IMAGE_LINK_NAME", True) + '.' + self.image_fstype)
-         self.kernel = os.path.join(d.getVar("DEPLOY_DIR_IMAGE", True), d.getVar("KERNEL_IMAGETYPE", False) + '-' + d.getVar('MACHINE', False) + '.bin')
-         dump_target_cmds = d.getVar("testimage_dump_target", True)
-         dump_host_cmds = d.getVar("testimage_dump_host", True)
-@@ -166,11 +165,7 @@ class QemuTarget(BaseTarget):
-         self.target_dumper = TargetDumper(dump_target_cmds, dump_dir, self.runner)
- 
-     def deploy(self):
--        try:
--            bb.utils.mkdirhier(self.testdir)
--            shutil.copyfile(self.origrootfs, self.rootfs)
--        except Exception as e:
--            bb.fatal("Error copying rootfs: %s" % e)
-+        bb.utils.mkdirhier(self.testdir)
- 
-         qemuloglink = os.path.join(self.testdir, "qemu_boot_log")
-         if os.path.islink(qemuloglink):
-diff --git a/meta/lib/oeqa/utils/qemurunner.py b/meta/lib/oeqa/utils/qemurunner.py
-index 2158d69..9783ff8 100644
---- a/meta/lib/oeqa/utils/qemurunner.py
-+++ b/meta/lib/oeqa/utils/qemurunner.py
-@@ -134,7 +134,7 @@ class QemuRunner:
-         self.origchldhandler = signal.getsignal(signal.SIGCHLD)
-         signal.signal(signal.SIGCHLD, self.handleSIGCHLD)
- 
--        launch_cmd = 'runqemu '
-+        launch_cmd = 'runqemu snapshot '
-         if self.use_kvm:
-             logger.info('Using kvm for runqemu')
-             launch_cmd += 'kvm '
+         if self.vhost_enabled:
+             qemu_tap_opt += ',vhost=on'
 
 
 
