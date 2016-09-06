@@ -1,44 +1,51 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 135657760E
-	for <openembedded-core@lists.openembedded.org>;
-	Tue,  6 Sep 2016 20:51:58 +0000 (UTC)
-Received: by mail-wm0-f65.google.com with SMTP id a6so9332261wmc.2
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 06 Sep 2016 13:51:59 -0700 (PDT)
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 45E077760C;
+	Tue,  6 Sep 2016 21:38:25 +0000 (UTC)
+Received: by mail-wm0-f67.google.com with SMTP id a6so9495763wmc.2;
+	Tue, 06 Sep 2016 14:38:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=SpjQB4g3NAgiYvpPokw75FQ98Qu3Shxu6QX1e2r9JzU=;
-	b=004Vkci5wi/ksmltIdbFNCnvISQaxSV0HL5JrfVd9RTDd5Ecjtw9MDE16PamlNYO5r
-	GRgpRdn4b0w3U9ludb+1kK4SojhQzQY5VTm3QWGoWU0eEMSheLORhlcH8zgHQqApFPKh
-	IzES3wkZ6kQC8Yamup0zyQSJwr3qYqRB3rZI0Jjhy+pv2CtbtvLesBbrRtYNSOe12hAV
-	ifGle7ECPmHJZPDIhzzZITemge0Ow8afYGwXyKez8PvoRs72gab64wlnTYr6/EZnabL0
-	qvNNcczpSYaheiM9X3Gy2/V/hWZu+CwR3NvoTK8ww23X0zRLYzvpL6gtawrDeO1Cdo28
-	pAfw==
+	h=from:date:to:cc:subject:message-id:references:mime-version
+	:content-disposition:in-reply-to:user-agent;
+	bh=Txs4JHwoHiCV5+uLt13sgaI3rsfBpmEuuGi2a8b/WBM=;
+	b=ZbtImbhweCXj7mX3ujyCpQGNpVPFJSri6Lp5fcertUKI1rq0e9nvYwP1Wibx0Y8EyS
+	Yu+WcSuvzGTq/HHm7c+suMC70r+LsUXK8KYSFbF9I/rjXDF0yWCpuVDrK1OnJ1cNMNsb
+	1n9ZGRvOOB4MyQ6nVJnd2IkxlxWWW9EPKg2M7KnO9I4g6CozPZBtA8RRxKUzGCgm/r5D
+	2ZTfHJdhShpD5zv9SYiH5OgjjfUdMtj1jHumCWhGeQhoYHe7i1iotZhot2GGoSw97ZpE
+	+0dX99o6NDw/9RWl4JHRSLo8xzumgPEFp+GEtN7bo3QZodtDGah6P4flsg1nknAqfyLm
+	+wHw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=SpjQB4g3NAgiYvpPokw75FQ98Qu3Shxu6QX1e2r9JzU=;
-	b=mj+J4F+9/DnqUCunFnMAO0gpuP0HGhgZfpFnx10YKZTOPQn2+QZDjPhiy+BG0tb5BK
-	pEUzBL6kQTXnWJvsMd1Va1UOlkz27FO3CQ75vqZ/vjEW1PkXsLav/0W4YiDHGjUaB6p2
-	DLVK7fW7DfqNSQ928oZaPLz3PNGs2PbOlW1FUsBOTFQqpbzKoqLKrAAa+UqfygeUPJ7c
-	MJQ3FZ/pzCrCsdE2+RiM9OVh+qYVsMb0xJP5baFeSSno8sdctGwxZ2AfIT7HqYZbdIWl
-	Uv3+iHqmP6YfrvepJSrwQaqOHGuleQtDYJjm09bWyGDK2DxY3QH1OjCSyeHp7W5IcUvz
-	vpSQ==
-X-Gm-Message-State: AE9vXwOlt6IfoN5mVbHvAet/FrPj2xzFOpfGh8XDDYXKBQaTGP0fS8bt7/oJSgV909FxiWcznor4uuqQRPrlEg==
-X-Received: by 10.28.125.18 with SMTP id y18mr488586wmc.116.1473195119243;
-	Tue, 06 Sep 2016 13:51:59 -0700 (PDT)
+	h=x-gm-message-state:from:date:to:cc:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to:user-agent;
+	bh=Txs4JHwoHiCV5+uLt13sgaI3rsfBpmEuuGi2a8b/WBM=;
+	b=TLVFF+ZiRtjUMMZjC7fFEL2gNJ5ja/CL5iPtstTHBJ+rRNwq5hW/FXtMcMQZAnkf6x
+	E0m5f7O8XPzWk6rcD+pZY3FopL+vh6X8VCnGQZTtSaQz6ygU5+4L3u24CJ15cp7uvHPA
+	ui0AskLUheT/shXwlgHkJKb5G0o28wiw/xxFz9tMVOOWrMzWu4aM8Fup6AnJ2BKz+EWS
+	mSSHXzscWH2Q0iwU9cVLDCKH4MUTTPEibDHynfXEzkTBdjrnx1OELKHGoXxFEFazaluk
+	14hUh9H592Hy3hld2TYhxvIc2d5i4JJTlX3BsKGE0e6VElklvyGS1PmuC3D70EKlzT2d
+	ax0A==
+X-Gm-Message-State: AE9vXwMZLdWeTAVe2U5rIul/KlJ8gQxv4uG588g2WEnh+uyShNvAQDpYvtIuddAAxyfM9w==
+X-Received: by 10.28.88.207 with SMTP id m198mr576252wmb.79.1473197905511;
+	Tue, 06 Sep 2016 14:38:25 -0700 (PDT)
+Received: from localhost (ip-89-176-104-169.net.upcbroadband.cz.
+	[89.176.104.169]) by smtp.gmail.com with ESMTPSA id
+	ya1sm35473707wjb.23.2016.09.06.14.38.23
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Tue, 06 Sep 2016 14:38:23 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Tue, 6 Sep 2016 23:38:23 +0200
+To: openembedded-core@lists.openembedded.org,
+	Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Message-ID: <20160906213823.GD2645@jama>
+References: <20160903085940.31396.10148@opal.openembedded.org>
+	<20160903085943.DA54D50414@opal.openembedded.org>
 MIME-Version: 1.0
-Received: by 10.194.216.100 with HTTP; Tue, 6 Sep 2016 13:51:58 -0700 (PDT)
-In-Reply-To: <1473193556-11790-1-git-send-email-jslater@windriver.com>
-References: <1473193556-11790-1-git-send-email-jslater@windriver.com>
-From: Andre McCurdy <armccurdy@gmail.com>
-Date: Tue, 6 Sep 2016 13:51:58 -0700
-Message-ID: <CAJ86T=Uiq42eV-zOH8un-1Q4vUmrJmxKX-UHmSGZkNZ5DQ1VAQ@mail.gmail.com>
-To: Joe Slater <jslater@windriver.com>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] libwebp: do not assume armv7a has neon intrinsics
+In-Reply-To: <20160903085943.DA54D50414@opal.openembedded.org>
+User-Agent: Mutt/1.7.0 (2016-08-17)
+Cc: openembedded-commits@lists.openembedded.org
+Subject: Re: [oe-commits] [openembedded-core] 13/55: lighttpd: update to 1.4.41
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,44 +58,189 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 06 Sep 2016 20:52:01 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 06 Sep 2016 21:38:25 -0000
+X-Groupsio-MsgNum: 86819
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="76DTJ5CE0DCVQemd"
+Content-Disposition: inline
 
-On Tue, Sep 6, 2016 at 1:25 PM, Joe Slater <jslater@windriver.com> wrote:
-> configure incorrectly thinks -mfpu=neon is in CC for armv7a,
-> so defeat automatic neon detection.
->
-> Signed-off-by: Joe Slater <jslater@windriver.com>
+--76DTJ5CE0DCVQemd
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Sat, Sep 03, 2016 at 08:59:53AM +0000, git@git.openembedded.org wrote:
+> rpurdie pushed a commit to branch master
+> in repository openembedded-core.
+>=20
+> commit 45fac4161cb230bc03c6c08d21cc768e52700f02
+> Author: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+> AuthorDate: Mon Aug 29 17:30:17 2016 +0300
+>=20
+>     lighttpd: update to 1.4.41
+>    =20
+>     Rebase pkgconfig.patch
+>    =20
+>     Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+>     Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+
+Am I the only one seeing:
+
+ERROR: lighttpd-1.4.41-r0 do_configure: QA Issue: lighttpd: configure was p=
+assed unrecognised options: --without-memcache [unknown-configure-option]
+ERROR: lighttpd-1.4.41-r0 do_configure: Fatal QA errors found, failing task.
+ERROR: lighttpd-1.4.41-r0 do_configure: Function failed: do_qa_configure
+
+?
+
 > ---
->  meta/recipes-multimedia/webp/libwebp_0.5.1.bb |    3 +++
->  1 file changed, 3 insertions(+)
->
-> diff --git a/meta/recipes-multimedia/webp/libwebp_0.5.1.bb b/meta/recipes-multimedia/webp/libwebp_0.5.1.bb
-> index 222bd56..2d86b4a 100644
-> --- a/meta/recipes-multimedia/webp/libwebp_0.5.1.bb
-> +++ b/meta/recipes-multimedia/webp/libwebp_0.5.1.bb
-> @@ -26,6 +26,9 @@ EXTRA_OECONF = " \
->      --enable-libwebpdemux \
->      --enable-threading \
->  "
-> +# configure incorrectly believes that armv7a has -mfpu=neon
-> +#
-> +EXTRA_OECONF_append_armv7a = " --disable-neon"
-
-Unless you want to disable neon for all armv7a builds, perhaps
-something like this would be better:
-
-  EXTRA_OECONF += "${@bb.utils.contains("TUNE_FEATURES", "neon", "",
-"--disable-neon" ,d)}"
-
->  inherit autotools lib_package
->
+>  ...fig-for-pcre-dependency-instead-of-config.patch | 37 ++++++++++++++++=
+++++++
+>  .../lighttpd/lighttpd/pkgconfig.patch              | 33 ----------------=
+---
+>  .../{lighttpd_1.4.39.bb =3D> lighttpd_1.4.41.bb}     |  6 ++--
+>  3 files changed, 40 insertions(+), 36 deletions(-)
+>=20
+> diff --git a/meta/recipes-extended/lighttpd/lighttpd/0001-Use-pkg-config-=
+for-pcre-dependency-instead-of-config.patch b/meta/recipes-extended/lighttp=
+d/lighttpd/0001-Use-pkg-config-for-pcre-dependency-instead-of-config.patch
+> new file mode 100644
+> index 0000000..b8c7f37
+> --- /dev/null
+> +++ b/meta/recipes-extended/lighttpd/lighttpd/0001-Use-pkg-config-for-pcr=
+e-dependency-instead-of-config.patch
+> @@ -0,0 +1,37 @@
+> +From e7a8c925b9316a72bdc8f32789ffe56fda5c4788 Mon Sep 17 00:00:00 2001
+> +From: Alexander Kanavin <alex.kanavin@gmail.com>
+> +Date: Fri, 26 Aug 2016 18:20:32 +0300
+> +Subject: [PATCH] Use pkg-config for pcre dependency instead of -config s=
+cript.
+> +
+> +RP 2014/5/22
+> +Upstream-Status: Pending
+> +Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+> +---
+> + configure.ac | 11 ++++++-----
+> + 1 file changed, 6 insertions(+), 5 deletions(-)
+> +
+> +diff --git a/configure.ac b/configure.ac
+> +index 1d172a1..a9236da 100644
+> +--- a/configure.ac
+> ++++ b/configure.ac
+> +@@ -380,11 +380,12 @@ if test "$WITH_PCRE" !=3D "no"; then
+> + 			PCRE_LIB=3D"-L$WITH_PCRE/lib -lpcre"
+> + 			CPPFLAGS=3D"$CPPFLAGS -I$WITH_PCRE/include"
+> + 		else
+> +-			AC_PATH_PROG(PCRECONFIG, pcre-config)
+> +-			if test x"$PCRECONFIG" !=3D x; then
+> +-				PCRE_LIB=3D`$PCRECONFIG --libs`
+> +-				CPPFLAGS=3D"$CPPFLAGS `$PCRECONFIG --cflags`"
+> +-			fi
+> ++			PKG_CHECK_MODULES(PCREPKG, [libpcre], [
+> ++				PCRE_LIB=3D${PCREPKG_LIBS}
+> ++				CPPFLAGS=3D"$CPPFLAGS ${PCREPKG_CFLAGS}"
+> ++			], [
+> ++				AC_MSG_ERROR([pcre pkgconfig not found, install the pcre-devel pack=
+age or build with --without-pcre])
+> ++			])
+> + 		fi
+> +=20
+> +   if test x"$PCRE_LIB" !=3D x; then
+> +--=20
+> +2.9.3
+> +
+> diff --git a/meta/recipes-extended/lighttpd/lighttpd/pkgconfig.patch b/me=
+ta/recipes-extended/lighttpd/lighttpd/pkgconfig.patch
+> deleted file mode 100644
+> index e395f92..0000000
+> --- a/meta/recipes-extended/lighttpd/lighttpd/pkgconfig.patch
+> +++ /dev/null
+> @@ -1,33 +0,0 @@
+> -Use pkg-config for pcre dependency instead of -config script.
+> -
+> -Upstream-Status: Pending
+> -
+> -RP 2014/5/22
+> -
+> -
+> -Index: lighttpd-1.4.35/configure.ac
+> -=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> ---- lighttpd-1.4.35.orig/configure.ac	2014-03-06 14:08:00.000000000 +0000
+> -+++ lighttpd-1.4.35/configure.ac	2014-05-13 16:58:30.758471169 +0000
+> -@@ -309,16 +309,14 @@
+> - AC_MSG_RESULT([$WITH_PCRE])
+> -=20
+> - if test "$WITH_PCRE" !=3D "no"; then
+> --  AC_PATH_PROG(PCRECONFIG, pcre-config)
 > --
-> 1.7.9.5
->
-> --
+> --  if test x"$PCRECONFIG" !=3D x; then
+> --    PCRE_LIB=3D`$PCRECONFIG --libs`
+> --    CPPFLAGS=3D"$CPPFLAGS `$PCRECONFIG --cflags`"
+> -+  PKG_CHECK_MODULES(PCREPKG, [libpcre], [
+> -+    PCRE_LIB=3D${PCREPKG_LIBS}
+> -+    CPPFLAGS=3D"$CPPFLAGS ${PCREPKG_CFLAGS}"
+> -     AC_DEFINE([HAVE_LIBPCRE], [1], [libpcre])
+> -     AC_DEFINE([HAVE_PCRE_H], [1], [pcre.h])
+> --  else
+> -+  ], [
+> -      AC_MSG_ERROR([pcre-config not found, install the pcre-devel packag=
+e or build with --without-pcre])
+> --  fi
+> -+  ])
+> - fi
+> -=20
+> - AC_SUBST(PCRE_LIB)
+> diff --git a/meta/recipes-extended/lighttpd/lighttpd_1.4.39.bb b/meta/rec=
+ipes-extended/lighttpd/lighttpd_1.4.41.bb
+> similarity index 91%
+> rename from meta/recipes-extended/lighttpd/lighttpd_1.4.39.bb
+> rename to meta/recipes-extended/lighttpd/lighttpd_1.4.41.bb
+> index 378accb..a74d3a1 100644
+> --- a/meta/recipes-extended/lighttpd/lighttpd_1.4.39.bb
+> +++ b/meta/recipes-extended/lighttpd/lighttpd_1.4.41.bb
+> @@ -20,11 +20,11 @@ SRC_URI =3D "http://download.lighttpd.net/lighttpd/re=
+leases-1.4.x/lighttpd-${PV}.t
+>          file://lighttpd.conf \
+>          file://lighttpd \
+>          file://lighttpd.service \
+> -        file://pkgconfig.patch \
+> +        file://0001-Use-pkg-config-for-pcre-dependency-instead-of-config=
+=2Epatch \
+>          "
+> =20
+> -SRC_URI[md5sum] =3D "63c7563be1c7a7a9819a51f07f1af8b2"
+> -SRC_URI[sha256sum] =3D "7eb9a1853c3d6dd5851682b0733a729ba4158d6bdff80974=
+d5ef5f1f6887365b"
+> +SRC_URI[md5sum] =3D "1df2e4dbc965cfe6f99f008ac3db4d8d"
+> +SRC_URI[sha256sum] =3D "4bcc383ef6d6dc7b284f68882d71a178e2986c83c4e85eeb=
+3c8f3b882e346b6c"
+> =20
+>  PACKAGECONFIG ??=3D "openssl"
+>  PACKAGECONFIG[openssl] =3D "--with-openssl, --without-openssl, openssl"
+>=20
+> --=20
+> To stop receiving notification emails like this one, please contact
+> the administrator of this repository.
+> --=20
 > _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> Openembedded-commits mailing list
+> Openembedded-commits@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-commits
 
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--76DTJ5CE0DCVQemd
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iEYEARECAAYFAlfPN04ACgkQN1Ujt2V2gByYmgCggIFH8auNbygJamzrQeMn5qZ/
+jqEAoIzbYEqhLj1rQDiQGrL8OkpXQgZP
+=Tfc7
+-----END PGP SIGNATURE-----
+
+--76DTJ5CE0DCVQemd--
