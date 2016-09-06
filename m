@@ -1,21 +1,24 @@
-Return-Path: <anibal.limon@linux.intel.com>
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 39E98773CC
+Return-Path: <Mingli.Yu@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 9F350773A4
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  5 Sep 2016 21:58:46 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by fmsmga105.fm.intel.com with ESMTP; 05 Sep 2016 14:58:47 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.30,288,1470726000"; d="scan'208";a="1045985451"
-Received: from alimonb-mobl1.zpn.intel.com ([10.219.5.144])
-	by orsmga002.jf.intel.com with ESMTP; 05 Sep 2016 14:58:46 -0700
-From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon,  5 Sep 2016 16:59:12 -0500
-Message-Id: <1473112752-24962-1-git-send-email-anibal.limon@linux.intel.com>
-X-Mailer: git-send-email 2.1.4
+	Tue,  6 Sep 2016 02:42:00 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u862fwT2020076
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
+	Mon, 5 Sep 2016 19:41:58 -0700
+Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.248.2; Mon, 5 Sep 2016 19:41:57 -0700
+From: <mingli.yu@windriver.com>
+To: <openembedded-core@lists.openembedded.org>,
+	<richard.purdie@linuxfoundation.org>, <ross.burton@intel.com>
+Date: Tue, 6 Sep 2016 10:39:37 +0800
+Message-ID: <1473129577-17238-1-git-send-email-mingli.yu@windriver.com>
+X-Mailer: git-send-email 2.8.1
 MIME-Version: 1.0
-Subject: [PATCH] systemd_230.bb: Set journal RuntimeMaxSize to 64M as default
+Subject: [PATCH v2] groff: not ship /usr/bin/glilypond
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,53 +31,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 05 Sep 2016 21:58:47 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 06 Sep 2016 02:42:01 -0000
+Content-Type: text/plain
 
-At this time systemd journald uses the /run tmpfs to store logs
-by default systemd uses 15% of available space [1] of the /run
-partition, when the space runs out journald starts to vaccum/store
-the logs into /var/log [1].
+From: Mingli Yu <Mingli.Yu@windriver.com>
 
-It causes two problems one of them is timeout dev-ttySN.device's
-when enable debug and use journal as systemd.log_target [2] the other
-is related to don't find syslog entries into the journal log [3].
+Not ship /usr/bin/glilypond and related files such
+as man file /usr/share/man/man1/glilypond.1 and other
+three files related to glilypond under
+/usr/lib/groff/glilypond in embedded system, it is because:
 
-This problems are now more evident because i recently enabled the
-systemd debug option in testimage [4].
+- Remove the confusion about glilypond fails to run
+  because it lacks dependency on File::HomeDir perl
+  module
 
-One area of improvement will be add support in systemd journald to
-read these parameters from the kernel cmdline like systemd.log_target,
-if the support exists we could add that parameter at level of testimage.
+- We don't often have need for sheet music conversion
+  in groff in embedded or IoT devices (glilypond
+  transforms sheet music written in the lilypond language
+  into the groff language using the .PSPIC request, such
+  that groff can transform it into a format that can be
+  displayed directly).
 
-[1] https://www.freedesktop.org/software/systemd/man/journald.conf.html#SystemMaxUse=
-[2] https://bugzilla.yoctoproject.org/show_bug.cgi?id=8142#c19
-[3] https://bugzilla.yoctoproject.org/show_bug.cgi?id=10128#c4
-[4] http://git.yoctoproject.org/cgit/cgit.cgi/poky/commit/?id=a86a1b2703372c12e7fca18918695d093ea6ee53
-
-[YOCTO #10128]
-
-Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
+Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
 ---
- meta/recipes-core/systemd/systemd_230.bb | 3 +++
- 1 file changed, 3 insertions(+)
+ meta/recipes-extended/groff/groff_1.22.3.bb | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/meta/recipes-core/systemd/systemd_230.bb b/meta/recipes-core/systemd/systemd_230.bb
-index 43bc943..5851c65 100644
---- a/meta/recipes-core/systemd/systemd_230.bb
-+++ b/meta/recipes-core/systemd/systemd_230.bb
-@@ -232,6 +232,9 @@ do_install() {
- 
- 	# Enable journal to forward message to syslog daemon
- 	sed -i -e 's/.*ForwardToSyslog.*/ForwardToSyslog=yes/' ${D}${sysconfdir}/systemd/journald.conf
-+	# Set the maximium size of runtime journal to 64M as default
-+	sed -i -e 's/.*RuntimeMaxUse.*/RuntimeMaxUse=64M/' ${D}${sysconfdir}/systemd/journald.conf
+diff --git a/meta/recipes-extended/groff/groff_1.22.3.bb b/meta/recipes-extended/groff/groff_1.22.3.bb
+index af5acbe..dd241f3 100644
+--- a/meta/recipes-extended/groff/groff_1.22.3.bb
++++ b/meta/recipes-extended/groff/groff_1.22.3.bb
+@@ -62,6 +62,11 @@ do_install_append() {
+ 	if [ -f ${SPECIAL_AWK} ]; then
+ 		sed -i -e 's:#!.*awk:#! ${USRBINPATH}/awk:' ${SPECIAL_AWK}
+ 	fi
 +
- 	# this file is needed to exist if networkd is disabled but timesyncd is still in use since timesyncd checks it
- 	# for existence else it fails
- 	if [ -s ${D}${exec_prefix}/lib/tmpfiles.d/systemd.conf ]; then
++	# not ship /usr/bin/glilypond and its releated files in embedded target system
++	rm -rf ${D}${bindir}/glilypond
++	rm -rf ${D}${libdir}/groff/glilypond
++	rm -rf ${D}${mandir}/man1/glilypond*
+ }
+ 
+ do_install_append_class-native() {
 -- 
-2.1.4
+2.8.1
 
 
