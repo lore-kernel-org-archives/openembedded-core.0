@@ -1,48 +1,23 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
-	by mail.openembedded.org (Postfix) with ESMTP id A09F2776E0
+Return-Path: <henry.bruce@intel.com>
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 39B9F774AE
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  6 Sep 2016 21:59:01 +0000 (UTC)
-Received: by mail-wm0-f65.google.com with SMTP id w207so20742710wmw.0
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 06 Sep 2016 14:59:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=rc5lu4nfRnWU0Udwcy9csGFt9eHYxL2ndpklOrAUl9M=;
-	b=M1YgMG9VkkBrad7cE8AZIxuOIEEFOmuJRpyTQ+uH67drlXTUcKtODLmfBIeJ/2zciw
-	At6ha/28KFmwaRrQsOgnOZp3WPvvltEiFmadzI/KbJdSvx39S0S/h5CZXFgZOaRwzrtS
-	uOriK36XcvU0NdkzfXGtBmUJBTO48d3gYbS7IvZEJ++j0IQ/3ChtvCb6Do7HfTX9Gddn
-	mlcpMneusgjONcrKjluwOs2Qhb0PtIixhGtN/sHv5jtjFqQo/T41moLBlz51xnPbsrRs
-	8Lb6fxyRWKAsTZmsJO9DriRZz3EvMcF3xu9I7GdpolD9dBkCw5NXieMrf85vwYtbOf+T
-	iphg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=rc5lu4nfRnWU0Udwcy9csGFt9eHYxL2ndpklOrAUl9M=;
-	b=SpGb1xwOcYgqHnHjgBTAvp8FG1H6pVx1SwDYjGRTKCXJkAMTOsq6TEuxJdNpHW4EKL
-	KA0lxJkrDbqWlnRYeHWIvBUhO+4XJlLDzUqnG/hDpfBUXgU+kkr8Ht0lHwxNs/70qBMj
-	BZ9qHluOBVD8p1ktc86fTKE9dLWhszVoPZ68ftYD1GaYy3Cl1AnDgXtRq2ERRcs+FS6Y
-	i2lzc7AEvfnxVKSFPv9HnGlV9FJS1jyJSYiPqZ22nVXPrIEKsZcCRlwx+HLj1iZQORk1
-	sMZD8wThh37FKN0ZoAXFh/prFGvtrKOE4dF3/FKdXiTsejYyehAni0ps/mZhnFGYlMt/
-	66MQ==
-X-Gm-Message-State: AE9vXwO+5gxvGr9/0yertXqOj8Pytw8ZBYIREET6TgH565Jf8exhP5EGJ8iDZ7qm1iWUKg==
-X-Received: by 10.28.129.145 with SMTP id c139mr712005wmd.102.1473199141398;
-	Tue, 06 Sep 2016 14:59:01 -0700 (PDT)
-Received: from localhost (ip-89-176-104-169.net.upcbroadband.cz.
-	[89.176.104.169]) by smtp.gmail.com with ESMTPSA id
-	n7sm23029840wjs.34.2016.09.06.14.59.00
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 06 Sep 2016 14:59:00 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+	Tue,  6 Sep 2016 22:11:48 +0000 (UTC)
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+	by fmsmga105.fm.intel.com with ESMTP; 06 Sep 2016 15:11:48 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.30,293,1470726000"; 
+   d="scan'208";a="5709795"
+Received: from hbruce-desk3.jf.intel.com ([10.7.198.61])
+	by orsmga004.jf.intel.com with ESMTP; 06 Sep 2016 15:11:47 -0700
+From: Henry Bruce <henry.bruce@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  6 Sep 2016 23:58:59 +0200
-Message-Id: <20160906215859.11941-1-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 2.10.0
-In-Reply-To: <20160906214219.GE2645@jama>
-References: <20160906214219.GE2645@jama>
-Subject: [PATCH] lighttpd: fix EXTRA_OECONF
+Date: Tue,  6 Sep 2016 15:11:45 -0700
+Message-Id: <1473199905-13645-2-git-send-email-henry.bruce@intel.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1473199905-13645-1-git-send-email-henry.bruce@intel.com>
+References: <1473199905-13645-1-git-send-email-henry.bruce@intel.com>
+Subject: [PATCH 2/2] utils.bbclass: Added error checking for oe_soinstall
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,32 +30,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 06 Sep 2016 21:59:02 -0000
+X-List-Received-Date: Tue, 06 Sep 2016 22:11:49 -0000
 
-* --without-memcache was renamed to --without-memcached in:
-  https://redmine.lighttpd.net/projects/lighttpd/repository/revisions/f3b577ddee36b9555331dfbcddb6a200df2ba438
-* causing:
-  ERROR: lighttpd-1.4.41-r0 do_configure: QA Issue: lighttpd: configure was passed unrecognised options: --without-memcache [unknown-configure-option]
+Fixes [YOCTO #10146]
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+Signed-off-by: Henry Bruce <henry.bruce@intel.com>
 ---
- meta/recipes-extended/lighttpd/lighttpd_1.4.41.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/classes/utils.bbclass | 13 +++++++------
+ 1 file changed, 7 insertions(+), 6 deletions(-)
 
-diff --git a/meta/recipes-extended/lighttpd/lighttpd_1.4.41.bb b/meta/recipes-extended/lighttpd/lighttpd_1.4.41.bb
-index bba90cf..1a3f323 100644
---- a/meta/recipes-extended/lighttpd/lighttpd_1.4.41.bb
-+++ b/meta/recipes-extended/lighttpd/lighttpd_1.4.41.bb
-@@ -36,7 +36,7 @@ EXTRA_OECONF = " \
-              --without-bzip2 \
-              --without-ldap \
-              --without-lua \
--             --without-memcache \
-+             --without-memcached \
-              --with-pcre \
-              --without-webdav-props \
-              --without-webdav-locks \
+diff --git a/meta/classes/utils.bbclass b/meta/classes/utils.bbclass
+index d56f51e..aa033d5 100644
+--- a/meta/classes/utils.bbclass
++++ b/meta/classes/utils.bbclass
+@@ -62,15 +62,16 @@ def is_machine_specific(d):
+ oe_soinstall() {
+ 	# Purpose: Install shared library file and
+ 	#          create the necessary links
+-	# Example:
+-	#
+-	# oe_
+-	#
+-	#bbnote installing shared library $1 to $2
+-	#
++	# Example: oe_soinstall libfoo.so.1.2.3 ${D}${libdir}
+ 	libname=`basename $1`
++	if [[ "$libname" == *.so ]]; then
++		bbfatal "oe_soinstall: Shared library must haved versioned filename (e.g. libfoo.so.1.2.3)"
++	fi
+ 	install -m 755 $1 $2/$libname
+ 	sonamelink=`${HOST_PREFIX}readelf -d $1 |grep 'Library soname:' |sed -e 's/.*\[\(.*\)\].*/\1/'`
++	if [ -z $sonamelink ]; then
++		bbfatal "oe_soinstall: $libname is missing ELF tag 'SONAME'."
++	fi
+ 	solink=`echo $libname | sed -e 's/\.so\..*/.so/'`
+ 	ln -sf $libname $2/$sonamelink
+ 	ln -sf $libname $2/$solink
 -- 
-2.10.0
+2.7.4
 
 
