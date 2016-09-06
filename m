@@ -1,48 +1,49 @@
 Return-Path: <fabio.berton@ossystems.com.br>
-Received: from mail-lf0-f67.google.com (mail-lf0-f67.google.com
-	[209.85.215.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 46CDE77562
+Received: from mail-lf0-f47.google.com (mail-lf0-f47.google.com
+	[209.85.215.47])
+	by mail.openembedded.org (Postfix) with ESMTP id 837367753B
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  6 Sep 2016 13:44:26 +0000 (UTC)
-Received: by mail-lf0-f67.google.com with SMTP id s64so1158387lfs.2
+	Tue,  6 Sep 2016 13:44:35 +0000 (UTC)
+Received: by mail-lf0-f47.google.com with SMTP id g62so146560254lfe.3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 06 Sep 2016 06:44:27 -0700 (PDT)
+	Tue, 06 Sep 2016 06:44:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=KBe6yITwgRzRz+hkWaF7rHdi4GcuWlMNHcZH8h5VXgA=;
-	b=jLGav4ujEllrFCbKwFHP0xJOdRQ7s47aUJxNAL5VDWZXEH5MRdJXFgcytvAOXS/cPy
-	R6HtTHcWRzYXdKhme3Huf8Sz031y89/mMI6G5+Ihufieamdiy+YUcd1Ow+8vsw6ugnxb
-	W166N7LpEbvrbaxteQA4v2jKhA/Qk9sMY5M4DvB+MLyMlWzyt6fcxARSG65iQXxZRqbR
-	eBXuROMDBsAeejEOzVTUeUfUU1LGsdhnLNblejuEa9SQgO8VwIWrXq1OhgLthCZBZIQp
-	1wSsr1KH7PakRlhLskoPu2E5N34I4hQbUnrYg2qSU182y3gfW5NiOW7h7bhK6Sk6ZH0z
-	6evQ==
+	:cc; bh=1A+5d/6NmurV/5qW9NMeV/AuroECSXIVokm3SmloSpI=;
+	b=lz5Vm+AbjgPUwQVwqm6R8I3hktOTXSW8MhBEEJSpQKgeTFOOeCZemd4fUwhBgkblce
+	MpjBULqAC+DxX1NUcIB5kedxHAL1JT4FM+1LmVcy49oXYcIJA8aJPXfC9tSm6WH6Sz9Q
+	NI7XlRDLoriTRfxLZDxztE8IvWihzMqBaU6PJC/Wxuk2L9mJUJc+FdLRAABS3tmCwRte
+	SJFdRozN5z0x24V0CN5z7PDce/+LZ1PbdIV60k10nyFTAxwzBtRZJYOnaZvbsdgoCuvF
+	WQCgC9MxGSvjU0hWKIbSbPAK9Vmbh6rDSu63IID/X9QAk9vPHBW8eDlW8+Fkrt6XrX4j
+	4hug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=KBe6yITwgRzRz+hkWaF7rHdi4GcuWlMNHcZH8h5VXgA=;
-	b=bZmpcx+pU8aJ3T76UzVzwYYBBgTTqXHgF7rLKbueJoY/qu1wtuXMvPCjjUb23qzSmp
-	IV/yavAGBYd9QJyld69ELMHo0vAwnzGvTgRe9hnfsVgrpiR/ApP/yNgFui2jwJBjV3+z
-	02LdbPZ0kFZ3JzgJOkfXT3d3NsWmTB94bk3l5SCqWE3OSlJYJsgpP6pC0+c51zv9mYR8
-	N9zGxdiuEdfxrjmwUontRstFeIOl3NNqStVNOEy1Ycmsb83bRdXkBq7Jtx2HsZPNK44/
-	SORkfMmu4Oh7EsqiE3gIrKiZxuIunyyVc+xxjNqMBMtFf7b7DK92rCB/E+Jbn94SoaCG
-	SRfw==
-X-Gm-Message-State: AE9vXwMlD7Glkcm20uJW7NnpvvG9yqkkuDlMbBhzb4YtiLcHk2a3s0enXHbg7g7u/vUjBgFY56YIMcETpcFfGA==
-X-Received: by 10.25.139.195 with SMTP id n186mr3399237lfd.62.1473169466755;
-	Tue, 06 Sep 2016 06:44:26 -0700 (PDT)
+	bh=1A+5d/6NmurV/5qW9NMeV/AuroECSXIVokm3SmloSpI=;
+	b=Sf/3YeL2QYLtvKWiPs17HJbOqeiLnaR0MgKASC9V1q4I9XvOaTsmJxBscXcj6nBD6s
+	upLq470m03hVFvFL9WCMncd243m66F0McO0V6xelK7oCI/2X6lZVNWu8hAyd71ZcP+ue
+	5+EgcfTzD65+iAGR4wbR1dQUL3YsDoLlIpruyWSuzOvPU9q2s2o7g6yTIFFkjBT4LaSm
+	uXN56LF4O4DjdrjtIpJGsEx1z/aaMKgrQJ6YdRdlSISNwhmgl+s3QTvcJAMkHuzAr59H
+	IPdQP5d1+cS8afRp/rCpX3bu45g4bAtj6LsJXbxFGYcQUmzbQe7oKLxd53/ad9wbVXzq
+	RjQQ==
+X-Gm-Message-State: AE9vXwNuBUusPLefaJIYEeKq975Hvus+E5ly3dxy1ZJaLtntBstYw2YYN4lzsxhHSmws1fSOtlTPzYMX6BTeAA==
+X-Received: by 10.25.216.104 with SMTP id p101mr10107893lfg.192.1473169475903; 
+	Tue, 06 Sep 2016 06:44:35 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.25.221.67 with HTTP; Tue, 6 Sep 2016 06:43:56 -0700 (PDT)
+Received: by 10.25.221.67 with HTTP; Tue, 6 Sep 2016 06:44:05 -0700 (PDT)
 X-Originating-IP: [179.105.254.222]
-In-Reply-To: <1472241302-7437-1-git-send-email-fabio.berton@ossystems.com.br>
+In-Reply-To: <1472241302-7437-2-git-send-email-fabio.berton@ossystems.com.br>
 References: <1472241302-7437-1-git-send-email-fabio.berton@ossystems.com.br>
+	<1472241302-7437-2-git-send-email-fabio.berton@ossystems.com.br>
 From: Fabio Berton <fabio.berton@ossystems.com.br>
-Date: Tue, 6 Sep 2016 10:43:56 -0300
-Message-ID: <CAAPZna0iZwimLc7yUP7AypN4xKtng7OCRHPy+JH7kOcBxnwr1w@mail.gmail.com>
+Date: Tue, 6 Sep 2016 10:44:05 -0300
+Message-ID: <CAAPZna0nTZVVPXrBNYg+Kbw8RjUMthy0g47b6N4wXvEyt0Z1bQ@mail.gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 Cc: Otavio Salvador <otavio@ossystems.com.br>
-Subject: Re: [PATCH 1/2] watchdog: Add wd_keepalive package
+Subject: Re: [PATCH 2/2] watchdog-config: Add recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,10 +56,10 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 06 Sep 2016 13:44:28 -0000
-Content-Type: multipart/alternative; boundary=001a113ebaa6c2a010053bd6fe33
+X-List-Received-Date: Tue, 06 Sep 2016 13:44:37 -0000
+Content-Type: multipart/alternative; boundary=001a114012604e3991053bd6ffde
 
---001a113ebaa6c2a010053bd6fe33
+--001a114012604e3991053bd6ffde
 Content-Type: text/plain; charset=UTF-8
 
 ping?
@@ -66,209 +67,152 @@ ping?
 On Fri, Aug 26, 2016 at 4:55 PM, Fabio Berton <fabio.berton@ossystems.com.br
 > wrote:
 
-> This is a simplified version of the watchdog daemon. It only opens
-> /dev/watchdog, and keeps writing to it often enough to keep the kernel
-> from resetting, at least once per minute. Each write delays the reboot
-> time another minute. After a minute of inactivity the watchdog hardware
-> will cause a reset. In the case of the software watchdog the ability to
-> reboot will depend on the state of the machines and interrupts.
->
-> Installs wd_keepalive binary and enable initscript.
+> Provides configuration files for watchdog.
+> Add watchdog-config as a runtime dependence of watchdog and remove
+> watchdog.conf file from watchdog installation.
 >
 > Signed-off-by: Fabio Berton <fabio.berton@ossystems.com.br>
 > Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
 > ---
->  .../watchdog/watchdog/wd_keepalive.init            | 121
-> +++++++++++++++++++++
->  meta/recipes-extended/watchdog/watchdog_5.15.bb    |  23 +++-
->  2 files changed, 141 insertions(+), 3 deletions(-)
->  create mode 100644 meta/recipes-extended/watchdog/watchdog/wd_
-> keepalive.init
+>  meta/recipes-extended/watchdog/watchdog-config.bb  | 20 +++++++++++
+>  .../watchdog/watchdog-config/watchdog.conf         | 42
+> ++++++++++++++++++++++
+>  .../watchdog/watchdog-config/watchdog.default      |  2 ++
+>  meta/recipes-extended/watchdog/watchdog_5.15.bb    |  6 +++-
+>  4 files changed, 69 insertions(+), 1 deletion(-)
+>  create mode 100644 meta/recipes-extended/watchdog/watchdog-config.bb
+>  create mode 100644 meta/recipes-extended/watchdog/watchdog-config/
+> watchdog.conf
+>  create mode 100644 meta/recipes-extended/watchdog/watchdog-config/
+> watchdog.default
 >
-> diff --git a/meta/recipes-extended/watchdog/watchdog/wd_keepalive.init
-> b/meta/recipes-extended/watchdog/watchdog/wd_keepalive.init
+> diff --git a/meta/recipes-extended/watchdog/watchdog-config.bb
+> b/meta/recipes-extended/watchdog/watchdog-config.bb
 > new file mode 100644
-> index 0000000..1d3e4c5
+> index 0000000..8bf40f0
 > --- /dev/null
-> +++ b/meta/recipes-extended/watchdog/watchdog/wd_keepalive.init
-> @@ -0,0 +1,121 @@
-> +#!/bin/sh
-> +#/etc/init.d/wd_keepalive: start wd_keepalive daemon.
+> +++ b/meta/recipes-extended/watchdog/watchdog-config.bb
+> @@ -0,0 +1,20 @@
+> +SUMMARY = "Software watchdog"
+> +DESCRIPTION = "Watchdog is a daemon that checks if your system is still \
+> +working. If programs in user space are not longer executed it will reboot
+> \
+> +the system."
+> +HOMEPAGE = "http://watchdog.sourceforge.net/"
+> +BUGTRACKER = "http://sourceforge.net/tracker/?group_id=172030&atid=860194
+> "
 > +
-> +### BEGIN INIT INFO
-> +# Provides:          wd_keepalive
-> +# Short-Description: Start watchdog keepalive daemon
-> +# Required-Start:    $remote_fs
-> +# Required-Stop:     $remote_fs
-> +# X-Start-Before:    $all
-> +# Default-Start:     2 3 4 5
-> +# Default-Stop
-> +### END INIT INFO
+> +LICENSE = "MIT-X"
+> +LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=
+> 3da9cfbcb788c80a0384361b4de20420"
 > +
-> +PATH=/bin:/usr/bin:/sbin:/usr/sbin
+> +SRC_URI = " \
+> +    file://watchdog.default \
+> +    file://watchdog.conf \
+> +"
 > +
-> +test -x /usr/sbin/wd_keepalive || exit 0
-> +
-> +# For configuration of the init script use the file
-> +# /etc/default/watchdog, do not edit this init script.
-> +
-> +# Set run_watchdog to 1 to start watchdog or 0 to disable it.
-> +run_watchdog=0
-> +
-> +# Specify additional watchdog options here (see manpage).
-> +watchdog_options=""
-> +
-> +# Specify module to load
-> +watchdog_module="none"
-> +
-> +[ -e /etc/default/watchdog ] && . /etc/default/watchdog
-> +
-> +NAME=wd_keepalive
-> +DAEMON=/usr/sbin/wd_keepalive
-> +
-> +STOP_RETRY_SCHEDULE='TERM/10/forever/KILL/1'
-> +
-> +# . /lib/lsb/init-functions
-> +
-> +# Mock Debian stuff
-> +log_begin_msg() {
-> +    echo -n $*
+> +do_install() {
+> +    install -Dm 0644 ${WORKDIR}/watchdog.default
+> ${D}${sysconfdir}/default/watchdog
+> +    install -Dm 0644 ${WORKDIR}/watchdog.conf ${D}${sysconfdir}/watchdog.
+> conf
 > +}
 > +
-> +log_end_msg() {
-> +    if [ "$1" = "0" ]; then
-> +        echo 'done'
-> +    else
-> +        echo 'error'
-> +    fi
-> +}
+> diff --git a/meta/recipes-extended/watchdog/watchdog-config/watchdog.conf
+> b/meta/recipes-extended/watchdog/watchdog-config/watchdog.conf
+> new file mode 100644
+> index 0000000..c493d12
+> --- /dev/null
+> +++ b/meta/recipes-extended/watchdog/watchdog-config/watchdog.conf
+> @@ -0,0 +1,42 @@
+> +#ping                  = 172.31.14.1
+> +#ping                  = 172.26.1.255
+> +#interface             = eth0
+> +#file                  = /var/log/messages
+> +#change                        = 1407
 > +
-> +log_daemon_msg() {
-> +    echo $*
-> +}
+> +# Uncomment to enable test. Setting one of these values to '0' disables
+> it.
+> +# These values will hopefully never reboot your machine during normal use
+> +# (if your machine is really hung, the loadavg will go much higher than
+> 25)
+> +#max-load-1            = 24
+> +#max-load-5            = 18
+> +#max-load-15           = 12
 > +
-> +log_progress_msg() {
-> +    echo $*
-> +}
+> +# Note that this is the number of pages!
+> +# To get the real size, check how large the pagesize is on your machine.
+> +#min-memory            = 1
 > +
+> +#repair-binary         = /usr/sbin/repair
+> +#repair-timeout                =
+> +#test-binary           =
+> +#test-timeout          =
 > +
-> +case "$1" in
-> +  start)
-> +    if [ $run_watchdog = 1 ]
-> +    then
-> +        [ ${watchdog_module:-none} != "none" ] && /sbin/modprobe
-> $watchdog_module
-> +       echo -n "Starting watchdog keepalive daemon: "
-> +       if start-stop-daemon --start --quiet \
-> +           --exec $DAEMON -- $watchdog_options
-> +       then
-> +           echo wd_keepalive.
-> +       else
-> +           echo
-> +       fi
-> +    fi
-> +    ;;
+> +watchdog-device        = /dev/watchdog
 > +
-> +  stop)
-> +    if [ $run_watchdog = 1 ]
-> +    then
-> +       echo -n "Stopping watchdog keepalive daemon: "
-> +       if start-stop-daemon --stop --quiet --pidfile /var/run/$NAME.pid \
-> +           $STOP_RETRY_SCHEDULE
-> +       then
-> +           echo wd_keepalive.
-> +       else
-> +           echo
-> +       fi
-> +    fi
-> +    ;;
+> +# Defaults compiled into the binary
+> +#temperature-device    =
+> +#max-temperature       = 120
 > +
-> +  status)
-> +    status_of_proc "$DAEMON" "$NAME" && exit 0 || exit $?
-> +    ;;
+> +# Defaults compiled into the binary
+> +#admin                 = root
+> +#interval              = 1
+> +#logtick                = 1
+> +#log-dir               = /var/log/watchdog
 > +
-> +  restart)
-> +    $0 force-reload
-> +    ;;
+> +# This greatly decreases the chance that watchdog won't be scheduled
+> before
+> +# your machine is really loaded
+> +realtime               = yes
+> +priority               = 1
 > +
-> +  force-reload)
-> +    if [ $run_watchdog = 0 ]; then exit 0; fi
-> +    echo -n "Restarting $NAME daemon."
-> +    start-stop-daemon --stop --quiet --pidfile /var/run/$NAME.pid \
-> +       $STOP_RETRY_SCHEDULE
-> +    echo -n "."
-> +    if start-stop-daemon --start --quiet --pidfile /var/run/$NAME.pid \
-> +       --exec $DAEMON -- $watchdog_options
-> +    then
-> +       echo "done."
-> +    else
-> +       echo
-> +    fi
-> +    ;;
+> +# Check if rsyslogd is still running by enabling the following line
+> +#pidfile               = /var/run/rsyslogd.pid
 > +
-> +  *)
-> +    echo "Usage: /etc/init.d/wd_keepalive {start|stop|status|restart|
-> force-reload}"
-> +    exit 1
-> +
-> +esac
-> +
-> +exit 0
-> +
+> diff --git a/meta/recipes-extended/watchdog/watchdog-config/watchdog.default
+> b/meta/recipes-extended/watchdog/watchdog-config/watchdog.default
+> new file mode 100644
+> index 0000000..647d5ab
+> --- /dev/null
+> +++ b/meta/recipes-extended/watchdog/watchdog-config/watchdog.default
+> @@ -0,0 +1,2 @@
+> +# Start watchdog at boot time? 0 or 1
+> +run_watchdog=1
 > diff --git a/meta/recipes-extended/watchdog/watchdog_5.15.bb
 > b/meta/recipes-extended/watchdog/watchdog_5.15.bb
-> index ee1a893..1c0049c 100644
+> index 1c0049c..cedfc04 100644
 > --- a/meta/recipes-extended/watchdog/watchdog_5.15.bb
 > +++ b/meta/recipes-extended/watchdog/watchdog_5.15.bb
-> @@ -12,6 +12,7 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/watchdog/watchdog-${PV}.tar.gz
-> \
->             file://0001-Include-linux-param.h-for-EXEC_PAGESIZE-definition.patch
-> \
->             file://watchdog-init.patch \
->             file://watchdog-conf.patch \
-> +           file://wd_keepalive.init \
->  "
->
->  SRC_URI[md5sum] = "678c32f6f35a0492c9c1b76b4aa88828"
-> @@ -28,11 +29,27 @@ CFLAGS_append_libc-musl = " -I${STAGING_INCDIR}/tirpc "
->  LDFLAGS_append_libc-musl = " -ltirpc "
->  EXTRA_OECONF_append_libc-musl = " --disable-nfs "
->
-> -INITSCRIPT_NAME = "watchdog.sh"
-> -INITSCRIPT_PARAMS = "start 15 1 2 3 4 5 . stop 85 0 6 ."
-> +INITSCRIPT_PACKAGES = "${PN} ${PN}-keepalive"
->
-> -RRECOMMENDS_${PN} = "kernel-module-softdog"
-> +INITSCRIPT_NAME_${PN} = "watchdog.sh"
-> +INITSCRIPT_PARAMS_${PN} = "start 15 1 2 3 4 5 . stop 85 0 6 ."
-> +
-> +INITSCRIPT_NAME_${PN}-keepalive = "wd_keepalive"
-> +INITSCRIPT_PARAMS_${PN}-keepalive = "start 15 1 2 3 4 5 . stop 85 0 6 ."
->
+> @@ -40,6 +40,9 @@ INITSCRIPT_PARAMS_${PN}-keepalive = "start 15 1 2 3 4 5
+> . stop 85 0 6 ."
 >  do_install_append() {
 >         install -D ${S}/redhat/watchdog.init ${D}/${sysconfdir}/init.d/
 > watchdog.sh
-> +    install -Dm 0755 ${WORKDIR}/wd_keepalive.init
+>      install -Dm 0755 ${WORKDIR}/wd_keepalive.init
 > ${D}${sysconfdir}/init.d/wd_keepalive
+> +
+> +    # watchdog.conf is provided by the watchdog-config recipe
+> +    rm ${D}${sysconfdir}/watchdog.conf
 >  }
-> +
-> +PACKAGES =+ "${PN}-keepalive"
-> +
-> +FILES_${PN}-keepalive = " \
-> +    ${sysconfdir}/init.d/wd_keepalive \
-> +    ${sbindir}/wd_keepalive \
-> +"
-> +
-> +RDEPENDS_${PN} += "${PN}-keepalive"
-> +
-> +RRECOMMENDS_${PN} = "kernel-module-softdog"
-> +
+>
+>  PACKAGES =+ "${PN}-keepalive"
+> @@ -49,7 +52,8 @@ FILES_${PN}-keepalive = " \
+>      ${sbindir}/wd_keepalive \
+>  "
+>
+> -RDEPENDS_${PN} += "${PN}-keepalive"
+> +RDEPENDS_${PN} += "${PN}-config ${PN}-keepalive"
+> +RDEPENDS_${PN}-keepalive += "${PN}-config"
+>
+>  RRECOMMENDS_${PN} = "kernel-module-softdog"
+>
 > --
 > 2.1.4
 >
 >
 
---001a113ebaa6c2a010053bd6fe33
+--001a114012604e3991053bd6ffde
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
@@ -278,228 +222,186 @@ e,monospace;font-size:small">ping?<br></div></div><div class=3D"gmail_extra=
 ton <span dir=3D"ltr">&lt;<a href=3D"mailto:fabio.berton@ossystems.com.br" =
 target=3D"_blank">fabio.berton@ossystems.com.br</a>&gt;</span> wrote:<br><b=
 lockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px =
-#ccc solid;padding-left:1ex"><span class=3D"">This is a simplified version =
-of the watchdog daemon. It only opens<br>
-/dev/watchdog, and keeps writing to it often enough to keep the kernel<br>
-from resetting, at least once per minute. Each write delays the reboot<br>
-time another minute. After a minute of inactivity the watchdog hardware<br>
-will cause a reset. In the case of the software watchdog the ability to<br>
-reboot will depend on the state of the machines and interrupts.<br>
-<br>
-Installs wd_keepalive binary and enable initscript.<br>
+#ccc solid;padding-left:1ex"><span class=3D"">Provides configuration files =
+for watchdog.<br>
+Add watchdog-config as a runtime dependence of watchdog and remove<br>
+watchdog.conf file from watchdog installation.<br>
 <br>
 Signed-off-by: Fabio Berton &lt;<a href=3D"mailto:fabio.berton@ossystems.co=
 m.br">fabio.berton@ossystems.com.br</a><wbr>&gt;<br>
 </span>Signed-off-by: Otavio Salvador &lt;<a href=3D"mailto:otavio@ossystem=
 s.com.br">otavio@ossystems.com.br</a>&gt;<br>
 <div class=3D"HOEnZb"><div class=3D"h5">---<br>
-=C2=A0.../watchdog/watchdog/wd_<wbr>keepalive.init=C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 | 121 +++++++++++++++++++++<br>
+=C2=A0meta/recipes-extended/<wbr>watchdog/<a href=3D"http://watchdog-config=
+.bb" rel=3D"noreferrer" target=3D"_blank">watchdog-config.bb</a>=C2=A0 | 20=
+ +++++++++++<br>
+=C2=A0.../watchdog/watchdog-config/<wbr>watchdog.conf=C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0| 42 ++++++++++++++++++++++<br>
+=C2=A0.../watchdog/watchdog-config/<wbr>watchdog.default=C2=A0 =C2=A0 =C2=
+=A0 |=C2=A0 2 ++<br>
 =C2=A0meta/recipes-extended/<wbr>watchdog/<a href=3D"http://watchdog_5.15.b=
 b" rel=3D"noreferrer" target=3D"_blank">watchdog_5.15.bb</a>=C2=A0 =C2=A0 |=
-=C2=A0 23 +++-<br>
-=C2=A02 files changed, 141 insertions(+), 3 deletions(-)<br>
-=C2=A0create mode 100644 meta/recipes-extended/<wbr>watchdog/watchdog/wd_<w=
-br>keepalive.init<br>
+=C2=A0 6 +++-<br>
+=C2=A04 files changed, 69 insertions(+), 1 deletion(-)<br>
+=C2=A0create mode 100644 meta/recipes-extended/<wbr>watchdog/<a href=3D"htt=
+p://watchdog-config.bb" rel=3D"noreferrer" target=3D"_blank">watchdog-confi=
+g.bb</a><br>
+=C2=A0create mode 100644 meta/recipes-extended/<wbr>watchdog/watchdog-confi=
+g/<wbr>watchdog.conf<br>
+=C2=A0create mode 100644 meta/recipes-extended/<wbr>watchdog/watchdog-confi=
+g/<wbr>watchdog.default<br>
 <br>
-diff --git a/meta/recipes-extended/<wbr>watchdog/watchdog/wd_<wbr>keepalive=
-.init b/meta/recipes-extended/<wbr>watchdog/watchdog/wd_<wbr>keepalive.init=
-<br>
+diff --git a/meta/recipes-extended/<wbr>watchdog/<a href=3D"http://watchdog=
+-config.bb" rel=3D"noreferrer" target=3D"_blank">watchdog-config.bb</a> b/m=
+eta/recipes-extended/<wbr>watchdog/<a href=3D"http://watchdog-config.bb" re=
+l=3D"noreferrer" target=3D"_blank">watchdog-config.bb</a><br>
 new file mode 100644<br>
-index 0000000..1d3e4c5<br>
+index 0000000..8bf40f0<br>
 --- /dev/null<br>
-+++ b/meta/recipes-extended/<wbr>watchdog/watchdog/wd_<wbr>keepalive.init<b=
++++ b/meta/recipes-extended/<wbr>watchdog/<a href=3D"http://watchdog-config=
+.bb" rel=3D"noreferrer" target=3D"_blank">watchdog-config.bb</a><br>
+@@ -0,0 +1,20 @@<br>
++SUMMARY =3D &quot;Software watchdog&quot;<br>
++DESCRIPTION =3D &quot;Watchdog is a daemon that checks if your system is s=
+till \<br>
++working. If programs in user space are not longer executed it will reboot =
+\<br>
++the system.&quot;<br>
++HOMEPAGE =3D &quot;<a href=3D"http://watchdog.sourceforge.net/" rel=3D"nor=
+eferrer" target=3D"_blank">http://watchdog.sourceforge.<wbr>net/</a>&quot;<=
+br>
++BUGTRACKER =3D &quot;<a href=3D"http://sourceforge.net/tracker/?group_id=
+=3D172030&amp;atid=3D860194" rel=3D"noreferrer" target=3D"_blank">http://so=
+urceforge.net/<wbr>tracker/?group_id=3D172030&amp;atid=3D<wbr>860194</a>&qu=
+ot;<br>
++<br>
++LICENSE =3D &quot;MIT-X&quot;<br>
++LIC_FILES_CHKSUM =3D &quot;file://${COREBASE}/meta/<wbr>COPYING.MIT;md5=3D=
+<wbr>3da9cfbcb788c80a0384361b4de204<wbr>20&quot;<br>
++<br>
++SRC_URI =3D &quot; \<br>
++=C2=A0 =C2=A0 file://watchdog.default \<br>
++=C2=A0 =C2=A0 file://watchdog.conf \<br>
++&quot;<br>
++<br>
++do_install() {<br>
++=C2=A0 =C2=A0 install -Dm 0644 ${WORKDIR}/watchdog.default ${D}${sysconfdi=
+r}/default/<wbr>watchdog<br>
++=C2=A0 =C2=A0 install -Dm 0644 ${WORKDIR}/watchdog.conf ${D}${sysconfdir}/=
+watchdog.<wbr>conf<br>
++}<br>
++<br>
+diff --git a/meta/recipes-extended/<wbr>watchdog/watchdog-config/<wbr>watch=
+dog.conf b/meta/recipes-extended/<wbr>watchdog/watchdog-config/<wbr>watchdo=
+g.conf<br>
+new file mode 100644<br>
+index 0000000..c493d12<br>
+--- /dev/null<br>
++++ b/meta/recipes-extended/<wbr>watchdog/watchdog-config/<wbr>watchdog.con=
+f<br>
+@@ -0,0 +1,42 @@<br>
++#ping=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D 17=
+2.31.14.1<br>
++#ping=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D 17=
+2.26.1.255<br>
++#interface=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=3D eth0<br>
++#file=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D /v=
+ar/log/messages<br>
++#change=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =3D 1407<br>
++<br>
++# Uncomment to enable test. Setting one of these values to &#39;0&#39; dis=
+ables it.<br>
++# These values will hopefully never reboot your machine during normal use<=
+br>
++# (if your machine is really hung, the loadavg will go much higher than 25=
+)<br>
++#max-load-1=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D 24<br>
++#max-load-5=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D 18<br>
++#max-load-15=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=3D 12<br>
++<br>
++# Note that this is the number of pages!<br>
++# To get the real size, check how large the pagesize is on your machine.<b=
 r>
-@@ -0,0 +1,121 @@<br>
-+#!/bin/sh<br>
-+#/etc/init.d/wd_keepalive: start wd_keepalive daemon.<br>
++#min-memory=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D 1<br>
 +<br>
-+### BEGIN INIT INFO<br>
-+# Provides:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 wd_keepalive<br>
-+# Short-Description: Start watchdog keepalive daemon<br>
-+# Required-Start:=C2=A0 =C2=A0 $remote_fs<br>
-+# Required-Stop:=C2=A0 =C2=A0 =C2=A0$remote_fs<br>
-+# X-Start-Before:=C2=A0 =C2=A0 $all<br>
-+# Default-Start:=C2=A0 =C2=A0 =C2=A02 3 4 5<br>
-+# Default-Stop<br>
-+### END INIT INFO<br>
++#repair-binary=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=3D /usr/sbin/repair<br>
++#repair-timeout=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D=
+<br>
++#test-binary=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=3D<br>
++#test-timeout=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D<br>
 +<br>
-+PATH=3D/bin:/usr/bin:/sbin:/<wbr>usr/sbin<br>
++watchdog-device=C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D /dev/watchdog<br>
 +<br>
-+test -x /usr/sbin/wd_keepalive || exit 0<br>
++# Defaults compiled into the binary<br>
++#temperature-device=C2=A0 =C2=A0 =3D<br>
++#max-temperature=C2=A0 =C2=A0 =C2=A0 =C2=A0=3D 120<br>
 +<br>
-+# For configuration of the init script use the file<br>
-+# /etc/default/watchdog, do not edit this init script.<br>
++# Defaults compiled into the binary<br>
++#admin=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=3D ro=
+ot<br>
++#interval=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D 1<br>
++#logtick=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D 1<br>
++#log-dir=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=3D /var/lo=
+g/watchdog<br>
 +<br>
-+# Set run_watchdog to 1 to start watchdog or 0 to disable it.<br>
-+run_watchdog=3D0<br>
++# This greatly decreases the chance that watchdog won&#39;t be scheduled b=
+efore<br>
++# your machine is really loaded<br>
++realtime=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=3D yes<br>
++priority=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=3D 1<br>
 +<br>
-+# Specify additional watchdog options here (see manpage).<br>
-+watchdog_options=3D&quot;&quot;<br>
++# Check if rsyslogd is still running by enabling the following line<br>
++#pidfile=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=3D /var/ru=
+n/rsyslogd.pid<br>
 +<br>
-+# Specify module to load<br>
-+watchdog_module=3D&quot;none&quot;<br>
-+<br>
-+[ -e /etc/default/watchdog ] &amp;&amp; . /etc/default/watchdog<br>
-+<br>
-+NAME=3Dwd_keepalive<br>
-+DAEMON=3D/usr/sbin/wd_keepalive<br>
-+<br>
-+STOP_RETRY_SCHEDULE=3D&#39;TERM/10/<wbr>forever/KILL/1&#39;<br>
-+<br>
-+# . /lib/lsb/init-functions<br>
-+<br>
-+# Mock Debian stuff<br>
-+log_begin_msg() {<br>
-+=C2=A0 =C2=A0 echo -n $*<br>
-+}<br>
-+<br>
-+log_end_msg() {<br>
-+=C2=A0 =C2=A0 if [ &quot;$1&quot; =3D &quot;0&quot; ]; then<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 echo &#39;done&#39;<br>
-+=C2=A0 =C2=A0 else<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 echo &#39;error&#39;<br>
-+=C2=A0 =C2=A0 fi<br>
-+}<br>
-+<br>
-+log_daemon_msg() {<br>
-+=C2=A0 =C2=A0 echo $*<br>
-+}<br>
-+<br>
-+log_progress_msg() {<br>
-+=C2=A0 =C2=A0 echo $*<br>
-+}<br>
-+<br>
-+<br>
-+case &quot;$1&quot; in<br>
-+=C2=A0 start)<br>
-+=C2=A0 =C2=A0 if [ $run_watchdog =3D 1 ]<br>
-+=C2=A0 =C2=A0 then<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 [ ${watchdog_module:-none} !=3D &quot;none&quo=
-t; ] &amp;&amp; /sbin/modprobe $watchdog_module<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0echo -n &quot;Starting watchdog keepalive daemo=
-n: &quot;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0if start-stop-daemon --start --quiet \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0--exec $DAEMON -- $watchdog_optio=
-ns<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0then<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0echo wd_keepalive.<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0else<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0echo<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0fi<br>
-+=C2=A0 =C2=A0 fi<br>
-+=C2=A0 =C2=A0 ;;<br>
-+<br>
-+=C2=A0 stop)<br>
-+=C2=A0 =C2=A0 if [ $run_watchdog =3D 1 ]<br>
-+=C2=A0 =C2=A0 then<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0echo -n &quot;Stopping watchdog keepalive daemo=
-n: &quot;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0if start-stop-daemon --stop --quiet --pidfile /=
-var/run/$NAME.pid \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0$STOP_RETRY_SCHEDULE<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0then<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0echo wd_keepalive.<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0else<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0echo<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0fi<br>
-+=C2=A0 =C2=A0 fi<br>
-+=C2=A0 =C2=A0 ;;<br>
-+<br>
-+=C2=A0 status)<br>
-+=C2=A0 =C2=A0 status_of_proc &quot;$DAEMON&quot; &quot;$NAME&quot; &amp;&a=
-mp; exit 0 || exit $?<br>
-+=C2=A0 =C2=A0 ;;<br>
-+<br>
-+=C2=A0 restart)<br>
-+=C2=A0 =C2=A0 $0 force-reload<br>
-+=C2=A0 =C2=A0 ;;<br>
-+<br>
-+=C2=A0 force-reload)<br>
-+=C2=A0 =C2=A0 if [ $run_watchdog =3D 0 ]; then exit 0; fi<br>
-+=C2=A0 =C2=A0 echo -n &quot;Restarting $NAME daemon.&quot;<br>
-+=C2=A0 =C2=A0 start-stop-daemon --stop --quiet --pidfile /var/run/$NAME.pi=
-d \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0$STOP_RETRY_SCHEDULE<br>
-+=C2=A0 =C2=A0 echo -n &quot;.&quot;<br>
-+=C2=A0 =C2=A0 if start-stop-daemon --start --quiet --pidfile /var/run/$NAM=
-E.pid \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0--exec $DAEMON -- $watchdog_options<br>
-+=C2=A0 =C2=A0 then<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0echo &quot;done.&quot;<br>
-+=C2=A0 =C2=A0 else<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0echo<br>
-+=C2=A0 =C2=A0 fi<br>
-+=C2=A0 =C2=A0 ;;<br>
-+<br>
-+=C2=A0 *)<br>
-+=C2=A0 =C2=A0 echo &quot;Usage: /etc/init.d/wd_keepalive {start|stop|statu=
-s|restart|<wbr>force-reload}&quot;<br>
-+=C2=A0 =C2=A0 exit 1<br>
-+<br>
-+esac<br>
-+<br>
-+exit 0<br>
-+<br>
+diff --git a/meta/recipes-extended/<wbr>watchdog/watchdog-config/<wbr>watch=
+dog.default b/meta/recipes-extended/<wbr>watchdog/watchdog-config/<wbr>watc=
+hdog.default<br>
+new file mode 100644<br>
+index 0000000..647d5ab<br>
+--- /dev/null<br>
++++ b/meta/recipes-extended/<wbr>watchdog/watchdog-config/<wbr>watchdog.def=
+ault<br>
+@@ -0,0 +1,2 @@<br>
++# Start watchdog at boot time? 0 or 1<br>
++run_watchdog=3D1<br>
 diff --git a/meta/recipes-extended/<wbr>watchdog/<a href=3D"http://watchdog=
 _5.15.bb" rel=3D"noreferrer" target=3D"_blank">watchdog_5.15.bb</a> b/meta/=
 recipes-extended/<wbr>watchdog/<a href=3D"http://watchdog_5.15.bb" rel=3D"n=
 oreferrer" target=3D"_blank">watchdog_5.15.bb</a><br>
-index ee1a893..1c0049c 100644<br>
+index 1c0049c..cedfc04 100644<br>
 --- a/meta/recipes-extended/<wbr>watchdog/<a href=3D"http://watchdog_5.15.b=
 b" rel=3D"noreferrer" target=3D"_blank">watchdog_5.15.bb</a><br>
 +++ b/meta/recipes-extended/<wbr>watchdog/<a href=3D"http://watchdog_5.15.b=
 b" rel=3D"noreferrer" target=3D"_blank">watchdog_5.15.bb</a><br>
-@@ -12,6 +12,7 @@ SRC_URI =3D &quot;${SOURCEFORGE_MIRROR}/<wbr>watchdog/wat=
-chdog-${PV}.tar.gz \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://0001-Include-linux-<wbr>pa=
-ram.h-for-EXEC_PAGESIZE-<wbr>definition.patch \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://watchdog-init.patch \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://watchdog-conf.patch \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://wd_keepalive.init \<br>
-=C2=A0&quot;<br>
-<br>
-=C2=A0SRC_URI[md5sum] =3D &quot;<wbr>678c32f6f35a0492c9c1b76b4aa888<wbr>28&=
-quot;<br>
-@@ -28,11 +29,27 @@ CFLAGS_append_libc-musl =3D &quot; -I${STAGING_INCDIR}/=
-tirpc &quot;<br>
-=C2=A0LDFLAGS_append_libc-musl =3D &quot; -ltirpc &quot;<br>
-=C2=A0EXTRA_OECONF_append_libc-musl =3D &quot; --disable-nfs &quot;<br>
-<br>
--INITSCRIPT_NAME =3D &quot;watchdog.sh&quot;<br>
--INITSCRIPT_PARAMS =3D &quot;start 15 1 2 3 4 5 . stop 85 0 6 .&quot;<br>
-+INITSCRIPT_PACKAGES =3D &quot;${PN} ${PN}-keepalive&quot;<br>
-<br>
--RRECOMMENDS_${PN} =3D &quot;kernel-module-softdog&quot;<br>
-+INITSCRIPT_NAME_${PN} =3D &quot;watchdog.sh&quot;<br>
-+INITSCRIPT_PARAMS_${PN} =3D &quot;start 15 1 2 3 4 5 . stop 85 0 6 .&quot;=
-<br>
-+<br>
-+INITSCRIPT_NAME_${PN}-<wbr>keepalive =3D &quot;wd_keepalive&quot;<br>
-+INITSCRIPT_PARAMS_${PN}-<wbr>keepalive =3D &quot;start 15 1 2 3 4 5 . stop=
- 85 0 6 .&quot;<br>
-<br>
+@@ -40,6 +40,9 @@ INITSCRIPT_PARAMS_${PN}-<wbr>keepalive =3D &quot;start 15=
+ 1 2 3 4 5 . stop 85 0 6 .&quot;<br>
 =C2=A0do_install_append() {<br>
 =C2=A0 =C2=A0 =C2=A0 =C2=A0 install -D ${S}/redhat/watchdog.init ${D}/${sys=
 confdir}/init.d/<wbr>watchdog.sh<br>
-+=C2=A0 =C2=A0 install -Dm 0755 ${WORKDIR}/wd_keepalive.init ${D}${sysconfd=
-ir}/init.d/wd_<wbr>keepalive<br>
+=C2=A0 =C2=A0 =C2=A0install -Dm 0755 ${WORKDIR}/wd_keepalive.init ${D}${sys=
+confdir}/init.d/wd_<wbr>keepalive<br>
++<br>
++=C2=A0 =C2=A0 # watchdog.conf is provided by the watchdog-config recipe<br=
+>
++=C2=A0 =C2=A0 rm ${D}${sysconfdir}/watchdog.<wbr>conf<br>
 =C2=A0}<br>
-+<br>
-+PACKAGES =3D+ &quot;${PN}-keepalive&quot;<br>
-+<br>
-+FILES_${PN}-keepalive =3D &quot; \<br>
-+=C2=A0 =C2=A0 ${sysconfdir}/init.d/wd_<wbr>keepalive \<br>
-+=C2=A0 =C2=A0 ${sbindir}/wd_keepalive \<br>
-+&quot;<br>
-+<br>
-+RDEPENDS_${PN} +=3D &quot;${PN}-keepalive&quot;<br>
-+<br>
-+RRECOMMENDS_${PN} =3D &quot;kernel-module-softdog&quot;<br>
-+<br>
+<br>
+=C2=A0PACKAGES =3D+ &quot;${PN}-keepalive&quot;<br>
+@@ -49,7 +52,8 @@ FILES_${PN}-keepalive =3D &quot; \<br>
+=C2=A0 =C2=A0 =C2=A0${sbindir}/wd_keepalive \<br>
+=C2=A0&quot;<br>
+<br>
+-RDEPENDS_${PN} +=3D &quot;${PN}-keepalive&quot;<br>
++RDEPENDS_${PN} +=3D &quot;${PN}-config ${PN}-keepalive&quot;<br>
++RDEPENDS_${PN}-keepalive +=3D &quot;${PN}-config&quot;<br>
+<br>
+=C2=A0RRECOMMENDS_${PN} =3D &quot;kernel-module-softdog&quot;<br>
+<br>
 --<br>
 2.1.4<br>
 <br>
 </div></div></blockquote></div><br></div>
 
---001a113ebaa6c2a010053bd6fe33--
+--001a114012604e3991053bd6ffde--
