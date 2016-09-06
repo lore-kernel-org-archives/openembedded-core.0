@@ -1,27 +1,15 @@
-Return-Path: <amarnath.valluri@intel.com>
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
-	by mail.openembedded.org (Postfix) with ESMTP id CDCE777499
+Return-Path: <ml@embed.me.uk>
+Received: from owm.eumx.net (eumx.net [91.82.101.43])
+	by mail.openembedded.org (Postfix) with ESMTP id CC7DD7753B
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  6 Sep 2016 13:12:34 +0000 (UTC)
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-	by orsmga104.jf.intel.com with ESMTP; 06 Sep 2016 06:12:34 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.30,291,1470726000"; 
-   d="scan'208";a="5105735"
-Received: from linux.intel.com ([10.54.29.200])
-	by fmsmga006.fm.intel.com with ESMTP; 06 Sep 2016 06:12:34 -0700
-Received: from avalluri-GigaByte.fi.intel.com (avalluri-gigabyte.fi.intel.com
-	[10.237.72.170]) (using TLSv1 with cipher AES128-SHA (128/128 bits))
-	(No client certificate requested)
-	by linux.intel.com (Postfix) with ESMTP id B37456A4006
-	for <openembedded-core@lists.openembedded.org>;
-	Tue,  6 Sep 2016 06:12:12 -0700 (PDT)
-From: Amarnath Valluri <amarnath.valluri@intel.com>
+	Tue,  6 Sep 2016 13:18:19 +0000 (UTC)
+From: Jack Mitchell <ml@embed.me.uk>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  6 Sep 2016 16:13:06 +0300
-Message-Id: <1473167586-11640-1-git-send-email-amarnath.valluri@intel.com>
-X-Mailer: git-send-email 2.5.0
-Subject: [PATCH] classes/populate_sdk_ext: exclude image tasks from locked signatures
+Date: Tue,  6 Sep 2016 14:18:32 +0100
+Message-Id: <20160906131832.11409-1-ml@embed.me.uk>
+X-Mailer: git-send-email 2.9.3
+Cc: Jack Mitchell <jack@embed.me.uk>
+Subject: [PATCH] cmake: set CMAKE_NO_SYSTEM_FROM_IMPORTED to ON
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,42 +22,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 06 Sep 2016 13:12:35 -0000
+X-List-Received-Date: Tue, 06 Sep 2016 13:18:20 -0000
 
-Tasks for image recipes cannot be locked and should be excluded from eSDK
-generated locked-sigs.inc. get_sdk_install_targets() was not returning right
-image targets to be excluded incase of 'minimal' sdk. This change fixes the issue.
+From: Jack Mitchell <jack@embed.me.uk>
 
-Signed-off-by: Amarnath Valluri <amarnath.valluri@intel.com>
+set CMAKE_NO_SYSTEM_FROM_IMPORTED to ON in the bbclass
+and also the toolchain file. This is required as GCC6
+has become more tetchy about the use of -isystem in the
+compiler flags.
+
+Imported targets aren't used much in cmake at the moment which
+is why errors have been rare and probably worked around in
+different ways prior to this patch.
 ---
- meta/classes/populate_sdk_ext.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/classes/cmake.bbclass                                | 1 +
+ meta/recipes-devtools/cmake/cmake/OEToolchainConfig.cmake | 1 +
+ 2 files changed, 2 insertions(+)
 
-diff --git a/meta/classes/populate_sdk_ext.bbclass b/meta/classes/populate_sdk_ext.bbclass
-index d8d123a..1a15d2a 100644
---- a/meta/classes/populate_sdk_ext.bbclass
-+++ b/meta/classes/populate_sdk_ext.bbclass
-@@ -43,7 +43,7 @@ SDK_TARGETS ?= "${PN}"
+diff --git a/meta/classes/cmake.bbclass b/meta/classes/cmake.bbclass
+index 5203d8a..8339a6b 100644
+--- a/meta/classes/cmake.bbclass
++++ b/meta/classes/cmake.bbclass
+@@ -57,6 +57,7 @@ set( CMAKE_CXX_FLAGS_RELEASE "${OECMAKE_CXX_FLAGS_RELEASE}" CACHE STRING "Additi
+ set( CMAKE_ASM_FLAGS_RELEASE "${OECMAKE_C_FLAGS_RELEASE}" CACHE STRING "Additional ASM FLAGS for release" )
+ set( CMAKE_C_LINK_FLAGS "${OECMAKE_C_LINK_FLAGS}" CACHE STRING "LDFLAGS" )
+ set( CMAKE_CXX_LINK_FLAGS "${OECMAKE_CXX_LINK_FLAGS}" CACHE STRING "LDFLAGS" )
++set( CMAKE_NO_SYSTEM_FROM_IMPORTED ON )
  
- def get_sdk_install_targets(d, images_only=False):
-     sdk_install_targets = ''
--    if d.getVar('SDK_EXT_TYPE', True) != 'minimal':
-+    if images_only or d.getVar('SDK_EXT_TYPE', True) != 'minimal':
-         sdk_install_targets = d.getVar('SDK_TARGETS', True)
+ # only search in the paths provided so cmake doesnt pick
+ # up libraries and tools from the native build machine
+diff --git a/meta/recipes-devtools/cmake/cmake/OEToolchainConfig.cmake b/meta/recipes-devtools/cmake/cmake/OEToolchainConfig.cmake
+index 60014bb..8279eb6 100644
+--- a/meta/recipes-devtools/cmake/cmake/OEToolchainConfig.cmake
++++ b/meta/recipes-devtools/cmake/cmake/OEToolchainConfig.cmake
+@@ -7,6 +7,7 @@ set( CMAKE_FIND_ROOT_PATH $ENV{OECORE_TARGET_SYSROOT} $ENV{OECORE_NATIVE_SYSROOT
+ set( CMAKE_FIND_ROOT_PATH_MODE_PROGRAM NEVER )
+ set( CMAKE_FIND_ROOT_PATH_MODE_LIBRARY ONLY )
+ set( CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY )
++set( CMAKE_NO_SYSTEM_FROM_IMPORTED ON )
  
-         depd = d.getVar('BB_TASKDEPDATA', False)
+ string(REGEX MATCH "sysroots/([a-zA-Z0-9]+)" CMAKE_SYSTEM_PROCESSOR $ENV{SDKTARGETSYSROOT})
+ string(REGEX REPLACE "sysroots/" "" CMAKE_SYSTEM_PROCESSOR ${CMAKE_SYSTEM_PROCESSOR})
 -- 
-2.5.0
-
----------------------------------------------------------------------
-Intel Finland Oy
-Registered Address: PL 281, 00181 Helsinki 
-Business Identity Code: 0357606 - 4 
-Domiciled in Helsinki 
-
-This e-mail and any attachments may contain confidential material for
-the sole use of the intended recipient(s). Any review or distribution
-by others is strictly prohibited. If you are not the intended
-recipient, please contact the sender and delete all copies.
+2.9.3
 
 
