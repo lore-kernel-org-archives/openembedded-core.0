@@ -1,15 +1,30 @@
-Return-Path: <ml@embed.me.uk>
-Received: from owm.eumx.net (eumx.net [91.82.101.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 51A3F70022
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 031EA7751C
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  6 Sep 2016 13:25:05 +0000 (UTC)
-From: Jack Mitchell <ml@embed.me.uk>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  6 Sep 2016 14:25:20 +0100
-Message-Id: <20160906132520.12562-1-ml@embed.me.uk>
-X-Mailer: git-send-email 2.9.3
-Cc: Jack Mitchell <jack@embed.me.uk>
-Subject: [PATCH] file: specify c std as c99 or greater required
+	Tue,  6 Sep 2016 13:42:42 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u86Dgg4R029632 for <openembedded-core@lists.openembedded.org>;
+	Tue, 6 Sep 2016 14:42:42 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id e6jDR0kJBeb0
+	for <openembedded-core@lists.openembedded.org>;
+	Tue,  6 Sep 2016 14:42:42 +0100 (BST)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u86Dgeut029629
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 6 Sep 2016 14:42:41 +0100
+Message-ID: <1473169360.20226.47.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Tue, 06 Sep 2016 14:42:40 +0100
+X-Mailer: Evolution 3.18.5.2-0ubuntu3 
+Mime-Version: 1.0
+Subject: [PATCH] scripts/runqemu: Add snapshot support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -22,33 +37,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 06 Sep 2016 13:25:05 -0000
+X-List-Received-Date: Tue, 06 Sep 2016 13:42:45 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-From: Jack Mitchell <jack@embed.me.uk>
+Allow access to the snapshot option of qemu to simplify some of our runtime
+testing to avoid copying images.
 
-when using a toolchain not shipped by OE core such as linaro we
-can't be sure what the std will be set to. Ensure file is compiled
-as c99 or greater as required.
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-Signed-off-by: Jack Mitchell <jack@embed.me.uk>
----
- meta/recipes-devtools/file/file_5.28.bb | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/meta/recipes-devtools/file/file_5.28.bb b/meta/recipes-devtools/file/file_5.28.bb
-index 516c8c5..94848db 100644
---- a/meta/recipes-devtools/file/file_5.28.bb
-+++ b/meta/recipes-devtools/file/file_5.28.bb
-@@ -27,6 +27,8 @@ inherit autotools
- EXTRA_OEMAKE_append_class-target = "-e FILE_COMPILE=${STAGING_BINDIR_NATIVE}/file-native/file"
- EXTRA_OEMAKE_append_class-nativesdk = "-e FILE_COMPILE=${STAGING_BINDIR_NATIVE}/file-native/file"
- 
-+CFLAGS_append = " -std=gnu11"
+diff --git a/scripts/runqemu b/scripts/runqemu
+index a94cc65..867e818 100755
+--- a/scripts/runqemu
++++ b/scripts/runqemu
+@@ -160,7 +160,8 @@ class BaseConfig(object):
+         self.custombiosdir = ''
+         self.lock = ''
+         self.lock_descriptor = ''
+-        self. bitbake_e = ''
++        self.bitbake_e = ''
++        self.snapshot = False
+         self.fstypes = ('ext2', 'ext3', 'ext4', 'jffs2', 'nfs', 'btrfs', 'cpio.gz', 'cpio', 'ramfs')
+         self.vmtypes = ('hddimg', 'hdddirect', 'wic', 'vmdk', 'qcow2', 'vdi', 'iso')
+ 
+@@ -312,6 +313,8 @@ class BaseConfig(object):
+                 self.vhost_enabled = True
+             elif arg == 'slirp':
+                 self.slirp_enabled = True
++            elif arg == 'snapshot':
++                self.snapshot = True
+             elif arg == 'publicvnc':
+                 self.qemu_opt_script += ' -vnc :0'
+             elif arg.startswith('tcpserial='):
+@@ -750,6 +753,9 @@ class BaseConfig(object):
+         # Enable virtio RNG else we can run out of entropy in guests
+         self.qemu_opt += " -device virtio-rng-pci"
+ 
++        if self.snapshot:
++            self.qemu_opt += " -snapshot"
 +
- FILES_${PN} += "${datadir}/misc/*.mgc"
- 
- do_install_append_class-native() {
--- 
-2.9.3
+         if self.serialstdio:
+             logger.info("Interrupt character is '^]'")
+             cmd = "stty intr ^]"
+
 
 
