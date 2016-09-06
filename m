@@ -1,22 +1,26 @@
 Return-Path: <paul.eggleton@linux.intel.com>
 Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
-	by mail.openembedded.org (Postfix) with ESMTP id 3C54F7742C
+	by mail.openembedded.org (Postfix) with ESMTP id C6C5E774FA
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  6 Sep 2016 10:03:56 +0000 (UTC)
+	Tue,  6 Sep 2016 10:03:58 +0000 (UTC)
 Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-	by orsmga104.jf.intel.com with ESMTP; 06 Sep 2016 03:03:57 -0700
+	by orsmga104.jf.intel.com with ESMTP; 06 Sep 2016 03:03:59 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.30,291,1470726000"; 
-   d="scan'208";a="5042667"
+   d="scan'208";a="5042680"
 Received: from unknown (HELO peggleto-mobl.ger.corp.intel.com)
 	([10.255.181.236])
-	by fmsmga006.fm.intel.com with ESMTP; 06 Sep 2016 03:03:55 -0700
+	by fmsmga006.fm.intel.com with ESMTP; 06 Sep 2016 03:03:57 -0700
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  6 Sep 2016 22:03:21 +1200
-Message-Id: <cover.1473155977.git.paul.eggleton@linux.intel.com>
+Date: Tue,  6 Sep 2016 22:03:22 +1200
+Message-Id: <d4044adfd000c8b67ed9b523bfbfc49ca97e8fa7.1473155977.git.paul.eggleton@linux.intel.com>
 X-Mailer: git-send-email 2.5.5
-Subject: [PATCH 0/9] devtool / recipetool fixes
+In-Reply-To: <cover.1473155977.git.paul.eggleton@linux.intel.com>
+References: <cover.1473155977.git.paul.eggleton@linux.intel.com>
+In-Reply-To: <cover.1473155977.git.paul.eggleton@linux.intel.com>
+References: <cover.1473155977.git.paul.eggleton@linux.intel.com>
+Subject: [PATCH 1/9] lib/oe/patch: handle non-UTF8 encoding when reading patches
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,43 +33,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 06 Sep 2016 10:03:57 -0000
+X-List-Received-Date: Tue, 06 Sep 2016 10:03:59 -0000
 
-Very late for M3 I know, but here are some fixes for issues I found
-recently in devtool / recipetool as well as support for creating
-recipes to package node.js code without using npm.
+When extracting patches from a git repository with PATCHTOOL = "git" we
+cannot assume that all patches will be UTF-8 formatted, so as with other
+places in this module, try latin-1 if utf-8 fails.
 
+This fixes UnicodeDecodeError running devtool update-recipe or devtool
+finish on the openssl recipe.
 
-The following changes since commit 55bb6816aca39bfa25d4f7e2158a57a5f0ac1cca:
+Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+---
+ meta/lib/oe/patch.py | 28 ++++++++++++++++++----------
+ 1 file changed, 18 insertions(+), 10 deletions(-)
 
-  oeqa.buildperf: correct globalres time format (2016-09-06 10:24:00 +0100)
-
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib paule/devtool20-oe
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/devtool20-oe
-
-Paul Eggleton (9):
-  lib/oe/patch: handle non-UTF8 encoding when reading patches
-  devtool: update-recipe: support files with subdir=
-  recipetool: create: AX_PKG_SWIG should add dependency on swig-native
-  recipetool: create: fix mapping python dependencies to python-dbg package
-  recipetool: create: support git submodules
-  recipetool: create: add --keep-temp command line option
-  recipetool: create: allow license variable handling to be rerun
-  recipetool: create: support node.js code outside of npm
-  recipetool: create: avoid extra blank lines in output recipe
-
- meta/classes/npm.bbclass                         |   4 +
- meta/lib/oe/patch.py                             |  28 +++--
- meta/lib/oe/recipeutils.py                       |  12 ++-
- scripts/lib/devtool/standard.py                  |  38 ++++++-
- scripts/lib/recipetool/create.py                 | 129 +++++++++++++----------
- scripts/lib/recipetool/create_buildsys.py        |   2 +-
- scripts/lib/recipetool/create_buildsys_python.py |   4 +
- scripts/lib/recipetool/create_npm.py             | 111 ++++++++++++++++++-
- 8 files changed, 258 insertions(+), 70 deletions(-)
-
+diff --git a/meta/lib/oe/patch.py b/meta/lib/oe/patch.py
+index cad5015..05e0faa 100644
+--- a/meta/lib/oe/patch.py
++++ b/meta/lib/oe/patch.py
+@@ -415,16 +415,24 @@ class GitApplyTree(PatchTree):
+             out = runcmd(["sh", "-c", " ".join(shellcmd)], tree)
+             if out:
+                 for srcfile in out.split():
+-                    patchlines = []
+-                    outfile = None
+-                    with open(srcfile, 'r') as f:
+-                        for line in f:
+-                            if line.startswith(GitApplyTree.patch_line_prefix):
+-                                outfile = line.split()[-1].strip()
+-                                continue
+-                            if line.startswith(GitApplyTree.ignore_commit_prefix):
+-                                continue
+-                            patchlines.append(line)
++                    for encoding in ['utf-8', 'latin-1']:
++                        patchlines = []
++                        outfile = None
++                        try:
++                            with open(srcfile, 'r', encoding=encoding) as f:
++                                for line in f:
++                                    if line.startswith(GitApplyTree.patch_line_prefix):
++                                        outfile = line.split()[-1].strip()
++                                        continue
++                                    if line.startswith(GitApplyTree.ignore_commit_prefix):
++                                        continue
++                                    patchlines.append(line)
++                        except UnicodeDecodeError:
++                            continue
++                        break
++                    else:
++                        raise PatchError('Unable to find a character encoding to decode %s' % srcfile)
++
+                     if not outfile:
+                         outfile = os.path.basename(srcfile)
+                     with open(os.path.join(outdir, outfile), 'w') as of:
 -- 
 2.5.5
 
