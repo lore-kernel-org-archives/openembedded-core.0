@@ -1,15 +1,15 @@
 Return-Path: <ml@embed.me.uk>
 Received: from owm.eumx.net (eumx.net [91.82.101.43])
-	by mail.openembedded.org (Postfix) with ESMTP id CC7DD7753B
+	by mail.openembedded.org (Postfix) with ESMTP id 4E68977562
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  6 Sep 2016 13:18:19 +0000 (UTC)
+	Tue,  6 Sep 2016 13:21:12 +0000 (UTC)
 From: Jack Mitchell <ml@embed.me.uk>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  6 Sep 2016 14:18:32 +0100
-Message-Id: <20160906131832.11409-1-ml@embed.me.uk>
+Date: Tue,  6 Sep 2016 14:21:19 +0100
+Message-Id: <20160906132119.12111-1-ml@embed.me.uk>
 X-Mailer: git-send-email 2.9.3
 Cc: Jack Mitchell <jack@embed.me.uk>
-Subject: [PATCH] cmake: set CMAKE_NO_SYSTEM_FROM_IMPORTED to ON
+Subject: [PATCHv2] cmake: set CMAKE_NO_SYSTEM_FROM_IMPORTED to ON
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -22,7 +22,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 06 Sep 2016 13:18:20 -0000
+X-List-Received-Date: Tue, 06 Sep 2016 13:21:13 -0000
 
 From: Jack Mitchell <jack@embed.me.uk>
 
@@ -34,6 +34,8 @@ compiler flags.
 Imported targets aren't used much in cmake at the moment which
 is why errors have been rare and probably worked around in
 different ways prior to this patch.
+
+Signed-off-by: Jack Mitchell <jack@embed.me.uk>
 ---
  meta/classes/cmake.bbclass                                | 1 +
  meta/recipes-devtools/cmake/cmake/OEToolchainConfig.cmake | 1 +
