@@ -1,38 +1,29 @@
-Return-Path: <tanuk@iki.fi>
-Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com
-	[66.111.4.28])
-	by mail.openembedded.org (Postfix) with ESMTP id 001EB7763A
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+	by mail.openembedded.org (Postfix) with ESMTP id 55CE47754D
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  6 Sep 2016 19:52:36 +0000 (UTC)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
-	by mailout.nyi.internal (Postfix) with ESMTP id 6E5DA20216
-	for <openembedded-core@lists.openembedded.org>;
-	Tue,  6 Sep 2016 15:52:37 -0400 (EDT)
-Received: from frontend2 ([10.202.2.161])
-	by compute1.internal (MEProxy); Tue, 06 Sep 2016 15:52:37 -0400
-DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; d=
-	messagingengine.com; h=content-transfer-encoding:content-type
-	:date:from:in-reply-to:message-id:mime-version:references
-	:subject:to:x-sasl-enc:x-sasl-enc; s=smtpout; bh=P+2BYbzo6UHXdNz
-	b0AU/RdCLczA=; b=GXS0ER48gT9Aq+ENCghoJlSJIwdCrM7rGwu5GRkBZYFaq6Q
-	HEzGu+YWypc830Nky9m4cRlAmw5wy/iZ0p7r8d8gBSFcblI5IKXrGLcbVB+7wxho
-	Mzhkk3+mWeFR+vSIYdzlUtXnur36XDueLJz84XV6RF7jyvaiLBdLlMgGUGNE=
-X-Sasl-enc: 1bm2rvKgD3dLWelPLdsL4vc83ngfugnEGBZwTp47GVtQ 1473191557
-Received: from laptop (a88-113-211-72.elisa-laajakaista.fi [88.113.211.72])
-	by mail.messagingengine.com (Postfix) with ESMTPA id E5F5DCCDB8
-	for <openembedded-core@lists.openembedded.org>;
-	Tue,  6 Sep 2016 15:52:36 -0400 (EDT)
-Message-ID: <1473191555.3099.7.camel@iki.fi>
-From: Tanu Kaskinen <tanuk@iki.fi>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 06 Sep 2016 22:52:35 +0300
-In-Reply-To: <8545e7af-49ad-8975-01d6-ed9d2cc6c577@gmail.com>
-References: <1470256891-20386-1-git-send-email-tanuk@iki.fi>
-	<1473156037.3139.82.camel@iki.fi>
-	<8545e7af-49ad-8975-01d6-ed9d2cc6c577@gmail.com>
-X-Mailer: Evolution 3.20.5-1 
-Mime-Version: 1.0
-Subject: Re: [PATCH][krogoth] pulseaudio: fix crash when disconnecting bluetooth devices
+	Tue,  6 Sep 2016 20:16:20 +0000 (UTC)
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+	by orsmga104.jf.intel.com with ESMTP; 06 Sep 2016 13:16:16 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.30,293,1470726000"; d="scan'208";a="165123872"
+Received: from ddominic-mobl.gar.corp.intel.com (HELO
+	peggleto-mobl.ger.corp.intel.com) ([10.255.151.171])
+	by fmsmga004.fm.intel.com with ESMTP; 06 Sep 2016 13:16:14 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+Date: Wed, 07 Sep 2016 08:16:12 +1200
+Message-ID: <1844223.HiLeg694VU@peggleto-mobl.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.14.10 (Linux/4.7.2-101.fc23.x86_64; KDE/4.14.20; x86_64; ;
+	)
+In-Reply-To: <lywpipvxhx.fsf@ensc-virt.intern.sigma-chemnitz.de>
+References: <cover.1473155977.git.paul.eggleton@linux.intel.com>
+	<d4044adfd000c8b67ed9b523bfbfc49ca97e8fa7.1473155977.git.paul.eggleton@linux.intel.com>
+	<lywpipvxhx.fsf@ensc-virt.intern.sigma-chemnitz.de>
+MIME-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/9] lib/oe/patch: handle non-UTF8 encoding when reading patches
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,25 +36,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 06 Sep 2016 19:52:38 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 06 Sep 2016 20:16:21 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On Tue, 2016-09-06 at 08:44 -0700, akuster808 wrote:
-> 
-> On 09/06/2016 03:00 AM, Tanu Kaskinen wrote:
-> > 
-> > Ping? I sent this patch for krogoth (and a similar patch for jethro)
-> > about a month ago, but it hasn't been applied yet. This is the first
-> > time I'm sending patches for past releases - are there other hoops to
-> > jump through than adding the [krogoth] tag to the mail subject?
-> I have this sitting in my krogoth-next contrib branch. Did that right 
-> before my holiday so I did not send out a message.
-> 
-> should be in the next pull request I do.
+Hi Enrico,
 
-Thanks! I was just too impatient, then :)
+On Tue, 06 Sep 2016 17:50:02 Enrico Scholz wrote:
+> Paul Eggleton <paul.eggleton-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>
+> writes:
+> > When extracting patches from a git repository with PATCHTOOL = "git" we
+> > cannot assume that all patches will be UTF-8 formatted, so as with other
+> > places in this module, try latin-1 if utf-8 fails.
+> 
+> This will probably not work when patch contains a character between 128
+> and 159 (which is a blackhole in all locales afaik).
+
+I realise it's by no means perfect - you may even fairly label it a hack, 
+since it's only handling two encodings out of many. However I was keen to at 
+least restore the ability to handle the majority of patches we have in the 
+core, we can always improve it subsequently (even before the release).
+ 
+> I would read the file as a binary ('rb' instead of 'r') and make the
+> GitApplyTree.* strings a 'bytes' type.
+
+The code is not just passing the data through, it is actually processing it. 
+If we did what you propose wouldn't it make that processing more difficult? 
+
+Cheers,
+Paul
 
 -- 
-Tanu
+
+Paul Eggleton
+Intel Open Source Technology Centre
 
