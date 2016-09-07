@@ -1,29 +1,23 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 6CEB4762B4
+Return-Path: <henry.bruce@intel.com>
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+	by mail.openembedded.org (Postfix) with ESMTP id 8A687762B4
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  7 Sep 2016 21:07:56 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by orsmga103.jf.intel.com with ESMTP; 07 Sep 2016 14:07:57 -0700
+	Wed,  7 Sep 2016 21:09:56 +0000 (UTC)
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+	by orsmga105.jf.intel.com with ESMTP; 07 Sep 2016 14:09:57 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.30,297,1470726000"; d="scan'208";a="1052787674"
-Received: from myeap-mobl.gar.corp.intel.com (HELO
-	peggleto-mobl.ger.corp.intel.com) ([10.255.145.149])
-	by fmsmga002.fm.intel.com with ESMTP; 07 Sep 2016 14:07:55 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Ola x Nilsson <ola.x.nilsson@axis.com>
-Date: Thu, 08 Sep 2016 09:07:52 +1200
-Message-ID: <3071986.dgRiYBiJ1X@peggleto-mobl.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.14.10 (Linux/4.7.2-101.fc23.x86_64; KDE/4.14.20; x86_64; ;
-	)
-In-Reply-To: <1e9475f4422447368ffc76229252acbc@XBOX04.axis.com>
-References: <cover.1473155977.git.paul.eggleton@linux.intel.com>
-	<2374b44b9289aea7fc23c47a71af0526416ec3a8.1473155977.git.paul.eggleton@linux.intel.com>
-	<1e9475f4422447368ffc76229252acbc@XBOX04.axis.com>
-MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 5/9] recipetool: create: support git submodules
+X-IronPort-AV: E=Sophos;i="5.30,297,1470726000"; 
+   d="scan'208";a="6137807"
+Received: from hbruce-desk3.jf.intel.com ([10.7.198.61])
+	by orsmga004.jf.intel.com with ESMTP; 07 Sep 2016 14:09:56 -0700
+From: Henry Bruce <henry.bruce@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  7 Sep 2016 14:09:54 -0700
+Message-Id: <1473282594-28873-1-git-send-email-henry.bruce@intel.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1473199905-13645-2-git-send-email-henry.bruce@intel.com>
+References: <1473199905-13645-2-git-send-email-henry.bruce@intel.com>
+Subject: [PATCH 2/2 v2] utils.bbclass: Added error checking for oe_soinstall
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,61 +30,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 07 Sep 2016 21:07:57 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Wed, 07 Sep 2016 21:09:57 -0000
 
-Hi Ola,
+Fixes [YOCTO #10146]
 
-On Wed, 07 Sep 2016 06:23:15 Ola x Nilsson wrote:
-> > From: openembedded-core-bounces@lists.openembedded.org
-> > [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf
-> > Of Paul Eggleton
-> > Sent: den 6 september 2016 12:03
-> > 
-> > Ensure we fetch submodules and set SRC_URI correctly when pointing to a
-> > git repository that contains submodules.
-> > 
-> > Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
-> > ---
-> > 
-> >  scripts/lib/recipetool/create.py | 12 ++++++++++--
-> >  1 file changed, 10 insertions(+), 2 deletions(-)
-> > 
-> > diff --git a/scripts/lib/recipetool/create.py
-> > b/scripts/lib/recipetool/create.py index a08352e..7cbd614 100644
-> > --- a/scripts/lib/recipetool/create.py
-> > +++ b/scripts/lib/recipetool/create.py
-> > 
-> > @@ -399,6 +399,11 @@ def create_recipe(args):
-> >                      if '<html' in f.read(100).lower():
-> >                          logger.error('Fetching "%s" returned a single
-> >                          HTML page - check
-> > 
-> > the URL is correct and functional' % fetchuri)
-> > 
-> >                          sys.exit(1)
-> > 
-> > +        if os.path.exists(os.path.join(srctree, '.gitmodules')) and
-> > srcuri.startswith('git://'):
-> > +            srcuri = 'gitsm://' + srcuri[6:]
-> > +            logger.info('Fetching submodules...')
-> > +            bb.process.run('git submodule init', cwd=srctree)
-> > +            bb.process.run('git submodule update', cwd=srctree)
-> 
-> This is not how the gitsm fetcher does it.
-> 
-> git submodule update --init --recursive
-> 
-> will actually fetch all submodules recursively.
+Signed-off-by: Henry Bruce <henry.bruce@intel.com>
+---
+ meta/classes/utils.bbclass | 15 +++++++++------
+ 1 file changed, 9 insertions(+), 6 deletions(-)
 
-Right, we should indeed be doing that. I've pushed a new commit to the branch.
-
-Cheers,
-Paul
-
+diff --git a/meta/classes/utils.bbclass b/meta/classes/utils.bbclass
+index d56f51e..3c2a14f 100644
+--- a/meta/classes/utils.bbclass
++++ b/meta/classes/utils.bbclass
+@@ -62,15 +62,18 @@ def is_machine_specific(d):
+ oe_soinstall() {
+ 	# Purpose: Install shared library file and
+ 	#          create the necessary links
+-	# Example:
+-	#
+-	# oe_
+-	#
+-	#bbnote installing shared library $1 to $2
+-	#
++	# Example: oe_soinstall libfoo.so.1.2.3 ${D}${libdir}
+ 	libname=`basename $1`
++	case "$libname" in
++	    *.so)
++	        bbfatal "oe_soinstall: Shared library must haved versioned filename (e.g. libfoo.so.1.2.3)"
++	        ;;
++	esac
+ 	install -m 755 $1 $2/$libname
+ 	sonamelink=`${HOST_PREFIX}readelf -d $1 |grep 'Library soname:' |sed -e 's/.*\[\(.*\)\].*/\1/'`
++	if [ -z $sonamelink ]; then
++		bbfatal "oe_soinstall: $libname is missing ELF tag 'SONAME'."
++	fi
+ 	solink=`echo $libname | sed -e 's/\.so\..*/.so/'`
+ 	ln -sf $libname $2/$sonamelink
+ 	ln -sf $libname $2/$solink
 -- 
+2.7.4
 
-Paul Eggleton
-Intel Open Source Technology Centre
 
