@@ -1,24 +1,57 @@
-Return-Path: <Mingli.Yu@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id A81FB775D5
+Return-Path: <ola.x.nilsson@axis.com>
+Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 85D5B776F2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  7 Sep 2016 05:49:36 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u875naY9013276
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Wed,  7 Sep 2016 06:23:18 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bastet.se.axis.com (Postfix) with ESMTP id 08BA5181C2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 6 Sep 2016 22:49:36 -0700 (PDT)
-Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.248.2; Tue, 6 Sep 2016 22:49:35 -0700
-From: <mingli.yu@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 7 Sep 2016 13:47:10 +0800
-Message-ID: <1473227230-3022-1-git-send-email-mingli.yu@windriver.com>
-X-Mailer: git-send-email 2.8.1
+	Wed,  7 Sep 2016 08:23:17 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
+Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP id baYNTe0ksqai
+	for <openembedded-core@lists.openembedded.org>;
+	Wed,  7 Sep 2016 08:23:16 +0200 (CEST)
+Received: from boulder.se.axis.com (boulder.se.axis.com [10.0.2.104])
+	by bastet.se.axis.com (Postfix) with ESMTP id 635E2181C1
+	for <openembedded-core@lists.openembedded.org>;
+	Wed,  7 Sep 2016 08:23:16 +0200 (CEST)
+Received: from boulder.se.axis.com (localhost [127.0.0.1])
+	by postfix.imss71 (Postfix) with ESMTP id 47D2017DF
+	for <openembedded-core@lists.openembedded.org>;
+	Wed,  7 Sep 2016 08:23:16 +0200 (CEST)
+Received: from seth.se.axis.com (seth.se.axis.com [10.0.2.172])
+	by boulder.se.axis.com (Postfix) with ESMTP id 3D1F317B8
+	for <openembedded-core@lists.openembedded.org>;
+	Wed,  7 Sep 2016 08:23:16 +0200 (CEST)
+Received: from XBOX04.axis.com (xbox04.axis.com [10.0.5.18])
+	by seth.se.axis.com (Postfix) with ESMTP id 3B6533AA
+	for <openembedded-core@lists.openembedded.org>;
+	Wed,  7 Sep 2016 08:23:16 +0200 (CEST)
+Received: from XBOX04.axis.com (10.0.5.18) by XBOX04.axis.com (10.0.5.18) with
+	Microsoft SMTP Server (TLS) id 15.0.1156.6;
+	Wed, 7 Sep 2016 08:23:15 +0200
+Received: from XBOX04.axis.com ([fe80::210a:724b:68cb:a917]) by
+	XBOX04.axis.com ([fe80::210a:724b:68cb:a917%23]) with mapi id
+	15.00.1156.000; Wed, 7 Sep 2016 08:23:15 +0200
+From: Ola x Nilsson <ola.x.nilsson@axis.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [PATCH 5/9] recipetool: create: support git submodules
+Thread-Index: AQHSCCYN8+6qcQvpCE6CIwwJEUt1HqBtj45Q
+Date: Wed, 7 Sep 2016 06:23:15 +0000
+Message-ID: <1e9475f4422447368ffc76229252acbc@XBOX04.axis.com>
+References: <cover.1473155977.git.paul.eggleton@linux.intel.com>
+	<2374b44b9289aea7fc23c47a71af0526416ec3a8.1473155977.git.paul.eggleton@linux.intel.com>
+In-Reply-To: <2374b44b9289aea7fc23c47a71af0526416ec3a8.1473155977.git.paul.eggleton@linux.intel.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.0.5.60]
 MIME-Version: 1.0
-Subject: [PATCH] webkitgtk: 2.12.4 -> 2.12.5
+Subject: Re: [PATCH 5/9] recipetool: create: support git submodules
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,43 +64,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 07 Sep 2016 05:49:39 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 07 Sep 2016 06:23:23 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-From: Mingli Yu <Mingli.Yu@windriver.com>
+> From: openembedded-core-bounces@lists.openembedded.org
+> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf
+> Of Paul Eggleton
+> Sent: den 6 september 2016 12:03
+>=20
+> Ensure we fetch submodules and set SRC_URI correctly when pointing to a
+> git repository that contains submodules.
+>=20
+> Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+> ---
+>  scripts/lib/recipetool/create.py | 12 ++++++++++--
+>  1 file changed, 10 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/scripts/lib/recipetool/create.py b/scripts/lib/recipetool/cr=
+eate.py
+> index a08352e..7cbd614 100644
+> --- a/scripts/lib/recipetool/create.py
+> +++ b/scripts/lib/recipetool/create.py
+> @@ -399,6 +399,11 @@ def create_recipe(args):
+>                      if '<html' in f.read(100).lower():
+>                          logger.error('Fetching "%s" returned a single HT=
+ML page - check
+> the URL is correct and functional' % fetchuri)
+>                          sys.exit(1)
+> +        if os.path.exists(os.path.join(srctree, '.gitmodules')) and
+> srcuri.startswith('git://'):
+> +            srcuri =3D 'gitsm://' + srcuri[6:]
+> +            logger.info('Fetching submodules...')
+> +            bb.process.run('git submodule init', cwd=3Dsrctree)
+> +            bb.process.run('git submodule update', cwd=3Dsrctree)
+>=20
 
-Fix a regression introduced in 2.12.4 that caused
-a hang in the network process after a load failure.
+This is not how the gitsm fetcher does it.
 
-Fix several crashes and rendering issues.
+git submodule update --init --recursive
 
-reference: https://webkitgtk.org/2016/09/05/webkitgtk2.12.5-released.html
+will actually fetch all submodules recursively.
 
-Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
----
- meta/recipes-sato/webkit/{webkitgtk_2.12.4.bb => webkitgtk_2.12.5.bb} | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-sato/webkit/{webkitgtk_2.12.4.bb => webkitgtk_2.12.5.bb} (97%)
-
-diff --git a/meta/recipes-sato/webkit/webkitgtk_2.12.4.bb b/meta/recipes-sato/webkit/webkitgtk_2.12.5.bb
-similarity index 97%
-rename from meta/recipes-sato/webkit/webkitgtk_2.12.4.bb
-rename to meta/recipes-sato/webkit/webkitgtk_2.12.5.bb
-index 0193e17..57ac35f 100644
---- a/meta/recipes-sato/webkit/webkitgtk_2.12.4.bb
-+++ b/meta/recipes-sato/webkit/webkitgtk_2.12.5.bb
-@@ -20,8 +20,8 @@ SRC_URI = "\
-   file://ppc-musl-fix.patch \
-   file://0001-Fix-racy-parallel-build-of-WebKit2-4.0.gir.patch \
-   "
--SRC_URI[md5sum] = "0331ac714fd1a0587ffea470ef1afb20"
--SRC_URI[sha256sum] = "424d3177599abbc1eb1a1ad7928dd280a62006e992f2fada2e059375a9609a77"
-+SRC_URI[md5sum] = "7a9ea00ec195488db90fdeb2d174ddaf"
-+SRC_URI[sha256sum] = "6b147854b864a5f115fadb97b2b6200b2f696db015216a34e7298d11c88b1c40"
- 
- inherit cmake lib_package pkgconfig gobject-introspection perlnative distro_features_check upstream-version-is-even
- 
--- 
-2.8.1
-
+--=20
+Ola Nilsson
 
