@@ -1,26 +1,30 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id B321F7770B
+Return-Path: <jeremy.rosen@smile.fr>
+Received: from idris.smile.fr (idris.smile.fr [91.216.209.19])
+	by mail.openembedded.org (Postfix) with ESMTP id CCB4C776F5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  7 Sep 2016 08:28:40 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u878SfBQ025783
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 7 Sep 2016 01:28:41 -0700 (PDT)
-Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Wed, 7 Sep 2016 01:28:40 -0700
-From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 7 Sep 2016 01:28:36 -0700
-Message-ID: <dc8634c6bed6f83632ce9d9f3ce2858203005553.1473236857.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 2.9.0
-In-Reply-To: <cover.1473236857.git.liezhi.yang@windriver.com>
-References: <cover.1473236857.git.liezhi.yang@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH 3/3] pciutils: fix PACKAGECONFIG
+	Wed,  7 Sep 2016 09:09:00 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by idris.smile.fr (Postfix) with ESMTP id 171E71EECBAA;
+	Wed,  7 Sep 2016 11:09:01 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at smile.fr
+X-Amavis-Alert: BAD HEADER SECTION, Duplicate header field: "References"
+Received: from idris.smile.fr ([127.0.0.1])
+	by localhost (bluemind-mta.prod.vitry.intranet [127.0.0.1])
+	(amavisd-new, port 10024)
+	with ESMTP id 6JXSaV8lERI0; Wed,  7 Sep 2016 11:09:00 +0200 (CEST)
+Received: from pcrosen.daviel.openwide.fr (unknown [193.56.60.161])
+	by idris.smile.fr (Postfix) with ESMTPA id 7F4DD1EECBA8;
+	Wed,  7 Sep 2016 11:09:00 +0200 (CEST)
+From: =?UTF-8?q?J=C3=A9r=C3=A9my=20Rosen?= <jeremy.rosen@smile.fr>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  7 Sep 2016 11:08:43 +0200
+Message-Id: <ad9eb4f910b0ea2a002fc9b53b007cb300263795.1473239261.git-series.jeremy.rosen@smile.fr>
+X-Mailer: git-send-email 2.9.3
+In-Reply-To: <cover.b47dcbad9b495b8e621528579e9ae39cd15d32e8.1473239261.git-series.jeremy.rosen@smile.fr>
+References: <cover.b47dcbad9b495b8e621528579e9ae39cd15d32e8.1473239261.git-series.jeremy.rosen@smile.fr>
+In-Reply-To: <cover.b47dcbad9b495b8e621528579e9ae39cd15d32e8.1473239261.git-series.jeremy.rosen@smile.fr>
+References: <cover.b47dcbad9b495b8e621528579e9ae39cd15d32e8.1473239261.git-series.jeremy.rosen@smile.fr>
+Subject: [PATCH v2 2/8] linux-yocto: allow overriding compiler name in KConfig
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,39 +37,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 07 Sep 2016 08:28:40 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 07 Sep 2016 09:09:01 -0000
 
-The PACKAGECONFIG's value doens't go into EXTRA_OECONF, but
-PACKAGECONFIG_CONFARGS.
-
-Fixed:
-pciutils-3.5.1: libpci rdepends on libudev, but it isn't a build dependency, missing eudev in DEPENDS or PACKAGECONFIG? [build-deps]
-pciutils-3.5.1: pciutils rdepends on libudev, but it isn't a build dependency, missing eudev in DEPENDS or PACKAGECONFIG? [build-deps]
-
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+The KConfig infrastructure needs to build HOST binaries in order to
+provide its infratstructure. Yocto needs to force the HOSTCC and HOSTCPP
+variables to BUILD_CC and BUILD_CPP to make sure that the proper compiler
+is used when compiling host binaries
 ---
- meta/recipes-bsp/pciutils/pciutils_3.5.1.bb | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ meta/classes/kernel.bbclass | 1 +
+ 1 file changed, 1 insertion(+), 0 deletions(-)
 
-diff --git a/meta/recipes-bsp/pciutils/pciutils_3.5.1.bb b/meta/recipes-bsp/pciutils/pciutils_3.5.1.bb
-index a84efd9..d32b119 100644
---- a/meta/recipes-bsp/pciutils/pciutils_3.5.1.bb
-+++ b/meta/recipes-bsp/pciutils/pciutils_3.5.1.bb
-@@ -27,9 +27,9 @@ PCI_CONF_FLAG = "ZLIB=yes DNS=yes SHARED=yes"
- do_configure () {
- 	(
- 	  cd lib && \
--	  # EXTRA_OECONF for this recipe could only possibly contain 'HWDB=yes/no', so we put it
--	  # before ./configure
--	  ${PCI_CONF_FLAG} ${EXTRA_OECONF} ./configure ${PV} ${datadir} ${TARGET_OS} ${TARGET_ARCH}
-+	  # PACKAGECONFIG_CONFARGS for this recipe could only possibly contain 'HWDB=yes/no',
-+	  # so we put it before ./configure
-+	  ${PCI_CONF_FLAG} ${PACKAGECONFIG_CONFARGS} ./configure ${PV} ${datadir} ${TARGET_OS} ${TARGET_ARCH}
- 	)
- }
+diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+index d6a0ca8..e4e8ee4 100644
+--- a/meta/classes/kernel.bbclass
++++ b/meta/classes/kernel.bbclass
+@@ -156,6 +156,7 @@ UBOOT_LOADADDRESS ?= "${UBOOT_ENTRYPOINT}"
+ # Some Linux kernel configurations need additional parameters on the command line
+ KERNEL_EXTRA_ARGS ?= ""
  
++EXTRA_OEMAKE = " HOSTCC="${BUILD_CC}" HOSTCPP="${BUILD_CPP}""
+ KERNEL_ALT_IMAGETYPE ??= ""
+ 
+ copy_initramfs() {
 -- 
-2.9.0
-
+git-series 0.8.9
 
