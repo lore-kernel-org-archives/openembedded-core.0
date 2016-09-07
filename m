@@ -1,24 +1,47 @@
-Return-Path: <joshua.g.lock@linux.intel.com>
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by mail.openembedded.org (Postfix) with ESMTP id C16D077028
+Return-Path: <ross.burton@intel.com>
+Received: from mail-it0-f44.google.com (mail-it0-f44.google.com
+	[209.85.214.44])
+	by mail.openembedded.org (Postfix) with ESMTP id BAE1A6FFE8
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  7 Sep 2016 16:09:48 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga105.jf.intel.com with ESMTP; 07 Sep 2016 09:09:49 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.30,296,1470726000"; d="scan'208";a="1026384993"
-Received: from jlock-mobl1.ger.corp.intel.com ([10.252.9.194])
-	by orsmga001.jf.intel.com with ESMTP; 07 Sep 2016 09:09:48 -0700
-From: Joshua Lock <joshua.g.lock@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  7 Sep 2016 17:09:40 +0100
-Message-Id: <4dca32cac1c39491184b169818e03df94679f878.1473264455.git.joshua.g.lock@intel.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <cover.1473264455.git.joshua.g.lock@intel.com>
-References: <cover.1473264455.git.joshua.g.lock@intel.com>
-In-Reply-To: <cover.1473264455.git.joshua.g.lock@intel.com>
-References: <cover.1473264455.git.joshua.g.lock@intel.com>
-Subject: [PATCH 1/1] runqemu: remove use of subprocess.run()
+	Wed,  7 Sep 2016 16:28:13 +0000 (UTC)
+Received: by mail-it0-f44.google.com with SMTP id e124so31077380ith.0
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 07 Sep 2016 09:28:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=ljZZK+PO4cutm6J9EcknjRWhejWwdUZfFgDgqwq/YYU=;
+	b=XYatPIYN/o75AJTYCPzz79UZIQ1B+mnHmZim3yZYB2ADI+L2toDYfOP5QK/4zzzTSK
+	fKc8ARPj79KN6hm/wvaiEMeh6eNxgZ6547xHekhlCWa00ljlooOvR5BLl2EH9JkBJiKD
+	SVo35cA/EBlK8E+ch4Stju5Bpxhzrt4YiiHM4o+5SRd1YH3R5VitSpwmUT2feafcwknE
+	2tgpbU1lIdAZWfl+KAZT1v24L6rFJHJyJxQbQybVL/pfdm5OoIJJJNfgIwO4UXrtcu9/
+	3nt1q45POFhn/LGOu063Y4l06RFF3O+n9xrwK72kcKPa6T6Dc85fWjIeVxSfRv4SUIl1
+	G2+Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=ljZZK+PO4cutm6J9EcknjRWhejWwdUZfFgDgqwq/YYU=;
+	b=ComanEbGoqah1gxNcqFUY/HezqESnSTvebHPQG7aGUKEqlEm3M2mdmfNwCrBeSdNdB
+	CQCmJSycwJpUurpq4tm8ucqRBE5y5vld6f8yTNuo0QEA6es2NCThVXvO143XdOqZ+4CR
+	FY/P6iikks+ABxd3kl+F3/jslhQWM5oQn2n0xVxB1f0+i7E89qLHvPDGh2dt9AUjhxEF
+	HygM5/7iOCSk9rPRtst+LUqiYfaN/fMQTH9lp5EdL8WILChiLAhOKuYpUk5/KfDfvrui
+	MQGoNwj1up2zrJLyya58UetVKOzz3JgI9mdb6Lw1R0a2JbZazok1Wco3GWaJZuUTVje5
+	YlrA==
+X-Gm-Message-State: AE9vXwOUr9D5wiCxg3M3JiyAiVahoasGzGeQBPkN39Pir8vSATKeiMM/nigiukH7oQr9arMNweZ0q+ZAG6uy0mcW
+X-Received: by 10.36.124.141 with SMTP id a135mr7380081itd.25.1473265693818;
+	Wed, 07 Sep 2016 09:28:13 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.107.18.17 with HTTP; Wed, 7 Sep 2016 09:27:53 -0700 (PDT)
+In-Reply-To: <1473199905-13645-2-git-send-email-henry.bruce@intel.com>
+References: <1473199905-13645-1-git-send-email-henry.bruce@intel.com>
+	<1473199905-13645-2-git-send-email-henry.bruce@intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 7 Sep 2016 17:27:53 +0100
+Message-ID: <CAJTo0LYK5DPCSzhtWtexBe6Y-tZKu61EeEHzPcVz=qkrqCj_Jg@mail.gmail.com>
+To: Henry Bruce <henry.bruce@intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/2] utils.bbclass: Added error checking for oe_soinstall
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,38 +54,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 07 Sep 2016 16:09:49 -0000
+X-List-Received-Date: Wed, 07 Sep 2016 16:28:15 -0000
+Content-Type: multipart/alternative; boundary=001a114a967a5768fa053bed66ec
 
-We aim to support Python 3.4+ whereas subprocess.run() was added
-in Python 3.5.
-Replace subprocess.run() with subprocess.check_output().
+--001a114a967a5768fa053bed66ec
+Content-Type: text/plain; charset=UTF-8
 
-Signed-off-by: Joshua Lock <joshua.g.lock@intel.com>
----
- scripts/runqemu | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
+On 6 September 2016 at 23:11, Henry Bruce <henry.bruce@intel.com> wrote:
 
-diff --git a/scripts/runqemu b/scripts/runqemu
-index 0a56c60..27108ee 100755
---- a/scripts/runqemu
-+++ b/scripts/runqemu
-@@ -858,10 +858,11 @@ class BaseConfig(object):
-             cmd = 'bitbake -e'
- 
-         logger.info('Running %s...' % cmd)
--        proc = subprocess.run(cmd, shell=True, stdout=subprocess.PIPE)
--        if proc.returncode != 0:
--            logger.warn("Couldn't run 'bitbake -e' to gather environment information")
--        self.bitbake_e = proc.stdout.decode('utf-8')
-+        try:
-+            self.bitbake_e = subprocess.check_output(cmd, shell=True).decode('utf-8')
-+        except subprocess.CalledProcessError as err:
-+            self.bitbake_e = ''
-+            logger.warn("Couldn't run 'bitbake -e' to gather environment information/\n%s" % err.output.decode('utf-8'))
- 
- def main():
-     if len(sys.argv) == 1 or "help" in sys.argv:
--- 
-2.7.4
+> +       if [[ "$libname" == *.so ]]; then
+>
 
+That's a lot of bashisms in one place ;)
 
+[ not [[
+= not ==
+*.so will need to be escaped in case it matches anything in cwd and expands.
+
+Ross
+
+--001a114a967a5768fa053bed66ec
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 6 September 2016 at 23:11, Henry Bruce <span dir=3D"ltr">&lt;<a href=3D"=
+mailto:henry.bruce@intel.com" target=3D"_blank">henry.bruce@intel.com</a>&g=
+t;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0=
+ .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":52o" class=
+=3D"a3s aXjCH m157018f8dd3eefcc">+=C2=A0 =C2=A0 =C2=A0 =C2=A0if [[ &quot;$l=
+ibname&quot; =3D=3D *.so ]]; then<br></div></blockquote></div><br>That&#39;=
+s a lot of bashisms in one place ;)</div><div class=3D"gmail_extra"><br></d=
+iv><div class=3D"gmail_extra">[ not [[</div><div class=3D"gmail_extra">=3D =
+not =3D=3D</div><div class=3D"gmail_extra">*.so will need to be escaped in =
+case it matches anything in cwd and expands.</div><div class=3D"gmail_extra=
+"><br></div><div class=3D"gmail_extra">Ross</div></div>
+
+--001a114a967a5768fa053bed66ec--
