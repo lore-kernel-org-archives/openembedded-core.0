@@ -1,46 +1,20 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f42.google.com (mail-wm0-f42.google.com [74.125.82.42])
-	by mail.openembedded.org (Postfix) with ESMTP id 8EBE06FEFA
+Return-Path: <joshua.g.lock@linux.intel.com>
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+	by mail.openembedded.org (Postfix) with ESMTP id 304E9731D0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  7 Sep 2016 14:44:28 +0000 (UTC)
-Received: by mail-wm0-f42.google.com with SMTP id i204so90198442wma.0
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 07 Sep 2016 07:44:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=uwH7qY/8Iup9+kTaVbonTZbq7mhmYQOKEE5m2sEor/E=;
-	b=vNtxQL19HBr518e514nAXN/h3dIB3zGHPtbvBojceGoyWYseINzJDu6XjuwRP8fmtW
-	uHgfxjEjtrlY08S/BQXDDUD2Z/AifkLGdIiXy8JMwQb0UAtI1icYcj72XoOjUZCG4SNY
-	p9w3sZ96MxXN5X89ev9VHX66Ycw9JbJEvPYtorZYPluns/cI1nk1UBd7c7LPHRdh138f
-	75vDGEJUjH9nV5RcduYYKzJDH7mAR7AwJqIstuox3dIOYpUFDVVxDJTkt2R/QNMH+Xq8
-	1xbHUZMhpd3aiMdS449GGVSz/q/RM2Dr568XkpWE/wZz2mFHL5DYmGQ4jGhQCmjgK5hr
-	8EtQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=uwH7qY/8Iup9+kTaVbonTZbq7mhmYQOKEE5m2sEor/E=;
-	b=WMp10aDbO+EkW1riyFFb5syPCUbJIOniJwh+MmetWkCCa2uTBWdgT4vUMf2tbzzLKh
-	869SbtxqHAiFGAgp5SvCPlV7WbqIGX+NF9Asktj6MpYtGzzaLuKIyFlTiYAx7//P5ZVV
-	BQCyjznq/sW32dJ3Av+RZJ42zH3qYvEbyaqqqZZ2R5Qc7iIcKEdnoJ2SNrYx29i+9kfb
-	mewp6FdLyIl5DDslhYSRKSVsuXS1VyAVx0w1jj7IUAzo4n3xLiEKsS1PiCZ+bNZh5uvk
-	BU4aE7O/tTKdWMtog9Ok3myO9xZc0yGs2gAMtyLBRW3oET6mJaTFlnhRYrEonGGVlfdI
-	5kAw==
-X-Gm-Message-State: AE9vXwNq+UeqrvSbZP1on1eEQODvYH7nPBSNogCu4+1uPK0ujsjeO8onQyGuoPBdMCCrUIHD
-X-Received: by 10.28.125.18 with SMTP id y18mr4113850wmc.116.1473259468153;
-	Wed, 07 Sep 2016 07:44:28 -0700 (PDT)
-Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id
-	v203sm4671254wmv.2.2016.09.07.07.44.26
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 07 Sep 2016 07:44:27 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
+	Wed,  7 Sep 2016 16:09:47 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga105.jf.intel.com with ESMTP; 07 Sep 2016 09:09:48 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.30,296,1470726000"; d="scan'208";a="1026384987"
+Received: from jlock-mobl1.ger.corp.intel.com ([10.252.9.194])
+	by orsmga001.jf.intel.com with ESMTP; 07 Sep 2016 09:09:47 -0700
+From: Joshua Lock <joshua.g.lock@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  7 Sep 2016 15:44:24 +0100
-Message-Id: <1473259464-6186-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 2.8.1
-Subject: [PATCH] python: recompile _sysconfigdata.py after modifying it
+Date: Wed,  7 Sep 2016 17:09:39 +0100
+Message-Id: <cover.1473264455.git.joshua.g.lock@intel.com>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH 0/1] Python3 runqemu: remove use of subprocess.run()
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,29 +27,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 07 Sep 2016 14:44:29 -0000
+X-List-Received-Date: Wed, 07 Sep 2016 16:09:49 -0000
 
-We sed this file after the .pyc has been generated, so re-compile the .pyc to
-ensure that it is up to date.
+Note: This patch is against master-next, as the Python 3 runqemu hasn't made it
+to master yet.
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-devtools/python/python_2.7.12.bb | 1 +
- 1 file changed, 1 insertion(+)
+Use of subprocess.run() in recent runqemu changes (by me) elevates the Python 3
+requirement from 3.4+ to 3.5+. Replace subprocess.run() with 
+subprocess.check_output(), as that is available in Python 3.1+
 
-diff --git a/meta/recipes-devtools/python/python_2.7.12.bb b/meta/recipes-devtools/python/python_2.7.12.bb
-index 3ee1e38..65b57171 100644
---- a/meta/recipes-devtools/python/python_2.7.12.bb
-+++ b/meta/recipes-devtools/python/python_2.7.12.bb
-@@ -132,6 +132,7 @@ py_package_preprocess () {
- 	sed -i -e 's:--sysroot=${STAGING_DIR_TARGET}::g' -e s:'--with-libtool-sysroot=${STAGING_DIR_TARGET}'::g \
- 		${PKGD}/${libdir}/python${PYTHON_MAJMIN}/config/Makefile \
- 		${PKGD}/${libdir}/python${PYTHON_MAJMIN}/_sysconfigdata.py
-+    python -m py_compile ${PKGD}/${libdir}/python${PYTHON_MAJMIN}/_sysconfigdata.py
- }
- 
- require python-${PYTHON_MAJMIN}-manifest.inc
+Changes since v1:
+* Fix printing of error message in exception handler
+
+The following changes since commit 3df3462d81216d8b26a87d9915abd9de1b2c2faa:
+
+  bitbake: cooker: record events on cooker exit (2016-09-06 23:18:06 +0100)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib joshuagl/runqemu
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=joshuagl/runqemu
+
+Joshua Lock (1):
+  runqemu: remove use of subprocess.run()
+
+ scripts/runqemu | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
+
 -- 
-2.8.1
-
+2.7.4
 
