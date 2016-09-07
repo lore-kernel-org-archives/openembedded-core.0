@@ -1,24 +1,46 @@
-Return-Path: <joshua.g.lock@linux.intel.com>
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id DDB9273219
-	for <openembedded-core@openembedded.org>;
-	Wed,  7 Sep 2016 14:23:38 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga104.fm.intel.com with ESMTP; 07 Sep 2016 07:23:39 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.30,296,1470726000"; d="scan'208";a="1052605652"
-Received: from jlock-mobl1.ger.corp.intel.com ([10.252.9.194])
-	by fmsmga002.fm.intel.com with ESMTP; 07 Sep 2016 07:23:37 -0700
-Message-ID: <1473258216.3063.0.camel@linux.intel.com>
-From: Joshua Lock <joshua.g.lock@linux.intel.com>
-To: openembedded-core@openembedded.org
-Date: Wed, 07 Sep 2016 15:23:36 +0100
-In-Reply-To: <ed86c1c66b672f6b959f93155ba456f173f6f0d6.1473257282.git.joshua.g.lock@intel.com>
-References: <cover.1473257282.git.joshua.g.lock@intel.com>
-	<ed86c1c66b672f6b959f93155ba456f173f6f0d6.1473257282.git.joshua.g.lock@intel.com>
-X-Mailer: Evolution 3.20.5 (3.20.5-1.fc24) 
-Mime-Version: 1.0
-Subject: Re: [PATCH 1/1] runqemu: remove use of subprocess.run()
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wm0-f42.google.com (mail-wm0-f42.google.com [74.125.82.42])
+	by mail.openembedded.org (Postfix) with ESMTP id 8EBE06FEFA
+	for <openembedded-core@lists.openembedded.org>;
+	Wed,  7 Sep 2016 14:44:28 +0000 (UTC)
+Received: by mail-wm0-f42.google.com with SMTP id i204so90198442wma.0
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 07 Sep 2016 07:44:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=uwH7qY/8Iup9+kTaVbonTZbq7mhmYQOKEE5m2sEor/E=;
+	b=vNtxQL19HBr518e514nAXN/h3dIB3zGHPtbvBojceGoyWYseINzJDu6XjuwRP8fmtW
+	uHgfxjEjtrlY08S/BQXDDUD2Z/AifkLGdIiXy8JMwQb0UAtI1icYcj72XoOjUZCG4SNY
+	p9w3sZ96MxXN5X89ev9VHX66Ycw9JbJEvPYtorZYPluns/cI1nk1UBd7c7LPHRdh138f
+	75vDGEJUjH9nV5RcduYYKzJDH7mAR7AwJqIstuox3dIOYpUFDVVxDJTkt2R/QNMH+Xq8
+	1xbHUZMhpd3aiMdS449GGVSz/q/RM2Dr568XkpWE/wZz2mFHL5DYmGQ4jGhQCmjgK5hr
+	8EtQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=uwH7qY/8Iup9+kTaVbonTZbq7mhmYQOKEE5m2sEor/E=;
+	b=WMp10aDbO+EkW1riyFFb5syPCUbJIOniJwh+MmetWkCCa2uTBWdgT4vUMf2tbzzLKh
+	869SbtxqHAiFGAgp5SvCPlV7WbqIGX+NF9Asktj6MpYtGzzaLuKIyFlTiYAx7//P5ZVV
+	BQCyjznq/sW32dJ3Av+RZJ42zH3qYvEbyaqqqZZ2R5Qc7iIcKEdnoJ2SNrYx29i+9kfb
+	mewp6FdLyIl5DDslhYSRKSVsuXS1VyAVx0w1jj7IUAzo4n3xLiEKsS1PiCZ+bNZh5uvk
+	BU4aE7O/tTKdWMtog9Ok3myO9xZc0yGs2gAMtyLBRW3oET6mJaTFlnhRYrEonGGVlfdI
+	5kAw==
+X-Gm-Message-State: AE9vXwNq+UeqrvSbZP1on1eEQODvYH7nPBSNogCu4+1uPK0ujsjeO8onQyGuoPBdMCCrUIHD
+X-Received: by 10.28.125.18 with SMTP id y18mr4113850wmc.116.1473259468153;
+	Wed, 07 Sep 2016 07:44:28 -0700 (PDT)
+Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
+	by smtp.gmail.com with ESMTPSA id
+	v203sm4671254wmv.2.2016.09.07.07.44.26
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 07 Sep 2016 07:44:27 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  7 Sep 2016 15:44:24 +0100
+Message-Id: <1473259464-6186-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 2.8.1
+Subject: [PATCH] python: recompile _sysconfigdata.py after modifying it
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,52 +53,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 07 Sep 2016 14:23:40 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 07 Sep 2016 14:44:29 -0000
 
-On Wed, 2016-09-07 at 15:10 +0100, Joshua Lock wrote:
-> We aim to support Python 3.4+ whereas subprocess.run() was added
-> in Python 3.5.
-> Replace subprocess.run() with subprocess.check_output().
-> 
-> Signed-off-by: Joshua Lock <joshua.g.lock@intel.com>
-> ---
->  scripts/runqemu | 9 +++++----
->  1 file changed, 5 insertions(+), 4 deletions(-)
-> 
-> diff --git a/scripts/runqemu b/scripts/runqemu
-> index 0a56c60..3ffd87a 100755
-> --- a/scripts/runqemu
-> +++ b/scripts/runqemu
-> @@ -858,10 +858,11 @@ class BaseConfig(object):
->              cmd = 'bitbake -e'
->  
->          logger.info('Running %s...' % cmd)
-> -        proc = subprocess.run(cmd, shell=True,
-> stdout=subprocess.PIPE)
-> -        if proc.returncode != 0:
-> -            logger.warn("Couldn't run 'bitbake -e' to gather
-> environment information")
-> -        self.bitbake_e = proc.stdout.decode('utf-8')
-> +        try:
-> +            out = subprocess.check_output(cmd,
-> shell=True).decode('utf-8')
-> +            self.bitbake_e = out
-> +        except subprocess.CalledProcessError as err:
-> +            logger.warn("Couldn't run 'bitbake -e' to gather
-> environment information/\n%s" % out)
+We sed this file after the .pyc has been generated, so re-compile the .pyc to
+ensure that it is up to date.
 
-I'm trying to access out when it's unassigned here, v2 coming soon.
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-devtools/python/python_2.7.12.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-Regards,
+diff --git a/meta/recipes-devtools/python/python_2.7.12.bb b/meta/recipes-devtools/python/python_2.7.12.bb
+index 3ee1e38..65b57171 100644
+--- a/meta/recipes-devtools/python/python_2.7.12.bb
++++ b/meta/recipes-devtools/python/python_2.7.12.bb
+@@ -132,6 +132,7 @@ py_package_preprocess () {
+ 	sed -i -e 's:--sysroot=${STAGING_DIR_TARGET}::g' -e s:'--with-libtool-sysroot=${STAGING_DIR_TARGET}'::g \
+ 		${PKGD}/${libdir}/python${PYTHON_MAJMIN}/config/Makefile \
+ 		${PKGD}/${libdir}/python${PYTHON_MAJMIN}/_sysconfigdata.py
++    python -m py_compile ${PKGD}/${libdir}/python${PYTHON_MAJMIN}/_sysconfigdata.py
+ }
+ 
+ require python-${PYTHON_MAJMIN}-manifest.inc
+-- 
+2.8.1
 
-Joshua
-
->  
->  def main():
->      if len(sys.argv) == 1 or "help" in sys.argv:
-> -- 
-> 2.7.4
-> 
 
