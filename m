@@ -1,26 +1,26 @@
 Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 97EDB77778
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id DE7BE77081
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  7 Sep 2016 09:21:59 +0000 (UTC)
+	Wed,  7 Sep 2016 09:22:01 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u879M06w026016
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u879M2qo031592
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 7 Sep 2016 02:22:00 -0700 (PDT)
+	Wed, 7 Sep 2016 02:22:02 -0700
 Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.229) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.248.2; Wed, 7 Sep 2016 02:21:59 -0700
+	14.3.248.2; Wed, 7 Sep 2016 02:22:01 -0700
 From: Chen Qi <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 7 Sep 2016 17:22:37 +0800
-Message-ID: <4e703d64c6d15986135603c94ad9730b7f6d66c7.1473240119.git.Qi.Chen@windriver.com>
+Date: Wed, 7 Sep 2016 17:22:38 +0800
+Message-ID: <72f9c03cf7bb25482acc9c40b775a4f294e772b6.1473240119.git.Qi.Chen@windriver.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <cover.1473240119.git.Qi.Chen@windriver.com>
 References: <cover.1473240119.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 2/3] systemd.bbclass: add support to manage user services
+Subject: [PATCH 3/3] pulseaudio: fix to manage user services corretly
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,93 +33,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 07 Sep 2016 09:22:00 -0000
+X-List-Received-Date: Wed, 07 Sep 2016 09:22:03 -0000
 Content-Type: text/plain
 
-Add new variable SYSTEMD_USER_SERVICE and SYSTEM_USER_AUTO_ENABLE
-to manage user services. Their usage is like SYSTEMD_SERVICE and
-SYSTEMD_AUTO_ENABLE.
-
-[YOCTO #7800]
+Make use of the new SYSTEMD_USER_SERVICE variable added in systemd.bbclass
+to manage user services in pulseaudio-server package.
 
 Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 ---
- meta/classes/systemd.bbclass | 17 +++++++++++++----
- 1 file changed, 13 insertions(+), 4 deletions(-)
+ meta/recipes-multimedia/pulseaudio/pulseaudio.inc | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/classes/systemd.bbclass b/meta/classes/systemd.bbclass
-index db7873f..78cec97 100644
---- a/meta/classes/systemd.bbclass
-+++ b/meta/classes/systemd.bbclass
-@@ -7,6 +7,7 @@ SYSTEMD_PACKAGES_class-nativesdk ?= ""
+diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
+index 6ed79ef..f3754d7 100644
+--- a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
++++ b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
+@@ -124,8 +124,8 @@ FILES_${PN}-conf = "${sysconfdir}"
+ FILES_${PN}-bin += "${sysconfdir}/default/volatiles/volatiles.04_pulse"
+ FILES_${PN}-server = "${bindir}/pulseaudio ${bindir}/start-* ${sysconfdir} ${bindir}/pactl */udev/rules.d/*.rules */*/udev/rules.d/*.rules ${systemd_user_unitdir}/*"
  
- # Whether to enable or disable the services on installation.
- SYSTEMD_AUTO_ENABLE ??= "enable"
-+SYSTEMD_USER_AUTO_ENABLE ??= "enable"
+-#SYSTEMD_PACKAGES = "${PN}-server"
+-SYSTEMD_SERVICE_${PN}-server = "pulseaudio.service"
++SYSTEMD_PACKAGES = "${PN}-server"
++SYSTEMD_USER_SERVICE_${PN}-server = "pulseaudio.service pulseaudio.socket"
  
- # This class will be included in any recipe that supports systemd init scripts,
- # even if systemd is not in DISTRO_FEATURES.  As such don't make any changes
-@@ -30,10 +31,14 @@ fi
+ FILES_${PN}-misc = "${bindir}/* ${libdir}/pulseaudio/libpulsedsp.so"
  
- if type systemctl >/dev/null 2>/dev/null; then
- 	systemctl $OPTS ${SYSTEMD_AUTO_ENABLE} ${SYSTEMD_SERVICE}
-+	systemctl $OPTS --global ${SYSTEMD_USER_AUTO_ENABLE} ${SYSTEMD_USER_SERVICE}
- 
- 	if [ -z "$D" -a "${SYSTEMD_AUTO_ENABLE}" = "enable" ]; then
- 		systemctl restart ${SYSTEMD_SERVICE}
- 	fi
-+	if [ -z "$D" -a "${SYSTEMD_USER_AUTO_ENABLE}" = "enable" ]; then
-+		systemctl --global restart ${SYSTEMD_USER_SERVICE}
-+	fi
- fi
- }
- 
-@@ -47,9 +52,11 @@ fi
- if type systemctl >/dev/null 2>/dev/null; then
- 	if [ -z "$D" ]; then
- 		systemctl stop ${SYSTEMD_SERVICE}
-+		systemctl --global stop ${SYSTEMD_USER_SERVICE}
- 	fi
- 
- 	systemctl $OPTS disable ${SYSTEMD_SERVICE}
-+	systemctl $OPTS --global disable ${SYSTEMD_USER_SERVICE}
- fi
- }
- 
-@@ -139,12 +146,14 @@ python systemd_populate_packages() {
-     def systemd_check_services():
-         searchpaths = [oe.path.join(d.getVar("sysconfdir", True), "systemd", "system"),]
-         searchpaths.append(d.getVar("systemd_system_unitdir", True))
-+        searchpaths.append(oe.path.join(d.getVar("sysconfdir", True), "systemd", "user"))
-+        searchpaths.append(d.getVar("systemd_user_unitdir", True))
-         systemd_packages = d.getVar('SYSTEMD_PACKAGES', True)
- 
-         keys = 'Also'
-         # scan for all in SYSTEMD_SERVICE[]
-         for pkg_systemd in systemd_packages.split():
--            for service in get_package_var(d, 'SYSTEMD_SERVICE', pkg_systemd).split():
-+            for service in (get_package_var(d, 'SYSTEMD_SERVICE', pkg_systemd) + get_package_var(d, 'SYSTEMD_USER_SERVICE', pkg_systemd)).split():
-                 path_found = ''
- 
-                 # Deal with adding, for example, 'ifplugd@eth0.service' from
-@@ -165,14 +174,14 @@ python systemd_populate_packages() {
-                 if path_found != '':
-                     systemd_add_files_and_parse(pkg_systemd, path_found, service, keys)
-                 else:
--                    raise bb.build.FuncFailed("SYSTEMD_SERVICE_%s value %s does not exist" % \
--                        (pkg_systemd, service))
-+                    raise bb.build.FuncFailed("SYSTEMD_SERVICE_%s or SYSTEMD_USER_SERVICE_%s value %s does not exist" % \
-+                        (pkg_systemd, pkg_systemd, service))
- 
-     # Run all modifications once when creating package
-     if os.path.exists(d.getVar("D", True)):
-         for pkg in d.getVar('SYSTEMD_PACKAGES', True).split():
-             systemd_check_package(pkg)
--            if d.getVar('SYSTEMD_SERVICE_' + pkg, True):
-+            if d.getVar('SYSTEMD_SERVICE_' + pkg, True) or d.getVar('SYSTEMD_USER_SERVICE_' + pkg, True):
-                 systemd_generate_package_scripts(pkg)
-         systemd_check_services()
- }
 -- 
 1.9.1
 
