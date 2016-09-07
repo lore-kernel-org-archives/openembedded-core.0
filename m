@@ -1,23 +1,20 @@
-Return-Path: <henry.bruce@intel.com>
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by mail.openembedded.org (Postfix) with ESMTP id 8A687762B4
+Return-Path: <jianxun.zhang@linux.intel.com>
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+	by mail.openembedded.org (Postfix) with ESMTP id 424EE7700A
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  7 Sep 2016 21:09:56 +0000 (UTC)
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-	by orsmga105.jf.intel.com with ESMTP; 07 Sep 2016 14:09:57 -0700
+	Wed,  7 Sep 2016 21:41:29 +0000 (UTC)
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+	by orsmga104.jf.intel.com with ESMTP; 07 Sep 2016 14:41:29 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.30,297,1470726000"; 
-   d="scan'208";a="6137807"
-Received: from hbruce-desk3.jf.intel.com ([10.7.198.61])
-	by orsmga004.jf.intel.com with ESMTP; 07 Sep 2016 14:09:56 -0700
-From: Henry Bruce <henry.bruce@intel.com>
+X-IronPort-AV: E=Sophos;i="5.30,297,1470726000"; d="scan'208";a="165579052"
+Received: from chang-s2600cp.jf.intel.com ([10.54.77.22])
+	by fmsmga004.fm.intel.com with ESMTP; 07 Sep 2016 14:41:29 -0700
+From: Jianxun Zhang <jianxun.zhang@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  7 Sep 2016 14:09:54 -0700
-Message-Id: <1473282594-28873-1-git-send-email-henry.bruce@intel.com>
+Date: Wed,  7 Sep 2016 14:42:37 -0700
+Message-Id: <1473284559-187471-1-git-send-email-jianxun.zhang@linux.intel.com>
 X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1473199905-13645-2-git-send-email-henry.bruce@intel.com>
-References: <1473199905-13645-2-git-send-email-henry.bruce@intel.com>
-Subject: [PATCH 2/2 v2] utils.bbclass: Added error checking for oe_soinstall
+Subject: [PATCH 0/2][PROPOSED] libcap fix and update
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,44 +27,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 07 Sep 2016 21:09:57 -0000
+X-List-Received-Date: Wed, 07 Sep 2016 21:41:30 -0000
 
-Fixes [YOCTO #10146]
+Need some experts to review this patch series. I am not really
+sure for if what I fixed is a valid case or if fix is the best
+answer. The validation before submission is very limited too.
 
-Signed-off-by: Henry Bruce <henry.bruce@intel.com>
----
- meta/classes/utils.bbclass | 15 +++++++++------
- 1 file changed, 9 insertions(+), 6 deletions(-)
+I ran into the compiling issue when build an application and
+found this recipe cannot be built without specifying anything.
+I don't feel the existing options are passed to make with test,
+and guess EXTRA_CONF won't work with this makefile-based project.
 
-diff --git a/meta/classes/utils.bbclass b/meta/classes/utils.bbclass
-index d56f51e..3c2a14f 100644
---- a/meta/classes/utils.bbclass
-+++ b/meta/classes/utils.bbclass
-@@ -62,15 +62,18 @@ def is_machine_specific(d):
- oe_soinstall() {
- 	# Purpose: Install shared library file and
- 	#          create the necessary links
--	# Example:
--	#
--	# oe_
--	#
--	#bbnote installing shared library $1 to $2
--	#
-+	# Example: oe_soinstall libfoo.so.1.2.3 ${D}${libdir}
- 	libname=`basename $1`
-+	case "$libname" in
-+	    *.so)
-+	        bbfatal "oe_soinstall: Shared library must haved versioned filename (e.g. libfoo.so.1.2.3)"
-+	        ;;
-+	esac
- 	install -m 755 $1 $2/$libname
- 	sonamelink=`${HOST_PREFIX}readelf -d $1 |grep 'Library soname:' |sed -e 's/.*\[\(.*\)\].*/\1/'`
-+	if [ -z $sonamelink ]; then
-+		bbfatal "oe_soinstall: $libname is missing ELF tag 'SONAME'."
-+	fi
- 	solink=`echo $libname | sed -e 's/\.so\..*/.so/'`
- 	ln -sf $libname $2/$sonamelink
- 	ln -sf $libname $2/$solink
+The second patch is a following-up when I saw there is another
+option in the similar situation and seems to be obsolete now.
+
+Jianxun Zhang (2):
+  libcap: fix compiling issue when not having libpam
+  libcap: remove dependency on attr
+
+ meta/recipes-support/libcap/libcap_2.25.bb | 11 +++--------
+ 1 file changed, 3 insertions(+), 8 deletions(-)
+
 -- 
 2.7.4
 
