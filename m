@@ -1,20 +1,24 @@
 Return-Path: <joshua.g.lock@linux.intel.com>
 Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 9D3BB77085
+	by mail.openembedded.org (Postfix) with ESMTP id 0D45077085
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  7 Sep 2016 22:04:49 +0000 (UTC)
+	Wed,  7 Sep 2016 22:04:50 +0000 (UTC)
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga105.fm.intel.com with ESMTP; 07 Sep 2016 15:04:30 -0700
+	by fmsmga105.fm.intel.com with ESMTP; 07 Sep 2016 15:04:31 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.30,297,1470726000"; d="scan'208";a="1026549969"
+X-IronPort-AV: E=Sophos;i="5.30,297,1470726000"; d="scan'208";a="1026549982"
 Received: from jlock-mobl1.ger.corp.intel.com ([10.252.9.194])
-	by orsmga001.jf.intel.com with ESMTP; 07 Sep 2016 15:04:29 -0700
+	by orsmga001.jf.intel.com with ESMTP; 07 Sep 2016 15:04:31 -0700
 From: Joshua Lock <joshua.g.lock@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  7 Sep 2016 23:04:23 +0100
-Message-Id: <cover.1473285523.git.joshua.g.lock@intel.com>
+Date: Wed,  7 Sep 2016 23:04:24 +0100
+Message-Id: <351a16fba4f4cba034aebd1e1678649670415e46.1473285523.git.joshua.g.lock@intel.com>
 X-Mailer: git-send-email 2.7.4
-Subject: [PATCH 0/2] Python 3 runqemu fixes
+In-Reply-To: <cover.1473285523.git.joshua.g.lock@intel.com>
+References: <cover.1473285523.git.joshua.g.lock@intel.com>
+In-Reply-To: <cover.1473285523.git.joshua.g.lock@intel.com>
+References: <cover.1473285523.git.joshua.g.lock@intel.com>
+Subject: [PATCH 1/2] runqemu: remove use of subprocess.run()
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,44 +31,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 07 Sep 2016 22:04:49 -0000
+X-List-Received-Date: Wed, 07 Sep 2016 22:04:50 -0000
 
-Note: This patch is against master-next, as the Python 3 runqemu hasn't made it
-to master yet.
-This supercedes my earlier one patch series "Python3 runqemu: remove use of subprocess.run()" (both versions)
+We aim to support Python 3.4+ whereas subprocess.run() was added
+in Python 3.5.
+Replace subprocess.run() with subprocess.check_output().
 
-Two fixes for the Python3 runqemu:
-* Use of subprocess.run() in recent runqemu changes (by me) elevates the Python
-  3 requirement from 3.4+ to 3.5+. Replace subprocess.run() with
-  subprocess.check_output(), as that is available in Python 3.1+
-* testimage calls runqemu from within a bitbake run, which prevents us from 
-  using `bitbake -e` to determine bitbake environment variables. The test code
-  exports an OE_TMPDIR variable which was used by the shell runqemu to 
-  infer/guess paths into the sysroot. This patch does the equivalent.
+Signed-off-by: Joshua Lock <joshua.g.lock@intel.com>
+---
+ scripts/runqemu | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
 
-Changes since "Python3 runqemu: remove use of subprocess.run()" v2:
-* Fix typo in exception handler log message.
-* Add extra fix to support testimage
-
-Changes since "Python3 runqemu: remove use of subprocess.run()" v1:
-* Fix printing of error message in exception handler
-
-The following changes since commit 3df3462d81216d8b26a87d9915abd9de1b2c2faa:
-
-  bitbake: cooker: record events on cooker exit (2016-09-06 23:18:06 +0100)
-
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib joshuagl/runqemu
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=joshuagl/runqemu
-
-Joshua Lock (2):
-  runqemu: remove use of subprocess.run()
-  runqemu: fixes for when invoked during a bitbake run
-
- scripts/runqemu | 37 +++++++++++++++++++++++++++----------
- 1 file changed, 27 insertions(+), 10 deletions(-)
-
+diff --git a/scripts/runqemu b/scripts/runqemu
+index 0a56c60..cbc5cc6 100755
+--- a/scripts/runqemu
++++ b/scripts/runqemu
+@@ -858,10 +858,11 @@ class BaseConfig(object):
+             cmd = 'bitbake -e'
+ 
+         logger.info('Running %s...' % cmd)
+-        proc = subprocess.run(cmd, shell=True, stdout=subprocess.PIPE)
+-        if proc.returncode != 0:
+-            logger.warn("Couldn't run 'bitbake -e' to gather environment information")
+-        self.bitbake_e = proc.stdout.decode('utf-8')
++        try:
++            self.bitbake_e = subprocess.check_output(cmd, shell=True).decode('utf-8')
++        except subprocess.CalledProcessError as err:
++            self.bitbake_e = ''
++            logger.warn("Couldn't run 'bitbake -e' to gather environment information:\n%s" % err.output.decode('utf-8'))
+ 
+ def main():
+     if len(sys.argv) == 1 or "help" in sys.argv:
 -- 
 2.7.4
+
 
