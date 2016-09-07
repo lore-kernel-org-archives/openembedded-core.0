@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id EC43F774D3
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 3D8DE77701
 	for <openembedded-core@lists.openembedded.org>;
 	Wed,  7 Sep 2016 08:28:39 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u878Sc4L030470
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u878Sed4005946
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 7 Sep 2016 01:28:39 -0700
+	Wed, 7 Sep 2016 01:28:40 -0700 (PDT)
 Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Wed, 7 Sep 2016 01:28:37 -0700
+	Wed, 7 Sep 2016 01:28:39 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 7 Sep 2016 01:28:34 -0700
-Message-ID: <2fd38e5870ad42ce2a43e835afc013285de8ed7a.1473236857.git.liezhi.yang@windriver.com>
+Date: Wed, 7 Sep 2016 01:28:35 -0700
+Message-ID: <3d8d1ef2c9322b204a037921275935b706ddecd4.1473236857.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.9.0
 In-Reply-To: <cover.1473236857.git.liezhi.yang@windriver.com>
 References: <cover.1473236857.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/3] lighttpd: without-memcache -> without-memcached
+Subject: [PATCH 2/3] apt: add PACKAGECONFIG for lz4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,26 +37,25 @@ X-List-Received-Date: Wed, 07 Sep 2016 08:28:40 -0000
 Content-Type: text/plain
 
 Fixed:
-WARNING: QA Issue: lighttpd: configure was passed unrecognised options: --without-memcache [unknown-configure-option]
+apt-1.2.12: apt rdepends on lz4, but it isn't a build dependency, missing lz4 in DEPENDS or PACKAGECONFIG? [build-deps]
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- meta/recipes-extended/lighttpd/lighttpd_1.4.41.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-devtools/apt/apt_1.2.12.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-extended/lighttpd/lighttpd_1.4.41.bb b/meta/recipes-extended/lighttpd/lighttpd_1.4.41.bb
-index bba90cf..1a3f323 100644
---- a/meta/recipes-extended/lighttpd/lighttpd_1.4.41.bb
-+++ b/meta/recipes-extended/lighttpd/lighttpd_1.4.41.bb
-@@ -36,7 +36,7 @@ EXTRA_OECONF = " \
-              --without-bzip2 \
-              --without-ldap \
-              --without-lua \
--             --without-memcache \
-+             --without-memcached \
-              --with-pcre \
-              --without-webdav-props \
-              --without-webdav-locks \
+diff --git a/meta/recipes-devtools/apt/apt_1.2.12.bb b/meta/recipes-devtools/apt/apt_1.2.12.bb
+index 85c0d56..ae0bce9 100644
+--- a/meta/recipes-devtools/apt/apt_1.2.12.bb
++++ b/meta/recipes-devtools/apt/apt_1.2.12.bb
+@@ -7,6 +7,7 @@ require apt-package.inc
+ PACKAGECONFIG ??= "lzma"
+ PACKAGECONFIG[lzma] = "ac_cv_lib_lzma_lzma_easy_encoder=yes,ac_cv_lib_lzma_lzma_easy_encoder=no,xz"
+ PACKAGECONFIG[bz2] = "ac_cv_lib_bz2_BZ2_bzopen=yes,ac_cv_lib_bz2_BZ2_bzopen=no,bzip2"
++PACKAGECONFIG[lz4] = "ac_cv_lib_lz4_LZ4F_createCompressionContext=yes,ac_cv_lib_lz4_LZ4F_createCompressionContext=no,lz4"
+ 
+ FILES_${PN} += "${bindir}/apt-key"
+ apt-manpages += "doc/apt-key.8"
 -- 
 2.9.0
 
