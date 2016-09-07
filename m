@@ -1,26 +1,20 @@
-Return-Path: <seebs@seebs.net>
-Received: from mail.plethora.net (mail.plethora.net [184.173.250.112])
-	by mail.openembedded.org (Postfix) with ESMTP id BB4C7776F1
+Return-Path: <markus.lehtonen@linux.intel.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id 16D0F776FF
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  7 Sep 2016 06:40:06 +0000 (UTC)
-Received: from [10.10.10.132] (home.seebs.net [74.122.98.108])
-	by mail.plethora.net (Postfix) with ESMTPSA id B38A8C4993;
-	Wed,  7 Sep 2016 01:40:05 -0500 (CDT)
-From: Seebs <seebs@seebs.net>
-To: "wenzong fan" <wenzong.fan@windriver.com>
-Date: Wed, 07 Sep 2016 01:40:04 -0500
-Message-ID: <9478781A-C1DD-46F5-B447-04D324E9EBA6@seebs.net>
-In-Reply-To: <c4af9282-ed95-b7fc-f263-4a66eccfa4bf@windriver.com>
-References: <e33a2d23-6067-cf14-57ab-d40623a3597a@windriver.com>
-	<1A4DD5F0-D89E-4FC1-820A-457817B4FCD3@seebs.net>
-	<b59ea47c-1b82-c480-5d9f-7dfb8051f83a@windriver.com>
-	<BDCB4B3D-E034-4AFD-915C-8DDE5B66D76D@seebs.net>
-	<c4af9282-ed95-b7fc-f263-4a66eccfa4bf@windriver.com>
-MIME-Version: 1.0
-X-Mailer: MailMate (1.9.5r5260)
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: pseudo 1.8.1 doesn't work with docker & dumb-init
+	Wed,  7 Sep 2016 07:28:52 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by fmsmga104.fm.intel.com with ESMTP; 07 Sep 2016 00:28:53 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.30,295,1470726000"; d="scan'208";a="757913273"
+Received: from marquiz.fi.intel.com ([10.237.72.155])
+	by FMSMGA003.fm.intel.com with ESMTP; 07 Sep 2016 00:28:47 -0700
+From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  7 Sep 2016 10:28:44 +0300
+Message-Id: <1473233326-16830-1-git-send-email-markus.lehtonen@linux.intel.com>
+X-Mailer: git-send-email 2.6.6
+Subject: [PATCH 0/2] Fixes for oe-build-perf-test
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,16 +27,18 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 07 Sep 2016 06:40:08 -0000
-Content-Type: text/plain; format=flowed
+X-List-Received-Date: Wed, 07 Sep 2016 07:28:53 -0000
 
-On 7 Sep 2016, at 1:32, wenzong fan wrote:
+Two small miscellanious fixes to build perf tests.
 
-> Yes, I believe it's not a 100 reproducible issue. Maybe you could run 
-> it with other builds in parallel and try it 3 times or more.
+Markus Lehtonen (2):
+  oeqa.buildperf: try harder when splitting 'nevr' string
+  oeqa.buildperf: be sure to use the latest buildstats
 
-I can try, but that might need bigger hardware than I have to hand at 
-the moment.
+ meta/lib/oeqa/buildperf/base.py | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
--s
+-- 
+2.6.6
+
 
