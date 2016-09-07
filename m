@@ -1,26 +1,26 @@
 Return-Path: <Qi.Chen@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 9CF6B776A3
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 97EDB77778
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  7 Sep 2016 09:21:58 +0000 (UTC)
+	Wed,  7 Sep 2016 09:21:59 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u879LwFd013241
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u879M06w026016
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 7 Sep 2016 02:21:59 -0700 (PDT)
+	Wed, 7 Sep 2016 02:22:00 -0700 (PDT)
 Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.229) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.248.2; Wed, 7 Sep 2016 02:21:58 -0700
+	14.3.248.2; Wed, 7 Sep 2016 02:21:59 -0700
 From: Chen Qi <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 7 Sep 2016 17:22:36 +0800
-Message-ID: <4063e3d317d25041ba4ef2c9b579f1b2e4ab03ce.1473240119.git.Qi.Chen@windriver.com>
+Date: Wed, 7 Sep 2016 17:22:37 +0800
+Message-ID: <4e703d64c6d15986135603c94ad9730b7f6d66c7.1473240119.git.Qi.Chen@windriver.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <cover.1473240119.git.Qi.Chen@windriver.com>
 References: <cover.1473240119.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/3] systemd-systemctl: add option to manage user services
+Subject: [PATCH 2/3] systemd.bbclass: add support to manage user services
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,126 +33,93 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 07 Sep 2016 09:21:58 -0000
+X-List-Received-Date: Wed, 07 Sep 2016 09:22:00 -0000
 Content-Type: text/plain
 
-Add '--global' option to our own systemctl script to manage user services.
+Add new variable SYSTEMD_USER_SERVICE and SYSTEM_USER_AUTO_ENABLE
+to manage user services. Their usage is like SYSTEMD_SERVICE and
+SYSTEMD_AUTO_ENABLE.
 
 [YOCTO #7800]
 
 Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 ---
- .../systemd/systemd-systemctl/systemctl            | 45 ++++++++++++++--------
- 1 file changed, 28 insertions(+), 17 deletions(-)
+ meta/classes/systemd.bbclass | 17 +++++++++++++----
+ 1 file changed, 13 insertions(+), 4 deletions(-)
 
-diff --git a/meta/recipes-core/systemd/systemd-systemctl/systemctl b/meta/recipes-core/systemd/systemd-systemctl/systemctl
-index efad14c..17a7277 100755
---- a/meta/recipes-core/systemd/systemd-systemctl/systemctl
-+++ b/meta/recipes-core/systemd/systemd-systemctl/systemctl
-@@ -2,7 +2,8 @@
- echo "Started $0 $*"
+diff --git a/meta/classes/systemd.bbclass b/meta/classes/systemd.bbclass
+index db7873f..78cec97 100644
+--- a/meta/classes/systemd.bbclass
++++ b/meta/classes/systemd.bbclass
+@@ -7,6 +7,7 @@ SYSTEMD_PACKAGES_class-nativesdk ?= ""
  
- ROOT=
--
-+USER_SERVICE=no
-+location=system
- # parse command line params
- action=
- while [ $# != 0 ]; do
-@@ -46,6 +47,11 @@ while [ $# != 0 ]; do
- 			cmd_args="0"
- 			shift
- 			;;
-+		--global)
-+			USER_SERVICE=yes
-+			cmd_args="0"
-+			shift
-+			;;
- 		*)
- 			if [ "$cmd_args" = "1" ]; then
- 				services="$services $opt" 
-@@ -57,8 +63,13 @@ while [ $# != 0 ]; do
- 			;;
- 	esac
- done
-+
-+if [ "$USER_SERVICE" = "yes" ]; then
-+	location=user
-+fi
-+
- if [ "$action" = "preset" -a "$service_file" = "" ]; then
--	services=$(for f in `find $ROOT/etc/systemd/system $ROOT/lib/systemd/system $ROOT/usr/lib/systemd/system -type f 2>1`; do basename $f; done)
-+	services=$(for f in `find $ROOT/etc/systemd/$location $ROOT/lib/systemd/$location $ROOT/usr/lib/systemd/$location -type f 2>1`; do basename $f; done)
- 	services="$services $opt"
- 	presetall=1
+ # Whether to enable or disable the services on installation.
+ SYSTEMD_AUTO_ENABLE ??= "enable"
++SYSTEMD_USER_AUTO_ENABLE ??= "enable"
+ 
+ # This class will be included in any recipe that supports systemd init scripts,
+ # even if systemd is not in DISTRO_FEATURES.  As such don't make any changes
+@@ -30,10 +31,14 @@ fi
+ 
+ if type systemctl >/dev/null 2>/dev/null; then
+ 	systemctl $OPTS ${SYSTEMD_AUTO_ENABLE} ${SYSTEMD_SERVICE}
++	systemctl $OPTS --global ${SYSTEMD_USER_AUTO_ENABLE} ${SYSTEMD_USER_SERVICE}
+ 
+ 	if [ -z "$D" -a "${SYSTEMD_AUTO_ENABLE}" = "enable" ]; then
+ 		systemctl restart ${SYSTEMD_SERVICE}
+ 	fi
++	if [ -z "$D" -a "${SYSTEMD_USER_AUTO_ENABLE}" = "enable" ]; then
++		systemctl --global restart ${SYSTEMD_USER_SERVICE}
++	fi
  fi
-@@ -68,10 +79,10 @@ for service in $services; do
- 		action="preset"
- 	fi
- 	if [ "$action" = "mask" ]; then
--		if [ ! -d $ROOT/etc/systemd/system/ ]; then
--			mkdir -p $ROOT/etc/systemd/system/
-+		if [ ! -d $ROOT/etc/systemd/$location/ ]; then
-+			mkdir -p $ROOT/etc/systemd/$location/
- 		fi
--		cmd="ln -s /dev/null $ROOT/etc/systemd/system/$service"
-+		cmd="ln -s /dev/null $ROOT/etc/systemd/$location/$service"
- 		echo "$cmd"
- 		$cmd
- 		exit 0
-@@ -92,9 +103,9 @@ for service in $services; do
+ }
+ 
+@@ -47,9 +52,11 @@ fi
+ if type systemctl >/dev/null 2>/dev/null; then
+ 	if [ -z "$D" ]; then
+ 		systemctl stop ${SYSTEMD_SERVICE}
++		systemctl --global stop ${SYSTEMD_USER_SERVICE}
  	fi
  
- 	# find service file
--	for p in $ROOT/etc/systemd/system \
--		 $ROOT/lib/systemd/system \
--		 $ROOT/usr/lib/systemd/system; do
-+	for p in $ROOT/etc/systemd/$location \
-+		 $ROOT/lib/systemd/$location \
-+		 $ROOT/usr/lib/systemd/$location; do
- 		if [ -e $p/$service_base_file ]; then
- 			service_file=$p/$service_base_file
- 			service_file=${service_file##$ROOT}
-@@ -151,18 +162,18 @@ for service in $services; do
- 						enable_service=$(echo $service | sed "s/@/@$(echo $default_instance | sed 's/\\/\\\\/g')/")
- 					fi
- 				fi
--				mkdir -p $ROOT/etc/systemd/system/$r.$suffix
--				ln -s $service_file $ROOT/etc/systemd/system/$r.$suffix/$enable_service
-+				mkdir -p $ROOT/etc/systemd/$location/$r.$suffix
-+				ln -s $service_file $ROOT/etc/systemd/$location/$r.$suffix/$enable_service
- 				echo "Enabled $enable_service for $r."
- 			else
- 				if [ "$service_template" = true -a "$instance_specified" = false ]; then
--					disable_service="$ROOT/etc/systemd/system/$r.$suffix/`echo $service | sed 's/@/@*/'`"
-+					disable_service="$ROOT/etc/systemd/$location/$r.$suffix/`echo $service | sed 's/@/@*/'`"
- 				else
--					disable_service="$ROOT/etc/systemd/system/$r.$suffix/$service"
-+					disable_service="$ROOT/etc/systemd/$location/$r.$suffix/$service"
- 				fi
- 				rm -f $disable_service
--				[ -d $ROOT/etc/systemd/system/$r.$suffix ] && rmdir --ignore-fail-on-non-empty -p $ROOT/etc/systemd/system/$r.$suffix
--				echo "Disabled ${disable_service##$ROOT/etc/systemd/system/$r.$suffix/} for $r."
-+				[ -d $ROOT/etc/systemd/$location/$r.$suffix ] && rmdir --ignore-fail-on-non-empty -p $ROOT/etc/systemd/$location/$r.$suffix
-+				echo "Disabled ${disable_service##$ROOT/etc/systemd/$location/$r.$suffix/} for $r."
- 			fi
- 		done
- 	done
-@@ -174,11 +185,11 @@ for service in $services; do
+ 	systemctl $OPTS disable ${SYSTEMD_SERVICE}
++	systemctl $OPTS --global disable ${SYSTEMD_USER_SERVICE}
+ fi
+ }
  
- 	for r in $alias; do
- 		if [ "$action" = "enable" ]; then
--			mkdir -p $ROOT/etc/systemd/system
--			ln -s $service_file $ROOT/etc/systemd/system/$r
-+			mkdir -p $ROOT/etc/systemd/$location
-+			ln -s $service_file $ROOT/etc/systemd/$location/$r
- 			echo "Enabled $service for $alias."
- 		else
--			rm -f $ROOT/etc/systemd/system/$r
-+			rm -f $ROOT/etc/systemd/$location/$r
- 			echo "Disabled $service for $alias."
- 		fi
- 	done
+@@ -139,12 +146,14 @@ python systemd_populate_packages() {
+     def systemd_check_services():
+         searchpaths = [oe.path.join(d.getVar("sysconfdir", True), "systemd", "system"),]
+         searchpaths.append(d.getVar("systemd_system_unitdir", True))
++        searchpaths.append(oe.path.join(d.getVar("sysconfdir", True), "systemd", "user"))
++        searchpaths.append(d.getVar("systemd_user_unitdir", True))
+         systemd_packages = d.getVar('SYSTEMD_PACKAGES', True)
+ 
+         keys = 'Also'
+         # scan for all in SYSTEMD_SERVICE[]
+         for pkg_systemd in systemd_packages.split():
+-            for service in get_package_var(d, 'SYSTEMD_SERVICE', pkg_systemd).split():
++            for service in (get_package_var(d, 'SYSTEMD_SERVICE', pkg_systemd) + get_package_var(d, 'SYSTEMD_USER_SERVICE', pkg_systemd)).split():
+                 path_found = ''
+ 
+                 # Deal with adding, for example, 'ifplugd@eth0.service' from
+@@ -165,14 +174,14 @@ python systemd_populate_packages() {
+                 if path_found != '':
+                     systemd_add_files_and_parse(pkg_systemd, path_found, service, keys)
+                 else:
+-                    raise bb.build.FuncFailed("SYSTEMD_SERVICE_%s value %s does not exist" % \
+-                        (pkg_systemd, service))
++                    raise bb.build.FuncFailed("SYSTEMD_SERVICE_%s or SYSTEMD_USER_SERVICE_%s value %s does not exist" % \
++                        (pkg_systemd, pkg_systemd, service))
+ 
+     # Run all modifications once when creating package
+     if os.path.exists(d.getVar("D", True)):
+         for pkg in d.getVar('SYSTEMD_PACKAGES', True).split():
+             systemd_check_package(pkg)
+-            if d.getVar('SYSTEMD_SERVICE_' + pkg, True):
++            if d.getVar('SYSTEMD_SERVICE_' + pkg, True) or d.getVar('SYSTEMD_USER_SERVICE_' + pkg, True):
+                 systemd_generate_package_scripts(pkg)
+         systemd_check_services()
+ }
 -- 
 1.9.1
 
