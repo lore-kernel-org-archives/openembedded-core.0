@@ -1,30 +1,24 @@
-Return-Path: <wangxin2015.fnst@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
-	by mail.openembedded.org (Postfix) with ESMTP id 1D998776F6
+Return-Path: <Mingli.Yu@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id A81FB775D5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  7 Sep 2016 02:58:09 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.22,518,1449504000"; d="scan'208";a="10689613"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 07 Sep 2016 10:58:07 +0800
-Received: from G08CNEXCHPEKD02.g08.fujitsu.local (unknown [10.167.33.83])
-	by cn.fujitsu.com (Postfix) with ESMTP id 96BD94026B51
+	Wed,  7 Sep 2016 05:49:36 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u875naY9013276
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  7 Sep 2016 10:58:04 +0800 (CST)
-Received: from ubuntu.g08.fujitsu.local (10.167.226.120) by
-	G08CNEXCHPEKD02.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.279.2; Wed, 7 Sep 2016 10:58:03 +0800
-From: Wang Xin <wangxin2015.fnst@cn.fujitsu.com>
+	Tue, 6 Sep 2016 22:49:36 -0700 (PDT)
+Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.248.2; Tue, 6 Sep 2016 22:49:35 -0700
+From: <mingli.yu@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 6 Sep 2016 22:58:00 -0400
-Message-ID: <1473217080-1941-1-git-send-email-wangxin2015.fnst@cn.fujitsu.com>
-X-Mailer: git-send-email 1.9.1
+Date: Wed, 7 Sep 2016 13:47:10 +0800
+Message-ID: <1473227230-3022-1-git-send-email-mingli.yu@windriver.com>
+X-Mailer: git-send-email 2.8.1
 MIME-Version: 1.0
-X-Originating-IP: [10.167.226.120]
-X-yoursite-MailScanner-ID: 96BD94026B51.A442C
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: wangxin2015.fnst@cn.fujitsu.com
-X-Spam-Status: No
-Subject: [PATCH] wayland: 1.11.0 -> 1.11.93
+Subject: [PATCH] webkitgtk: 2.12.4 -> 2.12.5
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,42 +31,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 07 Sep 2016 02:58:12 -0000
+X-List-Received-Date: Wed, 07 Sep 2016 05:49:39 -0000
 Content-Type: text/plain
 
-1) Upgrade wayland from 1.11.0 to 1.11.93.
-2) Delete one patch, since it is no use.
-    0001-scanner-Use-unit32_t-instead-of-uint.patch
+From: Mingli Yu <Mingli.Yu@windriver.com>
 
-Signed-off-by: Wang Xin <wangxin2015.fnst@cn.fujitsu.com>
+Fix a regression introduced in 2.12.4 that caused
+a hang in the network process after a load failure.
+
+Fix several crashes and rendering issues.
+
+reference: https://webkitgtk.org/2016/09/05/webkitgtk2.12.5-released.html
+
+Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
 ---
- .../wayland/{wayland_1.11.0.bb => wayland_1.11.93.bb}                | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
- rename meta/recipes-graphics/wayland/{wayland_1.11.0.bb => wayland_1.11.93.bb} (88%)
+ meta/recipes-sato/webkit/{webkitgtk_2.12.4.bb => webkitgtk_2.12.5.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-sato/webkit/{webkitgtk_2.12.4.bb => webkitgtk_2.12.5.bb} (97%)
 
-diff --git a/meta/recipes-graphics/wayland/wayland_1.11.0.bb b/meta/recipes-graphics/wayland/wayland_1.11.93.bb
-similarity index 88%
-rename from meta/recipes-graphics/wayland/wayland_1.11.0.bb
-rename to meta/recipes-graphics/wayland/wayland_1.11.93.bb
-index 3413406..234f245 100644
---- a/meta/recipes-graphics/wayland/wayland_1.11.0.bb
-+++ b/meta/recipes-graphics/wayland/wayland_1.11.93.bb
-@@ -11,10 +11,9 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b31d8f53b6aaf2b4985d7dd7810a70d1 \
-                     file://src/wayland-server.c;endline=24;md5=b8e046164a766bb1ede8ba38e9dcd7ce"
+diff --git a/meta/recipes-sato/webkit/webkitgtk_2.12.4.bb b/meta/recipes-sato/webkit/webkitgtk_2.12.5.bb
+similarity index 97%
+rename from meta/recipes-sato/webkit/webkitgtk_2.12.4.bb
+rename to meta/recipes-sato/webkit/webkitgtk_2.12.5.bb
+index 0193e17..57ac35f 100644
+--- a/meta/recipes-sato/webkit/webkitgtk_2.12.4.bb
++++ b/meta/recipes-sato/webkit/webkitgtk_2.12.5.bb
+@@ -20,8 +20,8 @@ SRC_URI = "\
+   file://ppc-musl-fix.patch \
+   file://0001-Fix-racy-parallel-build-of-WebKit2-4.0.gir.patch \
+   "
+-SRC_URI[md5sum] = "0331ac714fd1a0587ffea470ef1afb20"
+-SRC_URI[sha256sum] = "424d3177599abbc1eb1a1ad7928dd280a62006e992f2fada2e059375a9609a77"
++SRC_URI[md5sum] = "7a9ea00ec195488db90fdeb2d174ddaf"
++SRC_URI[sha256sum] = "6b147854b864a5f115fadb97b2b6200b2f696db015216a34e7298d11c88b1c40"
  
- SRC_URI = "https://wayland.freedesktop.org/releases/${BPN}-${PV}.tar.xz \
--           file://0001-scanner-Use-unit32_t-instead-of-uint.patch \
-            "
--SRC_URI[md5sum] = "fccf680be066e234729d5b69e0bd0fa9"
--SRC_URI[sha256sum] = "9540925f7928becfdf5e3b84c70757f6589bf1ceef09bea78784d8e4772c0db0"
-+SRC_URI[md5sum] = "903ae84fdbcb9943feef8598f038b989"
-+SRC_URI[sha256sum] = "3133fb55c40392c3923debd6e9ee64e758709795eccff0b8005cb4118454f08f"
- 
- EXTRA_OECONF_class-native = "--disable-documentation --disable-libraries"
+ inherit cmake lib_package pkgconfig gobject-introspection perlnative distro_features_check upstream-version-is-even
  
 -- 
-2.7.4
-
-
+2.8.1
 
 
