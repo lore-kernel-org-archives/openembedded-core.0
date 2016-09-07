@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 3D8DE77701
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id B321F7770B
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  7 Sep 2016 08:28:39 +0000 (UTC)
+	Wed,  7 Sep 2016 08:28:40 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u878Sed4005946
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u878SfBQ025783
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 7 Sep 2016 01:28:40 -0700 (PDT)
+	Wed, 7 Sep 2016 01:28:41 -0700 (PDT)
 Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Wed, 7 Sep 2016 01:28:39 -0700
+	Wed, 7 Sep 2016 01:28:40 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 7 Sep 2016 01:28:35 -0700
-Message-ID: <3d8d1ef2c9322b204a037921275935b706ddecd4.1473236857.git.liezhi.yang@windriver.com>
+Date: Wed, 7 Sep 2016 01:28:36 -0700
+Message-ID: <dc8634c6bed6f83632ce9d9f3ce2858203005553.1473236857.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.9.0
 In-Reply-To: <cover.1473236857.git.liezhi.yang@windriver.com>
 References: <cover.1473236857.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 2/3] apt: add PACKAGECONFIG for lz4
+Subject: [PATCH 3/3] pciutils: fix PACKAGECONFIG
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,26 +36,35 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Wed, 07 Sep 2016 08:28:40 -0000
 Content-Type: text/plain
 
+The PACKAGECONFIG's value doens't go into EXTRA_OECONF, but
+PACKAGECONFIG_CONFARGS.
+
 Fixed:
-apt-1.2.12: apt rdepends on lz4, but it isn't a build dependency, missing lz4 in DEPENDS or PACKAGECONFIG? [build-deps]
+pciutils-3.5.1: libpci rdepends on libudev, but it isn't a build dependency, missing eudev in DEPENDS or PACKAGECONFIG? [build-deps]
+pciutils-3.5.1: pciutils rdepends on libudev, but it isn't a build dependency, missing eudev in DEPENDS or PACKAGECONFIG? [build-deps]
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- meta/recipes-devtools/apt/apt_1.2.12.bb | 1 +
- 1 file changed, 1 insertion(+)
+ meta/recipes-bsp/pciutils/pciutils_3.5.1.bb | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-devtools/apt/apt_1.2.12.bb b/meta/recipes-devtools/apt/apt_1.2.12.bb
-index 85c0d56..ae0bce9 100644
---- a/meta/recipes-devtools/apt/apt_1.2.12.bb
-+++ b/meta/recipes-devtools/apt/apt_1.2.12.bb
-@@ -7,6 +7,7 @@ require apt-package.inc
- PACKAGECONFIG ??= "lzma"
- PACKAGECONFIG[lzma] = "ac_cv_lib_lzma_lzma_easy_encoder=yes,ac_cv_lib_lzma_lzma_easy_encoder=no,xz"
- PACKAGECONFIG[bz2] = "ac_cv_lib_bz2_BZ2_bzopen=yes,ac_cv_lib_bz2_BZ2_bzopen=no,bzip2"
-+PACKAGECONFIG[lz4] = "ac_cv_lib_lz4_LZ4F_createCompressionContext=yes,ac_cv_lib_lz4_LZ4F_createCompressionContext=no,lz4"
+diff --git a/meta/recipes-bsp/pciutils/pciutils_3.5.1.bb b/meta/recipes-bsp/pciutils/pciutils_3.5.1.bb
+index a84efd9..d32b119 100644
+--- a/meta/recipes-bsp/pciutils/pciutils_3.5.1.bb
++++ b/meta/recipes-bsp/pciutils/pciutils_3.5.1.bb
+@@ -27,9 +27,9 @@ PCI_CONF_FLAG = "ZLIB=yes DNS=yes SHARED=yes"
+ do_configure () {
+ 	(
+ 	  cd lib && \
+-	  # EXTRA_OECONF for this recipe could only possibly contain 'HWDB=yes/no', so we put it
+-	  # before ./configure
+-	  ${PCI_CONF_FLAG} ${EXTRA_OECONF} ./configure ${PV} ${datadir} ${TARGET_OS} ${TARGET_ARCH}
++	  # PACKAGECONFIG_CONFARGS for this recipe could only possibly contain 'HWDB=yes/no',
++	  # so we put it before ./configure
++	  ${PCI_CONF_FLAG} ${PACKAGECONFIG_CONFARGS} ./configure ${PV} ${datadir} ${TARGET_OS} ${TARGET_ARCH}
+ 	)
+ }
  
- FILES_${PN} += "${bindir}/apt-key"
- apt-manpages += "doc/apt-key.8"
 -- 
 2.9.0
 
