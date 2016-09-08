@@ -1,47 +1,39 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-it0-f48.google.com (mail-it0-f48.google.com
-	[209.85.214.48])
-	by mail.openembedded.org (Postfix) with ESMTP id 0221960017
+Return-Path: <tanuk@iki.fi>
+Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com
+	[66.111.4.28])
+	by mail.openembedded.org (Postfix) with ESMTP id DCFA760017
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  8 Sep 2016 11:02:00 +0000 (UTC)
-Received: by mail-it0-f48.google.com with SMTP id i184so4418428itf.1
+	Thu,  8 Sep 2016 11:22:03 +0000 (UTC)
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+	by mailout.nyi.internal (Postfix) with ESMTP id D8AB12070B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 08 Sep 2016 04:02:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=JRTmhvXBEB0B0ITKuG6BCFiAzsz/Yr5XPCjrxYLCZbM=;
-	b=CJLa/R0PYWBRMmBjw8DDucmd3Smyaf6V4QhC87zeCD27eW38n5/MsYb3CMJiiWznUk
-	xRZiO2JqpByIjgHyHdUh3zMj3KYZWQCzdKLIN7vJ1/MR+A4j43myfZzAY3ed3ePOF9IG
-	4YqniKap+xE0kVQKyDiVtmhOywTIyXLRR3NhxTbRdd9TXwACSYiNl0RCW/Zc0rbhO5G+
-	58I4OPoX2icxHzfDv2OR+Z75LcILxMZEcfZjd5mnzcsbU4/6DzPsimwSXg9sRjAz0oB7
-	iFdajr2dFXyEinQcuW3AnUwm5l0AONIum4ouxFvALm4Xs/p6ZtmqGDQGD15whOaxQAjp
-	CLzg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=JRTmhvXBEB0B0ITKuG6BCFiAzsz/Yr5XPCjrxYLCZbM=;
-	b=Jb+/LM8wX3eOagsxebTW6vbbhp1I2ey+weHpeQyIyp/zw3NcOtdyQ1Eu49ZatnKiGC
-	3or2c+s4bnBcPMWqrHrGtIgGEbi05S/NCCaDyMsZM3UD53UfceC3mz7khuLtbrCIfvEj
-	aECu6ZlCRQcKHqyhemaogpmHZd3IetqM6ZLmunA7NCe89jgjCzgJ7iH9fzj9Y/CcarHh
-	R7dSErJnyztjgMWsvgDsn0/HQbltP8iUP34FDplLzzOo/0y07FsyNryucYexEbDoxWSK
-	Q6njc+ZTF6xSNuYuhbuuwRlrBwZL49iUH8qs6CoGNDNWi36vtmFQlmUfg/Bkx0T943lH
-	5UEA==
-X-Gm-Message-State: AE9vXwM7pjeRUaHhTysqjOfdAZyhpf35EtL2FtyEZP1xXP9JGSqPXdKUMkkpiG7jIYdUjl3A455OKEmKt7RGr6h4
-X-Received: by 10.36.124.141 with SMTP id a135mr13531888itd.25.1473332521334; 
-	Thu, 08 Sep 2016 04:02:01 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.107.18.17 with HTTP; Thu, 8 Sep 2016 04:01:41 -0700 (PDT)
-In-Reply-To: <20160908012645.25324-1-edwin.plauchu.camacho@linux.intel.com>
-References: <20160908012645.25324-1-edwin.plauchu.camacho@linux.intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 8 Sep 2016 12:01:41 +0100
-Message-ID: <CAJTo0LbLkXAJ_+EzA8MSWjpgNLX6Qqps0Kw5EtRkuv3MjQeYjA@mail.gmail.com>
-To: Edwin Plauchu <edwin.plauchu.camacho@linux.intel.com>
-Cc: Edwin Plauchu <edwin.plauchu.camacho@intel.com>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] oeqa: Remove linux user utilized for rpm test.
+	Thu,  8 Sep 2016 07:22:03 -0400 (EDT)
+Received: from frontend2 ([10.202.2.161])
+	by compute1.internal (MEProxy); Thu, 08 Sep 2016 07:22:03 -0400
+DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; d=
+	messagingengine.com; h=content-transfer-encoding:content-type
+	:date:from:in-reply-to:message-id:mime-version:references
+	:subject:to:x-sasl-enc:x-sasl-enc; s=smtpout; bh=nSK5fVJJ8RhxUuU
+	1esIx+Yygr2M=; b=M4vlz2xwJmTTmD1Rr8rug5t0spexGdbfqAY0/yoiUiCxeLv
+	+epWt4Vn6hss7tb+Uf3QCAsgy5uPr9O1PSfyf6+lvPwHJr8F58OFO44CUZnD4qif
+	9lAaUrOqwhZjvtNDU2SedDb2aJR287TKqgxVbXa8Ld1D4qMYQzrvJ3e1SB8E=
+X-Sasl-enc: GzB+Df0jG2Rc/GQ855SwdScZjPzynHPVswSGK5Qxx9tY 1473333723
+Received: from laptop (a88-113-211-72.elisa-laajakaista.fi [88.113.211.72])
+	by mail.messagingengine.com (Postfix) with ESMTPA id 5AF36CCE8B
+	for <openembedded-core@lists.openembedded.org>;
+	Thu,  8 Sep 2016 07:22:03 -0400 (EDT)
+Message-ID: <1473333722.3099.33.camel@iki.fi>
+From: Tanu Kaskinen <tanuk@iki.fi>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 08 Sep 2016 14:22:02 +0300
+In-Reply-To: <57D10664.3050007@windriver.com>
+References: <cover.1473240119.git.Qi.Chen@windriver.com>
+	<72f9c03cf7bb25482acc9c40b775a4f294e772b6.1473240119.git.Qi.Chen@windriver.com>
+	<CAEGpDuYdSBJd3TyysNe4aCniRV3izLrs68jW4-D58sQJ+84+AA@mail.gmail.com>
+	<57D10664.3050007@windriver.com>
+X-Mailer: Evolution 3.20.5-1 
+Mime-Version: 1.0
+Subject: Re: [PATCH 3/3] pulseaudio: fix to manage user services corretly
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,42 +46,87 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 08 Sep 2016 11:02:01 -0000
-Content-Type: multipart/alternative; boundary=001a114a967a920cc7053bfcf594
+X-List-Received-Date: Thu, 08 Sep 2016 11:22:04 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
---001a114a967a920cc7053bfcf594
-Content-Type: text/plain; charset=UTF-8
+On Thu, 2016-09-08 at 14:34 +0800, ChenQi wrote:
+> On 09/07/2016 06:29 PM, Pau Espin Pedrol wrote:
+> > 
+> > 
+> > 
+> > Pau Espin Pedrol
+> > 
+> > 2016-09-07 11:22 GMT+02:00 Chen Qi <Qi.Chen@windriver.com 
+> > <mailto:Qi.Chen@windriver.com>>:
+> > 
+> >     Make use of the new SYSTEMD_USER_SERVICE variable added in
+> >     systemd.bbclass
+> >     to manage user services in pulseaudio-server package.
+> > 
+> >     Signed-off-by: Chen Qi <Qi.Chen@windriver.com
+> >     <mailto:Qi.Chen@windriver.com>>
+> >     ---
+> >      meta/recipes-multimedia/pulseaudio/pulseaudio.inc | 4 ++--
+> >      1 file changed, 2 insertions(+), 2 deletions(-)
+> > 
+> >     diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
+> >     b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
+> >     index 6ed79ef..f3754d7 100644
+> >     --- a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
+> >     +++ b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
+> >     @@ -124,8 +124,8 @@ FILES_${PN}-conf = "${sysconfdir}"
+> >      FILES_${PN}-bin +=
+> >     "${sysconfdir}/default/volatiles/volatiles.04_pulse"
+> >      FILES_${PN}-server = "${bindir}/pulseaudio ${bindir}/start-*
+> >     ${sysconfdir} ${bindir}/pactl */udev/rules.d/*.rules
+> >     */*/udev/rules.d/*.rules ${systemd_user_unitdir}/*"
+> > 
+> >     -#SYSTEMD_PACKAGES = "${PN}-server"
+> >     -SYSTEMD_SERVICE_${PN}-server = "pulseaudio.service"
+> >     +SYSTEMD_PACKAGES = "${PN}-server"
+> >     +SYSTEMD_USER_SERVICE_${PN}-server = "pulseaudio.service
+> >     pulseaudio.socket"
+> > 
+> > I think specifying "pulseaudio.socket" for 
+> > SYSTEMD_USER_SERVICE_${PN}-server should be enough, systemd.bbclass is 
+> > going to add the .service file afair.
+> 
+> Add both:
+> chenqi@pek-hostel-deb01:~/poky/build-systemd [1] $ ls 
+> tmp/work/qemux86_64-poky-linux/core-image-minimal/1.0-r0/rootfs/etc/systemd/user
+> default.target.wants  sockets.target.wants
+> 
+> Add pulseaudio.socket:
+> chenqi@pek-hostel-deb01:~/poky/build-systemd [1] $ ls 
+> tmp/work/qemux86_64-poky-linux/core-image-minimal/1.0-r0/rootfs/etc/systemd/user
+> sockets.target.wants
+> 
+> They have different results.
+> I don't know a lot about pulseaudio. Can you confirm that 
+> pulseaudio.socket is enough?
 
-On 8 September 2016 at 02:26, Edwin Plauchu <
-edwin.plauchu.camacho@linux.intel.com> wrote:
+If I understood correctly, Pau's argument was that there would be no
+difference, which doesn't seem to be the case. However, if
+pulseaudio.service isn't included in default.target.wants, that
+shouldn't be a big problem, because socket activation will anyway start
+the service when needed. On the other hand, I don't
+think SYSTEMD_USER_SERVICE is intended to be used for controlling which
+units to enable - it looks more like a variable that should contain all
+units contained in the package. If my understanding is correct, you
+should list both units in the variable.
 
-> When trying to re-test smart rpm tests. A fail arises
-> due to a linux user previously created upon the image.
-> W've added a few lines to delete such user and his home dir
-> when finishing test.
->
+The distributions that I've seen to use systemd to manage pulseaudio
+only enable pulseaudio.socket, so that socket activation is used rather
+than starting pulseaudio automatically as part of the user session. I
+don't know if OE supports that - it looks like there's only a toggle to
+enable all units or none. Other distributions also patch client.conf to
+disable pulseaudio's own autospawning mechanism, since it's redundant
+when using socket activation. Leaving autospawning enabled shouldn't
+break anything in normal use, but it can cause some confusing behaviour
+if the user tries to manually disable automatic pulseaudio starting by
+disabling the systemd units.
 
-Also as part of a belt-and-brances approach the test should not create a
-new user if it already exists.
+-- 
+Tanu
 
-Ross
-
---001a114a967a920cc7053bfcf594
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 8 September 2016 at 02:26, Edwin Plauchu <span dir=3D"ltr">&lt;<a href=
-=3D"mailto:edwin.plauchu.camacho@linux.intel.com" target=3D"_blank">edwin.p=
-lauchu.camacho@linux.intel.com</a>&gt;</span> wrote:<br><blockquote class=
-=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padd=
-ing-left:1ex"><div id=3D":30d" class=3D"a3s aXjCH m157076699ff3e4f4">When t=
-rying to re-test smart rpm tests. A fail arises<br>
-due to a linux user previously created upon the image.<br>
-W&#39;ve added a few lines to delete such user and his home dir<br>
-when finishing test.</div></blockquote></div><br>Also as part of a belt-and=
--brances approach the test should not create a new user if it already exist=
-s.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ros=
-s</div></div>
-
---001a114a967a920cc7053bfcf594--
