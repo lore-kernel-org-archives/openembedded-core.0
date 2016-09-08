@@ -1,46 +1,46 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pf0-f195.google.com (mail-pf0-f195.google.com
-	[209.85.192.195])
-	by mail.openembedded.org (Postfix) with ESMTP id F08476080F
+Return-Path: <ross.burton@intel.com>
+Received: from mail-it0-f52.google.com (mail-it0-f52.google.com
+	[209.85.214.52])
+	by mail.openembedded.org (Postfix) with ESMTP id E53036080F
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  8 Sep 2016 15:56:13 +0000 (UTC)
-Received: by mail-pf0-f195.google.com with SMTP id 128so2684956pfb.0
+	Thu,  8 Sep 2016 16:04:46 +0000 (UTC)
+Received: by mail-it0-f52.google.com with SMTP id i184so265444604itf.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 08 Sep 2016 08:56:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:subject:date:message-id;
-	bh=7V/UizpGctju6fhDdBWF1hI3/S3K2kpI6FwklxIRVoE=;
-	b=k5vxi0oNVfQBCKoiUTmaDx0F1+tKnMobPaOnMgFoKPEgMGKQtRlPDPHB5Nnyvu++yW
-	IOt56fx9tUNXAu/YXgJNe68ULSUMfmJACjs/AwWP/7MKo+KeBzZqpb8dM//QP52knnMR
-	5qPeK8Pa51BUXXAT+Ub3C9OuqOuAxNG6TPqIy+n/LzO8hAJDtBRYueryHnpgdZt97C8v
-	sKCNK1olJeAspkRAGs+Nlh5lUqPke5+/Dd0uFyFKvjQAHY1LHbI89VhYJEXxu1yL6AsL
-	8iBjuQwJibZfnXK3xdDxCTX+gARTGy3UsaUzARa/GwtdqoIiZyK+heHujCL3Qa9NuUtb
-	XA8g==
+	Thu, 08 Sep 2016 09:04:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=KDJWoewWlgXQ2RNjhsSe1whfu+Pzh92fR4mCLszkYxY=;
+	b=wb9ChUbhNYuaKPOoTTzhkP/x4laqIm4FEA5boGjAfZmXczt0eYvCgGElbGxtBEBd+Y
+	qh6UbGzXBWu0zzix0aFYZ9wEsrBTz56bwXpHtfLMobUQyH+59ukusEyUaTQvJCIsmoYo
+	q1EWvNljz9Y6a6eFC74+HNkDj1QUmHF91XcbjylnQmhtvz0/NmLRHrzSHfeJgxwSpuPs
+	jRQTpfJHwu31k31DC32Ukwc/NlgDt+ATDZbiM8JoRzH3aBOsWlK5t9yDOAB89N8M70xK
+	hliiZvnXQZn92WclFijyZylInfsNPR/MlT7IgP0kRPipulVj2sfpjktooQpl/uwnlwDI
+	Pb5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=7V/UizpGctju6fhDdBWF1hI3/S3K2kpI6FwklxIRVoE=;
-	b=bL1eq18qLLbS5vNfen3QJfxCASSGDXd3ZMCPc7EVgwbzE7uUwiZlfaEvADqb4eZxpJ
-	r5zK447pUQwrgOQ3uCC0cF9KBW6u7IKpDWZlSIjrfpKlgsrgcLn8TBpss8Kl4CBshp1A
-	2upu5hU4I7D7omHHa0zJZagclzleFZcW987gFetW8FdAnbAKqtAltCBW082Kn+jvzUUO
-	Jjrc1nIVB+AslO+Bw/Em18amxbWsesWhEzLKddz6qaVgL7/+VDEBVD571DTmhr72AUyl
-	fmilFUeliSaCY5Bvb5MfquWiOO8j68OrT0FrZWWww9OtfRWa+XgHBeT2k3sseDct01TA
-	3dRw==
-X-Gm-Message-State: AE9vXwOEBtIN6V5e79IVwYkW9ULyBW2XNaq+b3A7ngr6YJimefEuA9rZukpJbOZWE4TpPA==
-X-Received: by 10.98.200.81 with SMTP id z78mr676055pff.2.1473350174360;
-	Thu, 08 Sep 2016 08:56:14 -0700 (PDT)
-Received: from akuster-ThinkPad-X240.mvista.com
-	(50-233-148-156-static.hfc.comcastbusiness.net. [50.233.148.156])
-	by smtp.gmail.com with ESMTPSA id 9sm57264687pfo.74.2016.09.08.08.56.13
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 08 Sep 2016 08:56:13 -0700 (PDT)
-From: Armin Kuster <akuster808@gmail.com>
-To: akuster@mvista.com,
-	openembedded-core@lists.openembedded.org
-Date: Thu,  8 Sep 2016 08:55:44 -0700
-Message-Id: <cover.1473349917.git.akuster808@gmail.com>
-X-Mailer: git-send-email 2.7.4
-Subject: [PATCH 00/26] Krogoth-next: stagged changes
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=KDJWoewWlgXQ2RNjhsSe1whfu+Pzh92fR4mCLszkYxY=;
+	b=iCROjBXLOQsymFLjKK8u6x3ocgIsfB92Un7nc4AYWcPUNu3Eld2pqAV+WyLNQK/PZO
+	xoXhLaysaelr+KVOtnBk5DPy4B69RXMy+YVXWtXQ7HA71LMpJD0Pm1C+9Wdl0DsIQOK9
+	iD6YjvK9rDBCbWeoxrwI/ClWVx9RuJEAgpz5kGoJJA0LD2oao7820XHgoGvMqfxE04vC
+	NZ+WfTKDpDo5iTCRLe3gsrq6Ncz+xpzAxpQ11eTOYlFnHJF6/lza+wx6kvEbdrcC07bY
+	Qk61WC1/nzbL3R8mgqK3d3oNdGMit+8NxfiXO5ExKBXtAJYTQAvSkAY424DRYJ2HCH8+
+	efRg==
+X-Gm-Message-State: AE9vXwM1HXIGTV9Z8GyE2qnwXYkpxkoOnw46RUub8It2xHpD3DrYkO4JIPyT4qlZJFOeiZsV45+WFURJPO+WS6oR
+X-Received: by 10.36.3.76 with SMTP id e73mr17027945ite.42.1473350687205; Thu,
+	08 Sep 2016 09:04:47 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.107.18.17 with HTTP; Thu, 8 Sep 2016 09:04:26 -0700 (PDT)
+In-Reply-To: <1473349614-5497-1-git-send-email-maxin.john@intel.com>
+References: <1473349614-5497-1-git-send-email-maxin.john@intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 8 Sep 2016 17:04:26 +0100
+Message-ID: <CAJTo0LZOm52gsC7LgcJkdDA6Hsq3V3n29o4n8vqPvwW+DhjUDw@mail.gmail.com>
+To: "Maxin B. John" <maxin.john@intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/4] gstreamer1.0-omx: provide RECIPE_NO_UPDATE_REASON
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,136 +53,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 08 Sep 2016 15:56:15 -0000
+X-List-Received-Date: Thu, 08 Sep 2016 16:04:47 -0000
+Content-Type: multipart/alternative; boundary=001a114199405787c4053c013041
 
-The following changes are being considered for krogoth-next.
-If I am missing something, please let me know.
+--001a114199405787c4053c013041
+Content-Type: text/plain; charset=UTF-8
 
-The following changes since commit aad7166704021d82ad3a5ec468552f8f10360d41:
+On 8 September 2016 at 16:46, Maxin B. John <maxin.john@intel.com> wrote:
 
-  curl: security fix for CVE-2016-5421 (2016-09-02 08:48:29 +0100)
+> +RECIPE_NO_UPDATE_REASON = "Version 1.9.2 requires gstreamer-1.0 >= 1.9.2"
+>
 
-are available in the git repository at:
+Are they adopting the GStreamer versioning style, so we should inherit
+upstream-version-is-even instead?
 
-  http://git.yoctoproject.org/git/poky-contrib akuster/krogoth-next
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=akuster/krogoth-next
+Ross
 
-Alejandro Hernandez (1):
-  initramfs-live-boot: Make sure we kill udev before switching root when
-    live booting
+--001a114199405787c4053c013041
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Armin Kuster (2):
-  tiff: Security fix CVE-2015-8781
-  tiff: Security fix CVE-2015-8784
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 8 September 2016 at 16:46, Maxin B. John <span dir=3D"ltr">&lt;<a href=
+=3D"mailto:maxin.john@intel.com" target=3D"_blank">maxin.john@intel.com</a>=
+&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0=
+ 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":3vf" class=
+=3D"a3s aXjCH m1570a7b7172bec0e">+RECIPE_NO_UPDATE_REASON =3D &quot;Version=
+ 1.9.2 requires gstreamer-1.0 &gt;=3D 1.9.2&quot;<br></div></blockquote><di=
+v><br></div><div>Are they adopting the GStreamer versioning style, so we sh=
+ould inherit upstream-version-is-even instead?</div><div><br></div><div>Ros=
+s=C2=A0</div></div><br></div></div>
 
-Henry Bruce (1):
-  npm: npm.bbclass now adds nodejs to RDEPENDS
-
-Jackie Huang (1):
-  e2fsprogs: Fix missing check for permission denied.
-
-Jacob Kroon (1):
-  bitbake.conf/toolchain-scripts.bbclass: Remove debug prefix mappings
-    in SDK
-
-Jeremy Puhlman (2):
-  Fix random python backtrace in mutlilib handling code.
-  bitbake.conf: set READELF for cross compilation
-
-Jonathan Liu (1):
-  meta/classes: fix bb.build.FuncFailed typos
-
-Khem Raj (3):
-  python{3}-numpy: Predefine of sizeof off_t on mips/mipsel/ppc
-  systemd: Create missing sysusers offline
-  gdb: Cache gnu gettext config vars for musl builds
-
-Markus Lehtonen (1):
-  base.bbclass wipe ${S} before unpacking source
-
-Pascal Bach (1):
-  gcc, qemuppc: Explicitly disable forcing SPE flags for 4.9
-
-Reinette Chatre (1):
-  binutils: advance SRCREV to obtain versioned symbols
-
-Richard Purdie (2):
-  busybox: Backport makefile fix from upstream
-  busybox: Add parallel make fix
-
-Ross Burton (1):
-  cml1: fix tasks after default [dirs] changed
-
-Sona Sarmadi (2):
-  sudo: CVE-2015-8239
-  curl: security fix for CVE-2016-7141
-
-Stefan Agner (1):
-  busybox: Fix busybox-init on non-tty consoles
-
-Stephano Cetola (1):
-  systemd: allow add users as a rootfs postprocess cmd
-
-Tanu Kaskinen (1):
-  pulseaudio: fix crash when disconnecting bluetooth devices
-
-Yi Zhao (3):
-  tiff: Security fix CVE-2016-3186
-  tiff: Security fix CVE-2016-5321
-  tiff: Security fix CVE-2016-5323
-
- meta/classes/base.bbclass                          |  18 +-
- meta/classes/cml1.bbclass                          |   2 +
- meta/classes/grub-efi.bbclass                      |   2 +-
- meta/classes/gummiboot.bbclass                     |   4 +-
- meta/classes/multilib_global.bbclass               |   3 +-
- meta/classes/npm.bbclass                           |   1 +
- meta/classes/rootfs-postcommands.bbclass           |  43 +-
- meta/classes/syslinux.bbclass                      |   2 +-
- meta/classes/toolchain-scripts.bbclass             |   3 +
- meta/conf/bitbake.conf                             |   9 +-
- meta/recipes-core/busybox/busybox.inc              |   4 +-
- .../busybox/busybox/makefile-fix-backport.patch    |  40 ++
- .../busybox/busybox/parallel-make-fix.patch        |  65 ++
- meta/recipes-core/busybox/busybox_1.24.1.bb        |   2 +
- meta/recipes-core/initrdscripts/files/init-live.sh |   4 +-
- meta/recipes-core/systemd/systemd_229.bb           |   8 +-
- meta/recipes-devtools/binutils/binutils-2.26.inc   |   2 +-
- ...s-fix-missing-check-for-permission-denied.patch |  32 +
- meta/recipes-devtools/e2fsprogs/e2fsprogs_git.bb   |   3 +
- ...AltiVec-generation-on-powepc-linux-target.patch |  11 +
- meta/recipes-devtools/gdb/gdb_7.10.1.bb            |   5 +
- .../python/python-numpy/arm/numpyconfig.h          |   1 +
- .../python/python-numpy/mips/_numpyconfig.h        |   1 +
- .../python/python-numpy/powerpc/_numpyconfig.h     |   1 +
- .../sudo/sudo/CVE-2015-8239-1.patch                | 699 +++++++++++++++++++++
- .../sudo/sudo/CVE-2015-8239-2.patch                |  45 ++
- meta/recipes-extended/sudo/sudo_1.8.15.bb          |   2 +
- .../libtiff/files/CVE-2015-8781.patch              | 195 ++++++
- .../libtiff/files/CVE-2015-8784.patch              |  73 +++
- .../libtiff/files/CVE-2016-3186.patch              |  24 +
- .../libtiff/files/CVE-2016-5321.patch              |  49 ++
- .../libtiff/files/CVE-2016-5323.patch              | 107 ++++
- meta/recipes-multimedia/libtiff/tiff_4.0.6.bb      |   5 +
- ...th-don-t-create-the-HSP-HFP-profile-twice.patch | 343 ++++++++++
- .../pulseaudio/pulseaudio_8.0.bb                   |   1 +
- meta/recipes-support/curl/curl/CVE-2016-7141.patch |  50 ++
- meta/recipes-support/curl/curl_7.47.1.bb           |   1 +
- 37 files changed, 1813 insertions(+), 47 deletions(-)
- create mode 100644 meta/recipes-core/busybox/busybox/makefile-fix-backport.patch
- create mode 100644 meta/recipes-core/busybox/busybox/parallel-make-fix.patch
- create mode 100644 meta/recipes-devtools/e2fsprogs/e2fsprogs/e2fsprogs-fix-missing-check-for-permission-denied.patch
- create mode 100644 meta/recipes-extended/sudo/sudo/CVE-2015-8239-1.patch
- create mode 100644 meta/recipes-extended/sudo/sudo/CVE-2015-8239-2.patch
- create mode 100644 meta/recipes-multimedia/libtiff/files/CVE-2015-8781.patch
- create mode 100644 meta/recipes-multimedia/libtiff/files/CVE-2015-8784.patch
- create mode 100644 meta/recipes-multimedia/libtiff/files/CVE-2016-3186.patch
- create mode 100644 meta/recipes-multimedia/libtiff/files/CVE-2016-5321.patch
- create mode 100644 meta/recipes-multimedia/libtiff/files/CVE-2016-5323.patch
- create mode 100644 meta/recipes-multimedia/pulseaudio/pulseaudio/0001-bluetooth-don-t-create-the-HSP-HFP-profile-twice.patch
- create mode 100644 meta/recipes-support/curl/curl/CVE-2016-7141.patch
-
--- 
-2.7.4
-
-
+--001a114199405787c4053c013041--
