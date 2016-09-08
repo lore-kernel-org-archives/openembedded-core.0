@@ -1,24 +1,24 @@
-Return-Path: <joshua.g.lock@linux.intel.com>
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 3817F77085
+Return-Path: <Bruce.Ashfield@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id E6A2970022
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  7 Sep 2016 22:04:50 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga105.fm.intel.com with ESMTP; 07 Sep 2016 15:04:32 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.30,297,1470726000"; d="scan'208";a="1026549993"
-Received: from jlock-mobl1.ger.corp.intel.com ([10.252.9.194])
-	by orsmga001.jf.intel.com with ESMTP; 07 Sep 2016 15:04:32 -0700
-From: Joshua Lock <joshua.g.lock@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  7 Sep 2016 23:04:25 +0100
-Message-Id: <d92f093e3d264283f6adf85b606b6005dfbf60b5.1473285523.git.joshua.g.lock@intel.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <cover.1473285523.git.joshua.g.lock@intel.com>
-References: <cover.1473285523.git.joshua.g.lock@intel.com>
-In-Reply-To: <cover.1473285523.git.joshua.g.lock@intel.com>
-References: <cover.1473285523.git.joshua.g.lock@intel.com>
-Subject: [PATCH 2/2] runqemu: fixes for when invoked during a bitbake run
+	Thu,  8 Sep 2016 01:08:53 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u8818pmS022083
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
+	Wed, 7 Sep 2016 18:08:51 -0700
+Received: from yow-bashfiel-d4.wrs.com (128.224.56.94) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.248.2; Wed, 7 Sep 2016 18:08:50 -0700
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+To: <richard.purdie@linuxfoundation.org>
+Date: Wed, 7 Sep 2016 21:08:44 -0400
+Message-ID: <cover.1473296553.git.bruce.ashfield@windriver.com>
+X-Mailer: git-send-email 2.5.0
+MIME-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH 0/5] kernel-yocto: consolidated pull request
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,63 +31,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 07 Sep 2016 22:04:50 -0000
+X-List-Received-Date: Thu, 08 Sep 2016 01:08:54 -0000
+Content-Type: text/plain
 
-When runqemu is invoked from a running bitbake instance it will be
-unable to call `bitbake -e` due to the lock held by the calling
-bitbake instance.
+Hi all,
 
-Our test code sets an OE_TMPDIR environment variable from which we
-can infer/guess paths. Add code to do so when self.bitbake_e can't
-be set, much as the sh version of runqemu did.
+Here are some fixes for the minor issues cased by the kern-tools update
+and the recent 4.8 kernel introduction.
 
-[YOCTO #10240]
+RP reported a build and footprint time increase for 4.8, that was due to
+some missing kernel meta data that (re)enabled DEBUG and for the standard
+kernel. commit [kernel-yocto: restore missing configuration meta data]
+deals with that issue.
 
-Signed-off-by: Joshua Lock <joshua.g.lock@intel.com>
----
- scripts/runqemu | 28 ++++++++++++++++++++++------
- 1 file changed, 22 insertions(+), 6 deletions(-)
+The commits:
 
-diff --git a/scripts/runqemu b/scripts/runqemu
-index cbc5cc6..7919564 100755
---- a/scripts/runqemu
-+++ b/scripts/runqemu
-@@ -570,12 +570,28 @@ class BaseConfig(object):
-         if not havenative:
-             if not self.bitbake_e:
-                 self.load_bitbake_env()
--            native_vars = ['STAGING_DIR_NATIVE', 'STAGING_BINDIR_NATIVE']
--            for nv in native_vars:
--                s = re.search('^%s="(.*)"' % nv, self.bitbake_e, re.M)
--                if s and s.group(1) != self.get(nv):
--                    logger.info('Overriding conf file setting of %s to %s from Bitbake environment' % (nv, s.group(1)))
--                    self.set(nv, s.group(1))
-+
-+            if self.bitbake_e:
-+                native_vars = ['STAGING_DIR_NATIVE', 'STAGING_BINDIR_NATIVE']
-+                for nv in native_vars:
-+                    s = re.search('^%s="(.*)"' % nv, self.bitbake_e, re.M)
-+                    if s and s.group(1) != self.get(nv):
-+                        logger.info('Overriding conf file setting of %s to %s from Bitbake environment' % (nv, s.group(1)))
-+                        self.set(nv, s.group(1))
-+            else:
-+                # when we're invoked from a running bitbake instance we won't
-+                # be able to call `bitbake -e` but should have OE_TMPDIR set in
-+                # the environment and can guess paths based on it
-+                tmpdir = os.environ.get('OE_TMPDIR', None)
-+                if tmpdir:
-+                    logger.info('Setting STAGING_DIR_NATIVE and STAGING_BINDIR_NATIVE relative to OE_TMPDIR (%s)' % tmpdir)
-+                    hostos, _, _, _, machine = os.uname()
-+                    buildsys = '%s-%s' % (machine, hostos.lower())
-+                    staging_dir_native = '%s/sysroots/%s' % (tmpdir, buildsys)
-+                    self.set('STAGING_DIR_NATIVE', staging_dir_native)
-+                    # we have to assume that STAGING_BINDIR_NATIVE is at usr/bin
-+                    staging_bindir_native = '%s/usr/bin' % staging_dir_native
-+                    self.set('STAGING_BINDIR_NATIVE', staging_bindir_native)
- 
-     def print_config(self):
-         logger.info('Continuing with the following parameters:\n')
+  kernel-yocto: restore kernel-meta data detection for SRC_URI elements
+  kernel-yocto: allow --allnoconfig and --alldefconfig as KCONFIG_MODES
+
+Fix some issues with the compatibility of existing layers and config
+fragment users. I was luckily able to fix the issues without bringing
+the complexity that I was removing.
+
+There's a small change to uvesafb to have a longer timeout on some
+machines (or virtual machines) to avoid issues when performing QA
+testing.
+
+And finally, we have the 4.8-rc5 content update. I'll do one of these
+a week until we get to the full 4.8 release. This can be pended for
+the M3 build, but it did pass my local sanity testing.
+
+Cheers,
+
+Bruce
+
+The following changes since commit ce4ea7a730a7bec257218533b7c1fcb31134e25b:
+
+  recipetool: create: avoid extra blank lines in output recipe (2016-09-08 00:36:49 +0100)
+
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib zedd/kernel
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
+
+Bruce Ashfield (5):
+  kernel-yocto: restore kernel-meta data detection for SRC_URI elements
+  kernel-yocto: allow --allnoconfig and --alldefconfig as KCONFIG_MODES
+  kernel-yocto: restore missing configuration meta data
+  linux-yocto: update to 4.8-rc5
+  linux-yocto/4.4/4.8: uvesafb: provide option to specify timeout for
+    task completion
+
+ meta/classes/kernel-yocto.bbclass                 | 15 ++++++++++-----
+ meta/recipes-kernel/linux/linux-yocto-rt_4.4.bb   |  4 ++--
+ meta/recipes-kernel/linux/linux-yocto-rt_4.8.bb   |  4 ++--
+ meta/recipes-kernel/linux/linux-yocto-tiny_4.4.bb |  4 ++--
+ meta/recipes-kernel/linux/linux-yocto-tiny_4.8.bb |  4 ++--
+ meta/recipes-kernel/linux/linux-yocto_4.4.bb      | 18 +++++++++---------
+ meta/recipes-kernel/linux/linux-yocto_4.8.bb      | 18 +++++++++---------
+ 7 files changed, 36 insertions(+), 31 deletions(-)
+
 -- 
-2.7.4
+2.5.0
 
 
