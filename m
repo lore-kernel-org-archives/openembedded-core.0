@@ -1,25 +1,49 @@
-Return-Path: <randy.e.witt@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id B356C60621
+Return-Path: <kergoth@gmail.com>
+Received: from mail-it0-f51.google.com (mail-it0-f51.google.com
+	[209.85.214.51])
+	by mail.openembedded.org (Postfix) with ESMTP id 0242C60621
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  8 Sep 2016 18:23:54 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by fmsmga101.fm.intel.com with ESMTP; 08 Sep 2016 11:23:54 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.30,301,1470726000"; d="scan'208";a="1047469115"
-Received: from bitbang.jf.intel.com (HELO [10.7.199.68]) ([10.7.199.68])
-	by orsmga002.jf.intel.com with ESMTP; 08 Sep 2016 11:23:54 -0700
-To: Elizabeth 'pidge' Flanagan <pidge@toganlabs.com>,
-	openembedded-core@lists.openembedded.org
-References: <20160908092601.7588-1-pidge@toganlabs.com>
-From: Randy Witt <randy.e.witt@linux.intel.com>
-Message-ID: <55a75835-a8ab-a020-1c7e-2cbd5231fa2f@linux.intel.com>
-Date: Thu, 8 Sep 2016 11:23:54 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.2.0
+	Thu,  8 Sep 2016 18:29:40 +0000 (UTC)
+Received: by mail-it0-f51.google.com with SMTP id i184so3360502itf.0
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 08 Sep 2016 11:29:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:from:date:message-id
+	:subject:to:cc;
+	bh=hCNrOcKgfXmf3BR7JsO8Qw5OuCwAauvoyRVLVJPEy8A=;
+	b=J5IggfZb3K9NBvinJthqeBnSOkVHbqdgT0+dJMrZeDmqs9VLi4GHjz5Wd4TaYOeTnO
+	ootAVm6trJ9N9lwVSF9va11SgVVyX5mqhiIfmUljkVzwMUUqF/Jb6r3xBx9wdvbAvJoV
+	mDkGvWtq3WAv7TDUhdAQ15cb8VsAYDmDDjl3E5F6qofvatLWR7EwwY5G7rEskiupYuG5
+	9INs3VYZ/nh/d/nbtuEkPrMS0jcKybtcLGS69ktAjjyrZavhF0VPoNfsjvncjO9iFUY/
+	PQv5hzbrgF2B+nNG3g+GzQl5JehQEJHZZVFtA+ewtVqNE9Esq31d64yQoz04HLlFEKzq
+	Bmlg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:sender:in-reply-to:references:from
+	:date:message-id:subject:to:cc;
+	bh=hCNrOcKgfXmf3BR7JsO8Qw5OuCwAauvoyRVLVJPEy8A=;
+	b=eYYGLukzShd7VYVgl3LcY5k6GEtL7lBWDBqny6M6WvvxE9Sd2yBcJGk2RUeTpAO3pL
+	zJ4zzEsDC5iTBKXE/szKmmXU/Ng1idpfVSmeyyDKwkDhoUfhhuh2j0fuCYGVTkhYiQY3
+	IQSNze3vkOS/D+8+zdgkVnM8l/Ji6WoavwLdcq2G0CfjGoUQVdLz3i4qbvKp47sFZogI
+	Fudg9ohTNj/Z3RBveqPXwMtBIm7dlQy15jC37119LW5P+BJ4daNfcpLOrsyHAQWhDe1O
+	+hK1L3zPMU9vMMAA+Y5vuguH+627W3j4s9V+WBWgnSvbS7sZ7JODInYdQbUxnyA9WBkN
+	OKVQ==
+X-Gm-Message-State: AE9vXwN9dHX86HSjO93DCbHeBKn7db/qot36+wNCy20tKgQcFNlmRkzEDRNOI9ZlrquQqAZHAozj5Qg9Zf32wA==
+X-Received: by 10.157.45.23 with SMTP id v23mr1207080ota.167.1473359381139;
+	Thu, 08 Sep 2016 11:29:41 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20160908092601.7588-1-pidge@toganlabs.com>
-Subject: Re: [RFC][PATCH] report-error.bbclass: Add support for autosending
+Sender: kergoth@gmail.com
+Received: by 10.157.13.194 with HTTP; Thu, 8 Sep 2016 11:29:20 -0700 (PDT)
+In-Reply-To: <1473353924-21627-1-git-send-email-ross.burton@intel.com>
+References: <1473353924-21627-1-git-send-email-ross.burton@intel.com>
+From: Christopher Larson <clarson@kergoth.com>
+Date: Thu, 8 Sep 2016 11:29:20 -0700
+X-Google-Sender-Auth: U7P3qZM-_1MpTMsvLYac17la6Ig
+Message-ID: <CABcZAN=EN4rHOX=Mt-4HEWrYf3JJzGB6eAHKEyCW+6OUBKagPA@mail.gmail.com>
+To: Ross Burton <ross.burton@intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/2] scripts: add tool to scan for bashisms recipe shell scripts
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,91 +56,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 08 Sep 2016 18:23:54 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 08 Sep 2016 18:29:41 -0000
+Content-Type: multipart/alternative; boundary=001a113df5d08a1855053c03360f
 
-On 09/08/2016 02:26 AM, Elizabeth 'pidge' Flanagan wrote:
-> This commit pulls and extends the functionality of .oe-error-report into
-> local.conf. It maintains the functionality of .oe-error-report.
->
-> It also enables report-error to automatically send error reports to a
-> specified error report server. This patch enables infrastructure ppl to
-> set development teams up so that we can gather error metrics automatically.
->
-> This relies on a new set of variables:
->
-> REPORTERROR[autosend]="yes|no|ask"
-> REPORTERROR[user]=username
-> REPORTERROR[email]=email
-> REPORTERROR[server]=error-report-web instance
->
-> For autosend yes and no are pretty self explainatory. ask does not pass
-> the -y flag to send-error-report, thus enabling the end user to review
-> the report prior to submission.
->
-> Signed-off-by: Elizabeth 'pidge' Flanagan <pidge@toganlabs.com>
-> ---
->  meta/classes/report-error.bbclass | 41 +++++++++++++++++++++++++++++++++++++--
->  1 file changed, 39 insertions(+), 2 deletions(-)
->
-> diff --git a/meta/classes/report-error.bbclass b/meta/classes/report-error.bbclass
-> index 82b5bcd..909adf0 100644
-> --- a/meta/classes/report-error.bbclass
-> +++ b/meta/classes/report-error.bbclass
-> @@ -85,10 +85,47 @@ python errorreport_handler () {
->              bb.utils.unlockfile(lock)
->              failures = jsondata['failures']
->              if(len(failures) > 0):
-> +
->                  filename = "error_report_" + e.data.getVar("BUILDNAME", True)+".txt"
->                  datafile = errorreport_savedata(e, jsondata, filename)
-> -                bb.note("The errors for this build are stored in %s\nYou can send the errors to a reports server by running:\n  send-error-report %s [-s server]" % (datafile, datafile))
-> -                bb.note("The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.")
-> +
-> +                cmd_s = "send-error-report %s" % datafile
-> +                response_s = "The errors for this build are stored in %s\n" % datafile
-> +                sendit = False
-> +
-> +                autosend = e.data.getVarFlag("REPORTERROR","autosend")
-> +                user = e.data.getVarFlag("REPORTERROR","user")
-> +                email = e.data.getVarFlag("REPORTERROR","email")
-> +                server = e.data.getVarFlag("REPORTERROR","server")
-> +
-> +                if user is not None:
-> +                    cmd_s += " -n %s" % user
-> +                if email is not None:
-> +                    cmd_s += " -e %s" % email
-> +                if server is not None:
-> +                    cmd_s += " -s %s" % server
-> +
-> +                if autosend is not None:
-> +                    if autosend == "yes":
-> +                        response_s += "The errors for this build are set to automatically be sent.\n"
-> +                        cmd_s += " -y"
-> +                        sendit = True
-> +                    elif autosend == "ask":
-> +                        response_s += "The errors for this build are set to automatically be sent.\n"
-> +                        sendit = True
-> +                elif autosend is None:
-> +                        response_s += "You can send the errors to a reports server by running:\n  %s\n" % cmd_s
-> +                elif e.data.getVarFlags('REPORTERROR') is None:
+--001a113df5d08a1855053c03360f
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-The last elif will never be executed.
+On Thu, Sep 8, 2016 at 9:58 AM, Ross Burton <ross.burton@intel.com> wrote:
 
-> +                        response_s += "You can send the errors to a reports server by running:\n  %s [-s server]\n" % cmd_s
-> +                        response_s += "The contents of these logs will be posted in public if you use the above command with the default server.\n \
-> +                             Please ensure you remove any identifying or proprietary information when prompted before sending.\n"
+> +    fn =3D tempfile.NamedTemporaryFile(mode=3D"w+t")
+> +    fn.write(script)
+> +    fn.flush()
 > +
-> +                bb.note(response_s)
-> +
-> +                if sendit == True:
-> +                    import shlex, subprocess
-> +                    args = shlex.split(cmd_s)
-> +                    subprocess.call(args)
->  }
->
->  addhandler errorreport_handler
+> +    try:
+> +        subprocess.check_output(("checkbashisms.pl", fn.name),
+> universal_newlines=3DTrue, stderr=3Dsubprocess.STDOUT)
+> +        # No bashisms, so just return
+> +        return
 >
 
+Afaik, you should be using =E2=80=98with=E2=80=99 to ensure the temporary f=
+iles are cleaned
+up after use.
+--=20
+Christopher Larson
+clarson at kergoth dot com
+Founder - BitBake, OpenEmbedded, OpenZaurus
+Maintainer - Tslib
+Senior Software Engineer, Mentor Graphics
 
+--001a113df5d08a1855053c03360f
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On Thu, Sep 8, 2016 at 9:58 AM, Ross Burton <span dir=3D"ltr">&lt;<a href=
+=3D"mailto:ross.burton@intel.com" target=3D"_blank">ross.burton@intel.com</=
+a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0=
+ 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":47h" cla=
+ss=3D"a3s aXjCH m1570abd0702dda1a">+=C2=A0 =C2=A0 fn =3D tempfile.NamedTemp=
+oraryFile(<wbr>mode=3D&quot;w+t&quot;)<br>
++=C2=A0 =C2=A0 fn.write(script)<br>
++=C2=A0 =C2=A0 fn.flush()<br>
++<br>
++=C2=A0 =C2=A0 try:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 subprocess.check_output((&quot;<a href=3D"http=
+://checkbashisms.pl" rel=3D"noreferrer" target=3D"_blank">chec<wbr>kbashism=
+s.pl</a>&quot;, <a href=3D"http://fn.name" rel=3D"noreferrer" target=3D"_bl=
+ank">fn.name</a>), universal_newlines=3DTrue, stderr=3Dsubprocess.STDOUT)<b=
+r>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 # No bashisms, so just return<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 return</div></blockquote></div><br>Afaik, you =
+should be using =E2=80=98with=E2=80=99 to ensure the temporary files are cl=
+eaned up after use.<br>-- <br><div class=3D"gmail_signature" data-smartmail=
+=3D"gmail_signature">Christopher Larson<br>clarson at kergoth dot com<br>Fo=
+under - BitBake, OpenEmbedded, OpenZaurus<br>Maintainer - Tslib<br>Senior S=
+oftware Engineer, Mentor Graphics</div>
+</div></div>
+
+--001a113df5d08a1855053c03360f--
