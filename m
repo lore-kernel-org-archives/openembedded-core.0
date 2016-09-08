@@ -1,24 +1,48 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 2B72A6FFFE
+Return-Path: <ross.burton@intel.com>
+Received: from mail-oi0-f44.google.com (mail-oi0-f44.google.com
+	[209.85.218.44])
+	by mail.openembedded.org (Postfix) with ESMTP id 5E93F6FFF7
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  8 Sep 2016 18:48:36 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u88Imawc014658
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 8 Sep 2016 11:48:36 -0700 (PDT)
-Received: from yow-bashfiel-d4.wrs.com (128.224.56.94) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.248.2; Thu, 8 Sep 2016 11:48:36 -0700
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-To: <richard.purdie@linuxfoundation.org>
-Date: Thu, 8 Sep 2016 14:48:35 -0400
-Message-ID: <1473360515-9879-1-git-send-email-bruce.ashfield@windriver.com>
-X-Mailer: git-send-email 2.5.0
+	Thu,  8 Sep 2016 19:02:37 +0000 (UTC)
+Received: by mail-oi0-f44.google.com with SMTP id x125so31126520oia.3
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 08 Sep 2016 12:02:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=efwH+uVPXB9ofjEvefd5N5MuaUiBPKCtlafZVZtp1a8=;
+	b=SLG2xCNSPsumaHahpLMlmgjVacjH1tsMTYbzYa6+LCA5kYsCki8AybmF2ViVzoJvh7
+	u/6e0ZA47HWZVTIf7KCEjwjWHchM7lzNvi5gCjcTMoJIGXevQZHDmgfHxd8qVn+wAq+C
+	6BgfPvoO9svbnBURUrRf6upV8ebHj8gWw5EqZJmJR9Xp/jlu3k8dyivxg7bxnJ8+hCe4
+	I/x57sduYguJFpF037yUWkXuxvSVDV8M326RQfraEpnqHRZyfU6liuJIBux/EoeeXMi3
+	gngjl+Xv0DDiWPsDYEvh7udUHnfAWFxCYmZ4xZd9JiWscWtuhj0Pum4BVb3eP9jBiaoH
+	4u2w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=efwH+uVPXB9ofjEvefd5N5MuaUiBPKCtlafZVZtp1a8=;
+	b=MpWB9JBJ6OgqLOoRZr3GxBtFa/ajNRnfskh5Z+gIFd2hNz1IRTa9cnF0SLN98Xy8LS
+	Y63+8MuoxILBSZStF4jVIeCJhA7zjj0F4NvT9dCkJENiSXdF/eiAkA2GbdEfWnMzgT6Y
+	XmxohtGmLhDpUFephfdyqtpXkomOIYUWxt9jVClouLfZH+OgdJopT+J0UeCwggaWG93S
+	FmridtPVxx2wGX1oKwe6i6WsKzeGDmrtzRfhDBG6iHu3qvwuIdu5zR0FVNxwVO9idsjd
+	UW97cXxdMSjpVcdRMPbKTAer0akjfoMao4Z3ndK+VwmCfawCtRgs6twHJf6SHkUzLb8+
+	NHIA==
+X-Gm-Message-State: AE9vXwOk/YbfMYt9sLIgmIRyOjE/WLDadtBbEVSDkOM9by3EXKGicEs1VG3/oKDx5Cvr5zOGFlSsoCXnDEXNZgSH
+X-Received: by 10.202.240.134 with SMTP id o128mr1677282oih.166.1473361357802; 
+	Thu, 08 Sep 2016 12:02:37 -0700 (PDT)
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH] linux-yocto: update LINUX_VERSION to -rc5
+Received: by 10.107.18.17 with HTTP; Thu, 8 Sep 2016 12:02:17 -0700 (PDT)
+In-Reply-To: <CABcZAN=EN4rHOX=Mt-4HEWrYf3JJzGB6eAHKEyCW+6OUBKagPA@mail.gmail.com>
+References: <1473353924-21627-1-git-send-email-ross.burton@intel.com>
+	<CABcZAN=EN4rHOX=Mt-4HEWrYf3JJzGB6eAHKEyCW+6OUBKagPA@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 8 Sep 2016 20:02:17 +0100
+Message-ID: <CAJTo0LYdxEY_4T64KwMNPUmjK0E57_M27aJC_X-yngp1aUyxuA@mail.gmail.com>
+To: Christopher Larson <clarson@kergoth.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/2] scripts: add tool to scan for bashisms recipe shell scripts
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,62 +55,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 08 Sep 2016 18:48:37 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 08 Sep 2016 19:02:39 -0000
+Content-Type: multipart/alternative; boundary=94eb2c09630e5baf66053c03ac1d
 
-The SRCREVs were previously updated to -rc5, but the LINUX_VERSION
-was missed. As such, we are building and booting -rc5, but all the
-packaging says -rc4.
+--94eb2c09630e5baf66053c03ac1d
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Worth a quick update while we wait for -rc6
+On 8 September 2016 at 19:29, Christopher Larson <clarson@kergoth.com>
+wrote:
 
-Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
----
- meta/recipes-kernel/linux/linux-yocto-rt_4.8.bb   | 2 +-
- meta/recipes-kernel/linux/linux-yocto-tiny_4.8.bb | 2 +-
- meta/recipes-kernel/linux/linux-yocto_4.8.bb      | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
+> Afaik, you should be using =E2=80=98with=E2=80=99 to ensure the temporary=
+ files are
+> cleaned up after use.
+>
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_4.8.bb b/meta/recipes-kernel/linux/linux-yocto-rt_4.8.bb
-index 84699ef70908..ff726815d2a3 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_4.8.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_4.8.bb
-@@ -17,7 +17,7 @@ SRCREV_meta ?= "25fb74eaaef249519f25e243e7f9bf0cab0e1781"
- SRC_URI = "git://git.yoctoproject.org/linux-yocto-4.8.git;branch=${KBRANCH};name=machine \
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.8;destsuffix=${KMETA}"
- 
--LINUX_VERSION ?= "4.8-rc4"
-+LINUX_VERSION ?= "4.8-rc5"
- 
- PV = "${LINUX_VERSION}+git${SRCPV}"
- 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_4.8.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_4.8.bb
-index 58d3fea6c95d..6f62d22aa4c5 100644
---- a/meta/recipes-kernel/linux/linux-yocto-tiny_4.8.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-tiny_4.8.bb
-@@ -4,7 +4,7 @@ KCONFIG_MODE = "--allnoconfig"
- 
- require recipes-kernel/linux/linux-yocto.inc
- 
--LINUX_VERSION ?= "4.8-rc4"
-+LINUX_VERSION ?= "4.8-rc5"
- 
- KMETA = "kernel-meta"
- KCONF_BSP_AUDIT_LEVEL = "2"
-diff --git a/meta/recipes-kernel/linux/linux-yocto_4.8.bb b/meta/recipes-kernel/linux/linux-yocto_4.8.bb
-index d6837d8a1827..b0e2a7673745 100644
---- a/meta/recipes-kernel/linux/linux-yocto_4.8.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_4.8.bb
-@@ -24,7 +24,7 @@ SRCREV_meta ?= "25fb74eaaef249519f25e243e7f9bf0cab0e1781"
- SRC_URI = "git://git.yoctoproject.org/linux-yocto-4.8.git;name=machine;branch=${KBRANCH}; \
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.8;destsuffix=${KMETA}"
- 
--LINUX_VERSION ?= "4.8-rc4"
-+LINUX_VERSION ?= "4.8-rc5"
- 
- PV = "${LINUX_VERSION}+git${SRCPV}"
- 
--- 
-2.5.0
+Yes, probably, this code actually predates the Py3 migration.  Didn't get
+any warnings though.
 
+Ross
 
+--94eb2c09630e5baf66053c03ac1d
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 8 September 2016 at 19:29, Christopher Larson <span dir=3D"ltr">&lt;<a h=
+ref=3D"mailto:clarson@kergoth.com" target=3D"_blank">clarson@kergoth.com</a=
+>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 =
+0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div class=3D"gmail_e=
+xtra">Afaik, you should be using =E2=80=98with=E2=80=99 to ensure the tempo=
+rary files are cleaned up after use.<br></div></blockquote><div><br></div><=
+div>Yes, probably, this code actually predates the Py3 migration.=C2=A0 Did=
+n&#39;t get any warnings though.</div><div><br></div><div>Ross=C2=A0</div><=
+/div><br></div></div>
+
+--94eb2c09630e5baf66053c03ac1d--
