@@ -1,39 +1,15 @@
-Return-Path: <tanuk@iki.fi>
-Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com
-	[66.111.4.28])
-	by mail.openembedded.org (Postfix) with ESMTP id DCFA760017
+Return-Path: <ml@embed.me.uk>
+Received: from owm.eumx.net (eumx.net [91.82.101.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 41CBC60017
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  8 Sep 2016 11:22:03 +0000 (UTC)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
-	by mailout.nyi.internal (Postfix) with ESMTP id D8AB12070B
-	for <openembedded-core@lists.openembedded.org>;
-	Thu,  8 Sep 2016 07:22:03 -0400 (EDT)
-Received: from frontend2 ([10.202.2.161])
-	by compute1.internal (MEProxy); Thu, 08 Sep 2016 07:22:03 -0400
-DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; d=
-	messagingengine.com; h=content-transfer-encoding:content-type
-	:date:from:in-reply-to:message-id:mime-version:references
-	:subject:to:x-sasl-enc:x-sasl-enc; s=smtpout; bh=nSK5fVJJ8RhxUuU
-	1esIx+Yygr2M=; b=M4vlz2xwJmTTmD1Rr8rug5t0spexGdbfqAY0/yoiUiCxeLv
-	+epWt4Vn6hss7tb+Uf3QCAsgy5uPr9O1PSfyf6+lvPwHJr8F58OFO44CUZnD4qif
-	9lAaUrOqwhZjvtNDU2SedDb2aJR287TKqgxVbXa8Ld1D4qMYQzrvJ3e1SB8E=
-X-Sasl-enc: GzB+Df0jG2Rc/GQ855SwdScZjPzynHPVswSGK5Qxx9tY 1473333723
-Received: from laptop (a88-113-211-72.elisa-laajakaista.fi [88.113.211.72])
-	by mail.messagingengine.com (Postfix) with ESMTPA id 5AF36CCE8B
-	for <openembedded-core@lists.openembedded.org>;
-	Thu,  8 Sep 2016 07:22:03 -0400 (EDT)
-Message-ID: <1473333722.3099.33.camel@iki.fi>
-From: Tanu Kaskinen <tanuk@iki.fi>
+	Thu,  8 Sep 2016 11:29:22 +0000 (UTC)
+From: Jack Mitchell <ml@embed.me.uk>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 08 Sep 2016 14:22:02 +0300
-In-Reply-To: <57D10664.3050007@windriver.com>
-References: <cover.1473240119.git.Qi.Chen@windriver.com>
-	<72f9c03cf7bb25482acc9c40b775a4f294e772b6.1473240119.git.Qi.Chen@windriver.com>
-	<CAEGpDuYdSBJd3TyysNe4aCniRV3izLrs68jW4-D58sQJ+84+AA@mail.gmail.com>
-	<57D10664.3050007@windriver.com>
-X-Mailer: Evolution 3.20.5-1 
-Mime-Version: 1.0
-Subject: Re: [PATCH 3/3] pulseaudio: fix to manage user services corretly
+Date: Thu,  8 Sep 2016 12:29:42 +0100
+Message-Id: <20160908112942.8459-1-ml@embed.me.uk>
+X-Mailer: git-send-email 2.9.3
+Cc: Jack Mitchell <jack@embed.me.uk>
+Subject: [RFC] iptables: add systemd helper unit to load/restore rules
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,87 +22,86 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 08 Sep 2016 11:22:04 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 08 Sep 2016 11:29:23 -0000
 
-On Thu, 2016-09-08 at 14:34 +0800, ChenQi wrote:
-> On 09/07/2016 06:29 PM, Pau Espin Pedrol wrote:
-> > 
-> > 
-> > 
-> > Pau Espin Pedrol
-> > 
-> > 2016-09-07 11:22 GMT+02:00 Chen Qi <Qi.Chen@windriver.com 
-> > <mailto:Qi.Chen@windriver.com>>:
-> > 
-> >     Make use of the new SYSTEMD_USER_SERVICE variable added in
-> >     systemd.bbclass
-> >     to manage user services in pulseaudio-server package.
-> > 
-> >     Signed-off-by: Chen Qi <Qi.Chen@windriver.com
-> >     <mailto:Qi.Chen@windriver.com>>
-> >     ---
-> >      meta/recipes-multimedia/pulseaudio/pulseaudio.inc | 4 ++--
-> >      1 file changed, 2 insertions(+), 2 deletions(-)
-> > 
-> >     diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
-> >     b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
-> >     index 6ed79ef..f3754d7 100644
-> >     --- a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
-> >     +++ b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
-> >     @@ -124,8 +124,8 @@ FILES_${PN}-conf = "${sysconfdir}"
-> >      FILES_${PN}-bin +=
-> >     "${sysconfdir}/default/volatiles/volatiles.04_pulse"
-> >      FILES_${PN}-server = "${bindir}/pulseaudio ${bindir}/start-*
-> >     ${sysconfdir} ${bindir}/pactl */udev/rules.d/*.rules
-> >     */*/udev/rules.d/*.rules ${systemd_user_unitdir}/*"
-> > 
-> >     -#SYSTEMD_PACKAGES = "${PN}-server"
-> >     -SYSTEMD_SERVICE_${PN}-server = "pulseaudio.service"
-> >     +SYSTEMD_PACKAGES = "${PN}-server"
-> >     +SYSTEMD_USER_SERVICE_${PN}-server = "pulseaudio.service
-> >     pulseaudio.socket"
-> > 
-> > I think specifying "pulseaudio.socket" for 
-> > SYSTEMD_USER_SERVICE_${PN}-server should be enough, systemd.bbclass is 
-> > going to add the .service file afair.
-> 
-> Add both:
-> chenqi@pek-hostel-deb01:~/poky/build-systemd [1] $ ls 
-> tmp/work/qemux86_64-poky-linux/core-image-minimal/1.0-r0/rootfs/etc/systemd/user
-> default.target.wants  sockets.target.wants
-> 
-> Add pulseaudio.socket:
-> chenqi@pek-hostel-deb01:~/poky/build-systemd [1] $ ls 
-> tmp/work/qemux86_64-poky-linux/core-image-minimal/1.0-r0/rootfs/etc/systemd/user
-> sockets.target.wants
-> 
-> They have different results.
-> I don't know a lot about pulseaudio. Can you confirm that 
-> pulseaudio.socket is enough?
+From: Jack Mitchell <jack@embed.me.uk>
 
-If I understood correctly, Pau's argument was that there would be no
-difference, which doesn't seem to be the case. However, if
-pulseaudio.service isn't included in default.target.wants, that
-shouldn't be a big problem, because socket activation will anyway start
-the service when needed. On the other hand, I don't
-think SYSTEMD_USER_SERVICE is intended to be used for controlling which
-units to enable - it looks more like a variable that should contain all
-units contained in the package. If my understanding is correct, you
-should list both units in the variable.
+there is currently no way to automatically load iptable rules
+in OE. Add a systemd unit file to automatically load rules on
+network connection. This is cribbed from the way ArchLinux
+handles iptables with some minor modifications for OE. New rules
+can be generated using 'iptables-save > iptables.rules'
+---
+ .../iptables/iptables/iptables.rules                 |  0
+ .../iptables/iptables/iptables.service               | 13 +++++++++++++
+ meta/recipes-extended/iptables/iptables_1.6.0.bb     | 20 ++++++++++++++++++--
+ 3 files changed, 31 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-extended/iptables/iptables/iptables.rules
+ create mode 100644 meta/recipes-extended/iptables/iptables/iptables.service
 
-The distributions that I've seen to use systemd to manage pulseaudio
-only enable pulseaudio.socket, so that socket activation is used rather
-than starting pulseaudio automatically as part of the user session. I
-don't know if OE supports that - it looks like there's only a toggle to
-enable all units or none. Other distributions also patch client.conf to
-disable pulseaudio's own autospawning mechanism, since it's redundant
-when using socket activation. Leaving autospawning enabled shouldn't
-break anything in normal use, but it can cause some confusing behaviour
-if the user tries to manually disable automatic pulseaudio starting by
-disabling the systemd units.
+diff --git a/meta/recipes-extended/iptables/iptables/iptables.rules b/meta/recipes-extended/iptables/iptables/iptables.rules
+new file mode 100644
+index 0000000..e69de29
+diff --git a/meta/recipes-extended/iptables/iptables/iptables.service b/meta/recipes-extended/iptables/iptables/iptables.service
+new file mode 100644
+index 0000000..041316e
+--- /dev/null
++++ b/meta/recipes-extended/iptables/iptables/iptables.service
+@@ -0,0 +1,13 @@
++[Unit]
++Description=Packet Filtering Framework
++Before=network-pre.target
++Wants=network-pre.target
++
++[Service]
++Type=oneshot
++ExecStart=@SBINDIR@/iptables-restore /etc/iptables/iptables.rules
++ExecReload=@SBINDIR@/iptables-restore /etc/iptables/iptables.rules
++RemainAfterExit=yes
++
++[Install]
++WantedBy=multi-user.target
+diff --git a/meta/recipes-extended/iptables/iptables_1.6.0.bb b/meta/recipes-extended/iptables/iptables_1.6.0.bb
+index fbbe418..65430a1 100644
+--- a/meta/recipes-extended/iptables/iptables_1.6.0.bb
++++ b/meta/recipes-extended/iptables/iptables_1.6.0.bb
+@@ -22,13 +22,16 @@ SRC_URI = "http://netfilter.org/projects/iptables/files/iptables-${PV}.tar.bz2 \
+            file://types.h-add-defines-that-are-required-for-if_packet.patch \
+            file://0001-configure-Add-option-to-enable-disable-libnfnetlink.patch \
+            file://0002-configure.ac-only-check-conntrack-when-libnfnetlink-enabled.patch \
+-          "
++           file://iptables.service \
++           file://iptables.rules \
++"
++
+ SRC_URI_append_libc-musl = " file://0001-fix-build-with-musl.patch"
+ 
+ SRC_URI[md5sum] = "27ba3451cb622467fc9267a176f19a31"
+ SRC_URI[sha256sum] = "4bb72a0a0b18b5a9e79e87631ddc4084528e5df236bc7624472dcaa8480f1c60"
+ 
+-inherit autotools pkgconfig
++inherit autotools pkgconfig systemd
+ 
+ EXTRA_OECONF = "--with-kernel=${STAGING_INCDIR} \
+                "
+@@ -48,3 +51,16 @@ do_configure_prepend() {
+ 	# Keep ax_check_linker_flags.m4 which belongs to autoconf-archive.
+ 	rm -f libtool.m4 lt~obsolete.m4 ltoptions.m4 ltsugar.m4 ltversion.m4
+ }
++
++do_install_append() {
++
++        install -d ${D}${sysconfdir}/iptables
++        install -m 0644 ${WORKDIR}/iptables.rules ${D}${sysconfdir}/iptables
++
++        install -d ${D}${systemd_unitdir}/system
++        install -m 0644 ${WORKDIR}/iptables.service ${D}${systemd_unitdir}/system
++
++	sed -i -e 's,@SBINDIR@,${sbindir},g' ${D}${systemd_unitdir}/system/iptables.service
++}
++
++SYSTEMD_SERVICE_${PN} = "iptables.service"
+-- 
+2.9.3
 
--- 
-Tanu
 
