@@ -1,46 +1,48 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f50.google.com (mail-wm0-f50.google.com [74.125.82.50])
-	by mail.openembedded.org (Postfix) with ESMTP id 9472860043
+Received: from mail-it0-f41.google.com (mail-it0-f41.google.com
+	[209.85.214.41])
+	by mail.openembedded.org (Postfix) with ESMTP id 8957470030
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  8 Sep 2016 19:04:10 +0000 (UTC)
-Received: by mail-wm0-f50.google.com with SMTP id b187so185614009wme.1
+	Thu,  8 Sep 2016 19:04:15 +0000 (UTC)
+Received: by mail-it0-f41.google.com with SMTP id c198so4916054ith.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 08 Sep 2016 12:04:11 -0700 (PDT)
+	Thu, 08 Sep 2016 12:04:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=THMN6iRFR5pXIjAka6+EJF8MDiXdaArxTCGqPlRprNs=;
-	b=0bxdwBW7Fh88BEuqMD6U2Ml7OOm2QqhA08S+ocJJ4LYMljJ7K7p/YFFXcqTG46CvDs
-	hypUyYOB33KI7+YLc9zLSihzI8hKbKUJrr781pVZl03078E+srPT5YtzDLZhBIoXmtc3
-	DRcb0zAcGf/GKX8NiAosACLzZKjOHwjitEUnvLztXzpj9sPDHsTlrRLCtSHluGZdWhbj
-	5EuXZU04h9LGu0qhvfL2bPPFmedXQPsYm4s6UXZ5cR1KtQVmKSMIbNn96xEK4eiV+Uw6
-	YpS6K6LWxTvtQnOlptQl4J7PP9MKfmmJIw3vG5dpnyigtVMFpwz0pOqhn6AfX2ISYu5w
-	seHw==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=QjhVayhHkDXHuX89zJeoRhG2kFnEZmSEmyr9Orw1IRo=;
+	b=k9PVQMs8kXeaiWCSvr+q3Aeyhtgk3ZrpTTA79fJkyfGDGsI7DRAPJppG9dfc2Gp2zf
+	l9j0hPOoe42yRzrbCvg9mMe6YQKW2PlRp/EtkX+WOmPM4lDNvigGH2x7GUCrAz/vfsVz
+	M6BK/2mHe3WB6UnB4hl/90m5aSuYUJII5fmy0oljpQjmGdIuVZ3VXCKr4XxGCEZpDPmr
+	+WaPk0qTlFN2SvyfKJ5f8XXnmrByE32ssPDw6FHTEHuuGOepQrzphSCW+IeWe9aH86M/
+	zs2bP6BLfod4th+P6YvHNyk4UBf/1Q1qiaqGpmlk7n/2xKB93W51jUsNqkcRYstMw4t+
+	Ez4g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=THMN6iRFR5pXIjAka6+EJF8MDiXdaArxTCGqPlRprNs=;
-	b=f3h/kgJa4iJ0a1jOMTbbRHLwqhtUS8dCrG1lKOh1L4eVOAS3S1H61e7NF1qc46oMH1
-	/ZTzzXKJ822Tr43dMBIYFerUq/RzmWiv6T/Q1GfLWQL63QxT/xwJd0KnM8DH8zFKNQNQ
-	oyTvHvHpHqH6CGOz/5mLAJR6qUdFk4oZruYGU0D4CJ4zbpW1AkizBUhqGEFIA5g4auaQ
-	uVA1Pob2oMcScmQLAcnNQMD1VU2YrcCu5oJ/vC54elKaGky0W+LED6mlbBvmq8cyCwU+
-	ipuaympRbDiKdUwo0D1VetB3kmmyiugS/xj2l9Ac3DqCLWJ31qu/E4xaiC2C4oxT23lD
-	bSlw==
-X-Gm-Message-State: AE9vXwOp3Ud82YBnBWYLiHp3Y8u/vebRFGbF2o2lwh+X7vH/EDTM8fZrK9g3HmYVxWB9CJkM
-X-Received: by 10.194.202.198 with SMTP id kk6mr1136812wjc.22.1473361450144;
-	Thu, 08 Sep 2016 12:04:10 -0700 (PDT)
-Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id
-	bt5sm5990078wjb.35.2016.09.08.12.04.09
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 08 Sep 2016 12:04:09 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  8 Sep 2016 20:04:07 +0100
-Message-Id: <1473361447-11655-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 2.8.1
-Subject: [PATCH] rpm: remove redundant removals
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=QjhVayhHkDXHuX89zJeoRhG2kFnEZmSEmyr9Orw1IRo=;
+	b=HMggyjI5eQic1jaOj12wOzWqJ9rzMoGYf71S2Q1ynvmfutePTx8wBSafki1DM9n3Cb
+	Vtz1Mc82yWSyGCrPSEXhmPmJ+ZV/gBR3kxHfxROxssTXHW9S9ur6SeTwn6ah6vG3hBW7
+	e8BlrLIFULv4nPmrjbVp8JAzclVyKTXHhRz1LNNF8pj2dnSn57H3U8T7io3yt/U+Uv32
+	I5A9lw2e2mKqiBdBK/LW+XmUoglfisKBrAL/NYyy4TFvBuJUHELaR2o3zUKMOcm4vxt6
+	gq9K04Xo/13NDUFUSvhqD07Vp83OntWMRum5xMBbB5rNm7CW3t3KZCOQiaZPseazKkO8
+	NrKA==
+X-Gm-Message-State: AE9vXwMoZsyk16cdfUyJCwlZk4jJfnUtRJ6xPvxfYQ8CWkUskd15J+J2BPKoOGTsktg8XDWemezE8+zGGtG8z3w3
+X-Received: by 10.157.9.183 with SMTP id q52mr1318029otd.87.1473361456352;
+	Thu, 08 Sep 2016 12:04:16 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.107.18.17 with HTTP; Thu, 8 Sep 2016 12:03:56 -0700 (PDT)
+In-Reply-To: <1473355762.20226.242.camel@linuxfoundation.org>
+References: <1473353924-21627-1-git-send-email-ross.burton@intel.com>
+	<1473353924-21627-2-git-send-email-ross.burton@intel.com>
+	<1473355762.20226.242.camel@linuxfoundation.org>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 8 Sep 2016 20:03:56 +0100
+Message-ID: <CAJTo0LY2QiBgS_APZU7ht3fzCbkUcuKbPo1=tHwWVzYNJsshdw@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/2] rpm: remove redundant removals
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,89 +55,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 08 Sep 2016 19:04:11 -0000
+X-List-Received-Date: Thu, 08 Sep 2016 19:04:16 -0000
+Content-Type: multipart/alternative; boundary=001a113dc2c03b6178053c03b2e2
 
-These were noticed by the use of bashisms (rm *.{foo,bar}) and lots of these rm
-commands are deleting files which don't exist in the first place.
+--001a113dc2c03b6178053c03b2e2
+Content-Type: text/plain; charset=UTF-8
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-devtools/rpm/rpm_5.4.16.bb | 45 ---------------------------------
- 1 file changed, 45 deletions(-)
+On 8 September 2016 at 18:29, Richard Purdie <
+richard.purdie@linuxfoundation.org> wrote:
 
-diff --git a/meta/recipes-devtools/rpm/rpm_5.4.16.bb b/meta/recipes-devtools/rpm/rpm_5.4.16.bb
-index 9f78dee..2b8768c 100644
---- a/meta/recipes-devtools/rpm/rpm_5.4.16.bb
-+++ b/meta/recipes-devtools/rpm/rpm_5.4.16.bb
-@@ -554,54 +554,11 @@ do_install_append() {
- 	install -m 0755 ${WORKDIR}/pythondeps.sh ${D}/${libdir}/rpm/pythondeps.sh
- 	install -m 0755 ${WORKDIR}/perfile_rpmdeps.sh ${D}/${libdir}/rpm/perfile_rpmdeps.sh
- 
--	# Remove unpackaged files (based on list in rpm.spec)
--	rm -f ${D}/${libdir}/rpm/{Specfile.pm,cpanflute,cpanflute2,rpmdiff,rpmdiff.cgi,sql.prov,sql.req,tcl.req,trpm}
--
--	rm -f ${D}/${mandir}/man8/rpmcache.8*
--	rm -f ${D}/${mandir}/man8/rpmgraph.8*
--	rm -f ${D}/${mandir}/*/man8/rpmcache.8*
--	rm -f ${D}/${mandir}/*/man8/rpmgraph.8*
--	rm -rf ${D}/${mandir}/{fr,ko}
--
--	rm -f ${D}/${includedir}/popt.h
--	rm -f ${D}/${libdir}/libpopt.*
--	rm -f ${D}/${libdir}/pkgconfig/popt.pc
--	rm -f ${D}/${datadir}/locale/*/LC_MESSAGES/popt.mo
--	rm -f ${D}/${mandir}/man3/popt.3
--
--	rm -f ${D}/${mandir}/man1/xar.1*
--	rm -f ${D}/${bindir}/xar
--	rm -rf ${D}/${includedir}/xar
--	rm -f ${D}/${libdir}/libxar*
--
--	rm -f ${D}/${bindir}/lz*
--	rm -f ${D}/${bindir}/unlzma
--	rm -f ${D}/${bindir}/unxz
--	rm -f ${D}/${bindir}/xz*
--	rm -rf ${D}/${includedir}/lzma*
--	rm -f ${D}/${mandir}/man1/lz*.1
--	rm -f ${D}/${libdir}/pkgconfig/liblzma*
--
--	rm -f ${D}${PYTHON_SITEPACKAGES_DIR}/*.a
- 	rm -f ${D}${PYTHON_SITEPACKAGES_DIR}/*.la
--	rm -f ${D}${PYTHON_SITEPACKAGES_DIR}/rpm/*.a
- 	rm -f ${D}${PYTHON_SITEPACKAGES_DIR}/rpm/*.la
- 
--	#find ${D}/${libdir}/perl5 -type f -a \( -name perllocal.pod -o -name .packlist \
--	#	-o \( -name '*.bs' -a -empty \) \) -exec rm -f {} ';'
--	#find ${D}/${libdir}/perl5 -type d -depth -exec rmdir {} 2>/dev/null ';'
--
- 	rm -f ${D}/${libdir}/rpm/dbconvert.sh
- 
--	rm -f ${D}/${libdir}/rpm/libsqldb.*
--
--	# We don't want, nor need the Mandriva multiarch items
--	rm -f ${D}/${bindir}/multiarch-dispatch
--	rm -f ${D}/${bindir}/multiarch-platform
--	rm -f ${D}/${libdir}/rpm/check-multiarch-files
--	rm -f ${D}/${libdir}/rpm/mkmultiarch
--	rm -f ${D}/${includedir}/multiarch-dispatch.h
--
- 	rm -f ${D}/${libdir}/rpm/gstreamer.sh
- 	rm -f ${D}/${libdir}/rpm/gem_helper.rb
- 	rm -f ${D}/${libdir}/rpm/rubygems.rb
-@@ -610,12 +567,10 @@ do_install_append() {
- 	rm -f ${D}/${libdir}/rpm/macros.d/kernel
- 	rm -f ${D}/${libdir}/rpm/macros.d/gstreamer
- 	rm -f ${D}/${libdir}/rpm/bin/mgo
--	rm -f ${D}/${libdir}/rpm/bin/dbconvert
- 	rm -f ${D}/${libdir}/rpm/bin/pom2spec
- 
- 	rm -rf ${D}/var/lib/wdj ${D}/var/cache/wdj
- 	rm -f ${D}/${libdir}/rpm/bin/api-sanity-checker.pl
--
- }
- 
- do_install_append_class-target() {
--- 
-2.8.1
+> Why are these redundant? Need a touch more info.
+>
 
+Erm, I appear to have sent the patch from my WIP branch instead of the one
+with the longer commit message.  V2 incoming if I can find it.
 
+Ross
+
+--001a113dc2c03b6178053c03b2e2
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 8 September 2016 at 18:29, Richard Purdie <span dir=3D"ltr">&lt;<a href=
+=3D"mailto:richard.purdie@linuxfoundation.org" target=3D"_blank">richard.pu=
+rdie@linuxfoundation.org</a>&gt;</span> wrote:<br><blockquote class=3D"gmai=
+l_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left=
+:1ex"><div id=3D":6p4" class=3D"a3s aXjCH m1570ad95b41da7f9">Why are these =
+redundant? Need a touch more info.<br></div></blockquote></div><br>Erm, I a=
+ppear to have sent the patch from my WIP branch instead of the one with the=
+ longer commit message.=C2=A0 V2 incoming if I can find it.</div><div class=
+=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
+
+--001a113dc2c03b6178053c03b2e2--
