@@ -1,29 +1,52 @@
-Return-Path: <maxin.john@intel.com>
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 0A301731BA
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pf0-f193.google.com (mail-pf0-f193.google.com
+	[209.85.192.193])
+	by mail.openembedded.org (Postfix) with ESMTP id A45E06FF9F
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  8 Sep 2016 15:47:12 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by fmsmga105.fm.intel.com with ESMTP; 08 Sep 2016 08:47:13 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.30,301,1470726000"; d="scan'208";a="1047394557"
-Received: from linux.intel.com ([10.54.29.200])
-	by orsmga002.jf.intel.com with ESMTP; 08 Sep 2016 08:47:13 -0700
-Received: from mbabyjoh-desk.fi.intel.com (mbabyjoh-desk.fi.intel.com
-	[10.237.72.71])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by linux.intel.com (Postfix) with ESMTP id 0517B6A4006
+	Thu,  8 Sep 2016 15:47:46 +0000 (UTC)
+Received: by mail-pf0-f193.google.com with SMTP id n24so2671459pfb.2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  8 Sep 2016 08:46:50 -0700 (PDT)
-From: "Maxin B. John" <maxin.john@intel.com>
+	Thu, 08 Sep 2016 08:47:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=subject:to:references:from:message-id:date:user-agent:mime-version
+	:in-reply-to:content-transfer-encoding;
+	bh=iqBQfvu9knhLGkKcWPnJy/ED0BjsTPQhy3uB97R4cdk=;
+	b=qOGLeLjEXISePmoyct7tPSKNTmJ5xoBD9h/6BETijrLDyzJPIcn1jXcct/URqHKQlz
+	nlF65KYrUCHCOu/D4EBBjmiiiCObkTsxRbDdfwy2HiUFt2zuU2LmoVdxJZTKHLkIC0Cz
+	EHVSe90t5rIFhca7wsLG/jNcqRd3hmDOTduQ4EpbZ0ZXyLk5gITw4k8h6OaPFR3Jh/uo
+	Jy7zNQVszpypDlQflxjGX+3asTk+ZTrvoR0ryiqnRmbB2pIAWAzIwhJaneDY/P/aBR9S
+	UvLQjQcQqSa6ZF0AGPGQ+dnmaS8hGE81BSdwndc6IpU3lalSkjMnadXQHg1+SOrY4TII
+	d12g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:subject:to:references:from:message-id:date
+	:user-agent:mime-version:in-reply-to:content-transfer-encoding;
+	bh=iqBQfvu9knhLGkKcWPnJy/ED0BjsTPQhy3uB97R4cdk=;
+	b=f4HR5wxycOCdUWp8RvjfLNsBk4jVIG4ipGmBt/Q2SVNKPLNBqEesiTrsAG/yyq/ILC
+	absCP/SoUwwzOhejdM/JiwH919MjCzPjppv7Gj1pbGkMjlyMOKcWgDXZojE9h9ovqSuZ
+	WJTxA1FwbQovOMGWgWF/Wv2ETL9+hm38ARmYxcCLETklsp4t763slIt9iSCwdNL0EAt8
+	1Xiw1UYK2jkYUJ2vcRQjNSl1ypU/Pv7c/GblK/flhZf9iHgzV2nEt+swCOPKCmwK6JZ6
+	tbeIlZzY/z8ZGjcnkBUBabEDou3Iqo2dVjVT7+OzIMD/LwP9BSkWZgwkbWpV8vd+qdcI
+	mV7Q==
+X-Gm-Message-State: AE9vXwOlpU+G2lwJ0QkgX+3XvZzak65udnbvXC6GjRC9AKoYCxLY5t0Ib7XFNoZQVHe1Ig==
+X-Received: by 10.98.34.156 with SMTP id p28mr568263pfj.102.1473349667214;
+	Thu, 08 Sep 2016 08:47:47 -0700 (PDT)
+Received: from [10.22.11.169] (50-233-148-156-static.hfc.comcastbusiness.net.
+	[50.233.148.156])
+	by smtp.gmail.com with ESMTPSA id i7sm57474008paf.9.2016.09.08.08.47.46
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 08 Sep 2016 08:47:46 -0700 (PDT)
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  8 Sep 2016 18:46:54 +0300
-Message-Id: <1473349614-5497-4-git-send-email-maxin.john@intel.com>
-X-Mailer: git-send-email 2.4.0
-In-Reply-To: <1473349614-5497-1-git-send-email-maxin.john@intel.com>
-References: <1473349614-5497-1-git-send-email-maxin.john@intel.com>
-Subject: [PATCH 4/4] libical: fix build failure after changing machine
+References: <1473341630-23751-1-git-send-email-sona.sarmadi@enea.com>
+From: akuster808 <akuster808@gmail.com>
+Message-ID: <ed9f52c1-bdf6-07c9-e7cc-d958a24dcb1a@gmail.com>
+Date: Thu, 8 Sep 2016 08:47:45 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.2.0
+MIME-Version: 1.0
+In-Reply-To: <1473341630-23751-1-git-send-email-sona.sarmadi@enea.com>
+Subject: Re: [PATCH][krogoth] curl: security fix for CVE-2016-7141
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,104 +59,99 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 08 Sep 2016 15:47:15 -0000
+X-List-Received-Date: Thu, 08 Sep 2016 15:47:46 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 
-libical build QA fails when libical is built for e.g. qemux86-64 already, and
-is then built for generic86-64 in a way that install is re-run:
 
-$ MACHINE=qemux86-64 bitbake libical
-$ MACHINE=genericx86-64 bitbake -f -Cinstall libical
 
-ERROR: libical-2.0.0-r0 do_populate_sysroot: QA Issue: libical.pc failed
-sanity test (tmpdir) in path
+On 09/08/2016 06:33 AM, Sona Sarmadi wrote:
+> Affected versions:
+>      Affected versions: libcurl 7.19.6 to and including 7.50.1
+>      Not affected versions: libcurl >= 7.50.2
+>
+> Reference to upstream patch:
+> https://curl.haxx.se/CVE-2016-7141.patch
+>
+> Signed-off-by: Sona Sarmadi <sona.sarmadi@enea.com>
 
-[YOCTO #10223]
+merged to stagging.
 
-Signed-off-by: Maxin B. John <maxin.john@intel.com>
----
- ...txt-libical.pc.in-fix-iculibs-remove-full.patch | 44 ++++++++++++++++++++++
- meta/recipes-support/libical/libical_2.0.0.bb      | 10 +----
- 2 files changed, 46 insertions(+), 8 deletions(-)
- create mode 100644 meta/recipes-support/libical/libical/0001-CMakeLists.txt-libical.pc.in-fix-iculibs-remove-full.patch
-
-diff --git a/meta/recipes-support/libical/libical/0001-CMakeLists.txt-libical.pc.in-fix-iculibs-remove-full.patch b/meta/recipes-support/libical/libical/0001-CMakeLists.txt-libical.pc.in-fix-iculibs-remove-full.patch
-new file mode 100644
-index 0000000..6db75f5
---- /dev/null
-+++ b/meta/recipes-support/libical/libical/0001-CMakeLists.txt-libical.pc.in-fix-iculibs-remove-full.patch
-@@ -0,0 +1,44 @@
-+From 1a41069c0dc054e59cd76fc3d8cf7cc2a78b5e8d Mon Sep 17 00:00:00 2001
-+From: Allen Winter <allen.winter@kdab.com>
-+Date: Sat, 3 Sep 2016 16:56:29 -0400
-+Subject: [PATCH] CMakeLists.txt, libical.pc.in - fix iculibs (remove full path) ISSUE: 227
-+
-+Upstream-Status: Backport
-+
-+Signed-off-by: Maxin B. John <maxin.john@intel.com>
-+----
-+diff -Naur libical-2.0.0-orig/CMakeLists.txt libical-2.0.0/CMakeLists.txt
-+--- libical-2.0.0-orig/CMakeLists.txt	2016-09-08 18:05:06.166049345 +0300
-++++ libical-2.0.0/CMakeLists.txt	2016-09-08 18:05:45.201561334 +0300
-+@@ -128,6 +128,7 @@
-+ #  RSCALE info at http://tools.ietf.org/html/rfc7529
-+ find_package(ICU)
-+ if(ICU_FOUND)
-++  set(ICUUC_LIBS "-licuuc") #for libical.pc
-+   set(HAVE_LIBICU 1)
-+   if(ICU_MAJOR_VERSION VERSION_GREATER 50)
-+     set(HAVE_ICU_DANGI TRUE)
-+@@ -137,6 +138,7 @@
-+ endif()
-+ if(ICU_I18N_FOUND)
-+   set(HAVE_LIBICU_I18N 1)
-++  set(ICUI18N_LIBS "-licui18n") #for libical.pc
-+ endif()
-+ 
-+ # MSVC specific definitions
-+diff -Naur libical-2.0.0-orig/libical.pc.in libical-2.0.0/libical.pc.in
-+--- libical-2.0.0-orig/libical.pc.in	2015-12-28 23:44:53.000000000 +0200
-++++ libical-2.0.0/libical.pc.in	2016-09-08 18:09:12.991963597 +0300
-+@@ -3,10 +3,10 @@
-+ libdir=@libdir@
-+ includedir=@includedir@
-+ threadslib=@PTHREAD_LIBS@
-+-iculib=@ICU_LIBRARIES@ @ICU_I18N_LIBRARIES@
-++iculibs=@ICUUC_LIBS@ @ICUI18N_LIBS@
-+ 
-+ Name: libical
-+ Description: An implementation of basic iCAL protocols
-+ Version: @VERSION@
-+-Libs: -L${libdir} -lical -licalss -licalvcal ${threadslib} ${iculib}
-++Libs: -L${libdir} -lical -licalss -licalvcal ${threadslib} ${iculibs}
-+ Cflags: -I${includedir}
-diff --git a/meta/recipes-support/libical/libical_2.0.0.bb b/meta/recipes-support/libical/libical_2.0.0.bb
-index 1042e6f..d4fe868 100644
---- a/meta/recipes-support/libical/libical_2.0.0.bb
-+++ b/meta/recipes-support/libical/libical_2.0.0.bb
-@@ -8,6 +8,7 @@ SECTION = "libs"
- 
- SRC_URI = "https://github.com/${BPN}/${BPN}/releases/download/v${PV}/${BP}.tar.gz \
-            file://Remove-cmake-check-for-Perl.patch \
-+           file://0001-CMakeLists.txt-libical.pc.in-fix-iculibs-remove-full.patch \
-            "
- DEPENDS = "icu"
- 
-@@ -15,13 +16,6 @@ SRC_URI[md5sum] = "6bf8e5f5a3ba88baf390d0134e05d76e"
- SRC_URI[sha256sum] = "654c11f759c19237be39f6ad401d917e5a05f36f1736385ed958e60cf21456da"
- UPSTREAM_CHECK_URI = "https://github.com/libical/libical/releases"
- 
--inherit cmake
-+inherit cmake pkgconfig
- 
- FILES_${PN}-dev += "${libdir}/cmake/*"
--
--#
--# Turn specific library paths in the pkgconfig file into standard library entries
--#
--do_install_append () {
--	sed -i -e "s#${STAGING_LIBDIR}/lib\([a-z0-9]*\)\.so#-l\1#g" ${D}${libdir}/pkgconfig/libical.pc
--}
--- 
-2.4.0
+thanks,
+Armin
+> ---
+>   meta/recipes-support/curl/curl/CVE-2016-7141.patch | 50 ++++++++++++++++++++++
+>   meta/recipes-support/curl/curl_7.47.1.bb           |  1 +
+>   2 files changed, 51 insertions(+)
+>   create mode 100644 meta/recipes-support/curl/curl/CVE-2016-7141.patch
+>
+> diff --git a/meta/recipes-support/curl/curl/CVE-2016-7141.patch b/meta/recipes-support/curl/curl/CVE-2016-7141.patch
+> new file mode 100644
+> index 0000000..eb03afd
+> --- /dev/null
+> +++ b/meta/recipes-support/curl/curl/CVE-2016-7141.patch
+> @@ -0,0 +1,50 @@
+> +From 7700fcba64bf5806de28f6c1c7da3b4f0b38567d Mon Sep 17 00:00:00 2001
+> +From: Kamil Dudka <kdudka@redhat.com>
+> +Date: Mon, 22 Aug 2016 10:24:35 +0200
+> +Subject: [PATCH] nss: refuse previously loaded certificate from file
+> +
+> +... when we are not asked to use a certificate from file
+> +
+> +Bug: https://curl.haxx.se/docs/adv_20160907.html
+> +Reported-by: kdudka@redhat.com
+> +
+> +Upstream-Status: Backport
+> +https://curl.haxx.se/CVE-2016-5421.patch
+> +
+> +CVE: CVE-2016-7141
+> +Signed-off-by: Sona Sarmadi <sona.sarmadi@enea.com>
+> +---
+> + lib/vtls/nss.c | 8 +++++++-
+> + 1 file changed, 7 insertions(+), 1 deletion(-)
+> +
+> +diff --git a/lib/vtls/nss.c b/lib/vtls/nss.c
+> +index 20c4277..cfb2263 100644
+> +--- a/lib/vtls/nss.c
+> ++++ b/lib/vtls/nss.c
+> +@@ -1002,10 +1002,10 @@ static SECStatus SelectClientCert(void *arg, PRFileDesc *sock,
+> +   struct ssl_connect_data *connssl = (struct ssl_connect_data *)arg;
+> +   struct Curl_easy *data = connssl->data;
+> +   const char *nickname = connssl->client_nickname;
+> ++  static const char pem_slotname[] = "PEM Token #1";
+> +
+> +   if(connssl->obj_clicert) {
+> +     /* use the cert/key provided by PEM reader */
+> +-    static const char pem_slotname[] = "PEM Token #1";
+> +     SECItem cert_der = { 0, NULL, 0 };
+> +     void *proto_win = SSL_RevealPinArg(sock);
+> +     struct CERTCertificateStr *cert;
+> +@@ -1067,6 +1067,12 @@ static SECStatus SelectClientCert(void *arg, PRFileDesc *sock,
+> +   if(NULL == nickname)
+> +     nickname = "[unknown]";
+> +
+> ++  if(!strncmp(nickname, pem_slotname, sizeof(pem_slotname) - 1U)) {
+> ++    failf(data, "NSS: refusing previously loaded certificate from file: %s",
+> ++          nickname);
+> ++    return SECFailure;
+> ++  }
+> ++
+> +   if(NULL == *pRetKey) {
+> +     failf(data, "NSS: private key not found for certificate: %s", nickname);
+> +     return SECFailure;
+> +--
+> +2.7.4
+> diff --git a/meta/recipes-support/curl/curl_7.47.1.bb b/meta/recipes-support/curl/curl_7.47.1.bb
+> index 6c71760..3670a11 100644
+> --- a/meta/recipes-support/curl/curl_7.47.1.bb
+> +++ b/meta/recipes-support/curl/curl_7.47.1.bb
+> @@ -14,6 +14,7 @@ SRC_URI += " file://configure_ac.patch \
+>                file://CVE-2016-5419.patch \
+>                file://CVE-2016-5420.patch \
+>                file://CVE-2016-5421.patch \
+> +             file://CVE-2016-7141.patch \
+>              "
+>   
+>   SRC_URI[md5sum] = "9ea3123449439bbd960cd25cf98796fb"
 
 
