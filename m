@@ -1,31 +1,24 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id C0DE96AC37
+Return-Path: <jianxun.zhang@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 5E40E65CB5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  8 Sep 2016 22:01:35 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u88M1WLX018063; Thu, 8 Sep 2016 23:01:32 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id EnqYoBHboKOs; Thu,  8 Sep 2016 23:01:32 +0100 (BST)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u88M1QBk018059
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Thu, 8 Sep 2016 23:01:28 +0100
-Message-ID: <1473372086.20226.251.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>, "Elizabeth 'pidge'
-	Flanagan" <pidge@toganlabs.com>
-Date: Thu, 08 Sep 2016 23:01:26 +0100
-In-Reply-To: <1529433.MFaUV9yMeV@peggleto-mobl.ger.corp.intel.com>
-References: <20160908092601.7588-1-pidge@toganlabs.com>
-	<1529433.MFaUV9yMeV@peggleto-mobl.ger.corp.intel.com>
-X-Mailer: Evolution 3.18.5.2-0ubuntu3 
-Mime-Version: 1.0
+	Thu,  8 Sep 2016 22:40:34 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga103.fm.intel.com with ESMTP; 08 Sep 2016 15:40:35 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.30,302,1470726000"; d="scan'208";a="1037292543"
+Received: from jzhang80-mac02.jf.intel.com ([10.24.2.27])
+	by fmsmga001.fm.intel.com with ESMTP; 08 Sep 2016 15:40:34 -0700
+Mime-Version: 1.0 (Mac OS X Mail 9.3 \(3124\))
+From: Jianxun Zhang <jianxun.zhang@linux.intel.com>
+In-Reply-To: <1473362414-29683-1-git-send-email-sgw@linux.intel.com>
+Date: Thu, 8 Sep 2016 15:40:34 -0700
+Message-Id: <1D92F6AA-3031-4AF8-BD6B-15DC2B28543D@linux.intel.com>
+References: <1473362414-29683-1-git-send-email-sgw@linux.intel.com>
+To: Saul Wold <sgw@linux.intel.com>
+X-Mailer: Apple Mail (2.3124)
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [RFC][PATCH] report-error.bbclass: Add support for autosending
+Subject: Re: [PATCH] qemu: fix: cp command cannot find tests/Makeflie
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,60 +31,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 08 Sep 2016 22:01:38 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 08 Sep 2016 22:40:34 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, 2016-09-09 at 08:42 +1200, Paul Eggleton wrote:
-> Hey Beth,
-> 
-> On Thu, 08 Sep 2016 11:26:01 Elizabeth 'pidge' Flanagan wrote:
-> > 
-> > This commit pulls and extends the functionality of .oe-error-report 
-> > into
-> > local.conf. It maintains the functionality of .oe-error-report.
-> > 
-> > It also enables report-error to automatically send error reports to
-> > a
-> > specified error report server. This patch enables infrastructure
-> > ppl to
-> > set development teams up so that we can gather error metrics
-> > automatically.
-> > 
-> > This relies on a new set of variables:
-> > 
-> > REPORTERROR[autosend]="yes|no|ask"
-> > REPORTERROR[user]=username
-> > REPORTERROR[email]=email
-> > REPORTERROR[server]=error-report-web instance
-> > 
-> > For autosend yes and no are pretty self explainatory. ask does not
-> > pass
-> > the -y flag to send-error-report, thus enabling the end user to
-> > review
-> > the report prior to submission.
-> I'm not sure if sentiment has changed on this issue (FWIW, it hasn't
-> really
-> on my part), but this topic did come up before - start of thread
-> here:
-> 
-> http://lists.openembedded.org/pipermail/openembedded-core/2014-March/
-> 090621.html
+Note the patch is based on 958c05b on master-next branch in poky.
 
-Thanks for digging that up. I am conscious that this was deliberately
-designed so the user has to sign up for auto submission. To do
-otherwise lets layers "spy" on users far too easily.
+Thanks
 
-That said there are 101 ways you could do that anyway, this just makes
-it very very easy.
-
-So I'm torn on this issue. How easy should auto-error submission be,
-given the information that could accidentally expose?
-
-Cheers,
-
-Richard
-
-
+> On Sep 8, 2016, at 12:20 PM, Saul Wold <sgw@linux.intel.com> wrote:
+>=20
+> From: Jianxun Zhang <jianxun.zhang@linux.intel.com>
+>=20
+> bitbake qemu
+>=20
+> This error shows up:
+>=20
+> ERROR: qemu-2.7.0-r1 do_install_ptest_base: Function failed:
+> do_install_ptest_base
+> ...
+> cp: cannot stat '...tmp/work/core2-64-poky-linux/qemu/2.7.0-r1
+> /qemu-2.7.0/tests/Makefile: No such file or directory
+> ...
+>=20
+> Commit 46e7b70699d8bf4db08c8bb5111974318dd5416d in qemu project
+> renamed tests/Makefile to tests/Makefile.include, we apply the
+> same change in recipe accordingly to fix this issue.
+>=20
+> Fixes [YOCTO #10245]
+> ---
+> meta/recipes-devtools/qemu/qemu.inc | 2 +-
+> 1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/meta/recipes-devtools/qemu/qemu.inc =
+b/meta/recipes-devtools/qemu/qemu.inc
+> index d724aa4..b46e7f7 100644
+> --- a/meta/recipes-devtools/qemu/qemu.inc
+> +++ b/meta/recipes-devtools/qemu/qemu.inc
+> @@ -76,7 +76,7 @@ do_install_ptest() {
+> 	cp -rL ${B}/tests ${D}${PTEST_PATH}
+> 	find ${D}${PTEST_PATH}/tests -type f -name "*.[Sshcod]" | xargs =
+-i rm -rf {}
+>=20
+> -	cp ${S}/tests/Makefile ${D}${PTEST_PATH}/tests
+> +	cp ${S}/tests/Makefile.include ${D}${PTEST_PATH}/tests
+> }
+>=20
+> do_install () {
+> --=20
+> 2.7.4
+>=20
 
 
