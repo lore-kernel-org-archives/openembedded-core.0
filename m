@@ -1,43 +1,30 @@
-Return-Path: <pidge@toganlabs.com>
-X-Greylist: delayed 593 seconds by postgrey-1.34 at layers.openembedded.org;
-	Thu, 08 Sep 2016 09:34:31 UTC
-Received: from bongo.birch.relay.mailchannels.net
-	(bongo.birch.relay.mailchannels.net [23.83.209.21])
-	by mail.openembedded.org (Postfix) with ESMTP id D8DD077324
+Return-Path: <adrian.ratiu@ni.com>
+Received: from ni.com (skprod3.natinst.com [130.164.80.24])
+	by mail.openembedded.org (Postfix) with ESMTP id CBDD177122
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  8 Sep 2016 09:34:31 +0000 (UTC)
-X-Sender-Id: hostpapa|x-authuser|pidge@toganlabs.com
-Received: from relay.mailchannels.net (localhost [127.0.0.1])
-	by relay.mailchannels.net (Postfix) with ESMTP id AE0411BCBE4
-	for <openembedded-core@lists.openembedded.org>;
-	Thu,  8 Sep 2016 09:24:32 +0000 (UTC)
-Received: from hp181.hostpapa.com (ip-10-220-3-24.us-west-2.compute.internal
-	[10.220.3.24])
-	by relay.mailchannels.net (Postfix) with ESMTPA id B5B761BCFE2
-	for <openembedded-core@lists.openembedded.org>;
-	Thu,  8 Sep 2016 09:24:31 +0000 (UTC)
-X-Sender-Id: hostpapa|x-authuser|pidge@toganlabs.com
-Received: from hp181.hostpapa.com (hp181.hostpapa.com [10.107.128.240])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384)
-	by 0.0.0.0:2500 (trex/5.7.8); Thu, 08 Sep 2016 09:24:32 +0000
-X-MC-Relay: Neutral
-X-MailChannels-SenderId: hostpapa|x-authuser|pidge@toganlabs.com
-X-MailChannels-Auth-Id: hostpapa
-X-MC-Loop-Signature: 1473326672121:90850090
-X-MC-Ingress-Time: 1473326672121
-Received: from ns304116.ip-94-23-210.eu ([94.23.210.13]:38338
-	helo=ns304116.ovh.net) by hp181.hostpapa.com with esmtpsa
-	(TLSv1.2:ECDHE-RSA-AES128-SHA256:128) (Exim 4.87)
-	(envelope-from <pidge@toganlabs.com>)
-	id 1bhvZN-003XmY-BL; Thu, 08 Sep 2016 11:24:30 +0200
-From: Elizabeth 'pidge' Flanagan <pidge@toganlabs.com>
+	Thu,  8 Sep 2016 09:58:00 +0000 (UTC)
+Received: from us-aus-mgwout2.amer.corp.natinst.com (nb-snip2-1338.natinst.com
+	[130.164.19.135])
+	by us-aus-skprod3.natinst.com (8.15.0.59/8.15.0.59) with ESMTP id
+	u889w0RN028957 for <openembedded-core@lists.openembedded.org>;
+	Thu, 8 Sep 2016 04:58:00 -0500
+Received: from adi-pc-linux.natinst.com ([130.164.14.198])
+	by us-aus-mgwout2.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6
+	HF1218) with ESMTP id 2016090804580039-618630 ;
+	Thu, 8 Sep 2016 04:58:00 -0500 
+From: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  8 Sep 2016 11:26:01 +0200
-Message-Id: <20160908092601.7588-1-pidge@toganlabs.com>
+Date: Thu, 8 Sep 2016 12:56:33 +0300
+Message-Id: <20160908095633.26651-1-adrian.ratiu@ni.com>
 X-Mailer: git-send-email 2.9.3
-X-OutGoing-Spam-Status: No, score=-1.0
-X-AuthUser: pidge@toganlabs.com
-Subject: [RFC][PATCH] report-error.bbclass: Add support for autosending
+X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut2/AUS/H/NIC(Release
+	8.5.3FP6 HF1218|December 12, 2014) at 09/08/2016 04:58:00 AM,
+	Serialize by Router on US-AUS-MGWOut2/AUS/H/NIC(Release 8.5.3FP6
+	HF1218|December 12, 2014) at 09/08/2016 04:58:00 AM,
+	Serialize complete at 09/08/2016 04:58:00 AM
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
+	definitions=2016-09-08_06:, , signatures=0
+Subject: [PATCH] pango: add libpcre to DEPENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,85 +37,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 08 Sep 2016 09:34:32 -0000
+X-List-Received-Date: Thu, 08 Sep 2016 09:58:02 -0000
 
-This commit pulls and extends the functionality of .oe-error-report into
-local.conf. It maintains the functionality of .oe-error-report.
+pango has a build time dependency on libpcre which causes a build
+race, if pango gets built before libpcre, it fails with the error:
 
-It also enables report-error to automatically send error reports to a 
-specified error report server. This patch enables infrastructure ppl to
-set development teams up so that we can gather error metrics automatically.
+| ./gen-all-unicode > all-unicode.txt
+| ./gen-all-unicode: error while loading shared libraries: libpcre.so.1: cannot open shared object file: No such file or directory
+| Makefile:1459: recipe for target 'all-unicode.txt' failed
+| make[2]: *** [all-unicode.txt] Error 127
+| make[2]: *** Waiting for unfinished jobs....
+| make[2]: Leaving directory '/mnt/build/jenkins-jobs/nilrt_OE_core_x64-pname/workspace/build/tmp-glibc/work/core2-64-nilrt-linux/pango/1.40.1-r0/build/tests'
+| Makefile:576: recipe for target 'all-recursive' failed
+| make[1]: *** [all-recursive] Error 1
+| make[1]: Leaving directory '/mnt/build/jenkins-jobs/nilrt_OE_core_x64-pname/workspace/build/tmp-glibc/work/core2-64-nilrt-linux/pango/1.40.1-r0/build'
 
-This relies on a new set of variables:
-
-REPORTERROR[autosend]="yes|no|ask"
-REPORTERROR[user]=username
-REPORTERROR[email]=email
-REPORTERROR[server]=error-report-web instance
-
-For autosend yes and no are pretty self explainatory. ask does not pass
-the -y flag to send-error-report, thus enabling the end user to review
-the report prior to submission.
-
-Signed-off-by: Elizabeth 'pidge' Flanagan <pidge@toganlabs.com>
+Signed-off-by: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
 ---
- meta/classes/report-error.bbclass | 41 +++++++++++++++++++++++++++++++++++++--
- 1 file changed, 39 insertions(+), 2 deletions(-)
+ meta/recipes-graphics/pango/pango_1.40.1.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes/report-error.bbclass b/meta/classes/report-error.bbclass
-index 82b5bcd..909adf0 100644
---- a/meta/classes/report-error.bbclass
-+++ b/meta/classes/report-error.bbclass
-@@ -85,10 +85,47 @@ python errorreport_handler () {
-             bb.utils.unlockfile(lock)
-             failures = jsondata['failures']
-             if(len(failures) > 0):
-+
-                 filename = "error_report_" + e.data.getVar("BUILDNAME", True)+".txt"
-                 datafile = errorreport_savedata(e, jsondata, filename)
--                bb.note("The errors for this build are stored in %s\nYou can send the errors to a reports server by running:\n  send-error-report %s [-s server]" % (datafile, datafile))
--                bb.note("The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.")
-+
-+                cmd_s = "send-error-report %s" % datafile
-+                response_s = "The errors for this build are stored in %s\n" % datafile
-+                sendit = False
-+
-+                autosend = e.data.getVarFlag("REPORTERROR","autosend")
-+                user = e.data.getVarFlag("REPORTERROR","user")
-+                email = e.data.getVarFlag("REPORTERROR","email")
-+                server = e.data.getVarFlag("REPORTERROR","server")
-+
-+                if user is not None:
-+                    cmd_s += " -n %s" % user
-+                if email is not None:
-+                    cmd_s += " -e %s" % email
-+                if server is not None:
-+                    cmd_s += " -s %s" % server
-+
-+                if autosend is not None:
-+                    if autosend == "yes":
-+                        response_s += "The errors for this build are set to automatically be sent.\n"
-+                        cmd_s += " -y"
-+                        sendit = True
-+                    elif autosend == "ask":
-+                        response_s += "The errors for this build are set to automatically be sent.\n"
-+                        sendit = True
-+                elif autosend is None:
-+                        response_s += "You can send the errors to a reports server by running:\n  %s\n" % cmd_s
-+                elif e.data.getVarFlags('REPORTERROR') is None:
-+                        response_s += "You can send the errors to a reports server by running:\n  %s [-s server]\n" % cmd_s
-+                        response_s += "The contents of these logs will be posted in public if you use the above command with the default server.\n \
-+                             Please ensure you remove any identifying or proprietary information when prompted before sending.\n"
-+
-+                bb.note(response_s)
-+
-+                if sendit == True:
-+                    import shlex, subprocess
-+                    args = shlex.split(cmd_s)
-+                    subprocess.call(args)
- }
+diff --git a/meta/recipes-graphics/pango/pango_1.40.1.bb b/meta/recipes-graphics/pango/pango_1.40.1.bb
+index 60288a1..159f591 100644
+--- a/meta/recipes-graphics/pango/pango_1.40.1.bb
++++ b/meta/recipes-graphics/pango/pango_1.40.1.bb
+@@ -19,7 +19,7 @@ SRC_URI += "file://run-ptest \
+ SRC_URI[archive.md5sum] = "6fc88c6529890d6c8e03074d57a3eceb"
+ SRC_URI[archive.sha256sum] = "e27af54172c72b3ac6be53c9a4c67053e16c905e02addcf3a603ceb2005c1a40"
  
- addhandler errorreport_handler
+-DEPENDS = "glib-2.0 glib-2.0-native fontconfig freetype virtual/libiconv cairo harfbuzz"
++DEPENDS = "glib-2.0 glib-2.0-native fontconfig freetype virtual/libiconv cairo harfbuzz libpcre"
+ 
+ PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11', '', d)}"
+ PACKAGECONFIG[x11] = "--with-xft,--without-xft,virtual/libx11 libxft"
 -- 
 2.9.3
 
