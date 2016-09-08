@@ -1,15 +1,23 @@
-Return-Path: <ml@embed.me.uk>
-Received: from owm.eumx.net (eumx.net [91.82.101.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 41CBC60017
+Return-Path: <Zubair.Kakakhel@imgtec.com>
+Received: from mailapp01.imgtec.com (mailapp01.imgtec.com [195.59.15.196])
+	by mail.openembedded.org (Postfix) with ESMTP id A098D6FEFA
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  8 Sep 2016 11:29:22 +0000 (UTC)
-From: Jack Mitchell <ml@embed.me.uk>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  8 Sep 2016 12:29:42 +0100
-Message-Id: <20160908112942.8459-1-ml@embed.me.uk>
-X-Mailer: git-send-email 2.9.3
-Cc: Jack Mitchell <jack@embed.me.uk>
-Subject: [RFC] iptables: add systemd helper unit to load/restore rules
+	Thu,  8 Sep 2016 13:14:33 +0000 (UTC)
+Received: from HHMAIL01.hh.imgtec.org (unknown [10.100.10.19])
+	by Forcepoint Email with ESMTPS id 474054845B628
+	for <openembedded-core@lists.openembedded.org>;
+	Thu,  8 Sep 2016 14:14:19 +0100 (IST)
+Received: from zkakakhel-linux.le.imgtec.org (192.168.154.45) by
+	HHMAIL01.hh.imgtec.org (10.100.10.21) with Microsoft SMTP Server (TLS)
+	id 14.3.294.0; Thu, 8 Sep 2016 14:14:22 +0100
+From: Zubair Lutfullah Kakakhel <Zubair.Kakakhel@imgtec.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 8 Sep 2016 14:14:17 +0100
+Message-ID: <1473340457-31797-1-git-send-email-Zubair.Kakakhel@imgtec.com>
+X-Mailer: git-send-email 1.9.1
+MIME-Version: 1.0
+X-Originating-IP: [192.168.154.45]
+Subject: [PATCH] valgrind: MIPS: Make toolchain basename generic
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -22,86 +30,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 08 Sep 2016 11:29:23 -0000
+X-List-Received-Date: Thu, 08 Sep 2016 13:14:34 -0000
+Content-Type: text/plain
 
-From: Jack Mitchell <jack@embed.me.uk>
+For the hard float case, COMPATIBLE_HOST should be set to ".*-linux"
+since OE can support multiple distro layers, not just poky.
 
-there is currently no way to automatically load iptable rules
-in OE. Add a systemd unit file to automatically load rules on
-network connection. This is cribbed from the way ArchLinux
-handles iptables with some minor modifications for OE. New rules
-can be generated using 'iptables-save > iptables.rules'
+Signed-off-by: Zubair Lutfullah Kakakhel <Zubair.Kakakhel@imgtec.com>
+
 ---
- .../iptables/iptables/iptables.rules                 |  0
- .../iptables/iptables/iptables.service               | 13 +++++++++++++
- meta/recipes-extended/iptables/iptables_1.6.0.bb     | 20 ++++++++++++++++++--
- 3 files changed, 31 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-extended/iptables/iptables/iptables.rules
- create mode 100644 meta/recipes-extended/iptables/iptables/iptables.service
+Pointed out by Andre McCurdy but patch v1 had already been accepted
+and applied.
+---
+ meta/recipes-devtools/valgrind/valgrind_3.11.0.bb | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-extended/iptables/iptables/iptables.rules b/meta/recipes-extended/iptables/iptables/iptables.rules
-new file mode 100644
-index 0000000..e69de29
-diff --git a/meta/recipes-extended/iptables/iptables/iptables.service b/meta/recipes-extended/iptables/iptables/iptables.service
-new file mode 100644
-index 0000000..041316e
---- /dev/null
-+++ b/meta/recipes-extended/iptables/iptables/iptables.service
-@@ -0,0 +1,13 @@
-+[Unit]
-+Description=Packet Filtering Framework
-+Before=network-pre.target
-+Wants=network-pre.target
-+
-+[Service]
-+Type=oneshot
-+ExecStart=@SBINDIR@/iptables-restore /etc/iptables/iptables.rules
-+ExecReload=@SBINDIR@/iptables-restore /etc/iptables/iptables.rules
-+RemainAfterExit=yes
-+
-+[Install]
-+WantedBy=multi-user.target
-diff --git a/meta/recipes-extended/iptables/iptables_1.6.0.bb b/meta/recipes-extended/iptables/iptables_1.6.0.bb
-index fbbe418..65430a1 100644
---- a/meta/recipes-extended/iptables/iptables_1.6.0.bb
-+++ b/meta/recipes-extended/iptables/iptables_1.6.0.bb
-@@ -22,13 +22,16 @@ SRC_URI = "http://netfilter.org/projects/iptables/files/iptables-${PV}.tar.bz2 \
-            file://types.h-add-defines-that-are-required-for-if_packet.patch \
-            file://0001-configure-Add-option-to-enable-disable-libnfnetlink.patch \
-            file://0002-configure.ac-only-check-conntrack-when-libnfnetlink-enabled.patch \
--          "
-+           file://iptables.service \
-+           file://iptables.rules \
-+"
-+
- SRC_URI_append_libc-musl = " file://0001-fix-build-with-musl.patch"
+diff --git a/meta/recipes-devtools/valgrind/valgrind_3.11.0.bb b/meta/recipes-devtools/valgrind/valgrind_3.11.0.bb
+index 3d49131..42fd27f 100644
+--- a/meta/recipes-devtools/valgrind/valgrind_3.11.0.bb
++++ b/meta/recipes-devtools/valgrind/valgrind_3.11.0.bb
+@@ -39,8 +39,8 @@ COMPATIBLE_HOST_armv5 = 'null'
+ COMPATIBLE_HOST_armv6 = 'null'
  
- SRC_URI[md5sum] = "27ba3451cb622467fc9267a176f19a31"
- SRC_URI[sha256sum] = "4bb72a0a0b18b5a9e79e87631ddc4084528e5df236bc7624472dcaa8480f1c60"
+ # valgrind doesn't like mips soft float
+-COMPATIBLE_HOST_mips = "${@bb.utils.contains("TARGET_FPU", "soft", "null", "mips-poky-linux", d)}"
+-COMPATIBLE_HOST_mipsel = "${@bb.utils.contains("TARGET_FPU", "soft", "null", "mipsel-poky-linux", d)}"
++COMPATIBLE_HOST_mips = "${@bb.utils.contains("TARGET_FPU", "soft", "null", ".*-linux", d)}"
++COMPATIBLE_HOST_mipsel = "${@bb.utils.contains("TARGET_FPU", "soft", "null", ".*-linux", d)}"
  
--inherit autotools pkgconfig
-+inherit autotools pkgconfig systemd
+ inherit autotools ptest
  
- EXTRA_OECONF = "--with-kernel=${STAGING_INCDIR} \
-                "
-@@ -48,3 +51,16 @@ do_configure_prepend() {
- 	# Keep ax_check_linker_flags.m4 which belongs to autoconf-archive.
- 	rm -f libtool.m4 lt~obsolete.m4 ltoptions.m4 ltsugar.m4 ltversion.m4
- }
-+
-+do_install_append() {
-+
-+        install -d ${D}${sysconfdir}/iptables
-+        install -m 0644 ${WORKDIR}/iptables.rules ${D}${sysconfdir}/iptables
-+
-+        install -d ${D}${systemd_unitdir}/system
-+        install -m 0644 ${WORKDIR}/iptables.service ${D}${systemd_unitdir}/system
-+
-+	sed -i -e 's,@SBINDIR@,${sbindir},g' ${D}${systemd_unitdir}/system/iptables.service
-+}
-+
-+SYSTEMD_SERVICE_${PN} = "iptables.service"
 -- 
-2.9.3
+1.9.1
 
 
