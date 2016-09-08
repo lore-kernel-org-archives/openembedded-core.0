@@ -1,24 +1,21 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 26B1860797
+Return-Path: <markus.lehtonen@linux.intel.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id 57F9B60722
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  8 Sep 2016 16:11:31 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u88GBUNR014524
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 8 Sep 2016 09:11:30 -0700 (PDT)
-Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Thu, 8 Sep 2016 09:11:29 -0700
-From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 8 Sep 2016 09:11:28 -0700
-Message-ID: <cover.1473349886.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 2.9.0
-MIME-Version: 1.0
-Subject: [PATCH 0/1] parselogs: Whitelist qemux86 error message with qemu 2.7.0
+	Thu,  8 Sep 2016 16:48:14 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by fmsmga104.fm.intel.com with ESMTP; 08 Sep 2016 09:47:51 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.30,301,1470726000"; d="scan'208";a="876496340"
+Received: from fsorel-mobl2.ger.corp.intel.com (HELO
+	mqz-osx-suse64.fi.intel.com) ([10.252.23.35])
+	by orsmga003.jf.intel.com with ESMTP; 08 Sep 2016 09:47:49 -0700
+From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  8 Sep 2016 19:47:46 +0300
+Message-Id: <1473353266-4786-1-git-send-email-markus.lehtonen@linux.intel.com>
+X-Mailer: git-send-email 2.6.6
+Subject: [PATCH] oeqa.buildperf: another fix for splitting 'nevr' string
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,25 +28,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 08 Sep 2016 16:11:32 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 08 Sep 2016 16:48:15 -0000
 
-The following changes since commit 872a83be6e86005f6426c90073ece56de4534ac0:
+When processing buildstats we determine recipe name, epoch, version and
+revision from the per-recipe buildstat directory name.  One previous
+patch made an assumption that package version starts with a number.
+That might not be true because of a packaging mistake or whatever
+reason. Thus, if a version starting with a number is not found, fall
+back to the "old" method of just taking the second-last dash-delimited
+part (the one before revision).
 
-  linux-yocto/4.4/4.8: uvesafb: provide option to specify timeout for task completion (2016-09-08 08:25:03 +0100)
+Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
+---
+ meta/lib/oeqa/buildperf/base.py | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib rbt/qemux86
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/qemux86
-
-Robert Yang (1):
-  parselogs: Whitelist qemux86 error message with qemu 2.7.0
-
- meta/lib/oeqa/runtime/parselogs.py | 1 +
- 1 file changed, 1 insertion(+)
-
+diff --git a/meta/lib/oeqa/buildperf/base.py b/meta/lib/oeqa/buildperf/base.py
+index 9700c05..2c10255 100644
+--- a/meta/lib/oeqa/buildperf/base.py
++++ b/meta/lib/oeqa/buildperf/base.py
+@@ -428,6 +428,11 @@ class BuildPerfTestCase(unittest.TestCase):
+             n_e_v, revision = nevr.rsplit('-', 1)
+             match = re.match(r'^(?P<name>\S+)-((?P<epoch>[0-9]{1,5})_)?(?P<version>[0-9]\S*)$',
+                              n_e_v)
++            if not match:
++                # If we're not able to parse a version starting with a number, just
++                # take the part after last dash
++                match = re.match(r'^(?P<name>\S+)-((?P<epoch>[0-9]{1,5})_)?(?P<version>[^-]+)$',
++                                 n_e_v)
+             name = match.group('name')
+             version = match.group('version')
+             epoch = match.group('epoch')
 -- 
-2.9.0
+2.6.6
 
 
