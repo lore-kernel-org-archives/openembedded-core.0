@@ -1,47 +1,48 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-it0-f53.google.com (mail-it0-f53.google.com
-	[209.85.214.53])
-	by mail.openembedded.org (Postfix) with ESMTP id C912D7734D
+Received: from mail-it0-f41.google.com (mail-it0-f41.google.com
+	[209.85.214.41])
+	by mail.openembedded.org (Postfix) with ESMTP id 0D0C4731D3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  8 Sep 2016 10:39:16 +0000 (UTC)
-Received: by mail-it0-f53.google.com with SMTP id c198so72131547ith.1
+	Thu,  8 Sep 2016 10:40:10 +0000 (UTC)
+Received: by mail-it0-f41.google.com with SMTP id i184so248229924itf.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 08 Sep 2016 03:39:17 -0700 (PDT)
+	Thu, 08 Sep 2016 03:40:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=ygcYm6Mni7AJM5q0tcEsd3XyTp4ae1M+Y67S7Syzx+o=;
-	b=HQW1zNGOW062STAABHE0vJTQzI5ikdoLJ5SiPoZi94bQ6yC/mjkY92Q8hsrfUCYDVi
-	srgyU+dEvUppyAfqgTFrvbDsHOJYzn77BP2z7+09pBNc/ztYs/pdtQVyDh/J+h8c/F/r
-	mbsAZi1KBExQEsuOwJ8cCFaRNIqdDbXNdKSFspZgnFu7WRo1DAhtUT7IdubuHYaU56R7
-	bIsxjKhekrai4mGgQhpSPIX6xMju5mzyA1HwddjC2GnjPSNu1AoJmlClDBm5VPxpcyJa
-	SE1FBXjfcVwfDrcaVqFGzlADl4OKVWo/+w+H3isOwbckvVGGGfwX1U9k5g/K2VgBFsVl
-	2m8w==
+	:cc; bh=x4TBkVcMM0Kz6PUqI2fOD+seM0/1Rxp/SzuRFCPiiu4=;
+	b=QAaVvxBJwK40+E4ku1sNpPDtXJ5Nk6UVm6HsWbLkAuFP+GeXMtV5Qdi9ur4NoA/rtU
+	2WNdy2JbYPNhVKnV8J8gW+ehkL4Ky9dNDIiU4O/hgVcMpICZV/SZFtIqDDT7I4Dm1Wqu
+	5tinfPXj/M8jcHgakCUnm9DZw+YCLikcoJbE0UU3TGtt/45dLd0zwk8rZhoLAvspeHVu
+	cf6WjvfUI4egKLB+GauRozJPg6xCtDufZ3OcLLnU7GGM/xW6rktEWr4I7w6Y3+vzIWMF
+	ZJ1Z8wedMHTrG3mhwf6B3e736a9uJV789VKDFYqafM2lNbs+6GG3mjIuKBOtzUpeL+Yu
+	G2jw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=ygcYm6Mni7AJM5q0tcEsd3XyTp4ae1M+Y67S7Syzx+o=;
-	b=NBgoZw8QbuT97OqUkgiXvsIK/6bo5csUQW9D1sjX7Q6cZlDS6oII0e5FpWZesY3zav
-	0Rdm2T7TbfsSK6FmvlD69jRHo3cflzeLFHRnqQrV/T/vs8Uuai1B5GC6dh9vals64Xvj
-	EM87YOQ3QKnor48xy/XlqVys1nYL2EMMi4AcxQwKG1eltIJ6//S0GBgEVK59gei88n9d
-	mKWFKQo1b3HjsiBC4arG/HETfgjChvZ4U5vZqd8tsrJE/2eAyaeUDco4EOfvKdQvMb6p
-	0WlqPA7csgXiUzJ9S2KV3p4+2OM5z0JpsUUILkcEo/RjmlQBxSjkbP96yvlEGrlMSI1v
-	oNNQ==
-X-Gm-Message-State: AE9vXwMM/8okKh1T9ivXaEYa/YiSoa54ReXd2JbchVxrSn1kAigpIJaQ+JJB+cz068U/y27MmGbw5jkNHNC9tzex
-X-Received: by 10.36.121.206 with SMTP id z197mr14643466itc.22.1473331157411; 
-	Thu, 08 Sep 2016 03:39:17 -0700 (PDT)
+	bh=x4TBkVcMM0Kz6PUqI2fOD+seM0/1Rxp/SzuRFCPiiu4=;
+	b=WqMF+7KmfQmz7rOJzY+eiWJQJ8gPixFbXqO4HKPhARCKQT6Uomei0o06LM3udtIP0Z
+	ysGvnXBwYlgulZB8ENFwZ0cM+JmEyyNC8RuMJ2zRKoI5/6V+RTEjJHDVMV1ZH6WUCEYc
+	J+oA16wtkG02TO424IIx1tZDdktlWOvSnc5NXKMeOeQLL6rXOCVCircJQ2Gg4OdDvmVP
+	KB5Ck2SGmYiUX+3A7wR4S6kwy6lNOgHpw0PQiuYdPDLfNHZhmo6oXZm4fwXEjLoO3z0I
+	xwtuWOZD/6pDO8fXo2hTp4egvcU5ufqslBkduD5ZpytZPMUf2FIqrL2IGWKfhcrZuJDW
+	VuLg==
+X-Gm-Message-State: AE9vXwPrerujrDa0EqFSZAZYLZpNtSmQFEd/mmNWgrzQkOMf1Mr3y+n7/QbbNg+wjFujUwEnL2jJCic7lTW7KkTg
+X-Received: by 10.36.124.141 with SMTP id a135mr13418729itd.25.1473331211048; 
+	Thu, 08 Sep 2016 03:40:11 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.107.18.17 with HTTP; Thu, 8 Sep 2016 03:38:56 -0700 (PDT)
-In-Reply-To: <20160908012645.25324-1-edwin.plauchu.camacho@linux.intel.com>
-References: <20160908012645.25324-1-edwin.plauchu.camacho@linux.intel.com>
+Received: by 10.107.18.17 with HTTP; Thu, 8 Sep 2016 03:39:50 -0700 (PDT)
+In-Reply-To: <878tv2znhb.fsf@ni.com>
+References: <20160908095633.26651-1-adrian.ratiu@ni.com>
+	<CAJTo0LaDjgTd20i-BQ5QQrWrKms3rfq-vNCiqVB7yz6f8VAmpg@mail.gmail.com>
+	<878tv2znhb.fsf@ni.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 8 Sep 2016 11:38:56 +0100
-Message-ID: <CAJTo0LYc1ijY-45eFBoCzs9QJp9Cs7Z1=1o7y5zSvwiLVe3zJA@mail.gmail.com>
-To: Edwin Plauchu <edwin.plauchu.camacho@linux.intel.com>
-Cc: Edwin Plauchu <edwin.plauchu.camacho@intel.com>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] oeqa: Remove linux user utilized for rpm test.
+Date: Thu, 8 Sep 2016 11:39:50 +0100
+Message-ID: <CAJTo0LY_6wg10ft-RNRrYH7xa93=aWB9LuH=gxEpgf19vC446Q@mail.gmail.com>
+To: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] pango: add libpcre to DEPENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,76 +55,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 08 Sep 2016 10:39:17 -0000
-Content-Type: multipart/alternative; boundary=001a114aa820463b00053bfca415
+X-List-Received-Date: Thu, 08 Sep 2016 10:40:11 -0000
+Content-Type: multipart/alternative; boundary=001a114a967a78a647053bfca782
 
---001a114aa820463b00053bfca415
+--001a114a967a78a647053bfca782
 Content-Type: text/plain; charset=UTF-8
 
-On 8 September 2016 at 02:26, Edwin Plauchu <
-edwin.plauchu.camacho@linux.intel.com> wrote:
+On 8 September 2016 at 11:37, Ioan-Adrian Ratiu <adrian.ratiu@ni.com> wrote:
 
->      def test_rpm_query_nonroot(self):
-> -        (status, output) = self.target.run('useradd test1')
-> +        test_user = 'test1'
-> +        (status, output) = self.target.run("useradd %s" % test_user)
->          self.assertTrue(status == 0, msg="Failed to create new user: " +
-> output)
-> -        (status, output) = self.target.run('su -c id test1')
-> +        (status, output) = self.target.run("su -c id %s" % test_user)
->          self.assertTrue('(test1)' in output, msg="Failed to execute as
-> new user")
-> -        (status, output) = self.target.run('su -c "rpm -qa" test1 ')
-> +        (status, output) = self.target.run("su -c \"rpm -qa\" %s " %
-> test_user)
->          self.assertEqual(status, 0, msg="status: %s. Cannot run rpm -qa:
-> %s" % (status, output))
-> +        (status, output) = self.target.run("userdel -r %s" % test_user)
-> +        self.assertTrue(status == 0, msg="Failed to erase user: %s" %
-> output)
+> No. It fails sporadically on the jenkins build machine when it's under
+> load. Somehow adding the pcre dependency directly to pango fixes the
+> build machine which is really weird. I can't replicate this on my dev
+> machine.
 >
 
-The user removal should be in a try/finally block around the test so that
-it always executes even if the test fails.
+Can you get access to the build directory when it fails?  It would be
+interesting to see what ldd says the gen-all-unicode is linking to.
 
 Ross
 
---001a114aa820463b00053bfca415
+--001a114a967a78a647053bfca782
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 8 September 2016 at 02:26, Edwin Plauchu <span dir=3D"ltr">&lt;<a href=
-=3D"mailto:edwin.plauchu.camacho@linux.intel.com" target=3D"_blank">edwin.p=
-lauchu.camacho@linux.intel.com</a>&gt;</span> wrote:<br><blockquote class=
-=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padd=
-ing-left:1ex"><div id=3D":5uj" class=3D"a3s aXjCH m157076699ff3e4f4">=C2=A0=
- =C2=A0 =C2=A0def test_rpm_query_nonroot(self):<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 (status, output) =3D self.target.run(&#39;user=
-add test1&#39;)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 test_user =3D &#39;test1&#39;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 (status, output) =3D self.target.run(&quot;use=
-radd %s&quot; % test_user)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.assertTrue(status =3D=3D 0, msg=3D&q=
-uot;Failed to create new user: &quot; + output)<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 (status, output) =3D self.target.run(&#39;su -=
-c id test1&#39;)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 (status, output) =3D self.target.run(&quot;su =
--c id %s&quot; % test_user)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.assertTrue(&#39;(test1)&#39; in outp=
-ut, msg=3D&quot;Failed to execute as new user&quot;)<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 (status, output) =3D self.target.run(&#39;su -=
-c &quot;rpm -qa&quot; test1 &#39;)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 (status, output) =3D self.target.run(&quot;su =
--c \&quot;rpm -qa\&quot; %s &quot; % test_user)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.assertEqual(status, 0, msg=3D&quot;s=
-tatus: %s. Cannot run rpm -qa: %s&quot; % (status, output))<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 (status, output) =3D self.target.run(&quot;use=
-rdel -r %s&quot; % test_user)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.assertTrue(status =3D=3D 0, msg=3D&quot;F=
-ailed to erase user: %s&quot; % output)</div></blockquote></div><br>The use=
-r removal should be in a try/finally block around the test so that it alway=
-s executes even if the test fails.</div><div class=3D"gmail_extra"><br></di=
-v><div class=3D"gmail_extra">Ross</div></div>
+On 8 September 2016 at 11:37, Ioan-Adrian Ratiu <span dir=3D"ltr">&lt;<a hr=
+ef=3D"mailto:adrian.ratiu@ni.com" target=3D"_blank">adrian.ratiu@ni.com</a>=
+&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0=
+ 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":5vm" class=
+=3D"a3s aXjCH m1570960f1101cbf2">No. It fails sporadically on the jenkins b=
+uild machine when it&#39;s under<br>
+load. Somehow adding the pcre dependency directly to pango fixes the<br>
+build machine which is really weird. I can&#39;t replicate this on my dev<b=
+r>
+machine.</div></blockquote></div><br>Can you get access to the build direct=
+ory when it fails?=C2=A0 It would be interesting to see what ldd says the g=
+en-all-unicode is linking to.</div><div class=3D"gmail_extra"><br></div><di=
+v class=3D"gmail_extra">Ross</div></div>
 
---001a114aa820463b00053bfca415--
+--001a114a967a78a647053bfca782--
