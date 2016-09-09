@@ -1,28 +1,50 @@
-Return-Path: <Zhenbo.Gao@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id CE4D173199
+Return-Path: <ross.burton@intel.com>
+Received: from mail-oi0-f53.google.com (mail-oi0-f53.google.com
+	[209.85.218.53])
+	by mail.openembedded.org (Postfix) with ESMTP id A2532731DD
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  9 Sep 2016 09:34:38 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u899YYDC003618
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
-	Fri, 9 Sep 2016 02:34:35 -0700
-Received: from [128.224.162.171] (128.224.162.171) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Fri, 9 Sep 2016 02:34:33 -0700
-To: Bill Randle <bill.randle@gmail.com>
-References: <1472621878-5147-1-git-send-email-zhenbo.gao@windriver.com>
-	<CA+n--H_aSwgXXtNj8VJO3JxDs0zC5RiOXRAqLp=nL8Bpp16U0g@mail.gmail.com>
-From: zhenbo <zhenbo.gao@windriver.com>
-Message-ID: <57D28228.6090206@windriver.com>
-Date: Fri, 9 Sep 2016 17:34:32 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.3.0
+	Fri,  9 Sep 2016 09:36:48 +0000 (UTC)
+Received: by mail-oi0-f53.google.com with SMTP id y2so129646603oie.0
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 09 Sep 2016 02:36:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=lKeRptc25DuNClAZ48wG/tHDLmysVAsTliRV1fXvwLk=;
+	b=RP0mkg4cszA2KTFNx9uZEilBp9vzlRr7VLsFprLla1ootJMo4r0kSZ+5hxlHX7LAW1
+	TGQXWMe0d6tQmFdAEFPcMRfLHsUQI5IFWX/b6Ba7FjPs+8TBvXVenF3kwZIQPO72ARFn
+	SJGNZK6NHG83RCQQgKVj6W0kYzQHJOcaL/iPtRntSWVfG4M8GJGt37nA6UWkm+1pBB0y
+	KijsWEgsD+CiNj9VZfOZUo2KnZkwcx25RcZfd3RBLW+jMcsN6ec9giciM6CiQe+mb5xk
+	gFCjHJ/aTlQFZah9gKqnJx2ln3QebP3ohEJSOwYJw+zQS/w1p7F4hkAGsRHCbf+0VFTV
+	Oaig==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=lKeRptc25DuNClAZ48wG/tHDLmysVAsTliRV1fXvwLk=;
+	b=iLrvJrtv957QYqGKUJElQhEd/dNGuq5fMrYVDXSCNVf3mYfYXMudZ3YSep3OPJvK+B
+	MbesgFDrhpypIMg808mYYIARD3acyQggzXfnQuKBm41mvuidwHXsPgEDye+vjfsLekHW
+	LBS+i+/xYPRdcbzVrvVI8gC1rc3YSX7GLYvVeSWZVZd2gtsKdebD+4RIiLG79wWC3t/r
+	bN/BAQJpg2kX3MihK3EGvtcP9Bw+lLsx3ZCk59e54Qx7qLkKnSjkEEyJxFqc7kYpATs5
+	9qLTgBocAAp0zGbobQzzljbebtt+8TOo4JxeDW1zERrhJCcR8J7E54F2/qb4XyGDqhsn
+	5sKg==
+X-Gm-Message-State: AE9vXwPXzDnRKo6Nkt8uZeOMdQ1S9+7jOpgmZZ7KDgtpIrDNmtaYEa284EjRfMidizNAHnw8BYT9gyKPZaN1i9On
+X-Received: by 10.202.180.2 with SMTP id d2mr4548499oif.98.1473413808793; Fri,
+	09 Sep 2016 02:36:48 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CA+n--H_aSwgXXtNj8VJO3JxDs0zC5RiOXRAqLp=nL8Bpp16U0g@mail.gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] perl: correct the path of perl used by ptest
+Received: by 10.107.18.17 with HTTP; Fri, 9 Sep 2016 02:36:28 -0700 (PDT)
+In-Reply-To: <871t0tzads.fsf@ni.com>
+References: <20160908095633.26651-1-adrian.ratiu@ni.com>
+	<CAJTo0LaDjgTd20i-BQ5QQrWrKms3rfq-vNCiqVB7yz6f8VAmpg@mail.gmail.com>
+	<878tv2znhb.fsf@ni.com>
+	<CAJTo0LY_6wg10ft-RNRrYH7xa93=aWB9LuH=gxEpgf19vC446Q@mail.gmail.com>
+	<871t0tzads.fsf@ni.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 9 Sep 2016 10:36:28 +0100
+Message-ID: <CAJTo0LZtsxhz=5=XdBWDQVMZpXyXqi11h2OS5XY5HOrUXkMmnA@mail.gmail.com>
+To: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] pango: add libpcre to DEPENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,178 +57,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 09 Sep 2016 09:34:39 -0000
-Content-Type: multipart/alternative;
-	boundary="------------010305060507040200060208"
+X-List-Received-Date: Fri, 09 Sep 2016 09:36:48 -0000
+Content-Type: multipart/alternative; boundary=001a113d3dd4ae75ee053c0fe2fe
 
---------------010305060507040200060208
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
+--001a113d3dd4ae75ee053c0fe2fe
+Content-Type: text/plain; charset=UTF-8
 
-Hi Bill,
+On 9 September 2016 at 10:32, Ioan-Adrian Ratiu <adrian.ratiu@ni.com> wrote:
 
-Sorry that i just notice this email, sorry for the late reply.
-
-I made this patch based on the following two points:
-1. Please see commit 467eb93f and 84a39786, there has the following code 
-in files automake_1.15.bb and autoconf.inc:
-     CACHED_CONFIGUREVARS += "ac_cv_path_PERL=${USRBINPATH}/perl"
-2. The familiar modifications for other files are accepted by oe-core, 
-like gobject-introspection groff texi2html quilt and so on...
-
-Thanks,
-Zhenbo
-
-
-On 2016年08月31日 22:42, Bill Randle wrote:
-> Under what conditions is the explicit path to /usr/bin/perl required? 
-> Just before your added code, it creates a symlink from the installed 
-> perl location to the "t" directory where the tests are run. What if 
-> the perl that was built was an alternate version and installed in 
-> /usr/local/bin?
->
->     -Bill
->
-> On Tue, Aug 30, 2016 at 10:37 PM, Zhenbo Gao <zhenbo.gao@windriver.com 
-> <mailto:zhenbo.gao@windriver.com>> wrote:
->
->     some files from perl-ptest depends on perl, which is located at
->     /usr/bin/
->
->     Signed-off-by: Zhenbo Gao <zhenbo.gao@windriver.com
->     <mailto:zhenbo.gao@windriver.com>>
->     ---
->      meta/recipes-devtools/perl/perl-ptest.inc | 6 ++++++
->      1 file changed, 6 insertions(+)
->
->     diff --git a/meta/recipes-devtools/perl/perl-ptest.inc
->     b/meta/recipes-devtools/perl/perl-ptest.inc
->     index d136c5c..94e40e6 100644
->     --- a/meta/recipes-devtools/perl/perl-ptest.inc
->     +++ b/meta/recipes-devtools/perl/perl-ptest.inc
->     @@ -24,6 +24,12 @@ do_install_ptest () {
->
->             ln -sf ${bindir}/perl ${D}${PTEST_PATH}/t/perl
->
->     +       # perl is located at /usr/bin/
->     +       p='^#![/.]*perl'
->     +       files=`grep -E ${p} ${D} -nr | grep -v -E 'Binary|win32' |
->     cut -d ':' -f 1`
->     +       for f in ${files}; do
->     +               sed -i -e "s:${p}:#! ${USRBINPATH}/perl:g" ${f}
->     +       done
->      }
->
->      python populate_packages_prepend() {
->     --
->     1.9.1
->
->     --
->     _______________________________________________
->     Openembedded-core mailing list
->     Openembedded-core@lists.openembedded.org
->     <mailto:Openembedded-core@lists.openembedded.org>
->     http://lists.openembedded.org/mailman/listinfo/openembedded-core
->     <http://lists.openembedded.org/mailman/listinfo/openembedded-core>
->
+> I cleared the build directory and sstate cache, started with a clean
+> rebuild and I can't reproduce the error anymore. gen-all-unicode is
+> built as expected and at runtime it links with libpcre as expected
+> and the build succeeds. This is really weird, I didn't touch these
+> packages at all, they just sporadically failed out of the blue and now
+> they work.
 >
 
+That's good, right? :)
 
---------------010305060507040200060208
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+If you ever manage to replicate, please save the build directory for
+inspection.
 
-<html>
-  <head>
-    <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-  </head>
-  <body bgcolor="#FFFFFF" text="#000000">
-    Hi Bill,<br>
-    <br>
-    Sorry that i just notice this email, sorry for the late reply.<br>
-    <br>
-    I made this patch based on the following two points:<br>
-    1. Please see commit 467eb93f and 84a39786, there has the following
-    code in files automake_1.15.bb and autoconf.inc:<br>
-        CACHED_CONFIGUREVARS += "ac_cv_path_PERL=${USRBINPATH}/perl"<br>
-    2. The familiar modifications for other files are accepted by
-    oe-core, like gobject-introspection groff texi2html quilt and so
-    on...<br>
-    <br>
-    Thanks,<br>
-    Zhenbo<br>
-    <br>
-    <br>
-    <div class="moz-cite-prefix">On 2016年08月31日 22:42, Bill Randle
-      wrote:<br>
-    </div>
-    <blockquote
-cite="mid:CA+n--H_aSwgXXtNj8VJO3JxDs0zC5RiOXRAqLp=nL8Bpp16U0g@mail.gmail.com"
-      type="cite">
-      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-      <div dir="ltr">Under what conditions is the explicit path to
-        /usr/bin/perl required? Just before your added code, it creates
-        a symlink from the installed perl location to the "t" directory
-        where the tests are run. What if the perl that was built was an
-        alternate version and installed in /usr/local/bin?
-        <div><br>
-        </div>
-        <div>    -Bill</div>
-      </div>
-      <div class="gmail_extra"><br>
-        <div class="gmail_quote">On Tue, Aug 30, 2016 at 10:37 PM,
-          Zhenbo Gao <span dir="ltr">&lt;<a moz-do-not-send="true"
-              href="mailto:zhenbo.gao@windriver.com" target="_blank">zhenbo.gao@windriver.com</a>&gt;</span>
-          wrote:<br>
-          <blockquote class="gmail_quote" style="margin:0 0 0
-            .8ex;border-left:1px #ccc solid;padding-left:1ex">some files
-            from perl-ptest depends on perl, which is located at
-            /usr/bin/<br>
-            <br>
-            Signed-off-by: Zhenbo Gao &lt;<a moz-do-not-send="true"
-              href="mailto:zhenbo.gao@windriver.com">zhenbo.gao@windriver.com</a>&gt;<br>
-            ---<br>
-             meta/recipes-devtools/perl/<wbr>perl-ptest.inc | 6 ++++++<br>
-             1 file changed, 6 insertions(+)<br>
-            <br>
-            diff --git a/meta/recipes-devtools/perl/<wbr>perl-ptest.inc
-            b/meta/recipes-devtools/perl/<wbr>perl-ptest.inc<br>
-            index d136c5c..94e40e6 100644<br>
-            --- a/meta/recipes-devtools/perl/<wbr>perl-ptest.inc<br>
-            +++ b/meta/recipes-devtools/perl/<wbr>perl-ptest.inc<br>
-            @@ -24,6 +24,12 @@ do_install_ptest () {<br>
-            <br>
-                    ln -sf ${bindir}/perl ${D}${PTEST_PATH}/t/perl<br>
-            <br>
-            +       # perl is located at /usr/bin/<br>
-            +       p='^#![/.]*perl'<br>
-            +       files=`grep -E ${p} ${D} -nr | grep -v -E
-            'Binary|win32' | cut -d ':' -f 1`<br>
-            +       for f in ${files}; do<br>
-            +               sed -i -e "s:${p}:#! ${USRBINPATH}/perl:g"
-            ${f}<br>
-            +       done<br>
-             }<br>
-            <br>
-             python populate_packages_prepend() {<br>
-            <span class="HOEnZb"><font color="#888888">--<br>
-                1.9.1<br>
-                <br>
-                --<br>
-                ______________________________<wbr>_________________<br>
-                Openembedded-core mailing list<br>
-                <a moz-do-not-send="true"
-                  href="mailto:Openembedded-core@lists.openembedded.org">Openembedded-core@lists.<wbr>openembedded.org</a><br>
-                <a moz-do-not-send="true"
-                  href="http://lists.openembedded.org/mailman/listinfo/openembedded-core"
-                  rel="noreferrer" target="_blank">http://lists.openembedded.org/<wbr>mailman/listinfo/openembedded-<wbr>core</a><br>
-              </font></span></blockquote>
-        </div>
-        <br>
-      </div>
-    </blockquote>
-    <br>
-  </body>
-</html>
+Ross
 
---------------010305060507040200060208--
+--001a113d3dd4ae75ee053c0fe2fe
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 9 September 2016 at 10:32, Ioan-Adrian Ratiu <span dir=3D"ltr">&lt;<a hr=
+ef=3D"mailto:adrian.ratiu@ni.com" target=3D"_blank">adrian.ratiu@ni.com</a>=
+&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0=
+ 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":46b" class=
+=3D"a3s aXjCH m1570e4c0d1885abe">I cleared the build directory and sstate c=
+ache, started with a clean<br>
+rebuild and I can&#39;t reproduce the error anymore. gen-all-unicode is<br>
+built as expected and at runtime it links with libpcre as expected<br>
+and the build succeeds. This is really weird, I didn&#39;t touch these<br>
+packages at all, they just sporadically failed out of the blue and now<br>
+they work.<br></div></blockquote></div><div class=3D"gmail_extra"><br></div=
+>That&#39;s good, right? :)</div><div class=3D"gmail_extra"><br>If you ever=
+ manage to replicate, please save the build directory for inspection.</div>=
+<div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div><=
+/div>
+
+--001a113d3dd4ae75ee053c0fe2fe--
