@@ -1,46 +1,30 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-oi0-f53.google.com (mail-oi0-f53.google.com
-	[209.85.218.53])
-	by mail.openembedded.org (Postfix) with ESMTP id 1310260620
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 352457715E
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  9 Sep 2016 10:51:29 +0000 (UTC)
-Received: by mail-oi0-f53.google.com with SMTP id s131so127459711oie.2
+	Fri,  9 Sep 2016 12:19:04 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u89CJ4II006576 for <openembedded-core@lists.openembedded.org>;
+	Fri, 9 Sep 2016 13:19:04 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id ectkpo47g0hs
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 09 Sep 2016 03:51:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=m+UtsOZQImn+uf8M0YGLblZE6socqhroSYEBZvrykI8=;
-	b=GpOsCL31YAc/hwIA2S2skICIQdUwkfk0RfmUGhicivM+8YqilP6rre5lZtk7/ERPRk
-	Lte9eblI6+ZifqnW37l9CEV9PfwNNJTyUVtYa7C+jAFp8CnuXMiCWckJRvIkHhjqSjul
-	ZnmHAjkepztkIOr54OA3MtG7S8fxbyIXjM8wrFEMegVElz59JwlJ4SAqRAFnMYC5eRoq
-	lkKCIOtJNQK2/ptEc1y9dYFOHnK8cRwbWUmHl1WKOykvCpEw/ceDi0CacaJJwLmNY8HP
-	6RUX17Mtt+5N8jLgyd16ztD56syLiQxmmwDoB4h9swqettYnvo0tBCB7Fr59wr6C8vVq
-	sh+Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=m+UtsOZQImn+uf8M0YGLblZE6socqhroSYEBZvrykI8=;
-	b=lq3TAOM5ExVmjEW9wsi6XAjzQPfCdMV4CdRl+8DPBiCV8cIJzRcjD8MIHXWOWqDDlI
-	YmlT8OCwST3ks7pQfpRP+H/liUC1Rj6P5cu252Muk7LiDgaVCCLdmfRud6ytWIG1qsNJ
-	fPwxfsoAFhprV0m8XVMUm+2gbBb20tLwMOCcre5gtcc6UyjHNZO7ar0Gv1ZWx0lDhYmH
-	LrnDJVe4L6CV8DLed6j1ztJYFMAYF6juTZ+CNs/i/3i9cNfUDFuWxcKxt6I09IzP35xz
-	gmgtDKBfNDbl+clBj/6ClGkPmzq48byUMnYH8bGl9X9msttWs+GCIFMF7xtfeN7b2t1E
-	XR5A==
-X-Gm-Message-State: AE9vXwMzrmbHse7kF0tGXCApWn4SgutLFnMGtKU/qmPTPVHy7XapQglC5x04BWtsmeY/dmkG7Mewr+r9EL+a9P1L
-X-Received: by 10.157.46.209 with SMTP id w75mr3620310ota.170.1473418289025;
-	Fri, 09 Sep 2016 03:51:29 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.107.18.17 with HTTP; Fri, 9 Sep 2016 03:51:08 -0700 (PDT)
-In-Reply-To: <1473400623-20500-1-git-send-email-markus.lehtonen@linux.intel.com>
-References: <1473400623-20500-1-git-send-email-markus.lehtonen@linux.intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 9 Sep 2016 11:51:08 +0100
-Message-ID: <CAJTo0Lb6coAQk0E=DXo2eUkJo4p8TDHXuuTv98i2r61AwgyvQA@mail.gmail.com>
-To: Markus Lehtonen <markus.lehtonen@linux.intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] gst-player: include SRCPV in PV
+	Fri,  9 Sep 2016 13:19:04 +0100 (BST)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u89CJ2q8006567
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 9 Sep 2016 13:19:03 +0100
+Message-ID: <1473423542.20226.267.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Fri, 09 Sep 2016 13:19:02 +0100
+X-Mailer: Evolution 3.18.5.2-0ubuntu3 
+Mime-Version: 1.0
+Subject: [PATCH] oeqa/parselogs: Don't use cwd for file transfers
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,40 +37,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 09 Sep 2016 10:51:30 -0000
-Content-Type: multipart/alternative; boundary=001a1142ff74b92af2053c10ed72
+X-List-Received-Date: Fri, 09 Sep 2016 12:19:06 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
---001a1142ff74b92af2053c10ed72
-Content-Type: text/plain; charset=UTF-8
+If you run:
 
-On 9 September 2016 at 06:57, Markus Lehtonen <
-markus.lehtonen@linux.intel.com> wrote:
+MACHINE=A bitbake <image> -c testimage
+MACHINE=B bitbake <image> -c testimage
 
-> +PV = "git${SRCPV}"
->
+and A has errors in parselogs, machine B can pick these up and cause
+immense confusion. This is because the test transfers the log files
+to cwd which is usually TOPDIR. This is clearly bad and this patch
+uses a subdir of WORKDIR to ensure machines don't contaminate each
+other.
 
-This breaks packaging for me, throwing interesting python exceptions.
+Also ensure any previous logs are cleaned up from any existing
+transfer directory.
 
-gst-player has a version in configure.ac, so this should be
-0.0.1+git${SRCPV} I guess.
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-Ross
+diff --git a/meta/lib/oeqa/runtime/parselogs.py b/meta/lib/oeqa/runtime/parselogs.py
+index 98a959e..8238a77 100644
+--- a/meta/lib/oeqa/runtime/parselogs.py
++++ b/meta/lib/oeqa/runtime/parselogs.py
+@@ -180,6 +180,9 @@ class ParseLogsTest(oeRuntimeTest):
+     def getMachine(self):
+         return oeRuntimeTest.tc.d.getVar("MACHINE", True)
+ 
++    def getWorkdir(self):
++        return oeRuntimeTest.tc.d.getVar("WORKDIR", True)
++
+     #get some information on the CPU of the machine to display at the beginning of the output. This info might be useful in some cases.
+     def getHardwareInfo(self):
+         hwi = ""
+@@ -217,16 +220,19 @@ class ParseLogsTest(oeRuntimeTest):
+ 
+     #copy the log files to be parsed locally
+     def transfer_logs(self, log_list):
+-        target_logs = 'target_logs'
++        workdir = self.getWorkdir()
++        self.target_logs = workdir + '/' + 'target_logs'
++        target_logs = self.target_logs
+         if not os.path.exists(target_logs):
+             os.makedirs(target_logs)
++        bb.utils.remove(self.target_logs + "/*")
+         for f in log_list:
+             self.target.copy_from(f, target_logs)
+ 
+     #get the local list of logs
+     def get_local_log_list(self, log_locations):
+         self.transfer_logs(self.getLogList(log_locations))
+-        logs = [ os.path.join('target_logs',f) for f in os.listdir('target_logs') if os.path.isfile(os.path.join('target_logs',f)) ]
++        logs = [ os.path.join(self.target_logs, f) for f in os.listdir(self.target_logs) if os.path.isfile(os.path.join(self.target_logs, f)) ]
+         return logs
+ 
+     #build the grep command to be used with filters and exclusions
 
---001a1142ff74b92af2053c10ed72
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 9 September 2016 at 06:57, Markus Lehtonen <span dir=3D"ltr">&lt;<a href=
-=3D"mailto:markus.lehtonen@linux.intel.com" target=3D"_blank">markus.lehton=
-en@linux.intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quot=
-e" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">=
-<div id=3D":772" class=3D"a3s aXjCH m1570d87af1f8f38b">+PV =3D &quot;git${S=
-RCPV}&quot;<br></div></blockquote></div><br>This breaks packaging for me, t=
-hrowing interesting python exceptions.</div><div class=3D"gmail_extra"><br>=
-</div><div class=3D"gmail_extra">gst-player has a version in <a href=3D"htt=
-p://configure.ac">configure.ac</a>, so this should be 0.0.1+git${SRCPV} I g=
-uess.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">=
-Ross</div></div>
 
---001a1142ff74b92af2053c10ed72--
+
