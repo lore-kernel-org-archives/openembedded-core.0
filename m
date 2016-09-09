@@ -1,24 +1,27 @@
-Return-Path: <ed.bartosh@linux.intel.com>
+Return-Path: <maxin.john@intel.com>
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 307FE607A5
+	by mail.openembedded.org (Postfix) with ESMTP id 04C9F6FFCD
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  9 Sep 2016 08:03:13 +0000 (UTC)
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-	by orsmga101.jf.intel.com with ESMTP; 09 Sep 2016 01:03:14 -0700
+	Fri,  9 Sep 2016 08:06:50 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by orsmga101.jf.intel.com with ESMTP; 09 Sep 2016 01:06:51 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.30,304,1470726000"; 
-   d="scan'208";a="6364188"
+X-IronPort-AV: E=Sophos;i="5.30,304,1470726000"; d="scan'208";a="1053524434"
 Received: from linux.intel.com ([10.54.29.200])
-	by fmsmga006.fm.intel.com with ESMTP; 09 Sep 2016 01:03:11 -0700
-Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.68])
-	by linux.intel.com (Postfix) with ESMTP id 325876A4080;
-	Fri,  9 Sep 2016 01:02:49 -0700 (PDT)
-From: Ed Bartosh <ed.bartosh@linux.intel.com>
+	by fmsmga002.fm.intel.com with ESMTP; 09 Sep 2016 01:06:51 -0700
+Received: from mbabyjoh-desk.fi.intel.com (mbabyjoh-desk.fi.intel.com
+	[10.237.72.71])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by linux.intel.com (Postfix) with ESMTP id 7C10A6A4080
+	for <openembedded-core@lists.openembedded.org>;
+	Fri,  9 Sep 2016 01:06:29 -0700 (PDT)
+From: "Maxin B. John" <maxin.john@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  9 Sep 2016 11:02:54 +0300
-Message-Id: <1473408174-21460-1-git-send-email-ed.bartosh@linux.intel.com>
-X-Mailer: git-send-email 2.1.4
-Subject: [PATCH] bitbake.conf: Add BBSERVER to HASHBASE_WHITELIST
+Date: Fri,  9 Sep 2016 11:06:40 +0300
+Message-Id: <1473408400-8043-1-git-send-email-maxin.john@intel.com>
+X-Mailer: git-send-email 2.4.0
+Subject: [PATCH] gstreamer1.0-omx: inherit upstream-version-is-even
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,35 +34,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 09 Sep 2016 08:03:14 -0000
+X-List-Received-Date: Fri, 09 Sep 2016 08:06:51 -0000
 
-Using BBSERVER variable in checksum calculations causes
-unnecessary rebuilds when running memres bitbake.
+Since gstreamer1.0-omx follows the GStreamer versioning style, inherit
+upstream-version-is-even for checking the upstream version of the package.
 
-Whitelisted BBSERVER variable to prevent this unwanted
-behaviour.
-
-[YOCTO #10201]
-
-Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
+Signed-off-by: Maxin B. John <maxin.john@intel.com>
 ---
- meta/conf/bitbake.conf | 2 +-
+ meta/recipes-multimedia/gstreamer/gstreamer1.0-omx.inc | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index c32a3f8..b6a1a68 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -802,7 +802,7 @@ BB_CONSOLELOG ?= "${LOG_DIR}/cooker/${MACHINE}/${DATETIME}.log"
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-omx.inc b/meta/recipes-multimedia/gstreamer/gstreamer1.0-omx.inc
+index aa3e820..41b04d6 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-omx.inc
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-omx.inc
+@@ -7,7 +7,7 @@ LICENSE_FLAGS = "commercial"
  
- # Setup our default hash policy
- BB_SIGNATURE_HANDLER ?= "OEBasicHash"
--BB_HASHBASE_WHITELIST ?= "TMPDIR FILE PATH PWD BB_TASKHASH BBPATH DL_DIR \
-+BB_HASHBASE_WHITELIST ?= "TMPDIR FILE PATH PWD BB_TASKHASH BBPATH BBSERVER DL_DIR \
-     SSTATE_DIR THISDIR FILESEXTRAPATHS FILE_DIRNAME HOME LOGNAME SHELL TERM \
-     USER FILESPATH STAGING_DIR_HOST STAGING_DIR_TARGET COREBASE PRSERV_HOST \
-     PRSERV_DUMPDIR PRSERV_DUMPFILE PRSERV_LOCKDOWN PARALLEL_MAKE \
+ DEPENDS = "gstreamer1.0 gstreamer1.0-plugins-base gstreamer1.0-plugins-bad"
+ 
+-inherit autotools pkgconfig gettext
++inherit autotools pkgconfig gettext upstream-version-is-even
+ 
+ acpaths = "-I ${S}/common/m4 -I ${S}/m4"
+ 
 -- 
-2.1.4
+2.4.0
 
 
