@@ -1,50 +1,49 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-oi0-f53.google.com (mail-oi0-f53.google.com
-	[209.85.218.53])
-	by mail.openembedded.org (Postfix) with ESMTP id A2532731DD
+Return-Path: <pidge@toganlabs.com>
+X-Greylist: delayed 1156 seconds by postgrey-1.34 at layers.openembedded.org;
+	Fri, 09 Sep 2016 09:58:38 UTC
+Received: from antelope.tulip.relay.mailchannels.net
+	(antelope.tulip.relay.mailchannels.net [23.83.218.4])
+	by mail.openembedded.org (Postfix) with ESMTP id 1A92A60851
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  9 Sep 2016 09:36:48 +0000 (UTC)
-Received: by mail-oi0-f53.google.com with SMTP id y2so129646603oie.0
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 09 Sep 2016 02:36:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=lKeRptc25DuNClAZ48wG/tHDLmysVAsTliRV1fXvwLk=;
-	b=RP0mkg4cszA2KTFNx9uZEilBp9vzlRr7VLsFprLla1ootJMo4r0kSZ+5hxlHX7LAW1
-	TGQXWMe0d6tQmFdAEFPcMRfLHsUQI5IFWX/b6Ba7FjPs+8TBvXVenF3kwZIQPO72ARFn
-	SJGNZK6NHG83RCQQgKVj6W0kYzQHJOcaL/iPtRntSWVfG4M8GJGt37nA6UWkm+1pBB0y
-	KijsWEgsD+CiNj9VZfOZUo2KnZkwcx25RcZfd3RBLW+jMcsN6ec9giciM6CiQe+mb5xk
-	gFCjHJ/aTlQFZah9gKqnJx2ln3QebP3ohEJSOwYJw+zQS/w1p7F4hkAGsRHCbf+0VFTV
-	Oaig==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=lKeRptc25DuNClAZ48wG/tHDLmysVAsTliRV1fXvwLk=;
-	b=iLrvJrtv957QYqGKUJElQhEd/dNGuq5fMrYVDXSCNVf3mYfYXMudZ3YSep3OPJvK+B
-	MbesgFDrhpypIMg808mYYIARD3acyQggzXfnQuKBm41mvuidwHXsPgEDye+vjfsLekHW
-	LBS+i+/xYPRdcbzVrvVI8gC1rc3YSX7GLYvVeSWZVZd2gtsKdebD+4RIiLG79wWC3t/r
-	bN/BAQJpg2kX3MihK3EGvtcP9Bw+lLsx3ZCk59e54Qx7qLkKnSjkEEyJxFqc7kYpATs5
-	9qLTgBocAAp0zGbobQzzljbebtt+8TOo4JxeDW1zERrhJCcR8J7E54F2/qb4XyGDqhsn
-	5sKg==
-X-Gm-Message-State: AE9vXwPXzDnRKo6Nkt8uZeOMdQ1S9+7jOpgmZZ7KDgtpIrDNmtaYEa284EjRfMidizNAHnw8BYT9gyKPZaN1i9On
-X-Received: by 10.202.180.2 with SMTP id d2mr4548499oif.98.1473413808793; Fri,
-	09 Sep 2016 02:36:48 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.107.18.17 with HTTP; Fri, 9 Sep 2016 02:36:28 -0700 (PDT)
-In-Reply-To: <871t0tzads.fsf@ni.com>
-References: <20160908095633.26651-1-adrian.ratiu@ni.com>
-	<CAJTo0LaDjgTd20i-BQ5QQrWrKms3rfq-vNCiqVB7yz6f8VAmpg@mail.gmail.com>
-	<878tv2znhb.fsf@ni.com>
-	<CAJTo0LY_6wg10ft-RNRrYH7xa93=aWB9LuH=gxEpgf19vC446Q@mail.gmail.com>
-	<871t0tzads.fsf@ni.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 9 Sep 2016 10:36:28 +0100
-Message-ID: <CAJTo0LZtsxhz=5=XdBWDQVMZpXyXqi11h2OS5XY5HOrUXkMmnA@mail.gmail.com>
-To: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] pango: add libpcre to DEPENDS
+	Fri,  9 Sep 2016 09:58:37 +0000 (UTC)
+X-Sender-Id: hostpapa|x-authuser|pidge@toganlabs.com
+Received: from relay.mailchannels.net (localhost [127.0.0.1])
+	by relay.mailchannels.net (Postfix) with ESMTP id C0F481208DF;
+	Fri,  9 Sep 2016 09:39:16 +0000 (UTC)
+Received: from hp181.hostpapa.com (ip-10-229-2-62.us-west-2.compute.internal
+	[10.229.2.62])
+	by relay.mailchannels.net (Postfix) with ESMTPA id E3958120E77;
+	Fri,  9 Sep 2016 09:39:15 +0000 (UTC)
+X-Sender-Id: hostpapa|x-authuser|pidge@toganlabs.com
+Received: from hp181.hostpapa.com ([TEMPUNAVAIL]. [10.16.27.41])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384)
+	by 0.0.0.0:2500 (trex/5.7.8); Fri, 09 Sep 2016 09:39:16 +0000
+X-MC-Relay: Neutral
+X-MailChannels-SenderId: hostpapa|x-authuser|pidge@toganlabs.com
+X-MailChannels-Auth-Id: hostpapa
+X-MC-Loop-Signature: 1473413956296:1662574646
+X-MC-Ingress-Time: 1473413956296
+Received: from ip-217-103-177-37.ip.prioritytelecom.net
+	([217.103.177.37]:51728 helo=[10.191.255.204])
+	by hp181.hostpapa.com with esmtpsa
+	(TLSv1.2:ECDHE-RSA-AES128-GCM-SHA256:128) (Exim 4.87)
+	(envelope-from <pidge@toganlabs.com>)
+	id 1biIGx-003Jmq-M1; Fri, 09 Sep 2016 11:39:09 +0200
+Message-ID: <1473413937.2869.13.camel@toganlabs.com>
+From: Beth 'pidge' Flanagan <pidge@toganlabs.com>
+Reply-To: pidge@toganlabs.com
+To: Martin Jansa <martin.jansa@gmail.com>
+Date: Fri, 09 Sep 2016 11:38:57 +0200
+In-Reply-To: <20160909093111.GA2639@jama>
+References: <20160908092601.7588-1-pidge@toganlabs.com>
+	<20160909093111.GA2639@jama>
+Organization: toganlabs.com
+X-Mailer: Evolution 3.18.5.2-0ubuntu3 
+Mime-Version: 1.0
+X-OutGoing-Spam-Status: No, score=-1.0
+X-AuthUser: pidge@toganlabs.com
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [RFC][PATCH] report-error.bbclass: Add support for autosending
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,48 +56,198 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 09 Sep 2016 09:36:48 -0000
-Content-Type: multipart/alternative; boundary=001a113d3dd4ae75ee053c0fe2fe
-
---001a113d3dd4ae75ee053c0fe2fe
-Content-Type: text/plain; charset=UTF-8
-
-On 9 September 2016 at 10:32, Ioan-Adrian Ratiu <adrian.ratiu@ni.com> wrote:
-
-> I cleared the build directory and sstate cache, started with a clean
-> rebuild and I can't reproduce the error anymore. gen-all-unicode is
-> built as expected and at runtime it links with libpcre as expected
-> and the build succeeds. This is really weird, I didn't touch these
-> packages at all, they just sporadically failed out of the blue and now
-> they work.
->
-
-That's good, right? :)
-
-If you ever manage to replicate, please save the build directory for
-inspection.
-
-Ross
-
---001a113d3dd4ae75ee053c0fe2fe
-Content-Type: text/html; charset=UTF-8
+X-List-Received-Date: Fri, 09 Sep 2016 09:58:42 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 9 September 2016 at 10:32, Ioan-Adrian Ratiu <span dir=3D"ltr">&lt;<a hr=
-ef=3D"mailto:adrian.ratiu@ni.com" target=3D"_blank">adrian.ratiu@ni.com</a>=
-&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0=
- 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":46b" class=
-=3D"a3s aXjCH m1570e4c0d1885abe">I cleared the build directory and sstate c=
-ache, started with a clean<br>
-rebuild and I can&#39;t reproduce the error anymore. gen-all-unicode is<br>
-built as expected and at runtime it links with libpcre as expected<br>
-and the build succeeds. This is really weird, I didn&#39;t touch these<br>
-packages at all, they just sporadically failed out of the blue and now<br>
-they work.<br></div></blockquote></div><div class=3D"gmail_extra"><br></div=
->That&#39;s good, right? :)</div><div class=3D"gmail_extra"><br>If you ever=
- manage to replicate, please save the build directory for inspection.</div>=
-<div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div><=
-/div>
+On Fri, 2016-09-09 at 11:31 +0200, Martin Jansa wrote:
+> On Thu, Sep 08, 2016 at 11:26:01AM +0200, Elizabeth 'pidge' Flanagan
+> wrote:
+> >=20
+> > This commit pulls and extends the functionality of .oe-error-report=20
+> > into
+> > local.conf. It maintains the functionality of .oe-error-report.
+> >=20
+> > It also enables report-error to automatically send error reports to
+> > a=C2=A0
+> > specified error report server. This patch enables infrastructure
+> > ppl to
+> > set development teams up so that we can gather error metrics
+> > automatically.
+> >=20
+> > This relies on a new set of variables:
+> >=20
+> > REPORTERROR[autosend]=3D"yes|no|ask"
+> > REPORTERROR[user]=3Dusername
+> > REPORTERROR[email]=3Demail
+> > REPORTERROR[server]=3Derror-report-web instance
+> >=20
+> > For autosend yes and no are pretty self explainatory. ask does not
+> > pass
+> > the -y flag to send-error-report, thus enabling the end user to
+> > review
+> > the report prior to submission.
+> The same functionality was sent more than 2 years ago, but it was
+> rejected, so I'm carrying it in our own fork since then:
+>=20
+> http://lists.openembedded.org/pipermail/openembedded-core/2014-March/
+> 091222.html
+>=20
 
---001a113d3dd4ae75ee053c0fe2fe--
+I'd be happy to defer to that patch if we can pull this functionality
+in.
+
+-b
+
+> >=20
+> > Signed-off-by: Elizabeth 'pidge' Flanagan <pidge@toganlabs.com>
+> > ---
+> > =C2=A0meta/classes/report-error.bbclass | 41
+> > +++++++++++++++++++++++++++++++++++++--
+> > =C2=A01 file changed, 39 insertions(+), 2 deletions(-)
+> >=20
+> > diff --git a/meta/classes/report-error.bbclass
+> > b/meta/classes/report-error.bbclass
+> > index 82b5bcd..909adf0 100644
+> > --- a/meta/classes/report-error.bbclass
+> > +++ b/meta/classes/report-error.bbclass
+> > @@ -85,10 +85,47 @@ python errorreport_handler () {
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0bb.utils.unlockfile(lock)
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0failures =3D jsondata['failures']
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0if(len(failures) > 0):
+> > +
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0filename =3D "error_report_" +
+> > e.data.getVar("BUILDNAME", True)+".txt"
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0datafile =3D errorreport_savedata(e, jso=
+ndata,
+> > filename)
+> > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0bb.note("The errors for this build are stored =
+in
+> > %s\nYou can send the errors to a reports server by
+> > running:\n=C2=A0=C2=A0send-error-report %s [-s server]" % (datafile,
+> > datafile))
+> > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0bb.note("The contents of these logs will be po=
+sted
+> > in public if you use the above command with the default server.
+> > Please ensure you remove any identifying or proprietary information
+> > when prompted before sending.")
+> > +
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0cmd_s =3D "send-error-report %s" % datafile
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0response_s =3D "The errors for this build are =
+stored
+> > in %s\n" % datafile
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0sendit =3D False
+> > +
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0autosend =3D
+> > e.data.getVarFlag("REPORTERROR","autosend")
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0user =3D e.data.getVarFlag("REPORTERROR","user=
+")
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0email =3D e.data.getVarFlag("REPORTERROR","ema=
+il")
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0server =3D e.data.getVarFlag("REPORTERROR","se=
+rver")
+> > +
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0if user is not None:
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0cmd_s +=3D " -n %s" % =
+user
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0if email is not None:
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0cmd_s +=3D " -e %s" % =
+email
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0if server is not None:
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0cmd_s +=3D " -s %s" % =
+server
+> > +
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0if autosend is not None:
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0if autosend =3D=3D "ye=
+s":
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+response_s +=3D "The errors for this build
+> > are set to automatically be sent.\n"
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+cmd_s +=3D " -y"
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+sendit =3D True
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0elif autosend =3D=3D "=
+ask":
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+response_s +=3D "The errors for this build
+> > are set to automatically be sent.\n"
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+sendit =3D True
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0elif autosend is None:
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+response_s +=3D "You can send the errors to
+> > a reports server by running:\n=C2=A0=C2=A0%s\n" % cmd_s
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0elif e.data.getVarFlags('REPORTERROR') is None=
+:
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+response_s +=3D "You can send the errors to
+> > a reports server by running:\n=C2=A0=C2=A0%s [-s server]\n" % cmd_s
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+response_s +=3D "The contents of these logs
+> > will be posted in public if you use the above command with the
+> > default server.\n \
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0Please ensure you remove any
+> > identifying or proprietary information when prompted before
+> > sending.\n"
+> > +
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0bb.note(response_s)
+> > +
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0if sendit =3D=3D True:
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0import shlex, subproce=
+ss
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0args =3D shlex.split(c=
+md_s)
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0subprocess.call(args)
+> > =C2=A0}
+> > =C2=A0
+> > =C2=A0addhandler errorreport_handler
+> > --=C2=A0
+> > 2.9.3
+> >=20
+> > --=C2=A0
+> > _______________________________________________
+> > Openembedded-core mailing list
+> > Openembedded-core@lists.openembedded.org
+> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
