@@ -1,30 +1,46 @@
-Return-Path: <wangxin2015.fnst@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
-	by mail.openembedded.org (Postfix) with ESMTP id 297ED65CB6
+Return-Path: <max.oss.09@gmail.com>
+Received: from mail-wm0-f66.google.com (mail-wm0-f66.google.com [74.125.82.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 47182731D2
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 11 Sep 2016 14:11:42 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.22,518,1449504000"; d="scan'208";a="10846431"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 11 Sep 2016 22:11:36 +0800
-Received: from G08CNEXCHPEKD02.g08.fujitsu.local (unknown [10.167.33.83])
-	by cn.fujitsu.com (Postfix) with ESMTP id A700B404240C
+	Sun, 11 Sep 2016 17:13:55 +0000 (UTC)
+Received: by mail-wm0-f66.google.com with SMTP id b187so10373987wme.0
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 11 Sep 2016 22:11:36 +0800 (CST)
-Received: from ubuntu.g08.fujitsu.local (10.167.226.120) by
-	G08CNEXCHPEKD02.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.279.2; Sun, 11 Sep 2016 22:11:37 +0800
-From: Wang Xin <wangxin2015.fnst@cn.fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Sun, 11 Sep 2016 10:11:30 -0400
-Message-ID: <1473603090-1486-1-git-send-email-wangxin2015.fnst@cn.fujitsu.com>
-X-Mailer: git-send-email 1.9.1
-MIME-Version: 1.0
-X-Originating-IP: [10.167.226.120]
-X-yoursite-MailScanner-ID: A700B404240C.A60C4
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: wangxin2015.fnst@cn.fujitsu.com
-X-Spam-Status: No
-Subject: [PATCH] ltp: 20160126 -> 20160510
+	Sun, 11 Sep 2016 10:13:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=EmaThGub+F3KcfC7WuDrabxbBEdbncAYPfFTmatdR10=;
+	b=ivf8LVppCvCNyXIE41RjB3peJdpL2mPsUFK8qT6TKHHQRWH7Q+s0yvGGLCYLlyjSM9
+	AfZzfCoqufTelRwa5x7v9Ms3mG/BPyO5mdPkIvSRi50tkQX+AjDJRChJhZMqMninweg8
+	BT75klPuXsQ+//OgDmTmuBJ2n6ZXzZJWW2HM87ah+LLpo4LE24HZyf5TmEgwXOMGG45c
+	VLHutk0zC5i95WH0HB87SqvvT2i85zDzXzoeP8v2iFN4C5QX92NGJ3rBmeeKRiWC9Wld
+	C69dX7m341p8TmXAXE8TbHqRYd+8bLeKILFG4WSKGU0GMPo2qDfdqJqxruLGavRKTdaB
+	D2lA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=EmaThGub+F3KcfC7WuDrabxbBEdbncAYPfFTmatdR10=;
+	b=dexz0vSlw/FLx5nJCXArVooMPZqRhmAZG4PJJS86vHJA1OKl30WPt5EpBNQRA3Hikl
+	03vdIjnYlcRRzVfGSldIDMEkVBGkms2/f9lTJm4NNKeA4/9gk4F55xiOWjLbIxtweuLc
+	uCRPIIXj0lh6tUnY/u/VOGp6le6VUwthizNfuGQu0AjI95HpCmYeYESwGRao6yqdMEYP
+	SrEiJa5P4yly4C/IwvdtM+W8jWNgXTBB16jpHNSuuZxvL5vIcU1TEuekyOeIv75zXbB7
+	NW4uXFMI+6iqL9NVpUxPvHbESLTbUW5e6IbwhIkESCiEOLhuOxlkmqfzOXiTqpFpVGNm
+	VUXA==
+X-Gm-Message-State: AE9vXwMjNU+vUuWruNz5DK7xJ+J1eb2jd5cpDpf1a0+DErezfaP9MFiz8Z1YQlntPNRbXw==
+X-Received: by 10.194.184.39 with SMTP id er7mr11603206wjc.159.1473614036029; 
+	Sun, 11 Sep 2016 10:13:56 -0700 (PDT)
+Received: from Saturn.local.all ([194.191.225.91])
+	by smtp.gmail.com with ESMTPSA id
+	o5sm13750287wmg.16.2016.09.11.10.13.54
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Sun, 11 Sep 2016 10:13:55 -0700 (PDT)
+From: Max Krummenacher <max.oss.09@gmail.com>
+X-Google-Original-From: Max Krummenacher <max.krummenacher@toradex.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sun, 11 Sep 2016 19:13:20 +0200
+Message-Id: <1473614000-5924-1-git-send-email-max.krummenacher@toradex.com>
+X-Mailer: git-send-email 2.6.6
+Cc: Max Krummenacher <max.krummenacher@toradex.com>
+Subject: [Patch] sstate.bbclass: normalize whitelisted paths
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,239 +53,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 11 Sep 2016 14:11:44 -0000
-Content-Type: text/plain
+X-List-Received-Date: Sun, 11 Sep 2016 17:13:57 -0000
 
-1) Upgrade ltp from 20160126 to 20160510.
-2) Modify some patches, since the data has been changed.
-    0011-Rename-sigset-variable-to-sigset1.patch
-    0030-lib-Use-PTHREAD_MUTEX_RECURSIVE-in-place-of-PTHREAD_.patch
-3) Delete some patches, since they are no use.
-    0001-ltp-Don-t-link-against-libfl.patch 
-    0006-sendfile-Use-off64_t-instead-of-__off64_t.patch 
-    0012-fsstress.c-Replace-__int64_t-with-int64_t.patch 
-    0013-include-fcntl.h-for-getting-O_-definitions.patch 
-    0014-hyperthreading-Include-sys-types.h-for-pid_t-definit.patch 
-    0015-mincore01-Rename-PAGESIZE-to-pagesize.patch 
-    0016-ustat-Change-header-from-ustat.h-to-sys-ustat.h.patch 
-    0017-replace-sigval_t-with-union-sigval.patch 
-    0019-tomoyo-Replace-canonicalize_file_name-with-realpath.patch 
-    0032-regen.sh-Include-asm-unistd.h-explicitly.patch 
-    
-Signed-off-by: Wang Xin <wangxin2015.fnst@cn.fujitsu.com>
+Without this a whitelisted path containing /../ breaks the test for a file
+allowed to be provided by more than one recipe.
+
+Noticed when local.conf contains:
+DEPLOY_DIR = "${TOPDIR}/../deploy"
+
+|ERROR: core-image-minimal-1.0-r0 do_image_complete: The recipe
+| core-image-minimal is trying to install files into a shared area when those
+| files already exist. Those files and their manifest location are:
+| .../poky/deploy/images/qemux86/README_-_DO_NOT_DELETE_FILES_IN_THIS_DIRECTORY.txt
+| Matched in b'manifest-qemux86-linux-yocto.deploy'
+
+Signed-off-by: Max Krummenacher <max.krummenacher@toradex.com>
 ---
- .../0011-Rename-sigset-variable-to-sigset1.patch   | 60 +++++++++++-----------
- ...READ_MUTEX_RECURSIVE-in-place-of-PTHREAD_.patch |  6 +--
- .../ltp/{ltp_20160126.bb => ltp_20160510.bb}       | 12 +----
- 3 files changed, 34 insertions(+), 44 deletions(-)
- rename meta/recipes-extended/ltp/{ltp_20160126.bb => ltp_20160510.bb} (88%)
+ meta/classes/sstate.bbclass | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-extended/ltp/ltp/0011-Rename-sigset-variable-to-sigset1.patch b/meta/recipes-extended/ltp/ltp/0011-Rename-sigset-variable-to-sigset1.patch
-index 945280c..6eace63 100644
---- a/meta/recipes-extended/ltp/ltp/0011-Rename-sigset-variable-to-sigset1.patch
-+++ b/meta/recipes-extended/ltp/ltp/0011-Rename-sigset-variable-to-sigset1.patch
-@@ -20,8 +20,8 @@ index 7203e9e..fce87d6 100644
-  /**************/
-  
-  key_t key;
---sigset_t sigset;
--+sigset_t sigset1;
-+-sigset_t set;
-++sigset_t set1;
-  
-  #define  SIZE  16*1024
-  
-@@ -29,12 +29,12 @@ index 7203e9e..fce87d6 100644
-  
-  	key = (key_t) getpid();
-  
---	sigemptyset(&sigset);
---	sigaddset(&sigset, SIGUSR1);
---	sigprocmask(SIG_BLOCK, &sigset, NULL);
--+	sigemptyset(&sigset1);
--+	sigaddset(&sigset1, SIGUSR1);
--+	sigprocmask(SIG_BLOCK, &sigset1, NULL);
-+-	sigemptyset(&set);
-+-	sigaddset(&set, SIGUSR1);
-+-	sigprocmask(SIG_BLOCK, &set, NULL);
-++	sigemptyset(&set1);
-++	sigaddset(&set1, SIGUSR1);
-++	sigprocmask(SIG_BLOCK, &set1, NULL);
-  
-  	pid = fork();
-  	switch (pid) {
-@@ -42,8 +42,8 @@ index 7203e9e..fce87d6 100644
-  	char *cp;
-  	int sig;
-  
---	sigwait(&sigset, &sig);
--+	sigwait(&sigset1, &sig);
-+-	sigwait(&set, &sig);
-++	sigwait(&set1, &sig);
-  	chld_pid = getpid();
-  /*--------------------------------------------------------*/
-  
-@@ -55,8 +55,8 @@ index a3c9ca3..77b0fc9 100644
-  /**************/
-  
-  key_t key;
---sigset_t sigset;
--+sigset_t sigset1;
-+-sigset_t set;
-++sigset_t set1;
-  
-  int child();
-  static int rm_shm(int);
-@@ -64,12 +64,12 @@ index a3c9ca3..77b0fc9 100644
-  
-  	key = (key_t) getpid();
-  
---	sigemptyset(&sigset);
---	sigaddset(&sigset, SIGUSR1);
---	sigprocmask(SIG_BLOCK, &sigset, NULL);
--+	sigemptyset(&sigset1);
--+	sigaddset(&sigset1, SIGUSR1);
--+	sigprocmask(SIG_BLOCK, &sigset1, NULL);
-+-	sigemptyset(&set);
-+-	sigaddset(&set, SIGUSR1);
-+-	sigprocmask(SIG_BLOCK, &set, NULL);
-++	sigemptyset(&set1);
-++	sigaddset(&set1, SIGUSR1);
-++	sigprocmask(SIG_BLOCK, &set1, NULL);
-  
-  	pid = fork();
-  	switch (pid) {
-@@ -77,8 +77,8 @@ index a3c9ca3..77b0fc9 100644
-  	char *cp;
-  	int sig;
-  
---	sigwait(&sigset, &sig);
--+	sigwait(&sigset1, &sig);
-+-	sigwait(&set, &sig);
-++	sigwait(&set1, &sig);
-  	chld_pid = getpid();
-  
-  	if ((shmid = shmget(key, SIZE, 0)) < 0) {
-@@ -90,8 +90,8 @@ index 20fca52..6fb1d57 100644
-  int sig_catch = 0;		/* variable to blocked/unblocked signals */
-  
-  struct sigaction sa_new;	/* struct to hold signal info */
---sigset_t sigset;		/* signal set to hold signal lists */
--+sigset_t sigset1;		/* signal set to hold signal lists */
-+-sigset_t set;		/* signal set to hold signal lists */
-++sigset_t set1;		/* signal set to hold signal lists */
-  sigset_t sigset2;
-  
-  int main(int ac, char **av)
-@@ -99,8 +99,8 @@ index 20fca52..6fb1d57 100644
-  		 * so that, signal will not be delivered to
-  		 * the test process.
-  		 */
---		TEST(sigprocmask(SIG_BLOCK, &sigset, 0));
--+		TEST(sigprocmask(SIG_BLOCK, &sigset1, 0));
-+-		TEST(sigprocmask(SIG_BLOCK, &set, 0));
-++		TEST(sigprocmask(SIG_BLOCK, &set1, 0));
-  
-  		/* Get the process id of test process */
-  		my_pid = getpid();
-@@ -108,8 +108,8 @@ index 20fca52..6fb1d57 100644
-  				 */
-  				errno = 0;
-  				if (sigprocmask(SIG_UNBLOCK,
---						&sigset, 0) == -1) {
--+						&sigset1, 0) == -1) {
-+-						&set, 0) == -1) {
-++						&set1, 0) == -1) {
-  					tst_brkm(TFAIL, cleanup,
-  						 "sigprocmask() failed "
-  						 "to unblock signal, "
-@@ -117,8 +117,8 @@ index 20fca52..6fb1d57 100644
-  	 * Initialise the signal sets with the list that
-  	 * excludes/includes  all system-defined signals.
-  	 */
---	if (sigemptyset(&sigset) == -1) {
--+	if (sigemptyset(&sigset1) == -1) {
-+-	if (sigemptyset(&set) == -1) {
-++	if (sigemptyset(&set1) == -1) {
-  		tst_brkm(TFAIL, cleanup,
-  			 "sigemptyset() failed, errno=%d : %s",
-  			 errno, strerror(errno));
-@@ -126,8 +126,8 @@ index 20fca52..6fb1d57 100644
-  	 * Add specified signal (SIGINT) to the signal set
-  	 * which excludes system-defined signals.
-  	 */
---	if (sigaddset(&sigset, SIGINT) == -1) {
--+	if (sigaddset(&sigset1, SIGINT) == -1) {
-+-	if (sigaddset(&set, SIGINT) == -1) {
-++	if (sigaddset(&set1, SIGINT) == -1) {
-  		tst_brkm(TFAIL, cleanup,
-  			 "sigaddset() failed, errno=%d : %s",
-  			 errno, strerror(errno));
-diff --git a/meta/recipes-extended/ltp/ltp/0030-lib-Use-PTHREAD_MUTEX_RECURSIVE-in-place-of-PTHREAD_.patch b/meta/recipes-extended/ltp/ltp/0030-lib-Use-PTHREAD_MUTEX_RECURSIVE-in-place-of-PTHREAD_.patch
-index d2d6d76..13b6b24 100644
---- a/meta/recipes-extended/ltp/ltp/0030-lib-Use-PTHREAD_MUTEX_RECURSIVE-in-place-of-PTHREAD_.patch
-+++ b/meta/recipes-extended/ltp/ltp/0030-lib-Use-PTHREAD_MUTEX_RECURSIVE-in-place-of-PTHREAD_.patch
-@@ -25,9 +25,9 @@ index 5c1c58c..3244b5e 100644
- +#else
- +static pthread_mutex_t tmutex = {  PTHREAD_MUTEX_RECURSIVE };
- +#endif
-- /*
--  * Define local function prototypes.
--  */
-+ static void check_env(void);
-+ static void tst_condense(int tnum, int ttype, const char *tmesg);
-+ static void tst_print(const char *tcid, int tnum, int ttype, const char *tmesg);
- -- 
- 2.7.0
- 
-diff --git a/meta/recipes-extended/ltp/ltp_20160126.bb b/meta/recipes-extended/ltp/ltp_20160510.bb
-similarity index 88%
-rename from meta/recipes-extended/ltp/ltp_20160126.bb
-rename to meta/recipes-extended/ltp/ltp_20160510.bb
-index 7631e0e..9ac386f 100644
---- a/meta/recipes-extended/ltp/ltp_20160126.bb
-+++ b/meta/recipes-extended/ltp/ltp_20160510.bb
-@@ -24,28 +24,19 @@ DEPENDS_append_libc-musl = " fts "
- EXTRA_OEMAKE_append_libc-musl = " LIBC=musl "
- CFLAGS_append_powerpc64 = " -D__SANE_USERSPACE_TYPES__"
- CFLAGS_append_mips64 = " -D__SANE_USERSPACE_TYPES__"
--SRCREV = "fce797676b14f50406718e7ef640b50da66c9b36"
-+SRCREV = "149490ec2de45a5dc7a9fd2c31add615fdd4f82b"
- 
- SRC_URI = "git://github.com/linux-test-project/ltp.git \
--           file://0001-ltp-Don-t-link-against-libfl.patch \
-            file://0002-Add-knob-to-control-whether-numa-support-should-be-c.patch \
-            file://0003-Add-knob-to-control-tirpc-support.patch \
-            file://0004-build-Add-option-to-select-libc-implementation.patch \
-            file://0005-kernel-controllers-Link-with-libfts-explicitly-on-mu.patch \
--           file://0006-sendfile-Use-off64_t-instead-of-__off64_t.patch \
-            file://0007-replace-SIGCLD-with-SIGCHLD.patch \
-            file://0008-Check-if-__GLIBC_PREREQ-is-defined-before-using-it.patch \
-            file://0009-Guard-error.h-with-__GLIBC__.patch \
-            file://0010-replace-__BEGIN_DECLS-and-__END_DECLS.patch \
-            file://0011-Rename-sigset-variable-to-sigset1.patch \
--           file://0012-fsstress.c-Replace-__int64_t-with-int64_t.patch \
--           file://0013-include-fcntl.h-for-getting-O_-definitions.patch \
--           file://0014-hyperthreading-Include-sys-types.h-for-pid_t-definit.patch \
--           file://0015-mincore01-Rename-PAGESIZE-to-pagesize.patch \
--           file://0016-ustat-Change-header-from-ustat.h-to-sys-ustat.h.patch \
--           file://0017-replace-sigval_t-with-union-sigval.patch \
-            file://0018-guard-mallocopt-with-__GLIBC__.patch \
--           file://0019-tomoyo-Replace-canonicalize_file_name-with-realpath.patch \
-            file://0020-getdents-define-getdents-getdents64-only-for-glibc.patch \
-            file://0021-Define-_GNU_SOURCE-for-MREMAP_MAYMOVE-definition.patch \
-            file://0022-include-sys-types.h.patch \
-@@ -58,7 +49,6 @@ SRC_URI = "git://github.com/linux-test-project/ltp.git \
-            file://0029-trace_shed-Fix-build-with-musl.patch \
-            file://0030-lib-Use-PTHREAD_MUTEX_RECURSIVE-in-place-of-PTHREAD_.patch \
-            file://0031-vma03-fix-page-size-offset-as-per-page-size-alignmen.patch \
--           file://0032-regen.sh-Include-asm-unistd.h-explicitly.patch \
-            file://0033-shmat1-Cover-GNU-specific-code-under-__USE_GNU.patch \
-            file://0034-periodic_output.patch \
-            file://0035-fix-test_proc_kill-hang.patch \
+Tested on a plain poky installation
+Build Configuration:
+BB_VERSION        = "1.31.1"
+BUILD_SYS         = "x86_64-linux"
+NATIVELSBSTRING   = "SUSELINUX-42.1"
+TARGET_SYS        = "i586-poky-linux"
+MACHINE           = "qemux86"
+DISTRO            = "poky"
+DISTRO_VERSION    = "2.1+snapshot-20160911"
+TUNE_FEATURES     = "m32 i586"
+TARGET_FPU        = ""
+meta              
+meta-poky         
+meta-yocto-bsp    = "master:51d03898cb1ca46db98179cfd3b1e8e0980de917"
+
+With the patch core-image-minimal builds successful with or without
+DEPLOY_DIR = "${TOPDIR}/../deploy" in local conf.
+Without the patch, but with DEPLOY_DIR = "${TOPDIR}/../deploy", the build fails.
+
+Max
+
+diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
+index 8b6ac50..216e133 100644
+--- a/meta/classes/sstate.bbclass
++++ b/meta/classes/sstate.bbclass
+@@ -205,6 +205,7 @@ def sstate_install(ss, d):
+             f = os.path.normpath(f)
+             realmatch = True
+             for w in whitelist:
++                w = os.path.normpath(w)
+                 if f.startswith(w):
+                     realmatch = False
+                     break
 -- 
-2.7.4
-
-
+2.6.6
 
 
