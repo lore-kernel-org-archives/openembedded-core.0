@@ -1,28 +1,33 @@
-Return-Path: <Zubair.Kakakhel@imgtec.com>
-Received: from mailapp01.imgtec.com (mailapp01.imgtec.com [195.59.15.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 188957665F
+Return-Path: <jeremy.rosen@smile.fr>
+Received: from idris.smile.fr (idris.smile.fr [91.216.209.19])
+	by mail.openembedded.org (Postfix) with ESMTP id 30B2276FFA
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Sep 2016 15:05:02 +0000 (UTC)
-Received: from HHMAIL01.hh.imgtec.org (unknown [10.100.10.19])
-	by Forcepoint Email with ESMTPS id 0608825F1ED54;
-	Mon, 12 Sep 2016 16:04:48 +0100 (IST)
-Received: from zkakakhel-linux.le.imgtec.org (192.168.154.45) by
-	HHMAIL01.hh.imgtec.org (10.100.10.21) with Microsoft SMTP Server (TLS)
-	id 14.3.294.0; Mon, 12 Sep 2016 16:04:51 +0100
-To: akuster808 <akuster808@gmail.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-References: <1473340457-31797-1-git-send-email-Zubair.Kakakhel@imgtec.com>
-	<e0f721cd-96d5-e3a5-b060-83bb467d1784@gmail.com>
-From: Zubair Lutfullah Kakakhel <Zubair.Kakakhel@imgtec.com>
-Message-ID: <80ff7e99-39ac-dd8f-ecfc-632860f06863@imgtec.com>
-Date: Mon, 12 Sep 2016 16:04:51 +0100
+	Mon, 12 Sep 2016 15:19:20 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by idris.smile.fr (Postfix) with ESMTP id EF6681EE42DD
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 12 Sep 2016 17:19:20 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at smile.fr
+Received: from idris.smile.fr ([127.0.0.1])
+	by localhost (bluemind-mta.prod.vitry.intranet [127.0.0.1])
+	(amavisd-new, port 10024) with ESMTP id iCwEdsbtlRTt
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 12 Sep 2016 17:19:20 +0200 (CEST)
+Received: from [10.2.6.235] (bob75-2-81-56-46-209.fbx.proxad.net
+	[81.56.46.209])
+	by idris.smile.fr (Postfix) with ESMTPSA id C0D681EE42E0
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 12 Sep 2016 17:19:20 +0200 (CEST)
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+References: <cover.b47dcbad9b495b8e621528579e9ae39cd15d32e8.1473239261.git-series.jeremy.rosen@smile.fr>
+From: =?UTF-8?B?SsOpcsOpbXkgUm9zZW4=?= <jeremy.rosen@smile.fr>
+Message-ID: <81e9e5ba-665b-65ae-3e84-289da8682866@smile.fr>
+Date: Mon, 12 Sep 2016 17:19:20 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.2.0
+	Firefox/45.0 Icedove/45.2.0
 MIME-Version: 1.0
-In-Reply-To: <e0f721cd-96d5-e3a5-b060-83bb467d1784@gmail.com>
-X-Originating-IP: [192.168.154.45]
-Subject: Re: [PATCH] valgrind: MIPS: Make toolchain basename generic
+In-Reply-To: <cover.b47dcbad9b495b8e621528579e9ae39cd15d32e8.1473239261.git-series.jeremy.rosen@smile.fr>
+Subject: Re: [PATCH v2 0/8] Fix BUILD_* family of variables
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,56 +40,78 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 12 Sep 2016 15:05:05 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 12 Sep 2016 15:19:23 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Hi
+Any news ?
 
-On 09/08/2016 04:45 PM, akuster808 wrote:
+
+On 07/09/2016 11:08, Jérémy Rosen wrote:
+> The BUILD_* family of variables allow the user to specify the name of the host
+> compiler to use at build time. This feature is particularly important for long
+> term maintainance. Future versions of gcc might not be compatible with old
+> yocto distributions and we can't assume that "gcc" is the correct name for the
+> compiler.
 >
+> This problem is already an issue with Jethro which can't be compiled on a
+> machine wher gcc-6 is the default compiler. pkgconfig-native will refuse to
+> compile because it uses -Werror and gcc-6 has new warnings compared to gcc-5
 >
-> On 09/08/2016 06:14 AM, Zubair Lutfullah Kakakhel wrote:
->> For the hard float case, COMPATIBLE_HOST should be set to ".*-linux"
->> since OE can support multiple distro layers, not just poky.
->>
->> Signed-off-by: Zubair Lutfullah Kakakhel <Zubair.Kakakhel@imgtec.com>
+> This patch serie fixes multiple hard-coded references to gcc in various recipes
+> and build infrastructure
 >
-> is this good for Krogoth too? it has the same version.
-
-Yes. But we'd also need this commit from master
-
-http://git.yoctoproject.org/cgit/cgit.cgi/poky/commit/meta/recipes-devtools/valgrind/valgrind_3.11.0.bb?id=d7268e9bbae93455a591bb4f73bfe4bf76497a1b
-
-They can both be squashed into one commit.
-
-Thanks,
-ZubairLK
-
+> This patch was tested by building core-image-minimal for qemu-x86_64 with a
+> directory with the following content added to the PATH
 >
-> - armin
->>
->> ---
->> Pointed out by Andre McCurdy but patch v1 had already been accepted
->> and applied.
->> ---
->>   meta/recipes-devtools/valgrind/valgrind_3.11.0.bb | 4 ++--
->>   1 file changed, 2 insertions(+), 2 deletions(-)
->>
->> diff --git a/meta/recipes-devtools/valgrind/valgrind_3.11.0.bb b/meta/recipes-devtools/valgrind/valgrind_3.11.0.bb
->> index 3d49131..42fd27f 100644
->> --- a/meta/recipes-devtools/valgrind/valgrind_3.11.0.bb
->> +++ b/meta/recipes-devtools/valgrind/valgrind_3.11.0.bb
->> @@ -39,8 +39,8 @@ COMPATIBLE_HOST_armv5 = 'null'
->>   COMPATIBLE_HOST_armv6 = 'null'
->>
->>   # valgrind doesn't like mips soft float
->> -COMPATIBLE_HOST_mips = "${@bb.utils.contains("TARGET_FPU", "soft", "null", "mips-poky-linux", d)}"
->> -COMPATIBLE_HOST_mipsel = "${@bb.utils.contains("TARGET_FPU", "soft", "null", "mipsel-poky-linux", d)}"
->> +COMPATIBLE_HOST_mips = "${@bb.utils.contains("TARGET_FPU", "soft", "null", ".*-linux", d)}"
->> +COMPATIBLE_HOST_mipsel = "${@bb.utils.contains("TARGET_FPU", "soft", "null", ".*-linux", d)}"
->>
->>   inherit autotools ptest
->>
+>   g++ -> /bin/false
+>   gcc -> /bin/false
+>   myg++ -> /usr/bin/g++
+>   mygcc -> /usr/bin/gcc
 >
+> And the following variables added to local.conf
+>
+> export BUILD_CC = "mygcc"
+> export BUILD_CXX = "myg++"
+> export BUILD_CPP = "mygcc -E"
+> export BUILD_CCLD = "mygcc"
+>
+> ---
+> V2
+> * rewording in some commits messages
+> * no need for a patch to KConfig, use OE_RUNMAKE_FLAGS instead
+> * change all patch titles to use : in the short commit message
+> * rpm : manually remove files instead of calling make distclean
+> * libpcre : explicitely set CCLD_FOR_BUILD in the recipe since it's the only
+>    recipe using it.
+> * glibc patch has been submited upstream
+>
+> It would be interesting to modify yocto's builders to use the BUILD_*
+> variable in order to have some early warning wrt gcc polution in recipes, but
+> seeing the various recipes I had to patch, I would expect such a change to
+> trigger a high number of build failures.
+>
+> Jérémy Rosen (8):
+>    cross: export CC family from BUILD_* for cross compilers
+>    linux-yocto: allow overriding compiler name in KConfig
+>    linux-libc-headers: allow overriding compiler name in KConfig
+>    busybox: allow overriding compiler name in KConfig
+>    sanity: fix hardcoded references to gcc
+>    glibc: remove hard-coded reference to gcc -E
+>    rpm: manually cleanup sysck
+>    libpcre: explicitely specify CCLD_FOR_BUILD for this recipe
+>
+>   meta/classes/cross.bbclass                                                        | 12 ++++++++++++
+>   meta/classes/kernel.bbclass                                                       |  1 +
+>   meta/classes/sanity.bbclass                                                       | 14 +++++++-------
+>   meta/recipes-core/busybox/busybox.inc                                             |  2 +-
+>   meta/recipes-core/glibc/glibc/0001-locale-fix-hard-coded-reference-to-gcc-E.patch | 39 +++++++++++++++++++++++++++++++++++++++
+>   meta/recipes-core/glibc/glibc_2.24.bb                                             |  3 ++-
+>   meta/recipes-devtools/rpm/rpm_5.4.16.bb                                           |  2 +-
+>   meta/recipes-kernel/linux-libc-headers/linux-libc-headers.inc                     |  2 ++
+>   meta/recipes-support/libpcre/libpcre_8.39.bb                                      |  2 ++
+>   9 files changed, 67 insertions(+), 10 deletions(-)
+>   create mode 100644 meta/recipes-core/glibc/glibc/0001-locale-fix-hard-coded-reference-to-gcc-E.patch
+>
+
 
