@@ -1,51 +1,50 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
-	by mail.openembedded.org (Postfix) with ESMTP id E9EBC77201
+Return-Path: <ross.burton@intel.com>
+Received: from mail-it0-f44.google.com (mail-it0-f44.google.com
+	[209.85.214.44])
+	by mail.openembedded.org (Postfix) with ESMTP id F11C270031
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Sep 2016 17:15:50 +0000 (UTC)
-Received: by mail-wm0-f67.google.com with SMTP id z194so2235000wmd.3
+	Mon, 12 Sep 2016 17:43:38 +0000 (UTC)
+Received: by mail-it0-f44.google.com with SMTP id 15so3800760ita.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Sep 2016 10:15:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:date:to:cc:subject:message-id:references:mime-version
-	:content-disposition:in-reply-to:user-agent;
-	bh=qiy8Jl0nDGw+BMVI4CC2/thquerDU3JS2hy2wanrC3M=;
-	b=eJxQVukspFBpWkoHqGo8gWDhyq9lqXTEyXrDcbKxnsn+1aKOZK0FydEGd7zC9Xj3E+
-	nuom7JC0DImJAvz7Kc2rvv3nvs+W5fWtChWwhL9nqYjvzlLA6cfiO6gZduA3601qfQHr
-	nlCU0OLpN5Ju8TK1SsDdbsml+5JzR90CE4KiwKqXcTAyRnLwajJKj2BP3i4aUfJg+4Q3
-	TLMeiHShN34cWBxvWwSZ/njjbOpk3PWoZzOggcLiGu0WaY3i5uoRpDZeDFRB1EtGYk2B
-	87LLif2DcSJ+RqBf20N2edVxep6fR487rhWQx53V+RKjv1WrWDBZPgg/lfcMdnJfT6NU
-	e52Q==
+	Mon, 12 Sep 2016 10:43:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=FtIHwDIe19yeWvCwkpjiKxOdKqfhzk1/JTV2AObdu2g=;
+	b=s1LCDhqNroktwLxA+XlcgvObVyEFdm344z6cYwyPaT/8Wq+lfeJrQXOYQiOokmTG4N
+	fbS3VVnwwtM/BDP4I6XLP13dN/KtWoB3VN0oevUP2ZjvYVMAP0vWcPmuG2CZXaSUvkA1
+	9Z4EXEgdGIcvMGU5u9IklQu3RxAvE8G02yVO3SV5MnATeo6pg/9GjBlQHGvg5V0GXGF7
+	NdKsvUARQtuc3A+DJ/7h7OaFuFzutknGgf3QtnL7FtL7yPV/2P9vXMgJgkM+DacTPSNi
+	lqWbLokNgWozWze8/rg5ZqMgxk0FKgW2xNyhNpvbuMzq++DjMAwVBjx9RIeucNNqcO1H
+	6G4g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:date:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=qiy8Jl0nDGw+BMVI4CC2/thquerDU3JS2hy2wanrC3M=;
-	b=Qle0vT6KTHKKTbJvbDHL/j2azxGTpuB3OXnRLPVp4IFik38gSycNG8Iak3/cA7+WcW
-	eJwBmeiOczTuIe/7sZ5VIOOHf8HRAgYlFj4c88WuR+ZuX+g/7g2cdV8fEwlHE8TVIiHQ
-	6sMvZjasJ9nmrBp38pBD84eFUfaioSsPPDBOphisj2gUmaJbwt3UkT+3X9fEZgTH+pQY
-	ih6PkJyq47D1/qYfGIx0oCkjEbvuPZOrJbokBFZp8N2EkqIMMjUxGxC83tibGumMmjjr
-	LG7vlFJ/h7+YtQ0IqFcSsqVLScBN4i8Lq4ObSFLJUlnL8lCZ+7wMP8ktVxj0US9XpJhG
-	r2nw==
-X-Gm-Message-State: AE9vXwOVVO5OdvAM6t9ZQ8dZt3grAN7Yvo3akgRh81z+07Dv9yEAcmgtbxZpMCZSJgjczQ==
-X-Received: by 10.194.140.201 with SMTP id ri9mr15286986wjb.195.1473700551148; 
-	Mon, 12 Sep 2016 10:15:51 -0700 (PDT)
-Received: from localhost (ip-89-176-104-169.net.upcbroadband.cz.
-	[89.176.104.169]) by smtp.gmail.com with ESMTPSA id
-	s6sm18773004wjm.25.2016.09.12.10.15.50
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Mon, 12 Sep 2016 10:15:50 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Mon, 12 Sep 2016 19:15:52 +0200
-To: openembedded-core@lists.openembedded.org
-Message-ID: <20160912171552.GB2653@jama>
-References: <20160912170546.14212-1-Martin.Jansa@gmail.com>
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=FtIHwDIe19yeWvCwkpjiKxOdKqfhzk1/JTV2AObdu2g=;
+	b=WWqGOJlPVz+22vgzZhKaf5S24fvg+gMLZacHvQkKYvdKJF6PnunMOfpcShuZhfC7lo
+	aXzNM2aQUC0xUfnfMirurFBINxWe2s6c7OGxgAKomORAzf17/nuCZ83bj1mrkS7mASiu
+	cQUTJFFw1PeT39lfESJ/7H1BSHkqAa8bdRPCUOBjB+c5SHW4q2Uf0f+F9k+3ZmJe6/SP
+	7M+NwCbssx43Xf7eA5Ev0Bl88FEHPHH8CZhGCQKJbOllSmXt9zS4PNK8Re2Bss5ulF+n
+	lIbGnq/qDrjNLY/OZO2T83gZqD+22XPINkDB1Yo286k3BqfL79/QfJ8KoExOgrnSSY9c
+	axEw==
+X-Gm-Message-State: AE9vXwPLgvdHFP1GYF85PvIvBKA93CJg/SPPoWeTno8JIh5JrQ2H3hm447quvtQmt4DK8onXz2F7Dmsaljuz5ETz
+X-Received: by 10.157.9.183 with SMTP id q52mr21537628otd.87.1473702219348;
+	Mon, 12 Sep 2016 10:43:39 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20160912170546.14212-1-Martin.Jansa@gmail.com>
-User-Agent: Mutt/1.7.0 (2016-08-17)
-Cc: Martin Jansa <martin.jansa@lge.com>
-Subject: Re: [meta-oe][meta-networking][PATCH] cmake-native: add dependency on openssl-native libidn-native
+Received: by 10.107.135.27 with HTTP; Mon, 12 Sep 2016 10:43:18 -0700 (PDT)
+In-Reply-To: <CA+chaQfeWvse-+vAb87m1A2BKVuii4SKEquZtDq-3WWFF9AKBA@mail.gmail.com>
+References: <20160907233743.18699.54755@opal.openembedded.org>
+	<20160907233744.4852350198@opal.openembedded.org>
+	<20160911193712.GA6859@jama>
+	<CAJTo0Lap_gBdBjbTpoNs5rF038TcNEGs+QybDb=G1GMM3nH4Bg@mail.gmail.com>
+	<CA+chaQfeWvse-+vAb87m1A2BKVuii4SKEquZtDq-3WWFF9AKBA@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 12 Sep 2016 18:43:18 +0100
+Message-ID: <CAJTo0LZm=X0c9t-cP2vLeUrvVRK=U1DaNYq1MCDomTgiYVFyqg@mail.gmail.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [oe-commits] [openembedded-core] 01/24: gnutls: update to 3.5.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,60 +57,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 12 Sep 2016 17:15:52 -0000
-X-Groupsio-MsgNum: 87031
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="FkmkrVfFsRoUs1wW"
-Content-Disposition: inline
+X-List-Received-Date: Mon, 12 Sep 2016 17:43:41 -0000
+Content-Type: multipart/alternative; boundary=001a113dc2c04a28f8053c53098c
 
---FkmkrVfFsRoUs1wW
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+--001a113dc2c04a28f8053c53098c
+Content-Type: text/plain; charset=UTF-8
+
+On 11 September 2016 at 23:37, Martin Jansa <martin.jansa@gmail.com> wrote:
+
+> Default qemux86 as shown in:
+> http://logs.nslu2-linux.org/buildlogs/oe/world/log.report.
+> 20160910_205641.log
+>
+
+Yeah I can replicate this, must be a 32-bit x86 thing, or something.
+Annoying.
+
+Ross
+
+--001a113dc2c04a28f8053c53098c
+Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Sep 12, 2016 at 07:05:46PM +0200, Martin Jansa wrote:
-> From: Martin Jansa <martin.jansa@lge.com>
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 11 September 2016 at 23:37, Martin Jansa <span dir=3D"ltr">&lt;<a href=
+=3D"mailto:martin.jansa@gmail.com" target=3D"_blank">martin.jansa@gmail.com=
+</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin=
+:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div dir=3D"ltr">D=
+efault qemux86 as shown in:<div><a href=3D"http://logs.nslu2-linux.org/buil=
+dlogs/oe/world/log.report.20160910_205641.log" target=3D"_blank">http://log=
+s.nslu2-linux.org/<wbr>buildlogs/oe/world/log.report.<wbr>20160910_205641.l=
+og<br></a></div></div></blockquote><div><br></div><div>Yeah I can replicate=
+ this, must be a 32-bit x86 thing, or something.=C2=A0 Annoying.</div><div>=
+<br></div><div>Ross=C2=A0</div></div><br></div></div>
 
-Sent by accident (as subject tags suggests), but fixes
-https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D9639
-as well.
-
->=20
-> Signed-off-by: Martin Jansa <martin.jansa@lge.com>
-> ---
->  meta/recipes-devtools/cmake/cmake-native_3.6.1.bb | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/meta/recipes-devtools/cmake/cmake-native_3.6.1.bb b/meta/rec=
-ipes-devtools/cmake/cmake-native_3.6.1.bb
-> index 33930fb..c4d22d8 100644
-> --- a/meta/recipes-devtools/cmake/cmake-native_3.6.1.bb
-> +++ b/meta/recipes-devtools/cmake/cmake-native_3.6.1.bb
-> @@ -2,7 +2,7 @@ require cmake.inc
->  inherit native
-> =20
->  # Using cmake's internal libarchive, so some dependencies are needed
-> -DEPENDS +=3D "bzip2-native zlib-native"
-> +DEPENDS +=3D "bzip2-native zlib-native openssl-native libidn-native"
-> =20
->  SRC_URI +=3D "\
->      file://cmlibarchive-disable-ext2fs.patch \
-> --=20
-> 2.10.0
->=20
-
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---FkmkrVfFsRoUs1wW
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iEYEARECAAYFAlfW4sgACgkQN1Ujt2V2gBw96QCbB3T9SE/fug0MhOW5Lnd8odLB
-vYoAn2bSKiBNCTxetvKqAeIItQfIFx0I
-=zGKo
------END PGP SIGNATURE-----
-
---FkmkrVfFsRoUs1wW--
+--001a113dc2c04a28f8053c53098c--
