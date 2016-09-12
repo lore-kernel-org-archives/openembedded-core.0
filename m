@@ -1,47 +1,32 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 4176F73204
+Return-Path: <Jackie.Huang@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id B07B67705C
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 11 Sep 2016 22:37:56 +0000 (UTC)
-Received: by mail-wm0-f65.google.com with SMTP id b187so11183249wme.0
+	Mon, 12 Sep 2016 02:26:41 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u8C2Qf9i022787
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 11 Sep 2016 15:37:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=p8FbmwEs6IrY5/WMlLZpwCx4g0wBzDM17knCHusf3zI=;
-	b=iJKwqHae8xD9onO5MKAKGKOlrRzcNetGpw5jdEt2dNKZoHVexgijpvfnfVEohDKksU
-	vi59DsVv1GMiXHWC+2rGMbsm0Ok7EgXHj8G3Dc62y+k4Blba3qABdF57UB49leoz2vCS
-	3awCmqk1oZKd20OnoejCHVcSfr/Ua9euGnPIQiVNQnqjqvGIGIFmg+78dI/+9f+HtZQX
-	8TPdiYaxhBHSpDBqRws5yreejT9DIh1WFINbIgsKS5qo7qQ/7jeLcHXR7J2bC0L2w5ag
-	bu6vg79eLbc/pALmSteEHNhw7xIHXrfS2RfdDraDH4OpoiWnm2tblyFKLVLHzspWh6OP
-	yUCQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=p8FbmwEs6IrY5/WMlLZpwCx4g0wBzDM17knCHusf3zI=;
-	b=VCkzez1fll6JSKrE54mC5S4m1lS8Vdy/yP3Y4qJWbdCzWUD64JzCIy3Fh/XPI2cRBL
-	woa7O5z9g7WKIWvQVYn6GX7/FkZgYowtofPRKYZYa7qmSzvdONUwFCVYidHttsNdsa3d
-	0S444mKaMQbwNGeJM6497NFfiF+8CwceljkwFEvp8SjsKbKUxT7z7W7yNHYk7Lpih0jB
-	JAj8oYIsfErXkLTHdqXh3BaBTG/jBnCmFYZ/vN2f7YCs/KKoKm4zEMq9sJudHY1F02y9
-	TkihMfMdMcpd9uvOVHMbKh0UH2pxXhwYbrKGdtd6ju6LFTDCw3DxLudZFSsfagHenUbT
-	rHyA==
-X-Gm-Message-State: AE9vXwPxg7v6nv94/5WcDnqwJK1oYgJi/8r53p3Kg3tVr4lhVBRS9QlqvP6kEN98+WO4eL4E45cBnak6r4XBBA==
-X-Received: by 10.194.235.69 with SMTP id uk5mr11886039wjc.53.1473633477261;
-	Sun, 11 Sep 2016 15:37:57 -0700 (PDT)
+	Sun, 11 Sep 2016 19:26:41 -0700
+Received: from ALA-MBA.corp.ad.wrs.com ([169.254.3.175]) by
+	ALA-HCB.corp.ad.wrs.com ([147.11.189.41]) with mapi id 14.03.0294.000;
+	Sun, 11 Sep 2016 19:26:40 -0700
+From: "Huang, Jie (Jackie)" <Jackie.Huang@windriver.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [PATCH][v4] watchdog: enable systemd support
+Thread-Index: AQHR8q+RvErm69Fm9k2RyhaxVaWFcaB1UgMw
+Date: Mon, 12 Sep 2016 02:26:39 +0000
+Message-ID: <1B858668EC6A94408DCA5225FDFA85AA013A2BDE09@ALA-MBA.corp.ad.wrs.com>
+References: <20160810021834.5641-1-jackie.huang@windriver.com>
+In-Reply-To: <20160810021834.5641-1-jackie.huang@windriver.com>
+Accept-Language: en-US, zh-CN
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [128.224.162.131]
 MIME-Version: 1.0
-Received: by 10.80.154.225 with HTTP; Sun, 11 Sep 2016 15:37:56 -0700 (PDT)
-In-Reply-To: <CAJTo0Lap_gBdBjbTpoNs5rF038TcNEGs+QybDb=G1GMM3nH4Bg@mail.gmail.com>
-References: <20160907233743.18699.54755@opal.openembedded.org>
-	<20160907233744.4852350198@opal.openembedded.org>
-	<20160911193712.GA6859@jama>
-	<CAJTo0Lap_gBdBjbTpoNs5rF038TcNEGs+QybDb=G1GMM3nH4Bg@mail.gmail.com>
-From: Martin Jansa <martin.jansa@gmail.com>
-Date: Mon, 12 Sep 2016 00:37:56 +0200
-Message-ID: <CA+chaQfeWvse-+vAb87m1A2BKVuii4SKEquZtDq-3WWFF9AKBA@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [oe-commits] [openembedded-core] 01/24: gnutls: update to 3.5.3
+Subject: Re: [PATCH][v4] watchdog: enable systemd support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,56 +39,146 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 11 Sep 2016 22:37:58 -0000
-Content-Type: multipart/alternative; boundary=089e01494004f10061053c43074e
-
---089e01494004f10061053c43074e
-Content-Type: text/plain; charset=UTF-8
-
-Default qemux86 as shown in:
-http://logs.nslu2-linux.org/buildlogs/oe/world/log.report.20160910_205641.log
-
-On Mon, Sep 12, 2016 at 12:31 AM, Burton, Ross <ross.burton@intel.com>
-wrote:
-
->
-> On 11 September 2016 at 20:37, Martin Jansa <martin.jansa@gmail.com>
-> wrote:
->
->> ERROR: gnutls-3.5.3-r0 do_package_qa: QA Issue: ELF binary
->> 'gnutls/3.5.3-r0/packages-split/gnutls/usr/lib/libgnutls.so.30.9.0' has
->> relocations in .text [textrel]
->>
->
-> None of my builds have done this, what machine/tunes/anything else
-> relevant is this on?
->
-> Ross
->
-
---089e01494004f10061053c43074e
-Content-Type: text/html; charset=UTF-8
+X-List-Received-Date: Mon, 12 Sep 2016 02:26:43 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">Default qemux86 as shown in:<div><a href=3D"http://logs.ns=
-lu2-linux.org/buildlogs/oe/world/log.report.20160910_205641.log">http://log=
-s.nslu2-linux.org/buildlogs/oe/world/log.report.20160910_205641.log</a><br>=
-</div></div><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">On Mo=
-n, Sep 12, 2016 at 12:31 AM, Burton, Ross <span dir=3D"ltr">&lt;<a href=3D"=
-mailto:ross.burton@intel.com" target=3D"_blank">ross.burton@intel.com</a>&g=
-t;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0=
- .8ex;border-left:1px #ccc solid;padding-left:1ex"><div dir=3D"ltr"><div cl=
-ass=3D"gmail_extra"><span class=3D""><br><div class=3D"gmail_quote">On 11 S=
-eptember 2016 at 20:37, Martin Jansa <span dir=3D"ltr">&lt;<a href=3D"mailt=
-o:martin.jansa@gmail.com" target=3D"_blank">martin.jansa@gmail.com</a>&gt;<=
-/span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8=
-ex;border-left:1px #ccc solid;padding-left:1ex"><div>ERROR: gnutls-3.5.3-r0=
- do_package_qa: QA Issue: ELF binary &#39;gnutls/3.5.3-r0/packages-spli<wbr=
->t/gnutls/usr/lib/libgnutls.so.<wbr>30.9.0&#39; has relocations in .text [t=
-extrel]<br></div></blockquote></div><br></span>None of my builds have done =
-this, what machine/tunes/anything else relevant is this on?</div><span clas=
-s=3D"HOEnZb"><font color=3D"#888888"><div class=3D"gmail_extra"><br></div><=
-div class=3D"gmail_extra">Ross</div></font></span></div>
-</blockquote></div><br></div>
+Ping.
 
---089e01494004f10061053c43074e--
+I don't see any rejection or comments on this but it's not merged yet, is i=
+t ignored?
+
+Anyway, some later changes have been merged so I have to re-base this patch=
+, v5 will be sent soon.
+
+Thanks,
+Jackie
+
+> -----Original Message-----
+> From: openembedded-core-bounces@lists.openembedded.org [mailto:openembedd=
+ed-core-
+> bounces@lists.openembedded.org] On Behalf Of jackie.huang@windriver.com
+> Sent: Wednesday, August 10, 2016 10:19 AM
+> To: openembedded-core@lists.openembedded.org
+> Subject: [OE-core] [PATCH][v4] watchdog: enable systemd support
+>=20
+> From: Roy Li <rongqing.li@windriver.com>
+>=20
+> 1. inherit systemd, and add two unit files which are from Fedora 23
+> 2. auto load soft dog kernel module
+>=20
+> Signed-off-by: Roy Li <rongqing.li@windriver.com>
+> Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
+> ---
+>  .../watchdog/watchdog/watchdog-ping.service              | 11 ++++++++++=
++
+>  meta/recipes-extended/watchdog/watchdog/watchdog.service | 11 ++++++++++=
++
+>  meta/recipes-extended/watchdog/watchdog_5.15.bb          | 16 ++++++++++=
++++++-
+>  3 files changed, 37 insertions(+), 1 deletion(-)
+>  create mode 100644 meta/recipes-extended/watchdog/watchdog/watchdog-ping=
+.service
+>  create mode 100644 meta/recipes-extended/watchdog/watchdog/watchdog.serv=
+ice
+>=20
+> diff --git a/meta/recipes-extended/watchdog/watchdog/watchdog-ping.servic=
+e b/meta/recipes-
+> extended/watchdog/watchdog/watchdog-ping.service
+> new file mode 100644
+> index 0000000..44bac9d
+> --- /dev/null
+> +++ b/meta/recipes-extended/watchdog/watchdog/watchdog-ping.service
+> @@ -0,0 +1,11 @@
+> +[Unit]
+> +Description=3Dwatchdog daemon for use with ping test / network dependenc=
+y
+> +After=3Dnetwork.target
+> +Conflicts=3Dwatchdog.service
+> +
+> +[Service]
+> +Type=3Dforking
+> +ExecStart=3D@SBINDIR@/watchdog
+> +
+> +[Install]
+> +WantedBy=3Dmulti-user.target
+> diff --git a/meta/recipes-extended/watchdog/watchdog/watchdog.service b/m=
+eta/recipes-
+> extended/watchdog/watchdog/watchdog.service
+> new file mode 100644
+> index 0000000..c5faa4e
+> --- /dev/null
+> +++ b/meta/recipes-extended/watchdog/watchdog/watchdog.service
+> @@ -0,0 +1,11 @@
+> +[Unit]
+> +Description=3Dwatchdog daemon
+> +# man systemd.special
+> +# auto added After=3Dbasic.target
+> +
+> +[Service]
+> +Type=3Dforking
+> +ExecStart=3D@SBINDIR@/watchdog
+> +
+> +[Install]
+> +WantedBy=3Dmulti-user.target
+> diff --git a/meta/recipes-extended/watchdog/watchdog_5.15.bb b/meta/recip=
+es-
+> extended/watchdog/watchdog_5.15.bb
+> index ee1a893..7ff151c 100644
+> --- a/meta/recipes-extended/watchdog/watchdog_5.15.bb
+> +++ b/meta/recipes-extended/watchdog/watchdog_5.15.bb
+> @@ -12,6 +12,8 @@ SRC_URI =3D "${SOURCEFORGE_MIRROR}/watchdog/watchdog-${=
+PV}.tar.gz \
+>             file://0001-Include-linux-param.h-for-EXEC_PAGESIZE-definitio=
+n.patch \
+>             file://watchdog-init.patch \
+>             file://watchdog-conf.patch \
+> +           file://watchdog-ping.service \
+> +           file://watchdog.service \
+>  "
+>=20
+>  SRC_URI[md5sum] =3D "678c32f6f35a0492c9c1b76b4aa88828"
+> @@ -21,7 +23,7 @@ UPSTREAM_CHECK_URI =3D
+> "http://sourceforge.net/projects/watchdog/files/watchdog/"
+>  UPSTREAM_CHECK_REGEX =3D "/watchdog/(?P<pver>(\d+[\.\-_]*)+)/"
+>=20
+>  inherit autotools
+> -inherit update-rc.d
+> +inherit update-rc.d systemd
+>=20
+>  DEPENDS_append_libc-musl =3D " libtirpc "
+>  CFLAGS_append_libc-musl =3D " -I${STAGING_INCDIR}/tirpc "
+> @@ -33,6 +35,18 @@ INITSCRIPT_PARAMS =3D "start 15 1 2 3 4 5 . stop 85 0 =
+6 ."
+>=20
+>  RRECOMMENDS_${PN} =3D "kernel-module-softdog"
+>=20
+> +SYSTEMD_SERVICE_${PN} =3D "watchdog.service"
+> +
+>  do_install_append() {
+>  	install -D ${S}/redhat/watchdog.init ${D}/${sysconfdir}/init.d/watchdog=
+.sh
+> +	install -d ${D}${systemd_system_unitdir}
+> +	install -m 0644 ${WORKDIR}/watchdog*.service ${D}${systemd_system_unitd=
+ir}
+> +
+> +	if ${@bb.utils.contains('DISTRO_FEATURES','systemd','true','false',d)};=
+ then
+> +		install -d ${D}${sysconfdir}/modules-load.d
+> +		echo "softdog" > ${D}${sysconfdir}/modules-load.d/softdog.conf
+> +		sed -i -e 's,@SBINDIR@,${sbindir},g' ${D}${systemd_system_unitdir}/*.s=
+ervice
+> +	fi
+>  }
+> +
+> +FILES_${PN} +=3D "${systemd_system_unitdir}/*"
+> --
+> 2.7.4
+>=20
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
