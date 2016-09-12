@@ -1,39 +1,50 @@
-Return-Path: <andre.draszik@gmail.com>
-Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 98FA9771F0
+Return-Path: <ross.burton@intel.com>
+Received: from mail-it0-f48.google.com (mail-it0-f48.google.com
+	[209.85.214.48])
+	by mail.openembedded.org (Postfix) with ESMTP id 54EEE760A5
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Sep 2016 15:26:29 +0000 (UTC)
-Received: by mail-wm0-f68.google.com with SMTP id a6so14133632wmc.2
+	Mon, 12 Sep 2016 15:34:52 +0000 (UTC)
+Received: by mail-it0-f48.google.com with SMTP id o3so13851158ita.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Sep 2016 08:26:30 -0700 (PDT)
+	Mon, 12 Sep 2016 08:34:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=9te+OTo4D3eM2VEvlbxLuK+mXpvJMM/HAy762jaTzRM=;
+	b=nqg9ndp9Ia+v24AwXLPWchkBDt+xO+Kf7/XuNM/t/6kvl+qhd3T0rI7poxU88yTXp5
+	b+ljnF/PUcBGE9sWb30x5Ab2ZB563i4kOBCbR/Q7zxcBY/OZ8oo43XIc/69IFnkTcm2M
+	uDn9NUzelVIlleRVY0mDgNgTBBGdo3BM4EwbxqZq471/aoDnP0hTzwrIibuJbOW6tvJ5
+	9Q3BgJOj4KgeeOrTzc98XwirzgZkzHVITYMTEU5vYGokUnwMgP40O6P+JvVTda8MvpOf
+	GS9YGNwO3vp2pp4DWF3uLFyGeFE5SQO/vbwynS/+frUO903lm6dALjc1keVVVPhjFEAR
+	sJxA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=Pcnf12epIdlqEgKbvLIE1GO2sd58VpFAR5EZRszE79o=;
-	b=Cllg+MsEhYJBXnRN1L2E52/uFXq1WOVCUbxsTB19KC862kMcG7awwMK/KFBLreSp1W
-	cdNIf+TslBP7kagr16UJDxVceGnORz8C5paB/HMs8VAnW8CeJqRQXjv3iZtPIoHmGtz1
-	EX1xQfssMi5Xp8t/88pW3pQvQdGFcyTvJgIr4JikYIzrh6tenUh7RGkoARg1xS6KRSKx
-	yF5cFddhH/F6u+GZTZk0/Ejna8xYGI+5JU5yUd1pP5exX/u5652RnnIpkiN/IzjrOjh8
-	6ANz6oGcfm+SUq/ZELp7NluVT7JyI6uRgMCwICeNH6GFWaTAmbH60p4c8zHZAZ2kmA3s
-	vIqw==
-X-Gm-Message-State: AE9vXwMbs9sSvb8yRRswDaoK5U2zDf9U+mRyq5ATgSiGlqFg9N1gDti9AMhSMMQI9l3Wuw==
-X-Received: by 10.194.112.233 with SMTP id it9mr15165593wjb.176.1473693989772; 
-	Mon, 12 Sep 2016 08:26:29 -0700 (PDT)
-Received: from tfsielt31850 ([77.107.218.170])
-	by smtp.gmail.com with ESMTPSA id a18sm764350wma.5.2016.09.12.08.26.28
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Mon, 12 Sep 2016 08:26:29 -0700 (PDT)
-Message-ID: <1473693988.22823.1.camel@andred.net>
-From: =?ISO-8859-1?Q?Andr=E9?= Draszik <git@andred.net>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 12 Sep 2016 16:26:28 +0100
-In-Reply-To: <20160905083442.27787-1-git@andred.net>
-References: <20160905083442.27787-1-git@andred.net>
-X-Mailer: Evolution 3.20.5-1 
-Mime-Version: 1.0
-Subject: Re: [PATCH] image.bbclass: do not check size of the debugfs image
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=9te+OTo4D3eM2VEvlbxLuK+mXpvJMM/HAy762jaTzRM=;
+	b=iGmQ5arI4w8OEeU6C7ISRG5IOQ3sO0guUDtyYHa3Vv6KDzK9Hzppv9NG5IPkrrBzRj
+	tiE9UnBi1RlSDsgpHScnM4impo9hBjUtix9p5QHSkatxHHkhqxoV9pquBU3VK+q0S4Cf
+	HiD8ShWTsBcKYSEEC3Jr3bb0olsynUH/Ur817pXSOhvT7RlrkowzgfrniRUTbdQD54Te
+	BSO9ucJH4kaRhaAzxEji8RN1ou/XZFTd8HVpOA6i/Ksh1gSBl0NuJMjy1jAirMX0b00i
+	EyS03SRbTeO52WbTBtbXbWeO0hFcrepYNzdgExBbD2AmrWp3IZ+ba5GcdMb+ZYwTHHct
+	iMrw==
+X-Gm-Message-State: AE9vXwOBexbrpYXLYj2bMer12v4FDobJqMYZZEdAdgcUtR/Umw91RaANL4f9pwoJefolOKMT5gDpDuU8ir5gN8Vs
+X-Received: by 10.157.17.203 with SMTP id y11mr21209429oty.188.1473694493707; 
+	Mon, 12 Sep 2016 08:34:53 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.107.135.27 with HTTP; Mon, 12 Sep 2016 08:34:33 -0700 (PDT)
+In-Reply-To: <57D6C026.1050701@ti.com>
+References: <CA+YB3raLEFHAECfBVAspQni9fG0_X0oTPM-Z_F64FzV6PuNdUw@mail.gmail.com>
+	<57D6C026.1050701@ti.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 12 Sep 2016 16:34:33 +0100
+Message-ID: <CAJTo0LZv=DxdJOUUb3t0Wr4_gcD8mqL_-hu=bVsjUZh=n-mcLA@mail.gmail.com>
+To: William Mills <wmills@ti.com>
+Cc: Yocto Project <yocto@yoctoproject.org>,
+	"openembedded-devel@lists.openembedded.org"
+	<openembedded-devel@lists.openembedded.org>,
+	openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [yocto] Subjects for YP Developer Day at ELCE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,37 +57,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 12 Sep 2016 15:26:31 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 12 Sep 2016 15:34:53 -0000
+Content-Type: multipart/alternative; boundary=94eb2c192a56ce2033053c513c98
 
-ping
+--94eb2c192a56ce2033053c513c98
+Content-Type: text/plain; charset=UTF-8
 
-On Mo, 2016-09-05 at 09:34 +0100, André Draszik wrote:
-> The debugfs is supposed to be used in addition to the
-> normal image for debugging purposes, it doesn't make
-> sense to artificially limit its maximum size.
-> 
-> Signed-off-by: André Draszik <git@andred.net>
-> ---
->  meta/classes/image.bbclass | 6 ++++++
->  1 file changed, 6 insertions(+)
-> 
-> diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-> index 07bd2d6..cb7d06d 100644
-> --- a/meta/classes/image.bbclass
-> +++ b/meta/classes/image.bbclass
-> @@ -538,6 +538,12 @@ def get_rootfs_size(d):
->      base_size += rootfs_alignment - 1
->      base_size -= base_size % rootfs_alignment
->  
-> +    # Do not check image size of the debugfs image. This is not supposed
-> +    # to be deployed, etc. so it doesn't make sense to limit the size
-> +    # of the debug.
-> +    if (d.getVar('IMAGE_BUILDING_DEBUGFS', True) or "") == "true":
-> +        return base_size
-> +
->      # Check the rootfs size against IMAGE_ROOTFS_MAXSIZE (if set)
->      if rootfs_maxsize:
->          rootfs_maxsize_int = int(rootfs_maxsize)
+On 12 September 2016 at 15:48, William Mills <wmills@ti.com> wrote:
 
+> 5) Can Yocto [cross-]build snaps or flatpaks?
+>
+
+Just because it's interesting, note that the standard freedesktop.org
+flatpak runtime is in fact bootstrapped through a custom OE distro.
+
+Ross
+
+--94eb2c192a56ce2033053c513c98
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 12 September 2016 at 15:48, William Mills <span dir=3D"ltr">&lt;<a href=
+=3D"mailto:wmills@ti.com" target=3D"_blank">wmills@ti.com</a>&gt;</span> wr=
+ote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border=
+-left:1px #ccc solid;padding-left:1ex"><div id=3D":1q3" class=3D"a3s aXjCH =
+m1571edf9fa8dc535">5) Can Yocto [cross-]build snaps or flatpaks?<br></div><=
+/blockquote></div><br>Just because it&#39;s interesting, note that the stan=
+dard <a href=3D"http://freedesktop.org">freedesktop.org</a> flatpak runtime=
+ is in fact bootstrapped through a custom OE distro.</div><div class=3D"gma=
+il_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
+
+--94eb2c192a56ce2033053c513c98--
