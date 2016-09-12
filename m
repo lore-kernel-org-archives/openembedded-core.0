@@ -1,46 +1,40 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f51.google.com (mail-wm0-f51.google.com [74.125.82.51])
-	by mail.openembedded.org (Postfix) with ESMTP id 4CC89771F0
+Return-Path: <andre.draszik@gmail.com>
+Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 4E57E76FFA
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Sep 2016 15:23:50 +0000 (UTC)
-Received: by mail-wm0-f51.google.com with SMTP id a6so59769866wmc.0
+	Mon, 12 Sep 2016 15:26:12 +0000 (UTC)
+Received: by mail-wm0-f67.google.com with SMTP id g141so3123491wmd.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Sep 2016 08:23:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=206K/a0thY0r7zq4x2m9C4qsGct0Ttm2sgWqgsUTjHA=;
-	b=DknUGEJvuSK//ns2RqTj8lH0yW+i/s5N1E3lkQxf/9bNRFbzZanCMrsikoCawnQHgT
-	GRfJ9jlWHbkyJXVlVZl7fNFYCmmTzPkc+XrA4e3ebiFqTWr7eQJhktv49qqIi3LfRnQc
-	cgtKiQJoq/2/FlRAXjFMX/62B/k0Pl9IgCPX8F0Lmjv0QFcKIxjd4uvtSAbNExzdGQsC
-	fdVgwVWyZyVtqLF4o7A4vq0QjE+FolsImj2oYB1/JoGf3gQ1ZSiwm/j8u1NY6GSnGo/6
-	9dp5j5q2m0Ic/wGv038RygtXKKEp5PFwfFb/7ra2CaJ0OXqZ5tZMJW+8dQvvO5exLQiL
-	HEkw==
+	Mon, 12 Sep 2016 08:26:13 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=206K/a0thY0r7zq4x2m9C4qsGct0Ttm2sgWqgsUTjHA=;
-	b=UaLJzua2qbcTbyMRtDlYo+QPEtlPKVWx5BmQCC1iE2buxsY1vWGxkjrfKnpcVe5JuW
-	EzZ4uEUZOtQRRebyjp370ffMTtbr0n84jv1dJdG86H5RJvcg+UAC99/LJc9+Dq70UnZb
-	9JRoQyCnAW1MmjGp15RWJNbGqux5l7+lU/z2DCoyAU46OgttN15zaEqEKEB6HvTSOHH9
-	PuhzMQgT2RDuLOWRQ6ZL52wWyBo59iiGK8ea57QtSdidxa0xlM1L3vIu0G9iOGe0bYsF
-	OUAndYDxEcoSo4uPo6DCL1ed0EQcbsYFommQ0Ci2iRdYf7cOqtqh/1BNRGPAt8c4+0Yq
-	NUIQ==
-X-Gm-Message-State: AE9vXwNjSbnEk5Dr//oPkzg3+IyzS8LOeMypCGIJUXcL2QYoV8mQB9HOnoHpEtuiKD5O+0D8
-X-Received: by 10.28.29.19 with SMTP id d19mr431027wmd.75.1473693831060;
-	Mon, 12 Sep 2016 08:23:51 -0700 (PDT)
-Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=WbaxcVSk+yoxgDsnuyaFNP2byS4nMHUB8w/AN9Q21fk=;
+	b=h2/b8/o2ivjUtZLTAz9VsvIpUHRwiyT/Kojxqt3LwmzEDJXzUQp73gb4e277uc6mf1
+	mByVFGU7D1kDZ5XLXpiNs+ugARpKpCqqGCL+PEAbb7E7JvryY4PJzXEb4dqOayfadO9j
+	LkJuC6zREcTiiN2kz8XUbCkdCF/DLQAm9pWop83gz7diGQhzgwHH/1qsq2dT/H+2rv4R
+	OYbtzv7xmg56kuW0eUcY/baLDfTlHo0A8f2TM/xsDukX1jzr+Dy+OXw4QRMVUiLJyZKH
+	b5aLvXLXptvbeMbioxLn9cs6co34Gqkl8PFYt8L0219sHB/+9XgTKxHZpeBHW+bclMVb
+	jZ1A==
+X-Gm-Message-State: AE9vXwNutKCtWKxjFw7KCc6DYcIM/sdSdZI0UHN0ihlAg7Q3S8hQ6vEDLvBACxdNdMwkGQ==
+X-Received: by 10.28.144.5 with SMTP id s5mr12163522wmd.39.1473693972893;
+	Mon, 12 Sep 2016 08:26:12 -0700 (PDT)
+Received: from tfsielt31850 ([77.107.218.170])
 	by smtp.gmail.com with ESMTPSA id
-	ml1sm18278809wjb.46.2016.09.12.08.23.49
+	t5sm18287027wjm.12.2016.09.12.08.26.10
 	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 12 Sep 2016 08:23:50 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Mon, 12 Sep 2016 08:26:11 -0700 (PDT)
+Message-ID: <1473693970.22823.0.camel@andred.net>
+From: =?ISO-8859-1?Q?Andr=E9?= Draszik <git@andred.net>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 12 Sep 2016 16:23:47 +0100
-Message-Id: <1473693827-23099-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 2.8.1
-Subject: [PATCH][V3] rpm: remove redundant removals
+Date: Mon, 12 Sep 2016 16:26:10 +0100
+In-Reply-To: <20160905083354.27655-1-git@andred.net>
+References: <20160905083354.27655-1-git@andred.net>
+X-Mailer: Evolution 3.20.5-1 
+Mime-Version: 1.0
+Subject: Re: [PATCH] image.bbclass: also mask debugfs versions of masked images
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,89 +47,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 12 Sep 2016 15:23:51 -0000
+X-List-Received-Date: Mon, 12 Sep 2016 15:26:13 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-These were noticed by the use of bashisms (rm *.{foo,bar}) and lots of these rm
-commands are deleting files which don't exist in the first place.
+ping
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-devtools/rpm/rpm_5.4.16.bb | 36 ---------------------------------
- 1 file changed, 36 deletions(-)
-
-diff --git a/meta/recipes-devtools/rpm/rpm_5.4.16.bb b/meta/recipes-devtools/rpm/rpm_5.4.16.bb
-index 9f78dee..dd6e103 100644
---- a/meta/recipes-devtools/rpm/rpm_5.4.16.bb
-+++ b/meta/recipes-devtools/rpm/rpm_5.4.16.bb
-@@ -554,54 +554,20 @@ do_install_append() {
- 	install -m 0755 ${WORKDIR}/pythondeps.sh ${D}/${libdir}/rpm/pythondeps.sh
- 	install -m 0755 ${WORKDIR}/perfile_rpmdeps.sh ${D}/${libdir}/rpm/perfile_rpmdeps.sh
- 
--	# Remove unpackaged files (based on list in rpm.spec)
--	rm -f ${D}/${libdir}/rpm/{Specfile.pm,cpanflute,cpanflute2,rpmdiff,rpmdiff.cgi,sql.prov,sql.req,tcl.req,trpm}
--
--	rm -f ${D}/${mandir}/man8/rpmcache.8*
--	rm -f ${D}/${mandir}/man8/rpmgraph.8*
--	rm -f ${D}/${mandir}/*/man8/rpmcache.8*
--	rm -f ${D}/${mandir}/*/man8/rpmgraph.8*
--	rm -rf ${D}/${mandir}/{fr,ko}
--
- 	rm -f ${D}/${includedir}/popt.h
- 	rm -f ${D}/${libdir}/libpopt.*
- 	rm -f ${D}/${libdir}/pkgconfig/popt.pc
- 	rm -f ${D}/${datadir}/locale/*/LC_MESSAGES/popt.mo
- 	rm -f ${D}/${mandir}/man3/popt.3
- 
--	rm -f ${D}/${mandir}/man1/xar.1*
--	rm -f ${D}/${bindir}/xar
--	rm -rf ${D}/${includedir}/xar
--	rm -f ${D}/${libdir}/libxar*
--
--	rm -f ${D}/${bindir}/lz*
--	rm -f ${D}/${bindir}/unlzma
--	rm -f ${D}/${bindir}/unxz
--	rm -f ${D}/${bindir}/xz*
--	rm -rf ${D}/${includedir}/lzma*
--	rm -f ${D}/${mandir}/man1/lz*.1
--	rm -f ${D}/${libdir}/pkgconfig/liblzma*
--
- 	rm -f ${D}${PYTHON_SITEPACKAGES_DIR}/*.a
- 	rm -f ${D}${PYTHON_SITEPACKAGES_DIR}/*.la
- 	rm -f ${D}${PYTHON_SITEPACKAGES_DIR}/rpm/*.a
- 	rm -f ${D}${PYTHON_SITEPACKAGES_DIR}/rpm/*.la
- 
--	#find ${D}/${libdir}/perl5 -type f -a \( -name perllocal.pod -o -name .packlist \
--	#	-o \( -name '*.bs' -a -empty \) \) -exec rm -f {} ';'
--	#find ${D}/${libdir}/perl5 -type d -depth -exec rmdir {} 2>/dev/null ';'
--
- 	rm -f ${D}/${libdir}/rpm/dbconvert.sh
--
- 	rm -f ${D}/${libdir}/rpm/libsqldb.*
- 
--	# We don't want, nor need the Mandriva multiarch items
--	rm -f ${D}/${bindir}/multiarch-dispatch
--	rm -f ${D}/${bindir}/multiarch-platform
--	rm -f ${D}/${libdir}/rpm/check-multiarch-files
--	rm -f ${D}/${libdir}/rpm/mkmultiarch
--	rm -f ${D}/${includedir}/multiarch-dispatch.h
--
- 	rm -f ${D}/${libdir}/rpm/gstreamer.sh
- 	rm -f ${D}/${libdir}/rpm/gem_helper.rb
- 	rm -f ${D}/${libdir}/rpm/rubygems.rb
-@@ -610,12 +576,10 @@ do_install_append() {
- 	rm -f ${D}/${libdir}/rpm/macros.d/kernel
- 	rm -f ${D}/${libdir}/rpm/macros.d/gstreamer
- 	rm -f ${D}/${libdir}/rpm/bin/mgo
--	rm -f ${D}/${libdir}/rpm/bin/dbconvert
- 	rm -f ${D}/${libdir}/rpm/bin/pom2spec
- 
- 	rm -rf ${D}/var/lib/wdj ${D}/var/cache/wdj
- 	rm -f ${D}/${libdir}/rpm/bin/api-sanity-checker.pl
--
- }
- 
- do_install_append_class-target() {
--- 
-2.8.1
-
+On Mo, 2016-09-05 at 09:33 +0100, André Draszik wrote:
+> When IMAGE_GEN_DEBUGFS is enabled, and IMAGE_FSTYPES_DEBUGFS is left
+> at its default (as suggested by local.conf.sample.extended),
+> recipe parsing fails:
+> 
+>   bitbake kern-tools-native # or anything else for that matter
+>   ERROR: <poky.git>/meta/recipes-core/images/build-appliance-
+> image_15.0.0.bb: No IMAGE_CMD defined for IMAGE_FSTYPES entry
+> 'debugfs_vmdk' - possibly invalid type name or missing support class
+>   ERROR: Failed to parse recipe: <poky.git>/meta/recipes-
+> core/images/build-appliance-image_15.0.0.bb
+> 
+>   Summary: There was 1 WARNING message shown.
+>   Summary: There were 2 ERROR messages shown, returning a non-zero exit
+> code.
+> 
+> i.e. bitbake doesn't even finish parsing...
+> 
+> Since IMAGE_FSTYPES_DEBUGFS is based on IMAGE_FSTYPES, and
+> since the build-appliance-image is setting IMAGE_FSTYPES
+> to vmdk, image.bbclass/image_types.bbclass will be trying
+> to build a debugfs_vmdk, causing the error, as this is not
+> implemented.
+> 
+> One solution to solving this problem could be as simple as
+> adding a line
+>   IMAGE_FSTYPES_DEBUGFS_remove = "vmdk"
+> to the build-appliance-image recipe, but that is very
+> specific to the error encountered and carries the risk of
+> the error being reintroduced in another recipe.
+> 
+> Another solution could be to add 'debugfs_vmdk' to
+> IMAGE_TYPES_MASKED in image-vm.bbclass, but again, this
+> approach doesn't seem generic enough.
+> 
+> None of the live and vm type images have an implementation
+> for building a debugfs version, it doesn't seem to make
+> sense to build debugfs versions of any of them anyway, and
+> given IMAGE_TYPES_MASKED appears to be intended for those
+> image types exclusively, it seems the right approach is to
+> unconditionally also mask all debugfs_ flavours from
+> IMAGE_TYPES_MASKED to achieve a generic solution.
+> 
+> Do that so.
+> 
+> Signed-off-by: André Draszik <git@andred.net>
+> ---
+>  meta/classes/image.bbclass | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+> index 8c8b8a2..07bd2d6 100644
+> --- a/meta/classes/image.bbclass
+> +++ b/meta/classes/image.bbclass
+> @@ -415,6 +415,7 @@ python () {
+>      d.appendVarFlag('do_image', 'vardeps', ' '.join(vardeps))
+>  
+>      maskedtypes = (d.getVar('IMAGE_TYPES_MASKED', True) or "").split()
+> +    maskedtypes = [dbg + t for t in maskedtypes for dbg in ("",
+> "debugfs_")]
+>  
+>      for t in basetypes:
+>          vardeps = set()
 
