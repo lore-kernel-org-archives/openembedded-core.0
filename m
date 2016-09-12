@@ -1,32 +1,55 @@
-Return-Path: <jeremy.rosen@smile.fr>
-Received: from idris.smile.fr (idris.smile.fr [91.216.209.19])
-	by mail.openembedded.org (Postfix) with ESMTP id 4AE3375C51
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pf0-f195.google.com (mail-pf0-f195.google.com
+	[209.85.192.195])
+	by mail.openembedded.org (Postfix) with ESMTP id D4E9277158
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Sep 2016 15:57:37 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by idris.smile.fr (Postfix) with ESMTP id C47701EE3803;
-	Mon, 12 Sep 2016 17:57:37 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at smile.fr
-Received: from idris.smile.fr ([127.0.0.1])
-	by localhost (bluemind-mta.prod.vitry.intranet [127.0.0.1])
-	(amavisd-new, port 10024)
-	with ESMTP id HYYAfqe4uLNJ; Mon, 12 Sep 2016 17:57:37 +0200 (CEST)
-Received: from [10.5.19.152] (unknown [193.56.60.161])
-	by idris.smile.fr (Postfix) with ESMTPSA id 5BE181EE338D;
-	Mon, 12 Sep 2016 17:57:37 +0200 (CEST)
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <cover.b47dcbad9b495b8e621528579e9ae39cd15d32e8.1473239261.git-series.jeremy.rosen@smile.fr>
-	<81e9e5ba-665b-65ae-3e84-289da8682866@smile.fr>
-	<CAJTo0LaZOT1m+-P_cm_Q+0qbr7dzuNyV9J3QxZy0xYFuugJr6g@mail.gmail.com>
-From: =?UTF-8?B?SsOpcsOpbXkgUm9zZW4=?= <jeremy.rosen@smile.fr>
-Message-ID: <b59bf957-f2f9-4e05-b194-3e29b0b727ad@smile.fr>
-Date: Mon, 12 Sep 2016 17:57:36 +0200
+	Mon, 12 Sep 2016 16:13:26 +0000 (UTC)
+Received: by mail-pf0-f195.google.com with SMTP id x24so8291930pfa.3
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 12 Sep 2016 09:13:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=subject:to:references:cc:from:message-id:date:user-agent
+	:mime-version:in-reply-to:content-transfer-encoding;
+	bh=mGN/c29ldWEZZKeGkJBDeIWtMs3i/YZBvw1AHNwqMcc=;
+	b=vD3WR1bST1RvdAjvLKutCaA3NAx1R9AHSOMPJUd5uMOE3pI/mReAIzUpFqbmmNVgV6
+	QWCfZHC2Z1jgIfjQETh2FCV6wX4kN5Lxtun8LTYND7epIi8hkQCajB8C+FhzuZbkRHfg
+	TbwxI9Wu2SGBUzCFFhl4L1oQd8PyCWf+ml/F6knZRyI5DmprvIuHWwPPdDdWmOJm5hgK
+	JElVgN/ARlBm5Vfe0HpEmMnHCIUUMBcTYgTCpEMQx5qBXHJF0EgfQDU0yGa24uAEBpbg
+	W9PNmg4AU1FDujjqWpbt9RQL4S5ZCwk5s+mabRb9N1eOKss3zEz6nWFfeP3SkSAzVu97
+	cqBQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:subject:to:references:cc:from:message-id:date
+	:user-agent:mime-version:in-reply-to:content-transfer-encoding;
+	bh=mGN/c29ldWEZZKeGkJBDeIWtMs3i/YZBvw1AHNwqMcc=;
+	b=RBlhMKf9mhCAzoHqVzpFYXDG9fGD+AJva4VBjnZnxiCKeBwUA3ZJNZOPcK0p7V2+hn
+	PbUfEpvCE1a8xf3ksx9Mx0yDjeAsJainFQOHrOTJLvPUxAkXJyV8STSMWoOmBx4+OZKC
+	mQ2xAOshhJiG3hnNap5+u5+pxi7GvXRmZeOmJ/bTbxxFXIBC1cIjOd1OdbFjTYaxNQKF
+	IM20XIl7fSAdrR6UnBzqXeiG1IVd4jOcEZyzSwy2AbtcunvyCB//Pz+VqLUaBI3/9rzG
+	IQ+1z1FMfMTqK+YoR3N+J084HGc3DT1dJHQUTRkqjQoSl6ZLJWVoMaqNu7Lf3wOWYwsK
+	EUCg==
+X-Gm-Message-State: AE9vXwNe/hNUtwScBZmpJc/gnopbrfy+VXkONfk089FB7oT4O5wSBpBgPcQafMCF4p/8yg==
+X-Received: by 10.98.64.193 with SMTP id f62mr34895111pfd.141.1473696807224;
+	Mon, 12 Sep 2016 09:13:27 -0700 (PDT)
+Received: from ?IPv6:2601:202:4001:9ea0:f0a1:4ecf:1e7b:61b2?
+	([2601:202:4001:9ea0:f0a1:4ecf:1e7b:61b2])
+	by smtp.gmail.com with ESMTPSA id
+	tq5sm25669832pac.42.2016.09.12.09.13.25
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 12 Sep 2016 09:13:25 -0700 (PDT)
+To: Andre McCurdy <armccurdy@gmail.com>
+References: <cover.1473349917.git.akuster808@gmail.com>
+	<CAJ86T=Vn3wRZ3uwym4MN4o1OCh+J-KsYayxf464fOyNy+1k9Xg@mail.gmail.com>
+From: akuster808 <akuster808@gmail.com>
+Message-ID: <25e03fb3-4d7f-fd52-1fa5-5e10214c4438@gmail.com>
+Date: Mon, 12 Sep 2016 09:13:24 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Firefox/45.0 Icedove/45.2.0
+	Thunderbird/45.2.0
 MIME-Version: 1.0
-In-Reply-To: <CAJTo0LaZOT1m+-P_cm_Q+0qbr7dzuNyV9J3QxZy0xYFuugJr6g@mail.gmail.com>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2 0/8] Fix BUILD_* family of variables
+In-Reply-To: <CAJ86T=Vn3wRZ3uwym4MN4o1OCh+J-KsYayxf464fOyNy+1k9Xg@mail.gmail.com>
+Cc: akuster <akuster@mvista.com>,
+	OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 00/26] Krogoth-next: stagged changes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,325 +62,156 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 12 Sep 2016 15:57:40 -0000
-Content-Type: multipart/alternative;
-	boundary="------------ADA50BC71599EB37183A6713"
-
---------------ADA50BC71599EB37183A6713
+X-List-Received-Date: Mon, 12 Sep 2016 16:13:27 -0000
 Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
 
 
-On 12/09/2016 17:22, Burton, Ross wrote:
-> It's in my staging branch and works for me, just needs a run through 
-> the AB and then a decision on whether it is a bug fix (good for M4) or 
-> enhancement (too late for M3)...
+On 09/08/2016 01:00 PM, Andre McCurdy wrote:
+> On Thu, Sep 8, 2016 at 8:55 AM, Armin Kuster <akuster808@gmail.com> wrote:
+>> The following changes are being considered for krogoth-next.
+>> If I am missing something, please let me know.
+> Perhaps this one:
 >
-If I can weight on that one....
+>    http://git.openembedded.org/openembedded-core/commit/?id=c03b32bd71dbe04f2f239556fea0b53215e403d7
 
-it's technically a bug-fix, but the fix is only usefull in the far 
-future, once gcc-7 is out and current master is in maintainence mode and 
-doesn't compile with gcc-7
-so no need to rush it in.
+got it.
+Armin
+>
+> ?
+>
+>> The following changes since commit aad7166704021d82ad3a5ec468552f8f10360d41:
+>>
+>>    curl: security fix for CVE-2016-5421 (2016-09-02 08:48:29 +0100)
+>>
+>> are available in the git repository at:
+>>
+>>    http://git.yoctoproject.org/git/poky-contrib akuster/krogoth-next
+>>    http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=akuster/krogoth-next
+>>
+>> Alejandro Hernandez (1):
+>>    initramfs-live-boot: Make sure we kill udev before switching root when
+>>      live booting
+>>
+>> Armin Kuster (2):
+>>    tiff: Security fix CVE-2015-8781
+>>    tiff: Security fix CVE-2015-8784
+>>
+>> Henry Bruce (1):
+>>    npm: npm.bbclass now adds nodejs to RDEPENDS
+>>
+>> Jackie Huang (1):
+>>    e2fsprogs: Fix missing check for permission denied.
+>>
+>> Jacob Kroon (1):
+>>    bitbake.conf/toolchain-scripts.bbclass: Remove debug prefix mappings
+>>      in SDK
+>>
+>> Jeremy Puhlman (2):
+>>    Fix random python backtrace in mutlilib handling code.
+>>    bitbake.conf: set READELF for cross compilation
+>>
+>> Jonathan Liu (1):
+>>    meta/classes: fix bb.build.FuncFailed typos
+>>
+>> Khem Raj (3):
+>>    python{3}-numpy: Predefine of sizeof off_t on mips/mipsel/ppc
+>>    systemd: Create missing sysusers offline
+>>    gdb: Cache gnu gettext config vars for musl builds
+>>
+>> Markus Lehtonen (1):
+>>    base.bbclass wipe ${S} before unpacking source
+>>
+>> Pascal Bach (1):
+>>    gcc, qemuppc: Explicitly disable forcing SPE flags for 4.9
+>>
+>> Reinette Chatre (1):
+>>    binutils: advance SRCREV to obtain versioned symbols
+>>
+>> Richard Purdie (2):
+>>    busybox: Backport makefile fix from upstream
+>>    busybox: Add parallel make fix
+>>
+>> Ross Burton (1):
+>>    cml1: fix tasks after default [dirs] changed
+>>
+>> Sona Sarmadi (2):
+>>    sudo: CVE-2015-8239
+>>    curl: security fix for CVE-2016-7141
+>>
+>> Stefan Agner (1):
+>>    busybox: Fix busybox-init on non-tty consoles
+>>
+>> Stephano Cetola (1):
+>>    systemd: allow add users as a rootfs postprocess cmd
+>>
+>> Tanu Kaskinen (1):
+>>    pulseaudio: fix crash when disconnecting bluetooth devices
+>>
+>> Yi Zhao (3):
+>>    tiff: Security fix CVE-2016-3186
+>>    tiff: Security fix CVE-2016-5321
+>>    tiff: Security fix CVE-2016-5323
+>>
+>>   meta/classes/base.bbclass                          |  18 +-
+>>   meta/classes/cml1.bbclass                          |   2 +
+>>   meta/classes/grub-efi.bbclass                      |   2 +-
+>>   meta/classes/gummiboot.bbclass                     |   4 +-
+>>   meta/classes/multilib_global.bbclass               |   3 +-
+>>   meta/classes/npm.bbclass                           |   1 +
+>>   meta/classes/rootfs-postcommands.bbclass           |  43 +-
+>>   meta/classes/syslinux.bbclass                      |   2 +-
+>>   meta/classes/toolchain-scripts.bbclass             |   3 +
+>>   meta/conf/bitbake.conf                             |   9 +-
+>>   meta/recipes-core/busybox/busybox.inc              |   4 +-
+>>   .../busybox/busybox/makefile-fix-backport.patch    |  40 ++
+>>   .../busybox/busybox/parallel-make-fix.patch        |  65 ++
+>>   meta/recipes-core/busybox/busybox_1.24.1.bb        |   2 +
+>>   meta/recipes-core/initrdscripts/files/init-live.sh |   4 +-
+>>   meta/recipes-core/systemd/systemd_229.bb           |   8 +-
+>>   meta/recipes-devtools/binutils/binutils-2.26.inc   |   2 +-
+>>   ...s-fix-missing-check-for-permission-denied.patch |  32 +
+>>   meta/recipes-devtools/e2fsprogs/e2fsprogs_git.bb   |   3 +
+>>   ...AltiVec-generation-on-powepc-linux-target.patch |  11 +
+>>   meta/recipes-devtools/gdb/gdb_7.10.1.bb            |   5 +
+>>   .../python/python-numpy/arm/numpyconfig.h          |   1 +
+>>   .../python/python-numpy/mips/_numpyconfig.h        |   1 +
+>>   .../python/python-numpy/powerpc/_numpyconfig.h     |   1 +
+>>   .../sudo/sudo/CVE-2015-8239-1.patch                | 699 +++++++++++++++++++++
+>>   .../sudo/sudo/CVE-2015-8239-2.patch                |  45 ++
+>>   meta/recipes-extended/sudo/sudo_1.8.15.bb          |   2 +
+>>   .../libtiff/files/CVE-2015-8781.patch              | 195 ++++++
+>>   .../libtiff/files/CVE-2015-8784.patch              |  73 +++
+>>   .../libtiff/files/CVE-2016-3186.patch              |  24 +
+>>   .../libtiff/files/CVE-2016-5321.patch              |  49 ++
+>>   .../libtiff/files/CVE-2016-5323.patch              | 107 ++++
+>>   meta/recipes-multimedia/libtiff/tiff_4.0.6.bb      |   5 +
+>>   ...th-don-t-create-the-HSP-HFP-profile-twice.patch | 343 ++++++++++
+>>   .../pulseaudio/pulseaudio_8.0.bb                   |   1 +
+>>   meta/recipes-support/curl/curl/CVE-2016-7141.patch |  50 ++
+>>   meta/recipes-support/curl/curl_7.47.1.bb           |   1 +
+>>   37 files changed, 1813 insertions(+), 47 deletions(-)
+>>   create mode 100644 meta/recipes-core/busybox/busybox/makefile-fix-backport.patch
+>>   create mode 100644 meta/recipes-core/busybox/busybox/parallel-make-fix.patch
+>>   create mode 100644 meta/recipes-devtools/e2fsprogs/e2fsprogs/e2fsprogs-fix-missing-check-for-permission-denied.patch
+>>   create mode 100644 meta/recipes-extended/sudo/sudo/CVE-2015-8239-1.patch
+>>   create mode 100644 meta/recipes-extended/sudo/sudo/CVE-2015-8239-2.patch
+>>   create mode 100644 meta/recipes-multimedia/libtiff/files/CVE-2015-8781.patch
+>>   create mode 100644 meta/recipes-multimedia/libtiff/files/CVE-2015-8784.patch
+>>   create mode 100644 meta/recipes-multimedia/libtiff/files/CVE-2016-3186.patch
+>>   create mode 100644 meta/recipes-multimedia/libtiff/files/CVE-2016-5321.patch
+>>   create mode 100644 meta/recipes-multimedia/libtiff/files/CVE-2016-5323.patch
+>>   create mode 100644 meta/recipes-multimedia/pulseaudio/pulseaudio/0001-bluetooth-don-t-create-the-HSP-HFP-profile-twice.patch
+>>   create mode 100644 meta/recipes-support/curl/curl/CVE-2016-7141.patch
+>>
+>> --
+>> 2.7.4
+>>
+>> --
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
-However that serie is probably usefull on krogoth and definitely usefull 
-on jethro. (I originally made it for jethro) so if it needs to be 
-accepted to allow backporting, maybe it's worth rushing it...
 
-> Ross
->
-> On 12 September 2016 at 16:19, Jérémy Rosen <jeremy.rosen@smile.fr 
-> <mailto:jeremy.rosen@smile.fr>> wrote:
->
->     Any news ?
->
->
->
->     On 07/09/2016 11:08, Jérémy Rosen wrote:
->
->         The BUILD_* family of variables allow the user to specify the
->         name of the host
->         compiler to use at build time. This feature is particularly
->         important for long
->         term maintainance. Future versions of gcc might not be
->         compatible with old
->         yocto distributions and we can't assume that "gcc" is the
->         correct name for the
->         compiler.
->
->         This problem is already an issue with Jethro which can't be
->         compiled on a
->         machine wher gcc-6 is the default compiler. pkgconfig-native
->         will refuse to
->         compile because it uses -Werror and gcc-6 has new warnings
->         compared to gcc-5
->
->         This patch serie fixes multiple hard-coded references to gcc
->         in various recipes
->         and build infrastructure
->
->         This patch was tested by building core-image-minimal for
->         qemu-x86_64 with a
->         directory with the following content added to the PATH
->
->           g++ -> /bin/false
->           gcc -> /bin/false
->           myg++ -> /usr/bin/g++
->           mygcc -> /usr/bin/gcc
->
->         And the following variables added to local.conf
->
->         export BUILD_CC = "mygcc"
->         export BUILD_CXX = "myg++"
->         export BUILD_CPP = "mygcc -E"
->         export BUILD_CCLD = "mygcc"
->
->         ---
->         V2
->         * rewording in some commits messages
->         * no need for a patch to KConfig, use OE_RUNMAKE_FLAGS instead
->         * change all patch titles to use : in the short commit message
->         * rpm : manually remove files instead of calling make distclean
->         * libpcre : explicitely set CCLD_FOR_BUILD in the recipe since
->         it's the only
->            recipe using it.
->         * glibc patch has been submited upstream
->
->         It would be interesting to modify yocto's builders to use the
->         BUILD_*
->         variable in order to have some early warning wrt gcc polution
->         in recipes, but
->         seeing the various recipes I had to patch, I would expect such
->         a change to
->         trigger a high number of build failures.
->
->         Jérémy Rosen (8):
->            cross: export CC family from BUILD_* for cross compilers
->            linux-yocto: allow overriding compiler name in KConfig
->            linux-libc-headers: allow overriding compiler name in KConfig
->            busybox: allow overriding compiler name in KConfig
->            sanity: fix hardcoded references to gcc
->            glibc: remove hard-coded reference to gcc -E
->            rpm: manually cleanup sysck
->            libpcre: explicitely specify CCLD_FOR_BUILD for this recipe
->
->           meta/classes/cross.bbclass                               |
->         12 ++++++++++++
->           meta/classes/kernel.bbclass                              |  1 +
->           meta/classes/sanity.bbclass                              |
->         14 +++++++-------
->           meta/recipes-core/busybox/busybox.inc                      
->                      |  2 +-
->          
->         meta/recipes-core/glibc/glibc/0001-locale-fix-hard-coded-reference-to-gcc-E.patch
->         | 39 +++++++++++++++++++++++++++++++++++++++
->           meta/recipes-core/glibc/glibc_2.24.bb <http://glibc_2.24.bb>
->                                        |  3 ++-
->           meta/recipes-devtools/rpm/rpm_5.4.16.bb
->         <http://rpm_5.4.16.bb>                              |  2 +-
->          
->         meta/recipes-kernel/linux-libc-headers/linux-libc-headers.inc
->                            |  2 ++
->           meta/recipes-support/libpcre/libpcre_8.39.bb
->         <http://libpcre_8.39.bb>                                    
->         |  2 ++
->           9 files changed, 67 insertions(+), 10 deletions(-)
->           create mode 100644
->         meta/recipes-core/glibc/glibc/0001-locale-fix-hard-coded-reference-to-gcc-E.patch
->
->
->     -- 
->     _______________________________________________
->     Openembedded-core mailing list
->     Openembedded-core@lists.openembedded.org
->     <mailto:Openembedded-core@lists.openembedded.org>
->     http://lists.openembedded.org/mailman/listinfo/openembedded-core
->     <http://lists.openembedded.org/mailman/listinfo/openembedded-core>
->
->
-
-
---------------ADA50BC71599EB37183A6713
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: 8bit
-
-<html>
-  <head>
-    <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-  </head>
-  <body bgcolor="#FFFFFF" text="#000000">
-    <p><br>
-    </p>
-    <br>
-    <div class="moz-cite-prefix">On 12/09/2016 17:22, Burton, Ross
-      wrote:<br>
-    </div>
-    <blockquote
-cite="mid:CAJTo0LaZOT1m+-P_cm_Q+0qbr7dzuNyV9J3QxZy0xYFuugJr6g@mail.gmail.com"
-      type="cite">
-      <div dir="ltr">It's in my staging branch and works for me, just
-        needs a run through the AB and then a decision on whether it is
-        a bug fix (good for M4) or enhancement (too late for M3)...
-        <div><br>
-        </div>
-      </div>
-    </blockquote>
-    If I can weight on that one....<br>
-    <br>
-    it's technically a bug-fix, but the fix is only usefull in the far
-    future, once gcc-7 is out and current master is in maintainence mode
-    and doesn't compile with gcc-7<br>
-    so no need to rush it in.<br>
-    <br>
-    However that serie is probably usefull on krogoth and definitely
-    usefull on jethro. (I originally made it for jethro) so if it needs
-    to be accepted to allow backporting, maybe it's worth rushing it...<br>
-    <br>
-    <blockquote
-cite="mid:CAJTo0LaZOT1m+-P_cm_Q+0qbr7dzuNyV9J3QxZy0xYFuugJr6g@mail.gmail.com"
-      type="cite">
-      <div dir="ltr">
-        <div>Ross</div>
-      </div>
-      <div class="gmail_extra"><br>
-        <div class="gmail_quote">On 12 September 2016 at 16:19, Jérémy
-          Rosen <span dir="ltr">&lt;<a moz-do-not-send="true"
-              href="mailto:jeremy.rosen@smile.fr" target="_blank">jeremy.rosen@smile.fr</a>&gt;</span>
-          wrote:<br>
-          <blockquote class="gmail_quote" style="margin:0 0 0
-            .8ex;border-left:1px #ccc solid;padding-left:1ex">Any news ?
-            <div class="HOEnZb">
-              <div class="h5"><br>
-                <br>
-                <br>
-                On 07/09/2016 11:08, Jérémy Rosen wrote:<br>
-                <blockquote class="gmail_quote" style="margin:0 0 0
-                  .8ex;border-left:1px #ccc solid;padding-left:1ex">
-                  The BUILD_* family of variables allow the user to
-                  specify the name of the host<br>
-                  compiler to use at build time. This feature is
-                  particularly important for long<br>
-                  term maintainance. Future versions of gcc might not be
-                  compatible with old<br>
-                  yocto distributions and we can't assume that "gcc" is
-                  the correct name for the<br>
-                  compiler.<br>
-                  <br>
-                  This problem is already an issue with Jethro which
-                  can't be compiled on a<br>
-                  machine wher gcc-6 is the default compiler.
-                  pkgconfig-native will refuse to<br>
-                  compile because it uses -Werror and gcc-6 has new
-                  warnings compared to gcc-5<br>
-                  <br>
-                  This patch serie fixes multiple hard-coded references
-                  to gcc in various recipes<br>
-                  and build infrastructure<br>
-                  <br>
-                  This patch was tested by building core-image-minimal
-                  for qemu-x86_64 with a<br>
-                  directory with the following content added to the PATH<br>
-                  <br>
-                    g++ -&gt; /bin/false<br>
-                    gcc -&gt; /bin/false<br>
-                    myg++ -&gt; /usr/bin/g++<br>
-                    mygcc -&gt; /usr/bin/gcc<br>
-                  <br>
-                  And the following variables added to local.conf<br>
-                  <br>
-                  export BUILD_CC = "mygcc"<br>
-                  export BUILD_CXX = "myg++"<br>
-                  export BUILD_CPP = "mygcc -E"<br>
-                  export BUILD_CCLD = "mygcc"<br>
-                  <br>
-                  ---<br>
-                  V2<br>
-                  * rewording in some commits messages<br>
-                  * no need for a patch to KConfig, use OE_RUNMAKE_FLAGS
-                  instead<br>
-                  * change all patch titles to use : in the short commit
-                  message<br>
-                  * rpm : manually remove files instead of calling make
-                  distclean<br>
-                  * libpcre : explicitely set CCLD_FOR_BUILD in the
-                  recipe since it's the only<br>
-                     recipe using it.<br>
-                  * glibc patch has been submited upstream<br>
-                  <br>
-                  It would be interesting to modify yocto's builders to
-                  use the BUILD_*<br>
-                  variable in order to have some early warning wrt gcc
-                  polution in recipes, but<br>
-                  seeing the various recipes I had to patch, I would
-                  expect such a change to<br>
-                  trigger a high number of build failures.<br>
-                  <br>
-                  Jérémy Rosen (8):<br>
-                     cross: export CC family from BUILD_* for cross
-                  compilers<br>
-                     linux-yocto: allow overriding compiler name in
-                  KConfig<br>
-                     linux-libc-headers: allow overriding compiler name
-                  in KConfig<br>
-                     busybox: allow overriding compiler name in KConfig<br>
-                     sanity: fix hardcoded references to gcc<br>
-                     glibc: remove hard-coded reference to gcc -E<br>
-                     rpm: manually cleanup sysck<br>
-                     libpcre: explicitely specify CCLD_FOR_BUILD for
-                  this recipe<br>
-                  <br>
-                    meta/classes/cross.bbclass                         
-                                                | 12 ++++++++++++<br>
-                    meta/classes/kernel.bbclass                         
-                                               |  1 +<br>
-                    meta/classes/sanity.bbclass                         
-                                               | 14 +++++++-------<br>
-                    meta/recipes-core/busybox/busy<wbr>box.inc         
-                                                     |  2 +-<br>
-                    meta/recipes-core/glibc/glibc/<wbr>0001-locale-fix-hard-coded-ref<wbr>erence-to-gcc-E.patch
-                  | 39 ++++++++++++++++++++++++++++++<wbr>+++++++++<br>
-                    meta/recipes-core/glibc/<a moz-do-not-send="true"
-                    href="http://glibc_2.24.bb" rel="noreferrer"
-                    target="_blank">glibc_<wbr>2.24.bb</a>             
-                                                 |  3 ++-<br>
-                    meta/recipes-devtools/rpm/<a moz-do-not-send="true"
-                    href="http://rpm_5.4.16.bb" rel="noreferrer"
-                    target="_blank">rpm_<wbr>5.4.16.bb</a>             
-                                               |  2 +-<br>
-                    meta/recipes-kernel/linux-libc<wbr>-headers/linux-libc-headers.<wbr>inc 
-                                     |  2 ++<br>
-                    meta/recipes-support/libpcre/<a
-                    moz-do-not-send="true" href="http://libpcre_8.39.bb"
-                    rel="noreferrer" target="_blank">l<wbr>ibpcre_8.39.bb</a> 
-                                                      |  2 ++<br>
-                    9 files changed, 67 insertions(+), 10 deletions(-)<br>
-                    create mode 100644 meta/recipes-core/glibc/glibc/<wbr>0001-locale-fix-hard-coded-ref<wbr>erence-to-gcc-E.patch<br>
-                  <br>
-                </blockquote>
-                <br>
-                -- <br>
-              </div>
-            </div>
-            <div class="HOEnZb">
-              <div class="h5">
-                ______________________________<wbr>_________________<br>
-                Openembedded-core mailing list<br>
-                <a moz-do-not-send="true"
-                  href="mailto:Openembedded-core@lists.openembedded.org"
-                  target="_blank">Openembedded-core@lists.openem<wbr>bedded.org</a><br>
-                <a moz-do-not-send="true"
-                  href="http://lists.openembedded.org/mailman/listinfo/openembedded-core"
-                  rel="noreferrer" target="_blank">http://lists.openembedded.org/<wbr>mailman/listinfo/openembedded-<wbr>core</a><br>
-              </div>
-            </div>
-          </blockquote>
-        </div>
-        <br>
-      </div>
-    </blockquote>
-    <br>
-  </body>
-</html>
-
---------------ADA50BC71599EB37183A6713--
