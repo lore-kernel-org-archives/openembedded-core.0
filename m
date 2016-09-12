@@ -1,24 +1,24 @@
-Return-Path: <joshua.g.lock@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 9D4D2731FC
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id CE9597716F
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Sep 2016 08:19:06 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga103.jf.intel.com with ESMTP; 12 Sep 2016 01:19:07 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.30,322,1470726000"; d="scan'208";a="1038630541"
-Received: from jlock-mobl1.ger.corp.intel.com ([10.252.10.196])
-	by fmsmga001.fm.intel.com with ESMTP; 12 Sep 2016 01:19:06 -0700
-Message-ID: <1473668344.4627.1.camel@linux.intel.com>
-From: Joshua Lock <joshua.g.lock@linux.intel.com>
-To: bavery <brian.avery@intel.com>, openembedded-core@lists.openembedded.org
-Date: Mon, 12 Sep 2016 09:19:04 +0100
-In-Reply-To: <aa9e2ec2a13162874be2386318dc7883676655c3.1473438968.git.brian.avery@intel.com>
-References: <cover.1473438968.git.brian.avery@intel.com>
-	<aa9e2ec2a13162874be2386318dc7883676655c3.1473438968.git.brian.avery@intel.com>
-X-Mailer: Evolution 3.20.5 (3.20.5-1.fc24) 
-Mime-Version: 1.0
-Subject: Re: [PATCH 1/1] qemurunner: print out the runqemu command
+	Mon, 12 Sep 2016 08:32:07 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u8C8W8hT019700
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 12 Sep 2016 01:32:08 -0700 (PDT)
+Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.294.0;
+	Mon, 12 Sep 2016 01:32:08 -0700
+From: Robert Yang <liezhi.yang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 12 Sep 2016 01:32:06 -0700
+Message-ID: <cover.1473669090.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 2.9.0
+MIME-Version: 1.0
+Subject: [PATCH 0/2] meta: cleanup d.getVar(var, 1) and d.getVar(var, 0)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,29 +31,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 12 Sep 2016 08:19:10 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 12 Sep 2016 08:32:09 -0000
+Content-Type: text/plain
 
-On Fri, 2016-09-09 at 09:38 -0700, bavery wrote:
-> This logs the launch command that was used for runqemu while running
-> -c
-> testimage.  This way, if I'd like to easily launch qemu manually in
-> order to debug a failed test, I know what commmand was run to create
-> the qemu instance.
+The following changes since commit 4d268abc2fc892c5d34449f78c8e9f2b1a9d6bac:
 
-I already have this in my runqemu output:
+  oeqa.runtime.smart: work around smart race issues (2016-09-09 12:12:17 +0100)
 
-runqemu - INFO - Running
-/home/joshuagl/Projects/poky/build/tmp/sysroots/x86_64-
-linux/usr/bin/qemu-system-ppc -net
-tap,vlan=0,ifname=tap0,script=no,downscript=no -net nic,model=pcnet  -
-machine mac99 -cpu G4 -m 256 -drive file=/home/joshuagl/mess/35/core-
-image-lsb-qemuppc-20160902090100.rootfs.ext4,if=virtio,format=raw  -
-show-cursor -usb -usbdevice tablet -device virtio-rng-pci -kernel
-/home/joshuagl/mess/35/vmlinux-qemuppc.bin -append 'root=/dev/vda rw
-highres=off  mem=256M ip=192.168.7.2::192.168.7.1:255.255.255.0
-console=ttyS0 console=tty'
+are available in the git repository at:
 
+  git://git.openembedded.org/openembedded-core-contrib rbt/getvar
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/getvar
+
+Robert Yang (2):
+  meta: cleanup d.getVar(var, 1)
+  meta: cleanup d.getVar(var, 0)
+
+ meta/classes/base.bbclass                          |  2 +-
+ meta/classes/image.bbclass                         |  2 +-
+ meta/classes/kernel.bbclass                        |  8 ++++----
+ meta/classes/package.bbclass                       |  2 +-
+ meta/classes/package_ipk.bbclass                   |  2 +-
+ meta/classes/recipe_sanity.bbclass                 | 22 +++++++++++-----------
+ meta/lib/oe/utils.py                               |  4 ++--
+ meta/recipes-devtools/apt/apt-native.inc           |  2 +-
+ meta/recipes-devtools/cmake/cmake.inc              |  2 +-
+ .../kconfig-frontends_3.12.0.0.bb                  |  2 +-
+ meta/recipes-devtools/vala/vala.inc                |  2 +-
+ meta/recipes-support/boost/boost-1.61.0.inc        |  4 ++--
+ 12 files changed, 27 insertions(+), 27 deletions(-)
+
+-- 
+2.9.0
 
 
