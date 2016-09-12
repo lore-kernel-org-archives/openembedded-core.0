@@ -1,46 +1,26 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f51.google.com (mail-wm0-f51.google.com [74.125.82.51])
-	by mail.openembedded.org (Postfix) with ESMTP id AF4A860851
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 36825731F9
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Sep 2016 11:48:08 +0000 (UTC)
-Received: by mail-wm0-f51.google.com with SMTP id c131so53236032wmh.0
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Sep 2016 04:48:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=waUMZ9K/jnFKSxLu8p/j7WpwN63odFYyL0zypMZ5ELs=;
-	b=HpVp+EoAgwuzyF8+M9boRns7trUigz5+ThJ9dEg2cAkxbSzz7Yq1dczlCZDY0LJ3y5
-	wDQq1se1sHX7syt3r6E+WmuweYvH4qc99LX/oY6YmYLHn45Z0+XXHluBp1ax0cyXILGS
-	V5UaqMZmfdT8yhjF8ZCmGruynl23ELrGSvOfyQ/0F+DtH/mvGFZAOKYGE32HJRCVHJkg
-	eu6y8w1YKBEZm5Ab0gSBu5huWnS5iBLiCFaUXPI0c5gWT9plnUbx5aArLRd5yerWNjGq
-	fHxWTY59ycwAW+M86alP0TGj2QIRPJWvo3TKhFe/wi8g2TtVLLEsaFaS02mNcctMySxY
-	xPsA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=waUMZ9K/jnFKSxLu8p/j7WpwN63odFYyL0zypMZ5ELs=;
-	b=gonjkviyCL7levB8cGjkCEfd27gjXpEcYAHuzCY+lbrAyJzVq0RAlGl2J+SAMzAU6q
-	BOX6j6f2hR5E8mZylTBhJvmZSgyJxn56Vi5LsNvXFbs6/6qHtNiCG+Mf7/YM+480LsQ7
-	SNDLyIGnJN1njzxeBAi8P+LITBcYEQJEIGj1ezuFQ7Nh8AKBX5/RlSwUHJXOCAani+qz
-	D+fR7c84sW0pG+Ka9HqXwNpjvLV4AA/PTFgHAHoREm3KOuHOx3TYpQ7VIWZ8KVCR1Vgk
-	rOG8GIGQn8gZUE4d6eQZsPnwV20bOwTVbFYjZ7V21l6aLjayDLtN8pQ6nICHNT9yVqUo
-	DWAA==
-X-Gm-Message-State: AE9vXwMbl20SLzy+MrUTu+7YyD2mfDwjXbpwS8pNyIqjzJNSn/XJHOtaYJxbg+5ydtfhfJGd
-X-Received: by 10.194.205.2 with SMTP id lc2mr16694184wjc.175.1473680888552;
-	Mon, 12 Sep 2016 04:48:08 -0700 (PDT)
-Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id
-	190sm17478992wmk.13.2016.09.12.04.48.07
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 12 Sep 2016 04:48:07 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
+	Mon, 12 Sep 2016 12:22:33 +0000 (UTC)
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+	by orsmga103.jf.intel.com with ESMTP; 12 Sep 2016 05:22:34 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.30,322,1470726000"; 
+   d="scan'208";a="7316331"
+Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.49])
+	([10.237.68.49])
+	by fmsmga005.fm.intel.com with ESMTP; 12 Sep 2016 05:22:33 -0700
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 12 Sep 2016 12:48:04 +0100
-Message-Id: <1473680885-30513-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 2.8.1
-Subject: [PATCH 1/2] classes/gtk-doc: lazy assign GTKDOC_ENABLED
+References: <1473603090-1486-1-git-send-email-wangxin2015.fnst@cn.fujitsu.com>
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Message-ID: <3e483970-9380-d055-b023-a4eac99e5d53@linux.intel.com>
+Date: Mon, 12 Sep 2016 15:21:19 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Icedove/45.2.0
+MIME-Version: 1.0
+In-Reply-To: <1473603090-1486-1-git-send-email-wangxin2015.fnst@cn.fujitsu.com>
+Subject: Re: [PATCH] ltp: 20160126 -> 20160510
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,30 +33,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 12 Sep 2016 11:48:11 -0000
+X-List-Received-Date: Mon, 12 Sep 2016 12:22:36 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 
-By letting a recipe assign GTKDOC_ENABLED trivially there is a simple and clear
-way to disable gtk-doc for specific build configurations.
+On 09/11/2016 05:11 PM, Wang Xin wrote:
+> 1) Upgrade ltp from 20160126 to 20160510.
+> 2) Modify some patches, since the data has been changed.
+>     0011-Rename-sigset-variable-to-sigset1.patch
+>     0030-lib-Use-PTHREAD_MUTEX_RECURSIVE-in-place-of-PTHREAD_.patch
+> 3) Delete some patches, since they are no use.
+>     0001-ltp-Don-t-link-against-libfl.patch
+>     0006-sendfile-Use-off64_t-instead-of-__off64_t.patch
+>     0012-fsstress.c-Replace-__int64_t-with-int64_t.patch
+>     0013-include-fcntl.h-for-getting-O_-definitions.patch
+>     0014-hyperthreading-Include-sys-types.h-for-pid_t-definit.patch
+>     0015-mincore01-Rename-PAGESIZE-to-pagesize.patch
+>     0016-ustat-Change-header-from-ustat.h-to-sys-ustat.h.patch
+>     0017-replace-sigval_t-with-union-sigval.patch
+>     0019-tomoyo-Replace-canonicalize_file_name-with-realpath.patch
+>     0032-regen.sh-Include-asm-unistd.h-explicitly.patch
+>
+> Signed-off-by: Wang Xin <wangxin2015.fnst@cn.fujitsu.com>
+> ---
+>  .../0011-Rename-sigset-variable-to-sigset1.patch   | 60 +++++++++++-----------
+>  ...READ_MUTEX_RECURSIVE-in-place-of-PTHREAD_.patch |  6 +--
+>  .../ltp/{ltp_20160126.bb => ltp_20160510.bb}       | 12 +----
+>  3 files changed, 34 insertions(+), 44 deletions(-)
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/classes/gtk-doc.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+The patches' deletions are absent from the patch.
 
-diff --git a/meta/classes/gtk-doc.bbclass b/meta/classes/gtk-doc.bbclass
-index b2b6239..297eac6 100644
---- a/meta/classes/gtk-doc.bbclass
-+++ b/meta/classes/gtk-doc.bbclass
-@@ -7,7 +7,7 @@
- #
- # It should be used in recipes to determine whether gtk-doc based documentation should be built,
- # so that qemu use can be avoided when necessary.
--GTKDOC_ENABLED = "${@bb.utils.contains('DISTRO_FEATURES', 'api-documentation', \
-+GTKDOC_ENABLED ?= "${@bb.utils.contains('DISTRO_FEATURES', 'api-documentation', \
-                       bb.utils.contains('MACHINE_FEATURES', 'qemu-usermode', 'True', 'False', d), 'False', d)}"
- 
- EXTRA_OECONF_prepend_class-target = "${@bb.utils.contains('GTKDOC_ENABLED', 'True', '--enable-gtk-doc --enable-gtk-doc-html --disable-gtk-doc-pdf', \
--- 
-2.8.1
+Alex
 
 
