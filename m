@@ -1,28 +1,45 @@
-Return-Path: <Mingli.Yu@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 858197017D
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 4D8D273216
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Sep 2016 03:08:57 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u8D38rja000526
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 12 Sep 2016 20:08:53 -0700 (PDT)
-Received: from [128.224.163.140] (128.224.163.140) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.294.0;
-	Mon, 12 Sep 2016 20:08:52 -0700
-To: <openembedded-core@lists.openembedded.org>,
-	<richard.purdie@linuxfoundation.org>, <ross.burton@intel.com>
-References: <1473129577-17238-1-git-send-email-mingli.yu@windriver.com>
-From: "Yu, Mingli" <mingli.yu@windriver.com>
-Message-ID: <57D76CBF.1050108@windriver.com>
-Date: Tue, 13 Sep 2016 11:04:31 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.4.0
+	Tue, 13 Sep 2016 03:20:20 +0000 (UTC)
+Received: by mail-wm0-f67.google.com with SMTP id c131so939536wmh.2
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 12 Sep 2016 20:20:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=aMtrHgoHJnF6EcG0KP1aI3OwJTP6pzO14bRfaNp/5QA=;
+	b=ZCkEZKbrdHLspmOkfMrua2dfQpGU4bcGmMDzbFTohupqkzajXlypL0VUXGNAgPB1l2
+	59lleTou7MGLgIvoIqntgq+LDzR0zuvm2h5l/CaNDhHqGvqtrnSnLfklHQWcFxpgFupK
+	aEI5PO2+Bug0FJbGMoziJLXXfKpXpwZ/yvHWO77Qx0OAbHfshicS/5wpfmbjJBI8xLRj
+	ypwwscYjYSqSt5s9LcmkRrhzW1lfVWZZOkiaet6LSnBYGOyDoaocAsk3It91fpvPkzEZ
+	FLIU0WfS83Ph5AXBOZg1T7N0FFKDQOK7h9CZvStv/DP4PoCd0GRdKeIYlYdpbaOYhJDp
+	wmMg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=aMtrHgoHJnF6EcG0KP1aI3OwJTP6pzO14bRfaNp/5QA=;
+	b=KebME68B9m6LHaKcXIHaXtT1uu+t711ZYMxFQiuPRM25xLXfWLr6kVwC7lHXeaAPN+
+	LkQo8BhMQwwhvWIqjHtyBW27tjXef7xiY0TN93MDHBjUIfDJkNms1jJHc48TWXeaQfyS
+	OEh8xcgdPohK6Am0BAq3mdj5BxVxQMNPKStrLx22LirX7NpCtFme7AWlr0v5q7gWbIVZ
+	n5La/Z4UKMTt7qPR/a23qcccj9EgrZE3TBnZ01wcN3gL/RSKjD6iugzclTDqrx3pLr8x
+	YzwSbxoBFrs2BjX84DpDazMEok0mtv7L2xUYI7yZiW1pwdudsMBYCe45VpTSDd7mdorV
+	zrrQ==
+X-Gm-Message-State: AE9vXwMsxbmmBMINn80sKhwVjdNzNb0SzhpbDozSnzEbORBfZml0pVp7tbeTASir9BFrLnVfy7ICnxo8ccPe8g==
+X-Received: by 10.28.211.129 with SMTP id k123mr2631287wmg.116.1473736821347; 
+	Mon, 12 Sep 2016 20:20:21 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <1473129577-17238-1-git-send-email-mingli.yu@windriver.com>
-X-Originating-IP: [128.224.163.140]
-Subject: Re: [PATCH v2] groff: not ship /usr/bin/glilypond
+Received: by 10.194.190.233 with HTTP; Mon, 12 Sep 2016 20:20:20 -0700 (PDT)
+In-Reply-To: <aeae8af5-a8c6-f894-d6e5-c78beb993a7f@windriver.com>
+References: <1473721254-9610-1-git-send-email-armccurdy@gmail.com>
+	<aeae8af5-a8c6-f894-d6e5-c78beb993a7f@windriver.com>
+From: Andre McCurdy <armccurdy@gmail.com>
+Date: Mon, 12 Sep 2016 20:20:20 -0700
+Message-ID: <CAJ86T=UYPX249rS7qT3Q-pdcpUb=Y9UU5NzVGy8NFS=AaC__vQ@mail.gmail.com>
+To: Mark Hatle <mark.hatle@windriver.com>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] rootfs.py: support absolute paths in IMAGE_DEVICE_TABLES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,54 +52,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Sep 2016 03:09:01 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 13 Sep 2016 03:20:22 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Any update?
+On Mon, Sep 12, 2016 at 5:17 PM, Mark Hatle <mark.hatle@windriver.com> wrote:
+> On 9/12/16 6:00 PM, Andre McCurdy wrote:
+>> Paths relative to BBPATH are fine if device table files are always
+>> static and contained somewhere within a meta layer. However if device
+>> tables are created dynamically, they will be located somewhere within
+>> ${TMPDIR} and most conveniently referenced via an absolute path.
+>>
+>> The legacy IMAGE_DEVICE_TABLE variable supported an absolute path,
+>> therefore make IMAGE_DEVICE_TABLES support absolute paths too, to
+>> avoid users who need dynamic device table files being dependent on
+>> the legacy variable.
+>>
+>> Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+>> ---
+>>  meta/lib/oe/rootfs.py | 9 ++++++---
+>>  1 file changed, 6 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/meta/lib/oe/rootfs.py b/meta/lib/oe/rootfs.py
+>> index a348b97..32cce64 100644
+>> --- a/meta/lib/oe/rootfs.py
+>> +++ b/meta/lib/oe/rootfs.py
+>> @@ -352,8 +352,8 @@ class Rootfs(object, metaclass=ABCMeta):
+>>      """
+>>      Create devfs:
+>>      * IMAGE_DEVICE_TABLE is the old name to an absolute path to a device table file
+>> -    * IMAGE_DEVICE_TABLES is a new name for a file, or list of files, seached
+>> -      for in the BBPATH
+>> +    * IMAGE_DEVICE_TABLES is the new name for a file, or list of files, which may be
+>> +      either absolute paths or paths relative to BBPATH.
+>>      If neither are specified then the default name of files/device_table-minimal.txt
+>>      is searched for in the BBPATH (same as the old version.)
+>>      """
+>> @@ -367,7 +367,10 @@ class Rootfs(object, metaclass=ABCMeta):
+>>              if devtables is None:
+>>                  devtables = 'files/device_table-minimal.txt'
+>>              for devtable in devtables.split():
+>> -                devtable_list.append("%s" % bb.utils.which(self.d.getVar('BBPATH', True), devtable))
+>> +                if os.path.isabs(devtable):
+>> +                    devtable_list.append(devtable)
+>> +                else:
+>> +                    devtable_list.append("%s" % bb.utils.which(self.d.getVar('BBPATH', True), devtable))
+>
+> I'm wondering if maybe this is a bug in "bb.utils.which", I thought it would
+> return back -- in the case of an absolute path -- if the thing existed or not,
+> otherwise would search the BBPATH.  (I'm using the command line version of
+> 'which' as my behavioral thinking.)
 
-Thanks,
+Hmmm. The behaviour of "bb.utils.which" in the case of an absolute
+path is actually to return back the absolute path - but only if the
+file exists. If the file doesn't exist, you get back an empty string.
+Unfortunately all the test cases I was trying were files which didn't
+exist.
 
+But perhaps the bigger issue is that result returned by
+self._exec_shell_cmd() isn't checked, so it doesn't really matter
+whether devtable_list ends up containing an empty string or an
+absolute path to a file which doesn't exist. There's no error or
+feedback to the user that something has gone wrong in either case.
 
-On 2016年09月06日 10:39, mingli.yu@windriver.com wrote:
-> From: Mingli Yu <Mingli.Yu@windriver.com>
+Is it really intentional to silently skip over IMAGE_DEVICE_TABLES
+entries which don't exist?
+
+> If it is an issue, then it would need a fix in bitbake, and I believe the
+> existing code should then work.
 >
-> Not ship /usr/bin/glilypond and related files such
-> as man file /usr/share/man/man1/glilypond.1 and other
-> three files related to glilypond under
-> /usr/lib/groff/glilypond in embedded system, it is because:
+> (Asking about the behavior on the bitbake list might be worth while in this case.)
 >
-> - Remove the confusion about glilypond fails to run
->    because it lacks dependency on File::HomeDir perl
->    module
->
-> - We don't often have need for sheet music conversion
->    in groff in embedded or IoT devices (glilypond
->    transforms sheet music written in the lilypond language
->    into the groff language using the .PSPIC request, such
->    that groff can transform it into a format that can be
->    displayed directly).
->
-> Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
-> ---
->   meta/recipes-extended/groff/groff_1.22.3.bb | 5 +++++
->   1 file changed, 5 insertions(+)
->
-> diff --git a/meta/recipes-extended/groff/groff_1.22.3.bb b/meta/recipes-extended/groff/groff_1.22.3.bb
-> index af5acbe..dd241f3 100644
-> --- a/meta/recipes-extended/groff/groff_1.22.3.bb
-> +++ b/meta/recipes-extended/groff/groff_1.22.3.bb
-> @@ -62,6 +62,11 @@ do_install_append() {
->   	if [ -f ${SPECIAL_AWK} ]; then
->   		sed -i -e 's:#!.*awk:#! ${USRBINPATH}/awk:' ${SPECIAL_AWK}
->   	fi
-> +
-> +	# not ship /usr/bin/glilypond and its releated files in embedded target system
-> +	rm -rf ${D}${bindir}/glilypond
-> +	rm -rf ${D}${libdir}/groff/glilypond
-> +	rm -rf ${D}${mandir}/man1/glilypond*
->   }
->
->   do_install_append_class-native() {
+>>
+>>          for devtable in devtable_list:
+>>              self._exec_shell_cmd(["makedevs", "-r",
+>>
 >
 
