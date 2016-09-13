@@ -1,29 +1,22 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 8DAF3771F5
+Return-Path: <jussi.kukkonen@intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 0F008771F5
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Sep 2016 08:39:27 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u8D8dQbP002587
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 13 Sep 2016 01:39:26 -0700 (PDT)
-Received: from [128.224.162.240] (128.224.162.240) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.294.0;
-	Tue, 13 Sep 2016 01:39:25 -0700
-To: Richard Purdie <richard.purdie@linuxfoundation.org>, oe-core
-	<openembedded-core@lists.openembedded.org>
-References: <7df73b67-6880-ee6c-a18a-1e2a6ac9e5b7@windriver.com>
-	<1473755695.7207.26.camel@linuxfoundation.org>
-From: Robert Yang <liezhi.yang@windriver.com>
-Message-ID: <590ad776-563b-498d-957b-a24c02817e20@windriver.com>
-Date: Tue, 13 Sep 2016 16:39:23 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.2.0
-MIME-Version: 1.0
-In-Reply-To: <1473755695.7207.26.camel@linuxfoundation.org>
-Cc: "LOCK, JOSHUA" <joshua.g.lock@intel.com>
-Subject: Re: About runqemu's use cases
+	Tue, 13 Sep 2016 08:46:51 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by orsmga102.jf.intel.com with ESMTP; 13 Sep 2016 01:46:51 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.30,327,1470726000"; d="scan'208";a="1055231368"
+Received: from theory.fi.intel.com ([10.237.72.196])
+	by fmsmga002.fm.intel.com with ESMTP; 13 Sep 2016 01:46:51 -0700
+From: Jussi Kukkonen <jussi.kukkonen@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 13 Sep 2016 11:46:40 +0300
+Message-Id: <c80aadf2f46f6339d8aa9f7b95a2ca40d84650e1.1473755500.git.jussi.kukkonen@intel.com>
+X-Mailer: git-send-email 2.1.4
+In-Reply-To: <cover.1473755500.git.jussi.kukkonen@intel.com>
+References: <cover.1473755500.git.jussi.kukkonen@intel.com>
+Subject: [PATCH 1/2] piglit: Backport linker flag patch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,40 +29,103 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Sep 2016 08:39:29 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 13 Sep 2016 08:46:55 -0000
 
+Use the correct build system patch instead of adding linker flags
+in recipe. Also update upstream status for the other build patch.
 
+Fixes [YOCTO #9851].
 
-On 09/13/2016 04:34 PM, Richard Purdie wrote:
-> On Tue, 2016-09-13 at 10:53 +0800, Robert Yang wrote:
->> Hello,
->>
->> We have a new oe-core/scripts/runqemu now, and I'd like to add
->> something
->> like "runqemu test" in the future to avoid regressions. It would help
->> a
->> lot if you can provide the info about how do you use runqemu. There
->> is
->> a bug tracking this:
->>
->> https://bugzilla.yoctoproject.org/show_bug.cgi?id=10249
->>
->> You can reply here or reply in the bug.
->
-> Wouldn't this be a case for "oe-selftest -r runqemu" and create a
-> runqemu test suite within oe-selftest like we do for other components?
+Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
+---
+ .../0001-cmake-Link-test-utils-with-ldl.patch      | 41 ++++++++++++++++++++++
+ ...0001-cmake-Link-utils-with-xcb-explicitly.patch |  2 +-
+ meta/recipes-graphics/piglit/piglit_git.bb         |  3 +-
+ 3 files changed, 43 insertions(+), 3 deletions(-)
+ create mode 100644 meta/recipes-graphics/piglit/piglit/0001-cmake-Link-test-utils-with-ldl.patch
 
-Sounds good, thanks.
+diff --git a/meta/recipes-graphics/piglit/piglit/0001-cmake-Link-test-utils-with-ldl.patch b/meta/recipes-graphics/piglit/piglit/0001-cmake-Link-test-utils-with-ldl.patch
+new file mode 100644
+index 0000000..2e1c947
+--- /dev/null
++++ b/meta/recipes-graphics/piglit/piglit/0001-cmake-Link-test-utils-with-ldl.patch
+@@ -0,0 +1,41 @@
++Backport patch to fix build with gold linker.
++
++Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
++Upstream-Status: Backport
++
++
++
++From 93a7113485cf1c55fd7076116faf5b3a690706b2 Mon Sep 17 00:00:00 2001
++From: Jussi Kukkonen <jussi.kukkonen@intel.com>
++Date: Tue, 30 Aug 2016 17:17:28 +0300
++Subject: [PATCH] cmake: Link test utils with "-ldl"
++
++Without this linking CXX executables (e.g. fbo-blit-stretch) fails
++with gold linker:
++
++| libpiglitutil_gl.so.0: error: undefined reference to 'dlsym'
++| libpiglitutil_gl.so.0: error: undefined reference to 'dlerror'
++| libpiglitutil_gl.so.0: error: undefined reference to 'dlopen'
++
++Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
++Reviewed-by: Emil Velikov <emil.velikov@collabora.com>
++---
++ tests/util/CMakeLists.txt | 2 ++
++ 1 file changed, 2 insertions(+)
++
++diff --git a/tests/util/CMakeLists.txt b/tests/util/CMakeLists.txt
++index e1f8073..3d5bef5 100644
++--- a/tests/util/CMakeLists.txt
+++++ b/tests/util/CMakeLists.txt
++@@ -11,6 +11,8 @@ set_source_files_properties(
++ 	PROPERTIES GENERATED 1
++ 	)
++ 
+++link_libraries(${CMAKE_DL_LIBS})
+++
++ if(HAVE_LIBCACA)
++     link_libraries(caca)
++ endif()
++-- 
++2.9.3
++
+diff --git a/meta/recipes-graphics/piglit/piglit/0001-cmake-Link-utils-with-xcb-explicitly.patch b/meta/recipes-graphics/piglit/piglit/0001-cmake-Link-utils-with-xcb-explicitly.patch
+index d591da5..845804d 100644
+--- a/meta/recipes-graphics/piglit/piglit/0001-cmake-Link-utils-with-xcb-explicitly.patch
++++ b/meta/recipes-graphics/piglit/piglit/0001-cmake-Link-utils-with-xcb-explicitly.patch
+@@ -13,7 +13,7 @@ This may have appeared now because xcb-dri2 used to overlink publicly
+ but now does not.
+ 
+ Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
+-Upstream-Status: Pending
++Upstream-Status: Accepted
+ ---
+  CMakeLists.txt            | 1 +
+  tests/util/CMakeLists.txt | 2 ++
+diff --git a/meta/recipes-graphics/piglit/piglit_git.bb b/meta/recipes-graphics/piglit/piglit_git.bb
+index b2ca553..82adcde 100644
+--- a/meta/recipes-graphics/piglit/piglit_git.bb
++++ b/meta/recipes-graphics/piglit/piglit_git.bb
+@@ -6,6 +6,7 @@ SRC_URI = "git://anongit.freedesktop.org/piglit \
+            file://0001-cmake-install-bash-completions-in-the-right-place.patch \
+            file://0001-tests-Use-FE_UPWARD-only-if-its-defined-in-fenv.h.patch \
+            file://0001-cmake-Link-utils-with-xcb-explicitly.patch \
++           file://0001-cmake-Link-test-utils-with-ldl.patch \
+            "
+ 
+ # From 2016-07-07
+@@ -30,8 +31,6 @@ do_compile[dirs] =+ "${B}/temp/"
+ PACKAGECONFIG ??= ""
+ PACKAGECONFIG[freeglut] = "-DPIGLIT_USE_GLUT=1,-DPIGLIT_USE_GLUT=0,freeglut,"
+ 
+-LDFLAGS_append = " ${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-gold', '-ldl', '', d)}"
+-
+ do_configure_prepend() {
+    if [ "${@bb.utils.contains('PACKAGECONFIG', 'freeglut', 'yes', 'no', d)}" = "no" ]; then
+         sed -i -e "/^#.*include <GL\/freeglut_ext.h>$/d" ${S}/src/piglit/glut_wrap.h
+-- 
+2.1.4
 
-// Robert
-
->
-> Cheers,
->
-> Richard
->
->
->
 
