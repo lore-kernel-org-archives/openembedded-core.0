@@ -1,26 +1,25 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 970B4771BF
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 0D93A77190
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Sep 2016 02:15:30 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by orsmga101.jf.intel.com with ESMTP; 12 Sep 2016 19:15:31 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.30,326,1470726000"; d="scan'208";a="878068092"
-Received: from wooi-mobl.gar.corp.intel.com (HELO
-	peggleto-mobl.ger.corp.intel.com) ([10.255.156.68])
-	by orsmga003.jf.intel.com with ESMTP; 12 Sep 2016 19:15:30 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 13 Sep 2016 14:15:14 +1200
-Message-Id: <225249f90cc234b1c302ac4eb26fa3937e339a09.1473732817.git.paul.eggleton@linux.intel.com>
-X-Mailer: git-send-email 2.5.5
-In-Reply-To: <cover.1473732817.git.paul.eggleton@linux.intel.com>
-References: <cover.1473732817.git.paul.eggleton@linux.intel.com>
-In-Reply-To: <cover.1473732817.git.paul.eggleton@linux.intel.com>
-References: <cover.1473732817.git.paul.eggleton@linux.intel.com>
-Cc: Francisco Pedraza <francisco.j.pedraza.gonzalez@intel.com>
-Subject: [PATCH 1/1] oeqa/sdkext/devtool: use a smaller module to test node.js functionality
+	Tue, 13 Sep 2016 02:53:47 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u8D2rk60020416
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 12 Sep 2016 19:53:47 -0700 (PDT)
+Received: from [128.224.162.240] (128.224.162.240) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.294.0;
+	Mon, 12 Sep 2016 19:53:46 -0700
+To: oe-core <openembedded-core@lists.openembedded.org>
+From: Robert Yang <liezhi.yang@windriver.com>
+Message-ID: <7df73b67-6880-ee6c-a18a-1e2a6ac9e5b7@windriver.com>
+Date: Tue, 13 Sep 2016 10:53:44 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.2.0
+MIME-Version: 1.0
+Cc: "LOCK, JOSHUA" <joshua.g.lock@intel.com>
+Subject: About runqemu's use cases
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,34 +32,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Sep 2016 02:15:31 -0000
+X-List-Received-Date: Tue, 13 Sep 2016 02:53:48 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-The "forever" package, despite its innocent description, actually drags
-in a surprising number of dependencies and as a result the nodejs test
-takes up to 10 minutes as a result. Pick a different example with a much
-more reasonable set of dependencies.
 
-Addresses part of [YOCTO #10254].
+Hello,
 
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
----
- meta/lib/oeqa/sdkext/devtool.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+We have a new oe-core/scripts/runqemu now, and I'd like to add something
+like "runqemu test" in the future to avoid regressions. It would help a
+lot if you can provide the info about how do you use runqemu. There is
+a bug tracking this:
 
-diff --git a/meta/lib/oeqa/sdkext/devtool.py b/meta/lib/oeqa/sdkext/devtool.py
-index ba12799..65f41f6 100644
---- a/meta/lib/oeqa/sdkext/devtool.py
-+++ b/meta/lib/oeqa/sdkext/devtool.py
-@@ -91,7 +91,7 @@ class DevtoolTest(oeSDKExtTest):
-     @testcase(1478)
-     @skipUnlessPassed('test_devtool_location')
-     def test_recipes_for_nodejs(self):
--        package_nodejs = "npm://registry.npmjs.org;name=forever;version=0.15.1"
-+        package_nodejs = "npm://registry.npmjs.org;name=winston;version=2.2.0"
-         self._run('devtool add %s ' % package_nodejs)
-         try:
-             self._run('devtool build %s ' % package_nodejs)
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=10249
+
+You can reply here or reply in the bug.
+
 -- 
-2.5.5
+Thanks
 
+Robert
 
