@@ -1,41 +1,32 @@
-Return-Path: <andre.draszik@gmail.com>
-Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 46202731F7
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id D3ACF7719C
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Sep 2016 13:29:03 +0000 (UTC)
-Received: by mail-wm0-f67.google.com with SMTP id b184so2399143wma.3
+	Tue, 13 Sep 2016 13:56:21 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u8DDuKNo017310 for <openembedded-core@lists.openembedded.org>;
+	Tue, 13 Sep 2016 14:56:20 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id NYoAk0fd8Ux7
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Sep 2016 06:29:04 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=caprPAZJownI7iSbeagWmmM6m71gCGAj63WLIp0ufiU=;
-	b=SLmQJ7fh+FtopXVJHEfizwMsdNTfKkGGY/M5F2delvcoNK1qGcdamqovIfZHovG1QL
-	K7ppeQq6dHl7nMGNt79Rxb162q1DhSPd+vATIRP3F4/12y541kAWax6a2i5x7BQWblX+
-	3dywZmswrl3+tCsQkULpZz4GO4CJ5odSk7UBozAjSo7qxKKSaAMUHw3tFBRocjbWTn87
-	fFOlkapMcnTvDXxJWA/iXqsrwqBYujsUHkHMP2t7MPVZopwbYkDKVwrtST1/y4fvFeaM
-	vLODJ/axi0Z3znzi4YFkAc0izF7wrYMVaDRdkIqoS/kXDk5YJVR2Q7g8DRPhMGfBvzH6
-	c41Q==
-X-Gm-Message-State: AE9vXwMPccfTZ2R52awQ5dp/piBfJxsdUGaV4iESNqzdbe54T4lphti6u9vgv195cTRquw==
-X-Received: by 10.194.103.3 with SMTP id fs3mr20469002wjb.115.1473773343824;
-	Tue, 13 Sep 2016 06:29:03 -0700 (PDT)
-Received: from tfsielt31850 ([77.107.218.170])
-	by smtp.gmail.com with ESMTPSA id
-	ml1sm22921528wjb.46.2016.09.13.06.29.02
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Tue, 13 Sep 2016 06:29:02 -0700 (PDT)
-Message-ID: <1473773341.5279.8.camel@andred.net>
-From: =?ISO-8859-1?Q?Andr=E9?= Draszik <git@andred.net>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 13 Sep 2016 14:29:01 +0100
-In-Reply-To: <1473764984.5279.6.camel@andred.net>
-References: <20160913090710.22945-1-git@andred.net>
-	<1473764984.5279.6.camel@andred.net>
-X-Mailer: Evolution 3.20.5-1 
+	Tue, 13 Sep 2016 14:56:20 +0100 (BST)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u8DDuGSF017288
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 13 Sep 2016 14:56:17 +0100
+Message-ID: <1473774975.7207.32.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Tue, 13 Sep 2016 14:56:15 +0100
+In-Reply-To: <1473760420.7207.30.camel@linuxfoundation.org>
+References: <1473760420.7207.30.camel@linuxfoundation.org>
+X-Mailer: Evolution 3.18.5.2-0ubuntu3 
 Mime-Version: 1.0
-Subject: Re: [PATCH] kernel-yocto: remove do_shared_workdir from SRCTREECOVEREDTASKS
+Subject: [PATCH v2] autotools: Correctly filter m4 files view to setscene dependencies
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,57 +39,127 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Sep 2016 13:29:06 -0000
+X-List-Received-Date: Tue, 13 Sep 2016 13:56:23 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 
-Please unignore this patch :-) The patch does what I intended.
+Currently when you run builds from sstate, you can see warnings like:
 
-Sorry for the noise.
+WARNING: systemd-1_230+gitAUTOINC+3a74d4fc90-r0 do_configure: /data/poky-master/tmp-glibc/sstate-control/manifest-intel-corei7-64-glibc-initial.populate_sysroot not found
+WARNING: systemd-1_230+gitAUTOINC+3a74d4fc90-r0 do_configure: /data/poky-master/tmp-glibc/sstate-control/manifest-intel-corei7-64-libgcc-initial.populate_sysroot not found
 
-On Di, 2016-09-13 at 12:09 +0100, André Draszik wrote:
-> Ignore this. This doesn't yet work as I intended I think.
-> 
-> On Di, 2016-09-13 at 10:07 +0100, André Draszik wrote:
-> > 
-> > Various recipes depend on the kernel's do_shared_workdir
-> > task, a quick grep suggests all external kernel modules
-> > (via module.bbclass), but also perf, and potentially any
-> > additional headers as outlined in linux-libc-headers.inc
-> > are affected.
-> > 
-> > Having do_shared_workdir in SRCTREECOVEREDTASKS means this
-> > task is removed when externalsrc is enabled, making all
-> > those recipes fail as the task they depend on,
-> > virtual/kernel:do_shared_workdir, doesn't exist.
-> > 
-> > Remove do_shared_workdir from SRCTREECOVEREDTASKS so that
-> > all those recipes work even if externalsrc is activated.
-> > 
-> > According to the comment in here, the reason for
-> > do_shared_workdir to be removed as a task is because it
-> > modifies the source tree, but that doesn't seem to be
-> > case.
-> > 
-> > Signed-off-by: André Draszik <git@andred.net>
-> > ---
-> >  meta/classes/kernel-yocto.bbclass | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > 
-> > diff --git a/meta/classes/kernel-yocto.bbclass b/meta/classes/kernel-
-> > yocto.bbclass
-> > index 82b9210..53659f2 100644
-> > --- a/meta/classes/kernel-yocto.bbclass
-> > +++ b/meta/classes/kernel-yocto.bbclass
-> > @@ -1,5 +1,5 @@
-> >  # remove tasks that modify the source tree in case externalsrc is
-> > inherited
-> > -SRCTREECOVEREDTASKS += "do_kernel_configme do_validate_branches
-> > do_kernel_configcheck do_kernel_checkout do_shared_workdir do_fetch
-> > do_unpack do_patch"
-> > +SRCTREECOVEREDTASKS += "do_kernel_configme do_validate_branches
-> > do_kernel_configcheck do_kernel_checkout do_fetch do_unpack do_patch"
-> >  
-> >  # returns local (absolute) path names for all valid patches in the
-> >  # src_uri
+This is due to co_configure wanting to copy a limited number of m4 macros,
+only listed in a recipes DEPENDS but that set is still larger than the set of
+recipes which get restored from sstate.
+
+For build determinism and to avoid these warnings, we need to make this
+function match what the sstate code does. We really don't want to duplicate
+the functionality since keeping things in sync would be hard so we create
+a data structure which can be passed into the same underlying function,
+setscene_depvalid().
+
+[YOCTO #10030]
+
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+
+diff --git a/meta/classes/autotools.bbclass b/meta/classes/autotools.bbclass
+index 5fda03d..3e75cf9 100644
+--- a/meta/classes/autotools.bbclass
++++ b/meta/classes/autotools.bbclass
+@@ -137,6 +137,8 @@ do_configure[postfuncs] += "autotools_postconfigure"
+ ACLOCALDIR = "${WORKDIR}/aclocal-copy"
+ 
+ python autotools_copy_aclocals () {
++    import copy
++
+     s = d.getVar("AUTOTOOLS_SCRIPT_PATH", True)
+     if not os.path.exists(s + "/configure.in") and not os.path.exists(s + "/configure.ac"):
+         if not d.getVar("AUTOTOOLS_COPYACLOCAL", False):
+@@ -165,36 +167,64 @@ python autotools_copy_aclocals () {
+     if start is None:
+         bb.fatal("Couldn't find ourself in BB_TASKDEPDATA?")
+ 
+-    # We need to find configure tasks which are either from <target> -> <target>
+-    # or <native> -> <native> but not <target> -> <native> unless they're direct
+-    # dependencies. This mirrors what would get restored from sstate.
+-    done = [start]
+-    next = [start]
++    # We need to figure out which m4 files we need to expose to this do_configure task.
++    # This needs to match what would get restored from sstate, which is controlled 
++    # ultimately by calls from bitbake to setscene_depvalid().
++    # That function expects a setscene dependency tree. We build a dependency tree 
++    # condensed to do_populate_sysroot -> do_populate_sysroot dependencies, similar to 
++    # that used by setscene tasks. We can then call into setscene_depvalid() and decide
++    # which dependencies we can "see" and should expose the m4 files for.
++    setscenedeps = copy.deepcopy(taskdepdata)
++
++    start = set([start])
++
++    # Create collapsed do_populate_sysroot -> do_populate_sysroot tree
++    for dep in taskdepdata:
++        data = setscenedeps[dep]        
++        if data[1] != "do_populate_sysroot":
++            for dep2 in setscenedeps:
++                data2 = setscenedeps[dep2]
++                if dep in data2[3]:
++                    data2[3].update(setscenedeps[dep][3])
++                    data2[3].remove(dep)
++            if dep in start:
++                start.update(setscenedeps[dep][3])
++                start.remove(dep)
++            del setscenedeps[dep]
++
++    # Remove circular references
++    for dep in setscenedeps:
++        if dep in setscenedeps[dep][3]:
++            setscenedeps[dep][3].remove(dep)
++
++    # Direct dependencies should be present and can be depended upon
++    for dep in start:
++        configuredeps.append(setscenedeps[dep][0])
++
++    # Call into setscene_depvalid for each sub-dependency and only copy m4 files
++    # for ones that would be restored from sstate.
++    done = list(start)
++    next = list(start)
+     while next:
+         new = []
+         for dep in next:
+-            data = taskdepdata[dep]
++            data = setscenedeps[dep]
+             for datadep in data[3]:
+                 if datadep in done:
+                     continue
+-                if (not data[0].endswith("-native")) and taskdepdata[datadep][0].endswith("-native") and dep != start:
+-                    continue
+                 done.append(datadep)
++
++                taskdeps = {}
++                taskdeps[dep] = setscenedeps[dep][:2]
++                taskdeps[datadep] = setscenedeps[datadep][:2]
++                retval = setscene_depvalid(datadep, taskdeps, [], d)
++                if retval:
++                    bb.note("Skipping setscene dependency %s for m4 macro copying" % datadep)
++                    continue
+                 new.append(datadep)
+-                if taskdepdata[datadep][1] == "do_configure":
+-                    configuredeps.append(taskdepdata[datadep][0])
++                configuredeps.append(setscenedeps[datadep][0])
+         next = new
+ 
+-    #configuredeps2 = []
+-    #for dep in taskdepdata:
+-    #    data = taskdepdata[dep]
+-    #    if data[1] == "do_configure" and data[0] != pn:
+-    #        configuredeps2.append(data[0])
+-    #configuredeps.sort()
+-    #configuredeps2.sort()
+-    #bb.warn(str(configuredeps))
+-    #bb.warn(str(configuredeps2))
+-
+     cp = []
+     if nodeps:
+         bb.warn("autotools: Unable to find task dependencies, -b being used? Pulling in all m4 files")
+
+
 
