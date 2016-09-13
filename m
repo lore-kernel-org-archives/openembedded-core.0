@@ -1,30 +1,29 @@
 Return-Path: <mark.hatle@windriver.com>
 Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 9F74777190
+	by mail.openembedded.org (Postfix) with ESMTP id 54F5A73216
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Sep 2016 14:02:45 +0000 (UTC)
+	Tue, 13 Sep 2016 14:49:40 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u8DE2aoC009344
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u8DEnd73010391
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
-	Tue, 13 Sep 2016 07:02:36 -0700
+	Tue, 13 Sep 2016 07:49:39 -0700
 Received: from soho-mhatle-m.local (172.25.36.232) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.294.0;
-	Tue, 13 Sep 2016 07:02:35 -0700
-To: Andre McCurdy <armccurdy@gmail.com>
-References: <1473721254-9610-1-git-send-email-armccurdy@gmail.com>
-	<aeae8af5-a8c6-f894-d6e5-c78beb993a7f@windriver.com>
-	<CAJ86T=UYPX249rS7qT3Q-pdcpUb=Y9UU5NzVGy8NFS=AaC__vQ@mail.gmail.com>
+	Tue, 13 Sep 2016 07:49:39 -0700
+To: Hongxu Jia <hongxu.jia@windriver.com>,
+	<openembedded-core@lists.openembedded.org>, <ross.burton@intel.com>
+References: <cover.1473756300.git.hongxu.jia@windriver.com>
+	<8c9eea181c3ed9e9bac6d5d6480351795860e2e6.1473756300.git.hongxu.jia@windriver.com>
 From: Mark Hatle <mark.hatle@windriver.com>
 Organization: Wind River Systems
-Message-ID: <cf0b7960-615c-6798-81ce-ec8bac90fda8@windriver.com>
-Date: Tue, 13 Sep 2016 09:02:34 -0500
+Message-ID: <f035c95d-e904-b9bd-4d2b-f744a6976db5@windriver.com>
+Date: Tue, 13 Sep 2016 09:49:38 -0500
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:45.0)
 	Gecko/20100101 Thunderbird/45.2.0
 MIME-Version: 1.0
-In-Reply-To: <CAJ86T=UYPX249rS7qT3Q-pdcpUb=Y9UU5NzVGy8NFS=AaC__vQ@mail.gmail.com>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] rootfs.py: support absolute paths in IMAGE_DEVICE_TABLES
+In-Reply-To: <8c9eea181c3ed9e9bac6d5d6480351795860e2e6.1473756300.git.hongxu.jia@windriver.com>
+Subject: Re: [PATCH 1/1] package_manager.py: fix bitbake package-index failed
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,94 +36,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Sep 2016 14:02:45 -0000
-Content-Type: text/plain; charset="utf-8"
+X-List-Received-Date: Tue, 13 Sep 2016 14:49:42 -0000
+Content-Type: text/plain; charset="windows-1252"
 Content-Transfer-Encoding: 7bit
 
-On 9/12/16 10:20 PM, Andre McCurdy wrote:
-> On Mon, Sep 12, 2016 at 5:17 PM, Mark Hatle <mark.hatle@windriver.com> wrote:
->> On 9/12/16 6:00 PM, Andre McCurdy wrote:
->>> Paths relative to BBPATH are fine if device table files are always
->>> static and contained somewhere within a meta layer. However if device
->>> tables are created dynamically, they will be located somewhere within
->>> ${TMPDIR} and most conveniently referenced via an absolute path.
->>>
->>> The legacy IMAGE_DEVICE_TABLE variable supported an absolute path,
->>> therefore make IMAGE_DEVICE_TABLES support absolute paths too, to
->>> avoid users who need dynamic device table files being dependent on
->>> the legacy variable.
->>>
->>> Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
->>> ---
->>>  meta/lib/oe/rootfs.py | 9 ++++++---
->>>  1 file changed, 6 insertions(+), 3 deletions(-)
->>>
->>> diff --git a/meta/lib/oe/rootfs.py b/meta/lib/oe/rootfs.py
->>> index a348b97..32cce64 100644
->>> --- a/meta/lib/oe/rootfs.py
->>> +++ b/meta/lib/oe/rootfs.py
->>> @@ -352,8 +352,8 @@ class Rootfs(object, metaclass=ABCMeta):
->>>      """
->>>      Create devfs:
->>>      * IMAGE_DEVICE_TABLE is the old name to an absolute path to a device table file
->>> -    * IMAGE_DEVICE_TABLES is a new name for a file, or list of files, seached
->>> -      for in the BBPATH
->>> +    * IMAGE_DEVICE_TABLES is the new name for a file, or list of files, which may be
->>> +      either absolute paths or paths relative to BBPATH.
->>>      If neither are specified then the default name of files/device_table-minimal.txt
->>>      is searched for in the BBPATH (same as the old version.)
->>>      """
->>> @@ -367,7 +367,10 @@ class Rootfs(object, metaclass=ABCMeta):
->>>              if devtables is None:
->>>                  devtables = 'files/device_table-minimal.txt'
->>>              for devtable in devtables.split():
->>> -                devtable_list.append("%s" % bb.utils.which(self.d.getVar('BBPATH', True), devtable))
->>> +                if os.path.isabs(devtable):
->>> +                    devtable_list.append(devtable)
->>> +                else:
->>> +                    devtable_list.append("%s" % bb.utils.which(self.d.getVar('BBPATH', True), devtable))
->>
->> I'm wondering if maybe this is a bug in "bb.utils.which", I thought it would
->> return back -- in the case of an absolute path -- if the thing existed or not,
->> otherwise would search the BBPATH.  (I'm using the command line version of
->> 'which' as my behavioral thinking.)
-> 
-> Hmmm. The behaviour of "bb.utils.which" in the case of an absolute
-> path is actually to return back the absolute path - but only if the
-> file exists. If the file doesn't exist, you get back an empty string.
-> Unfortunately all the test cases I was trying were files which didn't
-> exist.
-> 
-> But perhaps the bigger issue is that result returned by
-> self._exec_shell_cmd() isn't checked, so it doesn't really matter
-> whether devtable_list ends up containing an empty string or an
-> absolute path to a file which doesn't exist. There's no error or
-> feedback to the user that something has gone wrong in either case.
-> 
-> Is it really intentional to silently skip over IMAGE_DEVICE_TABLES
-> entries which don't exist?
-
-Yes, that was the original implementation.  If the table wasn't found it was
-just ignored.  That allows a distro to set a variety of names that a user can
-then provide (or not).
-
-The original implementation was focused on using bbpath and layers to add chunks
-and provide layer specific configuration files, but it was also expected that in
-the local.conf the user could provide their own, with an absolute path if necessary.
-
-But like 'include', if it didn't exist it was just ignored.
+FYI this is fixing Yocto Project defect 10258.
 
 --Mark
 
->> If it is an issue, then it would need a fix in bitbake, and I believe the
->> existing code should then work.
->>
->> (Asking about the behavior on the bitbake list might be worth while in this case.)
->>
->>>
->>>          for devtable in devtable_list:
->>>              self._exec_shell_cmd(["makedevs", "-r",
->>>
->>
+On 9/13/16 3:48 AM, Hongxu Jia wrote:
+> Previously the following commit in oe-core move RPM metadata
+> from DEPLOY_DIR to WORKDIR.
+> -----------
+> commit a92c196449c516fe51786d429078bbb1213bb029
+> Author: Stephano Cetola <stephano.cetola@linux.intel.com>
+> Date:   Wed Aug 10 13:03:16 2016 -0700
+> 
+>     Allow for simultaneous do_rootfs tasks with rpm
+> 
+>     Give each rootfs its own RPM channel to use.  This puts the RPM metadata
+>     in a private subdirectory of $WORKDIR, rather than living in DEPLOY_DIR
+>     where other tasks may race with it.
+> -----------
+> 
+> In the modification of 'class RpmIndexer, it should not
+> directly set arch_dir with WORKDIR. It caused 'bitbake
+> package-index' could not work correctly.
+> 
+> Assign WORKDIR as input parameter at RpmIndexer initial time
+> could fix the issue.
+> 
+> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+> ---
+>  meta/lib/oe/package_manager.py | 5 +++--
+>  1 file changed, 3 insertions(+), 2 deletions(-)
+> 
+> diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
+> index 2802254..30e1de9 100644
+> --- a/meta/lib/oe/package_manager.py
+> +++ b/meta/lib/oe/package_manager.py
+> @@ -176,7 +176,7 @@ class RpmIndexer(Indexer):
+>              dbpath = os.path.join(self.d.getVar('WORKDIR', True), 'rpmdb', arch)
+>              if os.path.exists(dbpath):
+>                  bb.utils.remove(dbpath, True)
+> -            arch_dir = os.path.join(self.d.getVar('WORKDIR', True), 'rpms', arch)
+> +            arch_dir = os.path.join(self.deploy_dir, arch)
+>              if not os.path.isdir(arch_dir):
+>                  continue
+>  
+> @@ -686,7 +686,8 @@ class RpmPM(PackageManager):
+>          if not os.path.exists(self.d.expand('${T}/saved')):
+>              bb.utils.mkdirhier(self.d.expand('${T}/saved'))
+>  
+> -        self.indexer = RpmIndexer(self.d, self.deploy_dir)
+> +        packageindex_dir = os.path.join(self.d.getVar('WORKDIR', True), 'rpms')
+> +        self.indexer = RpmIndexer(self.d, packageindex_dir)
+>          self.pkgs_list = RpmPkgsList(self.d, self.target_rootfs, arch_var, os_var)
+>  
+>          self.ml_prefix_list, self.ml_os_list = self.indexer.get_ml_prefix_and_os_list(arch_var, os_var)
+> 
 
 
