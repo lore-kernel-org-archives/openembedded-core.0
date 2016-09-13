@@ -1,49 +1,42 @@
-Return-Path: <net147@gmail.com>
-Received: from mail-oi0-f46.google.com (mail-oi0-f46.google.com
-	[209.85.218.46])
-	by mail.openembedded.org (Postfix) with ESMTP id ACEBD7002B
+Return-Path: <andre.draszik@gmail.com>
+Received: from mail-wm0-f66.google.com (mail-wm0-f66.google.com [74.125.82.66])
+	by mail.openembedded.org (Postfix) with ESMTP id AD17377047
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Sep 2016 06:53:54 +0000 (UTC)
-Received: by mail-oi0-f46.google.com with SMTP id y2so366698150oie.0
+	Tue, 13 Sep 2016 07:44:42 +0000 (UTC)
+Received: by mail-wm0-f66.google.com with SMTP id b184so1058301wma.3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Sep 2016 23:53:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=RJ/hfAe+a406aRa+WR3lmwCGjHhPUaING/LmEgKvfJE=;
-	b=gWlnOp0Rpt/uRlT+iBw4OlCP1pfTSBSwujd57yT8jaGP+LcT8QEO4pSUgnytG4247m
-	IrdUulxNdp/G63jqQebTBhwUxtOtxtE5wELz1erVNjvfJupQxrZNa/BZtVZJVZ6aycxi
-	vnmsfbYQ1dZkwhWethQILV4TP88uqhLyAvR+d7/p9X9fjkNZ1tYx8M9GRkV8FfQiU3tv
-	KEclb/SxNEJ/Jpt5obdU79+AWSFw8lMPJWnc19RvUo0pdLQKHFG3wtEJknQRZYkOaRsL
-	0eVr0/gkofOWbtIRlNMbHrlcD6sRcWFgVUbzu3R8Org10+9673/OEj7NsA3Z2NhJm6gg
-	ZF/Q==
+	Tue, 13 Sep 2016 00:44:43 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=RJ/hfAe+a406aRa+WR3lmwCGjHhPUaING/LmEgKvfJE=;
-	b=KYQe1798fwYLDTWwmscKYySOj1crJYFb0OD0xdV4L2McjqbDNSuGqcZqz/zsQBUmeY
-	3YtLNpnhlXM9gA3sHwQxDQVys2FHZA+TqxTTvUhg7/nICZqvNvi9yI34fJwgr4HQYoV+
-	q2jCjTMydsx37b5JiwPYuVxxi4H86nr2MDFBVwt3mJ4CFx2CBEw3JB9HUdTO4sjNgUE7
-	UP0cBa6XJirLHIQfNDKuW0BpOa0OqqZRJ2AzfIck69Q2XXqonshDSbQMxoNSkYY6239x
-	Oiwulu8KZPqzhb/LgnxZuf30ZknSdo9qSoLpeZQW1kOxdRvlTvgOONtcPfQgQxJ03lpV
-	qIEQ==
-X-Gm-Message-State: AE9vXwORXFw4S+1nPT63F9tfVwr5ZXlzEfmMJnSKFuJjM9ee7wiJdN0d7k0Z325Uwt/eIRybs24I4hv1dP9/oQ==
-X-Received: by 10.202.169.193 with SMTP id s184mr5011992oie.144.1473749635613; 
-	Mon, 12 Sep 2016 23:53:55 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.36.60.73 with HTTP; Mon, 12 Sep 2016 23:53:55 -0700 (PDT)
-In-Reply-To: <1473698604.7207.4.camel@linuxfoundation.org>
-References: <20160911121416.31304-1-net147@gmail.com>
-	<1473675573.20226.364.camel@linuxfoundation.org>
-	<CANwerB1hTME1C=F+BA=xAC7Zx+mFP79EOTnw+HmUyi4Z6b6S7Q@mail.gmail.com>
-	<1473698604.7207.4.camel@linuxfoundation.org>
-From: Jonathan Liu <net147@gmail.com>
-Date: Tue, 13 Sep 2016 16:53:55 +1000
-Message-ID: <CANwerB022A5_uMQta9q4w2VV-m++GmdYB+fKWOD0W4tKO4dW9Q@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] image.bbclass: Do not expand variables in IMAGE_CMD vardepsexclude
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=nFkgupwx0qneUeDq/dsxLT1fzaRYhxKlLupU0KfUgTQ=;
+	b=DBPfC5jWzV0f/ovU5ITxd/CZKjoI1aTwX2BKPndnTiXKbrCAWbVXa7+SaKCIRKcTXg
+	4bHARUop3/YJxNE/EEpv9R9cANWUfUKqHRcU7IwgVStYZ2DKw3Eqe6mlBIJZWLpSvxyJ
+	SIquDaHcLVFBd3c2pyqwAxx62R/7LlrOrRgcrXDVcCdJ7DdmMcBwPgEB45V+fkKG27L/
+	/ijWg8yN++drVQjAOiznXX9tJ9qzDNGOI0vcxVEon96HBWkLc4FmqfeSn2otI6uNx24+
+	JhvQGaOOoydcdSEvaVJAZbZ3q6LF8YNkfcJJc2buisHLPlIC1YQ5mACRZATSIq3fo8+P
+	NcDA==
+X-Gm-Message-State: AE9vXwPyv3r4xPMZEwEqfhTZDHeqhazNcNdR0/BZs2rH/GM+GPSIxN84hjVSjHR4MZ/YiQ==
+X-Received: by 10.194.94.138 with SMTP id dc10mr22057519wjb.40.1473752682718; 
+	Tue, 13 Sep 2016 00:44:42 -0700 (PDT)
+Received: from tfsielt31850 ([77.107.218.170])
+	by smtp.gmail.com with ESMTPSA id
+	137sm3906347wmi.16.2016.09.13.00.44.41
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Tue, 13 Sep 2016 00:44:41 -0700 (PDT)
+Message-ID: <1473752680.5279.3.camel@andred.net>
+From: =?ISO-8859-1?Q?Andr=E9?= Draszik <git@andred.net>
+To: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 13 Sep 2016 08:44:40 +0100
+In-Reply-To: <CAJTo0LYGsh5fwJhsf57OcSxnRWxC2nXEM=dUbO+SeQKvnwos7A@mail.gmail.com>
+References: <20160905083442.27787-1-git@andred.net>
+	<1473693988.22823.1.camel@andred.net>
+	<CAJTo0LYGsh5fwJhsf57OcSxnRWxC2nXEM=dUbO+SeQKvnwos7A@mail.gmail.com>
+X-Mailer: Evolution 3.20.5-1 
+Mime-Version: 1.0
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] image.bbclass: do not check size of the debugfs image
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,82 +49,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Sep 2016 06:53:56 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 13 Sep 2016 07:44:42 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Hi Richard,
+Somebody did mention last week (Monday?) on IRC that mails are not arriving.
+In the mailman web interface they aren't missing though (which is what I
+sometimes use to check)... Strange
 
-On 13 September 2016 at 02:43, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> On Tue, 2016-09-13 at 00:05 +1000, Jonathan Liu wrote:
->> Hi Richard,
->>
->> On 12 September 2016 at 20:19, Richard Purdie
->> <richard.purdie@linuxfoundation.org> wrote:
->> >
->> > On Sun, 2016-09-11 at 22:14 +1000, Jonathan Liu wrote:
->> > >
->> > > This fixes tashhash mismatch errors creating images when
->> > > IMAGE_CMD
->> > > references a variable whose value is always changing even though
->> > > the
->> > > variable is specified in IMAGE_CMD vardepsexclude.
->> > >
->> > > Signed-off-by: Jonathan Liu <net147@gmail.com>
->> > > ---
->> > >  meta/classes/image.bbclass | 4 ++++
->> > >  1 file changed, 4 insertions(+)
->> > >
->> > > diff --git a/meta/classes/image.bbclass
->> > > b/meta/classes/image.bbclass
->> > > index 8c8b8a2..f85ea86 100644
->> > > --- a/meta/classes/image.bbclass
->> > > +++ b/meta/classes/image.bbclass
->> > > @@ -441,6 +441,10 @@ python () {
->> > >          localdata.delVar('DATETIME')
->> > >          localdata.delVar('TMPDIR')
->> > >
->> > > +        vardepsexclude = d.getVarFlag('IMAGE_CMD',
->> > > 'vardepsexclude',
->> > > True) or ''
->> > > +        vardepsexclude += ' ' + (d.getVarFlag('IMAGE_CMD_' +
->> > > realt,
->> > > 'vardepsexclude', True) or '')
->> > > +        for var in vardepsexclude.split():
->> > > +            localdata.delVar(var)
->> > >          image_cmd = localdata.getVar("IMAGE_CMD", True)
->> > >          vardeps.add('IMAGE_CMD_' + realt)
->> > >          if image_cmd:
->> > I think this is complicating an already fragile situation and it
->> > worries me. Can you be more specific about which variable is
->> > causing
->> > problems here?
->> See IMAGEDATESTAMP variable in:
->> https://git.yoctoproject.org/cgit/cgit.cgi/meta-raspberrypi/tree/clas
->> ses/sdcard_image-rpi.bbclass
->> https://github.com/linux-sunxi/meta-sunxi/blob/master/classes/sdcard_
->> image-sunxi.bbclass
->>
->> You can test by changing to:
->> IMAGEDATESTAMP = "${@time.clock()}"
->
-> I appreciate this doesn't solve the underlying problem but is there a
-> reason they can't just use ${DATE} there?
+Andre'
 
-I have submitted patches to meta-raspberrypi and meta-sunxi to remove
-IMAGEDATESTAMP since it is using IMAGE_NAME which already includes
-date and time.
 
->
-> I mention this since DATE/TIME are handled by bitbake specially so that
-> for example if your build rolls over midnight, it doesn't explode
-> badly. If your images is generated pre midnight but them processed
-> afterwards, I can see things working badly for that code...
->
-> Cheers,
->
-> Richard
-
-Regards,
-Jonathan
+On Mo, 2016-09-12 at 16:36 +0100, Burton, Ross wrote:
+> Well there must have been some list/gmail snafu, as I definitely don't
+> have
+> this patch locally but patchwork has it.  I wonder what else I'm
+> missing...
+> 
+> Ross
+> 
+> On 12 September 2016 at 16:26, André Draszik <git@andred.net> wrote:
+> 
+> > 
+> > ping
+> > 
+> > On Mo, 2016-09-05 at 09:34 +0100, André Draszik wrote:
+> > > 
+> > > The debugfs is supposed to be used in addition to the
+> > > normal image for debugging purposes, it doesn't make
+> > > sense to artificially limit its maximum size.
+> > > 
+> > > Signed-off-by: André Draszik <git@andred.net>
+> > > ---
+> > >  meta/classes/image.bbclass | 6 ++++++
+> > >  1 file changed, 6 insertions(+)
+> > > 
+> > > diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+> > > index 07bd2d6..cb7d06d 100644
+> > > --- a/meta/classes/image.bbclass
+> > > +++ b/meta/classes/image.bbclass
+> > > @@ -538,6 +538,12 @@ def get_rootfs_size(d):
+> > >      base_size += rootfs_alignment - 1
+> > >      base_size -= base_size % rootfs_alignment
+> > > 
+> > > +    # Do not check image size of the debugfs image. This is not
+> > > supposed
+> > > +    # to be deployed, etc. so it doesn't make sense to limit the size
+> > > +    # of the debug.
+> > > +    if (d.getVar('IMAGE_BUILDING_DEBUGFS', True) or "") == "true":
+> > > +        return base_size
+> > > +
+> > >      # Check the rootfs size against IMAGE_ROOTFS_MAXSIZE (if set)
+> > >      if rootfs_maxsize:
+> > >          rootfs_maxsize_int = int(rootfs_maxsize)
+> > --
+> > _______________________________________________
+> > Openembedded-core mailing list
+> > Openembedded-core@lists.openembedded.org
+> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> > 
 
