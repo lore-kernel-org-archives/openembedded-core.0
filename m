@@ -1,23 +1,37 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 7B8F1771F6
+Return-Path: <andre.draszik@gmail.com>
+Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 2B088731CD
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Sep 2016 08:48:34 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u8D8mYMc004522
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 13 Sep 2016 01:48:34 -0700 (PDT)
-Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.294.0;
-	Tue, 13 Sep 2016 01:48:33 -0700
-From: Hongxu Jia <hongxu.jia@windriver.com>
-To: <openembedded-core@lists.openembedded.org>, <ross.burton@intel.com>
-Date: Tue, 13 Sep 2016 04:48:31 -0400
-Message-ID: <cover.1473756300.git.hongxu.jia@windriver.com>
-X-Mailer: git-send-email 2.8.1
+	Tue, 13 Sep 2016 09:07:12 +0000 (UTC)
+Received: by mail-wm0-f67.google.com with SMTP id b187so17281495wme.0
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 13 Sep 2016 02:07:13 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=4lDGP5CGVE9Nye6yZsYGYcUK1jCZkeJeZT/rP3S9J4U=;
+	b=IWIehib3q3enEHP9b0u/3Q2WfZ5rfGhry050Z3PMdS/GGRICXMRyy/AYLabxzauRz3
+	cxv687pHEg3MMsdoK8wBvNROGdkTPC7Z/jbhVKe7GDeEX8BzkpTnGJ5l8RLUY9Wr192g
+	txOgWc3Rr8rKVBLJLAeYmmGiMPuH9/FxGkItd3aeWNoi0p7FSIoJqULMQ3lCoZoATj81
+	eGUDuLphXGdWTyQxHxlyGs3rrUXfe3bcEnQn5dV0bCrMLJJW0ng8zAa7gY3wWrIxFrl2
+	EhtbDwMUrSSEzD+vz0rBfoJXxhsRamEYKsUfdbTWktwyRBHYbQ7NirD4T4XrY2AFvWiR
+	eISQ==
+X-Gm-Message-State: AE9vXwMSMm94fj3v4uOo8ADf1ywdHsr79Cm8tKmOL7+uEdKgRIzFdVMRoj8yHG5Sr7k/Ow==
+X-Received: by 10.28.130.7 with SMTP id e7mr4399970wmd.32.1473757632540;
+	Tue, 13 Sep 2016 02:07:12 -0700 (PDT)
+Received: from tfsielt31850.tycofs.com ([77.107.218.170])
+	by smtp.gmail.com with ESMTPSA id k2sm4221494wmg.23.2016.09.13.02.07.11
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 13 Sep 2016 02:07:11 -0700 (PDT)
+From: =?UTF-8?q?Andr=C3=A9=20Draszik?= <git@andred.net>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 13 Sep 2016 10:07:10 +0100
+Message-Id: <20160913090710.22945-1-git@andred.net>
+X-Mailer: git-send-email 2.9.3
 MIME-Version: 1.0
-Subject: [PATCH 0/1] package_manager.py: fix bitbake package-index failed
+Subject: [PATCH] kernel-yocto: remove do_shared_workdir from SRCTREECOVEREDTASKS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,25 +44,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Sep 2016 08:48:36 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 13 Sep 2016 09:07:14 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-The following changes since commit 2679a347c576f5411fbe802d2f6201c94036ecb2:
+Various recipes depend on the kernel's do_shared_workdir
+task, a quick grep suggests all external kernel modules
+(via module.bbclass), but also perf, and potentially any
+additional headers as outlined in linux-libc-headers.inc
+are affected.
 
-  maintainers.inc: rename gtk-doc-stub to gtk-doc, reassign to me (2016-09-09 12:12:59 +0100)
+Having do_shared_workdir in SRCTREECOVEREDTASKS means this
+task is removed when externalsrc is enabled, making all
+those recipes fail as the task they depend on,
+virtual/kernel:do_shared_workdir, doesn't exist.
 
-are available in the git repository at:
+Remove do_shared_workdir from SRCTREECOVEREDTASKS so that
+all those recipes work even if externalsrc is activated.
 
-  git://git.openembedded.org/openembedded-core-contrib hongxu/package-index
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=hongxu/package-index
+According to the comment in here, the reason for
+do_shared_workdir to be removed as a task is because it
+modifies the source tree, but that doesn't seem to be
+case.
 
-Hongxu Jia (1):
-  package_manager.py: fix bitbake package-index failed
+Signed-off-by: André Draszik <git@andred.net>
+---
+ meta/classes/kernel-yocto.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
- meta/lib/oe/package_manager.py | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
-
+diff --git a/meta/classes/kernel-yocto.bbclass b/meta/classes/kernel-yocto.bbclass
+index 82b9210..53659f2 100644
+--- a/meta/classes/kernel-yocto.bbclass
++++ b/meta/classes/kernel-yocto.bbclass
+@@ -1,5 +1,5 @@
+ # remove tasks that modify the source tree in case externalsrc is inherited
+-SRCTREECOVEREDTASKS += "do_kernel_configme do_validate_branches do_kernel_configcheck do_kernel_checkout do_shared_workdir do_fetch do_unpack do_patch"
++SRCTREECOVEREDTASKS += "do_kernel_configme do_validate_branches do_kernel_configcheck do_kernel_checkout do_fetch do_unpack do_patch"
+ 
+ # returns local (absolute) path names for all valid patches in the
+ # src_uri
 -- 
-2.8.1
+2.9.3
 
 
