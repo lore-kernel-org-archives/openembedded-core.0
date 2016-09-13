@@ -1,30 +1,20 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 2AE26771F5
+Return-Path: <jussi.kukkonen@intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 15AE5771F5
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Sep 2016 08:35:02 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u8D8YxhY018700; Tue, 13 Sep 2016 09:34:59 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id fmtg9IcptqIa; Tue, 13 Sep 2016 09:34:59 +0100 (BST)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u8D8Yt7n018697
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Tue, 13 Sep 2016 09:34:57 +0100
-Message-ID: <1473755695.7207.26.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Robert Yang <liezhi.yang@windriver.com>, oe-core
-	<openembedded-core@lists.openembedded.org>
-Date: Tue, 13 Sep 2016 09:34:55 +0100
-In-Reply-To: <7df73b67-6880-ee6c-a18a-1e2a6ac9e5b7@windriver.com>
-References: <7df73b67-6880-ee6c-a18a-1e2a6ac9e5b7@windriver.com>
-X-Mailer: Evolution 3.18.5.2-0ubuntu3 
-Mime-Version: 1.0
-Cc: "LOCK, JOSHUA" <joshua.g.lock@intel.com>
-Subject: Re: About runqemu's use cases
+	Tue, 13 Sep 2016 08:37:38 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga103.jf.intel.com with ESMTP; 13 Sep 2016 01:37:39 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.30,327,1470726000"; d="scan'208";a="1029183320"
+Received: from theory.fi.intel.com ([10.237.72.196])
+	by orsmga001.jf.intel.com with ESMTP; 13 Sep 2016 01:37:38 -0700
+From: Jussi Kukkonen <jussi.kukkonen@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 13 Sep 2016 11:37:27 +0300
+Message-Id: <cover.1473755500.git.jussi.kukkonen@intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH 0/2] Minor build fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,31 +27,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Sep 2016 08:35:04 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 13 Sep 2016 08:37:39 -0000
 
-On Tue, 2016-09-13 at 10:53 +0800, Robert Yang wrote:
-> Hello,
-> 
-> We have a new oe-core/scripts/runqemu now, and I'd like to add
-> something
-> like "runqemu test" in the future to avoid regressions. It would help
-> a
-> lot if you can provide the info about how do you use runqemu. There
-> is
-> a bug tracking this:
-> 
-> https://bugzilla.yoctoproject.org/show_bug.cgi?id=10249
-> 
-> You can reply here or reply in the bug.
+Fix for floating dependency in libdrm and a better fix for link issue
+in piglit.
 
-Wouldn't this be a case for "oe-selftest -r runqemu" and create a
-runqemu test suite within oe-selftest like we do for other components?
+Thanks,
+  Jussi
 
-Cheers,
+The following changes since commit 2679a347c576f5411fbe802d2f6201c94036ecb2:
 
-Richard
+  maintainers.inc: rename gtk-doc-stub to gtk-doc, reassign to me (2016-09-09 12:12:59 +0100)
 
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib jku/after-m3
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=jku/after-m3
+
+Jussi Kukkonen (2):
+  piglit: Backport linker flag patch
+  libdrm: Explicitly disable cunit tests
+
+ ...ac-Allow-explicit-enabling-of-cunit-tests.patch | 56 ++++++++++++++++++++++
+ meta/recipes-graphics/drm/libdrm_2.4.70.bb         |  2 +
+ .../0001-cmake-Link-test-utils-with-ldl.patch      | 41 ++++++++++++++++
+ ...0001-cmake-Link-utils-with-xcb-explicitly.patch |  2 +-
+ meta/recipes-graphics/piglit/piglit_git.bb         |  3 +-
+ 5 files changed, 101 insertions(+), 3 deletions(-)
+ create mode 100644 meta/recipes-graphics/drm/libdrm/0001-configure.ac-Allow-explicit-enabling-of-cunit-tests.patch
+ create mode 100644 meta/recipes-graphics/piglit/piglit/0001-cmake-Link-test-utils-with-ldl.patch
+
+-- 
+2.1.4
 
 
