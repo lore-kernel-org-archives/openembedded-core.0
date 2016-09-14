@@ -1,52 +1,39 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pa0-f68.google.com (mail-pa0-f68.google.com
-	[209.85.220.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 35AEA76E5E
+Return-Path: <juro.bystricky@intel.com>
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+	by mail.openembedded.org (Postfix) with ESMTP id C4F4F601D3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Sep 2016 20:27:00 +0000 (UTC)
-Received: by mail-pa0-f68.google.com with SMTP id pp5so1165938pac.2
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Sep 2016 13:27:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=subject:to:references:from:message-id:date:user-agent:mime-version
-	:in-reply-to:content-transfer-encoding;
-	bh=u309wg2Fxz1681q2LtaCtYQ9EivQQD0nqfBA/7wOzzA=;
-	b=nk1EYqUJOhJ8JYvFiFflgi0RYQWbsEPkIPyvI79PVFYAjbsPzU9LnaWpdj13N17LSP
-	yty8dzc0wVu5YT6xs5eoOS6Q59zXB6VaZcgskfQvCoszFIU82aY/Rbd3VAQd5w085Aof
-	tS4F1oxPvFnUNMPGDl1eexHgEjkFaeiUnXUO3OwubaqE8FTfw0usyQVxCxUa3QWGK9Qq
-	Ir7Wp90gZXAfn4newyfgdXu3gILv60bBmrpZAzhCwk6lGr3rBHbtN7EsOct3KF7WGYZb
-	iFGpnvPHNjz+vU2Q95WuYLiSPBiPidSWad8AqzaRcH9y+t5jmYjN9rwEa5ysvI+06Oex
-	rYDg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:subject:to:references:from:message-id:date
-	:user-agent:mime-version:in-reply-to:content-transfer-encoding;
-	bh=u309wg2Fxz1681q2LtaCtYQ9EivQQD0nqfBA/7wOzzA=;
-	b=mLChkpG5hyxR16iMHKUk+CnJvmkGVpRn2/eGEeT17I00J/Wl0bsfmEQVFL4um3I6wV
-	UDvOify6z53nvqu6Rn8vkJDG9PTJX/7X8UaYDKPiMAGdhcrEpkUkbS0XnaEcv9PBju49
-	zFPQx5P6RffycM976PSLhEaokYyKDv8hj6yA7DE89/x3WHwp3puOg/sMhUljueQUIMrR
-	SpEe1yscYAu3CJ+Vsv57DqUe651mOM5RSeZv79qq1GQhfBaSLJe/NKPegifWipd9XTO6
-	0wt+qRV6Gn0e2ikRo9Kl1avQewWoG3R0CsV/MHFRjXyJEyfdctoY+3ysPTCuiX+pWaRF
-	oNfg==
-X-Gm-Message-State: AE9vXwPqIVkd5xYiunc4/lESlv4QEF3C6th9Ycp59OdoTDflEthZEuycWVBZmZkCt3096g==
-X-Received: by 10.66.81.201 with SMTP id c9mr8017380pay.14.1473884821294;
-	Wed, 14 Sep 2016 13:27:01 -0700 (PDT)
-Received: from Akusters-laptop.local ([2601:202:4001:9ea0:350c:a305:4ade:8f1c])
-	by smtp.googlemail.com with ESMTPSA id
-	u1sm40072005pfu.12.2016.09.14.13.26.59
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 14 Sep 2016 13:27:00 -0700 (PDT)
-To: Sona Sarmadi <sona.sarmadi@enea.com>,
-	openembedded-core@lists.openembedded.org
-References: <1473856478-36621-1-git-send-email-sona.sarmadi@enea.com>
-From: akuster808 <akuster808@gmail.com>
-Message-ID: <2fc9d775-fd1d-462c-0bc9-33d87f5470f4@gmail.com>
-Date: Wed, 14 Sep 2016 13:26:58 -0700
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:45.0)
-	Gecko/20100101 Thunderbird/45.2.0
+	Wed, 14 Sep 2016 20:46:40 +0000 (UTC)
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+	by orsmga104.jf.intel.com with ESMTP; 14 Sep 2016 13:46:41 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.30,335,1470726000"; d="scan'208";a="168222416"
+Received: from orsmsx105.amr.corp.intel.com ([10.22.225.132])
+	by fmsmga004.fm.intel.com with ESMTP; 14 Sep 2016 13:46:41 -0700
+Received: from orsmsx112.amr.corp.intel.com ([169.254.3.16]) by
+	ORSMSX105.amr.corp.intel.com ([169.254.2.172]) with mapi id
+	14.03.0248.002; Wed, 14 Sep 2016 13:46:39 -0700
+From: "Bystricky, Juro" <juro.bystricky@intel.com>
+To: Seebs <seebs@seebs.net>, "Fan, Wenzong (Wind River)"
+	<wenzong.fan@windriver.com>
+Thread-Topic: [OE-core] pseudo 1.8.1 doesn't work with docker & dumb-init
+Thread-Index: AQHSA2kVcWdNnETw+kGQp6SoDdMCUKBjrMEAgAI11ACAAAosgIAIJQgAgAACEgCAC3U4MA==
+Date: Wed, 14 Sep 2016 20:46:38 +0000
+Message-ID: <6E51916E4A1F32428260031F4C7CD2B61188FFD1@ORSMSX112.amr.corp.intel.com>
+References: <e33a2d23-6067-cf14-57ab-d40623a3597a@windriver.com>
+	<1A4DD5F0-D89E-4FC1-820A-457817B4FCD3@seebs.net>
+	<b59ea47c-1b82-c480-5d9f-7dfb8051f83a@windriver.com>
+	<BDCB4B3D-E034-4AFD-915C-8DDE5B66D76D@seebs.net>
+	<c4af9282-ed95-b7fc-f263-4a66eccfa4bf@windriver.com>
+	<9478781A-C1DD-46F5-B447-04D324E9EBA6@seebs.net>
+In-Reply-To: <9478781A-C1DD-46F5-B447-04D324E9EBA6@seebs.net>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.22.254.140]
 MIME-Version: 1.0
-In-Reply-To: <1473856478-36621-1-git-send-email-sona.sarmadi@enea.com>
-Subject: Re: [PATCH][krogoth] dropbear: upgrade to 2016.72
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: pseudo 1.8.1 doesn't work with docker & dumb-init
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,58 +46,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Sep 2016 20:27:01 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 14 Sep 2016 20:46:42 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-On 9/14/16 5:34 AM, Sona Sarmadi wrote:
-> The upgrade addresses CVE-2016-3116:
->
-> - Validate X11 forwarding input. Could allow bypass of
->   authorized_keys command= restrictions,
->   found by github.com/tintinweb.
->   Thanks for Damien Miller for a patch. CVE-2016-3116
+I am pretty sure I glimpsed the messages:=20
+	Child process timeout after 2 seconds.
+    	Child process exit status 4: lock_held
+on several occasions recently, just before my Xserver was restarted and I w=
+as kicked back to the login prompt. =20
+I typically ran several parallel bitbake builds. Ubuntu 16.04, not using co=
+ntainer. The last message in the syslog (first error message) was always:
+Fatal IO error 11 (Resource temporarily unavailable) on X server :0
 
-thanks,
-I will pull this into my local staging to build. There is a krogoth-next
-YP build underway I don't want to stop.
+Possibly not related to this problem, nevertheless worth mentioning.
 
-regards,
-Armin
->
-> References:
-> https://matt.ucc.asn.au/dropbear/CHANGES
-> https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2016-3116
->
-> Signed-off-by: Sona Sarmadi <sona.sarmadi@enea.com>
-> ---
->  meta/recipes-core/dropbear/dropbear_2015.71.bb | 5 -----
->  meta/recipes-core/dropbear/dropbear_2016.72.bb | 4 ++++
->  2 files changed, 4 insertions(+), 5 deletions(-)
->  delete mode 100644 meta/recipes-core/dropbear/dropbear_2015.71.bb
->  create mode 100644 meta/recipes-core/dropbear/dropbear_2016.72.bb
->
-> diff --git a/meta/recipes-core/dropbear/dropbear_2015.71.bb b/meta/recipes-core/dropbear/dropbear_2015.71.bb
-> deleted file mode 100644
-> index 6332579..0000000
-> --- a/meta/recipes-core/dropbear/dropbear_2015.71.bb
-> +++ /dev/null
-> @@ -1,5 +0,0 @@
-> -require dropbear.inc
-> -
-> -SRC_URI[md5sum] = "2ccc0a2f3e37ca221db12c5af6a88137"
-> -SRC_URI[sha256sum] = "376214169c0e187ee9f48ae1a99b3f835016ad5b98ede4bfd1cf581deba783af"
-> -
-> diff --git a/meta/recipes-core/dropbear/dropbear_2016.72.bb b/meta/recipes-core/dropbear/dropbear_2016.72.bb
-> new file mode 100644
-> index 0000000..1385efd
-> --- /dev/null
-> +++ b/meta/recipes-core/dropbear/dropbear_2016.72.bb
-> @@ -0,0 +1,4 @@
-> +require dropbear.inc
-> +
-> +SRC_URI[md5sum] = "96226b82725a8cbecad9fc738930d1d2"
-> +SRC_URI[sha256sum] = "9323766d3257699fd7d6e7b282c5a65790864ab32fd09ac73ea3d46c9ca2d681"
+Thanks
+
+Juro
 
 
+> -----Original Message-----
+> From: openembedded-core-bounces@lists.openembedded.org
+> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
+> Seebs
+> Sent: Tuesday, September 6, 2016 11:40 PM
+> To: Fan, Wenzong (Wind River) <wenzong.fan@windriver.com>
+> Cc: Patches and discussions about the oe-core layer <openembedded-
+> core@lists.openembedded.org>
+> Subject: Re: [OE-core] pseudo 1.8.1 doesn't work with docker & dumb-init
+>=20
+> On 7 Sep 2016, at 1:32, wenzong fan wrote:
+>=20
+> > Yes, I believe it's not a 100 reproducible issue. Maybe you could run
+> > it with other builds in parallel and try it 3 times or more.
+>=20
+> I can try, but that might need bigger hardware than I have to hand at
+> the moment.
+>=20
+> -s
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
