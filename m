@@ -1,48 +1,28 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-it0-f49.google.com (mail-it0-f49.google.com
-	[209.85.214.49])
-	by mail.openembedded.org (Postfix) with ESMTP id C4670771C6
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 84973731DB
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Sep 2016 09:56:45 +0000 (UTC)
-Received: by mail-it0-f49.google.com with SMTP id 186so15781558itf.0
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Sep 2016 02:56:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=FX07+CNDoR6tOaoSVCpzMH7TEousmXxQ8rHyWcgQNrY=;
-	b=wibl60wXUTORybC617VHJALOcWlbK6A7xA04WLt7OL2WbmMkE2VuEuHjgFhAhScewa
-	QQDPXDdHma4pmAIUrQ0z7EvGVMDabE9gLhXj8uCtFwkOzEV1OSy7KDuvUtiJovUEv/DG
-	kg7w9fSdGK0SFAybi2lD2+qA96ZrTgo/n7jjeHezdfhNamm7MCoKbp5X9kyNhLOzZVHw
-	KdUy6f5lb8qUQ3NW9xY1KgunXASkbYFKfVrceCwBY1yBrgMhmoley7nKikhLT9BGFeeZ
-	HMQ+/glMGblwYB5/E3Ys6hcxrDnJtUNl4KQvj4N3VMakOXcq29Xa0N4ZIFWer1hgB7ll
-	y+Dw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=FX07+CNDoR6tOaoSVCpzMH7TEousmXxQ8rHyWcgQNrY=;
-	b=GNlDDQCd+CNS6XnUR1G6jAmMQKeMoOO7xXQaJwst2S+N0rJy37GdCpe6tbR6lUkezC
-	hqjPrjIvWFAu+tgksgVIsxmYvOJ4wQY7BmcpoC8EA8jZ1qcTBuRnha1TiJv462HEeegT
-	fELWHjniAT+BLddYa0NS1BwuiJpeP5rrjROhhq2DFLQoKpa8Rc/2BiNXqqp6dM5/Wx9z
-	xVIDR4IPT7lcYPno7gl5Az7fLoEDHrp3o9izSAXc+Onb3dVAnZ2CKbrsp82SksOXM7Y0
-	AMZutKKzFHKVVS/sD6bkwwxkkeobNt8rkVslGOMuHpLeNPXqu7wAlnfK9JYoqhdf+EbX
-	0JtA==
-X-Gm-Message-State: AE9vXwOCmFj3RGGz1aq7qTZcBtJFXiIYHNtR7NEYzg9uBQ6uaKpahl7rH//A4irhnxsjOUzLpokCNWGLEaLFY1Nx
-X-Received: by 10.107.129.18 with SMTP id c18mr4401643iod.40.1473847006118;
-	Wed, 14 Sep 2016 02:56:46 -0700 (PDT)
+	Wed, 14 Sep 2016 10:00:33 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 14 Sep 2016 03:00:35 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.30,333,1470726000"; d="scan'208";a="1029771101"
+Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.49])
+	([10.237.68.49])
+	by orsmga001.jf.intel.com with ESMTP; 14 Sep 2016 03:00:34 -0700
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	openembedded-core@lists.openembedded.org
+References: <3230301C09DEF9499B442BBE162C5E48ABE3BA3B@SESTOEX04.enea.se>
+	<37af20ca-62f9-7308-0b97-6ba6c46dafb1@linux.intel.com>
+	<1473846188.7207.57.camel@linuxfoundation.org>
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Message-ID: <fd30a088-4a2f-9e4b-1289-d5bababdc3e2@linux.intel.com>
+Date: Wed, 14 Sep 2016 12:58:43 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Icedove/45.2.0
 MIME-Version: 1.0
-Received: by 10.107.135.27 with HTTP; Wed, 14 Sep 2016 02:56:25 -0700 (PDT)
-In-Reply-To: <1473803568-13012-2-git-send-email-juro.bystricky@intel.com>
-References: <1473803568-13012-1-git-send-email-juro.bystricky@intel.com>
-	<1473803568-13012-2-git-send-email-juro.bystricky@intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 14 Sep 2016 10:56:25 +0100
-Message-ID: <CAJTo0LaR5V+yFUr33G+h1=Ja=PpGTC0OtbSQOn9M06tz38vbCg@mail.gmail.com>
-To: Juro Bystricky <juro.bystricky@intel.com>
-Cc: Juro Bystricky <jurobystricky@hotmail.com>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] busybox: Avoid race building libbb
+In-Reply-To: <1473846188.7207.57.camel@linuxfoundation.org>
+Subject: Re: CVE-2016-3116: dropbear: X11 forwarding input not validated properly
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,56 +35,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Sep 2016 09:56:48 -0000
-Content-Type: multipart/alternative; boundary=001a113f970a40e4f4053c74bf18
+X-List-Received-Date: Wed, 14 Sep 2016 10:00:36 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
---001a113f970a40e4f4053c74bf18
-Content-Type: text/plain; charset=UTF-8
+On 09/14/2016 12:43 PM, Richard Purdie wrote:
 
-On 13 September 2016 at 22:52, Juro Bystricky <juro.bystricky@intel.com>
-wrote:
-
-> +++ b/meta/recipes-core/busybox/busybox/busybox-kbuild-race-
-> fix-commit-d8e61bb.patch
-> @@ -0,0 +1,45 @@
-> +From d8e61bbf13d0cf38d477255cfd5dc71c5d51d575 Mon Sep 17 00:00:00 2001
-> +From: Denys Vlasenko <vda.linux@googlemail.com>
-> +Date: Sun, 21 Aug 2016 22:00:20 +0200
-> +Subject: build system: different fix for
-> + include/applet_tables.h/include/NUM_APPLETS.h
-> +
-> +Signed-off-by: Denys Vlasenko <vda.linux@googlemail.com>
+>> That said, I vote for updating to the version that comes with the
+>> fix.
+>> Backporting fixes should not be the default in the stable yocto
+>> releases; we should trust the upstream more.
 >
+> Taking that argument to the extreme, we should update all versions in
+> the "stable" release to the latest to ensure we get all the fixes. At
+> that point, it becomes no different to master and its not the
+> definition of "stable" which most people want to use.
 
-The two backport patches need your Signed-off-by and Upstream-Status:
-Backport tags.
+But I'm not making this argument at all. What I'm saying, is that master 
+branch and stable branches are two different extremes with their own 
+problems (one is moving too fast, the other is conservative to a fault), 
+and we should try to find a sensible middle ground between them.
 
-Ross
+> In this case, its a question of what else changed in dropbear between
+> these versions. Were there a ton of new features or was it just
+> bugfixes? How much risk of other problems is there?
 
---001a113f970a40e4f4053c74bf18
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+In this case, the only difference between 2015.71 and 2016.72 is indeed 
+the CVE fix commit:
+https://secure.ucc.asn.au/hg/dropbear/graph
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 13 September 2016 at 22:52, Juro Bystricky <span dir=3D"ltr">&lt;<a href=
-=3D"mailto:juro.bystricky@intel.com" target=3D"_blank">juro.bystricky@intel=
-.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"ma=
-rgin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":1l=
-l" class=3D"a3s aXjCH m157258a56acec85a">+++ b/meta/recipes-core/busybox/<w=
-br>busybox/busybox-kbuild-race-<wbr>fix-commit-d8e61bb.patch<br>
-@@ -0,0 +1,45 @@<br>
-+From d8e61bbf13d0cf38d477255cfd5dc7<wbr>1c5d51d575 Mon Sep 17 00:00:00 200=
-1<br>
-+From: Denys Vlasenko &lt;<a href=3D"mailto:vda.linux@googlemail.com">vda.l=
-inux@googlemail.com</a>&gt;<br>
-+Date: Sun, 21 Aug 2016 22:00:20 +0200<br>
-+Subject: build system: different fix for<br>
-+ include/applet_tables.h/<wbr>include/NUM_APPLETS.h<br>
-+<br>
-+Signed-off-by: Denys Vlasenko &lt;<a href=3D"mailto:vda.linux@googlemail.c=
-om">vda.linux@googlemail.com</a>&gt;</div></blockquote></div><br>The two ba=
-ckport patches need your Signed-off-by and Upstream-Status: Backport tags.<=
-/div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</=
-div></div>
+(you need to scroll down some to see it in the graph).
 
---001a113f970a40e4f4053c74bf18--
+Alex
+
