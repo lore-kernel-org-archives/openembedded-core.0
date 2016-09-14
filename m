@@ -1,19 +1,61 @@
-Return-Path: <patrick@stwcx.xyz>
-Received: from sender163-mail.zoho.com (sender163-mail.zoho.com
-	[74.201.84.163])
-	by mail.openembedded.org (Postfix) with ESMTP id F0502731F7
+Return-Path: <otavio.salvador@ossystems.com.br>
+Received: from mail-yw0-f194.google.com (mail-yw0-f194.google.com
+	[209.85.161.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 6348C6E668
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Sep 2016 17:12:58 +0000 (UTC)
-Received: from localhost (32.97.110.52 [32.97.110.52]) by mx.zohomail.com
-	with SMTPS id 147387317675268.31181850446842;
-	Wed, 14 Sep 2016 10:12:56 -0700 (PDT)
-From: Patrick Williams <patrick@stwcx.xyz>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 14 Sep 2016 12:12:52 -0500
-Message-Id: <20160914171252.17773-1-patrick@stwcx.xyz>
-X-Mailer: git-send-email 2.9.0
-Cc: Patrick Williams <patrick@stwcx.xyz>
-Subject: [PATCH] util-linux: split {mkfs, fsck}.minix into packages
+	Wed, 14 Sep 2016 17:51:00 +0000 (UTC)
+Received: by mail-yw0-f194.google.com with SMTP id g192so1592405ywh.0
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 14 Sep 2016 10:51:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
+	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
+	:cc; bh=hECQk18vNhFXBBWGoiU8qw4LGtEPjilOcHD+o5Y0MYQ=;
+	b=fnEmNXP9FcE4Mh2l3J06DENmC16H+QOvJXmxn9XsSUjRRuytl5nkGdFtxRWy8g/W/s
+	ptN4NQVQaQRF4+xeEIZm9lxHJa7lY2WF/CTVOYrlq4+LprLlEAzO7GAraW2B3WzDZ27V
+	zP7dCsWLERYwUD7P1vJ/T602XqvgmHqvfFQN83sm3o68yHJPUEKd36IrUEnYdqE8CZ3r
+	6DpbFsGA5QjI30x5Btch5gdhthAkpmfl2ldEbyyK6s4hQ350qGppvtgMZY14r6WOTX1N
+	XHsmTpmUk+yslPD3IT0/cKf2vvuBP6yEoZYAeokalhcTe8Zl5cxIYBGaE5cLWzLkc7vc
+	ZDpw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
+	:message-id:subject:to:cc;
+	bh=hECQk18vNhFXBBWGoiU8qw4LGtEPjilOcHD+o5Y0MYQ=;
+	b=jAGiB9ulgQ/yp9o9Ev3j0XYC784z5S5Iz4Z2wZW7wYQLEKqbn7Bhkfd2rWuNZ6rKXO
+	Tewvhr1/YWR+J6hBD4s/3G5xdiHuLmWYUK+njeseoJxME1xYzgRyXzdGctVFTNJpzeWj
+	sqm/OkjBAsZAY2JG0eT/mdvukJIJWtsSTtWNUIaKUcppMYsa/BdZURVGCpM668OL+6A5
+	Dn8yUCF1S5dl4GJLvUSz9KK7t+4zSTFfuk/ZbGFT+ye2usr6j46GZ1JW06hnO6i24as0
+	rYJSt2OlvxYlkoqWw/coTpKEhPZqKSmS4fCPyr1LsPRjnYCtPhuzFfHSBoK5tJ0Ur1Pu
+	MLXQ==
+X-Gm-Message-State: AE9vXwO13lSBGRSHDGPq3nFCg0+2GNAwO2cquA3bKVsDrN+YPyOGdbienlQbGcWFBulGlg==
+X-Received: by 10.129.45.194 with SMTP id t185mr4488952ywt.220.1473875460699; 
+	Wed, 14 Sep 2016 10:51:00 -0700 (PDT)
+Received: from mail-yw0-f181.google.com (mail-yw0-f181.google.com.
+	[209.85.161.181]) by smtp.gmail.com with ESMTPSA id
+	k20sm3044774ywe.27.2016.09.14.10.50.58
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 14 Sep 2016 10:50:59 -0700 (PDT)
+From: Otavio Salvador <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by mail-yw0-f181.google.com with SMTP id g192so33451825ywh.1
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 14 Sep 2016 10:50:58 -0700 (PDT)
+X-Received: by 10.13.213.19 with SMTP id x19mr4692650ywd.226.1473875458669;
+	Wed, 14 Sep 2016 10:50:58 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.31.154.68 with HTTP; Wed, 14 Sep 2016 10:50:58 -0700 (PDT)
+In-Reply-To: <1473871297-28966-2-git-send-email-ross.burton@intel.com>
+References: <1473871297-28966-1-git-send-email-ross.burton@intel.com>
+	<1473871297-28966-2-git-send-email-ross.burton@intel.com>
+Date: Wed, 14 Sep 2016 14:50:58 -0300
+X-Gmail-Original-Message-ID: <CAP9ODKowGs-bZ2oyAmUn4=b6BCZPZKR9vhS9Hd==etoU5o2Pvg@mail.gmail.com>
+Message-ID: <CAP9ODKowGs-bZ2oyAmUn4=b6BCZPZKR9vhS9Hd==etoU5o2Pvg@mail.gmail.com>
+To: Ross Burton <ross.burton@intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/3] cmake: use convenience options for clarity
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -26,59 +68,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Sep 2016 17:13:00 -0000
+X-List-Received-Date: Wed, 14 Sep 2016 17:51:01 -0000
+Content-Type: text/plain; charset=UTF-8
 
-mkfs.minix and fsck.minix are likely rarely used, so split
-them into their own packages to reduce the footprint of
-util-linux.  This follows the pattern of cramfs support
-within util-linux.
+On Wed, Sep 14, 2016 at 1:41 PM, Ross Burton <ross.burton@intel.com> wrote:
+> The intention here was "everything but jsoncpp is system provided" so use the
+> convenience option to ensure this remains true in the future.
+>
+> Signed-off-by: Ross Burton <ross.burton@intel.com>
 
-Signed-off-by: Patrick Williams <patrick@stwcx.xyz>
----
- meta/recipes-core/util-linux/util-linux.inc | 12 +++++++++---
- 1 file changed, 9 insertions(+), 3 deletions(-)
+Why jsoncpp cannot be also linked?
 
-diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
-index bf770d8..4df8d5a 100644
---- a/meta/recipes-core/util-linux/util-linux.inc
-+++ b/meta/recipes-core/util-linux/util-linux.inc
-@@ -31,7 +31,9 @@ PACKAGES =+ "util-linux-agetty util-linux-fdisk util-linux-cfdisk util-linux-sfd
-              util-linux-mount util-linux-readprofile util-linux-uuidd \
-              util-linux-uuidgen util-linux-lscpu util-linux-fsck util-linux-blkid \
-              util-linux-mkfs util-linux-mcookie util-linux-reset \
--             util-linux-mkfs.cramfs util-linux-fsck.cramfs util-linux-fstrim \
-+             util-linux-mkfs.cramfs util-linux-fsck.cramfs \
-+             util-linux-mkfs.minix util-linux-fsck.minix \
-+             util-linux-fstrim \
-              util-linux-partx util-linux-hwclock util-linux-mountpoint \
-              util-linux-findfs util-linux-getopt util-linux-sulogin util-linux-prlimit"
- PACKAGES += "${@bb.utils.contains('PACKAGECONFIG', 'pylibmount', 'util-linux-pylibmount', '', d)}"
-@@ -96,9 +98,12 @@ FILES_util-linux-pylibmount = "${PYTHON_SITEPACKAGES_DIR}/libmount/pylibmount.so
-                                ${PYTHON_SITEPACKAGES_DIR}/libmount/__pycache__/*"
- FILES_util-linux-lscpu = "${bindir}/lscpu"
- 
--FILES_util-linux-fsck = "${base_sbindir}/fsck*"
-+FILES_util-linux-fsck = "${base_sbindir}/fsck ${base_sbindir}/fsck.${BPN}"
- FILES_util-linux-mkfs = "${sbindir}/mkfs"
- 
-+FILES_util-linux-fsck.minix = "${base_sbindir}/fsck.minix ${base_sbindir}/fsck.minix.${BPN}"
-+FILES_util-linux-mkfs.minix = "${base_sbindir}/mkfs.minix ${base_sbindir}/mkfs.minix.${BPN}"
-+
- FILES_util-linux-fsck.cramfs = "${sbindir}/fsck.cramfs"
- FILES_util-linux-mkfs.cramfs = "${sbindir}/mkfs.cramfs"
- 
-@@ -248,7 +253,8 @@ ALTERNATIVE_util-linux-swaponoff = "swapoff swapon"
- ALTERNATIVE_LINK_NAME[swapoff] = "${base_sbindir}/swapoff"
- ALTERNATIVE_LINK_NAME[swapon] = "${base_sbindir}/swapon"
- 
--ALTERNATIVE_util-linux-fsck = "fsck.minix fsck"
-+ALTERNATIVE_util-linux-fsck.minix = "fsck.minix"
-+ALTERNATIVE_util-linux-fsck = "fsck"
- ALTERNATIVE_LINK_NAME[fsck.minix] = "${base_sbindir}/fsck.minix"
- ALTERNATIVE_LINK_NAME[fsck] = "${base_sbindir}/fsck"
- 
 -- 
-2.9.0
-
-
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
