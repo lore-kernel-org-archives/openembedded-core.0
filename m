@@ -1,45 +1,46 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f53.google.com (mail-wm0-f53.google.com [74.125.82.53])
-	by mail.openembedded.org (Postfix) with ESMTP id 6048D7706E
+Received: from mail-it0-f43.google.com (mail-it0-f43.google.com
+	[209.85.214.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 511287706E
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Sep 2016 23:08:03 +0000 (UTC)
-Received: by mail-wm0-f53.google.com with SMTP id k186so35633728wmd.0
+	Wed, 14 Sep 2016 23:11:24 +0000 (UTC)
+Received: by mail-it0-f43.google.com with SMTP id n143so48767604ita.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Sep 2016 16:08:05 -0700 (PDT)
+	Wed, 14 Sep 2016 16:11:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=Lv5gwZkJKI5inC+wK3J8z1A6Cz/j7u6HqCd7zn1SDO4=;
-	b=i27ltPFf/KHR/aQYxSDt4TSiKtvfs/Y5/aF19+xUg0/erK9neQyvIqGAB9Vz66pReL
-	wgb5PA0Q+DScgYci+aH8herSd+72pstyfUcLhgBFgNjTUn9LiJPsk8Au2XH+Iw+RW6sO
-	epdcLIWVFpSMrhrAo9zQdSAFXr6ROfAQFbCelyjazX3GwUrv0HEZnqAzoWWHH5W0i5uo
-	II+02Zw68BnhlST9utKbHnO3PYoNMU9FZMZWDajphhIqJRsij4FHdC7XLiXqif+e5VBx
-	chYTyGOcgeZZ0LaqN81NXf44cVFlTsiAnzJPq7DdXVfAUFCHGUfZMdpHgDg303RyfJxK
-	3tQQ==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=vKeHABokFf/C6Jz4yUvqyX90jY7A3qBU3gG2CSRrnJM=;
+	b=I7fktbVIj9cjEbXvW+WVV8anwhX8EYgj8Feinr0AcGs3vYXg18sunz3h8p7WWqiHet
+	vhqsCyh7HeVYBxz58ZalZridtaYqgdRiwg+h9gbJ7wle8lG07xBJIyh/HqnQ2GvtDazl
+	v22mBXDt7+AImV2JrpOj9q88rtCckG/pJGFFUQmCxXFV4jebecd5AijozGhIUbDvzgOw
+	7KEx/ZfUYdr9WhWEt6PisyfwVkrdVoEgDIURZEoXB6KSAxD1ZZGun1TeiU+BjnSJsfFj
+	tH7RRjcUDnLAbG9XYKN7siaCCDwZ2LnJoPt9nWUjFSKC/1KwFwWme8nrC6ZTl3WVoHBw
+	hdvQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=Lv5gwZkJKI5inC+wK3J8z1A6Cz/j7u6HqCd7zn1SDO4=;
-	b=gCpbkvTUz4lsIkpIfzOnVyZt5Fbff3ji01IgB7Fo8dz3WE6r2yPMmx/qK8WjOkFDKz
-	DpLgdsDVFDZ4ZpAX1il2exWRmree2Pg82t/znbh9WglcTTDj7RUL0gOUOBtKio6ck2lQ
-	pNT4btj/cZXSayrc4Ox7YCCxjZJ64YcJHCcU093jkEsmrZbsbnsclkZklfZn1VtihrV+
-	aFarce8CqUXDrBS99roNB+m5Cs/4ANUxhXGFN23FVIVFaHPqk5DvnMyOXXwInF7Z8X/X
-	T//Xd3zcZj7+HF0S/x2Dygc8FVUauf1OeAUnBQW/H4kaeB0ubk2gEOwCroc1kIn03Hzy
-	9EAA==
-X-Gm-Message-State: AE9vXwNvWUMBW1Nl0BaHjr7v5+EZGRt2vlZIWaDd+cK02un23wI2IgXMzOJELucu42uDb0u/
-X-Received: by 10.28.54.196 with SMTP id y65mr5140311wmh.73.1473894484027;
-	Wed, 14 Sep 2016 16:08:04 -0700 (PDT)
-Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id ya1sm499120wjb.23.2016.09.14.16.08.03
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 14 Sep 2016 16:08:03 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 15 Sep 2016 00:08:01 +0100
-Message-Id: <1473894481-24491-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 2.8.1
-Subject: [PATCH] sanity: make license QA failures fatal again
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=vKeHABokFf/C6Jz4yUvqyX90jY7A3qBU3gG2CSRrnJM=;
+	b=RO3ABICT/rUQUrwMvAKD3zBgpfofcG4ootMMfs0Mijqmd2iTjXe65MMQchp7/VOOEP
+	Qgq0efJ5ytn/phnPuJkNILmGzbkrGQSI5WBA5sagJGaxCyhgCLaPdZSWqxWmsYvR1D8I
+	UGyTvZRfmUn3gZp8qntLEGJAfT7zum9MXObpu+ufBQRT3AqjglRjcnhCXT9VjwfZvu7Q
+	e8WytHvQiIQFhsxo0gEWcZj8GR6vDpKOXZGGLFkvkz8NFZeiPK6E/FXuvE1DFlM3Gopk
+	F6Nrq/Vpw5fezYmhxWFHM6dr61i2+UmAeYtjxswUm6i+6IjILNEYwDXVsZltIlR9McyD
+	h+DQ==
+X-Gm-Message-State: AE9vXwN218+k83cyI1GDH+QLeQMyfM81l0wfVYTyK2QiNe3nDrbnkl1S75hCLspk1J/zDQbjhiflKRR2jvvBDNhT
+X-Received: by 10.107.8.165 with SMTP id h37mr10488794ioi.45.1473894685026;
+	Wed, 14 Sep 2016 16:11:25 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.107.135.27 with HTTP; Wed, 14 Sep 2016 16:11:04 -0700 (PDT)
+In-Reply-To: <1473660793-3296-1-git-send-email-sujith.h@gmail.com>
+References: <1473660793-3296-1-git-send-email-sujith.h@gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 15 Sep 2016 00:11:04 +0100
+Message-ID: <CAJTo0Lb-bsJNvxDyfkRraQ5-dQ+cJqigThm2CMBUSg5EJGOV7A@mail.gmail.com>
+To: Sujith H <sujith.h@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] x264: add textrel to INSANE_SKIP for cyclone5 machine
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,76 +53,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Sep 2016 23:08:04 -0000
+X-List-Received-Date: Wed, 14 Sep 2016 23:11:26 -0000
+Content-Type: multipart/alternative; boundary=001a113f9154236db7053c7fd97b
 
-Previous work to clean up the license QA code (oe-core fbdf977) had the side
-effect that failing the license sanity check (bad or missing LIC_FILES_CHKSUM)
-would emit an error message but wouldn't actually abort the build.
+--001a113f9154236db7053c7fd97b
+Content-Type: text/plain; charset=UTF-8
 
-Solve this by changing populate_lic_qa_checksum() so that it tracks if the
-message class was in ERROR_QA and if so, aborts the function.
+On 12 September 2016 at 07:13, Sujith H <sujith.h@gmail.com> wrote:
 
-[ YOCTO #10280 ]
+> +# PIC can't be enabled for 32-bit x86 and cyclone5
+>  INSANE_SKIP_${PN}_append_x86 = " textrel"
+> +INSANE_SKIP_${PN}_append_cyclone5 = " textrel"
+>
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/classes/insane.bbclass | 14 ++++++++------
- 1 file changed, 8 insertions(+), 6 deletions(-)
+Can this be generalised or is it absolutely specific to cyclone5?  If it
+can't be generalised then I feel that this should belong in the cyclone5
+BSP.
 
-diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
-index 6772944..2f3f768 100644
---- a/meta/classes/insane.bbclass
-+++ b/meta/classes/insane.bbclass
-@@ -690,7 +690,7 @@ def package_qa_check_symlink_to_sysroot(path, name, d, elf, messages):
- do_populate_lic[postfuncs] += "populate_lic_qa_checksum"
- python populate_lic_qa_checksum() {
-     """
--    Check for changes in the license files 
-+    Check for changes in the license files.
-     """
-     import tempfile
-     sane = True
-@@ -703,8 +703,7 @@ python populate_lic_qa_checksum() {
-         return
- 
-     if not lic_files and d.getVar('SRC_URI', True):
--        package_qa_handle_error("license-checksum", pn + ": Recipe file fetches files and does not have license file information (LIC_FILES_CHKSUM)", d)
--        return
-+        sane = package_qa_handle_error("license-checksum", pn + ": Recipe file fetches files and does not have license file information (LIC_FILES_CHKSUM)", d)
- 
-     srcdir = d.getVar('S', True)
- 
-@@ -712,7 +711,7 @@ python populate_lic_qa_checksum() {
-         try:
-             (type, host, path, user, pswd, parm) = bb.fetch.decodeurl(url)
-         except bb.fetch.MalformedUrl:
--            package_qa_handle_error("license-checksum", pn + ": LIC_FILES_CHKSUM contains an invalid URL: " + url, d)
-+            sane = package_qa_handle_error("license-checksum", pn + ": LIC_FILES_CHKSUM contains an invalid URL: " + url, d)
-             continue
-         srclicfile = os.path.join(srcdir, path)
-         if not os.path.isfile(srclicfile):
-@@ -736,7 +735,7 @@ python populate_lic_qa_checksum() {
-             linesout = 0
-             for line in fi:
-                 lineno += 1
--                if (lineno >= beginline): 
-+                if (lineno >= beginline):
-                     if ((lineno <= endline) or not endline):
-                         fo.write(line)
-                         linesout += 1
-@@ -768,7 +767,10 @@ python populate_lic_qa_checksum() {
-             else:
-                 msg = pn + ": LIC_FILES_CHKSUM is not specified for " +  url
-                 msg = msg + "\n" + pn + ": The md5 checksum is " + md5chksum
--            package_qa_handle_error("license-checksum", msg, d)
-+            sane = package_qa_handle_error("license-checksum", msg, d)
-+
-+    if not sane:
-+        bb.fatal("Fatal QA errors found, failing task.")
- }
- 
- def package_qa_check_staged(path,d):
--- 
-2.8.1
+Ross
 
+--001a113f9154236db7053c7fd97b
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 12 September 2016 at 07:13, Sujith H <span dir=3D"ltr">&lt;<a href=3D"ma=
+ilto:sujith.h@gmail.com" target=3D"_blank">sujith.h@gmail.com</a>&gt;</span=
+> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bo=
+rder-left:1px #ccc solid;padding-left:1ex"><div id=3D":22f" class=3D"a3s aX=
+jCH m1571d07b68551783">+# PIC can&#39;t be enabled for 32-bit x86 and <span=
+ class=3D"il">cyclone5</span><br>
+=C2=A0INSANE_SKIP_${PN}_append_x86 =3D &quot; textrel&quot;<br>
++INSANE_SKIP_${PN}_append_<wbr><span class=3D"il">cyclone5</span> =3D &quot=
+; textrel&quot;</div></blockquote></div><br>Can this be generalised or is i=
+t absolutely specific to cyclone5?=C2=A0 If it can&#39;t be generalised the=
+n I feel that this should belong in the cyclone5 BSP.</div><div class=3D"gm=
+ail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
+
+--001a113f9154236db7053c7fd97b--
