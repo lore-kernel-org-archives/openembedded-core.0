@@ -1,32 +1,61 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 1350B731FA
+Return-Path: <otavio.salvador@ossystems.com.br>
+Received: from mail-yw0-f193.google.com (mail-yw0-f193.google.com
+	[209.85.161.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 11AB5731BC
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Sep 2016 13:22:19 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u8EDMH4D011015
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
-	Wed, 14 Sep 2016 06:22:17 -0700
-Received: from [128.224.21.36] (128.224.21.36) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.294.0;
-	Wed, 14 Sep 2016 06:22:16 -0700
-To: Robert Yang <liezhi.yang@windriver.com>,
-	<richard.purdie@linuxfoundation.org>
-References: <cover.1473704020.git.bruce.ashfield@windriver.com>
-	<924accb9f4101282ad0fb3417fdb48e1439679d8.1473704020.git.bruce.ashfield@windriver.com>
-	<272ec6fd-6989-bb61-a8f2-0faef9eb6fbb@windriver.com>
-	<57D8EEF2.4040200@windriver.com>
-	<cbb733d5-4e0e-cf6a-0533-7eaa692610b9@windriver.com>
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-Message-ID: <57D94F07.9060501@windriver.com>
-Date: Wed, 14 Sep 2016 09:22:15 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.6.0
+	Wed, 14 Sep 2016 14:25:33 +0000 (UTC)
+Received: by mail-yw0-f193.google.com with SMTP id v2so1105401ywg.3
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 14 Sep 2016 07:25:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
+	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
+	:cc:content-transfer-encoding;
+	bh=+/EotyLOa5mkc9PMlWVUrfFfSS0QttFud52HuHVQWys=;
+	b=DWTeEV4k34IoOQonOMQjZpXCZQQlig3TidWIB0fF64iZOCNQOEHMA+YqlCHA5Lpqpv
+	motmF5yBvePIA5AeKw9sNbgJMlBYSRLcK10rMeLto0u3B5duuhq/jgJi0AmC00HLu4e7
+	N5gpK6wFyrS5Rr9bgSl/Ziw/pWPdBjPkJKkG8KJGwBAmXCYbaLsd7tXFE4H/u58u2KrN
+	XzjAmY+vmBW3+MaK6h046HlLfheEqOFEJI4b1jg+la+kDrG8zRnnHizSjw57B3omfTyV
+	WFNvXr/ClrtixdOdXH0ONSQiZR5bCNFJmoXId5zbJfV1BWZhxiDkuiXpnfAg6hSHHE5I
+	K7UA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=+/EotyLOa5mkc9PMlWVUrfFfSS0QttFud52HuHVQWys=;
+	b=GoKEZXQhrx03UoxMdH2vZXYXbGfOPe4HsYf4Gq6ircUHDMeBb4obnk3ca34+5DIcDx
+	Cs9wzQB8SIKUkN2LfXPrTfVxswleJbT4xbEjZrbNDhmCO3NsGkQ7qee1HuUkvlIYPHBc
+	q9CMEJbOpt2oU7szdnLta6NNgBfDn7bB/MNaHOomFaLDcwL2/5/WV5OSmeZCMtAjOMpD
+	CNG8cAM1XRDsAzj1qYcHnKYgcz/N8aNAXsNnhQZ9gGVqY2hbk06QKXlNDvT7pcT+/ek0
+	VF1wO80HQGY3y2INiqFkSGiVEFN/n6B/l8vGfyKID487nclNmVPmIKvnOJIb76FwNLxl
+	urEg==
+X-Gm-Message-State: AE9vXwOq+Fim3QFtKdVUjdsXLvTJ50adtRerk8jllCITRNbRjCbK/T8ThIwysQn+EL8Vdg==
+X-Received: by 10.13.197.197 with SMTP id h188mr725268ywd.202.1473863133830;
+	Wed, 14 Sep 2016 07:25:33 -0700 (PDT)
+Received: from mail-yw0-f175.google.com (mail-yw0-f175.google.com.
+	[209.85.161.175]) by smtp.gmail.com with ESMTPSA id
+	s126sm2538904yws.13.2016.09.14.07.25.32
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 14 Sep 2016 07:25:32 -0700 (PDT)
+From: Otavio Salvador <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by mail-yw0-f175.google.com with SMTP id g192so22470166ywh.1
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 14 Sep 2016 07:25:32 -0700 (PDT)
+X-Received: by 10.129.129.134 with SMTP id r128mr2993593ywf.179.1473863131986; 
+	Wed, 14 Sep 2016 07:25:31 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <cbb733d5-4e0e-cf6a-0533-7eaa692610b9@windriver.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/3] linux-yocto/4.1: update to 4.1.32
+Received: by 10.31.154.68 with HTTP; Wed, 14 Sep 2016 07:25:31 -0700 (PDT)
+In-Reply-To: <1473856229-907-1-git-send-email-fabio.berton@ossystems.com.br>
+References: <1473856229-907-1-git-send-email-fabio.berton@ossystems.com.br>
+Date: Wed, 14 Sep 2016 11:25:31 -0300
+X-Gmail-Original-Message-ID: <CAP9ODKqJ3OwCsccW8Tgj19LDHt0TmZDOaugSJv3UhUSPY0TsGg@mail.gmail.com>
+Message-ID: <CAP9ODKqJ3OwCsccW8Tgj19LDHt0TmZDOaugSJv3UhUSPY0TsGg@mail.gmail.com>
+To: Fabio Berton <fabio.berton@ossystems.com.br>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2] patchelf: Update to version 0.9
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,161 +68,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Sep 2016 13:22:23 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 14 Sep 2016 14:25:34 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On 09/14/2016 02:56 AM, Robert Yang wrote:
+On Wed, Sep 14, 2016 at 9:30 AM, Fabio Berton
+<fabio.berton@ossystems.com.br> wrote:
+>  * Remove patch maxsize.patch already applied upstream.
 >
+>  * Add patch Skip-empty-section-fixes-66.patch to prevent errors like:
 >
-> On 09/14/2016 02:32 PM, Bruce Ashfield wrote:
->> On 09/13/2016 10:21 PM, Robert Yang wrote:
->>>
->>> Hi Bruce,
->>>
->>> All the kernel 4.1 and 4.4 buildings are down on autobuilder:
->>> https://autobuilder.yoctoproject.org/main/builders/nightly-x86-lsb/builds/928/stehttps://autobuilder.yoctoproject.org/main/builders/poky-tiny/builds/947/steps/BuildImages/logs/stdiops/BuildImages/logs/stdio
->>>
->>>
->>>
->>> https://autobuilder.yoctoproject.org/main/builders/nightly-x86-lsb/builds/928/steps/BuildImages/logs/stdio
->>>
->>>
->>
->> My push to the kernel-cache bounced (due to competing changes I was
->> working on).
->>
->> It should be fixed up now, but I'm on a slow network and can't easily
->> test at the moment.
+>   /
+>   |ERROR: go-cross-1.6.2-r0 do_populate_sysroot_setscene: '('patchelf-uni=
+native',
+>   |'--set-interpreter', '/home/user/src/prj/build/tmp/sysroots-uninative/
+>   |x86_64-linux/lib/ld-linux-x86-64.so.2', '/home/user/src/prj/build/tmp/
+>   |work/x86_64-linux/go-cross/1.6.2-r0/sstate-install-populate_sysroot/x8=
+6_64-
+>   |linux/usr/bin/aarch64-prj-linux/go')'
+>   |failed with exit code 1 and the following output:
+>   |cannot find section .rela.dyn
+>   \
 >
-> I tested poky-lsb + qemux86-64, it works for me.
+>   * Add patch handle-read-only-files.patch to fix error when building
+>     eSKD, the following error appears on task do_testsdkext
+>
+>   /
+>   |ERROR: db-native-6.0.30-r1 do_populate_sysroot_setscene: '('patchelf-u=
+ninative',
+>   |'--set-interpreter', 'src/fsl-community-bsp/build/tmp/work/qemuarm-pok=
+y-linux-
+>   |gnueabi/core-image-minimal/1.0-r0/testsdkext/tc/tmp/sysroots-uninative=
+/
+>   |x86_64-linux/lib/ld-linux-x86-64.so.2', 'src/fsl-community-bsp/build/t=
+mp/work/
+>   |qemuarm-poky-linux-gnueabi/core-image-minimal/1.0-r0/testsdkext/tc/tmp=
+/work/
+>   |x86_64-linux/db-native/6.0.30-r1/sstate-install-populate_sysroot/x86_6=
+4-linux/
+>   |usr/bin/db_tuner')' failed with exit code 1 and the following output:
+>   |b'open: Permission denied\n
+>   \
+>
+>   * Add patch Increase-maxSize-to-64MB.patch to fix error described
+>   bellow, the same issue is discussed here:
+>     - https://github.com/NixOS/patchelf/issues/47
+>
+>   /
+>   |ERROR: qemu-native-2.5.0-r1 do_populate_sysroot_setscene: '('patchelf-=
+uninative',
+>   |'--set-interpreter', '../build/tmp/sysroots-uninative/x86_64-linux/lib=
+/
+>   |ld-linux-x86-64.so.2', '../build/tmp/work/x86_64-linux/qemu-native/2.5=
+.0-r1/
+>   |sstate-install-populate_sysroot/x86_64-linux/usr/bin/qemu-mips64')'
+>   |failed with exit code 1 and the following output:
+>   |warning: working around a Linux kernel bug by creating a hole of 36032=
+512
+>   |bytes in =E2=80=98../build/tmp/work/x86_64-linux/qemu-native/2.5.0-r1/
+>   |sstate-install-populate_sysroot/x86_64-linux/usr/bin/qemu-mips64=E2=80=
+=99
+>   |maximum file size exceeded
+>   \
+>
+> Signed-off-by: Fabio Berton <fabio.berton@ossystems.com.br>
 
-Thanks Robert!
+Acked-by: Otavio Salvador <otavio@ossystems.com.br>
 
-Bruce
-
->
-> // Robert
->
->>
->> Bruce
->>
->>>
->>>
->>> // Robert
->>>
->>> On 09/13/2016 02:16 AM, Bruce Ashfield wrote:
->>>> Integrating the korg stable update
->>>>
->>>> Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
->>>> ---
->>>>  meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb   |  6 +++---
->>>>  meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb |  6 +++---
->>>>  meta/recipes-kernel/linux/linux-yocto_4.1.bb      | 20
->>>> ++++++++++----------
->>>>  3 files changed, 16 insertions(+), 16 deletions(-)
->>>>
->>>> diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb
->>>> b/meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb
->>>> index f0d6a81a9c54..4308a07a9765 100644
->>>> --- a/meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb
->>>> +++ b/meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb
->>>> @@ -11,13 +11,13 @@ python () {
->>>>          raise bb.parse.SkipPackage("Set
->>>> PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
->>>>  }
->>>>
->>>> -SRCREV_machine ?= "b88e2b5805213daeb0136fdd8c840dc0254a3d21"
->>>> -SRCREV_meta ?= "9d0f0db8442a5ccb3f2ce81e2e43d96b6515a45a"
->>>> +SRCREV_machine ?= "ee83bffe0f76032fe0a0b7fde436f0f596101df2"
->>>> +SRCREV_meta ?= "b30b6b9ef215433b28e8966c73ebb6b98a7f4d1f"
->>>>
->>>>  SRC_URI =
->>>> "git://git.yoctoproject.org/linux-yocto-4.1.git;branch=${KBRANCH};name=machine
->>>>
->>>> \
->>>>
->>>> git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.1;destsuffix=${KMETA}"
->>>>
->>>>
->>>>
->>>>
->>>> -LINUX_VERSION ?= "4.1.30"
->>>> +LINUX_VERSION ?= "4.1.32"
->>>>
->>>>  PV = "${LINUX_VERSION}+git${SRCPV}"
->>>>
->>>> diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb
->>>> b/meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb
->>>> index 092a224451e1..2294a3db87da 100644
->>>> --- a/meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb
->>>> +++ b/meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb
->>>> @@ -4,13 +4,13 @@ KCONFIG_MODE = "--allnoconfig"
->>>>
->>>>  require recipes-kernel/linux/linux-yocto.inc
->>>>
->>>> -LINUX_VERSION ?= "4.1.30"
->>>> +LINUX_VERSION ?= "4.1.32"
->>>>
->>>>  KMETA = "kernel-meta"
->>>>  KCONF_BSP_AUDIT_LEVEL = "2"
->>>>
->>>> -SRCREV_machine ?= "0847ed67f89b5a8bbaaa0a7b6cfa2a99ef34834f"
->>>> -SRCREV_meta ?= "9d0f0db8442a5ccb3f2ce81e2e43d96b6515a45a"
->>>> +SRCREV_machine ?= "93b1a6cee7d4a4437a1c0edf3e54ffe78edb4462"
->>>> +SRCREV_meta ?= "b30b6b9ef215433b28e8966c73ebb6b98a7f4d1f"
->>>>
->>>>  PV = "${LINUX_VERSION}+git${SRCPV}"
->>>>
->>>> diff --git a/meta/recipes-kernel/linux/linux-yocto_4.1.bb
->>>> b/meta/recipes-kernel/linux/linux-yocto_4.1.bb
->>>> index e23d7da58881..f4006b74d096 100644
->>>> --- a/meta/recipes-kernel/linux/linux-yocto_4.1.bb
->>>> +++ b/meta/recipes-kernel/linux/linux-yocto_4.1.bb
->>>> @@ -11,20 +11,20 @@ KBRANCH_qemux86  ?= "standard/base"
->>>>  KBRANCH_qemux86-64 ?= "standard/base"
->>>>  KBRANCH_qemumips64 ?= "standard/mti-malta64"
->>>>
->>>> -SRCREV_machine_qemuarm ?= "9c5e96205316d167379d101d808a6cda93adc335"
->>>> -SRCREV_machine_qemuarm64 ?= "0847ed67f89b5a8bbaaa0a7b6cfa2a99ef34834f"
->>>> -SRCREV_machine_qemumips ?= "9e531cb59dd7dfa2026637cc456a7bdcbdb50275"
->>>> -SRCREV_machine_qemuppc ?= "32968ddd9357f72dfd427f5b3eda62c4a49833c7"
->>>> -SRCREV_machine_qemux86 ?= "0847ed67f89b5a8bbaaa0a7b6cfa2a99ef34834f"
->>>> -SRCREV_machine_qemux86-64 ?=
->>>> "0847ed67f89b5a8bbaaa0a7b6cfa2a99ef34834f"
->>>> -SRCREV_machine_qemumips64 ?=
->>>> "106ed721d21c595dfb993a8990c3a29830dfc166"
->>>> -SRCREV_machine ?= "0847ed67f89b5a8bbaaa0a7b6cfa2a99ef34834f"
->>>> -SRCREV_meta ?= "9d0f0db8442a5ccb3f2ce81e2e43d96b6515a45a"
->>>> +SRCREV_machine_qemuarm ?= "4db58705727e27bea8ccf805bd5c7d04d2d029ed"
->>>> +SRCREV_machine_qemuarm64 ?= "93b1a6cee7d4a4437a1c0edf3e54ffe78edb4462"
->>>> +SRCREV_machine_qemumips ?= "d6237b3b244b894d4b3479ecf37acef041416dfa"
->>>> +SRCREV_machine_qemuppc ?= "8520e65497ae10e14c38c76920a3457dc64349bf"
->>>> +SRCREV_machine_qemux86 ?= "93b1a6cee7d4a4437a1c0edf3e54ffe78edb4462"
->>>> +SRCREV_machine_qemux86-64 ?=
->>>> "93b1a6cee7d4a4437a1c0edf3e54ffe78edb4462"
->>>> +SRCREV_machine_qemumips64 ?=
->>>> "d0524e144cd15a3c0edf768f68400968a4477cbe"
->>>> +SRCREV_machine ?= "93b1a6cee7d4a4437a1c0edf3e54ffe78edb4462"
->>>> +SRCREV_meta ?= "b30b6b9ef215433b28e8966c73ebb6b98a7f4d1f"
->>>>
->>>>  SRC_URI =
->>>> "git://git.yoctoproject.org/linux-yocto-4.1.git;name=machine;branch=${KBRANCH};
->>>>
->>>> \
->>>>
->>>> git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.1;destsuffix=${KMETA}"
->>>>
->>>>
->>>>
->>>>
->>>> -LINUX_VERSION ?= "4.1.30"
->>>> +LINUX_VERSION ?= "4.1.32"
->>>>
->>>>  PV = "${LINUX_VERSION}+git${SRCPV}"
->>>>
->>>>
->>
->>
-
+--=20
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
