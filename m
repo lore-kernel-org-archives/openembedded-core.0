@@ -1,55 +1,52 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pa0-f65.google.com (mail-pa0-f65.google.com
-	[209.85.220.65])
-	by mail.openembedded.org (Postfix) with ESMTP id E62616E668
+Received: from mail-pa0-f68.google.com (mail-pa0-f68.google.com
+	[209.85.220.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 35AEA76E5E
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Sep 2016 20:19:52 +0000 (UTC)
-Received: by mail-pa0-f65.google.com with SMTP id oz2so1148627pac.0
+	Wed, 14 Sep 2016 20:27:00 +0000 (UTC)
+Received: by mail-pa0-f68.google.com with SMTP id pp5so1165938pac.2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Sep 2016 13:19:53 -0700 (PDT)
+	Wed, 14 Sep 2016 13:27:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=subject:to:references:from:message-id:date:user-agent:mime-version
 	:in-reply-to:content-transfer-encoding;
-	bh=wICOzrg6rkx6nBSP60bkGc3uXpvyewe8V7syXy3oo4s=;
-	b=jvLFchmqTLzAOHLAcRKY5dLckf8aAB4G7jc0qQ7dWEcCnF4ezej7Y5YZkteGmqu5Bg
-	9flCnUopUJAHTD6rDjcJTFMjLkAnZmuO5L78yc53CRqLIJBZ9vXYmz9jNCmetMjnmUHV
-	BBeD8GXeXK2jc/B3cAd5xgKISK0bux/Uuj32MczVR+R2Gu8XSYNnnLH/oOdIqo9ppv5l
-	6pm3YtjKxa2bcZP16D8BR36dWu0ypm2PoL5YCy1gIQU4RMV+YCb56F2cnPwmFlZiOLZ+
-	4KbrqRItbDH3/yTNGp/tYsVDsvJ+FNrcIMM+DQ63FRg4kZrDBFSCtI9YE32cZCREyvA2
-	n1Ug==
+	bh=u309wg2Fxz1681q2LtaCtYQ9EivQQD0nqfBA/7wOzzA=;
+	b=nk1EYqUJOhJ8JYvFiFflgi0RYQWbsEPkIPyvI79PVFYAjbsPzU9LnaWpdj13N17LSP
+	yty8dzc0wVu5YT6xs5eoOS6Q59zXB6VaZcgskfQvCoszFIU82aY/Rbd3VAQd5w085Aof
+	tS4F1oxPvFnUNMPGDl1eexHgEjkFaeiUnXUO3OwubaqE8FTfw0usyQVxCxUa3QWGK9Qq
+	Ir7Wp90gZXAfn4newyfgdXu3gILv60bBmrpZAzhCwk6lGr3rBHbtN7EsOct3KF7WGYZb
+	iFGpnvPHNjz+vU2Q95WuYLiSPBiPidSWad8AqzaRcH9y+t5jmYjN9rwEa5ysvI+06Oex
+	rYDg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:subject:to:references:from:message-id:date
 	:user-agent:mime-version:in-reply-to:content-transfer-encoding;
-	bh=wICOzrg6rkx6nBSP60bkGc3uXpvyewe8V7syXy3oo4s=;
-	b=jWrHaEFalZEAXk6IgckULSBNpAMrp4cS6wcTrlm5kumun/Ci72Sys5xoTA5MQNU2ql
-	l9QaKqAklSXVsSij2oIUdGbOtBa2T97PGCJgDZCQix6YuSeMbTc8SJ7xfMTVILhLeGuf
-	fk3oUki4hx7iLEvyX0m2yQzcgDvszH54zrLRoOiHxZ1bObbL98kwlFRQ/JPILJAHN5z8
-	QXpscxM7PvUa5r/GdOOm2Z9keGbC3OyUH66ENexh32WnkN3te28OnaRF9BRc928xS7MA
-	ghqzZc65TYaOllpOeXd3YeiSiHDWHuIaVd929F/gU3GJF8sEi9ipfCOft7QTrwlp61Jr
-	/arw==
-X-Gm-Message-State: AE9vXwP7OlVxz2GHwOS/rXFRGO382Qn3TKUO35KG0fc95zHimJSr/z0Im4t1XjEG6//wzw==
-X-Received: by 10.66.135.52 with SMTP id pp20mr7800647pab.121.1473884393120;
-	Wed, 14 Sep 2016 13:19:53 -0700 (PDT)
+	bh=u309wg2Fxz1681q2LtaCtYQ9EivQQD0nqfBA/7wOzzA=;
+	b=mLChkpG5hyxR16iMHKUk+CnJvmkGVpRn2/eGEeT17I00J/Wl0bsfmEQVFL4um3I6wV
+	UDvOify6z53nvqu6Rn8vkJDG9PTJX/7X8UaYDKPiMAGdhcrEpkUkbS0XnaEcv9PBju49
+	zFPQx5P6RffycM976PSLhEaokYyKDv8hj6yA7DE89/x3WHwp3puOg/sMhUljueQUIMrR
+	SpEe1yscYAu3CJ+Vsv57DqUe651mOM5RSeZv79qq1GQhfBaSLJe/NKPegifWipd9XTO6
+	0wt+qRV6Gn0e2ikRo9Kl1avQewWoG3R0CsV/MHFRjXyJEyfdctoY+3ysPTCuiX+pWaRF
+	oNfg==
+X-Gm-Message-State: AE9vXwPqIVkd5xYiunc4/lESlv4QEF3C6th9Ycp59OdoTDflEthZEuycWVBZmZkCt3096g==
+X-Received: by 10.66.81.201 with SMTP id c9mr8017380pay.14.1473884821294;
+	Wed, 14 Sep 2016 13:27:01 -0700 (PDT)
 Received: from Akusters-laptop.local ([2601:202:4001:9ea0:350c:a305:4ade:8f1c])
 	by smtp.googlemail.com with ESMTPSA id
-	i8sm7393518paw.25.2016.09.14.13.19.51
+	u1sm40072005pfu.12.2016.09.14.13.26.59
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 14 Sep 2016 13:19:52 -0700 (PDT)
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	Alexander Kanavin <alexander.kanavin@linux.intel.com>,
+	Wed, 14 Sep 2016 13:27:00 -0700 (PDT)
+To: Sona Sarmadi <sona.sarmadi@enea.com>,
 	openembedded-core@lists.openembedded.org
-References: <3230301C09DEF9499B442BBE162C5E48ABE3BA3B@SESTOEX04.enea.se>
-	<37af20ca-62f9-7308-0b97-6ba6c46dafb1@linux.intel.com>
-	<1473846188.7207.57.camel@linuxfoundation.org>
+References: <1473856478-36621-1-git-send-email-sona.sarmadi@enea.com>
 From: akuster808 <akuster808@gmail.com>
-Message-ID: <9cb43927-fab3-a1a6-7607-b5bf71176bb1@gmail.com>
-Date: Wed, 14 Sep 2016 13:19:50 -0700
+Message-ID: <2fc9d775-fd1d-462c-0bc9-33d87f5470f4@gmail.com>
+Date: Wed, 14 Sep 2016 13:26:58 -0700
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:45.0)
 	Gecko/20100101 Thunderbird/45.2.0
 MIME-Version: 1.0
-In-Reply-To: <1473846188.7207.57.camel@linuxfoundation.org>
-Subject: Re: CVE-2016-3116: dropbear: X11 forwarding input not validated properly
+In-Reply-To: <1473856478-36621-1-git-send-email-sona.sarmadi@enea.com>
+Subject: Re: [PATCH][krogoth] dropbear: upgrade to 2016.72
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,54 +59,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Sep 2016 20:19:53 -0000
+X-List-Received-Date: Wed, 14 Sep 2016 20:27:01 -0000
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
 
-On 9/14/16 2:43 AM, Richard Purdie wrote:
-> On Wed, 2016-09-14 at 12:06 +0300, Alexander Kanavin wrote:
->> On 09/14/2016 11:49 AM, Sona Sarmadi wrote:
->>> https://matt.ucc.asn.au/dropbear/CHANGES
->>> .....
->>> 2016.72 - 9 March 2016    <<<<<<< dropbear version this CVE has
->>> been fixed
->>> - Validate X11 forwarding input. Could allow bypass of
->>> authorized_keys command= restrictions,
->>>   found by github.com/tintinweb. Thanks for Damien Miller for a
->>> patch. CVE-2016-3116
->>>
->>> 2015.71 - 3 December 2015  <<<< dropbear version in krogoth
->> It's *probably* this one. The commit messages in dropbear repository
->> are 
->> *amazingly* vague and unprofessional.
->>
->> https://secure.ucc.asn.au/hg/dropbear/rev/a3e8389e01ff
->>
->> That said, I vote for updating to the version that comes with the
->> fix. 
->> Backporting fixes should not be the default in the stable yocto 
->> releases; we should trust the upstream more.
-> Taking that argument to the extreme, we should update all versions in
-> the "stable" release to the latest to ensure we get all the fixes. At
-> that point, it becomes no different to master and its not the
-> definition of "stable" which most people want to use.
+On 9/14/16 5:34 AM, Sona Sarmadi wrote:
+> The upgrade addresses CVE-2016-3116:
 >
-> So whilst I do take the point and in some cases it does make sense, it
-> doesn't really make sense to have that as the default policy.
+> - Validate X11 forwarding input. Could allow bypass of
+>   authorized_keys command= restrictions,
+>   found by github.com/tintinweb.
+>   Thanks for Damien Miller for a patch. CVE-2016-3116
 
-I agree. Updating packages in a stable release should not be the default
-but the exception. It should be a case-by-case determination.
-> In this case, its a question of what else changed in dropbear between
-> these versions. Were there a ton of new features or was it just
-> bugfixes? How much risk of other problems is there?
-If I am not mistaken, this is similar wording as in the "Stable branch
-Maintaining" on wiki.
+thanks,
+I will pull this into my local staging to build. There is a krogoth-next
+YP build underway I don't want to stop.
 
-- Armin
+regards,
+Armin
 >
-> Cheers,
+> References:
+> https://matt.ucc.asn.au/dropbear/CHANGES
+> https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2016-3116
 >
-> Richard
+> Signed-off-by: Sona Sarmadi <sona.sarmadi@enea.com>
+> ---
+>  meta/recipes-core/dropbear/dropbear_2015.71.bb | 5 -----
+>  meta/recipes-core/dropbear/dropbear_2016.72.bb | 4 ++++
+>  2 files changed, 4 insertions(+), 5 deletions(-)
+>  delete mode 100644 meta/recipes-core/dropbear/dropbear_2015.71.bb
+>  create mode 100644 meta/recipes-core/dropbear/dropbear_2016.72.bb
+>
+> diff --git a/meta/recipes-core/dropbear/dropbear_2015.71.bb b/meta/recipes-core/dropbear/dropbear_2015.71.bb
+> deleted file mode 100644
+> index 6332579..0000000
+> --- a/meta/recipes-core/dropbear/dropbear_2015.71.bb
+> +++ /dev/null
+> @@ -1,5 +0,0 @@
+> -require dropbear.inc
+> -
+> -SRC_URI[md5sum] = "2ccc0a2f3e37ca221db12c5af6a88137"
+> -SRC_URI[sha256sum] = "376214169c0e187ee9f48ae1a99b3f835016ad5b98ede4bfd1cf581deba783af"
+> -
+> diff --git a/meta/recipes-core/dropbear/dropbear_2016.72.bb b/meta/recipes-core/dropbear/dropbear_2016.72.bb
+> new file mode 100644
+> index 0000000..1385efd
+> --- /dev/null
+> +++ b/meta/recipes-core/dropbear/dropbear_2016.72.bb
+> @@ -0,0 +1,4 @@
+> +require dropbear.inc
+> +
+> +SRC_URI[md5sum] = "96226b82725a8cbecad9fc738930d1d2"
+> +SRC_URI[sha256sum] = "9323766d3257699fd7d6e7b282c5a65790864ab32fd09ac73ea3d46c9ca2d681"
 
 
 
