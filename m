@@ -1,20 +1,24 @@
-Return-Path: <markus.lehtonen@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id C1E60755F8
+Return-Path: <ed.bartosh@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id C2647731F7
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Sep 2016 11:24:43 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga101.fm.intel.com with ESMTP; 14 Sep 2016 04:24:44 -0700
+	Wed, 14 Sep 2016 12:02:23 +0000 (UTC)
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+	by orsmga101.jf.intel.com with ESMTP; 14 Sep 2016 05:02:24 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.30,333,1470726000"; d="scan'208";a="760585441"
-Received: from marquiz.fi.intel.com ([10.237.72.155])
-	by FMSMGA003.fm.intel.com with ESMTP; 14 Sep 2016 04:24:43 -0700
-From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
+X-IronPort-AV: E=Sophos;i="5.30,333,1470726000"; 
+   d="scan'208";a="8214427"
+Received: from linux.intel.com ([10.54.29.200])
+	by fmsmga005.fm.intel.com with ESMTP; 14 Sep 2016 05:02:23 -0700
+Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.68])
+	by linux.intel.com (Postfix) with ESMTP id F24606A4006;
+	Wed, 14 Sep 2016 05:01:59 -0700 (PDT)
+From: Ed Bartosh <ed.bartosh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 14 Sep 2016 14:24:42 +0300
-Message-Id: <1473852282-12088-1-git-send-email-markus.lehtonen@linux.intel.com>
-X-Mailer: git-send-email 2.6.6
-Subject: [PATCH] scripts: introduce buildstats-diff
+Date: Wed, 14 Sep 2016 15:02:04 +0300
+Message-Id: <1473854524-3413-1-git-send-email-ed.bartosh@linux.intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH] create-pull-request: remove output directory
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,439 +31,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Sep 2016 11:24:46 -0000
+X-List-Received-Date: Wed, 14 Sep 2016 12:02:23 -0000
 
-New script for comparing buildstats from two separate builds. The script
-has two modes: normally it prints the differences in task execution
-(cpu) times but using --ver-diff option makes it just print the recipe
-version differences without any cpu time data. Other command line
-options are provided to alter the sort criteria of the data and to
-filter out insignificant differences and/or short tasks.
+When 'git request-pull' fails it makes sense to remove output
+directory. Otherwise create-pull-request will complain that
+output directory already exists on the next run.
 
-Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
+Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
 ---
- scripts/buildstats-diff | 411 ++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 411 insertions(+)
- create mode 100755 scripts/buildstats-diff
+ scripts/create-pull-request | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/scripts/buildstats-diff b/scripts/buildstats-diff
-new file mode 100755
-index 0000000..58843f2
---- /dev/null
-+++ b/scripts/buildstats-diff
-@@ -0,0 +1,411 @@
-+#!/usr/bin/python3
-+#
-+# Script for comparing buildstats from two different builds
-+#
-+# Copyright (c) 2016, Intel Corporation.
-+#
-+# This program is free software; you can redistribute it and/or modify it
-+# under the terms and conditions of the GNU General Public License,
-+# version 2, as published by the Free Software Foundation.
-+#
-+# This program is distributed in the hope it will be useful, but WITHOUT
-+# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-+# FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
-+# more details.
-+#
-+import argparse
-+import glob
-+import json
-+import logging
-+import os
-+import re
-+import sys
-+from collections import namedtuple
-+from datetime import datetime, timedelta, tzinfo
-+from operator import attrgetter
-+
-+# Setup logging
-+logging.basicConfig(level=logging.INFO)
-+log = logging.getLogger()
-+
-+
-+class TimeZone(tzinfo):
-+    """Simple fixed-offset tzinfo"""
-+    def __init__(self, seconds, name):
-+        self._offset = timedelta(seconds=seconds)
-+        self._name = name
-+
-+    def utcoffset(self, dt):
-+        return self._offset
-+
-+    def tzname(self, dt):
-+        return self._name
-+
-+    def dst(self, dt):
-+        return None
-+
-+TIMEZONES = {'UTC': TimeZone(0, 'UTC'),
-+             'EET': TimeZone(7200, 'EET'),
-+             'EEST': TimeZone(10800, 'EEST')}
-+
-+
-+taskdiff_fields = ('pkg', 'pkg_op', 'task', 'task_op', 'cputime1', 'cputime2',
-+                   'absdiff', 'reldiff')
-+TaskDiff = namedtuple('TaskDiff', ' '.join(taskdiff_fields))
-+
-+
-+def to_datetime_obj(obj):
-+    """Helper for getting timestamps in datetime format"""
-+    if isinstance(obj, datetime):
-+        return obj
-+    else:
-+        return datetime.utcfromtimestamp(obj).replace(tzinfo=TIMEZONES['UTC'])
-+
-+
-+def read_buildstats_file(buildstat_file):
-+    """Convert buildstat text file into dict/json"""
-+    bs_json = {'iostat': {},
-+               'rusage': {},
-+               'child_rusage': {}}
-+    log.debug("Reading task buildstats from %s", buildstat_file)
-+    with open(buildstat_file) as fobj:
-+        for line in fobj.readlines():
-+            key, val = line.split(':', 1)
-+            val = val.strip()
-+            if key == 'Started':
-+                start_time = to_datetime_obj(float(val))
-+                bs_json['start_time'] = start_time
-+            elif key == 'Ended':
-+                end_time = to_datetime_obj(float(val))
-+            elif key.startswith('IO '):
-+                split = key.split()
-+                bs_json['iostat'][split[1]] = int(val)
-+            elif key.find('rusage') >= 0:
-+                split = key.split()
-+                ru_key = split[-1]
-+                if ru_key in ('ru_stime', 'ru_utime'):
-+                    val = float(val)
-+                else:
-+                    val = int(val)
-+                ru_type = 'rusage' if split[0] == 'rusage' else \
-+                                                  'child_rusage'
-+                bs_json[ru_type][ru_key] = val
-+            elif key == 'Status':
-+                bs_json['status'] = val
-+    bs_json['elapsed_time'] = end_time - start_time
-+    return bs_json
-+
-+
-+def read_buildstats_dir(bs_dir):
-+    """Read buildstats directory"""
-+    def split_nevr(nevr):
-+        """Split name and version information from recipe "nevr" string"""
-+        n_e_v, revision = nevr.rsplit('-', 1)
-+        match = re.match(r'^(?P<name>\S+)-((?P<epoch>[0-9]{1,5})_)?(?P<version>[0-9]\S*)$',
-+                         n_e_v)
-+        if not match:
-+            # If we're not able to parse a version starting with a number, just
-+            # take the part after last dash
-+            match = re.match(r'^(?P<name>\S+)-((?P<epoch>[0-9]{1,5})_)?(?P<version>[^-]+)$',
-+                             n_e_v)
-+        name = match.group('name')
-+        version = match.group('version')
-+        epoch = match.group('epoch')
-+        return name, epoch, version, revision
-+
-+    if os.path.isfile(os.path.join(bs_dir, 'build_stats')):
-+        top_dir = bs_dir
-+    else:
-+        subdirs = sorted(glob.glob(bs_dir + '/*'))
-+        if len(subdirs) > 1:
-+            log.warning("Multiple buildstats found, using the first one")
-+        top_dir = subdirs[0]
-+    log.debug("Reading buildstats directory %s", top_dir)
-+    subdirs = os.listdir(top_dir)
-+
-+    # Handle "old" style directory structure
-+    if len(subdirs) == 1 and re.match('^20[0-9]{12}$', subdirs[0]):
-+        top_dir = os.path.join(top_dir, subdirs[0])
-+        subdirs = os.listdir(top_dir)
-+
-+    buildstats = {}
-+    for dirname in subdirs:
-+        recipe_dir = os.path.join(top_dir, dirname)
-+        if not os.path.isdir(recipe_dir):
-+            continue
-+        name, epoch, version, revision = split_nevr(dirname)
-+        recipe_bs = {'nevr': dirname,
-+                     'name': name,
-+                     'epoch': epoch,
-+                     'version': version,
-+                     'revision': revision,
-+                     'tasks': {}}
-+        for task in os.listdir(recipe_dir):
-+            recipe_bs['tasks'][task] = read_buildstats_file(
-+                    os.path.join(recipe_dir, task))
-+        if name in buildstats:
-+            log.error("Cannot handle multiple versions of the same package (%s)",
-+                      name)
-+            sys.exit(1)
-+        buildstats[name] = recipe_bs
-+
-+    return buildstats
-+
-+
-+def read_buildstats_json(path):
-+    """Read buildstats from JSON file"""
-+    buildstats = {}
-+    with open(path) as fobj:
-+        bs_json = json.load(fobj)
-+    for recipe_bs in bs_json:
-+        if recipe_bs['name'] in buildstats:
-+            log.error("Cannot handle multiple versions of the same package (%s)",
-+                      recipe_bs['name'])
-+            sys.exit(1)
-+
-+        if recipe_bs['epoch'] is None:
-+            recipe_bs['nevr'] = "{}-{}-{}".format(recipe_bs['name'], recipe_bs['version'], recipe_bs['revision'])
-+        else:
-+            recipe_bs['nevr'] = "{}-{}_{}-{}".format(recipe_bs['name'], recipe_bs['epoch'], recipe_bs['version'], recipe_bs['revision'])
-+        buildstats[recipe_bs['name']] = recipe_bs
-+
-+    return buildstats
-+
-+
-+def read_buildstats(path):
-+    """Read buildstats"""
-+    if os.path.isfile(path):
-+        return read_buildstats_json(path)
-+    else:
-+        return read_buildstats_dir(path)
-+
-+
-+def print_ver_diff(bs1, bs2):
-+    """Print package version differences"""
-+    pkgs1 = set(bs1.keys())
-+    pkgs2 = set(bs2.keys())
-+    new_pkgs = pkgs2 - pkgs1
-+    deleted_pkgs = pkgs1 - pkgs2
-+
-+    echanged = []
-+    vchanged = []
-+    rchanged = []
-+    unchanged = []
-+    common_pkgs = pkgs2.intersection(pkgs1)
-+    if common_pkgs:
-+        for pkg in common_pkgs:
-+            if bs1[pkg]['epoch'] != bs2[pkg]['epoch']:
-+                echanged.append(pkg)
-+            elif bs1[pkg]['version'] != bs2[pkg]['version']:
-+                vchanged.append(pkg)
-+            elif bs1[pkg]['revision'] != bs2[pkg]['revision']:
-+                rchanged.append(pkg)
-+            else:
-+                unchanged.append(pkg)
-+
-+    maxlen = max([len(pkg) for pkg in pkgs1.union(pkgs2)])
-+    fmt_str = "  {:{maxlen}} ({})"
-+#    if unchanged:
-+#        print("\nUNCHANGED PACKAGES:")
-+#        print("-------------------")
-+#        maxlen = max([len(pkg) for pkg in unchanged])
-+#        for pkg in sorted(unchanged):
-+#            print(fmt_str.format(pkg, bs2[pkg]['nevr'], maxlen=maxlen))
-+
-+    if new_pkgs:
-+        print("\nNEW PACKAGES:")
-+        print("-------------")
-+        for pkg in sorted(new_pkgs):
-+            print(fmt_str.format(pkg, bs2[pkg]['nevr'], maxlen=maxlen))
-+
-+    if deleted_pkgs:
-+        print("\nDELETED PACKAGES:")
-+        print("-----------------")
-+        for pkg in sorted(deleted_pkgs):
-+            print(fmt_str.format(pkg, bs1[pkg]['nevr'], maxlen=maxlen))
-+
-+    fmt_str = "  {0:{maxlen}} {1:<20}    ({2})"
-+    if rchanged:
-+        print("\nREVISION CHANGED:")
-+        print("-----------------")
-+        for pkg in sorted(rchanged):
-+            field1 = "{} -> {}".format(pkg, bs1[pkg]['revision'], bs2[pkg]['revision'])
-+            field2 = "{} -> {}".format(bs1[pkg]['nevr'], bs2[pkg]['nevr'])
-+            print(fmt_str.format(pkg, field1, field2, maxlen=maxlen))
-+
-+    if vchanged:
-+        print("\nVERSION CHANGED:")
-+        print("----------------")
-+        for pkg in sorted(vchanged):
-+            field1 = "{} -> {}".format(bs1[pkg]['version'], bs2[pkg]['version'])
-+            field2 = "{} -> {}".format(bs1[pkg]['nevr'], bs2[pkg]['nevr'])
-+            print(fmt_str.format(pkg, field1, field2, maxlen=maxlen))
-+
-+    if echanged:
-+        print("\nEPOCH CHANGED:")
-+        print("--------------")
-+        for pkg in sorted(echanged):
-+            field1 = "{} -> {}".format(pkg, bs1[pkg]['epoch'], bs2[pkg]['epoch'])
-+            field2 = "{} -> {}".format(bs1[pkg]['nevr'], bs2[pkg]['nevr'])
-+            print(fmt_str.format(pkg, field1, field2, maxlen=maxlen))
-+
-+
-+def task_time(task):
-+    """Calculate sum of user and system time taken by a task"""
-+    cputime = task['rusage']['ru_stime'] + task['rusage']['ru_utime'] + \
-+              task['child_rusage']['ru_stime'] + task['child_rusage']['ru_utime']
-+    return cputime
-+
-+
-+def print_task_diff(bs1, bs2, min_cputime=0, min_timediff=0, sort_by=('absdiff',)):
-+    """Diff task execution times"""
-+    tasks_diff = []
-+    pkg_maxlen = 0
-+    task_maxlen = 0
-+
-+    pkgs = set(bs1.keys()).union(set(bs2.keys()))
-+    for pkg in pkgs:
-+        if len(pkg) > pkg_maxlen:
-+            pkg_maxlen = len(pkg)
-+        tasks1 = bs1[pkg]['tasks'] if pkg in bs1 else {}
-+        tasks2 = bs2[pkg]['tasks'] if pkg in bs2 else {}
-+        if not tasks1:
-+            pkg_op = '++'
-+        elif not tasks2:
-+            pkg_op = '--'
-+        else:
-+            pkg_op = '  '
-+
-+        for task in set(tasks1.keys()).union(set(tasks2.keys())):
-+            if len(task) > task_maxlen:
-+                task_maxlen = len(task)
-+
-+            t1 = task_time(bs1[pkg]['tasks'][task]) if task in tasks1 else 0
-+            t2 = task_time(bs2[pkg]['tasks'][task]) if task in tasks2 else 0
-+            task_op = '  '
-+            if t1 == 0:
-+                reldiff = float('inf')
-+                task_op = '++'
-+            else:
-+                reldiff = 100 * (t2 - t1) / t1
-+                if t2 == 0:
-+                    task_op = '--'
-+
-+            tasks_diff.append(TaskDiff(pkg, pkg_op, task, task_op, t1, t2, t2-t1, reldiff))
-+
-+    if min_cputime:
-+        print("Ignoring tasks shorter than {}s".format(min_cputime))
-+    if min_timediff:
-+        print("Ignoring time differences shorter than {}s".format(min_timediff))
-+
-+    print()
-+    print("  {:{pkg_maxlen}}   {:{task_maxlen}} {:>8} {:>10} {:>10}    {}".format(
-+            'PKG', 'TASK', 'ABSDIFF', 'RELDIFF', 'CPUTIME1', 'CPUTIME2',
-+            pkg_maxlen=pkg_maxlen, task_maxlen=task_maxlen))
-+
-+    # Sort our list
-+    for field in reversed(sort_by):
-+        if field.startswith('-'):
-+            field = field[1:]
-+            reverse = True
-+        else:
-+            reverse = False
-+        tasks_diff = sorted(tasks_diff, key=attrgetter(field), reverse=reverse)
-+
-+    for diff in tasks_diff:
-+        cputime = max(diff.cputime1, diff.cputime2)
-+        if cputime > min_cputime:
-+            if abs(diff.absdiff) > min_timediff:
-+                task_prefix = diff.task_op if diff.pkg_op == '  ' else '  '
-+                print("{}{:{pkg_maxlen}} {}{:{task_maxlen}} {:+7.1f}s {:+9.1f}% {:9.1f}s -> {:.1f}s".format(
-+                        diff.pkg_op, diff.pkg, task_prefix, diff.task, diff.absdiff, diff.reldiff, diff.cputime1, diff.cputime2,
-+                        pkg_maxlen=pkg_maxlen, task_maxlen=task_maxlen))
-+            else:
-+                log.debug("Filtering out %s (difference of %0.1fs)", task, diff.absdiff)
-+        else:
-+            log.debug("Filtering out %s (%0.1fs)", task, cputime)
-+
-+
-+def print_timediff_summary(bs1, bs2):
-+    """Print summary of the timediffs"""
-+    def total_cputime(buildstats):
-+        sum = 0.0
-+        for recipe_data in buildstats.values():
-+            for task_data in recipe_data['tasks'].values():
-+                sum += task_time(task_data)
-+        return sum
-+
-+    def hms_time(secs):
-+        """Get time in human-readable HH:MM:SS format"""
-+        h = int(secs / 3600)
-+        m = int((secs % 3600) / 60)
-+        s = secs % 60
-+        if h == 0:
-+            return "{:02d}:{:04.1f}".format(m, s)
-+        else:
-+            return "{:d}:{:02d}:{:04.1f}".format(h, m, s)
-+
-+    total1 = total_cputime(bs1)
-+    total2 = total_cputime(bs2)
-+    print("\nCumulative CPU Time:")
-+    print ("  {:+.1f}s    {:+.1f}%    {} ({:.1f}s) -> {} ({:.1f}s)".format(
-+                total2 - total1, 100 * (total2-total1) / total1,
-+                hms_time(total1), total1, hms_time(total2), total2))
-+
-+
-+
-+def parse_args(argv):
-+    """Parse cmdline arguments"""
-+    description="""
-+Script for comparing buildstats of two separate builds."""
-+    parser = argparse.ArgumentParser(
-+            formatter_class=argparse.ArgumentDefaultsHelpFormatter,
-+            description=description)
-+
-+    parser.add_argument('--debug', '-d', action='store_true',
-+                        help="Verbose logging")
-+    parser.add_argument('--ver-diff', action='store_true',
-+                        help="Show package version differences and exit")
-+    parser.add_argument('--min-time', default=3.0, type=float,
-+                        help="Filter out tasks shorter than MIN_TIME seconds")
-+    parser.add_argument('--min-timediff', default=1.0, type=float,
-+                        help="Filter out tasks whose difference in cputime is "
-+                             "less that  MIN_TIMEDIFF seconds")
-+    parser.add_argument('--sort-by', default='absdiff',
-+                        help="Comma-separated list of field sort order. "
-+                             "Prepend the field name with '-' for reversed sort. "
-+                             "Available fields are: {}".format(', '.join(taskdiff_fields)))
-+    parser.add_argument('buildstats1', metavar='BUILDSTATS1', help="'Left' buildstat")
-+    parser.add_argument('buildstats2', metavar='BUILDSTATS2', help="'Right' buildstat")
-+
-+    return parser.parse_args(argv)
-+
-+def main(argv=None):
-+    """Script entry point"""
-+    args = parse_args(argv)
-+    if args.debug:
-+        log.setLevel(logging.DEBUG)
-+
-+    # Validate sort fields
-+    sort_by = []
-+    for field in args.sort_by.split(','):
-+        if field.lstrip('-') not in taskdiff_fields:
-+            log.error("Invalid sort field '%s' (must be one of: %s)" %
-+                      (field, ', '.join(taskdiff_fields)))
-+            sys.exit(1)
-+        sort_by.append(field)
-+
-+
-+    bs1 = read_buildstats(args.buildstats1)
-+    bs2 = read_buildstats(args.buildstats2)
-+
-+    if args.ver_diff:
-+        print_ver_diff(bs1, bs2)
-+    else:
-+        print_task_diff(bs1, bs2, args.min_time, args.min_timediff, sort_by)
-+        print_timediff_summary(bs1, bs2)
-+
-+    return 0
-+
-+if __name__ == "__main__":
-+    sys.exit(main())
+diff --git a/scripts/create-pull-request b/scripts/create-pull-request
+index 3f30cf1..a88f35a 100755
+--- a/scripts/create-pull-request
++++ b/scripts/create-pull-request
+@@ -229,6 +229,7 @@ else
+ fi
+ if [ $? -ne 0 ]; then
+ 	echo "ERROR: git request-pull reported an error"
++	rm -rf $ODIR
+ 	exit 1
+ fi
+ 
 -- 
-2.6.6
+2.1.4
 
 
