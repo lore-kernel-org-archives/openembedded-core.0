@@ -1,23 +1,29 @@
-Return-Path: <juro.bystricky@intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id A038377262
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 6FEA2731D8
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Sep 2016 21:52:54 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by orsmga101.jf.intel.com with ESMTP; 13 Sep 2016 14:52:56 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.30,330,1470726000"; d="scan'208";a="878435205"
-Received: from juro-precision-t5610.jf.intel.com ([10.7.198.149])
-	by orsmga003.jf.intel.com with ESMTP; 13 Sep 2016 14:52:54 -0700
-From: Juro Bystricky <juro.bystricky@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 13 Sep 2016 14:52:48 -0700
-Message-Id: <1473803568-13012-2-git-send-email-juro.bystricky@intel.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1473803568-13012-1-git-send-email-juro.bystricky@intel.com>
-References: <1473803568-13012-1-git-send-email-juro.bystricky@intel.com>
-Cc: jurobystricky@hotmail.com
-Subject: [PATCH 1/1] busybox: Avoid race building libbb
+	Wed, 14 Sep 2016 02:21:12 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u8E2LAgW022606
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 13 Sep 2016 19:21:10 -0700 (PDT)
+Received: from [128.224.162.240] (128.224.162.240) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.294.0;
+	Tue, 13 Sep 2016 19:21:09 -0700
+To: Bruce Ashfield <bruce.ashfield@windriver.com>,
+	<richard.purdie@linuxfoundation.org>
+References: <cover.1473704020.git.bruce.ashfield@windriver.com>
+	<924accb9f4101282ad0fb3417fdb48e1439679d8.1473704020.git.bruce.ashfield@windriver.com>
+From: Robert Yang <liezhi.yang@windriver.com>
+Message-ID: <272ec6fd-6989-bb61-a8f2-0faef9eb6fbb@windriver.com>
+Date: Wed, 14 Sep 2016 10:21:08 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.2.0
+MIME-Version: 1.0
+In-Reply-To: <924accb9f4101282ad0fb3417fdb48e1439679d8.1473704020.git.bruce.ashfield@windriver.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/3] linux-yocto/4.1: update to 4.1.32
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,271 +36,105 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Sep 2016 21:52:54 -0000
+X-List-Received-Date: Wed, 14 Sep 2016 02:21:14 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-When building busybox, an occasional error was observed.
-The error is consistently the same:
 
-libbb/appletlib.c:164:13: error: 'NUM_APPLETS' undeclared (first use in this function)
-  while (i < NUM_APPLETS) {
+Hi Bruce,
 
-The reason is the include file where NUM_APPLETS is defined is not yet generated (or is being modified)
-at the time libbb/appletlib.c is compiled.
-The attached patchset fixes the problem by assuring libb is compiled as the last directory.
+All the kernel 4.1 and 4.4 buildings are down on autobuilder:
+https://autobuilder.yoctoproject.org/main/builders/nightly-x86-lsb/builds/928/stehttps://autobuilder.yoctoproject.org/main/builders/poky-tiny/builds/947/steps/BuildImages/logs/stdiops/BuildImages/logs/stdio
+https://autobuilder.yoctoproject.org/main/builders/nightly-x86-lsb/builds/928/steps/BuildImages/logs/stdio
 
-[YOCTO#10116]
+// Robert
 
-Signed-off-by: Juro Bystricky <juro.bystricky@intel.com>
----
- .../busybox-kbuild-race-fix-commit-d8e61bb.patch   | 45 +++++++++++++++
- .../commit-applet_tables-fix-commit-0dddbc1.patch  | 53 ++++++++++++++++++
- .../busybox/busybox/makefile-libbb-race.patch      | 34 +++++++++++
- .../busybox/busybox/parallel-make-fix.patch        | 65 ----------------------
- meta/recipes-core/busybox/busybox_1.24.1.bb        |  4 +-
- 5 files changed, 135 insertions(+), 66 deletions(-)
- create mode 100644 meta/recipes-core/busybox/busybox/busybox-kbuild-race-fix-commit-d8e61bb.patch
- create mode 100644 meta/recipes-core/busybox/busybox/commit-applet_tables-fix-commit-0dddbc1.patch
- create mode 100644 meta/recipes-core/busybox/busybox/makefile-libbb-race.patch
- delete mode 100644 meta/recipes-core/busybox/busybox/parallel-make-fix.patch
-
-diff --git a/meta/recipes-core/busybox/busybox/busybox-kbuild-race-fix-commit-d8e61bb.patch b/meta/recipes-core/busybox/busybox/busybox-kbuild-race-fix-commit-d8e61bb.patch
-new file mode 100644
-index 0000000..d8fd3e4
---- /dev/null
-+++ b/meta/recipes-core/busybox/busybox/busybox-kbuild-race-fix-commit-d8e61bb.patch
-@@ -0,0 +1,45 @@
-+From d8e61bbf13d0cf38d477255cfd5dc71c5d51d575 Mon Sep 17 00:00:00 2001
-+From: Denys Vlasenko <vda.linux@googlemail.com>
-+Date: Sun, 21 Aug 2016 22:00:20 +0200
-+Subject: build system: different fix for
-+ include/applet_tables.h/include/NUM_APPLETS.h
-+
-+Signed-off-by: Denys Vlasenko <vda.linux@googlemail.com>
-+
-+diff --git a/applets/Kbuild.src b/applets/Kbuild.src
-+index 5cc1827..3aedbbf 100644
-+--- a/applets/Kbuild.src
-++++ b/applets/Kbuild.src
-+@@ -29,7 +29,7 @@ applets/applets.o: include/usage_compressed.h include/applet_tables.h
-+ 
-+ applets/applet_tables: .config include/applets.h
-+ applets/usage:         .config include/applets.h
-+-applets/usage_pod:     .config include/applets.h include/applet_tables.h include/NUM_APPLETS.h
-++applets/usage_pod:     .config include/applets.h include/applet_tables.h
-+ 
-+ quiet_cmd_gen_usage_compressed = GEN     include/usage_compressed.h
-+       cmd_gen_usage_compressed = $(srctree_slash)applets/usage_compressed include/usage_compressed.h applets
-+@@ -37,8 +37,21 @@ quiet_cmd_gen_usage_compressed = GEN     include/usage_compressed.h
-+ include/usage_compressed.h: applets/usage $(srctree_slash)applets/usage_compressed
-+ 	$(call cmd,gen_usage_compressed)
-+ 
-+-quiet_cmd_gen_applet_tables = GEN     include/applet_tables.h
-++quiet_cmd_gen_applet_tables = GEN     include/applet_tables.h include/NUM_APPLETS.h
-+       cmd_gen_applet_tables = applets/applet_tables include/applet_tables.h include/NUM_APPLETS.h
-+ 
-+-include/applet_tables.h include/NUM_APPLETS.h: applets/applet_tables
-++include/NUM_APPLETS.h: applets/applet_tables
-++	$(call cmd,gen_applet_tables)
-++
-++# In fact, include/applet_tables.h depends only on applets/applet_tables,
-++# and is generated by it. But specifying only it can run
-++# applets/applet_tables twice, possibly in parallel.
-++# We say that it also needs NUM_APPLETS.h
-++#
-++# Unfortunately, we need to list the same command,
-++# and it can be executed twice (sequentially).
-++# The alternative is to not list any command,
-++# and then if include/applet_tables.h is deleted, it won't be rebuilt.
-++#
-++include/applet_tables.h: include/NUM_APPLETS.h applets/applet_tables
-+ 	$(call cmd,gen_applet_tables)
-diff --git a/meta/recipes-core/busybox/busybox/commit-applet_tables-fix-commit-0dddbc1.patch b/meta/recipes-core/busybox/busybox/commit-applet_tables-fix-commit-0dddbc1.patch
-new file mode 100644
-index 0000000..b2dca53
---- /dev/null
-+++ b/meta/recipes-core/busybox/busybox/commit-applet_tables-fix-commit-0dddbc1.patch
-@@ -0,0 +1,53 @@
-+From 0dddbc1a59795a77679d8c5ef48a2795cb470563 Mon Sep 17 00:00:00 2001
-+From: Denys Vlasenko <vda.linux@googlemail.com>
-+Date: Tue, 23 Aug 2016 20:21:36 +0200
-+Subject: build system: always rewrite NUM_APPLETS.h
-+
-+Conditional rewrite can keep NUM_APPLETS.h mtime old,
-+this causes make to try to regenerate it at every invocation.
-+
-+Signed-off-by: Denys Vlasenko <vda.linux@googlemail.com>
-+
-+diff --git a/applets/applet_tables.c b/applets/applet_tables.c
-+index 8401a15..ef911a4 100644
-+--- a/applets/applet_tables.c
-++++ b/applets/applet_tables.c
-+@@ -192,27 +192,28 @@ int main(int argc, char **argv)
-+ 	printf("};\n");
-+ #endif
-+ 	//printf("#endif /* SKIP_definitions */\n");
-++
-+ //	printf("\n");
-+ //	printf("#define MAX_APPLET_NAME_LEN %u\n", MAX_APPLET_NAME_LEN);
-+ 
-+ 	if (argv[2]) {
-+-		char line_old[80];
-+-		char line_new[80];
-+ 		FILE *fp;
-++		char line_new[80];
-++//		char line_old[80];
-+ 
-+-		line_old[0] = 0;
-+-		fp = fopen(argv[2], "r");
-+-		if (fp) {
-+-			fgets(line_old, sizeof(line_old), fp);
-+-			fclose(fp);
-+-		}
-+ 		sprintf(line_new, "#define NUM_APPLETS %u\n", NUM_APPLETS);
-+-		if (strcmp(line_old, line_new) != 0) {
-++//		line_old[0] = 0;
-++//		fp = fopen(argv[2], "r");
-++//		if (fp) {
-++//			fgets(line_old, sizeof(line_old), fp);
-++//			fclose(fp);
-++//		}
-++//		if (strcmp(line_old, line_new) != 0) {
-+ 			fp = fopen(argv[2], "w");
-+ 			if (!fp)
-+ 				return 1;
-+ 			fputs(line_new, fp);
-+-		}
-++//		}
-+ 	}
-+ 
-+ 	return 0;
-diff --git a/meta/recipes-core/busybox/busybox/makefile-libbb-race.patch b/meta/recipes-core/busybox/busybox/makefile-libbb-race.patch
-new file mode 100644
-index 0000000..97278ab
---- /dev/null
-+++ b/meta/recipes-core/busybox/busybox/makefile-libbb-race.patch
-@@ -0,0 +1,34 @@
-+There is a potential race when building libbb, as some header files  
-+needed by libbb are not generated yet (or are being modified) at the time
-+libbb is compiled.
-+This patch avoids this scenario by building libbb as the last directory.
-+
-+Upstream-Status: Submitted
-+Signed-off-by: Juro Bystricky <juro.bystricky@intel.com>
-+
-+Index: busybox-1.24.1/Makefile
-+===================================================================
-+diff --git a/Makefile b/Makefile
-+index 5cfc763..69f3831 100644
-+--- a/Makefile
-++++ b/Makefile
-+@@ -738,9 +738,18 @@ $(sort $(busybox-all)): $(busybox-dirs) ;
-+ # Error messages still appears in the original language
-+ 
-+ PHONY += $(busybox-dirs)
-+-$(busybox-dirs): prepare scripts
-++
-++libbb-dir = $(filter libbb,$(busybox-dirs))
-++busybox-dirs1 = $(filter-out libbb,$(busybox-dirs))
-++
-++$(busybox-dirs1): prepare scripts
-+ 	$(Q)$(MAKE) $(build)=$@
-+ 
-++ifneq ($(libbb-dir),)
-++$(libbb-dir): | $(busybox-dirs1)
-++	$(Q)$(MAKE) $(build)=$@
-++endif
-++
-+ # Build the kernel release string
-+ # The KERNELRELEASE is stored in a file named .kernelrelease
-+ # to be used when executing for example make install or make modules_install
-diff --git a/meta/recipes-core/busybox/busybox/parallel-make-fix.patch b/meta/recipes-core/busybox/busybox/parallel-make-fix.patch
-deleted file mode 100644
-index 120dff1..0000000
---- a/meta/recipes-core/busybox/busybox/parallel-make-fix.patch
-+++ /dev/null
-@@ -1,65 +0,0 @@
--When applet_tables is run, we need it to touch both output files,
--else make will keep calling the command, potentially leading to races
--as the files are potentially rewritten.
--
--We also need to ensure that applet_tables is called once, not twice, 
--potentially in parallel. To do this, make one file depend upon the other.
--
--Upstream-Status: Submitted
--RP 2016/8/19
--
--Index: busybox-1.24.1/applets/Kbuild.src
--===================================================================
----- busybox-1.24.1.orig/applets/Kbuild.src
--+++ busybox-1.24.1/applets/Kbuild.src
--@@ -29,7 +29,7 @@ applets/applets.o: include/usage_compres
-- 
-- applets/applet_tables: .config include/applets.h
-- applets/usage:         .config include/applets.h
---applets/usage_pod:     .config include/applets.h include/applet_tables.h include/NUM_APPLETS.h
--+applets/usage_pod:     .config include/applets.h include/applet_tables.h
-- 
-- quiet_cmd_gen_usage_compressed = GEN     include/usage_compressed.h
--       cmd_gen_usage_compressed = $(srctree_slash)applets/usage_compressed include/usage_compressed.h applets
--@@ -40,5 +40,7 @@ include/usage_compressed.h: applets/usag
-- quiet_cmd_gen_applet_tables = GEN     include/applet_tables.h
--       cmd_gen_applet_tables = applets/applet_tables include/applet_tables.h include/NUM_APPLETS.h
-- 
---include/applet_tables.h include/NUM_APPLETS.h: applets/applet_tables
--+include/NUM_APPLETS.h: applets/applet_tables
-- 	$(call cmd,gen_applet_tables)
--+
--+include/applet_tables.h: include/NUM_APPLETS.h
--Index: busybox-1.24.1/applets/applet_tables.c
--===================================================================
----- busybox-1.24.1.orig/applets/applet_tables.c
--+++ busybox-1.24.1/applets/applet_tables.c
--@@ -151,23 +151,15 @@ int main(int argc, char **argv)
-- //	printf("#define MAX_APPLET_NAME_LEN %u\n", MAX_APPLET_NAME_LEN);
-- 
-- 	if (argv[2]) {
---		char line_old[80];
-- 		char line_new[80];
-- 		FILE *fp;
-- 
---		line_old[0] = 0;
---		fp = fopen(argv[2], "r");
---		if (fp) {
---			fgets(line_old, sizeof(line_old), fp);
---			fclose(fp);
---		}
-- 		sprintf(line_new, "#define NUM_APPLETS %u\n", NUM_APPLETS);
---		if (strcmp(line_old, line_new) != 0) {
---			fp = fopen(argv[2], "w");
---			if (!fp)
---				return 1;
---			fputs(line_new, fp);
---		}
--+		fp = fopen(argv[2], "w");
--+		if (!fp)
--+			return 1;
--+		fputs(line_new, fp);
--+		fclose(fp);
-- 	}
-- 
-- 	return 0;
-diff --git a/meta/recipes-core/busybox/busybox_1.24.1.bb b/meta/recipes-core/busybox/busybox_1.24.1.bb
-index f370451..df0e131 100644
---- a/meta/recipes-core/busybox/busybox_1.24.1.bb
-+++ b/meta/recipes-core/busybox/busybox_1.24.1.bb
-@@ -49,8 +49,10 @@ SRC_URI = "http://www.busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
-            file://CVE-2016-2147_2.patch \
-            file://ip_fix_problem_on_mips64_n64_big_endian_musl_systems.patch \
-            file://makefile-fix-backport.patch \
--           file://parallel-make-fix.patch \
-            file://0001-sed-fix-sed-n-flushes-pattern-space-terminates-early.patch \
-+           file://busybox-kbuild-race-fix-commit-d8e61bb.patch \
-+           file://commit-applet_tables-fix-commit-0dddbc1.patch \
-+           file://makefile-libbb-race.patch \
- "
- SRC_URI_append_libc-musl = " file://musl.cfg "
- 
--- 
-2.7.4
-
+On 09/13/2016 02:16 AM, Bruce Ashfield wrote:
+> Integrating the korg stable update
+>
+> Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+> ---
+>  meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb   |  6 +++---
+>  meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb |  6 +++---
+>  meta/recipes-kernel/linux/linux-yocto_4.1.bb      | 20 ++++++++++----------
+>  3 files changed, 16 insertions(+), 16 deletions(-)
+>
+> diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb b/meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb
+> index f0d6a81a9c54..4308a07a9765 100644
+> --- a/meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb
+> +++ b/meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb
+> @@ -11,13 +11,13 @@ python () {
+>          raise bb.parse.SkipPackage("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
+>  }
+>
+> -SRCREV_machine ?= "b88e2b5805213daeb0136fdd8c840dc0254a3d21"
+> -SRCREV_meta ?= "9d0f0db8442a5ccb3f2ce81e2e43d96b6515a45a"
+> +SRCREV_machine ?= "ee83bffe0f76032fe0a0b7fde436f0f596101df2"
+> +SRCREV_meta ?= "b30b6b9ef215433b28e8966c73ebb6b98a7f4d1f"
+>
+>  SRC_URI = "git://git.yoctoproject.org/linux-yocto-4.1.git;branch=${KBRANCH};name=machine \
+>             git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.1;destsuffix=${KMETA}"
+>
+> -LINUX_VERSION ?= "4.1.30"
+> +LINUX_VERSION ?= "4.1.32"
+>
+>  PV = "${LINUX_VERSION}+git${SRCPV}"
+>
+> diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb
+> index 092a224451e1..2294a3db87da 100644
+> --- a/meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb
+> +++ b/meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb
+> @@ -4,13 +4,13 @@ KCONFIG_MODE = "--allnoconfig"
+>
+>  require recipes-kernel/linux/linux-yocto.inc
+>
+> -LINUX_VERSION ?= "4.1.30"
+> +LINUX_VERSION ?= "4.1.32"
+>
+>  KMETA = "kernel-meta"
+>  KCONF_BSP_AUDIT_LEVEL = "2"
+>
+> -SRCREV_machine ?= "0847ed67f89b5a8bbaaa0a7b6cfa2a99ef34834f"
+> -SRCREV_meta ?= "9d0f0db8442a5ccb3f2ce81e2e43d96b6515a45a"
+> +SRCREV_machine ?= "93b1a6cee7d4a4437a1c0edf3e54ffe78edb4462"
+> +SRCREV_meta ?= "b30b6b9ef215433b28e8966c73ebb6b98a7f4d1f"
+>
+>  PV = "${LINUX_VERSION}+git${SRCPV}"
+>
+> diff --git a/meta/recipes-kernel/linux/linux-yocto_4.1.bb b/meta/recipes-kernel/linux/linux-yocto_4.1.bb
+> index e23d7da58881..f4006b74d096 100644
+> --- a/meta/recipes-kernel/linux/linux-yocto_4.1.bb
+> +++ b/meta/recipes-kernel/linux/linux-yocto_4.1.bb
+> @@ -11,20 +11,20 @@ KBRANCH_qemux86  ?= "standard/base"
+>  KBRANCH_qemux86-64 ?= "standard/base"
+>  KBRANCH_qemumips64 ?= "standard/mti-malta64"
+>
+> -SRCREV_machine_qemuarm ?= "9c5e96205316d167379d101d808a6cda93adc335"
+> -SRCREV_machine_qemuarm64 ?= "0847ed67f89b5a8bbaaa0a7b6cfa2a99ef34834f"
+> -SRCREV_machine_qemumips ?= "9e531cb59dd7dfa2026637cc456a7bdcbdb50275"
+> -SRCREV_machine_qemuppc ?= "32968ddd9357f72dfd427f5b3eda62c4a49833c7"
+> -SRCREV_machine_qemux86 ?= "0847ed67f89b5a8bbaaa0a7b6cfa2a99ef34834f"
+> -SRCREV_machine_qemux86-64 ?= "0847ed67f89b5a8bbaaa0a7b6cfa2a99ef34834f"
+> -SRCREV_machine_qemumips64 ?= "106ed721d21c595dfb993a8990c3a29830dfc166"
+> -SRCREV_machine ?= "0847ed67f89b5a8bbaaa0a7b6cfa2a99ef34834f"
+> -SRCREV_meta ?= "9d0f0db8442a5ccb3f2ce81e2e43d96b6515a45a"
+> +SRCREV_machine_qemuarm ?= "4db58705727e27bea8ccf805bd5c7d04d2d029ed"
+> +SRCREV_machine_qemuarm64 ?= "93b1a6cee7d4a4437a1c0edf3e54ffe78edb4462"
+> +SRCREV_machine_qemumips ?= "d6237b3b244b894d4b3479ecf37acef041416dfa"
+> +SRCREV_machine_qemuppc ?= "8520e65497ae10e14c38c76920a3457dc64349bf"
+> +SRCREV_machine_qemux86 ?= "93b1a6cee7d4a4437a1c0edf3e54ffe78edb4462"
+> +SRCREV_machine_qemux86-64 ?= "93b1a6cee7d4a4437a1c0edf3e54ffe78edb4462"
+> +SRCREV_machine_qemumips64 ?= "d0524e144cd15a3c0edf768f68400968a4477cbe"
+> +SRCREV_machine ?= "93b1a6cee7d4a4437a1c0edf3e54ffe78edb4462"
+> +SRCREV_meta ?= "b30b6b9ef215433b28e8966c73ebb6b98a7f4d1f"
+>
+>  SRC_URI = "git://git.yoctoproject.org/linux-yocto-4.1.git;name=machine;branch=${KBRANCH}; \
+>             git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.1;destsuffix=${KMETA}"
+>
+> -LINUX_VERSION ?= "4.1.30"
+> +LINUX_VERSION ?= "4.1.32"
+>
+>  PV = "${LINUX_VERSION}+git${SRCPV}"
+>
+>
 
