@@ -1,50 +1,55 @@
-Return-Path: <andre.draszik@gmail.com>
-Received: from mail-it0-f68.google.com (mail-it0-f68.google.com
-	[209.85.214.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 45A36731E5
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pa0-f65.google.com (mail-pa0-f65.google.com
+	[209.85.220.65])
+	by mail.openembedded.org (Postfix) with ESMTP id E62616E668
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Sep 2016 19:50:29 +0000 (UTC)
-Received: by mail-it0-f68.google.com with SMTP id x192so2535267itb.0
+	Wed, 14 Sep 2016 20:19:52 +0000 (UTC)
+Received: by mail-pa0-f65.google.com with SMTP id oz2so1148627pac.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Sep 2016 12:50:30 -0700 (PDT)
+	Wed, 14 Sep 2016 13:19:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=subject:to:references:from:message-id:date:user-agent:mime-version
+	:in-reply-to:content-transfer-encoding;
+	bh=wICOzrg6rkx6nBSP60bkGc3uXpvyewe8V7syXy3oo4s=;
+	b=jvLFchmqTLzAOHLAcRKY5dLckf8aAB4G7jc0qQ7dWEcCnF4ezej7Y5YZkteGmqu5Bg
+	9flCnUopUJAHTD6rDjcJTFMjLkAnZmuO5L78yc53CRqLIJBZ9vXYmz9jNCmetMjnmUHV
+	BBeD8GXeXK2jc/B3cAd5xgKISK0bux/Uuj32MczVR+R2Gu8XSYNnnLH/oOdIqo9ppv5l
+	6pm3YtjKxa2bcZP16D8BR36dWu0ypm2PoL5YCy1gIQU4RMV+YCb56F2cnPwmFlZiOLZ+
+	4KbrqRItbDH3/yTNGp/tYsVDsvJ+FNrcIMM+DQ63FRg4kZrDBFSCtI9YE32cZCREyvA2
+	n1Ug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=ZZRPNvQPXYC8yM6x4jNNTVYjVrvJvnIE1XsSmMcc9vw=;
-	b=VPDKGhqDqCFUgYOUH0yU7UBgtgsMytFVsaJoDCb3mTCk69/QRbExdkFF5YKzXH4zd5
-	LFhHqSB0/vyp4iproBhcJ3L0TUMGkXUPsZrsAJxCe4txMzmitF5OK2RUwS/fgDhXKQNo
-	9nYtU4dO1gk0G90ldtiPQT51ap4AEQqB4JUsVeYHHPPGeSPHMGDQES3XztyyVmuaecCM
-	8qnZyPZruSpokzKfkl3pxsWhdrc7BbhwwEwMbC9qczew00fpUSYkj3Jno2zppReGG0fX
-	3FUNoYg1sTUqYmElGgTLDwoqBbYQW3q3yshnI7/Shc3lP5uh5adsuCbGjlm/cbGWw1Mp
-	B2Sw==
-X-Gm-Message-State: AE9vXwPbMjRZ8bAVW+hwczvbzNAtWPWOFt0zlsHjs4HVJl5A4QskcQAazj1rhVrz0Xgdaw==
-X-Received: by 10.107.136.27 with SMTP id k27mr9143896iod.94.1473882630183;
-	Wed, 14 Sep 2016 12:50:30 -0700 (PDT)
-Received: from mail-it0-f45.google.com (mail-it0-f45.google.com.
-	[209.85.214.45])
-	by smtp.gmail.com with ESMTPSA id y133sm166547ioy.8.2016.09.14.12.50.29
-	for <openembedded-core@lists.openembedded.org>
+	h=x-gm-message-state:subject:to:references:from:message-id:date
+	:user-agent:mime-version:in-reply-to:content-transfer-encoding;
+	bh=wICOzrg6rkx6nBSP60bkGc3uXpvyewe8V7syXy3oo4s=;
+	b=jWrHaEFalZEAXk6IgckULSBNpAMrp4cS6wcTrlm5kumun/Ci72Sys5xoTA5MQNU2ql
+	l9QaKqAklSXVsSij2oIUdGbOtBa2T97PGCJgDZCQix6YuSeMbTc8SJ7xfMTVILhLeGuf
+	fk3oUki4hx7iLEvyX0m2yQzcgDvszH54zrLRoOiHxZ1bObbL98kwlFRQ/JPILJAHN5z8
+	QXpscxM7PvUa5r/GdOOm2Z9keGbC3OyUH66ENexh32WnkN3te28OnaRF9BRc928xS7MA
+	ghqzZc65TYaOllpOeXd3YeiSiHDWHuIaVd929F/gU3GJF8sEi9ipfCOft7QTrwlp61Jr
+	/arw==
+X-Gm-Message-State: AE9vXwP7OlVxz2GHwOS/rXFRGO382Qn3TKUO35KG0fc95zHimJSr/z0Im4t1XjEG6//wzw==
+X-Received: by 10.66.135.52 with SMTP id pp20mr7800647pab.121.1473884393120;
+	Wed, 14 Sep 2016 13:19:53 -0700 (PDT)
+Received: from Akusters-laptop.local ([2601:202:4001:9ea0:350c:a305:4ade:8f1c])
+	by smtp.googlemail.com with ESMTPSA id
+	i8sm7393518paw.25.2016.09.14.13.19.51
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 14 Sep 2016 12:50:30 -0700 (PDT)
-Received: by mail-it0-f45.google.com with SMTP id r192so60701678ita.0
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Sep 2016 12:50:29 -0700 (PDT)
-X-Received: by 10.107.174.142 with SMTP id n14mr9215145ioo.197.1473882629566; 
-	Wed, 14 Sep 2016 12:50:29 -0700 (PDT)
+	Wed, 14 Sep 2016 13:19:52 -0700 (PDT)
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	Alexander Kanavin <alexander.kanavin@linux.intel.com>,
+	openembedded-core@lists.openembedded.org
+References: <3230301C09DEF9499B442BBE162C5E48ABE3BA3B@SESTOEX04.enea.se>
+	<37af20ca-62f9-7308-0b97-6ba6c46dafb1@linux.intel.com>
+	<1473846188.7207.57.camel@linuxfoundation.org>
+From: akuster808 <akuster808@gmail.com>
+Message-ID: <9cb43927-fab3-a1a6-7607-b5bf71176bb1@gmail.com>
+Date: Wed, 14 Sep 2016 13:19:50 -0700
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:45.0)
+	Gecko/20100101 Thunderbird/45.2.0
 MIME-Version: 1.0
-Received: by 10.64.70.36 with HTTP; Wed, 14 Sep 2016 12:50:28 -0700 (PDT)
-Received: by 10.64.70.36 with HTTP; Wed, 14 Sep 2016 12:50:28 -0700 (PDT)
-In-Reply-To: <20160914162519.16212-1-patrick@stwcx.xyz>
-References: <20160914162519.16212-1-patrick@stwcx.xyz>
-From: =?UTF-8?Q?Andr=C3=A9_Draszik?= <git@andred.net>
-Date: Wed, 14 Sep 2016 20:50:28 +0100
-X-Gmail-Original-Message-ID: <CAKUP++va+C=1wLQPMdb+=Pd-CLGigC=RREQb0OfnFnwh5fzJJA@mail.gmail.com>
-Message-ID: <CAKUP++va+C=1wLQPMdb+=Pd-CLGigC=RREQb0OfnFnwh5fzJJA@mail.gmail.com>
-To: Patrick Williams <patrick@stwcx.xyz>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] e2fsprogs: configure with enable-symlink
+In-Reply-To: <1473846188.7207.57.camel@linuxfoundation.org>
+Subject: Re: CVE-2016-3116: dropbear: X11 forwarding input not validated properly
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,120 +62,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Sep 2016 19:50:30 -0000
-Content-Type: multipart/alternative; boundary=001a1144822e93ab2f053c7d0a61
+X-List-Received-Date: Wed, 14 Sep 2016 20:19:53 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
 
---001a1144822e93ab2f053c7d0a61
-Content-Type: text/plain; charset=UTF-8
+On 9/14/16 2:43 AM, Richard Purdie wrote:
+> On Wed, 2016-09-14 at 12:06 +0300, Alexander Kanavin wrote:
+>> On 09/14/2016 11:49 AM, Sona Sarmadi wrote:
+>>> https://matt.ucc.asn.au/dropbear/CHANGES
+>>> .....
+>>> 2016.72 - 9 March 2016    <<<<<<< dropbear version this CVE has
+>>> been fixed
+>>> - Validate X11 forwarding input. Could allow bypass of
+>>> authorized_keys command= restrictions,
+>>>   found by github.com/tintinweb. Thanks for Damien Miller for a
+>>> patch. CVE-2016-3116
+>>>
+>>> 2015.71 - 3 December 2015  <<<< dropbear version in krogoth
+>> It's *probably* this one. The commit messages in dropbear repository
+>> are 
+>> *amazingly* vague and unprofessional.
+>>
+>> https://secure.ucc.asn.au/hg/dropbear/rev/a3e8389e01ff
+>>
+>> That said, I vote for updating to the version that comes with the
+>> fix. 
+>> Backporting fixes should not be the default in the stable yocto 
+>> releases; we should trust the upstream more.
+> Taking that argument to the extreme, we should update all versions in
+> the "stable" release to the latest to ensure we get all the fixes. At
+> that point, it becomes no different to master and its not the
+> definition of "stable" which most people want to use.
+>
+> So whilst I do take the point and in some cases it does make sense, it
+> doesn't really make sense to have that as the default policy.
 
-On 14 Sep 2016 5:40 p.m., "Patrick Williams" <patrick@stwcx.xyz> wrote:
->
-> The /sbin/fsck.ext[234] programs currently installed are all
-> the same binary as e2fsck.  The package provides an option to
-> have fsck.ext[234] be symlinked to /sbin/e2fsck instead.  This
-> reduces the uncompressed footprint of this package by ~1MB on ARM.
+I agree. Updating packages in a stable release should not be the default
+but the exception. It should be a case-by-case determination.
+> In this case, its a question of what else changed in dropbear between
+> these versions. Were there a ton of new features or was it just
+> bugfixes? How much risk of other problems is there?
+If I am not mistaken, this is similar wording as in the "Stable branch
+Maintaining" on wiki.
 
-They were all hardlinks last time I checked not long ago. Why do hardlinks
-increase the footprint?
+- Armin
+>
+> Cheers,
+>
+> Richard
 
-A.
 
->
-> Add --enable-symlink-install to EXTRA_OECONF to enable.
->
-> Signed-off-by: Patrick Williams <patrick@stwcx.xyz>
-> ---
->  meta/recipes-devtools/e2fsprogs/e2fsprogs_1.43.bb | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
->
-> diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.43.bb
-b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.43.bb
-> index f4855bc..d6db612 100644
-> --- a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.43.bb
-> +++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.43.bb
-> @@ -18,7 +18,8 @@ UPSTREAM_CHECK_GITTAGREGEX =
-"v(?P<pver>\d+\.\d+(\.\d+)*)$"
->
->  EXTRA_OECONF += "--libdir=${base_libdir} --sbindir=${base_sbindir} \
->                  --enable-elf-shlibs --disable-libuuid --disable-uuidd \
-> -                --disable-libblkid --enable-verbose-makecmds"
-> +                --disable-libblkid --enable-verbose-makecmds \
-> +                --enable-symlink-install"
->
->  EXTRA_OECONF_darwin = "--libdir=${base_libdir} --sbindir=${base_sbindir}
---enable-bsd-shlibs"
->
-> --
-> 2.9.0
->
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
---001a1144822e93ab2f053c7d0a61
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<p dir=3D"ltr">On 14 Sep 2016 5:40 p.m., &quot;Patrick Williams&quot; &lt;<=
-a href=3D"mailto:patrick@stwcx.xyz">patrick@stwcx.xyz</a>&gt; wrote:<br>
-&gt;<br>
-&gt; The /sbin/fsck.ext[234] programs currently installed are all<br>
-&gt; the same binary as e2fsck.=C2=A0 The package provides an option to<br>
-&gt; have fsck.ext[234] be symlinked to /sbin/e2fsck instead.=C2=A0 This<br=
->
-&gt; reduces the uncompressed footprint of this package by ~1MB on ARM.</p>
-<p dir=3D"ltr">They were all hardlinks last time I checked not long ago. Wh=
-y do hardlinks increase the footprint?</p>
-<p dir=3D"ltr">A.</p>
-<p dir=3D"ltr">&gt;<br>
-&gt; Add --enable-symlink-install to EXTRA_OECONF to enable.<br>
-&gt;<br>
-&gt; Signed-off-by: Patrick Williams &lt;<a href=3D"mailto:patrick@stwcx.xy=
-z">patrick@stwcx.xyz</a>&gt;<br>
-&gt; ---<br>
-&gt; =C2=A0meta/recipes-devtools/e2fsprogs/<a href=3D"http://e2fsprogs_1.43=
-.bb">e2fsprogs_1.43.bb</a> | 3 ++-<br>
-&gt; =C2=A01 file changed, 2 insertions(+), 1 deletion(-)<br>
-&gt;<br>
-&gt; diff --git a/meta/recipes-devtools/e2fsprogs/<a href=3D"http://e2fspro=
-gs_1.43.bb">e2fsprogs_1.43.bb</a> b/meta/recipes-devtools/e2fsprogs/<a href=
-=3D"http://e2fsprogs_1.43.bb">e2fsprogs_1.43.bb</a><br>
-&gt; index f4855bc..d6db612 100644<br>
-&gt; --- a/meta/recipes-devtools/e2fsprogs/<a href=3D"http://e2fsprogs_1.43=
-.bb">e2fsprogs_1.43.bb</a><br>
-&gt; +++ b/meta/recipes-devtools/e2fsprogs/<a href=3D"http://e2fsprogs_1.43=
-.bb">e2fsprogs_1.43.bb</a><br>
-&gt; @@ -18,7 +18,8 @@ UPSTREAM_CHECK_GITTAGREGEX =3D &quot;v(?P&lt;pver&gt=
-;\d+\.\d+(\.\d+)*)$&quot;<br>
-&gt;<br>
-&gt; =C2=A0EXTRA_OECONF +=3D &quot;--libdir=3D${base_libdir} --sbindir=3D${=
-base_sbindir} \<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0--enable=
--elf-shlibs --disable-libuuid --disable-uuidd \<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 --disable-lib=
-blkid --enable-verbose-makecmds&quot;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 --disable-lib=
-blkid --enable-verbose-makecmds \<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 --enable-syml=
-ink-install&quot;<br>
-&gt;<br>
-&gt; =C2=A0EXTRA_OECONF_darwin =3D &quot;--libdir=3D${base_libdir} --sbindi=
-r=3D${base_sbindir} --enable-bsd-shlibs&quot;<br>
-&gt;<br>
-&gt; --<br>
-&gt; 2.9.0<br>
-&gt;<br>
-&gt;<br>
-&gt; --<br>
-&gt; _______________________________________________<br>
-&gt; Openembedded-core mailing list<br>
-&gt; <a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedd=
-ed-core@lists.openembedded.org</a><br>
-&gt; <a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded=
--core">http://lists.openembedded.org/mailman/listinfo/openembedded-core</a>=
-<br></p>
-
---001a1144822e93ab2f053c7d0a61--
