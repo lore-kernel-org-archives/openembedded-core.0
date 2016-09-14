@@ -1,60 +1,48 @@
-Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-yb0-f170.google.com (mail-yb0-f170.google.com
-	[209.85.213.170])
-	by mail.openembedded.org (Postfix) with ESMTP id 9BC5C602D9
+Return-Path: <ross.burton@intel.com>
+Received: from mail-it0-f44.google.com (mail-it0-f44.google.com
+	[209.85.214.44])
+	by mail.openembedded.org (Postfix) with ESMTP id 044CA70057
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Sep 2016 21:06:15 +0000 (UTC)
-Received: by mail-yb0-f170.google.com with SMTP id d69so23504626ybf.2
+	Wed, 14 Sep 2016 21:13:17 +0000 (UTC)
+Received: by mail-it0-f44.google.com with SMTP id r192so64348346ita.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Sep 2016 14:06:16 -0700 (PDT)
+	Wed, 14 Sep 2016 14:13:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
-	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
-	:cc; bh=neUXfSCB/98+YDuoZaEu3ekX0805ZjYK0L7TcwOhzWo=;
-	b=WGKzCiXEXGYdw5XhrshI4EbW0BoCdirL421m2K1kfOWgQUTtVKUMzFAV4PAP91xNVh
-	GXHDhLkPP3qZlL5ndOhIBYgQ3IKjzEYZqIHGh17Z+Hvojmz8HFon6UVnN837FFuzkaNK
-	VaqhN6z7FCS4VpgvUWoyz/YSO5w7255pynLoCzarAc/5g1tlETnLexX2G5JOaI2wmQIS
-	QG7WN9VqtkiDvZV6z+NjQYzMqehd8Ceqy1hjW4ztCKBg+O+L0k4uOl+Z8npwUInBjCL0
-	lDOkPe+P6++EdhpHiz6XCnoaDlKRP0/JCnJhGzqWSZ5t37dAvGeo7s28+VqzJrfrsv1x
-	DmHA==
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=wQbKgUbxdbye6b30uauXDemt3QO2xqr4hdsH7+9eqYY=;
+	b=Yf62ROSy8MqCCu8i10iPsWOD6reaHfpPouJ4MBvDbZuahtXy5VCGaCLIuF4Z5EbBjZ
+	eF2LM9xfKqxzi5nOSKzTSAHfP8SY4rt2blLr8793C3WzWNbb2MgS2BFgaYZUVNi01DPX
+	vbBoGi9rjQudFeX0nl/gt12DQOmbQhO2JCWCdeO5rn3XNb7NtwFk5flMR5w+o8X5Apsr
+	pBn5/JfK2CBSMH7JWd/BC7QNHTToOZKQe4zqaxO+ggV2OZDlI16fq8qJM4JyLQeP2P7l
+	UvWPZL7qPQm5HZVWE+rHwhr6Ia4rXQpUOe7kKUNqy5mhTvLFXIx/TW1lG4OaUdUhtuZP
+	+VOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=neUXfSCB/98+YDuoZaEu3ekX0805ZjYK0L7TcwOhzWo=;
-	b=hDAQ+D5Vxvrouxs6zyVLGX3BMZZXV0Ht360m5exO3HyE8hRAOzvuXdXOAfb3omaQO0
-	KLb5fYc/VkeGU4yV62umk6YCDeF1bL2OgLnDfRmWGxFwU5IsRl+yjUhXs81/gbudMoWZ
-	cAetDu788uiPlrgR8eUigjMxicuxAVtm6ItgptChKdgTRnWLoMclV6CceDGQxgoBLlbF
-	COMau/wIjG+aUhzcK6YRNgnYfNm9m+NaTN728ibnCJmhU2PWUWFzTnatN87TphxamPf0
-	7ym3aCWvw7obarNM52XRMXguyJXE1zJC+0MLc+RQxpy/QZ4PMg6pYVxe65gGdSRZZGy+
-	Nd3w==
-X-Gm-Message-State: AE9vXwPu42u8iGkgw1dmJz1rIsve9lVprC3eGnvUtLLrjVJGFb0YcjSvlBjUvQHs2bETVg==
-X-Received: by 10.37.58.131 with SMTP id h125mr5285904yba.49.1473887175602;
-	Wed, 14 Sep 2016 14:06:15 -0700 (PDT)
-Received: from mail-yw0-f170.google.com (mail-yw0-f170.google.com.
-	[209.85.161.170])
-	by smtp.gmail.com with ESMTPSA id i71sm44652ywg.54.2016.09.14.14.06.14
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 14 Sep 2016 14:06:14 -0700 (PDT)
-From: Otavio Salvador <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by mail-yw0-f170.google.com with SMTP id i129so42660295ywb.0
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Sep 2016 14:06:14 -0700 (PDT)
-X-Received: by 10.129.108.147 with SMTP id h141mr5743617ywc.214.1473887173956; 
-	Wed, 14 Sep 2016 14:06:13 -0700 (PDT)
+	bh=wQbKgUbxdbye6b30uauXDemt3QO2xqr4hdsH7+9eqYY=;
+	b=PY6IZo8uo6wl1a+GUMQ93hGToHXyieei/xt15ZZiuk5SMlq3OgLQDb4s9y2xz27+Wu
+	V+K40kEyO7q2qqVFVw2bCjTyoytYOhLMvu6lRyM3mkN01U9CcjjHn0iTylZQPhJkpF0c
+	86PRSEgjk7ZFTbtim9zNphL0/m9v0PfTmePExLVR8ebgeCsjHhBHt3/UXTwZ05MWvWIy
+	Kzursl+IVKxAh2Ayi47FPHAFTr5OSkQMtud3ZTLU30tEHhsScqvqdusEuijLckPKPTK4
+	SL27MHHV9RuddAw3KRsc2MmMbLPdSo7ODoCJKy1561em3mI/vVGPSd4/ukHrWDiGipBb
+	Pxog==
+X-Gm-Message-State: AE9vXwM/4p51dW76RINF4WA+PE5jO86qO5xHspWBcpGPU2X4Xul0SodL+SiPcHPXNrzTMlvyUMoT3MLk285jIU6S
+X-Received: by 10.107.35.13 with SMTP id j13mr9914393ioj.189.1473887598143;
+	Wed, 14 Sep 2016 14:13:18 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.31.154.68 with HTTP; Wed, 14 Sep 2016 14:06:13 -0700 (PDT)
-In-Reply-To: <CAJTo0LYK=k1bFjbbBcDEu+RJ5zHFvogOsNmeYHnFJnjiM3AVRQ@mail.gmail.com>
+Received: by 10.107.135.27 with HTTP; Wed, 14 Sep 2016 14:12:57 -0700 (PDT)
+In-Reply-To: <CAP9ODKqHt2RgF4sD2ai_+2DGfJ9+hu9+by67YBqAyN+=AD=baQ@mail.gmail.com>
 References: <1473871297-28966-1-git-send-email-ross.burton@intel.com>
 	<1473871297-28966-2-git-send-email-ross.burton@intel.com>
 	<CAP9ODKowGs-bZ2oyAmUn4=b6BCZPZKR9vhS9Hd==etoU5o2Pvg@mail.gmail.com>
 	<CAJTo0LYK=k1bFjbbBcDEu+RJ5zHFvogOsNmeYHnFJnjiM3AVRQ@mail.gmail.com>
-Date: Wed, 14 Sep 2016 18:06:13 -0300
-X-Gmail-Original-Message-ID: <CAP9ODKqHt2RgF4sD2ai_+2DGfJ9+hu9+by67YBqAyN+=AD=baQ@mail.gmail.com>
-Message-ID: <CAP9ODKqHt2RgF4sD2ai_+2DGfJ9+hu9+by67YBqAyN+=AD=baQ@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
+	<CAP9ODKqHt2RgF4sD2ai_+2DGfJ9+hu9+by67YBqAyN+=AD=baQ@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 14 Sep 2016 22:12:57 +0100
+Message-ID: <CAJTo0LZtYe9bt7x8G=N3v_DCgDBchKaTOZ2gLz+CPZx=TnO52g@mail.gmail.com>
+To: Otavio Salvador <otavio.salvador@ossystems.com.br>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 2/3] cmake: use convenience options for clarity
@@ -70,25 +58,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Sep 2016 21:06:16 -0000
+X-List-Received-Date: Wed, 14 Sep 2016 21:13:18 -0000
+Content-Type: multipart/alternative; boundary=001a1140292aba2618053c7e32b2
+
+--001a1140292aba2618053c7e32b2
 Content-Type: text/plain; charset=UTF-8
 
-On Wed, Sep 14, 2016 at 5:59 PM, Burton, Ross <ross.burton@intel.com> wrote:
+On 14 September 2016 at 22:06, Otavio Salvador <
+otavio.salvador@ossystems.com.br> wrote:
+
+> Ok; but this means it should be right?
 >
-> On 14 September 2016 at 18:50, Otavio Salvador
-> <otavio.salvador@ossystems.com.br> wrote:
->>
->> Why jsoncpp cannot be also linked?
+> If so, we can work on a recipe for it. It is better to avoid bundled
+> copies of recipe specially because security flaws...
 >
-> Because it's not in oe-core.
 
-Ok; but this means it should be right?
+Nothing else wants it, cmake ships with its own trimmed copy.  I'm not
+massively convinced it's worth the bother (especially now).
 
-If so, we can work on a recipe for it. It is better to avoid bundled
-copies of recipe specially because security flaws...
+Ross
 
--- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+--001a1140292aba2618053c7e32b2
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 14 September 2016 at 22:06, Otavio Salvador <span dir=3D"ltr">&lt;<a hre=
+f=3D"mailto:otavio.salvador@ossystems.com.br" target=3D"_blank">otavio.salv=
+ador@ossystems.com.br</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_q=
+uote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1e=
+x"><div id=3D":3e1" class=3D"a3s aXjCH m1572a85a620e6528">Ok; but this mean=
+s it should be right?<br>
+<br>
+If so, we can work on a recipe for it. It is better to avoid bundled<br>
+copies of recipe specially because security flaws...<br></div></blockquote>=
+<div><br></div><div>Nothing else wants it, cmake ships with its own trimmed=
+ copy.=C2=A0 I&#39;m not massively convinced it&#39;s worth the bother (esp=
+ecially now).</div><div><br></div><div>Ross</div></div></div></div>
+
+--001a1140292aba2618053c7e32b2--
