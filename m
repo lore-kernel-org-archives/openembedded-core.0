@@ -1,48 +1,48 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f52.google.com (mail-wm0-f52.google.com [74.125.82.52])
-	by mail.openembedded.org (Postfix) with ESMTP id 8D78373695
+Received: from mail-wm0-f41.google.com (mail-wm0-f41.google.com [74.125.82.41])
+	by mail.openembedded.org (Postfix) with ESMTP id 5C62375C60
 	for <openembedded-core@lists.openembedded.org>;
 	Wed, 14 Sep 2016 16:41:44 +0000 (UTC)
-Received: by mail-wm0-f52.google.com with SMTP id k186so18386391wmd.0
+Received: by mail-wm0-f41.google.com with SMTP id k186so18387260wmd.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Sep 2016 09:41:45 -0700 (PDT)
+	Wed, 14 Sep 2016 09:41:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=SfqMguuuit2EWrMbxSy0bzCdhfBE3GGtFy2LDu6QquY=;
-	b=lCwH/KwSsDNPXXZGiwefDwwlEqF2wv07MZKgJjN5sVGXvMwfi0UkK9mFaKNCNNKCxo
-	vkxujbwRwJ7gBRmWBFYSoE9/gML21TC0VQc1bpTDxtSGwGJdKhm7Djt2PuUdd/UHyF+5
-	2sUiAzxAXDhJi0UMnzKVnps781P5yR/SGAI36AdqlwAn88QW5gJWX1E0ldd7zisTpZ5B
-	5nyAKE3my6epIrUlOkoS+sb3SrSHTbwBp4YpWfY8f62QL/34BNgVjctJr9/98Q1+942C
-	3uib3RwBoVfY1JsgfcjfrMwdmcN8+hFtYqzTIon41gbVJE+HgJQHCmC7P0RG/WS1xKGn
-	+gKg==
+	bh=fPrkMKlA568UUFRCIQTLrWHtC8U4osf/UA++ZxYo974=;
+	b=a45/A7Vq0wnXQuCfuEnNZmbeZvQvCyb3P/C7l+WpSR2VmAFMz+gDJPCPh5AOWhW0pC
+	PJAHF6Rl8iHiDR9xwr0Vq789qdWvbA4oC/AACLN5XLTovaw3z9mjlK8z5Z1M+kvoAHp1
+	SqAv6s1Ge5/EdX5fWDVtHIQoga6KOFNp2lJkjlkN9Z03UMtM9+l3WjD3ODg8I9mTBy4K
+	wNx4bfhiTFUoSaH8Yak0vl+tFkqhxng0zQkYv2U3qC3IhhqCZ2j153H/EHSLtaWod67z
+	acqrx3g7HWqYeI4NE5KTrRGiWCvOPm/dNxLDGQlqAK0U3A4uXH/5u7mjcc8AfiP/idDV
+	MElA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=SfqMguuuit2EWrMbxSy0bzCdhfBE3GGtFy2LDu6QquY=;
-	b=aaxpFIZ4circ+u3rPjqZ+Yfa4vqsn0EtlTHxM55/DZ7gm4MX1DakXrz1Wr3162iSN9
-	QmnK7NgZqeE5maOhCKiPF5M1+wqapozZoXF7ElVESnviHBHDr9GgtHvSuDry7G7b9tuf
-	H2Xny4sUG1SWTNa2VceYsl0Wgt0yCoLBGDsFjqlnM5wXQkijuw8zyio35O6tq3dX8Fgp
-	F8CP5wA4mZvS0SoesEY2wyzq1FvPWWeYgXoAcJf7271qhWbH6RajFgwNZg3IaubdJ1n+
-	JfJC6CIk4j69JdrwX2SRdNC6Y9e/LLRWI+OIAt6tHkfl2+N+ZaRLuOfKWOzZywFb59RK
-	somA==
-X-Gm-Message-State: AE9vXwMICcIkUyUMjK9UqnjyP19RE1Sat8V6mLoOPZobpZlZlKegClIOdIAqyumAQz+/ADzK
-X-Received: by 10.194.161.166 with SMTP id xt6mr3867992wjb.165.1473871303938; 
-	Wed, 14 Sep 2016 09:41:43 -0700 (PDT)
+	bh=fPrkMKlA568UUFRCIQTLrWHtC8U4osf/UA++ZxYo974=;
+	b=fERNYcPC/Xczu2BNgWDo2bwibrVzgGWhLfsBKfKkP9mWQ2k7oX9IIF/w0bZTKGwdbe
+	GklrFZEE/kxgKJ//DqWDDIINfk2zwCytrcPEkzU78bynp7A0n9p7t0LPEVjLFjWV2n+I
+	tbFaBcuvTqw6PVelLbK2oiscyRv+5pSV6O8pdmKTc+P7exIKAvAFHxQHiawXg9hCs5pH
+	txPdyD+vq3ccuAyVNaV58/t79eT8KwhrrH6YVdWUzpG6rHhbZOJmrHg4DfIAHMcEtjpi
+	cGa77bKEpuhT3wx6S7kk7fR8jXTw6s/OUgWUhle2IZQdD/o5cx7gh1oxwnbD8qlClgB2
+	aOOA==
+X-Gm-Message-State: AE9vXwOMF3kNyOWtFr+kk3LJh02DJPvcBXXkFqEAuJnpJ69h1SGe2yBtyh0J3wIfarifoHDv
+X-Received: by 10.28.19.194 with SMTP id 185mr11845721wmt.51.1473871305042;
+	Wed, 14 Sep 2016 09:41:45 -0700 (PDT)
 Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id p13sm5025189wmd.1.2016.09.14.09.41.43
+	by smtp.gmail.com with ESMTPSA id p13sm5025189wmd.1.2016.09.14.09.41.44
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 14 Sep 2016 09:41:43 -0700 (PDT)
+	Wed, 14 Sep 2016 09:41:44 -0700 (PDT)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 14 Sep 2016 17:41:36 +0100
-Message-Id: <1473871297-28966-2-git-send-email-ross.burton@intel.com>
+Date: Wed, 14 Sep 2016 17:41:37 +0100
+Message-Id: <1473871297-28966-3-git-send-email-ross.burton@intel.com>
 X-Mailer: git-send-email 2.8.1
 In-Reply-To: <1473871297-28966-1-git-send-email-ross.burton@intel.com>
 References: <1473871297-28966-1-git-send-email-ross.burton@intel.com>
-Subject: [PATCH 2/3] cmake: use convenience options for clarity
+Subject: [PATCH 3/3] cmake-native: rationalise system/internal library dependencies
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,36 +55,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Sep 2016 16:41:45 -0000
+X-List-Received-Date: Wed, 14 Sep 2016 16:41:47 -0000
 
-The intention here was "everything but jsoncpp is system provided" so use the
-convenience option to ensure this remains true in the future.
+By default cmake will auto-detect if a library is present on the host and if it
+isn't present will use an internal fork.  For some libraries using the internal
+fork is preferable as it can be built with less dependencies, but for others
+we're either already building it or the impact of building it is comparable to
+internal build.
+
+Continue to use the internal fork of libarchive as our libarchive-native has a
+large number of build dependencies.  Using the internal libarchive means that
+system bzip2 and zlib must be used.
+
+Explicitly use the internal fork of jsoncpp as we don't have this in oe-core.
+
+Explicitly depend on curl-native, expat-native, and xz-native to ensure these
+dependencies are not floating.  curl-native is a non-trivial dependency but is
+comparable to building the internal fork, so there's no reason to build it
+twice.
+
+Change bzip2-native to bzip2-replacement-native as bzip2-native is
+ASSUME_PROVIDED.
+
+[ YOCTO #9639 ]
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/recipes-devtools/cmake/cmake_3.6.1.bb | 9 ++-------
- 1 file changed, 2 insertions(+), 7 deletions(-)
+ meta/recipes-devtools/cmake/cmake-native_3.6.1.bb | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-devtools/cmake/cmake_3.6.1.bb b/meta/recipes-devtools/cmake/cmake_3.6.1.bb
-index 2f188f0..67ba9c4 100644
---- a/meta/recipes-devtools/cmake/cmake_3.6.1.bb
-+++ b/meta/recipes-devtools/cmake/cmake_3.6.1.bb
-@@ -25,13 +25,8 @@ python () {
+diff --git a/meta/recipes-devtools/cmake/cmake-native_3.6.1.bb b/meta/recipes-devtools/cmake/cmake-native_3.6.1.bb
+index f3a485f..a301ae6 100644
+--- a/meta/recipes-devtools/cmake/cmake-native_3.6.1.bb
++++ b/meta/recipes-devtools/cmake/cmake-native_3.6.1.bb
+@@ -1,8 +1,7 @@
+ require cmake.inc
+ inherit native
  
- EXTRA_OECMAKE=" \
-     -DCMAKE_DOC_DIR=${docdir_stripped}/cmake-${CMAKE_MAJOR_VERSION} \
--    -DCMAKE_USE_SYSTEM_LIBRARY_BZIP2=1 \
--    -DCMAKE_USE_SYSTEM_LIBRARY_CURL=1 \
--    -DCMAKE_USE_SYSTEM_LIBRARY_EXPAT=1 \
--    -DCMAKE_USE_SYSTEM_LIBRARY_FORM=1 \
--    -DCMAKE_USE_SYSTEM_LIBRARY_LIBARCHIVE=1 \
--    -DCMAKE_USE_SYSTEM_LIBRARY_LIBLZMA=1 \
--    -DCMAKE_USE_SYSTEM_LIBRARY_ZLIB=1 \
+-# Using cmake's internal libarchive, so some dependencies are needed
+-DEPENDS += "bzip2-native zlib-native"
++DEPENDS += "bzip2-replacement-native expat-native xz-native zlib-native curl-native"
+ 
+ SRC_URI += "\
+     file://cmlibarchive-disable-ext2fs.patch \
+@@ -14,6 +13,9 @@ do_configure[cleandirs] = "${B}"
+ # Disable ccmake since we don't depend on ncurses
+ CMAKE_EXTRACONF = "\
+     -DBUILD_CursesDialog=0 \
 +    -DCMAKE_USE_SYSTEM_LIBRARIES=1 \
 +    -DCMAKE_USE_SYSTEM_LIBRARY_JSONCPP=0 \
-     -DKWSYS_CHAR_IS_SIGNED=1 \
-     -DBUILD_CursesDialog=0 \
-     ${@bb.utils.contains('DISTRO_FEATURES', 'largefile', '-DKWSYS_LFS_WORKS=1', '-DKWSYS_LFS_DISABLE=1', d)} \
++    -DCMAKE_USE_SYSTEM_LIBRARY_LIBARCHIVE=0 \
+     -DENABLE_ACL=0 -DHAVE_ACL_LIBACL_H=0 \
+     -DHAVE_SYS_ACL_H=0 \
+ "
 -- 
 2.8.1
 
