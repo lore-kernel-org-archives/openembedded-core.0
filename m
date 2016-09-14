@@ -1,25 +1,19 @@
-Return-Path: <juro.bystricky@intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id B3C9273D46
+Return-Path: <patrick@stwcx.xyz>
+Received: from sender163-mail.zoho.com (sender163-mail.zoho.com
+	[74.201.84.163])
+	by mail.openembedded.org (Postfix) with ESMTP id F0502731F7
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Sep 2016 17:06:04 +0000 (UTC)
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-	by orsmga102.jf.intel.com with ESMTP; 14 Sep 2016 10:06:03 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.30,334,1470726000"; 
-   d="scan'208";a="8544631"
-Received: from juro-precision-t5610.jf.intel.com ([10.7.198.149])
-	by orsmga005.jf.intel.com with ESMTP; 14 Sep 2016 10:06:03 -0700
-From: Juro Bystricky <juro.bystricky@intel.com>
+	Wed, 14 Sep 2016 17:12:58 +0000 (UTC)
+Received: from localhost (32.97.110.52 [32.97.110.52]) by mx.zohomail.com
+	with SMTPS id 147387317675268.31181850446842;
+	Wed, 14 Sep 2016 10:12:56 -0700 (PDT)
+From: Patrick Williams <patrick@stwcx.xyz>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 14 Sep 2016 10:05:45 -0700
-Message-Id: <1473872746-38158-1-git-send-email-juro.bystricky@intel.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <CAJTo0LaR5V+yFUr33G+h1=Ja=PpGTC0OtbSQOn9M06tz38vbCg@mail.gmail.com>
-References: <CAJTo0LaR5V+yFUr33G+h1=Ja=PpGTC0OtbSQOn9M06tz38vbCg@mail.gmail.com>
-Cc: 00, From, 17, Sep, 7119256339f3bff9f412c55024b2b016e0a88ca5, 2001, Mon,
-	jurobystricky@hotmail.com
-Subject: From: Juro Bystricky <juro.bystricky@intel.com>
+Date: Wed, 14 Sep 2016 12:12:52 -0500
+Message-Id: <20160914171252.17773-1-patrick@stwcx.xyz>
+X-Mailer: git-send-email 2.9.0
+Cc: Patrick Williams <patrick@stwcx.xyz>
+Subject: [PATCH] util-linux: split {mkfs, fsck}.minix into packages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,46 +26,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Sep 2016 17:06:05 -0000
+X-List-Received-Date: Wed, 14 Sep 2016 17:13:00 -0000
 
-(Resending updated patches... hopefully got it right this time)
+mkfs.minix and fsck.minix are likely rarely used, so split
+them into their own packages to reduce the footprint of
+util-linux.  This follows the pattern of cramfs support
+within util-linux.
 
-There is an occasional race observed when building Busybox.
-It has been discussed on Busybox mailing list (see:
-https://www.mail-archive.com/busybox@busybox.net/msg23244.html )
+Signed-off-by: Patrick Williams <patrick@stwcx.xyz>
+---
+ meta/recipes-core/util-linux/util-linux.inc | 12 +++++++++---
+ 1 file changed, 9 insertions(+), 3 deletions(-)
 
-There were several Busybox attempts to fix this issue:
-0dddbc1a59795a77679d8c5ef48a2795cb470563 ("build system: always rewrite NUM_APPLETS.h")
-d8e61bbf13d0cf38d477255cfd5dc71c5d51d575 ("build system: different fix for include/applet_tables.h/include/NUM_APPLETS.h")
-
-Although the patches alleviated the problem somewhat, the race can still be observed.
-The error is consistently the same:
-
-libbb/appletlib.c:164:13: error: 'NUM_APPLETS' undeclared (first use in this function)
-  while (i < NUM_APPLETS) {
-
-The reason is the include file where NUM_APPLETS is defined is not yet generated (or is being modified)
-at the time libbb/appletlib.c is compiled.
-The attached patch fixes the problem by assuring libb is compiled as the last directory.
-
-
-*** BLURB HERE ***
-
-Juro Bystricky (1):
-  busybox: Avoid race building libbb
-
- .../busybox-kbuild-race-fix-commit-d8e61bb.patch   | 53 ++++++++++++++++++
- .../commit-applet_tables-fix-commit-0dddbc1.patch  | 61 ++++++++++++++++++++
- .../busybox/busybox/makefile-libbb-race.patch      | 34 +++++++++++
- .../busybox/busybox/parallel-make-fix.patch        | 65 ----------------------
- meta/recipes-core/busybox/busybox_1.24.1.bb        |  4 +-
- 5 files changed, 151 insertions(+), 66 deletions(-)
- create mode 100644 meta/recipes-core/busybox/busybox/busybox-kbuild-race-fix-commit-d8e61bb.patch
- create mode 100644 meta/recipes-core/busybox/busybox/commit-applet_tables-fix-commit-0dddbc1.patch
- create mode 100644 meta/recipes-core/busybox/busybox/makefile-libbb-race.patch
- delete mode 100644 meta/recipes-core/busybox/busybox/parallel-make-fix.patch
-
+diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
+index bf770d8..4df8d5a 100644
+--- a/meta/recipes-core/util-linux/util-linux.inc
++++ b/meta/recipes-core/util-linux/util-linux.inc
+@@ -31,7 +31,9 @@ PACKAGES =+ "util-linux-agetty util-linux-fdisk util-linux-cfdisk util-linux-sfd
+              util-linux-mount util-linux-readprofile util-linux-uuidd \
+              util-linux-uuidgen util-linux-lscpu util-linux-fsck util-linux-blkid \
+              util-linux-mkfs util-linux-mcookie util-linux-reset \
+-             util-linux-mkfs.cramfs util-linux-fsck.cramfs util-linux-fstrim \
++             util-linux-mkfs.cramfs util-linux-fsck.cramfs \
++             util-linux-mkfs.minix util-linux-fsck.minix \
++             util-linux-fstrim \
+              util-linux-partx util-linux-hwclock util-linux-mountpoint \
+              util-linux-findfs util-linux-getopt util-linux-sulogin util-linux-prlimit"
+ PACKAGES += "${@bb.utils.contains('PACKAGECONFIG', 'pylibmount', 'util-linux-pylibmount', '', d)}"
+@@ -96,9 +98,12 @@ FILES_util-linux-pylibmount = "${PYTHON_SITEPACKAGES_DIR}/libmount/pylibmount.so
+                                ${PYTHON_SITEPACKAGES_DIR}/libmount/__pycache__/*"
+ FILES_util-linux-lscpu = "${bindir}/lscpu"
+ 
+-FILES_util-linux-fsck = "${base_sbindir}/fsck*"
++FILES_util-linux-fsck = "${base_sbindir}/fsck ${base_sbindir}/fsck.${BPN}"
+ FILES_util-linux-mkfs = "${sbindir}/mkfs"
+ 
++FILES_util-linux-fsck.minix = "${base_sbindir}/fsck.minix ${base_sbindir}/fsck.minix.${BPN}"
++FILES_util-linux-mkfs.minix = "${base_sbindir}/mkfs.minix ${base_sbindir}/mkfs.minix.${BPN}"
++
+ FILES_util-linux-fsck.cramfs = "${sbindir}/fsck.cramfs"
+ FILES_util-linux-mkfs.cramfs = "${sbindir}/mkfs.cramfs"
+ 
+@@ -248,7 +253,8 @@ ALTERNATIVE_util-linux-swaponoff = "swapoff swapon"
+ ALTERNATIVE_LINK_NAME[swapoff] = "${base_sbindir}/swapoff"
+ ALTERNATIVE_LINK_NAME[swapon] = "${base_sbindir}/swapon"
+ 
+-ALTERNATIVE_util-linux-fsck = "fsck.minix fsck"
++ALTERNATIVE_util-linux-fsck.minix = "fsck.minix"
++ALTERNATIVE_util-linux-fsck = "fsck"
+ ALTERNATIVE_LINK_NAME[fsck.minix] = "${base_sbindir}/fsck.minix"
+ ALTERNATIVE_LINK_NAME[fsck] = "${base_sbindir}/fsck"
+ 
 -- 
-2.7.4
+2.9.0
+
 
 
