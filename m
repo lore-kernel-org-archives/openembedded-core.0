@@ -1,31 +1,20 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 19D0A771FF
+Return-Path: <markus.lehtonen@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 87B3477028
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Sep 2016 06:56:10 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u8E6u9N0016483
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 13 Sep 2016 23:56:09 -0700 (PDT)
-Received: from [128.224.162.240] (128.224.162.240) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.294.0;
-	Tue, 13 Sep 2016 23:56:09 -0700
-To: Bruce Ashfield <bruce.ashfield@windriver.com>,
-	<richard.purdie@linuxfoundation.org>
-References: <cover.1473704020.git.bruce.ashfield@windriver.com>
-	<924accb9f4101282ad0fb3417fdb48e1439679d8.1473704020.git.bruce.ashfield@windriver.com>
-	<272ec6fd-6989-bb61-a8f2-0faef9eb6fbb@windriver.com>
-	<57D8EEF2.4040200@windriver.com>
-From: Robert Yang <liezhi.yang@windriver.com>
-Message-ID: <cbb733d5-4e0e-cf6a-0533-7eaa692610b9@windriver.com>
-Date: Wed, 14 Sep 2016 14:56:07 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.2.0
-MIME-Version: 1.0
-In-Reply-To: <57D8EEF2.4040200@windriver.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/3] linux-yocto/4.1: update to 4.1.32
+	Wed, 14 Sep 2016 08:46:07 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by orsmga101.jf.intel.com with ESMTP; 14 Sep 2016 01:46:08 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.30,333,1470726000"; d="scan'208";a="760546922"
+Received: from marquiz.fi.intel.com ([10.237.72.155])
+	by FMSMGA003.fm.intel.com with ESMTP; 14 Sep 2016 01:46:07 -0700
+From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 14 Sep 2016 11:46:05 +0300
+Message-Id: <1473842766-27585-1-git-send-email-markus.lehtonen@linux.intel.com>
+X-Mailer: git-send-email 2.6.6
+Subject: [PATCH v2] python-smartpm: use md5 as the digest for rpm_sys channel
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,144 +27,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Sep 2016 06:56:11 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 14 Sep 2016 08:46:07 -0000
 
+When reading smartpm sources more closely I found out that it has an internal
+utility function for doing file hashes. It does hashing in a more memory
+efficient way, processing the file in chunks. Thus, it is better to use it
+instead of blindly reading the whole file into memory as v1 of this patch did.
 
+Markus Lehtonen (1):
+  python-smartpm: use md5 as the digest for rpm_sys channel
 
-On 09/14/2016 02:32 PM, Bruce Ashfield wrote:
-> On 09/13/2016 10:21 PM, Robert Yang wrote:
->>
->> Hi Bruce,
->>
->> All the kernel 4.1 and 4.4 buildings are down on autobuilder:
->> https://autobuilder.yoctoproject.org/main/builders/nightly-x86-lsb/builds/928/stehttps://autobuilder.yoctoproject.org/main/builders/poky-tiny/builds/947/steps/BuildImages/logs/stdiops/BuildImages/logs/stdio
->>
->>
->> https://autobuilder.yoctoproject.org/main/builders/nightly-x86-lsb/builds/928/steps/BuildImages/logs/stdio
->>
->
-> My push to the kernel-cache bounced (due to competing changes I was
-> working on).
->
-> It should be fixed up now, but I'm on a slow network and can't easily
-> test at the moment.
+ ...m_sys-use-md5sum-instead-of-mtime-as-the-.patch | 38 ++++++++++++++++++++++
+ meta/recipes-devtools/python/python-smartpm_git.bb |  1 +
+ 2 files changed, 39 insertions(+)
+ create mode 100644 meta/recipes-devtools/python/python-smartpm/channels-rpm_sys-use-md5sum-instead-of-mtime-as-the-.patch
 
-I tested poky-lsb + qemux86-64, it works for me.
+-- 
+2.6.6
 
-// Robert
-
->
-> Bruce
->
->>
->>
->> // Robert
->>
->> On 09/13/2016 02:16 AM, Bruce Ashfield wrote:
->>> Integrating the korg stable update
->>>
->>> Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
->>> ---
->>>  meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb   |  6 +++---
->>>  meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb |  6 +++---
->>>  meta/recipes-kernel/linux/linux-yocto_4.1.bb      | 20
->>> ++++++++++----------
->>>  3 files changed, 16 insertions(+), 16 deletions(-)
->>>
->>> diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb
->>> b/meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb
->>> index f0d6a81a9c54..4308a07a9765 100644
->>> --- a/meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb
->>> +++ b/meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb
->>> @@ -11,13 +11,13 @@ python () {
->>>          raise bb.parse.SkipPackage("Set
->>> PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
->>>  }
->>>
->>> -SRCREV_machine ?= "b88e2b5805213daeb0136fdd8c840dc0254a3d21"
->>> -SRCREV_meta ?= "9d0f0db8442a5ccb3f2ce81e2e43d96b6515a45a"
->>> +SRCREV_machine ?= "ee83bffe0f76032fe0a0b7fde436f0f596101df2"
->>> +SRCREV_meta ?= "b30b6b9ef215433b28e8966c73ebb6b98a7f4d1f"
->>>
->>>  SRC_URI =
->>> "git://git.yoctoproject.org/linux-yocto-4.1.git;branch=${KBRANCH};name=machine
->>> \
->>>
->>> git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.1;destsuffix=${KMETA}"
->>>
->>>
->>>
->>> -LINUX_VERSION ?= "4.1.30"
->>> +LINUX_VERSION ?= "4.1.32"
->>>
->>>  PV = "${LINUX_VERSION}+git${SRCPV}"
->>>
->>> diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb
->>> b/meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb
->>> index 092a224451e1..2294a3db87da 100644
->>> --- a/meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb
->>> +++ b/meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb
->>> @@ -4,13 +4,13 @@ KCONFIG_MODE = "--allnoconfig"
->>>
->>>  require recipes-kernel/linux/linux-yocto.inc
->>>
->>> -LINUX_VERSION ?= "4.1.30"
->>> +LINUX_VERSION ?= "4.1.32"
->>>
->>>  KMETA = "kernel-meta"
->>>  KCONF_BSP_AUDIT_LEVEL = "2"
->>>
->>> -SRCREV_machine ?= "0847ed67f89b5a8bbaaa0a7b6cfa2a99ef34834f"
->>> -SRCREV_meta ?= "9d0f0db8442a5ccb3f2ce81e2e43d96b6515a45a"
->>> +SRCREV_machine ?= "93b1a6cee7d4a4437a1c0edf3e54ffe78edb4462"
->>> +SRCREV_meta ?= "b30b6b9ef215433b28e8966c73ebb6b98a7f4d1f"
->>>
->>>  PV = "${LINUX_VERSION}+git${SRCPV}"
->>>
->>> diff --git a/meta/recipes-kernel/linux/linux-yocto_4.1.bb
->>> b/meta/recipes-kernel/linux/linux-yocto_4.1.bb
->>> index e23d7da58881..f4006b74d096 100644
->>> --- a/meta/recipes-kernel/linux/linux-yocto_4.1.bb
->>> +++ b/meta/recipes-kernel/linux/linux-yocto_4.1.bb
->>> @@ -11,20 +11,20 @@ KBRANCH_qemux86  ?= "standard/base"
->>>  KBRANCH_qemux86-64 ?= "standard/base"
->>>  KBRANCH_qemumips64 ?= "standard/mti-malta64"
->>>
->>> -SRCREV_machine_qemuarm ?= "9c5e96205316d167379d101d808a6cda93adc335"
->>> -SRCREV_machine_qemuarm64 ?= "0847ed67f89b5a8bbaaa0a7b6cfa2a99ef34834f"
->>> -SRCREV_machine_qemumips ?= "9e531cb59dd7dfa2026637cc456a7bdcbdb50275"
->>> -SRCREV_machine_qemuppc ?= "32968ddd9357f72dfd427f5b3eda62c4a49833c7"
->>> -SRCREV_machine_qemux86 ?= "0847ed67f89b5a8bbaaa0a7b6cfa2a99ef34834f"
->>> -SRCREV_machine_qemux86-64 ?= "0847ed67f89b5a8bbaaa0a7b6cfa2a99ef34834f"
->>> -SRCREV_machine_qemumips64 ?= "106ed721d21c595dfb993a8990c3a29830dfc166"
->>> -SRCREV_machine ?= "0847ed67f89b5a8bbaaa0a7b6cfa2a99ef34834f"
->>> -SRCREV_meta ?= "9d0f0db8442a5ccb3f2ce81e2e43d96b6515a45a"
->>> +SRCREV_machine_qemuarm ?= "4db58705727e27bea8ccf805bd5c7d04d2d029ed"
->>> +SRCREV_machine_qemuarm64 ?= "93b1a6cee7d4a4437a1c0edf3e54ffe78edb4462"
->>> +SRCREV_machine_qemumips ?= "d6237b3b244b894d4b3479ecf37acef041416dfa"
->>> +SRCREV_machine_qemuppc ?= "8520e65497ae10e14c38c76920a3457dc64349bf"
->>> +SRCREV_machine_qemux86 ?= "93b1a6cee7d4a4437a1c0edf3e54ffe78edb4462"
->>> +SRCREV_machine_qemux86-64 ?= "93b1a6cee7d4a4437a1c0edf3e54ffe78edb4462"
->>> +SRCREV_machine_qemumips64 ?= "d0524e144cd15a3c0edf768f68400968a4477cbe"
->>> +SRCREV_machine ?= "93b1a6cee7d4a4437a1c0edf3e54ffe78edb4462"
->>> +SRCREV_meta ?= "b30b6b9ef215433b28e8966c73ebb6b98a7f4d1f"
->>>
->>>  SRC_URI =
->>> "git://git.yoctoproject.org/linux-yocto-4.1.git;name=machine;branch=${KBRANCH};
->>> \
->>>
->>> git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.1;destsuffix=${KMETA}"
->>>
->>>
->>>
->>> -LINUX_VERSION ?= "4.1.30"
->>> +LINUX_VERSION ?= "4.1.32"
->>>
->>>  PV = "${LINUX_VERSION}+git${SRCPV}"
->>>
->>>
->
->
 
