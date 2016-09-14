@@ -1,45 +1,45 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f49.google.com (mail-wm0-f49.google.com [74.125.82.49])
-	by mail.openembedded.org (Postfix) with ESMTP id C8BFC770AB
+Received: from mail-wm0-f53.google.com (mail-wm0-f53.google.com [74.125.82.53])
+	by mail.openembedded.org (Postfix) with ESMTP id 6048D7706E
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Sep 2016 22:14:10 +0000 (UTC)
-Received: by mail-wm0-f49.google.com with SMTP id i130so70856486wmf.0
+	Wed, 14 Sep 2016 23:08:03 +0000 (UTC)
+Received: by mail-wm0-f53.google.com with SMTP id k186so35633728wmd.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Sep 2016 15:14:11 -0700 (PDT)
+	Wed, 14 Sep 2016 16:08:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=from:to:subject:date:message-id;
-	bh=1RxzcOR8ZRcwEWuZl/Ss+BT9P9JOVTDY+aO75+DpkOo=;
-	b=jXMvGeMha/2Imw+Pf6idGbIbWMqZxQlfuxxQIXWG4EjfMb0M92X6iKpNwahmZDlfkj
-	cJL6a4GHUseNjiQG/1YleL2m+TCjcaqbvwO2JnHp5ElDfLCTFMZAlodmGyYsVmlO3vwG
-	NOLqV0jFxvdLBqBkpb9vfijRgLmra7pb1mIlstAytk5Bq9l4wFhBVb4wGd//HTW6n/tG
-	7Kbgz6Rm//GQ22RLl5FG4ShNr9LdAao5Z2Q0pPJIsY2HNTRbPkFx4lswpa28pcUFfNA8
-	f8AChdsKb8tFXtriLHHk3tshhZ2JWqxnZVSud00RKDaq0OlSMjlcPlcEzPQgm72BhsU2
-	x4sA==
+	bh=Lv5gwZkJKI5inC+wK3J8z1A6Cz/j7u6HqCd7zn1SDO4=;
+	b=i27ltPFf/KHR/aQYxSDt4TSiKtvfs/Y5/aF19+xUg0/erK9neQyvIqGAB9Vz66pReL
+	wgb5PA0Q+DScgYci+aH8herSd+72pstyfUcLhgBFgNjTUn9LiJPsk8Au2XH+Iw+RW6sO
+	epdcLIWVFpSMrhrAo9zQdSAFXr6ROfAQFbCelyjazX3GwUrv0HEZnqAzoWWHH5W0i5uo
+	II+02Zw68BnhlST9utKbHnO3PYoNMU9FZMZWDajphhIqJRsij4FHdC7XLiXqif+e5VBx
+	chYTyGOcgeZZ0LaqN81NXf44cVFlTsiAnzJPq7DdXVfAUFCHGUfZMdpHgDg303RyfJxK
+	3tQQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=1RxzcOR8ZRcwEWuZl/Ss+BT9P9JOVTDY+aO75+DpkOo=;
-	b=Zif0/YkirDVnv0BNF4toHtixrEuYD187Q3UAtCrjiqU8lguiKJJfsF18JM4BbyLta4
-	rpH6oi1f+zyjBjHM4jBticc2aOdDueumgqilNmr45TZMxOamFBOCq8usB1APLYf1J+E2
-	X84gy9Wyarb8LRWmuKS3TU9dK6rh3XOkJct7oi3Aaf5nE10VzW697etXo0jhneLTImrQ
-	UDoysyodhhH0wwJWpxkUwwUlyftDqPAUzAF5us5aLqsUMJbvcMSlNdfgWd06rWNjvH87
-	Zm/kfah77h1jT+7h4Dv4Uc5A4JSWvZo3gPJxvoKF/LTMImAkuEuWCZknYOGTUiAX9x5r
-	XMnA==
-X-Gm-Message-State: AE9vXwOfuxl5elAZeKr4hT4xYu6EA7CcYVyzli08fmDTs1+qR9f4EycJ8qNc2JNsam7ptm0H
-X-Received: by 10.28.107.22 with SMTP id g22mr1502052wmc.31.1473891250545;
-	Wed, 14 Sep 2016 15:14:10 -0700 (PDT)
+	bh=Lv5gwZkJKI5inC+wK3J8z1A6Cz/j7u6HqCd7zn1SDO4=;
+	b=gCpbkvTUz4lsIkpIfzOnVyZt5Fbff3ji01IgB7Fo8dz3WE6r2yPMmx/qK8WjOkFDKz
+	DpLgdsDVFDZ4ZpAX1il2exWRmree2Pg82t/znbh9WglcTTDj7RUL0gOUOBtKio6ck2lQ
+	pNT4btj/cZXSayrc4Ox7YCCxjZJ64YcJHCcU093jkEsmrZbsbnsclkZklfZn1VtihrV+
+	aFarce8CqUXDrBS99roNB+m5Cs/4ANUxhXGFN23FVIVFaHPqk5DvnMyOXXwInF7Z8X/X
+	T//Xd3zcZj7+HF0S/x2Dygc8FVUauf1OeAUnBQW/H4kaeB0ubk2gEOwCroc1kIn03Hzy
+	9EAA==
+X-Gm-Message-State: AE9vXwNvWUMBW1Nl0BaHjr7v5+EZGRt2vlZIWaDd+cK02un23wI2IgXMzOJELucu42uDb0u/
+X-Received: by 10.28.54.196 with SMTP id y65mr5140311wmh.73.1473894484027;
+	Wed, 14 Sep 2016 16:08:04 -0700 (PDT)
 Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id jd4sm368785wjb.6.2016.09.14.15.14.09
+	by smtp.gmail.com with ESMTPSA id ya1sm499120wjb.23.2016.09.14.16.08.03
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 14 Sep 2016 15:14:09 -0700 (PDT)
+	Wed, 14 Sep 2016 16:08:03 -0700 (PDT)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 14 Sep 2016 23:14:07 +0100
-Message-Id: <1473891247-18988-1-git-send-email-ross.burton@intel.com>
+Date: Thu, 15 Sep 2016 00:08:01 +0100
+Message-Id: <1473894481-24491-1-git-send-email-ross.burton@intel.com>
 X-Mailer: git-send-email 2.8.1
-Subject: [PATCH] oeqa/oetest: show stderr when running commands
+Subject: [PATCH] sanity: make license QA failures fatal again
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,44 +52,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Sep 2016 22:14:11 -0000
+X-List-Received-Date: Wed, 14 Sep 2016 23:08:04 -0000
 
-To help debug failures, redirect stderr to stdout in oeSDKTest.run() and
-oeSDKExtTest.run().
+Previous work to clean up the license QA code (oe-core fbdf977) had the side
+effect that failing the license sanity check (bad or missing LIC_FILES_CHKSUM)
+would emit an error message but wouldn't actually abort the build.
+
+Solve this by changing populate_lic_qa_checksum() so that it tracks if the
+message class was in ERROR_QA and if so, aborts the function.
+
+[ YOCTO #10280 ]
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/lib/oeqa/oetest.py | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ meta/classes/insane.bbclass | 14 ++++++++------
+ 1 file changed, 8 insertions(+), 6 deletions(-)
 
-diff --git a/meta/lib/oeqa/oetest.py b/meta/lib/oeqa/oetest.py
-index eb19cb6..2f565a0 100644
---- a/meta/lib/oeqa/oetest.py
-+++ b/meta/lib/oeqa/oetest.py
-@@ -154,13 +154,12 @@ class oeSDKTest(oeTest):
+diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
+index 6772944..2f3f768 100644
+--- a/meta/classes/insane.bbclass
++++ b/meta/classes/insane.bbclass
+@@ -690,7 +690,7 @@ def package_qa_check_symlink_to_sysroot(path, name, d, elf, messages):
+ do_populate_lic[postfuncs] += "populate_lic_qa_checksum"
+ python populate_lic_qa_checksum() {
+     """
+-    Check for changes in the license files 
++    Check for changes in the license files.
+     """
+     import tempfile
+     sane = True
+@@ -703,8 +703,7 @@ python populate_lic_qa_checksum() {
+         return
  
-     @classmethod
-     def hasHostPackage(self, pkg):
--
-         if re.search(pkg, oeTest.tc.hostpkgmanifest):
-             return True
-         return False
+     if not lic_files and d.getVar('SRC_URI', True):
+-        package_qa_handle_error("license-checksum", pn + ": Recipe file fetches files and does not have license file information (LIC_FILES_CHKSUM)", d)
+-        return
++        sane = package_qa_handle_error("license-checksum", pn + ": Recipe file fetches files and does not have license file information (LIC_FILES_CHKSUM)", d)
  
-     def _run(self, cmd):
--        return subprocess.check_output(". %s > /dev/null; %s;" % (self.tc.sdkenv, cmd), shell=True).decode("utf-8")
-+        return subprocess.check_output(". %s > /dev/null; %s;" % (self.tc.sdkenv, cmd), shell=True, stderr=subprocess.STDOUT).decode("utf-8")
+     srcdir = d.getVar('S', True)
  
- class oeSDKExtTest(oeSDKTest):
-     def _run(self, cmd):
-@@ -172,7 +171,7 @@ class oeSDKExtTest(oeSDKTest):
-         env['PATH'] = avoid_paths_in_environ(paths_to_avoid)
+@@ -712,7 +711,7 @@ python populate_lic_qa_checksum() {
+         try:
+             (type, host, path, user, pswd, parm) = bb.fetch.decodeurl(url)
+         except bb.fetch.MalformedUrl:
+-            package_qa_handle_error("license-checksum", pn + ": LIC_FILES_CHKSUM contains an invalid URL: " + url, d)
++            sane = package_qa_handle_error("license-checksum", pn + ": LIC_FILES_CHKSUM contains an invalid URL: " + url, d)
+             continue
+         srclicfile = os.path.join(srcdir, path)
+         if not os.path.isfile(srclicfile):
+@@ -736,7 +735,7 @@ python populate_lic_qa_checksum() {
+             linesout = 0
+             for line in fi:
+                 lineno += 1
+-                if (lineno >= beginline): 
++                if (lineno >= beginline):
+                     if ((lineno <= endline) or not endline):
+                         fo.write(line)
+                         linesout += 1
+@@ -768,7 +767,10 @@ python populate_lic_qa_checksum() {
+             else:
+                 msg = pn + ": LIC_FILES_CHKSUM is not specified for " +  url
+                 msg = msg + "\n" + pn + ": The md5 checksum is " + md5chksum
+-            package_qa_handle_error("license-checksum", msg, d)
++            sane = package_qa_handle_error("license-checksum", msg, d)
++
++    if not sane:
++        bb.fatal("Fatal QA errors found, failing task.")
+ }
  
-         return subprocess.check_output(". %s > /dev/null;"\
--            " %s;" % (self.tc.sdkenv, cmd), shell=True, env=env).decode("utf-8")
-+            " %s;" % (self.tc.sdkenv, cmd), stderr=subprocess.STDOUT, shell=True, env=env).decode("utf-8")
- 
- def getmodule(pos=2):
-     # stack returns a list of tuples containg frame information
+ def package_qa_check_staged(path,d):
 -- 
 2.8.1
 
