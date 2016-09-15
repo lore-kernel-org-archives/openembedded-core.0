@@ -1,46 +1,50 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f169.google.com (mail-qk0-f169.google.com
-	[209.85.220.169])
-	by mail.openembedded.org (Postfix) with ESMTP id 04E5874197
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Sep 2016 14:14:38 +0000 (UTC)
-Received: by mail-qk0-f169.google.com with SMTP id z190so52659869qkc.3
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Sep 2016 07:14:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=iZBtI0eMi4bHMwC3cK+lFwlcI7dBLMBbUapX+YWS7bk=;
-	b=WzZ/PbCFz0h8r0TQOQzD6FEVC7UCiPtHTfQwsqBSg7sf9Y+6Qzj/rig/3XOXeHOiJy
-	GSIkSSpgMB4RRH3chIzgwSWzNk4JUD6SxpiqE3TBktVA4r0XCaPKieiqe4UkyOX+Y4NO
-	jrI/3TBujdLzFc/7GfNwxAivMh/QvzGy88mWlOqtpyuhg0pjEgPzo/TlcTsv/p5Dt/2p
-	PiKgg8mSNc5fceaEj55oAHaNz1PEKmYy/jyCOPAcwS0pDwru/zDaDvCsEOnGwjHyMWOc
-	sP0FpdCOr+szQbBTMFijU8iIQuGfvicFWP3Z5jDRWqVXzfliCjixkK7QjbFgAjHGQ48D
-	DUlA==
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-qt0-f178.google.com (mail-qt0-f178.google.com
+	[209.85.216.178])
+	by mail.openembedded.org (Postfix) with ESMTP id 1ACE87718D;
+	Thu, 15 Sep 2016 14:17:41 +0000 (UTC)
+Received: by mail-qt0-f178.google.com with SMTP id 38so25788187qte.1;
+	Thu, 15 Sep 2016 07:17:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:date:to:subject:message-id:references:mime-version
+	:content-disposition:in-reply-to:user-agent;
+	bh=lkxCOT1bYnD8yKP7LIBWsPUYnHs9C8rr/yVHtzMB/BU=;
+	b=psJYsZ2SgmbOOUT3wMlAtQjok44qIYqFr+JZEtRsXNAj5MJqgw5nPaXX1dWmjHE+Iz
+	5QzvykyNEz+jvvzvRhmt5t2x98IPL81fmSOGdbmhY3NveM74Sr1hdQ7vbH+bO4Ljn7MU
+	3RtgiabC2ZyqkZ9Zl32p0jYf+Bevftw7hniYzTGJx2OGSfCTu5Ar6XK+WiG5T2kcC85T
+	YnQQvydwJmvEfLQybAwA6/Uv33gzmeRbQhV4t+BEXPH1TVa/KjcjJOop40UiUvp5O3Vj
+	i6uQuMIrg/WLUaJ/1sxhedaki/WFStz0z+dWCRvKrFzW/zQemXHntAfah1WBa4cIRz9R
+	9moQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=iZBtI0eMi4bHMwC3cK+lFwlcI7dBLMBbUapX+YWS7bk=;
-	b=E3RnGCde8ylrgc/UJ7hm+QYNk/fyhvMnxavwm1zOHPJ4H8rC5eZaY7hMv1t+rGGIbb
-	2zNC8vwtYRaKVHLS/WHFxaz/d0eAjYsuFtV4NoWwSyAaPTlOr+SwDQ1rVW2gM87nSPCN
-	5eqIK0R/C9QXTSbVgNiRfZ2bl9fD8w56GQ7t0iYyikbEB26VAT1YOnS8aIVno7LrHo+/
-	VK88zw1i84cr6t5D9CqWu7FZgLScuCSInAXjTvAtx+vR8wbCvQbwBO+nT+EKyFReJXjA
-	QawAzgoojEPsFL0pGeyuJJXP6hdz9IuSjHuw/nAJYwY58LJfdhDUuOFNDCPZTucTbrVy
-	/Qow==
-X-Gm-Message-State: AE9vXwO8QA6p6eUWX8bKuNTXy1m6eNCwqxccDYlefJPRXFMDEw61VVAEPAM33sCPlgfR1tQO
-X-Received: by 10.194.98.205 with SMTP id ek13mr5041567wjb.158.1473948878761; 
-	Thu, 15 Sep 2016 07:14:38 -0700 (PDT)
-Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id gr7sm3730409wjc.1.2016.09.15.07.14.37
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 15 Sep 2016 07:14:38 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 15 Sep 2016 15:14:36 +0100
-Message-Id: <1473948876-18073-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 2.8.1
-Subject: [PATCH] pulseaudio: add ${S}/LICENSE to LIC_FILES_CHKSUM
+	h=x-gm-message-state:from:date:to:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to:user-agent;
+	bh=lkxCOT1bYnD8yKP7LIBWsPUYnHs9C8rr/yVHtzMB/BU=;
+	b=hvCA6O1jnVzpmdY1XIKr8JG9m3tGbvhQlS+CTtZroIy4IaBnJ9mJvNklnX/98/0KH5
+	hwfrqe8ouX+yDfVYZCvmZlEOfq/XQFgwsgyY3plZmGaA+DpI62G6bH6j9QWUEzdPmqij
+	0rg662lbnPNx0XNR3NwT6mM75ZpFbz3OgHJdJMNC4cLTwKiXrusaFB5rgI3JkvPVsgyx
+	i4ujmAjDzwcLnOlMX3gy5x3tLKPIU0Jx4Ui3kmQWxwORSwbE7uAF5fp7NCJSDZq6NR3e
+	8OJT10FybBq3nw044WX9Wlk8Nu/ohiEMQR/7bqoMlloXLKug1rWi+My051v/nhqqyabQ
+	aCtQ==
+X-Gm-Message-State: AE9vXwP8HCeJtl1uTzmUtUqLe3eW1cOicneDYjbt8kcNlsunkwO/C6qPca2UuBF/ZIcitA==
+X-Received: by 10.28.209.76 with SMTP id i73mr3120897wmg.104.1473949061479;
+	Thu, 15 Sep 2016 07:17:41 -0700 (PDT)
+Received: from localhost (ip-89-176-104-169.net.upcbroadband.cz.
+	[89.176.104.169]) by smtp.gmail.com with ESMTPSA id
+	bj8sm3651728wjc.49.2016.09.15.07.17.40
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Thu, 15 Sep 2016 07:17:40 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Thu, 15 Sep 2016 16:17:40 +0200
+To: openembedded-core@lists.openembedded.org,
+	openembedded-devel@lists.openembedded.org
+Message-ID: <20160915141740.GD2641@jama>
+References: <20160915084338.GC2641@jama>
+MIME-Version: 1.0
+In-Reply-To: <20160915084338.GC2641@jama>
+User-Agent: Mutt/1.7.0 (2016-08-17)
+Subject: Re: State of bitbake world 2016-09-13
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,31 +57,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 Sep 2016 14:14:39 -0000
+X-List-Received-Date: Thu, 15 Sep 2016 14:17:42 -0000
+X-Groupsio-MsgNum: 87155
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="C+ts3FVlLX8+P6JN"
+Content-Disposition: inline
 
-The LICENSE file describes how the various pieces are licensed, so add it to the
-checksum so we notice when it changes.
+--C+ts3FVlLX8+P6JN
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-multimedia/pulseaudio/pulseaudio.inc | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+On Thu, Sep 15, 2016 at 10:43:38AM +0200, Martin Jansa wrote:
+> =3D=3D Number of issues - stats =3D=3D
+> {| class=3D'wikitable'
+> !|Date		     !!colspan=3D'3'|Failed tasks			    !!colspan=3D'6'|Failed de=
+pencencies			 !!|Signatures		  !!colspan=3D'12'|QA !!Comment
+> |-
+> ||		||qemuarm	||qemux86	||qemux86_64	||qemuarm||max||min	||qemux86||max||=
+min	||all 	||already-stripped	||libdir	||textrel	||build-deps	||file-rdeps	=
+||version-going-backwards	||host-user-contaminated	||installed-vs-shipped	|=
+|unknown-configure-option	||symlink-to-sysroot	||invalid-pkgconfig	||pkgnam=
+e	||=09
+> |-
+> ||2016-09-13	||3	||4	||4	||16	||4	||3	||16	||4	||4	||0	||0		||0		||1		||1=
+0		||4		||0		||0		||0		||0		||0		||0		||0		||=09
+> |}
 
-diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
-index 6ed79ef..7e54ad4 100644
---- a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
-+++ b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
-@@ -3,7 +3,8 @@ HOMEPAGE = "http://www.pulseaudio.org"
- AUTHOR = "Lennart Poettering"
- SECTION = "libs/multimedia"
- LICENSE = "GPLv2+ & LGPLv2.1"
--LIC_FILES_CHKSUM = "file://GPL;md5=4325afd396febcb659c36b49533135d4 \
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=d9ae089c8dc5339f8ac9d8563038a29f \
-+                    file://GPL;md5=4325afd396febcb659c36b49533135d4 \
-                     file://LGPL;md5=2d5025d4aa3495befef8f17206a5b0a1 \
-                     file://src/pulsecore/resampler.h;beginline=4;endline=21;md5=09794012ae16912c0270f3280cc8ff84"
- 
--- 
-2.8.1
+> =3D=3D=3D Failed dependencies for qemuarm (16) =3D=3D=3D
+>=20
+> Complete log: http://logs.nslu2-linux.org/buildlogs/oe/world/log.dependen=
+cies.qemuarm.20160913_042944.log/
+> Found differences:=20
+>     * WARN: jasper: jasper-bin rdepends on freeglut, but it isn't a build=
+ dependency?
+>     * WARN: jasper: jasper-bin rdepends on libgl-mesa, but it isn't a bui=
+ld dependency?
+>     * WARN: jasper: jasper-bin rdepends on libglu, but it isn't a build d=
+ependency?
+>     * WARN: enchant: enchant rdepends on hunspell, but it isn't a build d=
+ependency?
+> Found errors:=20
+>     * ERROR: 16 issues were found in these recipes: enchant jasper libdrm=
+ libunwind qtwebkit samba xfsprogs
 
+=2E..
+> gammu-1.32.0: libgsmsd rdepends on unixodbc, but it isn't a build depende=
+ncy, missing unixodbc in DEPENDS or PACKAGECONFIG? [build-deps]
+> libgit2-0.24.1: libgit2 rdepends on libssh2, but it isn't a build depende=
+ncy, missing libssh2 in DEPENDS or PACKAGECONFIG? [build-deps]
+> mpv-0.15.0: mpv rdepends on libjack, but it isn't a build dependency, mis=
+sing jack in DEPENDS or PACKAGECONFIG? [build-deps]
 
+I'm testing  patches for these (and chrony reported 2016-09-01 in
+complete QA log).
+
+--C+ts3FVlLX8+P6JN
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iEYEARECAAYFAlfarYMACgkQN1Ujt2V2gBx31gCffk1xmaYAcNx+og44qBJYlJgZ
+Y0wAni9UGAmddaK6mzwPYlVVwd4rVSU3
+=mtGo
+-----END PGP SIGNATURE-----
+
+--C+ts3FVlLX8+P6JN--
