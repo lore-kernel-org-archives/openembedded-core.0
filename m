@@ -1,28 +1,30 @@
-Return-Path: <Randy.MacLeod@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 96AAA731B9
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 8952E700F3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Sep 2016 20:32:25 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u8FKWODH011100
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 15 Sep 2016 13:32:25 -0700 (PDT)
-Received: from [172.25.44.6] (172.25.44.6) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.294.0;
-	Thu, 15 Sep 2016 13:32:24 -0700
-To: Patrick Williams <patrick@stwcx.xyz>,
-	<openembedded-core@lists.openembedded.org>
-References: <1473966359-13292-1-git-send-email-patrick@stwcx.xyz>
-From: Randy MacLeod <randy.macleod@windriver.com>
-Message-ID: <b88d60f8-7916-b1a0-f381-b62c9111c7be@windriver.com>
-Date: Thu, 15 Sep 2016 16:32:23 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.2.0
+	Thu, 15 Sep 2016 20:41:23 +0000 (UTC)
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+	by fmsmga101.fm.intel.com with ESMTP; 15 Sep 2016 13:41:26 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.30,340,1470726000"; 
+   d="scan'208";a="9322645"
+Received: from ananthna-mobl.gar.corp.intel.com (HELO
+	peggleto-mobl.ger.corp.intel.com) ([10.255.179.76])
+	by orsmga005.jf.intel.com with ESMTP; 15 Sep 2016 13:41:22 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Gary Thomas <gary@mlbassoc.com>, "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 16 Sep 2016 08:41:19 +1200
+Message-ID: <6144111.OaLyj9AJNZ@peggleto-mobl.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.14.10 (Linux/4.7.3-100.fc23.x86_64; KDE/4.14.20; x86_64; ;
+	)
+In-Reply-To: <a95b826d-cdcd-cf1d-bb38-6bf47122a528@mlbassoc.com>
+References: <72492146-b352-1f59-1d23-26f71773d689@mlbassoc.com>
+	<CAJTo0LaeKEUKKheg2Grgc5SKoANQbRKT8TX-F2e7aL6ozdd+Eg@mail.gmail.com>
+	<a95b826d-cdcd-cf1d-bb38-6bf47122a528@mlbassoc.com>
 MIME-Version: 1.0
-In-Reply-To: <1473966359-13292-1-git-send-email-patrick@stwcx.xyz>
-X-Originating-IP: [172.25.44.6]
-Subject: Re: [PATCH 1/2] util-linux: Disable minix support.
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: Crazy display
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,89 +37,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 Sep 2016 20:32:27 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 15 Sep 2016 20:41:24 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On 2016-09-15 03:05 PM, Patrick Williams wrote:
-> Disable building of {mkfs,fsck}.minix.
-
-Nice clean-up patch Patrick.
-
-I know what minux is but your next patch disables
-bfs and I don't have a clue what that is.
-
-Could you re-send with longer commit messages that
-explains what the change is in a way that doesn't
-require knowing 25 years of linux history? :)
-
-Something like:
-
-
-Disable building of {mkfs,fsck}.minix.
-
-Disable filesystem tools for minix filesystems.
-The Minix OS predates linux and such filesystems are rarely used.
-No other oe-core or meta-oe recipes reference minux so
-this should not cause secondary problems.
-
-and something similar for bfs.
-
-Thanks,
-../Randy
-
+On Thu, 15 Sep 2016 22:26:09 Gary Thomas wrote:
+> On 2016-09-15 22:12, Burton, Ross wrote:
+> > On 15 September 2016 at 21:03, Paul Eggleton 
+<paul.eggleton@linux.intel.com <mailto:paul.eggleton@linux.intel.com>> wrote:
+> >     Are you guys perhaps using the same terminal application? Using screen
+> >     / tmux / anything similar? (I'm using screen here and haven't
+> >     experienced problems though.)
+> > 
+> > I'm using iTerm2 on a Mac to run normal SSH to my Linux box. No
+> > screen/tmux/etc.
 >
-> Signed-off-by: Patrick Williams <patrick@stwcx.xyz>
-> ---
->  meta/recipes-core/util-linux/util-linux.inc | 9 ++++-----
->  1 file changed, 4 insertions(+), 5 deletions(-)
->
-> diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
-> index bf770d8..608f198 100644
-> --- a/meta/recipes-core/util-linux/util-linux.inc
-> +++ b/meta/recipes-core/util-linux/util-linux.inc
-> @@ -45,7 +45,8 @@ SHARED_EXTRA_OECONF = "--disable-use-tty-group \
->                         --enable-raw --enable-reset --disable-login \
->                         --disable-vipw --disable-newgrp --disable-chfn-chsh \
->                         --enable-write --enable-mount \
-> -                       --enable-libuuid --enable-libblkid --enable-fsck --without-udev \
-> +                       --enable-libuuid --enable-libblkid --enable-fsck \
-> +                       --disable-minix --without-udev \
->                         usrsbin_execdir='${sbindir}' \
->  "
->
-> @@ -191,7 +192,7 @@ do_install_append_class-native () {
->  ALTERNATIVE_PRIORITY = "80"
->
->  ALTERNATIVE_${PN}  = "dmesg kill more mkswap blockdev pivot_root switch_root"
-> -ALTERNATIVE_${PN} += "mkfs.minix hexdump last lastb logger mesg renice wall"
-> +ALTERNATIVE_${PN} += "hexdump last lastb logger mesg renice wall"
->  ALTERNATIVE_${PN} += "setsid chrt flock utmpdump eject"
->
->  ALTERNATIVE_LINK_NAME[dmesg] = "${base_bindir}/dmesg"
-> @@ -201,7 +202,6 @@ ALTERNATIVE_LINK_NAME[mkswap] = "${base_sbindir}/mkswap"
->  ALTERNATIVE_LINK_NAME[blockdev] = "${base_sbindir}/blockdev"
->  ALTERNATIVE_LINK_NAME[pivot_root] = "${base_sbindir}/pivot_root"
->  ALTERNATIVE_LINK_NAME[switch_root] = "${base_sbindir}/switch_root"
-> -ALTERNATIVE_LINK_NAME[mkfs.minix] = "${base_sbindir}/mkfs.minix"
->  ALTERNATIVE_LINK_NAME[eject] = "${bindir}/eject"
->
->  ALTERNATIVE_${PN}-doc = "mountpoint.1 last.1 lastb.1 mesg.1 wall.1 nologin.8 sulogin.8 utmpdump.1 reset.1 kill.1 libblkid.3 blkid.8 findfs.8 fsck.8 uuid.3"
-> @@ -248,8 +248,7 @@ ALTERNATIVE_util-linux-swaponoff = "swapoff swapon"
->  ALTERNATIVE_LINK_NAME[swapoff] = "${base_sbindir}/swapoff"
->  ALTERNATIVE_LINK_NAME[swapon] = "${base_sbindir}/swapon"
->
-> -ALTERNATIVE_util-linux-fsck = "fsck.minix fsck"
-> -ALTERNATIVE_LINK_NAME[fsck.minix] = "${base_sbindir}/fsck.minix"
-> +ALTERNATIVE_util-linux-fsck = "fsck"
->  ALTERNATIVE_LINK_NAME[fsck] = "${base_sbindir}/fsck"
->
->  ALTERNATIVE_util-linux-blkid = "blkid"
->
+> Pretty much the same for me - just SSH in an xterm window.
 
+Hmm, I'm still no closer then.
+
+Does it just start happening at some point in the middle of a build? Or right 
+from the start?
+
+Cheers,
+Paul
 
 -- 
-# Randy MacLeod. SMTS, Linux, Wind River
-Direct: 613.963.1350 | 350 Terry Fox Drive, Suite 200, Ottawa, ON, 
-Canada, K2K 2W5
+
+Paul Eggleton
+Intel Open Source Technology Centre
 
