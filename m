@@ -1,45 +1,53 @@
-Return-Path: <sujith.h@gmail.com>
-Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 9D187736B6
+Return-Path: <andre.draszik@gmail.com>
+Received: from mail-it0-f65.google.com (mail-it0-f65.google.com
+	[209.85.214.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 646487706E
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Sep 2016 06:52:57 +0000 (UTC)
-Received: by mail-wm0-f68.google.com with SMTP id b187so5581100wme.0
+	Thu, 15 Sep 2016 07:12:00 +0000 (UTC)
+Received: by mail-it0-f65.google.com with SMTP id e20so3695916itc.2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Sep 2016 23:52:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=7EecVgSQXcW3NoSy3KLfYRiCvvFZpAld9xbAHP9WLKg=;
-	b=xSqdelfC9hgq4mLIyr7QQcIQVM1gJhkpjS842gtsARkUhN0EiSreNCp6KCX/vKqgRC
-	jvq50Afk0XR1NGKLDAnso47XKUvptz1+9pSeYIgZmzqRYOrbT+pddqfDN97MMya7uDOp
-	L8++B4gxQ5T0MdjZv3TU/FGh1XwV32igqvHDnesoaAiqzHvINj+iVlXFvb+rKoh3abU0
-	Z63bb21VtBSe1EIQ3AyN9BljQkkkTpAlhpyGCHDb0MqPIZ36iql4sKl8LqkTEiLPyEDp
-	At7u2d1hDD7XeIvXS3ZeyUlq3mwedbM0KvWmMTGHk++IuLJLXZEZ9rTLmMVhP47sr957
-	pcZQ==
+	Thu, 15 Sep 2016 00:12:02 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=7EecVgSQXcW3NoSy3KLfYRiCvvFZpAld9xbAHP9WLKg=;
-	b=gradtbxVTiEIcjBUMp+rhXhijz5f4vUAzA9/pqijkW50HB7rb7F/gGXXEn7rD7GBlB
-	QvC3hE2OmAQ7HiuLHV4YVak+IiTkGRwG4eog7/ASGMwLfltsc1WH+qrv8EoU3WBhuaS5
-	s9oqe1sSaQw+Dz37ObnT6rd37wqNypiIvkpyoanCpeQlgvBz+YjNPWO6NrrykQY8dhPn
-	LW2IdUtoNbfFN3+qqf1tcDS3fEldtGxs2D2CB4Fy8rRGVuDkFKK99HWsPr+B08yeYfXY
-	urD6OHaPeMqGstR3NMmO5CycKX/1XNQLP512DlgxLJ0a45PjvCpFmYF7YCl76RF6+TPh
-	wFpQ==
-X-Gm-Message-State: AE9vXwOdilTSgFHVHbuQylbdxPosDuK4KOfmRifq4APdgOwymNv4CXdsi3ksMB5BzHiXEQ==
-X-Received: by 10.194.243.10 with SMTP id wu10mr6265812wjc.130.1473922377560; 
-	Wed, 14 Sep 2016 23:52:57 -0700 (PDT)
-Received: from kdekidd0.inp-wifi.mentorg.com ([139.181.35.34])
-	by smtp.gmail.com with ESMTPSA id
-	v189sm929136wmv.12.2016.09.14.23.52.55
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 14 Sep 2016 23:52:56 -0700 (PDT)
-From: Sujith H <sujith.h@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 15 Sep 2016 12:22:50 +0530
-Message-Id: <1473922370-4325-1-git-send-email-sujith.h@gmail.com>
-X-Mailer: git-send-email 1.9.1
-Cc: Sujith Haridasan <Sujith_Haridasan@mentor.com>
-Subject: [PATCH] x264: add textrel to INSANE_SKIP to skip the warning
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=0eZ6FX2Uq2NQGokontNyRI1XC0NFBpKB7jqkMLVFcns=;
+	b=j//O5cWJNE0EKygLCIT0K5Si9ClQbtGBCNeeaC6lRyZOvKypCwbdckkMcw9xRRjgs0
+	zBdbft9rGqYql/SVgW4s2DZjEo+qFyE3lzw0ihley+bFTCb4Dbs+wrtcYVNhmiZTmz+F
+	xbiPWZ7ytuWa3MxuUkWBuVYgP4rP0xZ+aKHZE0c6M+xT5yvExPFltg+CvCidctOQ1zD5
+	pitqQxtjIJ+sTuiLh8DkStJe7PapAPaMRMitWytNGxERfCdu5SsypEvC/0Z7mPBpEAbi
+	Y4VmzVyWVtB0tzXEvYSkunOc2kwcyf4fBirbW5ErCPLqSnr2R8OZC4te+YveZgiW6pSk
+	3jQw==
+X-Gm-Message-State: AE9vXwP+QOQqzY/RUOaqXn+e/d9+fEU7ZLAqzCGcz0wQvYuy6AI1cor2gKazgLZwwYXURA==
+X-Received: by 10.107.41.81 with SMTP id p78mr13444199iop.78.1473923521449;
+	Thu, 15 Sep 2016 00:12:01 -0700 (PDT)
+Received: from mail-it0-f42.google.com (mail-it0-f42.google.com.
+	[209.85.214.42]) by smtp.gmail.com with ESMTPSA id
+	u32sm1188241iou.38.2016.09.15.00.12.00
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 15 Sep 2016 00:12:01 -0700 (PDT)
+Received: by mail-it0-f42.google.com with SMTP id o3so81887354ita.1
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 15 Sep 2016 00:12:00 -0700 (PDT)
+X-Received: by 10.107.174.142 with SMTP id n14mr13815409ioo.197.1473923520793; 
+	Thu, 15 Sep 2016 00:12:00 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.64.70.36 with HTTP; Thu, 15 Sep 2016 00:11:59 -0700 (PDT)
+Received: by 10.64.70.36 with HTTP; Thu, 15 Sep 2016 00:11:59 -0700 (PDT)
+In-Reply-To: <20160915022102.GA25351@heinlein.lan>
+References: <20160914162519.16212-1-patrick@stwcx.xyz>
+	<CAKUP++va+C=1wLQPMdb+=Pd-CLGigC=RREQb0OfnFnwh5fzJJA@mail.gmail.com>
+	<CA+chaQfb_L2VZUXiK07rd4aBUn508CjtWp1R1R8weYHUaJHRSg@mail.gmail.com>
+	<20160915022102.GA25351@heinlein.lan>
+From: =?UTF-8?Q?Andr=C3=A9_Draszik?= <git@andred.net>
+Date: Thu, 15 Sep 2016 08:11:59 +0100
+X-Gmail-Original-Message-ID: <CAKUP++tTkkgTBw2ntjDjxJ7t07SZQNfqLL3fwH0cqNXDi1dPyw@mail.gmail.com>
+Message-ID: <CAKUP++tTkkgTBw2ntjDjxJ7t07SZQNfqLL3fwH0cqNXDi1dPyw@mail.gmail.com>
+To: Patrick Williams <patrick@stwcx.xyz>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] e2fsprogs: configure with enable-symlink
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,38 +60,82 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 Sep 2016 06:53:00 -0000
+X-List-Received-Date: Thu, 15 Sep 2016 07:12:01 -0000
+Content-Type: multipart/alternative; boundary=001a1144822ee23e08053c868fc1
 
-From: Fahad Usman <fahad_usman@mentor.com>
+--001a1144822ee23e08053c868fc1
+Content-Type: text/plain; charset=UTF-8
 
-This change help fix the warning message:
+On 15 Sep 2016 03:21, "Patrick Williams" <patrick@stwcx.xyz> wrote:
+>
+> On Wed, Sep 14, 2016 at 11:23:47PM +0200, Martin Jansa wrote:
+> > It was also proposed and discussed some 15 months ago and it was
+packaging
+> > issue not handling hardlinks correctly:
+> >
+http://lists.openembedded.org/pipermail/openembedded-core/2015-April/103939.html
+> >
+> > I believe this was fixed then, but maybe it got broken again?
+>
+> Sorry, this is my fault.  I didn't think about hard-links.  I was just
+> skimming the cpio extract for parts that could be trimmed out and
+> noticed it.
+>
+>     $ ls -i *fsck*
+>     19455718 e2fsck
+>     19455671 fsck
+>     19455718 fsck.ext2
+>     19455718 fsck.ext3
+>     19455718 fsck.ext4
+>     19455718 fsck.ext4dev
+>     19455679 fsck.minix
+>     19455695 fsck.minix.util-linux
+>     19455675 fsck.util-linux
+>
+> Is there a reason to prefer hardlinks over softlinks, for my own
+> education?  My desktop system used softlinks for fsck.
 
-x264/r2491+gitAUTOINC+c8a773ebfc-r0/packages-split/x264/usr/lib/libx264.so.144' has relocations in .text [textrel]
+Mine too. I don't really care, soft links are surely more obvious, though.
 
-Adding textrel to INSANE_SKIP resolves this issue.
-This issue was observed in cyclone5 and imx6qsabresd BSP's.
-So generalizing the patch.
+A.
 
-Signed-off-by: Fahad Usman <fahad_usman@mentor.com>
-Signed-off-by: Sujith Haridasan <Sujith_Haridasan@mentor.com>
----
- meta/recipes-multimedia/x264/x264_git.bb | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+--001a1144822ee23e08053c868fc1
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/meta/recipes-multimedia/x264/x264_git.bb b/meta/recipes-multimedia/x264/x264_git.bb
-index fa44f9c..393310f 100644
---- a/meta/recipes-multimedia/x264/x264_git.bb
-+++ b/meta/recipes-multimedia/x264/x264_git.bb
-@@ -48,6 +48,6 @@ do_install() {
-     oe_runmake install DESTDIR=${D}
- }
- 
--# PIC can't be enabled for 32-bit x86
--INSANE_SKIP_${PN}_append_x86 = " textrel"
-+# PIC can't be enabled for few BSP's
-+INSANE_SKIP_${PN}_append = " textrel"
- 
--- 
-1.9.1
+<p dir=3D"ltr">On 15 Sep 2016 03:21, &quot;Patrick Williams&quot; &lt;<a hr=
+ef=3D"mailto:patrick@stwcx.xyz">patrick@stwcx.xyz</a>&gt; wrote:<br>
+&gt;<br>
+&gt; On Wed, Sep 14, 2016 at 11:23:47PM +0200, Martin Jansa wrote:<br>
+&gt; &gt; It was also proposed and discussed some 15 months ago and it was =
+packaging<br>
+&gt; &gt; issue not handling hardlinks correctly:<br>
+&gt; &gt; <a href=3D"http://lists.openembedded.org/pipermail/openembedded-c=
+ore/2015-April/103939.html">http://lists.openembedded.org/pipermail/openemb=
+edded-core/2015-April/103939.html</a><br>
+&gt; &gt;<br>
+&gt; &gt; I believe this was fixed then, but maybe it got broken again?<br>
+&gt;<br>
+&gt; Sorry, this is my fault.=C2=A0 I didn&#39;t think about hard-links.=C2=
+=A0 I was just<br>
+&gt; skimming the cpio extract for parts that could be trimmed out and<br>
+&gt; noticed it.<br>
+&gt;<br>
+&gt; =C2=A0 =C2=A0 $ ls -i *fsck*<br>
+&gt; =C2=A0 =C2=A0 19455718 e2fsck<br>
+&gt; =C2=A0 =C2=A0 19455671 fsck<br>
+&gt; =C2=A0 =C2=A0 19455718 fsck.ext2<br>
+&gt; =C2=A0 =C2=A0 19455718 fsck.ext3<br>
+&gt; =C2=A0 =C2=A0 19455718 fsck.ext4<br>
+&gt; =C2=A0 =C2=A0 19455718 fsck.ext4dev<br>
+&gt; =C2=A0 =C2=A0 19455679 fsck.minix<br>
+&gt; =C2=A0 =C2=A0 19455695 fsck.minix.util-linux<br>
+&gt; =C2=A0 =C2=A0 19455675 fsck.util-linux<br>
+&gt;<br>
+&gt; Is there a reason to prefer hardlinks over softlinks, for my own<br>
+&gt; education?=C2=A0 My desktop system used softlinks for fsck.</p>
+<p dir=3D"ltr">Mine too. I don&#39;t really care, soft links are surely mor=
+e obvious, though.</p>
+<p dir=3D"ltr">A.<br></p>
 
-
+--001a1144822ee23e08053c868fc1--
