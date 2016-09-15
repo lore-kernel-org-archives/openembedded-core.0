@@ -1,46 +1,27 @@
-Return-Path: <sujith.h@gmail.com>
-Received: from mail-qk0-f174.google.com (mail-qk0-f174.google.com
-	[209.85.220.174])
-	by mail.openembedded.org (Postfix) with ESMTP id D63C9760A5
+Return-Path: <markus.lehtonen@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 580BD73695
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Sep 2016 04:43:54 +0000 (UTC)
-Received: by mail-qk0-f174.google.com with SMTP id z190so36541278qkc.3
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Sep 2016 21:43:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=A6uFWYDyTl5vsURQ2jun1mfZMtcFD2+pv1i+qZey0iw=;
-	b=D6n3ShkJ5rta/xSPiVtwpZcs6BCYbu/O77DYwK3uPaeUi+1DKUHYQFvdPYVoVGnuc7
-	X0cvsyB0rZBIT/ISdkOyMoY5OdPiqNGCeUCUPFfvrwMeGghCA2s0YHHAWHlQJBu0/bmD
-	MfGn4Lhvx+AWcaW1LpUcIWOHQ/+y34acw406HrGBKXFoPtUr4VW43ff6YTyI80tqQtY3
-	3wmdWYlSFwDXlJwsplLjjr8HpK0GdDcs0+RFK/lwfLNnDlz7+UkcLCUeGWbo/sJsInPn
-	drKlOb3VIQNSO4dOyemAPtaVcyY39tZenoxPZaOiwbcqM/gwrOfkyybNnWVoWCidE0Nk
-	QMwQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=A6uFWYDyTl5vsURQ2jun1mfZMtcFD2+pv1i+qZey0iw=;
-	b=HQm767THSG/nafF47eBSHZqn8fgRvGOIdnBanf+uZy8WTsULsKCf0OIoyoq8VuaHy5
-	SsIWGnM4WOl3JfnW0Rta836eP4Ur1vHxF4FeWPWnLr3RxfPgMptTvj03FWbc4wmOFumS
-	4cHUumsZQ3lCngNU9js3OqBCRoLPYEToEKgCwx6iaFQMqMCIZ6pgkKJ+qJcci1NqV6gd
-	J6jP3zTjc7kiUFWPQBJUUboj8EKjoIuTHRIT9aeB5HMpfYHB6R1+iXx6yA6O5nnGsSUq
-	JdKHuZjYICU84vzei83/OVv0J33wJtixf92NRWuWsfQuaZF/NAsCg5atH6bVQfNioWCn
-	OjTg==
-X-Gm-Message-State: AE9vXwMzMg+2ivL6Zp3hJ1t3wwEo5QuF8Q0mBwi+C2+uSPxIwNx08O/mjoxiExulFzh29xTqXJH8ninf+3DOpA==
-X-Received: by 10.55.74.3 with SMTP id x3mr7124018qka.91.1473914635197; Wed,
-	14 Sep 2016 21:43:55 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.55.183.1 with HTTP; Wed, 14 Sep 2016 21:43:34 -0700 (PDT)
-In-Reply-To: <CAJTo0Lb-bsJNvxDyfkRraQ5-dQ+cJqigThm2CMBUSg5EJGOV7A@mail.gmail.com>
-References: <1473660793-3296-1-git-send-email-sujith.h@gmail.com>
-	<CAJTo0Lb-bsJNvxDyfkRraQ5-dQ+cJqigThm2CMBUSg5EJGOV7A@mail.gmail.com>
-From: sujith h <sujith.h@gmail.com>
-Date: Thu, 15 Sep 2016 10:13:34 +0530
-Message-ID: <CADyYWL=_YCXJ1nD-VxFisu6J813MBEs2QCU2TjFGRGVFJJhDHg@mail.gmail.com>
+	Thu, 15 Sep 2016 06:38:32 +0000 (UTC)
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+	by fmsmga101.fm.intel.com with ESMTP; 14 Sep 2016 23:38:33 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.30,338,1470726000"; d="scan'208,217";a="8584202"
+Received: from lvernat-mobl7.ger.corp.intel.com (HELO [10.252.23.81])
+	([10.252.23.81])
+	by fmsmga005.fm.intel.com with ESMTP; 14 Sep 2016 23:38:31 -0700
+User-Agent: Microsoft-MacOutlook/14.6.7.160722
+Date: Thu, 15 Sep 2016 09:38:31 +0300
+From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
 To: "Burton, Ross" <ross.burton@intel.com>
+Message-ID: <D4001C1A.67CC9%markus.lehtonen@linux.intel.com>
+Thread-Topic: [OE-core] [PATCH] scripts: introduce buildstats-diff
+References: <1473852282-12088-1-git-send-email-markus.lehtonen@linux.intel.com>
+	<CAJTo0LYuNzYTdhjmgpf-9rEC-axKW-khVGzU6iPN+MC=i+8arQ@mail.gmail.com>
+In-Reply-To: <CAJTo0LYuNzYTdhjmgpf-9rEC-axKW-khVGzU6iPN+MC=i+8arQ@mail.gmail.com>
+Mime-version: 1.0
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] x264: add textrel to INSANE_SKIP for cyclone5 machine
+Subject: Re: [PATCH] scripts: introduce buildstats-diff
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,85 +34,76 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 Sep 2016 04:43:58 -0000
-Content-Type: multipart/alternative; boundary=001a11488a4242aa9a053c847e5d
+X-List-Received-Date: Thu, 15 Sep 2016 06:38:33 -0000
+Content-type: multipart/alternative;
+	boundary="B_3556777116_22425659"
 
---001a11488a4242aa9a053c847e5d
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-On Thu, Sep 15, 2016 at 4:41 AM, Burton, Ross <ross.burton@intel.com> wrote=
-:
-
->
-> On 12 September 2016 at 07:13, Sujith H <sujith.h@gmail.com> wrote:
->
->> +# PIC can't be enabled for 32-bit x86 and cyclone5
->>  INSANE_SKIP_${PN}_append_x86 =3D " textrel"
->> +INSANE_SKIP_${PN}_append_cyclone5 =3D " textrel"
->>
->
-> Can this be generalised or is it absolutely specific to cyclone5?  If it
-> can't be generalised then I feel that this should belong in the cyclone5
-> BSP.
->
-
-We found this with cyclone5 BSP. I will try to figure out how if we can see
-it with qemuarm or other BSP's too.
+--B_3556777116_22425659
+Content-type: text/plain;
+	charset="US-ASCII"
+Content-transfer-encoding: 7bit
 
 
->
-> Ross
->
+From:  "Burton, Ross" <ross.burton@intel.com>
+Date:  Wednesday 14 September 2016 at 19:38
+To:  Markus Lehtonen <markus.lehtonen@linux.intel.com>
+Cc:  OE-core <openembedded-core@lists.openembedded.org>
+Subject:  Re: [OE-core] [PATCH] scripts: introduce buildstats-diff
+
+
+On 14 September 2016 at 12:24, Markus Lehtonen
+<markus.lehtonen@linux.intel.com> wrote:
+> +        if not tasks1:
+> +            pkg_op = '++'
+> +        elif not tasks2:
+> +            pkg_op = '--'
+
+BTW, I've been reading buildstats-diff output all day and find the lack of
+whitespace between the operator and the package name makes the output harder
+to read, so I've patched it locally to be just '+ ' or '- ' for clarity.
+
+Sounds fine to me. I don't object your modification.
+  - Markus
 
 
 
---=20
-=E0=B4=B8=E0=B5=81=E0=B4=9C=E0=B4=BF=E0=B4=A4=E0=B5=8D =E0=B4=B9=E0=B4=B0=
-=E0=B4=BF=E0=B4=A6=E0=B4=BE=E0=B4=B8=E0=B4=A8=E0=B5=8D
-Bangalore
-<Project>Contributor to KDE project
-<Project>Contributor to Yocto project
-http://fci.wikia.com/wiki/Anti-DRM-Campaign
-<Blog> http://sujithh.info
-C-x C-c
 
---001a11488a4242aa9a053c847e5d
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+--B_3556777116_22425659
+Content-type: text/html;
+	charset="US-ASCII"
+Content-transfer-encoding: quoted-printable
 
-<div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><div class=3D"gmail_quo=
-te">On Thu, Sep 15, 2016 at 4:41 AM, Burton, Ross <span dir=3D"ltr">&lt;<a =
-href=3D"mailto:ross.burton@intel.com" target=3D"_blank">ross.burton@intel.c=
-om</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"marg=
-in:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div dir=3D"ltr"=
-><div class=3D"gmail_extra"><span class=3D""><br><div class=3D"gmail_quote"=
->On 12 September 2016 at 07:13, Sujith H <span dir=3D"ltr">&lt;<a href=3D"m=
-ailto:sujith.h@gmail.com" target=3D"_blank">sujith.h@gmail.com</a>&gt;</spa=
-n> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;b=
-order-left:1px #ccc solid;padding-left:1ex"><div>+# PIC can&#39;t be enable=
-d for 32-bit x86 and <span>cyclone5</span><br>
-=C2=A0INSANE_SKIP_${PN}_append_x86 =3D &quot; textrel&quot;<br>
-+INSANE_SKIP_${PN}_append_<span>cycl<wbr>one5</span> =3D &quot; textrel&quo=
-t;</div></blockquote></div><br></span>Can this be generalised or is it abso=
-lutely specific to cyclone5?=C2=A0 If it can&#39;t be generalised then I fe=
-el that this should belong in the cyclone5 BSP.</div></div></blockquote><di=
-v><br></div><div>We found this with cyclone5 BSP. I will try to figure out =
-how if we can see it with qemuarm or other BSP&#39;s too.<br>=C2=A0<br></di=
-v><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:=
-1px #ccc solid;padding-left:1ex"><div dir=3D"ltr"><span class=3D"HOEnZb"><f=
-ont color=3D"#888888"><div class=3D"gmail_extra"><br></div><div class=3D"gm=
-ail_extra">Ross</div></font></span></div>
-</blockquote></div><br><br clear=3D"all"><br>-- <br><div class=3D"gmail_sig=
-nature" data-smartmail=3D"gmail_signature"><div dir=3D"ltr"><div><div dir=
-=3D"ltr"><div>=E0=B4=B8=E0=B5=81=E0=B4=9C=E0=B4=BF=E0=B4=A4=E0=B5=8D =E0=B4=
-=B9=E0=B4=B0=E0=B4=BF=E0=B4=A6=E0=B4=BE=E0=B4=B8=E0=B4=A8=E0=B5=8D<br>Banga=
-lore<br>&lt;Project&gt;Contributor to KDE project<br></div><div>&lt;Project=
-&gt;Contributor to Yocto project<br></div><div><a href=3D"http://fci.wikia.=
-com/wiki/Anti-DRM-Campaign" target=3D"_blank">http://fci.wikia.com/wiki/Ant=
-i-DRM-Campaign</a><br>&lt;Blog&gt; <a href=3D"http://sujithh.info" target=
-=3D"_blank">http://sujithh.info</a><br></div><div>C-x C-c<br></div></div></=
-div></div></div>
-</div></div>
+<html><head></head><body style=3D"word-wrap: break-word; -webkit-nbsp-mode: s=
+pace; -webkit-line-break: after-white-space; color: rgb(0, 0, 0); font-size:=
+ 14px; font-family: Calibri, sans-serif;"><div><br></div><span id=3D"OLK_SRC_B=
+ODY_SECTION"><div style=3D"font-family:Calibri; font-size:11pt; text-align:lef=
+t; color:black; BORDER-BOTTOM: medium none; BORDER-LEFT: medium none; PADDIN=
+G-BOTTOM: 0in; PADDING-LEFT: 0in; PADDING-RIGHT: 0in; BORDER-TOP: #b5c4df 1p=
+t solid; BORDER-RIGHT: medium none; PADDING-TOP: 3pt"><span style=3D"font-weig=
+ht:bold">From: </span> "Burton, Ross" &lt;<a href=3D"mailto:ross.burton@intel.=
+com">ross.burton@intel.com</a>&gt;<br><span style=3D"font-weight:bold">Date: <=
+/span> Wednesday 14 September 2016 at 19:38<br><span style=3D"font-weight:bold=
+">To: </span> Markus Lehtonen &lt;<a href=3D"mailto:markus.lehtonen@linux.inte=
+l.com">markus.lehtonen@linux.intel.com</a>&gt;<br><span style=3D"font-weight:b=
+old">Cc: </span> OE-core &lt;<a href=3D"mailto:openembedded-core@lists.openemb=
+edded.org">openembedded-core@lists.openembedded.org</a>&gt;<br><span style=3D"=
+font-weight:bold">Subject: </span> Re: [OE-core] [PATCH] scripts: introduce =
+buildstats-diff<br></div><div><br></div><div dir=3D"ltr"><div class=3D"gmail_ext=
+ra"><br><div class=3D"gmail_quote">On 14 September 2016 at 12:24, Markus Lehto=
+nen <span dir=3D"ltr">&lt;<a href=3D"mailto:markus.lehtonen@linux.intel.com" tar=
+get=3D"_blank">markus.lehtonen@linux.intel.com</a>&gt;</span> wrote:<br><block=
+quote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc soli=
+d;padding-left:1ex"><div id=3D":1ic" class=3D"a3s aXjCH m157287239512fb54">+&nbs=
+p; &nbsp; &nbsp; &nbsp; if not tasks1:<br>
++&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; pkg_op =3D '++'<br>
++&nbsp; &nbsp; &nbsp; &nbsp; elif not tasks2:<br>
++&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; pkg_op =3D '--'</div></blockquote>=
+</div><br>BTW, I've been reading buildstats-diff output all day and find the=
+ lack of whitespace between the operator and the package name makes the outp=
+ut harder to read, so I've patched it locally to be just '+ ' or '- ' for cl=
+arity.</div></div></span><div><br></div><div>Sounds fine to me. I don't obje=
+ct your modification.</div><div>&nbsp; - Markus</div><span id=3D"OLK_SRC_BODY_=
+SECTION"><div dir=3D"ltr"><div class=3D"gmail_extra"><br></div></div></span></bo=
+dy></html>
 
---001a11488a4242aa9a053c847e5d--
+--B_3556777116_22425659--
