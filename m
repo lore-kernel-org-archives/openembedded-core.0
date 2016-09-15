@@ -1,21 +1,30 @@
-Return-Path: <markus.lehtonen@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 62A12771F6
+Return-Path: <gary@mlbassoc.com>
+Received: from mail.analogue-micro.com (mail.analogue-micro.com
+	[217.144.149.242])
+	by mail.openembedded.org (Postfix) with ESMTP id 5BDE37719B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Sep 2016 11:21:27 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga103.jf.intel.com with ESMTP; 15 Sep 2016 04:21:28 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.30,339,1470726000"; d="scan'208";a="1030459714"
-Received: from lvernat-mobl7.ger.corp.intel.com (HELO
-	mqz-osx-suse64.fi.intel.com) ([10.252.23.81])
-	by orsmga001.jf.intel.com with ESMTP; 15 Sep 2016 04:21:27 -0700
-From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 15 Sep 2016 14:21:26 +0300
-Message-Id: <1473938486-12891-1-git-send-email-markus.lehtonen@linux.intel.com>
-X-Mailer: git-send-email 2.6.6
-Subject: [PATCH] sanity.bbclass: split out config re-parse check
+	Thu, 15 Sep 2016 11:30:39 +0000 (UTC)
+Received: by mail.analogue-micro.com (Postfix, from userid 999)
+	id 094FC68A01C; Thu, 15 Sep 2016 12:30:38 +0100 (BST)
+X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
+	loki.analogue-micro-ltd.com
+X-Spam-Level: *
+X-Spam-Status: No, score=1.7 required=5.0 tests=ALL_TRUSTED,BAYES_40,
+	DNS_FROM_AHBL_RHSBL autolearn=no version=3.3.2
+Received: from zeus.mlbassoc.com (unknown [10.8.0.2])
+	by mail.analogue-micro.com (Postfix) with ESMTP id B0DAC68A019;
+	Thu, 15 Sep 2016 12:30:38 +0100 (BST)
+Received: from [127.0.0.1] (localhost.localdomain [127.0.0.1])
+	by zeus.mlbassoc.com (Postfix) with ESMTP id 54E93674035A;
+	Thu, 15 Sep 2016 13:30:38 +0200 (CEST)
+To: OE-core <openembedded-core@lists.openembedded.org>
+From: Gary Thomas <gary@mlbassoc.com>
+Message-ID: <72492146-b352-1f59-1d23-26f71773d689@mlbassoc.com>
+Date: Thu, 15 Sep 2016 13:30:38 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.2.0
+MIME-Version: 1.0
+Subject: Crazy display
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,119 +37,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 Sep 2016 11:21:27 -0000
+X-List-Received-Date: Thu, 15 Sep 2016 11:30:40 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Split out the functionality doing configuration re-parse check into a
-separate event handler that is hooked into ConfigParsed event. This will
-make config re-parsing actually work. Re-parsing in bitbake is triggered
-by setting BB_INVALIDCONF whose value is checked after configuration has
-been parsed (after ConfigParsed event). However, previously
-BB_INVALIDCONF was set in SanityCheck event handler which caused
-re-parsing never to happen.
+I haven't seen this before, just thought I'd toss it out there.
+I was doing a build (actually three in parallel in separate
+windows on my build box) and noticed this:
 
-[YOCTO #10188]
+Currently  3 running tasks (3282 of 5081)  64% |################################################### 
+        |
+0: busybox-1.24.1-r0 do_compile (pid 29425)
+Currently  3 running tasks (3283 of 5081)  64% |################################################### 
+        |
+Currently  3 running tasks (3429 of 5081)  67% |##################################################### 
+        |
+0: gstreamer1.0-libav-1.8.3-r0 do_configure (pid 10393)
+Currently  1 running tasks (3560 of 5081)  70% |######################################################## 
+        |
+0: gstreamer1.0-libav-1.8.3-r0 do_compile (pid 17458)
+Currently  3 running tasks (3601 of 5081)  70% |######################################################## 
+        |
+0: gstreamer1.0-libav-1.8.3-r0 do_compile (pid 17458)
+1: gdk-pixbuf-2.34.0-r0 do_package_write_ipk (pid 12673)
+2: unifdef-native-2.11-r0 do_populate_lic (pid 24548)
 
-Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
----
- meta/classes/sanity.bbclass | 27 ++++++++++++---------------
- 1 file changed, 12 insertions(+), 15 deletions(-)
+Somehow the task tracker (that does a nice job of telling the user
+what's going on without being overwhelming BTW) got very confused!
 
-diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
-index f17e2d4..7682ffb 100644
---- a/meta/classes/sanity.bbclass
-+++ b/meta/classes/sanity.bbclass
-@@ -135,8 +135,7 @@ is a good way to visualise the changes."""
-         bb.note("Your conf/bblayers.conf has been automatically updated.")
-         return
- 
--        if not status.reparse:
--            status.addresult()
-+        status.addresult()
- 
-     elif current_lconf == 6 and lconf_version > 6:
-         # Handle rename of meta-yocto -> meta-poky
-@@ -557,20 +556,17 @@ def check_perl_modules(sanity_data):
-         return "Required perl module(s) not found: %s\n\n%s\n" % (ret, errresult)
-     return None
- 
--def sanity_check_conffiles(status, d):
-+def sanity_check_conffiles(d):
-     funcs = d.getVar('BBLAYERS_CONF_UPDATE_FUNCS', True).split()
-     for func in funcs:
-         conffile, current_version, required_version, func = func.split(":")
-         if check_conf_exists(conffile, d) and d.getVar(current_version, True) is not None and \
-                 d.getVar(current_version, True) != d.getVar(required_version, True):
--            success = True
-             try:
-                 bb.build.exec_func(func, d, pythonexception=True)
-             except NotImplementedError as e:
--                success = False
--                status.addresult(str(e))
--            if success:
--                status.reparse = True
-+                bb.fatal(e)
-+            d.setVar("BB_INVALIDCONF", True)
- 
- def sanity_handle_abichanges(status, d):
-     #
-@@ -746,7 +742,7 @@ def check_sanity_version_change(status, d):
-             status.addresult("You have a 32-bit libc, but no 32-bit headers.  You must install the 32-bit libc headers.\n")
- 
-     bbpaths = d.getVar('BBPATH', True).split(":")
--    if ("." in bbpaths or "./" in bbpaths or "" in bbpaths) and not status.reparse:
-+    if ("." in bbpaths or "./" in bbpaths or "" in bbpaths):
-         status.addresult("BBPATH references the current directory, either through "    \
-                 "an empty entry, a './' or a '.'.\n\t This is unsafe and means your "\
-                 "layer configuration is adding empty elements to BBPATH.\n\t "\
-@@ -796,8 +792,6 @@ def check_sanity_everybuild(status, d):
- 
-     sanity_check_locale(d)
- 
--    sanity_check_conffiles(status, d)
--
-     paths = d.getVar('PATH', True).split(":")
-     if "." in paths or "./" in paths or "" in paths:
-         status.addresult("PATH contains '.', './' or '' (empty element), which will break the build, please remove this.\nParsed PATH is " + str(paths) + "\n")
-@@ -943,7 +937,6 @@ def check_sanity(sanity_data):
-         def __init__(self):
-             self.messages = ""
-             self.network_error = False
--            self.reparse = False
- 
-         def addresult(self, message):
-             if message:
-@@ -999,7 +992,6 @@ def check_sanity(sanity_data):
- 
-     if status.messages != "":
-         raise_sanity_error(sanity_data.expand(status.messages), sanity_data, status.network_error)
--    return status.reparse
- 
- # Create a copy of the datastore and finalise it to ensure appends and 
- # overrides are set - the datastore has yet to be finalised at ConfigParsed
-@@ -1008,15 +1000,20 @@ def copy_data(e):
-     sanity_data.finalize()
-     return sanity_data
- 
-+addhandler config_reparse_eventhandler
-+config_reparse_eventhandler[eventmask] = "bb.event.ConfigParsed"
-+python config_reparse_eventhandler() {
-+    sanity_check_conffiles(e.data)
-+}
-+
- addhandler check_sanity_eventhandler
- check_sanity_eventhandler[eventmask] = "bb.event.SanityCheck bb.event.NetworkTest"
- python check_sanity_eventhandler() {
-     if bb.event.getName(e) == "SanityCheck":
-         sanity_data = copy_data(e)
-+        check_sanity(sanity_data)
-         if e.generateevents:
-             sanity_data.setVar("SANITY_USE_EVENTS", "1")
--        reparse = check_sanity(sanity_data)
--        e.data.setVar("BB_INVALIDCONF", reparse)
-         bb.event.fire(bb.event.SanityCheckPassed(), e.data)
-     elif bb.event.getName(e) == "NetworkTest":
-         sanity_data = copy_data(e)
+I doubt if I can every repeat this, just passing on the observation!
+
 -- 
-2.6.6
-
+------------------------------------------------------------
+Gary Thomas                 |  Consulting for the
+MLB Associates              |    Embedded world
+------------------------------------------------------------
 
