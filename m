@@ -1,36 +1,46 @@
-Return-Path: <Randy.MacLeod@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id E7BAD73232
+Return-Path: <sujith.h@gmail.com>
+Received: from mail-qk0-f174.google.com (mail-qk0-f174.google.com
+	[209.85.220.174])
+	by mail.openembedded.org (Postfix) with ESMTP id D63C9760A5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Sep 2016 02:24:49 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u8F2OjYf025783
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 14 Sep 2016 19:24:45 -0700 (PDT)
-Received: from [172.25.44.6] (172.25.44.6) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.294.0;
-	Wed, 14 Sep 2016 19:24:45 -0700
-To: "Bystricky, Juro" <juro.bystricky@intel.com>, Seebs <seebs@seebs.net>,
-	"Fan, Wenzong (Wind River)" <wenzong.fan@windriver.com>
-References: <e33a2d23-6067-cf14-57ab-d40623a3597a@windriver.com>
-	<1A4DD5F0-D89E-4FC1-820A-457817B4FCD3@seebs.net>
-	<b59ea47c-1b82-c480-5d9f-7dfb8051f83a@windriver.com>
-	<BDCB4B3D-E034-4AFD-915C-8DDE5B66D76D@seebs.net>
-	<c4af9282-ed95-b7fc-f263-4a66eccfa4bf@windriver.com>
-	<9478781A-C1DD-46F5-B447-04D324E9EBA6@seebs.net>
-	<6E51916E4A1F32428260031F4C7CD2B61188FFD1@ORSMSX112.amr.corp.intel.com>
-From: Randy MacLeod <randy.macleod@windriver.com>
-Message-ID: <749c93dd-be45-76d7-921e-f8efd37223bd@windriver.com>
-Date: Wed, 14 Sep 2016 22:24:43 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.2.0
+	Thu, 15 Sep 2016 04:43:54 +0000 (UTC)
+Received: by mail-qk0-f174.google.com with SMTP id z190so36541278qkc.3
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 14 Sep 2016 21:43:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=A6uFWYDyTl5vsURQ2jun1mfZMtcFD2+pv1i+qZey0iw=;
+	b=D6n3ShkJ5rta/xSPiVtwpZcs6BCYbu/O77DYwK3uPaeUi+1DKUHYQFvdPYVoVGnuc7
+	X0cvsyB0rZBIT/ISdkOyMoY5OdPiqNGCeUCUPFfvrwMeGghCA2s0YHHAWHlQJBu0/bmD
+	MfGn4Lhvx+AWcaW1LpUcIWOHQ/+y34acw406HrGBKXFoPtUr4VW43ff6YTyI80tqQtY3
+	3wmdWYlSFwDXlJwsplLjjr8HpK0GdDcs0+RFK/lwfLNnDlz7+UkcLCUeGWbo/sJsInPn
+	drKlOb3VIQNSO4dOyemAPtaVcyY39tZenoxPZaOiwbcqM/gwrOfkyybNnWVoWCidE0Nk
+	QMwQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=A6uFWYDyTl5vsURQ2jun1mfZMtcFD2+pv1i+qZey0iw=;
+	b=HQm767THSG/nafF47eBSHZqn8fgRvGOIdnBanf+uZy8WTsULsKCf0OIoyoq8VuaHy5
+	SsIWGnM4WOl3JfnW0Rta836eP4Ur1vHxF4FeWPWnLr3RxfPgMptTvj03FWbc4wmOFumS
+	4cHUumsZQ3lCngNU9js3OqBCRoLPYEToEKgCwx6iaFQMqMCIZ6pgkKJ+qJcci1NqV6gd
+	J6jP3zTjc7kiUFWPQBJUUboj8EKjoIuTHRIT9aeB5HMpfYHB6R1+iXx6yA6O5nnGsSUq
+	JdKHuZjYICU84vzei83/OVv0J33wJtixf92NRWuWsfQuaZF/NAsCg5atH6bVQfNioWCn
+	OjTg==
+X-Gm-Message-State: AE9vXwMzMg+2ivL6Zp3hJ1t3wwEo5QuF8Q0mBwi+C2+uSPxIwNx08O/mjoxiExulFzh29xTqXJH8ninf+3DOpA==
+X-Received: by 10.55.74.3 with SMTP id x3mr7124018qka.91.1473914635197; Wed,
+	14 Sep 2016 21:43:55 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <6E51916E4A1F32428260031F4C7CD2B61188FFD1@ORSMSX112.amr.corp.intel.com>
-X-Originating-IP: [172.25.44.6]
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: pseudo 1.8.1 doesn't work with docker & dumb-init
+Received: by 10.55.183.1 with HTTP; Wed, 14 Sep 2016 21:43:34 -0700 (PDT)
+In-Reply-To: <CAJTo0Lb-bsJNvxDyfkRraQ5-dQ+cJqigThm2CMBUSg5EJGOV7A@mail.gmail.com>
+References: <1473660793-3296-1-git-send-email-sujith.h@gmail.com>
+	<CAJTo0Lb-bsJNvxDyfkRraQ5-dQ+cJqigThm2CMBUSg5EJGOV7A@mail.gmail.com>
+From: sujith h <sujith.h@gmail.com>
+Date: Thu, 15 Sep 2016 10:13:34 +0530
+Message-ID: <CADyYWL=_YCXJ1nD-VxFisu6J813MBEs2QCU2TjFGRGVFJJhDHg@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] x264: add textrel to INSANE_SKIP for cyclone5 machine
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,106 +53,85 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 Sep 2016 02:24:51 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 15 Sep 2016 04:43:58 -0000
+Content-Type: multipart/alternative; boundary=001a11488a4242aa9a053c847e5d
 
-On 2016-09-14 04:46 PM, Bystricky, Juro wrote:
-> I am pretty sure I glimpsed the messages:
-> 	Child process timeout after 2 seconds.
->     	Child process exit status 4: lock_held
-> on several occasions recently, just before my Xserver was restarted and I was kicked back to the login prompt.
-> I typically ran several parallel bitbake builds. Ubuntu 16.04, not using container. The last message in the syslog (first error message) was always:
-> Fatal IO error 11 (Resource temporarily unavailable) on X server :0
->
-> Possibly not related to this problem, nevertheless worth mentioning.
+--001a11488a4242aa9a053c847e5d
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Yes, it may be. Thanks for reporting it.
-
-Two  weeks ago, I was building a qemuarm64 image on my laptop
-(i7, 16 GB, SSD running Ubuntu-16.04)
-and I saw a similarity bizarre result from running a build
-in that chrome and then the X server were both killed.
-I wasn't in front of the system when this happened so
-I can't say exactly what was going on.
-
-I did collect some of the logs from my IRC client and chrome:
-
-
-[423679.028437] konversation[23416]: segfault at 7f72d2c33ce0 ip 
-00007f72eca4e818 sp 00007ffc7f450ae0 error 4 in 
-libQt5Gui.so.5.5.1[7f72ec8da000+527000]
-[423679.325315] chrome[28083]: segfault at 968 ip 00007f63f7615643 sp 
-00007ffd26c25af0 error 4 in libX11.so.6.3.0[7f63f75ed000+135000]
-
-
-and then from the X server:
-
-Aug 29 16:11:59 laptop org.a11y.atspi.Registry[4763]: XIO:  fatal IO 
-error 11 (Resource temporarily unavailable) on X server ":0"
-Aug 29 16:11:59 laptop org.a11y.atspi.Registry[4763]:       after 67649 
-requests (67649 known processed) with 0 events remaining.
-Aug 29 16:11:59 laptop gnome-session[4748]: (diodon:4925): Gdk-WARNING 
-**: diodon: Fatal IO error 11 (Resource temporarily unavailable) on X 
-server :0
-.
-...
-Aug 29 16:11:59 laptop systemd[1]: Started Process Core Dump (PID 
-28084/UID 0).
-Aug 29 16:11:59 laptop gnome-session[4748]: Failed to connect to Mir: 
-Failed to connect to server socket: No such file or directory
-Aug 29 16:11:59 laptop kernel: [423679.325315] chrome[28083]: segfault 
-at 968 ip 00007f63f7615643 sp 00007ffd26c25af0 error 4 in 
-libX11.so.6.3.0[7f63f75ed000+135000]
-
-
-
-In my case, I had added meta-oe to oe-core and was building:
-    MACHINE=qemuarm64 bitbake imagemagick
-
-I reproduced it once in X then did NOT see it happen when
-I built with an X session running but building on the console.
-i.e. the build of imagemagick for qemuarm64 succeeded.
-
-I've removed the build logs it seems but I'll see if I can reproduce
-the failure overnight.
-
-../Randy
+On Thu, Sep 15, 2016 at 4:41 AM, Burton, Ross <ross.burton@intel.com> wrote=
+:
 
 >
-> Thanks
+> On 12 September 2016 at 07:13, Sujith H <sujith.h@gmail.com> wrote:
 >
-> Juro
->
->
->> -----Original Message-----
->> From: openembedded-core-bounces@lists.openembedded.org
->> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
->> Seebs
->> Sent: Tuesday, September 6, 2016 11:40 PM
->> To: Fan, Wenzong (Wind River) <wenzong.fan@windriver.com>
->> Cc: Patches and discussions about the oe-core layer <openembedded-
->> core@lists.openembedded.org>
->> Subject: Re: [OE-core] pseudo 1.8.1 doesn't work with docker & dumb-init
+>> +# PIC can't be enabled for 32-bit x86 and cyclone5
+>>  INSANE_SKIP_${PN}_append_x86 =3D " textrel"
+>> +INSANE_SKIP_${PN}_append_cyclone5 =3D " textrel"
 >>
->> On 7 Sep 2016, at 1:32, wenzong fan wrote:
->>
->>> Yes, I believe it's not a 100 reproducible issue. Maybe you could run
->>> it with other builds in parallel and try it 3 times or more.
->>
->> I can try, but that might need bigger hardware than I have to hand at
->> the moment.
->>
->> -s
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+> Can this be generalised or is it absolutely specific to cyclone5?  If it
+> can't be generalised then I feel that this should belong in the cyclone5
+> BSP.
+>
+
+We found this with cyclone5 BSP. I will try to figure out how if we can see
+it with qemuarm or other BSP's too.
 
 
--- 
-# Randy MacLeod. SMTS, Linux, Wind River
-Direct: 613.963.1350 | 350 Terry Fox Drive, Suite 200, Ottawa, ON, 
-Canada, K2K 2W5
+>
+> Ross
+>
 
+
+
+--=20
+=E0=B4=B8=E0=B5=81=E0=B4=9C=E0=B4=BF=E0=B4=A4=E0=B5=8D =E0=B4=B9=E0=B4=B0=
+=E0=B4=BF=E0=B4=A6=E0=B4=BE=E0=B4=B8=E0=B4=A8=E0=B5=8D
+Bangalore
+<Project>Contributor to KDE project
+<Project>Contributor to Yocto project
+http://fci.wikia.com/wiki/Anti-DRM-Campaign
+<Blog> http://sujithh.info
+C-x C-c
+
+--001a11488a4242aa9a053c847e5d
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><div class=3D"gmail_quo=
+te">On Thu, Sep 15, 2016 at 4:41 AM, Burton, Ross <span dir=3D"ltr">&lt;<a =
+href=3D"mailto:ross.burton@intel.com" target=3D"_blank">ross.burton@intel.c=
+om</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"marg=
+in:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div dir=3D"ltr"=
+><div class=3D"gmail_extra"><span class=3D""><br><div class=3D"gmail_quote"=
+>On 12 September 2016 at 07:13, Sujith H <span dir=3D"ltr">&lt;<a href=3D"m=
+ailto:sujith.h@gmail.com" target=3D"_blank">sujith.h@gmail.com</a>&gt;</spa=
+n> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;b=
+order-left:1px #ccc solid;padding-left:1ex"><div>+# PIC can&#39;t be enable=
+d for 32-bit x86 and <span>cyclone5</span><br>
+=C2=A0INSANE_SKIP_${PN}_append_x86 =3D &quot; textrel&quot;<br>
++INSANE_SKIP_${PN}_append_<span>cycl<wbr>one5</span> =3D &quot; textrel&quo=
+t;</div></blockquote></div><br></span>Can this be generalised or is it abso=
+lutely specific to cyclone5?=C2=A0 If it can&#39;t be generalised then I fe=
+el that this should belong in the cyclone5 BSP.</div></div></blockquote><di=
+v><br></div><div>We found this with cyclone5 BSP. I will try to figure out =
+how if we can see it with qemuarm or other BSP&#39;s too.<br>=C2=A0<br></di=
+v><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:=
+1px #ccc solid;padding-left:1ex"><div dir=3D"ltr"><span class=3D"HOEnZb"><f=
+ont color=3D"#888888"><div class=3D"gmail_extra"><br></div><div class=3D"gm=
+ail_extra">Ross</div></font></span></div>
+</blockquote></div><br><br clear=3D"all"><br>-- <br><div class=3D"gmail_sig=
+nature" data-smartmail=3D"gmail_signature"><div dir=3D"ltr"><div><div dir=
+=3D"ltr"><div>=E0=B4=B8=E0=B5=81=E0=B4=9C=E0=B4=BF=E0=B4=A4=E0=B5=8D =E0=B4=
+=B9=E0=B4=B0=E0=B4=BF=E0=B4=A6=E0=B4=BE=E0=B4=B8=E0=B4=A8=E0=B5=8D<br>Banga=
+lore<br>&lt;Project&gt;Contributor to KDE project<br></div><div>&lt;Project=
+&gt;Contributor to Yocto project<br></div><div><a href=3D"http://fci.wikia.=
+com/wiki/Anti-DRM-Campaign" target=3D"_blank">http://fci.wikia.com/wiki/Ant=
+i-DRM-Campaign</a><br>&lt;Blog&gt; <a href=3D"http://sujithh.info" target=
+=3D"_blank">http://sujithh.info</a><br></div><div>C-x C-c<br></div></div></=
+div></div></div>
+</div></div>
+
+--001a11488a4242aa9a053c847e5d--
