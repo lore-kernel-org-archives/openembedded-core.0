@@ -1,60 +1,20 @@
-Return-Path: <peter.kjellerstedt@axis.com>
-X-Greylist: delayed 325 seconds by postgrey-1.34 at layers.openembedded.org;
-	Thu, 15 Sep 2016 15:50:16 UTC
-Received: from bes.se.axis.com (bes.se.axis.com [195.60.68.10])
-	by mail.openembedded.org (Postfix) with ESMTP id 163A675E80
+Return-Path: <patrick@stwcx.xyz>
+Received: from sender163-mail.zoho.com (sender163-mail.zoho.com
+	[74.201.84.163])
+	by mail.openembedded.org (Postfix) with ESMTP id C21D27318D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Sep 2016 15:50:16 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by bes.se.axis.com (Postfix) with ESMTP id ED0772E2D1
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Sep 2016 17:44:50 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at bes.se.axis.com
-X-Amavis-Alert: BAD HEADER SECTION, Duplicate header field: "References"
-Received: from bes.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bes.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP id eaHqSGramFUs
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Sep 2016 17:44:49 +0200 (CEST)
-Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
-	by bes.se.axis.com (Postfix) with ESMTPS id 640672E3D0
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Sep 2016 17:44:49 +0200 (CEST)
-Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 4F50D1A0AA
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Sep 2016 17:44:49 +0200 (CEST)
-Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 44E0F1A0B7
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Sep 2016 17:44:49 +0200 (CEST)
-Received: from thoth.se.axis.com (unknown [10.0.2.173])
-	by boulder02.se.axis.com (Postfix) with ESMTP
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Sep 2016 17:44:49 +0200 (CEST)
-Received: from saur-2.se.axis.com (saur-2.se.axis.com [10.92.3.2])
-	by thoth.se.axis.com (Postfix) with ESMTP id 38F3F344
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Sep 2016 17:44:49 +0200 (CEST)
-Received: from saur-2.se.axis.com (localhost [127.0.0.1])
-	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id u8FFinXG014682
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Sep 2016 17:44:49 +0200
-Received: (from pkj@localhost)
-	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id u8FFinL6014681
-	for openembedded-core@lists.openembedded.org;
-	Thu, 15 Sep 2016 17:44:49 +0200
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+	Thu, 15 Sep 2016 19:06:09 +0000 (UTC)
+Received: from localhost (76-250-84-236.lightspeed.austtx.sbcglobal.net
+	[76.250.84.236]) by mx.zohomail.com
+	with SMTPS id 1473966365007912.1116883038646;
+	Thu, 15 Sep 2016 12:06:05 -0700 (PDT)
+From: Patrick Williams <patrick@stwcx.xyz>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 15 Sep 2016 17:44:47 +0200
-Message-Id: <9069cd64902ee56dbc8f32fb4c78ba9cefd8a21c.1473954220.git.pkj@axis.com>
-X-Mailer: git-send-email 2.9.0
-In-Reply-To: <cover.1473954220.git.pkj@axis.com>
-References: <cover.1473954220.git.pkj@axis.com>
-In-Reply-To: <cover.1473954220.git.pkj@axis.com>
-References: <cover.1473954220.git.pkj@axis.com>
-X-TM-AS-GCONF: 00
-Subject: [PATCH 1/1] useradd_base.bbclass: Do not mess with the gshadow file in the sysroot
+Date: Thu, 15 Sep 2016 14:05:58 -0500
+Message-Id: <1473966359-13292-1-git-send-email-patrick@stwcx.xyz>
+X-Mailer: git-send-email 2.7.3
+Cc: Patrick Williams <patrick@stwcx.xyz>
+Subject: [PATCH 1/2] util-linux: Disable minix support.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -67,59 +27,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 Sep 2016 15:50:18 -0000
+X-List-Received-Date: Thu, 15 Sep 2016 19:06:12 -0000
 
-Previously, if the gshadow file did not exist in the sysroot when
-perform_groupmems() was run, it would be temporarily created and
-removed again afterwards. This was supposedly due to groupmems failing
-if it does not exist.
+Disable building of {mkfs,fsck}.minix.
 
-However, based on empirical testing and examination of the source code
-for groupmems, it should not fail if the gshadow file does not exist
-when groupmems is started. But it WILL fail if the file is removed
-sometime after its existence has been check at the beginning of the
-execution, but before it needs to be modified. And this is exactly
-what the previous code in perform_groupmems() could cause if multiple
-tasks simultaneously modified users or groups. It could cause any of
-the useradd, groupadd and groupmems commands to fail as long as at
-least one other recipe invoked perform_groupmems().
-
-Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+Signed-off-by: Patrick Williams <patrick@stwcx.xyz>
 ---
- meta/classes/useradd_base.bbclass | 12 ------------
- 1 file changed, 12 deletions(-)
+ meta/recipes-core/util-linux/util-linux.inc | 9 ++++-----
+ 1 file changed, 4 insertions(+), 5 deletions(-)
 
-diff --git a/meta/classes/useradd_base.bbclass b/meta/classes/useradd_base.bbclass
-index f4dc713..ba87edc 100644
---- a/meta/classes/useradd_base.bbclass
-+++ b/meta/classes/useradd_base.bbclass
-@@ -51,14 +51,6 @@ perform_groupmems () {
- 	local groupname=`echo "$opts" | awk '{ for (i = 1; i < NF; i++) if ($i == "-g" || $i == "--group") print $(i+1) }'`
- 	local username=`echo "$opts" | awk '{ for (i = 1; i < NF; i++) if ($i == "-a" || $i == "--add") print $(i+1) }'`
- 	bbnote "${PN}: Running groupmems command with group $groupname and user $username"
--	# groupmems fails if /etc/gshadow does not exist
--	local gshadow=""
--	if [ -f $rootdir${sysconfdir}/gshadow ]; then
--		gshadow="yes"
--	else
--		gshadow="no"
--		touch $rootdir${sysconfdir}/gshadow
--	fi
- 	local mem_exists="`grep "^$groupname:[^:]*:[^:]*:\([^,]*,\)*$username\(,[^,]*\)*" $rootdir/etc/group || true`"
- 	if test "x$mem_exists" = "x"; then
- 		eval flock -x $rootdir${sysconfdir} -c \"$PSEUDO groupmems \$opts\" || true
-@@ -69,10 +61,6 @@ perform_groupmems () {
- 	else
- 		bbnote "${PN}: group $groupname already contains $username, not re-adding it"
- 	fi
--	if test "x$gshadow" = "xno"; then
--		rm -f $rootdir${sysconfdir}/gshadow
--		rm -f $rootdir${sysconfdir}/gshadow-
--	fi
- }
+diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
+index bf770d8..608f198 100644
+--- a/meta/recipes-core/util-linux/util-linux.inc
++++ b/meta/recipes-core/util-linux/util-linux.inc
+@@ -45,7 +45,8 @@ SHARED_EXTRA_OECONF = "--disable-use-tty-group \
+                        --enable-raw --enable-reset --disable-login \
+                        --disable-vipw --disable-newgrp --disable-chfn-chsh \
+                        --enable-write --enable-mount \
+-                       --enable-libuuid --enable-libblkid --enable-fsck --without-udev \
++                       --enable-libuuid --enable-libblkid --enable-fsck \
++                       --disable-minix --without-udev \
+                        usrsbin_execdir='${sbindir}' \
+ "
  
- perform_groupdel () {
+@@ -191,7 +192,7 @@ do_install_append_class-native () {
+ ALTERNATIVE_PRIORITY = "80"
+ 
+ ALTERNATIVE_${PN}  = "dmesg kill more mkswap blockdev pivot_root switch_root"
+-ALTERNATIVE_${PN} += "mkfs.minix hexdump last lastb logger mesg renice wall"
++ALTERNATIVE_${PN} += "hexdump last lastb logger mesg renice wall"
+ ALTERNATIVE_${PN} += "setsid chrt flock utmpdump eject"
+ 
+ ALTERNATIVE_LINK_NAME[dmesg] = "${base_bindir}/dmesg"
+@@ -201,7 +202,6 @@ ALTERNATIVE_LINK_NAME[mkswap] = "${base_sbindir}/mkswap"
+ ALTERNATIVE_LINK_NAME[blockdev] = "${base_sbindir}/blockdev"
+ ALTERNATIVE_LINK_NAME[pivot_root] = "${base_sbindir}/pivot_root"
+ ALTERNATIVE_LINK_NAME[switch_root] = "${base_sbindir}/switch_root"
+-ALTERNATIVE_LINK_NAME[mkfs.minix] = "${base_sbindir}/mkfs.minix"
+ ALTERNATIVE_LINK_NAME[eject] = "${bindir}/eject"
+ 
+ ALTERNATIVE_${PN}-doc = "mountpoint.1 last.1 lastb.1 mesg.1 wall.1 nologin.8 sulogin.8 utmpdump.1 reset.1 kill.1 libblkid.3 blkid.8 findfs.8 fsck.8 uuid.3"
+@@ -248,8 +248,7 @@ ALTERNATIVE_util-linux-swaponoff = "swapoff swapon"
+ ALTERNATIVE_LINK_NAME[swapoff] = "${base_sbindir}/swapoff"
+ ALTERNATIVE_LINK_NAME[swapon] = "${base_sbindir}/swapon"
+ 
+-ALTERNATIVE_util-linux-fsck = "fsck.minix fsck"
+-ALTERNATIVE_LINK_NAME[fsck.minix] = "${base_sbindir}/fsck.minix"
++ALTERNATIVE_util-linux-fsck = "fsck"
+ ALTERNATIVE_LINK_NAME[fsck] = "${base_sbindir}/fsck"
+ 
+ ALTERNATIVE_util-linux-blkid = "blkid"
 -- 
-2.9.0
+2.7.3
+
 
 
