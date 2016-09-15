@@ -1,30 +1,22 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 8952E700F3
+Return-Path: <patrick@stwcx.xyz>
+Received: from sender163-mail.zoho.com (sender163-mail.zoho.com
+	[74.201.84.163])
+	by mail.openembedded.org (Postfix) with ESMTP id 6562B6057A
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Sep 2016 20:41:23 +0000 (UTC)
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-	by fmsmga101.fm.intel.com with ESMTP; 15 Sep 2016 13:41:26 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.30,340,1470726000"; 
-   d="scan'208";a="9322645"
-Received: from ananthna-mobl.gar.corp.intel.com (HELO
-	peggleto-mobl.ger.corp.intel.com) ([10.255.179.76])
-	by orsmga005.jf.intel.com with ESMTP; 15 Sep 2016 13:41:22 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Gary Thomas <gary@mlbassoc.com>, "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 16 Sep 2016 08:41:19 +1200
-Message-ID: <6144111.OaLyj9AJNZ@peggleto-mobl.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.14.10 (Linux/4.7.3-100.fc23.x86_64; KDE/4.14.20; x86_64; ;
-	)
-In-Reply-To: <a95b826d-cdcd-cf1d-bb38-6bf47122a528@mlbassoc.com>
-References: <72492146-b352-1f59-1d23-26f71773d689@mlbassoc.com>
-	<CAJTo0LaeKEUKKheg2Grgc5SKoANQbRKT8TX-F2e7aL6ozdd+Eg@mail.gmail.com>
-	<a95b826d-cdcd-cf1d-bb38-6bf47122a528@mlbassoc.com>
-MIME-Version: 1.0
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: Crazy display
+	Thu, 15 Sep 2016 21:11:21 +0000 (UTC)
+Received: from localhost (76-250-84-236.lightspeed.austtx.sbcglobal.net
+	[76.250.84.236]) by mx.zohomail.com
+	with SMTPS id 1473973880725761.6920886166293;
+	Thu, 15 Sep 2016 14:11:20 -0700 (PDT)
+From: Patrick Williams <patrick@stwcx.xyz>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 15 Sep 2016 16:11:16 -0500
+Message-Id: <1473973877-14758-1-git-send-email-patrick@stwcx.xyz>
+X-Mailer: git-send-email 2.7.3
+In-Reply-To: <b88d60f8-7916-b1a0-f381-b62c9111c7be@windriver.com>
+References: <b88d60f8-7916-b1a0-f381-b62c9111c7be@windriver.com>
+Cc: Patrick Williams <patrick@stwcx.xyz>
+Subject: [PATCH v2 1/2] util-linux: Disable minix support.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,33 +29,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 Sep 2016 20:41:24 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Thu, 15 Sep 2016 21:11:24 -0000
 
-On Thu, 15 Sep 2016 22:26:09 Gary Thomas wrote:
-> On 2016-09-15 22:12, Burton, Ross wrote:
-> > On 15 September 2016 at 21:03, Paul Eggleton 
-<paul.eggleton@linux.intel.com <mailto:paul.eggleton@linux.intel.com>> wrote:
-> >     Are you guys perhaps using the same terminal application? Using screen
-> >     / tmux / anything similar? (I'm using screen here and haven't
-> >     experienced problems though.)
-> > 
-> > I'm using iTerm2 on a Mac to run normal SSH to my Linux box. No
-> > screen/tmux/etc.
->
-> Pretty much the same for me - just SSH in an xterm window.
+Disable building of {mkfs,fsck}.minix, which are used
+to support minix file-systems.  Minix predates Linux and
+support for its file-systems is unlikely to be needed.
 
-Hmm, I'm still no closer then.
+No recipes otherwise reference minix, except in patches
+to autotools configuration scripts, so there should be no
+impact to other recipes.
 
-Does it just start happening at some point in the middle of a build? Or right 
-from the start?
+Signed-off-by: Patrick Williams <patrick@stwcx.xyz>
+---
+ meta/recipes-core/util-linux/util-linux.inc | 9 ++++-----
+ 1 file changed, 4 insertions(+), 5 deletions(-)
 
-Cheers,
-Paul
-
+diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
+index bf770d8..608f198 100644
+--- a/meta/recipes-core/util-linux/util-linux.inc
++++ b/meta/recipes-core/util-linux/util-linux.inc
+@@ -45,7 +45,8 @@ SHARED_EXTRA_OECONF = "--disable-use-tty-group \
+                        --enable-raw --enable-reset --disable-login \
+                        --disable-vipw --disable-newgrp --disable-chfn-chsh \
+                        --enable-write --enable-mount \
+-                       --enable-libuuid --enable-libblkid --enable-fsck --without-udev \
++                       --enable-libuuid --enable-libblkid --enable-fsck \
++                       --disable-minix --without-udev \
+                        usrsbin_execdir='${sbindir}' \
+ "
+ 
+@@ -191,7 +192,7 @@ do_install_append_class-native () {
+ ALTERNATIVE_PRIORITY = "80"
+ 
+ ALTERNATIVE_${PN}  = "dmesg kill more mkswap blockdev pivot_root switch_root"
+-ALTERNATIVE_${PN} += "mkfs.minix hexdump last lastb logger mesg renice wall"
++ALTERNATIVE_${PN} += "hexdump last lastb logger mesg renice wall"
+ ALTERNATIVE_${PN} += "setsid chrt flock utmpdump eject"
+ 
+ ALTERNATIVE_LINK_NAME[dmesg] = "${base_bindir}/dmesg"
+@@ -201,7 +202,6 @@ ALTERNATIVE_LINK_NAME[mkswap] = "${base_sbindir}/mkswap"
+ ALTERNATIVE_LINK_NAME[blockdev] = "${base_sbindir}/blockdev"
+ ALTERNATIVE_LINK_NAME[pivot_root] = "${base_sbindir}/pivot_root"
+ ALTERNATIVE_LINK_NAME[switch_root] = "${base_sbindir}/switch_root"
+-ALTERNATIVE_LINK_NAME[mkfs.minix] = "${base_sbindir}/mkfs.minix"
+ ALTERNATIVE_LINK_NAME[eject] = "${bindir}/eject"
+ 
+ ALTERNATIVE_${PN}-doc = "mountpoint.1 last.1 lastb.1 mesg.1 wall.1 nologin.8 sulogin.8 utmpdump.1 reset.1 kill.1 libblkid.3 blkid.8 findfs.8 fsck.8 uuid.3"
+@@ -248,8 +248,7 @@ ALTERNATIVE_util-linux-swaponoff = "swapoff swapon"
+ ALTERNATIVE_LINK_NAME[swapoff] = "${base_sbindir}/swapoff"
+ ALTERNATIVE_LINK_NAME[swapon] = "${base_sbindir}/swapon"
+ 
+-ALTERNATIVE_util-linux-fsck = "fsck.minix fsck"
+-ALTERNATIVE_LINK_NAME[fsck.minix] = "${base_sbindir}/fsck.minix"
++ALTERNATIVE_util-linux-fsck = "fsck"
+ ALTERNATIVE_LINK_NAME[fsck] = "${base_sbindir}/fsck"
+ 
+ ALTERNATIVE_util-linux-blkid = "blkid"
 -- 
+2.7.3
 
-Paul Eggleton
-Intel Open Source Technology Centre
+
 
