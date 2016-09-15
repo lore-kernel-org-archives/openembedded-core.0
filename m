@@ -1,28 +1,48 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 72B437016E
+Return-Path: <ross.burton@intel.com>
+Received: from mail-it0-f42.google.com (mail-it0-f42.google.com
+	[209.85.214.42])
+	by mail.openembedded.org (Postfix) with ESMTP id A2FBB7016E
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Sep 2016 20:03:41 +0000 (UTC)
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-	by fmsmga103.fm.intel.com with ESMTP; 15 Sep 2016 13:03:41 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.30,340,1470726000"; 
-   d="scan'208";a="9498260"
-Received: from ananthna-mobl.gar.corp.intel.com (HELO
-	peggleto-mobl.ger.corp.intel.com) ([10.255.179.76])
-	by orsmga004.jf.intel.com with ESMTP; 15 Sep 2016 13:03:38 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: "Burton, Ross" <ross.burton@intel.com>, Gary Thomas <gary@mlbassoc.com>
-Date: Fri, 16 Sep 2016 08:03:36 +1200
-Message-ID: <2762804.COdzxK9n1p@peggleto-mobl.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.14.10 (Linux/4.7.3-100.fc23.x86_64; KDE/4.14.20; x86_64; ;
-	)
-In-Reply-To: <CAJTo0LbuVqOsjMUix-ntx67a6PVEcLFeYrAN8XnCh7eJzBQgdw@mail.gmail.com>
+	Thu, 15 Sep 2016 20:12:39 +0000 (UTC)
+Received: by mail-it0-f42.google.com with SMTP id o3so1640898ita.1
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 15 Sep 2016 13:12:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=jWvZtmaRSs1DimdNaJJvRlF+fHIhxDdMsjUKsCX/xRU=;
+	b=PGm5TyycUG6zzUSj+UB+yqzjpXhZTLfKyDQzikJDD7t/2+7yPTcmca7dFgsxzDsuFY
+	93PIghfFuP74JCrGgQ7tZRsgZWbXpqnYHqAWxm1WctnSQnnrPwA6IeHzmjTZX0XDw+UC
+	wpOsFoirT6OzjWiYeniYhLbsgKUoiNSG9v75Ya/TfmnCcs26oPIpTTccl+GsH+SJykaa
+	irF3WzU1TkdMOn8FZP+Ppm9OQy+50D0pz84sStvI5dEE//lD+UHF9CQgyzw9StHsVBfh
+	2o/yeJ4l11zDheY30xQxmy/SPmByontdJxDc3lOnwlHTDPu2XHvzTDbs4iOgkNNJwX22
+	KCPQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=jWvZtmaRSs1DimdNaJJvRlF+fHIhxDdMsjUKsCX/xRU=;
+	b=TPj2scku+Vnme5Qep7iO3OMj1futuSHcMwjPOo1SgVQa5BYdqKb6qLwe90j6+JSSPX
+	Bn3KcvdE+YFTTmBo4TTHTJAbIraw69E17CnM5t5Ian32WutAb1GYSOg33kqFmz/YnTFY
+	m6b7+AlOnkdgvJ0bEnfeDfeZ/xB9vM/AxEwAPIq3tYA5hrQDGwGzAG4IydJLeLf88s8b
+	XX6YxDmGROPCOWQTpMqK0DQRszXQ4z3zH8/1A5Xn8wg1ACOXAfTdLgxhvVNkLq/JkMSi
+	q8EssNxGfv3+BpMmSzy5f7iidYhEo3RL0AOOHLhRWEzDsabgUJ03Yrmq+/UjyqvpkJtN
+	vnRg==
+X-Gm-Message-State: AE9vXwOPInonHn/zWIfDgxVKCyDf7covC9RBEuZ/O8WkGNfbzCaZsUOCHi7kzBoBWViKBNHwwRwuH1qcdCBjbMw2
+X-Received: by 10.36.192.9 with SMTP id u9mr1712561itf.86.1473970359535; Thu,
+	15 Sep 2016 13:12:39 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.107.135.27 with HTTP; Thu, 15 Sep 2016 13:12:19 -0700 (PDT)
+In-Reply-To: <2762804.COdzxK9n1p@peggleto-mobl.ger.corp.intel.com>
 References: <72492146-b352-1f59-1d23-26f71773d689@mlbassoc.com>
 	<CAJTo0LbuVqOsjMUix-ntx67a6PVEcLFeYrAN8XnCh7eJzBQgdw@mail.gmail.com>
-MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
+	<2762804.COdzxK9n1p@peggleto-mobl.ger.corp.intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 15 Sep 2016 21:12:19 +0100
+Message-ID: <CAJTo0LaeKEUKKheg2Grgc5SKoANQbRKT8TX-F2e7aL6ozdd+Eg@mail.gmail.com>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+Cc: Gary Thomas <gary@mlbassoc.com>,
+	OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: Crazy display
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -36,79 +56,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 Sep 2016 20:03:42 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Thu, 15 Sep 2016 20:12:39 -0000
+Content-Type: multipart/alternative; boundary=94eb2c05aa2ab0d602053c9177bd
 
-I understand some people are seeing this issue with the progress bar, but so 
-far I haven't observed any problems here - any help reproducing it would be 
-much appreciated. The bugzilla entry is:
+--94eb2c05aa2ab0d602053c9177bd
+Content-Type: text/plain; charset=UTF-8
 
-  https://bugzilla.yoctoproject.org/show_bug.cgi?id=10046
+On 15 September 2016 at 21:03, Paul Eggleton <paul.eggleton@linux.intel.com>
+wrote:
 
-Are you guys perhaps using the same terminal application? Using screen / tmux 
-/ anything similar? (I'm using screen here and haven't experienced problems 
-though.)
+> Are you guys perhaps using the same terminal application? Using screen /
+> tmux
+> / anything similar? (I'm using screen here and haven't experienced problems
+> though.)
+>
 
-Cheers,
-Paul
+I'm using iTerm2 on a Mac to run normal SSH to my Linux box. No
+screen/tmux/etc.
 
-On Thu, 15 Sep 2016 12:38:21 Burton, Ross wrote:
-> Yes, I see this at least once a day, and there's a bug for it somewhere in
-> bugzilla.
-> 
-> Ross
-> 
-> On 15 September 2016 at 12:30, Gary Thomas <gary@mlbassoc.com> wrote:
-> > I haven't seen this before, just thought I'd toss it out there.
-> > I was doing a build (actually three in parallel in separate
-> > windows on my build box) and noticed this:
-> > 
-> > Currently  3 running tasks (3282 of 5081)  64%
-> > 
-> > |###################################################        |
-> > 
-> > 0: busybox-1.24.1-r0 do_compile (pid 29425)
-> > Currently  3 running tasks (3283 of 5081)  64%
-> > 
-> > |###################################################        |
-> > 
-> > Currently  3 running tasks (3429 of 5081)  67%
-> > 
-> > |#####################################################        |
-> > 
-> > 0: gstreamer1.0-libav-1.8.3-r0 do_configure (pid 10393)
-> > Currently  1 running tasks (3560 of 5081)  70%
-> > 
-> > |########################################################        |
-> > 
-> > 0: gstreamer1.0-libav-1.8.3-r0 do_compile (pid 17458)
-> > Currently  3 running tasks (3601 of 5081)  70%
-> > 
-> > |########################################################        |
-> > 
-> > 0: gstreamer1.0-libav-1.8.3-r0 do_compile (pid 17458)
-> > 1: gdk-pixbuf-2.34.0-r0 do_package_write_ipk (pid 12673)
-> > 2: unifdef-native-2.11-r0 do_populate_lic (pid 24548)
-> > 
-> > Somehow the task tracker (that does a nice job of telling the user
-> > what's going on without being overwhelming BTW) got very confused!
-> > 
-> > I doubt if I can every repeat this, just passing on the observation!
-> > 
-> > --
-> > ------------------------------------------------------------
-> > Gary Thomas                 |  Consulting for the
-> > MLB Associates              |    Embedded world
-> > ------------------------------------------------------------
-> > --
-> > _______________________________________________
-> > Openembedded-core mailing list
-> > Openembedded-core@lists.openembedded.org
-> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Ross
 
--- 
+--94eb2c05aa2ab0d602053c9177bd
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Paul Eggleton
-Intel Open Source Technology Centre
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 15 September 2016 at 21:03, Paul Eggleton <span dir=3D"ltr">&lt;<a href=
+=3D"mailto:paul.eggleton@linux.intel.com" target=3D"_blank">paul.eggleton@l=
+inux.intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" s=
+tyle=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div=
+ id=3D":3ag" class=3D"a3s aXjCH m1572f72b1848f46a">Are you guys perhaps usi=
+ng the same terminal application? Using screen / tmux<br>
+/ anything similar? (I&#39;m using screen here and haven&#39;t experienced =
+problems<br>
+though.)</div></blockquote></div><br>I&#39;m using iTerm2 on a Mac to run n=
+ormal SSH to my Linux box. No screen/tmux/etc.</div><div class=3D"gmail_ext=
+ra"><br></div><div class=3D"gmail_extra">Ross</div></div>
 
+--94eb2c05aa2ab0d602053c9177bd--
