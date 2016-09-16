@@ -1,28 +1,35 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-	by mail.openembedded.org (Postfix) with ESMTP id EDE686612C
+Return-Path: <gary@mlbassoc.com>
+Received: from mail.analogue-micro.com (mail.analogue-micro.com
+	[217.144.149.242])
+	by mail.openembedded.org (Postfix) with ESMTP id 639AF60620
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Sep 2016 02:30:15 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga105.fm.intel.com with ESMTP; 15 Sep 2016 19:30:16 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.30,342,1470726000"; d="scan'208";a="879730990"
-Received: from ananthna-mobl.gar.corp.intel.com (HELO
-	peggleto-mobl.ger.corp.intel.com) ([10.255.179.76])
-	by orsmga003.jf.intel.com with ESMTP; 15 Sep 2016 19:30:14 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Mark Hatle <mark.hatle@windriver.com>
-Date: Fri, 16 Sep 2016 14:30:12 +1200
-Message-ID: <17550096.l9I4ncyCxb@peggleto-mobl.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.14.10 (Linux/4.7.3-100.fc23.x86_64; KDE/4.14.20; x86_64; ;
-	)
-In-Reply-To: <1473979659-120831-2-git-send-email-mark.hatle@windriver.com>
-References: <1473979659-120831-1-git-send-email-mark.hatle@windriver.com>
-	<1473979659-120831-2-git-send-email-mark.hatle@windriver.com>
+	Fri, 16 Sep 2016 04:29:14 +0000 (UTC)
+Received: by mail.analogue-micro.com (Postfix, from userid 999)
+	id ED43268A01C; Fri, 16 Sep 2016 05:29:13 +0100 (BST)
+X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
+	loki.analogue-micro-ltd.com
+X-Spam-Level: **
+X-Spam-Status: No, score=2.5 required=5.0 tests=ALL_TRUSTED,BAYES_50,
+	DNS_FROM_AHBL_RHSBL autolearn=no version=3.3.2
+Received: from zeus.mlbassoc.com (unknown [10.8.0.2])
+	by mail.analogue-micro.com (Postfix) with ESMTP id 5546F68A019;
+	Fri, 16 Sep 2016 05:29:13 +0100 (BST)
+Received: from [127.0.0.1] (localhost.localdomain [127.0.0.1])
+	by zeus.mlbassoc.com (Postfix) with ESMTP id 06D7A67402C1;
+	Fri, 16 Sep 2016 06:29:13 +0200 (CEST)
+To: openembedded-core@lists.openembedded.org
+References: <72492146-b352-1f59-1d23-26f71773d689@mlbassoc.com>
+	<6144111.OaLyj9AJNZ@peggleto-mobl.ger.corp.intel.com>
+	<1473976307.7207.151.camel@linuxfoundation.org>
+	<1517439.eAOeRX8ZQL@peggleto-mobl.ger.corp.intel.com>
+From: Gary Thomas <gary@mlbassoc.com>
+Message-ID: <a6f6bf4f-9024-1ddc-c12a-ae3a83f68252@mlbassoc.com>
+Date: Fri, 16 Sep 2016 06:29:12 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.2.0
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 2/2] package_manager.py: Change diagnostic messages per IRC
+In-Reply-To: <1517439.eAOeRX8ZQL@peggleto-mobl.ger.corp.intel.com>
+Subject: Re: Crazy display
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,73 +42,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 16 Sep 2016 02:30:16 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Fri, 16 Sep 2016 04:29:15 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Thu, 15 Sep 2016 17:47:39 Mark Hatle wrote:
-> Based on a discussion with IRC user: Ulfalizer
-> 
-> It was suggested that removing the diagnostic list, and replacing it with a
-> simple hint to what might be causing the problem was a better solution.
-> 
-> Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
-> ---
->  meta/lib/oe/package_manager.py | 20 ++++++++++++--------
->  1 file changed, 12 insertions(+), 8 deletions(-)
-> 
-> diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
-> index d609593..dc88f62 100644
-> --- a/meta/lib/oe/package_manager.py
-> +++ b/meta/lib/oe/package_manager.py
-> @@ -838,11 +838,13 @@ class RpmPM(PackageManager):
->                      new_pkg = self._search_pkg_name_in_feeds(subst,
-> feed_archs) if not new_pkg:
->                          # Failed to translate, package not found!
-> -                        err_msg = '%s not found in the %s feeds (%s).' % \
-> -                                  (pkg, mlib, " ".join(feed_archs))
-> +                        err_msg = '%s not found in the %s feeds (%s) in
-> %s.' % \ +                                  (pkg, mlib, "
-> ".join(feed_archs), self.d.getVar('DEPLOY_DIR_RPM', True)) if not
-> attempt_only:
-> -                            bb.error("List of available packages: " + "
-> ".join(self.fullpkglist)) -                            bb.fatal(err_msg)
-> +                            bb.error(err_msg)
-> +                            bb.fatal("This is often caused by an empty
-> package declared " \ +                                     "in a recipe's
-> PACKAGES variable. (Empty packages are " \ +                               
->      "not constructed unless ALLOW_EMPTY_<pkg> = '1' is used.)")
-> bb.warn(err_msg)
->                      else:
->                          new_pkgs.append(new_pkg)
-> @@ -855,11 +857,13 @@ class RpmPM(PackageManager):
->                  default_archs = self.ml_prefix_list['default']
->                  new_pkg = self._search_pkg_name_in_feeds(pkg,
-> default_archs) if not new_pkg:
-> -                    err_msg = '%s not found in the feeds (%s).' % \
-> -                              (pkg, ' '.join(default_archs))
-> +                    err_msg = '%s not found in the feeds (%s) in %s.' % \
-> +                                  (pkg, " ".join(default_archs),
-> self.d.getVar('DEPLOY_DIR_RPM', True)) if not attempt_only:
-> -                        bb.error("List of available packages: " + "
-> ".join(self.fullpkglist)) -                        bb.fatal(err_msg)
-> +                        bb.error(err_msg)
-> +                        bb.fatal("This is often caused by an empty package
-> declared " \ +                                 "in a recipe's PACKAGES
-> variable. (Empty packages are " \ +                                 "not
-> constructed unless ALLOW_EMPTY_<pkg> = '1' is used.)") bb.warn(err_msg)
->                  else:
->                      new_pkgs.append(new_pkg)
+On 2016-09-16 00:00, Paul Eggleton wrote:
+> On Thu, 15 Sep 2016 22:51:47 Richard Purdie wrote:
+>> On Fri, 2016-09-16 at 08:41 +1200, Paul Eggleton wrote:
+>>> On Thu, 15 Sep 2016 22:26:09 Gary Thomas wrote:
+>>>> On 2016-09-15 22:12, Burton, Ross wrote:
+>>>>> On 15 September 2016 at 21:03, Paul Eggleton
+>>>
+>>> <paul.eggleton@linux.intel.com <mailto:paul.eggleton@linux.intel.com>
+>>>
+>>>> wrote:
+>>>>>     Are you guys perhaps using the same terminal application?
+>>>>> Using screen
+>>>>>     / tmux / anything similar? (I'm using screen here and haven't
+>>>>>     experienced problems though.)
+>>>>>
+>>>>> I'm using iTerm2 on a Mac to run normal SSH to my Linux box. No
+>>>>> screen/tmux/etc.
+>>>>
+>>>> Pretty much the same for me - just SSH in an xterm window.
+>>>
+>>> Hmm, I'm still no closer then.
+>>>
+>>> Does it just start happening at some point in the middle of a build?
+>>> Or right
+>>> from the start?
+>>
+>> Seems to happen at various points during the build. Looks like bad
+>> timing of console updates so can happen at any point, I'd see evidence
+>> its happened multiple times in a given build.
+>
+> This is bizarre. Clearly something is different between your systems and mine
+> :/
 
-Thanks for sorting this out - it's always bothered me a little bit every time 
-I came across it (no doubt this came across in our discussion, I hope I wasn't 
-too impertinent).
-
-Cheers,
-Paul
+I've only seen it when my build machine was quite busy (yesterday
+when I first noticed, I had three builds going at once)
 
 -- 
-
-Paul Eggleton
-Intel Open Source Technology Centre
+------------------------------------------------------------
+Gary Thomas                 |  Consulting for the
+MLB Associates              |    Embedded world
+------------------------------------------------------------
 
