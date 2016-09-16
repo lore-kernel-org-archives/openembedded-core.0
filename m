@@ -1,24 +1,46 @@
-Return-Path: <joshua.g.lock@linux.intel.com>
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by mail.openembedded.org (Postfix) with ESMTP id 27F51731D8
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io0-f175.google.com (mail-io0-f175.google.com
+	[209.85.223.175])
+	by mail.openembedded.org (Postfix) with ESMTP id E736A731D6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Sep 2016 12:52:54 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga105.jf.intel.com with ESMTP; 16 Sep 2016 05:52:55 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.30,344,1470726000"; d="scan'208";a="1031537896"
-Received: from jlock-mobl1.ger.corp.intel.com ([10.252.30.107])
-	by orsmga001.jf.intel.com with ESMTP; 16 Sep 2016 05:52:54 -0700
-From: Joshua Lock <joshua.g.lock@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 16 Sep 2016 13:52:33 +0100
-Message-Id: <8b36659a613c980781797166daadf4d961cdc152.1474030160.git.joshua.g.lock@intel.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <cover.1474030160.git.joshua.g.lock@intel.com>
-References: <cover.1474030160.git.joshua.g.lock@intel.com>
-In-Reply-To: <cover.1474030160.git.joshua.g.lock@intel.com>
-References: <cover.1474030160.git.joshua.g.lock@intel.com>
-Subject: [PATCH 6/6] runqemu: work even if a *.qemuboot.conf isn't found
+	Fri, 16 Sep 2016 14:26:18 +0000 (UTC)
+Received: by mail-io0-f175.google.com with SMTP id m186so27261637ioa.2
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 16 Sep 2016 07:26:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=G6tGT8z/BPIzanlA+uqJma4u5WmdZiugyO+942cGSXs=;
+	b=waRlqjjkMzMdEMz+fB8KeE90AzMSBsIMV7pZnW1f7VJk+sj6WNjQ+HcYyJRahSHkD4
+	gWrWNP40D9YoXoBzNsP12swwXyQZlun8ckDUoQLd4ngtm/OZj/ZrUmsCGoDJjQMglJdK
+	ZEjIEBc1O9bNKQAq+FOa7EXGBh3bbBL8rzGvpD8ESoXHMU28s+mJJRUfHy4qymJH6EB7
+	c/R4v+25u6UU09nt/G/RH+U4mDzJAZkwGMIKb6JCW+0H3eiqThl2H60V5lWQ6k78Bx31
+	9ox6P/eP8gAeyOSSLCFFm9gUvFgI/khDt4+pHv4tZA43hhSd28VQqTGD2nClynyGQhLv
+	T5qg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=G6tGT8z/BPIzanlA+uqJma4u5WmdZiugyO+942cGSXs=;
+	b=P9ggkd4X4dNhpQ38ud1Z4w8W8EJftHxXsdre9Qb7dPyxmcuJXI8XOQVgUfg0ntrc9c
+	UhA1CYgiJ2IqrMvxts/xc3A9lE+7amteZkgqvrW/wNogwh28WMddA+bUBWOCr3+9sJ31
+	wMecu0mAGNPWs1LEGQDpllGA2HA/eQYTFkWvLeEbwyfUEbKEpNzcyvzVOi5DzwdD7QaR
+	Wm8OeW5z7jnf/fpBkD4S8a/6hK8KMOCBi42AL60F86no0bSuFYjkPWyoEArQWI9hI3rb
+	DOW8i9qpt5fLhUSQP9TwjM/Q8/JinLTcu7E4p3/JUEY4Kj6znbU+vNhe224nnxUWkndp
+	kJcg==
+X-Gm-Message-State: AE9vXwNiPEHfKHt4mEsa0ryp01f+naCQw60inxk1WPIGx3xi385iEH7fh9lZJaIvMdT66A593QtFtvkp/NSjrt5A
+X-Received: by 10.107.199.195 with SMTP id x186mr25824368iof.88.1474035979042; 
+	Fri, 16 Sep 2016 07:26:19 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.107.135.27 with HTTP; Fri, 16 Sep 2016 07:25:58 -0700 (PDT)
+In-Reply-To: <20160914050848.14612-1-jackie.huang@windriver.com>
+References: <20160914050848.14612-1-jackie.huang@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 16 Sep 2016 15:25:58 +0100
+Message-ID: <CAJTo0LZ6dn5LyMV34-UrJ75bz-gvqGGWaGWEcCkGpXBc_ty9hw@mail.gmail.com>
+To: "jackie.huang@windriver.com" <jackie.huang@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] boost: add support for additional boost libs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,48 +53,80 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 16 Sep 2016 12:52:54 -0000
+X-List-Received-Date: Fri, 16 Sep 2016 14:26:19 -0000
+Content-Type: multipart/alternative; boundary=94eb2c11be4eeaf6db053ca0bee7
 
-A qemuboot conf file is a convenience but it should still be
-possible to invoke runqemu without them, especially for examples
-such as using the SDK with an extracted rootfs via NFS.
+--94eb2c11be4eeaf6db053ca0bee7
+Content-Type: text/plain; charset=UTF-8
 
-As read_qemuboot() is always called we need to be sure that function
-can return cleanly, without throwing Exceptions, even if a qemuboot
-conf file isn't found.
+On 14 September 2016 at 06:08, <jackie.huang@windriver.com> wrote:
 
-Signed-off-by: Joshua Lock <joshua.g.lock@intel.com>
----
- scripts/runqemu | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+> From: Jackie Huang <jackie.huang@windriver.com>
+>
+> * Added libs:
+>   - container
+>   - context
+>   - coroutine
+>   - exception
+>   - graph_parallel
+>   - locale
+>   - math
+>   - mpi
+>   - wave
+>
+> * Add PACKAGECONFIG to add proper dependencies for boost-locale
+>
+> * context and coroutine are added only for x86 and powerpc
+>
 
-diff --git a/scripts/runqemu b/scripts/runqemu
-index 38f9b30..10122af 100755
---- a/scripts/runqemu
-+++ b/scripts/runqemu
-@@ -557,7 +557,8 @@ class BaseConfig(object):
-             elif os.getenv('DEPLOY_DIR_IMAGE'):
-                 deploy_dir_image = os.getenv('DEPLOY_DIR_IMAGE')
-             else:
--                raise OEPathError("DEPLOY_DIR_IMAGE is NULL!")
-+                logger.info("Can't find qemuboot conf file, DEPLOY_DIR_IMAGE is NULL!")
-+                return
- 
-             if self.rootfs and not os.path.exists(self.rootfs):
-                 # Lazy rootfs
-@@ -574,6 +575,11 @@ class BaseConfig(object):
-                     self.qemuboot = qbs.split()[0]
-                     self.qbconfload = True
- 
-+        if not self.qemuboot:
-+            # If we haven't found a .qemuboot.conf at this point it probably
-+            # doesn't exist, continue without
-+            return
-+
-         if not os.path.exists(self.qemuboot):
-             raise Exception("Failed to find <image>.qemuboot.conf!")
- 
--- 
-2.7.4
+This patch appears to be periodically breaking boost in the autobuilder
+runs.
 
+| libs/math/build/../src/tr1/asinhf.cpp:6:21: error: while reading
+precompiled header: No such file or directory
 
+See http://autobuilder.yocto.io:8010/builders/nightly-x86-64-lsb/builds/56/
+for the full logs.  A build earlier also ended with GCC internal errors,
+but these may be related.
+
+Ross
+
+--94eb2c11be4eeaf6db053ca0bee7
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 14 September 2016 at 06:08,  <span dir=3D"ltr">&lt;<a href=3D"mailto:jac=
+kie.huang@windriver.com" target=3D"_blank">jackie.huang@windriver.com</a>&g=
+t;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px 0=
+px 0px 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);borde=
+r-left-style:solid;padding-left:1ex"><div id=3D"gmail-:18m" class=3D"gmail-=
+a3s gmail-aXjCH gmail-m157272899329453d">From: Jackie Huang &lt;<a href=3D"=
+mailto:jackie.huang@windriver.com">jackie.huang@windriver.com</a>&gt;<br>
+<br>
+* Added libs:<br>
+=C2=A0 - container<br>
+=C2=A0 - context<br>
+=C2=A0 - coroutine<br>
+=C2=A0 - exception<br>
+=C2=A0 - graph_parallel<br>
+=C2=A0 - locale<br>
+=C2=A0 - math<br>
+=C2=A0 - mpi<br>
+=C2=A0 - wave<br>
+<br>
+* Add PACKAGECONFIG to add proper dependencies for <span class=3D"gmail-il"=
+>boost</span>-locale<br>
+<br>
+* context and coroutine are added only for x86 and powerpc<br></div></block=
+quote></div><br>This patch appears to be periodically breaking boost in the=
+ autobuilder runs.</div><br>| libs/math/build/../src/tr1/asinhf.cpp:6:21: e=
+rror: while reading precompiled header: No such file or directory<br><br><d=
+iv class=3D"gmail_extra">See <a href=3D"http://autobuilder.yocto.io:8010/bu=
+ilders/nightly-x86-64-lsb/builds/56/">http://autobuilder.yocto.io:8010/buil=
+ders/nightly-x86-64-lsb/builds/56/</a> for the full logs.=C2=A0 A build ear=
+lier also ended with GCC internal errors, but these may be related.<br></di=
+v><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div=
+></div>
+
+--94eb2c11be4eeaf6db053ca0bee7--
