@@ -1,38 +1,40 @@
 Return-Path: <andre.draszik@gmail.com>
-Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 1D50A731F7
+Received: from mail-wm0-f66.google.com (mail-wm0-f66.google.com [74.125.82.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 0F344731F7
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Sep 2016 14:30:22 +0000 (UTC)
-Received: by mail-wm0-f68.google.com with SMTP id l132so2856590wmf.1
+	Fri, 16 Sep 2016 14:31:58 +0000 (UTC)
+Received: by mail-wm0-f66.google.com with SMTP id b187so4020741wme.0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Sep 2016 07:30:23 -0700 (PDT)
+	Fri, 16 Sep 2016 07:31:59 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=bMeNYB5UfU6BV8WqrYaKMWZLq1HOksLPVa8mo/uxCrs=;
-	b=f236xCZLYM7cYGL2AdU/PkJqlFVMk8czFmlyEr6DQP/UiLi4WRbbNrkgAIbWVkO1Zo
-	REAa/UJlCqKsLWb40Cia4tsvCJ7WeK6IXR7Q+T8CfXunZ/+TY7+hgLelb0VlcYis5w4l
-	DvwCFrfJq5IDQ9cX2u5oj35B5IeFSJb8Kys+ABRJADXNYgt5aiwkRTXSt9tYq2LFRFLI
-	rQolqyrRMBv7Dnb3pKvPgXTi20M7nKFCSHpJSAbo9IyDIkrFci1Sst93k9GZMD3nPYXS
-	31Xak7rJEQnNzN+1PZk9/wqh6FWcA9M+gghjVNdEPVOCYNXmTpuEQO1DLG4RlfpQOG9B
-	pqoA==
-X-Gm-Message-State: AE9vXwOSgkftJFOtTjL11OllOcmQmTOA0sk53v5IMLm3jucd4obF6fkqhAv8LfhP+H6KjQ==
-X-Received: by 10.194.88.137 with SMTP id bg9mr12834983wjb.155.1474036222937; 
-	Fri, 16 Sep 2016 07:30:22 -0700 (PDT)
+	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=vr6gjvNgxEvuTHGb4f0HeEVZbQMHazZksS6DvLTCCu8=;
+	b=LvgRs+Mo6K1P5kZhYY7B8IthOY/vYu9/HOZfnTHWFuBROL1S+J6Ho/ouJKKnEneSB0
+	ZwWLAaQbN6zi+QxB5IJ1MorOw5ddyJOVpgq1pZkjZHlrLNnbuPv/kpVPuIZfCLqV8Mov
+	c1n0uLlkuJN5spXKHNuyUiLhj8+ad8nZROC9dgiLx3laTi4/nh0H8umYxKzeuIPc4k7B
+	RfTZlHbdeJH27gLp2/601NYWXcKVreV5jLWZs9UqShr6FDneqUO0V0uqTaG4u/13XI17
+	Qbuvm4DybC1jeVDZC8kgrqBxAO1l1P5fUMeatQxEAfwsELa+ZwN60JwEEZhFNuzPTqKd
+	FR8Q==
+X-Gm-Message-State: AE9vXwO7s6waDNZ5DM095S8dLCc0Lcm9Xu22UCd5KtjvorRrwmB/hIDTozL1Hg42vuLYrA==
+X-Received: by 10.28.17.203 with SMTP id 194mr8097813wmr.12.1474036318561;
+	Fri, 16 Sep 2016 07:31:58 -0700 (PDT)
 Received: from tfsielt31850.tycofs.com ([77.107.218.170])
 	by smtp.gmail.com with ESMTPSA id
-	b188sm7604853wmg.24.2016.09.16.07.30.21
+	142sm7661716wmh.12.2016.09.16.07.31.57
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 16 Sep 2016 07:30:22 -0700 (PDT)
+	Fri, 16 Sep 2016 07:31:57 -0700 (PDT)
 From: =?UTF-8?q?Andr=C3=A9=20Draszik?= <git@andred.net>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 16 Sep 2016 15:30:21 +0100
-Message-Id: <20160916143021.5764-1-git@andred.net>
+Date: Fri, 16 Sep 2016 15:31:56 +0100
+Message-Id: <20160916143156.6210-1-git@andred.net>
 X-Mailer: git-send-email 2.9.3
+In-Reply-To: <20160916143021.5764-1-git@andred.net>
+References: <20160916143021.5764-1-git@andred.net>
 MIME-Version: 1.0
-Subject: [PATCH] gawk-3.1.5: fix non-glibc & gcc >= v4 builds
+Subject: [PATCH v2] gawk-3.1.5: fix non-glibc & gcc >= v4 builds
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,17 +47,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 16 Sep 2016 14:30:23 -0000
+X-List-Received-Date: Fri, 16 Sep 2016 14:31:59 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-
-From: André Draszik <adraszik@tycoint.com>
 
 See commit message of patch added
 
 Upstream-Status: Inappropriate [required for gawk 3.1.5 (GPLv2) recipe only]
 
-Change-Id: Ib1df62b9414f8174e651357b5cd3633115b37630
+Signed-off-by: André Draszik <git@andred.net>
 ---
  ...0001-gawk-fix-non-glibc-gcc-4-compilation.patch | 64 ++++++++++++++++++++++
  meta/recipes-extended/gawk/gawk_3.1.5.bb           |  7 ++-
