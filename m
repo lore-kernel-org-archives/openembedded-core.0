@@ -1,40 +1,47 @@
-Return-Path: <andre.draszik@gmail.com>
-Received: from mail-wm0-f66.google.com (mail-wm0-f66.google.com [74.125.82.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 0F344731F7
+Return-Path: <ross.burton@intel.com>
+Received: from mail-it0-f54.google.com (mail-it0-f54.google.com
+	[209.85.214.54])
+	by mail.openembedded.org (Postfix) with ESMTP id 01DBF6FEFE
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Sep 2016 14:31:58 +0000 (UTC)
-Received: by mail-wm0-f66.google.com with SMTP id b187so4020741wme.0
+	Fri, 16 Sep 2016 14:34:05 +0000 (UTC)
+Received: by mail-it0-f54.google.com with SMTP id o3so17294392ita.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Sep 2016 07:31:59 -0700 (PDT)
+	Fri, 16 Sep 2016 07:34:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=FlmQUxLf8UUDF5fcvK9TeKjzG8ktLJhLzTTRtbP8AoQ=;
+	b=NQZ1TbbfgD5uEMrRv+PBuLtaCJhQnMANz9z3LI2hc4hweIIWJqD2Y1+PaOJmcTvIJi
+	AqfqAKno4xXFvc3zXr4yX84gzCrrNujVBYHhPDvJ6poYjPxTCiQnkliI18wrhwDJr8vE
+	ORPxWnAfuY9Wnxxyc3O3rQ/yBHJthBqVASgBV3fX76LVWNlEkatpTFsro4HjbTze01U/
+	XyD2XDYnN9zU8pMwvuCG+3tlJL8/L5ShbQXieUIK10IT2oO0UgSv6YuzdIG+6Pie4TpY
+	zGTQ0KJ11mD468U0HcH9ypJA99b7cV24MfYmJozjBs/CRPQ5z097HJOv6Q2Z5gLrQFya
+	xFTQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=vr6gjvNgxEvuTHGb4f0HeEVZbQMHazZksS6DvLTCCu8=;
-	b=LvgRs+Mo6K1P5kZhYY7B8IthOY/vYu9/HOZfnTHWFuBROL1S+J6Ho/ouJKKnEneSB0
-	ZwWLAaQbN6zi+QxB5IJ1MorOw5ddyJOVpgq1pZkjZHlrLNnbuPv/kpVPuIZfCLqV8Mov
-	c1n0uLlkuJN5spXKHNuyUiLhj8+ad8nZROC9dgiLx3laTi4/nh0H8umYxKzeuIPc4k7B
-	RfTZlHbdeJH27gLp2/601NYWXcKVreV5jLWZs9UqShr6FDneqUO0V0uqTaG4u/13XI17
-	Qbuvm4DybC1jeVDZC8kgrqBxAO1l1P5fUMeatQxEAfwsELa+ZwN60JwEEZhFNuzPTqKd
-	FR8Q==
-X-Gm-Message-State: AE9vXwO7s6waDNZ5DM095S8dLCc0Lcm9Xu22UCd5KtjvorRrwmB/hIDTozL1Hg42vuLYrA==
-X-Received: by 10.28.17.203 with SMTP id 194mr8097813wmr.12.1474036318561;
-	Fri, 16 Sep 2016 07:31:58 -0700 (PDT)
-Received: from tfsielt31850.tycofs.com ([77.107.218.170])
-	by smtp.gmail.com with ESMTPSA id
-	142sm7661716wmh.12.2016.09.16.07.31.57
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 16 Sep 2016 07:31:57 -0700 (PDT)
-From: =?UTF-8?q?Andr=C3=A9=20Draszik?= <git@andred.net>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 16 Sep 2016 15:31:56 +0100
-Message-Id: <20160916143156.6210-1-git@andred.net>
-X-Mailer: git-send-email 2.9.3
-In-Reply-To: <20160916143021.5764-1-git@andred.net>
-References: <20160916143021.5764-1-git@andred.net>
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=FlmQUxLf8UUDF5fcvK9TeKjzG8ktLJhLzTTRtbP8AoQ=;
+	b=bich4vxizVWQq+BzKiGroSJfs+9uM/IevhnDA544e63nMXbDn5eAYGhEXcjXX/pqNK
+	mdzs3w9lpFyoTvRdjQ5FBW+nUja55KDwvwCF0+Yo1/DCgN3UDov/kmHN8ava0+P52BEi
+	Dil+C3jshdKp2oGsBZm5qSqhuF7EcYwHd8S+6ZkP8L1VASEyMrMHYqaka852N9BwE8m0
+	mLKRK2ixQTy2O/0ec5tCtnCNY99fuTKMAJaviw4MjeMHXEUfcFUWkvYbE1/glBmR+JPz
+	FCX+Wkgl44h/OjD03YHQfbFIiR1nElge9b1BTs4zUdf4KQ7/6pJ7+W2v7saRhtXwkfXd
+	Y1qA==
+X-Gm-Message-State: AE9vXwOU6N7txANXFUPvU1tSKqGKXhYbA1neqz8/9+lwN1bM4W6HULoh/TU4T8gMMF00k3Hr0kn3WFyLk7WLf2Gg
+X-Received: by 10.36.246.68 with SMTP id u65mr5956491ith.104.1474036445915;
+	Fri, 16 Sep 2016 07:34:05 -0700 (PDT)
 MIME-Version: 1.0
-Subject: [PATCH v2] gawk-3.1.5: fix non-glibc & gcc >= v4 builds
+Received: by 10.107.135.27 with HTTP; Fri, 16 Sep 2016 07:33:45 -0700 (PDT)
+In-Reply-To: <20160916143156.6210-1-git@andred.net>
+References: <20160916143021.5764-1-git@andred.net>
+	<20160916143156.6210-1-git@andred.net>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 16 Sep 2016 15:33:45 +0100
+Message-ID: <CAJTo0LYKsL8GCdoUMFb_E7P0TwPDu4f2tvizte0j30kuVevkBQ@mail.gmail.com>
+To: =?UTF-8?Q?Andr=C3=A9_Draszik?= <git@andred.net>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2] gawk-3.1.5: fix non-glibc & gcc >= v4 builds
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,110 +54,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 16 Sep 2016 14:31:59 -0000
+X-List-Received-Date: Fri, 16 Sep 2016 14:34:09 -0000
+Content-Type: multipart/alternative; boundary=94eb2c0349fabed67e053ca0da75
+
+--94eb2c0349fabed67e053ca0da75
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
 
-See commit message of patch added
+On 16 September 2016 at 15:31, Andr=C3=A9 Draszik <git@andred.net> wrote:
 
-Upstream-Status: Inappropriate [required for gawk 3.1.5 (GPLv2) recipe only]
+> See commit message of patch added
+>
+> Upstream-Status: Inappropriate [required for gawk 3.1.5 (GPLv2) recipe
+> only]
+>
 
-Signed-off-by: André Draszik <git@andred.net>
----
- ...0001-gawk-fix-non-glibc-gcc-4-compilation.patch | 64 ++++++++++++++++++++++
- meta/recipes-extended/gawk/gawk_3.1.5.bb           |  7 ++-
- 2 files changed, 69 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-extended/gawk/gawk-3.1.5/0001-gawk-fix-non-glibc-gcc-4-compilation.patch
-
-diff --git a/meta/recipes-extended/gawk/gawk-3.1.5/0001-gawk-fix-non-glibc-gcc-4-compilation.patch b/meta/recipes-extended/gawk/gawk-3.1.5/0001-gawk-fix-non-glibc-gcc-4-compilation.patch
-new file mode 100644
-index 0000000..fbe4d22
---- /dev/null
-+++ b/meta/recipes-extended/gawk/gawk-3.1.5/0001-gawk-fix-non-glibc-gcc-4-compilation.patch
-@@ -0,0 +1,64 @@
-+From 53496e2e306b16ac59801553f775bcca164e6a39 Mon Sep 17 00:00:00 2001
-+From: =?UTF-8?q?Andr=C3=A9=20Draszik?= <git@andred.net>
-+Date: Wed, 14 Sep 2016 16:20:37 +0100
-+Subject: [PATCH] fix gcc >= 4 compilation
-+
-+| ../gawk-3.1.5/hard-locale.h: In function 'hard_locale':
-+| ../gawk-3.1.5/hard-locale.h:43:20: error: invalid storage class for function 'xmalloc'
-+|        static ptr_t xmalloc PARAMS ((size_t n));
-+|                     ^~~~~~~
-+
-+| ../gawk-3.1.5/hard-locale.h:45:22: warning: implicit declaration of function 'xmalloc' [-Wimplicit-function-declaration]
-+|        char *locale = xmalloc (strlen (p) + 1);
-+|                       ^~~~~~~
-+| ../gawk-3.1.5/hard-locale.h:45:22: warning: initialization makes pointer from integer without a cast [-Wint-conversion]
-+| ../gawk-3.1.5/dfa.c: At top level:
-+| ../gawk-3.1.5/dfa.c:125:14: error: conflicting types for 'xmalloc'
-+|  static ptr_t xmalloc PARAMS ((size_t n));
-+|               ^~~~~~~
-+| In file included from ../gawk-3.1.5/dfa.c:112:0:
-+| ../gawk-3.1.5/hard-locale.h:45:22: note: previous implicit declaration of 'xmalloc' was here
-+|        char *locale = xmalloc (strlen (p) + 1);
-+|                       ^~~~~~~
-+---
-+Upstream-Status: Inappropriate [required for gawk 3.1.5 (GPLv2) recipe only
-+ dfa.c         | 2 +-
-+ hard-locale.h | 2 --
-+ 2 files changed, 1 insertion(+), 3 deletions(-)
-+
-+diff --git a/dfa.c b/dfa.c
-+index 71e3736..97f6045 100644
-+--- a/dfa.c
-++++ b/dfa.c
-+@@ -109,6 +109,7 @@ extern void free();
-+ 
-+ #include "regex.h"
-+ #include "dfa.h"
-++static ptr_t xmalloc PARAMS ((size_t n));
-+ #include "hard-locale.h"
-+ 
-+ /* HPUX, define those as macros in sys/param.h */
-+@@ -122,7 +123,6 @@ extern void free();
-+ static void dfamust PARAMS ((struct dfa *dfa));
-+ 
-+ static ptr_t xcalloc PARAMS ((size_t n, size_t s));
-+-static ptr_t xmalloc PARAMS ((size_t n));
-+ static ptr_t xrealloc PARAMS ((ptr_t p, size_t n));
-+ #ifdef DEBUG
-+ static void prtok PARAMS ((token t));
-+diff --git a/hard-locale.h b/hard-locale.h
-+index 0f4986b..9ee57e0 100644
-+--- a/hard-locale.h
-++++ b/hard-locale.h
-+@@ -40,8 +40,6 @@ hard_locale (int category)
-+       if (strcmp (p, "C") == 0 || strcmp (p, "POSIX") == 0)
-+ 	hard = 0;
-+ # else
-+-      static ptr_t xmalloc PARAMS ((size_t n));
-+-
-+       char *locale = xmalloc (strlen (p) + 1);
-+       strcpy (locale, p);
-+ 
-+-- 
-+2.9.3
-+
-diff --git a/meta/recipes-extended/gawk/gawk_3.1.5.bb b/meta/recipes-extended/gawk/gawk_3.1.5.bb
-index 7c92bde..63fd32f 100644
---- a/meta/recipes-extended/gawk/gawk_3.1.5.bb
-+++ b/meta/recipes-extended/gawk/gawk_3.1.5.bb
-@@ -15,8 +15,11 @@ RDEPENDS_gawk += "gawk-common"
- RDEPENDS_pgawk += "gawk-common"
- PR = "r2"
- 
--SRC_URI = "${GNU_MIRROR}/gawk/gawk-${PV}.tar.gz \
--	file://gawk-3.1.5_fix_for_automake-1.12.patch"
-+SRC_URI = "\
-+    ${GNU_MIRROR}/gawk/gawk-${PV}.tar.gz \
-+    file://gawk-3.1.5_fix_for_automake-1.12.patch \
-+    file://0001-gawk-fix-non-glibc-gcc-4-compilation.patch \
-+"
- 
- SRC_URI[md5sum] = "4760325489479cac17fe0114b8f62f30"
- SRC_URI[sha256sum] = "463dcb9d0ca398b1d4f5a332f6cd9cec56441265fca616f2ea1b44d459e9f0f8"
--- 
-2.9.3
+This bit should only be in the patch, no need to be in the commit message.
 
 
+> Signed-off-by: Andr=C3=A9 Draszik <git@andred.net>
+
+
+The patch also needs one of these though alongside your Upstream-Status.
+
+Ross
+
+--94eb2c0349fabed67e053ca0da75
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 16 September 2016 at 15:31, Andr=C3=A9 Draszik <span dir=3D"ltr">&lt;<a =
+href=3D"mailto:git@andred.net" target=3D"_blank">git@andred.net</a>&gt;</sp=
+an> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;=
+border-left:1px #ccc solid;padding-left:1ex"><span class=3D"">See commit me=
+ssage of patch added<br>
+<br>
+Upstream-Status: Inappropriate [required for gawk 3.1.5 (GPLv2) recipe only=
+]<br></span></blockquote><div><br></div><div>This bit should only be in the=
+ patch, no need to be in the commit message.</div><div>=C2=A0</div><blockqu=
+ote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc s=
+olid;padding-left:1ex"><span class=3D"">
+</span>Signed-off-by: Andr=C3=A9 Draszik &lt;<a href=3D"mailto:git@andred.n=
+et">git@andred.net</a>&gt;</blockquote></div><br>The patch also needs one o=
+f these though alongside your Upstream-Status.</div><div class=3D"gmail_ext=
+ra"><br></div><div class=3D"gmail_extra">Ross</div></div>
+
+--94eb2c0349fabed67e053ca0da75--
