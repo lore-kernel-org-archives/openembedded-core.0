@@ -1,46 +1,38 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f175.google.com (mail-io0-f175.google.com
-	[209.85.223.175])
-	by mail.openembedded.org (Postfix) with ESMTP id E736A731D6
+Return-Path: <andre.draszik@gmail.com>
+Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 1D50A731F7
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Sep 2016 14:26:18 +0000 (UTC)
-Received: by mail-io0-f175.google.com with SMTP id m186so27261637ioa.2
+	Fri, 16 Sep 2016 14:30:22 +0000 (UTC)
+Received: by mail-wm0-f68.google.com with SMTP id l132so2856590wmf.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Sep 2016 07:26:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=G6tGT8z/BPIzanlA+uqJma4u5WmdZiugyO+942cGSXs=;
-	b=waRlqjjkMzMdEMz+fB8KeE90AzMSBsIMV7pZnW1f7VJk+sj6WNjQ+HcYyJRahSHkD4
-	gWrWNP40D9YoXoBzNsP12swwXyQZlun8ckDUoQLd4ngtm/OZj/ZrUmsCGoDJjQMglJdK
-	ZEjIEBc1O9bNKQAq+FOa7EXGBh3bbBL8rzGvpD8ESoXHMU28s+mJJRUfHy4qymJH6EB7
-	c/R4v+25u6UU09nt/G/RH+U4mDzJAZkwGMIKb6JCW+0H3eiqThl2H60V5lWQ6k78Bx31
-	9ox6P/eP8gAeyOSSLCFFm9gUvFgI/khDt4+pHv4tZA43hhSd28VQqTGD2nClynyGQhLv
-	T5qg==
+	Fri, 16 Sep 2016 07:30:23 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=G6tGT8z/BPIzanlA+uqJma4u5WmdZiugyO+942cGSXs=;
-	b=P9ggkd4X4dNhpQ38ud1Z4w8W8EJftHxXsdre9Qb7dPyxmcuJXI8XOQVgUfg0ntrc9c
-	UhA1CYgiJ2IqrMvxts/xc3A9lE+7amteZkgqvrW/wNogwh28WMddA+bUBWOCr3+9sJ31
-	wMecu0mAGNPWs1LEGQDpllGA2HA/eQYTFkWvLeEbwyfUEbKEpNzcyvzVOi5DzwdD7QaR
-	Wm8OeW5z7jnf/fpBkD4S8a/6hK8KMOCBi42AL60F86no0bSuFYjkPWyoEArQWI9hI3rb
-	DOW8i9qpt5fLhUSQP9TwjM/Q8/JinLTcu7E4p3/JUEY4Kj6znbU+vNhe224nnxUWkndp
-	kJcg==
-X-Gm-Message-State: AE9vXwNiPEHfKHt4mEsa0ryp01f+naCQw60inxk1WPIGx3xi385iEH7fh9lZJaIvMdT66A593QtFtvkp/NSjrt5A
-X-Received: by 10.107.199.195 with SMTP id x186mr25824368iof.88.1474035979042; 
-	Fri, 16 Sep 2016 07:26:19 -0700 (PDT)
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=bMeNYB5UfU6BV8WqrYaKMWZLq1HOksLPVa8mo/uxCrs=;
+	b=f236xCZLYM7cYGL2AdU/PkJqlFVMk8czFmlyEr6DQP/UiLi4WRbbNrkgAIbWVkO1Zo
+	REAa/UJlCqKsLWb40Cia4tsvCJ7WeK6IXR7Q+T8CfXunZ/+TY7+hgLelb0VlcYis5w4l
+	DvwCFrfJq5IDQ9cX2u5oj35B5IeFSJb8Kys+ABRJADXNYgt5aiwkRTXSt9tYq2LFRFLI
+	rQolqyrRMBv7Dnb3pKvPgXTi20M7nKFCSHpJSAbo9IyDIkrFci1Sst93k9GZMD3nPYXS
+	31Xak7rJEQnNzN+1PZk9/wqh6FWcA9M+gghjVNdEPVOCYNXmTpuEQO1DLG4RlfpQOG9B
+	pqoA==
+X-Gm-Message-State: AE9vXwOSgkftJFOtTjL11OllOcmQmTOA0sk53v5IMLm3jucd4obF6fkqhAv8LfhP+H6KjQ==
+X-Received: by 10.194.88.137 with SMTP id bg9mr12834983wjb.155.1474036222937; 
+	Fri, 16 Sep 2016 07:30:22 -0700 (PDT)
+Received: from tfsielt31850.tycofs.com ([77.107.218.170])
+	by smtp.gmail.com with ESMTPSA id
+	b188sm7604853wmg.24.2016.09.16.07.30.21
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 16 Sep 2016 07:30:22 -0700 (PDT)
+From: =?UTF-8?q?Andr=C3=A9=20Draszik?= <git@andred.net>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 16 Sep 2016 15:30:21 +0100
+Message-Id: <20160916143021.5764-1-git@andred.net>
+X-Mailer: git-send-email 2.9.3
 MIME-Version: 1.0
-Received: by 10.107.135.27 with HTTP; Fri, 16 Sep 2016 07:25:58 -0700 (PDT)
-In-Reply-To: <20160914050848.14612-1-jackie.huang@windriver.com>
-References: <20160914050848.14612-1-jackie.huang@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 16 Sep 2016 15:25:58 +0100
-Message-ID: <CAJTo0LZ6dn5LyMV34-UrJ75bz-gvqGGWaGWEcCkGpXBc_ty9hw@mail.gmail.com>
-To: "jackie.huang@windriver.com" <jackie.huang@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] boost: add support for additional boost libs
+Subject: [PATCH] gawk-3.1.5: fix non-glibc & gcc >= v4 builds
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,80 +45,112 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 16 Sep 2016 14:26:19 -0000
-Content-Type: multipart/alternative; boundary=94eb2c11be4eeaf6db053ca0bee7
-
---94eb2c11be4eeaf6db053ca0bee7
+X-List-Received-Date: Fri, 16 Sep 2016 14:30:23 -0000
 Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On 14 September 2016 at 06:08, <jackie.huang@windriver.com> wrote:
+From: André Draszik <adraszik@tycoint.com>
 
-> From: Jackie Huang <jackie.huang@windriver.com>
->
-> * Added libs:
->   - container
->   - context
->   - coroutine
->   - exception
->   - graph_parallel
->   - locale
->   - math
->   - mpi
->   - wave
->
-> * Add PACKAGECONFIG to add proper dependencies for boost-locale
->
-> * context and coroutine are added only for x86 and powerpc
->
+See commit message of patch added
 
-This patch appears to be periodically breaking boost in the autobuilder
-runs.
+Upstream-Status: Inappropriate [required for gawk 3.1.5 (GPLv2) recipe only]
 
-| libs/math/build/../src/tr1/asinhf.cpp:6:21: error: while reading
-precompiled header: No such file or directory
+Change-Id: Ib1df62b9414f8174e651357b5cd3633115b37630
+---
+ ...0001-gawk-fix-non-glibc-gcc-4-compilation.patch | 64 ++++++++++++++++++++++
+ meta/recipes-extended/gawk/gawk_3.1.5.bb           |  7 ++-
+ 2 files changed, 69 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-extended/gawk/gawk-3.1.5/0001-gawk-fix-non-glibc-gcc-4-compilation.patch
 
-See http://autobuilder.yocto.io:8010/builders/nightly-x86-64-lsb/builds/56/
-for the full logs.  A build earlier also ended with GCC internal errors,
-but these may be related.
+diff --git a/meta/recipes-extended/gawk/gawk-3.1.5/0001-gawk-fix-non-glibc-gcc-4-compilation.patch b/meta/recipes-extended/gawk/gawk-3.1.5/0001-gawk-fix-non-glibc-gcc-4-compilation.patch
+new file mode 100644
+index 0000000..fbe4d22
+--- /dev/null
++++ b/meta/recipes-extended/gawk/gawk-3.1.5/0001-gawk-fix-non-glibc-gcc-4-compilation.patch
+@@ -0,0 +1,64 @@
++From 53496e2e306b16ac59801553f775bcca164e6a39 Mon Sep 17 00:00:00 2001
++From: =?UTF-8?q?Andr=C3=A9=20Draszik?= <git@andred.net>
++Date: Wed, 14 Sep 2016 16:20:37 +0100
++Subject: [PATCH] fix gcc >= 4 compilation
++
++| ../gawk-3.1.5/hard-locale.h: In function 'hard_locale':
++| ../gawk-3.1.5/hard-locale.h:43:20: error: invalid storage class for function 'xmalloc'
++|        static ptr_t xmalloc PARAMS ((size_t n));
++|                     ^~~~~~~
++
++| ../gawk-3.1.5/hard-locale.h:45:22: warning: implicit declaration of function 'xmalloc' [-Wimplicit-function-declaration]
++|        char *locale = xmalloc (strlen (p) + 1);
++|                       ^~~~~~~
++| ../gawk-3.1.5/hard-locale.h:45:22: warning: initialization makes pointer from integer without a cast [-Wint-conversion]
++| ../gawk-3.1.5/dfa.c: At top level:
++| ../gawk-3.1.5/dfa.c:125:14: error: conflicting types for 'xmalloc'
++|  static ptr_t xmalloc PARAMS ((size_t n));
++|               ^~~~~~~
++| In file included from ../gawk-3.1.5/dfa.c:112:0:
++| ../gawk-3.1.5/hard-locale.h:45:22: note: previous implicit declaration of 'xmalloc' was here
++|        char *locale = xmalloc (strlen (p) + 1);
++|                       ^~~~~~~
++---
++Upstream-Status: Inappropriate [required for gawk 3.1.5 (GPLv2) recipe only
++ dfa.c         | 2 +-
++ hard-locale.h | 2 --
++ 2 files changed, 1 insertion(+), 3 deletions(-)
++
++diff --git a/dfa.c b/dfa.c
++index 71e3736..97f6045 100644
++--- a/dfa.c
+++++ b/dfa.c
++@@ -109,6 +109,7 @@ extern void free();
++ 
++ #include "regex.h"
++ #include "dfa.h"
+++static ptr_t xmalloc PARAMS ((size_t n));
++ #include "hard-locale.h"
++ 
++ /* HPUX, define those as macros in sys/param.h */
++@@ -122,7 +123,6 @@ extern void free();
++ static void dfamust PARAMS ((struct dfa *dfa));
++ 
++ static ptr_t xcalloc PARAMS ((size_t n, size_t s));
++-static ptr_t xmalloc PARAMS ((size_t n));
++ static ptr_t xrealloc PARAMS ((ptr_t p, size_t n));
++ #ifdef DEBUG
++ static void prtok PARAMS ((token t));
++diff --git a/hard-locale.h b/hard-locale.h
++index 0f4986b..9ee57e0 100644
++--- a/hard-locale.h
+++++ b/hard-locale.h
++@@ -40,8 +40,6 @@ hard_locale (int category)
++       if (strcmp (p, "C") == 0 || strcmp (p, "POSIX") == 0)
++ 	hard = 0;
++ # else
++-      static ptr_t xmalloc PARAMS ((size_t n));
++-
++       char *locale = xmalloc (strlen (p) + 1);
++       strcpy (locale, p);
++ 
++-- 
++2.9.3
++
+diff --git a/meta/recipes-extended/gawk/gawk_3.1.5.bb b/meta/recipes-extended/gawk/gawk_3.1.5.bb
+index 7c92bde..63fd32f 100644
+--- a/meta/recipes-extended/gawk/gawk_3.1.5.bb
++++ b/meta/recipes-extended/gawk/gawk_3.1.5.bb
+@@ -15,8 +15,11 @@ RDEPENDS_gawk += "gawk-common"
+ RDEPENDS_pgawk += "gawk-common"
+ PR = "r2"
+ 
+-SRC_URI = "${GNU_MIRROR}/gawk/gawk-${PV}.tar.gz \
+-	file://gawk-3.1.5_fix_for_automake-1.12.patch"
++SRC_URI = "\
++    ${GNU_MIRROR}/gawk/gawk-${PV}.tar.gz \
++    file://gawk-3.1.5_fix_for_automake-1.12.patch \
++    file://0001-gawk-fix-non-glibc-gcc-4-compilation.patch \
++"
+ 
+ SRC_URI[md5sum] = "4760325489479cac17fe0114b8f62f30"
+ SRC_URI[sha256sum] = "463dcb9d0ca398b1d4f5a332f6cd9cec56441265fca616f2ea1b44d459e9f0f8"
+-- 
+2.9.3
 
-Ross
 
---94eb2c11be4eeaf6db053ca0bee7
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 14 September 2016 at 06:08,  <span dir=3D"ltr">&lt;<a href=3D"mailto:jac=
-kie.huang@windriver.com" target=3D"_blank">jackie.huang@windriver.com</a>&g=
-t;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px 0=
-px 0px 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);borde=
-r-left-style:solid;padding-left:1ex"><div id=3D"gmail-:18m" class=3D"gmail-=
-a3s gmail-aXjCH gmail-m157272899329453d">From: Jackie Huang &lt;<a href=3D"=
-mailto:jackie.huang@windriver.com">jackie.huang@windriver.com</a>&gt;<br>
-<br>
-* Added libs:<br>
-=C2=A0 - container<br>
-=C2=A0 - context<br>
-=C2=A0 - coroutine<br>
-=C2=A0 - exception<br>
-=C2=A0 - graph_parallel<br>
-=C2=A0 - locale<br>
-=C2=A0 - math<br>
-=C2=A0 - mpi<br>
-=C2=A0 - wave<br>
-<br>
-* Add PACKAGECONFIG to add proper dependencies for <span class=3D"gmail-il"=
->boost</span>-locale<br>
-<br>
-* context and coroutine are added only for x86 and powerpc<br></div></block=
-quote></div><br>This patch appears to be periodically breaking boost in the=
- autobuilder runs.</div><br>| libs/math/build/../src/tr1/asinhf.cpp:6:21: e=
-rror: while reading precompiled header: No such file or directory<br><br><d=
-iv class=3D"gmail_extra">See <a href=3D"http://autobuilder.yocto.io:8010/bu=
-ilders/nightly-x86-64-lsb/builds/56/">http://autobuilder.yocto.io:8010/buil=
-ders/nightly-x86-64-lsb/builds/56/</a> for the full logs.=C2=A0 A build ear=
-lier also ended with GCC internal errors, but these may be related.<br></di=
-v><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div=
-></div>
-
---94eb2c11be4eeaf6db053ca0bee7--
