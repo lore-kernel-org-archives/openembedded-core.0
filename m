@@ -1,24 +1,24 @@
 Return-Path: <joshua.g.lock@linux.intel.com>
 Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by mail.openembedded.org (Postfix) with ESMTP id 5D56A6FFD7
+	by mail.openembedded.org (Postfix) with ESMTP id B2F83731D3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Sep 2016 12:52:44 +0000 (UTC)
+	Fri, 16 Sep 2016 12:52:46 +0000 (UTC)
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga105.jf.intel.com with ESMTP; 16 Sep 2016 05:52:45 -0700
+	by orsmga105.jf.intel.com with ESMTP; 16 Sep 2016 05:52:47 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.30,344,1470726000"; d="scan'208";a="1031537838"
+X-IronPort-AV: E=Sophos;i="5.30,344,1470726000"; d="scan'208";a="1031537844"
 Received: from jlock-mobl1.ger.corp.intel.com ([10.252.30.107])
-	by orsmga001.jf.intel.com with ESMTP; 16 Sep 2016 05:52:44 -0700
+	by orsmga001.jf.intel.com with ESMTP; 16 Sep 2016 05:52:46 -0700
 From: Joshua Lock <joshua.g.lock@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 16 Sep 2016 13:52:28 +0100
-Message-Id: <d46e15ada3b7e6fcc7b63a97121cc768767f8460.1474030160.git.joshua.g.lock@intel.com>
+Date: Fri, 16 Sep 2016 13:52:29 +0100
+Message-Id: <06d1491b094009da2fa3c138e7c3094141636b61.1474030160.git.joshua.g.lock@intel.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1474030160.git.joshua.g.lock@intel.com>
 References: <cover.1474030160.git.joshua.g.lock@intel.com>
 In-Reply-To: <cover.1474030160.git.joshua.g.lock@intel.com>
 References: <cover.1474030160.git.joshua.g.lock@intel.com>
-Subject: [PATCH 1/6] runqemu: add guidance to resolve issues with missing files
+Subject: [PATCH 2/6] qemuboot: write the full kernel filename, not the link name
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,75 +31,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 16 Sep 2016 12:52:44 -0000
+X-List-Received-Date: Fri, 16 Sep 2016 12:52:46 -0000
 
-When a required binary cannot be found print some guidance pointing
-to using a sourced OE build environment or a qemuboot.conf file,
-based on a similar message from the previous shell-based runqemu.
+KERNEL_IMAGETYPE gives the filename of a symlink to the kernel,
+which may not be available i.e. if the user downloads some build
+artefacts to run on a local machine. It's also possible that the
+link will point to a newer kernel than was intended for use with
+the rootfs in the qemuboot.conf.
+
+It's much more reliable to read the name of the file
+KERNEL_IMAGETYPE is linking to and assign the full filename to
+QB_DEFAULT_KERNEL.
+
+[YOCTO #10285]
 
 Signed-off-by: Joshua Lock <joshua.g.lock@intel.com>
 ---
- scripts/runqemu | 19 ++++++++++++++++---
- 1 file changed, 16 insertions(+), 3 deletions(-)
+ meta/classes/qemuboot.bbclass | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/scripts/runqemu b/scripts/runqemu
-index b6bc0ba..c71a47c 100755
---- a/scripts/runqemu
-+++ b/scripts/runqemu
-@@ -28,6 +28,16 @@ import shutil
- import glob
- import configparser
- 
-+class OEPathError(Exception):
-+    """Custom Exception to give better guidance on missing binaries"""
-+    def __init__(self, message):
-+        self.message = "In order for this script to dynamically infer paths\n \
-+kernels or filesystem images, you either need bitbake in your PATH\n \
-+or to source oe-init-build-env before running this script.\n\n \
-+Dynamic path inference can be avoided by passing a *.qemuboot.conf to\n \
-+runqemu, i.e. `runqemu /path/to/my-image-name.qemuboot.conf`\n\n %s" % message
+diff --git a/meta/classes/qemuboot.bbclass b/meta/classes/qemuboot.bbclass
+index 8500c73..0892db3 100644
+--- a/meta/classes/qemuboot.bbclass
++++ b/meta/classes/qemuboot.bbclass
+@@ -63,6 +63,14 @@ python write_qemuboot_conf() {
+     cf.add_section('config_bsp')
+     for k in build_vars + qb_vars:
+         cf.set('config_bsp', k, '%s' % d.getVar(k, True))
 +
++    # QB_DEFAULT_KERNEL's value of KERNEL_IMAGETYPE is the name of a symlink
++    # to the kernel file, which hinders relocatability of the qb conf.
++    # Read the link and replace it with the full filename of the target.
++    kernel_link = os.path.join(d.getVar('DEPLOY_DIR_IMAGE', True), d.getVar('QB_DEFAULT_KERNEL', True))
++    kernel = os.readlink(kernel_link)
++    cf.set('config_bsp', 'QB_DEFAULT_KERNEL', kernel)
 +
- def create_logger():
-     logger = logging.getLogger('runqemu')
-     logger.setLevel(logging.INFO)
-@@ -537,7 +547,7 @@ class BaseConfig(object):
-             elif os.getenv('DEPLOY_DIR_IMAGE'):
-                 deploy_dir_image = os.getenv('DEPLOY_DIR_IMAGE')
-             else:
--                raise Exception("DEPLOY_DIR_IMAGE is NULL!")
-+                raise OEPathError("DEPLOY_DIR_IMAGE is NULL!")
+     with open(qemuboot, 'w') as f:
+         cf.write(f)
  
-             if self.rootfs and not os.path.exists(self.rootfs):
-                 # Lazy rootfs
-@@ -691,7 +701,7 @@ class BaseConfig(object):
-         lockdir = "/tmp/qemu-tap-locks"
- 
-         if not (self.qemuifup and self.qemuifdown and ip):
--            raise Exception("runqemu-ifup, runqemu-ifdown or ip not found")
-+            raise OEPathError("runqemu-ifup, runqemu-ifdown or ip not found")
- 
-         if not os.path.exists(lockdir):
-             # There might be a race issue when multi runqemu processess are
-@@ -808,7 +818,7 @@ class BaseConfig(object):
- 
-         qemu_bin = '%s/%s' % (self.get('STAGING_BINDIR_NATIVE'), qemu_system)
-         if not os.access(qemu_bin, os.X_OK):
--            raise Exception("No QEMU binary '%s' could be found" % qemu_bin)
-+            raise OEPathError("No QEMU binary '%s' could be found" % qemu_bin)
- 
-         check_libgl(qemu_bin)
- 
-@@ -923,6 +933,9 @@ def main():
- if __name__ == "__main__":
-     try:
-         ret = main()
-+    except OEPathError as err:
-+        ret = 1
-+        logger.error(err.message)
-     except Exception as esc:
-         ret = 1
-         import traceback
 -- 
 2.7.4
 
