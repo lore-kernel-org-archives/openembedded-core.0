@@ -1,24 +1,33 @@
-Return-Path: <Randy.MacLeod@windriver.com>
+Return-Path: <Jackie.Huang@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id F03506FFF7
+	by mail.openembedded.org (Postfix) with ESMTP id D80D16FFCE
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 17 Sep 2016 01:39:56 +0000 (UTC)
+	Sat, 17 Sep 2016 02:25:42 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u8H1duY9019744
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u8H2Phi9019836
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Sep 2016 18:39:56 -0700 (PDT)
-Received: from yow-rmacleod-lx3.wrs.com (128.224.56.85) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.294.0; Fri, 16 Sep 2016 18:39:55 -0700
-From: Randy MacLeod <Randy.MacLeod@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 16 Sep 2016 21:37:07 -0400
-Message-ID: <1474076227-17032-1-git-send-email-Randy.MacLeod@windriver.com>
-X-Mailer: git-send-email 1.9.1
+	Fri, 16 Sep 2016 19:25:43 -0700 (PDT)
+Received: from ALA-MBA.corp.ad.wrs.com ([169.254.3.129]) by
+	ALA-HCA.corp.ad.wrs.com ([147.11.189.40]) with mapi id 14.03.0294.000;
+	Fri, 16 Sep 2016 19:25:42 -0700
+From: "Huang, Jie (Jackie)" <Jackie.Huang@windriver.com>
+To: "BURTON, ROSS" <ross.burton@intel.com>
+Thread-Topic: [OE-core] [PATCH] boost: add support for additional boost libs
+Thread-Index: AQHSECY9eTndUx1EMUGlf9is8nznZ6B89KFw
+Date: Sat, 17 Sep 2016 02:25:39 +0000
+Message-ID: <1B858668EC6A94408DCA5225FDFA85AA013A2CDFF9@ALA-MBA.corp.ad.wrs.com>
+References: <20160914050848.14612-1-jackie.huang@windriver.com>
+	<CAJTo0LZ6dn5LyMV34-UrJ75bz-gvqGGWaGWEcCkGpXBc_ty9hw@mail.gmail.com>
+In-Reply-To: <CAJTo0LZ6dn5LyMV34-UrJ75bz-gvqGGWaGWEcCkGpXBc_ty9hw@mail.gmail.com>
+Accept-Language: en-US, zh-CN
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [128.224.162.131]
 MIME-Version: 1.0
-Subject: [PATCH] e2fsprogs: add packageconfig for -file-
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] boost: add support for additional boost libs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,39 +40,133 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 17 Sep 2016 01:39:57 -0000
-Content-Type: text/plain
+X-List-Received-Date: Sat, 17 Sep 2016 02:25:44 -0000
+Content-Language: en-US
+Content-Type: multipart/alternative;
+	boundary="_000_1B858668EC6A94408DCA5225FDFA85AA013A2CDFF9ALAMBAcorpadw_"
 
-Without a packageconfig dependency for the file utility, there's
-a very rare compile faiure caused by a race where the magic.h
-header file is not found:
+--_000_1B858668EC6A94408DCA5225FDFA85AA013A2CDFF9ALAMBAcorpadw_
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
- ../../../git/lib/support/plausible.c:33:19: fatal error: magic.h: No such file or directory
+SSBzZWUsIEkgd2lsbCB0cnkgdG8gZml4IGl0IHRoZW4gc2VuZCB2Mi4NCg0KVGhhbmtzLA0KSmFj
+a2llDQoNCkZyb206IEJ1cnRvbiwgUm9zcyBbbWFpbHRvOnJvc3MuYnVydG9uQGludGVsLmNvbV0N
+ClNlbnQ6IEZyaWRheSwgU2VwdGVtYmVyIDE2LCAyMDE2IDEwOjI2IFBNDQpUbzogSHVhbmcsIEpp
+ZSAoSmFja2llKQ0KQ2M6IE9FLWNvcmUNClN1YmplY3Q6IFJlOiBbT0UtY29yZV0gW1BBVENIXSBi
+b29zdDogYWRkIHN1cHBvcnQgZm9yIGFkZGl0aW9uYWwgYm9vc3QgbGlicw0KDQoNCk9uIDE0IFNl
+cHRlbWJlciAyMDE2IGF0IDA2OjA4LCA8amFja2llLmh1YW5nQHdpbmRyaXZlci5jb208bWFpbHRv
+OmphY2tpZS5odWFuZ0B3aW5kcml2ZXIuY29tPj4gd3JvdGU6DQpGcm9tOiBKYWNraWUgSHVhbmcg
+PGphY2tpZS5odWFuZ0B3aW5kcml2ZXIuY29tPG1haWx0bzpqYWNraWUuaHVhbmdAd2luZHJpdmVy
+LmNvbT4+DQoNCiogQWRkZWQgbGliczoNCiAgLSBjb250YWluZXINCiAgLSBjb250ZXh0DQogIC0g
+Y29yb3V0aW5lDQogIC0gZXhjZXB0aW9uDQogIC0gZ3JhcGhfcGFyYWxsZWwNCiAgLSBsb2NhbGUN
+CiAgLSBtYXRoDQogIC0gbXBpDQogIC0gd2F2ZQ0KDQoqIEFkZCBQQUNLQUdFQ09ORklHIHRvIGFk
+ZCBwcm9wZXIgZGVwZW5kZW5jaWVzIGZvciBib29zdC1sb2NhbGUNCg0KKiBjb250ZXh0IGFuZCBj
+b3JvdXRpbmUgYXJlIGFkZGVkIG9ubHkgZm9yIHg4NiBhbmQgcG93ZXJwYw0KDQpUaGlzIHBhdGNo
+IGFwcGVhcnMgdG8gYmUgcGVyaW9kaWNhbGx5IGJyZWFraW5nIGJvb3N0IGluIHRoZSBhdXRvYnVp
+bGRlciBydW5zLg0KDQp8IGxpYnMvbWF0aC9idWlsZC8uLi9zcmMvdHIxL2FzaW5oZi5jcHA6Njoy
+MTogZXJyb3I6IHdoaWxlIHJlYWRpbmcgcHJlY29tcGlsZWQgaGVhZGVyOiBObyBzdWNoIGZpbGUg
+b3IgZGlyZWN0b3J5DQpTZWUgaHR0cDovL2F1dG9idWlsZGVyLnlvY3RvLmlvOjgwMTAvYnVpbGRl
+cnMvbmlnaHRseS14ODYtNjQtbHNiL2J1aWxkcy81Ni8gZm9yIHRoZSBmdWxsIGxvZ3MuICBBIGJ1
+aWxkIGVhcmxpZXIgYWxzbyBlbmRlZCB3aXRoIEdDQyBpbnRlcm5hbCBlcnJvcnMsIGJ1dCB0aGVz
+ZSBtYXkgYmUgcmVsYXRlZC4NCg0KUm9zcw0K
 
-This file, plausible.c, is part of libsupport.a which is used by
-many binaries produced by the e2fsprogs package. plausible.c attempts
-to dynamically load libmagic.so if the e2fsprogs configure detects
-that magic was available. Adding the packageconfig will eliminate
-the build as well as the possible configure-time race condition.
+--_000_1B858668EC6A94408DCA5225FDFA85AA013A2CDFF9ALAMBAcorpadw_
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-Signed-off-by: Randy MacLeod <Randy.MacLeod@windriver.com>
----
- meta/recipes-devtools/e2fsprogs/e2fsprogs_1.43.bb | 1 +
- 1 file changed, 1 insertion(+)
+PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
+bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
+YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
+cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
+VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
+Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
+ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTQgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
+PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
+5a6L5L2TOw0KCXBhbm9zZS0xOjIgMSA2IDAgMyAxIDEgMSAxIDE7fQ0KQGZvbnQtZmFjZQ0KCXtm
+b250LWZhbWlseTrlrovkvZM7DQoJcGFub3NlLTE6MiAxIDYgMCAzIDEgMSAxIDEgMTt9DQpAZm9u
+dC1mYWNlDQoJe2ZvbnQtZmFtaWx5OkNhbGlicmk7DQoJcGFub3NlLTE6MiAxNSA1IDIgMiAyIDQg
+MyAyIDQ7fQ0KQGZvbnQtZmFjZQ0KCXtmb250LWZhbWlseTpUYWhvbWE7DQoJcGFub3NlLTE6MiAx
+MSA2IDQgMyA1IDQgNCAyIDQ7fQ0KQGZvbnQtZmFjZQ0KCXtmb250LWZhbWlseToiXEDlrovkvZMi
+Ow0KCXBhbm9zZS0xOjIgMSA2IDAgMyAxIDEgMSAxIDE7fQ0KLyogU3R5bGUgRGVmaW5pdGlvbnMg
+Ki8NCnAuTXNvTm9ybWFsLCBsaS5Nc29Ob3JtYWwsIGRpdi5Nc29Ob3JtYWwNCgl7bWFyZ2luOjBp
+bjsNCgltYXJnaW4tYm90dG9tOi4wMDAxcHQ7DQoJZm9udC1zaXplOjEyLjBwdDsNCglmb250LWZh
+bWlseToiVGltZXMgTmV3IFJvbWFuIiwic2VyaWYiO30NCmE6bGluaywgc3Bhbi5Nc29IeXBlcmxp
+bmsNCgl7bXNvLXN0eWxlLXByaW9yaXR5Ojk5Ow0KCWNvbG9yOmJsdWU7DQoJdGV4dC1kZWNvcmF0
+aW9uOnVuZGVybGluZTt9DQphOnZpc2l0ZWQsIHNwYW4uTXNvSHlwZXJsaW5rRm9sbG93ZWQNCgl7
+bXNvLXN0eWxlLXByaW9yaXR5Ojk5Ow0KCWNvbG9yOnB1cnBsZTsNCgl0ZXh0LWRlY29yYXRpb246
+dW5kZXJsaW5lO30NCnAuTXNvQWNldGF0ZSwgbGkuTXNvQWNldGF0ZSwgZGl2Lk1zb0FjZXRhdGUN
+Cgl7bXNvLXN0eWxlLXByaW9yaXR5Ojk5Ow0KCW1zby1zdHlsZS1saW5rOiJCYWxsb29uIFRleHQg
+Q2hhciI7DQoJbWFyZ2luOjBpbjsNCgltYXJnaW4tYm90dG9tOi4wMDAxcHQ7DQoJZm9udC1zaXpl
+OjguMHB0Ow0KCWZvbnQtZmFtaWx5OiJUYWhvbWEiLCJzYW5zLXNlcmlmIjt9DQpzcGFuLmdtYWls
+LWlsDQoJe21zby1zdHlsZS1uYW1lOmdtYWlsLWlsO30NCnNwYW4uQmFsbG9vblRleHRDaGFyDQoJ
+e21zby1zdHlsZS1uYW1lOiJCYWxsb29uIFRleHQgQ2hhciI7DQoJbXNvLXN0eWxlLXByaW9yaXR5
+Ojk5Ow0KCW1zby1zdHlsZS1saW5rOiJCYWxsb29uIFRleHQiOw0KCWZvbnQtZmFtaWx5OiJUYWhv
+bWEiLCJzYW5zLXNlcmlmIjt9DQpzcGFuLkVtYWlsU3R5bGUyMA0KCXttc28tc3R5bGUtdHlwZTpw
+ZXJzb25hbC1yZXBseTsNCglmb250LWZhbWlseToiQ2FsaWJyaSIsInNhbnMtc2VyaWYiOw0KCWNv
+bG9yOiMxRjQ5N0Q7fQ0KLk1zb0NocERlZmF1bHQNCgl7bXNvLXN0eWxlLXR5cGU6ZXhwb3J0LW9u
+bHk7DQoJZm9udC1mYW1pbHk6IkNhbGlicmkiLCJzYW5zLXNlcmlmIjt9DQpAcGFnZSBXb3JkU2Vj
+dGlvbjENCgl7c2l6ZTo4LjVpbiAxMS4waW47DQoJbWFyZ2luOjEuMGluIDEuMjVpbiAxLjBpbiAx
+LjI1aW47fQ0KZGl2LldvcmRTZWN0aW9uMQ0KCXtwYWdlOldvcmRTZWN0aW9uMTt9DQotLT48L3N0
+eWxlPjwhLS1baWYgZ3RlIG1zbyA5XT48eG1sPg0KPG86c2hhcGVkZWZhdWx0cyB2OmV4dD0iZWRp
+dCIgc3BpZG1heD0iMTAyNiIgLz4NCjwveG1sPjwhW2VuZGlmXS0tPjwhLS1baWYgZ3RlIG1zbyA5
+XT48eG1sPg0KPG86c2hhcGVsYXlvdXQgdjpleHQ9ImVkaXQiPg0KPG86aWRtYXAgdjpleHQ9ImVk
+aXQiIGRhdGE9IjEiIC8+DQo8L286c2hhcGVsYXlvdXQ+PC94bWw+PCFbZW5kaWZdLS0+DQo8L2hl
+YWQ+DQo8Ym9keSBsYW5nPSJFTi1VUyIgbGluaz0iYmx1ZSIgdmxpbms9InB1cnBsZSI+DQo8ZGl2
+IGNsYXNzPSJXb3JkU2VjdGlvbjEiPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9
+ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OywmcXVvdDtz
+YW5zLXNlcmlmJnF1b3Q7O2NvbG9yOiMxRjQ5N0QiPkkgc2VlLCBJIHdpbGwgdHJ5IHRvIGZpeCBp
+dCB0aGVuIHNlbmQgdjIuPG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1h
+bCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJy
+aSZxdW90OywmcXVvdDtzYW5zLXNlcmlmJnF1b3Q7O2NvbG9yOiMxRjQ5N0QiPjxvOnA+Jm5ic3A7
+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJmb250
+LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssJnF1b3Q7c2Fucy1z
+ZXJpZiZxdW90Oztjb2xvcjojMUY0OTdEIj5UaGFua3MsPG86cD48L286cD48L3NwYW4+PC9wPg0K
+PHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1m
+YW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OywmcXVvdDtzYW5zLXNlcmlmJnF1b3Q7O2NvbG9yOiMx
+RjQ5N0QiPkphY2tpZTxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwi
+PjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkm
+cXVvdDssJnF1b3Q7c2Fucy1zZXJpZiZxdW90Oztjb2xvcjojMUY0OTdEIj48bzpwPiZuYnNwOzwv
+bzpwPjwvc3Bhbj48L3A+DQo8ZGl2IHN0eWxlPSJib3JkZXI6bm9uZTtib3JkZXItbGVmdDpzb2xp
+ZCBibHVlIDEuNXB0O3BhZGRpbmc6MGluIDBpbiAwaW4gNC4wcHQiPg0KPGRpdj4NCjxkaXYgc3R5
+bGU9ImJvcmRlcjpub25lO2JvcmRlci10b3A6c29saWQgI0I1QzRERiAxLjBwdDtwYWRkaW5nOjMu
+MHB0IDBpbiAwaW4gMGluIj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxiPjxzcGFuIHN0eWxlPSJm
+b250LXNpemU6MTAuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O1RhaG9tYSZxdW90OywmcXVvdDtzYW5z
+LXNlcmlmJnF1b3Q7Ij5Gcm9tOjwvc3Bhbj48L2I+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMC4w
+cHQ7Zm9udC1mYW1pbHk6JnF1b3Q7VGFob21hJnF1b3Q7LCZxdW90O3NhbnMtc2VyaWYmcXVvdDsi
+PiBCdXJ0b24sIFJvc3MgW21haWx0bzpyb3NzLmJ1cnRvbkBpbnRlbC5jb21dDQo8YnI+DQo8Yj5T
+ZW50OjwvYj4gRnJpZGF5LCBTZXB0ZW1iZXIgMTYsIDIwMTYgMTA6MjYgUE08YnI+DQo8Yj5Ubzo8
+L2I+IEh1YW5nLCBKaWUgKEphY2tpZSk8YnI+DQo8Yj5DYzo8L2I+IE9FLWNvcmU8YnI+DQo8Yj5T
+dWJqZWN0OjwvYj4gUmU6IFtPRS1jb3JlXSBbUEFUQ0hdIGJvb3N0OiBhZGQgc3VwcG9ydCBmb3Ig
+YWRkaXRpb25hbCBib29zdCBsaWJzPG86cD48L286cD48L3NwYW4+PC9wPg0KPC9kaXY+DQo8L2Rp
+dj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxvOnA+Jm5ic3A7PC9vOnA+PC9wPg0KPGRpdj4NCjxk
+aXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48bzpwPiZuYnNwOzwvbzpwPjwvcD4NCjxkaXY+DQo8
+cCBjbGFzcz0iTXNvTm9ybWFsIj5PbiAxNCBTZXB0ZW1iZXIgMjAxNiBhdCAwNjowOCwgJmx0Ozxh
+IGhyZWY9Im1haWx0bzpqYWNraWUuaHVhbmdAd2luZHJpdmVyLmNvbSIgdGFyZ2V0PSJfYmxhbmsi
+PmphY2tpZS5odWFuZ0B3aW5kcml2ZXIuY29tPC9hPiZndDsgd3JvdGU6PG86cD48L286cD48L3A+
+DQo8ZGl2IGlkPSJnbWFpbC06MThtIj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPkZyb206IEphY2tp
+ZSBIdWFuZyAmbHQ7PGEgaHJlZj0ibWFpbHRvOmphY2tpZS5odWFuZ0B3aW5kcml2ZXIuY29tIj5q
+YWNraWUuaHVhbmdAd2luZHJpdmVyLmNvbTwvYT4mZ3Q7PGJyPg0KPGJyPg0KKiBBZGRlZCBsaWJz
+Ojxicj4NCiZuYnNwOyAtIGNvbnRhaW5lcjxicj4NCiZuYnNwOyAtIGNvbnRleHQ8YnI+DQombmJz
+cDsgLSBjb3JvdXRpbmU8YnI+DQombmJzcDsgLSBleGNlcHRpb248YnI+DQombmJzcDsgLSBncmFw
+aF9wYXJhbGxlbDxicj4NCiZuYnNwOyAtIGxvY2FsZTxicj4NCiZuYnNwOyAtIG1hdGg8YnI+DQom
+bmJzcDsgLSBtcGk8YnI+DQombmJzcDsgLSB3YXZlPGJyPg0KPGJyPg0KKiBBZGQgUEFDS0FHRUNP
+TkZJRyB0byBhZGQgcHJvcGVyIGRlcGVuZGVuY2llcyBmb3IgPHNwYW4gY2xhc3M9ImdtYWlsLWls
+Ij5ib29zdDwvc3Bhbj4tbG9jYWxlPGJyPg0KPGJyPg0KKiBjb250ZXh0IGFuZCBjb3JvdXRpbmUg
+YXJlIGFkZGVkIG9ubHkgZm9yIHg4NiBhbmQgcG93ZXJwYzxvOnA+PC9vOnA+PC9wPg0KPC9kaXY+
+DQo8L2Rpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxicj4NClRoaXMgcGF0Y2ggYXBwZWFycyB0
+byBiZSBwZXJpb2RpY2FsbHkgYnJlYWtpbmcgYm9vc3QgaW4gdGhlIGF1dG9idWlsZGVyIHJ1bnMu
+PG86cD48L286cD48L3A+DQo8L2Rpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiIHN0eWxlPSJtYXJn
+aW4tYm90dG9tOjEyLjBwdCI+PGJyPg0KfCBsaWJzL21hdGgvYnVpbGQvLi4vc3JjL3RyMS9hc2lu
+aGYuY3BwOjY6MjE6IGVycm9yOiB3aGlsZSByZWFkaW5nIHByZWNvbXBpbGVkIGhlYWRlcjogTm8g
+c3VjaCBmaWxlIG9yIGRpcmVjdG9yeTxvOnA+PC9vOnA+PC9wPg0KPGRpdj4NCjxwIGNsYXNzPSJN
+c29Ob3JtYWwiPlNlZSA8YSBocmVmPSJodHRwOi8vYXV0b2J1aWxkZXIueW9jdG8uaW86ODAxMC9i
+dWlsZGVycy9uaWdodGx5LXg4Ni02NC1sc2IvYnVpbGRzLzU2LyI+DQpodHRwOi8vYXV0b2J1aWxk
+ZXIueW9jdG8uaW86ODAxMC9idWlsZGVycy9uaWdodGx5LXg4Ni02NC1sc2IvYnVpbGRzLzU2Lzwv
+YT4gZm9yIHRoZSBmdWxsIGxvZ3MuJm5ic3A7IEEgYnVpbGQgZWFybGllciBhbHNvIGVuZGVkIHdp
+dGggR0NDIGludGVybmFsIGVycm9ycywgYnV0IHRoZXNlIG1heSBiZSByZWxhdGVkLjxvOnA+PC9v
+OnA+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PG86cD4mbmJzcDs8
+L286cD48L3A+DQo8L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj5Sb3NzPG86cD48
+L286cD48L3A+DQo8L2Rpdj4NCjwvZGl2Pg0KPC9kaXY+DQo8L2Rpdj4NCjwvYm9keT4NCjwvaHRt
+bD4NCg==
 
-diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.43.bb b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.43.bb
-index f4855bc..1707cb9 100644
---- a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.43.bb
-+++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.43.bb
-@@ -23,6 +23,7 @@ EXTRA_OECONF += "--libdir=${base_libdir} --sbindir=${base_sbindir} \
- EXTRA_OECONF_darwin = "--libdir=${base_libdir} --sbindir=${base_sbindir} --enable-bsd-shlibs"
- 
- PACKAGECONFIG ??= ""
-+PACKAGECONFIG[file] = ',,file'
- PACKAGECONFIG[fuse] = '--enable-fuse2fs,--disable-fuse2fs,fuse'
- 
- do_configure_prepend () {
--- 
-1.9.1
-
-
+--_000_1B858668EC6A94408DCA5225FDFA85AA013A2CDFF9ALAMBAcorpadw_--
