@@ -1,58 +1,24 @@
-Return-Path: <peter.kjellerstedt@axis.com>
-Received: from bes.se.axis.com (bes.se.axis.com [195.60.68.10])
-	by mail.openembedded.org (Postfix) with ESMTP id DF0B06FFFE
+Return-Path: <Randy.MacLeod@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id F03506FFF7
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 17 Sep 2016 01:18:10 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by bes.se.axis.com (Postfix) with ESMTP id 40AB72E479
+	Sat, 17 Sep 2016 01:39:56 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u8H1duY9019744
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 17 Sep 2016 03:18:10 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at bes.se.axis.com
-X-Amavis-Alert: BAD HEADER SECTION, Duplicate header field: "References"
-Received: from bes.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bes.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP id XCS+axsqStK9
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 17 Sep 2016 03:18:09 +0200 (CEST)
-Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
-	by bes.se.axis.com (Postfix) with ESMTPS id 742712E44E
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 17 Sep 2016 03:18:09 +0200 (CEST)
-Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 5E0401A073
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 17 Sep 2016 03:18:09 +0200 (CEST)
-Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 5318B1A072
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 17 Sep 2016 03:18:09 +0200 (CEST)
-Received: from seth.se.axis.com (unknown [10.0.2.172])
-	by boulder02.se.axis.com (Postfix) with ESMTP
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 17 Sep 2016 03:18:09 +0200 (CEST)
-Received: from saur-2.se.axis.com (saur-2.se.axis.com [10.92.3.2])
-	by seth.se.axis.com (Postfix) with ESMTP id 45E0534C
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 17 Sep 2016 03:18:09 +0200 (CEST)
-Received: from saur-2.se.axis.com (localhost [127.0.0.1])
-	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id u8H1I9hN024639
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 17 Sep 2016 03:18:09 +0200
-Received: (from pkj@localhost)
-	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id u8H1I9Ap024638
-	for openembedded-core@lists.openembedded.org;
-	Sat, 17 Sep 2016 03:18:09 +0200
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sat, 17 Sep 2016 03:18:08 +0200
-Message-Id: <7b964da0d2093234e17d5290da77b2777782b91d.1474075036.git.pkj@axis.com>
-X-Mailer: git-send-email 2.9.0
-In-Reply-To: <cover.1474075036.git.pkj@axis.com>
-References: <cover.1474075036.git.pkj@axis.com>
-In-Reply-To: <cover.1474075036.git.pkj@axis.com>
-References: <cover.1474075036.git.pkj@axis.com>
-X-TM-AS-GCONF: 00
-Subject: [PATCH 1/1] externalsrc.bbclass: Make reparsing work for BBCLASSEXTENDed recipes
+	Fri, 16 Sep 2016 18:39:56 -0700 (PDT)
+Received: from yow-rmacleod-lx3.wrs.com (128.224.56.85) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.294.0; Fri, 16 Sep 2016 18:39:55 -0700
+From: Randy MacLeod <Randy.MacLeod@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 16 Sep 2016 21:37:07 -0400
+Message-ID: <1474076227-17032-1-git-send-email-Randy.MacLeod@windriver.com>
+X-Mailer: git-send-email 1.9.1
+MIME-Version: 1.0
+Subject: [PATCH] e2fsprogs: add packageconfig for -file-
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -65,62 +31,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 17 Sep 2016 01:18:12 -0000
+X-List-Received-Date: Sat, 17 Sep 2016 01:39:57 -0000
+Content-Type: text/plain
 
-To make sure changes to any source files are detected when externalsrc
-is used, it sets BB_DONT_CACHE to force the recipe to be reparsed
-every time. Previously, this was done conditionally based on whether
-EXTERNALSRC was set. This worked fine for building the base recipe.
-But if one tried to build, e.g., a native version of it (provided via
-BBCLASSEXTEND), the recipe would not be reparsed as expected.
+Without a packageconfig dependency for the file utility, there's
+a very rare compile faiure caused by a race where the magic.h
+header file is not found:
 
-To solve the above problem, BB_DONT_CACHE is now set for the base
-recipe if EXTERNALSRC is set for it or any of it derivatives.
+ ../../../git/lib/support/plausible.c:33:19: fatal error: magic.h: No such file or directory
 
-Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+This file, plausible.c, is part of libsupport.a which is used by
+many binaries produced by the e2fsprogs package. plausible.c attempts
+to dynamically load libmagic.so if the e2fsprogs configure detects
+that magic was available. Adding the packageconfig will eliminate
+the build as well as the possible configure-time race condition.
+
+Signed-off-by: Randy MacLeod <Randy.MacLeod@windriver.com>
 ---
- meta/classes/externalsrc.bbclass | 20 +++++++++++++++++---
- 1 file changed, 17 insertions(+), 3 deletions(-)
+ meta/recipes-devtools/e2fsprogs/e2fsprogs_1.43.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/classes/externalsrc.bbclass b/meta/classes/externalsrc.bbclass
-index b7140a3..5c65d2b 100644
---- a/meta/classes/externalsrc.bbclass
-+++ b/meta/classes/externalsrc.bbclass
-@@ -29,6 +29,23 @@ EXTERNALSRC_SYMLINKS ?= "oe-workdir:${WORKDIR} oe-logs:${T}"
+diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.43.bb b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.43.bb
+index f4855bc..1707cb9 100644
+--- a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.43.bb
++++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.43.bb
+@@ -23,6 +23,7 @@ EXTRA_OECONF += "--libdir=${base_libdir} --sbindir=${base_sbindir} \
+ EXTRA_OECONF_darwin = "--libdir=${base_libdir} --sbindir=${base_sbindir} --enable-bsd-shlibs"
  
- python () {
-     externalsrc = d.getVar('EXTERNALSRC', True)
-+
-+    # If this is the base recipe and EXTERNALSRC is set for it or any of its
-+    # derivatives, then enable BB_DONT_CACHE to force the recipe to always be
-+    # re-parsed so that the file-checksums function for do_compile is run every
-+    # time.
-+    bpn = d.getVar('BPN', True)
-+    if bpn == d.getVar('PN', True):
-+        classextend = (d.getVar('BBCLASSEXTEND', True) or '').split()
-+        if (externalsrc or
-+                ('native' in classextend and
-+                 d.getVar('EXTERNALSRC_pn-%s-native' % bpn, True)) or
-+                ('nativesdk' in classextend and
-+                 d.getVar('EXTERNALSRC_pn-nativesdk-%s' % bpn, True)) or
-+                ('cross' in classextend and
-+                 d.getVar('EXTERNALSRC_pn-%s-cross' % bpn, True))):
-+            d.setVar('BB_DONT_CACHE', '1')
-+
-     if externalsrc:
-         d.setVar('S', externalsrc)
-         externalsrcbuild = d.getVar('EXTERNALSRC_BUILD', True)
-@@ -85,9 +102,6 @@ python () {
-         d.prependVarFlag('do_compile', 'prefuncs', "externalsrc_compile_prefunc ")
-         d.prependVarFlag('do_configure', 'prefuncs', "externalsrc_configure_prefunc ")
+ PACKAGECONFIG ??= ""
++PACKAGECONFIG[file] = ',,file'
+ PACKAGECONFIG[fuse] = '--enable-fuse2fs,--disable-fuse2fs,fuse'
  
--        # Force the recipe to be always re-parsed so that the file_checksums
--        # function is run every time
--        d.setVar('BB_DONT_CACHE', '1')
-         d.setVarFlag('do_compile', 'file-checksums', '${@srctree_hash_files(d)}')
- 
-         # We don't want the workdir to go away
+ do_configure_prepend () {
 -- 
-2.9.0
+1.9.1
 
 
