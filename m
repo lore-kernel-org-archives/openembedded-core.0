@@ -1,33 +1,49 @@
-Return-Path: <Jackie.Huang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id D80D16FFCE
+Return-Path: <kergoth@gmail.com>
+Received: from mail-oi0-f65.google.com (mail-oi0-f65.google.com
+	[209.85.218.65])
+	by mail.openembedded.org (Postfix) with ESMTP id A93F26FF78
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 17 Sep 2016 02:25:42 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u8H2Phi9019836
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Sat, 17 Sep 2016 05:09:53 +0000 (UTC)
+Received: by mail-oi0-f65.google.com with SMTP id 2so8375096oif.2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Sep 2016 19:25:43 -0700 (PDT)
-Received: from ALA-MBA.corp.ad.wrs.com ([169.254.3.129]) by
-	ALA-HCA.corp.ad.wrs.com ([147.11.189.40]) with mapi id 14.03.0294.000;
-	Fri, 16 Sep 2016 19:25:42 -0700
-From: "Huang, Jie (Jackie)" <Jackie.Huang@windriver.com>
-To: "BURTON, ROSS" <ross.burton@intel.com>
-Thread-Topic: [OE-core] [PATCH] boost: add support for additional boost libs
-Thread-Index: AQHSECY9eTndUx1EMUGlf9is8nznZ6B89KFw
-Date: Sat, 17 Sep 2016 02:25:39 +0000
-Message-ID: <1B858668EC6A94408DCA5225FDFA85AA013A2CDFF9@ALA-MBA.corp.ad.wrs.com>
-References: <20160914050848.14612-1-jackie.huang@windriver.com>
-	<CAJTo0LZ6dn5LyMV34-UrJ75bz-gvqGGWaGWEcCkGpXBc_ty9hw@mail.gmail.com>
-In-Reply-To: <CAJTo0LZ6dn5LyMV34-UrJ75bz-gvqGGWaGWEcCkGpXBc_ty9hw@mail.gmail.com>
-Accept-Language: en-US, zh-CN
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [128.224.162.131]
+	Fri, 16 Sep 2016 22:09:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:from:date:message-id
+	:subject:to:cc;
+	bh=CW4Ji+uQKhywIBH0PH3N2lheEmLFLtPqG5I23OzPG4Q=;
+	b=zVCblNHJpqWY0mm8ekXHYJUV5r0RjY3CKmaZ1ox63nJ5u9CWSi4EdWBWogtaaFVK/K
+	FcEK+rmhq9mkRPbdTloEBw8FfuEK0h9ZKOS7j5MOShUPsycbBk8OD9cdIu1B1DQHSh+k
+	98vrtik+kCHLxo4dFDL4kboQs65GENwdHSEMia3hbY5+RtYd22HlcGYK05r2HbcZX6Ne
+	1+Uh86wHW5Y0smr5a9uE0i9X8SRnciWJ/03GeQn0lhdIOdPuNeJAqt2Gx1WeL9UL+D4R
+	dGW4xR1ruxvXQfyw9UT6DLsGxjuS5emgsQYXLVZINydaAbH2OS9i8MCBR8vwUVggNYv9
+	WeOA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:sender:in-reply-to:references:from
+	:date:message-id:subject:to:cc;
+	bh=CW4Ji+uQKhywIBH0PH3N2lheEmLFLtPqG5I23OzPG4Q=;
+	b=P8PA3lP2oJ1sWf9L+7VCrDOEw7tUAfW0u8iahMryBdbIXIbSaQxPo5xmkIp39IlW0d
+	JqBji7GeEAzmjjcWZXnzpCg5KzR1A4uSL3skV2FXl6k15cDh6B+Rl5O1f3XHhTwWcHZZ
+	EyjCPQKBP9afxXMiz8dBGDTguLCzvndIsp+wbU54e9iFSpgVqPoAYzchWk8vbmW/vH1y
+	eVz09rKu/humHWvJTzXagL8SCMRj6cunxQ2jJIelNxEl9dr1GJVrl1r/K7oEGBZggYGv
+	6PZhOWm7gmDa6/HnysFFeN6/FZVBMLzQkXpKXnNFIyCi38Eu0I3n8Ikmn5oqAB9HM6kd
+	1cYw==
+X-Gm-Message-State: AE9vXwPyNJurGC6X//Pexe8TOXwZKD9SzfkelwzTpIRki4y9I6YoPDWohzCofJ7IFpZhlMR+GmkP1IWhHq2xFQ==
+X-Received: by 10.202.75.16 with SMTP id y16mr16206800oia.52.1474088994638;
+	Fri, 16 Sep 2016 22:09:54 -0700 (PDT)
 MIME-Version: 1.0
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] boost: add support for additional boost libs
+Sender: kergoth@gmail.com
+Received: by 10.157.13.194 with HTTP; Fri, 16 Sep 2016 22:09:34 -0700 (PDT)
+In-Reply-To: <1474076227-17032-1-git-send-email-Randy.MacLeod@windriver.com>
+References: <1474076227-17032-1-git-send-email-Randy.MacLeod@windriver.com>
+From: Christopher Larson <clarson@kergoth.com>
+Date: Fri, 16 Sep 2016 22:09:34 -0700
+X-Google-Sender-Auth: BiYkhtKdEl5bH2VGqPTeO-q4mq0
+Message-ID: <CABcZANk=aHGZVw5vnh5+KyQaxLa8=7NB2GuFt49P0B_hDyaXcQ@mail.gmail.com>
+To: Randy MacLeod <Randy.MacLeod@windriver.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] e2fsprogs: add packageconfig for -file-
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,133 +56,114 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 17 Sep 2016 02:25:44 -0000
-Content-Language: en-US
-Content-Type: multipart/alternative;
-	boundary="_000_1B858668EC6A94408DCA5225FDFA85AA013A2CDFF9ALAMBAcorpadw_"
+X-List-Received-Date: Sat, 17 Sep 2016 05:09:57 -0000
+Content-Type: multipart/alternative; boundary=001a11c15442e4949f053cad16a6
 
---_000_1B858668EC6A94408DCA5225FDFA85AA013A2CDFF9ALAMBAcorpadw_
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+--001a11c15442e4949f053cad16a6
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-SSBzZWUsIEkgd2lsbCB0cnkgdG8gZml4IGl0IHRoZW4gc2VuZCB2Mi4NCg0KVGhhbmtzLA0KSmFj
-a2llDQoNCkZyb206IEJ1cnRvbiwgUm9zcyBbbWFpbHRvOnJvc3MuYnVydG9uQGludGVsLmNvbV0N
-ClNlbnQ6IEZyaWRheSwgU2VwdGVtYmVyIDE2LCAyMDE2IDEwOjI2IFBNDQpUbzogSHVhbmcsIEpp
-ZSAoSmFja2llKQ0KQ2M6IE9FLWNvcmUNClN1YmplY3Q6IFJlOiBbT0UtY29yZV0gW1BBVENIXSBi
-b29zdDogYWRkIHN1cHBvcnQgZm9yIGFkZGl0aW9uYWwgYm9vc3QgbGlicw0KDQoNCk9uIDE0IFNl
-cHRlbWJlciAyMDE2IGF0IDA2OjA4LCA8amFja2llLmh1YW5nQHdpbmRyaXZlci5jb208bWFpbHRv
-OmphY2tpZS5odWFuZ0B3aW5kcml2ZXIuY29tPj4gd3JvdGU6DQpGcm9tOiBKYWNraWUgSHVhbmcg
-PGphY2tpZS5odWFuZ0B3aW5kcml2ZXIuY29tPG1haWx0bzpqYWNraWUuaHVhbmdAd2luZHJpdmVy
-LmNvbT4+DQoNCiogQWRkZWQgbGliczoNCiAgLSBjb250YWluZXINCiAgLSBjb250ZXh0DQogIC0g
-Y29yb3V0aW5lDQogIC0gZXhjZXB0aW9uDQogIC0gZ3JhcGhfcGFyYWxsZWwNCiAgLSBsb2NhbGUN
-CiAgLSBtYXRoDQogIC0gbXBpDQogIC0gd2F2ZQ0KDQoqIEFkZCBQQUNLQUdFQ09ORklHIHRvIGFk
-ZCBwcm9wZXIgZGVwZW5kZW5jaWVzIGZvciBib29zdC1sb2NhbGUNCg0KKiBjb250ZXh0IGFuZCBj
-b3JvdXRpbmUgYXJlIGFkZGVkIG9ubHkgZm9yIHg4NiBhbmQgcG93ZXJwYw0KDQpUaGlzIHBhdGNo
-IGFwcGVhcnMgdG8gYmUgcGVyaW9kaWNhbGx5IGJyZWFraW5nIGJvb3N0IGluIHRoZSBhdXRvYnVp
-bGRlciBydW5zLg0KDQp8IGxpYnMvbWF0aC9idWlsZC8uLi9zcmMvdHIxL2FzaW5oZi5jcHA6Njoy
-MTogZXJyb3I6IHdoaWxlIHJlYWRpbmcgcHJlY29tcGlsZWQgaGVhZGVyOiBObyBzdWNoIGZpbGUg
-b3IgZGlyZWN0b3J5DQpTZWUgaHR0cDovL2F1dG9idWlsZGVyLnlvY3RvLmlvOjgwMTAvYnVpbGRl
-cnMvbmlnaHRseS14ODYtNjQtbHNiL2J1aWxkcy81Ni8gZm9yIHRoZSBmdWxsIGxvZ3MuICBBIGJ1
-aWxkIGVhcmxpZXIgYWxzbyBlbmRlZCB3aXRoIEdDQyBpbnRlcm5hbCBlcnJvcnMsIGJ1dCB0aGVz
-ZSBtYXkgYmUgcmVsYXRlZC4NCg0KUm9zcw0K
+On Fri, Sep 16, 2016 at 6:37 PM, Randy MacLeod <Randy.MacLeod@windriver.com=
+>
+wrote:
 
---_000_1B858668EC6A94408DCA5225FDFA85AA013A2CDFF9ALAMBAcorpadw_
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: base64
+> Without a packageconfig dependency for the file utility, there's
+> a very rare compile faiure caused by a race where the magic.h
+> header file is not found:
+>
+>  ../../../git/lib/support/plausible.c:33:19: fatal error: magic.h: No
+> such file or directory
+>
+> This file, plausible.c, is part of libsupport.a which is used by
+> many binaries produced by the e2fsprogs package. plausible.c attempts
+> to dynamically load libmagic.so if the e2fsprogs configure detects
+> that magic was available. Adding the packageconfig will eliminate
+> the build as well as the possible configure-time race condition.
+>
+> Signed-off-by: Randy MacLeod <Randy.MacLeod@windriver.com>
+> ---
+>  meta/recipes-devtools/e2fsprogs/e2fsprogs_1.43.bb | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.43.bb
+> b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.43.bb
+> index f4855bc..1707cb9 100644
+> --- a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.43.bb
+> +++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.43.bb
+> @@ -23,6 +23,7 @@ EXTRA_OECONF +=3D "--libdir=3D${base_libdir}
+> --sbindir=3D${base_sbindir} \
+>  EXTRA_OECONF_darwin =3D "--libdir=3D${base_libdir} --sbindir=3D${base_sb=
+indir}
+> --enable-bsd-shlibs"
+>
+>  PACKAGECONFIG ??=3D ""
+> +PACKAGECONFIG[file] =3D ',,file'
+>
 
-PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
-bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
-YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
-cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
-VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
-Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
-ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTQgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
-PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
-5a6L5L2TOw0KCXBhbm9zZS0xOjIgMSA2IDAgMyAxIDEgMSAxIDE7fQ0KQGZvbnQtZmFjZQ0KCXtm
-b250LWZhbWlseTrlrovkvZM7DQoJcGFub3NlLTE6MiAxIDYgMCAzIDEgMSAxIDEgMTt9DQpAZm9u
-dC1mYWNlDQoJe2ZvbnQtZmFtaWx5OkNhbGlicmk7DQoJcGFub3NlLTE6MiAxNSA1IDIgMiAyIDQg
-MyAyIDQ7fQ0KQGZvbnQtZmFjZQ0KCXtmb250LWZhbWlseTpUYWhvbWE7DQoJcGFub3NlLTE6MiAx
-MSA2IDQgMyA1IDQgNCAyIDQ7fQ0KQGZvbnQtZmFjZQ0KCXtmb250LWZhbWlseToiXEDlrovkvZMi
-Ow0KCXBhbm9zZS0xOjIgMSA2IDAgMyAxIDEgMSAxIDE7fQ0KLyogU3R5bGUgRGVmaW5pdGlvbnMg
-Ki8NCnAuTXNvTm9ybWFsLCBsaS5Nc29Ob3JtYWwsIGRpdi5Nc29Ob3JtYWwNCgl7bWFyZ2luOjBp
-bjsNCgltYXJnaW4tYm90dG9tOi4wMDAxcHQ7DQoJZm9udC1zaXplOjEyLjBwdDsNCglmb250LWZh
-bWlseToiVGltZXMgTmV3IFJvbWFuIiwic2VyaWYiO30NCmE6bGluaywgc3Bhbi5Nc29IeXBlcmxp
-bmsNCgl7bXNvLXN0eWxlLXByaW9yaXR5Ojk5Ow0KCWNvbG9yOmJsdWU7DQoJdGV4dC1kZWNvcmF0
-aW9uOnVuZGVybGluZTt9DQphOnZpc2l0ZWQsIHNwYW4uTXNvSHlwZXJsaW5rRm9sbG93ZWQNCgl7
-bXNvLXN0eWxlLXByaW9yaXR5Ojk5Ow0KCWNvbG9yOnB1cnBsZTsNCgl0ZXh0LWRlY29yYXRpb246
-dW5kZXJsaW5lO30NCnAuTXNvQWNldGF0ZSwgbGkuTXNvQWNldGF0ZSwgZGl2Lk1zb0FjZXRhdGUN
-Cgl7bXNvLXN0eWxlLXByaW9yaXR5Ojk5Ow0KCW1zby1zdHlsZS1saW5rOiJCYWxsb29uIFRleHQg
-Q2hhciI7DQoJbWFyZ2luOjBpbjsNCgltYXJnaW4tYm90dG9tOi4wMDAxcHQ7DQoJZm9udC1zaXpl
-OjguMHB0Ow0KCWZvbnQtZmFtaWx5OiJUYWhvbWEiLCJzYW5zLXNlcmlmIjt9DQpzcGFuLmdtYWls
-LWlsDQoJe21zby1zdHlsZS1uYW1lOmdtYWlsLWlsO30NCnNwYW4uQmFsbG9vblRleHRDaGFyDQoJ
-e21zby1zdHlsZS1uYW1lOiJCYWxsb29uIFRleHQgQ2hhciI7DQoJbXNvLXN0eWxlLXByaW9yaXR5
-Ojk5Ow0KCW1zby1zdHlsZS1saW5rOiJCYWxsb29uIFRleHQiOw0KCWZvbnQtZmFtaWx5OiJUYWhv
-bWEiLCJzYW5zLXNlcmlmIjt9DQpzcGFuLkVtYWlsU3R5bGUyMA0KCXttc28tc3R5bGUtdHlwZTpw
-ZXJzb25hbC1yZXBseTsNCglmb250LWZhbWlseToiQ2FsaWJyaSIsInNhbnMtc2VyaWYiOw0KCWNv
-bG9yOiMxRjQ5N0Q7fQ0KLk1zb0NocERlZmF1bHQNCgl7bXNvLXN0eWxlLXR5cGU6ZXhwb3J0LW9u
-bHk7DQoJZm9udC1mYW1pbHk6IkNhbGlicmkiLCJzYW5zLXNlcmlmIjt9DQpAcGFnZSBXb3JkU2Vj
-dGlvbjENCgl7c2l6ZTo4LjVpbiAxMS4waW47DQoJbWFyZ2luOjEuMGluIDEuMjVpbiAxLjBpbiAx
-LjI1aW47fQ0KZGl2LldvcmRTZWN0aW9uMQ0KCXtwYWdlOldvcmRTZWN0aW9uMTt9DQotLT48L3N0
-eWxlPjwhLS1baWYgZ3RlIG1zbyA5XT48eG1sPg0KPG86c2hhcGVkZWZhdWx0cyB2OmV4dD0iZWRp
-dCIgc3BpZG1heD0iMTAyNiIgLz4NCjwveG1sPjwhW2VuZGlmXS0tPjwhLS1baWYgZ3RlIG1zbyA5
-XT48eG1sPg0KPG86c2hhcGVsYXlvdXQgdjpleHQ9ImVkaXQiPg0KPG86aWRtYXAgdjpleHQ9ImVk
-aXQiIGRhdGE9IjEiIC8+DQo8L286c2hhcGVsYXlvdXQ+PC94bWw+PCFbZW5kaWZdLS0+DQo8L2hl
-YWQ+DQo8Ym9keSBsYW5nPSJFTi1VUyIgbGluaz0iYmx1ZSIgdmxpbms9InB1cnBsZSI+DQo8ZGl2
-IGNsYXNzPSJXb3JkU2VjdGlvbjEiPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9
-ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OywmcXVvdDtz
-YW5zLXNlcmlmJnF1b3Q7O2NvbG9yOiMxRjQ5N0QiPkkgc2VlLCBJIHdpbGwgdHJ5IHRvIGZpeCBp
-dCB0aGVuIHNlbmQgdjIuPG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1h
-bCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJy
-aSZxdW90OywmcXVvdDtzYW5zLXNlcmlmJnF1b3Q7O2NvbG9yOiMxRjQ5N0QiPjxvOnA+Jm5ic3A7
-PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJmb250
-LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssJnF1b3Q7c2Fucy1z
-ZXJpZiZxdW90Oztjb2xvcjojMUY0OTdEIj5UaGFua3MsPG86cD48L286cD48L3NwYW4+PC9wPg0K
-PHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1m
-YW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OywmcXVvdDtzYW5zLXNlcmlmJnF1b3Q7O2NvbG9yOiMx
-RjQ5N0QiPkphY2tpZTxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwi
-PjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkm
-cXVvdDssJnF1b3Q7c2Fucy1zZXJpZiZxdW90Oztjb2xvcjojMUY0OTdEIj48bzpwPiZuYnNwOzwv
-bzpwPjwvc3Bhbj48L3A+DQo8ZGl2IHN0eWxlPSJib3JkZXI6bm9uZTtib3JkZXItbGVmdDpzb2xp
-ZCBibHVlIDEuNXB0O3BhZGRpbmc6MGluIDBpbiAwaW4gNC4wcHQiPg0KPGRpdj4NCjxkaXYgc3R5
-bGU9ImJvcmRlcjpub25lO2JvcmRlci10b3A6c29saWQgI0I1QzRERiAxLjBwdDtwYWRkaW5nOjMu
-MHB0IDBpbiAwaW4gMGluIj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxiPjxzcGFuIHN0eWxlPSJm
-b250LXNpemU6MTAuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O1RhaG9tYSZxdW90OywmcXVvdDtzYW5z
-LXNlcmlmJnF1b3Q7Ij5Gcm9tOjwvc3Bhbj48L2I+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMC4w
-cHQ7Zm9udC1mYW1pbHk6JnF1b3Q7VGFob21hJnF1b3Q7LCZxdW90O3NhbnMtc2VyaWYmcXVvdDsi
-PiBCdXJ0b24sIFJvc3MgW21haWx0bzpyb3NzLmJ1cnRvbkBpbnRlbC5jb21dDQo8YnI+DQo8Yj5T
-ZW50OjwvYj4gRnJpZGF5LCBTZXB0ZW1iZXIgMTYsIDIwMTYgMTA6MjYgUE08YnI+DQo8Yj5Ubzo8
-L2I+IEh1YW5nLCBKaWUgKEphY2tpZSk8YnI+DQo8Yj5DYzo8L2I+IE9FLWNvcmU8YnI+DQo8Yj5T
-dWJqZWN0OjwvYj4gUmU6IFtPRS1jb3JlXSBbUEFUQ0hdIGJvb3N0OiBhZGQgc3VwcG9ydCBmb3Ig
-YWRkaXRpb25hbCBib29zdCBsaWJzPG86cD48L286cD48L3NwYW4+PC9wPg0KPC9kaXY+DQo8L2Rp
-dj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxvOnA+Jm5ic3A7PC9vOnA+PC9wPg0KPGRpdj4NCjxk
-aXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48bzpwPiZuYnNwOzwvbzpwPjwvcD4NCjxkaXY+DQo8
-cCBjbGFzcz0iTXNvTm9ybWFsIj5PbiAxNCBTZXB0ZW1iZXIgMjAxNiBhdCAwNjowOCwgJmx0Ozxh
-IGhyZWY9Im1haWx0bzpqYWNraWUuaHVhbmdAd2luZHJpdmVyLmNvbSIgdGFyZ2V0PSJfYmxhbmsi
-PmphY2tpZS5odWFuZ0B3aW5kcml2ZXIuY29tPC9hPiZndDsgd3JvdGU6PG86cD48L286cD48L3A+
-DQo8ZGl2IGlkPSJnbWFpbC06MThtIj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPkZyb206IEphY2tp
-ZSBIdWFuZyAmbHQ7PGEgaHJlZj0ibWFpbHRvOmphY2tpZS5odWFuZ0B3aW5kcml2ZXIuY29tIj5q
-YWNraWUuaHVhbmdAd2luZHJpdmVyLmNvbTwvYT4mZ3Q7PGJyPg0KPGJyPg0KKiBBZGRlZCBsaWJz
-Ojxicj4NCiZuYnNwOyAtIGNvbnRhaW5lcjxicj4NCiZuYnNwOyAtIGNvbnRleHQ8YnI+DQombmJz
-cDsgLSBjb3JvdXRpbmU8YnI+DQombmJzcDsgLSBleGNlcHRpb248YnI+DQombmJzcDsgLSBncmFw
-aF9wYXJhbGxlbDxicj4NCiZuYnNwOyAtIGxvY2FsZTxicj4NCiZuYnNwOyAtIG1hdGg8YnI+DQom
-bmJzcDsgLSBtcGk8YnI+DQombmJzcDsgLSB3YXZlPGJyPg0KPGJyPg0KKiBBZGQgUEFDS0FHRUNP
-TkZJRyB0byBhZGQgcHJvcGVyIGRlcGVuZGVuY2llcyBmb3IgPHNwYW4gY2xhc3M9ImdtYWlsLWls
-Ij5ib29zdDwvc3Bhbj4tbG9jYWxlPGJyPg0KPGJyPg0KKiBjb250ZXh0IGFuZCBjb3JvdXRpbmUg
-YXJlIGFkZGVkIG9ubHkgZm9yIHg4NiBhbmQgcG93ZXJwYzxvOnA+PC9vOnA+PC9wPg0KPC9kaXY+
-DQo8L2Rpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxicj4NClRoaXMgcGF0Y2ggYXBwZWFycyB0
-byBiZSBwZXJpb2RpY2FsbHkgYnJlYWtpbmcgYm9vc3QgaW4gdGhlIGF1dG9idWlsZGVyIHJ1bnMu
-PG86cD48L286cD48L3A+DQo8L2Rpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiIHN0eWxlPSJtYXJn
-aW4tYm90dG9tOjEyLjBwdCI+PGJyPg0KfCBsaWJzL21hdGgvYnVpbGQvLi4vc3JjL3RyMS9hc2lu
-aGYuY3BwOjY6MjE6IGVycm9yOiB3aGlsZSByZWFkaW5nIHByZWNvbXBpbGVkIGhlYWRlcjogTm8g
-c3VjaCBmaWxlIG9yIGRpcmVjdG9yeTxvOnA+PC9vOnA+PC9wPg0KPGRpdj4NCjxwIGNsYXNzPSJN
-c29Ob3JtYWwiPlNlZSA8YSBocmVmPSJodHRwOi8vYXV0b2J1aWxkZXIueW9jdG8uaW86ODAxMC9i
-dWlsZGVycy9uaWdodGx5LXg4Ni02NC1sc2IvYnVpbGRzLzU2LyI+DQpodHRwOi8vYXV0b2J1aWxk
-ZXIueW9jdG8uaW86ODAxMC9idWlsZGVycy9uaWdodGx5LXg4Ni02NC1sc2IvYnVpbGRzLzU2Lzwv
-YT4gZm9yIHRoZSBmdWxsIGxvZ3MuJm5ic3A7IEEgYnVpbGQgZWFybGllciBhbHNvIGVuZGVkIHdp
-dGggR0NDIGludGVybmFsIGVycm9ycywgYnV0IHRoZXNlIG1heSBiZSByZWxhdGVkLjxvOnA+PC9v
-OnA+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PG86cD4mbmJzcDs8
-L286cD48L3A+DQo8L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj5Sb3NzPG86cD48
-L286cD48L3A+DQo8L2Rpdj4NCjwvZGl2Pg0KPC9kaXY+DQo8L2Rpdj4NCjwvYm9keT4NCjwvaHRt
-bD4NCg==
+This isn=E2=80=99t going to be good enough. You aren=E2=80=99t explicitly
+enabling/disabling the option, so it=E2=80=99ll still detect based on what=
+=E2=80=99s in the
+sysroot, so recipe build order will result in non-deterministic behavior.
+--=20
+Christopher Larson
+clarson at kergoth dot com
+Founder - BitBake, OpenEmbedded, OpenZaurus
+Maintainer - Tslib
+Senior Software Engineer, Mentor Graphics
 
---_000_1B858668EC6A94408DCA5225FDFA85AA013A2CDFF9ALAMBAcorpadw_--
+--001a11c15442e4949f053cad16a6
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On Fri, Sep 16, 2016 at 6:37 PM, Randy MacLeod <span dir=3D"ltr">&lt;<a hre=
+f=3D"mailto:Randy.MacLeod@windriver.com" target=3D"_blank">Randy.MacLeod@wi=
+ndriver.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" styl=
+e=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=
+=3D":21p" class=3D"a3s aXjCH m15735cd0fa519af0">Without a packageconfig dep=
+endency for the file utility, there&#39;s<br>
+a very rare compile faiure caused by a race where the magic.h<br>
+header file is not found:<br>
+<br>
+=C2=A0../../../git/lib/support/<wbr>plausible.c:33:19: fatal error: magic.h=
+: No such file or directory<br>
+<br>
+This file, plausible.c, is part of libsupport.a which is used by<br>
+many binaries produced by the e2fsprogs package. plausible.c attempts<br>
+to dynamically load libmagic.so if the e2fsprogs configure detects<br>
+that magic was available. Adding the packageconfig will eliminate<br>
+the build as well as the possible configure-time race condition.<br>
+<br>
+Signed-off-by: Randy MacLeod &lt;<a href=3D"mailto:Randy.MacLeod@windriver.=
+com">Randy.MacLeod@windriver.com</a>&gt;<br>
+---<br>
+=C2=A0meta/recipes-devtools/<wbr>e2fsprogs/<a href=3D"http://e2fsprogs_1.43=
+.bb" rel=3D"noreferrer" target=3D"_blank">e2fsprogs_1.43.bb</a> | 1 +<br>
+=C2=A01 file changed, 1 insertion(+)<br>
+<br>
+diff --git a/meta/recipes-devtools/<wbr>e2fsprogs/<a href=3D"http://e2fspro=
+gs_1.43.bb" rel=3D"noreferrer" target=3D"_blank">e2fsprogs_1.43.bb</a> b/me=
+ta/recipes-devtools/<wbr>e2fsprogs/<a href=3D"http://e2fsprogs_1.43.bb" rel=
+=3D"noreferrer" target=3D"_blank">e2fsprogs_1.43.bb</a><br>
+index f4855bc..1707cb9 100644<br>
+--- a/meta/recipes-devtools/<wbr>e2fsprogs/<a href=3D"http://e2fsprogs_1.43=
+.bb" rel=3D"noreferrer" target=3D"_blank">e2fsprogs_1.43.bb</a><br>
++++ b/meta/recipes-devtools/<wbr>e2fsprogs/<a href=3D"http://e2fsprogs_1.43=
+.bb" rel=3D"noreferrer" target=3D"_blank">e2fsprogs_1.43.bb</a><br>
+@@ -23,6 +23,7 @@ EXTRA_OECONF +=3D &quot;--libdir=3D${base_libdir} --sbind=
+ir=3D${base_sbindir} \<br>
+=C2=A0EXTRA_OECONF_darwin =3D &quot;--libdir=3D${base_libdir} --sbindir=3D$=
+{base_sbindir} --enable-bsd-shlibs&quot;<br>
+<br>
+=C2=A0PACKAGECONFIG ??=3D &quot;&quot;<br>
++PACKAGECONFIG[file] =3D &#39;,,file&#39;</div></blockquote></div><br>This =
+isn=E2=80=99t going to be good enough. You aren=E2=80=99t explicitly enabli=
+ng/disabling the option, so it=E2=80=99ll still detect based on what=E2=80=
+=99s in the sysroot, so recipe build order will result in non-deterministic=
+ behavior.<br>-- <br><div class=3D"gmail_signature" data-smartmail=3D"gmail=
+_signature">Christopher Larson<br>clarson at kergoth dot com<br>Founder - B=
+itBake, OpenEmbedded, OpenZaurus<br>Maintainer - Tslib<br>Senior Software E=
+ngineer, Mentor Graphics</div>
+</div></div>
+
+--001a11c15442e4949f053cad16a6--
