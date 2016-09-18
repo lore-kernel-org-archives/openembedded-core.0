@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id E7CB073193
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 9C6C075E80
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 18 Sep 2016 07:39:33 +0000 (UTC)
+	Sun, 18 Sep 2016 07:39:34 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u8I7dYG2003111
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u8I7dZpv029973
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 18 Sep 2016 00:39:34 -0700 (PDT)
+	Sun, 18 Sep 2016 00:39:35 -0700 (PDT)
 Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.294.0;
 	Sun, 18 Sep 2016 00:39:34 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Sun, 18 Sep 2016 00:39:26 -0700
-Message-ID: <dff79b50bc51a4250f4328e2e49ca10e6af009a6.1474183984.git.liezhi.yang@windriver.com>
+Date: Sun, 18 Sep 2016 00:39:27 -0700
+Message-ID: <5622e73f9ee3f3c95351555fb96c731beee4123d.1474183984.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.9.0
 In-Reply-To: <cover.1474183984.git.liezhi.yang@windriver.com>
 References: <cover.1474183984.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH V2 4/8] qemuboot: also write the kernel link name to the conf file
+Subject: [PATCH V2 5/8] runqemu: try symlinks when kernel or rootfs can't be found
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,30 +38,58 @@ Content-Type: text/plain
 
 From: Joshua Lock <joshua.g.lock@intel.com>
 
-This will allow runqemu to fall back to trying the link name when
-a file matching the full name can't be found.
+If the kernel or rootfs names written to the qemuboot.conf can't
+be found, try and find the symlinked variant of the filename.
+
+This will help usability of runqemu, for example where a user
+downloads an image and associated files as the symlinked names
+yet the qemuboot.conf variables point to the full, non-linked,
+file names.
 
 Signed-off-by: Joshua Lock <joshua.g.lock@intel.com>
 ---
- meta/classes/qemuboot.bbclass | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ scripts/runqemu | 16 +++++++++++++---
+ 1 file changed, 13 insertions(+), 3 deletions(-)
 
-diff --git a/meta/classes/qemuboot.bbclass b/meta/classes/qemuboot.bbclass
-index 0892db3..802eb59 100644
---- a/meta/classes/qemuboot.bbclass
-+++ b/meta/classes/qemuboot.bbclass
-@@ -48,8 +48,9 @@ python write_qemuboot_conf() {
-     import configparser
+diff --git a/scripts/runqemu b/scripts/runqemu
+index 6aaae44..38f9b30 100755
+--- a/scripts/runqemu
++++ b/scripts/runqemu
+@@ -451,7 +451,12 @@ class BaseConfig(object):
+             if all_files:
+                 self.rootfs = all_files[0]
+             else:
+-                raise Exception("Failed to find rootfs: %s" % cmd)
++                cmd = '%s/%s*.%s' % (self.get('DEPLOY_DIR_IMAGE'), self.get('IMAGE_LINK_NAME'), self.fstype)
++                all_files = glob.glob(cmd)
++                if all_files:
++                    self.rootfs = all_files[0]
++                else:
++                    raise Exception("Failed to find rootfs: %s" % cmd)
  
-     build_vars = ['MACHINE', 'TUNE_ARCH', 'DEPLOY_DIR_IMAGE', \
--                'IMAGE_NAME', 'IMAGE_LINK_NAME', 'STAGING_DIR_NATIVE', \
--                'STAGING_BINDIR_NATIVE', 'STAGING_DIR_HOST']
-+                'KERNEL_IMAGETYPE', 'IMAGE_NAME', 'IMAGE_LINK_NAME', \
-+                'STAGING_DIR_NATIVE', 'STAGING_BINDIR_NATIVE', \
-+                'STAGING_DIR_HOST']
+         if not os.path.exists(self.rootfs):
+             raise Exception("Can't find rootfs: %s" % self.rootfs)
+@@ -462,13 +467,18 @@ class BaseConfig(object):
+         if self.fstype in self.vmtypes:
+             return
+         kernel = self.kernel
++        deploy_dir_image = self.get('DEPLOY_DIR_IMAGE')
+         if not kernel:
+-            kernel = "%s/%s" % (self.get('DEPLOY_DIR_IMAGE'), self.get('QB_DEFAULT_KERNEL'))
++            kernel = "%s/%s" % (deploy_dir_image, self.get('QB_DEFAULT_KERNEL'))
  
-     # Vars from bsp
-     qb_vars = []
+         if os.path.exists(kernel):
+             self.kernel = kernel
+         else:
+-            raise Exception("KERNEL %s not found" % kernel)
++            kernel = "%s/%s" % (deploy_dir_image, self.get('KERNEL_IMAGETYPE'))
++            if kernel != deploy_dir_image and os.path.exists(kernel):
++                self.kernel = kernel
++            else:
++                raise Exception("KERNEL %s not found" % kernel)
+ 
+         dtb = self.get('QB_DTB')
+         if dtb:
 -- 
 2.9.0
 
