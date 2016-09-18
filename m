@@ -1,24 +1,28 @@
-Return-Path: <Zhe.He@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 53E786FF60
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 9038360620
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 18 Sep 2016 02:52:43 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u8I2qhlL000353
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 17 Sep 2016 19:52:44 -0700
-Received: from PEK-ZHE-D1.wrs.com (128.224.162.234) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.294.0;
-	Sat, 17 Sep 2016 19:52:43 -0700
-From: <zhe.he@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Sun, 18 Sep 2016 10:51:49 +0800
-Message-ID: <1474167109-6666-1-git-send-email-zhe.he@windriver.com>
-X-Mailer: git-send-email 1.9.1
+	Sun, 18 Sep 2016 07:24:00 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u8I7Nxv9001914
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Sun, 18 Sep 2016 00:23:59 -0700 (PDT)
+Received: from [128.224.162.240] (128.224.162.240) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.294.0;
+	Sun, 18 Sep 2016 00:23:59 -0700
+To: Joshua Lock <joshua.g.lock@intel.com>,
+	<openembedded-core@lists.openembedded.org>
+References: <cover.1474030160.git.joshua.g.lock@intel.com>
+	<97cc9b5ba54f6dc1e8fa9b7938ebf220ac5fe95b.1474030160.git.joshua.g.lock@intel.com>
+From: Robert Yang <liezhi.yang@windriver.com>
+Message-ID: <57acde8d-d3ae-7fea-0ac1-e2fb763aa083@windriver.com>
+Date: Sun, 18 Sep 2016 15:23:57 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.2.0
 MIME-Version: 1.0
-Subject: [PATCH] bash2dash conversion
+In-Reply-To: <97cc9b5ba54f6dc1e8fa9b7938ebf220ac5fe95b.1474030160.git.joshua.g.lock@intel.com>
+Subject: Re: [PATCH 5/6] runqemu: try symlinks when kernel or rootfs can't be found
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,169 +35,78 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 18 Sep 2016 02:52:45 -0000
-Content-Type: text/plain
+X-List-Received-Date: Sun, 18 Sep 2016 07:24:02 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-From: "Tim K. Chan" <nirvanatk@gmail.com>
 
-Change bash style to dash style
 
-Signed-off-by: Tim K. Chan <nirvanatk@gmail.com>
-[Adjust context]
-Signed-off-by: He Zhe <zhe.he@windriver.com>
----
- meta/classes/systemd.bbclass                            |  4 ++--
- meta/classes/update-rc.d.bbclass                        |  6 +++---
- meta/classes/useradd_base.bbclass                       |  4 ++--
- meta/recipes-connectivity/resolvconf/resolvconf_1.79.bb |  2 +-
- meta/recipes-core/glibc/glibc-package.inc               |  2 +-
- meta/recipes-devtools/guile/guile_2.0.12.bb             |  6 ++++--
- meta/recipes-devtools/rpm/rpm_5.4.16.bb                 | 13 +++++++++++--
- 7 files changed, 24 insertions(+), 13 deletions(-)
+On 09/16/2016 08:52 PM, Joshua Lock wrote:
+> If the kernel or rootfs names written to the qemuboot.conf can't
+> be found, try and find the symlinked variant of the filename.
+>
+> This will help usability of runqemu, for example where a user
+> downloads an image and associated files as the symlinked names
+> yet the qemuboot.conf variables point to the full, non-linked,
+> file names.
+>
+> Signed-off-by: Joshua Lock <joshua.g.lock@intel.com>
+> ---
+>  scripts/runqemu | 16 +++++++++++++---
+>  1 file changed, 13 insertions(+), 3 deletions(-)
+>
+> diff --git a/scripts/runqemu b/scripts/runqemu
+> index 6aaae44..38f9b30 100755
+> --- a/scripts/runqemu
+> +++ b/scripts/runqemu
+> @@ -451,7 +451,12 @@ class BaseConfig(object):
+>              if all_files:
+>                  self.rootfs = all_files[0]
+>              else:
+> -                raise Exception("Failed to find rootfs: %s" % cmd)
+> +                cmd = '%s/%s*.%s' % (self.get('DEPLOY_DIR_IMAGE'), self.get('IMAGE_LINK_NAME'), self.fstype)
+> +                all_files = glob.glob(cmd)
+> +                if all_files:
+> +                    self.rootfs = all_files[0]
+> +                else:
+> +                    raise Exception("Failed to find rootfs: %s" % cmd)
+>
+>          if not os.path.exists(self.rootfs):
+>              raise Exception("Can't find rootfs: %s" % self.rootfs)
+> @@ -462,13 +467,18 @@ class BaseConfig(object):
+>          if self.fstype in self.vmtypes:
+>              return
+>          kernel = self.kernel
+> +        deploy_dir_image = self.get('DEPLOY_DIR_IMAGE')
+>          if not kernel:
+> -            kernel = "%s/%s" % (self.get('DEPLOY_DIR_IMAGE'), self.get('QB_DEFAULT_KERNEL'))
+> +            kernel = "%s/%s" % (deploy_dir_image, self.get('QB_DEFAULT_KERNEL'))
+>
+>          if os.path.exists(kernel):
+>              self.kernel = kernel
+>          else:
+> -            raise Exception("KERNEL %s not found" % kernel)
+> +            kernel = "%s/%s" % (deploy_dir_image, self.get('KERNEL_IMAGETYPE'))
+> +            if kernel != deploy_dir_image and os.path.exists(kernel):
 
-diff --git a/meta/classes/systemd.bbclass b/meta/classes/systemd.bbclass
-index db7873f..7370489 100644
---- a/meta/classes/systemd.bbclass
-+++ b/meta/classes/systemd.bbclass
-@@ -28,7 +28,7 @@ if [ -n "$D" ]; then
-     OPTS="--root=$D"
- fi
- 
--if type systemctl >/dev/null 2>/dev/null; then
-+if command -p systemctl >/dev/null 2>/dev/null; then
- 	systemctl $OPTS ${SYSTEMD_AUTO_ENABLE} ${SYSTEMD_SERVICE}
- 
- 	if [ -z "$D" -a "${SYSTEMD_AUTO_ENABLE}" = "enable" ]; then
-@@ -44,7 +44,7 @@ if [ -n "$D" ]; then
-     OPTS="--root=$D"
- fi
- 
--if type systemctl >/dev/null 2>/dev/null; then
-+if command -p systemctl >/dev/null 2>/dev/null; then
- 	if [ -z "$D" ]; then
- 		systemctl stop ${SYSTEMD_SERVICE}
- 	fi
-diff --git a/meta/classes/update-rc.d.bbclass b/meta/classes/update-rc.d.bbclass
-index 82b8024..dee80c8 100644
---- a/meta/classes/update-rc.d.bbclass
-+++ b/meta/classes/update-rc.d.bbclass
-@@ -15,7 +15,7 @@ updatercd_preinst() {
- if [ -z "$D" -a -f "${INIT_D_DIR}/${INITSCRIPT_NAME}" ]; then
- 	${INIT_D_DIR}/${INITSCRIPT_NAME} stop
- fi
--if type update-rc.d >/dev/null 2>/dev/null; then
-+if command -p update-rc.d >/dev/null 2>/dev/null; then
- 	if [ -n "$D" ]; then
- 		OPT="-f -r $D"
- 	else
-@@ -26,7 +26,7 @@ fi
- }
- 
- updatercd_postinst() {
--if type update-rc.d >/dev/null 2>/dev/null; then
-+if command -p update-rc.d >/dev/null 2>/dev/null; then
- 	if [ -n "$D" ]; then
- 		OPT="-r $D"
- 	else
-@@ -43,7 +43,7 @@ fi
- }
- 
- updatercd_postrm() {
--if type update-rc.d >/dev/null 2>/dev/null; then
-+if command -p update-rc.d >/dev/null 2>/dev/null; then
- 	if [ -n "$D" ]; then
- 		OPT="-f -r $D"
- 	else
-diff --git a/meta/classes/useradd_base.bbclass b/meta/classes/useradd_base.bbclass
-index f4dc713..35d5f06 100644
---- a/meta/classes/useradd_base.bbclass
-+++ b/meta/classes/useradd_base.bbclass
-@@ -59,10 +59,10 @@ perform_groupmems () {
- 		gshadow="no"
- 		touch $rootdir${sysconfdir}/gshadow
- 	fi
--	local mem_exists="`grep "^$groupname:[^:]*:[^:]*:\([^,]*,\)*$username\(,[^,]*\)*" $rootdir/etc/group || true`"
-+	local mem_exists="`grep "^$groupname:[!:]*:[!:]*:\([!,]*,\)*$username\(,[!,]*\)*" $rootdir/etc/group || true`"
- 	if test "x$mem_exists" = "x"; then
- 		eval flock -x $rootdir${sysconfdir} -c \"$PSEUDO groupmems \$opts\" || true
--		mem_exists="`grep "^$groupname:[^:]*:[^:]*:\([^,]*,\)*$username\(,[^,]*\)*" $rootdir/etc/group || true`"
-++		mem_exists="`grep "^$groupname:[!:]*:[!:]*:\([!,]*,\)*$username\(,[!,]*\)*" $rootdir/etc/group || true`"
- 		if test "x$mem_exists" = "x"; then
- 			bbfatal "${PN}: groupmems command did not succeed."
- 		fi
-diff --git a/meta/recipes-connectivity/resolvconf/resolvconf_1.79.bb b/meta/recipes-connectivity/resolvconf/resolvconf_1.79.bb
-index 8550177..e415445 100644
---- a/meta/recipes-connectivity/resolvconf/resolvconf_1.79.bb
-+++ b/meta/recipes-connectivity/resolvconf/resolvconf_1.79.bb
-@@ -56,7 +56,7 @@ do_install () {
- 
- pkg_postinst_${PN} () {
- 	if [ -z "$D" ]; then
--		if command -v systemd-tmpfiles >/dev/null; then
-+		if command -p systemd-tmpfiles >/dev/null; then
- 			systemd-tmpfiles --create ${sysconfdir}/tmpfiles.d/resolvconf.conf
- 		elif [ -e ${sysconfdir}/init.d/populate-volatile.sh ]; then
- 			${sysconfdir}/init.d/populate-volatile.sh update
-diff --git a/meta/recipes-core/glibc/glibc-package.inc b/meta/recipes-core/glibc/glibc-package.inc
-index 6df8b9e..557f32a 100644
---- a/meta/recipes-core/glibc/glibc-package.inc
-+++ b/meta/recipes-core/glibc/glibc-package.inc
-@@ -206,7 +206,7 @@ glibc_package_preprocess () {
- 
- pkg_postinst_nscd () {
- 	if [ -z "$D" ]; then
--		if command -v systemd-tmpfiles >/dev/null; then
-+		if command -p systemd-tmpfiles >/dev/null; then
- 			systemd-tmpfiles --create ${sysconfdir}/tmpfiles.d/nscd.conf
- 		elif [ -e ${sysconfdir}/init.d/populate-volatile.sh ]; then
- 			${sysconfdir}/init.d/populate-volatile.sh update
-diff --git a/meta/recipes-devtools/guile/guile_2.0.12.bb b/meta/recipes-devtools/guile/guile_2.0.12.bb
-index d2fe511..3ada0f1 100644
---- a/meta/recipes-devtools/guile/guile_2.0.12.bb
-+++ b/meta/recipes-devtools/guile/guile_2.0.12.bb
-@@ -91,8 +91,10 @@ guile_cross_config() {
- 	then
- 	        # Create guile-config returning target values instead of native values
- 	        install -d ${SYSROOT_DESTDIR}${STAGING_BINDIR_CROSS}
--        	echo '#!'`which ${BUILD_SYS}-guile`$' \\\n--no-auto-compile -e main -s\n!#\n(define %guile-build-info '\'\( \
--			> ${B}/guile-config.cross
-+		echo -n '#!' > ${B}/guile-config.cross
-+		echo -n `which x86_64-linux-guile` >> ${B}/guile-config.cross
-+		printf ' \\\n--no-auto-compile -e main -s\n!#\n(define %%guile-build-info ' >> ${B}/guile-config.cross
-+		echo "'(" >> ${B}/guile-config.cross
- 	        sed -n -e 's:^[ \t]*{[ \t]*":  (:' \
- 			-e 's:",[ \t]*": . ":' \
- 			-e 's:" *}, *\\:"):' \
-diff --git a/meta/recipes-devtools/rpm/rpm_5.4.16.bb b/meta/recipes-devtools/rpm/rpm_5.4.16.bb
-index 84adef6..be3b942 100644
---- a/meta/recipes-devtools/rpm/rpm_5.4.16.bb
-+++ b/meta/recipes-devtools/rpm/rpm_5.4.16.bb
-@@ -554,13 +554,22 @@ do_install_append() {
- 	install -m 0755 ${WORKDIR}/perfile_rpmdeps.sh ${D}/${libdir}/rpm/perfile_rpmdeps.sh
- 
- 	# Remove unpackaged files (based on list in rpm.spec)
--	rm -f ${D}/${libdir}/rpm/{Specfile.pm,cpanflute,cpanflute2,rpmdiff,rpmdiff.cgi,sql.prov,sql.req,tcl.req,trpm}
-+	rm -f ${D}/${libdir}/rpm/Specfile.pm
-+	rm -f ${D}/${libdir}/rpm/cpanflute
-+	rm -f ${D}/${libdir}/rpm/cpanflute2
-+	rm -f ${D}/${libdir}/rpm/rpmdiff
-+	rm -f ${D}/${libdir}/rpm/rpmdiff.cgi
-+	rm -f ${D}/${libdir}/rpm/sql.prov
-+	rm -f ${D}/${libdir}/rpm/sql.req
-+	rm -f ${D}/${libdir}/rpm/tcl.req
-+	rm -f ${D}/${libdir}/rpm/trpm
- 
- 	rm -f ${D}/${mandir}/man8/rpmcache.8*
- 	rm -f ${D}/${mandir}/man8/rpmgraph.8*
- 	rm -f ${D}/${mandir}/*/man8/rpmcache.8*
- 	rm -f ${D}/${mandir}/*/man8/rpmgraph.8*
--	rm -rf ${D}/${mandir}/{fr,ko}
-+	rm -rf ${D}/${mandir}/fr
-+	rm -rf ${D}/${mandir}/ko
- 
- 	rm -f ${D}/${includedir}/popt.h
- 	rm -f ${D}/${libdir}/libpopt.*
--- 
-2.8.1
 
+Thank you very much for fixing this, can we use KERNEL_IMAGETYPE* here, please ?
+Please take a look at here:
+http://autobuilder.yoctoproject.org/pub/releases/yocto-2.2_M3.rc1/machines/qemu/qemuppc/
+
+Its kernel name might be vmlinux-qemuppc.bin, while KERNEL_IMAGETYPE is vmlinux.
+
+I have local patches conflicted with this, they also fix dtb,
+OECORE_NATIVE_SYSROOT and nfs. I will send a V2 including your patches,
+and please feel free to comment.
+
+// Robert
+
+> +                self.kernel = kernel
+> +            else:
+> +                raise Exception("KERNEL %s not found" % kernel)
+>
+>          dtb = self.get('QB_DTB')
+>          if dtb:
+>
 
