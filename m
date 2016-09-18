@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 9C6C075E80
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 51F6C73189
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 18 Sep 2016 07:39:34 +0000 (UTC)
+	Sun, 18 Sep 2016 07:39:35 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u8I7dZpv029973
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u8I7da8t006831
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 18 Sep 2016 00:39:35 -0700 (PDT)
+	Sun, 18 Sep 2016 00:39:36 -0700
 Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.294.0;
-	Sun, 18 Sep 2016 00:39:34 -0700
+	Sun, 18 Sep 2016 00:39:35 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Sun, 18 Sep 2016 00:39:27 -0700
-Message-ID: <5622e73f9ee3f3c95351555fb96c731beee4123d.1474183984.git.liezhi.yang@windriver.com>
+Date: Sun, 18 Sep 2016 00:39:28 -0700
+Message-ID: <fab9cc422365c6be13f5b6003515aa807b3f4f73.1474183984.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.9.0
 In-Reply-To: <cover.1474183984.git.liezhi.yang@windriver.com>
 References: <cover.1474183984.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH V2 5/8] runqemu: try symlinks when kernel or rootfs can't be found
+Subject: [PATCH V2 6/8] runqemu: work even if a *.qemuboot.conf isn't found
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,63 +33,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 18 Sep 2016 07:39:34 -0000
+X-List-Received-Date: Sun, 18 Sep 2016 07:39:35 -0000
 Content-Type: text/plain
 
 From: Joshua Lock <joshua.g.lock@intel.com>
 
-If the kernel or rootfs names written to the qemuboot.conf can't
-be found, try and find the symlinked variant of the filename.
+A qemuboot conf file is a convenience but it should still be
+possible to invoke runqemu without them, especially for examples
+such as using the SDK with an extracted rootfs via NFS.
 
-This will help usability of runqemu, for example where a user
-downloads an image and associated files as the symlinked names
-yet the qemuboot.conf variables point to the full, non-linked,
-file names.
+As read_qemuboot() is always called we need to be sure that function
+can return cleanly, without throwing Exceptions, even if a qemuboot
+conf file isn't found.
 
 Signed-off-by: Joshua Lock <joshua.g.lock@intel.com>
 ---
- scripts/runqemu | 16 +++++++++++++---
- 1 file changed, 13 insertions(+), 3 deletions(-)
+ scripts/runqemu | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
 
 diff --git a/scripts/runqemu b/scripts/runqemu
-index 6aaae44..38f9b30 100755
+index 38f9b30..10122af 100755
 --- a/scripts/runqemu
 +++ b/scripts/runqemu
-@@ -451,7 +451,12 @@ class BaseConfig(object):
-             if all_files:
-                 self.rootfs = all_files[0]
+@@ -557,7 +557,8 @@ class BaseConfig(object):
+             elif os.getenv('DEPLOY_DIR_IMAGE'):
+                 deploy_dir_image = os.getenv('DEPLOY_DIR_IMAGE')
              else:
--                raise Exception("Failed to find rootfs: %s" % cmd)
-+                cmd = '%s/%s*.%s' % (self.get('DEPLOY_DIR_IMAGE'), self.get('IMAGE_LINK_NAME'), self.fstype)
-+                all_files = glob.glob(cmd)
-+                if all_files:
-+                    self.rootfs = all_files[0]
-+                else:
-+                    raise Exception("Failed to find rootfs: %s" % cmd)
+-                raise OEPathError("DEPLOY_DIR_IMAGE is NULL!")
++                logger.info("Can't find qemuboot conf file, DEPLOY_DIR_IMAGE is NULL!")
++                return
  
-         if not os.path.exists(self.rootfs):
-             raise Exception("Can't find rootfs: %s" % self.rootfs)
-@@ -462,13 +467,18 @@ class BaseConfig(object):
-         if self.fstype in self.vmtypes:
-             return
-         kernel = self.kernel
-+        deploy_dir_image = self.get('DEPLOY_DIR_IMAGE')
-         if not kernel:
--            kernel = "%s/%s" % (self.get('DEPLOY_DIR_IMAGE'), self.get('QB_DEFAULT_KERNEL'))
-+            kernel = "%s/%s" % (deploy_dir_image, self.get('QB_DEFAULT_KERNEL'))
+             if self.rootfs and not os.path.exists(self.rootfs):
+                 # Lazy rootfs
+@@ -574,6 +575,11 @@ class BaseConfig(object):
+                     self.qemuboot = qbs.split()[0]
+                     self.qbconfload = True
  
-         if os.path.exists(kernel):
-             self.kernel = kernel
-         else:
--            raise Exception("KERNEL %s not found" % kernel)
-+            kernel = "%s/%s" % (deploy_dir_image, self.get('KERNEL_IMAGETYPE'))
-+            if kernel != deploy_dir_image and os.path.exists(kernel):
-+                self.kernel = kernel
-+            else:
-+                raise Exception("KERNEL %s not found" % kernel)
++        if not self.qemuboot:
++            # If we haven't found a .qemuboot.conf at this point it probably
++            # doesn't exist, continue without
++            return
++
+         if not os.path.exists(self.qemuboot):
+             raise Exception("Failed to find <image>.qemuboot.conf!")
  
-         dtb = self.get('QB_DTB')
-         if dtb:
 -- 
 2.9.0
 
