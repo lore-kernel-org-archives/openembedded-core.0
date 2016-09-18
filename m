@@ -1,26 +1,24 @@
 Return-Path: <Liezhi.Yang@windriver.com>
 Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 8006D73189
+	by mail.openembedded.org (Postfix) with ESMTP id 81301731B0
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 18 Sep 2016 07:39:33 +0000 (UTC)
+	Sun, 18 Sep 2016 07:39:31 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u8I7dXL0006826
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u8I7dVAl006823
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 18 Sep 2016 00:39:34 -0700
+	Sun, 18 Sep 2016 00:39:31 -0700
 Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.294.0;
-	Sun, 18 Sep 2016 00:39:33 -0700
+	Sun, 18 Sep 2016 00:39:30 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Sun, 18 Sep 2016 00:39:25 -0700
-Message-ID: <5a8b04b3204c6002eb7ea45d85391f27607434cc.1474183984.git.liezhi.yang@windriver.com>
+Date: Sun, 18 Sep 2016 00:39:22 -0700
+Message-ID: <cover.1474183984.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.9.0
-In-Reply-To: <cover.1474183984.git.liezhi.yang@windriver.com>
-References: <cover.1474183984.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH V2 3/8] runqemu: clarify an INFO message
+Subject: [PATCH V2 0/8] runqemu fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,29 +34,31 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Sun, 18 Sep 2016 07:39:33 -0000
 Content-Type: text/plain
 
-From: Joshua Lock <joshua.g.lock@intel.com>
+The following changes since commit d77fe838ab7631a19e90ff4226f0712e54aa4e22:
 
-Make it clearer that we are looking for a file which ends with
-qemuboot.conf
+  scripts: add tool to scan for bashisms recipe shell scripts (2016-09-16 15:19:31 +0100)
 
-Signed-off-by: Joshua Lock <joshua.g.lock@intel.com>
----
- scripts/runqemu | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+are available in the git repository at:
 
-diff --git a/scripts/runqemu b/scripts/runqemu
-index c71a47c..6aaae44 100755
---- a/scripts/runqemu
-+++ b/scripts/runqemu
-@@ -205,7 +205,7 @@ class BaseConfig(object):
-     def is_deploy_dir_image(self, p):
-         if os.path.isdir(p):
-             if not re.search('.qemuboot.conf$', '\n'.join(os.listdir(p)), re.M):
--                logger.info("Can't find required qemuboot.conf in %s" % p)
-+                logger.info("Can't find required *.qemuboot.conf in %s" % p)
-                 return False
-             if not re.search('-image-', '\n'.join(os.listdir(p))):
-                 logger.info("Can't find *-image-* in %s" % p)
+  git://git.openembedded.org/openembedded-core-contrib rbt/rq
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/rq
+
+Joshua Lock (6):
+  runqemu: add guidance to resolve issues with missing files
+  qemuboot: write the full kernel filename, not the link name
+  runqemu: clarify an INFO message
+  qemuboot: also write the kernel link name to the conf file
+  runqemu: try symlinks when kernel or rootfs can't be found
+  runqemu: work even if a *.qemuboot.conf isn't found
+
+Robert Yang (2):
+  runqemu: use OECORE_NATIVE_SYSROOT from sdk
+  runqemu: improve finding of rootfs, kernel and dtb
+
+ meta/classes/qemuboot.bbclass |  13 ++++-
+ scripts/runqemu               | 108 ++++++++++++++++++++++++++++++------------
+ 2 files changed, 90 insertions(+), 31 deletions(-)
+
 -- 
 2.9.0
 
