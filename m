@@ -1,49 +1,24 @@
-Return-Path: <kergoth@gmail.com>
-Received: from mail-oi0-f65.google.com (mail-oi0-f65.google.com
-	[209.85.218.65])
-	by mail.openembedded.org (Postfix) with ESMTP id A93F26FF78
+Return-Path: <Zhe.He@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 53E786FF60
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 17 Sep 2016 05:09:53 +0000 (UTC)
-Received: by mail-oi0-f65.google.com with SMTP id 2so8375096oif.2
+	Sun, 18 Sep 2016 02:52:43 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u8I2qhlL000353
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Sep 2016 22:09:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:from:date:message-id
-	:subject:to:cc;
-	bh=CW4Ji+uQKhywIBH0PH3N2lheEmLFLtPqG5I23OzPG4Q=;
-	b=zVCblNHJpqWY0mm8ekXHYJUV5r0RjY3CKmaZ1ox63nJ5u9CWSi4EdWBWogtaaFVK/K
-	FcEK+rmhq9mkRPbdTloEBw8FfuEK0h9ZKOS7j5MOShUPsycbBk8OD9cdIu1B1DQHSh+k
-	98vrtik+kCHLxo4dFDL4kboQs65GENwdHSEMia3hbY5+RtYd22HlcGYK05r2HbcZX6Ne
-	1+Uh86wHW5Y0smr5a9uE0i9X8SRnciWJ/03GeQn0lhdIOdPuNeJAqt2Gx1WeL9UL+D4R
-	dGW4xR1ruxvXQfyw9UT6DLsGxjuS5emgsQYXLVZINydaAbH2OS9i8MCBR8vwUVggNYv9
-	WeOA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:sender:in-reply-to:references:from
-	:date:message-id:subject:to:cc;
-	bh=CW4Ji+uQKhywIBH0PH3N2lheEmLFLtPqG5I23OzPG4Q=;
-	b=P8PA3lP2oJ1sWf9L+7VCrDOEw7tUAfW0u8iahMryBdbIXIbSaQxPo5xmkIp39IlW0d
-	JqBji7GeEAzmjjcWZXnzpCg5KzR1A4uSL3skV2FXl6k15cDh6B+Rl5O1f3XHhTwWcHZZ
-	EyjCPQKBP9afxXMiz8dBGDTguLCzvndIsp+wbU54e9iFSpgVqPoAYzchWk8vbmW/vH1y
-	eVz09rKu/humHWvJTzXagL8SCMRj6cunxQ2jJIelNxEl9dr1GJVrl1r/K7oEGBZggYGv
-	6PZhOWm7gmDa6/HnysFFeN6/FZVBMLzQkXpKXnNFIyCi38Eu0I3n8Ikmn5oqAB9HM6kd
-	1cYw==
-X-Gm-Message-State: AE9vXwPyNJurGC6X//Pexe8TOXwZKD9SzfkelwzTpIRki4y9I6YoPDWohzCofJ7IFpZhlMR+GmkP1IWhHq2xFQ==
-X-Received: by 10.202.75.16 with SMTP id y16mr16206800oia.52.1474088994638;
-	Fri, 16 Sep 2016 22:09:54 -0700 (PDT)
+	Sat, 17 Sep 2016 19:52:44 -0700
+Received: from PEK-ZHE-D1.wrs.com (128.224.162.234) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.294.0;
+	Sat, 17 Sep 2016 19:52:43 -0700
+From: <zhe.he@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Sun, 18 Sep 2016 10:51:49 +0800
+Message-ID: <1474167109-6666-1-git-send-email-zhe.he@windriver.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-Sender: kergoth@gmail.com
-Received: by 10.157.13.194 with HTTP; Fri, 16 Sep 2016 22:09:34 -0700 (PDT)
-In-Reply-To: <1474076227-17032-1-git-send-email-Randy.MacLeod@windriver.com>
-References: <1474076227-17032-1-git-send-email-Randy.MacLeod@windriver.com>
-From: Christopher Larson <clarson@kergoth.com>
-Date: Fri, 16 Sep 2016 22:09:34 -0700
-X-Google-Sender-Auth: BiYkhtKdEl5bH2VGqPTeO-q4mq0
-Message-ID: <CABcZANk=aHGZVw5vnh5+KyQaxLa8=7NB2GuFt49P0B_hDyaXcQ@mail.gmail.com>
-To: Randy MacLeod <Randy.MacLeod@windriver.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] e2fsprogs: add packageconfig for -file-
+Subject: [PATCH] bash2dash conversion
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,114 +31,169 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 17 Sep 2016 05:09:57 -0000
-Content-Type: multipart/alternative; boundary=001a11c15442e4949f053cad16a6
+X-List-Received-Date: Sun, 18 Sep 2016 02:52:45 -0000
+Content-Type: text/plain
 
---001a11c15442e4949f053cad16a6
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+From: "Tim K. Chan" <nirvanatk@gmail.com>
 
-On Fri, Sep 16, 2016 at 6:37 PM, Randy MacLeod <Randy.MacLeod@windriver.com=
->
-wrote:
+Change bash style to dash style
 
-> Without a packageconfig dependency for the file utility, there's
-> a very rare compile faiure caused by a race where the magic.h
-> header file is not found:
->
->  ../../../git/lib/support/plausible.c:33:19: fatal error: magic.h: No
-> such file or directory
->
-> This file, plausible.c, is part of libsupport.a which is used by
-> many binaries produced by the e2fsprogs package. plausible.c attempts
-> to dynamically load libmagic.so if the e2fsprogs configure detects
-> that magic was available. Adding the packageconfig will eliminate
-> the build as well as the possible configure-time race condition.
->
-> Signed-off-by: Randy MacLeod <Randy.MacLeod@windriver.com>
-> ---
->  meta/recipes-devtools/e2fsprogs/e2fsprogs_1.43.bb | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.43.bb
-> b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.43.bb
-> index f4855bc..1707cb9 100644
-> --- a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.43.bb
-> +++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.43.bb
-> @@ -23,6 +23,7 @@ EXTRA_OECONF +=3D "--libdir=3D${base_libdir}
-> --sbindir=3D${base_sbindir} \
->  EXTRA_OECONF_darwin =3D "--libdir=3D${base_libdir} --sbindir=3D${base_sb=
-indir}
-> --enable-bsd-shlibs"
->
->  PACKAGECONFIG ??=3D ""
-> +PACKAGECONFIG[file] =3D ',,file'
->
+Signed-off-by: Tim K. Chan <nirvanatk@gmail.com>
+[Adjust context]
+Signed-off-by: He Zhe <zhe.he@windriver.com>
+---
+ meta/classes/systemd.bbclass                            |  4 ++--
+ meta/classes/update-rc.d.bbclass                        |  6 +++---
+ meta/classes/useradd_base.bbclass                       |  4 ++--
+ meta/recipes-connectivity/resolvconf/resolvconf_1.79.bb |  2 +-
+ meta/recipes-core/glibc/glibc-package.inc               |  2 +-
+ meta/recipes-devtools/guile/guile_2.0.12.bb             |  6 ++++--
+ meta/recipes-devtools/rpm/rpm_5.4.16.bb                 | 13 +++++++++++--
+ 7 files changed, 24 insertions(+), 13 deletions(-)
 
-This isn=E2=80=99t going to be good enough. You aren=E2=80=99t explicitly
-enabling/disabling the option, so it=E2=80=99ll still detect based on what=
-=E2=80=99s in the
-sysroot, so recipe build order will result in non-deterministic behavior.
---=20
-Christopher Larson
-clarson at kergoth dot com
-Founder - BitBake, OpenEmbedded, OpenZaurus
-Maintainer - Tslib
-Senior Software Engineer, Mentor Graphics
+diff --git a/meta/classes/systemd.bbclass b/meta/classes/systemd.bbclass
+index db7873f..7370489 100644
+--- a/meta/classes/systemd.bbclass
++++ b/meta/classes/systemd.bbclass
+@@ -28,7 +28,7 @@ if [ -n "$D" ]; then
+     OPTS="--root=$D"
+ fi
+ 
+-if type systemctl >/dev/null 2>/dev/null; then
++if command -p systemctl >/dev/null 2>/dev/null; then
+ 	systemctl $OPTS ${SYSTEMD_AUTO_ENABLE} ${SYSTEMD_SERVICE}
+ 
+ 	if [ -z "$D" -a "${SYSTEMD_AUTO_ENABLE}" = "enable" ]; then
+@@ -44,7 +44,7 @@ if [ -n "$D" ]; then
+     OPTS="--root=$D"
+ fi
+ 
+-if type systemctl >/dev/null 2>/dev/null; then
++if command -p systemctl >/dev/null 2>/dev/null; then
+ 	if [ -z "$D" ]; then
+ 		systemctl stop ${SYSTEMD_SERVICE}
+ 	fi
+diff --git a/meta/classes/update-rc.d.bbclass b/meta/classes/update-rc.d.bbclass
+index 82b8024..dee80c8 100644
+--- a/meta/classes/update-rc.d.bbclass
++++ b/meta/classes/update-rc.d.bbclass
+@@ -15,7 +15,7 @@ updatercd_preinst() {
+ if [ -z "$D" -a -f "${INIT_D_DIR}/${INITSCRIPT_NAME}" ]; then
+ 	${INIT_D_DIR}/${INITSCRIPT_NAME} stop
+ fi
+-if type update-rc.d >/dev/null 2>/dev/null; then
++if command -p update-rc.d >/dev/null 2>/dev/null; then
+ 	if [ -n "$D" ]; then
+ 		OPT="-f -r $D"
+ 	else
+@@ -26,7 +26,7 @@ fi
+ }
+ 
+ updatercd_postinst() {
+-if type update-rc.d >/dev/null 2>/dev/null; then
++if command -p update-rc.d >/dev/null 2>/dev/null; then
+ 	if [ -n "$D" ]; then
+ 		OPT="-r $D"
+ 	else
+@@ -43,7 +43,7 @@ fi
+ }
+ 
+ updatercd_postrm() {
+-if type update-rc.d >/dev/null 2>/dev/null; then
++if command -p update-rc.d >/dev/null 2>/dev/null; then
+ 	if [ -n "$D" ]; then
+ 		OPT="-f -r $D"
+ 	else
+diff --git a/meta/classes/useradd_base.bbclass b/meta/classes/useradd_base.bbclass
+index f4dc713..35d5f06 100644
+--- a/meta/classes/useradd_base.bbclass
++++ b/meta/classes/useradd_base.bbclass
+@@ -59,10 +59,10 @@ perform_groupmems () {
+ 		gshadow="no"
+ 		touch $rootdir${sysconfdir}/gshadow
+ 	fi
+-	local mem_exists="`grep "^$groupname:[^:]*:[^:]*:\([^,]*,\)*$username\(,[^,]*\)*" $rootdir/etc/group || true`"
++	local mem_exists="`grep "^$groupname:[!:]*:[!:]*:\([!,]*,\)*$username\(,[!,]*\)*" $rootdir/etc/group || true`"
+ 	if test "x$mem_exists" = "x"; then
+ 		eval flock -x $rootdir${sysconfdir} -c \"$PSEUDO groupmems \$opts\" || true
+-		mem_exists="`grep "^$groupname:[^:]*:[^:]*:\([^,]*,\)*$username\(,[^,]*\)*" $rootdir/etc/group || true`"
+++		mem_exists="`grep "^$groupname:[!:]*:[!:]*:\([!,]*,\)*$username\(,[!,]*\)*" $rootdir/etc/group || true`"
+ 		if test "x$mem_exists" = "x"; then
+ 			bbfatal "${PN}: groupmems command did not succeed."
+ 		fi
+diff --git a/meta/recipes-connectivity/resolvconf/resolvconf_1.79.bb b/meta/recipes-connectivity/resolvconf/resolvconf_1.79.bb
+index 8550177..e415445 100644
+--- a/meta/recipes-connectivity/resolvconf/resolvconf_1.79.bb
++++ b/meta/recipes-connectivity/resolvconf/resolvconf_1.79.bb
+@@ -56,7 +56,7 @@ do_install () {
+ 
+ pkg_postinst_${PN} () {
+ 	if [ -z "$D" ]; then
+-		if command -v systemd-tmpfiles >/dev/null; then
++		if command -p systemd-tmpfiles >/dev/null; then
+ 			systemd-tmpfiles --create ${sysconfdir}/tmpfiles.d/resolvconf.conf
+ 		elif [ -e ${sysconfdir}/init.d/populate-volatile.sh ]; then
+ 			${sysconfdir}/init.d/populate-volatile.sh update
+diff --git a/meta/recipes-core/glibc/glibc-package.inc b/meta/recipes-core/glibc/glibc-package.inc
+index 6df8b9e..557f32a 100644
+--- a/meta/recipes-core/glibc/glibc-package.inc
++++ b/meta/recipes-core/glibc/glibc-package.inc
+@@ -206,7 +206,7 @@ glibc_package_preprocess () {
+ 
+ pkg_postinst_nscd () {
+ 	if [ -z "$D" ]; then
+-		if command -v systemd-tmpfiles >/dev/null; then
++		if command -p systemd-tmpfiles >/dev/null; then
+ 			systemd-tmpfiles --create ${sysconfdir}/tmpfiles.d/nscd.conf
+ 		elif [ -e ${sysconfdir}/init.d/populate-volatile.sh ]; then
+ 			${sysconfdir}/init.d/populate-volatile.sh update
+diff --git a/meta/recipes-devtools/guile/guile_2.0.12.bb b/meta/recipes-devtools/guile/guile_2.0.12.bb
+index d2fe511..3ada0f1 100644
+--- a/meta/recipes-devtools/guile/guile_2.0.12.bb
++++ b/meta/recipes-devtools/guile/guile_2.0.12.bb
+@@ -91,8 +91,10 @@ guile_cross_config() {
+ 	then
+ 	        # Create guile-config returning target values instead of native values
+ 	        install -d ${SYSROOT_DESTDIR}${STAGING_BINDIR_CROSS}
+-        	echo '#!'`which ${BUILD_SYS}-guile`$' \\\n--no-auto-compile -e main -s\n!#\n(define %guile-build-info '\'\( \
+-			> ${B}/guile-config.cross
++		echo -n '#!' > ${B}/guile-config.cross
++		echo -n `which x86_64-linux-guile` >> ${B}/guile-config.cross
++		printf ' \\\n--no-auto-compile -e main -s\n!#\n(define %%guile-build-info ' >> ${B}/guile-config.cross
++		echo "'(" >> ${B}/guile-config.cross
+ 	        sed -n -e 's:^[ \t]*{[ \t]*":  (:' \
+ 			-e 's:",[ \t]*": . ":' \
+ 			-e 's:" *}, *\\:"):' \
+diff --git a/meta/recipes-devtools/rpm/rpm_5.4.16.bb b/meta/recipes-devtools/rpm/rpm_5.4.16.bb
+index 84adef6..be3b942 100644
+--- a/meta/recipes-devtools/rpm/rpm_5.4.16.bb
++++ b/meta/recipes-devtools/rpm/rpm_5.4.16.bb
+@@ -554,13 +554,22 @@ do_install_append() {
+ 	install -m 0755 ${WORKDIR}/perfile_rpmdeps.sh ${D}/${libdir}/rpm/perfile_rpmdeps.sh
+ 
+ 	# Remove unpackaged files (based on list in rpm.spec)
+-	rm -f ${D}/${libdir}/rpm/{Specfile.pm,cpanflute,cpanflute2,rpmdiff,rpmdiff.cgi,sql.prov,sql.req,tcl.req,trpm}
++	rm -f ${D}/${libdir}/rpm/Specfile.pm
++	rm -f ${D}/${libdir}/rpm/cpanflute
++	rm -f ${D}/${libdir}/rpm/cpanflute2
++	rm -f ${D}/${libdir}/rpm/rpmdiff
++	rm -f ${D}/${libdir}/rpm/rpmdiff.cgi
++	rm -f ${D}/${libdir}/rpm/sql.prov
++	rm -f ${D}/${libdir}/rpm/sql.req
++	rm -f ${D}/${libdir}/rpm/tcl.req
++	rm -f ${D}/${libdir}/rpm/trpm
+ 
+ 	rm -f ${D}/${mandir}/man8/rpmcache.8*
+ 	rm -f ${D}/${mandir}/man8/rpmgraph.8*
+ 	rm -f ${D}/${mandir}/*/man8/rpmcache.8*
+ 	rm -f ${D}/${mandir}/*/man8/rpmgraph.8*
+-	rm -rf ${D}/${mandir}/{fr,ko}
++	rm -rf ${D}/${mandir}/fr
++	rm -rf ${D}/${mandir}/ko
+ 
+ 	rm -f ${D}/${includedir}/popt.h
+ 	rm -f ${D}/${libdir}/libpopt.*
+-- 
+2.8.1
 
---001a11c15442e4949f053cad16a6
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On Fri, Sep 16, 2016 at 6:37 PM, Randy MacLeod <span dir=3D"ltr">&lt;<a hre=
-f=3D"mailto:Randy.MacLeod@windriver.com" target=3D"_blank">Randy.MacLeod@wi=
-ndriver.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" styl=
-e=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=
-=3D":21p" class=3D"a3s aXjCH m15735cd0fa519af0">Without a packageconfig dep=
-endency for the file utility, there&#39;s<br>
-a very rare compile faiure caused by a race where the magic.h<br>
-header file is not found:<br>
-<br>
-=C2=A0../../../git/lib/support/<wbr>plausible.c:33:19: fatal error: magic.h=
-: No such file or directory<br>
-<br>
-This file, plausible.c, is part of libsupport.a which is used by<br>
-many binaries produced by the e2fsprogs package. plausible.c attempts<br>
-to dynamically load libmagic.so if the e2fsprogs configure detects<br>
-that magic was available. Adding the packageconfig will eliminate<br>
-the build as well as the possible configure-time race condition.<br>
-<br>
-Signed-off-by: Randy MacLeod &lt;<a href=3D"mailto:Randy.MacLeod@windriver.=
-com">Randy.MacLeod@windriver.com</a>&gt;<br>
----<br>
-=C2=A0meta/recipes-devtools/<wbr>e2fsprogs/<a href=3D"http://e2fsprogs_1.43=
-.bb" rel=3D"noreferrer" target=3D"_blank">e2fsprogs_1.43.bb</a> | 1 +<br>
-=C2=A01 file changed, 1 insertion(+)<br>
-<br>
-diff --git a/meta/recipes-devtools/<wbr>e2fsprogs/<a href=3D"http://e2fspro=
-gs_1.43.bb" rel=3D"noreferrer" target=3D"_blank">e2fsprogs_1.43.bb</a> b/me=
-ta/recipes-devtools/<wbr>e2fsprogs/<a href=3D"http://e2fsprogs_1.43.bb" rel=
-=3D"noreferrer" target=3D"_blank">e2fsprogs_1.43.bb</a><br>
-index f4855bc..1707cb9 100644<br>
---- a/meta/recipes-devtools/<wbr>e2fsprogs/<a href=3D"http://e2fsprogs_1.43=
-.bb" rel=3D"noreferrer" target=3D"_blank">e2fsprogs_1.43.bb</a><br>
-+++ b/meta/recipes-devtools/<wbr>e2fsprogs/<a href=3D"http://e2fsprogs_1.43=
-.bb" rel=3D"noreferrer" target=3D"_blank">e2fsprogs_1.43.bb</a><br>
-@@ -23,6 +23,7 @@ EXTRA_OECONF +=3D &quot;--libdir=3D${base_libdir} --sbind=
-ir=3D${base_sbindir} \<br>
-=C2=A0EXTRA_OECONF_darwin =3D &quot;--libdir=3D${base_libdir} --sbindir=3D$=
-{base_sbindir} --enable-bsd-shlibs&quot;<br>
-<br>
-=C2=A0PACKAGECONFIG ??=3D &quot;&quot;<br>
-+PACKAGECONFIG[file] =3D &#39;,,file&#39;</div></blockquote></div><br>This =
-isn=E2=80=99t going to be good enough. You aren=E2=80=99t explicitly enabli=
-ng/disabling the option, so it=E2=80=99ll still detect based on what=E2=80=
-=99s in the sysroot, so recipe build order will result in non-deterministic=
- behavior.<br>-- <br><div class=3D"gmail_signature" data-smartmail=3D"gmail=
-_signature">Christopher Larson<br>clarson at kergoth dot com<br>Founder - B=
-itBake, OpenEmbedded, OpenZaurus<br>Maintainer - Tslib<br>Senior Software E=
-ngineer, Mentor Graphics</div>
-</div></div>
-
---001a11c15442e4949f053cad16a6--
