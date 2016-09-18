@@ -1,25 +1,25 @@
 Return-Path: <paul.eggleton@linux.intel.com>
 Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
-	by mail.openembedded.org (Postfix) with ESMTP id EA2536FFED
+	by mail.openembedded.org (Postfix) with ESMTP id 65B5B6FFED
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 18 Sep 2016 20:09:05 +0000 (UTC)
+	Sun, 18 Sep 2016 20:09:08 +0000 (UTC)
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by orsmga104.jf.intel.com with ESMTP; 18 Sep 2016 13:09:07 -0700
+	by orsmga104.jf.intel.com with ESMTP; 18 Sep 2016 13:09:09 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.30,358,1470726000"; d="scan'208";a="1058565672"
+X-IronPort-AV: E=Sophos;i="5.30,358,1470726000"; d="scan'208";a="1058565681"
 Received: from yewyangh-mobl2.gar.corp.intel.com (HELO
 	peggleto-mobl.ger.corp.intel.com) ([10.255.182.139])
-	by fmsmga002.fm.intel.com with ESMTP; 18 Sep 2016 13:09:05 -0700
+	by fmsmga002.fm.intel.com with ESMTP; 18 Sep 2016 13:09:07 -0700
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 19 Sep 2016 08:08:12 +1200
-Message-Id: <89d68923d93f02e598929c552d5c5f6d9b607c2c.1474229259.git.paul.eggleton@linux.intel.com>
+Date: Mon, 19 Sep 2016 08:08:13 +1200
+Message-Id: <18a6cbdd7dfdc478ad5199491c3a29033e6d99d6.1474229259.git.paul.eggleton@linux.intel.com>
 X-Mailer: git-send-email 2.5.5
 In-Reply-To: <cover.1474229259.git.paul.eggleton@linux.intel.com>
 References: <cover.1474229259.git.paul.eggleton@linux.intel.com>
 In-Reply-To: <cover.1474229259.git.paul.eggleton@linux.intel.com>
 References: <cover.1474229259.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 09/10] lib/oe/recipeutils: fix invalid character detection in validate_pn()
+Subject: [PATCH 10/10] devtool: add: drop superfluous validation for recipe name
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,34 +32,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 18 Sep 2016 20:09:06 -0000
+X-List-Received-Date: Sun, 18 Sep 2016 20:09:08 -0000
 
-* validate_pn() is supposed to protect against invalid characters, fix
-  the function so that it actually does (unanchored regex strikes
-  again...)
-* However, now that the function is enforcing the restrictions, we do
-  still want to allow + in recipe names (e.g. "gtk+")
+Now that recipeutils.validate_pn() properly validates characters used in
+the name, we can drop this bit checking for '/' since that's not
+permitted by validate_pn(). (The FIXME comment here - that I myself
+apparently wrote - is questionable since that function was clearly never
+intended to allow '/', perhaps I was misled because it was broken and
+did so).
 
 Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
 ---
- meta/lib/oe/recipeutils.py | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ scripts/lib/devtool/standard.py | 4 ----
+ 1 file changed, 4 deletions(-)
 
-diff --git a/meta/lib/oe/recipeutils.py b/meta/lib/oe/recipeutils.py
-index a0d78dd..58e4028 100644
---- a/meta/lib/oe/recipeutils.py
-+++ b/meta/lib/oe/recipeutils.py
-@@ -449,8 +449,8 @@ def get_recipe_patched_files(d):
- def validate_pn(pn):
-     """Perform validation on a recipe name (PN) for a new recipe."""
-     reserved_names = ['forcevariable', 'append', 'prepend', 'remove']
--    if not re.match('[0-9a-z-.]+', pn):
--        return 'Recipe name "%s" is invalid: only characters 0-9, a-z, - and . are allowed' % pn
-+    if not re.match('^[0-9a-z-.+]+$', pn):
-+        return 'Recipe name "%s" is invalid: only characters 0-9, a-z, -, + and . are allowed' % pn
-     elif pn in reserved_names:
-         return 'Recipe name "%s" is invalid: is a reserved keyword' % pn
-     elif pn.startswith('pn-'):
+diff --git a/scripts/lib/devtool/standard.py b/scripts/lib/devtool/standard.py
+index abbc0cb..8319145 100644
+--- a/scripts/lib/devtool/standard.py
++++ b/scripts/lib/devtool/standard.py
+@@ -85,10 +85,6 @@ def add(args, config, basepath, workspace):
+         if reason:
+             raise DevtoolError(reason)
+ 
+-        # FIXME this ought to be in validate_pn but we're using that in other contexts
+-        if '/' in args.recipename:
+-            raise DevtoolError('"/" is not a valid character in recipe names')
+-
+     if args.srctree:
+         srctree = os.path.abspath(args.srctree)
+         srctreeparent = None
 -- 
 2.5.5
 
