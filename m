@@ -1,48 +1,45 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f179.google.com (mail-io0-f179.google.com
-	[209.85.223.179])
-	by mail.openembedded.org (Postfix) with ESMTP id CD5096FFD8
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
+	by mail.openembedded.org (Postfix) with ESMTP id BB2B465D00
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Sep 2016 12:08:16 +0000 (UTC)
-Received: by mail-io0-f179.google.com with SMTP id q92so88832192ioi.1
+	Mon, 19 Sep 2016 14:17:33 +0000 (UTC)
+Received: by mail-wm0-f65.google.com with SMTP id l132so14054178wmf.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Sep 2016 05:08:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=KZfGdfSf453RyUtnC9TirRWxfDXlPMsicUgjIxJ395o=;
-	b=PzTaEkMTIidAuG1N9W+LeFxY9PB192T20l+JDUg8VfGTG3g8Prr1/ZpGQFj6j1ACqj
-	P92OuvwkAkUGFeLNQvNqX1XcZ/iVraqnNjtN+Ui0Yof+3m7rYEOB/lwoKzrqYTsytIln
-	MoKuUA37YkNrLaJUw4kEA60Oj8Z+Viiy/u5CFjATxLtGcQ6xCPR2YL7EmyyAmdfq8RJ/
-	1ymLn/H5Qqa/kdJua+FD0TO6YVW7Cw/LbSX1p63XSzFq58F5IQKY0jGbFYPxsiQmB41E
-	pcc6xcUt6ZEGzREw+n3xjTtuPWJ8AppcLZWAq+isjQPe9PXbYKZn4TQ18VYFrqS2czen
-	Je9Q==
+	Mon, 19 Sep 2016 07:17:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=Bge1V5XAJ06o8+MTskd3tW6oNMaRRdUpW7Oqopvb5Ck=;
+	b=ZjDA1AdT481fq8MaFrDutfswYBkg5R6mY+4xrafBGK9PR8d3JRHmbfQeCYXl87n3s9
+	SPuRTQX9t+9HeIBUVyFP1xkYqqYFaBWIZY0kWkthh9dh0f6DY+z0CrYHrU5k45b3cRKH
+	pqNRql2mvLDVH0+OFPdWYHgQm5+wtfppW5rN1/G6Fv5kHeZc4QR3Vj9vnEcx6LHKNFqb
+	70fXhfX2hxYiIkMhLTcFeH+48BIqlLzOfvYLhNlrp5cnc1ghJD9Ec7VCa85n1CyP5DaW
+	k0E2cgHc30aQYebZDy06Syp2PfD7vjMZVmAUf94nDd+jNbBSn9+5WNBTJtlh7HKbjWGW
+	2Epw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=KZfGdfSf453RyUtnC9TirRWxfDXlPMsicUgjIxJ395o=;
-	b=gGCQULiWAJ7POtY/d3QHF5CNAE6FfXZ8FXEFDc9mHA7c7yysPN74wAv5rqJOwhAWlf
-	qlsFtac6dysWe+9bCRsUwas7D+x8LwFzu+TBPE8Bdy/9n/6M1IymIekMg33AQVPiWzRO
-	ooI9QXuSvDOqasTCA7vq1a47bJDFpL85493R64CO1eRoMUanDn77JGaoKeKsjKw6hlYO
-	NPabkYGCmpRDUrmACoumTr7b6MOhL4HjpLGEWWzM2WEXftu4BVb/DiR/lfJYNq+IZ4/V
-	CYV/Lid9rQvL9X8sWwr29GU0BChTB3RVfD0Wl+JH5bZVrzUiVe1Jmi2PjElW+FYuZvmJ
-	JMFw==
-X-Gm-Message-State: AE9vXwNyZnn5QKmCh9BLatYiwCh/Br72x9wzr3Yqm8hFx3V9mm348tmbaaoqSyKBaZPFOS25n499e6h5aL2XFSme
-X-Received: by 10.107.199.195 with SMTP id x186mr37565893iof.88.1474286897064; 
-	Mon, 19 Sep 2016 05:08:17 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.107.135.27 with HTTP; Mon, 19 Sep 2016 05:07:56 -0700 (PDT)
-In-Reply-To: <7a584ad0d258491383c4ea32d530c3be@XBOX02.axis.com>
-References: <1474167109-6666-1-git-send-email-zhe.he@windriver.com>
-	<7a584ad0d258491383c4ea32d530c3be@XBOX02.axis.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 19 Sep 2016 13:07:56 +0100
-Message-ID: <CAJTo0LaVfTgDmBAMC+rhxmS0vhtftnrj0WzW7kahxY-WCi_LAQ@mail.gmail.com>
-To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] bash2dash conversion
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=Bge1V5XAJ06o8+MTskd3tW6oNMaRRdUpW7Oqopvb5Ck=;
+	b=g630LsgsFyopKmsh8LoibxhhiJjQhQF4Bo4712oi6AqLFYMFHNgh1mtzICli17gBhw
+	S/YROD9Tu6cMHXUVZd88G5N5X5Dvp5IiTKqrR4IGauTP/v/uU1FoJ/mMu3fXdRq7+kQs
+	K8iIuWHLM+M6Z5ir0H0T6eHbYRdm+J2t1HqxkLVNYzaBwe4W6SGk76yOrKy5OI3atIm7
+	9bfX5T58p7w4n73EWxfZOLhMQqZiLWVSlj0jfLnLrotqv1oq9kerL6O7buOsGCrzV4TZ
+	vLMcjQXl1BC44JoJ2kwiXeb4TQpyxpvcv9ZmlrjsW+VyNGM7lDCHwCtjQdaKq6KgbjbG
+	/RYg==
+X-Gm-Message-State: AE9vXwM0Cy5527n7CFM/eXDd7dqPrKD1kk8v7PDDUNfxhK21yWnFlJKrQTQp3bSNtpCelA==
+X-Received: by 10.28.166.149 with SMTP id p143mr9358674wme.21.1474294653509;
+	Mon, 19 Sep 2016 07:17:33 -0700 (PDT)
+Received: from localhost (ip-89-176-104-169.net.upcbroadband.cz.
+	[89.176.104.169]) by smtp.gmail.com with ESMTPSA id
+	h7sm10314259wmg.24.2016.09.19.07.17.32
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 19 Sep 2016 07:17:32 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 19 Sep 2016 16:17:31 +0200
+Message-Id: <20160919141731.4151-1-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 2.10.0
+Subject: [PATCH] enchant: add PACKAGECONFIG for *spell
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,67 +52,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 Sep 2016 12:08:17 -0000
-Content-Type: multipart/alternative; boundary=94eb2c11be4ecc0468053cdb2aa0
+X-List-Received-Date: Mon, 19 Sep 2016 14:17:35 -0000
 
---94eb2c11be4ecc0468053cdb2aa0
-Content-Type: text/plain; charset=UTF-8
+* use PACKAGECONFIG for various *spell implementations
 
-On 19 September 2016 at 12:57, Peter Kjellerstedt <
-peter.kjellerstedt@axis.com> wrote:
+* keep aspell enabled by default
 
-> > ++            mem_exists="`grep "^$groupname:[!:]*:[!:]*:\([!,
-> ]*,\)*$username\(,[!,]*\)*"$rootdir/etc/group || true`"
-> >               if test "x$mem_exists" = "x"; then
-> >                       bbfatal "${PN}: groupmems command did not succeed."
-> >               fi
->
-> The above change cannot be correct. Changing the expression "[^:]"
-> (which means "anything but :") to "[!:]" (which means "! or :") is
-> definitely not the same....
+* prevent hunspell/myspell being autodetected as reported in "bitbake world status" e-mails:
+  WARN: enchant: enchant rdepends on hunspell, but it isn't a build dependency?
+
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+---
+ meta/recipes-support/enchant/enchant_1.6.0.bb | 16 +++++++++-------
+ 1 file changed, 9 insertions(+), 7 deletions(-)
+
+diff --git a/meta/recipes-support/enchant/enchant_1.6.0.bb b/meta/recipes-support/enchant/enchant_1.6.0.bb
+index 97a4761..44eb2e3 100644
+--- a/meta/recipes-support/enchant/enchant_1.6.0.bb
++++ b/meta/recipes-support/enchant/enchant_1.6.0.bb
+@@ -7,7 +7,7 @@ LICENSE = "LGPLv2.1+"
+ LIC_FILES_CHKSUM = "file://COPYING.LIB;md5=dfcbabf9131dc9a95febef6753a2958b \
+                     file://src/enchant.h;beginline=1;endline=29;md5=8d881caa1d37523567e1d8f726675a18"
+ 
+-DEPENDS = "aspell glib-2.0"
++DEPENDS = "glib-2.0"
+ 
+ inherit autotools pkgconfig
+ 
+@@ -18,15 +18,17 @@ SRC_URI = "http://www.abisource.com/downloads/enchant/${PV}/enchant-${PV}.tar.gz
+ SRC_URI[md5sum] = "de11011aff801dc61042828041fb59c7"
+ SRC_URI[sha256sum] = "2fac9e7be7e9424b2c5570d8affe568db39f7572c10ed48d4e13cddf03f7097f"
+ 
+-EXTRA_OECONF = "--with-aspell-prefix=${STAGING_DIR_HOST}${prefix} \
+-		--enable-aspell br_cv_binreloc=no \
+-		"
++PACKAGECONFIG ??= "aspell"
++PACKAGECONFIG[aspell]  = " --with-aspell-prefix=${STAGING_DIR_HOST}${prefix}  --enable-aspell,  --disable-aspell,  aspell,  aspell"
++PACKAGECONFIG[ispell]  = " --with-ispell-prefix=${STAGING_DIR_HOST}${prefix}  --enable-ispell,  --disable-ispell,  ispell,  ispell"
++PACKAGECONFIG[uspell]  = " --with-uspell-prefix=${STAGING_DIR_HOST}${prefix}  --enable-uspell,  --disable-uspell,  uspell,  uspell"
++PACKAGECONFIG[hspell]  = " --with-hspell-prefix=${STAGING_DIR_HOST}${prefix}  --enable-hspell,  --disable-hspell,  hspell,  hspell"
++PACKAGECONFIG[myspell] = "--with-myspell-prefix=${STAGING_DIR_HOST}${prefix} --enable-myspell, --disable-myspell, myspell, myspell"
++
++EXTRA_OECONF = "br_cv_binreloc=no"
+ 
+ export CXXFLAGS += " -L${STAGING_LIBDIR} -lstdc++ "
+ 
+ FILES_${PN} = "${bindir} ${libdir}/*${SOLIBS} ${datadir}/${BPN} ${libdir}/${BPN}/*.so"
+ FILES_${PN}-dev += "${libdir}/${BPN}/*{SOLIBSDEV} ${libdir}/${BPN}/*.la"
+ FILES_${PN}-staticdev += "${libdir}/${BPN}/*.a"
+-
+-RDEPENDS_${PN} += "aspell"
+-
+-- 
+2.10.0
 
 
-My prediction is that this series is generated by running checkbashism over
-the fragments, it fires a false-positive here (from memory because it
-thinks it is processing a bash glob or something, not grep regex).
-
-Note that I just submitted my verify-bashism script which has a whitelist
-for things - such as use of command - which whilst not in POSIX are in fact
-in bash/dash/ash so for all intents and purposes will work.
-
-Ross
-
---94eb2c11be4ecc0468053cdb2aa0
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 19 September 2016 at 12:57, Peter Kjellerstedt <span dir=3D"ltr">&lt;<a =
-href=3D"mailto:peter.kjellerstedt@axis.com" target=3D"_blank">peter.kjeller=
-stedt@axis.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" s=
-tyle=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><spa=
-n class=3D"">&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 mem_exists=3D=
-&quot;`grep &quot;^$groupname:[!:]*:[!:]*:\([!,<wbr>]*,\)*$username\(,[!,]*=
-\)*&quot;$<wbr>rootdir/etc/group || true`&quot;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if test &quot;x$=
-mem_exists&quot; =3D &quot;x&quot;; then<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0bbfatal &quot;${PN}: groupmems command did not succeed.&quot;<=
-br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0fi<br>
-<br>
-</span>The above change cannot be correct. Changing the expression &quot;[^=
-:]&quot;<br>
-(which means &quot;anything but :&quot;) to &quot;[!:]&quot; (which means &=
-quot;! or :&quot;) is<br>
-definitely not the same....</blockquote></div><br>My prediction is that thi=
-s series is generated by running checkbashism over the fragments, it fires =
-a false-positive here (from memory because it thinks it is processing a bas=
-h glob or something, not grep regex).</div><div class=3D"gmail_extra"><br><=
-/div><div class=3D"gmail_extra">Note that I just submitted my verify-bashis=
-m script which has a whitelist for things - such as use of command - which =
-whilst not in POSIX are in fact in bash/dash/ash so for all intents and pur=
-poses will work.</div><div class=3D"gmail_extra"><br></div><div class=3D"gm=
-ail_extra">Ross</div></div>
-
---94eb2c11be4ecc0468053cdb2aa0--
