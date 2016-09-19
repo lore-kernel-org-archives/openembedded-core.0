@@ -1,40 +1,29 @@
-Return-Path: <andre.draszik@gmail.com>
-Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
-	by mail.openembedded.org (Postfix) with ESMTP id C8F456E5CB
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 28D7760557
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Sep 2016 10:26:08 +0000 (UTC)
-Received: by mail-wm0-f67.google.com with SMTP id l132so12925371wmf.1
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Sep 2016 03:26:09 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=XQcZ16XXHJC4KGVobmDsM+E/9Mle94Smpltda4Mwc0c=;
-	b=NF9HEGHe3xcJAHi3z1jM7b/AXOMBwk/Q9YxbVFtKqh2J2hLjKusZ5/Fn+Njfie++RW
-	EEMcBai73d0z3f8AVul2mScyE2gDig1bmCxrg6O+ot6WVVkczAUVw/dfn0zggxbX7DG9
-	Ya+HsrBZHsX4M2/xQ9VhZGCChwLQkW8kXCTea2mP0pwWGNqSMq/YgfuveQrVT+qYQjlt
-	5XlbMjZWr8AB/z/gLMmpIEJvBLkjEfkr5uM1namzRAdG+1InlkQDxK1bppy40z2xnrOR
-	k2gq8JbVUvYWkxMOCY5uxMMLhhyu57sknofvSho2Pv071f/zdSHp3OeEhkYkMP2RsJJ6
-	k7JA==
-X-Gm-Message-State: AE9vXwM/AJKsUViYW2JO+u6c0Hs+GEP3kUHIWpXC+1haNlmu7pzTxmKalSV6j7tNbGgwEQ==
-X-Received: by 10.28.183.135 with SMTP id h129mr8172867wmf.2.1474280768387;
-	Mon, 19 Sep 2016 03:26:08 -0700 (PDT)
-Received: from tfsielt31850.tycofs.com ([77.107.218.170])
-	by smtp.gmail.com with ESMTPSA id
-	q142sm21280107wmd.4.2016.09.19.03.26.06
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 19 Sep 2016 03:26:07 -0700 (PDT)
-From: =?UTF-8?q?Andr=C3=A9=20Draszik?= <git@andred.net>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 19 Sep 2016 11:26:06 +0100
-Message-Id: <20160919102606.25588-1-git@andred.net>
-X-Mailer: git-send-email 2.9.3
-In-Reply-To: <20160919093853.15528-1-git@andred.net>
-References: <20160919093853.15528-1-git@andred.net>
+	Mon, 19 Sep 2016 10:53:51 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u8JArpA8012576
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 19 Sep 2016 03:53:51 -0700 (PDT)
+Received: from [128.224.162.240] (128.224.162.240) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.294.0;
+	Mon, 19 Sep 2016 03:53:51 -0700
+To: Joshua Lock <joshua.g.lock@linux.intel.com>,
+	<openembedded-core@lists.openembedded.org>
+References: <cover.1474183984.git.liezhi.yang@windriver.com>
+	<6acbaf5e46bc050d3456476aad273270b8e26dc3.1474183984.git.liezhi.yang@windriver.com>
+	<1474276350.2929.8.camel@linux.intel.com>
+From: Robert Yang <liezhi.yang@windriver.com>
+Message-ID: <792eca3f-b5ff-4c96-8450-e3db32dbc7b2@windriver.com>
+Date: Mon, 19 Sep 2016 18:53:49 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.2.0
 MIME-Version: 1.0
-Subject: [PATCH v2] boost: switch to using C++11 atomics when available
+In-Reply-To: <1474276350.2929.8.camel@linux.intel.com>
+Subject: Re: [PATCH V2 8/8] runqemu: improve finding of rootfs, kernel and dtb
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,97 +36,231 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 Sep 2016 10:26:09 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 19 Sep 2016 10:53:55 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-The alleviates the need to use and maintain hand-written
-assembly, just relying on the compiler to do the right
-thing.
 
-Signed-off-by: André Draszik <git@andred.net>
----
- ...by-default-when-BOOST_NO_CXX11_HDR_ATOMIC.patch | 59 ++++++++++++++++++++++
- meta/recipes-support/boost/boost_1.61.0.bb         |  1 +
- 2 files changed, 60 insertions(+)
- create mode 100644 meta/recipes-support/boost/boost/0004-Use-atomic-by-default-when-BOOST_NO_CXX11_HDR_ATOMIC.patch
 
-diff --git a/meta/recipes-support/boost/boost/0004-Use-atomic-by-default-when-BOOST_NO_CXX11_HDR_ATOMIC.patch b/meta/recipes-support/boost/boost/0004-Use-atomic-by-default-when-BOOST_NO_CXX11_HDR_ATOMIC.patch
-new file mode 100644
-index 0000000..ab7826b
---- /dev/null
-+++ b/meta/recipes-support/boost/boost/0004-Use-atomic-by-default-when-BOOST_NO_CXX11_HDR_ATOMIC.patch
-@@ -0,0 +1,59 @@
-+From c234cc557f60729e071d6da59747c1a9289555c5 Mon Sep 17 00:00:00 2001
-+From: Peter Dimov <pdimov@pdimov.com>
-+Date: Sun, 28 Aug 2016 21:28:21 +0300
-+Subject: [PATCH 4/4] Use <atomic> by default when BOOST_NO_CXX11_HDR_ATOMIC is
-+ not defined
-+
-+---
-+Upstream-Status: Backport [https://github.com/boostorg/smart_ptr/commit/20fedcff2ca3143503ec4e876d47745ab0ec7b0c]
-+Signed-off-by: André Draszik <git@andred.net>
-+ boost/smart_ptr/detail/atomic_count.hpp    | 3 +++
-+ boost/smart_ptr/detail/sp_counted_base.hpp | 3 +++
-+ boost/smart_ptr/detail/spinlock.hpp        | 3 +++
-+ 3 files changed, 9 insertions(+)
-+
-+diff --git a/boost/smart_ptr/detail/atomic_count.hpp b/boost/smart_ptr/detail/atomic_count.hpp
-+index 8aefd44..6e4f71a 100644
-+--- a/boost/smart_ptr/detail/atomic_count.hpp
-++++ b/boost/smart_ptr/detail/atomic_count.hpp
-+@@ -73,6 +73,9 @@
-+ #elif defined( BOOST_DISABLE_THREADS ) && !defined( BOOST_SP_ENABLE_THREADS ) && !defined( BOOST_DISABLE_WIN32 )
-+ # include <boost/smart_ptr/detail/atomic_count_nt.hpp>
-+ 
-++#elif !defined( BOOST_NO_CXX11_HDR_ATOMIC )
-++# include <boost/smart_ptr/detail/atomic_count_std_atomic.hpp>
-++
-+ #elif defined( __GNUC__ ) && ( defined( __i386__ ) || defined( __x86_64__ ) ) && !defined( __PATHSCALE__ )
-+ # include <boost/smart_ptr/detail/atomic_count_gcc_x86.hpp>
-+ 
-+diff --git a/boost/smart_ptr/detail/sp_counted_base.hpp b/boost/smart_ptr/detail/sp_counted_base.hpp
-+index 0995ca8..83ede23 100644
-+--- a/boost/smart_ptr/detail/sp_counted_base.hpp
-++++ b/boost/smart_ptr/detail/sp_counted_base.hpp
-+@@ -44,6 +44,9 @@
-+ #elif defined( BOOST_SP_HAS_CLANG_C11_ATOMICS )
-+ # include <boost/smart_ptr/detail/sp_counted_base_clang.hpp>
-+ 
-++#elif !defined( BOOST_NO_CXX11_HDR_ATOMIC )
-++# include <boost/smart_ptr/detail/sp_counted_base_std_atomic.hpp>
-++
-+ #elif defined( __SNC__ )
-+ # include <boost/smart_ptr/detail/sp_counted_base_snc_ps3.hpp>
-+ 
-+diff --git a/boost/smart_ptr/detail/spinlock.hpp b/boost/smart_ptr/detail/spinlock.hpp
-+index 19f93d7..0b618df 100644
-+--- a/boost/smart_ptr/detail/spinlock.hpp
-++++ b/boost/smart_ptr/detail/spinlock.hpp
-+@@ -43,6 +43,9 @@
-+ #elif defined( BOOST_SP_USE_PTHREADS )
-+ #  include <boost/smart_ptr/detail/spinlock_pt.hpp>
-+ 
-++#elif !defined( BOOST_NO_CXX11_HDR_ATOMIC )
-++#  include <boost/smart_ptr/detail/spinlock_std_atomic.hpp>
-++
-+ #elif defined(__GNUC__) && defined( __arm__ ) && !defined( __thumb__ )
-+ #  include <boost/smart_ptr/detail/spinlock_gcc_arm.hpp>
-+ 
-+-- 
-+2.9.3
-+
-diff --git a/meta/recipes-support/boost/boost_1.61.0.bb b/meta/recipes-support/boost/boost_1.61.0.bb
-index 6926e84..33f209c 100644
---- a/meta/recipes-support/boost/boost_1.61.0.bb
-+++ b/meta/recipes-support/boost/boost_1.61.0.bb
-@@ -8,4 +8,5 @@ SRC_URI += "\
-     file://0001-boost-asio-detail-socket_types.hpp-fix-poll.h-includ.patch \
-     file://0002-boost-test-execution_monitor.hpp-fix-mips-soft-float.patch \
-     file://0003-smart_ptr-mips-assembly-doesn-t-compile-in-mips16e-m.patch \
-+    file://0004-Use-atomic-by-default-when-BOOST_NO_CXX11_HDR_ATOMIC.patch \
- "
--- 
-2.9.3
+On 09/19/2016 05:12 PM, Joshua Lock wrote:
+> On Sun, 2016-09-18 at 00:39 -0700, Robert Yang wrote:
+>> * Search rootfs in the following order:
+>>   - IMAGE_NAME*.FSTYPE
+>>   - IMAGE_LINK_NAME*.FSTYPE
+>>
+>> * Search kernel in the following order:
+>>   - QB_DEFAULT_KERNEL
+>>   - KERNEL_IMAGETYPE
+>>   - KERNEL_IMAGETYPE*
+>>
+>> * Search dtb in the following order:
+>>    - QB_DTB
+>>    - QB_DTB*
+>>    - *.dtb
+>>
+>> * Fix DTB, it should only work with "-kernel" option.
+>>
+>> [YOCTO #10265]
+>>
+>> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+>> ---
+>>  scripts/runqemu | 68 ++++++++++++++++++++++++++++++++++-------------
+>> ----------
+>>  1 file changed, 41 insertions(+), 27 deletions(-)
+>>
+>> diff --git a/scripts/runqemu b/scripts/runqemu
+>> index 60e2093..1c4e69b 100755
+>> --- a/scripts/runqemu
+>> +++ b/scripts/runqemu
+>> @@ -157,6 +157,7 @@ class BaseConfig(object):
+>>          self.kernel = ''
+>>          self.kernel_cmdline = ''
+>>          self.kernel_cmdline_script = ''
+>> +        self.dtb = ''
+>>          self.fstype = ''
+>>          self.kvm_enabled = False
+>>          self.vhost_enabled = False
+>> @@ -440,23 +441,23 @@ class BaseConfig(object):
+>>          if self.fstype == 'nfs':
+>>              return
+>>
+>> +        cmd_name = '%s/%s*.%s' % (self.get('DEPLOY_DIR_IMAGE'),
+>> self.get('IMAGE_NAME'), self.fstype)
+>> +        cmd_link = '%s/%s*.%s' % (self.get('DEPLOY_DIR_IMAGE'),
+>> self.get('IMAGE_LINK_NAME'), self.fstype)
+>> +        cmds = (cmd_name, cmd_link)
+>>          if self.rootfs and not os.path.exists(self.rootfs):
+>>              # Lazy rootfs
+>>              self.rootfs = "%s/%s-%s.%s" %
+>> (self.get('DEPLOY_DIR_IMAGE'),
+>>                      self.rootfs, self.get('MACHINE'),
+>>                      self.fstype)
+>>          elif not self.rootfs:
+>> -            cmd = '%s/%s*.%s' % (self.get('DEPLOY_DIR_IMAGE'),
+>> self.get('IMAGE_NAME'), self.fstype)
+>> -            all_files = glob.glob(cmd)
+>> -            if all_files:
+>> -                self.rootfs = all_files[0]
+>> -            else:
+>> -                cmd = '%s/%s*.%s' % (self.get('DEPLOY_DIR_IMAGE'),
+>> self.get('IMAGE_LINK_NAME'), self.fstype)
+>> +            for cmd in cmds:
+>>                  all_files = glob.glob(cmd)
+>>                  if all_files:
+>>                      self.rootfs = all_files[0]
+>> -                else:
+>> -                    raise Exception("Failed to find rootfs: %s" %
+>> cmd)
+>> +                    break
+>> +
+>> +        if not self.rootfs:
+>> +            raise Exception("Failed to find rootfs: %s or %s" %
+>> cmds)
+>>
+>>          if not os.path.exists(self.rootfs):
+>>              raise Exception("Can't find rootfs: %s" % self.rootfs)
+>> @@ -466,28 +467,37 @@ class BaseConfig(object):
+>>          # The vm image doesn't need a kernel
+>>          if self.fstype in self.vmtypes:
+>>              return
+>> -        kernel = self.kernel
+>> +
+>>          deploy_dir_image = self.get('DEPLOY_DIR_IMAGE')
+>> -        if not kernel:
+>> -            kernel = "%s/%s" % (deploy_dir_image,
+>> self.get('QB_DEFAULT_KERNEL'))
+>> +        if not self.kernel:
+>> +            kernel_match_name = "%s/%s" % (deploy_dir_image,
+>> self.get('QB_DEFAULT_KERNEL'))
+>> +            kernel_match_link = "%s/%s" % (deploy_dir_image,
+>> self.get('KERNEL_IMAGETYPE'))
+>> +            kernel_startswith = "%s/%s*" % (deploy_dir_image,
+>> self.get('KERNEL_IMAGETYPE'))
+>
+> There are qemuboot.conf files in the wild which won't contain
+> KERNEL_IMAGETYPE, at which point we're just looking for matches to
+> DEPLOY_DIR_IMAGE or DEPLOY_DIR_IMAGE/*
+>
+> I think we need to add some extra handling so that we don't end up
+> setting kernel to either DEPLOY_DIR_IMAGE or its first child?
 
+Thanks, updated in the repo:
+
+   git://git.openembedded.org/openembedded-core-contrib rbt/rq
+   http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/rq
+
+Joshua Lock (6):
+   runqemu: add guidance to resolve issues with missing files
+   qemuboot: write the full kernel filename, not the link name
+   runqemu: clarify an INFO message
+   qemuboot: also write the kernel link name to the conf file
+   runqemu: try symlinks when kernel or rootfs can't be found
+   runqemu: work even if a *.qemuboot.conf isn't found
+
+Robert Yang (2):
+   runqemu: use OECORE_NATIVE_SYSROOT from sdk
+   runqemu: improve finding of rootfs, kernel and dtb
+
+// Robert
+
+>
+> Joshua
+>
+>> +            cmds = (kernel_match_name, kernel_match_link,
+>> kernel_startswith)
+>> +            for cmd in cmds:
+>> +                all_files = glob.glob(cmd)
+>> +                if all_files:
+>> +                    self.kernel = all_files[0]
+>> +                    break
+>> +            if not self.kernel:
+>> +                raise Exception('KERNEL not found: %s, %s or %s' %
+>> cmds)
+>>
+>> -        if os.path.exists(kernel):
+>> -            self.kernel = kernel
+>> -        else:
+>> -            kernel = "%s/%s" % (deploy_dir_image,
+>> self.get('KERNEL_IMAGETYPE'))
+>> -            if kernel != deploy_dir_image and
+>> os.path.exists(kernel):
+>> -                self.kernel = kernel
+>> -            else:
+>> -                raise Exception("KERNEL %s not found" % kernel)
+>> +        if not os.path.exists(self.kernel):
+>> +            raise Exception("KERNEL %s not found" % self.kernel)
+>>
+>>          dtb = self.get('QB_DTB')
+>>          if dtb:
+>> -            dtb = "%s/%s" % (self.get('DEPLOY_DIR_IMAGE'), dtb)
+>> -            if os.path.exists(dtb):
+>> -                self.set('QB_DTB', '-dtb %s' % dtb)
+>> -            else:
+>> -                raise Exception("DTB %s not found" % dtb)
+>> -
+>> +            cmd_match = "%s/%s" % (deploy_dir_image, dtb)
+>> +            cmd_startswith = "%s/%s*" % (deploy_dir_image, dtb)
+>> +            cmd_wild = "%s/*.dtb" % deploy_dir_image
+>> +            cmds = (cmd_match, cmd_startswith, cmd_wild)
+>> +            for cmd in cmds:
+>> +                all_files = glob.glob(cmd)
+>> +                if all_files:
+>> +                    self.dtb = all_files[0]
+>> +                    break
+>> +            if not os.path.exists(self.dtb):
+>> +                raise Exception('DTB not found: %s, %s or %s' %
+>> cmds)
+>>
+>>      def check_biosdir(self):
+>>          """Check custombiosdir"""
+>> @@ -643,6 +653,8 @@ class BaseConfig(object):
+>>          logger.info('Continuing with the following parameters:\n')
+>>          if not self.fstype in self.vmtypes:
+>>              print('KERNEL: [%s]' % self.kernel)
+>> +            if self.dtb:
+>> +                print('DTB: [%s]' % self.dtb)
+>>          print('MACHINE: [%s]' % self.get('MACHINE'))
+>>          print('FSTYPE: [%s]' % self.fstype)
+>>          if self.fstype  == 'nfs':
+>> @@ -687,7 +699,7 @@ class BaseConfig(object):
+>>                  elif os.path.exists(src2):
+>>                      src = src2
+>>                  if not src:
+>> -                    raise Exception("No NFS_DIR is set but can't
+>> find %s or %s to extract" % (src1, src2))
+>> +                    raise Exception("No NFS_DIR is set, and can't
+>> find %s or %s to extract" % (src1, src2))
+>>                  logger.info('NFS_DIR not found, extracting %s to %s'
+>> % (src, dest))
+>>                  cmd = 'runqemu-extract-sdk %s %s' % (src, dest)
+>>                  logger.info('Running %s...' % cmd)
+>> @@ -845,7 +857,7 @@ class BaseConfig(object):
+>>
+>>          check_libgl(qemu_bin)
+>>
+>> -        self.qemu_opt = "%s %s %s %s %s %s" % (qemu_bin,
+>> self.get('NETWORK_CMD'), self.qemu_opt_script,
+>> self.get('ROOTFS_OPTIONS'), self.get('QB_DTB'),
+>> self.get('QB_OPT_APPEND'))
+>> +        self.qemu_opt = "%s %s %s %s %s" % (qemu_bin,
+>> self.get('NETWORK_CMD'), self.qemu_opt_script,
+>> self.get('ROOTFS_OPTIONS'), self.get('QB_OPT_APPEND'))
+>>
+>>          # Enable virtio RNG else we can run out of entropy in guests
+>>          self.qemu_opt += " -device virtio-rng-pci"
+>> @@ -877,6 +889,8 @@ class BaseConfig(object):
+>>      def start_qemu(self):
+>>          if self.kernel:
+>>              kernel_opts = "-kernel %s -append '%s %s %s'" %
+>> (self.kernel, self.kernel_cmdline, self.kernel_cmdline_script,
+>> self.get('QB_KERNEL_CMDLINE_APPEND'))
+>> +            if self.dtb:
+>> +                kernel_opts += " -dtb %s" % self.dtb
+>>          else:
+>>              kernel_opts = ""
+>>          cmd = "%s %s" % (self.qemu_opt, kernel_opts)
+>> --
+>> 2.9.0
+>>
+>
 
