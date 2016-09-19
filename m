@@ -1,26 +1,46 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id ADE0B731C2
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io0-f179.google.com (mail-io0-f179.google.com
+	[209.85.223.179])
+	by mail.openembedded.org (Postfix) with ESMTP id BEBD4731B0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Sep 2016 15:04:21 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u8JF4KiL015637
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
-	Mon, 19 Sep 2016 08:04:20 -0700
-Received: from [128.224.56.48] (128.224.56.48) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.294.0;
-	Mon, 19 Sep 2016 08:04:19 -0700
-To: California Sullivan <california.l.sullivan@intel.com>,
-	<openembedded-core@lists.openembedded.org>
-References: <1474069704-24428-1-git-send-email-california.l.sullivan@intel.com>
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-Message-ID: <2c06b548-62b4-5766-4ac4-6a18972be549@windriver.com>
-Date: Mon, 19 Sep 2016 11:04:19 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.2.0
+	Mon, 19 Sep 2016 15:10:11 +0000 (UTC)
+Received: by mail-io0-f179.google.com with SMTP id m186so94122399ioa.2
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 19 Sep 2016 08:10:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=6egJxFv3O5/R296n2y+ZPtyl0ov4dvIrUWOyLH9k7CM=;
+	b=LUI25YeLkKoBuntM2kHd+h4OOgAineK2rm9FwWM+68HT06zqK6lZmvegIGXhH9iLe0
+	j5HA6bLRdp5+f8RqrlioDGoZAire45chrH4VYKHQrZ3z0+zVixNm0Iq8c5JQGZNfmw4X
+	paXAjM2wFbnV1Bvlytwuo+T10wm0W88dCKZO6REj2tXA3pZt7oPTGBU3APxwk3puzROc
+	WxjqKGh0/Q7rEqbCJKl8gwjzrmzsbWpf44eQsObFFNllu3mBgLxtrIrXzKej7zsSKipZ
+	29Cut0Fn6mUtahOOau5uoa4LCAqks+0rUmmyhrxve8JblaXSaRdq8tnKpBmvvlPjDfdA
+	Aq4A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=6egJxFv3O5/R296n2y+ZPtyl0ov4dvIrUWOyLH9k7CM=;
+	b=VPlYAWJFghvytnXjI93aGtFM21NGAx0XSop7C/vIDt7p3QUhGC1sAZGjRjIEK2TSot
+	GiVpNedBJE3kx3WMOXjrhcSsmcn+Vbqb9rzBH66//cg1AzsSANScw9Voh4+QK25pfTXG
+	dz9VwRPy7+pwXn2537xcRbf07tUoDySZrErT9FeL2k9cmRFCMorZrnteVHJr5H3FSBc5
+	spjnsCqRyp+lPvJ3mGPZwgLL2hPKsG1Oa1zJdHnlPHCSLT8vdC5VuJWLiFVbyD/iOLFz
+	0uXZhlvq1U3lgp3szj7RWixdf+6dDB4J7YcM0L6ECelmGmedOd1mUuIqByG1DWTle8sJ
+	mhTw==
+X-Gm-Message-State: AE9vXwPdl0ooHK6d6Mnn795LzI2OdQkfRfYxzl5mp7hpwewq0Mb7EV+KHdfg8dJNQ2OtUvZlc21g8KCGdRFI7AjA
+X-Received: by 10.107.142.147 with SMTP id q141mr13755092iod.67.1474297812032; 
+	Mon, 19 Sep 2016 08:10:12 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <1474069704-24428-1-git-send-email-california.l.sullivan@intel.com>
+Received: by 10.107.135.27 with HTTP; Mon, 19 Sep 2016 08:09:51 -0700 (PDT)
+In-Reply-To: <2c06b548-62b4-5766-4ac4-6a18972be549@windriver.com>
+References: <1474069704-24428-1-git-send-email-california.l.sullivan@intel.com>
+	<2c06b548-62b4-5766-4ac4-6a18972be549@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 19 Sep 2016 16:09:51 +0100
+Message-ID: <CAJTo0LbqExZ796Jn1_mtJBFjoLoFZ76VzgwAMB_Bm6NWUGAvVw@mail.gmail.com>
+To: Bruce Ashfield <bruce.ashfield@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH V2 1/1] kernel.bbclass: Add kernel_version_sanity_check function
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -34,94 +54,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 Sep 2016 15:04:26 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 19 Sep 2016 15:10:12 -0000
+Content-Type: multipart/alternative; boundary=94eb2c05b2de63077e053cddb5d7
 
-On 2016-09-16 07:48 PM, California Sullivan wrote:
-> The kernel being built should match what the recipe claims it is
-> building. This function ensures that happens by comparing the version
-> information in the kernel's Makefile to the PV the recipe is using.
->
-> v2 changes:
-> * Match against PV instead of LINUX_VERSION
-> * Match against EXTRAVERSION as well (e.g., -rc4)
-> * Cleaned up version string building
->
-> Fixes [YOCTO #6767].
->
-> Signed-off-by: California Sullivan <california.l.sullivan@intel.com>
-> ---
->  meta/classes/kernel.bbclass               | 30 ++++++++++++++++++++++++++++++
->  meta/recipes-kernel/linux/linux-yocto.inc |  1 +
->  2 files changed, 31 insertions(+)
->
-> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-> index a6112e8..f894795 100644
-> --- a/meta/classes/kernel.bbclass
-> +++ b/meta/classes/kernel.bbclass
-> @@ -327,6 +327,36 @@ kernel_do_install() {
->  }
->  do_install[prefuncs] += "package_get_auto_pr"
->
-> +# Must be ran no earlier than after do_kernel_checkout or else Makefile won't be in ${S}/Makefile
-> +do_kernel_version_sanity_check() {
-> +	# The Makefile determines the kernel version shown at runtime
-> +	# Don't use KERNEL_VERSION because the headers it grabs the version from aren't generated until do_compile
-> +	VERSION=$(grep "^VERSION =" ${S}/Makefile | sed s/.*=\ *//)
-> +	PATCHLEVEL=$(grep "^PATCHLEVEL =" ${S}/Makefile | sed s/.*=\ *//)
-> +	SUBLEVEL=$(grep "^SUBLEVEL =" ${S}/Makefile | sed s/.*=\ *//)
-> +	EXTRAVERSION=$(grep "^EXTRAVERSION =" ${S}/Makefile | sed s/.*=\ *//)
-> +
-> +	# Build a string for regex and a plain version string
-> +	reg="^${VERSION}\.${PATCHLEVEL}"
-> +	vers="${VERSION}.${PATCHLEVEL}"
-> +	if [ -n "${SUBLEVEL}" ]; then
-> +		# Ignoring a SUBLEVEL of zero is fine
-> +		if [ "${SUBLEVEL}" = "0" ]; then
-> +			reg="${reg}(\.${SUBLEVEL})?"
-> +		else
-> +			reg="${reg}\.${SUBLEVEL}"
-> +			vers="${vers}.${SUBLEVEL}"
-> +		fi
-> +	fi
-> +	vers="${vers}${EXTRAVERSION}"
-> +	reg="${reg}${EXTRAVERSION}"
-> +
-> +	if [ -z `echo ${PV} | grep -E "${reg}"` ]; then
-> +		bbfatal "Package Version (${PV}) does not match of kernel being built (${vers}). Please update the PV variable to match the kernel source."
+--94eb2c05b2de63077e053cddb5d7
+Content-Type: text/plain; charset=UTF-8
 
-My only 'nit is that this is a fairly long line. Would it be worth
-splitting it into two ?
+On 19 September 2016 at 16:04, Bruce Ashfield <bruce.ashfield@windriver.com>
+wrote:
 
-Otherwise, I don't see anything obviously wrong (I looked at the regexs
-but didn't study them in detail) .. and it looks sane to me. A good
-balance between checking and not needing the entire kernel to be built
-and exported to work-shared.
-
-Cheers,
-
-Bruce
-
-> +	fi
-> +	exit 0
-> +}
-> +
->  addtask shared_workdir after do_compile before do_compile_kernelmodules
->  addtask shared_workdir_setscene
->
-> diff --git a/meta/recipes-kernel/linux/linux-yocto.inc b/meta/recipes-kernel/linux/linux-yocto.inc
-> index 98a48ec..d979662 100644
-> --- a/meta/recipes-kernel/linux/linux-yocto.inc
-> +++ b/meta/recipes-kernel/linux/linux-yocto.inc
-> @@ -55,6 +55,7 @@ do_install_append(){
->  }
->
->  # extra tasks
-> +addtask kernel_version_sanity_check after do_kernel_checkout before do_compile
->  addtask kernel_link_images after do_compile before do_install
->  addtask validate_branches before do_patch after do_kernel_checkout
->  addtask kernel_configcheck after do_configure before do_compile
+> Otherwise, I don't see anything obviously wrong (I looked at the regexs
+> but didn't study them in detail) .. and it looks sane to me. A good
+> balance between checking and not needing the entire kernel to be built
+> and exported to work-shared.
 >
 
+This is being fired on the AB:
 
+ERROR: linux-yocto-4.1.32+gitAUTOINC+b30b6b9ef2_d6237b3b24-r0
+do_kernel_version_sanity_check: Package Version
+(4.1.32+gitAUTOINC+b30b6b9ef2_d6237b3b24) does not match of kernel being
+built (4.1.31). Please update the PV variable to match the kernel source.
+ERROR: linux-yocto-4.1.32+gitAUTOINC+b30b6b9ef2_d6237b3b24-r0
+do_kernel_version_sanity_check: Function failed:
+do_kernel_version_sanity_check (log file is located at
+/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-mips-lsb/build/build/tmp/work/qemumips-poky-linux/linux-yocto/4.1.32+gitAUTOINC+b30b6b9ef2_d6237b3b24-r0/temp/log.do_kernel_version_sanity_check.9143)
+ERROR: Logfile of failure stored in:
+/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-mips-lsb/build/build/tmp/work/qemumips-poky-linux/linux-yocto/4.1.32+gitAUTOINC+b30b6b9ef2_d6237b3b24-r0/temp/log.do_kernel_version_sanity_check.9143
+
+Ross
+
+--94eb2c05b2de63077e053cddb5d7
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 19 September 2016 at 16:04, Bruce Ashfield <span dir=3D"ltr">&lt;<a href=
+=3D"mailto:bruce.ashfield@windriver.com" target=3D"_blank">bruce.ashfield@w=
+indriver.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" sty=
+le=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-color:rgb(=
+204,204,204);border-left-style:solid;padding-left:1ex"><div id=3D"gmail-:11=
+w" class=3D"gmail-a3s gmail-aXjCH gmail-m15742fa94aa6b477">Otherwise, I don=
+&#39;t see anything obviously wrong (I looked at the regexs<br>
+but didn&#39;t study them in detail) .. and it looks sane to me. A good<br>
+balance between checking and not needing the entire kernel to be built<br>
+and exported to work-shared.<br></div></blockquote></div><br></div><div cla=
+ss=3D"gmail_extra">This is being fired on the AB:</div><div class=3D"gmail_=
+extra"><br></div>ERROR: linux-yocto-4.1.32+gitAUTOINC+b30b6b9ef2_d6237b3b24=
+-r0 do_kernel_version_sanity_check: Package Version (4.1.32+gitAUTOINC+b30b=
+6b9ef2_d6237b3b24) does not match of kernel being built (4.1.31). Please up=
+date the PV variable to match the kernel source.<br>ERROR: linux-yocto-4.1.=
+32+gitAUTOINC+b30b6b9ef2_d6237b3b24-r0 do_kernel_version_sanity_check: Func=
+tion failed: do_kernel_version_sanity_check (log file is located at /home/p=
+okybuild/yocto-autobuilder/yocto-worker/nightly-mips-lsb/build/build/tmp/wo=
+rk/qemumips-poky-linux/linux-yocto/4.1.32+gitAUTOINC+b30b6b9ef2_d6237b3b24-=
+r0/temp/log.do_kernel_version_sanity_check.9143)<br>ERROR: Logfile of failu=
+re stored in: /home/pokybuild/yocto-autobuilder/yocto-worker/nightly-mips-l=
+sb/build/build/tmp/work/qemumips-poky-linux/linux-yocto/4.1.32+gitAUTOINC+b=
+30b6b9ef2_d6237b3b24-r0/temp/log.do_kernel_version_sanity_check.9143<div><b=
+r></div><div>Ross</div></div>
+
+--94eb2c05b2de63077e053cddb5d7--
