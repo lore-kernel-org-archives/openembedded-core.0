@@ -1,46 +1,32 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-it0-f46.google.com (mail-it0-f46.google.com
-	[209.85.214.46])
-	by mail.openembedded.org (Postfix) with ESMTP id 276566FFD8
+Return-Path: <saul.wold@intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 6EEAC601A4
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Sep 2016 20:28:48 +0000 (UTC)
-Received: by mail-it0-f46.google.com with SMTP id r192so79878679ita.0
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Sep 2016 13:28:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=kPiCzTWyhfd9jGrzS3A+N6FuJsOR1tpGGJRcaJQ39lg=;
-	b=FS3KAIFFCkIg8dXveP0cFqo2sHLMrS88ashGdkUCp76H3ZoMhBNdbNrOBuySjvNMR4
-	Thb0ivCmOcsFItmsQnBxwT4oKCHY+qtz6ihbMVU/gr6F+IW1o+iosmCbNYK/7HH4gBEs
-	3QHWAgsxWqZ0KCNnRdicyFm1C+W1RFv2j9Gm3JLbANqZfprr+HzN11s98fzLNNp+9bMm
-	72ESAfUPYyKCdy9Uvwjz4FvKng6JJ/vUQ7lNUgyyj8KaBK3Qj8kEoGrXeFTDJ7WdohyF
-	RfzvYg/ZplQYu5hzPJPU3ph1uZotAj6PjfEu+fmOVGt72XUP0y7Mb+6fb488jXz1xJ06
-	pXtg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=kPiCzTWyhfd9jGrzS3A+N6FuJsOR1tpGGJRcaJQ39lg=;
-	b=Cf2fsenU5odO0zD71s9ux6Y2X91rXvCP1DhY3N2sITAR9zcrPQ/5MIPdFxIiyx9iXl
-	F10hwPef54+0aPlhHsIRUN3W04gapYTAIL5PtrTNAqt0axBl/amoJT200/L5kcAjgdDB
-	2yjLES9Y+/YVYM8jCnRCMaiyUWDB7y4f6ZtuxGDL5Lb4tjbd0cw8iI/T1l102NZs4Xr/
-	UoMU00WB3gMtGwoCN4GQqLVL10h2IDiaiKvPHYpFv5E69q1hUOhV5y6W0Rn0dANzyIMq
-	tRw38Vvh6EMyMobppg1/od3trxpiIt3XZX3reUSIe8b4JlojBq5HxF1dUy0rd18nkTqJ
-	Mucw==
-X-Gm-Message-State: AE9vXwM6TaHft4RwcCX9/3ZnoAz9ITirjgPOrlasa1ihzFBcAoPRfyLJt/XmeXEMca6O0TBdiSA+nvAjTG208ScU
-X-Received: by 10.36.112.135 with SMTP id f129mr50924itc.3.1474316929180; Mon,
-	19 Sep 2016 13:28:49 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.107.33.210 with HTTP; Mon, 19 Sep 2016 13:28:28 -0700 (PDT)
-In-Reply-To: <1474316538-7482-1-git-send-email-Randy.MacLeod@windriver.com>
-References: <1474316538-7482-1-git-send-email-Randy.MacLeod@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 19 Sep 2016 21:28:28 +0100
-Message-ID: <CAJTo0LYowN-66-EJV3SMTtpgEmw-wMFjCNBdCes0OVBA8evChQ@mail.gmail.com>
-To: Randy MacLeod <Randy.MacLeod@windriver.com>
+	Mon, 19 Sep 2016 20:49:50 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by fmsmga101.fm.intel.com with ESMTP; 19 Sep 2016 13:49:51 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.30,363,1470726000"; d="scan'208";a="763442087"
+Received: from swold-mobl2.amr.corp.intel.com ([10.254.26.249])
+	by FMSMGA003.fm.intel.com with ESMTP; 19 Sep 2016 13:49:51 -0700
+Message-ID: <1474318190.24399.19.camel@intel.com>
+From: Saul Wold <saul.wold@intel.com>
+To: Bruce Ashfield <bruce.ashfield@windriver.com>, Cal Sullivan
+	<california.l.sullivan@intel.com>, "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 19 Sep 2016 13:49:50 -0700
+In-Reply-To: <6c08189b-9ac1-d239-c324-c9d04e38ed2d@windriver.com>
+References: <1474069704-24428-1-git-send-email-california.l.sullivan@intel.com>
+	<2c06b548-62b4-5766-4ac4-6a18972be549@windriver.com>
+	<CAJTo0LbqExZ796Jn1_mtJBFjoLoFZ76VzgwAMB_Bm6NWUGAvVw@mail.gmail.com>
+	<CAJTo0LbQKKuWXfWuPw4R1uh_A8R=NM4YEpaR2yOH3ePs40FbqA@mail.gmail.com>
+	<db821c4f-4099-94de-f2d2-17ddf2486bbc@intel.com>
+	<CAJTo0LYTP5LGgxDxJj1Y+88YnoXDQa8G7yD2QyU5dF3kKN+1TQ@mail.gmail.com>
+	<3b43b291-4f81-f801-4f23-cf5647bd37fb@intel.com>
+	<6c08189b-9ac1-d239-c324-c9d04e38ed2d@windriver.com>
+X-Mailer: Evolution 3.20.5 (3.20.5-1.fc24) 
+Mime-Version: 1.0
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [v2] e2fsprogs: add packageconfig for -file-
+Subject: Re: [PATCH V2 1/1] kernel.bbclass: Add kernel_version_sanity_check function
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,46 +39,89 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 Sep 2016 20:28:49 -0000
-Content-Type: multipart/alternative; boundary=001a11441c9ed9bd24053ce2288b
+X-List-Received-Date: Mon, 19 Sep 2016 20:49:51 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
---001a11441c9ed9bd24053ce2288b
-Content-Type: text/plain; charset=UTF-8
+On Mon, 2016-09-19 at 15:55 -0400, Bruce Ashfield wrote:
+> On 2016-09-19 03:53 PM, Cal Sullivan wrote:
+> > 
+> > Yep, these all have incorrect PVs.
+> > 628bf62756 Merge tag 'v4.4.11' into standard/base
+> > The problem seems fairly wide spread.
+> > 
+> > Bruce, do you suggest updating PVs or updating the SRCREVs (is
+> > there a
+> > good reason to keep using old SRCREVs?)?
+> 
+> Updating the SRCREVs is the right thing to do to sync them up now.
+> 
+> but ..
+> 
+> at the same time, they should probably have their own PVs, since
+> next time up update 4.4.x, they'll fall out of sync and fail again.
+> 
++1, I think that these need their own PV since they also don't update
+as fast as the base qemu recipes do.
 
-On 19 September 2016 at 21:22, Randy MacLeod <Randy.MacLeod@windriver.com>
-wrote:
+Sau!
 
-> +PACKAGECONFIG ??= "file"
-> +PACKAGECONFIG[file] = ',,file'
->
+> We want them to be aligned with the latest -stable, but we also
+> don't need failures every time I push a new SRCREV and update the
+> PV of the base recipe.
+> 
+> Bruce
+> 
+> > 
+> > 
+> > ---
+> > Cal
+> > 
+> > 
+> > On 09/19/2016 11:54 AM, Burton, Ross wrote:
+> > > 
+> > > 
+> > > On 19 September 2016 at 18:05, Cal Sullivan
+> > > <california.l.sullivan@intel.com
+> > > <mailto:california.l.sullivan@intel.com>> wrote:
+> > > 
+> > >     It looks like the function is doing as its supposed to, and
+> > > we
+> > >     need to update some PVs or SRCREVs to match PVs.
+> > > 
+> > >     E.g., on the error below, SRCREV d6237b3b24 is indeed 4.1.31.
+> > > 
+> > > 
+> > > And some more builders failed with 4.4:
+> > > 
+> > > ERROR: linux-yocto-4.4.20+gitAUTOINC+e66032e2d9_628bf62756-r0
+> > > do_kernel_version_sanity_check: Package Version
+> > > (4.4.20+gitAUTOINC+e66032e2d9_628bf62756) does not match of
+> > > kernel
+> > > being built (4.4.11). Please update the PV variable to match the
+> > > kernel source.
+> > > ERROR: linux-yocto-4.4.20+gitAUTOINC+e66032e2d9_628bf62756-r0
+> > > do_kernel_version_sanity_check: Function failed:
+> > > do_kernel_version_sanity_check (log file is located at
+> > > /home/pokybuild/yocto-autobuilder/yocto-worker/nightly-
+> > > arm/build/build/tmp/work/beaglebone-poky-linux-gnueabi/linux-
+> > > yocto/4.4.20+gitAUTOINC+e66032e2d9_628bf62756-
+> > > r0/temp/log.do_kernel_version_sanity_check.30210)
+> > > NOTE: recipe usbutils-008-r0: task do_fetch: Started
+> > > ERROR: Logfile of failure stored in:
+> > > /home/pokybuild/yocto-autobuilder/yocto-worker/nightly-
+> > > arm/build/build/tmp/work/beaglebone-poky-linux-gnueabi/linux-
+> > > yocto/4.4.20+gitAUTOINC+e66032e2d9_628bf62756-
+> > > r0/temp/log.do_kernel_version_sanity_check.30210
+> > > ERROR: Task
+> > > (/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-
+> > > arm/build/meta/recipes-kernel/linux/linux-
+> > > yocto_4.4.bb:do_kernel_version_sanity_check)
+> > > failed with exit code '1'
+> > > 
+> > > (ditto for ppc and x86)
+> > > 
+> > > Ross
+> > 
+> 
 
-This still has the non-determinism problem if file is disabled in
-PACKAGECONFIG.
-
-If the configure.ac doesn't have options but is doing standard
-AC_CHECK_HEADERS or similar then you can preseed the autoconf cache values,
-grepping oe-core or ac_cv_ will find plenty of prior art.
-
-Ross
-
---001a11441c9ed9bd24053ce2288b
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 19 September 2016 at 21:22, Randy MacLeod <span dir=3D"ltr">&lt;<a href=
-=3D"mailto:Randy.MacLeod@windriver.com" target=3D"_blank">Randy.MacLeod@win=
-driver.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=
-=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=
-=3D":st" class=3D"a3s aXjCH m1574420652c04a87">+PACKAGECONFIG ??=3D &quot;f=
-ile&quot;<br>
-+PACKAGECONFIG[file] =3D &#39;,,file&#39;<br></div></blockquote></div><br>T=
-his still has the non-determinism problem if file is disabled in PACKAGECON=
-FIG.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">I=
-f the <a href=3D"http://configure.ac">configure.ac</a> doesn&#39;t have opt=
-ions but is doing standard AC_CHECK_HEADERS or similar then you can preseed=
- the autoconf cache values, grepping oe-core or ac_cv_ will find plenty of =
-prior art.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_ex=
-tra">Ross</div></div>
-
---001a11441c9ed9bd24053ce2288b--
