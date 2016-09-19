@@ -1,33 +1,30 @@
-Return-Path: <Jackie.Huang@windriver.com>
+Return-Path: <Randy.MacLeod@windriver.com>
 Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id C3A3062135
+	by mail.openembedded.org (Postfix) with ESMTP id ADD9275C60
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Sep 2016 02:01:23 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u8J21N6s029988
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 18 Sep 2016 19:01:23 -0700
-Received: from ALA-MBA.corp.ad.wrs.com ([169.254.3.129]) by
-	ALA-HCB.corp.ad.wrs.com ([147.11.189.41]) with mapi id 14.03.0294.000;
-	Sun, 18 Sep 2016 19:01:22 -0700
-From: "Huang, Jie (Jackie)" <Jackie.Huang@windriver.com>
-To: "BURTON, ROSS" <ross.burton@intel.com>
-Thread-Topic: [OE-core] [PATCH] boost: add support for additional boost libs
-Thread-Index: AQHSDoBQeTndUx1EMUGlf9is8nznZ6CAFYnA
-Date: Mon, 19 Sep 2016 02:01:22 +0000
-Message-ID: <1B858668EC6A94408DCA5225FDFA85AA013A2D0ACC@ALA-MBA.corp.ad.wrs.com>
-References: <20160914050848.14612-1-jackie.huang@windriver.com>
-	<CAJTo0LY4n8WdBNAJkOco-ih1T5crmWOsHpeeHodW=-NFU=BsOA@mail.gmail.com>
-In-Reply-To: <CAJTo0LY4n8WdBNAJkOco-ih1T5crmWOsHpeeHodW=-NFU=BsOA@mail.gmail.com>
-Accept-Language: en-US, zh-CN
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [128.224.162.131]
+	Mon, 19 Sep 2016 02:32:29 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u8J2WSNL030902
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
+	Sun, 18 Sep 2016 19:32:28 -0700
+Received: from [172.25.44.6] (172.25.44.6) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.294.0;
+	Sun, 18 Sep 2016 19:32:26 -0700
+To: Christopher Larson <clarson@kergoth.com>
+References: <1474076227-17032-1-git-send-email-Randy.MacLeod@windriver.com>
+	<CABcZANk=aHGZVw5vnh5+KyQaxLa8=7NB2GuFt49P0B_hDyaXcQ@mail.gmail.com>
+From: Randy MacLeod <randy.macleod@windriver.com>
+Message-ID: <82ab3d71-56c0-44b8-a892-91cfc90c0330@windriver.com>
+Date: Sun, 18 Sep 2016 22:32:25 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.2.0
 MIME-Version: 1.0
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] boost: add support for additional boost libs
+In-Reply-To: <CABcZANk=aHGZVw5vnh5+KyQaxLa8=7NB2GuFt49P0B_hDyaXcQ@mail.gmail.com>
+X-Originating-IP: [172.25.44.6]
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] e2fsprogs: add packageconfig for -file-
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,127 +37,200 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 Sep 2016 02:01:26 -0000
-Content-Language: en-US
-Content-Type: multipart/alternative;
-	boundary="_000_1B858668EC6A94408DCA5225FDFA85AA013A2D0ACCALAMBAcorpadw_"
+X-List-Received-Date: Mon, 19 Sep 2016 02:32:29 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
 
---_000_1B858668EC6A94408DCA5225FDFA85AA013A2D0ACCALAMBAcorpadw_
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+On 2016-09-17 01:09 AM, Christopher Larson wrote:
+>
+> On Fri, Sep 16, 2016 at 6:37 PM, Randy MacLeod
+> <Randy.MacLeod@windriver.com <mailto:Randy.MacLeod@windriver.com>> wrote:
+>
+>     Without a packageconfig dependency for the file utility, there's
+>     a very rare compile faiure caused by a race where the magic.h
+>     header file is not found:
+>
+>      ../../../git/lib/support/plausible.c:33:19: fatal error: magic.h:
+>     No such file or directory
+>
+>     This file, plausible.c, is part of libsupport.a which is used by
+>     many binaries produced by the e2fsprogs package. plausible.c attempts
+>     to dynamically load libmagic.so if the e2fsprogs configure detects
+>     that magic was available. Adding the packageconfig will eliminate
+>     the build as well as the possible configure-time race condition.
+>
+>     Signed-off-by: Randy MacLeod <Randy.MacLeod@windriver.com
+>     <mailto:Randy.MacLeod@windriver.com>>
+>     ---
+>      meta/recipes-devtools/e2fsprogs/e2fsprogs_1.43.bb
+>     <http://e2fsprogs_1.43.bb> | 1 +
+>      1 file changed, 1 insertion(+)
+>
+>     diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.43.bb
+>     <http://e2fsprogs_1.43.bb>
+>     b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.43.bb
+>     <http://e2fsprogs_1.43.bb>
+>     index f4855bc..1707cb9 100644
+>     --- a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.43.bb
+>     <http://e2fsprogs_1.43.bb>
+>     +++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.43.bb
+>     <http://e2fsprogs_1.43.bb>
+>     @@ -23,6 +23,7 @@ EXTRA_OECONF += "--libdir=${base_libdir}
+>     --sbindir=${base_sbindir} \
+>      EXTRA_OECONF_darwin = "--libdir=${base_libdir}
+>     --sbindir=${base_sbindir} --enable-bsd-shlibs"
+>
+>      PACKAGECONFIG ??= ""
+>     +PACKAGECONFIG[file] = ',,file'
+>
+>
+> This isn’t going to be good enough. You aren’t explicitly
+> enabling/disabling the option, so it’ll still detect based on what’s in
+> the sysroot, so recipe build order will result in non-deterministic
+> behavior.
 
-Tm8sIHRoZXkgd2VyZSBza2lwcGVkIHVuZXhwZWN0ZWRseToNCg0Kd2FybmluZzogR3JhcGggbGli
-cmFyeSBkb2VzIG5vdCBjb250YWluIE1QSS1iYXNlZCBwYXJhbGxlbCBjb21wb25lbnRzLg0Kd2Fy
-bmluZzogc2tpcHBpbmcgb3B0aW9uYWwgTWVzc2FnZSBQYXNzaW5nIEludGVyZmFjZSAoTVBJKSBs
-aWJyYXJ5Lg0KDQpTb3JyeSB0aGF0IEkgZGlkbuKAmXQgbm90aWNlIHRoZXNlIHdhcm5pbmdzLCBJ
-IHdpbGwgZml4IHRoZW0gaW4gdjIgc28gdGhlc2UgcGFja2FnZXMNCnNob3VsZCBiZSBjcmVhdGVk
-Lg0KDQpUaGFua3MsDQpKYWNraWUNCg0KRnJvbTogQnVydG9uLCBSb3NzIFttYWlsdG86cm9zcy5i
-dXJ0b25AaW50ZWwuY29tXQ0KU2VudDogV2VkbmVzZGF5LCBTZXB0ZW1iZXIgMTQsIDIwMTYgODow
-NSBQTQ0KVG86IEh1YW5nLCBKaWUgKEphY2tpZSkNCkNjOiBPRS1jb3JlDQpTdWJqZWN0OiBSZTog
-W09FLWNvcmVdIFtQQVRDSF0gYm9vc3Q6IGFkZCBzdXBwb3J0IGZvciBhZGRpdGlvbmFsIGJvb3N0
-IGxpYnMNCg0KDQpPbiAxNCBTZXB0ZW1iZXIgMjAxNiBhdCAwNjowOCwgPGphY2tpZS5odWFuZ0B3
-aW5kcml2ZXIuY29tPG1haWx0bzpqYWNraWUuaHVhbmdAd2luZHJpdmVyLmNvbT4+IHdyb3RlOg0K
-KiBBZGRlZCBsaWJzOg0KICAtIGNvbnRhaW5lcg0KICAtIGNvbnRleHQNCiAgLSBjb3JvdXRpbmUN
-CiAgLSBleGNlcHRpb24NCiAgLSBncmFwaF9wYXJhbGxlbA0KICAtIGxvY2FsZQ0KICAtIG1hdGgN
-CiAgLSBtcGkNCiAgLSB3YXZlDQoNCkkgZG9uJ3Qgc2VlIHBhY2thZ2VzIGNyZWF0ZWQgZm9yIG1w
-aSwgZ3JhcGhfcGFyYWxsZWwgb3IgZXhjZXB0aW9uLiAgSXMgdGhpcyBpbnRlbnRpb25hbD8NCg0K
-Um9zcw0K
+Hi Christopher,
 
---_000_1B858668EC6A94408DCA5225FDFA85AA013A2D0ACCALAMBAcorpadw_
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: base64
+Thanks for the response but I don't understand.
+I'm probably wrong so please explain.
+It seems that you're suggesting that I add:
+  --with[out]-magic to e2fsprogs configure, and while
+I could do that, it does not seem to be needed.
 
-PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
-bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
-YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
-cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
-VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
-Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
-ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTQgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
-PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
-5a6L5L2TOw0KCXBhbm9zZS0xOjIgMSA2IDAgMyAxIDEgMSAxIDE7fQ0KQGZvbnQtZmFjZQ0KCXtm
-b250LWZhbWlseTrlrovkvZM7DQoJcGFub3NlLTE6MiAxIDYgMCAzIDEgMSAxIDEgMTt9DQpAZm9u
-dC1mYWNlDQoJe2ZvbnQtZmFtaWx5OkNhbGlicmk7DQoJcGFub3NlLTE6MiAxNSA1IDIgMiAyIDQg
-MyAyIDQ7fQ0KQGZvbnQtZmFjZQ0KCXtmb250LWZhbWlseTpUYWhvbWE7DQoJcGFub3NlLTE6MiAx
-MSA2IDQgMyA1IDQgNCAyIDQ7fQ0KQGZvbnQtZmFjZQ0KCXtmb250LWZhbWlseToiXEDlrovkvZMi
-Ow0KCXBhbm9zZS0xOjIgMSA2IDAgMyAxIDEgMSAxIDE7fQ0KLyogU3R5bGUgRGVmaW5pdGlvbnMg
-Ki8NCnAuTXNvTm9ybWFsLCBsaS5Nc29Ob3JtYWwsIGRpdi5Nc29Ob3JtYWwNCgl7bWFyZ2luOjBp
-bjsNCgltYXJnaW4tYm90dG9tOi4wMDAxcHQ7DQoJZm9udC1zaXplOjEyLjBwdDsNCglmb250LWZh
-bWlseToiVGltZXMgTmV3IFJvbWFuIiwic2VyaWYiO30NCmE6bGluaywgc3Bhbi5Nc29IeXBlcmxp
-bmsNCgl7bXNvLXN0eWxlLXByaW9yaXR5Ojk5Ow0KCWNvbG9yOmJsdWU7DQoJdGV4dC1kZWNvcmF0
-aW9uOnVuZGVybGluZTt9DQphOnZpc2l0ZWQsIHNwYW4uTXNvSHlwZXJsaW5rRm9sbG93ZWQNCgl7
-bXNvLXN0eWxlLXByaW9yaXR5Ojk5Ow0KCWNvbG9yOnB1cnBsZTsNCgl0ZXh0LWRlY29yYXRpb246
-dW5kZXJsaW5lO30NCnNwYW4uRW1haWxTdHlsZTE3DQoJe21zby1zdHlsZS10eXBlOnBlcnNvbmFs
-LXJlcGx5Ow0KCWZvbnQtZmFtaWx5OiJDYWxpYnJpIiwic2Fucy1zZXJpZiI7DQoJY29sb3I6IzFG
-NDk3RDt9DQouTXNvQ2hwRGVmYXVsdA0KCXttc28tc3R5bGUtdHlwZTpleHBvcnQtb25seTsNCglm
-b250LWZhbWlseToiQ2FsaWJyaSIsInNhbnMtc2VyaWYiO30NCkBwYWdlIFdvcmRTZWN0aW9uMQ0K
-CXtzaXplOjguNWluIDExLjBpbjsNCgltYXJnaW46MS4waW4gMS4yNWluIDEuMGluIDEuMjVpbjt9
-DQpkaXYuV29yZFNlY3Rpb24xDQoJe3BhZ2U6V29yZFNlY3Rpb24xO30NCi0tPjwvc3R5bGU+PCEt
-LVtpZiBndGUgbXNvIDldPjx4bWw+DQo8bzpzaGFwZWRlZmF1bHRzIHY6ZXh0PSJlZGl0IiBzcGlk
-bWF4PSIxMDI2IiAvPg0KPC94bWw+PCFbZW5kaWZdLS0+PCEtLVtpZiBndGUgbXNvIDldPjx4bWw+
-DQo8bzpzaGFwZWxheW91dCB2OmV4dD0iZWRpdCI+DQo8bzppZG1hcCB2OmV4dD0iZWRpdCIgZGF0
-YT0iMSIgLz4NCjwvbzpzaGFwZWxheW91dD48L3htbD48IVtlbmRpZl0tLT4NCjwvaGVhZD4NCjxi
-b2R5IGxhbmc9IkVOLVVTIiBsaW5rPSJibHVlIiB2bGluaz0icHVycGxlIj4NCjxkaXYgY2xhc3M9
-IldvcmRTZWN0aW9uMSI+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0iZm9udC1z
-aXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LCZxdW90O3NhbnMtc2Vy
-aWYmcXVvdDs7Y29sb3I6IzFGNDk3RCI+Tm8sIHRoZXkgd2VyZSBza2lwcGVkIHVuZXhwZWN0ZWRs
-eTo8bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHls
-ZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LCZxdW90
-O3NhbnMtc2VyaWYmcXVvdDs7Y29sb3I6IzFGNDk3RCI+PG86cD4mbmJzcDs8L286cD48L3NwYW4+
-PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7
-Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OywmcXVvdDtzYW5zLXNlcmlmJnF1b3Q7O2Nv
-bG9yOiMxRjQ5N0QiPndhcm5pbmc6IEdyYXBoIGxpYnJhcnkgZG9lcyBub3QgY29udGFpbiBNUEkt
-YmFzZWQgcGFyYWxsZWwgY29tcG9uZW50cy48bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFz
-cz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTom
-cXVvdDtDYWxpYnJpJnF1b3Q7LCZxdW90O3NhbnMtc2VyaWYmcXVvdDs7Y29sb3I6IzFGNDk3RCI+
-d2FybmluZzogc2tpcHBpbmcgb3B0aW9uYWwgTWVzc2FnZSBQYXNzaW5nIEludGVyZmFjZSAoTVBJ
-KSBsaWJyYXJ5LjxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxz
-cGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVv
-dDssJnF1b3Q7c2Fucy1zZXJpZiZxdW90Oztjb2xvcjojMUY0OTdEIj48bzpwPiZuYnNwOzwvbzpw
-Pjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0iZm9udC1zaXpl
-OjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LCZxdW90O3NhbnMtc2VyaWYm
-cXVvdDs7Y29sb3I6IzFGNDk3RCI+U29ycnkgdGhhdCBJIGRpZG7igJl0IG5vdGljZSB0aGVzZSB3
-YXJuaW5ncywgSSB3aWxsIGZpeCB0aGVtIGluIHYyIHNvIHRoZXNlIHBhY2thZ2VzPG86cD48L286
-cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6
-ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OywmcXVvdDtzYW5zLXNlcmlm
-JnF1b3Q7O2NvbG9yOiMxRjQ5N0QiPnNob3VsZCBiZSBjcmVhdGVkLjxvOnA+PC9vOnA+PC9zcGFu
-PjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0
-O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssJnF1b3Q7c2Fucy1zZXJpZiZxdW90Oztj
-b2xvcjojMUY0OTdEIj48bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNv
-Tm9ybWFsIj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtD
-YWxpYnJpJnF1b3Q7LCZxdW90O3NhbnMtc2VyaWYmcXVvdDs7Y29sb3I6IzFGNDk3RCI+VGhhbmtz
-LDxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxl
-PSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssJnF1b3Q7
-c2Fucy1zZXJpZiZxdW90Oztjb2xvcjojMUY0OTdEIj5KYWNraWU8bzpwPjwvbzpwPjwvc3Bhbj48
-L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtm
-b250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LCZxdW90O3NhbnMtc2VyaWYmcXVvdDs7Y29s
-b3I6IzFGNDk3RCI+PG86cD4mbmJzcDs8L286cD48L3NwYW4+PC9wPg0KPGRpdiBzdHlsZT0iYm9y
-ZGVyOm5vbmU7Ym9yZGVyLWxlZnQ6c29saWQgYmx1ZSAxLjVwdDtwYWRkaW5nOjBpbiAwaW4gMGlu
-IDQuMHB0Ij4NCjxkaXY+DQo8ZGl2IHN0eWxlPSJib3JkZXI6bm9uZTtib3JkZXItdG9wOnNvbGlk
-ICNCNUM0REYgMS4wcHQ7cGFkZGluZzozLjBwdCAwaW4gMGluIDBpbiI+DQo8cCBjbGFzcz0iTXNv
-Tm9ybWFsIj48Yj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjEwLjBwdDtmb250LWZhbWlseTomcXVv
-dDtUYWhvbWEmcXVvdDssJnF1b3Q7c2Fucy1zZXJpZiZxdW90OyI+RnJvbTo8L3NwYW4+PC9iPjxz
-cGFuIHN0eWxlPSJmb250LXNpemU6MTAuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O1RhaG9tYSZxdW90
-OywmcXVvdDtzYW5zLXNlcmlmJnF1b3Q7Ij4gQnVydG9uLCBSb3NzIFttYWlsdG86cm9zcy5idXJ0
-b25AaW50ZWwuY29tXQ0KPGJyPg0KPGI+U2VudDo8L2I+IFdlZG5lc2RheSwgU2VwdGVtYmVyIDE0
-LCAyMDE2IDg6MDUgUE08YnI+DQo8Yj5Ubzo8L2I+IEh1YW5nLCBKaWUgKEphY2tpZSk8YnI+DQo8
-Yj5DYzo8L2I+IE9FLWNvcmU8YnI+DQo8Yj5TdWJqZWN0OjwvYj4gUmU6IFtPRS1jb3JlXSBbUEFU
-Q0hdIGJvb3N0OiBhZGQgc3VwcG9ydCBmb3IgYWRkaXRpb25hbCBib29zdCBsaWJzPG86cD48L286
-cD48L3NwYW4+PC9wPg0KPC9kaXY+DQo8L2Rpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxvOnA+
-Jm5ic3A7PC9vOnA+PC9wPg0KPGRpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48bzpw
-PiZuYnNwOzwvbzpwPjwvcD4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj5PbiAxNCBTZXB0
-ZW1iZXIgMjAxNiBhdCAwNjowOCwgJmx0OzxhIGhyZWY9Im1haWx0bzpqYWNraWUuaHVhbmdAd2lu
-ZHJpdmVyLmNvbSIgdGFyZ2V0PSJfYmxhbmsiPmphY2tpZS5odWFuZ0B3aW5kcml2ZXIuY29tPC9h
-PiZndDsgd3JvdGU6PG86cD48L286cD48L3A+DQo8ZGl2IGlkPSI6MnZtIj4NCjxwIGNsYXNzPSJN
-c29Ob3JtYWwiPiogQWRkZWQgbGliczo8YnI+DQombmJzcDsgLSBjb250YWluZXI8YnI+DQombmJz
-cDsgLSBjb250ZXh0PGJyPg0KJm5ic3A7IC0gY29yb3V0aW5lPGJyPg0KJm5ic3A7IC0gZXhjZXB0
-aW9uPGJyPg0KJm5ic3A7IC0gZ3JhcGhfcGFyYWxsZWw8YnI+DQombmJzcDsgLSBsb2NhbGU8YnI+
-DQombmJzcDsgLSBtYXRoPGJyPg0KJm5ic3A7IC0gbXBpPGJyPg0KJm5ic3A7IC0gd2F2ZTxvOnA+
-PC9vOnA+PC9wPg0KPC9kaXY+DQo8L2Rpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxicj4NCkkg
-ZG9uJ3Qgc2VlIHBhY2thZ2VzIGNyZWF0ZWQgZm9yIG1waSwgZ3JhcGhfcGFyYWxsZWwgb3IgZXhj
-ZXB0aW9uLiZuYnNwOyBJcyB0aGlzIGludGVudGlvbmFsPzxvOnA+PC9vOnA+PC9wPg0KPC9kaXY+
-DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PG86cD4mbmJzcDs8L286cD48L3A+DQo8L2Rp
-dj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj5Sb3NzPG86cD48L286cD48L3A+DQo8L2Rp
-dj4NCjwvZGl2Pg0KPC9kaXY+DQo8L2Rpdj4NCjwvYm9keT4NCjwvaHRtbD4NCg==
 
---_000_1B858668EC6A94408DCA5225FDFA85AA013A2D0ACCALAMBAcorpadw_--
+Short response:
+
+   This change forces 'file' to be built before e2fsprogs if 'file'
+   is present in the image or world build. Then e2fsprogs will
+   detect magic.h,libmagic.so and  the race is eliminated.
+
+
+
+The details:
+
+Note, that I thought this was a rare race condition but
+it showed up again yesterday in a work-related build.
+
+It seems to work when I tested it and there are
+several other examples of using:
+    PACKAGECONFIG[foo] = ",,foo,"
+such as:
+    meta/recipes-devtools/python/python-smartpm_git.bb
+
+    GTK_RDEP = "${PN}-interface-gtk"
+    ...
+    PACKAGECONFIG[gtk] = ",,gtk+,${GTK_RDEP}"
+
+and 38 others:
+$ grep -r PACKAGECONFIG meta/recipes* | \
+      grep ",,"| grep -v with | grep -v ",,," | wc -l
+38
+
+Also from:
+    meta/classes/base.bbclass
+The PACKAGEDEPENDS handling code looks at:
+
+         for flag, flagval in sorted(pkgconfigflags.items()):
+             items = flagval.split(",")
+             num = len(items)
+             if num > 4:
+                 ...
+
+             if flag in pkgconfig:
+                 if num >= 3 and items[2]:
+                     extradeps.append(items[2])
+
+In my case, num = 3 and file gets added to the depends
+and therefore built first. Then when e2fsprogs is built,
+the configure script auto-detects that file and libmagic
+are present (without risk of a race) and sets the magic flags
+as shown below. If there were a configure flag, I'd be happy
+to use it but from e2fsprogs's configure.ac:
+
+dnl
+dnl See if libmagic exists
+dnl
+AC_CHECK_LIB(magic, magic_file, [MAGIC_LIB=-lmagic
+AC_CHECK_HEADERS([magic.h])])
+if test "$ac_cv_func_dlopen" = yes ; then
+    MAGIC_LIB=$DLOPEN_LIB
+fi
+AC_SUBST(MAGIC_LIB)
+dnl
+
+so even with my limited exposure to the autotools syntax,
+it seems like there's no: --with[out]-libmagic=yes option, right?
+
+Some logs:
+
+# No patch:
+$ grep -i magic /tmp/e2fsprogs-no-patch-cleanall-file-config.log
+
+configure:13035: checking for magic_file in -lmagic
+configure:13060: x86_64-oe-linux-gcc  <flags> \
+    conftest.c -lmagic  -lblkid  >&5
+/.../tmp-glibc/sysroots/x86_64-linux/usr/libexec/x86_64-oe-linux/gcc/x86_64-oe-linux/6.2.0/ld: 
+cannot find -lmagic
+| char magic_file ();
+| return magic_file ();
+ac_cv_lib_magic_magic_file=no
+MAGIC_LIB='-ldl'
+
+# with patch:
+$ grep -i magic /tmp/e2fsprogs-with-patch-cim-config.log
+g'
+configure:13035: checking for magic_file in -lmagic
+configure:13060: x86_64-oe-linux-gcc <flags> \
+     conftest.c -lmagic  -lblkid  >&5
+configure:13075: checking magic.h usability
+configure:13075: checking magic.h presence
+configure:13075: checking for magic.h
+| #define HAVE_MAGIC_H 1
+ac_cv_header_magic_h=yes
+ac_cv_lib_magic_magic_file=yes
+MAGIC_LIB='-ldl'
+#define HAVE_MAGIC_H 1
+
+Granted this doens't prove that the race went away.
+[1]
+
+
+$ cd .../e2fsprogs.git
+$ git pull
+$ grep magic ./configure
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for magic_file in 
+-lmagic" >&5
+$as_echo_n "checking for magic_file in -lmagic... " >&6; }
+if ${ac_cv_lib_magic_magic_file+:} false; then :
+LIBS="-lmagic  $LIBS"
+char magic_file ();
+return magic_file ();
+   ac_cv_lib_magic_magic_file=yes
+   ac_cv_lib_magic_magic_file=no
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: 
+$ac_cv_lib_magic_magic_file" >&5
+$as_echo "$ac_cv_lib_magic_magic_file" >&6; }
+if test "x$ac_cv_lib_magic_magic_file" = xyes; then :
+   MAGIC_LIB=-lmagic
+for ac_header in magic.h
+   ac_fn_c_check_header_mongrel "$LINENO" "magic.h" 
+"ac_cv_header_magic_h" "$ac_includes_default"
+if test "x$ac_cv_header_magic_h" = xyes; then :
+
+
+Thanks,
+../Randy 'often knows how to spell bitbake' MacLeod
+
+> --
+> Christopher Larson
+> clarson at kergoth dot com
+> Founder - BitBake, OpenEmbedded, OpenZaurus
+> Maintainer - Tslib
+> Senior Software Engineer, Mentor Graphics
+
+
+-- 
+# Randy MacLeod. SMTS, Linux, Wind River
+Direct: 613.963.1350 | 350 Terry Fox Drive, Suite 200, Ottawa, ON, 
+Canada, K2K 2W5
+
