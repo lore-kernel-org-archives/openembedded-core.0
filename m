@@ -1,23 +1,55 @@
-Return-Path: <Zubair.Kakakhel@imgtec.com>
-Received: from mailapp01.imgtec.com (mailapp01.imgtec.com [195.59.15.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 6AF0460557
+Return-Path: <peter.kjellerstedt@axis.com>
+Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 4CE00600B3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Sep 2016 11:14:50 +0000 (UTC)
-Received: from HHMAIL01.hh.imgtec.org (unknown [10.100.10.19])
-	by Forcepoint Email with ESMTPS id 363B1AF4FFEA8
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Sep 2016 12:14:35 +0100 (IST)
-Received: from zkakakhel-linux.le.imgtec.org (192.168.154.45) by
-	HHMAIL01.hh.imgtec.org (10.100.10.21) with Microsoft SMTP Server (TLS)
-	id 14.3.294.0; Mon, 19 Sep 2016 12:14:37 +0100
-From: Zubair Lutfullah Kakakhel <Zubair.Kakakhel@imgtec.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 19 Sep 2016 12:14:33 +0100
-Message-ID: <1474283673-48449-1-git-send-email-Zubair.Kakakhel@imgtec.com>
-X-Mailer: git-send-email 1.9.1
+	Mon, 19 Sep 2016 11:57:14 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bastet.se.axis.com (Postfix) with ESMTP id A812318122;
+	Mon, 19 Sep 2016 13:57:14 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
+Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024)
+	with LMTP id 28Jsb-wYBxAq; Mon, 19 Sep 2016 13:57:10 +0200 (CEST)
+Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
+	by bastet.se.axis.com (Postfix) with ESMTPS id 3284D180F0;
+	Mon, 19 Sep 2016 13:57:10 +0200 (CEST)
+Received: from boulder02.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 1F5F41A081;
+	Mon, 19 Sep 2016 13:57:10 +0200 (CEST)
+Received: from boulder02.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 142151A073;
+	Mon, 19 Sep 2016 13:57:10 +0200 (CEST)
+Received: from thoth.se.axis.com (unknown [10.0.2.173])
+	by boulder02.se.axis.com (Postfix) with ESMTP;
+	Mon, 19 Sep 2016 13:57:10 +0200 (CEST)
+Received: from XBOX01.axis.com (xbox01.axis.com [10.0.5.15])
+	by thoth.se.axis.com (Postfix) with ESMTP id 088A5331;
+	Mon, 19 Sep 2016 13:57:10 +0200 (CEST)
+Received: from XBOX02.axis.com (10.0.5.16) by XBOX01.axis.com (10.0.5.15) with
+	Microsoft SMTP Server (TLS) id 15.0.1210.3;
+	Mon, 19 Sep 2016 13:57:09 +0200
+Received: from XBOX02.axis.com ([fe80::d00f:cb52:1b56:20d]) by XBOX02.axis.com
+	([fe80::d00f:cb52:1b56:20d%21]) with mapi id 15.00.1156.000;
+	Mon, 19 Sep 2016 13:57:09 +0200
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: "zhe.he@windriver.com" <zhe.he@windriver.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core]  [PATCH] bash2dash conversion
+Thread-Index: AQHSEVfZy0/YGz+VCUW52cvxEs5KpaCAbQIA
+Date: Mon, 19 Sep 2016 11:57:09 +0000
+Message-ID: <7a584ad0d258491383c4ea32d530c3be@XBOX02.axis.com>
+References: <1474167109-6666-1-git-send-email-zhe.he@windriver.com>
+In-Reply-To: <1474167109-6666-1-git-send-email-zhe.he@windriver.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.0.5.60]
 MIME-Version: 1.0
-X-Originating-IP: [192.168.154.45]
-Subject: [Patch] arch-mips: Restructure mips64 and add mips64r2
+X-TM-AS-GCONF: 00
+Subject: Re: [PATCH] bash2dash conversion
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,302 +62,122 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 Sep 2016 11:14:50 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 19 Sep 2016 11:57:16 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-The current file structure felt slightly unsuitable for adding
-MIPS64r2. So I restructured it slightly and added MIPS64r2
-support
+> -----Original Message-----
+> From: openembedded-core-bounces@lists.openembedded.org
+> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
+> zhe.he@windriver.com
+> Sent: den 18 september 2016 04:52
+> To: openembedded-core@lists.openembedded.org
+> Subject: [OE-core] [PATCH] bash2dash conversion
+                             ^^^^^^^^^
+Typically this is referred to as "Remove bashisms"...
 
-Signed-off-by: Zubair Lutfullah Kakakhel <Zubair.Kakakhel@imgtec.com>
----
- meta/conf/machine/include/mips/arch-mips.inc | 60 --------------------
- meta/conf/machine/include/tune-mips32.inc    | 22 +++++++-
- meta/conf/machine/include/tune-mips64.inc    | 80 +++++++++++++++++++++++++-
- meta/conf/machine/include/tune-mips64r2.inc  | 84 ++++++++++++++++++++++++++++
- 4 files changed, 184 insertions(+), 62 deletions(-)
- create mode 100644 meta/conf/machine/include/tune-mips64r2.inc
+> From: "Tim K. Chan" <nirvanatk@gmail.com>
+>=20
+> Change bash style to dash style
+>=20
+> Signed-off-by: Tim K. Chan <nirvanatk@gmail.com>
+> [Adjust context]
+> Signed-off-by: He Zhe <zhe.he@windriver.com>
+> ---
+>  meta/classes/systemd.bbclass                            |  4 ++--
+>  meta/classes/update-rc.d.bbclass                        |  6 +++---
+>  meta/classes/useradd_base.bbclass                       |  4 ++--
+>  meta/recipes-connectivity/resolvconf/resolvconf_1.79.bb |  2 +-
+>  meta/recipes-core/glibc/glibc-package.inc               |  2 +-
+>  meta/recipes-devtools/guile/guile_2.0.12.bb             |  6 ++++--
+>  meta/recipes-devtools/rpm/rpm_5.4.16.bb                 | 13 +++++++++++=
+--
+>  7 files changed, 24 insertions(+), 13 deletions(-)
 
-diff --git a/meta/conf/machine/include/mips/arch-mips.inc b/meta/conf/machine/include/mips/arch-mips.inc
-index d3e83d1..6be84be 100644
---- a/meta/conf/machine/include/mips/arch-mips.inc
-+++ b/meta/conf/machine/include/mips/arch-mips.inc
-@@ -42,64 +42,4 @@ MIPSPKGSFX_ABI = "${@bb.utils.contains('TUNE_FEATURES', 'n32', '-n32', '', d)}"
- TUNE_ARCH = "mips${MIPSPKGSFX_BYTE}${MIPSPKGSFX_ENDIAN}"
- TUNE_PKGARCH = "${MIPSPKGSFX_VARIANT_tune-${DEFAULTTUNE}}${MIPSPKGSFX_FPU}${MIPSPKGSFX_ABI}"
- 
--# Base tunes
--AVAILTUNES += "mips mips64-n32 mips64 mipsel mips64el-n32 mips64el mips-nf mips64-nf-n32 mips64-nf mipsel-nf mips64el-nf-n32 mips64el-nf"
--TUNE_FEATURES_tune-mips = "o32 bigendian fpu-hard"
--BASE_LIB_tune-mips = "lib"
--MIPSPKGSFX_VARIANT_tune-mips = "${TUNE_ARCH}"
--PACKAGE_EXTRA_ARCHS_tune-mips = "mips"
- 
--TUNE_FEATURES_tune-mips64-n32 = "n32 bigendian fpu-hard"
--BASE_LIB_tune-mips64-n32 = "lib32"
--MIPSPKGSFX_VARIANT_tune-mips64-n32 = "${TUNE_ARCH}"
--PACKAGE_EXTRA_ARCHS_tune-mips64-n32 = "mips64-n32"
--
--TUNE_FEATURES_tune-mips64 = "n64 bigendian fpu-hard"
--BASE_LIB_tune-mips64 = "lib64"
--MIPSPKGSFX_VARIANT_tune-mips64 = "${TUNE_ARCH}"
--PACKAGE_EXTRA_ARCHS_tune-mips64 = "mips64"
--
--TUNE_FEATURES_tune-mipsel = "o32 fpu-hard"
--BASE_LIB_tune-mipsel = "lib"
--MIPSPKGSFX_VARIANT_tune-mipsel = "${TUNE_ARCH}"
--PACKAGE_EXTRA_ARCHS_tune-mipsel = "mipsel"
--
--TUNE_FEATURES_tune-mips64el-n32 = "n32 fpu-hard"
--BASE_LIB_tune-mips64el-n32 = "lib32"
--MIPSPKGSFX_VARIANT_tune-mips64el-n32 = "${TUNE_ARCH}"
--PACKAGE_EXTRA_ARCHS_tune-mips64el-n32 = "mips64el-n32"
--
--TUNE_FEATURES_tune-mips64el = "n64 fpu-hard"
--BASE_LIB_tune-mips64el = "lib64"
--MIPSPKGSFX_VARIANT_tune-mips64el = "${TUNE_ARCH}"
--PACKAGE_EXTRA_ARCHS_tune-mips64el = "mips64el"
--
--TUNE_FEATURES_tune-mips-nf = "o32 bigendian"
--BASE_LIB_tune-mips-nf = "lib"
--MIPSPKGSFX_VARIANT_tune-mips-nf = "${TUNE_ARCH}"
--PACKAGE_EXTRA_ARCHS_tune-mips-nf = "mips-nf"
--
--TUNE_FEATURES_tune-mips64-nf-n32 = "n32 bigendian"
--BASE_LIB_tune-mips64-nf-n32 = "lib32"
--MIPSPKGSFX_VARIANT_tune-mips64-nf-n32 = "${TUNE_ARCH}"
--PACKAGE_EXTRA_ARCHS_tune-mips64-nf-n32 = "mips64-nf-n32"
--
--TUNE_FEATURES_tune-mips64-nf = "n64 bigendian"
--BASE_LIB_tune-mips64-nf = "lib64"
--MIPSPKGSFX_VARIANT_tune-mips64-nf = "${TUNE_ARCH}"
--PACKAGE_EXTRA_ARCHS_tune-mips64-nf = "mips64-nf"
--
--TUNE_FEATURES_tune-mipsel-nf = "o32"
--BASE_LIB_tune-mipsel-nf = "lib"
--MIPSPKGSFX_VARIANT_tune-mipsel-nf = "${TUNE_ARCH}"
--PACKAGE_EXTRA_ARCHS_tune-mipsel-nf = "mipsel-nf"
--
--TUNE_FEATURES_tune-mips64el-nf-n32 = "n32"
--BASE_LIB_tune-mips64el-nf-n32 = "lib32"
--MIPSPKGSFX_VARIANT_tune-mips64el-nf-n32 = "${TUNE_ARCH}"
--PACKAGE_EXTRA_ARCHS_tune-mips64el-nf-n32 = "mips64el-nf-n32"
--
--TUNE_FEATURES_tune-mips64el-nf = "n64"
--BASE_LIB_tune-mips64el-nf = "lib64"
--MIPSPKGSFX_VARIANT_tune-mips64el-nf = "${TUNE_ARCH}"
--PACKAGE_EXTRA_ARCHS_tune-mips64el-nf = "mips64el-nf"
-diff --git a/meta/conf/machine/include/tune-mips32.inc b/meta/conf/machine/include/tune-mips32.inc
-index ce0445f..4c3d93f 100644
---- a/meta/conf/machine/include/tune-mips32.inc
-+++ b/meta/conf/machine/include/tune-mips32.inc
-@@ -6,7 +6,27 @@ TUNEVALID[mips32] = "Enable mips32 specific processor optimizations"
- TUNECONFLICTS[mips32] = "n64 n32"
- TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'mips32', ' -march=mips32', '', d)}"
- 
--AVAILTUNES += "mips32 mips32el mips32-nf mips32el-nf"
-+AVAILTUNES += "mips mipsel mips-nf mipsel-nf mips32 mips32el mips32-nf mips32el-nf"
-+
-+TUNE_FEATURES_tune-mips = "o32 bigendian fpu-hard"
-+BASE_LIB_tune-mips = "lib"
-+MIPSPKGSFX_VARIANT_tune-mips = "${TUNE_ARCH}"
-+PACKAGE_EXTRA_ARCHS_tune-mips = "mips"
-+
-+TUNE_FEATURES_tune-mipsel = "o32 fpu-hard"
-+BASE_LIB_tune-mipsel = "lib"
-+MIPSPKGSFX_VARIANT_tune-mipsel = "${TUNE_ARCH}"
-+PACKAGE_EXTRA_ARCHS_tune-mipsel = "mipsel"
-+
-+TUNE_FEATURES_tune-mips-nf = "o32 bigendian"
-+BASE_LIB_tune-mips-nf = "lib"
-+MIPSPKGSFX_VARIANT_tune-mips-nf = "${TUNE_ARCH}"
-+PACKAGE_EXTRA_ARCHS_tune-mips-nf = "mips-nf"
-+
-+TUNE_FEATURES_tune-mipsel-nf = "o32"
-+BASE_LIB_tune-mipsel-nf = "lib"
-+MIPSPKGSFX_VARIANT_tune-mipsel-nf = "${TUNE_ARCH}"
-+PACKAGE_EXTRA_ARCHS_tune-mipsel-nf = "mipsel-nf"
- 
- TUNE_FEATURES_tune-mips32 = "${TUNE_FEATURES_tune-mips} mips32"
- MIPSPKGSFX_VARIANT_tune-mips32 = "mips32"
-diff --git a/meta/conf/machine/include/tune-mips64.inc b/meta/conf/machine/include/tune-mips64.inc
-index 9be0e0f..e0c9d2c 100644
---- a/meta/conf/machine/include/tune-mips64.inc
-+++ b/meta/conf/machine/include/tune-mips64.inc
-@@ -1,3 +1,81 @@
- DEFAULTTUNE ?= "mips64"
- 
--require conf/machine/include/tune-mips32r2.inc
-+require conf/machine/include/mips/arch-mips.inc
-+
-+# Base tunes
-+AVAILTUNES += "mips64 mips64el"
-+
-+TUNE_FEATURES_tune-mips64 = "n64 bigendian fpu-hard"
-+BASE_LIB_tune-mips64 = "lib64"
-+MIPSPKGSFX_VARIANT_tune-mips64 = "${TUNE_ARCH}"
-+PACKAGE_EXTRA_ARCHS_tune-mips64 = "mips64"
-+
-+TUNE_FEATURES_tune-mips64el = "n64 fpu-hard"
-+BASE_LIB_tune-mips64el = "lib64"
-+MIPSPKGSFX_VARIANT_tune-mips64el = "${TUNE_ARCH}"
-+PACKAGE_EXTRA_ARCHS_tune-mips64el = "mips64el"
-+
-+# MIPS 64 Soft Float
-+AVAILTUNES += "mips64-nf mips64el-nf"
-+
-+TUNE_FEATURES_tune-mips64-nf = "n64 bigendian"
-+BASE_LIB_tune-mips64-nf = "lib64"
-+MIPSPKGSFX_VARIANT_tune-mips64-nf = "${TUNE_ARCH}"
-+PACKAGE_EXTRA_ARCHS_tune-mips64-nf = "mips64-nf"
-+
-+TUNE_FEATURES_tune-mips64el-nf = "n64"
-+BASE_LIB_tune-mips64el-nf = "lib64"
-+MIPSPKGSFX_VARIANT_tune-mips64el-nf = "${TUNE_ARCH}"
-+PACKAGE_EXTRA_ARCHS_tune-mips64el-nf = "mips64el-nf"
-+
-+# MIPS 64 n32
-+AVAILTUNES += "mips64-n32 mips64el-n32"
-+
-+TUNE_FEATURES_tune-mips64-n32 = "n32 bigendian fpu-hard"
-+BASE_LIB_tune-mips64-n32 = "lib32"
-+MIPSPKGSFX_VARIANT_tune-mips64-n32 = "${TUNE_ARCH}"
-+PACKAGE_EXTRA_ARCHS_tune-mips64-n32 = "mips64-n32"
-+
-+TUNE_FEATURES_tune-mips64el-n32 = "n32 fpu-hard"
-+BASE_LIB_tune-mips64el-n32 = "lib32"
-+MIPSPKGSFX_VARIANT_tune-mips64el-n32 = "${TUNE_ARCH}"
-+PACKAGE_EXTRA_ARCHS_tune-mips64el-n32 = "mips64el-n32"
-+
-+# MIPS 64 n32 and Soft Float
-+AVAILTUNES += "mips64-nf-n32 mips64el-nf-n32"
-+
-+TUNE_FEATURES_tune-mips64-nf-n32 = "n32 bigendian"
-+BASE_LIB_tune-mips64-nf-n32 = "lib32"
-+MIPSPKGSFX_VARIANT_tune-mips64-nf-n32 = "${TUNE_ARCH}"
-+PACKAGE_EXTRA_ARCHS_tune-mips64-nf-n32 = "mips64-nf-n32"
-+
-+TUNE_FEATURES_tune-mips64el-nf-n32 = "n32"
-+BASE_LIB_tune-mips64el-nf-n32 = "lib32"
-+MIPSPKGSFX_VARIANT_tune-mips64el-nf-n32 = "${TUNE_ARCH}"
-+PACKAGE_EXTRA_ARCHS_tune-mips64el-nf-n32 = "mips64el-nf-n32"
-+
-+# MIPS 64 o32
-+AVAILTUNES += "mips64-o32 mips64el-o32"
-+
-+TUNE_FEATURES_tune-mips64-o32 = "o32 bigendian fpu-hard"
-+BASE_LIB_tune-mips64-o32 = "lib32"
-+MIPSPKGSFX_VARIANT_tune-mips64-o32 = "${TUNE_ARCH}"
-+PACKAGE_EXTRA_ARCHS_tune-mips64-o32 = "mips64-o32"
-+
-+TUNE_FEATURES_tune-mips64el-o32 = "o32 fpu-hard"
-+BASE_LIB_tune-mips64el-o32 = "lib32"
-+MIPSPKGSFX_VARIANT_tune-mips64el-o32 = "${TUNE_ARCH}"
-+PACKAGE_EXTRA_ARCHS_tune-mips64el-o32 = "mips64el-o32"
-+
-+# MIPS 64 o32 and Soft Float
-+AVAILTUNES += "mips64-nf-o32 mips64el-nf-o32"
-+
-+TUNE_FEATURES_tune-mips64-nf-o32 = "o32 bigendian"
-+BASE_LIB_tune-mips64-nf-o32 = "lib32"
-+MIPSPKGSFX_VARIANT_tune-mips64-nf-o32 = "${TUNE_ARCH}"
-+PACKAGE_EXTRA_ARCHS_tune-mips64-nf-o32 = "mips64-nf-o32"
-+
-+TUNE_FEATURES_tune-mips64el-nf-o32 = "o32"
-+BASE_LIB_tune-mips64el-nf-o32 = "lib32"
-+MIPSPKGSFX_VARIANT_tune-mips64el-nf-o32 = "${TUNE_ARCH}"
-+PACKAGE_EXTRA_ARCHS_tune-mips64el-nf-o32 = "mips64el-nf-o32"
-diff --git a/meta/conf/machine/include/tune-mips64r2.inc b/meta/conf/machine/include/tune-mips64r2.inc
-new file mode 100644
-index 0000000..f64983d
---- /dev/null
-+++ b/meta/conf/machine/include/tune-mips64r2.inc
-@@ -0,0 +1,84 @@
-+DEFAULTTUNE ?= "mips64r2"
-+
-+require conf/machine/include/tune-mips64.inc
-+
-+TUNEVALID[mips64r2] = "Enable mips64r2 specific processor optimizations"
-+TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'mips64r2', ' -march=mips64r2', '', d)}"
-+
-+# Base tunes
-+AVAILTUNES += "mips64r2 mips64r2el"
-+
-+TUNE_FEATURES_tune-mips64r2 = "${TUNE_FEATURES_tune-mips64} mips64r2"
-+BASE_LIB_tune-mips64r2 = "lib64"
-+MIPSPKGSFX_VARIANT_tune-mips64r2 = "mips64r2"
-+PACKAGE_EXTRA_ARCHS_tune-mips64r2 = "mips64 mips64r2"
-+
-+TUNE_FEATURES_tune-mips64r2el = "${TUNE_FEATURES_tune-mips64el} mips64r2"
-+BASE_LIB_tune-mips64r2el = "lib64"
-+MIPSPKGSFX_VARIANT_tune-mips64r2el = "mips64r2el"
-+PACKAGE_EXTRA_ARCHS_tune-mips64r2el = "mips64el mips64r2el"
-+
-+# MIPS 64r2 Soft Float
-+AVAILTUNES += "mips64r2-nf mips64r2el-nf"
-+
-+TUNE_FEATURES_tune-mips64r2-nf = "${TUNE_FEATURES_tune-mips64-nf} mips64r2"
-+BASE_LIB_tune-mips64r2-nf = "lib64"
-+MIPSPKGSFX_VARIANT_tune-mips64r2-nf = "${TUNE_ARCH}"
-+PACKAGE_EXTRA_ARCHS_tune-mips64r2-nf = "mips64-nf mips64r2-nf"
-+
-+TUNE_FEATURES_tune-mips64r2el-nf = "${TUNE_FEATURES_tune-mips64el-nf} mips64r2"
-+BASE_LIB_tune-mips64r2el-nf = "lib64"
-+MIPSPKGSFX_VARIANT_tune-mips64r2el-nf = "${TUNE_ARCH}"
-+PACKAGE_EXTRA_ARCHS_tune-mips64r2el-nf = "mips64el-nf mips64r2el-nf"
-+
-+# MIPS 64r2 n32
-+AVAILTUNES += "mips64r2-n32 mips64r2el-n32"
-+
-+TUNE_FEATURES_tune-mips64r2-n32 = "${TUNE_FEATURES_tune-mips64-n32} mips64r2"
-+BASE_LIB_tune-mips64r2-n32 = "lib32"
-+MIPSPKGSFX_VARIANT_tune-mips64r2-n32 = "${TUNE_ARCH}"
-+PACKAGE_EXTRA_ARCHS_tune-mips64r2-n32 = "mips64-n32 mips64r2-n32"
-+
-+TUNE_FEATURES_tune-mips64r2el-n32 = "${TUNE_FEATURES_tune-mips64el-n32} mips64r2"
-+BASE_LIB_tune-mips64r2el-n32 = "lib32"
-+MIPSPKGSFX_VARIANT_tune-mips64r2el-n32 = "${TUNE_ARCH}"
-+PACKAGE_EXTRA_ARCHS_tune-mips64r2el-n32 = "mips64el-n32 mips64r2el-n32"
-+
-+# MIPS 64r2 n32 and Soft Float
-+AVAILTUNES += "mips64r2-nf-n32 mips64r2el-nf-n32"
-+
-+TUNE_FEATURES_tune-mips64r2-nf-n32 = "${TUNE_FEATURES_tune-mips64-nf-n32} mips64r2"
-+BASE_LIB_tune-mips64r2-nf-n32 = "lib32"
-+MIPSPKGSFX_VARIANT_tune-mips64r2-nf-n32 = "${TUNE_ARCH}"
-+PACKAGE_EXTRA_ARCHS_tune-mips64r2-nf-n32 = "mips64-nf-n32 mips64r2-nf-n32"
-+
-+TUNE_FEATURES_tune-mips64r2el-nf-n32 = "${TUNE_FEATURES_tune-mips64el-nf-n32} mips64r2"
-+BASE_LIB_tune-mips64r2el-nf-n32 = "lib32"
-+MIPSPKGSFX_VARIANT_tune-mips64r2el-nf-n32 = "${TUNE_ARCH}"
-+PACKAGE_EXTRA_ARCHS_tune-mips64r2el-nf-n32 = "mips64el-nf-n32 mips64r2el-nf-n32"
-+
-+# MIPS 64r2 o32
-+AVAILTUNES += "mips64r2-o32 mips64r2el-o32"
-+
-+TUNE_FEATURES_tune-mips64r2-o32 = "${TUNE_FEATURES_tune-mips64-o32} mips64r2"
-+BASE_LIB_tune-mips64r2-o32 = "lib32"
-+MIPSPKGSFX_VARIANT_tune-mips64r2-o32 = "${TUNE_ARCH}"
-+PACKAGE_EXTRA_ARCHS_tune-mips64r2-o32 = "mips mips64-o32 mips64r2-o32"
-+
-+TUNE_FEATURES_tune-mips64r2el-o32 = "${TUNE_FEATURES_tune-mips64el-o32} mips64r2"
-+BASE_LIB_tune-mips64r2el-o32 = "lib32"
-+MIPSPKGSFX_VARIANT_tune-mips64r2el-o32 = "${TUNE_ARCH}"
-+PACKAGE_EXTRA_ARCHS_tune-mips64r2el-o32 = "mipsel mips64el-o32 mips64r2el-o32"
-+
-+# MIPS 64r2 o32 and Soft Float
-+AVAILTUNES += "mips64r2-nf-o32 mips64r2el-nf-o32"
-+
-+TUNE_FEATURES_tune-mips64r2-nf-o32 = "${TUNE_FEATURES_tune-mips64-nf-o32} mips64r2"
-+BASE_LIB_tune-mips64r2-nf-o32 = "lib32"
-+MIPSPKGSFX_VARIANT_tune-mips64r2-nf-o32 = "${TUNE_ARCH}"
-+PACKAGE_EXTRA_ARCHS_tune-mips64r2-nf-o32 = "mips-nf mips64r2-nf-o32"
-+
-+TUNE_FEATURES_tune-mips64r2el-nf-o32 = "${TUNE_FEATURES_tune-mips64el-nf-o32} mips64r2"
-+BASE_LIB_tune-mips64r2el-nf-o32 = "lib32"
-+MIPSPKGSFX_VARIANT_tune-mips64r2el-nf-o32 = "${TUNE_ARCH}"
-+PACKAGE_EXTRA_ARCHS_tune-mips64r2el-nf-o32 = "mipsel-nf mips64r2el-nf-o32"
--- 
-1.9.1
+[cut]
+
+> diff --git a/meta/classes/useradd_base.bbclass
+> b/meta/classes/useradd_base.bbclass
+> index f4dc713..35d5f06 100644
+> --- a/meta/classes/useradd_base.bbclass
+> +++ b/meta/classes/useradd_base.bbclass
+> @@ -59,10 +59,10 @@ perform_groupmems () {
+>  		gshadow=3D"no"
+>  		touch $rootdir${sysconfdir}/gshadow
+>  	fi
+> -	local mem_exists=3D"`grep "^$groupname:[^:]*:[^:]*:\([^,]*,\)*$username=
+\(,[^,]*\)*"$rootdir/etc/group || true`"
+> +	local mem_exists=3D"`grep "^$groupname:[!:]*:[!:]*:\([!,]*,\)*$username=
+\(,[!,]*\)*"$rootdir/etc/group || true`"
+>  	if test "x$mem_exists" =3D "x"; then
+>  		eval flock -x $rootdir${sysconfdir} -c \"$PSEUDO groupmems \$opts\" ||=
+ true
+> -		mem_exists=3D"`grep "^$groupname:[^:]*:[^:]*:\([^,]*,\)*$username\(,[^=
+,]*\)*"$rootdir/etc/group || true`"
+> ++		mem_exists=3D"`grep "^$groupname:[!:]*:[!:]*:\([!,]*,\)*$username\(,[=
+!,]*\)*"$rootdir/etc/group || true`"
+>  		if test "x$mem_exists" =3D "x"; then
+>  			bbfatal "${PN}: groupmems command did not succeed."
+>  		fi
+
+The above change cannot be correct. Changing the expression "[^:]"=20
+(which means "anything but :") to "[!:]" (which means "! or :") is=20
+definitely not the same....
+
+> diff --git a/meta/recipes-devtools/guile/guile_2.0.12.bb
+> b/meta/recipes-devtools/guile/guile_2.0.12.bb
+> index d2fe511..3ada0f1 100644
+> --- a/meta/recipes-devtools/guile/guile_2.0.12.bb
+> +++ b/meta/recipes-devtools/guile/guile_2.0.12.bb
+> @@ -91,8 +91,10 @@ guile_cross_config() {=09
+>  	then
+>  	        # Create guile-config returning target values instead of native=
+ values
+>  	        install -d ${SYSROOT_DESTDIR}${STAGING_BINDIR_CROSS}
+> -        	echo '#!'`which ${BUILD_SYS}-guile`$' \\\n--no-auto-compile -e =
+main -s\n!#\n(define %guile-build-info '\'\( \
+> -			> ${B}/guile-config.cross
+> +		echo -n '#!' > ${B}/guile-config.cross
+> +		echo -n `which x86_64-linux-guile` >> ${B}/guile-config.cross
+> +		printf ' \\\n--no-auto-compile -e main -s\n!#\n(define %%guile-build-i=
+nfo ' >> ${B}/guile-config.cross
+> +		echo "'(" >> ${B}/guile-config.cross
+>  	        sed -n -e 's:^[ \t]*{[ \t]*":  (:' \
+>  			-e 's:",[ \t]*": . ":' \
+>  			-e 's:" *}, *\\:"):' \
+
+I suggest to replace the entire guile_cross_config() function with this:
+
+guile_cross_config() {
+	# this is only for target recipe
+	[ "${PN}" =3D "${BPN}" ] || return 0
+
+	vars=3D$(sed -n -e 's:^[ \t]*{[ \t]*":  (:' \
+	              -e 's:",[ \t]*": . ":' \
+	              -e 's:" *}, *\\:"):' \
+	              -e 's:^.*cachedir.*$::' \
+	              -e '/^  (/p' \
+	       < ${B}/libguile/libpath.h)
+
+	# Create guile-config returning target values instead of native values
+	install -d ${SYSROOT_DESTDIR}${bindir_crossscripts}
+	cat <<EOF >${B}/guile-config.cross
+#!$(which ${BUILD_SYS}-guile) \\
+--no-auto-compile -e main -s
+!#
+(define %guile-build-info '(
+$vars
+))
+EOF
+	cat ${B}/meta/guile-config >> ${B}/guile-config.cross
+	install ${B}/guile-config.cross ${SYSROOT_DESTDIR}${bindir_crossscripts}/g=
+uile-config
+}
+
+That should make it a lot simpler to see what is going on.
+Please note that I have corrected the installation path as well.
+
+//Peter
 
 
