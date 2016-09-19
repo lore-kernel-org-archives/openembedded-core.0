@@ -1,21 +1,30 @@
-Return-Path: <sgw@linux.intel.com>
+Return-Path: <california.l.sullivan@intel.com>
 Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by mail.openembedded.org (Postfix) with ESMTP id CDDDB605BA
+	by mail.openembedded.org (Postfix) with ESMTP id 10A606FF9F
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Sep 2016 16:25:52 +0000 (UTC)
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-	by orsmga105.jf.intel.com with ESMTP; 19 Sep 2016 09:25:52 -0700
+	Mon, 19 Sep 2016 17:05:22 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga105.jf.intel.com with ESMTP; 19 Sep 2016 10:05:23 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.30,362,1470726000"; d="scan'208";a="10880318"
-Received: from swold-mobl2.amr.corp.intel.com ([10.254.26.249])
-	by fmsmga006.fm.intel.com with ESMTP; 19 Sep 2016 09:25:52 -0700
-From: Saul Wold <sgw@linux.intel.com>
-To: openembedded-core@lists.openembedded.org,
-	richard.purdie@linuxfoundation.org
-Date: Mon, 19 Sep 2016 09:25:51 -0700
-Message-Id: <1474302351-19729-1-git-send-email-sgw@linux.intel.com>
-X-Mailer: git-send-email 2.7.4
-Subject: [PATCH] gcc-configure: Enable initfini-array for x86* Architecture
+X-IronPort-AV: E=Sophos;i="5.30,362,1470726000"; 
+	d="scan'208,217";a="1053406117"
+Received: from clsulliv.jf.intel.com ([10.7.201.156])
+	by orsmga002.jf.intel.com with ESMTP; 19 Sep 2016 10:05:23 -0700
+To: "Burton, Ross" <ross.burton@intel.com>,
+	Bruce Ashfield <bruce.ashfield@windriver.com>
+References: <1474069704-24428-1-git-send-email-california.l.sullivan@intel.com>
+	<2c06b548-62b4-5766-4ac4-6a18972be549@windriver.com>
+	<CAJTo0LbqExZ796Jn1_mtJBFjoLoFZ76VzgwAMB_Bm6NWUGAvVw@mail.gmail.com>
+	<CAJTo0LbQKKuWXfWuPw4R1uh_A8R=NM4YEpaR2yOH3ePs40FbqA@mail.gmail.com>
+From: Cal Sullivan <california.l.sullivan@intel.com>
+Message-ID: <db821c4f-4099-94de-f2d2-17ddf2486bbc@intel.com>
+Date: Mon, 19 Sep 2016 10:05:23 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.2.0
+MIME-Version: 1.0
+In-Reply-To: <CAJTo0LbQKKuWXfWuPw4R1uh_A8R=NM4YEpaR2yOH3ePs40FbqA@mail.gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH V2 1/1] kernel.bbclass: Add kernel_version_sanity_check function
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,39 +37,98 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 Sep 2016 16:25:53 -0000
+X-List-Received-Date: Mon, 19 Sep 2016 17:05:23 -0000
+Content-Type: multipart/alternative;
+	boundary="------------0CA99F17088136025FF0234A"
 
-This adds the correct support for initfini-array which replaces .init
-and .fini with .init-array and .fini-array.  There is no appreciable
-size difference with this change.
+--------------0CA99F17088136025FF0234A
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-The change is needed since configure will not correctly detect support 
-when building cross-compilers.
+It looks like the function is doing as its supposed to, and we need to 
+update some PVs or SRCREVs to match PVs.
 
-This only affect Intel architectures currently
+E.g., on the error below, SRCREV d6237b3b24 is indeed 4.1.31.
 
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- meta/recipes-devtools/gcc/gcc-configure-common.inc | 5 +++++
- 1 file changed, 5 insertions(+)
+Cal
 
-diff --git a/meta/recipes-devtools/gcc/gcc-configure-common.inc b/meta/recipes-devtools/gcc/gcc-configure-common.inc
-index f4f76bd..8845d00 100644
---- a/meta/recipes-devtools/gcc/gcc-configure-common.inc
-+++ b/meta/recipes-devtools/gcc/gcc-configure-common.inc
-@@ -44,6 +44,11 @@ EXTRA_OECONF = "\
-     ${@get_gcc_multiarch_setting(bb, d)} \
- "
- 
-+# Set this here since GCC configure won't auto-detect and enable
-+# initfini-arry when cross compiling.
-+EXTRA_OECONF_append_x86 = " --enable-initfini-array"
-+EXTRA_OECONF_append_x86-64 = " --enable-initfini-array"
-+
- export gcc_cv_collect2_libs = 'none required'
- # We need to set gcc_cv_collect2_libs else there is cross-compilation badness
- # in the config.log files (which might not get generated until do_compile
--- 
-2.5.0
+On 09/19/2016 09:22 AM, Burton, Ross wrote:
+>
+> On 19 September 2016 at 16:09, Burton, Ross <ross.burton@intel.com 
+> <mailto:ross.burton@intel.com>> wrote:
+>
+>     This is being fired on the AB:
+>
+>     ERROR: linux-yocto-4.1.32+gitAUTOINC+b30b6b9ef2_d6237b3b24-r0
+>     do_kernel_version_sanity_check: Package Version
+>     (4.1.32+gitAUTOINC+b30b6b9ef2_d6237b3b24) does not match of kernel
+>     being built (4.1.31). Please update the PV variable to match the
+>     kernel source.
+>     ERROR: linux-yocto-4.1.32+gitAUTOINC+b30b6b9ef2_d6237b3b24-r0
+>     do_kernel_version_sanity_check: Function failed:
+>     do_kernel_version_sanity_check (log file is located at
+>     /home/pokybuild/yocto-autobuilder/yocto-worker/nightly-mips-lsb/build/build/tmp/work/qemumips-poky-linux/linux-yocto/4.1.32+gitAUTOINC+b30b6b9ef2_d6237b3b24-r0/temp/log.do_kernel_version_sanity_check.9143)
+>     ERROR: Logfile of failure stored in:
+>     /home/pokybuild/yocto-autobuilder/yocto-worker/nightly-mips-lsb/build/build/tmp/work/qemumips-poky-linux/linux-yocto/4.1.32+gitAUTOINC+b30b6b9ef2_d6237b3b24-r0/temp/log.do_kernel_version_sanity_check.9143
+>
+>
+> (This has happened for all the LSB builds so far)
 
 
+--------------0CA99F17088136025FF0234A
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: 7bit
+
+<html>
+  <head>
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+  </head>
+  <body bgcolor="#FFFFFF" text="#000000">
+    It looks like the function is doing as its supposed to, and we need
+    to update some PVs or SRCREVs to match PVs.<br>
+    <br>
+    E.g., on the error below, SRCREV d6237b3b24 is indeed 4.1.31.<br>
+    <br>
+    ---<br>
+    Cal<br>
+    <br>
+    <div class="moz-cite-prefix">On 09/19/2016 09:22 AM, Burton, Ross
+      wrote:<br>
+    </div>
+    <blockquote
+cite="mid:CAJTo0LbQKKuWXfWuPw4R1uh_A8R=NM4YEpaR2yOH3ePs40FbqA@mail.gmail.com"
+      type="cite">
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <div dir="ltr">
+        <div class="gmail_extra"><br>
+          <div class="gmail_quote">On 19 September 2016 at 16:09,
+            Burton, Ross <span dir="ltr">&lt;<a moz-do-not-send="true"
+                href="mailto:ross.burton@intel.com" target="_blank">ross.burton@intel.com</a>&gt;</span>
+            wrote:<br>
+            <blockquote class="gmail_quote" style="margin:0 0 0
+              .8ex;border-left:1px #ccc solid;padding-left:1ex">
+              <div class="gmail_extra">This is being fired on the AB:</div>
+              <div class="gmail_extra"><br>
+              </div>
+              ERROR: linux-yocto-4.1.32+gitAUTOINC+<wbr>b30b6b9ef2_d6237b3b24-r0
+              do_kernel_version_sanity_<wbr>check: Package Version
+              (4.1.32+gitAUTOINC+b30b6b9ef2_<wbr>d6237b3b24) does not
+              match of kernel being built (4.1.31). Please update the PV
+              variable to match the kernel source.<br>
+              ERROR: linux-yocto-4.1.32+gitAUTOINC+<wbr>b30b6b9ef2_d6237b3b24-r0
+              do_kernel_version_sanity_<wbr>check: Function failed:
+              do_kernel_version_sanity_check (log file is located at
+              /home/pokybuild/yocto-<wbr>autobuilder/yocto-worker/<wbr>nightly-mips-lsb/build/build/<wbr>tmp/work/qemumips-poky-linux/<wbr>linux-yocto/4.1.32+gitAUTOINC+<wbr>b30b6b9ef2_d6237b3b24-r0/temp/<wbr>log.do_kernel_version_sanity_<wbr>check.9143)<br>
+              ERROR: Logfile of failure stored in:
+              /home/pokybuild/yocto-<wbr>autobuilder/yocto-worker/<wbr>nightly-mips-lsb/build/build/<wbr>tmp/work/qemumips-poky-linux/<wbr>linux-yocto/4.1.32+gitAUTOINC+<wbr>b30b6b9ef2_d6237b3b24-r0/temp/<wbr>log.do_kernel_version_sanity_<wbr>check.9143</blockquote>
+          </div>
+          <br>
+          (This has happened for all the LSB builds so far)</div>
+      </div>
+    </blockquote>
+    <br>
+  </body>
+</html>
+
+--------------0CA99F17088136025FF0234A--
