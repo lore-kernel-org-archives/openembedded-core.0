@@ -1,25 +1,39 @@
-Return-Path: <joshua.g.lock@linux.intel.com>
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by mail.openembedded.org (Postfix) with ESMTP id 8CA3965CB6
+Return-Path: <leimaohui@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
+	by mail.openembedded.org (Postfix) with ESMTP id 2BB6973189
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Sep 2016 09:12:32 +0000 (UTC)
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-	by orsmga105.jf.intel.com with ESMTP; 19 Sep 2016 02:12:32 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.30,361,1470726000"; d="scan'208";a="11212985"
-Received: from jlock-mobl1.ger.corp.intel.com ([10.252.23.129])
-	by orsmga004.jf.intel.com with ESMTP; 19 Sep 2016 02:12:31 -0700
-Message-ID: <1474276350.2929.8.camel@linux.intel.com>
-From: Joshua Lock <joshua.g.lock@linux.intel.com>
-To: Robert Yang <liezhi.yang@windriver.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Mon, 19 Sep 2016 10:12:30 +0100
-In-Reply-To: <6acbaf5e46bc050d3456476aad273270b8e26dc3.1474183984.git.liezhi.yang@windriver.com>
-References: <cover.1474183984.git.liezhi.yang@windriver.com>
-	<6acbaf5e46bc050d3456476aad273270b8e26dc3.1474183984.git.liezhi.yang@windriver.com>
-X-Mailer: Evolution 3.20.5 (3.20.5-1.fc24) 
-Mime-Version: 1.0
-Subject: Re: [PATCH V2 8/8] runqemu: improve finding of rootfs, kernel and dtb
+	Mon, 19 Sep 2016 09:12:58 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.22,518,1449504000"; d="scan'208";a="11103631"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 19 Sep 2016 17:12:59 +0800
+Received: from G08CNEXCHPEKD01.g08.fujitsu.local (unknown [10.167.33.80])
+	by cn.fujitsu.com (Postfix) with ESMTP id 04E6E4623475;
+	Mon, 19 Sep 2016 17:12:58 +0800 (CST)
+Received: from G08CNEXMBPEKD01.g08.fujitsu.local ([10.167.33.81]) by
+	G08CNEXCHPEKD01.g08.fujitsu.local ([10.167.33.80]) with mapi id
+	14.03.0279.002; Mon, 19 Sep 2016 17:13:01 +0800
+From: "Lei, Maohui" <leimaohui@cn.fujitsu.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core][PATCH v2 0/1] To make yocto-spdx support spdx2.0 SPEC
+Thread-Index: AQHSElF10ejqFb3naEmV3xRvHjxbpqCAhoVg
+Date: Mon, 19 Sep 2016 09:13:00 +0000
+Message-ID: <1B56A49860EB2D45ADE3731B15C959FDFE57303F@G08CNEXMBPEKD01.g08.fujitsu.local>
+References: <1474274390-36100-1-git-send-email-leimaohui@cn.fujitsu.com>
+In-Reply-To: <1474274390-36100-1-git-send-email-leimaohui@cn.fujitsu.com>
+Accept-Language: zh-CN, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.167.226.93]
+MIME-Version: 1.0
+X-yoursite-MailScanner-ID: 04E6E4623475.AD60A
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: leimaohui@cn.fujitsu.com
+X-Spam-Status: No
+Cc: "jsmoeller@linuxfoundation.org" <jsmoeller@linuxfoundation.org>, Matt
+	Germonprez <germonprez@gmail.com>,
+	"liangcao@unomaha.edu" <liangcao@unomaha.edu>
+Subject: Re: [PATCH v2 0/1] To make yocto-spdx support spdx2.0 SPEC
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,207 +46,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 Sep 2016 09:12:32 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 19 Sep 2016 09:12:59 -0000
+Content-Language: zh-CN
+Content-Type: text/plain; charset="shift_jis"
+Content-Transfer-Encoding: base64
 
-On Sun, 2016-09-18 at 00:39 -0700, Robert Yang wrote:
-> * Search rootfs in the following order:
->   - IMAGE_NAME*.FSTYPE
->   - IMAGE_LINK_NAME*.FSTYPE
-> 
-> * Search kernel in the following order:
->   - QB_DEFAULT_KERNEL
->   - KERNEL_IMAGETYPE
->   - KERNEL_IMAGETYPE*
-> 
-> * Search dtb in the following order:
->    - QB_DTB
->    - QB_DTB*
->    - *.dtb
-> 
-> * Fix DTB, it should only work with "-kernel" option.
-> 
-> [YOCTO #10265]
-> 
-> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-> ---
->  scripts/runqemu | 68 ++++++++++++++++++++++++++++++++++-------------
-> ----------
->  1 file changed, 41 insertions(+), 27 deletions(-)
-> 
-> diff --git a/scripts/runqemu b/scripts/runqemu
-> index 60e2093..1c4e69b 100755
-> --- a/scripts/runqemu
-> +++ b/scripts/runqemu
-> @@ -157,6 +157,7 @@ class BaseConfig(object):
->          self.kernel = ''
->          self.kernel_cmdline = ''
->          self.kernel_cmdline_script = ''
-> +        self.dtb = ''
->          self.fstype = ''
->          self.kvm_enabled = False
->          self.vhost_enabled = False
-> @@ -440,23 +441,23 @@ class BaseConfig(object):
->          if self.fstype == 'nfs':
->              return
->  
-> +        cmd_name = '%s/%s*.%s' % (self.get('DEPLOY_DIR_IMAGE'),
-> self.get('IMAGE_NAME'), self.fstype)
-> +        cmd_link = '%s/%s*.%s' % (self.get('DEPLOY_DIR_IMAGE'),
-> self.get('IMAGE_LINK_NAME'), self.fstype)
-> +        cmds = (cmd_name, cmd_link)
->          if self.rootfs and not os.path.exists(self.rootfs):
->              # Lazy rootfs
->              self.rootfs = "%s/%s-%s.%s" %
-> (self.get('DEPLOY_DIR_IMAGE'),
->                      self.rootfs, self.get('MACHINE'),
->                      self.fstype)
->          elif not self.rootfs:
-> -            cmd = '%s/%s*.%s' % (self.get('DEPLOY_DIR_IMAGE'),
-> self.get('IMAGE_NAME'), self.fstype)
-> -            all_files = glob.glob(cmd)
-> -            if all_files:
-> -                self.rootfs = all_files[0]
-> -            else:
-> -                cmd = '%s/%s*.%s' % (self.get('DEPLOY_DIR_IMAGE'),
-> self.get('IMAGE_LINK_NAME'), self.fstype)
-> +            for cmd in cmds:
->                  all_files = glob.glob(cmd)
->                  if all_files:
->                      self.rootfs = all_files[0]
-> -                else:
-> -                    raise Exception("Failed to find rootfs: %s" %
-> cmd)
-> +                    break
-> +
-> +        if not self.rootfs:
-> +            raise Exception("Failed to find rootfs: %s or %s" %
-> cmds)
->  
->          if not os.path.exists(self.rootfs):
->              raise Exception("Can't find rootfs: %s" % self.rootfs)
-> @@ -466,28 +467,37 @@ class BaseConfig(object):
->          # The vm image doesn't need a kernel
->          if self.fstype in self.vmtypes:
->              return
-> -        kernel = self.kernel
-> +
->          deploy_dir_image = self.get('DEPLOY_DIR_IMAGE')
-> -        if not kernel:
-> -            kernel = "%s/%s" % (deploy_dir_image,
-> self.get('QB_DEFAULT_KERNEL'))
-> +        if not self.kernel:
-> +            kernel_match_name = "%s/%s" % (deploy_dir_image,
-> self.get('QB_DEFAULT_KERNEL'))
-> +            kernel_match_link = "%s/%s" % (deploy_dir_image,
-> self.get('KERNEL_IMAGETYPE'))
-> +            kernel_startswith = "%s/%s*" % (deploy_dir_image,
-> self.get('KERNEL_IMAGETYPE'))
-
-There are qemuboot.conf files in the wild which won't contain
-KERNEL_IMAGETYPE, at which point we're just looking for matches to
-DEPLOY_DIR_IMAGE or DEPLOY_DIR_IMAGE/*
-
-I think we need to add some extra handling so that we don't end up
-setting kernel to either DEPLOY_DIR_IMAGE or its first child?
-
-Joshua
-
-> +            cmds = (kernel_match_name, kernel_match_link,
-> kernel_startswith)
-> +            for cmd in cmds:
-> +                all_files = glob.glob(cmd)
-> +                if all_files:
-> +                    self.kernel = all_files[0]
-> +                    break
-> +            if not self.kernel:
-> +                raise Exception('KERNEL not found: %s, %s or %s' %
-> cmds)
->  
-> -        if os.path.exists(kernel):
-> -            self.kernel = kernel
-> -        else:
-> -            kernel = "%s/%s" % (deploy_dir_image,
-> self.get('KERNEL_IMAGETYPE'))
-> -            if kernel != deploy_dir_image and
-> os.path.exists(kernel):
-> -                self.kernel = kernel
-> -            else:
-> -                raise Exception("KERNEL %s not found" % kernel)
-> +        if not os.path.exists(self.kernel):
-> +            raise Exception("KERNEL %s not found" % self.kernel)
->  
->          dtb = self.get('QB_DTB')
->          if dtb:
-> -            dtb = "%s/%s" % (self.get('DEPLOY_DIR_IMAGE'), dtb)
-> -            if os.path.exists(dtb):
-> -                self.set('QB_DTB', '-dtb %s' % dtb)
-> -            else:
-> -                raise Exception("DTB %s not found" % dtb)
-> -
-> +            cmd_match = "%s/%s" % (deploy_dir_image, dtb)
-> +            cmd_startswith = "%s/%s*" % (deploy_dir_image, dtb)
-> +            cmd_wild = "%s/*.dtb" % deploy_dir_image
-> +            cmds = (cmd_match, cmd_startswith, cmd_wild)
-> +            for cmd in cmds:
-> +                all_files = glob.glob(cmd)
-> +                if all_files:
-> +                    self.dtb = all_files[0]
-> +                    break
-> +            if not os.path.exists(self.dtb):
-> +                raise Exception('DTB not found: %s, %s or %s' %
-> cmds)
->  
->      def check_biosdir(self):
->          """Check custombiosdir"""
-> @@ -643,6 +653,8 @@ class BaseConfig(object):
->          logger.info('Continuing with the following parameters:\n')
->          if not self.fstype in self.vmtypes:
->              print('KERNEL: [%s]' % self.kernel)
-> +            if self.dtb:
-> +                print('DTB: [%s]' % self.dtb)
->          print('MACHINE: [%s]' % self.get('MACHINE'))
->          print('FSTYPE: [%s]' % self.fstype)
->          if self.fstype  == 'nfs':
-> @@ -687,7 +699,7 @@ class BaseConfig(object):
->                  elif os.path.exists(src2):
->                      src = src2
->                  if not src:
-> -                    raise Exception("No NFS_DIR is set but can't
-> find %s or %s to extract" % (src1, src2))
-> +                    raise Exception("No NFS_DIR is set, and can't
-> find %s or %s to extract" % (src1, src2))
->                  logger.info('NFS_DIR not found, extracting %s to %s'
-> % (src, dest))
->                  cmd = 'runqemu-extract-sdk %s %s' % (src, dest)
->                  logger.info('Running %s...' % cmd)
-> @@ -845,7 +857,7 @@ class BaseConfig(object):
->  
->          check_libgl(qemu_bin)
->  
-> -        self.qemu_opt = "%s %s %s %s %s %s" % (qemu_bin,
-> self.get('NETWORK_CMD'), self.qemu_opt_script,
-> self.get('ROOTFS_OPTIONS'), self.get('QB_DTB'),
-> self.get('QB_OPT_APPEND'))
-> +        self.qemu_opt = "%s %s %s %s %s" % (qemu_bin,
-> self.get('NETWORK_CMD'), self.qemu_opt_script,
-> self.get('ROOTFS_OPTIONS'), self.get('QB_OPT_APPEND'))
->  
->          # Enable virtio RNG else we can run out of entropy in guests
->          self.qemu_opt += " -device virtio-rng-pci"
-> @@ -877,6 +889,8 @@ class BaseConfig(object):
->      def start_qemu(self):
->          if self.kernel:
->              kernel_opts = "-kernel %s -append '%s %s %s'" %
-> (self.kernel, self.kernel_cmdline, self.kernel_cmdline_script,
-> self.get('QB_KERNEL_CMDLINE_APPEND'))
-> +            if self.dtb:
-> +                kernel_opts += " -dtb %s" % self.dtb
->          else:
->              kernel_opts = ""
->          cmd = "%s %s" % (self.qemu_opt, kernel_opts)
-> -- 
-> 2.9.0
-> 
+SGkgYWxsDQoNCiAgSSBoYXZlIHVwZGF0ZWQgbXkgcGF0Y2ggZm9yIG5ld2Vz
+dCBwb2t5LCBjYW4gc29tZW9uZSBnaXZlIG1lIHNvbWUgY29tbWVudHM/IF5f
+Xg0KDQpCZXN0IHJlZ2FyZHMNCkxlaQ0KDQo+IC0tLS0tT3JpZ2luYWwgTWVz
+c2FnZS0tLS0tDQo+IEZyb206IExlaSwgTWFvaHVpDQo+IFNlbnQ6IE1vbmRh
+eSwgU2VwdGVtYmVyIDE5LCAyMDE2IDQ6NDAgUE0NCj4gVG86IG9wZW5lbWJl
+ZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNCj4gQ2M6IGpzbW9l
+bGxlckBsaW51eGZvdW5kYXRpb24ub3JnOyBMZWksIE1hb2h1aQ0KPiBTdWJq
+ZWN0OiBbT0UtY29yZV1bUEFUQ0ggdjIgMC8xXSBUbyBtYWtlIHlvY3RvLXNw
+ZHggc3VwcG9ydCBzcGR4Mi4wIFNQRUMNCj4gDQo+IFRoZXJlIGFyZSBzb21l
+IHByb2JsZW1zIGluIHNwZHggbW9kdWxlKHNwZHguYmJjbGFzcykuDQo+IDEu
+IFRoZSBuZXdlc3QgdmVyc2lvbiBvZiBzcGR4IHNwZWNpZmljYXRpb24gaXMg
+Mi4wLiBCdXQgZXZlbiBzcGR4IDEuMSwNCj4geW9jdG8rU1BEWCBjYW4ndCBz
+dXBwb3J0IHdlbGwuDQo+IDIuIEl0IGlzIGNvbXBsZXggdG8gYnVpbGQgYSBZ
+b2N0bytTUERYIGVudmlyb25tZW50Lg0KPiAzLiBDcmVhdGluZyBhIHNwZHgg
+ZmlsZSBzcGVuZHMgdG9vIG11Y2ggdGltZSwgZXNwZWNpYWxseSBmb3IgbGFy
+Z2Ugc29mdHdhcmUuDQo+IA0KPiBUbyBpbXByb3ZlIHNwZHggbW9kdWxlICxJ
+IGNoYW5nZSB0aGUgc3BkeCBjcmVhdGUgdG9vbCBmcm9tIGZvc3NvbG9neSB0
+byBkb3NvY3MyLg0KPiBXaXRoIHRoaXMgcGF0Y2g6DQo+IDEuIEFsc28gZ2V0
+cyBsaWNlbnNlIGluZm9ybWF0aW9ucyBieSBzY2FubmVyIGZyb20gZm9zc29s
+b2d5Lg0KPiAxLiBDYW4gc3VwcG9ydCBTUERYMi4wIFNQRUMuDQo+IDIuIEJl
+Y2F1c2UgZG9zb2NzMiBjYW4gd29yayBvbiBkaXJlY3Rvcmllcywgc28gdGhl
+cmUgaXMgbm8gbmVjZXNzYXJ5IHRvIHBhY2sNCj4gc291cmNlIGNvZGUgYmVm
+b3JlIGRvX3NwZHguIEl0IGNhbiBzYXZlIHRpbWUgZm9yIGxhcmdlIHNvZnR3
+YXJlLg0KPiANCj4gTGVpIE1hb2h1aSAoMSk6DQo+ICAgTWFrZSB5b2N0by1z
+cGR4IHN1cHBvcnQgc3BkeDIuMCBTUEVDDQo+IA0KPiAgbWV0YS9jbGFzc2Vz
+L3NwZHguYmJjbGFzcyB8IDUwNSArKysrKysrKysrKysrKysrKystLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tDQo+ICBtZXRhL2NvbmYvbGljZW5zZXMu
+Y29uZiAgIHwgIDY3ICstLS0tLQ0KPiAgMiBmaWxlcyBjaGFuZ2VkLCAxOTgg
+aW5zZXJ0aW9ucygrKSwgMzc0IGRlbGV0aW9ucygtKQ0KPiANCj4gLS0NCj4g
+MS45LjENCg0KCgo=
 
