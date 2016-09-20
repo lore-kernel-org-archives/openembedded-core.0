@@ -1,43 +1,48 @@
-Return-Path: <zeenix@gmail.com>
-Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 97F0760403
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io0-f182.google.com (mail-io0-f182.google.com
+	[209.85.223.182])
+	by mail.openembedded.org (Postfix) with ESMTP id E5048606CA
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Sep 2016 07:39:27 +0000 (UTC)
-Received: by mail-wm0-f68.google.com with SMTP id b184so1835625wma.3
+	Tue, 20 Sep 2016 07:53:56 +0000 (UTC)
+Received: by mail-io0-f182.google.com with SMTP id r145so12018809ior.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Sep 2016 00:39:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	Tue, 20 Sep 2016 00:53:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=AnbdSXCTl6f5N8j8K1npHlLdhtiaU8QdeX7myWGDMLs=;
-	b=fd8AoN6ZRsOHqVc9vsnPtEOaLVd/ky8ZV7B4n/KldtdHCHXMqvnLgCmmsHe1OOnYkC
-	IRlRqqG0f4Dlvu6u32iYkx19/ZCNmThrOlaT2V80uWtQ7zbcsIaTX5yADizVSOdPWfpH
-	/Y5H/F1Z/0FzaZ5/KxHCT8HoUfqHT5HqhmVHWzF0JOfYoi8aPWHhgImwXThFnICWa5Tt
-	3ePeJXaSNV/xWRovZaWzkzPHQdFYuI2ReulveCL1M7Ru48WYa6E1oMHg30Ph1XX7lSte
-	CDAk+0c29JdXbIheXVaw0IclYe/sTazOUC4hqkPm6AkLWHYhdGCA3gUEM06uSYQxzF4d
-	3UQw==
+	:cc; bh=lLuEmlKGiWFSi1iM26jOheN9ueamNW0uu4Bmdpd/nm0=;
+	b=I/tfY9aH/CEzv0oqJulkShbevOmLl5OWBJhSFnSpAwMKifHvFre0uCIWN5LwdZLPVp
+	jUptb8zSvKb73JJrA854kBBJeSr2ReWhi/27N1D4eRLcflTjSt7OYb0zxaaC7U7/q+wu
+	858yvcJoAvBpbP8EFtxJYq+aQS1ZWyTIYfF2rwCUbUm5xnXoG9Y48Ap+rbdqZyaPve49
+	tKgin1dNmfcmP5ZsylD+UVtuK27qSPqgAiAeIVumhVgF3W24MbT+AgAMwS3BLrE+z8qU
+	qODEnOfOPO5+zqepdNwzWSY0/mZZKgQU0iYKvAri6fYyPwOl/QzLCFUPd+ZffKJhjY7S
+	yzJg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=AnbdSXCTl6f5N8j8K1npHlLdhtiaU8QdeX7myWGDMLs=;
-	b=HXOmhn5/RN0VRIqIDZmb90a4+BJ4hkNPvloir8/lATqwghwZFhEAurXe1Bnw4hdI5p
-	cavAcLaJXjNgah2gomqP+D4h/5ll+QXhNJv01EiraQ69fEZ605WZPDyjZwRdWXJmP4MG
-	sXOcJ7Yg4gGFacP9D0WsmP9KKaKXsWzMZi8vP4r5SsouNvzoe1qC45on02KcnhQE9rf6
-	7ML5gcPanVA8O+QD6TRV7QS5oD81QImr8nnZ8OZZdtl1wuNQzQqbgGmMvg5VMfnIHFhy
-	OOCBFT7WShaVE3O6BFn/JD7fCJWpJGsKnL3JtPZ7jvtUKK9u4IbdmsnXZ6DBsCaxuw8a
-	Z6tQ==
-X-Gm-Message-State: AE9vXwMURfSY1wXdZCkEf7dbcWCMSkoYowpzWdELQ/5DXF/Pnkk7I6MeZavICMNP06cz5jP5zqCUZz0fEBuW+Q==
-X-Received: by 10.194.149.102 with SMTP id tz6mr26815924wjb.154.1474357168701; 
-	Tue, 20 Sep 2016 00:39:28 -0700 (PDT)
+	bh=lLuEmlKGiWFSi1iM26jOheN9ueamNW0uu4Bmdpd/nm0=;
+	b=Ebo2ScdkkOmQiirgl7VI+OPS7p255fhnP4Smhkcb6mu1NxhiK9OGI2/fm8HNV3b+im
+	T960+k6J6Lps/0mj+4I8PybMnBGG7Ro8App4RRixSLShqyIJYwQnjjE+x9Yl2gzvrwoq
+	nK+3easDP9HEHPrgGyruQlf4dRzEBfiDV+LQMN4/pOsI8j7HbhV3Hw5QSgwtIV+PsEKD
+	a76pdCAbwT2A2Sq0OKT0FrMLsIOmtKe18Gvz/20IkkdAHgEt5wiYxR2wjsH/rQu3U/hw
+	HBe1MgW5TwWXc3QnCVHA+vFG1Z5GOC0wis0sT2wbmkS0Vfdcj4dYCfwvpScsm1T1potu
+	T37A==
+X-Gm-Message-State: AE9vXwNca3uldMwfpy2YoM/oVVtpUzM7lTEDxfQkGdRmDhKYXXhhrde/JO2fpHuhJAodSyfdwGgvQd/ZJOHFOBSM
+X-Received: by 10.107.142.5 with SMTP id q5mr17137457iod.201.1474358037732;
+	Tue, 20 Sep 2016 00:53:57 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.28.109.139 with HTTP; Tue, 20 Sep 2016 00:39:28 -0700 (PDT)
-In-Reply-To: <1473688845-10252-1-git-send-email-zeenix@gmail.com>
-References: <1473688845-10252-1-git-send-email-zeenix@gmail.com>
-From: Zeeshan Ali <zeenix@gmail.com>
-Date: Tue, 20 Sep 2016 09:39:28 +0200
-Message-ID: <CAAa3hFOVJQM3R=rHEXAgnXOjY63EmCi-ngYhPSEqkE60s_-7tg@mail.gmail.com>
-To: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] [krogoth] gobject-introspection.bbclass: disable introspection for -native and -nativesdk recipes
+Received: by 10.107.135.27 with HTTP; Tue, 20 Sep 2016 00:53:37 -0700 (PDT)
+In-Reply-To: <1B858668EC6A94408DCA5225FDFA85AA013A2D2400@ALA-MBA.corp.ad.wrs.com>
+References: <20160901024821.28166-1-jackie.huang@windriver.com>
+	<1B858668EC6A94408DCA5225FDFA85AA013A2D2400@ALA-MBA.corp.ad.wrs.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 20 Sep 2016 08:53:37 +0100
+Message-ID: <CAJTo0LY_98XwoHr_utj4bGvTBJh7MYOdGC_9R0v1D=XqtXCJRw@mail.gmail.com>
+To: "Huang, Jie (Jackie)" <Jackie.Huang@windriver.com>
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] default-distrovars.inc: remove libidn from LGPLv2_WHITELIST_GPL-3.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,67 +55,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Sep 2016 07:39:29 -0000
+X-List-Received-Date: Tue, 20 Sep 2016 07:53:57 -0000
+Content-Type: multipart/alternative; boundary=94eb2c0627101c7cbc053cebbb05
+
+--94eb2c0627101c7cbc053cebbb05
 Content-Type: text/plain; charset=UTF-8
 
-Hi,
+On 20 September 2016 at 01:50, Huang, Jie (Jackie) <
+Jackie.Huang@windriver.com> wrote:
 
-Could we please cherry-pick this? Otherwise some native recipes fail
-to build if gobject-introspection is available on host.
-
-On Mon, Sep 12, 2016 at 4:00 PM, Zeeshan Ali <zeenix@gmail.com> wrote:
-> From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
->
-> It is not necessary for those targets, adds to the build time, and pulls
-> in the unneeded qemu-native dependency.
->
-> (From OE-Core rev: be18364edd5cd2c664f68120063a1e147563faab)
->
-> Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-> Signed-off-by: Ross Burton <ross.burton@intel.com>
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> ---
->  meta/classes/gobject-introspection.bbclass | 14 ++++++++++++--
->  1 file changed, 12 insertions(+), 2 deletions(-)
->
-> diff --git a/meta/classes/gobject-introspection.bbclass b/meta/classes/gobject-introspection.bbclass
-> index 2d73e40..cc7ca5a 100644
-> --- a/meta/classes/gobject-introspection.bbclass
-> +++ b/meta/classes/gobject-introspection.bbclass
-> @@ -3,13 +3,23 @@
->  # This sets up autoconf-based recipes to build introspection data (or not),
->  # depending on distro and machine features (see gobject-introspection-data class).
->  inherit gobject-introspection-data
-> -EXTRA_OECONF_prepend = "${@bb.utils.contains('GI_DATA_ENABLED', 'True', '--enable-introspection', '--disable-introspection', d)} "
-> +EXTRA_OECONF_prepend_class-target = "${@bb.utils.contains('GI_DATA_ENABLED', 'True', '--enable-introspection', '--disable-introspection', d)} "
-> +
-> +# When building native recipes, disable introspection, as it is not necessary,
-> +# pulls in additional dependencies, and makes build times longer
-> +EXTRA_OECONF_prepend_class-native = "--disable-introspection "
-> +EXTRA_OECONF_prepend_class-nativesdk = "--disable-introspection "
->
->  UNKNOWN_CONFIGURE_WHITELIST_append = " --enable-introspection --disable-introspection"
->
->  # Generating introspection data depends on a combination of native and target
->  # introspection tools, and qemu to run the target tools.
-> -DEPENDS_append = " gobject-introspection gobject-introspection-native qemu-native"
-> +DEPENDS_append_class-target = " gobject-introspection gobject-introspection-native qemu-native"
-> +
-> +# Even though introspection is disabled on -native, gobject-introspection package is still
-> +# needed for m4 macros.
-> +DEPENDS_append_class-native = " gobject-introspection-native"
-> +DEPENDS_append_class-nativesdk = " gobject-introspection-native"
->
->  # This is necessary for python scripts to succeed - distutils fails if these
->  # are not set
-> --
-> 2.7.4
+> Ping.
 >
 
+It's queued locally now, should be in master shortly.
 
+Ross
 
--- 
-Regards,
+--94eb2c0627101c7cbc053cebbb05
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Zeeshan Ali
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 20 September 2016 at 01:50, Huang, Jie (Jackie) <span dir=3D"ltr">&lt;<a=
+ href=3D"mailto:Jackie.Huang@windriver.com" target=3D"_blank">Jackie.Huang@=
+windriver.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" st=
+yle=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div =
+id=3D":1g8" class=3D"a3s aXjCH m157451318562e598">Ping.<div class=3D"yj6qo =
+ajU"><div id=3D":2cf" class=3D"ajR" tabindex=3D"0"></div></div></div></bloc=
+kquote></div><br>It&#39;s queued locally now, should be in master shortly.<=
+/div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</=
+div></div>
 
+--94eb2c0627101c7cbc053cebbb05--
