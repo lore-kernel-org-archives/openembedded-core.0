@@ -1,23 +1,42 @@
-Return-Path: <Zubair.Kakakhel@imgtec.com>
-Received: from mailapp01.imgtec.com (mailapp01.imgtec.com [195.59.15.196])
-	by mail.openembedded.org (Postfix) with ESMTP id D4EC465D00
+Return-Path: <fathi.boudra@linaro.org>
+Received: from mail-wm0-f53.google.com (mail-wm0-f53.google.com [74.125.82.53])
+	by mail.openembedded.org (Postfix) with ESMTP id 557D2605C3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Sep 2016 10:33:35 +0000 (UTC)
-Received: from HHMAIL01.hh.imgtec.org (unknown [10.100.10.19])
-	by Forcepoint Email with ESMTPS id 81BE7FDA78270
+	Tue, 20 Sep 2016 11:57:08 +0000 (UTC)
+Received: by mail-wm0-f53.google.com with SMTP id l132so204837071wmf.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Sep 2016 11:33:22 +0100 (IST)
-Received: from zkakakhel-linux.le.imgtec.org (192.168.154.45) by
-	HHMAIL01.hh.imgtec.org (10.100.10.21) with Microsoft SMTP Server (TLS)
-	id 14.3.294.0; Tue, 20 Sep 2016 11:33:24 +0100
-From: Zubair Lutfullah Kakakhel <Zubair.Kakakhel@imgtec.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 20 Sep 2016 11:33:21 +0100
-Message-ID: <1474367601-16344-1-git-send-email-Zubair.Kakakhel@imgtec.com>
-X-Mailer: git-send-email 1.9.1
+	Tue, 20 Sep 2016 04:57:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=iEKO5rm0ZwdkP1Nc0Ujxhbc2hp/J3P2sDCnHAu0RE6Q=;
+	b=HiI1tGM/AT7Oq1nPpkMK80EcUdQfz233l16X8DPFXrO1ErAZvHN9IC8N8R7cA+ol0X
+	cM9OxVBn0hC9L9HFKalb4O23ktQrRL2JDJR44zzDR5HiO6hZYd9M4Nkl/+KmwQRV3JPs
+	7XpLmx7s8rYbFdg6wI+TtUI/QuaGm5kHT1bII=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=iEKO5rm0ZwdkP1Nc0Ujxhbc2hp/J3P2sDCnHAu0RE6Q=;
+	b=ZyM1CwN+b4FdkofUf9o60FSS1Jfut94IUqbjA9XUDgv3TbXiSzuC+7SMCcZht2/YYP
+	RetHVAvaCB6GubvxdY97MPsSkcY8xKOYjq/b4Wwzmrxa16/vFl8s93n4fy53d+v1A9Nn
+	n4dGdBQ/UPFKpWj00pOmw3WYe7Fp69K7QEB0Iu/nhNPOrhQSzIIjdqBjqasj1eDaLSSC
+	617v+dohg9k4YO0HSvtaUluK/mV9ImMdmsBlNsNTY58vdYamkrZHzKWh8JVTz/ztKPDi
+	S1bzw3cfeXekgNQSoSDHZt1w5t5Bwt9ww2nCLQ0lT8NSuDKh4i6GxP0d0N/WdKIQGkeW
+	YLKQ==
+X-Gm-Message-State: AE9vXwMrUM+VRnC5oiV6f10/++v51AK4bsi2UCc+pkBjWSdOiJe6Em6Ixx0aUGCSX8B9tLy5n8Hc6nKYLCsQImeD
+X-Received: by 10.194.5.202 with SMTP id u10mr31898965wju.149.1474372629152;
+	Tue, 20 Sep 2016 04:57:09 -0700 (PDT)
 MIME-Version: 1.0
-X-Originating-IP: [192.168.154.45]
-Subject: [Patch v2] arch-mips: Restructure mips64 and add mips64r2
+Received: by 10.28.129.196 with HTTP; Tue, 20 Sep 2016 04:57:08 -0700 (PDT)
+In-Reply-To: <57E09AFD.4040006@windriver.com>
+References: <1411725589-20460-1-git-send-email-fathi.boudra@linaro.org>
+	<57E09AFD.4040006@windriver.com>
+From: Fathi Boudra <fathi.boudra@linaro.org>
+Date: Tue, 20 Sep 2016 14:57:08 +0300
+Message-ID: <CAGNsrLDLQ0sJZyec8KwHxwuFGhMhP5mG+nFbFnR3816oD1MS-g@mail.gmail.com>
+To: ChenQi <Qi.Chen@windriver.com>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2] libunwind: add aarch64 support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,306 +49,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Sep 2016 10:33:36 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 20 Sep 2016 11:57:12 -0000
+Content-Type: multipart/alternative; boundary=047d7b5d8861d41c38053cef20f1
 
-The current file structure felt slightly unsuitable for adding
-MIPS64r2. So I restructured it slightly and added MIPS64r2
-support
+--047d7b5d8861d41c38053cef20f1
+Content-Type: text/plain; charset=UTF-8
 
-Signed-off-by: Zubair Lutfullah Kakakhel <Zubair.Kakakhel@imgtec.com>
+Hi,
 
----
-V1 -> V2
-Fixed a subtle bug in the include files for tune-mips64.inc which
-resulted in a build failure for multi-lib configuration.
----
- meta/conf/machine/include/mips/arch-mips.inc | 60 --------------------
- meta/conf/machine/include/tune-mips32.inc    | 22 +++++++-
- meta/conf/machine/include/tune-mips64.inc    | 78 ++++++++++++++++++++++++++
- meta/conf/machine/include/tune-mips64r2.inc  | 84 ++++++++++++++++++++++++++++
- 4 files changed, 183 insertions(+), 61 deletions(-)
- create mode 100644 meta/conf/machine/include/tune-mips64r2.inc
+On 20 September 2016 at 05:12, ChenQi <Qi.Chen@windriver.com> wrote:
+> On 09/26/2014 05:59 PM, Fathi Boudra wrote:
+>>
+>> * pass --enable-debug-frame on aarch64 architecture
+>
+>
+> Hi Fathi,
+>
+> I'm now dealing with a problem related to libunwind support on aarch64.
+> Could you please tell me why '--enable-debug-frame' is needed for aarch64?
 
-diff --git a/meta/conf/machine/include/mips/arch-mips.inc b/meta/conf/machine/include/mips/arch-mips.inc
-index d3e83d1..6be84be 100644
---- a/meta/conf/machine/include/mips/arch-mips.inc
-+++ b/meta/conf/machine/include/mips/arch-mips.inc
-@@ -42,64 +42,4 @@ MIPSPKGSFX_ABI = "${@bb.utils.contains('TUNE_FEATURES', 'n32', '-n32', '', d)}"
- TUNE_ARCH = "mips${MIPSPKGSFX_BYTE}${MIPSPKGSFX_ENDIAN}"
- TUNE_PKGARCH = "${MIPSPKGSFX_VARIANT_tune-${DEFAULTTUNE}}${MIPSPKGSFX_FPU}${MIPSPKGSFX_ABI}"
- 
--# Base tunes
--AVAILTUNES += "mips mips64-n32 mips64 mipsel mips64el-n32 mips64el mips-nf mips64-nf-n32 mips64-nf mipsel-nf mips64el-nf-n32 mips64el-nf"
--TUNE_FEATURES_tune-mips = "o32 bigendian fpu-hard"
--BASE_LIB_tune-mips = "lib"
--MIPSPKGSFX_VARIANT_tune-mips = "${TUNE_ARCH}"
--PACKAGE_EXTRA_ARCHS_tune-mips = "mips"
- 
--TUNE_FEATURES_tune-mips64-n32 = "n32 bigendian fpu-hard"
--BASE_LIB_tune-mips64-n32 = "lib32"
--MIPSPKGSFX_VARIANT_tune-mips64-n32 = "${TUNE_ARCH}"
--PACKAGE_EXTRA_ARCHS_tune-mips64-n32 = "mips64-n32"
--
--TUNE_FEATURES_tune-mips64 = "n64 bigendian fpu-hard"
--BASE_LIB_tune-mips64 = "lib64"
--MIPSPKGSFX_VARIANT_tune-mips64 = "${TUNE_ARCH}"
--PACKAGE_EXTRA_ARCHS_tune-mips64 = "mips64"
--
--TUNE_FEATURES_tune-mipsel = "o32 fpu-hard"
--BASE_LIB_tune-mipsel = "lib"
--MIPSPKGSFX_VARIANT_tune-mipsel = "${TUNE_ARCH}"
--PACKAGE_EXTRA_ARCHS_tune-mipsel = "mipsel"
--
--TUNE_FEATURES_tune-mips64el-n32 = "n32 fpu-hard"
--BASE_LIB_tune-mips64el-n32 = "lib32"
--MIPSPKGSFX_VARIANT_tune-mips64el-n32 = "${TUNE_ARCH}"
--PACKAGE_EXTRA_ARCHS_tune-mips64el-n32 = "mips64el-n32"
--
--TUNE_FEATURES_tune-mips64el = "n64 fpu-hard"
--BASE_LIB_tune-mips64el = "lib64"
--MIPSPKGSFX_VARIANT_tune-mips64el = "${TUNE_ARCH}"
--PACKAGE_EXTRA_ARCHS_tune-mips64el = "mips64el"
--
--TUNE_FEATURES_tune-mips-nf = "o32 bigendian"
--BASE_LIB_tune-mips-nf = "lib"
--MIPSPKGSFX_VARIANT_tune-mips-nf = "${TUNE_ARCH}"
--PACKAGE_EXTRA_ARCHS_tune-mips-nf = "mips-nf"
--
--TUNE_FEATURES_tune-mips64-nf-n32 = "n32 bigendian"
--BASE_LIB_tune-mips64-nf-n32 = "lib32"
--MIPSPKGSFX_VARIANT_tune-mips64-nf-n32 = "${TUNE_ARCH}"
--PACKAGE_EXTRA_ARCHS_tune-mips64-nf-n32 = "mips64-nf-n32"
--
--TUNE_FEATURES_tune-mips64-nf = "n64 bigendian"
--BASE_LIB_tune-mips64-nf = "lib64"
--MIPSPKGSFX_VARIANT_tune-mips64-nf = "${TUNE_ARCH}"
--PACKAGE_EXTRA_ARCHS_tune-mips64-nf = "mips64-nf"
--
--TUNE_FEATURES_tune-mipsel-nf = "o32"
--BASE_LIB_tune-mipsel-nf = "lib"
--MIPSPKGSFX_VARIANT_tune-mipsel-nf = "${TUNE_ARCH}"
--PACKAGE_EXTRA_ARCHS_tune-mipsel-nf = "mipsel-nf"
--
--TUNE_FEATURES_tune-mips64el-nf-n32 = "n32"
--BASE_LIB_tune-mips64el-nf-n32 = "lib32"
--MIPSPKGSFX_VARIANT_tune-mips64el-nf-n32 = "${TUNE_ARCH}"
--PACKAGE_EXTRA_ARCHS_tune-mips64el-nf-n32 = "mips64el-nf-n32"
--
--TUNE_FEATURES_tune-mips64el-nf = "n64"
--BASE_LIB_tune-mips64el-nf = "lib64"
--MIPSPKGSFX_VARIANT_tune-mips64el-nf = "${TUNE_ARCH}"
--PACKAGE_EXTRA_ARCHS_tune-mips64el-nf = "mips64el-nf"
-diff --git a/meta/conf/machine/include/tune-mips32.inc b/meta/conf/machine/include/tune-mips32.inc
-index ce0445f..4c3d93f 100644
---- a/meta/conf/machine/include/tune-mips32.inc
-+++ b/meta/conf/machine/include/tune-mips32.inc
-@@ -6,7 +6,27 @@ TUNEVALID[mips32] = "Enable mips32 specific processor optimizations"
- TUNECONFLICTS[mips32] = "n64 n32"
- TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'mips32', ' -march=mips32', '', d)}"
- 
--AVAILTUNES += "mips32 mips32el mips32-nf mips32el-nf"
-+AVAILTUNES += "mips mipsel mips-nf mipsel-nf mips32 mips32el mips32-nf mips32el-nf"
-+
-+TUNE_FEATURES_tune-mips = "o32 bigendian fpu-hard"
-+BASE_LIB_tune-mips = "lib"
-+MIPSPKGSFX_VARIANT_tune-mips = "${TUNE_ARCH}"
-+PACKAGE_EXTRA_ARCHS_tune-mips = "mips"
-+
-+TUNE_FEATURES_tune-mipsel = "o32 fpu-hard"
-+BASE_LIB_tune-mipsel = "lib"
-+MIPSPKGSFX_VARIANT_tune-mipsel = "${TUNE_ARCH}"
-+PACKAGE_EXTRA_ARCHS_tune-mipsel = "mipsel"
-+
-+TUNE_FEATURES_tune-mips-nf = "o32 bigendian"
-+BASE_LIB_tune-mips-nf = "lib"
-+MIPSPKGSFX_VARIANT_tune-mips-nf = "${TUNE_ARCH}"
-+PACKAGE_EXTRA_ARCHS_tune-mips-nf = "mips-nf"
-+
-+TUNE_FEATURES_tune-mipsel-nf = "o32"
-+BASE_LIB_tune-mipsel-nf = "lib"
-+MIPSPKGSFX_VARIANT_tune-mipsel-nf = "${TUNE_ARCH}"
-+PACKAGE_EXTRA_ARCHS_tune-mipsel-nf = "mipsel-nf"
- 
- TUNE_FEATURES_tune-mips32 = "${TUNE_FEATURES_tune-mips} mips32"
- MIPSPKGSFX_VARIANT_tune-mips32 = "mips32"
-diff --git a/meta/conf/machine/include/tune-mips64.inc b/meta/conf/machine/include/tune-mips64.inc
-index 9be0e0f..06e0ee3 100644
---- a/meta/conf/machine/include/tune-mips64.inc
-+++ b/meta/conf/machine/include/tune-mips64.inc
-@@ -1,3 +1,81 @@
- DEFAULTTUNE ?= "mips64"
- 
- require conf/machine/include/tune-mips32r2.inc
-+
-+# Base tunes
-+AVAILTUNES += "mips64 mips64el"
-+
-+TUNE_FEATURES_tune-mips64 = "n64 bigendian fpu-hard"
-+BASE_LIB_tune-mips64 = "lib64"
-+MIPSPKGSFX_VARIANT_tune-mips64 = "${TUNE_ARCH}"
-+PACKAGE_EXTRA_ARCHS_tune-mips64 = "mips64"
-+
-+TUNE_FEATURES_tune-mips64el = "n64 fpu-hard"
-+BASE_LIB_tune-mips64el = "lib64"
-+MIPSPKGSFX_VARIANT_tune-mips64el = "${TUNE_ARCH}"
-+PACKAGE_EXTRA_ARCHS_tune-mips64el = "mips64el"
-+
-+# MIPS 64 Soft Float
-+AVAILTUNES += "mips64-nf mips64el-nf"
-+
-+TUNE_FEATURES_tune-mips64-nf = "n64 bigendian"
-+BASE_LIB_tune-mips64-nf = "lib64"
-+MIPSPKGSFX_VARIANT_tune-mips64-nf = "${TUNE_ARCH}"
-+PACKAGE_EXTRA_ARCHS_tune-mips64-nf = "mips64-nf"
-+
-+TUNE_FEATURES_tune-mips64el-nf = "n64"
-+BASE_LIB_tune-mips64el-nf = "lib64"
-+MIPSPKGSFX_VARIANT_tune-mips64el-nf = "${TUNE_ARCH}"
-+PACKAGE_EXTRA_ARCHS_tune-mips64el-nf = "mips64el-nf"
-+
-+# MIPS 64 n32
-+AVAILTUNES += "mips64-n32 mips64el-n32"
-+
-+TUNE_FEATURES_tune-mips64-n32 = "n32 bigendian fpu-hard"
-+BASE_LIB_tune-mips64-n32 = "lib32"
-+MIPSPKGSFX_VARIANT_tune-mips64-n32 = "${TUNE_ARCH}"
-+PACKAGE_EXTRA_ARCHS_tune-mips64-n32 = "mips64-n32"
-+
-+TUNE_FEATURES_tune-mips64el-n32 = "n32 fpu-hard"
-+BASE_LIB_tune-mips64el-n32 = "lib32"
-+MIPSPKGSFX_VARIANT_tune-mips64el-n32 = "${TUNE_ARCH}"
-+PACKAGE_EXTRA_ARCHS_tune-mips64el-n32 = "mips64el-n32"
-+
-+# MIPS 64 n32 and Soft Float
-+AVAILTUNES += "mips64-nf-n32 mips64el-nf-n32"
-+
-+TUNE_FEATURES_tune-mips64-nf-n32 = "n32 bigendian"
-+BASE_LIB_tune-mips64-nf-n32 = "lib32"
-+MIPSPKGSFX_VARIANT_tune-mips64-nf-n32 = "${TUNE_ARCH}"
-+PACKAGE_EXTRA_ARCHS_tune-mips64-nf-n32 = "mips64-nf-n32"
-+
-+TUNE_FEATURES_tune-mips64el-nf-n32 = "n32"
-+BASE_LIB_tune-mips64el-nf-n32 = "lib32"
-+MIPSPKGSFX_VARIANT_tune-mips64el-nf-n32 = "${TUNE_ARCH}"
-+PACKAGE_EXTRA_ARCHS_tune-mips64el-nf-n32 = "mips64el-nf-n32"
-+
-+# MIPS 64 o32
-+AVAILTUNES += "mips64-o32 mips64el-o32"
-+
-+TUNE_FEATURES_tune-mips64-o32 = "o32 bigendian fpu-hard"
-+BASE_LIB_tune-mips64-o32 = "lib32"
-+MIPSPKGSFX_VARIANT_tune-mips64-o32 = "${TUNE_ARCH}"
-+PACKAGE_EXTRA_ARCHS_tune-mips64-o32 = "mips64-o32"
-+
-+TUNE_FEATURES_tune-mips64el-o32 = "o32 fpu-hard"
-+BASE_LIB_tune-mips64el-o32 = "lib32"
-+MIPSPKGSFX_VARIANT_tune-mips64el-o32 = "${TUNE_ARCH}"
-+PACKAGE_EXTRA_ARCHS_tune-mips64el-o32 = "mips64el-o32"
-+
-+# MIPS 64 o32 and Soft Float
-+AVAILTUNES += "mips64-nf-o32 mips64el-nf-o32"
-+
-+TUNE_FEATURES_tune-mips64-nf-o32 = "o32 bigendian"
-+BASE_LIB_tune-mips64-nf-o32 = "lib32"
-+MIPSPKGSFX_VARIANT_tune-mips64-nf-o32 = "${TUNE_ARCH}"
-+PACKAGE_EXTRA_ARCHS_tune-mips64-nf-o32 = "mips64-nf-o32"
-+
-+TUNE_FEATURES_tune-mips64el-nf-o32 = "o32"
-+BASE_LIB_tune-mips64el-nf-o32 = "lib32"
-+MIPSPKGSFX_VARIANT_tune-mips64el-nf-o32 = "${TUNE_ARCH}"
-+PACKAGE_EXTRA_ARCHS_tune-mips64el-nf-o32 = "mips64el-nf-o32"
-diff --git a/meta/conf/machine/include/tune-mips64r2.inc b/meta/conf/machine/include/tune-mips64r2.inc
-new file mode 100644
-index 0000000..f64983d
---- /dev/null
-+++ b/meta/conf/machine/include/tune-mips64r2.inc
-@@ -0,0 +1,84 @@
-+DEFAULTTUNE ?= "mips64r2"
-+
-+require conf/machine/include/tune-mips64.inc
-+
-+TUNEVALID[mips64r2] = "Enable mips64r2 specific processor optimizations"
-+TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'mips64r2', ' -march=mips64r2', '', d)}"
-+
-+# Base tunes
-+AVAILTUNES += "mips64r2 mips64r2el"
-+
-+TUNE_FEATURES_tune-mips64r2 = "${TUNE_FEATURES_tune-mips64} mips64r2"
-+BASE_LIB_tune-mips64r2 = "lib64"
-+MIPSPKGSFX_VARIANT_tune-mips64r2 = "mips64r2"
-+PACKAGE_EXTRA_ARCHS_tune-mips64r2 = "mips64 mips64r2"
-+
-+TUNE_FEATURES_tune-mips64r2el = "${TUNE_FEATURES_tune-mips64el} mips64r2"
-+BASE_LIB_tune-mips64r2el = "lib64"
-+MIPSPKGSFX_VARIANT_tune-mips64r2el = "mips64r2el"
-+PACKAGE_EXTRA_ARCHS_tune-mips64r2el = "mips64el mips64r2el"
-+
-+# MIPS 64r2 Soft Float
-+AVAILTUNES += "mips64r2-nf mips64r2el-nf"
-+
-+TUNE_FEATURES_tune-mips64r2-nf = "${TUNE_FEATURES_tune-mips64-nf} mips64r2"
-+BASE_LIB_tune-mips64r2-nf = "lib64"
-+MIPSPKGSFX_VARIANT_tune-mips64r2-nf = "${TUNE_ARCH}"
-+PACKAGE_EXTRA_ARCHS_tune-mips64r2-nf = "mips64-nf mips64r2-nf"
-+
-+TUNE_FEATURES_tune-mips64r2el-nf = "${TUNE_FEATURES_tune-mips64el-nf} mips64r2"
-+BASE_LIB_tune-mips64r2el-nf = "lib64"
-+MIPSPKGSFX_VARIANT_tune-mips64r2el-nf = "${TUNE_ARCH}"
-+PACKAGE_EXTRA_ARCHS_tune-mips64r2el-nf = "mips64el-nf mips64r2el-nf"
-+
-+# MIPS 64r2 n32
-+AVAILTUNES += "mips64r2-n32 mips64r2el-n32"
-+
-+TUNE_FEATURES_tune-mips64r2-n32 = "${TUNE_FEATURES_tune-mips64-n32} mips64r2"
-+BASE_LIB_tune-mips64r2-n32 = "lib32"
-+MIPSPKGSFX_VARIANT_tune-mips64r2-n32 = "${TUNE_ARCH}"
-+PACKAGE_EXTRA_ARCHS_tune-mips64r2-n32 = "mips64-n32 mips64r2-n32"
-+
-+TUNE_FEATURES_tune-mips64r2el-n32 = "${TUNE_FEATURES_tune-mips64el-n32} mips64r2"
-+BASE_LIB_tune-mips64r2el-n32 = "lib32"
-+MIPSPKGSFX_VARIANT_tune-mips64r2el-n32 = "${TUNE_ARCH}"
-+PACKAGE_EXTRA_ARCHS_tune-mips64r2el-n32 = "mips64el-n32 mips64r2el-n32"
-+
-+# MIPS 64r2 n32 and Soft Float
-+AVAILTUNES += "mips64r2-nf-n32 mips64r2el-nf-n32"
-+
-+TUNE_FEATURES_tune-mips64r2-nf-n32 = "${TUNE_FEATURES_tune-mips64-nf-n32} mips64r2"
-+BASE_LIB_tune-mips64r2-nf-n32 = "lib32"
-+MIPSPKGSFX_VARIANT_tune-mips64r2-nf-n32 = "${TUNE_ARCH}"
-+PACKAGE_EXTRA_ARCHS_tune-mips64r2-nf-n32 = "mips64-nf-n32 mips64r2-nf-n32"
-+
-+TUNE_FEATURES_tune-mips64r2el-nf-n32 = "${TUNE_FEATURES_tune-mips64el-nf-n32} mips64r2"
-+BASE_LIB_tune-mips64r2el-nf-n32 = "lib32"
-+MIPSPKGSFX_VARIANT_tune-mips64r2el-nf-n32 = "${TUNE_ARCH}"
-+PACKAGE_EXTRA_ARCHS_tune-mips64r2el-nf-n32 = "mips64el-nf-n32 mips64r2el-nf-n32"
-+
-+# MIPS 64r2 o32
-+AVAILTUNES += "mips64r2-o32 mips64r2el-o32"
-+
-+TUNE_FEATURES_tune-mips64r2-o32 = "${TUNE_FEATURES_tune-mips64-o32} mips64r2"
-+BASE_LIB_tune-mips64r2-o32 = "lib32"
-+MIPSPKGSFX_VARIANT_tune-mips64r2-o32 = "${TUNE_ARCH}"
-+PACKAGE_EXTRA_ARCHS_tune-mips64r2-o32 = "mips mips64-o32 mips64r2-o32"
-+
-+TUNE_FEATURES_tune-mips64r2el-o32 = "${TUNE_FEATURES_tune-mips64el-o32} mips64r2"
-+BASE_LIB_tune-mips64r2el-o32 = "lib32"
-+MIPSPKGSFX_VARIANT_tune-mips64r2el-o32 = "${TUNE_ARCH}"
-+PACKAGE_EXTRA_ARCHS_tune-mips64r2el-o32 = "mipsel mips64el-o32 mips64r2el-o32"
-+
-+# MIPS 64r2 o32 and Soft Float
-+AVAILTUNES += "mips64r2-nf-o32 mips64r2el-nf-o32"
-+
-+TUNE_FEATURES_tune-mips64r2-nf-o32 = "${TUNE_FEATURES_tune-mips64-nf-o32} mips64r2"
-+BASE_LIB_tune-mips64r2-nf-o32 = "lib32"
-+MIPSPKGSFX_VARIANT_tune-mips64r2-nf-o32 = "${TUNE_ARCH}"
-+PACKAGE_EXTRA_ARCHS_tune-mips64r2-nf-o32 = "mips-nf mips64r2-nf-o32"
-+
-+TUNE_FEATURES_tune-mips64r2el-nf-o32 = "${TUNE_FEATURES_tune-mips64el-nf-o32} mips64r2"
-+BASE_LIB_tune-mips64r2el-nf-o32 = "lib32"
-+MIPSPKGSFX_VARIANT_tune-mips64r2el-nf-o32 = "${TUNE_ARCH}"
-+PACKAGE_EXTRA_ARCHS_tune-mips64r2el-nf-o32 = "mipsel-nf mips64r2el-nf-o32"
--- 
-1.9.1
+libunwind needs to be configured with --enable-debug-frame to prevent a
+linkage error.
+Note: --enable-debug-frame is automatically selected on ARM32, not on ARM64.
 
+> Best Regards,
+> Chen Qi
 
+Cheers,
+Fathi
+
+--047d7b5d8861d41c38053cef20f1
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">Hi,<br><br>On 20 September 2016 at 05:12, ChenQi &lt;<a hr=
+ef=3D"mailto:Qi.Chen@windriver.com">Qi.Chen@windriver.com</a>&gt; wrote:<br=
+>&gt; On 09/26/2014 05:59 PM, Fathi Boudra wrote:<br>&gt;&gt;<br>&gt;&gt; *=
+ pass --enable-debug-frame on aarch64 architecture<br>&gt;<br>&gt;<br>&gt; =
+Hi Fathi,<br>&gt;<br>&gt; I&#39;m now dealing with a problem related to lib=
+unwind support on aarch64.<br>&gt; Could you please tell me why &#39;--enab=
+le-debug-frame&#39; is needed for aarch64?<br><br>libunwind needs to be con=
+figured with --enable-debug-frame to prevent a linkage error.<div>Note: --e=
+nable-debug-frame is automatically selected on ARM32, not on ARM64.<br><br>=
+&gt; Best Regards,<br>&gt; Chen Qi<br><br></div><div>Cheers,</div><div>Fath=
+i</div></div>
+
+--047d7b5d8861d41c38053cef20f1--
