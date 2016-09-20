@@ -1,42 +1,23 @@
-Return-Path: <fathi.boudra@linaro.org>
-Received: from mail-wm0-f53.google.com (mail-wm0-f53.google.com [74.125.82.53])
-	by mail.openembedded.org (Postfix) with ESMTP id 557D2605C3
+Return-Path: <ed.bartosh@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 6DF076025F
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Sep 2016 11:57:08 +0000 (UTC)
-Received: by mail-wm0-f53.google.com with SMTP id l132so204837071wmf.0
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Sep 2016 04:57:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=iEKO5rm0ZwdkP1Nc0Ujxhbc2hp/J3P2sDCnHAu0RE6Q=;
-	b=HiI1tGM/AT7Oq1nPpkMK80EcUdQfz233l16X8DPFXrO1ErAZvHN9IC8N8R7cA+ol0X
-	cM9OxVBn0hC9L9HFKalb4O23ktQrRL2JDJR44zzDR5HiO6hZYd9M4Nkl/+KmwQRV3JPs
-	7XpLmx7s8rYbFdg6wI+TtUI/QuaGm5kHT1bII=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=iEKO5rm0ZwdkP1Nc0Ujxhbc2hp/J3P2sDCnHAu0RE6Q=;
-	b=ZyM1CwN+b4FdkofUf9o60FSS1Jfut94IUqbjA9XUDgv3TbXiSzuC+7SMCcZht2/YYP
-	RetHVAvaCB6GubvxdY97MPsSkcY8xKOYjq/b4Wwzmrxa16/vFl8s93n4fy53d+v1A9Nn
-	n4dGdBQ/UPFKpWj00pOmw3WYe7Fp69K7QEB0Iu/nhNPOrhQSzIIjdqBjqasj1eDaLSSC
-	617v+dohg9k4YO0HSvtaUluK/mV9ImMdmsBlNsNTY58vdYamkrZHzKWh8JVTz/ztKPDi
-	S1bzw3cfeXekgNQSoSDHZt1w5t5Bwt9ww2nCLQ0lT8NSuDKh4i6GxP0d0N/WdKIQGkeW
-	YLKQ==
-X-Gm-Message-State: AE9vXwMrUM+VRnC5oiV6f10/++v51AK4bsi2UCc+pkBjWSdOiJe6Em6Ixx0aUGCSX8B9tLy5n8Hc6nKYLCsQImeD
-X-Received: by 10.194.5.202 with SMTP id u10mr31898965wju.149.1474372629152;
-	Tue, 20 Sep 2016 04:57:09 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.28.129.196 with HTTP; Tue, 20 Sep 2016 04:57:08 -0700 (PDT)
-In-Reply-To: <57E09AFD.4040006@windriver.com>
-References: <1411725589-20460-1-git-send-email-fathi.boudra@linaro.org>
-	<57E09AFD.4040006@windriver.com>
-From: Fathi Boudra <fathi.boudra@linaro.org>
-Date: Tue, 20 Sep 2016 14:57:08 +0300
-Message-ID: <CAGNsrLDLQ0sJZyec8KwHxwuFGhMhP5mG+nFbFnR3816oD1MS-g@mail.gmail.com>
-To: ChenQi <Qi.Chen@windriver.com>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] libunwind: add aarch64 support
+	Tue, 20 Sep 2016 12:24:22 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga103.jf.intel.com with ESMTP; 20 Sep 2016 05:24:25 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.30,368,1470726000"; d="scan'208";a="1033637182"
+Received: from linux.intel.com ([10.54.29.200])
+	by orsmga001.jf.intel.com with ESMTP; 20 Sep 2016 05:24:24 -0700
+Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.68])
+	by linux.intel.com (Postfix) with ESMTP id 126E86A4006;
+	Tue, 20 Sep 2016 05:23:58 -0700 (PDT)
+From: Ed Bartosh <ed.bartosh@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 20 Sep 2016 15:13:31 +0300
+Message-Id: <1474373611-10191-1-git-send-email-ed.bartosh@linux.intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [wic][PATCH] directdisk*.wks: add serial console support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,49 +30,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Sep 2016 11:57:12 -0000
-Content-Type: multipart/alternative; boundary=047d7b5d8861d41c38053cef20f1
+X-List-Received-Date: Tue, 20 Sep 2016 12:24:23 -0000
 
---047d7b5d8861d41c38053cef20f1
-Content-Type: text/plain; charset=UTF-8
+Added serial console to kernel command line to to make it
+easier to boot wic images on devices without display.
 
-Hi,
+Tested on MinnowBoard MAX.
 
-On 20 September 2016 at 05:12, ChenQi <Qi.Chen@windriver.com> wrote:
-> On 09/26/2014 05:59 PM, Fathi Boudra wrote:
->>
->> * pass --enable-debug-frame on aarch64 architecture
->
->
-> Hi Fathi,
->
-> I'm now dealing with a problem related to libunwind support on aarch64.
-> Could you please tell me why '--enable-debug-frame' is needed for aarch64?
+Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
+---
+ scripts/lib/wic/canned-wks/directdisk-gpt.wks          | 2 +-
+ scripts/lib/wic/canned-wks/directdisk-multi-rootfs.wks | 2 +-
+ scripts/lib/wic/canned-wks/directdisk.wks              | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
 
-libunwind needs to be configured with --enable-debug-frame to prevent a
-linkage error.
-Note: --enable-debug-frame is automatically selected on ARM32, not on ARM64.
+diff --git a/scripts/lib/wic/canned-wks/directdisk-gpt.wks b/scripts/lib/wic/canned-wks/directdisk-gpt.wks
+index ea01cf3..8d7d8de 100644
+--- a/scripts/lib/wic/canned-wks/directdisk-gpt.wks
++++ b/scripts/lib/wic/canned-wks/directdisk-gpt.wks
+@@ -6,5 +6,5 @@
+ part /boot --source bootimg-pcbios --ondisk sda --label boot --active --align 1024
+ part / --source rootfs --ondisk sda --fstype=ext4 --label platform --align 1024 --use-uuid
+ 
+-bootloader  --ptable gpt --timeout=0  --append="rootwait rootfstype=ext4 video=vesafb vga=0x318 console=tty0"
++bootloader  --ptable gpt --timeout=0  --append="rootwait rootfstype=ext4 video=vesafb vga=0x318 console=tty0 console=ttyS0,115200n8"
+ 
+diff --git a/scripts/lib/wic/canned-wks/directdisk-multi-rootfs.wks b/scripts/lib/wic/canned-wks/directdisk-multi-rootfs.wks
+index 8a81f8f..f61d941 100644
+--- a/scripts/lib/wic/canned-wks/directdisk-multi-rootfs.wks
++++ b/scripts/lib/wic/canned-wks/directdisk-multi-rootfs.wks
+@@ -19,5 +19,5 @@ part /boot --source bootimg-pcbios --ondisk sda --label boot --active --align 10
+ part / --source rootfs --rootfs-dir=rootfs1 --ondisk sda --fstype=ext4 --label platform --align 1024
+ part /rescue --source rootfs --rootfs-dir=rootfs2 --ondisk sda --fstype=ext4 --label secondary --align 1024
+ 
+-bootloader  --timeout=0  --append="rootwait rootfstype=ext4 video=vesafb vga=0x318 console=tty0"
++bootloader  --timeout=0  --append="rootwait rootfstype=ext4 video=vesafb vga=0x318 console=tty0 console=ttyS0,115200n8"
+ 
+diff --git a/scripts/lib/wic/canned-wks/directdisk.wks b/scripts/lib/wic/canned-wks/directdisk.wks
+index 6db74a7..8c8e06b 100644
+--- a/scripts/lib/wic/canned-wks/directdisk.wks
++++ b/scripts/lib/wic/canned-wks/directdisk.wks
+@@ -4,5 +4,5 @@
+ 
+ include common.wks.inc
+ 
+-bootloader  --timeout=0  --append="rootwait rootfstype=ext4 video=vesafb vga=0x318 console=tty0"
++bootloader  --timeout=0  --append="rootwait rootfstype=ext4 video=vesafb vga=0x318 console=tty0 console=ttyS0,115200n8"
+ 
+-- 
+2.1.4
 
-> Best Regards,
-> Chen Qi
 
-Cheers,
-Fathi
-
---047d7b5d8861d41c38053cef20f1
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Hi,<br><br>On 20 September 2016 at 05:12, ChenQi &lt;<a hr=
-ef=3D"mailto:Qi.Chen@windriver.com">Qi.Chen@windriver.com</a>&gt; wrote:<br=
->&gt; On 09/26/2014 05:59 PM, Fathi Boudra wrote:<br>&gt;&gt;<br>&gt;&gt; *=
- pass --enable-debug-frame on aarch64 architecture<br>&gt;<br>&gt;<br>&gt; =
-Hi Fathi,<br>&gt;<br>&gt; I&#39;m now dealing with a problem related to lib=
-unwind support on aarch64.<br>&gt; Could you please tell me why &#39;--enab=
-le-debug-frame&#39; is needed for aarch64?<br><br>libunwind needs to be con=
-figured with --enable-debug-frame to prevent a linkage error.<div>Note: --e=
-nable-debug-frame is automatically selected on ARM32, not on ARM64.<br><br>=
-&gt; Best Regards,<br>&gt; Chen Qi<br><br></div><div>Cheers,</div><div>Fath=
-i</div></div>
-
---047d7b5d8861d41c38053cef20f1--
