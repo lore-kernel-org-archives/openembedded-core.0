@@ -1,27 +1,24 @@
-Return-Path: <Zubair.Kakakhel@imgtec.com>
-Received: from mailapp01.imgtec.com (mailapp01.imgtec.com [195.59.15.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 650906074F
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id D8A936010D
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Sep 2016 10:25:45 +0000 (UTC)
-Received: from HHMAIL01.hh.imgtec.org (unknown [10.100.10.19])
-	by Forcepoint Email with ESMTPS id 943E1B30FE055;
-	Tue, 20 Sep 2016 11:25:32 +0100 (IST)
-Received: from zkakakhel-linux.le.imgtec.org (192.168.154.45) by
-	HHMAIL01.hh.imgtec.org (10.100.10.21) with Microsoft SMTP Server (TLS)
-	id 14.3.294.0; Tue, 20 Sep 2016 11:25:34 +0100
-To: Robert Yang <liezhi.yang@windriver.com>,
-	<openembedded-core@lists.openembedded.org>
-References: <1474283673-48449-1-git-send-email-Zubair.Kakakhel@imgtec.com>
-	<266d3484-6a50-7e5b-6a1e-9efc2eebb50f@windriver.com>
-From: Zubair Lutfullah Kakakhel <Zubair.Kakakhel@imgtec.com>
-Message-ID: <a43ab46c-1fad-0d5e-d536-3ed9a4c84012@imgtec.com>
-Date: Tue, 20 Sep 2016 11:25:34 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.2.0
+	Tue, 20 Sep 2016 10:32:57 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u8KAWwuF011496
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 20 Sep 2016 03:32:58 -0700
+Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.294.0;
+	Tue, 20 Sep 2016 03:32:57 -0700
+From: Robert Yang <liezhi.yang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 20 Sep 2016 03:32:56 -0700
+Message-ID: <cover.1474367289.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 2.9.0
 MIME-Version: 1.0
-In-Reply-To: <266d3484-6a50-7e5b-6a1e-9efc2eebb50f@windriver.com>
-X-Originating-IP: [192.168.154.45]
-Subject: Re: [Patch] arch-mips: Restructure mips64 and add mips64r2
+Subject: [PATCH 0/1] asciidoc: set CLEANBROKEN to fix rebuild
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,64 +31,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Sep 2016 10:25:45 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 20 Sep 2016 10:32:58 -0000
+Content-Type: text/plain
 
-Hi,
+The following changes since commit 5ac0604fdc7d5b783011c43d476210b427b5dae0:
 
-On 09/20/2016 03:33 AM, Robert Yang wrote:
-> Hi,
->
-> It seems that this one causes build failures on qemumips64 + multilib:
->
-> config:
-> http://autobuilder.yocto.io:8010/builders/nightly-multilib/builds/64/steps/CreateAutoConf_5/logs/stdio
->
-> error:
-> http://autobuilder.yocto.io:8010/builders/nightly-multilib/builds/64/steps/BuildImages_5/logs/stdio
->
-> ERROR:  OE-core's config sanity checker detected a potential misconfiguration.
->     Either fix the cause of this error or at your own risk disable the checker (see sanity.conf).
->     Following is the list of potential problems / advisories:
->
->     Toolchain tunings invalid:
-> Tuning 'mips32r2' has no defined features, and cannot be used.
+  build-appliance-image: Create image in correct location (2016-09-19 08:58:04 +0100)
 
-Thank-you. I've noticed a subtle error in the include file sequence marked below
+are available in the git repository at:
 
->
-> // Robert
->
-> On 09/19/2016 07:14 PM, Zubair Lutfullah Kakakhel wrote:
->> The current file structure felt slightly unsuitable for adding
->> MIPS64r2. So I restructured it slightly and added MIPS64r2
->> support
->>
->> Signed-off-by: Zubair Lutfullah Kakakhel <Zubair.Kakakhel@imgtec.com>
->> ---
->>  meta/conf/machine/include/mips/arch-mips.inc | 60 --------------------
->>  meta/conf/machine/include/tune-mips32.inc    | 22 +++++++-
->>  meta/conf/machine/include/tune-mips64.inc    | 80 +++++++++++++++++++++++++-
->>  meta/conf/machine/include/tune-mips64r2.inc  | 84 ++++++++++++++++++++++++++++
->>  4 files changed, 184 insertions(+), 62 deletions(-)
-...
->> diff --git a/meta/conf/machine/include/tune-mips64.inc b/meta/conf/machine/include/tune-mips64.inc
->> index 9be0e0f..e0c9d2c 100644
->> --- a/meta/conf/machine/include/tune-mips64.inc
->> +++ b/meta/conf/machine/include/tune-mips64.inc
->> @@ -1,3 +1,81 @@
->>  DEFAULTTUNE ?= "mips64"
->>
->> -require conf/machine/include/tune-mips32r2.inc
->> +require conf/machine/include/mips/arch-mips.inc
+  git://git.openembedded.org/openembedded-core-contrib rbt/ascii
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/ascii
 
-Here. Even though this is mips64.inc. It builds up using
-mips32r2.inc to include all previous tune configurations
-in mips32r2
+Robert Yang (1):
+  asciidoc: set CLEANBROKEN to fix rebuild
 
-Regards,
-ZubairLK
+ meta/recipes-extended/asciidoc/asciidoc_8.6.9.bb | 2 ++
+ 1 file changed, 2 insertions(+)
 
+-- 
+2.9.0
 
 
