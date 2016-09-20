@@ -1,26 +1,43 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 704356057A
+Return-Path: <zeenix@gmail.com>
+Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 97F0760403
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Sep 2016 05:34:37 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u8K5Yc3Q020234
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Tue, 20 Sep 2016 07:39:27 +0000 (UTC)
+Received: by mail-wm0-f68.google.com with SMTP id b184so1835625wma.3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Sep 2016 22:34:39 -0700 (PDT)
-Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.294.0;
-	Mon, 19 Sep 2016 22:34:37 -0700
-From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 19 Sep 2016 22:34:36 -0700
-Message-ID: <4dbdeb4846fec52c1f1927e60862ed4e6e2be038.1474349633.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 2.9.0
-In-Reply-To: <cover.1474349633.git.liezhi.yang@windriver.com>
-References: <cover.1474349633.git.liezhi.yang@windriver.com>
+	Tue, 20 Sep 2016 00:39:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=AnbdSXCTl6f5N8j8K1npHlLdhtiaU8QdeX7myWGDMLs=;
+	b=fd8AoN6ZRsOHqVc9vsnPtEOaLVd/ky8ZV7B4n/KldtdHCHXMqvnLgCmmsHe1OOnYkC
+	IRlRqqG0f4Dlvu6u32iYkx19/ZCNmThrOlaT2V80uWtQ7zbcsIaTX5yADizVSOdPWfpH
+	/Y5H/F1Z/0FzaZ5/KxHCT8HoUfqHT5HqhmVHWzF0JOfYoi8aPWHhgImwXThFnICWa5Tt
+	3ePeJXaSNV/xWRovZaWzkzPHQdFYuI2ReulveCL1M7Ru48WYa6E1oMHg30Ph1XX7lSte
+	CDAk+0c29JdXbIheXVaw0IclYe/sTazOUC4hqkPm6AkLWHYhdGCA3gUEM06uSYQxzF4d
+	3UQw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=AnbdSXCTl6f5N8j8K1npHlLdhtiaU8QdeX7myWGDMLs=;
+	b=HXOmhn5/RN0VRIqIDZmb90a4+BJ4hkNPvloir8/lATqwghwZFhEAurXe1Bnw4hdI5p
+	cavAcLaJXjNgah2gomqP+D4h/5ll+QXhNJv01EiraQ69fEZ605WZPDyjZwRdWXJmP4MG
+	sXOcJ7Yg4gGFacP9D0WsmP9KKaKXsWzMZi8vP4r5SsouNvzoe1qC45on02KcnhQE9rf6
+	7ML5gcPanVA8O+QD6TRV7QS5oD81QImr8nnZ8OZZdtl1wuNQzQqbgGmMvg5VMfnIHFhy
+	OOCBFT7WShaVE3O6BFn/JD7fCJWpJGsKnL3JtPZ7jvtUKK9u4IbdmsnXZ6DBsCaxuw8a
+	Z6tQ==
+X-Gm-Message-State: AE9vXwMURfSY1wXdZCkEf7dbcWCMSkoYowpzWdELQ/5DXF/Pnkk7I6MeZavICMNP06cz5jP5zqCUZz0fEBuW+Q==
+X-Received: by 10.194.149.102 with SMTP id tz6mr26815924wjb.154.1474357168701; 
+	Tue, 20 Sep 2016 00:39:28 -0700 (PDT)
 MIME-Version: 1.0
-Subject: [PATCH 1/1] openssl: fix do_configure error when cwd is not in @INC
+Received: by 10.28.109.139 with HTTP; Tue, 20 Sep 2016 00:39:28 -0700 (PDT)
+In-Reply-To: <1473688845-10252-1-git-send-email-zeenix@gmail.com>
+References: <1473688845-10252-1-git-send-email-zeenix@gmail.com>
+From: Zeeshan Ali <zeenix@gmail.com>
+Date: Tue, 20 Sep 2016 09:39:28 +0200
+Message-ID: <CAAa3hFOVJQM3R=rHEXAgnXOjY63EmCi-ngYhPSEqkE60s_-7tg@mail.gmail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] [krogoth] gobject-introspection.bbclass: disable introspection for -native and -nativesdk recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,72 +50,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Sep 2016 05:34:38 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 20 Sep 2016 07:39:29 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Fixed when building on Debian-testing:
-| Can't locate find.pl in @INC (@INC contains: /etc/perl /usr/local/lib/x86_64-linux-gnu/perl/5.22.2 /usr/local/share/perl/5.22.2 /usr/lib/x86_64-linux-gnu/perl5/5.22 /usr/share/perl5 /usr/lib/x86_64-linux-gnu/perl/5.22 /usr/share/perl/5.22 /usr/local/lib/site_perl /usr/lib/x86_64-linux-gnu/perl-base) at perlpath.pl line 7.
+Hi,
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
- .../openssl/openssl-util-perlpath.pl-cwd.patch     | 34 ++++++++++++++++++++++
- .../recipes-connectivity/openssl/openssl_1.0.2h.bb |  1 +
- 2 files changed, 35 insertions(+)
- create mode 100644 meta/recipes-connectivity/openssl/openssl/openssl-util-perlpath.pl-cwd.patch
+Could we please cherry-pick this? Otherwise some native recipes fail
+to build if gobject-introspection is available on host.
 
-diff --git a/meta/recipes-connectivity/openssl/openssl/openssl-util-perlpath.pl-cwd.patch b/meta/recipes-connectivity/openssl/openssl/openssl-util-perlpath.pl-cwd.patch
-new file mode 100644
-index 0000000..065b9b1
---- /dev/null
-+++ b/meta/recipes-connectivity/openssl/openssl/openssl-util-perlpath.pl-cwd.patch
-@@ -0,0 +1,34 @@
-+From e427748f3bb5d37e78dc8d70a558c373aa8ababb Mon Sep 17 00:00:00 2001
-+From: Robert Yang <liezhi.yang@windriver.com>
-+Date: Mon, 19 Sep 2016 22:06:28 -0700
-+Subject: [PATCH] util/perlpath.pl: make it work when cwd is not in @INC
-+
-+Fixed when building on Debian-testing:
-+| Can't locate find.pl in @INC (@INC contains: /etc/perl /usr/local/lib/x86_64-linux-gnu/perl/5.22.2 /usr/local/share/perl/5.22.2 /usr/lib/x86_64-linux-gnu/perl5/5.22 /usr/share/perl5 /usr/lib/x86_64-linux-gnu/perl/5.22 /usr/share/perl/5.22 /usr/local/lib/site_perl /usr/lib/x86_64-linux-gnu/perl-base) at perlpath.pl line 7.
-+
-+The find.pl is added by oe-core, so once openssl/find.pl is removed,
-+then this patch can be dropped.
-+
-+Upstream-Status: Inappropriate [OE-Specific]
-+
-+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-+---
-+ util/perlpath.pl | 2 ++
-+ 1 file changed, 2 insertions(+)
-+
-+diff --git a/util/perlpath.pl b/util/perlpath.pl
-+index a1f236b..5599892 100755
-+--- a/util/perlpath.pl
-++++ b/util/perlpath.pl
-+@@ -4,6 +4,8 @@
-+ # line in all scripts that rely on perl.
-+ #
-+ 
-++BEGIN { unshift @INC, "."; }
-++
-+ require "find.pl";
-+ 
-+ $#ARGV == 0 || print STDERR "usage: perlpath newpath  (eg /usr/bin)\n";
-+-- 
-+2.9.0
-+
-diff --git a/meta/recipes-connectivity/openssl/openssl_1.0.2h.bb b/meta/recipes-connectivity/openssl/openssl_1.0.2h.bb
-index 4f91e55..c8444d3 100644
---- a/meta/recipes-connectivity/openssl/openssl_1.0.2h.bb
-+++ b/meta/recipes-connectivity/openssl/openssl_1.0.2h.bb
-@@ -41,6 +41,7 @@ SRC_URI += "file://find.pl;subdir=${BP}/util/ \
-             file://parallel.patch \
-             file://CVE-2016-2177.patch \
-             file://CVE-2016-2178.patch \
-+            file://openssl-util-perlpath.pl-cwd.patch \
-            "
- SRC_URI[md5sum] = "9392e65072ce4b614c1392eefc1f23d0"
- SRC_URI[sha256sum] = "1d4007e53aad94a5b2002fe045ee7bb0b3d98f1a47f8b2bc851dcd1c74332919"
+On Mon, Sep 12, 2016 at 4:00 PM, Zeeshan Ali <zeenix@gmail.com> wrote:
+> From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+>
+> It is not necessary for those targets, adds to the build time, and pulls
+> in the unneeded qemu-native dependency.
+>
+> (From OE-Core rev: be18364edd5cd2c664f68120063a1e147563faab)
+>
+> Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+> Signed-off-by: Ross Burton <ross.burton@intel.com>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> ---
+>  meta/classes/gobject-introspection.bbclass | 14 ++++++++++++--
+>  1 file changed, 12 insertions(+), 2 deletions(-)
+>
+> diff --git a/meta/classes/gobject-introspection.bbclass b/meta/classes/gobject-introspection.bbclass
+> index 2d73e40..cc7ca5a 100644
+> --- a/meta/classes/gobject-introspection.bbclass
+> +++ b/meta/classes/gobject-introspection.bbclass
+> @@ -3,13 +3,23 @@
+>  # This sets up autoconf-based recipes to build introspection data (or not),
+>  # depending on distro and machine features (see gobject-introspection-data class).
+>  inherit gobject-introspection-data
+> -EXTRA_OECONF_prepend = "${@bb.utils.contains('GI_DATA_ENABLED', 'True', '--enable-introspection', '--disable-introspection', d)} "
+> +EXTRA_OECONF_prepend_class-target = "${@bb.utils.contains('GI_DATA_ENABLED', 'True', '--enable-introspection', '--disable-introspection', d)} "
+> +
+> +# When building native recipes, disable introspection, as it is not necessary,
+> +# pulls in additional dependencies, and makes build times longer
+> +EXTRA_OECONF_prepend_class-native = "--disable-introspection "
+> +EXTRA_OECONF_prepend_class-nativesdk = "--disable-introspection "
+>
+>  UNKNOWN_CONFIGURE_WHITELIST_append = " --enable-introspection --disable-introspection"
+>
+>  # Generating introspection data depends on a combination of native and target
+>  # introspection tools, and qemu to run the target tools.
+> -DEPENDS_append = " gobject-introspection gobject-introspection-native qemu-native"
+> +DEPENDS_append_class-target = " gobject-introspection gobject-introspection-native qemu-native"
+> +
+> +# Even though introspection is disabled on -native, gobject-introspection package is still
+> +# needed for m4 macros.
+> +DEPENDS_append_class-native = " gobject-introspection-native"
+> +DEPENDS_append_class-nativesdk = " gobject-introspection-native"
+>
+>  # This is necessary for python scripts to succeed - distutils fails if these
+>  # are not set
+> --
+> 2.7.4
+>
+
+
+
 -- 
-2.9.0
+Regards,
 
+Zeeshan Ali
 
