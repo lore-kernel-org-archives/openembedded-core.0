@@ -1,48 +1,46 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-yw0-f182.google.com (mail-yw0-f182.google.com
-	[209.85.161.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 47D786060E
+Received: from mail-yw0-f194.google.com (mail-yw0-f194.google.com
+	[209.85.161.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 952E660778
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Sep 2016 20:48:24 +0000 (UTC)
-Received: by mail-yw0-f182.google.com with SMTP id i129so21220815ywb.0
+	Tue, 20 Sep 2016 20:49:23 +0000 (UTC)
+Received: by mail-yw0-f194.google.com with SMTP id t67so1203476ywg.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Sep 2016 13:48:26 -0700 (PDT)
+	Tue, 20 Sep 2016 13:49:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=Ryv/Zp1dakwltxUbQ12FJ7ACaTe8TuBfvHYomeqitHE=;
-	b=xFSqy/vU4OA0Q04HKDfSo5D4Y1ZWvypmJ9601nLscxrXLssFIGMvzEbw/M4UYTn3m7
-	MM1Oi/UjULQuM12aDBEX36nkxSUZcjiKuj24KmnfXmF8LDchIZ7cArCPZrudLRHgltME
-	UXwdRo0+ZkN6RsTOlzfLgXvu0Fngfu6SxDSJxXASEhX3WzCR15BWUVGlfRNctdhLfsW8
-	pgY288X0VACX7S1D6uic/JJg2bovPQKZdBBgRin8zGvF0A/VtifK+GAsoZlWxADuxOYM
-	CfjrBKDC2cY7vj0lNZZEuY1rRJkcF1vDdjgI7nYX5qDrwjoUGQ7oo6FkSmAEVthmzJT4
-	GC/w==
+	:cc; bh=j1ZM5Dq/3Qcz4nMrQwopJtJJoAGJz3aCRT3e1wGe7tY=;
+	b=H3P4M/D45/pzP0kgv2RWu/2pxsfhEq3J2rvMwXfu+CPXeI3068rb7rhj+JsiSi0PcN
+	mSkb7SMkEA5ZAkTjXiriS+Kq4JjkQyYB185RXQRk2ocLcU8spmJhRpKEowGwHDk7e6eV
+	o3HdE9ZepKZaN5n1jIGQ/E+CcWNjfzMzYy52YxTasrME9lVp81zByxew7DJbZdPX07bg
+	E4pmzMrl+KxxcKv7A9I17x/ZpQZs2GEbRje2zeDgDKRnQJwE3x30RND/+/0pitFkrIOB
+	VQilsRZYLEYG3yGfxQzCktbvP9rGHGkCNM7jZCx2Yvnl0wyKAZaFgg6oYNONw7VaKMRg
+	+nXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=Ryv/Zp1dakwltxUbQ12FJ7ACaTe8TuBfvHYomeqitHE=;
-	b=WDREZGDOykG64f+caMRIoZoR7yAOqZtTann/5974X9rONnaEP6+RCG+cxmH9bdByQe
-	GaJC+zF6qsjw/bMV1kri2Xtnc3NZttRiFXckkBe3C3iuOqsTRuwxBq88iJoVi0CgetHe
-	SdROl+OdfgTQu9IPNGUkLo5HFLT/5NBP7i1TyzIciLkpWTdSXnC/j2uSI91xdIgtGxCw
-	D/K1Nym4cNI7PwwNYS45sh45PFFyMOFR22VX+4S/msy/I99HnksdtR1O9kzg+n+MrwGV
-	jkzz3vQyebV8Zoe1r1liYr7plgpGrzfg8QZs+Q6edONkjiv1rwrliVM1S6xpl+GIPc/T
-	AnZw==
-X-Gm-Message-State: AE9vXwPrpJQU9eDPkZ9Aw7uLz8Tr32XsxgW5FCPybtFmxBLQGgPHhfOBcwD1mbcpuXc5BfnDgUrlIWJTwu7mQQ==
-X-Received: by 10.129.129.134 with SMTP id r128mr31069492ywf.179.1474404506151;
-	Tue, 20 Sep 2016 13:48:26 -0700 (PDT)
+	bh=j1ZM5Dq/3Qcz4nMrQwopJtJJoAGJz3aCRT3e1wGe7tY=;
+	b=B2QQrTYQKyriFlMlJKU/diRi13eVbN+d9c2fkTE9uJCvZ3vsKp4r4uemfvX1+e1hdc
+	RbGpJ5Y+OIF+di5ZgnurLHBemPI5Wjc5sbfGQGJtdHNqQiDC0FFwV+rkrLeqaAMUi5ji
+	TPcwYgz++tX+kmm4iQhRtGKyMJD5QsmUpJjaFOpZx+HuPGk31vgeEgSD1AxHAUCNcpm8
+	xZJBYk+B/1ITdSZB9Ii4zsKdojOSpvT2dJuzs9DzJtfXl6dcGO7Z0o3RrE4fKmy0yNiw
+	httgePmpqR9XxmRiSboTlqJ45X9IS4Wv67i1Od8hbxZrAARuDtfIRHebMWg6pfAiRANj
+	m9rw==
+X-Gm-Message-State: AE9vXwOq7aOsZ0XIS+e65afwGWmQgrUCKm6d2cQSwzCoxnc35h7QIRNuI2MMs0hs7a5s1X6Qxecmc+/MY1pzPw==
+X-Received: by 10.129.121.7 with SMTP id u7mr30772214ywc.237.1474404565269;
+	Tue, 20 Sep 2016 13:49:25 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.176.80.33 with HTTP; Tue, 20 Sep 2016 13:47:55 -0700 (PDT)
-In-Reply-To: <d8e2a387-eae9-8436-e08e-4768785bd545@windriver.com>
-References: <1411725589-20460-1-git-send-email-fathi.boudra@linaro.org>
-	<57E09AFD.4040006@windriver.com>
-	<CAGNsrLDLQ0sJZyec8KwHxwuFGhMhP5mG+nFbFnR3816oD1MS-g@mail.gmail.com>
-	<d8e2a387-eae9-8436-e08e-4768785bd545@windriver.com>
+Received: by 10.176.80.33 with HTTP; Tue, 20 Sep 2016 13:48:54 -0700 (PDT)
+In-Reply-To: <20160920091958.23448-1-Yuanjie.Huang@windriver.com>
+References: <20160920091958.23448-1-Yuanjie.Huang@windriver.com>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 20 Sep 2016 13:47:55 -0700
-Message-ID: <CAMKF1so0b8MZZcRzomeaNjo9pJd_ONx+vex0VvWBQw+nB6ufMg@mail.gmail.com>
-To: Randy MacLeod <randy.macleod@windriver.com>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] libunwind: add aarch64 support
+Date: Tue, 20 Sep 2016 13:48:54 -0700
+Message-ID: <CAMKF1sooPU-oSmeGuNQXjEUvgWfAXubQuKc6bk=L45WtRD4xjQ@mail.gmail.com>
+To: Yuanjie Huang <Yuanjie.Huang@windriver.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] gcc-sanitizers: Fix libtool library files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,66 +53,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Sep 2016 20:48:25 -0000
+X-List-Received-Date: Tue, 20 Sep 2016 20:49:24 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On Tue, Sep 20, 2016 at 7:21 AM, Randy MacLeod
-<randy.macleod@windriver.com> wrote:
-> On 2016-09-20 07:57 AM, Fathi Boudra wrote:
->>
->> Hi,
->>
->> On 20 September 2016 at 05:12, ChenQi <Qi.Chen@windriver.com
->> <mailto:Qi.Chen@windriver.com>> wrote:
->>>
->>> On 09/26/2014 05:59 PM, Fathi Boudra wrote:
->>>>
->>>>
->>>> * pass --enable-debug-frame on aarch64 architecture
->>>
->>>
->>>
->>> Hi Fathi,
->>>
->>> I'm now dealing with a problem related to libunwind support on aarch64.
->>> Could you please tell me why '--enable-debug-frame' is needed for
->>> aarch64?
->>
->>
->> libunwind needs to be configured with --enable-debug-frame to prevent a
->> linkage error.
->> Note: --enable-debug-frame is automatically selected on ARM32, not on
->> ARM64.
->>
+On Tue, Sep 20, 2016 at 2:19 AM, Yuanjie Huang
+<Yuanjie.Huang@windriver.com> wrote:
+> From: Yuanjie Huang <yuanjie.huang@windriver.com>
 >
-> Thanks.
-> We dropped the configuration flag and don't see any linking/linkage
-> problems yet. Can you be more specific about the problems encountered?
+> Since libtool sysroot is not set when compiling sanitizers, the libtool
+> does no prefix the dependency path correctly. Fix it, so that programs
+> can link to sanitizer libraries without error.
+>
+> This patch changes the depenedency_libs line in libasan.la and
+> libusan.la from
+>         dependency_libs=' -lpthread -ldl '/usr/lib'/libstdc++.la '/usr/lib'/libstdc++.la'
+> to
+>         dependency_libs=' -lpthread -ldl =/usr/lib/libstdc++.la =/usr/lib/libstdc++.la'
+>
+> Upstream-Status: Inappropriate [embedded specific]
+> (LOCAL REV; NOT UPSTREAM) -- sent to oe-core on 2016-09-20
+>
+> Signed-off-by: Yuanjie Huang <yuanjie.huang@windriver.com>
+> ---
+>  meta/recipes-devtools/gcc/gcc-sanitizers.inc | 2 ++
+>  1 file changed, 2 insertions(+)
+>
+> diff --git a/meta/recipes-devtools/gcc/gcc-sanitizers.inc b/meta/recipes-devtools/gcc/gcc-sanitizers.inc
+> index c987ccb..5fe5eaf 100644
+> --- a/meta/recipes-devtools/gcc/gcc-sanitizers.inc
+> +++ b/meta/recipes-devtools/gcc/gcc-sanitizers.inc
+> @@ -50,6 +50,8 @@ do_install () {
+>          rmdir --ignore-fail-on-non-empty -p ${D}${infodir}
+>      fi
+>      chown -R root:root ${D}
+> +    # Fix broken libtool with stdc++, as sysroot is not set.
+> +    find ${D} -name \*.la -exec sed -i "/^dependency_libs=/s@'/usr/lib'@=/usr/lib@g" {} \;
 
-This would enable .debug_frame instead of .eh_frame for unwinding.
-AFAICT it was only
-needed on arm ( 32bit) not sure you need this on aarch64
+what happens if you remove the .la files completely.
 
+>  }
 >
-> Our goal is to make tcmalloc from gperftools work on ARM64.
->
-> ../Randy
->
->
->>> Best Regards,
->>> Chen Qi
->>
->>
->> Cheers,
->> Fathi
->>
->>
->
->
+>  INHIBIT_DEFAULT_DEPS = "1"
 > --
-> # Randy MacLeod. SMTS, Linux, Wind River
-> Direct: 613.963.1350 | 350 Terry Fox Drive, Suite 200, Ottawa, ON, Canada,
-> K2K 2W5
+> 1.9.1
+>
 > --
 > _______________________________________________
 > Openembedded-core mailing list
