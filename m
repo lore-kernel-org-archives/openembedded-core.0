@@ -1,46 +1,47 @@
 Return-Path: <raj.khem@gmail.com>
 Received: from mail-yw0-f194.google.com (mail-yw0-f194.google.com
 	[209.85.161.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 952E660778
+	by mail.openembedded.org (Postfix) with ESMTP id E279E6060E
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Sep 2016 20:49:23 +0000 (UTC)
-Received: by mail-yw0-f194.google.com with SMTP id t67so1203476ywg.1
+	Tue, 20 Sep 2016 20:56:59 +0000 (UTC)
+Received: by mail-yw0-f194.google.com with SMTP id v2so1216273ywg.3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Sep 2016 13:49:25 -0700 (PDT)
+	Tue, 20 Sep 2016 13:57:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=j1ZM5Dq/3Qcz4nMrQwopJtJJoAGJz3aCRT3e1wGe7tY=;
-	b=H3P4M/D45/pzP0kgv2RWu/2pxsfhEq3J2rvMwXfu+CPXeI3068rb7rhj+JsiSi0PcN
-	mSkb7SMkEA5ZAkTjXiriS+Kq4JjkQyYB185RXQRk2ocLcU8spmJhRpKEowGwHDk7e6eV
-	o3HdE9ZepKZaN5n1jIGQ/E+CcWNjfzMzYy52YxTasrME9lVp81zByxew7DJbZdPX07bg
-	E4pmzMrl+KxxcKv7A9I17x/ZpQZs2GEbRje2zeDgDKRnQJwE3x30RND/+/0pitFkrIOB
-	VQilsRZYLEYG3yGfxQzCktbvP9rGHGkCNM7jZCx2Yvnl0wyKAZaFgg6oYNONw7VaKMRg
-	+nXQ==
+	:cc; bh=Pd8n6S2bEOExigOHDgNRYaBw/2BvWfPD3zTdXOIiTfI=;
+	b=qbmSvjuaPuBhQqahN2d58LmrWnPEYfH+dqG4IAeSjJm4rbllckduSwE9PUS09Yiwaj
+	FKqnSwipxZLybPpd1ZndPuNWBPtiX/TtCP16QXCpY+HmP0w9TPYcDaAiARNPzGzl2UKe
+	KmdVzjE0c2K/jjUR6bF7qG9BUVA9fLxRk/M02QdKFyEHDQ19U1KL8eF9yRcYmWsV07yn
+	62fTrcGyIZbTW83S7Z36ak5YSTBe30/btoEzP4VVKxPSsBDFCPtrHF1c8OiCa7b9PsYt
+	oowsjkFf5ujPs/LnXmZ6NjPSIHBCnV0l+07O+RacfPju+casw0hh3/Wz2yMXsGYsFH86
+	ycJw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=j1ZM5Dq/3Qcz4nMrQwopJtJJoAGJz3aCRT3e1wGe7tY=;
-	b=B2QQrTYQKyriFlMlJKU/diRi13eVbN+d9c2fkTE9uJCvZ3vsKp4r4uemfvX1+e1hdc
-	RbGpJ5Y+OIF+di5ZgnurLHBemPI5Wjc5sbfGQGJtdHNqQiDC0FFwV+rkrLeqaAMUi5ji
-	TPcwYgz++tX+kmm4iQhRtGKyMJD5QsmUpJjaFOpZx+HuPGk31vgeEgSD1AxHAUCNcpm8
-	xZJBYk+B/1ITdSZB9Ii4zsKdojOSpvT2dJuzs9DzJtfXl6dcGO7Z0o3RrE4fKmy0yNiw
-	httgePmpqR9XxmRiSboTlqJ45X9IS4Wv67i1Od8hbxZrAARuDtfIRHebMWg6pfAiRANj
-	m9rw==
-X-Gm-Message-State: AE9vXwOq7aOsZ0XIS+e65afwGWmQgrUCKm6d2cQSwzCoxnc35h7QIRNuI2MMs0hs7a5s1X6Qxecmc+/MY1pzPw==
-X-Received: by 10.129.121.7 with SMTP id u7mr30772214ywc.237.1474404565269;
-	Tue, 20 Sep 2016 13:49:25 -0700 (PDT)
+	bh=Pd8n6S2bEOExigOHDgNRYaBw/2BvWfPD3zTdXOIiTfI=;
+	b=BQf3c3+W2jUELsdlVLCFn/PepfTczoQcA5p3eoi75xI/G8JUDpDORwF58+MDirewje
+	Zavh/ZJ8lvCTXQSKA5GNQx2qxbz7rZTpYkXzCnrUTxgBhyKvAPz8BE75bq4xuQ4/pwLp
+	oM17vQNOZb4IKAguKsMpRbI7d7/rv8iU3kWYlHu/N/vhHCZOb9ABxoPC9oNMYsV8n29q
+	PTNLWbWHMLgSvhGMLe+JdeRw5CUswurwxLLr7xCwD7AckZuUiATCDImgNpyJuHLAm2Sd
+	uFrQO5v9gZfIZ7JQ8ygJ/6uEooTSUxRevw+P6Rb+2VEI9yZjlH6CEk2PcLQnWM7zFmz5
+	NKjw==
+X-Gm-Message-State: AE9vXwPOplvFkWEcamDezuJtG2OwQDre8cSfmEG+Zm26Nj1UdachxTptMF1lR0vlT4lYcHWjCcWBNrTyNo1Yrw==
+X-Received: by 10.13.203.81 with SMTP id n78mr25255010ywd.350.1474405020960;
+	Tue, 20 Sep 2016 13:57:00 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.176.80.33 with HTTP; Tue, 20 Sep 2016 13:48:54 -0700 (PDT)
-In-Reply-To: <20160920091958.23448-1-Yuanjie.Huang@windriver.com>
-References: <20160920091958.23448-1-Yuanjie.Huang@windriver.com>
+Received: by 10.176.80.33 with HTTP; Tue, 20 Sep 2016 13:55:50 -0700 (PDT)
+In-Reply-To: <1474305360-24208-1-git-send-email-sgw@linux.intel.com>
+References: <1474305360-24208-1-git-send-email-sgw@linux.intel.com>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 20 Sep 2016 13:48:54 -0700
-Message-ID: <CAMKF1sooPU-oSmeGuNQXjEUvgWfAXubQuKc6bk=L45WtRD4xjQ@mail.gmail.com>
-To: Yuanjie Huang <Yuanjie.Huang@windriver.com>
-Cc: Patches and discussions about the oe-core layer
+Date: Tue, 20 Sep 2016 13:55:50 -0700
+Message-ID: <CAMKF1so_fAuUUy8tLep8jAJxDYHzgAP8+KaDjsO9hYjoATyCGA@mail.gmail.com>
+To: Saul Wold <sgw@linux.intel.com>
+Cc: Haitao Huang <haitao.huang@intel.com>,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] gcc-sanitizers: Fix libtool library files
+Subject: Re: [PATCH v2] gcc-configure: Enable initfini-array
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,49 +54,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Sep 2016 20:49:24 -0000
+X-List-Received-Date: Tue, 20 Sep 2016 20:57:00 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On Tue, Sep 20, 2016 at 2:19 AM, Yuanjie Huang
-<Yuanjie.Huang@windriver.com> wrote:
-> From: Yuanjie Huang <yuanjie.huang@windriver.com>
+On Mon, Sep 19, 2016 at 10:16 AM, Saul Wold <sgw@linux.intel.com> wrote:
+> This adds the correct support for initfini-array which replaces .init
+> and .fini with .init-array and .fini-array.  There is no appreciable
+> size difference with this change.
 >
-> Since libtool sysroot is not set when compiling sanitizers, the libtool
-> does no prefix the dependency path correctly. Fix it, so that programs
-> can link to sanitizer libraries without error.
+> The change is needed since configure will not correctly detect support
+> when building cross-compilers.
 >
-> This patch changes the depenedency_libs line in libasan.la and
-> libusan.la from
->         dependency_libs=' -lpthread -ldl '/usr/lib'/libstdc++.la '/usr/lib'/libstdc++.la'
-> to
->         dependency_libs=' -lpthread -ldl =/usr/lib/libstdc++.la =/usr/lib/libstdc++.la'
->
-> Upstream-Status: Inappropriate [embedded specific]
-> (LOCAL REV; NOT UPSTREAM) -- sent to oe-core on 2016-09-20
->
-> Signed-off-by: Yuanjie Huang <yuanjie.huang@windriver.com>
+> Signed-off-by: Haitao Huang <haitao.huang@intel.com>
+> Signed-off-by: Saul Wold <sgw@linux.intel.com>
 > ---
->  meta/recipes-devtools/gcc/gcc-sanitizers.inc | 2 ++
->  1 file changed, 2 insertions(+)
->
-> diff --git a/meta/recipes-devtools/gcc/gcc-sanitizers.inc b/meta/recipes-devtools/gcc/gcc-sanitizers.inc
-> index c987ccb..5fe5eaf 100644
-> --- a/meta/recipes-devtools/gcc/gcc-sanitizers.inc
-> +++ b/meta/recipes-devtools/gcc/gcc-sanitizers.inc
-> @@ -50,6 +50,8 @@ do_install () {
->          rmdir --ignore-fail-on-non-empty -p ${D}${infodir}
->      fi
->      chown -R root:root ${D}
-> +    # Fix broken libtool with stdc++, as sysroot is not set.
-> +    find ${D} -name \*.la -exec sed -i "/^dependency_libs=/s@'/usr/lib'@=/usr/lib@g" {} \;
+> v2: Enable for all Architectures
 
-what happens if you remove the .la files completely.
+What is original motivation for this patch ? this change expects libc
+to support init fini arrays
+please test it on all supported libcs as well.
 
->  }
 >
->  INHIBIT_DEFAULT_DEPS = "1"
+>  meta/recipes-devtools/gcc/gcc-configure-common.inc | 4 ++++
+>  1 file changed, 4 insertions(+)
+>
+> diff --git a/meta/recipes-devtools/gcc/gcc-configure-common.inc b/meta/recipes-devtools/gcc/gcc-configure-common.inc
+> index f4f76bd..b374c30 100644
+> --- a/meta/recipes-devtools/gcc/gcc-configure-common.inc
+> +++ b/meta/recipes-devtools/gcc/gcc-configure-common.inc
+> @@ -44,6 +44,10 @@ EXTRA_OECONF = "\
+>      ${@get_gcc_multiarch_setting(bb, d)} \
+>  "
+>
+> +# Set this here since GCC configure won't auto-detect and enable
+> +# initfini-arry when cross compiling.
+> +EXTRA_OECONF_append = " --enable-initfini-array"
+> +
+>  export gcc_cv_collect2_libs = 'none required'
+>  # We need to set gcc_cv_collect2_libs else there is cross-compilation badness
+>  # in the config.log files (which might not get generated until do_compile
 > --
-> 1.9.1
+> 2.5.0
 >
 > --
 > _______________________________________________
