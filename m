@@ -1,24 +1,27 @@
-Return-Path: <Yuanjie.Huang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 8AFE860103
+Return-Path: <Zubair.Kakakhel@imgtec.com>
+Received: from mailapp01.imgtec.com (mailapp01.imgtec.com [195.59.15.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 650906074F
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Sep 2016 09:19:59 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u8K9K0ZU023543
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Sep 2016 02:20:01 -0700 (PDT)
-Received: from pek-yhuang1-d1.wrs.com (128.224.162.170) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.294.0; Tue, 20 Sep 2016 02:20:00 -0700
-From: Yuanjie Huang <Yuanjie.Huang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 20 Sep 2016 17:19:58 +0800
-Message-ID: <20160920091958.23448-1-Yuanjie.Huang@windriver.com>
-X-Mailer: git-send-email 2.9.3
+	Tue, 20 Sep 2016 10:25:45 +0000 (UTC)
+Received: from HHMAIL01.hh.imgtec.org (unknown [10.100.10.19])
+	by Forcepoint Email with ESMTPS id 943E1B30FE055;
+	Tue, 20 Sep 2016 11:25:32 +0100 (IST)
+Received: from zkakakhel-linux.le.imgtec.org (192.168.154.45) by
+	HHMAIL01.hh.imgtec.org (10.100.10.21) with Microsoft SMTP Server (TLS)
+	id 14.3.294.0; Tue, 20 Sep 2016 11:25:34 +0100
+To: Robert Yang <liezhi.yang@windriver.com>,
+	<openembedded-core@lists.openembedded.org>
+References: <1474283673-48449-1-git-send-email-Zubair.Kakakhel@imgtec.com>
+	<266d3484-6a50-7e5b-6a1e-9efc2eebb50f@windriver.com>
+From: Zubair Lutfullah Kakakhel <Zubair.Kakakhel@imgtec.com>
+Message-ID: <a43ab46c-1fad-0d5e-d536-3ed9a4c84012@imgtec.com>
+Date: Tue, 20 Sep 2016 11:25:34 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.2.0
 MIME-Version: 1.0
-Subject: [PATCH 1/1] gcc-sanitizers: Fix libtool library files
+In-Reply-To: <266d3484-6a50-7e5b-6a1e-9efc2eebb50f@windriver.com>
+X-Originating-IP: [192.168.154.45]
+Subject: Re: [Patch] arch-mips: Restructure mips64 and add mips64r2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,43 +34,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Sep 2016 09:20:02 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 20 Sep 2016 10:25:45 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-From: Yuanjie Huang <yuanjie.huang@windriver.com>
+Hi,
 
-Since libtool sysroot is not set when compiling sanitizers, the libtool
-does no prefix the dependency path correctly. Fix it, so that programs
-can link to sanitizer libraries without error.
+On 09/20/2016 03:33 AM, Robert Yang wrote:
+> Hi,
+>
+> It seems that this one causes build failures on qemumips64 + multilib:
+>
+> config:
+> http://autobuilder.yocto.io:8010/builders/nightly-multilib/builds/64/steps/CreateAutoConf_5/logs/stdio
+>
+> error:
+> http://autobuilder.yocto.io:8010/builders/nightly-multilib/builds/64/steps/BuildImages_5/logs/stdio
+>
+> ERROR:  OE-core's config sanity checker detected a potential misconfiguration.
+>     Either fix the cause of this error or at your own risk disable the checker (see sanity.conf).
+>     Following is the list of potential problems / advisories:
+>
+>     Toolchain tunings invalid:
+> Tuning 'mips32r2' has no defined features, and cannot be used.
 
-This patch changes the depenedency_libs line in libasan.la and
-libusan.la from
-	dependency_libs=' -lpthread -ldl '/usr/lib'/libstdc++.la '/usr/lib'/libstdc++.la'
-to
-	dependency_libs=' -lpthread -ldl =/usr/lib/libstdc++.la =/usr/lib/libstdc++.la'
+Thank-you. I've noticed a subtle error in the include file sequence marked below
 
-Upstream-Status: Inappropriate [embedded specific]
-(LOCAL REV; NOT UPSTREAM) -- sent to oe-core on 2016-09-20
+>
+> // Robert
+>
+> On 09/19/2016 07:14 PM, Zubair Lutfullah Kakakhel wrote:
+>> The current file structure felt slightly unsuitable for adding
+>> MIPS64r2. So I restructured it slightly and added MIPS64r2
+>> support
+>>
+>> Signed-off-by: Zubair Lutfullah Kakakhel <Zubair.Kakakhel@imgtec.com>
+>> ---
+>>  meta/conf/machine/include/mips/arch-mips.inc | 60 --------------------
+>>  meta/conf/machine/include/tune-mips32.inc    | 22 +++++++-
+>>  meta/conf/machine/include/tune-mips64.inc    | 80 +++++++++++++++++++++++++-
+>>  meta/conf/machine/include/tune-mips64r2.inc  | 84 ++++++++++++++++++++++++++++
+>>  4 files changed, 184 insertions(+), 62 deletions(-)
+...
+>> diff --git a/meta/conf/machine/include/tune-mips64.inc b/meta/conf/machine/include/tune-mips64.inc
+>> index 9be0e0f..e0c9d2c 100644
+>> --- a/meta/conf/machine/include/tune-mips64.inc
+>> +++ b/meta/conf/machine/include/tune-mips64.inc
+>> @@ -1,3 +1,81 @@
+>>  DEFAULTTUNE ?= "mips64"
+>>
+>> -require conf/machine/include/tune-mips32r2.inc
+>> +require conf/machine/include/mips/arch-mips.inc
 
-Signed-off-by: Yuanjie Huang <yuanjie.huang@windriver.com>
----
- meta/recipes-devtools/gcc/gcc-sanitizers.inc | 2 ++
- 1 file changed, 2 insertions(+)
+Here. Even though this is mips64.inc. It builds up using
+mips32r2.inc to include all previous tune configurations
+in mips32r2
 
-diff --git a/meta/recipes-devtools/gcc/gcc-sanitizers.inc b/meta/recipes-devtools/gcc/gcc-sanitizers.inc
-index c987ccb..5fe5eaf 100644
---- a/meta/recipes-devtools/gcc/gcc-sanitizers.inc
-+++ b/meta/recipes-devtools/gcc/gcc-sanitizers.inc
-@@ -50,6 +50,8 @@ do_install () {
-         rmdir --ignore-fail-on-non-empty -p ${D}${infodir}
-     fi
-     chown -R root:root ${D}
-+    # Fix broken libtool with stdc++, as sysroot is not set.
-+    find ${D} -name \*.la -exec sed -i "/^dependency_libs=/s@'/usr/lib'@=/usr/lib@g" {} \;
- }
- 
- INHIBIT_DEFAULT_DEPS = "1"
--- 
-1.9.1
+Regards,
+ZubairLK
+
 
 
