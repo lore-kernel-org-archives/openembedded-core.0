@@ -1,36 +1,46 @@
-Return-Path: <Jackie.Huang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 0D042600E2
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wm0-f54.google.com (mail-wm0-f54.google.com [74.125.82.54])
+	by mail.openembedded.org (Postfix) with ESMTP id 08B93601A4
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Sep 2016 08:00:20 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u8K80LsN007492
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	Tue, 20 Sep 2016 08:15:15 +0000 (UTC)
+Received: by mail-wm0-f54.google.com with SMTP id l132so194083573wmf.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Sep 2016 01:00:21 -0700
-Received: from ALA-MBA.corp.ad.wrs.com ([169.254.3.129]) by
-	ALA-HCB.corp.ad.wrs.com ([147.11.189.41]) with mapi id 14.03.0294.000;
-	Tue, 20 Sep 2016 01:00:21 -0700
-From: "Huang, Jie (Jackie)" <Jackie.Huang@windriver.com>
-To: "BURTON, ROSS" <ross.burton@intel.com>
-Thread-Topic: [OE-core] [PATCH] default-distrovars.inc: remove libidn from
-	LGPLv2_WHITELIST_GPL-3.0
-Thread-Index: AQHSExUIIhXOkppO/EOr3wRYOxdhFQ==
-Date: Tue, 20 Sep 2016 08:00:21 +0000
-Message-ID: <1B858668EC6A94408DCA5225FDFA85AA013A2D28D3@ALA-MBA.corp.ad.wrs.com>
-References: <20160901024821.28166-1-jackie.huang@windriver.com>
-	<1B858668EC6A94408DCA5225FDFA85AA013A2D2400@ALA-MBA.corp.ad.wrs.com>
-	<CAJTo0LY_98XwoHr_utj4bGvTBJh7MYOdGC_9R0v1D=XqtXCJRw@mail.gmail.com>
-In-Reply-To: <CAJTo0LY_98XwoHr_utj4bGvTBJh7MYOdGC_9R0v1D=XqtXCJRw@mail.gmail.com>
-Accept-Language: en-US, zh-CN
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [128.224.162.131]
-MIME-Version: 1.0
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] default-distrovars.inc: remove libidn from LGPLv2_WHITELIST_GPL-3.0
+	Tue, 20 Sep 2016 01:15:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=7qMKQaYohEvNP15ZPS+9lBZlt8LoBALJlJoRXj/q1ug=;
+	b=Lb77EsmUSFxW11mdUUHBcDCEkjEZkTgJJNlwnLz9LFAnJ9Ijh2Gpx/WsTFoj4mq85H
+	3k3B43rYjI0eqEPZjULoJLyVwwsawEJLLQvv+UMBP4i2LfgYd7HHRgLxE9IRKxPTTAdQ
+	9nD07Wg7eP8oXMSg05JePtsBR0VUW4UKwBIW2oh4/+aP/WJauuPUC1nNEMyongIpqWUQ
+	kelWPDhXj9z9qXy1uMck4usM/nTDntsxH93Kp9MeEtXSXxB8Jk06Yhdl+K3Us/Tgum3i
+	LVYZsK6IpvMkALC6wAzr3sae+ZLCZRgM66spI/oyDHvpO4OYBcfNI+lnwoepC5J7scna
+	fsdw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=7qMKQaYohEvNP15ZPS+9lBZlt8LoBALJlJoRXj/q1ug=;
+	b=cO3n+QvuBwwh4uIbfe2tSmJbA9DLsMER96Zl701nRJAyRGn+CRbtV6IQSagtsZjhnE
+	gMlsfgpqqcZh3iG11fvJtC4KsAEFS5KJgWb8t8Lk5SV2n7uPcpYilJBkrdOs6E3Vbp96
+	3gG2J1Bh8EjmxscsdjooBWYcufZXVNxb/ZGw1asCuE+PpCYo07uiotlBa9mgOX+h8iRP
+	TkplEusJSVBzq7xjahRE/DMFccfDT53w1ZkKBzazHTXquaeN2M4Or3dtZe9ut4ndffxZ
+	Y+Rmf3QqjdM1C7KP0amL4fnYDud5nLpqFHKYD4RYd7Bi8G4xjmvZsCfeN2zGkJ26/hVY
+	Dtsg==
+X-Gm-Message-State: AE9vXwORVZmfjfPMBfiVwgmjdC/eN0NnX+m9mNlPQ5TTNRbRD+hCYNl90mI875+MzoM/txbT
+X-Received: by 10.194.94.138 with SMTP id dc10mr28061879wjb.40.1474359316352; 
+	Tue, 20 Sep 2016 01:15:16 -0700 (PDT)
+Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
+	by smtp.gmail.com with ESMTPSA id
+	lj2sm26994128wjc.38.2016.09.20.01.15.15
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Tue, 20 Sep 2016 01:15:15 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 20 Sep 2016 09:15:13 +0100
+Message-Id: <1474359313-2640-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 2.8.1
+Subject: [PATCH] oeqa/selftest/lic-checksum: don't report the expected failure to errors.yp
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,97 +53,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Sep 2016 08:00:21 -0000
-Content-Language: en-US
-Content-Type: multipart/alternative;
-	boundary="_000_1B858668EC6A94408DCA5225FDFA85AA013A2D28D3ALAMBAcorpadw_"
+X-List-Received-Date: Tue, 20 Sep 2016 08:15:17 -0000
 
---_000_1B858668EC6A94408DCA5225FDFA85AA013A2D28D3ALAMBAcorpadw_
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+This test has a bitbake invocation that is expected to fail, so inhibit
+report-error running.
 
-R290IGl0LCB0aGFua3MhDQoNClRoYW5rcywNCkphY2tpZQ0KDQpGcm9tOiBCdXJ0b24sIFJvc3Mg
-W21haWx0bzpyb3NzLmJ1cnRvbkBpbnRlbC5jb21dDQpTZW50OiBUdWVzZGF5LCBTZXB0ZW1iZXIg
-MjAsIDIwMTYgMzo1NCBQTQ0KVG86IEh1YW5nLCBKaWUgKEphY2tpZSkNCkNjOiBvcGVuZW1iZWRk
-ZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnDQpTdWJqZWN0OiBSZTogW09FLWNvcmVdIFtQ
-QVRDSF0gZGVmYXVsdC1kaXN0cm92YXJzLmluYzogcmVtb3ZlIGxpYmlkbiBmcm9tIExHUEx2Ml9X
-SElURUxJU1RfR1BMLTMuMA0KDQoNCk9uIDIwIFNlcHRlbWJlciAyMDE2IGF0IDAxOjUwLCBIdWFu
-ZywgSmllIChKYWNraWUpIDxKYWNraWUuSHVhbmdAd2luZHJpdmVyLmNvbTxtYWlsdG86SmFja2ll
-Lkh1YW5nQHdpbmRyaXZlci5jb20+PiB3cm90ZToNClBpbmcuDQoNCkl0J3MgcXVldWVkIGxvY2Fs
-bHkgbm93LCBzaG91bGQgYmUgaW4gbWFzdGVyIHNob3J0bHkuDQoNClJvc3MNCg==
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/lib/oeqa/selftest/lic-checksum.py | 1 +
+ 1 file changed, 1 insertion(+)
 
---_000_1B858668EC6A94408DCA5225FDFA85AA013A2D28D3ALAMBAcorpadw_
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: base64
+diff --git a/meta/lib/oeqa/selftest/lic-checksum.py b/meta/lib/oeqa/selftest/lic-checksum.py
+index df44c97..2e81373 100644
+--- a/meta/lib/oeqa/selftest/lic-checksum.py
++++ b/meta/lib/oeqa/selftest/lic-checksum.py
+@@ -29,6 +29,7 @@ SRC_URI = "file://%s;md5=d41d8cd98f00b204e9800998ecf8427e"
+         with open(lic_path, "w") as f:
+             f.write("data")
+ 
++        self.write_config("INHERIT_remove = \"report-error\"")
+         result = bitbake(bitbake_cmd, ignore_status=True)
+         if error_msg not in result.output:
+             raise AssertionError(result.output)
+-- 
+2.8.1
 
-PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
-bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
-YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
-cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
-VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
-Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
-ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTQgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
-PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
-5a6L5L2TOw0KCXBhbm9zZS0xOjIgMSA2IDAgMyAxIDEgMSAxIDE7fQ0KQGZvbnQtZmFjZQ0KCXtm
-b250LWZhbWlseTrlrovkvZM7DQoJcGFub3NlLTE6MiAxIDYgMCAzIDEgMSAxIDEgMTt9DQpAZm9u
-dC1mYWNlDQoJe2ZvbnQtZmFtaWx5OkNhbGlicmk7DQoJcGFub3NlLTE6MiAxNSA1IDIgMiAyIDQg
-MyAyIDQ7fQ0KQGZvbnQtZmFjZQ0KCXtmb250LWZhbWlseTpUYWhvbWE7DQoJcGFub3NlLTE6MiAx
-MSA2IDQgMyA1IDQgNCAyIDQ7fQ0KQGZvbnQtZmFjZQ0KCXtmb250LWZhbWlseToiXEDlrovkvZMi
-Ow0KCXBhbm9zZS0xOjIgMSA2IDAgMyAxIDEgMSAxIDE7fQ0KLyogU3R5bGUgRGVmaW5pdGlvbnMg
-Ki8NCnAuTXNvTm9ybWFsLCBsaS5Nc29Ob3JtYWwsIGRpdi5Nc29Ob3JtYWwNCgl7bWFyZ2luOjBp
-bjsNCgltYXJnaW4tYm90dG9tOi4wMDAxcHQ7DQoJZm9udC1zaXplOjEyLjBwdDsNCglmb250LWZh
-bWlseToiVGltZXMgTmV3IFJvbWFuIiwic2VyaWYiO30NCmE6bGluaywgc3Bhbi5Nc29IeXBlcmxp
-bmsNCgl7bXNvLXN0eWxlLXByaW9yaXR5Ojk5Ow0KCWNvbG9yOmJsdWU7DQoJdGV4dC1kZWNvcmF0
-aW9uOnVuZGVybGluZTt9DQphOnZpc2l0ZWQsIHNwYW4uTXNvSHlwZXJsaW5rRm9sbG93ZWQNCgl7
-bXNvLXN0eWxlLXByaW9yaXR5Ojk5Ow0KCWNvbG9yOnB1cnBsZTsNCgl0ZXh0LWRlY29yYXRpb246
-dW5kZXJsaW5lO30NCnNwYW4uRW1haWxTdHlsZTE3DQoJe21zby1zdHlsZS10eXBlOnBlcnNvbmFs
-LXJlcGx5Ow0KCWZvbnQtZmFtaWx5OiJDYWxpYnJpIiwic2Fucy1zZXJpZiI7DQoJY29sb3I6IzFG
-NDk3RDt9DQouTXNvQ2hwRGVmYXVsdA0KCXttc28tc3R5bGUtdHlwZTpleHBvcnQtb25seTsNCglm
-b250LWZhbWlseToiQ2FsaWJyaSIsInNhbnMtc2VyaWYiO30NCkBwYWdlIFdvcmRTZWN0aW9uMQ0K
-CXtzaXplOjguNWluIDExLjBpbjsNCgltYXJnaW46MS4waW4gMS4yNWluIDEuMGluIDEuMjVpbjt9
-DQpkaXYuV29yZFNlY3Rpb24xDQoJe3BhZ2U6V29yZFNlY3Rpb24xO30NCi0tPjwvc3R5bGU+PCEt
-LVtpZiBndGUgbXNvIDldPjx4bWw+DQo8bzpzaGFwZWRlZmF1bHRzIHY6ZXh0PSJlZGl0IiBzcGlk
-bWF4PSIxMDI2IiAvPg0KPC94bWw+PCFbZW5kaWZdLS0+PCEtLVtpZiBndGUgbXNvIDldPjx4bWw+
-DQo8bzpzaGFwZWxheW91dCB2OmV4dD0iZWRpdCI+DQo8bzppZG1hcCB2OmV4dD0iZWRpdCIgZGF0
-YT0iMSIgLz4NCjwvbzpzaGFwZWxheW91dD48L3htbD48IVtlbmRpZl0tLT4NCjwvaGVhZD4NCjxi
-b2R5IGxhbmc9IkVOLVVTIiBsaW5rPSJibHVlIiB2bGluaz0icHVycGxlIj4NCjxkaXYgY2xhc3M9
-IldvcmRTZWN0aW9uMSI+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0iZm9udC1z
-aXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LCZxdW90O3NhbnMtc2Vy
-aWYmcXVvdDs7Y29sb3I6IzFGNDk3RCI+R290IGl0LCB0aGFua3MhPG86cD48L286cD48L3NwYW4+
-PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7
-Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OywmcXVvdDtzYW5zLXNlcmlmJnF1b3Q7O2Nv
-bG9yOiMxRjQ5N0QiPjxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29O
-b3JtYWwiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0Nh
-bGlicmkmcXVvdDssJnF1b3Q7c2Fucy1zZXJpZiZxdW90Oztjb2xvcjojMUY0OTdEIj5UaGFua3Ms
-PG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9
-ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OywmcXVvdDtz
-YW5zLXNlcmlmJnF1b3Q7O2NvbG9yOiMxRjQ5N0QiPkphY2tpZTxvOnA+PC9vOnA+PC9zcGFuPjwv
-cD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2Zv
-bnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssJnF1b3Q7c2Fucy1zZXJpZiZxdW90Oztjb2xv
-cjojMUY0OTdEIj48bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8ZGl2IHN0eWxlPSJib3Jk
-ZXI6bm9uZTtib3JkZXItbGVmdDpzb2xpZCBibHVlIDEuNXB0O3BhZGRpbmc6MGluIDBpbiAwaW4g
-NC4wcHQiPg0KPGRpdj4NCjxkaXYgc3R5bGU9ImJvcmRlcjpub25lO2JvcmRlci10b3A6c29saWQg
-I0I1QzRERiAxLjBwdDtwYWRkaW5nOjMuMHB0IDBpbiAwaW4gMGluIj4NCjxwIGNsYXNzPSJNc29O
-b3JtYWwiPjxiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTAuMHB0O2ZvbnQtZmFtaWx5OiZxdW90
-O1RhaG9tYSZxdW90OywmcXVvdDtzYW5zLXNlcmlmJnF1b3Q7Ij5Gcm9tOjwvc3Bhbj48L2I+PHNw
-YW4gc3R5bGU9ImZvbnQtc2l6ZToxMC4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7VGFob21hJnF1b3Q7
-LCZxdW90O3NhbnMtc2VyaWYmcXVvdDsiPiBCdXJ0b24sIFJvc3MgW21haWx0bzpyb3NzLmJ1cnRv
-bkBpbnRlbC5jb21dDQo8YnI+DQo8Yj5TZW50OjwvYj4gVHVlc2RheSwgU2VwdGVtYmVyIDIwLCAy
-MDE2IDM6NTQgUE08YnI+DQo8Yj5Ubzo8L2I+IEh1YW5nLCBKaWUgKEphY2tpZSk8YnI+DQo8Yj5D
-Yzo8L2I+IG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc8YnI+DQo8Yj5T
-dWJqZWN0OjwvYj4gUmU6IFtPRS1jb3JlXSBbUEFUQ0hdIGRlZmF1bHQtZGlzdHJvdmFycy5pbmM6
-IHJlbW92ZSBsaWJpZG4gZnJvbSBMR1BMdjJfV0hJVEVMSVNUX0dQTC0zLjA8bzpwPjwvbzpwPjwv
-c3Bhbj48L3A+DQo8L2Rpdj4NCjwvZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PG86cD4mbmJz
-cDs8L286cD48L3A+DQo8ZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxvOnA+Jm5i
-c3A7PC9vOnA+PC9wPg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPk9uIDIwIFNlcHRlbWJl
-ciAyMDE2IGF0IDAxOjUwLCBIdWFuZywgSmllIChKYWNraWUpICZsdDs8YSBocmVmPSJtYWlsdG86
-SmFja2llLkh1YW5nQHdpbmRyaXZlci5jb20iIHRhcmdldD0iX2JsYW5rIj5KYWNraWUuSHVhbmdA
-d2luZHJpdmVyLmNvbTwvYT4mZ3Q7IHdyb3RlOjxvOnA+PC9vOnA+PC9wPg0KPGRpdiBpZD0iOjFn
-OCI+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj5QaW5nLjxvOnA+PC9vOnA+PC9wPg0KPC9kaXY+DQo8
-L2Rpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxicj4NCkl0J3MgcXVldWVkIGxvY2FsbHkgbm93
-LCBzaG91bGQgYmUgaW4gbWFzdGVyIHNob3J0bHkuPG86cD48L286cD48L3A+DQo8L2Rpdj4NCjxk
-aXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48bzpwPiZuYnNwOzwvbzpwPjwvcD4NCjwvZGl2Pg0K
-PGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPlJvc3M8bzpwPjwvbzpwPjwvcD4NCjwvZGl2Pg0K
-PC9kaXY+DQo8L2Rpdj4NCjwvZGl2Pg0KPC9ib2R5Pg0KPC9odG1sPg0K
 
---_000_1B858668EC6A94408DCA5225FDFA85AA013A2D28D3ALAMBAcorpadw_--
