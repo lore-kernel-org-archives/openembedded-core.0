@@ -1,28 +1,24 @@
-Return-Path: <Yuanjie.Huang@windriver.com>
+Return-Path: <Zhixiong.Chi@windriver.com>
 Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 8CCDA65C8F
+	by mail.openembedded.org (Postfix) with ESMTP id 722FF6059F
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Sep 2016 01:47:36 +0000 (UTC)
+	Wed, 21 Sep 2016 02:47:42 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u8L1lbF2001792
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
-	Tue, 20 Sep 2016 18:47:37 -0700
-Received: from [128.224.162.170] (128.224.162.170) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.294.0;
-	Tue, 20 Sep 2016 18:47:36 -0700
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <20160920091958.23448-1-Yuanjie.Huang@windriver.com>
-	<CAJTo0LZaBtwGJDHcAQ1Z0oMeqYKHAFD+k0YqbEYX5LjmDEbmDw@mail.gmail.com>
-From: Yuanjie Huang <yuanjie.huang@windriver.com>
-Message-ID: <ce02644c-a5e2-b792-883d-1e8a10942533@windriver.com>
-Date: Wed, 21 Sep 2016 09:47:34 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.3.0
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u8L2liBb002948
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 20 Sep 2016 19:47:44 -0700
+Received: from pek-zchi-d1.corp.ad.wrs.com (128.224.162.239) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.3.294.0; Tue, 20 Sep 2016 19:47:43 -0700
+From: Zhixiong Chi <Zhixiong.Chi@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 21 Sep 2016 10:47:42 +0800
+Message-ID: <1474426062-13962-1-git-send-email-Zhixiong.Chi@windriver.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-In-Reply-To: <CAJTo0LZaBtwGJDHcAQ1Z0oMeqYKHAFD+k0YqbEYX5LjmDEbmDw@mail.gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] gcc-sanitizers: Fix libtool library files
+Subject: [PATCH] wpa_supplicant: Security Advisory-wpa_supplicant-CVE-2016-4476
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,136 +31,215 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 Sep 2016 01:47:37 -0000
-X-Groupsio-MsgNum: 87328
-Content-Type: multipart/mixed; boundary="------------27F9111CCC6928F46E21A37F"
+X-List-Received-Date: Wed, 21 Sep 2016 02:47:43 -0000
+Content-Type: text/plain
 
---------------27F9111CCC6928F46E21A37F
-Content-Type: multipart/alternative;
-	boundary="------------2F44F15EEDA17ACC407E0040"
+Add CVE-2016-4476 patch for avoiding \n and \r characters in passphrase
+parameters, which allows remote attackers to cause a denial of service
+(daemon outage) via a crafted WPS operation.
+Patches came from http://w1.fi/security/2016-1/
 
---------------2F44F15EEDA17ACC407E0040
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-
-Thanks, commit message revised.
-
-Best,
-Yuanjie
-
-On 09/20/2016 09:35 PM, Burton, Ross wrote:
->
-> On 20 September 2016 at 10:19, Yuanjie Huang 
-> <Yuanjie.Huang@windriver.com <mailto:Yuanjie.Huang@windriver.com>> wrote:
->
->     Upstream-Status: Inappropriate [embedded specific]
->     (LOCAL REV; NOT UPSTREAM) -- sent to oe-core on 2016-09-20
->
->
-> You don't need upstream-status tags in commit messages, only patches 
-> that the recipe is applying.
->
-> Also please remove your internal tracking data from the commit message.
->
-> Ross
-
-
---------------2F44F15EEDA17ACC407E0040
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-
-<html>
-  <head>
-    <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-  </head>
-  <body bgcolor="#FFFFFF" text="#000000">
-    <p>Thanks, commit message revised.<br>
-    </p>
-    Best,<br>
-    Yuanjie<br>
-    <br>
-    <div class="moz-cite-prefix">On 09/20/2016 09:35 PM, Burton, Ross
-      wrote:<br>
-    </div>
-    <blockquote
-cite="mid:CAJTo0LZaBtwGJDHcAQ1Z0oMeqYKHAFD+k0YqbEYX5LjmDEbmDw@mail.gmail.com"
-      type="cite">
-      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-      <div dir="ltr">
-        <div class="gmail_extra"><br>
-          <div class="gmail_quote">On 20 September 2016 at 10:19,
-            Yuanjie Huang <span dir="ltr">&lt;<a moz-do-not-send="true"
-                href="mailto:Yuanjie.Huang@windriver.com"
-                target="_blank">Yuanjie.Huang@windriver.com</a>&gt;</span>
-            wrote:<br>
-            <blockquote class="gmail_quote" style="margin:0 0 0
-              .8ex;border-left:1px #ccc solid;padding-left:1ex">
-              <div id=":2y7" class="a3s aXjCH m15746e5ea2c5b0fc">Upstream-Status:
-                Inappropriate [embedded specific]<br>
-                (LOCAL REV; NOT UPSTREAM) -- sent to oe-core on
-                2016-09-20</div>
-            </blockquote>
-          </div>
-          <br>
-          You don't need upstream-status tags in commit messages, only
-          patches that the recipe is applying.</div>
-        <div class="gmail_extra"><br>
-        </div>
-        <div class="gmail_extra">Also please remove your internal
-          tracking data from the commit message.</div>
-        <div class="gmail_extra"><br>
-        </div>
-        <div class="gmail_extra">Ross</div>
-      </div>
-    </blockquote>
-    <br>
-  </body>
-</html>
-
---------------2F44F15EEDA17ACC407E0040--
-
---------------27F9111CCC6928F46E21A37F
-Content-Type: text/x-patch;
-	name="0001-gcc-sanitizers-Fix-libtool-library-files.patch"
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
-	filename="0001-gcc-sanitizers-Fix-libtool-library-files.patch"
-
-From 6ceafbc3a69a0b87bcddf718050c6958baab7759 Mon Sep 17 00:00:00 2001
-From: Yuanjie Huang <yuanjie.huang@windriver.com>
-Date: Sun, 18 Sep 2016 16:36:55 +0800
-Subject: [PATCH V2] gcc-sanitizers: Fix libtool library files
-
-Since libtool sysroot is not set when compiling sanitizers, the libtool
-does no prefix the dependency path correctly. Fix it, so that programs
-can link to sanitizer libraries without error.
-
-This patch changes the depenedency_libs line in libasan.la and
-libusan.la from
-	dependency_libs=' -lpthread -ldl '/usr/lib'/libstdc++.la '/usr/lib'/libstdc++.la'
-to
-	dependency_libs=' -lpthread -ldl =/usr/lib/libstdc++.la =/usr/lib/libstdc++.la'
-
-Signed-off-by: Yuanjie Huang <yuanjie.huang@windriver.com>
+Signed-off-by: Zhixiong Chi <Zhixiong.Chi@windriver.com>
 ---
- meta/recipes-devtools/gcc/gcc-sanitizers.inc | 2 ++
- 1 file changed, 2 insertions(+)
+ ...ject-a-Credential-with-invalid-passphrase.patch | 83 ++++++++++++++++++++++
+ ...ines-from-wpa_supplicant-config-network-o.patch | 83 ++++++++++++++++++++++
+ .../wpa-supplicant/wpa-supplicant_2.5.bb           |  2 +
+ 3 files changed, 168 insertions(+)
+ create mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0001-WPS-Reject-a-Credential-with-invalid-passphrase.patch
+ create mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0002-Remove-newlines-from-wpa_supplicant-config-network-o.patch
 
-diff --git a/meta/recipes-devtools/gcc/gcc-sanitizers.inc b/meta/recipes-devtools/gcc/gcc-sanitizers.inc
-index c987ccb..5fe5eaf 100644
---- a/meta/recipes-devtools/gcc/gcc-sanitizers.inc
-+++ b/meta/recipes-devtools/gcc/gcc-sanitizers.inc
-@@ -50,6 +50,8 @@ do_install () {
-         rmdir --ignore-fail-on-non-empty -p ${D}${infodir}
-     fi
-     chown -R root:root ${D}
-+    # Fix broken libtool with stdc++, as sysroot is not set.
-+    find ${D} -name \*.la -exec sed -i "/^dependency_libs=/s@'/usr/lib'@=/usr/lib@g" {} \;
- }
- 
- INHIBIT_DEFAULT_DEPS = "1"
+diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0001-WPS-Reject-a-Credential-with-invalid-passphrase.patch b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0001-WPS-Reject-a-Credential-with-invalid-passphrase.patch
+new file mode 100644
+index 0000000..f01403d
+--- /dev/null
++++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0001-WPS-Reject-a-Credential-with-invalid-passphrase.patch
+@@ -0,0 +1,83 @@
++From ecbb0b3dc122b0d290987cf9c84010bbe53e1022 Mon Sep 17 00:00:00 2001
++From: Jouni Malinen <jouni@qca.qualcomm.com>
++Date: Fri, 4 Mar 2016 17:20:18 +0200
++Subject: [PATCH 1/2] WPS: Reject a Credential with invalid passphrase
++
++WPA/WPA2-Personal passphrase is not allowed to include control
++characters. Reject a Credential received from a WPS Registrar both as
++STA (Credential) and AP (AP Settings) if the credential is for WPAPSK or
++WPA2PSK authentication type and includes an invalid passphrase.
++
++This fixes an issue where hostapd or wpa_supplicant could have updated
++the configuration file PSK/passphrase parameter with arbitrary data from
++an external device (Registrar) that may not be fully trusted. Should
++such data include a newline character, the resulting configuration file
++could become invalid and fail to be parsed.
++
++Upstream-Status: Backport
++
++Signed-off-by: Jouni Malinen <jouni@qca.qualcomm.com>
++---
++ src/utils/common.c         | 12 ++++++++++++
++ src/utils/common.h         |  1 +
++ src/wps/wps_attr_process.c | 10 ++++++++++
++ 3 files changed, 23 insertions(+)
++
++diff --git a/src/utils/common.c b/src/utils/common.c
++index 450e2c6..27b7c02 100644
++--- a/src/utils/common.c
+++++ b/src/utils/common.c
++@@ -697,6 +697,18 @@ int is_hex(const u8 *data, size_t len)
++ }
++ 
++ 
+++int has_ctrl_char(const u8 *data, size_t len)
+++{
+++	size_t i;
+++
+++	for (i = 0; i < len; i++) {
+++		if (data[i] < 32 || data[i] == 127)
+++			return 1;
+++	}
+++	return 0;
+++}
+++
+++
++ size_t merge_byte_arrays(u8 *res, size_t res_len,
++ 			 const u8 *src1, size_t src1_len,
++ 			 const u8 *src2, size_t src2_len)
++diff --git a/src/utils/common.h b/src/utils/common.h
++index 701dbb2..a972240 100644
++--- a/src/utils/common.h
+++++ b/src/utils/common.h
++@@ -488,6 +488,7 @@ const char * wpa_ssid_txt(const u8 *ssid, size_t ssid_len);
++ 
++ char * wpa_config_parse_string(const char *value, size_t *len);
++ int is_hex(const u8 *data, size_t len);
+++int has_ctrl_char(const u8 *data, size_t len);
++ size_t merge_byte_arrays(u8 *res, size_t res_len,
++ 			 const u8 *src1, size_t src1_len,
++ 			 const u8 *src2, size_t src2_len);
++diff --git a/src/wps/wps_attr_process.c b/src/wps/wps_attr_process.c
++index eadb22f..e8c4579 100644
++--- a/src/wps/wps_attr_process.c
+++++ b/src/wps/wps_attr_process.c
++@@ -229,6 +229,16 @@ static int wps_workaround_cred_key(struct wps_credential *cred)
++ 		cred->key_len--;
++ #endif /* CONFIG_WPS_STRICT */
++ 	}
+++
+++
+++	if (cred->auth_type & (WPS_AUTH_WPAPSK | WPS_AUTH_WPA2PSK) &&
+++	    (cred->key_len < 8 || has_ctrl_char(cred->key, cred->key_len))) {
+++		wpa_printf(MSG_INFO, "WPS: Reject credential with invalid WPA/WPA2-Personal passphrase");
+++		wpa_hexdump_ascii_key(MSG_INFO, "WPS: Network Key",
+++				      cred->key, cred->key_len);
+++		return -1;
+++	}
+++
++ 	return 0;
++ }
++ 
++-- 
++1.9.1
+diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0002-Remove-newlines-from-wpa_supplicant-config-network-o.patch b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0002-Remove-newlines-from-wpa_supplicant-config-network-o.patch
+new file mode 100644
+index 0000000..c8686a0
+--- /dev/null
++++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0002-Remove-newlines-from-wpa_supplicant-config-network-o.patch
+@@ -0,0 +1,83 @@
++From 0fe5a234240a108b294a87174ad197f6b5cb38e9 Mon Sep 17 00:00:00 2001
++From: Paul Stewart <pstew@google.com>
++Date: Thu, 3 Mar 2016 15:40:19 -0800
++Subject: [PATCH 2/2] Remove newlines from wpa_supplicant config network
++ output
++
++Spurious newlines output while writing the config file can corrupt the
++wpa_supplicant configuration. Avoid writing these for the network block
++parameters. This is a generic filter that cover cases that may not have
++been explicitly addressed with a more specific commit to avoid control
++characters in the psk parameter.
++
++Upstream-Status: Backport
++
++Signed-off-by: Paul Stewart <pstew@google.com>
++---
++ src/utils/common.c      | 11 +++++++++++
++ src/utils/common.h      |  1 +
++ wpa_supplicant/config.c | 15 +++++++++++++--
++ 3 files changed, 25 insertions(+), 2 deletions(-)
++
++diff --git a/src/utils/common.c b/src/utils/common.c
++index 27b7c02..9856463 100644
++--- a/src/utils/common.c
+++++ b/src/utils/common.c
++@@ -709,6 +709,17 @@ int has_ctrl_char(const u8 *data, size_t len)
++ }
++ 
++ 
+++int has_newline(const char *str)
+++{
+++	while (*str) {
+++		if (*str == '\n' || *str == '\r')
+++			return 1;
+++		str++;
+++	}
+++	return 0;
+++}
+++
+++
++ size_t merge_byte_arrays(u8 *res, size_t res_len,
++ 			 const u8 *src1, size_t src1_len,
++ 			 const u8 *src2, size_t src2_len)
++diff --git a/src/utils/common.h b/src/utils/common.h
++index a972240..d19927b 100644
++--- a/src/utils/common.h
+++++ b/src/utils/common.h
++@@ -489,6 +489,7 @@ const char * wpa_ssid_txt(const u8 *ssid, size_t ssid_len);
++ char * wpa_config_parse_string(const char *value, size_t *len);
++ int is_hex(const u8 *data, size_t len);
++ int has_ctrl_char(const u8 *data, size_t len);
+++int has_newline(const char *str);
++ size_t merge_byte_arrays(u8 *res, size_t res_len,
++ 			 const u8 *src1, size_t src1_len,
++ 			 const u8 *src2, size_t src2_len);
++diff --git a/wpa_supplicant/config.c b/wpa_supplicant/config.c
++index fdd9643..eb97cd5 100644
++--- a/wpa_supplicant/config.c
+++++ b/wpa_supplicant/config.c
++@@ -2699,8 +2699,19 @@ char * wpa_config_get(struct wpa_ssid *ssid, const char *var)
++ 
++ 	for (i = 0; i < NUM_SSID_FIELDS; i++) {
++ 		const struct parse_data *field = &ssid_fields[i];
++-		if (os_strcmp(var, field->name) == 0)
++-			return field->writer(field, ssid);
+++		if (os_strcmp(var, field->name) == 0) {
+++			char *ret = field->writer(field, ssid);
+++
+++			if (ret && has_newline(ret)) {
+++				wpa_printf(MSG_ERROR,
+++					   "Found newline in value for %s; not returning it",
+++					   var);
+++				os_free(ret);
+++				ret = NULL;
+++			}
+++
+++			return ret;
+++		}
++ 	}
++ 
++ 	return NULL;
++-- 
++1.9.1
+diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.5.bb b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.5.bb
+index 935c8af..bfcc6cc 100644
+--- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.5.bb
++++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.5.bb
+@@ -24,6 +24,8 @@ SRC_URI = "http://w1.fi/releases/wpa_supplicant-${PV}.tar.gz  \
+            file://wpa_supplicant.conf \
+            file://wpa_supplicant.conf-sane \
+            file://99_wpa_supplicant \
++           file://0001-WPS-Reject-a-Credential-with-invalid-passphrase.patch \
++           file://0002-Remove-newlines-from-wpa_supplicant-config-network-o.patch \
+           "
+ SRC_URI[md5sum] = "96ff75c3a514f1f324560a2376f13110"
+ SRC_URI[sha256sum] = "cce55bae483b364eae55c35ba567c279be442ed8bab5b80a3c7fb0d057b9b316"
 -- 
 1.9.1
 
 
---------------27F9111CCC6928F46E21A37F--
