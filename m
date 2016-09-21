@@ -1,45 +1,29 @@
-Return-Path: <sujith.h@gmail.com>
-Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
-	by mail.openembedded.org (Postfix) with ESMTP id B20E4605BA
+Return-Path: <Mingli.Yu@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 001D2600B3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Sep 2016 09:42:49 +0000 (UTC)
-Received: by mail-wm0-f68.google.com with SMTP id l132so7551905wmf.1
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Sep 2016 02:42:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=He2lstHCD0fOdOjB41tJ9vUVsG99DsAAih+ksrzkyWk=;
-	b=qCsnbVrbT/6XB2bDXYMy+kBShe5JkgycbdjLMCuS+DOk7ECSVa2OXysRPxppgL1CSW
-	ganAE2noddlTxzZH5koppeIIGHnTN4y+WjW/x1Tbqw7zdiRHVVVD61UqIpoakhk8Loxt
-	WdRt/6j7RyvAbWnBxw4KFpBFF81waEYVX50qzVLosGwT4zpGZDG+Ic8wm3Fv+8pqRZXU
-	eJe9iq3HFiJdgq8wB/+Gj7Cr8w9SEcL1o3HOrm90Y8WuE+uxoevbow0o8XaSFoG4Y1fN
-	EztwvGgl/SIwdOaBriV2q8vM+IGTRwZmxpw7oy4ACxFD7xHgTUDZe/bCsuin0E+gIcjA
-	WZNA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=He2lstHCD0fOdOjB41tJ9vUVsG99DsAAih+ksrzkyWk=;
-	b=IhqtWYRiaMiXl5hJhXj+AWozFazOFm77AicuSTvZxFA6w19ja0lqu4DXpMJalmxioY
-	JJklG6/XO6nuJF3/8hqBcgYD4nzL/3nyH+AGwWT21tbvQw1okvXpFjlDb6x7MtwfKHPG
-	8Tjro4uTkv1qiAoy/IIsx1RykPvRYhvoPvVNPnRuTYsREnVk8XuO1B0wNx+RjWWDK4fT
-	RADaWMP/9x06uMf1HjU1Ib5UV4+CQrLDNwdU8rAlFfH9e+ZToonKHcu4k3mmOlOhmVQX
-	t+LSdpTJNasm2f3Fv5YEZY+/APMI231vllz3uuStWD+mbJJib5XsbNf9k2hgnK0BU7bE
-	o/CA==
-X-Gm-Message-State: AE9vXwNsTDDtLN1BMWd+tLsjWsxwEWkmaPaHjE40+Fe+dJGBLy7jEyCiH3pcYq19FkLqYA==
-X-Received: by 10.194.85.45 with SMTP id e13mr31785557wjz.5.1474450970400;
-	Wed, 21 Sep 2016 02:42:50 -0700 (PDT)
-Received: from kdekidd0.inp-wifi.mentorg.com ([139.181.35.34])
-	by smtp.gmail.com with ESMTPSA id
-	au10sm32651593wjc.12.2016.09.21.02.42.48
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 21 Sep 2016 02:42:49 -0700 (PDT)
-From: Sujith H <sujith.h@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 21 Sep 2016 15:12:43 +0530
-Message-Id: <1474450963-4114-1-git-send-email-sujith.h@gmail.com>
-X-Mailer: git-send-email 1.9.1
-Cc: Sujith Haridasan <Sujith_Haridasan@mentor.com>
-Subject: [PATCH] x264: add textrel to INSANE_SKIP
+	Wed, 21 Sep 2016 09:47:10 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u8L9lBDf004991
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 21 Sep 2016 02:47:11 -0700 (PDT)
+Received: from [128.224.163.140] (128.224.163.140) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.294.0;
+	Wed, 21 Sep 2016 02:47:10 -0700
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <1474436335-8086-1-git-send-email-mingli.yu@windriver.com>
+	<CAJTo0LboMqEDWqXse_7ViPZjo+v4q3eXaf9H6r2u5XEMEEXUpw@mail.gmail.com>
+From: "Yu, Mingli" <mingli.yu@windriver.com>
+Message-ID: <57E25606.7010806@windriver.com>
+Date: Wed, 21 Sep 2016 17:42:30 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.4.0
+MIME-Version: 1.0
+In-Reply-To: <CAJTo0LboMqEDWqXse_7ViPZjo+v4q3eXaf9H6r2u5XEMEEXUpw@mail.gmail.com>
+X-Originating-IP: [128.224.163.140]
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/2] perl: fix CVE-2016-6185
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,45 +36,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 Sep 2016 09:42:50 -0000
+X-List-Received-Date: Wed, 21 Sep 2016 09:47:12 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
 
-From: Fahad Usman <fahad_usman@mentor.com>
 
-Tried by adding CFLAGS_append = " -fpic " to
-the recipe. But that couldn't help resolve the
-warning message:
 
-x264/r2491+gitAUTOINC+c8a773ebfc-r0/packages-split/x264/usr/lib/libx264.so.144' has relocations in .text [textrel]
+On 2016年09月21日 17:21, Burton, Ross wrote:
+>
+> On 21 September 2016 at 06:38, <mingli.yu@windriver.com
+> <mailto:mingli.yu@windriver.com>> wrote:
+>
+>     From: Mingli Yu <Mingli.Yu@windriver.com
+>     <mailto:Mingli.Yu@windriver.com>>
+>
+>     Backport patch to fix CVE-2016-6185 from perl upstream:
+>     http://perl5.git.perl.org/perl.git/commitdiff/08e3451d7
+>     <http://perl5.git.perl.org/perl.git/commitdiff/08e3451d7>
+>
+>     Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com
+>     <mailto:Mingli.Yu@windriver.com>>
+>
+>
+> Can you please add CVE: tags to the patches alongside the
+> upstream-status and s-o-b, so that the automated CVE tooling can work?
 
-It was found that this warning is emitted because of the
-assembly files in the source code. And it is not easy to
-get rid of TEXTREL's which are coming from the assembly
-source files.
+Will resend the v2 patch to add CVE tags.
 
-Adding textrel to INSANE_SKIP resolves this issue.
-This issue was observed in cyclone5 and imx6qsabresd BSP's.
-So generalizing the patch.
+Thanks,
+Mingli
 
-Signed-off-by: Fahad Usman <fahad_usman@mentor.com>
-Signed-off-by: Sujith Haridasan <Sujith_Haridasan@mentor.com>
----
- meta/recipes-multimedia/x264/x264_git.bb | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/meta/recipes-multimedia/x264/x264_git.bb b/meta/recipes-multimedia/x264/x264_git.bb
-index fa44f9c..393310f 100644
---- a/meta/recipes-multimedia/x264/x264_git.bb
-+++ b/meta/recipes-multimedia/x264/x264_git.bb
-@@ -48,6 +48,6 @@ do_install() {
-     oe_runmake install DESTDIR=${D}
- }
- 
--# PIC can't be enabled for 32-bit x86
--INSANE_SKIP_${PN}_append_x86 = " textrel"
-+# PIC can't be enabled for few BSP's
-+INSANE_SKIP_${PN}_append = " textrel"
- 
--- 
-1.9.1
-
+>
+> Ross
 
