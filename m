@@ -1,26 +1,26 @@
-Return-Path: <Mingli.Yu@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 3EFA67197B
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id F3BE06025F
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Sep 2016 09:50:59 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u8L9p1dV000622
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Sep 2016 02:51:01 -0700 (PDT)
-Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.294.0; Wed, 21 Sep 2016 02:51:00 -0700
-From: <mingli.yu@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 21 Sep 2016 17:47:32 +0800
-Message-ID: <1474451252-24097-3-git-send-email-mingli.yu@windriver.com>
-X-Mailer: git-send-email 2.8.1
-In-Reply-To: <1474451252-24097-1-git-send-email-mingli.yu@windriver.com>
-References: <1474451252-24097-1-git-send-email-mingli.yu@windriver.com>
-MIME-Version: 1.0
-Subject: [openembedded-core][PATCH 2/2] perl: fix CVE-2015-8607
+	Wed, 21 Sep 2016 10:54:00 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u8LAs0dm008356; Wed, 21 Sep 2016 11:54:00 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id DuxTFP4pVv82; Wed, 21 Sep 2016 11:54:00 +0100 (BST)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u8LArvml008353
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Wed, 21 Sep 2016 11:53:58 +0100
+Message-ID: <1474455237.7207.312.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Wed, 21 Sep 2016 11:53:57 +0100
+X-Mailer: Evolution 3.18.5.2-0ubuntu3 
+Mime-Version: 1.0
+Subject: [PATCH] autotools/siteinfo: Tweak CONFIG_SITE handling for determism/races
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,114 +33,109 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 Sep 2016 09:51:00 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 21 Sep 2016 10:54:01 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-From: Mingli Yu <Mingli.Yu@windriver.com>
+As things stand there are multiple races in the CONFIG_SITE handling
+where checksums can change depending on whether site directories
+exist or not when parsing happens. This is bad.
 
-Backport patch to fix CVE-2015-8607 from perl upstream:
-http://perl5.git.perl.org/perl.git/commitdiff/0b6f93036de171c12ba95d415e264d9cf7f4e1fd
+Secondly, there is a build race that occurs if you build virtuals
+in parallel with the "main" recipe, since the main recipe is parsed
+when the virtual is (since it sets variables like BBCLASSEXTEND)
+and with the current code, it may look for files and directories
+which could be created/destroyed which the loop is executing. This
+is also bad.
 
-Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
----
- .../perl/perl/perl-fix-CVE-2015-8607.patch         | 74 ++++++++++++++++++++++
- meta/recipes-devtools/perl/perl_5.22.1.bb          |  1 +
- 2 files changed, 75 insertions(+)
- create mode 100644 meta/recipes-devtools/perl/perl/perl-fix-CVE-2015-8607.patch
+The aclocal-copy directory should only ever be accessed by the call
+from autotools.bbclass. This chanages the parameter name to make it
+clear and ensures all callers have the right usage, neatly avoiding
+all the problems above. Also added better comments.
 
-diff --git a/meta/recipes-devtools/perl/perl/perl-fix-CVE-2015-8607.patch b/meta/recipes-devtools/perl/perl/perl-fix-CVE-2015-8607.patch
-new file mode 100644
-index 0000000..7b4a001
---- /dev/null
-+++ b/meta/recipes-devtools/perl/perl/perl-fix-CVE-2015-8607.patch
-@@ -0,0 +1,74 @@
-+From 652c8d4852a69f1bb4d387946f9b76350a1f0d0e Mon Sep 17 00:00:00 2001
-+From: Tony Cook <tony@develop-help.com>
-+Date: Tue, 15 Dec 2015 10:56:54 +1100
-+Subject: [PATCH] perl: fix CVE-2015-8607
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+
+diff --git a/meta/classes/autotools.bbclass b/meta/classes/autotools.bbclass
+index 4c32c84..e5f527e 100644
+--- a/meta/classes/autotools.bbclass
++++ b/meta/classes/autotools.bbclass
+@@ -25,7 +25,7 @@ inherit siteinfo
+ 
+ # Space separated list of shell scripts with variables defined to supply test
+ # results for autoconf tests we cannot run at build time.
+-export CONFIG_SITE = "${@siteinfo_get_files(d, False)}"
++export CONFIG_SITE = "${@siteinfo_get_files(d)}"
+ 
+ acpaths = "default"
+ EXTRA_AUTORECONF = "--exclude=autopoint"
+@@ -253,8 +253,9 @@ python autotools_copy_aclocals () {
+         t = os.path.join(aclocaldir, os.path.basename(c))
+         if not os.path.exists(t):
+             os.symlink(c, t)
+-            
+-    d.setVar("CONFIG_SITE", siteinfo_get_files(d, False))
 +
-+ensure File::Spec::canonpath() preserves taint
-+
-+Previously the unix specific XS implementation of canonpath() would
-+return an untainted path when supplied a tainted path.
-+
-+For the empty string case, newSVpvs() already sets taint as needed on
-+its result.
-+
-+This issue was assigned CVE-2015-8607.  [perl #126862]
-+
-+Backport patch from http://perl5.git.perl.org/perl.git/commitdiff/0b6f93036de171c12ba95d415e264d9cf7f4e1fd
-+
-+Upstream-Status: Backport
-+CVE: CVE-2015-8607
-+Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
-+---
-+ dist/PathTools/Cwd.xs    |  1 +
-+ dist/PathTools/t/taint.t | 19 ++++++++++++++++++-
-+ 2 files changed, 19 insertions(+), 1 deletion(-)
-+
-+diff --git a/dist/PathTools/Cwd.xs b/dist/PathTools/Cwd.xs
-+index 9d4dcf0..3d018dc 100644
-+--- a/dist/PathTools/Cwd.xs
-++++ b/dist/PathTools/Cwd.xs
-+@@ -535,6 +535,7 @@ THX_unix_canonpath(pTHX_ SV *path)
-+     *o = 0;
-+     SvPOK_on(retval);
-+     SvCUR_set(retval, o - SvPVX(retval));
-++    SvTAINT(retval);
-+     return retval;
-+ }
-+ 
-+diff --git a/dist/PathTools/t/taint.t b/dist/PathTools/t/taint.t
-+index 309b3e5..48f8c5b 100644
-+--- a/dist/PathTools/t/taint.t
-++++ b/dist/PathTools/t/taint.t
-+@@ -12,7 +12,7 @@ use Test::More;
-+ BEGIN {
-+     plan(
-+         ${^TAINT}
-+-        ? (tests => 17)
-++        ? (tests => 21)
-+         : (skip_all => "A perl without taint support")
-+     );
-+ }
-+@@ -34,3 +34,20 @@ foreach my $func (@Functions) {
-+ 
-+ # Previous versions of Cwd tainted $^O
-+ is !tainted($^O), 1, "\$^O should not be tainted";
-++
-++{
-++    # [perl #126862] canonpath() loses taint
-++    my $tainted = substr($ENV{PATH}, 0, 0);
-++    # yes, getcwd()'s result should be tainted, and is tested above
-++    # but be sure
-++    ok tainted(File::Spec->canonpath($tainted . Cwd::getcwd)),
-++        "canonpath() keeps taint on non-empty string";
-++    ok tainted(File::Spec->canonpath($tainted)),
-++        "canonpath() keeps taint on empty string";
-++
-++    (Cwd::getcwd() =~ /^(.*)/);
-++    my $untainted = $1;
-++    ok !tainted($untainted), "make sure our untainted value is untainted";
-++    ok !tainted(File::Spec->canonpath($untainted)),
-++        "canonpath() doesn't add taint to untainted string";
-++}
-+-- 
-+2.8.1
-+
-diff --git a/meta/recipes-devtools/perl/perl_5.22.1.bb b/meta/recipes-devtools/perl/perl_5.22.1.bb
-index 33cad9e..b904674 100644
---- a/meta/recipes-devtools/perl/perl_5.22.1.bb
-+++ b/meta/recipes-devtools/perl/perl_5.22.1.bb
-@@ -67,6 +67,7 @@ SRC_URI += " \
-         file://perl-test-customized.patch \
-         file://perl-fix-CVE-2016-2381.patch \
-         file://perl-fix-CVE-2016-6185.patch \
-+        file://perl-fix-CVE-2015-8607.patch \
- "
- 
- # Fix test case issues
--- 
-2.8.1
++    # Refresh variable with cache files
++    d.setVar("CONFIG_SITE", siteinfo_get_files(d, aclocalcache=True))
+ }
+ autotools_copy_aclocals[vardepsexclude] += "MACHINE SDK_ARCH BUILD_ARCH SDK_OS BB_TASKDEPDATA"
+ 
+diff --git a/meta/classes/siteinfo.bbclass b/meta/classes/siteinfo.bbclass
+index 03d4c4f..6a2e4bf 100644
+--- a/meta/classes/siteinfo.bbclass
++++ b/meta/classes/siteinfo.bbclass
+@@ -153,7 +153,7 @@ python () {
+         bb.fatal("Please add your architecture to siteinfo.bbclass")
+ }
+ 
+-def siteinfo_get_files(d, no_cache = False):
++def siteinfo_get_files(d, aclocalcache = False):
+     sitedata = siteinfo_data(d)
+     sitefiles = ""
+     for path in d.getVar("BBPATH", True).split(":"):
+@@ -162,11 +162,17 @@ def siteinfo_get_files(d, no_cache = False):
+             if os.path.exists(filename):
+                 sitefiles += filename + " "
+ 
+-    if no_cache: return sitefiles
++    if not aclocalcache:
++        return sitefiles
+ 
+-    # Now check for siteconfig cache files
+-    # Use the files copied to the aclocal cache generated by autotools.bbclass
+-    # to avoid races
++    # Now check for siteconfig cache files in the directory setup by autotools.bbclass to
++    # avoid races.
++    #
++    # ACLOCALDIR may or may not exist so cache should only be set to True from autotools.bbclass
++    # after files have been copied into this location. To do otherwise risks parsing/signature
++    # issues and the directory being created/removed whilst this code executes. This can happen
++    # when a multilib recipe is parsed along with its base variant which may be running at the time
++    # causing rare but nasty failures
+     path_siteconfig = d.getVar('ACLOCALDIR', True)
+     if path_siteconfig and os.path.isdir(path_siteconfig):
+         for i in os.listdir(path_siteconfig):
+@@ -174,7 +180,6 @@ def siteinfo_get_files(d, no_cache = False):
+                 continue
+             filename = os.path.join(path_siteconfig, i)
+             sitefiles += filename + " "
+-
+     return sitefiles
+ 
+ #
+diff --git a/meta/classes/toolchain-scripts.bbclass b/meta/classes/toolchain-scripts.bbclass
+index dabd17b..8df0967 100644
+--- a/meta/classes/toolchain-scripts.bbclass
++++ b/meta/classes/toolchain-scripts.bbclass
+@@ -105,7 +105,7 @@ EOF
+ }
+ 
+ #we get the cached site config in the runtime
+-TOOLCHAIN_CONFIGSITE_NOCACHE := "${@siteinfo_get_files(d, True)}"
++TOOLCHAIN_CONFIGSITE_NOCACHE := "${@siteinfo_get_files(d)}"
+ TOOLCHAIN_CONFIGSITE_SYSROOTCACHE = "${STAGING_DIR}/${MLPREFIX}${MACHINE}/${target_datadir}/${TARGET_SYS}_config_site.d"
+ TOOLCHAIN_NEED_CONFIGSITE_CACHE ??= "virtual/${MLPREFIX}libc ncurses"
+ 
+
 
 
