@@ -1,51 +1,24 @@
-Return-Path: <schnitzeltony@googlemail.com>
-Received: from mail-wm0-f66.google.com (mail-wm0-f66.google.com [74.125.82.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 6BD736FFC7
+Return-Path: <Mingli.Yu@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id B72CD60685
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Sep 2016 05:30:59 +0000 (UTC)
-Received: by mail-wm0-f66.google.com with SMTP id l132so6577010wmf.1
+	Wed, 21 Sep 2016 05:42:19 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u8L5gKTe003086
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Sep 2016 22:31:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=googlemail.com; s=20120113;
-	h=from:to:subject:date:message-id:in-reply-to:references:mime-version
-	:content-transfer-encoding;
-	bh=v/iz9aOLkJKx08h63GnwakwykW/gGtO7Dmlt+votipI=;
-	b=Vs2q+jFCLCaBr5RZ9TMfJ1VXv4sXdqQrMLx0u+IHbn8VqvPjH58rM7jVVbfMlPJ4cu
-	UpCc3bFm+dyt64KXkECDYVWLrnVX8XBWYzYDCw+X2GoCINBsXhdAqT7cwV1rKcWpSvgF
-	grHQ2y+dKFDcYQt9nCnNW3pz8WJMDYw6t05anKMh46pFkMnpK+Ie3TlB2dvC8iKVLbwY
-	YGTM6T7Rcj1XtpLUsebthGrFVMcNovc4TmKMvxNMMhESkSzU/PWbzHmI3p8M6FA9Z2zd
-	thE72tN5rZoPJZ2O+hYBJp1Ng62a6F4GRzjfpRIY+ZTGx4G5RQv+lBgHPgpr+XEdp5nL
-	5Q/g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=v/iz9aOLkJKx08h63GnwakwykW/gGtO7Dmlt+votipI=;
-	b=YQhfbGFhPD1pCaaSHyRS8R3ZV9nSFPXkQ2r9Z8vsbqbBqy33q8P02xR1CtBJpwsiT9
-	JdXnNw0leoCPxddip3LoUDqAdMp96d+jV/uZZWSkaaRM6NxGJGILlAYePDSxuLGd1OZ0
-	AmQ9ucjjUdrVPbtiZoxxCiimaJuSMCHmiokJCRnU1SpG5Zxf+t5cLLTeTkpLp/V3Suba
-	xfzDKAXnllk+74M9h3LhlG71k4Kgr3Z3c+a8idC07+GS6NL8zXQ5f1FO0Ue/hT/san5Q
-	jouQwaawPo9vw1GpjdMzPDdYCpzKO6lH/66jmpBFcCzgFW+O6Yfs5Auo0//9bbGjybmW
-	KVAQ==
-X-Gm-Message-State: AE9vXwN1PpTt5aOuyaWoAMxDILaLew5B1wjdHV0rA/s4GacVqpFVVEGbKq77AB3F7ZRlUw==
-X-Received: by 10.194.242.101 with SMTP id wp5mr31849281wjc.44.1474435859871; 
-	Tue, 20 Sep 2016 22:30:59 -0700 (PDT)
-Received: from localhost.localdomain (p4FDF06F5.dip0.t-ipconnect.de.
-	[79.223.6.245]) by smtp.googlemail.com with ESMTPSA id
-	bk7sm31695802wjc.36.2016.09.20.22.30.58
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 20 Sep 2016 22:30:59 -0700 (PDT)
-From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@googlemail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 21 Sep 2016 07:30:44 +0200
-Message-Id: <1474435844-16942-2-git-send-email-schnitzeltony@googlemail.com>
-X-Mailer: git-send-email 2.5.5
-In-Reply-To: <1474435844-16942-1-git-send-email-schnitzeltony@googlemail.com>
-References: <1474435844-16942-1-git-send-email-schnitzeltony@googlemail.com>
+	Tue, 20 Sep 2016 22:42:21 -0700 (PDT)
+Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.294.0; Tue, 20 Sep 2016 22:42:19 -0700
+From: <mingli.yu@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 21 Sep 2016 13:38:54 +0800
+Message-ID: <1474436335-8086-1-git-send-email-mingli.yu@windriver.com>
+X-Mailer: git-send-email 2.8.1
 MIME-Version: 1.0
-Subject: [PATCH 2/2] scons.bbclass: reduce build time by adding PARALLEL_MAKEINST to scons install params
+Subject: [PATCH 1/2] perl: fix CVE-2016-6185
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,53 +31,167 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 Sep 2016 05:30:59 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 21 Sep 2016 05:42:21 -0000
+Content-Type: text/plain
 
-During install all files are recompiled. This should be investigated further
-later. Currently only one file is recompiled at the same time. Reduce install
-time significantly by setting PARALLEL_MAKEINST option in do_install task.
+From: Mingli Yu <Mingli.Yu@windriver.com>
 
-Measured with recipes inheriting scons (gpsd do_compile broken for me) by
-the following sequence:
+Backport patch to fix CVE-2016-6185 from perl upstream:
+http://perl5.git.perl.org/perl.git/commitdiff/08e3451d7
 
-without this patch:
-bitbake pingus mongodb mixxx
-bitbake -ccleansstate pingus mongodb mixxx
-time bitbake pingus mongodb mixxx
-...
-real	48m5.467s
-user	138m47.763s
-sys	11m9.423s
-
-with this patch
-bitbake -ccleansstate pingus mongodb mixxx
-time bitbake pingus mongodb mixxx
-...
-real	27m28.521s
-user	146m59.951s
-sys	10m56.218s
-
-Signed-off-by: Andreas Müller <schnitzeltony@googlemail.com>
+Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
 ---
- meta/classes/scons.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../perl/perl/perl-fix-CVE-2016-6185.patch         | 127 +++++++++++++++++++++
+ meta/recipes-devtools/perl/perl_5.22.1.bb          |   1 +
+ 2 files changed, 128 insertions(+)
+ create mode 100644 meta/recipes-devtools/perl/perl/perl-fix-CVE-2016-6185.patch
 
-diff --git a/meta/classes/scons.bbclass b/meta/classes/scons.bbclass
-index 1579b05..4f84ec0 100644
---- a/meta/classes/scons.bbclass
-+++ b/meta/classes/scons.bbclass
-@@ -10,7 +10,7 @@ scons_do_compile() {
- }
+diff --git a/meta/recipes-devtools/perl/perl/perl-fix-CVE-2016-6185.patch b/meta/recipes-devtools/perl/perl/perl-fix-CVE-2016-6185.patch
+new file mode 100644
+index 0000000..b4acb9b
+--- /dev/null
++++ b/meta/recipes-devtools/perl/perl/perl-fix-CVE-2016-6185.patch
+@@ -0,0 +1,127 @@
++From 7cedaa8bc2ca9e63369d0e2d4c4c23af9febb93a Mon Sep 17 00:00:00 2001
++From: Father Chrysostomos <sprout@cpan.org>
++Date: Sat, 2 Jul 2016 22:56:51 -0700
++Subject: [PATCH] perl: fix CVE-2016-6185
++MIME-Version: 1.0
++
++Don't let XSLoader load relative paths
++
++[rt.cpan.org #115808]
++
++The logic in XSLoader for determining the library goes like this:
++
++    my $c = () = split(/::/,$caller,-1);
++    $modlibname =~ s,[\\/][^\\/]+$,, while $c--;    # Q&D basename
++    my $file = "$modlibname/auto/$modpname/$modfname.bundle";
++
++(That last line varies by platform.)
++
++$caller is the calling package.  $modlibname is the calling file.  It
++removes as many path segments from $modlibname as there are segments
++in $caller.  So if you have Foo/Bar/XS.pm calling XSLoader from the
++Foo::Bar package, the $modlibname will end up containing the path in
++@INC where XS.pm was found, followed by "/Foo".  Usually the fallback
++to Dynaloader::bootstrap_inherit, which does an @INC search, makes
++things Just Work.
++
++But if our hypothetical Foo/Bar/XS.pm actually calls
++XSLoader::load from inside a string eval, then path ends up being
++"(eval 1)/auto/Foo/Bar/Bar.bundle".
++
++So if someone creates a directory named '(eval 1)' with a naughty
++binary file in it, it will be loaded if a script using Foo::Bar is run
++in the parent directory.
++
++This commit makes XSLoader fall back to Dynaloader's @INC search if
++the calling file has a relative path that is not found in @INC.
++
++Backport patch from http://perl5.git.perl.org/perl.git/commitdiff/08e3451d7
++
++Upstream-Status: Backport
++Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
++---
++ dist/XSLoader/XSLoader_pm.PL | 25 +++++++++++++++++++++++++
++ dist/XSLoader/t/XSLoader.t   | 27 ++++++++++++++++++++++++++-
++ 2 files changed, 51 insertions(+), 1 deletion(-)
++
++diff --git a/dist/XSLoader/XSLoader_pm.PL b/dist/XSLoader/XSLoader_pm.PL
++index 668411d..778e46b 100644
++--- a/dist/XSLoader/XSLoader_pm.PL
+++++ b/dist/XSLoader/XSLoader_pm.PL
++@@ -104,6 +104,31 @@ print OUT <<'EOT';
++     my $modpname = join('/',@modparts);
++     my $c = () = split(/::/,$caller,-1);
++     $modlibname =~ s,[\\/][^\\/]+$,, while $c--;    # Q&D basename
+++    # Does this look like a relative path?
+++    if ($modlibname !~ m|^[\\/]|) {
+++        # Someone may have a #line directive that changes the file name, or
+++        # may be calling XSLoader::load from inside a string eval.  We cer-
+++        # tainly do not want to go loading some code that is not in @INC,
+++        # as it could be untrusted.
+++        #
+++        # We could just fall back to DynaLoader here, but then the rest of
+++        # this function would go untested in the perl core, since all @INC
+++        # paths are relative during testing.  That would be a time bomb
+++        # waiting to happen, since bugs could be introduced into the code.
+++        #
+++        # So look through @INC to see if $modlibname is in it.  A rela-
+++        # tive $modlibname is not a common occurrence, so this block is
+++        # not hot code.
+++        FOUND: {
+++            for (@INC) {
+++                if ($_ eq $modlibname) {
+++                    last FOUND;
+++                }
+++            }
+++            # Not found.  Fall back to DynaLoader.
+++            goto \&XSLoader::bootstrap_inherit;
+++        }
+++    }
++ EOT
++ 
++ my $dl_dlext = quotemeta($Config::Config{'dlext'});
++diff --git a/dist/XSLoader/t/XSLoader.t b/dist/XSLoader/t/XSLoader.t
++index 2ff11fe..1e86faa 100644
++--- a/dist/XSLoader/t/XSLoader.t
+++++ b/dist/XSLoader/t/XSLoader.t
++@@ -33,7 +33,7 @@ my %modules = (
++     'Time::HiRes'=> q| ::can_ok( 'Time::HiRes' => 'usleep'  ) |,  # 5.7.3
++ );
++ 
++-plan tests => keys(%modules) * 3 + 9;
+++plan tests => keys(%modules) * 3 + 10;
++ 
++ # Try to load the module
++ use_ok( 'XSLoader' );
++@@ -125,3 +125,28 @@ XSLoader::load("Devel::Peek");
++ EOS
++     or ::diag $@;
++ }
+++
+++SKIP: {
+++  skip "File::Path not available", 1
+++    unless eval { require File::Path };
+++  my $name = "phooo$$";
+++  File::Path::make_path("$name/auto/Foo/Bar");
+++  open my $fh,
+++    ">$name/auto/Foo/Bar/Bar.$Config::Config{'dlext'}";
+++  close $fh;
+++  my $fell_back;
+++  local *XSLoader::bootstrap_inherit = sub {
+++    $fell_back++;
+++    # Break out of the calling subs
+++    goto the_test;
+++  };
+++  eval <<END;
+++#line 1 $name
+++package Foo::Bar;
+++XSLoader::load("Foo::Bar");
+++END
+++ the_test:
+++  ok $fell_back,
+++    'XSLoader will not load relative paths based on (caller)[1]';
+++  File::Path::remove_tree($name);
+++}
++-- 
++2.8.1
++
+diff --git a/meta/recipes-devtools/perl/perl_5.22.1.bb b/meta/recipes-devtools/perl/perl_5.22.1.bb
+index 04a2b6f..33cad9e 100644
+--- a/meta/recipes-devtools/perl/perl_5.22.1.bb
++++ b/meta/recipes-devtools/perl/perl_5.22.1.bb
+@@ -66,6 +66,7 @@ SRC_URI += " \
+         file://perl-fix-conflict-between-skip_all-and-END.patch \
+         file://perl-test-customized.patch \
+         file://perl-fix-CVE-2016-2381.patch \
++        file://perl-fix-CVE-2016-6185.patch \
+ "
  
- scons_do_install() {
--        ${STAGING_BINDIR_NATIVE}/scons PREFIX=${D}${prefix} prefix=${D}${prefix} install ${EXTRA_OESCONS}|| \
-+        ${STAGING_BINDIR_NATIVE}/scons ${PARALLEL_MAKEINST} PREFIX=${D}${prefix} prefix=${D}${prefix} install ${EXTRA_OESCONS}|| \
-         die "scons install execution failed."
- }
- 
+ # Fix test case issues
 -- 
-2.5.5
+2.8.1
 
 
