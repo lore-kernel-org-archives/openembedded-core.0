@@ -1,26 +1,46 @@
-Return-Path: <Mingli.Yu@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 86A7960685
+Return-Path: <liu.ming50@gmail.com>
+Received: from mail-lf0-f65.google.com (mail-lf0-f65.google.com
+	[209.85.215.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 807CD7017D
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Sep 2016 05:42:21 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u8L5gMAI006806
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	Wed, 21 Sep 2016 07:37:19 +0000 (UTC)
+Received: by mail-lf0-f65.google.com with SMTP id b71so1170889lfg.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Sep 2016 22:42:22 -0700
-Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.294.0; Tue, 20 Sep 2016 22:42:21 -0700
-From: <mingli.yu@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 21 Sep 2016 13:38:55 +0800
-Message-ID: <1474436335-8086-2-git-send-email-mingli.yu@windriver.com>
-X-Mailer: git-send-email 2.8.1
-In-Reply-To: <1474436335-8086-1-git-send-email-mingli.yu@windriver.com>
-References: <1474436335-8086-1-git-send-email-mingli.yu@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH 2/2] perl: fix CVE-2015-8607
+	Wed, 21 Sep 2016 00:37:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=xlJxS7Nt6tnupZEesfDDswR8qvHGE6braXwx5qZTrKg=;
+	b=BOvvNDbmBON04fP3Gvb0yiii3IYkYLLhkstchVtstnBsofjMokE1K1dbsLADsRe2kC
+	3NudJ8gr3ZHTXunwC3q3nxy6BwJGVLNAxDouxjMJqsJA3hSmleDwuniHlN+BcndoUY/7
+	nnbEpvHUkWGAo+1ZVnVHxs2rmtnMMvaO1Q7P8ykWAoctFFhn71mq3dHcezlATD2PuAG3
+	C6qxJHCWKQQP/rF5DaX4S1HFtECGysyu/0dLnoquHuz+gAdr/GxrWx8adB1+eOH1H8//
+	07pzcyiCB6utQW+slFTywt0dE81LCrffXddu3P/OWdQVpRNIkDi7Tq87+vTgttGVD4gW
+	FYjw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=xlJxS7Nt6tnupZEesfDDswR8qvHGE6braXwx5qZTrKg=;
+	b=ZbB/nZHvPluDWqe9Ss+xc2JbrsU3q/Yer6Fa9Fr5rQimnsEFEQLVjFP2qEsaQWLgH+
+	HJJnCesdUsxyyPkk7ritFdnmpB28dqg1oH/sHs6rU/vTn7eM2FwHiGXXiCb82yA5MWFk
+	XJ+Cu6TiKqh3f+Z5iL/+Kzb2rQWUkM2gqys0UUOi+q03I9ISn1gf6hxCPZQMAdYF5FQL
+	IEbsSopj87V+GnF+vy4jOTvxGhAWTzHQMW6i3Wf4184amRfjcIsGoUh542nXnrrZrwQl
+	CavDRBsJS+cpEnflWake3l4L1ENee1hRoZH++6MqqX/KjtjE8+n7nBr75N5xRgYS4bnY
+	ClQg==
+X-Gm-Message-State: AE9vXwMk4wqnU4XZftnsF5Xpd90eobCpsXOg83sXIPKBqjrIYYo2mO8+4TKtj3bVNuruzg==
+X-Received: by 10.46.1.5 with SMTP id 5mr12638188ljb.16.1474443440744;
+	Wed, 21 Sep 2016 00:37:20 -0700 (PDT)
+Received: from localhost.localdomain (m77-218-252-40.cust.tele2.se.
+	[77.218.252.40]) by smtp.gmail.com with ESMTPSA id
+	s187sm6512429lfd.3.2016.09.21.00.37.19
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 21 Sep 2016 00:37:19 -0700 (PDT)
+From: Ming Liu <liu.ming50@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 21 Sep 2016 09:37:23 +0200
+Message-Id: <1474443443-10872-1-git-send-email-liu.ming50@gmail.com>
+X-Mailer: git-send-email 1.9.1
+Cc: yue.tao@windriver.com, Ming Liu <peter.x.liu@external.atlascopco.com>
+Subject: [PATCH] libnl: Fix build with musl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,114 +53,81 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 Sep 2016 05:42:21 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 21 Sep 2016 07:37:21 -0000
 
-From: Mingli Yu <Mingli.Yu@windriver.com>
+From: Ming Liu <peter.x.liu@external.atlascopco.com>
 
-Backport patch to fix CVE-2015-8607 from perl upstream:
-http://perl5.git.perl.org/perl.git/commitdiff/0b6f93036de171c12ba95d415e264d9cf7f4e1fd
+[YOCTO #10313]
 
-Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
+Signed-off-by: Ming Liu <peter.x.liu@external.atlascopco.com>
 ---
- .../perl/perl/perl-fix-CVE-2015-8607.patch         | 74 ++++++++++++++++++++++
- meta/recipes-devtools/perl/perl_5.22.1.bb          |  1 +
- 2 files changed, 75 insertions(+)
- create mode 100644 meta/recipes-devtools/perl/perl/perl-fix-CVE-2015-8607.patch
+ .../libnl/libnl/0001-Fix-build-with-musl.patch     | 43 ++++++++++++++++++++++
+ meta/recipes-support/libnl/libnl_3.2.28.bb         |  1 +
+ 2 files changed, 44 insertions(+)
+ create mode 100644 meta/recipes-support/libnl/libnl/0001-Fix-build-with-musl.patch
 
-diff --git a/meta/recipes-devtools/perl/perl/perl-fix-CVE-2015-8607.patch b/meta/recipes-devtools/perl/perl/perl-fix-CVE-2015-8607.patch
+diff --git a/meta/recipes-support/libnl/libnl/0001-Fix-build-with-musl.patch b/meta/recipes-support/libnl/libnl/0001-Fix-build-with-musl.patch
 new file mode 100644
-index 0000000..ca27ee6
+index 0000000..8a2dad5
 --- /dev/null
-+++ b/meta/recipes-devtools/perl/perl/perl-fix-CVE-2015-8607.patch
-@@ -0,0 +1,74 @@
-+From 652c8d4852a69f1bb4d387946f9b76350a1f0d0e Mon Sep 17 00:00:00 2001
-+From: Tony Cook <tony@develop-help.com>
-+Date: Tue, 15 Dec 2015 10:56:54 +1100
-+Subject: [PATCH] perl: fix CVE-2015-8607
++++ b/meta/recipes-support/libnl/libnl/0001-Fix-build-with-musl.patch
+@@ -0,0 +1,43 @@
++From 963d9818d13a025b857380c84d53b11c3aceff54 Mon Sep 17 00:00:00 2001
++From: Peter Liu <peter.x.liu@external.atlascopco.com>
++Date: Wed, 21 Sep 2016 09:07:12 +0200
++Subject: [PATCH] Fix build with musl
 +
-+ensure File::Spec::canonpath() preserves taint
++Upstream-Status: Pending
 +
-+Previously the unix specific XS implementation of canonpath() would
-+return an untainted path when supplied a tainted path.
++Due to both <netinet/in.h> and <linux/in6.h> being included, the
++in6_addr is being redefined: once from the C library headers and once
++from the kernel headers. This causes some build failures with for
++example the musl C library:
++| In file included from ../../libnl-3.2.28/include/linux-private/linux/if_bridge.h:18:0,
++|                  from ../../libnl-3.2.28/lib/route/link/bridge.c:26:
++| /mnt/ale-build/tmp/musl/sysroots/itmk2/usr/include/linux/in6.h:32:8: error: redefinition of 'struct in6_addr'
++|  struct in6_addr {
++|         ^~~~~~~~
++| In file included from /mnt/ale-build/tmp/musl/sysroots/itmk2/usr/include/arpa/inet.h:9:0,
++|                  from ../../libnl-3.2.28/include/netlink-private/netlink.h:33,
++|                  from ../../libnl-3.2.28/lib/route/link/bridge.c:20:
++| /mnt/ale-build/tmp/musl/sysroots/itmk2/usr/include/netinet/in.h:23:8: note: originally defined here
 +
-+For the empty string case, newSVpvs() already sets taint as needed on
-+its result.
++In order to fix this, use just the C library header <netinet/in.h>.
 +
-+This issue was assigned CVE-2015-8607.  [perl #126862]
-+
-+Backport patch from http://perl5.git.perl.org/perl.git/commitdiff/0b6f93036de171c12ba95d415e264d9cf7f4e1fd
-+
-+Upstream-Status: Backport
-+
-+Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
++Signed-off-by: Peter Liu <peter.x.liu@external.atlascopco.com>
 +---
-+ dist/PathTools/Cwd.xs    |  1 +
-+ dist/PathTools/t/taint.t | 19 ++++++++++++++++++-
-+ 2 files changed, 19 insertions(+), 1 deletion(-)
++ include/linux-private/linux/if_bridge.h | 1 -
++ 1 file changed, 1 deletion(-)
 +
-+diff --git a/dist/PathTools/Cwd.xs b/dist/PathTools/Cwd.xs
-+index 9d4dcf0..3d018dc 100644
-+--- a/dist/PathTools/Cwd.xs
-++++ b/dist/PathTools/Cwd.xs
-+@@ -535,6 +535,7 @@ THX_unix_canonpath(pTHX_ SV *path)
-+     *o = 0;
-+     SvPOK_on(retval);
-+     SvCUR_set(retval, o - SvPVX(retval));
-++    SvTAINT(retval);
-+     return retval;
-+ }
++diff --git a/include/linux-private/linux/if_bridge.h b/include/linux-private/linux/if_bridge.h
++index f24050b..8f7490c 100644
++--- a/include/linux-private/linux/if_bridge.h
+++++ b/include/linux-private/linux/if_bridge.h
++@@ -15,7 +15,6 @@
 + 
-+diff --git a/dist/PathTools/t/taint.t b/dist/PathTools/t/taint.t
-+index 309b3e5..48f8c5b 100644
-+--- a/dist/PathTools/t/taint.t
-++++ b/dist/PathTools/t/taint.t
-+@@ -12,7 +12,7 @@ use Test::More;
-+ BEGIN {
-+     plan(
-+         ${^TAINT}
-+-        ? (tests => 17)
-++        ? (tests => 21)
-+         : (skip_all => "A perl without taint support")
-+     );
-+ }
-+@@ -34,3 +34,20 @@ foreach my $func (@Functions) {
++ #include <linux/types.h>
++ #include <linux/if_ether.h>
++-#include <linux/in6.h>
 + 
-+ # Previous versions of Cwd tainted $^O
-+ is !tainted($^O), 1, "\$^O should not be tainted";
-++
-++{
-++    # [perl #126862] canonpath() loses taint
-++    my $tainted = substr($ENV{PATH}, 0, 0);
-++    # yes, getcwd()'s result should be tainted, and is tested above
-++    # but be sure
-++    ok tainted(File::Spec->canonpath($tainted . Cwd::getcwd)),
-++        "canonpath() keeps taint on non-empty string";
-++    ok tainted(File::Spec->canonpath($tainted)),
-++        "canonpath() keeps taint on empty string";
-++
-++    (Cwd::getcwd() =~ /^(.*)/);
-++    my $untainted = $1;
-++    ok !tainted($untainted), "make sure our untainted value is untainted";
-++    ok !tainted(File::Spec->canonpath($untainted)),
-++        "canonpath() doesn't add taint to untainted string";
-++}
++ #define SYSFS_BRIDGE_ATTR	"bridge"
++ #define SYSFS_BRIDGE_FDB	"brforward"
 +-- 
-+2.8.1
++1.9.1
 +
-diff --git a/meta/recipes-devtools/perl/perl_5.22.1.bb b/meta/recipes-devtools/perl/perl_5.22.1.bb
-index 33cad9e..b904674 100644
---- a/meta/recipes-devtools/perl/perl_5.22.1.bb
-+++ b/meta/recipes-devtools/perl/perl_5.22.1.bb
-@@ -67,6 +67,7 @@ SRC_URI += " \
-         file://perl-test-customized.patch \
-         file://perl-fix-CVE-2016-2381.patch \
-         file://perl-fix-CVE-2016-6185.patch \
-+        file://perl-fix-CVE-2015-8607.patch \
+diff --git a/meta/recipes-support/libnl/libnl_3.2.28.bb b/meta/recipes-support/libnl/libnl_3.2.28.bb
+index 26982f3..f8f3e53 100644
+--- a/meta/recipes-support/libnl/libnl_3.2.28.bb
++++ b/meta/recipes-support/libnl/libnl_3.2.28.bb
+@@ -15,6 +15,7 @@ SRC_URI = "https://github.com/thom311/${BPN}/releases/download/${BPN}${@d.getVar
+            file://0001-lib-add-utility-function-nl_strerror_l.patch \
+            file://0002-lib-switch-to-using-strerror_l-instead-of-strerror_r.patch \
+            file://0003-src-switch-to-using-strerror_l-instead-of-strerror_r.patch \
++           file://0001-Fix-build-with-musl.patch \
  "
+ UPSTREAM_CHECK_URI = "https://github.com/thom311/${BPN}/releases"
  
- # Fix test case issues
 -- 
-2.8.1
+1.9.1
 
 
