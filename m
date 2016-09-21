@@ -1,23 +1,51 @@
-Return-Path: <mariano.lopez@linux.intel.com>
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-	by mail.openembedded.org (Postfix) with ESMTP id B8A1171974
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wm0-f45.google.com (mail-wm0-f45.google.com [74.125.82.45])
+	by mail.openembedded.org (Postfix) with ESMTP id 80D0C70034
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Sep 2016 15:58:13 +0000 (UTC)
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-	by fmsmga105.fm.intel.com with ESMTP; 21 Sep 2016 08:58:14 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.30,374,1470726000"; d="scan'208";a="12190223"
-Received: from yctb01.ostc.intel.com (HELO yctb01.otcr.intel.com)
-	([10.54.69.55])
-	by orsmga004.jf.intel.com with ESMTP; 21 Sep 2016 08:58:14 -0700
-From: mariano.lopez@linux.intel.com
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 21 Sep 2016 07:54:25 +0000
-Message-Id: <facdb05bcfaa9eab9eed0b7db17fad854f6ec046.1474444335.git.mariano.lopez@linux.intel.com>
-X-Mailer: git-send-email 2.6.6
-In-Reply-To: <cover.1474444335.git.mariano.lopez@linux.intel.com>
-References: <cover.1474444335.git.mariano.lopez@linux.intel.com>
-Subject: [PATCH 1/1] toolchain-shar-relocate.sh: Add error-handling
+	Wed, 21 Sep 2016 16:08:55 +0000 (UTC)
+Received: by mail-wm0-f45.google.com with SMTP id l132so276901891wmf.0
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 21 Sep 2016 09:08:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:date:to:cc:subject:message-id:references:mime-version
+	:content-disposition:in-reply-to:user-agent;
+	bh=BJclNQarh9TQ6M3tEGYWYVSp1WzixoTmhGh6tF58ETg=;
+	b=OaufQGHsufOoLKrror46w/q1NXRyTwGw4J9gZ43hu7v1tktAdSCsQXE976rhTPuS+H
+	x9O6cEUHYH1N6sOy/kC2Kqyt8aiqIuUoPcZJCD6BNczXHxtEYhrnBzNyBGYkDRjO/HUU
+	rpqJTaVtvggUfwf9A6zjAvvgQ/YbKKLfxzV4Z69CkqsDTFQkAY7wTn4rMcw9i5RKiDJ+
+	HUsEYqtzT/IwOf5cJ5p5ERMdfJoITC2MTxzu9AeN4G2RCBRym+b4zOAL0JACPiafRjEp
+	6uThDQThJbgYxA/vNHxSbPQaI5nzjMHPRskZUH5C42Q0x6HR4qc69GSMXX2ZsDMgmb67
+	RV2A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:date:to:cc:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to:user-agent;
+	bh=BJclNQarh9TQ6M3tEGYWYVSp1WzixoTmhGh6tF58ETg=;
+	b=ExV6dNFEp7YcI3NWc819U5EdbE1B8R4t2yKjCQ8xFuNNUoFxdQ2ojJygBGMpSk7EXY
+	h6U/3Dmr1V64RITIq8BvenCEmhABXqLS/ZjTBqYgNUbmno/c8yEcYyT8e2K+OiiYR83/
+	f4X7WJ3/nN3C0vR6XHlt+Osd5Qgpsma8Lped/66QyUXTbB6YkFBmpM9rrRWIJXzLSeS1
+	yxD+5WZ//6+ON5sME49+0YsIfDwEZAMsWi6pK7pITdoRHezAMpgMEs4+dC4vnZmft+w5
+	jOw9uuV0QuLHVNKbP4AqsBbXRHDb5B7QjLThVSa69uK5xaoIpfdXTiEakXTqrstSKbuT
+	f3sA==
+X-Gm-Message-State: AE9vXwN7tDXyujZc58MZ76DzGw3DtbStqFTCmQCEnRDIZT5NC8tNKAehp28ELFttc1QcXQ==
+X-Received: by 10.28.140.5 with SMTP id o5mr4209146wmd.13.1474474136209;
+	Wed, 21 Sep 2016 09:08:56 -0700 (PDT)
+Received: from localhost (ip-89-176-104-169.net.upcbroadband.cz.
+	[89.176.104.169]) by smtp.gmail.com with ESMTPSA id
+	r2sm26614670wmf.14.2016.09.21.09.08.54
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Wed, 21 Sep 2016 09:08:55 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Wed, 21 Sep 2016 18:08:54 +0200
+To: Patrick Ohly <patrick.ohly@intel.com>
+Message-ID: <20160921160854.GB2633@jama>
+References: <1474472342.16834.96.camel@intel.com>
+MIME-Version: 1.0
+In-Reply-To: <1474472342.16834.96.camel@intel.com>
+User-Agent: Mutt/1.7.0 (2016-08-17)
+Cc: OpenEmbedded <openembedded-core@lists.openembedded.org>
+Subject: Re: rm_work + pybootchart enhancements
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,75 +58,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 Sep 2016 15:58:14 -0000
+X-List-Received-Date: Wed, 21 Sep 2016 16:08:56 -0000
+X-Groupsio-MsgNum: 87367
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="p4qYPpj5QlsIQJ0K"
+Content-Disposition: inline
 
-From: Mariano Lopez <mariano.lopez@linux.intel.com>
+--p4qYPpj5QlsIQJ0K
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-The relocation script of the SDK doesn't have enough
-error handling when replacing host perl with SDK perl
-or changing the symlinks. This will add those checks
-along with a sanity check of xargs.
+On Wed, Sep 21, 2016 at 05:39:02PM +0200, Patrick Ohly wrote:
+> Hello!
+>=20
+> rm_work.bbclass currently isn't good enough for use in really tightly
+> constrained environments. For example, building core-image-sato with
+> 20GB of free disk space should work (final disk usage with rm_work
+> active: <13GB). But in practice, that disk space gets exhausted in the
+> middle of a build because do_rm_work doesn't run often and/or soon
+> enough.
 
-[YOCTO #10114]
+I agree that it could use some improvements, but I'm using simple work
+around for this - building whole image in couple steps which forces
+rm_work being executed often enough to fit WORKDIR in e.g. 14G tmpfs
 
-Signed-off-by: Mariano Lopez <mariano.lopez@linux.intel.com>
----
- meta/files/toolchain-shar-relocate.sh | 20 +++++++++++++++++++-
- 1 file changed, 19 insertions(+), 1 deletion(-)
+something like:
+bitbake gcc && bitbake console-image && bitbake webkit && bitbake bigger-im=
+age
 
-diff --git a/meta/files/toolchain-shar-relocate.sh b/meta/files/toolchain-shar-relocate.sh
-index d4bcf0e..e491153 100644
---- a/meta/files/toolchain-shar-relocate.sh
-+++ b/meta/files/toolchain-shar-relocate.sh
-@@ -1,3 +1,8 @@
-+if ! xargs --version > /dev/null 2>&1; then
-+	echo "xargs is required by the relocation script, please install it firts. Abort!"
-+	exit 1
-+fi
-+
- # fix dynamic loader paths in all ELF SDK binaries
- native_sysroot=$($SUDO_EXEC cat $env_setup_script |grep 'OECORE_NATIVE_SYSROOT='|cut -d'=' -f2|tr -d '"')
- dl_path=$($SUDO_EXEC find $native_sysroot/lib -name "ld-linux*")
-@@ -7,6 +12,10 @@ if [ "$dl_path" = "" ] ; then
- fi
- executable_files=$($SUDO_EXEC find $native_sysroot -type f \
- 	\( -perm -0100 -o -perm -0010 -o -perm -0001 \) -printf "'%h/%f' ")
-+if [ "x$executable_files" = "x" ]; then
-+   echo "SDK relocate failed, could not get executalbe files"
-+   exit 1
-+fi
- 
- tdir=`mktemp -d`
- if [ x$tdir = x ] ; then
-@@ -14,7 +23,7 @@ if [ x$tdir = x ] ; then
-    exit 1
- fi
- cat <<EOF >> $tdir/relocate_sdk.sh
--#!/bin/bash
-+#!/bin/sh
- for py in python python2 python3
- do
- 	PYTHON=\`which \${py} 2>/dev/null\`
-@@ -53,9 +62,18 @@ done | xargs -n100 file | grep ":.*\(ASCII\|script\|source\).*text" | \
-         -e "s:^#! */usr/bin/perl.*:#! /usr/bin/env perl:g" \
-         -e "s: /usr/bin/perl: /usr/bin/env perl:g"
- 
-+if [ $? -ne 0 ]; then
-+	echo "Failed to replace perl. Relocate script failed. Abort!"
-+	exit 1
-+fi
-+
- # change all symlinks pointing to @SDKPATH@
- for l in $($SUDO_EXEC find $native_sysroot -type l); do
- 	$SUDO_EXEC ln -sfn $(readlink $l|$SUDO_EXEC sed -e "s:$DEFAULT_INSTALL_DIR:$target_sdk_dir:") $l
-+	if [ $? -ne 0 ]; then
-+		echo "Failed to setup symlinks. Relocate script failed. Abort!"
-+		exit 1
-+    fi
- done
- 
- echo done
--- 
-2.6.6
+> Test script attached. I only ran this once, so I can't vouch that the
+> numbers are stable. I remember reading about a benchmark wrapper which
+> can run such a test script multiple times and then will automatically
+> merge the output of all runs together, adding min/max/average/deviation,
+> but couldn't find the tool again. Does anyone know which tool does that?
 
+it's in oe-core:
+=2E/scripts/contrib/bb-perf/bb-matrix-plot.sh
+=2E/scripts/contrib/bb-perf/bb-matrix.sh
 
+=2E..
+
+--p4qYPpj5QlsIQJ0K
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iEYEARECAAYFAlfisJUACgkQN1Ujt2V2gBxTzQCgk3BXbFtPWQGuv+Znt/lc72Tu
+NmUAoILTEiLV+P04Pq+YFM6ashYQa2Sg
+=q1OT
+-----END PGP SIGNATURE-----
+
+--p4qYPpj5QlsIQJ0K--
