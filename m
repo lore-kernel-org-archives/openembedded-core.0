@@ -1,27 +1,46 @@
-Return-Path: <california.l.sullivan@intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 7696A6E667
+Return-Path: <maciej.borzecki@rndity.com>
+Received: from mail-wm0-f47.google.com (mail-wm0-f47.google.com [74.125.82.47])
+	by mail.openembedded.org (Postfix) with ESMTP id 6AFB760746
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Sep 2016 16:27:18 +0000 (UTC)
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-	by orsmga103.jf.intel.com with ESMTP; 21 Sep 2016 09:27:19 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.30,374,1470726000"; d="scan'208";a="11860841"
-Received: from clsulliv.jf.intel.com ([10.7.201.156])
-	by orsmga005.jf.intel.com with ESMTP; 21 Sep 2016 09:27:19 -0700
-To: Robert Yang <liezhi.yang@windriver.com>,
-	openembedded-core@lists.openembedded.org
-References: <1474069704-24428-1-git-send-email-california.l.sullivan@intel.com>
-	<0d1aff43-c348-83bf-becd-3265f4b30df8@windriver.com>
-From: Cal Sullivan <california.l.sullivan@intel.com>
-Message-ID: <4b3d25d1-1e45-9191-9081-3428402f249b@intel.com>
-Date: Wed, 21 Sep 2016 09:27:19 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.2.0
+	Wed, 21 Sep 2016 16:34:55 +0000 (UTC)
+Received: by mail-wm0-f47.google.com with SMTP id b130so101074337wmc.0
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 21 Sep 2016 09:34:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=rndity-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=aloDB8R5QGnsJKRLwRK5KIXoIapazxxXgyXfqkBO258=;
+	b=l6kpGHqwzetjIw6/r8Tf4SGn8ZI0aFjDKBKRCshEP408J9vvxCd/KM4vIj7CKMGwpC
+	xemaVIPyzWheZOBPbE1wVjp1QGsFKNzwCnOBSdgldlPPpvB6QUeuBzV1SHMSsic3HO/L
+	xmC2AEH2JsYGi+RVxqFATiUWUGc8IWnl3H6xuxO7T2A4UvOH34SzenzvcVlkspDVeMCj
+	opCtiGeBiFp2lQZgxPn4bunNNSX3ebNEAwpL4OYQa+ArwHVO2U5JwiVjOq4EeEihDizz
+	iKv/lmHoJxHrhYF7jO9g6+AUP9mb28w6zFejKeEfK6jmTWRVebS2QvBWVPewpSV7mOiX
+	yJiw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=aloDB8R5QGnsJKRLwRK5KIXoIapazxxXgyXfqkBO258=;
+	b=hhWg/pr+voxJQvDRLIX+JpqB8xhVFD0j7l0p7p+6S5srKUCZ+SnAhJhCsiysevbWBF
+	NZjTnC1Qi1846SPi7RINN4PsQTescR8TIgSDupTQHYa6JUE0+X839g2sR1tBomdHBnos
+	etAqtMzimYOg7WWJpiYJ3rn3THAukY/WfRKOTzovAbLHKwnLUYBnSrwNsbyrCDrA9YH3
+	RqbTfY8uar8URsTGHaX0w4DsXWTunox/6ZRxxzWGrIXC9eTtCD3FdVJRtm36ZPZ20jyS
+	ozh4XaxpUOOcEVr5SG1TRbmwdO1Aen7z5sMbrKWqFklKwbae5sHq1YzrQgxpi2ZIY6+o
+	w+yA==
+X-Gm-Message-State: AE9vXwNaBwfc9g2h61sgABbWXvx2X3uedtHDhK2/GPQ2wAzUdpEqpxi3tEOID6vYZVdqZhZ7d5L24bt+gEPdKg==
+X-Received: by 10.28.168.9 with SMTP id r9mr3874189wme.93.1474475695936; Wed,
+	21 Sep 2016 09:34:55 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <0d1aff43-c348-83bf-becd-3265f4b30df8@windriver.com>
-Cc: bruce.ashfield@windriver.com
-Subject: Re: [PATCH V2 1/1] kernel.bbclass: Add kernel_version_sanity_check function
+Received: by 10.80.172.166 with HTTP; Wed, 21 Sep 2016 09:34:33 -0700 (PDT)
+In-Reply-To: <1474471092-4321-1-git-send-email-ed.bartosh@linux.intel.com>
+References: <1474471092-4321-1-git-send-email-ed.bartosh@linux.intel.com>
+From: =?UTF-8?Q?Maciej_Borz=C4=99cki?= <maciej.borzecki@rndity.com>
+Date: Wed, 21 Sep 2016 18:34:33 +0200
+Message-ID: <CAD4b0_KyEWXR4AQ0PEeN2zuP2VKudyM63aL9HiFymfkqgAuajw@mail.gmail.com>
+To: Ed Bartosh <ed.bartosh@linux.intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [wic][PATCH] wic: add beaglebone.wks
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,107 +53,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 Sep 2016 16:27:18 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 21 Sep 2016 16:34:56 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Yes, the PV is set incorrectly here. In b5e7625, the kernel's source was 
-updated to 4.1.32 for genericx86-64, but the LINUX_VERSION variable 
-(which is used to set PV) was not.
+On Wed, Sep 21, 2016 at 5:18 PM, Ed Bartosh <ed.bartosh@linux.intel.com> wrote:
+> Added wks to make an image for Beaglebone board.
+>
+> Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
+> ---
+>  scripts/lib/wic/canned-wks/beaglebone.wks | 7 +++++++
+>  1 file changed, 7 insertions(+)
+>  create mode 100644 scripts/lib/wic/canned-wks/beaglebone.wks
+>
+> diff --git a/scripts/lib/wic/canned-wks/beaglebone.wks b/scripts/lib/wic/canned-wks/beaglebone.wks
+> new file mode 100644
+> index 0000000..753418e
+> --- /dev/null
+> +++ b/scripts/lib/wic/canned-wks/beaglebone.wks
+> @@ -0,0 +1,7 @@
+> +# short-description: Create Beaglebone disk image
+> +# long-description: Creates a partitioned disk image for Beaglebone board
+> +# which can be directly copied to SD card.
+> +
+> +part /boot --ondisk mmcblk0 --label boot --fstype vfat --source bootimg-partition --align 1024 --active
+> +part /     --ondisk mmcblk0 --label root --fstype ext4 --source rootfs --align 1024
+> +
 
----
-Cal
+Should be basically the same as sdimage-bootpart.wks as I used BBB
+back when I posted it along with some wic fixes. It also used to be
+possible to build a usable RaspberryPI image with the same kickstart
+file, though I have not tried that lately.
 
-On 09/20/2016 08:11 PM, Robert Yang wrote:
->
-> Hi,
->
-> There is an error on autobuilder related to this patch:
->
-> http://autobuilder.yocto.io:8010/builders/nightly-x86-64-lsb/builds/60/steps/BuildImages_1/logs/stdio 
->
->
-> // Robert
->
-> On 09/17/2016 07:48 AM, California Sullivan wrote:
->> The kernel being built should match what the recipe claims it is
->> building. This function ensures that happens by comparing the version
->> information in the kernel's Makefile to the PV the recipe is using.
->>
->> v2 changes:
->> * Match against PV instead of LINUX_VERSION
->> * Match against EXTRAVERSION as well (e.g., -rc4)
->> * Cleaned up version string building
->>
->> Fixes [YOCTO #6767].
->>
->> Signed-off-by: California Sullivan <california.l.sullivan@intel.com>
->> ---
->>  meta/classes/kernel.bbclass               | 30 
->> ++++++++++++++++++++++++++++++
->>  meta/recipes-kernel/linux/linux-yocto.inc |  1 +
->>  2 files changed, 31 insertions(+)
->>
->> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
->> index a6112e8..f894795 100644
->> --- a/meta/classes/kernel.bbclass
->> +++ b/meta/classes/kernel.bbclass
->> @@ -327,6 +327,36 @@ kernel_do_install() {
->>  }
->>  do_install[prefuncs] += "package_get_auto_pr"
->>
->> +# Must be ran no earlier than after do_kernel_checkout or else 
->> Makefile won't be in ${S}/Makefile
->> +do_kernel_version_sanity_check() {
->> +    # The Makefile determines the kernel version shown at runtime
->> +    # Don't use KERNEL_VERSION because the headers it grabs the 
->> version from aren't generated until do_compile
->> +    VERSION=$(grep "^VERSION =" ${S}/Makefile | sed s/.*=\ *//)
->> +    PATCHLEVEL=$(grep "^PATCHLEVEL =" ${S}/Makefile | sed s/.*=\ *//)
->> +    SUBLEVEL=$(grep "^SUBLEVEL =" ${S}/Makefile | sed s/.*=\ *//)
->> +    EXTRAVERSION=$(grep "^EXTRAVERSION =" ${S}/Makefile | sed s/.*=\ 
->> *//)
->> +
->> +    # Build a string for regex and a plain version string
->> +    reg="^${VERSION}\.${PATCHLEVEL}"
->> +    vers="${VERSION}.${PATCHLEVEL}"
->> +    if [ -n "${SUBLEVEL}" ]; then
->> +        # Ignoring a SUBLEVEL of zero is fine
->> +        if [ "${SUBLEVEL}" = "0" ]; then
->> +            reg="${reg}(\.${SUBLEVEL})?"
->> +        else
->> +            reg="${reg}\.${SUBLEVEL}"
->> +            vers="${vers}.${SUBLEVEL}"
->> +        fi
->> +    fi
->> +    vers="${vers}${EXTRAVERSION}"
->> +    reg="${reg}${EXTRAVERSION}"
->> +
->> +    if [ -z `echo ${PV} | grep -E "${reg}"` ]; then
->> +        bbfatal "Package Version (${PV}) does not match of kernel 
->> being built (${vers}). Please update the PV variable to match the 
->> kernel source."
->> +    fi
->> +    exit 0
->> +}
->> +
->>  addtask shared_workdir after do_compile before do_compile_kernelmodules
->>  addtask shared_workdir_setscene
->>
->> diff --git a/meta/recipes-kernel/linux/linux-yocto.inc 
->> b/meta/recipes-kernel/linux/linux-yocto.inc
->> index 98a48ec..d979662 100644
->> --- a/meta/recipes-kernel/linux/linux-yocto.inc
->> +++ b/meta/recipes-kernel/linux/linux-yocto.inc
->> @@ -55,6 +55,7 @@ do_install_append(){
->>  }
->>
->>  # extra tasks
->> +addtask kernel_version_sanity_check after do_kernel_checkout before 
->> do_compile
->>  addtask kernel_link_images after do_compile before do_install
->>  addtask validate_branches before do_patch after do_kernel_checkout
->>  addtask kernel_configcheck after do_configure before do_compile
->>
-
+-- 
+Maciej Borzecki
+RnDity
 
