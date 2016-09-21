@@ -1,23 +1,49 @@
-Return-Path: <joshua.g.lock@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 3873060602
+Return-Path: <ross.burton@intel.com>
+Received: from mail-it0-f50.google.com (mail-it0-f50.google.com
+	[209.85.214.50])
+	by mail.openembedded.org (Postfix) with ESMTP id 71C0560778
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Sep 2016 08:58:19 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by fmsmga101.fm.intel.com with ESMTP; 21 Sep 2016 01:58:22 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.30,373,1470726000"; d="scan'208";a="1054242717"
-Received: from jlock-mobl1.ger.corp.intel.com ([10.252.27.83])
-	by orsmga002.jf.intel.com with ESMTP; 21 Sep 2016 01:58:20 -0700
-Message-ID: <1474448299.3146.2.camel@linux.intel.com>
-From: Joshua Lock <joshua.g.lock@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 21 Sep 2016 09:58:19 +0100
-In-Reply-To: <1474383430-18324-1-git-send-email-joshua.g.lock@intel.com>
-References: <1474383430-18324-1-git-send-email-joshua.g.lock@intel.com>
-X-Mailer: Evolution 3.20.5 (3.20.5-1.fc24) 
-Mime-Version: 1.0
-Subject: Re: [PATCH] populate_sdk_base: fix support for changing SDKMACHINE settings
+	Wed, 21 Sep 2016 09:02:05 +0000 (UTC)
+Received: by mail-it0-f50.google.com with SMTP id o3so121780945ita.1
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 21 Sep 2016 02:02:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=/AdISqmiz6Rni8wqZ3L8SCdALuMk5EcVXWTFT5XWRR0=;
+	b=eiXIH+BjDr//SZl2jZADqfJYf+sx8HgqjnWsdqGNwnOZZ1KiWAgFXrEtl5CDAjBbgO
+	E3azrKj9uEZBtbVbhRpWUr1kzitcJynxaA2RtW+PT5ySETNKzrhYEejBCeP6eOxLR3Y2
+	QlzaY8IEKTm5vba2vGP+NNbA9G0+wVEnPYdsXaA26NUiM1+27FLyXd1QSTS/bIxO4T+F
+	/KCNSvUiXgU9VzD4K6nYuXziZ3NZAyv2uDmFSZ6voOm41MBikDE/U3s1szw/E9zyhu1x
+	a8yj8Y1L1Rvo4JDsRV+idYQCCAfHge+zsl1/f4NlcCdeRT/PWlSYp+2knZ4DnvkQg31/
+	LFrQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=/AdISqmiz6Rni8wqZ3L8SCdALuMk5EcVXWTFT5XWRR0=;
+	b=PIE0rYUpGjuOPMrukOkVgGIqBQIiskgN4Q5jQLCfGIk91kFhcBI8pzaEggUtR102N+
+	hPVttDCRnSlwp6ZLbBeLgicuKD2rBX8DhXx0TFZ2etymjfaZwgyCayg8fc0krdtfF4C9
+	5LE8pEWACZbHT1sCAlA07SQ99MRp5lPkuXJkyLlcPmvMcZA3fiiZZ4nb8aasbaLlBco2
+	8117ZpH13r7s9F+35elFQVI9XDmrDdXbbtaH1hVTsP8mvrZ2gztcnYkA1XR1v9GLjsj6
+	8OHgYEjKQ9M0Wfl695G2HZ3TwLqstXXb9X4+XNucX9Iyk42ybGlmAMUTLwflxsYYoQCW
+	UMJA==
+X-Gm-Message-State: AE9vXwOInbqPFAZAoFXoVILO3ZjOHDnghl7rKKaauo/AYrte8Dx6I0pwnQhCqVERJIPS5t+wEok4WqlVqNzsrKPr
+X-Received: by 10.36.189.194 with SMTP id x185mr1099938ite.74.1474448527264;
+	Wed, 21 Sep 2016 02:02:07 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.107.135.27 with HTTP; Wed, 21 Sep 2016 02:01:46 -0700 (PDT)
+In-Reply-To: <e72d26a5-046a-6c89-009c-7cbaf8aaab3c@windriver.com>
+References: <20160920091958.23448-1-Yuanjie.Huang@windriver.com>
+	<CAMKF1sooPU-oSmeGuNQXjEUvgWfAXubQuKc6bk=L45WtRD4xjQ@mail.gmail.com>
+	<e72d26a5-046a-6c89-009c-7cbaf8aaab3c@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 21 Sep 2016 10:01:46 +0100
+Message-ID: <CAJTo0LZv9h-BrVNypGiZEQqoGps09kioNwBfMtUncA8rUk7vvQ@mail.gmail.com>
+To: Yuanjie Huang <yuanjie.huang@windriver.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] gcc-sanitizers: Fix libtool library files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,57 +56,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 Sep 2016 08:58:20 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 21 Sep 2016 09:02:08 -0000
+Content-Type: multipart/alternative; boundary=94eb2c196dd2b56e1a053d00cc02
 
-On Tue, 2016-09-20 at 15:57 +0100, Joshua Lock wrote:
-> Include SDKMACHINE in the tasks stamp information and the name of
-> the sstate-inputdirs so that changing SDKMACHINE doesn't result in
-> valid output of the task being deleted when SDKMACHINE is changed.
-> 
-> Without this patch changing SDKMACHINE and building an SDK resulted
-> in toolchain installers for other  SDKMACHINE's being deleted from
-> the deploy directoy.
-> 
-> [YOCTO #10275]
-> 
-> Signed-off-by: Joshua Lock <joshua.g.lock@intel.com>
-> ---
->  meta/classes/populate_sdk_base.bbclass | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/meta/classes/populate_sdk_base.bbclass
-> b/meta/classes/populate_sdk_base.bbclass
-> index 6fe0b37..fc4ee8d 100644
-> --- a/meta/classes/populate_sdk_base.bbclass
-> +++ b/meta/classes/populate_sdk_base.bbclass
-> @@ -26,7 +26,7 @@ SDK_DIR = "${WORKDIR}/sdk"
->  SDK_OUTPUT = "${SDK_DIR}/image"
->  SDK_DEPLOY = "${DEPLOY_DIR}/sdk"
->  
-> -SDKDEPLOYDIR = "${WORKDIR}/deploy-${PN}-populate-sdk"
-> +SDKDEPLOYDIR = "${WORKDIR}/${SDKMACHINE}-deploy-${PN}-populate-sdk"
->  
->  B_task-populate-sdk = "${SDK_DIR}"
->  
-> @@ -125,7 +125,7 @@ SSTATE_SKIP_CREATION_task-populate-sdk = '1'
->  do_populate_sdk[cleandirs] = "${SDKDEPLOYDIR}"
->  do_populate_sdk[sstate-inputdirs] = "${SDKDEPLOYDIR}"
->  do_populate_sdk[sstate-outputdirs] = "${SDK_DEPLOY}"
-> -do_populate_sdk[stamp-extra-info] = "${MACHINE}"
-> +do_populate_sdk[stamp-extra-info] = "${MACHINE} ${SDKMACHINE}"
+--94eb2c196dd2b56e1a053d00cc02
+Content-Type: text/plain; charset=UTF-8
 
-This adds a space to the stamp file name. A v2 which removes the space
-is being prepared.
+On 21 September 2016 at 02:46, Yuanjie Huang <yuanjie.huang@windriver.com>
+wrote:
 
-Joshua
+> We have some user making use of these libraries directly, otherwise, cross
+> gcc can link these sanitizer libraries with just -fsantizer flag without
+> problem. Without .la files, his flow can not be libtoolized.
+>
 
->  
->  fakeroot create_sdk_files() {
->  	cp ${COREBASE}/scripts/relocate_sdk.py
-> ${SDK_OUTPUT}/${SDKPATH}/
-> -- 
-> 2.7.4
-> 
+libtool works fine without .la files on linux, which is why the
+remove-libtool class works (which can be a distro-level inherit and deletes
+every .la before it reaches the sysroot).
 
+Ross
+
+--94eb2c196dd2b56e1a053d00cc02
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 21 September 2016 at 02:46, Yuanjie Huang <span dir=3D"ltr">&lt;<a href=
+=3D"mailto:yuanjie.huang@windriver.com" target=3D"_blank">yuanjie.huang@win=
+driver.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=
+=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=
+=3D":15q" class=3D"a3s aXjCH m1574a6cecf964841">We have some user making us=
+e of these libraries directly, otherwise, cross gcc can link these sanitize=
+r libraries with just -fsantizer flag without problem. Without .la files, h=
+is flow can not be libtoolized.<br></div></blockquote></div><br>libtool wor=
+ks fine without .la files on linux, which is why the remove-libtool class w=
+orks (which can be a distro-level inherit and deletes every .la before it r=
+eaches the sysroot).</div><div class=3D"gmail_extra"><br></div><div class=
+=3D"gmail_extra">Ross</div></div>
+
+--94eb2c196dd2b56e1a053d00cc02--
