@@ -1,49 +1,46 @@
-Return-Path: <schnitzeltony@googlemail.com>
-Received: from mail-wm0-f66.google.com (mail-wm0-f66.google.com [74.125.82.66])
-	by mail.openembedded.org (Postfix) with ESMTP id F3EC671989
+Return-Path: <ross.burton@intel.com>
+Received: from mail-it0-f53.google.com (mail-it0-f53.google.com
+	[209.85.214.53])
+	by mail.openembedded.org (Postfix) with ESMTP id 51ED371989
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Sep 2016 20:46:46 +0000 (UTC)
-Received: by mail-wm0-f66.google.com with SMTP id l132so10607384wmf.1
+	Wed, 21 Sep 2016 20:48:28 +0000 (UTC)
+Received: by mail-it0-f53.google.com with SMTP id 186so62857229itf.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Sep 2016 13:46:48 -0700 (PDT)
+	Wed, 21 Sep 2016 13:48:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=googlemail.com; s=20120113;
-	h=from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=JXV1olxgQuL4ouGzmhTFqZYMjzLvPXdEoIzESEaD3TM=;
-	b=eBFht9olIcRxL5UAjXwlV64zH9UUvPGr0DJ91UjQbpUkn/kWiyudEarF3MVkVvJaOu
-	3EMWAYbiOfJTgacvoAnZLTC9lN0nyvrKcKZDwJWKCyZ1ZXxDN/5OxWLpj3lkwLHLs6Df
-	XtQ5DZEE2US0UXdFB+wldp0QkkwBn9pD1kB7zYmtdV2v0ifp9CeLkLrRTYZuJRWpHggC
-	O0URbyr0FQP2ln6R3kzWJyX6YtYMVZXRNhahNE6J9B5G16paz8EX9uBdSJaMzfdUzHjJ
-	6T01zhuW12F6SMyyoZBo4R76ugeRbLw5N6jxv/7Nc5b7LzD+LBgaDVkqJ05HrWEVO3UB
-	b78g==
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=X2Qeu+b9yM+H3axqvnIAPHYFcdxT9yu7TmXv242yw7I=;
+	b=VBvtLJhz80nANz39DTtJwv1HY9unZUWWYCqEFI6jYQhNXPkk7oOAUESeHfyLXvRC2V
+	39RvR3Ojsm98DSiQN9qOH51w5aroFjFOnGyaE7CRtxFk17/4SmI9f75KForDHxrpNYaI
+	uGN7d3BaR242htFPHqM9zGtcSBsxuSJAP6X8hDyHTiq4awWKdnIkuEXR0HKqxfFQ9RKM
+	V28JtppYlIXHERQO0FY2/nJdKGFun9Tgyi3Nrmaez8kmPWFWVN5KdJTzv2dac62CPiA2
+	NCgKKP3IcHpNK+y1jCDbhe2KgqhXBi3RwpkcZHSfKyoU/NP/9e42No6mAvP5VitHPWtO
+	Bdbg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=JXV1olxgQuL4ouGzmhTFqZYMjzLvPXdEoIzESEaD3TM=;
-	b=a+yZZyjeEmZkFnjH2AV+piolfhGiYUA1DoKmgQlg23Dz2lVTF5f7Cof2u5EwLMN/cI
-	J+IxjlalIaGT1b4rrH6ofycMlFuGmzFuq2fVuwV9pfBOSXjxSsLK3DVneqZY2KHAwmJr
-	3pyiS7qwOUrwFyjaUhAVfd8dC/Gy8L8FIJD3zaui5Y3c/aDc2guYiPJPdqHYdZXTD6vP
-	j5a2ckQXPGOTduyR+xl7eeLHc7I9Aey6g6zu7OpjkyMZwIkBIbRiEhOG69gBTvNldj8S
-	1rW0jpgQVgXNdTUg5ybxUbeMfaIf/nwefNKC/T+10oU6zayb3gZySy83YG+HqFWaKQbd
-	JYhg==
-X-Gm-Message-State: AE9vXwOuwVKgicvQxXNlMeXMrDK9B1NqP3myNpPE+PDB3ucfEzuj2+Wi0234PA4Ts/q4MA==
-X-Received: by 10.28.191.14 with SMTP id p14mr5432567wmf.39.1474490807557;
-	Wed, 21 Sep 2016 13:46:47 -0700 (PDT)
-Received: from localhost.localdomain (p4FDF06F5.dip0.t-ipconnect.de.
-	[79.223.6.245]) by smtp.googlemail.com with ESMTPSA id
-	au10sm35299442wjc.12.2016.09.21.13.46.46
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 21 Sep 2016 13:46:46 -0700 (PDT)
-From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@googlemail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 21 Sep 2016 22:46:38 +0200
-Message-Id: <1474490798-1507-1-git-send-email-schnitzeltony@googlemail.com>
-X-Mailer: git-send-email 2.5.5
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=X2Qeu+b9yM+H3axqvnIAPHYFcdxT9yu7TmXv242yw7I=;
+	b=f/DDYKO8sgeZNCMjy36xivKuiN/mRhBgwMTjtUieR4UMev301ETH/paByto+5gk6EZ
+	R5VY26oZ9aGBn4TdjDciJ1jf6XJkFctaImXpLqdVwTwxdiB2morRPQ7bmq5ApNN1PpgW
+	Snh/y54K4z1yzoE4FU4OicqIkt7zobor14qTe2NqgZxOQ3rLMe1j4WpFcSYSSXw12xsT
+	kCTrUzsI74ATfJvw23yXfZS+2lWBRP4nogQXmjME+FEOdLY6XP25euNTwPc4IbgdZ4YA
+	PpZLp2TYQMPkIqURGiGXrt5C5bL3hvwCd7W//XzRUkmXnxn5kFGtPDmwTuNsIR6+EHxw
+	OGfg==
+X-Gm-Message-State: AE9vXwNqa1rKVMCOJDx5+uh4hW0Z1/+T6J8MJDdmIu5myqJZq1M+Va0taOhzZ1E3GC0pNQiRv0gIyLXJprJnj+tK
+X-Received: by 10.36.112.135 with SMTP id f129mr6729807itc.3.1474490910082;
+	Wed, 21 Sep 2016 13:48:30 -0700 (PDT)
 MIME-Version: 1.0
-Subject: [PATCH] libnewt: link whiptail properly with libnewt
+Received: by 10.107.155.66 with HTTP; Wed, 21 Sep 2016 13:48:09 -0700 (PDT)
+In-Reply-To: <1474483225-29817-1-git-send-email-gratian.crisan@ni.com>
+References: <1474483225-29817-1-git-send-email-gratian.crisan@ni.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 21 Sep 2016 21:48:09 +0100
+Message-ID: <CAJTo0LbJjuxq5=Gj=Qb9La-D_z0c2xaGmRVTUeS6B-w1uNeg_g@mail.gmail.com>
+To: Gratian Crisan <gratian.crisan@ni.com>
+Cc: gratian@gmail.com, OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] encodings: Add dependency to mkfontdir-native
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,82 +53,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 Sep 2016 20:46:47 -0000
+X-List-Received-Date: Wed, 21 Sep 2016 20:48:29 -0000
+Content-Type: multipart/alternative; boundary=001a11441c9eebbe53053d0aaa6f
+
+--001a11441c9eebbe53053d0aaa6f
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 
-Configuration failed to detect gold as GNU linker. It was searching for
-'GNU ld' but gold returns 'GNU gold (GNU Binutils 2.27.0.20160806) 1.12' which
-does not match. When not linking by GNU linker Makefile did some magic link
-target alignment:
+On 21 September 2016 at 19:40, Gratian Crisan <gratian.crisan@ni.com> wrote:
 
-ifneq ($(GNU_LD),)
-SHLIBFLAGS= -Wl,--version-script,newt.0.52.ver -Wl,-soname,$(LIBNEWTSONAME)
-else
-SHLIBFLAGS=
-endif
+> Instead add a DEPENDS on mkfontdir-native in the encodings recipe in
+> addition to the mkfontscale-native dependency it already contains. This
+> solves the missing mkfontdir in the native sysroot problem without
+> introducing a build dependency loop.
+>
 
-which caused:
+Have you tested this in a build where encodings isn't built, but pulled
+from sstate?
 
-| WARNING: libnewt-0.52.19-r0 do_package_qa: QA Issue: /usr/bin/whiptail contained in package whiptail requires libnewt.so, but no providers found in RDEPENDS_whiptail? [file-rdeps]
+Ross
 
-Signed-off-by: Andreas Müller <schnitzeltony@googlemail.com>
----
- .../files/0001-detect-gold-as-GNU-linker-too.patch | 31 ++++++++++++++++++++++
- meta/recipes-extended/newt/libnewt_0.52.19.bb      |  1 +
- 2 files changed, 32 insertions(+)
- create mode 100644 meta/recipes-extended/newt/files/0001-detect-gold-as-GNU-linker-too.patch
+--001a11441c9eebbe53053d0aaa6f
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/meta/recipes-extended/newt/files/0001-detect-gold-as-GNU-linker-too.patch b/meta/recipes-extended/newt/files/0001-detect-gold-as-GNU-linker-too.patch
-new file mode 100644
-index 0000000..a4b3afd
---- /dev/null
-+++ b/meta/recipes-extended/newt/files/0001-detect-gold-as-GNU-linker-too.patch
-@@ -0,0 +1,31 @@
-+From 58245b859ffbcb1780575bf1b0a018d55e74e434 Mon Sep 17 00:00:00 2001
-+From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@googlemail.com>
-+Date: Wed, 21 Sep 2016 21:14:40 +0200
-+Subject: [PATCH] detect gold as GNU linker too
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=UTF-8
-+Content-Transfer-Encoding: 8bit
-+
-+Upstream-Status: Pending
-+
-+Signed-off-by: Andreas Müller <schnitzeltony@googlemail.com>
-+---
-+ configure.ac | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/configure.ac b/configure.ac
-+index 03e8bda..c2fce51 100644
-+--- a/configure.ac
-++++ b/configure.ac
-+@@ -28,7 +28,7 @@ AC_CHECK_SIZEOF([void *])
-+ AC_MSG_CHECKING([for GNU ld])
-+ LD=`$CC -print-prog-name=ld 2>&5`
-+ 
-+-if test `$LD -v 2>&1 | $ac_cv_path_GREP -c "GNU ld"` = 0; then
-++if test `$LD -v 2>&1 | $ac_cv_path_GREP -c "GNU "` = 0; then
-+   # Not
-+   GNU_LD=""
-+   AC_MSG_RESULT([no])
-+-- 
-+2.5.5
-+
-diff --git a/meta/recipes-extended/newt/libnewt_0.52.19.bb b/meta/recipes-extended/newt/libnewt_0.52.19.bb
-index 22bdaf5..a26ce1f 100644
---- a/meta/recipes-extended/newt/libnewt_0.52.19.bb
-+++ b/meta/recipes-extended/newt/libnewt_0.52.19.bb
-@@ -22,6 +22,7 @@ SRC_URI = "https://fedorahosted.org/releases/n/e/newt/newt-${PV}.tar.gz \
-            file://cross_ar.patch \
-            file://Makefile.in-Add-tinfo-library-to-the-linking-librari.patch \
-            file://pie-flags.patch \
-+           file://0001-detect-gold-as-GNU-linker-too.patch \
- "
- 
- SRC_URI[md5sum] = "e4aa0f7943edd39c52481a87f68f412a"
--- 
-2.5.5
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 21 September 2016 at 19:40, Gratian Crisan <span dir=3D"ltr">&lt;<a href=
+=3D"mailto:gratian.crisan@ni.com" target=3D"_blank">gratian.crisan@ni.com</=
+a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0=
+ 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":1i6" cla=
+ss=3D"a3s aXjCH m1574e484ac34be27">Instead add a DEPENDS on mkfontdir-nativ=
+e in the encodings recipe in<br>
+addition to the mkfontscale-native dependency it already contains. This<br>
+solves the missing mkfontdir in the native sysroot problem without<br>
+introducing a build dependency loop.<br></div></blockquote></div><br>Have y=
+ou tested this in a build where encodings isn&#39;t built, but pulled from =
+sstate?</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra=
+">Ross</div></div>
 
-
+--001a11441c9eebbe53053d0aaa6f--
