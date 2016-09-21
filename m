@@ -1,49 +1,51 @@
 Return-Path: <schnitzeltony@googlemail.com>
-Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 2541A60685
+Received: from mail-wm0-f66.google.com (mail-wm0-f66.google.com [74.125.82.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 6BD736FFC7
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Sep 2016 05:30:58 +0000 (UTC)
-Received: by mail-wm0-f65.google.com with SMTP id w84so6602508wmg.0
+	Wed, 21 Sep 2016 05:30:59 +0000 (UTC)
+Received: by mail-wm0-f66.google.com with SMTP id l132so6577010wmf.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Sep 2016 22:30:59 -0700 (PDT)
+	Tue, 20 Sep 2016 22:31:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=googlemail.com; s=20120113;
-	h=from:to:subject:date:message-id:mime-version
+	h=from:to:subject:date:message-id:in-reply-to:references:mime-version
 	:content-transfer-encoding;
-	bh=7BsLNdGGUqEbwCc3q5xx522DKL0BrpHbrbfugqkvpXU=;
-	b=oCqYoCg68MuF5P0Ny+pg8TPgdytW6LNSCErvPuzxn2SgsdhV25mhwcKGbS2N63IGtq
-	1RS2HBlRrhajmxts7jSQY+KV1ivdozMEBndG1B7Y3nukIjNP4dpue3uL0hVziWX4bhXB
-	QMLJolAiHwRXDRteBStPF41W0FCBViytN5enzZb+JR7aBcT3uZqSIXsYjK+xmqaeuagr
-	8c+94U1J1ofDGi/p5r4kyvM/UUNyztSrd4NQrOYC1xBV91wF4XeeCo21SXFSNGZORLqe
-	igRfcKMJc0FqAC1K7B/r6Xsh5eJ00lRQo51PmyJZBgHS/hmDUXukBgaXX6Dyz7ikAWJV
-	UiHg==
+	bh=v/iz9aOLkJKx08h63GnwakwykW/gGtO7Dmlt+votipI=;
+	b=Vs2q+jFCLCaBr5RZ9TMfJ1VXv4sXdqQrMLx0u+IHbn8VqvPjH58rM7jVVbfMlPJ4cu
+	UpCc3bFm+dyt64KXkECDYVWLrnVX8XBWYzYDCw+X2GoCINBsXhdAqT7cwV1rKcWpSvgF
+	grHQ2y+dKFDcYQt9nCnNW3pz8WJMDYw6t05anKMh46pFkMnpK+Ie3TlB2dvC8iKVLbwY
+	YGTM6T7Rcj1XtpLUsebthGrFVMcNovc4TmKMvxNMMhESkSzU/PWbzHmI3p8M6FA9Z2zd
+	thE72tN5rZoPJZ2O+hYBJp1Ng62a6F4GRzjfpRIY+ZTGx4G5RQv+lBgHPgpr+XEdp5nL
+	5Q/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=7BsLNdGGUqEbwCc3q5xx522DKL0BrpHbrbfugqkvpXU=;
-	b=SuGD5mgz98pP+wbKs3pgBeFaNXg8fu0DDBXfepg04XntBrfQt1W/bOqwfzbpnXujQ5
-	5xrWLu2IVmn9OOskrHvRfITV8HOGA00eXJp2uRSdALEhwhiMGVHHMCqS6x2Byh31fyFS
-	2/8cqTWZywOxuGRXsdUo7j0UZQRjRbP6jh0oce4ZsJN++cC8GTy8gfYZ5BLrjmRBTnn4
-	1sPGj++EsRpeXtjxGFGdYr+iO/XYpbmFtvUq3mzeSyEDABf9X0VZ961qnZhnf+hKEaqW
-	xb9N2O/NoItcBEDikQJuaH4Eb0L6lME+56ZGBfArrD9CLrlLsASCDJASHu4uANbfTxxe
-	FhcQ==
-X-Gm-Message-State: AE9vXwOtV8RlN98XZ+WtBesplSWE3ZUPQ0ORvCYNuQ3eP/IiCl6fgOox542S3QlolZMSjA==
-X-Received: by 10.194.61.203 with SMTP id s11mr37134212wjr.141.1474435858947; 
-	Tue, 20 Sep 2016 22:30:58 -0700 (PDT)
+	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=v/iz9aOLkJKx08h63GnwakwykW/gGtO7Dmlt+votipI=;
+	b=YQhfbGFhPD1pCaaSHyRS8R3ZV9nSFPXkQ2r9Z8vsbqbBqy33q8P02xR1CtBJpwsiT9
+	JdXnNw0leoCPxddip3LoUDqAdMp96d+jV/uZZWSkaaRM6NxGJGILlAYePDSxuLGd1OZ0
+	AmQ9ucjjUdrVPbtiZoxxCiimaJuSMCHmiokJCRnU1SpG5Zxf+t5cLLTeTkpLp/V3Suba
+	xfzDKAXnllk+74M9h3LhlG71k4Kgr3Z3c+a8idC07+GS6NL8zXQ5f1FO0Ue/hT/san5Q
+	jouQwaawPo9vw1GpjdMzPDdYCpzKO6lH/66jmpBFcCzgFW+O6Yfs5Auo0//9bbGjybmW
+	KVAQ==
+X-Gm-Message-State: AE9vXwN1PpTt5aOuyaWoAMxDILaLew5B1wjdHV0rA/s4GacVqpFVVEGbKq77AB3F7ZRlUw==
+X-Received: by 10.194.242.101 with SMTP id wp5mr31849281wjc.44.1474435859871; 
+	Tue, 20 Sep 2016 22:30:59 -0700 (PDT)
 Received: from localhost.localdomain (p4FDF06F5.dip0.t-ipconnect.de.
 	[79.223.6.245]) by smtp.googlemail.com with ESMTPSA id
 	bk7sm31695802wjc.36.2016.09.20.22.30.58
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 20 Sep 2016 22:30:58 -0700 (PDT)
+	Tue, 20 Sep 2016 22:30:59 -0700 (PDT)
 From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@googlemail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 21 Sep 2016 07:30:43 +0200
-Message-Id: <1474435844-16942-1-git-send-email-schnitzeltony@googlemail.com>
+Date: Wed, 21 Sep 2016 07:30:44 +0200
+Message-Id: <1474435844-16942-2-git-send-email-schnitzeltony@googlemail.com>
 X-Mailer: git-send-email 2.5.5
+In-Reply-To: <1474435844-16942-1-git-send-email-schnitzeltony@googlemail.com>
+References: <1474435844-16942-1-git-send-email-schnitzeltony@googlemail.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/2] libunwind: fix build by linking with bfd instead of gold
+Subject: [PATCH 2/2] scons.bbclass: reduce build time by adding PARALLEL_MAKEINST to scons install params
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,46 +62,48 @@ X-List-Received-Date: Wed, 21 Sep 2016 05:30:59 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-works around:
-<native-sysroot>/ld: error: Gperf-simple.o: cannot make copy relocation for protected symbol '_Uarm_local_addr_space', defined in ../src/.libs/libunwind-arm.so
-collect2: error: ld returned 1 exit status
-Makefile:1038: recipe for target 'Gperf-simple' failed
-make[1]: *** [Gperf-simple] Error 1
-make[1]: *** Waiting for unfinished jobs....
-<...>
-<native-sysroot>/ld: error: Lperf-simple.o: cannot make copy relocation for protected symbol '_ULarm_local_addr_space', defined in ../src/.libs/libunwind.so
-collect2: error: ld returned 1 exit status
-Makefile:1094: recipe for target 'Lperf-simple' failed
-make[1]: *** [Lperf-simple] Error 1
-<...>
-ERROR: oe_runmake failed
-<native-sysroot>/ld: error: Gperf-trace.o: cannot make copy relocation for protected symbol '_Uarm_local_addr_space', defined in ../src/.libs/libunwind-arm.so
-collect2: error: ld returned 1 exit status
-Makefile:1042: recipe for target 'Gperf-trace' failed
-make[1]: *** [Gperf-trace] Error 1
-<native-sysroot>/ld: error: Lperf-trace.o: cannot make copy relocation for protected symbol '_ULarm_local_addr_space', defined in ../src/.libs/libunwind.so
-collect2: error: ld returned 1 exit status
-Makefile:1098: recipe for target 'Lperf-trace' failed
-make[1]: *** [Lperf-trace] Error 1
-<...>
-<native-sysroot>/ld: error: test-coredump-unwind.o: cannot make copy relocation for protected symbol '_UCD_accessors', defined in ../src/.libs/libunwind-coredump.so
-collect2: error: ld returned 1 exit status
-Makefile:1186: recipe for target 'test-coredump-unwind' failed
+During install all files are recompiled. This should be investigated further
+later. Currently only one file is recompiled at the same time. Reduce install
+time significantly by setting PARALLEL_MAKEINST option in do_install task.
+
+Measured with recipes inheriting scons (gpsd do_compile broken for me) by
+the following sequence:
+
+without this patch:
+bitbake pingus mongodb mixxx
+bitbake -ccleansstate pingus mongodb mixxx
+time bitbake pingus mongodb mixxx
+...
+real	48m5.467s
+user	138m47.763s
+sys	11m9.423s
+
+with this patch
+bitbake -ccleansstate pingus mongodb mixxx
+time bitbake pingus mongodb mixxx
+...
+real	27m28.521s
+user	146m59.951s
+sys	10m56.218s
 
 Signed-off-by: Andreas Müller <schnitzeltony@googlemail.com>
 ---
- meta/recipes-support/libunwind/libunwind_git.bb | 1 +
- 1 file changed, 1 insertion(+)
+ meta/classes/scons.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-support/libunwind/libunwind_git.bb b/meta/recipes-support/libunwind/libunwind_git.bb
-index cd4cb89..4249430 100644
---- a/meta/recipes-support/libunwind/libunwind_git.bb
-+++ b/meta/recipes-support/libunwind/libunwind_git.bb
-@@ -26,3 +26,4 @@ SECURITY_CFLAGS_append_aarch64 = " -fPIE"
+diff --git a/meta/classes/scons.bbclass b/meta/classes/scons.bbclass
+index 1579b05..4f84ec0 100644
+--- a/meta/classes/scons.bbclass
++++ b/meta/classes/scons.bbclass
+@@ -10,7 +10,7 @@ scons_do_compile() {
+ }
  
- S = "${WORKDIR}/git"
+ scons_do_install() {
+-        ${STAGING_BINDIR_NATIVE}/scons PREFIX=${D}${prefix} prefix=${D}${prefix} install ${EXTRA_OESCONS}|| \
++        ${STAGING_BINDIR_NATIVE}/scons ${PARALLEL_MAKEINST} PREFIX=${D}${prefix} prefix=${D}${prefix} install ${EXTRA_OESCONS}|| \
+         die "scons install execution failed."
+ }
  
-+LDFLAGS += "-Wl,-z,relro,-z,now ${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-gold', ' -fuse-ld=bfd ', '', d)}"
 -- 
 2.5.5
 
