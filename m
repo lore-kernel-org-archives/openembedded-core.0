@@ -1,51 +1,27 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wm0-f45.google.com (mail-wm0-f45.google.com [74.125.82.45])
-	by mail.openembedded.org (Postfix) with ESMTP id 80D0C70034
+Return-Path: <california.l.sullivan@intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 7696A6E667
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Sep 2016 16:08:55 +0000 (UTC)
-Received: by mail-wm0-f45.google.com with SMTP id l132so276901891wmf.0
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Sep 2016 09:08:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:date:to:cc:subject:message-id:references:mime-version
-	:content-disposition:in-reply-to:user-agent;
-	bh=BJclNQarh9TQ6M3tEGYWYVSp1WzixoTmhGh6tF58ETg=;
-	b=OaufQGHsufOoLKrror46w/q1NXRyTwGw4J9gZ43hu7v1tktAdSCsQXE976rhTPuS+H
-	x9O6cEUHYH1N6sOy/kC2Kqyt8aiqIuUoPcZJCD6BNczXHxtEYhrnBzNyBGYkDRjO/HUU
-	rpqJTaVtvggUfwf9A6zjAvvgQ/YbKKLfxzV4Z69CkqsDTFQkAY7wTn4rMcw9i5RKiDJ+
-	HUsEYqtzT/IwOf5cJ5p5ERMdfJoITC2MTxzu9AeN4G2RCBRym+b4zOAL0JACPiafRjEp
-	6uThDQThJbgYxA/vNHxSbPQaI5nzjMHPRskZUH5C42Q0x6HR4qc69GSMXX2ZsDMgmb67
-	RV2A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:date:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=BJclNQarh9TQ6M3tEGYWYVSp1WzixoTmhGh6tF58ETg=;
-	b=ExV6dNFEp7YcI3NWc819U5EdbE1B8R4t2yKjCQ8xFuNNUoFxdQ2ojJygBGMpSk7EXY
-	h6U/3Dmr1V64RITIq8BvenCEmhABXqLS/ZjTBqYgNUbmno/c8yEcYyT8e2K+OiiYR83/
-	f4X7WJ3/nN3C0vR6XHlt+Osd5Qgpsma8Lped/66QyUXTbB6YkFBmpM9rrRWIJXzLSeS1
-	yxD+5WZ//6+ON5sME49+0YsIfDwEZAMsWi6pK7pITdoRHezAMpgMEs4+dC4vnZmft+w5
-	jOw9uuV0QuLHVNKbP4AqsBbXRHDb5B7QjLThVSa69uK5xaoIpfdXTiEakXTqrstSKbuT
-	f3sA==
-X-Gm-Message-State: AE9vXwN7tDXyujZc58MZ76DzGw3DtbStqFTCmQCEnRDIZT5NC8tNKAehp28ELFttc1QcXQ==
-X-Received: by 10.28.140.5 with SMTP id o5mr4209146wmd.13.1474474136209;
-	Wed, 21 Sep 2016 09:08:56 -0700 (PDT)
-Received: from localhost (ip-89-176-104-169.net.upcbroadband.cz.
-	[89.176.104.169]) by smtp.gmail.com with ESMTPSA id
-	r2sm26614670wmf.14.2016.09.21.09.08.54
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Wed, 21 Sep 2016 09:08:55 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Wed, 21 Sep 2016 18:08:54 +0200
-To: Patrick Ohly <patrick.ohly@intel.com>
-Message-ID: <20160921160854.GB2633@jama>
-References: <1474472342.16834.96.camel@intel.com>
+	Wed, 21 Sep 2016 16:27:18 +0000 (UTC)
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+	by orsmga103.jf.intel.com with ESMTP; 21 Sep 2016 09:27:19 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.30,374,1470726000"; d="scan'208";a="11860841"
+Received: from clsulliv.jf.intel.com ([10.7.201.156])
+	by orsmga005.jf.intel.com with ESMTP; 21 Sep 2016 09:27:19 -0700
+To: Robert Yang <liezhi.yang@windriver.com>,
+	openembedded-core@lists.openembedded.org
+References: <1474069704-24428-1-git-send-email-california.l.sullivan@intel.com>
+	<0d1aff43-c348-83bf-becd-3265f4b30df8@windriver.com>
+From: Cal Sullivan <california.l.sullivan@intel.com>
+Message-ID: <4b3d25d1-1e45-9191-9081-3428402f249b@intel.com>
+Date: Wed, 21 Sep 2016 09:27:19 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.2.0
 MIME-Version: 1.0
-In-Reply-To: <1474472342.16834.96.camel@intel.com>
-User-Agent: Mutt/1.7.0 (2016-08-17)
-Cc: OpenEmbedded <openembedded-core@lists.openembedded.org>
-Subject: Re: rm_work + pybootchart enhancements
+In-Reply-To: <0d1aff43-c348-83bf-becd-3265f4b30df8@windriver.com>
+Cc: bruce.ashfield@windriver.com
+Subject: Re: [PATCH V2 1/1] kernel.bbclass: Add kernel_version_sanity_check function
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,56 +34,107 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 Sep 2016 16:08:56 -0000
-X-Groupsio-MsgNum: 87367
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="p4qYPpj5QlsIQJ0K"
-Content-Disposition: inline
+X-List-Received-Date: Wed, 21 Sep 2016 16:27:18 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 
---p4qYPpj5QlsIQJ0K
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Yes, the PV is set incorrectly here. In b5e7625, the kernel's source was 
+updated to 4.1.32 for genericx86-64, but the LINUX_VERSION variable 
+(which is used to set PV) was not.
 
-On Wed, Sep 21, 2016 at 05:39:02PM +0200, Patrick Ohly wrote:
-> Hello!
->=20
-> rm_work.bbclass currently isn't good enough for use in really tightly
-> constrained environments. For example, building core-image-sato with
-> 20GB of free disk space should work (final disk usage with rm_work
-> active: <13GB). But in practice, that disk space gets exhausted in the
-> middle of a build because do_rm_work doesn't run often and/or soon
-> enough.
+---
+Cal
 
-I agree that it could use some improvements, but I'm using simple work
-around for this - building whole image in couple steps which forces
-rm_work being executed often enough to fit WORKDIR in e.g. 14G tmpfs
+On 09/20/2016 08:11 PM, Robert Yang wrote:
+>
+> Hi,
+>
+> There is an error on autobuilder related to this patch:
+>
+> http://autobuilder.yocto.io:8010/builders/nightly-x86-64-lsb/builds/60/steps/BuildImages_1/logs/stdio 
+>
+>
+> // Robert
+>
+> On 09/17/2016 07:48 AM, California Sullivan wrote:
+>> The kernel being built should match what the recipe claims it is
+>> building. This function ensures that happens by comparing the version
+>> information in the kernel's Makefile to the PV the recipe is using.
+>>
+>> v2 changes:
+>> * Match against PV instead of LINUX_VERSION
+>> * Match against EXTRAVERSION as well (e.g., -rc4)
+>> * Cleaned up version string building
+>>
+>> Fixes [YOCTO #6767].
+>>
+>> Signed-off-by: California Sullivan <california.l.sullivan@intel.com>
+>> ---
+>>  meta/classes/kernel.bbclass               | 30 
+>> ++++++++++++++++++++++++++++++
+>>  meta/recipes-kernel/linux/linux-yocto.inc |  1 +
+>>  2 files changed, 31 insertions(+)
+>>
+>> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+>> index a6112e8..f894795 100644
+>> --- a/meta/classes/kernel.bbclass
+>> +++ b/meta/classes/kernel.bbclass
+>> @@ -327,6 +327,36 @@ kernel_do_install() {
+>>  }
+>>  do_install[prefuncs] += "package_get_auto_pr"
+>>
+>> +# Must be ran no earlier than after do_kernel_checkout or else 
+>> Makefile won't be in ${S}/Makefile
+>> +do_kernel_version_sanity_check() {
+>> +    # The Makefile determines the kernel version shown at runtime
+>> +    # Don't use KERNEL_VERSION because the headers it grabs the 
+>> version from aren't generated until do_compile
+>> +    VERSION=$(grep "^VERSION =" ${S}/Makefile | sed s/.*=\ *//)
+>> +    PATCHLEVEL=$(grep "^PATCHLEVEL =" ${S}/Makefile | sed s/.*=\ *//)
+>> +    SUBLEVEL=$(grep "^SUBLEVEL =" ${S}/Makefile | sed s/.*=\ *//)
+>> +    EXTRAVERSION=$(grep "^EXTRAVERSION =" ${S}/Makefile | sed s/.*=\ 
+>> *//)
+>> +
+>> +    # Build a string for regex and a plain version string
+>> +    reg="^${VERSION}\.${PATCHLEVEL}"
+>> +    vers="${VERSION}.${PATCHLEVEL}"
+>> +    if [ -n "${SUBLEVEL}" ]; then
+>> +        # Ignoring a SUBLEVEL of zero is fine
+>> +        if [ "${SUBLEVEL}" = "0" ]; then
+>> +            reg="${reg}(\.${SUBLEVEL})?"
+>> +        else
+>> +            reg="${reg}\.${SUBLEVEL}"
+>> +            vers="${vers}.${SUBLEVEL}"
+>> +        fi
+>> +    fi
+>> +    vers="${vers}${EXTRAVERSION}"
+>> +    reg="${reg}${EXTRAVERSION}"
+>> +
+>> +    if [ -z `echo ${PV} | grep -E "${reg}"` ]; then
+>> +        bbfatal "Package Version (${PV}) does not match of kernel 
+>> being built (${vers}). Please update the PV variable to match the 
+>> kernel source."
+>> +    fi
+>> +    exit 0
+>> +}
+>> +
+>>  addtask shared_workdir after do_compile before do_compile_kernelmodules
+>>  addtask shared_workdir_setscene
+>>
+>> diff --git a/meta/recipes-kernel/linux/linux-yocto.inc 
+>> b/meta/recipes-kernel/linux/linux-yocto.inc
+>> index 98a48ec..d979662 100644
+>> --- a/meta/recipes-kernel/linux/linux-yocto.inc
+>> +++ b/meta/recipes-kernel/linux/linux-yocto.inc
+>> @@ -55,6 +55,7 @@ do_install_append(){
+>>  }
+>>
+>>  # extra tasks
+>> +addtask kernel_version_sanity_check after do_kernel_checkout before 
+>> do_compile
+>>  addtask kernel_link_images after do_compile before do_install
+>>  addtask validate_branches before do_patch after do_kernel_checkout
+>>  addtask kernel_configcheck after do_configure before do_compile
+>>
 
-something like:
-bitbake gcc && bitbake console-image && bitbake webkit && bitbake bigger-im=
-age
 
-> Test script attached. I only ran this once, so I can't vouch that the
-> numbers are stable. I remember reading about a benchmark wrapper which
-> can run such a test script multiple times and then will automatically
-> merge the output of all runs together, adding min/max/average/deviation,
-> but couldn't find the tool again. Does anyone know which tool does that?
-
-it's in oe-core:
-=2E/scripts/contrib/bb-perf/bb-matrix-plot.sh
-=2E/scripts/contrib/bb-perf/bb-matrix.sh
-
-=2E..
-
---p4qYPpj5QlsIQJ0K
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iEYEARECAAYFAlfisJUACgkQN1Ujt2V2gBxTzQCgk3BXbFtPWQGuv+Znt/lc72Tu
-NmUAoILTEiLV+P04Pq+YFM6ashYQa2Sg
-=q1OT
------END PGP SIGNATURE-----
-
---p4qYPpj5QlsIQJ0K--
