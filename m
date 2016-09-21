@@ -1,26 +1,59 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id F3BE06025F
+Return-Path: <otavio.salvador@ossystems.com.br>
+Received: from mail-io0-f194.google.com (mail-io0-f194.google.com
+	[209.85.223.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 4E5646069D
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Sep 2016 10:54:00 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u8LAs0dm008356; Wed, 21 Sep 2016 11:54:00 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id DuxTFP4pVv82; Wed, 21 Sep 2016 11:54:00 +0100 (BST)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u8LArvml008353
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Wed, 21 Sep 2016 11:53:58 +0100
-Message-ID: <1474455237.7207.312.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Wed, 21 Sep 2016 11:53:57 +0100
-X-Mailer: Evolution 3.18.5.2-0ubuntu3 
-Mime-Version: 1.0
-Subject: [PATCH] autotools/siteinfo: Tweak CONFIG_SITE handling for determism/races
+	Wed, 21 Sep 2016 12:41:36 +0000 (UTC)
+Received: by mail-io0-f194.google.com with SMTP id z135so3077070ioe.3
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 21 Sep 2016 05:41:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
+	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
+	:cc; bh=F6lok2Ub/MmchicSWfgX+QEIK4RmiwZYsrGOp1Va59s=;
+	b=lmxeuOduGxFP4CVI7HnhN99w2l1V5kmQ6tgMxDrU79kTyaIySbv9IHi2avPKwg7KyV
+	WARUd53QLkqSq9KK3BBPSgXMAEI9dc/ISuQ6WXQbBp4R8PycNtPt497vKi3TQOdGciG6
+	WSCa12J4UZs3TgPUQS02PsWBg5eALDU1w2Nghf+6KsiKkLVnV3jd0PWQgLdSozVQhuHe
+	PMDTFVr2ESPwid9xRLwbjI40z5EVSZEtqKpRf9QExlb6w7N7umOqcDfrL7ucIEqAa9vp
+	yUGqcBCCo8nhQvphEwsSq2wTyNTMDA7XLh0I2WtkdhNkfsvRyylePTI6UL2YSsf31xyc
+	TfqA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
+	:message-id:subject:to:cc;
+	bh=F6lok2Ub/MmchicSWfgX+QEIK4RmiwZYsrGOp1Va59s=;
+	b=UUELmorPo0dk9LC2Q7jdU/6ntBdYRVSFOMWKUsN7z+yTfujSOILAhVjvdSu2qc8i4s
+	KQwVx/ZP7oDhAzqoHtw+MLXXMkvcQheAsYEq5NmLH9QQlDxdWt7sVhnKXc1M3DfXt7rA
+	pPKhaMtSIm6duQMGqfYUZ0jVfEp3x6KEobB+cZJVerZIfboRIzOLIa21PtQ/K/FQIIJ3
+	Ddck2fJaKFIZxUupMtTuurd6EA6+dh0Rsl9esf5WFLtu7geusGworHkvoEiZ82CguEye
+	NJ8rcwWTCsxTyNY3s5N/pqpRZu0d6xZ3VyHlEgDWIwmPgh9Ncz5x5jcYYMb0ln6YdGfA
+	uEWg==
+X-Gm-Message-State: AE9vXwMWJCTen4tNLU/9p0PACbHpY/P2Vp9RlpzbkBGv/m6ibvsI6VhGRw55k8F+bq775w==
+X-Received: by 10.107.1.197 with SMTP id 188mr45122281iob.20.1474461697510;
+	Wed, 21 Sep 2016 05:41:37 -0700 (PDT)
+Received: from mail-io0-f174.google.com (mail-io0-f174.google.com.
+	[209.85.223.174]) by smtp.gmail.com with ESMTPSA id
+	c96sm12826308ioj.43.2016.09.21.05.41.36
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 21 Sep 2016 05:41:36 -0700 (PDT)
+From: Otavio Salvador <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by mail-io0-f174.google.com with SMTP id m79so51127651ioo.3
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 21 Sep 2016 05:41:36 -0700 (PDT)
+X-Received: by 10.107.39.6 with SMTP id n6mr47516096ion.10.1474461695974; Wed,
+	21 Sep 2016 05:41:35 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.107.132.150 with HTTP; Wed, 21 Sep 2016 05:41:35 -0700 (PDT)
+In-Reply-To: <1474455237.7207.312.camel@linuxfoundation.org>
+References: <1474455237.7207.312.camel@linuxfoundation.org>
+Date: Wed, 21 Sep 2016 09:41:35 -0300
+X-Gmail-Original-Message-ID: <CAP9ODKqOyhzf_pUZuDOYCSeh4f25KOR_=6SsdaQ3zVn3NM+O8g@mail.gmail.com>
+Message-ID: <CAP9ODKqOyhzf_pUZuDOYCSeh4f25KOR_=6SsdaQ3zVn3NM+O8g@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] autotools/siteinfo: Tweak CONFIG_SITE handling for determism/races
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,109 +66,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 Sep 2016 10:54:01 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 21 Sep 2016 12:41:37 -0000
+Content-Type: text/plain; charset=UTF-8
 
-As things stand there are multiple races in the CONFIG_SITE handling
-where checksums can change depending on whether site directories
-exist or not when parsing happens. This is bad.
+On Wed, Sep 21, 2016 at 7:53 AM, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> As things stand there are multiple races in the CONFIG_SITE handling
+> where checksums can change depending on whether site directories
+> exist or not when parsing happens. This is bad.
+>
+> Secondly, there is a build race that occurs if you build virtuals
+> in parallel with the "main" recipe, since the main recipe is parsed
+> when the virtual is (since it sets variables like BBCLASSEXTEND)
+> and with the current code, it may look for files and directories
+> which could be created/destroyed which the loop is executing. This
+> is also bad.
+>
+> The aclocal-copy directory should only ever be accessed by the call
+> from autotools.bbclass. This chanages the parameter name to make it
 
-Secondly, there is a build race that occurs if you build virtuals
-in parallel with the "main" recipe, since the main recipe is parsed
-when the virtual is (since it sets variables like BBCLASSEXTEND)
-and with the current code, it may look for files and directories
-which could be created/destroyed which the loop is executing. This
-is also bad.
+... This changes the parameter ...
 
-The aclocal-copy directory should only ever be accessed by the call
-from autotools.bbclass. This chanages the parameter name to make it
-clear and ensures all callers have the right usage, neatly avoiding
-all the problems above. Also added better comments.
+> clear and ensures all callers have the right usage, neatly avoiding
+> all the problems above. Also added better comments.
+>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-
-diff --git a/meta/classes/autotools.bbclass b/meta/classes/autotools.bbclass
-index 4c32c84..e5f527e 100644
---- a/meta/classes/autotools.bbclass
-+++ b/meta/classes/autotools.bbclass
-@@ -25,7 +25,7 @@ inherit siteinfo
- 
- # Space separated list of shell scripts with variables defined to supply test
- # results for autoconf tests we cannot run at build time.
--export CONFIG_SITE = "${@siteinfo_get_files(d, False)}"
-+export CONFIG_SITE = "${@siteinfo_get_files(d)}"
- 
- acpaths = "default"
- EXTRA_AUTORECONF = "--exclude=autopoint"
-@@ -253,8 +253,9 @@ python autotools_copy_aclocals () {
-         t = os.path.join(aclocaldir, os.path.basename(c))
-         if not os.path.exists(t):
-             os.symlink(c, t)
--            
--    d.setVar("CONFIG_SITE", siteinfo_get_files(d, False))
-+
-+    # Refresh variable with cache files
-+    d.setVar("CONFIG_SITE", siteinfo_get_files(d, aclocalcache=True))
- }
- autotools_copy_aclocals[vardepsexclude] += "MACHINE SDK_ARCH BUILD_ARCH SDK_OS BB_TASKDEPDATA"
- 
-diff --git a/meta/classes/siteinfo.bbclass b/meta/classes/siteinfo.bbclass
-index 03d4c4f..6a2e4bf 100644
---- a/meta/classes/siteinfo.bbclass
-+++ b/meta/classes/siteinfo.bbclass
-@@ -153,7 +153,7 @@ python () {
-         bb.fatal("Please add your architecture to siteinfo.bbclass")
- }
- 
--def siteinfo_get_files(d, no_cache = False):
-+def siteinfo_get_files(d, aclocalcache = False):
-     sitedata = siteinfo_data(d)
-     sitefiles = ""
-     for path in d.getVar("BBPATH", True).split(":"):
-@@ -162,11 +162,17 @@ def siteinfo_get_files(d, no_cache = False):
-             if os.path.exists(filename):
-                 sitefiles += filename + " "
- 
--    if no_cache: return sitefiles
-+    if not aclocalcache:
-+        return sitefiles
- 
--    # Now check for siteconfig cache files
--    # Use the files copied to the aclocal cache generated by autotools.bbclass
--    # to avoid races
-+    # Now check for siteconfig cache files in the directory setup by autotools.bbclass to
-+    # avoid races.
-+    #
-+    # ACLOCALDIR may or may not exist so cache should only be set to True from autotools.bbclass
-+    # after files have been copied into this location. To do otherwise risks parsing/signature
-+    # issues and the directory being created/removed whilst this code executes. This can happen
-+    # when a multilib recipe is parsed along with its base variant which may be running at the time
-+    # causing rare but nasty failures
-     path_siteconfig = d.getVar('ACLOCALDIR', True)
-     if path_siteconfig and os.path.isdir(path_siteconfig):
-         for i in os.listdir(path_siteconfig):
-@@ -174,7 +180,6 @@ def siteinfo_get_files(d, no_cache = False):
-                 continue
-             filename = os.path.join(path_siteconfig, i)
-             sitefiles += filename + " "
--
-     return sitefiles
- 
- #
-diff --git a/meta/classes/toolchain-scripts.bbclass b/meta/classes/toolchain-scripts.bbclass
-index dabd17b..8df0967 100644
---- a/meta/classes/toolchain-scripts.bbclass
-+++ b/meta/classes/toolchain-scripts.bbclass
-@@ -105,7 +105,7 @@ EOF
- }
- 
- #we get the cached site config in the runtime
--TOOLCHAIN_CONFIGSITE_NOCACHE := "${@siteinfo_get_files(d, True)}"
-+TOOLCHAIN_CONFIGSITE_NOCACHE := "${@siteinfo_get_files(d)}"
- TOOLCHAIN_CONFIGSITE_SYSROOTCACHE = "${STAGING_DIR}/${MLPREFIX}${MACHINE}/${target_datadir}/${TARGET_SYS}_config_site.d"
- TOOLCHAIN_NEED_CONFIGSITE_CACHE ??= "virtual/${MLPREFIX}libc ncurses"
- 
-
-
+-- 
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
