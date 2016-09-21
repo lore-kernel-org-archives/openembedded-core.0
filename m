@@ -1,24 +1,28 @@
-Return-Path: <Zhixiong.Chi@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 3DD3665C8A
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 9EE7C65C8A
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Sep 2016 02:48:08 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u8L2m9pe002362
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Sep 2016 19:48:10 -0700 (PDT)
-Received: from pek-zchi-d1.corp.ad.wrs.com (128.224.162.239) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.294.0; Tue, 20 Sep 2016 19:48:08 -0700
-From: Zhixiong Chi <Zhixiong.Chi@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 21 Sep 2016 10:48:07 +0800
-Message-ID: <1474426087-14017-1-git-send-email-Zhixiong.Chi@windriver.com>
-X-Mailer: git-send-email 1.9.1
+	Wed, 21 Sep 2016 03:11:45 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u8L3BjnR011924
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 20 Sep 2016 20:11:45 -0700 (PDT)
+Received: from [128.224.162.240] (128.224.162.240) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.294.0;
+	Tue, 20 Sep 2016 20:11:44 -0700
+To: California Sullivan <california.l.sullivan@intel.com>,
+	<openembedded-core@lists.openembedded.org>
+References: <1474069704-24428-1-git-send-email-california.l.sullivan@intel.com>
+From: Robert Yang <liezhi.yang@windriver.com>
+Message-ID: <0d1aff43-c348-83bf-becd-3265f4b30df8@windriver.com>
+Date: Wed, 21 Sep 2016 11:11:42 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.2.0
 MIME-Version: 1.0
-Subject: [PATCH] wpa_supplicant: Security Advisory-CVE-2016-4477
+In-Reply-To: <1474069704-24428-1-git-send-email-california.l.sullivan@intel.com>
+Cc: bruce.ashfield@windriver.com
+Subject: Re: [PATCH V2 1/1] kernel.bbclass: Add kernel_version_sanity_check function
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,224 +35,89 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 Sep 2016 02:48:09 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 21 Sep 2016 03:11:47 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Add CVE-2016-4476 patch for avoiding \n and \r characters in passphrase
-parameters, which allows remote attackers to cause a denial of service
-(daemon outage) via a crafted WPS operation.
-Patches came from http://w1.fi/security/2016-1/
 
-Signed-off-by: Zhixiong Chi <Zhixiong.Chi@windriver.com>
----
- ...parameter-set-with-invalid-passphrase-cha.patch | 52 ++++++++++++++++++
- ...CRED-commands-with-newline-characters-in-.patch | 63 ++++++++++++++++++++++
- ...commands-with-newline-characters-in-the-s.patch | 51 ++++++++++++++++++
- .../wpa-supplicant/wpa-supplicant_2.5.bb           |  3 ++
- 4 files changed, 169 insertions(+)
- create mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0001-Reject-psk-parameter-set-with-invalid-passphrase-cha.patch
- create mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0002-Reject-SET_CRED-commands-with-newline-characters-in-.patch
- create mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0003-Reject-SET-commands-with-newline-characters-in-the-s.patch
+Hi,
 
-diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0001-Reject-psk-parameter-set-with-invalid-passphrase-cha.patch b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0001-Reject-psk-parameter-set-with-invalid-passphrase-cha.patch
-new file mode 100644
-index 0000000..5384511
---- /dev/null
-+++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0001-Reject-psk-parameter-set-with-invalid-passphrase-cha.patch
-@@ -0,0 +1,52 @@
-+From 73e4abb24a936014727924d8b0b2965edfc117dd Mon Sep 17 00:00:00 2001
-+From: Jouni Malinen <jouni@qca.qualcomm.com>
-+Date: Fri, 4 Mar 2016 18:46:41 +0200
-+Subject: [PATCH 1/3] Reject psk parameter set with invalid passphrase
-+ character
-+
-+WPA/WPA2-Personal passphrase is not allowed to include control
-+characters. Reject a passphrase configuration attempt if that passphrase
-+includes an invalid passphrase.
-+
-+This fixes an issue where wpa_supplicant could have updated the
-+configuration file psk parameter with arbitrary data from the control
-+interface or D-Bus interface. While those interfaces are supposed to be
-+accessible only for trusted users/applications, it may be possible that
-+an untrusted user has access to a management software component that
-+does not validate the passphrase value before passing it to
-+wpa_supplicant.
-+
-+This could allow such an untrusted user to inject up to 63 characters of
-+almost arbitrary data into the configuration file. Such configuration
-+file could result in wpa_supplicant trying to load a library (e.g.,
-+opensc_engine_path, pkcs11_engine_path, pkcs11_module_path,
-+load_dynamic_eap) from user controlled location when starting again.
-+This would allow code from that library to be executed under the
-+wpa_supplicant process privileges.
-+
-+Upstream-Status: Backport
-+
-+Signed-off-by: Jouni Malinen <jouni@qca.qualcomm.com>
-+---
-+ wpa_supplicant/config.c | 6 ++++++
-+ 1 file changed, 6 insertions(+)
-+
-+diff --git a/wpa_supplicant/config.c b/wpa_supplicant/config.c
-+index b1c7870..fdd9643 100644
-+--- a/wpa_supplicant/config.c
-++++ b/wpa_supplicant/config.c
-+@@ -478,6 +478,12 @@ static int wpa_config_parse_psk(const struct parse_data *data,
-+ 		}
-+ 		wpa_hexdump_ascii_key(MSG_MSGDUMP, "PSK (ASCII passphrase)",
-+ 				      (u8 *) value, len);
-++		if (has_ctrl_char((u8 *) value, len)) {
-++			wpa_printf(MSG_ERROR,
-++				   "Line %d: Invalid passphrase character",
-++				   line);
-++			return -1;
-++		}
-+ 		if (ssid->passphrase && os_strlen(ssid->passphrase) == len &&
-+ 		    os_memcmp(ssid->passphrase, value, len) == 0) {
-+ 			/* No change to the previously configured value */
-+-- 
-+1.9.1
-diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0002-Reject-SET_CRED-commands-with-newline-characters-in-.patch b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0002-Reject-SET_CRED-commands-with-newline-characters-in-.patch
-new file mode 100644
-index 0000000..3289b41
---- /dev/null
-+++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0002-Reject-SET_CRED-commands-with-newline-characters-in-.patch
-@@ -0,0 +1,63 @@
-+From b166cd84a77a6717be9600bf95378a0055d6f5a5 Mon Sep 17 00:00:00 2001
-+From: Jouni Malinen <jouni@qca.qualcomm.com>
-+Date: Tue, 5 Apr 2016 23:33:10 +0300
-+Subject: [PATCH 2/3] Reject SET_CRED commands with newline characters in the
-+ string values
-+
-+Most of the cred block parameters are written as strings without
-+filtering and if there is an embedded newline character in the value,
-+unexpected configuration file data might be written.
-+
-+This fixes an issue where wpa_supplicant could have updated the
-+configuration file cred parameter with arbitrary data from the control
-+interface or D-Bus interface. While those interfaces are supposed to be
-+accessible only for trusted users/applications, it may be possible that
-+an untrusted user has access to a management software component that
-+does not validate the credential value before passing it to
-+wpa_supplicant.
-+
-+This could allow such an untrusted user to inject almost arbitrary data
-+into the configuration file. Such configuration file could result in
-+wpa_supplicant trying to load a library (e.g., opensc_engine_path,
-+pkcs11_engine_path, pkcs11_module_path, load_dynamic_eap) from user
-+controlled location when starting again. This would allow code from that
-+library to be executed under the wpa_supplicant process privileges.
-+
-+Upstream-Status: Backport
-+
-+Signed-off-by: Jouni Malinen <jouni@qca.qualcomm.com>
-+---
-+ wpa_supplicant/config.c | 9 ++++++++-
-+ 1 file changed, 8 insertions(+), 1 deletion(-)
-+
-+diff --git a/wpa_supplicant/config.c b/wpa_supplicant/config.c
-+index eb97cd5..69152ef 100644
-+--- a/wpa_supplicant/config.c
-++++ b/wpa_supplicant/config.c
-+@@ -2896,6 +2896,8 @@ int wpa_config_set_cred(struct wpa_cred *cred, const char *var,
-+ 
-+ 	if (os_strcmp(var, "password") == 0 &&
-+ 	    os_strncmp(value, "ext:", 4) == 0) {
-++		if (has_newline(value))
-++			return -1;
-+ 		str_clear_free(cred->password);
-+ 		cred->password = os_strdup(value);
-+ 		cred->ext_password = 1;
-+@@ -2946,9 +2948,14 @@ int wpa_config_set_cred(struct wpa_cred *cred, const char *var,
-+ 	}
-+ 
-+ 	val = wpa_config_parse_string(value, &len);
-+-	if (val == NULL) {
-++	if (val == NULL ||
-++	    (os_strcmp(var, "excluded_ssid") != 0 &&
-++	     os_strcmp(var, "roaming_consortium") != 0 &&
-++	     os_strcmp(var, "required_roaming_consortium") != 0 &&
-++	     has_newline(val))) {
-+ 		wpa_printf(MSG_ERROR, "Line %d: invalid field '%s' string "
-+ 			   "value '%s'.", line, var, value);
-++		os_free(val);
-+ 		return -1;
-+ 	}
-+ 
-+-- 
-+1.9.1
-diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0003-Reject-SET-commands-with-newline-characters-in-the-s.patch b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0003-Reject-SET-commands-with-newline-characters-in-the-s.patch
-new file mode 100644
-index 0000000..e21b8fc
---- /dev/null
-+++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0003-Reject-SET-commands-with-newline-characters-in-the-s.patch
-@@ -0,0 +1,51 @@
-+From 2a3f56502b52375c3bf113cf92adfa99bad6b488 Mon Sep 17 00:00:00 2001
-+From: Jouni Malinen <jouni@qca.qualcomm.com>
-+Date: Tue, 5 Apr 2016 23:55:48 +0300
-+Subject: [PATCH 3/3] Reject SET commands with newline characters in the
-+ string values
-+
-+Many of the global configuration parameters are written as strings
-+without filtering and if there is an embedded newline character in the
-+value, unexpected configuration file data might be written.
-+
-+This fixes an issue where wpa_supplicant could have updated the
-+configuration file global parameter with arbitrary data from the control
-+interface or D-Bus interface. While those interfaces are supposed to be
-+accessible only for trusted users/applications, it may be possible that
-+an untrusted user has access to a management software component that
-+does not validate the value of a parameter before passing it to
-+wpa_supplicant.
-+
-+This could allow such an untrusted user to inject almost arbitrary data
-+into the configuration file. Such configuration file could result in
-+wpa_supplicant trying to load a library (e.g., opensc_engine_path,
-+pkcs11_engine_path, pkcs11_module_path, load_dynamic_eap) from user
-+controlled location when starting again. This would allow code from that
-+library to be executed under the wpa_supplicant process privileges.
-+
-+Upstream-Status: Backport
-+
-+Signed-off-by: Jouni Malinen <jouni@qca.qualcomm.com>
-+---
-+ wpa_supplicant/config.c | 6 ++++++
-+ 1 file changed, 6 insertions(+)
-+
-+diff --git a/wpa_supplicant/config.c b/wpa_supplicant/config.c
-+index 69152ef..d9a1603 100644
-+--- a/wpa_supplicant/config.c
-++++ b/wpa_supplicant/config.c
-+@@ -3764,6 +3764,12 @@ static int wpa_global_config_parse_str(const struct global_parse_data *data,
-+ 		return -1;
-+ 	}
-+ 
-++	if (has_newline(pos)) {
-++		wpa_printf(MSG_ERROR, "Line %d: invalid %s value with newline",
-++			   line, data->name);
-++		return -1;
-++	}
-++
-+ 	tmp = os_strdup(pos);
-+ 	if (tmp == NULL)
-+ 		return -1;
-+-- 
-+1.9.1
-diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.5.bb b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.5.bb
-index bfcc6cc..a4160e1 100644
---- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.5.bb
-+++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.5.bb
-@@ -26,6 +26,9 @@ SRC_URI = "http://w1.fi/releases/wpa_supplicant-${PV}.tar.gz  \
-            file://99_wpa_supplicant \
-            file://0001-WPS-Reject-a-Credential-with-invalid-passphrase.patch \
-            file://0002-Remove-newlines-from-wpa_supplicant-config-network-o.patch \
-+           file://0001-Reject-psk-parameter-set-with-invalid-passphrase-cha.patch \
-+           file://0002-Reject-SET_CRED-commands-with-newline-characters-in-.patch \
-+           file://0003-Reject-SET-commands-with-newline-characters-in-the-s.patch \
-           "
- SRC_URI[md5sum] = "96ff75c3a514f1f324560a2376f13110"
- SRC_URI[sha256sum] = "cce55bae483b364eae55c35ba567c279be442ed8bab5b80a3c7fb0d057b9b316"
--- 
-1.9.1
+There is an error on autobuilder related to this patch:
 
+http://autobuilder.yocto.io:8010/builders/nightly-x86-64-lsb/builds/60/steps/BuildImages_1/logs/stdio
+
+// Robert
+
+On 09/17/2016 07:48 AM, California Sullivan wrote:
+> The kernel being built should match what the recipe claims it is
+> building. This function ensures that happens by comparing the version
+> information in the kernel's Makefile to the PV the recipe is using.
+>
+> v2 changes:
+> * Match against PV instead of LINUX_VERSION
+> * Match against EXTRAVERSION as well (e.g., -rc4)
+> * Cleaned up version string building
+>
+> Fixes [YOCTO #6767].
+>
+> Signed-off-by: California Sullivan <california.l.sullivan@intel.com>
+> ---
+>  meta/classes/kernel.bbclass               | 30 ++++++++++++++++++++++++++++++
+>  meta/recipes-kernel/linux/linux-yocto.inc |  1 +
+>  2 files changed, 31 insertions(+)
+>
+> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+> index a6112e8..f894795 100644
+> --- a/meta/classes/kernel.bbclass
+> +++ b/meta/classes/kernel.bbclass
+> @@ -327,6 +327,36 @@ kernel_do_install() {
+>  }
+>  do_install[prefuncs] += "package_get_auto_pr"
+>
+> +# Must be ran no earlier than after do_kernel_checkout or else Makefile won't be in ${S}/Makefile
+> +do_kernel_version_sanity_check() {
+> +	# The Makefile determines the kernel version shown at runtime
+> +	# Don't use KERNEL_VERSION because the headers it grabs the version from aren't generated until do_compile
+> +	VERSION=$(grep "^VERSION =" ${S}/Makefile | sed s/.*=\ *//)
+> +	PATCHLEVEL=$(grep "^PATCHLEVEL =" ${S}/Makefile | sed s/.*=\ *//)
+> +	SUBLEVEL=$(grep "^SUBLEVEL =" ${S}/Makefile | sed s/.*=\ *//)
+> +	EXTRAVERSION=$(grep "^EXTRAVERSION =" ${S}/Makefile | sed s/.*=\ *//)
+> +
+> +	# Build a string for regex and a plain version string
+> +	reg="^${VERSION}\.${PATCHLEVEL}"
+> +	vers="${VERSION}.${PATCHLEVEL}"
+> +	if [ -n "${SUBLEVEL}" ]; then
+> +		# Ignoring a SUBLEVEL of zero is fine
+> +		if [ "${SUBLEVEL}" = "0" ]; then
+> +			reg="${reg}(\.${SUBLEVEL})?"
+> +		else
+> +			reg="${reg}\.${SUBLEVEL}"
+> +			vers="${vers}.${SUBLEVEL}"
+> +		fi
+> +	fi
+> +	vers="${vers}${EXTRAVERSION}"
+> +	reg="${reg}${EXTRAVERSION}"
+> +
+> +	if [ -z `echo ${PV} | grep -E "${reg}"` ]; then
+> +		bbfatal "Package Version (${PV}) does not match of kernel being built (${vers}). Please update the PV variable to match the kernel source."
+> +	fi
+> +	exit 0
+> +}
+> +
+>  addtask shared_workdir after do_compile before do_compile_kernelmodules
+>  addtask shared_workdir_setscene
+>
+> diff --git a/meta/recipes-kernel/linux/linux-yocto.inc b/meta/recipes-kernel/linux/linux-yocto.inc
+> index 98a48ec..d979662 100644
+> --- a/meta/recipes-kernel/linux/linux-yocto.inc
+> +++ b/meta/recipes-kernel/linux/linux-yocto.inc
+> @@ -55,6 +55,7 @@ do_install_append(){
+>  }
+>
+>  # extra tasks
+> +addtask kernel_version_sanity_check after do_kernel_checkout before do_compile
+>  addtask kernel_link_images after do_compile before do_install
+>  addtask validate_branches before do_patch after do_kernel_checkout
+>  addtask kernel_configcheck after do_configure before do_compile
+>
 
