@@ -1,47 +1,49 @@
-Return-Path: <sujith.h@gmail.com>
-Received: from mail-io0-f193.google.com (mail-io0-f193.google.com
-	[209.85.223.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 1277D60616
+Return-Path: <schnitzeltony@googlemail.com>
+Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 2541A60685
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Sep 2016 05:17:48 +0000 (UTC)
-Received: by mail-io0-f193.google.com with SMTP id q92so2502021ioi.2
+	Wed, 21 Sep 2016 05:30:58 +0000 (UTC)
+Received: by mail-wm0-f65.google.com with SMTP id w84so6602508wmg.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Sep 2016 22:17:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=PEpeY5ffm0OacWjIOgJKXYI6SPFIq63UqNfGFxEis10=;
-	b=WABy1YFj0iB97vzH+derhBDmZqx6nRowbwlaTS1c/gXf/OYG6OF/AmgtjzdHiCwOJq
-	AtAvArKg8izxZm0wpFSQzonuu0MxGQQ4IqL8vlCDi/YaZXUxGg+FiDCxcSu2YtQrOdEM
-	burbLG34sh8HWhjnVAYlJmy3tEFQ+i2dibEKpFF6PFxz/zHr9RXOg13BQXlpi2nyhqBv
-	aLMVSDMa+u/LYMCT2PSz2C5/CTrjcVQSXrK88Kurz0/MzOxEC9fYpKnOUdnKctL6JpeD
-	yACUzIUyyyGLpPwj8mv4AUvUaVAMLgpAH4JudcR/FTXRnD29MiLMKVzRhPnarmyyxz5B
-	yvfw==
+	Tue, 20 Sep 2016 22:30:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=googlemail.com; s=20120113;
+	h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=7BsLNdGGUqEbwCc3q5xx522DKL0BrpHbrbfugqkvpXU=;
+	b=oCqYoCg68MuF5P0Ny+pg8TPgdytW6LNSCErvPuzxn2SgsdhV25mhwcKGbS2N63IGtq
+	1RS2HBlRrhajmxts7jSQY+KV1ivdozMEBndG1B7Y3nukIjNP4dpue3uL0hVziWX4bhXB
+	QMLJolAiHwRXDRteBStPF41W0FCBViytN5enzZb+JR7aBcT3uZqSIXsYjK+xmqaeuagr
+	8c+94U1J1ofDGi/p5r4kyvM/UUNyztSrd4NQrOYC1xBV91wF4XeeCo21SXFSNGZORLqe
+	igRfcKMJc0FqAC1K7B/r6Xsh5eJ00lRQo51PmyJZBgHS/hmDUXukBgaXX6Dyz7ikAWJV
+	UiHg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=PEpeY5ffm0OacWjIOgJKXYI6SPFIq63UqNfGFxEis10=;
-	b=eDgEC91FNMynXbAuXqiBYASZ+FNhxMnfxbuHhtfZddjlasbd0OdsBX1KLYCARynJtM
-	4Nyip6vIC8NIwFH3w+gERjPKGE7rr4lLT2ix7mHGQs5alUEKCm/TndxLF1H5X13w4MdM
-	UCIYecfyqvT2efnKy9VeoGhdzm6cx/letYsZhCoo7NMPedcGjIoBs72Mt6SmujMn/6sY
-	qhHoEW6Wiuye8I1V4GAPQdU18X0FndHOMOuU+vdtSxANfgXlu+nKTmiKy7DDhuatnNYr
-	KZJOks2wJkfgxhO3GCTMSqS1AUjAvMIYPAKvnNTahDefZt3BdjnHEaQo6cC0z2OnXGMU
-	R7NQ==
-X-Gm-Message-State: AE9vXwN2frAYgEg4Sb1T8hYetEhaiEnJPhDwbXQksJVMxk9XBVdNCbz5rXElDfuaC669mQ==
-X-Received: by 10.107.132.231 with SMTP id o100mr16882969ioi.109.1474435069219;
-	Tue, 20 Sep 2016 22:17:49 -0700 (PDT)
-Received: from kdekidd0.inp-wifi.mentorg.com ([139.181.35.34])
-	by smtp.gmail.com with ESMTPSA id
-	g78sm11558357itb.12.2016.09.20.22.17.47
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 20 Sep 2016 22:17:48 -0700 (PDT)
-From: Sujith H <sujith.h@gmail.com>
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=7BsLNdGGUqEbwCc3q5xx522DKL0BrpHbrbfugqkvpXU=;
+	b=SuGD5mgz98pP+wbKs3pgBeFaNXg8fu0DDBXfepg04XntBrfQt1W/bOqwfzbpnXujQ5
+	5xrWLu2IVmn9OOskrHvRfITV8HOGA00eXJp2uRSdALEhwhiMGVHHMCqS6x2Byh31fyFS
+	2/8cqTWZywOxuGRXsdUo7j0UZQRjRbP6jh0oce4ZsJN++cC8GTy8gfYZ5BLrjmRBTnn4
+	1sPGj++EsRpeXtjxGFGdYr+iO/XYpbmFtvUq3mzeSyEDABf9X0VZ961qnZhnf+hKEaqW
+	xb9N2O/NoItcBEDikQJuaH4Eb0L6lME+56ZGBfArrD9CLrlLsASCDJASHu4uANbfTxxe
+	FhcQ==
+X-Gm-Message-State: AE9vXwOtV8RlN98XZ+WtBesplSWE3ZUPQ0ORvCYNuQ3eP/IiCl6fgOox542S3QlolZMSjA==
+X-Received: by 10.194.61.203 with SMTP id s11mr37134212wjr.141.1474435858947; 
+	Tue, 20 Sep 2016 22:30:58 -0700 (PDT)
+Received: from localhost.localdomain (p4FDF06F5.dip0.t-ipconnect.de.
+	[79.223.6.245]) by smtp.googlemail.com with ESMTPSA id
+	bk7sm31695802wjc.36.2016.09.20.22.30.58
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 20 Sep 2016 22:30:58 -0700 (PDT)
+From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@googlemail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 21 Sep 2016 10:47:42 +0530
-Message-Id: <1474435062-3183-1-git-send-email-sujith.h@gmail.com>
-X-Mailer: git-send-email 1.9.1
-Cc: Sujith Haridasan <Sujith_Haridasan@mentor.com>,
-	Christopher Larson <chris_larson@mentor.com>
-Subject: [PATCH] perf: Fix to obey LD failure on qemux86-64
+Date: Wed, 21 Sep 2016 07:30:43 +0200
+Message-Id: <1474435844-16942-1-git-send-email-schnitzeltony@googlemail.com>
+X-Mailer: git-send-email 2.5.5
+MIME-Version: 1.0
+Subject: [PATCH 1/2] libunwind: fix build by linking with bfd instead of gold
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,57 +56,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 Sep 2016 05:17:49 -0000
+X-List-Received-Date: Wed, 21 Sep 2016 05:30:59 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-From: Christopher Larson <chris_larson@mentor.com>
+works around:
+<native-sysroot>/ld: error: Gperf-simple.o: cannot make copy relocation for protected symbol '_Uarm_local_addr_space', defined in ../src/.libs/libunwind-arm.so
+collect2: error: ld returned 1 exit status
+Makefile:1038: recipe for target 'Gperf-simple' failed
+make[1]: *** [Gperf-simple] Error 1
+make[1]: *** Waiting for unfinished jobs....
+<...>
+<native-sysroot>/ld: error: Lperf-simple.o: cannot make copy relocation for protected symbol '_ULarm_local_addr_space', defined in ../src/.libs/libunwind.so
+collect2: error: ld returned 1 exit status
+Makefile:1094: recipe for target 'Lperf-simple' failed
+make[1]: *** [Lperf-simple] Error 1
+<...>
+ERROR: oe_runmake failed
+<native-sysroot>/ld: error: Gperf-trace.o: cannot make copy relocation for protected symbol '_Uarm_local_addr_space', defined in ../src/.libs/libunwind-arm.so
+collect2: error: ld returned 1 exit status
+Makefile:1042: recipe for target 'Gperf-trace' failed
+make[1]: *** [Gperf-trace] Error 1
+<native-sysroot>/ld: error: Lperf-trace.o: cannot make copy relocation for protected symbol '_ULarm_local_addr_space', defined in ../src/.libs/libunwind.so
+collect2: error: ld returned 1 exit status
+Makefile:1098: recipe for target 'Lperf-trace' failed
+make[1]: *** [Lperf-trace] Error 1
+<...>
+<native-sysroot>/ld: error: test-coredump-unwind.o: cannot make copy relocation for protected symbol '_UCD_accessors', defined in ../src/.libs/libunwind-coredump.so
+collect2: error: ld returned 1 exit status
+Makefile:1186: recipe for target 'test-coredump-unwind' failed
 
-When built on an i686 host for qemux86-64 without the
-fix to obey LD and it fails:
-
-/scratch/dogwood/toolchains/x86_64/bin/i686-pc-linux-gnu-ld:
-Relocatable linking with relocations from format elf64-x86-64
-(/scratch/dogwood/perf-ld-test/build/tmp/work/qemux86_64-mel-linux/perf/1.0-r9/perf-1.0/fs/fs.o)
-to format elf32-i386 (/scratch/dogwood/perf-ld-test/build/tmp/work/qemux86_64-mel-linux/perf/1.0-r9/perf-1.0/fs/libapi-in.o)
-is not supported
-
-This is because LD includes HOST_LD_ARCH, which contains TUNE_LDARGS,
-which is -m elf32_x86_64 for x86_64. Without that, direct use of ld will fail.
-
-Signed-off-by: Christopher Larson <chris_larson@mentor.com>
-Signed-off-by: Sujith Haridasan <Sujith_Haridasan@mentor.com>
+Signed-off-by: Andreas Müller <schnitzeltony@googlemail.com>
 ---
- meta/recipes-kernel/perf/perf.bb | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ meta/recipes-support/libunwind/libunwind_git.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/perf/perf.bb
-index 88e3a0a..0d104d3 100644
---- a/meta/recipes-kernel/perf/perf.bb
-+++ b/meta/recipes-kernel/perf/perf.bb
-@@ -79,6 +79,7 @@ EXTRA_OEMAKE = '\
-     ARCH=${ARCH} \
-     CC="${CC}" \
-     AR="${AR}" \
-+    LD="${LD}" \
-     EXTRA_CFLAGS="-ldw" \
-     perfexecdir=${libexecdir} \
-     NO_GTK2=1 ${TUI_DEFINES} NO_DWARF=1 ${LIBUNWIND_DEFINES} \
-@@ -98,7 +99,6 @@ EXTRA_OEMAKE += "\
-     'infodir=${@os.path.relpath(infodir, prefix)}' \
- "
+diff --git a/meta/recipes-support/libunwind/libunwind_git.bb b/meta/recipes-support/libunwind/libunwind_git.bb
+index cd4cb89..4249430 100644
+--- a/meta/recipes-support/libunwind/libunwind_git.bb
++++ b/meta/recipes-support/libunwind/libunwind_git.bb
+@@ -26,3 +26,4 @@ SECURITY_CFLAGS_append_aarch64 = " -fPIE"
  
--
- do_compile() {
- 	# Linux kernel build system is expected to do the right thing
- 	unset CFLAGS
-@@ -174,6 +174,7 @@ do_configure_prepend () {
-     if [ -e "${S}/tools/lib/api/Makefile" ]; then
-         sed -i 's,CC = $(CROSS_COMPILE)gcc,#CC,' ${S}/tools/lib/api/Makefile
-         sed -i 's,AR = $(CROSS_COMPILE)ar,#AR,' ${S}/tools/lib/api/Makefile
-+        sed -i 's,LD = $(CROSS_COMPILE)ld,#LD,' ${S}/tools/lib/api/Makefile
-     fi
-     if [ -e "${S}/tools/lib/subcmd/Makefile" ]; then
-         sed -i 's,CC = $(CROSS_COMPILE)gcc,#CC,' ${S}/tools/lib/subcmd/Makefile
+ S = "${WORKDIR}/git"
+ 
++LDFLAGS += "-Wl,-z,relro,-z,now ${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-gold', ' -fuse-ld=bfd ', '', d)}"
 -- 
-1.9.1
+2.5.5
 
 
