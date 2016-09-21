@@ -1,20 +1,24 @@
 Return-Path: <joshua.g.lock@linux.intel.com>
 Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id 0BBD860616
+	by mail.openembedded.org (Postfix) with ESMTP id 0CA916E668
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Sep 2016 19:35:50 +0000 (UTC)
+	Wed, 21 Sep 2016 19:35:51 +0000 (UTC)
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga104.fm.intel.com with ESMTP; 21 Sep 2016 12:35:51 -0700
+	by fmsmga104.fm.intel.com with ESMTP; 21 Sep 2016 12:35:53 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.30,375,1470726000"; d="scan'208";a="1034348340"
+X-IronPort-AV: E=Sophos;i="5.30,375,1470726000"; d="scan'208";a="1034348353"
 Received: from jlock-mobl1.ger.corp.intel.com ([10.252.27.83])
-	by orsmga001.jf.intel.com with ESMTP; 21 Sep 2016 12:35:50 -0700
+	by orsmga001.jf.intel.com with ESMTP; 21 Sep 2016 12:35:52 -0700
 From: Joshua Lock <joshua.g.lock@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 21 Sep 2016 20:35:35 +0100
-Message-Id: <cover.1474484610.git.joshua.g.lock@intel.com>
+Date: Wed, 21 Sep 2016 20:35:36 +0100
+Message-Id: <0066e9094d7f4a0fc2db37bfb5625ec73cec1b98.1474484610.git.joshua.g.lock@intel.com>
 X-Mailer: git-send-email 2.7.4
-Subject: [PATCH 0/4] runqemu fixes for toolchain and sdk uses
+In-Reply-To: <cover.1474484610.git.joshua.g.lock@intel.com>
+References: <cover.1474484610.git.joshua.g.lock@intel.com>
+In-Reply-To: <cover.1474484610.git.joshua.g.lock@intel.com>
+References: <cover.1474484610.git.joshua.g.lock@intel.com>
+Subject: [PATCH 1/4] runqemu: validate paths and attempt to infer unset paths
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,37 +33,38 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 21 Sep 2016 19:35:52 -0000
 
-Another round of fixes for runqemu to support common usage models such as being
-called via the Eclipse plugin.
+We need to validate and ensure all paths are set regardless of
+whether runqemu was invoked with a .qemuboot.conf file or
+otherwise. Split this logic out into a separate method called
+during check_and_set()
 
-* don't immediately bail out if QB_SYSTEM_NAME isn't set (this variable is only
-  set in a qemuboot.conf file), instead attempt to infer the correct qemu-system
-  binary based on the machine name, rootfs name or kernel name
-* always attempt to infer paths which aren't explicitly set, rather than only
-  trying to infer them when the values in a qemuboot.conf aren't validate
-* don't try and determine whether a MACHINE setting is correct when called From
-  an sdk environment, bitbake isn't available in this context
+Signed-off-by: Joshua Lock <joshua.g.lock@intel.com>
+---
+ scripts/runqemu | 3 +++
+ 1 file changed, 3 insertions(+)
 
-[YOCTO #10309]
-
-The following changes since commit b2771e17a5f301423f65be9f93c9c1b1e7f8ab93:
-
-  oeqa/selftest/lic-checksum: don't report the expected failure to errors.yp (2016-09-20 15:10:37 +0100)
-
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib joshuagl/runqemu
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=joshuagl/runqemu
-
-Joshua Lock (4):
-  runqemu: validate paths and attempt to infer unset paths
-  runqemu: try and guess qemu-system binary when MACHINE isn't set
-  runqemu: don't try and invoke bitbake when running in a toolchain env
-  runqemu: don't fail during check_arg_machine()
-
- scripts/runqemu | 50 +++++++++++++++++++++++++++++++++++++++++++++++---
- 1 file changed, 47 insertions(+), 3 deletions(-)
-
+diff --git a/scripts/runqemu b/scripts/runqemu
+index 08dc306..5170d87 100755
+--- a/scripts/runqemu
++++ b/scripts/runqemu
+@@ -536,6 +536,7 @@ class BaseConfig(object):
+ 
+     def check_and_set(self):
+         """Check configs sanity and set when needed"""
++        self.validate_paths()
+         check_tun()
+         # Check audio
+         if self.audio_enabled:
+@@ -598,6 +599,8 @@ class BaseConfig(object):
+             k_upper = k.upper()
+             self.set(k_upper, v)
+ 
++    def validate_paths(self):
++        """Ensure all relevant path variables are set"""
+         # When we're started with a *.qemuboot.conf arg assume that image
+         # artefacts are relative to that file, rather than in whatever
+         # directory DEPLOY_DIR_IMAGE in the conf file points to.
 -- 
 2.7.4
+
 
