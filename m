@@ -1,28 +1,31 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 9EE7C65C8A
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id D3DF160722
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Sep 2016 03:11:45 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u8L3BjnR011924
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 20 Sep 2016 20:11:45 -0700 (PDT)
-Received: from [128.224.162.240] (128.224.162.240) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.294.0;
-	Tue, 20 Sep 2016 20:11:44 -0700
-To: California Sullivan <california.l.sullivan@intel.com>,
+	Wed, 21 Sep 2016 03:37:45 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u8L3bkk4002514
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 20 Sep 2016 20:37:46 -0700 (PDT)
+Received: from [128.224.162.240] (128.224.162.240) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.294.0;
+	Tue, 20 Sep 2016 20:37:45 -0700
+To: Mark Hatle <mark.hatle@windriver.com>,
 	<openembedded-core@lists.openembedded.org>
-References: <1474069704-24428-1-git-send-email-california.l.sullivan@intel.com>
+References: <cover.1474359109.git.hongxu.jia@windriver.com>
+	<00a74627bbc662e9c42e0d2bc0a0d6b2adeaab4a.1474359109.git.hongxu.jia@windriver.com>
+	<CAJTo0LZ=0_jwrZ=1FXnBHpd_9K=1qfnGijrXe62qSaaNenzUmQ@mail.gmail.com>
+	<909061f7-cc26-9af1-a3c1-6e7de855d2a9@windriver.com>
 From: Robert Yang <liezhi.yang@windriver.com>
-Message-ID: <0d1aff43-c348-83bf-becd-3265f4b30df8@windriver.com>
-Date: Wed, 21 Sep 2016 11:11:42 +0800
+Message-ID: <a43fcaae-89a4-7710-8c63-122db5a49918@windriver.com>
+Date: Wed, 21 Sep 2016 11:37:44 +0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
 	Thunderbird/45.2.0
 MIME-Version: 1.0
-In-Reply-To: <1474069704-24428-1-git-send-email-california.l.sullivan@intel.com>
-Cc: bruce.ashfield@windriver.com
-Subject: Re: [PATCH V2 1/1] kernel.bbclass: Add kernel_version_sanity_check function
+In-Reply-To: <909061f7-cc26-9af1-a3c1-6e7de855d2a9@windriver.com>
+Subject: Re: [PATCH 1/1] rpm: make install with --nosignature and --nodigest work
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,89 +38,104 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 Sep 2016 03:11:47 -0000
+X-List-Received-Date: Wed, 21 Sep 2016 03:37:46 -0000
 Content-Type: text/plain; charset="windows-1252"; format=flowed
 Content-Transfer-Encoding: 7bit
 
 
-Hi,
 
-There is an error on autobuilder related to this patch:
+On 09/21/2016 04:33 AM, Mark Hatle wrote:
+> On 9/20/16 10:00 AM, Burton, Ross wrote:
+>>
+>> On 20 September 2016 at 09:15, Hongxu Jia <hongxu.jia@windriver.com
+>> <mailto:hongxu.jia@windriver.com>> wrote:
+>>
+>>     -Upstream-Status: Submitted [Sent email to rpm-devel@rpm5.org
+>>     <mailto:rpm-devel@rpm5.org>]
+>>     +Upstream-Status: Rejected [Sent email to rpm-devel@rpm5.org
+>>     <mailto:rpm-devel@rpm5.org>]
+>>     +http://rpm5.org/community/rpm-devel/5655.html
+>>     <http://rpm5.org/community/rpm-devel/5655.html>
+>>
+>>
+>> Considering upstream has explicitly rejected this patch, why should we accept it?
+>>
+>> Ross
+>>
+>>
+>
+> I'm confused by what the patch is doing looking at it.
+>
+> It sounds like from the description there is a bug that without the change,
+> packages with (intentionally) bad checksums and such are allowed to be installed.
+>
+> The bug is caused by a previous patch that enabled nosignature, etc -- because
+> the comparisons turned out to be backwards.
+>
+> So really nosignature, etc is already in place -- it's just not working properly?
+>
+> What was rejected upstream is the use of nosignature in any context.  RPM5
+> maintainer believes it is unwise and unsafe to permit uses to install packages
+> that have failed basic validation.  (I tend to agree.)  Similarly, even being
+> able to run queries and other operations against them may be dangerous as well.
 
-http://autobuilder.yocto.io:8010/builders/nightly-x86-64-lsb/builds/60/steps/BuildImages_1/logs/stdio
+If command like "rpm5 -qp --nosignature --nodigest <file.rpm>" queries database,
+then it would cause rpm5 hang when more than one "rpm5 -qp" is running, so I
+fixed the *query* problem, and the *install* problem is not caused by the fix.
+Btw., *rpm4* doesn't query database when "rpm -qp file.rpm", if we are going
+to use dnf in next release, maybe we can consider using rpm4 as Fedora does.
+I did a rough statistics for oe-core's local patches, the winner is rpm, it
+has 77 local patches, that's not good for maintaining, and you can imagine that
+how many times it surprised us. rpm4 should be more stable than rpm5, I don't
+know how many distros use rpm5, I can't access rpm5.org atm, it seems that the
+web is down (It was OK yesterday), but widely used distros like Redhat and Suse
+uses rpm4, so maybe rpm4 will make our life much more easier, and also for
+yocto's user. I think that why we need rpm5 before was because we need use it
+to compute the package dependencies, but now we have smartpm, so we don't rely
+on that any more.
 
-// Robert
+Here is the recipe list which has more than 10 local patches, and we have 1762
+patches atm:
+      77 rpm
+      59 gcc-5.4
+      49 gcc-6.2
+      36 ltp
+      31 python3
+      30 perl
+      29 openssl
+      28 man
+      27 glibc
+      24 python
+      23 tcp-wrappers-7.6
+      23 systemd
+      18 busybox
+      14 syslinux
+      14 python-smartpm
+      14 elfutils-0.166
+      14 apt
+      13 qemu
+      13 libtool
+      13 gstreamer1.0-plugins-bad
+      13 glib-2.0
+      13 binutils
+      13 bind
+      12 coreutils-6.9
+      11 valgrind
+      11 gdb
+      11 dhcp
+      11 autoconf
+      10 unzip
+      10 dpkg
+      10 console-tools-0.3.2
 
-On 09/17/2016 07:48 AM, California Sullivan wrote:
-> The kernel being built should match what the recipe claims it is
-> building. This function ensures that happens by comparing the version
-> information in the kernel's Makefile to the PV the recipe is using.
 >
-> v2 changes:
-> * Match against PV instead of LINUX_VERSION
-> * Match against EXTRAVERSION as well (e.g., -rc4)
-> * Cleaned up version string building
+> If fixing the problem is as simple as reverting the other change -- and that
+> doesn't cause other problems elsewhere...  I'd rather see that.
+
+We can't revert the patch, it would break packagefeed-stability.bbclass,
+we will see the hang
+
 >
-> Fixes [YOCTO #6767].
->
-> Signed-off-by: California Sullivan <california.l.sullivan@intel.com>
-> ---
->  meta/classes/kernel.bbclass               | 30 ++++++++++++++++++++++++++++++
->  meta/recipes-kernel/linux/linux-yocto.inc |  1 +
->  2 files changed, 31 insertions(+)
->
-> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-> index a6112e8..f894795 100644
-> --- a/meta/classes/kernel.bbclass
-> +++ b/meta/classes/kernel.bbclass
-> @@ -327,6 +327,36 @@ kernel_do_install() {
->  }
->  do_install[prefuncs] += "package_get_auto_pr"
->
-> +# Must be ran no earlier than after do_kernel_checkout or else Makefile won't be in ${S}/Makefile
-> +do_kernel_version_sanity_check() {
-> +	# The Makefile determines the kernel version shown at runtime
-> +	# Don't use KERNEL_VERSION because the headers it grabs the version from aren't generated until do_compile
-> +	VERSION=$(grep "^VERSION =" ${S}/Makefile | sed s/.*=\ *//)
-> +	PATCHLEVEL=$(grep "^PATCHLEVEL =" ${S}/Makefile | sed s/.*=\ *//)
-> +	SUBLEVEL=$(grep "^SUBLEVEL =" ${S}/Makefile | sed s/.*=\ *//)
-> +	EXTRAVERSION=$(grep "^EXTRAVERSION =" ${S}/Makefile | sed s/.*=\ *//)
-> +
-> +	# Build a string for regex and a plain version string
-> +	reg="^${VERSION}\.${PATCHLEVEL}"
-> +	vers="${VERSION}.${PATCHLEVEL}"
-> +	if [ -n "${SUBLEVEL}" ]; then
-> +		# Ignoring a SUBLEVEL of zero is fine
-> +		if [ "${SUBLEVEL}" = "0" ]; then
-> +			reg="${reg}(\.${SUBLEVEL})?"
-> +		else
-> +			reg="${reg}\.${SUBLEVEL}"
-> +			vers="${vers}.${SUBLEVEL}"
-> +		fi
-> +	fi
-> +	vers="${vers}${EXTRAVERSION}"
-> +	reg="${reg}${EXTRAVERSION}"
-> +
-> +	if [ -z `echo ${PV} | grep -E "${reg}"` ]; then
-> +		bbfatal "Package Version (${PV}) does not match of kernel being built (${vers}). Please update the PV variable to match the kernel source."
-> +	fi
-> +	exit 0
-> +}
-> +
->  addtask shared_workdir after do_compile before do_compile_kernelmodules
->  addtask shared_workdir_setscene
->
-> diff --git a/meta/recipes-kernel/linux/linux-yocto.inc b/meta/recipes-kernel/linux/linux-yocto.inc
-> index 98a48ec..d979662 100644
-> --- a/meta/recipes-kernel/linux/linux-yocto.inc
-> +++ b/meta/recipes-kernel/linux/linux-yocto.inc
-> @@ -55,6 +55,7 @@ do_install_append(){
->  }
->
->  # extra tasks
-> +addtask kernel_version_sanity_check after do_kernel_checkout before do_compile
->  addtask kernel_link_images after do_compile before do_install
->  addtask validate_branches before do_patch after do_kernel_checkout
->  addtask kernel_configcheck after do_configure before do_compile
+> --Mark
 >
 
