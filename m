@@ -1,26 +1,49 @@
-Return-Path: <pb@pbcl.net>
-Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
-	by mail.openembedded.org (Postfix) with ESMTP id 6537A605C3
+Return-Path: <schnitzeltony@googlemail.com>
+Received: from mail-yb0-f180.google.com (mail-yb0-f180.google.com
+	[209.85.213.180])
+	by mail.openembedded.org (Postfix) with ESMTP id 4B42A71984
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Sep 2016 09:17:46 +0000 (UTC)
-Received: from [2a00:14f0:e04c:51ac:add2:5f9f:9657:48e0] (helo=phil-desktop)
-	by hetzner.pbcl.net with esmtpsa
-	(TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.84)
-	(envelope-from <pb@pbcl.net>)
-	id 1bmdf0-000800-RR; Wed, 21 Sep 2016 11:17:47 +0200
-Message-ID: <1474449466.15186.2.camel@pbcl.net>
-From: Phil Blundell <pb@pbcl.net>
-To: sujith h <sujith.h@gmail.com>
-Date: Wed, 21 Sep 2016 10:17:46 +0100
-In-Reply-To: <CADyYWLm2xZrc4PGUo4fpFjf+Lb7Wuz457DWzdnTRRFn9HwNDjw@mail.gmail.com>
-References: <1473922370-4325-1-git-send-email-sujith.h@gmail.com>
-	<1473934030.3329.337.camel@pbcl.net>
-	<CADyYWLm2xZrc4PGUo4fpFjf+Lb7Wuz457DWzdnTRRFn9HwNDjw@mail.gmail.com>
-X-Mailer: Evolution 3.18.3-1 
-Mime-Version: 1.0
-Cc: Sujith Haridasan <Sujith_Haridasan@mentor.com>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] x264: add textrel to INSANE_SKIP to skip the warning
+	Wed, 21 Sep 2016 09:18:52 +0000 (UTC)
+Received: by mail-yb0-f180.google.com with SMTP id 2so19915330ybv.0
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 21 Sep 2016 02:18:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=googlemail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-transfer-encoding;
+	bh=/bqJGgNsAOJ5pBPd2cEoA7+hF2gqbPIDOyKak288lGA=;
+	b=zdUmA6l2g/nD5+V0quYvYa3UxFjFUHvTOOUjmkr9v5kORKiRTFMgBLGwAkMGB0047y
+	XhKuoO7Q2Uw4IdnGOWSJci+GpHQeR3reqHObuDqrkwjbI1tuwCJiKZGoFHAf9YFk5T0b
+	jAzv/qZVjbF9M7PY8BOXoGvONl2kDie/+/dO/NhdHWnn+pIHE7jjGYj2pA2QVWMRJjC6
+	awRzfBFHEtsUS42NDD1ipN06l66NcZpf9ZKdX7qsIK7pvBMwWFLR/WirR4npxFX2dHrL
+	ZvMdbyzOqOAsSaivzkE8Al6WtrtfkyuOPR+Oj1MT9KMfqjm9Un4/S5RxBnSdPo558CB+
+	+H9g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=/bqJGgNsAOJ5pBPd2cEoA7+hF2gqbPIDOyKak288lGA=;
+	b=P1ARly5mJQEre3cuFnCsAuXgxpLv0NByaVrParNVkk0QzD8CrO4C/dEhmQgcHQ7mfA
+	BUuiQ3mpjVn7ni4y4fqLlrVe6Z1zZUFBxLu//jVz81ASj7R4pSKBsuQL5GycELX4J9PQ
+	RIe6POYdX4a4JrLGvl4tGpvu6vSxqV/pazLM+GxllAFs25mpKHUPn1BTP86uHzDeBkSn
+	rRVT77nOB7BWwUCeZlatc8YWu3ZrL2IZKp4J3RxJzkAW2JeXsmMq1Ej3h/qFyeFHMRhL
+	eLhertgj1Ch8/e8sg2xDsf/ops3zDAoAvHg2QHcgZ26tUsSn8AtkFyxHYFljttjGD2jX
+	ytYg==
+X-Gm-Message-State: AE9vXwPnqbqBjxaUJL6Iw3ucI12xmfTKemKXKXg9LsUr2xGqOLNGfFvXwFcTucvUBZsgZtPDwjkWbOnuX8m2eA==
+X-Received: by 10.37.194.70 with SMTP id s67mr32483274ybf.51.1474449533770;
+	Wed, 21 Sep 2016 02:18:53 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.176.65.130 with HTTP; Wed, 21 Sep 2016 02:18:53 -0700 (PDT)
+In-Reply-To: <CAJTo0LaSU6xmyKqiD2oAGSZX=vadxMe8fNNpvuVveyt99WGMnA@mail.gmail.com>
+References: <1474435844-16942-1-git-send-email-schnitzeltony@googlemail.com>
+	<1474435844-16942-2-git-send-email-schnitzeltony@googlemail.com>
+	<CAJTo0LaSU6xmyKqiD2oAGSZX=vadxMe8fNNpvuVveyt99WGMnA@mail.gmail.com>
+From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
+Date: Wed, 21 Sep 2016 11:18:53 +0200
+Message-ID: <CALbNGRTTtizQ9z7iXqrCfz9oyx4=_os3CDaZcDmfkJLeUndw5w@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/2] scons.bbclass: reduce build time by adding PARALLEL_MAKEINST to scons install params
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,21 +56,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 Sep 2016 09:17:48 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 21 Sep 2016 09:18:55 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, 2016-09-21 at 13:44 +0530, sujith h wrote:
-> 
-> The above mentioned functions are part of .S files.
+On Wed, Sep 21, 2016 at 11:06 AM, Burton, Ross <ross.burton@intel.com> wrot=
+e:
+>
+> On 21 September 2016 at 06:30, Andreas M=C3=BCller <schnitzeltony@googlem=
+ail.com>
+> wrote:
+>>
+>> During install all files are recompiled. This should be investigated
+>> further
+>> later
+>
+>
+> I'd put (pretend) money on it being because PREFIX/prefix change between
+> compile and install, so it needs to rebuild.  Looks like this class is do=
+ing
+> something wrong.
+>
+> Ross
+Answering your 1st email:
+Recipes inheriting scons I found in my meta's were:
 
-OK.  In that case, please just mention in the commit message that you
-can't easily get rid of the TEXTRELs because they are coming from
-assembler source files that would (I assume) need significant
-modifications to work as PIC.  I think that's fine.
+pingus mongodb mixxx gpsd
 
-thanks
+* gpsd do_compile is broken for me without this patch (not findinig
+math lib although -lm is in ld's command line)
+* all others I tested here
 
-p.
+Answering your 2nd email:
+All files are recompiled without actually doing something. If somebody
+has the time for it - it might be useful to see what happens
 
+* if we skip do_compile completely or
+* what causes scons to force a recompile although it is told to install
+
+To be honest: Scons is yet another build system doing same thing as
+others and creating it's own bugs (e.g pkg-config variables). I
+wouldn't want to spend too much time on because there are fortunately
+only few packets using it.
+
+Andreas
 
