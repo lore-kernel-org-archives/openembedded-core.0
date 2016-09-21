@@ -1,46 +1,22 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-it0-f53.google.com (mail-it0-f53.google.com
-	[209.85.214.53])
-	by mail.openembedded.org (Postfix) with ESMTP id 51ED371989
+Return-Path: <alejandro.hernandez@linux.intel.com>
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+	by mail.openembedded.org (Postfix) with ESMTP id 78D2260670
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Sep 2016 20:48:28 +0000 (UTC)
-Received: by mail-it0-f53.google.com with SMTP id 186so62857229itf.0
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Sep 2016 13:48:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=X2Qeu+b9yM+H3axqvnIAPHYFcdxT9yu7TmXv242yw7I=;
-	b=VBvtLJhz80nANz39DTtJwv1HY9unZUWWYCqEFI6jYQhNXPkk7oOAUESeHfyLXvRC2V
-	39RvR3Ojsm98DSiQN9qOH51w5aroFjFOnGyaE7CRtxFk17/4SmI9f75KForDHxrpNYaI
-	uGN7d3BaR242htFPHqM9zGtcSBsxuSJAP6X8hDyHTiq4awWKdnIkuEXR0HKqxfFQ9RKM
-	V28JtppYlIXHERQO0FY2/nJdKGFun9Tgyi3Nrmaez8kmPWFWVN5KdJTzv2dac62CPiA2
-	NCgKKP3IcHpNK+y1jCDbhe2KgqhXBi3RwpkcZHSfKyoU/NP/9e42No6mAvP5VitHPWtO
-	Bdbg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=X2Qeu+b9yM+H3axqvnIAPHYFcdxT9yu7TmXv242yw7I=;
-	b=f/DDYKO8sgeZNCMjy36xivKuiN/mRhBgwMTjtUieR4UMev301ETH/paByto+5gk6EZ
-	R5VY26oZ9aGBn4TdjDciJ1jf6XJkFctaImXpLqdVwTwxdiB2morRPQ7bmq5ApNN1PpgW
-	Snh/y54K4z1yzoE4FU4OicqIkt7zobor14qTe2NqgZxOQ3rLMe1j4WpFcSYSSXw12xsT
-	kCTrUzsI74ATfJvw23yXfZS+2lWBRP4nogQXmjME+FEOdLY6XP25euNTwPc4IbgdZ4YA
-	PpZLp2TYQMPkIqURGiGXrt5C5bL3hvwCd7W//XzRUkmXnxn5kFGtPDmwTuNsIR6+EHxw
-	OGfg==
-X-Gm-Message-State: AE9vXwNqa1rKVMCOJDx5+uh4hW0Z1/+T6J8MJDdmIu5myqJZq1M+Va0taOhzZ1E3GC0pNQiRv0gIyLXJprJnj+tK
-X-Received: by 10.36.112.135 with SMTP id f129mr6729807itc.3.1474490910082;
-	Wed, 21 Sep 2016 13:48:30 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.107.155.66 with HTTP; Wed, 21 Sep 2016 13:48:09 -0700 (PDT)
-In-Reply-To: <1474483225-29817-1-git-send-email-gratian.crisan@ni.com>
-References: <1474483225-29817-1-git-send-email-gratian.crisan@ni.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 21 Sep 2016 21:48:09 +0100
-Message-ID: <CAJTo0LbJjuxq5=Gj=Qb9La-D_z0c2xaGmRVTUeS6B-w1uNeg_g@mail.gmail.com>
-To: Gratian Crisan <gratian.crisan@ni.com>
-Cc: gratian@gmail.com, OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] encodings: Add dependency to mkfontdir-native
+	Wed, 21 Sep 2016 21:15:05 +0000 (UTC)
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+	by orsmga105.jf.intel.com with ESMTP; 21 Sep 2016 14:15:01 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.30,375,1470726000"; d="scan'208";a="12298767"
+Received: from yctb02.ostc.intel.com (HELO yctb02.otcr.jf.intel.com)
+	([10.54.69.56])
+	by orsmga004.jf.intel.com with ESMTP; 21 Sep 2016 14:15:02 -0700
+From: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 21 Sep 2016 21:10:15 +0000
+Message-Id: <1474492215-39510-1-git-send-email-alejandro.hernandez@linux.intel.com>
+X-Mailer: git-send-email 2.6.6
+Cc: akuster@mvista.com
+Subject: [PATCH] [krogoth] Fixes several python3 dependencies
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,41 +29,114 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 Sep 2016 20:48:29 -0000
-Content-Type: multipart/alternative; boundary=001a11441c9eebbe53053d0aaa6f
+X-List-Received-Date: Wed, 21 Sep 2016 21:15:06 -0000
 
---001a11441c9eebbe53053d0aaa6f
-Content-Type: text/plain; charset=UTF-8
+This patch adds the packages python3-signal, python3-enum and python3-selectors,
+while it also fixes python3-subprocess, this fixes the installation of python3-modules
 
-On 21 September 2016 at 19:40, Gratian Crisan <gratian.crisan@ni.com> wrote:
+[YOCTO #10276]
 
-> Instead add a DEPENDS on mkfontdir-native in the encodings recipe in
-> addition to the mkfontscale-native dependency it already contains. This
-> solves the missing mkfontdir in the native sysroot problem without
-> introducing a build dependency loop.
->
+Signed-off-by: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
+---
+ meta/recipes-devtools/python/python-3.5-manifest.inc | 18 +++++++++++++++---
+ scripts/contrib/python/generate-manifest-3.5.py      | 11 ++++++++++-
+ 2 files changed, 25 insertions(+), 4 deletions(-)
 
-Have you tested this in a build where encodings isn't built, but pulled
-from sstate?
+diff --git a/meta/recipes-devtools/python/python-3.5-manifest.inc b/meta/recipes-devtools/python/python-3.5-manifest.inc
+index bce9ce1..0ad9186 100644
+--- a/meta/recipes-devtools/python/python-3.5-manifest.inc
++++ b/meta/recipes-devtools/python/python-3.5-manifest.inc
+@@ -1,6 +1,6 @@
+ 
+ # WARNING: This file is AUTO GENERATED: Manual edits will be lost next time I regenerate the file.
+-# Generator: '../../../scripts/contrib/python/generate-manifest-3.5.py' Version 20140131 (C) 2002-2010 Michael 'Mickey' Lauer <mlauer@vanille-media.de>
++# Generator: './generate-manifest-3.5.py' Version 20140131 (C) 2002-2010 Michael 'Mickey' Lauer <mlauer@vanille-media.de>
+ # Visit the Python for Embedded Systems Site => http://www.Vanille.de/projects/python.spy
+ 
+  
+@@ -39,7 +39,7 @@ FILES_${PN}-compression="${libdir}/python3.5/gzip.* ${libdir}/python3.5/zipfile.
+ 
+ SUMMARY_${PN}-core="Python interpreter and core modules"
+ RDEPENDS_${PN}-core="${PN}-lang ${PN}-re ${PN}-reprlib ${PN}-codecs ${PN}-io ${PN}-math"
+-FILES_${PN}-core="${libdir}/python3.5/__future__.* ${libdir}/python3.5/_abcoll.* ${libdir}/python3.5/abc.* ${libdir}/python3.5/ast.* ${libdir}/python3.5/copy.* ${libdir}/python3.5/copyreg.* ${libdir}/python3.5/configparser.* ${libdir}/python3.5/genericpath.* ${libdir}/python3.5/getopt.* ${libdir}/python3.5/linecache.* ${libdir}/python3.5/new.* ${libdir}/python3.5/os.* ${libdir}/python3.5/posixpath.* ${libdir}/python3.5/struct.* ${libdir}/python3.5/warnings.* ${libdir}/python3.5/site.* ${libdir}/python3.5/stat.* ${libdir}/python3.5/UserDict.* ${libdir}/python3.5/UserList.* ${libdir}/python3.5/UserString.* ${libdir}/python3.5/lib-dynload/binascii.*.so ${libdir}/python3.5/lib-dynload/_struct.*.so ${libdir}/python3.5/lib-dynload/time.*.so ${libdir}/python3.5/lib-dynload/xreadlines.*.so ${libdir}/python3.5/types.* ${libdir}/python3.5/platform.* ${bindir}/python* ${libdir}/python3.5/_weakrefset.* ${libdir}/python3.5/sysconfig.* ${libdir}/python3.5/_sysconfigdata.* ${libdir}/python3.5/config/Makefile ${includedir}/python${PYTHON_BINABI}/pyconfig*.h ${libdir}/python${PYTHON_MAJMIN}/collections ${libdir}/python${PYTHON_MAJMIN}/_collections_abc.* ${libdir}/python${PYTHON_MAJMIN}/_sitebuiltins.* ${libdir}/python${PYTHON_MAJMIN}/sitecustomize.py "
++FILES_${PN}-core="${libdir}/python3.5/__future__.* ${libdir}/python3.5/_abcoll.* ${libdir}/python3.5/abc.* ${libdir}/python3.5/ast.* ${libdir}/python3.5/copy.* ${libdir}/python3.5/copyreg.* ${libdir}/python3.5/ConfigParser.* ${libdir}/python3.5/genericpath.* ${libdir}/python3.5/getopt.* ${libdir}/python3.5/linecache.* ${libdir}/python3.5/new.* ${libdir}/python3.5/os.* ${libdir}/python3.5/posixpath.* ${libdir}/python3.5/struct.* ${libdir}/python3.5/warnings.* ${libdir}/python3.5/site.* ${libdir}/python3.5/stat.* ${libdir}/python3.5/UserDict.* ${libdir}/python3.5/UserList.* ${libdir}/python3.5/UserString.* ${libdir}/python3.5/lib-dynload/binascii.*.so ${libdir}/python3.5/lib-dynload/_struct.*.so ${libdir}/python3.5/lib-dynload/time.*.so ${libdir}/python3.5/lib-dynload/xreadlines.*.so ${libdir}/python3.5/types.* ${libdir}/python3.5/platform.* ${bindir}/python* ${libdir}/python3.5/_weakrefset.* ${libdir}/python3.5/sysconfig.* ${libdir}/python3.5/_sysconfigdata.* ${libdir}/python3.5/config/Makefile ${includedir}/python${PYTHON_BINABI}/pyconfig*.h ${libdir}/python${PYTHON_MAJMIN}/collections ${libdir}/python${PYTHON_MAJMIN}/_collections_abc.* ${libdir}/python${PYTHON_MAJMIN}/_sitebuiltins.* ${libdir}/python${PYTHON_MAJMIN}/sitecustomize.py "
+ 
+ SUMMARY_${PN}-crypt="Python basic cryptographic and hashing support"
+ RDEPENDS_${PN}-crypt="${PN}-core"
+@@ -89,6 +89,10 @@ SUMMARY_${PN}-email="Python email support"
+ RDEPENDS_${PN}-email="${PN}-core ${PN}-io ${PN}-re ${PN}-mime ${PN}-audio ${PN}-image ${PN}-netclient"
+ FILES_${PN}-email="${libdir}/python3.5/imaplib.* ${libdir}/python3.5/email "
+ 
++SUMMARY_${PN}-enum="Python support for enumerations"
++RDEPENDS_${PN}-enum="${PN}-core"
++FILES_${PN}-enum="${libdir}/python3.5/enum.* "
++
+ SUMMARY_${PN}-fcntl="Python's fcntl interface"
+ RDEPENDS_${PN}-fcntl="${PN}-core"
+ FILES_${PN}-fcntl="${libdir}/python3.5/lib-dynload/fcntl.*.so "
+@@ -197,10 +201,18 @@ SUMMARY_${PN}-resource="Python resource control interface"
+ RDEPENDS_${PN}-resource="${PN}-core"
+ FILES_${PN}-resource="${libdir}/python3.5/lib-dynload/resource.*.so "
+ 
++SUMMARY_${PN}-selectors="Python High-level I/O multiplexing"
++RDEPENDS_${PN}-selectors="${PN}-core"
++FILES_${PN}-selectors="${libdir}/python3.5/selectors.* "
++
+ SUMMARY_${PN}-shell="Python shell-like functionality"
+ RDEPENDS_${PN}-shell="${PN}-core ${PN}-re"
+ FILES_${PN}-shell="${libdir}/python3.5/cmd.* ${libdir}/python3.5/commands.* ${libdir}/python3.5/dircache.* ${libdir}/python3.5/fnmatch.* ${libdir}/python3.5/glob.* ${libdir}/python3.5/popen2.* ${libdir}/python3.5/shlex.* ${libdir}/python3.5/shutil.* "
+ 
++SUMMARY_${PN}-signal="Python set handlers for asynchronous events support"
++RDEPENDS_${PN}-signal="${PN}-core"
++FILES_${PN}-signal="${libdir}/python3.5/signal.* "
++
+ SUMMARY_${PN}-smtpd="Python Simple Mail Transport Daemon"
+ RDEPENDS_${PN}-smtpd="${PN}-core ${PN}-netserver ${PN}-email ${PN}-mime"
+ FILES_${PN}-smtpd="${bindir}/smtpd.* ${libdir}/python3.5/smtpd.* "
+@@ -218,7 +230,7 @@ RDEPENDS_${PN}-stringold="${PN}-core ${PN}-re"
+ FILES_${PN}-stringold="${libdir}/python3.5/lib-dynload/strop.*.so ${libdir}/python3.5/string.* ${libdir}/python3.5/stringold.* "
+ 
+ SUMMARY_${PN}-subprocess="Python subprocess support"
+-RDEPENDS_${PN}-subprocess="${PN}-core ${PN}-io ${PN}-re ${PN}-fcntl ${PN}-pickle"
++RDEPENDS_${PN}-subprocess="${PN}-core ${PN}-io ${PN}-re ${PN}-fcntl ${PN}-pickle ${PN}-signal ${PN}-selectors"
+ FILES_${PN}-subprocess="${libdir}/python3.5/subprocess.* "
+ 
+ SUMMARY_${PN}-syslog="Python syslog interface"
+diff --git a/scripts/contrib/python/generate-manifest-3.5.py b/scripts/contrib/python/generate-manifest-3.5.py
+index b90a84f..eac493a 100755
+--- a/scripts/contrib/python/generate-manifest-3.5.py
++++ b/scripts/contrib/python/generate-manifest-3.5.py
+@@ -259,6 +259,9 @@ if __name__ == "__main__":
+     m.addPackage( "${PN}-email", "Python email support", "${PN}-core ${PN}-io ${PN}-re ${PN}-mime ${PN}-audio ${PN}-image ${PN}-netclient",
+     "imaplib.* email" ) # package
+ 
++    m.addPackage( "${PN}-enum", "Python support for enumerations", "${PN}-core",
++    "enum.*" )
++
+     m.addPackage( "${PN}-fcntl", "Python's fcntl interface", "${PN}-core",
+     "lib-dynload/fcntl.*.so" )
+ 
+@@ -339,12 +342,18 @@ if __name__ == "__main__":
+     m.addPackage( "${PN}-resource", "Python resource control interface", "${PN}-core",
+     "lib-dynload/resource.*.so" )
+ 
++    m.addPackage( "${PN}-selectors", "Python High-level I/O multiplexing", "${PN}-core",
++    "selectors.*" )
++
+     m.addPackage( "${PN}-shell", "Python shell-like functionality", "${PN}-core ${PN}-re",
+     "cmd.* commands.* dircache.* fnmatch.* glob.* popen2.* shlex.* shutil.*" )
+ 
+-    m.addPackage( "${PN}-subprocess", "Python subprocess support", "${PN}-core ${PN}-io ${PN}-re ${PN}-fcntl ${PN}-pickle",
++    m.addPackage( "${PN}-subprocess", "Python subprocess support", "${PN}-core ${PN}-io ${PN}-re ${PN}-fcntl ${PN}-pickle ${PN}-signal ${PN}-selectors",
+     "subprocess.*" )
+ 
++    m.addPackage( "${PN}-signal", "Python set handlers for asynchronous events support", "${PN}-core",
++    "signal.*" )
++
+     m.addPackage( "${PN}-sqlite3", "Python Sqlite3 database support", "${PN}-core ${PN}-datetime ${PN}-lang ${PN}-crypt ${PN}-io ${PN}-threading",
+     "lib-dynload/_sqlite3.*.so sqlite3/dbapi2.* sqlite3/__init__.* sqlite3/dump.*" )
+ 
+-- 
+2.6.6
 
-Ross
 
---001a11441c9eebbe53053d0aaa6f
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 21 September 2016 at 19:40, Gratian Crisan <span dir=3D"ltr">&lt;<a href=
-=3D"mailto:gratian.crisan@ni.com" target=3D"_blank">gratian.crisan@ni.com</=
-a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0=
- 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":1i6" cla=
-ss=3D"a3s aXjCH m1574e484ac34be27">Instead add a DEPENDS on mkfontdir-nativ=
-e in the encodings recipe in<br>
-addition to the mkfontscale-native dependency it already contains. This<br>
-solves the missing mkfontdir in the native sysroot problem without<br>
-introducing a build dependency loop.<br></div></blockquote></div><br>Have y=
-ou tested this in a build where encodings isn&#39;t built, but pulled from =
-sstate?</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra=
-">Ross</div></div>
-
---001a11441c9eebbe53053d0aaa6f--
