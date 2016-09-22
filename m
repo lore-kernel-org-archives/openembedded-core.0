@@ -1,24 +1,23 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 2AC7D6071F
+Return-Path: <Nathan_Lynch@mentor.com>
+Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
+	by mail.openembedded.org (Postfix) with ESMTP id 8CAD360119
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Sep 2016 21:37:20 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u8MLbLfZ025178
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Sep 2016 14:37:21 -0700 (PDT)
-Received: from msp-dhcp15.wrs.com (172.25.34.15) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.294.0;
-	Thu, 22 Sep 2016 14:37:20 -0700
-From: Mark Hatle <mark.hatle@windriver.com>
+	Thu, 22 Sep 2016 21:53:19 +0000 (UTC)
+Received: from svr-orw-fem-05.mgc.mentorg.com ([147.34.97.43])
+	by relay1.mentorg.com with esmtp 
+	id 1bnBvl-0004im-35 from Nathan_Lynch@mentor.com 
+	for openembedded-core@lists.openembedded.org;
+	Thu, 22 Sep 2016 14:53:21 -0700
+Received: from localhost (147.34.91.1) by svr-orw-fem-05.mgc.mentorg.com
+	(147.34.97.43) with Microsoft SMTP Server (TLS) id 14.3.224.2;
+	Thu, 22 Sep 2016 14:53:20 -0700
+From: Nathan Lynch <nathan_lynch@mentor.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 22 Sep 2016 16:37:20 -0500
-Message-ID: <1474580240-42826-1-git-send-email-mark.hatle@windriver.com>
-X-Mailer: git-send-email 2.5.5
+Date: Thu, 22 Sep 2016 16:53:18 -0500
+Message-ID: <1474581198-14398-1-git-send-email-nathan_lynch@mentor.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Subject: [PATCH] pseudo: Fix problem where pseudo could kill a container init
+Subject: [PATCH] lttng-tools: fix ptest
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,107 +30,209 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Sep 2016 21:37:21 -0000
+X-List-Received-Date: Thu, 22 Sep 2016 21:53:21 -0000
 Content-Type: text/plain
 
-In a heavily loaded container, the child process might not started
-before the parent process had terminated.  The child process attempts to
-signal the parent with SIGUSR1.  If the parent had terminated, the
-parent becomes PID 1, which is generally init.  When it signaled pid 1,
-it caused the docker mini-init to terminate.
+Since the upgrade to 2.8, lttng-tools' test harness silently succeeds
+but doesn't actually run the tests.  This is because upstream made
+some changes in their test harness:
 
-This doesn't happen in a traditional system, as systemd/sysvinit is
-protected to only root users can signal it.
+https://github.com/lttng/lttng-tools/commit/83666813cad3142ceccb929ca9b44d0e9cf53bc8
 
-[YOCTO #10324]
+Updates to address this include:
+- drop now-irrelevant patch
+- change the ptest-run make target
+- remove indiscriminate search/replace commands from do_install_ptest
+- copy entire build directory into PTEST_PATH and then remove unneeded files
+- use lttng binaries installed on the system for the tests
+- add lttng-tools-ptest runtime dependencies
+  - lttng-tools itself
+  - babeltrace, used by the test harness to process traces
+  - perl modules required by babelstats.pl test script
+  - procps (for pgrep, pidof)
+  - gawk
+- remove unnecessary chmod and munging of utils.sh script library
+- remove checkpatch from ptest installation tree
+- avoid path-munging of libtool artifacts altogether
+- use more efficient find+sed patterns to munge Makefiles
+- reduce test harness output to conform to ptest rules
 
-Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+On qemux86-64 and qemuarm I get relatively stable results, with
+PASS/FAIL varying by +-1 on successive runs.
+
+TOTAL: 2345
+PASS:  1735
+SKIP:  311
+XFAIL: 0
+FAIL:  292
+XPASS: 0
+ERROR: 7
+
+There are some ERRORs worth looking into further but this should be a
+useful basis for future work.
+
+Signed-off-by: Nathan Lynch <nathan_lynch@mentor.com>
 ---
- .../files/0001-Don-t-send-SIGUSR1-to-init.patch    | 48 ++++++++++++++++++++++
- meta/recipes-devtools/pseudo/pseudo_1.8.1.bb       |  1 +
- meta/recipes-devtools/pseudo/pseudo_git.bb         |  2 +-
- 3 files changed, 50 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-devtools/pseudo/files/0001-Don-t-send-SIGUSR1-to-init.patch
+ meta/recipes-kernel/lttng/lttng-tools/run-ptest    |  7 +-
+ .../lttng/lttng-tools/runtest-2.4.0.patch          | 27 --------
+ meta/recipes-kernel/lttng/lttng-tools_git.bb       | 80 ++++++++++++++++------
+ 3 files changed, 63 insertions(+), 51 deletions(-)
+ delete mode 100644 meta/recipes-kernel/lttng/lttng-tools/runtest-2.4.0.patch
 
-diff --git a/meta/recipes-devtools/pseudo/files/0001-Don-t-send-SIGUSR1-to-init.patch b/meta/recipes-devtools/pseudo/files/0001-Don-t-send-SIGUSR1-to-init.patch
-new file mode 100644
-index 0000000..6c694ce
---- /dev/null
-+++ b/meta/recipes-devtools/pseudo/files/0001-Don-t-send-SIGUSR1-to-init.patch
-@@ -0,0 +1,48 @@
-+From befc6dbd6469d428c9e0830dbe51bdf7ac39d9ae Mon Sep 17 00:00:00 2001
-+From: Seebs <seebs@seebs.net>
-+Date: Thu, 22 Sep 2016 14:35:04 -0500
-+Subject: [PATCH] Don't send SIGUSR1 to init.
-+
-+If the parent exits due to child process being slow, getppid() will return
-+1, and we'll send SIGUSR1 to init, which can break things like dumbinit
-+which aren't adequately protected against non-root processes sending them
-+signals.
-+
-+Signed-off-by: Seebs <seebs@seebs.net>
-+
-+Upstream-Status: Backport (commit befc6dbd6469d428c9e0830dbe51bdf7ac39d9ae)
-+
-+[YOCTO #10324]
-+
-+This resolves an issue where a docker container running builds would die
-+due to it's 'mini init' being signaled by pseudo.
-+
-+Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
-+---
-+ pseudo_server.c | 11 ++++++++---
-+
-+diff --git a/pseudo_server.c b/pseudo_server.c
-+index 65102dd..8731d20 100644
-+--- a/pseudo_server.c
-++++ b/pseudo_server.c
-+@@ -358,9 +358,14 @@ pseudo_server_start(int daemonize) {
-+ 	signal(SIGTERM, quit_now);
-+ 	/* tell parent process to stop waiting */
-+ 	if (daemonize) {
-+-		pseudo_diag("Setup complete, sending SIGUSR1 to pid %d.\n",
-+-			getppid());
-+-		kill(getppid(), SIGUSR1);
-++		pid_t ppid = getppid();
-++		if (ppid == 1) {
-++			pseudo_diag("Setup complete, but parent is init, not sending SIGUSR1.\n");
-++		} else {
-++			pseudo_diag("Setup complete, sending SIGUSR1 to pid %d.\n",
-++				ppid);
-++			kill(ppid, SIGUSR1);
-++		}
-+ 	}
-+ 	pseudo_server_loop();
-+ 	return 0;
-+-- 
-+2.5.5
-+
-diff --git a/meta/recipes-devtools/pseudo/pseudo_1.8.1.bb b/meta/recipes-devtools/pseudo/pseudo_1.8.1.bb
-index f45912a..cec2149 100644
---- a/meta/recipes-devtools/pseudo/pseudo_1.8.1.bb
-+++ b/meta/recipes-devtools/pseudo/pseudo_1.8.1.bb
-@@ -6,6 +6,7 @@ SRC_URI = "http://downloads.yoctoproject.org/releases/pseudo/${BPN}-${PV}.tar.bz
-            file://fallback-group \
-            file://moreretries.patch \
-            file://Fix-xattr-performance.patch \
-+           file://0001-Don-t-send-SIGUSR1-to-init.patch \
-            "
+diff --git a/meta/recipes-kernel/lttng/lttng-tools/run-ptest b/meta/recipes-kernel/lttng/lttng-tools/run-ptest
+index e758815c77d4..6230063442d6 100755
+--- a/meta/recipes-kernel/lttng/lttng-tools/run-ptest
++++ b/meta/recipes-kernel/lttng/lttng-tools/run-ptest
+@@ -1,4 +1,5 @@
+ #!/bin/sh
+-
+-make -C tests installcheck
+-
++# Without --ignore-exit, the tap harness causes any FAILs within a
++# test plan to raise ERRORs; this is just noise.
++makeargs="LOG_DRIVER_FLAGS=--ignore-exit"
++make -t all >/dev/null 2>&1 && exec make -s $makeargs check 2>/dev/null
+diff --git a/meta/recipes-kernel/lttng/lttng-tools/runtest-2.4.0.patch b/meta/recipes-kernel/lttng/lttng-tools/runtest-2.4.0.patch
+deleted file mode 100644
+index 958bce48e0b0..000000000000
+--- a/meta/recipes-kernel/lttng/lttng-tools/runtest-2.4.0.patch
++++ /dev/null
+@@ -1,27 +0,0 @@
+-diff --git a/Makefile.am b/Makefile.am
+-index 584f59b..c2bcabd 100644
+---- a/Makefile.am
+-+++ b/Makefile.am
+-@@ -12,3 +12,9 @@ dist_doc_DATA = LICENSE \
+- dist_noinst_DATA = CodingStyle
+- 
+- EXTRA_DIST = extras/lttng-bash_completion gpl-2.0.txt lgpl-2.1.txt
+-+
+-+install-ptest:
+-+	cp -r $(srcdir)/tests $(DESTDIR)
+-+	for m in $$(find $(DESTDIR)/tests -name Makefile); do \
+-+          sed -i -e 's|^Makefile:|_Makefile:|' $$m; \
+-+        done
+-diff --git a/tests/run.sh b/tests/run.sh
+-index c6c50fd..6455359 100755
+---- a/tests/run.sh
+-+++ b/tests/run.sh
+-@@ -19,4 +19,7 @@
+- 
+- [ -z "$1" ] && echo "Error: No testlist. Please specify a testlist to run." && exit 1
+- 
+--prove --merge --exec '' - < $1
+-+prove --merge -v --exec '' - < $1 | sed \
+-+  -e 's|^ok \(.*\)|PASS: \1|' \
+-+  -e 's|^not ok \(.*\)|FAIL: \1|' \
+-+  | egrep -h 'PASS|FAIL'
+diff --git a/meta/recipes-kernel/lttng/lttng-tools_git.bb b/meta/recipes-kernel/lttng/lttng-tools_git.bb
+index 66269d895713..c715d95457d8 100644
+--- a/meta/recipes-kernel/lttng/lttng-tools_git.bb
++++ b/meta/recipes-kernel/lttng/lttng-tools_git.bb
+@@ -11,7 +11,13 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=01d7fc4496aacf37d90df90b90b0cac1 \
  
- SRC_URI[md5sum] = "ee38e4fb62ff88ad067b1a5a3825bac7"
-diff --git a/meta/recipes-devtools/pseudo/pseudo_git.bb b/meta/recipes-devtools/pseudo/pseudo_git.bb
-index 8735cf4..8110b1a 100644
---- a/meta/recipes-devtools/pseudo/pseudo_git.bb
-+++ b/meta/recipes-devtools/pseudo/pseudo_git.bb
-@@ -1,6 +1,6 @@
- require pseudo.inc
+ DEPENDS = "liburcu popt libxml2"
+ RDEPENDS_${PN} = "libgcc"
+-RDEPENDS_${PN}-ptest += "make perl bash"
++RDEPENDS_${PN}-ptest += "make perl bash gawk ${PN} babeltrace procps"
++# babelstats.pl wants getopt-long
++RDEPENDS_${PN}-ptest += "perl-module-getopt-long"
++# getopt itself needs overload
++RDEPENDS_${PN}-ptest += "perl-module-overload"
++# overload, in turn, needs overload_ing_
++RDEPENDS_${PN}-ptest += "perl-module-overloading"
  
--SRCREV = "f4b1c752186f4d08f1fadb0ea10ebcde9b0ea251"
-+SRCREV = "befc6dbd6469d428c9e0830dbe51bdf7ac39d9ae"
- PV = "1.8.1+git${SRCPV}"
+ SRCREV = "d11e0dba0df9024b8613c51e167a379b91e8b20b"
+ PV = "2.8.1+git${SRCPV}"
+@@ -28,7 +34,6 @@ PACKAGECONFIG[manpages] = "--enable-man-pages, --disable-man-pages, asciidoc-nat
+ PACKAGECONFIG_remove_libc-musl = "lttng-ust"
  
- DEFAULT_PREFERENCE = "-1"
+ SRC_URI = "git://git.lttng.org/lttng-tools.git;branch=stable-2.8 \
+-           file://runtest-2.4.0.patch \
+            file://run-ptest"
+ 
+ S = "${WORKDIR}/git"
+@@ -55,27 +60,60 @@ do_configure_prepend () {
+ }
+ 
+ do_install_ptest () {
+-	chmod +x ${D}${PTEST_PATH}/tests/utils/utils.sh
+-	for i in `find ${D}${PTEST_PATH} -perm /u+x -type f`; do
+-		sed -e "s:\$TESTDIR.*/src/bin/lttng/\$LTTNG_BIN:\$LTTNG_BIN:g" \
+-		  -e "s:\$TESTDIR/../src/bin/lttng-sessiond/\$SESSIOND_BIN:\$SESSIOND_BIN:g" \
+-		  -e "s:\$DIR/../src/bin/lttng-sessiond/\$SESSIOND_BIN:\$SESSIOND_BIN:g" \
+-		  -e "s:\$TESTDIR/../src/bin/lttng-consumerd/:${libdir}/lttng/libexec/:g" \
+-		  -e "s:\$DIR/../src/bin/lttng-consumerd/:${libdir}/lttng/libexec/:g" \
+-		  -e "s:\$TESTDIR/../src/bin/lttng-relayd/\$RELAYD_BIN:\$RELAYD_BIN:g" \
+-		  -e "s:\$DIR/../src/bin/lttng-sessiond/lttng-sessiond:\$SESSIOND_BIN:g" \
+-		  -e "s:\$DIR/../src/bin/lttng-relayd/\$RELAYD_BIN:\$RELAYD_BIN:g" \
+-		  -e "s:\$DIR/../bin/lttng-relayd/\$RELAYD_BIN:\$RELAYD_BIN:g" \
+-		  -i $i
++	mkdir -p ${D}${PTEST_PATH}
++
++	cp -a -T ${B} ${D}${PTEST_PATH}
++
++	# Prevent attempts to update Makefiles during test runs, and
++	# silence "Making check in $SUBDIR" messages.
++	find ${D}${PTEST_PATH} -name Makefile -type f -exec \
++		sed -i -e 's!^Makefile:!_Makefile:!' \
++		-e '/echo "Making $$target in $$subdir"; \\/d' {} +
++
++	# Prevent attempts to update version.h during test runs.
++	sed -i -e '/^\.PHONY: version\.h$/d' ${D}${PTEST_PATH}/include/Makefile
++
++	# Silence "Making check in $SUBDIR" messages.
++	find ${D}${PTEST_PATH} -name Makefile -type f -exec \
++		sed -i -e '/echo "Making $$target in $$subdir"; \\/d' {} +
++
++	# Substitute links to installed binaries.
++	for prog in lttng lttng-relayd lttng-sessiond lttng-consumerd ; do
++		orig="${D}${PTEST_PATH}/src/bin/${prog}/${prog}"
++		rm "$orig"
++		case "$prog" in
++			lttng-consumerd)
++				ln -s "${libdir}/lttng/libexec/$prog" "$orig"
++				;;
++			*)
++				ln -s "${bindir}/$prog" "$orig"
++				;;
++		esac
+ 	done
+ 
+-	# Update libdir references in copied .la files
+-	for i in `find ${D}${PTEST_PATH} -type f -name *.la`; do
+-		sed -i -e 's#${S}/tests/#${STAGING_DIR}${PTEST_PATH}#g' $i
++	# Remove libtool artifacts.
++	find ${D}${PTEST_PATH} \( -name '*.l[ao]' -o -name '*.lai' \) -delete
++
++	# Remove object files and archives.
++	find ${D}${PTEST_PATH} -name '*.[oa]' -type f -delete
++
++	# Remove Makefile.am and Makefile.in.
++	find ${D}${PTEST_PATH} -name 'Makefile.*' -type f -delete
++
++	# Remove autom4te.cache.
++	rm -rf ${D}${PTEST_PATH}/autom4te.cache
++
++	# Replace libtool wrapper scripts (which won't work on the
++	# target) with their corresponding binaries.
++	for prog in unit/ini_config/ini_config \
++		regression/tools/live/live_test \
++		regression/tools/health/health_check ; do
++		basename=${prog##*/}
++		ldir=${D}${PTEST_PATH}/tests/${prog%/*}
++		mv -f ${ldir}/.libs/${basename} ${ldir}
+ 	done
+ 
+-	sed -e "s:src/bin:bin:g" -e "s:lt-::g" \
+-	-i ${D}${PTEST_PATH}/tests/utils/utils.sh
+-	sed -e "s:ini_config:\.libs\/ini_config:" \
+-	-i ${D}${PTEST_PATH}/tests/unit/ini_config/test_ini_config
++	# checkpatch.pl is unneeded on target and causes file-rdeps QA
++	# warnings.
++	rm -f ${D}${PTEST_PATH}/extras/checkpatch.pl
+ }
 -- 
-2.5.5
+2.7.4
 
 
