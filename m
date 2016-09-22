@@ -1,24 +1,23 @@
-Return-Path: <Zhe.He@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id B77386E5FC
+Return-Path: <ed.bartosh@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 2D87965CC7
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Sep 2016 09:34:11 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u8M9YCZv027595
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Sep 2016 02:34:12 -0700 (PDT)
-Received: from PEK-ZHE-D1.wrs.com (128.224.162.234) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.294.0;
-	Thu, 22 Sep 2016 02:34:11 -0700
-From: <zhe.he@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 22 Sep 2016 17:33:12 +0800
-Message-ID: <1474536792-7645-1-git-send-email-zhe.he@windriver.com>
-X-Mailer: git-send-email 1.9.1
-MIME-Version: 1.0
-Subject: [PATCH v2] Remove bashisms
+	Thu, 22 Sep 2016 09:58:53 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga103.jf.intel.com with ESMTP; 22 Sep 2016 02:58:55 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.30,378,1470726000"; d="scan'208";a="1044102952"
+Received: from linux.intel.com ([10.54.29.200])
+	by fmsmga001.fm.intel.com with ESMTP; 22 Sep 2016 02:58:55 -0700
+Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.68])
+	by linux.intel.com (Postfix) with ESMTP id 6BA966A4006;
+	Thu, 22 Sep 2016 02:58:29 -0700 (PDT)
+From: Ed Bartosh <ed.bartosh@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 22 Sep 2016 12:48:00 +0300
+Message-Id: <1474537680-13224-1-git-send-email-ed.bartosh@linux.intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [wic][PATCH] wic: remove partition images
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,183 +30,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Sep 2016 09:34:15 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 22 Sep 2016 09:58:54 -0000
 
-From: "Tim K. Chan" <nirvanatk@gmail.com>
+Preserving images for every partition doubles disk space
+consumed by a build. As those images are not used it's
+better to remove them after assembling final image.
 
-Signed-off-by: Tim K. Chan <nirvanatk@gmail.com>
-[
-Adjust context
-Use Peter Kjellerstedt's simpler guile_cross_config
-]
-Signed-off-by: He Zhe <zhe.he@windriver.com>
+Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
 ---
- meta/classes/systemd.bbclass                       |  4 +--
- meta/classes/update-rc.d.bbclass                   |  6 ++--
- .../resolvconf/resolvconf_1.79.bb                  |  2 +-
- meta/recipes-core/glibc/glibc-package.inc          |  2 +-
- meta/recipes-devtools/guile/guile_2.0.12.bb        | 37 ++++++++++++----------
- meta/recipes-devtools/rpm/rpm_5.4.16.bb            | 13 ++++++--
- 6 files changed, 39 insertions(+), 25 deletions(-)
+ scripts/lib/wic/utils/partitionedfs.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes/systemd.bbclass b/meta/classes/systemd.bbclass
-index db7873f..7370489 100644
---- a/meta/classes/systemd.bbclass
-+++ b/meta/classes/systemd.bbclass
-@@ -28,7 +28,7 @@ if [ -n "$D" ]; then
-     OPTS="--root=$D"
- fi
+diff --git a/scripts/lib/wic/utils/partitionedfs.py b/scripts/lib/wic/utils/partitionedfs.py
+index 46b5d34..3dbf9a6 100644
+--- a/scripts/lib/wic/utils/partitionedfs.py
++++ b/scripts/lib/wic/utils/partitionedfs.py
+@@ -351,7 +351,7 @@ class Image():
+                             (source, part['num'], part['start'],
+                              part['start'] + part['size'] - 1, part['size']))
  
--if type systemctl >/dev/null 2>/dev/null; then
-+if command -p systemctl >/dev/null 2>/dev/null; then
- 	systemctl $OPTS ${SYSTEMD_AUTO_ENABLE} ${SYSTEMD_SERVICE}
+-                os.rename(source, image_file + '.p%d' % part['num'])
++                os.unlink(source)
  
- 	if [ -z "$D" -a "${SYSTEMD_AUTO_ENABLE}" = "enable" ]; then
-@@ -44,7 +44,7 @@ if [ -n "$D" ]; then
-     OPTS="--root=$D"
- fi
- 
--if type systemctl >/dev/null 2>/dev/null; then
-+if command -p systemctl >/dev/null 2>/dev/null; then
- 	if [ -z "$D" ]; then
- 		systemctl stop ${SYSTEMD_SERVICE}
- 	fi
-diff --git a/meta/classes/update-rc.d.bbclass b/meta/classes/update-rc.d.bbclass
-index 82b8024..dee80c8 100644
---- a/meta/classes/update-rc.d.bbclass
-+++ b/meta/classes/update-rc.d.bbclass
-@@ -15,7 +15,7 @@ updatercd_preinst() {
- if [ -z "$D" -a -f "${INIT_D_DIR}/${INITSCRIPT_NAME}" ]; then
- 	${INIT_D_DIR}/${INITSCRIPT_NAME} stop
- fi
--if type update-rc.d >/dev/null 2>/dev/null; then
-+if command -p update-rc.d >/dev/null 2>/dev/null; then
- 	if [ -n "$D" ]; then
- 		OPT="-f -r $D"
- 	else
-@@ -26,7 +26,7 @@ fi
- }
- 
- updatercd_postinst() {
--if type update-rc.d >/dev/null 2>/dev/null; then
-+if command -p update-rc.d >/dev/null 2>/dev/null; then
- 	if [ -n "$D" ]; then
- 		OPT="-r $D"
- 	else
-@@ -43,7 +43,7 @@ fi
- }
- 
- updatercd_postrm() {
--if type update-rc.d >/dev/null 2>/dev/null; then
-+if command -p update-rc.d >/dev/null 2>/dev/null; then
- 	if [ -n "$D" ]; then
- 		OPT="-f -r $D"
- 	else
-diff --git a/meta/recipes-connectivity/resolvconf/resolvconf_1.79.bb b/meta/recipes-connectivity/resolvconf/resolvconf_1.79.bb
-index 8550177..e415445 100644
---- a/meta/recipes-connectivity/resolvconf/resolvconf_1.79.bb
-+++ b/meta/recipes-connectivity/resolvconf/resolvconf_1.79.bb
-@@ -56,7 +56,7 @@ do_install () {
- 
- pkg_postinst_${PN} () {
- 	if [ -z "$D" ]; then
--		if command -v systemd-tmpfiles >/dev/null; then
-+		if command -p systemd-tmpfiles >/dev/null; then
- 			systemd-tmpfiles --create ${sysconfdir}/tmpfiles.d/resolvconf.conf
- 		elif [ -e ${sysconfdir}/init.d/populate-volatile.sh ]; then
- 			${sysconfdir}/init.d/populate-volatile.sh update
-diff --git a/meta/recipes-core/glibc/glibc-package.inc b/meta/recipes-core/glibc/glibc-package.inc
-index 6df8b9e..557f32a 100644
---- a/meta/recipes-core/glibc/glibc-package.inc
-+++ b/meta/recipes-core/glibc/glibc-package.inc
-@@ -206,7 +206,7 @@ glibc_package_preprocess () {
- 
- pkg_postinst_nscd () {
- 	if [ -z "$D" ]; then
--		if command -v systemd-tmpfiles >/dev/null; then
-+		if command -p systemd-tmpfiles >/dev/null; then
- 			systemd-tmpfiles --create ${sysconfdir}/tmpfiles.d/nscd.conf
- 		elif [ -e ${sysconfdir}/init.d/populate-volatile.sh ]; then
- 			${sysconfdir}/init.d/populate-volatile.sh update
-diff --git a/meta/recipes-devtools/guile/guile_2.0.12.bb b/meta/recipes-devtools/guile/guile_2.0.12.bb
-index d2fe511..a466d65 100644
---- a/meta/recipes-devtools/guile/guile_2.0.12.bb
-+++ b/meta/recipes-devtools/guile/guile_2.0.12.bb
-@@ -87,22 +87,27 @@ SYSROOT_PREPROCESS_FUNCS = "guile_cross_config"
- 
- guile_cross_config() {
- 	# this is only for target recipe
--	if [ "${PN}" = "guile" ]
--	then
--	        # Create guile-config returning target values instead of native values
--	        install -d ${SYSROOT_DESTDIR}${STAGING_BINDIR_CROSS}
--        	echo '#!'`which ${BUILD_SYS}-guile`$' \\\n--no-auto-compile -e main -s\n!#\n(define %guile-build-info '\'\( \
--			> ${B}/guile-config.cross
--	        sed -n -e 's:^[ \t]*{[ \t]*":  (:' \
--			-e 's:",[ \t]*": . ":' \
--			-e 's:" *}, *\\:"):' \
--			-e 's:^.*cachedir.*$::' \
--			-e '/^  (/p' \
--			< ${B}/libguile/libpath.h >> ${B}/guile-config.cross
--	        echo '))' >> ${B}/guile-config.cross
--	        cat ${B}/meta/guile-config >> ${B}/guile-config.cross
--	        install ${B}/guile-config.cross ${STAGING_BINDIR_CROSS}/guile-config
--	fi
-+	[ "${PN}" = "${BPN}" ] || return 0
-+
-+	vars=$(sed -n -e 's:^[ \t]*{[ \t]*":  (:' \
-+	              -e 's:",[ \t]*": . ":' \
-+	              -e 's:" *}, *\\:"):' \
-+	              -e 's:^.*cachedir.*$::' \
-+	              -e '/^  (/p' \
-+	       < ${B}/libguile/libpath.h)
-+
-+	# Create guile-config returning target values instead of native values
-+	install -d ${SYSROOT_DESTDIR}${bindir_crossscripts}
-+	cat <<EOF >${B}/guile-config.cross
-+#!$(which ${BUILD_SYS}-guile) \\
-+--no-auto-compile -e main -s
-+!#
-+(define %guile-build-info '(
-+$vars
-+))
-+EOF
-+	cat ${B}/meta/guile-config >> ${B}/guile-config.cross
-+	install ${B}/guile-config.cross ${SYSROOT_DESTDIR}${bindir_crossscripts}/guile-config
- }
- 
- # Guile needs the compiled files to be newer than the source, and it won't
-diff --git a/meta/recipes-devtools/rpm/rpm_5.4.16.bb b/meta/recipes-devtools/rpm/rpm_5.4.16.bb
-index 84adef6..be3b942 100644
---- a/meta/recipes-devtools/rpm/rpm_5.4.16.bb
-+++ b/meta/recipes-devtools/rpm/rpm_5.4.16.bb
-@@ -554,13 +554,22 @@ do_install_append() {
- 	install -m 0755 ${WORKDIR}/perfile_rpmdeps.sh ${D}/${libdir}/rpm/perfile_rpmdeps.sh
- 
- 	# Remove unpackaged files (based on list in rpm.spec)
--	rm -f ${D}/${libdir}/rpm/{Specfile.pm,cpanflute,cpanflute2,rpmdiff,rpmdiff.cgi,sql.prov,sql.req,tcl.req,trpm}
-+	rm -f ${D}/${libdir}/rpm/Specfile.pm
-+	rm -f ${D}/${libdir}/rpm/cpanflute
-+	rm -f ${D}/${libdir}/rpm/cpanflute2
-+	rm -f ${D}/${libdir}/rpm/rpmdiff
-+	rm -f ${D}/${libdir}/rpm/rpmdiff.cgi
-+	rm -f ${D}/${libdir}/rpm/sql.prov
-+	rm -f ${D}/${libdir}/rpm/sql.req
-+	rm -f ${D}/${libdir}/rpm/tcl.req
-+	rm -f ${D}/${libdir}/rpm/trpm
- 
- 	rm -f ${D}/${mandir}/man8/rpmcache.8*
- 	rm -f ${D}/${mandir}/man8/rpmgraph.8*
- 	rm -f ${D}/${mandir}/*/man8/rpmcache.8*
- 	rm -f ${D}/${mandir}/*/man8/rpmgraph.8*
--	rm -rf ${D}/${mandir}/{fr,ko}
-+	rm -rf ${D}/${mandir}/fr
-+	rm -rf ${D}/${mandir}/ko
- 
- 	rm -f ${D}/${includedir}/popt.h
- 	rm -f ${D}/${libdir}/libpopt.*
+     def create(self):
+         for dev in self.disks:
 -- 
-2.8.1
+2.1.4
 
 
