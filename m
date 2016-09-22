@@ -1,51 +1,49 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 37F6D60603
+Return-Path: <schnitzeltony@googlemail.com>
+Received: from mail-ua0-f193.google.com (mail-ua0-f193.google.com
+	[209.85.217.193])
+	by mail.openembedded.org (Postfix) with ESMTP id C15A460851
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Sep 2016 17:45:56 +0000 (UTC)
-Received: by mail-wm0-f65.google.com with SMTP id 133so15295723wmq.2
+	Thu, 22 Sep 2016 20:05:24 +0000 (UTC)
+Received: by mail-ua0-f193.google.com with SMTP id 51so408452uac.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Sep 2016 10:45:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:date:to:cc:subject:message-id:references:mime-version
-	:content-disposition:in-reply-to:user-agent;
-	bh=JMPLCj+omVDNssg+r+SqKm+kxzV6OB2dxYZboqnoBu0=;
-	b=ExDkOJSjLqstSkwJ0w6gQfok6vSg+Gi73yET3ZG0qx71K+11xKBgCHkNKgRFe7iUsM
-	L+xN9MNcFN1t0ABY3QkokGKhIWeqE8aNxBMowjAVYKoJ9MmfbHOxTJKuhLD/iZuBi5Da
-	rKp4WURxWvmY1yp8yz1DY/hZdKP4msc0XYDCl1SUxSeyFqsHWUHGM2ZCkh6fhpO8Grp9
-	2DwuMyMuVXn8KfEssJ9BSrsrujv0GwzZIzy8i40oPioSIEJ2gZ3rR/DihqQJiv/kClmo
-	5YH6MkXPa+m7327SEdqgnLVk4psaWJM++b0goaQWWoTCQOzEmcEYicKh+6EsP3zoJuez
-	j3Yg==
+	Thu, 22 Sep 2016 13:05:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=googlemail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-transfer-encoding;
+	bh=dvBtsK+Pqr5YuZA6bLQEdRAWe8q0IulSCH0E4RU/6Yc=;
+	b=ohZAaIwXTWXZl+LGV+bDsWCCxM4nAVLM8m+NH1blFkmrNVqdDx+Mbs/gplMfdYe+8C
+	tJxwbkfQ7cgcKhGm65OHH68uBkm5wZP5drmRGq5vULyKb+kzRuTr6c5QBlkG9vf2/qNt
+	xeoHuihzziJBPMK5iXvXmTnIc4Y33+F1l5COChLiKEjY8LEzFGh2FL13jNuc7M+otAHu
+	ZfNqY7UnIIGvnuF4B0UQGzm80EEY3yTAwpVfr+PNp4M3T7VggmD37C2T8nUTJW99uVaw
+	0H1sFEdPDjqfnDLmxL0gxt/42+5Bwo3NZAiJzPTEstwbRNOqshSav1Pcr5Em7MVcIfF4
+	9UPw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:date:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=JMPLCj+omVDNssg+r+SqKm+kxzV6OB2dxYZboqnoBu0=;
-	b=NUjeAwxl6BhpFUlWOu8TZDIrT6EgvldwyimUcvDevPUjGDic9c4SQJQE8GORhfaPJN
-	6ONyOGsMgWDazs6ZjDq1cxuVY3Gj3SQmEMNbaeCSkoeGggRhuSCN0WgKVKZFekKJYi/I
-	fzx4oU8lwIN7gEjhp55sL6Fnm64uDJoywKi9Y/sNiPk1kGWFQZv/SYtyk5A1jZexAgbO
-	Jv3VdAOSqWCaE35KKmq2PwIPe8SMvu8NeY6dZkdY59LLD/MOqQRkt3FmIkEticGsKV0c
-	8CP8RR+Q1aRHJ+mxQKQdKaLNQLEcUW/V7EdRqTNy3BOJlqKlqY9oHOzmDslZcIIJJ7Om
-	917g==
-X-Gm-Message-State: AA6/9Rl2HEQZr5cbILSW/fap3np6HEQ1A5tzSLfyGeC8IPNl+Vzz9SgrzcjcqR56xUBP+g==
-X-Received: by 10.28.170.197 with SMTP id t188mr3848469wme.42.1474566357970;
-	Thu, 22 Sep 2016 10:45:57 -0700 (PDT)
-Received: from localhost (ip-89-176-104-169.net.upcbroadband.cz.
-	[89.176.104.169])
-	by smtp.gmail.com with ESMTPSA id l3sm3169180wjp.17.2016.09.22.10.45.56
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Thu, 22 Sep 2016 10:45:57 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Thu, 22 Sep 2016 19:45:58 +0200
-To: Andreas =?iso-8859-1?Q?M=FCller?= <schnitzeltony@googlemail.com>
-Message-ID: <20160922174558.GA2630@jama>
-References: <1474435844-16942-1-git-send-email-schnitzeltony@googlemail.com>
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=dvBtsK+Pqr5YuZA6bLQEdRAWe8q0IulSCH0E4RU/6Yc=;
+	b=MH1dZmAoi5orrPz0SCSGjEJuAD/ouDZeEv2qthzH1JNBqrbx9HBW36tSQhkUXvufsC
+	MBQSSryTQE225wgvUM7EF4TRiNp8KkLPDDe9tiDTZ70j8QtJC0Z+NvIImvQdTJiVZcD7
+	x9p9QDCDJmf1urKVG7vRnvacauXEyt1XAoRBCKdOPqdLMGFkcn8hkXLGjpBd2DOepYf+
+	SqOM0umlEzTcF9d8Y3z7HJXVnf1UJSmrRAORO7VgUfc1u/UH+5pFBHEPyLpIFlTcF9NB
+	AzXeROasApLP8vZC4A6qW26Ig1xJDK/7BCGjI6f1ZnMxnHiYXqWubsOLV4ApXmJY2GZF
+	w1ew==
+X-Gm-Message-State: AE9vXwMmRS+ZARh7qGknG0kmJPiSwTvJFXU8cOX4h9xFcb1k1813AQAEhYghZhoNbHwKqII9V6ybFMKaRakmbA==
+X-Received: by 10.159.33.247 with SMTP id 110mr1350423uac.44.1474574726368;
+	Thu, 22 Sep 2016 13:05:26 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <1474435844-16942-1-git-send-email-schnitzeltony@googlemail.com>
-User-Agent: Mutt/1.7.0 (2016-08-17)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/2] libunwind: fix build by linking with bfd instead of gold
+Received: by 10.176.65.130 with HTTP; Thu, 22 Sep 2016 13:05:25 -0700 (PDT)
+In-Reply-To: <CAJTo0LaSU6xmyKqiD2oAGSZX=vadxMe8fNNpvuVveyt99WGMnA@mail.gmail.com>
+References: <1474435844-16942-1-git-send-email-schnitzeltony@googlemail.com>
+	<1474435844-16942-2-git-send-email-schnitzeltony@googlemail.com>
+	<CAJTo0LaSU6xmyKqiD2oAGSZX=vadxMe8fNNpvuVveyt99WGMnA@mail.gmail.com>
+From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
+Date: Thu, 22 Sep 2016 22:05:25 +0200
+Message-ID: <CALbNGRRJ-Q_YwZjj1yeGg+Zg2F6btsUGMBzSPH6tkPaBAGvEvw@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/2] scons.bbclass: reduce build time by adding PARALLEL_MAKEINST to scons install params
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,111 +56,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Sep 2016 17:45:58 -0000
-X-Groupsio-MsgNum: 87428
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="vkogqOf2sHV7VnPd"
-Content-Disposition: inline
-
---vkogqOf2sHV7VnPd
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+X-List-Received-Date: Thu, 22 Sep 2016 20:05:26 -0000
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Sep 21, 2016 at 07:30:43AM +0200, Andreas M=FCller wrote:
-> works around:
-> <native-sysroot>/ld: error: Gperf-simple.o: cannot make copy relocation f=
-or protected symbol '_Uarm_local_addr_space', defined in ../src/.libs/libun=
-wind-arm.so
-> collect2: error: ld returned 1 exit status
-> Makefile:1038: recipe for target 'Gperf-simple' failed
-> make[1]: *** [Gperf-simple] Error 1
-> make[1]: *** Waiting for unfinished jobs....
-> <...>
-> <native-sysroot>/ld: error: Lperf-simple.o: cannot make copy relocation f=
-or protected symbol '_ULarm_local_addr_space', defined in ../src/.libs/libu=
-nwind.so
-> collect2: error: ld returned 1 exit status
-> Makefile:1094: recipe for target 'Lperf-simple' failed
-> make[1]: *** [Lperf-simple] Error 1
-> <...>
-> ERROR: oe_runmake failed
-> <native-sysroot>/ld: error: Gperf-trace.o: cannot make copy relocation fo=
-r protected symbol '_Uarm_local_addr_space', defined in ../src/.libs/libunw=
-ind-arm.so
-> collect2: error: ld returned 1 exit status
-> Makefile:1042: recipe for target 'Gperf-trace' failed
-> make[1]: *** [Gperf-trace] Error 1
-> <native-sysroot>/ld: error: Lperf-trace.o: cannot make copy relocation fo=
-r protected symbol '_ULarm_local_addr_space', defined in ../src/.libs/libun=
-wind.so
-> collect2: error: ld returned 1 exit status
-> Makefile:1098: recipe for target 'Lperf-trace' failed
-> make[1]: *** [Lperf-trace] Error 1
-> <...>
-> <native-sysroot>/ld: error: test-coredump-unwind.o: cannot make copy relo=
-cation for protected symbol '_UCD_accessors', defined in ../src/.libs/libun=
-wind-coredump.so
-> collect2: error: ld returned 1 exit status
-> Makefile:1186: recipe for target 'test-coredump-unwind' failed
+On Wed, Sep 21, 2016 at 11:06 AM, Burton, Ross <ross.burton@intel.com> wrot=
+e:
+>
+> On 21 September 2016 at 06:30, Andreas M=C3=BCller <schnitzeltony@googlem=
+ail.com>
+> wrote:
+>>
+>> During install all files are recompiled. This should be investigated
+>> further
+>> later
+>
+>
+> I'd put (pretend) money on it being because PREFIX/prefix change between
+> compile and install, so it needs to rebuild.  Looks like this class is do=
+ing
+> something wrong.
+>
+You are right! Need some further build tests but for mixxx I got good
+results by keeping prefix same for compile/install and setting
+install_root=3D properly. Before this modification starting mixxx
+complained with links to build install dir and finally crashed. Now it
+runs fine. See what the other recipes say...
 
-Acked-by: Martin Jansa <Martin.Jansa@gmail.com>
+Andreas
 
-I've verified that this fixes the issue I was reporting in "bitbake
-wordl status" e-mails since last binutils upgrade to 2.27
-
-It's basically complement to this oe-core change which went in together
-with binutils:
-
-commit 0092a076adb11cac411c86389af84bb96169730f
-Author: Khem Raj <raj.khem@gmail.com>
-Date:   Mon Aug 8 15:51:01 2016 -0700
-
-    libunwind: Do not use gold for linking
-
-Which only stopped gold being used when bfd is the default linker, but
-which left libunwind broken for people with ld-is-gold in
-DISTRO_FEATURES to use gold by default.
-
-Thanks!
-
-> Signed-off-by: Andreas M=FCller <schnitzeltony@googlemail.com>
-> ---
->  meta/recipes-support/libunwind/libunwind_git.bb | 1 +
->  1 file changed, 1 insertion(+)
->=20
-> diff --git a/meta/recipes-support/libunwind/libunwind_git.bb b/meta/recip=
-es-support/libunwind/libunwind_git.bb
-> index cd4cb89..4249430 100644
-> --- a/meta/recipes-support/libunwind/libunwind_git.bb
-> +++ b/meta/recipes-support/libunwind/libunwind_git.bb
-> @@ -26,3 +26,4 @@ SECURITY_CFLAGS_append_aarch64 =3D " -fPIE"
-> =20
->  S =3D "${WORKDIR}/git"
-> =20
-> +LDFLAGS +=3D "-Wl,-z,relro,-z,now ${@bb.utils.contains('DISTRO_FEATURES'=
-, 'ld-is-gold', ' -fuse-ld=3Dbfd ', '', d)}"
-> --=20
-> 2.5.5
->=20
-> --=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
-
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---vkogqOf2sHV7VnPd
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iEYEARECAAYFAlfkFYQACgkQN1Ujt2V2gBzEzQCgoHVTXTgwxqEt3fZRK+sC3wIY
-PGcAoKIPoc7tTpLlfs6j35KKvuE1AwSz
-=Wgw9
------END PGP SIGNATURE-----
-
---vkogqOf2sHV7VnPd--
