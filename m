@@ -1,22 +1,46 @@
-Return-Path: <joshua.g.lock@linux.intel.com>
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by mail.openembedded.org (Postfix) with ESMTP id 73E7871979
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wm0-f51.google.com (mail-wm0-f51.google.com [74.125.82.51])
+	by mail.openembedded.org (Postfix) with ESMTP id 9D7F86059F
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Sep 2016 13:05:58 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga105.jf.intel.com with ESMTP; 22 Sep 2016 06:06:00 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.30,378,1470726000"; d="scan'208";a="1034671550"
-Received: from jlock-mobl1.ger.corp.intel.com ([10.252.13.185])
-	by orsmga001.jf.intel.com with ESMTP; 22 Sep 2016 06:05:59 -0700
-From: Joshua Lock <joshua.g.lock@intel.com>
+	Thu, 22 Sep 2016 13:21:18 +0000 (UTC)
+Received: by mail-wm0-f51.google.com with SMTP id b130so148490214wmc.0
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 22 Sep 2016 06:21:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=rNuE2myrFX2OLyTZ5XDspohQ1NgdLeQqv5g7wIV7ZG8=;
+	b=tNpvgvmI/cX6ZJ+BFCeyqjOhjKrLl3f4RFFoOibDdqD9X3t4QjePgNtaipfDN5fdQ/
+	vU0+wCOKLaEdpr11TmM+l7GGs5xk7xwr6kmii+aZeURgP5KDduWQ/hnltSddrDpud8PQ
+	SzDsxHe64MrVROKbLTmJlewizQzMBL69hEe5aFKWXt0roXsOIDUPM8R0smPUAZ05HJkr
+	QX/y+jJ7w71PzaU7ePLAsnGdvahOohy5qrWF/5DW8peoOrgp9jAesb1tPT5vU8mxywQ1
+	UvXCd8ZUm6NPhY+hltWPu/PaH6D4aBf5ddYShLr0z3i3Omn8f94oiOCHC3YNTFjkbXG2
+	Svng==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=rNuE2myrFX2OLyTZ5XDspohQ1NgdLeQqv5g7wIV7ZG8=;
+	b=KWZ2Yju4YesSdjVWIPnqztWbGBlcy9ogsQp82OP8ykFZKK3kjxiliz+FZ0iaHoblzZ
+	bFnFi3bV5HVH2oVaO+4K4SYn4fK7OAj5dyV/A6i2DeEE/RLWpYNqWzzuJ3nGa9e7akpa
+	tAx6nt/O96NwU4I9VNAwYIICp59TsGoAA0rALfW4t3PS/G112Q7CieWduUxY9626SVQA
+	4ZpjNk+5AlMuefu4B5qixGR3+Ma+OsBqcLJWAt+HouF1+yWoZIAD+Z1b5ueZg473tYtA
+	ajxBCSTv7Mw+q55kWIx/rly7C9xY+Bi1NALhAD5CGagKZS90mwzNpREV7neARlagEORY
+	Y7VA==
+X-Gm-Message-State: AE9vXwNNGUTuS9POEQ1BAtOei0y7mPRLJmyvG08+MBCB6vi17GN0z9w5l8PoTdkoQeZlu44j
+X-Received: by 10.28.141.133 with SMTP id p127mr8520896wmd.119.1474550478883; 
+	Thu, 22 Sep 2016 06:21:18 -0700 (PDT)
+Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
+	by smtp.gmail.com with ESMTPSA id
+	f10sm2113616wje.14.2016.09.22.06.21.16
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Thu, 22 Sep 2016 06:21:17 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 22 Sep 2016 14:05:51 +0100
-Message-Id: <1474549551-15435-2-git-send-email-joshua.g.lock@intel.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1474549551-15435-1-git-send-email-joshua.g.lock@intel.com>
-References: <1474549551-15435-1-git-send-email-joshua.g.lock@intel.com>
-Subject: [PATCH 2/2] buildtools-tarball: improve stamp independence
+Date: Thu, 22 Sep 2016 14:21:14 +0100
+Message-Id: <1474550474-10525-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 2.8.1
+Subject: [PATCH] bitbake.conf: add a lazy default for SDKMACHINE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,60 +53,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Sep 2016 13:06:00 -0000
+X-List-Received-Date: Thu, 22 Sep 2016 13:21:19 -0000
 
-buildtools-tarball shouldn't be regenerated when MACHINE changes,
-nor should variants for other SDKMACHINE be removed from the deploy
-directory when SDKMACHINE changes.
+If the user doesn't set SDKMACHINE in their local.conf then uninative and
+buildtools will fail in obscure ways, so ensure that a default value is set.
 
-Remove target architecture dependencies so that deploy artefacts
-can overlap.
+Also as SDK_ARCH will be overritten then loading the machine-sdk configuration
+file, don't bother assigning it.
 
-Signed-off-by: Joshua Lock <joshua.g.lock@intel.com>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/recipes-core/meta/buildtools-tarball.bb | 15 +++++++++++++--
- 1 file changed, 13 insertions(+), 2 deletions(-)
+ meta/conf/bitbake.conf | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/meta/buildtools-tarball.bb b/meta/recipes-core/meta/buildtools-tarball.bb
-index 2e738e6..da18c09 100644
---- a/meta/recipes-core/meta/buildtools-tarball.bb
-+++ b/meta/recipes-core/meta/buildtools-tarball.bb
-@@ -28,10 +28,13 @@ TOOLCHAIN_HOST_TASK ?= "\
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index b6a1a68..359f787 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -129,7 +129,7 @@ TARGET_CC_ARCH = "${TUNE_CCARGS}"
+ TARGET_LD_ARCH = "${TUNE_LDARGS}"
+ TARGET_AS_ARCH = "${TUNE_ASARGS}"
  
- MULTIMACH_TARGET_SYS = "${SDK_ARCH}-nativesdk${SDK_VENDOR}-${SDK_OS}"
- PACKAGE_ARCH = "${SDK_ARCH}"
-+PACKAGE_ARCHS = ""
-+TARGET_ARCH = "none"
-+TARGET_OS = "none"
- 
- SDK_PACKAGE_ARCHS += "buildtools-dummy-${SDKPKGSUFFIX}"
- 
--TOOLCHAIN_OUTPUTNAME ?= "${SDK_NAME}-buildtools-nativesdk-standalone-${DISTRO_VERSION}"
-+TOOLCHAIN_OUTPUTNAME ?= "${SDK_ARCH}-buildtools-nativesdk-standalone-${DISTRO_VERSION}"
- 
- SDK_TITLE = "Build tools"
- 
-@@ -41,10 +44,18 @@ EXCLUDE_FROM_WORLD = "1"
- 
- inherit meta
- inherit populate_sdk
--inherit toolchain-scripts
-+inherit toolchain-scripts-base
-+inherit nopackages
-+
-+deltask install
-+deltask package
-+deltask packagedata
-+deltask populate_sysroot
- 
- do_populate_sdk[stamp-extra-info] = "${SDKMACHINE}"
- 
-+REAL_MULTIMACH_TARGET_SYS = "none"
-+
- create_sdk_files_append () {
- 	rm -f ${SDK_OUTPUT}/${SDKPATH}/site-config-*
- 	rm -f ${SDK_OUTPUT}/${SDKPATH}/environment-setup-*
+-SDK_ARCH = "${BUILD_ARCH}"
++SDKMACHINE ??= "x86_64"
+ SDK_OS = "${BUILD_OS}"
+ SDK_VENDOR = "-oesdk"
+ SDK_SYS = "${SDK_ARCH}${SDK_VENDOR}${@['-' + d.getVar('SDK_OS', True), ''][d.getVar('SDK_OS', True) == ('' or 'custom')]}"
 -- 
-2.7.4
+2.8.1
 
 
