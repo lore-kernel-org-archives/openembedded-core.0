@@ -1,27 +1,49 @@
-Return-Path: <alejandro.hernandez@linux.intel.com>
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
-	by mail.openembedded.org (Postfix) with ESMTP id 5F8DA65CBA
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pf0-f195.google.com (mail-pf0-f195.google.com
+	[209.85.192.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 2196965C5B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Sep 2016 16:21:29 +0000 (UTC)
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-	by orsmga104.jf.intel.com with ESMTP; 22 Sep 2016 09:21:30 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.30,379,1470726000"; d="scan'208";a="12174969"
-Received: from aehernan-mobl1.zpn.intel.com (HELO [10.219.27.139])
-	([10.219.27.139])
-	by fmsmga005.fm.intel.com with ESMTP; 22 Sep 2016 09:21:29 -0700
-To: akuster808 <akuster808@gmail.com>, openembedded-core@lists.openembedded.org
-References: <1474492215-39510-1-git-send-email-alejandro.hernandez@linux.intel.com>
-	<a826406c-2bff-0e51-014c-81203e0ec06c@gmail.com>
-From: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
-Message-ID: <9c1a4aa5-e682-82fb-042b-66b0df67b1d3@linux.intel.com>
-Date: Thu, 22 Sep 2016 11:21:30 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.2.0
+	Thu, 22 Sep 2016 16:40:19 +0000 (UTC)
+Received: by mail-pf0-f195.google.com with SMTP id q2so4020003pfj.0
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 22 Sep 2016 09:40:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=Cd8kM2lvbvQPe+7Pp1p0nFKPoUYOre9Bvs48U5MOlm0=;
+	b=OsPaUjDOAajP2pOysPNAlJ8NuckbtCN1yKabK03u6BD5whCbTNcBNb7ThGUcThm/5M
+	tKLLz3moKKhWnRDTMmFoh397angCClCzIcroyWXUj3GNOGsMVlzvF8e5mw8CHUVZLupU
+	gy6S3N915sir3P7p/HZyOttJjZLu6w4fWwQkBrmX/WcLweJAxVNVzZbtyKR6AtUb/NKA
+	Bu642+Uxq7EPDp83Lv4KFmULn/qx3KdjjMlq8xWsxpLGSXRPTjPlk9FIQ2BFj3MJTYqy
+	aSKVWZ4V35PQoKx5fgBx3bq5mIPuzXwpmTrqCgtqkxWr1UsLr041Vsdb+jLtmUdQE3IQ
+	mYsQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=Cd8kM2lvbvQPe+7Pp1p0nFKPoUYOre9Bvs48U5MOlm0=;
+	b=OHQSH3lZmv411NxJG5W8c9ElvYx2xfDWy960RBEUHw1PXtLJtBi5P6FpFyj8KbZwJc
+	jo9zez+xGXQ9StKeCTMGl+Cn2+p584CCIRdo+yN/3OCOFfWnNqPzxpP9Yzi9KAkfne80
+	L+XmxAr/qbmeix7D6Y8UQWGUXE602NNIgzECwyKQTgxgf9y2bC3ja7SDxKWxp6Wzi3tB
+	RbR74U7ldk73eVpMJwl6i7Upqc4updtg8pfYe+DI7Vst9UdZx5z2ZmN6wd09ck9wGu7L
+	E1zYKeyz0B/zx7In7vqxI86pwVxYRvK4TQFIlWk8NcV25igCkCV6jsJMlAlc3BUY4vtX
+	Y8LA==
+X-Gm-Message-State: AE9vXwPtNJNagiuPNppVxP6KNHmRhDnc5WNzD2KlfkgmOkvze1VaE1OgLgGYZWUe1APyEg==
+X-Received: by 10.98.93.204 with SMTP id n73mr4741862pfj.87.1474562421133;
+	Thu, 22 Sep 2016 09:40:21 -0700 (PDT)
+Received: from akuster-ThinkPad-X240.mvista.com
+	([2601:202:4001:9ea0:c1fa:d80c:b211:8746])
+	by smtp.gmail.com with ESMTPSA id gm1sm5415054pac.2.2016.09.22.09.40.19
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Thu, 22 Sep 2016 09:40:19 -0700 (PDT)
+From: Armin Kuster <akuster808@gmail.com>
+To: akuster@mvista.com,
+	openembedded-core@lists.openembedded.org
+Date: Thu, 22 Sep 2016 09:39:16 -0700
+Message-Id: <cover.1474562101.git.akuster808@gmail.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-In-Reply-To: <a826406c-2bff-0e51-014c-81203e0ec06c@gmail.com>
-Cc: akuster@mvista.com
-Subject: Re: [PATCH] [krogoth] Fixes several python3 dependencies
+Subject: [PATCH 00/60] krogoth-next staged
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,210 +56,291 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Sep 2016 16:21:29 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 22 Sep 2016 16:40:20 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Hey Armin, I just gave it another try and I got no errors, python 
-manifests patches may cause problems sometimes because some lines may be 
-longer than 998 characters, could you try merging it from my contrib branch?
+These are the changes I have staged. The last 17 changes have not be run on the AB. We are working throught build issues on mips64.
 
-http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/?h=hsalejandro/krogothpy3
+The following changes since commit 8c69f7d56cbd496aa01ba0738675a170826a536b:
 
+  bitbake: lib/bb/tests/fetch: remove URL that doesn't exist anymore (2016-09-13 16:19:46 +0100)
 
-On 09/22/2016 10:33 AM, akuster808 wrote:
-> Alejandro,
->
->
-> On 09/21/2016 02:10 PM, Alejandro Hernandez wrote:
->> This patch adds the packages python3-signal, python3-enum and 
->> python3-selectors,
->> while it also fixes python3-subprocess, this fixes the installation 
->> of python3-modules
->
-> I can not get this to apply to my krogoth-next nor krogoth in Poky. 
-> Can you double check and let me know if I am doing something wrong or 
-> need any dependency changes?
->
-> error pw is showing is:
-> fatal: patch fragment without header at line 29: @@ -89,6 +89,10 @@ 
-> SUMMARY_${PN}-email="Python email support"
->
-> - armin
->
->> [YOCTO #10276]
->>
->> Signed-off-by: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
->> ---
->>   meta/recipes-devtools/python/python-3.5-manifest.inc | 18 
->> +++++++++++++++---
->>   scripts/contrib/python/generate-manifest-3.5.py      | 11 ++++++++++-
->>   2 files changed, 25 insertions(+), 4 deletions(-)
->>
->> diff --git a/meta/recipes-devtools/python/python-3.5-manifest.inc 
->> b/meta/recipes-devtools/python/python-3.5-manifest.inc
->> index bce9ce1..0ad9186 100644
->> --- a/meta/recipes-devtools/python/python-3.5-manifest.inc
->> +++ b/meta/recipes-devtools/python/python-3.5-manifest.inc
->> @@ -1,6 +1,6 @@
->>     # WARNING: This file is AUTO GENERATED: Manual edits will be lost 
->> next time I regenerate the file.
->> -# Generator: 
->> '../../../scripts/contrib/python/generate-manifest-3.5.py' Version 
->> 20140131 (C) 2002-2010 Michael 'Mickey' Lauer <mlauer@vanille-media.de>
->> +# Generator: './generate-manifest-3.5.py' Version 20140131 (C) 
->> 2002-2010 Michael 'Mickey' Lauer <mlauer@vanille-media.de>
->>   # Visit the Python for Embedded Systems Site => 
->> http://www.Vanille.de/projects/python.spy
->>      @@ -39,7 +39,7 @@ 
->> FILES_${PN}-compression="${libdir}/python3.5/gzip.* 
->> ${libdir}/python3.5/zipfile.
->>     SUMMARY_${PN}-core="Python interpreter and core modules"
->>   RDEPENDS_${PN}-core="${PN}-lang ${PN}-re ${PN}-reprlib ${PN}-codecs 
->> ${PN}-io ${PN}-math"
->> -FILES_${PN}-core="${libdir}/python3.5/__future__.* 
->> ${libdir}/python3.5/_abcoll.* ${libdir}/python3.5/abc.* 
->> ${libdir}/python3.5/ast.* ${libdir}/python3.5/copy.* 
->> ${libdir}/python3.5/copyreg.* ${libdir}/python3.5/configparser.* 
->> ${libdir}/python3.5/genericpath.* ${libdir}/python3.5/getopt.* 
->> ${libdir}/python3.5/linecache.* ${libdir}/python3.5/new.* 
->> ${libdir}/python3.5/os.* ${libdir}/python3.5/posixpath.* 
->> ${libdir}/python3.5/struct.* ${libdir}/python3.5/warnings.* 
->> ${libdir}/python3.5/site.* ${libdir}/python3.5/stat.* 
->> ${libdir}/python3.5/UserDict.* ${libdir}/python3.5/UserList.* 
->> ${libdir}/python3.5/UserString.* 
->> ${libdir}/python3.5/lib-dynload/binascii.*.so 
->> ${libdir}/python3.5/lib-dynload/_struct.*.so 
->> ${libdir}/python3.5/lib-dynload/time.*.so 
->> ${libdir}/python3.5/lib-dynload/xreadlines.*.so 
->> ${libdir}/python3.5/types.* ${libdir}/python3.5/platform.* 
->> ${bindir}/python* ${libdir}/python3.5/_weakrefset.* 
->> ${libdir}/python3.5/sysconfig.* ${libdir}/python3.5/_sysconfigdata.* 
->> ${libdir}/python
->>   3.5/config/Makefile 
->> ${includedir}/python${PYTHON_BINABI}/pyconfig*.h 
->> ${libdir}/python${PYTHON_MAJMIN}/collections 
->> ${libdir}/python${PYTHON_MAJMIN}/_collections_abc.* 
->> ${libdir}/python${PYTHON_MAJMIN}/_sitebuiltins.* 
->> ${libdir}/python${PYTHON_MAJMIN}/sitecustomize.py "
->> +FILES_${PN}-core="${libdir}/python3.5/__future__.* 
->> ${libdir}/python3.5/_abcoll.* ${libdir}/python3.5/abc.* 
->> ${libdir}/python3.5/ast.* ${libdir}/python3.5/copy.* 
->> ${libdir}/python3.5/copyreg.* ${libdir}/python3.5/ConfigParser.* 
->> ${libdir}/python3.5/genericpath.* ${libdir}/python3.5/getopt.* 
->> ${libdir}/python3.5/linecache.* ${libdir}/python3.5/new.* 
->> ${libdir}/python3.5/os.* ${libdir}/python3.5/posixpath.* 
->> ${libdir}/python3.5/struct.* ${libdir}/python3.5/warnings.* 
->> ${libdir}/python3.5/site.* ${libdir}/python3.5/stat.* 
->> ${libdir}/python3.5/UserDict.* ${libdir}/python3.5/UserList.* 
->> ${libdir}/python3.5/UserString.* 
->> ${libdir}/python3.5/lib-dynload/binascii.*.so 
->> ${libdir}/python3.5/lib-dynload/_struct.*.so 
->> ${libdir}/python3.5/lib-dynload/time.*.so 
->> ${libdir}/python3.5/lib-dynload/xreadlines.*.so 
->> ${libdir}/python3.5/types.* ${libdir}/python3.5/platform.* 
->> ${bindir}/python* ${libdir}/python3.5/_weakrefset.* 
->> ${libdir}/python3.5/sysconfig.* ${libdir}/python3.5/_sysconfigdata.* 
->> ${libdir}/python
->>   3.5/config/Makefile 
->> ${includedir}/python${PYTHON_BINABI}/pyconfig*.h 
->> ${libdir}/python${PYTHON_MAJMIN}/collections 
->> ${libdir}/python${PYTHON_MAJMIN}/_collections_abc.* 
->> ${libdir}/python${PYTHON_MAJMIN}/_sitebuiltins.* 
->> ${libdir}/python${PYTHON_MAJMIN}/sitecustomize.py "
->>     SUMMARY_${PN}-crypt="Python basic cryptographic and hashing support"
->>   RDEPENDS_${PN}-crypt="${PN}-core"
->> @@ -89,6 +89,10 @@ SUMMARY_${PN}-email="Python email support"
->>   RDEPENDS_${PN}-email="${PN}-core ${PN}-io ${PN}-re ${PN}-mime 
->> ${PN}-audio ${PN}-image ${PN}-netclient"
->>   FILES_${PN}-email="${libdir}/python3.5/imaplib.* 
->> ${libdir}/python3.5/email "
->>   +SUMMARY_${PN}-enum="Python support for enumerations"
->> +RDEPENDS_${PN}-enum="${PN}-core"
->> +FILES_${PN}-enum="${libdir}/python3.5/enum.* "
->> +
->>   SUMMARY_${PN}-fcntl="Python's fcntl interface"
->>   RDEPENDS_${PN}-fcntl="${PN}-core"
->>   FILES_${PN}-fcntl="${libdir}/python3.5/lib-dynload/fcntl.*.so "
->> @@ -197,10 +201,18 @@ SUMMARY_${PN}-resource="Python resource control 
->> interface"
->>   RDEPENDS_${PN}-resource="${PN}-core"
->> FILES_${PN}-resource="${libdir}/python3.5/lib-dynload/resource.*.so "
->>   +SUMMARY_${PN}-selectors="Python High-level I/O multiplexing"
->> +RDEPENDS_${PN}-selectors="${PN}-core"
->> +FILES_${PN}-selectors="${libdir}/python3.5/selectors.* "
->> +
->>   SUMMARY_${PN}-shell="Python shell-like functionality"
->>   RDEPENDS_${PN}-shell="${PN}-core ${PN}-re"
->>   FILES_${PN}-shell="${libdir}/python3.5/cmd.* 
->> ${libdir}/python3.5/commands.* ${libdir}/python3.5/dircache.* 
->> ${libdir}/python3.5/fnmatch.* ${libdir}/python3.5/glob.* 
->> ${libdir}/python3.5/popen2.* ${libdir}/python3.5/shlex.* 
->> ${libdir}/python3.5/shutil.* "
->>   +SUMMARY_${PN}-signal="Python set handlers for asynchronous events 
->> support"
->> +RDEPENDS_${PN}-signal="${PN}-core"
->> +FILES_${PN}-signal="${libdir}/python3.5/signal.* "
->> +
->>   SUMMARY_${PN}-smtpd="Python Simple Mail Transport Daemon"
->>   RDEPENDS_${PN}-smtpd="${PN}-core ${PN}-netserver ${PN}-email 
->> ${PN}-mime"
->>   FILES_${PN}-smtpd="${bindir}/smtpd.* ${libdir}/python3.5/smtpd.* "
->> @@ -218,7 +230,7 @@ RDEPENDS_${PN}-stringold="${PN}-core ${PN}-re"
->> FILES_${PN}-stringold="${libdir}/python3.5/lib-dynload/strop.*.so 
->> ${libdir}/python3.5/string.* ${libdir}/python3.5/stringold.* "
->>     SUMMARY_${PN}-subprocess="Python subprocess support"
->> -RDEPENDS_${PN}-subprocess="${PN}-core ${PN}-io ${PN}-re ${PN}-fcntl 
->> ${PN}-pickle"
->> +RDEPENDS_${PN}-subprocess="${PN}-core ${PN}-io ${PN}-re ${PN}-fcntl 
->> ${PN}-pickle ${PN}-signal ${PN}-selectors"
->>   FILES_${PN}-subprocess="${libdir}/python3.5/subprocess.* "
->>     SUMMARY_${PN}-syslog="Python syslog interface"
->> diff --git a/scripts/contrib/python/generate-manifest-3.5.py 
->> b/scripts/contrib/python/generate-manifest-3.5.py
->> index b90a84f..eac493a 100755
->> --- a/scripts/contrib/python/generate-manifest-3.5.py
->> +++ b/scripts/contrib/python/generate-manifest-3.5.py
->> @@ -259,6 +259,9 @@ if __name__ == "__main__":
->>       m.addPackage( "${PN}-email", "Python email support", 
->> "${PN}-core ${PN}-io ${PN}-re ${PN}-mime ${PN}-audio ${PN}-image 
->> ${PN}-netclient",
->>       "imaplib.* email" ) # package
->>   +    m.addPackage( "${PN}-enum", "Python support for enumerations", 
->> "${PN}-core",
->> +    "enum.*" )
->> +
->>       m.addPackage( "${PN}-fcntl", "Python's fcntl interface", 
->> "${PN}-core",
->>       "lib-dynload/fcntl.*.so" )
->>   @@ -339,12 +342,18 @@ if __name__ == "__main__":
->>       m.addPackage( "${PN}-resource", "Python resource control 
->> interface", "${PN}-core",
->>       "lib-dynload/resource.*.so" )
->>   +    m.addPackage( "${PN}-selectors", "Python High-level I/O 
->> multiplexing", "${PN}-core",
->> +    "selectors.*" )
->> +
->>       m.addPackage( "${PN}-shell", "Python shell-like functionality", 
->> "${PN}-core ${PN}-re",
->>       "cmd.* commands.* dircache.* fnmatch.* glob.* popen2.* shlex.* 
->> shutil.*" )
->>   -    m.addPackage( "${PN}-subprocess", "Python subprocess support", 
->> "${PN}-core ${PN}-io ${PN}-re ${PN}-fcntl ${PN}-pickle",
->> +    m.addPackage( "${PN}-subprocess", "Python subprocess support", 
->> "${PN}-core ${PN}-io ${PN}-re ${PN}-fcntl ${PN}-pickle ${PN}-signal 
->> ${PN}-selectors",
->>       "subprocess.*" )
->>   +    m.addPackage( "${PN}-signal", "Python set handlers for 
->> asynchronous events support", "${PN}-core",
->> +    "signal.*" )
->> +
->>       m.addPackage( "${PN}-sqlite3", "Python Sqlite3 database 
->> support", "${PN}-core ${PN}-datetime ${PN}-lang ${PN}-crypt ${PN}-io 
->> ${PN}-threading",
->>       "lib-dynload/_sqlite3.*.so sqlite3/dbapi2.* sqlite3/__init__.* 
->> sqlite3/dump.*" )
->
->
+are available in the git repository at:
+
+  http://git.yoctoproject.org/git/poky-contrib akuster/krogoth-next
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=akuster/krogoth-next
+
+Alejandro Hernandez (1):
+  initramfs-live-boot: Make sure we kill udev before switching root when
+    live booting
+
+Alexander Kanavin (2):
+  gobject-introspection.bbclass: disable introspection for -native and
+    -nativesdk recipes
+  arch-mips.inc: Disable QEMU usermode usage when building with n32 ABI
+
+Armin Kuster (13):
+  tiff: Security fix CVE-2015-8781
+  tiff: Security fix CVE-2015-8784
+  openssh: Security fix CVE-2016-6210
+  openssh: Security fix CVE-2016-5615
+  openssh: Security fix CVE-2015-8325
+  wget: Security fix CVE-2016-4971
+  util-linux: Security fix for CVE-2016-5011
+  qemu: Security Fix CVE-2016-3710
+  qemu: Security Fix CVE-2016-3712
+  qemu: Security fix CVE-2016-4439
+  qemu: Security fix CVE-2016-6351
+  qemu: Security fix for CVE-2016-4002
+  qemu: Secuirty fix for CVE-2016-5403
+
+Bill Randle (3):
+  perl: set proper perl subversion number in config files
+  perl: some perl tests require libssp
+  perl: fix several perl test failures
+
+Dengke Du (1):
+  busybox: fix "sed n (flushes pattern space, terminates early)"
+    testcase failure
+
+He Zhe (1):
+  perl: Correct perl path for ptest
+
+Henry Bruce (1):
+  npm: npm.bbclass now adds nodejs to RDEPENDS
+
+Ioan-Adrian Ratiu (1):
+  perl-native: backport libnm link fix
+
+Jackie Huang (1):
+  e2fsprogs: Fix missing check for permission denied.
+
+Jacob Kroon (1):
+  bitbake.conf/toolchain-scripts.bbclass: Remove debug prefix mappings
+    in SDK
+
+Jeremy Puhlman (2):
+  Fix random python backtrace in mutlilib handling code.
+  bitbake.conf: set READELF for cross compilation
+
+Jonathan Liu (1):
+  meta/classes: fix bb.build.FuncFailed typos
+
+Juro Bystricky (1):
+  busybox: Avoid race building libbb
+
+Jérémy Rosen (1):
+  rpm: manually cleanup sysck
+
+Kai Kang (1):
+  perl: fix CVE-2016-2381
+
+Khem Raj (4):
+  python{3}-numpy: Predefine of sizeof off_t on mips/mipsel/ppc
+  systemd: Create missing sysusers offline
+  gdb: Cache gnu gettext config vars for musl builds
+  xserver-xf86-config: pre-load int10 and exa modules
+
+Mariano Lopez (1):
+  python-smartpm_git.bb: Add patch for debugging random errors
+
+Markus Lehtonen (2):
+  base.bbclass wipe ${S} before unpacking source
+  python-smartpm: use md5 as the digest for rpm_sys channel
+
+Maxin B. John (1):
+  useradd_base: avoid unintended expansion for useradd parameters
+
+Mingli Yu (2):
+  perl: fix CVE-2016-6185
+  perl: fix CVE-2015-8607
+
+Pascal Bach (1):
+  gcc, qemuppc: Explicitly disable forcing SPE flags for 4.9
+
+Reinette Chatre (1):
+  binutils: advance SRCREV to obtain versioned symbols
+
+Richard Purdie (3):
+  busybox: Backport makefile fix from upstream
+  busybox: Add parallel make fix
+  python-smartpm: Avoid locale issue with bitbake python3
+
+Robert Yang (1):
+  rpm: make --nosignature work
+
+Ross Burton (1):
+  cml1: fix tasks after default [dirs] changed
+
+Sona Sarmadi (3):
+  sudo: CVE-2015-8239
+  curl: security fix for CVE-2016-7141
+  dropbear: upgrade to 2016.72
+
+Stefan Agner (1):
+  busybox: Fix busybox-init on non-tty consoles
+
+Stephano Cetola (1):
+  systemd: allow add users as a rootfs postprocess cmd
+
+Tanu Kaskinen (1):
+  pulseaudio: fix crash when disconnecting bluetooth devices
+
+Thomas Witt (1):
+  cmake.bbclass: call cmake with a relative path
+
+Yi Zhao (3):
+  tiff: Security fix CVE-2016-3186
+  tiff: Security fix CVE-2016-5321
+  tiff: Security fix CVE-2016-5323
+
+Zhixiong Chi (1):
+  rpm: ensure rpm2cpio call rpm relocation code
+
+mingli.yu@windriver.com (1):
+  python-smartpm: add support to check signatures
+
+ meta/classes/base.bbclass                          |  18 +-
+ meta/classes/cmake.bbclass                         |  14 +-
+ meta/classes/cml1.bbclass                          |   2 +
+ meta/classes/gobject-introspection.bbclass         |  14 +-
+ meta/classes/grub-efi.bbclass                      |   2 +-
+ meta/classes/gummiboot.bbclass                     |   4 +-
+ meta/classes/multilib_global.bbclass               |   3 +-
+ meta/classes/npm.bbclass                           |   1 +
+ meta/classes/rootfs-postcommands.bbclass           |  43 +-
+ meta/classes/syslinux.bbclass                      |   2 +-
+ meta/classes/toolchain-scripts.bbclass             |   3 +
+ meta/classes/useradd_base.bbclass                  |   2 -
+ meta/conf/bitbake.conf                             |   9 +-
+ meta/conf/machine/include/mips/arch-mips.inc       |   3 +
+ meta/conf/machine/qemux86-64.conf                  |   5 +-
+ meta/conf/machine/qemux86.conf                     |   5 +-
+ .../openssh/openssh/CVE-2015-8325.patch            |  33 +
+ .../openssh/openssh/CVE-2016-6210.patch            | 114 ++++
+ .../openssh/openssh/CVE-2016-6210_p2.patch         | 110 ++++
+ .../openssh/openssh/CVE-2016-6210_p3.patch         |  62 ++
+ .../openssh/openssh/CVE-2016-6515.patch            |  54 ++
+ meta/recipes-connectivity/openssh/openssh_7.1p2.bb |   5 +
+ meta/recipes-core/busybox/busybox.inc              |   4 +-
+ ...-n-flushes-pattern-space-terminates-early.patch |  72 +++
+ .../busybox-kbuild-race-fix-commit-d8e61bb.patch   |  53 ++
+ .../commit-applet_tables-fix-commit-0dddbc1.patch  |  61 ++
+ .../busybox/busybox/makefile-fix-backport.patch    |  40 ++
+ .../busybox/busybox/makefile-libbb-race.patch      |  34 +
+ meta/recipes-core/busybox/busybox_1.24.1.bb        |   5 +
+ meta/recipes-core/dropbear/dropbear_2015.71.bb     |   5 -
+ meta/recipes-core/dropbear/dropbear_2016.72.bb     |   4 +
+ meta/recipes-core/initrdscripts/files/init-live.sh |   4 +-
+ meta/recipes-core/systemd/systemd_229.bb           |   8 +-
+ .../util-linux/util-linux/CVE-2016-5011.patch      |  59 ++
+ .../util-linux/util-linux/CVE-2016-5011_p2.patch   |  91 +++
+ meta/recipes-core/util-linux/util-linux_2.27.1.bb  |   2 +
+ meta/recipes-devtools/binutils/binutils-2.26.inc   |   2 +-
+ ...s-fix-missing-check-for-permission-denied.patch |  32 +
+ meta/recipes-devtools/e2fsprogs/e2fsprogs_git.bb   |   3 +
+ ...AltiVec-generation-on-powepc-linux-target.patch |  11 +
+ meta/recipes-devtools/gdb/gdb_7.10.1.bb            |   5 +
+ meta/recipes-devtools/perl/perl-native_5.22.1.bb   |   1 +
+ meta/recipes-devtools/perl/perl-ptest.inc          |   3 +-
+ meta/recipes-devtools/perl/perl/config.sh          |  10 +-
+ meta/recipes-devtools/perl/perl/perl-configure.sh  |   2 +-
+ .../perl/perl/perl-fix-CVE-2015-8607.patch         |  74 +++
+ .../perl/perl/perl-fix-CVE-2016-2381.patch         | 113 ++++
+ .../perl/perl/perl-fix-CVE-2016-6185.patch         | 128 ++++
+ ...erl-fix-conflict-between-skip_all-and-END.patch | 181 ++++++
+ .../perl/perl/perl-remove-nm-from-libswanted.patch |  30 +
+ .../perl/perl/perl-test-customized.patch           |  61 ++
+ meta/recipes-devtools/perl/perl_5.22.1.bb          |   5 +
+ .../python/python-numpy/arm/numpyconfig.h          |   1 +
+ .../python/python-numpy/mips/_numpyconfig.h        |   1 +
+ .../python/python-numpy/powerpc/_numpyconfig.h     |   1 +
+ ...m_sys-use-md5sum-instead-of-mtime-as-the-.patch |  38 ++
+ ...art-add-deugging-when-targetpath-is-empty.patch |  47 ++
+ .../python/python-smartpm/smart-locale.patch       |  27 +
+ ...=> smartpm-rpm5-support-check-signatures.patch} |  67 +-
+ meta/recipes-devtools/python/python-smartpm_git.bb |   5 +-
+ .../recipes-devtools/qemu/qemu/CVE-2016-3710.patch | 112 ++++
+ .../qemu/qemu/CVE-2016-3712_p1.patch               |  73 +++
+ .../qemu/qemu/CVE-2016-3712_p2.patch               | 132 ++++
+ .../qemu/qemu/CVE-2016-3712_p3.patch               |  34 +
+ .../qemu/qemu/CVE-2016-3712_p4.patch               |  80 +++
+ .../recipes-devtools/qemu/qemu/CVE-2016-4002.patch |  39 ++
+ .../recipes-devtools/qemu/qemu/CVE-2016-4439.patch |  46 ++
+ .../recipes-devtools/qemu/qemu/CVE-2016-5403.patch |  67 ++
+ .../qemu/qemu/CVE-2016-6351_p1.patch               |  75 +++
+ .../qemu/qemu/CVE-2016-6351_p2.patch               |  60 ++
+ meta/recipes-devtools/qemu/qemu_2.5.0.bb           |  10 +
+ ...0001-system.h-query.c-support-nosignature.patch |  64 ++
+ ...-ensure-rpm2cpio-call-rpm-relocation-code.patch |  25 +
+ meta/recipes-devtools/rpm/rpm_5.4.16.bb            |   4 +-
+ .../sudo/sudo/CVE-2015-8239-1.patch                | 699 +++++++++++++++++++++
+ .../sudo/sudo/CVE-2015-8239-2.patch                |  45 ++
+ meta/recipes-extended/sudo/sudo_1.8.15.bb          |   2 +
+ .../recipes-extended/wget/wget/CVE-2016-4971.patch | 295 +++++++++
+ meta/recipes-extended/wget/wget_1.17.1.bb          |   1 +
+ .../xserver-xf86-config/10-preload-modules.conf    |   2 +-
+ .../libtiff/files/CVE-2015-8781.patch              | 195 ++++++
+ .../libtiff/files/CVE-2015-8784.patch              |  73 +++
+ .../libtiff/files/CVE-2016-3186.patch              |  24 +
+ .../libtiff/files/CVE-2016-5321.patch              |  49 ++
+ .../libtiff/files/CVE-2016-5323.patch              | 107 ++++
+ meta/recipes-multimedia/libtiff/tiff_4.0.6.bb      |   5 +
+ ...th-don-t-create-the-HSP-HFP-profile-twice.patch | 343 ++++++++++
+ .../pulseaudio/pulseaudio_8.0.bb                   |   1 +
+ meta/recipes-support/curl/curl/CVE-2016-7141.patch |  50 ++
+ meta/recipes-support/curl/curl_7.47.1.bb           |   1 +
+ 90 files changed, 4429 insertions(+), 82 deletions(-)
+ create mode 100644 meta/recipes-connectivity/openssh/openssh/CVE-2015-8325.patch
+ create mode 100644 meta/recipes-connectivity/openssh/openssh/CVE-2016-6210.patch
+ create mode 100644 meta/recipes-connectivity/openssh/openssh/CVE-2016-6210_p2.patch
+ create mode 100644 meta/recipes-connectivity/openssh/openssh/CVE-2016-6210_p3.patch
+ create mode 100644 meta/recipes-connectivity/openssh/openssh/CVE-2016-6515.patch
+ create mode 100644 meta/recipes-core/busybox/busybox/0001-sed-fix-sed-n-flushes-pattern-space-terminates-early.patch
+ create mode 100644 meta/recipes-core/busybox/busybox/busybox-kbuild-race-fix-commit-d8e61bb.patch
+ create mode 100644 meta/recipes-core/busybox/busybox/commit-applet_tables-fix-commit-0dddbc1.patch
+ create mode 100644 meta/recipes-core/busybox/busybox/makefile-fix-backport.patch
+ create mode 100644 meta/recipes-core/busybox/busybox/makefile-libbb-race.patch
+ delete mode 100644 meta/recipes-core/dropbear/dropbear_2015.71.bb
+ create mode 100644 meta/recipes-core/dropbear/dropbear_2016.72.bb
+ create mode 100644 meta/recipes-core/util-linux/util-linux/CVE-2016-5011.patch
+ create mode 100644 meta/recipes-core/util-linux/util-linux/CVE-2016-5011_p2.patch
+ create mode 100644 meta/recipes-devtools/e2fsprogs/e2fsprogs/e2fsprogs-fix-missing-check-for-permission-denied.patch
+ create mode 100644 meta/recipes-devtools/perl/perl/perl-fix-CVE-2015-8607.patch
+ create mode 100644 meta/recipes-devtools/perl/perl/perl-fix-CVE-2016-2381.patch
+ create mode 100644 meta/recipes-devtools/perl/perl/perl-fix-CVE-2016-6185.patch
+ create mode 100644 meta/recipes-devtools/perl/perl/perl-fix-conflict-between-skip_all-and-END.patch
+ create mode 100644 meta/recipes-devtools/perl/perl/perl-remove-nm-from-libswanted.patch
+ create mode 100644 meta/recipes-devtools/perl/perl/perl-test-customized.patch
+ create mode 100644 meta/recipes-devtools/python/python-smartpm/channels-rpm_sys-use-md5sum-instead-of-mtime-as-the-.patch
+ create mode 100644 meta/recipes-devtools/python/python-smartpm/smart-add-deugging-when-targetpath-is-empty.patch
+ create mode 100644 meta/recipes-devtools/python/python-smartpm/smart-locale.patch
+ rename meta/recipes-devtools/python/python-smartpm/{smartpm-rpm5-nodig.patch => smartpm-rpm5-support-check-signatures.patch} (48%)
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2016-3710.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2016-3712_p1.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2016-3712_p2.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2016-3712_p3.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2016-3712_p4.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2016-4002.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2016-4439.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2016-5403.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2016-6351_p1.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2016-6351_p2.patch
+ create mode 100644 meta/recipes-devtools/rpm/rpm/0001-system.h-query.c-support-nosignature.patch
+ create mode 100644 meta/recipes-devtools/rpm/rpm/rpm-ensure-rpm2cpio-call-rpm-relocation-code.patch
+ create mode 100644 meta/recipes-extended/sudo/sudo/CVE-2015-8239-1.patch
+ create mode 100644 meta/recipes-extended/sudo/sudo/CVE-2015-8239-2.patch
+ create mode 100644 meta/recipes-extended/wget/wget/CVE-2016-4971.patch
+ create mode 100644 meta/recipes-multimedia/libtiff/files/CVE-2015-8781.patch
+ create mode 100644 meta/recipes-multimedia/libtiff/files/CVE-2015-8784.patch
+ create mode 100644 meta/recipes-multimedia/libtiff/files/CVE-2016-3186.patch
+ create mode 100644 meta/recipes-multimedia/libtiff/files/CVE-2016-5321.patch
+ create mode 100644 meta/recipes-multimedia/libtiff/files/CVE-2016-5323.patch
+ create mode 100644 meta/recipes-multimedia/pulseaudio/pulseaudio/0001-bluetooth-don-t-create-the-HSP-HFP-profile-twice.patch
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2016-7141.patch
+
+-- 
+2.7.4
 
 
