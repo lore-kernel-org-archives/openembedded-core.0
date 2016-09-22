@@ -1,37 +1,50 @@
-Return-Path: <wangxin2015.fnst@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
-	by mail.openembedded.org (Postfix) with ESMTP id 7D72F6093E
+Return-Path: <kergoth@gmail.com>
+Received: from mail-oi0-f68.google.com (mail-oi0-f68.google.com
+	[209.85.218.68])
+	by mail.openembedded.org (Postfix) with ESMTP id DED297199A
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Sep 2016 01:40:41 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.22,518,1449504000"; d="scan'208";a="11228990"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 22 Sep 2016 09:40:42 +0800
-Received: from G08CNEXCHPEKD02.g08.fujitsu.local (unknown [10.167.33.83])
-	by cn.fujitsu.com (Postfix) with ESMTP id 8685C4042406
+	Thu, 22 Sep 2016 02:06:58 +0000 (UTC)
+Received: by mail-oi0-f68.google.com with SMTP id w11so5168343oia.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Sep 2016 09:40:39 +0800 (CST)
-Received: from G08CNEXMBPEKD03.g08.fujitsu.local ([10.167.33.86]) by
-	G08CNEXCHPEKD02.g08.fujitsu.local ([10.167.33.83]) with mapi id
-	14.03.0279.002; Thu, 22 Sep 2016 09:40:39 +0800
-From: "Wang, Xin" <wangxin2015.fnst@cn.fujitsu.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core][PATCH] swig: 3.0.8 -> 3.0.10
-Thread-Index: AQHSBDBWtkLp4rwPXEizb81iREDEwKCE3D9w
-Date: Thu, 22 Sep 2016 01:40:38 +0000
-Message-ID: <C43D7C6FFC265C429F44FEB1C68F1B25633E1775@G08CNEXMBPEKD03.g08.fujitsu.local>
-References: <1472720876-2295-1-git-send-email-wangxin2015.fnst@cn.fujitsu.com>
-In-Reply-To: <1472720876-2295-1-git-send-email-wangxin2015.fnst@cn.fujitsu.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.167.226.120]
+	Wed, 21 Sep 2016 19:07:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:from:date:message-id
+	:subject:to:cc;
+	bh=Magw71HxCbgiouC7uIj5Mv13AFsxBj5mmI/qrL/lqx8=;
+	b=pq2eq5SYEMqJ/rD6fk21Oy3UgjJDMBj7Uf0y31iD+n3eu7CDACKgsImahiAvDIcVcN
+	4o5UTjHE9VLTDPLX1jdU+62C+vWwzPtkFhcALmwI/r13AfBX+qP2nrx6BSfUrVGLOSAP
+	Wx7vKAmGhRRSOFLIdDIXCnGMKSc18vnHymB0kMyCwW8TRTaDp1io6qXao3pm9ZxQAvMl
+	JYuyLJ5I9vWdYX0S7CFk1+7by3Qnmu36ghKjffljD7t/dSN7fLz/iGWY72QLmWy7nOrs
+	4HfXkOK3f3M9iDyCaD72zVs7e27/fcrSrrQ32CsyRuKqs5JK+ldMd8mU7WSECDAbBFiO
+	lZKg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:sender:in-reply-to:references:from
+	:date:message-id:subject:to:cc;
+	bh=Magw71HxCbgiouC7uIj5Mv13AFsxBj5mmI/qrL/lqx8=;
+	b=YhA56+MFRaHcYEwyQ4Ev1Je8txtl4rQH9hz5NfWX8/OFu7EKfwvetbQCTBZgf5h4ao
+	E8FqwHi6g2PfmgkyAi8vpiw8fACEQ7CecgP8WK8USdsqdih+rfzl+cX06cXgrudPL8eX
+	0O/pxT+RYMQPmkz3t/2Wje9TOeS+S0lhvkTLUEEx+qBXzHmsOxsj6czSi0nzyPYPoT+3
+	nhA+SttoUYcqfeAsXn6/aEADLklzIP/UZWDT+yw4hsDf4dtXFMKcdO3e2kS7syiD/y2y
+	YwUn+M0HcvprcXbY0APLhhD31mvjrGDzdq0NixHJgZIkbTc+cYvLUItX9qcf+KXt0/kM
+	8rBg==
+X-Gm-Message-State: AE9vXwO5/tpUsfqSe/VASb+A45PUjU+LeoUq9bWGJRafY8zPW/DD1W4QygDTtIoMHXWttaVZ/G33QkirWVEiBg==
+X-Received: by 10.202.192.69 with SMTP id q66mr13154514oif.52.1474510020100;
+	Wed, 21 Sep 2016 19:07:00 -0700 (PDT)
 MIME-Version: 1.0
-X-yoursite-MailScanner-ID: 8685C4042406.A9A48
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: wangxin2015.fnst@cn.fujitsu.com
-X-Spam-Status: No
-Subject: Re: [PATCH] swig: 3.0.8 -> 3.0.10
+Sender: kergoth@gmail.com
+Received: by 10.157.13.194 with HTTP; Wed, 21 Sep 2016 19:06:39 -0700 (PDT)
+In-Reply-To: <facdb05bcfaa9eab9eed0b7db17fad854f6ec046.1474444335.git.mariano.lopez@linux.intel.com>
+References: <cover.1474444335.git.mariano.lopez@linux.intel.com>
+	<facdb05bcfaa9eab9eed0b7db17fad854f6ec046.1474444335.git.mariano.lopez@linux.intel.com>
+From: Christopher Larson <clarson@kergoth.com>
+Date: Wed, 21 Sep 2016 19:06:39 -0700
+X-Google-Sender-Auth: OGdKeeuClHvi3XTMGYyB-rd3ik4
+Message-ID: <CABcZAN=K8oZwJds4AnjMcvLoq3PtrS+Be8hu=GQYKQUy-s=65A@mail.gmail.com>
+To: Mariano Lopez <mariano.lopez@linux.intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] toolchain-shar-relocate.sh: Add error-handling
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,41 +57,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Sep 2016 01:40:42 -0000
-Content-Language: zh-CN
-Content-Type: text/plain; charset="gb2312"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Thu, 22 Sep 2016 02:07:01 -0000
+Content-Type: multipart/alternative; boundary=001a113d4536f74f89053d0f1df9
 
-cGluZw0KDQotLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KRnJvbTogV2Fu
-ZywgWGluL831IPbOIA0KU2VudDogVGh1cnNkYXksIFNlcHRlbWJlciAwMSwg
-MjAxNiA1OjA4IFBNDQpUbzogb3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3Bl
-bmVtYmVkZGVkLm9yZw0KQ2M6IFdhbmcsIFhpbi/N9SD2zg0KU3ViamVjdDog
-W09FLWNvcmVdW1BBVENIXSBzd2lnOiAzLjAuOCAtPiAzLjAuMTANCg0KVXBn
-cmFkZSBzd2lnIGZyb20gMy4wLjggdG8gMy4wLjEwLg0KDQpTaWduZWQtb2Zm
-LWJ5OiBXYW5nIFhpbiA8d2FuZ3hpbjIwMTUuZm5zdEBjbi5mdWppdHN1LmNv
-bT4NCi0tLQ0KIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9zd2lnL3tzd2lnXzMu
-MC44LmJiID0+IHN3aWdfMy4wLjEwLmJifSB8IDQgKystLQ0KIDEgZmlsZSBj
-aGFuZ2VkLCAyIGluc2VydGlvbnMoKyksIDIgZGVsZXRpb25zKC0pICByZW5h
-bWUgbWV0YS9yZWNpcGVzLWRldnRvb2xzL3N3aWcve3N3aWdfMy4wLjguYmIg
-PT4gc3dpZ18zLjAuMTAuYmJ9ICg1OCUpDQoNCmRpZmYgLS1naXQgYS9tZXRh
-L3JlY2lwZXMtZGV2dG9vbHMvc3dpZy9zd2lnXzMuMC44LmJiIGIvbWV0YS9y
-ZWNpcGVzLWRldnRvb2xzL3N3aWcvc3dpZ18zLjAuMTAuYmINCnNpbWlsYXJp
-dHkgaW5kZXggNTglDQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZGV2dG9v
-bHMvc3dpZy9zd2lnXzMuMC44LmJiDQpyZW5hbWUgdG8gbWV0YS9yZWNpcGVz
-LWRldnRvb2xzL3N3aWcvc3dpZ18zLjAuMTAuYmINCmluZGV4IGMxYjgyMGUu
-LjQ0YzI2YzQgMTAwNjQ0DQotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMv
-c3dpZy9zd2lnXzMuMC44LmJiDQorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9v
-bHMvc3dpZy9zd2lnXzMuMC4xMC5iYg0KQEAgLTMsNiArMyw2IEBAIHJlcXVp
-cmUgJHtCUE59LmluYw0KIFNSQ19VUkkgKz0gImZpbGU6Ly8wMDAxLVVzZS1w
-cm9jLXNlbGYtZXhlLWZvci1zd2lnLXN3aWdsaWItb24tbm9uLVdpbjMyLXBs
-YXQucGF0Y2ggXA0KICAgICAgICAgICAgIGZpbGU6Ly8wMDAxLWNvbmZpZ3Vy
-ZS11c2UtcGtnLWNvbmZpZy1mb3ItcGNyZS1kZXRlY3Rpb24ucGF0Y2ggXA0K
-ICAgICAgICAgICAgIg0KLVNSQ19VUklbbWQ1c3VtXSA9ICJjOTZhMWQ1ZWNi
-MTNkMzg2MDRkN2U5MjE0OGM3M2M5NyINCi1TUkNfVVJJW3NoYTI1NnN1bV0g
-PSAiNThhNDc1ZGJiZDRhNGQ3MDc1ZTVmZTg2ZDRlNTRjOWVkZGUzOTg0N2Nk
-Yjk2YTMwNTNkODdjYjY0YTIzYTQ1MyINCitTUkNfVVJJW21kNXN1bV0gPSAi
-YmI0YWI4MDQ3MTU5NDY5YWRkN2QwMDkxMGUyMDMxMjQiDQorU1JDX1VSSVtz
-aGEyNTZzdW1dID0gIjI5MzlhYWUzOWRlYzA2MDk1NDYyZjFiOTVjZTFjOTU4
-YWM4MGQwN2I5MjZlNDg4NzEwNDZkMTdjMDA5NGY0NGMiDQogDQotLQ0KMi43
-LjQNCg0KCgo=
+--001a113d4536f74f89053d0f1df9
+Content-Type: text/plain; charset=UTF-8
 
+On Wed, Sep 21, 2016 at 12:54 AM, <mariano.lopez@linux.intel.com> wrote:
+
+> diff --git a/meta/files/toolchain-shar-relocate.sh
+> b/meta/files/toolchain-shar-relocate.sh
+> index d4bcf0e..e491153 100644
+> --- a/meta/files/toolchain-shar-relocate.sh
+> +++ b/meta/files/toolchain-shar-relocate.sh
+> @@ -1,3 +1,8 @@
+> +if ! xargs --version > /dev/null 2>&1; then
+> +       echo "xargs is required by the relocation script, please install
+> it firts. Abort!"
+> +       exit 1
+> +fi
+>
+
+This is pointless, xargs is mandated by posix/sus.
+-- 
+Christopher Larson
+clarson at kergoth dot com
+Founder - BitBake, OpenEmbedded, OpenZaurus
+Maintainer - Tslib
+Senior Software Engineer, Mentor Graphics
+
+--001a113d4536f74f89053d0f1df9
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On Wed, Sep 21, 2016 at 12:54 AM,  <span dir=3D"ltr">&lt;<a href=3D"mailto:=
+mariano.lopez@linux.intel.com" target=3D"_blank">mariano.lopez@linux.intel.=
+com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"mar=
+gin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":l6"=
+ class=3D"a3s aXjCH m1574d78834e657af">diff --git a/meta/files/toolchain-sh=
+ar-<wbr>relocate.sh b/meta/files/toolchain-shar-<wbr>relocate.sh<br>
+index d4bcf0e..e491153 100644<br>
+--- a/meta/files/toolchain-shar-<wbr>relocate.sh<br>
++++ b/meta/files/toolchain-shar-<wbr>relocate.sh<br>
+@@ -1,3 +1,8 @@<br>
++if ! xargs --version &gt; /dev/null 2&gt;&amp;1; then<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0echo &quot;xargs is required by the relocation =
+script, please install it firts. Abort!&quot;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0exit 1<br>
++fi</div></blockquote></div><br>This is pointless, xargs is mandated by pos=
+ix/sus.<br>-- <br><div class=3D"gmail_signature" data-smartmail=3D"gmail_si=
+gnature">Christopher Larson<br>clarson at kergoth dot com<br>Founder - BitB=
+ake, OpenEmbedded, OpenZaurus<br>Maintainer - Tslib<br>Senior Software Engi=
+neer, Mentor Graphics</div>
+</div></div>
+
+--001a113d4536f74f89053d0f1df9--
