@@ -1,53 +1,53 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pa0-f66.google.com (mail-pa0-f66.google.com
-	[209.85.220.66])
-	by mail.openembedded.org (Postfix) with ESMTP id D208C60068
+Received: from mail-pf0-f195.google.com (mail-pf0-f195.google.com
+	[209.85.192.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 2D14660765
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Sep 2016 15:25:18 +0000 (UTC)
-Received: by mail-pa0-f66.google.com with SMTP id hi10so3795373pac.2
+	Thu, 22 Sep 2016 15:33:14 +0000 (UTC)
+Received: by mail-pf0-f195.google.com with SMTP id n24so3953901pfb.3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Sep 2016 08:25:20 -0700 (PDT)
+	Thu, 22 Sep 2016 08:33:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=subject:to:references:from:message-id:date:user-agent:mime-version
-	:in-reply-to:content-transfer-encoding;
-	bh=AQVFPpni+Kqby+GG+99rlwyKvOIG/24KgeP/evFQ2q4=;
-	b=uS7PFm5snoDqmcL4VYmBlVxzJ9Go5Yxq55nfes7zeQDt8F0Q4bBoI0Qjepq/A8E74I
-	mkWxt/Lw2Zx9rQuWj+ZzsBdIpNRj78D/vyUBwsGrSvE3c7X01cRSgx85HXf7bfsWtut8
-	PBytTmlDY/4xusL3q5kwBs7lBi36zsFXBXT1NUcur+lkO2p2lry6w7P+/kiH2nxyXWz/
-	QH0pizMXqCEEm7OIgoOD+S5TTPLtsNkCu/Rzt4nBTmjmr/cOW233UarbCxlS0GruvY3W
-	PSSKly00DCUQp2Kd7td9UE9CxPdVLixoRMtj2O5/5G2mocB4hJEDUC7Qh71CACLsFBl3
-	QsRQ==
+	h=subject:to:references:cc:from:message-id:date:user-agent
+	:mime-version:in-reply-to:content-transfer-encoding;
+	bh=Y1+Hu5dETfQSFEx4O8JrUnjvHr95NPmpN311/YKEc9s=;
+	b=vTJ3rGOOFmSodeB50zaz3yLOlvXIRQa9rxZp7NSme2VNP7bGANhsmmZH0zG7+MWKPL
+	u69+++oWmn9wAfyrvL5o9Id919NyH+sEP/UMWAORqaIpNVB7rp7a2BzaKhWWTIITkjh1
+	X+8r7KEY6PEbvsQwxP77m96WPeUCo09ZuAkV/YpIPfJcWIrPkG6QlZLYQSLpk106vT5j
+	dvug+EtrAqbLjTxL9OEGH09L22WP48XvbbjuEG6RLwhC7EjMJa7IKN4lGWGrNB4ucLMA
+	kHdiGeA4mfggoioUYGcvrm8Wt9LVH4uMv/dgWlCTSigi/tFSiSA/7Jna1kaBC+LXXsGa
+	Cdrw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:subject:to:references:from:message-id:date
+	h=x-gm-message-state:subject:to:references:cc:from:message-id:date
 	:user-agent:mime-version:in-reply-to:content-transfer-encoding;
-	bh=AQVFPpni+Kqby+GG+99rlwyKvOIG/24KgeP/evFQ2q4=;
-	b=LWMuY/G7MhGMXtJo1ekCOHVkgM0p/pICWhB7iklhWUtVayDdOD3G3fM08o7256vgzG
-	Wf2QBBBmuPCQOp689COT6usJJpMDo7q3ZZ3mh0Bcj3SyJTmeHiKgjpanKq5Lyb0bhpb8
-	rBz+hv6Tshxhn3n0DZV7Lw/C7LGcay/vxXNt1hNMmgtcrLiViZkgIoGLc9uSFY/uTeMP
-	u6HL7jQ/iD8URmxlrBsOGRJ8wAhBpP61zbm5zwkxhSAgVC72O42BkmVCGzIYswftpIdo
-	dX+SC7wf87G/WRkI0nCvs/KsukNraRtnDLnOHBrFnHVNc73VXJUhmqfSfVPkIkOCX+X8
-	OxKA==
-X-Gm-Message-State: AE9vXwMuzJbWnPw5KBLi8wTgNXk1br5T7inxShYKZ6Uscpjm7e3y+dx4oj3FJLYerpL0JA==
-X-Received: by 10.66.146.200 with SMTP id te8mr4255569pab.162.1474557920213;
-	Thu, 22 Sep 2016 08:25:20 -0700 (PDT)
+	bh=Y1+Hu5dETfQSFEx4O8JrUnjvHr95NPmpN311/YKEc9s=;
+	b=UVpN41f6asV5r3XiYXGa7BOxhVcgeAlcrB3iHNV2wp+ebqLq2t/vQWkWfRdZXujror
+	A8bPjq/6208Pynts0mL+6efNglMNmEFubPjjg76CPTCavFm9HbiYgbNi1zCX3jxGnP7/
+	FsiQiRJ6zGnWZ4AcaAUOvdGKjjSASLxck51VjEW2iso8fDp9uGw2ZJ2Uo5KHQzoY6Glx
+	LhXTNiHIIhruzcTgBZOECg504BmsJE/6P6E+C8ak9c4P7w0rWGraUP5WrKvFcpmshS5v
+	OwKYk+ca+8d6Tfvp5qIo/5dTGV5W4FFWlG4mxEfUNZ1dN/wFaXCWayevmL4zJK8Q7u8w
+	zx+Q==
+X-Gm-Message-State: AE9vXwNEuEuxwuoS2O0Z3BJJ2k3hRwn+ODmMxS7QTiq/UgcWUFIR3MW7xLsKiFwNewhLnw==
+X-Received: by 10.98.197.1 with SMTP id j1mr4366786pfg.77.1474558395996;
+	Thu, 22 Sep 2016 08:33:15 -0700 (PDT)
 Received: from ?IPv6:2601:202:4001:9ea0:c1fa:d80c:b211:8746?
 	([2601:202:4001:9ea0:c1fa:d80c:b211:8746])
-	by smtp.gmail.com with ESMTPSA id
-	o123sm4951431pfg.78.2016.09.22.08.25.18
+	by smtp.gmail.com with ESMTPSA id t5sm5054353pfi.26.2016.09.22.08.33.14
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 22 Sep 2016 08:25:19 -0700 (PDT)
-To: Sona Sarmadi <sona.sarmadi@enea.com>,
+	Thu, 22 Sep 2016 08:33:14 -0700 (PDT)
+To: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>,
 	openembedded-core@lists.openembedded.org
-References: <1474445422-48590-1-git-send-email-sona.sarmadi@enea.com>
+References: <1474492215-39510-1-git-send-email-alejandro.hernandez@linux.intel.com>
 From: akuster808 <akuster808@gmail.com>
-Message-ID: <47266cfe-d87b-c584-860e-94038a8b986c@gmail.com>
-Date: Thu, 22 Sep 2016 08:25:18 -0700
+Message-ID: <a826406c-2bff-0e51-014c-81203e0ec06c@gmail.com>
+Date: Thu, 22 Sep 2016 08:33:12 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
 	Thunderbird/45.2.0
 MIME-Version: 1.0
-In-Reply-To: <1474445422-48590-1-git-send-email-sona.sarmadi@enea.com>
-Subject: Re: [PATCH][krogoth] qemu: CVE-2016-3710
+In-Reply-To: <1474492215-39510-1-git-send-email-alejandro.hernandez@linux.intel.com>
+Cc: akuster@mvista.com
+Subject: Re: [PATCH] [krogoth] Fixes several python3 dependencies
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,171 +60,204 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Sep 2016 15:25:20 -0000
+X-List-Received-Date: Thu, 22 Sep 2016 15:33:15 -0000
 Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
+
+Alejandro,
 
 
+On 09/21/2016 02:10 PM, Alejandro Hernandez wrote:
+> This patch adds the packages python3-signal, python3-enum and python3-s=
+electors,
+> while it also fixes python3-subprocess, this fixes the installation of =
+python3-modules
 
-On 09/21/2016 01:10 AM, Sona Sarmadi wrote:
-> Fixes an out-of-bounds read/write access flaw which was found
-> in the way QEMU's VGA emulation with VESA BIOS Extensions (VBE)
-> support performed read/write operations using I/O port methods.
->
-> A privileged guest user could use this flaw to execute arbitrary
-> code on the host with the privileges of the host's QEMU process.
+I can not get this to apply to my krogoth-next nor krogoth in Poky. Can=20
+you double check and let me know if I am doing something wrong or need=20
+any dependency changes?
 
-Thanks. This one is already in my staging branch.
-
-http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/log/?h=akuster/krogoth-next
+error pw is showing is:
+fatal: patch fragment without header at line 29: @@ -89,6 +89,10 @@=20
+SUMMARY_${PN}-email=3D"Python email support"
 
 - armin
+
+> [YOCTO #10276]
 >
-> Reference to pstream fix:
-> -------------------------
-> https://lists.gnu.org/archive/html/qemu-devel/2016-05/msg01197.html
+> Signed-off-by: Alejandro Hernandez <alejandro.hernandez@linux.intel.com=
 >
-> References:
-> -----------
-> https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2016-3710
-> http://www.openwall.com/lists/oss-security/2016/05/09/3
-> https://bugzilla.redhat.com/show_bug.cgi?id=CVE-2016-3710
->
-> Signed-off-by: Sona Sarmadi <sona.sarmadi@enea.com>
 > ---
->   .../recipes-devtools/qemu/qemu/CVE-2016-3710.patch | 111 +++++++++++++++++++++
->   meta/recipes-devtools/qemu/qemu_2.5.0.bb           |   1 +
->   2 files changed, 112 insertions(+)
->   create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2016-3710.patch
+>   meta/recipes-devtools/python/python-3.5-manifest.inc | 18 +++++++++++=
+++++---
+>   scripts/contrib/python/generate-manifest-3.5.py      | 11 ++++++++++-=
+
+>   2 files changed, 25 insertions(+), 4 deletions(-)
 >
-> diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2016-3710.patch b/meta/recipes-devtools/qemu/qemu/CVE-2016-3710.patch
-> new file mode 100644
-> index 0000000..48b9589
-> --- /dev/null
-> +++ b/meta/recipes-devtools/qemu/qemu/CVE-2016-3710.patch
-> @@ -0,0 +1,111 @@
-> +From 3bf1817079bb0d80c0d8a86a7c7dd0bfe90eb82e Mon Sep 17 00:00:00 2001
-> +From: Gerd Hoffmann <kraxel@redhat.com>
-> +Date: Tue, 26 Apr 2016 08:49:10 +0200
-> +Subject: [PATCH] vga: fix banked access bounds checking (CVE-2016-3710)
+> diff --git a/meta/recipes-devtools/python/python-3.5-manifest.inc b/met=
+a/recipes-devtools/python/python-3.5-manifest.inc
+> index bce9ce1..0ad9186 100644
+> --- a/meta/recipes-devtools/python/python-3.5-manifest.inc
+> +++ b/meta/recipes-devtools/python/python-3.5-manifest.inc
+> @@ -1,6 +1,6 @@
+>  =20
+>   # WARNING: This file is AUTO GENERATED: Manual edits will be lost nex=
+t time I regenerate the file.
+> -# Generator: '../../../scripts/contrib/python/generate-manifest-3.5.py=
+' Version 20140131 (C) 2002-2010 Michael 'Mickey' Lauer <mlauer@vanille-m=
+edia.de>
+> +# Generator: './generate-manifest-3.5.py' Version 20140131 (C) 2002-20=
+10 Michael 'Mickey' Lauer <mlauer@vanille-media.de>
+>   # Visit the Python for Embedded Systems Site =3D> http://www.Vanille.=
+de/projects/python.spy
+>  =20
+>   =20
+> @@ -39,7 +39,7 @@ FILES_${PN}-compression=3D"${libdir}/python3.5/gzip.*=
+ ${libdir}/python3.5/zipfile.
+>  =20
+>   SUMMARY_${PN}-core=3D"Python interpreter and core modules"
+>   RDEPENDS_${PN}-core=3D"${PN}-lang ${PN}-re ${PN}-reprlib ${PN}-codecs=
+ ${PN}-io ${PN}-math"
+> -FILES_${PN}-core=3D"${libdir}/python3.5/__future__.* ${libdir}/python3=
+=2E5/_abcoll.* ${libdir}/python3.5/abc.* ${libdir}/python3.5/ast.* ${libd=
+ir}/python3.5/copy.* ${libdir}/python3.5/copyreg.* ${libdir}/python3.5/co=
+nfigparser.* ${libdir}/python3.5/genericpath.* ${libdir}/python3.5/getopt=
+=2E* ${libdir}/python3.5/linecache.* ${libdir}/python3.5/new.* ${libdir}/=
+python3.5/os.* ${libdir}/python3.5/posixpath.* ${libdir}/python3.5/struct=
+=2E* ${libdir}/python3.5/warnings.* ${libdir}/python3.5/site.* ${libdir}/=
+python3.5/stat.* ${libdir}/python3.5/UserDict.* ${libdir}/python3.5/UserL=
+ist.* ${libdir}/python3.5/UserString.* ${libdir}/python3.5/lib-dynload/bi=
+nascii.*.so ${libdir}/python3.5/lib-dynload/_struct.*.so ${libdir}/python=
+3.5/lib-dynload/time.*.so ${libdir}/python3.5/lib-dynload/xreadlines.*.so=
+ ${libdir}/python3.5/types.* ${libdir}/python3.5/platform.* ${bindir}/pyt=
+hon* ${libdir}/python3.5/_weakrefset.* ${libdir}/python3.5/sysconfig.* ${=
+libdir}/python3.5/_sysconfigdata.* ${libdir}/python
+>   3.5/config/Makefile ${includedir}/python${PYTHON_BINABI}/pyconfig*.h =
+${libdir}/python${PYTHON_MAJMIN}/collections ${libdir}/python${PYTHON_MAJ=
+MIN}/_collections_abc.* ${libdir}/python${PYTHON_MAJMIN}/_sitebuiltins.* =
+${libdir}/python${PYTHON_MAJMIN}/sitecustomize.py "
+> +FILES_${PN}-core=3D"${libdir}/python3.5/__future__.* ${libdir}/python3=
+=2E5/_abcoll.* ${libdir}/python3.5/abc.* ${libdir}/python3.5/ast.* ${libd=
+ir}/python3.5/copy.* ${libdir}/python3.5/copyreg.* ${libdir}/python3.5/Co=
+nfigParser.* ${libdir}/python3.5/genericpath.* ${libdir}/python3.5/getopt=
+=2E* ${libdir}/python3.5/linecache.* ${libdir}/python3.5/new.* ${libdir}/=
+python3.5/os.* ${libdir}/python3.5/posixpath.* ${libdir}/python3.5/struct=
+=2E* ${libdir}/python3.5/warnings.* ${libdir}/python3.5/site.* ${libdir}/=
+python3.5/stat.* ${libdir}/python3.5/UserDict.* ${libdir}/python3.5/UserL=
+ist.* ${libdir}/python3.5/UserString.* ${libdir}/python3.5/lib-dynload/bi=
+nascii.*.so ${libdir}/python3.5/lib-dynload/_struct.*.so ${libdir}/python=
+3.5/lib-dynload/time.*.so ${libdir}/python3.5/lib-dynload/xreadlines.*.so=
+ ${libdir}/python3.5/types.* ${libdir}/python3.5/platform.* ${bindir}/pyt=
+hon* ${libdir}/python3.5/_weakrefset.* ${libdir}/python3.5/sysconfig.* ${=
+libdir}/python3.5/_sysconfigdata.* ${libdir}/python
+>   3.5/config/Makefile ${includedir}/python${PYTHON_BINABI}/pyconfig*.h =
+${libdir}/python${PYTHON_MAJMIN}/collections ${libdir}/python${PYTHON_MAJ=
+MIN}/_collections_abc.* ${libdir}/python${PYTHON_MAJMIN}/_sitebuiltins.* =
+${libdir}/python${PYTHON_MAJMIN}/sitecustomize.py "
+>  =20
+>   SUMMARY_${PN}-crypt=3D"Python basic cryptographic and hashing support=
+"
+>   RDEPENDS_${PN}-crypt=3D"${PN}-core"
+> @@ -89,6 +89,10 @@ SUMMARY_${PN}-email=3D"Python email support"
+>   RDEPENDS_${PN}-email=3D"${PN}-core ${PN}-io ${PN}-re ${PN}-mime ${PN}=
+-audio ${PN}-image ${PN}-netclient"
+>   FILES_${PN}-email=3D"${libdir}/python3.5/imaplib.* ${libdir}/python3.=
+5/email "
+>  =20
+> +SUMMARY_${PN}-enum=3D"Python support for enumerations"
+> +RDEPENDS_${PN}-enum=3D"${PN}-core"
+> +FILES_${PN}-enum=3D"${libdir}/python3.5/enum.* "
 > +
-> +vga allows banked access to video memory using the window at 0xa00000
-> +and it supports a different access modes with different address
-> +calculations.
+>   SUMMARY_${PN}-fcntl=3D"Python's fcntl interface"
+>   RDEPENDS_${PN}-fcntl=3D"${PN}-core"
+>   FILES_${PN}-fcntl=3D"${libdir}/python3.5/lib-dynload/fcntl.*.so "
+> @@ -197,10 +201,18 @@ SUMMARY_${PN}-resource=3D"Python resource control=
+ interface"
+>   RDEPENDS_${PN}-resource=3D"${PN}-core"
+>   FILES_${PN}-resource=3D"${libdir}/python3.5/lib-dynload/resource.*.so=
+ "
+>  =20
+> +SUMMARY_${PN}-selectors=3D"Python High-level I/O multiplexing"
+> +RDEPENDS_${PN}-selectors=3D"${PN}-core"
+> +FILES_${PN}-selectors=3D"${libdir}/python3.5/selectors.* "
 > +
-> +The VBE bochs extentions support banked access too, using the
-> +VBE_DISPI_INDEX_BANK register.  The code tries to take the different
-> +address calculations into account and applies different limits to
-> +VBE_DISPI_INDEX_BANK depending on the current access mode.
+>   SUMMARY_${PN}-shell=3D"Python shell-like functionality"
+>   RDEPENDS_${PN}-shell=3D"${PN}-core ${PN}-re"
+>   FILES_${PN}-shell=3D"${libdir}/python3.5/cmd.* ${libdir}/python3.5/co=
+mmands.* ${libdir}/python3.5/dircache.* ${libdir}/python3.5/fnmatch.* ${l=
+ibdir}/python3.5/glob.* ${libdir}/python3.5/popen2.* ${libdir}/python3.5/=
+shlex.* ${libdir}/python3.5/shutil.* "
+>  =20
+> +SUMMARY_${PN}-signal=3D"Python set handlers for asynchronous events su=
+pport"
+> +RDEPENDS_${PN}-signal=3D"${PN}-core"
+> +FILES_${PN}-signal=3D"${libdir}/python3.5/signal.* "
 > +
-> +Which is probably effective in stopping misprogramming by accident.
-> +But from a security point of view completely useless as an attacker
-> +can easily change access modes after setting the bank register.
+>   SUMMARY_${PN}-smtpd=3D"Python Simple Mail Transport Daemon"
+>   RDEPENDS_${PN}-smtpd=3D"${PN}-core ${PN}-netserver ${PN}-email ${PN}-=
+mime"
+>   FILES_${PN}-smtpd=3D"${bindir}/smtpd.* ${libdir}/python3.5/smtpd.* "
+> @@ -218,7 +230,7 @@ RDEPENDS_${PN}-stringold=3D"${PN}-core ${PN}-re"
+>   FILES_${PN}-stringold=3D"${libdir}/python3.5/lib-dynload/strop.*.so $=
+{libdir}/python3.5/string.* ${libdir}/python3.5/stringold.* "
+>  =20
+>   SUMMARY_${PN}-subprocess=3D"Python subprocess support"
+> -RDEPENDS_${PN}-subprocess=3D"${PN}-core ${PN}-io ${PN}-re ${PN}-fcntl =
+${PN}-pickle"
+> +RDEPENDS_${PN}-subprocess=3D"${PN}-core ${PN}-io ${PN}-re ${PN}-fcntl =
+${PN}-pickle ${PN}-signal ${PN}-selectors"
+>   FILES_${PN}-subprocess=3D"${libdir}/python3.5/subprocess.* "
+>  =20
+>   SUMMARY_${PN}-syslog=3D"Python syslog interface"
+> diff --git a/scripts/contrib/python/generate-manifest-3.5.py b/scripts/=
+contrib/python/generate-manifest-3.5.py
+> index b90a84f..eac493a 100755
+> --- a/scripts/contrib/python/generate-manifest-3.5.py
+> +++ b/scripts/contrib/python/generate-manifest-3.5.py
+> @@ -259,6 +259,9 @@ if __name__ =3D=3D "__main__":
+>       m.addPackage( "${PN}-email", "Python email support", "${PN}-core =
+${PN}-io ${PN}-re ${PN}-mime ${PN}-audio ${PN}-image ${PN}-netclient",
+>       "imaplib.* email" ) # package
+>  =20
+> +    m.addPackage( "${PN}-enum", "Python support for enumerations", "${=
+PN}-core",
+> +    "enum.*" )
 > +
-> +Drop the bogus check, add range checks to vga_mem_{readb,writeb}
-> +instead.
+>       m.addPackage( "${PN}-fcntl", "Python's fcntl interface", "${PN}-c=
+ore",
+>       "lib-dynload/fcntl.*.so" )
+>  =20
+> @@ -339,12 +342,18 @@ if __name__ =3D=3D "__main__":
+>       m.addPackage( "${PN}-resource", "Python resource control interfac=
+e", "${PN}-core",
+>       "lib-dynload/resource.*.so" )
+>  =20
+> +    m.addPackage( "${PN}-selectors", "Python High-level I/O multiplexi=
+ng", "${PN}-core",
+> +    "selectors.*" )
 > +
-> +Upstream-Status: Backport [from v2.6.0-rc5~1^2~4
-> +commit: 3bf1817079bb0d80c0d8a86a7c7dd0bfe90eb82e]
+>       m.addPackage( "${PN}-shell", "Python shell-like functionality", "=
+${PN}-core ${PN}-re",
+>       "cmd.* commands.* dircache.* fnmatch.* glob.* popen2.* shlex.* sh=
+util.*" )
+>  =20
+> -    m.addPackage( "${PN}-subprocess", "Python subprocess support", "${=
+PN}-core ${PN}-io ${PN}-re ${PN}-fcntl ${PN}-pickle",
+> +    m.addPackage( "${PN}-subprocess", "Python subprocess support", "${=
+PN}-core ${PN}-io ${PN}-re ${PN}-fcntl ${PN}-pickle ${PN}-signal ${PN}-se=
+lectors",
+>       "subprocess.*" )
+>  =20
+> +    m.addPackage( "${PN}-signal", "Python set handlers for asynchronou=
+s events support", "${PN}-core",
+> +    "signal.*" )
 > +
-> +Fixes: CVE-2016-3710
-> +Reported-by: Qinghao Tang <luodalongde@gmail.com>
-> +Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-> +Signed-off-by: Sona Sarmadi <sona.sarmadi@enea.com>
-> +---
-> + hw/display/vga.c | 24 ++++++++++++++++++------
-> + 1 file changed, 18 insertions(+), 6 deletions(-)
-> +
-> +diff --git a/hw/display/vga.c b/hw/display/vga.c
-> +index 657e9f1..b9191ca 100644
-> +--- a/hw/display/vga.c
-> ++++ b/hw/display/vga.c
-> +@@ -179,6 +179,7 @@ static void vga_update_memory_access(VGACommonState *s)
-> +             size = 0x8000;
-> +             break;
-> +         }
-> ++        assert(offset + size <= s->vram_size);
-> +         memory_region_init_alias(&s->chain4_alias, memory_region_owner(&s->vram),
-> +                                  "vga.chain4", &s->vram, offset, size);
-> +         memory_region_add_subregion_overlap(s->legacy_address_space, base,
-> +@@ -716,11 +717,7 @@ void vbe_ioport_write_data(void *opaque, uint32_t addr, uint32_t val)
-> +             vbe_fixup_regs(s);
-> +             break;
-> +         case VBE_DISPI_INDEX_BANK:
-> +-            if (s->vbe_regs[VBE_DISPI_INDEX_BPP] == 4) {
-> +-              val &= (s->vbe_bank_mask >> 2);
-> +-            } else {
-> +-              val &= s->vbe_bank_mask;
-> +-            }
-> ++            val &= s->vbe_bank_mask;
-> +             s->vbe_regs[s->vbe_index] = val;
-> +             s->bank_offset = (val << 16);
-> +             vga_update_memory_access(s);
-> +@@ -819,13 +816,21 @@ uint32_t vga_mem_readb(VGACommonState *s, hwaddr addr)
-> +
-> +     if (s->sr[VGA_SEQ_MEMORY_MODE] & VGA_SR04_CHN_4M) {
-> +         /* chain 4 mode : simplest access */
-> ++        assert(addr < s->vram_size);
-> +         ret = s->vram_ptr[addr];
-> +     } else if (s->gr[VGA_GFX_MODE] & 0x10) {
-> +         /* odd/even mode (aka text mode mapping) */
-> +         plane = (s->gr[VGA_GFX_PLANE_READ] & 2) | (addr & 1);
-> +-        ret = s->vram_ptr[((addr & ~1) << 1) | plane];
-> ++        addr = ((addr & ~1) << 1) | plane;
-> ++        if (addr >= s->vram_size) {
-> ++            return 0xff;
-> ++        }
-> ++        ret = s->vram_ptr[addr];
-> +     } else {
-> +         /* standard VGA latched access */
-> ++        if (addr * sizeof(uint32_t) >= s->vram_size) {
-> ++            return 0xff;
-> ++        }
-> +         s->latch = ((uint32_t *)s->vram_ptr)[addr];
-> +
-> +         if (!(s->gr[VGA_GFX_MODE] & 0x08)) {
-> +@@ -882,6 +887,7 @@ void vga_mem_writeb(VGACommonState *s, hwaddr addr, uint32_t val)
-> +         plane = addr & 3;
-> +         mask = (1 << plane);
-> +         if (s->sr[VGA_SEQ_PLANE_WRITE] & mask) {
-> ++            assert(addr < s->vram_size);
-> +             s->vram_ptr[addr] = val;
-> + #ifdef DEBUG_VGA_MEM
-> +             printf("vga: chain4: [0x" TARGET_FMT_plx "]\n", addr);
-> +@@ -895,6 +901,9 @@ void vga_mem_writeb(VGACommonState *s, hwaddr addr, uint32_t val)
-> +         mask = (1 << plane);
-> +         if (s->sr[VGA_SEQ_PLANE_WRITE] & mask) {
-> +             addr = ((addr & ~1) << 1) | plane;
-> ++            if (addr >= s->vram_size) {
-> ++                return;
-> ++            }
-> +             s->vram_ptr[addr] = val;
-> + #ifdef DEBUG_VGA_MEM
-> +             printf("vga: odd/even: [0x" TARGET_FMT_plx "]\n", addr);
-> +@@ -968,6 +977,9 @@ void vga_mem_writeb(VGACommonState *s, hwaddr addr, uint32_t val)
-> +         mask = s->sr[VGA_SEQ_PLANE_WRITE];
-> +         s->plane_updated |= mask; /* only used to detect font change */
-> +         write_mask = mask16[mask];
-> ++        if (addr * sizeof(uint32_t) >= s->vram_size) {
-> ++            return;
-> ++        }
-> +         ((uint32_t *)s->vram_ptr)[addr] =
-> +             (((uint32_t *)s->vram_ptr)[addr] & ~write_mask) |
-> +             (val & write_mask);
-> +--
-> +1.9.1
-> +
-> diff --git a/meta/recipes-devtools/qemu/qemu_2.5.0.bb b/meta/recipes-devtools/qemu/qemu_2.5.0.bb
-> index 03a6cbe..7651e9a 100644
-> --- a/meta/recipes-devtools/qemu/qemu_2.5.0.bb
-> +++ b/meta/recipes-devtools/qemu/qemu_2.5.0.bb
-> @@ -16,6 +16,7 @@ SRC_URI += "file://configure-fix-Darwin-target-detection.patch \
->               file://rng_remove_the_unused_request_cancellation_code.patch \
->               file://rng_move_request_queue_cleanup_from_RngEgd_to_RngBackend.patch \
->               file://CVE-2016-2858.patch \
-> +            file://CVE-2016-3710.patch \
->              "
->   SRC_URI_prepend = "http://wiki.qemu-project.org/download/${BP}.tar.bz2"
->   SRC_URI[md5sum] = "f469f2330bbe76e3e39db10e9ac4f8db"
+>       m.addPackage( "${PN}-sqlite3", "Python Sqlite3 database support",=
+ "${PN}-core ${PN}-datetime ${PN}-lang ${PN}-crypt ${PN}-io ${PN}-threadi=
+ng",
+>       "lib-dynload/_sqlite3.*.so sqlite3/dbapi2.* sqlite3/__init__.* sq=
+lite3/dump.*" )
+>  =20
+
 
 
