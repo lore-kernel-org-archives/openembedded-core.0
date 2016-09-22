@@ -1,46 +1,49 @@
-Return-Path: <rm.santos.caldas@gmail.com>
-Received: from mail-io0-f174.google.com (mail-io0-f174.google.com
-	[209.85.223.174])
-	by mail.openembedded.org (Postfix) with ESMTP id 32719606CA
+Return-Path: <kergoth@gmail.com>
+Received: from mail-oi0-f41.google.com (mail-oi0-f41.google.com
+	[209.85.218.41])
+	by mail.openembedded.org (Postfix) with ESMTP id 8D85E6093F
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Sep 2016 16:50:01 +0000 (UTC)
-Received: by mail-io0-f174.google.com with SMTP id e66so2198120iod.1
+	Thu, 22 Sep 2016 17:37:23 +0000 (UTC)
+Received: by mail-oi0-f41.google.com with SMTP id r126so106093922oib.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Sep 2016 09:50:03 -0700 (PDT)
+	Thu, 22 Sep 2016 10:37:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=vcScdZTOp1Vbj+/mQw+skDAYz2YMtwpQxHNoBN7XDso=;
-	b=LpaRVe0F4Ac8gaX/5Y4cs03vW2uOBHUb/85SOcn2ZbVXBW2P7FKcfttYZvSltmrHuE
-	Pmig/coJTnwcvFgjLyROM/1oudINnK+AgdrS/D1lH4VLYBPl28+EfVe7VXVUirfxTwjM
-	ElUljuSZL7JZLbpYg/kSK+qRRe/tupoE1Pmy9omLDyy2+hOeWtIFtj8F53M2ADxMv3AD
-	e7oC6jpfpmSSVW3/VPgpV2U/2HlG0As2LT3DCm7EjujRbMBKS0Tf0eMrTCBFmwUB4JWF
-	dF7kJm2BMBCqCj4UAZEcBkMlZTBDJUI4kqKj0VIEpI5nmwhYkUVepZBDCiYgZ0N9kIXO
-	39dw==
+	h=mime-version:sender:in-reply-to:references:from:date:message-id
+	:subject:to:cc;
+	bh=fVOARWbYHQKAuRXeR27a0/Xmmv4PN5qU1uLwNULysSI=;
+	b=O+xJPdMXrU+zuYhbpjKTvctzE6OM+likvj0O90LXoUSTXXELlCr3r+N4JUPLjhIeoJ
+	ItiR0QueR6DjTSYp7CyClCtYCgw9U6OvB6+6BZ0YDw1v6pi3f7n+EuGuoU39ih5sabXg
+	GmFpa77QBw0AF2BiPbw5fQIhc9LZdFz/I3ciGF4Kzp2e0jsgSBnr6iRk2AZt1gje+JaC
+	2n9zuIRZbIynzXDmYog4lT9LVT0UPAjzB+1vGY9boGNVWlmXLcW1QTlgB4pxkcttkJqL
+	VSbQdyvHyw57z2FdK/LXPFmZzMi47GsiBBiVDsD9ESUwBs0XuZUYpQwlEtx6bu7LTSHE
+	PyLQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=vcScdZTOp1Vbj+/mQw+skDAYz2YMtwpQxHNoBN7XDso=;
-	b=NlhbZbxuTK1bjsGh6mbnsEqgmh3OmRqx7lRF/diWvBk0Svolk525ZcBw9XGaO0Fygo
-	4p3I/6PgEzKjfEXnIJEATmlSjZKKmPbwmd6WHMHR/EcqRLy2NRdC6diL2gwvQPfqzcbz
-	H574c2owvU0nwnrTxWJQJ53G+tBSRb2nyL5oUC2C6qTAk7XvXnDEnppD6l7xLRJJYNG/
-	tForssHrZxmUz+VYrlB9IDHTWjnomj6VFrwfDd4aPGXOKcSif7Acvvg6GZIjC+l8tXz6
-	fz6+84E2aVIQrYJGk+nD0dPeSFuUG8V8qdVQZTjD0V2Jc2LkHcAnSbO3jgxFMURSq8XQ
-	qmLA==
-X-Gm-Message-State: AE9vXwMEP5jw+oxrTAxa+ktAJmQjQJ9bOrqhcV41g7InWtLCgnUpuMVzTqb49uF4OSQx84LgxnXE3bfyVO28nA==
-X-Received: by 10.107.36.213 with SMTP id k204mr3804206iok.129.1474563003044; 
-	Thu, 22 Sep 2016 09:50:03 -0700 (PDT)
+	h=x-gm-message-state:mime-version:sender:in-reply-to:references:from
+	:date:message-id:subject:to:cc;
+	bh=fVOARWbYHQKAuRXeR27a0/Xmmv4PN5qU1uLwNULysSI=;
+	b=XH347270BIS3qfIJOmXEu8MbaYfosdqqxOXGc615vy7H2vWfYOXyaH76+e9YGg9QD5
+	3Jn/nKAOWoLFsPhDdLbL3ZrmDnlu6GO9dKcJrVq2rdFzNZ50BdTbohgjiKliaG29eUbS
+	NEPd/b9PPG4BARJM6mQ9gUhp7TOyz13tLsx3Ed1EKp3+FTVAf4Ew68ivw0YuWMyrYPAr
+	JaXMv6ZdeHYaOfFz8433fYyBjQ3AXJXzTcGwlA0GYOA8p3SzUm0Uiwzo9mRTRr84+pIb
+	7+2agVsjl/mhtzPn+/oj99dGE4oCLZya6tBYCH1FGY3K56npeCf78P3qcciETuWk/ivj
+	iKJQ==
+X-Gm-Message-State: AE9vXwNcSekn3LOwy/ft97VdnpweHCgEQqw3j+nEvmRBigcqWV9qpgGL2f2v7VvUL7mf88VrEaTEXYn9xYWReA==
+X-Received: by 10.202.6.133 with SMTP id 127mr4186545oig.65.1474565844197;
+	Thu, 22 Sep 2016 10:37:24 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.64.39.14 with HTTP; Thu, 22 Sep 2016 09:50:02 -0700 (PDT)
-In-Reply-To: <005ab3aa-8855-ccbc-8e68-fcb6a42c19cc@linux.intel.com>
-References: <20160609184343.GA17951@openSUSE-i7.site>
-	<005ab3aa-8855-ccbc-8e68-fcb6a42c19cc@linux.intel.com>
-From: Renato Caldas <rm.santos.caldas@gmail.com>
-Date: Thu, 22 Sep 2016 17:50:02 +0100
-Message-ID: <CA+21M5CCpkAp1eji3ZpYebG4=a60CPLJeoyB6BAwBKF5O4zwXA@mail.gmail.com>
-To: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: -c menuconfig stopped working in master
+Sender: kergoth@gmail.com
+Received: by 10.157.13.194 with HTTP; Thu, 22 Sep 2016 10:37:02 -0700 (PDT)
+In-Reply-To: <1474548771.16834.100.camel@intel.com>
+References: <1474472342.16834.96.camel@intel.com> <20160921160854.GB2633@jama>
+	<1474548771.16834.100.camel@intel.com>
+From: Christopher Larson <clarson@kergoth.com>
+Date: Thu, 22 Sep 2016 10:37:02 -0700
+X-Google-Sender-Auth: b_S8Cu1KiZBxKQg9heZeM5MEVxM
+Message-ID: <CABcZANn=y0AK=_Uqed+5E4hQk01JyoTcofQNGdHfxkSG7NQmjA@mail.gmail.com>
+To: Patrick Ohly <patrick.ohly@intel.com>
+Cc: OpenEmbedded <openembedded-core@lists.openembedded.org>
+Subject: Re: rm_work + pybootchart enhancements
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,127 +56,93 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Sep 2016 16:50:03 -0000
+X-List-Received-Date: Thu, 22 Sep 2016 17:37:26 -0000
+Content-Type: multipart/alternative; boundary=94eb2c0d0504576791053d1c1d35
+
+--94eb2c0d0504576791053d1c1d35
 Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-2016-06-09 20:58 GMT+01:00 Leonardo Sandoval
-<leonardo.sandoval.gonzalez@linux.intel.com>:
-> Yes, this is related to the python3 change. I have a patch, I will send it
-> asap.
+On Thu, Sep 22, 2016 at 5:52 AM, Patrick Ohly <patrick.ohly@intel.com>
+wrote:
 
-Hi, any news on this?
-
-> On 06/09/2016 01:43 PM, Trevor Woerner wrote:
->>
->> It appears "bitbake virtual/kernel -c menuconfig" has stopped working in
->> master (python3-related?). The following is from a build on master of poky
->> (git://git.yoctoproject.org/poky) with qemux86 as the MACHINE (iow, the
->> most
->> basic build). The same happens with master-next.
->>
->>         ERROR: linux-yocto-4.4.12+gitAUTOINC+8900370d33_1f3e98df09-r0
->> do_menuconfig: Error executing a python function in exec_python_func()
->> autogenerated:
->>
->>         The stack trace of python calls that resulted in this
->> exception/failure was:
->>         File: 'exec_python_func() autogenerated', lineno: 2, function:
->> <module>
->>              0001:
->>          *** 0002:do_menuconfig(d)
->>              0003:
->>         File:
->> '/z/layerindex-master/layers/meta-poky/meta/classes/cml1.bbclass', lineno:
->> 30, function: do_menuconfig
->>              0026:    except OSError:
->>              0027:        mtime = 0
->>              0028:
->>              0029:    oe_terminal("${SHELL} -c \"make %s; if [ \$? -ne 0
->> ]; then echo 'Command failed.'; printf 'Press any key to continue... '; read
->> r; fi\"" % d.getVar('KCONFIG_CONFIG_COMMAND', True),
->>          *** 0030:                d.getVar('PN', True ) + '
->> Configuration', d)
->>              0031:
->>              0032:    # FIXME this check can be removed when the minimum
->> bitbake version has been bumped
->>              0033:    if hasattr(bb.build, 'write_taint'):
->>              0034:        try:
->>         File:
->> '/z/layerindex-master/layers/meta-poky/meta/classes/terminal.bbclass',
->> lineno: 90, function: oe_terminal
->>              0086:        except oe.terminal.ExecutionError as exc:
->>              0087:            bb.fatal('Unable to spawn terminal %s: %s' %
->> (terminal, exc))
->>              0088:
->>              0089:    try:
->>          *** 0090:        oe.terminal.spawn_preferred(command, title,
->> None, d)
->>              0091:    except oe.terminal.NoSupportedTerminals:
->>              0092:        bb.fatal('No valid terminal found, unable to
->> open devshell')
->>              0093:    except oe.terminal.ExecutionError as exc:
->>              0094:        bb.fatal('Unable to spawn terminal %s: %s' %
->> (terminal, exc))
->>         File:
->> '/z/layerindex-master/layers/meta-poky/meta/lib/oe/terminal.py', lineno:
->> 197, function: spawn_preferred
->>              0193:def spawn_preferred(sh_cmd, title=None, env=None,
->> d=None):
->>              0194:    """Spawn the first supported terminal, by
->> priority"""
->>              0195:    for terminal in prioritized():
->>              0196:        try:
->>          *** 0197:            spawn(terminal.name, sh_cmd, title, env, d)
->>              0198:            break
->>              0199:        except UnsupportedTerminal:
->>              0200:            continue
->>              0201:    else:
->>         File:
->> '/z/layerindex-master/layers/meta-poky/meta/lib/oe/terminal.py', lineno:
->> 212, function: spawn
->>              0208:        terminal = Registry.registry[name]
->>              0209:    except KeyError:
->>              0210:        raise UnsupportedTerminal(name)
->>              0211:
->>          *** 0212:    pipe = terminal(sh_cmd, title, env, d)
->>              0213:    output = pipe.communicate()[0]
->>              0214:    if pipe.returncode != 0:
->>              0215:        raise ExecutionError(sh_cmd, pipe.returncode,
->> output)
->>              0216:
->>         File:
->> '/z/layerindex-master/layers/meta-poky/meta/lib/oe/terminal.py', lineno: 89,
->> function: __init__
->>              0085:    priority = 2
->>              0086:
->>              0087:    def __init__(self, sh_cmd, title=None, env=None,
->> d=None):
->>              0088:        # Check version
->>          *** 0089:        vernum = check_terminal_version("konsole")
->>              0090:        if vernum and LooseVersion(vernum) < '2.0.0':
->>              0091:            # Konsole from KDE 3.x
->>              0092:            self.command = 'konsole -T "{title}" -e
->> {command}'
->>              0093:        XTerminal.__init__(self, sh_cmd, title, env, d)
->>         File:
->> '/z/layerindex-master/layers/meta-poky/meta/lib/oe/terminal.py', lineno:
->> 249, function: check_terminal_version
->>              0245:        newenv = os.environ.copy()
->>              0246:        newenv["LANG"] = "C"
->>              0247:        p = sub.Popen(['sh', '-c', cmdversion],
->> stdout=sub.PIPE, stderr=sub.PIPE, env=newenv)
->>              0248:        out, err = p.communicate()
->>          *** 0249:        ver_info = out.rstrip().split('\n')
->>              0250:    except OSError as exc:
->>              0251:        import errno
->>              0252:        if exc.errno == errno.ENOENT:
->>              0253:            return None
->>         Exception: TypeError: Type str doesn't support the buffer API
+> On Wed, 2016-09-21 at 18:08 +0200, Martin Jansa wrote:
+> > On Wed, Sep 21, 2016 at 05:39:02PM +0200, Patrick Ohly wrote:
+> > > Test script attached. I only ran this once, so I can't vouch that the
+> > > numbers are stable. I remember reading about a benchmark wrapper whic=
+h
+> > > can run such a test script multiple times and then will automatically
+> > > merge the output of all runs together, adding
+> min/max/average/deviation,
+> > > but couldn't find the tool again. Does anyone know which tool does
+> that?
+> >
+> > it's in oe-core:
+> > ./scripts/contrib/bb-perf/bb-matrix-plot.sh
+> > ./scripts/contrib/bb-perf/bb-matrix.sh
+> >
+> > ...
 >
+> That's bitbake specific. What I was remembering is something generic
+> that works for anything that prints test results on stdout. Perhaps I
+> was dreaming ;-}
 >
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
+I use https://github.com/rustyrussell/stats for that, quite handy. For
+cases simpler than yours, when I=E2=80=99m just checking for deviation of c=
+ommand
+execution times, I use a little wrapper around time + stats at
+https://github.com/kergoth/dotfiles/blob/master/scripts/time-stats.
+--=20
+Christopher Larson
+clarson at kergoth dot com
+Founder - BitBake, OpenEmbedded, OpenZaurus
+Maintainer - Tslib
+Senior Software Engineer, Mentor Graphics
+
+--94eb2c0d0504576791053d1c1d35
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On Thu, Sep 22, 2016 at 5:52 AM, Patrick Ohly <span dir=3D"ltr">&lt;<a href=
+=3D"mailto:patrick.ohly@intel.com" target=3D"_blank">patrick.ohly@intel.com=
+</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin=
+:0px 0px 0px 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204)=
+;border-left-style:solid;padding-left:1ex"><span class=3D"gmail-">On Wed, 2=
+016-09-21 at 18:08 +0200, Martin Jansa wrote:<br>
+&gt; On Wed, Sep 21, 2016 at 05:39:02PM +0200, Patrick Ohly wrote:<br>
+</span><span class=3D"gmail-">&gt; &gt; Test script attached. I only ran th=
+is once, so I can&#39;t vouch that the<br>
+&gt; &gt; numbers are stable. I remember reading about a benchmark wrapper =
+which<br>
+&gt; &gt; can run such a test script multiple times and then will automatic=
+ally<br>
+&gt; &gt; merge the output of all runs together, adding min/max/average/dev=
+iation,<br>
+&gt; &gt; but couldn&#39;t find the tool again. Does anyone know which tool=
+ does that?<br>
+&gt;<br>
+&gt; it&#39;s in oe-core:<br>
+&gt; ./scripts/contrib/bb-perf/bb-<wbr>matrix-plot.sh<br>
+&gt; ./scripts/contrib/bb-perf/bb-<wbr>matrix.sh<br>
+&gt;<br>
+&gt; ...<br>
+<br>
+</span>That&#39;s bitbake specific. What I was remembering is something gen=
+eric<br>
+that works for anything that prints test results on stdout. Perhaps I<br>
+was dreaming ;-}<div class=3D"gmail-yj6qo gmail-ajU"><div id=3D"gmail-:ua" =
+class=3D"gmail-ajR" tabindex=3D"0"></div></div></blockquote></div><br>I use=
+=C2=A0<a href=3D"https://github.com/rustyrussell/stats">https://github.com/=
+rustyrussell/stats</a>=C2=A0for that, quite handy. For cases simpler than y=
+ours, when I=E2=80=99m just checking for deviation of command execution tim=
+es, I use a little wrapper around time + stats at=C2=A0<a href=3D"https://g=
+ithub.com/kergoth/dotfiles/blob/master/scripts/time-stats">https://github.c=
+om/kergoth/dotfiles/blob/master/scripts/time-stats</a>.<br>-- <br><div clas=
+s=3D"gmail_signature">Christopher Larson<br>clarson at kergoth dot com<br>F=
+ounder - BitBake, OpenEmbedded, OpenZaurus<br>Maintainer - Tslib<br>Senior =
+Software Engineer, Mentor Graphics</div>
+</div></div>
+
+--94eb2c0d0504576791053d1c1d35--
