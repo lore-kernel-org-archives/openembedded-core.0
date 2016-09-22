@@ -1,49 +1,51 @@
-Return-Path: <kergoth@gmail.com>
-Received: from mail-oi0-f41.google.com (mail-oi0-f41.google.com
-	[209.85.218.41])
-	by mail.openembedded.org (Postfix) with ESMTP id 8D85E6093F
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 37F6D60603
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Sep 2016 17:37:23 +0000 (UTC)
-Received: by mail-oi0-f41.google.com with SMTP id r126so106093922oib.0
+	Thu, 22 Sep 2016 17:45:56 +0000 (UTC)
+Received: by mail-wm0-f65.google.com with SMTP id 133so15295723wmq.2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Sep 2016 10:37:25 -0700 (PDT)
+	Thu, 22 Sep 2016 10:45:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:from:date:message-id
-	:subject:to:cc;
-	bh=fVOARWbYHQKAuRXeR27a0/Xmmv4PN5qU1uLwNULysSI=;
-	b=O+xJPdMXrU+zuYhbpjKTvctzE6OM+likvj0O90LXoUSTXXELlCr3r+N4JUPLjhIeoJ
-	ItiR0QueR6DjTSYp7CyClCtYCgw9U6OvB6+6BZ0YDw1v6pi3f7n+EuGuoU39ih5sabXg
-	GmFpa77QBw0AF2BiPbw5fQIhc9LZdFz/I3ciGF4Kzp2e0jsgSBnr6iRk2AZt1gje+JaC
-	2n9zuIRZbIynzXDmYog4lT9LVT0UPAjzB+1vGY9boGNVWlmXLcW1QTlgB4pxkcttkJqL
-	VSbQdyvHyw57z2FdK/LXPFmZzMi47GsiBBiVDsD9ESUwBs0XuZUYpQwlEtx6bu7LTSHE
-	PyLQ==
+	h=from:date:to:cc:subject:message-id:references:mime-version
+	:content-disposition:in-reply-to:user-agent;
+	bh=JMPLCj+omVDNssg+r+SqKm+kxzV6OB2dxYZboqnoBu0=;
+	b=ExDkOJSjLqstSkwJ0w6gQfok6vSg+Gi73yET3ZG0qx71K+11xKBgCHkNKgRFe7iUsM
+	L+xN9MNcFN1t0ABY3QkokGKhIWeqE8aNxBMowjAVYKoJ9MmfbHOxTJKuhLD/iZuBi5Da
+	rKp4WURxWvmY1yp8yz1DY/hZdKP4msc0XYDCl1SUxSeyFqsHWUHGM2ZCkh6fhpO8Grp9
+	2DwuMyMuVXn8KfEssJ9BSrsrujv0GwzZIzy8i40oPioSIEJ2gZ3rR/DihqQJiv/kClmo
+	5YH6MkXPa+m7327SEdqgnLVk4psaWJM++b0goaQWWoTCQOzEmcEYicKh+6EsP3zoJuez
+	j3Yg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:sender:in-reply-to:references:from
-	:date:message-id:subject:to:cc;
-	bh=fVOARWbYHQKAuRXeR27a0/Xmmv4PN5qU1uLwNULysSI=;
-	b=XH347270BIS3qfIJOmXEu8MbaYfosdqqxOXGc615vy7H2vWfYOXyaH76+e9YGg9QD5
-	3Jn/nKAOWoLFsPhDdLbL3ZrmDnlu6GO9dKcJrVq2rdFzNZ50BdTbohgjiKliaG29eUbS
-	NEPd/b9PPG4BARJM6mQ9gUhp7TOyz13tLsx3Ed1EKp3+FTVAf4Ew68ivw0YuWMyrYPAr
-	JaXMv6ZdeHYaOfFz8433fYyBjQ3AXJXzTcGwlA0GYOA8p3SzUm0Uiwzo9mRTRr84+pIb
-	7+2agVsjl/mhtzPn+/oj99dGE4oCLZya6tBYCH1FGY3K56npeCf78P3qcciETuWk/ivj
-	iKJQ==
-X-Gm-Message-State: AE9vXwNcSekn3LOwy/ft97VdnpweHCgEQqw3j+nEvmRBigcqWV9qpgGL2f2v7VvUL7mf88VrEaTEXYn9xYWReA==
-X-Received: by 10.202.6.133 with SMTP id 127mr4186545oig.65.1474565844197;
-	Thu, 22 Sep 2016 10:37:24 -0700 (PDT)
+	h=x-gm-message-state:from:date:to:cc:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to:user-agent;
+	bh=JMPLCj+omVDNssg+r+SqKm+kxzV6OB2dxYZboqnoBu0=;
+	b=NUjeAwxl6BhpFUlWOu8TZDIrT6EgvldwyimUcvDevPUjGDic9c4SQJQE8GORhfaPJN
+	6ONyOGsMgWDazs6ZjDq1cxuVY3Gj3SQmEMNbaeCSkoeGggRhuSCN0WgKVKZFekKJYi/I
+	fzx4oU8lwIN7gEjhp55sL6Fnm64uDJoywKi9Y/sNiPk1kGWFQZv/SYtyk5A1jZexAgbO
+	Jv3VdAOSqWCaE35KKmq2PwIPe8SMvu8NeY6dZkdY59LLD/MOqQRkt3FmIkEticGsKV0c
+	8CP8RR+Q1aRHJ+mxQKQdKaLNQLEcUW/V7EdRqTNy3BOJlqKlqY9oHOzmDslZcIIJJ7Om
+	917g==
+X-Gm-Message-State: AA6/9Rl2HEQZr5cbILSW/fap3np6HEQ1A5tzSLfyGeC8IPNl+Vzz9SgrzcjcqR56xUBP+g==
+X-Received: by 10.28.170.197 with SMTP id t188mr3848469wme.42.1474566357970;
+	Thu, 22 Sep 2016 10:45:57 -0700 (PDT)
+Received: from localhost (ip-89-176-104-169.net.upcbroadband.cz.
+	[89.176.104.169])
+	by smtp.gmail.com with ESMTPSA id l3sm3169180wjp.17.2016.09.22.10.45.56
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Thu, 22 Sep 2016 10:45:57 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Thu, 22 Sep 2016 19:45:58 +0200
+To: Andreas =?iso-8859-1?Q?M=FCller?= <schnitzeltony@googlemail.com>
+Message-ID: <20160922174558.GA2630@jama>
+References: <1474435844-16942-1-git-send-email-schnitzeltony@googlemail.com>
 MIME-Version: 1.0
-Sender: kergoth@gmail.com
-Received: by 10.157.13.194 with HTTP; Thu, 22 Sep 2016 10:37:02 -0700 (PDT)
-In-Reply-To: <1474548771.16834.100.camel@intel.com>
-References: <1474472342.16834.96.camel@intel.com> <20160921160854.GB2633@jama>
-	<1474548771.16834.100.camel@intel.com>
-From: Christopher Larson <clarson@kergoth.com>
-Date: Thu, 22 Sep 2016 10:37:02 -0700
-X-Google-Sender-Auth: b_S8Cu1KiZBxKQg9heZeM5MEVxM
-Message-ID: <CABcZANn=y0AK=_Uqed+5E4hQk01JyoTcofQNGdHfxkSG7NQmjA@mail.gmail.com>
-To: Patrick Ohly <patrick.ohly@intel.com>
-Cc: OpenEmbedded <openembedded-core@lists.openembedded.org>
-Subject: Re: rm_work + pybootchart enhancements
+In-Reply-To: <1474435844-16942-1-git-send-email-schnitzeltony@googlemail.com>
+User-Agent: Mutt/1.7.0 (2016-08-17)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/2] libunwind: fix build by linking with bfd instead of gold
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,93 +58,111 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Sep 2016 17:37:26 -0000
-Content-Type: multipart/alternative; boundary=94eb2c0d0504576791053d1c1d35
+X-List-Received-Date: Thu, 22 Sep 2016 17:45:58 -0000
+X-Groupsio-MsgNum: 87428
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="vkogqOf2sHV7VnPd"
+Content-Disposition: inline
 
---94eb2c0d0504576791053d1c1d35
-Content-Type: text/plain; charset=UTF-8
+--vkogqOf2sHV7VnPd
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Sep 22, 2016 at 5:52 AM, Patrick Ohly <patrick.ohly@intel.com>
-wrote:
+On Wed, Sep 21, 2016 at 07:30:43AM +0200, Andreas M=FCller wrote:
+> works around:
+> <native-sysroot>/ld: error: Gperf-simple.o: cannot make copy relocation f=
+or protected symbol '_Uarm_local_addr_space', defined in ../src/.libs/libun=
+wind-arm.so
+> collect2: error: ld returned 1 exit status
+> Makefile:1038: recipe for target 'Gperf-simple' failed
+> make[1]: *** [Gperf-simple] Error 1
+> make[1]: *** Waiting for unfinished jobs....
+> <...>
+> <native-sysroot>/ld: error: Lperf-simple.o: cannot make copy relocation f=
+or protected symbol '_ULarm_local_addr_space', defined in ../src/.libs/libu=
+nwind.so
+> collect2: error: ld returned 1 exit status
+> Makefile:1094: recipe for target 'Lperf-simple' failed
+> make[1]: *** [Lperf-simple] Error 1
+> <...>
+> ERROR: oe_runmake failed
+> <native-sysroot>/ld: error: Gperf-trace.o: cannot make copy relocation fo=
+r protected symbol '_Uarm_local_addr_space', defined in ../src/.libs/libunw=
+ind-arm.so
+> collect2: error: ld returned 1 exit status
+> Makefile:1042: recipe for target 'Gperf-trace' failed
+> make[1]: *** [Gperf-trace] Error 1
+> <native-sysroot>/ld: error: Lperf-trace.o: cannot make copy relocation fo=
+r protected symbol '_ULarm_local_addr_space', defined in ../src/.libs/libun=
+wind.so
+> collect2: error: ld returned 1 exit status
+> Makefile:1098: recipe for target 'Lperf-trace' failed
+> make[1]: *** [Lperf-trace] Error 1
+> <...>
+> <native-sysroot>/ld: error: test-coredump-unwind.o: cannot make copy relo=
+cation for protected symbol '_UCD_accessors', defined in ../src/.libs/libun=
+wind-coredump.so
+> collect2: error: ld returned 1 exit status
+> Makefile:1186: recipe for target 'test-coredump-unwind' failed
 
-> On Wed, 2016-09-21 at 18:08 +0200, Martin Jansa wrote:
-> > On Wed, Sep 21, 2016 at 05:39:02PM +0200, Patrick Ohly wrote:
-> > > Test script attached. I only ran this once, so I can't vouch that the
-> > > numbers are stable. I remember reading about a benchmark wrapper whic=
-h
-> > > can run such a test script multiple times and then will automatically
-> > > merge the output of all runs together, adding
-> min/max/average/deviation,
-> > > but couldn't find the tool again. Does anyone know which tool does
-> that?
-> >
-> > it's in oe-core:
-> > ./scripts/contrib/bb-perf/bb-matrix-plot.sh
-> > ./scripts/contrib/bb-perf/bb-matrix.sh
-> >
-> > ...
->
-> That's bitbake specific. What I was remembering is something generic
-> that works for anything that prints test results on stdout. Perhaps I
-> was dreaming ;-}
->
+Acked-by: Martin Jansa <Martin.Jansa@gmail.com>
 
-I use https://github.com/rustyrussell/stats for that, quite handy. For
-cases simpler than yours, when I=E2=80=99m just checking for deviation of c=
-ommand
-execution times, I use a little wrapper around time + stats at
-https://github.com/kergoth/dotfiles/blob/master/scripts/time-stats.
+I've verified that this fixes the issue I was reporting in "bitbake
+wordl status" e-mails since last binutils upgrade to 2.27
+
+It's basically complement to this oe-core change which went in together
+with binutils:
+
+commit 0092a076adb11cac411c86389af84bb96169730f
+Author: Khem Raj <raj.khem@gmail.com>
+Date:   Mon Aug 8 15:51:01 2016 -0700
+
+    libunwind: Do not use gold for linking
+
+Which only stopped gold being used when bfd is the default linker, but
+which left libunwind broken for people with ld-is-gold in
+DISTRO_FEATURES to use gold by default.
+
+Thanks!
+
+> Signed-off-by: Andreas M=FCller <schnitzeltony@googlemail.com>
+> ---
+>  meta/recipes-support/libunwind/libunwind_git.bb | 1 +
+>  1 file changed, 1 insertion(+)
+>=20
+> diff --git a/meta/recipes-support/libunwind/libunwind_git.bb b/meta/recip=
+es-support/libunwind/libunwind_git.bb
+> index cd4cb89..4249430 100644
+> --- a/meta/recipes-support/libunwind/libunwind_git.bb
+> +++ b/meta/recipes-support/libunwind/libunwind_git.bb
+> @@ -26,3 +26,4 @@ SECURITY_CFLAGS_append_aarch64 =3D " -fPIE"
+> =20
+>  S =3D "${WORKDIR}/git"
+> =20
+> +LDFLAGS +=3D "-Wl,-z,relro,-z,now ${@bb.utils.contains('DISTRO_FEATURES'=
+, 'ld-is-gold', ' -fuse-ld=3Dbfd ', '', d)}"
+> --=20
+> 2.5.5
+>=20
+> --=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
 --=20
-Christopher Larson
-clarson at kergoth dot com
-Founder - BitBake, OpenEmbedded, OpenZaurus
-Maintainer - Tslib
-Senior Software Engineer, Mentor Graphics
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
---94eb2c0d0504576791053d1c1d35
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+--vkogqOf2sHV7VnPd
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On Thu, Sep 22, 2016 at 5:52 AM, Patrick Ohly <span dir=3D"ltr">&lt;<a href=
-=3D"mailto:patrick.ohly@intel.com" target=3D"_blank">patrick.ohly@intel.com=
-</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin=
-:0px 0px 0px 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204)=
-;border-left-style:solid;padding-left:1ex"><span class=3D"gmail-">On Wed, 2=
-016-09-21 at 18:08 +0200, Martin Jansa wrote:<br>
-&gt; On Wed, Sep 21, 2016 at 05:39:02PM +0200, Patrick Ohly wrote:<br>
-</span><span class=3D"gmail-">&gt; &gt; Test script attached. I only ran th=
-is once, so I can&#39;t vouch that the<br>
-&gt; &gt; numbers are stable. I remember reading about a benchmark wrapper =
-which<br>
-&gt; &gt; can run such a test script multiple times and then will automatic=
-ally<br>
-&gt; &gt; merge the output of all runs together, adding min/max/average/dev=
-iation,<br>
-&gt; &gt; but couldn&#39;t find the tool again. Does anyone know which tool=
- does that?<br>
-&gt;<br>
-&gt; it&#39;s in oe-core:<br>
-&gt; ./scripts/contrib/bb-perf/bb-<wbr>matrix-plot.sh<br>
-&gt; ./scripts/contrib/bb-perf/bb-<wbr>matrix.sh<br>
-&gt;<br>
-&gt; ...<br>
-<br>
-</span>That&#39;s bitbake specific. What I was remembering is something gen=
-eric<br>
-that works for anything that prints test results on stdout. Perhaps I<br>
-was dreaming ;-}<div class=3D"gmail-yj6qo gmail-ajU"><div id=3D"gmail-:ua" =
-class=3D"gmail-ajR" tabindex=3D"0"></div></div></blockquote></div><br>I use=
-=C2=A0<a href=3D"https://github.com/rustyrussell/stats">https://github.com/=
-rustyrussell/stats</a>=C2=A0for that, quite handy. For cases simpler than y=
-ours, when I=E2=80=99m just checking for deviation of command execution tim=
-es, I use a little wrapper around time + stats at=C2=A0<a href=3D"https://g=
-ithub.com/kergoth/dotfiles/blob/master/scripts/time-stats">https://github.c=
-om/kergoth/dotfiles/blob/master/scripts/time-stats</a>.<br>-- <br><div clas=
-s=3D"gmail_signature">Christopher Larson<br>clarson at kergoth dot com<br>F=
-ounder - BitBake, OpenEmbedded, OpenZaurus<br>Maintainer - Tslib<br>Senior =
-Software Engineer, Mentor Graphics</div>
-</div></div>
+-----BEGIN PGP SIGNATURE-----
 
---94eb2c0d0504576791053d1c1d35--
+iEYEARECAAYFAlfkFYQACgkQN1Ujt2V2gBzEzQCgoHVTXTgwxqEt3fZRK+sC3wIY
+PGcAoKIPoc7tTpLlfs6j35KKvuE1AwSz
+=Wgw9
+-----END PGP SIGNATURE-----
+
+--vkogqOf2sHV7VnPd--
