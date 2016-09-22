@@ -1,49 +1,24 @@
-Return-Path: <schnitzeltony@googlemail.com>
-Received: from mail-ua0-f193.google.com (mail-ua0-f193.google.com
-	[209.85.217.193])
-	by mail.openembedded.org (Postfix) with ESMTP id C15A460851
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 2AC7D6071F
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Sep 2016 20:05:24 +0000 (UTC)
-Received: by mail-ua0-f193.google.com with SMTP id 51so408452uac.1
+	Thu, 22 Sep 2016 21:37:20 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u8MLbLfZ025178
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Sep 2016 13:05:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=googlemail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=dvBtsK+Pqr5YuZA6bLQEdRAWe8q0IulSCH0E4RU/6Yc=;
-	b=ohZAaIwXTWXZl+LGV+bDsWCCxM4nAVLM8m+NH1blFkmrNVqdDx+Mbs/gplMfdYe+8C
-	tJxwbkfQ7cgcKhGm65OHH68uBkm5wZP5drmRGq5vULyKb+kzRuTr6c5QBlkG9vf2/qNt
-	xeoHuihzziJBPMK5iXvXmTnIc4Y33+F1l5COChLiKEjY8LEzFGh2FL13jNuc7M+otAHu
-	ZfNqY7UnIIGvnuF4B0UQGzm80EEY3yTAwpVfr+PNp4M3T7VggmD37C2T8nUTJW99uVaw
-	0H1sFEdPDjqfnDLmxL0gxt/42+5Bwo3NZAiJzPTEstwbRNOqshSav1Pcr5Em7MVcIfF4
-	9UPw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=dvBtsK+Pqr5YuZA6bLQEdRAWe8q0IulSCH0E4RU/6Yc=;
-	b=MH1dZmAoi5orrPz0SCSGjEJuAD/ouDZeEv2qthzH1JNBqrbx9HBW36tSQhkUXvufsC
-	MBQSSryTQE225wgvUM7EF4TRiNp8KkLPDDe9tiDTZ70j8QtJC0Z+NvIImvQdTJiVZcD7
-	x9p9QDCDJmf1urKVG7vRnvacauXEyt1XAoRBCKdOPqdLMGFkcn8hkXLGjpBd2DOepYf+
-	SqOM0umlEzTcF9d8Y3z7HJXVnf1UJSmrRAORO7VgUfc1u/UH+5pFBHEPyLpIFlTcF9NB
-	AzXeROasApLP8vZC4A6qW26Ig1xJDK/7BCGjI6f1ZnMxnHiYXqWubsOLV4ApXmJY2GZF
-	w1ew==
-X-Gm-Message-State: AE9vXwMmRS+ZARh7qGknG0kmJPiSwTvJFXU8cOX4h9xFcb1k1813AQAEhYghZhoNbHwKqII9V6ybFMKaRakmbA==
-X-Received: by 10.159.33.247 with SMTP id 110mr1350423uac.44.1474574726368;
-	Thu, 22 Sep 2016 13:05:26 -0700 (PDT)
+	Thu, 22 Sep 2016 14:37:21 -0700 (PDT)
+Received: from msp-dhcp15.wrs.com (172.25.34.15) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.294.0;
+	Thu, 22 Sep 2016 14:37:20 -0700
+From: Mark Hatle <mark.hatle@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 22 Sep 2016 16:37:20 -0500
+Message-ID: <1474580240-42826-1-git-send-email-mark.hatle@windriver.com>
+X-Mailer: git-send-email 2.5.5
 MIME-Version: 1.0
-Received: by 10.176.65.130 with HTTP; Thu, 22 Sep 2016 13:05:25 -0700 (PDT)
-In-Reply-To: <CAJTo0LaSU6xmyKqiD2oAGSZX=vadxMe8fNNpvuVveyt99WGMnA@mail.gmail.com>
-References: <1474435844-16942-1-git-send-email-schnitzeltony@googlemail.com>
-	<1474435844-16942-2-git-send-email-schnitzeltony@googlemail.com>
-	<CAJTo0LaSU6xmyKqiD2oAGSZX=vadxMe8fNNpvuVveyt99WGMnA@mail.gmail.com>
-From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
-Date: Thu, 22 Sep 2016 22:05:25 +0200
-Message-ID: <CALbNGRRJ-Q_YwZjj1yeGg+Zg2F6btsUGMBzSPH6tkPaBAGvEvw@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/2] scons.bbclass: reduce build time by adding PARALLEL_MAKEINST to scons install params
+Subject: [PATCH] pseudo: Fix problem where pseudo could kill a container init
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,32 +31,107 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Sep 2016 20:05:26 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 22 Sep 2016 21:37:21 -0000
+Content-Type: text/plain
 
-On Wed, Sep 21, 2016 at 11:06 AM, Burton, Ross <ross.burton@intel.com> wrot=
-e:
->
-> On 21 September 2016 at 06:30, Andreas M=C3=BCller <schnitzeltony@googlem=
-ail.com>
-> wrote:
->>
->> During install all files are recompiled. This should be investigated
->> further
->> later
->
->
-> I'd put (pretend) money on it being because PREFIX/prefix change between
-> compile and install, so it needs to rebuild.  Looks like this class is do=
-ing
-> something wrong.
->
-You are right! Need some further build tests but for mixxx I got good
-results by keeping prefix same for compile/install and setting
-install_root=3D properly. Before this modification starting mixxx
-complained with links to build install dir and finally crashed. Now it
-runs fine. See what the other recipes say...
+In a heavily loaded container, the child process might not started
+before the parent process had terminated.  The child process attempts to
+signal the parent with SIGUSR1.  If the parent had terminated, the
+parent becomes PID 1, which is generally init.  When it signaled pid 1,
+it caused the docker mini-init to terminate.
 
-Andreas
+This doesn't happen in a traditional system, as systemd/sysvinit is
+protected to only root users can signal it.
+
+[YOCTO #10324]
+
+Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+---
+ .../files/0001-Don-t-send-SIGUSR1-to-init.patch    | 48 ++++++++++++++++++++++
+ meta/recipes-devtools/pseudo/pseudo_1.8.1.bb       |  1 +
+ meta/recipes-devtools/pseudo/pseudo_git.bb         |  2 +-
+ 3 files changed, 50 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-devtools/pseudo/files/0001-Don-t-send-SIGUSR1-to-init.patch
+
+diff --git a/meta/recipes-devtools/pseudo/files/0001-Don-t-send-SIGUSR1-to-init.patch b/meta/recipes-devtools/pseudo/files/0001-Don-t-send-SIGUSR1-to-init.patch
+new file mode 100644
+index 0000000..6c694ce
+--- /dev/null
++++ b/meta/recipes-devtools/pseudo/files/0001-Don-t-send-SIGUSR1-to-init.patch
+@@ -0,0 +1,48 @@
++From befc6dbd6469d428c9e0830dbe51bdf7ac39d9ae Mon Sep 17 00:00:00 2001
++From: Seebs <seebs@seebs.net>
++Date: Thu, 22 Sep 2016 14:35:04 -0500
++Subject: [PATCH] Don't send SIGUSR1 to init.
++
++If the parent exits due to child process being slow, getppid() will return
++1, and we'll send SIGUSR1 to init, which can break things like dumbinit
++which aren't adequately protected against non-root processes sending them
++signals.
++
++Signed-off-by: Seebs <seebs@seebs.net>
++
++Upstream-Status: Backport (commit befc6dbd6469d428c9e0830dbe51bdf7ac39d9ae)
++
++[YOCTO #10324]
++
++This resolves an issue where a docker container running builds would die
++due to it's 'mini init' being signaled by pseudo.
++
++Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
++---
++ pseudo_server.c | 11 ++++++++---
++
++diff --git a/pseudo_server.c b/pseudo_server.c
++index 65102dd..8731d20 100644
++--- a/pseudo_server.c
+++++ b/pseudo_server.c
++@@ -358,9 +358,14 @@ pseudo_server_start(int daemonize) {
++ 	signal(SIGTERM, quit_now);
++ 	/* tell parent process to stop waiting */
++ 	if (daemonize) {
++-		pseudo_diag("Setup complete, sending SIGUSR1 to pid %d.\n",
++-			getppid());
++-		kill(getppid(), SIGUSR1);
+++		pid_t ppid = getppid();
+++		if (ppid == 1) {
+++			pseudo_diag("Setup complete, but parent is init, not sending SIGUSR1.\n");
+++		} else {
+++			pseudo_diag("Setup complete, sending SIGUSR1 to pid %d.\n",
+++				ppid);
+++			kill(ppid, SIGUSR1);
+++		}
++ 	}
++ 	pseudo_server_loop();
++ 	return 0;
++-- 
++2.5.5
++
+diff --git a/meta/recipes-devtools/pseudo/pseudo_1.8.1.bb b/meta/recipes-devtools/pseudo/pseudo_1.8.1.bb
+index f45912a..cec2149 100644
+--- a/meta/recipes-devtools/pseudo/pseudo_1.8.1.bb
++++ b/meta/recipes-devtools/pseudo/pseudo_1.8.1.bb
+@@ -6,6 +6,7 @@ SRC_URI = "http://downloads.yoctoproject.org/releases/pseudo/${BPN}-${PV}.tar.bz
+            file://fallback-group \
+            file://moreretries.patch \
+            file://Fix-xattr-performance.patch \
++           file://0001-Don-t-send-SIGUSR1-to-init.patch \
+            "
+ 
+ SRC_URI[md5sum] = "ee38e4fb62ff88ad067b1a5a3825bac7"
+diff --git a/meta/recipes-devtools/pseudo/pseudo_git.bb b/meta/recipes-devtools/pseudo/pseudo_git.bb
+index 8735cf4..8110b1a 100644
+--- a/meta/recipes-devtools/pseudo/pseudo_git.bb
++++ b/meta/recipes-devtools/pseudo/pseudo_git.bb
+@@ -1,6 +1,6 @@
+ require pseudo.inc
+ 
+-SRCREV = "f4b1c752186f4d08f1fadb0ea10ebcde9b0ea251"
++SRCREV = "befc6dbd6469d428c9e0830dbe51bdf7ac39d9ae"
+ PV = "1.8.1+git${SRCPV}"
+ 
+ DEFAULT_PREFERENCE = "-1"
+-- 
+2.5.5
+
 
