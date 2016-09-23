@@ -1,23 +1,29 @@
-Return-Path: <Zubair.Kakakhel@imgtec.com>
-Received: from mailapp01.imgtec.com (mailapp02.imgtec.com [217.156.133.132])
-	by mail.openembedded.org (Postfix) with ESMTP id 8712971997
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 10B8E60119
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Sep 2016 14:28:18 +0000 (UTC)
-Received: from HHMAIL01.hh.imgtec.org (unknown [10.100.10.19])
-	by Forcepoint Email with ESMTPS id 0324AA261895D
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Sep 2016 15:28:16 +0100 (IST)
-Received: from zkakakhel-linux.le.imgtec.org (192.168.154.45) by
-	HHMAIL01.hh.imgtec.org (10.100.10.21) with Microsoft SMTP Server (TLS)
-	id 14.3.294.0; Fri, 23 Sep 2016 15:28:19 +0100
-From: Zubair Lutfullah Kakakhel <Zubair.Kakakhel@imgtec.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 23 Sep 2016 15:28:08 +0100
-Message-ID: <1474640888-55539-1-git-send-email-Zubair.Kakakhel@imgtec.com>
-X-Mailer: git-send-email 1.9.1
-MIME-Version: 1.0
-X-Originating-IP: [192.168.154.45]
-Subject: [Patch] arch-mips: Add mips64-o32 tunes
+	Fri, 23 Sep 2016 14:37:58 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u8NEbxX4024672; Fri, 23 Sep 2016 15:37:59 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id XqIgz248afZb; Fri, 23 Sep 2016 15:37:59 +0100 (BST)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u8NEbt0r024668
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Fri, 23 Sep 2016 15:37:56 +0100
+Message-ID: <1474641475.7207.370.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Chen Qi <Qi.Chen@windriver.com>, openembedded-core@lists.openembedded.org
+Date: Fri, 23 Sep 2016 15:37:55 +0100
+In-Reply-To: <b837a1b7714ef69601f5a12cbf5baf925dfb1a7b.1474619360.git.Qi.Chen@windriver.com>
+References: <cover.1474619360.git.Qi.Chen@windriver.com>
+	<b837a1b7714ef69601f5a12cbf5baf925dfb1a7b.1474619360.git.Qi.Chen@windriver.com>
+X-Mailer: Evolution 3.18.5.2-0ubuntu3 
+Mime-Version: 1.0
+Subject: Re: [PATCH 1/1] toolchain-script: use immediate expansion for TOOLCHAIN_CONFIGSITE_NOCACHE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,51 +36,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 23 Sep 2016 14:28:22 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 23 Sep 2016 14:38:00 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Add mips64 + o32 rootfs abi tune configurations
+On Fri, 2016-09-23 at 16:30 +0800, Chen Qi wrote:
+> Use immediate expansion for the assignment to avoid other classes
+> modifying
+> variables like HOST_ARCH which changes the result. This happens in
+> the
+> meta-environment recipe. It inherits cross-canadian which changes
+> HOST_ARCH
+> from TARGET_ARCH to SDK_ARCH, resulting in wrong site config files in
+> the
+> generated SDK.
+> 
+> [YOCTO #10255]
+> 
+> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+> ---
+>  meta/classes/toolchain-scripts.bbclass | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 
-Signed-off-by: Zubair Lutfullah Kakakhel <Zubair.Kakakhel@imgtec.com>
----
- meta/conf/machine/include/mips/arch-mips.inc | 26 ++++++++++++++++++++++++++
- 1 file changed, 26 insertions(+)
+I've not merged this as yet since I worry that this is something we'd
+easily break again. It all depends which order classes are included and
+moving the cross-canadian inherit in meta-environment would break this
+even with immediate expansion.
 
-diff --git a/meta/conf/machine/include/mips/arch-mips.inc b/meta/conf/machine/include/mips/arch-mips.inc
-index d3e83d1..28d3b51 100644
---- a/meta/conf/machine/include/mips/arch-mips.inc
-+++ b/meta/conf/machine/include/mips/arch-mips.inc
-@@ -103,3 +103,29 @@ TUNE_FEATURES_tune-mips64el-nf = "n64"
- BASE_LIB_tune-mips64el-nf = "lib64"
- MIPSPKGSFX_VARIANT_tune-mips64el-nf = "${TUNE_ARCH}"
- PACKAGE_EXTRA_ARCHS_tune-mips64el-nf = "mips64el-nf"
-+
-+# MIPS 64 + o32
-+AVAILTUNES += "mips64-o32 mips64el-o32"
-+
-+TUNE_FEATURES_tune-mips64-o32 = "o32 bigendian fpu-hard"
-+BASE_LIB_tune-mips64-o32 = "lib"
-+MIPSPKGSFX_VARIANT_tune-mips64-o32 = "${TUNE_ARCH}"
-+PACKAGE_EXTRA_ARCHS_tune-mips64-o32 = "mips mips64-o32 mips64-o32"
-+
-+TUNE_FEATURES_tune-mips64el-o32 = "o32 fpu-hard"
-+BASE_LIB_tune-mips64el-o32 = "lib"
-+MIPSPKGSFX_VARIANT_tune-mips64el-o32 = "${TUNE_ARCH}"
-+PACKAGE_EXTRA_ARCHS_tune-mips64el-o32 = "mipsel mips64el-o32 mips64el-o32"
-+
-+# MIPS 64 o32 and Soft Float
-+AVAILTUNES += "mips64-nf-o32 mips64el-nf-o32"
-+
-+TUNE_FEATURES_tune-mips64-nf-o32 = "o32 bigendian"
-+BASE_LIB_tune-mips64-nf-o32 = "lib"
-+MIPSPKGSFX_VARIANT_tune-mips64-nf-o32 = "${TUNE_ARCH}"
-+PACKAGE_EXTRA_ARCHS_tune-mips64-nf-o32 = "mips-nf mips64-nf-o32"
-+
-+TUNE_FEATURES_tune-mips64el-nf-o32 = "o32"
-+BASE_LIB_tune-mips64el-nf-o32 = "lib"
-+MIPSPKGSFX_VARIANT_tune-mips64el-nf-o32 = "${TUNE_ARCH}"
-+PACKAGE_EXTRA_ARCHS_tune-mips64el-nf-o32 = "mipsel-nf mips64el-nf-o32"
--- 
-1.9.1
+I think the best way to fix this might be to change the meta-
+environment to add:
 
+# Need to expand here before cross-candian changes HOST_ARCH -> SDK_ARCH
+TOOLCHAIN_CONFIGSITE_NOCACHE := "${TOOLCHAIN_CONFIGSITE_NOCACHE}"
+
+before it inherits cross-candian, then the problem is explicitly
+recorded and worked around.
+
+Cheers,
+
+Richard
 
