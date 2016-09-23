@@ -1,25 +1,25 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 21202600E2
+Return-Path: <Zubair.Kakakhel@imgtec.com>
+X-Greylist: delayed 942 seconds by postgrey-1.34 at layers.openembedded.org;
+	Fri, 23 Sep 2016 14:03:40 UTC
+Received: from mailapp01.imgtec.com (mailapp02.imgtec.com [217.156.133.132])
+	by mail.openembedded.org (Postfix) with ESMTP id 3618460938
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Sep 2016 13:35:17 +0000 (UTC)
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-	by orsmga101.jf.intel.com with ESMTP; 23 Sep 2016 06:35:18 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.30,381,1470726000"; d="scan'208";a="12973076"
-Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.49])
-	([10.237.68.49])
-	by orsmga004.jf.intel.com with ESMTP; 23 Sep 2016 06:35:18 -0700
-To: openembedded-core@lists.openembedded.org
-References: <1474637000-22802-1-git-send-email-patrick.ohly@intel.com>
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <cfff83f1-d63e-236f-3adf-f9703160db1c@linux.intel.com>
-Date: Fri, 23 Sep 2016 16:33:20 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Icedove/45.2.0
+	Fri, 23 Sep 2016 14:03:40 +0000 (UTC)
+Received: from HHMAIL01.hh.imgtec.org (unknown [10.100.10.19])
+	by Forcepoint Email with ESMTPS id DEF98FA54FBD1
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 23 Sep 2016 14:47:54 +0100 (IST)
+Received: from zkakakhel-linux.le.imgtec.org (192.168.154.45) by
+	HHMAIL01.hh.imgtec.org (10.100.10.21) with Microsoft SMTP Server (TLS)
+	id 14.3.294.0; Fri, 23 Sep 2016 14:47:57 +0100
+From: Zubair Lutfullah Kakakhel <Zubair.Kakakhel@imgtec.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 23 Sep 2016 14:47:50 +0100
+Message-ID: <1474638470-53738-1-git-send-email-Zubair.Kakakhel@imgtec.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-In-Reply-To: <1474637000-22802-1-git-send-email-patrick.ohly@intel.com>
-Subject: Re: [PATCH 1/2] openssl.inc: avoid random ptest failures
+X-Originating-IP: [192.168.154.45]
+Subject: [Patch v3] arch-mips: Add mips64r2 tunes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,19 +32,116 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 23 Sep 2016 13:35:18 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 23 Sep 2016 14:03:44 -0000
+Content-Type: text/plain
 
-On 09/23/2016 04:23 PM, Patrick Ohly wrote:
-> "make alltests" is sensitive to the timestamps of the installed
-> files. Depending on the order in which cp copies files, .o and/or
-> executables may end up with time stamps older than the source files.
-> Running tests then triggers recompilation attempts, which typically
-> will fail because dev tools and files are not installed.
+Add MIPS64r2 optimizations
 
-Patch 2/2 hasn't arrived.
+Signed-off-by: Zubair Lutfullah Kakakhel <Zubair.Kakakhel@imgtec.com>
 
-Alex
+---
+V2 -> V3
+Removed the unnecessary restructuring of the base tunings.
+
+V1 -> V2
+Fixed a subtle bug in the include files for tune-mips64.inc which
+resulted in a build failure for multi-lib configuration.
+---
+ meta/conf/machine/include/tune-mips64r2.inc | 84 +++++++++++++++++++++++++++++
+ 1 file changed, 84 insertions(+)
+ create mode 100644 meta/conf/machine/include/tune-mips64r2.inc
+
+diff --git a/meta/conf/machine/include/tune-mips64r2.inc b/meta/conf/machine/include/tune-mips64r2.inc
+new file mode 100644
+index 0000000..75d7535
+--- /dev/null
++++ b/meta/conf/machine/include/tune-mips64r2.inc
+@@ -0,0 +1,84 @@
++DEFAULTTUNE ?= "mips64r2"
++
++require conf/machine/include/tune-mips64.inc
++
++TUNEVALID[mips64r2] = "Enable mips64r2 specific processor optimizations"
++TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'mips64r2', ' -march=mips64r2', '', d)}"
++
++# Base tunes
++AVAILTUNES += "mips64r2 mips64r2el"
++
++TUNE_FEATURES_tune-mips64r2 = "${TUNE_FEATURES_tune-mips64} mips64r2"
++BASE_LIB_tune-mips64r2 = "lib64"
++MIPSPKGSFX_VARIANT_tune-mips64r2 = "mips64r2"
++PACKAGE_EXTRA_ARCHS_tune-mips64r2 = "mips64 mips64r2"
++
++TUNE_FEATURES_tune-mips64r2el = "${TUNE_FEATURES_tune-mips64el} mips64r2"
++BASE_LIB_tune-mips64r2el = "lib64"
++MIPSPKGSFX_VARIANT_tune-mips64r2el = "mips64r2el"
++PACKAGE_EXTRA_ARCHS_tune-mips64r2el = "mips64el mips64r2el"
++
++# MIPS 64r2 Soft Float
++AVAILTUNES += "mips64r2-nf mips64r2el-nf"
++
++TUNE_FEATURES_tune-mips64r2-nf = "${TUNE_FEATURES_tune-mips64-nf} mips64r2"
++BASE_LIB_tune-mips64r2-nf = "lib64"
++MIPSPKGSFX_VARIANT_tune-mips64r2-nf = "${TUNE_ARCH}"
++PACKAGE_EXTRA_ARCHS_tune-mips64r2-nf = "mips64-nf mips64r2-nf"
++
++TUNE_FEATURES_tune-mips64r2el-nf = "${TUNE_FEATURES_tune-mips64el-nf} mips64r2"
++BASE_LIB_tune-mips64r2el-nf = "lib64"
++MIPSPKGSFX_VARIANT_tune-mips64r2el-nf = "${TUNE_ARCH}"
++PACKAGE_EXTRA_ARCHS_tune-mips64r2el-nf = "mips64el-nf mips64r2el-nf"
++
++# MIPS 64r2 n32
++AVAILTUNES += "mips64r2-n32 mips64r2el-n32"
++
++TUNE_FEATURES_tune-mips64r2-n32 = "${TUNE_FEATURES_tune-mips64-n32} mips64r2"
++BASE_LIB_tune-mips64r2-n32 = "lib32"
++MIPSPKGSFX_VARIANT_tune-mips64r2-n32 = "${TUNE_ARCH}"
++PACKAGE_EXTRA_ARCHS_tune-mips64r2-n32 = "mips64-n32 mips64r2-n32"
++
++TUNE_FEATURES_tune-mips64r2el-n32 = "${TUNE_FEATURES_tune-mips64el-n32} mips64r2"
++BASE_LIB_tune-mips64r2el-n32 = "lib32"
++MIPSPKGSFX_VARIANT_tune-mips64r2el-n32 = "${TUNE_ARCH}"
++PACKAGE_EXTRA_ARCHS_tune-mips64r2el-n32 = "mips64el-n32 mips64r2el-n32"
++
++# MIPS 64r2 n32 and Soft Float
++AVAILTUNES += "mips64r2-nf-n32 mips64r2el-nf-n32"
++
++TUNE_FEATURES_tune-mips64r2-nf-n32 = "${TUNE_FEATURES_tune-mips64-nf-n32} mips64r2"
++BASE_LIB_tune-mips64r2-nf-n32 = "lib32"
++MIPSPKGSFX_VARIANT_tune-mips64r2-nf-n32 = "${TUNE_ARCH}"
++PACKAGE_EXTRA_ARCHS_tune-mips64r2-nf-n32 = "mips64-nf-n32 mips64r2-nf-n32"
++
++TUNE_FEATURES_tune-mips64r2el-nf-n32 = "${TUNE_FEATURES_tune-mips64el-nf-n32} mips64r2"
++BASE_LIB_tune-mips64r2el-nf-n32 = "lib32"
++MIPSPKGSFX_VARIANT_tune-mips64r2el-nf-n32 = "${TUNE_ARCH}"
++PACKAGE_EXTRA_ARCHS_tune-mips64r2el-nf-n32 = "mips64el-nf-n32 mips64r2el-nf-n32"
++
++# MIPS 64r2 o32
++AVAILTUNES += "mips64r2-o32 mips64r2el-o32"
++
++TUNE_FEATURES_tune-mips64r2-o32 = "${TUNE_FEATURES_tune-mips64-o32} mips64r2"
++BASE_LIB_tune-mips64r2-o32 = "lib"
++MIPSPKGSFX_VARIANT_tune-mips64r2-o32 = "${TUNE_ARCH}"
++PACKAGE_EXTRA_ARCHS_tune-mips64r2-o32 = "mips mips64-o32 mips64r2-o32"
++
++TUNE_FEATURES_tune-mips64r2el-o32 = "${TUNE_FEATURES_tune-mips64el-o32} mips64r2"
++BASE_LIB_tune-mips64r2el-o32 = "lib"
++MIPSPKGSFX_VARIANT_tune-mips64r2el-o32 = "${TUNE_ARCH}"
++PACKAGE_EXTRA_ARCHS_tune-mips64r2el-o32 = "mipsel mips64el-o32 mips64r2el-o32"
++
++# MIPS 64r2 o32 and Soft Float
++AVAILTUNES += "mips64r2-nf-o32 mips64r2el-nf-o32"
++
++TUNE_FEATURES_tune-mips64r2-nf-o32 = "${TUNE_FEATURES_tune-mips64-nf-o32} mips64r2"
++BASE_LIB_tune-mips64r2-nf-o32 = "lib"
++MIPSPKGSFX_VARIANT_tune-mips64r2-nf-o32 = "${TUNE_ARCH}"
++PACKAGE_EXTRA_ARCHS_tune-mips64r2-nf-o32 = "mips-nf mips64r2-nf-o32"
++
++TUNE_FEATURES_tune-mips64r2el-nf-o32 = "${TUNE_FEATURES_tune-mips64el-nf-o32} mips64r2"
++BASE_LIB_tune-mips64r2el-nf-o32 = "lib"
++MIPSPKGSFX_VARIANT_tune-mips64r2el-nf-o32 = "${TUNE_ARCH}"
++PACKAGE_EXTRA_ARCHS_tune-mips64r2el-nf-o32 = "mipsel-nf mips64r2el-nf-o32"
+-- 
+1.9.1
 
 
