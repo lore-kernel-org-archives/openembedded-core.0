@@ -1,39 +1,42 @@
 Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-qt0-f193.google.com (mail-qt0-f193.google.com
-	[209.85.216.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 51553607A3
+Received: from mail-qt0-f195.google.com (mail-qt0-f195.google.com
+	[209.85.216.195])
+	by mail.openembedded.org (Postfix) with ESMTP id BCD0A60761
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Sep 2016 16:43:07 +0000 (UTC)
-Received: by mail-qt0-f193.google.com with SMTP id 11so3688178qtc.3
+	Fri, 23 Sep 2016 16:43:15 +0000 (UTC)
+Received: by mail-qt0-f195.google.com with SMTP id p47so3684320qtc.0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Sep 2016 09:43:09 -0700 (PDT)
+	Fri, 23 Sep 2016 09:43:17 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:organization;
-	bh=QO36ptig8UBsgMWmdYij5CzGBfNo1D6f1lkMyWVXJE8=;
-	b=Um5KHl97GXoO38Z9E87W5VGaV3yujD0M+0j2DkiEyjNzb1hCJw6YT/RETkHBd5XUqo
-	DQrh5fmMte9IN0HwhOlYP4mJ9OOXo9/HkPf1VhFT5DBUrR5Up+CUXR77xTL0vrQqFEyw
-	0xvq6ow4U3Qk8KR/Ul3+aL6QpoiYbsSvrmPrtM4Ctd6BFt2LmZUvByXkuNKpTIm7n7c0
-	fYnwQheF8tpU86R7H16lEXz8EDIwWsTAdFbVX1jNcP3RZpPD0tTSw9FH9JXVdrKcT/uW
-	/QQGPUYe7X2gJDcgmmKQ8Lft32MR5YGUPzQHrnjIgW8bWUFUQycyg/fuFlssTRYted4p
-	GxZw==
-X-Gm-Message-State: AA6/9Rker/6RXOUnWbe2EUvKsiSKVYkGHcv2xOCqs5HJHc75O5FR1dlwMWhXDxvj5K9bUw==
-X-Received: by 10.237.60.44 with SMTP id t41mr8822192qte.102.1474648989309;
-	Fri, 23 Sep 2016 09:43:09 -0700 (PDT)
-Received: from localhost ([179.105.252.78]) by smtp.gmail.com with ESMTPSA id
-	m201sm4245818qke.46.2016.09.23.09.43.05
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references:organization;
+	bh=5sjv5l78Uui6+qeB6EeXwRP56Mcp+r6tmCZvq2DVNQc=;
+	b=eKWFct5v9X6Ad7X+4h4frmMY29zue4xD1rAmGFVy+GUjZlIati4mx5vFNmMkH704zs
+	Clu9sGNoix9ENjz5QW2T4WH02yC2DmGWgIEXFm6OJSuE2TwFgHlVzmjZ98PmeKgQUPGk
+	sAXW6qY/EGEcDD1qpUukz/bhEFHP4LTPd8mr3nvg9S/jtwx4ASWThNOUOQj4PAL7IRvf
+	DAEcrITpNX3KFHtyDwGop+Xaj4l+O62TVe73QjDtazWlzVSpmfjq9ABjcKK9gnS44y1e
+	QW13dEDyW6pm8tM2kZDLYV65c/vQ/mZgHl7RtcQALfekyolHOfRV5OPFB5okhHh2dT8q
+	Wfbg==
+X-Gm-Message-State: AA6/9RmmCrAOU4ymmqUXJT5EsbIdWgf2+V5vKWmxkao240NYTj3GKXwzfh4ZmAVZ0aHGXg==
+X-Received: by 10.200.44.189 with SMTP id 58mr8685144qtw.109.1474648996944;
+	Fri, 23 Sep 2016 09:43:16 -0700 (PDT)
+Received: from localhost ([179.105.252.78])
+	by smtp.gmail.com with ESMTPSA id u5sm4237029qtc.44.2016.09.23.09.43.13
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 23 Sep 2016 09:43:08 -0700 (PDT)
+	Fri, 23 Sep 2016 09:43:16 -0700 (PDT)
 Received: by localhost (sSMTP sendmail emulation);
-	Fri, 23 Sep 2016 13:43:02 -0300
+	Fri, 23 Sep 2016 13:43:09 -0300
 From: Otavio Salvador <otavio@ossystems.com.br>
 To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Date: Fri, 23 Sep 2016 13:42:59 -0300
-Message-Id: <20160923164301.560-1-otavio@ossystems.com.br>
+Date: Fri, 23 Sep 2016 13:43:00 -0300
+Message-Id: <20160923164301.560-2-otavio@ossystems.com.br>
 X-Mailer: git-send-email 2.10.0
+In-Reply-To: <20160923164301.560-1-otavio@ossystems.com.br>
+References: <20160923164301.560-1-otavio@ossystems.com.br>
 Organization: O.S. Systems Software LTDA.
 Cc: Otavio Salvador <otavio@ossystems.com.br>
-Subject: [PATCH 1/2] qemu.bbclass: Allow use different QEMU binary depending of target
+Subject: [PATCH 2/2] tune-ppc[65]00.inc: Disable QEMU usermode usage
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,37 +49,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 23 Sep 2016 16:43:08 -0000
+X-List-Received-Date: Fri, 23 Sep 2016 16:43:16 -0000
 
-There are architectures which support running in 32 and 64 bit
-flavours however the simulation is provided in a specific QEMU
-setting, requiring us to use a different binary. This patch allow this
-to be done using, for example:
+The QEMU usermode fails with invalid instruction error when used with those tunes.
 
-QEMU_TARGET_BINARY_ppce5500 = "qemu-ppc64abi32"
+The issue is being tracked in [YOCTO: #10304].
 
 Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
 ---
 
- meta/classes/qemu.bbclass | 5 +++++
- 1 file changed, 5 insertions(+)
+ meta/conf/machine/include/tune-ppce5500.inc | 3 +++
+ meta/conf/machine/include/tune-ppce6500.inc | 3 +++
+ 2 files changed, 6 insertions(+)
 
-diff --git a/meta/classes/qemu.bbclass b/meta/classes/qemu.bbclass
-index 75739db..f2d4d1c 100644
---- a/meta/classes/qemu.bbclass
-+++ b/meta/classes/qemu.bbclass
-@@ -4,6 +4,11 @@
- #
+diff --git a/meta/conf/machine/include/tune-ppce5500.inc b/meta/conf/machine/include/tune-ppce5500.inc
+index ace2614..cebb244 100644
+--- a/meta/conf/machine/include/tune-ppce5500.inc
++++ b/meta/conf/machine/include/tune-ppce5500.inc
+@@ -18,3 +18,6 @@ PACKAGE_EXTRA_ARCHS_tune-ppc64e5500 = "${PACKAGE_EXTRA_ARCHS_tune-powerpc64} ppc
  
- def qemu_target_binary(data):
-+    package_arch = data.getVar("PACKAGE_ARCH", True)
-+    qemu_target_binary = (data.getVar("QEMU_TARGET_BINARY_%s" % package_arch, True) or "")
-+    if qemu_target_binary:
-+        return qemu_target_binary
+ # glibc configure options to get e5500 specific library (for sqrt)
+ GLIBC_EXTRA_OECONF += "${@bb.utils.contains('TUNE_FEATURES', 'e5500', '--with-cpu=e5500', '', d)}"
 +
-     target_arch = data.getVar("TARGET_ARCH", True)
-     if target_arch in ("i486", "i586", "i686"):
-         target_arch = "i386"
++# QEMU usermode fails with invalid instruction error (YOCTO: #10304)
++MACHINE_FEATURES_BACKFILL_CONSIDERED_append = "${@bb.utils.contains('TUNE_FEATURES', 'e5500', ' qemu-usermode', '', d)}"
+diff --git a/meta/conf/machine/include/tune-ppce6500.inc b/meta/conf/machine/include/tune-ppce6500.inc
+index da1e864..5db7e76 100644
+--- a/meta/conf/machine/include/tune-ppce6500.inc
++++ b/meta/conf/machine/include/tune-ppce6500.inc
+@@ -19,3 +19,6 @@ PACKAGE_EXTRA_ARCHS_tune-ppc64e6500 = "${PACKAGE_EXTRA_ARCHS_tune-powerpc64} ppc
+ # glibc configure options to get e6500 specific library
+ GLIBC_EXTRA_OECONF_powerpc64 += "${@bb.utils.contains('TUNE_FEATURES', 'e6500', '--with-cpu=e6500', '', d)}"
+ GLIBC_EXTRA_OECONF_powerpc += "${@bb.utils.contains('TUNE_FEATURES', 'e6500', '--with-cpu=e6500', '', d)}"
++
++# QEMU usermode fails with invalid instruction error (YOCTO: #10304)
++MACHINE_FEATURES_BACKFILL_CONSIDERED_append = "${@bb.utils.contains('TUNE_FEATURES', 'e6500', ' qemu-usermode', '', d)}"
 -- 
 2.10.0
 
