@@ -1,21 +1,29 @@
-Return-Path: <edwin.plauchu.camacho@linux.intel.com>
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by mail.openembedded.org (Postfix) with ESMTP id 9B2C660778
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 2F40565CB5
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Sep 2016 20:07:43 +0000 (UTC)
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-	by orsmga105.jf.intel.com with ESMTP; 23 Sep 2016 13:07:44 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.30,383,1470726000"; d="scan'208";a="12709093"
-Received: from pianodaemon-contraption.zpn.intel.com ([10.219.128.75])
-	by orsmga005.jf.intel.com with ESMTP; 23 Sep 2016 13:07:44 -0700
-From: Edwin Plauchu <edwin.plauchu.camacho@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 23 Sep 2016 15:08:59 -0500
-Message-Id: <20160923200859.21433-1-edwin.plauchu.camacho@linux.intel.com>
-X-Mailer: git-send-email 2.9.3
-Cc: Edwin Plauchu <edwin.plauchu.camacho@intel.com>
-Subject: [PATCH] ptest-runner: recipe update related to minor fix.
+	Fri, 23 Sep 2016 22:24:37 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u8NMMhkh024336; Fri, 23 Sep 2016 23:24:37 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id lu4jOK8VFsa7; Fri, 23 Sep 2016 23:24:37 +0100 (BST)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u8NMOYcs024945
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Fri, 23 Sep 2016 23:24:35 +0100
+Message-ID: <1474669474.30475.8.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: akuster808 <akuster808@gmail.com>, openembedded-core@lists.openembedded.org
+Date: Fri, 23 Sep 2016 23:24:34 +0100
+In-Reply-To: <82a667ae-827f-3def-d59a-3ac86b406d62@gmail.com>
+References: <cover.1474238169.git.akuster@mvista.com>
+	<82a667ae-827f-3def-d59a-3ac86b406d62@gmail.com>
+X-Mailer: Evolution 3.18.5.2-0ubuntu3 
+Mime-Version: 1.0
+Subject: Re: [PATCH 00/13] Jethro-next pull request
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,34 +36,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 23 Sep 2016 20:07:44 -0000
+X-List-Received-Date: Fri, 23 Sep 2016 22:24:39 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-From: Edwin Plauchu <edwin.plauchu.camacho@intel.com>
+On Fri, 2016-09-23 at 10:23 -0700, akuster808 wrote:
+> On 09/18/2016 03:44 PM, Armin Kuster wrote:
+> > 
+> > From: Armin Kuster <akuster@mvista.com>
+> > 
+> > please consider these security and bug fixes for Jethro.
+> > 
+> > My krogoth-next stagging branch has a complimentary set for the
+> > security fixes.
+> > 
+> > http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/log/?h=akust
+> > er/krogoth-next: 7a24bd8a38a2819965b8c1926d33042bd61d1f0b
+> > 
+> > The following changes since commit
+> > 6b732a392289a7bb50b0e3716c066c62fa32a14d:
+> > 
+> >    curl: security fix for CVE-2016-5420 (2016-09-02 08:48:20 +0100)
+> > 
+> > are available in the git repository at:
+> > 
+> >    git://git.openembedded.org/openembedded-core-contrib
+> > akuster/jethro-next
+> >    http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/
+> > log/?h=akuster/jethro-next
 
-A minor fix has been published regarding the need of a user
-of being noticed when some run-ptest script fails.
+I've merged in the various jethro bitbake/core fixes, thanks. Sorry
+about the delay, I think we're up to date now?
 
-[YOCTO #9752]
+Cheers,
 
-Signed-off-by: Edwin Plauchu <edwin.plauchu.camacho@linux.intel.com>
----
- meta/recipes-support/ptest-runner/ptest-runner_2.0.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/recipes-support/ptest-runner/ptest-runner_2.0.bb b/meta/recipes-support/ptest-runner/ptest-runner_2.0.bb
-index aaa7c59..34d360e 100644
---- a/meta/recipes-support/ptest-runner/ptest-runner_2.0.bb
-+++ b/meta/recipes-support/ptest-runner/ptest-runner_2.0.bb
-@@ -7,7 +7,7 @@ HOMEPAGE = "http://git.yoctoproject.org/cgit/cgit.cgi/ptest-runner2/about/"
- LICENSE = "GPLv2"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=751419260aa954499f7abaabaa882bbe"
- 
--SRCREV = "8bfdf946e784f4d5757bebee1fbc4b4a3d7a95c4"
-+SRCREV = "e2aa4256745377b784c8691f546041b59f6e046b"
- PV = "2.0+git${SRCPV}"
- 
- SRC_URI = "git://git.yoctoproject.org/ptest-runner2"
--- 
-2.9.3
-
+Richard
 
