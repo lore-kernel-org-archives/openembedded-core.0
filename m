@@ -1,46 +1,55 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-ua0-f196.google.com (mail-ua0-f196.google.com
-	[209.85.217.196])
-	by mail.openembedded.org (Postfix) with ESMTP id DC79660119
+Return-Path: <patrick.ohly@intel.com>
+Received: from mail-it0-f52.google.com (mail-it0-f52.google.com
+	[209.85.214.52])
+	by mail.openembedded.org (Postfix) with ESMTP id 774C1607A5
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Sep 2016 01:34:34 +0000 (UTC)
-Received: by mail-ua0-f196.google.com with SMTP id u68so768888uau.0
+	Fri, 23 Sep 2016 05:51:56 +0000 (UTC)
+Received: by mail-it0-f52.google.com with SMTP id o3so5948733ita.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Sep 2016 18:34:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=c+zF6jIBtjxEPDfCWuoaTuaA0fnapyO9Xv+xQaA0zak=;
-	b=NmJ9X1ZzMsx/E4WtillksTTZqz8/hL1XEATy17DEFXS5kk2WZhTBdOmrv1JhG3eq8u
-	vqMYyLUJYcdQptPELwl8JMWbBPYWWuqaPYm2yS1RfsFiRXCebYxLD1p/PgzJsgCSOeAM
-	d9iPR6kzgS9Bm3Oqqeum/gBRbfmM89WpTa8UeKST26prF+RKCr92D90bqi9SL7KqKzOR
-	OzvXerf/pRKTqAqt3iecdAAkbUddlfYTzs2Xh2pRqey9jGvlfqNKWiwvJ7ixcwwndLCg
-	z2R+jl3bhpDvG7SHD9POl12jKM0SWukSIhTqfkt8GbPYjbuWKA0oi4NMGS7Rm13fUiPw
-	Uz3Q==
+	Thu, 22 Sep 2016 22:51:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:organization:mime-version:content-transfer-encoding;
+	bh=jUbLZ+1JX1STWuMhQAHXglQz0OFWZ4lFzeJeS8ejDhY=;
+	b=G33nzVftz9gLqitapkKhPfV2Ns9NlNtqDWZ5qCrAbbmV5sm/wnadZdykw+2wql3j1F
+	MdZ+m2G9uWvrPdiaksv8Y86gJRZlg32fLdp5nPM53z4jd8AhXGtdKhHlfuTsKN872RXg
+	WKgsG4VXMIgY04fYBQr8Ey2O0UVDTjxdnx3v/Ni4kCkr6A7gQbiQXwTYwbhoaG8SiXYF
+	q3KjgTiXwb6tfYA51mAFTqgxjz9SbAJwwYonqVw/sGk8+y1edJEufQOuaIQefocru6rL
+	oqFl+YeXwv2acQQDrcQyN+oxzTe1Pvl6lf/nxULS9BqdYdSEKBd8LDsBi1eF3moB2oLM
+	POyQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=c+zF6jIBtjxEPDfCWuoaTuaA0fnapyO9Xv+xQaA0zak=;
-	b=GKOzb0bzWejtEWy4nfUYLLXj07kS+EkDcg1C+HKb3KSS1IIT3BdSZbVxQ+0ECh5Ge8
-	T/tyZvn8CMfMj31SNb9HpgYOQXn3OpXdvi/+unCVi6nbV/fldBpikoVx9yneNiwnlKPk
-	RmQTJRVBf0YTbScMZacMhwqVhm3j+8KLukGCbP2izI3hPNYQV3heOlHTwas7hEkw6t86
-	WjwFC+1juV2wJpBJX+JvkMloKQXE+dk4A6tBAnLv79DGfboCTfvUuHE7ydVXocREARlx
-	pgrGzTgkIVtQ3Gad5y6IqX93iq3fGuWgCwiVOFQjmGxx7cQqEnsEpGFqMNj8PW9DncGA
-	U6qg==
-X-Gm-Message-State: AE9vXwO5Dg4RJ09NUf7gX1e6iOyoIb45/u9nyOYajBn2N3XQW0Vp9fmGXueoLRpsuf3q2KERacmRc1b7TYWV2Q==
-X-Received: by 10.176.4.81 with SMTP id 75mr2081178uav.142.1474594475981; Thu,
-	22 Sep 2016 18:34:35 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.176.80.33 with HTTP; Thu, 22 Sep 2016 18:34:05 -0700 (PDT)
-In-Reply-To: <1474550474-10525-1-git-send-email-ross.burton@intel.com>
-References: <1474550474-10525-1-git-send-email-ross.burton@intel.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 22 Sep 2016 18:34:05 -0700
-Message-ID: <CAMKF1spQXDJtOgkrUX+eGNQij1QyAvUspaFKfeHtap-2LTVFJg@mail.gmail.com>
-To: Ross Burton <ross.burton@intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] bitbake.conf: add a lazy default for SDKMACHINE
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:organization:mime-version:content-transfer-encoding;
+	bh=jUbLZ+1JX1STWuMhQAHXglQz0OFWZ4lFzeJeS8ejDhY=;
+	b=fDW8k+VlGNwQZRju79qPWKyFBY3TaEoqvXfYHfyaZcHYgzOIHwnQHz85ZtVJ0WC8VK
+	417MxeH3fltUSFPvaJ/6He8GC/il+IliLPmpLStF1U0GwwcSRFnIn3SUpR/wZIkjWsYH
+	WYhaJRODxN3wtE92ip/bGCsGR2RQYetsq3tkV2xUrAAWQ1ALrQP5u85cSIL2yyPxOCoS
+	f3xZumR2p/Ml9ncjzp8jHVydvupC0W2atnBhMxKpX6+VJxCZaJ+xvFermTyR13OsY3sj
+	9ed9vhKb1GBZBXVvn+sWeyQJMEJI5HDumDVgLq9RixCA66G/gXtc/0jCPidIUgfb97p8
+	nM2w==
+X-Gm-Message-State: AA6/9RlweH2B9Y1OlCPi7VNIBPfPw1julp9uXVfzt/PYepUIvZ9iYLrxkEnDoiSdBZLUKEl7
+X-Received: by 10.36.209.196 with SMTP id w187mr1188263itg.47.1474609918434;
+	Thu, 22 Sep 2016 22:51:58 -0700 (PDT)
+Received: from pohly-mobl1 (p57A56298.dip0.t-ipconnect.de. [87.165.98.152])
+	by smtp.gmail.com with ESMTPSA id
+	f135sm2285432iof.12.2016.09.22.22.51.47
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 22 Sep 2016 22:51:49 -0700 (PDT)
+Message-ID: <1474609905.5472.1.camel@intel.com>
+From: Patrick Ohly <patrick.ohly@intel.com>
+To: Christopher Larson <clarson@kergoth.com>
+Date: Fri, 23 Sep 2016 07:51:45 +0200
+In-Reply-To: <CABcZANn=y0AK=_Uqed+5E4hQk01JyoTcofQNGdHfxkSG7NQmjA@mail.gmail.com>
+References: <1474472342.16834.96.camel@intel.com>
+	<20160921160854.GB2633@jama> <1474548771.16834.100.camel@intel.com>
+	<CABcZANn=y0AK=_Uqed+5E4hQk01JyoTcofQNGdHfxkSG7NQmjA@mail.gmail.com>
+Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
+X-Mailer: Evolution 3.12.9-1+b1 
+Mime-Version: 1.0
+Cc: OpenEmbedded <openembedded-core@lists.openembedded.org>
+Subject: Re: rm_work + pybootchart enhancements
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,43 +62,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 23 Sep 2016 01:34:35 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 23 Sep 2016 05:51:58 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Thu, Sep 22, 2016 at 6:21 AM, Ross Burton <ross.burton@intel.com> wrote:
-> If the user doesn't set SDKMACHINE in their local.conf then uninative and
-> buildtools will fail in obscure ways, so ensure that a default value is set.
->
+On Thu, 2016-09-22 at 10:37 -0700, Christopher Larson wrote:
+> 
+> On Thu, Sep 22, 2016 at 5:52 AM, Patrick Ohly <patrick.ohly@intel.com>
+> wrote:
+>         That's bitbake specific. What I was remembering is something
+>         generic
+>         that works for anything that prints test results on stdout. 
+...
+> I use https://github.com/rustyrussell/stats for that, quite handy.
 
-I think this should also be documented somewhere.
+That's it, thanks. I even still had it in my $HOME/bin... now I just
+need remember it the next time that I need it.
 
-> Also as SDK_ARCH will be overritten then loading the machine-sdk configuration
-> file, don't bother assigning it.
->
-> Signed-off-by: Ross Burton <ross.burton@intel.com>
-> ---
->  meta/conf/bitbake.conf | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-> index b6a1a68..359f787 100644
-> --- a/meta/conf/bitbake.conf
-> +++ b/meta/conf/bitbake.conf
-> @@ -129,7 +129,7 @@ TARGET_CC_ARCH = "${TUNE_CCARGS}"
->  TARGET_LD_ARCH = "${TUNE_LDARGS}"
->  TARGET_AS_ARCH = "${TUNE_ASARGS}"
->
-> -SDK_ARCH = "${BUILD_ARCH}"
-> +SDKMACHINE ??= "x86_64"
->  SDK_OS = "${BUILD_OS}"
->  SDK_VENDOR = "-oesdk"
->  SDK_SYS = "${SDK_ARCH}${SDK_VENDOR}${@['-' + d.getVar('SDK_OS', True), ''][d.getVar('SDK_OS', True) == ('' or 'custom')]}"
-> --
-> 2.8.1
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+-- 
+Best Regards, Patrick Ohly
+
+The content of this message is my personal opinion only and although
+I am an employee of Intel, the statements I make here in no way
+represent Intel's position on the issue, nor am I authorized to speak
+on behalf of Intel on this matter.
+
+
+
 
