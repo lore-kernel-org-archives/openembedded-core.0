@@ -1,29 +1,32 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 10B8E60119
+	by mail.openembedded.org (Postfix) with ESMTP id DCA6E60119
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Sep 2016 14:37:58 +0000 (UTC)
+	Fri, 23 Sep 2016 14:41:03 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u8NEbxX4024672; Fri, 23 Sep 2016 15:37:59 +0100
+	u8NEf0CD025125; Fri, 23 Sep 2016 15:41:00 +0100
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id XqIgz248afZb; Fri, 23 Sep 2016 15:37:59 +0100 (BST)
+	with LMTP id bgUnLcs8bksz; Fri, 23 Sep 2016 15:41:00 +0100 (BST)
 Received: from hex ([192.168.3.34]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u8NEbt0r024668
+	u8NEeweI025122
 	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Fri, 23 Sep 2016 15:37:56 +0100
-Message-ID: <1474641475.7207.370.camel@linuxfoundation.org>
+	Fri, 23 Sep 2016 15:40:59 +0100
+Message-ID: <1474641658.7207.371.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Chen Qi <Qi.Chen@windriver.com>, openembedded-core@lists.openembedded.org
-Date: Fri, 23 Sep 2016 15:37:55 +0100
-In-Reply-To: <b837a1b7714ef69601f5a12cbf5baf925dfb1a7b.1474619360.git.Qi.Chen@windriver.com>
-References: <cover.1474619360.git.Qi.Chen@windriver.com>
-	<b837a1b7714ef69601f5a12cbf5baf925dfb1a7b.1474619360.git.Qi.Chen@windriver.com>
+To: akuster808 <akuster808@gmail.com>, Alejandro Hernandez
+	<alejandro.hernandez@linux.intel.com>,
+	openembedded-core@lists.openembedded.org
+Date: Fri, 23 Sep 2016 15:40:58 +0100
+In-Reply-To: <a826406c-2bff-0e51-014c-81203e0ec06c@gmail.com>
+References: <1474492215-39510-1-git-send-email-alejandro.hernandez@linux.intel.com>
+	<a826406c-2bff-0e51-014c-81203e0ec06c@gmail.com>
 X-Mailer: Evolution 3.18.5.2-0ubuntu3 
 Mime-Version: 1.0
-Subject: Re: [PATCH 1/1] toolchain-script: use immediate expansion for TOOLCHAIN_CONFIGSITE_NOCACHE
+Cc: akuster@mvista.com
+Subject: Re: [PATCH] [krogoth] Fixes several python3 dependencies
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,43 +39,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 23 Sep 2016 14:38:00 -0000
+X-List-Received-Date: Fri, 23 Sep 2016 14:41:06 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 
-On Fri, 2016-09-23 at 16:30 +0800, Chen Qi wrote:
-> Use immediate expansion for the assignment to avoid other classes
-> modifying
-> variables like HOST_ARCH which changes the result. This happens in
-> the
-> meta-environment recipe. It inherits cross-canadian which changes
-> HOST_ARCH
-> from TARGET_ARCH to SDK_ARCH, resulting in wrong site config files in
-> the
-> generated SDK.
+On Thu, 2016-09-22 at 08:33 -0700, akuster808 wrote:
+> Alejandro,
 > 
-> [YOCTO #10255]
 > 
-> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-> ---
->  meta/classes/toolchain-scripts.bbclass | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> On 09/21/2016 02:10 PM, Alejandro Hernandez wrote:
+> > 
+> > This patch adds the packages python3-signal, python3-enum and
+> > python3-selectors,
+> > while it also fixes python3-subprocess, this fixes the installation
+> > of python3-modules
+> I can not get this to apply to my krogoth-next nor krogoth in Poky.
+> Can 
+> you double check and let me know if I am doing something wrong or
+> need 
+> any dependency changes?
+> 
+> error pw is showing is:
+> fatal: patch fragment without header at line 29: @@ -89,6 +89,10 @@ 
+> SUMMARY_${PN}-email="Python email support"
 
-I've not merged this as yet since I worry that this is something we'd
-easily break again. It all depends which order classes are included and
-moving the cross-canadian inherit in meta-environment would break this
-even with immediate expansion.
-
-I think the best way to fix this might be to change the meta-
-environment to add:
-
-# Need to expand here before cross-candian changes HOST_ARCH -> SDK_ARCH
-TOOLCHAIN_CONFIGSITE_NOCACHE := "${TOOLCHAIN_CONFIGSITE_NOCACHE}"
-
-before it inherits cross-candian, then the problem is explicitly
-recorded and worked around.
+I've pulled this onto the branch since we have it as a high for krogoth
+(and merged the other queued krogoth patches, thanks!).
 
 Cheers,
 
 Richard
+
+
 
