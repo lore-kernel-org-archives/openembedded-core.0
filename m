@@ -1,53 +1,49 @@
-Return-Path: <patrick.ohly@intel.com>
-Received: from mail-it0-f49.google.com (mail-it0-f49.google.com
-	[209.85.214.49])
-	by mail.openembedded.org (Postfix) with ESMTP id 568F560939
+Return-Path: <liu.ming50@gmail.com>
+Received: from mail-lf0-f65.google.com (mail-lf0-f65.google.com
+	[209.85.215.65])
+	by mail.openembedded.org (Postfix) with ESMTP id E2B026059F
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Sep 2016 10:27:24 +0000 (UTC)
-Received: by mail-it0-f49.google.com with SMTP id o3so10721317ita.1
+	Fri, 23 Sep 2016 10:58:49 +0000 (UTC)
+Received: by mail-lf0-f65.google.com with SMTP id l131so5486636lfl.0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Sep 2016 03:27:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=message-id:subject:from:to:date:in-reply-to:references:organization
-	:mime-version:content-transfer-encoding;
-	bh=UaiqQNYHlFdsdBD/wM7tv/fo8crqMJeZ5+qvW2VKUUY=;
-	b=SiM/xOqkTmlV4sAm+Tz5GGike1D5oc4VWZ8ZkngJ0YLxMi+zRa1OYLAVM6ihPV+aH1
-	NZfBqyMSe6r+yd8oJxEgKX1deR/eNT0tSN7Oi2bD0kR2U6GL9scGcqrjzFZDsPIMV7UG
-	4MoRKHxYQ7QseRUz9JlvlVLW17yKlkqCCf2XBFOGFTPCawQDp7zlP6tTrRqjOw8cVTEl
-	0fVpA3zU2LgJaLxurFT5TRQ/s7qLeIa5P6IuAp013x5zEBnRhHo75oQhMEkFxNwgDh5C
-	UTJwGUkX2I2DhKW1a27ZHvj3/eqUhASk3nNJFe4N/GwHZTwIQtKP44hls02i1RDkH17s
-	JCsQ==
+	Fri, 23 Sep 2016 03:58:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=7fTDjHWJ+VJBX4s1zzVvOZWyi+Y9gOGHWNWVG31kI54=;
+	b=R5RZqqE0guJO0GTZTLxYJYeqhsvQToKC6f/LbT/fDhl2O5s9pUGvn3pvwLW8H3OLFU
+	jD4NCBJ5K0wYO1AjsW5NoKiFMHllO9QgpVoIFbSQX4LGCiQRaQFOHtd6U/vXsoaQrw1T
+	KWCi60W3r1ycoQkDMPQK4yGPtqlpRb4k6jURXOpCVD8C/HQVMWj+lcfJTbFU42ESQXS1
+	pDQQpLIr+ZP+/FhsDWDLYOD4o9TU0ekQ22MpQDhZeG7Jkh9hyLtXL7uMpsh9J5kxj+GM
+	fjnLRKBn1GkqYd6UdAY2ZrUNel30vPnl9dyuYKlqnpMuqW3omBssSxNHh0LAbPWonr3I
+	Pqjw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:organization:mime-version:content-transfer-encoding;
-	bh=UaiqQNYHlFdsdBD/wM7tv/fo8crqMJeZ5+qvW2VKUUY=;
-	b=T17XENE8BP/efoCgoPvXoPVKlgXQWu/HskQH8SsJzOQo7MSidVjURWvZ2oqB3ODRDp
-	FRidhufq0q13rgGS6QVXuPVfarbBmfRZPzj8VgqYkSrsOGfRHKpZmWsbDNOO5MiWiRei
-	Zh5RVgOG1sfhcMkDRnY30hpiG4Z6WewlL45GzysyonqHHvl4Stku/DL5rqTt1eJwcRGn
-	XUYzXbLv4MtB3mXwMvA7MwDsuAaDVItTSb/GfX7fX16f6rsAHtD2d7x2+pKbQwZQj/jj
-	qOWe8de9u28l0nAcsATzMZnWjD5CKRdmkpW7+Lr+wLZ+50PZfoLG3c3OsWzmadICeaPi
-	TY4A==
-X-Gm-Message-State: AA6/9Rlxol2uuIJT4tIqMPUN+Cy9DmX+3UMT1UwBRzfRCu47NiIOa8/2QRnXkxhiJluSLwjb
-X-Received: by 10.36.210.68 with SMTP id z65mr2529776itf.32.1474626446102;
-	Fri, 23 Sep 2016 03:27:26 -0700 (PDT)
-Received: from pohly-mobl1 (p57A56298.dip0.t-ipconnect.de. [87.165.98.152])
-	by smtp.gmail.com with ESMTPSA id
-	l15sm2595175ioe.14.2016.09.23.03.27.24
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 23 Sep 2016 03:27:25 -0700 (PDT)
-Message-ID: <1474626443.7161.5.camel@intel.com>
-From: Patrick Ohly <patrick.ohly@intel.com>
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=7fTDjHWJ+VJBX4s1zzVvOZWyi+Y9gOGHWNWVG31kI54=;
+	b=PgXx0X6+FabnpnhNKX59TvG5qc6TN7yg3y+HKvu3LnhW3ZFEdC2wWxbfswlu255HZD
+	jiP2RZ/D2JUwCRNXUE4CPiiCNcIGh3aQYokR3vF/JBAlfBUlW7mxIH332LnsyYIPpD+m
+	1bH3fBHnW3QGbGVgt2jSRolR8ckEIWp6Hyy/EMJc2GYQo0dfokwuReUmw5Izp+QxfvIC
+	DohLeSyeNH0HG21ZLIOX5q7rDqcopfQ97xpDD5HYBMLTGREFZlCRfN2hE1NVzIshF4Nq
+	V2f9UAhOxyV7LoWqC6h3lcWu2W9pICHm+G+mg9O4nb9tAKE5C5jm7SeilqKoOA6eJRbO
+	/D+Q==
+X-Gm-Message-State: AE9vXwPPp6ixp4NGF7bXU1uAh+9XlHMbs4MRKHJMfT+8xaDkMQZKdFlxHBuaT/tSFcf3eQ==
+X-Received: by 10.25.166.196 with SMTP id p187mr2311324lfe.48.1474628329860;
+	Fri, 23 Sep 2016 03:58:49 -0700 (PDT)
+Received: from localhost.localdomain (m77-218-246-7.cust.tele2.se.
+	[77.218.246.7]) by smtp.gmail.com with ESMTPSA id
+	s125sm1139504lja.14.2016.09.23.03.58.48
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Fri, 23 Sep 2016 03:58:49 -0700 (PDT)
+From: liu.ming50@gmail.com
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 23 Sep 2016 12:27:23 +0200
-In-Reply-To: <cover.1474619763.git.patrick.ohly@intel.com>
-References: <cover.1474619763.git.patrick.ohly@intel.com>
-Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
-X-Mailer: Evolution 3.12.9-1+b1 
-Mime-Version: 1.0
-Subject: Re: [PATCH 0/1] openssl: update to 1.0.2i (CVE-2016-6304 and more)
+Date: Fri, 23 Sep 2016 12:58:53 +0200
+Message-Id: <1474628333-28806-1-git-send-email-liu.ming50@gmail.com>
+X-Mailer: git-send-email 1.9.1
+MIME-Version: 1.0
+Cc: yue.tao@windriver.com, Ming Liu <peter.x.liu@external.atlascopco.com>
+Subject: [PATCH] lttng-tools: fixes a wrong header issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,37 +56,78 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 23 Sep 2016 10:27:27 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 23 Sep 2016 10:58:50 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Fri, 2016-09-23 at 10:38 +0200, Patrick Ohly wrote:
-> Fixes several CVEs.
-> 
-> It compiled for me okay for qemux86, but running the ptests showed a
-> problem in one of the new tests. I'll investigate that further
+From: Ming Liu <peter.x.liu@external.atlascopco.com>
 
-There is one FAIL:
+This fixes a following compiling issue:
+| agent.c:33:19: fatal error: error.h: No such file or directory
+|  #include "error.h"
 
-../util/shlib_wrap.sh ./dtlstest ../apps/server.pem ../apps/server.pem
-Starting Test 0
-Failed to load server certificate
-Unable to create SSL_CTX pair
-make[2]: Leaving directory '/usr/lib/openssl/ptest/test'
-FAIL: test_dtls
+it's back-ported from lttng-tools upstream, we need it in SRC_URI
+since 2.8 is still the latest release.
 
-That's because server.pem wasn't installed. I'll fix that.
+Signed-off-by: Ming Liu <peter.x.liu@external.atlascopco.com>
+---
+ .../0001-Fix-error.h-common-error.h.patch          | 33 ++++++++++++++++++++++
+ meta/recipes-kernel/lttng/lttng-tools_git.bb       |  1 +
+ 2 files changed, 34 insertions(+)
+ create mode 100644 meta/recipes-kernel/lttng/lttng-tools/0001-Fix-error.h-common-error.h.patch
 
-However, ptest-runner returns with 0, i.e. success? Should it do that?
-
+diff --git a/meta/recipes-kernel/lttng/lttng-tools/0001-Fix-error.h-common-error.h.patch b/meta/recipes-kernel/lttng/lttng-tools/0001-Fix-error.h-common-error.h.patch
+new file mode 100644
+index 0000000..6c8a9b2
+--- /dev/null
++++ b/meta/recipes-kernel/lttng/lttng-tools/0001-Fix-error.h-common-error.h.patch
+@@ -0,0 +1,33 @@
++From 6712db617fe9155ea236f6840c2bd18dbec4c871 Mon Sep 17 00:00:00 2001
++From: Michael Jeanson <mjeanson@efficios.com>
++Date: Wed, 15 Jun 2016 17:18:03 -0400
++Subject: [PATCH] Fix: error.h -> common/error.h
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
++
++Upstream-Status: Backport
++
++Signed-off-by: Michael Jeanson <mjeanson@efficios.com>
++Signed-off-by: Jérémie Galarneau <jeremie.galarneau@efficios.com>
++Signed-off-by: Peter Liu <peter.x.liu@external.atlascopco.com>
++---
++ src/bin/lttng-sessiond/agent.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/src/bin/lttng-sessiond/agent.c b/src/bin/lttng-sessiond/agent.c
++index 7cbbbde..310a7e8 100644
++--- a/src/bin/lttng-sessiond/agent.c
+++++ b/src/bin/lttng-sessiond/agent.c
++@@ -29,7 +29,7 @@
++ #include "agent.h"
++ #include "ust-app.h"
++ #include "utils.h"
++-#include "error.h"
+++#include "common/error.h"
++ 
++ #define AGENT_RET_CODE_INDEX(code) (code - AGENT_RET_CODE_SUCCESS)
++ 
++-- 
++1.9.1
++
+diff --git a/meta/recipes-kernel/lttng/lttng-tools_git.bb b/meta/recipes-kernel/lttng/lttng-tools_git.bb
+index 66269d8..84cac84 100644
+--- a/meta/recipes-kernel/lttng/lttng-tools_git.bb
++++ b/meta/recipes-kernel/lttng/lttng-tools_git.bb
+@@ -28,6 +28,7 @@ PACKAGECONFIG[manpages] = "--enable-man-pages, --disable-man-pages, asciidoc-nat
+ PACKAGECONFIG_remove_libc-musl = "lttng-ust"
+ 
+ SRC_URI = "git://git.lttng.org/lttng-tools.git;branch=stable-2.8 \
++           file://0001-Fix-error.h-common-error.h.patch \
+            file://runtest-2.4.0.patch \
+            file://run-ptest"
+ 
 -- 
-Best Regards, Patrick Ohly
-
-The content of this message is my personal opinion only and although
-I am an employee of Intel, the statements I make here in no way
-represent Intel's position on the issue, nor am I authorized to speak
-on behalf of Intel on this matter.
-
-
+1.9.1
 
 
