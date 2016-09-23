@@ -1,58 +1,57 @@
-Return-Path: <patrick.ohly@intel.com>
-Received: from mail-io0-f179.google.com (mail-io0-f179.google.com
-	[209.85.223.179])
-	by mail.openembedded.org (Postfix) with ESMTP id 281376E650
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pa0-f68.google.com (mail-pa0-f68.google.com
+	[209.85.220.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 5969C6079F
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Sep 2016 14:56:57 +0000 (UTC)
-Received: by mail-io0-f179.google.com with SMTP id e66so31045124iod.1
+	Fri, 23 Sep 2016 14:57:57 +0000 (UTC)
+Received: by mail-pa0-f68.google.com with SMTP id hi10so5192581pac.2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Sep 2016 07:56:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:organization:mime-version:content-transfer-encoding;
-	bh=MGPtsvUuL89DQ/O9gLaq0iSq9fa2b4ZZ8kjUrJ+cL7E=;
-	b=e3MNFSeG1JyzB9emRMMgXxGoS97PdI1zCJ/RCO6IZLZxSz1j5CetD/FuSZ997CZXoJ
-	T4rU1/MGeSMi8PwB884jytY1w9gdyFHJh+lEIUAtFwuoQMrNybuW4mELtL3tqr96mwVM
-	78TK1suHp+uL2czHRUkrumiAIYeEm3Om2Oz26QwpCrwHsl0rRHSsiOQISvD6EhUn5gEI
-	5QFFWjqOgq1M5jFEBxs4FdbmQp/XrJX34HYyTB58ejFKZ/8m+nVso1aOs9v36Oeyg+XZ
-	7xSpFvZVym/K6oBp4UgUOk3HUthxL7pXMkK9h6jJvF4y8t8kcW3w6CY8WlL6aDOtDTc5
-	oJgQ==
+	Fri, 23 Sep 2016 07:57:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=subject:to:references:cc:from:message-id:date:user-agent
+	:mime-version:in-reply-to:content-transfer-encoding;
+	bh=AdLptIQnn6nWVTzSneXqxKMUBApLYvetd0uQJ49ivCg=;
+	b=D+4PE4Aj5Qs82j6AOaRtZsRQBArccPPXwFNM8FPOxt8kg/r08Q7bcevYOh3wfD/3Nv
+	4sT3n7t12ZoGNwbDy2wriI3TiJH7d9BAvFDsXHiAc4/MuzmkbxPmNWWAbIYy25EXJxbh
+	SGE+w/oiypE1m4J8HHwVzFY6N7HVkN7GivpD3nORkpa4yKyBaptyBpLl5z1nBTBki1mr
+	Zgc808Db4l/Yvxd/Dlqro0a+Ssv/EJr76O7iIFuloRloJ4Gw9kTxo4pvV/sBVIZrmBGZ
+	1YdWa4pO6HDuIhEnbkFbJrW7PWdY4x7bv0lVrmwQORM11PlyAgiXWzE5+EaRKn9oIIQI
+	upIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:organization:mime-version:content-transfer-encoding;
-	bh=MGPtsvUuL89DQ/O9gLaq0iSq9fa2b4ZZ8kjUrJ+cL7E=;
-	b=RVsb5n3FJo0C3oKG/0gvSqAsvpGX7JXkJ1+DQ63SVR/QFV8uQxtTe3NtcH596jbiX9
-	nS6hXyrgfLdFHv2nnSMuf4o51m9d2x0LAafGwymvdQt7QegvwphmyBPWYc6SfFFQTaOU
-	gMS37OGh30WtVn+C0l/VrpocdWcY5EZiXJzk1TC4k2dJUWUaIL2qJeIs/XAVqAaAX/vh
-	5mG/nDRPuW7F2YqIc9+HjI/D4MXo9xYgIlgZaQiyoyKLxvoZHaUPZsinYj3lZTvysCAs
-	0wMvDYGx3jf9DYe5W74mKy7t1a0jf7EGZrlfstX+Jo1QtTClRcho0WNoR+nEnej+feUw
-	c7UA==
-X-Gm-Message-State: AE9vXwNTll8noL7jtF3kSsx6H5vDBmwr1VRJxF2SGDKGGYfFMhh8ZeCHjStnTcIJiNntEgCP
-X-Received: by 10.107.29.135 with SMTP id d129mr9313055iod.150.1474642619499; 
-	Fri, 23 Sep 2016 07:56:59 -0700 (PDT)
-Received: from pohly-mobl1 (p57A56298.dip0.t-ipconnect.de. [87.165.98.152])
+	h=x-gm-message-state:subject:to:references:cc:from:message-id:date
+	:user-agent:mime-version:in-reply-to:content-transfer-encoding;
+	bh=AdLptIQnn6nWVTzSneXqxKMUBApLYvetd0uQJ49ivCg=;
+	b=JJVoJqtVk6nJZWpMhx5zHpdpTYwOgn2l04fpgqqtRUKBIkmOq/If4JcgvOa27oSw/T
+	fZpMWKI6R0wRZpIc3crEO8EdhSkUIY0Pw8TG8Mn4+S4Ywhs+TCw3bXlvk1k3cvpJSYG/
+	MuQdCRJW4biGgzzK0zGWDVs5jsK18TPfhi2noyHtGi+m6mIbG6KJJxLYAt31yKum1N5P
+	adGznWaHTIj++zmB4J5hjbjND334tpp9zN0QY5FT6pNhO2gvjwvCPpmWUk9gjarm7rBE
+	/2SzEs2/ghNKw8IEjggQJRttjMPmu8e0IOMAQQuQ6m0i7yIVfPdCo3B2/fphjX1skgpI
+	Caaw==
+X-Gm-Message-State: AE9vXwNcqidO5EUFMn9Zt4GNC86B+gyeoF9MzrGrBVOa1j+z718UR/5eG5GbY79qQO06fQ==
+X-Received: by 10.66.144.164 with SMTP id sn4mr13325670pab.0.1474642678609;
+	Fri, 23 Sep 2016 07:57:58 -0700 (PDT)
+Received: from ?IPv6:2601:202:4001:9ea0:c560:5d36:d9b:7d07?
+	([2601:202:4001:9ea0:c560:5d36:d9b:7d07])
 	by smtp.gmail.com with ESMTPSA id
-	j194sm2944568ioe.39.2016.09.23.07.56.57
+	m82sm12253318pfk.64.2016.09.23.07.57.56
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 23 Sep 2016 07:56:58 -0700 (PDT)
-Message-ID: <1474642615.8561.10.camel@intel.com>
-From: Patrick Ohly <patrick.ohly@intel.com>
-To: Richard Purdie <rpurdie@rpsys.net>
-Date: Fri, 23 Sep 2016 16:56:55 +0200
-In-Reply-To: <1474642090.30475.0.camel@rpsys.net>
-References: <cover.1474444335.git.mariano.lopez@linux.intel.com>
-	<facdb05bcfaa9eab9eed0b7db17fad854f6ec046.1474444335.git.mariano.lopez@linux.intel.com>
-	<CABcZAN=K8oZwJds4AnjMcvLoq3PtrS+Be8hu=GQYKQUy-s=65A@mail.gmail.com>
-	<1474642090.30475.0.camel@rpsys.net>
-Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
-X-Mailer: Evolution 3.12.9-1+b1 
-Mime-Version: 1.0
-Cc: Christopher Larson <clarson@kergoth.com>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] toolchain-shar-relocate.sh: Add error-handling
+	Fri, 23 Sep 2016 07:57:57 -0700 (PDT)
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	Alejandro Hernandez <alejandro.hernandez@linux.intel.com>,
+	openembedded-core@lists.openembedded.org
+References: <1474492215-39510-1-git-send-email-alejandro.hernandez@linux.intel.com>
+	<a826406c-2bff-0e51-014c-81203e0ec06c@gmail.com>
+	<1474641658.7207.371.camel@linuxfoundation.org>
+From: akuster808 <akuster808@gmail.com>
+Message-ID: <521eccdb-9541-fd49-a5ae-054f7113ad59@gmail.com>
+Date: Fri, 23 Sep 2016 07:57:56 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.2.0
+MIME-Version: 1.0
+In-Reply-To: <1474641658.7207.371.camel@linuxfoundation.org>
+Cc: akuster@mvista.com
+Subject: Re: [PATCH] [krogoth] Fixes several python3 dependencies
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -65,45 +64,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 23 Sep 2016 14:56:59 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 23 Sep 2016 14:57:57 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Fri, 2016-09-23 at 15:48 +0100, Richard Purdie wrote:
-> On Wed, 2016-09-21 at 19:06 -0700, Christopher Larson wrote:
-> > 
-> > On Wed, Sep 21, 2016 at 12:54 AM, <mariano.lopez@linux.intel.com>
-> > wrote:
-> > > diff --git a/meta/files/toolchain-shar-relocate.sh
-> > > b/meta/files/toolchain-shar-relocate.sh
-> > > index d4bcf0e..e491153 100644
-> > > --- a/meta/files/toolchain-shar-relocate.sh
-> > > +++ b/meta/files/toolchain-shar-relocate.sh
-> > > @@ -1,3 +1,8 @@
-> > > +if ! xargs --version > /dev/null 2>&1; then
-> > > +       echo "xargs is required by the relocation script, please
-> > > install it firts. Abort!"
-> > > +       exit 1
-> > > +fi
-> > > 
-> > This is pointless, xargs is mandated by posix/sus.
-> 
-> It appears we have some users with stripped down containers where it
-> hasn't been installed though and having a user readable message is
-> better
-
-... and even better is one without typos ;-}
-
-s/firts/first/
-
--- 
-Best Regards, Patrick Ohly
-
-The content of this message is my personal opinion only and although
-I am an employee of Intel, the statements I make here in no way
-represent Intel's position on the issue, nor am I authorized to speak
-on behalf of Intel on this matter.
 
 
+On 09/23/2016 07:40 AM, Richard Purdie wrote:
+> On Thu, 2016-09-22 at 08:33 -0700, akuster808 wrote:
+>> Alejandro,
+>>
+>>
+>> On 09/21/2016 02:10 PM, Alejandro Hernandez wrote:
+>>> This patch adds the packages python3-signal, python3-enum and
+>>> python3-selectors,
+>>> while it also fixes python3-subprocess, this fixes the installation
+>>> of python3-modules
+>> I can not get this to apply to my krogoth-next nor krogoth in Poky.
+>> Can
+>> you double check and let me know if I am doing something wrong or
+>> need
+>> any dependency changes?
+>>
+>> error pw is showing is:
+>> fatal: patch fragment without header at line 29: @@ -89,6 +89,10 @@
+>> SUMMARY_${PN}-email="Python email support"
+> I've pulled this onto the branch since we have it as a high for krogoth
+> (and merged the other queued krogoth patches, thanks!).
+
+I saw that. Thanks.
+
+- armin
+>
+> Cheers,
+>
+> Richard
+>
+>
 
 
