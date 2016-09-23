@@ -1,53 +1,20 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pa0-f66.google.com (mail-pa0-f66.google.com
-	[209.85.220.66])
-	by mail.openembedded.org (Postfix) with ESMTP id AE38965CBA
+Return-Path: <california.l.sullivan@intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 2FF856093A
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Sep 2016 17:23:39 +0000 (UTC)
-Received: by mail-pa0-f66.google.com with SMTP id my20so5336949pab.3
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Sep 2016 10:23:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=subject:to:references:from:message-id:date:user-agent:mime-version
-	:in-reply-to:content-transfer-encoding;
-	bh=9ODSkwOwktEVD1AWeT+5OY9W5tQkUEnGNNFKEQi2+ZI=;
-	b=WNjTOre5N8eN9alITcIFBojL17d3qQeeXO2sEjuyc6uH1ohs/w9M8YNDKP/1nOvbEr
-	HhcG1NPzAiGE99d3x7ir3djd+C8t8UNV+44YasnR69vKGt0Iht30lzvNuDTCTRmfCKBM
-	ILk72fK7dlR9rsPp5PQCi/KmpoRuUkUSMlKmhG2fNJiMqmaaL11N9gbeby5L/9nPUgPx
-	98pv7jcm+o9GKzQl3r4/IW6xCnTBjI82enSyRks+ijBydtxE6ki+4K6YaIR33W4mAm4j
-	V1bBgcnlqUmehkbsbtz3hiJ4v47XsEPEyJTQvwyn9bgOd+qgD28HQNew85vM6R1CjAVS
-	U4jg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:subject:to:references:from:message-id:date
-	:user-agent:mime-version:in-reply-to:content-transfer-encoding;
-	bh=9ODSkwOwktEVD1AWeT+5OY9W5tQkUEnGNNFKEQi2+ZI=;
-	b=VlBYvva0MZ8dKZC1CyAMPCMRPxt+Jps0ThMruawRzY3yWgsqihUblZ1auDWApoU+vi
-	0C/uQzF/9l47wBeeJrFdZy7mKYctoOFzEV4HKsj+kKEqz0LZqALUey2ptC97ZlFfOJBW
-	CJ2rqGPzlCDjNvuEexgs5bFUi3WofncpkX98VDdk2XKmSRrNU9Q8zSA4iZaKFurucCnU
-	xgiMLzA2KVP/+WU9Yh9DzYiint4lZ0iqLpp4oq8lMacMZeDOWq5XvXWUe1bvMqE4U+/e
-	RJ1df69B/RtqgL0b5LrV5WrFkUD4kzvcGBy0PHXA5wj97Cwb5zi+TlEqlMtPwhRUNTNJ
-	Leug==
-X-Gm-Message-State: AE9vXwPsExZ4SpBU9ue/do7a8esyAi/z7iUMTJqkbBy5PAivHe29kwRWnnk3pdJT49UISg==
-X-Received: by 10.66.253.101 with SMTP id zz5mr14512286pac.32.1474651420585;
-	Fri, 23 Sep 2016 10:23:40 -0700 (PDT)
-Received: from ?IPv6:2601:202:4001:9ea0:c560:5d36:d9b:7d07?
-	([2601:202:4001:9ea0:c560:5d36:d9b:7d07])
-	by smtp.gmail.com with ESMTPSA id
-	i62sm12872847pfg.89.2016.09.23.10.23.39
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 23 Sep 2016 10:23:39 -0700 (PDT)
+	Fri, 23 Sep 2016 18:15:03 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by fmsmga103.fm.intel.com with ESMTP; 23 Sep 2016 11:15:07 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.30,382,1470726000"; d="scan'208";a="1055460535"
+Received: from clsulliv.jf.intel.com ([10.7.201.156])
+	by orsmga002.jf.intel.com with ESMTP; 23 Sep 2016 11:15:05 -0700
+From: California Sullivan <california.l.sullivan@intel.com>
 To: openembedded-core@lists.openembedded.org
-References: <cover.1474398462.git.akuster@mvista.com>
-From: akuster808 <akuster808@gmail.com>
-Message-ID: <7e4ee155-4f00-3235-da29-d1b00fd1d22a@gmail.com>
-Date: Fri, 23 Sep 2016 10:23:38 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.2.0
-MIME-Version: 1.0
-In-Reply-To: <cover.1474398462.git.akuster@mvista.com>
-Subject: Re: [PATCH 0/7] Jethro pull request #2
+Date: Fri, 23 Sep 2016 11:15:00 -0700
+Message-Id: <1474654500-20199-1-git-send-email-california.l.sullivan@intel.com>
+X-Mailer: git-send-email 2.5.5
+Subject: [PATCH 1/1] parselogs.py: Add amd_nb error to x86_common whitelist
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,65 +27,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 23 Sep 2016 17:23:39 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 23 Sep 2016 18:15:04 -0000
 
-ping
+This has always silently failed on hardware without AMD Northbridge,
+and a recent kernel patch made it not silent. It would be ideal to only
+whitelist the error for genericx86 MACHINEs and disable the CONFIG
+option that enables it in intel-* MACHINEs, but in order to disable
+this configuration option we would have to enable EXPERT and
+DEBUG_KERNEL, which we don't want. Instead just whitelist it on all
+x86 MACHINEs.
 
+Fixes [YOCTO #10261].
 
-On 09/20/2016 12:12 PM, Armin Kuster wrote:
-> From: Armin Kuster <akuster@mvista.com>
->
-> please consider these changes for Jethro
->
-> Similar fixes for krogoth are in my staging branch
->
-> The following changes since commit 6f0350d1cbf5829bfbaa3a43227f8d564903743a:
->
->    wget: Security fix CVE-2016-4971 (2016-09-17 22:33:07 -0700)
->
-> are available in the git repository at:
->
->    git://git.openembedded.org/openembedded-core-contrib akuster/jethro-next
->    http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=akuster/jethro-next
->
-> Armin Kuster (7):
->    qemu: Security Fix CVE-2016-3710
->    qemu: Security Fix CVE-2016-3712
->    qemu: Security fix CVE-2016-4439
->    qemu: Security fix CVE-2016-6351
->    qemu: Security fix for CVE-2016-4002
->    qemu: Secuirty fix for CVE-2016-5403
->    util-linux: Security fix for CVE-2016-5011
->
->   .../util-linux/util-linux/CVE-2016-5011.patch      |  59 +++++++++
->   .../util-linux/util-linux/CVE-2016-5011_p2.patch   |  91 ++++++++++++++
->   meta/recipes-core/util-linux/util-linux_2.26.2.bb  |   2 +
->   .../recipes-devtools/qemu/qemu/CVE-2016-3710.patch | 112 +++++++++++++++++
->   .../qemu/qemu/CVE-2016-3712_p1.patch               |  73 ++++++++++++
->   .../qemu/qemu/CVE-2016-3712_p2.patch               | 132 +++++++++++++++++++++
->   .../qemu/qemu/CVE-2016-3712_p3.patch               |  34 ++++++
->   .../qemu/qemu/CVE-2016-3712_p4.patch               |  80 +++++++++++++
->   .../recipes-devtools/qemu/qemu/CVE-2016-4002.patch |  39 ++++++
->   .../recipes-devtools/qemu/qemu/CVE-2016-4439.patch |  46 +++++++
->   .../recipes-devtools/qemu/qemu/CVE-2016-5403.patch |  67 +++++++++++
->   .../qemu/qemu/CVE-2016-6351_p1.patch               |  75 ++++++++++++
->   .../qemu/qemu/CVE-2016-6351_p2.patch               |  60 ++++++++++
->   meta/recipes-devtools/qemu/qemu_2.4.0.bb           |  10 ++
->   14 files changed, 880 insertions(+)
->   create mode 100644 meta/recipes-core/util-linux/util-linux/CVE-2016-5011.patch
->   create mode 100644 meta/recipes-core/util-linux/util-linux/CVE-2016-5011_p2.patch
->   create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2016-3710.patch
->   create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2016-3712_p1.patch
->   create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2016-3712_p2.patch
->   create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2016-3712_p3.patch
->   create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2016-3712_p4.patch
->   create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2016-4002.patch
->   create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2016-4439.patch
->   create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2016-5403.patch
->   create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2016-6351_p1.patch
->   create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2016-6351_p2.patch
->
+Signed-off-by: California Sullivan <california.l.sullivan@intel.com>
+---
+ meta/lib/oeqa/runtime/parselogs.py | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/meta/lib/oeqa/runtime/parselogs.py b/meta/lib/oeqa/runtime/parselogs.py
+index 763c42f..2d4a133 100644
+--- a/meta/lib/oeqa/runtime/parselogs.py
++++ b/meta/lib/oeqa/runtime/parselogs.py
+@@ -56,6 +56,7 @@ x86_common = [
+     'probe of LNXPWRBN:00 failed with error -22',
+     'pmd_set_huge: Cannot satisfy',
+     'failed to setup card detect gpio',
++    'amd_nb: Cannot enumerate AMD northbridges',
+ ] + common_errors
+ 
+ qemux86_common = [
+-- 
+2.5.5
 
 
