@@ -1,33 +1,29 @@
-Return-Path: <rpurdie@rpsys.net>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 09B9C6079F
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 57F316079F
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Sep 2016 14:48:14 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u8NEmDF3026490; Fri, 23 Sep 2016 15:48:13 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id 0GSecF_yeyZF; Fri, 23 Sep 2016 15:48:13 +0100 (BST)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u8NEmANf026486
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Fri, 23 Sep 2016 15:48:11 +0100
-Message-ID: <1474642090.30475.0.camel@rpsys.net>
-From: Richard Purdie <rpurdie@rpsys.net>
-To: Christopher Larson <clarson@kergoth.com>, Mariano Lopez
-	<mariano.lopez@linux.intel.com>
-Date: Fri, 23 Sep 2016 15:48:10 +0100
-In-Reply-To: <CABcZAN=K8oZwJds4AnjMcvLoq3PtrS+Be8hu=GQYKQUy-s=65A@mail.gmail.com>
-References: <cover.1474444335.git.mariano.lopez@linux.intel.com>
-	<facdb05bcfaa9eab9eed0b7db17fad854f6ec046.1474444335.git.mariano.lopez@linux.intel.com>
-	<CABcZAN=K8oZwJds4AnjMcvLoq3PtrS+Be8hu=GQYKQUy-s=65A@mail.gmail.com>
-X-Mailer: Evolution 3.18.5.2-0ubuntu3 
-Mime-Version: 1.0
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] toolchain-shar-relocate.sh: Add error-handling
+	Fri, 23 Sep 2016 14:56:05 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 23 Sep 2016 07:54:28 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.30,381,1470726000"; d="scan'208";a="1044693230"
+Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.49])
+	([10.237.68.49])
+	by fmsmga001.fm.intel.com with ESMTP; 23 Sep 2016 07:54:26 -0700
+To: Patrick Ohly <patrick.ohly@intel.com>
+References: <cover.1474619763.git.patrick.ohly@intel.com>
+	<1474626443.7161.5.camel@intel.com>
+	<2890fce9-ac23-d251-8b15-c8b11994e795@linux.intel.com>
+	<1474636754.8561.6.camel@intel.com>
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Message-ID: <9cf4971f-05d0-84b4-47cf-14002e9689c6@linux.intel.com>
+Date: Fri, 23 Sep 2016 17:52:30 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Icedove/45.2.0
+MIME-Version: 1.0
+In-Reply-To: <1474636754.8561.6.camel@intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 0/1] openssl: update to 1.0.2i (CVE-2016-6304 and more)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,33 +36,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 23 Sep 2016 14:48:15 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 23 Sep 2016 14:56:08 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Wed, 2016-09-21 at 19:06 -0700, Christopher Larson wrote:
-> 
-> On Wed, Sep 21, 2016 at 12:54 AM, <mariano.lopez@linux.intel.com>
-> wrote:
-> > diff --git a/meta/files/toolchain-shar-relocate.sh
-> > b/meta/files/toolchain-shar-relocate.sh
-> > index d4bcf0e..e491153 100644
-> > --- a/meta/files/toolchain-shar-relocate.sh
-> > +++ b/meta/files/toolchain-shar-relocate.sh
-> > @@ -1,3 +1,8 @@
-> > +if ! xargs --version > /dev/null 2>&1; then
-> > +       echo "xargs is required by the relocation script, please
-> > install it firts. Abort!"
-> > +       exit 1
-> > +fi
-> > 
-> This is pointless, xargs is mandated by posix/sus.
+On 09/23/2016 04:19 PM, Patrick Ohly wrote:
 
-It appears we have some users with stripped down containers where it
-hasn't been installed though and having a user readable message is
-better than the rather obtuse one reported into the bugzilla...
+> OpenSSL seems to rely on output checking. Not sure whether a patch
+> changing that would be accepted.
+>
+> How are ptests used in the autobuilders? Does the return code of
+> ptest-runner matter, or is the output checked for ^PASS|SKIP|FAIL?
 
-Cheers,
+I'm not sure about it, but regardless of the autobuilders, it's best to 
+fail when there is a failure, so the patch to fix that would be accepted 
+here (don't know about upstream).
 
-Richard
+Alex
+
 
