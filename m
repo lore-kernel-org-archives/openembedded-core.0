@@ -1,26 +1,22 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 0E6496025F
+Return-Path: <jussi.kukkonen@intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id B7ABE65C8F
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Sep 2016 12:03:18 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 23 Sep 2016 05:03:20 -0700
+	Fri, 23 Sep 2016 12:04:17 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by fmsmga103.fm.intel.com with ESMTP; 23 Sep 2016 05:04:18 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.30,381,1470726000"; d="scan'208";a="1044635043"
-Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.49])
-	([10.237.68.49])
-	by fmsmga001.fm.intel.com with ESMTP; 23 Sep 2016 05:03:20 -0700
+X-IronPort-AV: E=Sophos;i="5.30,381,1470726000"; d="scan'208";a="1055306679"
+Received: from theory.fi.intel.com ([10.237.72.196])
+	by orsmga002.jf.intel.com with ESMTP; 23 Sep 2016 05:04:18 -0700
+From: Jussi Kukkonen <jussi.kukkonen@intel.com>
 To: openembedded-core@lists.openembedded.org
-References: <cover.1474619763.git.patrick.ohly@intel.com>
-	<d96c9d2d55f4f6dcc78a51fadfb847711e89a09a.1474619763.git.patrick.ohly@intel.com>
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <67fabe6e-fb01-7462-2e5e-8424d5d24571@linux.intel.com>
-Date: Fri, 23 Sep 2016 15:01:39 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Icedove/45.2.0
-MIME-Version: 1.0
-In-Reply-To: <d96c9d2d55f4f6dcc78a51fadfb847711e89a09a.1474619763.git.patrick.ohly@intel.com>
-Subject: Re: [PATCH 1/1] openssl: update to 1.0.2i (CVE-2016-6304 and more)
+Date: Fri, 23 Sep 2016 15:04:14 +0300
+Message-Id: <1474632254-1411-1-git-send-email-jussi.kukkonen@intel.com>
+X-Mailer: git-send-email 2.1.4
+In-Reply-To: <1474631301-1249-1-git-send-email-jussi.kukkonen@intel.com>
+References: <1474631301-1249-1-git-send-email-jussi.kukkonen@intel.com>
+Subject: [PATCHv2] gnutls: Skip QA check for text relocation on x86
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,38 +29,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 23 Sep 2016 12:03:19 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 23 Sep 2016 12:04:18 -0000
 
-On 09/23/2016 11:39 AM, Patrick Ohly wrote:
-> This update fixes several CVEs:
-> * OCSP Status Request extension unbounded memory growth (CVE-2016-6304)
-> * SWEET32 Mitigation (CVE-2016-2183)
-> * OOB write in MDC2_Update() (CVE-2016-6303)
-> * Malformed SHA512 ticket DoS (CVE-2016-6302)
-> * OOB write in BN_bn2dec() (CVE-2016-2182)
-> * OOB read in TS_OBJ_print_bio() (CVE-2016-2180)
-> * DTLS buffered message DoS (CVE-2016-2179)
-> * DTLS replay protection DoS (CVE-2016-2181)
-> * Certificate message OOB reads (CVE-2016-6306)
->
-> Of these, only CVE-2016-6304 is considered of high
-> severity. Everything else is low. CVE-2016-2177 and CVE-2016-2178 were
-> already fixed via local patches, which can be removed now.
+Current release has relocations in .text on x86. Silence the
+warning for now: Upcoming release should have a real fix.
 
-This demonstrates that:
+[YOCTO #10290]
 
-a) if CVEs are fixed with backported patches, the process must be 
-*thorough* and not shotgun-ish like now. It's pointless to fix some CVEs 
-and ignore the others, just because that's what automated tools like 
-cve-checker reported or someone saw some mail on a mailing list.
+Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
+---
+Changes since v1:
+ * Add leading space to _append, thanks Martin. 
 
-b) it's okay to not fix low-severity CVEs until the upstream makes a new 
-release. Upstream is much more competent than we are to judge that, and 
-if the issue is high severity, they should make a new release anyway.
 
-Please feel free to disagree.
+ meta/recipes-support/gnutls/gnutls_3.5.3.bb | 3 +++
+ 1 file changed, 3 insertions(+)
 
-Alex
+diff --git a/meta/recipes-support/gnutls/gnutls_3.5.3.bb b/meta/recipes-support/gnutls/gnutls_3.5.3.bb
+index 1bdca6a..8317eb4 100644
+--- a/meta/recipes-support/gnutls/gnutls_3.5.3.bb
++++ b/meta/recipes-support/gnutls/gnutls_3.5.3.bb
+@@ -7,3 +7,6 @@ SRC_URI += "file://correct_rpl_gettimeofday_signature.patch \
+            "
+ SRC_URI[md5sum] = "6c2c7f40ddf52933ee3ca474cb8cb63c"
+ SRC_URI[sha256sum] = "92c4bc999a10a1b95299ebefaeea8333f19d8a98d957a35b5eae74881bdb1fef"
++
++# x86 .text relocations should be fixed from 3.5.5 onwards
++INSANE_SKIP_${PN}_append_x86 = " textrel"
+-- 
+2.1.4
+
 
