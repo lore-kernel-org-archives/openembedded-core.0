@@ -1,27 +1,20 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 15F5E65D00
+Return-Path: <anujx.mittal@intel.com>
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 797416FFCC
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Sep 2016 08:47:54 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u8N8luo7003895
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Sep 2016 01:47:56 -0700 (PDT)
-Received: from [128.224.162.240] (128.224.162.240) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.294.0;
-	Fri, 23 Sep 2016 01:47:55 -0700
-To: <openembedded-core@lists.openembedded.org>
-References: <cover.1469609666.git.liezhi.yang@windriver.com>
-From: Robert Yang <liezhi.yang@windriver.com>
-Message-ID: <c453e06d-ac04-c5cf-3504-1c17637bb8f3@windriver.com>
-Date: Fri, 23 Sep 2016 16:47:54 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.2.0
-MIME-Version: 1.0
-In-Reply-To: <cover.1469609666.git.liezhi.yang@windriver.com>
-Subject: Re: [PATCH V2 0/9] Fix udev dirs
+	Fri, 23 Sep 2016 08:48:05 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by fmsmga105.fm.intel.com with ESMTP; 23 Sep 2016 01:48:07 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.30,381,1470726000"; d="scan'208";a="764782675"
+Received: from amitta2x-ilbpg1.png.intel.com ([10.88.227.34])
+	by FMSMGA003.fm.intel.com with ESMTP; 23 Sep 2016 01:48:06 -0700
+From: Anuj Mittal <anujx.mittal@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 23 Sep 2016 16:48:37 +0800
+Message-Id: <1474620517-4809-1-git-send-email-anujx.mittal@intel.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [master][PATCH] openssl: security fix CVE-2016-6304
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,51 +27,115 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 23 Sep 2016 08:47:56 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 23 Sep 2016 08:48:06 -0000
 
-Ping, rebased and updated in the repo, these recipes udev dir
-maybe incorrect without these fixes.
+Reference:
+https://www.openssl.org/news/secadv/20160922.txt
 
-// Robert
+Upstream fix:
+https://github.com/openssl/openssl/commit/e408c09bbf7c3057bda4b8d20bec1b3a7771c15b
 
-On 07/27/2016 05:27 PM, Robert Yang wrote:
-> * V2
->   - lib/udev/rules.d -> lib/udev in bitbake.conf
->   - Remove duplicated udev setting for more recipes
->
-> // Robert
->
-> The following changes since commit b32d430c3c7dccf3a8d06ab492d648893a05950f:
->
->   dpkg: use snapshot.debian.org for SRC_URI (2016-07-26 08:56:08 +0100)
->
-> are available in the git repository at:
->
->   git://git.openembedded.org/openembedded-core-contrib rbt/udev
->   http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/udev
->
-> Robert Yang (9):
->   bitbake.conf: add eudev's udevdir to FILES_${PN}
->   systemd: install udev.pc
->   libinput: fix udevdir
->   ofono: remove duplicated udev setting from FILES_${PN}
->   mdadm: remove duplicated udev setting from FILES_${PN}
->   xf86-input-vmmouse: remove duplicated udev setting from FILES_${PN}
->   eudev: don't move udev directory
->   pcmciautils: remove duplicated udev setting from FILES_${PN}
->   bluez5: remove duplicated udev setting from FILES_${PN}
->
->  meta/conf/bitbake.conf                                         |  3 ++-
->  meta/recipes-bsp/pcmciautils/pcmciautils_018.bb                |  2 --
->  meta/recipes-connectivity/bluez5/bluez5.inc                    |  2 +-
->  meta/recipes-connectivity/ofono/ofono.inc                      |  2 +-
->  meta/recipes-core/systemd/systemd_230.bb                       |  2 ++
->  meta/recipes-core/udev/eudev_3.2.bb                            | 10 +---------
->  meta/recipes-extended/mdadm/mdadm_3.4.bb                       |  2 --
->  meta/recipes-graphics/wayland/libinput_1.3.0.bb                |  4 +++-
->  meta/recipes-graphics/xorg-driver/xf86-input-vmmouse_13.1.0.bb |  2 +-
->  9 files changed, 11 insertions(+), 18 deletions(-)
->
+Signed-off-by: Anuj Mittal <anujx.mittal@intel.com>
+---
+ .../openssl/openssl/CVE-2016-6304.patch            | 75 ++++++++++++++++++++++
+ .../recipes-connectivity/openssl/openssl_1.0.2h.bb |  1 +
+ 2 files changed, 76 insertions(+)
+ create mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2016-6304.patch
+
+diff --git a/meta/recipes-connectivity/openssl/openssl/CVE-2016-6304.patch b/meta/recipes-connectivity/openssl/openssl/CVE-2016-6304.patch
+new file mode 100644
+index 0000000..59d66f0
+--- /dev/null
++++ b/meta/recipes-connectivity/openssl/openssl/CVE-2016-6304.patch
+@@ -0,0 +1,75 @@
++From ea39b16b71e4e72a228a4535bd6d6a02c5edbc1f Mon Sep 17 00:00:00 2001
++From: Matt Caswell <matt@openssl.org>
++Date: Fri, 9 Sep 2016 10:08:45 +0100
++Subject: [PATCH] Fix OCSP Status Request extension unbounded memory growth
++
++A malicious client can send an excessively large OCSP Status Request
++extension. If that client continually requests renegotiation,
++sending a large OCSP Status Request extension each time, then there will
++be unbounded memory growth on the server. This will eventually lead to a
++Denial Of Service attack through memory exhaustion. Servers with a
++default configuration are vulnerable even if they do not support OCSP.
++Builds using the "no-ocsp" build time option are not affected.
++
++I have also checked other extensions to see if they suffer from a similar
++problem but I could not find any other issues.
++
++CVE-2016-6304
++
++Issue reported by Shi Lei.
++Reviewed-by: Rich Salz <rsalz@openssl.org>
++
++CVE: CVE-2016-6304
++Upstream-Status: Backport
++https://github.com/openssl/openssl/commit/e408c09bbf7c3057bda4b8d20bec1b3a7771c15b
++
++Signed-off-by: Anuj Mittal <anujx.mittal@intel.com>
++---
++ ssl/t1_lib.c | 24 +++++++++++++++++-------
++ 1 file changed, 17 insertions(+), 7 deletions(-)
++
++diff --git a/ssl/t1_lib.c b/ssl/t1_lib.c
++index fbcf2e6..e4b4e27 100644
++--- a/ssl/t1_lib.c
+++++ b/ssl/t1_lib.c
++@@ -2316,6 +2316,23 @@ static int ssl_scan_clienthello_tlsext(SSL *s, unsigned char **p,
++                 size -= 2;
++                 if (dsize > size)
++                     goto err;
+++
+++                /*
+++                 * We remove any OCSP_RESPIDs from a previous handshake
+++                 * to prevent unbounded memory growth - CVE-2016-6304
+++                 */
+++                sk_OCSP_RESPID_pop_free(s->tlsext_ocsp_ids,
+++                                        OCSP_RESPID_free);
+++                if (dsize > 0) {
+++                    s->tlsext_ocsp_ids = sk_OCSP_RESPID_new_null();
+++                    if (s->tlsext_ocsp_ids == NULL) {
+++                        *al = SSL_AD_INTERNAL_ERROR;
+++                        return 0;
+++                    }
+++                } else {
+++                    s->tlsext_ocsp_ids = NULL;
+++                }
+++
++                 while (dsize > 0) {
++                     OCSP_RESPID *id;
++                     int idsize;
++@@ -2335,13 +2352,6 @@ static int ssl_scan_clienthello_tlsext(SSL *s, unsigned char **p,
++                         OCSP_RESPID_free(id);
++                         goto err;
++                     }
++-                    if (!s->tlsext_ocsp_ids
++-                        && !(s->tlsext_ocsp_ids =
++-                             sk_OCSP_RESPID_new_null())) {
++-                        OCSP_RESPID_free(id);
++-                        *al = SSL_AD_INTERNAL_ERROR;
++-                        return 0;
++-                    }
++                     if (!sk_OCSP_RESPID_push(s->tlsext_ocsp_ids, id)) {
++                         OCSP_RESPID_free(id);
++                         *al = SSL_AD_INTERNAL_ERROR;
++-- 
++1.9.1
++
+diff --git a/meta/recipes-connectivity/openssl/openssl_1.0.2h.bb b/meta/recipes-connectivity/openssl/openssl_1.0.2h.bb
+index c8444d3..c369d01 100644
+--- a/meta/recipes-connectivity/openssl/openssl_1.0.2h.bb
++++ b/meta/recipes-connectivity/openssl/openssl_1.0.2h.bb
+@@ -42,6 +42,7 @@ SRC_URI += "file://find.pl;subdir=${BP}/util/ \
+             file://CVE-2016-2177.patch \
+             file://CVE-2016-2178.patch \
+             file://openssl-util-perlpath.pl-cwd.patch \
++            file://CVE-2016-6304.patch \
+            "
+ SRC_URI[md5sum] = "9392e65072ce4b614c1392eefc1f23d0"
+ SRC_URI[sha256sum] = "1d4007e53aad94a5b2002fe045ee7bb0b3d98f1a47f8b2bc851dcd1c74332919"
+-- 
+1.9.1
+
 
