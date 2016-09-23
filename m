@@ -1,23 +1,47 @@
-Return-Path: <Nathan_Lynch@mentor.com>
-Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
-	by mail.openembedded.org (Postfix) with ESMTP id 8CAD360119
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-ua0-f194.google.com (mail-ua0-f194.google.com
+	[209.85.217.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 4047060125
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Sep 2016 21:53:19 +0000 (UTC)
-Received: from svr-orw-fem-05.mgc.mentorg.com ([147.34.97.43])
-	by relay1.mentorg.com with esmtp 
-	id 1bnBvl-0004im-35 from Nathan_Lynch@mentor.com 
-	for openembedded-core@lists.openembedded.org;
-	Thu, 22 Sep 2016 14:53:21 -0700
-Received: from localhost (147.34.91.1) by svr-orw-fem-05.mgc.mentorg.com
-	(147.34.97.43) with Microsoft SMTP Server (TLS) id 14.3.224.2;
-	Thu, 22 Sep 2016 14:53:20 -0700
-From: Nathan Lynch <nathan_lynch@mentor.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 22 Sep 2016 16:53:18 -0500
-Message-ID: <1474581198-14398-1-git-send-email-nathan_lynch@mentor.com>
-X-Mailer: git-send-email 2.7.4
+	Fri, 23 Sep 2016 01:24:42 +0000 (UTC)
+Received: by mail-ua0-f194.google.com with SMTP id 107so753144uah.2
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 22 Sep 2016 18:24:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-transfer-encoding;
+	bh=Lcx4kOBspo1xH4lCfNVznUyrFEtWeldWod0ip+qaZMk=;
+	b=Ix4++c32FLn8cSAhn1yabcacQ5JugiHow8shsOvBDqtABreai6szDs7S/wRy5Kr67k
+	ZJdVCTW9GhAMB/uhJe/7Nj/VTlM6wwc88Y7KjWFzEVQBNuWvQYfCmUPJx8BMt1rayn4C
+	mqHsOAgJI7mzhTbvpcroFSEHXM+H4TxuFoot1qYTL2N6LShxvYsb2NwUEQdr3m3AuXay
+	Qo6dHpt2MWbYSPErYKNeq/2NCTnTGHQXYfXCgVry6WA3fWqOfDdL3upY+VG44IYA/51J
+	2chd0TNw1F9ydWgqzxn0WQfT5Beu3zD8E6Be2ch0eLQXJ4Ez+7+rzRBQY30F5jR6oxVh
+	jgGQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=Lcx4kOBspo1xH4lCfNVznUyrFEtWeldWod0ip+qaZMk=;
+	b=YZZPEdzXOh8WO215Awp7HT0mMZuhdJBYZ5UX4+lGF17BzADMPnpgxLekFBewK5KKtU
+	sspHpSI+PccjKdVShMWNzh1zeay3wA92OWCuLqQ+Zk0yIsFVt0Z47Db3Wxo03RcZtJ02
+	1H2Mo6yOZzubUc/WekBrVk7gq2xK+UYBw+wWZdnsNcIsuZktVl5NvPyu5BiNNuh9bSxH
+	5E+0dSqKvwzp9Th14Hs035KDe8pAlQ1zueFrgUBgyu20/Q/uZmnNA4yJ0x9ePk3fP+/+
+	1t03pWi6ZW9+ZF2HjbfvsxhWmo5i7rN9GBaVDELb3bzuQj3h9UW+24ls/TsDZ0w5cOmE
+	xgxQ==
+X-Gm-Message-State: AA6/9RmJZdDZzuKWdlhpzBZ5NeslKdRATlJ4n8zdqnrcINr0DpyHDWJqtOIz7BlTIdwXrlSWf6yupHJlRqTjUg==
+X-Received: by 10.176.2.73 with SMTP id 67mr2412687uas.40.1474593883918; Thu,
+	22 Sep 2016 18:24:43 -0700 (PDT)
 MIME-Version: 1.0
-Subject: [PATCH] lttng-tools: fix ptest
+Received: by 10.176.80.33 with HTTP; Thu, 22 Sep 2016 18:24:13 -0700 (PDT)
+In-Reply-To: <1474435844-16942-1-git-send-email-schnitzeltony@googlemail.com>
+References: <1474435844-16942-1-git-send-email-schnitzeltony@googlemail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Thu, 22 Sep 2016 18:24:13 -0700
+Message-ID: <CAMKF1sr-gz_KF+yL=UTu4C-6qPME2obXj9mrsxdhB=yhV+Nijw@mail.gmail.com>
+To: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/2] libunwind: fix build by linking with bfd instead of gold
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,209 +54,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Sep 2016 21:53:21 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 23 Sep 2016 01:24:45 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Since the upgrade to 2.8, lttng-tools' test harness silently succeeds
-but doesn't actually run the tests.  This is because upstream made
-some changes in their test harness:
+On Tue, Sep 20, 2016 at 10:30 PM, Andreas M=C3=BCller
+<schnitzeltony@googlemail.com> wrote:
+> works around:
+> <native-sysroot>/ld: error: Gperf-simple.o: cannot make copy relocation f=
+or protected symbol '_Uarm_local_addr_space', defined in ../src/.libs/libun=
+wind-arm.so
+> collect2: error: ld returned 1 exit status
+> Makefile:1038: recipe for target 'Gperf-simple' failed
+> make[1]: *** [Gperf-simple] Error 1
+> make[1]: *** Waiting for unfinished jobs....
+> <...>
+> <native-sysroot>/ld: error: Lperf-simple.o: cannot make copy relocation f=
+or protected symbol '_ULarm_local_addr_space', defined in ../src/.libs/libu=
+nwind.so
+> collect2: error: ld returned 1 exit status
+> Makefile:1094: recipe for target 'Lperf-simple' failed
+> make[1]: *** [Lperf-simple] Error 1
+> <...>
+> ERROR: oe_runmake failed
+> <native-sysroot>/ld: error: Gperf-trace.o: cannot make copy relocation fo=
+r protected symbol '_Uarm_local_addr_space', defined in ../src/.libs/libunw=
+ind-arm.so
+> collect2: error: ld returned 1 exit status
+> Makefile:1042: recipe for target 'Gperf-trace' failed
+> make[1]: *** [Gperf-trace] Error 1
+> <native-sysroot>/ld: error: Lperf-trace.o: cannot make copy relocation fo=
+r protected symbol '_ULarm_local_addr_space', defined in ../src/.libs/libun=
+wind.so
+> collect2: error: ld returned 1 exit status
+> Makefile:1098: recipe for target 'Lperf-trace' failed
+> make[1]: *** [Lperf-trace] Error 1
+> <...>
+> <native-sysroot>/ld: error: test-coredump-unwind.o: cannot make copy relo=
+cation for protected symbol '_UCD_accessors', defined in ../src/.libs/libun=
+wind-coredump.so
+> collect2: error: ld returned 1 exit status
+> Makefile:1186: recipe for target 'test-coredump-unwind' failed
+>
+> Signed-off-by: Andreas M=C3=BCller <schnitzeltony@googlemail.com>
+> ---
+>  meta/recipes-support/libunwind/libunwind_git.bb | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/meta/recipes-support/libunwind/libunwind_git.bb b/meta/recip=
+es-support/libunwind/libunwind_git.bb
+> index cd4cb89..4249430 100644
+> --- a/meta/recipes-support/libunwind/libunwind_git.bb
+> +++ b/meta/recipes-support/libunwind/libunwind_git.bb
+> @@ -26,3 +26,4 @@ SECURITY_CFLAGS_append_aarch64 =3D " -fPIE"
+>
+>  S =3D "${WORKDIR}/git"
+>
+> +LDFLAGS +=3D "-Wl,-z,relro,-z,now ${@bb.utils.contains('DISTRO_FEATURES'=
+, 'ld-is-gold', ' -fuse-ld=3Dbfd ', '', d)}"
 
-https://github.com/lttng/lttng-tools/commit/83666813cad3142ceccb929ca9b44d0e9cf53bc8
+I dont think we need to check for DISTRO_FEATURE here. Since we want
+to always use BFD linker using -fuse-ld=3Dbfd unconditionally is fine
+always.
 
-Updates to address this include:
-- drop now-irrelevant patch
-- change the ptest-run make target
-- remove indiscriminate search/replace commands from do_install_ptest
-- copy entire build directory into PTEST_PATH and then remove unneeded files
-- use lttng binaries installed on the system for the tests
-- add lttng-tools-ptest runtime dependencies
-  - lttng-tools itself
-  - babeltrace, used by the test harness to process traces
-  - perl modules required by babelstats.pl test script
-  - procps (for pgrep, pidof)
-  - gawk
-- remove unnecessary chmod and munging of utils.sh script library
-- remove checkpatch from ptest installation tree
-- avoid path-munging of libtool artifacts altogether
-- use more efficient find+sed patterns to munge Makefiles
-- reduce test harness output to conform to ptest rules
-
-On qemux86-64 and qemuarm I get relatively stable results, with
-PASS/FAIL varying by +-1 on successive runs.
-
-TOTAL: 2345
-PASS:  1735
-SKIP:  311
-XFAIL: 0
-FAIL:  292
-XPASS: 0
-ERROR: 7
-
-There are some ERRORs worth looking into further but this should be a
-useful basis for future work.
-
-Signed-off-by: Nathan Lynch <nathan_lynch@mentor.com>
----
- meta/recipes-kernel/lttng/lttng-tools/run-ptest    |  7 +-
- .../lttng/lttng-tools/runtest-2.4.0.patch          | 27 --------
- meta/recipes-kernel/lttng/lttng-tools_git.bb       | 80 ++++++++++++++++------
- 3 files changed, 63 insertions(+), 51 deletions(-)
- delete mode 100644 meta/recipes-kernel/lttng/lttng-tools/runtest-2.4.0.patch
-
-diff --git a/meta/recipes-kernel/lttng/lttng-tools/run-ptest b/meta/recipes-kernel/lttng/lttng-tools/run-ptest
-index e758815c77d4..6230063442d6 100755
---- a/meta/recipes-kernel/lttng/lttng-tools/run-ptest
-+++ b/meta/recipes-kernel/lttng/lttng-tools/run-ptest
-@@ -1,4 +1,5 @@
- #!/bin/sh
--
--make -C tests installcheck
--
-+# Without --ignore-exit, the tap harness causes any FAILs within a
-+# test plan to raise ERRORs; this is just noise.
-+makeargs="LOG_DRIVER_FLAGS=--ignore-exit"
-+make -t all >/dev/null 2>&1 && exec make -s $makeargs check 2>/dev/null
-diff --git a/meta/recipes-kernel/lttng/lttng-tools/runtest-2.4.0.patch b/meta/recipes-kernel/lttng/lttng-tools/runtest-2.4.0.patch
-deleted file mode 100644
-index 958bce48e0b0..000000000000
---- a/meta/recipes-kernel/lttng/lttng-tools/runtest-2.4.0.patch
-+++ /dev/null
-@@ -1,27 +0,0 @@
--diff --git a/Makefile.am b/Makefile.am
--index 584f59b..c2bcabd 100644
----- a/Makefile.am
--+++ b/Makefile.am
--@@ -12,3 +12,9 @@ dist_doc_DATA = LICENSE \
-- dist_noinst_DATA = CodingStyle
-- 
-- EXTRA_DIST = extras/lttng-bash_completion gpl-2.0.txt lgpl-2.1.txt
--+
--+install-ptest:
--+	cp -r $(srcdir)/tests $(DESTDIR)
--+	for m in $$(find $(DESTDIR)/tests -name Makefile); do \
--+          sed -i -e 's|^Makefile:|_Makefile:|' $$m; \
--+        done
--diff --git a/tests/run.sh b/tests/run.sh
--index c6c50fd..6455359 100755
----- a/tests/run.sh
--+++ b/tests/run.sh
--@@ -19,4 +19,7 @@
-- 
-- [ -z "$1" ] && echo "Error: No testlist. Please specify a testlist to run." && exit 1
-- 
---prove --merge --exec '' - < $1
--+prove --merge -v --exec '' - < $1 | sed \
--+  -e 's|^ok \(.*\)|PASS: \1|' \
--+  -e 's|^not ok \(.*\)|FAIL: \1|' \
--+  | egrep -h 'PASS|FAIL'
-diff --git a/meta/recipes-kernel/lttng/lttng-tools_git.bb b/meta/recipes-kernel/lttng/lttng-tools_git.bb
-index 66269d895713..c715d95457d8 100644
---- a/meta/recipes-kernel/lttng/lttng-tools_git.bb
-+++ b/meta/recipes-kernel/lttng/lttng-tools_git.bb
-@@ -11,7 +11,13 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=01d7fc4496aacf37d90df90b90b0cac1 \
- 
- DEPENDS = "liburcu popt libxml2"
- RDEPENDS_${PN} = "libgcc"
--RDEPENDS_${PN}-ptest += "make perl bash"
-+RDEPENDS_${PN}-ptest += "make perl bash gawk ${PN} babeltrace procps"
-+# babelstats.pl wants getopt-long
-+RDEPENDS_${PN}-ptest += "perl-module-getopt-long"
-+# getopt itself needs overload
-+RDEPENDS_${PN}-ptest += "perl-module-overload"
-+# overload, in turn, needs overload_ing_
-+RDEPENDS_${PN}-ptest += "perl-module-overloading"
- 
- SRCREV = "d11e0dba0df9024b8613c51e167a379b91e8b20b"
- PV = "2.8.1+git${SRCPV}"
-@@ -28,7 +34,6 @@ PACKAGECONFIG[manpages] = "--enable-man-pages, --disable-man-pages, asciidoc-nat
- PACKAGECONFIG_remove_libc-musl = "lttng-ust"
- 
- SRC_URI = "git://git.lttng.org/lttng-tools.git;branch=stable-2.8 \
--           file://runtest-2.4.0.patch \
-            file://run-ptest"
- 
- S = "${WORKDIR}/git"
-@@ -55,27 +60,60 @@ do_configure_prepend () {
- }
- 
- do_install_ptest () {
--	chmod +x ${D}${PTEST_PATH}/tests/utils/utils.sh
--	for i in `find ${D}${PTEST_PATH} -perm /u+x -type f`; do
--		sed -e "s:\$TESTDIR.*/src/bin/lttng/\$LTTNG_BIN:\$LTTNG_BIN:g" \
--		  -e "s:\$TESTDIR/../src/bin/lttng-sessiond/\$SESSIOND_BIN:\$SESSIOND_BIN:g" \
--		  -e "s:\$DIR/../src/bin/lttng-sessiond/\$SESSIOND_BIN:\$SESSIOND_BIN:g" \
--		  -e "s:\$TESTDIR/../src/bin/lttng-consumerd/:${libdir}/lttng/libexec/:g" \
--		  -e "s:\$DIR/../src/bin/lttng-consumerd/:${libdir}/lttng/libexec/:g" \
--		  -e "s:\$TESTDIR/../src/bin/lttng-relayd/\$RELAYD_BIN:\$RELAYD_BIN:g" \
--		  -e "s:\$DIR/../src/bin/lttng-sessiond/lttng-sessiond:\$SESSIOND_BIN:g" \
--		  -e "s:\$DIR/../src/bin/lttng-relayd/\$RELAYD_BIN:\$RELAYD_BIN:g" \
--		  -e "s:\$DIR/../bin/lttng-relayd/\$RELAYD_BIN:\$RELAYD_BIN:g" \
--		  -i $i
-+	mkdir -p ${D}${PTEST_PATH}
-+
-+	cp -a -T ${B} ${D}${PTEST_PATH}
-+
-+	# Prevent attempts to update Makefiles during test runs, and
-+	# silence "Making check in $SUBDIR" messages.
-+	find ${D}${PTEST_PATH} -name Makefile -type f -exec \
-+		sed -i -e 's!^Makefile:!_Makefile:!' \
-+		-e '/echo "Making $$target in $$subdir"; \\/d' {} +
-+
-+	# Prevent attempts to update version.h during test runs.
-+	sed -i -e '/^\.PHONY: version\.h$/d' ${D}${PTEST_PATH}/include/Makefile
-+
-+	# Silence "Making check in $SUBDIR" messages.
-+	find ${D}${PTEST_PATH} -name Makefile -type f -exec \
-+		sed -i -e '/echo "Making $$target in $$subdir"; \\/d' {} +
-+
-+	# Substitute links to installed binaries.
-+	for prog in lttng lttng-relayd lttng-sessiond lttng-consumerd ; do
-+		orig="${D}${PTEST_PATH}/src/bin/${prog}/${prog}"
-+		rm "$orig"
-+		case "$prog" in
-+			lttng-consumerd)
-+				ln -s "${libdir}/lttng/libexec/$prog" "$orig"
-+				;;
-+			*)
-+				ln -s "${bindir}/$prog" "$orig"
-+				;;
-+		esac
- 	done
- 
--	# Update libdir references in copied .la files
--	for i in `find ${D}${PTEST_PATH} -type f -name *.la`; do
--		sed -i -e 's#${S}/tests/#${STAGING_DIR}${PTEST_PATH}#g' $i
-+	# Remove libtool artifacts.
-+	find ${D}${PTEST_PATH} \( -name '*.l[ao]' -o -name '*.lai' \) -delete
-+
-+	# Remove object files and archives.
-+	find ${D}${PTEST_PATH} -name '*.[oa]' -type f -delete
-+
-+	# Remove Makefile.am and Makefile.in.
-+	find ${D}${PTEST_PATH} -name 'Makefile.*' -type f -delete
-+
-+	# Remove autom4te.cache.
-+	rm -rf ${D}${PTEST_PATH}/autom4te.cache
-+
-+	# Replace libtool wrapper scripts (which won't work on the
-+	# target) with their corresponding binaries.
-+	for prog in unit/ini_config/ini_config \
-+		regression/tools/live/live_test \
-+		regression/tools/health/health_check ; do
-+		basename=${prog##*/}
-+		ldir=${D}${PTEST_PATH}/tests/${prog%/*}
-+		mv -f ${ldir}/.libs/${basename} ${ldir}
- 	done
- 
--	sed -e "s:src/bin:bin:g" -e "s:lt-::g" \
--	-i ${D}${PTEST_PATH}/tests/utils/utils.sh
--	sed -e "s:ini_config:\.libs\/ini_config:" \
--	-i ${D}${PTEST_PATH}/tests/unit/ini_config/test_ini_config
-+	# checkpatch.pl is unneeded on target and causes file-rdeps QA
-+	# warnings.
-+	rm -f ${D}${PTEST_PATH}/extras/checkpatch.pl
- }
--- 
-2.7.4
-
+> --
+> 2.5.5
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
