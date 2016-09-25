@@ -1,54 +1,27 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pa0-f65.google.com (mail-pa0-f65.google.com
-	[209.85.220.65])
-	by mail.openembedded.org (Postfix) with ESMTP id ED82260684
+Return-Path: <maxin.john@intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 6998F600E3
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 25 Sep 2016 15:07:40 +0000 (UTC)
-Received: by mail-pa0-f65.google.com with SMTP id oz2so7518736pac.0
+	Sun, 25 Sep 2016 18:40:21 +0000 (UTC)
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+	by fmsmga102.fm.intel.com with ESMTP; 25 Sep 2016 11:40:22 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.30,395,1470726000"; d="scan'208";a="13040400"
+Received: from linux.intel.com ([10.54.29.200])
+	by fmsmga006.fm.intel.com with ESMTP; 25 Sep 2016 11:40:22 -0700
+Received: from mbabyjoh-desk.fi.intel.com (mbabyjoh-desk.fi.intel.com
+	[10.237.72.71])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by linux.intel.com (Postfix) with ESMTP id 0F2FB6A4080
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 25 Sep 2016 08:07:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=subject:to:references:cc:from:message-id:date:user-agent
-	:mime-version:in-reply-to:content-transfer-encoding;
-	bh=BuOsZa1XDc7BEY9N+jN4EgX++xUKj4xjCiXdcz4n07g=;
-	b=YWc/BjXfc8ELRqGeuLUhXY4Hr8KL1Yz4SMJCprsRi6OG/fBj2s2aZg3Qnj/SWT4P+I
-	cnJHrZFgo8FiZn6mScpeZxZKuCIF9I2ig5sdxMfY988E+iUtlj7z5BD41OwUKD2+AYTD
-	eNRDpl30OI9E01mubCyVSl2jL85EJTjK3QseqwTrCPpo70INN/FnSYtB5ndk13kGEs6W
-	PmXcxy2Krdz4BRVi43cqaNgsi1p8p+Y4InSnqI3vLuJdj9GOvmlv4tY2K4IprtOUEFiP
-	BYyI9cXIL6XzWa5qbyVotqkUTBKZys02LTd9OpLgp1Ed5LlUghu/NzbfbPANqIfOCG0e
-	awQw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:subject:to:references:cc:from:message-id:date
-	:user-agent:mime-version:in-reply-to:content-transfer-encoding;
-	bh=BuOsZa1XDc7BEY9N+jN4EgX++xUKj4xjCiXdcz4n07g=;
-	b=OkkysXbHzwbBf0C3WZWcdnDUdiUOkj8uDPVRwGY3lyFx4eHhVd3nQ0mGDDrIpMbsIH
-	F4CWpGKkaSk/qSfsBOK2hU7PLN04r/U689h+tGk7Wim0BH3XSSNQfEb4KG6UQ5SvEkU7
-	k0Tpy4tz75MF6CAeNdLbo9Aq9VHwRZgsQFKMA4bmV3aV3x00yf8Jn0u7QbCieWMZghwA
-	kJXhl+lRfM0coCwbenX2jp/DCjQmXRG3dXDEqmlOu285uohtyIkxMcssobQ3X1ZQgux9
-	KOjrT3aMjqzcPkgOVuBBZ1F9kq6vyodLfqX7h3wo0sp+DWo406TLZVUB93CpeKgEbgP3
-	9zlw==
-X-Gm-Message-State: AE9vXwNiU67g2SNuH5OYXlK+cWQoXC3E/dWBjtuc8fSgQWxtLS47/f6+vdGJ7j0kv+olZA==
-X-Received: by 10.66.12.234 with SMTP id b10mr30286629pac.91.1474816062064;
-	Sun, 25 Sep 2016 08:07:42 -0700 (PDT)
-Received: from ?IPv6:2601:202:4001:9ea0:c88d:7203:3d56:a160?
-	([2601:202:4001:9ea0:c88d:7203:3d56:a160])
-	by smtp.gmail.com with ESMTPSA id
-	tn5sm24607373pac.6.2016.09.25.08.07.41
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 25 Sep 2016 08:07:41 -0700 (PDT)
-To: Ian Geiser <geiseri@geekcentral.pub>
-References: <cover.1474562101.git.akuster808@gmail.com>
-	<1575caacd43.1101edc1757141.7838936618159559000@geekcentral.pub>
-From: akuster808 <akuster808@gmail.com>
-Message-ID: <ac2c1ee5-d4b2-87cb-afa9-f50c1dd4ef08@gmail.com>
-Date: Sun, 25 Sep 2016 08:07:39 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.2.0
-MIME-Version: 1.0
-In-Reply-To: <1575caacd43.1101edc1757141.7838936618159559000@geekcentral.pub>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 00/60] krogoth-next staged
+	Sun, 25 Sep 2016 11:39:55 -0700 (PDT)
+From: "Maxin B. John" <maxin.john@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sun, 25 Sep 2016 21:40:05 +0300
+Message-Id: <1474828805-23813-1-git-send-email-maxin.john@intel.com>
+X-Mailer: git-send-email 2.4.0
+Subject: [PATCH] gst-player: Disable visualizations
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,72 +34,76 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 25 Sep 2016 15:07:41 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sun, 25 Sep 2016 18:40:21 -0000
 
-Ian,
+On some machines, visualizations in gst-player trigger a bug in
+xvimagesink. Till we have a proper fix, disable the visualization
+rather than downgrading the xvimagesink.
 
+Fixes [YOCTO #10041]
 
-On 09/24/2016 07:48 AM, Ian Geiser wrote:
-> I think the systemd change may have broken something.  It looks like it is running a useradd with no arguments other than the root. Now I see the following error in krogoth:
->
-> from "tmp-glibc/work/i586-oe-linux/systemd/1_229+gitAUTOINC+714c62b463-r0/temp/log.do_install"
-I have been able to reproduce this. I am going to check master to see if 
-the same issue exists there.
+Signed-off-by: Maxin B. John <maxin.john@intel.com>
+---
+ .../0001-Disable-visualizations-by-default.patch   | 36 ++++++++++++++++++++++
+ .../recipes-multimedia/gstreamer/gst-player_git.bb |  1 +
+ 2 files changed, 37 insertions(+)
+ create mode 100644 meta/recipes-multimedia/gstreamer/gst-player/0001-Disable-visualizations-by-default.patch
 
-thanks for reporting this.
-
-- armin
-
->
-> DEBUG: SITE files ['endian-little', 'bit-32', 'ix86-common', 'common-linux', 'common-glibc', 'i586-linux', 'common']
-> DEBUG: Executing shell function useradd_sysroot
-> Running groupadd commands...
-> NOTE: systemd: Performing groupadd with [--root /mnt/bitbake/build/detos/tmp-glibc/sysroots/unified -r lock]
-> NOTE: systemd: Performing groupadd with [--root /mnt/bitbake/build/detos/tmp-glibc/sysroots/unified  -r systemd-journal]
-> NOTE: systemd: group systemd-journal already exists, not re-creating it
-> Running useradd commands...
-> NOTE: systemd: Performing useradd with [--root /mnt/bitbake/build/detos/tmp-glibc/sysroots/unified     --system -d / -M --shell /bin/nologin systemd-timesync]
-> NOTE: systemd: Performing useradd with [--root /mnt/bitbake/build/detos/tmp-glibc/sysroots/unified    ]
-> Usage: useradd [options] LOGIN
->         useradd -D
->         useradd -D [options]
->
-> Options:
->    -b, --base-dir BASE_DIR       base directory for the home directory of the
->                                  new account
->    -c, --comment COMMENT         GECOS field of the new account
->    -d, --home-dir HOME_DIR       home directory of the new account
->    -D, --defaults                print or change default useradd configuration
->    -e, --expiredate EXPIRE_DATE  expiration date of the new account
->    -f, --inactive INACTIVE       password inactivity period of the new account
->    -g, --gid GROUP               name or ID of the primary group of the new
->                                  account
->    -G, --groups GROUPS           list of supplementary groups of the new
->                                  account
->    -h, --help                    display this help message and exit
->    -k, --skel SKEL_DIR           use this alternative skeleton directory
->    -K, --key KEY=VALUE           override /etc/login.defs defaults
->    -l, --no-log-init             do not add the user to the lastlog and
->                                  faillog databases
->    -m, --create-home             create the user's home directory
->    -M, --no-create-home          do not create the user's home directory
->    -N, --no-user-group           do not create a group with the same name as
->                                  the user
->    -o, --non-unique              allow to create users with duplicate
->                                  (non-unique) UID
->    -p, --password PASSWORD       encrypted password of the new account
->    -P, --clear-password PASSWORD clear password of the new account
->    -r, --system                  create a system account
->    -R, --root CHROOT_DIR         directory to chroot into
->    -s, --shell SHELL             login shell of the new account
->    -u, --uid UID                 user ID of the new account
->    -U, --user-group              create a group with the same name as the user
->
-> WARNING: /mnt/bitbake/build/detos/tmp-glibc/work/i586-oe-linux/systemd/1_229+gitAUTOINC+714c62b463-r0/temp/run.useradd_sysroot.31611:1 exit 1 from 'exit 1'
-> ERROR: systemd: useradd command did not succeed.
->
->
+diff --git a/meta/recipes-multimedia/gstreamer/gst-player/0001-Disable-visualizations-by-default.patch b/meta/recipes-multimedia/gstreamer/gst-player/0001-Disable-visualizations-by-default.patch
+new file mode 100644
+index 0000000..dabdcea
+--- /dev/null
++++ b/meta/recipes-multimedia/gstreamer/gst-player/0001-Disable-visualizations-by-default.patch
+@@ -0,0 +1,36 @@
++From 93e1838f8b8704e4d7d71965f61bee931377b080 Mon Sep 17 00:00:00 2001
++From: Jussi Kukkonen <jussi.kukkonen@intel.com>
++Date: Thu, 22 Sep 2016 19:26:40 +0300
++Subject: [PATCH] Disable visualizations by default
++
++As documented in [YOCTO #10041] visualizations trigger a bug in
++xvimagesink on some hardware, which prevents playback in the
++mediaplayer. Disable visualizations until the xv issue is solved
++to enable playback QA.
++
++Upstream-Status: Inappropriate [workaround]
++Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
++Signed-off-by: Maxin B. John <maxin.john@intel.com>
++---
++ gtk/gtk-play.c | 5 ++---
++ 1 file changed, 2 insertions(+), 3 deletions(-)
++
++diff --git a/gtk/gtk-play.c b/gtk/gtk-play.c
++index 8ae0fea..322e599 100644
++--- a/gtk/gtk-play.c
+++++ b/gtk/gtk-play.c
++@@ -1751,9 +1751,8 @@ gtk_play_constructor (GType type, guint n_construct_params,
++   g_signal_connect (self->player, "volume-changed",
++       G_CALLBACK (player_volume_changed_cb), self);
++ 
++-  /* enable visualization (by default playbin uses goom) */
++-  /* if visualization is enabled then use the first element */
++-  gst_player_set_visualization_enabled (self->player, TRUE);
+++  /* Disable visualization by default */
+++  gst_player_set_visualization_enabled (self->player, FALSE);
++ 
++   g_signal_connect (G_OBJECT (self), "show", G_CALLBACK (show_cb), NULL);
++ 
++-- 
++2.4.0
++
+diff --git a/meta/recipes-multimedia/gstreamer/gst-player_git.bb b/meta/recipes-multimedia/gstreamer/gst-player_git.bb
+index 2a4c9dc..51f3544 100644
+--- a/meta/recipes-multimedia/gstreamer/gst-player_git.bb
++++ b/meta/recipes-multimedia/gstreamer/gst-player_git.bb
+@@ -9,6 +9,7 @@ SRC_URI = "git://github.com/sdroege/gst-player.git \
+            file://Fix-pause-play.patch;apply=0 \
+            file://Add-error-signal-emission-for-missing-plugins.patch;apply=0 \
+            file://0001-gtk-play-provide-similar-behaviour-for-quit-and-clos.patch \
++           file://0001-Disable-visualizations-by-default.patch \
+            file://gst-player.desktop"
+ 
+ SRCREV = "ea90e63c1064503f9ba5d59aa4ca604f13ca5def"
+-- 
+2.4.0
 
 
