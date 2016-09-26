@@ -1,35 +1,30 @@
-Return-Path: <anujx.mittal@intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 2AA0D60125
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 0063660746
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 26 Sep 2016 01:05:40 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga103.jf.intel.com with ESMTP; 25 Sep 2016 18:05:41 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.30,396,1470726000"; d="scan'208";a="1045794138"
-Received: from pgsmsx105.gar.corp.intel.com ([10.221.44.96])
-	by fmsmga001.fm.intel.com with ESMTP; 25 Sep 2016 18:05:40 -0700
-Received: from pgsmsx101.gar.corp.intel.com ([169.254.1.45]) by
-	PGSMSX105.gar.corp.intel.com ([169.254.4.70]) with mapi id
-	14.03.0248.002; Mon, 26 Sep 2016 09:05:39 +0800
-From: "Mittal, AnujX" <anujx.mittal@intel.com>
-To: Armin Kuster <akuster808@gmail.com>, "akuster@mvista.com"
-	<akuster@mvista.com>, "openembedded-core@lists.openembedded.org"
+	Mon, 26 Sep 2016 03:20:26 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u8Q3KOdc007778
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Sun, 25 Sep 2016 20:20:27 -0700 (PDT)
+Received: from [128.224.162.181] (128.224.162.181) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.294.0;
+	Sun, 25 Sep 2016 20:20:23 -0700
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
 	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH 0/9] Jethro pull request
-Thread-Index: AQHSFz5rJGvsMi+EJ0yuMSVUCCwPx6CK9R/A
-Date: Mon, 26 Sep 2016 01:05:38 +0000
-Message-ID: <DFCB2C9E62139C41B3FDE8F2B46593310A19B928@PGSMSX101.gar.corp.intel.com>
-References: <cover.1474815558.git.akuster808@gmail.com>
-In-Reply-To: <cover.1474815558.git.akuster808@gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ctpclassification: CTP_IC
-x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiZjVlMzQ0YjctYjJmNC00ZDUwLTg0MzMtOWJjNzkzZjUyMzQ5IiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX0lDIn1dfV19LCJTdWJqZWN0TGFiZWxzIjpbXSwiVE1DVmVyc2lvbiI6IjE1LjkuNi42IiwiVHJ1c3RlZExhYmVsSGFzaCI6IjE1WUgrTU1uUnNCbENuXC95RzBONU00MWF2RTZ2STBmRGRSdUErY1cxaU93PSJ9
-x-originating-ip: [172.30.20.206]
+References: <cover.1474619360.git.Qi.Chen@windriver.com>
+	<b837a1b7714ef69601f5a12cbf5baf925dfb1a7b.1474619360.git.Qi.Chen@windriver.com>
+	<1474641475.7207.370.camel@linuxfoundation.org>
+From: ChenQi <Qi.Chen@windriver.com>
+Message-ID: <57E893F4.9050208@windriver.com>
+Date: Mon, 26 Sep 2016 11:20:20 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.7.2
 MIME-Version: 1.0
-Subject: Re: [PATCH 0/9] Jethro pull request
+In-Reply-To: <1474641475.7207.370.camel@linuxfoundation.org>
+X-Originating-IP: [128.224.162.181]
+Subject: Re: [PATCH 1/1] toolchain-script: use immediate expansion for TOOLCHAIN_CONFIGSITE_NOCACHE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,96 +37,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 26 Sep 2016 01:05:44 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 26 Sep 2016 03:20:27 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi,
+On 09/23/2016 10:37 PM, Richard Purdie wrote:
+> On Fri, 2016-09-23 at 16:30 +0800, Chen Qi wrote:
+>> Use immediate expansion for the assignment to avoid other classes
+>> modifying
+>> variables like HOST_ARCH which changes the result. This happens in
+>> the
+>> meta-environment recipe. It inherits cross-canadian which changes
+>> HOST_ARCH
+>> from TARGET_ARCH to SDK_ARCH, resulting in wrong site config files in
+>> the
+>> generated SDK.
+>>
+>> [YOCTO #10255]
+>>
+>> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+>> ---
+>>   meta/classes/toolchain-scripts.bbclass | 2 +-
+>>   1 file changed, 1 insertion(+), 1 deletion(-)
+> I've not merged this as yet since I worry that this is something we'd
+> easily break again. It all depends which order classes are included and
+> moving the cross-canadian inherit in meta-environment would break this
+> even with immediate expansion.
+>
+> I think the best way to fix this might be to change the meta-
+> environment to add:
+>
+> # Need to expand here before cross-candian changes HOST_ARCH -> SDK_ARCH
+> TOOLCHAIN_CONFIGSITE_NOCACHE := "${TOOLCHAIN_CONFIGSITE_NOCACHE}"
+>
+> before it inherits cross-candian, then the problem is explicitly
+> recorded and worked around.
+>
+> Cheers,
+>
+> Richard
+>
 
-> -----Original Message-----
-> From: openembedded-core-bounces@lists.openembedded.org
-> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
-> Armin Kuster
-> Sent: Sunday, September 25, 2016 11:05 PM
-> To: akuster@mvista.com; openembedded-core@lists.openembedded.org
-> Subject: [OE-core] [PATCH 0/9] Jethro pull request
->=20
-> Please consider these changes for Jethro
->=20
-> The following changes since commit
-> c9c85df86cd2270b144fa824ef76adedd3636c8a:
->=20
->   util-linux: Security fix for CVE-2016-5011 (2016-09-23 23:21:43 +0100)
->=20
-> are available in the git repository at:
->=20
->   git://git.openembedded.org/openembedded-core-contrib akuster/jethro-nex=
-t
->   http://cgit.openembedded.org/cgit.cgi/openembedded-core-
-> contrib/log/?h=3Dakuster/jethro-next
->=20
-> Armin Kuster (9):
->   openssl: Security fix CVE-2016-2180
->   openssl: Security fix CVE-2016-8181
->   openssl: Security fix CVE-2016-2182
->   openssl: Security fix CVE-2016-6304
+Thanks a lot.
+I've verified this solution.
+A new patch has been sent out.
 
-I think there's a typo here. Shouldn't this be CVE-2016-6302?
+Best Regards,
+Chen Qi
 
->   openssl: Security fix CVE-2016-6303
->   openssl: Security fix CVE-2016-6304
->   openssl: Security fix CVE-2016-6303
-
-And, this CVE-2016-6306?
-
->   tzdata: update to 2016f
->   tzcode-native: update to 2016f
->=20
->  .../openssl/openssl/CVE-2016-2180.patch            |  44 ++++
->  .../openssl/openssl/CVE-2016-2181_p1.patch         |  91 ++++++++
->  .../openssl/openssl/CVE-2016-2181_p2.patch         | 239
-> +++++++++++++++++++++
->  .../openssl/openssl/CVE-2016-2181_p3.patch         |  30 +++
->  .../openssl/openssl/CVE-2016-2182.patch            |  70 ++++++
->  .../openssl/openssl/CVE-2016-6302.patch            |  53 +++++
->  .../openssl/openssl/CVE-2016-6303.patch            |  36 ++++
->  .../openssl/openssl/CVE-2016-6304.patch            |  75 +++++++
->  .../openssl/openssl/CVE-2016-6306.patch            |  71 ++++++
->  .../recipes-connectivity/openssl/openssl_1.0.2h.bb |   9 +
->  ...code-native_2016e.bb =3D> tzcode-native_2016f.bb} |   8 +-
->  .../tzdata/{tzdata_2016e.bb =3D> tzdata_2016f.bb}    |   4 +-
->  12 files changed, 724 insertions(+), 6 deletions(-)
->  create mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2016-
-> 2180.patch
->  create mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2016-
-> 2181_p1.patch
->  create mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2016-
-> 2181_p2.patch
->  create mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2016-
-> 2181_p3.patch
->  create mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2016-
-> 2182.patch
->  create mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2016-
-> 6302.patch
->  create mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2016-
-> 6303.patch
->  create mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2016-
-> 6304.patch
->  create mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2016-
-> 6306.patch
->  rename meta/recipes-extended/tzcode/{tzcode-native_2016e.bb =3D> tzcode-
-> native_2016f.bb} (68%)
->  rename meta/recipes-extended/tzdata/{tzdata_2016e.bb =3D> tzdata_2016f.b=
-b}
-> (98%)
->=20
-> --
-> 2.7.4
->=20
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
