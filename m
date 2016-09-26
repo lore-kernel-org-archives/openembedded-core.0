@@ -1,43 +1,51 @@
-Return-Path: <maciej.borzecki@rndity.com>
-Received: from mail-wm0-f42.google.com (mail-wm0-f42.google.com [74.125.82.42])
-	by mail.openembedded.org (Postfix) with ESMTP id 6369465CB5
+Return-Path: <sledz@dresearch-fe.de>
+Received: from mail-wm0-f43.google.com (mail-wm0-f43.google.com [74.125.82.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 053C560125
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 26 Sep 2016 11:01:38 +0000 (UTC)
-Received: by mail-wm0-f42.google.com with SMTP id l132so145337884wmf.0
+	Mon, 26 Sep 2016 11:14:17 +0000 (UTC)
+Received: by mail-wm0-f43.google.com with SMTP id 197so23529652wmk.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 26 Sep 2016 04:01:39 -0700 (PDT)
+	Mon, 26 Sep 2016 04:14:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=rndity-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=LU/DrxAzuV9euVGozurYkQqKAKc2qkWs7kO2yY6uJV8=;
-	b=mlqy7ozPFIrhE2tek21xj0V2FV5AEfO+SbteL1Am2mQuUSXKkvcZBllVpJZUh9qVRI
-	Hj89aXWCwo6V2r9ht1EDtq2SE7ayLxYUxyz+xmjZ+omw16UAbFEAfR4Xowh+jrV+GaNw
-	zGewGHs0ybxgVjETpAdWdFLdeHeCWvSa5WA6WjLbhN4wvRR0Qpi2w4HTRvcJnXAFn7x/
-	4tMSiJ0CZA3zpJE7Wf3FVhkaPyGOVY1t1Ho5RAPYF3ZcL+I2f5AuzKHsfPpOBDw9ZA2c
-	Qakh/opAkgIiImcC0dR7bwVcjuihTdWpV55t4YTJUr42SsIv/d7svqY3tSt0xnX6I08c
-	PmLw==
+	d=dresearch-fe-de.20150623.gappssmtp.com; s=20150623;
+	h=subject:to:references:cc:from:message-id:date:user-agent
+	:mime-version:in-reply-to:content-transfer-encoding;
+	bh=P+RTvK0O9dLuJJAoBbMepbKRZHWM4CdFGAroJPc0/Mk=;
+	b=xNjUzzrWtx70YwEFcUOOZYvY4Y7T0zF554WDonxLYVki/t5LyaObBdbbp8JXOgBKFs
+	iRGddfExM3CudaIojWKmaQmFach0nck+9b7NblhIYfS96hjaZWeOKh08y4bgMJH8KmyR
+	vwo34ekeaJP2vTqVNLvC4FdR8+ezAw8zTiqHzBve5m2VpE6drZ+ZAgGcgz6CPFncig0G
+	u5Y866HEKxgkm8nra1RtOpGaQ+yr7MVg+hNnftb5ZyF3qH/SDabN3vKPFSvL5ZjdpIre
+	NjYAZZxNop9pDKU+V0X7Ut85vI8jX84Y4/6JCBe5zU7G6aMABFAnYUKa7As8LonRJZNx
+	HpnA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=LU/DrxAzuV9euVGozurYkQqKAKc2qkWs7kO2yY6uJV8=;
-	b=U9Yj6kDnmZNR/qTF4Z6m1fhk4pVzmdxvEzuU/EBMVM2Uz/pseQLcEUN9dzUhM+KDV9
-	vr5WeVyQB7V3qe8yN++yjvUg2K5pQW43+HtB8F4Y32lX+P7E0sJzaAhVC914e6dhnNvL
-	ka99vnYD1LxId5gCKEopbN/6gaZZvVhPQYP+fdPAZgMImHv+jhCY4FW2nblc8CvqZG7R
-	H/MJZbHholCqiyvg/f+z9thJNEInCRpvi91wr8a0ZA4PUrNTo8axMiuyBiopk2OKqgGY
-	L65B2z9Rdh3RZ3E2i2jeNdVWcGKXr5dvqDyFmI3yOfjhIZBYUTBYFiVHM2jeERdv011t
-	aR5g==
-X-Gm-Message-State: AA6/9RmFNjRi4ebIp3AaJjJgznlNmHCsMxkpfQxonHbw7uw6h32EldDJr2AI6BaZ9cEzFsHQatbXzTIkD3rThA==
-X-Received: by 10.28.215.81 with SMTP id o78mr15150760wmg.42.1474887699185;
-	Mon, 26 Sep 2016 04:01:39 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.80.172.166 with HTTP; Mon, 26 Sep 2016 04:01:18 -0700 (PDT)
-In-Reply-To: <9143dac0-3a7c-59a8-13f4-f97340317f70@dresearch-fe.de>
+	h=x-gm-message-state:subject:to:references:cc:from:message-id:date
+	:user-agent:mime-version:in-reply-to:content-transfer-encoding;
+	bh=P+RTvK0O9dLuJJAoBbMepbKRZHWM4CdFGAroJPc0/Mk=;
+	b=QdpAZGBJaseXJGBf52uzcdK0doBDGuNOWbCDBcLaJE6/9r5abKmAbBY+SkR3DOI/xe
+	HZN7If9JUuqj8FJTJ9MxYe98HZQvHrsDMevZONOhLC1dluKcuf/HLG1xKiMzReibQn+n
+	uhioNrfUHohcqM92I+HaniWz2OOgOqINL6QY+GqJBmCjq95ENZU/OlzUVrd8MFRSLw9f
+	Wtb5IB7ibCubGU42ex5tkS/IEenJP9+MdJ7+iuSo+y53ORGP5TuqK6/UrkZCdCZsWk/3
+	P9Bvj4dgM6qMcZRo+EQ3fOqElvpTHP4oBAEcWL9MYcY9VQ85WN/8+y2cb5GpLO64JKPr
+	4SVw==
+X-Gm-Message-State: AA6/9RnFV7iSv+Cn+InKRA79RDTB2l65FZ7JEzcbfzh56yYrXtnta770DOC78gOR3cZB9Q==
+X-Received: by 10.28.52.210 with SMTP id b201mr13348644wma.32.1474888458700;
+	Mon, 26 Sep 2016 04:14:18 -0700 (PDT)
+Received: from [172.29.23.46] (zk223.dresearch-fe.de. [217.92.177.116])
+	by smtp.googlemail.com with ESMTPSA id
+	17sm21722415wju.44.2016.09.26.04.13.22
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 26 Sep 2016 04:13:38 -0700 (PDT)
+To: =?UTF-8?Q?Maciej_Borz=c4=99cki?= <maciej.borzecki@rndity.com>
 References: <9143dac0-3a7c-59a8-13f4-f97340317f70@dresearch-fe.de>
-From: =?UTF-8?Q?Maciej_Borz=C4=99cki?= <maciej.borzecki@rndity.com>
-Date: Mon, 26 Sep 2016 13:01:18 +0200
-Message-ID: <CAD4b0_+M4chdScOmadG3j8i61SiCuu3Xi37rbVLxMe0VQ37+2A@mail.gmail.com>
-To: Steffen Sledz <sledz@dresearch-fe.de>
+	<CAD4b0_+M4chdScOmadG3j8i61SiCuu3Xi37rbVLxMe0VQ37+2A@mail.gmail.com>
+From: Steffen Sledz <sledz@dresearch-fe.de>
+Message-ID: <958bd82c-4127-f749-bbbc-eb4dd6999037@dresearch-fe.de>
+Date: Mon, 26 Sep 2016 13:13:21 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.3.0
+MIME-Version: 1.0
+In-Reply-To: <CAD4b0_+M4chdScOmadG3j8i61SiCuu3Xi37rbVLxMe0VQ37+2A@mail.gmail.com>
 Cc: openembedded-core <openembedded-core@lists.openembedded.org>
 Subject: Re: defining default locale (LANG/LC_ALL)
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -52,19 +60,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 26 Sep 2016 11:01:38 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 26 Sep 2016 11:14:19 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
 
-On Mon, Sep 26, 2016 at 12:46 PM, Steffen Sledz <sledz@dresearch-fe.de> wrote:
-> May be this is a FAQ, but I could not find any helpful documentation.
->
-> What is the best way to define a system wide default locale setting (LANG and LC_ALL) for OE based Angstrom style images?
+On 26.09.2016 13:01, Maciej Borzęcki wrote:
+> On Mon, Sep 26, 2016 at 12:46 PM, Steffen Sledz <sledz@dresearch-fe.de> wrote:
+>> May be this is a FAQ, but I could not find any helpful documentation.
+>>
+>> What is the best way to define a system wide default locale setting (LANG and LC_ALL) for OE based Angstrom style images?
+> 
+> Don't know about Angstrom style images, but you can always try adding
+> appropriate entries to /etc/environment.
 
-Don't know about Angstrom style images, but you can always try adding
-appropriate entries to /etc/environment.
+Interesting hint.
 
-Cheers,
+But this file is related to the pam tooling. So it has only effect on logins and not on system services. Correct?
+
 -- 
-Maciej Borzecki
-RnDity
+DResearch Fahrzeugelektronik GmbH
+Otto-Schmirgal-Str. 3, 10319 Berlin, Germany
+Tel: +49 30 515932-237 mailto:sledz@dresearch-fe.de
+Fax: +49 30 515932-299
+Geschäftsführer: Dr. Michael Weber, Werner Mögle;
+Amtsgericht Berlin Charlottenburg; HRB 130120 B;
+Ust.-IDNr. DE273952058
 
