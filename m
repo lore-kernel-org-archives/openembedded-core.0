@@ -1,24 +1,21 @@
-Return-Path: <mariano.lopez@linux.intel.com>
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by mail.openembedded.org (Postfix) with ESMTP id 438C2605C2
+Return-Path: <sgw@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 070C360017
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 26 Sep 2016 21:17:49 +0000 (UTC)
+	Mon, 26 Sep 2016 21:36:01 +0000 (UTC)
 Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-	by orsmga105.jf.intel.com with ESMTP; 26 Sep 2016 14:17:51 -0700
+	by fmsmga101.fm.intel.com with ESMTP; 26 Sep 2016 14:36:03 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.30,401,1470726000"; d="scan'208";a="173427233"
-Received: from yctb01.ostc.intel.com (HELO yctb01.otcr.intel.com)
-	([10.54.69.55])
-	by fmsmga004.fm.intel.com with ESMTP; 26 Sep 2016 14:17:44 -0700
-From: mariano.lopez@linux.intel.com
-To: patrick.ohly@intel.com,
-	openembedded-core@lists.openembedded.org
-Date: Mon, 26 Sep 2016 13:13:46 +0000
-Message-Id: <b31aaf2b5cfe535460ec62f3bf6bb69843570df9.1474895210.git.mariano.lopez@linux.intel.com>
-X-Mailer: git-send-email 2.6.6
-In-Reply-To: <1474642615.8561.10.camel@intel.com>
-Cc: clarson@kergoth.com, rpurdie@rpsys.net
-Subject: Re: [PATCH 1/1] toolchain-shar-relocate.sh: Add error-handling
+X-IronPort-AV: E=Sophos;i="5.30,401,1470726000"; d="scan'208";a="173432946"
+Received: from swold-mobl2.amr.corp.intel.com ([10.254.187.201])
+	by fmsmga004.fm.intel.com with ESMTP; 26 Sep 2016 14:36:02 -0700
+From: Saul Wold <sgw@linux.intel.com>
+To: openembedded-core@lists.openembedded.org,
+	richard.purdie@linuxfoundation.org
+Date: Mon, 26 Sep 2016 14:36:02 -0700
+Message-Id: <1474925762-11288-1-git-send-email-sgw@linux.intel.com>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH] linux-yocto: Move PREFERRED_PROVIDER check to be generic
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,75 +28,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 26 Sep 2016 21:17:50 -0000
+X-List-Received-Date: Mon, 26 Sep 2016 21:36:02 -0000
 
-From: Mariano Lopez <mariano.lopez@linux.intel.com>
+This check ensures that when the PREFERRED_PROVIDER for virtual/kernel
+changes, the previous instances gets removed correctly so when the new
+instance installs files into the shared area there is not an overlap of
+old and new.
 
-The relocation script of the SDK doesn't have enough
-error handling when replacing host perl with SDK perl
-or changing the symlinks. This will add those checks
-along with a sanity check of xargs.
+[YOCTO #10278]
 
-[YOCTO #10114]
-
-Signed-off-by: Mariano Lopez <mariano.lopez@linux.intel.com>
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- meta/files/toolchain-shar-relocate.sh | 20 +++++++++++++++++++-
- 1 file changed, 19 insertions(+), 1 deletion(-)
+ meta/recipes-kernel/linux/linux-yocto-dev.bb | 9 ---------
+ meta/recipes-kernel/linux/linux-yocto.inc    | 9 +++++++++
+ 2 files changed, 9 insertions(+), 9 deletions(-)
 
-diff --git a/meta/files/toolchain-shar-relocate.sh b/meta/files/toolchain-shar-relocate.sh
-index d4bcf0e..e3c1001 100644
---- a/meta/files/toolchain-shar-relocate.sh
-+++ b/meta/files/toolchain-shar-relocate.sh
-@@ -1,3 +1,8 @@
-+if ! xargs --version > /dev/null 2>&1; then
-+	echo "xargs is required by the relocation script, please install it first. Abort!"
-+	exit 1
-+fi
+diff --git a/meta/recipes-kernel/linux/linux-yocto-dev.bb b/meta/recipes-kernel/linux/linux-yocto-dev.bb
+index dbe5847..9154bb7 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-dev.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-dev.bb
+@@ -14,15 +14,6 @@ require recipes-kernel/linux/linux-yocto.inc
+ # provide this .inc to set specific revisions
+ include recipes-kernel/linux/linux-yocto-dev-revisions.inc
+ 
+-# Skip processing of this recipe if it is not explicitly specified as the
+-# PREFERRED_PROVIDER for virtual/kernel. This avoids network access required
+-# by the use of AUTOREV SRCREVs, which are the default for this recipe.
+-python () {
+-    if d.getVar("PREFERRED_PROVIDER_virtual/kernel", True) != "linux-yocto-dev":
+-        d.delVar("BB_DONT_CACHE")
+-        raise bb.parse.SkipPackage("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-dev to enable it")
+-}
+-
+ KBRANCH = "standard/base"
+ KMETA = "kernel-meta"
+ 
+diff --git a/meta/recipes-kernel/linux/linux-yocto.inc b/meta/recipes-kernel/linux/linux-yocto.inc
+index d979662..a5595ab 100644
+--- a/meta/recipes-kernel/linux/linux-yocto.inc
++++ b/meta/recipes-kernel/linux/linux-yocto.inc
+@@ -8,6 +8,15 @@ UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>\d+\.\d+(\.\d+)*)"
+ 
+ INC_PR = "r4"
+ 
++# Skip processing of this recipe if it is not explicitly specified as the
++# PREFERRED_PROVIDER for virtual/kernel. This avoids network access required
++# by the use of AUTOREV SRCREVs, which are the default for this recipe.
++python () {
++    if d.getVar("PREFERRED_PROVIDER_virtual/kernel", True) != d.getVar("PN", True):
++        d.delVar("BB_DONT_CACHE")
++        raise bb.parse.SkipPackage("Set PREFERRED_PROVIDER_virtual/kernel to %s to enable it" % (d.getVar("PN", True)))
++}
 +
- # fix dynamic loader paths in all ELF SDK binaries
- native_sysroot=$($SUDO_EXEC cat $env_setup_script |grep 'OECORE_NATIVE_SYSROOT='|cut -d'=' -f2|tr -d '"')
- dl_path=$($SUDO_EXEC find $native_sysroot/lib -name "ld-linux*")
-@@ -7,6 +12,10 @@ if [ "$dl_path" = "" ] ; then
- fi
- executable_files=$($SUDO_EXEC find $native_sysroot -type f \
- 	\( -perm -0100 -o -perm -0010 -o -perm -0001 \) -printf "'%h/%f' ")
-+if [ "x$executable_files" = "x" ]; then
-+   echo "SDK relocate failed, could not get executalbe files"
-+   exit 1
-+fi
- 
- tdir=`mktemp -d`
- if [ x$tdir = x ] ; then
-@@ -14,7 +23,7 @@ if [ x$tdir = x ] ; then
-    exit 1
- fi
- cat <<EOF >> $tdir/relocate_sdk.sh
--#!/bin/bash
-+#!/bin/sh
- for py in python python2 python3
- do
- 	PYTHON=\`which \${py} 2>/dev/null\`
-@@ -53,9 +62,18 @@ done | xargs -n100 file | grep ":.*\(ASCII\|script\|source\).*text" | \
-         -e "s:^#! */usr/bin/perl.*:#! /usr/bin/env perl:g" \
-         -e "s: /usr/bin/perl: /usr/bin/env perl:g"
- 
-+if [ $? -ne 0 ]; then
-+	echo "Failed to replace perl. Relocate script failed. Abort!"
-+	exit 1
-+fi
-+
- # change all symlinks pointing to @SDKPATH@
- for l in $($SUDO_EXEC find $native_sysroot -type l); do
- 	$SUDO_EXEC ln -sfn $(readlink $l|$SUDO_EXEC sed -e "s:$DEFAULT_INSTALL_DIR:$target_sdk_dir:") $l
-+	if [ $? -ne 0 ]; then
-+		echo "Failed to setup symlinks. Relocate script failed. Abort!"
-+		exit 1
-+    fi
- done
- 
- echo done
+ DEPENDS += "xz-native bc-native"
+ DEPENDS_append_aarch64 = " libgcc"
+ KERNEL_CC_append_aarch64 = " ${TOOLCHAIN_OPTIONS}"
 -- 
-2.6.6
+2.7.4
 
 
