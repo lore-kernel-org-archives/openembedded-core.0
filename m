@@ -1,26 +1,26 @@
 Return-Path: <Jackie.Huang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id B031A60761
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 5BA0B62136
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 26 Sep 2016 08:14:01 +0000 (UTC)
+	Mon, 26 Sep 2016 08:14:03 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u8Q8E1gJ011836
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u8Q8E4xx006050
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 26 Sep 2016 01:14:02 -0700
+	Mon, 26 Sep 2016 01:14:04 -0700 (PDT)
 Received: from pek-hostel-deb01.wrs.com (128.224.153.151) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.294.0; Mon, 26 Sep 2016 01:14:01 -0700
+	14.3.294.0; Mon, 26 Sep 2016 01:14:03 -0700
 From: <jackie.huang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 26 Sep 2016 15:56:28 +0800
-Message-ID: <b6d557af326cd4aa599c1609a192ee9b87de5a1c.1474875470.git.jackie.huang@windriver.com>
+Date: Mon, 26 Sep 2016 15:56:29 +0800
+Message-ID: <b4dd791086d6e09a415d5dcd2afafa7906aab3c4.1474875470.git.jackie.huang@windriver.com>
 X-Mailer: git-send-email 2.8.3
 In-Reply-To: <cover.1474875470.git.jackie.huang@windriver.com>
 References: <cover.1474875470.git.jackie.huang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/2 v2] boost: disable pch when build boost-math
+Subject: [PATCH 2/2 v2] boost: add support for additional boost libs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,68 +33,110 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 26 Sep 2016 08:14:01 -0000
+X-List-Received-Date: Mon, 26 Sep 2016 08:14:03 -0000
 Content-Type: text/plain
 
 From: Jackie Huang <jackie.huang@windriver.com>
 
-It's a work around for a defect when build in parallel:
-https://svn.boost.org/trac/boost/ticket/12477
+* Added libs:
+  - container
+  - context
+  - coroutine
+  - exception
+  - graph_parallel
+  - locale
+  - math
+  - mpi
+  - wave
+
+* Add PACKAGECONFIG to add proper dependencies for:
+  graph_parallel, locale, and mpi.
+
+* boost-mpi depends on mpich which is in meta-oe,
+  and boost-graph_parallel depends on boost-mpi,
+  so they are disabled by default, but can be enabled
+  in a distro that needs them.
+
+* context and coroutine are added only for x86 and powerpc.
 
 Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
 ---
- .../boost/boost-math-disable-pch-for-gcc.patch     | 31 ++++++++++++++++++++++
- meta/recipes-support/boost/boost_1.61.0.bb         |  1 +
- 2 files changed, 32 insertions(+)
- create mode 100644 meta/recipes-support/boost/boost/boost-math-disable-pch-for-gcc.patch
+ meta/recipes-support/boost/boost.inc | 33 ++++++++++++++++++++++++++++++---
+ 1 file changed, 30 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-support/boost/boost/boost-math-disable-pch-for-gcc.patch b/meta/recipes-support/boost/boost/boost-math-disable-pch-for-gcc.patch
-new file mode 100644
-index 0000000..595ba17
---- /dev/null
-+++ b/meta/recipes-support/boost/boost/boost-math-disable-pch-for-gcc.patch
-@@ -0,0 +1,31 @@
-+From cabfcba1ff7511ffd6b91ca244288d44f585aad2 Mon Sep 17 00:00:00 2001
-+From: Jackie Huang <jackie.huang@windriver.com>
-+Date: Fri, 23 Sep 2016 01:04:50 -0700
-+Subject: [PATCH] boost-math: disable pch for gcc
+diff --git a/meta/recipes-support/boost/boost.inc b/meta/recipes-support/boost/boost.inc
+index 5696b6a..7637a4e 100644
+--- a/meta/recipes-support/boost/boost.inc
++++ b/meta/recipes-support/boost/boost.inc
+@@ -8,11 +8,14 @@ ARM_INSTRUCTION_SET_armv5 = "arm"
+ BOOST_LIBS = "\
+ 	atomic \
+ 	chrono \
++	container \
+ 	date_time \
++	exception \
+ 	filesystem \
+ 	graph \
+ 	iostreams \
+ 	log \
++	math \
+ 	program_options \
+ 	random \
+ 	regex \
+@@ -22,12 +25,28 @@ BOOST_LIBS = "\
+ 	timer \
+ 	test \
+ 	thread \
++	wave \
+ 	"
+ 
+-# optional boost-python library
+-PACKAGECONFIG ??= ""
++# only supported by x86 and powerpc
++BOOST_LIBS_append_x86 = " context coroutine"
++BOOST_LIBS_append_x86-64 = " context coroutine"
++BOOST_LIBS_append_powerpc = " context coroutine"
 +
-+Upstream-Status: Inappropriate [*]
++# optional libraries
++PACKAGECONFIG ??= "locale"
++PACKAGECONFIG[locale] = ",,icu"
++PACKAGECONFIG[graph_parallel] = ",,,boost-mpi mpich"
++PACKAGECONFIG[mpi] = ",,mpich"
+ PACKAGECONFIG[python] = ",,python python3"
+-BOOST_LIBS += "${@bb.utils.contains('PACKAGECONFIG', 'python', 'python python3', '', d)}"
 +
-+* It's a work around for a defect when build in parallel:
-+https://svn.boost.org/trac/boost/ticket/12477
++BOOST_LIBS += "\
++    ${@bb.utils.contains('PACKAGECONFIG', 'locale', 'locale', '', d)} \
++    ${@bb.utils.contains('PACKAGECONFIG', 'graph_parallel', 'graph_parallel mpi', \
++                         bb.utils.contains('PACKAGECONFIG', 'mpi', 'mpi', '', d), d)} \
++    ${@bb.utils.contains('PACKAGECONFIG', 'python', 'python python3', '', d)} \
++"
 +
-+Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
-+---
-+ libs/math/build/Jamfile.v2 | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ inherit python-dir
+ PYTHON_ROOT = "${STAGING_DIR_HOST}/${prefix}"
+ 
+@@ -54,6 +73,10 @@ python __anonymous () {
+ }
+ 
+ # Override the contents of specific packages
++FILES_${PN}-graph = "${libdir}/libboost_graph.so.*"
++FILES_${PN}-graph_parallel = "${libdir}/libboost_graph_parallel.so.*"
++FILES_${PN}-locale = "${libdir}/libboost_locale.so.*"
++FILES_${PN}-mpi = "${libdir}/mpi.so ${libdir}/libboost_mpi*.so.*"
+ FILES_boost-serialization = "${libdir}/libboost_serialization*.so.* \
+ 	${libdir}/libboost_wserialization*.so.*"
+ FILES_boost-test = "${libdir}/libboost_prg_exec_monitor*.so.* \
+@@ -159,6 +182,10 @@ do_configure() {
+ 	echo "using python : ${PYTHON_BASEVERSION} : : ${STAGING_INCDIR}/python${PYTHON_BASEVERSION} ;" >> ${WORKDIR}/user-config.jam
+ 	echo "using python : 3.5 : : ${STAGING_INCDIR}/python3.5m ;" >> ${WORKDIR}/user-config.jam
+ 
++	if ${@bb.utils.contains('BOOST_LIBS', 'mpi', 'true', 'false', d)}; then
++		echo "using mpi : : <find-shared-library>mpi ;" >> ${WORKDIR}/user-config.jam
++	fi
 +
-+diff --git a/libs/math/build/Jamfile.v2 b/libs/math/build/Jamfile.v2
-+index e19fb2e..82472a7 100644
-+--- a/libs/math/build/Jamfile.v2
-++++ b/libs/math/build/Jamfile.v2
-+@@ -13,7 +13,7 @@ project
-+       #<toolset>intel-linux:<pch>off
-+       <toolset>intel-darwin:<pch>off
-+       <toolset>msvc-7.1:<pch>off
-+-      <toolset>gcc,<target-os>windows:<pch>off
-++      <toolset>gcc:<pch>off
-+       #<toolset>gcc:<cxxflags>-fvisibility=hidden
-+       <toolset>intel-linux:<cxxflags>-fvisibility=hidden
-+       #<toolset>sun:<cxxflags>-xldscope=hidden
-+-- 
-+2.7.4
-+
-diff --git a/meta/recipes-support/boost/boost_1.61.0.bb b/meta/recipes-support/boost/boost_1.61.0.bb
-index 33f209c..40e3870 100644
---- a/meta/recipes-support/boost/boost_1.61.0.bb
-+++ b/meta/recipes-support/boost/boost_1.61.0.bb
-@@ -9,4 +9,5 @@ SRC_URI += "\
-     file://0002-boost-test-execution_monitor.hpp-fix-mips-soft-float.patch \
-     file://0003-smart_ptr-mips-assembly-doesn-t-compile-in-mips16e-m.patch \
-     file://0004-Use-atomic-by-default-when-BOOST_NO_CXX11_HDR_ATOMIC.patch \
-+    file://boost-math-disable-pch-for-gcc.patch \
- "
+ 	CC="${BUILD_CC}" CFLAGS="${BUILD_CFLAGS}" ./bootstrap.sh --with-bjam=bjam --with-toolset=gcc --with-python-root=${PYTHON_ROOT}
+ 	sed -i '/^using python/d' ${S}/project-config.jam
+ }
 -- 
 2.8.3
 
