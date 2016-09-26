@@ -1,25 +1,33 @@
-Return-Path: <joe.konno@linux.intel.com>
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id 9FF5B6069D
+Return-Path: <bounce+05c21e.62d95b-openembedded-core=lists.openembedded.org@nathanrossi.com>
+Received: from rs224.mailgun.us (rs224.mailgun.us [209.61.151.224])
+	by mail.openembedded.org (Postfix) with ESMTP id 697936060F
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 26 Sep 2016 15:02:14 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga104.fm.intel.com with ESMTP; 26 Sep 2016 08:02:15 -0700
-Message-Id: <4f15c9$v5iu4p@fmsmga001.fm.intel.com>
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.30,400,1470726000"; d="scan'208";a="1046050969"
-Received: from jbkonno-cardamom.jf.intel.com ([10.54.75.7])
-	by fmsmga001.fm.intel.com with ESMTP; 26 Sep 2016 08:02:16 -0700
-Date: Mon, 26 Sep 2016 08:02:15 -0700
-From: Joe Konno <joe.konno@linux.intel.com>
-To: Ian Geiser <geiseri@geekcentral.pub>
-In-Reply-To: <1575caacd43.1101edc1757141.7838936618159559000@geekcentral.pub>
-References: <cover.1474562101.git.akuster808@gmail.com>
-	<1575caacd43.1101edc1757141.7838936618159559000@geekcentral.pub>
-Organization: Intel Corporation
-MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 00/60] krogoth-next staged
+	Mon, 26 Sep 2016 15:34:14 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=nathanrossi.com;
+	q=dns/txt; 
+	s=pic; t=1474904055; h=Message-Id: Date: Subject: Cc: To: From: Sender; 
+	bh=Df8eXtwnuQD3C6W3ecJea55VuqlLGkz99GUnnckJGxc=;
+	b=BkDCT/6JLT2cWSxhkvQmKnGRVMicZd++NyLQg8JqV7wl+dpkrwiWo3fLENdMdJ1FarCo9h8h
+	Q9or6H56R5NUpw20S8yJODnfXz7nhRx6NSwCLOOi70a3Q2Y9tsa5t4UgHwbmiVz1rhANWst/
+	/FuzkyU7bGZpeG4dxiiX2aB1szo=
+DomainKey-Signature: a=rsa-sha1; c=nofws; d=nathanrossi.com; s=pic;
+	q=dns; h=Sender: From: To: Cc: Subject: Date: Message-Id;
+	b=cjoAyOec872OHYdp4yHFX1XS4OfNELjvyawE/6YeTbUsWF7iCy6grLGpD+LSDGELNCr7kv
+	7UUvQ7I/mTO3ukBIohrIDwNHTgmNw2QA+FuMBhh2ByJbFYg1hJap7VJp7afzvwyf7IpLoyd7
+	B++g/UU15O8Sy6jNKbtda5DvhXQAc=
+Sender: nathan@nathanrossi.com
+X-Mailgun-Sending-Ip: 209.61.151.224
+X-Mailgun-Sid: WyI4NjhkNiIsICJvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnIiwgIjYyZDk1YiJd
+Received: from nathanbox.home.rossihq.com
+	(CPE-124-186-123-69.lns10.woo.bigpond.net.au [124.186.123.69])
+	by mxa.mailgun.org with ESMTP id 57e93ff5.7f035c5139b0-in01;
+	Mon, 26 Sep 2016 15:34:13 -0000 (UTC)
+From: Nathan Rossi <nathan@nathanrossi.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 27 Sep 2016 01:33:57 +1000
+Message-Id: <20160926153357.30247-1-nathan@nathanrossi.com>
+X-Mailer: git-send-email 2.9.3
+Subject: [PATCH] machine/qemu*: Add comment regarding the reason for virtio-rng-pci
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,112 +40,83 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 26 Sep 2016 15:02:14 -0000
-X-Groupsio-MsgNum: 87540
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	boundary="Sig_/hV7QlF+ZQsp8+QIfTBXVNkb";
-	protocol="application/pgp-signature"
+X-List-Received-Date: Mon, 26 Sep 2016 15:34:15 -0000
 
---Sig_/hV7QlF+ZQsp8+QIfTBXVNkb
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Bring across the comment that was in runqemu regarding why the
+virtio-rng-pci device was needed. This comment is added to each location
+where the virtio-rng-pci device is added.
 
-I saw this as well. Opened the following bug:
-  * https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D10329
+Signed-off-by: Nathan Rossi <nathan@nathanrossi.com>
+---
+This patch is due to a review comment where Khem suggested on a previous
+patch that the script comment should be carried with the moving of where
+"-device virtio-rng-pci" was added. That patch
+(e890c05e66a21702e9e8ccce794b74cb7f5518ed) appears to have already been
+merged so instead of a v2 to that this is the follow up.
+---
+ meta/conf/machine/include/qemuboot-mips.inc | 1 +
+ meta/conf/machine/include/qemuboot-x86.inc  | 1 +
+ meta/conf/machine/qemuarm.conf              | 1 +
+ meta/conf/machine/qemuarm64.conf            | 1 +
+ meta/conf/machine/qemuppc.conf              | 1 +
+ 5 files changed, 5 insertions(+)
 
-On Sat, 24 Sep 2016 10:48:00 -0400
-Ian Geiser <geiseri@geekcentral.pub> wrote:
+diff --git a/meta/conf/machine/include/qemuboot-mips.inc b/meta/conf/machine/include/qemuboot-mips.inc
+index 01f8f8bb3b..0c60cf297f 100644
+--- a/meta/conf/machine/include/qemuboot-mips.inc
++++ b/meta/conf/machine/include/qemuboot-mips.inc
+@@ -3,5 +3,6 @@ IMAGE_CLASSES += "qemuboot"
+ QB_MEM = "-m 256"
+ QB_MACHINE = "-machine malta"
+ QB_KERNEL_CMDLINE_APPEND = "console=ttyS0 console=tty"
++# Add the 'virtio-rng-pci' device otherwise the guest may run out of entropy
+ QB_OPT_APPEND = "-vga cirrus -show-cursor -usb -usbdevice tablet -device virtio-rng-pci"
+ QB_SYSTEM_NAME = "qemu-system-${TUNE_ARCH}"
+diff --git a/meta/conf/machine/include/qemuboot-x86.inc b/meta/conf/machine/include/qemuboot-x86.inc
+index 20e90716db..06ac983d4d 100644
+--- a/meta/conf/machine/include/qemuboot-x86.inc
++++ b/meta/conf/machine/include/qemuboot-x86.inc
+@@ -11,4 +11,5 @@ QB_CPU_KVM_x86-64 = "-cpu kvm64"
+ QB_AUDIO_DRV = "alsa"
+ QB_AUDIO_OPT = "-soundhw ac97,es1370"
+ QB_KERNEL_CMDLINE_APPEND = "vga=0 uvesafb.mode_option=640x480-32 oprofile.timer=1 uvesafb.task_timeout=-1"
++# Add the 'virtio-rng-pci' device otherwise the guest may run out of entropy
+ QB_OPT_APPEND = "-vga vmware -show-cursor -usb -usbdevice tablet -device virtio-rng-pci"
+diff --git a/meta/conf/machine/qemuarm.conf b/meta/conf/machine/qemuarm.conf
+index ff1ab7d48f..17402ef3b3 100644
+--- a/meta/conf/machine/qemuarm.conf
++++ b/meta/conf/machine/qemuarm.conf
+@@ -14,6 +14,7 @@ SERIAL_CONSOLES = "115200;ttyAMA0 115200;ttyAMA1"
+ QB_SYSTEM_NAME = "qemu-system-arm"
+ QB_MACHINE = "-machine versatilepb"
+ QB_KERNEL_CMDLINE_APPEND = "console=ttyAMA0,115200 console=tty"
++# Add the 'virtio-rng-pci' device otherwise the guest may run out of entropy
+ QB_OPT_APPEND = "-show-cursor -usb -usbdevice tablet -device virtio-rng-pci"
+ PREFERRED_VERSION_linux-yocto ??= "4.8%"
+ QB_DTB = "${@base_version_less_or_equal('PREFERRED_VERSION_linux-yocto', '4.7', '', 'zImage-versatile-pb.dtb', d)}"
+diff --git a/meta/conf/machine/qemuarm64.conf b/meta/conf/machine/qemuarm64.conf
+index a0920fe0e4..d0750624a8 100644
+--- a/meta/conf/machine/qemuarm64.conf
++++ b/meta/conf/machine/qemuarm64.conf
+@@ -15,6 +15,7 @@ QB_MEM = "-m 512"
+ QB_MACHINE = "-machine virt"
+ QB_CPU = "-cpu cortex-a57"
+ QB_KERNEL_CMDLINE_APPEND = "console=ttyAMA0,38400"
++# Add the 'virtio-rng-pci' device otherwise the guest may run out of entropy
+ QB_OPT_APPEND = "-show-cursor -device virtio-rng-pci"
+ QB_TAP_OPT = "-netdev tap,id=net0,ifname=@TAP@,script=no,downscript=no -device virtio-net-device,netdev=net0,mac=@MAC@"
+ QB_SLIRP_OPT = "-netdev user,id=net0 -device virtio-net-device,netdev=net0"
+diff --git a/meta/conf/machine/qemuppc.conf b/meta/conf/machine/qemuppc.conf
+index 3ae33088ea..8703c2086a 100644
+--- a/meta/conf/machine/qemuppc.conf
++++ b/meta/conf/machine/qemuppc.conf
+@@ -16,5 +16,6 @@ QB_SYSTEM_NAME = "qemu-system-ppc"
+ QB_MACHINE = "-machine mac99"
+ QB_CPU = "-cpu G4"
+ QB_KERNEL_CMDLINE_APPEND = "console=tty console=ttyS0"
++# Add the 'virtio-rng-pci' device otherwise the guest may run out of entropy
+ QB_OPT_APPEND = "-show-cursor -usb -usbdevice tablet -device virtio-rng-pci"
+ QB_TAP_OPT = "-netdev tap,id=net0,ifname=@TAP@,script=no,downscript=no -device virtio-net-pci,netdev=net0,mac=@MAC@"
+-- 
+2.9.3
 
-> I think the systemd change may have broken something.  It looks like it i=
-s running a useradd with no arguments other than the root. Now I see the fo=
-llowing error in krogoth:
->=20
-> from "tmp-glibc/work/i586-oe-linux/systemd/1_229+gitAUTOINC+714c62b463-r0=
-/temp/log.do_install"
->=20
-> DEBUG: SITE files ['endian-little', 'bit-32', 'ix86-common', 'common-linu=
-x', 'common-glibc', 'i586-linux', 'common']
-> DEBUG: Executing shell function useradd_sysroot
-> Running groupadd commands...
-> NOTE: systemd: Performing groupadd with [--root /mnt/bitbake/build/detos/=
-tmp-glibc/sysroots/unified -r lock]
-> NOTE: systemd: Performing groupadd with [--root /mnt/bitbake/build/detos/=
-tmp-glibc/sysroots/unified  -r systemd-journal]
-> NOTE: systemd: group systemd-journal already exists, not re-creating it
-> Running useradd commands...
-> NOTE: systemd: Performing useradd with [--root /mnt/bitbake/build/detos/t=
-mp-glibc/sysroots/unified     --system -d / -M --shell /bin/nologin systemd=
--timesync]
-> NOTE: systemd: Performing useradd with [--root /mnt/bitbake/build/detos/t=
-mp-glibc/sysroots/unified    ]
-> Usage: useradd [options] LOGIN
->        useradd -D
->        useradd -D [options]
->=20
-> Options:
->   -b, --base-dir BASE_DIR       base directory for the home directory of =
-the
->                                 new account
->   -c, --comment COMMENT         GECOS field of the new account
->   -d, --home-dir HOME_DIR       home directory of the new account
->   -D, --defaults                print or change default useradd configura=
-tion
->   -e, --expiredate EXPIRE_DATE  expiration date of the new account
->   -f, --inactive INACTIVE       password inactivity period of the new acc=
-ount
->   -g, --gid GROUP               name or ID of the primary group of the new
->                                 account
->   -G, --groups GROUPS           list of supplementary groups of the new
->                                 account
->   -h, --help                    display this help message and exit
->   -k, --skel SKEL_DIR           use this alternative skeleton directory
->   -K, --key KEY=3DVALUE           override /etc/login.defs defaults
->   -l, --no-log-init             do not add the user to the lastlog and
->                                 faillog databases
->   -m, --create-home             create the user's home directory
->   -M, --no-create-home          do not create the user's home directory
->   -N, --no-user-group           do not create a group with the same name =
-as
->                                 the user
->   -o, --non-unique              allow to create users with duplicate
->                                 (non-unique) UID
->   -p, --password PASSWORD       encrypted password of the new account
->   -P, --clear-password PASSWORD clear password of the new account
->   -r, --system                  create a system account
->   -R, --root CHROOT_DIR         directory to chroot into
->   -s, --shell SHELL             login shell of the new account
->   -u, --uid UID                 user ID of the new account
->   -U, --user-group              create a group with the same name as the =
-user
->=20
-> WARNING: /mnt/bitbake/build/detos/tmp-glibc/work/i586-oe-linux/systemd/1_=
-229+gitAUTOINC+714c62b463-r0/temp/run.useradd_sysroot.31611:1 exit 1 from '=
-exit 1'
-> ERROR: systemd: useradd command did not succeed.
->=20
->=20
-
-
---Sig_/hV7QlF+ZQsp8+QIfTBXVNkb
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.22 (GNU/Linux)
-
-iQIcBAEBAgAGBQJX6Th3AAoJEI2IR9UvSqpmP4IQAMdoh+ymOQ0YohMu2yzPUdsL
-bxiq0dAeqLlKE4s7yvnfg5GLxpv08E/+vH5cnD7ZgB/YZd2sq/eqZV0Fzsefx+do
-bQN/qSna1S+78VRWdVM1wV8bD9ibhcJp2uGA1vHE4egSF2dvpgY4I3MBQ7lKkdwe
-DJfX+UqadIxg8m1Hn8zr1yZroJ9VaImjrbYWACOY+hWjY2tIeTxfNOc0EAXVJN5I
-9croXThbwVh+K8SMpuDJCHux2dyc2KwxXxgUBewxMaWITzpmzfe0c5HIUqMlIKPh
-EP5F0noCZgQcP8VmDwOVftCPXotrEKBfv/pKZXOu7mMycL2YglBQ831VT28x8ljn
-hdNOacYsjyoAP87mCXlsD6+AXOkAdaxLG7kt5XHhf7PvuaTzx6mqB1IW9Istk7R1
-CQv14XWpGVTO2ZImqUcZqjEuGPFOv4Grn9dRz4JBPP9+tL0H5y2+UJKiDj2IMRZ0
-E3rpWTMnXNPtJJmyIhLykOQSWmKVX7zTwaHRGlfNKyYKNWUf3AH5TRtIszRxl3Mx
-sVKUHYsAhMcXnp3nS/J7JpU7oMcwky4t/8t72OqI6b58xmqN8phHJQWhae5N/KEH
-wCcFd/xrL5t34DPHL6ngrzDFxPLT6oG67JWx3JGflePalZdZ68KLqyfoVVu2qC6Y
-95Iux7OagAq9KYlOgBc5
-=v1u4
------END PGP SIGNATURE-----
-
---Sig_/hV7QlF+ZQsp8+QIfTBXVNkb--
