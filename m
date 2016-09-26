@@ -1,24 +1,45 @@
-Return-Path: <Mingli.Yu@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id DCFAD6014F
+Return-Path: <sujith.h@gmail.com>
+Received: from mail-qk0-f193.google.com (mail-qk0-f193.google.com
+	[209.85.220.193])
+	by mail.openembedded.org (Postfix) with ESMTP id ACD1660684
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 26 Sep 2016 06:04:27 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u8Q64SJH017658
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Mon, 26 Sep 2016 06:09:35 +0000 (UTC)
+Received: by mail-qk0-f193.google.com with SMTP id b204so11086853qkc.1
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 25 Sep 2016 23:04:29 -0700 (PDT)
-Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.294.0; Sun, 25 Sep 2016 23:04:28 -0700
-From: <mingli.yu@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 26 Sep 2016 14:00:42 +0800
-Message-ID: <1474869642-20900-1-git-send-email-mingli.yu@windriver.com>
-X-Mailer: git-send-email 2.8.1
+	Sun, 25 Sep 2016 23:09:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=gKahUXNjdsHNZMDGAKjtbdYNH/QSf4BEHm4UMyh97F4=;
+	b=PYjLiSppP1w2hEKe5Ryd7PoeWd32EiDjEaC+L+k3dr2NYkLuJOKtADNIn+XpAjVEEj
+	SEplb/rgz29mRCjX+Kx2Fiazj64vdU6E/JKuH/owNZUhUDAsRvxFPDUkng6mzf5audF8
+	gNBNK6nL3q95XbO44uh00A/n+RyVpB2asgx2lWOJN4kZkjpo0hyvbiOq0weDIzkbsh95
+	1+7T3LKMjpKZ731OFGu9LLm6Z3rTbqPmRkq9VKUrvDhh5yjXZTsaGWHWwMoxtM2beR6T
+	4EGgnj0nPZS353QpPy+B8ntTehhGd1HHUGHKXjuEWejhU+lH0xj4tHxkRDtEoPfmvbH7
+	RPdA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=gKahUXNjdsHNZMDGAKjtbdYNH/QSf4BEHm4UMyh97F4=;
+	b=Jz6OE/CV3W3pitOxTBqJdd4sAixZAEkTzBlGlnyi+yXtZfog5VagrIY1Cr2Vn43BLV
+	tixG6BJQKnu8HsaXR4GIelgOzHrytrrW20rXGxytLw+2S0Zo7eBhAjHfwShGKyHxz8kd
+	ELUJhU9ljn5clqWdi4B/2R6PKLRORAwiJYpy6Qy/mSdhZIaEXkRNPWo40U8vcUQ9x8sc
+	7Ob/sOq609NGoQTFsqIDIHqQ4GagTI3T3GFBIUu3Yb2g/PGv3/4TaARjNPl5qCbZgnzy
+	ahAAupoZqrpQhOe5lXNFbXiNDkzwNPHeoyzSMuEA/Y8UiZ5+OGhMvqxLDOun/UYujnkP
+	c0cQ==
+X-Gm-Message-State: AA6/9RmgtSXK7xN4o1V5PlTYQHrR3XsWumyDiaN+3RnEGyWPd6tGWtRemekk0Psfv5BZjjSUkgbmplZ+8oGvQA==
+X-Received: by 10.55.168.78 with SMTP id r75mr18545460qke.19.1474870176779;
+	Sun, 25 Sep 2016 23:09:36 -0700 (PDT)
 MIME-Version: 1.0
-Subject: [PATCH] perl: fix CVE-2016-1238
+Received: by 10.55.183.1 with HTTP; Sun, 25 Sep 2016 23:09:16 -0700 (PDT)
+In-Reply-To: <1474450963-4114-1-git-send-email-sujith.h@gmail.com>
+References: <1474450963-4114-1-git-send-email-sujith.h@gmail.com>
+From: sujith h <sujith.h@gmail.com>
+Date: Mon, 26 Sep 2016 11:39:16 +0530
+Message-ID: <CADyYWLn9zWELS7Ly_J8cZkW3K4WgOKDhFSrHVPaAF7V=Ety=EQ@mail.gmail.com>
+To: OE-core <openembedded-core@lists.openembedded.org>
+Cc: Sujith Haridasan <Sujith_Haridasan@mentor.com>
+Subject: Re: [PATCH] x264: add textrel to INSANE_SKIP
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,392 +52,147 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 26 Sep 2016 06:04:28 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 26 Sep 2016 06:09:37 -0000
+Content-Type: multipart/alternative; boundary=94eb2c07514cfa1532053d62f87a
 
-From: Mingli Yu <Mingli.Yu@windriver.com>
+--94eb2c07514cfa1532053d62f87a
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Backport patch to fix CVE-2016-1238 from perl upstream:
-http://perl5.git.perl.org/perl.git/commitdiff/cee96d52c39b1e7b36e1c62d38bcd8d86e9a41ab
+Hi,
 
-Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
----
- .../perl/perl/perl-fix-CVE-2016-1238.patch         | 352 +++++++++++++++++++++
- meta/recipes-devtools/perl/perl_5.22.1.bb          |   1 +
- 2 files changed, 353 insertions(+)
- create mode 100644 meta/recipes-devtools/perl/perl/perl-fix-CVE-2016-1238.patch
+Let me know if this patch is ok. Else I can help make this patch better.
 
-diff --git a/meta/recipes-devtools/perl/perl/perl-fix-CVE-2016-1238.patch b/meta/recipes-devtools/perl/perl/perl-fix-CVE-2016-1238.patch
-new file mode 100644
-index 0000000..730ef17
---- /dev/null
-+++ b/meta/recipes-devtools/perl/perl/perl-fix-CVE-2016-1238.patch
-@@ -0,0 +1,352 @@
-+From 9987be3d24286d96d9dccec0433253ee8ad894b4 Mon Sep 17 00:00:00 2001
-+From: Tony Cook <tony@develop-help.com>
-+Date: Tue, 21 Jun 2016 10:02:02 +1000
-+Subject: [PATCH] perl: fix CVE-2016-1238
-+
-+(perl #127834) remove . from the end of @INC if complex modules are loaded
-+
-+While currently Encode and Storable are know to attempt to load modules
-+not included in the core, updates to other modules may lead to those
-+also attempting to load new modules, so be safe and remove . for those
-+as well.
-+
-+Backport patch from http://perl5.git.perl.org/perl.git/commitdiff/cee96d52c39b1e7b36e1c62d38bcd8d86e9a41ab
-+
-+Upstream-Status: Backport
-+CVE: CVE-2016-1238
-+Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
-+---
-+ cpan/Archive-Tar/bin/ptar                 | 1 +
-+ cpan/Archive-Tar/bin/ptardiff             | 1 +
-+ cpan/Archive-Tar/bin/ptargrep             | 1 +
-+ cpan/CPAN/scripts/cpan                    | 1 +
-+ cpan/Digest-SHA/shasum                    | 1 +
-+ cpan/Encode/bin/enc2xs                    | 1 +
-+ cpan/Encode/bin/encguess                  | 1 +
-+ cpan/Encode/bin/piconv                    | 1 +
-+ cpan/Encode/bin/ucmlint                   | 1 +
-+ cpan/Encode/bin/unidump                   | 1 +
-+ cpan/ExtUtils-MakeMaker/bin/instmodsh     | 1 +
-+ cpan/IO-Compress/bin/zipdetails           | 1 +
-+ cpan/JSON-PP/bin/json_pp                  | 1 +
-+ cpan/Test-Harness/bin/prove               | 1 +
-+ dist/ExtUtils-ParseXS/lib/ExtUtils/xsubpp | 1 +
-+ dist/Module-CoreList/corelist             | 1 +
-+ ext/Pod-Html/bin/pod2html                 | 1 +
-+ utils/c2ph.PL                             | 1 +
-+ utils/h2ph.PL                             | 2 ++
-+ utils/h2xs.PL                             | 2 ++
-+ utils/libnetcfg.PL                        | 1 +
-+ utils/perlbug.PL                          | 1 +
-+ utils/perldoc.PL                          | 5 ++++-
-+ utils/perlivp.PL                          | 2 ++
-+ utils/splain.PL                           | 6 ++++++
-+ 25 files changed, 36 insertions(+), 1 deletion(-)
-+
-+diff --git a/cpan/Archive-Tar/bin/ptar b/cpan/Archive-Tar/bin/ptar
-+index 0eaffa7..9dc6402 100644
-+--- a/cpan/Archive-Tar/bin/ptar
-++++ b/cpan/Archive-Tar/bin/ptar
-+@@ -1,6 +1,7 @@
-+ #!/usr/bin/perl
-+ use strict;
-+ 
-++BEGIN { pop @INC if $INC[-1] eq '.' }
-+ use File::Find;
-+ use Getopt::Std;
-+ use Archive::Tar;
-+diff --git a/cpan/Archive-Tar/bin/ptardiff b/cpan/Archive-Tar/bin/ptardiff
-+index 66bd859..4668fa6 100644
-+--- a/cpan/Archive-Tar/bin/ptardiff
-++++ b/cpan/Archive-Tar/bin/ptardiff
-+@@ -1,5 +1,6 @@
-+ #!/usr/bin/perl
-+ 
-++BEGIN { pop @INC if $INC[-1] eq '.' }
-+ use strict;
-+ use Archive::Tar;
-+ use Getopt::Std;
-+diff --git a/cpan/Archive-Tar/bin/ptargrep b/cpan/Archive-Tar/bin/ptargrep
-+index 1a320f1..8dc6b4f 100644
-+--- a/cpan/Archive-Tar/bin/ptargrep
-++++ b/cpan/Archive-Tar/bin/ptargrep
-+@@ -4,6 +4,7 @@
-+ # archive.  See 'ptargrep --help' for more documentation.
-+ #
-+ 
-++BEGIN { pop @INC if $INC[-1] eq '.' }
-+ use strict;
-+ use warnings;
-+ 
-+diff --git a/cpan/CPAN/scripts/cpan b/cpan/CPAN/scripts/cpan
-+index 5f4320e..ccba47e 100644
-+--- a/cpan/CPAN/scripts/cpan
-++++ b/cpan/CPAN/scripts/cpan
-+@@ -1,5 +1,6 @@
-+ #!/usr/local/bin/perl
-+ 
-++BEGIN { pop @INC if $INC[-1] eq '.' }
-+ use strict;
-+ use vars qw($VERSION);
-+ 
-+diff --git a/cpan/Digest-SHA/shasum b/cpan/Digest-SHA/shasum
-+index 14ddd60..62a2b0e 100644
-+--- a/cpan/Digest-SHA/shasum
-++++ b/cpan/Digest-SHA/shasum
-+@@ -13,6 +13,7 @@
-+ 	## "-0" option for reading bit strings, and
-+ 	## "-p" option for portable digests (to be deprecated).
-+ 
-++BEGIN { pop @INC if $INC[-1] eq '.' }
-+ use strict;
-+ use warnings;
-+ use Fcntl;
-+diff --git a/cpan/Encode/bin/enc2xs b/cpan/Encode/bin/enc2xs
-+index 4d64e38..473a15c 100644
-+--- a/cpan/Encode/bin/enc2xs
-++++ b/cpan/Encode/bin/enc2xs
-+@@ -4,6 +4,7 @@ BEGIN {
-+     # with $ENV{PERL_CORE} set
-+     # In case we need it in future...
-+     require Config; import Config;
-++    pop @INC if $INC[-1] eq '.';
-+ }
-+ use strict;
-+ use warnings;
-+diff --git a/cpan/Encode/bin/encguess b/cpan/Encode/bin/encguess
-+index 5d7ac80..0be5c7c 100644
-+--- a/cpan/Encode/bin/encguess
-++++ b/cpan/Encode/bin/encguess
-+@@ -1,5 +1,6 @@
-+ #!./perl
-+ use 5.008001;
-++BEGIN { pop @INC if $INC[-1] eq '.' }
-+ use strict;
-+ use warnings;
-+ use Encode;
-+diff --git a/cpan/Encode/bin/piconv b/cpan/Encode/bin/piconv
-+index c1dad9e..60b2a59 100644
-+--- a/cpan/Encode/bin/piconv
-++++ b/cpan/Encode/bin/piconv
-+@@ -1,6 +1,7 @@
-+ #!./perl
-+ # $Id: piconv,v 2.7 2014/05/31 09:48:48 dankogai Exp $
-+ #
-++BEGIN { pop @INC if $INC[-1] eq '.' }
-+ use 5.8.0;
-+ use strict;
-+ use Encode ;
-+diff --git a/cpan/Encode/bin/ucmlint b/cpan/Encode/bin/ucmlint
-+index 622376d..25e0d67 100644
-+--- a/cpan/Encode/bin/ucmlint
-++++ b/cpan/Encode/bin/ucmlint
-+@@ -3,6 +3,7 @@
-+ # $Id: ucmlint,v 2.2 2008/03/12 09:51:11 dankogai Exp $
-+ #
-+ 
-++BEGIN { pop @INC if $INC[-1] eq '.' }
-+ use strict;
-+ our  $VERSION = do { my @r = (q$Revision: 2.2 $ =~ /\d+/g); sprintf "%d."."%02d" x $#r, @r };
-+ 
-+diff --git a/cpan/Encode/bin/unidump b/cpan/Encode/bin/unidump
-+index ae0da30..f190827 100644
-+--- a/cpan/Encode/bin/unidump
-++++ b/cpan/Encode/bin/unidump
-+@@ -1,5 +1,6 @@
-+ #!./perl
-+ 
-++BEGIN { pop @INC if $INC[-1] eq '.' }
-+ use strict;
-+ use Encode;
-+ use Getopt::Std;
-+diff --git a/cpan/ExtUtils-MakeMaker/bin/instmodsh b/cpan/ExtUtils-MakeMaker/bin/instmodsh
-+index e551434..b3b109f 100644
-+--- a/cpan/ExtUtils-MakeMaker/bin/instmodsh
-++++ b/cpan/ExtUtils-MakeMaker/bin/instmodsh
-+@@ -1,5 +1,6 @@
-+ #!/usr/bin/perl -w
-+ 
-++BEGIN { pop @INC if $INC[-1] eq '.' }
-+ use strict;
-+ use IO::File;
-+ use ExtUtils::Packlist;
-+diff --git a/cpan/IO-Compress/bin/zipdetails b/cpan/IO-Compress/bin/zipdetails
-+index 0249850..1b9c70a 100644
-+--- a/cpan/IO-Compress/bin/zipdetails
-++++ b/cpan/IO-Compress/bin/zipdetails
-+@@ -5,6 +5,7 @@
-+ # Display info on the contents of a Zip file
-+ #
-+ 
-++BEGIN { pop @INC if $INC[-1] eq '.' }
-+ use strict;
-+ use warnings ;
-+ 
-+diff --git a/cpan/JSON-PP/bin/json_pp b/cpan/JSON-PP/bin/json_pp
-+index df9d243..896cd2f 100644
-+--- a/cpan/JSON-PP/bin/json_pp
-++++ b/cpan/JSON-PP/bin/json_pp
-+@@ -1,5 +1,6 @@
-+ #!/usr/bin/perl
-+ 
-++BEGIN { pop @INC if $INC[-1] eq '.' }
-+ use strict;
-+ use Getopt::Long;
-+ 
-+diff --git a/cpan/Test-Harness/bin/prove b/cpan/Test-Harness/bin/prove
-+index 6637cc4..d71b238 100644
-+--- a/cpan/Test-Harness/bin/prove
-++++ b/cpan/Test-Harness/bin/prove
-+@@ -1,5 +1,6 @@
-+ #!/usr/bin/perl -w
-+ 
-++BEGIN { pop @INC if $INC[-1] eq '.' }
-+ use strict;
-+ use warnings;
-+ use App::Prove;
-+diff --git a/dist/ExtUtils-ParseXS/lib/ExtUtils/xsubpp b/dist/ExtUtils-ParseXS/lib/ExtUtils/xsubpp
-+index e2ac71a..d596cdf 100644
-+--- a/dist/ExtUtils-ParseXS/lib/ExtUtils/xsubpp
-++++ b/dist/ExtUtils-ParseXS/lib/ExtUtils/xsubpp
-+@@ -1,5 +1,6 @@
-+ #!perl
-+ use 5.006;
-++BEGIN { pop @INC if $INC[-1] eq '.' }
-+ use strict;
-+ eval {
-+   require ExtUtils::ParseXS;
-+diff --git a/dist/Module-CoreList/corelist b/dist/Module-CoreList/corelist
-+index aa4a945..bbe61cc 100644
-+--- a/dist/Module-CoreList/corelist
-++++ b/dist/Module-CoreList/corelist
-+@@ -130,6 +130,7 @@ requested perl versions.
-+ 
-+ =cut
-+ 
-++BEGIN { pop @INC if $INC[-1] eq '.' }
-+ use Module::CoreList;
-+ use Getopt::Long qw(:config no_ignore_case);
-+ use Pod::Usage;
-+diff --git a/ext/Pod-Html/bin/pod2html b/ext/Pod-Html/bin/pod2html
-+index b022859..7d1d232 100644
-+--- a/ext/Pod-Html/bin/pod2html
-++++ b/ext/Pod-Html/bin/pod2html
-+@@ -216,6 +216,7 @@ This program is distributed under the Artistic License.
-+ 
-+ =cut
-+ 
-++BEGIN { pop @INC if $INC[-1] eq '.' }
-+ use Pod::Html;
-+ 
-+ pod2html @ARGV;
-+diff --git a/utils/c2ph.PL b/utils/c2ph.PL
-+index 13389ec..cef0b5c 100644
-+--- a/utils/c2ph.PL
-++++ b/utils/c2ph.PL
-+@@ -280,6 +280,7 @@ Anyway, here it is.  Should run on perl v4 or greater.  Maybe less.
-+ 
-+ $RCSID = '$Id: c2ph,v 1.7 95/10/28 10:41:47 tchrist Exp Locker: tchrist $';
-+ 
-++BEGIN { pop @INC if $INC[-1] eq '.' }
-+ use File::Temp;
-+ 
-+ ######################################################################
-+diff --git a/utils/h2ph.PL b/utils/h2ph.PL
-+index 55c1f72..300b756 100644
-+--- a/utils/h2ph.PL
-++++ b/utils/h2ph.PL
-+@@ -36,6 +36,8 @@ $Config{startperl}
-+ 
-+ print OUT <<'!NO!SUBS!';
-+ 
-++BEGIN { pop @INC if $INC[-1] eq '.' }
-++
-+ use strict;
-+ 
-+ use Config;
-+diff --git a/utils/h2xs.PL b/utils/h2xs.PL
-+index 268f680..f95ee0c 100644
-+--- a/utils/h2xs.PL
-++++ b/utils/h2xs.PL
-+@@ -35,6 +35,8 @@ $Config{startperl}
-+ 
-+ print OUT <<'!NO!SUBS!';
-+ 
-++BEGIN { pop @INC if $INC[-1] eq '.' }
-++
-+ use warnings;
-+ 
-+ =head1 NAME
-+diff --git a/utils/libnetcfg.PL b/utils/libnetcfg.PL
-+index 59a2de8..26d2f99 100644
-+--- a/utils/libnetcfg.PL
-++++ b/utils/libnetcfg.PL
-+@@ -97,6 +97,7 @@ Jarkko Hietaniemi, conversion into libnetcfg for inclusion into Perl 5.8.
-+ 
-+ # $Id: Configure,v 1.8 1997/03/04 09:22:32 gbarr Exp $
-+ 
-++BEGIN { pop @INC if $INC[-1] eq '.' }
-+ use strict;
-+ use IO::File;
-+ use Getopt::Std;
-+diff --git a/utils/perlbug.PL b/utils/perlbug.PL
-+index 885785a..ae8c343 100644
-+--- a/utils/perlbug.PL
-++++ b/utils/perlbug.PL
-+@@ -57,6 +57,7 @@ print OUT <<'!NO!SUBS!';
-+ my @patches = Config::local_patches();
-+ my $patch_tags = join "", map /(\S+)/ ? "+$1 " : (), @patches;
-+ 
-++BEGIN { pop @INC if $INC[-1] eq '.' }
-+ use warnings;
-+ use strict;
-+ use Config;
-+diff --git a/utils/perldoc.PL b/utils/perldoc.PL
-+index e201de9..cd60bd4 100644
-+--- a/utils/perldoc.PL
-++++ b/utils/perldoc.PL
-+@@ -44,7 +44,10 @@ $Config{startperl}
-+ # This "$file" file was generated by "$0"
-+ 
-+ require 5;
-+-BEGIN { \$^W = 1 if \$ENV{'PERLDOCDEBUG'} }
-++BEGIN {
-++    \$^W = 1 if \$ENV{'PERLDOCDEBUG'};
-++    pop \@INC if \$INC[-1] eq '.';
-++}
-+ use Pod::Perldoc;
-+ exit( Pod::Perldoc->run() );
-+ 
-+diff --git a/utils/perlivp.PL b/utils/perlivp.PL
-+index cc49f96..696a44e 100644
-+--- a/utils/perlivp.PL
-++++ b/utils/perlivp.PL
-+@@ -39,6 +39,8 @@ print OUT "\n# perlivp $^V\n";
-+ 
-+ print OUT <<'!NO!SUBS!';
-+ 
-++BEGIN { pop @INC if $INC[-1] eq '.' }
-++
-+ sub usage {
-+     warn "@_\n" if @_;
-+     print << "    EOUSAGE";
-+diff --git a/utils/splain.PL b/utils/splain.PL
-+index 9c70b61..cae84a0 100644
-+--- a/utils/splain.PL
-++++ b/utils/splain.PL
-+@@ -38,6 +38,12 @@ $Config{startperl}
-+ 	if \$running_under_some_shell;
-+ !GROK!THIS!
-+ 
-++print <<'!NO!SUBS!';
-++
-++BEGIN { pop @INC if $INC[-1] eq '.' }
-++
-++!NO!SUBS!
-++
-+ while (<IN>) {
-+     print OUT unless /^package diagnostics/;
-+ }
-+-- 
-+2.8.1
-+
-diff --git a/meta/recipes-devtools/perl/perl_5.22.1.bb b/meta/recipes-devtools/perl/perl_5.22.1.bb
-index b904674..792a65b 100644
---- a/meta/recipes-devtools/perl/perl_5.22.1.bb
-+++ b/meta/recipes-devtools/perl/perl_5.22.1.bb
-@@ -68,6 +68,7 @@ SRC_URI += " \
-         file://perl-fix-CVE-2016-2381.patch \
-         file://perl-fix-CVE-2016-6185.patch \
-         file://perl-fix-CVE-2015-8607.patch \
-+        file://perl-fix-CVE-2016-1238.patch \
- "
- 
- # Fix test case issues
--- 
-2.8.1
+Thanks,
+Sujith H
+
+On Wed, Sep 21, 2016 at 3:12 PM, Sujith H <sujith.h@gmail.com> wrote:
+
+> From: Fahad Usman <fahad_usman@mentor.com>
+>
+> Tried by adding CFLAGS_append =3D " -fpic " to
+> the recipe. But that couldn't help resolve the
+> warning message:
+>
+> x264/r2491+gitAUTOINC+c8a773ebfc-r0/packages-split/x264/usr/lib/libx264.s=
+o.144'
+> has relocations in .text [textrel]
+>
+> It was found that this warning is emitted because of the
+> assembly files in the source code. And it is not easy to
+> get rid of TEXTREL's which are coming from the assembly
+> source files.
+>
+> Adding textrel to INSANE_SKIP resolves this issue.
+> This issue was observed in cyclone5 and imx6qsabresd BSP's.
+> So generalizing the patch.
+>
+> Signed-off-by: Fahad Usman <fahad_usman@mentor.com>
+> Signed-off-by: Sujith Haridasan <Sujith_Haridasan@mentor.com>
+> ---
+>  meta/recipes-multimedia/x264/x264_git.bb | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/meta/recipes-multimedia/x264/x264_git.bb
+> b/meta/recipes-multimedia/x264/x264_git.bb
+> index fa44f9c..393310f 100644
+> --- a/meta/recipes-multimedia/x264/x264_git.bb
+> +++ b/meta/recipes-multimedia/x264/x264_git.bb
+> @@ -48,6 +48,6 @@ do_install() {
+>      oe_runmake install DESTDIR=3D${D}
+>  }
+>
+> -# PIC can't be enabled for 32-bit x86
+> -INSANE_SKIP_${PN}_append_x86 =3D " textrel"
+> +# PIC can't be enabled for few BSP's
+> +INSANE_SKIP_${PN}_append =3D " textrel"
+>
+> --
+> 1.9.1
+>
+>
 
 
+--=20
+=E0=B4=B8=E0=B5=81=E0=B4=9C=E0=B4=BF=E0=B4=A4=E0=B5=8D =E0=B4=B9=E0=B4=B0=
+=E0=B4=BF=E0=B4=A6=E0=B4=BE=E0=B4=B8=E0=B4=A8=E0=B5=8D
+Bangalore
+<Project>Contributor to KDE project
+<Project>Contributor to Yocto project
+http://fci.wikia.com/wiki/Anti-DRM-Campaign
+<Blog> http://sujithh.info
+C-x C-c
+
+--94eb2c07514cfa1532053d62f87a
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div><div><div>Hi,<br><br></div>Let me know if this patch =
+is ok. Else I can help make this patch better.<br><br></div>Thanks,<br></di=
+v>Sujith H<br><div><div><div><div><div><div><div class=3D"gmail_extra"><br>=
+<div class=3D"gmail_quote">On Wed, Sep 21, 2016 at 3:12 PM, Sujith H <span =
+dir=3D"ltr">&lt;<a href=3D"mailto:sujith.h@gmail.com" target=3D"_blank">suj=
+ith.h@gmail.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" =
+style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">Fro=
+m: Fahad Usman &lt;<a href=3D"mailto:fahad_usman@mentor.com">fahad_usman@me=
+ntor.com</a>&gt;<br>
+<br>
+Tried by adding CFLAGS_append =3D &quot; -fpic &quot; to<br>
+the recipe. But that couldn&#39;t help resolve the<br>
+warning message:<br>
+<br>
+x264/r2491+gitAUTOINC+<wbr>c8a773ebfc-r0/packages-split/<wbr>x264/usr/lib/l=
+ibx264.so.144&#39; has relocations in .text [textrel]<br>
+<br>
+It was found that this warning is emitted because of the<br>
+assembly files in the source code. And it is not easy to<br>
+get rid of TEXTREL&#39;s which are coming from the assembly<br>
+source files.<br>
+<br>
+Adding textrel to INSANE_SKIP resolves this issue.<br>
+This issue was observed in cyclone5 and imx6qsabresd BSP&#39;s.<br>
+So generalizing the patch.<br>
+<br>
+Signed-off-by: Fahad Usman &lt;<a href=3D"mailto:fahad_usman@mentor.com">fa=
+had_usman@mentor.com</a>&gt;<br>
+Signed-off-by: Sujith Haridasan &lt;<a href=3D"mailto:Sujith_Haridasan@ment=
+or.com">Sujith_Haridasan@mentor.com</a>&gt;<br>
+---<br>
+=C2=A0meta/recipes-multimedia/x264/<a href=3D"http://x264_git.bb" rel=3D"no=
+referrer" target=3D"_blank">x<wbr>264_git.bb</a> | 4 ++--<br>
+=C2=A01 file changed, 2 insertions(+), 2 deletions(-)<br>
+<br>
+diff --git a/meta/recipes-multimedia/<wbr>x264/<a href=3D"http://x264_git.b=
+b" rel=3D"noreferrer" target=3D"_blank">x264_git.bb</a> b/meta/recipes-mult=
+imedia/<wbr>x264/<a href=3D"http://x264_git.bb" rel=3D"noreferrer" target=
+=3D"_blank">x264_git.bb</a><br>
+index fa44f9c..393310f 100644<br>
+--- a/meta/recipes-multimedia/<wbr>x264/<a href=3D"http://x264_git.bb" rel=
+=3D"noreferrer" target=3D"_blank">x264_git.bb</a><br>
++++ b/meta/recipes-multimedia/<wbr>x264/<a href=3D"http://x264_git.bb" rel=
+=3D"noreferrer" target=3D"_blank">x264_git.bb</a><br>
+@@ -48,6 +48,6 @@ do_install() {<br>
+=C2=A0 =C2=A0 =C2=A0oe_runmake install DESTDIR=3D${D}<br>
+=C2=A0}<br>
+<br>
+-# PIC can&#39;t be enabled for 32-bit x86<br>
+-INSANE_SKIP_${PN}_append_x86 =3D &quot; textrel&quot;<br>
++# PIC can&#39;t be enabled for few BSP&#39;s<br>
++INSANE_SKIP_${PN}_append =3D &quot; textrel&quot;<br>
+<span class=3D"HOEnZb"><font color=3D"#888888"><br>
+--<br>
+1.9.1<br>
+<br>
+</font></span></blockquote></div><br><br clear=3D"all"><br>-- <br><div clas=
+s=3D"gmail_signature" data-smartmail=3D"gmail_signature"><div dir=3D"ltr"><=
+div><div dir=3D"ltr"><div>=E0=B4=B8=E0=B5=81=E0=B4=9C=E0=B4=BF=E0=B4=A4=E0=
+=B5=8D =E0=B4=B9=E0=B4=B0=E0=B4=BF=E0=B4=A6=E0=B4=BE=E0=B4=B8=E0=B4=A8=E0=
+=B5=8D<br>Bangalore<br>&lt;Project&gt;Contributor to KDE project<br></div><=
+div>&lt;Project&gt;Contributor to Yocto project<br></div><div><a href=3D"ht=
+tp://fci.wikia.com/wiki/Anti-DRM-Campaign" target=3D"_blank">http://fci.wik=
+ia.com/wiki/Anti-DRM-Campaign</a><br>&lt;Blog&gt; <a href=3D"http://sujithh=
+.info" target=3D"_blank">http://sujithh.info</a><br></div><div>C-x C-c<br><=
+/div></div></div></div></div>
+</div></div></div></div></div></div></div></div>
+
+--94eb2c07514cfa1532053d62f87a--
