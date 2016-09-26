@@ -1,21 +1,21 @@
 Return-Path: <edwin.plauchu.camacho@linux.intel.com>
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id 9AEE260017
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id A84C760017
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 26 Sep 2016 21:41:22 +0000 (UTC)
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-	by fmsmga104.fm.intel.com with ESMTP; 26 Sep 2016 14:41:24 -0700
+	Mon, 26 Sep 2016 21:43:10 +0000 (UTC)
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+	by fmsmga101.fm.intel.com with ESMTP; 26 Sep 2016 14:43:13 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.30,401,1470726000"; d="scan'208";a="13450913"
+X-IronPort-AV: E=Sophos;i="5.30,401,1470726000"; d="scan'208";a="13493948"
 Received: from pianodaemon-contraption.zpn.intel.com ([10.219.128.75])
-	by fmsmga006.fm.intel.com with ESMTP; 26 Sep 2016 14:41:23 -0700
+	by fmsmga005.fm.intel.com with ESMTP; 26 Sep 2016 14:43:11 -0700
 From: Edwin Plauchu <edwin.plauchu.camacho@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 26 Sep 2016 16:42:36 -0500
-Message-Id: <20160926214236.25275-1-edwin.plauchu.camacho@linux.intel.com>
+Date: Mon, 26 Sep 2016 16:44:25 -0500
+Message-Id: <20160926214425.25330-1-edwin.plauchu.camacho@linux.intel.com>
 X-Mailer: git-send-email 2.9.3
 Cc: Edwin Plauchu <edwin.plauchu.camacho@intel.com>
-Subject: [PATCH V2] ptest-runner: recipe update related to minor fix.
+Subject: [PATCH V3] ptest-runner: recipe update related to minor fix.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,19 +28,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 26 Sep 2016 21:41:23 -0000
+X-List-Received-Date: Mon, 26 Sep 2016 21:43:10 -0000
 
 From: Edwin Plauchu <edwin.plauchu.camacho@intel.com>
 
 A minor fix has been published regarding the need of a user
 of being noticed when some run-ptest script fails.
 
-We have also modified ptest unit test stuff
+Also Found modifications to ptest unit test stuff
 * removed unnecessary code from unit test run_timeout_ptest
 * added test case for run_ptest failure
 
 Finally..
-Added content within contributions section of README.md.
+New content within contributions section of README.md.
 
 [YOCTO #9752]
 
