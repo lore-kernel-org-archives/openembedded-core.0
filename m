@@ -1,24 +1,24 @@
 Return-Path: <Mingli.Yu@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 4625A6014F
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id DCFAD6014F
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 26 Sep 2016 05:58:19 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u8Q5wKwe026505
+	Mon, 26 Sep 2016 06:04:27 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u8Q64SJH017658
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 25 Sep 2016 22:58:20 -0700 (PDT)
+	Sun, 25 Sep 2016 23:04:29 -0700 (PDT)
 Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.294.0; Sun, 25 Sep 2016 22:58:19 -0700
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.294.0; Sun, 25 Sep 2016 23:04:28 -0700
 From: <mingli.yu@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 26 Sep 2016 13:54:34 +0800
-Message-ID: <1474869274-11704-1-git-send-email-mingli.yu@windriver.com>
+Date: Mon, 26 Sep 2016 14:00:42 +0800
+Message-ID: <1474869642-20900-1-git-send-email-mingli.yu@windriver.com>
 X-Mailer: git-send-email 2.8.1
 MIME-Version: 1.0
-Subject: [PATCH] python: fix CVE-2016-1000110
+Subject: [PATCH] perl: fix CVE-2016-1238
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,374 +31,391 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 26 Sep 2016 05:58:22 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 26 Sep 2016 06:04:28 -0000
+Content-Type: text/plain
 
 From: Mingli Yu <Mingli.Yu@windriver.com>
 
-Backport patch to fix CVE-2016-1000110 from python upstream:
-for python2.7
-https://hg.python.org/cpython/rev/ba915d561667/
-for python3
-https://hg.python.org/cpython/rev/a0ac52ed8f79
+Backport patch to fix CVE-2016-1238 from perl upstream:
+http://perl5.git.perl.org/perl.git/commitdiff/cee96d52c39b1e7b36e1c62d38bcd8d86e9a41ab
 
 Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
 ---
- .../python/python-fix-CVE-2016-1000110.patch       | 162 +++++++++++++++++++++
- .../python3/python3-fix-CVE-2016-1000110.patch     | 148 +++++++++++++++++++
- meta/recipes-devtools/python/python3_3.5.2.bb      |   1 +
- meta/recipes-devtools/python/python_2.7.12.bb      |   1 +
- 4 files changed, 312 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python/python-fix-CVE-2016-1000110.patch
- create mode 100644 meta/recipes-devtools/python/python3/python3-fix-CVE-2016-1000110.patch
+ .../perl/perl/perl-fix-CVE-2016-1238.patch         | 352 +++++++++++++++++++++
+ meta/recipes-devtools/perl/perl_5.22.1.bb          |   1 +
+ 2 files changed, 353 insertions(+)
+ create mode 100644 meta/recipes-devtools/perl/perl/perl-fix-CVE-2016-1238.patch
 
-diff --git a/meta/recipes-devtools/python/python/python-fix-CVE-2016-1000110.patch b/meta/recipes-devtools/python/python/python-fix-CVE-2016-1000110.patch
+diff --git a/meta/recipes-devtools/perl/perl/perl-fix-CVE-2016-1238.patch b/meta/recipes-devtools/perl/perl/perl-fix-CVE-2016-1238.patch
 new file mode 100644
-index 0000000..97888e2
+index 0000000..730ef17
 --- /dev/null
-+++ b/meta/recipes-devtools/python/python/python-fix-CVE-2016-1000110.patch
-@@ -0,0 +1,162 @@
-+From cb25fbd5abc0f4eb07dbb8ea819e9c26bda4fc99 Mon Sep 17 00:00:00 2001
-+From: Senthil Kumaran <senthil@uthcode.com>
-+Date: Sat, 30 Jul 2016 05:49:53 -0700
-+Subject: [PATCH] python: fix CVE-2016-1000110
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=UTF-8
-+Content-Transfer-Encoding: 8bit
++++ b/meta/recipes-devtools/perl/perl/perl-fix-CVE-2016-1238.patch
+@@ -0,0 +1,352 @@
++From 9987be3d24286d96d9dccec0433253ee8ad894b4 Mon Sep 17 00:00:00 2001
++From: Tony Cook <tony@develop-help.com>
++Date: Tue, 21 Jun 2016 10:02:02 +1000
++Subject: [PATCH] perl: fix CVE-2016-1238
 +
-+Prevent HTTPoxy attack (CVE-2016-1000110)
++(perl #127834) remove . from the end of @INC if complex modules are loaded
 +
-+Ignore the HTTP_PROXY variable when REQUEST_METHOD environment is set, which
-+indicates that the script is in CGI mode.
++While currently Encode and Storable are know to attempt to load modules
++not included in the core, updates to other modules may lead to those
++also attempting to load new modules, so be safe and remove . for those
++as well.
 +
-+Issue reported and patch contributed by Rémi Rampin.
-+
-+Backport patch from https://hg.python.org/cpython/rev/ba915d561667/
++Backport patch from http://perl5.git.perl.org/perl.git/commitdiff/cee96d52c39b1e7b36e1c62d38bcd8d86e9a41ab
 +
 +Upstream-Status: Backport
-+CVE: CVE-2016-1000110
++CVE: CVE-2016-1238
 +Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
 +---
-+ Doc/howto/urllib2.rst   |  5 +++++
-+ Doc/library/urllib.rst  | 10 ++++++++++
-+ Doc/library/urllib2.rst |  5 +++++
-+ Lib/test/test_urllib.py | 12 ++++++++++++
-+ Lib/urllib.py           |  9 +++++++++
-+ Misc/ACKS               |  1 +
-+ Misc/NEWS               |  4 ++++
-+ 7 files changed, 46 insertions(+)
++ cpan/Archive-Tar/bin/ptar                 | 1 +
++ cpan/Archive-Tar/bin/ptardiff             | 1 +
++ cpan/Archive-Tar/bin/ptargrep             | 1 +
++ cpan/CPAN/scripts/cpan                    | 1 +
++ cpan/Digest-SHA/shasum                    | 1 +
++ cpan/Encode/bin/enc2xs                    | 1 +
++ cpan/Encode/bin/encguess                  | 1 +
++ cpan/Encode/bin/piconv                    | 1 +
++ cpan/Encode/bin/ucmlint                   | 1 +
++ cpan/Encode/bin/unidump                   | 1 +
++ cpan/ExtUtils-MakeMaker/bin/instmodsh     | 1 +
++ cpan/IO-Compress/bin/zipdetails           | 1 +
++ cpan/JSON-PP/bin/json_pp                  | 1 +
++ cpan/Test-Harness/bin/prove               | 1 +
++ dist/ExtUtils-ParseXS/lib/ExtUtils/xsubpp | 1 +
++ dist/Module-CoreList/corelist             | 1 +
++ ext/Pod-Html/bin/pod2html                 | 1 +
++ utils/c2ph.PL                             | 1 +
++ utils/h2ph.PL                             | 2 ++
++ utils/h2xs.PL                             | 2 ++
++ utils/libnetcfg.PL                        | 1 +
++ utils/perlbug.PL                          | 1 +
++ utils/perldoc.PL                          | 5 ++++-
++ utils/perlivp.PL                          | 2 ++
++ utils/splain.PL                           | 6 ++++++
++ 25 files changed, 36 insertions(+), 1 deletion(-)
 +
-+diff --git a/Doc/howto/urllib2.rst b/Doc/howto/urllib2.rst
-+index 6bb06d4..5cf2c0c 100644
-+--- a/Doc/howto/urllib2.rst
-++++ b/Doc/howto/urllib2.rst
-+@@ -525,6 +525,11 @@ setting up a `Basic Authentication`_ handler: ::
-+     through a proxy.  However, this can be enabled by extending urllib2 as
-+     shown in the recipe [#]_.
++diff --git a/cpan/Archive-Tar/bin/ptar b/cpan/Archive-Tar/bin/ptar
++index 0eaffa7..9dc6402 100644
++--- a/cpan/Archive-Tar/bin/ptar
+++++ b/cpan/Archive-Tar/bin/ptar
++@@ -1,6 +1,7 @@
++ #!/usr/bin/perl
++ use strict;
 + 
-++.. note::
+++BEGIN { pop @INC if $INC[-1] eq '.' }
++ use File::Find;
++ use Getopt::Std;
++ use Archive::Tar;
++diff --git a/cpan/Archive-Tar/bin/ptardiff b/cpan/Archive-Tar/bin/ptardiff
++index 66bd859..4668fa6 100644
++--- a/cpan/Archive-Tar/bin/ptardiff
+++++ b/cpan/Archive-Tar/bin/ptardiff
++@@ -1,5 +1,6 @@
++ #!/usr/bin/perl
++ 
+++BEGIN { pop @INC if $INC[-1] eq '.' }
++ use strict;
++ use Archive::Tar;
++ use Getopt::Std;
++diff --git a/cpan/Archive-Tar/bin/ptargrep b/cpan/Archive-Tar/bin/ptargrep
++index 1a320f1..8dc6b4f 100644
++--- a/cpan/Archive-Tar/bin/ptargrep
+++++ b/cpan/Archive-Tar/bin/ptargrep
++@@ -4,6 +4,7 @@
++ # archive.  See 'ptargrep --help' for more documentation.
++ #
++ 
+++BEGIN { pop @INC if $INC[-1] eq '.' }
++ use strict;
++ use warnings;
++ 
++diff --git a/cpan/CPAN/scripts/cpan b/cpan/CPAN/scripts/cpan
++index 5f4320e..ccba47e 100644
++--- a/cpan/CPAN/scripts/cpan
+++++ b/cpan/CPAN/scripts/cpan
++@@ -1,5 +1,6 @@
++ #!/usr/local/bin/perl
++ 
+++BEGIN { pop @INC if $INC[-1] eq '.' }
++ use strict;
++ use vars qw($VERSION);
++ 
++diff --git a/cpan/Digest-SHA/shasum b/cpan/Digest-SHA/shasum
++index 14ddd60..62a2b0e 100644
++--- a/cpan/Digest-SHA/shasum
+++++ b/cpan/Digest-SHA/shasum
++@@ -13,6 +13,7 @@
++ 	## "-0" option for reading bit strings, and
++ 	## "-p" option for portable digests (to be deprecated).
++ 
+++BEGIN { pop @INC if $INC[-1] eq '.' }
++ use strict;
++ use warnings;
++ use Fcntl;
++diff --git a/cpan/Encode/bin/enc2xs b/cpan/Encode/bin/enc2xs
++index 4d64e38..473a15c 100644
++--- a/cpan/Encode/bin/enc2xs
+++++ b/cpan/Encode/bin/enc2xs
++@@ -4,6 +4,7 @@ BEGIN {
++     # with $ENV{PERL_CORE} set
++     # In case we need it in future...
++     require Config; import Config;
+++    pop @INC if $INC[-1] eq '.';
++ }
++ use strict;
++ use warnings;
++diff --git a/cpan/Encode/bin/encguess b/cpan/Encode/bin/encguess
++index 5d7ac80..0be5c7c 100644
++--- a/cpan/Encode/bin/encguess
+++++ b/cpan/Encode/bin/encguess
++@@ -1,5 +1,6 @@
++ #!./perl
++ use 5.008001;
+++BEGIN { pop @INC if $INC[-1] eq '.' }
++ use strict;
++ use warnings;
++ use Encode;
++diff --git a/cpan/Encode/bin/piconv b/cpan/Encode/bin/piconv
++index c1dad9e..60b2a59 100644
++--- a/cpan/Encode/bin/piconv
+++++ b/cpan/Encode/bin/piconv
++@@ -1,6 +1,7 @@
++ #!./perl
++ # $Id: piconv,v 2.7 2014/05/31 09:48:48 dankogai Exp $
++ #
+++BEGIN { pop @INC if $INC[-1] eq '.' }
++ use 5.8.0;
++ use strict;
++ use Encode ;
++diff --git a/cpan/Encode/bin/ucmlint b/cpan/Encode/bin/ucmlint
++index 622376d..25e0d67 100644
++--- a/cpan/Encode/bin/ucmlint
+++++ b/cpan/Encode/bin/ucmlint
++@@ -3,6 +3,7 @@
++ # $Id: ucmlint,v 2.2 2008/03/12 09:51:11 dankogai Exp $
++ #
++ 
+++BEGIN { pop @INC if $INC[-1] eq '.' }
++ use strict;
++ our  $VERSION = do { my @r = (q$Revision: 2.2 $ =~ /\d+/g); sprintf "%d."."%02d" x $#r, @r };
++ 
++diff --git a/cpan/Encode/bin/unidump b/cpan/Encode/bin/unidump
++index ae0da30..f190827 100644
++--- a/cpan/Encode/bin/unidump
+++++ b/cpan/Encode/bin/unidump
++@@ -1,5 +1,6 @@
++ #!./perl
++ 
+++BEGIN { pop @INC if $INC[-1] eq '.' }
++ use strict;
++ use Encode;
++ use Getopt::Std;
++diff --git a/cpan/ExtUtils-MakeMaker/bin/instmodsh b/cpan/ExtUtils-MakeMaker/bin/instmodsh
++index e551434..b3b109f 100644
++--- a/cpan/ExtUtils-MakeMaker/bin/instmodsh
+++++ b/cpan/ExtUtils-MakeMaker/bin/instmodsh
++@@ -1,5 +1,6 @@
++ #!/usr/bin/perl -w
++ 
+++BEGIN { pop @INC if $INC[-1] eq '.' }
++ use strict;
++ use IO::File;
++ use ExtUtils::Packlist;
++diff --git a/cpan/IO-Compress/bin/zipdetails b/cpan/IO-Compress/bin/zipdetails
++index 0249850..1b9c70a 100644
++--- a/cpan/IO-Compress/bin/zipdetails
+++++ b/cpan/IO-Compress/bin/zipdetails
++@@ -5,6 +5,7 @@
++ # Display info on the contents of a Zip file
++ #
++ 
+++BEGIN { pop @INC if $INC[-1] eq '.' }
++ use strict;
++ use warnings ;
++ 
++diff --git a/cpan/JSON-PP/bin/json_pp b/cpan/JSON-PP/bin/json_pp
++index df9d243..896cd2f 100644
++--- a/cpan/JSON-PP/bin/json_pp
+++++ b/cpan/JSON-PP/bin/json_pp
++@@ -1,5 +1,6 @@
++ #!/usr/bin/perl
++ 
+++BEGIN { pop @INC if $INC[-1] eq '.' }
++ use strict;
++ use Getopt::Long;
++ 
++diff --git a/cpan/Test-Harness/bin/prove b/cpan/Test-Harness/bin/prove
++index 6637cc4..d71b238 100644
++--- a/cpan/Test-Harness/bin/prove
+++++ b/cpan/Test-Harness/bin/prove
++@@ -1,5 +1,6 @@
++ #!/usr/bin/perl -w
++ 
+++BEGIN { pop @INC if $INC[-1] eq '.' }
++ use strict;
++ use warnings;
++ use App::Prove;
++diff --git a/dist/ExtUtils-ParseXS/lib/ExtUtils/xsubpp b/dist/ExtUtils-ParseXS/lib/ExtUtils/xsubpp
++index e2ac71a..d596cdf 100644
++--- a/dist/ExtUtils-ParseXS/lib/ExtUtils/xsubpp
+++++ b/dist/ExtUtils-ParseXS/lib/ExtUtils/xsubpp
++@@ -1,5 +1,6 @@
++ #!perl
++ use 5.006;
+++BEGIN { pop @INC if $INC[-1] eq '.' }
++ use strict;
++ eval {
++   require ExtUtils::ParseXS;
++diff --git a/dist/Module-CoreList/corelist b/dist/Module-CoreList/corelist
++index aa4a945..bbe61cc 100644
++--- a/dist/Module-CoreList/corelist
+++++ b/dist/Module-CoreList/corelist
++@@ -130,6 +130,7 @@ requested perl versions.
++ 
++ =cut
++ 
+++BEGIN { pop @INC if $INC[-1] eq '.' }
++ use Module::CoreList;
++ use Getopt::Long qw(:config no_ignore_case);
++ use Pod::Usage;
++diff --git a/ext/Pod-Html/bin/pod2html b/ext/Pod-Html/bin/pod2html
++index b022859..7d1d232 100644
++--- a/ext/Pod-Html/bin/pod2html
+++++ b/ext/Pod-Html/bin/pod2html
++@@ -216,6 +216,7 @@ This program is distributed under the Artistic License.
++ 
++ =cut
++ 
+++BEGIN { pop @INC if $INC[-1] eq '.' }
++ use Pod::Html;
++ 
++ pod2html @ARGV;
++diff --git a/utils/c2ph.PL b/utils/c2ph.PL
++index 13389ec..cef0b5c 100644
++--- a/utils/c2ph.PL
+++++ b/utils/c2ph.PL
++@@ -280,6 +280,7 @@ Anyway, here it is.  Should run on perl v4 or greater.  Maybe less.
++ 
++ $RCSID = '$Id: c2ph,v 1.7 95/10/28 10:41:47 tchrist Exp Locker: tchrist $';
++ 
+++BEGIN { pop @INC if $INC[-1] eq '.' }
++ use File::Temp;
++ 
++ ######################################################################
++diff --git a/utils/h2ph.PL b/utils/h2ph.PL
++index 55c1f72..300b756 100644
++--- a/utils/h2ph.PL
+++++ b/utils/h2ph.PL
++@@ -36,6 +36,8 @@ $Config{startperl}
++ 
++ print OUT <<'!NO!SUBS!';
++ 
+++BEGIN { pop @INC if $INC[-1] eq '.' }
 ++
-++    ``HTTP_PROXY`` will be ignored if a variable ``REQUEST_METHOD`` is set; see
-++    the documentation on :func:`~urllib.getproxies`.
++ use strict;
++ 
++ use Config;
++diff --git a/utils/h2xs.PL b/utils/h2xs.PL
++index 268f680..f95ee0c 100644
++--- a/utils/h2xs.PL
+++++ b/utils/h2xs.PL
++@@ -35,6 +35,8 @@ $Config{startperl}
++ 
++ print OUT <<'!NO!SUBS!';
++ 
+++BEGIN { pop @INC if $INC[-1] eq '.' }
 ++
++ use warnings;
 + 
-+ Sockets and Layers
-+ ==================
-+diff --git a/Doc/library/urllib.rst b/Doc/library/urllib.rst
-+index 3b5dc16..bddcba9 100644
-+--- a/Doc/library/urllib.rst
-++++ b/Doc/library/urllib.rst
-+@@ -295,6 +295,16 @@ Utility functions
-+    If both lowercase and uppercase environment variables exist (and disagree),
-+    lowercase is preferred.
++ =head1 NAME
++diff --git a/utils/libnetcfg.PL b/utils/libnetcfg.PL
++index 59a2de8..26d2f99 100644
++--- a/utils/libnetcfg.PL
+++++ b/utils/libnetcfg.PL
++@@ -97,6 +97,7 @@ Jarkko Hietaniemi, conversion into libnetcfg for inclusion into Perl 5.8.
 + 
-++    .. note::
++ # $Id: Configure,v 1.8 1997/03/04 09:22:32 gbarr Exp $
++ 
+++BEGIN { pop @INC if $INC[-1] eq '.' }
++ use strict;
++ use IO::File;
++ use Getopt::Std;
++diff --git a/utils/perlbug.PL b/utils/perlbug.PL
++index 885785a..ae8c343 100644
++--- a/utils/perlbug.PL
+++++ b/utils/perlbug.PL
++@@ -57,6 +57,7 @@ print OUT <<'!NO!SUBS!';
++ my @patches = Config::local_patches();
++ my $patch_tags = join "", map /(\S+)/ ? "+$1 " : (), @patches;
++ 
+++BEGIN { pop @INC if $INC[-1] eq '.' }
++ use warnings;
++ use strict;
++ use Config;
++diff --git a/utils/perldoc.PL b/utils/perldoc.PL
++index e201de9..cd60bd4 100644
++--- a/utils/perldoc.PL
+++++ b/utils/perldoc.PL
++@@ -44,7 +44,10 @@ $Config{startperl}
++ # This "$file" file was generated by "$0"
++ 
++ require 5;
++-BEGIN { \$^W = 1 if \$ENV{'PERLDOCDEBUG'} }
+++BEGIN {
+++    \$^W = 1 if \$ENV{'PERLDOCDEBUG'};
+++    pop \@INC if \$INC[-1] eq '.';
+++}
++ use Pod::Perldoc;
++ exit( Pod::Perldoc->run() );
++ 
++diff --git a/utils/perlivp.PL b/utils/perlivp.PL
++index cc49f96..696a44e 100644
++--- a/utils/perlivp.PL
+++++ b/utils/perlivp.PL
++@@ -39,6 +39,8 @@ print OUT "\n# perlivp $^V\n";
++ 
++ print OUT <<'!NO!SUBS!';
++ 
+++BEGIN { pop @INC if $INC[-1] eq '.' }
 ++
-++        If the environment variable ``REQUEST_METHOD`` is set, which usually
-++        indicates your script is running in a CGI environment, the environment
-++        variable ``HTTP_PROXY`` (uppercase ``_PROXY``) will be ignored. This is
-++        because that variable can be injected by a client using the "Proxy:"
-++        HTTP header. If you need to use an HTTP proxy in a CGI environment,
-++        either use ``ProxyHandler`` explicitly, or make sure the variable name
-++        is in lowercase (or at least the ``_proxy`` suffix).
++ sub usage {
++     warn "@_\n" if @_;
++     print << "    EOUSAGE";
++diff --git a/utils/splain.PL b/utils/splain.PL
++index 9c70b61..cae84a0 100644
++--- a/utils/splain.PL
+++++ b/utils/splain.PL
++@@ -38,6 +38,12 @@ $Config{startperl}
++ 	if \$running_under_some_shell;
++ !GROK!THIS!
++ 
+++print <<'!NO!SUBS!';
 ++
-+ .. note::
-+     urllib also exposes certain utility functions like splittype, splithost and
-+     others parsing URL into various components. But it is recommended to use
-+diff --git a/Doc/library/urllib2.rst b/Doc/library/urllib2.rst
-+index 8a4c80e..b808b98 100644
-+--- a/Doc/library/urllib2.rst
-++++ b/Doc/library/urllib2.rst
-+@@ -229,6 +229,11 @@ The following classes are provided:
-+ 
-+    To disable autodetected proxy pass an empty dictionary.
-+ 
-++    .. note::
+++BEGIN { pop @INC if $INC[-1] eq '.' }
 ++
-++       ``HTTP_PROXY`` will be ignored if a variable ``REQUEST_METHOD`` is set;
-++       see the documentation on :func:`~urllib.getproxies`.
+++!NO!SUBS!
 ++
-+ 
-+ .. class:: HTTPPasswordMgr()
-+ 
-+diff --git a/Lib/test/test_urllib.py b/Lib/test/test_urllib.py
-+index 434d533..27a1d38 100644
-+--- a/Lib/test/test_urllib.py
-++++ b/Lib/test/test_urllib.py
-+@@ -170,6 +170,18 @@ class ProxyTests(unittest.TestCase):
-+         self.assertTrue(urllib.proxy_bypass_environment('anotherdomain.com:8888'))
-+         self.assertTrue(urllib.proxy_bypass_environment('newdomain.com:1234'))
-+ 
-++    def test_proxy_cgi_ignore(self):
-++        try:
-++            self.env.set('HTTP_PROXY', 'http://somewhere:3128')
-++            proxies = urllib.getproxies_environment()
-++            self.assertEqual('http://somewhere:3128', proxies['http'])
-++            self.env.set('REQUEST_METHOD', 'GET')
-++            proxies = urllib.getproxies_environment()
-++            self.assertNotIn('http', proxies)
-++        finally:
-++            self.env.unset('REQUEST_METHOD')
-++            self.env.unset('HTTP_PROXY')
-++
-+     def test_proxy_bypass_environment_host_match(self):
-+         bypass = urllib.proxy_bypass_environment
-+         self.env.set('NO_PROXY',
-+diff --git a/Lib/urllib.py b/Lib/urllib.py
-+index 139fab9..c3ba2c9 100644
-+--- a/Lib/urllib.py
-++++ b/Lib/urllib.py
-+@@ -1380,12 +1380,21 @@ def getproxies_environment():
-+     If you need a different way, you can pass a proxies dictionary to the
-+     [Fancy]URLopener constructor.
-+     """
-++    # Get all variables
-+     proxies = {}
-+     for name, value in os.environ.items():
-+         name = name.lower()
-+         if value and name[-6:] == '_proxy':
-+             proxies[name[:-6]] = value
-+ 
-++    # CVE-2016-1000110 - If we are running as CGI script, forget HTTP_PROXY
-++    # (non-all-lowercase) as it may be set from the web server by a "Proxy:"
-++    # header from the client
-++    # If "proxy" is lowercase, it will still be used thanks to the next block
-++    if 'REQUEST_METHOD' in os.environ:
-++        proxies.pop('http', None)
-++
-++    # Get lowercase variables
-+     for name, value in os.environ.items():
-+         if name[-6:] == '_proxy':
-+             name = name.lower()
-+diff --git a/Misc/ACKS b/Misc/ACKS
-+index ee3a465..9c374b7 100644
-+--- a/Misc/ACKS
-++++ b/Misc/ACKS
-+@@ -1121,6 +1121,7 @@ Burton Radons
-+ Jeff Ramnani
-+ Varpu Rantala
-+ Brodie Rao
-++Rémi Rampin
-+ Senko Rasic
-+ Antti Rasinen
-+ Nikolaus Rath
-+diff --git a/Misc/NEWS b/Misc/NEWS
-+index 4ab3a70..cc2f65b 100644
-+--- a/Misc/NEWS
-++++ b/Misc/NEWS
-+@@ -187,6 +187,10 @@ Library
-+ - Issue #26644: Raise ValueError rather than SystemError when a negative
-+   length is passed to SSLSocket.recv() or read().
-+ 
-++- Issue #27568: Prevent HTTPoxy attack (CVE-2016-1000110). Ignore the
-++  HTTP_PROXY variable when REQUEST_METHOD environment is set, which indicates
-++  that the script is in CGI mode.
-++
-+ - Issue #23804: Fix SSL recv(0) and read(0) methods to return zero bytes
-+   instead of up to 1024.
-+ 
++ while (<IN>) {
++     print OUT unless /^package diagnostics/;
++ }
 +-- 
 +2.8.1
 +
-diff --git a/meta/recipes-devtools/python/python3/python3-fix-CVE-2016-1000110.patch b/meta/recipes-devtools/python/python3/python3-fix-CVE-2016-1000110.patch
-new file mode 100644
-index 0000000..ab1b723
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3/python3-fix-CVE-2016-1000110.patch
-@@ -0,0 +1,148 @@
-+From aab3e8c432b90508ac14755128f5a687be2fdf43 Mon Sep 17 00:00:00 2001
-+From: Mingli Yu <Mingli.Yu@windriver.com>
-+Date: Thu, 22 Sep 2016 16:39:49 +0800
-+Subject: [PATCH] python3: fix CVE-2016-1000110
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=UTF-8
-+Content-Transfer-Encoding: 8bit
-+
-+Ignore the HTTP_PROXY variable when REQUEST_METHOD environment is set, which
-+indicates that the script is in CGI mode.
-+
-+Issue #27568 Reported and patch contributed by Rémi Rampin. [#27568]
-+
-+Backport patch from https://hg.python.org/cpython/rev/a0ac52ed8f79
-+
-+Upstream-Status: Backport
-+CVE: CVE-2016-1000110
-+Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
-+---
-+ Doc/howto/urllib2.rst          |  5 +++++
-+ Doc/library/urllib.request.rst | 17 ++++++++++++++++-
-+ Lib/test/test_urllib.py        | 14 +++++++++++++-
-+ Lib/urllib/request.py          |  6 ++++++
-+ Misc/NEWS                      |  4 ++++
-+ 5 files changed, 44 insertions(+), 2 deletions(-)
-+
-+diff --git a/Doc/howto/urllib2.rst b/Doc/howto/urllib2.rst
-+index 24a4156..d2c7991 100644
-+--- a/Doc/howto/urllib2.rst
-++++ b/Doc/howto/urllib2.rst
-+@@ -538,6 +538,11 @@ setting up a `Basic Authentication`_ handler: ::
-+     through a proxy.  However, this can be enabled by extending urllib.request as
-+     shown in the recipe [#]_.
-+ 
-++.. note::
-++
-++    ``HTTP_PROXY`` will be ignored if a variable ``REQUEST_METHOD`` is set; see
-++    the documentation on :func:`~urllib.request.getproxies`.
-++
-+ 
-+ Sockets and Layers
-+ ==================
-+diff --git a/Doc/library/urllib.request.rst b/Doc/library/urllib.request.rst
-+index 1338906..1291aeb 100644
-+--- a/Doc/library/urllib.request.rst
-++++ b/Doc/library/urllib.request.rst
-+@@ -173,6 +173,16 @@ The :mod:`urllib.request` module defines the following functions:
-+    If both lowercase and uppercase environment variables exist (and disagree),
-+    lowercase is preferred.
-+ 
-++    .. note::
-++
-++       If the environment variable ``REQUEST_METHOD`` is set, which usually
-++       indicates your script is running in a CGI environment, the environment
-++       variable ``HTTP_PROXY`` (uppercase ``_PROXY``) will be ignored. This is
-++       because that variable can be injected by a client using the "Proxy:" HTTP
-++       header. If you need to use an HTTP proxy in a CGI environment, either use
-++       ``ProxyHandler`` explicitly, or make sure the variable name is in
-++       lowercase (or at least the ``_proxy`` suffix).
-++
-+ 
-+ The following classes are provided:
-+ 
-+@@ -280,6 +290,11 @@ The following classes are provided:
-+    list of hostname suffixes, optionally with ``:port`` appended, for example
-+    ``cern.ch,ncsa.uiuc.edu,some.host:8080``.
-+ 
-++    .. note::
-++
-++       ``HTTP_PROXY`` will be ignored if a variable ``REQUEST_METHOD`` is set;
-++       see the documentation on :func:`~urllib.request.getproxies`.
-++
-+ 
-+ .. class:: HTTPPasswordMgr()
-+ 
-+@@ -1138,7 +1153,7 @@ the returned bytes object to string once it determines or guesses
-+ the appropriate encoding.
-+ 
-+ The following W3C document, https://www.w3.org/International/O-charset\ , lists
-+-the various ways in which a (X)HTML or a XML document could have specified its
-++the various ways in which an (X)HTML or an XML document could have specified its
-+ encoding information.
-+ 
-+ As the python.org website uses *utf-8* encoding as specified in its meta tag, we
-+diff --git a/Lib/test/test_urllib.py b/Lib/test/test_urllib.py
-+index 5d05f8d..247598a 100644
-+--- a/Lib/test/test_urllib.py
-++++ b/Lib/test/test_urllib.py
-+@@ -1,4 +1,4 @@
-+-"""Regresssion tests for what was in Python 2's "urllib" module"""
-++"""Regression tests for what was in Python 2's "urllib" module"""
-+ 
-+ import urllib.parse
-+ import urllib.request
-+@@ -232,6 +232,18 @@ class ProxyTests(unittest.TestCase):
-+         self.assertTrue(urllib.request.proxy_bypass_environment('anotherdomain.com:8888'))
-+         self.assertTrue(urllib.request.proxy_bypass_environment('newdomain.com:1234'))
-+ 
-++    def test_proxy_cgi_ignore(self):
-++        try:
-++            self.env.set('HTTP_PROXY', 'http://somewhere:3128')
-++            proxies = urllib.request.getproxies_environment()
-++            self.assertEqual('http://somewhere:3128', proxies['http'])
-++            self.env.set('REQUEST_METHOD', 'GET')
-++            proxies = urllib.request.getproxies_environment()
-++            self.assertNotIn('http', proxies)
-++        finally:
-++            self.env.unset('REQUEST_METHOD')
-++            self.env.unset('HTTP_PROXY')
-++
-+     def test_proxy_bypass_environment_host_match(self):
-+         bypass = urllib.request.proxy_bypass_environment
-+         self.env.set('NO_PROXY',
-+diff --git a/Lib/urllib/request.py b/Lib/urllib/request.py
-+index 1731fe3..3be327d 100644
-+--- a/Lib/urllib/request.py
-++++ b/Lib/urllib/request.py
-+@@ -2412,6 +2412,12 @@ def getproxies_environment():
-+         name = name.lower()
-+         if value and name[-6:] == '_proxy':
-+             proxies[name[:-6]] = value
-++    # CVE-2016-1000110 - If we are running as CGI script, forget HTTP_PROXY
-++    # (non-all-lowercase) as it may be set from the web server by a "Proxy:"
-++    # header from the client
-++    # If "proxy" is lowercase, it will still be used thanks to the next block
-++    if 'REQUEST_METHOD' in os.environ:
-++        proxies.pop('http', None)
-+     for name, value in os.environ.items():
-+         if name[-6:] == '_proxy':
-+             name = name.lower()
-+diff --git a/Misc/NEWS b/Misc/NEWS
-+index 4ad2551..2fcc95b 100644
-+--- a/Misc/NEWS
-++++ b/Misc/NEWS
-+@@ -329,6 +329,10 @@ Library
-+ - Issue #26644: Raise ValueError rather than SystemError when a negative
-+   length is passed to SSLSocket.recv() or read().
-+ 
-++- Issue #27568: Prevent HTTPoxy attack (CVE-2016-1000110). Ignore the
-++  HTTP_PROXY variable when REQUEST_METHOD environment is set, which indicates
-++  that the script is in CGI mode.
-++
-+ - Issue #23804: Fix SSL recv(0) and read(0) methods to return zero bytes
-+   instead of up to 1024.
-+ 
-+-- 
-+2.8.1
-+
-diff --git a/meta/recipes-devtools/python/python3_3.5.2.bb b/meta/recipes-devtools/python/python3_3.5.2.bb
-index 456147d..e6cbb9c 100644
---- a/meta/recipes-devtools/python/python3_3.5.2.bb
-+++ b/meta/recipes-devtools/python/python3_3.5.2.bb
-@@ -36,6 +36,7 @@ SRC_URI += "\
-             file://setup.py-check-cross_compiling-when-get-FLAGS.patch \
-             file://setup.py-find-libraries-in-staging-dirs.patch \
-             file://configure.ac-fix-LIBPL.patch \
-+            file://python3-fix-CVE-2016-1000110.patch \
-            "
- SRC_URI[md5sum] = "8906efbacfcdc7c3c9198aeefafd159e"
- SRC_URI[sha256sum] = "0010f56100b9b74259ebcd5d4b295a32324b58b517403a10d1a2aa7cb22bca40"
-diff --git a/meta/recipes-devtools/python/python_2.7.12.bb b/meta/recipes-devtools/python/python_2.7.12.bb
-index 65b57171..9fe35db 100644
---- a/meta/recipes-devtools/python/python_2.7.12.bb
-+++ b/meta/recipes-devtools/python/python_2.7.12.bb
-@@ -26,6 +26,7 @@ SRC_URI += "\
-   file://parallel-makeinst-create-bindir.patch \
-   file://use_sysroot_ncurses_instead_of_host.patch \
-   file://add-CROSSPYTHONPATH-for-PYTHON_FOR_BUILD.patch \
-+  file://python-fix-CVE-2016-1000110.patch \
+diff --git a/meta/recipes-devtools/perl/perl_5.22.1.bb b/meta/recipes-devtools/perl/perl_5.22.1.bb
+index b904674..792a65b 100644
+--- a/meta/recipes-devtools/perl/perl_5.22.1.bb
++++ b/meta/recipes-devtools/perl/perl_5.22.1.bb
+@@ -68,6 +68,7 @@ SRC_URI += " \
+         file://perl-fix-CVE-2016-2381.patch \
+         file://perl-fix-CVE-2016-6185.patch \
+         file://perl-fix-CVE-2015-8607.patch \
++        file://perl-fix-CVE-2016-1238.patch \
  "
  
- S = "${WORKDIR}/Python-${PV}"
+ # Fix test case issues
 -- 
 2.8.1
 
