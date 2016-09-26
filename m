@@ -1,21 +1,21 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 070C360017
+Return-Path: <edwin.plauchu.camacho@linux.intel.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id 9AEE260017
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 26 Sep 2016 21:36:01 +0000 (UTC)
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-	by fmsmga101.fm.intel.com with ESMTP; 26 Sep 2016 14:36:03 -0700
+	Mon, 26 Sep 2016 21:41:22 +0000 (UTC)
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+	by fmsmga104.fm.intel.com with ESMTP; 26 Sep 2016 14:41:24 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.30,401,1470726000"; d="scan'208";a="173432946"
-Received: from swold-mobl2.amr.corp.intel.com ([10.254.187.201])
-	by fmsmga004.fm.intel.com with ESMTP; 26 Sep 2016 14:36:02 -0700
-From: Saul Wold <sgw@linux.intel.com>
-To: openembedded-core@lists.openembedded.org,
-	richard.purdie@linuxfoundation.org
-Date: Mon, 26 Sep 2016 14:36:02 -0700
-Message-Id: <1474925762-11288-1-git-send-email-sgw@linux.intel.com>
-X-Mailer: git-send-email 2.7.4
-Subject: [PATCH] linux-yocto: Move PREFERRED_PROVIDER check to be generic
+X-IronPort-AV: E=Sophos;i="5.30,401,1470726000"; d="scan'208";a="13450913"
+Received: from pianodaemon-contraption.zpn.intel.com ([10.219.128.75])
+	by fmsmga006.fm.intel.com with ESMTP; 26 Sep 2016 14:41:23 -0700
+From: Edwin Plauchu <edwin.plauchu.camacho@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 26 Sep 2016 16:42:36 -0500
+Message-Id: <20160926214236.25275-1-edwin.plauchu.camacho@linux.intel.com>
+X-Mailer: git-send-email 2.9.3
+Cc: Edwin Plauchu <edwin.plauchu.camacho@intel.com>
+Subject: [PATCH V2] ptest-runner: recipe update related to minor fix.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,62 +28,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 26 Sep 2016 21:36:02 -0000
+X-List-Received-Date: Mon, 26 Sep 2016 21:41:23 -0000
 
-This check ensures that when the PREFERRED_PROVIDER for virtual/kernel
-changes, the previous instances gets removed correctly so when the new
-instance installs files into the shared area there is not an overlap of
-old and new.
+From: Edwin Plauchu <edwin.plauchu.camacho@intel.com>
 
-[YOCTO #10278]
+A minor fix has been published regarding the need of a user
+of being noticed when some run-ptest script fails.
 
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
+We have also modified ptest unit test stuff
+* removed unnecessary code from unit test run_timeout_ptest
+* added test case for run_ptest failure
+
+Finally..
+Added content within contributions section of README.md.
+
+[YOCTO #9752]
+
+Signed-off-by: Edwin Plauchu <edwin.plauchu.camacho@linux.intel.com>
 ---
- meta/recipes-kernel/linux/linux-yocto-dev.bb | 9 ---------
- meta/recipes-kernel/linux/linux-yocto.inc    | 9 +++++++++
- 2 files changed, 9 insertions(+), 9 deletions(-)
+ meta/recipes-support/ptest-runner/ptest-runner_2.0.bb | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-dev.bb b/meta/recipes-kernel/linux/linux-yocto-dev.bb
-index dbe5847..9154bb7 100644
---- a/meta/recipes-kernel/linux/linux-yocto-dev.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-dev.bb
-@@ -14,15 +14,6 @@ require recipes-kernel/linux/linux-yocto.inc
- # provide this .inc to set specific revisions
- include recipes-kernel/linux/linux-yocto-dev-revisions.inc
+diff --git a/meta/recipes-support/ptest-runner/ptest-runner_2.0.bb b/meta/recipes-support/ptest-runner/ptest-runner_2.0.bb
+index aaa7c59..9d45513 100644
+--- a/meta/recipes-support/ptest-runner/ptest-runner_2.0.bb
++++ b/meta/recipes-support/ptest-runner/ptest-runner_2.0.bb
+@@ -7,8 +7,8 @@ HOMEPAGE = "http://git.yoctoproject.org/cgit/cgit.cgi/ptest-runner2/about/"
+ LICENSE = "GPLv2"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=751419260aa954499f7abaabaa882bbe"
  
--# Skip processing of this recipe if it is not explicitly specified as the
--# PREFERRED_PROVIDER for virtual/kernel. This avoids network access required
--# by the use of AUTOREV SRCREVs, which are the default for this recipe.
--python () {
--    if d.getVar("PREFERRED_PROVIDER_virtual/kernel", True) != "linux-yocto-dev":
--        d.delVar("BB_DONT_CACHE")
--        raise bb.parse.SkipPackage("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-dev to enable it")
--}
--
- KBRANCH = "standard/base"
- KMETA = "kernel-meta"
+-SRCREV = "8bfdf946e784f4d5757bebee1fbc4b4a3d7a95c4"
+-PV = "2.0+git${SRCPV}"
++SRCREV = "e2aa4256745377b784c8691f546041b59f6e046b"
++PV = "2.0.1+git${SRCPV}"
  
-diff --git a/meta/recipes-kernel/linux/linux-yocto.inc b/meta/recipes-kernel/linux/linux-yocto.inc
-index d979662..a5595ab 100644
---- a/meta/recipes-kernel/linux/linux-yocto.inc
-+++ b/meta/recipes-kernel/linux/linux-yocto.inc
-@@ -8,6 +8,15 @@ UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>\d+\.\d+(\.\d+)*)"
- 
- INC_PR = "r4"
- 
-+# Skip processing of this recipe if it is not explicitly specified as the
-+# PREFERRED_PROVIDER for virtual/kernel. This avoids network access required
-+# by the use of AUTOREV SRCREVs, which are the default for this recipe.
-+python () {
-+    if d.getVar("PREFERRED_PROVIDER_virtual/kernel", True) != d.getVar("PN", True):
-+        d.delVar("BB_DONT_CACHE")
-+        raise bb.parse.SkipPackage("Set PREFERRED_PROVIDER_virtual/kernel to %s to enable it" % (d.getVar("PN", True)))
-+}
-+
- DEPENDS += "xz-native bc-native"
- DEPENDS_append_aarch64 = " libgcc"
- KERNEL_CC_append_aarch64 = " ${TOOLCHAIN_OPTIONS}"
+ SRC_URI = "git://git.yoctoproject.org/ptest-runner2"
+ S = "${WORKDIR}/git"
 -- 
-2.7.4
+2.9.3
 
 
