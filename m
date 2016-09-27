@@ -1,47 +1,35 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pf0-f194.google.com (mail-pf0-f194.google.com
-	[209.85.192.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 61BA2600BC
+Return-Path: <Jackie.Huang@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 27DCF601D4
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 26 Sep 2016 22:46:17 +0000 (UTC)
-Received: by mail-pf0-f194.google.com with SMTP id n24so9681734pfb.3
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 26 Sep 2016 15:46:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:subject:date:message-id;
-	bh=O13WKLj+AO3jYdeodsYwmGhiP6Tks6uVbZ4oh+LJRKI=;
-	b=dFiTq00V1kk9I3qHfc4n5mIRzovFR1M5hWWWs6vhYIvEXddavoptwF+gP+6cKg7ZzA
-	FWXqS2smcQ40iGnMowISyWXbw9Sk5GuyFkA7YQXyyJg8IQe6kjwjE5WlqCZX3YbsEQlg
-	DX6cjBCtdilquzj0kbU+KS6JBUYzHvXeKcSA++MThxZ9ZsUHtdbH7wfoveO/HSOCHdtJ
-	ACsP5aneMAunvF62wl9ZmfDgBRmNEoHLUvlA9RNtQ1Ye5HJjHifK9zRQHBtBExPYMBg4
-	461Vb/E/QBnmgfPOnak2IxImlqz2lueQuyqTyx8PBYq9I6B1pgcsPmzFzNGA2Q3g7VG3
-	Kd3w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=O13WKLj+AO3jYdeodsYwmGhiP6Tks6uVbZ4oh+LJRKI=;
-	b=f3p1x/xttKw51fXCYtxe2uROIMSOf0X6i2s9Rfi1pvONNrbQEbw31f+sKRrCnTODRQ
-	yK8nFJuJ78k/jO99DjD5BnqJrfq5DBMX7D7NcL3C5BRv2HmovhkNqyjS8f+Wyj8cMrz/
-	vNXiPyWICXbtO7nL1Bs+nNrEJZsy7ACHk25O/ZisNffkoOidjRSnEYyHu24+1xW1urKF
-	CHMGPTPWyqxvfl8z2soStNKiG8F3leJiOAR6DU7cFBZ1lnk2Sm9grezVorUdXiUAZiKW
-	rtf7mioFgi13SG1uFaxbvYLb6vGcsxXHFNwWA4edHWL7UNAavWE7TUFelUcMaGzWBlAt
-	AuWQ==
-X-Gm-Message-State: AE9vXwPGPcmvwomGh5V5rTnuYr2bsJqHu57WaMBQjMRYUG+7tZWLVI3FYosMmPeNwa1vvA==
-X-Received: by 10.98.145.25 with SMTP id l25mr41996722pfe.63.1474929978936;
-	Mon, 26 Sep 2016 15:46:18 -0700 (PDT)
-Received: from akuster-ThinkPad-X240.mvista.com
-	([2601:202:4001:9ea0:6de2:3cb8:ce36:4a7f])
-	by smtp.gmail.com with ESMTPSA id
-	zh13sm32529210pab.4.2016.09.26.15.46.17
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 26 Sep 2016 15:46:18 -0700 (PDT)
-From: Armin Kuster <akuster808@gmail.com>
-To: akuster@mvista.com,
-	openembedded-core@lists.openembedded.org
-Date: Mon, 26 Sep 2016 15:46:00 -0700
-Message-Id: <cover.1474929712.git.akuster@mvista.com>
-X-Mailer: git-send-email 2.7.4
-Subject: [PATCH 00/14][v2] Krogoth next pull request
+	Tue, 27 Sep 2016 02:26:16 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u8R2Q6lY005236
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
+	Mon, 26 Sep 2016 19:26:06 -0700
+Received: from ALA-MBA.corp.ad.wrs.com ([169.254.3.129]) by
+	ALA-HCB.corp.ad.wrs.com ([147.11.189.41]) with mapi id 14.03.0294.000;
+	Mon, 26 Sep 2016 19:26:05 -0700
+From: "Huang, Jie (Jackie)" <Jackie.Huang@windriver.com>
+To: =?utf-8?B?QW5kcsOpIERyYXN6aWs=?= <git@andred.net>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [PATCH 2/2 v2] boost: add support for additional
+	boost libs
+Thread-Index: AQHSF9N8MJNVTEFs4EyooyC5Dmn5t6CMhxeQ
+Date: Tue, 27 Sep 2016 02:26:05 +0000
+Message-ID: <1B858668EC6A94408DCA5225FDFA85AA013A2E03AC@ALA-MBA.corp.ad.wrs.com>
+References: <cover.1474875470.git.jackie.huang@windriver.com>
+	<b4dd791086d6e09a415d5dcd2afafa7906aab3c4.1474875470.git.jackie.huang@windriver.com>
+	<1474880010.31418.8.camel@andred.net>
+In-Reply-To: <1474880010.31418.8.camel@andred.net>
+Accept-Language: en-US, zh-CN
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [128.224.162.131]
+MIME-Version: 1.0
+Subject: Re: [PATCH 2/2 v2] boost: add support for additional boost libs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,88 +42,99 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 26 Sep 2016 22:46:18 -0000
+X-List-Received-Date: Tue, 27 Sep 2016 02:26:17 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-From: Armin Kuster <akuster@mvista.com>
-
-Fixed several typos in the openssl commits. 
-This includes a fix for systemd 
-[Yocto # 10329]
-
-The following changes since commit e6c1d03d3d161cbbda254a5dae7008ff7e37d874:
-
-  oeqa/buildiptables: Switch from netfilter.org to yoctoproject.org mirror (2016-09-24 09:27:51 +0100)
-
-are available in the git repository at:
-
-  http://git.yoctoproject.org/git/poky-contrib akuster/krogoth-next
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=akuster/krogoth-next
-
-Armin Kuster (9):
-  openssl: Security fix CVE-2016-2178
-  openssl: Security fix CVE-2016-2179
-  openssl: Security fix CVE-2016-2180
-  openssl: Security fix CVE-2016-2181
-  openssl: Security fix CVE-2016-2182
-  openssl: Security fix CVE-2016-6302
-  openssl: Security fix CVE-2016-6303
-  openssl: Security fix CVE-2016-6304
-  openssl: Security fix CVE-2016-6306
-
-Dengke Du (1):
-  cracklib: Apply patch to fix CVE-2016-6318
-
-Khem Raj (1):
-  useradd.bbclass: Strip trailing ';' in cmd params
-
-Martin Jansa (1):
-  useradd: use bindir_native for pseudo PATH
-
-Zhixiong Chi (2):
-  wpa_supplicant: Security Advisory-CVE-2016-4476
-  wpa_supplicant: Security Advisory-CVE-2016-4477
-
- meta/classes/useradd.bbclass                       |  18 +-
- .../openssl/openssl/CVE-2016-2178.patch            |  54 +++++
- .../openssl/openssl/CVE-2016-2179.patch            | 255 +++++++++++++++++++++
- .../openssl/openssl/CVE-2016-2180.patch            |  44 ++++
- .../openssl/openssl/CVE-2016-2181_p1.patch         |  91 ++++++++
- .../openssl/openssl/CVE-2016-2181_p2.patch         | 239 +++++++++++++++++++
- .../openssl/openssl/CVE-2016-2181_p3.patch         |  30 +++
- .../openssl/openssl/CVE-2016-2182.patch            |  70 ++++++
- .../openssl/openssl/CVE-2016-6302.patch            |  53 +++++
- .../openssl/openssl/CVE-2016-6303.patch            |  36 +++
- .../openssl/openssl/CVE-2016-6304.patch            |  75 ++++++
- .../openssl/openssl/CVE-2016-6306.patch            |  71 ++++++
- .../recipes-connectivity/openssl/openssl_1.0.2h.bb |  11 +
- ...parameter-set-with-invalid-passphrase-cha.patch |  55 +++++
- ...ject-a-Credential-with-invalid-passphrase.patch |  86 +++++++
- ...CRED-commands-with-newline-characters-in-.patch |  66 ++++++
- ...ines-from-wpa_supplicant-config-network-o.patch |  86 +++++++
- ...commands-with-newline-characters-in-the-s.patch |  54 +++++
- .../wpa-supplicant/wpa-supplicant_2.5.bb           |   5 +
- .../0001-Apply-patch-to-fix-CVE-2016-6318.patch    | 105 +++++++++
- meta/recipes-extended/cracklib/cracklib_2.9.5.bb   |   1 +
- 21 files changed, 1496 insertions(+), 9 deletions(-)
- create mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2016-2178.patch
- create mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2016-2179.patch
- create mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2016-2180.patch
- create mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2016-2181_p1.patch
- create mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2016-2181_p2.patch
- create mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2016-2181_p3.patch
- create mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2016-2182.patch
- create mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2016-6302.patch
- create mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2016-6303.patch
- create mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2016-6304.patch
- create mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2016-6306.patch
- create mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0001-Reject-psk-parameter-set-with-invalid-passphrase-cha.patch
- create mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0001-WPS-Reject-a-Credential-with-invalid-passphrase.patch
- create mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0002-Reject-SET_CRED-commands-with-newline-characters-in-.patch
- create mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0002-Remove-newlines-from-wpa_supplicant-config-network-o.patch
- create mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0003-Reject-SET-commands-with-newline-characters-in-the-s.patch
- create mode 100644 meta/recipes-extended/cracklib/cracklib/0001-Apply-patch-to-fix-CVE-2016-6318.patch
-
--- 
-2.7.4
-
+DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogQW5kcsOpIERyYXN6aWsg
+W21haWx0bzpnaXRAYW5kcmVkLm5ldF0NCj4gU2VudDogTW9uZGF5LCBTZXB0ZW1iZXIgMjYsIDIw
+MTYgNDo1NCBQTQ0KPiBUbzogSHVhbmcsIEppZSAoSmFja2llKTsgb3BlbmVtYmVkZGVkLWNvcmVA
+bGlzdHMub3BlbmVtYmVkZGVkLm9yZw0KPiBTdWJqZWN0OiBSZTogW09FLWNvcmVdIFtQQVRDSCAy
+LzIgdjJdIGJvb3N0OiBhZGQgc3VwcG9ydCBmb3IgYWRkaXRpb25hbCBib29zdCBsaWJzDQo+IA0K
+PiBPbiBNbywgMjAxNi0wOS0yNiBhdCAxNTo1NiArMDgwMCwgamFja2llLmh1YW5nQHdpbmRyaXZl
+ci5jb20gd3JvdGU6DQo+ID4gRnJvbTogSmFja2llIEh1YW5nIDxqYWNraWUuaHVhbmdAd2luZHJp
+dmVyLmNvbT4NCj4gPg0KPiA+ICogQWRkZWQgbGliczoNCj4gPiDCoCAtIGNvbnRhaW5lcg0KPiA+
+IMKgIC0gY29udGV4dA0KPiA+IMKgIC0gY29yb3V0aW5lDQo+ID4gwqAgLSBleGNlcHRpb24NCj4g
+PiDCoCAtIGdyYXBoX3BhcmFsbGVsDQo+ID4gwqAgLSBsb2NhbGUNCj4gPiDCoCAtIG1hdGgNCj4g
+PiDCoCAtIG1waQ0KPiA+IMKgIC0gd2F2ZQ0KPiA+DQo+ID4gKiBBZGQgUEFDS0FHRUNPTkZJRyB0
+byBhZGQgcHJvcGVyIGRlcGVuZGVuY2llcyBmb3I6DQo+ID4gwqAgZ3JhcGhfcGFyYWxsZWwsIGxv
+Y2FsZSwgYW5kIG1waS4NCj4gPg0KPiA+ICogYm9vc3QtbXBpIGRlcGVuZHMgb24gbXBpY2ggd2hp
+Y2ggaXMgaW4gbWV0YS1vZSwNCj4gPiDCoCBhbmQgYm9vc3QtZ3JhcGhfcGFyYWxsZWwgZGVwZW5k
+cyBvbiBib29zdC1tcGksDQo+ID4gwqAgc28gdGhleSBhcmUgZGlzYWJsZWQgYnkgZGVmYXVsdCwg
+YnV0IGNhbiBiZSBlbmFibGVkDQo+ID4gwqAgaW4gYSBkaXN0cm8gdGhhdCBuZWVkcyB0aGVtLg0K
+PiA+DQo+ID4gKiBjb250ZXh0IGFuZCBjb3JvdXRpbmUgYXJlIGFkZGVkIG9ubHkgZm9yIHg4NiBh
+bmQgcG93ZXJwYy4NCj4gPg0KPiA+IFNpZ25lZC1vZmYtYnk6IEphY2tpZSBIdWFuZyA8amFja2ll
+Lmh1YW5nQHdpbmRyaXZlci5jb20+DQo+ID4gLS0tDQo+ID4gwqBtZXRhL3JlY2lwZXMtc3VwcG9y
+dC9ib29zdC9ib29zdC5pbmMgfCAzMyArKysrKysrKysrKysrKysrKysrKysrKysrKysrKystDQo+
+ID4gLS0NCj4gPiDCoDEgZmlsZSBjaGFuZ2VkLCAzMCBpbnNlcnRpb25zKCspLCAzIGRlbGV0aW9u
+cygtKQ0KPiA+DQo+ID4gZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L2Jvb3N0L2Jv
+b3N0LmluYyBiL21ldGEvcmVjaXBlcy0NCj4gPiBzdXBwb3J0L2Jvb3N0L2Jvb3N0LmluYw0KPiA+
+IGluZGV4IDU2OTZiNmEuLjc2MzdhNGUgMTAwNjQ0DQo+ID4gLS0tIGEvbWV0YS9yZWNpcGVzLXN1
+cHBvcnQvYm9vc3QvYm9vc3QuaW5jDQo+ID4gKysrIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvYm9v
+c3QvYm9vc3QuaW5jDQo+ID4gQEAgLTgsMTEgKzgsMTQgQEAgQVJNX0lOU1RSVUNUSU9OX1NFVF9h
+cm12NSA9ICJhcm0iDQo+ID4gwqBCT09TVF9MSUJTID0gIlwNCj4gPiDCoAlhdG9taWMgXA0KPiA+
+IMKgCWNocm9ubyBcDQo+ID4gKwljb250YWluZXIgXA0KPiA+IMKgCWRhdGVfdGltZSBcDQo+ID4g
+KwlleGNlcHRpb24gXA0KPiA+IMKgCWZpbGVzeXN0ZW0gXA0KPiA+IMKgCWdyYXBoIFwNCj4gPiDC
+oAlpb3N0cmVhbXMgXA0KPiA+IMKgCWxvZyBcDQo+ID4gKwltYXRoIFwNCj4gPiDCoAlwcm9ncmFt
+X29wdGlvbnMgXA0KPiA+IMKgCXJhbmRvbSBcDQo+ID4gwqAJcmVnZXggXA0KPiA+IEBAIC0yMiwx
+MiArMjUsMjggQEAgQk9PU1RfTElCUyA9ICJcDQo+ID4gwqAJdGltZXIgXA0KPiA+IMKgCXRlc3Qg
+XA0KPiA+IMKgCXRocmVhZCBcDQo+ID4gKwl3YXZlIFwNCj4gPiDCoAkiDQo+ID4NCj4gPiAtIyBv
+cHRpb25hbCBib29zdC1weXRob24gbGlicmFyeQ0KPiA+IC1QQUNLQUdFQ09ORklHID8/PSAiIg0K
+PiA+ICsjIG9ubHkgc3VwcG9ydGVkIGJ5IHg4NiBhbmQgcG93ZXJwYw0KPiA+ICtCT09TVF9MSUJT
+X2FwcGVuZF94ODYgPSAiIGNvbnRleHQgY29yb3V0aW5lIg0KPiA+ICtCT09TVF9MSUJTX2FwcGVu
+ZF94ODYtNjQgPSAiIGNvbnRleHQgY29yb3V0aW5lIg0KPiA+ICtCT09TVF9MSUJTX2FwcGVuZF9w
+b3dlcnBjID0gIiBjb250ZXh0IGNvcm91dGluZSINCj4gPiArDQo+ID4gKyMgb3B0aW9uYWwgbGli
+cmFyaWVzDQo+ID4gK1BBQ0tBR0VDT05GSUcgPz89ICJsb2NhbGUiDQo+ID4gK1BBQ0tBR0VDT05G
+SUdbbG9jYWxlXSA9ICIsLGljdSINCj4gPiArUEFDS0FHRUNPTkZJR1tncmFwaF9wYXJhbGxlbF0g
+PSAiLCwsYm9vc3QtbXBpIG1waWNoIg0KPiA+ICtQQUNLQUdFQ09ORklHW21waV0gPSAiLCxtcGlj
+aCINCj4gPiDCoFBBQ0tBR0VDT05GSUdbcHl0aG9uXSA9ICIsLHB5dGhvbiBweXRob24zIg0KPiA+
+IC1CT09TVF9MSUJTICs9ICIke0BiYi51dGlscy5jb250YWlucygnUEFDS0FHRUNPTkZJRycsICdw
+eXRob24nLCAncHl0aG9uDQo+ID4gcHl0aG9uMycsICcnLCBkKX0iDQo+ID4gKw0KPiA+ICtCT09T
+VF9MSUJTICs9ICJcDQo+ID4gK8KgwqDCoMKgJHtAYmIudXRpbHMuY29udGFpbnMoJ1BBQ0tBR0VD
+T05GSUcnLCAnbG9jYWxlJywgJ2xvY2FsZScsICcnLCBkKX0gXA0KPiA+ICvCoMKgwqDCoCR7QGJi
+LnV0aWxzLmNvbnRhaW5zKCdQQUNLQUdFQ09ORklHJywgJ2dyYXBoX3BhcmFsbGVsJywNCj4gPiAn
+Z3JhcGhfcGFyYWxsZWwgbXBpJywgXA0KPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoGJiLnV0aWxzLmNvbnRhaW5zKCdQQUNLQUdFQ09ORklHJywg
+J21waScsICdtcGknLA0KPiA+ICcnLCBkKSwgZCl9IFwNCj4gPiArwqDCoMKgwqAke0BiYi51dGls
+cy5jb250YWlucygnUEFDS0FHRUNPTkZJRycsICdweXRob24nLCAncHl0aG9uIHB5dGhvbjMnLCAn
+JywNCj4gPiBkKX0gXA0KPiA+ICsiDQo+IA0KPiBSYXRoZXIgdGhhbiBoYXZpbmcgdHdvIHdheXMg
+dG8gZGVmaW5lIHdoYXQgcGFja2FnZXMgdG8gYnVpbGQsIFBBQ0tBR0VDT05GSUcNCj4gYW5kIEJP
+T1NUX0xJQlMsIHdoZXJlIGVhY2ggb2YgdGhlbSBvbmx5IHN1cHBvcnRzIGEgZGlmZmVyZW50IHN1
+YnNldCBvZg0KDQpJJ20gbm90IGEgZmFuIG9mIHRoaXMgd2F5LCBJIGp1c3Qga2VlcCB1c2luZyB0
+aGUgd2F5IGl0IHdhcy4NCg0KPiBib29zdCdzIGxpYnJhcmllcywgY2FuIHdlIGp1c3QgaGF2ZSBv
+bmUsIFBBQ0tBR0VDT05GSUcsIGFuZCBoYXZlIGl0IHN1cHBvcnQNCj4gYWxsIG9mIHRoZSBwb3Rl
+bnRpYWwgbGlicmFyaWVzPw0KDQpZZXMsIEkgdGhpbmsgaXQncyBwb3NzaWJsZSwgYnV0IGl0IHdp
+bGwgbW9zdCBsaWtlbHkgZW5kIHVwIHdpdGggbWFueSBlbXB0eQ0KUEFDS0FHRUNPTkZJRyBkZWZp
+bml0aW9ucyBsaWtlOg0KUEFDS0FHRUNPTkZJR1thdG9taWNdID0gIiwsLCINClBBQ0tBR0VDT05G
+SUdbY2hyb25vXSA9ICIsLCwiDQpQQUNLQUdFQ09ORklHW2NvbnRhaW5lcl0gPSAiLCwsIg0KUEFD
+S0FHRUNPTkZJR1tkYXRlX3RpbWVdID0gIiwsLCINClBBQ0tBR0VDT05GSUdbZXhjZXB0aW9uXSA9
+ICIsLCwiDQoNCklmIHlvdSB0aGluayBpdCdzIGEgYmV0dGVyIHdheSBhbmQgbm8gb3RoZXIgb2Jq
+ZWN0aW9uLCBJIHRoaW5rIEkgd2lsbCBkbyB0aGF0IGluIGENCnNlcGFyYXRlIGNvbW1pdCBhcyBm
+b2xsb3ctdXAuDQoNClRoYW5rcywNCkphY2tpZQ0KDQo+IA0KPiANCj4gQ2hlZXJzLA0KPiBBbmRy
+ZScNCj4gDQo+IA0KPiA+ICsNCj4gPiDCoGluaGVyaXQgcHl0aG9uLWRpcg0KPiA+IMKgUFlUSE9O
+X1JPT1QgPSAiJHtTVEFHSU5HX0RJUl9IT1NUfS8ke3ByZWZpeH0iDQo+ID4NCj4gPiBAQCAtNTQs
+NiArNzMsMTAgQEAgcHl0aG9uIF9fYW5vbnltb3VzICgpIHsNCj4gPiDCoH0NCj4gPg0KPiA+IMKg
+IyBPdmVycmlkZSB0aGUgY29udGVudHMgb2Ygc3BlY2lmaWMgcGFja2FnZXMNCj4gPiArRklMRVNf
+JHtQTn0tZ3JhcGggPSAiJHtsaWJkaXJ9L2xpYmJvb3N0X2dyYXBoLnNvLioiDQo+ID4gK0ZJTEVT
+XyR7UE59LWdyYXBoX3BhcmFsbGVsID0gIiR7bGliZGlyfS9saWJib29zdF9ncmFwaF9wYXJhbGxl
+bC5zby4qIg0KPiA+ICtGSUxFU18ke1BOfS1sb2NhbGUgPSAiJHtsaWJkaXJ9L2xpYmJvb3N0X2xv
+Y2FsZS5zby4qIg0KPiA+ICtGSUxFU18ke1BOfS1tcGkgPSAiJHtsaWJkaXJ9L21waS5zbyAke2xp
+YmRpcn0vbGliYm9vc3RfbXBpKi5zby4qIg0KPiA+IMKgRklMRVNfYm9vc3Qtc2VyaWFsaXphdGlv
+biA9ICIke2xpYmRpcn0vbGliYm9vc3Rfc2VyaWFsaXphdGlvbiouc28uKiBcDQo+ID4gwqAJJHts
+aWJkaXJ9L2xpYmJvb3N0X3dzZXJpYWxpemF0aW9uKi5zby4qIg0KPiA+IMKgRklMRVNfYm9vc3Qt
+dGVzdCA9ICIke2xpYmRpcn0vbGliYm9vc3RfcHJnX2V4ZWNfbW9uaXRvciouc28uKiBcDQo+ID4g
+QEAgLTE1OSw2ICsxODIsMTAgQEAgZG9fY29uZmlndXJlKCkgew0KPiA+IMKgCWVjaG8gInVzaW5n
+IHB5dGhvbiA6ICR7UFlUSE9OX0JBU0VWRVJTSU9OfSA6IDoNCj4gPiAke1NUQUdJTkdfSU5DRElS
+fS9weXRob24ke1BZVEhPTl9CQVNFVkVSU0lPTn0gOyIgPj4gJHtXT1JLRElSfS91c2VyLQ0KPiA+
+IGNvbmZpZy5qYW0NCj4gPiDCoAllY2hvICJ1c2luZyBweXRob24gOiAzLjUgOiA6ICR7U1RBR0lO
+R19JTkNESVJ9L3B5dGhvbjMuNW0gOyIgPj4NCj4gPiAke1dPUktESVJ9L3VzZXItY29uZmlnLmph
+bQ0KPiA+DQo+ID4gKwlpZiAke0BiYi51dGlscy5jb250YWlucygnQk9PU1RfTElCUycsICdtcGkn
+LCAndHJ1ZScsICdmYWxzZScsDQo+ID4gZCl9OyB0aGVuDQo+ID4gKwkJZWNobyAidXNpbmcgbXBp
+IDogOiA8ZmluZC1zaGFyZWQtbGlicmFyeT5tcGkgOyIgPj4NCj4gPiAke1dPUktESVJ9L3VzZXIt
+Y29uZmlnLmphbQ0KPiA+ICsJZmkNCj4gPiArDQo+ID4gwqAJQ0M9IiR7QlVJTERfQ0N9IiBDRkxB
+R1M9IiR7QlVJTERfQ0ZMQUdTfSIgLi9ib290c3RyYXAuc2ggLS13aXRoLQ0KPiA+IGJqYW09Ymph
+bSAtLXdpdGgtdG9vbHNldD1nY2MgLS13aXRoLXB5dGhvbi1yb290PSR7UFlUSE9OX1JPT1R9DQo+
+ID4gwqAJc2VkIC1pICcvXnVzaW5nIHB5dGhvbi9kJyAke1N9L3Byb2plY3QtY29uZmlnLmphbQ0K
+PiA+IMKgfQ0KPiA+IC0tDQo+ID4gMi44LjMNCj4gPg0K
 
