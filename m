@@ -1,30 +1,45 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 9EBC160102
+Return-Path: <andre.draszik@gmail.com>
+Received: from mail-lf0-f66.google.com (mail-lf0-f66.google.com
+	[209.85.215.66])
+	by mail.openembedded.org (Postfix) with ESMTP id F226965CBA
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Sep 2016 08:08:14 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u8R88DfK010757; Tue, 27 Sep 2016 09:08:13 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id oZnRTKwH46l3; Tue, 27 Sep 2016 09:08:13 +0100 (BST)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u8R888J6010714
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Tue, 27 Sep 2016 09:08:09 +0100
-Message-ID: <1474963688.30475.18.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Jonathan Liu <net147@gmail.com>, Gary Thomas <gary@mlbassoc.com>
-Date: Tue, 27 Sep 2016 09:08:08 +0100
-In-Reply-To: <CANwerB3Oestwc-2duHMzQHRcM2djD-3XYu-7FUObBshsNHVA2Q@mail.gmail.com>
-References: <72492146-b352-1f59-1d23-26f71773d689@mlbassoc.com>
-	<CANwerB3Oestwc-2duHMzQHRcM2djD-3XYu-7FUObBshsNHVA2Q@mail.gmail.com>
-X-Mailer: Evolution 3.18.5.2-0ubuntu3 
+	Tue, 27 Sep 2016 08:08:46 +0000 (UTC)
+Received: by mail-lf0-f66.google.com with SMTP id b71so1276966lfg.1
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 27 Sep 2016 01:08:48 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=oavNjZZU8lv6uhXmhtDBSvOK+9gbLbHKAkjY/yQQ6PI=;
+	b=Y3ylKm9AI89QBl3RlV9XpfDKLCGlmSZGSmOYlQzYn8TfcbMdObrmSSFbim6AgWwP0Z
+	C66Xu0mOF0KtmQVoCJeysz0jDjjj3BAFTJTHzgQcQsp06TZ2G6MwIh2Qc4a87BAJBrJx
+	GyMiyaca5fnRaiFy+ybZc8RKyLwbU1VV1qZp2OKU/0RxYTmAXXMF0REiTRiD03M9blSc
+	SiRQNghkNIR1jLg+2jHfBK1/oe/WeaFNUnv9KWKbhUkbzjmiFqJWzbR68pmneojZkSJP
+	0hrJTtbYi3JeGz8aD4hcO9SYriif6Ee4ayKlw22zdgBIeZPRlnxAio2BjVnOUGMbOhZI
+	ZP4A==
+X-Gm-Message-State: AE9vXwMfEto9gDOI2Y7isa1FnnFwWXpDyFLbr0WG1ruk9lmFAfWMChbZBYJLG26whXP3gg==
+X-Received: by 10.194.202.166 with SMTP id kj6mr21150545wjc.72.1474963727341; 
+	Tue, 27 Sep 2016 01:08:47 -0700 (PDT)
+Received: from tfsielt31850 ([77.107.218.170])
+	by smtp.gmail.com with ESMTPSA id
+	iq2sm1308973wjb.19.2016.09.27.01.08.46
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Tue, 27 Sep 2016 01:08:46 -0700 (PDT)
+Message-ID: <1474963725.666.7.camel@andred.net>
+From: =?ISO-8859-1?Q?Andr=E9?= Draszik <git@andred.net>
+To: "Huang, Jie (Jackie)" <Jackie.Huang@windriver.com>, 
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Date: Tue, 27 Sep 2016 09:08:45 +0100
+In-Reply-To: <1B858668EC6A94408DCA5225FDFA85AA013A2E03AC@ALA-MBA.corp.ad.wrs.com>
+References: <cover.1474875470.git.jackie.huang@windriver.com>
+	<b4dd791086d6e09a415d5dcd2afafa7906aab3c4.1474875470.git.jackie.huang@windriver.com>
+	<1474880010.31418.8.camel@andred.net>
+	<1B858668EC6A94408DCA5225FDFA85AA013A2E03AC@ALA-MBA.corp.ad.wrs.com>
+X-Mailer: Evolution 3.20.5-1 
 Mime-Version: 1.0
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: Crazy display
+Subject: Re: [PATCH 2/2 v2] boost: add support for additional boost libs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,62 +52,136 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 27 Sep 2016 08:08:15 -0000
+X-List-Received-Date: Tue, 27 Sep 2016 08:08:47 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 
-On Tue, 2016-09-27 at 15:50 +1000, Jonathan Liu wrote:
-> Hi Gary,
+On Di, 2016-09-27 at 02:26 +0000, Huang, Jie (Jackie) wrote:
 > 
-> On 15 September 2016 at 21:30, Gary Thomas <gary@mlbassoc.com> wrote:
 > > 
-> > I haven't seen this before, just thought I'd toss it out there.
-> > I was doing a build (actually three in parallel in separate
-> > windows on my build box) and noticed this:
+> > -----Original Message-----
+> > From: André Draszik [mailto:git@andred.net]
+> > Sent: Monday, September 26, 2016 4:54 PM
+> > To: Huang, Jie (Jackie); openembedded-core@lists.openembedded.org
+> > Subject: Re: [OE-core] [PATCH 2/2 v2] boost: add support for additional
+> > boost libs
 > > 
-> > Currently  3 running tasks (3282 of 5081)  64%
+> > On Mo, 2016-09-26 at 15:56 +0800, jackie.huang@windriver.com wrote:
 > > > 
-> > > ###################################################        |
-> > 0: busybox-1.24.1-r0 do_compile (pid 29425)
-> > Currently  3 running tasks (3283 of 5081)  64%
+> > > From: Jackie Huang <jackie.huang@windriver.com>
 > > > 
-> > > ###################################################        |
-> > Currently  3 running tasks (3429 of 5081)  67%
+> > > * Added libs:
+> > >   - container
+> > >   - context
+> > >   - coroutine
+> > >   - exception
+> > >   - graph_parallel
+> > >   - locale
+> > >   - math
+> > >   - mpi
+> > >   - wave
 > > > 
-> > > #####################################################        |
-> > 0: gstreamer1.0-libav-1.8.3-r0 do_configure (pid 10393)
-> > Currently  1 running tasks (3560 of 5081)  70%
+> > > * Add PACKAGECONFIG to add proper dependencies for:
+> > >   graph_parallel, locale, and mpi.
 > > > 
-> > > ########################################################        |
-> > 0: gstreamer1.0-libav-1.8.3-r0 do_compile (pid 17458)
-> > Currently  3 running tasks (3601 of 5081)  70%
+> > > * boost-mpi depends on mpich which is in meta-oe,
+> > >   and boost-graph_parallel depends on boost-mpi,
+> > >   so they are disabled by default, but can be enabled
+> > >   in a distro that needs them.
 > > > 
-> > > ########################################################        |
-> > 0: gstreamer1.0-libav-1.8.3-r0 do_compile (pid 17458)
-> > 1: gdk-pixbuf-2.34.0-r0 do_package_write_ipk (pid 12673)
-> > 2: unifdef-native-2.11-r0 do_populate_lic (pid 24548)
+> > > * context and coroutine are added only for x86 and powerpc.
+> > > 
+> > > Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
+> > > ---
+> > >  meta/recipes-support/boost/boost.inc | 33
+> > > ++++++++++++++++++++++++++++++-
+> > > --
+> > >  1 file changed, 30 insertions(+), 3 deletions(-)
+> > > 
+> > > diff --git a/meta/recipes-support/boost/boost.inc b/meta/recipes-
+> > > support/boost/boost.inc
+> > > index 5696b6a..7637a4e 100644
+> > > --- a/meta/recipes-support/boost/boost.inc
+> > > +++ b/meta/recipes-support/boost/boost.inc
+> > > @@ -8,11 +8,14 @@ ARM_INSTRUCTION_SET_armv5 = "arm"
+> > >  BOOST_LIBS = "\
+> > >  	atomic \
+> > >  	chrono \
+> > > +	container \
+> > >  	date_time \
+> > > +	exception \
+> > >  	filesystem \
+> > >  	graph \
+> > >  	iostreams \
+> > >  	log \
+> > > +	math \
+> > >  	program_options \
+> > >  	random \
+> > >  	regex \
+> > > @@ -22,12 +25,28 @@ BOOST_LIBS = "\
+> > >  	timer \
+> > >  	test \
+> > >  	thread \
+> > > +	wave \
+> > >  	"
+> > > 
+> > > -# optional boost-python library
+> > > -PACKAGECONFIG ??= ""
+> > > +# only supported by x86 and powerpc
+> > > +BOOST_LIBS_append_x86 = " context coroutine"
+> > > +BOOST_LIBS_append_x86-64 = " context coroutine"
+> > > +BOOST_LIBS_append_powerpc = " context coroutine"
+> > > +
+> > > +# optional libraries
+> > > +PACKAGECONFIG ??= "locale"
+> > > +PACKAGECONFIG[locale] = ",,icu"
+> > > +PACKAGECONFIG[graph_parallel] = ",,,boost-mpi mpich"
+> > > +PACKAGECONFIG[mpi] = ",,mpich"
+> > >  PACKAGECONFIG[python] = ",,python python3"
+> > > -BOOST_LIBS += "${@bb.utils.contains('PACKAGECONFIG', 'python',
+> > > 'python
+> > > python3', '', d)}"
+> > > +
+> > > +BOOST_LIBS += "\
+> > > +    ${@bb.utils.contains('PACKAGECONFIG', 'locale', 'locale', '', d)}
+> > > \
+> > > +    ${@bb.utils.contains('PACKAGECONFIG', 'graph_parallel',
+> > > 'graph_parallel mpi', \
+> > > +                         bb.utils.contains('PACKAGECONFIG', 'mpi',
+> > > 'mpi',
+> > > '', d), d)} \
+> > > +    ${@bb.utils.contains('PACKAGECONFIG', 'python', 'python python3',
+> > > '',
+> > > d)} \
+> > > +"
 > > 
-> > Somehow the task tracker (that does a nice job of telling the user
-> > what's going on without being overwhelming BTW) got very confused!
+> > Rather than having two ways to define what packages to build,
+> > PACKAGECONFIG
+> > and BOOST_LIBS, where each of them only supports a different subset of
+> 
+> I'm not a fan of this way, I just keep using the way it was.
+> 
 > > 
-> > I doubt if I can every repeat this, just passing on the
-> > observation!
-> This seems to be related to
-> https://bugzilla.yoctoproject.org/show_bug.cgi?id=10024.
-> I get this issue after it prints "Child process exit status 4:
-> lock_held" and then that message is overridden by the task status
-> with
-> the progress bar duplicated down one line.
+> > boost's libraries, can we just have one, PACKAGECONFIG, and have it
+> > support
+> > all of the potential libraries?
+> 
+> Yes, I think it's possible, but it will most likely end up with many empty
+> PACKAGECONFIG definitions like:
+> PACKAGECONFIG[atomic] = ",,,"
+> PACKAGECONFIG[chrono] = ",,,"
+> PACKAGECONFIG[container] = ",,,"
+> PACKAGECONFIG[date_time] = ",,,"
+> PACKAGECONFIG[exception] = ",,,"
+> 
+> If you think it's a better way and no other objection, I think I will do
+> that in a
+> separate commit as follow-up.
 
-Paul did fix some progress bar issues which were one cause of this.
-pseudo is another cause and we've not gotten to the bottom of the
-pseudo issue :(. It writes to the console unknown to knotty so there
-isn't much we can do about it from the bitbake side, it should be a)
-making it clear the messages come from psuedo and b) likely going to a
-logfile, not the main console.
+I don't think you'd need empty PACKAGECONFIG[flag] definitions, see
+base.bbclass.
 
 Cheers,
-
-Richard
+Andre'
 
 
