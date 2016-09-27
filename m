@@ -1,58 +1,30 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pa0-f65.google.com (mail-pa0-f65.google.com
-	[209.85.220.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 4139960796
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 29DB4605B3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Sep 2016 15:42:08 +0000 (UTC)
-Received: by mail-pa0-f65.google.com with SMTP id r9so208736paz.1
+	Tue, 27 Sep 2016 17:10:17 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u8RHAIe7024027 for <openembedded-core@lists.openembedded.org>;
+	Tue, 27 Sep 2016 18:10:18 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id Jx7HRj7wVgtG
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Sep 2016 08:42:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=subject:to:references:cc:from:message-id:date:user-agent
-	:mime-version:in-reply-to:content-transfer-encoding;
-	bh=Zw/E9M7ui2kj5riyxyggEa6BuPg7go9qESiFIuLgm4w=;
-	b=qjBx1aWkbuSI2WOyJ0TfDSpGnxSpLcWSbSjdmZgLCXNujC2Pf/+MQk3Tpyr8QfWxSY
-	MAFyVNdBZBXCHXzDDPElGkaHmqzgNrF09zembZiBbpB/w43KakpBQ+H4TQNKlwEAIK5B
-	vRVzeS5PUztwGFqMMb3J0w1fgiWIed869RHc5jt4/9s6NOQQAnCBLDnHHbSdCCYhtTaR
-	zpoVUifMUsG3EQCk13x6gpmo6FAe/Q2aZxNjXEefS5CfUlDuqjGUpiHFkeMrz3z41Jln
-	3XQzZaFBnhWVqsao1i55/OdbAUxLZh2bT02NSWttEyAj2BxbeSf67YnqbyTBC1/LRS25
-	Jsxg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:subject:to:references:cc:from:message-id:date
-	:user-agent:mime-version:in-reply-to:content-transfer-encoding;
-	bh=Zw/E9M7ui2kj5riyxyggEa6BuPg7go9qESiFIuLgm4w=;
-	b=FtSqtaW/2gC1piuVURZLGwLNgetyG2XQ0ujJkf5fE5ZDJUUGD66igh2foItFh6eo2P
-	IUpQ5hoWnJkhJYIBdebZyCj+cAAN+/Y+WHbG9/KukhGoEU/aY++E/3SHS0Ewflh+Nt5a
-	GluyeXkSGiLAzWbudEgR6LNrn1rmR4FTUuWSCEmx+rQX7en9WVteA2PYtB96gIJNDwAd
-	CJ0U0wYl6mVD88aWX/wF6Rjia6hiklfWB0Ff/rhh/T3Q43TF1f6qO8xSaGXezdj7CDbe
-	KY/cq+LKqEkuCZWVf0RxtyNDb0TI0ZHt169teYubmAcPJQHQ8rvey55kn4RLS9w9IaHs
-	cb+g==
-X-Gm-Message-State: AE9vXwP0WZJVmC9YLzivtaeZ2Mi1bFh4h7UH0i1vZ0cOz40M99Xq1GOYAIjlv48hx5i9Bg==
-X-Received: by 10.66.145.73 with SMTP id ss9mr49764813pab.82.1474990930133;
-	Tue, 27 Sep 2016 08:42:10 -0700 (PDT)
-Received: from ?IPv6:2601:202:4001:9ea0:840b:652c:6ab2:3074?
-	([2601:202:4001:9ea0:840b:652c:6ab2:3074])
-	by smtp.googlemail.com with ESMTPSA id
-	f124sm5912730pfg.7.2016.09.27.08.42.07
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 27 Sep 2016 08:42:09 -0700 (PDT)
-To: Matt Madison <matt@madison.systems>
-References: <cover.1474562101.git.akuster808@gmail.com>
-	<1575caacd43.1101edc1757141.7838936618159559000@geekcentral.pub>
-	<4f15c9$v5iu4p@fmsmga001.fm.intel.com>
-	<bbddd440-bc6a-051b-3e9f-2630fb3a8cfc@gmail.com>
-	<CAGgRHJpsYQ=yrCxGLmYy+mihVxTkpETOeqV8Oi2OCqXDJybk7A@mail.gmail.com>
-From: akuster808 <akuster808@gmail.com>
-Message-ID: <c6f84107-1570-3874-c844-94e8eb8ef34b@gmail.com>
-Date: Tue, 27 Sep 2016 08:42:06 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.2.0
-MIME-Version: 1.0
-In-Reply-To: <CAGgRHJpsYQ=yrCxGLmYy+mihVxTkpETOeqV8Oi2OCqXDJybk7A@mail.gmail.com>
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 00/60] krogoth-next staged
+	Tue, 27 Sep 2016 18:10:17 +0100 (BST)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u8RHAE3X024015
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 27 Sep 2016 18:10:15 +0100
+Message-ID: <1474996214.30475.53.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Tue, 27 Sep 2016 18:10:14 +0100
+X-Mailer: Evolution 3.18.5.2-0ubuntu3 
+Mime-Version: 1.0
+Subject: [PATCH] openssl: Upgrade 1.0.2i -> 1.0.2j
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -65,105 +37,179 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 27 Sep 2016 15:42:11 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 27 Sep 2016 17:10:18 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+
+Deals with a CVE issue
+Drops a patch applied upstream and no longer needed.
+
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+
+diff --git a/meta/recipes-connectivity/openssl/openssl/Fix-typo-introduced-by-a03f81f4.patch b/meta/recipes-connectivity/openssl/openssl/Fix-typo-introduced-by-a03f81f4.patch
+deleted file mode 100644
+index 0411296..0000000
+--- a/meta/recipes-connectivity/openssl/openssl/Fix-typo-introduced-by-a03f81f4.patch
++++ /dev/null
+@@ -1,29 +0,0 @@
+-From 581215a519c66db7255ea360ed25bb00033ccd52 Mon Sep 17 00:00:00 2001
+-From: Rich Salz <rsalz@openssl.org>
+-Date: Thu, 22 Sep 2016 08:47:45 -0400
+-Subject: [PATCH] Fix typo introduced by a03f81f4
+-
+-Reviewed-by: Richard Levitte <levitte@openssl.org>
+-
+-Upstream-Status: Backport [https://github.com/openssl/openssl/commit/581215a519c66db7255ea360ed25bb00033ccd52]
+-Signed-off-by: Patrick Ohly <patrick.ohly@intel.com>
+----
+- crypto/engine/eng_cryptodev.c | 2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
+-
+-diff --git a/crypto/engine/eng_cryptodev.c b/crypto/engine/eng_cryptodev.c
+-index 65a74df..2a2b95c 100644
+---- a/crypto/engine/eng_cryptodev.c
+-+++ b/crypto/engine/eng_cryptodev.c
+-@@ -939,7 +939,7 @@ static int cryptodev_digest_copy(EVP_MD_CTX *to, const EVP_MD_CTX *from)
+-     if (fstate->mac_len != 0) {
+-         if (fstate->mac_data != NULL) {
+-             dstate->mac_data = OPENSSL_malloc(fstate->mac_len);
+--            if (dstate->ac_data == NULL) {
+-+            if (dstate->mac_data == NULL) {
+-                 printf("cryptodev_digest_init: malloc failed\n");
+-                 return 0;
+-             }
+--- 
+-2.1.4
+-
+diff --git a/meta/recipes-connectivity/openssl/openssl_1.0.2i.bb b/meta/recipes-connectivity/openssl/openssl_1.0.2i.bb
+deleted file mode 100644
+index c32f472..0000000
+--- a/meta/recipes-connectivity/openssl/openssl_1.0.2i.bb
++++ /dev/null
+@@ -1,59 +0,0 @@
+-require openssl.inc
+-
+-# For target side versions of openssl enable support for OCF Linux driver
+-# if they are available.
+-DEPENDS += "cryptodev-linux"
+-
+-CFLAG += "-DHAVE_CRYPTODEV -DUSE_CRYPTODEV_DIGESTS"
+-
+-LIC_FILES_CHKSUM = "file://LICENSE;md5=27ffa5d74bb5a337056c14b2ef93fbf6"
+-
+-export DIRS = "crypto ssl apps engines"
+-export OE_LDFLAGS="${LDFLAGS}"
+-
+-SRC_URI += "file://find.pl;subdir=${BP}/util/ \
+-            file://run-ptest \
+-            file://openssl-c_rehash.sh \
+-            file://configure-targets.patch \
+-            file://shared-libs.patch \
+-            file://oe-ldflags.patch \
+-            file://engines-install-in-libdir-ssl.patch \
+-            file://debian1.0.2/block_diginotar.patch \
+-            file://debian1.0.2/block_digicert_malaysia.patch \
+-            file://debian/ca.patch \
+-            file://debian/c_rehash-compat.patch \
+-            file://debian/debian-targets.patch \
+-            file://debian/man-dir.patch \
+-            file://debian/man-section.patch \
+-            file://debian/no-rpath.patch \
+-            file://debian/no-symbolic.patch \
+-            file://debian/pic.patch \
+-            file://debian1.0.2/version-script.patch \
+-            file://openssl_fix_for_x32.patch \
+-            file://fix-cipher-des-ede3-cfb1.patch \
+-            file://openssl-avoid-NULL-pointer-dereference-in-EVP_DigestInit_ex.patch \
+-            file://openssl-fix-des.pod-error.patch \
+-            file://Makefiles-ptest.patch \
+-            file://ptest-deps.patch \
+-            file://openssl-1.0.2a-x32-asm.patch \
+-            file://ptest_makefile_deps.patch  \
+-            file://configure-musl-target.patch \
+-            file://parallel.patch \
+-            file://openssl-util-perlpath.pl-cwd.patch \
+-            file://Fix-typo-introduced-by-a03f81f4.patch \
+-           "
+-SRC_URI[md5sum] = "678374e63f8df456a697d3e5e5a931fb"
+-SRC_URI[sha256sum] = "9287487d11c9545b6efb287cdb70535d4e9b284dd10d51441d9b9963d000de6f"
+-
+-PACKAGES =+ "${PN}-engines"
+-FILES_${PN}-engines = "${libdir}/ssl/engines/*.so ${libdir}/engines"
+-
+-# The crypto_use_bigint patch means that perl's bignum module needs to be
+-# installed, but some distributions (for example Fedora 23) don't ship it by
+-# default.  As the resulting error is very misleading check for bignum before
+-# building.
+-do_configure_prepend() {
+-	if ! perl -Mbigint -e true; then
+-		bbfatal "The perl module 'bignum' was not found but this is required to build openssl.  Please install this module (often packaged as perl-bignum) and re-run bitbake."
+-	fi
+-}
+diff --git a/meta/recipes-connectivity/openssl/openssl_1.0.2j.bb b/meta/recipes-connectivity/openssl/openssl_1.0.2j.bb
+new file mode 100644
+index 0000000..257e3cf
+--- /dev/null
++++ b/meta/recipes-connectivity/openssl/openssl_1.0.2j.bb
+@@ -0,0 +1,58 @@
++require openssl.inc
++
++# For target side versions of openssl enable support for OCF Linux driver
++# if they are available.
++DEPENDS += "cryptodev-linux"
++
++CFLAG += "-DHAVE_CRYPTODEV -DUSE_CRYPTODEV_DIGESTS"
++
++LIC_FILES_CHKSUM = "file://LICENSE;md5=27ffa5d74bb5a337056c14b2ef93fbf6"
++
++export DIRS = "crypto ssl apps engines"
++export OE_LDFLAGS="${LDFLAGS}"
++
++SRC_URI += "file://find.pl;subdir=${BP}/util/ \
++            file://run-ptest \
++            file://openssl-c_rehash.sh \
++            file://configure-targets.patch \
++            file://shared-libs.patch \
++            file://oe-ldflags.patch \
++            file://engines-install-in-libdir-ssl.patch \
++            file://debian1.0.2/block_diginotar.patch \
++            file://debian1.0.2/block_digicert_malaysia.patch \
++            file://debian/ca.patch \
++            file://debian/c_rehash-compat.patch \
++            file://debian/debian-targets.patch \
++            file://debian/man-dir.patch \
++            file://debian/man-section.patch \
++            file://debian/no-rpath.patch \
++            file://debian/no-symbolic.patch \
++            file://debian/pic.patch \
++            file://debian1.0.2/version-script.patch \
++            file://openssl_fix_for_x32.patch \
++            file://fix-cipher-des-ede3-cfb1.patch \
++            file://openssl-avoid-NULL-pointer-dereference-in-EVP_DigestInit_ex.patch \
++            file://openssl-fix-des.pod-error.patch \
++            file://Makefiles-ptest.patch \
++            file://ptest-deps.patch \
++            file://openssl-1.0.2a-x32-asm.patch \
++            file://ptest_makefile_deps.patch  \
++            file://configure-musl-target.patch \
++            file://parallel.patch \
++            file://openssl-util-perlpath.pl-cwd.patch \
++           "
++SRC_URI[md5sum] = "96322138f0b69e61b7212bc53d5e912b"
++SRC_URI[sha256sum] = "e7aff292be21c259c6af26469c7a9b3ba26e9abaaffd325e3dccc9785256c431"
++
++PACKAGES =+ "${PN}-engines"
++FILES_${PN}-engines = "${libdir}/ssl/engines/*.so ${libdir}/engines"
++
++# The crypto_use_bigint patch means that perl's bignum module needs to be
++# installed, but some distributions (for example Fedora 23) don't ship it by
++# default.  As the resulting error is very misleading check for bignum before
++# building.
++do_configure_prepend() {
++	if ! perl -Mbigint -e true; then
++		bbfatal "The perl module 'bignum' was not found but this is required to build openssl.  Please install this module (often packaged as perl-bignum) and re-run bitbake."
++	fi
++}
 
 
-
-On 09/26/2016 10:51 AM, Matt Madison wrote:
-> This patch is the one that fixed this issue for me:
-> 
-> http://cgit.openembedded.org/openembedded-core/commit/meta/classes/useradd.bbclass?id=a68a797c7aec607a0720ec5421baf6be821803b8
-
-That commit has been in Krogoth for a while so I don't understand the
-circumstance in fixing this issue.
-
-http://cgit.openembedded.org/openembedded-core/commit/meta/classes/useradd.bbclass?h=krogoth&id=a68a797c7aec607a0720ec5421baf6be821803b8
-
--armin
-
-> 
-> The problem was introduced by this change to systemd's recipe:
-> http://cgit.openembedded.org/openembedded-core/commit/meta/recipes-core/systemd?h=krogoth&id=901a6dbe420eb3f76503871ca3ccfe544b9b3b57
-> 
-> Regards,
-> -Matt
-> 
-> On Mon, Sep 26, 2016 at 9:13 AM, akuster808 <akuster808@gmail.com> wrote:
->>
->>
->> On 09/26/2016 08:02 AM, Joe Konno wrote:
->>> I saw this as well. Opened the following bug:
->>>   * https://bugzilla.yoctoproject.org/show_bug.cgi?id=10329
->>
->> thanks, guess I should have done it when first reported.
->>
->> http://git.yoctoproject.org/cgit/cgit.cgi/poky/commit/meta/classes/useradd.bbclass?id=1e244471d08c8426466d4e6591ec75478791fe5d
->>
->> looks promising.
->>
->> - armin
->>>
->>> On Sat, 24 Sep 2016 10:48:00 -0400
->>> Ian Geiser <geiseri@geekcentral.pub> wrote:
->>>
->>>> I think the systemd change may have broken something.  It looks like it is running a useradd with no arguments other than the root. Now I see the following error in krogoth:
->>>>
->>>> from "tmp-glibc/work/i586-oe-linux/systemd/1_229+gitAUTOINC+714c62b463-r0/temp/log.do_install"
->>>>
->>>> DEBUG: SITE files ['endian-little', 'bit-32', 'ix86-common', 'common-linux', 'common-glibc', 'i586-linux', 'common']
->>>> DEBUG: Executing shell function useradd_sysroot
->>>> Running groupadd commands...
->>>> NOTE: systemd: Performing groupadd with [--root /mnt/bitbake/build/detos/tmp-glibc/sysroots/unified -r lock]
->>>> NOTE: systemd: Performing groupadd with [--root /mnt/bitbake/build/detos/tmp-glibc/sysroots/unified  -r systemd-journal]
->>>> NOTE: systemd: group systemd-journal already exists, not re-creating it
->>>> Running useradd commands...
->>>> NOTE: systemd: Performing useradd with [--root /mnt/bitbake/build/detos/tmp-glibc/sysroots/unified     --system -d / -M --shell /bin/nologin systemd-timesync]
->>>> NOTE: systemd: Performing useradd with [--root /mnt/bitbake/build/detos/tmp-glibc/sysroots/unified    ]
->>>> Usage: useradd [options] LOGIN
->>>>        useradd -D
->>>>        useradd -D [options]
->>>>
->>>> Options:
->>>>   -b, --base-dir BASE_DIR       base directory for the home directory of the
->>>>                                 new account
->>>>   -c, --comment COMMENT         GECOS field of the new account
->>>>   -d, --home-dir HOME_DIR       home directory of the new account
->>>>   -D, --defaults                print or change default useradd configuration
->>>>   -e, --expiredate EXPIRE_DATE  expiration date of the new account
->>>>   -f, --inactive INACTIVE       password inactivity period of the new account
->>>>   -g, --gid GROUP               name or ID of the primary group of the new
->>>>                                 account
->>>>   -G, --groups GROUPS           list of supplementary groups of the new
->>>>                                 account
->>>>   -h, --help                    display this help message and exit
->>>>   -k, --skel SKEL_DIR           use this alternative skeleton directory
->>>>   -K, --key KEY=VALUE           override /etc/login.defs defaults
->>>>   -l, --no-log-init             do not add the user to the lastlog and
->>>>                                 faillog databases
->>>>   -m, --create-home             create the user's home directory
->>>>   -M, --no-create-home          do not create the user's home directory
->>>>   -N, --no-user-group           do not create a group with the same name as
->>>>                                 the user
->>>>   -o, --non-unique              allow to create users with duplicate
->>>>                                 (non-unique) UID
->>>>   -p, --password PASSWORD       encrypted password of the new account
->>>>   -P, --clear-password PASSWORD clear password of the new account
->>>>   -r, --system                  create a system account
->>>>   -R, --root CHROOT_DIR         directory to chroot into
->>>>   -s, --shell SHELL             login shell of the new account
->>>>   -u, --uid UID                 user ID of the new account
->>>>   -U, --user-group              create a group with the same name as the user
->>>>
->>>> WARNING: /mnt/bitbake/build/detos/tmp-glibc/work/i586-oe-linux/systemd/1_229+gitAUTOINC+714c62b463-r0/temp/run.useradd_sysroot.31611:1 exit 1 from 'exit 1'
->>>> ERROR: systemd: useradd command did not succeed.
->>>>
->>>>
->>>
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
