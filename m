@@ -1,35 +1,45 @@
-Return-Path: <Jackie.Huang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 27DCF601D4
+Return-Path: <net147@gmail.com>
+Received: from mail-it0-f49.google.com (mail-it0-f49.google.com
+	[209.85.214.49])
+	by mail.openembedded.org (Postfix) with ESMTP id 149C56006E
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Sep 2016 02:26:16 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u8R2Q6lY005236
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
-	Mon, 26 Sep 2016 19:26:06 -0700
-Received: from ALA-MBA.corp.ad.wrs.com ([169.254.3.129]) by
-	ALA-HCB.corp.ad.wrs.com ([147.11.189.41]) with mapi id 14.03.0294.000;
-	Mon, 26 Sep 2016 19:26:05 -0700
-From: "Huang, Jie (Jackie)" <Jackie.Huang@windriver.com>
-To: =?utf-8?B?QW5kcsOpIERyYXN6aWs=?= <git@andred.net>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH 2/2 v2] boost: add support for additional
-	boost libs
-Thread-Index: AQHSF9N8MJNVTEFs4EyooyC5Dmn5t6CMhxeQ
-Date: Tue, 27 Sep 2016 02:26:05 +0000
-Message-ID: <1B858668EC6A94408DCA5225FDFA85AA013A2E03AC@ALA-MBA.corp.ad.wrs.com>
-References: <cover.1474875470.git.jackie.huang@windriver.com>
-	<b4dd791086d6e09a415d5dcd2afafa7906aab3c4.1474875470.git.jackie.huang@windriver.com>
-	<1474880010.31418.8.camel@andred.net>
-In-Reply-To: <1474880010.31418.8.camel@andred.net>
-Accept-Language: en-US, zh-CN
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [128.224.162.131]
+	Tue, 27 Sep 2016 05:50:09 +0000 (UTC)
+Received: by mail-it0-f49.google.com with SMTP id u134so32412128itb.1
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 26 Sep 2016 22:50:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=BQRzRW7MnmBePNLWPAWr5SH/lZjRyfSXywzj7nl7Ii4=;
+	b=eKuYk2nwZVWg+sfzdxaAvoUIGr7mZGBbuMDjVquvnl2bifFFZFvJrXmXj+Yy41hiJl
+	wxuZeBdC6psr/i6Z/liAYUadUClw7hz/Jhm2B/wDoASjnZ4y3aNQ3FOV8JinWZbhNPmv
+	/ZAtFXWfJ+38Kr2Sq0WGBNEQLzwaM2ZFCtanWAGluCHC791zIR8DoPpGbsNooueVsGgg
+	FVTfNOGwitlAeeCTnzF1CTR1Qwxlf4gE2CvUOW4SB9SQ8FBFZGcfkEJ6kOVKHR2dNa4D
+	44IuhC8vrmHdUYPDzL8e1Xklkde1mgzyRAenCCRtFHEtccLvJfdgfqB6XiHhCWkCEA8W
+	7C5w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=BQRzRW7MnmBePNLWPAWr5SH/lZjRyfSXywzj7nl7Ii4=;
+	b=muWyPImxWR2NRWTOpYm+Tn5kkrIahUR8bZa6cIgLDuxDI/JYEafG3JYUIlT8r0VIly
+	PbqNlOKae37CRKf+ggoURFnaOsC+Nvz+EmiKEzcUOkfDggflk8WD+HBdqM+jieh6z8Ww
+	2oi7LAonLgqnAuTI6QNHE6CFQj5TedVXoOcMrLAv0BE0GnaWDiX240Juhcvud1Jz0d63
+	SryxSCsJfh2rzTrj/EA9+iKe1z/TAuNDfltm0JJXsXrMqAoCPBeX/6Z8H+spbWcwqLJ+
+	ishzrZf4u+mGCYdmmQeeNdUAdDap6BrzQy/iqpBpj4UUXBDgx5sGQgOPBPuQMygWf9He
+	D6Gg==
+X-Gm-Message-State: AA6/9RlErmwszpYPz8dWuDdEuwFlhGjVyVxeDOPYGIC7LgteFL+yI/DIZLUgAkUhBNcWpG3K38vbOtrcZGwcjw==
+X-Received: by 10.36.94.195 with SMTP id h186mr1951204itb.24.1474955410931;
+	Mon, 26 Sep 2016 22:50:10 -0700 (PDT)
 MIME-Version: 1.0
-Subject: Re: [PATCH 2/2 v2] boost: add support for additional boost libs
+Received: by 10.36.60.73 with HTTP; Mon, 26 Sep 2016 22:50:10 -0700 (PDT)
+In-Reply-To: <72492146-b352-1f59-1d23-26f71773d689@mlbassoc.com>
+References: <72492146-b352-1f59-1d23-26f71773d689@mlbassoc.com>
+From: Jonathan Liu <net147@gmail.com>
+Date: Tue, 27 Sep 2016 15:50:10 +1000
+Message-ID: <CANwerB3Oestwc-2duHMzQHRcM2djD-3XYu-7FUObBshsNHVA2Q@mail.gmail.com>
+To: Gary Thomas <gary@mlbassoc.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: Crazy display
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,99 +52,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 27 Sep 2016 02:26:17 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Tue, 27 Sep 2016 05:50:10 -0000
+Content-Type: text/plain; charset=UTF-8
 
-DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogQW5kcsOpIERyYXN6aWsg
-W21haWx0bzpnaXRAYW5kcmVkLm5ldF0NCj4gU2VudDogTW9uZGF5LCBTZXB0ZW1iZXIgMjYsIDIw
-MTYgNDo1NCBQTQ0KPiBUbzogSHVhbmcsIEppZSAoSmFja2llKTsgb3BlbmVtYmVkZGVkLWNvcmVA
-bGlzdHMub3BlbmVtYmVkZGVkLm9yZw0KPiBTdWJqZWN0OiBSZTogW09FLWNvcmVdIFtQQVRDSCAy
-LzIgdjJdIGJvb3N0OiBhZGQgc3VwcG9ydCBmb3IgYWRkaXRpb25hbCBib29zdCBsaWJzDQo+IA0K
-PiBPbiBNbywgMjAxNi0wOS0yNiBhdCAxNTo1NiArMDgwMCwgamFja2llLmh1YW5nQHdpbmRyaXZl
-ci5jb20gd3JvdGU6DQo+ID4gRnJvbTogSmFja2llIEh1YW5nIDxqYWNraWUuaHVhbmdAd2luZHJp
-dmVyLmNvbT4NCj4gPg0KPiA+ICogQWRkZWQgbGliczoNCj4gPiDCoCAtIGNvbnRhaW5lcg0KPiA+
-IMKgIC0gY29udGV4dA0KPiA+IMKgIC0gY29yb3V0aW5lDQo+ID4gwqAgLSBleGNlcHRpb24NCj4g
-PiDCoCAtIGdyYXBoX3BhcmFsbGVsDQo+ID4gwqAgLSBsb2NhbGUNCj4gPiDCoCAtIG1hdGgNCj4g
-PiDCoCAtIG1waQ0KPiA+IMKgIC0gd2F2ZQ0KPiA+DQo+ID4gKiBBZGQgUEFDS0FHRUNPTkZJRyB0
-byBhZGQgcHJvcGVyIGRlcGVuZGVuY2llcyBmb3I6DQo+ID4gwqAgZ3JhcGhfcGFyYWxsZWwsIGxv
-Y2FsZSwgYW5kIG1waS4NCj4gPg0KPiA+ICogYm9vc3QtbXBpIGRlcGVuZHMgb24gbXBpY2ggd2hp
-Y2ggaXMgaW4gbWV0YS1vZSwNCj4gPiDCoCBhbmQgYm9vc3QtZ3JhcGhfcGFyYWxsZWwgZGVwZW5k
-cyBvbiBib29zdC1tcGksDQo+ID4gwqAgc28gdGhleSBhcmUgZGlzYWJsZWQgYnkgZGVmYXVsdCwg
-YnV0IGNhbiBiZSBlbmFibGVkDQo+ID4gwqAgaW4gYSBkaXN0cm8gdGhhdCBuZWVkcyB0aGVtLg0K
-PiA+DQo+ID4gKiBjb250ZXh0IGFuZCBjb3JvdXRpbmUgYXJlIGFkZGVkIG9ubHkgZm9yIHg4NiBh
-bmQgcG93ZXJwYy4NCj4gPg0KPiA+IFNpZ25lZC1vZmYtYnk6IEphY2tpZSBIdWFuZyA8amFja2ll
-Lmh1YW5nQHdpbmRyaXZlci5jb20+DQo+ID4gLS0tDQo+ID4gwqBtZXRhL3JlY2lwZXMtc3VwcG9y
-dC9ib29zdC9ib29zdC5pbmMgfCAzMyArKysrKysrKysrKysrKysrKysrKysrKysrKysrKystDQo+
-ID4gLS0NCj4gPiDCoDEgZmlsZSBjaGFuZ2VkLCAzMCBpbnNlcnRpb25zKCspLCAzIGRlbGV0aW9u
-cygtKQ0KPiA+DQo+ID4gZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L2Jvb3N0L2Jv
-b3N0LmluYyBiL21ldGEvcmVjaXBlcy0NCj4gPiBzdXBwb3J0L2Jvb3N0L2Jvb3N0LmluYw0KPiA+
-IGluZGV4IDU2OTZiNmEuLjc2MzdhNGUgMTAwNjQ0DQo+ID4gLS0tIGEvbWV0YS9yZWNpcGVzLXN1
-cHBvcnQvYm9vc3QvYm9vc3QuaW5jDQo+ID4gKysrIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvYm9v
-c3QvYm9vc3QuaW5jDQo+ID4gQEAgLTgsMTEgKzgsMTQgQEAgQVJNX0lOU1RSVUNUSU9OX1NFVF9h
-cm12NSA9ICJhcm0iDQo+ID4gwqBCT09TVF9MSUJTID0gIlwNCj4gPiDCoAlhdG9taWMgXA0KPiA+
-IMKgCWNocm9ubyBcDQo+ID4gKwljb250YWluZXIgXA0KPiA+IMKgCWRhdGVfdGltZSBcDQo+ID4g
-KwlleGNlcHRpb24gXA0KPiA+IMKgCWZpbGVzeXN0ZW0gXA0KPiA+IMKgCWdyYXBoIFwNCj4gPiDC
-oAlpb3N0cmVhbXMgXA0KPiA+IMKgCWxvZyBcDQo+ID4gKwltYXRoIFwNCj4gPiDCoAlwcm9ncmFt
-X29wdGlvbnMgXA0KPiA+IMKgCXJhbmRvbSBcDQo+ID4gwqAJcmVnZXggXA0KPiA+IEBAIC0yMiwx
-MiArMjUsMjggQEAgQk9PU1RfTElCUyA9ICJcDQo+ID4gwqAJdGltZXIgXA0KPiA+IMKgCXRlc3Qg
-XA0KPiA+IMKgCXRocmVhZCBcDQo+ID4gKwl3YXZlIFwNCj4gPiDCoAkiDQo+ID4NCj4gPiAtIyBv
-cHRpb25hbCBib29zdC1weXRob24gbGlicmFyeQ0KPiA+IC1QQUNLQUdFQ09ORklHID8/PSAiIg0K
-PiA+ICsjIG9ubHkgc3VwcG9ydGVkIGJ5IHg4NiBhbmQgcG93ZXJwYw0KPiA+ICtCT09TVF9MSUJT
-X2FwcGVuZF94ODYgPSAiIGNvbnRleHQgY29yb3V0aW5lIg0KPiA+ICtCT09TVF9MSUJTX2FwcGVu
-ZF94ODYtNjQgPSAiIGNvbnRleHQgY29yb3V0aW5lIg0KPiA+ICtCT09TVF9MSUJTX2FwcGVuZF9w
-b3dlcnBjID0gIiBjb250ZXh0IGNvcm91dGluZSINCj4gPiArDQo+ID4gKyMgb3B0aW9uYWwgbGli
-cmFyaWVzDQo+ID4gK1BBQ0tBR0VDT05GSUcgPz89ICJsb2NhbGUiDQo+ID4gK1BBQ0tBR0VDT05G
-SUdbbG9jYWxlXSA9ICIsLGljdSINCj4gPiArUEFDS0FHRUNPTkZJR1tncmFwaF9wYXJhbGxlbF0g
-PSAiLCwsYm9vc3QtbXBpIG1waWNoIg0KPiA+ICtQQUNLQUdFQ09ORklHW21waV0gPSAiLCxtcGlj
-aCINCj4gPiDCoFBBQ0tBR0VDT05GSUdbcHl0aG9uXSA9ICIsLHB5dGhvbiBweXRob24zIg0KPiA+
-IC1CT09TVF9MSUJTICs9ICIke0BiYi51dGlscy5jb250YWlucygnUEFDS0FHRUNPTkZJRycsICdw
-eXRob24nLCAncHl0aG9uDQo+ID4gcHl0aG9uMycsICcnLCBkKX0iDQo+ID4gKw0KPiA+ICtCT09T
-VF9MSUJTICs9ICJcDQo+ID4gK8KgwqDCoMKgJHtAYmIudXRpbHMuY29udGFpbnMoJ1BBQ0tBR0VD
-T05GSUcnLCAnbG9jYWxlJywgJ2xvY2FsZScsICcnLCBkKX0gXA0KPiA+ICvCoMKgwqDCoCR7QGJi
-LnV0aWxzLmNvbnRhaW5zKCdQQUNLQUdFQ09ORklHJywgJ2dyYXBoX3BhcmFsbGVsJywNCj4gPiAn
-Z3JhcGhfcGFyYWxsZWwgbXBpJywgXA0KPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoGJiLnV0aWxzLmNvbnRhaW5zKCdQQUNLQUdFQ09ORklHJywg
-J21waScsICdtcGknLA0KPiA+ICcnLCBkKSwgZCl9IFwNCj4gPiArwqDCoMKgwqAke0BiYi51dGls
-cy5jb250YWlucygnUEFDS0FHRUNPTkZJRycsICdweXRob24nLCAncHl0aG9uIHB5dGhvbjMnLCAn
-JywNCj4gPiBkKX0gXA0KPiA+ICsiDQo+IA0KPiBSYXRoZXIgdGhhbiBoYXZpbmcgdHdvIHdheXMg
-dG8gZGVmaW5lIHdoYXQgcGFja2FnZXMgdG8gYnVpbGQsIFBBQ0tBR0VDT05GSUcNCj4gYW5kIEJP
-T1NUX0xJQlMsIHdoZXJlIGVhY2ggb2YgdGhlbSBvbmx5IHN1cHBvcnRzIGEgZGlmZmVyZW50IHN1
-YnNldCBvZg0KDQpJJ20gbm90IGEgZmFuIG9mIHRoaXMgd2F5LCBJIGp1c3Qga2VlcCB1c2luZyB0
-aGUgd2F5IGl0IHdhcy4NCg0KPiBib29zdCdzIGxpYnJhcmllcywgY2FuIHdlIGp1c3QgaGF2ZSBv
-bmUsIFBBQ0tBR0VDT05GSUcsIGFuZCBoYXZlIGl0IHN1cHBvcnQNCj4gYWxsIG9mIHRoZSBwb3Rl
-bnRpYWwgbGlicmFyaWVzPw0KDQpZZXMsIEkgdGhpbmsgaXQncyBwb3NzaWJsZSwgYnV0IGl0IHdp
-bGwgbW9zdCBsaWtlbHkgZW5kIHVwIHdpdGggbWFueSBlbXB0eQ0KUEFDS0FHRUNPTkZJRyBkZWZp
-bml0aW9ucyBsaWtlOg0KUEFDS0FHRUNPTkZJR1thdG9taWNdID0gIiwsLCINClBBQ0tBR0VDT05G
-SUdbY2hyb25vXSA9ICIsLCwiDQpQQUNLQUdFQ09ORklHW2NvbnRhaW5lcl0gPSAiLCwsIg0KUEFD
-S0FHRUNPTkZJR1tkYXRlX3RpbWVdID0gIiwsLCINClBBQ0tBR0VDT05GSUdbZXhjZXB0aW9uXSA9
-ICIsLCwiDQoNCklmIHlvdSB0aGluayBpdCdzIGEgYmV0dGVyIHdheSBhbmQgbm8gb3RoZXIgb2Jq
-ZWN0aW9uLCBJIHRoaW5rIEkgd2lsbCBkbyB0aGF0IGluIGENCnNlcGFyYXRlIGNvbW1pdCBhcyBm
-b2xsb3ctdXAuDQoNClRoYW5rcywNCkphY2tpZQ0KDQo+IA0KPiANCj4gQ2hlZXJzLA0KPiBBbmRy
-ZScNCj4gDQo+IA0KPiA+ICsNCj4gPiDCoGluaGVyaXQgcHl0aG9uLWRpcg0KPiA+IMKgUFlUSE9O
-X1JPT1QgPSAiJHtTVEFHSU5HX0RJUl9IT1NUfS8ke3ByZWZpeH0iDQo+ID4NCj4gPiBAQCAtNTQs
-NiArNzMsMTAgQEAgcHl0aG9uIF9fYW5vbnltb3VzICgpIHsNCj4gPiDCoH0NCj4gPg0KPiA+IMKg
-IyBPdmVycmlkZSB0aGUgY29udGVudHMgb2Ygc3BlY2lmaWMgcGFja2FnZXMNCj4gPiArRklMRVNf
-JHtQTn0tZ3JhcGggPSAiJHtsaWJkaXJ9L2xpYmJvb3N0X2dyYXBoLnNvLioiDQo+ID4gK0ZJTEVT
-XyR7UE59LWdyYXBoX3BhcmFsbGVsID0gIiR7bGliZGlyfS9saWJib29zdF9ncmFwaF9wYXJhbGxl
-bC5zby4qIg0KPiA+ICtGSUxFU18ke1BOfS1sb2NhbGUgPSAiJHtsaWJkaXJ9L2xpYmJvb3N0X2xv
-Y2FsZS5zby4qIg0KPiA+ICtGSUxFU18ke1BOfS1tcGkgPSAiJHtsaWJkaXJ9L21waS5zbyAke2xp
-YmRpcn0vbGliYm9vc3RfbXBpKi5zby4qIg0KPiA+IMKgRklMRVNfYm9vc3Qtc2VyaWFsaXphdGlv
-biA9ICIke2xpYmRpcn0vbGliYm9vc3Rfc2VyaWFsaXphdGlvbiouc28uKiBcDQo+ID4gwqAJJHts
-aWJkaXJ9L2xpYmJvb3N0X3dzZXJpYWxpemF0aW9uKi5zby4qIg0KPiA+IMKgRklMRVNfYm9vc3Qt
-dGVzdCA9ICIke2xpYmRpcn0vbGliYm9vc3RfcHJnX2V4ZWNfbW9uaXRvciouc28uKiBcDQo+ID4g
-QEAgLTE1OSw2ICsxODIsMTAgQEAgZG9fY29uZmlndXJlKCkgew0KPiA+IMKgCWVjaG8gInVzaW5n
-IHB5dGhvbiA6ICR7UFlUSE9OX0JBU0VWRVJTSU9OfSA6IDoNCj4gPiAke1NUQUdJTkdfSU5DRElS
-fS9weXRob24ke1BZVEhPTl9CQVNFVkVSU0lPTn0gOyIgPj4gJHtXT1JLRElSfS91c2VyLQ0KPiA+
-IGNvbmZpZy5qYW0NCj4gPiDCoAllY2hvICJ1c2luZyBweXRob24gOiAzLjUgOiA6ICR7U1RBR0lO
-R19JTkNESVJ9L3B5dGhvbjMuNW0gOyIgPj4NCj4gPiAke1dPUktESVJ9L3VzZXItY29uZmlnLmph
-bQ0KPiA+DQo+ID4gKwlpZiAke0BiYi51dGlscy5jb250YWlucygnQk9PU1RfTElCUycsICdtcGkn
-LCAndHJ1ZScsICdmYWxzZScsDQo+ID4gZCl9OyB0aGVuDQo+ID4gKwkJZWNobyAidXNpbmcgbXBp
-IDogOiA8ZmluZC1zaGFyZWQtbGlicmFyeT5tcGkgOyIgPj4NCj4gPiAke1dPUktESVJ9L3VzZXIt
-Y29uZmlnLmphbQ0KPiA+ICsJZmkNCj4gPiArDQo+ID4gwqAJQ0M9IiR7QlVJTERfQ0N9IiBDRkxB
-R1M9IiR7QlVJTERfQ0ZMQUdTfSIgLi9ib290c3RyYXAuc2ggLS13aXRoLQ0KPiA+IGJqYW09Ymph
-bSAtLXdpdGgtdG9vbHNldD1nY2MgLS13aXRoLXB5dGhvbi1yb290PSR7UFlUSE9OX1JPT1R9DQo+
-ID4gwqAJc2VkIC1pICcvXnVzaW5nIHB5dGhvbi9kJyAke1N9L3Byb2plY3QtY29uZmlnLmphbQ0K
-PiA+IMKgfQ0KPiA+IC0tDQo+ID4gMi44LjMNCj4gPg0K
+Hi Gary,
+
+On 15 September 2016 at 21:30, Gary Thomas <gary@mlbassoc.com> wrote:
+> I haven't seen this before, just thought I'd toss it out there.
+> I was doing a build (actually three in parallel in separate
+> windows on my build box) and noticed this:
+>
+> Currently  3 running tasks (3282 of 5081)  64%
+> |###################################################        |
+> 0: busybox-1.24.1-r0 do_compile (pid 29425)
+> Currently  3 running tasks (3283 of 5081)  64%
+> |###################################################        |
+> Currently  3 running tasks (3429 of 5081)  67%
+> |#####################################################        |
+> 0: gstreamer1.0-libav-1.8.3-r0 do_configure (pid 10393)
+> Currently  1 running tasks (3560 of 5081)  70%
+> |########################################################        |
+> 0: gstreamer1.0-libav-1.8.3-r0 do_compile (pid 17458)
+> Currently  3 running tasks (3601 of 5081)  70%
+> |########################################################        |
+> 0: gstreamer1.0-libav-1.8.3-r0 do_compile (pid 17458)
+> 1: gdk-pixbuf-2.34.0-r0 do_package_write_ipk (pid 12673)
+> 2: unifdef-native-2.11-r0 do_populate_lic (pid 24548)
+>
+> Somehow the task tracker (that does a nice job of telling the user
+> what's going on without being overwhelming BTW) got very confused!
+>
+> I doubt if I can every repeat this, just passing on the observation!
+
+This seems to be related to
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=10024.
+I get this issue after it prints "Child process exit status 4:
+lock_held" and then that message is overridden by the task status with
+the progress bar duplicated down one line.
+
+Regards,
+Jonathan
 
