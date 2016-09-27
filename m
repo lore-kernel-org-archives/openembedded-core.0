@@ -1,20 +1,22 @@
-Return-Path: <jianxun.zhang@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id C5F7B60069
+Return-Path: <anibal.limon@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 1234D60620
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Sep 2016 21:29:19 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 27 Sep 2016 14:29:21 -0700
+	Tue, 27 Sep 2016 23:42:15 +0000 (UTC)
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+	by orsmga102.jf.intel.com with ESMTP; 27 Sep 2016 16:42:17 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.30,406,1470726000"; d="scan'208";a="1063124223"
-Received: from chang-s2600cp.jf.intel.com ([10.54.77.22])
-	by fmsmga002.fm.intel.com with ESMTP; 27 Sep 2016 14:29:20 -0700
-From: Jianxun Zhang <jianxun.zhang@linux.intel.com>
+X-IronPort-AV: E=Sophos;i="5.30,407,1470726000"; d="scan'208";a="13925719"
+Received: from alimonb-mobl1.zpn.intel.com ([10.219.5.35])
+	by fmsmga005.fm.intel.com with ESMTP; 27 Sep 2016 16:42:15 -0700
+From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 27 Sep 2016 14:32:04 -0700
-Message-Id: <1475011924-241525-1-git-send-email-jianxun.zhang@linux.intel.com>
-X-Mailer: git-send-email 2.7.4
-Subject: [PATCH] parselogs: Update uvesafb errors in qemu whitelist
+Date: Tue, 27 Sep 2016 18:43:06 -0500
+Message-Id: <1475019786-20996-1-git-send-email-anibal.limon@linux.intel.com>
+X-Mailer: git-send-email 2.1.4
+MIME-Version: 1.0
+Cc: 00moses.alexander00@gmail.com
+Subject: [PATCH] db: Upgrade to 6.0.35
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,66 +29,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 27 Sep 2016 21:29:20 -0000
+X-List-Received-Date: Tue, 27 Sep 2016 23:42:16 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-This change only whitelists the timeout message in infinite
-wait case in uvesafb driver.
+This is a minor upgrade that fix an issue related to multiple
+rpm instances querying the database [1].
 
-With the latest timeout patch introducing infinite wait in
-uvesafb driver, we whitelist the timeout message since it works
-as a warning for issues related to timeout not to be fixed in
-build servers.
+The bugfixes related are,
 
-We remove other errors for bug-discovering purposes in some cases
-where these lines are still worthy to be caught (not whitelisted):
+- Fixed a bug that may lead to a crash when opening multiple environments
+in a multi-threaded program.
+- Fixed a bug where closing a panic environment raised access violation
+  and crashed the program.
 
-The removed errors show up again in the infinite wait case. It
-indicates a different root cause or the timeout patch doesn't work
-correctly.
+For see the complete list of changes mainly bugfixes between
+6.0.30 and 6.0.35 [2].
 
-Timeout happens when developers explicitly set a non-negative timeout
-of a limited period to wait for task completion in uvesafb driver.
+[1] https://bugzilla.yoctoproject.org/show_bug.cgi?id=10157#c0
+[2] http://download.oracle.com/otndocs/products/berkeleydb/html/changelog_6_0.html#idp503384
 
-Timeout or/and errors occur when kernel doesn't have the latest
-timeout patch in driver.
+[YOCTO #10157]
 
-Note: The latest timeout patch is tracked by:
-a2966330bcd29e99c0403235edb29433b0c53d56
-
-[YOCTO #8245]
-
-Signed-off-by: Jianxun Zhang <jianxun.zhang@linux.intel.com>
+Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
 ---
+ meta/recipes-support/db/{db_6.0.30.bb => db_6.0.35.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-support/db/{db_6.0.30.bb => db_6.0.35.bb} (96%)
 
-NOTE: I don't have an AB server setup to really test it before submission.
-
-Please review it carefully before merge this patch.
-
-Let me know if there any way I can test it, or we just wait any result from AB server...
-
-Thanks
-
- meta/lib/oeqa/runtime/parselogs.py | 6 +-----
- 1 file changed, 1 insertion(+), 5 deletions(-)
-
-diff --git a/meta/lib/oeqa/runtime/parselogs.py b/meta/lib/oeqa/runtime/parselogs.py
-index 763c42f..40247d2 100644
---- a/meta/lib/oeqa/runtime/parselogs.py
-+++ b/meta/lib/oeqa/runtime/parselogs.py
-@@ -63,11 +63,7 @@ qemux86_common = [
-     "fail to add MMCONFIG information, can't access extended PCI configuration space under this bridge.",
-     "can't claim BAR ",
-     'amd_nb: Cannot enumerate AMD northbridges',
--    'uvesafb: 5000 ms task timeout error',
--    'detected fb_set_par error, error code: -22',
--    'Getting VBE info block failed',
--    'vbe_init() failed with -22',
--    'uvesafb: mode switch failed',
-+    'uvesafb: 5000 ms task timeout, infinitely waiting',
-     'tsc: HPET/PMTIMER calibration failed',
- ] + common_errors
+diff --git a/meta/recipes-support/db/db_6.0.30.bb b/meta/recipes-support/db/db_6.0.35.bb
+similarity index 96%
+rename from meta/recipes-support/db/db_6.0.30.bb
+rename to meta/recipes-support/db/db_6.0.35.bb
+index 072cbdf..4a3b72f 100644
+--- a/meta/recipes-support/db/db_6.0.30.bb
++++ b/meta/recipes-support/db/db_6.0.35.bb
+@@ -26,8 +26,8 @@ SRC_URI = "http://download.oracle.com/berkeley-db/db-${PV}.tar.gz \
+            file://Makefile-let-libdb-6.0.la-depend-os_map.l.patch \
+            "
  
+-SRC_URI[md5sum] = "ad28eb86ad3203b5422844db179c585b"
+-SRC_URI[sha256sum] = "608e4b1cf390e9bf54c0ef00c5bd9ca76d36e2261b9f4d33d54516f3f6a20fd2"
++SRC_URI[md5sum] = "c65a4d3e930a116abaaf69edfc697f25"
++SRC_URI[sha256sum] = "24421affa8ae436fe427ae4f5f2d1634da83d3d55a5ad6354a98eeedb825de55"
+ 
+ # Exclude NC versions which lack AES encryption
+ UPSTREAM_CHECK_REGEX = "db-(?P<pver>\d+\.\d+(\.\d+)?).tar"
 -- 
-2.7.4
+2.1.4
 
 
