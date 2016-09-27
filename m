@@ -1,27 +1,30 @@
-Return-Path: <Nathan_Lynch@mentor.com>
-Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
-	by mail.openembedded.org (Postfix) with ESMTP id CAA9760620
+Return-Path: <adrian.ratiu@ni.com>
+Received: from ni.com (skprod3.natinst.com [130.164.80.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 296CC6E668
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Sep 2016 14:38:43 +0000 (UTC)
-Received: from svr-orw-fem-05.mgc.mentorg.com ([147.34.97.43])
-	by relay1.mentorg.com with esmtp 
-	id 1botWu-00042B-QP from Nathan_Lynch@mentor.com ;
-	Tue, 27 Sep 2016 07:38:44 -0700
-Received: from [172.30.80.93] (147.34.91.1) by svr-orw-fem-05.mgc.mentorg.com
-	(147.34.97.43) with Microsoft SMTP Server id 14.3.224.2;
-	Tue, 27 Sep 2016 07:38:44 -0700
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <1474581198-14398-1-git-send-email-nathan_lynch@mentor.com>
-	<CAJTo0Lb=ynjGK-d7fe0boA8z1Y1Ep561CF5E2hHx9o3QRQMm-w@mail.gmail.com>
-From: Nathan Lynch <Nathan_Lynch@mentor.com>
-Message-ID: <712a875b-6bff-ec9e-3df2-a9af143d00a0@mentor.com>
-Date: Tue, 27 Sep 2016 09:38:43 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.3.0
-MIME-Version: 1.0
-In-Reply-To: <CAJTo0Lb=ynjGK-d7fe0boA8z1Y1Ep561CF5E2hHx9o3QRQMm-w@mail.gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] lttng-tools: fix ptest
+	Tue, 27 Sep 2016 14:41:46 +0000 (UTC)
+Received: from us-aus-mgwout2.amer.corp.natinst.com (nb-snip2-1338.natinst.com
+	[130.164.19.135])
+	by us-aus-skprod3.natinst.com (8.15.0.59/8.15.0.59) with ESMTP id
+	u8REflIo013811 for <openembedded-core@lists.openembedded.org>;
+	Tue, 27 Sep 2016 09:41:47 -0500
+Received: from adi-pc-linux.natinst.com ([130.164.14.198])
+	by us-aus-mgwout2.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6
+	HF1218) with ESMTP id 2016092709414751-340609 ;
+	Tue, 27 Sep 2016 09:41:47 -0500 
+From: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 27 Sep 2016 17:40:11 +0300
+Message-Id: <20160927144011.13336-1-adrian.ratiu@ni.com>
+X-Mailer: git-send-email 2.10.0
+X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut2/AUS/H/NIC(Release
+	8.5.3FP6 HF1218|December 12, 2014) at 09/27/2016 09:41:47 AM,
+	Serialize by Router on US-AUS-MGWOut2/AUS/H/NIC(Release 8.5.3FP6
+	HF1218|December 12, 2014) at 09/27/2016 09:41:47 AM,
+	Serialize complete at 09/27/2016 09:41:47 AM
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
+	definitions=2016-09-27_06:, , signatures=0
+Subject: [=OE-core][PATCH] populate_sdk_base.bbclass: fix broken variables
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,26 +37,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 27 Sep 2016 14:38:45 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 27 Sep 2016 14:41:46 -0000
 
-On 09/27/2016 06:41 AM, Burton, Ross wrote:
-> 
-> 
->     -RDEPENDS_${PN}-ptest += "make perl bash"
->     +RDEPENDS_${PN}-ptest += "make perl bash gawk ${PN} babeltrace procps"
->     +# babelstats.pl <http://babelstats.pl> wants getopt-long
->     +RDEPENDS_${PN}-ptest += "perl-module-getopt-long"
->     +# getopt itself needs overload
->     +RDEPENDS_${PN}-ptest += "perl-module-overload"
->     +# overload, in turn, needs overload_ing_
->     +RDEPENDS_${PN}-ptest += "perl-module-overloading"
-> 
-> 
-> Why are those perl dependencies here and not in the perl modules themselves?
+This function never worked because the SDK_OUTPUT and SDKPATH vars are
+written bash-style in a python function. The only reason it never failed
+a build is because the function bails out the start because of the flag
+CHECK_SDK_SYSROOTS.
 
-No good reason. I'll move them to the perl metadata and respin.
+And I guess nobody tested with CHECK_SDK_SYSROOTS enabled until now.
 
+Signed-off-by: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
+---
+ meta/classes/populate_sdk_base.bbclass | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/meta/classes/populate_sdk_base.bbclass b/meta/classes/populate_sdk_base.bbclass
+index ce12f27..a23775e 100644
+--- a/meta/classes/populate_sdk_base.bbclass
++++ b/meta/classes/populate_sdk_base.bbclass
+@@ -147,7 +147,8 @@ python check_sdk_sysroots() {
+         return os.path.abspath(path)
+ 
+     # Get scan root
+-    SCAN_ROOT = norm_path("${SDK_OUTPUT}/${SDKPATH}/sysroots/")
++    SCAN_ROOT = norm_path("%s/%s/sysroots/" % (d.getVar('SDK_OUTPUT', True),
++                                               d.getVar('SDKPATH', True)))
+ 
+     bb.note('Checking SDK sysroots at ' + SCAN_ROOT)
+ 
+-- 
+2.10.0
 
 
