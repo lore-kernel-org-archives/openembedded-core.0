@@ -1,30 +1,25 @@
-Return-Path: <Le.Liu@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 920756057A
+Return-Path: <ed.bartosh@linux.intel.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id 8775860403
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Sep 2016 08:51:03 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u8R8owFW011578
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 27 Sep 2016 01:50:58 -0700 (PDT)
-Received: from ALA-MBA.corp.ad.wrs.com ([169.254.3.129]) by
-	ALA-HCB.corp.ad.wrs.com ([147.11.189.41]) with mapi id 14.03.0294.000;
-	Tue, 27 Sep 2016 01:50:57 -0700
-From: "Liu, Le (Charles)" <Le.Liu@windriver.com>
-To: Wang Xin <wangxin2015.fnst@cn.fujitsu.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: Re:[OE-core] [PATCH] ltp: 20160126 -> 20160920
-Thread-Index: AdIYlJqXxz2viqx4QiGHBKxTCr0MWQ==
-Date: Tue, 27 Sep 2016 08:50:56 +0000
-Message-ID: <B2115E68FB13924CB56D34112C696DFA010C9EEE49@ALA-MBA.corp.ad.wrs.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [128.224.162.144]
-MIME-Version: 1.0
-Subject: Re: [PATCH] ltp: 20160126 -> 20160920
+	Tue, 27 Sep 2016 09:02:49 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga104.fm.intel.com with ESMTP; 27 Sep 2016 02:02:50 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.30,404,1470726000"; d="scan'208";a="1046403332"
+Received: from linux.intel.com ([10.54.29.200])
+	by fmsmga001.fm.intel.com with ESMTP; 27 Sep 2016 02:02:51 -0700
+Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.68])
+	by linux.intel.com (Postfix) with ESMTP id 60F7F6A4080;
+	Tue, 27 Sep 2016 02:02:23 -0700 (PDT)
+From: Ed Bartosh <ed.bartosh@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 27 Sep 2016 11:51:54 +0300
+Message-Id: <1474966314-19598-1-git-send-email-ed.bartosh@linux.intel.com>
+X-Mailer: git-send-email 2.1.4
+In-Reply-To: <CABcZANnzHTW3Jj1GQ=OReji8K535ArUZ8AijVQzCnWzCLDJuUg@mail.gmail.com>
+References: <CABcZANnzHTW3Jj1GQ=OReji8K535ArUZ8AijVQzCnWzCLDJuUg@mail.gmail.com>
+Subject: [wic][PATCH] image_types.bbclass: remove redundant dependency
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,101 +32,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 27 Sep 2016 08:51:05 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 27 Sep 2016 09:02:49 -0000
 
-Hi Xin,
+Removed parted-native dependency from do_image_wic as it's
+already mentioned in IMAGE_DEPENDS_wic variable.
 
-I just tried your patch on qemux86-64 BSP. It looks working well, except fo=
-r the following two minor issues on patching.  =20
+Thanks to Christopher Larson for pointing out to this.
 
-1.  I have to remove some "/dev/null" from the patch manually, before it wa=
-s applied successfully.=20
+Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
+---
+ meta/classes/image_types.bbclass | 1 -
+ 1 file changed, 1 deletion(-)
 
- $ diff ~/\[OE-core\]\ \[PATCH\]\ ltp\:\ 20160126\ -\>\ 20160920.eml /origi=
-nal_oe-core/\[OE-core\]\ \[PATCH\]\ ltp\:\ 20160126\ -\>\ 20160920.eml=20
-200a201
-> --- /dev/null
-238a240
-> +++ /dev/null
-272a275
-> --- /dev/null
-508a512
-> --- /dev/null
-680a685
-> --- /dev/null
-734a740
-> +++ /dev/null
-770a777
-> +++ /dev/null
-1169a1177
-> +++ /dev/null
-1585a1594
-> +++ /dev/null
-1941a1951
-> +++ /dev/null
-2013a2024
-> +++ /dev/null
-2074a2086
-> +++ /dev/null
-2143a2156
-> +++ /dev/null
-2193a2207
-> +++ /dev/null
-2286a2301
-> +++ /dev/null
-2323a2339
-> +++ /dev/null
-2357a2374
-> +++ /dev/null
-2391a2409
-> +++ /dev/null
-2428a2447
-> +++ /dev/null
-2466a2486
-> +++ /dev/null
-2504a2525
-> +++ /dev/null
+diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
+index 0bb6252..5ef6f60 100644
+--- a/meta/classes/image_types.bbclass
++++ b/meta/classes/image_types.bbclass
+@@ -218,7 +218,6 @@ IMAGE_CMD_wic[vardepsexclude] = "WKS_FULL_PATH WKS_FILES"
+ USING_WIC = "${@bb.utils.contains_any('IMAGE_FSTYPES', 'wic ' + ' '.join('wic.%s' % c for c in '${CONVERSIONTYPES}'.split()), '1', '', d)}"
+ WKS_FILE_CHECKSUM = "${@'${WKS_FULL_PATH}:%s' % os.path.exists('${WKS_FULL_PATH}') if '${USING_WIC}' else ''}"
+ do_image_wic[file-checksums] += "${WKS_FILE_CHECKSUM}"
+-do_image_wic[depends] += "parted-native:do_populate_sysroot"
+ 
+ python do_write_wks_template () {
+     """Write out expanded template contents to WKS_FULL_PATH."""
+-- 
+2.1.4
 
-
-2. There are Hunk issues during patching "0011-Rename-sigset-variable-to-si=
-gset1.patch".
-
-...
-Applying patch 0011-Rename-sigset-variable-to-sigset1.patch
-patching file testcases/kernel/mem/shmt/shmt04.c
-Hunk #1 FAILED at 56.
-Hunk #2 FAILED at 71.
-Hunk #3 FAILED at 148.
-3 out of 3 hunks FAILED -- saving rejects to file testcases/kernel/mem/shmt=
-/shmt04.c.rej
-patching file testcases/kernel/mem/shmt/shmt06.c
-Hunk #1 FAILED at 57.
-Hunk #2 FAILED at 70.
-Hunk #3 FAILED at 147.
-3 out of 3 hunks FAILED -- saving rejects to file testcases/kernel/mem/shmt=
-/shmt06.c.rej
-patching file testcases/kernel/syscalls/sigprocmask/sigprocmask01.c
-Hunk #1 FAILED at 91.
-Hunk #2 FAILED at 112.
-Hunk #3 FAILED at 165.
-Hunk #4 FAILED at 212.
-Hunk #5 FAILED at 235.
-5 out of 5 hunks FAILED -- saving rejects to file testcases/kernel/syscalls=
-/sigprocmask/sigprocmask01.c.rej
-Applied patch 0011-Rename-sigset-variable-to-sigset1.patch (forced; needs r=
-efresh)
-
-
-
-
-These might be related with the patching method I used (git am --keep-cr ~/=
-\[OE-core\]\ \[PATCH\]\ ltp\:\ 20160126\ -\>\ 20160920.eml). Could you help=
- to confirm?
-
-
-Thanks,
-Charles
 
