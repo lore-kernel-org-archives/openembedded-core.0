@@ -1,20 +1,29 @@
-Return-Path: <jussi.kukkonen@intel.com>
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-	by mail.openembedded.org (Postfix) with ESMTP id A19F4607A5
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Sep 2016 12:20:53 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga105.fm.intel.com with ESMTP; 27 Sep 2016 05:20:55 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.30,405,1470726000"; d="scan'208";a="1037091249"
-Received: from theory.fi.intel.com ([10.237.72.196])
-	by orsmga001.jf.intel.com with ESMTP; 27 Sep 2016 05:20:53 -0700
-From: Jussi Kukkonen <jussi.kukkonen@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 27 Sep 2016 15:18:56 +0300
-Message-Id: <1474978736-29303-1-git-send-email-jussi.kukkonen@intel.com>
-X-Mailer: git-send-email 2.1.4
-Subject: [PATCH] lib/oeqa: Regenerate galculator configure
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id B08EF6022E;
+	Tue, 27 Sep 2016 12:25:53 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u8RCPojd000648; Tue, 27 Sep 2016 13:25:50 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id Cj4R5OuXVCoa; Tue, 27 Sep 2016 13:25:50 +0100 (BST)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u8RCPkbj000643
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Tue, 27 Sep 2016 13:25:47 +0100
+Message-ID: <1474979146.30475.19.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Juro Bystricky <juro.bystricky@intel.com>,
+	openembedded-core@lists.openembedded.org
+Date: Tue, 27 Sep 2016 13:25:46 +0100
+In-Reply-To: <1474923193-25918-1-git-send-email-juro.bystricky@intel.com>
+References: <1474923193-25918-1-git-send-email-juro.bystricky@intel.com>
+X-Mailer: Evolution 3.18.5.2-0ubuntu3 
+Mime-Version: 1.0
+Cc: bitbake-devel <bitbake-devel@lists.openembedded.org>
+Subject: Re: [PATCH] build.py: fix os.getcwd() exception
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,41 +36,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 27 Sep 2016 12:20:53 -0000
+X-List-Received-Date: Tue, 27 Sep 2016 12:25:55 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-galculator configure seems to be so old it does not
-recognise --with-libtool-sysroot: regenerate configure.
+On Mon, 2016-09-26 at 13:53 -0700, Juro Bystricky wrote:
+> When trying to obtain the current directory from a directory
+> that does not exist anymore, an exception is raised.
+> This patch handles such exception.
 
-Fixes [YOCTO #10191].
+This should have gone to bitbake-devel, I've cc'd there and queued in
+master-next for testing.
 
-Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
----
- meta/lib/oeqa/sdk/buildgalculator.py | 11 +++++++++--
- 1 file changed, 9 insertions(+), 2 deletions(-)
+Cheers,
 
-diff --git a/meta/lib/oeqa/sdk/buildgalculator.py b/meta/lib/oeqa/sdk/buildgalculator.py
-index be14d22..2629a55 100644
---- a/meta/lib/oeqa/sdk/buildgalculator.py
-+++ b/meta/lib/oeqa/sdk/buildgalculator.py
-@@ -15,8 +15,15 @@ class GalculatorTest(oeSDKTest):
- 
-             project.download_archive()
- 
--            self.assertEqual(project.run_configure(), 0,
--                            msg="Running configure failed")
-+            # regenerate configure to get support for --with-libtool-sysroot
-+            legacy_preconf=("libtoolize --automake;"
-+                            "aclocal -I ${OECORE_TARGET_SYSROOT}/usr/share/aclocal -I m4;"
-+                            "autoconf;"
-+                            "autoheader;"
-+                            "automake -a;")
-+
-+            self.assertEqual(project.run_configure(extra_cmds=legacy_preconf),
-+                             0, msg="Running configure failed")
- 
-             self.assertEqual(project.run_make(), 0,
-                             msg="Running make failed")
--- 
-2.1.4
+Richard
 
+> [YOCTO #10331]
+> 
+> Signed-off-by: Juro Bystricky <juro.bystricky@intel.com>
+> ---
+>  bitbake/lib/bb/build.py | 9 +++++++--
+>  1 file changed, 7 insertions(+), 2 deletions(-)
+> 
+> diff --git a/bitbake/lib/bb/build.py b/bitbake/lib/bb/build.py
+> index 2ed0441..249f7d6 100644
+> --- a/bitbake/lib/bb/build.py
+> +++ b/bitbake/lib/bb/build.py
+> @@ -261,9 +261,14 @@ def exec_func(func, d, dirs = None,
+> pythonexception=False):
+>          else:
+>              exec_func_shell(func, d, runfile, cwd=adir)
+>  
+> -    if oldcwd and os.getcwd() != oldcwd:
+> +    try:
+> +        curcwd = os.getcwd()
+> +    except:
+> +        curcwd = None
+> +
+> +    if oldcwd and curcwd != oldcwd:
+>          try:
+> -            bb.warn("Task %s changed cwd to %s" % (func,
+> os.getcwd()))
+> +            bb.warn("Task %s changed cwd to %s" % (func, curcwd))
+>              os.chdir(oldcwd)
+>          except:
+>              pass
 
