@@ -1,23 +1,33 @@
-Return-Path: <Nathan_Lynch@mentor.com>
-Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
-	by mail.openembedded.org (Postfix) with ESMTP id 4C1FE6093B
+Return-Path: <denis@denix.org>
+X-Greylist: delayed 464 seconds by postgrey-1.34 at layers.openembedded.org;
+	Tue, 27 Sep 2016 19:33:49 UTC
+Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.17])
+	by mail.openembedded.org (Postfix) with ESMTP id CB32260190
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Sep 2016 19:04:46 +0000 (UTC)
-Received: from svr-orw-fem-04.mgc.mentorg.com ([147.34.97.41])
-	by relay1.mentorg.com with esmtp 
-	id 1boxgO-0004jO-I3 from Nathan_Lynch@mentor.com 
-	for openembedded-core@lists.openembedded.org;
-	Tue, 27 Sep 2016 12:04:48 -0700
-Received: from localhost (147.34.91.1) by SVR-ORW-FEM-04.mgc.mentorg.com
-	(147.34.97.41) with Microsoft SMTP Server (TLS) id 14.3.224.2;
-	Tue, 27 Sep 2016 12:04:48 -0700
-From: Nathan Lynch <nathan_lynch@mentor.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 27 Sep 2016 14:04:46 -0500
-Message-ID: <1475003086-23270-1-git-send-email-nathan_lynch@mentor.com>
+	Tue, 27 Sep 2016 19:33:49 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by mailout4.zoneedit.com (Postfix) with ESMTP id C06AD2091B;
+	Tue, 27 Sep 2016 19:26:06 +0000 (UTC)
+Received: from mailout4.zoneedit.com ([127.0.0.1])
+	by localhost (zmo03-pco.easydns.vpn [127.0.0.1]) (amavisd-new,
+	port 10024)
+	with ESMTP id mXTlUzUR9Brb; Tue, 27 Sep 2016 19:26:06 +0000 (UTC)
+Received: from gandalf.denix.org (pool-100-15-110-130.washdc.fios.verizon.net
+	[100.15.110.130])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mailout4.zoneedit.com (Postfix) with ESMTPSA id 6D161202B9;
+	Tue, 27 Sep 2016 19:26:03 +0000 (UTC)
+Received: from sam.denix (sam [192.168.0.5])
+	by gandalf.denix.org (Postfix) with ESMTP id 820AF16211C;
+	Tue, 27 Sep 2016 15:26:02 -0400 (EDT)
+From: Denys Dmytriyenko <denis@denix.org>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 27 Sep 2016 15:25:35 -0400
+Message-Id: <1475004335-22336-1-git-send-email-denis@denix.org>
 X-Mailer: git-send-email 2.7.4
-MIME-Version: 1.0
-Subject: [PATCH v2] lttng-tools: fix ptest
+Cc: Denys Dmytriyenko <denys@ti.com>
+Subject: [krogoth][PATCH] libarchive: respect disable-acl configuration option
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,208 +40,109 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 27 Sep 2016 19:04:48 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 27 Sep 2016 19:33:50 -0000
 
-Since the upgrade to 2.8, lttng-tools' test harness silently succeeds
-but doesn't actually run the tests.  This is because upstream made
-some changes in their test harness:
+From: "Maxin B. John" <maxin.john@intel.com>
 
-https://github.com/lttng/lttng-tools/commit/83666813cad3142ceccb929ca9b44d0e9cf53bc8
+Update configure.ac to properly handle --disable-acl option
 
-Updates to address this include:
-- drop now-irrelevant patch
-- change the ptest-run make target
-- remove indiscriminate search/replace commands from do_install_ptest
-- copy entire build directory into PTEST_PATH and then remove unneeded files
-- use lttng binaries installed on the system for the tests
-- add lttng-tools-ptest runtime dependencies
-  - lttng-tools itself
-  - babeltrace, used by the test harness to process traces
-  - perl modules required by babelstats.pl test script
-  - procps (for pgrep, pidof)
-  - gawk
-- remove unnecessary chmod and munging of utils.sh script library
-- remove checkpatch from ptest installation tree
-- avoid path-munging of libtool artifacts altogether
-- use more efficient find+sed patterns to munge Makefiles
-- reduce test harness output to conform to ptest rules
+[YOCTO #9668]
 
-On qemux86-64 and qemuarm I get relatively stable results, with
-PASS/FAIL varying by +-1 on successive runs.
+(From OE-Core rev: 84fe3f29f2bdaf98c9beefdfede143084fba093b)
 
-TOTAL: 2345
-PASS:  1735
-SKIP:  311
-XFAIL: 0
-FAIL:  292
-XPASS: 0
-ERROR: 7
-
-There are some ERRORs worth looking into further but this should be a
-useful basis for future work.
-
-Signed-off-by: Nathan Lynch <nathan_lynch@mentor.com>
+Signed-off-by: Maxin B. John <maxin.john@intel.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Denys Dmytriyenko <denys@ti.com>
 ---
+ ...c-check-acl-libacl.h-and-sys-acl.h-based-.patch | 66 ++++++++++++++++++++++
+ .../libarchive/libarchive_3.1.2.bb                 |  1 +
+ 2 files changed, 67 insertions(+)
+ create mode 100644 meta/recipes-extended/libarchive/libarchive/0001-configure.ac-check-acl-libacl.h-and-sys-acl.h-based-.patch
 
-Changes since v1:
-- Drop inappropriate rdepends on perl-module-{overload,overloading}.
-
- meta/recipes-kernel/lttng/lttng-tools/run-ptest    |  7 +-
- .../lttng/lttng-tools/runtest-2.4.0.patch          | 27 --------
- meta/recipes-kernel/lttng/lttng-tools_git.bb       | 76 ++++++++++++++++------
- 3 files changed, 59 insertions(+), 51 deletions(-)
- delete mode 100644 meta/recipes-kernel/lttng/lttng-tools/runtest-2.4.0.patch
-
-diff --git a/meta/recipes-kernel/lttng/lttng-tools/run-ptest b/meta/recipes-kernel/lttng/lttng-tools/run-ptest
-index e758815c77d4..6230063442d6 100755
---- a/meta/recipes-kernel/lttng/lttng-tools/run-ptest
-+++ b/meta/recipes-kernel/lttng/lttng-tools/run-ptest
-@@ -1,4 +1,5 @@
- #!/bin/sh
--
--make -C tests installcheck
--
-+# Without --ignore-exit, the tap harness causes any FAILs within a
-+# test plan to raise ERRORs; this is just noise.
-+makeargs="LOG_DRIVER_FLAGS=--ignore-exit"
-+make -t all >/dev/null 2>&1 && exec make -s $makeargs check 2>/dev/null
-diff --git a/meta/recipes-kernel/lttng/lttng-tools/runtest-2.4.0.patch b/meta/recipes-kernel/lttng/lttng-tools/runtest-2.4.0.patch
-deleted file mode 100644
-index 958bce48e0b0..000000000000
---- a/meta/recipes-kernel/lttng/lttng-tools/runtest-2.4.0.patch
-+++ /dev/null
-@@ -1,27 +0,0 @@
--diff --git a/Makefile.am b/Makefile.am
--index 584f59b..c2bcabd 100644
----- a/Makefile.am
--+++ b/Makefile.am
--@@ -12,3 +12,9 @@ dist_doc_DATA = LICENSE \
-- dist_noinst_DATA = CodingStyle
-- 
-- EXTRA_DIST = extras/lttng-bash_completion gpl-2.0.txt lgpl-2.1.txt
--+
--+install-ptest:
--+	cp -r $(srcdir)/tests $(DESTDIR)
--+	for m in $$(find $(DESTDIR)/tests -name Makefile); do \
--+          sed -i -e 's|^Makefile:|_Makefile:|' $$m; \
--+        done
--diff --git a/tests/run.sh b/tests/run.sh
--index c6c50fd..6455359 100755
----- a/tests/run.sh
--+++ b/tests/run.sh
--@@ -19,4 +19,7 @@
-- 
-- [ -z "$1" ] && echo "Error: No testlist. Please specify a testlist to run." && exit 1
-- 
---prove --merge --exec '' - < $1
--+prove --merge -v --exec '' - < $1 | sed \
--+  -e 's|^ok \(.*\)|PASS: \1|' \
--+  -e 's|^not ok \(.*\)|FAIL: \1|' \
--+  | egrep -h 'PASS|FAIL'
-diff --git a/meta/recipes-kernel/lttng/lttng-tools_git.bb b/meta/recipes-kernel/lttng/lttng-tools_git.bb
-index ab75a3743b10..bfc657b3ac07 100644
---- a/meta/recipes-kernel/lttng/lttng-tools_git.bb
-+++ b/meta/recipes-kernel/lttng/lttng-tools_git.bb
-@@ -11,7 +11,9 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=01d7fc4496aacf37d90df90b90b0cac1 \
+diff --git a/meta/recipes-extended/libarchive/libarchive/0001-configure.ac-check-acl-libacl.h-and-sys-acl.h-based-.patch b/meta/recipes-extended/libarchive/libarchive/0001-configure.ac-check-acl-libacl.h-and-sys-acl.h-based-.patch
+new file mode 100644
+index 0000000..4b41d62
+--- /dev/null
++++ b/meta/recipes-extended/libarchive/libarchive/0001-configure.ac-check-acl-libacl.h-and-sys-acl.h-based-.patch
+@@ -0,0 +1,66 @@
++From b30c530aaf5068a652a479f3e46c74eb1716861a Mon Sep 17 00:00:00 2001
++From: "Maxin B. John" <maxin.john@intel.com>
++Date: Thu, 2 Jun 2016 16:08:02 +0300
++Subject: [PATCH] configure.ac: check acl/libacl.h and sys/acl.h based on
++ requirement
++
++acl/libacl.h and sys/acl.h check should not happen when we explicitly
++disable it with --disable-acl.
++
++Similarly, update attr/xattr.h for --disable-xattr option.
++
++Update the help texts to reflect what it really does.
++
++Upstream-Status: Accepted
++
++Signed-off-by: Maxin B. John <maxin.john@intel.com>
++---
++ configure.ac | 9 +++++----
++ 1 file changed, 5 insertions(+), 4 deletions(-)
++
++diff --git a/configure.ac b/configure.ac
++index cb6943f..0638182 100644
++--- a/configure.ac
+++++ b/configure.ac
++@@ -252,7 +252,7 @@ esac
++ # Checks for header files.
++ AC_HEADER_DIRENT
++ AC_HEADER_SYS_WAIT
++-AC_CHECK_HEADERS([acl/libacl.h attr/xattr.h copyfile.h ctype.h])
+++AC_CHECK_HEADERS([copyfile.h ctype.h])
++ AC_CHECK_HEADERS([errno.h ext2fs/ext2_fs.h fcntl.h grp.h])
++ 
++ AC_CACHE_CHECK([whether EXT2_IOC_GETFLAGS is usable],
++@@ -272,7 +272,7 @@ AC_CHECK_HEADERS([linux/fiemap.h linux/fs.h linux/magic.h linux/types.h])
++ AC_CHECK_HEADERS([locale.h paths.h poll.h pthread.h pwd.h])
++ AC_CHECK_HEADERS([readpassphrase.h signal.h spawn.h])
++ AC_CHECK_HEADERS([stdarg.h stdint.h stdlib.h string.h])
++-AC_CHECK_HEADERS([sys/acl.h sys/cdefs.h sys/extattr.h])
+++AC_CHECK_HEADERS([sys/cdefs.h sys/extattr.h])
++ AC_CHECK_HEADERS([sys/ioctl.h sys/mkdev.h sys/mount.h])
++ AC_CHECK_HEADERS([sys/param.h sys/poll.h sys/select.h sys/statfs.h sys/statvfs.h])
++ AC_CHECK_HEADERS([sys/time.h sys/utime.h sys/utsname.h sys/vfs.h])
++@@ -644,7 +644,7 @@ AC_CHECK_MEMBER(struct dirent.d_namlen,,,
++ # Check for Extended Attributes support
++ AC_ARG_ENABLE([xattr],
++ 		AS_HELP_STRING([--disable-xattr],
++-		[Enable Extended Attributes support (default: check)]))
+++		[Disable Extended Attributes support (default: check)]))
++ 
++ if test "x$enable_xattr" != "xno"; then
++ 	AC_CHECK_HEADERS([attr/xattr.h])
++@@ -670,9 +670,10 @@ fi
++ #
++ AC_ARG_ENABLE([acl],
++ 		AS_HELP_STRING([--disable-acl],
++-		[Enable ACL support (default: check)]))
+++		[Disable ACL support (default: check)]))
++ 
++ if test "x$enable_acl" != "xno"; then
+++   AC_CHECK_HEADERS([acl/libacl.h])
++    AC_CHECK_HEADERS([sys/acl.h])
++    AC_CHECK_LIB([acl],[acl_get_file])
++    AC_CHECK_FUNCS([acl_create_entry acl_init acl_set_fd acl_set_fd_np acl_set_file])
++-- 
++2.4.0
++
+diff --git a/meta/recipes-extended/libarchive/libarchive_3.1.2.bb b/meta/recipes-extended/libarchive/libarchive_3.1.2.bb
+index ed677ac..e388226 100644
+--- a/meta/recipes-extended/libarchive/libarchive_3.1.2.bb
++++ b/meta/recipes-extended/libarchive/libarchive_3.1.2.bb
+@@ -36,6 +36,7 @@ SRC_URI = "http://libarchive.org/downloads/libarchive-${PV}.tar.gz \
+            file://libarchive-CVE-2015-2304.patch \
+            file://mkdir.patch \
+            file://0001-Set-xattrs-after-setting-times.patch \
++           file://0001-configure.ac-check-acl-libacl.h-and-sys-acl.h-based-.patch \
+            "
  
- DEPENDS = "liburcu popt libxml2 util-linux"
- RDEPENDS_${PN} = "libgcc"
--RDEPENDS_${PN}-ptest += "make perl bash"
-+RDEPENDS_${PN}-ptest += "make perl bash gawk ${PN} babeltrace procps"
-+# babelstats.pl wants getopt-long
-+RDEPENDS_${PN}-ptest += "perl-module-getopt-long"
- 
- SRCREV = "d11e0dba0df9024b8613c51e167a379b91e8b20b"
- PV = "2.8.1+git${SRCPV}"
-@@ -29,7 +31,6 @@ PACKAGECONFIG_remove_libc-musl = "lttng-ust"
- 
- SRC_URI = "git://git.lttng.org/lttng-tools.git;branch=stable-2.8 \
-            file://0001-Fix-error.h-common-error.h.patch \
--           file://runtest-2.4.0.patch \
-            file://run-ptest"
- 
- S = "${WORKDIR}/git"
-@@ -56,27 +57,60 @@ do_configure_prepend () {
- }
- 
- do_install_ptest () {
--	chmod +x ${D}${PTEST_PATH}/tests/utils/utils.sh
--	for i in `find ${D}${PTEST_PATH} -perm /u+x -type f`; do
--		sed -e "s:\$TESTDIR.*/src/bin/lttng/\$LTTNG_BIN:\$LTTNG_BIN:g" \
--		  -e "s:\$TESTDIR/../src/bin/lttng-sessiond/\$SESSIOND_BIN:\$SESSIOND_BIN:g" \
--		  -e "s:\$DIR/../src/bin/lttng-sessiond/\$SESSIOND_BIN:\$SESSIOND_BIN:g" \
--		  -e "s:\$TESTDIR/../src/bin/lttng-consumerd/:${libdir}/lttng/libexec/:g" \
--		  -e "s:\$DIR/../src/bin/lttng-consumerd/:${libdir}/lttng/libexec/:g" \
--		  -e "s:\$TESTDIR/../src/bin/lttng-relayd/\$RELAYD_BIN:\$RELAYD_BIN:g" \
--		  -e "s:\$DIR/../src/bin/lttng-sessiond/lttng-sessiond:\$SESSIOND_BIN:g" \
--		  -e "s:\$DIR/../src/bin/lttng-relayd/\$RELAYD_BIN:\$RELAYD_BIN:g" \
--		  -e "s:\$DIR/../bin/lttng-relayd/\$RELAYD_BIN:\$RELAYD_BIN:g" \
--		  -i $i
-+	mkdir -p ${D}${PTEST_PATH}
-+
-+	cp -a -T ${B} ${D}${PTEST_PATH}
-+
-+	# Prevent attempts to update Makefiles during test runs, and
-+	# silence "Making check in $SUBDIR" messages.
-+	find ${D}${PTEST_PATH} -name Makefile -type f -exec \
-+		sed -i -e 's!^Makefile:!_Makefile:!' \
-+		-e '/echo "Making $$target in $$subdir"; \\/d' {} +
-+
-+	# Prevent attempts to update version.h during test runs.
-+	sed -i -e '/^\.PHONY: version\.h$/d' ${D}${PTEST_PATH}/include/Makefile
-+
-+	# Silence "Making check in $SUBDIR" messages.
-+	find ${D}${PTEST_PATH} -name Makefile -type f -exec \
-+		sed -i -e '/echo "Making $$target in $$subdir"; \\/d' {} +
-+
-+	# Substitute links to installed binaries.
-+	for prog in lttng lttng-relayd lttng-sessiond lttng-consumerd ; do
-+		orig="${D}${PTEST_PATH}/src/bin/${prog}/${prog}"
-+		rm "$orig"
-+		case "$prog" in
-+			lttng-consumerd)
-+				ln -s "${libdir}/lttng/libexec/$prog" "$orig"
-+				;;
-+			*)
-+				ln -s "${bindir}/$prog" "$orig"
-+				;;
-+		esac
- 	done
- 
--	# Update libdir references in copied .la files
--	for i in `find ${D}${PTEST_PATH} -type f -name *.la`; do
--		sed -i -e 's#${S}/tests/#${STAGING_DIR}${PTEST_PATH}#g' $i
-+	# Remove libtool artifacts.
-+	find ${D}${PTEST_PATH} \( -name '*.l[ao]' -o -name '*.lai' \) -delete
-+
-+	# Remove object files and archives.
-+	find ${D}${PTEST_PATH} -name '*.[oa]' -type f -delete
-+
-+	# Remove Makefile.am and Makefile.in.
-+	find ${D}${PTEST_PATH} -name 'Makefile.*' -type f -delete
-+
-+	# Remove autom4te.cache.
-+	rm -rf ${D}${PTEST_PATH}/autom4te.cache
-+
-+	# Replace libtool wrapper scripts (which won't work on the
-+	# target) with their corresponding binaries.
-+	for prog in unit/ini_config/ini_config \
-+		regression/tools/live/live_test \
-+		regression/tools/health/health_check ; do
-+		basename=${prog##*/}
-+		ldir=${D}${PTEST_PATH}/tests/${prog%/*}
-+		mv -f ${ldir}/.libs/${basename} ${ldir}
- 	done
- 
--	sed -e "s:src/bin:bin:g" -e "s:lt-::g" \
--	-i ${D}${PTEST_PATH}/tests/utils/utils.sh
--	sed -e "s:ini_config:\.libs\/ini_config:" \
--	-i ${D}${PTEST_PATH}/tests/unit/ini_config/test_ini_config
-+	# checkpatch.pl is unneeded on target and causes file-rdeps QA
-+	# warnings.
-+	rm -f ${D}${PTEST_PATH}/extras/checkpatch.pl
- }
+ SRC_URI[md5sum] = "efad5a503f66329bb9d2f4308b5de98a"
 -- 
 2.7.4
 
