@@ -1,44 +1,27 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-it0-f45.google.com (mail-it0-f45.google.com
-	[209.85.214.45])
-	by mail.openembedded.org (Postfix) with ESMTP id 7889460602
+Return-Path: <anibal.limon@linux.intel.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id 6629860684
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Sep 2016 16:24:25 +0000 (UTC)
-Received: by mail-it0-f45.google.com with SMTP id u134so62595439itb.1
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Sep 2016 09:24:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=3QRKfechhciGO7aAJ2ouAGJgMpuwySy73YQF/9wu4OQ=;
-	b=IKumXJO14I3UB++8905Dutjjg+wD8vABFUIWaxEgTBxV8SglFvScKL6l7zy1eSxcoU
-	cub0bxX161LZGw6vSBp3boLFVCuPxStdr9RRO6n/VY62DRVUmMYY9AmwWyjLMcbt31lD
-	Asvw4e96xsCAbBwEV8citrUAFwe5A+9F4/DcgwzduZHLua5w4saifZSpt/iWGaVdBA56
-	P7PeLj9oQgGDFOV4uBrJjXREDkqmUpWCvR1lnftCpcekWkYLEvWlJs0XthieFttP660Q
-	rkf6oTDgV8Ednzu5JgXgNJtA5R6lqkgHz+VZsNnz0bx60wnrJQbL2vjPtN09yQEj5TTM
-	AbbQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=3QRKfechhciGO7aAJ2ouAGJgMpuwySy73YQF/9wu4OQ=;
-	b=DgWRGGZGWpzPvmD5c5s/+AGEZWWJU3jWbUMG0snHIPL4uqsFk2ZtOQvCE/1oC1YBWm
-	eDMiB8K6+GquBQ6e3ieySEfVzOvJEbxfz4TyhJCvidYWYsb53pdx2hDmey7/FI01T098
-	tAsnOJaFWpgiF7irukr3w0zak+DnTALByCBZ1Iyq/enNGE6WHt7yCrZQSR8hQCQqSk6N
-	rWQwl9WqsQsDccDqwPJpJ8AkLvmTwFLm0AXvtgg7vFLlqfPTqz3BArdMMX/gQfM49dyS
-	yOX/cnIr6dkSF+KvnD2dkuJUv+HuUkQ/mnZ/rfpLKSErmu8cEZormN0e+Q4vxwJel6rY
-	mtOw==
-X-Gm-Message-State: AA6/9RmsMMxR326JP3UHsa1X1We3l7RedeGEV96eBiy8sp4mkAV4BnLzk+cU3e2mfI+S/FdT43m5QimHsqbgnwRq
-X-Received: by 10.36.25.14 with SMTP id b14mr3201332itb.29.1475079866839; Wed,
-	28 Sep 2016 09:24:26 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.107.155.66 with HTTP; Wed, 28 Sep 2016 09:24:06 -0700 (PDT)
-In-Reply-To: <1475078770-26139-1-git-send-email-anibal.limon@linux.intel.com>
+	Wed, 28 Sep 2016 16:58:03 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by fmsmga104.fm.intel.com with ESMTP; 28 Sep 2016 09:58:05 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.30,410,1470726000"; 
+	d="asc'?scan'208";a="884754718"
+Received: from alimonb-mobl1.zpn.intel.com (HELO [10.219.5.35]) ([10.219.5.35])
+	by orsmga003.jf.intel.com with ESMTP; 28 Sep 2016 09:58:04 -0700
+To: Julien Gueytat <contact@jgueytat.fr>, "Burton, Ross"
+	<ross.burton@intel.com>
 References: <1475078770-26139-1-git-send-email-anibal.limon@linux.intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 28 Sep 2016 17:24:06 +0100
-Message-ID: <CAJTo0LbTrb=-boXa+p6oWxvu9RS1V6hMPKrXBFOOHS0yTmv+Og@mail.gmail.com>
-To: =?UTF-8?B?QW7DrWJhbCBMaW3Ds24=?= <anibal.limon@linux.intel.com>
+	<CAJTo0LbTrb=-boXa+p6oWxvu9RS1V6hMPKrXBFOOHS0yTmv+Og@mail.gmail.com>
+	<57EBF027.9000300@jgueytat.fr>
+From: =?UTF-8?B?QW7DrWJhbCBMaW3Ds24=?= <anibal.limon@linux.intel.com>
+Message-ID: <57EBF6CD.8040107@linux.intel.com>
+Date: Wed, 28 Sep 2016 11:58:53 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.3.0
+MIME-Version: 1.0
+In-Reply-To: <57EBF027.9000300@jgueytat.fr>
 Cc: 00moses.alexander00@gmail.com,
 	OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCHv2] db: Upgrade to 6.0.35
@@ -54,69 +37,93 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 28 Sep 2016 16:24:26 -0000
-Content-Type: multipart/alternative; boundary=001a1144b0c47aa9e8053d93cbb1
+X-List-Received-Date: Wed, 28 Sep 2016 16:58:04 -0000
+X-Groupsio-MsgNum: 87630
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature";
+	boundary="pSKpXEBBg5s1Bm5frA8SD0s8mvjx0UK2B"
 
---001a1144b0c47aa9e8053d93cbb1
-Content-Type: text/plain; charset=UTF-8
+--pSKpXEBBg5s1Bm5frA8SD0s8mvjx0UK2B
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
-On 28 September 2016 at 17:06, An=C3=ADbal Lim=C3=B3n <anibal.limon@linux.i=
-ntel.com>
-wrote:
 
-> @@ -18,16 +18,15 @@ RCONFLICTS_${PN} =3D "db3"
->  PR =3D "r1"
+
+On 09/28/2016 11:30 AM, Julien Gueytat wrote:
+> Related to the db recipe. There are also the patches that needs to be
+> regenerated as the same patches are applied for the two current version=
+s.
+> At least on Ubuntu 16.06 the same patch can't be applied anymore on the=
+
+> two versions as the lines where to apply the patches differs too much.
+
+This is a quite strange, i'm wondering why can't be applied, i expect if
+a patch fails in configure/compile stages not at patch apply.
+
+Could you put here the error log please?
+
+	alimon
+
 >
+>=20
+> Le 28/09/2016 18:24, Burton, Ross a =C3=A9crit :
+>>
+>> On 28 September 2016 at 17:06, An=C3=ADbal Lim=C3=B3n
+>> <anibal.limon@linux.intel.com <mailto:anibal.limon@linux.intel.com>>
+>> wrote:
+>>
+>>     @@ -18,16 +18,15 @@ RCONFLICTS_${PN} =3D "db3"
+>>      PR =3D "r1"
+>>
+>>
+>> Remove this PR please.
+>>
+>>      # Note, when upgraded to 6.1.x, a patch in RPM will need to be
+>>     removed to activate db 6.1 support.
+>>     -
+>>     -SRC_URI =3D "http://download.oracle.com/berkeley-db/db-${PV}.tar.=
+gz
+>>     <http://download.oracle.com/berkeley-db/db-$%7BPV%7D.tar.gz> \
+>>     +SRC_URI =3D "http://distfiles.gentoo.org/distfiles/db-${PV}.tar.g=
+z
+>>     <http://distfiles.gentoo.org/distfiles/db-$%7BPV%7D.tar.gz> \
+>>
+>>
+>> What is distfiles.gentoo.org <http://distfiles.gentoo.org>'s policy
+>> when db-6.0.36 is released?  Could the tarball be deleted the day
+>> after we release?  In general we've been either using
+>> snapshot.debian.org <http://snapshot.debian.org> or pointing directly
+>> at the yoctoproject.org <http://yoctoproject.org> source mirror for
+>> tarballs we can't rely upon over time.
+>>
+>> Ross
+>>
+>>
+>=20
+>=20
 
-Remove this PR please.
 
+--pSKpXEBBg5s1Bm5frA8SD0s8mvjx0UK2B
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
 
->  # Note, when upgraded to 6.1.x, a patch in RPM will need to be removed t=
-o
-> activate db 6.1 support.
-> -
-> -SRC_URI =3D "http://download.oracle.com/berkeley-db/db-${PV}.tar.gz \
-> +SRC_URI =3D "http://distfiles.gentoo.org/distfiles/db-${PV}.tar.gz \
->
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
 
-What is distfiles.gentoo.org's policy when db-6.0.36 is released?  Could
-the tarball be deleted the day after we release?  In general we've been
-either using snapshot.debian.org or pointing directly at the
-yoctoproject.org source mirror for tarballs we can't rely upon over time.
+iQIcBAEBAgAGBQJX6/bQAAoJEGJqcE9h3glgiEUQAI9+zzPcZ/dKibIORfbZP8jL
+NqWcvL3whDr4p4PXz45z1i1uO/T4F/KlP9dhcfWkHBTPkIzfrilUfXtqXrZiKHXL
+x7zmOJVsdLSIAfuUgKWkzFMWZIyrZQwruaKzgg+SFvi9n1ZYYk8UM7An8O6Xu7zP
+LYY2RFKlWW9sf8UDUJauRLW00fF2MHS6wSCs7I8aXw2/9N23zfKpp22pJ79tI7ra
+2ZekmwJpT5nFnZKa1VezXRTBctXiG6gZT0NFQz1eryIquTI8+wgFX1Rb8tivZxdf
+7eIdHlgmYMxspdkLmrn3jUywXgQVhae95NuVgzlp6LEIZURFJrzH2d993AY/h6YK
+tr8dzS5B3cpnNg+iYJN5XTmBYiS0M0CCuYMaPedrKjlGZfIlI1Buco9B9id+c/Ra
+JSLnCiFj3foudlFAKQMH1q+g4N0mz6C90POLI0w8KdGfAfO4uqgIJ1liK92ZYRb+
+TBNWL32y7Czbqj/ga/L3kiDvZM4rCsHe1r+G9QRtJOlLhY9h058R1tEVTHwcfdCV
+Upug7iIONSS20EOZn9rcgaGocFYGTWsWHcayKbcaeHLOZ8gQ+VBdjL60TAF9jQQZ
+2dn6fD0xNDM17FRSO7H5pgyQ58JOj3tKWob0lkD98YIpwuhrSvP0oYZcH7LV/QHh
++7DHMf9TIF6yOvDQSZiR
+=AZpF
+-----END PGP SIGNATURE-----
 
-Ross
-
---001a1144b0c47aa9e8053d93cbb1
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 28 September 2016 at 17:06, An=C3=ADbal Lim=C3=B3n <span dir=3D"ltr">&lt=
-;<a href=3D"mailto:anibal.limon@linux.intel.com" target=3D"_blank">anibal.l=
-imon@linux.intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_qu=
-ote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex=
-"><div id=3D":2md" class=3D"a3s aXjCH m157718b82bf8531b">@@ -18,16 +18,15 @=
-@ RCONFLICTS_${PN} =3D &quot;db3&quot;<br>
-=C2=A0PR =3D &quot;r1&quot;<br></div></blockquote><div><br></div><div>Remov=
-e this PR please.</div><div>=C2=A0</div><blockquote class=3D"gmail_quote" s=
-tyle=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div=
- id=3D":2md" class=3D"a3s aXjCH m157718b82bf8531b">
-=C2=A0# Note, when upgraded to 6.1.x, a patch in RPM will need to be remove=
-d to activate db 6.1 support.<br>
--<br>
--SRC_URI =3D &quot;<a href=3D"http://download.oracle.com/berkeley-db/db-${P=
-V}.tar.gz" rel=3D"noreferrer" target=3D"_blank">http://download.oracle.com/=
-<wbr>berkeley-db/db-${PV}.tar.gz</a> \<br>
-+SRC_URI =3D &quot;<a href=3D"http://distfiles.gentoo.org/distfiles/db-${PV=
-}.tar.gz" rel=3D"noreferrer" target=3D"_blank">http://distfiles.gentoo.org/=
-<wbr>distfiles/db-${PV}.tar.gz</a> \<br></div></blockquote></div><br>What i=
-s <a href=3D"http://distfiles.gentoo.org">distfiles.gentoo.org</a>&#39;s po=
-licy when db-6.0.36 is released?=C2=A0 Could the tarball be deleted the day=
- after we release?=C2=A0 In general we&#39;ve been either using <a href=3D"=
-http://snapshot.debian.org">snapshot.debian.org</a> or pointing directly at=
- the <a href=3D"http://yoctoproject.org">yoctoproject.org</a> source mirror=
- for tarballs we can&#39;t rely upon over time.</div><div class=3D"gmail_ex=
-tra"><br></div><div class=3D"gmail_extra">Ross</div></div>
-
---001a1144b0c47aa9e8053d93cbb1--
+--pSKpXEBBg5s1Bm5frA8SD0s8mvjx0UK2B--
