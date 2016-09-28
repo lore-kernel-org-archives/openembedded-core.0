@@ -1,49 +1,39 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f176.google.com (mail-io0-f176.google.com
-	[209.85.223.176])
-	by mail.openembedded.org (Postfix) with ESMTP id 786326AC37
+Return-Path: <andre.draszik@gmail.com>
+Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 46A46605C2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Sep 2016 11:58:09 +0000 (UTC)
-Received: by mail-io0-f176.google.com with SMTP id e66so54103330iod.1
+	Wed, 28 Sep 2016 12:05:46 +0000 (UTC)
+Received: by mail-wm0-f68.google.com with SMTP id l132so5596111wmf.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Sep 2016 04:58:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=hUPPv5lYhOPf+js+PELBjE1bbdbmQFF5ZxtJ+60XP4w=;
-	b=Zah0j6z8WQmbqYIp5L0XqfVCH5EAV24ok4iIDug7P7QfrqR8KYsSh5vSwotad+/mfg
-	ieFgsngAWSYNr4UCTxi1rBUkpuz9ATNENcKbQfhqh13tDNHxThx1YtsIrem+U/EUz7E4
-	bKnErGOO7FTfNpli1zIfVmYLaXgL3SQUywV+Fkhe8wKs8NIJ1phXvYEubh+xNSx/sc1U
-	8mh2qSB1Y431Hj+trruXUyIUyS6aW117Ln1bEdQ162h2++0kCsN55WZF9aXkVa4uoP+G
-	rRyuUUSYH4X/elRpy+JWrKEOwZTLlzthzSEUAK2ZprRsQsOeP1aa+w2nPUqhEMPJGKr7
-	qc6A==
+	Wed, 28 Sep 2016 05:05:48 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=hUPPv5lYhOPf+js+PELBjE1bbdbmQFF5ZxtJ+60XP4w=;
-	b=fI+yL89masHRpd0XysVyUTntL/SPs3BW2LPz0xQKvEk2zGCGy56xo3+aDQYr7D0NUW
-	JVPZCOO85xITVGPKvQNQzUu90L8oezETFmPKyw+73AylyPQSvbj9olj1BYqqxDztZSuq
-	olNMlg4P603pc/wrbBBHc5wUECCNHb1Z5aTF4+ZVZJTgyLZR8DpXFsAHGvlMAUUbsLNI
-	XpjByE0A/oldNLPI0AGrGQ+tVnXysggSsb0PvCZH1F8WvN5QaCKeyG05RNzy5XMtVe/a
-	amCTesqyQH9Z/D9okQMn5C7+NF/LK1AGvh3M2hEtAyNWFOivq/nMLlGaOuC+52sWSPbb
-	eMGw==
-X-Gm-Message-State: AE9vXwORQFnN+U9eCPHkJfWHuU+ujnh5pZXIgePrOYG3LRRRoV17azrPpFmTizYOM8kaAy7oYUmF8yYwMz52HmLy
-X-Received: by 10.107.199.195 with SMTP id x186mr33847548iof.88.1475063890752; 
-	Wed, 28 Sep 2016 04:58:10 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.107.155.66 with HTTP; Wed, 28 Sep 2016 04:57:50 -0700 (PDT)
-In-Reply-To: <1475063789.5024.13.camel@andred.net>
+	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=FIifRgdlAMYzdNtpSTlH6JYYdzR8s9CRy+b2RCSKMXY=;
+	b=NUH49fqOqtfvqldwnlIsE8+VWCRrOdXL+TCISKJGVbjQNcJwsLhiRlk6/MTGk0r54s
+	chrZ4HcCH+n4yDQ5jjvcC1l4h1FJqRnHudOu3J3/1vzJ/sM+oNlpRj1dkOeqT3+vFPM0
+	I9pU62+i/ZsGg3fCuBB663cCWDp4FA34iMHN7tZ2LfWUrVCp03ZfRNT25psJRHCLk9WB
+	zUysijoz7ATzw8iqCqF4zQ+xz+czyrdaBvw/htln/9UZtbv0kBKn2lce5+MRrGDFOD/z
+	d2EE1OqBFTcrxTI8/HvUfmAtxE0SXOZ0x43Z9iyZuFQajE9K0UN74qfBUDZlQr3aqYNo
+	r5Ng==
+X-Gm-Message-State: AA6/9Rk8NzgMND0860K3AskXckK8LE/Bn+pRMhQnhV9bgfq8KJoUa4wZV+1KnluJi7TmVg==
+X-Received: by 10.28.12.209 with SMTP id 200mr7592187wmm.118.1475064347659;
+	Wed, 28 Sep 2016 05:05:47 -0700 (PDT)
+Received: from tfsielt31850.tycofs.com ([77.107.218.170])
+	by smtp.gmail.com with ESMTPSA id 123sm8479804wmj.5.2016.09.28.05.05.46
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 28 Sep 2016 05:05:46 -0700 (PDT)
+From: =?UTF-8?q?Andr=C3=A9=20Draszik?= <git@andred.net>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 28 Sep 2016 13:05:44 +0100
+Message-Id: <20160928120545.28679-1-git@andred.net>
+X-Mailer: git-send-email 2.9.3
+In-Reply-To: <20160926154228.30567-1-git@andred.net>
 References: <20160926154228.30567-1-git@andred.net>
-	<20160926154228.30567-3-git@andred.net>
-	<CAJTo0Lb9AmtOVA73xVkqmXJzQfvQQc0wBspv+miNo_eyuBUCmg@mail.gmail.com>
-	<1475063789.5024.13.camel@andred.net>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 28 Sep 2016 12:57:50 +0100
-Message-ID: <CAJTo0Lbw6Ar372kEg=dDoAmnkGy5ca4ZtYwaR7NBjPbc1Oh=Vw@mail.gmail.com>
-To: =?UTF-8?Q?Andr=C3=A9_Draszik?= <git@andred.net>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/2] cve-check-tool: report progress when downloading CVE database
+MIME-Version: 1.0
+Subject: [PATCH v2 1/2] cve-check-tool: convert do_populate_cve_db() from python to sh
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,39 +46,78 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 28 Sep 2016 11:58:09 -0000
-Content-Type: multipart/alternative; boundary=94eb2c11be4e3ae993053d9013e3
-
---94eb2c11be4e3ae993053d9013e3
+X-List-Received-Date: Wed, 28 Sep 2016 12:05:47 -0000
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On 28 September 2016 at 12:56, Andr=C3=A9 Draszik <git@andred.net> wrote:
+This will allow us to easily incorporate progress support
+via bb.process.run()
 
-> Ups, sorry for that... :-(
->
-> Should I send a patch against master-next, or against master?
->
+Signed-off-by: André Draszik <git@andred.net>
+---
+ .../cve-check-tool/cve-check-tool_5.6.4.bb         | 45 +++++++++-------------
+ 1 file changed, 19 insertions(+), 26 deletions(-)
 
-Happens to the best of us :)   Edit your patch and resend it against master=
-.
+diff --git a/meta/recipes-devtools/cve-check-tool/cve-check-tool_5.6.4.bb b/meta/recipes-devtools/cve-check-tool/cve-check-tool_5.6.4.bb
+index 1165559..5bb22d1 100644
+--- a/meta/recipes-devtools/cve-check-tool/cve-check-tool_5.6.4.bb
++++ b/meta/recipes-devtools/cve-check-tool/cve-check-tool_5.6.4.bb
+@@ -22,35 +22,28 @@ inherit pkgconfig autotools
+ EXTRA_OECONF = "--disable-coverage"
+ CFLAGS_append = " -Wno-error=pedantic"
+ 
+-python do_populate_cve_db () {
+-    import subprocess
+-    import time
+-
+-    if d.getVar("BB_NO_NETWORK", True) == "1":
+-        bb.error("BB_NO_NETWORK is set; Can't update cve-check-tool database, "
+-                  "CVEs won't be checked")
++do_populate_cve_db() {
++    if [ "${BB_NO_NETWORK}" = "1" ] ; then
++        bberror "BB_NO_NETWORK is set; Can't update cve-check-tool database, CVEs won't be checked"
+         return
++    fi
+ 
+-    bb.utils.export_proxies(d)
+     # In case we don't inherit cve-check class, use default values defined in the class.
+-    cve_dir = d.getVar("CVE_CHECK_DB_DIR", True) or d.expand("${DL_DIR}/CVE_CHECK")
+-    cve_file = d.getVar("CVE_CHECK_TMP_FILE", True) or d.expand("${TMPDIR}/cve_check")
+-    cve_cmd = "cve-check-update"
+-    cmd = [cve_cmd, "-d", cve_dir]
+-    bb.debug(1, "Updating cve-check-tool database located in %s" % cve_dir)
+-    try:
+-        output = subprocess.check_output(cmd, stderr=subprocess.STDOUT)
+-        bb.debug(2, "Command '%s' returned:\n%s" % ("\n".join(cmd), output))
+-        time_utc = time.gmtime(time.time())
+-        time_format = "%Y-%m-%d %H:%M:%S"
+-        with open(cve_file, "w") as f:
+-            f.write("CVE database was updated on %s UTC\n\n"
+-                    % time.strftime(time_format, time_utc))
+-
+-    except subprocess.CalledProcessError as e:
+-        bb.warn("Error in executing cve-check-update: %s (output %s)" % (e, e.output))
+-        if bb.data.inherits_class('cve-check', d):
+-            bb.warn("Failed to update cve-check-tool database, CVEs won't be checked")
++    cve_dir="${CVE_CHECK_DB_DIR}"
++    cve_file="${CVE_CHECK_TMP_FILE}"
++
++    [ -z "${cve_dir}" ] && cve_dir="${DL_DIR}/CVE_CHECK"
++    [ -z "${cve_file}" ] && cve_file="${TMPDIR}/cve_check"
++
++    bbdebug 2 "Updating cve-check-tool database located in $cve_dir"
++    if cve-check-update -d "$cve_dir" ; then
++        printf "CVE database was updated on %s UTC\n\n" "$(LANG=C date --utc +'%F %T')" > "$cve_file"
++    else
++        bbwarn "Error in executing cve-check-update"
++        if [ "${@'1' if bb.data.inherits_class('cve-check', d) else '0'}" -ne 0 ] ; then
++            bbwarn "Failed to update cve-check-tool database, CVEs won't be checked"
++        fi
++    fi
+ }
+ 
+ addtask populate_cve_db after do_populate_sysroot
+-- 
+2.9.3
 
-Ross
 
---94eb2c11be4e3ae993053d9013e3
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 28 September 2016 at 12:56, Andr=C3=A9 Draszik <span dir=3D"ltr">&lt;<a =
-href=3D"mailto:git@andred.net" target=3D"_blank">git@andred.net</a>&gt;</sp=
-an> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;=
-border-left:1px #ccc solid;padding-left:1ex"><div id=3D":9dk" class=3D"a3s =
-aXjCH m15770a78ee726d0a">Ups, sorry for that... :-(<br>
-<br>
-Should I send a patch against master-next, or against master?<br></div></bl=
-ockquote><div>=C2=A0</div></div>Happens to the best of us :) =C2=A0 Edit yo=
-ur patch and resend it against master.</div><div class=3D"gmail_extra"><br>=
-</div><div class=3D"gmail_extra">Ross</div></div>
-
---94eb2c11be4e3ae993053d9013e3--
