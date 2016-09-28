@@ -1,23 +1,47 @@
-Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 9F8E860797
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io0-f173.google.com (mail-io0-f173.google.com
+	[209.85.223.173])
+	by mail.openembedded.org (Postfix) with ESMTP id 545CB60766
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Sep 2016 10:06:31 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 28 Sep 2016 03:06:32 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.30,409,1470726000"; d="scan'208";a="1057683057"
-Received: from linux.intel.com ([10.54.29.200])
-	by orsmga002.jf.intel.com with ESMTP; 28 Sep 2016 03:06:32 -0700
-Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.68])
-	by linux.intel.com (Postfix) with ESMTP id B9D076A4006;
-	Wed, 28 Sep 2016 03:06:04 -0700 (PDT)
-From: Ed Bartosh <ed.bartosh@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 28 Sep 2016 12:55:30 +0300
-Message-Id: <1475056530-31095-1-git-send-email-ed.bartosh@linux.intel.com>
-X-Mailer: git-send-email 2.1.4
-Subject: [PATCH] scripts: add new script
+	Wed, 28 Sep 2016 10:55:17 +0000 (UTC)
+Received: by mail-io0-f173.google.com with SMTP id r145so51280402ior.0
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 28 Sep 2016 03:55:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=Vc636SaBx7wNYYghPnYX9ySDxbzbsM5/iZ8wqbS3Ya4=;
+	b=hEeHG1FCFL93DYKj8zENopQjhzQzGe+9x0S4VJgNoS0WvX1MbzGoux/Zkz1EOpSan0
+	P7W8APKlwhkmgT6YkVMOvtLlL/JYUAiOSkcdOmBo/LVrU3k58QvQvUHgMMgV4Y+3KEyI
+	9xVJO7RwUW3e4AgBNXnrCh3YV/KbDenajKKoRs+MLcB51yF+yyKi9E6PaZOUIDJnR6Yk
+	f7b29WAvye/LU18UEOzUHJqwKjBLOtuCQMJ1Xu9Ubp6JuVH/Nss/Um0UaHbXUCORrpFL
+	9JJVh7196+Zwm3PK0ClxQ1HnInWWXpSbyduuzLj259rfxHCdgZb1Qipk6gKt2lCv5SVW
+	uFzA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=Vc636SaBx7wNYYghPnYX9ySDxbzbsM5/iZ8wqbS3Ya4=;
+	b=G4wKPEhtr6LPzjWUn0Qcpbv0frRzAvDyJSgZHQtXmEzY46YuuDCNk0bYMehZaR4ura
+	E5h4ehO6KL7IhRblFif65RS1Exwwe1F45/0WHsAXbU23HyqlFQlpb9PIRp+ssHbbdbP8
+	rrI/c/Wz/CtpDNET49D0DTSpxvDkCwDRgEbysg5jClWf/AhQeJA65tsDDZbjLFVCN3Tj
+	WpyEC6z0DDG0cOIllpRxBGd0L2LaizLrmyhkQWrzTlGXcWnk5pj9c03PuXulTGAogwWq
+	LPlSAkVRBBu7P4DaBbBxt5whpIoFbuOWSQF6pNuF5E9cTQxzJgo+lB5w02cTKMbUgFZi
+	v7lA==
+X-Gm-Message-State: AA6/9RnlXMznpgTILdkquKk9F4x84VMCVtrqBiw1z41q+nmtzbPCrp6kZAp5yqsuMqE3En5CNk/uDTTDrdKjkvjS
+X-Received: by 10.107.28.67 with SMTP id c64mr5170015ioc.195.1475060118510;
+	Wed, 28 Sep 2016 03:55:18 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.107.155.66 with HTTP; Wed, 28 Sep 2016 03:54:58 -0700 (PDT)
+In-Reply-To: <20160926154228.30567-3-git@andred.net>
+References: <20160926154228.30567-1-git@andred.net>
+	<20160926154228.30567-3-git@andred.net>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 28 Sep 2016 11:54:58 +0100
+Message-ID: <CAJTo0Lb9AmtOVA73xVkqmXJzQfvQQc0wBspv+miNo_eyuBUCmg@mail.gmail.com>
+To: =?UTF-8?Q?Andr=C3=A9_Draszik?= <git@andred.net>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/2] cve-check-tool: report progress when downloading CVE database
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,74 +54,91 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 28 Sep 2016 10:06:33 -0000
+X-List-Received-Date: Wed, 28 Sep 2016 10:55:17 -0000
+Content-Type: multipart/alternative; boundary=001a113fd40462f16f053d8f3210
 
-Added 'native' convenience shell script to run native tools.
-Example of usage:
-  > bitbake bmap-tools-native
-  > native bmaptool --version
+--001a113fd40462f16f053d8f3210
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
----
- scripts/native | 48 ++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 48 insertions(+)
- create mode 100755 scripts/native
+On 26 September 2016 at 16:42, Andr=C3=A9 Draszik <git@andred.net> wrote:
 
-diff --git a/scripts/native b/scripts/native
-new file mode 100755
-index 0000000..5e904b0
---- /dev/null
-+++ b/scripts/native
-@@ -0,0 +1,48 @@
-+#!/bin/sh
-+#
-+# Copyright (c) 2016,  Intel Corporation.
-+# All Rights Reserved
-+#
-+# This program is free software;  you can redistribute it and/or modify
-+# it under the terms of the GNU General Public License as published by
-+# the Free Software Foundation; either version 2 of the License, or
-+# (at your option) any later version.
-+#
-+# This program is distributed in the hope that it will be useful,
-+# but WITHOUT ANY WARRANTY;  without even the implied warranty of
-+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See
-+# the GNU General Public License for more details.
-+#
-+# You should have received a copy of the GNU General Public License
-+# along with this program;  if not, see <http://www.gnu.org/licenses/>
-+#
-+
-+#
-+# This script is for running tools from native oe sysroot
-+#
-+
-+if [ $# -lt 1 -o "$1" == '--help' -o "$1" == '-h' ]; then
-+    echo "Usage: $0 <native tool> [parameters]"
-+    exit 1
-+fi
-+
-+SYSROOT_SETUP_SCRIPT=`which oe-find-native-sysroot 2> /dev/null`
-+if [ -z "$SYSROOT_SETUP_SCRIPT" ]; then
-+        echo "Error: Unable to find oe-find-native-sysroot script"
-+        exit 1
-+fi
-+. $SYSROOT_SETUP_SCRIPT
-+
-+OLDPATH=$PATH
-+
-+# look for a tool only in native sysroot
-+PATH=$OECORE_NATIVE_SYSROOT/usr/bin:$OECORE_NATIVE_SYSROOT/bin:$OECORE_NATIVE_SYSROOT/usr/sbin:$OECORE_NATIVE_SYSROOT/sbin
-+tool=`/usr/bin/which $1 2>/dev/null`
-+
-+if [ -n "$tool" ] ; then
-+    # add old path to allow usage of host tools
-+    PATH=$PATH:$OLD_PATH $@
-+else
-+    echo "Error: Unable to find '$1' in native sysroot"
-+    exit 1
-+fi
--- 
-2.1.4
+> ++static int progress_callback_new(void *ptr, curl_off_t dltotal,
+> curl_off_t dlnow, curl_off_t ultotal, curl_off_t ulnow)
+> ++{
+> ++        (void) ultotal;
+> ++        (void) ulnow;
+> ++
+> ++        struct percent_t *percent =3D (struct percent_t *) ptr;
+> ++
+> ++        if (dltotal && percent) {
+> ++                long diff =3D percent->end - percent->start;
+> ++                if (diff) {
+> ++                        fprintf(stderr,"completed: %lu%%\r",
+> percent->start + (diff * dlnow / dltotal));
+> ++                }
+> ++        }
+> ++
+> ++        return 0;
+> ++}
+>
 
+This fails on the autobuilder cluster:
 
+| ../../cve-check-tool-5.6.4/src/library/fetch.c: In function
+'progress_callback_new':
+| ../../cve-check-tool-5.6.4/src/library/fetch.c:55:54: error: format '%lu'
+expects argument of type 'long unsigned int', but argument 3 has type
+'curl_off_t {aka long long int}' [-Werror=3Dformat=3D]
+|                          fprintf(stderr,"completed: %lu%%\r",
+percent->start + (diff * dlnow / dltotal));
+|                                                       ^
+
+Ross
+
+--001a113fd40462f16f053d8f3210
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 26 September 2016 at 16:42, Andr=C3=A9 Draszik <span dir=3D"ltr">&lt;<a =
+href=3D"mailto:git@andred.net" target=3D"_blank">git@andred.net</a>&gt;</sp=
+an> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px=
+ 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);border-left=
+-style:solid;padding-left:1ex"><div id=3D"gmail-:9nn" class=3D"gmail-a3s gm=
+ail-aXjCH gmail-m157672a52456100f">++static int progress_callback_new(void =
+*ptr, curl_off_t dltotal, curl_off_t dlnow, curl_off_t ultotal, curl_off_t =
+ulnow)<br>
+++{<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 (void) ultotal;<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 (void) ulnow;<br>
+++<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 struct percent_t *percent =3D (struct percent=
+_t *) ptr;<br>
+++<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (dltotal &amp;&amp; percent) {<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 long diff =3D per=
+cent-&gt;end - percent-&gt;start;<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (diff) {<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 fprintf(stderr,&quot;completed: %lu%%\r&quot;, percent-&gt;start=
+ + (diff * dlnow / dltotal));<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+++<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 return 0;<br>
+++}</div></blockquote></div><div class=3D"gmail_extra"><br></div>This fails=
+ on the autobuilder cluster:</div><div class=3D"gmail_extra"><br>| ../../cv=
+e-check-tool-5.6.4/src/library/fetch.c: In function &#39;progress_callback_=
+new&#39;:<br>| ../../cve-check-tool-5.6.4/src/library/fetch.c:55:54: error:=
+ format &#39;%lu&#39; expects argument of type &#39;long unsigned int&#39;,=
+ but argument 3 has type &#39;curl_off_t {aka long long int}&#39; [-Werror=
+=3Dformat=3D]<br>| =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0fprintf(stderr,&quot;completed: %lu%%\r&q=
+uot;, percent-&gt;start + (diff * dlnow / dltotal));<br>| =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 ^<br><br></div><div class=3D"gmail_extra">Ross</di=
+v></div>
+
+--001a113fd40462f16f053d8f3210--
