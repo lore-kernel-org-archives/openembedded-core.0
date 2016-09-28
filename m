@@ -1,31 +1,41 @@
-Return-Path: <contact@jgueytat.fr>
-X-Greylist: delayed 3356 seconds by postgrey-1.34 at layers.openembedded.org;
-	Wed, 28 Sep 2016 17:26:31 UTC
-Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net
-	[217.70.183.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 44B8A60017
+Return-Path: <prvs=307982320c=michael.davis@essvote.com>
+X-Greylist: delayed 902 seconds by postgrey-1.34 at layers.openembedded.org;
+	Wed, 28 Sep 2016 18:51:46 UTC
+Received: from m2.essvote.com (m2.essvote.com [66.37.226.14])
+	by mail.openembedded.org (Postfix) with ESMTP id DF62F6014F
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Sep 2016 17:26:31 +0000 (UTC)
-Received: from mfilter30-d.gandi.net (mfilter30-d.gandi.net [217.70.178.161])
-	by relay4-d.mail.gandi.net (Postfix) with ESMTP id 31A901720AC;
-	Wed, 28 Sep 2016 19:26:32 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at mfilter30-d.gandi.net
-Received: from relay4-d.mail.gandi.net ([IPv6:::ffff:217.70.183.196])
-	by mfilter30-d.gandi.net (mfilter30-d.gandi.net [::ffff:10.0.15.180])
-	(amavisd-new, port 10024)
-	with ESMTP id kpVg2DaibUlv; Wed, 28 Sep 2016 19:26:30 +0200 (CEST)
-X-Originating-IP: 92.90.16.73
-Received: from [100.115.239.108] (73.16.90.92.rev.sfr.net [92.90.16.73])
-	(Authenticated sender: contact@jgueytat.fr)
-	by relay4-d.mail.gandi.net (Postfix) with ESMTPSA id 2A77E172094;
-	Wed, 28 Sep 2016 19:26:28 +0200 (CEST)
-Date: Wed, 28 Sep 2016 19:26:27 +0200
-From: Julien Gueytat <contact@jgueytat.fr>
-To: =?ISO-8859-1?Q?An=EDbal_Lim=F3n?= <anibal.limon@linux.intel.com>
+	Wed, 28 Sep 2016 18:51:46 +0000 (UTC)
+X-AuditID: 0a00029b-f79b86d000002197-74-57ec0dbb09bd
+Received: from ESS-EX01.essvote.corp.local (Unknown_Domain [172.16.110.40])
+	by m2.essvote.com (Symantec Messaging Gateway) with SMTP id
+	6D.0F.08599.BBD0CE75; Wed, 28 Sep 2016 13:36:43 -0500 (CDT)
+Received: from ESS-EX01.essvote.corp.local ([::1]) by
+	ESS-EX01.essvote.corp.local ([::1]) with mapi id 14.03.0301.000;
+	Wed, 28 Sep 2016 13:36:42 -0500
+From: "Davis, Michael" <michael.davis@essvote.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [oe-core][krogoth][PATCH] pulseaudio: Disable unit tests
+Thread-Index: AQHSGbdBGwA+tJyl7kecC4YgEQ+ZmQ==
+Date: Wed, 28 Sep 2016 18:36:41 +0000
+Message-ID: <1475087765-19476-1-git-send-email-michael.davis@essvote.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.1.20.26]
 MIME-Version: 1.0
-Cc: 00moses.alexander00@gmail.com,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCHv2] db: Upgrade to 6.0.35
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrFLMWRmVeSWpSXmKPExsWyRiBPQ3c375twg+Mt8hZ3fr5jt5i3w96B
+	yWPxnpdMHuc2rmAMYIritklKLCkLzkzP07dL4M5ovviQueAqR0Xrni7GBsbF7F2MnBwSAiYS
+	a27dY4KwxSQu3FvP1sXIxSEkcJRR4v/LI0wQzixGib07+1hAqtgEjCTOXd/ECGKLCERLLJ0x
+	E2wSs0C4xMmnR1hBbGEBR4kvez+xQdS4SbR2rIKq15N4cr8bLM4ioCpxfudaMJtXwFNi4ozt
+	YPMZga74fmoNE8RMcYlbT+ZDXScgsWTPeWYIW1Ti5eN/rBC2nMTLcy8YIer1JG5MncIGYWtL
+	LFv4mhlivqDEyZlPWCYwisxCMnYWkpZZSFpmIWlZwMiyipEv10gvtbi4LL8kVS85P3cTIzAG
+	uBiYZu9g3DPB4RCjAAejEg/vhbuvwoVYE8uKK3MPMUpzsCiJ81778ChcSCA9sSQ1OzW1ILUo
+	vqg0J7X4ECMTB+chRgkOLimR4tS8lNSixNKSjHhQXMUXAyNLqoHR9vBNrZJYx9s3qxqbK92S
+	buzR4Xf/2DTjXmJ84LrnmiF3Rd6pdtqW/bPfcOyY0IsIEVNrldTFjTvUIyt0D96d3tZjwXBv
+	dVbyuhapuEsnmeQClPq+Jf5K3sXy5EemwEGtw1lSNj85nfJuaEeKO+XtdtUtvPz3g1TAP8uk
+	Z4ft17pZhwp2sSixFGckGmoxFxUnAgAyaZtYfQIAAA==
+Subject: [krogoth][PATCH] pulseaudio: Disable unit tests
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,45 +48,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 28 Sep 2016 17:26:33 -0000
-Message-ID: <MADEUP.15FE20644916777A.13558@groups.io>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Wed, 28 Sep 2016 18:51:47 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 
-QWxyaWdodCEgSSdtIGdpdmluZyB5b3UgdGhhdCBxdWlja2x5LgoKU2VudCBmcm9tIG15IFdJS08g
-UkFJTkJPVyBMSVRFIDRHTGUgMjggc2VwdC4gMjAxNiAxODo1OCwgQW7DrWJhbCBMaW3Ds24gPGFu
-aWJhbC5saW1vbkBsaW51eC5pbnRlbC5jb20+IGEgw6ljcml0IDoKPgo+Cj4KPiBPbiAwOS8yOC8y
-MDE2IDExOjMwIEFNLCBKdWxpZW4gR3VleXRhdCB3cm90ZTogCj4gPiBSZWxhdGVkIHRvIHRoZSBk
-YiByZWNpcGUuIFRoZXJlIGFyZSBhbHNvIHRoZSBwYXRjaGVzIHRoYXQgbmVlZHMgdG8gYmUgCj4g
-PiByZWdlbmVyYXRlZCBhcyB0aGUgc2FtZSBwYXRjaGVzIGFyZSBhcHBsaWVkIGZvciB0aGUgdHdv
-IGN1cnJlbnQgdmVyc2lvbnMuIAo+ID4gQXQgbGVhc3Qgb24gVWJ1bnR1IDE2LjA2IHRoZSBzYW1l
-IHBhdGNoIGNhbid0IGJlIGFwcGxpZWQgYW55bW9yZSBvbiB0aGUgCj4gPiB0d28gdmVyc2lvbnMg
-YXMgdGhlIGxpbmVzIHdoZXJlIHRvIGFwcGx5IHRoZSBwYXRjaGVzIGRpZmZlcnMgdG9vIG11Y2gu
-IAo+Cj4gVGhpcyBpcyBhIHF1aXRlIHN0cmFuZ2UsIGknbSB3b25kZXJpbmcgd2h5IGNhbid0IGJl
-IGFwcGxpZWQsIGkgZXhwZWN0IGlmIAo+IGEgcGF0Y2ggZmFpbHMgaW4gY29uZmlndXJlL2NvbXBp
-bGUgc3RhZ2VzIG5vdCBhdCBwYXRjaCBhcHBseS4gCj4KPiBDb3VsZCB5b3UgcHV0IGhlcmUgdGhl
-IGVycm9yIGxvZyBwbGVhc2U/IAo+Cj4gYWxpbW9uIAo+Cj4gPiAKPiA+IAo+ID4gTGUgMjgvMDkv
-MjAxNiAxODoyNCwgQnVydG9uLCBSb3NzIGEgw6ljcml0IDogCj4gPj4gCj4gPj4gT24gMjggU2Vw
-dGVtYmVyIDIwMTYgYXQgMTc6MDYsIEFuw61iYWwgTGltw7NuIAo+ID4+IDxhbmliYWwubGltb25A
-bGludXguaW50ZWwuY29tIDxtYWlsdG86YW5pYmFsLmxpbW9uQGxpbnV4LmludGVsLmNvbT4+IAo+
-ID4+IHdyb3RlOiAKPiA+PiAKPiA+PsKgwqDCoMKgIEBAIC0xOCwxNiArMTgsMTUgQEAgUkNPTkZM
-SUNUU18ke1BOfSA9ICJkYjMiIAo+ID4+wqDCoMKgwqDCoCBQUiA9ICJyMSIgCj4gPj4gCj4gPj4g
-Cj4gPj4gUmVtb3ZlIHRoaXMgUFIgcGxlYXNlLiAKPiA+PiAKPiA+PsKgwqDCoMKgwqAgIyBOb3Rl
-LCB3aGVuIHVwZ3JhZGVkIHRvIDYuMS54LCBhIHBhdGNoIGluIFJQTSB3aWxsIG5lZWQgdG8gYmUg
-Cj4gPj7CoMKgwqDCoCByZW1vdmVkIHRvIGFjdGl2YXRlIGRiIDYuMSBzdXBwb3J0LiAKPiA+PsKg
-wqDCoMKgIC0gCj4gPj7CoMKgwqDCoCAtU1JDX1VSSSA9ICJodHRwOi8vZG93bmxvYWQub3JhY2xl
-LmNvbS9iZXJrZWxleS1kYi9kYi0ke1BWfS50YXIuZ3ogCj4gPj7CoMKgwqDCoCA8aHR0cDovL2Rv
-d25sb2FkLm9yYWNsZS5jb20vYmVya2VsZXktZGIvZGItJCU3QlBWJTdELnRhci5nej4gXCAKPiA+
-PsKgwqDCoMKgICtTUkNfVVJJID0gImh0dHA6Ly9kaXN0ZmlsZXMuZ2VudG9vLm9yZy9kaXN0Zmls
-ZXMvZGItJHtQVn0udGFyLmd6IAo+ID4+wqDCoMKgwqAgPGh0dHA6Ly9kaXN0ZmlsZXMuZ2VudG9v
-Lm9yZy9kaXN0ZmlsZXMvZGItJCU3QlBWJTdELnRhci5nej4gXCAKPiA+PiAKPiA+PiAKPiA+PiBX
-aGF0IGlzIGRpc3RmaWxlcy5nZW50b28ub3JnIDxodHRwOi8vZGlzdGZpbGVzLmdlbnRvby5vcmc+
-J3MgcG9saWN5IAo+ID4+IHdoZW4gZGItNi4wLjM2IGlzIHJlbGVhc2VkP8KgIENvdWxkIHRoZSB0
-YXJiYWxsIGJlIGRlbGV0ZWQgdGhlIGRheSAKPiA+PiBhZnRlciB3ZSByZWxlYXNlP8KgIEluIGdl
-bmVyYWwgd2UndmUgYmVlbiBlaXRoZXIgdXNpbmcgCj4gPj4gc25hcHNob3QuZGViaWFuLm9yZyA8
-aHR0cDovL3NuYXBzaG90LmRlYmlhbi5vcmc+IG9yIHBvaW50aW5nIGRpcmVjdGx5IAo+ID4+IGF0
-IHRoZSB5b2N0b3Byb2plY3Qub3JnIDxodHRwOi8veW9jdG9wcm9qZWN0Lm9yZz4gc291cmNlIG1p
-cnJvciBmb3IgCj4gPj4gdGFyYmFsbHMgd2UgY2FuJ3QgcmVseSB1cG9uIG92ZXIgdGltZS4gCj4g
-Pj4gCj4gPj4gUm9zcyAKPiA+PiAKPiA+PiAKPiA+IAo+ID4gCj4K
+From: "Davis, Michael" <michael.davis@essvote.com>
 
+Pulseaudio unit tests create a dependency on check not in the recipe.
+Since unit tests are not used they are disabled to eliminate build race con=
+dition.
+
+Backported from master commit 92cfdb2ba7e04e2b70986c6569f500dd2a48b5d1
+
+Signed-off-by: Michael Davis <michael.davis@essvote.com>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-multimedia/pulseaudio/pulseaudio.inc | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc b/meta/recip=
+es-multimedia/pulseaudio/pulseaudio.inc
+index 8a28ca7..accafe1 100644
+--- a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
++++ b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
+@@ -30,6 +30,7 @@ EXTRA_OECONF =3D "\
+ 		--without-zsh-completion-dir \
+ 		--with-udev-rules-dir=3D`pkg-config --variable=3Dudevdir udev`/rules.d \
+                 ac_cv_header_valgrind_memcheck_h=3Dno \
++                --disable-tests \
+ "
+=20
+ # soxr (the SoX Resampler library) doesn't seem to be currently packaged i=
+n
+--=20
+2.5.5
 
