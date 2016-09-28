@@ -1,26 +1,49 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id AF17D605BF
+Return-Path: <kergoth@gmail.com>
+Received: from mail-oi0-f68.google.com (mail-oi0-f68.google.com
+	[209.85.218.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 3366B6FF84
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Sep 2016 14:59:36 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u8SExbhF001496; Wed, 28 Sep 2016 15:59:37 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id Ka9ubEcu9Kgy; Wed, 28 Sep 2016 15:59:37 +0100 (BST)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u8SExYVI001493
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Wed, 28 Sep 2016 15:59:35 +0100
-Message-ID: <1475074774.30475.69.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Wed, 28 Sep 2016 15:59:34 +0100
-X-Mailer: Evolution 3.18.5.2-0ubuntu3 
-Mime-Version: 1.0
-Subject: [PATCH] cross-canadian/libgcc-common: Fixes for arm multilib
+	Wed, 28 Sep 2016 15:00:22 +0000 (UTC)
+Received: by mail-oi0-f68.google.com with SMTP id n202so3150658oig.2
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 28 Sep 2016 08:00:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:from:date:message-id
+	:subject:to:cc;
+	bh=8fWyru/WWcjcPenmyTDDRpKt6m24jxr2mPGzbzSr/RM=;
+	b=vT4ECQMSgzGa2Ca20BNP6B7Ky9n2hGpwvkKH191t7y7bPpm1eAE1IQ4jd2GkuYv6BV
+	fWDsVbkvbHLRGd9C5I9PHY7Flehj5ZNkTo2OdfuLOUhCjVVWl27BPvQ4Qqze2++OeIqU
+	N8xF8SZ6BjodK0+fyyVztCoRJO+IPupYzrQoD7QneOQTj75v6a/ACc8PYZ8V779wogHS
+	/5XDkMIGlnZYBHZ4/+H6c6rNbU9LLeEHEhli4uK5UEf/iIFYIgQNveoovwDuYGmUiFo3
+	NfRZGYcfGJACev/6yqksTVWQDm1xkg3Hv+OIqLkxjGGvnbu7GBnJFEwsvLGlLFDQJOTn
+	awMg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:sender:in-reply-to:references:from
+	:date:message-id:subject:to:cc;
+	bh=8fWyru/WWcjcPenmyTDDRpKt6m24jxr2mPGzbzSr/RM=;
+	b=Cp7tvCzpQw4ydrMAFA7FshsN3id7sfRW6aTsZTlPOKP53tJfdscpk0u1KFBQY7b2pF
+	70BL08Jq5zynosAOYj9aG2pmXeiWSC3303c7ch4sOau/1SvldkZ5fglwRKQGob8Xwg5i
+	t+J/bNMqhm6Oa66IPZy+jSTCuBGhojcgE/rbzCasj9q7wVfQ9poV1IWIEasRYkC9V4ig
+	uK3TEy9KePQP0H+Reb09jD0yk1jhNz9LzpJVCOHM1Pd/Ynd1jbsNb5vOh97KHVFpXQud
+	D50KrR+hXfdKYLP/QTxcstL4vUu5i1W3xPNe6qgdzWTViljmKgyeBcfo3HNKEd9NQPy1
+	al+A==
+X-Gm-Message-State: AA6/9RmtWty74X2x6KlbhFqdyX+nyFJrYRRXSEJ0gIGYDDfZo1iJ83WyP3VZeOwpCLWZlN05BjiRCNvqy9NdzA==
+X-Received: by 10.157.6.170 with SMTP id 39mr80117otx.60.1475074824070; Wed,
+	28 Sep 2016 08:00:24 -0700 (PDT)
+MIME-Version: 1.0
+Sender: kergoth@gmail.com
+Received: by 10.157.13.194 with HTTP; Wed, 28 Sep 2016 08:00:03 -0700 (PDT)
+In-Reply-To: <1475056530-31095-1-git-send-email-ed.bartosh@linux.intel.com>
+References: <1475056530-31095-1-git-send-email-ed.bartosh@linux.intel.com>
+From: Christopher Larson <clarson@kergoth.com>
+Date: Wed, 28 Sep 2016 08:00:03 -0700
+X-Google-Sender-Auth: tpZAbyBcua_s1_cMBb-uIIu9hsU
+Message-ID: <CABcZAN=WpicbLyg-sc=GDiMS81iwsGe1m+NE-fUfw2tniWpWXA@mail.gmail.com>
+To: Ed Bartosh <ed.bartosh@linux.intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] scripts: add new script
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,69 +56,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 28 Sep 2016 14:59:38 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 28 Sep 2016 15:00:25 -0000
+Content-Type: multipart/alternative; boundary=94eb2c043d16e7eafa053d929e51
 
-Arm is unusual in that we force it to "linux-gnueabi" and "linux" doesn't
-build. This was causing problems for multilib configurations which were assuming
-"linux" was the default compiler rather than linux-gnueabi.
+--94eb2c043d16e7eafa053d929e51
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-This change does two things, ensures symlinks are generated for linux-gnueabi
-and also adapts the libgcc code to account for the difference on arm.
+On Wed, Sep 28, 2016 at 2:55 AM, Ed Bartosh <ed.bartosh@linux.intel.com>
+wrote:
 
-It still needs to immediately expand/save TARGET_VENDOR but we defer
-deciding what TARGET_OS should be until we know TARGET_ARCH (which the
-multilib code may change).
+> Added 'native' convenience shell script to run native tools.
+> Example of usage:
+>   > bitbake bmap-tools-native
+>   > native bmaptool --version
+>
+> Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
+>
 
-[YOCTO #8642]
+=E2=80=98add new script=E2=80=99 is not a useful commit message summary. Yo=
+u don=E2=80=99t even
+mention what script you add until the message body.
+--=20
+Christopher Larson
+clarson at kergoth dot com
+Founder - BitBake, OpenEmbedded, OpenZaurus
+Maintainer - Tslib
+Senior Software Engineer, Mentor Graphics
 
-Note that sanity tests of a 32 bit arm multilib still break due to issues
-with the kernel headers on a mixed bit system. This looks to be a general
-headers issue for the platform though and a different type of bug.
+--94eb2c043d16e7eafa053d929e51
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On Wed, Sep 28, 2016 at 2:55 AM, Ed Bartosh <span dir=3D"ltr">&lt;<a href=
+=3D"mailto:ed.bartosh@linux.intel.com" target=3D"_blank">ed.bartosh@linux.i=
+ntel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=
+=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=
+=3D":1mx" class=3D"a3s aXjCH m1577042e1fd6da4d">Added &#39;native&#39; conv=
+enience shell script to run native tools.<br>
+Example of usage:<br>
+=C2=A0 &gt; bitbake bmap-tools-native<br>
+=C2=A0 &gt; native bmaptool --version<br>
+<br>
+Signed-off-by: Ed Bartosh &lt;<a href=3D"mailto:ed.bartosh@linux.intel.com"=
+>ed.bartosh@linux.intel.com</a>&gt;</div></blockquote></div><br>=E2=80=98ad=
+d new script=E2=80=99 is not a useful commit message summary. You don=E2=80=
+=99t even mention what script you add until the message body.<br>-- <br><di=
+v class=3D"gmail_signature" data-smartmail=3D"gmail_signature">Christopher =
+Larson<br>clarson at kergoth dot com<br>Founder - BitBake, OpenEmbedded, Op=
+enZaurus<br>Maintainer - Tslib<br>Senior Software Engineer, Mentor Graphics=
+</div>
+</div></div>
 
-diff --git a/meta/classes/cross-canadian.bbclass b/meta/classes/cross-canadian.bbclass
-index 099c0da..21921b3 100644
---- a/meta/classes/cross-canadian.bbclass
-+++ b/meta/classes/cross-canadian.bbclass
-@@ -80,7 +80,7 @@ python () {
-         for extraos in d.getVar("BASECANADIANEXTRAOS", True).split():
-             d.appendVar("CANADIANEXTRAOS", " " + extraos + "n32")
-     if tarch == "arm" or tarch == "armeb":
--        d.appendVar("CANADIANEXTRAOS", " linux-musleabi linux-uclibceabi")
-+        d.appendVar("CANADIANEXTRAOS", " linux-gnueabi linux-musleabi linux-uclibceabi")
-         d.setVar("TARGET_OS", "linux-gnueabi")
-     else:
-         d.setVar("TARGET_OS", "linux")
-diff --git a/meta/recipes-devtools/gcc/libgcc-common.inc b/meta/recipes-devtools/gcc/libgcc-common.inc
-index 4e4f0fd..1549eb4 100644
---- a/meta/recipes-devtools/gcc/libgcc-common.inc
-+++ b/meta/recipes-devtools/gcc/libgcc-common.inc
-@@ -123,15 +123,18 @@ fakeroot python do_multilib_install() {
-         os.symlink(src, dest)
- }
- 
--def get_original_vendoros(d):
--    vendoros = d.expand('${TARGET_VENDOR}-${TARGET_OS}')
-+def get_original_os(d):
-+    vendoros = d.expand('${TARGET_ARCH}${ORIG_TARGET_VENDOR}-${TARGET_OS}')
-     for suffix in [d.getVar('ABIEXTENSION', True), d.getVar('LIBCEXTENSION', True)]:
-         if suffix and vendoros.endswith(suffix):
-             vendoros = vendoros[:-len(suffix)]
-+    # Arm must use linux-gnueabi not linux as only the former is accepted by gcc
-+    if vendoros.startswith("arm-") and not vendoros.endswith("-gnueabi"):
-+        vendoros = vendoros + "-gnueabi"
-     return vendoros
- 
--ORIG_TARGET_VENDOROS := "${@get_original_vendoros(d)}"
--BASETARGET_SYS = "${TARGET_ARCH}${ORIG_TARGET_VENDOROS}"
-+ORIG_TARGET_VENDOR := "${TARGET_VENDOR}"
-+BASETARGET_SYS = "${@get_original_os(d)}"
- 
- addtask extra_symlinks after do_multilib_install before do_package do_populate_sysroot
- fakeroot python do_extra_symlinks() {
-
-
-
+--94eb2c043d16e7eafa053d929e51--
