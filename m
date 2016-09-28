@@ -1,35 +1,49 @@
-Return-Path: <Jackie.Huang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 6BFD66074F
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-vk0-f65.google.com (mail-vk0-f65.google.com
+	[209.85.213.65])
+	by mail.openembedded.org (Postfix) with ESMTP id B3072605C2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Sep 2016 00:43:59 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u8S0i0s8019037
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Wed, 28 Sep 2016 01:24:41 +0000 (UTC)
+Received: by mail-vk0-f65.google.com with SMTP id 192so1111610vkl.2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Sep 2016 17:44:00 -0700 (PDT)
-Received: from ALA-MBA.corp.ad.wrs.com ([169.254.3.129]) by
-	ALA-HCA.corp.ad.wrs.com ([147.11.189.40]) with mapi id 14.03.0294.000;
-	Tue, 27 Sep 2016 17:43:57 -0700
-From: "Huang, Jie (Jackie)" <Jackie.Huang@windriver.com>
-To: "BURTON, ROSS" <ross.burton@intel.com>
-Thread-Topic: [OE-core] [PATCH 2/2 v2] boost: add support for additional
-	boost libs
-Thread-Index: AQHSGLqvMJNVTEFs4EyooyC5Dmn5t6CODD/w
-Date: Wed, 28 Sep 2016 00:43:53 +0000
-Message-ID: <1B858668EC6A94408DCA5225FDFA85AA013A2E1CB9@ALA-MBA.corp.ad.wrs.com>
-References: <cover.1474875470.git.jackie.huang@windriver.com>
-	<b4dd791086d6e09a415d5dcd2afafa7906aab3c4.1474875470.git.jackie.huang@windriver.com>
-	<CAJTo0Lb0+rRw3LTdaW7PjkGPC1mo==s1CAF8MX9ozTabvOdDPQ@mail.gmail.com>
-In-Reply-To: <CAJTo0Lb0+rRw3LTdaW7PjkGPC1mo==s1CAF8MX9ozTabvOdDPQ@mail.gmail.com>
-Accept-Language: en-US, zh-CN
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [128.224.162.131]
+	Tue, 27 Sep 2016 18:24:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-transfer-encoding;
+	bh=CH2PGVLFMnxKVHjiclTY3ZRGtkGGczOMTLVnEaxTvgA=;
+	b=ynTh9FqzV23SO4E5snVy+CbW/1zXUS8mV1lAKwLAcIfOu7o+1Qlr6WNK+wJtKkJ1p5
+	XQPC6IS7eAqAmRrsCJKwa6tisesdySH/t2Dll4yRgzYkiPrWZz4dDMtZmbG/vLIDwUID
+	Rx0HZGaZ2umlCt3glTCzZX9tGmY8EA0Aj0hOi+f7gzZrRQ+K+5slNbr7UqF7NxHusuMG
+	nI4LsCym4G/yfGOTZQpYgFE/0xSIf9HL9uB1GGdDfc/mST2BdfeQqdimN5b3tPmZjtfX
+	sMJvgbyVmW905FYzbtruUa/KvZzVHT/kDX87A+LdhcmokaQXCNx/K2pRdD/7T7SFqxuD
+	MUbg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=CH2PGVLFMnxKVHjiclTY3ZRGtkGGczOMTLVnEaxTvgA=;
+	b=NIqAMb1VRAozrSeCDOUwWF5GpsdVozmHjM+SrYWeEEwittC1aHPAZR2Al3p3nmdvxs
+	ys1AARZFcFcxpSjCFRlUW6t4LDuOxC5QqJTfFO7hwNrsEcMWqqOBPn6SZo8ZYBMUBgBc
+	o9M1luiV+QNvc2Z4h+X7Bw45l5UD4yDlsC6W0hIKmG02vTBsC7h7L/GPv81/XG3EIP4F
+	V4gV7Fdy7d79VYtoK/f1O485lOMi+KfXPs17v5SVLmFlNDJ/hWE72ahe6ESosohpR79M
+	F9OgQ1SJROnmJufiVfxJ49KPCvye0RUu59GcftC6OyM7yjkSutW5g5L1CPt5KoGnnjCa
+	FW/A==
+X-Gm-Message-State: AA6/9Rne8izNQFtmMGIxg5p4WokXAzfK8hjJ9bBpEbFQPkbDgamY8U75xj7jSSlXD/3nBZ7keQVqGOSpcn+3lQ==
+X-Received: by 10.31.120.6 with SMTP id t6mr15444962vkc.140.1475025882682;
+	Tue, 27 Sep 2016 18:24:42 -0700 (PDT)
 MIME-Version: 1.0
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/2 v2] boost: add support for additional boost libs
+Received: by 10.176.86.206 with HTTP; Tue, 27 Sep 2016 18:24:12 -0700 (PDT)
+In-Reply-To: <57EB044C.3070505@linux.intel.com>
+References: <1475019786-20996-1-git-send-email-anibal.limon@linux.intel.com>
+	<57EB044C.3070505@linux.intel.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Tue, 27 Sep 2016 18:24:12 -0700
+Message-ID: <CAMKF1so-JOz85vVL0+OPXH2NUmvUkCWkPf+uCn-GUCtfLZjiog@mail.gmail.com>
+To: =?UTF-8?B?QW7DrWJhbCBMaW3Ds24=?= <anibal.limon@linux.intel.com>
+Cc: 00moses.alexander00@gmail.com,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] db: Upgrade to 6.0.35
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,142 +56,78 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 28 Sep 2016 00:44:00 -0000
-Content-Language: en-US
-Content-Type: multipart/alternative;
-	boundary="_000_1B858668EC6A94408DCA5225FDFA85AA013A2E1CB9ALAMBAcorpadw_"
+X-List-Received-Date: Wed, 28 Sep 2016 01:24:42 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
---_000_1B858668EC6A94408DCA5225FDFA85AA013A2E1CB9ALAMBAcorpadw_
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+On Tue, Sep 27, 2016 at 4:44 PM, An=C3=ADbal Lim=C3=B3n
+<anibal.limon@linux.intel.com> wrote:
+> For apply this patch we need to host the db-6.0.35 tarball into yp
+> sources mirror because oracle page ask for login in order to download
+> the source.
 
-WWVzLCB0aGV5IGFyZSBuZWVkZWQgZm9yIHRoZSBjYXNlcyBub3QgaGFuZGxlZCBieSB0aGUgcHl0
-aG9uIGxvZ2ljLCBvciBJIG1ldCBRQSBpc3N1ZXM6DQoNCldBUk5JTkc6IFZhcmlhYmxlIGtleSBG
-SUxFU18ke1BOfS1sb2NhbGUgKCR7ZGF0YWRpcn0vbG9jYWxlKSByZXBsYWNlcyBvcmlnaW5hbCBr
-ZXkgRklMRVNfYm9vc3QtbG9jYWxlICgke2xpYmRpcn0vbGliYm9vc3RfbG9jYWxlLnNvLiopDQpX
-QVJOSU5HOiBib29zdC0xLjYxLjAtcjAgZG9fcGFja2FnZTogUUEgSXNzdWU6IGJvb3N0OiBGaWxl
-cy9kaXJlY3RvcmllcyB3ZXJlIGluc3RhbGxlZCBidXQgbm90IHNoaXBwZWQgaW4gYW55IHBhY2th
-Z2U6DQogIC91c3IvbGliNjQvbGliYm9vc3RfbG9jYWxlLnNvLjEuNjEuMA0KDQpGb3IgdGhlIGdy
-YXBoIHBhcnRzLCBhbGwgbGliYm9vc3RfZ3JhcGgqIHdpbGwgZ28gaW50byBQTi1ncmFwaCBhbmQg
-UE4tZ3JhcGhfcGFyYWxsZWwgd2lsbCBiZSBlbXB0eS4NCg0KVGhhbmtzLA0KSmFja2llDQoNCg0K
-RnJvbTogQnVydG9uLCBSb3NzIFttYWlsdG86cm9zcy5idXJ0b25AaW50ZWwuY29tXQ0KU2VudDog
-VHVlc2RheSwgU2VwdGVtYmVyIDI3LCAyMDE2IDg6MjkgUE0NClRvOiBIdWFuZywgSmllIChKYWNr
-aWUpDQpDYzogT0UtY29yZQ0KU3ViamVjdDogUmU6IFtPRS1jb3JlXSBbUEFUQ0ggMi8yIHYyXSBi
-b29zdDogYWRkIHN1cHBvcnQgZm9yIGFkZGl0aW9uYWwgYm9vc3QgbGlicw0KDQoNCk9uIDI2IFNl
-cHRlbWJlciAyMDE2IGF0IDA4OjU2LCA8amFja2llLmh1YW5nQHdpbmRyaXZlci5jb208bWFpbHRv
-OmphY2tpZS5odWFuZ0B3aW5kcml2ZXIuY29tPj4gd3JvdGU6DQorRklMRVNfJHtQTn0tZ3JhcGgg
-PSAiJHtsaWJkaXJ9L2xpYmJvb3N0X2dyYXBoLnNvLioiDQorRklMRVNfJHtQTn0tZ3JhcGhfcGFy
-YWxsZWwgPSAiJHtsaWJkaXJ9L2xpYmJvb3N0X2dyYXBoX3BhcmFsbGVsLnNvLioiDQorRklMRVNf
-JHtQTn0tbG9jYWxlID0gIiR7bGliZGlyfS9saWJib29zdF9sb2NhbGUuc28uKiINCitGSUxFU18k
-e1BOfS1tcGkgPSAiJHtsaWJkaXJ9L21waS5zbyAke2xpYmRpcn0vbGliYm9vc3RfbXBpKi5zby4q
-Ig0KDQpBcmUgYWxsIG9mIHRoZXNlIHJlYWxseSByZXF1aXJlZD8gIEFwYXJ0IGZyb20gJHtsaWJk
-aXJ9L21waS5zbyB0aGV5IGxvb2sgbGlrZSB0aGV5J2xsIGJlIGhhbmRsZWQgYnkgdGhlIFB5dGhv
-biBsb2dpYyBpbiB0aGUgcmVjaXBlLg0KDQpSb3NzDQo=
+why do they ask for login ? is there some disclaimer that needs to be
+accepted before download ?
 
---_000_1B858668EC6A94408DCA5225FDFA85AA013A2E1CB9ALAMBAcorpadw_
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: base64
+>
+>         alimon
+>
+> On 09/27/2016 06:43 PM, An=C3=ADbal Lim=C3=B3n wrote:
+>> This is a minor upgrade that fix an issue related to multiple
+>> rpm instances querying the database [1].
+>>
+>> The bugfixes related are,
+>>
+>> - Fixed a bug that may lead to a crash when opening multiple environment=
+s
+>> in a multi-threaded program.
+>> - Fixed a bug where closing a panic environment raised access violation
+>>   and crashed the program.
+>>
+>> For see the complete list of changes mainly bugfixes between
+>> 6.0.30 and 6.0.35 [2].
+>>
+>> [1] https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D10157#c0
+>> [2] http://download.oracle.com/otndocs/products/berkeleydb/html/changelo=
+g_6_0.html#idp503384
+>>
+>> [YOCTO #10157]
+>>
+>> Signed-off-by: An=C3=ADbal Lim=C3=B3n <anibal.limon@linux.intel.com>
+>> ---
+>>  meta/recipes-support/db/{db_6.0.30.bb =3D> db_6.0.35.bb} | 4 ++--
+>>  1 file changed, 2 insertions(+), 2 deletions(-)
+>>  rename meta/recipes-support/db/{db_6.0.30.bb =3D> db_6.0.35.bb} (96%)
+>>
+>> diff --git a/meta/recipes-support/db/db_6.0.30.bb b/meta/recipes-support=
+/db/db_6.0.35.bb
+>> similarity index 96%
+>> rename from meta/recipes-support/db/db_6.0.30.bb
+>> rename to meta/recipes-support/db/db_6.0.35.bb
+>> index 072cbdf..4a3b72f 100644
+>> --- a/meta/recipes-support/db/db_6.0.30.bb
+>> +++ b/meta/recipes-support/db/db_6.0.35.bb
+>> @@ -26,8 +26,8 @@ SRC_URI =3D "http://download.oracle.com/berkeley-db/db=
+-${PV}.tar.gz \
+>>             file://Makefile-let-libdb-6.0.la-depend-os_map.l.patch \
+>>             "
+>>
+>> -SRC_URI[md5sum] =3D "ad28eb86ad3203b5422844db179c585b"
+>> -SRC_URI[sha256sum] =3D "608e4b1cf390e9bf54c0ef00c5bd9ca76d36e2261b9f4d3=
+3d54516f3f6a20fd2"
+>> +SRC_URI[md5sum] =3D "c65a4d3e930a116abaaf69edfc697f25"
+>> +SRC_URI[sha256sum] =3D "24421affa8ae436fe427ae4f5f2d1634da83d3d55a5ad63=
+54a98eeedb825de55"
+>>
+>>  # Exclude NC versions which lack AES encryption
+>>  UPSTREAM_CHECK_REGEX =3D "db-(?P<pver>\d+\.\d+(\.\d+)?).tar"
+>>
+>
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
 
-PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
-bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
-YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
-cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
-VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
-Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
-ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTQgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
-PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
-5a6L5L2TOw0KCXBhbm9zZS0xOjIgMSA2IDAgMyAxIDEgMSAxIDE7fQ0KQGZvbnQtZmFjZQ0KCXtm
-b250LWZhbWlseTrlrovkvZM7DQoJcGFub3NlLTE6MiAxIDYgMCAzIDEgMSAxIDEgMTt9DQpAZm9u
-dC1mYWNlDQoJe2ZvbnQtZmFtaWx5OkNhbGlicmk7DQoJcGFub3NlLTE6MiAxNSA1IDIgMiAyIDQg
-MyAyIDQ7fQ0KQGZvbnQtZmFjZQ0KCXtmb250LWZhbWlseTpUYWhvbWE7DQoJcGFub3NlLTE6MiAx
-MSA2IDQgMyA1IDQgNCAyIDQ7fQ0KQGZvbnQtZmFjZQ0KCXtmb250LWZhbWlseToiXEDlrovkvZMi
-Ow0KCXBhbm9zZS0xOjIgMSA2IDAgMyAxIDEgMSAxIDE7fQ0KLyogU3R5bGUgRGVmaW5pdGlvbnMg
-Ki8NCnAuTXNvTm9ybWFsLCBsaS5Nc29Ob3JtYWwsIGRpdi5Nc29Ob3JtYWwNCgl7bWFyZ2luOjBp
-bjsNCgltYXJnaW4tYm90dG9tOi4wMDAxcHQ7DQoJZm9udC1zaXplOjEyLjBwdDsNCglmb250LWZh
-bWlseToiVGltZXMgTmV3IFJvbWFuIiwic2VyaWYiO30NCmE6bGluaywgc3Bhbi5Nc29IeXBlcmxp
-bmsNCgl7bXNvLXN0eWxlLXByaW9yaXR5Ojk5Ow0KCWNvbG9yOmJsdWU7DQoJdGV4dC1kZWNvcmF0
-aW9uOnVuZGVybGluZTt9DQphOnZpc2l0ZWQsIHNwYW4uTXNvSHlwZXJsaW5rRm9sbG93ZWQNCgl7
-bXNvLXN0eWxlLXByaW9yaXR5Ojk5Ow0KCWNvbG9yOnB1cnBsZTsNCgl0ZXh0LWRlY29yYXRpb246
-dW5kZXJsaW5lO30NCnNwYW4uRW1haWxTdHlsZTE3DQoJe21zby1zdHlsZS10eXBlOnBlcnNvbmFs
-LXJlcGx5Ow0KCWZvbnQtZmFtaWx5OiJDYWxpYnJpIiwic2Fucy1zZXJpZiI7DQoJY29sb3I6IzFG
-NDk3RDt9DQouTXNvQ2hwRGVmYXVsdA0KCXttc28tc3R5bGUtdHlwZTpleHBvcnQtb25seTsNCglm
-b250LWZhbWlseToiQ2FsaWJyaSIsInNhbnMtc2VyaWYiO30NCkBwYWdlIFdvcmRTZWN0aW9uMQ0K
-CXtzaXplOjguNWluIDExLjBpbjsNCgltYXJnaW46MS4waW4gMS4yNWluIDEuMGluIDEuMjVpbjt9
-DQpkaXYuV29yZFNlY3Rpb24xDQoJe3BhZ2U6V29yZFNlY3Rpb24xO30NCi0tPjwvc3R5bGU+PCEt
-LVtpZiBndGUgbXNvIDldPjx4bWw+DQo8bzpzaGFwZWRlZmF1bHRzIHY6ZXh0PSJlZGl0IiBzcGlk
-bWF4PSIxMDI2IiAvPg0KPC94bWw+PCFbZW5kaWZdLS0+PCEtLVtpZiBndGUgbXNvIDldPjx4bWw+
-DQo8bzpzaGFwZWxheW91dCB2OmV4dD0iZWRpdCI+DQo8bzppZG1hcCB2OmV4dD0iZWRpdCIgZGF0
-YT0iMSIgLz4NCjwvbzpzaGFwZWxheW91dD48L3htbD48IVtlbmRpZl0tLT4NCjwvaGVhZD4NCjxi
-b2R5IGxhbmc9IkVOLVVTIiBsaW5rPSJibHVlIiB2bGluaz0icHVycGxlIj4NCjxkaXYgY2xhc3M9
-IldvcmRTZWN0aW9uMSI+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0iZm9udC1z
-aXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LCZxdW90O3NhbnMtc2Vy
-aWYmcXVvdDs7Y29sb3I6IzFGNDk3RCI+WWVzLCB0aGV5IGFyZSBuZWVkZWQgZm9yIHRoZSBjYXNl
-cyBub3QgaGFuZGxlZCBieSB0aGUgcHl0aG9uIGxvZ2ljLCBvciBJIG1ldCBRQSBpc3N1ZXM6PG86
-cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9ImZv
-bnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OywmcXVvdDtzYW5z
-LXNlcmlmJnF1b3Q7O2NvbG9yOiMxRjQ5N0QiPjxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4N
-CjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQt
-ZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssJnF1b3Q7c2Fucy1zZXJpZiZxdW90Oztjb2xvcjoj
-MUY0OTdEIj5XQVJOSU5HOiBWYXJpYWJsZSBrZXkgRklMRVNfJHtQTn0tbG9jYWxlICgke2RhdGFk
-aXJ9L2xvY2FsZSkgcmVwbGFjZXMgb3JpZ2luYWwga2V5IEZJTEVTX2Jvb3N0LWxvY2FsZSAoJHts
-aWJkaXJ9L2xpYmJvb3N0X2xvY2FsZS5zby4qKTxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNs
-YXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5
-OiZxdW90O0NhbGlicmkmcXVvdDssJnF1b3Q7c2Fucy1zZXJpZiZxdW90Oztjb2xvcjojMUY0OTdE
-Ij5XQVJOSU5HOiBib29zdC0xLjYxLjAtcjAgZG9fcGFja2FnZTogUUEgSXNzdWU6IGJvb3N0OiBG
-aWxlcy9kaXJlY3RvcmllcyB3ZXJlIGluc3RhbGxlZCBidXQgbm90IHNoaXBwZWQgaW4gYW55IHBh
-Y2thZ2U6PG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4g
-c3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90Oywm
-cXVvdDtzYW5zLXNlcmlmJnF1b3Q7O2NvbG9yOiMxRjQ5N0QiPiZuYnNwOyAvdXNyL2xpYjY0L2xp
-YmJvb3N0X2xvY2FsZS5zby4xLjYxLjA8bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0i
-TXNvTm9ybWFsIj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVv
-dDtDYWxpYnJpJnF1b3Q7LCZxdW90O3NhbnMtc2VyaWYmcXVvdDs7Y29sb3I6IzFGNDk3RCI+PG86
-cD4mbmJzcDs8L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5
-bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OywmcXVv
-dDtzYW5zLXNlcmlmJnF1b3Q7O2NvbG9yOiMxRjQ5N0QiPkZvciB0aGUgZ3JhcGggcGFydHMsIGFs
-bCBsaWJib29zdF9ncmFwaCogd2lsbCBnbyBpbnRvIFBOLWdyYXBoIGFuZCBQTi1ncmFwaF9wYXJh
-bGxlbCB3aWxsIGJlIGVtcHR5LjxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29O
-b3JtYWwiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0Nh
-bGlicmkmcXVvdDssJnF1b3Q7c2Fucy1zZXJpZiZxdW90Oztjb2xvcjojMUY0OTdEIj48bzpwPiZu
-YnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0i
-Zm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LCZxdW90O3Nh
-bnMtc2VyaWYmcXVvdDs7Y29sb3I6IzFGNDk3RCI+VGhhbmtzLDxvOnA+PC9vOnA+PC9zcGFuPjwv
-cD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2Zv
-bnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssJnF1b3Q7c2Fucy1zZXJpZiZxdW90Oztjb2xv
-cjojMUY0OTdEIj5KYWNraWU8bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9y
-bWFsIj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxp
-YnJpJnF1b3Q7LCZxdW90O3NhbnMtc2VyaWYmcXVvdDs7Y29sb3I6IzFGNDk3RCI+PG86cD4mbmJz
-cDs8L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9ImZv
-bnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OywmcXVvdDtzYW5z
-LXNlcmlmJnF1b3Q7O2NvbG9yOiMxRjQ5N0QiPjxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4N
-CjxkaXYgc3R5bGU9ImJvcmRlcjpub25lO2JvcmRlci1sZWZ0OnNvbGlkIGJsdWUgMS41cHQ7cGFk
-ZGluZzowaW4gMGluIDBpbiA0LjBwdCI+DQo8ZGl2Pg0KPGRpdiBzdHlsZT0iYm9yZGVyOm5vbmU7
-Ym9yZGVyLXRvcDpzb2xpZCAjQjVDNERGIDEuMHB0O3BhZGRpbmc6My4wcHQgMGluIDBpbiAwaW4i
-Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PGI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMC4wcHQ7
-Zm9udC1mYW1pbHk6JnF1b3Q7VGFob21hJnF1b3Q7LCZxdW90O3NhbnMtc2VyaWYmcXVvdDsiPkZy
-b206PC9zcGFuPjwvYj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjEwLjBwdDtmb250LWZhbWlseTom
-cXVvdDtUYWhvbWEmcXVvdDssJnF1b3Q7c2Fucy1zZXJpZiZxdW90OyI+IEJ1cnRvbiwgUm9zcyBb
-bWFpbHRvOnJvc3MuYnVydG9uQGludGVsLmNvbV0NCjxicj4NCjxiPlNlbnQ6PC9iPiBUdWVzZGF5
-LCBTZXB0ZW1iZXIgMjcsIDIwMTYgODoyOSBQTTxicj4NCjxiPlRvOjwvYj4gSHVhbmcsIEppZSAo
-SmFja2llKTxicj4NCjxiPkNjOjwvYj4gT0UtY29yZTxicj4NCjxiPlN1YmplY3Q6PC9iPiBSZTog
-W09FLWNvcmVdIFtQQVRDSCAyLzIgdjJdIGJvb3N0OiBhZGQgc3VwcG9ydCBmb3IgYWRkaXRpb25h
-bCBib29zdCBsaWJzPG86cD48L286cD48L3NwYW4+PC9wPg0KPC9kaXY+DQo8L2Rpdj4NCjxwIGNs
-YXNzPSJNc29Ob3JtYWwiPjxvOnA+Jm5ic3A7PC9vOnA+PC9wPg0KPGRpdj4NCjxkaXY+DQo8cCBj
-bGFzcz0iTXNvTm9ybWFsIj48bzpwPiZuYnNwOzwvbzpwPjwvcD4NCjxkaXY+DQo8cCBjbGFzcz0i
-TXNvTm9ybWFsIj5PbiAyNiBTZXB0ZW1iZXIgMjAxNiBhdCAwODo1NiwgJmx0OzxhIGhyZWY9Im1h
-aWx0bzpqYWNraWUuaHVhbmdAd2luZHJpdmVyLmNvbSIgdGFyZ2V0PSJfYmxhbmsiPmphY2tpZS5o
-dWFuZ0B3aW5kcml2ZXIuY29tPC9hPiZndDsgd3JvdGU6PG86cD48L286cD48L3A+DQo8ZGl2IGlk
-PSI6N3lnIj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPiYjNDM7RklMRVNfJHtQTn0tZ3JhcGggPSAm
-cXVvdDske2xpYmRpcn0vbGliYm9vc3RfZ3JhcGguc28uKiZxdW90Ozxicj4NCiYjNDM7RklMRVNf
-JHtQTn0tZ3JhcGhfcGFyYWxsZWwgPSAmcXVvdDske2xpYmRpcn0vbGliYm9vc3RfZ3JhcGhfcGFy
-YWxsZWwuc28uKiZxdW90Ozxicj4NCiYjNDM7RklMRVNfJHtQTn0tbG9jYWxlID0gJnF1b3Q7JHts
-aWJkaXJ9L2xpYmJvb3N0X2xvY2FsZS5zby4qJnF1b3Q7PGJyPg0KJiM0MztGSUxFU18ke1BOfS1t
-cGkgPSAmcXVvdDske2xpYmRpcn0vbXBpLnNvICR7bGliZGlyfS9saWJib29zdF9tcGkqLnNvLiom
-cXVvdDs8bzpwPjwvbzpwPjwvcD4NCjwvZGl2Pg0KPC9kaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFs
-Ij48YnI+DQpBcmUgYWxsIG9mIHRoZXNlIHJlYWxseSByZXF1aXJlZD8mbmJzcDsgQXBhcnQgZnJv
-bSAke2xpYmRpcn0vbXBpLnNvIHRoZXkgbG9vayBsaWtlIHRoZXknbGwgYmUgaGFuZGxlZCBieSB0
-aGUgUHl0aG9uIGxvZ2ljIGluIHRoZSByZWNpcGUuPG86cD48L286cD48L3A+DQo8L2Rpdj4NCjxk
-aXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48bzpwPiZuYnNwOzwvbzpwPjwvcD4NCjwvZGl2Pg0K
-PGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPlJvc3M8bzpwPjwvbzpwPjwvcD4NCjwvZGl2Pg0K
-PC9kaXY+DQo8L2Rpdj4NCjwvZGl2Pg0KPC9ib2R5Pg0KPC9odG1sPg0K
-
---_000_1B858668EC6A94408DCA5225FDFA85AA013A2E1CB9ALAMBAcorpadw_--
