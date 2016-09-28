@@ -1,25 +1,28 @@
-Return-Path: <anibal.limon@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id B0BF760123
+Return-Path: <contact@jgueytat.fr>
+X-Greylist: delayed 3356 seconds by postgrey-1.34 at layers.openembedded.org;
+	Wed, 28 Sep 2016 17:26:31 UTC
+Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net
+	[217.70.183.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 44B8A60017
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Sep 2016 17:18:30 +0000 (UTC)
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-	by fmsmga102.fm.intel.com with ESMTP; 28 Sep 2016 10:18:21 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.30,410,1470726000"; 
-	d="asc'?scan'208";a="14292263"
-Received: from alimonb-mobl1.zpn.intel.com (HELO [10.219.5.35]) ([10.219.5.35])
-	by orsmga005.jf.intel.com with ESMTP; 28 Sep 2016 10:18:18 -0700
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <1475078770-26139-1-git-send-email-anibal.limon@linux.intel.com>
-	<CAJTo0LbTrb=-boXa+p6oWxvu9RS1V6hMPKrXBFOOHS0yTmv+Og@mail.gmail.com>
-From: =?UTF-8?B?QW7DrWJhbCBMaW3Ds24=?= <anibal.limon@linux.intel.com>
-Message-ID: <57EBFB88.8080208@linux.intel.com>
-Date: Wed, 28 Sep 2016 12:19:04 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.3.0
+	Wed, 28 Sep 2016 17:26:31 +0000 (UTC)
+Received: from mfilter30-d.gandi.net (mfilter30-d.gandi.net [217.70.178.161])
+	by relay4-d.mail.gandi.net (Postfix) with ESMTP id 31A901720AC;
+	Wed, 28 Sep 2016 19:26:32 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at mfilter30-d.gandi.net
+Received: from relay4-d.mail.gandi.net ([IPv6:::ffff:217.70.183.196])
+	by mfilter30-d.gandi.net (mfilter30-d.gandi.net [::ffff:10.0.15.180])
+	(amavisd-new, port 10024)
+	with ESMTP id kpVg2DaibUlv; Wed, 28 Sep 2016 19:26:30 +0200 (CEST)
+X-Originating-IP: 92.90.16.73
+Received: from [100.115.239.108] (73.16.90.92.rev.sfr.net [92.90.16.73])
+	(Authenticated sender: contact@jgueytat.fr)
+	by relay4-d.mail.gandi.net (Postfix) with ESMTPSA id 2A77E172094;
+	Wed, 28 Sep 2016 19:26:28 +0200 (CEST)
+Date: Wed, 28 Sep 2016 19:26:27 +0200
+From: Julien Gueytat <contact@jgueytat.fr>
+To: =?ISO-8859-1?Q?An=EDbal_Lim=F3n?= <anibal.limon@linux.intel.com>
 MIME-Version: 1.0
-In-Reply-To: <CAJTo0LbTrb=-boXa+p6oWxvu9RS1V6hMPKrXBFOOHS0yTmv+Og@mail.gmail.com>
 Cc: 00moses.alexander00@gmail.com,
 	OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCHv2] db: Upgrade to 6.0.35
@@ -35,83 +38,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 28 Sep 2016 17:18:30 -0000
-X-Groupsio-MsgNum: 87634
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature";
-	boundary="nu77NkrboaKmaB4kRf2MQD9eXLaWdqcCj"
-
---nu77NkrboaKmaB4kRf2MQD9eXLaWdqcCj
+X-List-Received-Date: Wed, 28 Sep 2016 17:26:33 -0000
+Message-ID: <MADEUP.15FE20644916777A.13558@groups.io>
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: base64
+
+QWxyaWdodCEgSSdtIGdpdmluZyB5b3UgdGhhdCBxdWlja2x5LgoKU2VudCBmcm9tIG15IFdJS08g
+UkFJTkJPVyBMSVRFIDRHTGUgMjggc2VwdC4gMjAxNiAxODo1OCwgQW7DrWJhbCBMaW3Ds24gPGFu
+aWJhbC5saW1vbkBsaW51eC5pbnRlbC5jb20+IGEgw6ljcml0IDoKPgo+Cj4KPiBPbiAwOS8yOC8y
+MDE2IDExOjMwIEFNLCBKdWxpZW4gR3VleXRhdCB3cm90ZTogCj4gPiBSZWxhdGVkIHRvIHRoZSBk
+YiByZWNpcGUuIFRoZXJlIGFyZSBhbHNvIHRoZSBwYXRjaGVzIHRoYXQgbmVlZHMgdG8gYmUgCj4g
+PiByZWdlbmVyYXRlZCBhcyB0aGUgc2FtZSBwYXRjaGVzIGFyZSBhcHBsaWVkIGZvciB0aGUgdHdv
+IGN1cnJlbnQgdmVyc2lvbnMuIAo+ID4gQXQgbGVhc3Qgb24gVWJ1bnR1IDE2LjA2IHRoZSBzYW1l
+IHBhdGNoIGNhbid0IGJlIGFwcGxpZWQgYW55bW9yZSBvbiB0aGUgCj4gPiB0d28gdmVyc2lvbnMg
+YXMgdGhlIGxpbmVzIHdoZXJlIHRvIGFwcGx5IHRoZSBwYXRjaGVzIGRpZmZlcnMgdG9vIG11Y2gu
+IAo+Cj4gVGhpcyBpcyBhIHF1aXRlIHN0cmFuZ2UsIGknbSB3b25kZXJpbmcgd2h5IGNhbid0IGJl
+IGFwcGxpZWQsIGkgZXhwZWN0IGlmIAo+IGEgcGF0Y2ggZmFpbHMgaW4gY29uZmlndXJlL2NvbXBp
+bGUgc3RhZ2VzIG5vdCBhdCBwYXRjaCBhcHBseS4gCj4KPiBDb3VsZCB5b3UgcHV0IGhlcmUgdGhl
+IGVycm9yIGxvZyBwbGVhc2U/IAo+Cj4gYWxpbW9uIAo+Cj4gPiAKPiA+IAo+ID4gTGUgMjgvMDkv
+MjAxNiAxODoyNCwgQnVydG9uLCBSb3NzIGEgw6ljcml0IDogCj4gPj4gCj4gPj4gT24gMjggU2Vw
+dGVtYmVyIDIwMTYgYXQgMTc6MDYsIEFuw61iYWwgTGltw7NuIAo+ID4+IDxhbmliYWwubGltb25A
+bGludXguaW50ZWwuY29tIDxtYWlsdG86YW5pYmFsLmxpbW9uQGxpbnV4LmludGVsLmNvbT4+IAo+
+ID4+IHdyb3RlOiAKPiA+PiAKPiA+PsKgwqDCoMKgIEBAIC0xOCwxNiArMTgsMTUgQEAgUkNPTkZM
+SUNUU18ke1BOfSA9ICJkYjMiIAo+ID4+wqDCoMKgwqDCoCBQUiA9ICJyMSIgCj4gPj4gCj4gPj4g
+Cj4gPj4gUmVtb3ZlIHRoaXMgUFIgcGxlYXNlLiAKPiA+PiAKPiA+PsKgwqDCoMKgwqAgIyBOb3Rl
+LCB3aGVuIHVwZ3JhZGVkIHRvIDYuMS54LCBhIHBhdGNoIGluIFJQTSB3aWxsIG5lZWQgdG8gYmUg
+Cj4gPj7CoMKgwqDCoCByZW1vdmVkIHRvIGFjdGl2YXRlIGRiIDYuMSBzdXBwb3J0LiAKPiA+PsKg
+wqDCoMKgIC0gCj4gPj7CoMKgwqDCoCAtU1JDX1VSSSA9ICJodHRwOi8vZG93bmxvYWQub3JhY2xl
+LmNvbS9iZXJrZWxleS1kYi9kYi0ke1BWfS50YXIuZ3ogCj4gPj7CoMKgwqDCoCA8aHR0cDovL2Rv
+d25sb2FkLm9yYWNsZS5jb20vYmVya2VsZXktZGIvZGItJCU3QlBWJTdELnRhci5nej4gXCAKPiA+
+PsKgwqDCoMKgICtTUkNfVVJJID0gImh0dHA6Ly9kaXN0ZmlsZXMuZ2VudG9vLm9yZy9kaXN0Zmls
+ZXMvZGItJHtQVn0udGFyLmd6IAo+ID4+wqDCoMKgwqAgPGh0dHA6Ly9kaXN0ZmlsZXMuZ2VudG9v
+Lm9yZy9kaXN0ZmlsZXMvZGItJCU3QlBWJTdELnRhci5nej4gXCAKPiA+PiAKPiA+PiAKPiA+PiBX
+aGF0IGlzIGRpc3RmaWxlcy5nZW50b28ub3JnIDxodHRwOi8vZGlzdGZpbGVzLmdlbnRvby5vcmc+
+J3MgcG9saWN5IAo+ID4+IHdoZW4gZGItNi4wLjM2IGlzIHJlbGVhc2VkP8KgIENvdWxkIHRoZSB0
+YXJiYWxsIGJlIGRlbGV0ZWQgdGhlIGRheSAKPiA+PiBhZnRlciB3ZSByZWxlYXNlP8KgIEluIGdl
+bmVyYWwgd2UndmUgYmVlbiBlaXRoZXIgdXNpbmcgCj4gPj4gc25hcHNob3QuZGViaWFuLm9yZyA8
+aHR0cDovL3NuYXBzaG90LmRlYmlhbi5vcmc+IG9yIHBvaW50aW5nIGRpcmVjdGx5IAo+ID4+IGF0
+IHRoZSB5b2N0b3Byb2plY3Qub3JnIDxodHRwOi8veW9jdG9wcm9qZWN0Lm9yZz4gc291cmNlIG1p
+cnJvciBmb3IgCj4gPj4gdGFyYmFsbHMgd2UgY2FuJ3QgcmVseSB1cG9uIG92ZXIgdGltZS4gCj4g
+Pj4gCj4gPj4gUm9zcyAKPiA+PiAKPiA+PiAKPiA+IAo+ID4gCj4K
 
 
-
-On 09/28/2016 11:24 AM, Burton, Ross wrote:
-> On 28 September 2016 at 17:06, An=C3=ADbal Lim=C3=B3n <anibal.limon@lin=
-ux.intel.com>
-> wrote:
->=20
->> @@ -18,16 +18,15 @@ RCONFLICTS_${PN} =3D "db3"
->>  PR =3D "r1"
->>
->=20
-> Remove this PR please.
->=20
->=20
->>  # Note, when upgraded to 6.1.x, a patch in RPM will need to be remove=
-d to
->> activate db 6.1 support.
->> -
->> -SRC_URI =3D "http://download.oracle.com/berkeley-db/db-${PV}.tar.gz \=
-
->> +SRC_URI =3D "http://distfiles.gentoo.org/distfiles/db-${PV}.tar.gz \
->>
->=20
-> What is distfiles.gentoo.org's policy when db-6.0.36 is released?  Coul=
-d
-> the tarball be deleted the day after we release?  In general we've been=
-
-> either using snapshot.debian.org or pointing directly at the
-> yoctoproject.org source mirror for tarballs we can't rely upon over tim=
-e.
-
-The gentoo distfiles source mirror has older versions of Berkeley DB
-hosted so i don't think they will remove the tarballs.
-
-Also if the get fails using gentoo source mirror the next step will be
-use yp source mirror that is default enabled.
-
-Cheers,
-	alimon
-
-
->=20
-> Ross
->=20
-
-
---nu77NkrboaKmaB4kRf2MQD9eXLaWdqcCj
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
-
-iQIcBAEBAgAGBQJX6/uOAAoJEGJqcE9h3glgf+kP/2yBqzMoVlRULtgy93fEZf+E
-ffN/HQh5TofJBr2sNxxq1pIJT7bSJGqBd2WqTS9V052lASEO6eKBHRR7dF00dZKw
-C7C5G49tDMP66DrxrNAyluR1IZFCoxIhBjxa0YYqNN9GU/RTN8G3ucZoa5a4cbDo
-J9EwfXbWk5rWCLpS0HTRUBHQdjTqysJHsQhPftsWOJgCr/2qH7J+gTGvrtQBVqod
-2wYQt5Ij1BFzA6gjKEAQ5tQVCZ2hau7ZG95/0nz7FsGsr4nDKwYKAlaYURhaX3eE
-+dDy1xgTxg5F3pSypaFa8J/1Mw+XTz8TnZ88NSnW+6fQ9URdoa8vO+h5yBlyhrfx
-91tB+YPFBUOBJeca3aTjXyIDS3W2Gudmx8/gSmNIA9z+zn+Hj+hssHNCMgg4Gulc
-9nFChjUljMQUJnrRgn9fDNgs2fyWwfr0e9PFuYx4GIE3KyFK233PqE+ry1h6wKJh
-fQwy9PxI8MAKdz0BdnJKOapPPVBi8k849fUbWxmKJmzuCtqdnfMBZlnaYcHP9BB+
-Zj58Gkh4Zz5FVog1jIJJLO9UunEy+HWDPpKIQ2svmt9LhGHwjo1VP0jAHAjKiGDW
-vsZ9IjeDaMic18HFhggmbgJZ6TjUzmRS/Gul4baaINL7GT82NFbNUAzOHQi5NNby
-yW1vzcpSapFau7WxnA8I
-=HAln
------END PGP SIGNATURE-----
-
---nu77NkrboaKmaB4kRf2MQD9eXLaWdqcCj--
