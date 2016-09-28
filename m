@@ -1,40 +1,47 @@
-Return-Path: <andre.draszik@gmail.com>
-Received: from mail-wm0-f66.google.com (mail-wm0-f66.google.com [74.125.82.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 98F6D605C2
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io0-f176.google.com (mail-io0-f176.google.com
+	[209.85.223.176])
+	by mail.openembedded.org (Postfix) with ESMTP id 786326AC37
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Sep 2016 11:56:30 +0000 (UTC)
-Received: by mail-wm0-f66.google.com with SMTP id w84so5581048wmg.0
+	Wed, 28 Sep 2016 11:58:09 +0000 (UTC)
+Received: by mail-io0-f176.google.com with SMTP id e66so54103330iod.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Sep 2016 04:56:31 -0700 (PDT)
+	Wed, 28 Sep 2016 04:58:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=hUPPv5lYhOPf+js+PELBjE1bbdbmQFF5ZxtJ+60XP4w=;
+	b=Zah0j6z8WQmbqYIp5L0XqfVCH5EAV24ok4iIDug7P7QfrqR8KYsSh5vSwotad+/mfg
+	ieFgsngAWSYNr4UCTxi1rBUkpuz9ATNENcKbQfhqh13tDNHxThx1YtsIrem+U/EUz7E4
+	bKnErGOO7FTfNpli1zIfVmYLaXgL3SQUywV+Fkhe8wKs8NIJ1phXvYEubh+xNSx/sc1U
+	8mh2qSB1Y431Hj+trruXUyIUyS6aW117Ln1bEdQ162h2++0kCsN55WZF9aXkVa4uoP+G
+	rRyuUUSYH4X/elRpy+JWrKEOwZTLlzthzSEUAK2ZprRsQsOeP1aa+w2nPUqhEMPJGKr7
+	qc6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=dIYnPthPlezhi2OBkX0IuEgMUgSdic6ggbq+PtMFxro=;
-	b=iA36rzy2UR0IEw7R4ZBUGeYIcoKW6S70/lg80v/FGOp5P4oDr3RNcoiHNPpkteOMUu
-	YeLCsjwIsKsHmjwLnqDyQ9z4kHFqXzIWfVb6DPQG+ovFB9uRwFAFjjLDwvCvFMVeSTTp
-	+HKRNXgOKlZM85YPXSMvrdTYlsXE8hTGzMj7vsPiOoIY85OrRMQMcas/x0nCYjkF2Vzh
-	O6+SJJXa7XfnK6hnXhjzmRIOzbeX0NmGqE5p8z0dnd7wox79SYHp9fZ4IGBZUXUt/met
-	Io1pkwcRqIxp6oYKl9GfmloSciTR8UJ2mrhfhsRt9YakYONWFAPsL/2gu/dfZv7Fc5pT
-	tZJg==
-X-Gm-Message-State: AA6/9Rk6A+R36R8Wao7H512X00tlvowN9NMj1nFTVZ/SBVVTXx7HhOxpLviVa0LnsTBBpA==
-X-Received: by 10.28.130.137 with SMTP id e131mr7456141wmd.14.1475063791288;
-	Wed, 28 Sep 2016 04:56:31 -0700 (PDT)
-Received: from tfsielt31850 ([77.107.218.170])
-	by smtp.gmail.com with ESMTPSA id
-	qa7sm7838306wjc.39.2016.09.28.04.56.29
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Wed, 28 Sep 2016 04:56:30 -0700 (PDT)
-Message-ID: <1475063789.5024.13.camel@andred.net>
-From: =?ISO-8859-1?Q?Andr=E9?= Draszik <git@andred.net>
-To: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 28 Sep 2016 12:56:29 +0100
-In-Reply-To: <CAJTo0Lb9AmtOVA73xVkqmXJzQfvQQc0wBspv+miNo_eyuBUCmg@mail.gmail.com>
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=hUPPv5lYhOPf+js+PELBjE1bbdbmQFF5ZxtJ+60XP4w=;
+	b=fI+yL89masHRpd0XysVyUTntL/SPs3BW2LPz0xQKvEk2zGCGy56xo3+aDQYr7D0NUW
+	JVPZCOO85xITVGPKvQNQzUu90L8oezETFmPKyw+73AylyPQSvbj9olj1BYqqxDztZSuq
+	olNMlg4P603pc/wrbBBHc5wUECCNHb1Z5aTF4+ZVZJTgyLZR8DpXFsAHGvlMAUUbsLNI
+	XpjByE0A/oldNLPI0AGrGQ+tVnXysggSsb0PvCZH1F8WvN5QaCKeyG05RNzy5XMtVe/a
+	amCTesqyQH9Z/D9okQMn5C7+NF/LK1AGvh3M2hEtAyNWFOivq/nMLlGaOuC+52sWSPbb
+	eMGw==
+X-Gm-Message-State: AE9vXwORQFnN+U9eCPHkJfWHuU+ujnh5pZXIgePrOYG3LRRRoV17azrPpFmTizYOM8kaAy7oYUmF8yYwMz52HmLy
+X-Received: by 10.107.199.195 with SMTP id x186mr33847548iof.88.1475063890752; 
+	Wed, 28 Sep 2016 04:58:10 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.107.155.66 with HTTP; Wed, 28 Sep 2016 04:57:50 -0700 (PDT)
+In-Reply-To: <1475063789.5024.13.camel@andred.net>
 References: <20160926154228.30567-1-git@andred.net>
 	<20160926154228.30567-3-git@andred.net>
 	<CAJTo0Lb9AmtOVA73xVkqmXJzQfvQQc0wBspv+miNo_eyuBUCmg@mail.gmail.com>
-X-Mailer: Evolution 3.20.5-1 
-Mime-Version: 1.0
+	<1475063789.5024.13.camel@andred.net>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 28 Sep 2016 12:57:50 +0100
+Message-ID: <CAJTo0Lbw6Ar372kEg=dDoAmnkGy5ca4ZtYwaR7NBjPbc1Oh=Vw@mail.gmail.com>
+To: =?UTF-8?Q?Andr=C3=A9_Draszik?= <git@andred.net>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 2/2] cve-check-tool: report progress when downloading CVE database
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -49,55 +56,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 28 Sep 2016 11:56:31 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 28 Sep 2016 11:58:09 -0000
+Content-Type: multipart/alternative; boundary=94eb2c11be4e3ae993053d9013e3
 
-Ups, sorry for that... :-(
+--94eb2c11be4e3ae993053d9013e3
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Should I send a patch against master-next, or against master?
+On 28 September 2016 at 12:56, Andr=C3=A9 Draszik <git@andred.net> wrote:
 
-a.
+> Ups, sorry for that... :-(
+>
+> Should I send a patch against master-next, or against master?
+>
 
-On Mi, 2016-09-28 at 11:54 +0100, Burton, Ross wrote:
-> On 26 September 2016 at 16:42, André Draszik <git@andred.net> wrote:
-> 
-> > 
-> > ++static int progress_callback_new(void *ptr, curl_off_t dltotal,
-> > curl_off_t dlnow, curl_off_t ultotal, curl_off_t ulnow)
-> > ++{
-> > ++        (void) ultotal;
-> > ++        (void) ulnow;
-> > ++
-> > ++        struct percent_t *percent = (struct percent_t *) ptr;
-> > ++
-> > ++        if (dltotal && percent) {
-> > ++                long diff = percent->end - percent->start;
-> > ++                if (diff) {
-> > ++                        fprintf(stderr,"completed: %lu%%\r",
-> > percent->start + (diff * dlnow / dltotal));
-> > ++                }
-> > ++        }
-> > ++
-> > ++        return 0;
-> > ++}
-> > 
-> 
-> This fails on the autobuilder cluster:
-> 
-> > 
-> > ../../cve-check-tool-5.6.4/src/library/fetch.c: In function
-> 'progress_callback_new':
-> > 
-> > ../../cve-check-tool-5.6.4/src/library/fetch.c:55:54: error: format
-> > '%lu'
-> expects argument of type 'long unsigned int', but argument 3 has type
-> 'curl_off_t {aka long long int}' [-Werror=format=]
-> > 
-> >                          fprintf(stderr,"completed: %lu%%\r",
-> percent->start + (diff * dlnow / dltotal));
-> > 
-> >                                                       ^
-> 
-> Ross
+Happens to the best of us :)   Edit your patch and resend it against master=
+.
 
+Ross
+
+--94eb2c11be4e3ae993053d9013e3
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 28 September 2016 at 12:56, Andr=C3=A9 Draszik <span dir=3D"ltr">&lt;<a =
+href=3D"mailto:git@andred.net" target=3D"_blank">git@andred.net</a>&gt;</sp=
+an> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;=
+border-left:1px #ccc solid;padding-left:1ex"><div id=3D":9dk" class=3D"a3s =
+aXjCH m15770a78ee726d0a">Ups, sorry for that... :-(<br>
+<br>
+Should I send a patch against master-next, or against master?<br></div></bl=
+ockquote><div>=C2=A0</div></div>Happens to the best of us :) =C2=A0 Edit yo=
+ur patch and resend it against master.</div><div class=3D"gmail_extra"><br>=
+</div><div class=3D"gmail_extra">Ross</div></div>
+
+--94eb2c11be4e3ae993053d9013e3--
