@@ -1,47 +1,50 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pa0-f68.google.com (mail-pa0-f68.google.com
-	[209.85.220.68])
-	by mail.openembedded.org (Postfix) with ESMTP id C07B26E668
+Received: from mail-pa0-f67.google.com (mail-pa0-f67.google.com
+	[209.85.220.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 283E86FF84
 	for <openembedded-core@lists.openembedded.org>;
 	Wed, 28 Sep 2016 23:42:35 +0000 (UTC)
-Received: by mail-pa0-f68.google.com with SMTP id cd13so785944pac.3
+Received: by mail-pa0-f67.google.com with SMTP id j3so2612343paj.2
 	for <openembedded-core@lists.openembedded.org>;
 	Wed, 28 Sep 2016 16:42:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:subject:date:message-id;
-	bh=UaTDnTb4NwSWof+r0s9cLk+xgzL6xh1mSaMFXWajnvQ=;
-	b=AWQVdnMyxfyjh2GTkuZrG4+Bxy6s7mzWBLHVuckuQBHuggIN1lXHVocXmCz45zebhZ
-	4maR4q53sKtJRXxn5j3wNkCaYyjr1FBB9u1yMUuOLlBPJ/AdF38CGY82jP+YxHGdjYGW
-	IrvV87cyXhUEevyHAbm/k5LnZNZks2WWSK2VXppL1IxTRrutODRcoPmkFSqev3tqZSS/
-	ncXgz207hgXyGRtzXor0Dzt6UGqQJsf2NXXFtCFGA0W5CoZgwnGvnIkvd6R1jBdTTH0g
-	k6mZHdiHPpLph/dCS6gCQpeu28Q5QFctWyMXhR438XQAo4C7pcBD5SibEZt6OxLNOIk6
-	FQGA==
+	h=from:to:subject:date:message-id:in-reply-to:references;
+	bh=NOP5vbCFS7OzBfwimLl+DLsB4vcttfWX/pBx/pbS6Es=;
+	b=vZltbSSdxx1Hx/xyAHO/03tvsAYr7fYO7dccg5CMZ7coX68FGcW21ZvcQ5rX7eQv/0
+	g1CelP+w1quG+hwwp1STK/FXAFZ0dFdAtr4xBO/FPqwO6D+sdthTyQVKP1ZRfA7XxTl2
+	whcQeCALT6a0Xz727Nu2+6utWTSAYHnp1mIxqskQe8s3/zOf4jyqDFEFuHxl1Y0Qq1oN
+	TTxXgeUYspm6mAnmfGLCgAhDS9cmuVzg3vBuatnVh5knC/GW6teYbcrvUUnxXvOsmrGZ
+	uxJK+bJ1z1Zp7IRA9WmjeXHpIL/tiNE9NasVkFJS9RcMQW0DbpBj1r0jw79OyXH0H83N
+	SUcg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=UaTDnTb4NwSWof+r0s9cLk+xgzL6xh1mSaMFXWajnvQ=;
-	b=CehZcarsA4GU5ChRopvdU3qDIZHQY27A+LZosCBI6q0qZPJVSRkUiigXe1EDrJF41x
-	2NAz/2+F46rLd15CY5wUjOlYvgkZ4SZ/W1l2v7REgsjkTbnjFUS34kdYL35wL67RZnLd
-	QGg75nnWGmk1nYHFL6vBcqOq4FuIq47S0gQb+6KfxdU9KHH/lAzXWfdhImOaISGilcCO
-	OPekw9eYvf/pALn+fXUmw5SpvNeceOgcV3huLohCv1kHZDk1slvpmFZ5DO1MmqYi9szF
-	54uXwIzhQSfe5PcBMjNszdV06KTKuzvKsBzUi0W3Nq4dLMwk6KpOfxfKdavw6n7pfyuW
-	thKw==
-X-Gm-Message-State: AA6/9RmGRIg0pREhZHAe2uWZTtmUoUV6ZkLbseItVPdTRx8OiUR8Ihn9y93fvgcl7JlkPg==
-X-Received: by 10.67.5.6 with SMTP id ci6mr15434268pad.73.1475106156876;
-	Wed, 28 Sep 2016 16:42:36 -0700 (PDT)
+	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+	:references;
+	bh=NOP5vbCFS7OzBfwimLl+DLsB4vcttfWX/pBx/pbS6Es=;
+	b=KQHVWRYHqp6r8qu1lizN0mCzF/hCSyyQzXgRSB1HH8UO7k4Ccj1KWe5cXfadGh3UH9
+	669l1Zx+xm4x5sfvHmSmSit0tRxq42QKftZ8fs95e1FFJD6cYziK8D3fCcMkuIjQzbVN
+	zsPy9obMrl5RwzwD3HT7KN6NAmgkTuviqFa/KR7wT5uUOitSUeg2JbgR7anj+3n8W7bv
+	STa5Uoq39YzWE7Zmm6gySzLIGDuvHSyAw4k8FHqM87jpsk2bOwuc7kbiEqSZ7lYEIMYj
+	Q5pe68C63oOINSi6sKLryHdCE4xlW+eTl6gexJzms19kvTtAO7wL7arR58rrPT0d8Bmu
+	+7sA==
+X-Gm-Message-State: AA6/9RlGESu2XlPYCCtjzj4lig4yDliYIRW1ebU+fIHSdnzO0PHmKJGX0eCkFIk4wnatDQ==
+X-Received: by 10.66.249.170 with SMTP id yv10mr24286851pac.16.1475106157452; 
+	Wed, 28 Sep 2016 16:42:37 -0700 (PDT)
 Received: from akuster-ThinkPad-X240.mvista.com
 	(50-233-148-156-static.hfc.comcastbusiness.net. [50.233.148.156])
 	by smtp.gmail.com with ESMTPSA id
 	b125sm14979340pfg.36.2016.09.28.16.42.36
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 28 Sep 2016 16:42:36 -0700 (PDT)
+	Wed, 28 Sep 2016 16:42:37 -0700 (PDT)
 From: Armin Kuster <akuster808@gmail.com>
 To: akuster@mvista.com,
 	openembedded-core@lists.openembedded.org
-Date: Wed, 28 Sep 2016 16:42:34 -0700
-Message-Id: <1475106155-18988-1-git-send-email-akuster808@gmail.com>
+Date: Wed, 28 Sep 2016 16:42:35 -0700
+Message-Id: <1475106155-18988-2-git-send-email-akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
-Subject: [Master][Krogoth][Jethro][PATCH 1/2] tzcode-native: Update to 2016g
+In-Reply-To: <1475106155-18988-1-git-send-email-akuster808@gmail.com>
+References: <1475106155-18988-1-git-send-email-akuster808@gmail.com>
+Subject: [Master][Krogoth][Jethro][PATCH 2/2] tzdata: update to 2016g
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,114 +57,97 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 28 Sep 2016 23:42:35 -0000
+X-List-Received-Date: Wed, 28 Sep 2016 23:42:36 -0000
 
 From: Armin Kuster <akuster@mvista.com>
 
-LICENSE file checksum changed do to a verbage change.
+LICENSE md5sum changed do to rewording some text not released to the license.
+see https://github.com/eggert/tz/commit/8c143a2b65fdfd43a7911be6fdb700c9c4553f58
 
-  Changes to code
+  Changes to future time stamps
 
-    zic no longer generates binary files containing POSIX TZ-like
-    strings that disagree with the local time type after the last
-    explicit transition in the data.  This fixes a bug with
-    Africa/Casablanca and Africa/El_Aaiun in some year-2037 time
-    stamps on the reference platform.  (Thanks to Alexander Belopolsky
-    for reporting the bug and suggesting a way forward.)
+    Turkey switched from EET/EEST (+02/+03) to permanent +03,
+    effective 2016-09-07.  (Thanks to Burak AYDIN.)  Use "+03" rather
+    than an invented abbreviation for the new time.
 
-    If the installed localtime and/or posixrules files are symbolic
-    links, zic now keeps them symbolic links when updating them, for
-    compatibility with platforms like OpenSUSE where other programs
-    configure these files as symlinks.
+    New leap second 2016-12-31 23:59:60 UTC as per IERS Bulletin C 52.
+    (Thanks to Tim Parenti.)
 
-    zic now avoids hard linking to symbolic links, avoids some
-    unnecessary mkdir and stat system calls, and uses shorter file
-    names internally.
+  Changes to past time stamps
 
-    zdump has a new -i option to generate transitions in a
-    more-compact but still human-readable format.  This option is
-    experimental, and the output format may change in future versions.
-    (Thanks to Jon Skeet for suggesting that an option was needed,
-    and thanks to Tim Parenti and Chris Rovick for further comments.)
+    For America/Los_Angeles, spring-forward transition times have been
+    corrected from 02:00 to 02:01 in 1948, and from 02:00 to 01:00 in
+    1950-1966.
 
-  Changes to build procedure
+    For zones using Soviet time on 1919-07-01, transitions to UT-based
+    time were at 00:00 UT, not at 02:00 local time.  The affected
+    zones are Europe/Kirov, Europe/Moscow, Europe/Samara, and
+    Europe/Ulyanovsk.  (Thanks to Alexander Belopolsky.)
 
-    An experimental distribution format is available, in addition
-    to the traditional format which will continue to be distributed.
-    The new format is a tarball tzdb-VERSION.tar.lz with signature
-    file tzdb-VERSION.tar.lz.asc.  It unpacks to a top-level directory
-    tzdb-VERSION containing the code and data of the traditional
-    two-tarball format, along with extra data that may be useful.
-    (Thanks to Antonio Diaz Diaz, Oscar van Vlijmen, and many others
-    for comments about the experimental format.)
+  Changes to past and future time zone abbreviations
 
-    The release version number is now more accurate in the usual case
-    where releases are built from a Git repository.  For example, if
-    23 commits and some working-file changes have been made since
-    release 2016g, the version number is now something like
-    '2016g-23-g50556e3-dirty' instead of the misleading '2016g'.
-    Official releases uses the same version number format as before,
-    e.g., '2016g'.  To support the more-accurate version number, its
-    specification has moved from a line in the Makefile to a new
-    source file 'version'.
+    The Factory zone now uses the time zone abbreviation -00 instead
+    of a long English-language string, as -00 is now the normal way to
+    represent an undefined time zone.
 
-    The experimental distribution contains a file to2050.tzs that
-    contains what should be the output of 'zdump -i -c 2050' on
-    primary zones.  If this file is available, 'make check' now checks
-    that zdump generates this output.
+    Several zones in Antarctica and the former Soviet Union, along
+    with zones intended for ships at sea that cannot use POSIX TZ
+    strings, now use numeric time zone abbreviations instead of
+    invented or obsolete alphanumeric abbreviations.  The affected
+    zones are Antarctica/Casey, Antarctica/Davis,
+    Antarctica/DumontDUrville, Antarctica/Mawson, Antarctica/Rothera,
+    Antarctica/Syowa, Antarctica/Troll, Antarctica/Vostok,
+    Asia/Anadyr, Asia/Ashgabat, Asia/Baku, Asia/Bishkek, Asia/Chita,
+    Asia/Dushanbe, Asia/Irkutsk, Asia/Kamchatka, Asia/Khandyga,
+    Asia/Krasnoyarsk, Asia/Magadan, Asia/Omsk, Asia/Sakhalin,
+    Asia/Samarkand, Asia/Srednekolymsk, Asia/Tashkent, Asia/Tbilisi,
+    Asia/Ust-Nera, Asia/Vladivostok, Asia/Yakutsk, Asia/Yekaterinburg,
+    Asia/Yerevan, Etc/GMT-14, Etc/GMT-13, Etc/GMT-12, Etc/GMT-11,
+    Etc/GMT-10, Etc/GMT-9, Etc/GMT-8, Etc/GMT-7, Etc/GMT-6, Etc/GMT-5,
+    Etc/GMT-4, Etc/GMT-3, Etc/GMT-2, Etc/GMT-1, Etc/GMT+1, Etc/GMT+2,
+    Etc/GMT+3, Etc/GMT+4, Etc/GMT+5, Etc/GMT+6, Etc/GMT+7, Etc/GMT+8,
+    Etc/GMT+9, Etc/GMT+10, Etc/GMT+11, Etc/GMT+12, Europe/Kaliningrad,
+    Europe/Minsk, Europe/Samara, Europe/Volgograd, and
+    Indian/Kerguelen.  For Europe/Moscow the invented abbreviation MSM
+    was replaced by +05, whereas MSK and MSD were kept as they are not
+    our invention and are widely used.
 
-    'make check_web' now works on Fedora-like distributions.
+  Changes to zone names
 
-  Changes to documentation and commentary
-
-    tzfile.5 now documents the new restriction on POSIX TZ-like
-    strings that is now implemented by zic.
-
-    Comments now cite URLs for some 1917-1921 Russian DST decrees.
-    (Thanks to Alexander Belopolsky.)
-
-    tz-link.htm mentions JuliaTime (thanks to Curtis Vogt) and Time4J
-    (thanks to Meno Hochschild) and ThreeTen-Extra, and its
-    description of Java 8 has been brought up to date (thanks to
-    Stephen Colebourne).  Its description of local time on Mars has
-    been updated to match current practice, and URLs have been updated
-    and some obsolete ones removed.
+    Rename Asia/Rangoon to Asia/Yangon, with a backward compatibility link.
+    (Thanks to David Massoud.)
 
 Signed-off-by: Armin Kuster <akuster@mvista.com>
 ---
- .../tzcode/{tzcode-native_2016f.bb => tzcode-native_2016g.bb} | 11 +++++------
- 1 file changed, 5 insertions(+), 6 deletions(-)
- rename meta/recipes-extended/tzcode/{tzcode-native_2016f.bb => tzcode-native_2016g.bb} (62%)
+ meta/recipes-extended/tzdata/{tzdata_2016f.bb => tzdata_2016g.bb} | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+ rename meta/recipes-extended/tzdata/{tzdata_2016f.bb => tzdata_2016g.bb} (97%)
 
-diff --git a/meta/recipes-extended/tzcode/tzcode-native_2016f.bb b/meta/recipes-extended/tzcode/tzcode-native_2016g.bb
-similarity index 62%
-rename from meta/recipes-extended/tzcode/tzcode-native_2016f.bb
-rename to meta/recipes-extended/tzcode/tzcode-native_2016g.bb
-index bdf47d2..a2e6217 100644
---- a/meta/recipes-extended/tzcode/tzcode-native_2016f.bb
-+++ b/meta/recipes-extended/tzcode/tzcode-native_2016g.bb
-@@ -3,17 +3,16 @@
- SUMMARY = "tzcode, timezone zoneinfo utils -- zic, zdump, tzselect"
+diff --git a/meta/recipes-extended/tzdata/tzdata_2016f.bb b/meta/recipes-extended/tzdata/tzdata_2016g.bb
+similarity index 97%
+rename from meta/recipes-extended/tzdata/tzdata_2016f.bb
+rename to meta/recipes-extended/tzdata/tzdata_2016g.bb
+index a66603f..3ee4b5a 100644
+--- a/meta/recipes-extended/tzdata/tzdata_2016f.bb
++++ b/meta/recipes-extended/tzdata/tzdata_2016g.bb
+@@ -2,15 +2,15 @@ SUMMARY = "Timezone data"
+ HOMEPAGE = "http://www.iana.org/time-zones"
+ SECTION = "base"
  LICENSE = "PD & BSD & BSD-3-Clause"
- 
 -LIC_FILES_CHKSUM = "file://LICENSE;md5=76ae2becfcb9a685041c6f166b44c2c2"
 +LIC_FILES_CHKSUM = "file://LICENSE;md5=ef1a352b901ee7b75a75df8171d6aca7"
  
- SRC_URI =" http://www.iana.org/time-zones/repository/releases/tzcode${PV}.tar.gz;name=tzcode \
-            http://www.iana.org/time-zones/repository/releases/tzdata${PV}.tar.gz;name=tzdata"
+ DEPENDS = "tzcode-native"
+ 
+ SRC_URI = "http://www.iana.org/time-zones/repository/releases/tzdata${PV}.tar.gz;name=tzdata"
  UPSTREAM_CHECK_URI = "http://www.iana.org/time-zones"
  
--SRC_URI[tzcode.md5sum] = "b93618bb84e38dee102e0e41ec9d13e2"
--SRC_URI[tzcode.sha256sum] = "72325f384490a310eeb2ea0fab7e6f011a5be19adab2ff9d83bf9d1993b066ed"
--
 -SRC_URI[tzdata.md5sum] = "b20b3c1618db1984aac685e763de001d"
 -SRC_URI[tzdata.sha256sum] = "ed8c951008d12f1db55a11e96fc055718c6571233327d9de16a7f8475e2502b0"
-+SRC_URI[tzcode.md5sum] = "f89867013676e3cb9544be2df7d36a91"
-+SRC_URI[tzcode.sha256sum] = "1ff90b47ad7986140a513b5287b1851c40f80fd44fd636db5cc5b46d06f9fa2b"
 +SRC_URI[tzdata.md5sum] = "3c7e97ec8527211104d27cc1d97a23de"
 +SRC_URI[tzdata.sha256sum] = "3c7137b2bc47323b0de47b77786bacf81ed503d4b2c693ff8ada2fbd1281ebd1"
  
- S = "${WORKDIR}"
+ inherit allarch
  
 -- 
 2.7.4
