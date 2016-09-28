@@ -1,23 +1,23 @@
 Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
-	by mail.openembedded.org (Postfix) with ESMTP id 586706007A
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 9F8E860797
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Sep 2016 09:27:07 +0000 (UTC)
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-	by orsmga104.jf.intel.com with ESMTP; 28 Sep 2016 02:27:08 -0700
+	Wed, 28 Sep 2016 10:06:31 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 28 Sep 2016 03:06:32 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.30,409,1470726000"; d="scan'208";a="14062346"
+X-IronPort-AV: E=Sophos;i="5.30,409,1470726000"; d="scan'208";a="1057683057"
 Received: from linux.intel.com ([10.54.29.200])
-	by fmsmga005.fm.intel.com with ESMTP; 28 Sep 2016 02:27:08 -0700
+	by orsmga002.jf.intel.com with ESMTP; 28 Sep 2016 03:06:32 -0700
 Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.68])
-	by linux.intel.com (Postfix) with ESMTP id C7DA16A4006;
-	Wed, 28 Sep 2016 02:26:40 -0700 (PDT)
+	by linux.intel.com (Postfix) with ESMTP id B9D076A4006;
+	Wed, 28 Sep 2016 03:06:04 -0700 (PDT)
 From: Ed Bartosh <ed.bartosh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 28 Sep 2016 12:16:14 +0300
-Message-Id: <1475054174-10516-1-git-send-email-ed.bartosh@linux.intel.com>
+Date: Wed, 28 Sep 2016 12:55:30 +0300
+Message-Id: <1475056530-31095-1-git-send-email-ed.bartosh@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
-Subject: [PATCH] runqemu: explicitly set image format
+Subject: [PATCH] scripts: add new script
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,62 +30,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 28 Sep 2016 09:27:08 -0000
+X-List-Received-Date: Wed, 28 Sep 2016 10:06:33 -0000
 
-QEMU produces a warning if drive format is not specified:
-  WARNING: Image format was not specified for
-  'tmp/deploy/images/qemux86-64/core-image-minimal-qemux86-64.wic'
-   and probing guessed raw.
-   Automatically detecting the format is dangerous for raw images,
-   write operations on block 0 will be restricted.
-   Specify the 'raw' format explicitly to remove the restrictions.
-
-Set image format to 'vmdk', 'qcow2' or 'vdi' for correspondent image
-types. Set it to 'raw' for the rest of image types.
+Added 'native' convenience shell script to run native tools.
+Example of usage:
+  > bitbake bmap-tools-native
+  > native bmaptool --version
 
 Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
 ---
- scripts/runqemu | 11 +++++++----
- 1 file changed, 7 insertions(+), 4 deletions(-)
+ scripts/native | 48 ++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 48 insertions(+)
+ create mode 100755 scripts/native
 
-diff --git a/scripts/runqemu b/scripts/runqemu
-index 45bcad7..09b231b 100755
---- a/scripts/runqemu
-+++ b/scripts/runqemu
-@@ -817,11 +817,13 @@ class BaseConfig(object):
-         else:
-             self.setup_tap()
- 
-+        rootfs_format = self.fstype if self.fstype in ('vmdk', 'qcow2', 'vdi') else 'raw'
+diff --git a/scripts/native b/scripts/native
+new file mode 100755
+index 0000000..5e904b0
+--- /dev/null
++++ b/scripts/native
+@@ -0,0 +1,48 @@
++#!/bin/sh
++#
++# Copyright (c) 2016,  Intel Corporation.
++# All Rights Reserved
++#
++# This program is free software;  you can redistribute it and/or modify
++# it under the terms of the GNU General Public License as published by
++# the Free Software Foundation; either version 2 of the License, or
++# (at your option) any later version.
++#
++# This program is distributed in the hope that it will be useful,
++# but WITHOUT ANY WARRANTY;  without even the implied warranty of
++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See
++# the GNU General Public License for more details.
++#
++# You should have received a copy of the GNU General Public License
++# along with this program;  if not, see <http://www.gnu.org/licenses/>
++#
 +
-         qb_rootfs_opt = self.get('QB_ROOTFS_OPT')
-         if qb_rootfs_opt:
-             self.rootfs_options = qb_rootfs_opt.replace('@ROOTFS@', self.rootfs)
-         else:
--            self.rootfs_options = '-drive file=%s,if=virtio,format=raw' % self.rootfs
-+            self.rootfs_options = '-drive file=%s,if=virtio,format=%s' % (self.rootfs, rootfs_format)
- 
-         if self.fstype in ('cpio.gz', 'cpio'):
-             self.kernel_cmdline = 'root=/dev/ram0 rw debugshell'
-@@ -835,14 +837,15 @@ class BaseConfig(object):
-                     cmd2 = "grep -q 'root=/dev/hd' %s" % self.rootfs
-                     if subprocess.call(cmd1, shell=True) == 0:
-                         logger.info('Using scsi drive')
--                        vm_drive = '-drive if=none,id=hd,file=%s -device virtio-scsi-pci,id=scsi -device scsi-hd,drive=hd' % self.rootfs
-+                        vm_drive = '-drive if=none,id=hd,file=%s,format=%s -device virtio-scsi-pci,id=scsi -device scsi-hd,drive=hd' \
-+                                       % (self.rootfs, rootfs_format)
-                     elif subprocess.call(cmd2, shell=True) == 0:
-                         logger.info('Using scsi drive')
--                        vm_drive = self.rootfs
-+                        vm_drive = "%s,format=%s" % (self.rootfs, rootfs_format)
-                     else:
-                         logger.warn("Can't detect drive type %s" % self.rootfs)
-                         logger.warn('Tring to use virtio block drive')
--                        vm_drive = '-drive if=virtio,file=%s' % self.rootfs
-+                        vm_drive = '-drive if=virtio,file=%s,format=%s' % (self.rootfs, rootfs_format)
-                 self.rootfs_options = '%s -no-reboot' % vm_drive
-             self.kernel_cmdline = 'root=%s rw highres=off' % (self.get('QB_KERNEL_ROOT'))
- 
++#
++# This script is for running tools from native oe sysroot
++#
++
++if [ $# -lt 1 -o "$1" == '--help' -o "$1" == '-h' ]; then
++    echo "Usage: $0 <native tool> [parameters]"
++    exit 1
++fi
++
++SYSROOT_SETUP_SCRIPT=`which oe-find-native-sysroot 2> /dev/null`
++if [ -z "$SYSROOT_SETUP_SCRIPT" ]; then
++        echo "Error: Unable to find oe-find-native-sysroot script"
++        exit 1
++fi
++. $SYSROOT_SETUP_SCRIPT
++
++OLDPATH=$PATH
++
++# look for a tool only in native sysroot
++PATH=$OECORE_NATIVE_SYSROOT/usr/bin:$OECORE_NATIVE_SYSROOT/bin:$OECORE_NATIVE_SYSROOT/usr/sbin:$OECORE_NATIVE_SYSROOT/sbin
++tool=`/usr/bin/which $1 2>/dev/null`
++
++if [ -n "$tool" ] ; then
++    # add old path to allow usage of host tools
++    PATH=$PATH:$OLD_PATH $@
++else
++    echo "Error: Unable to find '$1' in native sysroot"
++    exit 1
++fi
 -- 
 2.1.4
 
