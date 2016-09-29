@@ -1,23 +1,23 @@
 Return-Path: <markus.lehtonen@linux.intel.com>
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id AF17860017
+	by mail.openembedded.org (Postfix) with ESMTP id C91F870031
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Sep 2016 14:28:10 +0000 (UTC)
+	Thu, 29 Sep 2016 14:28:11 +0000 (UTC)
 Received: from orsmga004.jf.intel.com ([10.7.209.38])
-	by orsmga101.jf.intel.com with ESMTP; 29 Sep 2016 07:28:12 -0700
+	by orsmga101.jf.intel.com with ESMTP; 29 Sep 2016 07:28:13 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.30,415,1470726000"; d="scan'208";a="15040329"
+X-IronPort-AV: E=Sophos;i="5.30,415,1470726000"; d="scan'208";a="15040334"
 Received: from wegenerj-mobl1.ger.corp.intel.com (HELO
 	mqz-osx-suse64.fi.intel.com) ([10.252.44.79])
-	by orsmga004.jf.intel.com with ESMTP; 29 Sep 2016 07:28:11 -0700
+	by orsmga004.jf.intel.com with ESMTP; 29 Sep 2016 07:28:12 -0700
 From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 29 Sep 2016 17:27:59 +0300
-Message-Id: <1475159288-31921-3-git-send-email-markus.lehtonen@linux.intel.com>
+Date: Thu, 29 Sep 2016 17:28:00 +0300
+Message-Id: <1475159288-31921-4-git-send-email-markus.lehtonen@linux.intel.com>
 X-Mailer: git-send-email 2.6.6
 In-Reply-To: <1475159288-31921-1-git-send-email-markus.lehtonen@linux.intel.com>
 References: <1475159288-31921-1-git-send-email-markus.lehtonen@linux.intel.com>
-Subject: [PATCH 02/11] scripts/buildstats-diff: rename --min-time and --min-timediff args
+Subject: [PATCH 03/11] scripts/buildstats-diff: implement BSTask class
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,80 +30,126 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 29 Sep 2016 14:28:10 -0000
+X-List-Received-Date: Thu, 29 Sep 2016 14:28:12 -0000
 
-Rename these arguments to --min-val and --min-absdiff in preparation for
-supporting other "quantities" than just cputime.
+New class representing buildstats data of a single task.
 
 Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
 ---
- scripts/buildstats-diff | 24 ++++++++++++------------
- 1 file changed, 12 insertions(+), 12 deletions(-)
+ scripts/buildstats-diff | 51 +++++++++++++++++++++++++++++++------------------
+ 1 file changed, 32 insertions(+), 19 deletions(-)
 
 diff --git a/scripts/buildstats-diff b/scripts/buildstats-diff
-index d0cd766..7728b6d 100755
+index 7728b6d..22c44ff 100755
 --- a/scripts/buildstats-diff
 +++ b/scripts/buildstats-diff
-@@ -260,7 +260,7 @@ def task_time(task):
-     return cputime
+@@ -62,11 +62,26 @@ def to_datetime_obj(obj):
+         return datetime.utcfromtimestamp(obj).replace(tzinfo=TIMEZONES['UTC'])
  
  
--def print_task_diff(bs1, bs2, min_cputime=0, min_timediff=0, sort_by=('absdiff',)):
-+def print_task_diff(bs1, bs2, min_val=0, min_absdiff=0, sort_by=('absdiff',)):
++class BSTask(dict):
++    def __init__(self, *args, **kwargs):
++        self['start_time'] = None
++        self['elapsed_time'] = None
++        self['status'] = None
++        self['iostat'] = {}
++        self['rusage'] = {}
++        self['child_rusage'] = {}
++        super(BSTask, self).__init__(*args, **kwargs)
++
++    @property
++    def cputime(self):
++        """Sum of user and system time taken by the task"""
++        return self['rusage']['ru_stime'] + self['rusage']['ru_utime'] + \
++               self['child_rusage']['ru_stime'] + self['child_rusage']['ru_utime']
++
++
+ def read_buildstats_file(buildstat_file):
+     """Convert buildstat text file into dict/json"""
+-    bs_json = {'iostat': {},
+-               'rusage': {},
+-               'child_rusage': {}}
++    bs_task = BSTask()
+     log.debug("Reading task buildstats from %s", buildstat_file)
+     with open(buildstat_file) as fobj:
+         for line in fobj.readlines():
+@@ -74,12 +89,12 @@ def read_buildstats_file(buildstat_file):
+             val = val.strip()
+             if key == 'Started':
+                 start_time = to_datetime_obj(float(val))
+-                bs_json['start_time'] = start_time
++                bs_task['start_time'] = start_time
+             elif key == 'Ended':
+                 end_time = to_datetime_obj(float(val))
+             elif key.startswith('IO '):
+                 split = key.split()
+-                bs_json['iostat'][split[1]] = int(val)
++                bs_task['iostat'][split[1]] = int(val)
+             elif key.find('rusage') >= 0:
+                 split = key.split()
+                 ru_key = split[-1]
+@@ -89,11 +104,11 @@ def read_buildstats_file(buildstat_file):
+                     val = int(val)
+                 ru_type = 'rusage' if split[0] == 'rusage' else \
+                                                   'child_rusage'
+-                bs_json[ru_type][ru_key] = val
++                bs_task[ru_type][ru_key] = val
+             elif key == 'Status':
+-                bs_json['status'] = val
+-    bs_json['elapsed_time'] = end_time - start_time
+-    return bs_json
++                bs_task['status'] = val
++    bs_task['elapsed_time'] = end_time - start_time
++    return bs_task
+ 
+ 
+ def read_buildstats_dir(bs_dir):
+@@ -170,6 +185,10 @@ def read_buildstats_json(path):
+             recipe_bs['nevr'] = "{}-{}-{}".format(recipe_bs['name'], recipe_bs['version'], recipe_bs['revision'])
+         else:
+             recipe_bs['nevr'] = "{}-{}_{}-{}".format(recipe_bs['name'], recipe_bs['epoch'], recipe_bs['version'], recipe_bs['revision'])
++
++        for task, data in recipe_bs['tasks'].copy().items():
++            recipe_bs['tasks'][task] = BSTask(data)
++
+         buildstats[recipe_bs['name']] = recipe_bs
+ 
+     return buildstats
+@@ -253,12 +272,6 @@ def print_ver_diff(bs1, bs2):
+             print(fmt_str.format(pkg, field1, field2, maxlen=maxlen))
+ 
+ 
+-def task_time(task):
+-    """Calculate sum of user and system time taken by a task"""
+-    cputime = task['rusage']['ru_stime'] + task['rusage']['ru_utime'] + \
+-              task['child_rusage']['ru_stime'] + task['child_rusage']['ru_utime']
+-    return cputime
+-
+ 
+ def print_task_diff(bs1, bs2, min_val=0, min_absdiff=0, sort_by=('absdiff',)):
      """Diff task execution times"""
-     tasks_diff = []
-     pkg_maxlen = 0
-@@ -296,10 +296,10 @@ def print_task_diff(bs1, bs2, min_cputime=0, min_timediff=0, sort_by=('absdiff',
+@@ -283,8 +296,8 @@ def print_task_diff(bs1, bs2, min_val=0, min_absdiff=0, sort_by=('absdiff',)):
+             if len(task) > task_maxlen:
+                 task_maxlen = len(task)
  
-             tasks_diff.append(TaskDiff(pkg, pkg_op, task, task_op, t1, t2, t2-t1, reldiff))
+-            t1 = task_time(bs1[pkg]['tasks'][task]) if task in tasks1 else 0
+-            t2 = task_time(bs2[pkg]['tasks'][task]) if task in tasks2 else 0
++            t1 = bs1[pkg]['tasks'][task].cputime if task in tasks1 else 0
++            t2 = bs2[pkg]['tasks'][task].cputime if task in tasks2 else 0
+             task_op = '  '
+             if t1 == 0:
+                 reldiff = float('inf')
+@@ -334,8 +347,8 @@ def print_timediff_summary(bs1, bs2):
+     def total_cputime(buildstats):
+         sum = 0.0
+         for recipe_data in buildstats.values():
+-            for task_data in recipe_data['tasks'].values():
+-                sum += task_time(task_data)
++            for bs_task in recipe_data['tasks'].values():
++                sum += bs_task.cputime
+         return sum
  
--    if min_cputime:
--        print("Ignoring tasks shorter than {}s".format(min_cputime))
--    if min_timediff:
--        print("Ignoring time differences shorter than {}s".format(min_timediff))
-+    if min_val:
-+        print("Ignoring tasks shorter than {}s".format(min_val))
-+    if min_absdiff:
-+        print("Ignoring time differences shorter than {}s".format(min_absdiff))
- 
-     print()
-     print("  {:{pkg_maxlen}}   {:{task_maxlen}} {:>8} {:>10} {:>10}    {}".format(
-@@ -317,8 +317,8 @@ def print_task_diff(bs1, bs2, min_cputime=0, min_timediff=0, sort_by=('absdiff',
- 
-     for diff in tasks_diff:
-         cputime = max(diff.cputime1, diff.cputime2)
--        if cputime > min_cputime:
--            if abs(diff.absdiff) > min_timediff:
-+        if cputime > min_val:
-+            if abs(diff.absdiff) > min_absdiff:
-                 task_prefix = diff.task_op if diff.pkg_op == '  ' else '  '
-                 print("{}{:{pkg_maxlen}} {}{:{task_maxlen}} {:+7.1f}s {:+9.1f}% {:9.1f}s -> {:.1f}s".format(
-                         diff.pkg_op, diff.pkg, task_prefix, diff.task, diff.absdiff, diff.reldiff, diff.cputime1, diff.cputime2,
-@@ -369,11 +369,11 @@ Script for comparing buildstats of two separate builds."""
-                         help="Verbose logging")
-     parser.add_argument('--ver-diff', action='store_true',
-                         help="Show package version differences and exit")
--    parser.add_argument('--min-time', default=3.0, type=float,
--                        help="Filter out tasks shorter than MIN_TIME seconds")
--    parser.add_argument('--min-timediff', default=1.0, type=float,
-+    parser.add_argument('--min-val', default=3.0, type=float,
-+                        help="Filter out tasks shorter than MIN_VAL seconds")
-+    parser.add_argument('--min-absdiff', default=1.0, type=float,
-                         help="Filter out tasks whose difference in cputime is "
--                             "less that  MIN_TIMEDIFF seconds")
-+                             "less that  MIN_ABSDIFF seconds")
-     parser.add_argument('--sort-by', default='absdiff',
-                         help="Comma-separated list of field sort order. "
-                              "Prepend the field name with '-' for reversed sort. "
-@@ -405,7 +405,7 @@ def main(argv=None):
-     if args.ver_diff:
-         print_ver_diff(bs1, bs2)
-     else:
--        print_task_diff(bs1, bs2, args.min_time, args.min_timediff, sort_by)
-+        print_task_diff(bs1, bs2, args.min_val, args.min_absdiff, sort_by)
-         print_timediff_summary(bs1, bs2)
- 
-     return 0
+     def hms_time(secs):
 -- 
 2.6.6
 
