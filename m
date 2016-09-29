@@ -1,22 +1,20 @@
 Return-Path: <stephano.cetola@linux.intel.com>
 Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id E77FC601A4
+	by mail.openembedded.org (Postfix) with ESMTP id 7474E6AC00
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Sep 2016 21:35:27 +0000 (UTC)
+	Thu, 29 Sep 2016 21:35:31 +0000 (UTC)
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
 	by orsmga103.jf.intel.com with ESMTP; 29 Sep 2016 14:35:07 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.31,417,1473145200"; d="scan'208";a="885231396"
+X-IronPort-AV: E=Sophos;i="5.31,417,1473145200"; d="scan'208";a="885231394"
 Received: from pequod.jf.intel.com ([10.7.201.50])
 	by orsmga003.jf.intel.com with ESMTP; 29 Sep 2016 14:35:07 -0700
 From: Stephano Cetola <stephano.cetola@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 29 Sep 2016 14:34:04 -0700
-Message-Id: <20160929213405.27018-3-stephano.cetola@linux.intel.com>
+Date: Thu, 29 Sep 2016 14:34:02 -0700
+Message-Id: <20160929213405.27018-1-stephano.cetola@linux.intel.com>
 X-Mailer: git-send-email 2.10.0
-In-Reply-To: <20160929213405.27018-1-stephano.cetola@linux.intel.com>
-References: <20160929213405.27018-1-stephano.cetola@linux.intel.com>
-Subject: [PATCH 2/3] utils.py: gut python 2 commands in favor of subprocess.run
+Subject: [PATCH 0/3] subprocess: cleanup subprocess calls
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,43 +29,28 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 29 Sep 2016 21:35:32 -0000
 
-getstatusoutput is a wrapper around subprocess.getstatusouput() in
-Py3, which is basically deprecated and behaves almost entirely unlike
-run().
+This is the beginning of an effort to move toward a unified way of
+using the subprocess module. The end goal is somday create a fork 
+of the subprocess.run command intro'd in python 3.5.
 
-[ YOCTO #9342 ]
+The biggest hurdle in these efforts is in testing some of the more
+obscure code paths that are touched when changing these subprocess
+calls. With more time, many of the Popen calls that still exist
+could be moved to either check_output or sub.run.
 
-Signed-off-by: Stephano Cetola <stephano.cetola@linux.intel.com>
----
- meta/lib/oe/utils.py | 11 ++++-------
- 1 file changed, 4 insertions(+), 7 deletions(-)
+Stephano Cetola (3):
+  subprocess: remove strings and migrate to direct arrays
+  utils.py: gut python 2 commands in favor of subprocess.run
+  subprocess: remove Popen in favor of check_output
 
-diff --git a/meta/lib/oe/utils.py b/meta/lib/oe/utils.py
-index d6545b1..265f733 100644
---- a/meta/lib/oe/utils.py
-+++ b/meta/lib/oe/utils.py
-@@ -1,9 +1,4 @@
--try:
--    # Python 2
--    import commands as cmdstatus
--except ImportError:
--    # Python 3
--    import subprocess as cmdstatus
-+import subprocess
- 
- def read_file(filename):
-     try:
-@@ -144,7 +139,9 @@ def packages_filter_out_system(d):
-     return pkgs
- 
- def getstatusoutput(cmd):
--    return cmdstatus.getstatusoutput(cmd)
-+    compproc = subprocess.run(cmd, stdout=subprocess.PIPE,
-+            universal_newlines=True, stderr=subprocess.STDOUT, shell=True)
-+    return (compproc.returncode, compproc.stdout)
- 
- 
- def trim_version(version, num_parts=2):
+ meta/classes/buildstats.bbclass |  6 ++++-
+ meta/classes/spdx.bbclass       | 11 ++++----
+ meta/lib/oe/distro_check.py     |  2 +-
+ meta/lib/oe/package.py          | 13 ++++-----
+ meta/lib/oe/package_manager.py  | 59 ++++++++++++++++++++---------------------
+ meta/lib/oe/utils.py            | 11 +++-----
+ 6 files changed, 51 insertions(+), 51 deletions(-)
+
 -- 
 2.10.0
 
