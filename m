@@ -1,38 +1,23 @@
-Return-Path: <andre.draszik@gmail.com>
-Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
-	by mail.openembedded.org (Postfix) with ESMTP id A348F60191
+Return-Path: <ed.bartosh@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id E103260191
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Sep 2016 08:46:55 +0000 (UTC)
-Received: by mail-wm0-f67.google.com with SMTP id b184so9591802wma.3
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Sep 2016 01:46:57 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=0+eR0UV+HmaFPlZfHuNa+2cLc0cmdFzRXZmTejvANjU=;
-	b=cILBBwe645geUTW5SIvyCiKUXCDRLSlyRlSL+lOcr6zlRJxdxn9ziBm63ddXbcMryL
-	hGHb1yWded06YfkWB+TIVF8bJG9oyQi3N49z1XIEtawiZgbdzRxsInULYlAzDhFDAyRR
-	hck0RZya1PPl3hJ0V11Z/UFZWbksbmbNyjPQDRllEY9j7o+DWeo5nH3EApbl+2vwHb2d
-	J2nYiV+IMgdYlit9Bp+PeC/b2jyjkDpkVIpk+A6AOlnxrOVa2OI5/lt9A1mjy4oy0l7M
-	rTWzpDPMYeFeXInZgpHdA+72gV/Tv0Xu3hVo7ZPbCSV3zg4O3B+/6RfaZNV6/wgvum/7
-	9Wrw==
-X-Gm-Message-State: AA6/9RmMAVFVb7mjEQKFErK/2fL0696AGTUbgSaGy09ejVKMPo2YKlXLSvjLx2jmfKrBww==
-X-Received: by 10.28.87.16 with SMTP id l16mr1505104wmb.75.1475138815931;
-	Thu, 29 Sep 2016 01:46:55 -0700 (PDT)
-Received: from tfsielt31850.cork.rd.tyco.com ([77.107.218.170])
-	by smtp.gmail.com with ESMTPSA id
-	e12sm26895947wmg.17.2016.09.29.01.46.54
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 29 Sep 2016 01:46:55 -0700 (PDT)
-From: =?UTF-8?q?Andr=C3=A9=20Draszik?= <git@andred.net>
+	Thu, 29 Sep 2016 08:49:58 +0000 (UTC)
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+	by orsmga101.jf.intel.com with ESMTP; 29 Sep 2016 01:50:01 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.30,414,1470726000"; d="scan'208";a="14447678"
+Received: from linux.intel.com ([10.54.29.200])
+	by fmsmga006.fm.intel.com with ESMTP; 29 Sep 2016 01:50:00 -0700
+Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.68])
+	by linux.intel.com (Postfix) with ESMTP id 44C876A4080;
+	Thu, 29 Sep 2016 01:49:32 -0700 (PDT)
+From: Ed Bartosh <ed.bartosh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 29 Sep 2016 09:46:54 +0100
-Message-Id: <20160929084654.29562-1-git@andred.net>
-X-Mailer: git-send-email 2.9.3
-MIME-Version: 1.0
-Subject: [PATCH] image-buildinfo: restore trailing newline
+Date: Thu, 29 Sep 2016 11:38:52 +0300
+Message-Id: <1475138332-514-1-git-send-email-ed.bartosh@linux.intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [wic][PATCH] wic: selftest: add test for mksystemd-bootdisk
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,34 +30,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 29 Sep 2016 08:46:58 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 29 Sep 2016 08:50:01 -0000
 
-The last line in the generated /etc/build doesn't end
-with a newline anymore, restore it.
+Test creation of mksystemd-bootdisk image.
 
-Signed-off-by: André Draszik <git@andred.net>
+Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
 ---
- meta/classes/image-buildinfo.bbclass | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ meta/lib/oeqa/selftest/wic.py | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/meta/classes/image-buildinfo.bbclass b/meta/classes/image-buildinfo.bbclass
-index 83d0db3..3003f5d 100644
---- a/meta/classes/image-buildinfo.bbclass
-+++ b/meta/classes/image-buildinfo.bbclass
-@@ -71,7 +71,9 @@ Build Configuration:  |
- Layer Revisions:      |
- -----------------------
- ''',
--            get_layer_revs(d)
-+            get_layer_revs(d),
-+            '''
-+'''
-        ))
- }
- 
+diff --git a/meta/lib/oeqa/selftest/wic.py b/meta/lib/oeqa/selftest/wic.py
+index e550785..6012abc 100644
+--- a/meta/lib/oeqa/selftest/wic.py
++++ b/meta/lib/oeqa/selftest/wic.py
+@@ -284,3 +284,10 @@ class Wic(oeSelfTest):
+         self.assertEqual(0, status)
+         self.assertEqual(1, len(glob(self.resultdir + "%s-*direct" % image)))
+         self.assertEqual(1, len(glob(self.resultdir + "%s-*direct.bmap" % image)))
++
++    def test_mksystemd_bootdisk(self):
++        """Test creation of mksystemd-bootdisk image"""
++        image = "mksystemd-bootdisk"
++        self.assertEqual(0, runCmd("wic create %s -e core-image-minimal" \
++                                   % image).status)
++        self.assertEqual(1, len(glob(self.resultdir + "%s-*direct" % image)))
 -- 
-2.9.3
+2.1.4
 
 
