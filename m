@@ -1,23 +1,26 @@
-Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id E103260191
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 5D11F60761
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Sep 2016 08:49:58 +0000 (UTC)
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-	by orsmga101.jf.intel.com with ESMTP; 29 Sep 2016 01:50:01 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.30,414,1470726000"; d="scan'208";a="14447678"
-Received: from linux.intel.com ([10.54.29.200])
-	by fmsmga006.fm.intel.com with ESMTP; 29 Sep 2016 01:50:00 -0700
-Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.68])
-	by linux.intel.com (Postfix) with ESMTP id 44C876A4080;
-	Thu, 29 Sep 2016 01:49:32 -0700 (PDT)
-From: Ed Bartosh <ed.bartosh@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 29 Sep 2016 11:38:52 +0300
-Message-Id: <1475138332-514-1-git-send-email-ed.bartosh@linux.intel.com>
-X-Mailer: git-send-email 2.1.4
-Subject: [wic][PATCH] wic: selftest: add test for mksystemd-bootdisk
+	Thu, 29 Sep 2016 09:02:13 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u8T92Fc3005346
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 29 Sep 2016 02:02:15 -0700 (PDT)
+Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.294.0;
+	Thu, 29 Sep 2016 02:02:14 -0700
+From: Robert Yang <liezhi.yang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 29 Sep 2016 02:02:12 -0700
+Message-ID: <b1a11a1060394d0fb65c80eaeee5a64fbeae9811.1475139494.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 2.9.0
+In-Reply-To: <cover.1475139494.git.liezhi.yang@windriver.com>
+References: <cover.1475139494.git.liezhi.yang@windriver.com>
+MIME-Version: 1.0
+Subject: [PATCH 2/2] source-highlight: use with-boost-libdir
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,31 +33,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 29 Sep 2016 08:50:01 -0000
+X-List-Received-Date: Thu, 29 Sep 2016 09:02:15 -0000
+Content-Type: text/plain
 
-Test creation of mksystemd-bootdisk image.
+Without with-boost-libdir, it checks lib64 libx32 lib lib64 in
+sysroot/usr/ and set it as boost lib path if it exist, this is
+unreliable when build with multilib.
 
-Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
+Fixed when switch baselib from lib64 to lib, for example, when we build
+qemux86-64 + multilib setting, the baselib is lib64, and when disable
+multilib, it would be lib, then we may see the error when
+do_configure since lib64 may exist during build source-highlight:
+
+configure: error: Could not find a version of the Boost::Regex library!
+
+Steps to reproduce:
+MACHINE = "qemux86-64"
+require conf/multilib.conf
+MULTILIBS = "multilib:lib32"
+DEFAULTTUNE_virtclass-multilib-lib32 = "x86"
+
+$ bitbake world
+
+Then:
+MACHINE = "qemux86-64"
+$ bitbake source-highlight
+
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- meta/lib/oeqa/selftest/wic.py | 7 +++++++
- 1 file changed, 7 insertions(+)
+ meta/recipes-support/source-highlight/source-highlight_3.1.8.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/lib/oeqa/selftest/wic.py b/meta/lib/oeqa/selftest/wic.py
-index e550785..6012abc 100644
---- a/meta/lib/oeqa/selftest/wic.py
-+++ b/meta/lib/oeqa/selftest/wic.py
-@@ -284,3 +284,10 @@ class Wic(oeSelfTest):
-         self.assertEqual(0, status)
-         self.assertEqual(1, len(glob(self.resultdir + "%s-*direct" % image)))
-         self.assertEqual(1, len(glob(self.resultdir + "%s-*direct.bmap" % image)))
-+
-+    def test_mksystemd_bootdisk(self):
-+        """Test creation of mksystemd-bootdisk image"""
-+        image = "mksystemd-bootdisk"
-+        self.assertEqual(0, runCmd("wic create %s -e core-image-minimal" \
-+                                   % image).status)
-+        self.assertEqual(1, len(glob(self.resultdir + "%s-*direct" % image)))
+diff --git a/meta/recipes-support/source-highlight/source-highlight_3.1.8.bb b/meta/recipes-support/source-highlight/source-highlight_3.1.8.bb
+index 37d2fa9..c6203df 100644
+--- a/meta/recipes-support/source-highlight/source-highlight_3.1.8.bb
++++ b/meta/recipes-support/source-highlight/source-highlight_3.1.8.bb
+@@ -15,7 +15,7 @@ DEPENDS_append = " boost"
+ 
+ DEPENDS_append_class-target = " source-highlight-native"
+ 
+-EXTRA_OECONF = "--with-boost=${PKG_CONFIG_SYSROOT_DIR}/${prefix}"
++EXTRA_OECONF = "--with-boost=yes --with-boost-libdir=${PKG_CONFIG_SYSROOT_DIR}${libdir}"
+ 
+ BBCLASSEXTEND = "native"
+ 
 -- 
-2.1.4
+2.9.0
 
 
