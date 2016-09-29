@@ -1,46 +1,40 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-it0-f45.google.com (mail-it0-f45.google.com
-	[209.85.214.45])
-	by mail.openembedded.org (Postfix) with ESMTP id 7F2A660125
+Return-Path: <mateusz.cz.nowakowski@gmail.com>
+Received: from mail-wm0-f52.google.com (mail-wm0-f52.google.com [74.125.82.52])
+	by mail.openembedded.org (Postfix) with ESMTP id 7C5C760722
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Sep 2016 14:49:18 +0000 (UTC)
-Received: by mail-it0-f45.google.com with SMTP id u134so114611229itb.1
+	Thu, 29 Sep 2016 14:54:00 +0000 (UTC)
+Received: by mail-wm0-f52.google.com with SMTP id b4so33565957wmb.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Sep 2016 07:49:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=zqSc2HRsouDz13QhQWeqIcr9rTUcuxQtlIO0FrE4o3U=;
-	b=BIyok5McIAYLwdMVgBYyCOdbzY3Bgp3OI/E9n9sXU4Bzf3eq8k//i2iNJiM5W/Vbg+
-	GlKF46MUVVPfWXZdfCNXhDjRL5Dl5mtUopNfEkWDOcS2ioR2g7zeDk7YxQ6QpI5ibz5D
-	0xgOsxFHYrtEhdKCvMH+dfm6Xkizn3CV8TcViFGuSTgisFjQNezYLKAOEwO16YjJmTSg
-	Sm2jnUWHFJGPVy+7IEHeZMfxjx8/7BbQ1H4X1aRmsQMjz2+7TPIw50Undemw2MzrZynQ
-	ByUwSOp4Kmn9hTodWlW0fTaX6FFEO4hk0aqwAVBkT8Y3L6B0h3q2Q4nhv+6j7xuF0NWs
-	fCLQ==
+	Thu, 29 Sep 2016 07:54:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:from:date:message-id:subject:to;
+	bh=9Zu7ZzBK9xqE1uZ3LaqD4q760Que9OicYwh60/wZWdY=;
+	b=V+sIPG/e6a4reB6bPlS7FF2mnsY5Hpnm8oTXs24vWm0u13xE2FAZBGFk4vP+05f00l
+	uRK/NpcwcK6D5cKObTSP6jKXrpENNIE87qv7HiYKG1CfG5K13jf13gWB8mtEr+wj7861
+	+V+W1T1rBHluMUZSsnyogSp2G6FFdPcc4MM5ErYgkWF4afeE8BOE7xZy3g89Qmiv41Q9
+	Iag2CPamUsHFQ+Asmak7J8enV0dNpG3Kx/vIUChUCdUA0knGbv+O+LBH/Cu03qJm39vy
+	Etp4d5iyVbhqWT20A3D69Lm00RQB1vNazkD3Wm5R5Rwh71I9v0qNV/3Zf17p5APrkNPH
+	x/lQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=zqSc2HRsouDz13QhQWeqIcr9rTUcuxQtlIO0FrE4o3U=;
-	b=lhE2xCyvJ44JDwkFnR1PocVNt/hcnwDYeRpn8gI2lzxargVnD8aK+wZ9/FL/tKFtfK
-	NQw/SCk7TXUHnvR5IKd0S5VLxOSl5qG6hODyov6UDk8yIv04fOAk9abBvR1+af4gGI4s
-	b/d1HnVjtalbID+mNnF+LwViL5q6nitwHy4/d9LuqMNd7R6hIraXhJLBtBIhDwBA2FN9
-	+I2Q6naHftqeckPAiUXMXWUcr7ZDGQhxn29CpU5nBkPhfSTVrrcLP+6Ra73aV+D7Zm01
-	AXi4LmBFe12wJhMKmQw4h6YDFmoGch+b0d9qrn2+/5aJi/ID2lyDV8rebhEO4dWb7C/i
-	6ayQ==
-X-Gm-Message-State: AA6/9RnKk72Cd3e/HqDJYoiIYe93RI2yRGBq2i0+fVw/mtQ+5jy4/b+S69DSWXR9VPRIXv97aP+JdL9NNcXv9xbY
-X-Received: by 10.107.17.36 with SMTP id z36mr3073448ioi.1.1475160559522; Thu,
-	29 Sep 2016 07:49:19 -0700 (PDT)
+	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+	bh=9Zu7ZzBK9xqE1uZ3LaqD4q760Que9OicYwh60/wZWdY=;
+	b=ACvLMmee3Kilah9qABmT2/Z6WTPws+feVl9+8hP9kQgagPD8G2bs/oguOe6BCmiY6l
+	nCBOK9EebN10Qav62R0kiLOZLKPs9EA4wS13wanLk3emZQGWhMDa8Ad2WdOcrKgmMS/o
+	GzzLP+PlSlMf9nNmV8E+mev1G7Riz5pHLC8fxt2cYa2L3X5pqj0YdztO5DuA417wFzuI
+	FikTCeJ8IVLQXoWg9xQoGae7rnl+R9Qiu0XmQ6y/9LURvUlbRTj6ZovOYtrGjuuzEhkS
+	Nf+kGLCbVNGV7R6TWtGlKEChUbVxtlZjQR9CLOjZCfB0Yhu3kSQ24V+8IuBegSHytEwd
+	FulQ==
+X-Gm-Message-State: AA6/9Rm1A/Uvy/RU5TuudwjHACXUt2asxReaqAyGQnEvCZqtCHCSz1ucgqyB1PdVHpNAIJotvYHT30dodksASA==
+X-Received: by 10.194.206.68 with SMTP id lm4mr1946453wjc.106.1475160841008;
+	Thu, 29 Sep 2016 07:54:01 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.107.155.66 with HTTP; Thu, 29 Sep 2016 07:48:59 -0700 (PDT)
-In-Reply-To: <1475138332-514-1-git-send-email-ed.bartosh@linux.intel.com>
-References: <1475138332-514-1-git-send-email-ed.bartosh@linux.intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 29 Sep 2016 15:48:59 +0100
-Message-ID: <CAJTo0LY7q-=+5Dyj+CMv2Z6ujZZutDM_R5E0uexeDbF1BpZ5PQ@mail.gmail.com>
-To: Ed Bartosh <ed.bartosh@linux.intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [wic][PATCH] wic: selftest: add test for mksystemd-bootdisk
+Received: by 10.194.146.134 with HTTP; Thu, 29 Sep 2016 07:54:00 -0700 (PDT)
+From: Mateusz Nowakowski <mateusz.cz.nowakowski@gmail.com>
+Date: Thu, 29 Sep 2016 14:54:00 +0000
+Message-ID: <CAG_Oc3aNNFhTVy_Rg1fmS-jXPoestjjBdZYnEhsoGQqd-qjXUg@mail.gmail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: gmock install fix for 64bit architectures
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,54 +47,77 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 29 Sep 2016 14:49:18 -0000
-Content-Type: multipart/alternative; boundary=001a113f71f22379d9053da695cb
+X-List-Received-Date: Thu, 29 Sep 2016 14:54:00 -0000
+X-Groupsio-MsgNum: 87685
+Content-Type: multipart/mixed; boundary=047d7bae41feea5934053da6a5bb
 
---001a113f71f22379d9053da695cb
+--047d7bae41feea5934053da6a5bb
+Content-Type: multipart/alternative; boundary=047d7bae41feea592f053da6a5b9
+
+--047d7bae41feea592f053da6a5b9
 Content-Type: text/plain; charset=UTF-8
 
-On 29 September 2016 at 09:38, Ed Bartosh <ed.bartosh@linux.intel.com>
-wrote:
+Hi i found some bug in gmock receipe when target architecture is 64bit. I
+attach simple fix
 
-> +    def test_mksystemd_bootdisk(self):
-> +        """Test creation of mksystemd-bootdisk image"""
-> +        image = "mksystemd-bootdisk"
-> +        self.assertEqual(0, runCmd("wic create %s -e core-image-minimal" \
-> +                                   % image).status)
-> +        self.assertEqual(1, len(glob(self.resultdir + "%s-*direct" %
-> image)))
->
+How to deploy this fix to jethro/kroghot and master branches ??
 
-Jianxun sent a patch to rename this image to just systemd-bootdisk, do you
-agree with this rename (so can you update the patch) or do you think we
-should not rename?
 
-Ross
 
---001a113f71f22379d9053da695cb
+-- 
+Pozdrawiam, Mateusz Nowakowski
+
+--047d7bae41feea592f053da6a5b9
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 29 September 2016 at 09:38, Ed Bartosh <span dir=3D"ltr">&lt;<a href=3D"=
-mailto:ed.bartosh@linux.intel.com" target=3D"_blank">ed.bartosh@linux.intel=
-.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"ma=
-rgin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,=
-204);border-left-style:solid;padding-left:1ex"><div id=3D"gmail-:p4" class=
-=3D"gmail-a3s gmail-aXjCH gmail-m1577523922c2b491">+=C2=A0 =C2=A0 def test_=
-mksystemd_bootdisk(self):<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;&quot;&quot;Test creation of mksystemd-b=
-ootdisk image&quot;&quot;&quot;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 image =3D &quot;mksystemd-bootdisk&quot;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.assertEqual(0, runCmd(&quot;wic create %s=
- -e core-image-minimal&quot; \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0% image).status)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.assertEqual(1, len(glob(self.resultdir + =
-&quot;%s-*direct&quot; % image)))</div></blockquote></div><br>Jianxun sent =
-a patch to rename this image to just systemd-bootdisk, do you agree with th=
-is rename (so can you update the patch) or do you think we should not renam=
-e?<br></div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra"=
->Ross</div></div>
+<div dir=3D"ltr"><div>Hi i found some bug in gmock receipe when target arch=
+itecture is 64bit. I attach simple fix<br><br></div>How to deploy this fix =
+to jethro/kroghot and master branches ??<br><br><br clear=3D"all"><div><div=
+><br>-- <br><div class=3D"gmail_signature" data-smartmail=3D"gmail_signatur=
+e"><div dir=3D"ltr"><font color=3D"#666666">Pozdrawiam, Mateusz Nowakowski<=
+/font></div></div>
+</div></div></div>
 
---001a113f71f22379d9053da695cb--
+--047d7bae41feea592f053da6a5b9--
+
+--047d7bae41feea5934053da6a5bb
+Content-Type: text/x-patch; charset=US-ASCII; name="gmock.patch"
+Content-Disposition: attachment; filename="gmock.patch"
+Content-Transfer-Encoding: base64
+X-Attachment-Id: f_itokxz1n0
+
+ZGlmZiAtLWdpdCBhL21ldGEtb2UvcmVjaXBlcy10ZXN0L2dtb2NrL2dtb2NrL2NtYWtlLUFkZC1p
+bnN0YWxsLWNvbW1hbmQtZm9yLWxpYnJhcmllcy1hbmQtaGVhZGVycy5wYXRjaCBiL21ldGEtb2Uv
+cmVjaXBlcy10ZXN0L2dtb2NrL2dtb2NrL2NtYWtlLUFkZC1pbnN0YWxsLWNvbW1hbmQtZm9yLWxp
+YnJhcmllcy1hbmQtaGVhZGVycy5wYXRjaAppbmRleCA5MmE2MzkzLi4wZGFjOTk4IDEwMDY0NAot
+LS0gYS9tZXRhLW9lL3JlY2lwZXMtdGVzdC9nbW9jay9nbW9jay9jbWFrZS1BZGQtaW5zdGFsbC1j
+b21tYW5kLWZvci1saWJyYXJpZXMtYW5kLWhlYWRlcnMucGF0Y2gKKysrIGIvbWV0YS1vZS9yZWNp
+cGVzLXRlc3QvZ21vY2svZ21vY2svY21ha2UtQWRkLWluc3RhbGwtY29tbWFuZC1mb3ItbGlicmFy
+aWVzLWFuZC1oZWFkZXJzLnBhdGNoCkBAIC0yOSw4ICsyOSw4IEBAIGluZGV4IDU3MmQwNDQuLjkw
+ZTc5N2EgMTAwNjQ0CiAgICAgICAgICAgICAgc3JjL2dtb2NrX21haW4uY2MpCiAgCiArCi0raW5z
+dGFsbChUQVJHRVRTIGdtb2NrIERFU1RJTkFUSU9OIGxpYikKLStpbnN0YWxsKFRBUkdFVFMgZ21v
+Y2tfbWFpbiBERVNUSU5BVElPTiBsaWIpCisraW5zdGFsbChUQVJHRVRTIGdtb2NrIERFU1RJTkFU
+SU9OICR7Q01BS0VfSU5TVEFMTF9MSUJESVJ9KQorK2luc3RhbGwoVEFSR0VUUyBnbW9ja19tYWlu
+IERFU1RJTkFUSU9OICR7Q01BS0VfSU5TVEFMTF9MSUJESVJ9KQogKwogICMjIyMjIyMjIyMjIyMj
+IyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMj
+IwogICMKZGlmZiAtLWdpdCBhL21ldGEtb2UvcmVjaXBlcy10ZXN0L2dtb2NrL2dtb2NrL2NtYWtl
+LWdtb2NrLnBjLmluLUFkZC1wa2ctY29uZmlnLXN1cHBvcnQucGF0Y2ggYi9tZXRhLW9lL3JlY2lw
+ZXMtdGVzdC9nbW9jay9nbW9jay9jbWFrZS1nbW9jay5wYy5pbi1BZGQtcGtnLWNvbmZpZy1zdXBw
+b3J0LnBhdGNoCmluZGV4IGFhMzhmZTQuLjhmZmUxYTYgMTAwNjQ0Ci0tLSBhL21ldGEtb2UvcmVj
+aXBlcy10ZXN0L2dtb2NrL2dtb2NrL2NtYWtlLWdtb2NrLnBjLmluLUFkZC1wa2ctY29uZmlnLXN1
+cHBvcnQucGF0Y2gKKysrIGIvbWV0YS1vZS9yZWNpcGVzLXRlc3QvZ21vY2svZ21vY2svY21ha2Ut
+Z21vY2sucGMuaW4tQWRkLXBrZy1jb25maWctc3VwcG9ydC5wYXRjaApAQCAtMjcsMTEgKzI3LDEx
+IEBAIGluZGV4IDkwZTc5N2EuLjk4ZmQ4MjQgMTAwNjQ0CiAgIyBQcm9qZWN0LXdpZGUgc2V0dGlu
+Z3MKIEBAIC04Nyw3ICs5MCw5IEBAIGN4eF9saWJyYXJ5KGdtb2NrX21haW4KICAKLSBpbnN0YWxs
+KFRBUkdFVFMgZ21vY2sgREVTVElOQVRJT04gbGliKQotIGluc3RhbGwoVEFSR0VUUyBnbW9ja19t
+YWluIERFU1RJTkFUSU9OIGxpYikKKyBpbnN0YWxsKFRBUkdFVFMgZ21vY2sgREVTVElOQVRJT04g
+JHtDTUFLRV9JTlNUQUxMX0xJQkRJUn0pCisgaW5zdGFsbChUQVJHRVRTIGdtb2NrX21haW4gREVT
+VElOQVRJT04gJHtDTUFLRV9JTlNUQUxMX0xJQkRJUn0pCiAtCiAraW5zdGFsbChGSUxFUyAiJHtD
+TUFLRV9DVVJSRU5UX0JJTkFSWV9ESVJ9L2dtb2NrLnBjIgotKyAgICBERVNUSU5BVElPTiAiJHtD
+TUFLRV9JTlNUQUxMX1BSRUZJWH0vbGliL3BrZ2NvbmZpZy8iCisrICAgIERFU1RJTkFUSU9OICIk
+e0NNQUtFX0lOU1RBTExfTElCRElSfS9wa2djb25maWcvIgogKykgIAogICMjIyMjIyMjIyMjIyMj
+IyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMj
+IwogICMK
+
+--047d7bae41feea5934053da6a5bb--
