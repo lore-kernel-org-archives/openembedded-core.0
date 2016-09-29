@@ -1,32 +1,40 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 1134C6076F
+Return-Path: <skrishnakar@gmail.com>
+Received: from mail-wm0-f53.google.com (mail-wm0-f53.google.com [74.125.82.53])
+	by mail.openembedded.org (Postfix) with ESMTP id 0F89E6078E
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Sep 2016 03:37:55 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u8T3buw8002337
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 28 Sep 2016 20:37:56 -0700 (PDT)
-Received: from [128.224.162.240] (128.224.162.240) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.294.0;
-	Wed, 28 Sep 2016 20:37:56 -0700
-To: Seebs <seebs@seebs.net>
-References: <cover.1475043600.git.liezhi.yang@windriver.com>
-	<CB05DC3E-85D6-4866-9EA0-7341AC8C5FEC@seebs.net>
-	<23b689b2-d61f-d6db-f49d-86682c9f84fc@windriver.com>
-	<CB33D621-D8CC-4880-AC2F-EAE42D42F943@seebs.net>
-	<db01ab37-aeb0-46cd-b953-dd110f59de8b@windriver.com>
-	<2B58BF15-5955-4847-88C3-C3EF8036F1D1@seebs.net>
-From: Robert Yang <liezhi.yang@windriver.com>
-Message-ID: <f65d3c3c-4551-5d08-82d7-55efbabbdcc0@windriver.com>
-Date: Thu, 29 Sep 2016 11:37:54 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.2.0
+	Thu, 29 Sep 2016 05:39:00 +0000 (UTC)
+Received: by mail-wm0-f53.google.com with SMTP id b4so3819919wmb.0
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 28 Sep 2016 22:39:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:from:date:message-id:subject:to;
+	bh=h0sPcXW+mV1D2BKYeCYsPUUddA+FjltIuk5FVIJdJPo=;
+	b=vtZycZTdI7Uwnu8yyEtIeBdJbVogU/+q8GIIYJLmgWjnlDHw99GJgwlcgKQ8HOMxJG
+	qXYJBOJ8sYRw/Pc5qKUUOkml08MfKfxP7LA2FzH8SHC682SZ1laRLRM+gfCAZqAzS06k
+	2659anTRAFiETuFypau3LofPTD+vvmYDZ/CMR8BZO5aOlYctCsuYCOrXC5x5dGe4v40P
+	yBrK87qc/7O2iYAPZeX+kYfe60nnBoUWwmez5d5YiONZvgJ23bCN1syRYrhpCwALbRei
+	zYKfC4GksnaQLe8ecc3+Ylwm3J7Jn6tmN5QTvRg/9Zc0mf+lPmFzG4GTFcHixH/UCXdM
+	WWnw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+	bh=h0sPcXW+mV1D2BKYeCYsPUUddA+FjltIuk5FVIJdJPo=;
+	b=T72YMdURhXPLtezlJOQJ6LDrLg/ZlaM0XFHMq4pKBWzlD8jio81vBlB7JWWEAyNRa8
+	+iNsM2icxPjPxFqHJn7twqgi66MGIH7AD2Z57pAMByAl0RoBgliURnGjMATMUczBS0/Y
+	DnnPvGrfkRwjUszOQGjQxKRi9IWAo3M+ZJptUvmhqBxRqnc+IdHLji+5a56IBJ15ChQQ
+	xTzi1UmJDyJaeqjH7n/6lqHreGZGoGVWcEn5I95sCSy6f6JAcpm0ZnP5eUEbaVFjItxO
+	10LWUG4bHdlm5no6FdhDhU0yqnalkex7EbsKI18OHf8ATM231yQ8as9aQ7QpcpUSy9hw
+	teEA==
+X-Gm-Message-State: AA6/9Rmm3tX2/oH/C/3d9iEUf8Pyqv0I0npJYtE8+LkeZsxTHJ80WHjz3M21kPCrQUDnBQpMQMNgiiGduIJAPg==
+X-Received: by 10.28.141.6 with SMTP id p6mr898659wmd.110.1475127541185; Wed,
+	28 Sep 2016 22:39:01 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <2B58BF15-5955-4847-88C3-C3EF8036F1D1@seebs.net>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 0/1] pseudo: add prefix for log and make log consistent
+Received: by 10.28.34.212 with HTTP; Wed, 28 Sep 2016 22:38:20 -0700 (PDT)
+From: srikanth krishnakar <skrishnakar@gmail.com>
+Date: Thu, 29 Sep 2016 11:08:20 +0530
+Message-ID: <CALDxG5jveoshv5wXMZFFJOgprMOAOwARG4xXwQ+gNO8kFmvzuA@mail.gmail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: Psplash on Systemd with progress bar
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,39 +47,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 29 Sep 2016 03:37:56 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 29 Sep 2016 05:39:01 -0000
+Content-Type: multipart/alternative; boundary=001a1146e11e174614053d9ee52f
 
+--001a1146e11e174614053d9ee52f
+Content-Type: text/plain; charset=UTF-8
 
+Hi All,
 
-On 09/29/2016 11:36 AM, Seebs wrote:
-> On 28 Sep 2016, at 22:34, Robert Yang wrote:
->
->> Thanks, it works for me now, I will send a V2 with your patch sooner.
->>
->> How about the prefix issues? Which ones should be prefixed do you think
->> please ?
->>
->> Yocto 2.2 may not need the prefix, but we can treat it as an enhancement
->> for YP 2.3.
->
-> I don't think anything should be prefixed at this point. The prefix was a
-> suggestion for clarifying those messages which were showing up on the console,
-> but really, they shouldn't have been showing up on the console in the first place.
+Yocto version: yocto-2.1
+Target: ARM imx6
+Graphics: X11 (core-image-sato)
 
-Thanks, got it.
+I am trying to use psplash with systemd and have come across the service
+files prepared by Eric:
 
->
-> And really, ideally several of those messages would become less frequent, since
-> they're diagnostics for a circumstance we expect to happen. They should probably
-> be debug messages, not unconditional diagnostics.
+http://lists.busybox.net/pipermail/buildroot/2014-May/097233.html
 
-Sounds good to me.
+Although the splash comes up for a split second and vanishes on my imx6
+target it never stays till desktop appears nor it displays any progress
+bar. I read Eric mention about patch to systemd (src/core/manager.c) to
+write progress data to psplash socket but I couldn't find the patch. Can
+anyone point me to the patch for systemd that writes progress data to
+psplash socket so that I can see progress bar and while keeping splash
+alive till desktop shows up ?
 
-// Robert
+Thanks in Advance!!
 
->
-> -s
->
+--001a1146e11e174614053d9ee52f
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr">Hi All,<div><br></div><div>Yocto version: yocto-2.1</div><=
+div>Target: ARM imx6</div><div>Graphics: X11 (core-image-sato)</div><div><b=
+r></div><div>I am trying to use psplash with systemd and have come across t=
+he service files prepared by Eric:</div><div><br></div><div><a href=3D"http=
+://lists.busybox.net/pipermail/buildroot/2014-May/097233.html">http://lists=
+.busybox.net/pipermail/buildroot/2014-May/097233.html</a><br></div><div><br=
+></div><div>Although the splash comes up for a split second and vanishes on=
+ my imx6 target it never stays till desktop appears nor it displays any pro=
+gress bar. I read Eric mention about patch to systemd (src/core/manager.c) =
+to write progress data to psplash socket but I couldn&#39;t find the patch.=
+ Can anyone point me to the patch for systemd that writes progress data to =
+psplash socket so that I can see progress bar and while keeping splash aliv=
+e till desktop shows up ?</div><div><br></div><div>Thanks in Advance!!</div=
+></div>
+
+--001a1146e11e174614053d9ee52f--
