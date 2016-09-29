@@ -1,22 +1,22 @@
 Return-Path: <stephano.cetola@linux.intel.com>
 Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 8A68665D00
+	by mail.openembedded.org (Postfix) with ESMTP id D6B1E6B6F7
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 29 Sep 2016 22:51:25 +0000 (UTC)
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
 	by fmsmga103.fm.intel.com with ESMTP; 29 Sep 2016 15:51:26 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.31,417,1473145200"; d="scan'208";a="14796094"
+X-IronPort-AV: E=Sophos;i="5.31,417,1473145200"; d="scan'208";a="14796093"
 Received: from pequod.jf.intel.com ([10.7.201.50])
 	by orsmga005.jf.intel.com with ESMTP; 29 Sep 2016 15:51:25 -0700
 From: Stephano Cetola <stephano.cetola@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 29 Sep 2016 15:50:24 -0700
-Message-Id: <20160929225024.27698-3-stephano.cetola@linux.intel.com>
+Date: Thu, 29 Sep 2016 15:50:23 -0700
+Message-Id: <20160929225024.27698-2-stephano.cetola@linux.intel.com>
 X-Mailer: git-send-email 2.10.0
 In-Reply-To: <20160929225024.27698-1-stephano.cetola@linux.intel.com>
 References: <20160929225024.27698-1-stephano.cetola@linux.intel.com>
-Subject: [PATCH v2 2/2] subprocess: remove Popen in favor of check_output
+Subject: [PATCH v2 1/2] subprocess: remove strings and migrate to direct arrays
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,61 +29,203 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 29 Sep 2016 22:51:25 -0000
+X-List-Received-Date: Thu, 29 Sep 2016 22:51:26 -0000
 
-This begins moving away from the deprecated subprocess calls in an
-effort to eventually move to some more global abstraction using the run
-convenience method provided in python 3.5.
+When using subprocess call and check_output, it is better to use arrays
+rather than strings when possible to avoid whitespace and quoting
+problems.
 
 [ YOCTO #9342 ]
 
 Signed-off-by: Stephano Cetola <stephano.cetola@linux.intel.com>
 ---
- meta/classes/buildstats.bbclass |  6 +++++-
- meta/classes/spdx.bbclass       | 11 +++++------
- 2 files changed, 10 insertions(+), 7 deletions(-)
+ meta/lib/oe/distro_check.py    |  2 +-
+ meta/lib/oe/package.py         | 13 +++++-----
+ meta/lib/oe/package_manager.py | 59 +++++++++++++++++++++---------------------
+ 3 files changed, 37 insertions(+), 37 deletions(-)
 
-diff --git a/meta/classes/buildstats.bbclass b/meta/classes/buildstats.bbclass
-index 34ecb03..8c2b7b3 100644
---- a/meta/classes/buildstats.bbclass
-+++ b/meta/classes/buildstats.bbclass
-@@ -163,7 +163,11 @@ python run_buildstats () {
-             bs = os.path.join(bsdir, "build_stats")
-             with open(bs, "a") as f:
-                 rootfs = d.getVar('IMAGE_ROOTFS', True)
--                rootfs_size = subprocess.Popen(["du", "-sh", rootfs], stdout=subprocess.PIPE).stdout.read()
-+                try:
-+                    rootfs_size = subprocess.check_output(["du", "-sh", rootfs],
-+                            stderr=subprocess.STDOUT).decode('utf-8')
-+                except subprocess.CalledProcessError as e:
-+                    bb.error("Failed to get rootfs size: %s" % e.output)
-                 f.write("Uncompressed Rootfs size: %s" % rootfs_size)
+diff --git a/meta/lib/oe/distro_check.py b/meta/lib/oe/distro_check.py
+index 87c52fa..cc973c2 100644
+--- a/meta/lib/oe/distro_check.py
++++ b/meta/lib/oe/distro_check.py
+@@ -359,7 +359,7 @@ def create_log_file(d, logname):
+             slogfile = os.path.join(logpath, logname)
+             if os.path.exists(slogfile):
+                     os.remove(slogfile)
+-            subprocess.call("touch %s" % logfile, shell=True)
++            subprocess.call(["touch", logfile])
+             os.symlink(logfile, slogfile)
+             d.setVar('LOG_FILE', logfile)
+     return logfile
+diff --git a/meta/lib/oe/package.py b/meta/lib/oe/package.py
+index 02642f2..ae60a58 100644
+--- a/meta/lib/oe/package.py
++++ b/meta/lib/oe/package.py
+@@ -18,23 +18,24 @@ def runstrip(arg):
+         newmode = origmode | stat.S_IWRITE | stat.S_IREAD
+         os.chmod(file, newmode)
  
-     elif isinstance(e, bb.build.TaskFailed):
-diff --git a/meta/classes/spdx.bbclass b/meta/classes/spdx.bbclass
-index 0c92765..89394d3 100644
---- a/meta/classes/spdx.bbclass
-+++ b/meta/classes/spdx.bbclass
-@@ -219,14 +219,13 @@ def hash_string(data):
- def run_fossology(foss_command, full_spdx):
-     import string, re
-     import subprocess
--    
--    p = subprocess.Popen(foss_command.split(),
--        stdout=subprocess.PIPE, stderr=subprocess.PIPE)
--    foss_output, foss_error = p.communicate()
--    if p.returncode != 0:
+-    extraflags = ""
++    stripcmd = [strip]
+ 
+     # kernel module    
+     if elftype & 16:
+-        extraflags = "--strip-debug --remove-section=.comment --remove-section=.note --preserve-dates"
++        stripcmd.extend(["--strip-debug", "--remove-section=.comment",
++            "--remove-section=.note", "--preserve-dates"])
+     # .so and shared library
+     elif ".so" in file and elftype & 8:
+-        extraflags = "--remove-section=.comment --remove-section=.note --strip-unneeded"
++        stripcmd.extend(["--remove-section=.comment", "--remove-section=.note", "--strip-unneeded"])
+     # shared or executable:
+     elif elftype & 8 or elftype & 4:
+-        extraflags = "--remove-section=.comment --remove-section=.note"
++        stripcmd.extend(["--remove-section=.comment", "--remove-section=.note"])
+ 
+-    stripcmd = "'%s' %s '%s'" % (strip, extraflags, file)
++    stripcmd.append(file)
+     bb.debug(1, "runstrip: %s" % stripcmd)
+ 
+     try:
+-        output = subprocess.check_output(stripcmd, stderr=subprocess.STDOUT, shell=True)
++        output = subprocess.check_output(stripcmd, stderr=subprocess.STDOUT)
+     except subprocess.CalledProcessError as e:
+         bb.error("runstrip: '%s' strip command failed with %s (%s)" % (stripcmd, e.returncode, e.output))
+ 
+diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
+index 434b898..d217073 100644
+--- a/meta/lib/oe/package_manager.py
++++ b/meta/lib/oe/package_manager.py
+@@ -358,12 +358,11 @@ class RpmPkgsList(PkgsList):
+             RpmIndexer(d, rootfs_dir).get_ml_prefix_and_os_list(arch_var, os_var)
+ 
+         # Determine rpm version
+-        cmd = "%s --version" % self.rpm_cmd
+         try:
+-            output = subprocess.check_output(cmd, stderr=subprocess.STDOUT, shell=True).decode("utf-8")
++            output = subprocess.check_output([self.rpm_cmd, "--version"], stderr=subprocess.STDOUT).decode("utf-8")
+         except subprocess.CalledProcessError as e:
+             bb.fatal("Getting rpm version failed. Command '%s' "
+-                     "returned %d:\n%s" % (cmd, e.returncode, e.output.decode("utf-8")))
++                     "returned %d:\n%s" % (self.rpm_cmd, e.returncode, e.output.decode("utf-8")))
+ 
+     '''
+     Translate the RPM/Smart format names to the OE multilib format names
+@@ -412,16 +411,15 @@ class RpmPkgsList(PkgsList):
+         return output
+ 
+     def list_pkgs(self):
+-        cmd = self.rpm_cmd + ' --root ' + self.rootfs_dir
+-        cmd += ' -D "_dbpath /var/lib/rpm" -qa'
+-        cmd += " --qf '[%{NAME} %{ARCH} %{VERSION} %{PACKAGEORIGIN}\n]'"
++        cmd = [self.rpm_cmd, '--root', self.rootfs_dir]
++        cmd.extend(['-D', '_dbpath /var/lib/rpm'])
++        cmd.extend(['-qa', '--qf', '[%{NAME} %{ARCH} %{VERSION} %{PACKAGEORIGIN}\n]'])
+ 
+         try:
+-            # bb.note(cmd)
+-            tmp_output = subprocess.check_output(cmd, stderr=subprocess.STDOUT, shell=True).strip().decode("utf-8")
++            tmp_output = subprocess.check_output(cmd, stderr=subprocess.STDOUT).strip().decode("utf-8")
+         except subprocess.CalledProcessError as e:
+             bb.fatal("Cannot get the installed packages list. Command '%s' "
+-                     "returned %d:\n%s" % (cmd, e.returncode, e.output.decode("utf-8")))
++                     "returned %d:\n%s" % (' '.join(cmd), e.returncode, e.output.decode("utf-8")))
+ 
+         output = dict()
+         deps = dict()
+@@ -949,20 +947,22 @@ class RpmPM(PackageManager):
+             open(db_config_dir, 'w+').write(DB_CONFIG_CONTENT)
+ 
+         # Create database so that smart doesn't complain (lazy init)
+-        opt = "-qa"
+-        cmd = "%s --root %s --dbpath /var/lib/rpm %s > /dev/null" % (
+-              self.rpm_cmd, self.target_rootfs, opt)
++        cmd = [self.rpm_cmd, '--root', self.target_rootfs, '--dbpath', '/var/lib/rpm', '-qa'] 
+         try:
+-            subprocess.check_output(cmd, stderr=subprocess.STDOUT, shell=True)
++            subprocess.check_output(cmd, stderr=subprocess.STDOUT)
+         except subprocess.CalledProcessError as e:
+             bb.fatal("Create rpm database failed. Command '%s' "
+-                     "returned %d:\n%s" % (cmd, e.returncode, e.output.decode("utf-8")))
++                     "returned %d:\n%s" % (' '.join(cmd), e.returncode, e.output.decode("utf-8")))
+         # Import GPG key to RPM database of the target system
+         if self.d.getVar('RPM_SIGN_PACKAGES', True) == '1':
+             pubkey_path = self.d.getVar('RPM_GPG_PUBKEY', True)
+-            cmd = "%s --root %s --dbpath /var/lib/rpm --import %s > /dev/null" % (
+-                  self.rpm_cmd, self.target_rootfs, pubkey_path)
+-            subprocess.check_output(cmd, stderr=subprocess.STDOUT, shell=True)
++            cmd = [self.rpm_cmd, '--root', self.target_rootfs, '--dbpath', '/var/lib/rpm', '--import', pubkey_path]
++            try:
++                subprocess.check_output(cmd, stderr=subprocess.STDOUT)
++            except subprocess.CalledProcessError as e:
++                bb.fatal("Import GPG key failed. Command '%s' "
++                        "returned %d:\n%s" % (' '.join(cmd), e.returncode, e.output.decode("utf-8")))
 +
-+    try:
-+        foss_output = subprocess.check_output(foss_command.split(),
-+                stderr=subprocess.STDOUT).decode('utf-8')
-+    except subprocess.CalledProcessError as e:
-         return None
  
--    foss_output = unicode(foss_output, "utf-8")
-     foss_output = string.replace(foss_output, '\r', '')
+         # Configure smart
+         bb.note("configuring Smart settings")
+@@ -1355,17 +1355,16 @@ class RpmPM(PackageManager):
+     def dump_all_available_pkgs(self):
+         available_manifest = self.d.expand('${T}/saved/available_pkgs.txt')
+         available_pkgs = list()
+-        cmd = "%s %s query --output %s" %  \
+-              (self.smart_cmd, self.smart_opt, available_manifest)
++        cmd = [self.smart_cmd, self.smart_opt, 'query', '--output', available_manifest]
+         try:
+-            subprocess.check_output(cmd, stderr=subprocess.STDOUT, shell=True)
++            subprocess.check_output(cmd, stderr=subprocess.STDOUT)
+             with open(available_manifest, 'r') as manifest:
+                 for pkg in manifest.read().split('\n'):
+                     if '@' in pkg:
+                         available_pkgs.append(pkg.strip())
+         except subprocess.CalledProcessError as e:
+             bb.note("Unable to list all available packages. Command '%s' "
+-                    "returned %d:\n%s" % (cmd, e.returncode, e.output.decode("utf-8")))
++                    "returned %d:\n%s" % (' '.join(cmd), e.returncode, e.output.decode("utf-8")))
  
-     # Package info
+         self.fullpkglist = available_pkgs
+ 
+@@ -1425,12 +1424,12 @@ class RpmPM(PackageManager):
+     Returns a dictionary with the package info.
+     """
+     def package_info(self, pkg):
+-        cmd = "%s %s info --urls %s" % (self.smart_cmd, self.smart_opt, pkg)
++        cmd = [self.smart_cmd, self.smart_opt, 'info', '--urls', pkg]
+         try:
+-            output = subprocess.check_output(cmd, stderr=subprocess.STDOUT, shell=True).decode("utf-8")
++            output = subprocess.check_output(cmd, stderr=subprocess.STDOUT).decode("utf-8")
+         except subprocess.CalledProcessError as e:
+             bb.fatal("Unable to list available packages. Command '%s' "
+-                     "returned %d:\n%s" % (cmd, e.returncode, e.output.decode("utf-8")))
++                     "returned %d:\n%s" % (' '.join(cmd), e.returncode, e.output.decode("utf-8")))
+ 
+         # Set default values to avoid UnboundLocalError
+         arch = ""
+@@ -1550,18 +1549,18 @@ class OpkgDpkgPM(PackageManager):
+         os.chdir(tmp_dir)
+ 
+         try:
+-            cmd = "%s x %s" % (ar_cmd, pkg_path)
+-            output = subprocess.check_output(cmd, stderr=subprocess.STDOUT, shell=True)
+-            cmd = "%s xf data.tar.*" % tar_cmd
+-            output = subprocess.check_output(cmd, stderr=subprocess.STDOUT, shell=True)
++            cmd = [ar_cmd, 'x', pkg_path]
++            output = subprocess.check_output(cmd, stderr=subprocess.STDOUT)
++            cmd = [tar_cmd, 'xf', 'data.tar.*']
++            output = subprocess.check_output(cmd, stderr=subprocess.STDOUT)
+         except subprocess.CalledProcessError as e:
+             bb.utils.remove(tmp_dir, recurse=True)
+             bb.fatal("Unable to extract %s package. Command '%s' "
+-                     "returned %d:\n%s" % (pkg_path, cmd, e.returncode, e.output.decode("utf-8")))
++                     "returned %d:\n%s" % (pkg_path, ' '.join(cmd), e.returncode, e.output.decode("utf-8")))
+         except OSError as e:
+             bb.utils.remove(tmp_dir, recurse=True)
+             bb.fatal("Unable to extract %s package. Command '%s' "
+-                     "returned %d:\n%s at %s" % (pkg_path, cmd, e.errno, e.strerror, e.filename))
++                     "returned %d:\n%s at %s" % (pkg_path, ' '.join(cmd), e.errno, e.strerror, e.filename))
+ 
+         bb.note("Extracted %s to %s" % (pkg_path, tmp_dir))
+         bb.utils.remove(os.path.join(tmp_dir, "debian-binary"))
 -- 
 2.10.0
 
