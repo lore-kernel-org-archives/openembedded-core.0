@@ -1,22 +1,46 @@
-Return-Path: <seebs@seebs.net>
-Received: from mail.plethora.net (mail.plethora.net [184.173.250.112])
-	by mail.openembedded.org (Postfix) with ESMTP id E45DF600B3
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-vk0-f42.google.com (mail-vk0-f42.google.com
+	[209.85.213.42])
+	by mail.openembedded.org (Postfix) with ESMTP id 3F59360770
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Sep 2016 15:35:26 +0000 (UTC)
-Received: from [10.10.10.132] (home.seebs.net [74.122.98.108])
-	by mail.plethora.net (Postfix) with ESMTPSA id 68796C4993;
-	Thu, 29 Sep 2016 10:35:27 -0500 (CDT)
-From: Seebs <seebs@seebs.net>
-To: "Robert Yang" <liezhi.yang@windriver.com>
-Date: Thu, 29 Sep 2016 10:35:26 -0500
-Message-ID: <3F4F8F39-EC89-4A8B-BCF9-167896459A2D@seebs.net>
-In-Reply-To: <c44a3f3eb02ab9e6482a1dc6f97511b64d4139d8.1475128528.git.liezhi.yang@windriver.com>
-References: <cover.1475128528.git.liezhi.yang@windriver.com>
-	<c44a3f3eb02ab9e6482a1dc6f97511b64d4139d8.1475128528.git.liezhi.yang@windriver.com>
+	Thu, 29 Sep 2016 17:05:10 +0000 (UTC)
+Received: by mail-vk0-f42.google.com with SMTP id v205so80751462vke.1
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 29 Sep 2016 10:05:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=7WLfQVnQXcSTy/jJOp5icEURHW8yOYU2nHNSTn3i4t4=;
+	b=n9fj5YyKf+1NwT9FRdDWFzlm2Lt41i39uECmwvA/5VjHr8CFWg63YjKQF3Xcq1Z/Tp
+	oBZ1iZMWzi2vRWTx/hm18d4PBX613quiRr8ACPE27a919MEHi6VadKcHF6irsH3pLZDN
+	X3sgTdPvFWGnbgl1eI9jw8VgsVeTZ5sqwyllL4LZTYtWduW7LlFCpzbNi6QFGx7+KM4v
+	mZsHG+5W0Qf14GqAzpSruABPdIgHeTC6JouB8p2LOvbN0MGsYsIWVYwFNeiaRfqHNxDN
+	tH+VnwIJDYtGhJ6eecPlAanIx9MM4m+xQT/4Ty/OuaEelWTICI9N+vKLpw7c3Yg2lEzN
+	GQNQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=7WLfQVnQXcSTy/jJOp5icEURHW8yOYU2nHNSTn3i4t4=;
+	b=GcRWquofSRkkrXEQPT7adboAIO2vjH9UIKj4KOPltATGiVgtV9eychMbeWIGVZCQ/2
+	YXDOH49AR/kuHD8hBLohfo6UbY9Wnh1GlHoBhgv3Z84z+fW1rOXA1KJ59OkewGI4S0E8
+	Y3/PkCqgFtd0yPQYD/MISP6MetHFqW7GYO9Ho3FzN+SR5Sgm0uVHCHL9V8fRpcivJiI7
+	89zeQ5vJlIQ7vxXB5HYKz6VhO9MwrjcISuCCnO6/qxHVNtfkPNM5JvfJAKylixt4SoJS
+	9vM8fKgYntbVoQFMHFiI1se129VqxNMXHRhZI2swjaSZA+5hUmE9CM67L56KrQpplYa6
+	gewg==
+X-Gm-Message-State: AA6/9RnYI3n7fUF2xSISGe/m8D1TolZ/VRqUO2lCQq7On6bV3tlwG+tSXTNYVs6b4irZMvl37dYkkK8ikuA65w==
+X-Received: by 10.31.244.9 with SMTP id s9mr1892254vkh.31.1475168708787; Thu,
+	29 Sep 2016 10:05:08 -0700 (PDT)
 MIME-Version: 1.0
-X-Mailer: MailMate (1.9.5r5263)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] pseudo: quiet diagnostics during startup for pseudo -d
+Received: by 10.176.86.206 with HTTP; Thu, 29 Sep 2016 10:04:38 -0700 (PDT)
+In-Reply-To: <CAG_Oc3aNNFhTVy_Rg1fmS-jXPoestjjBdZYnEhsoGQqd-qjXUg@mail.gmail.com>
+References: <CAG_Oc3aNNFhTVy_Rg1fmS-jXPoestjjBdZYnEhsoGQqd-qjXUg@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Thu, 29 Sep 2016 10:04:38 -0700
+Message-ID: <CAMKF1srnd+jMQmZgoH9akxEcE5B+HZQKWB7dOdkn0=FYyp6Gfw@mail.gmail.com>
+To: Mateusz Nowakowski <mateusz.cz.nowakowski@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: gmock install fix for 64bit architectures
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,26 +53,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 29 Sep 2016 15:35:27 -0000
-Content-Type: text/plain; format=flowed
+X-List-Received-Date: Thu, 29 Sep 2016 17:05:11 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On 29 Sep 2016, at 0:59, Robert Yang wrote:
+On Thu, Sep 29, 2016 at 7:54 AM, Mateusz Nowakowski
+<mateusz.cz.nowakowski@gmail.com> wrote:
+> Hi i found some bug in gmock receipe when target architecture is 64bit. I
+> attach simple fix
+>
+> How to deploy this fix to jethro/kroghot and master branches ??
+>
 
->  ...t-diagnostics-during-startup-for-pseudo-d.patch | 54 
-> ++++++++++++++
->  ...er.c-add-prefix-for-log-and-make-log-cons.patch | 83 
-> ++++++++++++++++++++++
->  .../files/0002-Use-correct-file-descriptor.patch   | 53 
-> ++++++++++++++
->  meta/recipes-devtools/pseudo/pseudo_1.8.1.bb       |  2 +
 
-The second line in the diffstat seems not to be present, but that's 
-fine, since I don't think we need it.
+Please send a patch as per
+http://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEmbedded
 
-These are both pretty simple patches, honestly if the second patch 
-hadn't been needed due to a bug that has somehow escaped detection for 
-ages, the first would have been Obviously Correct
-and worked. So I'm pretty comfortable with these.
-
--s
+>
+>
+> --
+> Pozdrawiam, Mateusz Nowakowski
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
 
