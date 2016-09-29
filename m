@@ -1,20 +1,22 @@
 Return-Path: <stephano.cetola@linux.intel.com>
 Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 6F7A560765
+	by mail.openembedded.org (Postfix) with ESMTP id 8A68665D00
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Sep 2016 22:51:24 +0000 (UTC)
+	Thu, 29 Sep 2016 22:51:25 +0000 (UTC)
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
-	by fmsmga103.fm.intel.com with ESMTP; 29 Sep 2016 15:51:25 -0700
+	by fmsmga103.fm.intel.com with ESMTP; 29 Sep 2016 15:51:26 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.31,417,1473145200"; d="scan'208";a="14796092"
+X-IronPort-AV: E=Sophos;i="5.31,417,1473145200"; d="scan'208";a="14796094"
 Received: from pequod.jf.intel.com ([10.7.201.50])
 	by orsmga005.jf.intel.com with ESMTP; 29 Sep 2016 15:51:25 -0700
 From: Stephano Cetola <stephano.cetola@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 29 Sep 2016 15:50:22 -0700
-Message-Id: <20160929225024.27698-1-stephano.cetola@linux.intel.com>
+Date: Thu, 29 Sep 2016 15:50:24 -0700
+Message-Id: <20160929225024.27698-3-stephano.cetola@linux.intel.com>
 X-Mailer: git-send-email 2.10.0
-Subject: [PATCH v2 0/2] subprocess: cleanup subprocess calls
+In-Reply-To: <20160929225024.27698-1-stephano.cetola@linux.intel.com>
+References: <20160929225024.27698-1-stephano.cetola@linux.intel.com>
+Subject: [PATCH v2 2/2] subprocess: remove Popen in favor of check_output
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,26 +31,59 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 29 Sep 2016 22:51:25 -0000
 
-This is the beginning of an effort to move toward a unified way of
-using the subprocess module. The end goal is somday create a fork
-of the subprocess.run command intro'd in python 3.5.
+This begins moving away from the deprecated subprocess calls in an
+effort to eventually move to some more global abstraction using the run
+convenience method provided in python 3.5.
 
-The biggest hurdle in these efforts is in testing some of the more
-obscure code paths that are touched when changing these subprocess
-calls. With more time, many of the Popen calls that still exist
-could be moved to either check_output or sub.run.
+[ YOCTO #9342 ]
 
-Stephano Cetola (2):
-  subprocess: remove strings and migrate to direct arrays
-  subprocess: remove Popen in favor of check_output
+Signed-off-by: Stephano Cetola <stephano.cetola@linux.intel.com>
+---
+ meta/classes/buildstats.bbclass |  6 +++++-
+ meta/classes/spdx.bbclass       | 11 +++++------
+ 2 files changed, 10 insertions(+), 7 deletions(-)
 
- meta/classes/buildstats.bbclass |  6 ++++-
- meta/classes/spdx.bbclass       | 11 ++++----
- meta/lib/oe/distro_check.py     |  2 +-
- meta/lib/oe/package.py          | 13 ++++-----
- meta/lib/oe/package_manager.py  | 59 ++++++++++++++++++++---------------------
- 5 files changed, 47 insertions(+), 44 deletions(-)
-
+diff --git a/meta/classes/buildstats.bbclass b/meta/classes/buildstats.bbclass
+index 34ecb03..8c2b7b3 100644
+--- a/meta/classes/buildstats.bbclass
++++ b/meta/classes/buildstats.bbclass
+@@ -163,7 +163,11 @@ python run_buildstats () {
+             bs = os.path.join(bsdir, "build_stats")
+             with open(bs, "a") as f:
+                 rootfs = d.getVar('IMAGE_ROOTFS', True)
+-                rootfs_size = subprocess.Popen(["du", "-sh", rootfs], stdout=subprocess.PIPE).stdout.read()
++                try:
++                    rootfs_size = subprocess.check_output(["du", "-sh", rootfs],
++                            stderr=subprocess.STDOUT).decode('utf-8')
++                except subprocess.CalledProcessError as e:
++                    bb.error("Failed to get rootfs size: %s" % e.output)
+                 f.write("Uncompressed Rootfs size: %s" % rootfs_size)
+ 
+     elif isinstance(e, bb.build.TaskFailed):
+diff --git a/meta/classes/spdx.bbclass b/meta/classes/spdx.bbclass
+index 0c92765..89394d3 100644
+--- a/meta/classes/spdx.bbclass
++++ b/meta/classes/spdx.bbclass
+@@ -219,14 +219,13 @@ def hash_string(data):
+ def run_fossology(foss_command, full_spdx):
+     import string, re
+     import subprocess
+-    
+-    p = subprocess.Popen(foss_command.split(),
+-        stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+-    foss_output, foss_error = p.communicate()
+-    if p.returncode != 0:
++
++    try:
++        foss_output = subprocess.check_output(foss_command.split(),
++                stderr=subprocess.STDOUT).decode('utf-8')
++    except subprocess.CalledProcessError as e:
+         return None
+ 
+-    foss_output = unicode(foss_output, "utf-8")
+     foss_output = string.replace(foss_output, '\r', '')
+ 
+     # Package info
 -- 
 2.10.0
 
