@@ -1,22 +1,39 @@
-Return-Path: <philip@balister.org>
-Received: from sanddollar.geekisp.com (sanddollar.geekisp.com
-	[216.168.135.167])
-	by mail.openembedded.org (Postfix) with SMTP id 1EBA66022F
+Return-Path: <denis@denix.org>
+Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.17])
+	by mail.openembedded.org (Postfix) with ESMTP id 358AD60603
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Sep 2016 00:10:01 +0000 (UTC)
-Received: (qmail 32134 invoked by uid 1003); 29 Sep 2016 00:10:02 -0000
-Received: from unknown (HELO ?10.16.32.128?)
-	(philip@opensdr.com@207.114.172.147)
-	by mail.geekisp.com with (DHE-RSA-AES128-SHA encrypted) SMTP;
-	29 Sep 2016 00:10:02 -0000
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-From: Philip Balister <philip@balister.org>
-Message-ID: <330713b9-ebbd-32c0-659d-26f0998920aa@balister.org>
-Date: Wed, 28 Sep 2016 17:10:01 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.3.0
+	Thu, 29 Sep 2016 00:59:27 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by mailout4.zoneedit.com (Postfix) with ESMTP id 7F50020901;
+	Thu, 29 Sep 2016 00:59:28 +0000 (UTC)
+Received: from mailout4.zoneedit.com ([127.0.0.1])
+	by localhost (zmo03-pco.easydns.vpn [127.0.0.1]) (amavisd-new,
+	port 10024)
+	with ESMTP id WISHmbrwcqnu; Thu, 29 Sep 2016 00:59:28 +0000 (UTC)
+Received: from gandalf.denix.org (pool-100-15-110-130.washdc.fios.verizon.net
+	[100.15.110.130])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mailout4.zoneedit.com (Postfix) with ESMTPSA id 488F420068;
+	Thu, 29 Sep 2016 00:59:24 +0000 (UTC)
+Received: by gandalf.denix.org (Postfix, from userid 1000)
+	id CAF9316214C; Wed, 28 Sep 2016 20:59:23 -0400 (EDT)
+Date: Wed, 28 Sep 2016 20:59:23 -0400
+From: Denys Dmytriyenko <denis@denix.org>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Message-ID: <20160929005923.GA3771@denix.org>
+References: <cover.1463546289.git.raj.khem@gmail.com>
+	<c41bdd4ac5371d7c08318f7c7fc760b44ce59ba9.1463546289.git.raj.khem@gmail.com>
+	<CAMKF1sqUdo1X0v1ET1_udjGb8-7pg8sucv5yZ3=PuYacvtGQwA@mail.gmail.com>
+	<1463990873.3095.13.camel@intel.com>
+	<1463996105.9570.18.camel@linuxfoundation.org>
 MIME-Version: 1.0
-Subject: Kernel check of PV versus kernel source
+In-Reply-To: <1463996105.9570.18.camel@linuxfoundation.org>
+User-Agent: Mutt/1.5.20 (2009-06-14)
+Cc: Olev Kartau <olev.kartau@intel.com>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/5] useradd.bbclass: Strip trailing '; ' in cmd params
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,23 +46,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 29 Sep 2016 00:10:02 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 29 Sep 2016 00:59:28 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-This check seems to have gone in recently and doesn't appear to work
-very well.
+On Mon, May 23, 2016 at 10:35:05AM +0100, Richard Purdie wrote:
+> On Mon, 2016-05-23 at 10:07 +0200, Patrick Ohly wrote:
+> > On Wed, 2016-05-18 at 12:38 -0700, Khem Raj wrote:
+> > > This fix was not sufficient and there has to be extra fix done to
+> > > also
+> > > consider the case
+> > > when sysroot is created during image build time. I have updated it
+> > > in
+> > > pull request here
+> > > 
+> > > http://git.openembedded.org/openembedded-core-contrib/commit/?h=kra
+> > > j/pu&id=642c6cf0b6a0371de476513162bd0cefa9c438b3
+> > 
+> > That now fails for cases where the USERADD_PARAM ends in trailing
+> > white
+> > space after the last valid opts. The reason is that the 'if test "x
+> > $opts" = "x$remaining"; then break; fi' check does not get triggered
+> > anymore, because $remaining has the trailing white space whereas
+> > "$opts"
+> > does not.
+> > 
+> > I'm not sure what the best approach is in this case. Perhaps also
+> > strip
+> > trailing whitespace from all assignments to $remaining?
+> > 
+> > The case were we see this is:
+> > USERADD_PARAM_iot-rest-api-server="--system --home /var/lib/empty -
+> > -no-create-home --shell /bin/false --gid restful restful "
+> > 
+> > The build then hangs because the useradd preinst loops forever.
+> 
+> I've posted a patch which addresses this issue since its pretty nasty
+> for people to run into.
 
-ERROR: linux-xlnx-3.14-xilinx+gitAUTOINC+2b48a8aeea-r0
-do_kernel_version_sanity_check: Package Version
-(3.14-xilinx+gitAUTOINC+2b48a8aeea) does not match of kernel being built
-(4.6). Please update the PV variable to match the kernel source.
+This now has been merged to krogoth and I get vsftpd preinst hanging forever - 
+has everything related been picked up during backport or something got missed?
 
-I hunt around and the kernel source appears to be 3.14.2. Sometimes the
-check passes, sometimes it asks for 3.14.2 actual PV is something like
-3.14-xilinx+gitAUTOINC+2b48a8aeea-r0
-
-Clearly, something isn't deterministic here.
-
-Philip
+-- 
+Denys
 
