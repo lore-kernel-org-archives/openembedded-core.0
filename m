@@ -1,23 +1,22 @@
-Return-Path: <Zubair.Kakakhel@imgtec.com>
-Received: from mailapp01.imgtec.com (mailapp02.imgtec.com [217.156.133.132])
-	by mail.openembedded.org (Postfix) with ESMTP id B22CA600B3
+Return-Path: <seebs@seebs.net>
+Received: from mail.plethora.net (mail.plethora.net [184.173.250.112])
+	by mail.openembedded.org (Postfix) with ESMTP id E45DF600B3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Sep 2016 15:33:18 +0000 (UTC)
-Received: from HHMAIL03.hh.imgtec.org (unknown [10.44.0.21])
-	by Forcepoint Email with ESMTPS id 8936F1162924E
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Sep 2016 16:33:15 +0100 (IST)
-Received: from zkakakhel-linux.le.imgtec.org (192.168.154.45) by
-	HHMAIL03.hh.imgtec.org (10.44.0.22) with Microsoft SMTP Server (TLS) id
-	14.3.294.0; Thu, 29 Sep 2016 16:33:18 +0100
-From: Zubair Lutfullah Kakakhel <Zubair.Kakakhel@imgtec.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 29 Sep 2016 16:33:15 +0100
-Message-ID: <1475163195-52811-1-git-send-email-Zubair.Kakakhel@imgtec.com>
-X-Mailer: git-send-email 1.9.1
+	Thu, 29 Sep 2016 15:35:26 +0000 (UTC)
+Received: from [10.10.10.132] (home.seebs.net [74.122.98.108])
+	by mail.plethora.net (Postfix) with ESMTPSA id 68796C4993;
+	Thu, 29 Sep 2016 10:35:27 -0500 (CDT)
+From: Seebs <seebs@seebs.net>
+To: "Robert Yang" <liezhi.yang@windriver.com>
+Date: Thu, 29 Sep 2016 10:35:26 -0500
+Message-ID: <3F4F8F39-EC89-4A8B-BCF9-167896459A2D@seebs.net>
+In-Reply-To: <c44a3f3eb02ab9e6482a1dc6f97511b64d4139d8.1475128528.git.liezhi.yang@windriver.com>
+References: <cover.1475128528.git.liezhi.yang@windriver.com>
+	<c44a3f3eb02ab9e6482a1dc6f97511b64d4139d8.1475128528.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-X-Originating-IP: [192.168.154.45]
-Subject: [Patch] runqemu: Add little endian variations for MIPS
+X-Mailer: MailMate (1.9.5r5263)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/1] pseudo: quiet diagnostics during startup for pseudo -d
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,41 +29,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 29 Sep 2016 15:33:20 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 29 Sep 2016 15:35:27 -0000
+Content-Type: text/plain; format=flowed
 
-Add mipsel and mips64el as an option.
+On 29 Sep 2016, at 0:59, Robert Yang wrote:
 
-Signed-off-by: Zubair Lutfullah Kakakhel <Zubair.Kakakhel@imgtec.com>
----
- scripts/runqemu | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+>  ...t-diagnostics-during-startup-for-pseudo-d.patch | 54 
+> ++++++++++++++
+>  ...er.c-add-prefix-for-log-and-make-log-cons.patch | 83 
+> ++++++++++++++++++++++
+>  .../files/0002-Use-correct-file-descriptor.patch   | 53 
+> ++++++++++++++
+>  meta/recipes-devtools/pseudo/pseudo_1.8.1.bb       |  2 +
 
-diff --git a/scripts/runqemu b/scripts/runqemu
-index 5095e67..acd4105 100755
---- a/scripts/runqemu
-+++ b/scripts/runqemu
-@@ -854,7 +854,7 @@ class BaseConfig(object):
-         """attempt to determine the appropriate qemu-system binary"""
-         mach = self.get('MACHINE')
-         if not mach:
--            search = '.*(qemux86-64|qemux86|qemuarm64|qemuarm|qemumips64|qemumips|qemuppc).*'
-+            search = '.*(qemux86-64|qemux86|qemuarm64|qemuarm|qemumips64|qemumips64el|qemumipsel|qemumips|qemuppc).*'
-             if self.rootfs:
-                 match = re.match(search, self.rootfs)
-                 if match:
-@@ -881,6 +881,10 @@ class BaseConfig(object):
-             qbsys = 'mips'
-         elif mach == 'qemumips64':
-             qbsys = 'mips64'
-+        elif mach == 'qemumipsel':
-+            qbsys = 'mipsel'
-+        elif mach == 'qemumips64el':
-+            qbsys = 'mips64el'
- 
-         return 'qemu-system-%s' % qbsys
- 
--- 
-1.9.1
+The second line in the diffstat seems not to be present, but that's 
+fine, since I don't think we need it.
 
+These are both pretty simple patches, honestly if the second patch 
+hadn't been needed due to a bug that has somehow escaped detection for 
+ages, the first would have been Obviously Correct
+and worked. So I'm pretty comfortable with these.
+
+-s
 
