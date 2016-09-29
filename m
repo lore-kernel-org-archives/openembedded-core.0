@@ -1,26 +1,24 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id C9C196FEFA
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 2CE1660761
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 29 Sep 2016 09:02:12 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u8T92EjN010315
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u8T92Dgg019541
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Sep 2016 02:02:14 -0700 (PDT)
+	Thu, 29 Sep 2016 02:02:13 -0700
 Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.294.0;
-	Thu, 29 Sep 2016 02:02:13 -0700
+	Thu, 29 Sep 2016 02:02:12 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 29 Sep 2016 02:02:11 -0700
-Message-ID: <4653801e7765ff1b46b90dade2d4f560a22053d6.1475139494.git.liezhi.yang@windriver.com>
+Date: Thu, 29 Sep 2016 02:02:10 -0700
+Message-ID: <cover.1475139494.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.9.0
-In-Reply-To: <cover.1475139494.git.liezhi.yang@windriver.com>
-References: <cover.1475139494.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/2] xcb-proto: create blank .pyc files in xcbgen dir
+Subject: [PATCH 0/2] fix source-highlight and xcb-proto
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,47 +31,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 29 Sep 2016 09:02:15 -0000
+X-List-Received-Date: Thu, 29 Sep 2016 09:02:16 -0000
 Content-Type: text/plain
 
-The .pyc files will be generated when "bitbake libxcb", but they can't
-be removed when "bitabke xcb-proto -ccleansstate" since they are not
-tracked by manifest, create blank .pyc files can fix the problem.
+The following changes since commit cdaafc3729700778d95afc2413553d7b41c1317b:
 
-When switch
-MACHINE = "qemux86-64"
-require conf/multilib.conf
-MULTILIBS = "multilib:lib32"
-DEFAULTTUNE_virtclass-multilib-lib32 = "x86"
-$ bitbake world
+  oeqa/sstatetests: Ensure we cover deb packaging backend for sstate test (2016-09-28 10:15:55 +0100)
 
-The libdir is /usr/lib64 in this build
+are available in the git repository at:
 
-The
-MACHINE = "qemux86-64"
-$ bitbake world
-Now libdir is /usr/lib, the previous /usr/lib64 can be removed totally
-after this patch.
+  git://git.openembedded.org/openembedded-core-contrib rbt/2fixes
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/2fixes
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
- meta/recipes-graphics/xorg-proto/xcb-proto_1.12.bb | 6 ++++++
- 1 file changed, 6 insertions(+)
+Robert Yang (2):
+  xcb-proto: create blank .pyc files in xcbgen dir
+  source-highlight: use with-boost-libdir
 
-diff --git a/meta/recipes-graphics/xorg-proto/xcb-proto_1.12.bb b/meta/recipes-graphics/xorg-proto/xcb-proto_1.12.bb
-index 8bdca32..d33910b 100644
---- a/meta/recipes-graphics/xorg-proto/xcb-proto_1.12.bb
-+++ b/meta/recipes-graphics/xorg-proto/xcb-proto_1.12.bb
-@@ -28,3 +28,9 @@ RDEPENDS_${PN}-dev = ""
- RRECOMMENDS_${PN}-dbg = "${PN}-dev (= ${EXTENDPKGV})"
- 
- BBCLASSEXTEND = "native nativesdk"
-+
-+do_install_append() {
-+    # Create blank .pyc files, so that they will be recorded in
-+    # manifest, and can be cleaned correctly.
-+    find ${D}${libdir}/xcb-proto/xcbgen -type f -maxdepth 1 -name '*.py' -exec touch {}c \;
-+}
+ meta/recipes-graphics/xorg-proto/xcb-proto_1.12.bb              | 6 ++++++
+ meta/recipes-support/source-highlight/source-highlight_3.1.8.bb | 2 +-
+ 2 files changed, 7 insertions(+), 1 deletion(-)
+
 -- 
 2.9.0
 
