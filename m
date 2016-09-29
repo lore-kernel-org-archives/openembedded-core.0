@@ -1,27 +1,22 @@
-Return-Path: <francisco.j.pedraza.gonzalez@intel.com>
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by mail.openembedded.org (Postfix) with ESMTP id 91273600E2
+Return-Path: <stephano.cetola@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id E77FC601A4
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Sep 2016 17:38:57 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga105.jf.intel.com with ESMTP; 29 Sep 2016 10:38:59 -0700
+	Thu, 29 Sep 2016 21:35:27 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by orsmga103.jf.intel.com with ESMTP; 29 Sep 2016 14:35:07 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.31,268,1473145200"; d="scan'208";a="1038263066"
-Received: from linux.intel.com ([10.54.29.200])
-	by orsmga001.jf.intel.com with ESMTP; 29 Sep 2016 10:38:59 -0700
-Received: from fjpedraz-MOBL3.zpn.intel.com (fjpedraz-mobl3.zpn.intel.com
-	[10.219.24.19])
-	by linux.intel.com (Postfix) with ESMTP id 18F4A6A4080;
-	Thu, 29 Sep 2016 10:38:32 -0700 (PDT)
-From: Francisco Pedraza <francisco.j.pedraza.gonzalez@intel.com>
+X-IronPort-AV: E=Sophos;i="5.31,417,1473145200"; d="scan'208";a="885231396"
+Received: from pequod.jf.intel.com ([10.7.201.50])
+	by orsmga003.jf.intel.com with ESMTP; 29 Sep 2016 14:35:07 -0700
+From: Stephano Cetola <stephano.cetola@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 29 Sep 2016 12:38:56 -0500
-Message-Id: <1f62598c51576a3d51dde24563e8e935de270185.1475170576.git.francisco.j.pedraza.gonzalez@intel.com>
-X-Mailer: git-send-email 2.5.0
-In-Reply-To: <cover.1475170576.git.francisco.j.pedraza.gonzalez@intel.com>
-References: <cover.1475170576.git.francisco.j.pedraza.gonzalez@intel.com>
-Cc: Francisco Pedraza <francisco.j.pedraza.gonzalez@intel.com>
-Subject: [PATCH 1/1] oeqa/utils: Add StreamHandler to logger
+Date: Thu, 29 Sep 2016 14:34:04 -0700
+Message-Id: <20160929213405.27018-3-stephano.cetola@linux.intel.com>
+X-Mailer: git-send-email 2.10.0
+In-Reply-To: <20160929213405.27018-1-stephano.cetola@linux.intel.com>
+References: <20160929213405.27018-1-stephano.cetola@linux.intel.com>
+Subject: [PATCH 2/3] utils.py: gut python 2 commands in favor of subprocess.run
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,29 +29,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 29 Sep 2016 17:38:59 -0000
+X-List-Received-Date: Thu, 29 Sep 2016 21:35:32 -0000
 
-StreamHandler was added due missing log information on the console in
-oe-selftest with Qemu Runner
+getstatusoutput is a wrapper around subprocess.getstatusouput() in
+Py3, which is basically deprecated and behaves almost entirely unlike
+run().
 
-Signed-off-by: Francisco Pedraza <francisco.j.pedraza.gonzalez@intel.com>
+[ YOCTO #9342 ]
+
+Signed-off-by: Stephano Cetola <stephano.cetola@linux.intel.com>
 ---
- meta/lib/oeqa/utils/qemurunner.py | 1 +
- 1 file changed, 1 insertion(+)
+ meta/lib/oe/utils.py | 11 ++++-------
+ 1 file changed, 4 insertions(+), 7 deletions(-)
 
-diff --git a/meta/lib/oeqa/utils/qemurunner.py b/meta/lib/oeqa/utils/qemurunner.py
-index 1f98682..8f1b5b9 100644
---- a/meta/lib/oeqa/utils/qemurunner.py
-+++ b/meta/lib/oeqa/utils/qemurunner.py
-@@ -20,6 +20,7 @@ from oeqa.utils.dump import HostDumper
+diff --git a/meta/lib/oe/utils.py b/meta/lib/oe/utils.py
+index d6545b1..265f733 100644
+--- a/meta/lib/oe/utils.py
++++ b/meta/lib/oe/utils.py
+@@ -1,9 +1,4 @@
+-try:
+-    # Python 2
+-    import commands as cmdstatus
+-except ImportError:
+-    # Python 3
+-    import subprocess as cmdstatus
++import subprocess
  
- import logging
- logger = logging.getLogger("BitBake.QemuRunner")
-+logger.addHandler(logging.StreamHandler())
+ def read_file(filename):
+     try:
+@@ -144,7 +139,9 @@ def packages_filter_out_system(d):
+     return pkgs
  
- # Get Unicode non printable control chars
- control_range = list(range(0,32))+list(range(127,160))
+ def getstatusoutput(cmd):
+-    return cmdstatus.getstatusoutput(cmd)
++    compproc = subprocess.run(cmd, stdout=subprocess.PIPE,
++            universal_newlines=True, stderr=subprocess.STDOUT, shell=True)
++    return (compproc.returncode, compproc.stdout)
+ 
+ 
+ def trim_version(version, num_parts=2):
 -- 
-2.5.0
+2.10.0
 
 
