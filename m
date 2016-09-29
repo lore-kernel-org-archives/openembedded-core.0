@@ -1,39 +1,32 @@
 Return-Path: <denis@denix.org>
 Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.17])
-	by mail.openembedded.org (Postfix) with ESMTP id 3F9D760557
+	by mail.openembedded.org (Postfix) with ESMTP id 6569C60557
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Sep 2016 01:31:56 +0000 (UTC)
+	Thu, 29 Sep 2016 01:33:24 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by mailout4.zoneedit.com (Postfix) with ESMTP id 7F3C820918;
-	Thu, 29 Sep 2016 01:31:58 +0000 (UTC)
+	by mailout4.zoneedit.com (Postfix) with ESMTP id CA19820928;
+	Thu, 29 Sep 2016 01:33:25 +0000 (UTC)
 Received: from mailout4.zoneedit.com ([127.0.0.1])
 	by localhost (zmo03-pco.easydns.vpn [127.0.0.1]) (amavisd-new,
 	port 10024)
-	with ESMTP id pYpOe6Ae2qPt; Thu, 29 Sep 2016 01:31:58 +0000 (UTC)
+	with ESMTP id g63OsAYDRCcc; Thu, 29 Sep 2016 01:33:25 +0000 (UTC)
 Received: from gandalf.denix.org (pool-100-15-110-130.washdc.fios.verizon.net
 	[100.15.110.130])
 	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mailout4.zoneedit.com (Postfix) with ESMTPSA id 5A0DB20068;
-	Thu, 29 Sep 2016 01:31:57 +0000 (UTC)
+	by mailout4.zoneedit.com (Postfix) with ESMTPSA id A9DB220068;
+	Thu, 29 Sep 2016 01:33:24 +0000 (UTC)
 Received: by gandalf.denix.org (Postfix, from userid 1000)
-	id E2FED16214C; Wed, 28 Sep 2016 21:31:56 -0400 (EDT)
-Date: Wed, 28 Sep 2016 21:31:56 -0400
+	id 7747316214C; Wed, 28 Sep 2016 21:33:24 -0400 (EDT)
+Date: Wed, 28 Sep 2016 21:33:24 -0400
 From: Denys Dmytriyenko <denis@denix.org>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Message-ID: <20160929013156.GC3771@denix.org>
-References: <cover.1463546289.git.raj.khem@gmail.com>
-	<c41bdd4ac5371d7c08318f7c7fc760b44ce59ba9.1463546289.git.raj.khem@gmail.com>
-	<CAMKF1sqUdo1X0v1ET1_udjGb8-7pg8sucv5yZ3=PuYacvtGQwA@mail.gmail.com>
-	<1463990873.3095.13.camel@intel.com>
-	<1463996105.9570.18.camel@linuxfoundation.org>
-	<20160929005923.GA3771@denix.org> <20160929010719.GB3771@denix.org>
+To: openembedded-core@lists.openembedded.org
+Message-ID: <20160929013324.GD3771@denix.org>
+References: <1475112455-7624-1-git-send-email-denis@denix.org>
 MIME-Version: 1.0
-In-Reply-To: <20160929010719.GB3771@denix.org>
+In-Reply-To: <1475112455-7624-1-git-send-email-denis@denix.org>
 User-Agent: Mutt/1.5.20 (2009-06-14)
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/5] useradd.bbclass: Strip trailing '; ' in cmd params
+Subject: Re: [krogoth][PATCH] useradd: Fix infinite build loop
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,56 +39,93 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 29 Sep 2016 01:32:00 -0000
+X-List-Received-Date: Thu, 29 Sep 2016 01:33:25 -0000
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-On Wed, Sep 28, 2016 at 09:07:19PM -0400, Denys Dmytriyenko wrote:
-> On Wed, Sep 28, 2016 at 08:59:23PM -0400, Denys Dmytriyenko wrote:
-> > On Mon, May 23, 2016 at 10:35:05AM +0100, Richard Purdie wrote:
-> > > On Mon, 2016-05-23 at 10:07 +0200, Patrick Ohly wrote:
-> > > > On Wed, 2016-05-18 at 12:38 -0700, Khem Raj wrote:
-> > > > > This fix was not sufficient and there has to be extra fix done to
-> > > > > also
-> > > > > consider the case
-> > > > > when sysroot is created during image build time. I have updated it
-> > > > > in
-> > > > > pull request here
-> > > > > 
-> > > > > http://git.openembedded.org/openembedded-core-contrib/commit/?h=kra
-> > > > > j/pu&id=642c6cf0b6a0371de476513162bd0cefa9c438b3
-> > > > 
-> > > > That now fails for cases where the USERADD_PARAM ends in trailing
-> > > > white
-> > > > space after the last valid opts. The reason is that the 'if test "x
-> > > > $opts" = "x$remaining"; then break; fi' check does not get triggered
-> > > > anymore, because $remaining has the trailing white space whereas
-> > > > "$opts"
-> > > > does not.
-> > > > 
-> > > > I'm not sure what the best approach is in this case. Perhaps also
-> > > > strip
-> > > > trailing whitespace from all assignments to $remaining?
-> > > > 
-> > > > The case were we see this is:
-> > > > USERADD_PARAM_iot-rest-api-server="--system --home /var/lib/empty -
-> > > > -no-create-home --shell /bin/false --gid restful restful "
-> > > > 
-> > > > The build then hangs because the useradd preinst loops forever.
-> > > 
-> > > I've posted a patch which addresses this issue since its pretty nasty
-> > > for people to run into.
-> > 
-> > This now has been merged to krogoth and I get vsftpd preinst hanging forever - 
-> > has everything related been picked up during backport or something got missed?
-> 
-> Ok, it seems this change hasn't been picked up:
-> 
-> http://cgit.openembedded.org/openembedded-core/commit/meta/classes/useradd.bbclass?id=d6241e4c94a0a72acfc57e96a59918c0b2146d65
+Richard,
 
-Ok, this fixes my problem with vsftpd - I sent a patch to backport this commit 
-into krogoth.
+Can you please merge this ASAP to unbreak krogoth. Thanks a lot!
 
--- 
-Denys
+
+On Wed, Sep 28, 2016 at 09:27:35PM -0400, Denys Dmytriyenko wrote:
+> From: Richard Purdie <richard.purdie@linuxfoundation.org>
+> 
+> http://git.openembedded.org/openembedded-core-contrib/commit/?id=642c6cf0b6a0371de476513162bd0cefa9c438b3
+> introduces a problem if the USERADD_PARAM variable has trailing
+> whitespace as the code infinitely loops causing build hangs.
+> 
+> Add a similar sed expression to $remaining to avoid this.
+> 
+> (From OE-Core rev: d6241e4c94a0a72acfc57e96a59918c0b2146d65)
+> 
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> Signed-off-by: Denys Dmytriyenko <denys@ti.com>
+> ---
+>  meta/classes/useradd.bbclass | 12 ++++++------
+>  1 file changed, 6 insertions(+), 6 deletions(-)
+> 
+> diff --git a/meta/classes/useradd.bbclass b/meta/classes/useradd.bbclass
+> index 67dae88..28dd341 100644
+> --- a/meta/classes/useradd.bbclass
+> +++ b/meta/classes/useradd.bbclass
+> @@ -55,14 +55,14 @@ if test "x`echo $GROUPADD_PARAM | tr -d '[:space:]'`" != "x"; then
+>  	# Invoke multiple instances of groupadd for parameter lists
+>  	# separated by ';'
+>  	opts=`echo "$GROUPADD_PARAM" | cut -d ';' -f 1 | sed -e 's#[ \t]*$##'`
+> -	remaining=`echo "$GROUPADD_PARAM" | cut -d ';' -f 2-`
+> +	remaining=`echo "$GROUPADD_PARAM" | cut -d ';' -f 2- | sed -e 's#[ \t]*$##'`
+>  	while test "x$opts" != "x"; do
+>  		perform_groupadd "$SYSROOT" "$OPT $opts"
+>  		if test "x$opts" = "x$remaining"; then
+>  			break
+>  		fi
+>  		opts=`echo "$remaining" | cut -d ';' -f 1 | sed -e 's#[ \t]*$##'`
+> -		remaining=`echo "$remaining" | cut -d ';' -f 2-`
+> +		remaining=`echo "$remaining" | cut -d ';' -f 2- | sed -e 's#[ \t]*$##'`
+>  	done
+>  fi 
+>  
+> @@ -71,14 +71,14 @@ if test "x`echo $USERADD_PARAM | tr -d '[:space:]'`" != "x"; then
+>  	# Invoke multiple instances of useradd for parameter lists
+>  	# separated by ';'
+>  	opts=`echo "$USERADD_PARAM" | cut -d ';' -f 1 | sed -e 's#[ \t]*$##'`
+> -	remaining=`echo "$USERADD_PARAM" | cut -d ';' -f 2-`
+> +	remaining=`echo "$USERADD_PARAM" | cut -d ';' -f 2- | sed -e 's#[ \t]*$##'`
+>  	while test "x$opts" != "x"; do
+>  		perform_useradd "$SYSROOT" "$OPT $opts"
+>  		if test "x$opts" = "x$remaining"; then
+>  			break
+>  		fi
+>  		opts=`echo "$remaining" | cut -d ';' -f 1 | sed -e 's#[ \t]*$##'`
+> -		remaining=`echo "$remaining" | cut -d ';' -f 2-`
+> +		remaining=`echo "$remaining" | cut -d ';' -f 2- | sed -e 's#[ \t]*$##'`
+>  	done
+>  fi
+>  
+> @@ -87,14 +87,14 @@ if test "x`echo $GROUPMEMS_PARAM | tr -d '[:space:]'`" != "x"; then
+>  	# Invoke multiple instances of groupmems for parameter lists
+>  	# separated by ';'
+>  	opts=`echo "$GROUPMEMS_PARAM" | cut -d ';' -f 1 | sed -e 's#[ \t]*$##'`
+> -	remaining=`echo "$GROUPMEMS_PARAM" | cut -d ';' -f 2-`
+> +	remaining=`echo "$GROUPMEMS_PARAM" | cut -d ';' -f 2- | sed -e 's#[ \t]*$##'`
+>  	while test "x$opts" != "x"; do
+>  		perform_groupmems "$SYSROOT" "$OPT $opts"
+>  		if test "x$opts" = "x$remaining"; then
+>  			break
+>  		fi
+>  		opts=`echo "$remaining" | cut -d ';' -f 1 | sed -e 's#[ \t]*$##'`
+> -		remaining=`echo "$remaining" | cut -d ';' -f 2-`
+> +		remaining=`echo "$remaining" | cut -d ';' -f 2- | sed -e 's#[ \t]*$##'`
+>  	done
+>  fi
+>  }
+> -- 
+> 2.7.4
+> 
+> -- 
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
