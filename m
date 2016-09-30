@@ -1,23 +1,25 @@
-Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
-	by mail.openembedded.org (Postfix) with ESMTP id 469646069C
+Return-Path: <joshua.g.lock@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id D7A7F65C8F
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Sep 2016 15:47:45 +0000 (UTC)
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-	by orsmga104.jf.intel.com with ESMTP; 30 Sep 2016 08:47:47 -0700
+	Fri, 30 Sep 2016 15:52:36 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 30 Sep 2016 08:52:38 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.31,273,1473145200"; d="scan'208";a="14958689"
-Received: from linux.intel.com ([10.54.29.200])
-	by fmsmga006.fm.intel.com with ESMTP; 30 Sep 2016 08:47:47 -0700
-Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.68])
-	by linux.intel.com (Postfix) with ESMTP id 2D61A6A4006;
-	Fri, 30 Sep 2016 08:47:18 -0700 (PDT)
-From: Ed Bartosh <ed.bartosh@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 30 Sep 2016 18:36:50 +0300
-Message-Id: <1475249810-1235-1-git-send-email-ed.bartosh@linux.intel.com>
-X-Mailer: git-send-email 2.1.4
-Subject: [wic][PATCH] mkefidisk.wks: use partition UUID and GPT partition table
+X-IronPort-AV: E=Sophos;i="5.31,273,1473145200"; d="scan'208";a="1064513171"
+Received: from jlock-mobl1.ger.corp.intel.com ([10.252.16.121])
+	by fmsmga002.fm.intel.com with ESMTP; 30 Sep 2016 08:52:37 -0700
+Message-ID: <1475250755.3096.11.camel@linux.intel.com>
+From: Joshua Lock <joshua.g.lock@linux.intel.com>
+To: akuster808 <akuster808@gmail.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Fri, 30 Sep 2016 16:52:35 +0100
+In-Reply-To: <353ba145-4e04-d586-8bf9-d9058339efbd@gmail.com>
+References: <1475226567-7151-1-git-send-email-joshua.g.lock@intel.com>
+	<353ba145-4e04-d586-8bf9-d9058339efbd@gmail.com>
+X-Mailer: Evolution 3.20.5 (3.20.5-1.fc24) 
+Mime-Version: 1.0
+Subject: Re: [PATCH] multilib_header: avoid sstate checksum issues for -nativesdk recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,35 +32,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Sep 2016 15:47:46 -0000
+X-List-Received-Date: Fri, 30 Sep 2016 15:52:41 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-This is a preparation to use mkefidisk as a default wks for
-genericx86* BSPs. This change enables usage of partition UUID
-instead of device name to specify root partition in kernel
-command line. It should make images to boot on devices with
-boot device names that differ from what's mentioned in wks file.
+On Fri, 2016-09-30 at 08:29 -0700, akuster808 wrote:
+> 
+> On 09/30/2016 02:09 AM, Joshua Lock wrote:
+> > 
+> > Much as with -native recipes, as addressed in commit
+> > b15730caf0d4c40271796887505507f2501958bb, arch specific variables
+> > like MIPSPKGSFX_ABI were affecting -nativesdk sstate checksums for
+> > recipes like nativesdk-glibc-initial.
+> Since commit
+> 
+> b15730caf0d4c40271796887505507f2501958bb is in Jethro and Krogoth, do
+> both of those branch need this fix?
 
-Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
----
- scripts/lib/wic/canned-wks/mkefidisk.wks | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+This patch improves sstate object reuse for nativesdk recipes when
+switching between a mips and non-mips MACHINE. 
+It's no doubt useful to have in krogoth and jethro too.
 
-diff --git a/scripts/lib/wic/canned-wks/mkefidisk.wks b/scripts/lib/wic/canned-wks/mkefidisk.wks
-index 696e94e..73886ab 100644
---- a/scripts/lib/wic/canned-wks/mkefidisk.wks
-+++ b/scripts/lib/wic/canned-wks/mkefidisk.wks
-@@ -4,8 +4,8 @@
- 
- part /boot --source bootimg-efi --sourceparams="loader=grub-efi" --ondisk sda --label msdos --active --align 1024
- 
--part / --source rootfs --ondisk sda --fstype=ext4 --label platform --align 1024
-+part / --source rootfs --ondisk sda --fstype=ext4 --label platform --align 1024 --use-uuid
- 
- part swap --ondisk sda --size 44 --label swap1 --fstype=swap
- 
--bootloader  --timeout=10  --append="rootwait rootfstype=ext4 console=ttyPCH0,115200 console=tty0 vmalloc=256MB snd-hda-intel.enable_msi=0"
-+bootloader --ptable gpt --timeout=10 --append="rootwait rootfstype=ext4 console=ttyPCH0,115200 console=tty0 vmalloc=256MB snd-hda-intel.enable_msi=0"
--- 
-2.1.4
+Joshua
 
+> - armin
+> 
+> > 
+> > 
+> > Disable multilib_header for nativesdk as we don't use multilibs in
+> > this scenario.
+> > 
+> > [YOCTO #10320]
+> > 
+> > Signed-off-by: Joshua Lock <joshua.g.lock@intel.com>
+> > ---
+> >   meta/classes/multilib_header.bbclass | 5 +++++
+> >   1 file changed, 5 insertions(+)
+> > 
+> > diff --git a/meta/classes/multilib_header.bbclass
+> > b/meta/classes/multilib_header.bbclass
+> > index 5ee0a2d..304c28e 100644
+> > --- a/meta/classes/multilib_header.bbclass
+> > +++ b/meta/classes/multilib_header.bbclass
+> > @@ -52,3 +52,8 @@ oe_multilib_header() {
+> >   oe_multilib_header_class-native () {
+> >   	return
+> >   }
+> > +
+> > +# Nor do we need multilib headers for nativesdk builds.
+> > +oe_multilib_header_class-nativesdk () {
+> > +	return
+> > +}
+> 
 
