@@ -1,22 +1,20 @@
 Return-Path: <markus.lehtonen@linux.intel.com>
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id C961160268
+	by mail.openembedded.org (Postfix) with ESMTP id CA43D6E668
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Sep 2016 10:06:09 +0000 (UTC)
+	Fri, 30 Sep 2016 10:06:07 +0000 (UTC)
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 30 Sep 2016 03:06:09 -0700
+	by fmsmga101.fm.intel.com with ESMTP; 30 Sep 2016 03:06:08 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.31,271,1473145200"; d="scan'208";a="1047864470"
+X-IronPort-AV: E=Sophos;i="5.31,271,1473145200"; d="scan'208";a="1047864465"
 Received: from marquiz.fi.intel.com ([10.237.72.155])
-	by fmsmga001.fm.intel.com with ESMTP; 30 Sep 2016 03:06:09 -0700
+	by fmsmga001.fm.intel.com with ESMTP; 30 Sep 2016 03:06:08 -0700
 From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 30 Sep 2016 13:06:06 +0300
-Message-Id: <1475229967-12685-2-git-send-email-markus.lehtonen@linux.intel.com>
+Date: Fri, 30 Sep 2016 13:06:05 +0300
+Message-Id: <1475229967-12685-1-git-send-email-markus.lehtonen@linux.intel.com>
 X-Mailer: git-send-email 2.6.6
-In-Reply-To: <1475229967-12685-1-git-send-email-markus.lehtonen@linux.intel.com>
-References: <1475229967-12685-1-git-send-email-markus.lehtonen@linux.intel.com>
-Subject: [PATCH 1/2] oe-build-perf-test: return 2 if some tests failed
+Subject: [PATCH 0/2] build-perf-test: improve handling of test case failures
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,28 +29,22 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 30 Sep 2016 10:06:12 -0000
 
-Add a new return value '2' that indicates that some tests failed but
-there were no fatal errors (i.e. configuration mistakes or bugs in the
-tests themselves).
+This patchset makes build-perf-test wrapper script behave more reasonably if
+some build perf test cases fail. Previously, there was no distinction between
+failed test cases or more serious errors, e.g. runtime failures of
+oe-build-perf-test itself. In both cases the wrapper script just exited
+prematurely with an error. This patch makes the wrapper script to "tolerate"
+test case failures, allowing it to display and archive the results even in
+their presence.
 
-Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
----
- scripts/oe-build-perf-test | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Markus Lehtonen (2):
+  oe-build-perf-test: return 2 if some tests failed
+  build-perf-test-wrapper.sh: accept test case failures
 
-diff --git a/scripts/oe-build-perf-test b/scripts/oe-build-perf-test
-index bb5c382..638e195 100755
---- a/scripts/oe-build-perf-test
-+++ b/scripts/oe-build-perf-test
-@@ -203,7 +203,7 @@ def main(argv=None):
-     if result.wasSuccessful():
-         return 0
- 
--    return 1
-+    return 2
- 
- 
- if __name__ == '__main__':
+ scripts/contrib/build-perf-test-wrapper.sh | 23 ++++++++++++++---------
+ scripts/oe-build-perf-test                 |  2 +-
+ 2 files changed, 15 insertions(+), 10 deletions(-)
+
 -- 
 2.6.6
 
