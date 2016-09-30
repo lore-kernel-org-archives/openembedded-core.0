@@ -1,45 +1,48 @@
-Return-Path: <mateusz.cz.nowakowski@gmail.com>
-Received: from mail-lf0-f68.google.com (mail-lf0-f68.google.com
-	[209.85.215.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 5623860557
+Return-Path: <fabio.berton@ossystems.com.br>
+Received: from mail-qk0-f193.google.com (mail-qk0-f193.google.com
+	[209.85.220.193])
+	by mail.openembedded.org (Postfix) with ESMTP id A63C660111
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Sep 2016 20:18:25 +0000 (UTC)
-Received: by mail-lf0-f68.google.com with SMTP id h96so2456899lfi.1
+	Fri, 30 Sep 2016 20:34:22 +0000 (UTC)
+Received: by mail-qk0-f193.google.com with SMTP id n189so4674995qke.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Sep 2016 13:18:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=/zSZjaOMSY8ZUUy0cL0/AJQweYWlS31r0JGv1lG82bk=;
-	b=Qcnj8qJdJtXdxtSHOADpXd1jt5bLJaxcG3yOt0fPwOa/ERdSbPSgbbGlmBPGPwfw8T
-	ZxymqRCVglLZmMMqOEE/NaFF9rZOXXHntuwX7DpyOHPBMul7oL47CmWypoGl1oTfIuVc
-	2rmjz+2s2xpz5I/HCh+dQMEwduiQ300aqPH0RIYESLF80H/zBbaOdIOFQgREvG+9l2lH
-	qH8yGvfK3i0Gdwx//SaiiJHTxfYmJatLFgPItlc9rPDrJJVkZU5Abh+sJCjk9Ed2+mFq
-	knIzBBT/JulaD8RkQq8UAJpNU81zmG2id6SvJ6awFyuKkwJ2VeUvwOpodmE6G6R5Zi0V
-	IpLw==
+	Fri, 30 Sep 2016 13:34:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
+	h=from:to:cc:subject:date:message-id:organization;
+	bh=vUFCdRJKdk413zMZ7QjfK91j3dwJQrybrLrWBQ12LnU=;
+	b=zFORnobqxMVgUWXwJZidnDAVJ0yzxqxHHVmrnLYoh61RH7OFiZqqw5KnGzndToFa9R
+	ryuf4CvT5rgma7hYAm7fkCbiAQCmK/rTsnQcRdw+wG8hlPi92ARo+kDUDqYOGUPrQ95d
+	pZO6XoQtAE/ANEL7zaWVMUmMmzNoNX0wl+40SKfxCGD1Nzyr4hZNsWlWOxle7u9Yy1da
+	agRJXCYTml/fm0MoVu/mMmyS6xTmQqhHhMuI651trcpCDnKQFRjaymLQ/ty9oEWInWVX
+	aWICKYCeVomo2m04NQAN0orTa9djA2T693pLPXKFnFtF0+JK4sR7Yqg0hxiAPsKXZYzL
+	ydRg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=/zSZjaOMSY8ZUUy0cL0/AJQweYWlS31r0JGv1lG82bk=;
-	b=WEwf5xvSmyG4jErPaG8i05BR9bXKe/Z4BgqgQlC0aFk5btxt/Ng+1Y2p4AQJH6Kg2j
-	r2bLuB9wCtyBsA/MemgVn+q4dDchHf7aHVv7XSosRhF/ZhSocpx8RcZCKof7QoUHcokU
-	5F3XWGiZ5LuvF83LRzQWQQ6EiF5Y6NK3/fVDKTLuANmnxsN25S43qujZFVodGKRb8rwy
-	lUKsRwDgs4GDK57m4Z9LV8gOCRU1oqEjBcAanRl/HSigACYEiXMWOc/ZjNYv0G680WZ1
-	U0v2FVF2sHTdIE4aeqDhgjw1C9f+ParM6IcX19RaEB5clTGpcmRfx2AbaoJQKu/HlPLm
-	jjBg==
-X-Gm-Message-State: AA6/9RlvnzrVOLvjaLpCEKzzDiGSBzW4SN8bzxCCKY39DmfgZg1DR+9HGfmsGyPwEAKG2Q==
-X-Received: by 10.46.1.231 with SMTP id f100mr3936541lji.21.1475266706676;
-	Fri, 30 Sep 2016 13:18:26 -0700 (PDT)
-Received: from localhost.localdomain.pl (87-206-133-125.dynamic.chello.pl.
-	[87.206.133.125])
-	by smtp.gmail.com with ESMTPSA id f9sm3321280lji.19.2016.09.30.13.18.25
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 30 Sep 2016 13:18:26 -0700 (PDT)
-From: Mateusz Nowakowski <mateusz.cz.nowakowski@gmail.com>
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:organization;
+	bh=vUFCdRJKdk413zMZ7QjfK91j3dwJQrybrLrWBQ12LnU=;
+	b=mfrl35iP7PU6SfgJLWpbuc805q7TqOU7ejFieu6lK+3Rv5oNeO0kHEJh9O6pfR5O16
+	4VhlKGuwbw3wn73gYpglQKq6xc/Q3aziidHc2XaEFdiYWa52Xxh80WI2yEIA0I5BuSPL
+	eQdehKsq1lQrUZjBGCxE91OINyplzZ3NgGR69AFOiTfG++78As6Y23F9jYAY2z/7fho9
+	no/9POwU1QVL3TOmtaqbCBSWWApxBVKHQYE0lavNvZ4w97Sb/GXrtRIlmG15WQOW9baL
+	cWVKonEiTe8Dsx+n6aOfYwJfDjF4RZcJnHWMu3QTnPrAp9jaS5QD7PJjrlcOZwnenHuQ
+	xPVQ==
+X-Gm-Message-State: AA6/9RnvxCWQGDMl2Sy6o62U4y+6R8l970SpMOUZ2M1GqVQLzO6UJ05jFQFZNN18Iewr8A==
+X-Received: by 10.55.184.2 with SMTP id i2mr8487909qkf.48.1475267663389;
+	Fri, 30 Sep 2016 13:34:23 -0700 (PDT)
+Received: from monster.lab.ossystems.com.br ([177.100.224.38])
+	by smtp.gmail.com with ESMTPSA id
+	x201sm11040682qkx.32.2016.09.30.13.34.19
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Fri, 30 Sep 2016 13:34:21 -0700 (PDT)
+From: Fabio Berton <fabio.berton@ossystems.com.br>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 30 Sep 2016 22:18:13 +0000
-Message-Id: <20160930221813.4209-1-mateusz.cz.nowakowski@gmail.com>
-X-Mailer: git-send-email 2.9.3
-Subject: [PATCH] gmock: fixed installing pkgconfig file and libraries on x86_64 architecture
+Date: Fri, 30 Sep 2016 17:33:55 -0300
+Message-Id: <1475267636-3510-1-git-send-email-fabio.berton@ossystems.com.br>
+X-Mailer: git-send-email 2.1.4
+Organization: O.S. Systems Software LTDA.
+Cc: Otavio Salvador <otavio@ossystems.com.br>
+Subject: [PATCH 1/2] classes/uboot-extlinux-config: Add class
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,49 +55,166 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Sep 2016 20:18:28 -0000
+X-List-Received-Date: Fri, 30 Sep 2016 20:34:23 -0000
 
-Signed-off-by: Mateusz Nowakowski <mateusz.cz.nowakowski@gmail.com>
+This class allow the extlinux.conf generation for U-Boot use.
+The U-Boot support for it is given to allow the Generic Distribution
+Configuration specification use by OpenEmbedded-based products.
+
+This class can be inherited by u-boot recipes to create extlinux.conf
+and boot using menu options.
+
+U-boot with extlinux support is machine dependent, so to use this class
+you need to set UBOOT_EXTLINUX to 1 in machine configuration file and
+also set root= kernel cmdline UBOOT_EXTLINUX_ROOT. This variable is used
+to pass root kernel cmdline, e.g:
+
+UBOOT_EXTLINUX_ROOT = "root=/dev/mmcblk2p2"
+
+Signed-off-by: Fabio Berton <fabio.berton@ossystems.com.br>
+Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
 ---
- .../gmock/cmake-Add-install-command-for-libraries-and-headers.patch | 4 ++--
- .../gmock/gmock/cmake-gmock.pc.in-Add-pkg-config-support.patch      | 6 +++---
- 2 files changed, 5 insertions(+), 5 deletions(-)
+ meta/classes/uboot-extlinux-config.bbclass | 130 +++++++++++++++++++++++++++++
+ 1 file changed, 130 insertions(+)
+ create mode 100644 meta/classes/uboot-extlinux-config.bbclass
 
-diff --git a/meta-oe/recipes-test/gmock/gmock/cmake-Add-install-command-for-libraries-and-headers.patch b/meta-oe/recipes-test/gmock/gmock/cmake-Add-install-command-for-libraries-and-headers.patch
-index 92a6393..0dac998 100644
---- a/meta-oe/recipes-test/gmock/gmock/cmake-Add-install-command-for-libraries-and-headers.patch
-+++ b/meta-oe/recipes-test/gmock/gmock/cmake-Add-install-command-for-libraries-and-headers.patch
-@@ -29,8 +29,8 @@ index 572d044..90e797a 100644
-              src/gmock_main.cc)
-  
- +
--+install(TARGETS gmock DESTINATION lib)
--+install(TARGETS gmock_main DESTINATION lib)
-++install(TARGETS gmock DESTINATION ${CMAKE_INSTALL_LIBDIR})
-++install(TARGETS gmock_main DESTINATION ${CMAKE_INSTALL_LIBDIR})
- +
-  ########################################################################
-  #
-diff --git a/meta-oe/recipes-test/gmock/gmock/cmake-gmock.pc.in-Add-pkg-config-support.patch b/meta-oe/recipes-test/gmock/gmock/cmake-gmock.pc.in-Add-pkg-config-support.patch
-index aa38fe4..8ffe1a6 100644
---- a/meta-oe/recipes-test/gmock/gmock/cmake-gmock.pc.in-Add-pkg-config-support.patch
-+++ b/meta-oe/recipes-test/gmock/gmock/cmake-gmock.pc.in-Add-pkg-config-support.patch
-@@ -27,11 +27,11 @@ index 90e797a..98fd824 100644
-  # Project-wide settings
- @@ -87,7 +90,9 @@ cxx_library(gmock_main
-  
-- install(TARGETS gmock DESTINATION lib)
-- install(TARGETS gmock_main DESTINATION lib)
-+ install(TARGETS gmock DESTINATION ${CMAKE_INSTALL_LIBDIR})
-+ install(TARGETS gmock_main DESTINATION ${CMAKE_INSTALL_LIBDIR})
- -
- +install(FILES "${CMAKE_CURRENT_BINARY_DIR}/gmock.pc"
--+    DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/pkgconfig/"
-++    DESTINATION "${CMAKE_INSTALL_LIBDIR}/pkgconfig/"
- +)  
-  ########################################################################
-  #
+diff --git a/meta/classes/uboot-extlinux-config.bbclass b/meta/classes/uboot-extlinux-config.bbclass
+new file mode 100644
+index 0000000..3480dd6
+--- /dev/null
++++ b/meta/classes/uboot-extlinux-config.bbclass
+@@ -0,0 +1,130 @@
++# uboot-extlinux-config.bbclass
++#
++# This class allow the extlinux.conf generation for U-Boot use. The
++# U-Boot support for it is given to allow the Generic Distribution
++# Configuration specification use by OpenEmbedded-based products.
++#
++# External variables:
++#
++# UBOOT_EXTLINUX_CONFIG            - Configuration file default set to source dir.
++# UBOOT_EXTLINUX_CONSOLE           - Set to "console=ttyX" to change kernel boot
++#                                    default console.
++# UBOOT_EXTLINUX_LABELS            - A list of targets for the automatic config.
++# UBOOT_EXTLINUX_KERNEL_ARGS       - Add additional kernel arguments.
++# UBOOT_EXTLINUX_KERNEL_IMAGE      - Kernel image name.
++# UBOOT_EXTLINUX_FDTDIR            - Device tree directory.
++# UBOOT_EXTLINUX_INITRD            - Indicates a list of filesystem images to
++#                                    concatenate and use as an initrd (optional).
++# UBOOT_EXTLINUX_MENU_DESCRIPTION  - Name to use as description.
++# UBOOT_EXTLINUX_ROOT              - Root kernel cmdline.
++#
++# If there's only one label system will boot automatically and menu won't be
++# created. If you want to use more than one labels, e.g linux and alternate,
++# use overrides to set menu description, console and others variables.
++#
++# Ex:
++#
++# UBOOT_EXTLINUX_LABELS ??= "default fallback"
++#
++# UBOOT_EXTLINUX_KERNEL_IMAGE_default ??= "../zImage"
++# UBOOT_EXTLINUX_MENU_DESCRIPTION_default ??= "Linux Default"
++#
++# UBOOT_EXTLINUX_KERNEL_IMAGE_fallback ??= "../zImage-fallback"
++# UBOOT_EXTLINUX_MENU_DESCRIPTION_fallback ??= "Linux Fallback"
++#
++# Results:
++#
++# menu title Select the boot mode
++# LABEL Linux Default
++#   KERNEL ../zImage
++#   FDTDIR ../
++#   APPEND root=/dev/mmcblk2p2 rootwait rw console=${console}
++# LABEL Linux Fallback
++#   KERNEL ../zImage-fallback
++#   FDTDIR ../
++#   APPEND root=/dev/mmcblk2p2 rootwait rw console=${console}
++#
++# Copyright (C) 2016, O.S. Systems Software LTDA.  All Rights Reserved
++# Released under the MIT license (see packages/COPYING)
++#
++# The kernel has an internal default console, which you can override with
++# a console=...some_tty...
++UBOOT_EXTLINUX_CONSOLE ??= "console=${console}"
++UBOOT_EXTLINUX_CONFIG ??= "${S}/extlinux.conf"
++UBOOT_EXTLINUX_LABELS ??= "linux"
++UBOOT_EXTLINUX_FDTDIR ??= "../"
++UBOOT_EXTLINUX_KERNEL_IMAGE ??= "../${KERNEL_IMAGETYPE}"
++UBOOT_EXTLINUX_KERNEL_ARGS ??= "rootwait rw"
++UBOOT_EXTLINUX_MENU_DESCRIPTION_linux ??= "${DISTRO_NAME}"
++
++python create_extlinux_config() {
++    if d.getVar("UBOOT_EXTLINUX", False) == "1":
++        workdir = d.getVar('WORKDIR', True)
++        if not workdir:
++            bb.error("WORKDIR not defined, unable to package")
++            return
++
++        labels = d.getVar('UBOOT_EXTLINUX_LABELS', True)
++        if not labels:
++            bb.debug(1, "UBOOT_EXTLINUX_LABELS not defined, nothing to do")
++            return
++
++        if labels == []:
++            bb.debug(1, "No labels, nothing to do")
++            return
++
++        cfile = d.getVar('UBOOT_EXTLINUX_CONFIG', True)
++        if not cfile:
++            raise bb.build.FuncFailed('Unable to read UBOOT_EXTLINUX_CONFIG')
++
++        try:
++            cfgfile = open(cfile, 'w')
++        except OSError:
++            raise bb.build.FuncFailed('Unable to open %s' % (cfile))
++
++        cfgfile.write('# Generic Distro Configuration file generated by OpenEmbedded\n')
++
++        if len(labels.split()) > 1:
++            cfgfile.write('menu title Select the boot mode\n')
++
++        for label in labels.split():
++            localdata = bb.data.createCopy(d)
++
++            overrides = localdata.getVar('OVERRIDES', True)
++            if not overrides:
++                raise bb.build.FuncFailed('OVERRIDES not defined')
++
++            localdata.setVar('OVERRIDES', label + ':' + overrides)
++            bb.data.update_data(localdata)
++
++            extlinux_console = localdata.getVar('UBOOT_EXTLINUX_CONSOLE', True)
++
++            menu_description = localdata.getVar('UBOOT_EXTLINUX_MENU_DESCRIPTION', True)
++            if not menu_description:
++                menu_description = label
++
++            root = localdata.getVar('UBOOT_EXTLINUX_ROOT', True)
++            if not root:
++                raise bb.build.FuncFailed('UBOOT_EXTLINUX_ROOT not defined')
++
++            kernel_image = localdata.getVar('UBOOT_EXTLINUX_KERNEL_IMAGE', True)
++            fdtdir = localdata.getVar('UBOOT_EXTLINUX_FDTDIR', True)
++            if fdtdir:
++                cfgfile.write('LABEL %s\n\tKERNEL %s\n\tFDTDIR %s\n' %
++                             (menu_description, kernel_image, fdtdir))
++            else:
++                cfgfile.write('LABEL %s\n\tKERNEL %s\n' % (menu_description, kernel_image))
++
++            kernel_args = localdata.getVar('UBOOT_EXTLINUX_KERNEL_ARGS', True)
++
++            initrd = localdata.getVar('UBOOT_EXTLINUX_INITRD', True)
++            if initrd:
++                cfgfile.write('\tINITRD %s\n'% initrd)
++
++            kernel_args = root + " " + kernel_args
++            cfgfile.write('\tAPPEND %s %s\n' % (kernel_args, extlinux_console))
++
++        cfgfile.close()
++}
++
++do_install[prefuncs] += "create_extlinux_config"
 -- 
-2.9.3
+2.1.4
 
 
