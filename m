@@ -1,24 +1,47 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id E277F605BF
+Return-Path: <rm.santos.caldas@gmail.com>
+Received: from mail-lf0-f50.google.com (mail-lf0-f50.google.com
+	[209.85.215.50])
+	by mail.openembedded.org (Postfix) with ESMTP id D90D060235
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Sep 2016 18:56:02 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u8UIu2cW021613
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 30 Sep 2016 11:56:03 -0700 (PDT)
-Received: from yow-bashfiel-d4.wrs.com (128.224.56.94) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.294.0; Fri, 30 Sep 2016 11:56:01 -0700
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-To: <richard.purdie@linuxfoundation.org>
-Date: Fri, 30 Sep 2016 14:56:01 -0400
-Message-ID: <1475261761-10621-1-git-send-email-bruce.ashfield@windriver.com>
-X-Mailer: git-send-email 2.5.0
+	Fri, 30 Sep 2016 19:47:43 +0000 (UTC)
+Received: by mail-lf0-f50.google.com with SMTP id y6so115110593lff.1
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 30 Sep 2016 12:47:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=GbEdZxut8a1ysCvdziDjNQkGGDWsoTFeS4wcJ93i1as=;
+	b=feS6gxVEO6NXKRJFX7EWinQQYycmP4RAxYLoWcAK3VhwiiuoHdMKQ7kgVxqeKUE96V
+	ihFBPoah73M8IJBL6jBuEqe33KgRIt+vHhQfhXs1Psg9FUa9OEvggFw0ktCcwgCMUTr9
+	Jt5F/2/cZ3pfAdAjYPVGcty9y5xtgkXZaOphqwwzwHJ4JtLsatayP7jGAeSnZ/RfWX8b
+	vuCpF83QlCVU3TWviKzoJ4wQuq7aRq25N4/+NwJxKguXzZDd58WxtbMvUXHdWQ/zraFb
+	BxnNVeH2vq+ezUwRVvwEGPiBcgMjX10jDwkjnV6BRkZqW+K+HgbkyCp1i6pxRBdSaEdE
+	v5fA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=GbEdZxut8a1ysCvdziDjNQkGGDWsoTFeS4wcJ93i1as=;
+	b=FslmtnbWSybTbhca9flcdLE4ezSyLP4WmHGpYevTDm2bnuli/N+uIwGNOFlQf6qSJ1
+	ZFMKnm9xG33/0Qnlfzgp3s3IssOu0emYMM4agINdZDFA+ZurMDmCCTTN34G3jh1gHEd6
+	bk/jNcwIVgKxmduX4ORL4mG8IYY+9Qmz/5o5RHATajI55YfOco/eoabcDtqdyf3EIHdz
+	VRsHTHLtTMU6auYo+btqvQaHzNRVUXHHdTwah1F5EUFBpl4ZedroeoMgJPcy5tlerm97
+	qcnr4hj6NFwrPFFxdB1sGfTyi9/Q6A88KuwmN2EOpOv9HsYLID7zrmjxjuv+pn3ChWnE
+	V34w==
+X-Gm-Message-State: AA6/9RnBkbUhXdtGJLrXU2kBHtGTR4gzMGC+ajMOXLquaXl/Qd0nOLUZytSMxpD2F4a4Hdd0Wv656e0yOhjOBw==
+X-Received: by 10.46.9.23 with SMTP id 23mr3614546ljj.3.1475264864165; Fri, 30
+	Sep 2016 12:47:44 -0700 (PDT)
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH] linux-yocto/4.8: mmc configuration for x86*
+Received: by 10.25.75.9 with HTTP; Fri, 30 Sep 2016 12:47:43 -0700 (PDT)
+In-Reply-To: <CA+21M5CCpkAp1eji3ZpYebG4=a60CPLJeoyB6BAwBKF5O4zwXA@mail.gmail.com>
+References: <20160609184343.GA17951@openSUSE-i7.site>
+	<005ab3aa-8855-ccbc-8e68-fcb6a42c19cc@linux.intel.com>
+	<CA+21M5CCpkAp1eji3ZpYebG4=a60CPLJeoyB6BAwBKF5O4zwXA@mail.gmail.com>
+From: Renato Caldas <rm.santos.caldas@gmail.com>
+Date: Fri, 30 Sep 2016 20:47:43 +0100
+Message-ID: <CA+21M5BAGf4-sGye-KjSdtNDkNKG5Za=htrOMvby9qXiGdkm2g@mail.gmail.com>
+To: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: -c menuconfig stopped working in master
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,65 +54,132 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Sep 2016 18:56:03 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 30 Sep 2016 19:47:47 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Updating the common-pc* configuration to have the following mmc
-configs available by default:
+Hi Leonardo,
 
-  meta/common-pc-64: use mmc-sdhci feature
-  meta/common-pc: use mmc-sdhci feature
-  meta: add mmc/mmc-sdhci feature
-  meta: add mmc/mmc-block feature
-  meta: add mmc/base feature
+Sorry for yet another ping, but do you have the patch at hand?
 
-Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
----
- meta/recipes-kernel/linux/linux-yocto-rt_4.8.bb   | 2 +-
- meta/recipes-kernel/linux/linux-yocto-tiny_4.8.bb | 2 +-
- meta/recipes-kernel/linux/linux-yocto_4.8.bb      | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
-
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_4.8.bb b/meta/recipes-kernel/linux/linux-yocto-rt_4.8.bb
-index 8548af71c4b3..d667860ad0c3 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_4.8.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_4.8.bb
-@@ -12,7 +12,7 @@ python () {
- }
- 
- SRCREV_machine ?= "5e21764783494fe8cafa9a107775040d54a4d4d1"
--SRCREV_meta ?= "d0937e67c3c11fd0e6429bd050a86f6c295560e1"
-+SRCREV_meta ?= "ab82ea0e92a1726d5135e2d7541acb958a74b6e5"
- 
- SRC_URI = "git://git.yoctoproject.org/linux-yocto-4.8.git;branch=${KBRANCH};name=machine \
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.8;destsuffix=${KMETA}"
-diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_4.8.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_4.8.bb
-index 18214e3925d6..7c175d60b14f 100644
---- a/meta/recipes-kernel/linux/linux-yocto-tiny_4.8.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-tiny_4.8.bb
-@@ -10,7 +10,7 @@ KMETA = "kernel-meta"
- KCONF_BSP_AUDIT_LEVEL = "2"
- 
- SRCREV_machine ?= "8edbf10bb6e0759bfb6f18035d1b4773f573d33c"
--SRCREV_meta ?= "d0937e67c3c11fd0e6429bd050a86f6c295560e1"
-+SRCREV_meta ?= "ab82ea0e92a1726d5135e2d7541acb958a74b6e5"
- 
- PV = "${LINUX_VERSION}+git${SRCPV}"
- 
-diff --git a/meta/recipes-kernel/linux/linux-yocto_4.8.bb b/meta/recipes-kernel/linux/linux-yocto_4.8.bb
-index cf4b9b729ea1..d4366c1cf4ac 100644
---- a/meta/recipes-kernel/linux/linux-yocto_4.8.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_4.8.bb
-@@ -19,7 +19,7 @@ SRCREV_machine_qemux86 ?= "8edbf10bb6e0759bfb6f18035d1b4773f573d33c"
- SRCREV_machine_qemux86-64 ?= "8edbf10bb6e0759bfb6f18035d1b4773f573d33c"
- SRCREV_machine_qemumips64 ?= "dd0e6bc1cb1973d72ff9d3b4ee44a0edc04fea3c"
- SRCREV_machine ?= "8edbf10bb6e0759bfb6f18035d1b4773f573d33c"
--SRCREV_meta ?= "d0937e67c3c11fd0e6429bd050a86f6c295560e1"
-+SRCREV_meta ?= "ab82ea0e92a1726d5135e2d7541acb958a74b6e5"
- 
- SRC_URI = "git://git.yoctoproject.org/linux-yocto-4.8.git;name=machine;branch=${KBRANCH}; \
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.8;destsuffix=${KMETA}"
--- 
-2.5.0
-
+2016-09-22 17:50 GMT+01:00 Renato Caldas <rm.santos.caldas@gmail.com>:
+> 2016-06-09 20:58 GMT+01:00 Leonardo Sandoval
+> <leonardo.sandoval.gonzalez@linux.intel.com>:
+>> Yes, this is related to the python3 change. I have a patch, I will send it
+>> asap.
+>
+> Hi, any news on this?
+>
+>> On 06/09/2016 01:43 PM, Trevor Woerner wrote:
+>>>
+>>> It appears "bitbake virtual/kernel -c menuconfig" has stopped working in
+>>> master (python3-related?). The following is from a build on master of poky
+>>> (git://git.yoctoproject.org/poky) with qemux86 as the MACHINE (iow, the
+>>> most
+>>> basic build). The same happens with master-next.
+>>>
+>>>         ERROR: linux-yocto-4.4.12+gitAUTOINC+8900370d33_1f3e98df09-r0
+>>> do_menuconfig: Error executing a python function in exec_python_func()
+>>> autogenerated:
+>>>
+>>>         The stack trace of python calls that resulted in this
+>>> exception/failure was:
+>>>         File: 'exec_python_func() autogenerated', lineno: 2, function:
+>>> <module>
+>>>              0001:
+>>>          *** 0002:do_menuconfig(d)
+>>>              0003:
+>>>         File:
+>>> '/z/layerindex-master/layers/meta-poky/meta/classes/cml1.bbclass', lineno:
+>>> 30, function: do_menuconfig
+>>>              0026:    except OSError:
+>>>              0027:        mtime = 0
+>>>              0028:
+>>>              0029:    oe_terminal("${SHELL} -c \"make %s; if [ \$? -ne 0
+>>> ]; then echo 'Command failed.'; printf 'Press any key to continue... '; read
+>>> r; fi\"" % d.getVar('KCONFIG_CONFIG_COMMAND', True),
+>>>          *** 0030:                d.getVar('PN', True ) + '
+>>> Configuration', d)
+>>>              0031:
+>>>              0032:    # FIXME this check can be removed when the minimum
+>>> bitbake version has been bumped
+>>>              0033:    if hasattr(bb.build, 'write_taint'):
+>>>              0034:        try:
+>>>         File:
+>>> '/z/layerindex-master/layers/meta-poky/meta/classes/terminal.bbclass',
+>>> lineno: 90, function: oe_terminal
+>>>              0086:        except oe.terminal.ExecutionError as exc:
+>>>              0087:            bb.fatal('Unable to spawn terminal %s: %s' %
+>>> (terminal, exc))
+>>>              0088:
+>>>              0089:    try:
+>>>          *** 0090:        oe.terminal.spawn_preferred(command, title,
+>>> None, d)
+>>>              0091:    except oe.terminal.NoSupportedTerminals:
+>>>              0092:        bb.fatal('No valid terminal found, unable to
+>>> open devshell')
+>>>              0093:    except oe.terminal.ExecutionError as exc:
+>>>              0094:        bb.fatal('Unable to spawn terminal %s: %s' %
+>>> (terminal, exc))
+>>>         File:
+>>> '/z/layerindex-master/layers/meta-poky/meta/lib/oe/terminal.py', lineno:
+>>> 197, function: spawn_preferred
+>>>              0193:def spawn_preferred(sh_cmd, title=None, env=None,
+>>> d=None):
+>>>              0194:    """Spawn the first supported terminal, by
+>>> priority"""
+>>>              0195:    for terminal in prioritized():
+>>>              0196:        try:
+>>>          *** 0197:            spawn(terminal.name, sh_cmd, title, env, d)
+>>>              0198:            break
+>>>              0199:        except UnsupportedTerminal:
+>>>              0200:            continue
+>>>              0201:    else:
+>>>         File:
+>>> '/z/layerindex-master/layers/meta-poky/meta/lib/oe/terminal.py', lineno:
+>>> 212, function: spawn
+>>>              0208:        terminal = Registry.registry[name]
+>>>              0209:    except KeyError:
+>>>              0210:        raise UnsupportedTerminal(name)
+>>>              0211:
+>>>          *** 0212:    pipe = terminal(sh_cmd, title, env, d)
+>>>              0213:    output = pipe.communicate()[0]
+>>>              0214:    if pipe.returncode != 0:
+>>>              0215:        raise ExecutionError(sh_cmd, pipe.returncode,
+>>> output)
+>>>              0216:
+>>>         File:
+>>> '/z/layerindex-master/layers/meta-poky/meta/lib/oe/terminal.py', lineno: 89,
+>>> function: __init__
+>>>              0085:    priority = 2
+>>>              0086:
+>>>              0087:    def __init__(self, sh_cmd, title=None, env=None,
+>>> d=None):
+>>>              0088:        # Check version
+>>>          *** 0089:        vernum = check_terminal_version("konsole")
+>>>              0090:        if vernum and LooseVersion(vernum) < '2.0.0':
+>>>              0091:            # Konsole from KDE 3.x
+>>>              0092:            self.command = 'konsole -T "{title}" -e
+>>> {command}'
+>>>              0093:        XTerminal.__init__(self, sh_cmd, title, env, d)
+>>>         File:
+>>> '/z/layerindex-master/layers/meta-poky/meta/lib/oe/terminal.py', lineno:
+>>> 249, function: check_terminal_version
+>>>              0245:        newenv = os.environ.copy()
+>>>              0246:        newenv["LANG"] = "C"
+>>>              0247:        p = sub.Popen(['sh', '-c', cmdversion],
+>>> stdout=sub.PIPE, stderr=sub.PIPE, env=newenv)
+>>>              0248:        out, err = p.communicate()
+>>>          *** 0249:        ver_info = out.rstrip().split('\n')
+>>>              0250:    except OSError as exc:
+>>>              0251:        import errno
+>>>              0252:        if exc.errno == errno.ENOENT:
+>>>              0253:            return None
+>>>         Exception: TypeError: Type str doesn't support the buffer API
+>>
+>>
+>> --
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
