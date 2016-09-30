@@ -1,53 +1,48 @@
-Return-Path: <peter.kjellerstedt@axis.com>
-Received: from bes.se.axis.com (bes.se.axis.com [195.60.68.10])
-	by mail.openembedded.org (Postfix) with ESMTP id A5C2B605C3
+Return-Path: <rm.santos.caldas@gmail.com>
+Received: from mail-lf0-f49.google.com (mail-lf0-f49.google.com
+	[209.85.215.49])
+	by mail.openembedded.org (Postfix) with ESMTP id 9D1796FEFA
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Sep 2016 19:53:43 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by bes.se.axis.com (Postfix) with ESMTP id 97CB62E2BA
+	Fri, 30 Sep 2016 19:54:48 +0000 (UTC)
+Received: by mail-lf0-f49.google.com with SMTP id t81so48205258lfe.0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Sep 2016 21:53:44 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at bes.se.axis.com
-Received: from bes.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bes.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP id q2q79TlSBjts
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Sep 2016 21:53:42 +0200 (CEST)
-Received: from boulder03.se.axis.com (boulder03.se.axis.com [10.0.8.17])
-	by bes.se.axis.com (Postfix) with ESMTPS id E0C2A2E2AE
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Sep 2016 21:53:42 +0200 (CEST)
-Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id CBE361E07A
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Sep 2016 21:53:42 +0200 (CEST)
-Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id C0CCB1E078
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Sep 2016 21:53:42 +0200 (CEST)
-Received: from seth.se.axis.com (unknown [10.0.2.172])
-	by boulder03.se.axis.com (Postfix) with ESMTP
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Sep 2016 21:53:42 +0200 (CEST)
-Received: from saur-2.se.axis.com (saur-2.se.axis.com [10.92.3.2])
-	by seth.se.axis.com (Postfix) with ESMTP id B4C1F4C0
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Sep 2016 21:53:42 +0200 (CEST)
-Received: from saur-2.se.axis.com (localhost [127.0.0.1])
-	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id u8UJrgba011107
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Sep 2016 21:53:42 +0200
-Received: (from pkj@localhost)
-	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id u8UJrgI1011106
-	for openembedded-core@lists.openembedded.org;
-	Fri, 30 Sep 2016 21:53:42 +0200
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 30 Sep 2016 21:53:39 +0200
-Message-Id: <cover.1475265162.git.pkj@axis.com>
-X-Mailer: git-send-email 2.9.0
-X-TM-AS-GCONF: 00
-Subject: [PATCH 0/1] Avoid unnecessary dependency on awk in devtool deploy-target
+	Fri, 30 Sep 2016 12:54:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=HUhTiLdFBQV3tbjaAdTwOGZOaf93FJHuV5j+ToR+JjM=;
+	b=LD0U0LAM//QW4Uv6KhqjYRoEx4Ei0A4I+e5LxbZgw4/YCiLQaXQlQ5IfPfI2vUVO3b
+	WhFWQF5f2ZAFOfk/a8/Vcz3xVvDtZbBpHv3ZdtGtIFMYIRPNYwmAW/29Tvlw2RBHlluA
+	71vX7iHKe91rNyqVu97YeBmCXDLQNnwoJagMuApGLaE/UTuqi4iUongPdpQYN4KTjGK+
+	cW83yvdTI70h7q/cHnXt/pwyPoUG+ZTRzCu5laS43s1iZa2+9Gb+qdLpP3G1TCboaeUV
+	kqRTe6SnQBVPLOidYerzK17Ytc+1kQYplDlNdlgL/ClZcoCq433so5lZzNf/GczVp4E1
+	whAA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=HUhTiLdFBQV3tbjaAdTwOGZOaf93FJHuV5j+ToR+JjM=;
+	b=AEg8RLV9lTkIkMPaUPn5d2a8s1+F4zx0K3GUejXPD61jzzF4UHRCc145nqicv2XeR4
+	vaI2BpE0X2wPYxOosv9iSItnIU+xE5SFaNHlcdwF5l8W/zrO0eTKSgSVAQvmzC695DzK
+	2A0SDEWSBJ+ASGnDgysR43K18YG4W58+csMDXNQxk4iDKV4KtqeShMOxn1b3QxiI8vx3
+	ih7BESRSgSfLbLxdCvnZHWDpqcEeviNj+dHs3vUQM6vT/wW2bqe7T+PIV9z5LNzYZv3V
+	YZQEx2+vkjyNwGc/WPPKgReAcsNBZzz1wvqWEvCwboDvk+1HNw0X83+rs4CXOOuZL3yO
+	fIOA==
+X-Gm-Message-State: AA6/9Rl1PMCZSBOGbrsezDox1cRDaF1KYN068QP4uSPw3W8d8cyzdpami6evBSmbGrdbdxXwYYaFLetQEsdN8Q==
+X-Received: by 10.25.43.208 with SMTP id r199mr3973275lfr.140.1475265289185;
+	Fri, 30 Sep 2016 12:54:49 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.25.75.9 with HTTP; Fri, 30 Sep 2016 12:54:48 -0700 (PDT)
+In-Reply-To: <CA+21M5BAGf4-sGye-KjSdtNDkNKG5Za=htrOMvby9qXiGdkm2g@mail.gmail.com>
+References: <20160609184343.GA17951@openSUSE-i7.site>
+	<005ab3aa-8855-ccbc-8e68-fcb6a42c19cc@linux.intel.com>
+	<CA+21M5CCpkAp1eji3ZpYebG4=a60CPLJeoyB6BAwBKF5O4zwXA@mail.gmail.com>
+	<CA+21M5BAGf4-sGye-KjSdtNDkNKG5Za=htrOMvby9qXiGdkm2g@mail.gmail.com>
+From: Renato Caldas <rm.santos.caldas@gmail.com>
+Date: Fri, 30 Sep 2016 20:54:48 +0100
+Message-ID: <CA+21M5DbeNCOGEideoAh+381QBPRVMUkSBNmPtBu541e=Z9v8g@mail.gmail.com>
+To: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: -c menuconfig stopped working in master
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,37 +55,136 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Sep 2016 19:53:44 -0000
+X-List-Received-Date: Fri, 30 Sep 2016 19:54:49 -0000
+Content-Type: text/plain; charset=UTF-8
 
-After updating to Krogoth, our developers were faced with the
-following error message when using devtool deploy-target:
+Nevermind, the bug I'm experiencing is different, but also related to
+python 3. I'll submit a patch.
 
-/tmp/devtool_deploy.sh: line 23: awk: not found
-
-This is of course due to the fact that we do not have awk installed in
-our products. However, the use of awk in devtool deploy-target is
-completely unnecessary. It is already using sed, and sed is fully
-capable of extracting the information that awk was used for.
-
-//Peter
-
-The following changes since commit a75b79a9e9d76db8f75af64c3792c7a1bbfd15b8:
-
-  genericx86-64.conf: Add SERIAL_CONSOLES_CHECK = "ttyS0" (2016-09-30 16:52:22 +0100)
-
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib pkj/devtool-minus-awk
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=pkj/devtool-minus-awk
-
-Peter Kjellerstedt (1):
-  devtool: deploy-target: Avoid unnecessary dependency on awk on the
-    target
-
- scripts/lib/devtool/deploy.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
--- 
-2.9.0
-
+2016-09-30 20:47 GMT+01:00 Renato Caldas <rm.santos.caldas@gmail.com>:
+> Hi Leonardo,
+>
+> Sorry for yet another ping, but do you have the patch at hand?
+>
+> 2016-09-22 17:50 GMT+01:00 Renato Caldas <rm.santos.caldas@gmail.com>:
+>> 2016-06-09 20:58 GMT+01:00 Leonardo Sandoval
+>> <leonardo.sandoval.gonzalez@linux.intel.com>:
+>>> Yes, this is related to the python3 change. I have a patch, I will send it
+>>> asap.
+>>
+>> Hi, any news on this?
+>>
+>>> On 06/09/2016 01:43 PM, Trevor Woerner wrote:
+>>>>
+>>>> It appears "bitbake virtual/kernel -c menuconfig" has stopped working in
+>>>> master (python3-related?). The following is from a build on master of poky
+>>>> (git://git.yoctoproject.org/poky) with qemux86 as the MACHINE (iow, the
+>>>> most
+>>>> basic build). The same happens with master-next.
+>>>>
+>>>>         ERROR: linux-yocto-4.4.12+gitAUTOINC+8900370d33_1f3e98df09-r0
+>>>> do_menuconfig: Error executing a python function in exec_python_func()
+>>>> autogenerated:
+>>>>
+>>>>         The stack trace of python calls that resulted in this
+>>>> exception/failure was:
+>>>>         File: 'exec_python_func() autogenerated', lineno: 2, function:
+>>>> <module>
+>>>>              0001:
+>>>>          *** 0002:do_menuconfig(d)
+>>>>              0003:
+>>>>         File:
+>>>> '/z/layerindex-master/layers/meta-poky/meta/classes/cml1.bbclass', lineno:
+>>>> 30, function: do_menuconfig
+>>>>              0026:    except OSError:
+>>>>              0027:        mtime = 0
+>>>>              0028:
+>>>>              0029:    oe_terminal("${SHELL} -c \"make %s; if [ \$? -ne 0
+>>>> ]; then echo 'Command failed.'; printf 'Press any key to continue... '; read
+>>>> r; fi\"" % d.getVar('KCONFIG_CONFIG_COMMAND', True),
+>>>>          *** 0030:                d.getVar('PN', True ) + '
+>>>> Configuration', d)
+>>>>              0031:
+>>>>              0032:    # FIXME this check can be removed when the minimum
+>>>> bitbake version has been bumped
+>>>>              0033:    if hasattr(bb.build, 'write_taint'):
+>>>>              0034:        try:
+>>>>         File:
+>>>> '/z/layerindex-master/layers/meta-poky/meta/classes/terminal.bbclass',
+>>>> lineno: 90, function: oe_terminal
+>>>>              0086:        except oe.terminal.ExecutionError as exc:
+>>>>              0087:            bb.fatal('Unable to spawn terminal %s: %s' %
+>>>> (terminal, exc))
+>>>>              0088:
+>>>>              0089:    try:
+>>>>          *** 0090:        oe.terminal.spawn_preferred(command, title,
+>>>> None, d)
+>>>>              0091:    except oe.terminal.NoSupportedTerminals:
+>>>>              0092:        bb.fatal('No valid terminal found, unable to
+>>>> open devshell')
+>>>>              0093:    except oe.terminal.ExecutionError as exc:
+>>>>              0094:        bb.fatal('Unable to spawn terminal %s: %s' %
+>>>> (terminal, exc))
+>>>>         File:
+>>>> '/z/layerindex-master/layers/meta-poky/meta/lib/oe/terminal.py', lineno:
+>>>> 197, function: spawn_preferred
+>>>>              0193:def spawn_preferred(sh_cmd, title=None, env=None,
+>>>> d=None):
+>>>>              0194:    """Spawn the first supported terminal, by
+>>>> priority"""
+>>>>              0195:    for terminal in prioritized():
+>>>>              0196:        try:
+>>>>          *** 0197:            spawn(terminal.name, sh_cmd, title, env, d)
+>>>>              0198:            break
+>>>>              0199:        except UnsupportedTerminal:
+>>>>              0200:            continue
+>>>>              0201:    else:
+>>>>         File:
+>>>> '/z/layerindex-master/layers/meta-poky/meta/lib/oe/terminal.py', lineno:
+>>>> 212, function: spawn
+>>>>              0208:        terminal = Registry.registry[name]
+>>>>              0209:    except KeyError:
+>>>>              0210:        raise UnsupportedTerminal(name)
+>>>>              0211:
+>>>>          *** 0212:    pipe = terminal(sh_cmd, title, env, d)
+>>>>              0213:    output = pipe.communicate()[0]
+>>>>              0214:    if pipe.returncode != 0:
+>>>>              0215:        raise ExecutionError(sh_cmd, pipe.returncode,
+>>>> output)
+>>>>              0216:
+>>>>         File:
+>>>> '/z/layerindex-master/layers/meta-poky/meta/lib/oe/terminal.py', lineno: 89,
+>>>> function: __init__
+>>>>              0085:    priority = 2
+>>>>              0086:
+>>>>              0087:    def __init__(self, sh_cmd, title=None, env=None,
+>>>> d=None):
+>>>>              0088:        # Check version
+>>>>          *** 0089:        vernum = check_terminal_version("konsole")
+>>>>              0090:        if vernum and LooseVersion(vernum) < '2.0.0':
+>>>>              0091:            # Konsole from KDE 3.x
+>>>>              0092:            self.command = 'konsole -T "{title}" -e
+>>>> {command}'
+>>>>              0093:        XTerminal.__init__(self, sh_cmd, title, env, d)
+>>>>         File:
+>>>> '/z/layerindex-master/layers/meta-poky/meta/lib/oe/terminal.py', lineno:
+>>>> 249, function: check_terminal_version
+>>>>              0245:        newenv = os.environ.copy()
+>>>>              0246:        newenv["LANG"] = "C"
+>>>>              0247:        p = sub.Popen(['sh', '-c', cmdversion],
+>>>> stdout=sub.PIPE, stderr=sub.PIPE, env=newenv)
+>>>>              0248:        out, err = p.communicate()
+>>>>          *** 0249:        ver_info = out.rstrip().split('\n')
+>>>>              0250:    except OSError as exc:
+>>>>              0251:        import errno
+>>>>              0252:        if exc.errno == errno.ENOENT:
+>>>>              0253:            return None
+>>>>         Exception: TypeError: Type str doesn't support the buffer API
+>>>
+>>>
+>>> --
+>>> _______________________________________________
+>>> Openembedded-core mailing list
+>>> Openembedded-core@lists.openembedded.org
+>>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
