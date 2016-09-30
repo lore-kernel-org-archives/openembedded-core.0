@@ -1,53 +1,23 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pf0-f195.google.com (mail-pf0-f195.google.com
-	[209.85.192.195])
-	by mail.openembedded.org (Postfix) with ESMTP id C288260938
+Return-Path: <ed.bartosh@linux.intel.com>
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+	by mail.openembedded.org (Postfix) with ESMTP id 469646069C
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Sep 2016 15:29:04 +0000 (UTC)
-Received: by mail-pf0-f195.google.com with SMTP id n24so5105365pfb.3
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Sep 2016 08:29:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=subject:to:references:from:message-id:date:user-agent:mime-version
-	:in-reply-to:content-transfer-encoding;
-	bh=DApbKcdE/DkeFev1NdTTysfwnTWp5AcLDcUlDsEu1C4=;
-	b=g9cPAUgECUc0cD3VW1VXqJrCM741Tyq6mXdYseg9bdEdM/N9CtjbHckTcybkE7SZG6
-	vyReaIP9h5LaFolKQYcSI7Lv6RCyHLOApZiy38GKvWvEF/cjakk2put7mfdPqsPLnf9M
-	gaSXCdM9Gzy9/1FeRywbsvtLsbA65vhv2M9i/I0BX80KJepvhBEf3A9LwHmtubx5N/8L
-	zAt741gtXDTeI81CkdDTpAc10nTj+WvD5A5Of+roiMOBPZAZYptHy6Wrot9/lsrqp3dW
-	FppUkmYvCBbPjBu6VM0FpG9LehJ5MYH70wbZPu9TXe7+wS5+krf5zmei/Yz3FjiWdMBK
-	wQ/w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:subject:to:references:from:message-id:date
-	:user-agent:mime-version:in-reply-to:content-transfer-encoding;
-	bh=DApbKcdE/DkeFev1NdTTysfwnTWp5AcLDcUlDsEu1C4=;
-	b=ZzmOGzbcybu35maAciAFxJbE+GJ67YQxjiLR1AOXnpEfcK7QQbEJiBDY81Plv8+KS4
-	qHW3AC2NmZYlBszSfIwIAIlCAJBe1Yh5pCP8GeSurlFGCwIoK2kY7J15CIPQ3VYlwafU
-	Rf3OtSTebVbMeIZkc14jINvZ3HF6LPj1DQI3rTMxBu9ejgdKvQtwLycNAVQzwixiQoHm
-	nBm9QJO/8WD7HKuolLVdo2NZbTcABsXNnOt9tnTQI+HHPVWo5291OhhOHAVTuTY40ipN
-	jUQhFTCdJXVZcx2BDeD/nDQT05bxMUlKwehZtdNEycV1p4t9+M9ocokYfZvw+MBpuLd5
-	VncA==
-X-Gm-Message-State: AA6/9Rlqp/z4GXD9AjevSZSUwRfZJsYdAdtcF8yfEr3xWlSJst9Ii5fa22yxV/KqmQ4FEQ==
-X-Received: by 10.98.157.199 with SMTP id a68mr12593950pfk.75.1475249346050;
-	Fri, 30 Sep 2016 08:29:06 -0700 (PDT)
-Received: from ?IPv6:2601:202:4001:9ea0:78a7:4535:8444:722c?
-	([2601:202:4001:9ea0:78a7:4535:8444:722c])
-	by smtp.gmail.com with ESMTPSA id
-	28sm28815790pfp.33.2016.09.30.08.29.05
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 30 Sep 2016 08:29:05 -0700 (PDT)
-To: Joshua Lock <joshua.g.lock@intel.com>,
-	openembedded-core@lists.openembedded.org
-References: <1475226567-7151-1-git-send-email-joshua.g.lock@intel.com>
-From: akuster808 <akuster808@gmail.com>
-Message-ID: <353ba145-4e04-d586-8bf9-d9058339efbd@gmail.com>
-Date: Fri, 30 Sep 2016 08:29:04 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.3.0
-MIME-Version: 1.0
-In-Reply-To: <1475226567-7151-1-git-send-email-joshua.g.lock@intel.com>
-Subject: Re: [PATCH] multilib_header: avoid sstate checksum issues for -nativesdk recipes
+	Fri, 30 Sep 2016 15:47:45 +0000 (UTC)
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+	by orsmga104.jf.intel.com with ESMTP; 30 Sep 2016 08:47:47 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.31,273,1473145200"; d="scan'208";a="14958689"
+Received: from linux.intel.com ([10.54.29.200])
+	by fmsmga006.fm.intel.com with ESMTP; 30 Sep 2016 08:47:47 -0700
+Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.68])
+	by linux.intel.com (Postfix) with ESMTP id 2D61A6A4006;
+	Fri, 30 Sep 2016 08:47:18 -0700 (PDT)
+From: Ed Bartosh <ed.bartosh@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 30 Sep 2016 18:36:50 +0300
+Message-Id: <1475249810-1235-1-git-send-email-ed.bartosh@linux.intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [wic][PATCH] mkefidisk.wks: use partition UUID and GPT partition table
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,46 +30,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Sep 2016 15:29:05 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 30 Sep 2016 15:47:46 -0000
 
+This is a preparation to use mkefidisk as a default wks for
+genericx86* BSPs. This change enables usage of partition UUID
+instead of device name to specify root partition in kernel
+command line. It should make images to boot on devices with
+boot device names that differ from what's mentioned in wks file.
 
+Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
+---
+ scripts/lib/wic/canned-wks/mkefidisk.wks | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-On 09/30/2016 02:09 AM, Joshua Lock wrote:
-> Much as with -native recipes, as addressed in commit
-> b15730caf0d4c40271796887505507f2501958bb, arch specific variables
-> like MIPSPKGSFX_ABI were affecting -nativesdk sstate checksums for
-> recipes like nativesdk-glibc-initial.
-Since commit
-
-b15730caf0d4c40271796887505507f2501958bb is in Jethro and Krogoth, do both of those branch need this fix?
-
-- armin
-
->
-> Disable multilib_header for nativesdk as we don't use multilibs in
-> this scenario.
->
-> [YOCTO #10320]
->
-> Signed-off-by: Joshua Lock <joshua.g.lock@intel.com>
-> ---
->   meta/classes/multilib_header.bbclass | 5 +++++
->   1 file changed, 5 insertions(+)
->
-> diff --git a/meta/classes/multilib_header.bbclass b/meta/classes/multilib_header.bbclass
-> index 5ee0a2d..304c28e 100644
-> --- a/meta/classes/multilib_header.bbclass
-> +++ b/meta/classes/multilib_header.bbclass
-> @@ -52,3 +52,8 @@ oe_multilib_header() {
->   oe_multilib_header_class-native () {
->   	return
->   }
-> +
-> +# Nor do we need multilib headers for nativesdk builds.
-> +oe_multilib_header_class-nativesdk () {
-> +	return
-> +}
+diff --git a/scripts/lib/wic/canned-wks/mkefidisk.wks b/scripts/lib/wic/canned-wks/mkefidisk.wks
+index 696e94e..73886ab 100644
+--- a/scripts/lib/wic/canned-wks/mkefidisk.wks
++++ b/scripts/lib/wic/canned-wks/mkefidisk.wks
+@@ -4,8 +4,8 @@
+ 
+ part /boot --source bootimg-efi --sourceparams="loader=grub-efi" --ondisk sda --label msdos --active --align 1024
+ 
+-part / --source rootfs --ondisk sda --fstype=ext4 --label platform --align 1024
++part / --source rootfs --ondisk sda --fstype=ext4 --label platform --align 1024 --use-uuid
+ 
+ part swap --ondisk sda --size 44 --label swap1 --fstype=swap
+ 
+-bootloader  --timeout=10  --append="rootwait rootfstype=ext4 console=ttyPCH0,115200 console=tty0 vmalloc=256MB snd-hda-intel.enable_msi=0"
++bootloader --ptable gpt --timeout=10 --append="rootwait rootfstype=ext4 console=ttyPCH0,115200 console=tty0 vmalloc=256MB snd-hda-intel.enable_msi=0"
+-- 
+2.1.4
 
 
