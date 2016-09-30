@@ -1,28 +1,26 @@
-Return-Path: <stephano.cetola@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 52B3D6FFCC
+Return-Path: <Dengke.Du@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id CB8846E668
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Sep 2016 22:52:23 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by orsmga103.jf.intel.com with ESMTP; 29 Sep 2016 15:52:24 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.31,417,1473145200"; d="scan'208";a="885252771"
-Received: from ramanand-mobl.amr.corp.intel.com (HELO
-	mescala-mobl5.amr.corp.intel.com) ([10.255.230.82])
-	by orsmga003.jf.intel.com with ESMTP; 29 Sep 2016 15:52:24 -0700
-Date: Thu, 29 Sep 2016 15:52:24 -0700
-From: Stephano Cetola <stephano.cetola@linux.intel.com>
-To: Christopher Larson <clarson@kergoth.com>
-Message-ID: <20160929225224.GA45542@mescala-mobl5.amr.corp.intel.com>
-References: <20160929213405.27018-1-stephano.cetola@linux.intel.com>
-	<20160929213405.27018-3-stephano.cetola@linux.intel.com>
-	<CABcZANnQTPjvEXnbbPwU1aF57m9oibeVu6BBxtKpu=NL1DH9xA@mail.gmail.com>
+	Fri, 30 Sep 2016 05:05:35 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u8U55a5e016129
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 29 Sep 2016 22:05:36 -0700
+Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.294.0;
+	Thu, 29 Sep 2016 22:05:35 -0700
+From: Dengke Du <dengke.du@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 30 Sep 2016 01:05:32 -0400
+Message-ID: <65f138952d1e0942e73bea4eca028650439bbfc9.1475211809.git.dengke.du@windriver.com>
+X-Mailer: git-send-email 2.8.1
+In-Reply-To: <cover.1475211809.git.dengke.du@windriver.com>
+References: <cover.1475211809.git.dengke.du@windriver.com>
 MIME-Version: 1.0
-In-Reply-To: <CABcZANnQTPjvEXnbbPwU1aF57m9oibeVu6BBxtKpu=NL1DH9xA@mail.gmail.com>
-User-Agent: Mutt/1.7.0 (2016-08-17)
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/3] utils.py: gut python 2 commands in favor of subprocess.run
+Subject: [PATCH 1/1] rng-tools: add systemd service file
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,62 +33,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 29 Sep 2016 22:52:24 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 30 Sep 2016 05:05:36 -0000
+Content-Type: text/plain
 
-On 09/29, Christopher Larson wrote:
-> On Thu, Sep 29, 2016 at 2:34 PM, Stephano Cetola <
-> stephano.cetola@linux.intel.com> wrote:
-> 
-> > getstatusoutput is a wrapper around subprocess.getstatusouput() in
-> > Py3, which is basically deprecated and behaves almost entirely unlike
-> > run().
-> >
-> > [ YOCTO #9342 ]
-> >
-> > Signed-off-by: Stephano Cetola <stephano.cetola@linux.intel.com>
-> > ---
-> >  meta/lib/oe/utils.py | 11 ++++-------
-> >  1 file changed, 4 insertions(+), 7 deletions(-)
-> >
-> > diff --git a/meta/lib/oe/utils.py b/meta/lib/oe/utils.py
-> > index d6545b1..265f733 100644
-> > --- a/meta/lib/oe/utils.py
-> > +++ b/meta/lib/oe/utils.py
-> > @@ -1,9 +1,4 @@
-> > -try:
-> > -    # Python 2
-> > -    import commands as cmdstatus
-> > -except ImportError:
-> > -    # Python 3
-> > -    import subprocess as cmdstatus
-> > +import subprocess
-> >
-> >  def read_file(filename):
-> >      try:
-> > @@ -144,7 +139,9 @@ def packages_filter_out_system(d):
-> >      return pkgs
-> >
-> >  def getstatusoutput(cmd):
-> > -    return cmdstatus.getstatusoutput(cmd)
-> > +    compproc = subprocess.run(cmd, stdout=subprocess.PIPE,
-> > +            universal_newlines=True, stderr=subprocess.STDOUT, shell=True)
-> > +    return (compproc.returncode, compproc.stdout)
-> >
-> 
-> This is wrong, we can’t use subprocess.run until we bump our minimum python
-> version. We only require 3.4, not 3.5.
+Add systemd service file for rng-tools.
 
-Removed this and resubmitted.
+Signed-off-by: Dengke Du <dengke.du@windriver.com>
+---
+ meta/recipes-support/rng-tools/rng-tools/rngd.service |  9 +++++++++
+ meta/recipes-support/rng-tools/rng-tools_5.bb         | 14 ++++++++++++--
+ 2 files changed, 21 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-support/rng-tools/rng-tools/rngd.service
 
---stephano
+diff --git a/meta/recipes-support/rng-tools/rng-tools/rngd.service b/meta/recipes-support/rng-tools/rng-tools/rngd.service
+new file mode 100644
+index 0000000..b94ad50
+--- /dev/null
++++ b/meta/recipes-support/rng-tools/rng-tools/rngd.service
+@@ -0,0 +1,9 @@
++[Unit]
++Description=Hardware RNG Entropy Gatherer Daemon
++
++[Service]
++ExecStart=@SBINDIR@/rngd -f -r /dev/urandom
++SuccessExitStatus=66
++
++[Install]
++WantedBy=multi-user.target
+diff --git a/meta/recipes-support/rng-tools/rng-tools_5.bb b/meta/recipes-support/rng-tools/rng-tools_5.bb
+index 913a092..e9786f9 100644
+--- a/meta/recipes-support/rng-tools/rng-tools_5.bb
++++ b/meta/recipes-support/rng-tools/rng-tools_5.bb
+@@ -8,7 +8,9 @@ SRC_URI = "http://heanet.dl.sourceforge.net/sourceforge/gkernel/${BP}.tar.gz \
+            file://underquote.patch \
+            file://uclibc-libuargp-configure.patch \
+            file://init \
+-           file://default"
++           file://default \
++           file://rngd.service \
++"
+ 
+ SRC_URI[md5sum] = "6726cdc6fae1f5122463f24ae980dd68"
+ SRC_URI[sha256sum] = "60a102b6603bbcce2da341470cad42eeaa9564a16b4490e7867026ca11a3078e"
+@@ -20,7 +22,7 @@ python () {
+         d.setVar("INHIBIT_UPDATERCD_BBCLASS", "1")
+ }
+ 
+-inherit autotools update-rc.d
++inherit autotools update-rc.d systemd
+ 
+ PACKAGECONFIG = "libgcrypt"
+ PACKAGECONFIG_libc-musl = "libargp"
+@@ -40,7 +42,15 @@ do_install_append() {
+         install -d "${D}${sysconfdir}/default"
+         install -m 0644 ${WORKDIR}/default ${D}${sysconfdir}/default/rng-tools
+     fi
++
++    if ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'true', 'false', d)}; then
++        install -d ${D}${systemd_unitdir}/system
++        install -m 644 ${WORKDIR}/rngd.service ${D}${systemd_unitdir}/system
++        sed -i -e 's,@SBINDIR@,${sbindir},g' ${D}${systemd_unitdir}/system/rngd.service
++    fi
+ }
+ 
+ INITSCRIPT_NAME = "rng-tools"
+ INITSCRIPT_PARAMS = "start 30 2 3 4 5 . stop 30 0 6 1 ."
++
++SYSTEMD_SERVICE_${PN} = "rngd.service"
+-- 
+2.8.1
 
-> -- 
-> Christopher Larson
-> clarson at kergoth dot com
-> Founder - BitBake, OpenEmbedded, OpenZaurus
-> Maintainer - Tslib
-> Senior Software Engineer, Mentor Graphics
 
