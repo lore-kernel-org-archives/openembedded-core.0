@@ -1,48 +1,27 @@
-Return-Path: <rm.santos.caldas@gmail.com>
-Received: from mail-lf0-f49.google.com (mail-lf0-f49.google.com
-	[209.85.215.49])
-	by mail.openembedded.org (Postfix) with ESMTP id 9D1796FEFA
+Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 51D08605C3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Sep 2016 19:54:48 +0000 (UTC)
-Received: by mail-lf0-f49.google.com with SMTP id t81so48205258lfe.0
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Sep 2016 12:54:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=HUhTiLdFBQV3tbjaAdTwOGZOaf93FJHuV5j+ToR+JjM=;
-	b=LD0U0LAM//QW4Uv6KhqjYRoEx4Ei0A4I+e5LxbZgw4/YCiLQaXQlQ5IfPfI2vUVO3b
-	WhFWQF5f2ZAFOfk/a8/Vcz3xVvDtZbBpHv3ZdtGtIFMYIRPNYwmAW/29Tvlw2RBHlluA
-	71vX7iHKe91rNyqVu97YeBmCXDLQNnwoJagMuApGLaE/UTuqi4iUongPdpQYN4KTjGK+
-	cW83yvdTI70h7q/cHnXt/pwyPoUG+ZTRzCu5laS43s1iZa2+9Gb+qdLpP3G1TCboaeUV
-	kqRTe6SnQBVPLOidYerzK17Ytc+1kQYplDlNdlgL/ClZcoCq433so5lZzNf/GczVp4E1
-	whAA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=HUhTiLdFBQV3tbjaAdTwOGZOaf93FJHuV5j+ToR+JjM=;
-	b=AEg8RLV9lTkIkMPaUPn5d2a8s1+F4zx0K3GUejXPD61jzzF4UHRCc145nqicv2XeR4
-	vaI2BpE0X2wPYxOosv9iSItnIU+xE5SFaNHlcdwF5l8W/zrO0eTKSgSVAQvmzC695DzK
-	2A0SDEWSBJ+ASGnDgysR43K18YG4W58+csMDXNQxk4iDKV4KtqeShMOxn1b3QxiI8vx3
-	ih7BESRSgSfLbLxdCvnZHWDpqcEeviNj+dHs3vUQM6vT/wW2bqe7T+PIV9z5LNzYZv3V
-	YZQEx2+vkjyNwGc/WPPKgReAcsNBZzz1wvqWEvCwboDvk+1HNw0X83+rs4CXOOuZL3yO
-	fIOA==
-X-Gm-Message-State: AA6/9Rl1PMCZSBOGbrsezDox1cRDaF1KYN068QP4uSPw3W8d8cyzdpami6evBSmbGrdbdxXwYYaFLetQEsdN8Q==
-X-Received: by 10.25.43.208 with SMTP id r199mr3973275lfr.140.1475265289185;
-	Fri, 30 Sep 2016 12:54:49 -0700 (PDT)
+	Fri, 30 Sep 2016 20:00:01 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by fmsmga105.fm.intel.com with ESMTP; 30 Sep 2016 13:00:03 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.31,274,1473145200"; d="scan'208";a="885563876"
+Received: from lsandov1-mobl2.zpn.intel.com (HELO [10.219.5.141])
+	([10.219.5.141])
+	by orsmga003.jf.intel.com with ESMTP; 30 Sep 2016 13:00:02 -0700
+To: David Vincent <freesilicon@gmail.com>,
+	openembedded-core@lists.openembedded.org
+References: <CAKRNOGzXLf_kfousHniKin-qqs2TURwOQQptDJTMHA9Gqe5now@mail.gmail.com>
+From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+Message-ID: <977b751d-274a-43f4-516b-3827e7f71d37@linux.intel.com>
+Date: Fri, 30 Sep 2016 15:03:47 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.3.0
 MIME-Version: 1.0
-Received: by 10.25.75.9 with HTTP; Fri, 30 Sep 2016 12:54:48 -0700 (PDT)
-In-Reply-To: <CA+21M5BAGf4-sGye-KjSdtNDkNKG5Za=htrOMvby9qXiGdkm2g@mail.gmail.com>
-References: <20160609184343.GA17951@openSUSE-i7.site>
-	<005ab3aa-8855-ccbc-8e68-fcb6a42c19cc@linux.intel.com>
-	<CA+21M5CCpkAp1eji3ZpYebG4=a60CPLJeoyB6BAwBKF5O4zwXA@mail.gmail.com>
-	<CA+21M5BAGf4-sGye-KjSdtNDkNKG5Za=htrOMvby9qXiGdkm2g@mail.gmail.com>
-From: Renato Caldas <rm.santos.caldas@gmail.com>
-Date: Fri, 30 Sep 2016 20:54:48 +0100
-Message-ID: <CA+21M5DbeNCOGEideoAh+381QBPRVMUkSBNmPtBu541e=Z9v8g@mail.gmail.com>
-To: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: -c menuconfig stopped working in master
+In-Reply-To: <CAKRNOGzXLf_kfousHniKin-qqs2TURwOQQptDJTMHA9Gqe5now@mail.gmail.com>
+Cc: "Plascencia, Daniela" <daniela.plascencia@intel.com>
+Subject: Re: [PATCH][jethro] rootfs: Modify RPM installation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,136 +34,148 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Sep 2016 19:54:49 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 30 Sep 2016 20:00:02 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Nevermind, the bug I'm experiencing is different, but also related to
-python 3. I'll submit a patch.
 
-2016-09-30 20:47 GMT+01:00 Renato Caldas <rm.santos.caldas@gmail.com>:
-> Hi Leonardo,
+
+On 07/08/2016 02:57 AM, David Vincent wrote:
+> When using a custom RPM data directory instead of the default dir
+> '/var/lib/rpm', the final image did not contain any of the database
+> files in the expected location. This commit takes into account the
+> 'rpmlibdir' variable set into 'rootfs_rpm.bbclass'.
 >
-> Sorry for yet another ping, but do you have the patch at hand?
+> Signed-off-by: David Vincent <freesilicon@gmail.com>
+> ---
+>   meta/lib/oe/package_manager.py | 26 +++++++++++++++-----------
+>   meta/lib/oe/rootfs.py          |  3 ++-
+>   2 files changed, 17 insertions(+), 12 deletions(-)
 >
-> 2016-09-22 17:50 GMT+01:00 Renato Caldas <rm.santos.caldas@gmail.com>:
->> 2016-06-09 20:58 GMT+01:00 Leonardo Sandoval
->> <leonardo.sandoval.gonzalez@linux.intel.com>:
->>> Yes, this is related to the python3 change. I have a patch, I will send it
->>> asap.
->>
->> Hi, any news on this?
->>
->>> On 06/09/2016 01:43 PM, Trevor Woerner wrote:
->>>>
->>>> It appears "bitbake virtual/kernel -c menuconfig" has stopped working in
->>>> master (python3-related?). The following is from a build on master of poky
->>>> (git://git.yoctoproject.org/poky) with qemux86 as the MACHINE (iow, the
->>>> most
->>>> basic build). The same happens with master-next.
->>>>
->>>>         ERROR: linux-yocto-4.4.12+gitAUTOINC+8900370d33_1f3e98df09-r0
->>>> do_menuconfig: Error executing a python function in exec_python_func()
->>>> autogenerated:
->>>>
->>>>         The stack trace of python calls that resulted in this
->>>> exception/failure was:
->>>>         File: 'exec_python_func() autogenerated', lineno: 2, function:
->>>> <module>
->>>>              0001:
->>>>          *** 0002:do_menuconfig(d)
->>>>              0003:
->>>>         File:
->>>> '/z/layerindex-master/layers/meta-poky/meta/classes/cml1.bbclass', lineno:
->>>> 30, function: do_menuconfig
->>>>              0026:    except OSError:
->>>>              0027:        mtime = 0
->>>>              0028:
->>>>              0029:    oe_terminal("${SHELL} -c \"make %s; if [ \$? -ne 0
->>>> ]; then echo 'Command failed.'; printf 'Press any key to continue... '; read
->>>> r; fi\"" % d.getVar('KCONFIG_CONFIG_COMMAND', True),
->>>>          *** 0030:                d.getVar('PN', True ) + '
->>>> Configuration', d)
->>>>              0031:
->>>>              0032:    # FIXME this check can be removed when the minimum
->>>> bitbake version has been bumped
->>>>              0033:    if hasattr(bb.build, 'write_taint'):
->>>>              0034:        try:
->>>>         File:
->>>> '/z/layerindex-master/layers/meta-poky/meta/classes/terminal.bbclass',
->>>> lineno: 90, function: oe_terminal
->>>>              0086:        except oe.terminal.ExecutionError as exc:
->>>>              0087:            bb.fatal('Unable to spawn terminal %s: %s' %
->>>> (terminal, exc))
->>>>              0088:
->>>>              0089:    try:
->>>>          *** 0090:        oe.terminal.spawn_preferred(command, title,
->>>> None, d)
->>>>              0091:    except oe.terminal.NoSupportedTerminals:
->>>>              0092:        bb.fatal('No valid terminal found, unable to
->>>> open devshell')
->>>>              0093:    except oe.terminal.ExecutionError as exc:
->>>>              0094:        bb.fatal('Unable to spawn terminal %s: %s' %
->>>> (terminal, exc))
->>>>         File:
->>>> '/z/layerindex-master/layers/meta-poky/meta/lib/oe/terminal.py', lineno:
->>>> 197, function: spawn_preferred
->>>>              0193:def spawn_preferred(sh_cmd, title=None, env=None,
->>>> d=None):
->>>>              0194:    """Spawn the first supported terminal, by
->>>> priority"""
->>>>              0195:    for terminal in prioritized():
->>>>              0196:        try:
->>>>          *** 0197:            spawn(terminal.name, sh_cmd, title, env, d)
->>>>              0198:            break
->>>>              0199:        except UnsupportedTerminal:
->>>>              0200:            continue
->>>>              0201:    else:
->>>>         File:
->>>> '/z/layerindex-master/layers/meta-poky/meta/lib/oe/terminal.py', lineno:
->>>> 212, function: spawn
->>>>              0208:        terminal = Registry.registry[name]
->>>>              0209:    except KeyError:
->>>>              0210:        raise UnsupportedTerminal(name)
->>>>              0211:
->>>>          *** 0212:    pipe = terminal(sh_cmd, title, env, d)
->>>>              0213:    output = pipe.communicate()[0]
->>>>              0214:    if pipe.returncode != 0:
->>>>              0215:        raise ExecutionError(sh_cmd, pipe.returncode,
->>>> output)
->>>>              0216:
->>>>         File:
->>>> '/z/layerindex-master/layers/meta-poky/meta/lib/oe/terminal.py', lineno: 89,
->>>> function: __init__
->>>>              0085:    priority = 2
->>>>              0086:
->>>>              0087:    def __init__(self, sh_cmd, title=None, env=None,
->>>> d=None):
->>>>              0088:        # Check version
->>>>          *** 0089:        vernum = check_terminal_version("konsole")
->>>>              0090:        if vernum and LooseVersion(vernum) < '2.0.0':
->>>>              0091:            # Konsole from KDE 3.x
->>>>              0092:            self.command = 'konsole -T "{title}" -e
->>>> {command}'
->>>>              0093:        XTerminal.__init__(self, sh_cmd, title, env, d)
->>>>         File:
->>>> '/z/layerindex-master/layers/meta-poky/meta/lib/oe/terminal.py', lineno:
->>>> 249, function: check_terminal_version
->>>>              0245:        newenv = os.environ.copy()
->>>>              0246:        newenv["LANG"] = "C"
->>>>              0247:        p = sub.Popen(['sh', '-c', cmdversion],
->>>> stdout=sub.PIPE, stderr=sub.PIPE, env=newenv)
->>>>              0248:        out, err = p.communicate()
->>>>          *** 0249:        ver_info = out.rstrip().split('\n')
->>>>              0250:    except OSError as exc:
->>>>              0251:        import errno
->>>>              0252:        if exc.errno == errno.ENOENT:
->>>>              0253:            return None
->>>>         Exception: TypeError: Type str doesn't support the buffer API
->>>
->>>
->>> --
->>> _______________________________________________
->>> Openembedded-core mailing list
->>> Openembedded-core@lists.openembedded.org
->>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
+> index b9fa6d8..83c9858 100644
+> --- a/meta/lib/oe/package_manager.py
+> +++ b/meta/lib/oe/package_manager.py
+> @@ -302,7 +302,8 @@ class RpmPkgsList(PkgsList):
+>           super(RpmPkgsList, self).__init__(d, rootfs_dir)
+>
+>           self.rpm_cmd = bb.utils.which(os.getenv('PATH'), "rpm")
+> -        self.image_rpmlib = os.path.join(self.rootfs_dir, 'var/lib/rpm')
+> +        self.rpm_libdir = self.d.getVar('rpmlibdir', True)
+> +        self.image_rpmlib = os.path.join(self.rootfs_dir, self.rpm_libdir[1:])
+>
+>           self.ml_prefix_list, self.ml_os_list = \
+>               RpmIndexer(d,
+> rootfs_dir).get_ml_prefix_and_os_list(arch_var, os_var)
+> @@ -369,7 +370,7 @@ class RpmPkgsList(PkgsList):
+>               return self._list_pkg_deps()
+>
+>           cmd = self.rpm_cmd + ' --root ' + self.rootfs_dir
+> -        cmd += ' -D "_dbpath /var/lib/rpm" -qa'
+> +        cmd += ' -D "_dbpath %s" -qa' % self.rpm_libdir
+>           if self.rpm_version == 4:
+>               cmd += " --qf '[%{NAME} %{ARCH} %{VERSION}\n]'"
+>           else:
+> @@ -670,7 +671,8 @@ class RpmPM(PackageManager):
+>           self.solution_manifest = self.d.expand('${T}/saved/%s_solution' %
+>                                                  self.task_name)
+>           self.saved_rpmlib = self.d.expand('${T}/saved/%s' % self.task_name)
+> -        self.image_rpmlib = os.path.join(self.target_rootfs, 'var/lib/rpm')
+> +        self.rpm_libdir = self.d.getVar('rpmlibdir', True)
+> +        self.image_rpmlib = os.path.join(self.target_rootfs,
+> self.rpm_libdir[1:])
+the above line is not valid for a patcher like git-apply. Did you send 
+the patch with git-send-email? It may be the case that the email client 
+you are using it truncate this line.
+>
+>           if not os.path.exists(self.d.expand('${T}/saved')):
+>               bb.utils.mkdirhier(self.d.expand('${T}/saved'))
+> @@ -924,8 +926,8 @@ class RpmPM(PackageManager):
+>           opt = "-qa"
+>           if self.rpm_version == 4:
+>               opt = "--initdb"
+> -        cmd = "%s --root %s --dbpath /var/lib/rpm %s > /dev/null" % (
+> -              self.rpm_cmd, self.target_rootfs, opt)
+> +        cmd = "%s --root %s --dbpath %s %s > /dev/null" % (
+> +              self.rpm_cmd, self.target_rootfs, self.rpm_libdir, opt)
+>           try:
+>               subprocess.check_output(cmd, stderr=subprocess.STDOUT, shell=True)
+>           except subprocess.CalledProcessError as e:
+> @@ -934,8 +936,8 @@ class RpmPM(PackageManager):
+>           # Import GPG key to RPM database of the target system
+>           if self.d.getVar('RPM_SIGN_PACKAGES', True) == '1':
+>               pubkey_path = self.d.getVar('RPM_GPG_PUBKEY', True)
+> -            cmd = "%s --root %s --dbpath /var/lib/rpm --import %s >
+> /dev/null" % (
+> -                  self.rpm_cmd, self.target_rootfs, pubkey_path)
+> +            cmd = "%s --root %s --dbpath %s --import %s > /dev/null" % (
+> +                  self.rpm_cmd, self.target_rootfs, self.rpm_libdir,
+> pubkey_path)
+>               subprocess.check_output(cmd, stderr=subprocess.STDOUT, shell=True)
+>
+>           # Configure smart
+> @@ -943,7 +945,7 @@ class RpmPM(PackageManager):
+>           bb.utils.remove(os.path.join(self.target_rootfs, 'var/lib/smart'),
+>                           True)
+>           self._invoke_smart('config --set rpm-root=%s' % self.target_rootfs)
+> -        self._invoke_smart('config --set rpm-dbpath=/var/lib/rpm')
+> +        self._invoke_smart('config --set rpm-dbpath=%s' % self.rpm_libdir)
+>           self._invoke_smart('config --set rpm-extra-macros._var=%s' %
+>                              self.d.getVar('localstatedir', True))
+>           cmd = "config --set rpm-extra-macros._tmppath=/%s/tmp" %
+> (self.install_dir_name)
+> @@ -1179,7 +1181,7 @@ class RpmPM(PackageManager):
+>           if not with_dependencies:
+>               cmd = "%s -e --nodeps " % self.rpm_cmd
+>               cmd += "--root=%s " % self.target_rootfs
+> -            cmd += "--dbpath=/var/lib/rpm "
+> +            cmd += "--dbpath=%s " % self.rpm_libdir
+>               cmd += "--define='_cross_scriptlet_wrapper %s' " % \
+>                      self.scriptlet_wrapper
+>               cmd += "--define='_tmppath /%s/tmp' %s" %
+> (self.install_dir_name, ' '.join(pkgs))
+> @@ -1333,7 +1335,8 @@ class RpmPM(PackageManager):
+>           saved_dir = self.target_rootfs +
+> self.d.expand('${sysconfdir}/rpm-postinsts/') + new_pkg
+>
+>           cmd = self.rpm_cmd + ' -q --scripts --root ' + self.target_rootfs
+> -        cmd += ' --dbpath=/var/lib/rpm ' + new_pkg
+> +        cmd += ' --dbpath=%s ' %  self.rpm_libdir
+> +        cmd += new_pkg
+>           cmd += ' | sed -n -e "/^postinstall scriptlet (using
+> .*):$/,/^.* scriptlet (using .*):$/ {/.*/p}"'
+>           cmd += ' | sed -e "/postinstall scriptlet (using \(.*\)):$/d"'
+>           cmd += ' -e "/^.* scriptlet (using .*):$/d" > %s' % saved_dir
+> @@ -1365,7 +1368,8 @@ class RpmPM(PackageManager):
+>       '''
+>       def unlock_rpm_db(self):
+>           # Remove rpm db lock files
+> -        rpm_db_locks = glob.glob('%s/var/lib/rpm/__db.*' % self.target_rootfs)
+> +        rpm_db_locks = glob.glob('%s%s/__db.*' % (self.target_rootfs,
+> +            self.rpm_libdir))
+>           for f in rpm_db_locks:
+>               bb.utils.remove(f, True)
+>
+> diff --git a/meta/lib/oe/rootfs.py b/meta/lib/oe/rootfs.py
+> index 18df22d..a4ee433 100644
+> --- a/meta/lib/oe/rootfs.py
+> +++ b/meta/lib/oe/rootfs.py
+> @@ -420,6 +420,7 @@ class RpmRootfs(Rootfs):
+>
+>       def _create(self):
+>           pkgs_to_install = self.manifest.parse_initial_manifest()
+> +        rpm_libdir = self.d.getVar('rpmlibdir', True)
+>           rpm_pre_process_cmds = self.d.getVar('RPM_PREPROCESS_COMMANDS', True)
+>           rpm_post_process_cmds = self.d.getVar('RPM_POSTPROCESS_COMMANDS', True)
+>
+> @@ -449,7 +450,7 @@ class RpmRootfs(Rootfs):
+>
+>           self.pm.install_complementary()
+>
+> -        self._setup_dbg_rootfs(['/etc/rpm', '/var/lib/rpm', '/var/lib/smart'])
+> +        self._setup_dbg_rootfs(['/etc/rpm', rpm_libdir, '/var/lib/smart'])
+>
+>           execute_pre_post_process(self.d, rpm_post_process_cmds)
+>
+
 
