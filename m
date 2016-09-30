@@ -1,47 +1,58 @@
-Return-Path: <rm.santos.caldas@gmail.com>
-Received: from mail-lf0-f50.google.com (mail-lf0-f50.google.com
-	[209.85.215.50])
-	by mail.openembedded.org (Postfix) with ESMTP id D90D060235
+Return-Path: <peter.kjellerstedt@axis.com>
+Received: from bes.se.axis.com (bes.se.axis.com [195.60.68.10])
+	by mail.openembedded.org (Postfix) with ESMTP id A6B6E6E5CB
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Sep 2016 19:47:43 +0000 (UTC)
-Received: by mail-lf0-f50.google.com with SMTP id y6so115110593lff.1
+	Fri, 30 Sep 2016 19:53:42 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bes.se.axis.com (Postfix) with ESMTP id 9A6202E2BD
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Sep 2016 12:47:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=GbEdZxut8a1ysCvdziDjNQkGGDWsoTFeS4wcJ93i1as=;
-	b=feS6gxVEO6NXKRJFX7EWinQQYycmP4RAxYLoWcAK3VhwiiuoHdMKQ7kgVxqeKUE96V
-	ihFBPoah73M8IJBL6jBuEqe33KgRIt+vHhQfhXs1Psg9FUa9OEvggFw0ktCcwgCMUTr9
-	Jt5F/2/cZ3pfAdAjYPVGcty9y5xtgkXZaOphqwwzwHJ4JtLsatayP7jGAeSnZ/RfWX8b
-	vuCpF83QlCVU3TWviKzoJ4wQuq7aRq25N4/+NwJxKguXzZDd58WxtbMvUXHdWQ/zraFb
-	BxnNVeH2vq+ezUwRVvwEGPiBcgMjX10jDwkjnV6BRkZqW+K+HgbkyCp1i6pxRBdSaEdE
-	v5fA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=GbEdZxut8a1ysCvdziDjNQkGGDWsoTFeS4wcJ93i1as=;
-	b=FslmtnbWSybTbhca9flcdLE4ezSyLP4WmHGpYevTDm2bnuli/N+uIwGNOFlQf6qSJ1
-	ZFMKnm9xG33/0Qnlfzgp3s3IssOu0emYMM4agINdZDFA+ZurMDmCCTTN34G3jh1gHEd6
-	bk/jNcwIVgKxmduX4ORL4mG8IYY+9Qmz/5o5RHATajI55YfOco/eoabcDtqdyf3EIHdz
-	VRsHTHLtTMU6auYo+btqvQaHzNRVUXHHdTwah1F5EUFBpl4ZedroeoMgJPcy5tlerm97
-	qcnr4hj6NFwrPFFxdB1sGfTyi9/Q6A88KuwmN2EOpOv9HsYLID7zrmjxjuv+pn3ChWnE
-	V34w==
-X-Gm-Message-State: AA6/9RnBkbUhXdtGJLrXU2kBHtGTR4gzMGC+ajMOXLquaXl/Qd0nOLUZytSMxpD2F4a4Hdd0Wv656e0yOhjOBw==
-X-Received: by 10.46.9.23 with SMTP id 23mr3614546ljj.3.1475264864165; Fri, 30
-	Sep 2016 12:47:44 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.25.75.9 with HTTP; Fri, 30 Sep 2016 12:47:43 -0700 (PDT)
-In-Reply-To: <CA+21M5CCpkAp1eji3ZpYebG4=a60CPLJeoyB6BAwBKF5O4zwXA@mail.gmail.com>
-References: <20160609184343.GA17951@openSUSE-i7.site>
-	<005ab3aa-8855-ccbc-8e68-fcb6a42c19cc@linux.intel.com>
-	<CA+21M5CCpkAp1eji3ZpYebG4=a60CPLJeoyB6BAwBKF5O4zwXA@mail.gmail.com>
-From: Renato Caldas <rm.santos.caldas@gmail.com>
-Date: Fri, 30 Sep 2016 20:47:43 +0100
-Message-ID: <CA+21M5BAGf4-sGye-KjSdtNDkNKG5Za=htrOMvby9qXiGdkm2g@mail.gmail.com>
-To: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: -c menuconfig stopped working in master
+	Fri, 30 Sep 2016 21:53:43 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at bes.se.axis.com
+X-Amavis-Alert: BAD HEADER SECTION, Duplicate header field: "References"
+Received: from bes.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bes.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP id Xtyq4sSyGOYP
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 30 Sep 2016 21:53:42 +0200 (CEST)
+Received: from boulder03.se.axis.com (boulder03.se.axis.com [10.0.8.17])
+	by bes.se.axis.com (Postfix) with ESMTPS id EC9C62E2BA
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 30 Sep 2016 21:53:42 +0200 (CEST)
+Received: from boulder03.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id D80471E078
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 30 Sep 2016 21:53:42 +0200 (CEST)
+Received: from boulder03.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id CCD4F1E080
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 30 Sep 2016 21:53:42 +0200 (CEST)
+Received: from seth.se.axis.com (unknown [10.0.2.172])
+	by boulder03.se.axis.com (Postfix) with ESMTP
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 30 Sep 2016 21:53:42 +0200 (CEST)
+Received: from saur-2.se.axis.com (saur-2.se.axis.com [10.92.3.2])
+	by seth.se.axis.com (Postfix) with ESMTP id BFFEC4EA
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 30 Sep 2016 21:53:42 +0200 (CEST)
+Received: from saur-2.se.axis.com (localhost [127.0.0.1])
+	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id u8UJrgkX011111
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 30 Sep 2016 21:53:42 +0200
+Received: (from pkj@localhost)
+	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id u8UJrgmf011110
+	for openembedded-core@lists.openembedded.org;
+	Fri, 30 Sep 2016 21:53:42 +0200
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 30 Sep 2016 21:53:40 +0200
+Message-Id: <859f51cda2032d67b64c81650a4488fec8372a38.1475265162.git.pkj@axis.com>
+X-Mailer: git-send-email 2.9.0
+In-Reply-To: <cover.1475265162.git.pkj@axis.com>
+References: <cover.1475265162.git.pkj@axis.com>
+In-Reply-To: <cover.1475265162.git.pkj@axis.com>
+References: <cover.1475265162.git.pkj@axis.com>
+X-TM-AS-GCONF: 00
+Subject: [PATCH 1/1] devtool: deploy-target: Avoid unnecessary dependency on awk on the target
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,132 +65,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Sep 2016 19:47:47 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 30 Sep 2016 19:53:44 -0000
 
-Hi Leonardo,
+Relying on that awk is installed on the target just to extract the
+fourth column (i.e., the free volume size) from `df -P` is an
+unnecessary dependency for devtool deploy-target. As it is already
+using sed to mangle the output from `df -P`, this can easily be
+modified to only extract the free volume size.
 
-Sorry for yet another ping, but do you have the patch at hand?
+Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+---
+ scripts/lib/devtool/deploy.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-2016-09-22 17:50 GMT+01:00 Renato Caldas <rm.santos.caldas@gmail.com>:
-> 2016-06-09 20:58 GMT+01:00 Leonardo Sandoval
-> <leonardo.sandoval.gonzalez@linux.intel.com>:
->> Yes, this is related to the python3 change. I have a patch, I will send it
->> asap.
->
-> Hi, any news on this?
->
->> On 06/09/2016 01:43 PM, Trevor Woerner wrote:
->>>
->>> It appears "bitbake virtual/kernel -c menuconfig" has stopped working in
->>> master (python3-related?). The following is from a build on master of poky
->>> (git://git.yoctoproject.org/poky) with qemux86 as the MACHINE (iow, the
->>> most
->>> basic build). The same happens with master-next.
->>>
->>>         ERROR: linux-yocto-4.4.12+gitAUTOINC+8900370d33_1f3e98df09-r0
->>> do_menuconfig: Error executing a python function in exec_python_func()
->>> autogenerated:
->>>
->>>         The stack trace of python calls that resulted in this
->>> exception/failure was:
->>>         File: 'exec_python_func() autogenerated', lineno: 2, function:
->>> <module>
->>>              0001:
->>>          *** 0002:do_menuconfig(d)
->>>              0003:
->>>         File:
->>> '/z/layerindex-master/layers/meta-poky/meta/classes/cml1.bbclass', lineno:
->>> 30, function: do_menuconfig
->>>              0026:    except OSError:
->>>              0027:        mtime = 0
->>>              0028:
->>>              0029:    oe_terminal("${SHELL} -c \"make %s; if [ \$? -ne 0
->>> ]; then echo 'Command failed.'; printf 'Press any key to continue... '; read
->>> r; fi\"" % d.getVar('KCONFIG_CONFIG_COMMAND', True),
->>>          *** 0030:                d.getVar('PN', True ) + '
->>> Configuration', d)
->>>              0031:
->>>              0032:    # FIXME this check can be removed when the minimum
->>> bitbake version has been bumped
->>>              0033:    if hasattr(bb.build, 'write_taint'):
->>>              0034:        try:
->>>         File:
->>> '/z/layerindex-master/layers/meta-poky/meta/classes/terminal.bbclass',
->>> lineno: 90, function: oe_terminal
->>>              0086:        except oe.terminal.ExecutionError as exc:
->>>              0087:            bb.fatal('Unable to spawn terminal %s: %s' %
->>> (terminal, exc))
->>>              0088:
->>>              0089:    try:
->>>          *** 0090:        oe.terminal.spawn_preferred(command, title,
->>> None, d)
->>>              0091:    except oe.terminal.NoSupportedTerminals:
->>>              0092:        bb.fatal('No valid terminal found, unable to
->>> open devshell')
->>>              0093:    except oe.terminal.ExecutionError as exc:
->>>              0094:        bb.fatal('Unable to spawn terminal %s: %s' %
->>> (terminal, exc))
->>>         File:
->>> '/z/layerindex-master/layers/meta-poky/meta/lib/oe/terminal.py', lineno:
->>> 197, function: spawn_preferred
->>>              0193:def spawn_preferred(sh_cmd, title=None, env=None,
->>> d=None):
->>>              0194:    """Spawn the first supported terminal, by
->>> priority"""
->>>              0195:    for terminal in prioritized():
->>>              0196:        try:
->>>          *** 0197:            spawn(terminal.name, sh_cmd, title, env, d)
->>>              0198:            break
->>>              0199:        except UnsupportedTerminal:
->>>              0200:            continue
->>>              0201:    else:
->>>         File:
->>> '/z/layerindex-master/layers/meta-poky/meta/lib/oe/terminal.py', lineno:
->>> 212, function: spawn
->>>              0208:        terminal = Registry.registry[name]
->>>              0209:    except KeyError:
->>>              0210:        raise UnsupportedTerminal(name)
->>>              0211:
->>>          *** 0212:    pipe = terminal(sh_cmd, title, env, d)
->>>              0213:    output = pipe.communicate()[0]
->>>              0214:    if pipe.returncode != 0:
->>>              0215:        raise ExecutionError(sh_cmd, pipe.returncode,
->>> output)
->>>              0216:
->>>         File:
->>> '/z/layerindex-master/layers/meta-poky/meta/lib/oe/terminal.py', lineno: 89,
->>> function: __init__
->>>              0085:    priority = 2
->>>              0086:
->>>              0087:    def __init__(self, sh_cmd, title=None, env=None,
->>> d=None):
->>>              0088:        # Check version
->>>          *** 0089:        vernum = check_terminal_version("konsole")
->>>              0090:        if vernum and LooseVersion(vernum) < '2.0.0':
->>>              0091:            # Konsole from KDE 3.x
->>>              0092:            self.command = 'konsole -T "{title}" -e
->>> {command}'
->>>              0093:        XTerminal.__init__(self, sh_cmd, title, env, d)
->>>         File:
->>> '/z/layerindex-master/layers/meta-poky/meta/lib/oe/terminal.py', lineno:
->>> 249, function: check_terminal_version
->>>              0245:        newenv = os.environ.copy()
->>>              0246:        newenv["LANG"] = "C"
->>>              0247:        p = sub.Popen(['sh', '-c', cmdversion],
->>> stdout=sub.PIPE, stderr=sub.PIPE, env=newenv)
->>>              0248:        out, err = p.communicate()
->>>          *** 0249:        ver_info = out.rstrip().split('\n')
->>>              0250:    except OSError as exc:
->>>              0251:        import errno
->>>              0252:        if exc.errno == errno.ENOENT:
->>>              0253:            return None
->>>         Exception: TypeError: Type str doesn't support the buffer API
->>
->>
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+diff --git a/scripts/lib/devtool/deploy.py b/scripts/lib/devtool/deploy.py
+index fb84f2d..c4c7bf6 100644
+--- a/scripts/lib/devtool/deploy.py
++++ b/scripts/lib/devtool/deploy.py
+@@ -85,7 +85,7 @@ def _prepare_remote_script(deploy, verbose=False, dryrun=False, undeployall=Fals
+             lines.append('do')
+             lines.append('    checkpath=`dirname "$checkpath"`')
+             lines.append('done')
+-            lines.append('freespace=`df -P $checkpath | sed "1d" | awk \'{ print $4 }\'`')
++            lines.append(r'freespace=$(df -P $checkpath | sed -nre "s/^(\S+\s+){3}([0-9]+).*/\2/p")')
+             # First line of the file is the total space
+             lines.append('total=`head -n1 $3`')
+             lines.append('if [ $total -gt $freespace ] ; then')
+-- 
+2.9.0
+
 
