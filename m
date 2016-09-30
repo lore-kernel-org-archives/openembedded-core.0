@@ -1,46 +1,46 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f176.google.com (mail-io0-f176.google.com
-	[209.85.223.176])
-	by mail.openembedded.org (Postfix) with ESMTP id 825EC602D9
+Return-Path: <ulfalizer@gmail.com>
+Received: from mail-vk0-f68.google.com (mail-vk0-f68.google.com
+	[209.85.213.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 791106FFC7
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Sep 2016 21:42:23 +0000 (UTC)
-Received: by mail-io0-f176.google.com with SMTP id r145so72496486ior.0
+	Fri, 30 Sep 2016 22:54:13 +0000 (UTC)
+Received: by mail-vk0-f68.google.com with SMTP id 192so4397916vkl.2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Sep 2016 14:42:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	Fri, 30 Sep 2016 15:54:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=+HGqibMgc7j5vp9pEECrwUYeiFaQa4h5657qqQ3xVlM=;
-	b=Y9T7FNoh5CumRrqcEnet0ZWgo5geW54JvPZe5YDQlxwr40c8D/e9EuiQo1DySSzJum
-	oNbHo2U/StbOhYo2ZYm1MkG3MfHY8vwD5BbqKliImr0S7gDmaZrpqaBFKTPPJYeAicaq
-	8aVZ2asm7F/N+7JsoIROY0vtPKcohEV5MtXpdmiMwNir56xgAq091f2WCAvnR9ocBDgN
-	VNV7eeVmLk8+3AxuAVosPPeCL5grECnOYiqWenWl5PT5Fk6GL79s7gLlsFwuy8kGKrux
-	ICzUglLH+xTicztJtjOSaSjQKumqWfl1vK02dClkkC+B2wL3gApqNbwYRDK/dFF80mWO
-	TwfQ==
+	:cc; bh=3C7DtHkP93hqChS6c91Npxa/AlQcmN70Udv53nFI0yY=;
+	b=UYjm/oJhusqxrVmhPLjvoZ1+9AFXsMBUbJbppt0HcvDTrQkF37/eB7UCDxEShNvfs2
+	Agh5ap7CRaMSNYvQ2aDFaeaMmKTYtFtWNaSgrfEEaf0wS8iB8AvA+CHZJzpE2oCpHMwm
+	Anx9Wqiw/Tv4Uweuf6SRTFVKjFXuWs+dvQ7BbA/V/251qRM83o6vST1G6/9YHFSjegQe
+	d68rzU8hDjCFiL8Sj3BSSetJJ9hG/d4r6qWRZBsG6jtEdUqWTg5eFdR4wH+1IyRAfbMl
+	nhw7GYxsP4sZuXMciapBz4VJNv0n0Nqtkh32fv0YFIGVRGERyxjfiPZPXAgC7b4u/DAp
+	8IjA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=+HGqibMgc7j5vp9pEECrwUYeiFaQa4h5657qqQ3xVlM=;
-	b=i74ggI693tao3b5QIl65S5Eopsz/WVdHrEuiXSStb0vSkpKITiNOiW0Rm3QFOdeLPP
-	BrxNFIj2YafPxGNp4BJ2VpD/Tm2udREOsqX2ooqMn6pNvzN5flypXkorkM7wXcpGPdxX
-	mEfbcG6+6nwGcBWGGlXt61KOGAe1PD9W/2115q4Jq3gO8DkCEDZlPaRDIoWi1gL6ZQQu
-	Rj1+N3rUToYeFpV3cdQCUvshFu84M5T05AXZX4Ft4OokBAULcH0zefdVKRuIak5txwom
-	mgeAX5MPOrJYyYKSLJHFYtQbPtMUcx4tvnU/FuTjpQiJyE1EUl9tZiaOEHzvEq1jF14u
-	w+ng==
-X-Gm-Message-State: AA6/9RlOndRQj14iRDTqRSEpq8q+Rfy8MIRh8GuTE3IGP9gKjguPwDyjTIXH2hy7j8BRuAxYo1EMAobphbCcZi89
-X-Received: by 10.107.138.42 with SMTP id m42mr7166407iod.127.1475271744533;
-	Fri, 30 Sep 2016 14:42:24 -0700 (PDT)
+	bh=3C7DtHkP93hqChS6c91Npxa/AlQcmN70Udv53nFI0yY=;
+	b=BUqDJfKZtP1vogkHzJo72ryIdYWmsUDIDAvSEXjvLzDL8vPMT5Z79sV0Dr8lZWqcje
+	NT7gb/Nl4/dgjtsc989wsSflCNHW3zsSzWa/pHvWO72smD74yfJKN2VjOD0ix0xpj+Nu
+	ZDid+/FFTFzwTbY2yRgRJKR7RWBCKWAKi+caocc4J8inh09faF4vLkXwrcOPzNOmsYyf
+	gvG5u1jidD0aa7KLXYMHBfwr7972F6cVLYjqhvC92qbjz/RIDky9ZLR0ddxCYdiKnJXj
+	/YYyB5kROde9ef5d2ytploZ5rx+Bbcy4rWL49tSCRgVwTlarq7n/uNNeUOTXiLE4SPYp
+	xoeA==
+X-Gm-Message-State: AA6/9RnCLAS0xYw0zJAkJB7R+SxOkkE5YJdLyKxhDc1Z+Kmc0wgaqXnTMA2CeUvi2+atRnPtPkXL72o7/yE0xw==
+X-Received: by 10.31.58.77 with SMTP id h74mr7227519vka.15.1475276055218; Fri,
+	30 Sep 2016 15:54:15 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.107.155.66 with HTTP; Fri, 30 Sep 2016 14:42:04 -0700 (PDT)
-In-Reply-To: <20160930221813.4209-1-mateusz.cz.nowakowski@gmail.com>
-References: <20160930221813.4209-1-mateusz.cz.nowakowski@gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 30 Sep 2016 22:42:04 +0100
-Message-ID: <CAJTo0LZLygmJSSKQpt2Aa2-yKyjimy2OnK0BdOJ5W1YQDgjmLg@mail.gmail.com>
-To: Mateusz Nowakowski <mateusz.cz.nowakowski@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] gmock: fixed installing pkgconfig file and libraries on x86_64 architecture
+Received: by 10.103.140.8 with HTTP; Fri, 30 Sep 2016 15:54:14 -0700 (PDT)
+In-Reply-To: <1475267636-3510-1-git-send-email-fabio.berton@ossystems.com.br>
+References: <1475267636-3510-1-git-send-email-fabio.berton@ossystems.com.br>
+From: Ulf Magnusson <ulfalizer@gmail.com>
+Date: Sat, 1 Oct 2016 00:54:14 +0200
+Message-ID: <CAFkk2KQXbX-EDnEAct1KqHRZRd_6h33NxO1nTV9SSioPsQSkHA@mail.gmail.com>
+To: Fabio Berton <fabio.berton@ossystems.com.br>
+Cc: Otavio Salvador <otavio@ossystems.com.br>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/2] classes/uboot-extlinux-config: Add class
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,39 +53,180 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Sep 2016 21:42:24 -0000
-Content-Type: multipart/alternative; boundary=001a113e8c4847edf1053dc07823
-
---001a113e8c4847edf1053dc07823
+X-List-Received-Date: Fri, 30 Sep 2016 22:54:15 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On 30 September 2016 at 23:18, Mateusz Nowakowski <
-mateusz.cz.nowakowski@gmail.com> wrote:
-
-> Signed-off-by: Mateusz Nowakowski <mateusz.cz.nowakowski@gmail.com>
+On Fri, Sep 30, 2016 at 10:33 PM, Fabio Berton
+<fabio.berton@ossystems.com.br> wrote:
+> This class allow the extlinux.conf generation for U-Boot use.
+> The U-Boot support for it is given to allow the Generic Distribution
+> Configuration specification use by OpenEmbedded-based products.
 >
+> This class can be inherited by u-boot recipes to create extlinux.conf
+> and boot using menu options.
+>
+> U-boot with extlinux support is machine dependent, so to use this class
+> you need to set UBOOT_EXTLINUX to 1 in machine configuration file and
+> also set root= kernel cmdline UBOOT_EXTLINUX_ROOT. This variable is used
+> to pass root kernel cmdline, e.g:
+>
+> UBOOT_EXTLINUX_ROOT = "root=/dev/mmcblk2p2"
+>
+> Signed-off-by: Fabio Berton <fabio.berton@ossystems.com.br>
+> Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+> ---
+>  meta/classes/uboot-extlinux-config.bbclass | 130 +++++++++++++++++++++++++++++
+>  1 file changed, 130 insertions(+)
+>  create mode 100644 meta/classes/uboot-extlinux-config.bbclass
+>
+> diff --git a/meta/classes/uboot-extlinux-config.bbclass b/meta/classes/uboot-extlinux-config.bbclass
+> new file mode 100644
+> index 0000000..3480dd6
+> --- /dev/null
+> +++ b/meta/classes/uboot-extlinux-config.bbclass
+> @@ -0,0 +1,130 @@
+> +# uboot-extlinux-config.bbclass
+> +#
+> +# This class allow the extlinux.conf generation for U-Boot use. The
+> +# U-Boot support for it is given to allow the Generic Distribution
+> +# Configuration specification use by OpenEmbedded-based products.
+> +#
+> +# External variables:
+> +#
+> +# UBOOT_EXTLINUX_CONFIG            - Configuration file default set to source dir.
+> +# UBOOT_EXTLINUX_CONSOLE           - Set to "console=ttyX" to change kernel boot
+> +#                                    default console.
+> +# UBOOT_EXTLINUX_LABELS            - A list of targets for the automatic config.
+> +# UBOOT_EXTLINUX_KERNEL_ARGS       - Add additional kernel arguments.
+> +# UBOOT_EXTLINUX_KERNEL_IMAGE      - Kernel image name.
+> +# UBOOT_EXTLINUX_FDTDIR            - Device tree directory.
+> +# UBOOT_EXTLINUX_INITRD            - Indicates a list of filesystem images to
+> +#                                    concatenate and use as an initrd (optional).
+> +# UBOOT_EXTLINUX_MENU_DESCRIPTION  - Name to use as description.
+> +# UBOOT_EXTLINUX_ROOT              - Root kernel cmdline.
+> +#
+> +# If there's only one label system will boot automatically and menu won't be
+> +# created. If you want to use more than one labels, e.g linux and alternate,
+> +# use overrides to set menu description, console and others variables.
+> +#
+> +# Ex:
+> +#
+> +# UBOOT_EXTLINUX_LABELS ??= "default fallback"
+> +#
+> +# UBOOT_EXTLINUX_KERNEL_IMAGE_default ??= "../zImage"
+> +# UBOOT_EXTLINUX_MENU_DESCRIPTION_default ??= "Linux Default"
+> +#
+> +# UBOOT_EXTLINUX_KERNEL_IMAGE_fallback ??= "../zImage-fallback"
+> +# UBOOT_EXTLINUX_MENU_DESCRIPTION_fallback ??= "Linux Fallback"
+> +#
+> +# Results:
+> +#
+> +# menu title Select the boot mode
+> +# LABEL Linux Default
+> +#   KERNEL ../zImage
+> +#   FDTDIR ../
+> +#   APPEND root=/dev/mmcblk2p2 rootwait rw console=${console}
+> +# LABEL Linux Fallback
+> +#   KERNEL ../zImage-fallback
+> +#   FDTDIR ../
+> +#   APPEND root=/dev/mmcblk2p2 rootwait rw console=${console}
+> +#
+> +# Copyright (C) 2016, O.S. Systems Software LTDA.  All Rights Reserved
+> +# Released under the MIT license (see packages/COPYING)
+> +#
+> +# The kernel has an internal default console, which you can override with
+> +# a console=...some_tty...
+> +UBOOT_EXTLINUX_CONSOLE ??= "console=${console}"
+> +UBOOT_EXTLINUX_CONFIG ??= "${S}/extlinux.conf"
+> +UBOOT_EXTLINUX_LABELS ??= "linux"
+> +UBOOT_EXTLINUX_FDTDIR ??= "../"
+> +UBOOT_EXTLINUX_KERNEL_IMAGE ??= "../${KERNEL_IMAGETYPE}"
+> +UBOOT_EXTLINUX_KERNEL_ARGS ??= "rootwait rw"
+> +UBOOT_EXTLINUX_MENU_DESCRIPTION_linux ??= "${DISTRO_NAME}"
+> +
+> +python create_extlinux_config() {
+> +    if d.getVar("UBOOT_EXTLINUX", False) == "1":
+> +        workdir = d.getVar('WORKDIR', True)
+> +        if not workdir:
+> +            bb.error("WORKDIR not defined, unable to package")
+> +            return
+> +
+> +        labels = d.getVar('UBOOT_EXTLINUX_LABELS', True)
+> +        if not labels:
+> +            bb.debug(1, "UBOOT_EXTLINUX_LABELS not defined, nothing to do")
+> +            return
+> +
+> +        if labels == []:
+> +            bb.debug(1, "No labels, nothing to do")
+> +            return
+> +
+> +        cfile = d.getVar('UBOOT_EXTLINUX_CONFIG', True)
+> +        if not cfile:
+> +            raise bb.build.FuncFailed('Unable to read UBOOT_EXTLINUX_CONFIG')
+> +
+> +        try:
+> +            cfgfile = open(cfile, 'w')
+> +        except OSError:
+> +            raise bb.build.FuncFailed('Unable to open %s' % (cfile))
+> +
+> +        cfgfile.write('# Generic Distro Configuration file generated by OpenEmbedded\n')
+> +
+> +        if len(labels.split()) > 1:
+> +            cfgfile.write('menu title Select the boot mode\n')
+> +
+> +        for label in labels.split():
+> +            localdata = bb.data.createCopy(d)
+> +
+> +            overrides = localdata.getVar('OVERRIDES', True)
+> +            if not overrides:
+> +                raise bb.build.FuncFailed('OVERRIDES not defined')
+> +
+> +            localdata.setVar('OVERRIDES', label + ':' + overrides)
+> +            bb.data.update_data(localdata)
+> +
+> +            extlinux_console = localdata.getVar('UBOOT_EXTLINUX_CONSOLE', True)
+> +
+> +            menu_description = localdata.getVar('UBOOT_EXTLINUX_MENU_DESCRIPTION', True)
+> +            if not menu_description:
+> +                menu_description = label
+> +
+> +            root = localdata.getVar('UBOOT_EXTLINUX_ROOT', True)
+> +            if not root:
+> +                raise bb.build.FuncFailed('UBOOT_EXTLINUX_ROOT not defined')
+> +
+> +            kernel_image = localdata.getVar('UBOOT_EXTLINUX_KERNEL_IMAGE', True)
+> +            fdtdir = localdata.getVar('UBOOT_EXTLINUX_FDTDIR', True)
+> +            if fdtdir:
+> +                cfgfile.write('LABEL %s\n\tKERNEL %s\n\tFDTDIR %s\n' %
+> +                             (menu_description, kernel_image, fdtdir))
+> +            else:
+> +                cfgfile.write('LABEL %s\n\tKERNEL %s\n' % (menu_description, kernel_image))
+> +
+> +            kernel_args = localdata.getVar('UBOOT_EXTLINUX_KERNEL_ARGS', True)
+> +
+> +            initrd = localdata.getVar('UBOOT_EXTLINUX_INITRD', True)
+> +            if initrd:
+> +                cfgfile.write('\tINITRD %s\n'% initrd)
+> +
+> +            kernel_args = root + " " + kernel_args
+> +            cfgfile.write('\tAPPEND %s %s\n' % (kernel_args, extlinux_console))
+> +
+> +        cfgfile.close()
+> +}
+> +
+> +do_install[prefuncs] += "create_extlinux_config"
+> --
+> 2.1.4
+>
+> --
 
-As this is for meta-oe, the patch should go to
-openembedded-devel@lists.openembedded.org.
+Out of personal curiosity, when would 'raise bb.build.FuncFailed(msg)'
+be preferred over bb.fatal(msg)?
 
-Thanks,
-Ross
+Looking at the FuncFailed() constructor, it seems the argument was
+originally meant to be the name of the function, though no one seems
+to use it like that. It's still called 'name'.
 
---001a113e8c4847edf1053dc07823
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Cheers,
+Ulf
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 30 September 2016 at 23:18, Mateusz Nowakowski <span dir=3D"ltr">&lt;<a =
-href=3D"mailto:mateusz.cz.nowakowski@gmail.com" target=3D"_blank">mateusz.c=
-z.nowakowski@gmail.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_=
-quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1=
-ex"><div id=3D":14q" class=3D"a3s aXjCH m1577cc015d756bda">Signed-off-by: M=
-ateusz Nowakowski &lt;<a href=3D"mailto:mateusz.cz.nowakowski@gmail.com">ma=
-teusz.cz.nowakowski@gmail.<wbr>com</a>&gt;<br></div></blockquote></div><br>=
-As this is for meta-oe, the patch should go to <a href=3D"mailto:openembedd=
-ed-devel@lists.openembedded.org">openembedded-devel@lists.openembedded.org<=
-/a>.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">T=
-hanks,</div><div class=3D"gmail_extra">Ross</div></div>
-
---001a113e8c4847edf1053dc07823--
