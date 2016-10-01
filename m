@@ -1,47 +1,47 @@
 Return-Path: <ulfalizer@gmail.com>
-Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 53A986FFC7
+Received: from mail-wm0-f66.google.com (mail-wm0-f66.google.com [74.125.82.66])
+	by mail.openembedded.org (Postfix) with ESMTP id E8F596FFC7
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  1 Oct 2016 02:47:47 +0000 (UTC)
-Received: by mail-wm0-f65.google.com with SMTP id p138so5777406wmb.0
+	Sat,  1 Oct 2016 02:47:48 +0000 (UTC)
+Received: by mail-wm0-f66.google.com with SMTP id b184so5768956wma.3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Sep 2016 19:47:49 -0700 (PDT)
+	Fri, 30 Sep 2016 19:47:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=6Vdfpc7Lago/ob8Xt3/GJ1sFaLUPLI8frYWBeRryr9E=;
-	b=YiSHn3kn8lPZgViot36I8eAyApMdA57SR6RTWLS8FtlkkvaPMerkpSkV0xobPiL1fs
-	kYwskMGZuLfEOpDaLJgL3crsA07DhPZo5WkfTFkigZAzWz1i0JA5E7jCq+7DEt1lVrS8
-	kEb13q0Fyt9bZrz7bMhihnZLkNhvgNBk0XXerWSAMEzwuJx+DPsc7B/g3IYNi7h2Y8dj
-	rOxbkRy/G6z3sT1t+aDazAILONCIWw7E7HG9T4hNjb45mCU0xFpUUJUPzPFJnEvsuRX+
-	jOs3Mkdvw8cVlQg1yuYu5DaXPVDDHKPppTzgwpqt2Ow8RLVoMwhhdnV/oDfXyC5AWpSl
-	T31Q==
+	bh=6O8YmR2gd8KcaInkOJUmOPFEZ9WMvlf4YKtrRCaBIoI=;
+	b=YJj4bfqS7z45ar8fkhUoKjANv67HcZ2oHPNDuFF4/5sdGn1uFVqt2D1hO7S4SV0n2n
+	hvolyGKkTDIGNIqPIZ95/mYinNImnDLnTraZChl/LTU2gIsr9P41uUGTibvEaSfAjieV
+	2P674XDFDYQ48L6+24p9KVbLBVJNWrg3UzRpYFu2UZ6gYg9vwZZg7z+HZ3WPeAlivO1/
+	7Am+2ZtDvMM9V/E8biZN3rfEO2arLBEC7R06qUwA2wI6NXcS6NLIPVrEVVB1quQNQwea
+	2eCwXs87sBlBkZGt5T75S+vSOQJgFforjc9G8T5woh6vA6GDa6VpOEEcPTnd2TDsYVYg
+	HzKw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=6Vdfpc7Lago/ob8Xt3/GJ1sFaLUPLI8frYWBeRryr9E=;
-	b=WPydkmXaBGZFMd4FvClrvr2C6HTvQBIsb2e2+6bbKTGkqQ44/8RN/i4ohdFHg49uFy
-	vul3LFaazHWf0R3bE+H9pwQYQMYw7pkGo00fpvHZbAlE/sNlrRKsJUHmiMGXM+SqEg0P
-	naXHJLuia88QghKnmGsbPj3roc6PNDnxwDRcMeWooeheeecuwT+jxCtCKFCxO4le993m
-	te1ZCmd4dYIREk3+DB/iNmUnxgS16fPZWJF4NHEGy+rRmM7PtbgUHv6RqDZHHH7655KB
-	eiNBWViCjqM5NgJvYfYtAGMILbO0XpNEmznFyudKDvB9i1gvbMhTwVq6MhwZaRx4yAHt
-	6Rmw==
-X-Gm-Message-State: AA6/9Rnqle1qZAgbjUbiYNENVyZ9OnIUQ/0LwAFxCLLJ/ejAnxtDSwCccISmHS6OywN0Bg==
-X-Received: by 10.194.141.203 with SMTP id rq11mr9991109wjb.112.1475290068454; 
-	Fri, 30 Sep 2016 19:47:48 -0700 (PDT)
+	bh=6O8YmR2gd8KcaInkOJUmOPFEZ9WMvlf4YKtrRCaBIoI=;
+	b=gjySl3g/PpQPKy/lAA5SgYnvM+Qv6lcefewP3Sxk/1L8Q4oHOBQe+BDY7Bb5F82dXb
+	QZ2ZdyfglwmCEE7so/ldDTHaLUulRx7EqUobmBVpJiPXmaIKfFcDwMvhrbf57W6R/xqr
+	yC9yMwXAPMSMfyV6Ja4BAHNugmz1Z6or2got/iXEIJv5yf1VXsTMh1/m5G46GQ/cLdlH
+	c3/RMcz61hsoneiDlibM4OZ6rfm5oONgB1CeBUN/Hb3CdCcNObZxccOHHK8VmVFUzgS5
+	pd7kaPi/7jSLLVSymHZzvHKMLWJwAjk2DSeYp578YnLfMEHR26y5sgWO0UDhjAsvFtMf
+	QDWA==
+X-Gm-Message-State: AA6/9RkzU7T8vf88FJGIsF094esfBbPH9Xqw/omMOkEoaUggOKW78u/ZyJsNSofuMRHUpg==
+X-Received: by 10.194.84.199 with SMTP id b7mr8662185wjz.147.1475290070234;
+	Fri, 30 Sep 2016 19:47:50 -0700 (PDT)
 Received: from huvuddator.home ([2a02:810d:1f40:230:2959:ccb4:be01:bff7])
 	by smtp.gmail.com with ESMTPSA id
-	s6sm22424897wjm.25.2016.09.30.19.47.47
+	s6sm22424897wjm.25.2016.09.30.19.47.49
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 30 Sep 2016 19:47:48 -0700 (PDT)
+	Fri, 30 Sep 2016 19:47:49 -0700 (PDT)
 From: Ulf Magnusson <ulfalizer@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat,  1 Oct 2016 04:47:01 +0200
-Message-Id: <1475290031-20568-13-git-send-email-ulfalizer@gmail.com>
+Date: Sat,  1 Oct 2016 04:47:03 +0200
+Message-Id: <1475290031-20568-15-git-send-email-ulfalizer@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1475290031-20568-1-git-send-email-ulfalizer@gmail.com>
 References: <1475290031-20568-1-git-send-email-ulfalizer@gmail.com>
-Subject: [PATCH 12/22] systemd.bbclass: Use bb.fatal() instead of raising FuncFailed
+Subject: [PATCH 14/22] useradd.bbclass: Use bb.fatal() instead of raising FuncFailed
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,7 +54,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 01 Oct 2016 02:47:47 -0000
+X-List-Received-Date: Sat, 01 Oct 2016 02:47:49 -0000
 
 This sets a good example and avoids unnecessarily contributing to
 perceived complexity and cargo culting.
@@ -74,23 +74,22 @@ argument, which also shows that the original purpose got lost.
 
 Signed-off-by: Ulf Magnusson <ulfalizer@gmail.com>
 ---
- meta/classes/systemd.bbclass | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ meta/classes/useradd.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes/systemd.bbclass b/meta/classes/systemd.bbclass
-index db7873f..d56c760 100644
---- a/meta/classes/systemd.bbclass
-+++ b/meta/classes/systemd.bbclass
-@@ -165,8 +165,7 @@ python systemd_populate_packages() {
-                 if path_found != '':
-                     systemd_add_files_and_parse(pkg_systemd, path_found, service, keys)
-                 else:
--                    raise bb.build.FuncFailed("SYSTEMD_SERVICE_%s value %s does not exist" % \
--                        (pkg_systemd, service))
-+                    bb.fatal("SYSTEMD_SERVICE_%s value %s does not exist" % (pkg_systemd, service))
+diff --git a/meta/classes/useradd.bbclass b/meta/classes/useradd.bbclass
+index bf62ada..3cff08e 100644
+--- a/meta/classes/useradd.bbclass
++++ b/meta/classes/useradd.bbclass
+@@ -171,7 +171,7 @@ def update_useradd_after_parse(d):
+     useradd_packages = d.getVar('USERADD_PACKAGES', True)
  
-     # Run all modifications once when creating package
-     if os.path.exists(d.getVar("D", True)):
+     if not useradd_packages:
+-        raise bb.build.FuncFailed("%s inherits useradd but doesn't set USERADD_PACKAGES" % d.getVar('FILE', False))
++        bb.fatal("%s inherits useradd but doesn't set USERADD_PACKAGES" % d.getVar('FILE', False))
+ 
+     for pkg in useradd_packages.split():
+         if not d.getVar('USERADD_PARAM_%s' % pkg, True) and not d.getVar('GROUPADD_PARAM_%s' % pkg, True) and not d.getVar('GROUPMEMS_PARAM_%s' % pkg, True):
 -- 
 2.7.4
 
