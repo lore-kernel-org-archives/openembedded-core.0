@@ -1,47 +1,47 @@
 Return-Path: <ulfalizer@gmail.com>
-Received: from mail-wm0-f66.google.com (mail-wm0-f66.google.com [74.125.82.66])
-	by mail.openembedded.org (Postfix) with ESMTP id E97CE6FFC7
+Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 29F6071979
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  1 Oct 2016 02:47:49 +0000 (UTC)
-Received: by mail-wm0-f66.google.com with SMTP id b184so5768982wma.3
+	Sat,  1 Oct 2016 02:47:48 +0000 (UTC)
+Received: by mail-wm0-f65.google.com with SMTP id b201so593556wmb.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Sep 2016 19:47:51 -0700 (PDT)
+	Fri, 30 Sep 2016 19:47:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=gD+6AIhijcrdqvg329fR2GYsYVAgX+gLflQBahnNcFI=;
-	b=y+M7F5CNg6dT0fhP+yJgP7iNfmzpZ9Hxqq0+sSrHVMBHMqA6sFSj75CqIeAUb2hC24
-	ChJx1Gd4nhY/db7xusV0uweW+Fugf9X5WBD8Ewb5VlyhC2m7cmJ0UwXBB/lv3OYY/h0S
-	nLm27r0cQ0kyRIVsJ0pWJvhJlOpgZGlcQl069iUSN5XBa2otzzSOwjGrfi5D1Lte0QfM
-	DIiQRKThonxkkgdpuWTbv+mfi3CifLL+xgrMtwitoz/oHhuoOCDlfLixKaZcSNjCb6RJ
-	FQ/t5gqBma7rGYatu1lWtpqLAeOOHTKcrFWlyr8SbM+K+kZfWbLfeFlkOMmXMXs19rlm
-	uGgw==
+	bh=9I4kOx9ipWJDQ8aUjbIZX3ddSB5rw3Sd8MXsoR7fISI=;
+	b=nJkcVjeHi9Vz4/PxQZVE3GVhK2C5m3unehbqZ2fNKYEoh1bSEzyNfLlaZgLphmbEXs
+	zyW4UWEZNns1On46twOz68lsO9HDmfHHD5SgE3ImNq3hPJ8NvEWMJEfg/nncvwmidQPB
+	zm5gTy6wVPJiAsFUpcd5Lkp+yHXMCsHRWPrVCl8JgEwZ5MD+KbjU0OPHGHbmKQaDlmZ9
+	USWdwEXdyzqJM6hFkguODB4RrAMWCWgIg2B85yxsY+lMvHIjOqoZcOKvdMjCSBwwMqOF
+	YJzL0bH45kKk6+hoZ7yj+6F6q9+PQ9WRm1MBvoK6Yhmqlh7le/LuS19apuGl/nx5taJj
+	hXEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=gD+6AIhijcrdqvg329fR2GYsYVAgX+gLflQBahnNcFI=;
-	b=dNB6+hclmm2JXiCGTgk4NwoBQMvtpiGX98S/8qNVhzuqFFx0MUhGymGsF6SIO1HBlw
-	tJuJsxJvn1N8WKR3xwKjeYTVBbvt4i9WxeS+uvY409TV6t4jyzD1f4XmKBS5hMKRWzk/
-	r0PUd3kcwJfVZuaKuv/WvGqyg2BllYQt+FPaYfESAwfraoHiUEGt9uI3VKE9pW+pNCRM
-	+Tqv7x1il8Eo8iCaTiXXMqyV+OCabUsFN1Dijs4w1kklr6CLNcCCfUGjxZA3edmnxtnK
-	gdsScpcLvvGnnqG9krVnU5fPHNddP2MwyO6ym0G7cQJfvulFMtOxbEqm863mj2CI+oQn
-	Z7vQ==
-X-Gm-Message-State: AA6/9RmSHCUwLNUu9cc7xC2cG/sBVC9Nv3Un/swPaxXk4DzbfgTJkvjWAYudc9P77Zr+lA==
-X-Received: by 10.194.239.226 with SMTP id vv2mr5504383wjc.219.1475290071079; 
-	Fri, 30 Sep 2016 19:47:51 -0700 (PDT)
+	bh=9I4kOx9ipWJDQ8aUjbIZX3ddSB5rw3Sd8MXsoR7fISI=;
+	b=H9LFYjpUsDUpkHZX6AZKbuOtgHY1t0V+pVHye/wCnwzfPV3TjZxF46g0LCideL63jw
+	cTY6G1qBRCn8C3B4nShFGoGnet+eRiJ/1ndsq4e+c1JKUJvrTCUHnIYfW4QZuD52x9kx
+	nPTp0YGH4t8a20C3RltpVDH2JnZJV7hMNeH1kcuQAh4GbqcCk+DgyEeegzLn0BYyYDj2
+	RjTk6xuKydcDTN9sIcRE3Ms/k+47ik6iDO70mlF2O12te10WwtcJ1lWJsv2AdcVeLdq5
+	Yi4Jy1mZ8ps5iIZcbzoMzJP8UxrXuN77NmxKhM7Ywf0PrkGoM2+TnanvATzDkEwyNyDI
+	D/fQ==
+X-Gm-Message-State: AA6/9Rnke6VOVjjrDDJ3jbd5JP9zK1GHpquRpiOB3QlMGZzXy6NZ1bMnRts6PovIVotDsQ==
+X-Received: by 10.194.112.169 with SMTP id ir9mr9077417wjb.24.1475290069499;
+	Fri, 30 Sep 2016 19:47:49 -0700 (PDT)
 Received: from huvuddator.home ([2a02:810d:1f40:230:2959:ccb4:be01:bff7])
 	by smtp.gmail.com with ESMTPSA id
-	s6sm22424897wjm.25.2016.09.30.19.47.50
+	s6sm22424897wjm.25.2016.09.30.19.47.48
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 30 Sep 2016 19:47:50 -0700 (PDT)
+	Fri, 30 Sep 2016 19:47:48 -0700 (PDT)
 From: Ulf Magnusson <ulfalizer@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat,  1 Oct 2016 04:47:04 +0200
-Message-Id: <1475290031-20568-16-git-send-email-ulfalizer@gmail.com>
+Date: Sat,  1 Oct 2016 04:47:02 +0200
+Message-Id: <1475290031-20568-14-git-send-email-ulfalizer@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1475290031-20568-1-git-send-email-ulfalizer@gmail.com>
 References: <1475290031-20568-1-git-send-email-ulfalizer@gmail.com>
-Subject: [PATCH 15/22] sstate.bbclass: Use bb.fatal() instead of raising FuncFailed
+Subject: [PATCH 13/22] gtk-immodules-cache.bbclass: Use bb.fatal() instead of raising FuncFailed
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -74,22 +74,21 @@ argument, which also shows that the original purpose got lost.
 
 Signed-off-by: Ulf Magnusson <ulfalizer@gmail.com>
 ---
- meta/classes/sstate.bbclass | 2 +-
+ meta/classes/gtk-immodules-cache.bbclass | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
-index ac9d77d..6f0c791 100644
---- a/meta/classes/sstate.bbclass
-+++ b/meta/classes/sstate.bbclass
-@@ -658,7 +658,7 @@ def sstate_setscene(d):
-     shared_state = sstate_state_fromvars(d)
-     accelerate = sstate_installpkg(shared_state, d)
-     if not accelerate:
--        raise bb.build.FuncFailed("No suitable staging package found")
-+        bb.fatal("No suitable staging package found")
+diff --git a/meta/classes/gtk-immodules-cache.bbclass b/meta/classes/gtk-immodules-cache.bbclass
+index 3a4634c..ebbc9de 100644
+--- a/meta/classes/gtk-immodules-cache.bbclass
++++ b/meta/classes/gtk-immodules-cache.bbclass
+@@ -84,6 +84,6 @@ python __anonymous() {
+         gtkimmodules_check = d.getVar('GTKIMMODULES_PACKAGES', False)
+         if not gtkimmodules_check:
+             bb_filename = d.getVar('FILE', False)
+-            raise bb.build.FuncFailed("ERROR: %s inherits gtk-immodules-cache but doesn't set GTKIMMODULES_PACKAGES" % bb_filename)
++            bb.fatal("ERROR: %s inherits gtk-immodules-cache but doesn't set GTKIMMODULES_PACKAGES" % bb_filename)
+ }
  
- python sstate_task_prefunc () {
-     shared_state = sstate_state_fromvars(d)
 -- 
 2.7.4
 
