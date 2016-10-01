@@ -1,47 +1,47 @@
 Return-Path: <ulfalizer@gmail.com>
-Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
-	by mail.openembedded.org (Postfix) with ESMTP id AE8E271979
+Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 8F4FD71979
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  1 Oct 2016 02:47:50 +0000 (UTC)
-Received: by mail-wm0-f67.google.com with SMTP id b184so5768997wma.3
+	Sat,  1 Oct 2016 02:47:51 +0000 (UTC)
+Received: by mail-wm0-f65.google.com with SMTP id p138so5777520wmb.0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Sep 2016 19:47:52 -0700 (PDT)
+	Fri, 30 Sep 2016 19:47:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=sJDgaZ1Ini/uqVdVvMc6q1KfrWCq/ysGWI1ILwOp7ZM=;
-	b=cw8E3dgxr+9ixmRW8BxLqNZVm747nbq+ZNZ79UUMFRSXyWkN2doGCaQ+DB5jr3w+af
-	jH2OlNFxKhj+NjruCxr09wte6hEIjeBS9W5RfUNZnhbX0FWAMi1i3wAbP1Aq2hbgonbg
-	H+M2sA25dU5VCwHU9M9MFyXPJZ5awEbffFtLwUvJHFJsHz3Jp+qJGWJ9FH3zU6gHPKCu
-	ABK1BO5kMwk0AuGEDWzdf0EPorV2uEdLepL+KKZijkGUqZ//nxBwYzNT87e0lQEJcg3R
-	tfEUQ40puS+OSfDQ/sfRyZOJYlLAjk2Qb73JHCgLpscR/c8RTdlhgv3T8L1dnR733ULs
-	gPJw==
+	bh=XI+DYJL5QIvUthwYRk9HA3thr2IBvBjw6YcsTiy+8g8=;
+	b=tdKFhY0G1JJcIj3j823Y3lbIKMqkOxyn38gtg7Duj4jHxNqE8G+s8zVg3LWG0W9Vmo
+	bdZMaK27UyJS+Jr7LCm4JaMmw3ULAkdK2ZSMhbcAV1F7RdZ9PCw92OmbdDF5tWmabWxp
+	oJVdWNFG9XGNM8TNOjmtW1T647l4nG5WoILjbjIXr25XsEoBqzIVkerSo2cZiNmeb48i
+	ZIwTJ4IBC8qOWWrWyeIglz9LEBEbmjpljjsQd11nf8bBM78uNDKsV5+pqF1uybu6lmGd
+	r4T2h5wYxSnjYoCubOc/EuOWSPLw9PzjXBUC+qiW1RU5cnu7KJvvHtup02XpIf32bs++
+	406w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=sJDgaZ1Ini/uqVdVvMc6q1KfrWCq/ysGWI1ILwOp7ZM=;
-	b=OYgVkAI0lphPHc8zs2FaYlD1FY7sCa8a0vZjrf24Dyz6I707F/buI4StEjozF5J6Tm
-	wN6b9fKPCz53R2ZYWMFA8kPnbnl/P2lzpvF+A2M7yqDCLuozLqeb3Jxdzal4Bb0miieM
-	xjNz6eB/8+GZ7POwUG1Sr3tNkbRcBhrj8S/Y3c6apPQqv6gDj6YQxGq3QSWB7IZnN+29
-	G6MQRhv/xQ9hO4lT7GXTDbDbG9g3llkAQEZ57sMbUqtURUmomO01Y7Z9HpbiuKGNdgQi
-	Gy60D4NjygR9k5sMocAU4V12MFmfDymJS7NauCeTEJnYtaYmSzaWPYC6krIMal0NxJwy
-	9l3g==
-X-Gm-Message-State: AA6/9Rnmcd93Dwz8YZM1yxf0LVQxWPZHyYuUXQxNg03MDgF6QeFNX0iINoCBAO4DMXxpjA==
-X-Received: by 10.194.176.69 with SMTP id cg5mr8377727wjc.52.1475290071983;
-	Fri, 30 Sep 2016 19:47:51 -0700 (PDT)
+	bh=XI+DYJL5QIvUthwYRk9HA3thr2IBvBjw6YcsTiy+8g8=;
+	b=afFUdLkbu9KIXYEjVJaVoOTodHw/odrtYzKROkRCQPD9bvfpE8Uyo8t2Srfz6pApcN
+	MGBr4g57nyaccwWhOsxZTbiuhjlCWZ3VQWkEMVMEh2z+ZmBSa+75dNLCuJepzjc+CTrO
+	Jdv93+ubtM8dHtMHZxfwNC/xEhHWxLw2EPrdhG4GGL5qNwgtemkwhcTiKlJT3WeWLqcO
+	j5g9QtJflKJ3rE0FZHiTF3K2OOTYjpO6bwLTamiRD4GIyMpbOAWDWd6lZmx6nHeOX1Cs
+	g7a9rvFDg7+7Zk/Y6Gj0e5VZZ5o0gtQmaLQAooqOBXOUwSehG2zI92AbtgdgyNIcZlGd
+	loDQ==
+X-Gm-Message-State: AA6/9RkWe8zexCfTxPquYJ8lz96BI7xbddq0RAl3Mjcx8ZjB5I/11307m0dJSd6j3WIMpA==
+X-Received: by 10.194.135.206 with SMTP id pu14mr8980732wjb.143.1475290072722; 
+	Fri, 30 Sep 2016 19:47:52 -0700 (PDT)
 Received: from huvuddator.home ([2a02:810d:1f40:230:2959:ccb4:be01:bff7])
 	by smtp.gmail.com with ESMTPSA id
-	s6sm22424897wjm.25.2016.09.30.19.47.51
+	s6sm22424897wjm.25.2016.09.30.19.47.52
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 30 Sep 2016 19:47:51 -0700 (PDT)
+	Fri, 30 Sep 2016 19:47:52 -0700 (PDT)
 From: Ulf Magnusson <ulfalizer@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat,  1 Oct 2016 04:47:05 +0200
-Message-Id: <1475290031-20568-17-git-send-email-ulfalizer@gmail.com>
+Date: Sat,  1 Oct 2016 04:47:06 +0200
+Message-Id: <1475290031-20568-18-git-send-email-ulfalizer@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1475290031-20568-1-git-send-email-ulfalizer@gmail.com>
 References: <1475290031-20568-1-git-send-email-ulfalizer@gmail.com>
-Subject: [PATCH 16/22] chrpath.bbclass: Use bb.fatal() instead of raising FuncFailed
+Subject: [PATCH 17/22] testsdk.bbclass: Use bb.fatal() instead of raising FuncFailed
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,7 +54,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 01 Oct 2016 02:47:51 -0000
+X-List-Received-Date: Sat, 01 Oct 2016 02:47:52 -0000
 
 This sets a good example and avoids unnecessarily contributing to
 perceived complexity and cargo culting.
@@ -74,23 +74,22 @@ argument, which also shows that the original purpose got lost.
 
 Signed-off-by: Ulf Magnusson <ulfalizer@gmail.com>
 ---
- meta/classes/chrpath.bbclass | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ meta/classes/testsdk.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes/chrpath.bbclass b/meta/classes/chrpath.bbclass
-index 72e8a12..3b5cd37 100644
---- a/meta/classes/chrpath.bbclass
-+++ b/meta/classes/chrpath.bbclass
-@@ -39,8 +39,7 @@ def process_file_linux(cmd, fpath, rootdir, baseprefix, tmpdir, d):
-         p = sub.Popen([cmd, '-r', args, fpath],stdout=sub.PIPE,stderr=sub.PIPE)
-         out, err = p.communicate()
-         if p.returncode != 0:
--            bb.error("%s: chrpath command failed with exit code %d:\n%s%s" % (d.getVar('PN', True), p.returncode, out, err))
--            raise bb.build.FuncFailed
-+            bb.fatal("%s: chrpath command failed with exit code %d:\n%s%s" % (d.getVar('PN', True), p.returncode, out, err))
+diff --git a/meta/classes/testsdk.bbclass b/meta/classes/testsdk.bbclass
+index 0b8716e..77c9203 100644
+--- a/meta/classes/testsdk.bbclass
++++ b/meta/classes/testsdk.bbclass
+@@ -44,7 +44,7 @@ def run_test_context(CTestContext, d, testdir, tcname, pn, *args):
+                 msg += " (skipped=%d)" % skipped
+             bb.plain(msg)
+         else:
+-            raise bb.build.FuncFailed("%s - FAILED - check the task log and the commands log" % pn )
++            bb.fatal("%s - FAILED - check the task log and the commands log" % pn)
  
- def process_file_darwin(cmd, fpath, rootdir, baseprefix, tmpdir, d):
-     import subprocess as sub
+ def testsdk_main(d):
+     import os
 -- 
 2.7.4
 
