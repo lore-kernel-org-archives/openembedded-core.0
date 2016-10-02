@@ -1,52 +1,52 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f193.google.com (mail-pf0-f193.google.com
-	[209.85.192.193])
-	by mail.openembedded.org (Postfix) with ESMTP id F0F986076F
+Received: from mail-pa0-f65.google.com (mail-pa0-f65.google.com
+	[209.85.220.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 8D6726E5CB
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  2 Oct 2016 20:30:11 +0000 (UTC)
-Received: by mail-pf0-f193.google.com with SMTP id n24so7754421pfb.3
+	Sun,  2 Oct 2016 20:37:10 +0000 (UTC)
+Received: by mail-pa0-f65.google.com with SMTP id r9so6831691paz.1
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 02 Oct 2016 13:30:13 -0700 (PDT)
+	Sun, 02 Oct 2016 13:37:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=subject:mime-version:from:in-reply-to:date:cc:message-id:references
-	:to; bh=0Vgggw9suq5EpYoFjsFrWcsI6UCxyGOIQaENPCHdk/c=;
-	b=PuaGXeS+cb0VXDtnXkAYf9PQubf9ImHhhoZH5yuCjpRhQEvYsRl90EhFMpCw2v2iXR
-	Sgv5eb3mtqK6jIsCDViEtCnjbIbeU4hZNoz3bm4Ad9IbOi+l6aRNeAW+pj9IbWUub17I
-	zhA4TdHf6CPsbrYm2nHugAH/xAuPRA5nGhhfRU10qqagfu+Nv4HzqpWtKOywQX1SDU1Q
-	Vnq9nhX/aHi2n/Up7ccEvOWhUbSXQUk+YnmCAvehYs8VNhGFKPRXSByXQ7fmdvupBNjk
-	CmMKczoF/Wwx6576xAjIEW5jK8qzfYByWKh8oo63fzy16+PoYG6Y+RwLCiPqpxVtxvI4
-	CU/w==
+	:to; bh=PBdqCLJKKIlPxPs1llJ5bGTVegGjOzQJWiJcUxKTzwg=;
+	b=sjqQYqvRFcs6tvAsCKjbaGyXRpGQ1dOlKRMhUwmuo+3HEj1Hy3cZyo0g6eDqozzA6g
+	rhIA35jqUPfUYzHr1M9ooyn34wUeGB2siYDwR7Ggxstt0eKLLWPCDtINrea9OmwVfOa0
+	gy/0w8FcLLHpbBqavAlfRZx8U8pw5995mYgNL/nAEMln3depC+lHvlM+lTijAaDLaH+h
+	M4mEs3fPBl5JTs54smfg6HeNbHu5Z4AzJVzQ+fwejSH9TY4jbzziEJfm19ph0bnCfs8q
+	FlsNnnyRHHTZI7sKoBVy6jr0ntehceJX+olhZ6LGebUl+HNGhqh0Bc8/E5Z4IPsqQaEy
+	rUGA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:subject:mime-version:from:in-reply-to:date:cc
 	:message-id:references:to;
-	bh=0Vgggw9suq5EpYoFjsFrWcsI6UCxyGOIQaENPCHdk/c=;
-	b=FE9CRre/QIBav1qEO4qCmSpE97uIeB7I1OgBNQtaG0rEazNI/sulAlxAP2Np/DTmSy
-	M69du/pR8ycohtOxt5rxIb1u82EA665f/No36wrirX1YcMr2Y12JKYtIQksJqlTlAY2O
-	oAOGZqwjmBprOMbUqzWFISJ9khFpuEmHCA0GWYidu4qVZZDTWcTQeeV8lD/cYnhEpw0w
-	ZPPKBeW1OXfyk0BP3mhr+seS3MY7XSxSl3CsRuU43LjUlxd70YKA0SPAeO0yTvpzmDUH
-	AJwKhgwNtvG+V+4iuEV8Vo4TRPJyUfFu/Fbd8LlZ2f9FnIvl2BUkimGGJlXrV0LxTLcr
-	4OWg==
-X-Gm-Message-State: AA6/9Rmc/Y2m5/lLQC30RYX6I6zIOMHHDAiD+fKyAlxndDcVQFTcTgSFayYOyU+SKMi3gw==
-X-Received: by 10.98.47.66 with SMTP id v63mr31078731pfv.152.1475440212920;
-	Sun, 02 Oct 2016 13:30:12 -0700 (PDT)
+	bh=PBdqCLJKKIlPxPs1llJ5bGTVegGjOzQJWiJcUxKTzwg=;
+	b=aLh6+n58EDW8HBdQtSb/1WFirZqz4BPDnefcj5hO2a1AOE/cR9m/TrboWZVrwOQF4E
+	CzeiOzsPT60aacxSP/92XFu3HVy1NfE/YsfIos84W3T+X16U8oZ/KQ7K0nI/knogJicp
+	hvU+NZjpnVtwQXdxANx8jnPGf2m+9KYuMYsDWNgX82gwZ2fbj7J6q/ASAp0pHO1dGWeq
+	d5tEUOthyDOnRd1VplpJ4ZEc7HQfGavm1M2MRCsYBmxr3lWxXpo2ulktbj9FjvD/SCeH
+	/6Sr/G85B5ZUBVSLhRg9R6S4jPv7r+QDxe37eyxjhfBwWRJX9glg9/msYPS1Zy7Ss5O4
+	sSYw==
+X-Gm-Message-State: AA6/9Rn6gOyj8lrE+upJLtsRQwKmxb7VvPK7q6hOQD+LOXfYIjze/0BqgQuQxLB9biqsDg==
+X-Received: by 10.66.173.47 with SMTP id bh15mr31717075pac.42.1475440632361;
+	Sun, 02 Oct 2016 13:37:12 -0700 (PDT)
 Received: from ?IPv6:2601:646:8882:b8c:40e4:d250:309a:ad0f?
 	([2601:646:8882:b8c:40e4:d250:309a:ad0f])
 	by smtp.gmail.com with ESMTPSA id
-	b125sm41940680pfg.36.2016.10.02.13.30.11
+	h123sm41929028pfe.87.2016.10.02.13.37.10
 	(version=TLS1 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sun, 02 Oct 2016 13:30:12 -0700 (PDT)
+	Sun, 02 Oct 2016 13:37:10 -0700 (PDT)
 Mime-Version: 1.0 (Mac OS X Mail 9.3 \(3124\))
 X-Pgp-Agent: GPGMail
 From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <20160908112942.8459-1-ml@embed.me.uk>
-Date: Sun, 2 Oct 2016 13:30:11 -0700
-Message-Id: <73FEA525-C63D-42CF-9136-798F743DA2CC@gmail.com>
-References: <20160908112942.8459-1-ml@embed.me.uk>
-To: Jack Mitchell <ml@embed.me.uk>
+In-Reply-To: <1473711245-24377-1-git-send-email-armccurdy@gmail.com>
+Date: Sun, 2 Oct 2016 13:37:10 -0700
+Message-Id: <C620C32B-A94F-431D-936D-B07D55673384@gmail.com>
+References: <1473711245-24377-1-git-send-email-armccurdy@gmail.com>
+To: Andre McCurdy <armccurdy@gmail.com>
 X-Mailer: Apple Mail (2.3124)
-Cc: Jack Mitchell <jack@embed.me.uk>, openembedded-core@lists.openembedded.org
-Subject: Re: [RFC] iptables: add systemd helper unit to load/restore rules
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] makedevs: don't restrict device node paths to 40 characters
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,122 +59,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 02 Oct 2016 20:30:12 -0000
-X-Groupsio-MsgNum: 87770
+X-List-Received-Date: Sun, 02 Oct 2016 20:37:10 -0000
+X-Groupsio-MsgNum: 87771
 Content-Type: multipart/signed;
-	boundary="Apple-Mail=_636786EB-0E63-4DCD-B390-7874694BF959";
+	boundary="Apple-Mail=_4C30AB8F-B204-49B7-A5B4-0404FE2425D8";
 	protocol="application/pgp-signature"; micalg=pgp-sha1
 
---Apple-Mail=_636786EB-0E63-4DCD-B390-7874694BF959
+--Apple-Mail=_4C30AB8F-B204-49B7-A5B4-0404FE2425D8
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain;
-	charset=utf-8
+	charset=us-ascii
 
 
-> On Sep 8, 2016, at 4:29 AM, Jack Mitchell <ml@embed.me.uk> wrote:
+> On Sep 12, 2016, at 1:14 PM, Andre McCurdy <armccurdy@gmail.com> =
+wrote:
 >=20
-> From: Jack Mitchell <jack@embed.me.uk>
+> 40 character paths work OK for device nodes in /dev but not for
+> device nodes created in a chroot, LXC container, etc.
 >=20
-> there is currently no way to automatically load iptable rules
-> in OE. Add a systemd unit file to automatically load rules on
-> network connection. This is cribbed from the way ArchLinux
-> handles iptables with some minor modifications for OE. New rules
-> can be generated using 'iptables-save > iptables.rules=E2=80=99
+> Since the 'path' array is already a 4k buffer, the sscanf 40
+> character limit seems to be a typo or historical mis-merge. Update
+> the sscanf limit and bring the code in sync with the Buildroot
+> version:
+>=20
+>  =
+https://git.buildroot.net/buildroot/commit/?id=3D8876b6751e0bc19a375429006=
+1808f0f8420708e
 
-Patch is fine but
-Can you add commentary on how one would go about doing this
-offline during cross compiling ?
+what is upstream worthiness of this patch ? it seems it could be
+a good change
 
+>=20
+> Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
 > ---
-> .../iptables/iptables/iptables.rules                 |  0
-> .../iptables/iptables/iptables.service               | 13 =
-+++++++++++++
-> meta/recipes-extended/iptables/iptables_1.6.0.bb     | 20 =
-++++++++++++++++++--
-> 3 files changed, 31 insertions(+), 2 deletions(-)
-> create mode 100644 =
-meta/recipes-extended/iptables/iptables/iptables.rules
-> create mode 100644 =
-meta/recipes-extended/iptables/iptables/iptables.service
+> meta/recipes-devtools/makedevs/makedevs/makedevs.c | 2 +-
+> 1 file changed, 1 insertion(+), 1 deletion(-)
 >=20
-> diff --git a/meta/recipes-extended/iptables/iptables/iptables.rules =
-b/meta/recipes-extended/iptables/iptables/iptables.rules
-> new file mode 100644
-> index 0000000..e69de29
-> diff --git a/meta/recipes-extended/iptables/iptables/iptables.service =
-b/meta/recipes-extended/iptables/iptables/iptables.service
-> new file mode 100644
-> index 0000000..041316e
-> --- /dev/null
-> +++ b/meta/recipes-extended/iptables/iptables/iptables.service
-> @@ -0,0 +1,13 @@
-> +[Unit]
-> +Description=3DPacket Filtering Framework
-> +Before=3Dnetwork-pre.target
-> +Wants=3Dnetwork-pre.target
-> +
-> +[Service]
-> +Type=3Doneshot
-> +ExecStart=3D@SBINDIR@/iptables-restore /etc/iptables/iptables.rules
-> +ExecReload=3D@SBINDIR@/iptables-restore /etc/iptables/iptables.rules
-> +RemainAfterExit=3Dyes
-> +
-> +[Install]
-> +WantedBy=3Dmulti-user.target
-> diff --git a/meta/recipes-extended/iptables/iptables_1.6.0.bb =
-b/meta/recipes-extended/iptables/iptables_1.6.0.bb
-> index fbbe418..65430a1 100644
-> --- a/meta/recipes-extended/iptables/iptables_1.6.0.bb
-> +++ b/meta/recipes-extended/iptables/iptables_1.6.0.bb
-> @@ -22,13 +22,16 @@ SRC_URI =3D =
-"http://netfilter.org/projects/iptables/files/iptables-${PV}.tar.bz2 \
->            =
-file://types.h-add-defines-that-are-required-for-if_packet.patch \
->            =
-file://0001-configure-Add-option-to-enable-disable-libnfnetlink.patch \
->            =
-file://0002-configure.ac-only-check-conntrack-when-libnfnetlink-enabled.pa=
-tch \
-> -          "
-> +           file://iptables.service \
-> +           file://iptables.rules \
-> +"
-> +
-> SRC_URI_append_libc-musl =3D " file://0001-fix-build-with-musl.patch"
+> diff --git a/meta/recipes-devtools/makedevs/makedevs/makedevs.c =
+b/meta/recipes-devtools/makedevs/makedevs/makedevs.c
+> index 7471f3f..cba7681 100644
+> --- a/meta/recipes-devtools/makedevs/makedevs/makedevs.c
+> +++ b/meta/recipes-devtools/makedevs/makedevs/makedevs.c
+> @@ -360,7 +360,7 @@ static int interpret_table_entry(char *line)
+> 	unsigned long mode =3D 0755, uid =3D 0, gid =3D 0, major =3D 0, =
+minor =3D 0;
+> 	unsigned long start =3D 0, increment =3D 1, count =3D 0;
 >=20
-> SRC_URI[md5sum] =3D "27ba3451cb622467fc9267a176f19a31"
-> SRC_URI[sha256sum] =3D =
-"4bb72a0a0b18b5a9e79e87631ddc4084528e5df236bc7624472dcaa8480f1c60"
->=20
-> -inherit autotools pkgconfig
-> +inherit autotools pkgconfig systemd
->=20
-> EXTRA_OECONF =3D "--with-kernel=3D${STAGING_INCDIR} \
->                "
-> @@ -48,3 +51,16 @@ do_configure_prepend() {
-> 	# Keep ax_check_linker_flags.m4 which belongs to =
-autoconf-archive.
-> 	rm -f libtool.m4 lt~obsolete.m4 ltoptions.m4 ltsugar.m4 =
-ltversion.m4
-> }
-> +
-> +do_install_append() {
-> +
-> +        install -d ${D}${sysconfdir}/iptables
-> +        install -m 0644 ${WORKDIR}/iptables.rules =
-${D}${sysconfdir}/iptables
-> +
-> +        install -d ${D}${systemd_unitdir}/system
-> +        install -m 0644 ${WORKDIR}/iptables.service =
-${D}${systemd_unitdir}/system
-> +
-> +	sed -i -e 's,@SBINDIR@,${sbindir},g' =
-${D}${systemd_unitdir}/system/iptables.service
-> +}
-> +
-> +SYSTEMD_SERVICE_${PN} =3D "iptables.service"
+> -	if (0 > sscanf(line, "%40s %c %lo %40s %40s %lu %lu %lu %lu =
+%lu", path,
+> +	if (0 > sscanf(line, "%4095s %c %lo %40s %40s %lu %lu %lu %lu =
+%lu", path,
+> 		    &type, &mode, usr_buf, grp_buf, &major, &minor, =
+&start,
+> 		    &increment, &count))
+> 	{
 > --
-> 2.9.3
+> 1.9.1
 >=20
 > --
 > _______________________________________________
@@ -183,7 +123,7 @@ ${D}${systemd_unitdir}/system/iptables.service
 > http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
 
---Apple-Mail=_636786EB-0E63-4DCD-B390-7874694BF959
+--Apple-Mail=_4C30AB8F-B204-49B7-A5B4-0404FE2425D8
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment;
 	filename=signature.asc
@@ -194,9 +134,9 @@ Content-Description: Message signed with OpenPGP using GPGMail
 -----BEGIN PGP SIGNATURE-----
 Comment: GPGTools - https://gpgtools.org
 
-iEYEARECAAYFAlfxblMACgkQuwUzVZGdMxQAIgCfdi7gjC5TQnJ3avEbmiUkSM5x
-WywAn3mGHnqHWhcB3uS+AiDO4/gq8KOD
-=P8Rr
+iEYEARECAAYFAlfxb/YACgkQuwUzVZGdMxQIRgCgjiqoR/Sfn4wYqd9+l5zIIj9V
+gbgAn05oDVNHjwjUm9WX3FzjBZoSkckD
+=fyEJ
 -----END PGP SIGNATURE-----
 
---Apple-Mail=_636786EB-0E63-4DCD-B390-7874694BF959--
+--Apple-Mail=_4C30AB8F-B204-49B7-A5B4-0404FE2425D8--
