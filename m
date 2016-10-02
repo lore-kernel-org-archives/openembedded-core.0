@@ -1,20 +1,27 @@
-Return-Path: <stephano.cetola@linux.intel.com>
+Return-Path: <paul.eggleton@linux.intel.com>
 Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 794E260616
+	by mail.openembedded.org (Postfix) with ESMTP id E9F7C6FF84
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  2 Oct 2016 22:18:40 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga103.jf.intel.com with ESMTP; 02 Oct 2016 15:18:43 -0700
+	Sun,  2 Oct 2016 22:40:08 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga103.jf.intel.com with ESMTP; 02 Oct 2016 15:40:10 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.31,434,1473145200"; d="scan'208";a="1039434639"
-Received: from pequod.jf.intel.com ([10.7.201.50])
-	by orsmga001.jf.intel.com with ESMTP; 02 Oct 2016 15:18:42 -0700
-From: Stephano Cetola <stephano.cetola@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sun,  2 Oct 2016 15:17:31 -0700
-Message-Id: <20161002221731.4681-1-stephano.cetola@linux.intel.com>
-X-Mailer: git-send-email 2.10.0
-Subject: [PATCH] sanity: add function to check for git config user
+X-IronPort-AV: E=Sophos;i="5.31,434,1473145200"; d="scan'208";a="1059557094"
+Received: from thiyagax-mobl2.amr.corp.intel.com (HELO
+	peggleto-mobl.ger.corp.intel.com) ([10.255.185.151])
+	by orsmga002.jf.intel.com with ESMTP; 02 Oct 2016 15:40:08 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Stephano Cetola <stephano.cetola@linux.intel.com>
+Date: Mon, 03 Oct 2016 11:40:04 +1300
+Message-ID: <1551142.S3eIX641iV@peggleto-mobl.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.14.10 (Linux/4.7.5-100.fc23.x86_64; KDE/4.14.20; x86_64; ;
+	)
+In-Reply-To: <20161002205506.124239-1-stephano.cetola@linux.intel.com>
+References: <20161002205506.124239-1-stephano.cetola@linux.intel.com>
+MIME-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] devtool: modify command fails to ignore source files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,96 +34,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 02 Oct 2016 22:18:43 -0000
+X-List-Received-Date: Sun, 02 Oct 2016 22:40:10 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-If attempting to patch a git repo without a proper git config setup,
-an error will occur saying user.name/user.email are needed by git
-am/apply. After 0f698dfd1c8bbc0d53ae7977e26685a7a3df52a3, it was
-simple enough to reproduce this error by creating a kernel patch and
-using a container to build.
+Hi Stephano,
 
-This patch abstracts out functionality that existed in buildhistory
-for use in other classes. It also adds a call to this functionality
-to the kernel-yocto class.
+Thanks for looking into this, a few things:
 
-Signed-off-by: Stephano Cetola <stephano.cetola@linux.intel.com>
----
- meta/classes/buildhistory.bbclass | 13 ++++---------
- meta/classes/kernel-yocto.bbclass |  2 ++
- meta/classes/sanity.bbclass       | 15 +++++++++++++++
- 3 files changed, 21 insertions(+), 9 deletions(-)
+On Sun, 02 Oct 2016 13:55:06 Stephano Cetola wrote:
+> With recent changes to recipeutils, the list of local files returned
+> by get_recipe_local_files could possibly include source files. This
+> only happens when the recipe contains a SRC_URI using subdir= to put
+> files in the source tree. These files should be ignored when
+> populating the list of local files for oe-local-files directory.
 
-diff --git a/meta/classes/buildhistory.bbclass b/meta/classes/buildhistory.bbclass
-index 6e5de0e..ed79029 100644
---- a/meta/classes/buildhistory.bbclass
-+++ b/meta/classes/buildhistory.bbclass
-@@ -688,6 +688,7 @@ END
- 	rm $commitmsgfile
- }
- 
-+inherit sanity
- buildhistory_commit() {
- 	if [ ! -d ${BUILDHISTORY_DIR} ] ; then
- 		# Code above that creates this dir never executed, so there can't be anything to commit
-@@ -708,15 +709,9 @@ END
- 			git tag -f build-minus-2 build-minus-1 > /dev/null 2>&1 || true
- 			git tag -f build-minus-1 > /dev/null 2>&1 || true
- 		fi
--		# If the user hasn't set up their name/email, set some defaults
--		# just for this repo (otherwise the commit will fail with older
--		# versions of git)
--		if ! git config user.email > /dev/null ; then
--			git config --local user.email "buildhistory@${DISTRO}"
--		fi
--		if ! git config user.name > /dev/null ; then
--			git config --local user.name "buildhistory"
--		fi
-+
-+		check_git_config "buildhistory"
-+
- 		# Check if there are new/changed files to commit (other than metadata-revs)
- 		repostatus=`git status --porcelain | grep -v " metadata-revs$"`
- 		HOSTNAME=`hostname 2>/dev/null || echo unknown`
-diff --git a/meta/classes/kernel-yocto.bbclass b/meta/classes/kernel-yocto.bbclass
-index 53659f2..035edeb 100644
---- a/meta/classes/kernel-yocto.bbclass
-+++ b/meta/classes/kernel-yocto.bbclass
-@@ -156,9 +156,11 @@ do_kernel_metadata() {
- 	fi
- }
- 
-+inherit sanity
- do_patch() {
- 	cd ${S}
- 
-+	check_git_config "kernel-yocto"
- 	meta_dir=$(kgit --meta)
- 	(cd ${meta_dir}; ln -sf patch.queue series)
- 	if [ -f "${meta_dir}/series" ]; then
-diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
-index 7682ffb..40033ab 100644
---- a/meta/classes/sanity.bbclass
-+++ b/meta/classes/sanity.bbclass
-@@ -1023,3 +1023,18 @@ python check_sanity_eventhandler() {
- 
-     return
- }
-+
-+# If the user hasn't set up their name/email, set some defaults
-+check_git_config() {
-+	if [ -z "$1" ]; then
-+		name="OE"
-+	else
-+		name="$1"
-+	fi
-+	if ! git config user.email > /dev/null ; then
-+        	git config --local user.email "${name}@${DISTRO}"
-+	fi
-+	if ! git config user.name > /dev/null ; then
-+        	git config --local user.name "${name}"
-+	fi
-+}
+You should include "Fixes [YOCTO #10326]." here. Also, if a patch fixes a 
+regression that we've been able to track down, as part of the commit message I 
+like to mention which revision caused it, and in this case it would be 
+OE-Core revision 9069fef5dad5a873c8a8f720f7bcbc7625556309.
+
+> Signed-off-by: Stephano Cetola <stephano.cetola@linux.intel.com>
+> ---
+>  scripts/lib/devtool/standard.py | 6 +++++-
+>  1 file changed, 5 insertions(+), 1 deletion(-)
+> 
+> diff --git a/scripts/lib/devtool/standard.py
+> b/scripts/lib/devtool/standard.py index 8319145..c7a5712 100644
+> --- a/scripts/lib/devtool/standard.py
+> +++ b/scripts/lib/devtool/standard.py
+> @@ -568,8 +568,12 @@ def _extract_source(srctree, keep_temp, devbranch,
+> sync, d): recipe_patches = [os.path.basename(patch) for patch in
+>                            oe.recipeutils.get_recipe_patches(crd)]
+>          local_files = oe.recipeutils.get_recipe_local_files(crd)
+> +
+> +        # Ignore local files with subdir={BP}
+> +        srcdirname = os.path.basename(os.path.normpath(srcsubdir))
+>          local_files = [fname for fname in local_files if
+> -                       os.path.exists(os.path.join(workdir, fname))]
+> +                       os.path.exists(os.path.join(workdir, fname)) and
+> +                       srcdirname not in fname]
+
+This seems likely to false-trigger quite easily - you're only looking for the 
+basename and whether it appears anywhere in the path rather than at the start. 
+I'd suggest getting the absolute path to the source directory and check if it 
+starts with that (I think that's how I dealt with that elsewhere).
+
+Cheers,
+Paul
+
 -- 
-2.10.0
 
+Paul Eggleton
+Intel Open Source Technology Centre
 
