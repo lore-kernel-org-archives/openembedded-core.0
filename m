@@ -1,52 +1,25 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f194.google.com (mail-pf0-f194.google.com
-	[209.85.192.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 92B7F6069D
+Return-Path: <stephano.cetola@linux.intel.com>
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+	by mail.openembedded.org (Postfix) with ESMTP id 2AC2B71995
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  2 Oct 2016 23:47:01 +0000 (UTC)
-Received: by mail-pf0-f194.google.com with SMTP id t25so2496448pfg.2
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 02 Oct 2016 16:47:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=subject:mime-version:from:in-reply-to:date:cc:message-id:references
-	:to; bh=cTuiVp0AsUV+r4LqI5NTuwsYGEs2BqA33C8wrz0+92E=;
-	b=UfGSto5ZakysFDBSW/Skt9F72i2aCGcVrTA9MXu+N0dEhDS1IpDu/F2q68jWiVq1+b
-	Zkn86ZuCMRim6vjTjFlJEzMEUOn7WpAr/aGelGxKvnG930CzB8AwNe/Tx4+Q06fBXf2q
-	cL89N8M7tEBaV+I/rZNvBHUOVVMMArAzaRADOJDcxOqVrsf4cQUW1EO7oYPWAXuexR4f
-	TT674kqaoh+HLirtqFzMp6dxrDJuOOuwOPcmPOYztCVv6DfgfpmH3m0vVjkG4+X+eFIi
-	7mxD5EmzJrrKj3K9Sx/1d+tT1SXzLFEutBYM54DRwrGkfEgzcwnmYNI+27pi3SHuMrf3
-	85gw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:subject:mime-version:from:in-reply-to:date:cc
-	:message-id:references:to;
-	bh=cTuiVp0AsUV+r4LqI5NTuwsYGEs2BqA33C8wrz0+92E=;
-	b=X79Z1cnYY4yCNylSEPH75BrgFCtZm+he9T4b6odmCzT8uLl+/rzh+wlK8mYv82QKpw
-	OAPRMQyaOl+p4x9RLO6BTzkiK7YH1FyWoqRUlWq0hYJqIAj+dlIfOho/x3JPtGZ4AXkp
-	02b7m6fyoB/Ltf+AFnQzb0S6bg5W0fjiRDlQ7mWHu3lRrIzbAYzKewNGm6QTLPMmkW56
-	DAfek8ti2d/0fNbpza+9NKQtGpw2czcU5oPtSayxh9gIUxTbv6QvD0DIq1HJGtc47Ozb
-	URbbvfLQAKVZXamPEz+NFQRYWFFTQ+YrvsWo7X3yiXOLhvUpFMPIV7N5bZzbTRsGcfBo
-	F3lg==
-X-Gm-Message-State: AA6/9RlTaZHJIGIz6MjdktbujsQSy8RcptBkbCXM/TsSPgi9TlMnbDmGyfIxQ2gnfZbRQw==
-X-Received: by 10.98.88.68 with SMTP id m65mr32742402pfb.58.1475452023699;
-	Sun, 02 Oct 2016 16:47:03 -0700 (PDT)
-Received: from ?IPv6:2601:646:8882:b8c:4b8:204d:45de:e844?
-	([2601:646:8882:b8c:4b8:204d:45de:e844])
-	by smtp.gmail.com with ESMTPSA id
-	tn5sm42477936pac.6.2016.10.02.16.47.02
-	(version=TLS1 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sun, 02 Oct 2016 16:47:02 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 9.3 \(3124\))
-X-Pgp-Agent: GPGMail
-From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <cover.1475265162.git.pkj@axis.com>
-Date: Sun, 2 Oct 2016 16:46:56 -0700
-Message-Id: <BDFF4C48-609C-4318-A6F6-55CE0950A5DC@gmail.com>
-References: <cover.1475265162.git.pkj@axis.com>
-To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-X-Mailer: Apple Mail (2.3124)
+	Sun,  2 Oct 2016 23:54:47 +0000 (UTC)
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+	by orsmga104.jf.intel.com with ESMTP; 02 Oct 2016 16:54:48 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.31,287,1473145200"; d="scan'208";a="15985239"
+Received: from jhelton-mobl1.amr.corp.intel.com ([10.252.129.214])
+	by orsmga004.jf.intel.com with ESMTP; 02 Oct 2016 16:54:48 -0700
+Date: Sun, 2 Oct 2016 16:54:48 -0700
+From: Stephano Cetola <stephano.cetola@linux.intel.com>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+Message-ID: <20161002235448.GA12195@jhelton-mobl1.amr.corp.intel.com>
+References: <20161002205506.124239-1-stephano.cetola@linux.intel.com>
+	<1551142.S3eIX641iV@peggleto-mobl.ger.corp.intel.com>
+MIME-Version: 1.0
+In-Reply-To: <1551142.S3eIX641iV@peggleto-mobl.ger.corp.intel.com>
+User-Agent: Mutt/1.7.0 (2016-08-17)
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 0/1] Avoid unnecessary dependency on awk in devtool deploy-target
+Subject: Re: [PATCH] devtool: modify command fails to ignore source files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,84 +32,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 02 Oct 2016 23:47:02 -0000
-X-Groupsio-MsgNum: 87778
-Content-Type: multipart/signed;
-	boundary="Apple-Mail=_0A47100E-8E4E-4D3F-A7B5-072AD923E072";
-	protocol="application/pgp-signature"; micalg=pgp-sha1
+X-List-Received-Date: Sun, 02 Oct 2016 23:54:48 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
---Apple-Mail=_0A47100E-8E4E-4D3F-A7B5-072AD923E072
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=us-ascii
+On 10/03, Paul Eggleton wrote:
+> Hi Stephano,
+> 
+> Thanks for looking into this, a few things:
+> 
+> On Sun, 02 Oct 2016 13:55:06 Stephano Cetola wrote:
+> > With recent changes to recipeutils, the list of local files returned
+> > by get_recipe_local_files could possibly include source files. This
+> > only happens when the recipe contains a SRC_URI using subdir= to put
+> > files in the source tree. These files should be ignored when
+> > populating the list of local files for oe-local-files directory.
+> 
+> You should include "Fixes [YOCTO #10326]." here. Also, if a patch fixes a 
+> regression that we've been able to track down, as part of the commit message I 
+> like to mention which revision caused it, and in this case it would be 
+> OE-Core revision 9069fef5dad5a873c8a8f720f7bcbc7625556309.
 
+Ops,thanks for catching that. Also, thanks for the notes on regressions.
 
-> On Sep 30, 2016, at 12:53 PM, Peter Kjellerstedt =
-<peter.kjellerstedt@axis.com> wrote:
->=20
-> After updating to Krogoth, our developers were faced with the
-> following error message when using devtool deploy-target:
->=20
-> /tmp/devtool_deploy.sh: line 23: awk: not found
->=20
-> This is of course due to the fact that we do not have awk installed in
-> our products. However, the use of awk in devtool deploy-target is
-> completely unnecessary. It is already using sed, and sed is fully
-> capable of extracting the information that awk was used for.
+> 
+> > Signed-off-by: Stephano Cetola <stephano.cetola@linux.intel.com>
+> > ---
+> >  scripts/lib/devtool/standard.py | 6 +++++-
+> >  1 file changed, 5 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/scripts/lib/devtool/standard.py
+> > b/scripts/lib/devtool/standard.py index 8319145..c7a5712 100644
+> > --- a/scripts/lib/devtool/standard.py
+> > +++ b/scripts/lib/devtool/standard.py
+> > @@ -568,8 +568,12 @@ def _extract_source(srctree, keep_temp, devbranch,
+> > sync, d): recipe_patches = [os.path.basename(patch) for patch in
+> >                            oe.recipeutils.get_recipe_patches(crd)]
+> >          local_files = oe.recipeutils.get_recipe_local_files(crd)
+> > +
+> > +        # Ignore local files with subdir={BP}
+> > +        srcdirname = os.path.basename(os.path.normpath(srcsubdir))
+> >          local_files = [fname for fname in local_files if
+> > -                       os.path.exists(os.path.join(workdir, fname))]
+> > +                       os.path.exists(os.path.join(workdir, fname)) and
+> > +                       srcdirname not in fname]
+> 
+> This seems likely to false-trigger quite easily - you're only looking for the 
+> basename and whether it appears anywhere in the path rather than at the start. 
+> I'd suggest getting the absolute path to the source directory and check if it 
+> starts with that (I think that's how I dealt with that elsewhere).
 
-sed or awk both are individual packages, some other user may complain =
-they don't
-have sed installed. it would be good to know if we document this =
-dependency for
-using devtool.
+Ah okay, I think I see what you're saying. I'll fix this and
+resubmit.
 
->=20
-> //Peter
->=20
-> The following changes since commit =
-a75b79a9e9d76db8f75af64c3792c7a1bbfd15b8:
->=20
->  genericx86-64.conf: Add SERIAL_CONSOLES_CHECK =3D "ttyS0" (2016-09-30 =
-16:52:22 +0100)
->=20
-> are available in the git repository at:
->=20
->  git://git.yoctoproject.org/poky-contrib pkj/devtool-minus-awk
->  =
-http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=3Dpkj/devtool-min=
-us-awk
->=20
-> Peter Kjellerstedt (1):
->  devtool: deploy-target: Avoid unnecessary dependency on awk on the
->    target
->=20
-> scripts/lib/devtool/deploy.py | 2 +-
-> 1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> --
-> 2.9.0
->=20
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> 
+> Cheers,
+> Paul
+> 
+> -- 
+> 
+> Paul Eggleton
+> Intel Open Source Technology Centre
 
-
---Apple-Mail=_0A47100E-8E4E-4D3F-A7B5-072AD923E072
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP using GPGMail
-
------BEGIN PGP SIGNATURE-----
-Comment: GPGTools - https://gpgtools.org
-
-iEYEARECAAYFAlfxnHUACgkQuwUzVZGdMxTlVgCfTOroZ4eyQQsI5RFHd3HAlBWf
-ZgQAoIbzOs66ZkjXn9igGWR50/Ceq32O
-=vLWj
------END PGP SIGNATURE-----
-
---Apple-Mail=_0A47100E-8E4E-4D3F-A7B5-072AD923E072--
