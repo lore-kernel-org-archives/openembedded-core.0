@@ -1,35 +1,49 @@
-Return-Path: <gary@mlbassoc.com>
-Received: from mail.analogue-micro.com (mail.analogue-micro.com
-	[217.144.149.242])
-	by mail.openembedded.org (Postfix) with ESMTP id 2322260761
+Return-Path: <schnitzeltony@googlemail.com>
+Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 1B26A6FF80
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  3 Oct 2016 05:00:48 +0000 (UTC)
-Received: by mail.analogue-micro.com (Postfix, from userid 999)
-	id 859E468A01A; Mon,  3 Oct 2016 06:00:49 +0100 (BST)
-X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
-	loki.analogue-micro-ltd.com
-X-Spam-Level: *
-X-Spam-Status: No, score=1.2 required=5.0 tests=ALL_TRUSTED,BAYES_05,
-	DNS_FROM_AHBL_RHSBL autolearn=no version=3.3.2
-Received: from zeus.mlbassoc.com (unknown [10.8.0.2])
-	by mail.analogue-micro.com (Postfix) with ESMTP id 40B7368A019;
-	Mon,  3 Oct 2016 06:00:45 +0100 (BST)
-Received: from [127.0.0.1] (localhost.localdomain [127.0.0.1])
-	by zeus.mlbassoc.com (Postfix) with ESMTP id F30E4674025C;
-	Mon,  3 Oct 2016 07:00:44 +0200 (CEST)
-To: Changhyeok Bae <changhyeok.bae@gmail.com>, Jonathan Liu <net147@gmail.com>
-References: <4dd9e59c-8ba5-29a3-5128-05c0cba9fcde@mlbassoc.com>
-	<CANwerB39TPL571sPZb-bVxLFNUn2CfO8bUVQg51PpXQv61S-Zg@mail.gmail.com>
-	<CACrLJgAVzZsNV1P3WtNp=81E6HU=cpeNakYLT0GM1-znhJ2zGw@mail.gmail.com>
-From: Gary Thomas <gary@mlbassoc.com>
-Message-ID: <e74d3b67-0ba9-ee4f-76d3-3dc9fa35bd5e@mlbassoc.com>
-Date: Mon, 3 Oct 2016 07:00:44 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.3.0
+	Mon,  3 Oct 2016 05:47:30 +0000 (UTC)
+Received: by mail-wm0-f68.google.com with SMTP id b184so12915150wma.3
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 02 Oct 2016 22:47:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=googlemail.com; s=20120113;
+	h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=voq+gywZea4eLBt38CyNq6AZqUxr5fZ+WCb4A7gdGhU=;
+	b=KE8D3k2gvaFjX+ZxqhBnFvXI+q8BOA1bUb1GWo5Nnv5F3sPEo7Ckq5ZYESIYM26150
+	/qKaw6fQp69N8hFTBz/MQuuv0VWiBZ6793IsD2K/nT8GPiK+GfBft3rCLI60RU3rV5xu
+	aLBzGcBg6b2yroaaK89EZRlyru2NlFlAVOcC+45qxWy1oEuYsh015QcnoIOsMgdbTf3l
+	GpzKKtIiwWUrw6Wc0wIG6mVdvFCVADTh9LZjG774SarptcOIUe9QYJpJ2bSGca6WtCs5
+	2+waAmqMsFa2QioelIx7VCQZIduMs1Z8Gup6RrgvTrFbjEBYhN8g7yF0DBBCnWseJ6QI
+	+4gw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=voq+gywZea4eLBt38CyNq6AZqUxr5fZ+WCb4A7gdGhU=;
+	b=icaSTHuUYPIE9kGc74kw3LMq5GdwzUlcr+oB+V9Izfako/OJGdDVdH/+YI08FpHwhj
+	JdRbLRXTsKSkfpTK3lAFbSlKvCgAH/IAntVTUU8D61E922dEsMZGwu/NcTMGIQi0yp1Z
+	Bp4pOQvpDopeCG7BVsWfM8jmHJymSxn4l0S2PDJHUwgzXo+nNpNk1CDdvZSHErhsxyi/
+	IE/cJXUBWVRa3pdV5QzfRPaT+Qirxzmc+A3s2dS6SQ6WUsHsQQDrtAKnzo1v65Jg7nOe
+	gksIz+Qu7Rh4nhdJCGX5Ruq6N78hb2c8Ry/uNyBfREgIgIj7QdMN4oWuTEzSxcoOux96
+	o7iA==
+X-Gm-Message-State: AA6/9RkV/pWjOF3mvAuO8ByRY5yp3hK56wexyej2j6rDAMpcF/AXawJXJG5O8gYIu/2dbQ==
+X-Received: by 10.194.146.174 with SMTP id td14mr16108503wjb.152.1475473651125;
+	Sun, 02 Oct 2016 22:47:31 -0700 (PDT)
+Received: from localhost.localdomain (p5B0A1454.dip0.t-ipconnect.de.
+	[91.10.20.84]) by smtp.googlemail.com with ESMTPSA id
+	lz5sm32361375wjb.24.2016.10.02.22.47.30
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Sun, 02 Oct 2016 22:47:30 -0700 (PDT)
+From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@googlemail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  3 Oct 2016 07:47:16 +0200
+Message-Id: <1475473636-17235-1-git-send-email-schnitzeltony@googlemail.com>
+X-Mailer: git-send-email 2.5.5
 MIME-Version: 1.0
-In-Reply-To: <CACrLJgAVzZsNV1P3WtNp=81E6HU=cpeNakYLT0GM1-znhJ2zGw@mail.gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: Taskhash mismatch?
+Subject: [PATCH] alsa-lib: allow building ARM thumb again
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,46 +56,82 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Oct 2016 05:00:49 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 03 Oct 2016 05:47:31 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On 2016-10-02 15:38, Changhyeok Bae wrote:
-> Please update meta-raspberrypi layer
-> to http://git.yoctoproject.org/cgit/cgit.cgi/meta-raspberrypi/commit/?id=4c02c7ce07121c2f5367204445f93199d828bb10
+The directive mentioned in the comment was removed in:
 
-I am using the latest master (as of 2016-10-02) which includes that revision.
+commit 326c6802e49e5499e16cf141e1cdb0360fce14aa
+Author: Riku Voipio <riku.voipio@linaro.org>
+Date:   Fri Feb 7 15:38:58 2014 +0200
 
-> 2016-10-02 20:51 GMT+09:00 Jonathan Liu <net147@gmail.com <mailto:net147@gmail.com>>:
->
->     On 2 October 2016 at 18:28, Gary Thomas <gary@mlbassoc.com <mailto:gary@mlbassoc.com>> wrote:
->     > Can someone explain this error?
->     >
->     > ERROR: video-demo-image-1.0-r0 do_image_rpi_sdimg: Taskhash mismatch
->     > 7b8eab500890bd7cd6a00b70740800f1 versus 9471c988c4adee881554263bd10f7196 for
->     > /local/poky-cutting-edge/meta-rpi/packages/images/video-demo-image.bb.do_image_rpi_sdimg
->     > ERROR: Taskhash mismatch 7b8eab500890bd7cd6a00b70740800f1 versus
->     > 9471c988c4adee881554263bd10f7196 for
->     > /local/poky-cutting-edge/meta-rpi/packages/images/video-demo-image.bb.do_image_rpi_sdimg
->     >
->     > I'm building with Poky/Yocto + meta-raspberrypi:
->     > meta              = "master:725e66e1d08ae000d8f68455ddca0e192080dc1f"
->     > meta-raspberrypi  = "master:4817e2c087097c02755d6309304878e42cf61d3c"
->     >
->     > As far as I can tell, the image was created even though the error.
->     >
->     > Thanks for any pointers
->
->     It happens to me sometimes as well in meta-raspberrypi layer.
->     Interesting thing is that it doesn't happen in the meta-sunxi layer
->     for me which has a very similar image class, although without the
->     device-tree auto-detection and splitting code.
->
->     I haven't been able to explain it.
+    alsa-lib: heavy pcm atomics cleanup
 
+    The following patch comes from the realization that at least ARM code
+    for atomics is quite broken and nobody has cared for a decade.
+
+    A quick dive shows that only snd_atomic_{read,write}_{begin,end}
+    appear to be used widely. These are implemented using wmb/rmb.
+
+    Only other use of atomic functions is in pcm_meter.c.
+    The #SND_PCM_TYPE_METER plugin type appears rarely, if ever, used.
+    I presume these days anyone who wants a meter/scope will do in pulseaudio
+    layer instead of alsa.
+
+    It would seem better fit to have pcm_meter in alsa-plugins instead
+    of alsa-lib, but I guess that would be an ABI break...
+
+    So instead, I'm proposing here
+
+    1. Removal of all hand-crafted atomics from iatomic.h apart from barriers,
+       which are used in snd_atomic_{read,write}_{begin,end}.
+
+    2. Using __sync_synchronize as the default fallback for barriers. This
+       has been available since gcc 4.1, so it shouldn't be a problem.
+
+    3. Defining the few atomics used by pcm_meter.c withing pcm_meter.c
+       itself, using gcc atomic builtins[1].
+
+    4. Since gcc atomic builtins are available only since gcc 4.7, add a check for
+       that in gcc configure.in, and don't build pcm meter plugin if using
+       older gcc.
+
+    The last point has the impact, that if there actually is someone who 1)
+    uses the meter plugin 2) wants to upgrade to 2014 alsa-lib 3) but
+    does not want to use a 2012+ gcc - that someone will be inconvenienced.
+
+    Finally remove the unneeded configure check for cpu type. We can
+    trust the gcc to set right flags for us.
+
+    [1] http://gcc.gnu.org/onlinedocs/gcc/_005f_005fatomic-Builtins.html
+
+    Signed-off-by: Riku Voipio <riku.voipio@linaro.org>
+    Signed-off-by: Takashi Iwai <tiwai@suse.de>
+
+Signed-off-by: Andreas Müller <schnitzeltony@googlemail.com>
+---
+ meta/recipes-multimedia/alsa/alsa-lib_1.1.2.bb | 6 ------
+ 1 file changed, 6 deletions(-)
+
+diff --git a/meta/recipes-multimedia/alsa/alsa-lib_1.1.2.bb b/meta/recipes-multimedia/alsa/alsa-lib_1.1.2.bb
+index ff47576..e313da7 100644
+--- a/meta/recipes-multimedia/alsa/alsa-lib_1.1.2.bb
++++ b/meta/recipes-multimedia/alsa/alsa-lib_1.1.2.bb
+@@ -8,12 +8,6 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=7fbc338309ac38fefcd64b04bb903e34 \
+ 
+ BBCLASSEXTEND = "native nativesdk"
+ 
+-# configure.in sets -D__arm__ on the command line for any arm system
+-# (not just those with the ARM instruction set), this should be removed,
+-# (or replaced by a permitted #define).
+-#FIXME: remove the following
+-ARM_INSTRUCTION_SET = "arm"
+-
+ SRC_URI = "ftp://ftp.alsa-project.org/pub/lib/${BP}.tar.bz2 \
+            file://Check-if-wordexp-function-is-supported.patch \
+            file://avoid-including-sys-poll.h-directly.patch \
 -- 
-------------------------------------------------------------
-Gary Thomas                 |  Consulting for the
-MLB Associates              |    Embedded world
-------------------------------------------------------------
+2.5.5
+
 
