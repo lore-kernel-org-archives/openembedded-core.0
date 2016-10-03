@@ -1,60 +1,34 @@
-Return-Path: <peter.kjellerstedt@axis.com>
-Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 1141865C8F
+Return-Path: <ed.bartosh@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id E5BDA6093E
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  3 Oct 2016 09:53:09 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by bastet.se.axis.com (Postfix) with ESMTP id 758AF1816D;
-	Mon,  3 Oct 2016 11:53:10 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
-Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024)
-	with LMTP id xhh2fYJvRWRZ; Mon,  3 Oct 2016 11:53:08 +0200 (CEST)
-Received: from boulder03.se.axis.com (boulder03.se.axis.com [10.0.8.17])
-	by bastet.se.axis.com (Postfix) with ESMTPS id 4A09C180E9;
-	Mon,  3 Oct 2016 11:53:08 +0200 (CEST)
-Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 350F81E085;
-	Mon,  3 Oct 2016 11:53:08 +0200 (CEST)
-Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 250EE1E084;
-	Mon,  3 Oct 2016 11:53:08 +0200 (CEST)
-Received: from seth.se.axis.com (unknown [10.0.2.172])
-	by boulder03.se.axis.com (Postfix) with ESMTP;
-	Mon,  3 Oct 2016 11:53:08 +0200 (CEST)
-Received: from XBOX02.axis.com (xbox02.axis.com [10.0.5.16])
-	by seth.se.axis.com (Postfix) with ESMTP id 17C21590;
-	Mon,  3 Oct 2016 11:53:08 +0200 (CEST)
-Received: from xbox11.axis.com (10.0.5.25) by XBOX02.axis.com (10.0.5.16) with
-	Microsoft SMTP Server (TLS) id 15.0.1210.3;
-	Mon, 3 Oct 2016 11:53:08 +0200
-Received: from XBOX02.axis.com (10.0.5.16) by xbox11.axis.com (10.0.5.25) with
-	Microsoft SMTP Server (TLS) id 15.0.1210.3;
-	Mon, 3 Oct 2016 11:53:07 +0200
-Received: from XBOX02.axis.com ([fe80::50c3:4d2f:4507:7776]) by
-	XBOX02.axis.com ([fe80::50c3:4d2f:4507:7776%21]) with mapi id
-	15.00.1210.000; Mon, 3 Oct 2016 11:53:08 +0200
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: Khem Raj <raj.khem@gmail.com>
-Thread-Topic: [OE-core] [PATCH 0/1] Avoid unnecessary dependency on awk in
-	devtool deploy-target
-Thread-Index: AQHSHQdJfEUcx5yAM0avlNFyJRvr1qCWcEEg
-Date: Mon, 3 Oct 2016 09:53:08 +0000
-Message-ID: <3c84918d2e4142168711a8649f217ed5@XBOX02.axis.com>
-References: <cover.1475265162.git.pkj@axis.com>
-	<BDFF4C48-609C-4318-A6F6-55CE0950A5DC@gmail.com>
-In-Reply-To: <BDFF4C48-609C-4318-A6F6-55CE0950A5DC@gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.0.5.60]
+	Mon,  3 Oct 2016 10:42:02 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by orsmga101.jf.intel.com with ESMTP; 03 Oct 2016 03:42:03 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.31,289,1473145200"; d="scan'208";a="768322543"
+Received: from linux.intel.com ([10.54.29.200])
+	by FMSMGA003.fm.intel.com with ESMTP; 03 Oct 2016 03:42:03 -0700
+Received: from linux.intel.com (vmed.fi.intel.com [10.237.72.68])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by linux.intel.com (Postfix) with ESMTP id 4324B6A4080;
+	Mon,  3 Oct 2016 03:41:33 -0700 (PDT)
+Date: Mon, 3 Oct 2016 13:31:08 +0300
+From: Ed Bartosh <ed.bartosh@linux.intel.com>
+To: Ulf Magnusson <ulfalizer@gmail.com>
+Message-ID: <20161003103108.GA5762@linux.intel.com>
+Reply-To: ed.bartosh@linux.intel.com
+References: <CABcZAN=WpicbLyg-sc=GDiMS81iwsGe1m+NE-fUfw2tniWpWXA@mail.gmail.com>
+	<1475247756-32008-1-git-send-email-ed.bartosh@linux.intel.com>
+	<a1d1262b-1ecf-933a-f3b6-01234c95c31e@smile.fr>
+	<CAFkk2KR5AB_gjq5XKFBJjOaaRHJ3DzJdCqS5H1Kq=m35xZ3jTQ@mail.gmail.com>
 MIME-Version: 1.0
-X-TM-AS-GCONF: 00
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/1] Avoid unnecessary dependency on awk in devtool deploy-target
+In-Reply-To: <CAFkk2KR5AB_gjq5XKFBJjOaaRHJ3DzJdCqS5H1Kq=m35xZ3jTQ@mail.gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2] scripts: add new script 'native'
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -67,45 +41,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Oct 2016 09:53:10 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 03 Oct 2016 10:42:03 -0000
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-> -----Original Message-----
-> From: Khem Raj [mailto:raj.khem@gmail.com]
-> Sent: den 3 oktober 2016 01:47
-> To: Peter Kjellerstedt
-> Cc: openembedded-core@lists.openembedded.org
-> Subject: Re: [OE-core] [PATCH 0/1] Avoid unnecessary dependency on awk
-> in devtool deploy-target
->=20
-> > On Sep 30, 2016, at 12:53 PM, Peter Kjellerstedt
-> > <peter.kjellerstedt@axis.com> wrote:
+On Sun, Oct 02, 2016 at 04:30:58PM +0200, Ulf Magnusson wrote:
+> On Sun, Oct 2, 2016 at 4:15 PM, Jérémy Rosen <jeremy.rosen@smile.fr> wrote:
+> > "native" might be a bit too generic...
 > >
-> > After updating to Krogoth, our developers were faced with the
-> > following error message when using devtool deploy-target:
+> > could I suggest oe_native-run or bitbake-native ?
 > >
-> > /tmp/devtool_deploy.sh: line 23: awk: not found
+> > something that says it's yocto-galaxy specific and can be autocompleted with
+> > a reasonable prefix...
 > >
-> > This is of course due to the fact that we do not have awk installed
-> > in our products. However, the use of awk in devtool deploy-target is
-> > completely unnecessary. It is already using sed, and sed is fully
-> > capable of extracting the information that awk was used for.
->=20
-> sed or awk both are individual packages, some other user may complain
-> they don't have sed installed. it would be good to know if we document=20
-> this dependency for using devtool.
->=20
-> > //Peter
+> >
+> > Jérémy Rosen
+> 
+> I think overly namespacing things that aren't likely to clash in
+> practice gets annoying. I would've gone for "run-native" (more
+> descriptive and English-like, less generic), but how about something
+> simple and easy to type like "oe-native" or "oe-run-native" if a
+> prefix is added? That's consistent with the naming scheme used for
+> many other scripts in scripts/ too.
+> 
 
-I find it much less likely to have a system without sed than awk, but=20
-you are right that the dependencies should be documented somewhere,=20
-unless they already are... After my fix, devtool deploy requires the=20
-following commands: cat (can be replaced by letting sed read the file=20
-itself), df, dirname (can be replaced with a parameter expansion), find,=20
-head (can be replaced with sed), mkdir, mv, rm, rmdir, sed, sh and tar.
+I'm ok to rename it. I agree that 'native' may look too generic, but
+I don't know about any existing tool with this name.
 
-//Peter
+Anyway, let me know which name I should rename it to. Feel free to send a
+patch too. I personally like 'oe-native' more than other proposals.
 
+--
+Regards,
+Ed
 
