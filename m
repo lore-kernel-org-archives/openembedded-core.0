@@ -1,22 +1,54 @@
-Return-Path: <stephano.cetola@linux.intel.com>
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
-	by mail.openembedded.org (Postfix) with ESMTP id 1CC4C719BF
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pf0-f193.google.com (mail-pf0-f193.google.com
+	[209.85.192.193])
+	by mail.openembedded.org (Postfix) with ESMTP id E477B719EB
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  3 Oct 2016 23:33:48 +0000 (UTC)
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-	by orsmga104.jf.intel.com with ESMTP; 03 Oct 2016 16:33:48 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.31,292,1473145200"; d="scan'208";a="15927123"
-Received: from pequod.jf.intel.com ([10.7.201.50])
-	by orsmga005.jf.intel.com with ESMTP; 03 Oct 2016 16:33:48 -0700
-From: Stephano Cetola <stephano.cetola@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon,  3 Oct 2016 16:32:45 -0700
-Message-Id: <20161003233245.100337-2-stephano.cetola@linux.intel.com>
-X-Mailer: git-send-email 2.10.0
-In-Reply-To: <20161003233245.100337-1-stephano.cetola@linux.intel.com>
-References: <20161003233245.100337-1-stephano.cetola@linux.intel.com>
-Subject: [PATCH V3] utils.bbclass: add function to check for git config user
+	Mon,  3 Oct 2016 23:41:25 +0000 (UTC)
+Received: by mail-pf0-f193.google.com with SMTP id i85so2800892pfa.0
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 03 Oct 2016 16:41:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=subject:mime-version:from:in-reply-to:date:cc:message-id:references
+	:to; bh=+Krbaqqx2fBWxkahaJPthRfvu2nDO0a23brC00o5K48=;
+	b=MeeekUDF/rTwLqS1cybtdkmhHQkzNGNSL1PxuR7lbkrUFiVP2wiypMLPx/j/caT6VI
+	8MTTCCW/dGU6m5YM6OZX/AiZl+rlrVsixJGBxQPQsJk1kyPmlMceFhoZXBCVBiGd8opw
+	9+d+vcz9Nd060pwDKTTcpN/QjJmgenV9eK/y/w7vItnf5U31hptaxYtw+RmDZSwtqHK0
+	EeZksFrLmhCVtr+i4DaTq3wMnnm9MjyVNWC3vyxTUYrzeTEzYM4fe0/pxR0Zvwx2POsu
+	UwZC8Du2WAjsXW+cj8H7DoYlBcABcueZP4/VI8ew2EJ5/RupP1BtXHqwjaq9i/NZ7Imw
+	HERA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:subject:mime-version:from:in-reply-to:date:cc
+	:message-id:references:to;
+	bh=+Krbaqqx2fBWxkahaJPthRfvu2nDO0a23brC00o5K48=;
+	b=HSO5xny8Zisod5Q0ZR8FhDOgOnaap6CTVdMvAAfQRwGlc4OLZiIdrj1xPjRRnMCQdT
+	Xv3sPpKPWnoRPksLwxQMb/Hl1Z7F94CnrcYWIP27hvfYx8d8vscQNQ7EBBgktdSWloF7
+	8Uy/hpM7UZQGsr5r2PvyfDufGWQ7mILhYc7jP9aatTf9kuRn/VK2N/8MCZm51L28o2yk
+	cCgT6wR3Ed7jxB+/mRVi39XytK35zLwuZ6w1NVZm/YNtaGCrLd33opNmbQQoNx1WQEVr
+	dVfbq6KlIzFNkaegMj1muhPpbJOuyjA2HqymrONxCv/lcuFUWPFKu4NTP+xmgUTgNyRy
+	QD5Q==
+X-Gm-Message-State: AA6/9RnYj9CsCuRnEdhGI5pz5tImdo+ixJ8Hbcr/WZnSY6WvYIkCFmvkOFjr4Ome/VkhNQ==
+X-Received: by 10.98.151.17 with SMTP id n17mr1067639pfe.73.1475538087026;
+	Mon, 03 Oct 2016 16:41:27 -0700 (PDT)
+Received: from ?IPv6:2601:646:8882:b8c:902f:13d5:e6b:1cac?
+	([2601:646:8882:b8c:902f:13d5:e6b:1cac])
+	by smtp.gmail.com with ESMTPSA id
+	v24sm49725824pfd.1.2016.10.03.16.41.24
+	(version=TLS1 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Mon, 03 Oct 2016 16:41:24 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 9.3 \(3124\))
+X-Pgp-Agent: GPGMail
+From: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <CAJ86T=XHwvTiizexmGZP73CA+CGAxbosp8OuPbPoHi9AK_cYFQ@mail.gmail.com>
+Date: Mon, 3 Oct 2016 16:41:19 -0700
+Message-Id: <E9B5E08A-4DAE-4FD7-870A-B6C88259F009@gmail.com>
+References: <1473711245-24377-1-git-send-email-armccurdy@gmail.com>
+	<C620C32B-A94F-431D-936D-B07D55673384@gmail.com>
+	<CAJ86T=XHwvTiizexmGZP73CA+CGAxbosp8OuPbPoHi9AK_cYFQ@mail.gmail.com>
+To: Andre McCurdy <armccurdy@gmail.com>
+X-Mailer: Apple Mail (2.3124)
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] makedevs: don't restrict device node paths to 40 characters
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,102 +61,94 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Oct 2016 23:33:48 -0000
+X-List-Received-Date: Mon, 03 Oct 2016 23:41:26 -0000
+X-Groupsio-MsgNum: 87836
+Content-Type: multipart/signed;
+	boundary="Apple-Mail=_3BC18989-2B27-4ABB-98BD-B5281D873019";
+	protocol="application/pgp-signature"; micalg=pgp-sha1
 
-If attempting to patch a git repo without a proper git config setup,
-an error will occur saying user.name/user.email are needed by git
-am/apply. After some code was removed from kernel-yocto, it was
-simple enough to reproduce this error by creating a kernel patch and
-using a container to build.
-
-This patch abstracts out functionality that existed in buildhistory
-for use in other classes. It also adds a call to this functionality
-to the kernel-yocto class.
-
-Fixes [YOCTO #10346]
-
-introduced in OE-core revision
-0f698dfd1c8bbc0d53ae7977e26685a7a3df52a3
-
-Signed-off-by: Stephano Cetola <stephano.cetola@linux.intel.com>
----
- meta/classes/buildhistory.bbclass | 15 ++++++---------
- meta/classes/kernel-yocto.bbclass |  3 +++
- meta/classes/utils.bbclass        | 10 ++++++++++
- 3 files changed, 19 insertions(+), 9 deletions(-)
-
-diff --git a/meta/classes/buildhistory.bbclass b/meta/classes/buildhistory.bbclass
-index 6e5de0e..3a5bc2c 100644
---- a/meta/classes/buildhistory.bbclass
-+++ b/meta/classes/buildhistory.bbclass
-@@ -57,6 +57,9 @@ SSTATEPOSTINSTFUNCS[vardepvalueexclude] .= "| buildhistory_emit_pkghistory"
- # class.
- BUILDHISTORY_PRESERVE = "latest latest_srcrev"
- 
-+PATCH_GIT_USER_EMAIL ?= "buildhistory@oe"
-+PATCH_GIT_USER_NAME ?= "OpenEmbedded"
-+
- #
- # Write out metadata about this package for comparison when writing future packages
- #
-@@ -708,15 +711,9 @@ END
- 			git tag -f build-minus-2 build-minus-1 > /dev/null 2>&1 || true
- 			git tag -f build-minus-1 > /dev/null 2>&1 || true
- 		fi
--		# If the user hasn't set up their name/email, set some defaults
--		# just for this repo (otherwise the commit will fail with older
--		# versions of git)
--		if ! git config user.email > /dev/null ; then
--			git config --local user.email "buildhistory@${DISTRO}"
--		fi
--		if ! git config user.name > /dev/null ; then
--			git config --local user.name "buildhistory"
--		fi
-+
-+		check_git_config
-+
- 		# Check if there are new/changed files to commit (other than metadata-revs)
- 		repostatus=`git status --porcelain | grep -v " metadata-revs$"`
- 		HOSTNAME=`hostname 2>/dev/null || echo unknown`
-diff --git a/meta/classes/kernel-yocto.bbclass b/meta/classes/kernel-yocto.bbclass
-index 53659f2..6160a29 100644
---- a/meta/classes/kernel-yocto.bbclass
-+++ b/meta/classes/kernel-yocto.bbclass
-@@ -1,5 +1,7 @@
- # remove tasks that modify the source tree in case externalsrc is inherited
- SRCTREECOVEREDTASKS += "do_kernel_configme do_validate_branches do_kernel_configcheck do_kernel_checkout do_fetch do_unpack do_patch"
-+PATCH_GIT_USER_EMAIL ?= "kernel-yocto@oe"
-+PATCH_GIT_USER_NAME ?= "OpenEmbedded"
- 
- # returns local (absolute) path names for all valid patches in the
- # src_uri
-@@ -159,6 +161,7 @@ do_kernel_metadata() {
- do_patch() {
- 	cd ${S}
- 
-+	check_git_config
- 	meta_dir=$(kgit --meta)
- 	(cd ${meta_dir}; ln -sf patch.queue series)
- 	if [ -f "${meta_dir}/series" ]; then
-diff --git a/meta/classes/utils.bbclass b/meta/classes/utils.bbclass
-index 800b565..dbb5e4c 100644
---- a/meta/classes/utils.bbclass
-+++ b/meta/classes/utils.bbclass
-@@ -419,3 +419,13 @@ def all_multilib_tune_list(vars, d):
-         values[v].append(localdata.getVar(v, True))
-         values['ml'].append(item)
-     return values
-+
-+# If the user hasn't set up their name/email, set some defaults
-+check_git_config() {
-+	if ! git config user.email > /dev/null ; then
-+		git config --local user.email "${PATCH_GIT_USER_EMAIL}"
-+	fi
-+	if ! git config user.name > /dev/null ; then
-+		git config --local user.name "${PATCH_GIT_USER_NAME}"
-+	fi
-+}
--- 
-2.10.0
+--Apple-Mail=_3BC18989-2B27-4ABB-98BD-B5281D873019
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=us-ascii
 
 
+> On Oct 2, 2016, at 11:41 PM, Andre McCurdy <armccurdy@gmail.com> =
+wrote:
+>=20
+> On Sun, Oct 2, 2016 at 1:37 PM, Khem Raj <raj.khem@gmail.com> wrote:
+>>=20
+>>> On Sep 12, 2016, at 1:14 PM, Andre McCurdy <armccurdy@gmail.com> =
+wrote:
+>>>=20
+>>> 40 character paths work OK for device nodes in /dev but not for
+>>> device nodes created in a chroot, LXC container, etc.
+>>>=20
+>>> Since the 'path' array is already a 4k buffer, the sscanf 40
+>>> character limit seems to be a typo or historical mis-merge. Update
+>>> the sscanf limit and bring the code in sync with the Buildroot
+>>> version:
+>>>=20
+>>> =
+https://git.buildroot.net/buildroot/commit/?id=3D8876b6751e0bc19a375429006=
+1808f0f8420708e
+>>=20
+>> what is upstream worthiness of this patch ? it seems it could be
+>> a good change
+>=20
+> Where is the upstream?
+
+mtd-utils, but in this case it seems its a back port so we are fine.
+
+>=20
+>>>=20
+>>> Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+>>> ---
+>>> meta/recipes-devtools/makedevs/makedevs/makedevs.c | 2 +-
+>>> 1 file changed, 1 insertion(+), 1 deletion(-)
+>>>=20
+>>> diff --git a/meta/recipes-devtools/makedevs/makedevs/makedevs.c =
+b/meta/recipes-devtools/makedevs/makedevs/makedevs.c
+>>> index 7471f3f..cba7681 100644
+>>> --- a/meta/recipes-devtools/makedevs/makedevs/makedevs.c
+>>> +++ b/meta/recipes-devtools/makedevs/makedevs/makedevs.c
+>>> @@ -360,7 +360,7 @@ static int interpret_table_entry(char *line)
+>>>      unsigned long mode =3D 0755, uid =3D 0, gid =3D 0, major =3D 0, =
+minor =3D 0;
+>>>      unsigned long start =3D 0, increment =3D 1, count =3D 0;
+>>>=20
+>>> -     if (0 > sscanf(line, "%40s %c %lo %40s %40s %lu %lu %lu %lu =
+%lu", path,
+>>> +     if (0 > sscanf(line, "%4095s %c %lo %40s %40s %lu %lu %lu %lu =
+%lu", path,
+>>>                  &type, &mode, usr_buf, grp_buf, &major, &minor, =
+&start,
+>>>                  &increment, &count))
+>>>      {
+>>> --
+>>> 1.9.1
+>>>=20
+>>> --
+>>> _______________________________________________
+>>> Openembedded-core mailing list
+>>> Openembedded-core@lists.openembedded.org
+>>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
+
+--Apple-Mail=_3BC18989-2B27-4ABB-98BD-B5281D873019
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+	filename=signature.asc
+Content-Type: application/pgp-signature;
+	name=signature.asc
+Content-Description: Message signed with OpenPGP using GPGMail
+
+-----BEGIN PGP SIGNATURE-----
+Comment: GPGTools - https://gpgtools.org
+
+iEYEARECAAYFAlfy7KQACgkQuwUzVZGdMxSERgCfcqj/EcWjno3NtmlCkwYVzMDR
+yE8An2OYOJY86UyR651QYR6NpmHvujVv
+=TzaK
+-----END PGP SIGNATURE-----
+
+--Apple-Mail=_3BC18989-2B27-4ABB-98BD-B5281D873019--
