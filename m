@@ -1,30 +1,47 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 57B01719E9
+Return-Path: <ulfalizer@gmail.com>
+Received: from mail-ua0-f196.google.com (mail-ua0-f196.google.com
+	[209.85.217.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 7F1C3719E9
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  3 Oct 2016 22:21:53 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u93MLqNr011206; Mon, 3 Oct 2016 23:21:52 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id YDgpQaBWzFBQ; Mon,  3 Oct 2016 23:21:52 +0100 (BST)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u93MLkF4011203
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Mon, 3 Oct 2016 23:21:47 +0100
-Message-ID: <1475533306.30475.341.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Stephano Cetola <stephano.cetola@linux.intel.com>,
-	openembedded-core@lists.openembedded.org
-Date: Mon, 03 Oct 2016 23:21:46 +0100
-In-Reply-To: <20161003004307.824-2-stephano.cetola@linux.intel.com>
-References: <20161003004307.824-1-stephano.cetola@linux.intel.com>
-	<20161003004307.824-2-stephano.cetola@linux.intel.com>
-X-Mailer: Evolution 3.18.5.2-0ubuntu3 
-Mime-Version: 1.0
-Subject: Re: [PATCH V2] sanity: add function to check for git config user
+	Mon,  3 Oct 2016 22:24:11 +0000 (UTC)
+Received: by mail-ua0-f196.google.com with SMTP id 49so2415295uac.0
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 03 Oct 2016 15:24:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=sbsW/lxKCKifFsyCGPGbpRkzOoZayqpRHfBKwkKCVvE=;
+	b=kduZsq7Q+q6NypCQ18H9OuUfQ/JxCNNNX5kSBjCw3gZXw98cJs/Nm4Ixy6sFCote4o
+	sp+kfYLVVem4t+Iy2R97/uR9zGYtlYDF9nu/Hc82ipUMeld42k/9ol1cHvz8j7gr8CWG
+	V178D4ElrA3lPCBu5cdXYwg0vjoUKywIigz6q0FRjmngryt2RUqQ1Ch56PyXzZFwmiGo
+	uoTJ1ogKneKCxov2WPJuwhs64vph3T3QBYEZadfGrZWkIQ/wNu4rO61itAM030FauILz
+	/jvMuelXUZJSHn1XDdjid2/IEC5FBKU6y9nA8q+mvBD+CBdA9uCXw0UhruHKuxZm5spT
+	N0Uw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=sbsW/lxKCKifFsyCGPGbpRkzOoZayqpRHfBKwkKCVvE=;
+	b=gt7N5qNtgGizI19C52C7VZpikfhNY7k2oI/uP0aCLcBBdGr+NFyPPDshrH7rDgKu+9
+	DQrm5WgmJKxGoHrhWRTsS/CFKOPmyOXXh4Cq3jlJH4cQKawkrIHmo8TsT8T13e+Vk7PX
+	S8jvDkK/e/P0BJOQkKW9V23UZzSV1PBTgOHotzyIGxlq0zkAA4Wa97jYqKlsk9Jpm+v9
+	ZPs004ufRTICYuVIGdI2nplieYJybuWDZyCRBSGlLvwN4CuXjlEayOrv6eQGovLJ9OEn
+	t8TthDHXEZvabEJy4Fb3ryRgQHACoIny4DW5+/DvUWujLrZvFVzNfti0nqpImOArFxao
+	eRlw==
+X-Gm-Message-State: AA6/9RmsMvY/bx2uGzpI3RtYGGySeEbjDJlrfwDD1aVcCMETyxKEM/UL+7H1mtrp8n2ThQh4rq+LIxUFqSZlXg==
+X-Received: by 10.176.67.2 with SMTP id k2mr230060uak.153.1475533452541; Mon,
+	03 Oct 2016 15:24:12 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.103.140.8 with HTTP; Mon, 3 Oct 2016 15:24:11 -0700 (PDT)
+In-Reply-To: <CAFkk2KSCRAuCTTxoDdVuKJd7jeZBqO6-RAsq4ZaMnOS2wExhGA@mail.gmail.com>
+References: <1475497055-1059-1-git-send-email-fabio.berton@ossystems.com.br>
+	<CAFkk2KSCRAuCTTxoDdVuKJd7jeZBqO6-RAsq4ZaMnOS2wExhGA@mail.gmail.com>
+From: Ulf Magnusson <ulfalizer@gmail.com>
+Date: Tue, 4 Oct 2016 00:24:11 +0200
+Message-ID: <CAFkk2KSTr+x_93DP-=ag-Oj4bmcDz5ep1r77xqKGyX6pZ_Zd8g@mail.gmail.com>
+To: Fabio Berton <fabio.berton@ossystems.com.br>
+Cc: Otavio Salvador <otavio@ossystems.com.br>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2 1/2] classes/uboot-extlinux-config: Add class
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,128 +54,233 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Oct 2016 22:21:56 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 03 Oct 2016 22:24:11 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Sun, 2016-10-02 at 17:43 -0700, Stephano Cetola wrote:
-> If attempting to patch a git repo without a proper git config setup,
-> an error will occur saying user.name/user.email are needed by git
-> am/apply. After some code was removed from kernel-yocto, it was
-> simple enough to reproduce this error by creating a kernel patch and
-> using a container to build.
-> 
-> This patch abstracts out functionality that existed in buildhistory
-> for use in other classes. It also adds a call to this functionality
-> to the kernel-yocto class.
-> 
-> Fixes [YOCTO #10346]
-> 
-> introduced in
-> OE-core revision 0f698dfd1c8bbc0d53ae7977e26685a7a3df52a3
-> 
-> Signed-off-by: Stephano Cetola <stephano.cetola@linux.intel.com>
-> ---
->  meta/classes/buildhistory.bbclass | 13 ++++---------
->  meta/classes/kernel-yocto.bbclass |  2 ++
->  meta/classes/sanity.bbclass       | 15 +++++++++++++++
->  3 files changed, 21 insertions(+), 9 deletions(-)
-> 
-> diff --git a/meta/classes/buildhistory.bbclass
-> b/meta/classes/buildhistory.bbclass
-> index 6e5de0e..ed79029 100644
-> --- a/meta/classes/buildhistory.bbclass
-> +++ b/meta/classes/buildhistory.bbclass
-> @@ -688,6 +688,7 @@ END
->  	rm $commitmsgfile
->  }
->  
-> +inherit sanity
->  buildhistory_commit() {
->  	if [ ! -d ${BUILDHISTORY_DIR} ] ; then
->  		# Code above that creates this dir never executed,
-> so there can't be anything to commit
-> @@ -708,15 +709,9 @@ END
->  			git tag -f build-minus-2 build-minus-1 >
-> /dev/null 2>&1 || true
->  			git tag -f build-minus-1 > /dev/null 2>&1 ||
-> true
->  		fi
-> -		# If the user hasn't set up their name/email, set
-> some defaults
-> -		# just for this repo (otherwise the commit will fail
-> with older
-> -		# versions of git)
-> -		if ! git config user.email > /dev/null ; then
-> -			git config --local user.email
-> "buildhistory@${DISTRO}"
-> -		fi
-> -		if ! git config user.name > /dev/null ; then
-> -			git config --local user.name "buildhistory"
-> -		fi
-> +
-> +		check_git_config "buildhistory"
-> +
->  		# Check if there are new/changed files to commit
-> (other than metadata-revs)
->  		repostatus=`git status --porcelain | grep -v "
-> metadata-revs$"`
->  		HOSTNAME=`hostname 2>/dev/null || echo unknown`
-> diff --git a/meta/classes/kernel-yocto.bbclass b/meta/classes/kernel-
-> yocto.bbclass
-> index 53659f2..035edeb 100644
-> --- a/meta/classes/kernel-yocto.bbclass
-> +++ b/meta/classes/kernel-yocto.bbclass
-> @@ -156,9 +156,11 @@ do_kernel_metadata() {
->  	fi
->  }
->  
-> +inherit sanity
->  do_patch() {
->  	cd ${S}
->  
-> +	check_git_config "kernel-yocto"
->  	meta_dir=$(kgit --meta)
->  	(cd ${meta_dir}; ln -sf patch.queue series)
->  	if [ -f "${meta_dir}/series" ]; then
-> diff --git a/meta/classes/sanity.bbclass
-> b/meta/classes/sanity.bbclass
-> index 7682ffb..40033ab 100644
-> --- a/meta/classes/sanity.bbclass
-> +++ b/meta/classes/sanity.bbclass
-> @@ -1023,3 +1023,18 @@ python check_sanity_eventhandler() {
->  
->      return
->  }
-> +
-> +# If the user hasn't set up their name/email, set some defaults
-> +check_git_config() {
-> +	if [ -z "$1" ]; then
-> +		name="OE"
-> +	else
-> +		name="$1"
-> +	fi
-> +	if ! git config user.email > /dev/null ; then
-> +        	git config --local user.email "${name}@${DISTRO}"
-> +	fi
-> +	if ! git config user.name > /dev/null ; then
-> +        	git config --local user.name "${name}"
-> +	fi
-> +}
+On Tue, Oct 4, 2016 at 12:08 AM, Ulf Magnusson <ulfalizer@gmail.com> wrote:
+> Hello,
+>
+> On Mon, Oct 3, 2016 at 2:17 PM, Fabio Berton
+> <fabio.berton@ossystems.com.br> wrote:
+>> This class allow the extlinux.conf generation for U-Boot use.
+>> The U-Boot support for it is given to allow the Generic Distribution
+>> Configuration specification use by OpenEmbedded-based products.
+>>
+>> This class can be inherited by u-boot recipes to create extlinux.conf
+>> and boot using menu options.
+>>
+>> U-boot with extlinux support is machine dependent, so to use this class
+>> you need to set UBOOT_EXTLINUX to 1 in machine configuration file and
+>> also set root= kernel cmdline UBOOT_EXTLINUX_ROOT. This variable is used
+>> to pass root kernel cmdline, e.g:
+>>
+>> UBOOT_EXTLINUX_ROOT = "root=/dev/mmcblk2p2"
+>>
+>> Signed-off-by: Fabio Berton <fabio.berton@ossystems.com.br>
+>> Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+>> ---
+>>  meta/classes/uboot-extlinux-config.bbclass | 130 +++++++++++++++++++++++++++++
+>>  1 file changed, 130 insertions(+)
+>>  create mode 100644 meta/classes/uboot-extlinux-config.bbclass
+>>
+>> diff --git a/meta/classes/uboot-extlinux-config.bbclass b/meta/classes/uboot-extlinux-config.bbclass
+>> new file mode 100644
+>> index 0000000..a4dc0c0
+>> --- /dev/null
+>> +++ b/meta/classes/uboot-extlinux-config.bbclass
+>> @@ -0,0 +1,130 @@
+>> +# uboot-extlinux-config.bbclass
+>> +#
+>> +# This class allow the extlinux.conf generation for U-Boot use. The
+>> +# U-Boot support for it is given to allow the Generic Distribution
+>> +# Configuration specification use by OpenEmbedded-based products.
+>> +#
+>> +# External variables:
+>> +#
+>> +# UBOOT_EXTLINUX_CONFIG            - Configuration file default set to source dir.
+>> +# UBOOT_EXTLINUX_CONSOLE           - Set to "console=ttyX" to change kernel boot
+>> +#                                    default console.
+>> +# UBOOT_EXTLINUX_LABELS            - A list of targets for the automatic config.
+>> +# UBOOT_EXTLINUX_KERNEL_ARGS       - Add additional kernel arguments.
+>> +# UBOOT_EXTLINUX_KERNEL_IMAGE      - Kernel image name.
+>> +# UBOOT_EXTLINUX_FDTDIR            - Device tree directory.
+>> +# UBOOT_EXTLINUX_INITRD            - Indicates a list of filesystem images to
+>> +#                                    concatenate and use as an initrd (optional).
+>> +# UBOOT_EXTLINUX_MENU_DESCRIPTION  - Name to use as description.
+>> +# UBOOT_EXTLINUX_ROOT              - Root kernel cmdline.
+>> +#
+>> +# If there's only one label system will boot automatically and menu won't be
+>> +# created. If you want to use more than one labels, e.g linux and alternate,
+>> +# use overrides to set menu description, console and others variables.
+>> +#
+>> +# Ex:
+>> +#
+>> +# UBOOT_EXTLINUX_LABELS ??= "default fallback"
+>> +#
+>> +# UBOOT_EXTLINUX_KERNEL_IMAGE_default ??= "../zImage"
+>> +# UBOOT_EXTLINUX_MENU_DESCRIPTION_default ??= "Linux Default"
+>> +#
+>> +# UBOOT_EXTLINUX_KERNEL_IMAGE_fallback ??= "../zImage-fallback"
+>> +# UBOOT_EXTLINUX_MENU_DESCRIPTION_fallback ??= "Linux Fallback"
+>> +#
+>> +# Results:
+>> +#
+>> +# menu title Select the boot mode
+>> +# LABEL Linux Default
+>> +#   KERNEL ../zImage
+>> +#   FDTDIR ../
+>> +#   APPEND root=/dev/mmcblk2p2 rootwait rw console=${console}
+>> +# LABEL Linux Fallback
+>> +#   KERNEL ../zImage-fallback
+>> +#   FDTDIR ../
+>> +#   APPEND root=/dev/mmcblk2p2 rootwait rw console=${console}
+>> +#
+>> +# Copyright (C) 2016, O.S. Systems Software LTDA.  All Rights Reserved
+>> +# Released under the MIT license (see packages/COPYING)
+>> +#
+>> +# The kernel has an internal default console, which you can override with
+>> +# a console=...some_tty...
+>> +UBOOT_EXTLINUX_CONSOLE ??= "console=${console}"
+>> +UBOOT_EXTLINUX_CONFIG ??= "${S}/extlinux.conf"
+>> +UBOOT_EXTLINUX_LABELS ??= "linux"
+>> +UBOOT_EXTLINUX_FDTDIR ??= "../"
+>> +UBOOT_EXTLINUX_KERNEL_IMAGE ??= "../${KERNEL_IMAGETYPE}"
+>> +UBOOT_EXTLINUX_KERNEL_ARGS ??= "rootwait rw"
+>> +UBOOT_EXTLINUX_MENU_DESCRIPTION_linux ??= "${DISTRO_NAME}"
+>> +
+>> +python create_extlinux_config() {
+>> +    if d.getVar("UBOOT_EXTLINUX", False) == "1":
+>
+> Is there a reason why False is passed here? Passing True would make
+> the code more general, as the value of the flag could come from
+> another variable, e.g.
+>
+>   UBOOT_EXTLINUX = "${SOME_FLAG_HELPER_VAR}"
+>
+> , or from a function, e.g.
+>
+>   UBOOT_EXTLINUX = "${@needs_uboot_extlinux()}"
+>
+> As a minor style note, the indentation of the function could be
+> decreased by doing
+>
+>   if d.getVar("UBOOT_EXTLINUX", True) != "1":
+>       return
+>   ...
+>
+> That might avoid excessive indentation if you use 'with' as mentioned below.
+>
+>> +        workdir = d.getVar('WORKDIR', True)
+>> +        if not workdir:
+>> +            bb.error("WORKDIR not defined, unable to package")
+>> +            return
+>
+> Could be simplified to the following to make it clear that 'workdir'
+> is never referenced afterwards (I know there's some existing code like
+> the above though):
+>
+>   if not d.getVar('WORKDIR', True):
+>       ...
+>
+>> +
+>> +        labels = d.getVar('UBOOT_EXTLINUX_LABELS', True)
+>> +        if not labels:
+>> +            bb.fatal(1, "UBOOT_EXTLINUX_LABELS not defined, nothing to do")
+>> +            return
+>
+> 'return' is redundant after bb.fatal(). bb.fatal() throws an exception
+> (BBHandledException, though that's internalish), so the 'return' will
+> never be reached.
+>
+>> +
+>> +        if labels == []:
+>> +            bb.fatal(1, "No labels, nothing to do")
+>> +            return
+>
+> Redundant 'return'.
+>
+>> +
+>> +        cfile = d.getVar('UBOOT_EXTLINUX_CONFIG', True)
+>> +        if not cfile:
+>> +            bb.fatal('Unable to read UBOOT_EXTLINUX_CONFIG')
+>> +
+>> +        try:
+>> +            cfgfile = open(cfile, 'w')
+>> +        except OSError:
+>> +            bb.fatal('Unable to open %s' % (cfile))
+>> +
+>> +        cfgfile.write('# Generic Distro Configuration file generated by OpenEmbedded\n')
+>> +
+>> +        if len(labels.split()) > 1:
+>> +            cfgfile.write('menu title Select the boot mode\n')
+>> +
+>> +        for label in labels.split():
+>> +            localdata = bb.data.createCopy(d)
+>> +
+>> +            overrides = localdata.getVar('OVERRIDES', True)
+>> +            if not overrides:
+>> +                bb.fatal('OVERRIDES not defined')
+>> +
+>> +            localdata.setVar('OVERRIDES', label + ':' + overrides)
+>> +            bb.data.update_data(localdata)
+>> +
+>> +            extlinux_console = localdata.getVar('UBOOT_EXTLINUX_CONSOLE', True)
+>> +
+>> +            menu_description = localdata.getVar('UBOOT_EXTLINUX_MENU_DESCRIPTION', True)
+>> +            if not menu_description:
+>> +                menu_description = label
+>> +
+>> +            root = localdata.getVar('UBOOT_EXTLINUX_ROOT', True)
+>> +            if not root:
+>> +                bb.fatal('UBOOT_EXTLINUX_ROOT not defined')
+>> +
+>> +            kernel_image = localdata.getVar('UBOOT_EXTLINUX_KERNEL_IMAGE', True)
+>> +            fdtdir = localdata.getVar('UBOOT_EXTLINUX_FDTDIR', True)
+>> +            if fdtdir:
+>> +                cfgfile.write('LABEL %s\n\tKERNEL %s\n\tFDTDIR %s\n' %
+>> +                             (menu_description, kernel_image, fdtdir))
+>> +            else:
+>> +                cfgfile.write('LABEL %s\n\tKERNEL %s\n' % (menu_description, kernel_image))
+>> +
+>> +            kernel_args = localdata.getVar('UBOOT_EXTLINUX_KERNEL_ARGS', True)
+>> +
+>> +            initrd = localdata.getVar('UBOOT_EXTLINUX_INITRD', True)
+>> +            if initrd:
+>> +                cfgfile.write('\tINITRD %s\n'% initrd)
+>> +
+>> +            kernel_args = root + " " + kernel_args
+>> +            cfgfile.write('\tAPPEND %s %s\n' % (kernel_args, extlinux_console))
+>> +
+>> +        cfgfile.close()
+>
+> Using Python's 'with' syntax would be a better way to handle the file.
+> That way, the file is guaranteed to be close()d immediately even if
+> the function exits via bb.fatal().
+>
+> It is possible to use 'with' even after opening the file by the way.
+> Just do the following:
+>
+>   with cfgfile:
+>       ...
+>
+>> +}
+>> +
+>> +do_install[prefuncs] += "create_extlinux_config"
+>> --
+>> 2.1.4
+>>
+>> --
+>
+> I'm not familiar with the functionality itself, so hard to say
+> anything constructive there.
+>
+> Cheers,
+> Ulf
 
-I worry you're causing a load of the classes to end up cross linked
-here which is bad from a usability standpoint. Nobody can easily
-disable the sanity checks after this patch.
-
-If we're keeping this as a shell function this function would probably
-go to utils.bbclass. Adding something to lib/oe is probably ultimately
-the way to go but I appreciate its harder to write the above in a
-python lib, so perhaps utils.bbclass is good enough for now? We can
-assume utils is inherited globally.
+The manual doesn't make it perfectly clear that bb.fatal() raises an
+exception. I opened a documentation bug for it:
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=10363
 
 Cheers,
-
-Richard
-
-
+Ulf
 
