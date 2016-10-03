@@ -1,30 +1,47 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id B0087719B6
+Return-Path: <ross.burton@intel.com>
+Received: from mail-it0-f52.google.com (mail-it0-f52.google.com
+	[209.85.214.52])
+	by mail.openembedded.org (Postfix) with ESMTP id E93F46074F
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  3 Oct 2016 14:56:17 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u93EuIGD013677 for <openembedded-core@lists.openembedded.org>;
-	Mon, 3 Oct 2016 15:56:18 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id rlaFwlqzCDDO
+	Mon,  3 Oct 2016 15:31:19 +0000 (UTC)
+Received: by mail-it0-f52.google.com with SMTP id r192so118607636ita.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  3 Oct 2016 15:56:18 +0100 (BST)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u93EuDqs013673
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 3 Oct 2016 15:56:14 +0100
-Message-ID: <1475506573.30475.331.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Mon, 03 Oct 2016 15:56:13 +0100
-X-Mailer: Evolution 3.18.5.2-0ubuntu3 
-Mime-Version: 1.0
-Subject: [PATCH] oeqa/sshcontrol: Handle interrupted system call error
+	Mon, 03 Oct 2016 08:31:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=MZgSHWm/p4/Abq2BSKylY1LeWjq2be2MdCWdObgFOq0=;
+	b=LuGM9U5iV0dhDN/mcBB3304g0XFwcG7kb4I5Rc+ZBiw799n2r8BokW+Ao10SfLbMdC
+	XCtkbvmO17k4ilnZhUc6CdivrQkqef2TvPnvz30Ksyhc0pIT/L7sTpt00G949zDjiA7n
+	c+2l9QkhCjQRLRpk5MVjxvCQPKY9n8NxNVuqbfuYV+frXVbhNQ4/dBsB9sU5le38VwGO
+	aCa3E21NqFX4e6nyQzDEdDB2LubRl3xgUNObSKrmOrg+L0Kb3J+qXAgtCXIkvpggyyz7
+	Y93blI5tNmcw8NqysZ0dQjoyyk0593TFETu9ZLqowjnD00elqW85t+deEFqHFFmeATdp
+	9/TQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=MZgSHWm/p4/Abq2BSKylY1LeWjq2be2MdCWdObgFOq0=;
+	b=ETZkOjEFPrO+E8NaANE81UR8L2DB+7JWEB3WOmARlsEurD1VsHl/ZJisg9esaxzIwW
+	254RADwiI/9feyuZsht3089sjDSsLEaNQuVBWZUrFKP5Rb9jnF3NsYTCNO/ejQWw+uW5
+	SdFtAhtGr7zP6OyGc5PE+GyWRA7OTy85YvucYczEPhJ/RD5Xri9eNVsK43OYTLDW2LaX
+	MMYkfXbrX0fSKVJKPOMNKyg7NfdrEK1IoGTFzYJ5PDNnU+bnLbTq9woD5Ga0+EtueHFL
+	KuTY64hoL7i4V9m8Ge6Q369Sb9l9M9fW+BwwpaHYCp62YjLlAbPDYP3MTMa+t2zoNCwa
+	HmPg==
+X-Gm-Message-State: AA6/9RmSn7IzCsBg/GjIjjoSR3+QwIPBgDWZQu1chQ8VoXR5CJpGeVMYgTPoqDQZcZrv6pQgXQ5euPhUzh5alZ+X
+X-Received: by 10.36.153.194 with SMTP id a185mr14189062ite.70.1475508681022; 
+	Mon, 03 Oct 2016 08:31:21 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.107.155.66 with HTTP; Mon, 3 Oct 2016 08:31:00 -0700 (PDT)
+In-Reply-To: <20161003004307.824-2-stephano.cetola@linux.intel.com>
+References: <20161003004307.824-1-stephano.cetola@linux.intel.com>
+	<20161003004307.824-2-stephano.cetola@linux.intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 3 Oct 2016 16:31:00 +0100
+Message-ID: <CAJTo0LZ51i2rAE=poK94vjYqWDJ3MBA6_Fxfw0fk+=WjgjxY7w@mail.gmail.com>
+To: Stephano Cetola <stephano.cetola@linux.intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH V2] sanity: add function to check for git config user
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,53 +54,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Oct 2016 14:56:18 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 03 Oct 2016 15:31:20 -0000
+Content-Type: multipart/alternative; boundary=94eb2c08e518cbb226053df7a22f
 
-Deal with an interrupted system call gracefully:
+--94eb2c08e518cbb226053df7a22f
+Content-Type: text/plain; charset=UTF-8
 
-|   File "/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-qa-systemd/build/meta/lib/oeqa/utils/sshcontrol.py", line 55, in _run
-|     if select.select([self.process.stdout], [], [], 5)[0] != []:
-| InterruptedError: [Errno 4] Interrupted system call
+On 3 October 2016 at 01:43, Stephano Cetola <stephano.cetola@linux.intel.com
+> wrote:
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> +# If the user hasn't set up their name/email, set some defaults
+> +check_git_config() {
+> +       if [ -z "$1" ]; then
+> +               name="OE"
+> +       else
+> +               name="$1"
+> +       fi
+> +       if ! git config user.email > /dev/null ; then
+> +               git config --local user.email "${name}@${DISTRO}"
+> +       fi
+> +       if ! git config user.name > /dev/null ; then
+> +               git config --local user.name "${name}"
+> +       fi
+> +}
+>
 
-diff --git a/meta/lib/oeqa/utils/sshcontrol.py b/meta/lib/oeqa/utils/sshcontrol.py
-index da485ee..05d6502 100644
---- a/meta/lib/oeqa/utils/sshcontrol.py
-+++ b/meta/lib/oeqa/utils/sshcontrol.py
-@@ -52,17 +52,19 @@ class SSHProcess(object):
-             endtime = self.starttime + timeout
-             eof = False
-             while time.time() < endtime and not eof:
--                if select.select([self.process.stdout], [], [], 5)[0] != []:
--                    data = os.read(self.process.stdout.fileno(), 1024)
--                    if not data:
--                        self.process.stdout.close()
--                        eof = True
--                    else:
--                        data = data.decode("utf-8")
--                        output += data
--                        self.log(data)
--                        endtime = time.time() + timeout
--
-+                try:
-+                    if select.select([self.process.stdout], [], [], 5)[0] != []:
-+                        data = os.read(self.process.stdout.fileno(), 1024)
-+                        if not data:
-+                            self.process.stdout.close()
-+                            eof = True
-+                        else:
-+                            data = data.decode("utf-8")
-+                            output += data
-+                            self.log(data)
-+                            endtime = time.time() + timeout
-+                except InterruptedError:
-+                    continue
- 
-             # process hasn't returned yet
-             if not eof:
+Instead of embedding this into sanity.bbclass, could it just go into
+meta/lib/oe/ somewhere?
 
+Ross
 
+--94eb2c08e518cbb226053df7a22f
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 3 October 2016 at 01:43, Stephano Cetola <span dir=3D"ltr">&lt;<a href=
+=3D"mailto:stephano.cetola@linux.intel.com" target=3D"_blank">stephano.ceto=
+la@linux.intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quot=
+e" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">=
+<div id=3D":sm" class=3D"a3s aXjCH m1578800bbac166c7">+# If the user hasn&#=
+39;t set up their name/email, set some defaults<br>
++check_git_config() {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0if [ -z &quot;$1&quot; ]; then<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0name=3D&quot;OE&quo=
+t;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0else<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0name=3D&quot;$1&quo=
+t;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0fi<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0if ! git config user.email &gt; /dev/null ; the=
+n<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0git config --local =
+user.email &quot;${name}@${DISTRO}&quot;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0fi<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0if ! git config <a href=3D"http://user.name" re=
+l=3D"noreferrer" target=3D"_blank">user.name</a> &gt; /dev/null ; then<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0git config --local =
+<a href=3D"http://user.name" rel=3D"noreferrer" target=3D"_blank">user.name=
+</a> &quot;${name}&quot;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0fi<br>
++}</div></blockquote></div><br>Instead of embedding this into sanity.bbclas=
+s, could it just go into meta/lib/oe/ somewhere?</div><div class=3D"gmail_e=
+xtra"><br></div><div class=3D"gmail_extra">Ross</div></div>
+
+--94eb2c08e518cbb226053df7a22f--
