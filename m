@@ -1,47 +1,46 @@
-Return-Path: <stephen.arnold42@gmail.com>
-Received: from mail-oi0-f43.google.com (mail-oi0-f43.google.com
-	[209.85.218.43])
-	by mail.openembedded.org (Postfix) with ESMTP id F0F54606D0
+Return-Path: <pespin.shar@gmail.com>
+Received: from mail-lf0-f45.google.com (mail-lf0-f45.google.com
+	[209.85.215.45])
+	by mail.openembedded.org (Postfix) with ESMTP id 6C223719D6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  3 Oct 2016 17:17:20 +0000 (UTC)
-Received: by mail-oi0-f43.google.com with SMTP id r126so207138916oib.0
+	Mon,  3 Oct 2016 17:22:44 +0000 (UTC)
+Received: by mail-lf0-f45.google.com with SMTP id b81so43640277lfe.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 03 Oct 2016 10:17:22 -0700 (PDT)
+	Mon, 03 Oct 2016 10:22:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to; 
-	bh=VWanUlOTVUuUK6ORbphbmBbbRGxHpjBXzqze2kT0h7Q=;
-	b=zrdoGZ0D4t/IJTI5F0p0JRDhGbPzgaHs25S8XkKR6jwJyNwEo91YouveB3KhB1JlxS
-	JyKyvYrI2e/FhoOWwRMQccngyodQXG21NuCeiDo3vru7ujdUmmbQD7hYxQT3eeNYG1fL
-	CkEEWW/HnCLDH8t/GvIxaS6tv75xUHrdPwzl7pJQCr+Aeadx4K7CvDeRE1Q5HQ9R9KKK
-	0iVfBGbotoPmE/wi5ppaO7VlHzmZA/SqMr8FyFkVRwtMs49IBgksSq+WXLV0AKCxsk4u
-	ZwiR2yp+tHhBoi31J6qV9FHImMKLbE+L+IQQBu3FVeRoMI9XfZoPGPhVDzGdTR8DFvCA
-	WnbA==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=FPOI5nlSkaN4nnjoS0E52PIlYyPRW0m8t8bpnOFG6Uo=;
+	b=IPFzA02UfPpMNvGa9TWUSe/y5eBBeql7i1wGzU+tCEIU3GPAYMkAxsxjw3Kwivlk+c
+	GzY/z3JsiOireu78vMeZ7mkgDhB9/PrI+2SA54dIWDHjz6WzFNY3FOEAbNaB46IKUU2N
+	xZKLjZL74jcKTYc36trI8hocr8Siu4DVFF3m58T5e9Isbx+zc9Jp0k0myEkWFCnnqrSZ
+	SwSBirjXmKBXqu31Ix6oeVcRyr+JUJSN5V3pwV+8bVjx65Vhaq783v7ygcjc1tuyybBK
+	cpi2eJ/+Ntw9eRc8Fq0hRYpCfRGrjJsaIHrRzEGaX2YNBM1pEypATDj8WYJL2WpM8n4q
+	bYtw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to;
-	bh=VWanUlOTVUuUK6ORbphbmBbbRGxHpjBXzqze2kT0h7Q=;
-	b=Tlq1i4PRWeB3nc2q+ndufNxwK1HME0J+5YKmwD5qYwGuKoH0CcyvZpwcNBU/yboXz/
-	bsvsNIgkS0uCbl+HGTV6LSZzAV0GQWwYm+XFPNNlMLLrPxH4Rw+DGVJjoY1wrN7fI3ra
-	AhBBhdJ7djlIcEqzgF8/tAaPqD6wNgYVD/eqTOcULZDPXNtqhxbSgbtuYTagq/vsyz4E
-	VwPH/LpwITSNVavJGJzRoz87StiuWfjmeMC+EyTe3E9zfLH+WjreIctlr3u9wp6hbiil
-	GB0TOiC4yKjlTzNfeTtmBw9NVRFqoN/AOvi5dragmonecL9sIH6ggfS6iYSR1ZsrckSH
-	Rl0Q==
-X-Gm-Message-State: AA6/9RmN5Ec+mkw//A0eo/bxaRMiApWWLWP3/cdOA1B9Zmth7RG2qRCjk2X+rmODJQKclLCMLyHvImbUjrUD5g==
-X-Received: by 10.157.48.77 with SMTP id w13mr14494460otd.204.1475515041587;
-	Mon, 03 Oct 2016 10:17:21 -0700 (PDT)
+	:message-id:subject:to:cc;
+	bh=FPOI5nlSkaN4nnjoS0E52PIlYyPRW0m8t8bpnOFG6Uo=;
+	b=IAorz1JmjsVw9Xy//6P6cr5IgeLcnodnrNe6fMnxYqhSzkoOuNmK28lv5BLq2Wv4xI
+	pSav6qJYUgz315H0cEkEHxkaVzr7ZbQSFz9MR0xLAT51u+jALzUESIW7oL/qGHdtixn/
+	9/ppwvvSMjiNSzc6AKmMSCZ2fdpm8COA2pbu5U4YJYqwHpPQsC9mfWgBiiquoAza5Dm7
+	OjGVG1sli81NvCFEAYCfJ3TVJ1EyXsYSDXjaM54a9mkFvpTEJb3y5bO3pAg1MOpPkics
+	XU3EU2O802YP7JsQu1I4PbGyN/y451qyOr3xMlqR17HORi/40U+Yk3FUYRIbiRbkwVXe
+	vA6w==
+X-Gm-Message-State: AA6/9RlUSfOLwSxzKQZfx9iRIl46gT6+CQ41O+K5wvp69HMonjYztiGIVuRcWz7v5x+BZdxHhSc+03T4Iwh7gA==
+X-Received: by 10.25.26.203 with SMTP id a194mr1741774lfa.30.1475515364877;
+	Mon, 03 Oct 2016 10:22:44 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.182.119.229 with HTTP; Mon, 3 Oct 2016 10:17:21 -0700 (PDT)
-In-Reply-To: <1724648.cX3L07qpO2@peggleto-mobl.ger.corp.intel.com>
-References: <72492146-b352-1f59-1d23-26f71773d689@mlbassoc.com>
-	<1473976307.7207.151.camel@linuxfoundation.org>
-	<1517439.eAOeRX8ZQL@peggleto-mobl.ger.corp.intel.com>
-	<1724648.cX3L07qpO2@peggleto-mobl.ger.corp.intel.com>
-From: Stephen Arnold <stephen.arnold42@gmail.com>
-Date: Mon, 3 Oct 2016 10:17:21 -0700
-Message-ID: <CAOLEWZVcxGsVANZnk08mxXBJi6A9ChzzOzA=vu7+AnGzYaBbAw@mail.gmail.com>
-To: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: Crazy display
+Received: by 10.25.24.217 with HTTP; Mon, 3 Oct 2016 10:22:44 -0700 (PDT)
+In-Reply-To: <20160908112942.8459-1-ml@embed.me.uk>
+References: <20160908112942.8459-1-ml@embed.me.uk>
+From: Pau Espin Pedrol <pespin.shar@gmail.com>
+Date: Mon, 3 Oct 2016 19:22:44 +0200
+Message-ID: <CAEGpDuaTbzsa7qWWe1hNY9xQMRFPOK0y6TWzWJQqn38LfJ2VqA@mail.gmail.com>
+To: Jack Mitchell <ml@embed.me.uk>
+Cc: Jack Mitchell <jack@embed.me.uk>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [RFC] iptables: add systemd helper unit to load/restore rules
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,66 +53,97 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Oct 2016 17:17:21 -0000
+X-List-Received-Date: Mon, 03 Oct 2016 17:22:45 -0000
 Content-Type: text/plain; charset=UTF-8
 
-I do mostly remote screen sessions (on gentoo host, sometimes
-ubuntu/debian vm) and occasional local terminal (xfce term but remote
-could be console only).  The fact that I have not seen this once is
-just *weird* (and I'm pretty damn good about hitting the annoying
-bits).
+Hi,
 
-Steve
+can you please use ${systemd_system_unitdir} instead of
+${systemd_unitdir}/system?
+Pau Espin Pedrol
 
-On Mon, Oct 3, 2016 at 10:05 AM, Paul Eggleton
-<paul.eggleton@linux.intel.com> wrote:
-> On Fri, 16 Sep 2016 10:00:12 Paul Eggleton wrote:
->> On Thu, 15 Sep 2016 22:51:47 Richard Purdie wrote:
->> > On Fri, 2016-09-16 at 08:41 +1200, Paul Eggleton wrote:
->> > > On Thu, 15 Sep 2016 22:26:09 Gary Thomas wrote:
->> > > > On 2016-09-15 22:12, Burton, Ross wrote:
->> > > > > On 15 September 2016 at 21:03, Paul Eggleton
->> > >
->> > > <paul.eggleton@linux.intel.com <mailto:paul.eggleton@linux.intel.com>
->> > >
->> > > > wrote:
->> > > > >     Are you guys perhaps using the same terminal application?
->> > > > >
->> > > > > Using screen
->> > > > >
->> > > > >     / tmux / anything similar? (I'm using screen here and haven't
->> > > > >     experienced problems though.)
->> > > > >
->> > > > > I'm using iTerm2 on a Mac to run normal SSH to my Linux box. No
->> > > > > screen/tmux/etc.
->> > > >
->> > > > Pretty much the same for me - just SSH in an xterm window.
->> > >
->> > > Hmm, I'm still no closer then.
->> > >
->> > > Does it just start happening at some point in the middle of a build?
->> > > Or right
->> > > from the start?
->> >
->> > Seems to happen at various points during the build. Looks like bad
->> > timing of console updates so can happen at any point, I'd see evidence
->> > its happened multiple times in a given build.
->>
->> This is bizarre. Clearly something is different between your systems and
->> mine :/
+
+2016-09-08 13:29 GMT+02:00 Jack Mitchell <ml@embed.me.uk>:
+> From: Jack Mitchell <jack@embed.me.uk>
 >
-> I just wanted to check particularly with Gary and Ross - since the following
-> pseudo fix went in, are you still seeing this problem?
+> there is currently no way to automatically load iptable rules
+> in OE. Add a systemd unit file to automatically load rules on
+> network connection. This is cribbed from the way ArchLinux
+> handles iptables with some minor modifications for OE. New rules
+> can be generated using 'iptables-save > iptables.rules'
+> ---
+>  .../iptables/iptables/iptables.rules                 |  0
+>  .../iptables/iptables/iptables.service               | 13 +++++++++++++
+>  meta/recipes-extended/iptables/iptables_1.6.0.bb     | 20 ++++++++++++++++++--
+>  3 files changed, 31 insertions(+), 2 deletions(-)
+>  create mode 100644 meta/recipes-extended/iptables/iptables/iptables.rules
+>  create mode 100644 meta/recipes-extended/iptables/iptables/iptables.service
 >
->  http://cgit.openembedded.org/openembedded-core/commit/?id=efd0b0f604f9f498b9c20bc9a25708c493aa4f4a
+> diff --git a/meta/recipes-extended/iptables/iptables/iptables.rules b/meta/recipes-extended/iptables/iptables/iptables.rules
+> new file mode 100644
+> index 0000000..e69de29
+> diff --git a/meta/recipes-extended/iptables/iptables/iptables.service b/meta/recipes-extended/iptables/iptables/iptables.service
+> new file mode 100644
+> index 0000000..041316e
+> --- /dev/null
+> +++ b/meta/recipes-extended/iptables/iptables/iptables.service
+> @@ -0,0 +1,13 @@
+> +[Unit]
+> +Description=Packet Filtering Framework
+> +Before=network-pre.target
+> +Wants=network-pre.target
+> +
+> +[Service]
+> +Type=oneshot
+> +ExecStart=@SBINDIR@/iptables-restore /etc/iptables/iptables.rules
+> +ExecReload=@SBINDIR@/iptables-restore /etc/iptables/iptables.rules
+> +RemainAfterExit=yes
+> +
+> +[Install]
+> +WantedBy=multi-user.target
+> diff --git a/meta/recipes-extended/iptables/iptables_1.6.0.bb b/meta/recipes-extended/iptables/iptables_1.6.0.bb
+> index fbbe418..65430a1 100644
+> --- a/meta/recipes-extended/iptables/iptables_1.6.0.bb
+> +++ b/meta/recipes-extended/iptables/iptables_1.6.0.bb
+> @@ -22,13 +22,16 @@ SRC_URI = "http://netfilter.org/projects/iptables/files/iptables-${PV}.tar.bz2 \
+>             file://types.h-add-defines-that-are-required-for-if_packet.patch \
+>             file://0001-configure-Add-option-to-enable-disable-libnfnetlink.patch \
+>             file://0002-configure.ac-only-check-conntrack-when-libnfnetlink-enabled.patch \
+> -          "
+> +           file://iptables.service \
+> +           file://iptables.rules \
+> +"
+> +
+>  SRC_URI_append_libc-musl = " file://0001-fix-build-with-musl.patch"
 >
-> Cheers,
-> Paul
+>  SRC_URI[md5sum] = "27ba3451cb622467fc9267a176f19a31"
+>  SRC_URI[sha256sum] = "4bb72a0a0b18b5a9e79e87631ddc4084528e5df236bc7624472dcaa8480f1c60"
 >
+> -inherit autotools pkgconfig
+> +inherit autotools pkgconfig systemd
+>
+>  EXTRA_OECONF = "--with-kernel=${STAGING_INCDIR} \
+>                 "
+> @@ -48,3 +51,16 @@ do_configure_prepend() {
+>         # Keep ax_check_linker_flags.m4 which belongs to autoconf-archive.
+>         rm -f libtool.m4 lt~obsolete.m4 ltoptions.m4 ltsugar.m4 ltversion.m4
+>  }
+> +
+> +do_install_append() {
+> +
+> +        install -d ${D}${sysconfdir}/iptables
+> +        install -m 0644 ${WORKDIR}/iptables.rules ${D}${sysconfdir}/iptables
+> +
+> +        install -d ${D}${systemd_unitdir}/system
+> +        install -m 0644 ${WORKDIR}/iptables.service ${D}${systemd_unitdir}/system
+> +
+> +       sed -i -e 's,@SBINDIR@,${sbindir},g' ${D}${systemd_unitdir}/system/iptables.service
+> +}
+> +
+> +SYSTEMD_SERVICE_${PN} = "iptables.service"
 > --
+> 2.9.3
 >
-> Paul Eggleton
-> Intel Open Source Technology Centre
 > --
 > _______________________________________________
 > Openembedded-core mailing list
