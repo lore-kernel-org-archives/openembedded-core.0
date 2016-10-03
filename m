@@ -1,48 +1,20 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f179.google.com (mail-io0-f179.google.com
-	[209.85.223.179])
-	by mail.openembedded.org (Postfix) with ESMTP id 62DF96093D
+Return-Path: <jussi.kukkonen@intel.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id A8B7C606BF
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  3 Oct 2016 10:56:41 +0000 (UTC)
-Received: by mail-io0-f179.google.com with SMTP id j37so22387858ioo.3
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 03 Oct 2016 03:56:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=sE/76xyfgidAjhbrvL/YOaCkFG01zUTpka6J9dw9a6k=;
-	b=RaNSvPiszBsZI9O2iKnyXzvT1+ogl5PP2Z/U36GFLj60JLgp6O6gURuDPAxi4jEndh
-	pysb9scniv/D1d4P0T8VKuSLk5vf4LmYoequQIOYCZm/U7NmU9lDBzX4oQIyow0+C8Tv
-	aIpJoz2a+tXh43uOesXL/nLLc5a3c0XTYsZ5ji7OE2Xwi1WMZ8oEPKKSHUHXhGJEhysr
-	je4eoEgExUXOoji0Q6w4tcxwlPMYUY1HS99BqrmDYlHZNnyaJOJe8ccTNVkG5FKoerxN
-	WAJ7N11c2fIxM9V3h7MzIj7z9pjJRvHExWehHlb8lwZyAo1ZKjYyYDQF+P/qikhhzwX6
-	eZSw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=sE/76xyfgidAjhbrvL/YOaCkFG01zUTpka6J9dw9a6k=;
-	b=LWylNMXgHctEWMiw7i9Hhbm3zC8+1QbXf7OqRtGCxzZkrHSoNoYN/jx1yNqyOFwlYs
-	MUMllCf/GTJ2dZIp30PR0g2/Dawow/5RESFdKgN1cLlQZIRSTaLyIBFNJ4Fn/SbL8kIY
-	U0i6yMaJ3+YAKprbug7IWT13WfQLBZIR20sO6WQ3dxYaqFA2I9RRMnOsM2iKdBGdORCg
-	Qgplj5sy10V9abgXKvRn/M83Auwc93FrlTYuRbcM1Wds3b17eHPm4RKQXmH2C0X6vr9e
-	InxKhA5VksJ1dmNnqCSHpuJfprqHJe6Aw0V2ohytVIqUW3nvfkM5XFBzGDN4z+OAluBZ
-	QjSQ==
-X-Gm-Message-State: AA6/9RmYQwhTzf0hrsGLoxBF9BBH5M/WGpxjj7asACPdsZQG/LkLaREcBunEsY5iNp1ks7gLe8+RNNXsxwhVpTat
-X-Received: by 10.107.5.147 with SMTP id 141mr20125666iof.132.1475492203098;
-	Mon, 03 Oct 2016 03:56:43 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.107.155.66 with HTTP; Mon, 3 Oct 2016 03:56:22 -0700 (PDT)
-In-Reply-To: <CALDxG5hFH3h0aS0QBr82Ogp7aiggBbLFpTMvScAHNkN8OfnsQQ@mail.gmail.com>
-References: <CALDxG5jveoshv5wXMZFFJOgprMOAOwARG4xXwQ+gNO8kFmvzuA@mail.gmail.com>
-	<7D3A9BAC-9942-4D89-9B78-D3183E139F9D@gmail.com>
-	<CALDxG5hFH3h0aS0QBr82Ogp7aiggBbLFpTMvScAHNkN8OfnsQQ@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 3 Oct 2016 11:56:22 +0100
-Message-ID: <CAJTo0LbgT0O3uNBWHkH4ATn_85eSpVHb4aEyy=Cbb1w_nP1pUg@mail.gmail.com>
-To: srikanth krishnakar <skrishnakar@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: Psplash on Systemd with progress bar
+	Mon,  3 Oct 2016 12:06:19 +0000 (UTC)
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+	by fmsmga104.fm.intel.com with ESMTP; 03 Oct 2016 05:06:20 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.31,289,1473145200"; d="scan'208";a="175794264"
+Received: from theory.fi.intel.com ([10.237.72.196])
+	by fmsmga004.fm.intel.com with ESMTP; 03 Oct 2016 05:06:18 -0700
+From: Jussi Kukkonen <jussi.kukkonen@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  3 Oct 2016 15:05:57 +0300
+Message-Id: <cover.1475492214.git.jussi.kukkonen@intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH 0/1] xf86-video-intel: Upgrade to recent git
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,43 +27,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Oct 2016 10:56:45 -0000
-Content-Type: multipart/alternative; boundary=001a113edf34a28b3f053df3cc23
+X-List-Received-Date: Mon, 03 Oct 2016 12:06:19 -0000
 
---001a113edf34a28b3f053df3cc23
-Content-Type: text/plain; charset=UTF-8
+Currently xvideo is broken on skylake because our xf86-video-intel
+is way too old (it's the last snapshot but that was 21 months ago).
+The problem can be reproduced with gtk-play (select goom visualization
+from context menu) or testxvideo from xvideo-tests.
 
-On 3 October 2016 at 10:47, srikanth krishnakar <skrishnakar@gmail.com>
-wrote:
+Most distros have moved to a recent git commit already (many have also
+started using the modesetting driver instead of xf86-video-intel for
+modern intel hardware). Unfortunately we did not do the same earlier
+in this release.
 
-> Thanks for your response. You are right about the splash support in
-> splash.. but at least I wanted to eliminate the progress bar that is anyway
-> non-functional. I masked the psplash_draw_progress and its associated
-> psplash_fb_draw_image functions but the progress bar border still shows up
-> leading to a less preferred splash image.
->
+I'm not happy to send a change like this at this point of the release
+but backporting the xvideo fix alone does not seem feasible. I've done
+my usual smoke testing for graphics changes but this of course affects
+all Intel graphics hardware, most of which I can't test with.
 
-IIRC, the border is part of the image, so you should check this and if so
-edit the splash image.
+Thanks,
+  Jussi
 
-Ross
 
---001a113edf34a28b3f053df3cc23
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+The following changes since commit 3a73fe0efcb7aeefcca7011bba887caad03d4d03:
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 3 October 2016 at 10:47, srikanth krishnakar <span dir=3D"ltr">&lt;<a hr=
-ef=3D"mailto:skrishnakar@gmail.com" target=3D"_blank">skrishnakar@gmail.com=
-</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin=
-:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div><font face=3D=
-"Courier New">Thanks for your response. You are right about the splash supp=
-ort in splash.. but at least I wanted to eliminate the progress bar that is=
- anyway non-functional. I masked the psplash_draw_progress and its associat=
-ed psplash_fb_draw_image functions but the=C2=A0progress bar border still s=
-hows up leading to a less preferred splash image. </font></div><div></div><=
-/blockquote></div><br>IIRC, the border is part of the image, so you should =
-check this and if so edit the splash image.</div><div class=3D"gmail_extra"=
-><br></div><div class=3D"gmail_extra">Ross</div></div>
+  beaglebone.conf: produce wic images for Beaglebone (2016-10-01 21:45:57 +0100)
 
---001a113edf34a28b3f053df3cc23--
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib jku/xf86-video-intel
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=jku/xf86-video-intel
+
+Jussi Kukkonen (1):
+  xf86-video-intel: Upgrade to recent git
+
+ .../0001-gen8-Fix-the-YUV-RGB-shader.patch         | 65 --------------------
+ ...-call-to-PixmapSyncDirtyHelper-broken-by-.patch | 30 ----------
+ .../xf86-video-intel/disable-x11-dri3.patch        |  6 +-
+ ...-against-ABI-breakage-in-recent-versions-.patch | 70 ----------------------
+ .../xorg-driver/xf86-video-intel/udev-fstat.patch  | 59 ------------------
+ ...o-intel_2.99.917.bb => xf86-video-intel_git.bb} | 13 ++--
+ 6 files changed, 10 insertions(+), 233 deletions(-)
+ delete mode 100644 meta/recipes-graphics/xorg-driver/xf86-video-intel/0001-gen8-Fix-the-YUV-RGB-shader.patch
+ delete mode 100644 meta/recipes-graphics/xorg-driver/xf86-video-intel/0001-uxa-fix-the-call-to-PixmapSyncDirtyHelper-broken-by-.patch
+ delete mode 100644 meta/recipes-graphics/xorg-driver/xf86-video-intel/sna-Protect-against-ABI-breakage-in-recent-versions-.patch
+ delete mode 100644 meta/recipes-graphics/xorg-driver/xf86-video-intel/udev-fstat.patch
+ rename meta/recipes-graphics/xorg-driver/{xf86-video-intel_2.99.917.bb => xf86-video-intel_git.bb} (81%)
+
+-- 
+2.1.4
+
+
