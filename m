@@ -1,26 +1,45 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 2888B719A3
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-wm0-f66.google.com (mail-wm0-f66.google.com [74.125.82.66])
+	by mail.openembedded.org (Postfix) with ESMTP id C197D719AC
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  3 Oct 2016 05:54:46 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u935slEV015224
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Sun, 2 Oct 2016 22:54:47 -0700 (PDT)
-Received: from yow-bashfiel-d4.wrs.com (128.224.56.94) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.294.0; Sun, 2 Oct 2016 22:54:46 -0700
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-To: <richard.purdie@linuxfoundation.org>
-Date: Mon, 3 Oct 2016 01:54:36 -0400
-Message-ID: <a0abf81eb553903906b2fe0190bf65843639972a.1475473494.git.bruce.ashfield@windriver.com>
-X-Mailer: git-send-email 2.5.0
-In-Reply-To: <cover.1475473494.git.bruce.ashfield@windriver.com>
-References: <cover.1475473494.git.bruce.ashfield@windriver.com>
+	Mon,  3 Oct 2016 06:41:43 +0000 (UTC)
+Received: by mail-wm0-f66.google.com with SMTP id b201so7916880wmb.1
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 02 Oct 2016 23:41:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=8wIgPo3a8QLc+Lii9U+JwmKK0NwQIPyYynixH0+oOZc=;
+	b=vsIURtNRq1M7gwa2X4CjF+6I4mHmeI46zgsiFh33u86Ky7EBBEBZEaL1RbCtwo3hwV
+	RCAddnuEHZO4FXDJTpIFFgbgl0X54WuOqysUgdGqafC0dX6YyIwZkUhQxh+41XGvwln2
+	LSuwRR296XIZKq3q2mRPXR3DA9J+M4v8OURy6uAd5LSNRfBbiZS8tSBj1UPFs3eV/C2z
+	MC3yf4SoNYDUA2b3Son93o7zW8O/65kg+GAKmoAKme4GIcBuIasEmHoO165vLNua0bYM
+	ZJFb86q4cWHdIF6gJvNDSAiMpUv83MgFzdNWF/aW1xUDsoVAHa+cd4lJwdtzs4tTP85B
+	KYXw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=8wIgPo3a8QLc+Lii9U+JwmKK0NwQIPyYynixH0+oOZc=;
+	b=f/ZKK8Du0RE42oS2wlEBEssvl1asNqSsbp0dz9UJP52ToKu2cVV2/ftg8BJ+tMdj1B
+	s8jtBT7SGMG4mDgqca/zvRqRF39vJYDpQG7b6RpLZ17GxZPmBUXX5frS0D/bWR+egqC/
+	Av2m00h08HfZJTOZzSlI/SkGgGQfiAhswHjf2p7PF3l0DE1cFzgMqhNuqY40/G0AL8g6
+	LvztcX/4nerh33a1z4/QF0lIY15rRfvs9yBOvkci8V30jtdLrUQDaV89tOXxluuan2/J
+	QiYPOWMOTudDBW2EC2qM9pY8eEc5jfgooaNfLZJ+NgykFYzJsYFgsKX94i7mS/KlFe4M
+	mwog==
+X-Gm-Message-State: AA6/9RmiQ4w0xOC3wxeKRl0V+qxTJYUX/3edMJ/0bB0xh/5JPy0/eXQSP5opwl5DOKvOmse1cz8kL87gIF8P2A==
+X-Received: by 10.28.134.136 with SMTP id i130mr8964527wmd.76.1475476905032;
+	Sun, 02 Oct 2016 23:41:45 -0700 (PDT)
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 7/7] linux-libc-headers: fix in/if.h includes
+Received: by 10.194.155.103 with HTTP; Sun, 2 Oct 2016 23:41:44 -0700 (PDT)
+In-Reply-To: <C620C32B-A94F-431D-936D-B07D55673384@gmail.com>
+References: <1473711245-24377-1-git-send-email-armccurdy@gmail.com>
+	<C620C32B-A94F-431D-936D-B07D55673384@gmail.com>
+From: Andre McCurdy <armccurdy@gmail.com>
+Date: Sun, 2 Oct 2016 23:41:44 -0700
+Message-ID: <CAJ86T=XHwvTiizexmGZP73CA+CGAxbosp8OuPbPoHi9AK_cYFQ@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] makedevs: don't restrict device node paths to 40 characters
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,160 +52,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Oct 2016 05:54:46 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 03 Oct 2016 06:41:46 -0000
+Content-Type: text/plain; charset=UTF-8
 
-The following kernel commits broke the compilation of ppp, due to redefined
-structures.
+On Sun, Oct 2, 2016 at 1:37 PM, Khem Raj <raj.khem@gmail.com> wrote:
+>
+>> On Sep 12, 2016, at 1:14 PM, Andre McCurdy <armccurdy@gmail.com> wrote:
+>>
+>> 40 character paths work OK for device nodes in /dev but not for
+>> device nodes created in a chroot, LXC container, etc.
+>>
+>> Since the 'path' array is already a 4k buffer, the sscanf 40
+>> character limit seems to be a typo or historical mis-merge. Update
+>> the sscanf limit and bring the code in sync with the Buildroot
+>> version:
+>>
+>>  https://git.buildroot.net/buildroot/commit/?id=8876b6751e0bc19a3754290061808f0f8420708e
+>
+> what is upstream worthiness of this patch ? it seems it could be
+> a good change
 
-Nothing else breaks in userspace with or without these uapi changes, so we
-revert them to keep everything building.
+Where is the upstream?
 
-   commit 05ee5de7451796cf9a8aeb2f05a57790d4fd2336
-   Author: Mikko Rapeli <mikko.rapeli@iki.fi>
-   Date:   Mon Aug 22 20:32:42 2016 +0200
-
-       include/uapi/linux/if_pppol2tp.h: include linux/in.h and linux/in6.h
-
-       Fixes userspace compilation errors like:
-
-       error: field <E2><80><98>addr<E2><80><99> has incomplete type
-        struct sockaddr_in addr; /* IP address and port to send to */
-                           ^
-       error: field <E2><80><98>addr<E2><80><99> has incomplete type
-        struct sockaddr_in6 addr; /* IP address and port to send to */
-
-       Signed-off-by: Mikko Rapeli <mikko.rapeli@iki.fi>
-       Signed-off-by: David S. Miller <davem@davemloft.net>
-
-   commit eafe92114308acf14e45c6c3d154a5dad5523d1a
-   Author: Mikko Rapeli <mikko.rapeli@iki.fi>
-   Date:   Mon Aug 22 20:32:43 2016 +0200
-
-       include/uapi/linux/if_pppox.h: include linux/in.h and linux/in6.h
-
-       Fixes userspace compilation errors:
-
-       error: field <E2><80><98>addr<E2><80><99> has incomplete type
-        struct sockaddr_in addr; /* IP address and port to send to */
-
-       error: field <E2><80><98>addr<E2><80><99> has incomplete type
-        struct sockaddr_in6 addr; /* IP address and port to send to */
-
-       Signed-off-by: Mikko Rapeli <mikko.rapeli@iki.fi>
-       Signed-off-by: David S. Miller <davem@davemloft.net>
-
-Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
----
- .../0001-ppp-fix-in-if.h-includes.patch            | 83 ++++++++++++++++++++++
- .../linux-libc-headers/linux-libc-headers_4.8.bb   |  4 ++
- 2 files changed, 87 insertions(+)
- create mode 100644 meta/recipes-kernel/linux-libc-headers/linux-libc-headers/0001-ppp-fix-in-if.h-includes.patch
-
-diff --git a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers/0001-ppp-fix-in-if.h-includes.patch b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers/0001-ppp-fix-in-if.h-includes.patch
-new file mode 100644
-index 000000000000..f31a53946ec0
---- /dev/null
-+++ b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers/0001-ppp-fix-in-if.h-includes.patch
-@@ -0,0 +1,83 @@
-+From 80f3064c378f8c919aa6450bd7833a154c184f7f Mon Sep 17 00:00:00 2001
-+From: Bruce Ashfield <bruce.ashfield@windriver.com>
-+Date: Mon, 3 Oct 2016 01:18:13 -0400
-+Subject: [PATCH] ppp: fix in/if.h includes
-+
-+The following kernel commits broke the compilation of ppp, due to redefined
-+structures.
-+
-+Nothing else breaks in userspace with or without these uapi changes, so we
-+revert them to keep everything building.
-+		     
-+   commit 05ee5de7451796cf9a8aeb2f05a57790d4fd2336
-+   Author: Mikko Rapeli <mikko.rapeli@iki.fi>
-+   Date:   Mon Aug 22 20:32:42 2016 +0200
-+
-+       include/uapi/linux/if_pppol2tp.h: include linux/in.h and linux/in6.h
-+
-+       Fixes userspace compilation errors like:
-+
-+       error: field <E2><80><98>addr<E2><80><99> has incomplete type
-+	struct sockaddr_in addr; /* IP address and port to send to */
-+			   ^
-+       error: field <E2><80><98>addr<E2><80><99> has incomplete type
-+	struct sockaddr_in6 addr; /* IP address and port to send to */
-+
-+       Signed-off-by: Mikko Rapeli <mikko.rapeli@iki.fi>
-+       Signed-off-by: David S. Miller <davem@davemloft.net>
-+
-+   commit eafe92114308acf14e45c6c3d154a5dad5523d1a
-+   Author: Mikko Rapeli <mikko.rapeli@iki.fi>
-+   Date:   Mon Aug 22 20:32:43 2016 +0200
-+
-+       include/uapi/linux/if_pppox.h: include linux/in.h and linux/in6.h
-+
-+       Fixes userspace compilation errors:
-+
-+       error: field <E2><80><98>addr<E2><80><99> has incomplete type
-+	struct sockaddr_in addr; /* IP address and port to send to */
-+
-+       error: field <E2><80><98>addr<E2><80><99> has incomplete type
-+	struct sockaddr_in6 addr; /* IP address and port to send to */
-+
-+       Signed-off-by: Mikko Rapeli <mikko.rapeli@iki.fi>
-+       Signed-off-by: David S. Miller <davem@davemloft.net>
-+
-+Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
-+---
-+ include/uapi/linux/if_pppol2tp.h | 2 --
-+ include/uapi/linux/if_pppox.h    | 3 ---
-+ 2 files changed, 5 deletions(-)
-+
-+diff --git a/include/uapi/linux/if_pppol2tp.h b/include/uapi/linux/if_pppol2tp.h
-+index 4bd1f55..ca559c6 100644
-+--- a/include/uapi/linux/if_pppol2tp.h
-++++ b/include/uapi/linux/if_pppol2tp.h
-+@@ -16,8 +16,6 @@
-+ #define _UAPI__LINUX_IF_PPPOL2TP_H
-+ 
-+ #include <linux/types.h>
-+-#include <linux/in.h>
-+-#include <linux/in6.h>
-+ 
-+ /* Structure used to connect() the socket to a particular tunnel UDP
-+  * socket over IPv4.
-+diff --git a/include/uapi/linux/if_pppox.h b/include/uapi/linux/if_pppox.h
-+index d37bbb1..e128769 100644
-+--- a/include/uapi/linux/if_pppox.h
-++++ b/include/uapi/linux/if_pppox.h
-+@@ -21,11 +21,8 @@
-+ #include <asm/byteorder.h>
-+ 
-+ #include <linux/socket.h>
-+-#include <linux/if.h>
-+ #include <linux/if_ether.h>
-+ #include <linux/if_pppol2tp.h>
-+-#include <linux/in.h>
-+-#include <linux/in6.h>
-+ 
-+ /* For user-space programs to pick up these definitions
-+  * which they wouldn't get otherwise without defining __KERNEL__
-+-- 
-+2.7.4
-+
-diff --git a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_4.8.bb b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_4.8.bb
-index 77e0870d326f..778f0b6e6443 100644
---- a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_4.8.bb
-+++ b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_4.8.bb
-@@ -8,5 +8,9 @@ SRC_URI_append_libc-musl = "\
-     file://0003-remove-inclusion-of-sysinfo.h-in-kernel.h.patch \
-    "
- 
-+SRC_URI_append = "\
-+    file://0001-ppp-fix-in-if.h-includes.patch \
-+    "
-+
- SRC_URI[md5sum] = "c1af0afbd3df35c1ccdc7a5118cd2d07"
- SRC_URI[sha256sum] = "3e9150065f193d3d94bcf46a1fe9f033c7ef7122ab71d75a7fb5a2f0c9a7e11a"
--- 
-2.5.0
-
+>>
+>> Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+>> ---
+>> meta/recipes-devtools/makedevs/makedevs/makedevs.c | 2 +-
+>> 1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/meta/recipes-devtools/makedevs/makedevs/makedevs.c b/meta/recipes-devtools/makedevs/makedevs/makedevs.c
+>> index 7471f3f..cba7681 100644
+>> --- a/meta/recipes-devtools/makedevs/makedevs/makedevs.c
+>> +++ b/meta/recipes-devtools/makedevs/makedevs/makedevs.c
+>> @@ -360,7 +360,7 @@ static int interpret_table_entry(char *line)
+>>       unsigned long mode = 0755, uid = 0, gid = 0, major = 0, minor = 0;
+>>       unsigned long start = 0, increment = 1, count = 0;
+>>
+>> -     if (0 > sscanf(line, "%40s %c %lo %40s %40s %lu %lu %lu %lu %lu", path,
+>> +     if (0 > sscanf(line, "%4095s %c %lo %40s %40s %lu %lu %lu %lu %lu", path,
+>>                   &type, &mode, usr_buf, grp_buf, &major, &minor, &start,
+>>                   &increment, &count))
+>>       {
+>> --
+>> 1.9.1
+>>
+>> --
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
 
