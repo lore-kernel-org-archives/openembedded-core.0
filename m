@@ -1,25 +1,45 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-	by mail.openembedded.org (Postfix) with ESMTP id CDE1E60770
+Return-Path: <sujith.h@gmail.com>
+Received: from mail-wm0-f66.google.com (mail-wm0-f66.google.com [74.125.82.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 805AB71A0E
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  4 Oct 2016 09:31:48 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga105.fm.intel.com with ESMTP; 04 Oct 2016 02:31:50 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.31,442,1473145200"; d="scan'208";a="768675564"
-Received: from unknown (HELO peggleto-mobl.ger.corp.intel.com)
-	([10.255.185.151])
-	by FMSMGA003.fm.intel.com with ESMTP; 04 Oct 2016 02:31:48 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
+	Tue,  4 Oct 2016 09:41:10 +0000 (UTC)
+Received: by mail-wm0-f66.google.com with SMTP id b184so18727757wma.3
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 04 Oct 2016 02:41:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=K58HP8VffPE8+K2bPi/uiSkSMEb7B3nn4XUCNSH98nQ=;
+	b=AlTq+HfxmTiCDnNBSiyQB2Olh46JlNp7jrEvJn1igF9JFhf+olTCufM4Qb1liSFKRy
+	gNiCrP9PMk37dtzpoOKYoehNn9Jc7zY/11T8bromA1smFje5Fmt1dW1UFvn8l9HrFYkf
+	c3mMJhzVV/5IvkNRscaoB8N4AUpiOPWQMI5HhRdnggz/OCnEhJufARu94c9A3rF2S226
+	1wOtHbYwACclpTgRbHAWmjt8v30gYjwAKAB6xGWF7XsOB9HN5DOpXDK6mG+HYyvIUcZO
+	8YuHCR0PQRvrf2b4P/z6HN+wzN/SKfH6V4HpjF8AkayaCni+aXueBZWaq/R3+RtedeJa
+	BNzQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=K58HP8VffPE8+K2bPi/uiSkSMEb7B3nn4XUCNSH98nQ=;
+	b=PQ7K4iJC8AwuO5wt6lFUAwLmxwYFlYX00LxAhPGkmqzzXFvvskjNqW2WBUbzjkrSc6
+	WtKXZsX4cUHS9KCKd0bzmRZ11+qacUEGr/Lr1VGZwNM8CLK2t+srmFIEQsie3FMgd7pT
+	2IetRtNry8irUSL3qN6PJbru+lwv9Y6jsCuIciZp+NVls3JQbyuCaruDXpPOQjqM/Go6
+	vXDk0bRaIbW58b7UXLL/1EUKmhT2bTsz4IWt66NfxP3PcZTSxZgWjsDHEbkfQqn5epWh
+	fTkVryeX1IyqRFjIbIkSM7GWyAKxHm4iU62NtesBjtKjA90OSmlhLNbABxUgDXD93EZX
+	xXxw==
+X-Gm-Message-State: AA6/9RkjYkVaLDQwK0ixWuydLWgNz2i2sznMrYgcqIpwiJ+X8cgpo5wrcYTBlonfnuQVfg==
+X-Received: by 10.28.9.194 with SMTP id 185mr3170036wmj.108.1475574071622;
+	Tue, 04 Oct 2016 02:41:11 -0700 (PDT)
+Received: from kdekidd0.inp-wifi.mentorg.com ([139.181.35.34])
+	by smtp.gmail.com with ESMTPSA id
+	x124sm23373134wmf.22.2016.10.04.02.41.09
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Tue, 04 Oct 2016 02:41:11 -0700 (PDT)
+From: Sujith H <sujith.h@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  4 Oct 2016 22:31:16 +1300
-Message-Id: <7ac94d04d8619f880fb2b4654594637ae6685dc0.1475573453.git.paul.eggleton@linux.intel.com>
-X-Mailer: git-send-email 2.5.5
-In-Reply-To: <cover.1475573453.git.paul.eggleton@linux.intel.com>
-References: <cover.1475573453.git.paul.eggleton@linux.intel.com>
-In-Reply-To: <cover.1475573453.git.paul.eggleton@linux.intel.com>
-References: <cover.1475573453.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 3/3] devtool: add: build nodejs-native if npm is needed and not available
+Date: Tue,  4 Oct 2016 15:11:04 +0530
+Message-Id: <1475574064-30613-1-git-send-email-sujith.h@gmail.com>
+X-Mailer: git-send-email 1.9.1
+Cc: Sujith Haridasan <Sujith_Haridasan@mentor.com>
+Subject: [PATCH] perf: Fix to obey LD failure
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,194 +52,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Oct 2016 09:31:49 -0000
+X-List-Received-Date: Tue, 04 Oct 2016 09:41:12 -0000
 
-If the user runs devtool add on an npm:// URL (or source tree that uses
-node.js), and npm is not available, just build nodejs-native instead of
-telling the user they need to do it; if that fails because there isn't
-any such recipe (which would be the default, since it's not in OE-Core)
-then produce a slightly more readable error message hinting at what the
-user needs to do.
+From: Sujith Haridasan <Sujith_Haridasan@mentor.com>
 
-Note that this forces the use of nodejs-native rather than npm on the
-host - this makes sense for two reasons: (1) we need it to be compatible
-with nodejs for the target, and (2) we have to have a recipe for that
-anyway, so allowing you to avoid having a recipe for the native version
-isn't really beneficial.
+When built on minnowmax ( machine name: intel-corei7-64),
+an error is noticed during the do_compile:
 
-There's a bit of a hack in here in order to allow this - for node.js
-sources that aren't fetched via npm we don't know that they are that
-until we've fetched and unpacked them, by which time we're inside
-recipetool and have an active tinfoil instance that will prevent bitbake
-being run. To avoid this being an issue, we allow recipetool to get to
-the point where we know we need npm and then exit with a specific exit
-code, at which point devtool can try to build it and then if that
-succeeds, it will re-execute recipetool. This is definitely not ideal,
-but it can't really be refactored and done properly until we do the
-tinfoil2 refactoring; in the mean time though we still want to be
-helpful to the user.
+ /home/sujith/codebench-linux-install-2015.12-133-i686-pc-linux-gnu/codebench/bin/i686-pc-linux-gnu-ld:
+Relocatable linking with relocations from format elf64-x86-64
+(/home/sujith/MEL/dogwood/build-minnowmax/tmp/work/intel_corei7_64-mel-linux/perf/1.0-r9/perf-1.0/fd/array.o)
+to format elf32-i386 (/home/sujith/MEL/dogwood/build-minnowmax/tmp/work/intel_corei7_64-mel-linux/perf/1.0-r9/perf-1.0/fd/libapi-in.o)
+is not supported
 
-Fixes [YOCTO #10337].
+This change help fix the issue.
 
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+Signed-off-by: Sujith Haridasan <Sujith_Haridasan@mentor.com>
 ---
- scripts/lib/devtool/__init__.py      | 29 +++++++++++++++++++++++++++++
- scripts/lib/devtool/standard.py      | 31 ++++++++++++++++++++++---------
- scripts/lib/recipetool/create.py     | 10 ++++++----
- scripts/lib/recipetool/create_npm.py |  4 +++-
- 4 files changed, 60 insertions(+), 14 deletions(-)
+ meta/recipes-kernel/perf/perf.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/scripts/lib/devtool/__init__.py b/scripts/lib/devtool/__init__.py
-index b432e3d..e675133 100644
---- a/scripts/lib/devtool/__init__.py
-+++ b/scripts/lib/devtool/__init__.py
-@@ -259,3 +259,32 @@ def get_bbclassextend_targets(recipefile, pn):
-             elif variant in ['native', 'cross', 'crosssdk']:
-                 targets.append('%s-%s' % (pn, variant))
-     return targets
-+
-+def ensure_npm(config, basepath, fixed_setup=False):
-+    """
-+    Ensure that npm is available and either build it or show a
-+    reasonable error message
-+    """
-+    tinfoil = setup_tinfoil(config_only=True, basepath=basepath)
-+    try:
-+        nativepath = tinfoil.config_data.getVar('STAGING_BINDIR_NATIVE', True)
-+    finally:
-+        tinfoil.shutdown()
-+
-+    npmpath = os.path.join(nativepath, 'npm')
-+    if not os.path.exists(npmpath):
-+        logger.info('Building nodejs-native')
-+        try:
-+            exec_build_env_command(config.init_path, basepath,
-+                                'bitbake -q nodejs-native', watch=True)
-+        except bb.process.ExecutionError as e:
-+            if "Nothing PROVIDES 'nodejs-native'" in e.stdout:
-+                if fixed_setup:
-+                    msg = 'nodejs-native is required for npm but is not available within this SDK'
-+                else:
-+                    msg = 'nodejs-native is required for npm but is not available - you will likely need to add a layer that provides nodejs'
-+                raise DevtoolError(msg)
-+            else:
-+                raise
-+        if not os.path.exists(npmpath):
-+            raise DevtoolError('Built nodejs-native but npm binary still could not be found at %s' % npmpath)
-diff --git a/scripts/lib/devtool/standard.py b/scripts/lib/devtool/standard.py
-index 02ed235..4b9b173 100644
---- a/scripts/lib/devtool/standard.py
-+++ b/scripts/lib/devtool/standard.py
-@@ -30,7 +30,7 @@ import errno
- import glob
- import filecmp
- from collections import OrderedDict
--from devtool import exec_build_env_command, setup_tinfoil, check_workspace_recipe, use_external_build, setup_git_repo, recipe_to_append, get_bbclassextend_targets, DevtoolError
-+from devtool import exec_build_env_command, setup_tinfoil, check_workspace_recipe, use_external_build, setup_git_repo, recipe_to_append, get_bbclassextend_targets, ensure_npm, DevtoolError
- from devtool import parse_recipe
- 
- logger = logging.getLogger('devtool')
-@@ -128,6 +128,9 @@ def add(args, config, basepath, workspace):
-         color = args.color
-     extracmdopts = ''
-     if args.fetchuri:
-+        if args.fetchuri.startswith('npm://'):
-+            ensure_npm(config, basepath, args.fixed_setup)
-+
-         source = args.fetchuri
-         if srctree:
-             extracmdopts += ' -x %s' % srctree
-@@ -150,13 +153,23 @@ def add(args, config, basepath, workspace):
- 
-     tempdir = tempfile.mkdtemp(prefix='devtool')
-     try:
--        try:
--            stdout, _ = exec_build_env_command(config.init_path, basepath, 'recipetool --color=%s create -o %s "%s" %s' % (color, tempdir, source, extracmdopts))
--        except bb.process.ExecutionError as e:
--            if e.exitcode == 15:
--                raise DevtoolError('Could not auto-determine recipe name, please specify it on the command line')
--            else:
--                raise DevtoolError('Command \'%s\' failed:\n%s' % (e.command, e.stdout))
-+        while True:
-+            try:
-+                stdout, _ = exec_build_env_command(config.init_path, basepath, 'recipetool --color=%s create -o %s "%s" %s' % (color, tempdir, source, extracmdopts))
-+            except bb.process.ExecutionError as e:
-+                if e.exitcode == 14:
-+                    # FIXME this is a horrible hack that is unfortunately
-+                    # necessary due to the fact that we can't run bitbake from
-+                    # inside recipetool since recipetool keeps tinfoil active
-+                    # with references to it throughout the code, so we have
-+                    # to exit out and come back here to do it.
-+                    ensure_npm(config, basepath, args.fixed_setup)
-+                    continue
-+                elif e.exitcode == 15:
-+                    raise DevtoolError('Could not auto-determine recipe name, please specify it on the command line')
-+                else:
-+                    raise DevtoolError('Command \'%s\' failed:\n%s' % (e.command, e.stdout))
-+            break
- 
-         recipes = glob.glob(os.path.join(tempdir, '*.bb'))
-         if recipes:
-@@ -1567,7 +1580,7 @@ def register_commands(subparsers, context):
-     parser_add.add_argument('--binary', '-b', help='Treat the source tree as something that should be installed verbatim (no compilation, same directory structure). Useful with binary packages e.g. RPMs.', action='store_true')
-     parser_add.add_argument('--also-native', help='Also add native variant (i.e. support building recipe for the build host as well as the target machine)', action='store_true')
-     parser_add.add_argument('--src-subdir', help='Specify subdirectory within source tree to use', metavar='SUBDIR')
--    parser_add.set_defaults(func=add)
-+    parser_add.set_defaults(func=add, fixed_setup=context.fixed_setup)
- 
-     parser_modify = subparsers.add_parser('modify', help='Modify the source for an existing recipe',
-                                        description='Sets up the build environment to modify the source for an existing recipe. The default behaviour is to extract the source being fetched by the recipe into a git tree so you can work on it; alternatively if you already have your own pre-prepared source tree you can specify -n/--no-extract.',
-diff --git a/scripts/lib/recipetool/create.py b/scripts/lib/recipetool/create.py
-index 9b31fe9..d427d32 100644
---- a/scripts/lib/recipetool/create.py
-+++ b/scripts/lib/recipetool/create.py
-@@ -406,10 +406,7 @@ def create_recipe(args):
-         srctree = tempsrc
-         if fetchuri.startswith('npm://'):
-             # Check if npm is available
--            npm = bb.utils.which(tinfoil.config_data.getVar('PATH', True), 'npm')
--            if not npm:
--                logger.error('npm:// URL requested but npm is not available - you need to either build nodejs-native or install npm using your package manager')
--                sys.exit(1)
-+            check_npm(tinfoil.config_data)
-         logger.info('Fetching %s...' % srcuri)
-         try:
-             checksums = scriptutils.fetch_uri(tinfoil.config_data, fetchuri, srctree, srcrev)
-@@ -1076,6 +1073,11 @@ def convert_rpm_xml(xmlfile):
-     return values
- 
- 
-+def check_npm(d):
-+    if not os.path.exists(os.path.join(d.getVar('STAGING_BINDIR_NATIVE', True), 'npm')):
-+        logger.error('npm required to process specified source, but npm is not available - you need to build nodejs-native first')
-+        sys.exit(14)
-+
- def register_commands(subparsers):
-     parser_create = subparsers.add_parser('create',
-                                           help='Create a new recipe',
-diff --git a/scripts/lib/recipetool/create_npm.py b/scripts/lib/recipetool/create_npm.py
-index e794614..7bb844c 100644
---- a/scripts/lib/recipetool/create_npm.py
-+++ b/scripts/lib/recipetool/create_npm.py
-@@ -21,7 +21,7 @@ import subprocess
- import tempfile
- import shutil
- import json
--from recipetool.create import RecipeHandler, split_pkg_licenses, handle_license_vars
-+from recipetool.create import RecipeHandler, split_pkg_licenses, handle_license_vars, check_npm
- 
- logger = logging.getLogger('recipetool')
- 
-@@ -157,6 +157,8 @@ class NpmRecipeHandler(RecipeHandler):
- 
-         files = RecipeHandler.checkfiles(srctree, ['package.json'])
-         if files:
-+            check_npm(tinfoil.config_data)
-+
-             data = read_package_json(files[0])
-             if 'name' in data and 'version' in data:
-                 extravalues['PN'] = data['name']
+diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/perf/perf.bb
+index 0d104d3..471023d 100644
+--- a/meta/recipes-kernel/perf/perf.bb
++++ b/meta/recipes-kernel/perf/perf.bb
+@@ -170,6 +170,7 @@ do_configure_prepend () {
+     if [ -e "${S}/tools/perf/Makefile.perf" ]; then
+         sed -i 's,CC = $(CROSS_COMPILE)gcc,#CC,' ${S}/tools/perf/Makefile.perf
+         sed -i 's,AR = $(CROSS_COMPILE)ar,#AR,' ${S}/tools/perf/Makefile.perf
++        sed -i 's,LD = $(CROSS_COMPILE)ld,#LD,' ${S}/tools/perf/Makefile.perf
+     fi
+     if [ -e "${S}/tools/lib/api/Makefile" ]; then
+         sed -i 's,CC = $(CROSS_COMPILE)gcc,#CC,' ${S}/tools/lib/api/Makefile
 -- 
-2.5.5
+1.9.1
 
 
