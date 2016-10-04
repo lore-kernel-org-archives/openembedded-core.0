@@ -1,24 +1,46 @@
-Return-Path: <jussi.kukkonen@intel.com>
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by mail.openembedded.org (Postfix) with ESMTP id B4CC471A01
+Return-Path: <ross.burton@intel.com>
+Received: from mail-it0-f44.google.com (mail-it0-f44.google.com
+	[209.85.214.44])
+	by mail.openembedded.org (Postfix) with ESMTP id 878516E65F
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  4 Oct 2016 07:17:33 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga105.jf.intel.com with ESMTP; 04 Oct 2016 00:17:35 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.31,442,1473145200"; d="scan'208";a="1060148232"
-Received: from theory.fi.intel.com ([10.237.72.196])
-	by orsmga002.jf.intel.com with ESMTP; 04 Oct 2016 00:17:33 -0700
-From: Jussi Kukkonen <jussi.kukkonen@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  4 Oct 2016 10:17:28 +0300
-Message-Id: <bb580be973e1577cf63acadbbbfb7e3650947c71.1475565233.git.jussi.kukkonen@intel.com>
-X-Mailer: git-send-email 2.1.4
-In-Reply-To: <9ad13291600d5d0d1845de7f36f36a40533d88a6.1475565233.git.jussi.kukkonen@intel.com>
-References: <9ad13291600d5d0d1845de7f36f36a40533d88a6.1475565233.git.jussi.kukkonen@intel.com>
-In-Reply-To: <cover.1475565233.git.jussi.kukkonen@intel.com>
-References: <cover.1475565233.git.jussi.kukkonen@intel.com>
-Subject: [PATCHv2 2/2] Revert "gst-player: Disable visualizations"
+	Tue,  4 Oct 2016 09:22:06 +0000 (UTC)
+Received: by mail-it0-f44.google.com with SMTP id 189so9654462ity.1
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 04 Oct 2016 02:22:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=XxrJM4CBN95uavCVhN+GcvfizzjCqAWTIm96sXSxZ3k=;
+	b=U8seAi5eRBvLk9y9Bm5XLEhKSMQbW43hGm8j3wXEUkCioxFxggciihG/0fOQyZa9CV
+	bO/MOzQGx+kRuVGd9Vsyw+PrDJp2aNXUpU79ZgyuGSHY9ceqm01P5xTrC9pIUSEz+JOB
+	ysyOw31lgbQohhcrPpGR0EsobuUCw9VbcxD6xRmUVE7/1kX4loWDAB9eX2p1aCirh5l2
+	8hMwbNIlotuC6VcP8ihDpVNX5m/LpL8bQwkHo3Q9TB3wLYvyrZg79k27MrYyqW39Puxy
+	NGiIcK+2ckfASrIyIo6rNYQ3UBYcLpVd1NL021jYAHjmQLJFQXYQAFfzW1m9EyZMMwWd
+	4PZg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=XxrJM4CBN95uavCVhN+GcvfizzjCqAWTIm96sXSxZ3k=;
+	b=GA/tlCh37eaHDBtXCzqoEJzgKyvZUgjvw++B2VnT7vn7hxsfctqnv+RRzOz22If5bP
+	Mzon7V+etl3BBs32ipftp8mkvVcBO3lK145aHb2k4nKmR74gmtlBCYQi9bb7ZhqmkNsR
+	yXGgQbrXZzOMFqxIlgsqHeDM08ht9xTl5ga7y2eyO3BYBRPH7afBVyCpnkGJy/ZizNXo
+	6F3UKk8utXH8XzsFUXnQD9Y9LsQPDpElwcqtopsJsGjo/FVhuugYPEkvQa8zBfI9Cg59
+	mgvynPEOJ0dE9j2/tYv7CesKe60QIH5DekK0DSrp50yGa8HhRvJL2tOYgqsEpfUoMjVB
+	2K1Q==
+X-Gm-Message-State: AA6/9RmdYzw0lTTVcUF814vimE27pIxpSd3iOBD/DuKXq378i+flXjACfhcga7mE/yko18HbZQrz3DrU+GYkC57E
+X-Received: by 10.36.144.68 with SMTP id x65mr2933452itd.70.1475572927285;
+	Tue, 04 Oct 2016 02:22:07 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.107.155.66 with HTTP; Tue, 4 Oct 2016 02:21:46 -0700 (PDT)
+In-Reply-To: <20161003171453.9151-1-Martin.Jansa@gmail.com>
+References: <20161003171453.9151-1-Martin.Jansa@gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 4 Oct 2016 10:21:46 +0100
+Message-ID: <CAJTo0LbiDauWC1Te7+Oj2kupL+pJDx1XFUFQL2t76Gx+Hh3naA@mail.gmail.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] systemtap: add dependency on boost
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,75 +53,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Oct 2016 07:17:33 -0000
+X-List-Received-Date: Tue, 04 Oct 2016 09:22:07 -0000
+Content-Type: multipart/alternative; boundary=94eb2c07e8062be374053e06986d
 
-This reverts oe-core commit b79d1bf49b56a97216fb719ac19e4dd9022f15b4.
+--94eb2c07e8062be374053e06986d
+Content-Type: text/plain; charset=UTF-8
 
-Now that xf86-video-intel is upgraded, visualizations can be enabled
-by default.
+On 3 October 2016 at 18:14, Martin Jansa <martin.jansa@gmail.com> wrote:
 
-Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
----
- .../0001-Disable-visualizations-by-default.patch   | 36 ----------------------
- .../recipes-multimedia/gstreamer/gst-player_git.bb |  1 -
- 2 files changed, 37 deletions(-)
- delete mode 100644 meta/recipes-multimedia/gstreamer/gst-player/0001-Disable-visualizations-by-default.patch
+> +DEPENDS = "elfutils sqlite3 systemtap-native ncurses json-c boost"
+> +DEPENDS_class-native = "elfutils-native sqlite3-native gettext-native
+> boost-native"
+> +DEPENDS_class-nativesdk = "nativesdk-elfutils nativesdk-sqlite3
+> nativesdk-gettext nativesdk-boost"
+>
 
-diff --git a/meta/recipes-multimedia/gstreamer/gst-player/0001-Disable-visualizations-by-default.patch b/meta/recipes-multimedia/gstreamer/gst-player/0001-Disable-visualizations-by-default.patch
-deleted file mode 100644
-index dabdcea..0000000
---- a/meta/recipes-multimedia/gstreamer/gst-player/0001-Disable-visualizations-by-default.patch
-+++ /dev/null
-@@ -1,36 +0,0 @@
--From 93e1838f8b8704e4d7d71965f61bee931377b080 Mon Sep 17 00:00:00 2001
--From: Jussi Kukkonen <jussi.kukkonen@intel.com>
--Date: Thu, 22 Sep 2016 19:26:40 +0300
--Subject: [PATCH] Disable visualizations by default
--
--As documented in [YOCTO #10041] visualizations trigger a bug in
--xvimagesink on some hardware, which prevents playback in the
--mediaplayer. Disable visualizations until the xv issue is solved
--to enable playback QA.
--
--Upstream-Status: Inappropriate [workaround]
--Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
--Signed-off-by: Maxin B. John <maxin.john@intel.com>
-----
-- gtk/gtk-play.c | 5 ++---
-- 1 file changed, 2 insertions(+), 3 deletions(-)
--
--diff --git a/gtk/gtk-play.c b/gtk/gtk-play.c
--index 8ae0fea..322e599 100644
----- a/gtk/gtk-play.c
--+++ b/gtk/gtk-play.c
--@@ -1751,9 +1751,8 @@ gtk_play_constructor (GType type, guint n_construct_params,
--   g_signal_connect (self->player, "volume-changed",
--       G_CALLBACK (player_volume_changed_cb), self);
-- 
---  /* enable visualization (by default playbin uses goom) */
---  /* if visualization is enabled then use the first element */
---  gst_player_set_visualization_enabled (self->player, TRUE);
--+  /* Disable visualization by default */
--+  gst_player_set_visualization_enabled (self->player, FALSE);
-- 
--   g_signal_connect (G_OBJECT (self), "show", G_CALLBACK (show_cb), NULL);
-- 
---- 
--2.4.0
--
-diff --git a/meta/recipes-multimedia/gstreamer/gst-player_git.bb b/meta/recipes-multimedia/gstreamer/gst-player_git.bb
-index 51f3544..2a4c9dc 100644
---- a/meta/recipes-multimedia/gstreamer/gst-player_git.bb
-+++ b/meta/recipes-multimedia/gstreamer/gst-player_git.bb
-@@ -9,7 +9,6 @@ SRC_URI = "git://github.com/sdroege/gst-player.git \
-            file://Fix-pause-play.patch;apply=0 \
-            file://Add-error-signal-emission-for-missing-plugins.patch;apply=0 \
-            file://0001-gtk-play-provide-similar-behaviour-for-quit-and-clos.patch \
--           file://0001-Disable-visualizations-by-default.patch \
-            file://gst-player.desktop"
- 
- SRCREV = "ea90e63c1064503f9ba5d59aa4ca604f13ca5def"
--- 
-2.1.4
+So why does systemtap appear to have floating dependencies for ncurses and
+json-c?  Should we be expressing this as a single DEPENDS line with
+something like different PACKAGECONFIG for target/native?
 
+Ross
 
+--94eb2c07e8062be374053e06986d
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 3 October 2016 at 18:14, Martin Jansa <span dir=3D"ltr">&lt;<a href=3D"m=
+ailto:martin.jansa@gmail.com" target=3D"_blank">martin.jansa@gmail.com</a>&=
+gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 =
+0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":2bh" class=
+=3D"a3s aXjCH m1578b8daffc1c92c">+DEPENDS =3D &quot;elfutils sqlite3 system=
+tap-native ncurses json-c boost&quot;<br>
++DEPENDS_class-native =3D &quot;elfutils-native sqlite3-native gettext-nati=
+ve boost-native&quot;<br>
++DEPENDS_class-nativesdk =3D &quot;nativesdk-elfutils nativesdk-sqlite3 nat=
+ivesdk-gettext nativesdk-boost&quot;<br></div></blockquote></div><br>So why=
+ does systemtap appear to have floating dependencies for ncurses and json-c=
+?=C2=A0 Should we be expressing this as a single DEPENDS line with somethin=
+g like different PACKAGECONFIG for target/native?</div><div class=3D"gmail_=
+extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
+
+--94eb2c07e8062be374053e06986d--
