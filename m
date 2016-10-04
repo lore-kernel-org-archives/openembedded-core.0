@@ -1,28 +1,26 @@
 Return-Path: <Zubair.Kakakhel@imgtec.com>
 Received: from mailapp01.imgtec.com (mailapp02.imgtec.com [217.156.133.132])
-	by mail.openembedded.org (Postfix) with ESMTP id 53C60719C5
+	by mail.openembedded.org (Postfix) with ESMTP id 559DF71A19
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  4 Oct 2016 11:31:29 +0000 (UTC)
+	Tue,  4 Oct 2016 11:31:28 +0000 (UTC)
 Received: from HHMAIL03.hh.imgtec.org (unknown [10.44.0.21])
-	by Forcepoint Email with ESMTPS id 3263FD36656C0
+	by Forcepoint Email with ESMTPS id 62E46B3F48B85
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  4 Oct 2016 12:31:27 +0100 (IST)
+	Tue,  4 Oct 2016 12:31:25 +0100 (IST)
 Received: from HHMAIL01.hh.imgtec.org (10.100.10.19) by HHMAIL03.hh.imgtec.org
 	(10.44.0.21) with Microsoft SMTP Server (TLS) id 14.3.294.0;
-	Tue, 4 Oct 2016 12:31:29 +0100
+	Tue, 4 Oct 2016 12:31:28 +0100
 Received: from zkakakhel-linux.le.imgtec.org (192.168.154.45) by
 	HHMAIL01.hh.imgtec.org (10.100.10.21) with Microsoft SMTP Server (TLS)
-	id 14.3.294.0; Tue, 4 Oct 2016 12:31:29 +0100
+	id 14.3.294.0; Tue, 4 Oct 2016 12:31:27 +0100
 From: Zubair Lutfullah Kakakhel <Zubair.Kakakhel@imgtec.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 4 Oct 2016 12:31:14 +0100
-Message-ID: <1475580681-55081-3-git-send-email-Zubair.Kakakhel@imgtec.com>
+Date: Tue, 4 Oct 2016 12:31:12 +0100
+Message-ID: <1475580681-55081-1-git-send-email-Zubair.Kakakhel@imgtec.com>
 X-Mailer: git-send-email 1.9.1
-In-Reply-To: <1475580681-55081-1-git-send-email-Zubair.Kakakhel@imgtec.com>
-References: <1475580681-55081-1-git-send-email-Zubair.Kakakhel@imgtec.com>
 MIME-Version: 1.0
 X-Originating-IP: [192.168.154.45]
-Subject: [PATCH 2/9] kernel-arch.bbclass: Add mipsisa{32, 64}r6{el, } support
+Subject: [PATCH 0/9] Add MIPS release 6 ISA support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,26 +36,67 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Tue, 04 Oct 2016 11:31:30 -0000
 Content-Type: text/plain
 
-Add support for MIPS Release 6 ISA
+Hi,
 
-Signed-off-by: Zubair Lutfullah Kakakhel <Zubair.Kakakhel@imgtec.com>
----
- meta/classes/kernel-arch.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+This patch series adds support for MIPS Release 6 ISA.
 
-diff --git a/meta/classes/kernel-arch.bbclass b/meta/classes/kernel-arch.bbclass
-index 3ed5986..8a4bef1 100644
---- a/meta/classes/kernel-arch.bbclass
-+++ b/meta/classes/kernel-arch.bbclass
-@@ -25,7 +25,7 @@ def map_kernel_arch(a, d):
-     elif re.match('armeb$', a):                 return 'arm'
-     elif re.match('aarch64$', a):               return 'arm64'
-     elif re.match('aarch64_be$', a):            return 'arm64'
--    elif re.match('mips(el|64|64el)$', a):      return 'mips'
-+    elif re.match('mips(isa|)(32|64|)(r6|)(el|)$', a):      return 'mips'
-     elif re.match('p(pc|owerpc)(|64)', a):      return 'powerpc'
-     elif re.match('sh(3|4)$', a):               return 'sh'
-     elif re.match('bfin', a):                   return 'blackfin'
+A few key points to note are:
+
+1 - The tuples have changed for Multiarch. For details, check 
+    https://wiki.debian.org/Multiarch/Tuples
+
+2 - Dynamic linker loader name has changed.
+    ld.so.1 -> ld-linux-mipsn8.so.1
+    For details, check
+    https://sourceware.org/glibc/wiki/ABIList#mips
+
+I tested this using poky, krogoth-15.0.1, yocto-2.1.1 + various patches.
+Most notable patches were adding support for Linux kernel 4.8 and using
+4.8 headers. Preferred using 4.8 as there was a quirk in glibc + nan2008
+that preferred 4.5+.
+https://sourceware.org/ml/libc-alpha/2016-01/msg00240.html
+
+Build + qemu boot tested for little endian variations.
+
+Regards,
+ZubairLK
+
+Zubair Lutfullah Kakakhel (9):
+  insane.bbclass: Add mipsisa{32,64}r6{el,}
+  kernel-arch.bbclass: Add mipsisa{32,64}r6{el,} support
+  libc-package.bbclass: Add mipsisa{32,64}r6{el,} support
+  linuxloader.bbclass: Add mipsisa{32,64}r6{el,} support
+  siteinfo.bbclass: Add mipsisa{32,64}r6{el,} support
+  bitbake.conf: Add mipsisa{32,64}r6{el,} support
+  glibc: Add mipsisa{32,64}r6{el,} support
+  gcc-configure: Add mipsisa{32,64}r6{el,} support
+  arch-mips: Add mipsisa{32,64}r6{el,} tunes
+
+ meta/classes/insane.bbclass                        |  4 ++
+ meta/classes/kernel-arch.bbclass                   |  2 +-
+ meta/classes/libc-package.bbclass                  |  4 ++
+ meta/classes/linuxloader.bbclass                   |  3 +
+ meta/classes/siteinfo.bbclass                      |  4 ++
+ meta/conf/bitbake.conf                             |  5 ++
+ meta/conf/machine/include/mips/README              | 19 ++++-
+ meta/conf/machine/include/mips/arch-mips.inc       | 10 ++-
+ meta/conf/machine/include/tune-mips32r6.inc        | 29 ++++++++
+ meta/conf/machine/include/tune-mips64r6.inc        | 32 +++++++++
+ meta/recipes-core/glibc/glibc-ld.inc               |  4 ++
+ meta/recipes-devtools/gcc/gcc-configure-common.inc |  4 ++
+ meta/recipes-devtools/gcc/gcc-runtime.inc          |  4 ++
+ meta/site/mipsisa32r6-linux                        | 79 ++++++++++++++++++++
+ meta/site/mipsisa32r6el-linux                      | 79 ++++++++++++++++++++
+ meta/site/mipsisa64r6-linux                        | 83 ++++++++++++++++++++++
+ meta/site/mipsisa64r6el-linux                      | 83 ++++++++++++++++++++++
+ 17 files changed, 445 insertions(+), 3 deletions(-)
+ create mode 100644 meta/conf/machine/include/tune-mips32r6.inc
+ create mode 100644 meta/conf/machine/include/tune-mips64r6.inc
+ create mode 100644 meta/site/mipsisa32r6-linux
+ create mode 100644 meta/site/mipsisa32r6el-linux
+ create mode 100644 meta/site/mipsisa64r6-linux
+ create mode 100644 meta/site/mipsisa64r6el-linux
+
 -- 
 1.9.1
 
