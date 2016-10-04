@@ -1,18 +1,18 @@
 Return-Path: <benjamin.esquivel@linux.intel.com>
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by mail.openembedded.org (Postfix) with ESMTP id 5CC79719ED
-	for <openembedded-core@openembedded.org>;
-	Tue,  4 Oct 2016 19:59:34 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga105.jf.intel.com with ESMTP; 04 Oct 2016 12:59:36 -0700
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 4331571A4C
+	for <openembedded-core@lists.openembedded.org>;
+	Tue,  4 Oct 2016 20:07:57 +0000 (UTC)
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+	by orsmga102.jf.intel.com with ESMTP; 04 Oct 2016 13:07:59 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.31,444,1473145200"; d="scan'208";a="1049478224"
+X-IronPort-AV: E=Sophos;i="5.31,444,1473145200"; d="scan'208";a="16196098"
 Received: from besquive-mobl2.zpn.intel.com ([10.219.5.36])
-	by fmsmga001.fm.intel.com with ESMTP; 04 Oct 2016 12:59:37 -0700
+	by fmsmga005.fm.intel.com with ESMTP; 04 Oct 2016 13:07:58 -0700
 From: Benjamin Esquivel <benjamin.esquivel@linux.intel.com>
-To: openembedded-core@openembedded.org
-Date: Tue,  4 Oct 2016 14:59:46 -0500
-Message-Id: <1475611186-1941-1-git-send-email-benjamin.esquivel@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  4 Oct 2016 15:08:16 -0500
+Message-Id: <1475611696-3190-1-git-send-email-benjamin.esquivel@linux.intel.com>
 X-Mailer: git-send-email 2.5.5
 Subject: [PATCH] selftest: fetcher error changed and test needs update
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -27,7 +27,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Oct 2016 19:59:40 -0000
+X-List-Received-Date: Tue, 04 Oct 2016 20:07:58 -0000
 
 the following poky commit:
 
