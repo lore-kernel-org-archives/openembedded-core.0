@@ -1,51 +1,48 @@
-Return-Path: <kergoth@gmail.com>
-Received: from mail-oi0-f68.google.com (mail-oi0-f68.google.com
-	[209.85.218.68])
-	by mail.openembedded.org (Postfix) with ESMTP id C31BC719E3
+Return-Path: <ross.burton@intel.com>
+Received: from mail-it0-f51.google.com (mail-it0-f51.google.com
+	[209.85.214.51])
+	by mail.openembedded.org (Postfix) with ESMTP id 9AB9765CB5
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  4 Oct 2016 14:30:18 +0000 (UTC)
-Received: by mail-oi0-f68.google.com with SMTP id h186so9573897oia.3
+	Tue,  4 Oct 2016 15:05:37 +0000 (UTC)
+Received: by mail-it0-f51.google.com with SMTP id o19so130478566ito.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 04 Oct 2016 07:30:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:from:date:message-id
-	:subject:to:cc;
-	bh=PagCEkoGhR0DYe/HPbrGv834iOdfO07L1wldatZUCIg=;
-	b=EADvyRpH1G2eg5SpdyPa59BIq+BldJRp7puotx0F0jbpneMF7PnpArDAYoV0d33MAH
-	bnX5NFQibote3Y+CyYb/4aTXWFGz8eEguc59IyuE78ikSlNEz0C298Rzer1Xa1CcjrS9
-	u3JPZzwt5LZUa07HcanOsJV6TCwrfVxSYPUneAp7yuKDM2Z8iWFXa4ODJYBz9ny53AzP
-	5Kf+cerFU9Qza+pJt2T08petM7XUccb0OoYOYqL1oqnOEn3p7tX3dKVjB64o/ilHiy2l
-	qvMoOhaoCTz758UCa7AmT2hXSimf6wYfeyNHAWcuyT4SxENGwoUwo+19IQjEzFviZf6+
-	bgMw==
+	Tue, 04 Oct 2016 08:05:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=BzI1Q9UsLLsISP2H8jJkLX2f8mV0qq+45FxDWNPru2Y=;
+	b=y4kToHOym4XArdyg9AHlucK4Fj8EQRlhJ3mhE8VKd93oGSsLezNfShhVdl3CEp92zL
+	RXbiROptzLu/My6OpLs/CE2imZcHqAdbtYN18qEG3kRmvRXbPey5y/Q6KykzT6kSbHWL
+	EHf2SsXhxeE27IQAve5bqyqe/ALiMkkXeOcNR/upNEGsSPlpWZiPWESypMCdMhgJ9Icq
+	NehKPcb7C34X9BOoaB64zsO49hbhaoXXeRuwbgxdmZHruGpwabehHWT5KE1piR3GOePW
+	Ct3rnqB+YxQayJiRmRvWr3nfQgzMATJJYVkxjmXNRzEVZpBTwr2jqiao1wXrCNFLr05P
+	qMWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:sender:in-reply-to:references:from
-	:date:message-id:subject:to:cc;
-	bh=PagCEkoGhR0DYe/HPbrGv834iOdfO07L1wldatZUCIg=;
-	b=ft4Iy+CZGh8jqbqUlCwtUr/hKIRw6r0Elg1SzvNzbP7FjyWMKhuMovk1uPrLGNmZjO
-	sIUHAROpIaPlVoOzVWaZtj/WmGrItfcxVsc0J/uKQoKkKHkAD0yjNlVMG1cWnvb7am0P
-	/A+BrlQdf/Gn8y2cUBZgbkJcFsdoEIhGgaZaFZI53pncrwNhuK4NuePFVXmMWtfcl3gI
-	NWKOl7djLhyLnLIQOeD7xaxYuh9xsx+UOXozDKEantmnEq0Cb578suD56LrI0d7SyECa
-	fsO4tQst2z7txzGBxpDzfm7io5T0EvGKv9Yo0uYs1NLaNtfK7gbXAYZjoRfKl2XvFezI
-	yM8w==
-X-Gm-Message-State: AA6/9RmATCj7DhpA3mjSkgrJckw6WbWp9G5DRGVCXkemEIgxX1ZWZzRQkeElydcPelqO/HhFuV/wfj1HiMSFEA==
-X-Received: by 10.202.222.133 with SMTP id v127mr663138oig.22.1475591419885;
-	Tue, 04 Oct 2016 07:30:19 -0700 (PDT)
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=BzI1Q9UsLLsISP2H8jJkLX2f8mV0qq+45FxDWNPru2Y=;
+	b=gFhS9dZjtWkANppGbcjbbpPCvBt6nUkyE2gZLCLMje2p6Whu8guRUGzwUzetjr/Wt5
+	ivFpJtg/DKVffXgWLYmnICl15iSNHk89jXu1jW24WhKoM9E2ijSl/OsnUSLxgkXO7OJ6
+	ndE5HrshqcsZyX+yt1B1JbFYUOrSpd0I9RXqeyqxONgxqCR+jJQG68BuueZqAlYrqUEc
+	D32iYVkbCufswJ3sY0qMvYyXActsNk7ZZLoE32xxg+dp4Y/psyC5+b1hSQ7ZPcLITK2+
+	mjRLdE5Mbfnytd6u/yUBzvgMb9sYRhpSl3RPy2bCuzhw/6Iw5tWmZsLnjqh7Hjn13SuR
+	tgUA==
+X-Gm-Message-State: AA6/9RnR9T5ypexiWul/wlH9EhckuJDkGBXQxh3rcvj1OstsjO+0G+olHERdxEHdAq99Flg9SnANGMvivs6SehUB
+X-Received: by 10.36.144.68 with SMTP id x65mr4364949itd.70.1475593538615;
+	Tue, 04 Oct 2016 08:05:38 -0700 (PDT)
 MIME-Version: 1.0
-Sender: kergoth@gmail.com
-Received: by 10.157.13.194 with HTTP; Tue, 4 Oct 2016 07:29:59 -0700 (PDT)
-In-Reply-To: <CABcZANnNaQrd9x4=vZuBjkogUDGU81Ft08bJ+AJAVpH+Qh-RjQ@mail.gmail.com>
-References: <1475574064-30613-1-git-send-email-sujith.h@gmail.com>
-	<CABcZANnNaQrd9x4=vZuBjkogUDGU81Ft08bJ+AJAVpH+Qh-RjQ@mail.gmail.com>
-From: Christopher Larson <clarson@kergoth.com>
-Date: Tue, 4 Oct 2016 07:29:59 -0700
-X-Google-Sender-Auth: rzLneVU2GaisZFcUT9Pfv0IgHoU
-Message-ID: <CABcZANnbd84phqLgQWn4rtzfDCSfvGFn6d9OxOGg_X7tq5UHGg@mail.gmail.com>
-To: Sujith H <sujith.h@gmail.com>
-Cc: Sujith Haridasan <Sujith_Haridasan@mentor.com>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] perf: Fix to obey LD failure
+Received: by 10.107.155.66 with HTTP; Tue, 4 Oct 2016 08:05:18 -0700 (PDT)
+In-Reply-To: <CA+chaQc3eYQwQd0rozMhFFRt_PDztdxFWdhkurxMZDs23rEE8A@mail.gmail.com>
+References: <20161003171453.9151-1-Martin.Jansa@gmail.com>
+	<CAJTo0LbiDauWC1Te7+Oj2kupL+pJDx1XFUFQL2t76Gx+Hh3naA@mail.gmail.com>
+	<CA+chaQc3eYQwQd0rozMhFFRt_PDztdxFWdhkurxMZDs23rEE8A@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 4 Oct 2016 16:05:18 +0100
+Message-ID: <CAJTo0LYCXrs1mBC3c8VKgF_3ggWyWaqwo0zXem_jV_xm3hih6w@mail.gmail.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] systemtap: add dependency on boost
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,109 +55,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Oct 2016 14:30:18 -0000
-Content-Type: multipart/alternative; boundary=001a11440d066a8376053e0ae619
+X-List-Received-Date: Tue, 04 Oct 2016 15:05:37 -0000
+Content-Type: multipart/alternative; boundary=94eb2c07e806b42272053e0b640e
 
---001a11440d066a8376053e0ae619
+--94eb2c07e806b42272053e0b640e
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-On Tue, Oct 4, 2016 at 7:27 AM, Christopher Larson <clarson@kergoth.com>
-wrote:
+On 4 October 2016 at 10:46, Martin Jansa <martin.jansa@gmail.com> wrote:
 
+> PACKAGECONFIG would be nice
 >
-> On Tue, Oct 4, 2016 at 2:41 AM, Sujith H <sujith.h@gmail.com> wrote:
->
->> From: Sujith Haridasan <Sujith_Haridasan@mentor.com>
->>
->> When built on minnowmax ( machine name: intel-corei7-64),
->> an error is noticed during the do_compile:
->>
->>  /home/sujith/codebench-linux-install-2015.12-133-i686-pc-li
->> nux-gnu/codebench/bin/i686-pc-linux-gnu-ld:
->> Relocatable linking with relocations from format elf64-x86-64
->> (/home/sujith/MEL/dogwood/build-minnowmax/tmp/work/intel_cor
->> ei7_64-mel-linux/perf/1.0-r9/perf-1.0/fd/array.o)
->> to format elf32-i386 (/home/sujith/MEL/dogwood/buil
->> d-minnowmax/tmp/work/intel_corei7_64-mel-linux/perf/1.0-r9/
->> perf-1.0/fd/libapi-in.o)
->> is not supported
->>
->> This change help fix the issue.
->>
->> Signed-off-by: Sujith Haridasan <Sujith_Haridasan@mentor.com>
->> ---
->>
->
-> What=E2=80=99s with the redundant submission? You submitted the fix from
-> meta-mentor for this last week, and it was merged. http://git.
-> openembedded.org/openembedded-core/commit/?id=3D
-> 0ce06611068e74e6ea2e226e3f967aaa91fecd25
+> I don't use systemtap, I've just noticed it failing in one of my world
+> builds after recent boost which probably remove native boost from sysroot
+> between systemtap's do_configure and do_compile and caused this failure.
 >
 
-Ah, nevermind, this adds another sed to the other Makefile. Why does this
-commit message say nothing about that? You should really indicate that the
-previous fix was incomplete. This basically just pulls in the last bit from
-meta-mentor we didn=E2=80=99t apply in the previous submission, correct?
---=20
-Christopher Larson
-clarson at kergoth dot com
-Founder - BitBake, OpenEmbedded, OpenZaurus
-Maintainer - Tslib
-Senior Software Engineer, Mentor Graphics
+Patch incoming that incorporates this.
 
---001a11440d066a8376053e0ae619
+Ross
+
+--94eb2c07e806b42272053e0b640e
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><div class=3D"gmail_quo=
-te">On Tue, Oct 4, 2016 at 7:27 AM, Christopher Larson <span dir=3D"ltr">&l=
-t;<a href=3D"mailto:clarson@kergoth.com" target=3D"_blank">clarson@kergoth.=
-com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"mar=
-gin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div dir=3D"ltr=
-"><div class=3D"gmail_extra"><span class=3D""><br><div class=3D"gmail_quote=
-">On Tue, Oct 4, 2016 at 2:41 AM, Sujith H <span dir=3D"ltr">&lt;<a href=3D=
-"mailto:sujith.h@gmail.com" target=3D"_blank">sujith.h@gmail.com</a>&gt;</s=
-pan> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0p=
-x 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);border-lef=
-t-style:solid;padding-left:1ex"><div id=3D"m_-3066872493293455395gmail-m_-2=
-27703748311286951:2vu" class=3D"m_-3066872493293455395gmail-m_-227703748311=
-286951a3s m_-3066872493293455395gmail-m_-227703748311286951aXjCH m_-3066872=
-493293455395gmail-m_-227703748311286951m1578f11f932cc27a">From: Sujith Hari=
-dasan &lt;<a href=3D"mailto:Sujith_Haridasan@mentor.com" target=3D"_blank">=
-Sujith_Haridasan@mentor.com</a>&gt;<br>
-<br>
-When built on minnowmax ( machine name: intel-corei7-64),<br>
-an error is noticed during the do_compile:<br>
-<br>
-=C2=A0/home/sujith/codebench-linux-<wbr>install-2015.12-133-i686-pc-li<wbr>=
-nux-gnu/codebench/bin/i686-pc-<wbr>linux-gnu-ld:<br>
-Relocatable linking with relocations from format elf64-x86-64<br>
-(/home/sujith/MEL/dogwood/buil<wbr>d-minnowmax/tmp/work/intel_cor<wbr>ei7_6=
-4-mel-linux/perf/1.0-r9/<wbr>perf-1.0/fd/array.o)<br>
-to format elf32-i386 (/home/sujith/MEL/dogwood/buil<wbr>d-minnowmax/tmp/wor=
-k/intel_cor<wbr>ei7_64-mel-linux/perf/1.0-r9/<wbr>perf-1.0/fd/libapi-in.o)<=
-br>
-is not supported<br>
-<br>
-This change help fix the issue.<br>
-<br>
-Signed-off-by: Sujith Haridasan &lt;<a href=3D"mailto:Sujith_Haridasan@ment=
-or.com" target=3D"_blank">Sujith_Haridasan@mentor.com</a>&gt;<br>
----</div></blockquote></div><br></span>What=E2=80=99s with the redundant su=
-bmission? You submitted the fix from meta-mentor for this last week, and it=
- was merged.=C2=A0<a href=3D"http://git.openembedded.org/openembedded-core/=
-commit/?id=3D0ce06611068e74e6ea2e226e3f967aaa91fecd25" target=3D"_blank">ht=
-tp://git.<wbr>openembedded.org/openembedded-<wbr>core/commit/?id=3D<wbr>0ce=
-06611068e74e6ea2e226e3f967a<wbr>aa91fecd25</a></div></div></blockquote><div=
-><br></div><div>Ah, nevermind, this adds another sed to the other Makefile.=
- Why does this commit message say nothing about that? You should really ind=
-icate that the previous fix was incomplete. This basically just pulls in th=
-e last bit from meta-mentor we didn=E2=80=99t apply in the previous submiss=
-ion, correct?</div></div>-- <br><div class=3D"gmail_signature" data-smartma=
-il=3D"gmail_signature">Christopher Larson<br>clarson at kergoth dot com<br>=
-Founder - BitBake, OpenEmbedded, OpenZaurus<br>Maintainer - Tslib<br>Senior=
- Software Engineer, Mentor Graphics</div>
-</div></div>
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 4 October 2016 at 10:46, Martin Jansa <span dir=3D"ltr">&lt;<a href=3D"m=
+ailto:martin.jansa@gmail.com" target=3D"_blank">martin.jansa@gmail.com</a>&=
+gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 =
+0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div dir=3D"ltr">PACKAG=
+ECONFIG would be nice<div><br></div><div>I don&#39;t use systemtap, I&#39;v=
+e just noticed it failing in one of my world builds after recent boost whic=
+h probably remove native boost from sysroot between systemtap&#39;s do_conf=
+igure and do_compile and caused this failure.</div></div><div class=3D"yj6q=
+o ajU"><div id=3D":3i5" class=3D"ajR" tabindex=3D"0"></div></div></blockquo=
+te></div><br>Patch incoming that incorporates this.</div><div class=3D"gmai=
+l_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
 
---001a11440d066a8376053e0ae619--
+--94eb2c07e806b42272053e0b640e--
