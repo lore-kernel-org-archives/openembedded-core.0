@@ -1,28 +1,28 @@
 Return-Path: <Zubair.Kakakhel@imgtec.com>
 Received: from mailapp01.imgtec.com (mailapp02.imgtec.com [217.156.133.132])
-	by mail.openembedded.org (Postfix) with ESMTP id 9CF5D71A1E
+	by mail.openembedded.org (Postfix) with ESMTP id ECBCE71A0B
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  4 Oct 2016 11:31:30 +0000 (UTC)
+	Tue,  4 Oct 2016 11:31:31 +0000 (UTC)
 Received: from HHMAIL03.hh.imgtec.org (unknown [10.44.0.21])
-	by Forcepoint Email with ESMTPS id A0DDD9FE150F0
+	by Forcepoint Email with ESMTPS id 1A6E1DC3572C2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  4 Oct 2016 12:31:28 +0100 (IST)
+	Tue,  4 Oct 2016 12:31:30 +0100 (IST)
 Received: from HHMAIL01.hh.imgtec.org (10.100.10.19) by HHMAIL03.hh.imgtec.org
 	(10.44.0.21) with Microsoft SMTP Server (TLS) id 14.3.294.0;
-	Tue, 4 Oct 2016 12:31:31 +0100
+	Tue, 4 Oct 2016 12:31:32 +0100
 Received: from zkakakhel-linux.le.imgtec.org (192.168.154.45) by
 	HHMAIL01.hh.imgtec.org (10.100.10.21) with Microsoft SMTP Server (TLS)
-	id 14.3.294.0; Tue, 4 Oct 2016 12:31:30 +0100
+	id 14.3.294.0; Tue, 4 Oct 2016 12:31:32 +0100
 From: Zubair Lutfullah Kakakhel <Zubair.Kakakhel@imgtec.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 4 Oct 2016 12:31:16 +0100
-Message-ID: <1475580681-55081-5-git-send-email-Zubair.Kakakhel@imgtec.com>
+Date: Tue, 4 Oct 2016 12:31:18 +0100
+Message-ID: <1475580681-55081-7-git-send-email-Zubair.Kakakhel@imgtec.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <1475580681-55081-1-git-send-email-Zubair.Kakakhel@imgtec.com>
 References: <1475580681-55081-1-git-send-email-Zubair.Kakakhel@imgtec.com>
 MIME-Version: 1.0
 X-Originating-IP: [192.168.154.45]
-Subject: [PATCH 4/9] linuxloader.bbclass: Add mipsisa{32, 64}r6{el, } support
+Subject: [PATCH 6/9] bitbake.conf: Add mipsisa{32, 64}r6{el, } support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,34 +35,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Oct 2016 11:31:31 -0000
+X-List-Received-Date: Tue, 04 Oct 2016 11:31:32 -0000
 Content-Type: text/plain
 
-Add support for MIPS Release 6 ISA. The loader is located at a
-new place for multiarch.
-
-For more details, check https://wiki.debian.org/Multiarch
-and https://sourceware.org/glibc/wiki/ABIList#mips
+Add support for MIPS Release 6 ISA
 
 Signed-off-by: Zubair Lutfullah Kakakhel <Zubair.Kakakhel@imgtec.com>
 ---
- meta/classes/linuxloader.bbclass | 3 +++
- 1 file changed, 3 insertions(+)
+ meta/conf/bitbake.conf | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/meta/classes/linuxloader.bbclass b/meta/classes/linuxloader.bbclass
-index 5c4dc5c..8d85e6e 100644
---- a/meta/classes/linuxloader.bbclass
-+++ b/meta/classes/linuxloader.bbclass
-@@ -4,6 +4,9 @@ linuxloader () {
- 		powerpc | mips | mipsel | microblaze )
- 			dynamic_loader="${base_libdir}/ld.so.1"
- 			;;
-+		mipsisa32r6el | mipsisa32r6 | mipsisa64r6el | mipsisa64r6)
-+			dynamic_loader="${base_libdir}/ld-linux-mipsn8.so.1"
-+			;;
- 		powerpc64)
- 			dynamic_loader="${base_libdir}/ld64.so.1"
- 			;;
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 34e9e3b..54a587f 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -534,6 +534,11 @@ LINKER_HASH_STYLE_mips64 = "sysv"
+ LINKER_HASH_STYLE_mips64el = "sysv"
+ LINKER_HASH_STYLE_mips64n32 = "sysv"
+ LINKER_HASH_STYLE_mips64eln32 = "sysv"
++LINKER_HASH_STYLE_mipsisa32r6 = "sysv"
++LINKER_HASH_STYLE_mipsisa32r6el = "sysv"
++LINKER_HASH_STYLE_mipsisa64r6 = "sysv"
++LINKER_HASH_STYLE_mipsisa64r6el = "sysv"
++
+ TARGET_LINK_HASH_STYLE ?= "${@['-Wl,--hash-style=gnu',''][d.getVar('LINKER_HASH_STYLE', True) != 'gnu']}"
+ 
+ export LDFLAGS = "${TARGET_LDFLAGS}"
 -- 
 1.9.1
 
