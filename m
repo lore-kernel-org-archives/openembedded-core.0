@@ -1,23 +1,48 @@
-Return-Path: <stephano.cetola@linux.intel.com>
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by mail.openembedded.org (Postfix) with ESMTP id 003AB719DC
+Return-Path: <ulfalizer@gmail.com>
+Received: from mail-vk0-f65.google.com (mail-vk0-f65.google.com
+	[209.85.213.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 092EF6060F
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  4 Oct 2016 02:00:51 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga105.jf.intel.com with ESMTP; 03 Oct 2016 19:00:50 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.31,292,1473145200"; d="scan'208";a="1060058335"
-Received: from pequod.jf.intel.com ([10.7.201.50])
-	by orsmga002.jf.intel.com with ESMTP; 03 Oct 2016 19:00:51 -0700
-From: Stephano Cetola <stephano.cetola@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon,  3 Oct 2016 18:59:47 -0700
-Message-Id: <20161004015947.127442-2-stephano.cetola@linux.intel.com>
-X-Mailer: git-send-email 2.10.0
-In-Reply-To: <20161004015947.127442-1-stephano.cetola@linux.intel.com>
-References: <20161004015947.127442-1-stephano.cetola@linux.intel.com>
-Cc: paul.eggleton@linux.intel.com
-Subject: [PATCH V3] devtool: modify command fails to ignore source files
+	Tue,  4 Oct 2016 03:21:06 +0000 (UTC)
+Received: by mail-vk0-f65.google.com with SMTP id 2so2257114vkb.1
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 03 Oct 2016 20:21:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=BDhoPituendBCFv6lggMBFGdogbH0VfcuiRbfv2IAxw=;
+	b=niKJYsjySCy/COfs7uXk7lk+CBSQefAZ5ek0WpY6of9M3WYKlWHKgcUPrX+5tDBJER
+	Qj9XDxOC+jiixARHePwMl6d0JbPgf86ujIjx7hqP5blKIQvO3YGmNgsZOz5AiUrU4E0B
+	WxF1BJNetc30yn7irCtGBp55/A6WCS1ZAPGtV+dbGUVggW0B74acUHuv89qCs3eZROH7
+	XqCbnfX+OqXtVN9Tq2E2sBTRPDLhDLb1yYH1uNl1V1VkN3zZwikn8BhOr9A/jSKWRxWF
+	05Mdiky1R8je73V5brpp/ywCJ2kPL62mXHiYd4/MdlXhWOf/DFtIUxfNiUovNC05P415
+	RBAg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=BDhoPituendBCFv6lggMBFGdogbH0VfcuiRbfv2IAxw=;
+	b=jJzheqMKsJe4Ec4m0mRmT13JArrZMRc4VQryIoyVL6kORO8ID2/VgUWjB2XsKP1E12
+	dFszkSjyURoV1cvdp2zboCfEMLYHxukHNoJ30ZQ+ZqrLsarChlWHh2QKOFfEPRYwS37a
+	SpNmMgjRpYt0Ev39VKqx4YaL+k4PBstfmBpWzrNLpLRYC0r9qTn65Ys4yECKxla7Bebw
+	CrT4VTzHqA6sDrWS3UMlMG6h8ibH6r5tNyfatrNQNYuV8DD7vSEBEu5Tj79qC3gpKtzF
+	dbkeBbTH43PdSEusATtTg+9MFhkmSDCRBqQojp83wbQkPxDNvLAi0m0aqZTSNBAdexRY
+	sCDw==
+X-Gm-Message-State: AA6/9RlGKV0R9mVIYry7dethA9oIkaDmJisSmQwk7zJaMX6igVTxmNoQSRLQaxrg/l58w0J2AB6oYXyZgBIC2A==
+X-Received: by 10.31.76.193 with SMTP id z184mr872215vka.69.1475551268053;
+	Mon, 03 Oct 2016 20:21:08 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.103.140.8 with HTTP; Mon, 3 Oct 2016 20:21:07 -0700 (PDT)
+In-Reply-To: <CAFkk2KSTr+x_93DP-=ag-Oj4bmcDz5ep1r77xqKGyX6pZ_Zd8g@mail.gmail.com>
+References: <1475497055-1059-1-git-send-email-fabio.berton@ossystems.com.br>
+	<CAFkk2KSCRAuCTTxoDdVuKJd7jeZBqO6-RAsq4ZaMnOS2wExhGA@mail.gmail.com>
+	<CAFkk2KSTr+x_93DP-=ag-Oj4bmcDz5ep1r77xqKGyX6pZ_Zd8g@mail.gmail.com>
+From: Ulf Magnusson <ulfalizer@gmail.com>
+Date: Tue, 4 Oct 2016 05:21:07 +0200
+Message-ID: <CAFkk2KQW2+NDACu9BM3f5b2iW3oRKZkY5UohxnMEUM-gtEVPzA@mail.gmail.com>
+To: Fabio Berton <fabio.berton@ossystems.com.br>
+Cc: Otavio Salvador <otavio@ossystems.com.br>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2 1/2] classes/uboot-extlinux-config: Add class
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,44 +55,241 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Oct 2016 02:00:52 -0000
+X-List-Received-Date: Tue, 04 Oct 2016 03:21:07 -0000
+Content-Type: text/plain; charset=UTF-8
 
-With recent changes to recipeutils, the list of local files returned
-by get_recipe_local_files could possibly include source files. This
-only happens when the recipe contains a SRC_URI using subdir= to put
-files in the source tree. These files should be ignored when
-populating the list of local files for oe-local-files directory.
+On Tue, Oct 4, 2016 at 12:24 AM, Ulf Magnusson <ulfalizer@gmail.com> wrote:
+> On Tue, Oct 4, 2016 at 12:08 AM, Ulf Magnusson <ulfalizer@gmail.com> wrote:
+>> Hello,
+>>
+>> On Mon, Oct 3, 2016 at 2:17 PM, Fabio Berton
+>> <fabio.berton@ossystems.com.br> wrote:
+>>> This class allow the extlinux.conf generation for U-Boot use.
+>>> The U-Boot support for it is given to allow the Generic Distribution
+>>> Configuration specification use by OpenEmbedded-based products.
+>>>
+>>> This class can be inherited by u-boot recipes to create extlinux.conf
+>>> and boot using menu options.
+>>>
+>>> U-boot with extlinux support is machine dependent, so to use this class
+>>> you need to set UBOOT_EXTLINUX to 1 in machine configuration file and
+>>> also set root= kernel cmdline UBOOT_EXTLINUX_ROOT. This variable is used
+>>> to pass root kernel cmdline, e.g:
+>>>
+>>> UBOOT_EXTLINUX_ROOT = "root=/dev/mmcblk2p2"
+>>>
+>>> Signed-off-by: Fabio Berton <fabio.berton@ossystems.com.br>
+>>> Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+>>> ---
+>>>  meta/classes/uboot-extlinux-config.bbclass | 130 +++++++++++++++++++++++++++++
+>>>  1 file changed, 130 insertions(+)
+>>>  create mode 100644 meta/classes/uboot-extlinux-config.bbclass
+>>>
+>>> diff --git a/meta/classes/uboot-extlinux-config.bbclass b/meta/classes/uboot-extlinux-config.bbclass
+>>> new file mode 100644
+>>> index 0000000..a4dc0c0
+>>> --- /dev/null
+>>> +++ b/meta/classes/uboot-extlinux-config.bbclass
+>>> @@ -0,0 +1,130 @@
+>>> +# uboot-extlinux-config.bbclass
+>>> +#
+>>> +# This class allow the extlinux.conf generation for U-Boot use. The
+>>> +# U-Boot support for it is given to allow the Generic Distribution
+>>> +# Configuration specification use by OpenEmbedded-based products.
+>>> +#
+>>> +# External variables:
+>>> +#
+>>> +# UBOOT_EXTLINUX_CONFIG            - Configuration file default set to source dir.
+>>> +# UBOOT_EXTLINUX_CONSOLE           - Set to "console=ttyX" to change kernel boot
+>>> +#                                    default console.
+>>> +# UBOOT_EXTLINUX_LABELS            - A list of targets for the automatic config.
+>>> +# UBOOT_EXTLINUX_KERNEL_ARGS       - Add additional kernel arguments.
+>>> +# UBOOT_EXTLINUX_KERNEL_IMAGE      - Kernel image name.
+>>> +# UBOOT_EXTLINUX_FDTDIR            - Device tree directory.
+>>> +# UBOOT_EXTLINUX_INITRD            - Indicates a list of filesystem images to
+>>> +#                                    concatenate and use as an initrd (optional).
+>>> +# UBOOT_EXTLINUX_MENU_DESCRIPTION  - Name to use as description.
+>>> +# UBOOT_EXTLINUX_ROOT              - Root kernel cmdline.
+>>> +#
+>>> +# If there's only one label system will boot automatically and menu won't be
+>>> +# created. If you want to use more than one labels, e.g linux and alternate,
+>>> +# use overrides to set menu description, console and others variables.
+>>> +#
+>>> +# Ex:
+>>> +#
+>>> +# UBOOT_EXTLINUX_LABELS ??= "default fallback"
+>>> +#
+>>> +# UBOOT_EXTLINUX_KERNEL_IMAGE_default ??= "../zImage"
+>>> +# UBOOT_EXTLINUX_MENU_DESCRIPTION_default ??= "Linux Default"
+>>> +#
+>>> +# UBOOT_EXTLINUX_KERNEL_IMAGE_fallback ??= "../zImage-fallback"
+>>> +# UBOOT_EXTLINUX_MENU_DESCRIPTION_fallback ??= "Linux Fallback"
+>>> +#
+>>> +# Results:
+>>> +#
+>>> +# menu title Select the boot mode
+>>> +# LABEL Linux Default
+>>> +#   KERNEL ../zImage
+>>> +#   FDTDIR ../
+>>> +#   APPEND root=/dev/mmcblk2p2 rootwait rw console=${console}
+>>> +# LABEL Linux Fallback
+>>> +#   KERNEL ../zImage-fallback
+>>> +#   FDTDIR ../
+>>> +#   APPEND root=/dev/mmcblk2p2 rootwait rw console=${console}
+>>> +#
+>>> +# Copyright (C) 2016, O.S. Systems Software LTDA.  All Rights Reserved
+>>> +# Released under the MIT license (see packages/COPYING)
+>>> +#
+>>> +# The kernel has an internal default console, which you can override with
+>>> +# a console=...some_tty...
+>>> +UBOOT_EXTLINUX_CONSOLE ??= "console=${console}"
+>>> +UBOOT_EXTLINUX_CONFIG ??= "${S}/extlinux.conf"
+>>> +UBOOT_EXTLINUX_LABELS ??= "linux"
+>>> +UBOOT_EXTLINUX_FDTDIR ??= "../"
+>>> +UBOOT_EXTLINUX_KERNEL_IMAGE ??= "../${KERNEL_IMAGETYPE}"
+>>> +UBOOT_EXTLINUX_KERNEL_ARGS ??= "rootwait rw"
+>>> +UBOOT_EXTLINUX_MENU_DESCRIPTION_linux ??= "${DISTRO_NAME}"
+>>> +
+>>> +python create_extlinux_config() {
+>>> +    if d.getVar("UBOOT_EXTLINUX", False) == "1":
+>>
+>> Is there a reason why False is passed here? Passing True would make
+>> the code more general, as the value of the flag could come from
+>> another variable, e.g.
+>>
+>>   UBOOT_EXTLINUX = "${SOME_FLAG_HELPER_VAR}"
+>>
+>> , or from a function, e.g.
+>>
+>>   UBOOT_EXTLINUX = "${@needs_uboot_extlinux()}"
+>>
+>> As a minor style note, the indentation of the function could be
+>> decreased by doing
+>>
+>>   if d.getVar("UBOOT_EXTLINUX", True) != "1":
+>>       return
+>>   ...
+>>
+>> That might avoid excessive indentation if you use 'with' as mentioned below.
+>>
+>>> +        workdir = d.getVar('WORKDIR', True)
+>>> +        if not workdir:
+>>> +            bb.error("WORKDIR not defined, unable to package")
+>>> +            return
+>>
+>> Could be simplified to the following to make it clear that 'workdir'
+>> is never referenced afterwards (I know there's some existing code like
+>> the above though):
+>>
+>>   if not d.getVar('WORKDIR', True):
+>>       ...
+>>
+>>> +
+>>> +        labels = d.getVar('UBOOT_EXTLINUX_LABELS', True)
+>>> +        if not labels:
+>>> +            bb.fatal(1, "UBOOT_EXTLINUX_LABELS not defined, nothing to do")
+>>> +            return
+>>
+>> 'return' is redundant after bb.fatal(). bb.fatal() throws an exception
+>> (BBHandledException, though that's internalish), so the 'return' will
+>> never be reached.
+>>
+>>> +
+>>> +        if labels == []:
+>>> +            bb.fatal(1, "No labels, nothing to do")
+>>> +            return
+>>
+>> Redundant 'return'.
+>>
+>>> +
+>>> +        cfile = d.getVar('UBOOT_EXTLINUX_CONFIG', True)
+>>> +        if not cfile:
+>>> +            bb.fatal('Unable to read UBOOT_EXTLINUX_CONFIG')
+>>> +
+>>> +        try:
+>>> +            cfgfile = open(cfile, 'w')
+>>> +        except OSError:
+>>> +            bb.fatal('Unable to open %s' % (cfile))
+>>> +
+>>> +        cfgfile.write('# Generic Distro Configuration file generated by OpenEmbedded\n')
+>>> +
+>>> +        if len(labels.split()) > 1:
+>>> +            cfgfile.write('menu title Select the boot mode\n')
+>>> +
+>>> +        for label in labels.split():
+>>> +            localdata = bb.data.createCopy(d)
+>>> +
+>>> +            overrides = localdata.getVar('OVERRIDES', True)
+>>> +            if not overrides:
+>>> +                bb.fatal('OVERRIDES not defined')
+>>> +
+>>> +            localdata.setVar('OVERRIDES', label + ':' + overrides)
+>>> +            bb.data.update_data(localdata)
+>>> +
+>>> +            extlinux_console = localdata.getVar('UBOOT_EXTLINUX_CONSOLE', True)
+>>> +
+>>> +            menu_description = localdata.getVar('UBOOT_EXTLINUX_MENU_DESCRIPTION', True)
+>>> +            if not menu_description:
+>>> +                menu_description = label
+>>> +
+>>> +            root = localdata.getVar('UBOOT_EXTLINUX_ROOT', True)
+>>> +            if not root:
+>>> +                bb.fatal('UBOOT_EXTLINUX_ROOT not defined')
+>>> +
+>>> +            kernel_image = localdata.getVar('UBOOT_EXTLINUX_KERNEL_IMAGE', True)
+>>> +            fdtdir = localdata.getVar('UBOOT_EXTLINUX_FDTDIR', True)
+>>> +            if fdtdir:
+>>> +                cfgfile.write('LABEL %s\n\tKERNEL %s\n\tFDTDIR %s\n' %
+>>> +                             (menu_description, kernel_image, fdtdir))
+>>> +            else:
+>>> +                cfgfile.write('LABEL %s\n\tKERNEL %s\n' % (menu_description, kernel_image))
+>>> +
+>>> +            kernel_args = localdata.getVar('UBOOT_EXTLINUX_KERNEL_ARGS', True)
+>>> +
+>>> +            initrd = localdata.getVar('UBOOT_EXTLINUX_INITRD', True)
+>>> +            if initrd:
+>>> +                cfgfile.write('\tINITRD %s\n'% initrd)
+>>> +
+>>> +            kernel_args = root + " " + kernel_args
+>>> +            cfgfile.write('\tAPPEND %s %s\n' % (kernel_args, extlinux_console))
+>>> +
+>>> +        cfgfile.close()
+>>
+>> Using Python's 'with' syntax would be a better way to handle the file.
+>> That way, the file is guaranteed to be close()d immediately even if
+>> the function exits via bb.fatal().
+>>
+>> It is possible to use 'with' even after opening the file by the way.
+>> Just do the following:
+>>
+>>   with cfgfile:
+>>       ...
+>>
+>>> +}
+>>> +
+>>> +do_install[prefuncs] += "create_extlinux_config"
+>>> --
+>>> 2.1.4
+>>>
+>>> --
+>>
+>> I'm not familiar with the functionality itself, so hard to say
+>> anything constructive there.
+>>
+>> Cheers,
+>> Ulf
+>
+> The manual doesn't make it perfectly clear that bb.fatal() raises an
+> exception. I opened a documentation bug for it:
+> https://bugzilla.yoctoproject.org/show_bug.cgi?id=10363
+>
+> Cheers,
+> Ulf
 
-[YOCTO #10326]
+It looks like the first two bb.fatal() calls accidentally ended up
+with two arguments by the way. bb.fatal() does not take a 'level'
+arguments like bb.debug() does.
 
-introduced in
-OE-Core revision 9069fef5dad5a873c8a8f720f7bcbc7625556309
-
-Signed-off-by: Stephano Cetola <stephano.cetola@linux.intel.com>
----
- scripts/lib/devtool/standard.py | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
-
-diff --git a/scripts/lib/devtool/standard.py b/scripts/lib/devtool/standard.py
-index 8319145..48b0a5e 100644
---- a/scripts/lib/devtool/standard.py
-+++ b/scripts/lib/devtool/standard.py
-@@ -568,8 +568,13 @@ def _extract_source(srctree, keep_temp, devbranch, sync, d):
-         recipe_patches = [os.path.basename(patch) for patch in
-                           oe.recipeutils.get_recipe_patches(crd)]
-         local_files = oe.recipeutils.get_recipe_local_files(crd)
-+
-+        # Ignore local files with subdir={BP}
-+        srcabspath = os.path.abspath(srcsubdir)
-         local_files = [fname for fname in local_files if
--                       os.path.exists(os.path.join(workdir, fname))]
-+                       os.path.exists(os.path.join(workdir, fname)) and
-+                       not os.path.join(workdir, fname).startswith(srcabspath +
-+                           os.sep)]
-         if local_files:
-             for fname in local_files:
-                 _move_file(os.path.join(workdir, fname),
--- 
-2.10.0
-
+Cheers,
+Ulf
 
