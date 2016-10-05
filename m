@@ -1,53 +1,53 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
-	by mail.openembedded.org (Postfix) with ESMTP id E4414719C5;
-	Wed,  5 Oct 2016 13:48:05 +0000 (UTC)
-Received: by mail-wm0-f68.google.com with SMTP id f193so20061615wmg.2;
-	Wed, 05 Oct 2016 06:48:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:date:to:cc:subject:message-id:references:mime-version
-	:content-disposition:in-reply-to:user-agent;
-	bh=8H4n5bae2sk7PgW9YbmYVWcppqhKIRU4UkC+ii5sh4Y=;
-	b=M+5CWqEDEeDqIn4p1T/b02qT+LewaqQ/ztiwFI1m6cJ8pYmnoKcGM6XhHG7uMGmJeV
-	9jFmpGYqtObEifKGPEOgjONfanWXxrYA/liMRSUlRV7Gbqc29/p8xKcUeFimW44MPAaa
-	S9gaPAqCAPbqUin6CW3ZBeBZCUNN96QC8xeqmpguqB6Oq4gwYUQnK4da5pwh64ZZ23op
-	YN7PxEtbJDGdP6Ex7UENIp4hIiW9wpGRHenPjWfvb3Aaf0+9v8GCSmrBC56vNFQW9q97
-	kyiUGAlFds/qWOMLbqT7fRw611UB5MDRJuoy36r/4Yn15aJBFrib3KQXCA9mFS90ho99
-	B0xw==
+Return-Path: <ross.burton@intel.com>
+Received: from mail-it0-f44.google.com (mail-it0-f44.google.com
+	[209.85.214.44])
+	by mail.openembedded.org (Postfix) with ESMTP id 8272B71A5B
+	for <openembedded-core@lists.openembedded.org>;
+	Wed,  5 Oct 2016 13:56:06 +0000 (UTC)
+Received: by mail-it0-f44.google.com with SMTP id r192so187739437ita.0
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 05 Oct 2016 06:56:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=z9nahnmk98pac4LXCkpCpqeIL5ndstmqEZWKp8FINc0=;
+	b=fPviY/ZciYpGkwbYzi1Sc3MjiScoL2tfe3Y3u+ndHulW7w5gukM1UhtgziT2xZYWQ5
+	tv++NJOKeQNvmE77rPLKUTunA/aIu4Ht6PqQTCbnC2AVrXZGGZ1lLo27lCf9tucP9fZl
+	c6EQPVyLDOzxo3c8oOJbfyUlasj6KXLGqtsc9xmac/ZSS0O6hqvz7aXzunMzqsNfT2b7
+	xfKPoiTLlDpWCPysGrNjjuIgJi2PXPKGXEJj3aTjzVdftm2Xj8/zGnG93kDPEZESfmyJ
+	vK22Cx27WfCffXPkeMJLT8bZhGklDZyETRYApfc0XgBOeeyPGnIUimvlPdJoR4e1OgTH
+	v2xg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:date:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=8H4n5bae2sk7PgW9YbmYVWcppqhKIRU4UkC+ii5sh4Y=;
-	b=NnBczxlxy0rN8h7xkoOTPblcWGndq+/Q11F5njDaJUvPABB+MX/ZpcMU+YaDf9ufAS
-	SMsHaCp7L9NCwLSOit2Qal/0dYba3CVfn/gA5AqLqINLz5LzYV/pwP5HnPIKCDZkC7ps
-	5M6HPjAoOH4qR7zyqXopBeghQuSN1+PyvlLL976H680HeQdMW1i0kh6AVUDYqGvzXwJk
-	944DcWthETylRwLqE8nCKyTjfWf8th4nqUUlsbpzAc1wUy9tVGURHd+NGdB4IH+nkZ0v
-	EyGKaNuMmTxNpB1bhZzuaFH4lF/HgrUgOE1hj6wkuF4P7NLl6JDp587YstzXbG0nxqBH
-	zfPQ==
-X-Gm-Message-State: AA6/9RlPTlbQAR8HGBeJOYG/ocILtR5Kuo7thDyHVqXit6/SVlsvV/yOUepeIbwH4LHiaQ==
-X-Received: by 10.194.16.161 with SMTP id h1mr7785760wjd.164.1475675286117;
-	Wed, 05 Oct 2016 06:48:06 -0700 (PDT)
-Received: from localhost (ip-89-176-104-169.net.upcbroadband.cz.
-	[89.176.104.169])
-	by smtp.gmail.com with ESMTPSA id c5sm9078664wjw.29.2016.10.05.06.48.05
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Wed, 05 Oct 2016 06:48:05 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Wed, 5 Oct 2016 15:48:07 +0200
-To: Andreas =?iso-8859-1?Q?M=FCller?= <schnitzeltony@googlemail.com>
-Message-ID: <20161005134807.GB2926@jama>
-References: <20161005131408.GA2926@jama>
-	<CALbNGRRDzx-2FPMd_hgfoEMQgHPGFjfjViMSCAfJaBZRg=c9ig@mail.gmail.com>
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=z9nahnmk98pac4LXCkpCpqeIL5ndstmqEZWKp8FINc0=;
+	b=hYGSQE2kH7scjYLYxuADEKqS58yQyLhLZlD5HqNTQpT/TG206mRJdk1LmRnieA3naH
+	VR80+wau1pTjuoDZOUwUI7iyhcy7e7o6ue+EvylwTcXUHH7saRAlbkE/toKeYi3ugNrR
+	wts5TeJD+vaEPgDGspA1oy95Qh5ty7nUzNn6wM9sDaQQrEo5zTQxyx5WO1xjxwAZCVm+
+	kmAj4gqspd1WnHe8irmBO6+crFKXMh8PORNKkuJ8oD4GP4xHNNGqrFHh102xDjiLb+X+
+	iTmPJorkKjSTmqi3ahKHg9MnIODrK5fIudahsWWkJEZn11biC3FTSXErNerCcGBQJ0nX
+	G43A==
+X-Gm-Message-State: AA6/9RlSme8t15XQYgEe3EXA7yrKZFD4hvJg0Oco8UJKqLAskWTg6KCCz3/JOS7942PF9JcZzbSgIQuMF1OiHzVv
+X-Received: by 10.36.200.85 with SMTP id w82mr19106720itf.29.1475675767217;
+	Wed, 05 Oct 2016 06:56:07 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CALbNGRRDzx-2FPMd_hgfoEMQgHPGFjfjViMSCAfJaBZRg=c9ig@mail.gmail.com>
-User-Agent: Mutt/1.7.0 (2016-08-17)
-Cc: "openembedded-devel@lists.openembedded.org"
-	<openembedded-devel@lists.openembedded.org>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: State of bitbake world 2016-10-04
+Received: by 10.107.155.66 with HTTP; Wed, 5 Oct 2016 06:55:46 -0700 (PDT)
+In-Reply-To: <878tu3gg6m.fsf@adi-pc-linux.i-did-not-set--mail-host-address--so-tickle-me>
+References: <20160908095633.26651-1-adrian.ratiu@ni.com>
+	<CAJTo0LaDjgTd20i-BQ5QQrWrKms3rfq-vNCiqVB7yz6f8VAmpg@mail.gmail.com>
+	<878tv2znhb.fsf@ni.com>
+	<CAJTo0LY_6wg10ft-RNRrYH7xa93=aWB9LuH=gxEpgf19vC446Q@mail.gmail.com>
+	<871t0tzads.fsf@ni.com>
+	<CAJTo0LZtsxhz=5=XdBWDQVMZpXyXqi11h2OS5XY5HOrUXkMmnA@mail.gmail.com>
+	<87bmyzdqfp.fsf@ni.com>
+	<878tu3gg6m.fsf@adi-pc-linux.i-did-not-set--mail-host-address--so-tickle-me>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 5 Oct 2016 14:55:46 +0100
+Message-ID: <CAJTo0LZcE63=JYaK1sTVh4wiSyktb4XLRkOx=XbMc4jRtJ-JqA@mail.gmail.com>
+To: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] pango: add libpcre to DEPENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,57 +60,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Oct 2016 13:48:10 -0000
-X-Groupsio-MsgNum: 87896
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="f2QGlHpHGjS2mn6Y"
-Content-Disposition: inline
+X-List-Received-Date: Wed, 05 Oct 2016 13:56:06 -0000
+Content-Type: multipart/alternative; boundary=94eb2c05a3b4e8b4e9053e1e896b
 
---f2QGlHpHGjS2mn6Y
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+--94eb2c05a3b4e8b4e9053e1e896b
+Content-Type: text/plain; charset=UTF-8
+
+On 5 October 2016 at 12:59, Ioan-Adrian Ratiu <adrian.ratiu@ni.com> wrote:
+
+> I think libpcre_%.bbappend in meta-selinux is just missing the following
+> line:
+>
+> ln -sf ${relpath}/${realsofile} ${D}${libdir}/libpcre.so.1
+>
+> after creating this symlink the build works without problems (previously
+> only libpcre.so symlink was created).
+>
+> Is this a proper solution?
+>
+
+As meta-selinux is messing around with library locations, yes.
+
+Ross
+
+--94eb2c05a3b4e8b4e9053e1e896b
+Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Oct 05, 2016 at 03:29:25PM +0200, Andreas M=FCller wrote:
-> > =3D=3D=3D qemuarm (1) =3D=3D=3D
-> >     * meta-openembedded/meta-filesystems/recipes-support/physfs/physfs_=
-git.bb:do_populate_lic
-> ^ This one was fixed during run - correct?
-> >
-> > =3D=3D=3D qemux86 (2) =3D=3D=3D
-> >     * meta-browser/recipes-browser/chromium/chromium_52.0.2743.76.bb:do=
-_compile
-> >     * meta-openembedded/meta-oe/recipes-support/mongodb/mongodb_git.bb:=
-do_compile
-> >
-> > =3D=3D=3D qemux86_64 (1) =3D=3D=3D
-> >     * meta-openembedded/meta-oe/recipes-support/ipmiutil/ipmiutil_2.9.6=
-=2Ebb:do_compile
-> >
->=20
-> ...
->=20
-> >
-> > =3D=3D Tested changes (nocluded in master yet:
-> > ad9b1ce firefox: Fix build using gcc 6
-> ^ Where does this one come from?
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 5 October 2016 at 12:59, Ioan-Adrian Ratiu <span dir=3D"ltr">&lt;<a href=
+=3D"mailto:adrian.ratiu@ni.com" target=3D"_blank">adrian.ratiu@ni.com</a>&g=
+t;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0=
+ .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":1hs" class=
+=3D"a3s aXjCH m15794b7e02ae464c">I think libpcre_%.bbappend in meta-selinux=
+ is just missing the following<br>
+line:<br>
+<br>
+ln -sf ${relpath}/${realsofile} ${D}${libdir}/libpcre.so.1<br>
+<br>
+after creating this symlink the build works without problems (previously<br=
+>
+only libpcre.so symlink was created).<br>
+<br>
+Is this a proper solution?</div></blockquote></div><br>As meta-selinux is m=
+essing around with library locations, yes.</div><div class=3D"gmail_extra">=
+<br></div><div class=3D"gmail_extra">Ross</div></div>
 
-https://patchwork.openembedded.org/patch/126075/
-
-probably
-
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---f2QGlHpHGjS2mn6Y
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iEYEARECAAYFAlf1BHEACgkQN1Ujt2V2gBzJ1wCdF/otkEP/VWIc1GKTPDTRMCMr
-vFYAn0Ner+gwNXZ5JFKkanTneJAkmAAZ
-=L+Js
------END PGP SIGNATURE-----
-
---f2QGlHpHGjS2mn6Y--
+--94eb2c05a3b4e8b4e9053e1e896b--
