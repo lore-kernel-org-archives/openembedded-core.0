@@ -1,24 +1,49 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 6724D719E4
+Return-Path: <sujith.h@gmail.com>
+Received: from mail-qk0-f196.google.com (mail-qk0-f196.google.com
+	[209.85.220.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 0AEAB71A03
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  5 Oct 2016 03:03:49 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u9533nKn027611
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 4 Oct 2016 20:03:49 -0700 (PDT)
-Received: from yow-bashfiel-d4.wrs.com (128.224.56.94) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.294.0; Tue, 4 Oct 2016 20:03:48 -0700
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-To: <richard.purdie@linuxfoundation.org>
-Date: Tue, 4 Oct 2016 23:03:48 -0400
-Message-ID: <1475636628-23762-1-git-send-email-bruce.ashfield@windriver.com>
-X-Mailer: git-send-email 2.5.0
+	Wed,  5 Oct 2016 05:45:53 +0000 (UTC)
+Received: by mail-qk0-f196.google.com with SMTP id n189so10912613qke.1
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 04 Oct 2016 22:45:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=EuvRIKhudHv+8+4774y6K66xaZb+wLX8w8ebPPqUKRs=;
+	b=Q4eQjCbi4aiqqJdgkMQ1NYbAoPY4eXq13AcJHCeD4+qIa2KswVOl6CUiI5jhF2779i
+	WSXeB3YnSP93McttnecyA8AXV8U6EPonnvnj5DlGu7nTeKDrk8l8AUksp7S+Oq8zGuYZ
+	iYYgsS6MlK9ouoRBBjOWL5o+8wO1O3UXkprgyhKYTA7pOaoSilZ6XiT1bgC4IIL4xYQq
+	xh6yd75HQbEp1Qe+TiBulnRWvo8o0eS2bHWmpb/uzZmMi30Rw0kDa5woyLHBl2dMXY82
+	s9KQfwoAdgz3QbOgdJ/qXzB6H29Q7QdF+wJQaBFYtS1G6a1kx7fgEchDwp5fkKmhQZcD
+	dxkg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=EuvRIKhudHv+8+4774y6K66xaZb+wLX8w8ebPPqUKRs=;
+	b=HBIM9/ZtEtC4YaPOY0dBvr90PlmKGtgthFkdBsSS54w5nwvMHgqHSWisGgFFuU68aD
+	sKbASdcxMVdtE0Z8Bkz5lCh9dBNYNFUxLKyftZeBzJRtvxP2BJt8urs9db7rSCD1bVzs
+	47TzGFb+dkBr18+O/sjCG5++SvTrB+ZoHYIteB2AJN5Ix3GdusYXoTUQpk2LxSJQ62S7
+	oPVofZQQZrUIi4bfmMq5Rt7nW3iPx/1qoH6omEpv6Ai8sr5+p3ejdukihs9AWwbL2Q3I
+	/V3sQeagK+OzXW5yM7f1uhsxZv5g2Yku9QUIHx5Uk7A/PZxIirj9wRJEh6YwKiZP/uaj
+	SBVQ==
+X-Gm-Message-State: AA6/9RmsHWpXGKOAQTd2kKbW3Xix9Tv3SSOedO2WSvLftIgRvsXN+C+oa0ml3tod2OjJfT73ZKoIjCqZX9tlpA==
+X-Received: by 10.55.20.158 with SMTP id 30mr2109219qku.27.1475646354974; Tue,
+	04 Oct 2016 22:45:54 -0700 (PDT)
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH] linux-yocto/4.8: fix BUG_ON() in workingset_node_shadows_dec() triggers
+Received: by 10.55.183.1 with HTTP; Tue, 4 Oct 2016 22:45:34 -0700 (PDT)
+In-Reply-To: <CABcZANnbd84phqLgQWn4rtzfDCSfvGFn6d9OxOGg_X7tq5UHGg@mail.gmail.com>
+References: <1475574064-30613-1-git-send-email-sujith.h@gmail.com>
+	<CABcZANnNaQrd9x4=vZuBjkogUDGU81Ft08bJ+AJAVpH+Qh-RjQ@mail.gmail.com>
+	<CABcZANnbd84phqLgQWn4rtzfDCSfvGFn6d9OxOGg_X7tq5UHGg@mail.gmail.com>
+From: sujith h <sujith.h@gmail.com>
+Date: Wed, 5 Oct 2016 11:15:34 +0530
+Message-ID: <CADyYWL=6WhJmMUpRr=MjOV_HOvBa2qODSFa0Y44Qy7LUencK=Q@mail.gmail.com>
+To: Christopher Larson <clarson@kergoth.com>
+Cc: Sujith Haridasan <Sujith_Haridasan@mentor.com>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] perf: Fix to obey LD failure
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,82 +56,155 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Oct 2016 03:03:50 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 05 Oct 2016 05:45:54 -0000
+Content-Type: multipart/alternative; boundary=001a11400a1acd6d8d053e17b0e6
 
-Paul Gotmaker pointed out that a last minute merge to the 4.8 kernel
-has the potential to hard hang a kernel when VM debugging is enabled:
+--001a11400a1acd6d8d053e17b0e6
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-  https://lkml.org/lkml/2016/10/4/1
+On Tue, Oct 4, 2016 at 7:59 PM, Christopher Larson <clarson@kergoth.com>
+wrote:
 
-He also pointed out the fix for it in commit 21f54dda
-[Using BUG_ON() as an assert() is _never_ acceptable].
+>
+>
+> On Tue, Oct 4, 2016 at 7:27 AM, Christopher Larson <clarson@kergoth.com>
+> wrote:
+>
+>>
+>> On Tue, Oct 4, 2016 at 2:41 AM, Sujith H <sujith.h@gmail.com> wrote:
+>>
+>>> From: Sujith Haridasan <Sujith_Haridasan@mentor.com>
+>>>
+>>> When built on minnowmax ( machine name: intel-corei7-64),
+>>> an error is noticed during the do_compile:
+>>>
+>>>  /home/sujith/codebench-linux-install-2015.12-133-i686-pc-li
+>>> nux-gnu/codebench/bin/i686-pc-linux-gnu-ld:
+>>> Relocatable linking with relocations from format elf64-x86-64
+>>> (/home/sujith/MEL/dogwood/build-minnowmax/tmp/work/intel_cor
+>>> ei7_64-mel-linux/perf/1.0-r9/perf-1.0/fd/array.o)
+>>> to format elf32-i386 (/home/sujith/MEL/dogwood/buil
+>>> d-minnowmax/tmp/work/intel_corei7_64-mel-linux/perf/1.0-r9/p
+>>> erf-1.0/fd/libapi-in.o)
+>>> is not supported
+>>>
+>>> This change help fix the issue.
+>>>
+>>> Signed-off-by: Sujith Haridasan <Sujith_Haridasan@mentor.com>
+>>> ---
+>>>
+>>
+>> What=E2=80=99s with the redundant submission? You submitted the fix from
+>> meta-mentor for this last week, and it was merged. http://git.openembedd=
+e
+>> d.org/openembedded-core/commit/?id=3D0ce06611068e74e6ea2
+>> e226e3f967aaa91fecd25
+>>
+>
+> Ah, nevermind, this adds another sed to the other Makefile. Why does this
+> commit message say nothing about that? You should really indicate that th=
+e
+> previous fix was incomplete. This basically just pulls in the last bit fr=
+om
+> meta-mentor we didn=E2=80=99t apply in the previous submission, correct?
+>
 
-While that fix will loop through -stable into 4.8.1, that will
-likely be too late for our release. So I've cherry picked the
-change to make it available.
+Yes, that's correct. I will update the patch commit message.
 
-Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
----
- meta/recipes-kernel/linux/linux-yocto-rt_4.8.bb   |  2 +-
- meta/recipes-kernel/linux/linux-yocto-tiny_4.8.bb |  2 +-
- meta/recipes-kernel/linux/linux-yocto_4.8.bb      | 16 ++++++++--------
- 3 files changed, 10 insertions(+), 10 deletions(-)
-
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_4.8.bb b/meta/recipes-kernel/linux/linux-yocto-rt_4.8.bb
-index 515f8783e906..90e1a4d74758 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_4.8.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_4.8.bb
-@@ -11,7 +11,7 @@ python () {
-         raise bb.parse.SkipPackage("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
- }
- 
--SRCREV_machine ?= "cd97b2cf4bc73316204a5148d2b0f5fc5d2ecc19"
-+SRCREV_machine ?= "b266f7ba78f0cb3d7073e1bf7bd7dfc92bec7431"
- SRCREV_meta ?= "6128a9e47cd1aeb46b604469c17bff3eba8d5f93"
- 
- SRC_URI = "git://git.yoctoproject.org/linux-yocto-4.8.git;branch=${KBRANCH};name=machine \
-diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_4.8.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_4.8.bb
-index 8ed52ddbfc58..1f026cf41bfe 100644
---- a/meta/recipes-kernel/linux/linux-yocto-tiny_4.8.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-tiny_4.8.bb
-@@ -9,7 +9,7 @@ LINUX_VERSION ?= "4.8"
- KMETA = "kernel-meta"
- KCONF_BSP_AUDIT_LEVEL = "2"
- 
--SRCREV_machine ?= "707621a083512f037f749a711df3f4f1fb3ef842"
-+SRCREV_machine ?= "67813e7efa3a4614e209c2f058d92ef9a636441a"
- SRCREV_meta ?= "6128a9e47cd1aeb46b604469c17bff3eba8d5f93"
- 
- PV = "${LINUX_VERSION}+git${SRCPV}"
-diff --git a/meta/recipes-kernel/linux/linux-yocto_4.8.bb b/meta/recipes-kernel/linux/linux-yocto_4.8.bb
-index 71dc5ae35a0f..5e01abc8aa94 100644
---- a/meta/recipes-kernel/linux/linux-yocto_4.8.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_4.8.bb
-@@ -11,14 +11,14 @@ KBRANCH_qemux86  ?= "standard/base"
- KBRANCH_qemux86-64 ?= "standard/base"
- KBRANCH_qemumips64 ?= "standard/mti-malta64"
- 
--SRCREV_machine_qemuarm ?= "fc4881574f295bf2480f95d7c3e279ab32b44d8a"
--SRCREV_machine_qemuarm64 ?= "707621a083512f037f749a711df3f4f1fb3ef842"
--SRCREV_machine_qemumips ?= "013be1e230a0173677dfbfc081aea63fd7c58ec8"
--SRCREV_machine_qemuppc ?= "707621a083512f037f749a711df3f4f1fb3ef842"
--SRCREV_machine_qemux86 ?= "707621a083512f037f749a711df3f4f1fb3ef842"
--SRCREV_machine_qemux86-64 ?= "707621a083512f037f749a711df3f4f1fb3ef842"
--SRCREV_machine_qemumips64 ?= "7496d66804993fcfc569dd062f7e63a7490bc62f"
--SRCREV_machine ?= "707621a083512f037f749a711df3f4f1fb3ef842"
-+SRCREV_machine_qemuarm ?= "f46e49344b4c66a6f0917c5a2e9a1d146176519d"
-+SRCREV_machine_qemuarm64 ?= "67813e7efa3a4614e209c2f058d92ef9a636441a"
-+SRCREV_machine_qemumips ?= "5a299402ae58d61429ab091f94748550efe45858"
-+SRCREV_machine_qemuppc ?= "67813e7efa3a4614e209c2f058d92ef9a636441a"
-+SRCREV_machine_qemux86 ?= "67813e7efa3a4614e209c2f058d92ef9a636441a"
-+SRCREV_machine_qemux86-64 ?= "67813e7efa3a4614e209c2f058d92ef9a636441a"
-+SRCREV_machine_qemumips64 ?= "674818dad577cdfc23c6c857aa2b769fc64e379c"
-+SRCREV_machine ?= "67813e7efa3a4614e209c2f058d92ef9a636441a"
- SRCREV_meta ?= "6128a9e47cd1aeb46b604469c17bff3eba8d5f93"
- 
- SRC_URI = "git://git.yoctoproject.org/linux-yocto-4.8.git;name=machine;branch=${KBRANCH}; \
--- 
-2.5.0
+> --
+> Christopher Larson
+> clarson at kergoth dot com
+> Founder - BitBake, OpenEmbedded, OpenZaurus
+> Maintainer - Tslib
+> Senior Software Engineer, Mentor Graphics
+>
 
 
+
+--=20
+=E0=B4=B8=E0=B5=81=E0=B4=9C=E0=B4=BF=E0=B4=A4=E0=B5=8D =E0=B4=B9=E0=B4=B0=
+=E0=B4=BF=E0=B4=A6=E0=B4=BE=E0=B4=B8=E0=B4=A8=E0=B5=8D
+Bangalore
+<Project>Contributor to KDE project
+<Project>Contributor to Yocto project
+http://fci.wikia.com/wiki/Anti-DRM-Campaign
+<Blog> http://sujithh.info
+C-x C-c
+
+--001a11400a1acd6d8d053e17b0e6
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><div class=3D"gmail_quo=
+te">On Tue, Oct 4, 2016 at 7:59 PM, Christopher Larson <span dir=3D"ltr">&l=
+t;<a href=3D"mailto:clarson@kergoth.com" target=3D"_blank">clarson@kergoth.=
+com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"mar=
+gin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div dir=3D"ltr=
+"><br><div class=3D"gmail_extra"><br><div class=3D"gmail_quote"><span class=
+=3D"">On Tue, Oct 4, 2016 at 7:27 AM, Christopher Larson <span dir=3D"ltr">=
+&lt;<a href=3D"mailto:clarson@kergoth.com" target=3D"_blank">clarson@kergot=
+h.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"m=
+argin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div dir=3D"l=
+tr"><div class=3D"gmail_extra"><span><br><div class=3D"gmail_quote">On Tue,=
+ Oct 4, 2016 at 2:41 AM, Sujith H <span dir=3D"ltr">&lt;<a href=3D"mailto:s=
+ujith.h@gmail.com" target=3D"_blank">sujith.h@gmail.com</a>&gt;</span> wrot=
+e:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;b=
+order-left-width:1px;border-left-color:rgb(204,204,204);border-left-style:s=
+olid;padding-left:1ex"><div id=3D"m_5265508435037254623m_-30668724932934553=
+95gmail-m_-227703748311286951:2vu" class=3D"m_5265508435037254623m_-3066872=
+493293455395gmail-m_-227703748311286951a3s m_5265508435037254623m_-30668724=
+93293455395gmail-m_-227703748311286951aXjCH m_5265508435037254623m_-3066872=
+493293455395gmail-m_-227703748311286951m1578f11f932cc27a">From: Sujith Hari=
+dasan &lt;<a href=3D"mailto:Sujith_Haridasan@mentor.com" target=3D"_blank">=
+Sujith_Haridasan@mentor.com</a>&gt;<br>
+<br>
+When built on minnowmax ( machine name: intel-corei7-64),<br>
+an error is noticed during the do_compile:<br>
+<br>
+=C2=A0/home/sujith/codebench-linux-<wbr>install-2015.12-133-i686-pc-li<wbr>=
+nux-gnu/codebench/bin/i686-pc-<wbr>linux-gnu-ld:<br>
+Relocatable linking with relocations from format elf64-x86-64<br>
+(/home/sujith/MEL/dogwood/buil<wbr>d-minnowmax/tmp/work/intel_cor<wbr>ei7_6=
+4-mel-linux/perf/1.0-r9/p<wbr>erf-1.0/fd/array.o)<br>
+to format elf32-i386 (/home/sujith/MEL/dogwood/buil<wbr>d-minnowmax/tmp/wor=
+k/intel_cor<wbr>ei7_64-mel-linux/perf/1.0-r9/p<wbr>erf-1.0/fd/libapi-in.o)<=
+br>
+is not supported<br>
+<br>
+This change help fix the issue.<br>
+<br>
+Signed-off-by: Sujith Haridasan &lt;<a href=3D"mailto:Sujith_Haridasan@ment=
+or.com" target=3D"_blank">Sujith_Haridasan@mentor.com</a>&gt;<br>
+---</div></blockquote></div><br></span>What=E2=80=99s with the redundant su=
+bmission? You submitted the fix from meta-mentor for this last week, and it=
+ was merged.=C2=A0<a href=3D"http://git.openembedded.org/openembedded-core/=
+commit/?id=3D0ce06611068e74e6ea2e226e3f967aaa91fecd25" target=3D"_blank">ht=
+tp://git.openembedde<wbr>d.org/openembedded-core/<wbr>commit/?id=3D0ce06611=
+068e74e6ea2<wbr>e226e3f967aaa91fecd25</a></div></div></blockquote><div><br>=
+</div></span><div>Ah, nevermind, this adds another sed to the other Makefil=
+e. Why does this commit message say nothing about that? You should really i=
+ndicate that the previous fix was incomplete. This basically just pulls in =
+the last bit from meta-mentor we didn=E2=80=99t apply in the previous submi=
+ssion, correct?</div></div></div></div></blockquote><div><br></div><div>Yes=
+, that&#39;s correct. I will update the patch commit message. <br></div><bl=
+ockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #=
+ccc solid;padding-left:1ex"><div dir=3D"ltr"><div class=3D"gmail_extra"><sp=
+an class=3D"">-- <br><div class=3D"m_5265508435037254623gmail_signature" da=
+ta-smartmail=3D"gmail_signature">Christopher Larson<br>clarson at kergoth d=
+ot com<br>Founder - BitBake, OpenEmbedded, OpenZaurus<br>Maintainer - Tslib=
+<br>Senior Software Engineer, Mentor Graphics</div>
+</span></div></div>
+</blockquote></div><br><br clear=3D"all"><br>-- <br><div class=3D"gmail_sig=
+nature" data-smartmail=3D"gmail_signature"><div dir=3D"ltr"><div><div dir=
+=3D"ltr"><div>=E0=B4=B8=E0=B5=81=E0=B4=9C=E0=B4=BF=E0=B4=A4=E0=B5=8D =E0=B4=
+=B9=E0=B4=B0=E0=B4=BF=E0=B4=A6=E0=B4=BE=E0=B4=B8=E0=B4=A8=E0=B5=8D<br>Banga=
+lore<br>&lt;Project&gt;Contributor to KDE project<br></div><div>&lt;Project=
+&gt;Contributor to Yocto project<br></div><div><a href=3D"http://fci.wikia.=
+com/wiki/Anti-DRM-Campaign" target=3D"_blank">http://fci.wikia.com/wiki/Ant=
+i-DRM-Campaign</a><br>&lt;Blog&gt; <a href=3D"http://sujithh.info" target=
+=3D"_blank">http://sujithh.info</a><br></div><div>C-x C-c<br></div></div></=
+div></div></div>
+</div></div>
+
+--001a11400a1acd6d8d053e17b0e6--
