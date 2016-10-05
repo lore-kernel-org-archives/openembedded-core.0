@@ -1,38 +1,26 @@
-Return-Path: <adrian.ratiu@ni.com>
-Received: from ni.com (skprod3.natinst.com [130.164.80.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 9B32E71A4E
+Return-Path: <diego.ml@zoho.com>
+X-Greylist: delayed 904 seconds by postgrey-1.34 at layers.openembedded.org;
+	Wed, 05 Oct 2016 13:08:27 UTC
+Received: from sender153-mail.zoho.com (sender153-mail.zoho.com
+	[74.201.84.153])
+	by mail.openembedded.org (Postfix) with ESMTP id F175B71A1B
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  5 Oct 2016 12:00:46 +0000 (UTC)
-Received: from us-aus-mgwout2.amer.corp.natinst.com (nb-snip2-1338.natinst.com
-	[130.164.19.135])
-	by us-aus-skprod3.natinst.com (8.15.0.59/8.15.0.59) with ESMTP id
-	u95C0kF9008290; Wed, 5 Oct 2016 07:00:46 -0500
-Received: from adi-pc-linux ([130.164.14.198])
-	by us-aus-mgwout2.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6
-	HF1218) with ESMTP id 2016100507004573-615994 ;
-	Wed, 5 Oct 2016 07:00:45 -0500 
-From: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
-To: "Burton\, Ross" <ross.burton@intel.com>
-In-Reply-To: <87bmyzdqfp.fsf@ni.com>
-References: <20160908095633.26651-1-adrian.ratiu@ni.com>
-	<CAJTo0LaDjgTd20i-BQ5QQrWrKms3rfq-vNCiqVB7yz6f8VAmpg@mail.gmail.com>
-	<878tv2znhb.fsf@ni.com>
-	<CAJTo0LY_6wg10ft-RNRrYH7xa93=aWB9LuH=gxEpgf19vC446Q@mail.gmail.com>
-	<871t0tzads.fsf@ni.com>
-	<CAJTo0LZtsxhz=5=XdBWDQVMZpXyXqi11h2OS5XY5HOrUXkMmnA@mail.gmail.com>
-	<87bmyzdqfp.fsf@ni.com>
-Date: Wed, 05 Oct 2016 14:59:13 +0300
-Message-ID: <878tu3gg6m.fsf@adi-pc-linux.i-did-not-set--mail-host-address--so-tickle-me>
-MIME-Version: 1.0
-X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut2/AUS/H/NIC(Release
-	8.5.3FP6 HF1218|December 12, 2014) at 10/05/2016 07:00:46 AM,
-	Serialize by Router on US-AUS-MGWOut2/AUS/H/NIC(Release 8.5.3FP6
-	HF1218|December 12, 2014) at 10/05/2016 07:00:46 AM,
-	Serialize complete at 10/05/2016 07:00:46 AM
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
-	definitions=2016-10-05_04:, , signatures=0
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] pango: add libpcre to DEPENDS
+	Wed,  5 Oct 2016 13:08:27 +0000 (UTC)
+DomainKey-Signature: a=rsa-sha1; q=dns; c=nofws; s=zapps768; d=zoho.com; 
+	h=from:to:cc:subject:date:message-id; 
+	b=HU5HI+vECKJ7caZm0SsrEM/JlL43OiNQtxiT1YXvOkH3cMLIgD54svSjYypMfmOsWIoEfp8vrH6i
+	aXdKARwNLuBHcl/qyKCbuDq/4/GwYkJXpRsPeMSINISo7VM8Sc37  
+Received: from ip-172-31-0-222.eu-west-1.compute.internal
+	(ec2-52-48-117-71.eu-west-1.compute.amazonaws.com
+	[52.48.117.71]) by mx.zohomail.com
+	with SMTPS id 14756720011671014.6239666607889;
+	Wed, 5 Oct 2016 05:53:21 -0700 (PDT)
+From: Diego Rondini <diego.ml@zoho.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  5 Oct 2016 12:58:14 +0000
+Message-Id: <1475672294-11897-1-git-send-email-diego.ml@zoho.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [fido][PATCH] gnupg: fix find-version for beta checking
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,70 +33,80 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Oct 2016 12:00:49 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 05 Oct 2016 13:08:28 -0000
 
-On Wed, 05 Oct 2016, Ioan-Adrian Ratiu <adrian.ratiu@ni.com> wrote:
-> Hi again
->
-> On Fri, 09 Sep 2016, "Burton, Ross" <ross.burton@intel.com> wrote:
->> On 9 September 2016 at 10:32, Ioan-Adrian Ratiu <adrian.ratiu@ni.com> wrote:
->>
->>> I cleared the build directory and sstate cache, started with a clean
->>> rebuild and I can't reproduce the error anymore. gen-all-unicode is
->>> built as expected and at runtime it links with libpcre as expected
->>> and the build succeeds. This is really weird, I didn't touch these
->>> packages at all, they just sporadically failed out of the blue and now
->>> they work.
->>>
->>
->> That's good, right? :)
->>
->> If you ever manage to replicate, please save the build directory for
->> inspection.
->
-> I managed to replicate this and save the build directory to inspect it!
->
-> Here's what happens:
-> Besides oe-core we're using meta-selinux which has a libpcre-%.bbappend
-> which moves the location of libpcre.so from /usr/lib to /lib in the
-> sysroot and points the symlink to the file in /lib using relative paths.
->
-> ldd tests/gen-all-unicode gives this:
->
-> $ ldd tests/gen-all-unicode
-> 	linux-vdso.so.1 (0x00007fff27263000)
-> 	libglib-2.0.so.0 => /mnt/build/jenkins-jobs/nilrt_OE_toolchain-cardassia/workspace/build/tmp-glibc/sysroots/x86_64-linux/usr/lib/libglib-2.0.so.0 (0x00007f542823a000)
-> 	libpcre.so.1 => not found
-> 	libpthread.so.0 => /lib/x86_64-linux-gnu/libpthread.so.0 (0x00007f542801d000)
-> 	libc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x00007f5427c72000)
-> 	libpcre.so.1 => /mnt/build/jenkins-jobs/nilrt_OE_toolchain/workspace/build/tmp-glibc/sysroots/x86_64-linux/usr/lib/../../lib/libpcre.so.1 (0x00007f5427a2f000)
-> 	/lib64/ld-linux-x86-64.so.2 (0x00007f5428546000)
->
-> I don't understand why libpcre.so.1 appears twice with the first not found.
->
-> The file pointed to by the libpcre.so.1 symlink exists but somehow the
-> loader can't find it? Maybe it's the ../.. in the path? or does an
-> variable like LD_LIBRARY_PATH need to be set in the bb recipe/append?
+From: Wenzong Fan <wenzong.fan@windriver.com>
 
-I think libpcre_%.bbappend in meta-selinux is just missing the following
-line:
+find-version always assumes that gnupg is beta if autogen.sh is run
+out of git-repo. This doesn't work for users whom just take release
+tarball and re-run autoconf in their local build dir.
 
-ln -sf ${relpath}/${realsofile} ${D}${libdir}/libpcre.so.1
+This fixes runtime issue:
 
-after creating this symlink the build works without problems (previously
-only libpcre.so symlink was created).
+  $gpg --list-sigs
+  gpg: NOTE: THIS IS A DEVELOPMENT VERSION!
+  gpg: It is only intended for test purposes and should NOT be
+  gpg: used in a production environment or with production keys!
 
-Is this a proper solution?
+Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ ...gen.sh-fix-find-version-for-beta-checking.patch | 31 ++++++++++++++++++++++
+ meta/recipes-support/gnupg/gnupg_2.1.1.bb          |  1 +
+ 2 files changed, 32 insertions(+)
+ create mode 100644 meta/recipes-support/gnupg/gnupg/autogen.sh-fix-find-version-for-beta-checking.patch
 
->
-> Ionel
->
->>
->> Ross
-> -- 
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+diff --git a/meta/recipes-support/gnupg/gnupg/autogen.sh-fix-find-version-for-beta-checking.patch b/meta/recipes-support/gnupg/gnupg/autogen.sh-fix-find-version-for-beta-checking.patch
+new file mode 100644
+index 0000000..4241bc3
+--- /dev/null
++++ b/meta/recipes-support/gnupg/gnupg/autogen.sh-fix-find-version-for-beta-checking.patch
+@@ -0,0 +1,31 @@
++From 717f994be2466d378e6611a4739c606db6d0dc46 Mon Sep 17 00:00:00 2001
++From: Wenzong Fan <wenzong.fan@windriver.com>
++Date: Sun, 25 Oct 2015 22:44:47 -0400
++Subject: [PATCH] autogen.sh: fix find-version for beta checking
++
++find-version always assumes that gnupg is beta if autogen.sh is run
++out of git-repo. This doesn't work for users whom just take release
++tarball and re-run autoconf in their local build dir.
++
++Upstream-Status: Pending
++
++Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
++---
++ autogen.sh | 1 -
++ 1 file changed, 1 deletion(-)
++
++diff --git a/autogen.sh b/autogen.sh
++index 7effd56..d673432 100755
++--- a/autogen.sh
+++++ b/autogen.sh
++@@ -228,7 +228,6 @@ if [ "$myhost" = "find-version" ]; then
++       rvd=$((0x$(echo ${rev} | head -c 4)))
++     else
++       ingit=no
++-      beta=yes
++       tmp="-unknown"
++       rev="0000000"
++       rvd="0"
++-- 
++1.9.1
++
+diff --git a/meta/recipes-support/gnupg/gnupg_2.1.1.bb b/meta/recipes-support/gnupg/gnupg_2.1.1.bb
+index a7c4254..4b9c063 100644
+--- a/meta/recipes-support/gnupg/gnupg_2.1.1.bb
++++ b/meta/recipes-support/gnupg/gnupg_2.1.1.bb
+@@ -12,6 +12,7 @@ SRC_URI = "ftp://ftp.gnupg.org/gcrypt/${BPN}/${BPN}-${PV}.tar.bz2 \
+            file://pkgconfig.patch \
+            file://use-pkgconfig-instead-of-npth-config.patch \
+            file://dirmngr-uses-libgpg-error.patch \
++           file://autogen.sh-fix-find-version-for-beta-checking.patch \
+           "
+ 
+ SRC_URI[md5sum] = "9a314c3dcef0a091de90b6aa4d467db5"
+-- 
+1.9.1
+
+
 
