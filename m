@@ -1,37 +1,58 @@
-Return-Path: <obi@opendreambox.org>
-X-Greylist: delayed 497 seconds by postgrey-1.34 at layers.openembedded.org;
-	Wed, 05 Oct 2016 15:00:01 UTC
-Received: from mail.dream-property.net (mail.dream-property.net
-	[82.149.226.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 416FC71A53
+Return-Path: <peter.kjellerstedt@axis.com>
+Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
+	by mail.openembedded.org (Postfix) with ESMTP id E4D0E71A6C
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  5 Oct 2016 15:00:01 +0000 (UTC)
+	Wed,  5 Oct 2016 15:14:24 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by mail.dream-property.net (Postfix) with ESMTP id 8168F31A587B
+	by bastet.se.axis.com (Postfix) with ESMTP id B79EA181BF
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  5 Oct 2016 16:51:44 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at mail.dream-property.net
-Received: from mail.dream-property.net ([127.0.0.1])
-	by localhost (mail.dream-property.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP id GIFLa0hcSygq
+	Wed,  5 Oct 2016 17:14:25 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
+X-Amavis-Alert: BAD HEADER SECTION, Duplicate header field: "References"
+Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP id oGD6Z-ID+j2B
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  5 Oct 2016 16:51:39 +0200 (CEST)
-Received: from [172.22.22.61] (55d46a4c.access.ecotel.net [85.212.106.76])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by mail.dream-property.net (Postfix) with ESMTPSA id 79BBC31A5878
+	Wed,  5 Oct 2016 17:14:21 +0200 (CEST)
+Received: from boulder03.se.axis.com (boulder03.se.axis.com [10.0.8.17])
+	by bastet.se.axis.com (Postfix) with ESMTPS id 9B675181C0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  5 Oct 2016 16:51:39 +0200 (CEST)
+	Wed,  5 Oct 2016 17:14:21 +0200 (CEST)
+Received: from boulder03.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 733981E0BD
+	for <openembedded-core@lists.openembedded.org>;
+	Wed,  5 Oct 2016 17:14:21 +0200 (CEST)
+Received: from boulder03.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 679F51E0BC
+	for <openembedded-core@lists.openembedded.org>;
+	Wed,  5 Oct 2016 17:14:21 +0200 (CEST)
+Received: from thoth.se.axis.com (unknown [10.0.2.173])
+	by boulder03.se.axis.com (Postfix) with ESMTP
+	for <openembedded-core@lists.openembedded.org>;
+	Wed,  5 Oct 2016 17:14:21 +0200 (CEST)
+Received: from saur-2.se.axis.com (saur-2.se.axis.com [10.92.3.2])
+	by thoth.se.axis.com (Postfix) with ESMTP id 59B6938D
+	for <openembedded-core@lists.openembedded.org>;
+	Wed,  5 Oct 2016 17:14:21 +0200 (CEST)
+Received: from saur-2.se.axis.com (localhost [127.0.0.1])
+	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id u95FELDC019615
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 5 Oct 2016 17:14:21 +0200
+Received: (from pkj@localhost)
+	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id u95FELgP019614
+	for openembedded-core@lists.openembedded.org;
+	Wed, 5 Oct 2016 17:14:21 +0200
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 To: openembedded-core@lists.openembedded.org
-References: <1475676667-24280-1-git-send-email-markus.lehtonen@linux.intel.com>
-From: Andreas Oberritter <obi@opendreambox.org>
-Message-ID: <b32b7b2f-68cc-31d6-d687-2eeb12aa196a@opendreambox.org>
-Date: Wed, 5 Oct 2016 16:51:39 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.3.0
-MIME-Version: 1.0
-In-Reply-To: <1475676667-24280-1-git-send-email-markus.lehtonen@linux.intel.com>
-Subject: Re: [PATCH] update-rc.d.bbclass: check that init script exists before running it
+Date: Wed,  5 Oct 2016 17:14:19 +0200
+Message-Id: <2f1bff9e5381611a6374d689a06214c35a1e03f3.1475680416.git.pkj@axis.com>
+X-Mailer: git-send-email 2.9.0
+In-Reply-To: <cover.1475680416.git.pkj@axis.com>
+References: <cover.1475680416.git.pkj@axis.com>
+In-Reply-To: <cover.1475680416.git.pkj@axis.com>
+References: <cover.1475680416.git.pkj@axis.com>
+X-TM-AS-GCONF: 00
+Subject: [PATCH 1/2] package_manager.py: Allow a leading - in PACKAGE_EXCLUDE_COMPLEMENTARY
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,49 +65,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Oct 2016 15:00:01 -0000
-Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 05 Oct 2016 15:14:25 -0000
 
-Hello Markus,
+This allows a regular expression specified in
+PACKAGE_EXCLUDE_COMPLEMENTARY to have a leading dash. Without this,
+the dash was treated by oe-pkgdata-util as the beginning of a command
+line argument. E.g., if PACKAGE_EXCLUDE_COMPLEMENTARY = "-foo$", it
+resulted in an error like:
 
-On 05.10.2016 16:11, Markus Lehtonen wrote:
-> Check that the init script that is going to be called in the prerm()
-> script really exists. There might be a packaging bug or the script
-> might've been removed already earlier in prerm().
+  ERROR: <imagename>-1.0-r0 do_populate_sdk: Could not compute
+  complementary packages list. Command '<topdir>/scripts/oe-pkgdata-util -p
+  <builddir>/tmp/sysroots/<machine>/pkgdata glob
+  <workdir>/installed_pkgs.txt *-dev *-dbg -x -foo$' returned 2:
+  ERROR: argument -x/--exclude: expected one argument
+  usage: oe-pkgdata-util glob [-h] [-x EXCLUDE] pkglistfile glob [glob ...]
 
-isn't it called prerm in the first place because it's not supposed to
-remove any packaged files?
+Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+---
+ meta/lib/oe/package_manager.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-And if there's a packaging bug, we should IMO better add a sanity check
-there and abort the build.
-
-Regards,
-Andreas
-
-
-
-> 
-> [YOCTO #10299]
-> 
-> Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
-> ---
->  meta/classes/update-rc.d.bbclass | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/meta/classes/update-rc.d.bbclass b/meta/classes/update-rc.d.bbclass
-> index dfef2a2..24da547 100644
-> --- a/meta/classes/update-rc.d.bbclass
-> +++ b/meta/classes/update-rc.d.bbclass
-> @@ -37,7 +37,7 @@ fi
->  }
->  
->  updatercd_prerm() {
-> -if [ -z "$D" ]; then
-> +if [ -z "$D" -a -f "${INIT_D_DIR}/${INITSCRIPT_NAME}" ]; then
->  	${INIT_D_DIR}/${INITSCRIPT_NAME} stop
->  fi
->  }
-> 
+diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
+index 434b898..5f86aff 100644
+--- a/meta/lib/oe/package_manager.py
++++ b/meta/lib/oe/package_manager.py
+@@ -598,7 +598,7 @@ class PackageManager(object, metaclass=ABCMeta):
+                globs]
+         exclude = self.d.getVar('PACKAGE_EXCLUDE_COMPLEMENTARY', True)
+         if exclude:
+-            cmd.extend(['-x', exclude])
++            cmd.extend(['--exclude=' + exclude])
+         try:
+             bb.note("Installing complementary packages ...")
+             bb.note('Running %s' % cmd)
+-- 
+2.9.0
 
 
