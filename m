@@ -1,20 +1,40 @@
-Return-Path: <markus.lehtonen@linux.intel.com>
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by mail.openembedded.org (Postfix) with ESMTP id E508E71A74
+Return-Path: <adrian.ratiu@ni.com>
+Received: from ni.com (skprod3.natinst.com [130.164.80.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 5A4DD71A05
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  5 Oct 2016 14:11:12 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by orsmga105.jf.intel.com with ESMTP; 05 Oct 2016 07:11:13 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.31,449,1473145200"; d="scan'208";a="886982353"
-Received: from marquiz.fi.intel.com ([10.237.72.155])
-	by orsmga003.jf.intel.com with ESMTP; 05 Oct 2016 07:11:09 -0700
-From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  5 Oct 2016 17:11:07 +0300
-Message-Id: <1475676667-24280-1-git-send-email-markus.lehtonen@linux.intel.com>
-X-Mailer: git-send-email 2.6.6
-Subject: [PATCH] update-rc.d.bbclass: check that init script exists before running it
+	Wed,  5 Oct 2016 14:41:22 +0000 (UTC)
+Received: from us-aus-mgwout1.amer.corp.natinst.com (nb-snip2-1338.natinst.com
+	[130.164.19.135])
+	by us-aus-skprod3.natinst.com (8.15.0.59/8.15.0.59) with ESMTP id
+	u95EfMY0032754; Wed, 5 Oct 2016 09:41:22 -0500
+Received: from adi-pc-linux ([130.164.14.198])
+	by us-aus-mgwout1.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6
+	HF1218) with ESMTP id 2016100509412212-608686 ;
+	Wed, 5 Oct 2016 09:41:22 -0500 
+From: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
+To: "Burton\, Ross" <ross.burton@intel.com>
+In-Reply-To: <CAJTo0LZcE63=JYaK1sTVh4wiSyktb4XLRkOx=XbMc4jRtJ-JqA@mail.gmail.com>
+References: <20160908095633.26651-1-adrian.ratiu@ni.com>
+	<CAJTo0LaDjgTd20i-BQ5QQrWrKms3rfq-vNCiqVB7yz6f8VAmpg@mail.gmail.com>
+	<878tv2znhb.fsf@ni.com>
+	<CAJTo0LY_6wg10ft-RNRrYH7xa93=aWB9LuH=gxEpgf19vC446Q@mail.gmail.com>
+	<871t0tzads.fsf@ni.com>
+	<CAJTo0LZtsxhz=5=XdBWDQVMZpXyXqi11h2OS5XY5HOrUXkMmnA@mail.gmail.com>
+	<87bmyzdqfp.fsf@ni.com>
+	<878tu3gg6m.fsf@adi-pc-linux.i-did-not-set--mail-host-address--so-tickle-me>
+	<CAJTo0LZcE63=JYaK1sTVh4wiSyktb4XLRkOx=XbMc4jRtJ-JqA@mail.gmail.com>
+Date: Wed, 05 Oct 2016 17:39:50 +0300
+Message-ID: <8760p6hnbd.fsf@ni.com>
+MIME-Version: 1.0
+X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut1/AUS/H/NIC(Release
+	8.5.3FP6 HF1218|December 12, 2014) at 10/05/2016 09:41:22 AM,
+	Serialize by Router on US-AUS-MGWOut1/AUS/H/NIC(Release 8.5.3FP6
+	HF1218|December 12, 2014) at 10/05/2016 09:41:22 AM,
+	Serialize complete at 10/05/2016 09:41:22 AM
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
+	definitions=2016-10-05_05:, , signatures=0
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] pango: add libpcre to DEPENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,33 +47,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Oct 2016 14:11:14 -0000
+X-List-Received-Date: Wed, 05 Oct 2016 14:41:23 -0000
+Content-Type: text/plain
 
-Check that the init script that is going to be called in the prerm()
-script really exists. There might be a packaging bug or the script
-might've been removed already earlier in prerm().
+On Wed, 05 Oct 2016, "Burton, Ross" <ross.burton@intel.com> wrote:
+> On 5 October 2016 at 12:59, Ioan-Adrian Ratiu <adrian.ratiu@ni.com> wrote:
+>
+>> I think libpcre_%.bbappend in meta-selinux is just missing the following
+>> line:
+>>
+>> ln -sf ${relpath}/${realsofile} ${D}${libdir}/libpcre.so.1
+>>
+>> after creating this symlink the build works without problems (previously
+>> only libpcre.so symlink was created).
+>>
+>> Is this a proper solution?
+>>
+>
+> As meta-selinux is messing around with library locations, yes.
 
-[YOCTO #10299]
+This may be a stupid question (sorry) but here goes: Why can't ldconfig
+be made to search also in /lib, beside /usr/lib? That way it could find
+the moved libraries, right?
 
-Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
----
- meta/classes/update-rc.d.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/classes/update-rc.d.bbclass b/meta/classes/update-rc.d.bbclass
-index dfef2a2..24da547 100644
---- a/meta/classes/update-rc.d.bbclass
-+++ b/meta/classes/update-rc.d.bbclass
-@@ -37,7 +37,7 @@ fi
- }
- 
- updatercd_prerm() {
--if [ -z "$D" ]; then
-+if [ -z "$D" -a -f "${INIT_D_DIR}/${INITSCRIPT_NAME}" ]; then
- 	${INIT_D_DIR}/${INITSCRIPT_NAME} stop
- fi
- }
--- 
-2.6.6
-
+>
+> Ross
 
