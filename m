@@ -1,30 +1,37 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 68E57719C4
+Return-Path: <adrian.ratiu@ni.com>
+Received: from ni.com (skprod3.natinst.com [130.164.80.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 8A74971A0B
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  5 Oct 2016 07:55:13 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u957tE77025798 for <openembedded-core@lists.openembedded.org>;
-	Wed, 5 Oct 2016 08:55:14 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id 6SnCTKOYJtFN
-	for <openembedded-core@lists.openembedded.org>;
-	Wed,  5 Oct 2016 08:55:14 +0100 (BST)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u957tBte025779
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 5 Oct 2016 08:55:12 +0100
-Message-ID: <1475654111.30475.487.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Wed, 05 Oct 2016 08:55:11 +0100
-X-Mailer: Evolution 3.18.5.2-0ubuntu3 
-Mime-Version: 1.0
-Subject: [PATCH] pigz: Update SRC_URI
+	Wed,  5 Oct 2016 10:47:54 +0000 (UTC)
+Received: from us-aus-mgwout2.amer.corp.natinst.com (nb-snip2-1338.natinst.com
+	[130.164.19.135])
+	by us-aus-skprod3.natinst.com (8.15.0.59/8.15.0.59) with ESMTP id
+	u95Alrj9024059; Wed, 5 Oct 2016 05:47:53 -0500
+Received: from adi-pc-linux ([130.164.14.198])
+	by us-aus-mgwout2.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6
+	HF1218) with ESMTP id 2016100505475284-614248 ;
+	Wed, 5 Oct 2016 05:47:52 -0500 
+From: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
+To: "Burton\, Ross" <ross.burton@intel.com>
+In-Reply-To: <CAJTo0LZtsxhz=5=XdBWDQVMZpXyXqi11h2OS5XY5HOrUXkMmnA@mail.gmail.com>
+References: <20160908095633.26651-1-adrian.ratiu@ni.com>
+	<CAJTo0LaDjgTd20i-BQ5QQrWrKms3rfq-vNCiqVB7yz6f8VAmpg@mail.gmail.com>
+	<878tv2znhb.fsf@ni.com>
+	<CAJTo0LY_6wg10ft-RNRrYH7xa93=aWB9LuH=gxEpgf19vC446Q@mail.gmail.com>
+	<871t0tzads.fsf@ni.com>
+	<CAJTo0LZtsxhz=5=XdBWDQVMZpXyXqi11h2OS5XY5HOrUXkMmnA@mail.gmail.com>
+Date: Wed, 05 Oct 2016 13:46:02 +0300
+Message-ID: <87bmyzdqfp.fsf@ni.com>
+MIME-Version: 1.0
+X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut2/AUS/H/NIC(Release
+	8.5.3FP6 HF1218|December 12, 2014) at 10/05/2016 05:47:53 AM,
+	Serialize by Router on US-AUS-MGWOut2/AUS/H/NIC(Release 8.5.3FP6
+	HF1218|December 12, 2014) at 10/05/2016 05:47:53 AM,
+	Serialize complete at 10/05/2016 05:47:53 AM
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
+	definitions=2016-10-05_04:, , signatures=0
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] pango: add libpcre to DEPENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,29 +44,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Oct 2016 07:55:15 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 05 Oct 2016 10:47:55 -0000
+Content-Type: text/plain
 
-Upstream have released a new tarball and removed the old one. Revert to
-the Yocto Project source mirror instead, preserving the upstream version 
-check.
+Hi again
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+On Fri, 09 Sep 2016, "Burton, Ross" <ross.burton@intel.com> wrote:
+> On 9 September 2016 at 10:32, Ioan-Adrian Ratiu <adrian.ratiu@ni.com> wrote:
+>
+>> I cleared the build directory and sstate cache, started with a clean
+>> rebuild and I can't reproduce the error anymore. gen-all-unicode is
+>> built as expected and at runtime it links with libpcre as expected
+>> and the build succeeds. This is really weird, I didn't touch these
+>> packages at all, they just sporadically failed out of the blue and now
+>> they work.
+>>
+>
+> That's good, right? :)
+>
+> If you ever manage to replicate, please save the build directory for
+> inspection.
 
-diff --git a/meta/recipes-extended/pigz/pigz_2.3.3.bb b/meta/recipes-extended/pigz/pigz_2.3.3.bb
-index 080be2b..9e97273 100644
---- a/meta/recipes-extended/pigz/pigz_2.3.3.bb
-+++ b/meta/recipes-extended/pigz/pigz_2.3.3.bb
-@@ -1,6 +1,8 @@
- require pigz.inc
- LIC_FILES_CHKSUM = "file://pigz.c;beginline=7;endline=21;md5=a21d4075cb00ab4ca17fce5e7534ca95"
- 
-+UPSTREAM_CHECK_URI := "${SRC_URI}"
-+SRC_URI = "http://downloads.yoctoproject.org/mirror/sources/${BP}.tar.gz"
- SRC_URI += "file://link-order.patch"
- 
- SRC_URI[md5sum] = "01d7a16cce77929cc1a78aa1bdfb68cb"
+I managed to replicate this and save the build directory to inspect it!
 
+Here's what happens:
+Besides oe-core we're using meta-selinux which has a libpcre-%.bbappend
+which moves the location of libpcre.so from /usr/lib to /lib in the
+sysroot and points the symlink to the file in /lib using relative paths.
 
+ldd tests/gen-all-unicode gives this:
+
+$ ldd tests/gen-all-unicode
+	linux-vdso.so.1 (0x00007fff27263000)
+	libglib-2.0.so.0 => /mnt/build/jenkins-jobs/nilrt_OE_toolchain-cardassia/workspace/build/tmp-glibc/sysroots/x86_64-linux/usr/lib/libglib-2.0.so.0 (0x00007f542823a000)
+	libpcre.so.1 => not found
+	libpthread.so.0 => /lib/x86_64-linux-gnu/libpthread.so.0 (0x00007f542801d000)
+	libc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x00007f5427c72000)
+	libpcre.so.1 => /mnt/build/jenkins-jobs/nilrt_OE_toolchain/workspace/build/tmp-glibc/sysroots/x86_64-linux/usr/lib/../../lib/libpcre.so.1 (0x00007f5427a2f000)
+	/lib64/ld-linux-x86-64.so.2 (0x00007f5428546000)
+
+I don't understand why libpcre.so.1 appears twice with the first not found.
+
+The file pointed to by the libpcre.so.1 symlink exists but somehow the
+loader can't find it? Maybe it's the ../.. in the path? or does an
+variable like LD_LIBRARY_PATH need to be set in the bb recipe/append?
+
+Ionel
+
+>
+> Ross
 
