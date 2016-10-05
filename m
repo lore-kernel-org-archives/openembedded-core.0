@@ -1,26 +1,24 @@
 Return-Path: <diego.ml@zoho.com>
-X-Greylist: delayed 904 seconds by postgrey-1.34 at layers.openembedded.org;
-	Wed, 05 Oct 2016 13:08:27 UTC
 Received: from sender153-mail.zoho.com (sender153-mail.zoho.com
 	[74.201.84.153])
-	by mail.openembedded.org (Postfix) with ESMTP id F175B71A1B
+	by mail.openembedded.org (Postfix) with ESMTP id 3A5F171A4C
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  5 Oct 2016 13:08:27 +0000 (UTC)
+	Wed,  5 Oct 2016 13:10:26 +0000 (UTC)
 DomainKey-Signature: a=rsa-sha1; q=dns; c=nofws; s=zapps768; d=zoho.com; 
 	h=from:to:cc:subject:date:message-id; 
-	b=HU5HI+vECKJ7caZm0SsrEM/JlL43OiNQtxiT1YXvOkH3cMLIgD54svSjYypMfmOsWIoEfp8vrH6i
-	aXdKARwNLuBHcl/qyKCbuDq/4/GwYkJXpRsPeMSINISo7VM8Sc37  
+	b=EVi7uWp9sbjcrl0G9374CdrnOUPf2zloqu9OH3kUzJc6K7JydUsUsmopdldEyYUY32dFDQn1XWHL
+	gvZWgJGV2okIRyULdfgS38Fp8awbdl5suaUXgWIqAOfmSN0uilrc  
 Received: from ip-172-31-0-222.eu-west-1.compute.internal
 	(ec2-52-48-117-71.eu-west-1.compute.amazonaws.com
 	[52.48.117.71]) by mx.zohomail.com
-	with SMTPS id 14756720011671014.6239666607889;
-	Wed, 5 Oct 2016 05:53:21 -0700 (PDT)
+	with SMTPS id 1475672119096771.2792771126013;
+	Wed, 5 Oct 2016 05:55:19 -0700 (PDT)
 From: Diego Rondini <diego.ml@zoho.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  5 Oct 2016 12:58:14 +0000
-Message-Id: <1475672294-11897-1-git-send-email-diego.ml@zoho.com>
+Date: Wed,  5 Oct 2016 13:00:58 +0000
+Message-Id: <1475672458-12019-1-git-send-email-diego.ml@zoho.com>
 X-Mailer: git-send-email 1.9.1
-Subject: [fido][PATCH] gnupg: fix find-version for beta checking
+Subject: [jethro][PATCH] gnupg: fix find-version for beta checking
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,7 +31,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Oct 2016 13:08:28 -0000
+X-List-Received-Date: Wed, 05 Oct 2016 13:10:26 -0000
 
 From: Wenzong Fan <wenzong.fan@windriver.com>
 
@@ -52,7 +50,7 @@ Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
  ...gen.sh-fix-find-version-for-beta-checking.patch | 31 ++++++++++++++++++++++
- meta/recipes-support/gnupg/gnupg_2.1.1.bb          |  1 +
+ meta/recipes-support/gnupg/gnupg_2.1.7.bb          |  1 +
  2 files changed, 32 insertions(+)
  create mode 100644 meta/recipes-support/gnupg/gnupg/autogen.sh-fix-find-version-for-beta-checking.patch
 
@@ -93,10 +91,10 @@ index 0000000..4241bc3
 +-- 
 +1.9.1
 +
-diff --git a/meta/recipes-support/gnupg/gnupg_2.1.1.bb b/meta/recipes-support/gnupg/gnupg_2.1.1.bb
-index a7c4254..4b9c063 100644
---- a/meta/recipes-support/gnupg/gnupg_2.1.1.bb
-+++ b/meta/recipes-support/gnupg/gnupg_2.1.1.bb
+diff --git a/meta/recipes-support/gnupg/gnupg_2.1.7.bb b/meta/recipes-support/gnupg/gnupg_2.1.7.bb
+index 48c7c96..979e6f9 100644
+--- a/meta/recipes-support/gnupg/gnupg_2.1.7.bb
++++ b/meta/recipes-support/gnupg/gnupg_2.1.7.bb
 @@ -12,6 +12,7 @@ SRC_URI = "ftp://ftp.gnupg.org/gcrypt/${BPN}/${BPN}-${PV}.tar.bz2 \
             file://pkgconfig.patch \
             file://use-pkgconfig-instead-of-npth-config.patch \
@@ -104,7 +102,7 @@ index a7c4254..4b9c063 100644
 +           file://autogen.sh-fix-find-version-for-beta-checking.patch \
            "
  
- SRC_URI[md5sum] = "9a314c3dcef0a091de90b6aa4d467db5"
+ SRC_URI[md5sum] = "ebdf92b15b8bcd8579b643c7f41a3238"
 -- 
 1.9.1
 
