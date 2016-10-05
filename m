@@ -1,22 +1,45 @@
-Return-Path: <stephano.cetola@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id E6D4471A84
+Return-Path: <ulfalizer@gmail.com>
+Received: from mail-ua0-f175.google.com (mail-ua0-f175.google.com
+	[209.85.217.175])
+	by mail.openembedded.org (Postfix) with ESMTP id 4EF36719DA
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  5 Oct 2016 17:08:17 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga103.jf.intel.com with ESMTP; 05 Oct 2016 10:08:18 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.31,449,1473145200"; d="scan'208";a="1060878667"
-Received: from pequod.jf.intel.com ([10.7.201.50])
-	by orsmga002.jf.intel.com with ESMTP; 05 Oct 2016 10:08:18 -0700
-From: Stephano Cetola <stephano.cetola@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  5 Oct 2016 10:07:17 -0700
-Message-Id: <20161005170717.41046-2-stephano.cetola@linux.intel.com>
-X-Mailer: git-send-email 2.10.0
-In-Reply-To: <20161005170717.41046-1-stephano.cetola@linux.intel.com>
-References: <20161005170717.41046-1-stephano.cetola@linux.intel.com>
-Subject: [PATCH V4] devtool: modify command fails to ignore source files
+	Wed,  5 Oct 2016 20:26:43 +0000 (UTC)
+Received: by mail-ua0-f175.google.com with SMTP id p102so50015303uap.0
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 05 Oct 2016 13:26:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=p9DJZ3t0OoSFRIXw1LcXjIxFCjFFucC80apO9vYZWCg=;
+	b=VKscz86POVEGZRbPU+g4lwBXQ4cXGDRnbb2jTR4vRmQJ/Ons4HRWPswobgvTbvUQhP
+	c176i3yMekbiejv9p5X7LBRKwmNW6hptXq6Pa30ZXv+pvUyJf5Aqc/VzaAaU0b2eSIjy
+	4Xx9lhyFoLo5VBGSSCxUPEoLtMn44fNXa0AMtbPJuXsWX50T1OSQPJuh/9iL9qNQVUCl
+	LUVzSlj04vKcqf7rw+9uoPm0Z2JvbmvTBMvruZd5H1RJWHPNIQwFCG3dDx1Czgn0sD1X
+	4ELAl32T5a5kTuOds3pWeMwiAsuCOIdMF//0fdJJ57m2tTPOCKK5Rbcq4S29XPNhFvHz
+	lniw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=p9DJZ3t0OoSFRIXw1LcXjIxFCjFFucC80apO9vYZWCg=;
+	b=Gd28OG5d6McN45n1RoaoGf5+lvdwfVBkCUTc8AUMkON4RbyDk8tiJ/d2sB6BvjJsct
+	Bqc1oWAPq7liglGXpam2QYH48zNpiWFOkJZvqAnh4UF1fDe4YdnYfkJzkHUQPPeh9Aod
+	lsUBq8mEILSeAr+HaZXqysFsNN1Xg6oMUbf55FZYK7QcRXHXURy7CKb2imOx21xRoll5
+	fqZZUXF5VhQVM09yvt9wN2exRGRFABkvEAkhH3cuuAa5aPNCsrO3klNlxIGgDhmx/jTF
+	y8j9W4tfuAV4PFOqCk9n4yIi8Ofu+3+Q3Gk8vJLkrYWgcLzu5gPNRbbJ2XpmNhqmepoP
+	hkLw==
+X-Gm-Message-State: AA6/9Rm9t1uX8nPC0vaylHG8iVD34ks9av7a2Xl7UAqKGZe2kirgNh5SzlYythEJpfWEM5JxbEWmuOLjLq+ZZA==
+X-Received: by 10.176.65.10 with SMTP id j10mr6647421uad.17.1475699205057;
+	Wed, 05 Oct 2016 13:26:45 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.103.140.8 with HTTP; Wed, 5 Oct 2016 13:26:44 -0700 (PDT)
+In-Reply-To: <1475290031-20568-23-git-send-email-ulfalizer@gmail.com>
+References: <1475290031-20568-1-git-send-email-ulfalizer@gmail.com>
+	<1475290031-20568-23-git-send-email-ulfalizer@gmail.com>
+From: Ulf Magnusson <ulfalizer@gmail.com>
+Date: Wed, 5 Oct 2016 22:26:44 +0200
+Message-ID: <CAFkk2KQHNzLOTfMPf_-V+a+2W1Rp81t7VmbstpsOJq=hXYH3PQ@mail.gmail.com>
+To: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 22/22] cmake: Use bb.fatal() instead of raising FuncFailed
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,45 +52,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Oct 2016 17:08:18 -0000
+X-List-Received-Date: Wed, 05 Oct 2016 20:26:44 -0000
+Content-Type: text/plain; charset=UTF-8
 
-With recent changes to recipeutils, the list of local files returned
-by get_recipe_local_files could possibly include source files. This
-only happens when the recipe contains a SRC_URI using subdir= to put
-files in the source tree. These files should be ignored when
-populating the list of local files for oe-local-files directory.
+On Sat, Oct 1, 2016 at 4:47 AM, Ulf Magnusson <ulfalizer@gmail.com> wrote:
+> This sets a good example and avoids unnecessarily contributing to
+> perceived complexity and cargo culting.
+>
+> Motivating quote below:
+>
+> < kergoth> the *original* intent was for the function/task to error via
+>            whatever appropriate means, bb.fatal, whatever, and
+>            funcfailed was what you'd catch if you were calling
+>            exec_func/exec_task. that is, it's what those functions
+>            raise, not what metadata functions should be raising
+> < kergoth> it didn't end up being used that way
+> < kergoth> but there's really never a reason to raise it yourself
+>
+> FuncFailed.__init__ takes a 'name' argument rather than a 'msg'
+> argument, which also shows that the original purpose got lost.
+>
+> Signed-off-by: Ulf Magnusson <ulfalizer@gmail.com>
+> ---
+>  meta/recipes-devtools/cmake/cmake_3.6.1.bb | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/recipes-devtools/cmake/cmake_3.6.1.bb b/meta/recipes-devtools/cmake/cmake_3.6.1.bb
+> index 67ba9c4..850d6de 100644
+> --- a/meta/recipes-devtools/cmake/cmake_3.6.1.bb
+> +++ b/meta/recipes-devtools/cmake/cmake_3.6.1.bb
+> @@ -14,7 +14,7 @@ python () {
+>      docdir=d.getVar("docdir", True)
+>
+>      if not docdir.startswith(prefix):
+> -        raise bb.build.FuncFailed('docdir must contain prefix as its prefix')
+> +        bb.fatal('docdir must contain prefix as its prefix')
+>
+>      docdir_stripped = docdir[len(prefix):]
+>      if len(docdir_stripped) > 0 and docdir_stripped[0] == '/':
+> --
+> 2.7.4
+>
 
-[YOCTO #10326]
+Thanks for merging these!
 
-introduced in
-OE-Core revision 9069fef5dad5a873c8a8f720f7bcbc7625556309
+There's now some documentation that mentions FuncFailed as well:
+https://www.yoctoproject.org/docs/2.2/bitbake-user-manual/bitbake-user-manual.html#bitbake-style-python-functions-versus-python-functions
 
-Signed-off-by: Stephano Cetola <stephano.cetola@linux.intel.com>
----
- scripts/lib/devtool/standard.py | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
-
-diff --git a/scripts/lib/devtool/standard.py b/scripts/lib/devtool/standard.py
-index 4b9b173..4eff6f8 100644
---- a/scripts/lib/devtool/standard.py
-+++ b/scripts/lib/devtool/standard.py
-@@ -581,8 +581,14 @@ def _extract_source(srctree, keep_temp, devbranch, sync, d):
-         recipe_patches = [os.path.basename(patch) for patch in
-                           oe.recipeutils.get_recipe_patches(crd)]
-         local_files = oe.recipeutils.get_recipe_local_files(crd)
-+
-+        # Ignore local files with subdir={BP}
-+        srcabspath = os.path.abspath(srcsubdir)
-         local_files = [fname for fname in local_files if
--                       os.path.exists(os.path.join(workdir, fname))]
-+                       os.path.exists(os.path.join(workdir, fname)) and
-+                       (srcabspath == workdir or not
-+                       os.path.join(workdir, fname).startswith(srcabspath +
-+                           os.sep))]
-         if local_files:
-             for fname in local_files:
-                 _move_file(os.path.join(workdir, fname),
--- 
-2.10.0
-
+Cheers,
+Ulf
 
