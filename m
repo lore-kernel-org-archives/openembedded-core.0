@@ -1,48 +1,31 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 99F7D719C9
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id B21FB71A84
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  5 Oct 2016 20:53:11 +0000 (UTC)
-Received: by mail-wm0-f67.google.com with SMTP id 123so433290wmb.3
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 05 Oct 2016 13:53:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=91y4papxzpo/UmWofnTEh23e5JPlY9WzaBElQDD7TWc=;
-	b=XN8G0GRLIaur6JQzwtkUa1kZ+V6tSKbxX3/PQaAHX/IDnIw+1lDLcLX5H+hdGmKGSR
-	ZMbZ8t18CxUautg32li/nCxjFLkxYik9BIJLEonYTqkL9moY5KofjycGKs9riVH4Tltb
-	d6MaHRB9iWX8lP+fT3cO5V7tt1Kn03kp4AJAvWfhw93R/MS1LamloEk77p0XDAHO/HX5
-	/CgCAnker0OU9MUyV4Xot5UuItn4rXe9m9/oiFcdOc4qwv7LwGkD+sSSROXGsikBleOn
-	pQnQsg5csdHslMEbl1Jn3hzGOnsvJN3qVKFRDsWd1kMUbABIr/4ZajH8LWi0gULhwjmJ
-	/vrA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=91y4papxzpo/UmWofnTEh23e5JPlY9WzaBElQDD7TWc=;
-	b=Z6/uHrgh2o8bzADcLiL0gurZclWrcqxhGMwyMDkcwnO7YAnOrjqR9hDrOxWQEMaqdj
-	eKJQU8UxUGWmN7QXiYaXHNgiYmZ06v7MRQIGEbkf7bzWnoj8u42vp+c3+0FAOwt7U1G3
-	rJzAlHO+3VVmcEVumVbDZ56BIe7+jYpP9AH9uo6OGevJYz9ISg2g6XEy9v7a0OFtlU9X
-	O148xgzNJ/+VEZVf/daq1oaTdk/YhmwWo1gKdGxWiCGuHgmJNKT0S+zzS7OBoGaTYWXh
-	l1bBteis2RQfqv9vrNie4aQzHppgwA6W+JbN51W9nCe3L0Ygiyd6fAvt3tuUPKMCqen7
-	lA2g==
-X-Gm-Message-State: AA6/9Rm7ddMG/GrHhroOZF0B6BvGwqXvCBcYA/i1fIv9j1MhXauRTnxRu9xlnASVFx3OXQ==
-X-Received: by 10.28.50.3 with SMTP id y3mr10182470wmy.23.1475700792315;
-	Wed, 05 Oct 2016 13:53:12 -0700 (PDT)
-Received: from localhost (ip-89-176-104-169.net.upcbroadband.cz.
-	[89.176.104.169]) by smtp.gmail.com with ESMTPSA id
-	137sm31610416wmi.16.2016.10.05.13.53.10
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 05 Oct 2016 13:53:10 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  5 Oct 2016 22:53:11 +0200
-Message-Id: <20161005205311.20940-1-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 2.10.1
-In-Reply-To: <20160614140357.6145-1-Martin.Jansa@gmail.com>
-References: <20160614140357.6145-1-Martin.Jansa@gmail.com>
-Subject: [PATCHv2] icecc.bbclass: replace os.popen with subprocess.check_output
+	Wed,  5 Oct 2016 22:15:09 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u95MF9mk011418; Wed, 5 Oct 2016 23:15:09 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id kFlM-Ed4vhHq; Wed,  5 Oct 2016 23:15:09 +0100 (BST)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u95MF7jt011411
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Wed, 5 Oct 2016 23:15:08 +0100
+Message-ID: <1475705707.30475.498.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Ulf Magnusson <ulfalizer@gmail.com>, OE-core
+	<openembedded-core@lists.openembedded.org>
+Date: Wed, 05 Oct 2016 23:15:07 +0100
+In-Reply-To: <CAFkk2KQHNzLOTfMPf_-V+a+2W1Rp81t7VmbstpsOJq=hXYH3PQ@mail.gmail.com>
+References: <1475290031-20568-1-git-send-email-ulfalizer@gmail.com>
+	<1475290031-20568-23-git-send-email-ulfalizer@gmail.com>
+	<CAFkk2KQHNzLOTfMPf_-V+a+2W1Rp81t7VmbstpsOJq=hXYH3PQ@mail.gmail.com>
+X-Mailer: Evolution 3.18.5.2-0ubuntu3 
+Mime-Version: 1.0
+Subject: Re: [PATCH 22/22] cmake: Use bb.fatal() instead of raising FuncFailed
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,48 +38,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Oct 2016 20:53:11 -0000
+X-List-Received-Date: Wed, 05 Oct 2016 22:15:11 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-* otherwise there is a lot of warnings about missing close on file descriptor
+On Wed, 2016-10-05 at 22:26 +0200, Ulf Magnusson wrote:
+> On Sat, Oct 1, 2016 at 4:47 AM, Ulf Magnusson <ulfalizer@gmail.com>
+> wrote:
+> > 
+> > This sets a good example and avoids unnecessarily contributing to
+> > perceived complexity and cargo culting.
+> > 
+> > Motivating quote below:
+> > 
+> > < kergoth> the *original* intent was for the function/task to error
+> > via
+> >            whatever appropriate means, bb.fatal, whatever, and
+> >            funcfailed was what you'd catch if you were calling
+> >            exec_func/exec_task. that is, it's what those functions
+> >            raise, not what metadata functions should be raising
+> > < kergoth> it didn't end up being used that way
+> > < kergoth> but there's really never a reason to raise it yourself
+> > 
+> > FuncFailed.__init__ takes a 'name' argument rather than a 'msg'
+> > argument, which also shows that the original purpose got lost.
+> > 
+> > Signed-off-by: Ulf Magnusson <ulfalizer@gmail.com>
+> > ---
+> >  meta/recipes-devtools/cmake/cmake_3.6.1.bb | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > 
+> > diff --git a/meta/recipes-devtools/cmake/cmake_3.6.1.bb
+> > b/meta/recipes-devtools/cmake/cmake_3.6.1.bb
+> > index 67ba9c4..850d6de 100644
+> > --- a/meta/recipes-devtools/cmake/cmake_3.6.1.bb
+> > +++ b/meta/recipes-devtools/cmake/cmake_3.6.1.bb
+> > @@ -14,7 +14,7 @@ python () {
+> >      docdir=d.getVar("docdir", True)
+> > 
+> >      if not docdir.startswith(prefix):
+> > -        raise bb.build.FuncFailed('docdir must contain prefix as
+> > its prefix')
+> > +        bb.fatal('docdir must contain prefix as its prefix')
+> > 
+> >      docdir_stripped = docdir[len(prefix):]
+> >      if len(docdir_stripped) > 0 and docdir_stripped[0] == '/':
+> > --
+> > 2.7.4
+> > 
+> Thanks for merging these!
+> 
+> There's now some documentation that mentions FuncFailed as well:
+> https://www.yoctoproject.org/docs/2.2/bitbake-user-manual/bitbake-use
+> r-manual.html#bitbake-style-python-functions-versus-python-functions
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- meta/classes/icecc.bbclass | 14 ++++++++++----
- 1 file changed, 10 insertions(+), 4 deletions(-)
+It did break one of the tests in oe-selftest but we've fixed that...
 
-diff --git a/meta/classes/icecc.bbclass b/meta/classes/icecc.bbclass
-index e1c06c4..a837894 100644
---- a/meta/classes/icecc.bbclass
-+++ b/meta/classes/icecc.bbclass
-@@ -47,7 +47,8 @@ def get_cross_kernel_cc(bb,d):
- 
-     # evaluate the expression by the shell if necessary
-     if '`' in kernel_cc or '$(' in kernel_cc:
--        kernel_cc = os.popen("echo %s" % kernel_cc).read()[:-1]
-+        import subprocess
-+        kernel_cc = subprocess.check_output("echo %s" % kernel_cc, shell=True).decode("utf-8")[:-1]
- 
-     kernel_cc = d.expand(kernel_cc)
-     kernel_cc = kernel_cc.replace('ccache', '').strip()
-@@ -220,9 +221,14 @@ def icecc_get_and_check_tool(bb, d, tool):
-     # PATH or icecc-create-env script will silently create an invalid
-     # compiler environment package.
-     t = icecc_get_tool(bb, d, tool)
--    if t and os.popen("readlink -f %s" % t).read()[:-1] == get_icecc(d):
--        bb.error("%s is a symlink to %s in PATH and this prevents icecc from working" % (t, get_icecc(d)))
--        return ""
-+    if t:
-+        import subprocess
-+        link_path = subprocess.check_output("readlink -f %s" % t, shell=True).decode("utf-8")[:-1]
-+        if link_path == get_icecc(d):
-+            bb.error("%s is a symlink to %s in PATH and this prevents icecc from working" % (t, get_icecc(d)))
-+            return ""
-+        else:
-+            return t
-     else:
-         return t
- 
--- 
-2.10.1
+Cheers,
 
+Richard
 
