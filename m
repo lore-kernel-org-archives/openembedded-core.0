@@ -1,40 +1,29 @@
-Return-Path: <adrian.ratiu@ni.com>
-Received: from ni.com (skprod3.natinst.com [130.164.80.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 5A4DD71A05
-	for <openembedded-core@lists.openembedded.org>;
-	Wed,  5 Oct 2016 14:41:22 +0000 (UTC)
-Received: from us-aus-mgwout1.amer.corp.natinst.com (nb-snip2-1338.natinst.com
-	[130.164.19.135])
-	by us-aus-skprod3.natinst.com (8.15.0.59/8.15.0.59) with ESMTP id
-	u95EfMY0032754; Wed, 5 Oct 2016 09:41:22 -0500
-Received: from adi-pc-linux ([130.164.14.198])
-	by us-aus-mgwout1.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6
-	HF1218) with ESMTP id 2016100509412212-608686 ;
-	Wed, 5 Oct 2016 09:41:22 -0500 
-From: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
-To: "Burton\, Ross" <ross.burton@intel.com>
-In-Reply-To: <CAJTo0LZcE63=JYaK1sTVh4wiSyktb4XLRkOx=XbMc4jRtJ-JqA@mail.gmail.com>
-References: <20160908095633.26651-1-adrian.ratiu@ni.com>
-	<CAJTo0LaDjgTd20i-BQ5QQrWrKms3rfq-vNCiqVB7yz6f8VAmpg@mail.gmail.com>
-	<878tv2znhb.fsf@ni.com>
-	<CAJTo0LY_6wg10ft-RNRrYH7xa93=aWB9LuH=gxEpgf19vC446Q@mail.gmail.com>
-	<871t0tzads.fsf@ni.com>
-	<CAJTo0LZtsxhz=5=XdBWDQVMZpXyXqi11h2OS5XY5HOrUXkMmnA@mail.gmail.com>
-	<87bmyzdqfp.fsf@ni.com>
-	<878tu3gg6m.fsf@adi-pc-linux.i-did-not-set--mail-host-address--so-tickle-me>
-	<CAJTo0LZcE63=JYaK1sTVh4wiSyktb4XLRkOx=XbMc4jRtJ-JqA@mail.gmail.com>
-Date: Wed, 05 Oct 2016 17:39:50 +0300
-Message-ID: <8760p6hnbd.fsf@ni.com>
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 5F13571A73;
+	Wed,  5 Oct 2016 14:44:39 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u95EieGQ018912
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 5 Oct 2016 07:44:40 -0700 (PDT)
+Received: from soho-mhatle-m.local (172.25.36.226) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.294.0;
+	Wed, 5 Oct 2016 07:44:39 -0700
+To: Jeff Hatch <jhatch@multitech.com>
+References: <1475675870.8940.167.camel@hatchville>
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+Message-ID: <6f6867da-29f4-545f-2484-763584667738@windriver.com>
+Date: Wed, 5 Oct 2016 09:44:38 -0500
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.12; rv:45.0)
+	Gecko/20100101 Thunderbird/45.4.0
 MIME-Version: 1.0
-X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut1/AUS/H/NIC(Release
-	8.5.3FP6 HF1218|December 12, 2014) at 10/05/2016 09:41:22 AM,
-	Serialize by Router on US-AUS-MGWOut1/AUS/H/NIC(Release 8.5.3FP6
-	HF1218|December 12, 2014) at 10/05/2016 09:41:22 AM,
-	Serialize complete at 10/05/2016 09:41:22 AM
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
-	definitions=2016-10-05_05:, , signatures=0
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] pango: add libpcre to DEPENDS
+In-Reply-To: <1475675870.8940.167.camel@hatchville>
+Cc: bitbake-devel@lists.openembedded.org,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [bitbake-devel] Not building python socketmodule.c with openssl 1.0.2h
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,29 +36,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Oct 2016 14:41:23 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 05 Oct 2016 14:44:40 -0000
+Content-Type: text/plain; charset="windows-1252"
+Content-Transfer-Encoding: 7bit
 
-On Wed, 05 Oct 2016, "Burton, Ross" <ross.burton@intel.com> wrote:
-> On 5 October 2016 at 12:59, Ioan-Adrian Ratiu <adrian.ratiu@ni.com> wrote:
->
->> I think libpcre_%.bbappend in meta-selinux is just missing the following
->> line:
->>
->> ln -sf ${relpath}/${realsofile} ${D}${libdir}/libpcre.so.1
->>
->> after creating this symlink the build works without problems (previously
->> only libpcre.so symlink was created).
->>
->> Is this a proper solution?
->>
->
-> As meta-selinux is messing around with library locations, yes.
+On 10/5/16 8:57 AM, Jeff Hatch wrote:
+> I am seeing an issue where we upgraded the openssl bitbake recipes to build and
+> install openssl 1.0.2h in a higher layer than the base openembedded layer which
+> was building openssl 1.0.1m.  After this was done, the build of python 2.7.3
+> stopped building the socketmodule.c and ssl was not integrated into python.  For
+> example, the httplib object no longer has a reference for the HTTPSConnection
+> object.  I have spent some time digging around and cannot find anything that
+> makes sense as to why this is happening.  Is there anyone that has enough Python
+> knowledge to know what might be causing this, or has run into this already and
+> fixed it?
+> 
+> We are a little behind on Yocto (Daisy), but I don't know that that should be a
+> problem. 
 
-This may be a stupid question (sorry) but here goes: Why can't ldconfig
-be made to search also in /lib, beside /usr/lib? That way it could find
-the moved libraries, right?
+This question should go to the "openembedded-core@lists.openembedded.org"
+mailing list, or a list specific to the layers.  (I have CC'd this list.)
 
->
-> Ross
+Unfortunately I am not surprised by this.  Daisy is quite old at this point.  It
+was released in April of 2014.  OpenSSL 1.0.2 was not released until January
+2015.  I doubt that the system, nor python 2.7.3 (as integrated) has any idea
+that version 1.0.2 exists.
+
+You will likely need to look at backporting support from a newer version of
+python to support the 1.0.2 API.
+
+--Mark
+
+> Thank You,
+> 
+> -- 
+> Jeff Hatch
+> Senior Software Engineer
+> 
+> 
+> 1 (763) 717 - 5574   DIRECT
+> 1 (763) 228 - 3603   MOBILE
+> 
+> 2205 Woodale Drive 
+> Mounds View, MN 55112
+> 
+> www.multitech.com <http://www.multitech.com/>
+> 
+> 
+> 
+> 
+> 
+
 
