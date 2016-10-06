@@ -1,43 +1,48 @@
 Return-Path: <ulfalizer@gmail.com>
-Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 033F171A21
+Received: from mail-ua0-f193.google.com (mail-ua0-f193.google.com
+	[209.85.217.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 97D2D71A41
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Oct 2016 03:18:32 +0000 (UTC)
-Received: by mail-wm0-f68.google.com with SMTP id p138so1364774wmb.0
+	Thu,  6 Oct 2016 03:20:19 +0000 (UTC)
+Received: by mail-ua0-f193.google.com with SMTP id p25so255272uaa.3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 05 Oct 2016 20:18:34 -0700 (PDT)
+	Wed, 05 Oct 2016 20:20:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=i+NGVJq6BlEi9taoUtESxS4CuTr66k+uzjNTLojuLAA=;
-	b=KN3Bu6GKN4NWaEAP9C7R4d1lQs0rZvzGota8jc1f7a1WRPz/gWPsYOTrbxnrKCfk6C
-	gkKbotcRTWjad2ZZ9HcJt7QMMsEZUgcG1x3N44qRsmLMz62ULU9WzYR/NbqcJK7yZvZS
-	JW472D6mbuCJhbtlkNh2UQZ0cwXcQIC1QHUagXxBBD5EoxnEt6+TwUognHjBDmNpqpw6
-	gl595BKDkEDhY4eeoBecNwYrOkt3FsZKXiufNUN+IrSj7tpcZkt6g18AQPGqk/Pb2689
-	Mgjq4miO1/kKEfpxJBDmVesgU8OICyJr4NGZAf+bzKxLSZM1Iae3U01id2wGBfQsVdrG
-	f5Sw==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=2XnYdN7jHGYx87FbrX7lfubgJpVmxf4Cql00TyQaS5g=;
+	b=V+CYGt5Axyg4wNQZP3XHNdAnZ0Kiwxjue5ZJuJJxgFCoXvrafszYqyrvuczVXnNkZE
+	mS9AxrGcCLBuDduhPdOEB1Rr4k9ZVGkguBQ/JFmvPLc63oGO9OowWCE+3wb9l7K6wr26
+	1XRoGEWm4RfSDZYrd8GePXwwJmn8eInsGjSUofRGrRH+D4JIjARzEQZTLy7dIHwicW34
+	Bdn0sng6XpqUU/2x8fkEINdwzBT8sEWaB1At78YYFpZ/SQ5kiLpTeqBomDNwmLIozY9V
+	fxyUZkV7uVdpBbAaeegs9t9XD06vyR6BKWxg0pvUF4SfkEInHwkx7wAM/MOvfKcEXWeu
+	IRig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=i+NGVJq6BlEi9taoUtESxS4CuTr66k+uzjNTLojuLAA=;
-	b=PuguMlDVuQ0HtwnOaoJPG2XJ2syPHSp9SD3eD3Nleqk+Y5bKg3ewgRTDKD98HXZIOY
-	jbZtvgrVISExBMrGpqyusAliwqJg10uR9oyhUo7ntJHbWOZQhGMn7wUluDbMrEbY4jDs
-	FbN3SCpFzgsvut12bXdvos8+ixrz08GRalNRUDkWcXC4QEOxm1tmCJbqnPSgbuuLMFzt
-	HL/9WhxCH930SvnbcHOjemqMkiGAK3L5EB/iHH3+W1phfYaoRc4mhTAMbBINmIlNaO6y
-	6xP3Kjs79Kvdc+RG+eZHwvIS2T7LdanBt91dyYLpnZNdzNb9G+Xl7L8vbofZRmSW77M2
-	mo9g==
-X-Gm-Message-State: AA6/9Rn7zIigdkmlPYyzz6KkNiLtVsVq6PFHlBwUeEI8OPAEXwhpf6SvpKHfvSitkcy5Tw==
-X-Received: by 10.28.148.18 with SMTP id w18mr6671717wmd.108.1475723913241;
-	Wed, 05 Oct 2016 20:18:33 -0700 (PDT)
-Received: from huvuddator.home ([2a02:810d:1f40:230:3d2d:5ee6:c14d:940b])
-	by smtp.gmail.com with ESMTPSA id a5sm12031193wjd.9.2016.10.05.20.18.32
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 05 Oct 2016 20:18:32 -0700 (PDT)
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=2XnYdN7jHGYx87FbrX7lfubgJpVmxf4Cql00TyQaS5g=;
+	b=SO49xxNxbGY31seO0Pd+XgX4iZ5f+5u3JIQ1LoOx9FPQj+NI+0B560sHfmg5Wb0Rni
+	i3/lGnZM92oKbbCEDxuF1aOGhQOMD22Bth7UD9DxcuJ+z4ge2zj3RiL4hw2YN+lQ4jog
+	dbyNTg4XTi0dMQ8VCkMWd1or44TBdspKOHIXgHD2f/JNB/JKjPc7KplRJ9n/899hlUn+
+	/fEcgBCxSqKLDxzemV6xq0126sUoSZRYVuY/NGIMXilYK4EnZtncu6+I09m3eG/lHjYk
+	p1YdIU9RFYGr0QQSRYOVe2y0waErROAC6snqZ/1OR36zvhKu2UQBWhKDi23um6uTDykW
+	4RfQ==
+X-Gm-Message-State: AA6/9Rmu/41Cy3iW3VXnVtbrBHV9CUcCcsOKIyziiHCRGteTkAr8Qtc0fttgOdx8K+o+wxdwuHHNK1N+9mi0mw==
+X-Received: by 10.176.65.10 with SMTP id j10mr7689115uad.17.1475724021329;
+	Wed, 05 Oct 2016 20:20:21 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.103.140.8 with HTTP; Wed, 5 Oct 2016 20:20:20 -0700 (PDT)
+In-Reply-To: <3333865.u7YMqIlQip@peggleto-mobl.ger.corp.intel.com>
+References: <CABcZAN=WpicbLyg-sc=GDiMS81iwsGe1m+NE-fUfw2tniWpWXA@mail.gmail.com>
+	<1780562.gdzQvQrqZ4@peggleto-mobl.ger.corp.intel.com>
+	<b712b5e2-a8df-5520-900c-2ff543619304@windriver.com>
+	<3333865.u7YMqIlQip@peggleto-mobl.ger.corp.intel.com>
 From: Ulf Magnusson <ulfalizer@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  6 Oct 2016 05:18:23 +0200
-Message-Id: <1475723903-31485-1-git-send-email-ulfalizer@gmail.com>
-X-Mailer: git-send-email 2.7.4
-Subject: [PATCH] scripts: Rename 'native' to 'oe-run-native'
+Date: Thu, 6 Oct 2016 05:20:20 +0200
+Message-ID: <CAFkk2KSEJ6wc528YqZROFFtUCkQ=NPtJgOT+nKJXDLVefJ5t=w@mail.gmail.com>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2] scripts: add new script 'native'
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,22 +55,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Oct 2016 03:18:33 -0000
+X-List-Received-Date: Thu, 06 Oct 2016 03:20:20 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Makes it a bit more descriptive and potentially more discoverable. Most
-people seemed to prefer an oe- prefix, so let's go with that.
+On Thu, Oct 6, 2016 at 5:02 AM, Paul Eggleton
+<paul.eggleton@linux.intel.com> wrote:
+> On Tue, 04 Oct 2016 12:22:56 Randy MacLeod wrote:
+>> On 2016-10-02 03:37 PM, Paul Eggleton wrote:
+>> >> "native" might be a bit too generic...
+>> >>
+>> >> > >> could I suggest oe_native-run or bitbake-native ?
+>> >> > >>
+>> >> > >> something that says it's yocto-galaxy specific and can be
+>> >> > >> autocompleted
+>> >> > >> with a reasonable prefix...
+>>
+>> I also prefer an oe prefix.
+>> oe-native, oe-run-native, or oe-exec-native would work for me.
+>
+> Well, someone needs to send a patch, any volunteers?
+>
+> Cheers,
+> Paul
 
-Signed-off-by: Ulf Magnusson <ulfalizer@gmail.com>
----
- scripts/{native => oe-run-native} | 0
- 1 file changed, 0 insertions(+), 0 deletions(-)
- rename scripts/{native => oe-run-native} (100%)
+Sent one (and caved in to peer pressure re. the prefix).
 
-diff --git a/scripts/native b/scripts/oe-run-native
-similarity index 100%
-rename from scripts/native
-rename to scripts/oe-run-native
--- 
-2.7.4
-
+Cheers,
+Ulf
 
