@@ -1,30 +1,21 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id C145E6FF9F
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 93B7F600BC
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Oct 2016 21:25:18 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u96LNCrP027948; Thu, 6 Oct 2016 22:23:12 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id js1CqWfO-fqB; Thu,  6 Oct 2016 22:23:12 +0100 (BST)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u96LNBl5027945
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Thu, 6 Oct 2016 22:23:12 +0100
-Message-ID: <1475788991.30475.610.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Saul Wold <saul.wold@intel.com>, openembedded-core@lists.openembedded.org
-Date: Thu, 06 Oct 2016 22:23:11 +0100
-In-Reply-To: <1475787557.18115.216.camel@intel.com>
-References: <1474985736-17783-1-git-send-email-sgw@linux.intel.com>
-	<1475787557.18115.216.camel@intel.com>
-X-Mailer: Evolution 3.18.5.2-0ubuntu3 
-Mime-Version: 1.0
-Cc: Ross Burton <ross@linux.intel.com>
-Subject: Re: [PATCH][Jethro] init-install.sh: fix disk_size
+	Thu,  6 Oct 2016 21:44:24 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 06 Oct 2016 14:44:25 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.31,454,1473145200"; d="scan'208";a="1061481328"
+Received: from jliao12-mobl2.gar.corp.intel.com (HELO
+	peggleto-mobl.ger.corp.intel.com) ([10.255.157.216])
+	by orsmga002.jf.intel.com with ESMTP; 06 Oct 2016 14:44:23 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  7 Oct 2016 10:43:03 +1300
+Message-Id: <cover.1475790060.git.paul.eggleton@linux.intel.com>
+X-Mailer: git-send-email 2.5.5
+Subject: [PATCH 0/1] Support Eclipse plugin usage with eSDK
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,19 +28,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Oct 2016 21:25:20 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 06 Oct 2016 21:44:24 -0000
 
-On Thu, 2016-10-06 at 13:59 -0700, Saul Wold wrote:
-> Ping
+The following changes since commit 97e526ca10a00010987ffa3b90ec48337503a573:
 
-Didn't this merge on 27th September?
+  scripts: Rename 'native' to 'oe-run-native' (2016-10-06 07:53:46 +0100)
 
-http://git.yoctoproject.org/cgit.cgi/poky/commit/?h=jethro&id=2ff9d30da
-c1d0734547b0793bd5d1efb00d00f4e
+are available in the git repository at:
 
-Cheers,
+  git://git.openembedded.org/openembedded-core-contrib paule/esdk-eclipse-fix
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/esdk-eclipse-fix
 
-Richard
+Paul Eggleton (1):
+  classes/populate_sdk_ext: add symlinks and unfsd to support Eclipse plugin
+
+ meta/classes/populate_sdk_ext.bbclass           | 14 ++++++++++++--
+ meta/recipes-core/meta/meta-extsdk-toolchain.bb |  2 +-
+ 2 files changed, 13 insertions(+), 3 deletions(-)
+
+-- 
+2.5.5
+
 
