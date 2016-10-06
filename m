@@ -1,27 +1,32 @@
-Return-Path: <markus.lehtonen@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 4CF7560766
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 24A3D60684
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Oct 2016 13:49:04 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by orsmga103.jf.intel.com with ESMTP; 06 Oct 2016 06:49:05 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.31,454,1473145200"; d="scan'208";a="769558969"
-Received: from marquiz.fi.intel.com ([10.237.72.155])
-	by FMSMGA003.fm.intel.com with ESMTP; 06 Oct 2016 06:49:05 -0700
-Message-ID: <1475761616.13655.59.camel@linux.intel.com>
-From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
-To: Phil Blundell <pb@pbcl.net>, Andreas Oberritter <obi@opendreambox.org>, 
-	openembedded-core@lists.openembedded.org
-Date: Thu, 06 Oct 2016 16:46:56 +0300
-In-Reply-To: <1475748742.16008.29.camel@pbcl.net>
-References: <1475676667-24280-1-git-send-email-markus.lehtonen@linux.intel.com>
-	<b32b7b2f-68cc-31d6-d687-2eeb12aa196a@opendreambox.org>
-	<1475743775.13655.55.camel@linux.intel.com>
-	<1475748742.16008.29.camel@pbcl.net>
-X-Mailer: Evolution 3.16.5 
-Mime-Version: 1.0
-Subject: Re: [PATCH] update-rc.d.bbclass: check that init script exists before running it
+	Thu,  6 Oct 2016 14:21:30 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u96ELRN1002201
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 6 Oct 2016 07:21:28 -0700 (PDT)
+Received: from soho-mhatle-m.local (172.25.36.226) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.294.0;
+	Thu, 6 Oct 2016 07:21:27 -0700
+To: Khem Raj <raj.khem@gmail.com>
+References: <F0CA9E243F4F424B836EAC30E41BF4CF5DF514DB@PGSMSX104.gar.corp.intel.com>
+	<a3c142bf-8c0b-3f90-dda9-7f72dd4da1cf@windriver.com>
+	<CAMKF1spG=v7_wb_VYktNBL7NTan28NbB47G7u2B_-E43jBL8vQ@mail.gmail.com>
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+Message-ID: <687e0950-a18a-5d44-aeae-18517df275e6@windriver.com>
+Date: Thu, 6 Oct 2016 09:21:26 -0500
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.12; rv:45.0)
+	Gecko/20100101 Thunderbird/45.4.0
+MIME-Version: 1.0
+In-Reply-To: <CAMKF1spG=v7_wb_VYktNBL7NTan28NbB47G7u2B_-E43jBL8vQ@mail.gmail.com>
+Cc: "Gupta, Rahul KumarXX" <rahul.kumarxx.gupta@intel.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: openssl: OpenSSL 1.1.x update
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,58 +39,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Oct 2016 13:49:06 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 06 Oct 2016 14:21:31 -0000
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
-On Thu, 2016-10-06 at 11:12 +0100, Phil Blundell wrote:
-> On Thu, 2016-10-06 at 11:49 +0300, Markus Lehtonen wrote:
-> > On Wed, 2016-10-05 at 16:51 +0200, Andreas Oberritter wrote:
-> > > Hello Markus,
-> > > 
-> > > On 05.10.2016 16:11, Markus Lehtonen wrote:
-> > > > Check that the init script that is going to be called in the
-> > > > prerm()
-> > > > script really exists. There might be a packaging bug or the
-> > > > script
-> > > > might've been removed already earlier in prerm().
-> > > 
-> > > isn't it called prerm in the first place because it's not supposed
-> > > to
-> > > remove any packaged files?
-> > 
-> > In the case of this bug it does not remove any packaged files. Update
-> > -alternatives removes a symlink (created by itself)
+On 10/5/16 9:59 PM, Khem Raj wrote:
+> On Wed, Oct 5, 2016 at 7:33 PM, Mark Hatle <mark.hatle@windriver.com> wrote:
+>> On 10/5/16 9:11 PM, Tan, Raymond wrote:
+>>> Greetings, I would like to know if there is any plan / schedule to upgrade to openssl 1.1.0 into OE-core?
+>>
+>> Currently 1.0.2 is the LTS version of OpenSSL.  1.1.0 is not scheduled to be LTS.
+>>
+>> For the upcoming release (soon), I would NOT expect 1.1.0 to be in it.  There
+>> are still too many incompatibilities with other components.
+>>
+>> For the next version of OE, I think it is appropriate to include 1.1.0, but I
+>> would also like to maintain 1.0.2 for the time being.  (Beside LTS, it also is
+>> still the only way to have FIPS-140-2 module, as there is currently no module in
+>> the 1.1.0 -- and there may not be for a while.)
 > 
-> That arguably is a bug in u-a, which probably ought to be removing the
-> symlink in postrm not prerm.  
+> What do we get with 1.1.0 ?
 
-It was moved to prerm earlier to fix some other problems:
-http://git.openembedded.org/openembedded-core/commit/meta/classes/update-al
-ternatives.bbclass?id=2a5484a90513b58c829a916bfe5268a0fde3512a
+Latest and greatest code of course.. :)
 
-So I think moving it back and forth between prerm and postrm doesn't get us
-anywhere :)
+Reality, not a lot more over 1.0.2... there are some significant redesigns that
+should help improve overall security of the OpenSSL library and items using the
+library.  But various things will have to be updated to make use of this.
 
+The OpenSSL community itself is looking at 1.1.0 as a transition to newer and
+better design/api/etc... which is why it is not marked as a LTS release.
 
-Thanks,
-  Markus
+Beside my basic understanding (above) there should be information as part of the
+1.1.0 release notes.
 
+--Mark
 
-
-> If it removes the symlink too early and
-> prevents u-rc.d from running "stop" on it then you may end up with
-> dangling daemon processes still running after the package has been
-> uninstalled.  But...
-> 
-> > I think that the pre post etc scripts should basically never fail.
-> 
-> ... this is essentially true, and having u-rc.d's own prerm fail
-> because of a bug in u-a definitely isn't going to improve the
-> situation.  So I think your patch is a good one.
-> 
-> p.
-> 
-> > 
+>>
+>> --Mark
+>>
+>>> Thanks!
+>>>
+>>> Raymond Tan
+>>>
+>>
+>> --
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
 
