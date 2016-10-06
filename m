@@ -1,28 +1,28 @@
 Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 18C2F6078D
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 2CE616078D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Oct 2016 10:59:38 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga103.fm.intel.com with ESMTP; 06 Oct 2016 03:59:40 -0700
+	Thu,  6 Oct 2016 10:59:50 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga105.fm.intel.com with ESMTP; 06 Oct 2016 03:59:52 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.31,453,1473145200"; d="scan'208";a="769506486"
+X-IronPort-AV: E=Sophos;i="5.31,453,1473145200"; d="scan'208";a="1050224880"
 Received: from linux.intel.com ([10.54.29.200])
-	by FMSMGA003.fm.intel.com with ESMTP; 06 Oct 2016 03:59:40 -0700
+	by fmsmga001.fm.intel.com with ESMTP; 06 Oct 2016 03:59:52 -0700
 Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.68])
-	by linux.intel.com (Postfix) with ESMTP id CA0036A4006;
-	Thu,  6 Oct 2016 03:59:10 -0700 (PDT)
+	by linux.intel.com (Postfix) with ESMTP id B985D6A4006;
+	Thu,  6 Oct 2016 03:59:22 -0700 (PDT)
 From: Ed Bartosh <ed.bartosh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  6 Oct 2016 13:33:36 +0300
-Message-Id: <8b11adbb2e4f224e382b21d60087a8065a092997.1475749929.git.ed.bartosh@linux.intel.com>
+Date: Thu,  6 Oct 2016 13:33:37 +0300
+Message-Id: <54a9bc54ede473cfa3e1b168f9fdfc5c1f9a5a4e.1475749929.git.ed.bartosh@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1475749929.git.ed.bartosh@linux.intel.com>
 References: <cover.1475749929.git.ed.bartosh@linux.intel.com>
 In-Reply-To: <cover.1475749929.git.ed.bartosh@linux.intel.com>
 References: <cover.1475749929.git.ed.bartosh@linux.intel.com>
 Cc: Saul Wold <saul.wold@intel.com>
-Subject: [wic][PATCH 2/4] wic: generate PARTUUID for MDOS partitions
+Subject: [wic][PATCH 3/4] wic: rewrite MBR disk identifier
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,83 +35,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Oct 2016 10:59:40 -0000
+X-List-Received-Date: Thu, 06 Oct 2016 10:59:51 -0000
 
-Added generation of partition UUIDs for MSDOS partitions.
-UUID for MSDOS partitions is <disk identifier>-<partition number>,
-where disk identifier is a random 4 bytes long number. It's usually
-generated when MBR/partition table is initialized.
+Disk identifier created by parted doesn't match the one we generated
+and used in bootloader config. We need to rewrite it to make our image
+bootable.
 
-As UUID is used to point to the root partition in bootloader config
-we need to generate it before the MBR is initialized.
-After MBR is created we need to rewrite system identifier to match
-it with what is used in bootloader config. This will be implemented
-in the next commit.
+Modified involved API and data structures to access previously
+generated disk identifiers after MBR is initialized. Written disk
+identifiers to MBR.
 
 Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
 ---
- scripts/lib/wic/imager/direct.py | 14 +++++++++++++-
- scripts/lib/wic/partition.py     |  3 ---
- 2 files changed, 13 insertions(+), 4 deletions(-)
+ scripts/lib/wic/imager/direct.py       |  2 +-
+ scripts/lib/wic/utils/partitionedfs.py | 12 ++++++++++--
+ 2 files changed, 11 insertions(+), 3 deletions(-)
 
 diff --git a/scripts/lib/wic/imager/direct.py b/scripts/lib/wic/imager/direct.py
-index ffde232..123a078 100644
+index 123a078..edf5e5d 100644
 --- a/scripts/lib/wic/imager/direct.py
 +++ b/scripts/lib/wic/imager/direct.py
-@@ -26,6 +26,7 @@
+@@ -315,7 +315,7 @@ class DirectImageCreator(BaseImageCreator):
+                         % (disk_name, full_path, disk['min_size']))
+             disk_obj = DiskImage(full_path, disk['min_size'])
+             self.__disks[disk_name] = disk_obj
+-            self.__image.add_disk(disk_name, disk_obj)
++            self.__image.add_disk(disk_name, disk_obj, disk_ids.get(disk_name))
  
- import os
- import shutil
-+import uuid
+         self.__image.create()
  
- from wic import msger
- from wic.utils.oe.misc import get_bitbake_var
-@@ -242,12 +243,23 @@ class DirectImageCreator(BaseImageCreator):
+diff --git a/scripts/lib/wic/utils/partitionedfs.py b/scripts/lib/wic/utils/partitionedfs.py
+index 8d93a68..cb03009 100644
+--- a/scripts/lib/wic/utils/partitionedfs.py
++++ b/scripts/lib/wic/utils/partitionedfs.py
+@@ -68,15 +68,17 @@ class Image():
+                  'offset': 0,      # Offset of next partition (in sectors)
+                  # Minimum required disk size to fit all partitions (in bytes)
+                  'min_size': 0,
+-                 'ptable_format': "msdos"} # Partition table format
++                 'ptable_format': "msdos", # Partition table format
++                 'identifier': None} # Disk system identifier
  
-         self.__image = Image(self.native_sysroot)
+-    def add_disk(self, disk_name, disk_obj):
++    def add_disk(self, disk_name, disk_obj, identifier):
+         """ Add a disk object which have to be partitioned. More than one disk
+         can be added. In case of multiple disks, disk partitions have to be
+         added for each disk separately with 'add_partition()". """
  
--        for part in parts:
-+        disk_ids = {}
-+        for num, part in enumerate(parts, 1):
-             # as a convenience, set source to the boot partition source
-             # instead of forcing it to be set via bootloader --source
-             if not self.ks.bootloader.source and part.mountpoint == "/boot":
-                 self.ks.bootloader.source = part.source
+         self.__add_disk(disk_name)
+         self.disks[disk_name]['disk'] = disk_obj
++        self.disks[disk_name]['identifier'] = identifier
  
-+            # generate parition UUIDs
-+            if not part.uuid and part.use_uuid:
-+                if self.ptable_format == 'gpt':
-+                    part.uuid = str(uuid.uuid4())
-+                else: # msdos partition table
-+                    if part.disk not in disk_ids:
-+                        disk_ids[part.disk] = int.from_bytes(os.urandom(4), 'little')
-+                    disk_id = disk_ids[part.disk]
-+                    part.uuid = '%0x-%02d' % (disk_id, self.__get_part_num(num, parts))
+     def __add_partition(self, part):
+         """ This is a helper function for 'add_partition()' which adds a
+@@ -245,6 +247,12 @@ class Image():
+                             (disk['disk'].device, disk['ptable_format']),
+                             self.native_sysroot)
+ 
++            if disk['identifier']:
++                msger.debug("Set disk identifier %x" % disk['identifier'])
++                with open(disk['disk'].device, 'r+b') as img:
++                    img.seek(0x1B8)
++                    img.write(disk['identifier'].to_bytes(4, 'little'))
 +
-         fstab_path = self._write_fstab(self.rootfs_dir.get("ROOTFS_DIR"))
+         msger.debug("Creating partitions")
  
-         shutil.rmtree(self.workdir)
-diff --git a/scripts/lib/wic/partition.py b/scripts/lib/wic/partition.py
-index 30cd320..90f65a1 100644
---- a/scripts/lib/wic/partition.py
-+++ b/scripts/lib/wic/partition.py
-@@ -26,7 +26,6 @@
- 
- import os
- import tempfile
--import uuid
- 
- from wic.utils.oe.misc import msger, parse_sourceparams
- from wic.utils.oe.misc import exec_cmd, exec_native_cmd
-@@ -60,8 +59,6 @@ class Partition():
-         self.system_id = args.system_id
-         self.use_uuid = args.use_uuid
-         self.uuid = args.uuid
--        if args.use_uuid and not self.uuid:
--            self.uuid = str(uuid.uuid4())
- 
-         self.lineno = lineno
-         self.source_file = ""
+         for part in self.partitions:
 -- 
 2.1.4
 
