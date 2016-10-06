@@ -1,24 +1,35 @@
-Return-Path: <joshua.g.lock@linux.intel.com>
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
-	by mail.openembedded.org (Postfix) with ESMTP id 5BE4A60103
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id B0022605B3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Oct 2016 12:42:51 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga104.jf.intel.com with ESMTP; 06 Oct 2016 05:42:49 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.31,453,1473145200"; d="scan'208";a="1041133766"
-Received: from jlock-mobl1.ger.corp.intel.com ([10.252.29.86])
-	by orsmga001.jf.intel.com with ESMTP; 06 Oct 2016 05:42:49 -0700
-Message-ID: <1475757767.3146.12.camel@linux.intel.com>
-From: Joshua Lock <joshua.g.lock@linux.intel.com>
-To: Fan Xin <fan.xin@jp.fujitsu.com>, OE-core
-	<openembedded-core@lists.openembedded.org>
-Date: Thu, 06 Oct 2016 13:42:47 +0100
-In-Reply-To: <41bbea13-30ce-4d55-441c-ffdbb0f863f1@jp.fujitsu.com>
-References: <41bbea13-30ce-4d55-441c-ffdbb0f863f1@jp.fujitsu.com>
-X-Mailer: Evolution 3.20.5 (3.20.5-1.fc24) 
+	Thu,  6 Oct 2016 13:10:25 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u96DAQIY027765; Thu, 6 Oct 2016 14:10:26 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id RT1vw18s0WDD; Thu,  6 Oct 2016 14:10:26 +0100 (BST)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u96DAO8Z027761
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Thu, 6 Oct 2016 14:10:25 +0100
+Message-ID: <1475759424.30475.556.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Martin Jansa <martin.jansa@gmail.com>
+Date: Thu, 06 Oct 2016 14:10:24 +0100
+In-Reply-To: <CA+chaQeVPFGamX=E8o6SNTTth5ytm9EdrecFtW1z4NfTRNSiDA@mail.gmail.com>
+References: <20161006082332.29189-1-Martin.Jansa@gmail.com>
+	<1475750706.30475.539.camel@linuxfoundation.org>
+	<CA+chaQeh3Y2jYm97R6cWw3OvuQrTqHQn1NMWaUfGjFRQN4okEQ@mail.gmail.com>
+	<CA+chaQcyvfvyZ8xDYmHMkbhQcTaZWbLheaVSW5so2zPA=UTA-w@mail.gmail.com>
+	<CA+chaQeVPFGamX=E8o6SNTTth5ytm9EdrecFtW1z4NfTRNSiDA@mail.gmail.com>
+X-Mailer: Evolution 3.18.5.2-0ubuntu3 
 Mime-Version: 1.0
-Subject: Re: rpm: Recover RPM4 to OE-core
+Cc: Christophe Chapuis <chris.chapuis@gmail.com>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [krogoth][PATCH] binutils: fix AR issue when opkg is unpacking IPKs containing empty entries
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,37 +42,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Oct 2016 12:42:52 -0000
+X-List-Received-Date: Thu, 06 Oct 2016 13:10:27 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 
-Hi Fan,
+On Thu, 2016-10-06 at 13:12 +0200, Martin Jansa wrote:
+> I see, there is ^M after empty in the actual .patch file, if I read
+> the git format-patch output it shows ^M, but the git webUI gets
+> confused and shows ^M as normal line feed.
+> 
+> ++    if ![string match "empty^M" $got] {
+> 
+> Does it work for you when cherry-picking from the branch.
+> 
+> Here is the same change in binutils git repo:
+> https://sourceware.org/git/gitweb.cgi?p=binutils-gdb.git;a=blobdiff;f
+> =binutils/testsuite/binutils-
+> all/ar.exp;h=45be9b1b594b39624f3e010f50bf98892fb64549;hp=508ae9c1d756
+> 2c8b0a2c090a93e35acdba733944;hb=4fc874242f8f1bf17cf6e65b159dd804e793e
+> 6cd;hpb=23a4bd22c75862fdbaa5faef59b9094ec738f675
+> 
+> It shows '\r' so it isn't there by accident.
 
-On Thu, 2016-10-06 at 20:18 +0900, Fan Xin wrote:
-> By the way, could anyone give more detail info about the bugs in RPM
+I've been able to cherry-pick it, thanks. I figured it was something
+odd going on with the mailing list damaging line returns.
 
-We removed rpm4 early this year[1] because rather than have people be
-surprised that it didn't work we decided to drop support for rpm4 until
-such time as the project had sufficient resources to properly maintain
-it.
+Cheers,
 
-There were at least two issues[2][3] reported that indicated rpm4
-support was incomplete, though I believe they were mostly related to
-Smart's interactions with RPM 4 rather than any issue in RPM 4 itself.
-
-It's also worth pointing out that we're strongly considering dropping
-SMART in the next (2.3) development cycle[4].
-
-Do you have a reason for wanting rpm4 beyond the proven Python3
-support?
-
-Regards,
-
-Joshua
-
-1. http://lists.openembedded.org/pipermail/openembedded-core/2016-March
-/118849.html
-2. https://bugzilla.yoctoproject.org/show_bug.cgi?id=8968
-3. https://bugzilla.yoctoproject.org/show_bug.cgi?id=8969
-4. https://bugzilla.yoctoproject.org/show_bug.cgi?id=9675
+Richard
 
