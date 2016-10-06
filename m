@@ -1,48 +1,46 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wm0-f42.google.com (mail-wm0-f42.google.com [74.125.82.42])
-	by mail.openembedded.org (Postfix) with ESMTP id B52E16069D
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io0-f176.google.com (mail-io0-f176.google.com
+	[209.85.223.176])
+	by mail.openembedded.org (Postfix) with ESMTP id 283E160616
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Oct 2016 08:54:19 +0000 (UTC)
-Received: by mail-wm0-f42.google.com with SMTP id f193so276634676wmg.0
+	Thu,  6 Oct 2016 09:22:26 +0000 (UTC)
+Received: by mail-io0-f176.google.com with SMTP id q192so9397387iod.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 06 Oct 2016 01:54:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:date:to:subject:message-id:mime-version:content-disposition
-	:user-agent; bh=98K5RhaWs6eAk4i10gG/cVNJKQmLK3Bdzppcw7DxaBg=;
-	b=G8dBK0m0bRLriaFofDRQPuRSiaBtE2jmaPiwoOPHMrFMqtfHmSfdQ1+MEYriv6llom
-	vr6YYgdWLcsLvjRDDAbSYjcucpKHYW9zFiuoNTAhSQfIfabSAwBoIbVfO+hcYGaU2P7F
-	NgUkyQT46WMqVUmC4F1YVbv1UbhKJjmiY+j3zseKC51Jflpc44L/c3UVfmmKS5vLB7Fy
-	NsgFYHOv3weC1FQH0mJBSGuOCDxOsKQJANKL05+7LkQpErweA8vTQu9ZgRr4BatVARoZ
-	ukPzA35m84iM2D4s53w4OGJOCmcp2JwzHz5VT4wci3Dp2IRHWT3dWzLiKs/Bvs3pn50y
-	JoIg==
+	Thu, 06 Oct 2016 02:22:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=f9VN6H9IqFBGKOoVEYimqobxLxPbgIIw7aoyrJmeamg=;
+	b=Ulho5D9u9y8kJD7KEasLmqB9tmO1zG6AkXoMt+Urd2DsOFsP8rFl+9jwaOgcxi7GoG
+	T1uDBLSOCnNH5OCkC7TXxHQjlYAS+iX0pUa5kBMrTAVKSNhSQwrNqLoPDQVom7MxqJTc
+	AYzk2J4NPW77+Jd0hIMmDO+mUYBLy5I5ZMZ0maavRx/B0bbRGoTV9+tvL++W2ekuDLbz
+	j5NZHBuMdQME3nX/uhLAchRZU73VQoyyyr8BDY5of3AThmb4wbPIYfV2Y9xWApNDWzZE
+	vuoqX3P4/fAJJ4CQVDbYbxuU/8/HjM+UB8FNt/FNVG88Rf/rhUrgDF9rUxeDiWbH4r0V
+	7vBA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:date:to:subject:message-id:mime-version
-	:content-disposition:user-agent;
-	bh=98K5RhaWs6eAk4i10gG/cVNJKQmLK3Bdzppcw7DxaBg=;
-	b=f09wzQNRjqDpsklh04S8OedX4uTm5GjHsjpVU3qGGlN6Ei/dLrWgDsyDySDpELAgxk
-	gvcB0phRBtArnIfDoFnro8teex9+AtnLDJ31cutm/Aokyd3FCBFGSYQpj4p55H790HLF
-	EU9jO9yPVhf3cJ+xmL58STpbFRMpCYzox1FlBxW3JgRPQc5xQgsbRD8qpflSZiM5C/AJ
-	4E4TO+cqIBGSg33hV4LVxqHNRqgH0mf4hjo4afV6EaJg5bEWHLjncIa9463vbCvgGYLc
-	Ez51pbD+WF1OF3UyDA6SinWe1Q3Zi6wc8Ds84UA9QlbARR+LYsV6nD1lo/qDiZVMO+e0
-	zXlw==
-X-Gm-Message-State: AA6/9RnONAvXBU3do5EfHXmlN6+lDR+6jOmCr+wVhqvmU9BGyctOuE5N6J8U6zGpCWBohQ==
-X-Received: by 10.194.104.9 with SMTP id ga9mr11145369wjb.23.1475744060165;
-	Thu, 06 Oct 2016 01:54:20 -0700 (PDT)
-Received: from localhost (ip-89-176-104-169.net.upcbroadband.cz.
-	[89.176.104.169]) by smtp.gmail.com with ESMTPSA id
-	wh3sm13186544wjb.49.2016.10.06.01.54.19
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Thu, 06 Oct 2016 01:54:19 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Thu, 6 Oct 2016 10:54:22 +0200
-To: openembedded-core@lists.openembedded.org
-Message-ID: <20161006085422.GA2921@jama>
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=f9VN6H9IqFBGKOoVEYimqobxLxPbgIIw7aoyrJmeamg=;
+	b=N4CQ3GvSItC9pkPbo4ffX28bzbx24JIsTOq5K4Pw0ArXyPo9WHhdMvkkqdXKKdVm75
+	dAEdI0YnKrUEUtC3H6kfqthZYi3p2701FFhBLlmNRDQljg4urwnd4Cir4xJtLnKSOe0V
+	26qIFYF7b6CIW+v5vXS8A8VNyr+BO/HnL/U1mSNqBREjDX0iCo8cFe03T4o6keNXvhww
+	0T7rO0kCkLfKTzvNRbODJgXqPRjCfDgqx+cjNO2MQY4E0MnyKu3OpJJRppn8TpqjaC4a
+	j2TNn6FucKbL3ejJ/dy/eeei6koBusVRDvsOaoZ1ZaHmcqL4ECe2ORWcc3sO4cyC+Htt
+	zLig==
+X-Gm-Message-State: AA6/9RmrM59tFuMEOMRAItNgl4E5RLy7OsEjzy+AoGvxMzOG6MncRjAI6xUGNOZPt5NjS2VRWG2qh8QmGQ10OuH+
+X-Received: by 10.107.138.15 with SMTP id m15mr14130791iod.127.1475745747665; 
+	Thu, 06 Oct 2016 02:22:27 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mutt/1.7.0 (2016-08-17)
-Subject: linux-yocto and linux-libc-headers are again going backwards
+Received: by 10.107.155.66 with HTTP; Thu, 6 Oct 2016 02:22:07 -0700 (PDT)
+In-Reply-To: <1475735370-22935-1-git-send-email-fan.xin@jp.fujitsu.com>
+References: <1475735370-22935-1-git-send-email-fan.xin@jp.fujitsu.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 6 Oct 2016 10:22:07 +0100
+Message-ID: <CAJTo0La6k5GVtoHWUWvTnYcePMCSPLXGunkZvBoZVuP6YnJTLQ@mail.gmail.com>
+To: Fan Xin <fan.xin@jp.fujitsu.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] ltp: Upgrade 20160126 -> 20160920
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,37 +53,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Oct 2016 08:54:20 -0000
-X-Groupsio-MsgNum: 87934
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="ibTvN161/egqYuK8"
-Content-Disposition: inline
+X-List-Received-Date: Thu, 06 Oct 2016 09:22:27 -0000
+Content-Type: multipart/alternative; boundary=001a113feb3c11904f053e2ed5c4
 
---ibTvN161/egqYuK8
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+--001a113feb3c11904f053e2ed5c4
+Content-Type: text/plain; charset=UTF-8
 
-Either use 4.7.99+4.8-rc4 like most other recipes do or at least "4.8~rc4"
-which might sort lower than "4.8" (but needs to be verified for all
-packaging backends first).
+On 6 October 2016 at 07:29, Fan Xin <fan.xin@jp.fujitsu.com> wrote:
 
-Ignoring all this completely results with what we can see in oe-core
-now:
+> 1. Upgrade from 20160126 to 20160920
+>
+> https://github.com/linux-test-project/ltp/releases/tag/20160920
+>
 
-ERROR: linux-libc-headers-4.8-r0 do_packagedata: QA Issue: Package
-version for package linux-libc-headers-dbg went backwards which would
-break package feeds from (0:4.8-rc4-r0.0 to 0:4.8-r0.0)
-[version-going-backwards]
+We're close to the final 2.2 release so unless this is *critical* then it
+won't be merged until 2.3 is open.
 
---ibTvN161/egqYuK8
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
 
------BEGIN PGP SIGNATURE-----
+> 2. Delete the unnecessary patch files because the ltp source code has been
+> changed.
+>
 
-iEYEARECAAYFAlf2ET0ACgkQN1Ujt2V2gBzbTwCfapSLefIamMJ6+l+a7qosseBf
-uXQAn3/qL2tjeqSFNyYTvKoIAcSSOFNq
-=fhsb
------END PGP SIGNATURE-----
+Delete because they've all been merged upstream, or because they conflict
+and you don't want to rebase?
 
---ibTvN161/egqYuK8--
+The patches I looked at either had no or pending Upstream-Status, so I
+can't trivially check that they have been submitted upstream and are now
+redundant.
+
+Ross
+
+--001a113feb3c11904f053e2ed5c4
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><div class=3D"gmail_quote">On 6=
+ October 2016 at 07:29, Fan Xin <span dir=3D"ltr">&lt;<a href=3D"mailto:fan=
+.xin@jp.fujitsu.com" target=3D"_blank">fan.xin@jp.fujitsu.com</a>&gt;</span=
+> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bo=
+rder-left:1px #ccc solid;padding-left:1ex"><div>1. Upgrade from 20160126 to=
+ 20160920<br>
+<br>
+<a href=3D"https://github.com/linux-test-project/ltp/releases/tag/20160920"=
+ rel=3D"noreferrer" target=3D"_blank">https://github.com/linux-test-<wbr>pr=
+oject/ltp/releases/tag/20160<wbr>920</a><br></div></blockquote><div><br></d=
+iv><div>We&#39;re close to the final 2.2 release so unless this is *critica=
+l* then it won&#39;t be merged until 2.3 is open.</div><div>=C2=A0</div><bl=
+ockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #=
+ccc solid;padding-left:1ex"><div>2. Delete the unnecessary patch files beca=
+use the ltp source code has been changed.</div></blockquote></div><br>Delet=
+e because they&#39;ve all been merged upstream, or because they conflict an=
+d you don&#39;t want to rebase?</div><div class=3D"gmail_extra"><br></div><=
+div class=3D"gmail_extra">The patches I looked at either had no or pending =
+Upstream-Status, so I can&#39;t trivially check that they have been submitt=
+ed upstream and are now redundant.</div><div class=3D"gmail_extra"><br></di=
+v><div class=3D"gmail_extra">Ross</div></div>
+
+--001a113feb3c11904f053e2ed5c4--
