@@ -1,34 +1,20 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 5432A600B3
+Return-Path: <joshua.g.lock@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 164CD60102
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Oct 2016 15:39:55 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u96FdtFg007761
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
-	Thu, 6 Oct 2016 08:39:55 -0700
-Received: from soho-mhatle-m.local (172.25.36.226) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.294.0;
-	Thu, 6 Oct 2016 08:39:54 -0700
-To: Khem Raj <raj.khem@gmail.com>
-References: <F0CA9E243F4F424B836EAC30E41BF4CF5DF514DB@PGSMSX104.gar.corp.intel.com>
-	<a3c142bf-8c0b-3f90-dda9-7f72dd4da1cf@windriver.com>
-	<CAMKF1spG=v7_wb_VYktNBL7NTan28NbB47G7u2B_-E43jBL8vQ@mail.gmail.com>
-	<687e0950-a18a-5d44-aeae-18517df275e6@windriver.com>
-	<4F081825-2EC8-4F85-9E55-1E24F215723D@gmail.com>
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-Message-ID: <89015693-dfeb-5b47-7c2b-386c85571dec@windriver.com>
-Date: Thu, 6 Oct 2016 10:39:53 -0500
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.12; rv:45.0)
-	Gecko/20100101 Thunderbird/45.4.0
-MIME-Version: 1.0
-In-Reply-To: <4F081825-2EC8-4F85-9E55-1E24F215723D@gmail.com>
-Cc: "Gupta, Rahul KumarXX" <rahul.kumarxx.gupta@intel.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: openssl: OpenSSL 1.1.x update
+	Thu,  6 Oct 2016 15:45:24 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 06 Oct 2016 08:45:26 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.31,454,1473145200"; d="scan'208";a="1041208974"
+Received: from jlock-mobl1.ger.corp.intel.com ([10.252.29.86])
+	by orsmga001.jf.intel.com with ESMTP; 06 Oct 2016 08:45:25 -0700
+From: Joshua Lock <joshua.g.lock@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  6 Oct 2016 16:45:20 +0100
+Message-Id: <1475768720-21649-1-git-send-email-joshua.g.lock@intel.com>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH] pseudo: backport a patch to fix renameat()
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,67 +27,103 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Oct 2016 15:39:58 -0000
-Content-Type: text/plain; charset="windows-1252"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 06 Oct 2016 15:45:25 -0000
 
-On 10/6/16 10:22 AM, Khem Raj wrote:
-> 
->> On Oct 6, 2016, at 7:21 AM, Mark Hatle <mark.hatle@windriver.com> wrote:
->>
->> On 10/5/16 9:59 PM, Khem Raj wrote:
->>> On Wed, Oct 5, 2016 at 7:33 PM, Mark Hatle <mark.hatle@windriver.com> wrote:
->>>> On 10/5/16 9:11 PM, Tan, Raymond wrote:
->>>>> Greetings, I would like to know if there is any plan / schedule to upgrade to openssl 1.1.0 into OE-core?
->>>>
->>>> Currently 1.0.2 is the LTS version of OpenSSL.  1.1.0 is not scheduled to be LTS.
->>>>
->>>> For the upcoming release (soon), I would NOT expect 1.1.0 to be in it.  There
->>>> are still too many incompatibilities with other components.
->>>>
->>>> For the next version of OE, I think it is appropriate to include 1.1.0, but I
->>>> would also like to maintain 1.0.2 for the time being.  (Beside LTS, it also is
->>>> still the only way to have FIPS-140-2 module, as there is currently no module in
->>>> the 1.1.0 -- and there may not be for a while.)
->>>
->>> What do we get with 1.1.0 ?
->>
->> Latest and greatest code of course.. :)
->>
->> Reality, not a lot more over 1.0.2... there are some significant redesigns that
->> should help improve overall security of the OpenSSL library and items using the
->> library.  But various things will have to be updated to make use of this.
->>
->> The OpenSSL community itself is looking at 1.1.0 as a transition to newer and
->> better design/api/etc... which is why it is not marked as a LTS release.
-> 
-> api changes can be a bothersome point from integration POV, do we know if there
-> are some forwarded porting incompatibilities in APIs already?
+renameat calls under pseudo were losing extended attributes.
+Backport the fix for this from pseudo upstream.
 
-I have not investigated it, as my focus has been on the LTS version at this point.
+[YOCTO '10349]
 
---Mark
+Signed-off-by: Joshua Lock <joshua.g.lock@intel.com>
+---
+ ...nameat-parallel-to-previous-fix-to-rename.patch | 64 ++++++++++++++++++++++
+ meta/recipes-devtools/pseudo/pseudo_1.8.1.bb       |  1 +
+ 2 files changed, 65 insertions(+)
+ create mode 100644 meta/recipes-devtools/pseudo/files/0003-Fix-renameat-parallel-to-previous-fix-to-rename.patch
 
->>
->> Beside my basic understanding (above) there should be information as part of the
->> 1.1.0 release notes.
->>
->> --Mark
->>
->>>>
->>>> --Mark
->>>>
->>>>> Thanks!
->>>>>
->>>>> Raymond Tan
->>>>>
->>>>
->>>> --
->>>> _______________________________________________
->>>> Openembedded-core mailing list
->>>> Openembedded-core@lists.openembedded.org
->>>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->>
-> 
+diff --git a/meta/recipes-devtools/pseudo/files/0003-Fix-renameat-parallel-to-previous-fix-to-rename.patch b/meta/recipes-devtools/pseudo/files/0003-Fix-renameat-parallel-to-previous-fix-to-rename.patch
+new file mode 100644
+index 0000000..739c03e
+--- /dev/null
++++ b/meta/recipes-devtools/pseudo/files/0003-Fix-renameat-parallel-to-previous-fix-to-rename.patch
+@@ -0,0 +1,64 @@
++From d9ab3a0acc94151048498b1ea4d69e7707df1526 Mon Sep 17 00:00:00 2001
++From: Seebs <seebs@seebs.net>
++Date: Fri, 30 Sep 2016 10:56:35 -0500
++Subject: [PATCH 3/3] Fix renameat (parallel to previous fix to rename)
++
++There was a bug in rename(), which was duplicated when renameat() was
++implemented, and which got fixed two years ago for rename(), but no
++one ever uses renameat() so it didn't get fixed there. Thanks
++to Anton Gerasimov <anton@advancedtelematic.com> for the bug report
++and patch.
++
++Signed-off-by: Seebs <seebs@seebs.net>
++
++Upstream-Status: Backport
++Signed-off-by: Joshua Lock <joshua.g.lock@intel.com>
++
++---
++ ChangeLog.txt              | 4 ++++
++ ports/unix/guts/renameat.c | 7 ++++++-
++ 2 files changed, 10 insertions(+), 1 deletion(-)
++
++diff --git a/ChangeLog.txt b/ChangeLog.txt
++index 65b9759..ca04cc0 100644
++--- a/ChangeLog.txt
+++++ b/ChangeLog.txt
++@@ -1,3 +1,7 @@
+++2016-09-30:
+++	* (seebs) Fix rename at, matching fix from ee00f63d for rename. Bug
+++	  and fix provided by Anton Gerasimov <anton@advancedtelematic.com>.
+++
++ 2016-09-28:
++ 	* (seebs) Send errors to log when daemonizing, but do that a lot
++ 	  sooner to prevent startup messages which can show up spuriously
++diff --git a/ports/unix/guts/renameat.c b/ports/unix/guts/renameat.c
++index ade0509..d5e36fa 100644
++--- a/ports/unix/guts/renameat.c
+++++ b/ports/unix/guts/renameat.c
++@@ -11,6 +11,7 @@
++ 	int oldrc, newrc;
++ 	int save_errno;
++ 	int old_db_entry = 0;
+++	int may_unlinked = 0;
++ 
++ 	pseudo_debug(PDBGF_FILE, "renameat: %d,%s->%d,%s\n",
++ 		olddirfd, oldpath ? oldpath : "<nil>",
++@@ -44,10 +45,14 @@
++ 	/* as with unlink, we have to mark that the file may get deleted */
++ 	msg = pseudo_client_op(OP_MAY_UNLINK, 0, -1, newdirfd, newpath, newrc ? NULL : &newbuf);
++ 	if (msg && msg->result == RESULT_SUCCEED)
+++		may_unlinked = 1;
+++	msg = pseudo_client_op(OP_STAT, 0, -1, olddirfd, oldpath, oldrc ? NULL : &oldbuf);
+++	if (msg && msg->result == RESULT_SUCCEED)
++ 		old_db_entry = 1;
+++
++ 	rc = real_renameat(olddirfd, oldpath, newdirfd, newpath);
++ 	save_errno = errno;
++-	if (old_db_entry) {
+++	if (may_unlinked) {
++ 		if (rc == -1) {
++ 			/* since we failed, that wasn't really unlinked -- put
++ 			 * it back.
++-- 
++2.7.4
++
+diff --git a/meta/recipes-devtools/pseudo/pseudo_1.8.1.bb b/meta/recipes-devtools/pseudo/pseudo_1.8.1.bb
+index 67eb298..fb70034 100644
+--- a/meta/recipes-devtools/pseudo/pseudo_1.8.1.bb
++++ b/meta/recipes-devtools/pseudo/pseudo_1.8.1.bb
+@@ -9,6 +9,7 @@ SRC_URI = "http://downloads.yoctoproject.org/releases/pseudo/${BPN}-${PV}.tar.bz
+            file://0001-Don-t-send-SIGUSR1-to-init.patch \
+            file://0001-Quiet-diagnostics-during-startup-for-pseudo-d.patch \
+            file://0002-Use-correct-file-descriptor.patch \
++           file://0003-Fix-renameat-parallel-to-previous-fix-to-rename.patch \
+            "
+ 
+ SRC_URI[md5sum] = "ee38e4fb62ff88ad067b1a5a3825bac7"
+-- 
+2.7.4
 
 
