@@ -1,25 +1,48 @@
-Return-Path: <markus.lehtonen@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id C902E60616
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wm0-f42.google.com (mail-wm0-f42.google.com [74.125.82.42])
+	by mail.openembedded.org (Postfix) with ESMTP id B52E16069D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Oct 2016 08:51:43 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga101.fm.intel.com with ESMTP; 06 Oct 2016 01:51:45 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.31,453,1473145200"; d="scan'208";a="769470215"
-Received: from marquiz.fi.intel.com ([10.237.72.155])
-	by FMSMGA003.fm.intel.com with ESMTP; 06 Oct 2016 01:51:43 -0700
-Message-ID: <1475743775.13655.55.camel@linux.intel.com>
-From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
-To: Andreas Oberritter <obi@opendreambox.org>, 
-	openembedded-core@lists.openembedded.org
-Date: Thu, 06 Oct 2016 11:49:35 +0300
-In-Reply-To: <b32b7b2f-68cc-31d6-d687-2eeb12aa196a@opendreambox.org>
-References: <1475676667-24280-1-git-send-email-markus.lehtonen@linux.intel.com>
-	<b32b7b2f-68cc-31d6-d687-2eeb12aa196a@opendreambox.org>
-X-Mailer: Evolution 3.16.5 
-Mime-Version: 1.0
-Subject: Re: [PATCH] update-rc.d.bbclass: check that init script exists before running it
+	Thu,  6 Oct 2016 08:54:19 +0000 (UTC)
+Received: by mail-wm0-f42.google.com with SMTP id f193so276634676wmg.0
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 06 Oct 2016 01:54:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:date:to:subject:message-id:mime-version:content-disposition
+	:user-agent; bh=98K5RhaWs6eAk4i10gG/cVNJKQmLK3Bdzppcw7DxaBg=;
+	b=G8dBK0m0bRLriaFofDRQPuRSiaBtE2jmaPiwoOPHMrFMqtfHmSfdQ1+MEYriv6llom
+	vr6YYgdWLcsLvjRDDAbSYjcucpKHYW9zFiuoNTAhSQfIfabSAwBoIbVfO+hcYGaU2P7F
+	NgUkyQT46WMqVUmC4F1YVbv1UbhKJjmiY+j3zseKC51Jflpc44L/c3UVfmmKS5vLB7Fy
+	NsgFYHOv3weC1FQH0mJBSGuOCDxOsKQJANKL05+7LkQpErweA8vTQu9ZgRr4BatVARoZ
+	ukPzA35m84iM2D4s53w4OGJOCmcp2JwzHz5VT4wci3Dp2IRHWT3dWzLiKs/Bvs3pn50y
+	JoIg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:date:to:subject:message-id:mime-version
+	:content-disposition:user-agent;
+	bh=98K5RhaWs6eAk4i10gG/cVNJKQmLK3Bdzppcw7DxaBg=;
+	b=f09wzQNRjqDpsklh04S8OedX4uTm5GjHsjpVU3qGGlN6Ei/dLrWgDsyDySDpELAgxk
+	gvcB0phRBtArnIfDoFnro8teex9+AtnLDJ31cutm/Aokyd3FCBFGSYQpj4p55H790HLF
+	EU9jO9yPVhf3cJ+xmL58STpbFRMpCYzox1FlBxW3JgRPQc5xQgsbRD8qpflSZiM5C/AJ
+	4E4TO+cqIBGSg33hV4LVxqHNRqgH0mf4hjo4afV6EaJg5bEWHLjncIa9463vbCvgGYLc
+	Ez51pbD+WF1OF3UyDA6SinWe1Q3Zi6wc8Ds84UA9QlbARR+LYsV6nD1lo/qDiZVMO+e0
+	zXlw==
+X-Gm-Message-State: AA6/9RnONAvXBU3do5EfHXmlN6+lDR+6jOmCr+wVhqvmU9BGyctOuE5N6J8U6zGpCWBohQ==
+X-Received: by 10.194.104.9 with SMTP id ga9mr11145369wjb.23.1475744060165;
+	Thu, 06 Oct 2016 01:54:20 -0700 (PDT)
+Received: from localhost (ip-89-176-104-169.net.upcbroadband.cz.
+	[89.176.104.169]) by smtp.gmail.com with ESMTPSA id
+	wh3sm13186544wjb.49.2016.10.06.01.54.19
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Thu, 06 Oct 2016 01:54:19 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Thu, 6 Oct 2016 10:54:22 +0200
+To: openembedded-core@lists.openembedded.org
+Message-ID: <20161006085422.GA2921@jama>
+MIME-Version: 1.0
+User-Agent: Mutt/1.7.0 (2016-08-17)
+Subject: linux-yocto and linux-libc-headers are again going backwards
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,54 +55,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Oct 2016 08:51:43 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 06 Oct 2016 08:54:20 -0000
+X-Groupsio-MsgNum: 87934
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="ibTvN161/egqYuK8"
+Content-Disposition: inline
 
-On Wed, 2016-10-05 at 16:51 +0200, Andreas Oberritter wrote:
-> Hello Markus,
-> 
-> On 05.10.2016 16:11, Markus Lehtonen wrote:
-> > Check that the init script that is going to be called in the prerm()
-> > script really exists. There might be a packaging bug or the script
-> > might've been removed already earlier in prerm().
-> 
-> isn't it called prerm in the first place because it's not supposed to
-> remove any packaged files?
+--ibTvN161/egqYuK8
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-In the case of this bug it does not remove any packaged files. Update
--alternatives removes a symlink (created by itself)
+Either use 4.7.99+4.8-rc4 like most other recipes do or at least "4.8~rc4"
+which might sort lower than "4.8" (but needs to be verified for all
+packaging backends first).
 
+Ignoring all this completely results with what we can see in oe-core
+now:
 
-> And if there's a packaging bug, we should IMO better add a sanity check
-> there and abort the build.
+ERROR: linux-libc-headers-4.8-r0 do_packagedata: QA Issue: Package
+version for package linux-libc-headers-dbg went backwards which would
+break package feeds from (0:4.8-rc4-r0.0 to 0:4.8-r0.0)
+[version-going-backwards]
 
-First of all, this does not fix a build-time, but a run-time problem. And,
-I think that the pre post etc scripts should basically never fail.
+--ibTvN161/egqYuK8
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
+-----BEGIN PGP SIGNATURE-----
 
-[YOCTO #10299]
-> > 
-> > Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
-> > ---
-> >  meta/classes/update-rc.d.bbclass | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > 
-> > diff --git a/meta/classes/update-rc.d.bbclass b/meta/classes/update
-> > -rc.d.bbclass
-> > index dfef2a2..24da547 100644
-> > --- a/meta/classes/update-rc.d.bbclass
-> > +++ b/meta/classes/update-rc.d.bbclass
-> > @@ -37,7 +37,7 @@ fi
-> >  }
-> >  
-> >  updatercd_prerm() {
-> > -if [ -z "$D" ]; then
-> > +if [ -z "$D" -a -f "${INIT_D_DIR}/${INITSCRIPT_NAME}" ]; then
-> >  	${INIT_D_DIR}/${INITSCRIPT_NAME} stop
-> >  fi
-> >  }
-> > 
-> 
+iEYEARECAAYFAlf2ET0ACgkQN1Ujt2V2gBzbTwCfapSLefIamMJ6+l+a7qosseBf
+uXQAn3/qL2tjeqSFNyYTvKoIAcSSOFNq
+=fhsb
+-----END PGP SIGNATURE-----
 
-
+--ibTvN161/egqYuK8--
