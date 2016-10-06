@@ -1,45 +1,45 @@
 Return-Path: <stephen.arnold42@gmail.com>
-Received: from mail-it0-f67.google.com (mail-it0-f67.google.com
-	[209.85.214.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 35426719C3
+Received: from mail-it0-f66.google.com (mail-it0-f66.google.com
+	[209.85.214.66])
+	by mail.openembedded.org (Postfix) with ESMTP id C03F7719E3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Oct 2016 06:05:25 +0000 (UTC)
-Received: by mail-it0-f67.google.com with SMTP id o19so1182230ito.3
+	Thu,  6 Oct 2016 06:22:45 +0000 (UTC)
+Received: by mail-it0-f66.google.com with SMTP id l13so1223512itl.2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 05 Oct 2016 23:05:27 -0700 (PDT)
+	Wed, 05 Oct 2016 23:22:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id;
-	bh=wiEaXDegm6sBOUJn3TAjVMwbFc2tHDS+Vkw2iVwetHQ=;
-	b=GBpQHpCRSimCcX7oNqZTCmGhatYJ6LpgzC6DbPMgik0D3ug32/kaZh9LH7fWgNsEZ+
-	C5427rJOQFpBhjVt4viU3QB0aJUsBaMtruJ4i6mY2kLnvfWS6K2uON/RuRS1JpO5hzwu
-	vnKcJ2//jo+/lMau8BxtMfs4+ZTB41e2WAOLpzFP2sCGnFSO+j4gNcYK8E7e34N3rbNw
-	LJXBcbFCWAs1cvaX6VtxDlUcmS2xFMxpk52Vh7tzuHpcpq5qmcZoFEmsT8ziKAYehVu6
-	YvbjXXrKxUhgV6Jx6zIV1LXwBg0I++hoORLNxnbSU9G+M+XSzvIcjKfoCnthlpbHrfYz
-	D11w==
+	bh=KD+bbANGxrZ0M0jCBfl3jHcwXnyS7RB4hRVgtPRR7cs=;
+	b=jzul0keair7nVeXHMbt7yOeTJMU+F0LCJAQUD5bF/Ox5H9ImmKDhE3jHekQFlYIlVg
+	XynjIXbiIRhoe3hxZlkfYxqWWrj2r+ZkUJ0TwoPyhf4Bpafgcv48tyAlZq3MDVF9PnDW
+	7T1urdFjo1PBs/8LC5IaiqmWvtEe722ZgqBE0QH3OlJQBkfqOYLAuMK8dhar7Ozuc7Hy
+	YlTGNgnmYGLA/MrPB9LYZMZGRnCR7X6TywkBskYFlDnE1Knk7gmeple76aDcVlju6Ch8
+	70aVzyCCoJsPctiJC7U4Q1OB/12MXGCKcU1c+MYub7cPExdH9b5iKNSY90FqM7uY5z0i
+	t+7Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=wiEaXDegm6sBOUJn3TAjVMwbFc2tHDS+Vkw2iVwetHQ=;
-	b=i5aMFfDwLst4qUrf7020ERFSU0OT1x6F5xZYfZZLtEexevWb1K4QRcrjnYVR21+Yl1
-	ku+WrrrqLRsdKesEP3tB0/X2gMXtL/Kn51Flq5417MhooRcD7VA1eWE8qOG9ngGrOCr2
-	jIez7Hu1V0ut+/V2v9jYvaNAioHPIkji56ptAD3Sez4+dqiFevqH0g1fMKUk/QPAipCm
-	T+tclw500jc3kC/0pLTiz8p6hQnHs/t/ypS+LxD0IxpbxC85YfWfpDR4CpDNuFv8CZ4l
-	Hv1eI3GQutw0yuqqPkQSDLxjDZKQZrkhRtinfcLJYrpuuiYw76HhwaC9QOw1mEAyfjrj
-	DV8A==
-X-Gm-Message-State: AA6/9RlwVMITU98nUkhCexvRf4Dole9GKDOsRcp7Ac3Dc85DyRrZ5MxT+z33CL8PvHgGdw==
-X-Received: by 10.36.238.134 with SMTP id b128mr13742733iti.72.1475733926537; 
-	Wed, 05 Oct 2016 23:05:26 -0700 (PDT)
+	bh=KD+bbANGxrZ0M0jCBfl3jHcwXnyS7RB4hRVgtPRR7cs=;
+	b=MmERT/VGs7xpo2OPNmzG9JsdHUxrPrw5P0ivXVw3XMErVNYbJ37klqlfa3XNzC5Kvc
+	WYASnQny+P+ZA1DLuRhbjOsuybTyegBpLupAHNuhKX2FkCKxsi/wPoFDSudWHl7SzgeQ
+	RsSdvDvgfqraVqQZOUZMdZwnLCjSe01YiT6T+WK4rxf2FShMJjIyvuRQtV5sMUIZbZqL
+	oJknvmIStJ7GLq30RE032di56p+d83InDKuQY//JfrXyK/u05D2D4EpDR4PoI71jgXgQ
+	C7eBwjyHQP6QgY/CTq3czY31EdXukl5nhKBmbxaCXRk2ASmKmYpXk/De57/XVoc+PG28
+	3XCQ==
+X-Gm-Message-State: AA6/9RkZr07gc5x/O1nXmeg92J3tQ7KFeZOTWML9h3aIo5lXv+J3irAc4NE3keg9nZckjg==
+X-Received: by 10.36.46.203 with SMTP id i194mr32576740ita.69.1475734966853;
+	Wed, 05 Oct 2016 23:22:46 -0700 (PDT)
 Received: from rama.arnolds.bogus (gatekeeper.gentoogeek.org. [66.159.242.209])
 	by smtp.gmail.com with ESMTPSA id
-	w185sm5098628iod.13.2016.10.05.23.05.25
+	w185sm5119199iod.13.2016.10.05.23.22.46
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 05 Oct 2016 23:05:26 -0700 (PDT)
+	Wed, 05 Oct 2016 23:22:46 -0700 (PDT)
 From: Stephen Arnold <stephen.arnold42@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  5 Oct 2016 23:05:14 -0700
-Message-Id: <20161006060514.29293-1-stephen.arnold42@gmail.com>
+Date: Wed,  5 Oct 2016 23:22:39 -0700
+Message-Id: <20161006062239.30097-1-stephen.arnold42@gmail.com>
 X-Mailer: git-send-email 2.9.3
-Subject: [krogoth][meta-python]][PATCH] python-evdev: add setup.py patch to make sure it uses sysroot headers
+Subject: [krogoth][meta-python]][PATCH v2] python-evdev: add setup.py patch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,7 +52,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Oct 2016 06:05:27 -0000
+X-List-Received-Date: Thu, 06 Oct 2016 06:22:45 -0000
 
 From: Steve Arnold <stephen.arnold42@gmail.com>
 
@@ -60,6 +60,9 @@ This currently works (randomly) when BUILD_HOST headers are a close
 enough match, but fails as soon as they differ, due to static header
 include paths in setup.py.  This patch adds a path check for the
 STAGING_INC dir and makes it use the right headers.
+
+Upstream-Status: Inappropriate, bitbake configuration-specific (upstream
+needs a generic cross-compile fix).
 
 Also includes DEPENDS/RDEPENDS from Tim and small doc package instead of
 empty dev package.
