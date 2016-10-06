@@ -1,21 +1,31 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
-	by mail.openembedded.org (Postfix) with ESMTP id 400E460125
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 2F3406FFD3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Oct 2016 18:38:58 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga104.jf.intel.com with ESMTP; 06 Oct 2016 11:39:00 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.31,454,1473145200"; d="scan'208";a="1061410887"
-Received: from swold-mobl2.amr.corp.intel.com ([10.255.86.96])
-	by orsmga002.jf.intel.com with ESMTP; 06 Oct 2016 11:38:59 -0700
-From: Saul Wold <sgw@linux.intel.com>
-To: openembedded-core@lists.openembedded.org,
-	richard.purdie@linuxfoundation.org
-Date: Thu,  6 Oct 2016 11:38:59 -0700
-Message-Id: <1475779139-13738-1-git-send-email-sgw@linux.intel.com>
-X-Mailer: git-send-email 2.7.4
-Subject: [PATCH] xmlto: Add libxslt to native DEPENDS
+	Thu,  6 Oct 2016 18:58:42 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u96IvxsA020587; Thu, 6 Oct 2016 19:58:42 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id aGi8C2I6bHwD; Thu,  6 Oct 2016 19:58:42 +0100 (BST)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u96Iwbho020621
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Thu, 6 Oct 2016 19:58:38 +0100
+Message-ID: <1475780317.30475.575.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Khem Raj <raj.khem@gmail.com>
+Date: Thu, 06 Oct 2016 19:58:37 +0100
+In-Reply-To: <20DFBC70-C0AA-4422-8E40-CAA4AB2E3AA0@gmail.com>
+References: <20161006085422.GA2921@jama>
+	<1475746035.30475.515.camel@linuxfoundation.org>
+	<20DFBC70-C0AA-4422-8E40-CAA4AB2E3AA0@gmail.com>
+X-Mailer: Evolution 3.18.5.2-0ubuntu3 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: linux-yocto and linux-libc-headers are again going backwards
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,31 +38,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Oct 2016 18:39:00 -0000
+X-List-Received-Date: Thu, 06 Oct 2016 18:58:45 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-xmlto requires xsltproc to work correctly, it was being included
-for the target, but may have been finding host contamination.
+On Thu, 2016-10-06 at 10:07 -0700, Khem Raj wrote:
+> > 
+> > On Oct 6, 2016, at 2:27 AM, Richard Purdie <richard.purdie@linuxfou
+> > ndation.org> wrote:
+> > 
+> > On Thu, 2016-10-06 at 10:54 +0200, Martin Jansa wrote:
+> > > 
+> > > Either use 4.7.99+4.8-rc4 like most other recipes do or at least
+> > > "4.8~rc4"
+> > > which might sort lower than "4.8" (but needs to be verified for
+> > > all
+> > > packaging backends first).
+> > > 
+> > > Ignoring all this completely results with what we can see in oe-
+> > > core
+> > > now:
+> > > 
+> > > ERROR: linux-libc-headers-4.8-r0 do_packagedata: QA Issue:
+> > > Package
+> > > version for package linux-libc-headers-dbg went backwards which
+> > > would
+> > > break package feeds from (0:4.8-rc4-r0.0 to 0:4.8-r0.0)
+> > > [version-going-backwards]
+> > Sorry, we did screw up there :(. Lots of moving pieces and its hard
+> > to
+> > catch/remember everything.
+> > 
+> > I wish we knew for certain whether ~ works properly everywhere. A
+> > good
+> > case for some unittests I guess…
+> I always wished there was a magic wand ( a sanity test) sort of which
+> was able to catch the package feed upgradability
 
-[YOCTO #10366]
+There is buildhistory but sadly it catches it too late (after 4.8-rcX
+merges and is changed to 4.8, not when 4.7 -> 4.8-rcX).
 
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
----
- meta/recipes-devtools/xmlto/xmlto_0.0.28.bb | 1 +
- 1 file changed, 1 insertion(+)
+Cheers,
 
-diff --git a/meta/recipes-devtools/xmlto/xmlto_0.0.28.bb b/meta/recipes-devtools/xmlto/xmlto_0.0.28.bb
-index 886e7b4..aaaeb6e 100644
---- a/meta/recipes-devtools/xmlto/xmlto_0.0.28.bb
-+++ b/meta/recipes-devtools/xmlto/xmlto_0.0.28.bb
-@@ -13,6 +13,7 @@ SRC_URI[md5sum] = "a1fefad9d83499a15576768f60f847c6"
- SRC_URI[sha256sum] = "2f986b7c9a0e9ac6728147668e776d405465284e13c74d4146c9cbc51fd8aad3"
- 
- inherit autotools
-+RDEPENDS_class-native = "libxslt-native"
- 
- # xmlto needs getopt/xmllint/xsltproc/bash/tail at runtime
- RDEPENDS_${PN} = "docbook-xml-dtd4 \
--- 
-2.7.4
+Richard
+
 
 
