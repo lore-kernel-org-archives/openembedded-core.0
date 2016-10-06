@@ -1,35 +1,20 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id B0022605B3
+Return-Path: <markus.lehtonen@linux.intel.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id 2085A606CB
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Oct 2016 13:10:25 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u96DAQIY027765; Thu, 6 Oct 2016 14:10:26 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id RT1vw18s0WDD; Thu,  6 Oct 2016 14:10:26 +0100 (BST)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u96DAO8Z027761
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Thu, 6 Oct 2016 14:10:25 +0100
-Message-ID: <1475759424.30475.556.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Martin Jansa <martin.jansa@gmail.com>
-Date: Thu, 06 Oct 2016 14:10:24 +0100
-In-Reply-To: <CA+chaQeVPFGamX=E8o6SNTTth5ytm9EdrecFtW1z4NfTRNSiDA@mail.gmail.com>
-References: <20161006082332.29189-1-Martin.Jansa@gmail.com>
-	<1475750706.30475.539.camel@linuxfoundation.org>
-	<CA+chaQeh3Y2jYm97R6cWw3OvuQrTqHQn1NMWaUfGjFRQN4okEQ@mail.gmail.com>
-	<CA+chaQcyvfvyZ8xDYmHMkbhQcTaZWbLheaVSW5so2zPA=UTA-w@mail.gmail.com>
-	<CA+chaQeVPFGamX=E8o6SNTTth5ytm9EdrecFtW1z4NfTRNSiDA@mail.gmail.com>
-X-Mailer: Evolution 3.18.5.2-0ubuntu3 
-Mime-Version: 1.0
-Cc: Christophe Chapuis <chris.chapuis@gmail.com>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [krogoth][PATCH] binutils: fix AR issue when opkg is unpacking IPKs containing empty entries
+	Thu,  6 Oct 2016 13:37:05 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by fmsmga104.fm.intel.com with ESMTP; 06 Oct 2016 06:37:06 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.31,454,1473145200"; d="scan'208";a="1061284043"
+Received: from marquiz.fi.intel.com ([10.237.72.155])
+	by orsmga002.jf.intel.com with ESMTP; 06 Oct 2016 06:37:05 -0700
+From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  6 Oct 2016 16:37:04 +0300
+Message-Id: <1475761024-22533-1-git-send-email-markus.lehtonen@linux.intel.com>
+X-Mailer: git-send-email 2.6.6
+Subject: [PATCH v3] update-rc.d.bbclass: check that init script is executable before running it
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,32 +27,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Oct 2016 13:10:27 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 06 Oct 2016 13:37:09 -0000
 
-On Thu, 2016-10-06 at 13:12 +0200, Martin Jansa wrote:
-> I see, there is ^M after empty in the actual .patch file, if I read
-> the git format-patch output it shows ^M, but the git webUI gets
-> confused and shows ^M as normal line feed.
-> 
-> ++    if ![string match "empty^M" $got] {
-> 
-> Does it work for you when cherry-picking from the branch.
-> 
-> Here is the same change in binutils git repo:
-> https://sourceware.org/git/gitweb.cgi?p=binutils-gdb.git;a=blobdiff;f
-> =binutils/testsuite/binutils-
-> all/ar.exp;h=45be9b1b594b39624f3e010f50bf98892fb64549;hp=508ae9c1d756
-> 2c8b0a2c090a93e35acdba733944;hb=4fc874242f8f1bf17cf6e65b159dd804e793e
-> 6cd;hpb=23a4bd22c75862fdbaa5faef59b9094ec738f675
-> 
-> It shows '\r' so it isn't there by accident.
+Check that the init script that is going to be called in the prerm()
+script really exists and is executable. There might be a packaging bug
+or the script might've been removed already earlier in prerm().
 
-I've been able to cherry-pick it, thanks. I figured it was something
-odd going on with the mailing list damaging line returns.
+[YOCTO #10299]
 
-Cheers,
+Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
+---
+ meta/classes/update-rc.d.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Richard
+diff --git a/meta/classes/update-rc.d.bbclass b/meta/classes/update-rc.d.bbclass
+index dfef2a2..348f3c0 100644
+--- a/meta/classes/update-rc.d.bbclass
++++ b/meta/classes/update-rc.d.bbclass
+@@ -37,7 +37,7 @@ fi
+ }
+ 
+ updatercd_prerm() {
+-if [ -z "$D" ]; then
++if [ -z "$D" -a -x "${INIT_D_DIR}/${INITSCRIPT_NAME}" ]; then
+ 	${INIT_D_DIR}/${INITSCRIPT_NAME} stop
+ fi
+ }
+-- 
+2.6.6
+
 
