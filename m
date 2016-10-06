@@ -1,33 +1,24 @@
-Return-Path: <fan.xin@jp.fujitsu.com>
-Received: from mgwym02.jp.fujitsu.com (mgwym02.jp.fujitsu.com [211.128.242.41])
-	by mail.openembedded.org (Postfix) with ESMTP id 96C106069D
+Return-Path: <ed.bartosh@linux.intel.com>
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+	by mail.openembedded.org (Postfix) with ESMTP id E41DB606BF
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Oct 2016 11:17:10 +0000 (UTC)
-Received: from yt-mxoi1.gw.nic.fujitsu.com (unknown [192.168.229.67]) by
-	mgwym02.jp.fujitsu.com with smtp
-	id 4885_02ba_c3d56047_2c3a_4386_a6ff_ba8150bc88e3;
-	Thu, 06 Oct 2016 20:17:02 +0900
-Received: from m3050.s.css.fujitsu.com (msm.b.css.fujitsu.com [10.134.21.208])
-	by yt-mxoi1.gw.nic.fujitsu.com (Postfix) with ESMTP id 7C7F7AC01CF
+	Thu,  6 Oct 2016 12:18:41 +0000 (UTC)
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+	by orsmga105.jf.intel.com with ESMTP; 06 Oct 2016 05:18:42 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.31,453,1473145200"; d="scan'208";a="17275862"
+Received: from linux.intel.com ([10.54.29.200])
+	by orsmga004.jf.intel.com with ESMTP; 06 Oct 2016 05:18:42 -0700
+Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.68])
+	by linux.intel.com (Postfix) with ESMTP id CDD346A4006
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Oct 2016 20:17:02 +0900 (JST)
-Received: from omame (omame.fct.css.fujitsu.com [10.24.14.171])
-	by m3050.s.css.fujitsu.com (Postfix) with ESMTP id 7705B4DA
-	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Oct 2016 20:17:02 +0900 (JST)
-Received: from [10.24.19.99] (fan1.utsfd.cs.fujitsu.co.jp [10.24.19.99])
-	by omame (Postfix) with ESMTPSA id 604261E0074
-	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Oct 2016 20:17:02 +0900 (JST)
-To: OE-core <openembedded-core@lists.openembedded.org>
-From: Fan Xin <fan.xin@jp.fujitsu.com>
-Message-ID: <41bbea13-30ce-4d55-441c-ffdbb0f863f1@jp.fujitsu.com>
-Date: Thu, 6 Oct 2016 20:18:11 +0900
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.3.0
-MIME-Version: 1.0
-X-TM-AS-MML: disable
-Subject: rpm: Recover RPM4 to OE-core
+	Thu,  6 Oct 2016 05:18:12 -0700 (PDT)
+From: Ed Bartosh <ed.bartosh@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  6 Oct 2016 14:53:15 +0300
+Message-Id: <cover.1475754658.git.ed.bartosh@linux.intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [wic][PATCH 0/2] added 2 new test cases
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,36 +31,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Oct 2016 11:17:12 -0000
-Content-Type: text/plain; charset=iso-2022-jp; format=flowed; delsp=yes
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 06 Oct 2016 12:18:43 -0000
 
-Hi
+Hi,
 
-I did some work to figure out whether the smartpm could been built with  
-python3. However, I found smartpm is dependent with rpm, and OE-core  
-uses RPM5 which seems has some bug.
-http://rpm5.org/community/rpm-users/1098.html
+2 new test cases for oe-selftest wic test suite:
+  test image creation for systemd-bootdisk.wks
+  test image creation for sdimage-bootpart.wks
 
-RPM4 could be built with python3. So I think maybe we could recover RPM4  
-into OE-core which is deleted
-(oe-core a6e7a86f1635be9a688c56c25e9d215ea4d2cc84 )
+The following changes since commit f12825d4bf7091576856650123c7d7614b9089af:
 
-The drop reason is that RPM4 is buggy and no one want to maintain it.
+  scripts: Rename 'native' to 'oe-run-native' (2016-10-06 07:53:51 +0100)
 
-I build RPM4 in OE-core and the build is finished without any bug. And  
-next I will try to use smartpm to manage RPM4 packages in my local  
-environment.
+are available in the git repository at:
 
-By the way, could anyone give more detail info about the bugs in RPM4 or  
-any suggestion about how to make smartpm built with python3.
+  git://git.yoctoproject.org/poky-contrib ed/wic/add-2new-tests
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=ed/wic/add-2new-tests
 
-Thanks.
+Ed Bartosh (2):
+  wic: selftest: add test for systemd-bootdisk
+  wic: selftest: add test for sdimage-bootpart
 
-Best Regards,
+ meta/lib/oeqa/selftest/wic.py | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
 
-Fan
-
--- 
-
+--
+Regards,
+Ed
 
