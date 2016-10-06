@@ -1,21 +1,21 @@
-Return-Path: <seebs@seebs.net>
-Received: from mail.plethora.net (mail.plethora.net [184.173.250.112])
-	by mail.openembedded.org (Postfix) with ESMTP id 694D360684
+Return-Path: <sgw@linux.intel.com>
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+	by mail.openembedded.org (Postfix) with ESMTP id 400E460125
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Oct 2016 17:25:05 +0000 (UTC)
-Received: from [10.10.10.132] (home.seebs.net [74.122.98.108])
-	by mail.plethora.net (Postfix) with ESMTPSA id 32FD6C495D
-	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Oct 2016 12:25:05 -0500 (CDT)
-From: Seebs <seebs@seebs.net>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 06 Oct 2016 12:25:04 -0500
-Message-ID: <50A1C024-E820-495C-B498-36CFFACEF086@seebs.net>
-In-Reply-To: <1475768720-21649-1-git-send-email-joshua.g.lock@intel.com>
-References: <1475768720-21649-1-git-send-email-joshua.g.lock@intel.com>
-MIME-Version: 1.0
-X-Mailer: MailMate (1.9.5r5263)
-Subject: Re: [PATCH] pseudo: backport a patch to fix renameat()
+	Thu,  6 Oct 2016 18:38:58 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga104.jf.intel.com with ESMTP; 06 Oct 2016 11:39:00 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.31,454,1473145200"; d="scan'208";a="1061410887"
+Received: from swold-mobl2.amr.corp.intel.com ([10.255.86.96])
+	by orsmga002.jf.intel.com with ESMTP; 06 Oct 2016 11:38:59 -0700
+From: Saul Wold <sgw@linux.intel.com>
+To: openembedded-core@lists.openembedded.org,
+	richard.purdie@linuxfoundation.org
+Date: Thu,  6 Oct 2016 11:38:59 -0700
+Message-Id: <1475779139-13738-1-git-send-email-sgw@linux.intel.com>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH] xmlto: Add libxslt to native DEPENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,16 +28,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Oct 2016 17:25:07 -0000
-Content-Type: text/plain; format=flowed
+X-List-Received-Date: Thu, 06 Oct 2016 18:39:00 -0000
 
-On 6 Oct 2016, at 10:45, Joshua Lock wrote:
+xmlto requires xsltproc to work correctly, it was being included
+for the target, but may have been finding host contamination.
 
-> renameat calls under pseudo were losing extended attributes.
-> Backport the fix for this from pseudo upstream.
+[YOCTO #10366]
 
-ACKing this. Underlying problem was that renameat() was just totally 
-busted, in a way rename() used to be busted.
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
+---
+ meta/recipes-devtools/xmlto/xmlto_0.0.28.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
--s
+diff --git a/meta/recipes-devtools/xmlto/xmlto_0.0.28.bb b/meta/recipes-devtools/xmlto/xmlto_0.0.28.bb
+index 886e7b4..aaaeb6e 100644
+--- a/meta/recipes-devtools/xmlto/xmlto_0.0.28.bb
++++ b/meta/recipes-devtools/xmlto/xmlto_0.0.28.bb
+@@ -13,6 +13,7 @@ SRC_URI[md5sum] = "a1fefad9d83499a15576768f60f847c6"
+ SRC_URI[sha256sum] = "2f986b7c9a0e9ac6728147668e776d405465284e13c74d4146c9cbc51fd8aad3"
+ 
+ inherit autotools
++RDEPENDS_class-native = "libxslt-native"
+ 
+ # xmlto needs getopt/xmllint/xsltproc/bash/tail at runtime
+ RDEPENDS_${PN} = "docbook-xml-dtd4 \
+-- 
+2.7.4
+
 
