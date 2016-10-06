@@ -1,46 +1,34 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pa0-f68.google.com (mail-pa0-f68.google.com
-	[209.85.220.68])
-	by mail.openembedded.org (Postfix) with ESMTP id B792E60269
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 5432A600B3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Oct 2016 15:35:29 +0000 (UTC)
-Received: by mail-pa0-f68.google.com with SMTP id qn10so1270091pac.2
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 06 Oct 2016 08:35:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=96dYzYWuSTZ8G4akYS4eODqMSzyOgeF49PIMfAYyMn0=;
-	b=A/iC1/1H5L1SNW/mbpC8eumae6i3ReS39OHgIs9V/MHhVK64A70Y/wmPc0mLmalkV+
-	SebA8iVCNFqNj6njKZ1PUU/lxPHIXBYy1pm2pi7ogzlU+y3LsvRr695fHFgZqX/ENczx
-	3tuWgYIs2ygG2ohoLfynDyPg6gt+z0VDaZQlsHKAMAMTB2mR0LMaP5HXb2gK49h+uPE8
-	sdrbvSTgJ9AGxo4w9XBVkByXOPJG3Vmdd3Q00+vmE3wsNt0QiORTxVeh8BaZMe38C6zY
-	fy6P7j+Zjc07onUPY13t1uoAScattACqdGjLt+LrHymsP1zmlVbUN/8jn3+5zk/Gr/hh
-	Gfrg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=96dYzYWuSTZ8G4akYS4eODqMSzyOgeF49PIMfAYyMn0=;
-	b=NNgkgkusDhR7mZNQvGf8TkgCmWJnjFTByh8mgedMcsqan76XGLmMNy4dCQp188ULyH
-	cmEhXo7bsc3t1eBzuXp8cM4ZmDNsz0JzBEolVkS55nYnXyvjP3K0fvyNpg50PdgPvnyM
-	fbR766fvt6//se/qIes7HJeWjgCQpmgd/eozzlYQNXet+eztUvFlpTPaNw624U493uBf
-	i6nvxOepdT+yXzUHKCdZMbdxtF121xeW4Hwki0RP7nAu1x3BRhse4pH4Ogb+G6DfDITK
-	Q69wF9Aj1L/rhmEwuI3SObmDaQbKVgIu6y3tU5Ls482AIkgCalkpIY2OIz+/MZn+/rjY
-	evPw==
-X-Gm-Message-State: AA6/9RkB7RnOqNvzC8ok9gzNX1MVUDxMFvBnia5hROe7lnN91UvJf0seCRe3DZoePnC5MQ==
-X-Received: by 10.66.27.165 with SMTP id u5mr22556345pag.200.1475768130995;
-	Thu, 06 Oct 2016 08:35:30 -0700 (PDT)
-Received: from localhost.localdomain (c-76-102-32-192.hsd1.ca.comcast.net.
-	[76.102.32.192]) by smtp.gmail.com with ESMTPSA id
-	aa6sm23696142pad.46.2016.10.06.08.35.30
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 06 Oct 2016 08:35:30 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  6 Oct 2016 08:35:24 -0700
-Message-Id: <20161006153524.9996-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.10.0
-Cc: ross.burton@linux.intel.com
-Subject: [PATCH] security_flags: Diable PIE for mesa-gl
+	Thu,  6 Oct 2016 15:39:55 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u96FdtFg007761
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
+	Thu, 6 Oct 2016 08:39:55 -0700
+Received: from soho-mhatle-m.local (172.25.36.226) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.294.0;
+	Thu, 6 Oct 2016 08:39:54 -0700
+To: Khem Raj <raj.khem@gmail.com>
+References: <F0CA9E243F4F424B836EAC30E41BF4CF5DF514DB@PGSMSX104.gar.corp.intel.com>
+	<a3c142bf-8c0b-3f90-dda9-7f72dd4da1cf@windriver.com>
+	<CAMKF1spG=v7_wb_VYktNBL7NTan28NbB47G7u2B_-E43jBL8vQ@mail.gmail.com>
+	<687e0950-a18a-5d44-aeae-18517df275e6@windriver.com>
+	<4F081825-2EC8-4F85-9E55-1E24F215723D@gmail.com>
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+Message-ID: <89015693-dfeb-5b47-7c2b-386c85571dec@windriver.com>
+Date: Thu, 6 Oct 2016 10:39:53 -0500
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.12; rv:45.0)
+	Gecko/20100101 Thunderbird/45.4.0
+MIME-Version: 1.0
+In-Reply-To: <4F081825-2EC8-4F85-9E55-1E24F215723D@gmail.com>
+Cc: "Gupta, Rahul KumarXX" <rahul.kumarxx.gupta@intel.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: openssl: OpenSSL 1.1.x update
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,35 +41,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Oct 2016 15:35:29 -0000
+X-List-Received-Date: Thu, 06 Oct 2016 15:39:58 -0000
+Content-Type: text/plain; charset="windows-1252"
+Content-Transfer-Encoding: 7bit
 
-This creeped in along with rest of the changes in
-c999b3d88dfcffbe0fb66406fb0bff1fb66f34bc
-even after it was reported a build failure in mesa-gl
-This is also showing up on arm architecture now
+On 10/6/16 10:22 AM, Khem Raj wrote:
+> 
+>> On Oct 6, 2016, at 7:21 AM, Mark Hatle <mark.hatle@windriver.com> wrote:
+>>
+>> On 10/5/16 9:59 PM, Khem Raj wrote:
+>>> On Wed, Oct 5, 2016 at 7:33 PM, Mark Hatle <mark.hatle@windriver.com> wrote:
+>>>> On 10/5/16 9:11 PM, Tan, Raymond wrote:
+>>>>> Greetings, I would like to know if there is any plan / schedule to upgrade to openssl 1.1.0 into OE-core?
+>>>>
+>>>> Currently 1.0.2 is the LTS version of OpenSSL.  1.1.0 is not scheduled to be LTS.
+>>>>
+>>>> For the upcoming release (soon), I would NOT expect 1.1.0 to be in it.  There
+>>>> are still too many incompatibilities with other components.
+>>>>
+>>>> For the next version of OE, I think it is appropriate to include 1.1.0, but I
+>>>> would also like to maintain 1.0.2 for the time being.  (Beside LTS, it also is
+>>>> still the only way to have FIPS-140-2 module, as there is currently no module in
+>>>> the 1.1.0 -- and there may not be for a while.)
+>>>
+>>> What do we get with 1.1.0 ?
+>>
+>> Latest and greatest code of course.. :)
+>>
+>> Reality, not a lot more over 1.0.2... there are some significant redesigns that
+>> should help improve overall security of the OpenSSL library and items using the
+>> library.  But various things will have to be updated to make use of this.
+>>
+>> The OpenSSL community itself is looking at 1.1.0 as a transition to newer and
+>> better design/api/etc... which is why it is not marked as a LTS release.
+> 
+> api changes can be a bothersome point from integration POV, do we know if there
+> are some forwarded porting incompatibilities in APIs already?
 
-| /usr/src/debug/glibc/2.24-r0/git/csu/elf-init.c:87: undefined reference to `__init_array_end'
-| /usr/src/debug/glibc/2.24-r0/git/csu/elf-init.c:87: undefined reference to `__init_array_start'
-| /a/builder/mnt/build/tmp-glibc/sysroots/x86_64-linux/usr/libexec/arm-oe-linux-gnueabi/gcc/arm-oe-linux-gnueabi/6.2.0/ld: .libs/mesa_dri_drivers.so: hidden symbol `__init_array_end' isn't defined
+I have not investigated it, as my focus has been on the LTS version at this point.
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/conf/distro/include/security_flags.inc | 1 +
- 1 file changed, 1 insertion(+)
+--Mark
 
-diff --git a/meta/conf/distro/include/security_flags.inc b/meta/conf/distro/include/security_flags.inc
-index 1c1e50b..eca835e 100644
---- a/meta/conf/distro/include/security_flags.inc
-+++ b/meta/conf/distro/include/security_flags.inc
-@@ -66,6 +66,7 @@ SECURITY_CFLAGS_pn-libpcap = "${SECURITY_NO_PIE_CFLAGS}"
- SECURITY_CFLAGS_pn-libpcre = "${SECURITY_NO_PIE_CFLAGS}"
- SECURITY_CFLAGS_pn-libproxy = "${SECURITY_NO_PIE_CFLAGS}"
- SECURITY_CFLAGS_pn-mesa = "${SECURITY_NO_PIE_CFLAGS}"
-+SECURITY_CFLAGS_pn-mesa-gl = "${SECURITY_NO_PIE_CFLAGS}"
- SECURITY_CFLAGS_pn-openssl = "${SECURITY_NO_PIE_CFLAGS}"
- SECURITY_CFLAGS_pn-opensp = "${SECURITY_NO_PIE_CFLAGS}"
- SECURITY_CFLAGS_pn-ppp = "${SECURITY_NO_PIE_CFLAGS}"
--- 
-2.10.0
+>>
+>> Beside my basic understanding (above) there should be information as part of the
+>> 1.1.0 release notes.
+>>
+>> --Mark
+>>
+>>>>
+>>>> --Mark
+>>>>
+>>>>> Thanks!
+>>>>>
+>>>>> Raymond Tan
+>>>>>
+>>>>
+>>>> --
+>>>> _______________________________________________
+>>>> Openembedded-core mailing list
+>>>> Openembedded-core@lists.openembedded.org
+>>>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>>
+> 
 
 
