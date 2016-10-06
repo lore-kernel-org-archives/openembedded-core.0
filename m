@@ -1,28 +1,24 @@
-Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by mail.openembedded.org (Postfix) with ESMTP id 90499606BF
+Return-Path: <joshua.g.lock@linux.intel.com>
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+	by mail.openembedded.org (Postfix) with ESMTP id 5BE4A60103
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Oct 2016 12:18:44 +0000 (UTC)
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-	by orsmga105.jf.intel.com with ESMTP; 06 Oct 2016 05:18:46 -0700
+	Thu,  6 Oct 2016 12:42:51 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga104.jf.intel.com with ESMTP; 06 Oct 2016 05:42:49 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.31,453,1473145200"; d="scan'208";a="177007214"
-Received: from linux.intel.com ([10.54.29.200])
-	by fmsmga004.fm.intel.com with ESMTP; 06 Oct 2016 05:18:47 -0700
-Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.68])
-	by linux.intel.com (Postfix) with ESMTP id CA00E6A4006
-	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Oct 2016 05:18:16 -0700 (PDT)
-From: Ed Bartosh <ed.bartosh@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  6 Oct 2016 14:53:17 +0300
-Message-Id: <077a71ad641f7032eb49cb6eed44da550f6306e6.1475754658.git.ed.bartosh@linux.intel.com>
-X-Mailer: git-send-email 2.1.4
-In-Reply-To: <cover.1475754658.git.ed.bartosh@linux.intel.com>
-References: <cover.1475754658.git.ed.bartosh@linux.intel.com>
-In-Reply-To: <cover.1475754658.git.ed.bartosh@linux.intel.com>
-References: <cover.1475754658.git.ed.bartosh@linux.intel.com>
-Subject: [wic][PATCH 2/2] wic: selftest: add test for sdimage-bootpart
+X-IronPort-AV: E=Sophos;i="5.31,453,1473145200"; d="scan'208";a="1041133766"
+Received: from jlock-mobl1.ger.corp.intel.com ([10.252.29.86])
+	by orsmga001.jf.intel.com with ESMTP; 06 Oct 2016 05:42:49 -0700
+Message-ID: <1475757767.3146.12.camel@linux.intel.com>
+From: Joshua Lock <joshua.g.lock@linux.intel.com>
+To: Fan Xin <fan.xin@jp.fujitsu.com>, OE-core
+	<openembedded-core@lists.openembedded.org>
+Date: Thu, 06 Oct 2016 13:42:47 +0100
+In-Reply-To: <41bbea13-30ce-4d55-441c-ffdbb0f863f1@jp.fujitsu.com>
+References: <41bbea13-30ce-4d55-441c-ffdbb0f863f1@jp.fujitsu.com>
+X-Mailer: Evolution 3.20.5 (3.20.5-1.fc24) 
+Mime-Version: 1.0
+Subject: Re: rpm: Recover RPM4 to OE-core
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,32 +31,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Oct 2016 12:18:44 -0000
+X-List-Received-Date: Thu, 06 Oct 2016 12:42:52 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Test creation of sdimage-bootpart image
+Hi Fan,
 
-Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
----
- meta/lib/oeqa/selftest/wic.py | 8 ++++++++
- 1 file changed, 8 insertions(+)
+On Thu, 2016-10-06 at 20:18 +0900, Fan Xin wrote:
+> By the way, could anyone give more detail info about the bugs in RPM
 
-diff --git a/meta/lib/oeqa/selftest/wic.py b/meta/lib/oeqa/selftest/wic.py
-index bf1a860..faac11e 100644
---- a/meta/lib/oeqa/selftest/wic.py
-+++ b/meta/lib/oeqa/selftest/wic.py
-@@ -291,3 +291,11 @@ class Wic(oeSelfTest):
-         self.assertEqual(0, runCmd("wic create %s -e core-image-minimal" \
-                                    % image).status)
-         self.assertEqual(1, len(glob(self.resultdir + "%s-*direct" % image)))
-+
-+    def test_sdimage_bootpart(self):
-+        """Test creation of sdimage-bootpart image"""
-+        image = "sdimage-bootpart"
-+        self.write_config('IMAGE_BOOT_FILES = "bzImage"\n')
-+        self.assertEqual(0, runCmd("wic create %s -e core-image-minimal" \
-+                                   % image).status)
-+        self.assertEqual(1, len(glob(self.resultdir + "%s-*direct" % image)))
--- 
-2.1.4
+We removed rpm4 early this year[1] because rather than have people be
+surprised that it didn't work we decided to drop support for rpm4 until
+such time as the project had sufficient resources to properly maintain
+it.
 
+There were at least two issues[2][3] reported that indicated rpm4
+support was incomplete, though I believe they were mostly related to
+Smart's interactions with RPM 4 rather than any issue in RPM 4 itself.
+
+It's also worth pointing out that we're strongly considering dropping
+SMART in the next (2.3) development cycle[4].
+
+Do you have a reason for wanting rpm4 beyond the proven Python3
+support?
+
+Regards,
+
+Joshua
+
+1. http://lists.openembedded.org/pipermail/openembedded-core/2016-March
+/118849.html
+2. https://bugzilla.yoctoproject.org/show_bug.cgi?id=8968
+3. https://bugzilla.yoctoproject.org/show_bug.cgi?id=8969
+4. https://bugzilla.yoctoproject.org/show_bug.cgi?id=9675
 
