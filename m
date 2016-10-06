@@ -1,20 +1,25 @@
-Return-Path: <joshua.g.lock@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 457A76057A
+Return-Path: <pb@pbcl.net>
+Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
+	by mail.openembedded.org (Postfix) with ESMTP id E9E0660777
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Oct 2016 10:07:02 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga102.fm.intel.com with ESMTP; 06 Oct 2016 03:07:03 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.31,453,1473145200"; d="scan'208";a="1041080683"
-Received: from jlock-mobl1.ger.corp.intel.com ([10.252.29.86])
-	by orsmga001.jf.intel.com with ESMTP; 06 Oct 2016 03:07:02 -0700
-From: Joshua Lock <joshua.g.lock@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  6 Oct 2016 11:06:54 +0100
-Message-Id: <1475748414-11867-1-git-send-email-joshua.g.lock@intel.com>
-X-Mailer: git-send-email 2.7.4
-Subject: [PATCH] testimage: disable build tests for qemumips and qemumips64
+	Thu,  6 Oct 2016 10:12:23 +0000 (UTC)
+Received: from [2a00:14f0:e04c:51ac:f44a:248b:5b4:d695] (helo=phil-desktop)
+	by hetzner.pbcl.net with esmtpsa
+	(TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.84)
+	(envelope-from <pb@pbcl.net>)
+	id 1bs5f5-0003bq-4E; Thu, 06 Oct 2016 12:12:23 +0200
+Message-ID: <1475748742.16008.29.camel@pbcl.net>
+From: Phil Blundell <pb@pbcl.net>
+To: Markus Lehtonen <markus.lehtonen@linux.intel.com>, Andreas Oberritter
+	<obi@opendreambox.org>, openembedded-core@lists.openembedded.org
+Date: Thu, 06 Oct 2016 11:12:22 +0100
+In-Reply-To: <1475743775.13655.55.camel@linux.intel.com>
+References: <1475676667-24280-1-git-send-email-markus.lehtonen@linux.intel.com>
+	<b32b7b2f-68cc-31d6-d687-2eeb12aa196a@opendreambox.org>
+	<1475743775.13655.55.camel@linux.intel.com>
+X-Mailer: Evolution 3.18.3-1 
+Mime-Version: 1.0
+Subject: Re: [PATCH] update-rc.d.bbclass: check that init script exists before running it
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,41 +32,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Oct 2016 10:07:03 -0000
+X-List-Received-Date: Thu, 06 Oct 2016 10:12:24 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-It's not uncommon for qemumips[64] builds on the Yocto Project
-autobuilder to fail during Sanity Tests after a very long timeout
-period. This is due to the MIPS emulation in QEMU being slow and
-some of the build tests taking a very long time on MIPS machines.
+On Thu, 2016-10-06 at 11:49 +0300, Markus Lehtonen wrote:
+> On Wed, 2016-10-05 at 16:51 +0200, Andreas Oberritter wrote:
+> > Hello Markus,
+> > 
+> > On 05.10.2016 16:11, Markus Lehtonen wrote:
+> > > Check that the init script that is going to be called in the
+> > > prerm()
+> > > script really exists. There might be a packaging bug or the
+> > > script
+> > > might've been removed already earlier in prerm().
+> > 
+> > isn't it called prerm in the first place because it's not supposed
+> > to
+> > remove any packaged files?
+> 
+> In the case of this bug it does not remove any packaged files. Update
+> -alternatives removes a symlink (created by itself)
 
-This patch works around this slowness by disabling the more
-complex build tests for QEMU MIPS machines.
+That arguably is a bug in u-a, which probably ought to be removing the
+symlink in postrm not prerm.  If it removes the symlink too early and
+prevents u-rc.d from running "stop" on it then you may end up with
+dangling daemon processes still running after the package has been
+uninstalled.  But...
 
-[YOCTO #10340]
+> I think that the pre post etc scripts should basically never fail.
 
-Signed-off-by: Joshua Lock <joshua.g.lock@intel.com>
----
- meta/classes/testimage.bbclass | 6 ++++++
- 1 file changed, 6 insertions(+)
+... this is essentially true, and having u-rc.d's own prerm fail
+because of a bug in u-a definitely isn't going to improve the
+situation.  So I think your patch is a good one.
 
-diff --git a/meta/classes/testimage.bbclass b/meta/classes/testimage.bbclass
-index 5ddbecb..6b6781d 100644
---- a/meta/classes/testimage.bbclass
-+++ b/meta/classes/testimage.bbclass
-@@ -58,6 +58,12 @@ DEFAULT_TEST_SUITES_pn-meta-toolchain = "auto"
- # aarch64 has no graphics
- DEFAULT_TEST_SUITES_remove_aarch64 = "xorg"
- 
-+# qemumips is quite slow and has reached the timeout limit several times on the YP build cluster,
-+# mitigate this by removing build tests for qemumips machines.
-+MIPSREMOVE ??= "buildcvs buildiptables buildgalculator"
-+DEFAULT_TEST_SUITES_remove_qemumips = "${MIPSREMOVE}"
-+DEFAULT_TEST_SUITES_remove_qemumips64 = "${MIPSREMOVE}"
-+
- TEST_SUITES ?= "${DEFAULT_TEST_SUITES}"
- 
- TEST_QEMUBOOT_TIMEOUT ?= "1000"
--- 
-2.7.4
+p.
 
+> 
 
