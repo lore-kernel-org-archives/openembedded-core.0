@@ -1,22 +1,20 @@
 Return-Path: <brian.avery@intel.com>
 Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
-	by mail.openembedded.org (Postfix) with ESMTP id AE78671A72
+	by mail.openembedded.org (Postfix) with ESMTP id A2B5D71A94
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Oct 2016 00:22:14 +0000 (UTC)
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-	by orsmga104.jf.intel.com with ESMTP; 05 Oct 2016 17:22:13 -0700
+	Thu,  6 Oct 2016 00:41:35 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga104.jf.intel.com with ESMTP; 05 Oct 2016 17:41:37 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.31,451,1473145200"; d="scan'208";a="16729333"
+X-IronPort-AV: E=Sophos;i="5.31,451,1473145200"; d="scan'208";a="1061042094"
 Received: from bavery-ws-desk.jf.intel.com ([10.7.198.85])
-	by orsmga005.jf.intel.com with ESMTP; 05 Oct 2016 17:22:13 -0700
+	by orsmga002.jf.intel.com with ESMTP; 05 Oct 2016 17:41:37 -0700
 From: bavery <brian.avery@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  5 Oct 2016 17:23:41 -0700
-Message-Id: <6863f13b14e0561cc46d2a5f60308b395aa94d0d.1475713184.git.brian.avery@intel.com>
+Date: Wed,  5 Oct 2016 17:43:03 -0700
+Message-Id: <cover.1475714128.git.brian.avery@intel.com>
 X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1475713184.git.brian.avery@intel.com>
-References: <cover.1475713184.git.brian.avery@intel.com>
-Subject: [PATCH 1/1] uninative: users can override download site
+Subject: [PATCH 0/1 V2] yocto-uninative: allow URL override
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,32 +27,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Oct 2016 00:22:14 -0000
+X-List-Received-Date: Thu, 06 Oct 2016 00:41:37 -0000
 
-The default download site for the uninative tarball is
-http://downloads.yoctoproject.org/releases/uninative/<version>. There
-are scenarios in which the user may need to force the download to be
-somewhere else.  This patch allows the UNINATIVE_URL to be set in the
-local.conf.
+This changes the
+UNINATIVE_URL =
+to a
+UNINATIVE_URL ?=
 
-Signed-off-by: bavery <brian.avery@intel.com>
----
- conf/distro/include/yocto-uninative.inc | 2 +-
+so we can override it in the local.conf file.  This matches the form of the CHECKSUMS and is useful
+in the case that you have a special uninative or can't reach downloads.yoctoproject.org.
+
+-bavery
+p.s. The V2 is because my script cut the meta/ off the previous patch.
+
+
+The following changes since commit 4189a1977e65f71ddb8fc0498bcef91754c673d8:
+
+  bitbake: toaster: add Font Awesome license (2016-10-05 10:28:53 +0100)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib bavery/uninative-oe
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=bavery/uninative-oe
+
+bavery (1):
+  uninative:  users can override download site
+
+ meta/conf/distro/include/yocto-uninative.inc | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/conf/distro/include/yocto-uninative.inc b/conf/distro/include/yocto-uninative.inc
-index 2f794f7..975edec 100644
---- a/conf/distro/include/yocto-uninative.inc
-+++ b/conf/distro/include/yocto-uninative.inc
-@@ -6,6 +6,6 @@
- # to the distro running on the build machine.
- #
- 
--UNINATIVE_URL = "http://downloads.yoctoproject.org/releases/uninative/1.4/"
-+UNINATIVE_URL ?= "http://downloads.yoctoproject.org/releases/uninative/1.4/"
- UNINATIVE_CHECKSUM[i686] ?= "b4bc60511ce479736808273ffa043df4ed2a225407dd7ca150ae6220d9ce76d5"
- UNINATIVE_CHECKSUM[x86_64] ?= "101ff8f2580c193488db9e76f9646fb6ed38b65fb76f403acb0e2178ce7127ca"
--- 
+--
 1.9.1
-
 
