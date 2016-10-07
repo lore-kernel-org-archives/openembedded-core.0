@@ -1,47 +1,47 @@
-Return-Path: <maciej.borzecki@rndity.com>
-Received: from mail-wm0-f43.google.com (mail-wm0-f43.google.com [74.125.82.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 295E46FFD7
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io0-f181.google.com (mail-io0-f181.google.com
+	[209.85.223.181])
+	by mail.openembedded.org (Postfix) with ESMTP id 421D56022E
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  7 Oct 2016 07:21:03 +0000 (UTC)
-Received: by mail-wm0-f43.google.com with SMTP id i130so18018445wmg.1
+	Fri,  7 Oct 2016 07:42:30 +0000 (UTC)
+Received: by mail-io0-f181.google.com with SMTP id j37so39516889ioo.3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 07 Oct 2016 00:21:05 -0700 (PDT)
+	Fri, 07 Oct 2016 00:42:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=rndity-com.20150623.gappssmtp.com; s=20150623;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=l6cRfN2n4cFndyKDFxOms5O88llaKnBcCxo9xw4oh80=;
-	b=GPx4kj8OeJG50vGKIt68dhikmV2oaHBiEwJJgHW7EabPDjwTLaOCZtk7FBesk6Z834
-	TVkZdBHFz5jRu0/6bejNRXAiSO14sAyZU2KJtDFcscXKOKf3xMZPh/J/v3DlaeO63Qtb
-	wgOdOAAozPqjZAS92nIvnLGuc1nkC6zB065tmKg1N1HzZ/plsFT/RWTX6J0EP1lxF9lu
-	RhlqZpYlQp3NeuAbk2XGuC9H3oPAnhK7lmaal4fP/GgIBA9gm6MU53gvpfQc0yWC3frK
-	GhDHGRW1JhbePmDecZ0TWa6sG1japexa/B0NbLVrNqaY9dcKvdnDHCaOi2o8ywTS8F6O
-	bzrg==
+	:cc; bh=onP33FOuGNLEzYuQoEJQRUrp7FurQz1fmAW8Um654M8=;
+	b=rr0sXkokem/gdklMjYDzC9xdpg6qtVm+jOrLR22xz08yaY7FHEF5NGku6In64DnOuB
+	7CGpXBlojcS6v92wIUKP13wj+C9snug4YzRmTS1+xjIypdwCwWNTQerG9L2dK/7tArZm
+	V1RKCVNUBn5kgQJRfx67S6lTZxtBRU4YZUOgdzivyf2nqDAzeQi5B0Wg1yAq+lbNGb0e
+	EMiFxAZ3rkHjnBhrMnGOemmyoCKT8drtr9WhE89YhH5DDuYuWbvKoKFCY1puy4EVuMcc
+	0w1QvEbHpchu7MPd+Te0FvYhRWe3b3Fl720kX0FJqIToF6VYIijCnS8Q5A/k5SVHfuPY
+	S1WQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=l6cRfN2n4cFndyKDFxOms5O88llaKnBcCxo9xw4oh80=;
-	b=gtrB+xYvDjnrKQeZ/NV8mnK4p4UrRNYPB4nbC199ig2L6Yq5bQnVJNzTwzS7XxGwPc
-	RIjw1tr56kK4n2TChf7lkxS4eJucFCDdaTo5ALsNzD7a4zks7370sezjvleVkEUEh3uB
-	TDhO9x1kXX2NMR4GausaNFsMDq6qEN79EMc01oO52pAqKU61x+40fsIDDIGY4xDjVuLg
-	/fidk7pcfpB4gqvbpHReu59gQnGrO4YkzdQT/b01hvPbk5kvL08nEzVRWl9ItHzhCybo
-	yxMktMgL+gec4T4CdWhB+5wDOjj9GzbOJWwwFowri52l7Ofxsy1OwTMwfIlEbPAV8DFD
-	LeKw==
-X-Gm-Message-State: AA6/9RnqrHz0F/zzShMzaMaFXmS70u9lY+4Hmhq4brwj2j5ASrc4lZ2/teWv5RNVsVzdWAWUM36siKE+g2QMRw==
-X-Received: by 10.28.224.8 with SMTP id x8mr13731873wmg.59.1475824865077; Fri,
-	07 Oct 2016 00:21:05 -0700 (PDT)
+	bh=onP33FOuGNLEzYuQoEJQRUrp7FurQz1fmAW8Um654M8=;
+	b=f9jvHpyGytvtDf0ACK+pz+2fGiN9KTeXJdgcrsAPUByxchBlnA0SGI1slEKLry8ZtP
+	LEiSIiTufEEPa42J0ItGPL3jVAiGyJLPTcsAAzrpxmb+CTUzAqhYZishxly3YiHRIISO
+	5JfK+oxeo8VLQkyWgzURJ8SILgXJP/mg1qiG7PqKh49pT+9Piz6DIZofsG6rLwiGjg1w
+	Evu3lFQjl4ToVGW2XB+KUP1YG5+smGoHZWXss+lPuaPrV/aHfI88bPZ/0WPkV+hH8zEq
+	2eQklGEM5yAW2e73FlOCm3YAYuSYSgfDLaTWXxXCUT7psRyw0si77ckR7yKjOM3cRkKX
+	VU7A==
+X-Gm-Message-State: AA6/9Rl2fZ15eGpwa+uXx3TH/cWqLtenMAKBfho5+yGPtJsbLMUjSL72ThBVn2j0VtijOSEEwmkr03C3Db3VLfPX
+X-Received: by 10.107.5.72 with SMTP id 69mr6056772iof.132.1475826151396; Fri,
+	07 Oct 2016 00:42:31 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.80.164.89 with HTTP; Fri, 7 Oct 2016 00:20:44 -0700 (PDT)
-In-Reply-To: <354af725-27e7-ba35-2a45-514151904c32@jp.fujitsu.com>
-References: <41bbea13-30ce-4d55-441c-ffdbb0f863f1@jp.fujitsu.com>
-	<1475757767.3146.12.camel@linux.intel.com>
-	<354af725-27e7-ba35-2a45-514151904c32@jp.fujitsu.com>
-From: =?UTF-8?Q?Maciej_Borz=C4=99cki?= <maciej.borzecki@rndity.com>
-Date: Fri, 7 Oct 2016 09:20:44 +0200
-Message-ID: <CAD4b0_K4r+kUfUVAtcTSf--aJbUnbYttmRfvQdMGCiAikyo10w@mail.gmail.com>
-To: Fan Xin <fan.xin@jp.fujitsu.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: rpm: Recover RPM4 to OE-core
+Received: by 10.107.155.66 with HTTP; Fri, 7 Oct 2016 00:42:10 -0700 (PDT)
+In-Reply-To: <1475812376-20184-1-git-send-email-akuster808@gmail.com>
+References: <1475812376-20184-1-git-send-email-akuster808@gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 7 Oct 2016 08:42:10 +0100
+Message-ID: <CAJTo0LbLhZAeRahpMLU5dXogjRSqwm1QiHfRyOG9iHwHge+8oQ@mail.gmail.com>
+To: Armin Kuster <akuster808@gmail.com>
+Cc: Armin Kuster <akuster@mvista.com>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] mklibs-native: update broken SRC_URI
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,42 +54,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 07 Oct 2016 07:21:07 -0000
+X-List-Received-Date: Fri, 07 Oct 2016 07:42:31 -0000
+Content-Type: multipart/alternative; boundary=001a113efe2c81344d053e418d1b
+
+--001a113efe2c81344d053e418d1b
 Content-Type: text/plain; charset=UTF-8
 
-On Fri, Oct 7, 2016 at 5:19 AM, Fan Xin <fan.xin@jp.fujitsu.com> wrote:
-> Hi Joshua,
->
-> Thanks for your info.
->
-> Actually, our origin motivation is that we found smartpm is not maintained
-> any more. We maintain smartpm for our distro at
-> https://github.com/ubinux/smart2
->
-> Then we realize smartpm should switch to python3. In order to solve this
-> issue, there are four solutions as follows.
->
-> [1] smart/RPM5
-> [2] smart/RPM4
-> [3] dnf/RPM5
-> [4] dnf/RPM4
->
-> I confirm that RPM5 have some bugs with python3 and I am not familiar with
-> RPM. So I think the easy way to solve this issue is [2], recover RPM4 and
-> solve the bugs in smartpm.
->
->>
->> It's also worth pointing out that we're strongly considering dropping
->> SMART in the next (2.3) development cycle[4].
->>
-> Considering YP would like to drop smart in 2.3, I wonder YP would use
-> [3]dnf/RPM5 or [4]dnf/RPM4 ?
+On 7 October 2016 at 04:52, Armin Kuster <akuster808@gmail.com> wrote:
 
-BTW. do you recall the rationale behind abandoning zypper in 1.4? I'm
-curious about the motivation for using smart given its Python
-dependency.
+>
+> -SRC_URI = "http://ftp.de.debian.org/debian/pool/main/m/mklibs/${
+> BPN}_${PV}.tar.xz \
+> +SRC_URI = "http://archive.ubuntu.com/ubuntu/pool/main/m/mklibs/${
+> BPN}_${PV}.tar.xz \
 
--- 
-Maciej Borzecki
-RnDity
 
+Once the archive disappears from ubuntu releases then the same problem will
+happen again, right?  Generally we've been using snapshot.debian.org as
+that won't ever be removing releases.
+
+Ross
+
+--001a113efe2c81344d053e418d1b
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 7 October 2016 at 04:52, Armin Kuster <span dir=3D"ltr">&lt;<a href=3D"m=
+ailto:akuster808@gmail.com" target=3D"_blank">akuster808@gmail.com</a>&gt;<=
+/span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8=
+ex;border-left:1px #ccc solid;padding-left:1ex"><br>
+-SRC_URI =3D &quot;<a href=3D"http://ftp.de.debian.org/debian/pool/main/m/m=
+klibs/${BPN}_${PV}.tar.xz" rel=3D"noreferrer" target=3D"_blank">http://ftp.=
+de.debian.org/<wbr>debian/pool/main/m/mklibs/${<wbr>BPN}_${PV}.tar.xz</a> \=
+<br>
++SRC_URI =3D &quot;<a href=3D"http://archive.ubuntu.com/ubuntu/pool/main/m/=
+mklibs/${BPN}_${PV}.tar.xz" rel=3D"noreferrer" target=3D"_blank">http://arc=
+hive.ubuntu.com/<wbr>ubuntu/pool/main/m/mklibs/${<wbr>BPN}_${PV}.tar.xz</a>=
+ \</blockquote></div><br>Once the archive disappears from ubuntu releases t=
+hen the same problem will happen again, right?=C2=A0 Generally we&#39;ve be=
+en using <a href=3D"http://snapshot.debian.org">snapshot.debian.org</a> as =
+that won&#39;t ever be removing releases.</div><div class=3D"gmail_extra"><=
+br></div><div class=3D"gmail_extra">Ross</div></div>
+
+--001a113efe2c81344d053e418d1b--
