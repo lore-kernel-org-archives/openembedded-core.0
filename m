@@ -1,34 +1,24 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 23BAC71978
+Return-Path: <Bruce.Ashfield@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 5B10B60777
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  7 Oct 2016 16:21:47 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u97GLlls024170; Fri, 7 Oct 2016 17:21:47 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id XAmn9mrd3VAR; Fri,  7 Oct 2016 17:21:47 +0100 (BST)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u97GLgO3024166
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Fri, 7 Oct 2016 17:21:43 +0100
-Message-ID: <1475857302.30475.640.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Zubair Lutfullah Kakakhel <Zubair.Kakakhel@imgtec.com>, Mark Hatle
-	<mark.hatle@windriver.com>, openembedded-core@lists.openembedded.org
-Date: Fri, 07 Oct 2016 17:21:42 +0100
-In-Reply-To: <1475857189.30475.639.camel@linuxfoundation.org>
-References: <1475580681-55081-1-git-send-email-Zubair.Kakakhel@imgtec.com>
-	<9c3c5cc4-02e0-4a95-c6f6-9a282701c240@windriver.com>
-	<77aabb0f-ae71-2425-6a63-fabd27bed710@imgtec.com>
-	<1475855318.30475.633.camel@linuxfoundation.org>
-	<0e93c6bb-0b30-c203-5750-f470e2753f7c@imgtec.com>
-	<1475857189.30475.639.camel@linuxfoundation.org>
-X-Mailer: Evolution 3.18.5.2-0ubuntu3 
-Mime-Version: 1.0
-Subject: Re: [PATCH 0/9] Add MIPS release 6 ISA support
+	Fri,  7 Oct 2016 21:27:45 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u97LRjv6019470
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Fri, 7 Oct 2016 14:27:45 -0700 (PDT)
+Received: from yow-bashfiel-d4.wrs.com (128.224.56.94) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.294.0; Fri, 7 Oct 2016 14:27:44 -0700
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+To: <richard.purdie@linuxfoundation.org>
+Date: Fri, 7 Oct 2016 17:27:44 -0400
+Message-ID: <1475875664-28736-1-git-send-email-bruce.ashfield@windriver.com>
+X-Mailer: git-send-email 2.5.0
+MIME-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH] linux-yocto/4.8: Enable R8169 driver since its needed by supported platforms
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,41 +31,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 07 Oct 2016 16:21:48 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 07 Oct 2016 21:27:45 -0000
+Content-Type: text/plain
 
-On Fri, 2016-10-07 at 17:19 +0100, Richard Purdie wrote:
-> On Fri, 2016-10-07 at 17:07 +0100, Zubair Lutfullah Kakakhel wrote:
-> > 
-> > On 10/07/2016 04:48 PM, Richard Purdie wrote:
-> > > 
-> > > On Fri, 2016-10-07 at 12:53 +0100, Zubair Lutfullah Kakakhel
-> > > wrote:
-> > > What I will say though is that we really need to think about an
-> > > "allmips", or "mipsarch" override, rather than all these
-> > > duplicate
-> > > lines for all mips variants. This is something we should fix
-> > > early
-> > > in
-> > > the 2.3 cycle and should make some of this look a lot neater. It
-> > > might
-> > > be worth openening a bug for this in the bugzilla and assigning
-> > > that to
-> > > yourself, assuming you're happy to work on it?
-> > The duplicate lines are bothersome indeed.
-> > I'm happy to work on it. But I'm still a bit new to OE internals so
-> > would
-> > prefer a little direction regarding the best approach to take.
-> Very roughly speaking, you'd add something like:
-> 
-> MACHINEOVERRIDES =. "mipsarch"
+    The Realtek 8169 driver is needed by the Minnowboard MAX, one of the
+    boards we currently support, since some of our images do not contain
+    modules by default, the network isnt working on genericx86, genericx86-64
+    and intel-core2-32 (meta-intel) when no modules are installed.
 
-er, I do mean:
+    This patch fixes network on images not containing modules when
+    using the previously mentioned MACHINES for this board.
 
-MACHINEOVERRIDES =. "mipsarch:"
+Signed-off-by: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
+Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+---
+ meta/recipes-kernel/linux/linux-yocto-rt_4.8.bb   | 2 +-
+ meta/recipes-kernel/linux/linux-yocto-tiny_4.8.bb | 2 +-
+ meta/recipes-kernel/linux/linux-yocto_4.8.bb      | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
 
-Cheers,
+diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_4.8.bb b/meta/recipes-kernel/linux/linux-yocto-rt_4.8.bb
+index 90e1a4d74758..565d8997fa54 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-rt_4.8.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-rt_4.8.bb
+@@ -12,7 +12,7 @@ python () {
+ }
+ 
+ SRCREV_machine ?= "b266f7ba78f0cb3d7073e1bf7bd7dfc92bec7431"
+-SRCREV_meta ?= "6128a9e47cd1aeb46b604469c17bff3eba8d5f93"
++SRCREV_meta ?= "03bf3dd73190db9c615565d37c02f218382a2283"
+ 
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto-4.8.git;branch=${KBRANCH};name=machine \
+            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.8;destsuffix=${KMETA}"
+diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_4.8.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_4.8.bb
+index 1f026cf41bfe..b669efedd5dc 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-tiny_4.8.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-tiny_4.8.bb
+@@ -10,7 +10,7 @@ KMETA = "kernel-meta"
+ KCONF_BSP_AUDIT_LEVEL = "2"
+ 
+ SRCREV_machine ?= "67813e7efa3a4614e209c2f058d92ef9a636441a"
+-SRCREV_meta ?= "6128a9e47cd1aeb46b604469c17bff3eba8d5f93"
++SRCREV_meta ?= "03bf3dd73190db9c615565d37c02f218382a2283"
+ 
+ PV = "${LINUX_VERSION}+git${SRCPV}"
+ 
+diff --git a/meta/recipes-kernel/linux/linux-yocto_4.8.bb b/meta/recipes-kernel/linux/linux-yocto_4.8.bb
+index 5e01abc8aa94..bc4941bb22b2 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_4.8.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_4.8.bb
+@@ -19,7 +19,7 @@ SRCREV_machine_qemux86 ?= "67813e7efa3a4614e209c2f058d92ef9a636441a"
+ SRCREV_machine_qemux86-64 ?= "67813e7efa3a4614e209c2f058d92ef9a636441a"
+ SRCREV_machine_qemumips64 ?= "674818dad577cdfc23c6c857aa2b769fc64e379c"
+ SRCREV_machine ?= "67813e7efa3a4614e209c2f058d92ef9a636441a"
+-SRCREV_meta ?= "6128a9e47cd1aeb46b604469c17bff3eba8d5f93"
++SRCREV_meta ?= "03bf3dd73190db9c615565d37c02f218382a2283"
+ 
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto-4.8.git;name=machine;branch=${KBRANCH}; \
+            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.8;destsuffix=${KMETA}"
+-- 
+2.5.0
 
-Richard
 
