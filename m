@@ -1,47 +1,47 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pf0-f193.google.com (mail-pf0-f193.google.com
-	[209.85.192.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 540A970178
+Received: from mail-pf0-f195.google.com (mail-pf0-f195.google.com
+	[209.85.192.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 4D63660720
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  7 Oct 2016 16:09:16 +0000 (UTC)
-Received: by mail-pf0-f193.google.com with SMTP id 190so3074717pfv.1
+	Fri,  7 Oct 2016 16:13:29 +0000 (UTC)
+Received: by mail-pf0-f195.google.com with SMTP id i85so3072496pfa.0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 07 Oct 2016 09:09:18 -0700 (PDT)
+	Fri, 07 Oct 2016 09:13:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:subject:date:message-id;
-	bh=HwPeqQ77rYzuOLWmkpGbV62QRNzvUG/ADN8RL7n6Jo4=;
-	b=UExA/UjnqMGUAMk+o7lWHb6a+1JQYtHNu00gvjBj75vxhYblRIFmE7ml8YHh7dZjeM
-	45pDIESoRO4Xe9Foa5PTBHiPZJIqoMpJSHvF7IEdzjzCrR5XgFOynyfSk4uwn46C+i6Q
-	Z/mpO46kgc/zKTpqwjajUz01+fj2N/fF+Y+fNShf/NfCzbd1BMT3fmRA/xB1SCAUN1/4
-	jDX/wW1s/xcw4inHAviScJHKw801j4tTyL36StHoHl/jCClU/vWUATgJVD+o3Ks2Uf5X
-	qNHhnNKqj+icngePAgq+/NLQuz37d5ne1GMgfujY0m+N5s1GvneeASc3k9eVyOYLKSSD
-	ryig==
+	bh=EsP+dXOUCflNt7FhiqDYk+PNIVDn6EgZO3lK+Nt60ro=;
+	b=PGX6y5P0Gs0A3fRgRnCmoI/dzNwYnh3Toxoo4rZEkz9MEKOhGtDbjBIq8hkh/g43+o
+	QyveLX3CYHAGF01mkyxeP3l1ozpFN/tKmDB/+fGYmhaB7uJ02babedsIiZ5HmruWZVcf
+	SRDz5Bx3BmG+4QQJQUp3b28wHuIzugWfkWD4ayJpy7uWP45ExQXVMgl0oLNpucKX1Rnk
+	9WeNl2/y6r30DvmzKpzbnrB1Xvrh6IeLByo0ylV2+fS4BqnC9DgNY0N7VWK78HMrzMN4
+	yuE8gvfuXgaACbdXGNrx5pTB+IicZFjrh7XjTaNhxEOkDMRMxCnxRaePVwwOAaupGcYQ
+	b7HQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=HwPeqQ77rYzuOLWmkpGbV62QRNzvUG/ADN8RL7n6Jo4=;
-	b=OAjiq3gZankPp53ST3u1Jm8v+PfCWaPUmD3sAmthvl6arKsEcOgZS8lcQ0htfm7pTJ
-	Rwo85Vh4yv2SwSVl4bYBLw7bFvcWFyjdmSMlV7KotwuXA5SgTCeHgKkToxBn8dfv21yR
-	k5MKEPBht7myAlwPe0HGva6uHwQ+WKXBS2mhhFYaLnIsblWlVaZeCOUveqYZNX7KddW/
-	mF8+6Z1eGxGDl0dM4m/Z9w97OxekzFdkzDWE7O/J+C4WuEjSEM7DDZn94qwhyFpuQOcj
-	cbwrf4AaEpCRSd0qu6QkcUwmp7s4KNC4K5XuITMw+UI9SY6JMbd/Wk7/K455IUAVcLdY
-	I1hQ==
-X-Gm-Message-State: AA6/9Rn5X9hyPL4QOEZdBHlEnkC9wMEVP0YeoSF/c6t6A4ZISNJXwpziBokMJB9kUqN+OA==
-X-Received: by 10.98.65.80 with SMTP id o77mr17412557pfa.54.1475856558421;
-	Fri, 07 Oct 2016 09:09:18 -0700 (PDT)
+	bh=EsP+dXOUCflNt7FhiqDYk+PNIVDn6EgZO3lK+Nt60ro=;
+	b=Vp26l2nqlPLr4L3uSI3W/WErVyATjT6oyZ4xK8S2796wcxSGZwHRPp/buoQjTnrlYQ
+	2n7ShRHmv46kwLw9W/UKfcrGNY27T5GinsKyGdJio40mIX8unwofnpWFnFQvFHLyCi5/
+	qaD9ijvUBC8HATkJgKrpPoG1QqhK6mc/Xr95hCyK/eqND5fnxLFaJ07VpM/a35N3k3wO
+	Jjd7NuUUJd9mllMzcxqAJLrpX9pDX9KfvjevSZFhHzOL+JHP7EQrWhhOgTDrW/vytwoW
+	jigRJMjkyRDZG51wLcU6+5CBN6jtBkVfO7xlEB3VoILZsjgsBFpYnlwVgq42Y+J+C/tI
+	W4OQ==
+X-Gm-Message-State: AA6/9Rl2NSbAv0nM5Ivvne40xYeMCUbODBYDAkKkAA0wPgsGUzVO+gXA341n5yLxb/J1sg==
+X-Received: by 10.98.104.71 with SMTP id d68mr37711255pfc.163.1475856811251;
+	Fri, 07 Oct 2016 09:13:31 -0700 (PDT)
 Received: from akuster-ThinkPad-X240.hsd1.ca.comcast.net
 	([2601:202:4001:9ea0:4c9c:7764:1f56:1b2d])
 	by smtp.gmail.com with ESMTPSA id
-	u25sm15057422pfi.92.2016.10.07.09.09.17
+	fm6sm32116443pab.37.2016.10.07.09.13.30
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 07 Oct 2016 09:09:18 -0700 (PDT)
+	Fri, 07 Oct 2016 09:13:30 -0700 (PDT)
 From: Armin Kuster <akuster808@gmail.com>
 To: akuster@mvista.com,
 	openembedded-core@lists.openembedded.org
-Date: Fri,  7 Oct 2016 09:09:16 -0700
-Message-Id: <1475856556-16602-1-git-send-email-akuster808@gmail.com>
+Date: Fri,  7 Oct 2016 09:13:29 -0700
+Message-Id: <1475856809-16759-1-git-send-email-akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
-Subject: [PATCH] mklibs-native: update broken SRC_URI
+Subject: [V2][PATCH] mklibs-native: update broken SRC_URI
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,11 +54,13 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 07 Oct 2016 16:09:17 -0000
+X-List-Received-Date: Fri, 07 Oct 2016 16:13:30 -0000
 
 From: Armin Kuster <akuster@mvista.com>
 
 fixes checkuri AB failure.
+
+V2] change to snaphot instead of ubuntu
 
 ERROR: mklibs-native-0.1.41-r0 do_checkuri: Fetcher failure for URL: 'http://ftp.de.debian.org/debian/pool/main/m/mklibs/mklibs_0.1.41.tar.xz'. URL http://ftp.de.debian.org/debian/pool/main/m/mklibs/mklibs_0.1.41.tar.xz doesn't work
 ERROR: mklibs-native-0.1.41-r0 do_checkuri: Function failed: do_checkuri
