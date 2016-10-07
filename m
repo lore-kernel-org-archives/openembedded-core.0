@@ -1,32 +1,47 @@
-Return-Path: <Zubair.Kakakhel@imgtec.com>
-Received: from mailapp01.imgtec.com (mailapp02.imgtec.com [217.156.133.132])
-	by mail.openembedded.org (Postfix) with ESMTP id F117871981
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pf0-f193.google.com (mail-pf0-f193.google.com
+	[209.85.192.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 540A970178
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  7 Oct 2016 16:07:39 +0000 (UTC)
-Received: from HHMAIL03.hh.imgtec.org (unknown [10.44.0.21])
-	by Forcepoint Email with ESMTPS id A56E2517EDF0;
-	Fri,  7 Oct 2016 17:07:36 +0100 (IST)
-Received: from HHMAIL01.hh.imgtec.org (10.100.10.19) by HHMAIL03.hh.imgtec.org
-	(10.44.0.21) with Microsoft SMTP Server (TLS) id 14.3.294.0;
-	Fri, 7 Oct 2016 17:07:40 +0100
-Received: from zkakakhel-linux.le.imgtec.org (192.168.154.45) by
-	HHMAIL01.hh.imgtec.org (10.100.10.21) with Microsoft SMTP Server (TLS)
-	id 14.3.294.0; Fri, 7 Oct 2016 17:07:39 +0100
-To: Richard Purdie <richard.purdie@linuxfoundation.org>, Mark Hatle
-	<mark.hatle@windriver.com>, <openembedded-core@lists.openembedded.org>
-References: <1475580681-55081-1-git-send-email-Zubair.Kakakhel@imgtec.com>
-	<9c3c5cc4-02e0-4a95-c6f6-9a282701c240@windriver.com>
-	<77aabb0f-ae71-2425-6a63-fabd27bed710@imgtec.com>
-	<1475855318.30475.633.camel@linuxfoundation.org>
-From: Zubair Lutfullah Kakakhel <Zubair.Kakakhel@imgtec.com>
-Message-ID: <0e93c6bb-0b30-c203-5750-f470e2753f7c@imgtec.com>
-Date: Fri, 7 Oct 2016 17:07:39 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.2.0
-MIME-Version: 1.0
-In-Reply-To: <1475855318.30475.633.camel@linuxfoundation.org>
-X-Originating-IP: [192.168.154.45]
-Subject: Re: [PATCH 0/9] Add MIPS release 6 ISA support
+	Fri,  7 Oct 2016 16:09:16 +0000 (UTC)
+Received: by mail-pf0-f193.google.com with SMTP id 190so3074717pfv.1
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 07 Oct 2016 09:09:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:subject:date:message-id;
+	bh=HwPeqQ77rYzuOLWmkpGbV62QRNzvUG/ADN8RL7n6Jo4=;
+	b=UExA/UjnqMGUAMk+o7lWHb6a+1JQYtHNu00gvjBj75vxhYblRIFmE7ml8YHh7dZjeM
+	45pDIESoRO4Xe9Foa5PTBHiPZJIqoMpJSHvF7IEdzjzCrR5XgFOynyfSk4uwn46C+i6Q
+	Z/mpO46kgc/zKTpqwjajUz01+fj2N/fF+Y+fNShf/NfCzbd1BMT3fmRA/xB1SCAUN1/4
+	jDX/wW1s/xcw4inHAviScJHKw801j4tTyL36StHoHl/jCClU/vWUATgJVD+o3Ks2Uf5X
+	qNHhnNKqj+icngePAgq+/NLQuz37d5ne1GMgfujY0m+N5s1GvneeASc3k9eVyOYLKSSD
+	ryig==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=HwPeqQ77rYzuOLWmkpGbV62QRNzvUG/ADN8RL7n6Jo4=;
+	b=OAjiq3gZankPp53ST3u1Jm8v+PfCWaPUmD3sAmthvl6arKsEcOgZS8lcQ0htfm7pTJ
+	Rwo85Vh4yv2SwSVl4bYBLw7bFvcWFyjdmSMlV7KotwuXA5SgTCeHgKkToxBn8dfv21yR
+	k5MKEPBht7myAlwPe0HGva6uHwQ+WKXBS2mhhFYaLnIsblWlVaZeCOUveqYZNX7KddW/
+	mF8+6Z1eGxGDl0dM4m/Z9w97OxekzFdkzDWE7O/J+C4WuEjSEM7DDZn94qwhyFpuQOcj
+	cbwrf4AaEpCRSd0qu6QkcUwmp7s4KNC4K5XuITMw+UI9SY6JMbd/Wk7/K455IUAVcLdY
+	I1hQ==
+X-Gm-Message-State: AA6/9Rn5X9hyPL4QOEZdBHlEnkC9wMEVP0YeoSF/c6t6A4ZISNJXwpziBokMJB9kUqN+OA==
+X-Received: by 10.98.65.80 with SMTP id o77mr17412557pfa.54.1475856558421;
+	Fri, 07 Oct 2016 09:09:18 -0700 (PDT)
+Received: from akuster-ThinkPad-X240.hsd1.ca.comcast.net
+	([2601:202:4001:9ea0:4c9c:7764:1f56:1b2d])
+	by smtp.gmail.com with ESMTPSA id
+	u25sm15057422pfi.92.2016.10.07.09.09.17
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Fri, 07 Oct 2016 09:09:18 -0700 (PDT)
+From: Armin Kuster <akuster808@gmail.com>
+To: akuster@mvista.com,
+	openembedded-core@lists.openembedded.org
+Date: Fri,  7 Oct 2016 09:09:16 -0700
+Message-Id: <1475856556-16602-1-git-send-email-akuster808@gmail.com>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH] mklibs-native: update broken SRC_URI
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,52 +54,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 07 Oct 2016 16:07:41 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 07 Oct 2016 16:09:17 -0000
 
-Hi,
+From: Armin Kuster <akuster@mvista.com>
 
-On 10/07/2016 04:48 PM, Richard Purdie wrote:
-> On Fri, 2016-10-07 at 12:53 +0100, Zubair Lutfullah Kakakhel wrote:
->> On 10/06/2016 05:43 PM, Mark Hatle wrote:
->>>
->>> A few general comments.  I don't see an n32 variant
->>> implemented.  I'd suggest a
->>> follow on patch (vs a new version) to add n32.
->>>
->>> It looks like it's missing in the files modified by patches 6-9.
->> Thanks for the review.
->> Yes I haven't added the n32 variant on purpose at the moment.
->> Wanted to get this out to see if this is the correct approach.
->
-> I've been torn on these patches, they're good but they've come in very
-> late in the cycle for this kind of change. Since they're comparatively
-> straight forward to review, I've merged them. This is partly because I
-> wouldn't really want to backport changes like this later and it seemed
-> likely that might be requested.
+fixes checkuri AB failure.
 
-Thank you very much for merging them this cycle!
+ERROR: mklibs-native-0.1.41-r0 do_checkuri: Fetcher failure for URL: 'http://ftp.de.debian.org/debian/pool/main/m/mklibs/mklibs_0.1.41.tar.xz'. URL http://ftp.de.debian.org/debian/pool/main/m/mklibs/mklibs_0.1.41.tar.xz doesn't work
+ERROR: mklibs-native-0.1.41-r0 do_checkuri: Function failed: do_checkuri
 
->
-> What I will say though is that we really need to think about an
-> "allmips", or "mipsarch" override, rather than all these duplicate
-> lines for all mips variants. This is something we should fix early in
-> the 2.3 cycle and should make some of this look a lot neater. It might
-> be worth openening a bug for this in the bugzilla and assigning that to
-> yourself, assuming you're happy to work on it?
+[ Yocto #10391]
 
-The duplicate lines are bothersome indeed.
-I'm happy to work on it. But I'm still a bit new to OE internals so would
-prefer a little direction regarding the best approach to take.
+Signed-off-by: Armin Kuster <akuster@mvista.com>
+---
+ meta/recipes-devtools/mklibs/mklibs-native_0.1.41.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Regards,
-ZubairLK
+diff --git a/meta/recipes-devtools/mklibs/mklibs-native_0.1.41.bb b/meta/recipes-devtools/mklibs/mklibs-native_0.1.41.bb
+index a5da936..b3c1b5b 100644
+--- a/meta/recipes-devtools/mklibs/mklibs-native_0.1.41.bb
++++ b/meta/recipes-devtools/mklibs/mklibs-native_0.1.41.bb
+@@ -6,7 +6,7 @@ LICENSE = "GPLv2+"
+ LIC_FILES_CHKSUM = "file://debian/copyright;md5=98d31037b13d896e33890738ef01af64"
+ DEPENDS = "python-native"
+ 
+-SRC_URI = "http://ftp.de.debian.org/debian/pool/main/m/mklibs/${BPN}_${PV}.tar.xz \
++SRC_URI = "http://snapshot.debian.org/archive/debian/20160207T221625Z/pool/main/m/${BPN}/${BPN}_${PV}.tar.xz \
+ 	file://ac_init_fix.patch\
+ 	file://fix_STT_GNU_IFUNC.patch\
+ 	file://sysrooted-ldso.patch \
+-- 
+2.7.4
 
->
-> Cheers,
->
-> Richard
->
->
 
