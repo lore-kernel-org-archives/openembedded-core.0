@@ -1,47 +1,33 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pf0-f195.google.com (mail-pf0-f195.google.com
-	[209.85.192.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 4D63660720
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id A8C816071F
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  7 Oct 2016 16:13:29 +0000 (UTC)
-Received: by mail-pf0-f195.google.com with SMTP id i85so3072496pfa.0
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 07 Oct 2016 09:13:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:subject:date:message-id;
-	bh=EsP+dXOUCflNt7FhiqDYk+PNIVDn6EgZO3lK+Nt60ro=;
-	b=PGX6y5P0Gs0A3fRgRnCmoI/dzNwYnh3Toxoo4rZEkz9MEKOhGtDbjBIq8hkh/g43+o
-	QyveLX3CYHAGF01mkyxeP3l1ozpFN/tKmDB/+fGYmhaB7uJ02babedsIiZ5HmruWZVcf
-	SRDz5Bx3BmG+4QQJQUp3b28wHuIzugWfkWD4ayJpy7uWP45ExQXVMgl0oLNpucKX1Rnk
-	9WeNl2/y6r30DvmzKpzbnrB1Xvrh6IeLByo0ylV2+fS4BqnC9DgNY0N7VWK78HMrzMN4
-	yuE8gvfuXgaACbdXGNrx5pTB+IicZFjrh7XjTaNhxEOkDMRMxCnxRaePVwwOAaupGcYQ
-	b7HQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=EsP+dXOUCflNt7FhiqDYk+PNIVDn6EgZO3lK+Nt60ro=;
-	b=Vp26l2nqlPLr4L3uSI3W/WErVyATjT6oyZ4xK8S2796wcxSGZwHRPp/buoQjTnrlYQ
-	2n7ShRHmv46kwLw9W/UKfcrGNY27T5GinsKyGdJio40mIX8unwofnpWFnFQvFHLyCi5/
-	qaD9ijvUBC8HATkJgKrpPoG1QqhK6mc/Xr95hCyK/eqND5fnxLFaJ07VpM/a35N3k3wO
-	Jjd7NuUUJd9mllMzcxqAJLrpX9pDX9KfvjevSZFhHzOL+JHP7EQrWhhOgTDrW/vytwoW
-	jigRJMjkyRDZG51wLcU6+5CBN6jtBkVfO7xlEB3VoILZsjgsBFpYnlwVgq42Y+J+C/tI
-	W4OQ==
-X-Gm-Message-State: AA6/9Rl2NSbAv0nM5Ivvne40xYeMCUbODBYDAkKkAA0wPgsGUzVO+gXA341n5yLxb/J1sg==
-X-Received: by 10.98.104.71 with SMTP id d68mr37711255pfc.163.1475856811251;
-	Fri, 07 Oct 2016 09:13:31 -0700 (PDT)
-Received: from akuster-ThinkPad-X240.hsd1.ca.comcast.net
-	([2601:202:4001:9ea0:4c9c:7764:1f56:1b2d])
-	by smtp.gmail.com with ESMTPSA id
-	fm6sm32116443pab.37.2016.10.07.09.13.30
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 07 Oct 2016 09:13:30 -0700 (PDT)
-From: Armin Kuster <akuster808@gmail.com>
-To: akuster@mvista.com,
-	openembedded-core@lists.openembedded.org
-Date: Fri,  7 Oct 2016 09:13:29 -0700
-Message-Id: <1475856809-16759-1-git-send-email-akuster808@gmail.com>
-X-Mailer: git-send-email 2.7.4
-Subject: [V2][PATCH] mklibs-native: update broken SRC_URI
+	Fri,  7 Oct 2016 16:19:55 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u97GJsqf024109; Fri, 7 Oct 2016 17:19:54 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id d-6qXGj-5AkX; Fri,  7 Oct 2016 17:19:54 +0100 (BST)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u97GJnUB024104
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Fri, 7 Oct 2016 17:19:50 +0100
+Message-ID: <1475857189.30475.639.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Zubair Lutfullah Kakakhel <Zubair.Kakakhel@imgtec.com>, Mark Hatle
+	<mark.hatle@windriver.com>, openembedded-core@lists.openembedded.org
+Date: Fri, 07 Oct 2016 17:19:49 +0100
+In-Reply-To: <0e93c6bb-0b30-c203-5750-f470e2753f7c@imgtec.com>
+References: <1475580681-55081-1-git-send-email-Zubair.Kakakhel@imgtec.com>
+	<9c3c5cc4-02e0-4a95-c6f6-9a282701c240@windriver.com>
+	<77aabb0f-ae71-2425-6a63-fabd27bed710@imgtec.com>
+	<1475855318.30475.633.camel@linuxfoundation.org>
+	<0e93c6bb-0b30-c203-5750-f470e2753f7c@imgtec.com>
+X-Mailer: Evolution 3.18.5.2-0ubuntu3 
+Mime-Version: 1.0
+Subject: Re: [PATCH 0/9] Add MIPS release 6 ISA support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,38 +40,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 07 Oct 2016 16:13:30 -0000
+X-List-Received-Date: Fri, 07 Oct 2016 16:19:56 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-From: Armin Kuster <akuster@mvista.com>
+On Fri, 2016-10-07 at 17:07 +0100, Zubair Lutfullah Kakakhel wrote:
+> On 10/07/2016 04:48 PM, Richard Purdie wrote:
+> > On Fri, 2016-10-07 at 12:53 +0100, Zubair Lutfullah Kakakhel wrote:
+> > What I will say though is that we really need to think about an
+> > "allmips", or "mipsarch" override, rather than all these duplicate
+> > lines for all mips variants. This is something we should fix early
+> > in
+> > the 2.3 cycle and should make some of this look a lot neater. It
+> > might
+> > be worth openening a bug for this in the bugzilla and assigning
+> > that to
+> > yourself, assuming you're happy to work on it?
+> The duplicate lines are bothersome indeed.
+> I'm happy to work on it. But I'm still a bit new to OE internals so
+> would
+> prefer a little direction regarding the best approach to take.
 
-fixes checkuri AB failure.
+Very roughly speaking, you'd add something like:
 
-V2] change to snaphot instead of ubuntu
+MACHINEOVERRIDES =. "mipsarch"
 
-ERROR: mklibs-native-0.1.41-r0 do_checkuri: Fetcher failure for URL: 'http://ftp.de.debian.org/debian/pool/main/m/mklibs/mklibs_0.1.41.tar.xz'. URL http://ftp.de.debian.org/debian/pool/main/m/mklibs/mklibs_0.1.41.tar.xz doesn't work
-ERROR: mklibs-native-0.1.41-r0 do_checkuri: Function failed: do_checkuri
+to arch-mips.inc then you could do:
 
-[ Yocto #10391]
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 54a587f..7bd8716 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -528,16 +528,7 @@ BUILDSDK_LDFLAGS = "-Wl,-O1"
+ 
+ LINKER_HASH_STYLE ??= "gnu"
+ # mips does not support GNU hash style therefore we override
+-LINKER_HASH_STYLE_mips = "sysv"
+-LINKER_HASH_STYLE_mipsel = "sysv"
+-LINKER_HASH_STYLE_mips64 = "sysv"
+-LINKER_HASH_STYLE_mips64el = "sysv"
+-LINKER_HASH_STYLE_mips64n32 = "sysv"
+-LINKER_HASH_STYLE_mips64eln32 = "sysv"
+-LINKER_HASH_STYLE_mipsisa32r6 = "sysv"
+-LINKER_HASH_STYLE_mipsisa32r6el = "sysv"
+-LINKER_HASH_STYLE_mipsisa64r6 = "sysv"
+-LINKER_HASH_STYLE_mipsisa64r6el = "sysv"
++LINKER_HASH_STYLE_mipsarch = "sysv"
+ 
+ TARGET_LINK_HASH_STYLE ?= "${@['-Wl,--hash-style=gnu',''][d.getVar('LINKER_HASH_STYLE', True) != 'gnu']}"
 
-Signed-off-by: Armin Kuster <akuster@mvista.com>
----
- meta/recipes-devtools/mklibs/mklibs-native_0.1.41.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+amongst other nice cleanups.
 
-diff --git a/meta/recipes-devtools/mklibs/mklibs-native_0.1.41.bb b/meta/recipes-devtools/mklibs/mklibs-native_0.1.41.bb
-index a5da936..b3c1b5b 100644
---- a/meta/recipes-devtools/mklibs/mklibs-native_0.1.41.bb
-+++ b/meta/recipes-devtools/mklibs/mklibs-native_0.1.41.bb
-@@ -6,7 +6,7 @@ LICENSE = "GPLv2+"
- LIC_FILES_CHKSUM = "file://debian/copyright;md5=98d31037b13d896e33890738ef01af64"
- DEPENDS = "python-native"
- 
--SRC_URI = "http://ftp.de.debian.org/debian/pool/main/m/mklibs/${BPN}_${PV}.tar.xz \
-+SRC_URI = "http://snapshot.debian.org/archive/debian/20160207T221625Z/pool/main/m/${BPN}/${BPN}_${PV}.tar.xz \
- 	file://ac_init_fix.patch\
- 	file://fix_STT_GNU_IFUNC.patch\
- 	file://sysrooted-ldso.patch \
--- 
-2.7.4
+Cheers,
 
+Richard
 
