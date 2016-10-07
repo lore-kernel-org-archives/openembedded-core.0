@@ -1,33 +1,32 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 0C221719B8
+Return-Path: <Zubair.Kakakhel@imgtec.com>
+Received: from mailapp01.imgtec.com (mailapp02.imgtec.com [217.156.133.132])
+	by mail.openembedded.org (Postfix) with ESMTP id F117871981
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  7 Oct 2016 15:52:24 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u97FqKsJ020661; Fri, 7 Oct 2016 16:52:20 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id uPq8xgOifWnY; Fri,  7 Oct 2016 16:52:20 +0100 (BST)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u97FqIPq020657
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Fri, 7 Oct 2016 16:52:19 +0100
-Message-ID: <1475855537.30475.636.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Maciej =?UTF-8?Q?Borz=C4=99cki?= <maciej.borzecki@rndity.com>, Fan Xin
-	<fan.xin@jp.fujitsu.com>
-Date: Fri, 07 Oct 2016 16:52:17 +0100
-In-Reply-To: <CAD4b0_K4r+kUfUVAtcTSf--aJbUnbYttmRfvQdMGCiAikyo10w@mail.gmail.com>
-References: <41bbea13-30ce-4d55-441c-ffdbb0f863f1@jp.fujitsu.com>
-	<1475757767.3146.12.camel@linux.intel.com>
-	<354af725-27e7-ba35-2a45-514151904c32@jp.fujitsu.com>
-	<CAD4b0_K4r+kUfUVAtcTSf--aJbUnbYttmRfvQdMGCiAikyo10w@mail.gmail.com>
-X-Mailer: Evolution 3.18.5.2-0ubuntu3 
-Mime-Version: 1.0
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: rpm: Recover RPM4 to OE-core
+	Fri,  7 Oct 2016 16:07:39 +0000 (UTC)
+Received: from HHMAIL03.hh.imgtec.org (unknown [10.44.0.21])
+	by Forcepoint Email with ESMTPS id A56E2517EDF0;
+	Fri,  7 Oct 2016 17:07:36 +0100 (IST)
+Received: from HHMAIL01.hh.imgtec.org (10.100.10.19) by HHMAIL03.hh.imgtec.org
+	(10.44.0.21) with Microsoft SMTP Server (TLS) id 14.3.294.0;
+	Fri, 7 Oct 2016 17:07:40 +0100
+Received: from zkakakhel-linux.le.imgtec.org (192.168.154.45) by
+	HHMAIL01.hh.imgtec.org (10.100.10.21) with Microsoft SMTP Server (TLS)
+	id 14.3.294.0; Fri, 7 Oct 2016 17:07:39 +0100
+To: Richard Purdie <richard.purdie@linuxfoundation.org>, Mark Hatle
+	<mark.hatle@windriver.com>, <openembedded-core@lists.openembedded.org>
+References: <1475580681-55081-1-git-send-email-Zubair.Kakakhel@imgtec.com>
+	<9c3c5cc4-02e0-4a95-c6f6-9a282701c240@windriver.com>
+	<77aabb0f-ae71-2425-6a63-fabd27bed710@imgtec.com>
+	<1475855318.30475.633.camel@linuxfoundation.org>
+From: Zubair Lutfullah Kakakhel <Zubair.Kakakhel@imgtec.com>
+Message-ID: <0e93c6bb-0b30-c203-5750-f470e2753f7c@imgtec.com>
+Date: Fri, 7 Oct 2016 17:07:39 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.2.0
+MIME-Version: 1.0
+In-Reply-To: <1475855318.30475.633.camel@linuxfoundation.org>
+X-Originating-IP: [192.168.154.45]
+Subject: Re: [PATCH 0/9] Add MIPS release 6 ISA support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,29 +39,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 07 Oct 2016 15:52:29 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 07 Oct 2016 16:07:41 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Fri, 2016-10-07 at 09:20 +0200, Maciej Borzęcki wrote:
-> BTW. do you recall the rationale behind abandoning zypper in 1.4? I'm
-> curious about the motivation for using smart given its Python
-> dependency.
+Hi,
 
-zypper didn't cross compile easily and had a fairly nasty dependency
-chain if I remember rightly including things like boost. We had quite
-an extensive patchset against it and libzypp which could never be
-upstreamed:
+On 10/07/2016 04:48 PM, Richard Purdie wrote:
+> On Fri, 2016-10-07 at 12:53 +0100, Zubair Lutfullah Kakakhel wrote:
+>> On 10/06/2016 05:43 PM, Mark Hatle wrote:
+>>>
+>>> A few general comments.  I don't see an n32 variant
+>>> implemented.  I'd suggest a
+>>> follow on patch (vs a new version) to add n32.
+>>>
+>>> It looks like it's missing in the files modified by patches 6-9.
+>> Thanks for the review.
+>> Yes I haven't added the n32 variant on purpose at the moment.
+>> Wanted to get this out to see if this is the correct approach.
+>
+> I've been torn on these patches, they're good but they've come in very
+> late in the cycle for this kind of change. Since they're comparatively
+> straight forward to review, I've merged them. This is partly because I
+> wouldn't really want to backport changes like this later and it seemed
+> likely that might be requested.
 
-http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=fcdc8d7f6d10b3abf9
-f6a28cff55b1cc89b88bc9
+Thank you very much for merging them this cycle!
 
-zypper was also hostile to rpm5 if I remember rightly.
+>
+> What I will say though is that we really need to think about an
+> "allmips", or "mipsarch" override, rather than all these duplicate
+> lines for all mips variants. This is something we should fix early in
+> the 2.3 cycle and should make some of this look a lot neater. It might
+> be worth openening a bug for this in the bugzilla and assigning that to
+> yourself, assuming you're happy to work on it?
 
-Switching to something python based was much lower overhead on the
-system compared to C++ and boost.
+The duplicate lines are bothersome indeed.
+I'm happy to work on it. But I'm still a bit new to OE internals so would
+prefer a little direction regarding the best approach to take.
 
-Cheers,
+Regards,
+ZubairLK
 
-Richard
+>
+> Cheers,
+>
+> Richard
+>
+>
 
