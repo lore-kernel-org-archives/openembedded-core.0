@@ -1,46 +1,23 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pa0-f67.google.com (mail-pa0-f67.google.com
-	[209.85.220.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 86D8C605B3
+Return-Path: <ed.bartosh@linux.intel.com>
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+	by mail.openembedded.org (Postfix) with ESMTP id 87952606D0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  7 Oct 2016 03:52:56 +0000 (UTC)
-Received: by mail-pa0-f67.google.com with SMTP id r9so2048192paz.1
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 06 Oct 2016 20:52:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:subject:date:message-id;
-	bh=POagjFZzg1drmxx82j19Va7FylPNbYpwRXS/8BFl0as=;
-	b=ZdVy0padUji/WOjgwoxqmvqH26ZqzGEek9IsUwZA2lQRsAkVFvTziFs3cUzhC1cv8A
-	qzy5z6eBU+Ak5B4auT+UHgG37UiZR+X/zq3bcU859IoRFyR5ycxWr3TSJXoT8nxhItQ8
-	n371R4dpLiEH4tV30UL3tlYPa02BEi5oB2WXMwdWXb83JykaNqBIlDxU33jI5KV8MGyK
-	BcGzBQ6fUkQCsOtG3f72GdYreGVYXuVWk/V6Bx9oYqVMkR53I/vKlysjfhu3EZ14wr4L
-	mz2L6944/k13SmdG70kdGgF8Gjs2C8ZBaRjNTj6G+TTCJhVeaY6yuo0Z3oxyyhZRNsJ4
-	9Waw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=POagjFZzg1drmxx82j19Va7FylPNbYpwRXS/8BFl0as=;
-	b=BjVYOISZE3T+MW6YDcy/EeCynNboapmhVjEf5YBzlruGU/Acf3D4Zttsrd7ipQrUwV
-	ov1hZtehLTPVQdggOvEvZKSPvi3mHT/hTppdn02VWGifu4JW+7d8V7dB74oAwmJu1yuG
-	exUY8oG87sAOcTet63hKZWjNoZZDFHcCZLloQDGvh5Pn6vjvcLFI0VsDu7AJwcyGjGKA
-	bvd0xELekcmVvNHuyszVs5GY8FlSgyauFmtNwz8udY71xHddRG+uPWeCT0Pni/uC5TqA
-	HBaWPJXR4rDHVfG+v4mY+DASVEl1XGE6mC1KfQaA1yBzagup8uUyewysC822RjnX+z0w
-	5PGA==
-X-Gm-Message-State: AA6/9Rm3mNow/vdgqHSEwLo4nACly04ZH7uO7vvGemCrtdnWvHmBCZR17X0UzRX2kufxFw==
-X-Received: by 10.66.135.140 with SMTP id ps12mr27162840pab.14.1475812378230; 
-	Thu, 06 Oct 2016 20:52:58 -0700 (PDT)
-Received: from akuster-ThinkPad-X240.mvista.com
-	([2601:202:4001:9ea0:2889:3f0b:1a74:f67a])
-	by smtp.gmail.com with ESMTPSA id p5sm9331366pfp.7.2016.10.06.20.52.57
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 06 Oct 2016 20:52:57 -0700 (PDT)
-From: Armin Kuster <akuster808@gmail.com>
-To: akuster@mvista.com,
-	openembedded-core@lists.openembedded.org
-Date: Thu,  6 Oct 2016 20:52:56 -0700
-Message-Id: <1475812376-20184-1-git-send-email-akuster808@gmail.com>
-X-Mailer: git-send-email 2.7.4
-Subject: [PATCH] mklibs-native: update broken SRC_URI
+	Fri,  7 Oct 2016 06:55:30 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by orsmga105.jf.intel.com with ESMTP; 06 Oct 2016 23:55:31 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.31,308,1473145200"; d="scan'208";a="1067304755"
+Received: from linux.intel.com ([10.54.29.200])
+	by fmsmga002.fm.intel.com with ESMTP; 06 Oct 2016 23:55:31 -0700
+Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.68])
+	by linux.intel.com (Postfix) with ESMTP id A55496A4080;
+	Thu,  6 Oct 2016 23:55:01 -0700 (PDT)
+From: Ed Bartosh <ed.bartosh@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  7 Oct 2016 09:30:09 +0300
+Message-Id: <1475821809-12173-1-git-send-email-ed.bartosh@linux.intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [wic][PATCH] mkgummidisk.wks: update kernel command line
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,36 +30,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 07 Oct 2016 03:52:57 -0000
+X-List-Received-Date: Fri, 07 Oct 2016 06:55:31 -0000
 
-From: Armin Kuster <akuster@mvista.com>
+Used ttyS0 console.
+Removed usage of ttyPCH0 (FRI2 leftover)
+Decreased bootloader timeout to 5 seconds
+Removed 'vmalloc=256MB snd-hda-intel.enable_msi=0' as it's not
+needed for any of reference BSPs.
 
-fixes checkuri AB failure.
-
-ERROR: mklibs-native-0.1.41-r0 do_checkuri: Fetcher failure for URL: 'http://ftp.de.debian.org/debian/pool/main/m/mklibs/mklibs_0.1.41.tar.xz'. URL http://ftp.de.debian.org/debian/pool/main/m/mklibs/mklibs_0.1.41.tar.xz doesn't work
-ERROR: mklibs-native-0.1.41-r0 do_checkuri: Function failed: do_checkuri
-
-[ Yocto #10391]
-
-Signed-off-by: Armin Kuster <akuster@mvista.com>
+Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
 ---
- meta/recipes-devtools/mklibs/mklibs-native_0.1.41.bb | 2 +-
+ scripts/lib/wic/canned-wks/mkgummidisk.wks | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/mklibs/mklibs-native_0.1.41.bb b/meta/recipes-devtools/mklibs/mklibs-native_0.1.41.bb
-index a5da936..09ea88a 100644
---- a/meta/recipes-devtools/mklibs/mklibs-native_0.1.41.bb
-+++ b/meta/recipes-devtools/mklibs/mklibs-native_0.1.41.bb
-@@ -6,7 +6,7 @@ LICENSE = "GPLv2+"
- LIC_FILES_CHKSUM = "file://debian/copyright;md5=98d31037b13d896e33890738ef01af64"
- DEPENDS = "python-native"
+diff --git a/scripts/lib/wic/canned-wks/mkgummidisk.wks b/scripts/lib/wic/canned-wks/mkgummidisk.wks
+index 66a22f6..616d3ce 100644
+--- a/scripts/lib/wic/canned-wks/mkgummidisk.wks
++++ b/scripts/lib/wic/canned-wks/mkgummidisk.wks
+@@ -8,4 +8,4 @@ part / --source rootfs --ondisk sda --fstype=ext4 --label platform --align 1024
  
--SRC_URI = "http://ftp.de.debian.org/debian/pool/main/m/mklibs/${BPN}_${PV}.tar.xz \
-+SRC_URI = "http://archive.ubuntu.com/ubuntu/pool/main/m/mklibs/${BPN}_${PV}.tar.xz \
- 	file://ac_init_fix.patch\
- 	file://fix_STT_GNU_IFUNC.patch\
- 	file://sysrooted-ldso.patch \
+ part swap --ondisk sda --size 44 --label swap1 --fstype=swap
+ 
+-bootloader  --timeout=10  --append="rootwait rootfstype=ext4 console=ttyPCH0,115200 console=tty0 vmalloc=256MB snd-hda-intel.enable_msi=0"
++bootloader  --timeout=5  --append="rootwait rootfstype=ext4 console=ttyS0,115200 console=tty0"
 -- 
-2.7.4
+2.1.4
 
 
