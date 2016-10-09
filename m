@@ -1,26 +1,26 @@
 Return-Path: <Jackie.Huang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 7F749719CA
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id D74F3719F9
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  9 Oct 2016 01:14:30 +0000 (UTC)
+	Sun,  9 Oct 2016 01:14:32 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u991EVOt000970
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u991EXvD024630
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 8 Oct 2016 18:14:31 -0700 (PDT)
+	Sat, 8 Oct 2016 18:14:33 -0700
 Received: from pek-hostel-deb01.wrs.com (128.224.153.151) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.294.0; Sat, 8 Oct 2016 18:14:31 -0700
+	14.3.294.0; Sat, 8 Oct 2016 18:14:32 -0700
 From: <jackie.huang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Sun, 9 Oct 2016 08:56:06 +0800
-Message-ID: <fc1b7a7a722d7773af1919bc1fc087d0610f13da.1475973333.git.jackie.huang@windriver.com>
+Date: Sun, 9 Oct 2016 08:56:07 +0800
+Message-ID: <c29cd7e54cfdba0c62f2836b920d299e8215ec24.1475973333.git.jackie.huang@windriver.com>
 X-Mailer: git-send-email 2.8.3
 In-Reply-To: <cover.1475973333.git.jackie.huang@windriver.com>
 References: <cover.1475973333.git.jackie.huang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/2] Revert "linux-libc-headers: if_tunnel: remove include of if/ip/in6.h"
+Subject: [PATCH 2/2] net-tools: fix building with linux-4.8
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,71 +33,102 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 09 Oct 2016 01:14:30 -0000
+X-List-Received-Date: Sun, 09 Oct 2016 01:14:33 -0000
 Content-Type: text/plain
 
 From: Jackie Huang <jackie.huang@windriver.com>
 
-The issue is fixed in net-tools.
+Fix a build error when using the linux-4.8 headers that results in:
 
-This reverts commit fb71f34d7379569c23cc00e18d134093147613f5.
+In file included from
+.../sysroots/qemuarm64/usr/include/linux/if_tunnel.h:6:0,
+                  from iptunnel.c:39:
+.../qemuarm64/usr/include/linux/ip.h:85:8: error: redefinition of
+'struct iphdr'
+  struct iphdr {
+         ^~~~~
+In file included from iptunnel.c:29:0:
+.../qemuarm64/usr/include/netinet/ip.h:44:8: note: originally defined here
+  struct iphdr
+         ^~~~~
+Signed-off-by: Randy MacLeod <Randy.MacLeod@windriver.com>
+Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
 ---
- ...1-if_tunnel-remove-include-of-if-ip-in6.h.patch | 33 ----------------------
- .../linux-libc-headers/linux-libc-headers_4.8.bb   |  1 -
- 2 files changed, 34 deletions(-)
- delete mode 100644 meta/recipes-kernel/linux-libc-headers/linux-libc-headers/0001-if_tunnel-remove-include-of-if-ip-in6.h.patch
+ .../net-tools-fix-building-with-linux-4.8.patch    | 52 ++++++++++++++++++++++
+ .../net-tools/net-tools_1.60-26.bb                 |  1 +
+ 2 files changed, 53 insertions(+)
+ create mode 100644 meta/recipes-extended/net-tools/net-tools/net-tools-fix-building-with-linux-4.8.patch
 
-diff --git a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers/0001-if_tunnel-remove-include-of-if-ip-in6.h.patch b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers/0001-if_tunnel-remove-include-of-if-ip-in6.h.patch
-deleted file mode 100644
-index f201188..0000000
---- a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers/0001-if_tunnel-remove-include-of-if-ip-in6.h.patch
-+++ /dev/null
-@@ -1,33 +0,0 @@
--From 017ae5929312685c4c044765445bfd4d2a4abb5c Mon Sep 17 00:00:00 2001
--From: Bruce Ashfield <bruce.ashfield@windriver.com>
--Date: Mon, 3 Oct 2016 12:27:57 -0400
--Subject: [PATCH] if_tunnel: remove include of if/ip/in6.h
--
--commit 1fe8e0f074c [include/uapi/linux/if_tunnel.h: include linux/if.h, linux/ip.h and linux/in6.h]
--breaks the builds of net-tools.
--
--We remove the new includes until such a time that userspace can adapt to the
--new kernel headers.
--
--Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
-----
-- include/uapi/linux/if_tunnel.h | 3 ---
-- 1 file changed, 3 deletions(-)
--
--diff --git a/include/uapi/linux/if_tunnel.h b/include/uapi/linux/if_tunnel.h
--index 777b6cd..1046f55 100644
----- a/include/uapi/linux/if_tunnel.h
--+++ b/include/uapi/linux/if_tunnel.h
--@@ -2,9 +2,6 @@
-- #define _UAPI_IF_TUNNEL_H_
-- 
-- #include <linux/types.h>
---#include <linux/if.h>
---#include <linux/ip.h>
---#include <linux/in6.h>
-- #include <asm/byteorder.h>
-- 
-- 
---- 
--2.7.4
--
-diff --git a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_4.8.bb b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_4.8.bb
-index ee2d829..778f0b6 100644
---- a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_4.8.bb
-+++ b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_4.8.bb
-@@ -10,7 +10,6 @@ SRC_URI_append_libc-musl = "\
+diff --git a/meta/recipes-extended/net-tools/net-tools/net-tools-fix-building-with-linux-4.8.patch b/meta/recipes-extended/net-tools/net-tools/net-tools-fix-building-with-linux-4.8.patch
+new file mode 100644
+index 0000000..505eeb0
+--- /dev/null
++++ b/meta/recipes-extended/net-tools/net-tools/net-tools-fix-building-with-linux-4.8.patch
+@@ -0,0 +1,52 @@
++From 4d56645ea144a34f7cdd3e3ede6452d81fbae251 Mon Sep 17 00:00:00 2001
++From: Randy MacLeod <Randy.MacLeod@windriver.com>
++Date: Sat, 8 Oct 2016 14:42:54 +0800
++Subject: [PATCH] iptunnel.c: include linux/ip.h to fix building with linux-4.8
++
++Fix a build error when using the linux-4.8 headers that results in:
++
++In file included from
++.../sysroots/qemuarm64/usr/include/linux/if_tunnel.h:6:0,
++                  from iptunnel.c:39:
++.../qemuarm64/usr/include/linux/ip.h:85:8: error: redefinition of
++'struct iphdr'
++  struct iphdr {
++         ^~~~~
++In file included from iptunnel.c:29:0:
++.../qemuarm64/usr/include/netinet/ip.h:44:8: note: originally defined here
++  struct iphdr
++         ^~~~~
++
++Upstream-Status: Submitted [1]
++
++[1] https://sourceforge.net/p/net-tools/mailman/message/35413022/
++
++Signed-off-by: Randy MacLeod <Randy.MacLeod@windriver.com>
++Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
++---
++ iptunnel.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/iptunnel.c b/iptunnel.c
++index 4943d83..acfcbc7 100644
++--- a/iptunnel.c
+++++ b/iptunnel.c
++@@ -26,7 +26,6 @@
++ #include <sys/socket.h>
++ #include <sys/ioctl.h>
++ #include <netinet/in.h>
++-#include <netinet/ip.h>
++ #include <arpa/inet.h>
++ #if defined(__GLIBC__) && (__GLIBC__ > 2 || (__GLIBC__ == 2 && __GLIBC_MINOR__ >= 1))
++ #include <net/if.h>
++@@ -36,6 +35,7 @@
++ #include <linux/if_arp.h>
++ #endif
++ #include <linux/types.h>
+++#include <linux/ip.h>
++ #include <linux/if_tunnel.h>
++ 
++ #include "config.h"
++-- 
++2.8.3
++
+diff --git a/meta/recipes-extended/net-tools/net-tools_1.60-26.bb b/meta/recipes-extended/net-tools/net-tools_1.60-26.bb
+index 9c2adfa..47a68a5 100644
+--- a/meta/recipes-extended/net-tools/net-tools_1.60-26.bb
++++ b/meta/recipes-extended/net-tools/net-tools_1.60-26.bb
+@@ -16,6 +16,7 @@ SRC_URI = "http://snapshot.debian.org/archive/debian/20050312T000000Z/pool/main/
+            file://net-tools-1.60-sctp2-quiet.patch \
+            file://net-tools-1.60-sctp3-addrs.patch \
+            file://0001-lib-inet6.c-INET6_rresolve-various-fixes.patch \
++           file://net-tools-fix-building-with-linux-4.8.patch \
+           "
  
- SRC_URI_append = "\
-     file://0001-ppp-fix-in-if.h-includes.patch \
--    file://0001-if_tunnel-remove-include-of-if-ip-in6.h.patch \
-     "
- 
- SRC_URI[md5sum] = "c1af0afbd3df35c1ccdc7a5118cd2d07"
+ # for this package we're mostly interested in tracking debian patches,
 -- 
 2.8.3
 
