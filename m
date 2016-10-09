@@ -1,39 +1,31 @@
-Return-Path: <Jackie.Huang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id ECEA2719C3
+Return-Path: <Yuanjie.Huang@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 04BE0719BA
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  9 Oct 2016 01:17:21 +0000 (UTC)
-Received: from SAN-EXCH-DR.corp.ad.wrs.com (san-exch-dr.corp.ad.wrs.com
-	[128.224.40.16])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u991HMsq027179
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Sat, 8 Oct 2016 18:17:22 -0700 (PDT)
-Received: from SAN-EXCH-DR.corp.ad.wrs.com ([fe80::a5f3:e53f:df09:5848]) by
-	SAN-EXCH-DR.corp.ad.wrs.com ([fe80::a5f3:e53f:df09:5848%16]) with mapi
-	id 14.03.0301.000; Sat, 8 Oct 2016 18:17:01 -0700
-From: "Huang, Jie (Jackie)" <Jackie.Huang@windriver.com>
-To: "MacLeod, Randy" <Randy.MacLeod@windriver.com>, Bruce Ashfield
-	<bruce.ashfield@gmail.com>, Khem Raj <raj.khem@gmail.com>
-Thread-Topic: [OE-core] [PATCH] linux-libc-headers: if_tunnel: remove
-	include of if/ip/in6.h
-Thread-Index: AQHSIBO0lSwR8czD50OEJkgWFlBfTaCfVR+A
-Date: Sun, 9 Oct 2016 01:17:00 +0000
-Message-ID: <1B858668EC6A94408DCA5225FDFA85AA013A2F5C37@SAN-EXCH-DR.corp.ad.wrs.com>
-References: <1475513685-18627-1-git-send-email-bruce.ashfield@windriver.com>
-	<CAMKF1soRbsU8iV35jxKnRfrcvsobF20p_u14EfRZ5uee_9N+gg@mail.gmail.com>
-	<CAMKF1src3Dj1p+E5p+6QEu213dkFSFMOtDKx3hoJFT+hKvHn9Q@mail.gmail.com>
-	<CAMKF1soOP+440ZhymX8wFHu-Et=77NhscQqm4M8T2i=wQhmGNg@mail.gmail.com>
-	<CADkTA4NT6ynC61Pd_qRhwL8phc3Wzx0kXw=bzaDUAa8Or485ng@mail.gmail.com>
-	<3ea3b10b-1072-0d3a-8e6b-be082214e5d1@windriver.com>
-In-Reply-To: <3ea3b10b-1072-0d3a-8e6b-be082214e5d1@windriver.com>
-Accept-Language: en-US, zh-CN
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [128.224.176.118]
+	Sun,  9 Oct 2016 01:43:11 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u991h9Pq025137
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
+	Sat, 8 Oct 2016 18:43:09 -0700
+Received: from [128.224.162.159] (128.224.162.159) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.294.0;
+	Sat, 8 Oct 2016 18:43:08 -0700
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <20160920091958.23448-1-Yuanjie.Huang@windriver.com>
+	<CAMKF1sooPU-oSmeGuNQXjEUvgWfAXubQuKc6bk=L45WtRD4xjQ@mail.gmail.com>
+	<e72d26a5-046a-6c89-009c-7cbaf8aaab3c@windriver.com>
+	<CAJTo0LZv9h-BrVNypGiZEQqoGps09kioNwBfMtUncA8rUk7vvQ@mail.gmail.com>
+From: Yuanjie Huang <yuanjie.huang@windriver.com>
+Message-ID: <7c41e6fe-a064-f6ab-dd66-15016183a756@windriver.com>
+Date: Sun, 9 Oct 2016 09:43:07 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.4.0
 MIME-Version: 1.0
+In-Reply-To: <CAJTo0LZv9h-BrVNypGiZEQqoGps09kioNwBfMtUncA8rUk7vvQ@mail.gmail.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] linux-libc-headers: if_tunnel: remove include of if/ip/in6.h
+Subject: Re: [PATCH 1/1] gcc-sanitizers: Fix libtool library files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,58 +38,93 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 09 Oct 2016 01:17:22 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Sun, 09 Oct 2016 01:43:12 -0000
+Content-Type: multipart/alternative;
+	boundary="------------D5CD334E8479EA0985B4602E"
 
+--------------D5CD334E8479EA0985B4602E
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
+Hi Ross,
 
-> -----Original Message-----
-> From: MacLeod, Randy
-> Sent: Friday, October 07, 2016 4:54 AM
-> To: Bruce Ashfield; Khem Raj; Huang, Jie (Jackie)
-> Cc: Patches and discussions about the oe-core layer
-> Subject: Re: [OE-core] [PATCH] linux-libc-headers: if_tunnel: remove incl=
-ude of if/ip/in6.h
->=20
-> On 2016-10-03 08:27 PM, Bruce Ashfield wrote:
-> >
-> > It's something we could drop in the future, but these are mods that hav=
-e
-> > been done since -rc4, and could very well be undone if they start
-> > breaking things like this.
-> >
-> > The alternative is to try and fix the userspace applications, but I
-> > currently don't see a fast way to do that (and I'm now officially on
-> > vacation).
-> >
->=20
-> I've sent a fix to the net-tools list:
->=20
-> https://sourceforge.net/p/net-tools/mailman/net-tools-devel/?viewmonth=3D=
-201610
->=20
-> Jackie will be back at work on Saturday and he'll revert
-> Bruce's change, test all qemu builds and boot an image
-> to test iptunnel before sending a patch to the list.
-
-I just sent patches for this to the list.
+Is it recommended practice to remove libtool .la files for oe-core when 
+some issue pops? If yes, I would withdraw and prepare a new patch that 
+complies with the practice.
 
 Thanks,
-Jackie
+Yuanjie
 
->=20
-> In oe-core-2.3, we should probably drop net-tools completely or
-> at least from packagegroup-core-full-cmdline.bb since iproute2
-> replaces it:
->    http://xmodulo.com/linux-tcpip-networking-net-tools-iproute2.html
->=20
-> ( and I'm now officially on vacation for a few days. :) )
->=20
->=20
-> --
-> # Randy MacLeod. SMTS, Linux, Wind River
-> Direct: 613.963.1350 | 350 Terry Fox Drive, Suite 200, Ottawa, ON,
-> Canada, K2K 2W5
+On 09/21/2016 05:01 PM, Burton, Ross wrote:
+>
+> On 21 September 2016 at 02:46, Yuanjie Huang 
+> <yuanjie.huang@windriver.com <mailto:yuanjie.huang@windriver.com>> wrote:
+>
+>     We have some user making use of these libraries directly,
+>     otherwise, cross gcc can link these sanitizer libraries with just
+>     -fsantizer flag without problem. Without .la files, his flow can
+>     not be libtoolized.
+>
+>
+> libtool works fine without .la files on linux, which is why the 
+> remove-libtool class works (which can be a distro-level inherit and 
+> deletes every .la before it reaches the sysroot).
+>
+> Ross
 
+
+--------------D5CD334E8479EA0985B4602E
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+
+<html>
+  <head>
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+  </head>
+  <body bgcolor="#FFFFFF" text="#000000">
+    <p>Hi Ross,</p>
+    <p>Is it recommended practice to remove libtool .la files for
+      oe-core when some issue pops? If yes, I would withdraw and prepare
+      a new patch that complies with the practice.<br>
+    </p>
+    Thanks,<br>
+    Yuanjie<br>
+    <br>
+    <div class="moz-cite-prefix">On 09/21/2016 05:01 PM, Burton, Ross
+      wrote:<br>
+    </div>
+    <blockquote
+cite="mid:CAJTo0LZv9h-BrVNypGiZEQqoGps09kioNwBfMtUncA8rUk7vvQ@mail.gmail.com"
+      type="cite">
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <div dir="ltr">
+        <div class="gmail_extra"><br>
+          <div class="gmail_quote">On 21 September 2016 at 02:46,
+            Yuanjie Huang <span dir="ltr">&lt;<a moz-do-not-send="true"
+                href="mailto:yuanjie.huang@windriver.com"
+                target="_blank">yuanjie.huang@windriver.com</a>&gt;</span>
+            wrote:<br>
+            <blockquote class="gmail_quote" style="margin:0 0 0
+              .8ex;border-left:1px #ccc solid;padding-left:1ex">
+              <div id=":15q" class="a3s aXjCH m1574a6cecf964841">We have
+                some user making use of these libraries directly,
+                otherwise, cross gcc can link these sanitizer libraries
+                with just -fsantizer flag without problem. Without .la
+                files, his flow can not be libtoolized.<br>
+              </div>
+            </blockquote>
+          </div>
+          <br>
+          libtool works fine without .la files on linux, which is why
+          the remove-libtool class works (which can be a distro-level
+          inherit and deletes every .la before it reaches the sysroot).</div>
+        <div class="gmail_extra"><br>
+        </div>
+        <div class="gmail_extra">Ross</div>
+      </div>
+    </blockquote>
+    <br>
+  </body>
+</html>
+
+--------------D5CD334E8479EA0985B4602E--
