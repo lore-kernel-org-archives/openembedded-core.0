@@ -1,39 +1,24 @@
-Return-Path: <obi@opendreambox.org>
-Received: from mail.dream-property.net (mail.dream-property.net
-	[82.149.226.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 30B7A71998
+Return-Path: <Jackie.Huang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 2E6F5719CA
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  8 Oct 2016 14:41:09 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by mail.dream-property.net (Postfix) with ESMTP id 6A4F131A5B25;
-	Sat,  8 Oct 2016 16:41:10 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at mail.dream-property.net
-Received: from mail.dream-property.net ([127.0.0.1])
-	by localhost (mail.dream-property.net [127.0.0.1]) (amavisd-new,
-	port 10024)
-	with LMTP id nblhZm3O9Svh; Sat,  8 Oct 2016 16:41:08 +0200 (CEST)
-Received: from [172.22.22.61] (55d459eb.access.ecotel.net [85.212.89.235])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by mail.dream-property.net (Postfix) with ESMTPSA id A3D1831A5B23;
-	Sat,  8 Oct 2016 16:41:07 +0200 (CEST)
-To: Phil Blundell <pb@pbcl.net>,
-	Markus Lehtonen <markus.lehtonen@linux.intel.com>,
-	openembedded-core@lists.openembedded.org
-References: <1475676667-24280-1-git-send-email-markus.lehtonen@linux.intel.com>
-	<b32b7b2f-68cc-31d6-d687-2eeb12aa196a@opendreambox.org>
-	<1475743775.13655.55.camel@linux.intel.com>
-	<1475748742.16008.29.camel@pbcl.net>
-	<1475761616.13655.59.camel@linux.intel.com>
-	<1475766778.3605.22.camel@pbcl.net>
-From: Andreas Oberritter <obi@opendreambox.org>
-Message-ID: <c3ab9601-fa2a-1589-ebc8-d0444dca83c0@opendreambox.org>
-Date: Sat, 8 Oct 2016 16:41:06 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.3.0
+	Sun,  9 Oct 2016 01:14:29 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u991EToC027027
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 8 Oct 2016 18:14:30 -0700 (PDT)
+Received: from pek-hostel-deb01.wrs.com (128.224.153.151) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.294.0; Sat, 8 Oct 2016 18:14:29 -0700
+From: <jackie.huang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Sun, 9 Oct 2016 08:56:05 +0800
+Message-ID: <cover.1475973333.git.jackie.huang@windriver.com>
+X-Mailer: git-send-email 2.8.3
 MIME-Version: 1.0
-In-Reply-To: <1475766778.3605.22.camel@pbcl.net>
-Subject: Re: [PATCH] update-rc.d.bbclass: check that init script exists before running it
+Subject: [PATCH 0/2] net-tools: fix building with linux-4.8
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,62 +31,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 08 Oct 2016 14:41:10 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sun, 09 Oct 2016 01:14:30 -0000
+Content-Type: text/plain
 
-On 06.10.2016 17:12, Phil Blundell wrote:
-> On Thu, 2016-10-06 at 16:46 +0300, Markus Lehtonen wrote:
->>
-> It was moved to prerm earlier to fix some other problems:
->> http://git.openembedded.org/openembedded-core/commit/meta/classes/upd
->> ate-al
->> ternatives.bbclass?id=2a5484a90513b58c829a916bfe5268a0fde3512a
-> 
-> The commit message for that checkin is a bit vague about exactly what
-> problem it was solving.  It mentions that it "fixes deinstalling
-> alternatives for programs needed by the postrm script, e.g. /bin/sh"
-> but it's rather hard to see how that actually works.  If postrm
-> requires /bin/sh and prerm has deleted it then it's not obvious how
-> this is an improvement.
+From: Jackie Huang <jackie.huang@windriver.com>
 
-Sorry for the bad commit message back then.
+This is a follow-up from the thread:
+https://patchwork.openembedded.org/patch/132637/
 
-If you had both busybox and bash installed and had /bin/sh pointing to
-bash, then uninstalling bash failed, because the postrm script was
-started with a dangling symlink of /bin/sh.
+I reverted Bruce's change and picked Randy's fix for net-tools,
+build tests are fine for qemux86-64/ppc/arm/arm64/mips and I
+booted core-image-full-cmdline for qemuarm64 and checked that
+iptunnel works fine.
 
-The commit cited above fixes it, because when the prerm script finishes,
-/bin/sh will point to busybox, thus letting the postrm script of bash
-succeed.
+--
+The following changes since commit ac647ea6964e166c395334fe107015030adc1b76:
 
-> 
->> So I think moving it back and forth between prerm and postrm doesn't
->> get us
->> anywhere :)
-> 
-> That is a fair point, though I am not entirely convinced that the
-> commit you mentioned above is the correct solution to whatever problem
-> it thinks it's solving.
-> 
-> As it stands, with both things in prerm, you will get essentially
-> random behaviour depending on the order in which the two classes (u-
-> rc.d and u-a) are inherited by the recipe.  If u-a comes first then u-
-> rc.d will not be able to run the "stop" script (and the services will
-> not be stopped on package uninstallation), and vice versa.
-> 
-> So maybe these two classes just need to be taught to play together
-> better.
+  update-rc.d.bbclass: check that init script is executable before running it (2016-10-07 16:53:18 +0100)
 
-I think having update-alternatives manage an initscript is already a bug
-on its own. I haven't seen such a thing in debian or anywhere else
-before. Update-alternatives usually creates symlinks for programs which
-can be installed side-by-side. If two system services provide the same
-functionality, I guess the packages should better conflict with each
-other or at least have different initscript names (like apache2 and
-lighttpd for example), so they can both be started with adjusted
-configurations (e.g. using different tcp ports).
+are available in the git repository at:
 
-Regards,
-Andreas
+  git://git.pokylinux.org/poky-contrib.git jhuang0/d_net-tools-linux-4.8_161008-1
+  http://git.pokylinux.org/cgit.cgi//log/?h=jhuang0/d_net-tools-linux-4.8_161008-1
+
+Jackie Huang (2):
+  Revert "linux-libc-headers: if_tunnel: remove include of if/ip/in6.h"
+  net-tools: fix building with linux-4.8
+
+ .../net-tools-fix-building-with-linux-4.8.patch    | 52 ++++++++++++++++++++++
+ .../net-tools/net-tools_1.60-26.bb                 |  1 +
+ ...1-if_tunnel-remove-include-of-if-ip-in6.h.patch | 33 --------------
+ .../linux-libc-headers/linux-libc-headers_4.8.bb   |  1 -
+ 4 files changed, 53 insertions(+), 34 deletions(-)
+ create mode 100644 meta/recipes-extended/net-tools/net-tools/net-tools-fix-building-with-linux-4.8.patch
+ delete mode 100644 meta/recipes-kernel/linux-libc-headers/linux-libc-headers/0001-if_tunnel-remove-include-of-if-ip-in6.h.patch
+
+-- 
+2.8.3
+
 
