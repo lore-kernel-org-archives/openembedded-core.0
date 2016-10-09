@@ -1,26 +1,24 @@
 Return-Path: <Qi.Chen@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id C4923719CC
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id DFB45719E6
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  9 Oct 2016 09:23:31 +0000 (UTC)
+	Sun,  9 Oct 2016 09:23:29 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u999NW9Z019184
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u999NURt003231
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 9 Oct 2016 02:23:32 -0700 (PDT)
+	Sun, 9 Oct 2016 02:23:30 -0700
 Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.181) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.294.0; Sun, 9 Oct 2016 02:23:31 -0700
+	14.3.294.0; Sun, 9 Oct 2016 02:23:29 -0700
 From: Chen Qi <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Sun, 9 Oct 2016 17:23:48 +0800
-Message-ID: <e7f6b2d54c90833a8c6782a95283b8849438b3a9.1476004977.git.Qi.Chen@windriver.com>
+Date: Sun, 9 Oct 2016 17:23:47 +0800
+Message-ID: <cover.1476004977.git.Qi.Chen@windriver.com>
 X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1476004977.git.Qi.Chen@windriver.com>
-References: <cover.1476004977.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/1] systemd: avoid boot failures for mips64
+Subject: [PATCH 0/1] systemd: avoid boot failures for mips64
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,32 +31,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 09 Oct 2016 09:23:31 -0000
+X-List-Received-Date: Sun, 09 Oct 2016 09:23:32 -0000
 Content-Type: text/plain
 
-If we start a systemd based qemumips64 target with 'pam' enabled in
-DISTRO_FEATURES, we could not login in successfully. After you provide
-username and password to the login prompt, the login prompt just comes up
-again. Besides, there are other boot failures.
+The following changes since commit 747f59f5103995654f2b10a52d1dfd2dd4ad1a0e:
 
-Append '-O0' flag for mips64 target as a workaround to this problem.
+  linux-yocto/4.8: Enable R8169 driver since its needed by supported platforms (2016-10-08 07:45:53 +0100)
 
-[YOCTO #10250]
+are available in the git repository at:
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
----
+  git://git.openembedded.org/openembedded-core-contrib ChenQi/bug10250
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=ChenQi/bug10250
+
+Chen Qi (1):
+  systemd: avoid boot failures for mips64
+
  meta/recipes-core/systemd/systemd.inc | 1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-core/systemd/systemd.inc b/meta/recipes-core/systemd/systemd.inc
-index f800f42..db588e7 100644
---- a/meta/recipes-core/systemd/systemd.inc
-+++ b/meta/recipes-core/systemd/systemd.inc
-@@ -23,3 +23,4 @@ PV = "230+git${SRCPV}"
- S = "${WORKDIR}/git"
- 
- LDFLAGS_append_libc-uclibc = " -lrt -lssp_nonshared -lssp "
-+CFLAGS_append_mips64 = " -O0"
 -- 
 1.9.1
 
