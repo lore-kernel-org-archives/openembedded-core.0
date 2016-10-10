@@ -1,26 +1,46 @@
-Return-Path: <stephano.cetola@linux.intel.com>
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by mail.openembedded.org (Postfix) with ESMTP id 4DCFA6B6EA
+Return-Path: <ross.burton@intel.com>
+Received: from mail-it0-f46.google.com (mail-it0-f46.google.com
+	[209.85.214.46])
+	by mail.openembedded.org (Postfix) with ESMTP id BF2A365D00
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Oct 2016 13:15:25 +0000 (UTC)
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-	by orsmga105.jf.intel.com with ESMTP; 10 Oct 2016 06:15:26 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.31,324,1473145200"; d="scan'208";a="18485528"
-Received: from wpfong-mobl.amr.corp.intel.com ([10.254.97.32])
-	by orsmga004.jf.intel.com with ESMTP; 10 Oct 2016 06:15:26 -0700
-Date: Mon, 10 Oct 2016 06:15:37 -0700
-From: Stephano Cetola <stephano.cetola@linux.intel.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Message-ID: <20161010131537.GA42301@wpfong-mobl.amr.corp.intel.com>
-References: <20161007030947.12602-1-stephano.cetola@linux.intel.com>
-	<20161007030947.12602-2-stephano.cetola@linux.intel.com>
-	<1476013468.30475.681.camel@linuxfoundation.org>
+	Mon, 10 Oct 2016 13:15:50 +0000 (UTC)
+Received: by mail-it0-f46.google.com with SMTP id o19so78939423ito.1
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 10 Oct 2016 06:15:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=46mSEnnX/0VqORiXbc0Yzbz0ML2xgjWsn2+F2RTjvSE=;
+	b=dojLSmlYAKeCDkZBPITyb8IpOeH6bgj5dZcHN1P/GKRVy4jdTjLZCgHrKuEFp4rHwE
+	tOOua99g+EvmEOYWbUiaq/hFctHzhVky8Gm7rA8VkAo6A2MR7KpVJZRXgSJ+LnJnMI7Q
+	i1h3swVBsC9UR+eaJEDfV3E8cFmIqKGYqffE6/cf58PWe7mi6B3QSqtpWCiEhWmMyK9O
+	4VWED8XS27Y9wUiGzr3i6fix2wVfL/y1RWHpZQ2hVV7kY/Z+k3jsbmFOoJQ5gKYrxE2+
+	6vf/kzCn39SoMxuvU21rgJZNpbGdNWzoF5u1w3lv6U3HrWyuVNMHhk6ED5R6D3/3oPYf
+	CCQQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=46mSEnnX/0VqORiXbc0Yzbz0ML2xgjWsn2+F2RTjvSE=;
+	b=JAlSt5tFG9TfHOlNihoMEx1Umvtc4hpCsAU4X+h4VFAq34BRVC3eCbYbrEA4AZE7C2
+	bgg7EESr41JkysRQpvKT3ukRbcgXZbdMPAXMr03zT7DuZtR//57Pog7YnB8tNM6/Rr4y
+	TNkAkmNhGdmPDt8rDqkRmf7JZ7XSffE2E4GB0zj1wyMjprK65/c3PZhv7Tt+ohML630z
+	fcazKDbXTbpOmzujiMgWKNuDrxelJV1SW7dJRdNVnH3FEmlLWGwhwiwrfatac9lYHZsA
+	FYYmjJQ1mMNtiX3gFmTjjk6eEgLPWpO+RmoUDl9gnT6nk+5X6ZBlhi4n17Hezi2rfkmJ
+	QhQw==
+X-Gm-Message-State: AA6/9RllklNr0EoMXKfcwO9iRN33n4vjUdwl5YStRf38I5TuZQbJqXA3A8MUOyosiiXFPE5yeg5lGCWa3z0gZR1J
+X-Received: by 10.36.109.3 with SMTP id m3mr10630807itc.20.1476105351784; Mon,
+	10 Oct 2016 06:15:51 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <1476013468.30475.681.camel@linuxfoundation.org>
-User-Agent: Mutt/1.7.0 (2016-08-17)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH V2] subprocess: remove strings and migrate to direct arrays
+Received: by 10.107.155.66 with HTTP; Mon, 10 Oct 2016 06:15:31 -0700 (PDT)
+In-Reply-To: <1474872705-6005-1-git-send-email-zhe.he@windriver.com>
+References: <1474872705-6005-1-git-send-email-zhe.he@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 10 Oct 2016 14:15:31 +0100
+Message-ID: <CAJTo0LbyTob6_exkY1Qw-xvLRRo-SUgd5E_E8pojoe2fg=QGkw@mail.gmail.com>
+To: He Zhe <zhe.he@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] guile: Remove bashisms
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,55 +53,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 10 Oct 2016 13:15:27 -0000
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 10 Oct 2016 13:15:50 -0000
+Content-Type: multipart/alternative; boundary=001a1146f5d82527a0053e828f0c
 
-On 10/09, Richard Purdie wrote:
-> On Thu, 2016-10-06 at 20:09 -0700, Stephano Cetola wrote:
-> > 
-> > When using subprocess call and check_output, it is better to use
-> > arrays
-> > rather than strings when possible to avoid whitespace and quoting
-> > problems.
-> > 
-> > [ YOCTO #9342 ]
-> > 
-> > Signed-off-by: Stephano Cetola <stephano.cetola@linux.intel.com>
-> > ---
-> >  meta/lib/oe/distro_check.py    |   2 +-
-> >  meta/lib/oe/package.py         |  13 +--
-> >  meta/lib/oe/package_manager.py | 218 ++++++++++++++++++++-----------
-> > ----------
-> >  3 files changed, 114 insertions(+), 119 deletions(-)
-> This triggered a lot of errors on the autobuilder:
-> 
-> http://autobuilder.yocto.io:8010/builders/build-appliance/builds/70
-> http://autobuilder.yocto.io:8010/builders/nightly-x86/builds/75
-> http://autobuilder.yocto.io:8010/builders/nightly-x86-64/builds/73
-> http://autobuilder.yocto.io:8010/builders/nightly-x86-64-lsb/builds/72
-> http://autobuilder.yocto.io:8010/builders/nightly-x86-lsb/builds/73
-> http://autobuilder.yocto.io:8010/builders/nightly-wic/builds/73
-> http://autobuilder.yocto.io:8010/builders/nightly-qa-extras/builds/55
-> http://autobuilder.yocto.io:8010/builders/nightly-oe-selftest/builds/70
-> http://autobuilder.yocto.io:8010/builders/nightly-multilib/builds/78
-> 
-> and similar errors on the main AB. I've confirmed it is this patch
-> which causes the issue. Presumably some errors are occurring but are
-> currently silently being ignored?
+--001a1146f5d82527a0053e828f0c
+Content-Type: text/plain; charset=UTF-8
 
-The solution here is probably to write a thorough test for
-package_manager.py. I imagine that is the culprit. I'm fine with
-moving this to 2.3 and I'll add a bug to create a robust set of
-tests. 
+On 26 September 2016 at 07:51, <zhe.he@windriver.com> wrote:
 
-> 
-> Its probably worth looking into what is going on in case there is some
-> real issue here but at this point given the complexity of the changes
-> I'm leaning towwards deferring this for 2.3.
-> 
-> Cheers,
-> 
-> Richard
+> Remove bashisms from do_populate_sysroot task
+>
 
+This causes a change of behaviour that results in a stage error:
+
+ERROR: guile-2.0.12-r0 do_populate_sysroot: The recipe guile is trying to
+install files into a shared area when those files already exist. Those
+files and their manifest location are:
+
+ /data/poky-master/tmp-glibc/sysroots/intel-corei7-64/usr/bin/crossscripts/guile-config
+ Matched in b''
+Please verify which recipe should provide the above files.
+
+Ross
+
+--001a1146f5d82527a0053e828f0c
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 26 September 2016 at 07:51,  <span dir=3D"ltr">&lt;<a href=3D"mailto:zhe=
+.he@windriver.com" target=3D"_blank">zhe.he@windriver.com</a>&gt;</span> wr=
+ote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex=
+;border-left-width:1px;border-left-color:rgb(204,204,204);border-left-style=
+:solid;padding-left:1ex"><div id=3D"gmail-:4lm" class=3D"gmail-a3s gmail-aX=
+jCH gmail-m157654439018a42a">Remove bashisms from do_populate_sysroot task<=
+br></div></blockquote></div><br>This causes a change of behaviour that resu=
+lts in a stage error:</div><div class=3D"gmail_extra"><br></div><div class=
+=3D"gmail_extra"><div class=3D"gmail_extra">ERROR: guile-2.0.12-r0 do_popul=
+ate_sysroot: The recipe guile is trying to install files into a shared area=
+ when those files already exist. Those files and their manifest location ar=
+e:</div><div class=3D"gmail_extra">=C2=A0 =C2=A0/data/poky-master/tmp-glibc=
+/sysroots/intel-corei7-64/usr/bin/crossscripts/guile-config</div><div class=
+=3D"gmail_extra">=C2=A0Matched in b&#39;&#39;</div><div class=3D"gmail_extr=
+a">Please verify which recipe should provide the above files.</div><div cla=
+ss=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div></d=
+iv>
+
+--001a1146f5d82527a0053e828f0c--
