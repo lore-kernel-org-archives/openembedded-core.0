@@ -1,44 +1,45 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-it0-f53.google.com (mail-it0-f53.google.com
-	[209.85.214.53])
-	by mail.openembedded.org (Postfix) with ESMTP id A5A4C6078D
+Return-Path: <sona.sarmadi@enea.com>
+Received: from smtp-out10.electric.net (smtp-out10.electric.net
+	[185.38.180.40])
+	by mail.openembedded.org (Postfix) with ESMTP id 0257A6059F
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Oct 2016 11:26:14 +0000 (UTC)
-Received: by mail-it0-f53.google.com with SMTP id z65so67308863itc.0
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Oct 2016 04:26:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=uwtp/mWb9zIy4ojP+VsLDp0vrkZJN/Qd/2zqq0AgNIQ=;
-	b=h4R95suhmV8jd+O6YkDl5G0/jXB5ZV/ulUn2QvIYCLsqXKQ/u/IzinRXmkaHahrOLc
-	ASpTjK6/AAc3cWUSXr4uG8FffKZT9vgcWLpDeacHFV+B0cb5ImORoTHHtXF4MO1FQPu6
-	NXec/en6a3P2N8IfosDIdg4//4dXoFyjb2LKcaSfFFUbRj3tq4RBxZunacgxVBYr8uTu
-	J483uv8j/P7kr7aYiObwWD+lmkAcELBij/uCyfaqTTioskMc3IKf0oV0XzGPoopFlC3b
-	RFnCTH+yQigiHZ9ys8S7AJ6Sq1RVMZV2qBMgBxpiPr8PAqt6GIwz9VFrvYjG5mXUpvp0
-	vXOw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=uwtp/mWb9zIy4ojP+VsLDp0vrkZJN/Qd/2zqq0AgNIQ=;
-	b=KyeDkBMnOrE7MJR3BugEnz5ERpS31BT4KrOglFFdcZdgggyCQ5E+gDYdfbca94xYgh
-	Efy/ax2WPWlSOE6o1g1rAvYfri9gpquPceeyeS5iyVDhPdGz+QcmPvoxG4iSIesMFfQc
-	GJRTkmgSD8yqea+an4ho+MBdrZ6pSvSxaufEBF0Bb3WEv/0i4Jlb7TgHgxhr5nPLyAuV
-	8zx6wnwH8cI8GPtqlKlJWCnM3r+0nHUoLoLL+FjhSMlAtFH8NzmlG+vhPwJSbFsY0OcI
-	CAvkZ8QEe2CWZbbDBeSiTcEEor9RDTzqivj2dDC+ZtEl63cWUGu6cGW8iUVYR/SEWWgV
-	ea/g==
-X-Gm-Message-State: AA6/9RnwSsnP1921SV7KdfIBtcJqXilm/Pjs7R4eOXd3Nbenh+ZEFQtNdN04F5EGDS0qbSnNUHI7HrLsgPlI1p+7
-X-Received: by 10.36.109.3 with SMTP id m3mr10104944itc.20.1476098775433; Mon,
-	10 Oct 2016 04:26:15 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.107.155.66 with HTTP; Mon, 10 Oct 2016 04:25:55 -0700 (PDT)
-In-Reply-To: <3230301C09DEF9499B442BBE162C5E48ABE4A7CF@SESTOEX04.enea.se>
+	Mon, 10 Oct 2016 11:35:23 +0000 (UTC)
+Received: from 1btYrY-0002Nj-Tp by out10b.electric.net with emc1-ok (Exim 4.87)
+	(envelope-from <sona.sarmadi@enea.com>)
+	id 1btYrY-0002Of-VR; Mon, 10 Oct 2016 04:35:20 -0700
+Received: by emcmailer; Mon, 10 Oct 2016 04:35:20 -0700
+Received: from [192.36.1.72] (helo=mx-3.enea.com)
+	by out10b.electric.net with esmtps (TLSv1:AES128-SHA:128) (Exim 4.87)
+	(envelope-from <sona.sarmadi@enea.com>)
+	id 1btYrY-0002Nj-Tp; Mon, 10 Oct 2016 04:35:20 -0700
+Received: from SESTOEX04.enea.se ([fe80::bc2d:9299:d6b2:d0b7]) by
+	SESTOEX03.enea.se ([fe80::6ce7:7b51:1edf:e245%17]) with mapi id
+	14.03.0294.000; Mon, 10 Oct 2016 13:35:19 +0200
+From: Sona Sarmadi <sona.sarmadi@enea.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Thread-Topic: [OE-core] CVE-2016-0634 -- bash prompt expanding $HOSTNAME
+	patch for krogoth
+Thread-Index: AQHSIukiRp3HWP47f0qdwAP2nDqgrKChjnWg
+Date: Mon, 10 Oct 2016 11:35:19 +0000
+Message-ID: <3230301C09DEF9499B442BBE162C5E48ABE4A8B3@SESTOEX04.enea.se>
 References: <3230301C09DEF9499B442BBE162C5E48ABE4A7CF@SESTOEX04.enea.se>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 10 Oct 2016 12:25:55 +0100
-Message-ID: <CAJTo0LY6StdX90T1WF+7z4PDQHNjZYv6wf8ba3vF_=LJ9aLgJA@mail.gmail.com>
-To: Sona Sarmadi <sona.sarmadi@enea.com>
+	<CAJTo0LY6StdX90T1WF+7z4PDQHNjZYv6wf8ba3vF_=LJ9aLgJA@mail.gmail.com>
+In-Reply-To: <CAJTo0LY6StdX90T1WF+7z4PDQHNjZYv6wf8ba3vF_=LJ9aLgJA@mail.gmail.com>
+Accept-Language: sv-SE, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [172.16.142.231]
+MIME-Version: 1.0
+X-Outbound-IP: 192.36.1.72
+X-Env-From: sona.sarmadi@enea.com
+X-Proto: esmtps
+X-Revdns: mx-3.enea.com
+X-HELO: mx-3.enea.com
+X-TLS: TLSv1:AES128-SHA:128
+X-Authenticated_ID: 
+X-PolicySMART: 6551647
+X-Virus-Status: Scanned by VirusSMART (c)
+X-Virus-Status: Scanned by VirusSMART (s)
 Cc: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: CVE-2016-0634 -- bash prompt expanding $HOSTNAME patch for krogoth
@@ -54,44 +55,116 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 10 Oct 2016 11:26:15 -0000
-Content-Type: multipart/alternative; boundary=001a1146f5d829dcdc053e81079f
+X-List-Received-Date: Mon, 10 Oct 2016 11:35:26 -0000
+Content-Language: en-US
+Content-Type: multipart/alternative;
+	boundary="_000_3230301C09DEF9499B442BBE162C5E48ABE4A8B3SESTOEX04enease_"
 
---001a1146f5d829dcdc053e81079f
-Content-Type: text/plain; charset=UTF-8
+--_000_3230301C09DEF9499B442BBE162C5E48ABE4A8B3SESTOEX04enease_
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-On 10 October 2016 at 10:49, Sona Sarmadi <sona.sarmadi@enea.com> wrote:
+VGhhbmtzIFJvc3MsDQpJIGd1ZXNzIHlvdSBtZWFuIHN0cmlwbGV2ZWw/IFJpZ2h0PyBJdCBkaWRu
+4oCZdCB3b3JrIHdpdGggc3RyaXBudW0gYnV0IGl0IHdvcmtlZCB3aXRoIHN0cmlwbGV2ZWw6DQoN
+CiAgICAgICAgICBmaWxlOi8vQ1ZFLTIwMTYtMDYzNC5wYXRjaDtzdHJpcGxldmVsPTAgXA0KDQpG
+cm9tOiBCdXJ0b24sIFJvc3MgW21haWx0bzpyb3NzLmJ1cnRvbkBpbnRlbC5jb21dDQpTZW50OiBk
+ZW4gMTAgb2t0b2JlciAyMDE2IDEzOjI2DQpUbzogU29uYSBTYXJtYWRpIDxzb25hLnNhcm1hZGlA
+ZW5lYS5jb20+DQpDYzogQXJtaW4gS3VzdGVyIChha3VzdGVyODA4QGdtYWlsLmNvbSkgPGFrdXN0
+ZXI4MDhAZ21haWwuY29tPjsgb3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9y
+Zw0KU3ViamVjdDogUmU6IFtPRS1jb3JlXSBDVkUtMjAxNi0wNjM0IC0tIGJhc2ggcHJvbXB0IGV4
+cGFuZGluZyAkSE9TVE5BTUUgcGF0Y2ggZm9yIGtyb2dvdGgNCg0KDQpPbiAxMCBPY3RvYmVyIDIw
+MTYgYXQgMTA6NDksIFNvbmEgU2FybWFkaSA8c29uYS5zYXJtYWRpQGVuZWEuY29tPG1haWx0bzpz
+b25hLnNhcm1hZGlAZW5lYS5jb20+PiB3cm90ZToNCkVSUk9SOiBiYXNoLTQuMy4zMC1yMCBkb19w
+YXRjaDogQ29tbWFuZCBFcnJvcjogJ3F1aWx0IC0tcXVpbHRyYyAvZGF0YS9mYi9ob3BvLzYuMC9w
+b2t5L2J1aWxkLXFlbXVwcGMvdG1wL3N5c3Jvb3RzL3g4Nl82NC1saW51eC9ldGMvcXVpbHRyYyBw
+dXNoJyBleGl0ZWQgd2l0aCAxICBPdXRwdXQ6DQpBcHBseWluZyBwYXRjaCBDVkUtMjAxNi0wNjM0
+LnBhdGNoDQpjYW4ndCBmaW5kIGZpbGUgdG8gcGF0Y2ggYXQgaW5wdXQgbGluZSAyNQ0KUGVyaGFw
+cyB5b3UgdXNlZCB0aGUgd3JvbmcgLXAgb3IgLS1zdHJpcCBvcHRpb24/DQoNCklmIHRoZSBwYXRj
+aCBuZWVkcyAtcDAgdGhlbiB5b3UgbmVlZCB0byB0ZWxsIGJpdGJha2UgdGhpcyB3aXRoIHRoZSA7
+c3RyaXBudW09MCBwYXJhbWV0ZXIgaW4gU1JDX1VSSS4NCg0KUm9zcw0K
 
-> ERROR: bash-4.3.30-r0 do_patch: Command Error: 'quilt --quiltrc
-> /data/fb/hopo/6.0/poky/build-qemuppc/tmp/sysroots/x86_64-linux/etc/quiltrc
-> push' exited with 1  Output:
-> Applying patch CVE-2016-0634.patch
-> can't find file to patch at input line 25
-> Perhaps you used the wrong -p or --strip option?
->
+--_000_3230301C09DEF9499B442BBE162C5E48ABE4A8B3SESTOEX04enease_
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-If the patch needs -p0 then you need to tell bitbake this with the
-;stripnum=0 parameter in SRC_URI.
+PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
+bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
+YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
+cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
+VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
+Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
+ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTUgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
+PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
+IkNhbWJyaWEgTWF0aCI7DQoJcGFub3NlLTE6MiA0IDUgMyA1IDQgNiAzIDIgNDt9DQpAZm9udC1m
+YWNlDQoJe2ZvbnQtZmFtaWx5OkNhbGlicmk7DQoJcGFub3NlLTE6MiAxNSA1IDIgMiAyIDQgMyAy
+IDQ7fQ0KLyogU3R5bGUgRGVmaW5pdGlvbnMgKi8NCnAuTXNvTm9ybWFsLCBsaS5Nc29Ob3JtYWws
+IGRpdi5Nc29Ob3JtYWwNCgl7bWFyZ2luOjBjbTsNCgltYXJnaW4tYm90dG9tOi4wMDAxcHQ7DQoJ
+Zm9udC1zaXplOjEyLjBwdDsNCglmb250LWZhbWlseToiVGltZXMgTmV3IFJvbWFuIixzZXJpZjt9
+DQphOmxpbmssIHNwYW4uTXNvSHlwZXJsaW5rDQoJe21zby1zdHlsZS1wcmlvcml0eTo5OTsNCglj
+b2xvcjpibHVlOw0KCXRleHQtZGVjb3JhdGlvbjp1bmRlcmxpbmU7fQ0KYTp2aXNpdGVkLCBzcGFu
+Lk1zb0h5cGVybGlua0ZvbGxvd2VkDQoJe21zby1zdHlsZS1wcmlvcml0eTo5OTsNCgljb2xvcjpw
+dXJwbGU7DQoJdGV4dC1kZWNvcmF0aW9uOnVuZGVybGluZTt9DQpzcGFuLkVtYWlsU3R5bGUxNw0K
+CXttc28tc3R5bGUtdHlwZTpwZXJzb25hbC1yZXBseTsNCglmb250LWZhbWlseToiQ2FsaWJyaSIs
+c2Fucy1zZXJpZjsNCgljb2xvcjojMUY0OTdEO30NCi5Nc29DaHBEZWZhdWx0DQoJe21zby1zdHls
+ZS10eXBlOmV4cG9ydC1vbmx5Ow0KCWZvbnQtZmFtaWx5OiJDYWxpYnJpIixzYW5zLXNlcmlmO30N
+CkBwYWdlIFdvcmRTZWN0aW9uMQ0KCXtzaXplOjYxMi4wcHQgNzkyLjBwdDsNCgltYXJnaW46NzAu
+ODVwdCA3MC44NXB0IDcwLjg1cHQgNzAuODVwdDt9DQpkaXYuV29yZFNlY3Rpb24xDQoJe3BhZ2U6
+V29yZFNlY3Rpb24xO30NCi0tPjwvc3R5bGU+PCEtLVtpZiBndGUgbXNvIDldPjx4bWw+DQo8bzpz
+aGFwZWRlZmF1bHRzIHY6ZXh0PSJlZGl0IiBzcGlkbWF4PSIxMDI2IiAvPg0KPC94bWw+PCFbZW5k
+aWZdLS0+PCEtLVtpZiBndGUgbXNvIDldPjx4bWw+DQo8bzpzaGFwZWxheW91dCB2OmV4dD0iZWRp
+dCI+DQo8bzppZG1hcCB2OmV4dD0iZWRpdCIgZGF0YT0iMSIgLz4NCjwvbzpzaGFwZWxheW91dD48
+L3htbD48IVtlbmRpZl0tLT4NCjwvaGVhZD4NCjxib2R5IGxhbmc9IkVOLVVTIiBsaW5rPSJibHVl
+IiB2bGluaz0icHVycGxlIj4NCjxkaXYgY2xhc3M9IldvcmRTZWN0aW9uMSI+DQo8cCBjbGFzcz0i
+TXNvTm9ybWFsIj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVv
+dDtDYWxpYnJpJnF1b3Q7LHNhbnMtc2VyaWY7Y29sb3I6IzFGNDk3RCI+VGhhbmtzIFJvc3MsPG86
+cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9ImZv
+bnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OyxzYW5zLXNlcmlm
+O2NvbG9yOiMxRjQ5N0QiPkkgZ3Vlc3MgeW91IG1lYW4gc3RyaXBsZXZlbD8gUmlnaHQ/IEl0IGRp
+ZG7igJl0IHdvcmsgd2l0aCBzdHJpcG51bSBidXQgaXQgd29ya2VkIHdpdGggc3RyaXBsZXZlbDo8
+bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0i
+Zm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LHNhbnMtc2Vy
+aWY7Y29sb3I6IzFGNDk3RCI+PG86cD4mbmJzcDs8L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9
+Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1
+b3Q7Q2FsaWJyaSZxdW90OyxzYW5zLXNlcmlmO2NvbG9yOiMxRjQ5N0QiPiZuYnNwOyZuYnNwOyZu
+YnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyBmaWxlOi8vQ1ZFLTIwMTYt
+MDYzNC5wYXRjaDtzdHJpcGxldmVsPTAgXDxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNz
+PSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZx
+dW90O0NhbGlicmkmcXVvdDssc2Fucy1zZXJpZjtjb2xvcjojMUY0OTdEIj48bzpwPiZuYnNwOzwv
+bzpwPjwvc3Bhbj48L3A+DQo8ZGl2IHN0eWxlPSJib3JkZXI6bm9uZTtib3JkZXItbGVmdDpzb2xp
+ZCBibHVlIDEuNXB0O3BhZGRpbmc6MGNtIDBjbSAwY20gNC4wcHQiPg0KPGRpdj4NCjxkaXYgc3R5
+bGU9ImJvcmRlcjpub25lO2JvcmRlci10b3A6c29saWQgI0UxRTFFMSAxLjBwdDtwYWRkaW5nOjMu
+MHB0IDBjbSAwY20gMGNtIj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxiPjxzcGFuIHN0eWxlPSJm
+b250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssc2Fucy1zZXJp
+ZiI+RnJvbTo8L3NwYW4+PC9iPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFt
+aWx5OiZxdW90O0NhbGlicmkmcXVvdDssc2Fucy1zZXJpZiI+IEJ1cnRvbiwgUm9zcyBbbWFpbHRv
+OnJvc3MuYnVydG9uQGludGVsLmNvbV0NCjxicj4NCjxiPlNlbnQ6PC9iPiBkZW4gMTAgb2t0b2Jl
+ciAyMDE2IDEzOjI2PGJyPg0KPGI+VG86PC9iPiBTb25hIFNhcm1hZGkgJmx0O3NvbmEuc2FybWFk
+aUBlbmVhLmNvbSZndDs8YnI+DQo8Yj5DYzo8L2I+IEFybWluIEt1c3RlciAoYWt1c3RlcjgwOEBn
+bWFpbC5jb20pICZsdDtha3VzdGVyODA4QGdtYWlsLmNvbSZndDs7IG9wZW5lbWJlZGRlZC1jb3Jl
+QGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc8YnI+DQo8Yj5TdWJqZWN0OjwvYj4gUmU6IFtPRS1jb3Jl
+XSBDVkUtMjAxNi0wNjM0IC0tIGJhc2ggcHJvbXB0IGV4cGFuZGluZyAkSE9TVE5BTUUgcGF0Y2gg
+Zm9yIGtyb2dvdGg8bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8L2Rpdj4NCjwvZGl2Pg0KPHAgY2xh
+c3M9Ik1zb05vcm1hbCI+PG86cD4mbmJzcDs8L286cD48L3A+DQo8ZGl2Pg0KPGRpdj4NCjxwIGNs
+YXNzPSJNc29Ob3JtYWwiPjxvOnA+Jm5ic3A7PC9vOnA+PC9wPg0KPGRpdj4NCjxwIGNsYXNzPSJN
+c29Ob3JtYWwiPk9uIDEwIE9jdG9iZXIgMjAxNiBhdCAxMDo0OSwgU29uYSBTYXJtYWRpICZsdDs8
+YSBocmVmPSJtYWlsdG86c29uYS5zYXJtYWRpQGVuZWEuY29tIiB0YXJnZXQ9Il9ibGFuayI+c29u
+YS5zYXJtYWRpQGVuZWEuY29tPC9hPiZndDsgd3JvdGU6PG86cD48L286cD48L3A+DQo8YmxvY2tx
+dW90ZSBzdHlsZT0iYm9yZGVyOm5vbmU7Ym9yZGVyLWxlZnQ6c29saWQgI0NDQ0NDQyAxLjBwdDtw
+YWRkaW5nOjBjbSAwY20gMGNtIDYuMHB0O21hcmdpbi1sZWZ0OjQuOHB0O21hcmdpbi1yaWdodDow
+Y20iPg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPkVSUk9SOiBiYXNoLTQuMy4zMC1yMCBk
+b19wYXRjaDogQ29tbWFuZCBFcnJvcjogJ3F1aWx0IC0tcXVpbHRyYyAvZGF0YS9mYi9ob3BvLzYu
+MC9wb2t5L2J1aWxkLXFlbXVwcGMvdG1wL3N5c3Jvb3RzL3g4Nl82NC1saW51eC9ldGMvcXVpbHRy
+YyBwdXNoJyBleGl0ZWQgd2l0aCAxJm5ic3A7IE91dHB1dDo8bzpwPjwvbzpwPjwvcD4NCjwvZGl2
+Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPkFwcGx5aW5nIHBhdGNoIENWRS0yMDE2LTA2
+MzQucGF0Y2g8bzpwPjwvbzpwPjwvcD4NCjwvZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3Jt
+YWwiPmNhbid0IGZpbmQgZmlsZSB0byBwYXRjaCBhdCBpbnB1dCBsaW5lIDI1PG86cD48L286cD48
+L3A+DQo8L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj5QZXJoYXBzIHlvdSB1c2Vk
+IHRoZSB3cm9uZyAtcCBvciAtLXN0cmlwIG9wdGlvbj88bzpwPjwvbzpwPjwvcD4NCjwvZGl2Pg0K
+PC9ibG9ja3F1b3RlPg0KPC9kaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48YnI+DQpJZiB0aGUg
+cGF0Y2ggbmVlZHMgLXAwIHRoZW4geW91IG5lZWQgdG8gdGVsbCBiaXRiYWtlIHRoaXMgd2l0aCB0
+aGUgO3N0cmlwbnVtPTAgcGFyYW1ldGVyIGluIFNSQ19VUkkuPG86cD48L286cD48L3A+DQo8L2Rp
+dj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48bzpwPiZuYnNwOzwvbzpwPjwvcD4NCjwv
+ZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPlJvc3M8bzpwPjwvbzpwPjwvcD4NCjwv
+ZGl2Pg0KPC9kaXY+DQo8L2Rpdj4NCjwvZGl2Pg0KPC9ib2R5Pg0KPC9odG1sPg0K
 
-Ross
-
---001a1146f5d829dcdc053e81079f
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 10 October 2016 at 10:49, Sona Sarmadi <span dir=3D"ltr">&lt;<a href=3D"=
-mailto:sona.sarmadi@enea.com" target=3D"_blank">sona.sarmadi@enea.com</a>&g=
-t;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0=
- .8ex;border-left:1px #ccc solid;padding-left:1ex"><div>ERROR: bash-4.3.30-=
-r0 do_patch: Command Error: &#39;quilt --quiltrc /data/fb/hopo/6.0/poky/bui=
-ld-<wbr>qemuppc/tmp/sysroots/x86_64-<wbr>linux/etc/quiltrc push&#39; exited=
- with 1=C2=A0 Output:</div>
-<div>Applying patch CVE-2016-0634.patch</div>
-<div>can&#39;t find file to patch at input line 25</div>
-<div>Perhaps you used the wrong -p or --strip option?</div>
-<div></div></blockquote></div><br>If the patch needs -p0 then you need to t=
-ell bitbake this with the ;stripnum=3D0 parameter in SRC_URI.</div><div cla=
-ss=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
-
---001a1146f5d829dcdc053e81079f--
+--_000_3230301C09DEF9499B442BBE162C5E48ABE4A8B3SESTOEX04enease_--
