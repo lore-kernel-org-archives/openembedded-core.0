@@ -1,41 +1,35 @@
-Return-Path: <sona.sarmadi@enea.com>
-Received: from smtp-out10.electric.net (smtp-out10.electric.net
-	[185.38.180.33])
-	by mail.openembedded.org (Postfix) with ESMTP id ECA71719A2
+Return-Path: <aborduno@cisco.com>
+X-Greylist: delayed 585 seconds by postgrey-1.34 at layers.openembedded.org;
+	Mon, 10 Oct 2016 17:13:18 UTC
+Received: from alln-iport-1.cisco.com (alln-iport-1.cisco.com [173.37.142.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 66BBE71957
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Oct 2016 17:02:56 +0000 (UTC)
-Received: from 1btdya-0001pL-Ts by out10d.electric.net with emc1-ok (Exim 4.87)
-	(envelope-from <sona.sarmadi@enea.com>) id 1btdya-0001px-Ui
-	for openembedded-core@lists.openembedded.org;
-	Mon, 10 Oct 2016 10:02:56 -0700
-Received: by emcmailer; Mon, 10 Oct 2016 10:02:56 -0700
-Received: from [192.36.1.72] (helo=mx-3.enea.com)
-	by out10d.electric.net with esmtps (TLSv1:AES128-SHA:128) (Exim 4.87)
-	(envelope-from <sona.sarmadi@enea.com>) id 1btdya-0001pL-Ts
-	for openembedded-core@lists.openembedded.org;
-	Mon, 10 Oct 2016 10:02:56 -0700
-Received: from sestofb11.enea.se (172.21.3.152) by smtp.enea.com
-	(172.21.1.208) with Microsoft SMTP Server id 14.3.294.0;
-	Mon, 10 Oct 2016 19:02:56 +0200
-From: Sona Sarmadi <sona.sarmadi@enea.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 10 Oct 2016 13:54:35 +0200
-Message-ID: <1476100475-54954-1-git-send-email-sona.sarmadi@enea.com>
-X-Mailer: git-send-email 1.9.1
-MIME-Version: 1.0
-Received-SPF: None (SESTOEX08.enea.se: sona.sarmadi@enea.com does not
-	designate permitted sender hosts)
-X-Outbound-IP: 192.36.1.72
-X-Env-From: sona.sarmadi@enea.com
-X-Proto: esmtps
-X-Revdns: mx-3.enea.com
-X-HELO: mx-3.enea.com
-X-TLS: TLSv1:AES128-SHA:128
-X-Authenticated_ID: 
-X-PolicySMART: 6551647
-X-Virus-Status: Scanned by VirusSMART (c)
-X-Virus-Status: Scanned by VirusSMART (s)
-Subject: [PATCH][krogoth] bash: Security fix CVE-2016-0634
+	Mon, 10 Oct 2016 17:13:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+	d=cisco.com; i=@cisco.com; l=1962; q=dns/txt; s=iport;
+	t=1476119600; x=1477329200;
+	h=from:to:cc:subject:date:message-id;
+	bh=qNSbmk0lbf00q5PMUxBo70AXvSKWPsjdOOjw3LZY9Yk=;
+	b=eBZrawmKYVJs6UGgm2ZIl1pLq4furlxjEWhv2gGGl89U1nnu4ngJHlWM
+	TqhxHVs57b2FtzY3caQTbvRwmSzbLSQJWxM0DlGNAyzYJxyPFw/BOy5EK
+	BLuSEC4AawUzqsyujUBfyVWLoo7HWjxWrvSiS9cRUIVrc1yCGcRbLyPzW s=;
+X-IronPort-AV: E=Sophos;i="5.31,325,1473120000"; d="scan'208";a="334048353"
+Received: from alln-core-12.cisco.com ([173.36.13.134])
+	by alln-iport-1.cisco.com with ESMTP/TLS/DHE-RSA-AES256-SHA;
+	10 Oct 2016 17:03:34 +0000
+Received: from kbp1-dhp-f50810.synapse.com.com ([10.24.113.125])
+	(authenticated bits=0)
+	by alln-core-12.cisco.com (8.14.5/8.14.5) with ESMTP id u9AH3Mbd024555
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Mon, 10 Oct 2016 17:03:33 GMT
+From: Andrii Bordunov <aborduno@cisco.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 10 Oct 2016 20:02:35 +0300
+Message-Id: <1476118955-12401-1-git-send-email-aborduno@cisco.com>
+X-Mailer: git-send-email 2.7.4
+X-Authenticated-User: aborduno@cisco.com
+Cc: Andrii Bordunov <aborduno@cisco.com>
+Subject: [PATCH] package.bbclass: allow using EXCLUDE_FROM_SHLIBS for subpackages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,175 +42,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 10 Oct 2016 17:03:02 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 10 Oct 2016 17:13:18 -0000
 
-References to upstream patch:
-https://ftp.gnu.org/pub/gnu/bash/bash-4.3-patches/bash43-047
-http://openwall.com/lists/oss-security/2016/09/16/8
+Some packages containing shared libraries might be registered
+as shlib providers when they shouldn't (for example, the lib is for
+their private use and must not generate any dependency).
 
-Signed-off-by: Sona Sarmadi <sona.sarmadi@enea.com>
+EXCLUDE_FROM_SHLIBS is targeted at that, but it could be set
+for entire recipe only.
+
+This patch expands EXCLUDE_FROM_SHLIBS usage, so now it's possible
+to set it in a style similar with RDEPENDS. For example:
+ EXCLUDE_FROM_SHLIBS_${PN}-ptest = "1"
+
+Signed-off-by: Andrii Bordunov <aborduno@cisco.com>
 ---
- .../recipes-extended/bash/bash/CVE-2016-0634.patch | 136 +++++++++++++++++++++
- meta/recipes-extended/bash/bash_4.3.30.bb          |   1 +
- 2 files changed, 137 insertions(+)
- create mode 100644 meta/recipes-extended/bash/bash/CVE-2016-0634.patch
+ meta/classes/package.bbclass | 12 ++++++++++--
+ 1 file changed, 10 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-extended/bash/bash/CVE-2016-0634.patch b/meta/recipes-extended/bash/bash/CVE-2016-0634.patch
-new file mode 100644
-index 0000000..71c033e
---- /dev/null
-+++ b/meta/recipes-extended/bash/bash/CVE-2016-0634.patch
-@@ -0,0 +1,136 @@
-+Bash-Release:	4.3
-+Patch-ID:	bash43-047
-+
-+Bug-Reported-by:	Bernd Dietzel
-+Bug-Reference-ID:
-+Bug-Reference-URL:	https://bugs.launchpad.net/ubuntu/+source/bash/+bug/1507025
-+
-+Bug-Description:
-+
-+Bash performs word expansions on the prompt strings after the special
-+escape sequences are expanded.  If a malicious user can modify the system
-+hostname or change the name of the bash executable and coerce a user into
-+executing it, and the new name contains word expansions (including
-+command substitution), bash will expand them in prompt strings containing
-+the \h or \H and \s escape sequences, respectively.
-+
-+Patch (apply with `patch -p0')
-+
-+CVE:  CVE-2016-0634
-+Upstream-Status: Backport
-+Signed-off-by: Sona Sarmadi <sona.sarmadi@enea.com>
-+
-+*** ../bash-4.3-patched/parse.y	2015-08-13 15:11:54.000000000 -0400
-+--- parse.y	2016-03-07 15:44:14.000000000 -0500
-+***************
-+*** 5259,5263 ****
-+    int result_size, result_index;
-+    int c, n, i;
-+!   char *temp, octal_string[4];
-+    struct tm *tm;  
-+    time_t the_time;
-+--- 5259,5263 ----
-+    int result_size, result_index;
-+    int c, n, i;
-+!   char *temp, *t_host, octal_string[4];
-+    struct tm *tm;  
-+    time_t the_time;
-+***************
-+*** 5407,5411 ****
-+  	    case 's':
-+  	      temp = base_pathname (shell_name);
-+! 	      temp = savestring (temp);
-+  	      goto add_string;
-+  
-+--- 5407,5415 ----
-+  	    case 's':
-+  	      temp = base_pathname (shell_name);
-+! 	      /* Try to quote anything the user can set in the file system */
-+! 	      if (promptvars || posixly_correct)
-+! 		temp = sh_backslash_quote_for_double_quotes (temp);
-+! 	      else
-+! 		temp = savestring (temp);
-+  	      goto add_string;
-+  
-+***************
-+*** 5497,5503 ****
-+  	    case 'h':
-+  	    case 'H':
-+! 	      temp = savestring (current_host_name);
-+! 	      if (c == 'h' && (t = (char *)strchr (temp, '.')))
-+  		*t = '\0';
-+  	      goto add_string;
-+  
-+--- 5501,5515 ----
-+  	    case 'h':
-+  	    case 'H':
-+! 	      t_host = savestring (current_host_name);
-+! 	      if (c == 'h' && (t = (char *)strchr (t_host, '.')))
-+  		*t = '\0';
-++ 	      if (promptvars || posixly_correct)
-++ 		/* Make sure that expand_prompt_string is called with a
-++ 		   second argument of Q_DOUBLE_QUOTES if we use this
-++ 		   function here. */
-++ 		temp = sh_backslash_quote_for_double_quotes (t_host);
-++ 	      else
-++ 		temp = savestring (t_host);
-++ 	      free (t_host);
-+  	      goto add_string;
-+  
-+*** ../bash-4.3-patched/y.tab.c	2015-08-13 15:11:54.000000000 -0400
-+--- y.tab.c	2016-03-07 15:44:14.000000000 -0500
-+***************
-+*** 7571,7575 ****
-+    int result_size, result_index;
-+    int c, n, i;
-+!   char *temp, octal_string[4];
-+    struct tm *tm;  
-+    time_t the_time;
-+--- 7571,7575 ----
-+    int result_size, result_index;
-+    int c, n, i;
-+!   char *temp, *t_host, octal_string[4];
-+    struct tm *tm;  
-+    time_t the_time;
-+***************
-+*** 7719,7723 ****
-+  	    case 's':
-+  	      temp = base_pathname (shell_name);
-+! 	      temp = savestring (temp);
-+  	      goto add_string;
-+  
-+--- 7719,7727 ----
-+  	    case 's':
-+  	      temp = base_pathname (shell_name);
-+! 	      /* Try to quote anything the user can set in the file system */
-+! 	      if (promptvars || posixly_correct)
-+! 		temp = sh_backslash_quote_for_double_quotes (temp);
-+! 	      else
-+! 		temp = savestring (temp);
-+  	      goto add_string;
-+  
-+***************
-+*** 7809,7815 ****
-+  	    case 'h':
-+  	    case 'H':
-+! 	      temp = savestring (current_host_name);
-+! 	      if (c == 'h' && (t = (char *)strchr (temp, '.')))
-+  		*t = '\0';
-+  	      goto add_string;
-+  
-+--- 7813,7827 ----
-+  	    case 'h':
-+  	    case 'H':
-+! 	      t_host = savestring (current_host_name);
-+! 	      if (c == 'h' && (t = (char *)strchr (t_host, '.')))
-+  		*t = '\0';
-++ 	      if (promptvars || posixly_correct)
-++ 		/* Make sure that expand_prompt_string is called with a
-++ 		   second argument of Q_DOUBLE_QUOTES if we use this
-++ 		   function here. */
-++ 		temp = sh_backslash_quote_for_double_quotes (t_host);
-++ 	      else
-++ 		temp = savestring (t_host);
-++ 	      free (t_host);
-+  	      goto add_string;
-+
-diff --git a/meta/recipes-extended/bash/bash_4.3.30.bb b/meta/recipes-extended/bash/bash_4.3.30.bb
-index 95ed392..fcd6caf 100644
---- a/meta/recipes-extended/bash/bash_4.3.30.bb
-+++ b/meta/recipes-extended/bash/bash_4.3.30.bb
-@@ -21,6 +21,7 @@ SRC_URI = "${GNU_MIRROR}/bash/${BP}.tar.gz;name=tarball \
-            file://fix-run-coproc-run-heredoc-run-execscript-run-test-f.patch \
-            file://run-ptest \
- 	   file://fix-run-builtins.patch \
-+           file://CVE-2016-0634.patch;striplevel=0 \
-            "
+diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
+index a6f0a7a..9bf43dc 100644
+--- a/meta/classes/package.bbclass
++++ b/meta/classes/package.bbclass
+@@ -1499,6 +1499,14 @@ python package_do_shlibs() {
+     libdir_re = re.compile(".*/%s$" % d.getVar('baselib', True))
  
- SRC_URI[tarball.md5sum] = "a27b3ee9be83bd3ba448c0ff52b28447"
+     packages = d.getVar('PACKAGES', True)
++
++    shlib_pkgs = []
++    for pkg in packages.split():
++        if d.getVar('EXCLUDE_FROM_SHLIBS_' + pkg, 0):
++            bb.note("not generating shlibs for %s" % pkg)
++        else:
++            shlib_pkgs.append(pkg)
++
+     targetos = d.getVar('TARGET_OS', True)
+ 
+     workdir = d.getVar('WORKDIR', True)
+@@ -1614,7 +1622,7 @@ python package_do_shlibs() {
+     needed = {}
+     shlib_provider = oe.package.read_shlib_providers(d)
+ 
+-    for pkg in packages.split():
++    for pkg in shlib_pkgs:
+         private_libs = d.getVar('PRIVATE_LIBS_' + pkg, True) or d.getVar('PRIVATE_LIBS', True) or ""
+         private_libs = private_libs.split()
+         needs_ldconfig = False
+@@ -1684,7 +1692,7 @@ python package_do_shlibs() {
+ 
+     libsearchpath = [d.getVar('libdir', True), d.getVar('base_libdir', True)]
+ 
+-    for pkg in packages.split():
++    for pkg in shlib_pkgs:
+         bb.debug(2, "calculating shlib requirements for %s" % pkg)
+ 
+         deps = list()
 -- 
-1.9.1
+2.7.4
 
 
