@@ -1,22 +1,24 @@
 Return-Path: <jussi.kukkonen@intel.com>
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id C791271957
+	by mail.openembedded.org (Postfix) with ESMTP id 5AB5571957
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Oct 2016 08:30:27 +0000 (UTC)
+	Mon, 10 Oct 2016 08:30:32 +0000 (UTC)
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 10 Oct 2016 01:30:07 -0700
+	by fmsmga101.fm.intel.com with ESMTP; 10 Oct 2016 01:30:09 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.31,471,1473145200"; d="scan'208";a="1068367607"
+X-IronPort-AV: E=Sophos;i="5.31,471,1473145200"; d="scan'208";a="1068367614"
 Received: from theory.fi.intel.com ([10.237.72.196])
-	by fmsmga002.fm.intel.com with ESMTP; 10 Oct 2016 01:30:07 -0700
+	by fmsmga002.fm.intel.com with ESMTP; 10 Oct 2016 01:30:08 -0700
 From: Jussi Kukkonen <jussi.kukkonen@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 10 Oct 2016 11:30:01 +0300
-Message-Id: <b37e5eddccd2448a5ba13b752b198540617dd5c1.1476087291.git.jussi.kukkonen@intel.com>
+Date: Mon, 10 Oct 2016 11:30:02 +0300
+Message-Id: <87adb221390d116bcd9d13cd8efc0d0b22a40b89.1476087291.git.jussi.kukkonen@intel.com>
 X-Mailer: git-send-email 2.1.4
+In-Reply-To: <b37e5eddccd2448a5ba13b752b198540617dd5c1.1476087291.git.jussi.kukkonen@intel.com>
+References: <b37e5eddccd2448a5ba13b752b198540617dd5c1.1476087291.git.jussi.kukkonen@intel.com>
 In-Reply-To: <cover.1476087291.git.jussi.kukkonen@intel.com>
 References: <cover.1476087291.git.jussi.kukkonen@intel.com>
-Subject: [PATCH 1/4] gnutls: Backport certificate check fix
+Subject: [PATCH 2/4] flex: Update upstream check uri
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,69 +33,26 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Mon, 10 Oct 2016 08:30:32 -0000
 
-Previously the OCSP certificate check wouldn't verify the serial
-length and could succeed in cases it shouldn't (CVE-2016-7444).
+Flex has moved to github, update UPSTREAM_CHECK_URI.
 
 Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
 ---
- .../gnutls/gnutls/CVE-2016-7444.patch              | 35 ++++++++++++++++++++++
- meta/recipes-support/gnutls/gnutls_3.5.3.bb        |  1 +
- 2 files changed, 36 insertions(+)
- create mode 100644 meta/recipes-support/gnutls/gnutls/CVE-2016-7444.patch
+ meta/recipes-devtools/flex/flex_2.6.0.bb | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/recipes-support/gnutls/gnutls/CVE-2016-7444.patch b/meta/recipes-support/gnutls/gnutls/CVE-2016-7444.patch
-new file mode 100644
-index 0000000..215be5a
---- /dev/null
-+++ b/meta/recipes-support/gnutls/gnutls/CVE-2016-7444.patch
-@@ -0,0 +1,35 @@
-+CVE: CVE-2016-7444
-+Upstream-Status: Backport
-+Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
-+
-+Upstream commit follows:
-+
-+
-+From 964632f37dfdfb914ebc5e49db4fa29af35b1de9 Mon Sep 17 00:00:00 2001
-+From: Nikos Mavrogiannopoulos <nmav@gnutls.org>
-+Date: Sat, 27 Aug 2016 17:00:22 +0200
-+Subject: [PATCH] ocsp: corrected the comparison of the serial size in OCSP response
-+
-+Previously the OCSP certificate check wouldn't verify the serial length
-+and could succeed in cases it shouldn't.
-+
-+Reported by Stefan Buehler.
-+---
-+ lib/x509/ocsp.c | 1 +
-+ 1 file changed, 1 insertion(+), 0 deletions(-)
-+
-+diff --git a/lib/x509/ocsp.c b/lib/x509/ocsp.c
-+index 92db9b6..8181f2e 100644
-+--- a/lib/x509/ocsp.c
-++++ b/lib/x509/ocsp.c
-+@@ -1318,6 +1318,7 @@ gnutls_ocsp_resp_check_crt(gnutls_ocsp_resp_t resp,
-+ 		gnutls_assert();
-+ 		goto cleanup;
-+ 	}
-++	cserial.size = t;
-+ 
-+ 	if (rserial.size != cserial.size
-+ 	    || memcmp(cserial.data, rserial.data, rserial.size) != 0) {
-+--
-+libgit2 0.24.0
-+
-diff --git a/meta/recipes-support/gnutls/gnutls_3.5.3.bb b/meta/recipes-support/gnutls/gnutls_3.5.3.bb
-index 8317eb4..b2dbb07 100644
---- a/meta/recipes-support/gnutls/gnutls_3.5.3.bb
-+++ b/meta/recipes-support/gnutls/gnutls_3.5.3.bb
-@@ -4,6 +4,7 @@ SRC_URI += "file://correct_rpl_gettimeofday_signature.patch \
-             file://0001-configure.ac-fix-sed-command.patch \
-             file://use-pkg-config-to-locate-zlib.patch \
-             file://0001-Use-correct-include-dir-with-minitasn.patch \
-+            file://CVE-2016-7444.patch \
-            "
- SRC_URI[md5sum] = "6c2c7f40ddf52933ee3ca474cb8cb63c"
- SRC_URI[sha256sum] = "92c4bc999a10a1b95299ebefaeea8333f19d8a98d957a35b5eae74881bdb1fef"
+diff --git a/meta/recipes-devtools/flex/flex_2.6.0.bb b/meta/recipes-devtools/flex/flex_2.6.0.bb
+index db2cf1c..3a45752 100644
+--- a/meta/recipes-devtools/flex/flex_2.6.0.bb
++++ b/meta/recipes-devtools/flex/flex_2.6.0.bb
+@@ -21,6 +21,8 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/flex/flex-${PV}.tar.bz2 \
+ SRC_URI[md5sum] = "266270f13c48ed043d95648075084d59"
+ SRC_URI[sha256sum] = "24e611ef5a4703a191012f80c1027dc9d12555183ce0ecd46f3636e587e9b8e9"
+ 
++# Flex has moved to github from 2.6.1 onwards
++UPSTREAM_CHECK_URI = "https://github.com/westes/flex/releases"
+ UPSTREAM_CHECK_REGEX = "flex-(?P<pver>\d+(\.\d+)+)\.tar"
+ 
+ inherit autotools gettext texinfo ptest
 -- 
 2.1.4
 
