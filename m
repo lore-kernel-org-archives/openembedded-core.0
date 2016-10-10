@@ -1,25 +1,22 @@
-Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by mail.openembedded.org (Postfix) with ESMTP id 263676FF72
+Return-Path: <jussi.kukkonen@intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id C791271957
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Oct 2016 08:16:16 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga105.jf.intel.com with ESMTP; 10 Oct 2016 01:16:18 -0700
+	Mon, 10 Oct 2016 08:30:27 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 10 Oct 2016 01:30:07 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.31,471,1473145200"; d="scan'208";a="1042592032"
-Received: from linux.intel.com ([10.54.29.200])
-	by orsmga001.jf.intel.com with ESMTP; 10 Oct 2016 01:16:18 -0700
-Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.68])
-	by linux.intel.com (Postfix) with ESMTP id 402676A4006;
-	Mon, 10 Oct 2016 01:15:47 -0700 (PDT)
-From: Ed Bartosh <ed.bartosh@linux.intel.com>
+X-IronPort-AV: E=Sophos;i="5.31,471,1473145200"; d="scan'208";a="1068367607"
+Received: from theory.fi.intel.com ([10.237.72.196])
+	by fmsmga002.fm.intel.com with ESMTP; 10 Oct 2016 01:30:07 -0700
+From: Jussi Kukkonen <jussi.kukkonen@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 10 Oct 2016 10:50:41 +0300
-Message-Id: <1476085841-18648-1-git-send-email-ed.bartosh@linux.intel.com>
+Date: Mon, 10 Oct 2016 11:30:01 +0300
+Message-Id: <b37e5eddccd2448a5ba13b752b198540617dd5c1.1476087291.git.jussi.kukkonen@intel.com>
 X-Mailer: git-send-email 2.1.4
-In-Reply-To: <1475875998.18115.234.camel@intel.com>
-References: <1475875998.18115.234.camel@intel.com>
-Subject: [wic][PATCH] canned-wks: use GPT partition table
+In-Reply-To: <cover.1476087291.git.jussi.kukkonen@intel.com>
+References: <cover.1476087291.git.jussi.kukkonen@intel.com>
+Subject: [PATCH 1/4] gnutls: Backport certificate check fix
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,61 +29,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 10 Oct 2016 08:16:20 -0000
+X-List-Received-Date: Mon, 10 Oct 2016 08:30:32 -0000
 
-According to UEFI specification all EFI platforms must support
-GUID Partition Table(GPT) disk layout. Here is a list of advantages
-of using GPT disk layout over the legacy MBR partitioning:
+Previously the OCSP certificate check wouldn't verify the serial
+length and could succeed in cases it shouldn't (CVE-2016-7444).
 
- - Logical Block Addresses (LBAs) are 64 bits (rather than 32 bits).
- - Supports many partitions (rather than just four primary partitions).
- - Provides both a primary and backup partition table for redundancy.
- - Uses version number and size fields for future expansion.
- - Uses CRC32 fields for improved data integrity.
- - Defines a GUID for uniquely identifying each partition.
- - Uses a GUID and attributes to define partition content type.
- - Each partition contains a 36 character human readable name.
-
-Used GPT partitioning in all EFI kickstart files.
-Tested result images on NUC, MinnowBoard MAX and MinnowBoard Turbot.
-
-Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
+Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
 ---
- scripts/lib/wic/canned-wks/mkefidisk.wks        | 2 +-
- scripts/lib/wic/canned-wks/mkgummidisk.wks      | 2 +-
- scripts/lib/wic/canned-wks/systemd-bootdisk.wks | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
+ .../gnutls/gnutls/CVE-2016-7444.patch              | 35 ++++++++++++++++++++++
+ meta/recipes-support/gnutls/gnutls_3.5.3.bb        |  1 +
+ 2 files changed, 36 insertions(+)
+ create mode 100644 meta/recipes-support/gnutls/gnutls/CVE-2016-7444.patch
 
-diff --git a/scripts/lib/wic/canned-wks/mkefidisk.wks b/scripts/lib/wic/canned-wks/mkefidisk.wks
-index 7c287f7..9f534fe 100644
---- a/scripts/lib/wic/canned-wks/mkefidisk.wks
-+++ b/scripts/lib/wic/canned-wks/mkefidisk.wks
-@@ -8,4 +8,4 @@ part / --source rootfs --ondisk sda --fstype=ext4 --label platform --align 1024
- 
- part swap --ondisk sda --size 44 --label swap1 --fstype=swap
- 
--bootloader --timeout=5 --append="rootfstype=ext4 console=ttyS0,115200 console=tty0"
-+bootloader --ptable gpt --timeout=5 --append="rootfstype=ext4 console=ttyS0,115200 console=tty0"
-diff --git a/scripts/lib/wic/canned-wks/mkgummidisk.wks b/scripts/lib/wic/canned-wks/mkgummidisk.wks
-index 616d3ce..f3ae090 100644
---- a/scripts/lib/wic/canned-wks/mkgummidisk.wks
-+++ b/scripts/lib/wic/canned-wks/mkgummidisk.wks
-@@ -8,4 +8,4 @@ part / --source rootfs --ondisk sda --fstype=ext4 --label platform --align 1024
- 
- part swap --ondisk sda --size 44 --label swap1 --fstype=swap
- 
--bootloader  --timeout=5  --append="rootwait rootfstype=ext4 console=ttyS0,115200 console=tty0"
-+bootloader --ptable gpt --timeout=5  --append="rootwait rootfstype=ext4 console=ttyS0,115200 console=tty0"
-diff --git a/scripts/lib/wic/canned-wks/systemd-bootdisk.wks b/scripts/lib/wic/canned-wks/systemd-bootdisk.wks
-index a49d130..b900023 100644
---- a/scripts/lib/wic/canned-wks/systemd-bootdisk.wks
-+++ b/scripts/lib/wic/canned-wks/systemd-bootdisk.wks
-@@ -8,4 +8,4 @@ part / --source rootfs --ondisk sda --fstype=ext4 --label platform --align 1024
- 
- part swap --ondisk sda --size 44 --label swap1 --fstype=swap
- 
--bootloader --timeout=5 --append="rootwait rootfstype=ext4 console=ttyS0,115200 console=tty0"
-+bootloader --ptable gpt --timeout=5 --append="rootwait rootfstype=ext4 console=ttyS0,115200 console=tty0"
+diff --git a/meta/recipes-support/gnutls/gnutls/CVE-2016-7444.patch b/meta/recipes-support/gnutls/gnutls/CVE-2016-7444.patch
+new file mode 100644
+index 0000000..215be5a
+--- /dev/null
++++ b/meta/recipes-support/gnutls/gnutls/CVE-2016-7444.patch
+@@ -0,0 +1,35 @@
++CVE: CVE-2016-7444
++Upstream-Status: Backport
++Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
++
++Upstream commit follows:
++
++
++From 964632f37dfdfb914ebc5e49db4fa29af35b1de9 Mon Sep 17 00:00:00 2001
++From: Nikos Mavrogiannopoulos <nmav@gnutls.org>
++Date: Sat, 27 Aug 2016 17:00:22 +0200
++Subject: [PATCH] ocsp: corrected the comparison of the serial size in OCSP response
++
++Previously the OCSP certificate check wouldn't verify the serial length
++and could succeed in cases it shouldn't.
++
++Reported by Stefan Buehler.
++---
++ lib/x509/ocsp.c | 1 +
++ 1 file changed, 1 insertion(+), 0 deletions(-)
++
++diff --git a/lib/x509/ocsp.c b/lib/x509/ocsp.c
++index 92db9b6..8181f2e 100644
++--- a/lib/x509/ocsp.c
+++++ b/lib/x509/ocsp.c
++@@ -1318,6 +1318,7 @@ gnutls_ocsp_resp_check_crt(gnutls_ocsp_resp_t resp,
++ 		gnutls_assert();
++ 		goto cleanup;
++ 	}
+++	cserial.size = t;
++ 
++ 	if (rserial.size != cserial.size
++ 	    || memcmp(cserial.data, rserial.data, rserial.size) != 0) {
++--
++libgit2 0.24.0
++
+diff --git a/meta/recipes-support/gnutls/gnutls_3.5.3.bb b/meta/recipes-support/gnutls/gnutls_3.5.3.bb
+index 8317eb4..b2dbb07 100644
+--- a/meta/recipes-support/gnutls/gnutls_3.5.3.bb
++++ b/meta/recipes-support/gnutls/gnutls_3.5.3.bb
+@@ -4,6 +4,7 @@ SRC_URI += "file://correct_rpl_gettimeofday_signature.patch \
+             file://0001-configure.ac-fix-sed-command.patch \
+             file://use-pkg-config-to-locate-zlib.patch \
+             file://0001-Use-correct-include-dir-with-minitasn.patch \
++            file://CVE-2016-7444.patch \
+            "
+ SRC_URI[md5sum] = "6c2c7f40ddf52933ee3ca474cb8cb63c"
+ SRC_URI[sha256sum] = "92c4bc999a10a1b95299ebefaeea8333f19d8a98d957a35b5eae74881bdb1fef"
 -- 
 2.1.4
 
