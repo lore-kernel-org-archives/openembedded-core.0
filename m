@@ -1,22 +1,36 @@
-Return-Path: <markus.lehtonen@linux.intel.com>
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
-	by mail.openembedded.org (Postfix) with ESMTP id 6CF156FFD8
+Return-Path: <gary@mlbassoc.com>
+Received: from mail.analogue-micro.com (mail.analogue-micro.com
+	[217.144.149.242])
+	by mail.openembedded.org (Postfix) with ESMTP id F211E6FF84
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Oct 2016 12:43:31 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga104.jf.intel.com with ESMTP; 11 Oct 2016 05:43:33 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.31,329,1473145200"; d="scan'208";a="1052292210"
-Received: from marquiz.fi.intel.com ([10.237.72.155])
-	by fmsmga001.fm.intel.com with ESMTP; 11 Oct 2016 05:43:32 -0700
-From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 11 Oct 2016 15:43:29 +0300
-Message-Id: <1476189809-24240-3-git-send-email-markus.lehtonen@linux.intel.com>
-X-Mailer: git-send-email 2.6.6
-In-Reply-To: <1476189809-24240-1-git-send-email-markus.lehtonen@linux.intel.com>
-References: <1476189809-24240-1-git-send-email-markus.lehtonen@linux.intel.com>
-Subject: [PATCH 2/2] sysklogd and busybox: ignore return code from init script stop
+	Tue, 11 Oct 2016 12:45:54 +0000 (UTC)
+Received: by mail.analogue-micro.com (Postfix, from userid 999)
+	id E542F68A019; Tue, 11 Oct 2016 13:45:53 +0100 (BST)
+X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
+	loki.analogue-micro-ltd.com
+X-Spam-Level: 
+X-Spam-Status: No, score=-0.2 required=5.0 tests=ALL_TRUSTED,BAYES_00,
+	DNS_FROM_AHBL_RHSBL autolearn=no version=3.3.2
+Received: from zeus.mlbassoc.com (unknown [10.8.0.2])
+	by mail.analogue-micro.com (Postfix) with ESMTP id 5C2D868A019;
+	Tue, 11 Oct 2016 13:45:51 +0100 (BST)
+Received: from [127.0.0.1] (localhost.localdomain [127.0.0.1])
+	by zeus.mlbassoc.com (Postfix) with ESMTP id 11A56674028F;
+	Tue, 11 Oct 2016 14:45:51 +0200 (CEST)
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <1476188384-16064-1-git-send-email-ross.burton@intel.com>
+	<1476188384-16064-2-git-send-email-ross.burton@intel.com>
+	<9eb3fd87-b56b-ce59-7c85-f0d4fa4d3500@mlbassoc.com>
+	<CAJTo0LbYVgB53POjPZYWLSxXREWea3bnUUBK83vFv-MvTRG9_Q@mail.gmail.com>
+From: Gary Thomas <gary@mlbassoc.com>
+Message-ID: <5f536002-f327-231f-ba5a-ab42bb963b90@mlbassoc.com>
+Date: Tue, 11 Oct 2016 14:45:51 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.3.0
+MIME-Version: 1.0
+In-Reply-To: <CAJTo0LbYVgB53POjPZYWLSxXREWea3bnUUBK83vFv-MvTRG9_Q@mail.gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/2] insane: display names instead of ELF machine numbers
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,48 +43,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Oct 2016 12:43:31 -0000
+X-List-Received-Date: Tue, 11 Oct 2016 12:45:55 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-The init script will return '1' if we try to stop the service and it is
-not currently running. The prerm scriptlet must not fail because of this
-because it will cause package deinstallation of upgrade fail if opkg
-package manager is used.
+On 2016-10-11 14:36, Burton, Ross wrote:
+>
+> On 11 October 2016 at 13:26, Gary Thomas <gary@mlbassoc.com <mailto:gary@mlbassoc.com>> wrote:
+>
+>     Did you mean to swap the items?  The old version used
+>       machine, elf.machine()
+>     and this version uses
+>       elf.machine(), machine
+>
+>
+> Yes, because the string format changed to be clearer too:
+>
+> -        package_qa_add_message(messages, "arch", "Architecture did not match (%d to %d) on %s" % \
+> -                 (machine, elf.machine(), package_qa_clean_path(path,d)))
+> +        package_qa_add_message(messages, "arch", "Architecture did not match (%s, expected %s) on %s" % \
+> +                 (oe.qa.elf_machine_to_string(elf.machine()), oe.qa.elf_machine_to_string(machine),
+>
+> The old message would say "20 to 62", the new message is "x86-64, expected PowerPC".
 
-[YOCTO #10299]
+Much nicer indeed.
 
-Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
----
- meta/recipes-core/busybox/busybox.inc       | 2 +-
- meta/recipes-extended/sysklogd/sysklogd.inc | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/meta/recipes-core/busybox/busybox.inc b/meta/recipes-core/busybox/busybox.inc
-index 9f10770..bb782bc 100644
---- a/meta/recipes-core/busybox/busybox.inc
-+++ b/meta/recipes-core/busybox/busybox.inc
-@@ -423,7 +423,7 @@ pkg_prerm_${PN}-syslog () {
- 	# remove syslog
- 	if test "x$D" = "x"; then
- 		if test "$1" = "upgrade" -o "$1" = "remove"; then
--			${sysconfdir}/init.d/syslog stop
-+			${sysconfdir}/init.d/syslog stop || :
- 		fi
- 	fi
- }
-diff --git a/meta/recipes-extended/sysklogd/sysklogd.inc b/meta/recipes-extended/sysklogd/sysklogd.inc
-index dec75ed..2b325a8 100644
---- a/meta/recipes-extended/sysklogd/sysklogd.inc
-+++ b/meta/recipes-extended/sysklogd/sysklogd.inc
-@@ -55,7 +55,7 @@ ALTERNATIVE_LINK_NAME[syslog-conf] = "${sysconfdir}/syslog.conf"
- pkg_prerm_${PN} () {
- 	if test "x$D" = "x"; then
- 	if test "$1" = "upgrade" -o "$1" = "remove"; then
--		/etc/init.d/syslog stop
-+		/etc/init.d/syslog stop || :
- 	fi
- 	fi
- }
 -- 
-2.6.6
-
+------------------------------------------------------------
+Gary Thomas                 |  Consulting for the
+MLB Associates              |    Embedded world
+------------------------------------------------------------
 
