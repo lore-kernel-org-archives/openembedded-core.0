@@ -1,20 +1,35 @@
-Return-Path: <jussi.kukkonen@intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 0D4B660290
+Return-Path: <obi@opendreambox.org>
+Received: from mail.dream-property.net (mail.dream-property.net
+	[82.149.226.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 91767719B1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Oct 2016 07:39:44 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga103.fm.intel.com with ESMTP; 11 Oct 2016 00:39:46 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.31,476,1473145200"; d="scan'208";a="1068818163"
-Received: from theory.fi.intel.com ([10.237.72.196])
-	by fmsmga002.fm.intel.com with ESMTP; 11 Oct 2016 00:39:46 -0700
-From: Jussi Kukkonen <jussi.kukkonen@intel.com>
+	Tue, 11 Oct 2016 07:41:26 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by mail.dream-property.net (Postfix) with ESMTP id 9175831A58A6
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 11 Oct 2016 09:41:26 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at mail.dream-property.net
+Received: from mail.dream-property.net ([127.0.0.1])
+	by localhost (mail.dream-property.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP id Hh6LdFyL8yE6
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 11 Oct 2016 09:41:24 +0200 (CEST)
+Received: from [172.22.22.61] (55d44b53.access.ecotel.net [85.212.75.83])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by mail.dream-property.net (Postfix) with ESMTPSA id DB18631A582E
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 11 Oct 2016 09:41:23 +0200 (CEST)
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 11 Oct 2016 10:39:41 +0300
-Message-Id: <1476171581-17393-1-git-send-email-jussi.kukkonen@intel.com>
-X-Mailer: git-send-email 2.1.4
-Subject: [PATCH] vte: Avoid inheriting vala class
+References: <1476120925-26574-1-git-send-email-jkrishnanjanappa@mvista.com>
+From: Andreas Oberritter <obi@opendreambox.org>
+Message-ID: <defce586-6033-baed-bf70-bdbe1659922c@opendreambox.org>
+Date: Tue, 11 Oct 2016 09:41:23 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.3.0
+MIME-Version: 1.0
+In-Reply-To: <1476120925-26574-1-git-send-email-jkrishnanjanappa@mvista.com>
+Subject: Re: [PATCH] connman: get the correct network interface name from dmesg during NFS booting
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,210 +42,206 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Oct 2016 07:39:46 -0000
+X-List-Received-Date: Tue, 11 Oct 2016 07:41:29 -0000
+X-Groupsio-MsgNum: 88046
+Content-Type: multipart/mixed; boundary="------------D7769513CF7A67AEB31FA5B0"
 
-vala.bbclass DEPENDS on vala and vala-native: Drop the inherit so
-that these dependencies can be added on-demand based on vte
-PACKAGECONFIG. Add relevant items from vala class into the recipe.
+--------------D7769513CF7A67AEB31FA5B0
+Content-Type: text/plain; charset=windows-1252
+Content-Transfer-Encoding: 7bit
 
-Add copy of vapigen.m4 so building without vala actually succeeds.
+Dear Jagadeesh,
 
-Fixes [YOCTO #10386].
+On 10.10.2016 19:35, Jagadeesh Krishnanjanappa wrote:
+> Following are the drawbacks with the current logic:
+> 1. If ip=dhcp in the boot command line, then the
+> current code makes connman to ignore "eth0" network interface
+> from managing internet connections. This can cause NFS boot
+> failure, if the network interface used for NFS booting 
+> is other than "eth0".
+> 
+> 2. If ip=bootp in the boot command line, then none of the
+> network interfaces are ignored. This makes connman to manage
+> internet connections on every active network interfaces
+> (including the network interface used for NFS booting), resulting
+> hang during NFS boot.
+> 
+> This patch finds the network interface used for NFS booting via dmesg.
+> It searches for "device=" string from dmesg output and finds
+> name of network interface used for NFS. The "device=" string
+> is printed from dmesg, if IPCONFIG_SILENT macro is disabled
+> in the kernel, and this macro is disabled by default.
+> 
+> If "device=" string is not found, then falls back to earlier logic.
+> The earlier logic of detecting NFS network interface is retained, as
+> we cannot determine the exact network interface name used during
+> NFS bootup.
 
-Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
----
+I think this is too fragile to land in OE-Core. What happens if a
+network driver prints "device=eth0"? Or if other kernel messages make
+the string disappear from dmesg and connman gets restarted later?
 
-This patch is performance-driven: it shaved 0.7% from
-core-image-sato build time (3.5 mins user time) and
-0.8% (270MB) from TMPDIR size.
+FWIW, I'm attaching my current wrapper script for connmand. I don't
+think it's perfect, but at least it doesn't depend on any init manager
+and works across restarts.
 
-Patch is also quite ugly. Alternative ways to achieve the same will
-be appreciated.
+Add these lines to connman's do_install, in case you'd like to test
+and/or submit it:
 
-Thanks,
- Jussi
+mv ${D}${sbindir}/connmand ${D}${sbindir}/connmand.real
+install -m 755 ${WORKDIR}/connmand-nfsroot.in ${D}${sbindir}/connmand
+sed -e 's,@sbindir@,${sbindir},g' -i ${D}${sbindir}/connmand
 
+Regards,
+Andreas
 
- .../vte/vte/0001-Add-m4-vapigen.m4.patch           | 119 +++++++++++++++++++++
- meta/recipes-support/vte/vte_0.44.2.bb             |  28 ++++-
- 2 files changed, 143 insertions(+), 4 deletions(-)
- create mode 100644 meta/recipes-support/vte/vte/0001-Add-m4-vapigen.m4.patch
-
-diff --git a/meta/recipes-support/vte/vte/0001-Add-m4-vapigen.m4.patch b/meta/recipes-support/vte/vte/0001-Add-m4-vapigen.m4.patch
-new file mode 100644
-index 0000000..1c5630e
---- /dev/null
-+++ b/meta/recipes-support/vte/vte/0001-Add-m4-vapigen.m4.patch
-@@ -0,0 +1,119 @@
-+From 08ca1c48b25c332b75bba2a6b5d757da006e955b Mon Sep 17 00:00:00 2001
-+From: Jussi Kukkonen <jussi.kukkonen@intel.com>
-+Date: Fri, 7 Oct 2016 16:27:57 +0300
-+Subject: [PATCH] Add m4/vapigen.m4
-+
-+Building without vala will fail if we don't have a vapigen.m4.
-+
-+Upstream-Status: Pending
-+Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
-+---
-+ m4/vapigen.m4 | 96 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-+ 1 file changed, 96 insertions(+)
-+ create mode 100644 m4/vapigen.m4
-+
-+diff --git a/m4/vapigen.m4 b/m4/vapigen.m4
-+new file mode 100644
-+index 0000000..f2df12f
-+--- /dev/null
-++++ b/m4/vapigen.m4
-+@@ -0,0 +1,96 @@
-++dnl vapigen.m4
-++dnl
-++dnl Copyright 2012 Evan Nemerson
-++dnl
-++dnl This library is free software; you can redistribute it and/or
-++dnl modify it under the terms of the GNU Lesser General Public
-++dnl License as published by the Free Software Foundation; either
-++dnl version 2.1 of the License, or (at your option) any later version.
-++dnl
-++dnl This library is distributed in the hope that it will be useful,
-++dnl but WITHOUT ANY WARRANTY; without even the implied warranty of
-++dnl MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-++dnl Lesser General Public License for more details.
-++dnl
-++dnl You should have received a copy of the GNU Lesser General Public
-++dnl License along with this library; if not, write to the Free Software
-++dnl Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA
-++
-++# VAPIGEN_CHECK([VERSION], [API_VERSION], [FOUND-INTROSPECTION], [DEFAULT])
-++# --------------------------------------
-++# Check vapigen existence and version
-++#
-++# See http://live.gnome.org/Vala/UpstreamGuide for detailed documentation
-++AC_DEFUN([VAPIGEN_CHECK],
-++[
-++  AC_BEFORE([GOBJECT_INTROSPECTION_CHECK],[$0])
-++  AC_BEFORE([GOBJECT_INTROSPECTION_REQUIRE],[$0])
-++
-++  AC_ARG_ENABLE([vala],
-++    [AS_HELP_STRING([--enable-vala[=@<:@no/auto/yes@:>@]],[build Vala bindings @<:@default=]ifelse($4,,auto,$4)[@:>@])],,[
-++      AS_IF([test "x$4" = "x"], [
-++          enable_vala=auto
-++        ], [
-++          enable_vala=$4
-++        ])
-++    ])
-++
-++  AS_CASE([$enable_vala], [no], [enable_vala=no],
-++      [yes], [
-++        AS_IF([test "x$3" != "xyes" -a "x$found_introspection" != "xyes"], [
-++            AC_MSG_ERROR([Vala bindings require GObject Introspection])
-++          ])
-++      ], [auto], [
-++        AS_IF([test "x$3" != "xyes" -a "x$found_introspection" != "xyes"], [
-++            enable_vala=no
-++          ])
-++      ], [
-++        AC_MSG_ERROR([Invalid argument passed to --enable-vala, should be one of @<:@no/auto/yes@:>@])
-++      ])
-++
-++  AS_IF([test "x$2" = "x"], [
-++      vapigen_pkg_name=vapigen
-++    ], [
-++      vapigen_pkg_name=vapigen-$2
-++    ])
-++  AS_IF([test "x$1" = "x"], [
-++      vapigen_pkg="$vapigen_pkg_name"
-++    ], [
-++      vapigen_pkg="$vapigen_pkg_name >= $1"
-++    ])
-++
-++  PKG_PROG_PKG_CONFIG
-++
-++  PKG_CHECK_EXISTS([$vapigen_pkg], [
-++      AS_IF([test "$enable_vala" = "auto"], [
-++          enable_vala=yes
-++        ])
-++    ], [
-++      AS_CASE([$enable_vala], [yes], [
-++          AC_MSG_ERROR([$vapigen_pkg not found])
-++        ], [auto], [
-++          enable_vala=no
-++        ])
-++    ])
-++
-++  AC_MSG_CHECKING([for vala])
-++
-++  AS_CASE([$enable_vala],
-++    [yes], [
-++      VAPIGEN=`$PKG_CONFIG --variable=vapigen vapigen`
-++      VAPIGEN_MAKEFILE=`$PKG_CONFIG --variable=datadir vapigen`/vala/Makefile.vapigen
-++      AS_IF([test "x$2" = "x"], [
-++          VAPIGEN_VAPIDIR=`$PKG_CONFIG --variable=vapidir vapigen`
-++        ], [
-++          VAPIGEN_VAPIDIR=`$PKG_CONFIG --variable=vapidir_versioned vapigen`
-++        ])
-++    ])
-++
-++  AC_MSG_RESULT([$enable_vala])
-++
-++  AC_SUBST([VAPIGEN])
-++  AC_SUBST([VAPIGEN_VAPIDIR])
-++  AC_SUBST([VAPIGEN_MAKEFILE])
-++
-++  AM_CONDITIONAL(ENABLE_VAPIGEN, test "x$enable_vala" = "xyes")
-++])
-+-- 
-+2.1.4
-+
-diff --git a/meta/recipes-support/vte/vte_0.44.2.bb b/meta/recipes-support/vte/vte_0.44.2.bb
-index a1204a3..809d5dc 100644
---- a/meta/recipes-support/vte/vte_0.44.2.bb
-+++ b/meta/recipes-support/vte/vte_0.44.2.bb
-@@ -5,20 +5,40 @@ DEPENDS = "glib-2.0 gtk+3 intltool-native"
- 
- LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
- 
--inherit gnomebase gtk-doc distro_features_check upstream-version-is-even vala gobject-introspection
-+inherit gnomebase gtk-doc distro_features_check upstream-version-is-even gobject-introspection
- 
--SRC_URI += "file://0001-Don-t-enable-stack-protection-by-default.patch"
-+# vapigen.m4 is required when vala is not present (but the one from vala should be used normally)
-+SRC_URI += "file://0001-Don-t-enable-stack-protection-by-default.patch \
-+            ${@bb.utils.contains('PACKAGECONFIG', 'vala', '', 'file://0001-Add-m4-vapigen.m4.patch', d) } \
-+            "
- SRC_URI[archive.md5sum] = "eca8f8a9d9f9bb8e9d592d0acfeec015"
- SRC_URI[archive.sha256sum] = "a1ea594814bb136a3a9a6c7656b46240571f6a198825c1111007fe99194b0949"
- 
- ANY_OF_DISTRO_FEATURES = "${GTK3DISTROFEATURES}"
- 
-+# Instead of "inherit vala" we do the relevant settings here so we can
-+# set DEPENDS based on PACKAGECONFIG.
-+VALADEPENDS = ""
-+VALADEPENDS_class-target = "vala"
-+
-+# Our patched version of Vala looks in STAGING_DATADIR for .vapi files
-+export STAGING_DATADIR
-+# Upstream Vala >= 0.11 looks in XDG_DATA_DIRS for .vapi files
-+export XDG_DATA_DIRS = "${STAGING_DATADIR}"
-+
-+# Package additional files
-+FILES_${PN}-dev += "\
-+    ${datadir}/vala/vapi/*.vapi \
-+    ${datadir}/vala/vapi/*.deps \
-+    ${datadir}/gir-1.0 \
-+"
-+
-+PACKAGECONFIG[vala] = "--enable-vala,--disable-vala,vala-native ${VALADEPENDS}"
- PACKAGECONFIG[gnutls] = "--with-gnutls,--without-gnutls,gnutls"
- 
- CFLAGS += "-D_GNU_SOURCE"
- 
--# Enable vala only if gobject-introspection is enabled
--EXTRA_OECONF = "--enable-vala=auto --disable-test-application"
-+EXTRA_OECONF = "--disable-test-application"
- 
- # libtool adds "-nostdlib" when g++ is used. This breaks PIE builds.
- # Use libtool-cross (which has a hack to prevent that) instead.
--- 
-2.1.4
+> 
+> Signed-off-by: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
+> ---
+>  meta/recipes-connectivity/connman/connman/connman | 35 +++++++++++++----------
+>  1 file changed, 20 insertions(+), 15 deletions(-)
+> 
+> diff --git a/meta/recipes-connectivity/connman/connman/connman b/meta/recipes-connectivity/connman/connman/connman
+> index c64fa0d..aae2ca6 100644
+> --- a/meta/recipes-connectivity/connman/connman/connman
+> +++ b/meta/recipes-connectivity/connman/connman/connman
+> @@ -29,23 +29,28 @@ done
+>  do_start() {
+>  	EXTRA_PARAM=""
+>  	if test $nfsroot -eq 1 ; then
+> -	    NET_DEVS=`cat /proc/net/dev | sed -ne 's/^\([a-zA-Z0-9 ]*\):.*$/\1/p'`
+> -	    NET_ADDR=`cat /proc/cmdline | sed -ne 's/^.*ip=\([^ :]*\).*$/\1/p'`
+> +	    ethn_from_dmesg=`dmesg | grep "device="| sed "s|\(.*\)device=\(.*\), hwaddr=\(.*\)|\2|g"`
+> +	    if [ ! -z "$ethn_from_dmesg" ]; then
+> +		EXTRA_PARAM="-I $ethn_from_dmesg"
+> +	    else
+> +		NET_DEVS=`cat /proc/net/dev | sed -ne 's/^\([a-zA-Z0-9 ]*\):.*$/\1/p'`
+> +		NET_ADDR=`cat /proc/cmdline | sed -ne 's/^.*ip=\([^ :]*\).*$/\1/p'`
+>  
+> -	    if [ ! -z "$NET_ADDR" ]; then
+> -		if [ "$NET_ADDR" = dhcp ]; then
+> -		    ethn=`ifconfig | grep "^eth" | sed -e "s/\(eth[0-9]\)\(.*\)/\1/"`
+> -		    if [ ! -z "$ethn" ]; then
+> -			EXTRA_PARAM="-I $ethn"
+> -		    fi
+> -		else
+> -		    for i in $NET_DEVS; do
+> -			ADDR=`ifconfig $i | sed 's/addr://g' | sed -ne 's/^.*inet \([0-9.]*\) .*$/\1/p'`
+> -			if [ "$NET_ADDR" = "$ADDR" ]; then
+> -			    EXTRA_PARAM="-I $i"
+> -			    break
+> +		if [ ! -z "$NET_ADDR" ]; then
+> +		    if [ "$NET_ADDR" = dhcp ]; then
+> +			ethn=`ifconfig | grep "^eth" | sed -e "s/\(eth[0-9]\)\(.*\)/\1/"`
+> +			if [ ! -z "$ethn" ]; then
+> +			    EXTRA_PARAM="-I $ethn"
+>  			fi
+> -		    done
+> +		    else
+> +			for i in $NET_DEVS; do
+> +			    ADDR=`ifconfig $i | sed 's/addr://g' | sed -ne 's/^.*inet \([0-9.]*\) .*$/\1/p'`
+> +			    if [ "$NET_ADDR" = "$ADDR" ]; then
+> +				EXTRA_PARAM="-I $i"
+> +				break
+> +			    fi
+> +			done
+> +		    fi
+>  		fi
+>  	    fi
+>  	fi
+> 
 
 
+--------------D7769513CF7A67AEB31FA5B0
+Content-Type: text/plain; charset=UTF-8;
+ name="connmand-nfsroot.in"
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+ filename="connmand-nfsroot.in"
+
+#!/bin/sh
+#
+# Copyright (c) 2016 Dream Property GmbH, Germany
+#                    http://www.dream-multimedia-tv.de/
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in
+# all copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+# THE SOFTWARE.
+
+parse_cmdline() {
+	local ip=
+	local nfsroot=
+	local root=
+	local options=
+
+	set -- $(cat /proc/cmdline)
+	for arg do
+		key=${arg%%=*}
+		if [ "$arg" = "$key" ]; then
+			val=
+		else
+			val=${arg#*=}
+		fi
+		case "$key" in
+			ip)
+				ip=${val%%:*}
+				;;
+			nfsroot)
+				nfsroot=$val
+				;;
+			root)
+				root=$val
+				;;
+		esac
+	done
+
+	if [ "$root" = "/dev/nfs" -o -n "$nfsroot" -a -n "$ip" ]; then
+		set -- $(ip -4 -o addr show | awk '{print $2}')
+		for dev do
+			if ip -o link show $dev | awk '{print $3}' | grep -qvw -e 'LOOPBACK' -e 'NO-CARRIER'; then
+				case "$ip" in
+					any|bootp|both|dhcp|on|rarp)
+						options="-I $dev $options"
+						;;
+					*)
+						for dev_addr in $(ip -4 -o addr show dev $dev | awk '{print $4}' | grep -o '^[0-9.]\+'); do
+							if [ "$ip" = "$dev_addr" ]; then
+								options="-I $dev"
+								break
+							fi
+						done
+						;;
+				esac
+			fi
+		done
+	fi
+
+	echo "$options"
+}
+
+nfsroot_options() {
+	if [ ! -f /run/connman/nfsroot.env ]; then
+		mkdir -p /run/connman
+		parse_cmdline >/run/connman/nfsroot.env
+	fi
+
+	cat /run/connman/nfsroot.env
+}
+
+exec "@sbindir@/connmand.real" "$@" $(nfsroot_options)
+
+--------------D7769513CF7A67AEB31FA5B0--
