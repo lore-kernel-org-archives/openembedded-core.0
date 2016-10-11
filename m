@@ -1,26 +1,45 @@
-Return-Path: <joshua.g.lock@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id E9A7770016
+Return-Path: <bkylerussell@gmail.com>
+Received: from mail-pa0-f66.google.com (mail-pa0-f66.google.com
+	[209.85.220.66])
+	by mail.openembedded.org (Postfix) with ESMTP id EE8CE60745
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Oct 2016 14:05:47 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga101.fm.intel.com with ESMTP; 11 Oct 2016 07:05:49 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.31,329,1473145200"; d="scan'208";a="1043221620"
-Received: from jlock-mobl1.ger.corp.intel.com ([10.252.31.77])
-	by orsmga001.jf.intel.com with ESMTP; 11 Oct 2016 07:05:47 -0700
-Message-ID: <1476194745.2912.27.camel@linux.intel.com>
-From: Joshua Lock <joshua.g.lock@linux.intel.com>
-To: Fan Xin <fan.xin@jp.fujitsu.com>, OE-core
-	<openembedded-core@lists.openembedded.org>
-Date: Tue, 11 Oct 2016 15:05:45 +0100
-In-Reply-To: <354af725-27e7-ba35-2a45-514151904c32@jp.fujitsu.com>
-References: <41bbea13-30ce-4d55-441c-ffdbb0f863f1@jp.fujitsu.com>
-	<1475757767.3146.12.camel@linux.intel.com>
-	<354af725-27e7-ba35-2a45-514151904c32@jp.fujitsu.com>
-X-Mailer: Evolution 3.20.5 (3.20.5-1.fc24) 
-Mime-Version: 1.0
-Subject: Re: rpm: Recover RPM4 to OE-core
+	Tue, 11 Oct 2016 14:17:33 +0000 (UTC)
+Received: by mail-pa0-f66.google.com with SMTP id fn2so830462pad.1
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 11 Oct 2016 07:17:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=VmRhJ0SxsJ0+v87bGfAyw1BkBOP9lxodCScvV9ye0hc=;
+	b=e0JR3cqkoSBe1pMaaF5KANzWBFawlvGB9YeYW1dR/pk8PpKn4+zbynEqL5d9iODode
+	TPWUiIkH11MoeJKbrfkBCbo3FviIHMYeERKN05Tj5nIEKvPX7mwcbbwvT6L2biVHqK/v
+	EIIgZZrcJ5GprUBIRr8/2uT0UUQsEBLcM7xd4nC6fVHtPDRf1aK9x+7kGPIMfE+Ygffc
+	+9EVr02AGkZmH0i4pzeFxyedK5gvb9S6cSQZDLTZY8AK/S3UxezuDHjMCJy6cogNKp+N
+	Wu2aiOyI80sgJCmVa7IYj6dwR+6neKwA78vvPix4HAREBcqRPCYw89wv7ZdjZM42D4uV
+	Tnfw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=VmRhJ0SxsJ0+v87bGfAyw1BkBOP9lxodCScvV9ye0hc=;
+	b=WkZkctPQ7d5W3Dk9ttK1QeHSsQ2XrCKu0ITS47h7bSxZrlGx+NPjF4OvM+4Vd3qU95
+	ZnA1ENh/UULagxGakrg77OD5lrAd0u4qeCtd6XSINi+yrBVS2ZOddYSK1P0CPxg5RQIP
+	7wQYwS33+LuIFE0gCEZh66KLn57D0UZvfAD40WHLnkAPRTrDdxHbJGQo/kXs7kIoxmkr
+	hXol9hr/pD0fZU+WbuqBAbeFGo/KTbjko7ddLSGPFI5IH46A1NHXquvKq0rTV4iuHqaS
+	F11wnONe8f1g4C5YYQrzA9g0VxPtyG3XNcjP+mer1/y1aRDWn2g3X4o6E3iYxFamZ7ul
+	Gcxw==
+X-Gm-Message-State: AA6/9RmMfYYFX5sAOZvYmGBhrui7uhrluovUtIfyOx3fsTpsqdx7gp7cfazxwLAqIC0uPw==
+X-Received: by 10.66.63.40 with SMTP id d8mr7374662pas.103.1476195454963;
+	Tue, 11 Oct 2016 07:17:34 -0700 (PDT)
+Received: from brrussell-Latitude-E6530.dhcp.lexmark.com ([192.146.101.8])
+	by smtp.gmail.com with ESMTPSA id
+	c15sm4771940pfd.53.2016.10.11.07.17.32
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Tue, 11 Oct 2016 07:17:34 -0700 (PDT)
+From: Kyle Russell <bkylerussell@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 11 Oct 2016 10:17:16 -0400
+Message-Id: <1476195437-24040-1-git-send-email-bkylerussell@gmail.com>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH 1/2] pixbufcache: Ensure sysroot dependencies are satisfied
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,60 +52,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Oct 2016 14:05:48 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 11 Oct 2016 14:17:34 -0000
 
-On Fri, 2016-10-07 at 12:19 +0900, Fan Xin wrote:
-> Hi Joshua,
-> 
-> Thanks for your info.
-> 
-> Actually, our origin motivation is that we found smartpm is not 
-> maintained any more. We maintain smartpm for our distro at
-> https://github.com/ubinux/smart2
+Reverts part of b411085fefc8582d24c172db5f6610705eb44c2f
 
-Indeed, the lack of maintenance for Smart is one of the reasons we're
-looking to switch away from it.
+Makes sure gdk-pixbuf-native populates the sysroot during setscene;
+otherwise, gdk-pixbuf-query-loaders may not actually be available at the
+time the completion function runs, causing a build failure.
 
-> Then we realize smartpm should switch to python3. In order to solve
-> this 
-> issue, there are four solutions as follows.
-> 
-> [1] smart/RPM5
-> [2] smart/RPM4
-> [3] dnf/RPM5
-> [4] dnf/RPM4
-> 
-> I confirm that RPM5 have some bugs with python3 and I am not
-> familiar 
-> with RPM. So I think the easy way to solve this issue is [2],
-> recover 
-> RPM4 and solve the bugs in smartpm.
-> 
-> > 
-> > 
-> > It's also worth pointing out that we're strongly considering
-> > dropping
-> > SMART in the next (2.3) development cycle[4].
-> > 
-> Considering YP would like to drop smart in 2.3, I wonder YP would
-> use 
-> [3]dnf/RPM5 or [4]dnf/RPM4 ?
+Similarly, packages providing loader libraries should append to
+PIXBUFCACHE_SYSROOT_DEPS with their runtime dependencies.
 
-There are two main reasons we want to switch away from Smart. Firstly
-we made a concerted effort to switch to Python3 in the 2.2 cycle —
-Smart is one of the few recipes in OE-Core which still pulls in
-Python2, maybe the only one we use by default (for RPM using distros).
+Signed-off-by: Kyle Russell <bkylerussell@gmail.com>
+---
+ meta/classes/pixbufcache.bbclass | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
-Secondly Smart is unmaintained and has several known issues related to
-its abstraction over package backends.
+diff --git a/meta/classes/pixbufcache.bbclass b/meta/classes/pixbufcache.bbclass
+index dbe11e1..3c1e398 100644
+--- a/meta/classes/pixbufcache.bbclass
++++ b/meta/classes/pixbufcache.bbclass
+@@ -65,3 +65,17 @@ pixbufcache_sstate_postinst() {
+ 	fi
+ }
+ 
++# Add all of the dependencies of gdk-pixbuf as dependencies of
++# do_populate_sysroot_setscene so that pixbufcache_sstate_postinst can work
++# (otherwise gdk-pixbuf-query-loaders may not exist or link). Only add
++# gdk-pixbuf-native if we're not building gdk-pixbuf itself.
++#
++# Packages that use this class should extend this variable with their runtime
++# dependencies.
++PIXBUFCACHE_SYSROOT_DEPS = ""
++PIXBUFCACHE_SYSROOT_DEPS_class-native = "\
++    ${@['gdk-pixbuf-native:do_populate_sysroot_setscene', '']['${BPN}' == 'gdk-pixbuf']} \
++"
++
++do_populate_sysroot_setscene[depends] += "${PIXBUFCACHE_SYSROOT_DEPS}"
++do_populate_sysroot[depends] += "${@d.getVar('PIXBUFCACHE_SYSROOT_DEPS', True).replace('_setscene','')}"
+-- 
+2.7.4
 
-So far as I'm aware no decision has been made as to what we'll replace
-Smart with yet. I believe the first step will be to investigate RPM5 &
-dnf.
-
-Regards,
-
-Joshua
 
