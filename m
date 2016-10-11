@@ -1,36 +1,29 @@
-Return-Path: <gary@mlbassoc.com>
-Received: from mail.analogue-micro.com (mail.analogue-micro.com
-	[217.144.149.242])
-	by mail.openembedded.org (Postfix) with ESMTP id F211E6FF84
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 49FFB60939
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Oct 2016 12:45:54 +0000 (UTC)
-Received: by mail.analogue-micro.com (Postfix, from userid 999)
-	id E542F68A019; Tue, 11 Oct 2016 13:45:53 +0100 (BST)
-X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
-	loki.analogue-micro-ltd.com
-X-Spam-Level: 
-X-Spam-Status: No, score=-0.2 required=5.0 tests=ALL_TRUSTED,BAYES_00,
-	DNS_FROM_AHBL_RHSBL autolearn=no version=3.3.2
-Received: from zeus.mlbassoc.com (unknown [10.8.0.2])
-	by mail.analogue-micro.com (Postfix) with ESMTP id 5C2D868A019;
-	Tue, 11 Oct 2016 13:45:51 +0100 (BST)
-Received: from [127.0.0.1] (localhost.localdomain [127.0.0.1])
-	by zeus.mlbassoc.com (Postfix) with ESMTP id 11A56674028F;
-	Tue, 11 Oct 2016 14:45:51 +0200 (CEST)
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <1476188384-16064-1-git-send-email-ross.burton@intel.com>
-	<1476188384-16064-2-git-send-email-ross.burton@intel.com>
-	<9eb3fd87-b56b-ce59-7c85-f0d4fa4d3500@mlbassoc.com>
-	<CAJTo0LbYVgB53POjPZYWLSxXREWea3bnUUBK83vFv-MvTRG9_Q@mail.gmail.com>
-From: Gary Thomas <gary@mlbassoc.com>
-Message-ID: <5f536002-f327-231f-ba5a-ab42bb963b90@mlbassoc.com>
-Date: Tue, 11 Oct 2016 14:45:51 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.3.0
+	Tue, 11 Oct 2016 12:56:41 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u9BCugfB010298
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
+	Tue, 11 Oct 2016 05:56:42 -0700
+Received: from soho-mhatle-m.local (147.11.116.82) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.294.0;
+	Tue, 11 Oct 2016 05:56:41 -0700
+To: Phil Blundell <pb@pbcl.net>, Yuanjie Huang <Yuanjie.Huang@windriver.com>, 
+	<openembedded-core@lists.openembedded.org>
+References: <20161011080241.24267-1-Yuanjie.Huang@windriver.com>
+	<1476186839.16008.43.camel@pbcl.net>
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+Message-ID: <91bf66ab-ed87-3f98-b7b1-cd75344e61f0@windriver.com>
+Date: Tue, 11 Oct 2016 14:56:40 +0200
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.12; rv:45.0)
+	Gecko/20100101 Thunderbird/45.4.0
 MIME-Version: 1.0
-In-Reply-To: <CAJTo0LbYVgB53POjPZYWLSxXREWea3bnUUBK83vFv-MvTRG9_Q@mail.gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/2] insane: display names instead of ELF machine numbers
+In-Reply-To: <1476186839.16008.43.camel@pbcl.net>
+Subject: Re: [PATCH] glibc: Fix timestamp of plural.c after unpack
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,34 +36,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Oct 2016 12:45:55 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
+X-List-Received-Date: Tue, 11 Oct 2016 12:56:42 -0000
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
-On 2016-10-11 14:36, Burton, Ross wrote:
->
-> On 11 October 2016 at 13:26, Gary Thomas <gary@mlbassoc.com <mailto:gary@mlbassoc.com>> wrote:
->
->     Did you mean to swap the items?  The old version used
->       machine, elf.machine()
->     and this version uses
->       elf.machine(), machine
->
->
-> Yes, because the string format changed to be clearer too:
->
-> -        package_qa_add_message(messages, "arch", "Architecture did not match (%d to %d) on %s" % \
-> -                 (machine, elf.machine(), package_qa_clean_path(path,d)))
-> +        package_qa_add_message(messages, "arch", "Architecture did not match (%s, expected %s) on %s" % \
-> +                 (oe.qa.elf_machine_to_string(elf.machine()), oe.qa.elf_machine_to_string(machine),
->
-> The old message would say "20 to 62", the new message is "x86-64, expected PowerPC".
+On 10/11/16 1:53 PM, Phil Blundell wrote:
+> On Tue, 2016-10-11 at 16:02 +0800, Yuanjie Huang wrote:
+>> From: Yuanjie Huang <yuanjie.huang@windriver.com>
+>>
+>> Source file plural.c might be updated with bison from plural.y, touch
+>> it
+>> before applying patches so that this file is consistent across
+>> builds.
+> 
+> I think it would be better to just configure glibc explicitly without
+> bison (BISON=no).  It doesn't DEPEND on bison-native anyway so it ought
+> never to be using it.
 
-Much nicer indeed.
+This was the first instance of the patch.  However after discussing the issue w/
+Khem Raj (in person), we came to the conclusion that we did want a way to permit
+people to modify the plural.y via a patch, otherwise someone could make a change
+and not realize it was ignored.
 
--- 
-------------------------------------------------------------
-Gary Thomas                 |  Consulting for the
-MLB Associates              |    Embedded world
-------------------------------------------------------------
+--Mark
+
+> p.
+> 
+
 
