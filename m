@@ -1,90 +1,49 @@
-Return-Path: <samuli.piippo@qt.io>
-X-Greylist: delayed 7163 seconds by postgrey-1.34 at layers.openembedded.org;
-	Tue, 11 Oct 2016 18:47:18 UTC
-Received: from EUR01-DB5-obe.outbound.protection.outlook.com
-	(mail-db5eur01on0109.outbound.protection.outlook.com [104.47.2.109])
-	by mail.openembedded.org (Postfix) with ESMTP id E38F371976
+Return-Path: <krussell7711@gmail.com>
+Received: from mail-yb0-f195.google.com (mail-yb0-f195.google.com
+	[209.85.213.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 2C26865C8A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Oct 2016 18:47:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=qtcompany.onmicrosoft.com; s=selector1-qt-io;
-	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version;
-	bh=wyasxX11Bf1p+h3oEflZ1GWwUXTDnT4bsVl09CYo83U=;
-	b=iCHL+Qc7sk4+gy5k+eHyysQ2Jk9QNdHpW8zCzltbuhkFOm5tb8YqNdZIloBvjJvKJkgccTRTdIaMwbRQFbclEflYXeQHTzxJ6V1glFaZsbL9S1eEmsFAHj6DkYTfJ6QiaGe8QzmzJwSYPyTr1XDudK4e+ICjPGytC6hrihET/MM=
-Authentication-Results: spf=none (sender IP is )
-	smtp.mailfrom=samuli.piippo@qt.io; 
-Received: from piippo.intra.qt.io (192.89.120.53) by
-	DB6PR0202MB2728.eurprd02.prod.outlook.com (10.171.71.138) with
-	Microsoft SMTP Server (version=TLS1_2,
-	cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id
-	15.1.659.11; Tue, 11 Oct 2016 15:14:45 +0000
-From: Samuli Piippo <samuli.piippo@qt.io>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 11 Oct 2016 18:14:10 +0300
-Message-ID: <1476198850-1529-1-git-send-email-samuli.piippo@qt.io>
-X-Mailer: git-send-email 1.9.1
+	Tue, 11 Oct 2016 18:51:29 +0000 (UTC)
+Received: by mail-yb0-f195.google.com with SMTP id 184so628936yby.3
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 11 Oct 2016 11:51:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:from:date:message-id
+	:subject:to:cc;
+	bh=azvyJMby9pIoVvbz/TeaYtKbb4h5AFcekeWpQq6aKB8=;
+	b=nyx3crurHFi2aJjz2DBAHQKoOXj/ritG+2cfRTaMNXIaf68riUhSGmBWRKcQqg9br2
+	FUqim03CwFCB8XnOKbwsMlnCQe2mKZW20X8hDo6WP5ki9x3uRzde+JAz6yjJiLhqZYNz
+	fMqxAbHmS8dz0Z/G/tvT1YC0WC9aSKamATYUHnokQpVJO/SgSWd0tyTZdrXaPHlH6Vqh
+	tyzNDoTilaMUWumvCZkfnthmchjyRSYuLKO29N+UqBXzM0wpcPmfvVn3qNLGExFyC+wz
+	xBiWYuxiwm6Aspq5QeMQi9MsxVWKZlthImwrHeQr6m54drHEQipFcoaz6nOJMPWsfNJv
+	7YXg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:sender:in-reply-to:references:from
+	:date:message-id:subject:to:cc;
+	bh=azvyJMby9pIoVvbz/TeaYtKbb4h5AFcekeWpQq6aKB8=;
+	b=VjyY3OZizspQC+8+hRpihi1l3TKr34VMumxKjtQywbrAlpImOZ5Zdbm/lqN5OoxgA2
+	OQxpvF/R2Gmqhs/kmNrD4ll5a3+cHcpQGo/g4ZNsn67640ebaDUsni3rFJULTEU6HApy
+	hkh3df9qHCytpxYHyLMoGPNOhuXqpA2X5wJnMFSKpnpT68pGVWA4hINgTG+0/CbMao9A
+	IOXftm/a0vomMWszitZeL46kDGOHooEtTSSVdheIcWiiOAYrfOyTmFrKbHHD3900nBu4
+	LyMYNNrOlWr9SIMs5UNgZHNJKMikIIlZA3tw1yEs8Brm7914KsRLephY7DKWuc5psuiy
+	+r7g==
+X-Gm-Message-State: AA6/9RmRgb1eJriekFC/q2Rny0NmtZczdDEbDf9gljuw+6BtiIMv8HJOasmfozXeSPu1z0LqdUgHQLFw1UngBw==
+X-Received: by 10.37.173.146 with SMTP id z18mr4910341ybi.194.1476211890966;
+	Tue, 11 Oct 2016 11:51:30 -0700 (PDT)
 MIME-Version: 1.0
-X-Originating-IP: [192.89.120.53]
-X-ClientProxiedBy: AM5PR0501CA0024.eurprd05.prod.outlook.com (10.164.187.34)
-	To DB6PR0202MB2728.eurprd02.prod.outlook.com (10.171.71.138)
-X-MS-Office365-Filtering-Correlation-Id: 4aa93173-87be-498c-d49a-08d3f1e9558d
-X-Microsoft-Exchange-Diagnostics: 1; DB6PR0202MB2728;
-	2:n/4f5WRfb9nGYvo6fzMJr8d38F55W6dfQyK/g5lvMXyUxGBrjQ82yAFJQJvRch1Uxjt9T9xwUR0EMy7Z8mVAwo8xSl7YheiyiTlU0lFhFX0zfiR1tMPpShkMW9x89ikmUdveX1xMU/DB52gkiP2omsxVHU9G0GY3zG9mXxLpMb0DokwqcV87G1jfHA5IM+MYdcJaxYIZneRsrO0W7eYZgg==;
-	3:MOV8cjKfWb5cOfrE0qxzvrzo1dYPdDar5/xhuZSGprC6V8byHxMlHXAkSy3XhrQC01LQIwNLCyEL7mCAthfQuO5oooYNCACgQ6uE3nQ03M0JtNDedo8Wj++9iWw4QXrf30J/LHzDvrsco6GkFzKa3A==;
-	25:bmD4lnEsPmmMn7FWJRc1E8eOyIPOSZ7pjkXzI+0GSxVOTo11ZEiyhBAa7RnfqntMGmkRY99jdLSMqUqF5vaPEt5MnatlznnoTb45ywl4bgmSM1U6eas2AS84lVAE0wm76SjzIjsfO5VraF+AEUs+npAjr1F4Gzx9PfQ5rsLifHgPSdUSQH5sqtpmcCNHV2lsustXUi2kZoOaAwbtBR3zWkKMsIABH3s5yqIWgLC4l4VOWwIfA/Tg7RWuyOX78wtxaS5ctZbqrpMcTSdP29thrM0g2OLYAZId028j2u4Xfn8DlwaOdf3Zx83bB14U5S5iTjb8hNGuQ9sCA80fohj3gldu5z/IYDhDygLSxfWQg7SALrD2pgIG/k9VV29upc8vPkawE3/G63FAAZd9l6jDRKfLusmbOJkD4F1dRWsNBuUeXX8IY+ifZfqKQns6Henq
-X-Microsoft-Antispam: UriScan:;BCL:0;PCL:0;RULEID:;SRVR:DB6PR0202MB2728;
-X-Microsoft-Exchange-Diagnostics: 1; DB6PR0202MB2728;
-	31:nUMTecF2YK9W8IgNsLl4seNvAK53XlqOt/4r43Y8OQ1LkcqvvEuHUtMiumrMtjxX/wLsgz4RXG2HhXunRSBMArVbdAKaIiidDdFsXkebsNYQIAexrW/uEZxGccr8/aznS0wir4NkFJ/G+AGJsGQAU+xx4pcwO9gEA27Z/jLgFH7DWeVWceHfCc6ztofiILiAqzTeR16jxOqDMyqAaZCkYWGchIEmsWZW9CUJiac/my5wOlSCyI3CKCz40ZvZqB2V;
-	20:KQfpgRcvMsuRFrUPaAJhSlBfV7hqSEARLGbl21eXM9Z4NCPTecJMnLeqEQvzwh4qr08Fw+4uXSoMj8a2Ah8mnAKFSqixcGFtjBAhE8PPmviThnfkavRKcZ2E6iWxAfyBxKksEJwtdUZ+wpJZ9q+eyY3i4KXczU2a+npaWactJnp/qKjGOntlVwQzyu4PoaCclSYDbwcZYD9BpbDr5u92CHKAziHeQbyozt8V7EsMDI+FHX+KhKeYrSMl+taPTRF9;
-	4:lBAIFF0xMclCMKZsfg9NwAblI/IvZ3/0vvcv6+c6F+FmB/zjri/X8Py9o48aU9SD3y16ueWk99qB/81UdJ1f915DUUlJUMgfowLF1r+Pp6d49/1Wn6lCeiNVBEmRe5hI4F0T2EauV4EKQS/RNzlDxtu0Kc/vJG+dqvyhL2o1UHE/rwBy8TjVneWzeqFyJ3hSZmBXE/on6xXZENM1QdGgOfMUtZTsbRwO2TbZTHy2nNscoOO6j+2YmvHfOcEV5QoSSA300sEHMPDeTqDd++8xCrBLPNXYAHW0tngM9TXVt9VS2RyfZyQ7m7Gb/Ods4N3jcoZukyGwtBIq4slr5+Q6lAYdReduF2LRdXMF7v6nhOT8eEktYR6U3y+XNs/b+KwKFfeHQK7d7RrGaZXL66++x29ZbXRiK7Zs7HtuttxYxqFfVC+TCrAngWsKmyqqhbHs
-X-Microsoft-Antispam-PRVS: <DB6PR0202MB27284E616AAF3B9341EFE5ACE9DA0@DB6PR0202MB2728.eurprd02.prod.outlook.com>
-X-Exchange-Antispam-Report-Test: UriScan:;
-X-Exchange-Antispam-Report-CFA-Test: BCL:0; PCL:0;
-	RULEID:(6040176)(601004)(2401047)(8121501046)(5005006)(3002001)(10201501046)(6043046)(6042046);
-	SRVR:DB6PR0202MB2728; BCL:0; PCL:0; RULEID:;
-	SRVR:DB6PR0202MB2728; 
-X-Forefront-PRVS: 00922518D8
-X-Forefront-Antispam-Report: SFV:NSPM;
-	SFS:(10019020)(4630300001)(6009001)(7916002)(199003)(189002)(586003)(68736007)(3846002)(5003940100001)(6116002)(69596002)(19580405001)(36756003)(107886002)(189998001)(19580395003)(450100001)(110136003)(6916009)(6666003)(77096005)(5660300001)(7736002)(305945005)(47776003)(97736004)(8676002)(50986999)(7846002)(53416004)(81156014)(229853001)(81166006)(2351001)(92566002)(86362001)(105586002)(106356001)(48376002)(66066001)(74482002)(42186005)(50466002)(33646002)(2906002)(50226002)(101416001);
-	DIR:OUT; SFP:1102; SCL:1; SRVR:DB6PR0202MB2728;
-	H:piippo.intra.qt.io; FPR:; SPF:None; PTR:InfoNoRecords; A:1;
-	MX:1; LANG:en; 
-Received-SPF: None (protection.outlook.com: qt.io does not designate permitted
-	sender hosts)
-X-Microsoft-Exchange-Diagnostics: =?us-ascii?Q?1; DB6PR0202MB2728;
-	23:bg8DtcqfsvlMHL4Jv7yB02RtsW0j6KsUITWZgYt?=
-	=?us-ascii?Q?ydbPO9OWuMTs3xR+z+aYybdq83NsYqVLRzFXoUa1N4/SUOGmtJOacv/a5uE+?=
-	=?us-ascii?Q?7JLTss7zDUhWtDnxj4Z5pv3WtZ+HWtr0McK1kR0w9IwAywAsBuGtnHQeJB3L?=
-	=?us-ascii?Q?rYim/WzsOio6D0TbUAXb2i7EKGErASzs3ySGJvLrmcLNUaIjo4syVFb8yxgo?=
-	=?us-ascii?Q?c/E3Ot6AJdKQvzXKAno2+YKnpo3a7ReSHgaDOYQJEhWSTkg/x6KLE16+jMJn?=
-	=?us-ascii?Q?gSpXuuaQdm3EMRrXza3JQw+TWDjqnWz2OdAtr9LuMfOiHMeG+nVxWF/8t0NN?=
-	=?us-ascii?Q?LsWmKFLLldT9ed+I+313R2fhVRUWQTYzQsOAXOze068wxfITe0WEBxW+jMMW?=
-	=?us-ascii?Q?saPyqL6aRLfaWVyXmcYnBxMZPW4bIScqJNgoR5JCoLOpMFIt+ZFyaa1y/D+O?=
-	=?us-ascii?Q?GaMQWSGp4seJVzdK+PM1dGpUJ7R35OaKkXkKDInUpK/DaLvqJT1+SpmVt9J2?=
-	=?us-ascii?Q?FLbBAJpvD7EqS7CylkNJuZnv7PKWSa0OlYsz4VqTZrAoIZeLdzNJQldUSP49?=
-	=?us-ascii?Q?u+3QOtMB8ASNNJsvjN0WDvM9CpXPfEWcXTTFD2nKyiAlcJqRUjUMMi+Ir4WY?=
-	=?us-ascii?Q?+5KnPavyw4v0L2dqBgdU+ZTe1jUaZezmyqwc+PdGckJOqi+MqJU4x1xAzdu+?=
-	=?us-ascii?Q?fpJQbCiiqUSEInb7a3FEqlE/yEGgdBwiixYt0zUTiob7suq2ffatYDVLMUwF?=
-	=?us-ascii?Q?UD2d3hvUfSFJd+j15ONK/WXSW/lSqaXchMT03wX+cN2TDoivMn4ws6TnxUNX?=
-	=?us-ascii?Q?nHcGZQ+bct2z/TlqB6i3mogU/4Zeu8fkRYv9Tf87VmQyoFdTK9q0NbyrDKJ8?=
-	=?us-ascii?Q?iPDWPkEK+bn+jJfgpyisBPLIypm5qvGSW8b8JoZ4rBxUuMe9f9G5yjVuCdAu?=
-	=?us-ascii?Q?GwhYdW5cl51yJBOIbBFuy+CiVLXGbyi1RBcz6bkwv5a0w9W13zEmaP8J0KqF?=
-	=?us-ascii?Q?QSjahog4c4950F87SxkOglJ3m3Wmyh45MJJucLKNdTrUKBO2j8PEXE/im7Oz?=
-	=?us-ascii?Q?dqvbUKmv51bdGa/ieleeLS0KCp21Mra7JYrqlCdGBzIqJjfvZ2f7ftJWdTmu?=
-	=?us-ascii?Q?+8EwH9lfIh+uQ2rgXf/3FZResghWveEmv?=
-X-Microsoft-Exchange-Diagnostics: 1; DB6PR0202MB2728;
-	6:+hp3BUWIHNbc7J2gL9dB2wZbA8Zrib5FYAowt6YRpZjj8tHMdrPLOQjNKixheDaVa6EDtDKnlqwyJxe9wN44J9Fm377VoRLDlvhY32SslebiEreGoo6P2Fr76fWId77d4/l6Tc/NkmQAylU8z7V3n/7OAUV+/Z7Cxf7e6XTS46Iokr9hmbQ/0v/5N1T2hS+koPLgSOXasa2KxYmsVKAtAcrF7cQHGytfUTYGXnCrOTYvXZ9V3E4k9sYmhV6b3TKqhBSO/M1gCjQTxfEL+Pmt8kuUwTynKFAKBgg0Iw6o4KJBc51/fa77oXpZrz7kkSglaPzqdFSdOKiJS7tgtxdqiA==;
-	5:8TUgFvN06LfgkUrxeU3Rgk9KesOFfJZovRyU9bbkIugAZr/+h1PVnTp9i2QUejeQkuvfKh7HgMVWvShD2F1bO6Q+6jfNwPDObjfVxLOnAHUGYM+LToIRZvHmiR3O3dSE88q6yPNP7oz/JDCtC56i4w==;
-	24:d4TKAPn9ei463UyDdAdjymFh2IMmAwPu9p89KZg3JoFJJTwKws5O+8Qz6/9gWKqvSzj3mHZguvYsuDw3i5qSr9yHJ3xCJ+LEQh75RWn91Lc=
-SpamDiagnosticOutput: 1:99
-SpamDiagnosticMetadata: NSPM
-X-Microsoft-Exchange-Diagnostics: 1; DB6PR0202MB2728;
-	7:AkiTIE6c3ADg507IWNiYXd8CqLUrZy7kwn1HAFuivpGCecvYZpYXsmPu/rYY2X1h2qQkioFhIQuzr/g91c5OZOJaID7zRNAu75rNLDAy6seXdhC+Ifhx8KSHIALkGRQRzLHc/VgQOi1nHF5RgU5LX/MoGazFtysH83ldlJg6dIj3aIYoutmZAK6GYs3PCu14KOIMjIsv+pH6IQYYHxpEEvHovdwKSMEst2s7tVyW5nbYN0l0x8npQPtqWnGgBVdUKSRD9CpNFr2we2m1wpli7TQyO3RWRn8hwMvTGJdnQwnenPTKV6lfNW7aOATf5vktywRZLp7HJTCO/8YuePdTwE15u9NF/sjUqyksg4fNjM8=
-X-OriginatorOrg: qt.io
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Oct 2016 15:14:45.2452 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB6PR0202MB2728
-Subject: [meta-oe][PATCH] systemd-serialgetty: add dependency to agetty
+Sender: krussell7711@gmail.com
+Received: by 10.129.155.145 with HTTP; Tue, 11 Oct 2016 11:51:10 -0700 (PDT)
+In-Reply-To: <20161011182933.GB2917@jama>
+References: <1476195437-24040-1-git-send-email-bkylerussell@gmail.com>
+	<20161011182933.GB2917@jama>
+From: Kyle Russell <bkylerussell@gmail.com>
+Date: Tue, 11 Oct 2016 14:51:10 -0400
+X-Google-Sender-Auth: krPOGoQC7QRb6l-hlIudVWrwKZ8
+Message-ID: <CAFrQVPOLDfbDsu8KNXATRJdQbCTcDnmnTO8L84jAUReyMUBBRA@mail.gmail.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/2] pixbufcache: Ensure sysroot dependencies are satisfied
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -97,28 +56,195 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Oct 2016 18:47:19 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 11 Oct 2016 18:51:30 -0000
+Content-Type: multipart/alternative; boundary=f403045db1145ff79d053e9b5da2
 
-Signed-off-by: Samuli Piippo <samuli.piippo@qt.io>
----
- meta/recipes-core/systemd/systemd-serialgetty.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+--f403045db1145ff79d053e9b5da2
+Content-Type: text/plain; charset=UTF-8
 
-diff --git a/meta/recipes-core/systemd/systemd-serialgetty.bb b/meta/recipes-core/systemd/systemd-serialgetty.bb
-index 768b130..c4e5310 100644
---- a/meta/recipes-core/systemd/systemd-serialgetty.bb
-+++ b/meta/recipes-core/systemd/systemd-serialgetty.bb
-@@ -38,7 +38,7 @@ do_install() {
- 	fi
- }
- 
--RDEPENDS_${PN} = "systemd"
-+RDEPENDS_${PN} = "systemd util-linux-agetty"
- 
- # This is a machine specific file
- FILES_${PN} = "${systemd_unitdir}/system/*.service ${sysconfdir}"
--- 
-1.9.1
+The symptoms sound very similar as far as the postinst exception; however,
+I don't think I've seen an error specifically for libpcre before.  I think
+in one instance, gdk-pixbuf-query-loaders itself was missing, and in
+another instance, one of the libraries provided by harfbuzz. Looking
+through the logs, the do_populate_sysroot_setscene tasks for these packages
+never ran. (My memory might be off slightly about the specific packages
+that were missing, though in each failure instance they were listed in the
+librsvg PIXBUFCACHE_SYSROOT_DEPS variable.)
 
+Since PIXBUFCACHE_SYSROOT_DEPS didn't appear to be used anywhere, and we
+kept hitting what appeared to be dependency issues with setscene tasks not
+running, we thought maybe this hunk was inadvertantly removed from
+pixbufcache.bbclass. We've been running with this patch for a few weeks on
+our jethro branch and haven't seen any subsequent postinst failures (except
+the two packages I addressed in my second patch). The logs from the failed
+builds have already been reaped from the build slave, or I could go back to
+verify exactly which error messages we encountered in postinst.
 
+Should these setscene dependencies be satisfied another way?
+
+On Tue, Oct 11, 2016 at 2:29 PM, Martin Jansa <martin.jansa@gmail.com>
+wrote:
+
+> On Tue, Oct 11, 2016 at 10:17:16AM -0400, Kyle Russell wrote:
+> > Reverts part of b411085fefc8582d24c172db5f6610705eb44c2f
+> >
+> > Makes sure gdk-pixbuf-native populates the sysroot during setscene;
+> > otherwise, gdk-pixbuf-query-loaders may not actually be available at the
+> > time the completion function runs, causing a build failure.
+> >
+> > Similarly, packages providing loader libraries should append to
+> > PIXBUFCACHE_SYSROOT_DEPS with their runtime dependencies.
+>
+> Is this related to
+> https://bugzilla.yoctoproject.org/show_bug.cgi?id=10102
+> ? Or are you seeing completely different errors?
+>
+> > Signed-off-by: Kyle Russell <bkylerussell@gmail.com>
+> > ---
+> >  meta/classes/pixbufcache.bbclass | 14 ++++++++++++++
+> >  1 file changed, 14 insertions(+)
+> >
+> > diff --git a/meta/classes/pixbufcache.bbclass
+> b/meta/classes/pixbufcache.bbclass
+> > index dbe11e1..3c1e398 100644
+> > --- a/meta/classes/pixbufcache.bbclass
+> > +++ b/meta/classes/pixbufcache.bbclass
+> > @@ -65,3 +65,17 @@ pixbufcache_sstate_postinst() {
+> >       fi
+> >  }
+> >
+> > +# Add all of the dependencies of gdk-pixbuf as dependencies of
+> > +# do_populate_sysroot_setscene so that pixbufcache_sstate_postinst can
+> work
+> > +# (otherwise gdk-pixbuf-query-loaders may not exist or link). Only add
+> > +# gdk-pixbuf-native if we're not building gdk-pixbuf itself.
+> > +#
+> > +# Packages that use this class should extend this variable with their
+> runtime
+> > +# dependencies.
+> > +PIXBUFCACHE_SYSROOT_DEPS = ""
+> > +PIXBUFCACHE_SYSROOT_DEPS_class-native = "\
+> > +    ${@['gdk-pixbuf-native:do_populate_sysroot_setscene', '']['${BPN}'
+> == 'gdk-pixbuf']} \
+> > +"
+> > +
+> > +do_populate_sysroot_setscene[depends] += "${PIXBUFCACHE_SYSROOT_DEPS}"
+> > +do_populate_sysroot[depends] += "${@d.getVar('PIXBUFCACHE_SYSROOT_DEPS',
+> True).replace('_setscene','')}"
+> > --
+> > 2.7.4
+> >
+> > --
+> > _______________________________________________
+> > Openembedded-core mailing list
+> > Openembedded-core@lists.openembedded.org
+> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+> --
+> Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+>
+
+--f403045db1145ff79d053e9b5da2
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">The symptoms sound very similar as far as the postinst exc=
+eption; however, I don&#39;t think I&#39;ve seen an error specifically for =
+libpcre before.=C2=A0 I think in one instance,=C2=A0<span style=3D"color:rg=
+b(0,0,0);white-space:pre-wrap">gdk-pixbuf-query-loaders itself was missing,=
+ and in another instance, one of the libraries provided by harfbuzz.  Looki=
+ng through the logs, the do_populate_sysroot_setscene tasks for these packa=
+ges never ran.  (My memory might be off slightly about the specific package=
+s that were missing, though in each failure instance they were listed in th=
+e librsvg PIXBUFCACHE_SYSROOT_DEPS variable.)</span><div><span style=3D"col=
+or:rgb(0,0,0);white-space:pre-wrap"><br></span></div><div><span style=3D"co=
+lor:rgb(0,0,0);white-space:pre-wrap">Since PIXBUFCACHE_SYSROOT_DEPS didn&#3=
+9;t appear to be used anywhere, and we kept hitting what appeared to be dep=
+endency issues with setscene tasks not running, we thought maybe this hunk =
+was inadvertantly removed from pixbufcache.bbclass.  We&#39;ve been running=
+ with this patch for a few weeks on our jethro branch and haven&#39;t seen =
+any subsequent postinst failures (except the two packages I addressed in my=
+ second patch).  The logs from the failed builds have already been reaped f=
+rom the build slave, or I could go back to verify exactly which error messa=
+ges we encountered in postinst.</span></div><div><span style=3D"color:rgb(0=
+,0,0);white-space:pre-wrap"><br></span></div><div><span style=3D"color:rgb(=
+0,0,0);white-space:pre-wrap">Should these setscene dependencies be satisfie=
+d another way?</span></div></div><div class=3D"gmail_extra"><br><div class=
+=3D"gmail_quote">On Tue, Oct 11, 2016 at 2:29 PM, Martin Jansa <span dir=3D=
+"ltr">&lt;<a href=3D"mailto:martin.jansa@gmail.com" target=3D"_blank">marti=
+n.jansa@gmail.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote=
+" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><=
+span class=3D"">On Tue, Oct 11, 2016 at 10:17:16AM -0400, Kyle Russell wrot=
+e:<br>
+&gt; Reverts part of b411085fefc8582d24c172db5f6610<wbr>705eb44c2f<br>
+&gt;<br>
+&gt; Makes sure gdk-pixbuf-native populates the sysroot during setscene;<br=
+>
+&gt; otherwise, gdk-pixbuf-query-loaders may not actually be available at t=
+he<br>
+&gt; time the completion function runs, causing a build failure.<br>
+&gt;<br>
+&gt; Similarly, packages providing loader libraries should append to<br>
+&gt; PIXBUFCACHE_SYSROOT_DEPS with their runtime dependencies.<br>
+<br>
+</span>Is this related to<br>
+<a href=3D"https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D10102" rel=
+=3D"noreferrer" target=3D"_blank">https://bugzilla.yoctoproject.<wbr>org/sh=
+ow_bug.cgi?id=3D10102</a><br>
+? Or are you seeing completely different errors?<br>
+<div class=3D"HOEnZb"><div class=3D"h5"><br>
+&gt; Signed-off-by: Kyle Russell &lt;<a href=3D"mailto:bkylerussell@gmail.c=
+om">bkylerussell@gmail.com</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 meta/classes/pixbufcache.<wbr>bbclass | 14 ++++++++++++++<br>
+&gt;=C2=A0 1 file changed, 14 insertions(+)<br>
+&gt;<br>
+&gt; diff --git a/meta/classes/pixbufcache.<wbr>bbclass b/meta/classes/pixb=
+ufcache.<wbr>bbclass<br>
+&gt; index dbe11e1..3c1e398 100644<br>
+&gt; --- a/meta/classes/pixbufcache.<wbr>bbclass<br>
+&gt; +++ b/meta/classes/pixbufcache.<wbr>bbclass<br>
+&gt; @@ -65,3 +65,17 @@ pixbufcache_sstate_postinst() {<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0fi<br>
+&gt;=C2=A0 }<br>
+&gt;<br>
+&gt; +# Add all of the dependencies of gdk-pixbuf as dependencies of<br>
+&gt; +# do_populate_sysroot_setscene so that pixbufcache_sstate_postinst ca=
+n work<br>
+&gt; +# (otherwise gdk-pixbuf-query-loaders may not exist or link). Only ad=
+d<br>
+&gt; +# gdk-pixbuf-native if we&#39;re not building gdk-pixbuf itself.<br>
+&gt; +#<br>
+&gt; +# Packages that use this class should extend this variable with their=
+ runtime<br>
+&gt; +# dependencies.<br>
+&gt; +PIXBUFCACHE_SYSROOT_DEPS =3D &quot;&quot;<br>
+&gt; +PIXBUFCACHE_SYSROOT_DEPS_<wbr>class-native =3D &quot;\<br>
+&gt; +=C2=A0 =C2=A0 ${@[&#39;gdk-pixbuf-native:do_<wbr>populate_sysroot_set=
+scene&#39;, &#39;&#39;][&#39;${BPN}&#39; =3D=3D &#39;gdk-pixbuf&#39;]} \<br=
+>
+&gt; +&quot;<br>
+&gt; +<br>
+&gt; +do_populate_sysroot_setscene[<wbr>depends] +=3D &quot;${PIXBUFCACHE_S=
+YSROOT_DEPS}&quot;<br>
+&gt; +do_populate_sysroot[depends] +=3D &quot;${@d.getVar(&#39;PIXBUFCACHE_=
+<wbr>SYSROOT_DEPS&#39;, True).replace(&#39;_setscene&#39;,&#39;&#39;)}<wbr>=
+&quot;<br>
+&gt; --<br>
+&gt; 2.7.4<br>
+&gt;<br>
+</div></div><span class=3D"HOEnZb"><font color=3D"#888888">&gt; --<br>
+&gt; ______________________________<wbr>_________________<br>
+&gt; Openembedded-core mailing list<br>
+&gt; <a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedd=
+ed-core@lists.<wbr>openembedded.org</a><br>
+&gt; <a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded=
+-core" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/<=
+wbr>mailman/listinfo/openembedded-<wbr>core</a><br>
+<br>
+--<br>
+Martin &#39;JaMa&#39; Jansa=C2=A0 =C2=A0 =C2=A0jabber: <a href=3D"mailto:Ma=
+rtin.Jansa@gmail.com">Martin.Jansa@gmail.com</a><br>
+</font></span></blockquote></div><br></div>
+
+--f403045db1145ff79d053e9b5da2--
