@@ -1,31 +1,29 @@
 Return-Path: <mark.hatle@windriver.com>
 Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 24CDB71995
+	by mail.openembedded.org (Postfix) with ESMTP id 300D76FF84
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Oct 2016 10:29:19 +0000 (UTC)
+	Tue, 11 Oct 2016 10:31:40 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u9BATJE8007097
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u9BAVfLP007153
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
-	Tue, 11 Oct 2016 03:29:19 -0700
+	Tue, 11 Oct 2016 03:31:41 -0700
 Received: from soho-mhatle-m.local (147.11.116.80) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.294.0;
-	Tue, 11 Oct 2016 03:29:18 -0700
-To: Yuanjie Huang <yuanjie.huang@windriver.com>, "Burton, Ross"
-	<ross.burton@intel.com>
+	Tue, 11 Oct 2016 03:31:40 -0700
+To: Gary Thomas <gary@mlbassoc.com>, <openembedded-core@lists.openembedded.org>
 References: <20161011080241.24267-1-Yuanjie.Huang@windriver.com>
 	<39a3791d-d74a-21de-5806-edda4c26b33f@windriver.com>
-	<CAJTo0Lb04c39Qz-oTpP-BrLT=ARmr8z9uwEugrc2vK1n6wOp7w@mail.gmail.com>
-	<d3ff1e21-3b54-e32f-e4b4-63f94970b0f8@windriver.com>
+	<lyd1j7s0j0.fsf@ensc-virt.intern.sigma-chemnitz.de>
+	<47d07770-136d-57f8-63b8-1abe95f5293e@mlbassoc.com>
 From: Mark Hatle <mark.hatle@windriver.com>
 Organization: Wind River Systems
-Message-ID: <b8fc0f21-8aa3-3711-3a03-dff5df22a84c@windriver.com>
-Date: Tue, 11 Oct 2016 12:29:16 +0200
+Message-ID: <10e74601-38f7-3e65-246e-ffdc399821bb@windriver.com>
+Date: Tue, 11 Oct 2016 12:31:39 +0200
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.12; rv:45.0)
 	Gecko/20100101 Thunderbird/45.4.0
 MIME-Version: 1.0
-In-Reply-To: <d3ff1e21-3b54-e32f-e4b4-63f94970b0f8@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
+In-Reply-To: <47d07770-136d-57f8-63b8-1abe95f5293e@mlbassoc.com>
 Subject: Re: [PATCH] glibc: Fix timestamp of plural.c after unpack
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -39,38 +37,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Oct 2016 10:29:24 -0000
-Content-Type: text/plain; charset="utf-8"
+X-List-Received-Date: Tue, 11 Oct 2016 10:31:41 -0000
+Content-Type: text/plain; charset="windows-1252"
 Content-Transfer-Encoding: 7bit
 
-On 10/11/16 11:50 AM, Yuanjie Huang wrote:
-> The generated parser contains huge hunks of code actually shipped with bison, so
-> I think we should also expect some semantic difference.
+On 10/11/16 11:46 AM, Gary Thomas wrote:
+> On 2016-10-11 11:22, Enrico Scholz wrote:
+>> Mark Hatle <mark.hatle-CWA4WttNNZF54TAoqtyWWQ@public.gmane.org> writes:
+>>
+>>> My understanding of the issue is that the extraction of the plural.c and
+>>> plural.y files happens so quickly that it is unclear to make if one is older
+>>> then the other -- so it sometimes uses bison to rebuild the plural.c.
+>>
+>> When this is really the case, this can apply to the workaround too.  So,
+>> there should be added a 'sleep 1' before the 'touch' or (better?) remove
+>> plural.c to enforce a rebuild.
+> 
+> I believe that's the opposite of the desired action, i.e. to always use
+> the packaged plural.c and never rely on the plural.y=>plural.c transformation.
+> 
+>>
+>>>> +do_unpack_workaround() {
+>>>> +	touch ${S}/intl/plural.c
+>>>> +}
+> 
 
-Exactly the problem.  Unless the plural.y has been modified, we should not be
-regenerating the .c file as shipped by glibc.  It has the possibility of
-introducing problems.... but the immediate concern is the non-determinism where
-some builds rebuild, some do not.
+Correct.  We want to use the included version from glibc, -unless- there is a
+patch that has modified the plural.y.
+
+So doing this as an intermediate operation between unpack and patch should
+correct the timestamp issue, while still allowing a patch to modify plural.y to
+trigger an automatic regeneration (and any advantages or problems introduced by
+the regeneration operation.)
+
+As for the sleep 1, we've generally seen that is a long enough delay in tasks
+that that is not necessary.  Most filesystems seem to have sub second accuracy.
+However, if it does become an issue, I agree the sleep 1 is likely the only
+solution to ensure the stamp has changed sufficiently..
 
 --Mark
-
-> Yuanjie
-> 
-> On 10/11/2016 05:17 PM, Burton, Ross wrote:
->>
->> On 11 October 2016 at 09:37, Mark Hatle <mark.hatle@windriver.com
->> <mailto:mark.hatle@windriver.com>> wrote:
->>
->>     My understanding of the issue is that the extraction of the plural.c and
->>     plural.y files happens so quickly that it is unclear to make if one is older
->>     then the other -- so it sometimes uses bison to rebuild the plural.c.  This
->>     produces a non-deterministic build.
->>
->>
->> Surely the rebuilt plural.c should be identical to the shipped one?
->> (semantically if not literally)
->>
->> Ross
-> 
-
 
