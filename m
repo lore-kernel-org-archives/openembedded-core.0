@@ -1,63 +1,59 @@
-Return-Path: <mvader@victronenergy.com>
-X-Greylist: delayed 7181 seconds by postgrey-1.34 at layers.openembedded.org;
-	Tue, 11 Oct 2016 00:18:23 UTC
-Received: from EUR01-DB5-obe.outbound.protection.outlook.com
-	(mail-db5eur01on0131.outbound.protection.outlook.com [104.47.2.131])
-	by mail.openembedded.org (Postfix) with ESMTP id 4A9806059F
+Return-Path: <ola.x.nilsson@axis.com>
+Received: from bes.se.axis.com (bes.se.axis.com [195.60.68.10])
+	by mail.openembedded.org (Postfix) with ESMTP id 0F6D16080F
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Oct 2016 00:18:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=VICTRONENERGY.onmicrosoft.com; s=selector1-victronenergy-com;
-	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version;
-	bh=6m5fiLa8XoJhgyN5TOxUwezA9ZE7uaAom+cuGZ0LbAw=;
-	b=7HTK8TIrM9twPCgUzy9tQQJ0ISWEg2ydPziUDEzPHqYEVaDL8gJad+0akzyG/Mb3iJm3RtulrlURTGEirHIxCKkNQRKL19548+e465F8GsXfNtwzsG4sauQTidpY4oakg7lfe3sFbj3gOnBjNKxwcKcRvxVUe/g2Gi6oPeDHuuA=
-Received: from HE1PR07MB1436.eurprd07.prod.outlook.com (10.169.122.22) by
-	HE1PR07MB1436.eurprd07.prod.outlook.com (10.169.122.22) with Microsoft
-	SMTP Server (version=TLS1_2,
-	cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id
-	15.1.659.11; Mon, 10 Oct 2016 21:45:59 +0000
-Received: from HE1PR07MB1436.eurprd07.prod.outlook.com ([10.169.122.22]) by
-	HE1PR07MB1436.eurprd07.prod.outlook.com ([10.169.122.22]) with mapi id
-	15.01.0659.020; Mon, 10 Oct 2016 21:45:59 +0000
-From: Matthijs Vader <mvader@victronenergy.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: udev/mount.sh: use lazy umount
-Thread-Index: AQHSIz+wVRMDCoxUMU2R8V6b7otjQg==
-Date: Mon, 10 Oct 2016 21:45:59 +0000
-Message-ID: <F0D56DD8-329C-40A5-B003-250DB3BB81A3@victronenergy.com>
+	Tue, 11 Oct 2016 07:27:09 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bes.se.axis.com (Postfix) with ESMTP id 070A12E2BA;
+	Tue, 11 Oct 2016 09:27:09 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at bes.se.axis.com
+Received: from bes.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bes.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024)
+	with LMTP id orhJ3ODRExTv; Tue, 11 Oct 2016 09:27:06 +0200 (CEST)
+Received: from boulder03.se.axis.com (boulder03.se.axis.com [10.0.8.17])
+	by bes.se.axis.com (Postfix) with ESMTPS id B5A502E2BD;
+	Tue, 11 Oct 2016 09:27:06 +0200 (CEST)
+Received: from boulder03.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 98DEF1E081;
+	Tue, 11 Oct 2016 09:27:06 +0200 (CEST)
+Received: from boulder03.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 8D4441E076;
+	Tue, 11 Oct 2016 09:27:06 +0200 (CEST)
+Received: from thoth.se.axis.com (unknown [10.0.2.173])
+	by boulder03.se.axis.com (Postfix) with ESMTP;
+	Tue, 11 Oct 2016 09:27:06 +0200 (CEST)
+Received: from XBOX02.axis.com (xbox02.axis.com [10.0.5.16])
+	by thoth.se.axis.com (Postfix) with ESMTP id 80C4A31D;
+	Tue, 11 Oct 2016 09:27:06 +0200 (CEST)
+Received: from xbox12.axis.com (10.0.5.26) by XBOX02.axis.com (10.0.5.16) with
+	Microsoft SMTP Server (TLS) id 15.0.1210.3;
+	Tue, 11 Oct 2016 09:27:06 +0200
+Received: from XBOX04.axis.com (10.0.5.18) by xbox12.axis.com (10.0.5.26) with
+	Microsoft SMTP Server (TLS) id 15.0.1210.3;
+	Tue, 11 Oct 2016 09:27:06 +0200
+Received: from XBOX04.axis.com ([fe80::6c88:230d:cafd:2f2a]) by
+	XBOX04.axis.com ([fe80::6c88:230d:cafd:2f2a%22]) with mapi id
+	15.00.1210.000; Tue, 11 Oct 2016 09:27:06 +0200
+From: Ola x Nilsson <ola.x.nilsson@axis.com>
+To: Christopher Larson <clarson@kergoth.com>
+Thread-Topic: [OE-core] [PATCH] devtool: Only register each plugin once
+Thread-Index: AQHSIwM00hUy2QvNM0uCMfNC/jCjXaCh7PAAgADkxOA=
+Date: Tue, 11 Oct 2016 07:27:06 +0000
+Message-ID: <528e281aa9df4a5887a52315944cf1f3@XBOX04.axis.com>
+References: <1476109151-10857-1-git-send-email-ola.x.nilsson@axis.com>
+	<CABcZAN=gFYQEGVY024Az-bGhPWMpNkct6uCzPMe3v9r9L8qPbQ@mail.gmail.com>
+In-Reply-To: <CABcZAN=gFYQEGVY024Az-bGhPWMpNkct6uCzPMe3v9r9L8qPbQ@mail.gmail.com>
 Accept-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
-	smtp.mailfrom=mvader@victronenergy.com; 
-x-originating-ip: [145.132.107.233]
-x-ms-office365-filtering-correlation-id: 4f8cd09d-babf-4a35-b835-08d3f156d30b
-x-microsoft-exchange-diagnostics: 1; HE1PR07MB1436;
-	7:/t75ykggzhsuaDCiqHr0aA7/Z2RlU/KTHFzsQGDOJitXLw7+67rJzEoT97VhrunhEBCw2BzcZBEeiNwpvabUZzfLzyOUGvKcyIlzhM4Jhka6qhk/Bdx3KUXM/XKry+HkyHGxdejJ5vH0zExTNCFIS4DbD7ueX+wN+BUOSwSSviPZ72yeghVsIuOjT0/zs6wa8mwOZsqF+Sqj9K/L8NsnTvDaKIwGZCpzk+d3lvs9i0Abwn+4arM+hZD9lmIAdVfWNzzpPFE//WzyYelTCX3Tq+d72tnQym/OcvQU7G5pBPres0D5xs2ZxOD8d9mHRivj8xRwMGckCjpmo2JwEIn6tP0mC4xclUbcqX7Aia0tnsc=
-x-microsoft-antispam: UriScan:;BCL:0;PCL:0;RULEID:;SRVR:HE1PR07MB1436;
-x-microsoft-antispam-prvs: <HE1PR07MB1436307C9D6401B3121537EAC5DB0@HE1PR07MB1436.eurprd07.prod.outlook.com>
-x-exchange-antispam-report-test: UriScan:(166708455590820)(264703809997249);
-x-exchange-antispam-report-cfa-test: BCL:0; PCL:0;
-	RULEID:(6040176)(601004)(2401047)(8121501046)(5005006)(10201501046)(3002001)(6043046)(6042046);
-	SRVR:HE1PR07MB1436; BCL:0; PCL:0; RULEID:; SRVR:HE1PR07MB1436; 
-x-forefront-prvs: 0091C8F1EB
-x-forefront-antispam-report: SFV:NSPM;
-	SFS:(10019020)(7916002)(199003)(189002)(5660300001)(7736002)(7846002)(110136003)(5002640100001)(86362001)(2501003)(450100001)(19617315012)(2906002)(15975445007)(87936001)(8676002)(8936002)(82746002)(81166006)(81156014)(77096005)(36756003)(6916009)(83716003)(2900100001)(106116001)(106356001)(105586002)(54356999)(2351001)(229853001)(6116002)(3846002)(102836003)(122556002)(19580395003)(586003)(68736007)(101416001)(97736004)(189998001)(92566002)(107886002)(11100500001)(50986999)(3660700001)(16236675004)(33656002)(10400500002)(3280700002)(7906003)(66066001)(104396002);
-	DIR:OUT; SFP:1102; SCL:1; SRVR:HE1PR07MB1436;
-	H:HE1PR07MB1436.eurprd07.prod.outlook.com; FPR:; SPF:None;
-	PTR:InfoNoRecords; A:1; MX:1; LANG:en; 
-received-spf: None (protection.outlook.com: victronenergy.com does not
-	designate permitted sender hosts)
-spamdiagnosticoutput: 1:99
-spamdiagnosticmetadata: NSPM
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.0.5.60]
 MIME-Version: 1.0
-X-OriginatorOrg: victronenergy.com
-X-MS-Exchange-CrossTenant-originalarrivaltime: 10 Oct 2016 21:45:59.9153 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 60b95f08-3558-4e94-b0f8-d690c498e225
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: HE1PR07MB1436
-Subject: udev/mount.sh: use lazy umount
+X-TM-AS-GCONF: 00
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] devtool: Only register each plugin once
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -70,62 +66,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Oct 2016 00:18:25 -0000
+X-List-Received-Date: Tue, 11 Oct 2016 07:27:10 -0000
 Content-Language: en-US
-Content-Type: multipart/alternative;
-	boundary="_000_F0D56DD8329C40A5B003250DB3BB81A3victronenergycom_"
-
---_000_F0D56DD8329C40A5B003250DB3BB81A3victronenergycom_
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: base64
 
-SGksDQoNCnVtb3VudCB3aWxsIGZhaWwgaWYgdGhlcmUgYXJlIHByb2Nlc3NlcyBhY2Nlc3Npbmcg
-ZmlsZXMgYXQgdGhlIGRldmljZSwgdXNlIGxhenkgdW1vdW50IHRvIGF2b2lkIHRoaXMgcHJvYmxl
-bS4NCg0KSSBmb3VuZCB0aGlzIHBhdGNoIFsxXSBhIGxvbmcgbG9uZyB0aW1lIGFnbywgYnV0IGRv
-bid0IHNlZSBpdCBpbiBtYXN0ZXIgbm93Lg0KDQpBbnkgcmVhc29uIHdoeSBpdCB3YXMgbm90IGFj
-Y2VwdGVkPyBJcyB0aGVyZSBhbnkgaGFybSBpbiB1c2luZyBsYXp5IHVtb3VudD8NCg0KSSBrbm93
-IHRoYXQgaXQgaXMgbm90IGEgMTAwJSBzb2x1dGlvbiwgYW5kIHRoYXQgaXQgaXMgYmVzdCB0byBt
-YWtlIHRoZSB1c2VyIHRyaWdnZXIgYW4gdW1vdW50IGJlZm9yZSB0YWtpbmcgYSBjYXJkIG91dC4g
-QnV0IHRoYXQgd2lsbCBub3QgYmUgZG9uZSBldmVyeSB0aW1lLg0KDQpBbmQgd2l0aG91dCBsYXp5
-IHVubW91bnQsIHRoZSBkZXZpY2Ugd2lsbCBuZXZlciBiZSB1bm1vdW50ZWQsIGNhdXNpbmcgdGhl
-IG5leHQgbW91bnQgKHRyaWdnZXJlZCBieSBhbiBpbnNlcnQpIHRvIGZhaWwgYXMgd2VsbC4NCg0K
-U2VlIGFsc28gdGhlIGRpc2N1c3Npb24gb24gb3VyIG93biBpc3N1ZSB0cmFja2VyIFsyXS4NCg0K
-WzFdIGh0dHA6Ly9saXN0cy5vcGVuZW1iZWRkZWQub3JnL3BpcGVybWFpbC9vcGVuZW1iZWRkZWQt
-ZGV2ZWwvMjAxMC1KdW5lLzA2NjI0MS5odG1sDQoNClsyXSBodHRwczovL2dpdGh1Yi5jb20vdmlj
-dHJvbmVuZXJneS92ZW51cy9pc3N1ZXMvNTkNCg0KQmVzdCByZWdhcmRzLA0KDQpNYXR0aGlqcw0K
+PiBGcm9tOiBrZXJnb3RoQGdtYWlsLmNvbSBbbWFpbHRvOmtlcmdvdGhAZ21haWwuY29tXSBPbiBC
+ZWhhbGYgT2YgQ2hyaXN0b3BoZXIgTGFyc29uDQo+IFNlbnQ6IGRlbiAxMCBva3RvYmVyIDIwMTYg
+MjE6MTMNCj4+IE9uIE1vbiwgT2N0IDEwLCAyMDE2IGF0IDc6MTkgQU0sIE9sYSB4IE5pbHNzb24g
+PG9sYS54Lm5pbHNzb25AYXhpcy5jb20+IHdyb3RlOg0KPj4gV2hlbiBhIGRldnRvb2wgcGx1Z2lu
+IGlzIHNoYWRvd2VkIGluIGEgaGlnaGVyLXByaW9ydHkgbGF5ZXIgdGhlDQo+PiByZWdpc3Rlcl9j
+b21tYW5kcyBtZXRob2Qgd2FzIGNhbGxlZCBvbiB0aGUgc2hhZG93aW5nIHBsdWdpbiBvbmNlIGZv
+cg0KPj4gZWFjaCBmb3VuZCBwbHVnaW4gd2l0aCB0aGF0IG5hbWUuwqAgQSBzaW1wbGUgdW5pcXVl
+IG9wZXJhdGlvbiBvbiB0aGUgbGlzdA0KPj4gb2YgbG9hZGVkIHBsdWdpbnMgc29sdmVzIHRoYXQg
+cHJvYmxlbS7CoCBJdCBtYXkgc3RpbGwgYmUgYSBwcm9ibGVtIHRoYXQNCj4+IGVhY2ggcGx1Z2lu
+IC0gc2hhZG93ZWQgb3Igbm90IC0gaXMgbG9hZGVkIGFuZCBpbml0aWFsaXplZC4NCj4+DQo+PiBT
+aWduZWQtb2ZmLWJ5OiBPbGEgeCBOaWxzc29uIDxvbGEueC5uaWxzc29uQGF4aXMuY29tPg0KPj4g
+LS0tDQo+PsKgc2NyaXB0cy9kZXZ0b29sIHwgMiArLQ0KPj7CoDEgZmlsZSBjaGFuZ2VkLCAxIGlu
+c2VydGlvbigrKSwgMSBkZWxldGlvbigtKQ0KPj4NCj4+IGRpZmYgLS1naXQgYS9zY3JpcHRzL2Rl
+dnRvb2wgYi9zY3JpcHRzL2RldnRvb2wNCj4+IGluZGV4IDBjMzJjNTAuLjdiMTM0YTYgMTAwNzU1
+DQo+PiAtLS0gYS9zY3JpcHRzL2RldnRvb2wNCj4+ICsrKyBiL3NjcmlwdHMvZGV2dG9vbA0KPj4g
+QEAgLTMxNyw3ICszMTcsNyBAQCBkZWYgbWFpbigpOg0KPj7CoCDCoCDCoCDCoCDCoHBhcnNlcl9j
+cmVhdGVfd29ya3NwYWNlLmFkZF9hcmd1bWVudCgnLS1jcmVhdGUtb25seScsIGFjdGlvbj0ic3Rv
+cmVfdHJ1ZSIsIGhlbHA9J09ubHkgY3JlYXRlIHRoZSB3b3Jrc3BhY2UgbGF5ZXIsIGRvIG5vdCBh
+bHRlciBjb25maWd1cmF0aW9uJykNCj4+wqAgwqAgwqAgwqAgwqBwYXJzZXJfY3JlYXRlX3dvcmtz
+cGFjZS5zZXRfZGVmYXVsdHMoZnVuYz1jcmVhdGVfd29ya3NwYWNlLCBub193b3Jrc3BhY2U9VHJ1
+ZSkNCj4+DQo+PiAtwqAgwqAgZm9yIHBsdWdpbiBpbiBwbHVnaW5zOg0KPj4gK8KgIMKgIGZvciBw
+bHVnaW4gaW4gc2V0KHBsdWdpbnMpOg0KPj7CoCDCoCDCoCDCoCDCoGlmIGhhc2F0dHIocGx1Z2lu
+LCAncmVnaXN0ZXJfY29tbWFuZHMnKToNCj4+wqAgwqAgwqAgwqAgwqAgwqAgwqBwbHVnaW4ucmVn
+aXN0ZXJfY29tbWFuZHMoc3VicGFyc2VycywgY29udGV4dCkNCj4+DQo+PiBUaGlzIGlzIGRpcmVj
+dGx5IGNvbXBhcmluZyB0aGUgcGx1Z2luIG1vZHVsZXMgb3IgY2xhc3Nlcywgd2hpY2gsIGlmIHRo
+ZXJl4oCZcyBzaGFkb3dpbmcgZ29pbmcgb24sIA0KPj4gd2lsbCBhbG1vc3QgY2VydGFpbmx5IGJl
+IGRpZmZlcmVudCwgYW5kIHdl4oCZbGwgc3RpbGwgZW5kIHVwIHdpdGggdGhlIHNhbWUgY29tbWFu
+ZHMgcmVnaXN0ZXJlZCBtdWx0aXBsZSB0aW1lcy4gDQo+PiBBbmQgb2YgY291cnNlLCB1c2Ugb2Yg
+c2V0IHdpbGwgYWxzbyBjaGFuZ2UgdGhlIHBsdWdpbiBjb21tYW5kIHJlZ2lzdHJhdGlvbiBvcmRl
+ci4gSWYgd2XigJlyZSBnb2luZyB0byBpZ25vcmUgDQo+PiBjb21tYW5kcyBvbiBzb21lIG9mIHRo
+ZSBwbHVnaW5zLCBpdCBzaG91bGQgaGF2ZSBhdm9pZGVkIGxvYWRpbmcgdGhlbSBlbnRpcmVseSwg
+bm90IGxvYWQgdGhlbSBhbmQgdGhlbiANCj4+IHByZXZlbnQgcmVnaXN0cmF0aW9uLiBXZSBzaG91
+bGQgY2hhbmdlIHRoZSBwbHVnaW4gKmxvYWRpbmcqIHRvIG9ubHkgbG9hZCB0aGUgaGlnaGVzdCBw
+cmlvcml0eSANCj4+KGZpcnN0IHNlZW4gaW4gYmJwYXRoKSBmaWxlIGZvciBhIGdpdmVuIC5weSwg
+YmFzZWQgb24gdGhlIGZpbGUgLyBtb2R1bGUgbmFtZSwgSU1PLg0KDQpBZ3JlZWQsIHRoaXMgZG9l
+cyBub3Qgd29yayBhcyBpbnRlbmRlZC4gIFBsZWFzZSBpZ25vcmUgdGhpcyBwYXRjaCwgSSdsbCB0
+cnkgdG8gcHJvZHVjZSBzb21ldGhpbmcgYmV0dGVyLg0KDQpUaGUgd2F5IHRoZSBwbHVnaW4gbG9h
+ZGVyIHdvcmtzLCB0aGVyZSBjYW4gb25seSBiZSBhIHNpbmdsZSBwbHVnaW4gbG9hZGVkIHdpdGgg
+YSBzcGVjaWZpYyBmaWxlIG5hbWUuIA0KU28gc2hhZG93aW5nIG9jY3VycywgYnV0IHByb2JhYmx5
+IG5vdCB0aGUgd2F5IHdlIHdhbnQuIEkgdGhpbmsgdGhlIGxhc3QgZm91bmQgcGx1Z2luIHdpbGwg
+d2luLCAgdGhhdCBpcyB0aGUgcGx1Z2luIGluIHRoZSBsb3dlc3QgcHJpb3JpdHkgbGF5ZXIuDQoN
+CkRvIHdlIHdhbnQgc2hhZG93aW5nIHRvIHdvcmsgb24gcGx1Z2luIG9yIGNvbW1hbmQgbGV2ZWw/
+DQoNCi0tIA0KT2xhIE5pbHNzb24NCg==
 
---_000_F0D56DD8329C40A5B003250DB3BB81A3victronenergycom_
-Content-Type: text/html; charset="utf-8"
-Content-ID: <C26644D9CE573146BAAE230C79801D9E@VICTRONENERGY.onmicrosoft.com>
-Content-Transfer-Encoding: base64
-
-PGh0bWw+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIgY29udGVudD0i
-dGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjwvaGVhZD4NCjxib2R5IGRpcj0iYXV0byI+DQo8
-ZGl2PkhpLDwvZGl2Pg0KPGRpdj48c3BhbiBzdHlsZT0iYmFja2dyb3VuZC1jb2xvcjogcmdiYSgy
-NTUsIDI1NSwgMjU1LCAwKTsiPjxicj4NCjwvc3Bhbj48L2Rpdj4NCjxkaXY+PHNwYW4gc3R5bGU9
-ImJhY2tncm91bmQtY29sb3I6IHJnYmEoMjU1LCAyNTUsIDI1NSwgMCk7Ij51bW91bnQgd2lsbCBm
-YWlsIGlmIHRoZXJlIGFyZSBwcm9jZXNzZXMgYWNjZXNzaW5nIGZpbGVzIGF0IHRoZSBkZXZpY2Us
-IHVzZSBsYXp5IHVtb3VudCB0byBhdm9pZCB0aGlzIHByb2JsZW0uPC9zcGFuPjwvZGl2Pg0KPGRp
-dj48c3BhbiBzdHlsZT0iYmFja2dyb3VuZC1jb2xvcjogcmdiYSgyNTUsIDI1NSwgMjU1LCAwKTsi
-Pjxicj4NCjwvc3Bhbj48L2Rpdj4NCjxkaXY+SSBmb3VuZCB0aGlzIHBhdGNoIFsxXSBhIGxvbmcg
-bG9uZyB0aW1lIGFnbywgYnV0IGRvbid0IHNlZSBpdCBpbiBtYXN0ZXIgbm93LjwvZGl2Pg0KPGRp
-dj48YnI+DQo8L2Rpdj4NCjxkaXY+QW55IHJlYXNvbiB3aHkgaXQgd2FzIG5vdCBhY2NlcHRlZD8g
-SXMgdGhlcmUgYW55IGhhcm0gaW4gdXNpbmcgbGF6eSB1bW91bnQ/PC9kaXY+DQo8ZGl2Pjxicj4N
-CjwvZGl2Pg0KPGRpdj5JIGtub3cgdGhhdCBpdCBpcyBub3QgYSAxMDAlIHNvbHV0aW9uLCBhbmQg
-dGhhdCBpdCBpcyBiZXN0IHRvIG1ha2UgdGhlIHVzZXIgdHJpZ2dlciBhbiB1bW91bnQgYmVmb3Jl
-IHRha2luZyBhIGNhcmQgb3V0LiBCdXQgdGhhdCB3aWxsIG5vdCBiZSBkb25lIGV2ZXJ5IHRpbWUu
-PC9kaXY+DQo8ZGl2Pjxicj4NCjwvZGl2Pg0KPGRpdj5BbmQgd2l0aG91dCBsYXp5IHVubW91bnQs
-IHRoZSBkZXZpY2Ugd2lsbCBuZXZlciBiZSB1bm1vdW50ZWQsIGNhdXNpbmcgdGhlIG5leHQgbW91
-bnQgKHRyaWdnZXJlZCBieSBhbiBpbnNlcnQpIHRvIGZhaWwgYXMgd2VsbC48YnI+DQo8YnI+DQpT
-ZWUgYWxzbyB0aGUgZGlzY3Vzc2lvbiBvbiBvdXIgb3duIGlzc3VlIHRyYWNrZXIgWzJdLjwvZGl2
-Pg0KPGRpdj48YnI+DQpbMV0mbmJzcDs8YSBocmVmPSJodHRwOi8vbGlzdHMub3BlbmVtYmVkZGVk
-Lm9yZy9waXBlcm1haWwvb3BlbmVtYmVkZGVkLWRldmVsLzIwMTAtSnVuZS8wNjYyNDEuaHRtbCI+
-aHR0cDovL2xpc3RzLm9wZW5lbWJlZGRlZC5vcmcvcGlwZXJtYWlsL29wZW5lbWJlZGRlZC1kZXZl
-bC8yMDEwLUp1bmUvMDY2MjQxLmh0bWw8L2E+PC9kaXY+DQo8ZGl2Pjxicj4NCjwvZGl2Pg0KPGRp
-dj5bMl0mbmJzcDs8YSBocmVmPSJodHRwczovL2dpdGh1Yi5jb20vdmljdHJvbmVuZXJneS92ZW51
-cy9pc3N1ZXMvNTkiPmh0dHBzOi8vZ2l0aHViLmNvbS92aWN0cm9uZW5lcmd5L3ZlbnVzL2lzc3Vl
-cy81OTwvYT48L2Rpdj4NCjxkaXY+PGJyPg0KPGRpdj5CZXN0IHJlZ2FyZHMsDQo8ZGl2Pjxicj4N
-CjxkaXY+TWF0dGhpanM8L2Rpdj4NCjwvZGl2Pg0KPC9kaXY+DQo8L2Rpdj4NCjwvYm9keT4NCjwv
-aHRtbD4NCg==
-
---_000_F0D56DD8329C40A5B003250DB3BB81A3victronenergycom_--
