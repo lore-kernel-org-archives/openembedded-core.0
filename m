@@ -1,45 +1,48 @@
 Return-Path: <bkylerussell@gmail.com>
-Received: from mail-pa0-f66.google.com (mail-pa0-f66.google.com
-	[209.85.220.66])
-	by mail.openembedded.org (Postfix) with ESMTP id EE8CE60745
+Received: from mail-pa0-f65.google.com (mail-pa0-f65.google.com
+	[209.85.220.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 54A8865CB5
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Oct 2016 14:17:33 +0000 (UTC)
-Received: by mail-pa0-f66.google.com with SMTP id fn2so830462pad.1
+	Tue, 11 Oct 2016 14:17:42 +0000 (UTC)
+Received: by mail-pa0-f65.google.com with SMTP id rw4so1735160pab.3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Oct 2016 07:17:35 -0700 (PDT)
+	Tue, 11 Oct 2016 07:17:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=VmRhJ0SxsJ0+v87bGfAyw1BkBOP9lxodCScvV9ye0hc=;
-	b=e0JR3cqkoSBe1pMaaF5KANzWBFawlvGB9YeYW1dR/pk8PpKn4+zbynEqL5d9iODode
-	TPWUiIkH11MoeJKbrfkBCbo3FviIHMYeERKN05Tj5nIEKvPX7mwcbbwvT6L2biVHqK/v
-	EIIgZZrcJ5GprUBIRr8/2uT0UUQsEBLcM7xd4nC6fVHtPDRf1aK9x+7kGPIMfE+Ygffc
-	+9EVr02AGkZmH0i4pzeFxyedK5gvb9S6cSQZDLTZY8AK/S3UxezuDHjMCJy6cogNKp+N
-	Wu2aiOyI80sgJCmVa7IYj6dwR+6neKwA78vvPix4HAREBcqRPCYw89wv7ZdjZM42D4uV
-	Tnfw==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=as5LLBplV7vTj/MoYapcY4ThLT0N8BzdH7kUHiUwz2U=;
+	b=Z0jGAJrmz3C0+rfx9tLiIDbRkSafcYVSjgEAXmsLrlxSSrlwjgWUcBMMMLiiNzRpjx
+	NsOZL8UnqB6Y7pPl7ltBx5f18r4xfRttGMLo7H9NzbFAxb+54/NWGW63AjVyfPsS+OXu
+	PM2E0y881es4vOvWB/4M9SbWCXAViHx+Sr5L4R6EUu1rXoiNlko4+oR1FA1F4hpfShA5
+	nfpTk/lfPYxWWE1C3JNFkL9ur4p+dINIkA7iMPchO+ogyymHhdGunTn2llFWNpc78aDb
+	DqAdnj5KNsSKOm6AFtIUtov37Zt2raWRmKX+J5MZ8LSxQYZPYObTCq7RSTqFozMyTcdn
+	3LXg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=VmRhJ0SxsJ0+v87bGfAyw1BkBOP9lxodCScvV9ye0hc=;
-	b=WkZkctPQ7d5W3Dk9ttK1QeHSsQ2XrCKu0ITS47h7bSxZrlGx+NPjF4OvM+4Vd3qU95
-	ZnA1ENh/UULagxGakrg77OD5lrAd0u4qeCtd6XSINi+yrBVS2ZOddYSK1P0CPxg5RQIP
-	7wQYwS33+LuIFE0gCEZh66KLn57D0UZvfAD40WHLnkAPRTrDdxHbJGQo/kXs7kIoxmkr
-	hXol9hr/pD0fZU+WbuqBAbeFGo/KTbjko7ddLSGPFI5IH46A1NHXquvKq0rTV4iuHqaS
-	F11wnONe8f1g4C5YYQrzA9g0VxPtyG3XNcjP+mer1/y1aRDWn2g3X4o6E3iYxFamZ7ul
-	Gcxw==
-X-Gm-Message-State: AA6/9RmMfYYFX5sAOZvYmGBhrui7uhrluovUtIfyOx3fsTpsqdx7gp7cfazxwLAqIC0uPw==
-X-Received: by 10.66.63.40 with SMTP id d8mr7374662pas.103.1476195454963;
-	Tue, 11 Oct 2016 07:17:34 -0700 (PDT)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=as5LLBplV7vTj/MoYapcY4ThLT0N8BzdH7kUHiUwz2U=;
+	b=bJBTimENQfWPh+E4eb1K1OHBk47n6DaOoxUyQuvN+tOkmmptVOG8lvwbSrJiv6Hx6i
+	CfEpKwoHLMoWk+MITX/ZfDtVTwDy+kfJiouREek3K7yheP3kGQtxRhtv7iGq9LJ0tkC7
+	lMmOs6XuAq1cvJEOLmGcfc9pwPs/n8txRjgW/iCd7wiDT7NdUOQgOeegr4JAKDLs1elV
+	fB7Ux46VIS/27i8a1g9Hc56NiCh23fAqdfQdPPcUk4X97JSD2t7BGGQDWj13VuL0AiYG
+	5wT6M+xazWeU7NvONjK03jMit7183EJCbgSETHsnbIBoQsG5cHtDAQLgPeGMOj0mKsRP
+	Aw2Q==
+X-Gm-Message-State: AA6/9Rn37Ik+ts6A144jdTXCh4Jz2H9wSRQ5EdQbiE5sL8fBMJXz89c0/itT4eeV0fDImg==
+X-Received: by 10.66.51.129 with SMTP id k1mr7280697pao.5.1476195463784;
+	Tue, 11 Oct 2016 07:17:43 -0700 (PDT)
 Received: from brrussell-Latitude-E6530.dhcp.lexmark.com ([192.146.101.8])
 	by smtp.gmail.com with ESMTPSA id
-	c15sm4771940pfd.53.2016.10.11.07.17.32
+	c15sm4771940pfd.53.2016.10.11.07.17.41
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 11 Oct 2016 07:17:34 -0700 (PDT)
+	Tue, 11 Oct 2016 07:17:43 -0700 (PDT)
 From: Kyle Russell <bkylerussell@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 11 Oct 2016 10:17:16 -0400
-Message-Id: <1476195437-24040-1-git-send-email-bkylerussell@gmail.com>
+Date: Tue, 11 Oct 2016 10:17:17 -0400
+Message-Id: <1476195437-24040-2-git-send-email-bkylerussell@gmail.com>
 X-Mailer: git-send-email 2.7.4
-Subject: [PATCH 1/2] pixbufcache: Ensure sysroot dependencies are satisfied
+In-Reply-To: <1476195437-24040-1-git-send-email-bkylerussell@gmail.com>
+References: <1476195437-24040-1-git-send-email-bkylerussell@gmail.com>
+Subject: [PATCH 2/2] librsvg: Add missing pixbufcache dependencies
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,44 +55,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Oct 2016 14:17:34 -0000
+X-List-Received-Date: Tue, 11 Oct 2016 14:17:42 -0000
 
-Reverts part of b411085fefc8582d24c172db5f6610705eb44c2f
+Forces do_populate_sysroot_setscene to run for libxdmcp-native and
+pixman-native before the pixbufcache sstate postinst hook so that the
+svg pixbufloader has all of its dependencies available.
 
-Makes sure gdk-pixbuf-native populates the sysroot during setscene;
-otherwise, gdk-pixbuf-query-loaders may not actually be available at the
-time the completion function runs, causing a build failure.
+g_module_open() failed for libpixbufloader-svg.so: libpixman-1.so.0:
+cannot open shared object file: No such file or directory
 
-Similarly, packages providing loader libraries should append to
-PIXBUFCACHE_SYSROOT_DEPS with their runtime dependencies.
+g_module_open() failed for libpixbufloader-svg.so: libXdmcp.so.6:
+cannot open shared object file: No such file or directory
 
 Signed-off-by: Kyle Russell <bkylerussell@gmail.com>
 ---
- meta/classes/pixbufcache.bbclass | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+ meta/recipes-gnome/librsvg/librsvg_2.40.16.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes/pixbufcache.bbclass b/meta/classes/pixbufcache.bbclass
-index dbe11e1..3c1e398 100644
---- a/meta/classes/pixbufcache.bbclass
-+++ b/meta/classes/pixbufcache.bbclass
-@@ -65,3 +65,17 @@ pixbufcache_sstate_postinst() {
- 	fi
- }
+diff --git a/meta/recipes-gnome/librsvg/librsvg_2.40.16.bb b/meta/recipes-gnome/librsvg/librsvg_2.40.16.bb
+index ed54d9d..3015f1b 100644
+--- a/meta/recipes-gnome/librsvg/librsvg_2.40.16.bb
++++ b/meta/recipes-gnome/librsvg/librsvg_2.40.16.bb
+@@ -42,4 +42,4 @@ FILES_librsvg-gtk = "${libdir}/gdk-pixbuf-2.0/*/*/*.so"
  
-+# Add all of the dependencies of gdk-pixbuf as dependencies of
-+# do_populate_sysroot_setscene so that pixbufcache_sstate_postinst can work
-+# (otherwise gdk-pixbuf-query-loaders may not exist or link). Only add
-+# gdk-pixbuf-native if we're not building gdk-pixbuf itself.
-+#
-+# Packages that use this class should extend this variable with their runtime
-+# dependencies.
-+PIXBUFCACHE_SYSROOT_DEPS = ""
-+PIXBUFCACHE_SYSROOT_DEPS_class-native = "\
-+    ${@['gdk-pixbuf-native:do_populate_sysroot_setscene', '']['${BPN}' == 'gdk-pixbuf']} \
-+"
-+
-+do_populate_sysroot_setscene[depends] += "${PIXBUFCACHE_SYSROOT_DEPS}"
-+do_populate_sysroot[depends] += "${@d.getVar('PIXBUFCACHE_SYSROOT_DEPS', True).replace('_setscene','')}"
+ PIXBUF_PACKAGES = "librsvg-gtk"
+ 
+-PIXBUFCACHE_SYSROOT_DEPS_append_class-native = " harfbuzz-native:do_populate_sysroot_setscene pango-native:do_populate_sysroot_setscene icu-native:do_populate_sysroot_setscene"
++PIXBUFCACHE_SYSROOT_DEPS_append_class-native = " harfbuzz-native:do_populate_sysroot_setscene pango-native:do_populate_sysroot_setscene icu-native:do_populate_sysroot_setscene libxdmcp-native:do_populate_sysroot_setscene pixman-native:do_populate_sysroot_setscene"
 -- 
 2.7.4
 
