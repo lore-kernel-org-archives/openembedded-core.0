@@ -1,47 +1,50 @@
-Return-Path: <jkrishnanjanappa@mvista.com>
-Received: from mail-lf0-f46.google.com (mail-lf0-f46.google.com
-	[209.85.215.46])
-	by mail.openembedded.org (Postfix) with ESMTP id 3CC7D60770
+Return-Path: <kergoth@gmail.com>
+Received: from mail-oi0-f68.google.com (mail-oi0-f68.google.com
+	[209.85.218.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 369F26E5CB
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Oct 2016 19:03:00 +0000 (UTC)
-Received: by mail-lf0-f46.google.com with SMTP id b81so53588681lfe.1
+	Tue, 11 Oct 2016 19:34:30 +0000 (UTC)
+Received: by mail-oi0-f68.google.com with SMTP id d132so2078087oib.2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Oct 2016 12:03:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=mvista-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=8sd/SLaI1LnaRHKpCCf1lo1BtEeH58s7OjUhPW3WpzY=;
-	b=ue8Xz91LOIVFD4B8Op8FSsKunQEsBGpuRz/11gQ/Tc5DAea86ni+nME54+yAkLpzif
-	2h9Ob9Op3eDKS0usGuuad0+nwTTc2XOd4d068S9uKe2ogop+K946cm1TC1z1ZKRIsQx5
-	S/80gg5EUDa8d+CeyVbuJsv9sFS/+1pk3II8+m2TSxBFuztA9ckjwspr4gE7EpXbBCKK
-	G0kVlM0aBWLDKpVaxdQSdCR6Kl5/ut//H0B9g2/KHUFPuMLxV/WwYxVR10JPH208ur6J
-	U+LinGegV6uPh8VLTVwdW+MU0usbCDpY4AR0uFUHQ/hIs2rbMWLgy9GJv0iHKiBtk39X
-	xu2Q==
+	Tue, 11 Oct 2016 12:34:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:from:date:message-id
+	:subject:to:cc;
+	bh=J/tHHdu6gEzGOubW2y5gaYWbPb64JFtxK1h1WfEf5yc=;
+	b=FpxpGCEyL88XV+I5Kj8B8tcHbFzi2HubHBbJ/Xs1ynJmtoElOAEl32sT/r66UFYNWx
+	TmM2CnpaqvUsm96CUpAES+ONKPhwgUQaih+rBAkLJmpxqW4GEDkt9wcgXG+yYV0TUJyg
+	AY67KWcJj5nt1JyxasnUVvjuLq8eCCKYlctHJtWiUmjvrnHih++07l2+jEui53qXkntb
+	0t+iYXiBpbgt0bmU3UGTrl65QzFLIPzgdZbCYjjQ1Z+EWM+7dECju+4L+T9oGtd5yPS6
+	24ML5lebC6Es3C2ePs5ve90pxLZT/VSi0CVw15eUFHpB1y7vOK9zMM/eNr1yDU2VD4At
+	Fncg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=8sd/SLaI1LnaRHKpCCf1lo1BtEeH58s7OjUhPW3WpzY=;
-	b=TX8kgOsTLaLk7wGJFFGG3ktxB6v8DGmwPItwZZB+nKukEJCU7kqyAE7F0b0pJwKLDb
-	gMSLVfFscdpFg/SYLqVlYVlh92e4xoI2FaCsVNtzbNxku5qolk6sOUO6Y/mPBDt2WqAN
-	/AZ2e8wnEE3qwQ0pJ+1ytG4vAfr41DDLHq3fnvKn+/3HFNiwbHLV/VRO+spbzZb+ELwr
-	plfN++csxa/P4CLQaWvJBNWWP5AKrhXUkVdH6ExWypcoYPEs/JroAPfOyMgkeJXU026g
-	cXa35mzvgU8CdRWwEpTJEw2k5ghBC8DDF/Sv6IECj8sPGX54xI0mWu4lWIgayMtC6Vgz
-	La3w==
-X-Gm-Message-State: AA6/9RlxOsfNw/NSKTs7sJDN4OXNsZ+4aVcb1i4rwpGxhPBkNF7g87wxJeGPmRZ70JYg66zdKLQpIF/Swzef7SMy
-X-Received: by 10.25.35.6 with SMTP id j6mr4440647lfj.147.1476212581740; Tue,
-	11 Oct 2016 12:03:01 -0700 (PDT)
+	h=x-gm-message-state:mime-version:sender:in-reply-to:references:from
+	:date:message-id:subject:to:cc;
+	bh=J/tHHdu6gEzGOubW2y5gaYWbPb64JFtxK1h1WfEf5yc=;
+	b=mmOMgC4vpqYXa7p9cBlAmIDYyIZ17tiFywLW98Vdhp91tB3jzh7gj104Vln7kLwDmY
+	1k2NCf3CJx5tz4v0eSqLGVxtaEUU/6oluf2pEG3Oh5TJ1XWZ1OGVYIr0iDqZL60wNObB
+	LVdZWBLn75u6q050KeHrzARPCnSiheUIx7QMmcdS4FbdpGbXssp+sx0+n7QA3q606aKO
+	j9Oe8zVRhyTvfMI6zTmttsi4AegvzV169SFtKi7LZVtFcxqdvrGhJxiSvE5N9h5UhHcD
+	iH2HPnjjIZl0caZIp0EoOSt0kG0HEEWE8k+2VvslaTYtc45L3R0Jzf+4oVYmwvp3IUwU
+	XGkQ==
+X-Gm-Message-State: AA6/9Rnf9BmxCai3fQqGiKcAOmZAik9yQ+HGuOTtXu5rfbijqMNljzVQj6AnEQjFZvK0G/Q2vhIt0jJ2DvDwxw==
+X-Received: by 10.202.222.133 with SMTP id v127mr3769615oig.22.1476214471943; 
+	Tue, 11 Oct 2016 12:34:31 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.114.77.42 with HTTP; Tue, 11 Oct 2016 12:03:00 -0700 (PDT)
-In-Reply-To: <CABcZANkt+TbuEkTCGmqEQZG+Nw+MardZR4Jj+9FNDXFHbZysEg@mail.gmail.com>
+Sender: kergoth@gmail.com
+Received: by 10.157.13.194 with HTTP; Tue, 11 Oct 2016 12:34:11 -0700 (PDT)
+In-Reply-To: <CAD3vsf6muVV_NNP=rTGNo-4gMz_Q0SNojJ-qJui8_j9eW-gmZQ@mail.gmail.com>
 References: <1476120925-26574-1-git-send-email-jkrishnanjanappa@mvista.com>
 	<defce586-6033-baed-bf70-bdbe1659922c@opendreambox.org>
 	<CAD3vsf5zv87RLAN70WF06Jxr1qq2=5-ctDekdA_0o1Cr1nmBhQ@mail.gmail.com>
 	<CABcZANkt+TbuEkTCGmqEQZG+Nw+MardZR4Jj+9FNDXFHbZysEg@mail.gmail.com>
-From: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
-Date: Wed, 12 Oct 2016 00:33:00 +0530
-Message-ID: <CAD3vsf6muVV_NNP=rTGNo-4gMz_Q0SNojJ-qJui8_j9eW-gmZQ@mail.gmail.com>
-To: Christopher Larson <clarson@kergoth.com>
+	<CAD3vsf6muVV_NNP=rTGNo-4gMz_Q0SNojJ-qJui8_j9eW-gmZQ@mail.gmail.com>
+From: Christopher Larson <clarson@kergoth.com>
+Date: Tue, 11 Oct 2016 12:34:11 -0700
+X-Google-Sender-Auth: 1Dh6akdv9f0C7YEuY7YTvmeFKf0
+Message-ID: <CABcZANnDjD7MAU-8EU1CmRxZKDAZtB3E6JHiPCwo1q77oNjc1A@mail.gmail.com>
+To: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] connman: get the correct network interface name from dmesg during NFS booting
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -56,106 +59,119 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Oct 2016 19:03:01 -0000
-Content-Type: multipart/alternative; boundary=001a113ca7628cb3cb053e9b8627
+X-List-Received-Date: Tue, 11 Oct 2016 19:34:33 -0000
+Content-Type: multipart/alternative; boundary=001a11440d06366db4053e9bf717
 
---001a113ca7628cb3cb053e9b8627
+--001a11440d06366db4053e9bf717
 Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Oct 11, 2016 at 9:06 PM, Christopher Larson <clarson@kergoth.com>
-wrote:
+On Tue, Oct 11, 2016 at 12:03 PM, Jagadeesh Krishnanjanappa <
+jkrishnanjanappa@mvista.com> wrote:
 
+> On Tue, Oct 11, 2016 at 9:06 PM, Christopher Larson <clarson@kergoth.com>
+> wrote:
 >
-> On Tue, Oct 11, 2016 at 5:11 AM, Jagadeesh Krishnanjanappa <
-> jkrishnanjanappa@mvista.com> wrote:
+>>
+>> On Tue, Oct 11, 2016 at 5:11 AM, Jagadeesh Krishnanjanappa <
+>> jkrishnanjanappa@mvista.com> wrote:
+>>
+>>> Thanks for reviewing the patch.
+>>>
+>>>
+>>>> I think this is too fragile to land in OE-Core. What happens if a
+>>>> network driver prints "device=3Deth0"? Or if other kernel messages mak=
+e
+>>>> the string disappear from dmesg and connman gets restarted later?
+>>>>
+>>>
+>>> True. If device=3Deth0 gets disappeared/corrupted, then we may have
+>>> problem.
+>>>
+>>>>
+>>>> FWIW, I'm attaching my current wrapper script for connmand. I don't
+>>>> think it's perfect, but at least it doesn't depend on any init manager
+>>>> and works across restarts.
+>>>
+>>> The wrapper script attached by you, takes care of the missing scenarios=
+.
+>>> Seems to be more complete.
+>>>
+>>>>
+>>>>
+>>> Add these lines to connman's do_install, in case you'd like to test
+>>>> and/or submit it:
+>>>>
+>>>> mv ${D}${sbindir}/connmand ${D}${sbindir}/connmand.real
+>>>> install -m 755 ${WORKDIR}/connmand-nfsroot.in ${D}${sbindir}/connmand
+>>>> sed -e 's,@sbindir@,${sbindir},g' -i ${D}${sbindir}/connmand
+>>>>
+>>> I think it would be good idea to integrate your changes into the alread=
+y
+>>> existing OE-core's connman script, instead of a calling original connma=
+n
+>>> script from the wrapper script.
+>>>
+>>
+>> I threw together https://github.com/openembedded/openembedded-core/
+>> compare/master...kergoth:connman-systemd-nfs last night, only limited
+>> testing. I think using a script in libexecdir is rather cleaner than
+>> wrapping connmand in place, for something like this, personally.
+>>
 >
->> Thanks for reviewing the patch.
->>
->>
->>> I think this is too fragile to land in OE-Core. What happens if a
->>> network driver prints "device=eth0"? Or if other kernel messages make
->>> the string disappear from dmesg and connman gets restarted later?
->>>
->>
->> True. If device=eth0 gets disappeared/corrupted, then we may have problem.
->>
->>>
->>> FWIW, I'm attaching my current wrapper script for connmand. I don't
->>> think it's perfect, but at least it doesn't depend on any init manager
->>> and works across restarts.
->>
->> The wrapper script attached by you, takes care of the missing scenarios.
->> Seems to be more complete.
->>
->>>
->>>
->> Add these lines to connman's do_install, in case you'd like to test
->>> and/or submit it:
->>>
->>> mv ${D}${sbindir}/connmand ${D}${sbindir}/connmand.real
->>> install -m 755 ${WORKDIR}/connmand-nfsroot.in ${D}${sbindir}/connmand
->>> sed -e 's,@sbindir@,${sbindir},g' -i ${D}${sbindir}/connmand
->>>
->> I think it would be good idea to integrate your changes into the already
->> existing OE-core's connman script, instead of a calling original connman
->> script from the wrapper script.
->>
->
-> I threw together https://github.com/openembedded/openembedded-
-> core/compare/master...kergoth:connman-systemd-nfs last night,
-> only limited testing. I think using a script in libexecdir is rather
-> cleaner than wrapping connmand in place, for something like this,
-> personally.
->
+> In the above commit,  the last line of connman/connman/start-connman file=
+,
+> should be exec @SBINDIR@/connmand "$@" instead of exec @SBINDIR@/connman
+> "$@" ; as the actual binary file name is connmand.
 
-In the above commit,  the last line of connman/connman/start-connman file,
-should be exec @SBINDIR@/connmand "$@" instead of exec @SBINDIR@/connman
-"$@" ; as the actual binary file name is connmand.
 
-Regards,
-Jagadeesh
->
->
-> --
-> Christopher Larson
-> clarson at kergoth dot com
-> Founder - BitBake, OpenEmbedded, OpenZaurus
-> Maintainer - Tslib
-> Senior Software Engineer, Mentor Graphics
->
+Thanks, didn=E2=80=99t notice that. Obviously it needs polish and testing b=
+efore
+submission, I mainly linked it to solicit thoughts on the approach :)
+--=20
+Christopher Larson
+clarson at kergoth dot com
+Founder - BitBake, OpenEmbedded, OpenZaurus
+Maintainer - Tslib
+Senior Software Engineer, Mentor Graphics
 
---001a113ca7628cb3cb053e9b8627
+--001a11440d06366db4053e9bf717
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><div class=3D"gmail_quo=
-te">On Tue, Oct 11, 2016 at 9:06 PM, Christopher Larson <span dir=3D"ltr">&=
-lt;<a href=3D"mailto:clarson@kergoth.com" target=3D"_blank">clarson@kergoth=
-.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"ma=
-rgin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,=
-204);border-left-style:solid;padding-left:1ex"><div dir=3D"ltr"><div class=
-=3D"gmail_extra"><span class=3D"gmail-"><br><div class=3D"gmail_quote">On T=
-ue, Oct 11, 2016 at 5:11 AM, Jagadeesh Krishnanjanappa <span dir=3D"ltr">&l=
-t;<a href=3D"mailto:jkrishnanjanappa@mvista.com" target=3D"_blank">jkrishna=
-njanappa@mvista.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quo=
-te" style=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-col=
-or:rgb(204,204,204);border-left-style:solid;padding-left:1ex"><div>Thanks f=
-or reviewing the patch.<br><div class=3D"gmail_extra"><br><div class=3D"gma=
-il_quote"><span class=3D"gmail-m_-1398317967282633483gmail-"><blockquote cl=
-ass=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px=
-;border-left-color:rgb(204,204,204);border-left-style:solid;padding-left:1e=
-x"><span class=3D"gmail-m_-1398317967282633483gmail-m_284506143400425565gma=
-il-"><br>
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On Tue, Oct 11, 2016 at 12:03 PM, Jagadeesh Krishnanjanappa <span dir=3D"lt=
+r">&lt;<a href=3D"mailto:jkrishnanjanappa@mvista.com" target=3D"_blank">jkr=
+ishnanjanappa@mvista.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmai=
+l_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left=
+:1ex"><span class=3D"">On Tue, Oct 11, 2016 at 9:06 PM, Christopher Larson =
+<span dir=3D"ltr">&lt;<a href=3D"mailto:clarson@kergoth.com" target=3D"_bla=
+nk">clarson@kergoth.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail=
+_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-left=
+-color:rgb(204,204,204);border-left-style:solid;padding-left:1ex"><div dir=
+=3D"ltr"><div class=3D"gmail_extra"><span class=3D"m_4745572745164191539gma=
+il-"><br><div class=3D"gmail_quote">On Tue, Oct 11, 2016 at 5:11 AM, Jagade=
+esh Krishnanjanappa <span dir=3D"ltr">&lt;<a href=3D"mailto:jkrishnanjanapp=
+a@mvista.com" target=3D"_blank">jkrishnanjanappa@mvista.com</a>&gt;</span> =
+wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8=
+ex;border-left-width:1px;border-left-color:rgb(204,204,204);border-left-sty=
+le:solid;padding-left:1ex"><div>Thanks for reviewing the patch.<br><div cla=
+ss=3D"gmail_extra"><br><div class=3D"gmail_quote"><span class=3D"m_47455727=
+45164191539gmail-m_-1398317967282633483gmail-"><blockquote class=3D"gmail_q=
+uote" style=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-c=
+olor:rgb(204,204,204);border-left-style:solid;padding-left:1ex"><span class=
+=3D"m_4745572745164191539gmail-m_-1398317967282633483gmail-m_28450614340042=
+5565gmail-"><br>
 </span>I think this is too fragile to land in OE-Core. What happens if a<br=
 >
 network driver prints &quot;device=3Deth0&quot;? Or if other kernel message=
 s make<br>
 the string disappear from dmesg and connman gets restarted later?<br></bloc=
 kquote><div>=C2=A0</div></span><div>True. If device=3Deth0 gets disappeared=
-/corrupted, then we may have problem.</div><span class=3D"gmail-m_-13983179=
-67282633483gmail-"><blockquote class=3D"gmail_quote" style=3D"margin:0px 0p=
-x 0px 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);border=
--left-style:solid;padding-left:1ex">
+/corrupted, then we may have problem.</div><span class=3D"m_474557274516419=
+1539gmail-m_-1398317967282633483gmail-"><blockquote class=3D"gmail_quote" s=
+tyle=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-color:rg=
+b(204,204,204);border-left-style:solid;padding-left:1ex">
 <br>
 FWIW, I&#39;m attaching my current wrapper script for connmand. I don&#39;t=
 <br>
@@ -163,12 +179,12 @@ think it&#39;s perfect, but at least it doesn&#39;t depend on any init mana=
 ger<br>
 and works across restarts.</blockquote></span><div>The wrapper script attac=
 hed by you, takes care of the missing scenarios. Seems to be more complete.=
-</div><span class=3D"gmail-m_-1398317967282633483gmail-"><blockquote class=
-=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;bo=
-rder-left-color:rgb(204,204,204);border-left-style:solid;padding-left:1ex">=
-=C2=A0<br></blockquote><blockquote class=3D"gmail_quote" style=3D"margin:0p=
-x 0px 0px 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);bo=
-rder-left-style:solid;padding-left:1ex">
+</div><span class=3D"m_4745572745164191539gmail-m_-1398317967282633483gmail=
+-"><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bord=
+er-left-width:1px;border-left-color:rgb(204,204,204);border-left-style:soli=
+d;padding-left:1ex">=C2=A0<br></blockquote><blockquote class=3D"gmail_quote=
+" style=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-color=
+:rgb(204,204,204);border-left-style:solid;padding-left:1ex">
 Add these lines to connman&#39;s do_install, in case you&#39;d like to test=
 <br>
 and/or submit it:<br>
@@ -183,22 +199,20 @@ es into the already existing OE-core&#39;s connman script, instead of a cal=
 ling original connman script from the wrapper script.</div></div></div></di=
 v></blockquote></div><br></span>I threw together=C2=A0<a href=3D"https://gi=
 thub.com/openembedded/openembedded-core/compare/master...kergoth:connman-sy=
-stemd-nfs" target=3D"_blank">https://github.com/<wbr>openembedded/openembed=
-ded-<wbr>core/compare/master...kergoth:<wbr>connman-systemd-nfs</a>=C2=A0la=
+stemd-nfs" target=3D"_blank">https://github.com/op<wbr>enembedded/openembed=
+ded-core/<wbr>compare/master...kergoth:connm<wbr>an-systemd-nfs</a>=C2=A0la=
 st night, only=C2=A0limited testing. I think using a script in libexecdir i=
 s rather cleaner than wrapping connmand in place, for something like this, =
-personally.</div></div></blockquote><div>=C2=A0</div>In the above commit, =
-=C2=A0the last line of connman/connman/start-connman file, should be exec @=
-SBINDIR@/connmand &quot;$@&quot; instead of exec @SBINDIR@/connman &quot;$@=
-&quot; ; as the actual binary file name is connmand.<br><br>Regards,<br>Jag=
-adeesh<blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;b=
-order-left-width:1px;border-left-color:rgb(204,204,204);border-left-style:s=
-olid;padding-left:1ex"><div dir=3D"ltr"><div class=3D"gmail_extra"><span cl=
-ass=3D"gmail-HOEnZb"><font color=3D"#888888"><br>-- <br><div class=3D"gmail=
--m_-1398317967282633483gmail_signature">Christopher Larson<br>clarson at ke=
-rgoth dot com<br>Founder - BitBake, OpenEmbedded, OpenZaurus<br>Maintainer =
-- Tslib<br>Senior Software Engineer, Mentor Graphics</div>
-</font></span></div></div>
-</blockquote></div><br></div></div>
+personally.</div></div></blockquote><div>=C2=A0</div></span>In the above co=
+mmit, =C2=A0the last line of connman/connman/start-connman file, should be =
+exec @SBINDIR@/connmand &quot;$@&quot; instead of exec @SBINDIR@/connman &q=
+uot;$@&quot; ; as the actual binary file name is connmand.</blockquote></di=
+v><br>Thanks, didn=E2=80=99t notice that. Obviously it needs polish and tes=
+ting before submission, I mainly linked it to solicit thoughts on the appro=
+ach :)<br>-- <br><div class=3D"gmail_signature" data-smartmail=3D"gmail_sig=
+nature">Christopher Larson<br>clarson at kergoth dot com<br>Founder - BitBa=
+ke, OpenEmbedded, OpenZaurus<br>Maintainer - Tslib<br>Senior Software Engin=
+eer, Mentor Graphics</div>
+</div></div>
 
---001a113ca7628cb3cb053e9b8627--
+--001a11440d06366db4053e9bf717--
