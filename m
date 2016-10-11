@@ -1,32 +1,90 @@
-Return-Path: <haris.okanovic@ni.com>
-Received: from ni.com (skprod2.natinst.com [130.164.80.23])
-	by mail.openembedded.org (Postfix) with ESMTP id BE0D37199B
+Return-Path: <samuli.piippo@qt.io>
+X-Greylist: delayed 7163 seconds by postgrey-1.34 at layers.openembedded.org;
+	Tue, 11 Oct 2016 18:47:18 UTC
+Received: from EUR01-DB5-obe.outbound.protection.outlook.com
+	(mail-db5eur01on0109.outbound.protection.outlook.com [104.47.2.109])
+	by mail.openembedded.org (Postfix) with ESMTP id E38F371976
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Oct 2016 18:44:22 +0000 (UTC)
-Received: from us-aus-mgwout2.amer.corp.natinst.com (nb-snip2-1338.natinst.com
-	[130.164.19.135])
-	by us-aus-skprod2.natinst.com (8.15.0.59/8.15.0.59) with ESMTP id
-	u9BIhn7T014898; Tue, 11 Oct 2016 13:43:51 -0500
-Received: from harisdt.amer.corp.natinst.com ([130.164.14.198])
-	by us-aus-mgwout2.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6
-	HF1218) with ESMTP id 2016101113364219-829161 ;
-	Tue, 11 Oct 2016 13:36:42 -0500 
-From: Haris Okanovic <haris.okanovic@ni.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 11 Oct 2016 13:36:24 -0500
-Message-Id: <1476210984-21556-1-git-send-email-haris.okanovic@ni.com>
-X-Mailer: git-send-email 2.8.2
-In-Reply-To: <1450119998-2912-1-git-send-email-haris.okanovic@ni.com>
-References: <1450119998-2912-1-git-send-email-haris.okanovic@ni.com>
-X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut2/AUS/H/NIC(Release
-	8.5.3FP6 HF1218|December 12, 2014) at 10/11/2016 01:36:42 PM,
-	Serialize by Router on US-AUS-MGWOut2/AUS/H/NIC(Release 8.5.3FP6
-	HF1218|December 12, 2014) at 10/11/2016 01:43:52 PM,
-	Serialize complete at 10/11/2016 01:43:52 PM
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
-	definitions=2016-10-11_10:, , signatures=0
-Cc: haris.okanovic@ni.com, josh.hernstrom@ni.com
-Subject: [PATCH v3] kernel: Add support for multiple kernel packages
+	Tue, 11 Oct 2016 18:47:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=qtcompany.onmicrosoft.com; s=selector1-qt-io;
+	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version;
+	bh=wyasxX11Bf1p+h3oEflZ1GWwUXTDnT4bsVl09CYo83U=;
+	b=iCHL+Qc7sk4+gy5k+eHyysQ2Jk9QNdHpW8zCzltbuhkFOm5tb8YqNdZIloBvjJvKJkgccTRTdIaMwbRQFbclEflYXeQHTzxJ6V1glFaZsbL9S1eEmsFAHj6DkYTfJ6QiaGe8QzmzJwSYPyTr1XDudK4e+ICjPGytC6hrihET/MM=
+Authentication-Results: spf=none (sender IP is )
+	smtp.mailfrom=samuli.piippo@qt.io; 
+Received: from piippo.intra.qt.io (192.89.120.53) by
+	DB6PR0202MB2728.eurprd02.prod.outlook.com (10.171.71.138) with
+	Microsoft SMTP Server (version=TLS1_2,
+	cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id
+	15.1.659.11; Tue, 11 Oct 2016 15:14:45 +0000
+From: Samuli Piippo <samuli.piippo@qt.io>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 11 Oct 2016 18:14:10 +0300
+Message-ID: <1476198850-1529-1-git-send-email-samuli.piippo@qt.io>
+X-Mailer: git-send-email 1.9.1
+MIME-Version: 1.0
+X-Originating-IP: [192.89.120.53]
+X-ClientProxiedBy: AM5PR0501CA0024.eurprd05.prod.outlook.com (10.164.187.34)
+	To DB6PR0202MB2728.eurprd02.prod.outlook.com (10.171.71.138)
+X-MS-Office365-Filtering-Correlation-Id: 4aa93173-87be-498c-d49a-08d3f1e9558d
+X-Microsoft-Exchange-Diagnostics: 1; DB6PR0202MB2728;
+	2:n/4f5WRfb9nGYvo6fzMJr8d38F55W6dfQyK/g5lvMXyUxGBrjQ82yAFJQJvRch1Uxjt9T9xwUR0EMy7Z8mVAwo8xSl7YheiyiTlU0lFhFX0zfiR1tMPpShkMW9x89ikmUdveX1xMU/DB52gkiP2omsxVHU9G0GY3zG9mXxLpMb0DokwqcV87G1jfHA5IM+MYdcJaxYIZneRsrO0W7eYZgg==;
+	3:MOV8cjKfWb5cOfrE0qxzvrzo1dYPdDar5/xhuZSGprC6V8byHxMlHXAkSy3XhrQC01LQIwNLCyEL7mCAthfQuO5oooYNCACgQ6uE3nQ03M0JtNDedo8Wj++9iWw4QXrf30J/LHzDvrsco6GkFzKa3A==;
+	25:bmD4lnEsPmmMn7FWJRc1E8eOyIPOSZ7pjkXzI+0GSxVOTo11ZEiyhBAa7RnfqntMGmkRY99jdLSMqUqF5vaPEt5MnatlznnoTb45ywl4bgmSM1U6eas2AS84lVAE0wm76SjzIjsfO5VraF+AEUs+npAjr1F4Gzx9PfQ5rsLifHgPSdUSQH5sqtpmcCNHV2lsustXUi2kZoOaAwbtBR3zWkKMsIABH3s5yqIWgLC4l4VOWwIfA/Tg7RWuyOX78wtxaS5ctZbqrpMcTSdP29thrM0g2OLYAZId028j2u4Xfn8DlwaOdf3Zx83bB14U5S5iTjb8hNGuQ9sCA80fohj3gldu5z/IYDhDygLSxfWQg7SALrD2pgIG/k9VV29upc8vPkawE3/G63FAAZd9l6jDRKfLusmbOJkD4F1dRWsNBuUeXX8IY+ifZfqKQns6Henq
+X-Microsoft-Antispam: UriScan:;BCL:0;PCL:0;RULEID:;SRVR:DB6PR0202MB2728;
+X-Microsoft-Exchange-Diagnostics: 1; DB6PR0202MB2728;
+	31:nUMTecF2YK9W8IgNsLl4seNvAK53XlqOt/4r43Y8OQ1LkcqvvEuHUtMiumrMtjxX/wLsgz4RXG2HhXunRSBMArVbdAKaIiidDdFsXkebsNYQIAexrW/uEZxGccr8/aznS0wir4NkFJ/G+AGJsGQAU+xx4pcwO9gEA27Z/jLgFH7DWeVWceHfCc6ztofiILiAqzTeR16jxOqDMyqAaZCkYWGchIEmsWZW9CUJiac/my5wOlSCyI3CKCz40ZvZqB2V;
+	20:KQfpgRcvMsuRFrUPaAJhSlBfV7hqSEARLGbl21eXM9Z4NCPTecJMnLeqEQvzwh4qr08Fw+4uXSoMj8a2Ah8mnAKFSqixcGFtjBAhE8PPmviThnfkavRKcZ2E6iWxAfyBxKksEJwtdUZ+wpJZ9q+eyY3i4KXczU2a+npaWactJnp/qKjGOntlVwQzyu4PoaCclSYDbwcZYD9BpbDr5u92CHKAziHeQbyozt8V7EsMDI+FHX+KhKeYrSMl+taPTRF9;
+	4:lBAIFF0xMclCMKZsfg9NwAblI/IvZ3/0vvcv6+c6F+FmB/zjri/X8Py9o48aU9SD3y16ueWk99qB/81UdJ1f915DUUlJUMgfowLF1r+Pp6d49/1Wn6lCeiNVBEmRe5hI4F0T2EauV4EKQS/RNzlDxtu0Kc/vJG+dqvyhL2o1UHE/rwBy8TjVneWzeqFyJ3hSZmBXE/on6xXZENM1QdGgOfMUtZTsbRwO2TbZTHy2nNscoOO6j+2YmvHfOcEV5QoSSA300sEHMPDeTqDd++8xCrBLPNXYAHW0tngM9TXVt9VS2RyfZyQ7m7Gb/Ods4N3jcoZukyGwtBIq4slr5+Q6lAYdReduF2LRdXMF7v6nhOT8eEktYR6U3y+XNs/b+KwKFfeHQK7d7RrGaZXL66++x29ZbXRiK7Zs7HtuttxYxqFfVC+TCrAngWsKmyqqhbHs
+X-Microsoft-Antispam-PRVS: <DB6PR0202MB27284E616AAF3B9341EFE5ACE9DA0@DB6PR0202MB2728.eurprd02.prod.outlook.com>
+X-Exchange-Antispam-Report-Test: UriScan:;
+X-Exchange-Antispam-Report-CFA-Test: BCL:0; PCL:0;
+	RULEID:(6040176)(601004)(2401047)(8121501046)(5005006)(3002001)(10201501046)(6043046)(6042046);
+	SRVR:DB6PR0202MB2728; BCL:0; PCL:0; RULEID:;
+	SRVR:DB6PR0202MB2728; 
+X-Forefront-PRVS: 00922518D8
+X-Forefront-Antispam-Report: SFV:NSPM;
+	SFS:(10019020)(4630300001)(6009001)(7916002)(199003)(189002)(586003)(68736007)(3846002)(5003940100001)(6116002)(69596002)(19580405001)(36756003)(107886002)(189998001)(19580395003)(450100001)(110136003)(6916009)(6666003)(77096005)(5660300001)(7736002)(305945005)(47776003)(97736004)(8676002)(50986999)(7846002)(53416004)(81156014)(229853001)(81166006)(2351001)(92566002)(86362001)(105586002)(106356001)(48376002)(66066001)(74482002)(42186005)(50466002)(33646002)(2906002)(50226002)(101416001);
+	DIR:OUT; SFP:1102; SCL:1; SRVR:DB6PR0202MB2728;
+	H:piippo.intra.qt.io; FPR:; SPF:None; PTR:InfoNoRecords; A:1;
+	MX:1; LANG:en; 
+Received-SPF: None (protection.outlook.com: qt.io does not designate permitted
+	sender hosts)
+X-Microsoft-Exchange-Diagnostics: =?us-ascii?Q?1; DB6PR0202MB2728;
+	23:bg8DtcqfsvlMHL4Jv7yB02RtsW0j6KsUITWZgYt?=
+	=?us-ascii?Q?ydbPO9OWuMTs3xR+z+aYybdq83NsYqVLRzFXoUa1N4/SUOGmtJOacv/a5uE+?=
+	=?us-ascii?Q?7JLTss7zDUhWtDnxj4Z5pv3WtZ+HWtr0McK1kR0w9IwAywAsBuGtnHQeJB3L?=
+	=?us-ascii?Q?rYim/WzsOio6D0TbUAXb2i7EKGErASzs3ySGJvLrmcLNUaIjo4syVFb8yxgo?=
+	=?us-ascii?Q?c/E3Ot6AJdKQvzXKAno2+YKnpo3a7ReSHgaDOYQJEhWSTkg/x6KLE16+jMJn?=
+	=?us-ascii?Q?gSpXuuaQdm3EMRrXza3JQw+TWDjqnWz2OdAtr9LuMfOiHMeG+nVxWF/8t0NN?=
+	=?us-ascii?Q?LsWmKFLLldT9ed+I+313R2fhVRUWQTYzQsOAXOze068wxfITe0WEBxW+jMMW?=
+	=?us-ascii?Q?saPyqL6aRLfaWVyXmcYnBxMZPW4bIScqJNgoR5JCoLOpMFIt+ZFyaa1y/D+O?=
+	=?us-ascii?Q?GaMQWSGp4seJVzdK+PM1dGpUJ7R35OaKkXkKDInUpK/DaLvqJT1+SpmVt9J2?=
+	=?us-ascii?Q?FLbBAJpvD7EqS7CylkNJuZnv7PKWSa0OlYsz4VqTZrAoIZeLdzNJQldUSP49?=
+	=?us-ascii?Q?u+3QOtMB8ASNNJsvjN0WDvM9CpXPfEWcXTTFD2nKyiAlcJqRUjUMMi+Ir4WY?=
+	=?us-ascii?Q?+5KnPavyw4v0L2dqBgdU+ZTe1jUaZezmyqwc+PdGckJOqi+MqJU4x1xAzdu+?=
+	=?us-ascii?Q?fpJQbCiiqUSEInb7a3FEqlE/yEGgdBwiixYt0zUTiob7suq2ffatYDVLMUwF?=
+	=?us-ascii?Q?UD2d3hvUfSFJd+j15ONK/WXSW/lSqaXchMT03wX+cN2TDoivMn4ws6TnxUNX?=
+	=?us-ascii?Q?nHcGZQ+bct2z/TlqB6i3mogU/4Zeu8fkRYv9Tf87VmQyoFdTK9q0NbyrDKJ8?=
+	=?us-ascii?Q?iPDWPkEK+bn+jJfgpyisBPLIypm5qvGSW8b8JoZ4rBxUuMe9f9G5yjVuCdAu?=
+	=?us-ascii?Q?GwhYdW5cl51yJBOIbBFuy+CiVLXGbyi1RBcz6bkwv5a0w9W13zEmaP8J0KqF?=
+	=?us-ascii?Q?QSjahog4c4950F87SxkOglJ3m3Wmyh45MJJucLKNdTrUKBO2j8PEXE/im7Oz?=
+	=?us-ascii?Q?dqvbUKmv51bdGa/ieleeLS0KCp21Mra7JYrqlCdGBzIqJjfvZ2f7ftJWdTmu?=
+	=?us-ascii?Q?+8EwH9lfIh+uQ2rgXf/3FZResghWveEmv?=
+X-Microsoft-Exchange-Diagnostics: 1; DB6PR0202MB2728;
+	6:+hp3BUWIHNbc7J2gL9dB2wZbA8Zrib5FYAowt6YRpZjj8tHMdrPLOQjNKixheDaVa6EDtDKnlqwyJxe9wN44J9Fm377VoRLDlvhY32SslebiEreGoo6P2Fr76fWId77d4/l6Tc/NkmQAylU8z7V3n/7OAUV+/Z7Cxf7e6XTS46Iokr9hmbQ/0v/5N1T2hS+koPLgSOXasa2KxYmsVKAtAcrF7cQHGytfUTYGXnCrOTYvXZ9V3E4k9sYmhV6b3TKqhBSO/M1gCjQTxfEL+Pmt8kuUwTynKFAKBgg0Iw6o4KJBc51/fa77oXpZrz7kkSglaPzqdFSdOKiJS7tgtxdqiA==;
+	5:8TUgFvN06LfgkUrxeU3Rgk9KesOFfJZovRyU9bbkIugAZr/+h1PVnTp9i2QUejeQkuvfKh7HgMVWvShD2F1bO6Q+6jfNwPDObjfVxLOnAHUGYM+LToIRZvHmiR3O3dSE88q6yPNP7oz/JDCtC56i4w==;
+	24:d4TKAPn9ei463UyDdAdjymFh2IMmAwPu9p89KZg3JoFJJTwKws5O+8Qz6/9gWKqvSzj3mHZguvYsuDw3i5qSr9yHJ3xCJ+LEQh75RWn91Lc=
+SpamDiagnosticOutput: 1:99
+SpamDiagnosticMetadata: NSPM
+X-Microsoft-Exchange-Diagnostics: 1; DB6PR0202MB2728;
+	7:AkiTIE6c3ADg507IWNiYXd8CqLUrZy7kwn1HAFuivpGCecvYZpYXsmPu/rYY2X1h2qQkioFhIQuzr/g91c5OZOJaID7zRNAu75rNLDAy6seXdhC+Ifhx8KSHIALkGRQRzLHc/VgQOi1nHF5RgU5LX/MoGazFtysH83ldlJg6dIj3aIYoutmZAK6GYs3PCu14KOIMjIsv+pH6IQYYHxpEEvHovdwKSMEst2s7tVyW5nbYN0l0x8npQPtqWnGgBVdUKSRD9CpNFr2we2m1wpli7TQyO3RWRn8hwMvTGJdnQwnenPTKV6lfNW7aOATf5vktywRZLp7HJTCO/8YuePdTwE15u9NF/sjUqyksg4fNjM8=
+X-OriginatorOrg: qt.io
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Oct 2016 15:14:45.2452 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB6PR0202MB2728
+Subject: [meta-oe][PATCH] systemd-serialgetty: add dependency to agetty
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,303 +97,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Oct 2016 18:44:23 -0000
+X-List-Received-Date: Tue, 11 Oct 2016 18:47:19 -0000
+Content-Type: text/plain
 
-This change allows distributions to provide multiple builds of kernel
-and module packages. For example, a distro may want provide an alternate
-debug kernel in a package feed for debug/testing.
-
-Templetize kernel package name:
-
-Add a "weak" variable KERNEL_PACKAGE_NAME used as the base name for kernel
-packages. It defaults to the old hard-coded name 'kernel' but it can be
-redefined by recipes that provide additional kernel packages in order
-to avoid build conflicts.
-
-Change hard-coded 'kernel' references to KERNEL_PACKAGE_NAME in
-kernel bbclass-es.
-
-Build alternate kernels from WORKDIR instead of STAGING_KERNEL_DIR:
-
-Prior to this change, kernel recipes would all fetch source to
-STAGING_KERNEL_DIR as defined by bitbake/distro confs. This broke
-parallel builds when more than one kernel recipes are defined in
-the distribution, since they all attempted to fetch() and patch()
-in a shared source dir.
-
-With this change, alternate kernel recipes fetch source into their
-${WORKDIR} so that they may build in parallel to each other and the
-default kernel recipe, which still fetches to STAGING_KERNEL_DIR.
-
-Testing: Built linux-yocto-4.8 for qemux86 and verified it produces
-kernel image and modules IPKs from source under the "work-shared"
-directory. Built a kernel recipe with non-default KERNEL_PACKAGE_NAME
-and verified it produces kernel image and modules IPKs with the
-alternate package name from source under the normal "work" directory.
-
-Discussion thread: http://lists.openembedded.org/pipermail/openembedded-core/2015-December/thread.html#114122
-
-Signed-off-by: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
-Signed-off-by: Gratian Crisan <gratian.crisan@ni.com>
-Signed-off-by: Haris Okanovic <haris.okanovic@ni.com>
-Coauthored-by: Gratian Crisan <gratian.crisan@ni.com>
-Coauthored-by: Haris Okanovic <haris.okanovic@ni.com>
-Coauthored-by: Josh Hernstrom <josh.hernstrom@ni.com>
-Natinst-ReviewBoard-ID: 120348
+Signed-off-by: Samuli Piippo <samuli.piippo@qt.io>
 ---
-[PATCH v2] Change STAGING_KERNEL_DIR and STAGING_KERNEL_BUILDDIR to the
-"work" directory in alternate kernel builds, instead of "work-shared", so
-that the two builds don't clobber each other.
+ meta/recipes-core/systemd/systemd-serialgetty.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-[PATCH v3] An updated version of this change rebased onto the current
-OE-core master. Changes:
- * Remove PREFERRED_PROVIDER check in linux-yocto.inc in alternate
-   kernel builds, since alternate kernels aren't the
-   PREFERRED_PROVIDER for virtual/kernel by definition.
- * Remove "virtual/kernel" from PROVIDES in alternate kernel builds.
----
- meta/classes/kernel-module-split.bbclass  |  9 ++--
- meta/classes/kernel.bbclass               | 87 ++++++++++++++++++-------------
- meta/conf/documentation.conf              |  1 +
- meta/recipes-kernel/linux/linux-dtb.inc   |  2 +-
- meta/recipes-kernel/linux/linux-yocto.inc |  2 +-
- 5 files changed, 60 insertions(+), 41 deletions(-)
-
-diff --git a/meta/classes/kernel-module-split.bbclass b/meta/classes/kernel-module-split.bbclass
-index 08d2262..9f463f1 100644
---- a/meta/classes/kernel-module-split.bbclass
-+++ b/meta/classes/kernel-module-split.bbclass
-@@ -28,7 +28,7 @@ do_install_append() {
- 
- PACKAGESPLITFUNCS_prepend = "split_kernel_module_packages "
- 
--KERNEL_MODULES_META_PACKAGE ?= "kernel-modules"
-+KERNEL_MODULES_META_PACKAGE ?= "${KERNEL_PACKAGE_NAME}-modules"
- 
- KERNEL_MODULE_PACKAGE_PREFIX ?= ""
- 
-@@ -119,15 +119,18 @@ python split_kernel_module_packages () {
-         # Avoid automatic -dev recommendations for modules ending with -dev.
-         d.setVarFlag('RRECOMMENDS_' + pkg, 'nodeprrecs', 1)
- 
-+    kernel_package_name = d.getVar("KERNEL_PACKAGE_NAME", True)
-+    kernel_version = d.getVar("KERNEL_VERSION", True)
-+
-     module_regex = '^(.*)\.k?o$'
- 
-     module_pattern_prefix = d.getVar('KERNEL_MODULE_PACKAGE_PREFIX', True)
--    module_pattern = module_pattern_prefix + 'kernel-module-%s'
-+    module_pattern = '%s%s-module-%%s' % (module_pattern_prefix, kernel_package_name)
- 
-     postinst = d.getVar('pkg_postinst_modules', True)
-     postrm = d.getVar('pkg_postrm_modules', True)
- 
--    modules = do_split_packages(d, root='/lib/modules', file_regex=module_regex, output_pattern=module_pattern, description='%s kernel module', postinst=postinst, postrm=postrm, recursive=True, hook=frob_metadata, extra_depends='kernel-%s' % (d.getVar("KERNEL_VERSION", True)))
-+    modules = do_split_packages(d, root='/lib/modules', file_regex=module_regex, output_pattern=module_pattern, description='%s kernel module', postinst=postinst, postrm=postrm, recursive=True, hook=frob_metadata, extra_depends='%s-%s' % (kernel_package_name, kernel_version))
-     if modules:
-         metapkg = d.getVar('KERNEL_MODULES_META_PACKAGE', True)
-         d.appendVar('RDEPENDS_' + metapkg, ' '+' '.join(modules))
-diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-index 25a153c..7c0cffe 100644
---- a/meta/classes/kernel.bbclass
-+++ b/meta/classes/kernel.bbclass
-@@ -1,6 +1,8 @@
- inherit linux-kernel-base kernel-module-split
- 
--PROVIDES += "virtual/kernel"
-+KERNEL_PACKAGE_NAME ??= "kernel"
-+
-+PROVIDES += "${@ "virtual/kernel" if (d.getVar("KERNEL_PACKAGE_NAME", True) == "kernel") else "" }"
- DEPENDS += "virtual/${TARGET_PREFIX}binutils virtual/${TARGET_PREFIX}gcc kmod-native depmodwrapper-cross bc-native lzop-native"
- 
- S = "${STAGING_KERNEL_DIR}"
-@@ -30,10 +32,23 @@ KERNEL_VERSION_PKG_NAME[vardepvalue] = "${LINUX_VERSION}"
- python __anonymous () {
-     import re
- 
-+    # The default kernel recipe builds in a shared location defined by
-+    # bitbake/distro confs: STAGING_KERNEL_DIR and STAGING_KERNEL_BUILDDIR.
-+    # Set these variables to directories under ${WORKDIR} in alternate
-+    # kernel recipes (I.e. where KERNEL_PACKAGE_NAME != kernel) so that they
-+    # may build in parallel with the default kernel without clobbering.
-+    if d.getVar("KERNEL_PACKAGE_NAME", True) != "kernel":
-+        workdir = d.getVar("WORKDIR", True)
-+        sourceDir = os.path.join(workdir, 'kernel-source')
-+        artifactsDir = os.path.join(workdir, 'kernel-build-artifacts')
-+        d.setVar("STAGING_KERNEL_DIR", sourceDir)
-+        d.setVar("STAGING_KERNEL_BUILDDIR", artifactsDir)
-+
-     # Merge KERNEL_IMAGETYPE and KERNEL_ALT_IMAGETYPE into KERNEL_IMAGETYPES
-     type = d.getVar('KERNEL_IMAGETYPE', True) or ""
-     alttype = d.getVar('KERNEL_ALT_IMAGETYPE', True) or ""
-     types = d.getVar('KERNEL_IMAGETYPES', True) or ""
-+    kname = d.getVar('KERNEL_PACKAGE_NAME', True) or "kernel"
-     if type not in types.split():
-         types = (type + ' ' + types).strip()
-     if alttype not in types.split():
-@@ -46,23 +61,23 @@ python __anonymous () {
-     for type in typeformake.split():
-         typelower = type.lower()
- 
--        d.appendVar('PACKAGES', ' ' + 'kernel-image-' + typelower)
-+        d.appendVar('PACKAGES', ' %s-image-%s' % (kname, typelower))
- 
--        d.setVar('FILES_kernel-image-' + typelower, '/boot/' + type + '*')
-+        d.setVar('FILES_%s-image-%s' % (kname, typelower), '/boot/' + type + '*')
- 
--        d.appendVar('RDEPENDS_kernel-image', ' ' + 'kernel-image-' + typelower)
-+        d.appendVar('RDEPENDS_%s-image' % kname, ' %s-image-%s' % (kname, typelower))
- 
--        d.setVar('PKG_kernel-image-' + typelower, 'kernel-image-' + typelower + '-${KERNEL_VERSION_PKG_NAME}')
-+        d.setVar('PKG_%s-image-%s' % (kname,typelower), '%s-image-%s-${KERNEL_VERSION_PKG_NAME}' % (kname, typelower))
- 
--        d.setVar('ALLOW_EMPTY_kernel-image-' + typelower, '1')
-+        d.setVar('ALLOW_EMPTY_%s-image-%s' % (kname, typelower), '1')
- 
-         imagedest = d.getVar('KERNEL_IMAGEDEST', True)
-         priority = d.getVar('KERNEL_PRIORITY', True)
-         postinst = '#!/bin/sh\n' + 'update-alternatives --install /' + imagedest + '/' + type + ' ' + type + ' ' + '/' + imagedest + '/' + type + '-${KERNEL_VERSION_NAME} ' + priority + ' || true' + '\n'
--        d.setVar('pkg_postinst_kernel-image-' + typelower, postinst)
-+        d.setVar('pkg_postinst_%s-image-%s' % (kname, typelower), postinst)
- 
-         postrm = '#!/bin/sh\n' + 'update-alternatives --remove' + ' ' + type + ' ' + type + '-${KERNEL_VERSION_NAME} || true' + '\n'
--        d.setVar('pkg_postrm_kernel-image-' + typelower, postrm)
-+        d.setVar('pkg_postrm_%s-image-%s' % (kname, typelower), postrm)
- 
-     image = d.getVar('INITRAMFS_IMAGE', True)
-     if image:
-@@ -120,9 +135,9 @@ base_do_unpack_append () {
- 
- inherit kernel-arch deploy
- 
--PACKAGES_DYNAMIC += "^kernel-module-.*"
--PACKAGES_DYNAMIC += "^kernel-image-.*"
--PACKAGES_DYNAMIC += "^kernel-firmware-.*"
-+PACKAGES_DYNAMIC += "^${KERNEL_PACKAGE_NAME}-module-.*"
-+PACKAGES_DYNAMIC += "^${KERNEL_PACKAGE_NAME}-image-.*"
-+PACKAGES_DYNAMIC += "^${KERNEL_PACKAGE_NAME}-firmware-.*"
- 
- export OS = "${TARGET_OS}"
- export CROSS_COMPILE = "${TARGET_PREFIX}"
-@@ -366,9 +381,9 @@ do_shared_workdir_setscene () {
- 
- emit_depmod_pkgdata() {
- 	# Stash data for depmod
--	install -d ${PKGDESTWORK}/kernel-depmod/
--	echo "${KERNEL_VERSION}" > ${PKGDESTWORK}/kernel-depmod/kernel-abiversion
--	cp ${B}/System.map ${PKGDESTWORK}/kernel-depmod/System.map-${KERNEL_VERSION}
-+	install -d ${PKGDESTWORK}/${KERNEL_PACKAGE_NAME}-depmod/
-+	echo "${KERNEL_VERSION}" > ${PKGDESTWORK}/${KERNEL_PACKAGE_NAME}-depmod/${KERNEL_PACKAGE_NAME}-abiversion
-+	cp ${B}/System.map ${PKGDESTWORK}/${KERNEL_PACKAGE_NAME}-depmod/System.map-${KERNEL_VERSION}
- }
- 
- PACKAGEFUNCS += "emit_depmod_pkgdata"
-@@ -383,7 +398,7 @@ do_shared_workdir () {
- 	# Store the kernel version in sysroots for module-base.bbclass
- 	#
- 
--	echo "${KERNEL_VERSION}" > $kerneldir/kernel-abiversion
-+	echo "${KERNEL_VERSION}" > $kerneldir/${KERNEL_PACKAGE_NAME}-abiversion
- 
- 	# Copy files required for module builds
- 	cp System.map $kerneldir/System.map-${KERNEL_VERSION}
-@@ -481,28 +496,28 @@ EXPORT_FUNCTIONS do_compile do_install do_configure
- 
- # kernel-base becomes kernel-${KERNEL_VERSION}
- # kernel-image becomes kernel-image-${KERNEL_VERSION}
--PACKAGES = "kernel kernel-base kernel-vmlinux kernel-image kernel-dev kernel-modules"
-+PACKAGES = "${KERNEL_PACKAGE_NAME} ${KERNEL_PACKAGE_NAME}-base ${KERNEL_PACKAGE_NAME}-vmlinux ${KERNEL_PACKAGE_NAME}-image ${KERNEL_PACKAGE_NAME}-dev ${KERNEL_PACKAGE_NAME}-modules"
- FILES_${PN} = ""
--FILES_kernel-base = "/lib/modules/${KERNEL_VERSION}/modules.order /lib/modules/${KERNEL_VERSION}/modules.builtin"
--FILES_kernel-image = ""
--FILES_kernel-dev = "/boot/System.map* /boot/Module.symvers* /boot/config* ${KERNEL_SRC_PATH} /lib/modules/${KERNEL_VERSION}/build"
--FILES_kernel-vmlinux = "/boot/vmlinux*"
--FILES_kernel-modules = ""
--RDEPENDS_kernel = "kernel-base"
--# Allow machines to override this dependency if kernel image files are
-+FILES_${KERNEL_PACKAGE_NAME}-base = "/lib/modules/${KERNEL_VERSION}/modules.order /lib/modules/${KERNEL_VERSION}/modules.builtin"
-+FILES_${KERNEL_PACKAGE_NAME}-image = ""
-+FILES_${KERNEL_PACKAGE_NAME}-dev = "/boot/System.map* /boot/Module.symvers* /boot/config* ${KERNEL_SRC_PATH} /lib/modules/${KERNEL_VERSION}/build"
-+FILES_${KERNEL_PACKAGE_NAME}-vmlinux = "/boot/vmlinux*"
-+FILES_${KERNEL_PACKAGE_NAME}-modules = ""
-+RDEPENDS_${KERNEL_PACKAGE_NAME} = "${KERNEL_PACKAGE_NAME}-base"
-+# Allow machines to override this dependency if kernel image files are 
- # not wanted in images as standard
--RDEPENDS_kernel-base ?= "kernel-image"
--PKG_kernel-image = "kernel-image-${@legitimize_package_name('${KERNEL_VERSION}')}"
--RDEPENDS_kernel-image += "${@base_conditional('KERNEL_IMAGETYPE', 'vmlinux', 'kernel-vmlinux', '', d)}"
--PKG_kernel-base = "kernel-${@legitimize_package_name('${KERNEL_VERSION}')}"
--RPROVIDES_kernel-base += "kernel-${KERNEL_VERSION}"
--ALLOW_EMPTY_kernel = "1"
--ALLOW_EMPTY_kernel-base = "1"
--ALLOW_EMPTY_kernel-image = "1"
--ALLOW_EMPTY_kernel-modules = "1"
--DESCRIPTION_kernel-modules = "Kernel modules meta package"
--
--pkg_postinst_kernel-base () {
-+RDEPENDS_${KERNEL_PACKAGE_NAME}-base ?= "${KERNEL_PACKAGE_NAME}-image"
-+PKG_${KERNEL_PACKAGE_NAME}-image = "${KERNEL_PACKAGE_NAME}-image-${@legitimize_package_name('${KERNEL_VERSION}')}"
-+RDEPENDS_${KERNEL_PACKAGE_NAME}-image += "${@base_conditional('KERNEL_IMAGETYPE', 'vmlinux', '${KERNEL_PACKAGE_NAME}-vmlinux', '', d)}"
-+PKG_${KERNEL_PACKAGE_NAME}-base = "${KERNEL_PACKAGE_NAME}-${@legitimize_package_name('${KERNEL_VERSION}')}"
-+RPROVIDES_${KERNEL_PACKAGE_NAME}-base += "${KERNEL_PACKAGE_NAME}-${KERNEL_VERSION}"
-+ALLOW_EMPTY_${KERNEL_PACKAGE_NAME} = "1"
-+ALLOW_EMPTY_${KERNEL_PACKAGE_NAME}-base = "1"
-+ALLOW_EMPTY_${KERNEL_PACKAGE_NAME}-image = "1"
-+ALLOW_EMPTY_${KERNEL_PACKAGE_NAME}-modules = "1"
-+DESCRIPTION_${KERNEL_PACKAGE_NAME}-modules = "Kernel modules meta package"
-+
-+pkg_postinst_${KERNEL_PACKAGE_NAME}-base () {
- 	if [ ! -e "$D/lib/modules/${KERNEL_VERSION}" ]; then
- 		mkdir -p $D/lib/modules/${KERNEL_VERSION}
+diff --git a/meta/recipes-core/systemd/systemd-serialgetty.bb b/meta/recipes-core/systemd/systemd-serialgetty.bb
+index 768b130..c4e5310 100644
+--- a/meta/recipes-core/systemd/systemd-serialgetty.bb
++++ b/meta/recipes-core/systemd/systemd-serialgetty.bb
+@@ -38,7 +38,7 @@ do_install() {
  	fi
-@@ -516,7 +531,7 @@ pkg_postinst_kernel-base () {
- PACKAGESPLITFUNCS_prepend = "split_kernel_packages "
- 
- python split_kernel_packages () {
--    do_split_packages(d, root='/lib/firmware', file_regex='^(.*)\.(bin|fw|cis|csp|dsp)$', output_pattern='kernel-firmware-%s', description='Firmware for %s', recursive=True, extra_depends='')
-+    do_split_packages(d, root='/lib/firmware', file_regex='^(.*)\.(bin|fw|cis|csp|dsp)$', output_pattern='${KERNEL_PACKAGE_NAME}-firmware-%s', description='Firmware for %s', recursive=True, extra_depends='')
  }
  
- # Many scripts want to look in arch/$arch/boot for the bootable
-diff --git a/meta/conf/documentation.conf b/meta/conf/documentation.conf
-index 51c4116..8682e72 100644
---- a/meta/conf/documentation.conf
-+++ b/meta/conf/documentation.conf
-@@ -248,6 +248,7 @@ KERNEL_IMAGETYPE[doc] = "The type of kernel to build for a device, usually set b
- KERNEL_IMAGETYPES[doc] = "The list of types of kernel to build for a device, usually set by the machine configuration files and defaults to KERNEL_IMAGETYPE."
- KERNEL_MODULE_AUTOLOAD[doc] = "Lists kernel modules that need to be auto-loaded during boot"
- KERNEL_MODULE_PROBECONF[doc] = "Lists kernel modules for which the build system expects to find module_conf_* values that specify configuration for each of the modules"
-+KERNEL_PACKAGE_NAME[doc] = "Name prefix for kernel packages. Defaults to 'kernel'."
- KERNEL_PATH[doc] = "The location of the kernel sources. This variable is set to the value of the STAGING_KERNEL_DIR within the module class (module.bbclass)."
- KERNEL_SRC[doc] = "The location of the kernel sources. This variable is set to the value of the STAGING_KERNEL_DIR within the module class (module.bbclass)."
- KFEATURE_DESCRIPTION[doc] = "Provides a short description of a configuration fragment. You use this variable in the .scc file that describes a configuration fragment file."
-diff --git a/meta/recipes-kernel/linux/linux-dtb.inc b/meta/recipes-kernel/linux/linux-dtb.inc
-index 8528d64..af5bfca 100644
---- a/meta/recipes-kernel/linux/linux-dtb.inc
-+++ b/meta/recipes-kernel/linux/linux-dtb.inc
-@@ -2,7 +2,7 @@
- FILES_kernel-devicetree = "/${KERNEL_IMAGEDEST}/devicetree*"
+-RDEPENDS_${PN} = "systemd"
++RDEPENDS_${PN} = "systemd util-linux-agetty"
  
- python __anonymous () {
--    d.appendVar("PACKAGES", " kernel-devicetree")
-+    d.appendVar("PACKAGES", " ${KERNEL_PACKAGE_NAME}-devicetree")
- }
- 
- normalize_dtb () {
-diff --git a/meta/recipes-kernel/linux/linux-yocto.inc b/meta/recipes-kernel/linux/linux-yocto.inc
-index d8d4387..3f4dab9 100644
---- a/meta/recipes-kernel/linux/linux-yocto.inc
-+++ b/meta/recipes-kernel/linux/linux-yocto.inc
-@@ -12,7 +12,7 @@ INC_PR = "r4"
- # PREFERRED_PROVIDER for virtual/kernel. This avoids network access required
- # by the use of AUTOREV SRCREVs, which are the default for this recipe.
- python () {
--    if d.getVar("PREFERRED_PROVIDER_virtual/kernel", True) != d.getVar("PN", True):
-+    if d.getVar("KERNEL_PACKAGE_NAME", True) == "kernel" and d.getVar("PREFERRED_PROVIDER_virtual/kernel", True) != d.getVar("PN", True):
-         d.delVar("BB_DONT_CACHE")
-         raise bb.parse.SkipPackage("Set PREFERRED_PROVIDER_virtual/kernel to %s to enable it" % (d.getVar("PN", True)))
- }
+ # This is a machine specific file
+ FILES_${PN} = "${systemd_unitdir}/system/*.service ${sysconfdir}"
 -- 
-2.8.2
+1.9.1
 
 
