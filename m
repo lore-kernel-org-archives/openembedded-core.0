@@ -1,50 +1,47 @@
 Return-Path: <ross.burton@intel.com>
 Received: from mail-lf0-f44.google.com (mail-lf0-f44.google.com
 	[209.85.215.44])
-	by mail.openembedded.org (Postfix) with ESMTP id 46D9971A0E
+	by mail.openembedded.org (Postfix) with ESMTP id 45F0265C5B
 	for <openembedded-core@lists.openembedded.org>;
 	Tue, 11 Oct 2016 12:19:49 +0000 (UTC)
-Received: by mail-lf0-f44.google.com with SMTP id b75so38275350lfg.3
+Received: by mail-lf0-f44.google.com with SMTP id x79so39754369lff.0
 	for <openembedded-core@lists.openembedded.org>;
 	Tue, 11 Oct 2016 05:19:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=PkqfqaJZgK0v8YN9uCB2Kv1ZBGpcx40NBR8ZD+FlaL8=;
-	b=iSdzAxQ8rXKwsg4wxMb2SMuLu8v2r0dAq8S3isdCgNZg6stDhdDrDkUG+fO8Uspg7W
-	9u7sFFq+IOZge/RlH8yBZ7qmzoDWN6uDcLdFtbhxgr3gwmWux+b3qwyHVW7QOkvD4dPg
-	szNhr1H7fLPVCj8acdbkwltzfoeastmRxl3LUIEB0NM5VTQMe1dBd5P1Sb6msuKAf7+V
-	dePYrtDweVZ234VmxlIkWpuNysC6r9ySpGQjKBrxYEoFcaZJDs6iMSgaaI+Ibc9hLwng
-	ZwmCyEkSqPA4Hi16NzCJDUE+GHgOMxVgivTd7UZz/TC4PuJ145XGbMC1IPWrx2K4WXnA
-	IFOQ==
+	h=from:to:subject:date:message-id;
+	bh=l2SMZiWlU8h0k9C9GB+qzUht7kKZVHGRtMeB9wixrmM=;
+	b=qpD2YOUCdXFxshn3k9klBupiZoVmGeJ1g59RYWuaWD3jI7HMpIlpH1lt8au9iCfZvO
+	HmrUoWxFvHRth+bu3zX2LmGe/HihsTt1FRyxBvRdBZFupBxNlk3Hmmi24FTMo0+vacuY
+	vG87TuiSQCMxi5mMOiHVYiiLcVaWkjwTocq9NOwKXAcDNR4y1Afqu8f/xB8uABsuslY+
+	oBZ1poOYZto3KK0nk6UTFEaau4VPifr/LYWzgyAwbhWh4Mg0FOfwKjKcFOPZ/SWR4dRA
+	Jyv/n9R/AsMQFJfEKVQo0fLkJ700vUvyP1r4oCByvNZKqIdcYJMg7KR2+FpztyKu5sdF
+	0kcw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references;
-	bh=PkqfqaJZgK0v8YN9uCB2Kv1ZBGpcx40NBR8ZD+FlaL8=;
-	b=bvhQeh0J9ESeFEoiPPmeJyu5f0dOJ4R9gAE9NKonSWUUPi1bWDfjS0YIxU7zbic5LE
-	dGXQna8P1J45S5iLp9rPB/xT6DvH1S8BlDh8hrUyGD9LBDl4v9L2donPo321CHEVT0Z8
-	KXsh+Lt+S1di7btx6vFCa8pRsXKQG3FqrYPZ4bRpx5rpX0QuBKWEWDUkKpZJsWiHQ38N
-	KT11vcXL1AQs4qRrFZumvHkuaViUTCah0EiFixpH8ZbnKKoCoclJ2LtOLxJ5p0VJpBye
-	fjAeAZEiMiOOUPhgJGBA22895niib+kgQwOS1xFg5qHkVSnnx+qJ5uvV3RPjWNoM0esT
-	imeg==
-X-Gm-Message-State: AA6/9RkXa4YZdau2ydiXUMGa3fFT4oeVo06KDMJsr8KtnA6nIT4SxER08BD7v67HhWCsBFDb
-X-Received: by 10.194.28.166 with SMTP id c6mr4682006wjh.40.1476188390878;
-	Tue, 11 Oct 2016 05:19:50 -0700 (PDT)
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=l2SMZiWlU8h0k9C9GB+qzUht7kKZVHGRtMeB9wixrmM=;
+	b=giIviA0Rb0nv1V4KAcucyHFqY4uKdsa17biY+b1Cn6brOpGG9axkrt5o84vWyEM07q
+	WcPLtNbTgBiPxK/NcyG5DBeJ83OgCJWU9VByY+DTs3gb/ICIKaE7TPGPFIASMm+PJoGQ
+	aofaI+F8O+Tpp2DX094CW2H45d9GZN1o8jwNfomEkfzQ7UwB2Cz241O+XZvwzABQJkk3
+	hwrvaXF4No/1E6Sjb8zEP/ncY/qQaAv1IAbG6VY0vOAGEYrAGBxtWoY915+y+C+azkxA
+	udHXYIrPhouLiuRUIdXOa/gyutMWykwZ5f+6yjbVHEkMwqYvxBWshgudbY89axTamo6x
+	w7rg==
+X-Gm-Message-State: AA6/9RnasTlKyDXeczDgSe3EEJs1S3cQlrik6KtxHVukSnqkA8UbMYP0NXli9v4X/hCA5iHC
+X-Received: by 10.194.129.137 with SMTP id nw9mr4625421wjb.13.1476188389585;
+	Tue, 11 Oct 2016 05:19:49 -0700 (PDT)
 Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
 	by smtp.gmail.com with ESMTPSA id
-	yo1sm6005196wjc.16.2016.10.11.05.19.49
+	yo1sm6005196wjc.16.2016.10.11.05.19.48
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 11 Oct 2016 05:19:50 -0700 (PDT)
+	Tue, 11 Oct 2016 05:19:48 -0700 (PDT)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 11 Oct 2016 13:19:44 +0100
-Message-Id: <1476188384-16064-2-git-send-email-ross.burton@intel.com>
+Date: Tue, 11 Oct 2016 13:19:43 +0100
+Message-Id: <1476188384-16064-1-git-send-email-ross.burton@intel.com>
 X-Mailer: git-send-email 2.8.1
-In-Reply-To: <1476188384-16064-1-git-send-email-ross.burton@intel.com>
-References: <1476188384-16064-1-git-send-email-ross.burton@intel.com>
-Subject: [PATCH 2/2] insane: display names instead of ELF machine numbers
+Subject: [PATCH 1/2] lib/oe/qa: add ELF machine to string function
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,30 +56,74 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 11 Oct 2016 12:19:51 -0000
 
-The 'arch' QA test currently simply outputs the ELF machine field as a number
-which isn't helpful.  Display this as a human-readable name to make it clearer
-to the user what the problem is.
+Add a function (and test suite) to turn the ELF machine field (e_machine) into a
+string, so we can tell the user "x86-64" instead of 0x3E.
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/classes/insane.bbclass | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/lib/oe/qa.py             | 20 ++++++++++++++++++++
+ meta/lib/oe/tests/test_elf.py | 21 +++++++++++++++++++++
+ 2 files changed, 41 insertions(+)
+ create mode 100644 meta/lib/oe/tests/test_elf.py
 
-diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
-index b347638..17c9284 100644
---- a/meta/classes/insane.bbclass
-+++ b/meta/classes/insane.bbclass
-@@ -543,8 +543,8 @@ def package_qa_check_arch(path,name,d, elf, messages):
-     # Check the architecture and endiannes of the binary
-     if not ((machine == elf.machine()) or \
-         ((("virtual/kernel" in provides) or bb.data.inherits_class("module", d) ) and (target_os == "linux-gnux32" or target_os == "linux-gnun32"))):
--        package_qa_add_message(messages, "arch", "Architecture did not match (%d to %d) on %s" % \
--                 (machine, elf.machine(), package_qa_clean_path(path,d)))
-+        package_qa_add_message(messages, "arch", "Architecture did not match (%s, expected %s) on %s" % \
-+                 (oe.qa.elf_machine_to_string(elf.machine()), oe.qa.elf_machine_to_string(machine), package_qa_clean_path(path,d)))
-     elif not ((bits == elf.abiSize()) or  \
-         ((("virtual/kernel" in provides) or bb.data.inherits_class("module", d) ) and (target_os == "linux-gnux32" or target_os == "linux-gnun32"))):
-         package_qa_add_message(messages, "arch", "Bit size did not match (%d to %d) %s on %s" % \
+diff --git a/meta/lib/oe/qa.py b/meta/lib/oe/qa.py
+index 75e7df8..fbe719d 100644
+--- a/meta/lib/oe/qa.py
++++ b/meta/lib/oe/qa.py
+@@ -144,6 +144,26 @@ class ELFFile:
+             bb.note("%s %s %s failed: %s" % (objdump, cmd, self.name, e))
+             return ""
+ 
++def elf_machine_to_string(machine):
++    """
++    Return the name of a given ELF e_machine field or the hex value as a string
++    if it isn't recognised.
++    """
++    try:
++        return {
++            0x02: "SPARC",
++            0x03: "x86",
++            0x08: "MIPS",
++            0x14: "PowerPC",
++            0x28: "ARM",
++            0x2A: "SuperH",
++            0x32: "IA-64",
++            0x3E: "x86-64",
++            0xB7: "AArch64"
++        }[machine]
++    except:
++        return "Unknown (%s)" % repr(machine)
++
+ if __name__ == "__main__":
+     import sys
+     elf = ELFFile(sys.argv[1])
+diff --git a/meta/lib/oe/tests/test_elf.py b/meta/lib/oe/tests/test_elf.py
+new file mode 100644
+index 0000000..1f59037
+--- /dev/null
++++ b/meta/lib/oe/tests/test_elf.py
+@@ -0,0 +1,21 @@
++import unittest
++import oe.qa
++
++class TestElf(unittest.TestCase):
++    def test_machine_name(self):
++        """
++        Test elf_machine_to_string()
++        """
++        self.assertEqual(oe.qa.elf_machine_to_string(0x02), "SPARC")
++        self.assertEqual(oe.qa.elf_machine_to_string(0x03), "x86")
++        self.assertEqual(oe.qa.elf_machine_to_string(0x08), "MIPS")
++        self.assertEqual(oe.qa.elf_machine_to_string(0x14), "PowerPC")
++        self.assertEqual(oe.qa.elf_machine_to_string(0x28), "ARM")
++        self.assertEqual(oe.qa.elf_machine_to_string(0x2A), "SuperH")
++        self.assertEqual(oe.qa.elf_machine_to_string(0x32), "IA-64")
++        self.assertEqual(oe.qa.elf_machine_to_string(0x3E), "x86-64")
++        self.assertEqual(oe.qa.elf_machine_to_string(0xB7), "AArch64")
++
++        self.assertEqual(oe.qa.elf_machine_to_string(0x00), "Unknown (0)")
++        self.assertEqual(oe.qa.elf_machine_to_string(0xDEADBEEF), "Unknown (3735928559)")
++        self.assertEqual(oe.qa.elf_machine_to_string("foobar"), "Unknown ('foobar')")
 -- 
 2.8.1
 
