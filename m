@@ -1,48 +1,47 @@
-Return-Path: <bkylerussell@gmail.com>
-Received: from mail-pa0-f65.google.com (mail-pa0-f65.google.com
-	[209.85.220.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 54A8865CB5
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io0-f171.google.com (mail-io0-f171.google.com
+	[209.85.223.171])
+	by mail.openembedded.org (Postfix) with ESMTP id D438671A08
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Oct 2016 14:17:42 +0000 (UTC)
-Received: by mail-pa0-f65.google.com with SMTP id rw4so1735160pab.3
+	Tue, 11 Oct 2016 14:58:12 +0000 (UTC)
+Received: by mail-io0-f171.google.com with SMTP id i202so27286866ioi.2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Oct 2016 07:17:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=as5LLBplV7vTj/MoYapcY4ThLT0N8BzdH7kUHiUwz2U=;
-	b=Z0jGAJrmz3C0+rfx9tLiIDbRkSafcYVSjgEAXmsLrlxSSrlwjgWUcBMMMLiiNzRpjx
-	NsOZL8UnqB6Y7pPl7ltBx5f18r4xfRttGMLo7H9NzbFAxb+54/NWGW63AjVyfPsS+OXu
-	PM2E0y881es4vOvWB/4M9SbWCXAViHx+Sr5L4R6EUu1rXoiNlko4+oR1FA1F4hpfShA5
-	nfpTk/lfPYxWWE1C3JNFkL9ur4p+dINIkA7iMPchO+ogyymHhdGunTn2llFWNpc78aDb
-	DqAdnj5KNsSKOm6AFtIUtov37Zt2raWRmKX+J5MZ8LSxQYZPYObTCq7RSTqFozMyTcdn
-	3LXg==
+	Tue, 11 Oct 2016 07:58:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=GLO26WX019SjIIMRCSFwRX1fsu84kZraPDWQ49tjdn0=;
+	b=cWMSOcbeCHCwofylPnNm8gwvRawytT2+NJp81hWrmqqXSkfQMXpxBbviDbuXNys+rH
+	T2yYcYom4yWDMMV6YDrt2xVHz+LTKSo7/cWbJq8YnqJ4vIlpqCsW42Gfo9VxvJm9hVGb
+	31y9ZtMLjML4QgyJb36zWoXV7wM7mVk6O3QCIgBjCsdtsBuOkleltu4AH0rRPOcf3LhR
+	SUdFNo/7ER4zmhn/tRwV6XYlktQYWN+iEj+M9Qf6m0WEoDMGqLrK6GTxnx8Wq9f7F4cU
+	PZ+GLL6+tvwEAOWSLaS9z/xID8cHkCQWgYSqNHbpTivNZedlbeWLVuLxcwAz+wxEhnPX
+	A8Sw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=as5LLBplV7vTj/MoYapcY4ThLT0N8BzdH7kUHiUwz2U=;
-	b=bJBTimENQfWPh+E4eb1K1OHBk47n6DaOoxUyQuvN+tOkmmptVOG8lvwbSrJiv6Hx6i
-	CfEpKwoHLMoWk+MITX/ZfDtVTwDy+kfJiouREek3K7yheP3kGQtxRhtv7iGq9LJ0tkC7
-	lMmOs6XuAq1cvJEOLmGcfc9pwPs/n8txRjgW/iCd7wiDT7NdUOQgOeegr4JAKDLs1elV
-	fB7Ux46VIS/27i8a1g9Hc56NiCh23fAqdfQdPPcUk4X97JSD2t7BGGQDWj13VuL0AiYG
-	5wT6M+xazWeU7NvONjK03jMit7183EJCbgSETHsnbIBoQsG5cHtDAQLgPeGMOj0mKsRP
-	Aw2Q==
-X-Gm-Message-State: AA6/9Rn37Ik+ts6A144jdTXCh4Jz2H9wSRQ5EdQbiE5sL8fBMJXz89c0/itT4eeV0fDImg==
-X-Received: by 10.66.51.129 with SMTP id k1mr7280697pao.5.1476195463784;
-	Tue, 11 Oct 2016 07:17:43 -0700 (PDT)
-Received: from brrussell-Latitude-E6530.dhcp.lexmark.com ([192.146.101.8])
-	by smtp.gmail.com with ESMTPSA id
-	c15sm4771940pfd.53.2016.10.11.07.17.41
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 11 Oct 2016 07:17:43 -0700 (PDT)
-From: Kyle Russell <bkylerussell@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 11 Oct 2016 10:17:17 -0400
-Message-Id: <1476195437-24040-2-git-send-email-bkylerussell@gmail.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1476195437-24040-1-git-send-email-bkylerussell@gmail.com>
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=GLO26WX019SjIIMRCSFwRX1fsu84kZraPDWQ49tjdn0=;
+	b=X2VrzY9n79/3DkPgDQuSCDO0KoAg/lWutGwQTmlMAo8b/wC0NxHhJHCCTOl0kBhfxb
+	uvgrVdop4HN5z62jdhnDhMlMJ/AlyS5qmiFzQF/NhJEUzKYEF+jl/mZR1dxzZOIdIXHc
+	1LgL92+ctjQ+Q9eHOrpMFI9sJuehuJJsnOPUyqbsGjJPYu1mSbRZAnAC7/Yl9CklH5kg
+	wn9m1NjFPHphjPcEDRmt6aXr5ZdW8nUjuiO7oStt/5UNHVvdthxn0S3nIRFv8+ee3Ndd
+	mn5yPhS0TInuUVkw57EYhTuTILFY3W+UcOfmyeRPdgBSziemw4mhw2rNlKyPj8Tv+JeV
+	NjLA==
+X-Gm-Message-State: AA6/9RnjRtWy1rwmVDVBHVr7X1VJlMitmNNUZeBb8GJJK0IwfmqjMtxm7Oj83lxf9+TYLYyZC62lgwCzWS314PRx
+X-Received: by 10.107.17.32 with SMTP id z32mr6468173ioi.1.1476197893875; Tue,
+	11 Oct 2016 07:58:13 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.107.155.66 with HTTP; Tue, 11 Oct 2016 07:57:53 -0700 (PDT)
+In-Reply-To: <1476195437-24040-2-git-send-email-bkylerussell@gmail.com>
 References: <1476195437-24040-1-git-send-email-bkylerussell@gmail.com>
-Subject: [PATCH 2/2] librsvg: Add missing pixbufcache dependencies
+	<1476195437-24040-2-git-send-email-bkylerussell@gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 11 Oct 2016 15:57:53 +0100
+Message-ID: <CAJTo0LahAKipF1Dz9TQw8TVM3vp361ZATtVPHjXy5ZupRDdZkQ@mail.gmail.com>
+To: Kyle Russell <bkylerussell@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/2] librsvg: Add missing pixbufcache dependencies
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,34 +54,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Oct 2016 14:17:42 -0000
+X-List-Received-Date: Tue, 11 Oct 2016 14:58:13 -0000
+Content-Type: multipart/alternative; boundary=001a113f2676155b56053e981bec
 
-Forces do_populate_sysroot_setscene to run for libxdmcp-native and
-pixman-native before the pixbufcache sstate postinst hook so that the
-svg pixbufloader has all of its dependencies available.
+--001a113f2676155b56053e981bec
+Content-Type: text/plain; charset=UTF-8
 
-g_module_open() failed for libpixbufloader-svg.so: libpixman-1.so.0:
-cannot open shared object file: No such file or directory
+On 11 October 2016 at 15:17, Kyle Russell <bkylerussell@gmail.com> wrote:
 
-g_module_open() failed for libpixbufloader-svg.so: libXdmcp.so.6:
-cannot open shared object file: No such file or directory
+> g_module_open() failed for libpixbufloader-svg.so: libXdmcp.so.6:
+> cannot open shared object file: No such file or directory
+>
 
-Signed-off-by: Kyle Russell <bkylerussell@gmail.com>
----
- meta/recipes-gnome/librsvg/librsvg_2.40.16.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Can you replicate this failure on demand?  I can't see why eg xdmcp needs
+to be in this list but say libxcb doesn't, which is presumably there that
+linkage is coming from.
 
-diff --git a/meta/recipes-gnome/librsvg/librsvg_2.40.16.bb b/meta/recipes-gnome/librsvg/librsvg_2.40.16.bb
-index ed54d9d..3015f1b 100644
---- a/meta/recipes-gnome/librsvg/librsvg_2.40.16.bb
-+++ b/meta/recipes-gnome/librsvg/librsvg_2.40.16.bb
-@@ -42,4 +42,4 @@ FILES_librsvg-gtk = "${libdir}/gdk-pixbuf-2.0/*/*/*.so"
- 
- PIXBUF_PACKAGES = "librsvg-gtk"
- 
--PIXBUFCACHE_SYSROOT_DEPS_append_class-native = " harfbuzz-native:do_populate_sysroot_setscene pango-native:do_populate_sysroot_setscene icu-native:do_populate_sysroot_setscene"
-+PIXBUFCACHE_SYSROOT_DEPS_append_class-native = " harfbuzz-native:do_populate_sysroot_setscene pango-native:do_populate_sysroot_setscene icu-native:do_populate_sysroot_setscene libxdmcp-native:do_populate_sysroot_setscene pixman-native:do_populate_sysroot_setscene"
--- 
-2.7.4
+One solution for xdmcp would be to remove it entirely...
 
+Ross
 
+--001a113f2676155b56053e981bec
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 11 October 2016 at 15:17, Kyle Russell <span dir=3D"ltr">&lt;<a href=3D"=
+mailto:bkylerussell@gmail.com" target=3D"_blank">bkylerussell@gmail.com</a>=
+&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0=
+ 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div>g_module_open() f=
+ailed for libpixbufloader-svg.so: libXdmcp.so.6:<br>
+cannot open shared object file: No such file or directory<br></div></blockq=
+uote></div><br>Can you replicate this failure on demand?=C2=A0 I can&#39;t =
+see why eg xdmcp needs to be in this list but say libxcb doesn&#39;t, which=
+ is presumably there that linkage is coming from.</div><div class=3D"gmail_=
+extra"><br></div><div class=3D"gmail_extra">One solution for xdmcp would be=
+ to remove it entirely...</div><div class=3D"gmail_extra"><br></div><div cl=
+ass=3D"gmail_extra">Ross</div></div>
+
+--001a113f2676155b56053e981bec--
