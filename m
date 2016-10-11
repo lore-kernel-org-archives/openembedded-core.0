@@ -1,59 +1,20 @@
-Return-Path: <ola.x.nilsson@axis.com>
-Received: from bes.se.axis.com (bes.se.axis.com [195.60.68.10])
-	by mail.openembedded.org (Postfix) with ESMTP id 0F6D16080F
+Return-Path: <jussi.kukkonen@intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 0D4B660290
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Oct 2016 07:27:09 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by bes.se.axis.com (Postfix) with ESMTP id 070A12E2BA;
-	Tue, 11 Oct 2016 09:27:09 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at bes.se.axis.com
-Received: from bes.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bes.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024)
-	with LMTP id orhJ3ODRExTv; Tue, 11 Oct 2016 09:27:06 +0200 (CEST)
-Received: from boulder03.se.axis.com (boulder03.se.axis.com [10.0.8.17])
-	by bes.se.axis.com (Postfix) with ESMTPS id B5A502E2BD;
-	Tue, 11 Oct 2016 09:27:06 +0200 (CEST)
-Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 98DEF1E081;
-	Tue, 11 Oct 2016 09:27:06 +0200 (CEST)
-Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 8D4441E076;
-	Tue, 11 Oct 2016 09:27:06 +0200 (CEST)
-Received: from thoth.se.axis.com (unknown [10.0.2.173])
-	by boulder03.se.axis.com (Postfix) with ESMTP;
-	Tue, 11 Oct 2016 09:27:06 +0200 (CEST)
-Received: from XBOX02.axis.com (xbox02.axis.com [10.0.5.16])
-	by thoth.se.axis.com (Postfix) with ESMTP id 80C4A31D;
-	Tue, 11 Oct 2016 09:27:06 +0200 (CEST)
-Received: from xbox12.axis.com (10.0.5.26) by XBOX02.axis.com (10.0.5.16) with
-	Microsoft SMTP Server (TLS) id 15.0.1210.3;
-	Tue, 11 Oct 2016 09:27:06 +0200
-Received: from XBOX04.axis.com (10.0.5.18) by xbox12.axis.com (10.0.5.26) with
-	Microsoft SMTP Server (TLS) id 15.0.1210.3;
-	Tue, 11 Oct 2016 09:27:06 +0200
-Received: from XBOX04.axis.com ([fe80::6c88:230d:cafd:2f2a]) by
-	XBOX04.axis.com ([fe80::6c88:230d:cafd:2f2a%22]) with mapi id
-	15.00.1210.000; Tue, 11 Oct 2016 09:27:06 +0200
-From: Ola x Nilsson <ola.x.nilsson@axis.com>
-To: Christopher Larson <clarson@kergoth.com>
-Thread-Topic: [OE-core] [PATCH] devtool: Only register each plugin once
-Thread-Index: AQHSIwM00hUy2QvNM0uCMfNC/jCjXaCh7PAAgADkxOA=
-Date: Tue, 11 Oct 2016 07:27:06 +0000
-Message-ID: <528e281aa9df4a5887a52315944cf1f3@XBOX04.axis.com>
-References: <1476109151-10857-1-git-send-email-ola.x.nilsson@axis.com>
-	<CABcZAN=gFYQEGVY024Az-bGhPWMpNkct6uCzPMe3v9r9L8qPbQ@mail.gmail.com>
-In-Reply-To: <CABcZAN=gFYQEGVY024Az-bGhPWMpNkct6uCzPMe3v9r9L8qPbQ@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.0.5.60]
-MIME-Version: 1.0
-X-TM-AS-GCONF: 00
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] devtool: Only register each plugin once
+	Tue, 11 Oct 2016 07:39:44 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga103.fm.intel.com with ESMTP; 11 Oct 2016 00:39:46 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.31,476,1473145200"; d="scan'208";a="1068818163"
+Received: from theory.fi.intel.com ([10.237.72.196])
+	by fmsmga002.fm.intel.com with ESMTP; 11 Oct 2016 00:39:46 -0700
+From: Jussi Kukkonen <jussi.kukkonen@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 11 Oct 2016 10:39:41 +0300
+Message-Id: <1476171581-17393-1-git-send-email-jussi.kukkonen@intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH] vte: Avoid inheriting vala class
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -66,52 +27,210 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Oct 2016 07:27:10 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Tue, 11 Oct 2016 07:39:46 -0000
 
-PiBGcm9tOiBrZXJnb3RoQGdtYWlsLmNvbSBbbWFpbHRvOmtlcmdvdGhAZ21haWwuY29tXSBPbiBC
-ZWhhbGYgT2YgQ2hyaXN0b3BoZXIgTGFyc29uDQo+IFNlbnQ6IGRlbiAxMCBva3RvYmVyIDIwMTYg
-MjE6MTMNCj4+IE9uIE1vbiwgT2N0IDEwLCAyMDE2IGF0IDc6MTkgQU0sIE9sYSB4IE5pbHNzb24g
-PG9sYS54Lm5pbHNzb25AYXhpcy5jb20+IHdyb3RlOg0KPj4gV2hlbiBhIGRldnRvb2wgcGx1Z2lu
-IGlzIHNoYWRvd2VkIGluIGEgaGlnaGVyLXByaW9ydHkgbGF5ZXIgdGhlDQo+PiByZWdpc3Rlcl9j
-b21tYW5kcyBtZXRob2Qgd2FzIGNhbGxlZCBvbiB0aGUgc2hhZG93aW5nIHBsdWdpbiBvbmNlIGZv
-cg0KPj4gZWFjaCBmb3VuZCBwbHVnaW4gd2l0aCB0aGF0IG5hbWUuwqAgQSBzaW1wbGUgdW5pcXVl
-IG9wZXJhdGlvbiBvbiB0aGUgbGlzdA0KPj4gb2YgbG9hZGVkIHBsdWdpbnMgc29sdmVzIHRoYXQg
-cHJvYmxlbS7CoCBJdCBtYXkgc3RpbGwgYmUgYSBwcm9ibGVtIHRoYXQNCj4+IGVhY2ggcGx1Z2lu
-IC0gc2hhZG93ZWQgb3Igbm90IC0gaXMgbG9hZGVkIGFuZCBpbml0aWFsaXplZC4NCj4+DQo+PiBT
-aWduZWQtb2ZmLWJ5OiBPbGEgeCBOaWxzc29uIDxvbGEueC5uaWxzc29uQGF4aXMuY29tPg0KPj4g
-LS0tDQo+PsKgc2NyaXB0cy9kZXZ0b29sIHwgMiArLQ0KPj7CoDEgZmlsZSBjaGFuZ2VkLCAxIGlu
-c2VydGlvbigrKSwgMSBkZWxldGlvbigtKQ0KPj4NCj4+IGRpZmYgLS1naXQgYS9zY3JpcHRzL2Rl
-dnRvb2wgYi9zY3JpcHRzL2RldnRvb2wNCj4+IGluZGV4IDBjMzJjNTAuLjdiMTM0YTYgMTAwNzU1
-DQo+PiAtLS0gYS9zY3JpcHRzL2RldnRvb2wNCj4+ICsrKyBiL3NjcmlwdHMvZGV2dG9vbA0KPj4g
-QEAgLTMxNyw3ICszMTcsNyBAQCBkZWYgbWFpbigpOg0KPj7CoCDCoCDCoCDCoCDCoHBhcnNlcl9j
-cmVhdGVfd29ya3NwYWNlLmFkZF9hcmd1bWVudCgnLS1jcmVhdGUtb25seScsIGFjdGlvbj0ic3Rv
-cmVfdHJ1ZSIsIGhlbHA9J09ubHkgY3JlYXRlIHRoZSB3b3Jrc3BhY2UgbGF5ZXIsIGRvIG5vdCBh
-bHRlciBjb25maWd1cmF0aW9uJykNCj4+wqAgwqAgwqAgwqAgwqBwYXJzZXJfY3JlYXRlX3dvcmtz
-cGFjZS5zZXRfZGVmYXVsdHMoZnVuYz1jcmVhdGVfd29ya3NwYWNlLCBub193b3Jrc3BhY2U9VHJ1
-ZSkNCj4+DQo+PiAtwqAgwqAgZm9yIHBsdWdpbiBpbiBwbHVnaW5zOg0KPj4gK8KgIMKgIGZvciBw
-bHVnaW4gaW4gc2V0KHBsdWdpbnMpOg0KPj7CoCDCoCDCoCDCoCDCoGlmIGhhc2F0dHIocGx1Z2lu
-LCAncmVnaXN0ZXJfY29tbWFuZHMnKToNCj4+wqAgwqAgwqAgwqAgwqAgwqAgwqBwbHVnaW4ucmVn
-aXN0ZXJfY29tbWFuZHMoc3VicGFyc2VycywgY29udGV4dCkNCj4+DQo+PiBUaGlzIGlzIGRpcmVj
-dGx5IGNvbXBhcmluZyB0aGUgcGx1Z2luIG1vZHVsZXMgb3IgY2xhc3Nlcywgd2hpY2gsIGlmIHRo
-ZXJl4oCZcyBzaGFkb3dpbmcgZ29pbmcgb24sIA0KPj4gd2lsbCBhbG1vc3QgY2VydGFpbmx5IGJl
-IGRpZmZlcmVudCwgYW5kIHdl4oCZbGwgc3RpbGwgZW5kIHVwIHdpdGggdGhlIHNhbWUgY29tbWFu
-ZHMgcmVnaXN0ZXJlZCBtdWx0aXBsZSB0aW1lcy4gDQo+PiBBbmQgb2YgY291cnNlLCB1c2Ugb2Yg
-c2V0IHdpbGwgYWxzbyBjaGFuZ2UgdGhlIHBsdWdpbiBjb21tYW5kIHJlZ2lzdHJhdGlvbiBvcmRl
-ci4gSWYgd2XigJlyZSBnb2luZyB0byBpZ25vcmUgDQo+PiBjb21tYW5kcyBvbiBzb21lIG9mIHRo
-ZSBwbHVnaW5zLCBpdCBzaG91bGQgaGF2ZSBhdm9pZGVkIGxvYWRpbmcgdGhlbSBlbnRpcmVseSwg
-bm90IGxvYWQgdGhlbSBhbmQgdGhlbiANCj4+IHByZXZlbnQgcmVnaXN0cmF0aW9uLiBXZSBzaG91
-bGQgY2hhbmdlIHRoZSBwbHVnaW4gKmxvYWRpbmcqIHRvIG9ubHkgbG9hZCB0aGUgaGlnaGVzdCBw
-cmlvcml0eSANCj4+KGZpcnN0IHNlZW4gaW4gYmJwYXRoKSBmaWxlIGZvciBhIGdpdmVuIC5weSwg
-YmFzZWQgb24gdGhlIGZpbGUgLyBtb2R1bGUgbmFtZSwgSU1PLg0KDQpBZ3JlZWQsIHRoaXMgZG9l
-cyBub3Qgd29yayBhcyBpbnRlbmRlZC4gIFBsZWFzZSBpZ25vcmUgdGhpcyBwYXRjaCwgSSdsbCB0
-cnkgdG8gcHJvZHVjZSBzb21ldGhpbmcgYmV0dGVyLg0KDQpUaGUgd2F5IHRoZSBwbHVnaW4gbG9h
-ZGVyIHdvcmtzLCB0aGVyZSBjYW4gb25seSBiZSBhIHNpbmdsZSBwbHVnaW4gbG9hZGVkIHdpdGgg
-YSBzcGVjaWZpYyBmaWxlIG5hbWUuIA0KU28gc2hhZG93aW5nIG9jY3VycywgYnV0IHByb2JhYmx5
-IG5vdCB0aGUgd2F5IHdlIHdhbnQuIEkgdGhpbmsgdGhlIGxhc3QgZm91bmQgcGx1Z2luIHdpbGwg
-d2luLCAgdGhhdCBpcyB0aGUgcGx1Z2luIGluIHRoZSBsb3dlc3QgcHJpb3JpdHkgbGF5ZXIuDQoN
-CkRvIHdlIHdhbnQgc2hhZG93aW5nIHRvIHdvcmsgb24gcGx1Z2luIG9yIGNvbW1hbmQgbGV2ZWw/
-DQoNCi0tIA0KT2xhIE5pbHNzb24NCg==
+vala.bbclass DEPENDS on vala and vala-native: Drop the inherit so
+that these dependencies can be added on-demand based on vte
+PACKAGECONFIG. Add relevant items from vala class into the recipe.
+
+Add copy of vapigen.m4 so building without vala actually succeeds.
+
+Fixes [YOCTO #10386].
+
+Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
+---
+
+This patch is performance-driven: it shaved 0.7% from
+core-image-sato build time (3.5 mins user time) and
+0.8% (270MB) from TMPDIR size.
+
+Patch is also quite ugly. Alternative ways to achieve the same will
+be appreciated.
+
+Thanks,
+ Jussi
+
+
+ .../vte/vte/0001-Add-m4-vapigen.m4.patch           | 119 +++++++++++++++++++++
+ meta/recipes-support/vte/vte_0.44.2.bb             |  28 ++++-
+ 2 files changed, 143 insertions(+), 4 deletions(-)
+ create mode 100644 meta/recipes-support/vte/vte/0001-Add-m4-vapigen.m4.patch
+
+diff --git a/meta/recipes-support/vte/vte/0001-Add-m4-vapigen.m4.patch b/meta/recipes-support/vte/vte/0001-Add-m4-vapigen.m4.patch
+new file mode 100644
+index 0000000..1c5630e
+--- /dev/null
++++ b/meta/recipes-support/vte/vte/0001-Add-m4-vapigen.m4.patch
+@@ -0,0 +1,119 @@
++From 08ca1c48b25c332b75bba2a6b5d757da006e955b Mon Sep 17 00:00:00 2001
++From: Jussi Kukkonen <jussi.kukkonen@intel.com>
++Date: Fri, 7 Oct 2016 16:27:57 +0300
++Subject: [PATCH] Add m4/vapigen.m4
++
++Building without vala will fail if we don't have a vapigen.m4.
++
++Upstream-Status: Pending
++Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
++---
++ m4/vapigen.m4 | 96 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
++ 1 file changed, 96 insertions(+)
++ create mode 100644 m4/vapigen.m4
++
++diff --git a/m4/vapigen.m4 b/m4/vapigen.m4
++new file mode 100644
++index 0000000..f2df12f
++--- /dev/null
+++++ b/m4/vapigen.m4
++@@ -0,0 +1,96 @@
+++dnl vapigen.m4
+++dnl
+++dnl Copyright 2012 Evan Nemerson
+++dnl
+++dnl This library is free software; you can redistribute it and/or
+++dnl modify it under the terms of the GNU Lesser General Public
+++dnl License as published by the Free Software Foundation; either
+++dnl version 2.1 of the License, or (at your option) any later version.
+++dnl
+++dnl This library is distributed in the hope that it will be useful,
+++dnl but WITHOUT ANY WARRANTY; without even the implied warranty of
+++dnl MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+++dnl Lesser General Public License for more details.
+++dnl
+++dnl You should have received a copy of the GNU Lesser General Public
+++dnl License along with this library; if not, write to the Free Software
+++dnl Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA
+++
+++# VAPIGEN_CHECK([VERSION], [API_VERSION], [FOUND-INTROSPECTION], [DEFAULT])
+++# --------------------------------------
+++# Check vapigen existence and version
+++#
+++# See http://live.gnome.org/Vala/UpstreamGuide for detailed documentation
+++AC_DEFUN([VAPIGEN_CHECK],
+++[
+++  AC_BEFORE([GOBJECT_INTROSPECTION_CHECK],[$0])
+++  AC_BEFORE([GOBJECT_INTROSPECTION_REQUIRE],[$0])
+++
+++  AC_ARG_ENABLE([vala],
+++    [AS_HELP_STRING([--enable-vala[=@<:@no/auto/yes@:>@]],[build Vala bindings @<:@default=]ifelse($4,,auto,$4)[@:>@])],,[
+++      AS_IF([test "x$4" = "x"], [
+++          enable_vala=auto
+++        ], [
+++          enable_vala=$4
+++        ])
+++    ])
+++
+++  AS_CASE([$enable_vala], [no], [enable_vala=no],
+++      [yes], [
+++        AS_IF([test "x$3" != "xyes" -a "x$found_introspection" != "xyes"], [
+++            AC_MSG_ERROR([Vala bindings require GObject Introspection])
+++          ])
+++      ], [auto], [
+++        AS_IF([test "x$3" != "xyes" -a "x$found_introspection" != "xyes"], [
+++            enable_vala=no
+++          ])
+++      ], [
+++        AC_MSG_ERROR([Invalid argument passed to --enable-vala, should be one of @<:@no/auto/yes@:>@])
+++      ])
+++
+++  AS_IF([test "x$2" = "x"], [
+++      vapigen_pkg_name=vapigen
+++    ], [
+++      vapigen_pkg_name=vapigen-$2
+++    ])
+++  AS_IF([test "x$1" = "x"], [
+++      vapigen_pkg="$vapigen_pkg_name"
+++    ], [
+++      vapigen_pkg="$vapigen_pkg_name >= $1"
+++    ])
+++
+++  PKG_PROG_PKG_CONFIG
+++
+++  PKG_CHECK_EXISTS([$vapigen_pkg], [
+++      AS_IF([test "$enable_vala" = "auto"], [
+++          enable_vala=yes
+++        ])
+++    ], [
+++      AS_CASE([$enable_vala], [yes], [
+++          AC_MSG_ERROR([$vapigen_pkg not found])
+++        ], [auto], [
+++          enable_vala=no
+++        ])
+++    ])
+++
+++  AC_MSG_CHECKING([for vala])
+++
+++  AS_CASE([$enable_vala],
+++    [yes], [
+++      VAPIGEN=`$PKG_CONFIG --variable=vapigen vapigen`
+++      VAPIGEN_MAKEFILE=`$PKG_CONFIG --variable=datadir vapigen`/vala/Makefile.vapigen
+++      AS_IF([test "x$2" = "x"], [
+++          VAPIGEN_VAPIDIR=`$PKG_CONFIG --variable=vapidir vapigen`
+++        ], [
+++          VAPIGEN_VAPIDIR=`$PKG_CONFIG --variable=vapidir_versioned vapigen`
+++        ])
+++    ])
+++
+++  AC_MSG_RESULT([$enable_vala])
+++
+++  AC_SUBST([VAPIGEN])
+++  AC_SUBST([VAPIGEN_VAPIDIR])
+++  AC_SUBST([VAPIGEN_MAKEFILE])
+++
+++  AM_CONDITIONAL(ENABLE_VAPIGEN, test "x$enable_vala" = "xyes")
+++])
++-- 
++2.1.4
++
+diff --git a/meta/recipes-support/vte/vte_0.44.2.bb b/meta/recipes-support/vte/vte_0.44.2.bb
+index a1204a3..809d5dc 100644
+--- a/meta/recipes-support/vte/vte_0.44.2.bb
++++ b/meta/recipes-support/vte/vte_0.44.2.bb
+@@ -5,20 +5,40 @@ DEPENDS = "glib-2.0 gtk+3 intltool-native"
+ 
+ LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
+ 
+-inherit gnomebase gtk-doc distro_features_check upstream-version-is-even vala gobject-introspection
++inherit gnomebase gtk-doc distro_features_check upstream-version-is-even gobject-introspection
+ 
+-SRC_URI += "file://0001-Don-t-enable-stack-protection-by-default.patch"
++# vapigen.m4 is required when vala is not present (but the one from vala should be used normally)
++SRC_URI += "file://0001-Don-t-enable-stack-protection-by-default.patch \
++            ${@bb.utils.contains('PACKAGECONFIG', 'vala', '', 'file://0001-Add-m4-vapigen.m4.patch', d) } \
++            "
+ SRC_URI[archive.md5sum] = "eca8f8a9d9f9bb8e9d592d0acfeec015"
+ SRC_URI[archive.sha256sum] = "a1ea594814bb136a3a9a6c7656b46240571f6a198825c1111007fe99194b0949"
+ 
+ ANY_OF_DISTRO_FEATURES = "${GTK3DISTROFEATURES}"
+ 
++# Instead of "inherit vala" we do the relevant settings here so we can
++# set DEPENDS based on PACKAGECONFIG.
++VALADEPENDS = ""
++VALADEPENDS_class-target = "vala"
++
++# Our patched version of Vala looks in STAGING_DATADIR for .vapi files
++export STAGING_DATADIR
++# Upstream Vala >= 0.11 looks in XDG_DATA_DIRS for .vapi files
++export XDG_DATA_DIRS = "${STAGING_DATADIR}"
++
++# Package additional files
++FILES_${PN}-dev += "\
++    ${datadir}/vala/vapi/*.vapi \
++    ${datadir}/vala/vapi/*.deps \
++    ${datadir}/gir-1.0 \
++"
++
++PACKAGECONFIG[vala] = "--enable-vala,--disable-vala,vala-native ${VALADEPENDS}"
+ PACKAGECONFIG[gnutls] = "--with-gnutls,--without-gnutls,gnutls"
+ 
+ CFLAGS += "-D_GNU_SOURCE"
+ 
+-# Enable vala only if gobject-introspection is enabled
+-EXTRA_OECONF = "--enable-vala=auto --disable-test-application"
++EXTRA_OECONF = "--disable-test-application"
+ 
+ # libtool adds "-nostdlib" when g++ is used. This breaks PIE builds.
+ # Use libtool-cross (which has a hack to prevent that) instead.
+-- 
+2.1.4
+
 
