@@ -1,24 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 635FE70101
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id A89C5719F1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Oct 2016 09:19:05 +0000 (UTC)
+	Wed, 12 Oct 2016 09:19:07 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u9C9J6uZ012233
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u9C9J8x2008784
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Oct 2016 02:19:07 -0700 (PDT)
+	Wed, 12 Oct 2016 02:19:08 -0700 (PDT)
 Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.294.0;
-	Wed, 12 Oct 2016 02:19:06 -0700
+	Wed, 12 Oct 2016 02:19:07 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 12 Oct 2016 02:19:04 -0700
-Message-ID: <cover.1476263868.git.liezhi.yang@windriver.com>
+Date: Wed, 12 Oct 2016 02:19:05 -0700
+Message-ID: <5bf0ca2a5d9706b971280a904503c4fb86c2896e.1476263868.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.9.0
+In-Reply-To: <cover.1476263868.git.liezhi.yang@windriver.com>
+References: <cover.1476263868.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/2] fixes for package_foo
+Subject: [PATCH 1/2] package_tar: avoid chdir warnings and restore cwd after packaging
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,25 +36,37 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Wed, 12 Oct 2016 09:19:08 -0000
 Content-Type: text/plain
 
-The following changes since commit 1a2311c8fa9a3703568cd390c44639fe3335023e:
+Fixed:
+WARNING: attr-2.4.47-r0 do_package_write_tar: Task do_package_tar changed cwd to /path/to/attr/2.4.47-r0/packages-split/attr-locale-sv
 
-  build-appliance-image: Update to master head revision (2016-10-11 23:43:20 +0100)
-
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib rbt/package
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/package
-
-Robert Yang (2):
-  package_tar: avoid chdir warnings and restore cwd after packaging
-  package_ipk/rpm/deb: remove unneeded dir settings
-
- meta/classes/package_deb.bbclass | 1 -
- meta/classes/package_ipk.bbclass | 1 -
- meta/classes/package_rpm.bbclass | 1 -
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+---
  meta/classes/package_tar.bbclass | 5 +++++
- 4 files changed, 5 insertions(+), 3 deletions(-)
+ 1 file changed, 5 insertions(+)
 
+diff --git a/meta/classes/package_tar.bbclass b/meta/classes/package_tar.bbclass
+index 854e645..e217814 100644
+--- a/meta/classes/package_tar.bbclass
++++ b/meta/classes/package_tar.bbclass
+@@ -4,6 +4,9 @@ IMAGE_PKGTYPE ?= "tar"
+ 
+ python do_package_tar () {
+     import subprocess
++
++    oldcwd = os.getcwd()
++
+     workdir = d.getVar('WORKDIR', True)
+     if not workdir:
+         bb.error("WORKDIR not defined, unable to package")
+@@ -49,6 +52,8 @@ python do_package_tar () {
+         ret = subprocess.call(args + [tarfn] + dlist)
+         if ret != 0:
+             bb.error("Creation of tar %s failed." % tarfn)
++
++    os.chdir(oldcwd)
+ }
+ 
+ python () {
 -- 
 2.9.0
 
