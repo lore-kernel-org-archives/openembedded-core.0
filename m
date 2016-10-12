@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id A89C5719F1
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 2015071A03
 	for <openembedded-core@lists.openembedded.org>;
 	Wed, 12 Oct 2016 09:19:07 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u9C9J8x2008784
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u9C9J8I4007532
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Oct 2016 02:19:08 -0700 (PDT)
+	Wed, 12 Oct 2016 02:19:09 -0700
 Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.294.0;
-	Wed, 12 Oct 2016 02:19:07 -0700
+	Wed, 12 Oct 2016 02:19:08 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 12 Oct 2016 02:19:05 -0700
-Message-ID: <5bf0ca2a5d9706b971280a904503c4fb86c2896e.1476263868.git.liezhi.yang@windriver.com>
+Date: Wed, 12 Oct 2016 02:19:06 -0700
+Message-ID: <66ca8239a28434c2db142e18a1a112122d13e910.1476263868.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.9.0
 In-Reply-To: <cover.1476263868.git.liezhi.yang@windriver.com>
 References: <cover.1476263868.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/2] package_tar: avoid chdir warnings and restore cwd after packaging
+Subject: [PATCH 2/2] package_ipk/rpm/deb: remove unneeded dir settings
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,37 +36,52 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Wed, 12 Oct 2016 09:19:08 -0000
 Content-Type: text/plain
 
-Fixed:
-WARNING: attr-2.4.47-r0 do_package_write_tar: Task do_package_tar changed cwd to /path/to/attr/2.4.47-r0/packages-split/attr-locale-sv
+There is a do_package_write_foo[cleandirs], so the
+do_package_write_foo[dirs] is not needed.
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- meta/classes/package_tar.bbclass | 5 +++++
- 1 file changed, 5 insertions(+)
+ meta/classes/package_deb.bbclass | 1 -
+ meta/classes/package_ipk.bbclass | 1 -
+ meta/classes/package_rpm.bbclass | 1 -
+ 3 files changed, 3 deletions(-)
 
-diff --git a/meta/classes/package_tar.bbclass b/meta/classes/package_tar.bbclass
-index 854e645..e217814 100644
---- a/meta/classes/package_tar.bbclass
-+++ b/meta/classes/package_tar.bbclass
-@@ -4,6 +4,9 @@ IMAGE_PKGTYPE ?= "tar"
- 
- python do_package_tar () {
-     import subprocess
-+
-+    oldcwd = os.getcwd()
-+
-     workdir = d.getVar('WORKDIR', True)
-     if not workdir:
-         bb.error("WORKDIR not defined, unable to package")
-@@ -49,6 +52,8 @@ python do_package_tar () {
-         ret = subprocess.call(args + [tarfn] + dlist)
-         if ret != 0:
-             bb.error("Creation of tar %s failed." % tarfn)
-+
-+    os.chdir(oldcwd)
+diff --git a/meta/classes/package_deb.bbclass b/meta/classes/package_deb.bbclass
+index fb6034c..8a2cc7e 100644
+--- a/meta/classes/package_deb.bbclass
++++ b/meta/classes/package_deb.bbclass
+@@ -348,7 +348,6 @@ python do_package_write_deb () {
+     bb.build.exec_func("read_subpackage_metadata", d)
+     bb.build.exec_func("do_package_deb", d)
+ }
+-do_package_write_deb[dirs] = "${PKGWRITEDIRDEB}"
+ do_package_write_deb[cleandirs] = "${PKGWRITEDIRDEB}"
+ do_package_write_deb[umask] = "022"
+ addtask package_write_deb after do_packagedata do_package
+diff --git a/meta/classes/package_ipk.bbclass b/meta/classes/package_ipk.bbclass
+index eb00932..d280513 100644
+--- a/meta/classes/package_ipk.bbclass
++++ b/meta/classes/package_ipk.bbclass
+@@ -288,7 +288,6 @@ python do_package_write_ipk () {
+     bb.build.exec_func("read_subpackage_metadata", d)
+     bb.build.exec_func("do_package_ipk", d)
+ }
+-do_package_write_ipk[dirs] = "${PKGWRITEDIRIPK}"
+ do_package_write_ipk[cleandirs] = "${PKGWRITEDIRIPK}"
+ do_package_write_ipk[umask] = "022"
+ addtask package_write_ipk after do_packagedata do_package
+diff --git a/meta/classes/package_rpm.bbclass b/meta/classes/package_rpm.bbclass
+index c431545..817739d 100644
+--- a/meta/classes/package_rpm.bbclass
++++ b/meta/classes/package_rpm.bbclass
+@@ -763,7 +763,6 @@ python do_package_write_rpm () {
+     bb.build.exec_func("do_package_rpm", d)
  }
  
- python () {
+-do_package_write_rpm[dirs] = "${PKGWRITEDIRRPM}"
+ do_package_write_rpm[cleandirs] = "${PKGWRITEDIRRPM}"
+ do_package_write_rpm[umask] = "022"
+ addtask package_write_rpm after do_packagedata do_package
 -- 
 2.9.0
 
