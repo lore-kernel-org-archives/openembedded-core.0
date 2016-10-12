@@ -1,46 +1,26 @@
-Return-Path: <net147@gmail.com>
-Received: from mail-io0-f196.google.com (mail-io0-f196.google.com
-	[209.85.223.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 20C4060762
+Return-Path: <Zubair.Kakakhel@imgtec.com>
+Received: from mailapp01.imgtec.com (mailapp02.imgtec.com [217.156.133.132])
+	by mail.openembedded.org (Postfix) with ESMTP id EA6EA60762
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Oct 2016 12:54:59 +0000 (UTC)
-Received: by mail-io0-f196.google.com with SMTP id o141so2985983ioe.3
+	Wed, 12 Oct 2016 12:55:05 +0000 (UTC)
+Received: from HHMAIL03.hh.imgtec.org (unknown [10.44.0.21])
+	by Forcepoint Email with ESMTPS id 4E8B12D6122EE
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Oct 2016 05:55:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=NV8qaCxhYMk6OF4u0wwtoVem2K3nEep9x1vYaVZMDG0=;
-	b=VEO0b8qJToGRSHkalH527TRHm6BlNi7ZB1++AdM0S3u4kN2Y74VB19dJkIj2TNhx1o
-	isPfbWLykcwKsi4ZaPH3tFX9eH0vWtwVs1N5ZisIJp2Fe/OiiY3m1ww+gYuKDXUzLWlu
-	G39hZEXiCC/8FyfZR/6rVolgNScTbNTHRDhSTPYqRe/jY6PEPkPkXQEKzjoH9Q0+4j3+
-	qy3WUy1B3jcBYC3jJiBk7QMD4QJ9tIHAIXJeTnoRhKo0yVLAZk74DB8Er33BsW4yYph9
-	EWo56r2F2FtXHqp2pzlRb4zgoYY70zBF4uIYxI+yQfEJEZ0X7LSL+9Yz6a816n4eWuX+
-	2tHw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=NV8qaCxhYMk6OF4u0wwtoVem2K3nEep9x1vYaVZMDG0=;
-	b=W+lCGEKW08tXekIITxz+PVa4hO+tOewAsUzGz7qRBRpShggOlQbN4CwwChB4Ta7BLR
-	DpgJCv+C/aL6pREIGQ6nlk7tlyWuCX7HXWDRjcaKu7UL91v7VIeHIXR0sJZsEglIW7n4
-	5YUCFjgQWXm87G/YTDXoaxx8ULXlRAE9TuJ/wlwWoVcbZDMzeEgSZYF1bG2ToN0LuMOh
-	GyJhnzFtfS8cD9T9Ljvs+V3tbxunL7B/lwhIFokKJWtK4OYnUmBg+S2BBID0o581ncED
-	DeSZmXbXQCPgZ1HgpSQjlOrYT69Q2Pe1ZDDjWRXIjuXxqPYgMNuy2P1/j0XzgUzQ8IOR
-	p1iw==
-X-Gm-Message-State: AA6/9RkiXzmQtZSNlPV4W6rV7+FtTMAY3h2aU4lPXocXnuauQ5f0VHyuwLobrxsGH55nKqp7bqf0A8woPA3sPg==
-X-Received: by 10.107.10.89 with SMTP id u86mr1509316ioi.84.1476276900983;
-	Wed, 12 Oct 2016 05:55:00 -0700 (PDT)
+	Wed, 12 Oct 2016 13:55:03 +0100 (IST)
+Received: from HHMAIL01.hh.imgtec.org (10.100.10.19) by HHMAIL03.hh.imgtec.org
+	(10.44.0.21) with Microsoft SMTP Server (TLS) id 14.3.294.0;
+	Wed, 12 Oct 2016 13:55:06 +0100
+Received: from zkakakhel-linux.le.imgtec.org (192.168.154.45) by
+	HHMAIL01.hh.imgtec.org (10.100.10.21) with Microsoft SMTP Server (TLS)
+	id 14.3.294.0; Wed, 12 Oct 2016 13:55:06 +0100
+From: Zubair Lutfullah Kakakhel <Zubair.Kakakhel@imgtec.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 12 Oct 2016 13:55:02 +0100
+Message-ID: <1476276902-56841-1-git-send-email-Zubair.Kakakhel@imgtec.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-Received: by 10.36.60.73 with HTTP; Wed, 12 Oct 2016 05:55:00 -0700 (PDT)
-In-Reply-To: <20161012121836.GA2923@jama>
-References: <20161006085422.GA2921@jama> <20161012121836.GA2923@jama>
-From: Jonathan Liu <net147@gmail.com>
-Date: Wed, 12 Oct 2016 23:55:00 +1100
-Message-ID: <CANwerB1ZjGMYWryOCXDo+muAbAYHsyLG4nG3Gt7DPQV_OYP5Qg@mail.gmail.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: linux-yocto and linux-libc-headers are again going backwards
+X-Originating-IP: [192.168.154.45]
+Subject: [PATCH] libgpg-error: Make case generic for MIPS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,73 +33,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Oct 2016 12:55:02 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 12 Oct 2016 12:55:06 -0000
+Content-Type: text/plain
 
-On 12 October 2016 at 23:18, Martin Jansa <martin.jansa@gmail.com> wrote:
-> On Thu, Oct 06, 2016 at 10:54:22AM +0200, Martin Jansa wrote:
->> Either use 4.7.99+4.8-rc4 like most other recipes do or at least "4.8~rc4"
->> which might sort lower than "4.8" (but needs to be verified for all
->> packaging backends first).
->>
->> Ignoring all this completely results with what we can see in oe-core
->> now:
->>
->> ERROR: linux-libc-headers-4.8-r0 do_packagedata: QA Issue: Package
->> version for package linux-libc-headers-dbg went backwards which would
->> break package feeds from (0:4.8-rc4-r0.0 to 0:4.8-r0.0)
->> [version-going-backwards]
->
-> I've noticed one more thing related to linux-yocto. Is it expected that
-> only qemuarm is using 4.8 by default and (qemu)x86* is still using 4.4?
->
-> meta/conf/machine/include/x86-base.inc:PREFERRED_VERSION_linux-yocto ??= "4.4%"
-> meta/conf/machine/qemuarm.conf:PREFERRED_VERSION_linux-yocto ??= "4.8%"
->
-> I've checked poky repository and it is using 4.8 at least for qemu* and various
-> other MACHINEs, so it might make sense to use the same for nodistro for consistency?
+The tuples for MIPS r6 onwards are
+- mipsisa32r6el
+- mipsisa32r6
+- mipsisa64r6el
+- mipsisa64r6
 
-Using bitbake and OE-core actually selects linux-yocto 4.8 for me.
-Probably because x86-base.inc isn't actually used by the machine
-definitions in OE-core.
+The default case passes it forward which isn't handled well and
+causes a build error. Rework the case statement to make it generic.
 
-I am also running into a kernel bug with linux-yocto 4.8 on x86:
-https://bugzilla.yoctoproject.org/show_bug.cgi?id=10402
+Signed-off-by: Zubair Lutfullah Kakakhel <Zubair.Kakakhel@imgtec.com>
+---
+ meta/recipes-support/libgpg-error/libgpg-error_1.24.bb | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
->
-> OE @ ~/extras/poky $ git grep PREFERRED_VERSION.*linux-yocto
-> bitbake/doc/bitbake-user-manual/bitbake-user-manual-ref-variables.xml:     PREFERRED_VERSION_linux-yocto = "3.10%"
-> documentation/bsp-guide/bsp.xml:     PREFERRED_VERSION_linux-yocto ?= "4.4%"
-> documentation/ref-manual/ref-variables.xml:     PREFERRED_VERSION_linux-yocto = "3.19%"
-> documentation/ref-manual/ref-variables.xml:     PREFERRED_VERSION_linux-yocto_qemux86 = "3.4%"
-> documentation/ref-manual/ref-variables.xml:     PREFERRED_VERSION_linux-yocto_forcevariable = "3.4%"
-> meta-poky/conf/distro/poky-lsb.conf:PREFERRED_VERSION_linux-yocto_linuxstdbase ?= "4.1%"
-> meta-poky/conf/distro/poky-tiny.conf:PREFERRED_VERSION_linux-yocto-tiny ?= "4.4%"
-> meta-poky/conf/distro/poky.conf:PREFERRED_VERSION_linux-yocto ?= "4.8%"
-> meta-poky/conf/distro/poky.conf:PREFERRED_VERSION_linux-yocto_qemux86 ?= "4.8%"
-> meta-poky/conf/distro/poky.conf:PREFERRED_VERSION_linux-yocto_qemux86-64 ?= "4.8%"
-> meta-poky/conf/distro/poky.conf:PREFERRED_VERSION_linux-yocto_qemuarm ?= "4.8%"
-> meta-poky/conf/distro/poky.conf:PREFERRED_VERSION_linux-yocto_qemumips ?= "4.8%"
-> meta-poky/conf/distro/poky.conf:PREFERRED_VERSION_linux-yocto_qemumips64 ?= "4.8%"
-> meta-poky/conf/distro/poky.conf:PREFERRED_VERSION_linux-yocto_qemuppc ?= "4.8%"
-> meta-yocto-bsp/conf/machine/beaglebone.conf:PREFERRED_VERSION_linux-yocto ?= "4.8%"
-> meta-yocto-bsp/conf/machine/edgerouter.conf:PREFERRED_VERSION_linux-yocto ?= "4.8%"
-> meta-yocto-bsp/conf/machine/genericx86-64.conf:PREFERRED_VERSION_linux-yocto_genericx86-64 ?= "4.8%"
-> meta-yocto-bsp/conf/machine/genericx86.conf:PREFERRED_VERSION_linux-yocto_genericx86 ?= "4.8%"
-> meta-yocto-bsp/conf/machine/include/genericx86-common.inc:PREFERRED_VERSION_linux-yocto ?= "4.4%"
-> meta-yocto-bsp/conf/machine/mpc8315e-rdb.conf:PREFERRED_VERSION_linux-yocto ?= "4.8%"
-> meta/conf/machine/include/x86-base.inc:PREFERRED_VERSION_linux-yocto ??= "4.4%"
-> meta/conf/machine/qemuarm.conf:PREFERRED_VERSION_linux-yocto ??= "4.8%"
-> meta/conf/machine/qemuarm.conf:QB_DTB = "${@base_version_less_or_equal('PREFERRED_VERSION_linux-yocto', '4.7', '', 'zImage-versatile-pb.dtb', d)}"
->
-> Regards,
-> --
-> Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
+diff --git a/meta/recipes-support/libgpg-error/libgpg-error_1.24.bb b/meta/recipes-support/libgpg-error/libgpg-error_1.24.bb
+index e45a7b8..84a882a 100644
+--- a/meta/recipes-support/libgpg-error/libgpg-error_1.24.bb
++++ b/meta/recipes-support/libgpg-error/libgpg-error_1.24.bb
+@@ -33,8 +33,8 @@ do_compile_prepend() {
+ 	  arm)	      TUPLE=arm-unknown-linux-gnueabi ;;
+ 	  armeb)      TUPLE=arm-unknown-linux-gnueabi ;;
+ 	  i586|i686)  TUPLE=i686-pc-linux-gnu ;;
+-	  mips64el)   TUPLE=mipsel-unknown-linux-gnu ;;
+-	  mips64)     TUPLE=mips-unknown-linux-gnu ;;
++	  mips*el)    TUPLE=mipsel-unknown-linux-gnu ;;
++	  mips*)      TUPLE=mips-unknown-linux-gnu ;;
+ 	  x86_64)     TUPLE=x86_64-pc-linux-gnu ;;
+ 	  *)          TUPLE=${TARGET_ARCH}-unknown-linux-gnu ;; 
+ 	esac
+-- 
+1.9.1
+
 
