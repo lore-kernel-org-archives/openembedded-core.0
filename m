@@ -1,46 +1,26 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-qk0-f193.google.com (mail-qk0-f193.google.com
-	[209.85.220.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 6C63870101
+Return-Path: <ed.bartosh@linux.intel.com>
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+	by mail.openembedded.org (Postfix) with ESMTP id 235036FF72
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Oct 2016 12:06:13 +0000 (UTC)
-Received: by mail-qk0-f193.google.com with SMTP id f128so2799708qkb.0
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Oct 2016 05:06:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=4CgOfUusRdJqwoUGeRhOC9lmFJKOhfB2oML5D8PzWlk=;
-	b=Z+9vaXUlRegSOvzrvSSJkrFdzPKAbmL08kAJ0Ea68vrnP2R7ZnFifwqGzxulj8YvUA
-	fxSa6okOEzaL/YDwBvA96QPCM63l07HucfqR+FmFKjniXVNtbdP/+1AZlO0u25euL8xx
-	2k7SNfPHK/abbx2/My6fdUYWsJaK3frWz2ukmAaHg/05K6dcLpnNhIZbK7aHZAr4Zk11
-	WBCk71wyD5E7aQD8rKzgYX4p9DVIb+7Jm+vVZ3/ydfWeEeydvO9tiJh339wDTfAgxNDP
-	ppm2EQrEy0XMWk/THIMrBdQLXKFonYsRwjEQKhBEOWLwtqTjT9dBO2eOllpm2YxCZ2cV
-	xXXA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=4CgOfUusRdJqwoUGeRhOC9lmFJKOhfB2oML5D8PzWlk=;
-	b=DhhDV6lO4BtxV8d/GDH3X1Z2TTKTGuYZGZM1nrzXJTapHSbKyqR4FzEYL2TSfq69cp
-	wJN/2bB2JO/A2Pj8aZDxrE0ti53+f+fENuAMJLdqI2HPWK1mLRSJC2kyqEafpBMbvvsx
-	Qwcf4T5FN07fJk+JpkQEmLRO/7ZVQ3bdcvUd2xjSvZaGKTKfoXM9h5u38VT8D2oDoRqu
-	4VhF0uwTtt94f8Y7mOM2NmiEJbqB1Jg8EdVa0ROsj820NayxOsHszgeIk/ePQx0rEsBB
-	D4xOWshisHUybghrRwmz/UGy96CM4SIdlBPK1lRR+Azq5eg0b9hmbQnj+L/Im9i6czA0
-	i35Q==
-X-Gm-Message-State: AA6/9RlEQ3lYIp2NzK3OkgsbW1pdn0PkwM4xriyevbVgEPJPes1xMYb4CXBLizp4Mq79UA==
-X-Received: by 10.194.125.144 with SMTP id mq16mr935514wjb.35.1476273975165;
-	Wed, 12 Oct 2016 05:06:15 -0700 (PDT)
-Received: from localhost (ip-89-176-104-169.net.upcbroadband.cz.
-	[89.176.104.169]) by smtp.gmail.com with ESMTPSA id
-	17sm12345088wju.44.2016.10.12.05.06.13
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 12 Oct 2016 05:06:13 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+	Wed, 12 Oct 2016 12:12:51 +0000 (UTC)
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+	by orsmga104.jf.intel.com with ESMTP; 12 Oct 2016 05:12:53 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.31,482,1473145200"; d="scan'208";a="18776137"
+Received: from linux.intel.com ([10.54.29.200])
+	by fmsmga006.fm.intel.com with ESMTP; 12 Oct 2016 05:12:52 -0700
+Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.68])
+	by linux.intel.com (Postfix) with ESMTP id 60F2C6A4006;
+	Wed, 12 Oct 2016 05:12:21 -0700 (PDT)
+From: Ed Bartosh <ed.bartosh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 12 Oct 2016 14:06:12 +0200
-Message-Id: <20161012120612.12951-1-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 2.10.1
-Subject: [PATCH] live-vm-common.bbclass: Allow to use different kernel image than KERNEL_IMAGETYPE for /vmlinuz
+Date: Wed, 12 Oct 2016 14:47:16 +0300
+Message-Id: <1476272836-18250-1-git-send-email-ed.bartosh@linux.intel.com>
+X-Mailer: git-send-email 2.1.4
+In-Reply-To: <CABcZANkSRxXwBRcC_2Jrqq-X61Vhx3OJj6fzgE0ThOF8gL+-FA@mail.gmail.com>
+References: <CABcZANkSRxXwBRcC_2Jrqq-X61Vhx3OJj6fzgE0ThOF8gL+-FA@mail.gmail.com>
+Cc: Christopher Larson <clarson@kergoth.com>
+Subject: [PATCH] image_types.bbclass: add dependency do_image_wic -> do_bootimg
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,43 +33,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Oct 2016 12:06:14 -0000
+X-List-Received-Date: Wed, 12 Oct 2016 12:12:52 -0000
 
-* syslinux config hardcodes kernel image as /vmlinuz add warning message
-  when the selected image doesn't exist and allow to select different image
-  with VM_DEFAULT_KERNEL variable (qemuboot.bbclass is using QB_DEFAULT_KERNEL)
+To produce certain types of images wic uses do_bootimg results
+to assemble final image. For example, it copies BOOT/EFI directory
+produced by do_bootimg to boot partition for every EFI image.
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+The tricky part of this is that do_bootimg task is not always run,
+so we can't always make do_image_wic depend on do_bootimg. We only
+need to do it if do_bootimg present in task graph.
+
+Thank to Cristopher Larson for this fix.
+
+Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
 ---
- meta/classes/live-vm-common.bbclass | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+ meta/classes/image_types.bbclass | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/meta/classes/live-vm-common.bbclass b/meta/classes/live-vm-common.bbclass
-index c751385..734697f 100644
---- a/meta/classes/live-vm-common.bbclass
-+++ b/meta/classes/live-vm-common.bbclass
-@@ -31,14 +31,18 @@ inherit ${EFI_CLASS}
- inherit ${PCBIOS_CLASS}
+diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
+index 5ef6f60..a7fffbc 100644
+--- a/meta/classes/image_types.bbclass
++++ b/meta/classes/image_types.bbclass
+@@ -219,6 +219,11 @@ USING_WIC = "${@bb.utils.contains_any('IMAGE_FSTYPES', 'wic ' + ' '.join('wic.%s
+ WKS_FILE_CHECKSUM = "${@'${WKS_FULL_PATH}:%s' % os.path.exists('${WKS_FULL_PATH}') if '${USING_WIC}' else ''}"
+ do_image_wic[file-checksums] += "${WKS_FILE_CHECKSUM}"
  
- KERNEL_IMAGETYPE ??= "bzImage"
-+VM_DEFAULT_KERNEL ??= "${KERNEL_IMAGETYPE}"
- 
- populate_kernel() {
- 	dest=$1
- 	install -d $dest
- 
- 	# Install bzImage, initrd, and rootfs.img in DEST for all loaders to use.
--	if [ -e ${DEPLOY_DIR_IMAGE}/${KERNEL_IMAGETYPE} ]; then
--		install -m 0644 ${DEPLOY_DIR_IMAGE}/${KERNEL_IMAGETYPE} $dest/vmlinuz
-+	bbnote "Trying to install ${DEPLOY_DIR_IMAGE}/${VM_DEFAULT_KERNEL} as $dest/vmlinuz"
-+	if [ -e ${DEPLOY_DIR_IMAGE}/${VM_DEFAULT_KERNEL} ]; then
-+		install -m 0644 ${DEPLOY_DIR_IMAGE}/${VM_DEFAULT_KERNEL} $dest/vmlinuz
-+	else
-+		bbwarn "${DEPLOY_DIR_IMAGE}/${VM_DEFAULT_KERNEL} doesn't exist"
- 	fi
- 
- 	# initrd is made of concatenation of multiple filesystem images
++python () {
++    if d.getVar('USING_WIC', True) and 'do_bootimg' in d:
++        bb.build.addtask('do_image_wic', '', 'do_bootimg', d)
++}
++
+ python do_write_wks_template () {
+     """Write out expanded template contents to WKS_FULL_PATH."""
+     import re
 -- 
-2.10.1
+2.1.4
 
 
