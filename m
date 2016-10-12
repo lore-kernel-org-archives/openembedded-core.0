@@ -1,44 +1,51 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-it0-f43.google.com (mail-it0-f43.google.com
-	[209.85.214.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 6E5BF6E5FC
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-qk0-f171.google.com (mail-qk0-f171.google.com
+	[209.85.220.171])
+	by mail.openembedded.org (Postfix) with ESMTP id AD49F602D9
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Oct 2016 19:12:15 +0000 (UTC)
-Received: by mail-it0-f43.google.com with SMTP id o19so63657066ito.1
+	Wed, 12 Oct 2016 19:29:46 +0000 (UTC)
+Received: by mail-qk0-f171.google.com with SMTP id z190so50734533qkc.2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Oct 2016 12:12:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=owy8RKmdg00oYHO/eiHock4QtjvdlqVHLvTvKdANAxc=;
-	b=Cz5adoSWKb/Qk/h90eQLA1o/323c5vkazVOhpuLDJ+HYavoSCwY+vls/qoJbmtKPXq
-	zcBYWzluYKkGmAiUrEJv5X7W0rfTeFNsaDkih72QbJyR0kLyuCIy3tbVhvCgXq80PIRL
-	iYwKMebNbaUqhD9Glds61ayJ355/VlKAHhixycjhkw7afQbRtq0KMUhWsNI4WgIO+eIa
-	4Vfs6nre1hGlWFwjpZl1TPmuSWpGbeIu3yJue9RNIFpmtOSwbWsocjh1Xh5a5B8ClbwV
-	VHyP/eSstrNUbmTZoT1w5cFkklGR1CfeQ3wwPakobTQ6t6s2e1HrY2MSBx9TieIYteKu
-	hqmQ==
+	Wed, 12 Oct 2016 12:29:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:date:to:cc:subject:message-id:references:mime-version
+	:content-disposition:in-reply-to:user-agent;
+	bh=iGaOO//Q57du8zMA0zxuzOBpZnrDSnPvsCc5a+/uj9o=;
+	b=Tk/X5zDI3MQR4HGMjdlRtTfww2vQOjYRsIYpNkcu3I+PoMaDD7BC3p90lYZX0qGwbF
+	vcbuVSkvvoKzRjaNUDc4F12ppLKkmkrXt4vNKDHHZZCx/57WK8RgspLWycruLDis/q36
+	V6in7GY5PNssh6/lAO5xHNUfnTchTPCbEY9uoClh0gRx4KM3oGHkBT8TuA72QleAYBH5
+	7GKfeQxw78WLE/PEqvDVF+KV5OaUlctpaD1njr2P2Bi5om5S2Ru1I27I7vHUiOQIOVcC
+	TDebaa3M6q+pQwk4ptE7W5/PUD78QL6RfWARdp7l+v0TzikkhS5yS9eUsoH2SwC7T6Op
+	7APg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=owy8RKmdg00oYHO/eiHock4QtjvdlqVHLvTvKdANAxc=;
-	b=SLT4TtZ4ZlCa07ae99X5TLh0DSPCCRQspY0Ql495Q2dGoveK5tnIWNGqObPQBTUrV6
-	nqmR0jO50kjxwY1YLVY/z/5hhfE+JBpkeSDaPCYN11D6hiApxEfNdrJAk8J8HYKCvkOv
-	Nna7iqH0pEUJ6LMIahZgrQ6UWg2pW6TuUsTkHVLPzuAHty7p4PV35KokfW1hgM4bBEZW
-	BcEv358IDU0aqTVECeCrSD11VQOCWfIbrFA0wCjS6Jvau7rLWYjyb+t+LUMPaM/sU9h3
-	Q/XDUVEY3bfhk+SAli3HPw8NfNyL5nxi4bBc4GO5rEIpeLof48fvB+xNpn0MLnLSLCAj
-	XcEA==
-X-Gm-Message-State: AA6/9RnbC237WJbZFmQbA/1BAjLh/Il2i3QjyqedYoac6P5wkXDd8zegryaZOYsWCLJdb9qJ5eDPQptaVwRO4SCH
-X-Received: by 10.36.153.194 with SMTP id a185mr3774736ite.70.1476299537517;
-	Wed, 12 Oct 2016 12:12:17 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.107.155.66 with HTTP; Wed, 12 Oct 2016 12:11:57 -0700 (PDT)
-In-Reply-To: <20161012173025.GF2923@jama>
+	h=x-gm-message-state:from:date:to:cc:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to:user-agent;
+	bh=iGaOO//Q57du8zMA0zxuzOBpZnrDSnPvsCc5a+/uj9o=;
+	b=OrHhDAKCs1x1EHZMKYrJE6pIXIeAYRujuuQw6yCTKF+uyWgN07s+y7PcPYqq3TiSWM
+	WCzwuIziKdDTfpDTwGTirXBaCELQRuIjKr98Ms/HpeRQQvCv+yZBlvHH1SJMOdxwxfkH
+	sEQRKnfvOMt0yVTjQakwEFKwvVdqHiutty3yaijVJWC+zhbQI+eV01KCnsOIISWImmnQ
+	V3x0+580luSg6Sv/0QIbwz8ugUHAqgG4pkuw3qovAgGnNL9hN/Qutv9idD2JUC+/RXSZ
+	krntsX/yMQtNvsvGEMINwtF1Ddf15dI9pon3M0Ba/x8hw1odxxp1M0PpkwLVQWhiWO7J
+	SM1A==
+X-Gm-Message-State: AA6/9RmYDzUM3PIedn/dVInoogcmbh8E/n7QB5gWWpC3wp1oxZoI4a5hlNKRmSDW6Eo+VQ==
+X-Received: by 10.194.55.41 with SMTP id o9mr3752747wjp.228.1476300587448;
+	Wed, 12 Oct 2016 12:29:47 -0700 (PDT)
+Received: from localhost (ip-89-176-104-169.net.upcbroadband.cz.
+	[89.176.104.169]) by smtp.gmail.com with ESMTPSA id
+	17sm15377338wju.44.2016.10.12.12.29.46
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Wed, 12 Oct 2016 12:29:46 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Wed, 12 Oct 2016 21:29:47 +0200
+To: "Burton, Ross" <ross.burton@intel.com>
+Message-ID: <20161012192947.GG2923@jama>
 References: <1476291665.16008.59.camel@pbcl.net> <20161012173025.GF2923@jama>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 12 Oct 2016 20:11:57 +0100
-Message-ID: <CAJTo0LaCUJpq5MV3kGtnOz53Mv1V1hr581A7=bBt2yFR8W5CKQ@mail.gmail.com>
-To: Martin Jansa <martin.jansa@gmail.com>
+	<CAJTo0LaCUJpq5MV3kGtnOz53Mv1V1hr581A7=bBt2yFR8W5CKQ@mail.gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <CAJTo0LaCUJpq5MV3kGtnOz53Mv1V1hr581A7=bBt2yFR8W5CKQ@mail.gmail.com>
+User-Agent: Mutt/1.7.1 (2016-10-04)
 Cc: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: File conflicts in DL_DIR
@@ -54,39 +61,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Oct 2016 19:12:16 -0000
-Content-Type: multipart/alternative; boundary=94eb2c08e518843e93053eafc58b
+X-List-Received-Date: Wed, 12 Oct 2016 19:29:46 -0000
+X-Groupsio-MsgNum: 88134
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="APlYHCtpeOhspHkB"
+Content-Disposition: inline
 
---94eb2c08e518843e93053eafc58b
-Content-Type: text/plain; charset=UTF-8
-
-On 12 October 2016 at 18:30, Martin Jansa <martin.jansa@gmail.com> wrote:
-
-> Github archives are regenerated from time to time and then the checksums
-> are changed, so 3rd option is to use git fetcher with SRCREV matching the
-> has of v${PV} tag.
->
-
-Note that Github maintain that this isn't the case for .tar.gz archives.
-
-Ross
-
---94eb2c08e518843e93053eafc58b
-Content-Type: text/html; charset=UTF-8
+--APlYHCtpeOhspHkB
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 12 October 2016 at 18:30, Martin Jansa <span dir=3D"ltr">&lt;<a href=3D"=
-mailto:martin.jansa@gmail.com" target=3D"_blank">martin.jansa@gmail.com</a>=
-&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0=
- 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":5yv" class=
-=3D"a3s aXjCH m157b9f5303c529aa">Github archives are regenerated from time =
-to time and then the checksums<br>
-are changed, so 3rd option is to use git fetcher with SRCREV matching the<b=
-r>
-has of v${PV} tag.<br>
-<div class=3D"HOEnZb"></div></div></blockquote></div><br>Note that Github m=
-aintain that this isn&#39;t the case for .tar.gz archives.</div><div class=
-=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
+On Wed, Oct 12, 2016 at 08:11:57PM +0100, Burton, Ross wrote:
+> On 12 October 2016 at 18:30, Martin Jansa <martin.jansa@gmail.com> wrote:
+>=20
+> > Github archives are regenerated from time to time and then the checksums
+> > are changed, so 3rd option is to use git fetcher with SRCREV matching t=
+he
+> > has of v${PV} tag.
+> >
+>=20
+> Note that Github maintain that this isn't the case for .tar.gz archives.
 
---94eb2c08e518843e93053eafc58b--
+I've checked git log of my layers and from last 3 cases where I was
+replacing github archive with git SRC_URI it was .tar.gz in two cases and
+=2Ezip in one (and they were really failing to fetch because checksums
+mismatch).
+
+They might maintain that they don't regenerate them anymore, but if you have
+older recipe with checksums which were valid 2 years ago you can still
+be surprised by new checksums (I was 3 times in last year by github.com,
+last month from few more cases which were still using googlecode.com and
+direct release URL stopped working).
+
+Unfortunately this always happens close (or worse shortly after) our
+internal release when we switch to different premirror directory and
+recipes start failing to fetch.
+
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--APlYHCtpeOhspHkB
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iEYEARECAAYFAlf+jyoACgkQN1Ujt2V2gByUmQCaA07kB+c7xwlFWpLEwfT567aZ
+5lgAn2Kp+R4IemBdKIOueMd6NgzfNMAf
+=HqiY
+-----END PGP SIGNATURE-----
+
+--APlYHCtpeOhspHkB--
