@@ -1,39 +1,48 @@
-Return-Path: <obi@opendreambox.org>
-Received: from mail.dream-property.net (mail.dream-property.net
-	[82.149.226.172])
-	by mail.openembedded.org (Postfix) with ESMTP id D9F1171951
+Return-Path: <jussi.kukkonen@intel.com>
+Received: from mail-yb0-f170.google.com (mail-yb0-f170.google.com
+	[209.85.213.170])
+	by mail.openembedded.org (Postfix) with ESMTP id D9A9071997
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Oct 2016 07:31:01 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by mail.dream-property.net (Postfix) with ESMTP id AD9AE31A5D75;
-	Wed, 12 Oct 2016 09:31:02 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at mail.dream-property.net
-Received: from mail.dream-property.net ([127.0.0.1])
-	by localhost (mail.dream-property.net [127.0.0.1]) (amavisd-new,
-	port 10024)
-	with LMTP id Dero9zpbQx7G; Wed, 12 Oct 2016 09:31:00 +0200 (CEST)
-Received: from [172.22.22.61] (55d4421b.access.ecotel.net [85.212.66.27])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by mail.dream-property.net (Postfix) with ESMTPSA id 0902B31A5D7B;
-	Wed, 12 Oct 2016 09:30:59 +0200 (CEST)
-To: Christopher Larson <clarson@kergoth.com>,
-	Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
-References: <1476120925-26574-1-git-send-email-jkrishnanjanappa@mvista.com>
-	<defce586-6033-baed-bf70-bdbe1659922c@opendreambox.org>
-	<CAD3vsf5zv87RLAN70WF06Jxr1qq2=5-ctDekdA_0o1Cr1nmBhQ@mail.gmail.com>
-	<CABcZANkt+TbuEkTCGmqEQZG+Nw+MardZR4Jj+9FNDXFHbZysEg@mail.gmail.com>
-	<CAD3vsf6muVV_NNP=rTGNo-4gMz_Q0SNojJ-qJui8_j9eW-gmZQ@mail.gmail.com>
-	<CABcZANnDjD7MAU-8EU1CmRxZKDAZtB3E6JHiPCwo1q77oNjc1A@mail.gmail.com>
-From: Andreas Oberritter <obi@opendreambox.org>
-Message-ID: <f31d192a-c54f-6aa2-be9b-beeb4bdd4462@opendreambox.org>
-Date: Wed, 12 Oct 2016 09:30:59 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.3.0
+	Wed, 12 Oct 2016 08:01:14 +0000 (UTC)
+Received: by mail-yb0-f170.google.com with SMTP id 191so17083434ybv.3
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 12 Oct 2016 01:01:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=iyGUtTY7XNK9SdQaEXaSqbcbWPYcHZMfIBv0978X0tk=;
+	b=FM8UufpkXCmCcuPcieIOzngZ+cScnbObr+ulIZycIb1SLoftaQINZEhsbjlcYOK9bd
+	mrobg/2QN31LMuRoYEPK0ryk8e8VIV4owv7R3Oo560K3j3frkF8/fea5QGkIUnA6tE+w
+	7iAkr2UXRhBY2noKByXG5tSCPxEdh1op5PUqY+OXRghtLq5tNPoebNXPU7dZ+nHbCX3j
+	o5BExysc3QR9zzhBEdKfqS2accuB0zam9IZR2vUjKCT0tygXvEVQfks383/vqcVAWEET
+	+K1Aad94Nr+0K5V9jj0Exj1BlZ4mkGYD24hcf7fFzLBKAp0ybeQhATexOvjENN4ljlBO
+	arrg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=iyGUtTY7XNK9SdQaEXaSqbcbWPYcHZMfIBv0978X0tk=;
+	b=R1hEEn4vjgkLtjIV0RHa3IdIEfI6EQQdXeUfSmTVy6Q/BHh68qzeWXFc08z+aqyclK
+	0YubunJPAhJ5YdblB2+ebky1wlluHAgJyrRSC07QmYZwGWwpywRD+UnV7aLgrn3E77Vi
+	Ng8sUKV3ggCpOPIowefbqCLkAPq2bz2iSDFFusCOhwmHtE6+P1hy6IBBHfbClh8noIbN
+	cS3gT2n6gs+Y4x3lAXCfv4pQT9Qu0ymDhb4ofC/tHL62obya+a1WE2MQdXBeXB/RW9Sm
+	cgMt+9L49atqapstll7v7+zAs3Q4ZoG+WNLejr606cN3JjthUPiRJMDzuEuxoqPfDTp9
+	Z8ig==
+X-Gm-Message-State: AA6/9RmUcO6emAxIC2WDntrq/nAUomG/BqcLLQaxYq/3ku/RC3EBrznOec+tRoRMMfy8C7OIm94J+KePWhrcvmI2
+X-Received: by 10.37.37.79 with SMTP id l76mr7256321ybl.103.1476259275719;
+	Wed, 12 Oct 2016 01:01:15 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CABcZANnDjD7MAU-8EU1CmRxZKDAZtB3E6JHiPCwo1q77oNjc1A@mail.gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] connman: get the correct network interface name from dmesg during NFS booting
+Received: by 10.13.206.3 with HTTP; Wed, 12 Oct 2016 01:00:45 -0700 (PDT)
+In-Reply-To: <239ab1764ad811a12d8da6eb66ced3fff9987891.1476253865.git.liezhi.yang@windriver.com>
+References: <cover.1476253865.git.liezhi.yang@windriver.com>
+	<239ab1764ad811a12d8da6eb66ced3fff9987891.1476253865.git.liezhi.yang@windriver.com>
+From: Jussi Kukkonen <jussi.kukkonen@intel.com>
+Date: Wed, 12 Oct 2016 11:00:45 +0300
+Message-ID: <CAHiDW_HLG6fa7Phu0TeM+f5LTuubA2RmZB-6795Ze5e4xAqGxA@mail.gmail.com>
+To: Robert Yang <liezhi.yang@windriver.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/4] xcb-proto: create .pyc files for python2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,93 +55,130 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Oct 2016 07:31:02 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 12 Oct 2016 08:01:15 -0000
+Content-Type: multipart/alternative; boundary=001a113eb02cba257c053ea665d6
 
-Hi Chistopher,
+--001a113eb02cba257c053ea665d6
+Content-Type: text/plain; charset=UTF-8
 
-On 11.10.2016 21:34, Christopher Larson wrote:
-> 
-> On Tue, Oct 11, 2016 at 12:03 PM, Jagadeesh Krishnanjanappa
-> <jkrishnanjanappa@mvista.com <mailto:jkrishnanjanappa@mvista.com>> wrote:
-> 
->     On Tue, Oct 11, 2016 at 9:06 PM, Christopher Larson
->     <clarson@kergoth.com <mailto:clarson@kergoth.com>> wrote:
-> 
-> 
->         On Tue, Oct 11, 2016 at 5:11 AM, Jagadeesh Krishnanjanappa
->         <jkrishnanjanappa@mvista.com
->         <mailto:jkrishnanjanappa@mvista.com>> wrote:
-> 
->             Thanks for reviewing the patch.
-> 
-> 
->                 I think this is too fragile to land in OE-Core. What
->                 happens if a
->                 network driver prints "device=eth0"? Or if other kernel
->                 messages make
->                 the string disappear from dmesg and connman gets
->                 restarted later?
-> 
->              
->             True. If device=eth0 gets disappeared/corrupted, then we may
->             have problem.
-> 
-> 
->                 FWIW, I'm attaching my current wrapper script for
->                 connmand. I don't
->                 think it's perfect, but at least it doesn't depend on
->                 any init manager
->                 and works across restarts.
-> 
->             The wrapper script attached by you, takes care of the
->             missing scenarios. Seems to be more complete.
-> 
->                  
-> 
->                 Add these lines to connman's do_install, in case you'd
->                 like to test
->                 and/or submit it:
-> 
->                 mv ${D}${sbindir}/connmand ${D}${sbindir}/connmand.real
->                 install -m 755 ${WORKDIR}/connmand-nfsroot.in
->                 <http://connmand-nfsroot.in> ${D}${sbindir}/connmand
->                 sed -e 's,@sbindir@,${sbindir},g' -i ${D}${sbindir}/connmand
-> 
->             I think it would be good idea to integrate your changes into
->             the already existing OE-core's connman script, instead of a
->             calling original connman script from the wrapper script.
-> 
-> 
->         I threw
->         together https://github.com/openembedded/openembedded-core/compare/master...kergoth:connman-systemd-nfs
->         <https://github.com/openembedded/openembedded-core/compare/master...kergoth:connman-systemd-nfs> last
->         night, only limited testing. I think using a script in
->         libexecdir is rather cleaner than wrapping connmand in place,
->         for something like this, personally.
-> 
->      
->     In the above commit,  the last line of connman/connman/start-connman
->     file, should be exec @SBINDIR@/connmand "$@" instead of exec
->     @SBINDIR@/connman "$@" ; as the actual binary file name is connmand.
-> 
-> 
-> Thanks, didn’t notice that. Obviously it needs polish and testing before
-> submission, I mainly linked it to solicit thoughts on the approach :)
+On 12 October 2016 at 09:31, Robert Yang <liezhi.yang@windriver.com> wrote:
 
-your proposal adds some complexity to the recipe, which I tried to
-avoid, because this wrapper script is something we'll probably have to
-maintain forever.
+> Its Makefile's do_install creates .pyc files for python3, now also
+> create them for python2 so that they will be recorded by manifest, and
+> can be cleaned correctly.
 
-For example, your recipe might break without notice if upstream is going
-to ship another binary as ${sbindir}/connmand-something in the future;
-or if upstream decides to change the systemd unit to use a variable
-instead of a hardcoded path to connmand.
 
-Besides that, I don't have a strong opinion on the location of the
-wrapper script.
+So this is about autotools byte-compiling for python3 at install time and
+then something using those python modules with python2 during the build?
 
-Regards,
-Andreas
+I wonder if this is something that should/can be solved in a more generic
+way? Alternatively, is the xcbgen user something in oe-core and can we tell
+it to not use python2?
 
+- Jussi
+
+
+
+>
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+> ---
+>  meta/recipes-graphics/xorg-proto/xcb-proto_1.12.bb | 8 ++++++++
+>  1 file changed, 8 insertions(+)
+>
+> diff --git a/meta/recipes-graphics/xorg-proto/xcb-proto_1.12.bb
+> b/meta/recipes-graphics/xorg-proto/xcb-proto_1.12.bb
+> index 8bdca32..54988fc 100644
+> --- a/meta/recipes-graphics/xorg-proto/xcb-proto_1.12.bb
+> +++ b/meta/recipes-graphics/xorg-proto/xcb-proto_1.12.bb
+> @@ -28,3 +28,11 @@ RDEPENDS_${PN}-dev = ""
+>  RRECOMMENDS_${PN}-dbg = "${PN}-dev (= ${EXTENDPKGV})"
+>
+>  BBCLASSEXTEND = "native nativesdk"
+> +
+> +do_install_append() {
+> +    # Makefile's do_install creates .pyc files for python3, now also
+> create
+> +    # them for python2 so that they will be recorded by manifest, and can
+> be
+> +    # cleaned correctly.
+> +    cd  ${D}${libdir}/xcb-proto/xcbgen
+> +    python -m py_compile *.py
+> +}
+> --
+> 2.9.0
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+
+--001a113eb02cba257c053ea665d6
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><div class=3D"gmail_quote">On 1=
+2 October 2016 at 09:31, Robert Yang <span dir=3D"ltr">&lt;<a href=3D"mailt=
+o:liezhi.yang@windriver.com" target=3D"_blank">liezhi.yang@windriver.com</a=
+>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 =
+0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">Its Makefile&#39;s do=
+_install creates .pyc files for python3, now also<br>
+create them for python2 so that they will be recorded by manifest, and<br>
+can be cleaned correctly.</blockquote><div><br></div><div>So this is about =
+autotools byte-compiling for python3 at install time and then something usi=
+ng those python modules with python2 during the build?=C2=A0</div><div><br>=
+</div><div>I wonder if this is something that should/can be solved in a mor=
+e generic way? Alternatively, is the xcbgen user something in oe-core and c=
+an we tell it to not use python2?</div><div><br></div><div>- Jussi</div><di=
+v><br></div><div><br></div><blockquote class=3D"gmail_quote" style=3D"margi=
+n:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">=C2=A0<br></block=
+quote><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-l=
+eft:1px #ccc solid;padding-left:1ex">
+Signed-off-by: Robert Yang &lt;<a href=3D"mailto:liezhi.yang@windriver.com"=
+ target=3D"_blank">liezhi.yang@windriver.com</a>&gt;<br>
+---<br>
+=C2=A0meta/recipes-graphics/xorg-pr<wbr>oto/<a href=3D"http://xcb-proto_1.1=
+2.bb" rel=3D"noreferrer" target=3D"_blank">xcb-proto_1.12.bb</a> | 8 ++++++=
+++<br>
+=C2=A01 file changed, 8 insertions(+)<br>
+<br>
+diff --git a/meta/recipes-graphics/xorg-p<wbr>roto/<a href=3D"http://xcb-pr=
+oto_1.12.bb" rel=3D"noreferrer" target=3D"_blank">xcb-proto_1.12.bb</a> b/m=
+eta/recipes-graphics/xorg-p<wbr>roto/<a href=3D"http://xcb-proto_1.12.bb" r=
+el=3D"noreferrer" target=3D"_blank">xcb-proto_1.12.bb</a><br>
+index 8bdca32..54988fc 100644<br>
+--- a/meta/recipes-graphics/xorg-p<wbr>roto/<a href=3D"http://xcb-proto_1.1=
+2.bb" rel=3D"noreferrer" target=3D"_blank">xcb-proto_1.12.bb</a><br>
++++ b/meta/recipes-graphics/xorg-p<wbr>roto/<a href=3D"http://xcb-proto_1.1=
+2.bb" rel=3D"noreferrer" target=3D"_blank">xcb-proto_1.12.bb</a><br>
+@@ -28,3 +28,11 @@ RDEPENDS_${PN}-dev =3D &quot;&quot;<br>
+=C2=A0RRECOMMENDS_${PN}-dbg =3D &quot;${PN}-dev (=3D ${EXTENDPKGV})&quot;<b=
+r>
+<br>
+=C2=A0BBCLASSEXTEND =3D &quot;native nativesdk&quot;<br>
++<br>
++do_install_append() {<br>
++=C2=A0 =C2=A0 # Makefile&#39;s do_install creates .pyc files for python3, =
+now also create<br>
++=C2=A0 =C2=A0 # them for python2 so that they will be recorded by manifest=
+, and can be<br>
++=C2=A0 =C2=A0 # cleaned correctly.<br>
++=C2=A0 =C2=A0 cd=C2=A0 ${D}${libdir}/xcb-proto/xcbgen<br>
++=C2=A0 =C2=A0 python -m py_compile *.py<br>
++}<br>
+<span class=3D"m_708345975110919641m_3612041496741962596HOEnZb"><font color=
+=3D"#888888">--<br>
+2.9.0<br>
+<br>
+--<br>
+______________________________<wbr>_________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
+k">Openembedded-core@lists.openem<wbr>bedded.org</a><br>
+<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
+" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/<wbr>m=
+ailman/listinfo/openembedded-<wbr>core</a><br>
+</font></span></blockquote></div><br></div></div>
+
+--001a113eb02cba257c053ea665d6--
