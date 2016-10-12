@@ -1,24 +1,24 @@
-Return-Path: <Kai.Kang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id B89DE60290
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id EE51371975
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Oct 2016 02:42:31 +0000 (UTC)
+	Wed, 12 Oct 2016 06:31:29 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u9C2gV1i006601
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 11 Oct 2016 19:42:31 -0700 (PDT)
-Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.294.0; Tue, 11 Oct 2016 19:42:30 -0700
-From: <kai.kang@windriver.com>
-To: <raj.khem@gmail.com>
-Date: Wed, 12 Oct 2016 10:37:34 +0800
-Message-ID: <20161012023734.11991-1-kai.kang@windriver.com>
-X-Mailer: git-send-email 2.9.3
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u9C6VUkZ003495
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 11 Oct 2016 23:31:30 -0700
+Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.294.0;
+	Tue, 11 Oct 2016 23:31:29 -0700
+From: Robert Yang <liezhi.yang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 11 Oct 2016 23:31:25 -0700
+Message-ID: <cover.1476253865.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 2.9.0
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH] gcc-sanitizers: allow empty for lsan and tsan packages
+Subject: [PATCH 0/4] fix xcb-proto libxcb and source-highlight
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,46 +31,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Oct 2016 02:42:31 -0000
+X-List-Received-Date: Wed, 12 Oct 2016 06:31:30 -0000
 Content-Type: text/plain
 
-From: Kai Kang <kai.kang@windriver.com>
+he following changes since commit 1a2311c8fa9a3703568cd390c44639fe3335023e:
 
-gcc checks threads and leak sanitizers support when do configure. If not
-supported, packages of tsan and lsan are empty. If add such package to
-image it fails to build:
+  build-appliance-image: Update to master head revision (2016-10-11 23:43:20 +0100)
 
-| ERROR: core-image-minimal-1.0-r0 do_rootfs: libtsan-dev not found in the feeds
-| ERROR: core-image-minimal-1.0-r0 do_rootfs: This is often caused by an empty
-| package declared in a recipe's PACKAGES variable. (Empty packages are not
-| constructed unless ALLOW_EMPTY_<pkg> = '1' is used.)
+are available in the git repository at:
 
-Set ALLOW_EMPTY for these packages to resolve the issue.
+  git://git.openembedded.org/openembedded-core-contrib rbt/4fixes
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/4fixes
 
-Signed-off-by: Kai Kang <kai.kang@windriver.com>
----
- meta/recipes-devtools/gcc/gcc-sanitizers.inc | 7 +++++++
- 1 file changed, 7 insertions(+)
+Robert Yang (4):
+  xcb-proto: create .pyc files for python2
+  xcb-proto: fix for python3
+  libxcb: use python3 to build it
+  source-highlight: use with-boost-libdir
 
-diff --git a/meta/recipes-devtools/gcc/gcc-sanitizers.inc b/meta/recipes-devtools/gcc/gcc-sanitizers.inc
-index df4e297..03d23ec 100644
---- a/meta/recipes-devtools/gcc/gcc-sanitizers.inc
-+++ b/meta/recipes-devtools/gcc/gcc-sanitizers.inc
-@@ -59,6 +59,13 @@ PACKAGES += "libasan libubsan liblsan libtsan"
- PACKAGES += "libasan-dev libubsan-dev liblsan-dev libtsan-dev"
- PACKAGES += "libasan-staticdev libubsan-staticdev liblsan-staticdev libtsan-staticdev"
- 
-+ALLOW_EMPTY_${MLPREFIX}liblsan = "1"
-+ALLOW_EMPTY_${MLPREFIX}liblsan-dev = "1"
-+ALLOW_EMPTY_${MLPREFIX}liblsan-staticdev = "1"
-+ALLOW_EMPTY_${MLPREFIX}libtsan = "1"
-+ALLOW_EMPTY_${MLPREFIX}libtsan-dev = "1"
-+ALLOW_EMPTY_${MLPREFIX}libtsan-staticdev = "1"
-+
- RDEPENDS_libasan += "libstdc++"
- RDEPENDS_libubsan += "libstdc++"
- RDEPENDS_liblsan += "libstdc++"
+ .../Fix-inconsistent-use-of-tabs-vs.-space.patch   |  62 ++++++
+ meta/recipes-graphics/xorg-lib/libxcb_1.12.bb      |   3 +
+ .../0001-Make-whitespace-use-consistent.patch      | 215 +++++++++++++++++++++
+ ...print-is-a-function-and-needs-parentheses.patch |  75 +++++++
+ meta/recipes-graphics/xorg-proto/xcb-proto_1.12.bb |  13 +-
+ .../source-highlight/source-highlight_3.1.8.bb     |   2 +-
+ 6 files changed, 368 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-graphics/xorg-lib/libxcb/Fix-inconsistent-use-of-tabs-vs.-space.patch
+ create mode 100644 meta/recipes-graphics/xorg-proto/xcb-proto/0001-Make-whitespace-use-consistent.patch
+ create mode 100644 meta/recipes-graphics/xorg-proto/xcb-proto/0002-print-is-a-function-and-needs-parentheses.patch
+
 -- 
-2.9.3
+2.9.0
 
 
