@@ -1,31 +1,24 @@
-Return-Path: <rich.tollerton@ni.com>
-X-Greylist: delayed 1377 seconds by postgrey-1.34 at layers.openembedded.org;
-	Wed, 12 Oct 2016 01:31:18 UTC
-Received: from ni.com (skprod3.natinst.com [130.164.80.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 8CE2671994
+Return-Path: <Kai.Kang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id B89DE60290
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Oct 2016 01:31:18 +0000 (UTC)
-Received: from us-aus-mgwout1.amer.corp.natinst.com (nb-snip2-1338.natinst.com
-	[130.164.19.135])
-	by us-aus-skprod3.natinst.com (8.15.0.59/8.15.0.59) with ESMTP id
-	u9C18Ksh010301; Tue, 11 Oct 2016 20:08:20 -0500
-Received: from weregild.amer.corp.natinst.com ([130.164.14.198])
-	by us-aus-mgwout1.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6
-	HF1218) with ESMTP id 2016101120082065-826472 ;
-	Tue, 11 Oct 2016 20:08:20 -0500 
-From: Richard Tollerton <rich.tollerton@ni.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 11 Oct 2016 20:08:15 -0500
-Message-Id: <20161012010815.15477-1-rich.tollerton@ni.com>
-X-Mailer: git-send-email 2.10.0
-X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut1/AUS/H/NIC(Release
-	8.5.3FP6 HF1218|December 12, 2014) at 10/11/2016 08:08:20 PM,
-	Serialize by Router on US-AUS-MGWOut1/AUS/H/NIC(Release 8.5.3FP6
-	HF1218|December 12, 2014) at 10/11/2016 08:08:20 PM,
-	Serialize complete at 10/11/2016 08:08:20 PM
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
-	definitions=2016-10-11_10:, , signatures=0
-Subject: [PATCH] base-files: fix profile error under < /dev/null
+	Wed, 12 Oct 2016 02:42:31 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u9C2gV1i006601
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 11 Oct 2016 19:42:31 -0700 (PDT)
+Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.294.0; Tue, 11 Oct 2016 19:42:30 -0700
+From: <kai.kang@windriver.com>
+To: <raj.khem@gmail.com>
+Date: Wed, 12 Oct 2016 10:37:34 +0800
+Message-ID: <20161012023734.11991-1-kai.kang@windriver.com>
+X-Mailer: git-send-email 2.9.3
+MIME-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH] gcc-sanitizers: allow empty for lsan and tsan packages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,39 +31,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Oct 2016 01:31:19 -0000
+X-List-Received-Date: Wed, 12 Oct 2016 02:42:31 -0000
+Content-Type: text/plain
 
-Previous attempts to constrain execution of `resize` to only TTYs did
-not properly handle situations when `tty` would return the string "not a
-tty". The symptom is "/etc/profile: line 34: test: too many arguments".
-Fix this by utilizing the exit code of `tty`. Also use `case` instead of
-`cut` to eliminate a subshell.
+From: Kai Kang <kai.kang@windriver.com>
 
-Signed-off-by: Richard Tollerton <rich.tollerton@ni.com>
+gcc checks threads and leak sanitizers support when do configure. If not
+supported, packages of tsan and lsan are empty. If add such package to
+image it fails to build:
+
+| ERROR: core-image-minimal-1.0-r0 do_rootfs: libtsan-dev not found in the feeds
+| ERROR: core-image-minimal-1.0-r0 do_rootfs: This is often caused by an empty
+| package declared in a recipe's PACKAGES variable. (Empty packages are not
+| constructed unless ALLOW_EMPTY_<pkg> = '1' is used.)
+
+Set ALLOW_EMPTY for these packages to resolve the issue.
+
+Signed-off-by: Kai Kang <kai.kang@windriver.com>
 ---
- meta/recipes-core/base-files/base-files/profile | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ meta/recipes-devtools/gcc/gcc-sanitizers.inc | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/meta/recipes-core/base-files/base-files/profile b/meta/recipes-core/base-files/base-files/profile
-index 0a05e45..7367fd1 100644
---- a/meta/recipes-core/base-files/base-files/profile
-+++ b/meta/recipes-core/base-files/base-files/profile
-@@ -22,10 +22,12 @@ if [ -d /etc/profile.d ]; then
-   unset i
- fi
+diff --git a/meta/recipes-devtools/gcc/gcc-sanitizers.inc b/meta/recipes-devtools/gcc/gcc-sanitizers.inc
+index df4e297..03d23ec 100644
+--- a/meta/recipes-devtools/gcc/gcc-sanitizers.inc
++++ b/meta/recipes-devtools/gcc/gcc-sanitizers.inc
+@@ -59,6 +59,13 @@ PACKAGES += "libasan libubsan liblsan libtsan"
+ PACKAGES += "libasan-dev libubsan-dev liblsan-dev libtsan-dev"
+ PACKAGES += "libasan-staticdev libubsan-staticdev liblsan-staticdev libtsan-staticdev"
  
--if [ -x /usr/bin/resize ];then
-+if [ -x /usr/bin/resize ] && termpath="`tty`"; then
-   # Make sure we are on a serial console (i.e. the device used starts with /dev/tty),
-   # otherwise we confuse e.g. the eclipse launcher which tries do use ssh
--  test "`tty | cut -c1-8`" = "/dev/tty" && resize >/dev/null
-+  case "$termpath" in
-+  /dev/tty*) resize >/dev/null
-+  esac
- fi
- 
- export PATH PS1 OPIEDIR QPEDIR QTDIR EDITOR TERM
++ALLOW_EMPTY_${MLPREFIX}liblsan = "1"
++ALLOW_EMPTY_${MLPREFIX}liblsan-dev = "1"
++ALLOW_EMPTY_${MLPREFIX}liblsan-staticdev = "1"
++ALLOW_EMPTY_${MLPREFIX}libtsan = "1"
++ALLOW_EMPTY_${MLPREFIX}libtsan-dev = "1"
++ALLOW_EMPTY_${MLPREFIX}libtsan-staticdev = "1"
++
+ RDEPENDS_libasan += "libstdc++"
+ RDEPENDS_libubsan += "libstdc++"
+ RDEPENDS_liblsan += "libstdc++"
 -- 
-2.10.0
+2.9.3
 
 
