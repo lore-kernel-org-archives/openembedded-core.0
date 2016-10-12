@@ -1,54 +1,49 @@
 Return-Path: <martin.jansa@gmail.com>
-Received: from mail-lf0-f67.google.com (mail-lf0-f67.google.com
-	[209.85.215.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 65CE071957
+Received: from mail-qt0-f177.google.com (mail-qt0-f177.google.com
+	[209.85.216.177])
+	by mail.openembedded.org (Postfix) with ESMTP id 5996F719A0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Oct 2016 13:14:02 +0000 (UTC)
-Received: by mail-lf0-f67.google.com with SMTP id x23so1359878lfi.1
+	Wed, 12 Oct 2016 13:26:14 +0000 (UTC)
+Received: by mail-qt0-f177.google.com with SMTP id s49so14960650qta.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Oct 2016 06:14:04 -0700 (PDT)
+	Wed, 12 Oct 2016 06:26:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:date:to:cc:subject:message-id:references:mime-version
-	:content-disposition:in-reply-to:user-agent;
-	bh=xTWfyiDCOXj3TZDHEOJL34UiFGw/kdAZuq8bojSli8M=;
-	b=JjSb9f6Smy1k6zFcTO7M5GPwaBn0SvD9ocyMVxY+p76ElJHt85jgSv8GqiN/HQhmOE
-	85bG5M1SP6vgmj1r/2d7fCShhXyztj5F/hpju+eCCtxWJjdu2Z5DKw9s5TSdYAJ8Y+RN
-	P7NaZimkGB9VtCauSDMQgj+wTPsugO/F0ewS0EdI42hhm5hO1IYhgMXwm6t1fOWqYQUj
-	zoJzg9oTlCLgdcQa6ADQ2LX0Npq8QQiqpN4Cgj6X6ONvQuQEoJTYgTNtWnCYvSyrTct9
-	80CFwbQ3euA8CgoYaVcrkAaXyfs6Z821GQj3jCCrRKPQigol4M5yiAM4pYfKt0Um/vB3
-	Giyw==
+	h=from:date:to:subject:message-id:mime-version:content-disposition
+	:user-agent; bh=DPkaVccfkZRlOnTlqfZQ4uFoSEesPXpYjwKm4P/2TYE=;
+	b=eJYCKD4RjlzoLgH3eEkUJfXi/uKzlw9QOTrCChJS7sxvOBnoOyyVQnjKvyeP2n8sUV
+	QzCMmka2hTEZa5U6F861lQietIKAB4Oml09U0dHm6m7ptFFSFI5jotiRKR8vwEXHxgbd
+	dfL0TcIHdyxc3Ad4Fdy3Z0txu+oVZzwaNCPzMvWMyd2IOSCdWt1NUmXLfDim2vUaPX3n
+	ys7JJtFJ+EzIZGXOdnTwxhKL1DP/IDz0yOylWrAXkfQqTkNWHQQs04Cxzd0wmPH6upPZ
+	MIm2U+0j3eJhCBtOltuuI0ImVizOM/pC8HXCCy/SpMKv3jN7XAKYOOCU/k3vydI4p3XK
+	NBlA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:date:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=xTWfyiDCOXj3TZDHEOJL34UiFGw/kdAZuq8bojSli8M=;
-	b=G4pXCYYPoCSgzaS2qgOrm1LEXfVExn2Lmc28O4L6tZPHL8bKQkteBXn8FG7qaogYM4
-	HgRZQC+nsXqy+tzhb3R+XLwyYW66hx8PsAyeVYSV9jUkkU/StF4llNT8c8VcSRS5BlU6
-	/mpMokE6nhj3qY5mB2XPOSO24JvqaMrtsAPaL2sNt+uhoQX9W00kjfUdZWe1grSXhMYg
-	u5R7nSktRUTSY4fdebdX1IPzmQGjx7K5bXXllKEmz30Nbi7xmRH686D4Xa4bHNxqIF3o
-	E5tNYqwUu5D6fcUzYxYv8nkvPHYMKz/3c5CRNBO9kineglRpibYZuyXPqkSxOD2F4dxR
-	H/Gg==
-X-Gm-Message-State: AA6/9RkFPSFuvxL+HdPVWX85ZPWUuxcLYplTw9bXNwUZvB5Z69PoAnlnkS1mzZA+jILX2A==
-X-Received: by 10.194.126.133 with SMTP id my5mr1449522wjb.47.1476278043318;
-	Wed, 12 Oct 2016 06:14:03 -0700 (PDT)
+	h=x-gm-message-state:from:date:to:subject:message-id:mime-version
+	:content-disposition:user-agent;
+	bh=DPkaVccfkZRlOnTlqfZQ4uFoSEesPXpYjwKm4P/2TYE=;
+	b=PMbpqrKvNrdM8S6+iBizPfC8oXpYTtew9OSW+bLBTkbwUIO7ExMJsPHL95YgaWD+Nd
+	OxRxjPRWu5TBh2uBtMj9EWNBx8fLw22xu2J56C/ObZcnCadti+HCbRceHQ+kKMVzegmP
+	r+ZG/NQsR7D+wUPeFHzd8OaPqXHmrAfoNdmKMyIz2LNsukFrZRLiH8inj3FfPTbA3zgm
+	I3ZlcD1eJjQnS+fdm+DNIVRClZomDi1zQ6+aYrKMw6qkjnNmeBHZbhdsvU8trxq2Zc2b
+	DKZYmVRD2a8IZLiwHO91Rg33BV+D4EG0RKoFJGjAQt3RT3enZLczwUa1+HX+PR55mpcC
+	5teA==
+X-Gm-Message-State: AA6/9RnuXy7C7cmcjQuW3x2yA8uRYtz9sHPMs9Cz2bxfoTFETbEiuaeWHuLEX6az/kZuXw==
+X-Received: by 10.194.243.104 with SMTP id wx8mr1448942wjc.229.1476278775893; 
+	Wed, 12 Oct 2016 06:26:15 -0700 (PDT)
 Received: from localhost (ip-89-176-104-169.net.upcbroadband.cz.
 	[89.176.104.169]) by smtp.gmail.com with ESMTPSA id
-	a1sm12859671wjl.28.2016.10.12.06.14.01
+	e2sm12918333wjw.14.2016.10.12.06.26.15
+	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Wed, 12 Oct 2016 06:14:02 -0700 (PDT)
+	Wed, 12 Oct 2016 06:26:15 -0700 (PDT)
 From: Martin Jansa <martin.jansa@gmail.com>
 X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Wed, 12 Oct 2016 15:14:02 +0200
-To: Jonathan Liu <net147@gmail.com>
-Message-ID: <20161012131402.GB2923@jama>
-References: <20161006085422.GA2921@jama> <20161012121836.GA2923@jama>
-	<CANwerB1ZjGMYWryOCXDo+muAbAYHsyLG4nG3Gt7DPQV_OYP5Qg@mail.gmail.com>
+Date: Wed, 12 Oct 2016 15:26:15 +0200
+To: openembedded-core@lists.openembedded.org
+Message-ID: <20161012132615.GC2923@jama>
 MIME-Version: 1.0
-In-Reply-To: <CANwerB1ZjGMYWryOCXDo+muAbAYHsyLG4nG3Gt7DPQV_OYP5Qg@mail.gmail.com>
 User-Agent: Mutt/1.7.1 (2016-10-04)
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: linux-yocto and linux-libc-headers are again going backwards
+Subject: SDK_OLDEST_KERNEL vs OLDEST_KERNEL
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,149 +56,77 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Oct 2016 13:14:03 -0000
-X-Groupsio-MsgNum: 88123
+X-List-Received-Date: Wed, 12 Oct 2016 13:26:15 -0000
+X-Groupsio-MsgNum: 88124
 Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="WhfpMioaduB5tiZL"
+	protocol="application/pgp-signature"; boundary="uh9ZiVrAOUUm9fzH"
 Content-Disposition: inline
 
---WhfpMioaduB5tiZL
+--uh9ZiVrAOUUm9fzH
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Oct 12, 2016 at 11:55:00PM +1100, Jonathan Liu wrote:
-> On 12 October 2016 at 23:18, Martin Jansa <martin.jansa@gmail.com> wrote:
-> > On Thu, Oct 06, 2016 at 10:54:22AM +0200, Martin Jansa wrote:
-> >> Either use 4.7.99+4.8-rc4 like most other recipes do or at least "4.8~=
-rc4"
-> >> which might sort lower than "4.8" (but needs to be verified for all
-> >> packaging backends first).
-> >>
-> >> Ignoring all this completely results with what we can see in oe-core
-> >> now:
-> >>
-> >> ERROR: linux-libc-headers-4.8-r0 do_packagedata: QA Issue: Package
-> >> version for package linux-libc-headers-dbg went backwards which would
-> >> break package feeds from (0:4.8-rc4-r0.0 to 0:4.8-r0.0)
-> >> [version-going-backwards]
-> >
-> > I've noticed one more thing related to linux-yocto. Is it expected that
-> > only qemuarm is using 4.8 by default and (qemu)x86* is still using 4.4?
-> >
-> > meta/conf/machine/include/x86-base.inc:PREFERRED_VERSION_linux-yocto ??=
-=3D "4.4%"
-> > meta/conf/machine/qemuarm.conf:PREFERRED_VERSION_linux-yocto ??=3D "4.8=
-%"
-> >
-> > I've checked poky repository and it is using 4.8 at least for qemu* and=
- various
-> > other MACHINEs, so it might make sense to use the same for nodistro for=
- consistency?
->=20
-> Using bitbake and OE-core actually selects linux-yocto 4.8 for me.
-> Probably because x86-base.inc isn't actually used by the machine
-> definitions in OE-core.
+Hi,
 
-You're right, the issue was caused by bbappend in one of my layers,
-which bumps PE, so the 4.4 which had this bbappend sorted higher than
-other versions, from bitbake-layers:
+is this separate variable working correctly?
 
-linux-yocto:
-  meta                 1:4.4.22+gitAUTOINC+d9f20333c4_f4e52341c3
-  meta                 4.1.33+gitAUTOINC+322fa5b279_a38cb20273
-  meta                 4.8+gitAUTOINC+03bf3dd731_67813e7efa
+It was introduced in:
+commit 522ba4c51fff53566678b2689d0d63c393e417b3
+Author: Richard Purdie <richard.purdie@linuxfoundation.org>
+Date:   Fri Sep 11 13:25:46 2015 +0100
 
-You're also right that x86-base.inc isn't used anywhere in oe-core's
-MACHINEs so it just confused me, that qemuarm explicitly selects 4.8
-version even when there is no negative D_P and 4.8 is now default.
+    populate_sdk_base: Fix aarch64 OLDEST_KERNEL sdk issues
 
-> I am also running into a kernel bug with linux-yocto 4.8 on x86:
-> https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D10402
+    aarch64 sets OLDEST_KERNEL to 3.14. This stops the aarch64 SDK installi=
+ng on
+    anything with an older kernel which is clearly incorrect.
 
-I didn't get that far to actually boot it yet, in my environment I need
-http://lists.openembedded.org/pipermail/openembedded-core/2016-October/1275=
-12.html
-for sysconfig to find the kernel.
+    I attempted to extract the correct non-overridden version from the data=
+ store
+    but it proved problematic and I was running into data store issues. Tho=
+se
+    are a separate problem but there isn't time to fix this right now.
 
-When I've created /vmlinuz manually then almost everything was failing
-to start for whatever reason (that's why I started checking the kernel
-version as well).
+    Instead just code the SDK kernel version separately to work around this=
+ for
+    now (and fix the autobuilder tests and SDK usage).
 
-Thanks
+But when I'm using:
+OLDEST_KERNEL =3D "3.2" (default)
+SDK_OLDEST_KERNEL =3D "2.6.32"
+because we would like to use SDK on host with older kernel, then SDK_OLDEST=
+_KERNEL
+helped to bypass the uname check in environment-setup script, but then gcc =
+cannot
+be used, because it fails immediately with:
 
-> > OE @ ~/extras/poky $ git grep PREFERRED_VERSION.*linux-yocto
-> > bitbake/doc/bitbake-user-manual/bitbake-user-manual-ref-variables.xml: =
-    PREFERRED_VERSION_linux-yocto =3D "3.10%"
-> > documentation/bsp-guide/bsp.xml:     PREFERRED_VERSION_linux-yocto ?=3D=
- "4.4%"
-> > documentation/ref-manual/ref-variables.xml:     PREFERRED_VERSION_linux=
--yocto =3D "3.19%"
-> > documentation/ref-manual/ref-variables.xml:     PREFERRED_VERSION_linux=
--yocto_qemux86 =3D "3.4%"
-> > documentation/ref-manual/ref-variables.xml:     PREFERRED_VERSION_linux=
--yocto_forcevariable =3D "3.4%"
-> > meta-poky/conf/distro/poky-lsb.conf:PREFERRED_VERSION_linux-yocto_linux=
-stdbase ?=3D "4.1%"
-> > meta-poky/conf/distro/poky-tiny.conf:PREFERRED_VERSION_linux-yocto-tiny=
- ?=3D "4.4%"
-> > meta-poky/conf/distro/poky.conf:PREFERRED_VERSION_linux-yocto ?=3D "4.8=
-%"
-> > meta-poky/conf/distro/poky.conf:PREFERRED_VERSION_linux-yocto_qemux86 ?=
-=3D "4.8%"
-> > meta-poky/conf/distro/poky.conf:PREFERRED_VERSION_linux-yocto_qemux86-6=
-4 ?=3D "4.8%"
-> > meta-poky/conf/distro/poky.conf:PREFERRED_VERSION_linux-yocto_qemuarm ?=
-=3D "4.8%"
-> > meta-poky/conf/distro/poky.conf:PREFERRED_VERSION_linux-yocto_qemumips =
-?=3D "4.8%"
-> > meta-poky/conf/distro/poky.conf:PREFERRED_VERSION_linux-yocto_qemumips6=
-4 ?=3D "4.8%"
-> > meta-poky/conf/distro/poky.conf:PREFERRED_VERSION_linux-yocto_qemuppc ?=
-=3D "4.8%"
-> > meta-yocto-bsp/conf/machine/beaglebone.conf:PREFERRED_VERSION_linux-yoc=
-to ?=3D "4.8%"
-> > meta-yocto-bsp/conf/machine/edgerouter.conf:PREFERRED_VERSION_linux-yoc=
-to ?=3D "4.8%"
-> > meta-yocto-bsp/conf/machine/genericx86-64.conf:PREFERRED_VERSION_linux-=
-yocto_genericx86-64 ?=3D "4.8%"
-> > meta-yocto-bsp/conf/machine/genericx86.conf:PREFERRED_VERSION_linux-yoc=
-to_genericx86 ?=3D "4.8%"
-> > meta-yocto-bsp/conf/machine/include/genericx86-common.inc:PREFERRED_VER=
-SION_linux-yocto ?=3D "4.4%"
-> > meta-yocto-bsp/conf/machine/mpc8315e-rdb.conf:PREFERRED_VERSION_linux-y=
-octo ?=3D "4.8%"
-> > meta/conf/machine/include/x86-base.inc:PREFERRED_VERSION_linux-yocto ??=
-=3D "4.4%"
-> > meta/conf/machine/qemuarm.conf:PREFERRED_VERSION_linux-yocto ??=3D "4.8=
-%"
-> > meta/conf/machine/qemuarm.conf:QB_DTB =3D "${@base_version_less_or_equa=
-l('PREFERRED_VERSION_linux-yocto', '4.7', '', 'zImage-versatile-pb.dtb', d)=
-}"
-> >
-> > Regards,
-> > --
-> > Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-> >
-> > --
-> > _______________________________________________
-> > Openembedded-core mailing list
-> > Openembedded-core@lists.openembedded.org
-> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
-> >
+FATAL: kernel too old
+
+So I'm not sure what this variable are trying to achieve, maybe autobuilder=
+ tests
+were only testing setup script and not the actual $CC?
+
+The other option is that it works only when sdk toolchain is built with def=
+ault
+OLDEST_KERNEL (which is lower than OLDEST_KERNEL_aarch64) and only target b=
+its use
+OLDEST_KERNEL_aarch64, but those aren't executed on host using SDK.
+
+Regards,
 
 --=20
 Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
---WhfpMioaduB5tiZL
+--uh9ZiVrAOUUm9fzH
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: Digital signature
 
 -----BEGIN PGP SIGNATURE-----
 
-iEYEARECAAYFAlf+NxkACgkQN1Ujt2V2gByJwQCeIhbVOjll8KrCkN9cShVdKHZ1
-bgQAnRfn0v2E1mAuVnsrI1ZvBrGeCFz6
-=SXS4
+iEYEARECAAYFAlf+OfYACgkQN1Ujt2V2gBzPKwCgtr3UK3c40Y8233GvrEAxdMhC
+R6oAnRd1YBfRWBAPVhC664DviEja5IJ2
+=v+aH
 -----END PGP SIGNATURE-----
 
---WhfpMioaduB5tiZL--
+--uh9ZiVrAOUUm9fzH--
