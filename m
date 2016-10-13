@@ -1,48 +1,40 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-it0-f42.google.com (mail-it0-f42.google.com
-	[209.85.214.42])
-	by mail.openembedded.org (Postfix) with ESMTP id D56DA71A66
+Return-Path: <raymond.tan@intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id DB86D71A90
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Oct 2016 10:35:55 +0000 (UTC)
-Received: by mail-it0-f42.google.com with SMTP id z65so79027945itc.0
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Oct 2016 03:35:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=IgdHg4DHAy9A7BBuvJTAFjd2A1FNl0r2VzZpHlHUqc0=;
-	b=l5ZpdDL83k1pqZjyS81bpY+bycIVp7fHrYFz079TKU1iHrgJSxN+MmNhLpCQ4/nkok
-	nRQRZPiifg8dAaC54qtJclJ+v6eTKYV3a5Buh/IFWpi5zTCQDuuGMU8quUCgxPjfa5OX
-	QVcM+bcXnhtJK869gHqiRAIywk09BdY2mL+134Tyoxde4iYJp1DQCiZYTeuo5bFY45a5
-	4dz2+wb2kyGai8alenMJgm7dP5SIsdwF6yvCQFywL1AnLZ3jgPqDHGGC+ieWMS9YenEl
-	ySwdYciIiIswyhLknZ3uC1SaaiAg1aIMMZjWhWOO4Kaoi8lkQK8v6bL0HEDO+mJ+9J//
-	hwMQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=IgdHg4DHAy9A7BBuvJTAFjd2A1FNl0r2VzZpHlHUqc0=;
-	b=mT1MjMmJ+QJbCZWKTTiS3+o1pankAaKfVNy9ZAyA0WZ9tB7/Ob/mIOzA4AVD7Q+AGC
-	HP3azIuEXGAf36GZq6rApzeXN9rackY5N1Q+hZVyjKSDbZW+Cz0YXsrURHFISAdIxEeF
-	vp9VHRKmQSZAjDIxxG2cY56n6bMVR2A6WYXypSYXm6j5p3ir6XKee0GScMQtVx1Al6zk
-	SbOWQREgTKrwZwrNNxqZ6jI6nWwByU45vdcASPoa4vDx4xWbU7Pu/5baLQl+stCrlcwx
-	VUWxoMKyMuOTRfPd1Bc/jzonWQc4Em/QOZg7ry+/YwI9mZ/+QIc2syfm3uJmIVy0Gsh/
-	UdDQ==
-X-Gm-Message-State: AA6/9Rl99oNECYjtHHScs8vfmUwMIODiPvn+/xVgwPOBhLJR6KPCaaThupyFbijUKgVrhSCWBJvDoGu6Z8cCTY8a
-X-Received: by 10.36.200.85 with SMTP id w82mr6721072itf.29.1476354956626;
-	Thu, 13 Oct 2016 03:35:56 -0700 (PDT)
+	Thu, 13 Oct 2016 10:35:58 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga103.fm.intel.com with ESMTP; 13 Oct 2016 03:36:00 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.31,339,1473145200"; d="scan'208";a="1053252547"
+Received: from pgsmsx105.gar.corp.intel.com ([10.221.44.96])
+	by fmsmga001.fm.intel.com with ESMTP; 13 Oct 2016 03:35:59 -0700
+Received: from pgsmsx104.gar.corp.intel.com ([169.254.3.75]) by
+	PGSMSX105.gar.corp.intel.com ([169.254.4.63]) with mapi id
+	14.03.0248.002; Thu, 13 Oct 2016 18:35:58 +0800
+From: "Tan, Raymond" <raymond.tan@intel.com>
+To: "Hatle, Mark G (Wind River)" <mark.hatle@windriver.com>, Khem Raj
+	<raj.khem@gmail.com>
+Thread-Topic: [OE-core] openssl: OpenSSL 1.1.x update
+Thread-Index: AdIfdbrhyJZXjVcGT8iRVZfchXpupf//gpIAgAAHJwCAAL6MAIAAEPeAgAAE9YD/9NFoMA==
+Date: Thu, 13 Oct 2016 10:35:57 +0000
+Message-ID: <F0CA9E243F4F424B836EAC30E41BF4CF5DF55A2F@PGSMSX104.gar.corp.intel.com>
+References: <F0CA9E243F4F424B836EAC30E41BF4CF5DF514DB@PGSMSX104.gar.corp.intel.com>
+	<a3c142bf-8c0b-3f90-dda9-7f72dd4da1cf@windriver.com>
+	<CAMKF1spG=v7_wb_VYktNBL7NTan28NbB47G7u2B_-E43jBL8vQ@mail.gmail.com>
+	<687e0950-a18a-5d44-aeae-18517df275e6@windriver.com>
+	<4F081825-2EC8-4F85-9E55-1E24F215723D@gmail.com>
+	<89015693-dfeb-5b47-7c2b-386c85571dec@windriver.com>
+In-Reply-To: <89015693-dfeb-5b47-7c2b-386c85571dec@windriver.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [172.30.20.205]
 MIME-Version: 1.0
-Received: by 10.107.155.66 with HTTP; Thu, 13 Oct 2016 03:35:36 -0700 (PDT)
-In-Reply-To: <HE1PR0401MB2682F8CDDB11A504A1703B2EE9DC0@HE1PR0401MB2682.eurprd04.prod.outlook.com>
-References: <1476182952-15222-1-git-send-email-carol.zhu@nxp.com>
-	<CAJTo0LaiX-F+0ZPeTs8jJ2GxT61WFi1aPYZ76RgUMAKCMiWaeA@mail.gmail.com>
-	<HE1PR0401MB2682F8CDDB11A504A1703B2EE9DC0@HE1PR0401MB2682.eurprd04.prod.outlook.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 13 Oct 2016 11:35:36 +0100
-Message-ID: <CAJTo0LZ1NdDfTb72cH-vLrE=Q=kW6ksFQ5p7pnA3Tgoj0QZbaw@mail.gmail.com>
-To: Carol Zhu <carol.zhu@nxp.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [poky][PATCH 0/4] Add patches for gstreamer1.0-plugins-bad V1.8.3
+Cc: "Gupta, Rahul KumarXX" <rahul.kumarxx.gupta@intel.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: openssl: OpenSSL 1.1.x update
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,42 +47,102 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 13 Oct 2016 10:35:57 -0000
-Content-Type: multipart/alternative; boundary=94eb2c05a3b4c0a3cf053ebcacd7
-
---94eb2c05a3b4c0a3cf053ebcacd7
-Content-Type: text/plain; charset=UTF-8
-
-On 13 October 2016 at 10:07, Carol Zhu <carol.zhu@nxp.com> wrote:
-
->       These gstreamer patches are bug fixing and all backported from
-> higher version, so the risk is low.
->
->       Is that ok to integrate them into morty?
->
->
-Once they've been proven in master and if the morty maintainer agrees, yes.
-
-Ross
-
---94eb2c05a3b4c0a3cf053ebcacd7
-Content-Type: text/html; charset=UTF-8
+X-List-Received-Date: Thu, 13 Oct 2016 10:35:59 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 13 October 2016 at 10:07, Carol Zhu <span dir=3D"ltr">&lt;<a href=3D"mai=
-lto:carol.zhu@nxp.com" target=3D"_blank">carol.zhu@nxp.com</a>&gt;</span> w=
-rote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;borde=
-r-left:1px #ccc solid;padding-left:1ex"><p class=3D"MsoNormal"><span style=
-=3D"font-size:11.0pt;font-family:&quot;Calibri&quot;,sans-serif;color:#1f49=
-7d">=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 These gstreamer patches are bug fixing a=
-nd all backported from higher version, so the risk is low.
-<u></u><u></u></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
-libri&quot;,sans-serif;color:#1f497d">=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0I=
-s that ok to integrate them into morty?<u></u><u></u></span></p>
-<p class=3D"MsoNormal"></p></blockquote></div><br>Once they&#39;ve been pro=
-ven in master and if the morty maintainer agrees, yes.</div><div class=3D"g=
-mail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
+Warm Regards,=20
 
---94eb2c05a3b4c0a3cf053ebcacd7--
+=A0Raymond Tan
+
+> -----Original Message-----
+> From: Mark Hatle [mailto:mark.hatle@windriver.com]
+> Sent: Thursday, October 06, 2016 11:40 PM
+> To: Khem Raj <raj.khem@gmail.com>
+> Cc: Tan, Raymond <raymond.tan@intel.com>; openembedded-
+> core@lists.openembedded.org; Gupta, Rahul KumarXX
+> <rahul.kumarxx.gupta@intel.com>
+> Subject: Re: [OE-core] openssl: OpenSSL 1.1.x update
+>=20
+> On 10/6/16 10:22 AM, Khem Raj wrote:
+> >
+> >> On Oct 6, 2016, at 7:21 AM, Mark Hatle <mark.hatle@windriver.com>
+> wrote:
+> >>
+> >> On 10/5/16 9:59 PM, Khem Raj wrote:
+> >>> On Wed, Oct 5, 2016 at 7:33 PM, Mark Hatle <mark.hatle@windriver.com>
+> wrote:
+> >>>> On 10/5/16 9:11 PM, Tan, Raymond wrote:
+> >>>>> Greetings, I would like to know if there is any plan / schedule to =
+upgrade
+> to openssl 1.1.0 into OE-core?
+> >>>>
+> >>>> Currently 1.0.2 is the LTS version of OpenSSL.  1.1.0 is not schedul=
+ed to be
+> LTS.
+> >>>>
+> >>>> For the upcoming release (soon), I would NOT expect 1.1.0 to be in
+> >>>> it.  There are still too many incompatibilities with other component=
+s.
+> >>>>
+> >>>> For the next version of OE, I think it is appropriate to include
+> >>>> 1.1.0, but I would also like to maintain 1.0.2 for the time being.
+> >>>> (Beside LTS, it also is still the only way to have FIPS-140-2
+> >>>> module, as there is currently no module in the 1.1.0 -- and there
+> >>>> may not be for a while.)
+> >>>
+
+This means earliest possible would be post morty? And 1.0.2 would still be =
+maintained in there due to the LTS status?
+
+The reason I'm checking is we are trying to integrate a new QAT openssl eng=
+ine, which is developed for openssl 1.1.0.=20
+
+> >>> What do we get with 1.1.0 ?
+> >>
+> >> Latest and greatest code of course.. :)
+> >>
+> >> Reality, not a lot more over 1.0.2... there are some significant
+> >> redesigns that should help improve overall security of the OpenSSL
+> >> library and items using the library.  But various things will have to =
+be
+> updated to make use of this.
+> >>
+> >> The OpenSSL community itself is looking at 1.1.0 as a transition to
+> >> newer and better design/api/etc... which is why it is not marked as a =
+LTS
+> release.
+> >
+> > api changes can be a bothersome point from integration POV, do we know
+> > if there are some forwarded porting incompatibilities in APIs already?
+>=20
+> I have not investigated it, as my focus has been on the LTS version at th=
+is point.
+>=20
+> --Mark
+>=20
+> >>
+> >> Beside my basic understanding (above) there should be information as
+> >> part of the
+> >> 1.1.0 release notes.
+> >>
+> >> --Mark
+> >>
+> >>>>
+> >>>> --Mark
+> >>>>
+> >>>>> Thanks!
+> >>>>>
+> >>>>> Raymond Tan
+> >>>>>
+> >>>>
+> >>>> --
+> >>>> _______________________________________________
+> >>>> Openembedded-core mailing list
+> >>>> Openembedded-core@lists.openembedded.org
+> >>>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> >>
+> >
+
+
