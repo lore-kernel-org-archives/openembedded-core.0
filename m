@@ -1,26 +1,46 @@
-Return-Path: <Kai.Kang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id C09696B6EA
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io0-f170.google.com (mail-io0-f170.google.com
+	[209.85.223.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 7C323719CD
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Oct 2016 14:40:27 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u9DEeQnb016666
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 13 Oct 2016 07:40:26 -0700 (PDT)
-Received: from [128.224.162.231] (128.224.162.231) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.294.0;
-	Thu, 13 Oct 2016 07:40:26 -0700
-To: "Burton, Ross" <ross.burton@intel.com>
+	Thu, 13 Oct 2016 15:00:17 +0000 (UTC)
+Received: by mail-io0-f170.google.com with SMTP id i202so87865797ioi.2
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 13 Oct 2016 08:00:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=TB1FsXx7bS8RhJPYrZ0gKXkGRRkJG44ciU3/Q3Eq29Y=;
+	b=EkaMkD3I3+kzxiHxnP4VfhI7NOuykamcs8m9CTcTk9VnFSl7I4JSxiDvOiW0sq5w31
+	cKrlxBGMC0sIBO9NPR1DtOoRQjHlZMcXGcDKUi3592cmR9R8B6CwOjNR9p2bADRl55+c
+	Etgg51prEeDhxQNcGjAu/4te4sGhOh3b37LHJ+Fl6+xOALtyKGdrMIvX2FdRRzhU6FnX
+	AvSeApXbR8nCzn9WUJkYVSP/sSui6W/SSZ8UlQkYbGBvL8LY0d54uHk9FrxrWt72f8Av
+	2x8rxZIB7Qu/S9cRmBFw7Id7pqRCmbhaHcHQM4S2c+xVvt/ro0a6SWv4bSoREVwvIWHj
+	acIg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=TB1FsXx7bS8RhJPYrZ0gKXkGRRkJG44ciU3/Q3Eq29Y=;
+	b=BWraumCSSIDZTsGc1acsX/wnmMimNRIR1bMMZXpeBkX13XJ/lXK6lrwZLthZXfX1Bh
+	/naeAXkV5azdpis+c6O6exyl7EvLRwsYMYP82P2EPpLsNHu2QYOhvM9OeHxioAYZfKOk
+	r+CG6RjBrVsJKsL35K9NJascWQGW79WRg6ALHcatBG5JUZBNFhZcXaavqlG1atu2OLpp
+	hf77lRK7WJyEBtS48pawzYV+o9xMfyXoc6hMFrmiLxRsYtWIkKuPnXhehFXYH2wniuMU
+	6i38lTL2YH84ObzOEtOI9aR3bYwqqQuruuT/o7tZGT3FRfyTiXlnaQY1FONu878J+JLv
+	vfRw==
+X-Gm-Message-State: AA6/9Rlk3vGMR6ZlFA/TjgYVR+iZoK12Hz4Ar0zhaCxK6jA8dz0T7Kp+4mcMQemGpNrKmz21qn0TKgsM12uCLlk6
+X-Received: by 10.107.138.15 with SMTP id m15mr7164932iod.127.1476370818409;
+	Thu, 13 Oct 2016 08:00:18 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.107.155.66 with HTTP; Thu, 13 Oct 2016 07:59:58 -0700 (PDT)
+In-Reply-To: <57FF9CD8.9040305@windriver.com>
 References: <20161012023734.11991-1-kai.kang@windriver.com>
 	<CAJTo0LbhDO+ijOerKVao+s+fruJK98VqQTeMSzxir3_eYWLMbw@mail.gmail.com>
-From: Kang Kai <Kai.Kang@windriver.com>
-Message-ID: <57FF9CD8.9040305@windriver.com>
-Date: Thu, 13 Oct 2016 22:40:24 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.6.0
-MIME-Version: 1.0
-In-Reply-To: <CAJTo0LbhDO+ijOerKVao+s+fruJK98VqQTeMSzxir3_eYWLMbw@mail.gmail.com>
+	<57FF9CD8.9040305@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 13 Oct 2016 15:59:58 +0100
+Message-ID: <CAJTo0LaFVw6oUW5jL7kR-B3TWenNwowGRzcG8=5K=CGqPFx+5w@mail.gmail.com>
+To: Kang Kai <Kai.Kang@windriver.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] gcc-sanitizers: allow empty for lsan and tsan packages
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -35,167 +55,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 13 Oct 2016 14:40:27 -0000
-Content-Type: multipart/alternative;
-	boundary="------------030104080107010707000706"
+X-List-Received-Date: Thu, 13 Oct 2016 15:00:20 -0000
+Content-Type: multipart/alternative; boundary=001a113feb3c305543053ec05eae
 
---------------030104080107010707000706
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
+--001a113feb3c305543053ec05eae
+Content-Type: text/plain; charset=UTF-8
 
-On 2016年10月12日 17:26, Burton, Ross wrote:
+On 13 October 2016 at 15:40, Kang Kai <Kai.Kang@windriver.com> wrote:
+
+> gcc checks tsan and lsan support in source file gcc/libsanitizer/configure.tgt,
+> it seems only support x86_64. Then tsan and lsan related packages will be
+> empty for other target.
+> For qemuarm project, add in local.conf:
 >
-> On 12 October 2016 at 03:37, <kai.kang@windriver.com 
-> <mailto:kai.kang@windriver.com>> wrote:
+> IMAGE_INSTALL_append = " libtsan"
 >
->     gcc checks threads and leak sanitizers support when do configure.
->     If not
->     supported, packages of tsan and lsan are empty. If add such package to
->     image it fails to build:
->
->     | ERROR: core-image-minimal-1.0-r0 do_rootfs: libtsan-dev not
->     found in the feeds
->     | ERROR: core-image-minimal-1.0-r0 do_rootfs: This is often caused
->     by an empty
->     | package declared in a recipe's PACKAGES variable. (Empty
->     packages are not
->     | constructed unless ALLOW_EMPTY_<pkg> = '1' is used.)
->
->
-> Not sure I'm understand where those dependencies are coming from, how 
-> would I replicate this?
 
-gcc checks tsan and lsan support in source file 
-gcc/libsanitizer/configure.tgt, it seems only support x86_64. Then tsan 
-and lsan related packages will be empty for other target.
-For qemuarm project, add in local.conf:
+If libtsan is x86-64 only, why not only add it for x86-64 images?  The
+package not existing on machines it can't be built for is more obvious than
+existing but being empty.
 
-IMAGE_INSTALL_append = " libtsan"
+Ross
 
-Then run 'bitbake core-image-minimal", it shows errors:
+--001a113feb3c305543053ec05eae
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-ERROR: core-image-minimal-1.0-r0 do_rootfs: libtsan not found in the 
-feeds (qemuarm armv5te armv5e armv5t armv5 armv4t armv4 arm noarch any 
-all) in /buildarea3/kkang/poky-20141111/builds/qemuarm-Aug05/tmp/deploy/rpm.
-ERROR: core-image-minimal-1.0-r0 do_rootfs: This is often caused by an 
-empty package declared in a recipe's PACKAGES variable. (Empty packages 
-are not constructed unless ALLOW_EMPTY_<pkg> = '1' is used.)
-ERROR: core-image-minimal-1.0-r0 do_rootfs: Function failed: do_rootfs
-ERROR: Logfile of failure stored in: 
-/buildarea3/kkang/poky-20141111/builds/qemuarm-Aug05/tmp/work/qemuarm-poky-linux-gnueabi/core-image-minimal/1.0-r0/temp/log.do_rootfs.24600
-ERROR: Task 
-(/buildarea3/kkang/poky-20141111/poky/meta/recipes-core/images/core-image-minimal.bb:do_rootfs) 
-failed with exit code '1'
-
-
-Regards,
-Kai
-
-
-
->
-> Ross
-
-
--- 
-Regards,
-Neil | Kai Kang
-
-
---------------030104080107010707000706
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-
-<html>
-  <head>
-    <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-  </head>
-  <body bgcolor="#FFFFFF" text="#000000">
-    <div class="moz-cite-prefix">On 2016年10月12日 17:26, Burton, Ross
-      wrote:<br>
-    </div>
-    <blockquote
-cite="mid:CAJTo0LbhDO+ijOerKVao+s+fruJK98VqQTeMSzxir3_eYWLMbw@mail.gmail.com"
-      type="cite">
-      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-      <div dir="ltr">
-        <div class="gmail_extra"><br>
-          <div class="gmail_quote">On 12 October 2016 at 03:37, <span
-              dir="ltr">&lt;<a moz-do-not-send="true"
-                href="mailto:kai.kang@windriver.com" target="_blank">kai.kang@windriver.com</a>&gt;</span>
-            wrote:<br>
-            <blockquote class="gmail_quote" style="margin:0 0 0
-              .8ex;border-left:1px #ccc solid;padding-left:1ex">
-              <div id=":78s" class="a3s aXjCH m157b6cadd316c3fb">gcc
-                checks threads and leak sanitizers support when do
-                configure. If not<br>
-                supported, packages of tsan and lsan are empty. If add
-                such package to<br>
-                image it fails to build:<br>
-                <br>
-                | ERROR: core-image-minimal-1.0-r0 do_rootfs:
-                libtsan-dev not found in the feeds<br>
-                | ERROR: core-image-minimal-1.0-r0 do_rootfs: This is
-                often caused by an empty<br>
-                | package declared in a recipe's PACKAGES variable.
-                (Empty packages are not<br>
-                | constructed unless ALLOW_EMPTY_&lt;pkg&gt; = '1' is
-                used.)<br>
-              </div>
-            </blockquote>
-          </div>
-          <br>
-          Not sure I'm understand where those dependencies are coming
-          from, how would I replicate this?</div>
-      </div>
-    </blockquote>
-    <br>
-    gcc checks tsan and lsan support in source file
-    gcc/libsanitizer/configure.tgt, it seems only support x86_64. Then
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 13 October 2016 at 15:40, Kang Kai <span dir=3D"ltr">&lt;<a href=3D"mail=
+to:Kai.Kang@windriver.com" target=3D"_blank">Kai.Kang@windriver.com</a>&gt;=
+</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .=
+8ex;border-left:1px #ccc solid;padding-left:1ex"><div bgcolor=3D"#FFFFFF" t=
+ext=3D"#000000">gcc checks tsan and lsan support in source file
+    gcc/libsanitizer/configure.<wbr>tgt, it seems only support x86_64. Then
     tsan and lsan related packages will be empty for other target.<br>
     For qemuarm project, add in local.conf:<br>
     <br>
-    IMAGE_INSTALL_append = " libtsan"<br>
-    <br>
-    Then run 'bitbake core-image-minimal", it shows errors:<br>
-    <br>
-    ERROR: core-image-minimal-1.0-r0 do_rootfs: libtsan not found in the
-    feeds (qemuarm armv5te armv5e armv5t armv5 armv4t armv4 arm noarch
-    any all) in
-    /buildarea3/kkang/poky-20141111/builds/qemuarm-Aug05/tmp/deploy/rpm.<br>
-    ERROR: core-image-minimal-1.0-r0 do_rootfs: This is often caused by
-    an empty package declared in a recipe's PACKAGES variable. (Empty
-    packages are not constructed unless ALLOW_EMPTY_&lt;pkg&gt; = '1' is
-    used.)<br>
-    ERROR: core-image-minimal-1.0-r0 do_rootfs: Function failed:
-    do_rootfs<br>
-    ERROR: Logfile of failure stored in:
-/buildarea3/kkang/poky-20141111/builds/qemuarm-Aug05/tmp/work/qemuarm-poky-linux-gnueabi/core-image-minimal/1.0-r0/temp/log.do_rootfs.24600<br>
-    ERROR: Task
-    (/buildarea3/kkang/poky-20141111/poky/meta/recipes-core/images/core-image-minimal.bb:do_rootfs)
-    failed with exit code '1'<br>
-    <br>
-    <br>
-    Regards,<br>
-    Kai<br>
-    <br>
-    <br>
-    <br>
-    <blockquote
-cite="mid:CAJTo0LbhDO+ijOerKVao+s+fruJK98VqQTeMSzxir3_eYWLMbw@mail.gmail.com"
-      type="cite">
-      <div dir="ltr">
-        <div class="gmail_extra"><br>
-        </div>
-        <div class="gmail_extra">Ross</div>
-      </div>
-    </blockquote>
-    <br>
-    <br>
-    <pre class="moz-signature" cols="72">-- 
-Regards,
-Neil | Kai Kang</pre>
-  </body>
-</html>
+    IMAGE_INSTALL_append =3D &quot; libtsan&quot;</div></blockquote></div><=
+br>If libtsan is x86-64 only, why not only add it for x86-64 images?=C2=A0 =
+The package not existing on machines it can&#39;t be built for is more obvi=
+ous than existing but being empty.</div><div class=3D"gmail_extra"><br></di=
+v><div class=3D"gmail_extra">Ross</div></div>
 
---------------030104080107010707000706--
+--001a113feb3c305543053ec05eae--
