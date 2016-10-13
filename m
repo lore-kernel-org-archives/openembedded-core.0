@@ -1,46 +1,20 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f178.google.com (mail-io0-f178.google.com
-	[209.85.223.178])
-	by mail.openembedded.org (Postfix) with ESMTP id E703D71A03
+Return-Path: <jianxun.zhang@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 31D4460620
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Oct 2016 20:01:57 +0000 (UTC)
-Received: by mail-io0-f178.google.com with SMTP id r30so98070032ioi.1
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Oct 2016 13:01:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=55KwDq/mdmjB43wKJRMQKRVr1t32dRlJ3NucYD31IIM=;
-	b=SPqU1x02mNcMqvSruSp9Y/Ng072GKAG4L+5SD4vVz5vWUpc/beXFPnCbqr0za/58BX
-	s875J7VldDpbyG/KtZg0nU169rOYrdtOU3CWk4UciL3FMmQxAEJSLe6H6Ryn6aDehEd+
-	rv/Q93bMXIV7EHDLIR5w+AI9H+P+hWe3H82pt9UO3Cl7bcNpFSwF5xvgRrNLhkwB18Ri
-	ck3pmmh7KYN+UETULgSNQSLfw9Ohylh9zjs/ABc0U/LapGvDhQpFWB8EMVln5uefimSe
-	Slcx8dYyi4J7t8AOGn9bwuO9Gs/JFs2l5gKzwSd7Gqx61wXp2XCxEqjdem0RIJeUgBNI
-	bDGQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=55KwDq/mdmjB43wKJRMQKRVr1t32dRlJ3NucYD31IIM=;
-	b=S1mMuuuUBOxqQVdOWbnzfDzaPB0Fbjkxb+vzmKWqrTZ5+BzOgi44TwVraWTh1Ft0gz
-	IBmuvO27nu3AjaRWIFCATNIEHc3tdXR/IkKAYA5T/YZiNHHda8dIJx4UWG9NkFCgtnnh
-	haKmstX+qhkDaWtOSiHTabKiPOtLmiVFKy/K/T/HEUe76XrPgi+3RYrNAyoyxVsGZ4dp
-	qcoR6Tzev9lMUBzgxOc9tKN2osKWXe1CKbtqGhx7JFr1qjR6v/ygImWjczEC+C1bNZvR
-	riYNMQ7bvjAkcoL+hzCdv0RLUJAzFptABxKlixyjyuORWKBdEw/viDlEillJr7LsNWcd
-	PlSg==
-X-Gm-Message-State: AA6/9RlomoQW6yaBd8KTISypWZAF5zmMetFgZe77bwz87aRW7FxqBGro7YiMYBn07RqnvxaaB0hJ8rFfbIyUg+n6
-X-Received: by 10.107.5.72 with SMTP id 69mr8281777iof.132.1476388918746; Thu,
-	13 Oct 2016 13:01:58 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.107.155.66 with HTTP; Thu, 13 Oct 2016 13:01:38 -0700 (PDT)
-In-Reply-To: <1474120545-9100-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
-References: <1474120545-9100-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 13 Oct 2016 21:01:38 +0100
-Message-ID: <CAJTo0Lbz9rqgu2pbhM+uPFdtrWyYaSteNTB8FVixmi-Y-3d=Cw@mail.gmail.com>
-To: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] Add two patches for bind
+	Thu, 13 Oct 2016 20:13:47 +0000 (UTC)
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+	by orsmga101.jf.intel.com with ESMTP; 13 Oct 2016 13:13:49 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.31,489,1473145200"; d="scan'208";a="19325722"
+Received: from chang-s2600cp.jf.intel.com ([10.54.77.22])
+	by fmsmga006.fm.intel.com with ESMTP; 13 Oct 2016 13:13:49 -0700
+From: Jianxun Zhang <jianxun.zhang@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 13 Oct 2016 13:16:34 -0700
+Message-Id: <1476389794-109684-1-git-send-email-jianxun.zhang@linux.intel.com>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH V2] sqlite3: Revert ad601c7962 from 3.14.1 amalgamation package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,69 +27,112 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 13 Oct 2016 20:01:58 -0000
-Content-Type: multipart/alternative; boundary=001a113efe2c0da041053ec49559
+X-List-Received-Date: Thu, 13 Oct 2016 20:13:51 -0000
 
---001a113efe2c0da041053ec49559
-Content-Type: text/plain; charset=UTF-8
+It turns out this change between 3.12.2 and 3.13 introduces
+a 2% increase of build time based on statistic data in
+bz10367.
 
-On 17 September 2016 at 14:55, Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
-wrote:
+The added patch is forged by diffing the new sqlite3.c
+generated from reverting the change in raw source of sqlite3
+project, and then manually migrate the delta to a sqlite3.c
+from the 3.14.1 tarball package because what recipes reference
+is actually a generated C code (amalgamation) release package
+and we cannot apply the real change to 3.14.1 cleanly due to
+so many changes happened.
 
-> 1.CVE-2016-2775.patch
-> [security]      getrrsetbyname with a non absolute name could
->                 trigger an infinite recursion bug in lwresd
->                 and named with lwres configured if when combined
->                 with a search list entry the resulting name is
->                 too long. (CVE-2016-2775) [RT #42694]
->
-> 2.CVE-2016-2776.patch
-> [security]      It was possible to trigger a assertion when rendering
->                a message. (CVE-2016-2776) [RT #43139]
->
-> Signed-off-by: zhengruoqin <zhengrq.fnst@cn.fujitsu.com>
->
+Fixes [YOCTO #10367]
 
-The patches themselves need CVE, Signed-off-by, and Upstream-Status tags.
+Signed-off-by: Jianxun Zhang <jianxun.zhang@linux.intel.com>
+---
+V2 adds "Upstream Status: Inappropriate" in the commit msg in the patch file.
 
-The commit message needs a better short summary (at least, "fix two CVEs",
-ideally better).
+Thanks to Saul's reminder.
 
-Ross
+ ...1c7962-that-brings-2-increase-of-build-ti.patch | 56 ++++++++++++++++++++++
+ meta/recipes-support/sqlite/sqlite3_3.14.1.bb      |  5 +-
+ 2 files changed, 60 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-support/sqlite/files/0001-revert-ad601c7962-that-brings-2-increase-of-build-ti.patch
 
---001a113efe2c0da041053ec49559
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+diff --git a/meta/recipes-support/sqlite/files/0001-revert-ad601c7962-that-brings-2-increase-of-build-ti.patch b/meta/recipes-support/sqlite/files/0001-revert-ad601c7962-that-brings-2-increase-of-build-ti.patch
+new file mode 100644
+index 0000000..26540b2
+--- /dev/null
++++ b/meta/recipes-support/sqlite/files/0001-revert-ad601c7962-that-brings-2-increase-of-build-ti.patch
+@@ -0,0 +1,56 @@
++From 4b286b441e8efa9a34eb0db8227748ebffd91c35 Mon Sep 17 00:00:00 2001
++From: Jianxun Zhang <jianxun.zhang@linux.intel.com>
++Date: Thu, 13 Oct 2016 09:24:21 -0700
++Subject: [PATCH] revert ad601c7962 that brings 2% increase of build time.
++
++The comment of the change in sqlite fossil project is:
++"For in-memory databases, it does not matter if pcache
++entries are marked "clean" or "writable"."
++
++Upstream Status: Inappropriate
++
++Signed-off-by: Jianxun Zhang <jianxun.zhang@linux.intel.com>
++---
++ sqlite3.c | 12 +++---------
++ 1 file changed, 3 insertions(+), 9 deletions(-)
++
++diff --git a/sqlite3.c b/sqlite3.c
++index ccddfe6..ecae550 100644
++--- a/sqlite3.c
+++++ b/sqlite3.c
++@@ -13146,7 +13146,7 @@ struct PgHdr {
++   sqlite3_pcache_page *pPage;    /* Pcache object page handle */
++   void *pData;                   /* Page data */
++   void *pExtra;                  /* Extra content */
++-  PgHdr *pDirty;                 /* Transient list of dirty sorted by pgno */
+++  PgHdr *pDirty;                 /* Transient list of dirty pages */
++   Pager *pPager;                 /* The pager this page is part of */
++   Pgno pgno;                     /* Page number for this page */
++ #ifdef SQLITE_CHECK_PAGES
++@@ -43504,13 +43504,7 @@ bitvec_end:
++ /* #include "sqliteInt.h" */
++ 
++ /*
++-** A complete page cache is an instance of this structure.  Every
++-** entry in the cache holds a single page of the database file.  The
++-** btree layer only operates on the cached copy of the database pages.
++-**
++-** A page cache entry is "clean" if it exactly matches what is currently
++-** on disk.  A page is "dirty" if it has been modified and needs to be
++-** persisted to disk.
+++** A complete page cache is an instance of this structure.
++ **
++ ** pDirty, pDirtyTail, pSynced:
++ **   All dirty pages are linked into the doubly linked list using
++@@ -48314,7 +48308,7 @@ static int pager_end_transaction(Pager *pPager, int hasMaster, int bCommit){
++   pPager->pInJournal = 0;
++   pPager->nRec = 0;
++   if( rc==SQLITE_OK ){
++-    if( pagerFlushOnCommit(pPager, bCommit) ){
+++    if( MEMDB || pagerFlushOnCommit(pPager, bCommit) ){
++       sqlite3PcacheCleanAll(pPager->pPCache);
++     }else{
++       sqlite3PcacheClearWritable(pPager->pPCache);
++-- 
++2.7.4
++
+diff --git a/meta/recipes-support/sqlite/sqlite3_3.14.1.bb b/meta/recipes-support/sqlite/sqlite3_3.14.1.bb
+index 3af0d2f..7c8fa40 100644
+--- a/meta/recipes-support/sqlite/sqlite3_3.14.1.bb
++++ b/meta/recipes-support/sqlite/sqlite3_3.14.1.bb
+@@ -3,7 +3,10 @@ require sqlite3.inc
+ LICENSE = "PD"
+ LIC_FILES_CHKSUM = "file://sqlite3.h;endline=11;md5=65f0a57ca6928710b418c094b3570bb0"
+ 
+-SRC_URI = "http://www.sqlite.org/2016/sqlite-autoconf-${SQLITE_PV}.tar.gz"
++SRC_URI = "\
++  http://www.sqlite.org/2016/sqlite-autoconf-${SQLITE_PV}.tar.gz \
++  file://0001-revert-ad601c7962-that-brings-2-increase-of-build-ti.patch \
++  "
+ 
+ SRC_URI[md5sum] = "3634a90a3f49541462bcaed3474b2684"
+ SRC_URI[sha256sum] = "bc7182476900017becb81565ecea7775d46ab747a97281aa610f4f45881c47a6"
+-- 
+2.7.4
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 17 September 2016 at 14:55, Zheng Ruoqin <span dir=3D"ltr">&lt;<a href=
-=3D"mailto:zhengrq.fnst@cn.fujitsu.com" target=3D"_blank">zhengrq.fnst@cn.f=
-ujitsu.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=
-=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=
-=3D":yl" class=3D"a3s aXjCH m157bbc92da16eacc">1.CVE-2016-2775.patch<br>
-[security]=C2=A0 =C2=A0 =C2=A0 getrrsetbyname with a non absolute name coul=
-d<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 trigger an infinite=
- recursion bug in lwresd<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 and named with lwre=
-s configured if when combined<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 with a search list =
-entry the resulting name is<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 too long. (CVE-2016=
--2775) [RT #42694]<br>
-<br>
-2.CVE-2016-2776.patch<br>
-[security]=C2=A0 =C2=A0 =C2=A0 It was possible to trigger a assertion when =
-rendering<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0a message. (CVE-2016=
--2776) [RT #43139]<br>
-<br>
-Signed-off-by: zhengruoqin &lt;<a href=3D"mailto:zhengrq.fnst@cn.fujitsu.co=
-m">zhengrq.fnst@cn.fujitsu.com</a>&gt;</div></blockquote></div><br>The patc=
-hes themselves need CVE, Signed-off-by, and Upstream-Status tags.</div><div=
- class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">The commit mess=
-age needs a better short summary (at least, &quot;fix two CVEs&quot;, ideal=
-ly better).</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_e=
-xtra">Ross</div></div>
 
---001a113efe2c0da041053ec49559--
