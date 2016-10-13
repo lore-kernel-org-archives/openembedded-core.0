@@ -1,29 +1,28 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 11E946B6EA
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id AB29B71A04
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Oct 2016 03:19:38 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u9D3JbFR019499
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 12 Oct 2016 20:19:38 -0700 (PDT)
-Received: from [128.224.162.240] (128.224.162.240) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.294.0;
-	Wed, 12 Oct 2016 20:19:37 -0700
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <cover.1476253865.git.liezhi.yang@windriver.com>
-	<239ab1764ad811a12d8da6eb66ced3fff9987891.1476253865.git.liezhi.yang@windriver.com>
-	<CAJTo0LYA0ZPi23Avt1=tyMq4_bDSZui-gdQwWcq1gbJN3B2U4Q@mail.gmail.com>
-From: Robert Yang <liezhi.yang@windriver.com>
-Message-ID: <ff63db29-b4fd-332a-889c-68dacddb6dcc@windriver.com>
-Date: Thu, 13 Oct 2016 11:19:35 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.2.0
+	Thu, 13 Oct 2016 03:23:25 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by fmsmga103.fm.intel.com with ESMTP; 12 Oct 2016 20:23:26 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.31,338,1473145200"; d="scan'208";a="1064115062"
+Received: from ychiu-mobl5.gar.corp.intel.com (HELO
+	peggleto-mobl.ger.corp.intel.com) ([10.255.183.245])
+	by orsmga002.jf.intel.com with ESMTP; 12 Oct 2016 20:23:23 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+Date: Thu, 13 Oct 2016 16:23:21 +1300
+Message-ID: <3373280.EktDFKHOVZ@peggleto-mobl.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.14.10 (Linux/4.7.6-100.fc23.x86_64; KDE/4.14.20; x86_64; ;
+	)
+In-Reply-To: <7066324.XsME15mTTJ@peggleto-mobl.ger.corp.intel.com>
+References: <20161012132615.GC2923@jama>
+	<7066324.XsME15mTTJ@peggleto-mobl.ger.corp.intel.com>
 MIME-Version: 1.0
-In-Reply-To: <CAJTo0LYA0ZPi23Avt1=tyMq4_bDSZui-gdQwWcq1gbJN3B2U4Q@mail.gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/4] xcb-proto: create .pyc files for python2
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: SDK_OLDEST_KERNEL vs OLDEST_KERNEL
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,36 +35,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 13 Oct 2016 03:19:40 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 13 Oct 2016 03:23:28 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
+On Thu, 13 Oct 2016 09:38:08 Paul Eggleton wrote:
+> On Wed, 12 Oct 2016 15:26:15 Martin Jansa wrote:
+> > is this separate variable working correctly?
+> > 
+> > It was introduced in:
+> > commit 522ba4c51fff53566678b2689d0d63c393e417b3
+> > Author: Richard Purdie <richard.purdie@linuxfoundation.org>
+> > Date:   Fri Sep 11 13:25:46 2015 +0100
+> > 
+> >     populate_sdk_base: Fix aarch64 OLDEST_KERNEL sdk issues
+> >     
+> >     aarch64 sets OLDEST_KERNEL to 3.14. This stops the aarch64 SDK
+> > 
+> > installing on anything with an older kernel which is clearly incorrect.
+> > 
+> >     I attempted to extract the correct non-overridden version from the
+> >     data
+> > 
+> > store but it proved problematic and I was running into data store issues.
+> > Those are a separate problem but there isn't time to fix this right now.
+> > 
+> >     Instead just code the SDK kernel version separately to work around
+> >     this
+> > 
+> > for now (and fix the autobuilder tests and SDK usage).
+> > 
+> > But when I'm using:
+> > OLDEST_KERNEL = "3.2" (default)
+> > SDK_OLDEST_KERNEL = "2.6.32"
+> > because we would like to use SDK on host with older kernel, then
+> > SDK_OLDEST_KERNEL helped to bypass the uname check in environment-setup
+> > script, but then gcc cannot be used, because it fails immediately with:
+> > 
+> > FATAL: kernel too old
+> > 
+> > So I'm not sure what this variable are trying to achieve, maybe
+> > autobuilder
+> > tests were only testing setup script and not the actual $CC?
+> > 
+> > The other option is that it works only when sdk toolchain is built with
+> > default OLDEST_KERNEL (which is lower than OLDEST_KERNEL_aarch64) and only
+> > target bits use OLDEST_KERNEL_aarch64, but those aren't executed on host
+> > using SDK.
+> 
+> I'm not sure how this ever could have worked, since it doesn't enter into
+> the nativesdk-glibc configuration. It seems to me that the glibc recipe
+> needs to be using SDK_OLDEST_KERNEL in place of OLDEST_KERNEL for
+> class-nativesdk.
 
+Thinking about it - even if that were fixed, would setting it to 2.6.32 
+actually work on master? We are now using glibc 2.24 and that requires a 
+minimum kernel version of 3.2.0.
 
-On 10/12/2016 07:36 PM, Burton, Ross wrote:
->
-> On 12 October 2016 at 07:31, Robert Yang <liezhi.yang@windriver.com
-> <mailto:liezhi.yang@windriver.com>> wrote:
->
->     +    cd  ${D}${libdir}/xcb-proto/xcbgen
->     +    python -m py_compile *.py
->
->
-> The cd is redundant as you can pass absolute paths to py_compile.
+Cheers,
+Paul
 
-Thanks, updated in the repo:
+-- 
 
-   git://git.openembedded.org/openembedded-core-contrib rbt/4fixes
-   http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/4fixes
-
-Robert Yang (4):
-   xcb-proto: create .pyc files for python2
-   xcb-proto: fix for python3
-   libxcb: use python3 to build it
-   source-highlight: use with-boost-libdir
-
-// Robert
-
->
-> Ross
+Paul Eggleton
+Intel Open Source Technology Centre
 
