@@ -1,49 +1,29 @@
-Return-Path: <jkrishnanjanappa@mvista.com>
-Received: from mail-lf0-f46.google.com (mail-lf0-f46.google.com
-	[209.85.215.46])
-	by mail.openembedded.org (Postfix) with ESMTP id 5E9C86E64A
+Return-Path: <zhengrq.fnst@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
+	by mail.openembedded.org (Postfix) with ESMTP id 5B9C271A77
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Oct 2016 02:01:37 +0000 (UTC)
-Received: by mail-lf0-f46.google.com with SMTP id x79so111219436lff.0
+	Thu, 13 Oct 2016 02:04:38 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.22,518,1449504000"; d="scan'208";a="11886356"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 13 Oct 2016 10:04:35 +0800
+Received: from G08CNEXCHPEKD02.g08.fujitsu.local (unknown [10.167.33.83])
+	by cn.fujitsu.com (Postfix) with ESMTP id 4585F466F726
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Oct 2016 19:01:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=mvista-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=ZZz/n9lqEsTpmOF6NIaZCz+1t5wsgHlcRQmd42E64Bo=;
-	b=m/H9O9xJ3RMVnvyM1Ba4Km9jKTxwK3lwsS7Rif5aRIYdUKoJP5K8ruqXvn/4AWblL+
-	Ur3tao9UMykIdfRjPmHdt2tteCNpk0+Hw5ngcFtSSjy20BJnRAq47omtzxBfHllRXlRl
-	ac+kMBJ1ggYVo8Cqjw4IsMV4y7t6RNY3iwVcthHCKSAD0n3UcrmDy9rxYRAHmHFyTQmd
-	pewiodIecWsG2rOjqVe9GqGz+hcL2AI5LkI+ZkRbzml12/blXTH38T9+WynGZ+FPwv++
-	mMTqW6MKYw4FPPLDQywQp8i7Eq1DJVRaFByoavraazpKCcuvumIOjjwDKSD+PIGzGceO
-	rDzA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=ZZz/n9lqEsTpmOF6NIaZCz+1t5wsgHlcRQmd42E64Bo=;
-	b=UsXG/fvprvfbzHnu2ePM+ILMTVPpcuVd0kOP6NTtbCCOTliCSPuQ21xpL77+gDX1Hi
-	nzSvEutscetUnSX+ro0Bj0zxgdXOmCf8U3kmYxStvCfyZlQo6CwugkGCD/pyb6wGoTpb
-	Ie2fvqOoiBwnopiAUUCgZBjMxaAE1UQUcy4sGGyDaIk87AAPXP85t0OTAqeP3xVmaAEK
-	wp7LabttcCL545o1gMtHtQ5YOKtHxJQ1+UCLpj1GSR1SQQlrfCwVLK/x7/i96gSZ1M/O
-	zmTmkpHUoAj7IxzImIGBGo3Xe2DBZJK/hbWPyEqaWTrZrLifu3b2NG5AEnF5Ic0Honnb
-	yJew==
-X-Gm-Message-State: AA6/9RlIjSitg0j1xou90iWKypP7G+DbxEhDICIdDE84zS7K+hlvwPWN90hK8E6P80tRsrcbruNeu8a6M700z4Av
-X-Received: by 10.25.134.133 with SMTP id i127mr5794265lfd.102.1476324098695; 
-	Wed, 12 Oct 2016 19:01:38 -0700 (PDT)
+	Thu, 13 Oct 2016 10:04:35 +0800 (CST)
+Received: from z195002c2.g01.fujitsu.local (10.167.226.109) by
+	G08CNEXCHPEKD02.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
+	Server (TLS) id 14.3.279.2; Thu, 13 Oct 2016 10:04:34 +0800
+From: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+Message-ID: <1474120545-9100-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-Received: by 10.114.77.42 with HTTP; Wed, 12 Oct 2016 19:01:37 -0700 (PDT)
-In-Reply-To: <7e33af3a-b88b-fc8f-32d1-3f743fea2ac3@opendreambox.org>
-References: <1476120925-26574-1-git-send-email-jkrishnanjanappa@mvista.com>
-	<defce586-6033-baed-bf70-bdbe1659922c@opendreambox.org>
-	<CAD3vsf5zv87RLAN70WF06Jxr1qq2=5-ctDekdA_0o1Cr1nmBhQ@mail.gmail.com>
-	<7e33af3a-b88b-fc8f-32d1-3f743fea2ac3@opendreambox.org>
-From: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
-Date: Thu, 13 Oct 2016 07:31:37 +0530
-Message-ID: <CAD3vsf6pyv2=9khhMgvfzzw45KEZD+Ha2MUaA5c3Mw2eF5ApHw@mail.gmail.com>
-To: Andreas Oberritter <obi@opendreambox.org>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] connman: get the correct network interface name from dmesg during NFS booting
+X-Originating-IP: [10.167.226.109]
+X-yoursite-MailScanner-ID: 4585F466F726.A664E
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: zhengrq.fnst@cn.fujitsu.com
+X-Spam-Status: No
+Subject: [PATCH] Add two patches for bind
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,383 +36,242 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 13 Oct 2016 02:01:38 -0000
-Content-Type: multipart/alternative; boundary=001a113fbf0a79ffab053eb57d96
+Date: Thu, 13 Oct 2016 02:04:44 -0000
+X-Original-Date: Sat, 17 Sep 2016 09:55:45 -0400
+X-List-Received-Date: Thu, 13 Oct 2016 02:04:44 -0000
+Content-Type: text/plain
 
---001a113fbf0a79ffab053eb57d96
-Content-Type: text/plain; charset=UTF-8
+1.CVE-2016-2775.patch
+[security]      getrrsetbyname with a non absolute name could
+                trigger an infinite recursion bug in lwresd
+                and named with lwres configured if when combined
+                with a search list entry the resulting name is
+                too long. (CVE-2016-2775) [RT #42694]
 
-On Wed, Oct 12, 2016 at 12:30 PM, Andreas Oberritter <obi@opendreambox.org>
-wrote:
+2.CVE-2016-2776.patch
+[security]      It was possible to trigger a assertion when rendering
+               a message. (CVE-2016-2776) [RT #43139]
 
-> Hi Jagadeesh,
->
-> On 11.10.2016 14:11, Jagadeesh Krishnanjanappa wrote:
-> > Hi Andreas,
-> >
-> > Thanks for reviewing the patch.
-> >
-> >
-> >     I think this is too fragile to land in OE-Core. What happens if a
-> >     network driver prints "device=eth0"? Or if other kernel messages make
-> >     the string disappear from dmesg and connman gets restarted later?
-> >
-> >
-> > True. If device=eth0 gets disappeared/corrupted, then we may have
-> problem.
-> >
-> >
-> >     FWIW, I'm attaching my current wrapper script for connmand. I don't
-> >     think it's perfect, but at least it doesn't depend on any init
-> manager
-> >     and works across restarts.
-> >
-> > The wrapper script attached by you, takes care of the missing scenarios.
-> > Seems to be more complete.
-> >
-> >
-> >
-> >     Add these lines to connman's do_install, in case you'd like to test
-> >     and/or submit it:
-> >
-> >     mv ${D}${sbindir}/connmand ${D}${sbindir}/connmand.real
-> >     install -m 755 ${WORKDIR}/connmand-nfsroot.in
-> >     <http://connmand-nfsroot.in> ${D}${sbindir}/connmand
-> >     sed -e 's,@sbindir@,${sbindir},g' -i ${D}${sbindir}/connmand
-> >
-> > I think it would be good idea to integrate your changes into the already
-> > existing OE-core's connman script, instead of a calling original connman
-> > script from the wrapper script.
->
-> please keep in mind that you'd need to implement the same logic for
-> systemd.
->
-> Considering that the execution of connman on nfsroots without
-> appropriate parameters immediately hangs the system, a wrapper script
-> offers an additional level of protection compared to an init script or
-> systemd unit, especially for people debugging connman.
->
-> The intention of integrating your changes into init script was to avoid an
-extra file being added to the layer. But yes, to help debugging and to
-support systemd; wrapper script can be helpful.
+Signed-off-by: zhengruoqin <zhengrq.fnst@cn.fujitsu.com>
+---
+ .../bind/bind/CVE-2016-2775.patch                  |  82 +++++++++++++++
+ .../bind/bind/CVE-2016-2776.patch                  | 115 +++++++++++++++++++++
+ 2 files changed, 197 insertions(+)
+ create mode 100644 meta/recipes-connectivity/bind/bind/CVE-2016-2775.patch
+ create mode 100644 meta/recipes-connectivity/bind/bind/CVE-2016-2776.patch
 
-Thanks,
-Jagadeesh
+diff --git a/meta/recipes-connectivity/bind/bind/CVE-2016-2775.patch b/meta/recipes-connectivity/bind/bind/CVE-2016-2775.patch
+new file mode 100644
+index 0000000..c211aef
+--- /dev/null
++++ b/meta/recipes-connectivity/bind/bind/CVE-2016-2775.patch
+@@ -0,0 +1,82 @@
++From 9d8aba8a7778721ae2cee6e4670a8e6be6590b05 Mon Sep 17 00:00:00 2001
++From: "Zheng Ruoqin" <zhengrq.fnst@cn.fujitsu.com>
++Date: Wed, 12 Oct 2016 19:52:59 +0900
++Subject: [PATCH]
++4406.   [security]      getrrsetbyname with a non absolute name could
++                        trigger an infinite recursion bug in lwresd
++                        and named with lwres configured if when combined
++                        with a search list entry the resulting name is
++                        too long. (CVE-2016-2775) [RT #42694]
++
++---
++ CHANGES                          |  6 ++++++
++ bin/named/lwdgrbn.c              | 16 ++++++++++------
++ bin/tests/system/lwresd/lwtest.c |  9 ++++++++-
++ 3 files changed, 24 insertions(+), 7 deletions(-)
++
++diff --git a/CHANGES b/CHANGES
++index d2e3360..d0a9d12 100644
++--- a/CHANGES
+++++ b/CHANGES
++@@ -1,3 +1,9 @@
+++4406.   [security]      getrrsetbyname with a non absolute name could
+++                        trigger an infinite recursion bug in lwresd
+++                        and named with lwres configured if when combined
+++                        with a search list entry the resulting name is
+++                        too long. (CVE-2016-2775) [RT #42694]
+++
++ 4322.  [security]      Duplicate EDNS COOKIE options in a response could
++                        trigger an assertion failure. (CVE-2016-2088)
++                        [RT #41809]
++diff --git a/bin/named/lwdgrbn.c b/bin/named/lwdgrbn.c
++index 3e7b15b..e1e9adc 100644
++--- a/bin/named/lwdgrbn.c
+++++ b/bin/named/lwdgrbn.c
++@@ -403,14 +403,18 @@ start_lookup(ns_lwdclient_t *client) {
++ 	INSIST(client->lookup == NULL);
++ 
++ 	dns_fixedname_init(&absname);
++-	result = ns_lwsearchctx_current(&client->searchctx,
++-					dns_fixedname_name(&absname));
+++
++ 	/*
++-	 * This will return failure if relative name + suffix is too long.
++-	 * In this case, just go on to the next entry in the search path.
+++         * Perform search across all search domains until success
+++         * is returned. Return in case of failure.
++ 	 */
++-	if (result != ISC_R_SUCCESS)
++-		start_lookup(client);
+++        while (ns_lwsearchctx_current(&client->searchctx,
+++                        dns_fixedname_name(&absname)) != ISC_R_SUCCESS) {
+++                if (ns_lwsearchctx_next(&client->searchctx) != ISC_R_SUCCESS) {
+++                        ns_lwdclient_errorpktsend(client, LWRES_R_FAILURE);
+++                        return;
+++                }
+++        }
++ 
++ 	result = dns_lookup_create(cm->mctx,
++ 				   dns_fixedname_name(&absname),
++diff --git a/bin/tests/system/lwresd/lwtest.c b/bin/tests/system/lwresd/lwtest.c
++index ad9b551..3eb4a66 100644
++--- a/bin/tests/system/lwresd/lwtest.c
+++++ b/bin/tests/system/lwresd/lwtest.c
++@@ -768,7 +768,14 @@ main(void) {
++ 	test_getrrsetbyname("e.example1.", 1, 2, 1, 1, 1);
++ 	test_getrrsetbyname("e.example1.", 1, 46, 2, 0, 1);
++ 	test_getrrsetbyname("", 1, 1, 0, 0, 0);
++-
+++        test_getrrsetbyname("123456789.123456789.123456789.123456789."
+++                            "123456789.123456789.123456789.123456789."
+++                            "123456789.123456789.123456789.123456789."
+++                            "123456789.123456789.123456789.123456789."
+++                            "123456789.123456789.123456789.123456789."
+++                            "123456789.123456789.123456789.123456789."
+++                            "123456789", 1, 1, 0, 0, 0);
+++ 
++ 	if (fails == 0)
++ 		printf("I:ok\n");
++ 	return (fails);
++-- 
++2.7.4
++
+diff --git a/meta/recipes-connectivity/bind/bind/CVE-2016-2776.patch b/meta/recipes-connectivity/bind/bind/CVE-2016-2776.patch
+new file mode 100644
+index 0000000..66e0501
+--- /dev/null
++++ b/meta/recipes-connectivity/bind/bind/CVE-2016-2776.patch
+@@ -0,0 +1,115 @@
++From 1171111657081970585f9f0e03b476358c33a6c0 Mon Sep 17 00:00:00 2001
++From: "Zheng Ruoqin" <zhengrq.fnst@cn.fujitsu.com>
++Date: Wed, 12 Oct 2016 20:36:52 +0900
++Subject: [PATCH] 
++4467.   [security]      It was possible to trigger an assertion when 
++                        rendering a message. (CVE-2016-2776) [RT #43139]
++
++---
++ CHANGES           |  3 +++
++ lib/dns/message.c | 42 +++++++++++++++++++++++++++++++-----------
++ 2 files changed, 34 insertions(+), 11 deletions(-)
++
++diff --git a/CHANGES b/CHANGES
++index d0a9d12..5c8c61a 100644
++--- a/CHANGES
+++++ b/CHANGES
++@@ -1,3 +1,6 @@
+++4467.   [security]      It was possible to trigger an assertion when
+++                        rendering a message. (CVE-2016-2776) [RT #43139]
+++
++ 4406.   [security]      getrrsetbyname with a non absolute name could
++                         trigger an infinite recursion bug in lwresd
++                         and named with lwres configured if when combined
++diff --git a/lib/dns/message.c b/lib/dns/message.c
++index 6b5b4bb..b74dc81 100644
++--- a/lib/dns/message.c
+++++ b/lib/dns/message.c
++@@ -1754,7 +1754,7 @@ dns_message_renderbegin(dns_message_t *msg, dns_compress_t *cctx,
++ 	if (r.length < DNS_MESSAGE_HEADERLEN)
++ 		return (ISC_R_NOSPACE);
++ 
++-	if (r.length < msg->reserved)
+++        if (r.length - DNS_MESSAGE_HEADERLEN < msg->reserved)
++ 		return (ISC_R_NOSPACE);
++ 
++ 	/*
++@@ -1895,8 +1895,29 @@ norender_rdataset(const dns_rdataset_t *rdataset, unsigned int options,
++ 
++ 	return (ISC_TRUE);
++ }
++-
++ #endif
+++
+++static isc_result_t
+++renderset(dns_rdataset_t *rdataset, dns_name_t *owner_name,
+++         dns_compress_t *cctx, isc_buffer_t *target,
+++         unsigned int reserved, unsigned int options, unsigned int *countp)
+++{
+++       isc_result_t result;
+++
+++       /*
+++        * Shrink the space in the buffer by the reserved amount.
+++        */
+++       if (target->length - target->used < reserved)
+++               return (ISC_R_NOSPACE);
+++
+++       target->length -= reserved;
+++       result = dns_rdataset_towire(rdataset, owner_name,
+++                                    cctx, target, options, countp);
+++       target->length += reserved;
+++
+++       return (result);
+++}
+++
++ isc_result_t
++ dns_message_rendersection(dns_message_t *msg, dns_section_t sectionid,
++ 			  unsigned int options)
++@@ -1939,6 +1960,8 @@ dns_message_rendersection(dns_message_t *msg, dns_section_t sectionid,
++ 	/*
++ 	 * Shrink the space in the buffer by the reserved amount.
++ 	 */
+++        if (msg->buffer->length - msg->buffer->used < msg->reserved)
+++                return (ISC_R_NOSPACE);
++ 	msg->buffer->length -= msg->reserved;
++ 
++ 	total = 0;
++@@ -2214,9 +2237,8 @@ dns_message_renderend(dns_message_t *msg) {
++ 		 * Render.
++ 		 */
++ 		count = 0;
++-		result = dns_rdataset_towire(msg->opt, dns_rootname,
++-					     msg->cctx, msg->buffer, 0,
++-					     &count);
+++                result = renderset(msg->opt, dns_rootname, msg->cctx,
+++                                   msg->buffer, msg->reserved, 0, &count);
++ 		msg->counts[DNS_SECTION_ADDITIONAL] += count;
++ 		if (result != ISC_R_SUCCESS)
++ 			return (result);
++@@ -2232,9 +2254,8 @@ dns_message_renderend(dns_message_t *msg) {
++ 		if (result != ISC_R_SUCCESS)
++ 			return (result);
++ 		count = 0;
++-		result = dns_rdataset_towire(msg->tsig, msg->tsigname,
++-					     msg->cctx, msg->buffer, 0,
++-					     &count);
+++                result = renderset(msg->tsig, msg->tsigname, msg->cctx,
+++                                   msg->buffer, msg->reserved, 0, &count);
++ 		msg->counts[DNS_SECTION_ADDITIONAL] += count;
++ 		if (result != ISC_R_SUCCESS)
++ 			return (result);
++@@ -2255,9 +2276,8 @@ dns_message_renderend(dns_message_t *msg) {
++ 		 * the owner name of a SIG(0) is irrelevant, and will not
++ 		 * be set in a message being rendered.
++ 		 */
++-		result = dns_rdataset_towire(msg->sig0, dns_rootname,
++-					     msg->cctx, msg->buffer, 0,
++-					     &count);
+++                result = renderset(msg->sig0, dns_rootname, msg->cctx,
+++                                   msg->buffer, msg->reserved, 0, &count);
++ 		msg->counts[DNS_SECTION_ADDITIONAL] += count;
++ 		if (result != ISC_R_SUCCESS)
++ 			return (result);
++-- 
++2.7.4
++
+-- 
+2.7.4
 
-Regards,
-> Andreas
->
-> >
-> > Regards,
-> > Jagadeesh
-> >
-> >     >
-> >     > Signed-off-by: Jagadeesh Krishnanjanappa
-> >     <jkrishnanjanappa@mvista.com <mailto:jkrishnanjanappa@mvista.com>>
-> >     > ---
-> >     >  meta/recipes-connectivity/connman/connman/connman | 35
-> >     +++++++++++++----------
-> >     >  1 file changed, 20 insertions(+), 15 deletions(-)
-> >     >
-> >     > diff --git a/meta/recipes-connectivity/connman/connman/connman
-> >     b/meta/recipes-connectivity/connman/connman/connman
-> >     > index c64fa0d..aae2ca6 100644
-> >     > --- a/meta/recipes-connectivity/connman/connman/connman
-> >     > +++ b/meta/recipes-connectivity/connman/connman/connman
-> >     > @@ -29,23 +29,28 @@ done
-> >     >  do_start() {
-> >     >       EXTRA_PARAM=""
-> >     >       if test $nfsroot -eq 1 ; then
-> >     > -         NET_DEVS=`cat /proc/net/dev | sed -ne 's/^\([a-zA-Z0-9
-> >     ]*\):.*$/\1/p'`
-> >     > -         NET_ADDR=`cat /proc/cmdline | sed -ne 's/^.*ip=\([^
-> >     :]*\).*$/\1/p'`
-> >     > +         ethn_from_dmesg=`dmesg | grep "device="| sed
-> >     "s|\(.*\)device=\(.*\), hwaddr=\(.*\)|\2|g"`
-> >     > +         if [ ! -z "$ethn_from_dmesg" ]; then
-> >     > +             EXTRA_PARAM="-I $ethn_from_dmesg"
-> >     > +         else
-> >     > +             NET_DEVS=`cat /proc/net/dev | sed -ne
-> >     's/^\([a-zA-Z0-9 ]*\):.*$/\1/p'`
-> >     > +             NET_ADDR=`cat /proc/cmdline | sed -ne 's/^.*ip=\([^
-> >     :]*\).*$/\1/p'`
-> >     >
-> >     > -         if [ ! -z "$NET_ADDR" ]; then
-> >     > -             if [ "$NET_ADDR" = dhcp ]; then
-> >     > -                 ethn=`ifconfig | grep "^eth" | sed -e
-> >     "s/\(eth[0-9]\)\(.*\)/\1/"`
-> >     > -                 if [ ! -z "$ethn" ]; then
-> >     > -                     EXTRA_PARAM="-I $ethn"
-> >     > -                 fi
-> >     > -             else
-> >     > -                 for i in $NET_DEVS; do
-> >     > -                     ADDR=`ifconfig $i | sed 's/addr://g' | sed
-> >     -ne 's/^.*inet \([0-9.]*\) .*$/\1/p'`
-> >     > -                     if [ "$NET_ADDR" = "$ADDR" ]; then
-> >     > -                         EXTRA_PARAM="-I $i"
-> >     > -                         break
-> >     > +             if [ ! -z "$NET_ADDR" ]; then
-> >     > +                 if [ "$NET_ADDR" = dhcp ]; then
-> >     > +                     ethn=`ifconfig | grep "^eth" | sed -e
-> >     "s/\(eth[0-9]\)\(.*\)/\1/"`
-> >     > +                     if [ ! -z "$ethn" ]; then
-> >     > +                         EXTRA_PARAM="-I $ethn"
-> >     >                       fi
-> >     > -                 done
-> >     > +                 else
-> >     > +                     for i in $NET_DEVS; do
-> >     > +                         ADDR=`ifconfig $i | sed 's/addr://g' |
-> >     sed -ne 's/^.*inet \([0-9.]*\) .*$/\1/p'`
-> >     > +                         if [ "$NET_ADDR" = "$ADDR" ]; then
-> >     > +                             EXTRA_PARAM="-I $i"
-> >     > +                             break
-> >     > +                         fi
-> >     > +                     done
-> >     > +                 fi
-> >     >               fi
-> >     >           fi
-> >     >       fi
-> >     >
-> >
-> >
-> >     --
-> >     _______________________________________________
-> >     Openembedded-core mailing list
-> >     Openembedded-core@lists.openembedded.org
-> >     <mailto:Openembedded-core@lists.openembedded.org>
-> >     http://lists.openembedded.org/mailman/listinfo/openembedded-core
-> >     <http://lists.openembedded.org/mailman/listinfo/openembedded-core>
-> >
-> >
->
->
 
---001a113fbf0a79ffab053eb57d96
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><div class=3D"gmail_quo=
-te">On Wed, Oct 12, 2016 at 12:30 PM, Andreas Oberritter <span dir=3D"ltr">=
-&lt;<a href=3D"mailto:obi@opendreambox.org" target=3D"_blank">obi@opendream=
-box.org</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D=
-"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">Hi Jagadees=
-h,<br>
-<span class=3D""><br>
-On 11.10.2016 14:11, Jagadeesh Krishnanjanappa wrote:<br>
-&gt; Hi Andreas,<br>
-&gt;<br>
-&gt; Thanks for reviewing the patch.<br>
-&gt;<br>
-&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0I think this is too fragile to land in OE-Core. Wha=
-t happens if a<br>
-&gt;=C2=A0 =C2=A0 =C2=A0network driver prints &quot;device=3Deth0&quot;? Or=
- if other kernel messages make<br>
-&gt;=C2=A0 =C2=A0 =C2=A0the string disappear from dmesg and connman gets re=
-started later?<br>
-&gt;<br>
-&gt;<br>
-&gt; True. If device=3Deth0 gets disappeared/corrupted, then we may have pr=
-oblem.<br>
-&gt;<br>
-&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0FWIW, I&#39;m attaching my current wrapper script f=
-or connmand. I don&#39;t<br>
-&gt;=C2=A0 =C2=A0 =C2=A0think it&#39;s perfect, but at least it doesn&#39;t=
- depend on any init manager<br>
-&gt;=C2=A0 =C2=A0 =C2=A0and works across restarts.<br>
-&gt;<br>
-&gt; The wrapper script attached by you, takes care of the missing scenario=
-s.<br>
-&gt; Seems to be more complete.<br>
-&gt;<br>
-&gt;<br>
-&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0Add these lines to connman&#39;s do_install, in cas=
-e you&#39;d like to test<br>
-&gt;=C2=A0 =C2=A0 =C2=A0and/or submit it:<br>
-&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0mv ${D}${sbindir}/connmand ${D}${sbindir}/connmand.=
-real<br>
-&gt;=C2=A0 =C2=A0 =C2=A0install -m 755 ${WORKDIR}/<a href=3D"http://connman=
-d-nfsroot.in" rel=3D"noreferrer" target=3D"_blank">connmand-nfsroot.in</a><=
-br>
-</span>&gt;=C2=A0 =C2=A0 =C2=A0&lt;<a href=3D"http://connmand-nfsroot.in" r=
-el=3D"noreferrer" target=3D"_blank">http://connmand-nfsroot.in</a>&gt; ${D}=
-${sbindir}/connmand<br>
-<span class=3D"">&gt;=C2=A0 =C2=A0 =C2=A0sed -e &#39;s,@sbindir@,${sbindir}=
-,g&#39; -i ${D}${sbindir}/connmand<br>
-&gt;<br>
-&gt; I think it would be good idea to integrate your changes into the alrea=
-dy<br>
-&gt; existing OE-core&#39;s connman script, instead of a calling original c=
-onnman<br>
-&gt; script from the wrapper script.<br>
-<br>
-</span>please keep in mind that you&#39;d need to implement the same logic =
-for systemd.<br>
-<br>
-Considering that the execution of connman on nfsroots without<br>
-appropriate parameters immediately hangs the system, a wrapper script<br>
-offers an additional level of protection compared to an init script or<br>
-systemd unit, especially for people debugging connman.<br>
-<br></blockquote><div>The intention of integrating your changes into init s=
-cript was to avoid an extra file being added to the layer. But yes, to help=
- debugging and to support systemd; wrapper script can be helpful.</div><div=
-><br></div><div>Thanks,</div><div>Jagadeesh</div><div><br></div><blockquote=
- class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc soli=
-d;padding-left:1ex">
-Regards,<br>
-Andreas<br>
-<span class=3D""><br>
-&gt;<br>
-&gt; Regards,<br>
-&gt; Jagadeesh<br>
-&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; Signed-off-by: Jagadeesh Krishnanjanappa<br>
-</span>&gt;=C2=A0 =C2=A0 =C2=A0&lt;<a href=3D"mailto:jkrishnanjanappa@mvist=
-a.com">jkrishnanjanappa@mvista.com</a> &lt;mailto:<a href=3D"mailto:jkrishn=
-anjanappa@mvista.com">jkrishnanjanappa@<wbr>mvista.com</a>&gt;&gt;<br>
-<div><div class=3D"h5">&gt;=C2=A0 =C2=A0 =C2=A0&gt; ---<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt;=C2=A0 meta/recipes-connectivity/<wbr>connman/c=
-onnman/connman | 35<br>
-&gt;=C2=A0 =C2=A0 =C2=A0+++++++++++++----------<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt;=C2=A0 1 file changed, 20 insertions(+), 15 del=
-etions(-)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; diff --git a/meta/recipes-connectivity/<wbr>co=
-nnman/connman/connman<br>
-&gt;=C2=A0 =C2=A0 =C2=A0b/meta/recipes-connectivity/<wbr>connman/connman/co=
-nnman<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; index c64fa0d..aae2ca6 100644<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; --- a/meta/recipes-connectivity/<wbr>connman/c=
-onnman/connman<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; +++ b/meta/recipes-connectivity/<wbr>connman/c=
-onnman/connman<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; @@ -29,23 +29,28 @@ done<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt;=C2=A0 do_start() {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0EXTRA_PARAM=3D&quot;=
-&quot;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0if test $nfsroot -eq=
- 1 ; then<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0NET_DEVS=3D=
-`cat /proc/net/dev | sed -ne &#39;s/^\([a-zA-Z0-9<br>
-&gt;=C2=A0 =C2=A0 =C2=A0]*\):.*$/\1/p&#39;`<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0NET_ADDR=3D=
-`cat /proc/cmdline | sed -ne &#39;s/^.*ip=3D\([^<br>
-&gt;=C2=A0 =C2=A0 =C2=A0:]*\).*$/\1/p&#39;`<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0ethn_from_d=
-mesg=3D`dmesg | grep &quot;device=3D&quot;| sed<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&quot;s|\(.*\)device=3D\(.*\), hwaddr=3D\(.*\)|\2|g=
-&quot;`<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if [ ! -z &=
-quot;$ethn_from_dmesg&quot; ]; then<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0EXTRA_PARAM=3D&quot;-I $ethn_from_dmesg&quot;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0else<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0NET_DEVS=3D`cat /proc/net/dev | sed -ne<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&#39;s/^\([a-zA-Z0-9 ]*\):.*$/\1/p&#39;`<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0NET_ADDR=3D`cat /proc/cmdline | sed -ne &#39;s/^.*ip=3D\([^<br>
-&gt;=C2=A0 =C2=A0 =C2=A0:]*\).*$/\1/p&#39;`<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if [ ! -z &=
-quot;$NET_ADDR&quot; ]; then<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0if [ &quot;$NET_ADDR&quot; =3D dhcp ]; then<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0ethn=3D`ifconfig | grep &quot;^eth&quot; | sed -e<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&quot;s/\(eth[0-9]\)\(.*\)/\1/&quot;`<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0if [ ! -z &quot;$ethn&quot; ]; then<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0EXTRA_PARAM=3D&quot;-I $ethn&quot;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0fi<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0else<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0for i in $NET_DEVS; do<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0ADDR=3D`ifconfig $i | sed &#39;s/addr://g&#3=
-9; | sed<br>
-&gt;=C2=A0 =C2=A0 =C2=A0-ne &#39;s/^.*inet \([0-9.]*\) .*$/\1/p&#39;`<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if [ &quot;$NET_ADDR&quot; =3D &quot;$ADDR&q=
-uot; ]; then<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0EXTRA_PARAM=3D&quot;-I $i&quot=
-;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0break<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0if [ ! -z &quot;$NET_ADDR&quot; ]; then<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0if [ &quot;$NET_ADDR&quot; =3D dhcp ]; then<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0ethn=3D`ifconfig | grep &quot;^eth&quot; | s=
-ed -e<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&quot;s/\(eth[0-9]\)\(.*\)/\1/&quot;`<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if [ ! -z &quot;$ethn&quot; ]; then<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0EXTRA_PARAM=3D&quot;-I $ethn&q=
-uot;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0fi<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0done<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0else<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0for i in $NET_DEVS; do<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0ADDR=3D`ifconfig $i | sed &#39=
-;s/addr://g&#39; |<br>
-&gt;=C2=A0 =C2=A0 =C2=A0sed -ne &#39;s/^.*inet \([0-9.]*\) .*$/\1/p&#39;`<b=
-r>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if [ &quot;$NET_ADDR&quot; =3D=
- &quot;$ADDR&quot; ]; then<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0EXTRA_PARAM=3D&q=
-uot;-I $i&quot;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0break<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0fi<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0done<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0fi<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0fi<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0fi<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0fi<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt;<br>
-&gt;<br>
-&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0--<br>
-&gt;=C2=A0 =C2=A0 =C2=A0______________________________<wbr>________________=
-_<br>
-&gt;=C2=A0 =C2=A0 =C2=A0Openembedded-core mailing list<br>
-&gt;=C2=A0 =C2=A0 =C2=A0<a href=3D"mailto:Openembedded-core@lists.openembed=
-ded.org">Openembedded-core@lists.<wbr>openembedded.org</a><br>
-</div></div>&gt;=C2=A0 =C2=A0 =C2=A0&lt;mailto:<a href=3D"mailto:Openembedd=
-ed-core@lists.openembedded.org">Openembedded-core@<wbr>lists.openembedded.o=
-rg</a>&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0<a href=3D"http://lists.openembedded.org/mailman/li=
-stinfo/openembedded-core" rel=3D"noreferrer" target=3D"_blank">http://lists=
-.openembedded.org/<wbr>mailman/listinfo/openembedded-<wbr>core</a><br>
-&gt;=C2=A0 =C2=A0 =C2=A0&lt;<a href=3D"http://lists.openembedded.org/mailma=
-n/listinfo/openembedded-core" rel=3D"noreferrer" target=3D"_blank">http://l=
-ists.openembedded.<wbr>org/mailman/listinfo/<wbr>openembedded-core</a>&gt;<=
-br>
-&gt;<br>
-&gt;<br>
-<br>
-</blockquote></div><br></div></div>
 
---001a113fbf0a79ffab053eb57d96--
