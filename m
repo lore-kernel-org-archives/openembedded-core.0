@@ -1,50 +1,25 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-lf0-f43.google.com (mail-lf0-f43.google.com
-	[209.85.215.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 3378C71AE9
+Return-Path: <pb@pbcl.net>
+Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
+	by mail.openembedded.org (Postfix) with ESMTP id 275B070101
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Oct 2016 20:53:20 +0000 (UTC)
-Received: by mail-lf0-f43.google.com with SMTP id l131so115091763lfl.2
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Oct 2016 13:53:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=6nN5ACTl3wIHNdNxv6eATCXg5zx4DfvLWCQwLjPA0/k=;
-	b=Gi3HTwtQ9SSErp/Y2jIiRzsXMTjgeMjYY4CRQFJr+wxuR3LZoxUUG8qrU83mcExXFs
-	/npuSQq7RbKbgdKoFZBBFNnroYerRDdVDCaY6O50icTq+sMoN5qMUa7e1BO9EFZrFWKH
-	gc9HR2lwxuZTi1SHyiuc08DUndzD9aTnm389TJ9vCYKgQBa/2+BG2+n4euxxzXVPp/jl
-	+lV/6TpKROnM6X0kqPf0QfBiEnjhsANPcjS4dNDWs97oAvwGRXSwodl1Ftpt7d1XllEk
-	j5oqpL6Q4wJIiLF753zzN5cznhXdUtcEXmzCub1Tw0zGjP65cPS2Q/EiGQPJwlXD/Edq
-	hHqw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references;
-	bh=6nN5ACTl3wIHNdNxv6eATCXg5zx4DfvLWCQwLjPA0/k=;
-	b=aafS97/0pb8Aglm2KfbvKsY/RXlUOzyC6UpKcYCdrrrbb/BVsde4XTRdpTS5mGVX9v
-	lyaBR3QEpXTDPzv4vQzau6LkWcSybcTA0GtBfTZjpaHyvl/y46BlePx/SCE3qwIQfNyI
-	/DYrrBSfBOiLzAqzYab/3LGuHUaSpAkvrZX8a+VAAgOWYadkoesQVgoEF/t6X5Dqorn+
-	wMXv+61mqWFYi621VCHwQ0ehSfIENSpkrreHEnoi8OFc4E0CFQEQacO+JZhSUKP2NfPo
-	DoanFjsG8CuV2BFGR7rnSoUK/P+1jvrY8QVX43SQJLk3m62cy6wJOh1TVvuzYAfi14Sa
-	cw/g==
-X-Gm-Message-State: AA6/9RmPYM0usjJGMe1pziVuU1EN+ZsHwQTiq22At3uIxMnRiWU+nMg+wQJQNWa7YTM1aXyt
-X-Received: by 10.28.153.66 with SMTP id b63mr3350408wme.79.1476392001152;
-	Thu, 13 Oct 2016 13:53:21 -0700 (PDT)
-Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id
-	a1sm25558815wju.41.2016.10.13.13.53.20
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 13 Oct 2016 13:53:20 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 13 Oct 2016 21:53:15 +0100
-Message-Id: <1476391995-17730-2-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 2.8.1
-In-Reply-To: <1476391995-17730-1-git-send-email-ross.burton@intel.com>
-References: <1476391995-17730-1-git-send-email-ross.burton@intel.com>
-Subject: [PATCH 2/2] pixbufcache: handle gdk-pixbuf not being present
+	Thu, 13 Oct 2016 21:03:49 +0000 (UTC)
+Received: from blundell.swaffham-prior.co.uk ([91.216.112.25] helo=tp13)
+	by hetzner.pbcl.net with esmtpsa
+	(TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.84)
+	(envelope-from <pb@pbcl.net>)
+	id 1bunAM-00030M-2Y; Thu, 13 Oct 2016 23:03:50 +0200
+Message-ID: <1476392622.4277.1.camel@pbcl.net>
+From: Phil Blundell <pb@pbcl.net>
+To: Matt Madison <matt@madison.systems>
+Date: Thu, 13 Oct 2016 22:03:42 +0100
+In-Reply-To: <CAGgRHJoQWX=+WtcXzOTN4k6MLLerfCFFf8RJXVARpjug4+pYSw@mail.gmail.com>
+References: <1476291665.16008.59.camel@pbcl.net>
+	<CAGgRHJoQWX=+WtcXzOTN4k6MLLerfCFFf8RJXVARpjug4+pYSw@mail.gmail.com>
+X-Mailer: Evolution 3.20.5-1 
+Mime-Version: 1.0
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: File conflicts in DL_DIR
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,50 +32,16 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 13 Oct 2016 20:53:21 -0000
+X-List-Received-Date: Thu, 13 Oct 2016 21:03:52 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-It's possible - albeit unlikely - that gdk-pixbuf isn't present in the sysroot
-when a recipe inheriting this class is and the sysroot is finalised.
+On Wed, 2016-10-12 at 11:03 -0700, Matt Madison wrote:
+> I use ";downloadfilename=${BPN}-${PV}.tar.gz" to deal with this
+> problem, and it's worked well for me.
 
-One example would be if the sstate archive has librsvg but not gdk-pixbuf:
-librsvg will be extracted from the sstate but gdk-pixbuf will be built to "fill
-in the gap".  In this situation the setscene completion hook installed by
-pixbufcache.bbclass will attempt to execute gdk-pixbuf-query-loaders, but that
-binary hasn't been installed by gdk-pixbuf yet.
+Thanks, that works for me.
 
-Also add gdk-pixbuf-native to DEPENDS in native builds to ensure that the
-binaries we expect will be present, as it's possible to build loaders without
-linking to GdkPixbuf.
-
-[ YOCTO #10420 ]
-
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/classes/pixbufcache.bbclass | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/meta/classes/pixbufcache.bbclass b/meta/classes/pixbufcache.bbclass
-index dbe11e1..b619a77 100644
---- a/meta/classes/pixbufcache.bbclass
-+++ b/meta/classes/pixbufcache.bbclass
-@@ -54,6 +54,7 @@ gdkpixbuf_complete() {
- # An error exit during populate_sysroot_setscene allows bitbake to
- # try to recover by re-building the package.
- #
-+DEPENDS_append_class-native = " gdk-pixbuf-native"
- SSTATEPOSTINSTFUNCS_append_class-native = " pixbufcache_sstate_postinst"
- 
- # See base.bbclass for the other half of this
-@@ -61,7 +62,6 @@ pixbufcache_sstate_postinst() {
- 	if [ "${BB_CURRENTTASK}" = "populate_sysroot" ]; then
- 		${gdkpixbuf_complete}
- 	elif [ "${BB_CURRENTTASK}" = "populate_sysroot_setscene" ]; then
--		echo "${gdkpixbuf_complete}" >> ${STAGING_DIR}/sstatecompletions
-+		test -x ${STAGING_LIBDIR_NATIVE}/gdk-pixbuf-2.0/gdk-pixbuf-query-loaders && echo "${gdkpixbuf_complete}" >> ${STAGING_DIR}/sstatecompletions
- 	fi
- }
--
--- 
-2.8.1
+p.
 
 
