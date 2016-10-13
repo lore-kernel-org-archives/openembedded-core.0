@@ -1,30 +1,68 @@
-Return-Path: <zhengrq.fnst@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
-	by mail.openembedded.org (Postfix) with ESMTP id 198E771AE9
+Return-Path: <carol.zhu@nxp.com>
+Received: from EUR01-DB5-obe.outbound.protection.outlook.com
+	(mail-db5eur01on0043.outbound.protection.outlook.com [104.47.2.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 549046FFCE
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Oct 2016 05:11:20 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.22,518,1449504000"; d="scan'208";a="11931566"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 14 Oct 2016 13:11:16 +0800
-Received: from G08CNEXCHPEKD02.g08.fujitsu.local (unknown [10.167.33.83])
-	by cn.fujitsu.com (Postfix) with ESMTP id 16E7D4670060
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Oct 2016 13:11:14 +0800 (CST)
-Received: from z195002c2.g01.fujitsu.local (10.167.226.109) by
-	G08CNEXCHPEKD02.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.279.2; Fri, 14 Oct 2016 13:11:13 +0800
-From: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 14 Oct 2016 10:11:04 -0400
-Message-ID: <1476454264-6428-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
-X-Mailer: git-send-email 1.8.3.1
+	Fri, 14 Oct 2016 06:58:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1; 
+	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version;
+	bh=lL3wPbj9DuN4F6j0yaJrvSEKL73G8vpzFd8fnFrEU8M=;
+	b=R8ohC+XmURzA8PBWkaaOm6m52Ce8OiWvFlA4gNIEXvKSI/9cMpfAkzrBmYgVsukBvQN+O4KEQI+iTMVx4ViBEqmb5QwB04pScOZ0PxuO++1Y3ojJeRzYp/unwr3bP3Ne0ysyg6S1tf1zJSheNQu1I/+c7g6njNSgUG0OZn40VQI=
+Received: from DB6PR0401MB2678.eurprd04.prod.outlook.com (10.169.225.151) by
+	DB6PR0401MB2678.eurprd04.prod.outlook.com (10.169.225.151) with
+	ShadowRedundancy id 15.1.659.8; Thu, 13 Oct 2016 23:23:17 +0000
+Received: from HE1PR0401MB2684.eurprd04.prod.outlook.com (10.168.149.8) by
+	DB6PR0401MB2678.eurprd04.prod.outlook.com (10.169.225.151) with
+	Microsoft SMTP Server (version=TLS1_2,
+	cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id 15.1.659.8;
+	Thu, 13 Oct 2016 09:07:04 +0000
+Received: from HE1PR0401MB2682.eurprd04.prod.outlook.com ([10.168.148.151]) by
+	HE1PR0401MB2682.eurprd04.prod.outlook.com ([10.168.148.151]) with
+	mapi id 15.01.0669.005; Thu, 13 Oct 2016 09:07:04 +0000
+From: Carol Zhu <carol.zhu@nxp.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Thread-Topic: [OE-core] [poky][PATCH 0/4] Add patches for
+	gstreamer1.0-plugins-bad V1.8.3
+Thread-Index: AQHSI60fe6YL+qLnyEWqAhDz+Rh7DqCjLfKAgALqsDA=
+Date: Thu, 13 Oct 2016 09:07:04 +0000
+Message-ID: <HE1PR0401MB2682F8CDDB11A504A1703B2EE9DC0@HE1PR0401MB2682.eurprd04.prod.outlook.com>
+References: <1476182952-15222-1-git-send-email-carol.zhu@nxp.com>
+	<CAJTo0LaiX-F+0ZPeTs8jJ2GxT61WFi1aPYZ76RgUMAKCMiWaeA@mail.gmail.com>
+In-Reply-To: <CAJTo0LaiX-F+0ZPeTs8jJ2GxT61WFi1aPYZ76RgUMAKCMiWaeA@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+	smtp.mailfrom=carol.zhu@nxp.com; 
+x-originating-ip: [199.59.230.102]
+x-ms-office365-filtering-correlation-id: ad64480b-6146-4f47-638c-08d3f3484cee
+x-microsoft-exchange-diagnostics: 1; DB6PR0401MB2678;
+	7:ldbaE9gkJkO2Z7DZHI+CVf1rb3dsJmDE2uDAMeOVHI5pkfGz0lR5nTds9w9oLxr52N+yKyjMGFEpHu9oHVjLkyfoK05hL3ncJjX+fawn9f9utywAKe7Gye88zk8vUskw7MHPHL9TiORUszPbnP7Mtxako81ij/0uhGVTwSzutiPyKipD/HHFQWb6q18PcRWe3T+pSA5kHihEojEcktakUvNEWI5VoYQ5722T5o/ot3PuYdwG6Qdiuje6m7ifGoOVFvgIr/i58B+hIZ9YBN171tu7uDdKZ8zAqJh7o8KOVJiYNI37r+1jtNJf+lWwomQQMDkb36WbGWr4bGVQIu8jshRMavxQQYB5Qou+5zBE+Hg=
+x-microsoft-antispam: UriScan:;BCL:0;PCL:0;RULEID:;SRVR:DB6PR0401MB2678;
+x-microsoft-antispam-prvs: <DB6PR0401MB267889CAD332078916B2C5D1E9DC0@DB6PR0401MB2678.eurprd04.prod.outlook.com>
+x-exchange-antispam-report-test: UriScan:(185117386973197)(264703809997249)(21748063052155)(21532816269658)(228905959029699);
+x-exchange-antispam-report-cfa-test: BCL:0; PCL:0;
+	RULEID:(6040176)(601004)(2401047)(5005006)(8121501046)(3002001)(10201501046)(6055026);
+	SRVR:DB6PR0401MB2678; BCL:0; PCL:0; RULEID:;
+	SRVR:DB6PR0401MB2678; 
+x-forefront-prvs: 0094E3478A
+x-forefront-antispam-report: SFV:NSPM;
+	SFS:(10009020)(7916002)(24454002)(377454003)(189002)(199003)(230783001)(8936002)(87936001)(9686002)(76576001)(19609705001)(122556002)(105586002)(19580405001)(106356001)(106116001)(19580395003)(50986999)(33656002)(77096005)(76176999)(6116002)(790700001)(110136003)(102836003)(3846002)(2900100001)(19300405004)(3280700002)(189998001)(3660700001)(15975445007)(16236675004)(10400500002)(586003)(81156014)(2950100002)(4326007)(101416001)(7736002)(81166006)(66066001)(7846002)(54356999)(86362001)(97736004)(92566002)(7696004)(11100500001)(19625215002)(2906002)(5660300001)(6916009)(68736007)(8676002)(74316002)(9326002)(5002640100001);
+	DIR:OUT; SFP:1101; SCL:1; SRVR:DB6PR0401MB2678;
+	H:HE1PR0401MB2684.eurprd04.prod.outlook.com; FPR:; SPF:None;
+	PTR:InfoNoRecords; MX:1; A:1; LANG:en; 
+received-spf: None (protection.outlook.com: nxp.com does not designate
+	permitted sender hosts)
+spamdiagnosticoutput: 1:99
+spamdiagnosticmetadata: NSPM
 MIME-Version: 1.0
-X-Originating-IP: [10.167.226.109]
-X-yoursite-MailScanner-ID: 16E7D4670060.A695C
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: zhengrq.fnst@cn.fujitsu.com
-X-Spam-Status: No
-Subject: [PATCH] fix two CVEs for bind
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-originalarrivaltime: 13 Oct 2016 09:07:04.0556 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB6PR0401MB2678
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [poky][PATCH 0/4] Add patches for gstreamer1.0-plugins-bad V1.8.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,265 +75,120 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 14 Oct 2016 05:11:29 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 14 Oct 2016 06:58:07 -0000
+Content-Language: en-US
+Content-Type: multipart/alternative;
+	boundary="_000_HE1PR0401MB2682F8CDDB11A504A1703B2EE9DC0HE1PR0401MB2682_"
 
-Add two CVE patches from upstream
-git: https://www.isc.org/git/
+--_000_HE1PR0401MB2682F8CDDB11A504A1703B2EE9DC0HE1PR0401MB2682_
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-1.CVE-2016-2775.patch
-2.CVE-2016-2776.patch
+SGkgUm9zcywNCg0KICAgICAgVGhlc2UgZ3N0cmVhbWVyIHBhdGNoZXMgYXJlIGJ1ZyBmaXhpbmcg
+YW5kIGFsbCBiYWNrcG9ydGVkIGZyb20gaGlnaGVyIHZlcnNpb24sIHNvIHRoZSByaXNrIGlzIGxv
+dy4NCiAgICAgIElzIHRoYXQgb2sgdG8gaW50ZWdyYXRlIHRoZW0gaW50byBtb3J0eT8NCg0KDQpC
+LlIuDQpDYXJvbA0KDQpGcm9tOiBCdXJ0b24sIFJvc3MgW21haWx0bzpyb3NzLmJ1cnRvbkBpbnRl
+bC5jb21dDQpTZW50OiBUdWVzZGF5LCBPY3RvYmVyIDExLCAyMDE2IDg6MjYgUE0NClRvOiBDYXJv
+bCBaaHUgPGNhcm9sLnpodUBueHAuY29tPg0KQ2M6IE9FLWNvcmUgPG9wZW5lbWJlZGRlZC1jb3Jl
+QGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc+DQpTdWJqZWN0OiBSZTogW09FLWNvcmVdIFtwb2t5XVtQ
+QVRDSCAwLzRdIEFkZCBwYXRjaGVzIGZvciBnc3RyZWFtZXIxLjAtcGx1Z2lucy1iYWQgVjEuOC4z
+DQoNCg0KT24gMTEgT2N0b2JlciAyMDE2IGF0IDExOjQ5LCBZdXFpbmcgWmh1IDxjYXJvbC56aHVA
+bnhwLmNvbTxtYWlsdG86Y2Fyb2wuemh1QG54cC5jb20+PiB3cm90ZToNCi1TdXBwb3J0IHZpZGVv
+IHJvdGF0aW9uIGJ5IHVzaW5nIHRyYW5zZm9ybSBtYXRyaXgNCg0KLUZpeCB3cm9uZyBhdHRyaWJ1
+dGUgbGlzdCB0eXBlIGZvciBFR0wgMS41DQoNCi1GaXggaG9yaXpvbnRhbC92ZXJ0aWNhbCBmbGlw
+IG1hdHJpemVzDQoNCi1GaXggZ2xpbWFnZXNpbmsgY2Fubm90IHNob3cgZnJhbWUgd2hlbiBjb25u
+ZWN0IHRvIHFtbGdsc3JjDQoNCldlJ3JlIGFib3V0IHRvIHJvbGwgUkMxIG9mIDIuMiwgc28gSSB0
+aGluayB0aGVzZSB3aWxsIGhhdmUgdG8gd2FpdCB1bnRpbCAyLjMgb3BlbnMgZm9yIHBhdGNoZXMu
+DQoNClJvc3MNCg==
 
-Signed-off-by: zhengruoqin <zhengrq.fnst@cn.fujitsu.com>
----
- .../bind/bind/CVE-2016-2775.patch                  |  90 +++++++++++++++
- .../bind/bind/CVE-2016-2776.patch                  | 123 +++++++++++++++++++++
- meta/recipes-connectivity/bind/bind_9.10.3-P3.bb   |   2 +
- 3 files changed, 215 insertions(+)
- create mode 100644 meta/recipes-connectivity/bind/bind/CVE-2016-2775.patch
- create mode 100644 meta/recipes-connectivity/bind/bind/CVE-2016-2776.patch
+--_000_HE1PR0401MB2682F8CDDB11A504A1703B2EE9DC0HE1PR0401MB2682_
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-diff --git a/meta/recipes-connectivity/bind/bind/CVE-2016-2775.patch b/meta/recipes-connectivity/bind/bind/CVE-2016-2775.patch
-new file mode 100644
-index 0000000..5393063
---- /dev/null
-+++ b/meta/recipes-connectivity/bind/bind/CVE-2016-2775.patch
-@@ -0,0 +1,90 @@
-+From 9d8aba8a7778721ae2cee6e4670a8e6be6590b05 Mon Sep 17 00:00:00 2001
-+From: Mark Andrews <marka@isc.org>
-+Date: Wed, 12 Oct 2016 19:52:59 +0900
-+Subject: [PATCH]
-+4406.   [security]      getrrsetbyname with a non absolute name could
-+                        trigger an infinite recursion bug in lwresd
-+                        and named with lwres configured if when combined
-+                        with a search list entry the resulting name is
-+                        too long. (CVE-2016-2775) [RT #42694]
-+
-+Backport commit 38cc2d14e218e536e0102fa70deef99461354232 from the
-+v9.11.0_patch branch.
-+
-+CVE: CVE-2016-2775
-+Upstream-Status: Backport
-+
-+Signed-off-by: zhengruoqin <zhengrq.fnst@cn.fujitsu.com>
-+
-+---
-+ CHANGES                          |  6 ++++++
-+ bin/named/lwdgrbn.c              | 16 ++++++++++------
-+ bin/tests/system/lwresd/lwtest.c |  9 ++++++++-
-+ 3 files changed, 24 insertions(+), 7 deletions(-)
-+
-+diff --git a/CHANGES b/CHANGES
-+index d2e3360..d0a9d12 100644
-+--- a/CHANGES
-++++ b/CHANGES
-+@@ -1,3 +1,9 @@
-++4406.   [security]      getrrsetbyname with a non absolute name could
-++                        trigger an infinite recursion bug in lwresd
-++                        and named with lwres configured if when combined
-++                        with a search list entry the resulting name is
-++                        too long. (CVE-2016-2775) [RT #42694]
-++
-+ 4322.  [security]      Duplicate EDNS COOKIE options in a response could
-+                        trigger an assertion failure. (CVE-2016-2088)
-+                        [RT #41809]
-+diff --git a/bin/named/lwdgrbn.c b/bin/named/lwdgrbn.c
-+index 3e7b15b..e1e9adc 100644
-+--- a/bin/named/lwdgrbn.c
-++++ b/bin/named/lwdgrbn.c
-+@@ -403,14 +403,18 @@ start_lookup(ns_lwdclient_t *client) {
-+ 	INSIST(client->lookup == NULL);
-+ 
-+ 	dns_fixedname_init(&absname);
-+-	result = ns_lwsearchctx_current(&client->searchctx,
-+-					dns_fixedname_name(&absname));
-++
-+ 	/*
-+-	 * This will return failure if relative name + suffix is too long.
-+-	 * In this case, just go on to the next entry in the search path.
-++         * Perform search across all search domains until success
-++         * is returned. Return in case of failure.
-+ 	 */
-+-	if (result != ISC_R_SUCCESS)
-+-		start_lookup(client);
-++        while (ns_lwsearchctx_current(&client->searchctx,
-++                        dns_fixedname_name(&absname)) != ISC_R_SUCCESS) {
-++                if (ns_lwsearchctx_next(&client->searchctx) != ISC_R_SUCCESS) {
-++                        ns_lwdclient_errorpktsend(client, LWRES_R_FAILURE);
-++                        return;
-++                }
-++        }
-+ 
-+ 	result = dns_lookup_create(cm->mctx,
-+ 				   dns_fixedname_name(&absname),
-+diff --git a/bin/tests/system/lwresd/lwtest.c b/bin/tests/system/lwresd/lwtest.c
-+index ad9b551..3eb4a66 100644
-+--- a/bin/tests/system/lwresd/lwtest.c
-++++ b/bin/tests/system/lwresd/lwtest.c
-+@@ -768,7 +768,14 @@ main(void) {
-+ 	test_getrrsetbyname("e.example1.", 1, 2, 1, 1, 1);
-+ 	test_getrrsetbyname("e.example1.", 1, 46, 2, 0, 1);
-+ 	test_getrrsetbyname("", 1, 1, 0, 0, 0);
-+-
-++        test_getrrsetbyname("123456789.123456789.123456789.123456789."
-++                            "123456789.123456789.123456789.123456789."
-++                            "123456789.123456789.123456789.123456789."
-++                            "123456789.123456789.123456789.123456789."
-++                            "123456789.123456789.123456789.123456789."
-++                            "123456789.123456789.123456789.123456789."
-++                            "123456789", 1, 1, 0, 0, 0);
-++ 
-+ 	if (fails == 0)
-+ 		printf("I:ok\n");
-+ 	return (fails);
-+-- 
-+2.7.4
-+
-diff --git a/meta/recipes-connectivity/bind/bind/CVE-2016-2776.patch b/meta/recipes-connectivity/bind/bind/CVE-2016-2776.patch
-new file mode 100644
-index 0000000..738bf60
---- /dev/null
-+++ b/meta/recipes-connectivity/bind/bind/CVE-2016-2776.patch
-@@ -0,0 +1,123 @@
-+From 1171111657081970585f9f0e03b476358c33a6c0 Mon Sep 17 00:00:00 2001
-+From: Mark Andrews <marka@isc.org>
-+Date: Wed, 12 Oct 2016 20:36:52 +0900
-+Subject: [PATCH] 
-+4467.   [security]      It was possible to trigger an assertion when 
-+                        rendering a message. (CVE-2016-2776) [RT #43139]
-+
-+Backport commit 2bd0922cf995b9ac205fc83baf7e220b95c6bf12 from the
-+v9.11.0_patch branch.
-+
-+CVE: CVE-2016-2776
-+Upstream-Status: Backport
-+
-+Signed-off-by: zhengruoqin <zhengrq.fnst@cn.fujitsu.com>
-+
-+---
-+ CHANGES           |  3 +++
-+ lib/dns/message.c | 42 +++++++++++++++++++++++++++++++-----------
-+ 2 files changed, 34 insertions(+), 11 deletions(-)
-+
-+diff --git a/CHANGES b/CHANGES
-+index d0a9d12..5c8c61a 100644
-+--- a/CHANGES
-++++ b/CHANGES
-+@@ -1,3 +1,6 @@
-++4467.   [security]      It was possible to trigger an assertion when
-++                        rendering a message. (CVE-2016-2776) [RT #43139]
-++
-+ 4406.   [security]      getrrsetbyname with a non absolute name could
-+                         trigger an infinite recursion bug in lwresd
-+                         and named with lwres configured if when combined
-+diff --git a/lib/dns/message.c b/lib/dns/message.c
-+index 6b5b4bb..b74dc81 100644
-+--- a/lib/dns/message.c
-++++ b/lib/dns/message.c
-+@@ -1754,7 +1754,7 @@ dns_message_renderbegin(dns_message_t *msg, dns_compress_t *cctx,
-+ 	if (r.length < DNS_MESSAGE_HEADERLEN)
-+ 		return (ISC_R_NOSPACE);
-+ 
-+-	if (r.length < msg->reserved)
-++        if (r.length - DNS_MESSAGE_HEADERLEN < msg->reserved)
-+ 		return (ISC_R_NOSPACE);
-+ 
-+ 	/*
-+@@ -1895,8 +1895,29 @@ norender_rdataset(const dns_rdataset_t *rdataset, unsigned int options,
-+ 
-+ 	return (ISC_TRUE);
-+ }
-+-
-+ #endif
-++
-++static isc_result_t
-++renderset(dns_rdataset_t *rdataset, dns_name_t *owner_name,
-++         dns_compress_t *cctx, isc_buffer_t *target,
-++         unsigned int reserved, unsigned int options, unsigned int *countp)
-++{
-++       isc_result_t result;
-++
-++       /*
-++        * Shrink the space in the buffer by the reserved amount.
-++        */
-++       if (target->length - target->used < reserved)
-++               return (ISC_R_NOSPACE);
-++
-++       target->length -= reserved;
-++       result = dns_rdataset_towire(rdataset, owner_name,
-++                                    cctx, target, options, countp);
-++       target->length += reserved;
-++
-++       return (result);
-++}
-++
-+ isc_result_t
-+ dns_message_rendersection(dns_message_t *msg, dns_section_t sectionid,
-+ 			  unsigned int options)
-+@@ -1939,6 +1960,8 @@ dns_message_rendersection(dns_message_t *msg, dns_section_t sectionid,
-+ 	/*
-+ 	 * Shrink the space in the buffer by the reserved amount.
-+ 	 */
-++        if (msg->buffer->length - msg->buffer->used < msg->reserved)
-++                return (ISC_R_NOSPACE);
-+ 	msg->buffer->length -= msg->reserved;
-+ 
-+ 	total = 0;
-+@@ -2214,9 +2237,8 @@ dns_message_renderend(dns_message_t *msg) {
-+ 		 * Render.
-+ 		 */
-+ 		count = 0;
-+-		result = dns_rdataset_towire(msg->opt, dns_rootname,
-+-					     msg->cctx, msg->buffer, 0,
-+-					     &count);
-++                result = renderset(msg->opt, dns_rootname, msg->cctx,
-++                                   msg->buffer, msg->reserved, 0, &count);
-+ 		msg->counts[DNS_SECTION_ADDITIONAL] += count;
-+ 		if (result != ISC_R_SUCCESS)
-+ 			return (result);
-+@@ -2232,9 +2254,8 @@ dns_message_renderend(dns_message_t *msg) {
-+ 		if (result != ISC_R_SUCCESS)
-+ 			return (result);
-+ 		count = 0;
-+-		result = dns_rdataset_towire(msg->tsig, msg->tsigname,
-+-					     msg->cctx, msg->buffer, 0,
-+-					     &count);
-++                result = renderset(msg->tsig, msg->tsigname, msg->cctx,
-++                                   msg->buffer, msg->reserved, 0, &count);
-+ 		msg->counts[DNS_SECTION_ADDITIONAL] += count;
-+ 		if (result != ISC_R_SUCCESS)
-+ 			return (result);
-+@@ -2255,9 +2276,8 @@ dns_message_renderend(dns_message_t *msg) {
-+ 		 * the owner name of a SIG(0) is irrelevant, and will not
-+ 		 * be set in a message being rendered.
-+ 		 */
-+-		result = dns_rdataset_towire(msg->sig0, dns_rootname,
-+-					     msg->cctx, msg->buffer, 0,
-+-					     &count);
-++                result = renderset(msg->sig0, dns_rootname, msg->cctx,
-++                                   msg->buffer, msg->reserved, 0, &count);
-+ 		msg->counts[DNS_SECTION_ADDITIONAL] += count;
-+ 		if (result != ISC_R_SUCCESS)
-+ 			return (result);
-+-- 
-+2.7.4
-+
-diff --git a/meta/recipes-connectivity/bind/bind_9.10.3-P3.bb b/meta/recipes-connectivity/bind/bind_9.10.3-P3.bb
-index a99f0dd..4e2e856 100644
---- a/meta/recipes-connectivity/bind/bind_9.10.3-P3.bb
-+++ b/meta/recipes-connectivity/bind/bind_9.10.3-P3.bb
-@@ -25,6 +25,8 @@ SRC_URI = "ftp://ftp.isc.org/isc/bind9/${PV}/${BPN}-${PV}.tar.gz \
-            file://CVE-2016-1286_1.patch \
-            file://CVE-2016-1286_2.patch \
-            file://CVE-2016-2088.patch \
-+           file://CVE-2016-2775.patch \
-+           file://CVE-2016-2776.patch \
-            "
- 
- SRC_URI[md5sum] = "bcf7e772b616f7259420a3edc5df350a"
--- 
-2.7.4
+PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
+bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
+YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
+cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
+VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
+Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
+ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTUgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
+PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
+5a6L5L2TOw0KCXBhbm9zZS0xOjIgMSA2IDAgMyAxIDEgMSAxIDE7fQ0KQGZvbnQtZmFjZQ0KCXtm
+b250LWZhbWlseToiQ2FtYnJpYSBNYXRoIjsNCglwYW5vc2UtMToyIDQgNSAzIDUgNCA2IDMgMiA0
+O30NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6Q2FsaWJyaTsNCglwYW5vc2UtMToyIDE1IDUg
+MiAyIDIgNCAzIDIgNDt9DQpAZm9udC1mYWNlDQoJe2ZvbnQtZmFtaWx5OiJcQOWui+S9kyI7DQoJ
+cGFub3NlLTE6MiAxIDYgMCAzIDEgMSAxIDEgMTt9DQovKiBTdHlsZSBEZWZpbml0aW9ucyAqLw0K
+cC5Nc29Ob3JtYWwsIGxpLk1zb05vcm1hbCwgZGl2Lk1zb05vcm1hbA0KCXttYXJnaW46MGluOw0K
+CW1hcmdpbi1ib3R0b206LjAwMDFwdDsNCglmb250LXNpemU6MTIuMHB0Ow0KCWZvbnQtZmFtaWx5
+OiJUaW1lcyBOZXcgUm9tYW4iLHNlcmlmO30NCmE6bGluaywgc3Bhbi5Nc29IeXBlcmxpbmsNCgl7
+bXNvLXN0eWxlLXByaW9yaXR5Ojk5Ow0KCWNvbG9yOmJsdWU7DQoJdGV4dC1kZWNvcmF0aW9uOnVu
+ZGVybGluZTt9DQphOnZpc2l0ZWQsIHNwYW4uTXNvSHlwZXJsaW5rRm9sbG93ZWQNCgl7bXNvLXN0
+eWxlLXByaW9yaXR5Ojk5Ow0KCWNvbG9yOnB1cnBsZTsNCgl0ZXh0LWRlY29yYXRpb246dW5kZXJs
+aW5lO30NCnNwYW4uRW1haWxTdHlsZTE3DQoJe21zby1zdHlsZS10eXBlOnBlcnNvbmFsOw0KCWZv
+bnQtZmFtaWx5OiJDYWxpYnJpIixzYW5zLXNlcmlmOw0KCWNvbG9yOiMxRjQ5N0Q7fQ0Kc3Bhbi5F
+bWFpbFN0eWxlMTgNCgl7bXNvLXN0eWxlLXR5cGU6cGVyc29uYWwtY29tcG9zZTsNCglmb250LWZh
+bWlseToiQ2FsaWJyaSIsc2Fucy1zZXJpZjsNCgljb2xvcjp3aW5kb3d0ZXh0O30NCi5Nc29DaHBE
+ZWZhdWx0DQoJe21zby1zdHlsZS10eXBlOmV4cG9ydC1vbmx5Ow0KCWZvbnQtZmFtaWx5OiJDYWxp
+YnJpIixzYW5zLXNlcmlmO30NCkBwYWdlIFdvcmRTZWN0aW9uMQ0KCXtzaXplOjguNWluIDExLjBp
+bjsNCgltYXJnaW46MS4waW4gMS4yNWluIDEuMGluIDEuMjVpbjt9DQpkaXYuV29yZFNlY3Rpb24x
+DQoJe3BhZ2U6V29yZFNlY3Rpb24xO30NCi0tPjwvc3R5bGU+PCEtLVtpZiBndGUgbXNvIDldPjx4
+bWw+DQo8bzpzaGFwZWRlZmF1bHRzIHY6ZXh0PSJlZGl0IiBzcGlkbWF4PSIxMDI2IiAvPg0KPC94
+bWw+PCFbZW5kaWZdLS0+PCEtLVtpZiBndGUgbXNvIDldPjx4bWw+DQo8bzpzaGFwZWxheW91dCB2
+OmV4dD0iZWRpdCI+DQo8bzppZG1hcCB2OmV4dD0iZWRpdCIgZGF0YT0iMSIgLz4NCjwvbzpzaGFw
+ZWxheW91dD48L3htbD48IVtlbmRpZl0tLT4NCjwvaGVhZD4NCjxib2R5IGxhbmc9IkVOLVVTIiBs
+aW5rPSJibHVlIiB2bGluaz0icHVycGxlIj4NCjxkaXYgY2xhc3M9IldvcmRTZWN0aW9uMSI+DQo8
+cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZh
+bWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LHNhbnMtc2VyaWY7Y29sb3I6IzFGNDk3RCI+SGkgUm9z
+cyw8bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHls
+ZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LHNhbnMt
+c2VyaWY7Y29sb3I6IzFGNDk3RCI+PG86cD4mbmJzcDs8L286cD48L3NwYW4+PC9wPg0KPHAgY2xh
+c3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6
+JnF1b3Q7Q2FsaWJyaSZxdW90OyxzYW5zLXNlcmlmO2NvbG9yOiMxRjQ5N0QiPiZuYnNwOyZuYnNw
+OyZuYnNwOyZuYnNwOyZuYnNwOyBUaGVzZSBnc3RyZWFtZXIgcGF0Y2hlcyBhcmUgYnVnIGZpeGlu
+ZyBhbmQgYWxsIGJhY2twb3J0ZWQgZnJvbSBoaWdoZXIgdmVyc2lvbiwgc28gdGhlIHJpc2sgaXMg
+bG93Lg0KPG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4g
+c3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90Oyxz
+YW5zLXNlcmlmO2NvbG9yOiMxRjQ5N0QiPiZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZu
+YnNwO0lzIHRoYXQgb2sgdG8gaW50ZWdyYXRlIHRoZW0gaW50byBtb3J0eT88bzpwPjwvbzpwPjwv
+c3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjEx
+LjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LHNhbnMtc2VyaWY7Y29sb3I6IzFG
+NDk3RCI+PG86cD4mbmJzcDs8L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+
+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZx
+dW90OyxzYW5zLXNlcmlmO2NvbG9yOiMxRjQ5N0QiPjxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwv
+cD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2Zv
+bnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssc2Fucy1zZXJpZjtjb2xvcjojMUY0OTdEIj5C
+LlIuPG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5
+bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OyxzYW5z
+LXNlcmlmO2NvbG9yOiMxRjQ5N0QiPkNhcm9sPG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xh
+c3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6
+JnF1b3Q7Q2FsaWJyaSZxdW90OyxzYW5zLXNlcmlmO2NvbG9yOiMxRjQ5N0QiPjxvOnA+Jm5ic3A7
+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxiPjxzcGFuIHN0eWxlPSJm
+b250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssc2Fucy1zZXJp
+ZiI+RnJvbTo8L3NwYW4+PC9iPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFt
+aWx5OiZxdW90O0NhbGlicmkmcXVvdDssc2Fucy1zZXJpZiI+IEJ1cnRvbiwgUm9zcyBbbWFpbHRv
+OnJvc3MuYnVydG9uQGludGVsLmNvbV0NCjxicj4NCjxiPlNlbnQ6PC9iPiBUdWVzZGF5LCBPY3Rv
+YmVyIDExLCAyMDE2IDg6MjYgUE08YnI+DQo8Yj5Ubzo8L2I+IENhcm9sIFpodSAmbHQ7Y2Fyb2wu
+emh1QG54cC5jb20mZ3Q7PGJyPg0KPGI+Q2M6PC9iPiBPRS1jb3JlICZsdDtvcGVuZW1iZWRkZWQt
+Y29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnJmd0Ozxicj4NCjxiPlN1YmplY3Q6PC9iPiBSZTog
+W09FLWNvcmVdIFtwb2t5XVtQQVRDSCAwLzRdIEFkZCBwYXRjaGVzIGZvciBnc3RyZWFtZXIxLjAt
+cGx1Z2lucy1iYWQgVjEuOC4zPG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05v
+cm1hbCI+PG86cD4mbmJzcDs8L286cD48L3A+DQo8ZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29O
+b3JtYWwiPjxvOnA+Jm5ic3A7PC9vOnA+PC9wPg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwi
+Pk9uIDExIE9jdG9iZXIgMjAxNiBhdCAxMTo0OSwgWXVxaW5nIFpodSAmbHQ7PGEgaHJlZj0ibWFp
+bHRvOmNhcm9sLnpodUBueHAuY29tIiB0YXJnZXQ9Il9ibGFuayI+Y2Fyb2wuemh1QG54cC5jb208
+L2E+Jmd0OyB3cm90ZTo8bzpwPjwvbzpwPjwvcD4NCjxibG9ja3F1b3RlIHN0eWxlPSJib3JkZXI6
+bm9uZTtib3JkZXItbGVmdDpzb2xpZCAjQ0NDQ0NDIDEuMHB0O3BhZGRpbmc6MGluIDBpbiAwaW4g
+Ni4wcHQ7bWFyZ2luLWxlZnQ6NC44cHQ7bWFyZ2luLXJpZ2h0OjBpbiI+DQo8ZGl2IGlkPSI6NXFt
+Ij4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPi1TdXBwb3J0IHZpZGVvIHJvdGF0aW9uIGJ5IHVzaW5n
+IHRyYW5zZm9ybSBtYXRyaXg8YnI+DQo8YnI+DQotRml4IHdyb25nIGF0dHJpYnV0ZSBsaXN0IHR5
+cGUgZm9yIEVHTCAxLjU8YnI+DQo8YnI+DQotRml4IGhvcml6b250YWwvdmVydGljYWwgZmxpcCBt
+YXRyaXplczxicj4NCjxicj4NCi1GaXggZ2xpbWFnZXNpbmsgY2Fubm90IHNob3cgZnJhbWUgd2hl
+biBjb25uZWN0IHRvIHFtbGdsc3JjPG86cD48L286cD48L3A+DQo8L2Rpdj4NCjwvYmxvY2txdW90
+ZT4NCjwvZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PGJyPg0KV2UncmUgYWJvdXQgdG8gcm9s
+bCBSQzEgb2YgMi4yLCBzbyBJIHRoaW5rIHRoZXNlIHdpbGwgaGF2ZSB0byB3YWl0IHVudGlsIDIu
+MyBvcGVucyBmb3IgcGF0Y2hlcy48bzpwPjwvbzpwPjwvcD4NCjwvZGl2Pg0KPGRpdj4NCjxwIGNs
+YXNzPSJNc29Ob3JtYWwiPjxvOnA+Jm5ic3A7PC9vOnA+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0KPHAg
+Y2xhc3M9Ik1zb05vcm1hbCI+Um9zczxvOnA+PC9vOnA+PC9wPg0KPC9kaXY+DQo8L2Rpdj4NCjwv
+ZGl2Pg0KPC9ib2R5Pg0KPC9odG1sPg0K
 
-
-
-
+--_000_HE1PR0401MB2682F8CDDB11A504A1703B2EE9DC0HE1PR0401MB2682_--
