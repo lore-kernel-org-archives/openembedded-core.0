@@ -1,47 +1,50 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-lf0-f53.google.com (mail-lf0-f53.google.com
-	[209.85.215.53])
-	by mail.openembedded.org (Postfix) with ESMTP id 2DE0C6057A
+Received: from mail-lf0-f43.google.com (mail-lf0-f43.google.com
+	[209.85.215.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 3378C71AE9
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Oct 2016 20:53:19 +0000 (UTC)
-Received: by mail-lf0-f53.google.com with SMTP id x79so159493788lff.0
+	Thu, 13 Oct 2016 20:53:20 +0000 (UTC)
+Received: by mail-lf0-f43.google.com with SMTP id l131so115091763lfl.2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Oct 2016 13:53:21 -0700 (PDT)
+	Thu, 13 Oct 2016 13:53:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=4psRAo9LQeXPnQd9Kg/wCQ2K5Jnc2sloMXqrwQiEiSk=;
-	b=v9/Hhym+dqQDRG5zVkOfUkO0puAEfxJyHtHON13bo8WmnVYDubBT9+XKnuC9fwd+MG
-	jxF+ROReSgkq9w4cBPhNKyaoDM9eXUewTqlfE4mMC5axxg3X3AAOTXxMjlsHT6lY670J
-	G7xzncPEHyVvK54gUs5LxPgQNbw4y3EzyxC8qMylqkWaKgCqfZFAQjMOBXZGdINPiS1X
-	0m0a/ky2Wx0P0w6blRWFeQbGEmiwiPG/CAsyNs3SDc2znxLF0pJ9m88e2BKr1nmSOHCr
-	mJJBELr6t/R6k1GQYEKrdPRwWF8ccby0+gSraKlKUsYDAlYjI49NKc4f7bySPs64oq3d
-	7kPw==
+	h=from:to:subject:date:message-id:in-reply-to:references;
+	bh=6nN5ACTl3wIHNdNxv6eATCXg5zx4DfvLWCQwLjPA0/k=;
+	b=Gi3HTwtQ9SSErp/Y2jIiRzsXMTjgeMjYY4CRQFJr+wxuR3LZoxUUG8qrU83mcExXFs
+	/npuSQq7RbKbgdKoFZBBFNnroYerRDdVDCaY6O50icTq+sMoN5qMUa7e1BO9EFZrFWKH
+	gc9HR2lwxuZTi1SHyiuc08DUndzD9aTnm389TJ9vCYKgQBa/2+BG2+n4euxxzXVPp/jl
+	+lV/6TpKROnM6X0kqPf0QfBiEnjhsANPcjS4dNDWs97oAvwGRXSwodl1Ftpt7d1XllEk
+	j5oqpL6Q4wJIiLF753zzN5cznhXdUtcEXmzCub1Tw0zGjP65cPS2Q/EiGQPJwlXD/Edq
+	hHqw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=4psRAo9LQeXPnQd9Kg/wCQ2K5Jnc2sloMXqrwQiEiSk=;
-	b=ZPHQ1MZNLcjTeNfb3sFtep4rpKqYVMadi6mBlkFTUGYm0B32/wDBOFkT0tlqBDIJu2
-	g9HRG8ZkyTWNTrdJMjde4Vx3quxMsSIbvK6gRt7j56vOed/NJzbQ55Yh0rk4UiEqlAw2
-	02jDGo0HnWzSSh2Nx3loJ913YYucqL0b0YaB1F55eSNnA2Pn/r2tjyrarb2aDY76b8/L
-	SnzTCuD5fa1fmHdweONvIxeRBy5f7pB3wlfDFdytfOEJ9RGb5dI/OMhTqz+asDNsttBx
-	X5SDBg15soTbeJpHk3ePBoHt6bUUV4cDsRoklmcX6f5BGA6nSWNkfJmi9/U9Avk+Xkcp
-	4HFg==
-X-Gm-Message-State: AA6/9RkD7q4+TjwlG2gsC/rvpZrtz2SI/AdHhTo5ESvVfW689HYYwH67Tw2+SA+uyEqbENEY
-X-Received: by 10.28.175.2 with SMTP id y2mr3362314wme.106.1476391999992;
-	Thu, 13 Oct 2016 13:53:19 -0700 (PDT)
+	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+	:references;
+	bh=6nN5ACTl3wIHNdNxv6eATCXg5zx4DfvLWCQwLjPA0/k=;
+	b=aafS97/0pb8Aglm2KfbvKsY/RXlUOzyC6UpKcYCdrrrbb/BVsde4XTRdpTS5mGVX9v
+	lyaBR3QEpXTDPzv4vQzau6LkWcSybcTA0GtBfTZjpaHyvl/y46BlePx/SCE3qwIQfNyI
+	/DYrrBSfBOiLzAqzYab/3LGuHUaSpAkvrZX8a+VAAgOWYadkoesQVgoEF/t6X5Dqorn+
+	wMXv+61mqWFYi621VCHwQ0ehSfIENSpkrreHEnoi8OFc4E0CFQEQacO+JZhSUKP2NfPo
+	DoanFjsG8CuV2BFGR7rnSoUK/P+1jvrY8QVX43SQJLk3m62cy6wJOh1TVvuzYAfi14Sa
+	cw/g==
+X-Gm-Message-State: AA6/9RmPYM0usjJGMe1pziVuU1EN+ZsHwQTiq22At3uIxMnRiWU+nMg+wQJQNWa7YTM1aXyt
+X-Received: by 10.28.153.66 with SMTP id b63mr3350408wme.79.1476392001152;
+	Thu, 13 Oct 2016 13:53:21 -0700 (PDT)
 Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
 	by smtp.gmail.com with ESMTPSA id
-	a1sm25558815wju.41.2016.10.13.13.53.18
+	a1sm25558815wju.41.2016.10.13.13.53.20
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 13 Oct 2016 13:53:19 -0700 (PDT)
+	Thu, 13 Oct 2016 13:53:20 -0700 (PDT)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 13 Oct 2016 21:53:14 +0100
-Message-Id: <1476391995-17730-1-git-send-email-ross.burton@intel.com>
+Date: Thu, 13 Oct 2016 21:53:15 +0100
+Message-Id: <1476391995-17730-2-git-send-email-ross.burton@intel.com>
 X-Mailer: git-send-email 2.8.1
-Subject: [PATCH 1/2] librsvg: remove redundant assignment
+In-Reply-To: <1476391995-17730-1-git-send-email-ross.burton@intel.com>
+References: <1476391995-17730-1-git-send-email-ross.burton@intel.com>
+Subject: [PATCH 2/2] pixbufcache: handle gdk-pixbuf not being present
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,24 +59,47 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 13 Oct 2016 20:53:21 -0000
 
-PIXBUFCACHE_SYSROOT_DEPS was removed in oe-core b41108, so remove this
-assignment to avoid confusing people reading the recipe.
+It's possible - albeit unlikely - that gdk-pixbuf isn't present in the sysroot
+when a recipe inheriting this class is and the sysroot is finalised.
+
+One example would be if the sstate archive has librsvg but not gdk-pixbuf:
+librsvg will be extracted from the sstate but gdk-pixbuf will be built to "fill
+in the gap".  In this situation the setscene completion hook installed by
+pixbufcache.bbclass will attempt to execute gdk-pixbuf-query-loaders, but that
+binary hasn't been installed by gdk-pixbuf yet.
+
+Also add gdk-pixbuf-native to DEPENDS in native builds to ensure that the
+binaries we expect will be present, as it's possible to build loaders without
+linking to GdkPixbuf.
+
+[ YOCTO #10420 ]
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/recipes-gnome/librsvg/librsvg_2.40.16.bb | 2 --
- 1 file changed, 2 deletions(-)
+ meta/classes/pixbufcache.bbclass | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-gnome/librsvg/librsvg_2.40.16.bb b/meta/recipes-gnome/librsvg/librsvg_2.40.16.bb
-index ed54d9d..49243c8 100644
---- a/meta/recipes-gnome/librsvg/librsvg_2.40.16.bb
-+++ b/meta/recipes-gnome/librsvg/librsvg_2.40.16.bb
-@@ -41,5 +41,3 @@ FILES_rsvg = "${bindir}/rsvg* \
- FILES_librsvg-gtk = "${libdir}/gdk-pixbuf-2.0/*/*/*.so"
+diff --git a/meta/classes/pixbufcache.bbclass b/meta/classes/pixbufcache.bbclass
+index dbe11e1..b619a77 100644
+--- a/meta/classes/pixbufcache.bbclass
++++ b/meta/classes/pixbufcache.bbclass
+@@ -54,6 +54,7 @@ gdkpixbuf_complete() {
+ # An error exit during populate_sysroot_setscene allows bitbake to
+ # try to recover by re-building the package.
+ #
++DEPENDS_append_class-native = " gdk-pixbuf-native"
+ SSTATEPOSTINSTFUNCS_append_class-native = " pixbufcache_sstate_postinst"
  
- PIXBUF_PACKAGES = "librsvg-gtk"
+ # See base.bbclass for the other half of this
+@@ -61,7 +62,6 @@ pixbufcache_sstate_postinst() {
+ 	if [ "${BB_CURRENTTASK}" = "populate_sysroot" ]; then
+ 		${gdkpixbuf_complete}
+ 	elif [ "${BB_CURRENTTASK}" = "populate_sysroot_setscene" ]; then
+-		echo "${gdkpixbuf_complete}" >> ${STAGING_DIR}/sstatecompletions
++		test -x ${STAGING_LIBDIR_NATIVE}/gdk-pixbuf-2.0/gdk-pixbuf-query-loaders && echo "${gdkpixbuf_complete}" >> ${STAGING_DIR}/sstatecompletions
+ 	fi
+ }
 -
--PIXBUFCACHE_SYSROOT_DEPS_append_class-native = " harfbuzz-native:do_populate_sysroot_setscene pango-native:do_populate_sysroot_setscene icu-native:do_populate_sysroot_setscene"
 -- 
 2.8.1
 
