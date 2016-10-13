@@ -1,40 +1,47 @@
-Return-Path: <raymond.tan@intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id DB86D71A90
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io0-f176.google.com (mail-io0-f176.google.com
+	[209.85.223.176])
+	by mail.openembedded.org (Postfix) with ESMTP id D2F73719B6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Oct 2016 10:35:58 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga103.fm.intel.com with ESMTP; 13 Oct 2016 03:36:00 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.31,339,1473145200"; d="scan'208";a="1053252547"
-Received: from pgsmsx105.gar.corp.intel.com ([10.221.44.96])
-	by fmsmga001.fm.intel.com with ESMTP; 13 Oct 2016 03:35:59 -0700
-Received: from pgsmsx104.gar.corp.intel.com ([169.254.3.75]) by
-	PGSMSX105.gar.corp.intel.com ([169.254.4.63]) with mapi id
-	14.03.0248.002; Thu, 13 Oct 2016 18:35:58 +0800
-From: "Tan, Raymond" <raymond.tan@intel.com>
-To: "Hatle, Mark G (Wind River)" <mark.hatle@windriver.com>, Khem Raj
-	<raj.khem@gmail.com>
-Thread-Topic: [OE-core] openssl: OpenSSL 1.1.x update
-Thread-Index: AdIfdbrhyJZXjVcGT8iRVZfchXpupf//gpIAgAAHJwCAAL6MAIAAEPeAgAAE9YD/9NFoMA==
-Date: Thu, 13 Oct 2016 10:35:57 +0000
-Message-ID: <F0CA9E243F4F424B836EAC30E41BF4CF5DF55A2F@PGSMSX104.gar.corp.intel.com>
-References: <F0CA9E243F4F424B836EAC30E41BF4CF5DF514DB@PGSMSX104.gar.corp.intel.com>
-	<a3c142bf-8c0b-3f90-dda9-7f72dd4da1cf@windriver.com>
-	<CAMKF1spG=v7_wb_VYktNBL7NTan28NbB47G7u2B_-E43jBL8vQ@mail.gmail.com>
-	<687e0950-a18a-5d44-aeae-18517df275e6@windriver.com>
-	<4F081825-2EC8-4F85-9E55-1E24F215723D@gmail.com>
-	<89015693-dfeb-5b47-7c2b-386c85571dec@windriver.com>
-In-Reply-To: <89015693-dfeb-5b47-7c2b-386c85571dec@windriver.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [172.30.20.205]
+	Thu, 13 Oct 2016 10:39:42 +0000 (UTC)
+Received: by mail-io0-f176.google.com with SMTP id j37so80398724ioo.3
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 13 Oct 2016 03:39:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=qmD1TpRprXhosYdp9ynqKW6N1FX5dmj90M69gXCQ/TU=;
+	b=14MyeOW6iQblwW+eXIrSiVaEBAIc2iFDvWkxIRZWE7XEMloYiMcU2Ghvl+3YlueNLX
+	Oq59TsXPQP5BQWI5W75xXg/6xMClGQjUvZHCxTdUsxI9y/ONOW26T3e4hbL9R3RwmXEB
+	dVwqDJd6zo/I0MQLswv7b5DBNc0gB5vtn7TJq3k92e4p5feOipc8IsANmrjx6sZd5tlT
+	5AKppvK3bP4eP/l8AMmuKLYqGcjgBVE+HN3C76K8PUqHoX+63UpsHI1mQdExiyPNCdNV
+	8BfHzeFeIz9nLc3JBYyrTzEp/B2HlGnF6DotrmlkorsIyV/DIoeshdXPONHQHhU62vKT
+	VMIw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=qmD1TpRprXhosYdp9ynqKW6N1FX5dmj90M69gXCQ/TU=;
+	b=eOkbc4U2v57/Zim7S04qiCFZRpMPRYHG2lpBNvLFtfmtNZ77njs6guFIcE4GgeugRK
+	xNWUBzYKfHUlDpHgOPpoKlMxZUJgp6rfeQPpzc/E8lfR7UcOrLwaMIdfTPX2k9LDAmx9
+	Oxn6OeCIL+/c4d/Eq4EQmcu/13shJE4ZCL8TN0Pdkfyv+nlJwWsX4t+U0yL7AAh6zZnI
+	gIo/jPRVDAQ2HiwuWgx/a0LNd81rAtq/AZ2NkgVPzbO4S6npsUdPFpMBb50GFA7JZ6ip
+	UCNJqajwWsqIqUfsM/atV/ORKOOhLbLvPXwHMck6S6xepkR47D04BUErUU7v/Ao4uyVN
+	O6ig==
+X-Gm-Message-State: AA6/9RkGri6W0woagKL2G8+gJgdoFyANRmeeSQBo3hdm6i2EuX6OmytLuMVUM5RZ4siUjK0y5qPn+qaj1Y2YxGfT
+X-Received: by 10.107.5.72 with SMTP id 69mr5730922iof.132.1476355183961; Thu,
+	13 Oct 2016 03:39:43 -0700 (PDT)
 MIME-Version: 1.0
-Cc: "Gupta, Rahul KumarXX" <rahul.kumarxx.gupta@intel.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: openssl: OpenSSL 1.1.x update
+Received: by 10.107.155.66 with HTTP; Thu, 13 Oct 2016 03:39:23 -0700 (PDT)
+In-Reply-To: <5efcefb8fb966ad7c7a21a6c217db43199dd7b46.1476351914.git.liezhi.yang@windriver.com>
+References: <cover.1476351914.git.liezhi.yang@windriver.com>
+	<5efcefb8fb966ad7c7a21a6c217db43199dd7b46.1476351914.git.liezhi.yang@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 13 Oct 2016 11:39:23 +0100
+Message-ID: <CAJTo0Lbruk380HCw_c_m5VR+RwT53XWSYGHSULhKH8ar3gQWVA@mail.gmail.com>
+To: Robert Yang <liezhi.yang@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] package_manager.py: fix for "Argument list too long"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,102 +54,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 13 Oct 2016 10:35:59 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="iso-8859-1"
+X-List-Received-Date: Thu, 13 Oct 2016 10:39:43 -0000
+Content-Type: multipart/alternative; boundary=001a113efe2c4d7b97053ebcba60
+
+--001a113efe2c4d7b97053ebcba60
+Content-Type: text/plain; charset=UTF-8
+
+On 13 October 2016 at 10:45, Robert Yang <liezhi.yang@windriver.com> wrote:
+
+> This is because "copyhardlinktree(deploy_arch_dir, arch_channel)" does:
+> "cp -afl deploy_arch_dir/* arch_channel", while the deploy_arch_dir/* is
+> expanded to "deploy_arch_dir/pkg1 deploy_arch_dir/pkg2
+> deploy_arch_dir/pkg3 ..." which causes the "Argument list too long",
+> change cwd to deploy_arch_dir can avoid the error.
+>
+
+Would it be better to change the implementation of copyhardlinktree so that
+it *can't* have this problem?
+
+Ross
+
+--001a113efe2c4d7b97053ebcba60
+Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-Warm Regards,=20
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 13 October 2016 at 10:45, Robert Yang <span dir=3D"ltr">&lt;<a href=3D"m=
+ailto:liezhi.yang@windriver.com" target=3D"_blank">liezhi.yang@windriver.co=
+m</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margi=
+n:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":5iq" =
+class=3D"a3s aXjCH m157bd7460cccb1df">This is because &quot;copyhardlinktre=
+e(deploy_arch_<wbr>dir, arch_channel)&quot; does:<br>
+&quot;cp -afl deploy_arch_dir/* arch_channel&quot;, while the deploy_arch_d=
+ir/* is<br>
+expanded to &quot;deploy_arch_dir/pkg1 deploy_arch_dir/pkg2<br>
+deploy_arch_dir/pkg3 ...&quot; which causes the &quot;Argument list too lon=
+g&quot;,<br>
+change cwd to deploy_arch_dir can avoid the error.<br></div></blockquote></=
+div><br>Would it be better to change the implementation of copyhardlinktree=
+ so that it *can&#39;t* have this problem?</div><div class=3D"gmail_extra">=
+<br></div><div class=3D"gmail_extra">Ross</div></div>
 
-=A0Raymond Tan
-
-> -----Original Message-----
-> From: Mark Hatle [mailto:mark.hatle@windriver.com]
-> Sent: Thursday, October 06, 2016 11:40 PM
-> To: Khem Raj <raj.khem@gmail.com>
-> Cc: Tan, Raymond <raymond.tan@intel.com>; openembedded-
-> core@lists.openembedded.org; Gupta, Rahul KumarXX
-> <rahul.kumarxx.gupta@intel.com>
-> Subject: Re: [OE-core] openssl: OpenSSL 1.1.x update
->=20
-> On 10/6/16 10:22 AM, Khem Raj wrote:
-> >
-> >> On Oct 6, 2016, at 7:21 AM, Mark Hatle <mark.hatle@windriver.com>
-> wrote:
-> >>
-> >> On 10/5/16 9:59 PM, Khem Raj wrote:
-> >>> On Wed, Oct 5, 2016 at 7:33 PM, Mark Hatle <mark.hatle@windriver.com>
-> wrote:
-> >>>> On 10/5/16 9:11 PM, Tan, Raymond wrote:
-> >>>>> Greetings, I would like to know if there is any plan / schedule to =
-upgrade
-> to openssl 1.1.0 into OE-core?
-> >>>>
-> >>>> Currently 1.0.2 is the LTS version of OpenSSL.  1.1.0 is not schedul=
-ed to be
-> LTS.
-> >>>>
-> >>>> For the upcoming release (soon), I would NOT expect 1.1.0 to be in
-> >>>> it.  There are still too many incompatibilities with other component=
-s.
-> >>>>
-> >>>> For the next version of OE, I think it is appropriate to include
-> >>>> 1.1.0, but I would also like to maintain 1.0.2 for the time being.
-> >>>> (Beside LTS, it also is still the only way to have FIPS-140-2
-> >>>> module, as there is currently no module in the 1.1.0 -- and there
-> >>>> may not be for a while.)
-> >>>
-
-This means earliest possible would be post morty? And 1.0.2 would still be =
-maintained in there due to the LTS status?
-
-The reason I'm checking is we are trying to integrate a new QAT openssl eng=
-ine, which is developed for openssl 1.1.0.=20
-
-> >>> What do we get with 1.1.0 ?
-> >>
-> >> Latest and greatest code of course.. :)
-> >>
-> >> Reality, not a lot more over 1.0.2... there are some significant
-> >> redesigns that should help improve overall security of the OpenSSL
-> >> library and items using the library.  But various things will have to =
-be
-> updated to make use of this.
-> >>
-> >> The OpenSSL community itself is looking at 1.1.0 as a transition to
-> >> newer and better design/api/etc... which is why it is not marked as a =
-LTS
-> release.
-> >
-> > api changes can be a bothersome point from integration POV, do we know
-> > if there are some forwarded porting incompatibilities in APIs already?
->=20
-> I have not investigated it, as my focus has been on the LTS version at th=
-is point.
->=20
-> --Mark
->=20
-> >>
-> >> Beside my basic understanding (above) there should be information as
-> >> part of the
-> >> 1.1.0 release notes.
-> >>
-> >> --Mark
-> >>
-> >>>>
-> >>>> --Mark
-> >>>>
-> >>>>> Thanks!
-> >>>>>
-> >>>>> Raymond Tan
-> >>>>>
-> >>>>
-> >>>> --
-> >>>> _______________________________________________
-> >>>> Openembedded-core mailing list
-> >>>> Openembedded-core@lists.openembedded.org
-> >>>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
-> >>
-> >
-
-
+--001a113efe2c4d7b97053ebcba60--
