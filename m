@@ -1,54 +1,49 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-lf0-f65.google.com (mail-lf0-f65.google.com
-	[209.85.215.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 86D7D71A39
+Return-Path: <ross.burton@intel.com>
+Received: from mail-it0-f44.google.com (mail-it0-f44.google.com
+	[209.85.214.44])
+	by mail.openembedded.org (Postfix) with ESMTP id F31CF6FFEF
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Oct 2016 11:44:07 +0000 (UTC)
-Received: by mail-lf0-f65.google.com with SMTP id l131so9435313lfl.0
+	Thu, 13 Oct 2016 13:10:14 +0000 (UTC)
+Received: by mail-it0-f44.google.com with SMTP id o19so81858587ito.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Oct 2016 04:44:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:date:to:cc:subject:message-id:references:mime-version
-	:content-disposition:in-reply-to:user-agent;
-	bh=nFe8/oqtg+L/6pomSkh0pHMNA2RgNhJTW1JMNa03GdE=;
-	b=Q/65WeujV18LKdP2glW2XD93XJ988XYCV4Zs3KBfVt3ga9WKxj2AmuCaSyKRslDBOD
-	05bQJ9aC41S88WPx9pOcnUjNgTXgWI3YBYw7Zmuco5/EsIhTE2aPoRkXeERX5NtGG+/Y
-	CGL5drsRhLDLMCC0SPy2chM3EZRbZuDuvMxyzXDJtZYPe+lNYBBybYlyCX2V2qMqx7XQ
-	KkLshp6a3XXnhO83Dec/rDibHLAHYDo9/K7e1HLi/2s834OU/PpcZP/BJJc+khqvH1/A
-	pmWQDfK7gnfyuDoxT/eCkC5RRiG3H/pVqUMHb2Gu7T86W0f1jsx6ZVh96BNmfx5cCHYO
-	vn1g==
+	Thu, 13 Oct 2016 06:10:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=E3l1ZCf1iTQXNmgmyMpbtn0uoI3LKn03E5jSXJqj1es=;
+	b=s2hGSXoPonWeDfCG/RNhIRNxlvaXXlgsqbZR4d4wCWO3jEwSdzq3UzHn8RiuPM7GHn
+	RfpXz7Z1cRjL7Cyj5Z5MmPMQd5NMRz4KGDmcIoTL5HDILsp3Lnsh/MawHsAt5m0hTMLe
+	01gBMqJQsR3NqCrUUkVbCSPoiH17RKsP/A33vmmz+OgwdM1rnv88waJgbWTNZ8GfpmOH
+	2wryyjv9khoJToB9++GHy+AyfkFHXr1/wuLbjsgWD5Bl5R9nMPLUn6mfuDD4xKDa9oJ2
+	8qTWfrVrRi365TQ3stR7W08emiXsB57zbKz7GQS51OIdAxkjgMpzm5gOaNa0M9yuUao+
+	db0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:date:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=nFe8/oqtg+L/6pomSkh0pHMNA2RgNhJTW1JMNa03GdE=;
-	b=HioJzpXreKeiUTrL693yzXecfXAJBjJeqE5J309aNdRMMEPTgnSIDk1wnM6vZbGiJJ
-	wXX8UXpbU68WY5sWyDX3alBZO48lMJ2C7sHXPch0THUYxJ4GiEulYmcz6fmpOEhk+44w
-	AI/JAU8v/eI3PPdmL2+uXAZLte0qAYrqS8SRpDfpAk4oupR3DyHPr6H2182OhIcM5mp3
-	i+tjN0e37dSGxK0vGe4h7OLgAHi+87V6cvmDk+P2Qkzte7D5adwMIYtZ6yKyy25E89ZP
-	2TUmNJSbzCurJrIngh7h+ajY3vBYUBoM6HeJIr6BkB+WQARhEzcybo+F6XqRzjFbXq87
-	mfBw==
-X-Gm-Message-State: AA6/9Rmc1nr7PKwHrq/WXBAtGI1I613kWjZrRAeb3PQAPFh6d2d9RLo+U2hKWOEMNmo0Lg==
-X-Received: by 10.194.142.116 with SMTP id rv20mr6888746wjb.184.1476359048776; 
-	Thu, 13 Oct 2016 04:44:08 -0700 (PDT)
-Received: from localhost (ip-89-176-104-169.net.upcbroadband.cz.
-	[89.176.104.169]) by smtp.gmail.com with ESMTPSA id
-	ux6sm10364215wjb.18.2016.10.13.04.44.07
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Thu, 13 Oct 2016 04:44:07 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Thu, 13 Oct 2016 13:44:05 +0200
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-Message-ID: <20161013114405.GA2924@jama>
-References: <20161012132615.GC2923@jama>
-	<7066324.XsME15mTTJ@peggleto-mobl.ger.corp.intel.com>
-	<3373280.EktDFKHOVZ@peggleto-mobl.ger.corp.intel.com>
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=E3l1ZCf1iTQXNmgmyMpbtn0uoI3LKn03E5jSXJqj1es=;
+	b=b1e1hh/nmojdzFbcd7MZx3hdyRw56MKaHM5S0fUVopx7ueYA1lRvX3fhJrIxdgBjnG
+	YuLHjTVokjRSMBQVp8Q9Vy4nI10e6g/XlUD7jyMd2KBoBKzYV6b3TWXJRv+KjESz1TYw
+	5qyIIU3fFeSMs6v8a5XMYJY7uAjXdqcaFibBUsnZfckQfexWtj5fKoDxQMvhd169/cJn
+	qP0DwCoudTv5dgD9EPQ5v0gCtiW9dQi6RWZoXR6EcZlrCX1WR40LTeTUDy1V2b6ugyMN
+	nsXwgRNunqFhwvOkJVUgVrRLPYUzL9oFa8OaaCUuUjOmx/LRU4xxkwkuGG0gUr5z7IvS
+	Rrpw==
+X-Gm-Message-State: AA6/9RlGDqubdXE2geCtas+mFw6ej4BrxUXX3jt9XqdEPEIZ2M2tC6+x5EXCt8cjmCSCe9RzBxB1KemlTBqjFMur
+X-Received: by 10.36.127.140 with SMTP id r134mr6256553itc.29.1476364215972;
+	Thu, 13 Oct 2016 06:10:15 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <3373280.EktDFKHOVZ@peggleto-mobl.ger.corp.intel.com>
-User-Agent: Mutt/1.7.1 (2016-10-04)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: SDK_OLDEST_KERNEL vs OLDEST_KERNEL
+Received: by 10.107.155.66 with HTTP; Thu, 13 Oct 2016 06:09:55 -0700 (PDT)
+In-Reply-To: <CAFrQVPPXkV_dy9G7qWhGNd-5AFY-pVhG33sYUjMVPupaXxyd1A@mail.gmail.com>
+References: <1476195437-24040-1-git-send-email-bkylerussell@gmail.com>
+	<1476195437-24040-2-git-send-email-bkylerussell@gmail.com>
+	<CAJTo0LahAKipF1Dz9TQw8TVM3vp361ZATtVPHjXy5ZupRDdZkQ@mail.gmail.com>
+	<CAFrQVPPXkV_dy9G7qWhGNd-5AFY-pVhG33sYUjMVPupaXxyd1A@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 13 Oct 2016 14:09:55 +0100
+Message-ID: <CAJTo0LZa4z4zy-TT9z9=+Bq2SAsWd6NqFkgx+jrsNTNCMJqZLQ@mail.gmail.com>
+To: Kyle Russell <bkylerussell@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/2] librsvg: Add missing pixbufcache dependencies
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,138 +56,96 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 13 Oct 2016 11:44:08 -0000
-X-Groupsio-MsgNum: 88155
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="vtzGhvizbBRQ85DL"
-Content-Disposition: inline
+X-List-Received-Date: Thu, 13 Oct 2016 13:10:15 -0000
+Content-Type: multipart/alternative; boundary=001a1147cb70a709b3053ebed419
 
---vtzGhvizbBRQ85DL
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+--001a1147cb70a709b3053ebed419
+Content-Type: text/plain; charset=UTF-8
+
+On 11 October 2016 at 17:44, Kyle Russell <bkylerussell@gmail.com> wrote:
+
+> I suspect this list may still not be entirely complete, because ldd shows
+> several dependencies for libpixbufloader-svg.so.  However, I'm not really
+> that familiar with all the dependencies going on here; we are definitely
+> seeing sporadic failures for various native libraries during the
+> pixbufcache postinst task though.  Best I could tell, it looked like the
+> PIXBUFCACHE_SYSROOT_DEPS functionality was accidentally removed from the
+> pixbufcache.bbclass a while back (hence, my first patch).  Adding that hunk
+> back in has seemed to help most of the failures, but we still see lingering
+> failures for pixman and libXdmcp on occasion.
+
+
+This bit of code is particularly tangled, so I'm hoping I can remember the
+details.  The AB just hit a related problem earlier in the week so I'm
+trying to remember how all this ties together.
+
+The SYSROOT_DEPS bit wasn't removed accidentally because the way the
+query-loaders script is executed has changed.  It used to be ran via
+SSTATEPOSTINSTFUNCS so would execute the moment that gdk-pixbuf-native or
+librsvg-native was unpacked.  As sstate installation is top-down instead of
+bottom-up this would generally mean that librsvg-native would be installed
+before even gdk-pixbuf-native was installed, and typically before stuff
+like libpng-native or the rest of the stack.
+
+This was changed so that the SSTATEPOSTINSTFUNC simply writes a
+sstate-completion script that is executed once all of sstate has been
+unpacked, so ordering isn't a problem. The logic to add explicit
+dependencies isn't required anymore.
+
+Of course native dependencies are not as neat as target dependencies which
+is something I'd really like to see fixed, but in general I can't
+understand why this happens for you: if gdk-pixbuf-native can be extracted
+from sstate then all of its dependencies must have been too, and they
+include recipes such as libxdmcp-native.  If the dependencies need a
+rebuild then gdk-pixbuf should need a rebuild too...
+
+A full cooker log with the bug would be appreciated, but I know that's
+unlikely to happen!
+
+Ross
+
+--001a1147cb70a709b3053ebed419
+Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Oct 13, 2016 at 04:23:21PM +1300, Paul Eggleton wrote:
-> On Thu, 13 Oct 2016 09:38:08 Paul Eggleton wrote:
-> > On Wed, 12 Oct 2016 15:26:15 Martin Jansa wrote:
-> > > is this separate variable working correctly?
-> > >=20
-> > > It was introduced in:
-> > > commit 522ba4c51fff53566678b2689d0d63c393e417b3
-> > > Author: Richard Purdie <richard.purdie@linuxfoundation.org>
-> > > Date:   Fri Sep 11 13:25:46 2015 +0100
-> > >=20
-> > >     populate_sdk_base: Fix aarch64 OLDEST_KERNEL sdk issues
-> > >    =20
-> > >     aarch64 sets OLDEST_KERNEL to 3.14. This stops the aarch64 SDK
-> > >=20
-> > > installing on anything with an older kernel which is clearly incorrec=
-t.
-> > >=20
-> > >     I attempted to extract the correct non-overridden version from the
-> > >     data
-> > >=20
-> > > store but it proved problematic and I was running into data store iss=
-ues.
-> > > Those are a separate problem but there isn't time to fix this right n=
-ow.
-> > >=20
-> > >     Instead just code the SDK kernel version separately to work around
-> > >     this
-> > >=20
-> > > for now (and fix the autobuilder tests and SDK usage).
-> > >=20
-> > > But when I'm using:
-> > > OLDEST_KERNEL =3D "3.2" (default)
-> > > SDK_OLDEST_KERNEL =3D "2.6.32"
-> > > because we would like to use SDK on host with older kernel, then
-> > > SDK_OLDEST_KERNEL helped to bypass the uname check in environment-set=
-up
-> > > script, but then gcc cannot be used, because it fails immediately wit=
-h:
-> > >=20
-> > > FATAL: kernel too old
-> > >=20
-> > > So I'm not sure what this variable are trying to achieve, maybe
-> > > autobuilder
-> > > tests were only testing setup script and not the actual $CC?
-> > >=20
-> > > The other option is that it works only when sdk toolchain is built wi=
-th
-> > > default OLDEST_KERNEL (which is lower than OLDEST_KERNEL_aarch64) and=
- only
-> > > target bits use OLDEST_KERNEL_aarch64, but those aren't executed on h=
-ost
-> > > using SDK.
-> >=20
-> > I'm not sure how this ever could have worked, since it doesn't enter in=
-to
-> > the nativesdk-glibc configuration. It seems to me that the glibc recipe
-> > needs to be using SDK_OLDEST_KERNEL in place of OLDEST_KERNEL for
-> > class-nativesdk.
->=20
-> Thinking about it - even if that were fixed, would setting it to 2.6.32=
-=20
-> actually work on master? We are now using glibc 2.24 and that requires a=
-=20
-> minimum kernel version of 3.2.0.
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 11 October 2016 at 17:44, Kyle Russell <span dir=3D"ltr">&lt;<a href=3D"=
+mailto:bkylerussell@gmail.com" target=3D"_blank">bkylerussell@gmail.com</a>=
+&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px=
+ 0px 0px 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);bor=
+der-left-style:solid;padding-left:1ex">I suspect this list may still not be=
+ entirely complete, because ldd shows several dependencies for libpixbufloa=
+der-svg.so.=C2=A0 However, I&#39;m not really that familiar with all the de=
+pendencies going on here; we are definitely seeing sporadic failures for va=
+rious native libraries during the pixbufcache postinst task though.=C2=A0 B=
+est I could tell, it looked like the PIXBUFCACHE_SYSROOT_DEPS functionality=
+ was accidentally removed from the pixbufcache.bbclass a while back (hence,=
+ my first patch).=C2=A0 Adding that hunk back in has seemed to help most of=
+ the failures, but we still see lingering failures for pixman and libXdmcp =
+on occasion.</blockquote></div><br>This bit of code is particularly tangled=
+, so I&#39;m hoping I can remember the details.=C2=A0 The AB just hit a rel=
+ated problem earlier in the week so I&#39;m trying to remember how all this=
+ ties together.</div><div class=3D"gmail_extra"><br></div><div class=3D"gma=
+il_extra">The SYSROOT_DEPS bit wasn&#39;t removed accidentally because the =
+way the query-loaders script is executed has changed.=C2=A0 It used to be r=
+an via SSTATEPOSTINSTFUNCS so would execute the moment that gdk-pixbuf-nati=
+ve or librsvg-native was unpacked.=C2=A0 As sstate installation is top-down=
+ instead of bottom-up this would generally mean that librsvg-native would b=
+e installed before even gdk-pixbuf-native was installed, and typically befo=
+re stuff like libpng-native or the rest of the stack.</div><div class=3D"gm=
+ail_extra"><br></div><div class=3D"gmail_extra">This was changed so that th=
+e SSTATEPOSTINSTFUNC simply writes a sstate-completion script that is execu=
+ted once all of sstate has been unpacked, so ordering isn&#39;t a problem. =
+The logic to add explicit dependencies isn&#39;t required anymore.</div><di=
+v class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Of course nati=
+ve dependencies are not as neat as target dependencies which is something I=
+&#39;d really like to see fixed, but in general I can&#39;t understand why =
+this happens for you: if gdk-pixbuf-native can be extracted from sstate the=
+n all of its dependencies must have been too, and they include recipes such=
+ as libxdmcp-native.=C2=A0 If the dependencies need a rebuild then gdk-pixb=
+uf should need a rebuild too...</div><div class=3D"gmail_extra"><br></div><=
+div class=3D"gmail_extra">A full cooker log with the bug would be appreciat=
+ed, but I know that&#39;s unlikely to happen!</div><div class=3D"gmail_extr=
+a"><br></div><div class=3D"gmail_extra">Ross</div></div>
 
-I think it might work in the "special" case RP mentioned in commit
-message and I've tried to describe (I admit quite badly) in my e-mail).
-
-With qemuarm64 I can see from bitbake -e:
-
-OE qemuarm64@ ~/build/oe-core $ grep ^OLDEST_KERNEL=3D env.*glibc*
-env.glibc:OLDEST_KERNEL=3D"3.14"
-env.nativesdk-glibc:OLDEST_KERNEL=3D"3.2.0"
-
-Because the nativesdk-glibc doesn't use the aarch64 OVERRIDE
-
-OE qemuarm64@ ~/build/oe-core $ grep ^OVERRIDES=3D env.*glibc*
-env.glibc:OVERRIDES=3D"linux:aarch64:build-linux:pn-glibc:qemuall:qemuarm64=
-:aarch64:nodistro:class-target:forcevariable:libc-glibc"
-env.nativesdk-glibc:OVERRIDES=3D"linux:x86-64:build-linux:pn-nativesdk-glib=
-c::nodistro:class-nativesdk:forcevariable:libc-glibc:virtclass-nativesdk"
-
-so it's using "default" OLDEST_KERNEL
-
-meta/conf/bitbake.conf:OLDEST_KERNEL =3D "3.2.0"
-meta/conf/bitbake.conf:OLDEST_KERNEL_aarch64 =3D "3.14"
-
-The actual SDK (e.g. meta-toolchain) on the other hand is built with
-aarch64 in OVERRIDES, so 3.14 made it into the setup environment script
-even when the glibc included there was built against 3.2.0
-
-OE qemuarm64@ ~/build/oe-core $ grep ^OVERRIDES=3D env.meta-toolchain=20
-OVERRIDES=3D"linux:aarch64:build-linux:pn-meta-toolchain:qemuall:qemuarm64:=
-aarch64:nodistro:class-target:forcevariable:libc-glibc"
-
-So this might be useful for cases where target specific OLDEST_KERNEL is
-higher than the OLDEST_KERNEL used by nativesdk-glibc, but in my case it
-isn't enough and I had to lower the kernel version in both (which now
-I'm testing to see if Khem's and glibc's commit message was right about
-the x86/x86_64 compatibility - I've already verified that building arm
-image with 2.6.32 OLDEST_KERNEL causes postinst in do_rootfs to fail,
-I'm waiting for local build to finish to see the actual error.
-
-Next step is to see if arm binaries built with 2.6.32 nativesdk-glibc
-(on x86 host) work in arm image built with 3.2.0 glibc - this wasn't
-clear to me from the commit message.
-
-Thanks
-
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---vtzGhvizbBRQ85DL
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iEYEARECAAYFAlf/c4MACgkQN1Ujt2V2gBy5VACfXht6A3liOUfonP/X0wwDhEzu
-i7sAn2+6X/5+jyXLx+wApWtWhjW0fwjw
-=qD4g
------END PGP SIGNATURE-----
-
---vtzGhvizbBRQ85DL--
+--001a1147cb70a709b3053ebed419--
