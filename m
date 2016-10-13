@@ -1,29 +1,29 @@
-Return-Path: <zhengrq.fnst@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
-	by mail.openembedded.org (Postfix) with ESMTP id 5B9C271A77
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 11E946B6EA
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Oct 2016 02:04:38 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.22,518,1449504000"; d="scan'208";a="11886356"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 13 Oct 2016 10:04:35 +0800
-Received: from G08CNEXCHPEKD02.g08.fujitsu.local (unknown [10.167.33.83])
-	by cn.fujitsu.com (Postfix) with ESMTP id 4585F466F726
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Oct 2016 10:04:35 +0800 (CST)
-Received: from z195002c2.g01.fujitsu.local (10.167.226.109) by
-	G08CNEXCHPEKD02.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.279.2; Thu, 13 Oct 2016 10:04:34 +0800
-From: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-Message-ID: <1474120545-9100-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
-X-Mailer: git-send-email 1.8.3.1
+	Thu, 13 Oct 2016 03:19:38 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u9D3JbFR019499
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 12 Oct 2016 20:19:38 -0700 (PDT)
+Received: from [128.224.162.240] (128.224.162.240) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.294.0;
+	Wed, 12 Oct 2016 20:19:37 -0700
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <cover.1476253865.git.liezhi.yang@windriver.com>
+	<239ab1764ad811a12d8da6eb66ced3fff9987891.1476253865.git.liezhi.yang@windriver.com>
+	<CAJTo0LYA0ZPi23Avt1=tyMq4_bDSZui-gdQwWcq1gbJN3B2U4Q@mail.gmail.com>
+From: Robert Yang <liezhi.yang@windriver.com>
+Message-ID: <ff63db29-b4fd-332a-889c-68dacddb6dcc@windriver.com>
+Date: Thu, 13 Oct 2016 11:19:35 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.2.0
 MIME-Version: 1.0
-X-Originating-IP: [10.167.226.109]
-X-yoursite-MailScanner-ID: 4585F466F726.A664E
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: zhengrq.fnst@cn.fujitsu.com
-X-Spam-Status: No
-Subject: [PATCH] Add two patches for bind
+In-Reply-To: <CAJTo0LYA0ZPi23Avt1=tyMq4_bDSZui-gdQwWcq1gbJN3B2U4Q@mail.gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/4] xcb-proto: create .pyc files for python2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,242 +36,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-Date: Thu, 13 Oct 2016 02:04:44 -0000
-X-Original-Date: Sat, 17 Sep 2016 09:55:45 -0400
-X-List-Received-Date: Thu, 13 Oct 2016 02:04:44 -0000
-Content-Type: text/plain
-
-1.CVE-2016-2775.patch
-[security]      getrrsetbyname with a non absolute name could
-                trigger an infinite recursion bug in lwresd
-                and named with lwres configured if when combined
-                with a search list entry the resulting name is
-                too long. (CVE-2016-2775) [RT #42694]
-
-2.CVE-2016-2776.patch
-[security]      It was possible to trigger a assertion when rendering
-               a message. (CVE-2016-2776) [RT #43139]
-
-Signed-off-by: zhengruoqin <zhengrq.fnst@cn.fujitsu.com>
----
- .../bind/bind/CVE-2016-2775.patch                  |  82 +++++++++++++++
- .../bind/bind/CVE-2016-2776.patch                  | 115 +++++++++++++++++++++
- 2 files changed, 197 insertions(+)
- create mode 100644 meta/recipes-connectivity/bind/bind/CVE-2016-2775.patch
- create mode 100644 meta/recipes-connectivity/bind/bind/CVE-2016-2776.patch
-
-diff --git a/meta/recipes-connectivity/bind/bind/CVE-2016-2775.patch b/meta/recipes-connectivity/bind/bind/CVE-2016-2775.patch
-new file mode 100644
-index 0000000..c211aef
---- /dev/null
-+++ b/meta/recipes-connectivity/bind/bind/CVE-2016-2775.patch
-@@ -0,0 +1,82 @@
-+From 9d8aba8a7778721ae2cee6e4670a8e6be6590b05 Mon Sep 17 00:00:00 2001
-+From: "Zheng Ruoqin" <zhengrq.fnst@cn.fujitsu.com>
-+Date: Wed, 12 Oct 2016 19:52:59 +0900
-+Subject: [PATCH]
-+4406.   [security]      getrrsetbyname with a non absolute name could
-+                        trigger an infinite recursion bug in lwresd
-+                        and named with lwres configured if when combined
-+                        with a search list entry the resulting name is
-+                        too long. (CVE-2016-2775) [RT #42694]
-+
-+---
-+ CHANGES                          |  6 ++++++
-+ bin/named/lwdgrbn.c              | 16 ++++++++++------
-+ bin/tests/system/lwresd/lwtest.c |  9 ++++++++-
-+ 3 files changed, 24 insertions(+), 7 deletions(-)
-+
-+diff --git a/CHANGES b/CHANGES
-+index d2e3360..d0a9d12 100644
-+--- a/CHANGES
-++++ b/CHANGES
-+@@ -1,3 +1,9 @@
-++4406.   [security]      getrrsetbyname with a non absolute name could
-++                        trigger an infinite recursion bug in lwresd
-++                        and named with lwres configured if when combined
-++                        with a search list entry the resulting name is
-++                        too long. (CVE-2016-2775) [RT #42694]
-++
-+ 4322.  [security]      Duplicate EDNS COOKIE options in a response could
-+                        trigger an assertion failure. (CVE-2016-2088)
-+                        [RT #41809]
-+diff --git a/bin/named/lwdgrbn.c b/bin/named/lwdgrbn.c
-+index 3e7b15b..e1e9adc 100644
-+--- a/bin/named/lwdgrbn.c
-++++ b/bin/named/lwdgrbn.c
-+@@ -403,14 +403,18 @@ start_lookup(ns_lwdclient_t *client) {
-+ 	INSIST(client->lookup == NULL);
-+ 
-+ 	dns_fixedname_init(&absname);
-+-	result = ns_lwsearchctx_current(&client->searchctx,
-+-					dns_fixedname_name(&absname));
-++
-+ 	/*
-+-	 * This will return failure if relative name + suffix is too long.
-+-	 * In this case, just go on to the next entry in the search path.
-++         * Perform search across all search domains until success
-++         * is returned. Return in case of failure.
-+ 	 */
-+-	if (result != ISC_R_SUCCESS)
-+-		start_lookup(client);
-++        while (ns_lwsearchctx_current(&client->searchctx,
-++                        dns_fixedname_name(&absname)) != ISC_R_SUCCESS) {
-++                if (ns_lwsearchctx_next(&client->searchctx) != ISC_R_SUCCESS) {
-++                        ns_lwdclient_errorpktsend(client, LWRES_R_FAILURE);
-++                        return;
-++                }
-++        }
-+ 
-+ 	result = dns_lookup_create(cm->mctx,
-+ 				   dns_fixedname_name(&absname),
-+diff --git a/bin/tests/system/lwresd/lwtest.c b/bin/tests/system/lwresd/lwtest.c
-+index ad9b551..3eb4a66 100644
-+--- a/bin/tests/system/lwresd/lwtest.c
-++++ b/bin/tests/system/lwresd/lwtest.c
-+@@ -768,7 +768,14 @@ main(void) {
-+ 	test_getrrsetbyname("e.example1.", 1, 2, 1, 1, 1);
-+ 	test_getrrsetbyname("e.example1.", 1, 46, 2, 0, 1);
-+ 	test_getrrsetbyname("", 1, 1, 0, 0, 0);
-+-
-++        test_getrrsetbyname("123456789.123456789.123456789.123456789."
-++                            "123456789.123456789.123456789.123456789."
-++                            "123456789.123456789.123456789.123456789."
-++                            "123456789.123456789.123456789.123456789."
-++                            "123456789.123456789.123456789.123456789."
-++                            "123456789.123456789.123456789.123456789."
-++                            "123456789", 1, 1, 0, 0, 0);
-++ 
-+ 	if (fails == 0)
-+ 		printf("I:ok\n");
-+ 	return (fails);
-+-- 
-+2.7.4
-+
-diff --git a/meta/recipes-connectivity/bind/bind/CVE-2016-2776.patch b/meta/recipes-connectivity/bind/bind/CVE-2016-2776.patch
-new file mode 100644
-index 0000000..66e0501
---- /dev/null
-+++ b/meta/recipes-connectivity/bind/bind/CVE-2016-2776.patch
-@@ -0,0 +1,115 @@
-+From 1171111657081970585f9f0e03b476358c33a6c0 Mon Sep 17 00:00:00 2001
-+From: "Zheng Ruoqin" <zhengrq.fnst@cn.fujitsu.com>
-+Date: Wed, 12 Oct 2016 20:36:52 +0900
-+Subject: [PATCH] 
-+4467.   [security]      It was possible to trigger an assertion when 
-+                        rendering a message. (CVE-2016-2776) [RT #43139]
-+
-+---
-+ CHANGES           |  3 +++
-+ lib/dns/message.c | 42 +++++++++++++++++++++++++++++++-----------
-+ 2 files changed, 34 insertions(+), 11 deletions(-)
-+
-+diff --git a/CHANGES b/CHANGES
-+index d0a9d12..5c8c61a 100644
-+--- a/CHANGES
-++++ b/CHANGES
-+@@ -1,3 +1,6 @@
-++4467.   [security]      It was possible to trigger an assertion when
-++                        rendering a message. (CVE-2016-2776) [RT #43139]
-++
-+ 4406.   [security]      getrrsetbyname with a non absolute name could
-+                         trigger an infinite recursion bug in lwresd
-+                         and named with lwres configured if when combined
-+diff --git a/lib/dns/message.c b/lib/dns/message.c
-+index 6b5b4bb..b74dc81 100644
-+--- a/lib/dns/message.c
-++++ b/lib/dns/message.c
-+@@ -1754,7 +1754,7 @@ dns_message_renderbegin(dns_message_t *msg, dns_compress_t *cctx,
-+ 	if (r.length < DNS_MESSAGE_HEADERLEN)
-+ 		return (ISC_R_NOSPACE);
-+ 
-+-	if (r.length < msg->reserved)
-++        if (r.length - DNS_MESSAGE_HEADERLEN < msg->reserved)
-+ 		return (ISC_R_NOSPACE);
-+ 
-+ 	/*
-+@@ -1895,8 +1895,29 @@ norender_rdataset(const dns_rdataset_t *rdataset, unsigned int options,
-+ 
-+ 	return (ISC_TRUE);
-+ }
-+-
-+ #endif
-++
-++static isc_result_t
-++renderset(dns_rdataset_t *rdataset, dns_name_t *owner_name,
-++         dns_compress_t *cctx, isc_buffer_t *target,
-++         unsigned int reserved, unsigned int options, unsigned int *countp)
-++{
-++       isc_result_t result;
-++
-++       /*
-++        * Shrink the space in the buffer by the reserved amount.
-++        */
-++       if (target->length - target->used < reserved)
-++               return (ISC_R_NOSPACE);
-++
-++       target->length -= reserved;
-++       result = dns_rdataset_towire(rdataset, owner_name,
-++                                    cctx, target, options, countp);
-++       target->length += reserved;
-++
-++       return (result);
-++}
-++
-+ isc_result_t
-+ dns_message_rendersection(dns_message_t *msg, dns_section_t sectionid,
-+ 			  unsigned int options)
-+@@ -1939,6 +1960,8 @@ dns_message_rendersection(dns_message_t *msg, dns_section_t sectionid,
-+ 	/*
-+ 	 * Shrink the space in the buffer by the reserved amount.
-+ 	 */
-++        if (msg->buffer->length - msg->buffer->used < msg->reserved)
-++                return (ISC_R_NOSPACE);
-+ 	msg->buffer->length -= msg->reserved;
-+ 
-+ 	total = 0;
-+@@ -2214,9 +2237,8 @@ dns_message_renderend(dns_message_t *msg) {
-+ 		 * Render.
-+ 		 */
-+ 		count = 0;
-+-		result = dns_rdataset_towire(msg->opt, dns_rootname,
-+-					     msg->cctx, msg->buffer, 0,
-+-					     &count);
-++                result = renderset(msg->opt, dns_rootname, msg->cctx,
-++                                   msg->buffer, msg->reserved, 0, &count);
-+ 		msg->counts[DNS_SECTION_ADDITIONAL] += count;
-+ 		if (result != ISC_R_SUCCESS)
-+ 			return (result);
-+@@ -2232,9 +2254,8 @@ dns_message_renderend(dns_message_t *msg) {
-+ 		if (result != ISC_R_SUCCESS)
-+ 			return (result);
-+ 		count = 0;
-+-		result = dns_rdataset_towire(msg->tsig, msg->tsigname,
-+-					     msg->cctx, msg->buffer, 0,
-+-					     &count);
-++                result = renderset(msg->tsig, msg->tsigname, msg->cctx,
-++                                   msg->buffer, msg->reserved, 0, &count);
-+ 		msg->counts[DNS_SECTION_ADDITIONAL] += count;
-+ 		if (result != ISC_R_SUCCESS)
-+ 			return (result);
-+@@ -2255,9 +2276,8 @@ dns_message_renderend(dns_message_t *msg) {
-+ 		 * the owner name of a SIG(0) is irrelevant, and will not
-+ 		 * be set in a message being rendered.
-+ 		 */
-+-		result = dns_rdataset_towire(msg->sig0, dns_rootname,
-+-					     msg->cctx, msg->buffer, 0,
-+-					     &count);
-++                result = renderset(msg->sig0, dns_rootname, msg->cctx,
-++                                   msg->buffer, msg->reserved, 0, &count);
-+ 		msg->counts[DNS_SECTION_ADDITIONAL] += count;
-+ 		if (result != ISC_R_SUCCESS)
-+ 			return (result);
-+-- 
-+2.7.4
-+
--- 
-2.7.4
+X-List-Received-Date: Thu, 13 Oct 2016 03:19:40 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
 
 
+On 10/12/2016 07:36 PM, Burton, Ross wrote:
+>
+> On 12 October 2016 at 07:31, Robert Yang <liezhi.yang@windriver.com
+> <mailto:liezhi.yang@windriver.com>> wrote:
+>
+>     +    cd  ${D}${libdir}/xcb-proto/xcbgen
+>     +    python -m py_compile *.py
+>
+>
+> The cd is redundant as you can pass absolute paths to py_compile.
+
+Thanks, updated in the repo:
+
+   git://git.openembedded.org/openembedded-core-contrib rbt/4fixes
+   http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/4fixes
+
+Robert Yang (4):
+   xcb-proto: create .pyc files for python2
+   xcb-proto: fix for python3
+   libxcb: use python3 to build it
+   source-highlight: use with-boost-libdir
+
+// Robert
+
+>
+> Ross
 
