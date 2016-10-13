@@ -1,29 +1,29 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by mail.openembedded.org (Postfix) with ESMTP id D08076AC00
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 3963A62136
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Oct 2016 06:25:44 +0000 (UTC)
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-	by orsmga105.jf.intel.com with ESMTP; 12 Oct 2016 23:25:45 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.31,338,1473145200"; d="scan'208";a="19167142"
-Received: from ychiu-mobl5.gar.corp.intel.com (HELO
-	peggleto-mobl.ger.corp.intel.com) ([10.255.183.245])
-	by orsmga005.jf.intel.com with ESMTP; 12 Oct 2016 23:25:42 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 13 Oct 2016 19:25:40 +1300
-Message-ID: <2376202.r0WsJfyIoP@peggleto-mobl.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.14.10 (Linux/4.7.6-100.fc23.x86_64; KDE/4.14.20; x86_64; ;
-	)
-In-Reply-To: <CAMKF1sp8heZDKvpAmYW+MQnQzdNS71Jaus8s-5VKi2DJ9prTiw@mail.gmail.com>
-References: <20161012132615.GC2923@jama>
-	<3373280.EktDFKHOVZ@peggleto-mobl.ger.corp.intel.com>
-	<CAMKF1sp8heZDKvpAmYW+MQnQzdNS71Jaus8s-5VKi2DJ9prTiw@mail.gmail.com>
+	Thu, 13 Oct 2016 06:30:39 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u9D6Udip020449
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 12 Oct 2016 23:30:39 -0700 (PDT)
+Received: from [128.224.162.240] (128.224.162.240) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.294.0;
+	Wed, 12 Oct 2016 23:30:38 -0700
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <cover.1476263868.git.liezhi.yang@windriver.com>
+	<66ca8239a28434c2db142e18a1a112122d13e910.1476263868.git.liezhi.yang@windriver.com>
+	<CAJTo0LZgK6spkEd2jZ=Xd5HyJ+3gkxtMLBD30Z1dJLKCzoYhOw@mail.gmail.com>
+From: Robert Yang <liezhi.yang@windriver.com>
+Message-ID: <9a70c1f5-119b-1b2b-de4f-a3764c71f19c@windriver.com>
+Date: Thu, 13 Oct 2016 14:30:37 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.2.0
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: SDK_OLDEST_KERNEL vs OLDEST_KERNEL
+In-Reply-To: <CAJTo0LZgK6spkEd2jZ=Xd5HyJ+3gkxtMLBD30Z1dJLKCzoYhOw@mail.gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/2] package_ipk/rpm/deb: remove unneeded dir settings
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,28 +36,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 13 Oct 2016 06:25:46 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Thu, 13 Oct 2016 06:30:40 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Thu, 13 Oct 2016 08:14:07 Khem Raj wrote:
-> On Oct 13, 2016 5:23 AM, "Paul Eggleton" <paul.eggleton@linux.intel.com>
-> wrote:
-> > Thinking about it - even if that were fixed, would setting it to 2.6.32
-> > actually work on master? We are now using glibc 2.24 and that requires a
-> > minimum kernel version of 3.2.0.
-> 
-> For x86/x86_64  2.6.32 would still work which is the most common arch for
-> sdk host.
 
-Ah, I see - that exception was not mentioned in the commit message. I see it 
-is in the glibc release notes though.
 
-Cheers,
-Paul
+On 10/12/2016 05:37 PM, Burton, Ross wrote:
+>
+> On 12 October 2016 at 10:19, Robert Yang <liezhi.yang@windriver.com
+> <mailto:liezhi.yang@windriver.com>> wrote:
+>
+>     There is a do_package_write_foo[cleandirs], so the
+>     do_package_write_foo[dirs] is not needed.
+>
+>
+> [dirs] changes the cwd whereas [cleandirs] doesn't, so assuming that you've
+> verified this isn't a problem the message should explain that the tasks chdir()
+> themselves.
 
--- 
+Thanks, I've verified that it works well after remove the [dirs], but since it
+does make sense (change the cwd), so I think that we'd better not remove them
+and drop this patch ?
 
-Paul Eggleton
-Intel Open Source Technology Centre
+// Robert
+
+>
+> Ross
 
