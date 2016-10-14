@@ -1,46 +1,20 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f170.google.com (mail-io0-f170.google.com
-	[209.85.223.170])
-	by mail.openembedded.org (Postfix) with ESMTP id 26F436093E
+Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 3FD2C71A7F
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Oct 2016 14:51:59 +0000 (UTC)
-Received: by mail-io0-f170.google.com with SMTP id r30so123457787ioi.1
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Oct 2016 07:52:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=Q63bjK7njDCb6CVKUO54jK0Z5+hE/SA3Z07N6FH5Y1o=;
-	b=VVFVGYNjADzImbyWWjRZhUTo13SgQCObP37VnCvHj9zFHLsUJAWU0RFias9XFQrc4x
-	wjWAcWaKcjMOgBDJH8yn3EUFJnKpHtJileaHKOnpFT4acKPxA8WGiZAJJckIqCALRvW7
-	WU6xZFY9rP3VcqGk5MDBLb/N2pFQ/PAYTzRZ3yveqDHz8xg+pR7F7wTSOUE4oBDI8Kq5
-	BAOqJjWfC1A7L/J5Cara9ZdQOWuIwp64RS/8e79GYcD7z7OnHk7uan8RICgYkcNdmulX
-	Q2M54woe2Zbfjoa+9WmKl9RXsOEAFfrKTE2mtdXW3aI+vsDQyoCNeK0VTtv+SUsrpe/O
-	nwYg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=Q63bjK7njDCb6CVKUO54jK0Z5+hE/SA3Z07N6FH5Y1o=;
-	b=EUGRKHGwel9Iisx3N4UsyVIqNOUDd1XfD2acUeXHkKkgm4XI7HkCn3/OnffDEfDwZL
-	bSLBBEmoVjJFtF6eUR3zsNjtsJ6LdB2uEsSIkD5keUU9hu5D2FCFGYDrriee2gnG4WA3
-	mxqZKTbxbkdZgy6L0D0oUBJMPtTCM0X8jR1oLb8VlxrUWm72i/VrPNuQFSGwEjozu9OA
-	c5HPoVEi4kBuxomlYHnmEafNIqUf05/qu33RIITwXv1v9U4i1Mr3ZqJa3+iEOpgTg4kZ
-	fcrBdukGpZhdy/iDSxGoJSfqHMgdNL2Gp5KgV/IDD0aYPFJvh/XUKGZJ5QkZCIEWYHiH
-	Nusw==
-X-Gm-Message-State: AA6/9RkrDtvpkmCEJsar83SMkTP0QvYjKVMF20xgwhRI1VkojvPTqhigVYyr0GZfRk2aChVyWzzQihegoQw4xgAQ
-X-Received: by 10.107.5.72 with SMTP id 69mr11637574iof.132.1476456721214;
-	Fri, 14 Oct 2016 07:52:01 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.107.155.66 with HTTP; Fri, 14 Oct 2016 07:51:40 -0700 (PDT)
-In-Reply-To: <1476451269-11260-1-git-send-email-amarnath.valluri@intel.com>
-References: <1476451269-11260-1-git-send-email-amarnath.valluri@intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 14 Oct 2016 15:51:40 +0100
-Message-ID: <CAJTo0LZpzEtbLoeth8yWZ0vhxR8TBWCNKe7zHY-kAM83HVmL3w@mail.gmail.com>
-To: Amarnath Valluri <amarnath.valluri@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [meta-oe][PATCH] glmark2: Enabling c++ 11 features
+	Fri, 14 Oct 2016 16:36:29 +0000 (UTC)
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+	by fmsmga101.fm.intel.com with ESMTP; 14 Oct 2016 09:36:31 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.31,493,1473145200"; d="scan'208";a="19705462"
+Received: from lsandov1-mobl2.zpn.intel.com ([10.219.5.48])
+	by orsmga005.jf.intel.com with ESMTP; 14 Oct 2016 09:36:30 -0700
+From: leonardo.sandoval.gonzalez@linux.intel.com
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 14 Oct 2016 11:40:25 -0500
+Message-Id: <cover.1476462963.git.leonardo.sandoval.gonzalez@linux.intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH 0/9] Support supported distros on selftest
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,35 +27,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 14 Oct 2016 14:52:00 -0000
-Content-Type: multipart/alternative; boundary=001a113efe2c65e50d053ed45edb
+X-List-Received-Date: Fri, 14 Oct 2016 16:36:30 -0000
 
---001a113efe2c65e50d053ed45edb
-Content-Type: text/plain; charset=UTF-8
+From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
 
-On 14 October 2016 at 14:21, Amarnath Valluri <amarnath.valluri@intel.com>
-wrote:
+Originally, the test defined inside oeqa/selftest were defined for the 'poky'
+distro. However, there are more supported distros, including nodistro, poky-lsb
+and poky-tiny. These series takes into consideration the distribution, deciding
+either run or skip certain tests.
 
->  meta-oe/recipes-benchmark/glmark2/glmark2_git.bb | 3 +++
->
+[YOCTO #8525]
 
-This should go to openembedded-devel, not -core.
+The following changes since commit 4a7eb4b92f32c17abd1111246b1acb9ad3daa355:
 
-Ross
+  build-appliance-image: Update to master head revision (2016-10-11 08:51:36 +0100)
 
---001a113efe2c65e50d053ed45edb
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+are available in the git repository at:
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 14 October 2016 at 14:21, Amarnath Valluri <span dir=3D"ltr">&lt;<a href=
-=3D"mailto:amarnath.valluri@intel.com" target=3D"_blank">amarnath.valluri@i=
-ntel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=
-=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=
-=3D":li" class=3D"a3s aXjCH m157c35c265e531eb">=C2=A0meta-oe/recipes-benchm=
-ark/<wbr>glmark2/<a href=3D"http://glmark2_git.bb" rel=3D"noreferrer" targe=
-t=3D"_blank">glmark2_git.bb</a> | 3 +++<br></div></blockquote></div><br>Thi=
-s should go to openembedded-devel, not -core.</div><div class=3D"gmail_extr=
-a"><br></div><div class=3D"gmail_extra">Ross</div></div>
+  git://git.yoctoproject.org/poky-contrib lsandov1/oe-selftest-non-poky-distros
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=lsandov1/oe-selftest-non-poky-distros
 
---001a113efe2c65e50d053ed45edb--
+Leonardo Sandoval (9):
+  selftest: set correct linux-yocto recipe when distro is poky-tiny
+  selftest: skip two bbtest tests depending on distro
+  selftest: skip test_read_only_image on poky-tiny distro
+  selftest: skip some devtool tests when distro is poky-tiny due to
+    missing libx11
+  selftest: skip those imagefeatures tests not relevant for certain
+    distros
+  selftest: skip test_recipetool_create_git on poky-tiny distro
+  selftest: skip runtime-test's test_testimage_install on poky-tiny
+    distro
+  selftest: skip sstatetests methods considering distro and its features
+  selftest: skip wic test methods for poky-tiny distro
+
+ meta/lib/oeqa/selftest/base.py          |  1 +
+ meta/lib/oeqa/selftest/bblayers.py      |  6 ++--
+ meta/lib/oeqa/selftest/bbtests.py       |  7 ++++
+ meta/lib/oeqa/selftest/buildoptions.py  |  2 ++
+ meta/lib/oeqa/selftest/devtool.py       |  7 +++-
+ meta/lib/oeqa/selftest/imagefeatures.py | 18 +++++++++--
+ meta/lib/oeqa/selftest/recipetool.py    |  2 ++
+ meta/lib/oeqa/selftest/runtime-test.py  |  2 ++
+ meta/lib/oeqa/selftest/sstate.py        | 10 +++---
+ meta/lib/oeqa/selftest/sstatetests.py   | 57 ++++++++++++++++++++++++++++-----
+ meta/lib/oeqa/selftest/wic.py           |  9 ++++++
+ 11 files changed, 102 insertions(+), 19 deletions(-)
+
+-- 
+2.1.4
+
+
