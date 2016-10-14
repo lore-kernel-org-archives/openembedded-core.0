@@ -1,25 +1,24 @@
-Return-Path: <pb@pbcl.net>
-Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
-	by mail.openembedded.org (Postfix) with ESMTP id 275B070101
+Return-Path: <Jackie.Huang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 2061C71ACD
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Oct 2016 21:03:49 +0000 (UTC)
-Received: from blundell.swaffham-prior.co.uk ([91.216.112.25] helo=tp13)
-	by hetzner.pbcl.net with esmtpsa
-	(TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.84)
-	(envelope-from <pb@pbcl.net>)
-	id 1bunAM-00030M-2Y; Thu, 13 Oct 2016 23:03:50 +0200
-Message-ID: <1476392622.4277.1.camel@pbcl.net>
-From: Phil Blundell <pb@pbcl.net>
-To: Matt Madison <matt@madison.systems>
-Date: Thu, 13 Oct 2016 22:03:42 +0100
-In-Reply-To: <CAGgRHJoQWX=+WtcXzOTN4k6MLLerfCFFf8RJXVARpjug4+pYSw@mail.gmail.com>
-References: <1476291665.16008.59.camel@pbcl.net>
-	<CAGgRHJoQWX=+WtcXzOTN4k6MLLerfCFFf8RJXVARpjug4+pYSw@mail.gmail.com>
-X-Mailer: Evolution 3.20.5-1 
-Mime-Version: 1.0
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: File conflicts in DL_DIR
+	Fri, 14 Oct 2016 01:08:52 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u9E18ros001419
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 13 Oct 2016 18:08:53 -0700 (PDT)
+Received: from pek-hostel-deb01.wrs.com (128.224.153.151) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.294.0; Thu, 13 Oct 2016 18:08:53 -0700
+From: <jackie.huang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 14 Oct 2016 08:50:09 +0800
+Message-ID: <cover.1476345470.git.jackie.huang@windriver.com>
+X-Mailer: git-send-email 2.8.3
+MIME-Version: 1.0
+Subject: [PATCH 0/2] ppp: fix building with linux-4.8
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,16 +31,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 13 Oct 2016 21:03:52 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 14 Oct 2016 01:08:53 -0000
+Content-Type: text/plain
 
-On Wed, 2016-10-12 at 11:03 -0700, Matt Madison wrote:
-> I use ";downloadfilename=${BPN}-${PV}.tar.gz" to deal with this
-> problem, and it's worked well for me.
+From: Jackie Huang <jackie.huang@windriver.com>
 
-Thanks, that works for me.
+--
+The following changes since commit 371ab635086e2878ada1f00a59c7ec826481ba0a:
 
-p.
+  build-appliance-image: Update to master head revision (2016-10-11 23:43:28 +0100)
+
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib.git jhuang0/d_ppp-linux-4.8_161008-0
+  http://git.pokylinux.org/cgit.cgi//log/?h=jhuang0/d_ppp-linux-4.8_161008-0
+
+Jackie Huang (2):
+  Revert "linux-libc-headers: fix in/if.h includes"
+  ppp: fix building with linux-4.8
+
+ .../ppp/ppp/ppp-fix-building-with-linux-4.8.patch  | 44 ++++++++++++
+ meta/recipes-connectivity/ppp/ppp_2.4.7.bb         |  1 +
+ .../0001-ppp-fix-in-if.h-includes.patch            | 83 ----------------------
+ .../linux-libc-headers/linux-libc-headers_4.8.bb   |  4 --
+ 4 files changed, 45 insertions(+), 87 deletions(-)
+ create mode 100644 meta/recipes-connectivity/ppp/ppp/ppp-fix-building-with-linux-4.8.patch
+ delete mode 100644 meta/recipes-kernel/linux-libc-headers/linux-libc-headers/0001-ppp-fix-in-if.h-includes.patch
+
+-- 
+2.8.3
 
 
