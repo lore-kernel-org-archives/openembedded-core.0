@@ -1,24 +1,21 @@
-Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
+Return-Path: <sgw@linux.intel.com>
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id E053871ACA
+	by mail.openembedded.org (Postfix) with ESMTP id C4E4771B07
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Oct 2016 16:36:34 +0000 (UTC)
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-	by fmsmga101.fm.intel.com with ESMTP; 14 Oct 2016 09:36:36 -0700
+	Fri, 14 Oct 2016 16:46:21 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 14 Oct 2016 09:46:20 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.31,493,1473145200"; d="scan'208";a="19705491"
-Received: from lsandov1-mobl2.zpn.intel.com ([10.219.5.48])
-	by orsmga005.jf.intel.com with ESMTP; 14 Oct 2016 09:36:36 -0700
-From: leonardo.sandoval.gonzalez@linux.intel.com
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 14 Oct 2016 11:40:34 -0500
-Message-Id: <537786131095aea9f7fb25338d6b4f776c04a37d.1476462963.git.leonardo.sandoval.gonzalez@linux.intel.com>
-X-Mailer: git-send-email 2.1.4
-In-Reply-To: <cover.1476462963.git.leonardo.sandoval.gonzalez@linux.intel.com>
-References: <cover.1476462963.git.leonardo.sandoval.gonzalez@linux.intel.com>
-In-Reply-To: <cover.1476462963.git.leonardo.sandoval.gonzalez@linux.intel.com>
-References: <cover.1476462963.git.leonardo.sandoval.gonzalez@linux.intel.com>
-Subject: [PATCH 9/9] selftest: skip wic test methods for poky-tiny distro
+X-IronPort-AV: E=Sophos;i="5.31,493,1473145200"; d="scan'208";a="1053882256"
+Received: from swold-mobl2.amr.corp.intel.com ([10.252.128.247])
+	by fmsmga001.fm.intel.com with ESMTP; 14 Oct 2016 09:46:20 -0700
+From: Saul Wold <sgw@linux.intel.com>
+To: openembedded-core@lists.openembedded.org,
+	richard.purdie@linuxfoundation.org
+Date: Fri, 14 Oct 2016 09:46:19 -0700
+Message-Id: <1476463579-4752-1-git-send-email-sgw@linux.intel.com>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH] image_types: Use softer setting of WKS_FILE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,62 +28,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 14 Oct 2016 16:36:35 -0000
+X-List-Received-Date: Fri, 14 Oct 2016 16:46:22 -0000
 
-From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+This will allow for more flexibility and overrides in BSP
+layers.
 
-The poky-tiny distro does not supported the intended images to be created with
-wic, so skp these tests.
-
-[YOCTO #8525]
-
-Signed-off-by: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- meta/lib/oeqa/selftest/wic.py | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ meta/classes/image_types.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/lib/oeqa/selftest/wic.py b/meta/lib/oeqa/selftest/wic.py
-index faac11e..b5e5840 100644
---- a/meta/lib/oeqa/selftest/wic.py
-+++ b/meta/lib/oeqa/selftest/wic.py
-@@ -190,6 +190,8 @@ class Wic(oeSelfTest):
-     @testcase(1346)
-     def test_iso_image(self):
-         """Test creation of hybrid iso image with legacy and EFI boot"""
-+        if self.distro == 'poky-tiny':
-+            self.skipTest('wic image (mkhybridiso) not supported for poky-tiny distro')
-         self.assertEqual(0, runCmd("wic create mkhybridiso "
-                                    "--image-name core-image-minimal").status)
-         self.assertEqual(1, len(glob(self.resultdir + "HYBRID_ISO_IMG-*.direct")))
-@@ -246,6 +248,9 @@ class Wic(oeSelfTest):
-     def test_mkgummidisk(self):
-         """Test creation of mkgummidisk image"""
-         image = "mkgummidisk"
-+        if self.distro == 'poky-tiny':
-+            self.skipTest('wic image name (%s) not supported for poky-tiny distro' % image)
-+
-         self.assertEqual(0, runCmd("wic create %s -e core-image-minimal" \
-                                    % image).status)
-         self.assertEqual(1, len(glob(self.resultdir + "%s-*direct" % image)))
-@@ -254,6 +259,8 @@ class Wic(oeSelfTest):
-     def test_mkefidisk(self):
-         """Test creation of mkefidisk image"""
-         image = "mkefidisk"
-+        if self.distro == 'poky-tiny':
-+            self.skipTest('wic image (%s) not supported for poky-tiny distro' % image)
-         self.assertEqual(0, runCmd("wic create %s -e core-image-minimal" \
-                                    % image).status)
-         self.assertEqual(1, len(glob(self.resultdir + "%s-*direct" % image)))
-@@ -288,6 +295,8 @@ class Wic(oeSelfTest):
-     def test_systemd_bootdisk(self):
-         """Test creation of systemd-bootdisk image"""
-         image = "systemd-bootdisk"
-+        if self.distro == 'poky-tiny':
-+            self.skipTest('wic image (%s) not supported for poky-tiny distro' % image)
-         self.assertEqual(0, runCmd("wic create %s -e core-image-minimal" \
-                                    % image).status)
-         self.assertEqual(1, len(glob(self.resultdir + "%s-*direct" % image)))
+diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
+index 5ef6f60..5151ae0 100644
+--- a/meta/classes/image_types.bbclass
++++ b/meta/classes/image_types.bbclass
+@@ -184,7 +184,7 @@ IMAGE_CMD_ubi () {
+ 
+ IMAGE_CMD_ubifs = "mkfs.ubifs -r ${IMAGE_ROOTFS} -o ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.ubifs ${MKUBIFS_ARGS}"
+ 
+-WKS_FILE ?= "${IMAGE_BASENAME}.${MACHINE}.wks"
++WKS_FILE ??= "${IMAGE_BASENAME}.${MACHINE}.wks"
+ WKS_FILES ?= "${WKS_FILE} ${IMAGE_BASENAME}.wks"
+ WKS_SEARCH_PATH ?= "${THISDIR}:${@':'.join('%s/scripts/lib/wic/canned-wks' % l for l in '${BBPATH}:${COREBASE}'.split(':'))}"
+ WKS_FULL_PATH = "${@wks_search('${WKS_FILES}'.split(), '${WKS_SEARCH_PATH}') or ''}"
 -- 
-2.1.4
+2.7.4
 
 
