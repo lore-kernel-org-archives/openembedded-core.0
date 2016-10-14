@@ -1,30 +1,67 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id CF545719F9
+Return-Path: <otavio.salvador@ossystems.com.br>
+Received: from mail-vk0-f66.google.com (mail-vk0-f66.google.com
+	[209.85.213.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 3D8FE71B3E
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Oct 2016 10:18:24 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u9EAIQcV007208
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 14 Oct 2016 03:18:26 -0700 (PDT)
-Received: from [128.224.162.240] (128.224.162.240) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.294.0;
-	Fri, 14 Oct 2016 03:18:25 -0700
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <cover.1476351914.git.liezhi.yang@windriver.com>
-	<5efcefb8fb966ad7c7a21a6c217db43199dd7b46.1476351914.git.liezhi.yang@windriver.com>
-	<CAJTo0Lbruk380HCw_c_m5VR+RwT53XWSYGHSULhKH8ar3gQWVA@mail.gmail.com>
-	<92bbcd5d-f7f4-47f7-96c9-635f0cea48ed@windriver.com>
-From: Robert Yang <liezhi.yang@windriver.com>
-Message-ID: <f8b837c9-b252-751d-48b8-f3856a96160a@windriver.com>
-Date: Fri, 14 Oct 2016 18:18:23 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.2.0
+	Fri, 14 Oct 2016 10:23:01 +0000 (UTC)
+Received: by mail-vk0-f66.google.com with SMTP id b186so4795771vkb.3
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 14 Oct 2016 03:23:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
+	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
+	:cc:content-transfer-encoding;
+	bh=WcRJ0gBMB/GmY/Jdui+9IybTmXJ7FGjvWzRFFI9N8rw=;
+	b=wJ87CfWWU7QKb6kzVtKwQBnPHVu3U7PqCg7s3lrHlnyvva1QCnYpzZmNhBw+aWiXu5
+	7UwxWDsITxMceQ3skKls0BAWR+9dl3tsYYFYp7uV/DmHkjFkfW6Px+Sqgfoa/kuMWWD1
+	bWlf2PJSdnFBYEBkOrN93UEMgdIPfOBCjHSbhiBLdWEEM8OX8ZELswEU83E/prkez00G
+	tB1UWrO877HkNdAAmD23T2ObmsqkAM6AM9GTtQ0tfcBGRlzsTk84mIZ904/t/QP5cKGr
+	BCqyhwgKf3PqmNAmsCkcvjoASAwpUBuHEu16RctANlcdhOzWFWMLw6ZyduNBFhyo06lM
+	sDZw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=WcRJ0gBMB/GmY/Jdui+9IybTmXJ7FGjvWzRFFI9N8rw=;
+	b=aqG1l2rZg3O1nVCmbH7JIdrTfolf7gbjMkXa70VW/xh+tx8pPhtfRv8M7XgLZtotq/
+	G5gjYe5fGsZmlhKER/zecBuy3VAOMusCFgR/cMGHGLfHm6kKK90P2CschpsfTjiXyCUr
+	sfk/7Td4jZlTHoQ+gtIhL4fJwJVL0jrj/Zyyb8pwVdTqrpTf1cqQHzCY+g1beazryJ/m
+	ziNOe2jnFFKOJOuBwUAv+L0HJlvG2OgZ02DD06IHxQlZ8qVE5n/W8DkWfGgD7eGCV55i
+	NwamrTWTdNJerulE2ZZKL6fOiCOMenLjA0/grleNoiV66g4F52Nk5A4tnkdgBz15tn6h
+	t2Nw==
+X-Gm-Message-State: AA6/9Rml5daa2gDblJXYLYkJLsx0qgP5TKJbkQWiUpG0zmpJoPexNf4RHqkaFF/uqju5UA==
+X-Received: by 10.31.174.147 with SMTP id x141mr8475082vke.73.1476440582220;
+	Fri, 14 Oct 2016 03:23:02 -0700 (PDT)
+Received: from mail-vk0-f47.google.com (mail-vk0-f47.google.com.
+	[209.85.213.47])
+	by smtp.gmail.com with ESMTPSA id y72sm7094528vky.9.2016.10.14.03.23.00
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 14 Oct 2016 03:23:01 -0700 (PDT)
+From: Otavio Salvador <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by mail-vk0-f47.google.com with SMTP id 2so108856948vkb.3
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 14 Oct 2016 03:23:00 -0700 (PDT)
+X-Received: by 10.31.60.9 with SMTP id j9mr7230909vka.48.1476440580582; Fri,
+	14 Oct 2016 03:23:00 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <92bbcd5d-f7f4-47f7-96c9-635f0cea48ed@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] package_manager.py: fix for "Argument list too long"
+Received: by 10.31.120.78 with HTTP; Fri, 14 Oct 2016 03:22:59 -0700 (PDT)
+In-Reply-To: <CAMKF1sqxj2_VrhzRcCeHytLO=n12QdhZcVr-HAiZvPkh02QAPg@mail.gmail.com>
+References: <1476182952-15222-1-git-send-email-carol.zhu@nxp.com>
+	<CAJTo0LaiX-F+0ZPeTs8jJ2GxT61WFi1aPYZ76RgUMAKCMiWaeA@mail.gmail.com>
+	<HE1PR0401MB2682F8CDDB11A504A1703B2EE9DC0@HE1PR0401MB2682.eurprd04.prod.outlook.com>
+	<CAJTo0LZ1NdDfTb72cH-vLrE=Q=kW6ksFQ5p7pnA3Tgoj0QZbaw@mail.gmail.com>
+	<HE1PR0401MB26823C71B1DC91A7D8723D59E9DF0@HE1PR0401MB2682.eurprd04.prod.outlook.com>
+	<CAHiDW_GFdwy_1ZSuv7s8L8NExnFpY-1VUA5jV==x_q3SrFSMuA@mail.gmail.com>
+	<CAMKF1sqxj2_VrhzRcCeHytLO=n12QdhZcVr-HAiZvPkh02QAPg@mail.gmail.com>
+Date: Fri, 14 Oct 2016 07:22:59 -0300
+X-Gmail-Original-Message-ID: <CAP9ODKrZHwDW8ZB3zb_pc18_gTJdJZEa3o3YA1fwG0NsfpeLAA@mail.gmail.com>
+Message-ID: <CAP9ODKrZHwDW8ZB3zb_pc18_gTJdJZEa3o3YA1fwG0NsfpeLAA@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: Carol Zhu <carol.zhu@nxp.com>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [poky][PATCH 0/4] Add patches for gstreamer1.0-plugins-bad V1.8.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,123 +74,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 14 Oct 2016 10:18:25 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 14 Oct 2016 10:23:03 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-
-On 10/14/2016 05:58 PM, Robert Yang wrote:
->
->
-> On 10/13/2016 06:39 PM, Burton, Ross wrote:
->>
->> On 13 October 2016 at 10:45, Robert Yang <liezhi.yang@windriver.com
->> <mailto:liezhi.yang@windriver.com>> wrote:
->>
->>     This is because "copyhardlinktree(deploy_arch_dir, arch_channel)" does:
->>     "cp -afl deploy_arch_dir/* arch_channel", while the deploy_arch_dir/* is
->>     expanded to "deploy_arch_dir/pkg1 deploy_arch_dir/pkg2
->>     deploy_arch_dir/pkg3 ..." which causes the "Argument list too long",
->>     change cwd to deploy_arch_dir can avoid the error.
+On Fri, Oct 14, 2016 at 6:54 AM, Khem Raj <raj.khem@gmail.com> wrote:
+> On Fri, Oct 14, 2016 at 9:35 AM, Jussi Kukkonen
+> <jussi.kukkonen@intel.com> wrote:
 >>
 >>
->> Would it be better to change the implementation of copyhardlinktree so that it
->> *can't* have this problem?
->
-> Good idea, thanks, updated in the repo:
->
->   git://git.openembedded.org/openembedded-core-contrib rbt/long
->   http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/long
->
-
-Sorry, this patch is not what I wanted to paste, it should be:
-
-diff --git a/meta/lib/oe/path.py b/meta/lib/oe/path.py
-index 06a5af2..1d9cca5 100644
---- a/meta/lib/oe/path.py
-+++ b/meta/lib/oe/path.py
-@@ -80,15 +80,20 @@ def copyhardlinktree(src, dst):
-          cmd = "cd %s; find . -type d -print | tar --xattrs 
---xattrs-include='*' -cf - -C %s -p --no-recursion --files-from - | tar --xattrs 
---xattrs-include='*' -xf - -C %s" % (src, src, dst)
-          subprocess.check_output(cmd, shell=True, stderr=subprocess.STDOUT)
-          source = ''
-+        oldcwd = os.getcwd()
-          if os.path.isdir(src):
-+            dst = os.path.realpath(dst)
-+            # chdir() to src to avoid "Argument list too long" error
-+            os.chdir(src)
-              import glob
--            if len(glob.glob('%s/.??*' % src)) > 0:
--                source = '%s/.??* ' % src
--            source = source + '%s/*' % src
-+            if len(glob.glob('./.??*')) > 0:
-+                source = './.??* '
-+            source += './*'
-          else:
-              source = src
-          cmd = 'cp -afl --preserve=xattr %s %s' % (source, dst)
-          subprocess.check_output(cmd, shell=True, stderr=subprocess.STDOUT)
-+        os.chdir(oldcwd)
-      else:
-          copytree(src, dst)
-
-// Robert
-
->
-> Author: Robert Yang <liezhi.yang@windriver.com>
-> Date:   Thu Oct 13 01:28:41 2016 -0700
->
->     oe/path.py: fix for "Argument list too long"
->
->     Fixed when len(TMPDIR) = 410:
->     $ bitbake core-image-sato-sdk
->     [snip]
->     Subprocess output:
->     /bin/sh: /bin/cp: Argument list too long
->
->     ERROR: core-image-sato-sdk-1.0-r0 do_rootfs: Function failed: do_rootfs
->     [snip]
->
->     This is because "copyhardlinktree(src, dst)" does "cp -afl src/* dst",
->     while src/* is expanded to "src/file1 src/file2, src/file3..." which
->     causes the "Argument list too long", change cwd to src can fix the
->     problem.
->
->     Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
->
->
-> diff --git a/meta/lib/oe/path.py b/meta/lib/oe/path.py
-> index 06a5af2..13821b3 100644
-> --- a/meta/lib/oe/path.py
-> +++ b/meta/lib/oe/path.py
-> @@ -80,14 +80,18 @@ def copyhardlinktree(src, dst):
->          cmd = "cd %s; find . -type d -print | tar --xattrs --xattrs-include='*'
-> -cf - -C %s -p --no-recursion --files-from - | tar --xattrs --xattrs-include='*'
-> -xf - -C %s" % (src, src, dst)
->          subprocess.check_output(cmd, shell=True, stderr=subprocess.STDOUT)
->          source = ''
-> +        # chdir() to src to avoid "Argument list too long" error
-> +        oldcwd = os.getcwd()
->          if os.path.isdir(src):
-> +            os.chdir(src)
->              import glob
-> -            if len(glob.glob('%s/.??*' % src)) > 0:
-> -                source = '%s/.??* ' % src
-> -            source = source + '%s/*' % src
-> +            if len(glob.glob('.??*')) > 0:
-> +                source = '.??* '
-> +            source += '*'
->          else:
->              source = src
->          cmd = 'cp -afl --preserve=xattr %s %s' % (source, dst)
-> +        os.chdir(oldcwd)
->          subprocess.check_output(cmd, shell=True, stderr=subprocess.STDOUT)
->      else:
->          copytree(src, dst)
->
-> // Robert
->
+>> On 14 October 2016 at 06:22, Carol Zhu <carol.zhu@nxp.com> wrote:
+>>>
+>>> Hi Ross,
+>>>
+>>>
+>>>
+>>>       So could we try integrating them to master branch and proving the=
+m
+>>> firstly?
+>>>
+>>>       If they are all ok, then we can try next.
+>>>
+>>>       They won=E2=80=99t block the RC1 of 2.2.
 >>
->> Ross
+>>
+>>
+>> That would be the way to go, although GStreamer 1.10 release may have
+>> already happened by the time oe-core master opens again: in that case th=
+e
+>> appropriate thing would be to upgrade the recipes in master to 1.10.
+>
+> We can serialize the upgrade and get these patches in before upgrade.
+
+Agreed as Carol already did the patches work.
+
+
+--=20
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
