@@ -1,45 +1,46 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f45.google.com (mail-wm0-f45.google.com [74.125.82.45])
-	by mail.openembedded.org (Postfix) with ESMTP id B9DD671AC1
+Received: from mail-wm0-f47.google.com (mail-wm0-f47.google.com [74.125.82.47])
+	by mail.openembedded.org (Postfix) with ESMTP id 6C570719E4
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Oct 2016 16:57:41 +0000 (UTC)
-Received: by mail-wm0-f45.google.com with SMTP id d128so9050823wmf.1
+	Fri, 14 Oct 2016 17:04:31 +0000 (UTC)
+Received: by mail-wm0-f47.google.com with SMTP id c78so8867013wme.0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Oct 2016 09:57:43 -0700 (PDT)
+	Fri, 14 Oct 2016 10:04:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=from:to:subject:date:message-id;
-	bh=OTruswj4L+0fbT+vrKl0qf0v2tJNgCFy4LIuhw0K0C4=;
-	b=Kd8x26dTPzBC3H4PTozpQu1obxEpfJ06Pk1See9llmWT7w0leH2w7oFOhBXVUIED+5
-	0vjTysIokDwjUiRwTcVe/E3LS1XJ//r7Xc1E7o8bt65EtmhIlHw8DCo84TZ0EfVXkhIB
-	ebwyAG6tgIfWjE9k1F5KlKmV2dHGyhhb89hyxthDuZWLnK/G3Q1nSvV6sX8345+l73Sk
-	DmLbYhFCT5w6PfDrSRZecWd+VynR9EeihWbuk5g0Fu7LddmvA5U80US5mUiJttNZXWld
-	NRLtpE1+515ARsL69D11EDDZORetqNalah/PhKEyy6Y67iaz5sOxlmDBL2FCV+za3o0g
-	ov1w==
+	bh=7zMxr/2gQus9J3uQLYY5c0dwqBAw8mxvZJ0ftemeVJU=;
+	b=fw0lG7Fx6gDIHfr8p9vY9RDiRDNb8soFaA3OdrU9dpAB2vkjLVIIgVnK3u4t0R42kD
+	wwqgEuB9pXeisB10PRLV0c/usVaGCHqWyHOuBbo4h91UAR4lKwZluvr8diAwT8pWWVHJ
+	mAyT7Aa9Zx3rUBbeaBy2GHUpDQtzlu/cPzVfYp8ASU4iPZia2fSAGwp4nAbp6QEDze/1
+	/fSRRDtPXpkJfyNEeqqNPEGtWNgYgmF3JUCOYTYZpk0dwytT4umAQYmQDudPDpklziWm
+	xb8iSE+Bs/dyaMHQ4CXLifzJdGwq9QNWgXUCmeOjILJ8efQ5V5ERfa+zAqZnohg0i9hu
+	AXCA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=OTruswj4L+0fbT+vrKl0qf0v2tJNgCFy4LIuhw0K0C4=;
-	b=ZZa2rDaX/ikk48emHIxuG3hamoNYrm19P3SEXjR/kN8SD1hLWdA/+vWWi8GumINlYN
-	P4U7HUyTWHaQqP7rinZdDrihEc6TDIGgLYFvS0sEjQL+MCd5GmhENbGX/OGZ721IrPha
-	yDiOU3A6ZpKfdS4T+UtaE2KuFlNrbBQP/7r1cIhPyIq7nktJ4KZGUicjI1DSDWUAbCnH
-	/XoPpyQe0Y2hOzfhy69Hv3kJYSHxit4uMTuMOT6aOochwKgxTrJq31nJ1j0GpfpR9/vP
-	pkJvXe/TlkMDhoIS4LEJDCdXIdkJWGJscMJydfDG8jpIGLUsr/mM+G4d6ezkkDgw18zh
-	Kx7Q==
-X-Gm-Message-State: AA6/9RmWUySkzptIS2Mj5/HvvL7QzobS2NEAFejTg5M37VhZV532K6lJihheWZkxPE763TDJ
-X-Received: by 10.28.207.3 with SMTP id f3mr6540818wmg.15.1476464262678;
-	Fri, 14 Oct 2016 09:57:42 -0700 (PDT)
+	bh=7zMxr/2gQus9J3uQLYY5c0dwqBAw8mxvZJ0ftemeVJU=;
+	b=WMvHvsd/duDAbJm5yujzi8Oh2mKDs9vzxg9GvIf7+hNy+NKh2y9D0Fr9jtWmDKkHFW
+	Fl8T5rd5E1HT24DyIHoM8D6118R7NK8odNfx/31DKBZPfCqAN4D+e4XL8N8ecUKl9scr
+	vVuWRMFf4g6kw88WbLwARnWpqS/hZBGQ3rZD91ia4Zj+atRUsufB2wICTNaRZYVHYkj/
+	OObAonR5KqPpHS8V6zDNFO5l9VUCLOUYt7faeZcoD/teppsbfOHMnoJPRX15Lo7GndgF
+	Cpe3Ya1lGmucahEP8pGiQfNKswtw0Q2YMQ7qNkGp0qvsDUnE6xvRWwB1p9uiWB0QxG/e
+	e2yA==
+X-Gm-Message-State: AA6/9RkWsIcJQahPiOQ8ZEWBM967H7f4uwiA/IVYopPei/nWLY2RT6WJNpMCn0SDkrWGhciY
+X-Received: by 10.194.22.103 with SMTP id c7mr2695817wjf.34.1476464672857;
+	Fri, 14 Oct 2016 10:04:32 -0700 (PDT)
 Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id o1sm32972238wjh.9.2016.10.14.09.57.41
+	by smtp.gmail.com with ESMTPSA id
+	r195sm727769wmd.14.2016.10.14.10.04.31
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 14 Oct 2016 09:57:41 -0700 (PDT)
+	Fri, 14 Oct 2016 10:04:32 -0700 (PDT)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 14 Oct 2016 17:57:39 +0100
-Message-Id: <1476464259-18585-1-git-send-email-ross.burton@intel.com>
+Date: Fri, 14 Oct 2016 18:04:28 +0100
+Message-Id: <1476464668-18886-1-git-send-email-ross.burton@intel.com>
 X-Mailer: git-send-email 2.8.1
-Subject: [PATCH][V2] pixbufcache: handle gdk-pixbuf not being present
+Subject: [PATCH] populate_sdk_ext: explicitly set DL_DIR
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,51 +53,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 14 Oct 2016 16:57:43 -0000
+X-List-Received-Date: Fri, 14 Oct 2016 17:04:32 -0000
 
-It's possible - albeit unlikely - that gdk-pixbuf isn't present in the sysroot
-when a recipe inheriting this class is and the sysroot is finalised.
+The eSDK generation assumes that DL_DIR is downloads/ under the build directory,
+and puts files such as a freshly buily uninative tarball in there expecting
+bitbake will find it later.
 
-One example would be if the sstate archive has librsvg but not gdk-pixbuf:
-librsvg will be extracted from the sstate but gdk-pixbuf will be built to "fill
-in the gap".  In this situation the setscene completion hook installed by
-pixbufcache.bbclass will attempt to execute gdk-pixbuf-query-loaders, but that
-binary hasn't been installed by gdk-pixbuf yet.
+Whilst ${TOPDIR}/downloads/ is in fact the default value for DL_DIR in
+bitbake.conf, and any instances of DL_DIR are removed from the original
+local.conf, there is still the possibility that other layers could contain a
+site.conf that assigns DL_DIR.
 
-Also add gdk-pixbuf-native to DEPENDS in native builds to ensure that the
-binaries we expect will be present, as it's possible to build loaders without
-linking to GdkPixbuf.
+If this happens the errors are quite mysterious as it fails to find the
+uninative tarball and so the hashes all change, and eSDK building fails.
 
-[ YOCTO #10420 ]
+Ensure that this cannot happen by explicitly assigning the DL_DIR that we
+require, instead of assuming that the default value will be used.
+
+[ YOCTO #10439 ]
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/classes/pixbufcache.bbclass | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ meta/classes/populate_sdk_ext.bbclass | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/classes/pixbufcache.bbclass b/meta/classes/pixbufcache.bbclass
-index dbe11e1..3f48a0f 100644
---- a/meta/classes/pixbufcache.bbclass
-+++ b/meta/classes/pixbufcache.bbclass
-@@ -54,6 +54,7 @@ gdkpixbuf_complete() {
- # An error exit during populate_sysroot_setscene allows bitbake to
- # try to recover by re-building the package.
- #
-+DEPENDS_append_class-native = " gdk-pixbuf-native"
- SSTATEPOSTINSTFUNCS_append_class-native = " pixbufcache_sstate_postinst"
+diff --git a/meta/classes/populate_sdk_ext.bbclass b/meta/classes/populate_sdk_ext.bbclass
+index ddf3962..0f0525d 100644
+--- a/meta/classes/populate_sdk_ext.bbclass
++++ b/meta/classes/populate_sdk_ext.bbclass
+@@ -282,6 +282,8 @@ python copy_buildsystem () {
+             # Write a newline just in case there's none at the end of the original
+             f.write('\n')
  
- # See base.bbclass for the other half of this
-@@ -61,7 +62,8 @@ pixbufcache_sstate_postinst() {
- 	if [ "${BB_CURRENTTASK}" = "populate_sysroot" ]; then
- 		${gdkpixbuf_complete}
- 	elif [ "${BB_CURRENTTASK}" = "populate_sysroot_setscene" ]; then
--		echo "${gdkpixbuf_complete}" >> ${STAGING_DIR}/sstatecompletions
-+		if [ -x ${STAGING_LIBDIR_NATIVE}/gdk-pixbuf-2.0/gdk-pixbuf-query-loaders ]; then
-+			echo "${gdkpixbuf_complete}" >> ${STAGING_DIR}/sstatecompletions
-+		fi
- 	fi
- }
--
++            f.write('DL_DIR = "${TOPDIR}/downloads"\n')
++
+             f.write('INHERIT += "%s"\n' % 'uninative')
+             f.write('UNINATIVE_CHECKSUM[%s] = "%s"\n\n' % (d.getVar('BUILD_ARCH', True), uninative_checksum))
+             f.write('CONF_VERSION = "%s"\n\n' % d.getVar('CONF_VERSION', False))
 -- 
 2.8.1
 
