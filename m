@@ -1,24 +1,24 @@
 Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 66E2C71B60
+	by mail.openembedded.org (Postfix) with ESMTP id 945D971ACA
 	for <openembedded-core@lists.openembedded.org>;
 	Fri, 14 Oct 2016 16:36:30 +0000 (UTC)
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
-	by fmsmga101.fm.intel.com with ESMTP; 14 Oct 2016 09:36:31 -0700
+	by fmsmga101.fm.intel.com with ESMTP; 14 Oct 2016 09:36:32 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.31,493,1473145200"; d="scan'208";a="19705471"
+X-IronPort-AV: E=Sophos;i="5.31,493,1473145200"; d="scan'208";a="19705478"
 Received: from lsandov1-mobl2.zpn.intel.com ([10.219.5.48])
 	by orsmga005.jf.intel.com with ESMTP; 14 Oct 2016 09:36:31 -0700
 From: leonardo.sandoval.gonzalez@linux.intel.com
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 14 Oct 2016 11:40:26 -0500
-Message-Id: <4139c9aa1622a83597d0b6ea336923686f844bd1.1476462963.git.leonardo.sandoval.gonzalez@linux.intel.com>
+Date: Fri, 14 Oct 2016 11:40:27 -0500
+Message-Id: <88ed2fc1a30df53f6c94192966c00c5c41de3869.1476462963.git.leonardo.sandoval.gonzalez@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1476462963.git.leonardo.sandoval.gonzalez@linux.intel.com>
 References: <cover.1476462963.git.leonardo.sandoval.gonzalez@linux.intel.com>
 In-Reply-To: <cover.1476462963.git.leonardo.sandoval.gonzalez@linux.intel.com>
 References: <cover.1476462963.git.leonardo.sandoval.gonzalez@linux.intel.com>
-Subject: [PATCH 1/9] selftest: set correct linux-yocto recipe when distro is poky-tiny
+Subject: [PATCH 2/9] selftest: skip two bbtest tests depending on distro
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,56 +35,43 @@ X-List-Received-Date: Fri, 14 Oct 2016 16:36:30 -0000
 
 From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
 
-The poky-tiny distro points to linux-yocto-tiny instead of linux-yocto,
-so setting the correct name depending on the distro.
+There are two bbtests that just makes sense on certain distros:
+test_bitbake_g cannot be done on poky-tiny and test_non_gplv3
+just makes sense on poky and poky-tiny. Skip these when
+necessary under the latter conditions.
 
 [YOCTO #8525]
 
 Signed-off-by: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
 ---
- meta/lib/oeqa/selftest/base.py     | 1 +
- meta/lib/oeqa/selftest/bblayers.py | 6 ++++--
- 2 files changed, 5 insertions(+), 2 deletions(-)
+ meta/lib/oeqa/selftest/bbtests.py | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/meta/lib/oeqa/selftest/base.py b/meta/lib/oeqa/selftest/base.py
-index 26c93f9..b477db3 100644
---- a/meta/lib/oeqa/selftest/base.py
-+++ b/meta/lib/oeqa/selftest/base.py
-@@ -41,6 +41,7 @@ class oeSelfTest(unittest.TestCase):
-             self.testinc_path, self.testinc_bblayers_path,
-             self.machineinc_path, self.localconf_backup,
-             self.local_bblayers_backup]
-+        self.distro = get_bb_var('DISTRO')
-         super(oeSelfTest, self).__init__(methodName)
+diff --git a/meta/lib/oeqa/selftest/bbtests.py b/meta/lib/oeqa/selftest/bbtests.py
+index baae1e0..9b11cd9 100644
+--- a/meta/lib/oeqa/selftest/bbtests.py
++++ b/meta/lib/oeqa/selftest/bbtests.py
+@@ -114,6 +114,9 @@ class BitbakeTests(oeSelfTest):
  
-     def setUp(self):
-diff --git a/meta/lib/oeqa/selftest/bblayers.py b/meta/lib/oeqa/selftest/bblayers.py
-index d23675e..a0206a2 100644
---- a/meta/lib/oeqa/selftest/bblayers.py
-+++ b/meta/lib/oeqa/selftest/bblayers.py
-@@ -68,6 +68,7 @@ class BitbakeLayers(oeSelfTest):
+     @testcase(167)
+     def test_bitbake_g(self):
++        if self.distro == 'poky-tiny':
++            self.skipTest('core-image-full-cmdline is not buildable with poky-tiny')
++
+         result = bitbake('-g core-image-full-cmdline')
+         for f in ['pn-buildlist', 'pn-depends.dot', 'package-depends.dot', 'task-depends.dot']:
+             self.addCleanup(os.remove, f)
+@@ -229,6 +232,10 @@ INHERIT_remove = \"report-error\"
  
-     @testcase(1384)
-     def test_bitbakelayers_showrecipes(self):
-+        distro = get_bb_var('DISTRO')
-         result = runCmd('bitbake-layers show-recipes')
-         self.assertIn('aspell:', result.output)
-         self.assertIn('mtd-utils:', result.output)
-@@ -77,11 +78,12 @@ class BitbakeLayers(oeSelfTest):
-         self.assertIn('mtd-utils:', result.output)
-         self.assertNotIn('aspell:', result.output)
-         result = runCmd('bitbake-layers show-recipes -i kernel')
--        self.assertIn('linux-yocto:', result.output)
-+        linux_yocto = 'linux-yocto-tiny' if distro == 'poky-tiny' else 'linux-yocto'
-+        self.assertIn(linux_yocto, result.output)
-         self.assertNotIn('mtd-utils:', result.output)
-         result = runCmd('bitbake-layers show-recipes -i image')
-         self.assertIn('core-image-minimal', result.output)
--        self.assertNotIn('linux-yocto:', result.output)
-+        self.assertNotIn(linux_yocto, result.output)
-         self.assertNotIn('mtd-utils:', result.output)
-         result = runCmd('bitbake-layers show-recipes -i cmake,pkgconfig')
-         self.assertIn('libproxy:', result.output)
+     @testcase(1119)
+     def test_non_gplv3(self):
++        supported_distros = ['poky', 'poky-tiny']
++        if not self.distro in supported_distros:
++            self.skipTest('Test considers only %s distros' % ','.join(supported_distros))
++
+         data = 'INCOMPATIBLE_LICENSE = "GPLv3"'
+         conf = os.path.join(self.builddir, 'conf/local.conf')
+         ftools.append_file(conf ,data)
 -- 
 2.1.4
 
