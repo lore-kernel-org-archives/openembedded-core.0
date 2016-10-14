@@ -1,24 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 9147071A21
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 322F071A21
 	for <openembedded-core@lists.openembedded.org>;
 	Fri, 14 Oct 2016 10:08:37 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u9EA8cm4004542
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u9EA8dQ2013960
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Oct 2016 03:08:38 -0700 (PDT)
+	Fri, 14 Oct 2016 03:08:39 -0700
 Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.294.0;
-	Fri, 14 Oct 2016 03:08:37 -0700
+	Fri, 14 Oct 2016 03:08:38 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 14 Oct 2016 03:08:35 -0700
-Message-ID: <cover.1476439242.git.liezhi.yang@windriver.com>
+Date: Fri, 14 Oct 2016 03:08:36 -0700
+Message-ID: <fc39e759f11507fa80ed2274f7ed9a6e66de6e39.1476439242.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.9.0
+In-Reply-To: <cover.1476439242.git.liezhi.yang@windriver.com>
+References: <cover.1476439242.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/2] fixes for mips64-o32
+Subject: [PATCH 1/2] arch-mips.inc: remove duplicates from PACKAGE_ARCHS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,26 +33,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 14 Oct 2016 10:08:37 -0000
+X-List-Received-Date: Fri, 14 Oct 2016 10:08:38 -0000
 Content-Type: text/plain
 
-The following changes since commit d976454406adea2edd738096227ad53d600783ad:
+Fixed:
+MACHINE = "qemumips64"
+DEFAULTTUNE = "mips64-o32"
 
-  source-highlight: use with-boost-libdir (2016-10-12 20:17:35 -0700)
+$ bitbake linux-yocto
+ERROR:  OE-core's config sanity checker detected a potential misconfiguration.
+    Either fix the cause of this error or at your own risk disable the checker (see sanity.conf).
+    Following is the list of potential problems / advisories:
 
-are available in the git repository at:
+    Error, the PACKAGE_ARCHS variable contains duplicates. The following archs are listed more than once: mips64-o32
 
-  git://git.openembedded.org/openembedded-core-contrib rbt/mips
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/mips
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+---
+ meta/conf/machine/include/mips/arch-mips.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Robert Yang (2):
-  arch-mips.inc: remove duplicates from PACKAGE_ARCHS
-  insane.bbclass: fix package_qa_check_arch() for mips64-o32
-
- meta/classes/insane.bbclass                  | 10 ++++++----
- meta/conf/machine/include/mips/arch-mips.inc |  2 +-
- 2 files changed, 7 insertions(+), 5 deletions(-)
-
+diff --git a/meta/conf/machine/include/mips/arch-mips.inc b/meta/conf/machine/include/mips/arch-mips.inc
+index 50c4c82..6069ca1 100644
+--- a/meta/conf/machine/include/mips/arch-mips.inc
++++ b/meta/conf/machine/include/mips/arch-mips.inc
+@@ -118,7 +118,7 @@ AVAILTUNES += "mips64-o32 mips64el-o32"
+ TUNE_FEATURES_tune-mips64-o32 = "o32 bigendian fpu-hard"
+ BASE_LIB_tune-mips64-o32 = "lib"
+ MIPSPKGSFX_VARIANT_tune-mips64-o32 = "${TUNE_ARCH}"
+-PACKAGE_EXTRA_ARCHS_tune-mips64-o32 = "mips mips64-o32 mips64-o32"
++PACKAGE_EXTRA_ARCHS_tune-mips64-o32 = "mips mips64-o32"
+ 
+ TUNE_FEATURES_tune-mips64el-o32 = "o32 fpu-hard"
+ BASE_LIB_tune-mips64el-o32 = "lib"
 -- 
 2.9.0
 
