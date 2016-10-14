@@ -1,21 +1,46 @@
-Return-Path: <jussi.kukkonen@intel.com>
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id 1F9C471BA1
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io0-f177.google.com (mail-io0-f177.google.com
+	[209.85.223.177])
+	by mail.openembedded.org (Postfix) with ESMTP id 8F4C271B54
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Oct 2016 18:38:45 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga104.fm.intel.com with ESMTP; 14 Oct 2016 11:38:47 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.31,346,1473145200"; d="scan'208";a="1053926248"
-Received: from shealy-mobl4.ger.corp.intel.com (HELO
-	heimdall.ger.corp.intel.com) ([10.252.27.118])
-	by fmsmga001.fm.intel.com with ESMTP; 14 Oct 2016 11:38:46 -0700
-From: Jussi Kukkonen <jussi.kukkonen@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 14 Oct 2016 21:38:40 +0300
-Message-Id: <20161014183840.18056-1-jussi.kukkonen@intel.com>
-X-Mailer: git-send-email 2.9.3
-Subject: [PATCH] libxml2: Make tests non-executable
+	Fri, 14 Oct 2016 19:39:28 +0000 (UTC)
+Received: by mail-io0-f177.google.com with SMTP id i202so131305566ioi.2
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 14 Oct 2016 12:39:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=kjUMb790wqFTyE6TfS05aK7xNStTOZLjKYZIW9Kd8HE=;
+	b=t4Sukmdvmfbi9eM9dwWQUQWG9Pu8YWmham0oLaF+Dx49EFQopWL4TS0OeU9DNo7NRx
+	lk0L8GJ2VHac2z2KsLMFFVV01B+3Nrx7GLQvs8TEWsFBYWfpDpRCJuUWXLdeJyuUOLMb
+	OifyZ9JukebjoDSy0i/GT7J1Tz0v07l/Iw8G6DAjEX91itHeWg/wAYz6g0uGz0g1/oC4
+	muLKCD0dGw5ttTjjOHm5EfBo7PQ8h1XkwDhFamOYAsiq2h931kFALZ4tov5HDB0ehzC1
+	gsGjepwpvrwLGUsL52ghsUUpf00y7rld2TP73a7cL1drr08VT/zyBNKZC8vxC6/kMRn4
+	Ba8w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=kjUMb790wqFTyE6TfS05aK7xNStTOZLjKYZIW9Kd8HE=;
+	b=MVffHixRFeD/ZDe+IcS7Ma/gABZ7jhpz6BlVSvKS4UElhnIl2ZVUdRSI3/mRb0k8o5
+	ScFlI/o/2HUssxjVav19/KE0phTf3KSsUJ1/RaPEXqAl9mxRznqR1dQnlnkQ/aWsd9wR
+	+7pB5io4hnDyjMRWD7WRV8qto6PDqxnEDUrj/utDi3M5piYT4j+vb5viO7tkrLn7RgMr
+	M/BmDForduCPjimI0ca2nyEQiwOju2bhiPLTkKyFPnao48cHp4+8odAi+KIJJkTOO1Io
+	b4r0uSra/e8+7JOg6VaI40UXLS5JPHkiWaG2TCitxwPxptpLVoSnslCJCC1ylWi1F+h6
+	3rog==
+X-Gm-Message-State: AA6/9RnXhbq6Fb1cc0qjwZPM1JIDDiRNb/I/W/l7ekurzS9br87BP3C+DTDPirWmIvirUFd6BjAHA5vBG5rMAjoJ
+X-Received: by 10.107.17.32 with SMTP id z32mr13200842ioi.1.1476473969538;
+	Fri, 14 Oct 2016 12:39:29 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.107.155.66 with HTTP; Fri, 14 Oct 2016 12:39:09 -0700 (PDT)
+In-Reply-To: <20161014183840.18056-1-jussi.kukkonen@intel.com>
+References: <20161014183840.18056-1-jussi.kukkonen@intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 14 Oct 2016 20:39:09 +0100
+Message-ID: <CAJTo0LYK_+7dB4jUAq2PRuSZ=0Qqvw39xTOWPsiTU4k2a09inw@mail.gmail.com>
+To: Jussi Kukkonen <jussi.kukkonen@intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] libxml2: Make tests non-executable
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,47 +53,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 14 Oct 2016 18:38:46 -0000
+X-List-Received-Date: Fri, 14 Oct 2016 19:39:28 -0000
+Content-Type: multipart/alternative; boundary=001a113f2676799004053ed8622d
 
-The XML W3C conformance test suite contains thousands of xml files all
-marked executable. We dutifully try to strip all these files of debug
-info in do_package.
+--001a113f2676799004053ed8622d
+Content-Type: text/plain; charset=UTF-8
 
-"chmod -x" improves build time by ~40 seconds.
+On 14 October 2016 at 19:38, Jussi Kukkonen <jussi.kukkonen@intel.com>
+wrote:
 
-Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
----
+> Let me know if do_configure_prepend() is not an appropriate place for
+> a hack like this.
+>
 
-Let me know if do_configure_prepend() is not an appropriate place for
-a hack like this.
+Anywhere is reasonable I guess, do_configure_prepend or do_install_append
+will work just as well.
 
-This patch also in:
+Ross
 
-  git://git.yoctoproject.org/poky-contrib jku/libxml-chmod
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=jku/libxml-chmod
+--001a113f2676799004053ed8622d
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 14 October 2016 at 19:38, Jussi Kukkonen <span dir=3D"ltr">&lt;<a href=
+=3D"mailto:jussi.kukkonen@intel.com" target=3D"_blank">jussi.kukkonen@intel=
+.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"ma=
+rgin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":2a=
+s" class=3D"a3s aXjCH m157c48b649c9e267">Let me know if do_configure_prepen=
+d() is not an appropriate place for<br>
+a hack like this.<br></div></blockquote></div><br>Anywhere is reasonable I =
+guess, do_configure_prepend or do_install_append will work just as well.</d=
+iv><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</di=
+v></div>
 
-
- meta/recipes-core/libxml/libxml2_2.9.4.bb | 5 +++++
- 1 file changed, 5 insertions(+)
-
-diff --git a/meta/recipes-core/libxml/libxml2_2.9.4.bb b/meta/recipes-core/libxml/libxml2_2.9.4.bb
-index 265d2b7..59874be 100644
---- a/meta/recipes-core/libxml/libxml2_2.9.4.bb
-+++ b/meta/recipes-core/libxml/libxml2_2.9.4.bb
-@@ -63,6 +63,11 @@ FILES_${PN}-dev += "${libdir}/xml2Conf.sh ${libdir}/cmake/*"
- FILES_${PN}-utils += "${bindir}/*"
- FILES_${PN}-python += "${PYTHON_SITEPACKAGES_DIR}"
- 
-+do_configure_prepend () {
-+	# executables take longer to package: these should not be executable
-+	find ${WORKDIR}/xmlconf/ -type f -exec chmod -x {} \+
-+}
-+
- do_install_ptest () {
- 	cp -r ${WORKDIR}/xmlconf ${D}${PTEST_PATH}
- }
--- 
-2.9.3
-
-
+--001a113f2676799004053ed8622d--
