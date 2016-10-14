@@ -1,26 +1,69 @@
-Return-Path: <Jackie.Huang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 1A37471AED
+Return-Path: <carol.zhu@nxp.com>
+X-Greylist: delayed 60125 seconds by postgrey-1.34 at layers.openembedded.org;
+	Fri, 14 Oct 2016 03:22:14 UTC
+Received: from EUR01-DB5-obe.outbound.protection.outlook.com
+	(mail-db5eur01on0044.outbound.protection.outlook.com [104.47.2.44])
+	by mail.openembedded.org (Postfix) with ESMTP id A12A571ADA
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Oct 2016 01:08:56 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u9E18vCx028283
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Oct 2016 18:08:57 -0700 (PDT)
-Received: from pek-hostel-deb01.wrs.com (128.224.153.151) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.294.0; Thu, 13 Oct 2016 18:08:56 -0700
-From: <jackie.huang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 14 Oct 2016 08:50:11 +0800
-Message-ID: <07b4065b12f5cf9dfe816e7cdb68a5e7d83e04c0.1476345470.git.jackie.huang@windriver.com>
-X-Mailer: git-send-email 2.8.3
-In-Reply-To: <cover.1476345470.git.jackie.huang@windriver.com>
-References: <cover.1476345470.git.jackie.huang@windriver.com>
+	Fri, 14 Oct 2016 03:22:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1; 
+	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version;
+	bh=7yRipgnXTp2GmGYgaZT3PEgUHpTeLuakladvDJ2pJVI=;
+	b=wvsacdn5Gzhh+8QPgofgb/PPpyxFGtu7p9AxnfSj8g6DjqxmwXnVhAAFol3xJkkbvlUfRdMXoCsh1LrUyWPvDbutAME7G0tqtlm1rxYfYgk3ZyqyCgVhANpYRCnjeT40Ok9n+jkNYAuE8LBIQHhYBrYgVz2R6R/RavtuIxsIHhI=
+Received: from HE1PR0401MB2682.eurprd04.prod.outlook.com (10.168.148.151) by
+	HE1PR0401MB2683.eurprd04.prod.outlook.com (10.168.149.7) with Microsoft
+	SMTP Server (version=TLS1_2,
+	cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id
+	15.1.659.8; Fri, 14 Oct 2016 03:22:14 +0000
+Received: from HE1PR0401MB2682.eurprd04.prod.outlook.com ([10.168.148.151]) by
+	HE1PR0401MB2682.eurprd04.prod.outlook.com ([10.168.148.151]) with
+	mapi id 15.01.0669.005; Fri, 14 Oct 2016 03:22:14 +0000
+From: Carol Zhu <carol.zhu@nxp.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Thread-Topic: [OE-core] [poky][PATCH 0/4] Add patches for
+	gstreamer1.0-plugins-bad V1.8.3
+Thread-Index: AQHSI60fe6YL+qLnyEWqAhDz+Rh7DqCjLfKAgALqsDCAABsUAIABB8+w
+Date: Fri, 14 Oct 2016 03:22:14 +0000
+Message-ID: <HE1PR0401MB26823C71B1DC91A7D8723D59E9DF0@HE1PR0401MB2682.eurprd04.prod.outlook.com>
+References: <1476182952-15222-1-git-send-email-carol.zhu@nxp.com>
+	<CAJTo0LaiX-F+0ZPeTs8jJ2GxT61WFi1aPYZ76RgUMAKCMiWaeA@mail.gmail.com>
+	<HE1PR0401MB2682F8CDDB11A504A1703B2EE9DC0@HE1PR0401MB2682.eurprd04.prod.outlook.com>
+	<CAJTo0LZ1NdDfTb72cH-vLrE=Q=kW6ksFQ5p7pnA3Tgoj0QZbaw@mail.gmail.com>
+In-Reply-To: <CAJTo0LZ1NdDfTb72cH-vLrE=Q=kW6ksFQ5p7pnA3Tgoj0QZbaw@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+	smtp.mailfrom=carol.zhu@nxp.com; 
+x-originating-ip: [199.59.225.131]
+x-ms-office365-filtering-correlation-id: a5032e03-e083-4a74-255d-08d3f3e14b23
+x-microsoft-exchange-diagnostics: 1; HE1PR0401MB2683;
+	7:WqlpjHxZER2u8lyFq7mLHHb2eNqQgAfEk8DiXJNTOIrMWf4ByqLRRyT3IvlRHSW6rJd8KR1ExOpt9xBAhUJ8elXS0ctS4hor8p2ubogc5tclLYmaAqcPmx/hUFPMLGpZMQpBeXNPFW97WmRUzRZNOk9iHa0ld5cxbrgCZqLAAc5RZRKoW4dE9nZTwJYUaZFOF/SVLgxOl4clszeH9UbfBiBB6PjjyIptCA0eXOI9GYz3YQ+w1ycmIYHaL1jURDE8fgIkKHkuWNrDuX2ZYlAqZq42ntg299MRo0VIvUCO92ybcsJ15qFKEvTq+OBwTbgUZWWW0a2GKxZXpGKH3IcIaBWoJZ7bPczU4wIz9ZQBvYQ=
+x-microsoft-antispam: UriScan:;BCL:0;PCL:0;RULEID:;SRVR:HE1PR0401MB2683;
+x-microsoft-antispam-prvs: <HE1PR0401MB2683AE14361DEE41F760A1C6E9DF0@HE1PR0401MB2683.eurprd04.prod.outlook.com>
+x-exchange-antispam-report-test: UriScan:(185117386973197)(264703809997249)(21748063052155)(228905959029699);
+x-exchange-antispam-report-cfa-test: BCL:0; PCL:0;
+	RULEID:(6040176)(601004)(2401047)(8121501046)(5005006)(10201501046)(3002001)(6055026);
+	SRVR:HE1PR0401MB2683; BCL:0; PCL:0; RULEID:;
+	SRVR:HE1PR0401MB2683; 
+x-forefront-prvs: 0095BCF226
+x-forefront-antispam-report: SFV:NSPM;
+	SFS:(10009020)(7916002)(24454002)(377454003)(189002)(199003)(5660300001)(77096005)(74316002)(19300405004)(110136003)(7696004)(33656002)(19580395003)(76576001)(19580405001)(6916009)(15975445007)(2900100001)(101416001)(230783001)(2950100002)(86362001)(122556002)(50986999)(105586002)(19625215002)(11100500001)(106356001)(76176999)(106116001)(54356999)(10400500002)(7846002)(102836003)(790700001)(189998001)(8676002)(586003)(3846002)(9686002)(19609705001)(3280700002)(5002640100001)(8936002)(93886004)(66066001)(7736002)(6116002)(2906002)(92566002)(9326002)(4326007)(68736007)(16236675004)(81166006)(81156014)(87936001)(3660700001)(97736004);
+	DIR:OUT; SFP:1101; SCL:1; SRVR:HE1PR0401MB2683;
+	H:HE1PR0401MB2682.eurprd04.prod.outlook.com; FPR:; SPF:None;
+	PTR:InfoNoRecords; MX:1; A:1; LANG:en; 
+received-spf: None (protection.outlook.com: nxp.com does not designate
+	permitted sender hosts)
+spamdiagnosticoutput: 1:99
+spamdiagnosticmetadata: NSPM
 MIME-Version: 1.0
-Subject: [PATCH 2/2] ppp: fix building with linux-4.8
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-originalarrivaltime: 14 Oct 2016 03:22:14.2226 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: HE1PR0401MB2683
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [poky][PATCH 0/4] Add patches for gstreamer1.0-plugins-bad V1.8.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,95 +76,127 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 14 Oct 2016 01:08:57 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 14 Oct 2016 03:22:15 -0000
+Content-Language: en-US
+Content-Type: multipart/alternative;
+	boundary="_000_HE1PR0401MB26823C71B1DC91A7D8723D59E9DF0HE1PR0401MB2682_"
 
-From: Jackie Huang <jackie.huang@windriver.com>
+--_000_HE1PR0401MB26823C71B1DC91A7D8723D59E9DF0HE1PR0401MB2682_
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-Fix a build error when using the linux-4.8 headers that results in:
+SGkgUm9zcywNCg0KICAgICAgU28gY291bGQgd2UgdHJ5IGludGVncmF0aW5nIHRoZW0gdG8gbWFz
+dGVyIGJyYW5jaCBhbmQgcHJvdmluZyB0aGVtIGZpcnN0bHk/DQogICAgICBJZiB0aGV5IGFyZSBh
+bGwgb2ssIHRoZW4gd2UgY2FuIHRyeSBuZXh0Lg0KICAgICAgVGhleSB3b27igJl0IGJsb2NrIHRo
+ZSBSQzEgb2YgMi4yLg0KDQoNCg0KQi5CDQoNCkZyb206IEJ1cnRvbiwgUm9zcyBbbWFpbHRvOnJv
+c3MuYnVydG9uQGludGVsLmNvbV0NClNlbnQ6IFRodXJzZGF5LCBPY3RvYmVyIDEzLCAyMDE2IDY6
+MzYgUE0NClRvOiBDYXJvbCBaaHUgPGNhcm9sLnpodUBueHAuY29tPg0KQ2M6IE9FLWNvcmUgPG9w
+ZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc+DQpTdWJqZWN0OiBSZTogW09F
+LWNvcmVdIFtwb2t5XVtQQVRDSCAwLzRdIEFkZCBwYXRjaGVzIGZvciBnc3RyZWFtZXIxLjAtcGx1
+Z2lucy1iYWQgVjEuOC4zDQoNCg0KT24gMTMgT2N0b2JlciAyMDE2IGF0IDEwOjA3LCBDYXJvbCBa
+aHUgPGNhcm9sLnpodUBueHAuY29tPG1haWx0bzpjYXJvbC56aHVAbnhwLmNvbT4+IHdyb3RlOg0K
+ICAgICAgVGhlc2UgZ3N0cmVhbWVyIHBhdGNoZXMgYXJlIGJ1ZyBmaXhpbmcgYW5kIGFsbCBiYWNr
+cG9ydGVkIGZyb20gaGlnaGVyIHZlcnNpb24sIHNvIHRoZSByaXNrIGlzIGxvdy4NCiAgICAgIElz
+IHRoYXQgb2sgdG8gaW50ZWdyYXRlIHRoZW0gaW50byBtb3J0eT8NCg0KT25jZSB0aGV5J3ZlIGJl
+ZW4gcHJvdmVuIGluIG1hc3RlciBhbmQgaWYgdGhlIG1vcnR5IG1haW50YWluZXIgYWdyZWVzLCB5
+ZXMuDQoNClJvc3MNCg==
 
-In file included from pppoe.h:87:0,
-                 from plugin.c:29:
-../usr/include/netinet/in.h:211:8: note: originally defined here
- struct in6_addr
-        ^~~~~~~~
-In file included from ../usr/include/linux/if_pppol2tp.h:20:0,
-                 from ../usr/include/linux/if_pppox.h:26,
-                 from plugin.c:52:
-../usr/include/linux/in6.h:49:8: error: redefinition of 'struct sockaddr_in6'
- struct sockaddr_in6 {
-        ^~~~~~~~~~~~
+--_000_HE1PR0401MB26823C71B1DC91A7D8723D59E9DF0HE1PR0401MB2682_
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
----
- .../ppp/ppp/ppp-fix-building-with-linux-4.8.patch  | 44 ++++++++++++++++++++++
- meta/recipes-connectivity/ppp/ppp_2.4.7.bb         |  1 +
- 2 files changed, 45 insertions(+)
- create mode 100644 meta/recipes-connectivity/ppp/ppp/ppp-fix-building-with-linux-4.8.patch
+PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
+bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
+YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
+cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
+VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
+Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
+ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTUgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
+PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
+5a6L5L2TOw0KCXBhbm9zZS0xOjIgMSA2IDAgMyAxIDEgMSAxIDE7fQ0KQGZvbnQtZmFjZQ0KCXtm
+b250LWZhbWlseToiQ2FtYnJpYSBNYXRoIjsNCglwYW5vc2UtMToyIDQgNSAzIDUgNCA2IDMgMiA0
+O30NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6Q2FsaWJyaTsNCglwYW5vc2UtMToyIDE1IDUg
+MiAyIDIgNCAzIDIgNDt9DQpAZm9udC1mYWNlDQoJe2ZvbnQtZmFtaWx5OiJcQOWui+S9kyI7DQoJ
+cGFub3NlLTE6MiAxIDYgMCAzIDEgMSAxIDEgMTt9DQovKiBTdHlsZSBEZWZpbml0aW9ucyAqLw0K
+cC5Nc29Ob3JtYWwsIGxpLk1zb05vcm1hbCwgZGl2Lk1zb05vcm1hbA0KCXttYXJnaW46MGluOw0K
+CW1hcmdpbi1ib3R0b206LjAwMDFwdDsNCglmb250LXNpemU6MTIuMHB0Ow0KCWZvbnQtZmFtaWx5
+OiJUaW1lcyBOZXcgUm9tYW4iLHNlcmlmO30NCmE6bGluaywgc3Bhbi5Nc29IeXBlcmxpbmsNCgl7
+bXNvLXN0eWxlLXByaW9yaXR5Ojk5Ow0KCWNvbG9yOmJsdWU7DQoJdGV4dC1kZWNvcmF0aW9uOnVu
+ZGVybGluZTt9DQphOnZpc2l0ZWQsIHNwYW4uTXNvSHlwZXJsaW5rRm9sbG93ZWQNCgl7bXNvLXN0
+eWxlLXByaW9yaXR5Ojk5Ow0KCWNvbG9yOnB1cnBsZTsNCgl0ZXh0LWRlY29yYXRpb246dW5kZXJs
+aW5lO30NCnNwYW4uRW1haWxTdHlsZTE3DQoJe21zby1zdHlsZS10eXBlOnBlcnNvbmFsOw0KCWZv
+bnQtZmFtaWx5OiJDYWxpYnJpIixzYW5zLXNlcmlmOw0KCWNvbG9yOiMxRjQ5N0Q7fQ0Kc3Bhbi5F
+bWFpbFN0eWxlMTgNCgl7bXNvLXN0eWxlLXR5cGU6cGVyc29uYWwtY29tcG9zZTsNCglmb250LWZh
+bWlseToiQ2FsaWJyaSIsc2Fucy1zZXJpZjsNCgljb2xvcjp3aW5kb3d0ZXh0O30NCi5Nc29DaHBE
+ZWZhdWx0DQoJe21zby1zdHlsZS10eXBlOmV4cG9ydC1vbmx5Ow0KCWZvbnQtZmFtaWx5OiJDYWxp
+YnJpIixzYW5zLXNlcmlmO30NCkBwYWdlIFdvcmRTZWN0aW9uMQ0KCXtzaXplOjguNWluIDExLjBp
+bjsNCgltYXJnaW46MS4waW4gMS4yNWluIDEuMGluIDEuMjVpbjt9DQpkaXYuV29yZFNlY3Rpb24x
+DQoJe3BhZ2U6V29yZFNlY3Rpb24xO30NCi0tPjwvc3R5bGU+PCEtLVtpZiBndGUgbXNvIDldPjx4
+bWw+DQo8bzpzaGFwZWRlZmF1bHRzIHY6ZXh0PSJlZGl0IiBzcGlkbWF4PSIxMDI2IiAvPg0KPC94
+bWw+PCFbZW5kaWZdLS0+PCEtLVtpZiBndGUgbXNvIDldPjx4bWw+DQo8bzpzaGFwZWxheW91dCB2
+OmV4dD0iZWRpdCI+DQo8bzppZG1hcCB2OmV4dD0iZWRpdCIgZGF0YT0iMSIgLz4NCjwvbzpzaGFw
+ZWxheW91dD48L3htbD48IVtlbmRpZl0tLT4NCjwvaGVhZD4NCjxib2R5IGxhbmc9IkVOLVVTIiBs
+aW5rPSJibHVlIiB2bGluaz0icHVycGxlIj4NCjxkaXYgY2xhc3M9IldvcmRTZWN0aW9uMSI+DQo8
+cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZh
+bWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LHNhbnMtc2VyaWY7Y29sb3I6IzFGNDk3RCI+SGkgUm9z
+cyw8bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHls
+ZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LHNhbnMt
+c2VyaWY7Y29sb3I6IzFGNDk3RCI+PG86cD4mbmJzcDs8L286cD48L3NwYW4+PC9wPg0KPHAgY2xh
+c3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6
+JnF1b3Q7Q2FsaWJyaSZxdW90OyxzYW5zLXNlcmlmO2NvbG9yOiMxRjQ5N0QiPiZuYnNwOyZuYnNw
+OyZuYnNwOyZuYnNwOyZuYnNwOyBTbyBjb3VsZCB3ZSB0cnkgaW50ZWdyYXRpbmcgdGhlbSB0byBt
+YXN0ZXIgYnJhbmNoIGFuZCBwcm92aW5nIHRoZW0gZmlyc3RseT88bzpwPjwvbzpwPjwvc3Bhbj48
+L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtm
+b250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LHNhbnMtc2VyaWY7Y29sb3I6IzFGNDk3RCI+
+Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7IElmIHRoZXkgYXJlIGFsbCBvaywgdGhlbiB3
+ZSBjYW4gdHJ5IG5leHQuPG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1h
+bCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJy
+aSZxdW90OyxzYW5zLXNlcmlmO2NvbG9yOiMxRjQ5N0QiPiZuYnNwOyZuYnNwOyZuYnNwOyZuYnNw
+OyZuYnNwOyBUaGV5IHdvbuKAmXQgYmxvY2sgdGhlIFJDMSBvZiAyLjIuPG86cD48L286cD48L3Nw
+YW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4w
+cHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OyxzYW5zLXNlcmlmO2NvbG9yOiMxRjQ5
+N0QiPjxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxz
+cGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVv
+dDssc2Fucy1zZXJpZjtjb2xvcjojMUY0OTdEIj48bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+
+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250
+LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LHNhbnMtc2VyaWY7Y29sb3I6IzFGNDk3RCI+PG86
+cD4mbmJzcDs8L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5
+bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OyxzYW5z
+LXNlcmlmO2NvbG9yOiMxRjQ5N0QiPkIuQjxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNz
+PSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZx
+dW90O0NhbGlicmkmcXVvdDssc2Fucy1zZXJpZjtjb2xvcjojMUY0OTdEIj48bzpwPiZuYnNwOzwv
+bzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48Yj48c3BhbiBzdHlsZT0iZm9u
+dC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LHNhbnMtc2VyaWYi
+PkZyb206PC9zcGFuPjwvYj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWls
+eTomcXVvdDtDYWxpYnJpJnF1b3Q7LHNhbnMtc2VyaWYiPiBCdXJ0b24sIFJvc3MgW21haWx0bzpy
+b3NzLmJ1cnRvbkBpbnRlbC5jb21dDQo8YnI+DQo8Yj5TZW50OjwvYj4gVGh1cnNkYXksIE9jdG9i
+ZXIgMTMsIDIwMTYgNjozNiBQTTxicj4NCjxiPlRvOjwvYj4gQ2Fyb2wgWmh1ICZsdDtjYXJvbC56
+aHVAbnhwLmNvbSZndDs8YnI+DQo8Yj5DYzo8L2I+IE9FLWNvcmUgJmx0O29wZW5lbWJlZGRlZC1j
+b3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcmZ3Q7PGJyPg0KPGI+U3ViamVjdDo8L2I+IFJlOiBb
+T0UtY29yZV0gW3Bva3ldW1BBVENIIDAvNF0gQWRkIHBhdGNoZXMgZm9yIGdzdHJlYW1lcjEuMC1w
+bHVnaW5zLWJhZCBWMS44LjM8bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9y
+bWFsIj48bzpwPiZuYnNwOzwvbzpwPjwvcD4NCjxkaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05v
+cm1hbCI+PG86cD4mbmJzcDs8L286cD48L3A+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+
+T24gMTMgT2N0b2JlciAyMDE2IGF0IDEwOjA3LCBDYXJvbCBaaHUgJmx0OzxhIGhyZWY9Im1haWx0
+bzpjYXJvbC56aHVAbnhwLmNvbSIgdGFyZ2V0PSJfYmxhbmsiPmNhcm9sLnpodUBueHAuY29tPC9h
+PiZndDsgd3JvdGU6PG86cD48L286cD48L3A+DQo8YmxvY2txdW90ZSBzdHlsZT0iYm9yZGVyOm5v
+bmU7Ym9yZGVyLWxlZnQ6c29saWQgI0NDQ0NDQyAxLjBwdDtwYWRkaW5nOjBpbiAwaW4gMGluIDYu
+MHB0O21hcmdpbi1sZWZ0OjQuOHB0O21hcmdpbi1yaWdodDowaW4iPg0KPHAgY2xhc3M9Ik1zb05v
+cm1hbCIgc3R5bGU9Im1zby1tYXJnaW4tdG9wLWFsdDphdXRvO21zby1tYXJnaW4tYm90dG9tLWFs
+dDphdXRvIj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtD
+YWxpYnJpJnF1b3Q7LHNhbnMtc2VyaWY7Y29sb3I6IzFGNDk3RCI+Jm5ic3A7Jm5ic3A7Jm5ic3A7
+Jm5ic3A7Jm5ic3A7IFRoZXNlIGdzdHJlYW1lciBwYXRjaGVzIGFyZSBidWcgZml4aW5nIGFuZCBh
+bGwgYmFja3BvcnRlZCBmcm9tIGhpZ2hlciB2ZXJzaW9uLCBzbyB0aGUgcmlzayBpcw0KIGxvdy4g
+PC9zcGFuPjxvOnA+PC9vOnA+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCIgc3R5bGU9Im1zby1t
+YXJnaW4tdG9wLWFsdDphdXRvO21zby1tYXJnaW4tYm90dG9tLWFsdDphdXRvIj48c3BhbiBzdHls
+ZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LHNhbnMt
+c2VyaWY7Y29sb3I6IzFGNDk3RCI+Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7
+SXMgdGhhdCBvayB0byBpbnRlZ3JhdGUgdGhlbSBpbnRvIG1vcnR5Pzwvc3Bhbj48bzpwPjwvbzpw
+PjwvcD4NCjwvYmxvY2txdW90ZT4NCjwvZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PGJyPg0K
+T25jZSB0aGV5J3ZlIGJlZW4gcHJvdmVuIGluIG1hc3RlciBhbmQgaWYgdGhlIG1vcnR5IG1haW50
+YWluZXIgYWdyZWVzLCB5ZXMuPG86cD48L286cD48L3A+DQo8L2Rpdj4NCjxkaXY+DQo8cCBjbGFz
+cz0iTXNvTm9ybWFsIj48bzpwPiZuYnNwOzwvbzpwPjwvcD4NCjwvZGl2Pg0KPGRpdj4NCjxwIGNs
+YXNzPSJNc29Ob3JtYWwiPlJvc3M8bzpwPjwvbzpwPjwvcD4NCjwvZGl2Pg0KPC9kaXY+DQo8L2Rp
+dj4NCjwvYm9keT4NCjwvaHRtbD4NCg==
 
-diff --git a/meta/recipes-connectivity/ppp/ppp/ppp-fix-building-with-linux-4.8.patch b/meta/recipes-connectivity/ppp/ppp/ppp-fix-building-with-linux-4.8.patch
-new file mode 100644
-index 0000000..f77b0de
---- /dev/null
-+++ b/meta/recipes-connectivity/ppp/ppp/ppp-fix-building-with-linux-4.8.patch
-@@ -0,0 +1,44 @@
-+From 3da19af53e2eee2e77b456cfbb9d633b06656d38 Mon Sep 17 00:00:00 2001
-+From: Jackie Huang <jackie.huang@windriver.com>
-+Date: Thu, 13 Oct 2016 13:41:43 +0800
-+Subject: [PATCH] ppp: fix building with linux-4.8
-+
-+Fix a build error when using the linux-4.8 headers that results in:
-+
-+In file included from pppoe.h:87:0,
-+                 from plugin.c:29:
-+../usr/include/netinet/in.h:211:8: note: originally defined here
-+ struct in6_addr
-+        ^~~~~~~~
-+In file included from ../usr/include/linux/if_pppol2tp.h:20:0,
-+                 from ../usr/include/linux/if_pppox.h:26,
-+                 from plugin.c:52:
-+../usr/include/linux/in6.h:49:8: error: redefinition of 'struct sockaddr_in6'
-+ struct sockaddr_in6 {
-+        ^~~~~~~~~~~~
-+
-+Upstream-Status: Submitted [1]
-+
-+[1] https://github.com/paulusmack/ppp/pull/69
-+
-+Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
-+---
-+ pppd/plugins/rp-pppoe/pppoe.h | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/pppd/plugins/rp-pppoe/pppoe.h b/pppd/plugins/rp-pppoe/pppoe.h
-+index 9ab2eee..96d2794 100644
-+--- a/pppd/plugins/rp-pppoe/pppoe.h
-++++ b/pppd/plugins/rp-pppoe/pppoe.h
-+@@ -84,7 +84,7 @@ typedef unsigned long UINT32_t;
-+ #include <linux/if_ether.h>
-+ #endif
-+ 
-+-#include <netinet/in.h>
-++#include <linux/in.h>
-+ 
-+ #ifdef HAVE_NETINET_IF_ETHER_H
-+ #include <sys/types.h>
-+-- 
-+2.8.3
-+
-diff --git a/meta/recipes-connectivity/ppp/ppp_2.4.7.bb b/meta/recipes-connectivity/ppp/ppp_2.4.7.bb
-index 4437b5c..56dbd98 100644
---- a/meta/recipes-connectivity/ppp/ppp_2.4.7.bb
-+++ b/meta/recipes-connectivity/ppp/ppp_2.4.7.bb
-@@ -30,6 +30,7 @@ SRC_URI = "http://ppp.samba.org/ftp/ppp/ppp-${PV}.tar.gz \
-            file://0001-ppp-Fix-compilation-errors-in-Makefile.patch \
-            file://ppp@.service \
-            file://fix-CVE-2015-3310.patch \
-+           file://ppp-fix-building-with-linux-4.8.patch \
- "
- 
- SRC_URI_append_libc-musl = "\
--- 
-2.8.3
-
-
+--_000_HE1PR0401MB26823C71B1DC91A7D8723D59E9DF0HE1PR0401MB2682_--
