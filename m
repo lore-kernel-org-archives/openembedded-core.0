@@ -1,52 +1,53 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pa0-f67.google.com (mail-pa0-f67.google.com
-	[209.85.220.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 40FF171A34
+Received: from mail-pa0-f66.google.com (mail-pa0-f66.google.com
+	[209.85.220.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 7B77671A4B
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 16 Oct 2016 18:36:45 +0000 (UTC)
-Received: by mail-pa0-f67.google.com with SMTP id os4so4302100pac.3
+	Sun, 16 Oct 2016 18:38:23 +0000 (UTC)
+Received: by mail-pa0-f66.google.com with SMTP id qn10so8370481pac.2
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 16 Oct 2016 11:36:47 -0700 (PDT)
+	Sun, 16 Oct 2016 11:38:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=subject:mime-version:from:in-reply-to:date:cc:message-id:references
-	:to; bh=6Y60V2uYwGLlh9zjwoMQPPQRZFEhVS4u5q6jf0Grz1Y=;
-	b=LqszgSO2lOVXDEWRj4rZjRSFEO+1t9sFJPKx/BCO9afFzNbMkJnkwYcmP8ViMmEjLm
-	gK+m7R4nBpVgEnACz0mmwkW2CabFmEM67s6IM6J402cN+KwnXbpfX+yPCi1fG7t2lwZV
-	++xsud8Z8Tol6QfAXCSlHp4F9eXlGdEzJPW8eQ84cn/P3wyMrKR8FYje5QOYl3TUgiyT
-	dmpbcAFg6uNq7ArcAC+90VGXi5xAFAbuUUvjWkcvcwCjaVDuNGbbfI9LBM/5L4KEH8MU
-	V7K50jc3V/wF0Y21fjFLx9GjjWZp5GEX8zWku8+IfLArVND/7zGpSVVL6+zuVbwJGKy6
-	S/0A==
+	:to; bh=3fEXLCyWcIjJ3fCyhSJjaOG8MONCyh4KiFh6HIc5wFk=;
+	b=TjcLSRGsybv16mj/49IPySk6xTFJrU1D5YAmWuraciiz6dKXXvD2hBdofsE6QVlU9x
+	lqczCWOptYkrZQ6uTujQsQGfYk6h3pUJSvOwTAZrZZ+sYKtRLLbDxPlBYcGey78/holj
+	S/NXKJgnhfLnLJp8alz75Dq18ytrIxZBNxIHNVx7FL7MFBapQiIPUUMYSADUjSYU557D
+	xKsY7qt+RZ4Av+J8wYB/didu+LQ6mShwgj9xSoGAmhzaz5jk52yB4TcAHDTRBDvpBN4u
+	jEBX3i9DSQ3YxGEhvdOQD1m+7DgqhdEViEoPU6UhXKKBosuCXZ6E2/nqLYHgWroDlNnM
+	CZzA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:subject:mime-version:from:in-reply-to:date:cc
 	:message-id:references:to;
-	bh=6Y60V2uYwGLlh9zjwoMQPPQRZFEhVS4u5q6jf0Grz1Y=;
-	b=jPLFw+S8d8+lX85mMHI/728aLABYIDiQ5qdEGqZi6AblHXNxZdUq9vLlrHQPwzxYjt
-	L/InFD7VevLFA/CQ2K8i4SPemFGVxUqfv1vvYavYWO88Pbd0Z4u+Ld34e167ji0Yv/H8
-	gd6KdAODfaMWhW5hRGXpo8xlZR5SL388Sn3ogLiEVpmE7uNibDBlaMHNhRi6NtlQQSsl
-	53O49Yq5NTEe2mVef71TIZMErwpeFU/ncOXG2xlfGMGjLYXqB/dY2z9MqDjnSzXrbYFA
-	4rjLGRQEezEfxc+sLAgE7MoJ7kpKVudCNKGyQ1d2TP960GATKRHonRnh7gaIzkoW0ORm
-	poUQ==
-X-Gm-Message-State: AA6/9RmkniyaNSOWxvta+LZ74I0gEtTit98efsl/tKVt8rtZlc0CXpA+2TDJfV7ysdS69Q==
-X-Received: by 10.66.221.132 with SMTP id qe4mr3823084pac.133.1476643007478;
-	Sun, 16 Oct 2016 11:36:47 -0700 (PDT)
+	bh=3fEXLCyWcIjJ3fCyhSJjaOG8MONCyh4KiFh6HIc5wFk=;
+	b=Dka+8jXWLVxOTXQjpc19cNVkDNkeQHTtnWXoR0zAMN5vYtEZy/gNnFq9STQ0f4A1tT
+	L7O3bbawBogVViJ3uiYn/nBtEZJ7atMLexUh7f7i4x7x1Bm7GgD+djIkhd4R64Rt5oiH
+	BN0M7u8K3YIgid9xAfQQ7hkfy3pasqGbdCNUnF40NXzZ3rWYPLx/H0EomKWU4nn2SAC0
+	BHiAw1bQyRLhnvsX8uuvwR7nf1ttaQljWUT9dP4c0dcfy1fFwcf5o6pedYvnNVEnrqeh
+	qZQgtnnmkBmEeKDbQmPgjd2e51twATGUtT6lNt0kZGA7lQwOEiluWpOWpfnycXFZ7Qk4
+	6CkA==
+X-Gm-Message-State: AA6/9Rk+XwhoHK6ZHT79MsaVRHFpy0AHk2XJfMST6KencLPsc8UCc7+SRM+4Gh0zky/upg==
+X-Received: by 10.66.188.80 with SMTP id fy16mr26938404pac.162.1476643104832; 
+	Sun, 16 Oct 2016 11:38:24 -0700 (PDT)
 Received: from ?IPv6:2600:1010:b026:70df:d54d:70d9:9262:3840?
 	([2600:1010:b026:70df:d54d:70d9:9262:3840])
 	by smtp.gmail.com with ESMTPSA id
-	yz6sm21913631pab.47.2016.10.16.11.36.46
+	a9sm42142212pfa.38.2016.10.16.11.38.23
 	(version=TLS1 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sun, 16 Oct 2016 11:36:46 -0700 (PDT)
+	Sun, 16 Oct 2016 11:38:24 -0700 (PDT)
 Mime-Version: 1.0 (Mac OS X Mail 9.3 \(3124\))
 X-Pgp-Agent: GPGMail
 From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <1476276902-56841-1-git-send-email-Zubair.Kakakhel@imgtec.com>
-Date: Sun, 16 Oct 2016 11:36:45 -0700
-Message-Id: <773482C7-1989-4EF4-A0BC-3548093C605D@gmail.com>
-References: <1476276902-56841-1-git-send-email-Zubair.Kakakhel@imgtec.com>
-To: Zubair Lutfullah Kakakhel <Zubair.Kakakhel@imgtec.com>
+In-Reply-To: <CAAzKXnhZ86h2QNd8oVC-QrW726b9D8urV3JU7oQU3NGXR6EEWg@mail.gmail.com>
+Date: Sun, 16 Oct 2016 11:38:22 -0700
+Message-Id: <A2BBEB19-CD6D-4A3F-A740-9694FAC6D0A7@gmail.com>
+References: <CAAzKXnhZ86h2QNd8oVC-QrW726b9D8urV3JU7oQU3NGXR6EEWg@mail.gmail.com>
+To: Zoltan Kuscsik <zoltan.kuscsik@linaro.org>,
+	Armin Kuster <akuster808@gmail.com>
 X-Mailer: Apple Mail (2.3124)
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] libgpg-error: Make case generic for MIPS
+Subject: Re: libical build issue on krogoth
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,58 +60,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 16 Oct 2016 18:36:46 -0000
-X-Groupsio-MsgNum: 88214
+X-List-Received-Date: Sun, 16 Oct 2016 18:38:23 -0000
+X-Groupsio-MsgNum: 88215
 Content-Type: multipart/signed;
-	boundary="Apple-Mail=_0CB5D018-D4A8-495A-8EED-414FD4DBB8A8";
+	boundary="Apple-Mail=_7152D491-94B6-4817-9ECD-54C4334D0768";
 	protocol="application/pgp-signature"; micalg=pgp-sha1
 
---Apple-Mail=_0CB5D018-D4A8-495A-8EED-414FD4DBB8A8
+--Apple-Mail=_7152D491-94B6-4817-9ECD-54C4334D0768
+Content-Type: multipart/alternative;
+	boundary="Apple-Mail=_19B44D57-5266-4D6C-9726-1621ECDC5B41"
+
+--Apple-Mail=_19B44D57-5266-4D6C-9726-1621ECDC5B41
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain;
 	charset=us-ascii
 
+Zoltan
 
-> On Oct 12, 2016, at 5:55 AM, Zubair Lutfullah Kakakhel =
-<Zubair.Kakakhel@imgtec.com> wrote:
->=20
-> The tuples for MIPS r6 onwards are
-> - mipsisa32r6el
-> - mipsisa32r6
-> - mipsisa64r6el
-> - mipsisa64r6
->=20
-> The default case passes it forward which isn't handled well and
-> causes a build error. Rework the case statement to make it generic.
->=20
-> Signed-off-by: Zubair Lutfullah Kakakhel <Zubair.Kakakhel@imgtec.com>
-> ---
-> meta/recipes-support/libgpg-error/libgpg-error_1.24.bb | 4 ++--
-> 1 file changed, 2 insertions(+), 2 deletions(-)
->=20
-> diff --git a/meta/recipes-support/libgpg-error/libgpg-error_1.24.bb =
-b/meta/recipes-support/libgpg-error/libgpg-error_1.24.bb
-> index e45a7b8..84a882a 100644
-> --- a/meta/recipes-support/libgpg-error/libgpg-error_1.24.bb
-> +++ b/meta/recipes-support/libgpg-error/libgpg-error_1.24.bb
-> @@ -33,8 +33,8 @@ do_compile_prepend() {
-> 	  arm)	      TUPLE=3Darm-unknown-linux-gnueabi ;;
-> 	  armeb)      TUPLE=3Darm-unknown-linux-gnueabi ;;
-> 	  i586|i686)  TUPLE=3Di686-pc-linux-gnu ;;
-> -	  mips64el)   TUPLE=3Dmipsel-unknown-linux-gnu ;;
-> -	  mips64)     TUPLE=3Dmips-unknown-linux-gnu ;;
-> +	  mips*el)    TUPLE=3Dmipsel-unknown-linux-gnu ;;
-> +	  mips*)      TUPLE=3Dmips-unknown-linux-gnu ;;
+Ensure that you CC the release maintainers when sending back port =
+requests
 
-Is this enough or do we also need to fix TUPLE value to account
-for this new triplet for another mips ABI ?
+Armin ( krogoth maintainer ) CCed here
 
-> 	  x86_64)     TUPLE=3Dx86_64-pc-linux-gnu ;;
-> 	  *)          TUPLE=3D${TARGET_ARCH}-unknown-linux-gnu ;;
-> 	esac
+> On Oct 12, 2016, at 4:12 AM, Zoltan Kuscsik =
+<zoltan.kuscsik@linaro.org> wrote:
+>=20
+> Hi,
+>=20
+> could you kindly merge the following fix from master to krogoth =
+branch?
+>=20
+> 0445e68fdbbba5c4efb6422c89ee864e4273b114
+>=20
+> The issue mentioned in the commit message can be reproduced on
+> krogoth builds  on armv8. The patch fixes the problem.
+>=20
+> Issue described in commit message:
+>=20
+> The libical build QA fails when libical is built for e.g. qemux86-64 =
+already, and
+> is then built for generic86-64 in a way that install is re-run:
+>=20
+> $ MACHINE=3Dqemux86-64 bitbake libical
+> $ MACHINE=3Dgenericx86-64 bitbake -f -Cinstall libical
+>=20
+> ERROR: libical-2.0.0-r0 do_populate_sysroot: QA Issue: libical.pc =
+failed
+> sanity test (tmpdir) in path
+>=20
+> Br,
+>=20
+> Zoltan
+>=20
 > --
-> 1.9.1
+> Zoltan Kuscsik
 >=20
+> Senior Software Developer, Linaro Digital Home Group
+> email: zoltan.kuscsik@linaro.org <mailto:zoltan.kuscsik@linaro.org>
+> IRC: zoli_ on irc.linaro.org <http://irc.linaro.org/>
 > --
 > _______________________________________________
 > Openembedded-core mailing list
@@ -118,7 +125,77 @@ for this new triplet for another mips ABI ?
 > http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
 
---Apple-Mail=_0CB5D018-D4A8-495A-8EED-414FD4DBB8A8
+--Apple-Mail=_19B44D57-5266-4D6C-9726-1621ECDC5B41
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/html;
+	charset=us-ascii
+
+<html><head><meta http-equiv=3D"Content-Type" content=3D"text/html =
+charset=3Dus-ascii"></head><body style=3D"word-wrap: break-word; =
+-webkit-nbsp-mode: space; -webkit-line-break: after-white-space;" =
+class=3D""><div class=3D"">Zoltan</div><div class=3D""><br =
+class=3D""></div><div class=3D"">Ensure that you CC the release =
+maintainers when sending back port requests</div><div class=3D""><br =
+class=3D""></div>Armin ( krogoth maintainer ) CCed here<div class=3D""><br=
+ class=3D""><div><blockquote type=3D"cite" class=3D""><div class=3D"">On =
+Oct 12, 2016, at 4:12 AM, Zoltan Kuscsik &lt;<a =
+href=3D"mailto:zoltan.kuscsik@linaro.org" =
+class=3D"">zoltan.kuscsik@linaro.org</a>&gt; wrote:</div><br =
+class=3D"Apple-interchange-newline"><div class=3D""><div dir=3D"ltr" =
+class=3D"">Hi,<div class=3D""><div class=3D""><br class=3D""></div><div =
+class=3D"">could you kindly merge the following fix from master to =
+krogoth branch?</div><div class=3D""><br class=3D""></div><div =
+class=3D""><span style=3D"color:rgb(51,51,51);font-family:&quot;helvetica =
+neue&quot;,helvetica,arial,sans-serif;font-size:14px" =
+class=3D"">0445e68fdbbba5c4efb6422c89ee864e4273b114</span><br =
+class=3D""></div><div class=3D""><span =
+style=3D"color:rgb(51,51,51);font-family:&quot;helvetica =
+neue&quot;,helvetica,arial,sans-serif;font-size:14px" class=3D""><br =
+class=3D""></span></div><div class=3D""><font color=3D"#333333" =
+face=3D"helvetica neue, helvetica, arial, sans-serif" class=3D""><span =
+style=3D"font-size:14px" class=3D"">The issue mentioned in the commit =
+message can be reproduced on</span></font></div><div class=3D""><font =
+color=3D"#333333" face=3D"helvetica neue, helvetica, arial, sans-serif" =
+class=3D""><span style=3D"font-size:14px" class=3D"">krogoth builds =
+&nbsp;on armv8. The patch fixes the problem.</span></font></div><div =
+class=3D""><br class=3D""></div><div class=3D"">Issue described in =
+commit message:</div><div class=3D""><br class=3D""></div><div =
+class=3D"">The libical build QA fails when libical is built for e.g. =
+qemux86-64 already, and</div><div class=3D"">is then built for =
+generic86-64 in a way that install is re-run:</div><div class=3D""><br =
+class=3D""></div><div class=3D"">$ MACHINE=3Dqemux86-64 bitbake =
+libical</div><div class=3D"">$ MACHINE=3Dgenericx86-64 bitbake -f =
+-Cinstall libical</div><div class=3D""><br class=3D""></div><div =
+class=3D"">ERROR: libical-2.0.0-r0 do_populate_sysroot: QA Issue: =
+libical.pc failed</div><div class=3D"">sanity test (tmpdir) in =
+path</div><div class=3D""><br class=3D""></div></div><div =
+class=3D"">Br,</div><div class=3D""><br class=3D""></div><div =
+class=3D"">Zoltan<br clear=3D"all" class=3D""><div class=3D""><br =
+class=3D""></div>-- <br class=3D""><div class=3D"gmail_signature"><div =
+dir=3D"ltr" class=3D""><div style=3D"color:rgb(136,136,136)" =
+class=3D"">Zoltan Kuscsik</div><div style=3D"color:rgb(136,136,136)" =
+class=3D""><br class=3D""></div><div style=3D"color:rgb(136,136,136)" =
+class=3D"">Senior Software Developer, Linaro Digital Home =
+Group</div><div style=3D"color:rgb(136,136,136)" class=3D"">email: <a =
+href=3D"mailto:zoltan.kuscsik@linaro.org" target=3D"_blank" =
+class=3D"">zoltan.kuscsik@linaro.org</a></div><div =
+style=3D"color:rgb(136,136,136)" class=3D""><span =
+style=3D"font-size:12.8px" class=3D"">IRC: zoli_ on&nbsp;</span><a =
+href=3D"http://irc.linaro.org/" =
+style=3D"font-size:12.8px;color:rgb(17,85,204)" target=3D"_blank" =
+class=3D"">irc.linaro.org</a><br class=3D""></div></div></div>
+</div></div>
+-- <br class=3D"">_______________________________________________<br =
+class=3D"">Openembedded-core mailing list<br class=3D""><a =
+href=3D"mailto:Openembedded-core@lists.openembedded.org" =
+class=3D"">Openembedded-core@lists.openembedded.org</a><br =
+class=3D"">http://lists.openembedded.org/mailman/listinfo/openembedded-cor=
+e<br class=3D""></div></blockquote></div><br =
+class=3D""></div></body></html>=
+
+--Apple-Mail=_19B44D57-5266-4D6C-9726-1621ECDC5B41--
+
+--Apple-Mail=_7152D491-94B6-4817-9ECD-54C4334D0768
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment;
 	filename=signature.asc
@@ -129,9 +206,9 @@ Content-Description: Message signed with OpenPGP using GPGMail
 -----BEGIN PGP SIGNATURE-----
 Comment: GPGTools - https://gpgtools.org
 
-iEYEARECAAYFAlgDyL0ACgkQuwUzVZGdMxSqiwCgiFOhl4xkcPvSC8ocEQsRPQSR
-QQ0An3P5g5TsPmI4IA75PjbTOq0MyF44
-=wP0y
+iEYEARECAAYFAlgDyR4ACgkQuwUzVZGdMxRIQACcD7u+a2urXX/yD/vcYAjIThBO
+POYAn3I9aZ1qjHpeZmOHZAtwgR1kel4c
+=uIJj
 -----END PGP SIGNATURE-----
 
---Apple-Mail=_0CB5D018-D4A8-495A-8EED-414FD4DBB8A8--
+--Apple-Mail=_7152D491-94B6-4817-9ECD-54C4334D0768--
