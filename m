@@ -1,50 +1,52 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 0CE9F71B18
+Return-Path: <kergoth@gmail.com>
+Received: from mail-oi0-f45.google.com (mail-oi0-f45.google.com
+	[209.85.218.45])
+	by mail.openembedded.org (Postfix) with ESMTP id B27DB71B15
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Oct 2016 22:47:31 +0000 (UTC)
-Received: by mail-wm0-f68.google.com with SMTP id b80so459621wme.2
+	Sun, 16 Oct 2016 04:27:18 +0000 (UTC)
+Received: by mail-oi0-f45.google.com with SMTP id y2so179808721oie.0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Oct 2016 15:47:33 -0700 (PDT)
+	Sat, 15 Oct 2016 21:27:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=subject:to:references:from:message-id:date:user-agent:mime-version
-	:in-reply-to:content-transfer-encoding;
-	bh=wFKGKdbLrOYbZTOkYt2OEskDY5Y2/RcG46NNpJITmMQ=;
-	b=wauRWIxTlSBe6vABsVL9B6AokEemp5ah7Fm66NP8imoQw4GB3FhqXRZebXwa19Gmcs
-	di6NjkLS0xldKTRdVxIXfXaPsOx+bEgKOHpf4BVWvHLU6RX9jp80aBOcFR22zwu+fIsz
-	nriskY38V2q8ePuWEyE9zsLPnPY3Hj6KaLb8BaoyD/rTm+TA44+Fsax81+2/AREZqd6z
-	HCpIq3aZrSwuEuF0M3/yNe23SSnijMWbGgj6PiZXP8jsTf3qS+i3bIJ3+5PGK+NERzmy
-	sgajpc0xdYc8GkMmscuO2mm4zSwbQgDm0tPItcHCzKggFFiNOCE5qUqBN4GlSOnsVtmR
-	lDBg==
+	h=mime-version:sender:in-reply-to:references:from:date:message-id
+	:subject:to:cc;
+	bh=tBuCwoOA6Lzk5m0tPAZCjDMQd/oI2I7sqCVVJrj/RtE=;
+	b=F6AWGmKLOiHcKH5QEbDR3lpCJxdL1fig/wD3D1IvFMHpopNRuH48+2+NkJ79us9swQ
+	m1uX3Dt953YJOrrYEfnaJysJoE4lHB5ic3gTSQrxQRT1LbaovbqHK6NS7enQdwYmIGj2
+	hbOXYwpZ6sT3ixk/A4EQaZpLgi2uJKEndHfjZcogbXtXOSvGmKansRUbOzozIeLbDjcQ
+	8Ef8FABKGGxKhnWn9q77NP1zndE0lUZsfS/cofpbSXLfW35eVRZnR28i/egbWdUJ7mrY
+	AtBF/jc8kig2smluKtCjZY9T2l/PCpDhfdoJ+0o/EEtVdPZgX6yxTCLTjX/r+1qj5Nzf
+	0PDQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:subject:to:references:from:message-id:date
-	:user-agent:mime-version:in-reply-to:content-transfer-encoding;
-	bh=wFKGKdbLrOYbZTOkYt2OEskDY5Y2/RcG46NNpJITmMQ=;
-	b=mCYoom3Go78wzg6UfgjE/ZitQZ8xnw984gMjtkRXbbEofNuc28W9gYPQ/sYPg2RBav
-	sFG26ha9IkyTGo7TCqjZLZjZjY58tv9XfilVcLfVcucdY6PSGBbKmt6WtUIxNaipE7Mo
-	dFWR6FzcwdHNsyr1P+jEmd0OEfiXCc3Lm/rZJKqNSphl+HBvfn5cH5bhpzSL5G2Z7oH5
-	N1qVwTH/jPyJ/0hTRtMZWE2YXRqcQ0q8sf+VQfvDat10vZzlqpgj2jiWkKXw0vsQDIM7
-	paal5FHs7lQks73GSkHIvwj00IugQYBuE97wd8uc5se9EDijAqBOq72js+whIWiO/sqW
-	39Dw==
-X-Gm-Message-State: AA6/9RnZWMzZC5A+x/OEBQGc3rGn8eW2MZU1bq70D7ck98AzsERHaVJTsgaUQ5im3UcxFw==
-X-Received: by 10.28.223.84 with SMTP id w81mr292167wmg.98.1476485252122;
-	Fri, 14 Oct 2016 15:47:32 -0700 (PDT)
-Received: from [10.0.36.7] ([94.186.205.19])
-	by smtp.gmail.com with ESMTPSA id u66sm640719wmu.3.2016.10.14.15.47.30
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 14 Oct 2016 15:47:31 -0700 (PDT)
-To: Pascal Bach <pascal.bach@siemens.com>,
-	openembedded-core@lists.openembedded.org
-References: <1476448004-2801-1-git-send-email-pascal.bach@siemens.com>
-From: akuster808 <akuster808@gmail.com>
-Message-ID: <afcdc625-f3f8-99ed-8cff-0344d6c010e3@gmail.com>
-Date: Fri, 14 Oct 2016 15:47:30 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.3.0
+	h=x-gm-message-state:mime-version:sender:in-reply-to:references:from
+	:date:message-id:subject:to:cc;
+	bh=tBuCwoOA6Lzk5m0tPAZCjDMQd/oI2I7sqCVVJrj/RtE=;
+	b=UBNrUiW2w9P1slbbqvvQLot3O/usfgRvfP9/jHCyKwm4Z6+ZNWJUmmJ0eYpgn6hz5C
+	GcuwBC6EYLeyrnhm7k+p+Kj47cqwl/fLnSkCT5Av8BCpP08PHG7fXN/7GOcCauwXA8hr
+	2IpP8tQSuMAOca9uZPytH1zBoWOsWckpKMIpiH1oBVAg5bAZV4+pM1Aw0Y5n78AMVYt3
+	mVfDqfQTfwumjd+munF+X9IP4jFyIXeIDPshzHqjfj/qUjB2zMfw3PGicHF3o2ARYZl9
+	7Ugfj+bS4wsjtvWlpyl8t9s98RCUDTKTkhL28SXwtXBNNQ5wxxbFUStCQfPc2U2PsVxr
+	tKew==
+X-Gm-Message-State: AA6/9RnZOBGkx5fkBUMxV4Ie3I60MVWhvyW/oRyPsLG066smRzk1HXUFTW2uY4Gav4bwDNxJDH77xxni2/6xdA==
+X-Received: by 10.202.171.15 with SMTP id u15mr11731854oie.11.1476592039959;
+	Sat, 15 Oct 2016 21:27:19 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <1476448004-2801-1-git-send-email-pascal.bach@siemens.com>
-Subject: Re: [krogoth][PATCH] glibc: fix CVE-2016-1234, CVE-2016-3075, CVE-2016-5417
+Sender: kergoth@gmail.com
+Received: by 10.157.13.194 with HTTP; Sat, 15 Oct 2016 21:26:59 -0700 (PDT)
+In-Reply-To: <f8b837c9-b252-751d-48b8-f3856a96160a@windriver.com>
+References: <cover.1476351914.git.liezhi.yang@windriver.com>
+	<5efcefb8fb966ad7c7a21a6c217db43199dd7b46.1476351914.git.liezhi.yang@windriver.com>
+	<CAJTo0Lbruk380HCw_c_m5VR+RwT53XWSYGHSULhKH8ar3gQWVA@mail.gmail.com>
+	<92bbcd5d-f7f4-47f7-96c9-635f0cea48ed@windriver.com>
+	<f8b837c9-b252-751d-48b8-f3856a96160a@windriver.com>
+From: Christopher Larson <clarson@kergoth.com>
+Date: Sat, 15 Oct 2016 21:26:59 -0700
+X-Google-Sender-Auth: zBjFkaKSxrNVjQa7rd8qDU53QGc
+Message-ID: <CABcZAN=o8j3NYmc1YihJPmS3Z05LMsgA9ZdaSBz_OMVWjvGQCg@mail.gmail.com>
+To: Robert Yang <liezhi.yang@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] package_manager.py: fix for "Argument list too long"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,554 +59,184 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 14 Oct 2016 22:47:32 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sun, 16 Oct 2016 04:27:18 -0000
+Content-Type: multipart/alternative; boundary=001a113cd736052213053ef3e029
 
-Pascal,
+--001a113cd736052213053ef3e029
+Content-Type: text/plain; charset=UTF-8
 
+On Fri, Oct 14, 2016 at 3:18 AM, Robert Yang <liezhi.yang@windriver.com>
+wrote:
 
-On 10/14/2016 05:26 AM, Pascal Bach wrote:
-> Only relevant for krogoth since version 2.24+ (master, morty) is not affected.
+> On 10/14/2016 05:58 PM, Robert Yang wrote:
 >
-> Signed-off-by: Pascal Bach <pascal.bach@siemens.com>
-> ---
->   meta/recipes-core/glibc/glibc/CVE-2016-1234.patch | 427 ++++++++++++++++++++++
->   meta/recipes-core/glibc/glibc/CVE-2016-3075.patch |  37 ++
->   meta/recipes-core/glibc/glibc/CVE-2016-5417.patch |  28 ++
->   meta/recipes-core/glibc/glibc_2.23.bb             |   3 +
->   4 files changed, 495 insertions(+)
->   create mode 100644 meta/recipes-core/glibc/glibc/CVE-2016-1234.patch
->   create mode 100644 meta/recipes-core/glibc/glibc/CVE-2016-3075.patch
->   create mode 100644 meta/recipes-core/glibc/glibc/CVE-2016-5417.patch
-I have pulled these into my staging branch.
-
-thank you for your support.
-- armin
+>>
+>>
+>> On 10/13/2016 06:39 PM, Burton, Ross wrote:
+>>
+>>>
+>>> On 13 October 2016 at 10:45, Robert Yang <liezhi.yang@windriver.com
+>>> <mailto:liezhi.yang@windriver.com>> wrote:
+>>>
+>>>     This is because "copyhardlinktree(deploy_arch_dir, arch_channel)"
+>>> does:
+>>>     "cp -afl deploy_arch_dir/* arch_channel", while the
+>>> deploy_arch_dir/* is
+>>>     expanded to "deploy_arch_dir/pkg1 deploy_arch_dir/pkg2
+>>>     deploy_arch_dir/pkg3 ..." which causes the "Argument list too long",
+>>>     change cwd to deploy_arch_dir can avoid the error.
+>>>
+>>>
+>>> Would it be better to change the implementation of copyhardlinktree so
+>>> that it
+>>> *can't* have this problem?
+>>>
+>>
+>> Good idea, thanks, updated in the repo:
+>>
+>>   git://git.openembedded.org/openembedded-core-contrib rbt/long
+>>   http://cgit.openembedded.org/cgit.cgi/openembedded-core-cont
+>> rib/log/?h=rbt/long
+>>
+>>
+> Sorry, this patch is not what I wanted to paste, it should be:
 >
-> diff --git a/meta/recipes-core/glibc/glibc/CVE-2016-1234.patch b/meta/recipes-core/glibc/glibc/CVE-2016-1234.patch
-> new file mode 100644
-> index 0000000..e0d45c6
-> --- /dev/null
-> +++ b/meta/recipes-core/glibc/glibc/CVE-2016-1234.patch
-> @@ -0,0 +1,427 @@
-> +glibc-2.23: Fix CVE-2016-1234
-> +
-> +[No upstream tracking] -- https://bugzilla.redhat.com/show_bug.cgi?id=1315647
-> +
-> +glob: Do not copy d_name field of struct dirent
-> +
-> +Instead, we store the data we need from the return value of
-> +readdir in an object of the new type struct readdir_result.
-> +This type is independent of the layout of struct dirent.
-> +
-> +Upstream-Status: Backport
-> +CVE: CVE-2016-1234
-> +Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
-> +Signed-off-by: Pascal Bach <pascal.bach@siemens.com>
-> +
-> +diff --git a/posix/bug-glob2.c b/posix/bug-glob2.c
-> +index ddf5ec9..22ea35f 100644
-> +--- a/posix/bug-glob2.c
-> ++++ b/posix/bug-glob2.c
-> +@@ -40,6 +40,17 @@
-> + # define PRINTF(fmt, args...)
-> + #endif
-> +
-> ++#define LONG_NAME \
-> ++  "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" \
-> ++  "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" \
-> ++  "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" \
-> ++  "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" \
-> ++  "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" \
-> ++  "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" \
-> ++  "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" \
-> ++  "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" \
-> ++  "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" \
-> ++  "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-> +
-> + static struct
-> + {
-> +@@ -58,6 +69,7 @@ static struct
-> +       { ".", 3, DT_DIR, 0755 },
-> +       { "..", 3, DT_DIR, 0755 },
-> +       { "a", 3, DT_REG, 0644 },
-> ++      { LONG_NAME, 3, DT_REG, 0644 },
-> +     { "unreadable", 2, DT_DIR, 0111 },
-> +       { ".", 3, DT_DIR, 0111 },
-> +       { "..", 3, DT_DIR, 0755 },
-> +@@ -75,7 +87,7 @@ typedef struct
-> +   int level;
-> +   int idx;
-> +   struct dirent d;
-> +-  char room_for_dirent[NAME_MAX];
-> ++  char room_for_dirent[sizeof (LONG_NAME)];
-> + } my_DIR;
-> +
-> +
-> +@@ -193,7 +205,7 @@ my_readdir (void *gdir)
-> +       return NULL;
-> +     }
-> +
-> +-  dir->d.d_ino = dir->idx;
-> ++  dir->d.d_ino = 1; /* glob should not skip this entry.  */
-> +
-> + #ifdef _DIRENT_HAVE_D_TYPE
-> +   dir->d.d_type = filesystem[dir->idx].type;
-> +diff --git a/posix/glob.c b/posix/glob.c
-> +index 0c04c3c..6c6612d 100644
-> +--- a/posix/glob.c
-> ++++ b/posix/glob.c
-> +@@ -24,7 +24,9 @@
-> + #include <errno.h>
-> + #include <sys/types.h>
-> + #include <sys/stat.h>
-> ++#include <stdbool.h>
-> + #include <stddef.h>
-> ++#include <stdint.h>
-> +
-> + /* Outcomment the following line for production quality code.  */
-> + /* #define NDEBUG 1 */
-> +@@ -57,10 +59,8 @@
-> +
-> + #if defined HAVE_DIRENT_H || defined __GNU_LIBRARY__
-> + # include <dirent.h>
-> +-# define NAMLEN(dirent) strlen((dirent)->d_name)
-> + #else
-> + # define dirent direct
-> +-# define NAMLEN(dirent) (dirent)->d_namlen
-> + # ifdef HAVE_SYS_NDIR_H
-> + #  include <sys/ndir.h>
-> + # endif
-> +@@ -75,82 +75,8 @@
-> + # endif /* HAVE_VMSDIR_H */
-> + #endif
-> +
-> +-
-> +-/* In GNU systems, <dirent.h> defines this macro for us.  */
-> +-#ifdef _D_NAMLEN
-> +-# undef NAMLEN
-> +-# define NAMLEN(d) _D_NAMLEN(d)
-> +-#endif
-> +-
-> +-/* When used in the GNU libc the symbol _DIRENT_HAVE_D_TYPE is available
-> +-   if the `d_type' member for `struct dirent' is available.
-> +-   HAVE_STRUCT_DIRENT_D_TYPE plays the same role in GNULIB.  */
-> +-#if defined _DIRENT_HAVE_D_TYPE || defined HAVE_STRUCT_DIRENT_D_TYPE
-> +-/* True if the directory entry D must be of type T.  */
-> +-# define DIRENT_MUST_BE(d, t)	((d)->d_type == (t))
-> +-
-> +-/* True if the directory entry D might be a symbolic link.  */
-> +-# define DIRENT_MIGHT_BE_SYMLINK(d) \
-> +-    ((d)->d_type == DT_UNKNOWN || (d)->d_type == DT_LNK)
-> +-
-> +-/* True if the directory entry D might be a directory.  */
-> +-# define DIRENT_MIGHT_BE_DIR(d)	 \
-> +-    ((d)->d_type == DT_DIR || DIRENT_MIGHT_BE_SYMLINK (d))
-> +-
-> +-#else /* !HAVE_D_TYPE */
-> +-# define DIRENT_MUST_BE(d, t)		false
-> +-# define DIRENT_MIGHT_BE_SYMLINK(d)	true
-> +-# define DIRENT_MIGHT_BE_DIR(d)		true
-> +-#endif /* HAVE_D_TYPE */
-> +-
-> +-/* If the system has the `struct dirent64' type we use it internally.  */
-> +-#if defined _LIBC && !defined COMPILE_GLOB64
-> +-# if defined HAVE_DIRENT_H || defined __GNU_LIBRARY__
-> +-#  define CONVERT_D_NAMLEN(d64, d32)
-> +-# else
-> +-#  define CONVERT_D_NAMLEN(d64, d32) \
-> +-  (d64)->d_namlen = (d32)->d_namlen;
-> +-# endif
-> +-
-> +-# if (defined POSIX || defined WINDOWS32) && !defined __GNU_LIBRARY__
-> +-#  define CONVERT_D_INO(d64, d32)
-> +-# else
-> +-#  define CONVERT_D_INO(d64, d32) \
-> +-  (d64)->d_ino = (d32)->d_ino;
-> +-# endif
-> +-
-> +-# ifdef _DIRENT_HAVE_D_TYPE
-> +-#  define CONVERT_D_TYPE(d64, d32) \
-> +-  (d64)->d_type = (d32)->d_type;
-> +-# else
-> +-#  define CONVERT_D_TYPE(d64, d32)
-> +-# endif
-> +-
-> +-# define CONVERT_DIRENT_DIRENT64(d64, d32) \
-> +-  memcpy ((d64)->d_name, (d32)->d_name, NAMLEN (d32) + 1);		      \
-> +-  CONVERT_D_NAMLEN (d64, d32)						      \
-> +-  CONVERT_D_INO (d64, d32)						      \
-> +-  CONVERT_D_TYPE (d64, d32)
-> +-#endif
-> +-
-> +-
-> +-#if (defined POSIX || defined WINDOWS32) && !defined __GNU_LIBRARY__
-> +-/* Posix does not require that the d_ino field be present, and some
-> +-   systems do not provide it. */
-> +-# define REAL_DIR_ENTRY(dp) 1
-> +-#else
-> +-# define REAL_DIR_ENTRY(dp) (dp->d_ino != 0)
-> +-#endif /* POSIX */
-> +-
-> + #include <stdlib.h>
-> + #include <string.h>
-> +-
-> +-/* NAME_MAX is usually defined in <dirent.h> or <limits.h>.  */
-> +-#include <limits.h>
-> +-#ifndef NAME_MAX
-> +-# define NAME_MAX (sizeof (((struct dirent *) 0)->d_name))
-> +-#endif
-> +-
-> + #include <alloca.h>
-> +
-> + #ifdef _LIBC
-> +@@ -195,8 +121,111 @@
-> + 
-> + static const char *next_brace_sub (const char *begin, int flags) __THROWNL;
-> +
-> ++/* A representation of a directory entry which does not depend on the
-> ++   layout of struct dirent, or the size of ino_t.  */
-> ++struct readdir_result
-> ++{
-> ++	const char *name;
-> ++# if defined _DIRENT_HAVE_D_TYPE || defined HAVE_STRUCT_DIRENT_D_TYPE
-> ++	uint8_t type;
-> ++# endif
-> ++	bool skip_entry;
-> ++};
-> ++
-> ++# if defined _DIRENT_HAVE_D_TYPE || defined HAVE_STRUCT_DIRENT_D_TYPE
-> ++/* Initializer based on the d_type member of struct dirent.  */
-> ++#  define D_TYPE_TO_RESULT(source) (source)->d_type,
-> ++
-> ++/* True if the directory entry D might be a symbolic link.  */
-> ++static bool
-> ++readdir_result_might_be_symlink (struct readdir_result d)
-> ++{
-> ++	return d.type == DT_UNKNOWN || d.type == DT_LNK;
-> ++}
-> ++
-> ++/* True if the directory entry D might be a directory.  */
-> ++static bool
-> ++readdir_result_might_be_dir (struct readdir_result d)
-> ++{
-> ++  return d.type == DT_DIR || readdir_result_might_be_symlink (d);
-> ++}
-> ++# else /* defined _DIRENT_HAVE_D_TYPE || defined HAVE_STRUCT_DIRENT_D_TYPE */
-> ++#  define D_TYPE_TO_RESULT(source)
-> ++
-> ++/* If we do not have type information, symbolic links and directories
-> ++   are always a possibility.  */
-> ++
-> ++static bool
-> ++readdir_result_might_be_symlink (struct readdir_result d)
-> ++{
-> ++	return true;
-> ++}
-> ++
-> ++static bool
-> ++eaddir_result_might_be_dir (struct readdir_result d)
-> ++{
-> ++	return true;
-> ++}
-> ++
-> ++# endif /* defined _DIRENT_HAVE_D_TYPE || defined HAVE_STRUCT_DIRENT_D_TYPE */
-> ++
-> ++# if (defined POSIX || defined WINDOWS32) && !defined __GNU_LIBRARY__
-> ++/* Initializer for skip_entry.  POSIX does not require that the d_ino
-> ++   field be present, and some systems do not provide it. */
-> ++#  define D_INO_TO_RESULT(source) false,
-> ++# else
-> ++#  define D_INO_TO_RESULT(source) (source)->d_ino == 0,
-> ++# endif
-> ++
-> ++/* Construct an initializer for a struct readdir_result object from a
-> ++   struct dirent *.  No copy of the name is made.  */
-> ++#define READDIR_RESULT_INITIALIZER(source) \
-> ++  {                                       \
-> ++    source->d_name,                       \
-> ++    D_TYPE_TO_RESULT (source)             \
-> ++    D_INO_TO_RESULT (source)              \
-> ++  }
-> ++
-> + #endif /* !defined _LIBC || !defined GLOB_ONLY_P */
-> +
-> ++/* Call gl_readdir on STREAM.  This macro can be overridden to reduce
-> ++   type safety if an old interface version needs to be supported.  */
-> ++#ifndef GL_READDIR
-> ++# define GL_READDIR(pglob, stream) ((pglob)->gl_readdir (stream))
-> ++#endif
-> ++
-> ++/* Extract name and type from directory entry.  No copy of the name is
-> ++   made.  If SOURCE is NULL, result name is NULL.  Keep in sync with
-> ++   convert_dirent64 below.  */
-> ++static struct readdir_result
-> ++convert_dirent (const struct dirent *source)
-> ++{
-> ++	if (source == NULL)
-> ++	  {
-> ++		struct readdir_result result = { NULL, };
-> ++		return result;
-> ++	  }
-> ++	struct readdir_result result = READDIR_RESULT_INITIALIZER (source);
-> ++	return result;
-> ++}
-> ++
-> ++#ifndef COMPILE_GLOB64
-> ++/* Like convert_dirent, but works on struct dirent64 instead.  Keep in
-> ++   sync with convert_dirent above.  */
-> ++static struct readdir_result
-> ++convert_dirent64 (const struct dirent64 *source)
-> ++{
-> ++	if (source == NULL)
-> ++	  {
-> ++		struct readdir_result result = { NULL, };
-> ++		return result;
-> ++	  }
-> ++	struct readdir_result result = READDIR_RESULT_INITIALIZER (source);
-> ++	return result;
-> ++}
-> ++#endif
-> ++
-> ++
-> + #ifndef attribute_hidden
-> + # define attribute_hidden
-> + #endif
-> +@@ -1553,56 +1582,36 @@ glob_in_dir (const char *pattern, const char *directory, int flags,
-> +
-> + 	  while (1)
-> + 	    {
-> +-	      const char *name;
-> +-	      size_t len;
-> +-#if defined _LIBC && !defined COMPILE_GLOB64
-> +-	      struct dirent64 *d;
-> +-	      union
-> +-		{
-> +-		  struct dirent64 d64;
-> +-		  char room [offsetof (struct dirent64, d_name[0])
-> +-			     + NAME_MAX + 1];
-> +-		}
-> +-	      d64buf;
-> +-
-> +-	      if (__glibc_unlikely (flags & GLOB_ALTDIRFUNC))
-> ++		  struct readdir_result d;
-> + 		{
-> +-		  struct dirent *d32 = (*pglob->gl_readdir) (stream);
-> +-		  if (d32 != NULL)
-> +-		    {
-> +-		      CONVERT_DIRENT_DIRENT64 (&d64buf.d64, d32);
-> +-		      d = &d64buf.d64;
-> +-		    }
-> ++		  if (__builtin_expect (flags & GLOB_ALTDIRFUNC, 0))
-> ++			d = convert_dirent (GL_READDIR (pglob, stream));
-> + 		  else
-> +-		    d = NULL;
-> +-		}
-> +-	      else
-> +-		d = __readdir64 (stream);
-> ++			{
-> ++#ifdef COMPILE_GLOB64
-> ++			  d = convert_dirent (__readdir (stream));
-> + #else
-> +-	      struct dirent *d = (__builtin_expect (flags & GLOB_ALTDIRFUNC, 0)
-> +-				  ? ((struct dirent *)
-> +-				     (*pglob->gl_readdir) (stream))
-> +-				  : __readdir (stream));
-> ++			  d = convert_dirent64 (__readdir64 (stream));
-> + #endif
-> +-	      if (d == NULL)
-> ++			}
-> ++		}
-> ++		if (d.name == NULL)
-> + 		break;
-> +-	      if (! REAL_DIR_ENTRY (d))
-> ++	      if (d.skip_entry)
-> + 		continue;
-> +
-> + 	      /* If we shall match only directories use the information
-> + 		 provided by the dirent call if possible.  */
-> +-	      if ((flags & GLOB_ONLYDIR) && !DIRENT_MIGHT_BE_DIR (d))
-> ++	      if ((flags & GLOB_ONLYDIR) && !readdir_result_might_be_dir (d))
-> + 		continue;
-> +
-> +-	      name = d->d_name;
-> +-
-> +-	      if (fnmatch (pattern, name, fnm_flags) == 0)
-> ++	      if (fnmatch (pattern, d.name, fnm_flags) == 0)
-> + 		{
-> + 		  /* If the file we found is a symlink we have to
-> + 		     make sure the target file exists.  */
-> +-		  if (!DIRENT_MIGHT_BE_SYMLINK (d)
-> +-		      || link_exists_p (dfd, directory, dirlen, name, pglob,
-> +-					flags))
-> ++		  if (!readdir_result_might_be_symlink (d)
-> ++			  || link_exists_p (dfd, directory, dirlen, d.name,
-> ++								pglob, flags))
-> + 		    {
-> + 		      if (cur == names->count)
-> + 			{
-> +@@ -1622,12 +1631,10 @@ glob_in_dir (const char *pattern, const char *directory, int flags,
-> + 			  names = newnames;
-> + 			  cur = 0;
-> + 			}
-> +-		      len = NAMLEN (d);
-> +-		      names->name[cur] = (char *) malloc (len + 1);
-> ++		      names->name[cur] = strdup (d.name);
-> + 		      if (names->name[cur] == NULL)
-> +-			goto memory_error;
-> +-		      *((char *) mempcpy (names->name[cur++], name, len))
-> +-			= '\0';
-> ++				goto memory_error;
-> ++			  ++cur;
-> + 		      ++nfound;
-> + 		    }
-> + 		}
-> +diff --git a/posix/tst-gnuglob.c b/posix/tst-gnuglob.c
-> +index 992b997..3a27a06 100644
-> +--- a/posix/tst-gnuglob.c
-> ++++ b/posix/tst-gnuglob.c
-> +@@ -211,7 +211,7 @@ my_readdir (void *gdir)
-> +       return NULL;
-> +     }
-> +
-> +-  dir->d.d_ino = dir->idx;
-> ++  dir->d.d_ino = 1; /* glob should not skip this entry.  */
-> +
-> + #ifdef _DIRENT_HAVE_D_TYPE
-> +   dir->d.d_type = filesystem[dir->idx].type;
-> +diff --git a/sysdeps/unix/sysv/linux/i386/glob64.c b/sysdeps/unix/sysv/linux/i386/glob64.c
-> +index b4fcd1a..4a2dfc1 100644
-> +--- a/sysdeps/unix/sysv/linux/i386/glob64.c
-> ++++ b/sysdeps/unix/sysv/linux/i386/glob64.c
-> +@@ -1,3 +1,21 @@
-> ++/* Two glob variants with 64-bit support, for dirent64 and __olddirent64.
-> ++   Copyright (C) 1998-2016 Free Software Foundation, Inc.
-> ++   This file is part of the GNU C Library.
-> ++
-> ++   The GNU C Library is free software; you can redistribute it and/or
-> ++   modify it under the terms of the GNU Lesser General Public
-> ++   License as published by the Free Software Foundation; either
-> ++   version 2.1 of the License, or (at your option) any later version.
-> ++
-> ++   The GNU C Library is distributed in the hope that it will be useful,
-> ++   but WITHOUT ANY WARRANTY; without even the implied warranty of
-> ++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-> ++   Lesser General Public License for more details.
-> ++
-> ++   You should have received a copy of the GNU Lesser General Public
-> ++   License along with the GNU C Library; if not, see
-> ++   <http://www.gnu.org/licenses/>.  */
-> ++
-> + #include <dirent.h>
-> + #include <glob.h>
-> + #include <sys/stat.h>
-> +@@ -38,11 +56,15 @@ int __old_glob64 (const char *__pattern, int __flags,
-> +
-> + #undef dirent
-> + #define dirent __old_dirent64
-> ++#undef GL_READDIR
-> ++#define GL_READDIR(pglob, stream) \
-> ++  ((struct __old_dirent64 *) (pglob)->gl_readdir (stream))
-> + #undef __readdir
-> + #define __readdir(dirp) __old_readdir64 (dirp)
-> + #undef glob
-> + #define glob(pattern, flags, errfunc, pglob) \
-> +   __old_glob64 (pattern, flags, errfunc, pglob)
-> ++#define convert_dirent __old_convert_dirent
-> + #define glob_in_dir __old_glob_in_dir
-> + #define GLOB_ATTRIBUTE attribute_compat_text_section
-> +
-> diff --git a/meta/recipes-core/glibc/glibc/CVE-2016-3075.patch b/meta/recipes-core/glibc/glibc/CVE-2016-3075.patch
-> new file mode 100644
-> index 0000000..7b9dc4f
-> --- /dev/null
-> +++ b/meta/recipes-core/glibc/glibc/CVE-2016-3075.patch
-> @@ -0,0 +1,37 @@
-> +glibc-2.23: Fix CVE-2016-3075
-> +
-> +[No upstream tracking] -- https://bugzilla.redhat.com/show_bug.cgi?id=CVE-2016-3075
-> +
-> +resolv/nss_dns/dns-network.c: Stack overflow in _nss_dns_getnetbyname_r
-> +
-> +The defensive copy is not needed because the name may not alias the
-> +output buffer.
-> +
-> +Upstream-Status: Backport
-> +CVE: CVE-2016-3075
-> +Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
-> +Signed-off-by: Pascal Bach <pascal.bach@siemens.com>
-> +
-> +diff --git a/resolv/nss_dns/dns-network.c b/resolv/nss_dns/dns-network.c
-> +index 2eb2f67..8f301a7 100644
-> +--- a/resolv/nss_dns/dns-network.c
-> ++++ b/resolv/nss_dns/dns-network.c
-> +@@ -118,17 +118,14 @@ _nss_dns_getnetbyname_r (const char *name, struct netent *result,
-> +   } net_buffer;
-> +   querybuf *orig_net_buffer;
-> +   int anslen;
-> +-  char *qbuf;
-> +   enum nss_status status;
-> +
-> +   if (__res_maybe_init (&_res, 0) == -1)
-> +     return NSS_STATUS_UNAVAIL;
-> +
-> +-  qbuf = strdupa (name);
-> +-
-> +   net_buffer.buf = orig_net_buffer = (querybuf *) alloca (1024);
-> +
-> +-  anslen = __libc_res_nsearch (&_res, qbuf, C_IN, T_PTR, net_buffer.buf->buf,
-> ++  anslen = __libc_res_nsearch (&_res, name, C_IN, T_PTR, net_buffer.buf->buf,
-> + 			       1024, &net_buffer.ptr, NULL, NULL, NULL, NULL);
-> +   if (anslen < 0)
-> +     {
-> diff --git a/meta/recipes-core/glibc/glibc/CVE-2016-5417.patch b/meta/recipes-core/glibc/glibc/CVE-2016-5417.patch
-> new file mode 100644
-> index 0000000..8e0252b
-> --- /dev/null
-> +++ b/meta/recipes-core/glibc/glibc/CVE-2016-5417.patch
-> @@ -0,0 +1,28 @@
-> +glibc-2.23: Fix CVE-2016-5417
-> +
-> +[No upstream tracking] -- https://bugzilla.redhat.com/show_bug.cgi?id=1362534
-> +
-> +resolv/res_init.c:Fix resource leak in resolver
-> +
-> +The number of currently defined nameservers is stored in ->nscount,
-> +whereas ->_u._ext.nscount is set by __libc_res_nsend only after local
-> +initializations.
-> +
-> +Upstream-Status: Backport
-> +CVE: CVE-2016-5417
-> +Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
-> +Signed-off-by: Pascal Bach <pascal.bach@siemens.com>
-> +
-> +diff --git a/resolv/res_init.c b/resolv/res_init.c
-> +index e0b6a80..6c951f5 100644
-> +--- a/resolv/res_init.c
-> ++++ b/resolv/res_init.c
-> +@@ -594,7 +594,7 @@ __res_iclose(res_state statp, bool free_addr) {
-> + 		statp->_vcsock = -1;
-> + 		statp->_flags &= ~(RES_F_VC | RES_F_CONN);
-> + 	}
-> +-	for (ns = 0; ns < statp->_u._ext.nscount; ns++)
-> ++	for (ns = 0; ns < statp->nscount; ns++)
-> + 		if (statp->_u._ext.nsaddrs[ns]) {
-> + 			if (statp->_u._ext.nssocks[ns] != -1) {
-> + 				close_not_cancel_no_status(statp->_u._ext.nssocks[ns]);
-> diff --git a/meta/recipes-core/glibc/glibc_2.23.bb b/meta/recipes-core/glibc/glibc_2.23.bb
-> index 63dc911..85b5215 100644
-> --- a/meta/recipes-core/glibc/glibc_2.23.bb
-> +++ b/meta/recipes-core/glibc/glibc_2.23.bb
-> @@ -38,6 +38,9 @@ SRC_URI = "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
->              file://0026-When-disabling-SSE-make-sure-fpmath-is-not-set-to-us.patch \
->              file://CVE-2016-3706.patch \
->              file://CVE-2016-4429.patch \
-> +           file://CVE-2016-1234.patch \
-> +           file://CVE-2016-3075.patch \
-> +           file://CVE-2016-5417.patch \
->   "
->   
->   SRC_URI += "\
+> diff --git a/meta/lib/oe/path.py b/meta/lib/oe/path.py
+> index 06a5af2..1d9cca5 100644
+> --- a/meta/lib/oe/path.py
+> +++ b/meta/lib/oe/path.py
+> @@ -80,15 +80,20 @@ def copyhardlinktree(src, dst):
+>          cmd = "cd %s; find . -type d -print | tar --xattrs
+> --xattrs-include='*' -cf - -C %s -p --no-recursion --files-from - | tar
+> --xattrs --xattrs-include='*' -xf - -C %s" % (src, src, dst)
+>          subprocess.check_output(cmd, shell=True, stderr=subprocess.STDOUT)
+>          source = ''
+> +        oldcwd = os.getcwd()
+>          if os.path.isdir(src):
+> +            dst = os.path.realpath(dst)
+> +            # chdir() to src to avoid "Argument list too long" error
+> +            os.chdir(src)
+>              import glob
+> -            if len(glob.glob('%s/.??*' % src)) > 0:
+> -                source = '%s/.??* ' % src
+> -            source = source + '%s/*' % src
+> +            if len(glob.glob('./.??*')) > 0:
+> +                source = './.??* '
+> +            source += './*'
+>          else:
+>              source = src
+>          cmd = 'cp -afl --preserve=xattr %s %s' % (source, dst)
+>          subprocess.check_output(cmd, shell=True, stderr=subprocess.STDOUT)
+> +        os.chdir(oldcwd)
 
 
+Question, why not just pass cwd=src in the check_output() call, rather than
+changing it in the parent python process?
+-- 
+Christopher Larson
+clarson at kergoth dot com
+Founder - BitBake, OpenEmbedded, OpenZaurus
+Maintainer - Tslib
+Senior Software Engineer, Mentor Graphics
+
+--001a113cd736052213053ef3e029
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On Fri, Oct 14, 2016 at 3:18 AM, Robert Yang <span dir=3D"ltr">&lt;<a href=
+=3D"mailto:liezhi.yang@windriver.com" target=3D"_blank">liezhi.yang@windriv=
+er.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"=
+margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><span class=
+=3D"">On 10/14/2016 05:58 PM, Robert Yang wrote:<br>
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex">
+<br>
+<br>
+On 10/13/2016 06:39 PM, Burton, Ross wrote:<br>
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex">
+<br>
+On 13 October 2016 at 10:45, Robert Yang &lt;<a href=3D"mailto:liezhi.yang@=
+windriver.com" target=3D"_blank">liezhi.yang@windriver.com</a><br>
+&lt;mailto:<a href=3D"mailto:liezhi.yang@windriver.com" target=3D"_blank">l=
+iezhi.yang@windriver.<wbr>com</a>&gt;&gt; wrote:<br>
+<br>
+=C2=A0 =C2=A0 This is because &quot;copyhardlinktree(deploy_arch_<wbr>dir, =
+arch_channel)&quot; does:<br>
+=C2=A0 =C2=A0 &quot;cp -afl deploy_arch_dir/* arch_channel&quot;, while the=
+ deploy_arch_dir/* is<br>
+=C2=A0 =C2=A0 expanded to &quot;deploy_arch_dir/pkg1 deploy_arch_dir/pkg2<b=
+r>
+=C2=A0 =C2=A0 deploy_arch_dir/pkg3 ...&quot; which causes the &quot;Argumen=
+t list too long&quot;,<br>
+=C2=A0 =C2=A0 change cwd to deploy_arch_dir can avoid the error.<br>
+<br>
+<br>
+Would it be better to change the implementation of copyhardlinktree so that=
+ it<br>
+*can&#39;t* have this problem?<br>
+</blockquote>
+<br>
+Good idea, thanks, updated in the repo:<br>
+<br>
+=C2=A0 git://<a href=3D"http://git.openembedded.org/openembedded-core-contr=
+ib" rel=3D"noreferrer" target=3D"_blank">git.openembedded.org/ope<wbr>nembe=
+dded-core-contrib</a> rbt/long<br>
+=C2=A0 <a href=3D"http://cgit.openembedded.org/cgit.cgi/openembedded-core-c=
+ontrib/log/?h=3Drbt/long" rel=3D"noreferrer" target=3D"_blank">http://cgit.=
+openembedded.org/c<wbr>git.cgi/openembedded-core-cont<wbr>rib/log/?h=3Drbt/=
+long</a><br>
+<br>
+</blockquote>
+<br></span>
+Sorry, this patch is not what I wanted to paste, it should be:<br>
+<br>
+diff --git a/meta/lib/oe/path.py b/meta/lib/oe/path.py<br>
+index 06a5af2..1d9cca5 100644<br>
+--- a/meta/lib/oe/path.py<br>
++++ b/meta/lib/oe/path.py<br>
+@@ -80,15 +80,20 @@ def copyhardlinktree(src, dst):<span class=3D""><br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0cmd =3D &quot;cd %s; find . -type d -prin=
+t | tar --xattrs --xattrs-include=3D&#39;*&#39; -cf - -C %s -p --no-recursi=
+on --files-from - | tar --xattrs --xattrs-include=3D&#39;*&#39; -xf - -C %s=
+&quot; % (src, src, dst)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0subprocess.check_output(cmd, shell=3DTrue=
+, stderr=3Dsubprocess.STDOUT)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0source =3D &#39;&#39;<br></span><span cla=
+ss=3D"">
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 oldcwd =3D os.getcwd()<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if os.path.isdir(src):<br></span>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 dst =3D os.path.realpath(dst)<sp=
+an class=3D""><br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # chdir() to src to avoid &quot;=
+Argument list too long&quot; error<br></span><span class=3D"">
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 os.chdir(src)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0import glob<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if len(glob.glob(&#39;%s/.??*&#3=
+9; % src)) &gt; 0:<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 source =3D &#39;%s=
+/.??* &#39; % src<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 source =3D source + &#39;%s/*&#3=
+9; % src<br></span>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if len(glob.glob(&#39;./.??*&#39=
+;)) &gt; 0:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 source =3D &#39;./=
+.??* &#39;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 source +=3D &#39;./*&#39;<span c=
+lass=3D""><br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0else:<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0source =3D src<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0cmd =3D &#39;cp -afl --preserve=3Dxattr %=
+s %s&#39; % (source, dst)<br></span>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0subprocess.check_output(cmd, shell=3DTrue=
+, stderr=3Dsubprocess.STDOUT)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 os.chdir(oldcwd)</blockquote></div><br>Questio=
+n, why not just pass cwd=3Dsrc in the check_output() call, rather than chan=
+ging it in the parent python process?<br>-- <br><div class=3D"gmail_signatu=
+re" data-smartmail=3D"gmail_signature">Christopher Larson<br>clarson at ker=
+goth dot com<br>Founder - BitBake, OpenEmbedded, OpenZaurus<br>Maintainer -=
+ Tslib<br>Senior Software Engineer, Mentor Graphics</div>
+</div></div>
+
+--001a113cd736052213053ef3e029--
