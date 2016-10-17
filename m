@@ -1,24 +1,28 @@
-Return-Path: <saul.wold@intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 10E55719A0
+Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 38082719CD
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Oct 2016 14:25:46 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by orsmga103.jf.intel.com with ESMTP; 17 Oct 2016 07:25:47 -0700
+	Mon, 17 Oct 2016 14:29:59 +0000 (UTC)
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+	by fmsmga101.fm.intel.com with ESMTP; 17 Oct 2016 07:30:01 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.31,357,1473145200"; d="scan'208";a="773595534"
-Received: from swold-mobl2.amr.corp.intel.com ([10.252.139.153])
-	by FMSMGA003.fm.intel.com with ESMTP; 17 Oct 2016 07:25:48 -0700
-Message-ID: <1476714346.31798.249.camel@intel.com>
-From: Saul Wold <saul.wold@intel.com>
-To: openembedded-core@lists.openembedded.org, 
-	richard.purdie@linuxfoundation.org
-Date: Mon, 17 Oct 2016 07:25:46 -0700
-In-Reply-To: <1476124325-6771-1-git-send-email-sgw@linux.intel.com>
-References: <1476124325-6771-1-git-send-email-sgw@linux.intel.com>
-X-Mailer: Evolution 3.20.5 (3.20.5-1.fc24) 
-Mime-Version: 1.0
-Subject: Re: [PATCH][master][krogoth] archiver: fix gcc-source handling
+X-IronPort-AV: E=Sophos;i="5.31,357,1473145200"; d="scan'208,217";a="20382888"
+Received: from lsandov1-mobl2.zpn.intel.com (HELO [10.219.5.38])
+	([10.219.5.38])
+	by fmsmga006.fm.intel.com with ESMTP; 17 Oct 2016 07:30:00 -0700
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <cover.1476462963.git.leonardo.sandoval.gonzalez@linux.intel.com>
+	<4139c9aa1622a83597d0b6ea336923686f844bd1.1476462963.git.leonardo.sandoval.gonzalez@linux.intel.com>
+	<CAJTo0LYQucFaMjB1qksJtEfpp6-UJdek_3K4jrjM72LDO3+4jA@mail.gmail.com>
+From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+Message-ID: <d02cc941-da32-d0b6-3cce-bb760b70ab7b@linux.intel.com>
+Date: Mon, 17 Oct 2016 09:34:12 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.3.0
+MIME-Version: 1.0
+In-Reply-To: <CAJTo0LYQucFaMjB1qksJtEfpp6-UJdek_3K4jrjM72LDO3+4jA@mail.gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/9] selftest: set correct linux-yocto recipe when distro is poky-tiny
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,62 +35,95 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 17 Oct 2016 14:25:47 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Mon, 17 Oct 2016 14:30:04 -0000
+Content-Type: multipart/alternative;
+	boundary="------------B8A802DFE6D368F26828465B"
+
+--------------B8A802DFE6D368F26828465B
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+
+
+
+On 10/17/2016 06:30 AM, Burton, Ross wrote:
+>
+> On 14 October 2016 at 17:40, 
+> <leonardo.sandoval.gonzalez@linux.intel.com 
+> <mailto:leonardo.sandoval.gonzalez@linux.intel.com>> wrote:
+>
+>      result = runCmd('bitbake-layers show-recipes -i kernel')
+>     -        self.assertIn('linux-yocto:', result.output)
+>     +        linux_yocto = 'linux-yocto-tiny' if distro == 'poky-tiny'
+>     else 'linux-yocto'
+>     +        self.assertIn(linux_yocto, result.output)
+>
+>
+> If we want this test to be distro- and machine-agnostic then we should 
+> handle other BSPs that don't use linux-yocto.  As this is just a test 
+> for bitbake-layers, I'd say we can just delete the "inherits kernel" 
+> block.
+>
+Agreed. Removed all the kernel checks, so sending a v2 today.
+
+> Ross
+
+
+--------------B8A802DFE6D368F26828465B
+Content-Type: text/html; charset=utf-8
 Content-Transfer-Encoding: 8bit
 
-This has been merged to master ping for Krogoth
+<html>
+  <head>
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+  </head>
+  <body bgcolor="#FFFFFF" text="#000000">
+    <p><br>
+    </p>
+    <br>
+    <div class="moz-cite-prefix">On 10/17/2016 06:30 AM, Burton, Ross
+      wrote:<br>
+    </div>
+    <blockquote
+cite="mid:CAJTo0LYQucFaMjB1qksJtEfpp6-UJdek_3K4jrjM72LDO3+4jA@mail.gmail.com"
+      type="cite">
+      <div dir="ltr">
+        <div class="gmail_extra"><br>
+          <div class="gmail_quote">On 14 October 2016 at 17:40, <span
+              dir="ltr">&lt;<a moz-do-not-send="true"
+                href="mailto:leonardo.sandoval.gonzalez@linux.intel.com"
+                target="_blank">leonardo.sandoval.gonzalez@linux.intel.com</a>&gt;</span>
+            wrote:<br>
+            <blockquote class="gmail_quote" style="margin:0 0 0
+              .8ex;border-left:1px #ccc solid;padding-left:1ex">
+              <div id=":1d9" class="a3s aXjCH m157c41063d8bb95e">       
+                 result = runCmd('bitbake-layers show-recipes -i
+                kernel')<br>
+                -        self.assertIn('linux-yocto:', result.output)<br>
+                +        linux_yocto = 'linux-yocto-tiny' if distro ==
+                'poky-tiny' else 'linux-yocto'<br>
+                +        self.assertIn(linux_yocto, result.output)</div>
+            </blockquote>
+          </div>
+          <br>
+          If we want this test to be distro- and machine-agnostic then
+          we should handle other BSPs that don't use linux-yocto.  As
+          this is just a test for bitbake-layers, I'd say we can just
+          delete the "inherits kernel" block.</div>
+        <div class="gmail_extra"><br>
+        </div>
+      </div>
+    </blockquote>
+    Agreed. Removed all the kernel checks, so sending a v2 today.<br>
+    <br>
+    <blockquote
+cite="mid:CAJTo0LYQucFaMjB1qksJtEfpp6-UJdek_3K4jrjM72LDO3+4jA@mail.gmail.com"
+      type="cite">
+      <div dir="ltr">
+        <div class="gmail_extra">Ross</div>
+      </div>
+    </blockquote>
+    <br>
+  </body>
+</html>
 
-Sau!
-
-On Mon, 2016-10-10 at 11:32 -0700, Saul Wold wrote:
-> The source archiver was not handling the gcc-source target correctly,
-> since it uses the
-> work-shared directory, we don't want to unpack and patch it twice,
-> just as the comments
-> say, but the code was not there to check for the gcc-source target.
-> 
-> [YOCTO #10265]
-> 
-> Signed-off-by: Saul Wold <sgw@linux.intel.com>
-> ---
-> 
->  meta/classes/archiver.bbclass | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
-> 
-> diff --git a/meta/classes/archiver.bbclass
-> b/meta/classes/archiver.bbclass
-> index 1d8e863..9239983 100644
-> --- a/meta/classes/archiver.bbclass
-> +++ b/meta/classes/archiver.bbclass
-> @@ -303,9 +303,10 @@ python do_unpack_and_patch() {
->          return
->      ar_outdir = d.getVar('ARCHIVER_OUTDIR', True)
->      ar_workdir = d.getVar('ARCHIVER_WORKDIR', True)
-> +    pn = d.getVar('PN', True)
->  
->      # The kernel class functions require it to be on work-shared, so
-> we dont change WORKDIR
-> -    if not bb.data.inherits_class('kernel-yocto', d):
-> +    if not (bb.data.inherits_class('kernel-yocto', d) or
-> pn.startswith('gcc-source')):
->          # Change the WORKDIR to make do_unpack do_patch run in
-> another dir.
->          d.setVar('WORKDIR', ar_workdir)
->  
-> @@ -323,7 +324,7 @@ python do_unpack_and_patch() {
->          oe.path.copytree(src, src_orig)
->  
->      # Make sure gcc and kernel sources are patched only once
-> -    if not ((d.getVar('SRC_URI', True) == "" or
-> bb.data.inherits_class('kernel-yocto', d))):
-> +    if not (d.getVar('SRC_URI', True) == "" or
-> (bb.data.inherits_class('kernel-yocto', d) or pn.startswith('gcc-
-> source'))):
->          bb.build.exec_func('do_patch', d)
->  
->      # Create the patches
-> -- 
-> 2.7.4
-> 
-
+--------------B8A802DFE6D368F26828465B--
