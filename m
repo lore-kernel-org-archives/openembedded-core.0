@@ -1,46 +1,54 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-vk0-f68.google.com (mail-vk0-f68.google.com
-	[209.85.213.68])
-	by mail.openembedded.org (Postfix) with ESMTP id AFBB860722
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pf0-f194.google.com (mail-pf0-f194.google.com
+	[209.85.192.194])
+	by mail.openembedded.org (Postfix) with ESMTP id DC6F9719BB
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Oct 2016 23:14:56 +0000 (UTC)
-Received: by mail-vk0-f68.google.com with SMTP id 130so6363381vkg.2
+	Mon, 17 Oct 2016 23:22:26 +0000 (UTC)
+Received: by mail-pf0-f194.google.com with SMTP id s8so13588985pfj.2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Oct 2016 16:14:58 -0700 (PDT)
+	Mon, 17 Oct 2016 16:22:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=4Tq6jeLcxkS7HtHfNLT3+dZPTRuDwuqT+qArHZy8CpI=;
-	b=cYNtWZE3HWUPO1vV6uHA1oS+NfSWI0squPj/gbJGdAOnUqWd7h2KGhh+THljPrFN9+
-	grMuOAASUXBzLFpU+YAcQEWSBKvCnDYtZmII+1cYsA+mm8wJLZz+XUuyEPUDeVas/A/O
-	lSP7xRe6Zau7zsC0GS8l1rx6WW1xXGK1u8Gp6nr+yqrESDqZFIyx9BTOSdZtkZ4C9eyM
-	/VpRaamC5wAGAtqO3tV0hAwqbDcPAWvcVkJbQDnoKkwwunX+Qrgg+a1Lc73q4b04N/oT
-	Z0+vzzQyjB+TuMBbbobkWIglBve28flXYVh9ctqtL3okQPHyqPSp5NgiOLeIk0PPknTj
-	tJ+w==
+	h=subject:to:references:from:message-id:date:user-agent:mime-version
+	:in-reply-to:content-transfer-encoding;
+	bh=VkgB/N6wD22INou8+1YKJUI4/RojK7xUZcXZoLKN4p8=;
+	b=BXQY0m96YJWgcdOHTgbFMvjfCYfqMo0Rf9fuXFRFfEefWNaf9YVwFa002X6YZnIJMX
+	LBfSrxp52APuQD3RFz+WZ2+ssAUeKMhIhveYwWmK5SxlCc7fpW+fgFdrBTUrJqPyUP50
+	xZuZiU0T2+pKXUrag//ydcxi2rKcWCMWkMjgMuEpdmLeB/vSFCmG8NaPxYqiVEqOB5kp
+	ycGsB0pP0cjVWoNcHwmvfEec4xTBUxaynLboxKXj0YVR28SgaHKBULeScYfzxhqXo6DU
+	B720h4nlDTImvoyJSau6L0hIxolypWld/kLanZnFeH10/U5UU+obj67R2ubrd7mPITgj
+	wfng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=4Tq6jeLcxkS7HtHfNLT3+dZPTRuDwuqT+qArHZy8CpI=;
-	b=U0mBidSJBcU+FRhHVWwYcXMlaoOfMSKYNZnIwiC835bOIDrYdjBUlDnN8Vgv0cDFk8
-	BDWrJ3a1YXyMyGTP2llYk3BX7mVC1q1OIwhU9HgBINsn62U38U4ldVfM330pSCAmFDXC
-	+Wgree6mEkEDUNBLUEMvG9hSPGEOPCtlN25bcpB3Kp1O6xgWlFPqYkGe5l9f/8iffI2a
-	xxDSupJ+CHz+eK6ZlQebeFNIu/BS+1HYzp6NMqorjyDZMCiYzBm1A9boiTtGiKMkDIC3
-	BYSyWh5mz4Ip/on4y8Whf3VVNgO2kO9dg5ENmVSFXRq4WNMHRiop8u86HZoeFVpckjwi
-	LU6Q==
-X-Gm-Message-State: AA6/9Rm2DX4h9vt9TwF4CUUo+Reb1YV8OMILcEciRTReiSSZR9WQrfOtr9Yrvms1lPyGHzoJtS9ZwFiuPQy2XQ==
-X-Received: by 10.31.0.67 with SMTP id 64mr19621037vka.173.1476746097726; Mon,
-	17 Oct 2016 16:14:57 -0700 (PDT)
+	h=x-gm-message-state:subject:to:references:from:message-id:date
+	:user-agent:mime-version:in-reply-to:content-transfer-encoding;
+	bh=VkgB/N6wD22INou8+1YKJUI4/RojK7xUZcXZoLKN4p8=;
+	b=jSVs/SzToH5RWKc0zBb1sl8GHlvRErkjRg4M2uohQhgP8YePj2nuKHM6DqAVDj/0VZ
+	pR3Okr+UBisMLjZ/wZ6czzHzHE6ARe1hU58W1RCUcf5RVVzqEUANY1NCI2VSmywd+owE
+	UuVDBedrOPyePombqrNZfW3lPDoHYxr14DEZH4DLDnqM2HLqaDK1279mLahTzMHyRpMi
+	CjhUPu0xWv5U4MnE8R+PlKhav21nd69Jn3b9+viyBGm8GwFj4KifmCZtU7EHvfozP14P
+	MeZMxYPQijchAKgBnWccNEZpoE2ERp1tAUNovECqOd5GzP+yhsmA3VJ6nFeiPiGtj2Ni
+	p7Eg==
+X-Gm-Message-State: AA6/9Rk+yej2vE9yuhy5CXRGFAFFvLrtOhai+lr5KZaYTlFhxCopCnHUjRo9nHY1/Fg1nQ==
+X-Received: by 10.99.157.135 with SMTP id i129mr23405pgd.16.1476746547814;
+	Mon, 17 Oct 2016 16:22:27 -0700 (PDT)
+Received: from ?IPv6:2601:202:4001:9ea0:5ef:e28f:5dce:e040?
+	([2601:202:4001:9ea0:5ef:e28f:5dce:e040])
+	by smtp.gmail.com with ESMTPSA id
+	zm17sm43387679pab.5.2016.10.17.16.22.17
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 17 Oct 2016 16:22:17 -0700 (PDT)
+To: Saul Wold <saul.wold@intel.com>, openembedded-core@lists.openembedded.org,
+	richard.purdie@linuxfoundation.org
+References: <1476124325-6771-1-git-send-email-sgw@linux.intel.com>
+	<1476714346.31798.249.camel@intel.com>
+From: akuster808 <akuster808@gmail.com>
+Message-ID: <dc336f0e-99da-8962-226c-8d578af5e674@gmail.com>
+Date: Mon, 17 Oct 2016 16:22:16 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.3.0
 MIME-Version: 1.0
-Received: by 10.176.86.206 with HTTP; Mon, 17 Oct 2016 16:14:27 -0700 (PDT)
-In-Reply-To: <F0D56DD8-329C-40A5-B003-250DB3BB81A3@victronenergy.com>
-References: <F0D56DD8-329C-40A5-B003-250DB3BB81A3@victronenergy.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 17 Oct 2016 16:14:27 -0700
-Message-ID: <CAMKF1srFie08u82rhripcO9_pUnJ=JiP9_G6w97COriZ=SAe-A@mail.gmail.com>
-To: Matthijs Vader <mvader@victronenergy.com>
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: udev/mount.sh: use lazy umount
+In-Reply-To: <1476714346.31798.249.camel@intel.com>
+Subject: Re: [PATCH][master][krogoth] archiver: fix gcc-source handling
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,47 +61,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 17 Oct 2016 23:14:57 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 17 Oct 2016 23:22:28 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Mon, Oct 10, 2016 at 2:45 PM, Matthijs Vader
-<mvader@victronenergy.com> wrote:
-> Hi,
->
-> umount will fail if there are processes accessing files at the device, use
-> lazy umount to avoid this problem.
->
-> I found this patch [1] a long long time ago, but don't see it in master now.
->
-> Any reason why it was not accepted? Is there any harm in using lazy umount?
->
-> I know that it is not a 100% solution, and that it is best to make the user
-> trigger an umount before taking a card out. But that will not be done every
-> time.
->
-> And without lazy unmount, the device will never be unmounted, causing the
-> next mount (triggered by an insert) to fail as well.
->
-> See also the discussion on our own issue tracker [2].
->
-> [1]
-> http://lists.openembedded.org/pipermail/openembedded-devel/2010-June/066241.html
 
-I guess we missed it when we started OE-Core project out of classic OE
-if you prepare and send this patch to OE-core after reviving it. I am sure we
-will take a look again.
 
+On 10/17/2016 07:25 AM, Saul Wold wrote:
+> This has been merged to master ping for Krogoth
+Merged to my stagging.  Thanks for the reminder.
+
+- armin
 >
-> [2] https://github.com/victronenergy/venus/issues/59
+> Sau!
 >
-> Best regards,
->
-> Matthijs
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
+> On Mon, 2016-10-10 at 11:32 -0700, Saul Wold wrote:
+>> The source archiver was not handling the gcc-source target correctly,
+>> since it uses the
+>> work-shared directory, we don't want to unpack and patch it twice,
+>> just as the comments
+>> say, but the code was not there to check for the gcc-source target.
+>>
+>> [YOCTO #10265]
+>>
+>> Signed-off-by: Saul Wold <sgw@linux.intel.com>
+>> ---
+>>
+>>   meta/classes/archiver.bbclass | 5 +++--
+>>   1 file changed, 3 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/meta/classes/archiver.bbclass
+>> b/meta/classes/archiver.bbclass
+>> index 1d8e863..9239983 100644
+>> --- a/meta/classes/archiver.bbclass
+>> +++ b/meta/classes/archiver.bbclass
+>> @@ -303,9 +303,10 @@ python do_unpack_and_patch() {
+>>           return
+>>       ar_outdir = d.getVar('ARCHIVER_OUTDIR', True)
+>>       ar_workdir = d.getVar('ARCHIVER_WORKDIR', True)
+>> +    pn = d.getVar('PN', True)
+>>   
+>>       # The kernel class functions require it to be on work-shared, so
+>> we dont change WORKDIR
+>> -    if not bb.data.inherits_class('kernel-yocto', d):
+>> +    if not (bb.data.inherits_class('kernel-yocto', d) or
+>> pn.startswith('gcc-source')):
+>>           # Change the WORKDIR to make do_unpack do_patch run in
+>> another dir.
+>>           d.setVar('WORKDIR', ar_workdir)
+>>   
+>> @@ -323,7 +324,7 @@ python do_unpack_and_patch() {
+>>           oe.path.copytree(src, src_orig)
+>>   
+>>       # Make sure gcc and kernel sources are patched only once
+>> -    if not ((d.getVar('SRC_URI', True) == "" or
+>> bb.data.inherits_class('kernel-yocto', d))):
+>> +    if not (d.getVar('SRC_URI', True) == "" or
+>> (bb.data.inherits_class('kernel-yocto', d) or pn.startswith('gcc-
+>> source'))):
+>>           bb.build.exec_func('do_patch', d)
+>>   
+>>       # Create the patches
+>> -- 
+>> 2.7.4
+>>
+
 
