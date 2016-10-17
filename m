@@ -1,40 +1,28 @@
-Return-Path: <prvs=1098411a7f=michael.davis@essvote.com>
-Received: from m2.essvote.com (m2.essvote.com [66.37.226.14])
-	by mail.openembedded.org (Postfix) with ESMTP id CF6BD71A33
+Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 17EB6607A2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Oct 2016 15:57:16 +0000 (UTC)
-X-AuditID: 0a00029b-f79b86d000002197-37-5804f4ddb8d5
-Received: from ESS-EX01.essvote.corp.local (Unknown_Domain [172.16.110.40])
-	by m2.essvote.com (Symantec Messaging Gateway) with SMTP id
-	C9.7E.08599.DD4F4085; Mon, 17 Oct 2016 10:57:17 -0500 (CDT)
-Received: from ESS-EX01.essvote.corp.local ([::1]) by
-	ESS-EX01.essvote.corp.local ([::1]) with mapi id 14.03.0301.000;
-	Mon, 17 Oct 2016 10:57:16 -0500
-From: "Davis, Michael" <michael.davis@essvote.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [oe-core][PATCH] terminal.py: Add compatiblity for konsole
-	16.08.1
-Thread-Index: AQHSKI8hCb4irq1fqUiqiuoJnvJovQ==
-Date: Mon, 17 Oct 2016 15:57:15 +0000
-Message-ID: <1476719801-3882-1-git-send-email-michael.davis@essvote.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.1.1.128]
+	Mon, 17 Oct 2016 15:58:39 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by fmsmga105.fm.intel.com with ESMTP; 17 Oct 2016 08:58:41 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.31,357,1473145200"; d="scan'208";a="890830233"
+Received: from lsandov1-mobl2.zpn.intel.com (HELO [10.219.5.38])
+	([10.219.5.38])
+	by orsmga003.jf.intel.com with ESMTP; 17 Oct 2016 08:58:40 -0700
+To: Joshua Lock <joshua.g.lock@linux.intel.com>,
+	openembedded-core@lists.openembedded.org
+References: <cover.1476462963.git.leonardo.sandoval.gonzalez@linux.intel.com>
+	<770d29435af19aed00bd15d8b95504218ad600ec.1476462963.git.leonardo.sandoval.gonzalez@linux.intel.com>
+	<1476688143.2604.9.camel@linux.intel.com>
+From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+Message-ID: <edfa40f8-d933-9851-5536-4cd63bcf52ba@linux.intel.com>
+Date: Mon, 17 Oct 2016 11:02:52 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.3.0
 MIME-Version: 1.0
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrALMWRmVeSWpSXmKPExsWyRiBPQ/fuF5YIg4tz1Szu/HzH7sDocW7j
-	CsYAxihum6TEkrLgzPQ8fbsE7owFq1cyFszmqjjxeAlTA+Mf9i5GTg4JAROJ/l9vWCBsMYkL
-	99azdTFycQgJHGWUuLP5KhOEM4tR4vidZjaQKjYBI4lz1zcxgtgiAtESS2fMBJvELGAg8W7z
-	RlYQW1jAW+J7/wWgGg6gmiCJ48/VIMr1JD60zQNrZRFQlTh0/TEziM0r4CFxaFcf2BhGoCO+
-	n1rDBDFSXOLWk/lMEMcJSCzZc54ZwhaVePn4HyuELSfR/3AbI0S9nsSNqVPYIGxtiWULX0PN
-	F5Q4OfMJywRGkVlIxs5C0jILScssJC0LGFlWMfLlGumlFheX5Zek6iXn525iBIY7FwPT7B2M
-	eyY4HGIU4GBU4uEN4GSOEGJNLCuuzD3EKM3BoiTOe+3Do3AhgfTEktTs1NSC1KL4otKc1OJD
-	jEwcnIcYJTi4pESKU/NSUosSS0sy4kFRFV8MjCupBsZMnmxDEXb/d1zt/He4rbYH2ss+XSjM
-	zLhtge+eH1y7E1K/71L8u9Q/+y3HFb+r+S9TOf4WP9z3KWmWUazfBlPppfs/bHEq5c5qYFHh
-	czuxtPWeWOl0rtAffmdke2f7FD27MWn2j59vnretyuLZfuVosIaAKsO5nab9HiVfL/t/yvcz
-	uhdy/pASS3FGoqEWc1FxIgCBL3s9cwIAAA==
-Subject: [PATCH] terminal.py: Add compatiblity for konsole 16.08.1
+In-Reply-To: <1476688143.2604.9.camel@linux.intel.com>
+Subject: Re: [PATCH 7/9] selftest: skip runtime-test's test_testimage_install on poky-tiny distro
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,45 +35,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 17 Oct 2016 15:57:18 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 17 Oct 2016 15:58:40 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Konsole has dropped support for the nofork flag.  It has been replaced with=
- the seperate flag.
 
-Signed-off-by: Michael Davis <michael.davis@essvote.com>
----
- meta/lib/oe/terminal.py | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/meta/lib/oe/terminal.py b/meta/lib/oe/terminal.py
-index 3901ad3..7446c44 100644
---- a/meta/lib/oe/terminal.py
-+++ b/meta/lib/oe/terminal.py
-@@ -97,7 +97,7 @@ class Terminology(XTerminal):
-     priority =3D 2
-=20
- class Konsole(XTerminal):
--    command =3D 'konsole --nofork --workdir . -p tabtitle=3D"{title}" -e {=
-command}'
-+    command =3D 'konsole --separate --workdir . -p tabtitle=3D"{title}" -e=
- {command}'
-     priority =3D 2
-=20
-     def __init__(self, sh_cmd, title=3DNone, env=3DNone, d=3DNone):
-@@ -106,6 +106,9 @@ class Konsole(XTerminal):
-         if vernum and LooseVersion(vernum) < '2.0.0':
-             # Konsole from KDE 3.x
-             self.command =3D 'konsole -T "{title}" -e {command}'
-+        elif vernum and LooseVersion(vernum) < '16.08.1':
-+            # Konsole pre 16.08.01 Has nofork
-+            self.command =3D 'konsole --nofork --workdir . -p tabtitle=3D"=
-{title}" -e {command}'
-         XTerminal.__init__(self, sh_cmd, title, env, d)
-=20
- class XTerm(XTerminal):
---=20
-2.5.5
+On 10/17/2016 02:09 AM, Joshua Lock wrote:
+> On Fri, 2016-10-14 at 11:40 -0500,
+> leonardo.sandoval.gonzalez@linux.intel.com wrote:
+>> From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+>>
+>> Distro poky-tiny cannot build the core-image-full-cmdline image, so
+>> skip the
+>> test if this is the case.
+>>
+>> [YOCTO #8525]
+> Wouldn't it be better to use a different image, most likely with extra
+> packages installed, and maybe a different list of TEST_SUITES for poky-
+> tiny so that we're still testing this functionality on poky-tiny?
+
+Yes, that is a good idea. Which image and the accompanied tests do you 
+suggest?
+
+
+> Thanks,
+>
+> Joshua
+>
+>> Signed-off-by: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.in
+>> tel.com>
+>> ---
+>>   meta/lib/oeqa/selftest/runtime-test.py | 2 ++
+>>   1 file changed, 2 insertions(+)
+>>
+>> diff --git a/meta/lib/oeqa/selftest/runtime-test.py
+>> b/meta/lib/oeqa/selftest/runtime-test.py
+>> index c2d5b45..e17c261 100644
+>> --- a/meta/lib/oeqa/selftest/runtime-test.py
+>> +++ b/meta/lib/oeqa/selftest/runtime-test.py
+>> @@ -94,6 +94,8 @@ class TestImage(oeSelfTest):
+>>           Product: oe-core
+>>           Author: Mariano Lopez <mariano.lopez@intel.com>
+>>           """
+>> +        if self.distro == 'poky-tiny':
+>> +            self.skipTest('core-image-full-cmdline not buildable for
+>> poky-tiny')
+>>   
+>>           features = 'INHERIT += "testimage"\n'
+>>           features += 'TEST_SUITES = "ping ssh selftest"\n'
+>> -- 
+>> 2.1.4
+>>
+
 
