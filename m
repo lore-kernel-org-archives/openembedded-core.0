@@ -1,47 +1,46 @@
-Return-Path: <ulfalizer@gmail.com>
-Received: from mail-vk0-f51.google.com (mail-vk0-f51.google.com
-	[209.85.213.51])
-	by mail.openembedded.org (Postfix) with ESMTP id 8C35660268
+Return-Path: <kergoth@gmail.com>
+Received: from mail-qk0-f195.google.com (mail-qk0-f195.google.com
+	[209.85.220.195])
+	by mail.openembedded.org (Postfix) with ESMTP id D4CB665C5B
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Oct 2016 22:33:38 +0000 (UTC)
-Received: by mail-vk0-f51.google.com with SMTP id 2so195755333vkb.3
+	Mon, 17 Oct 2016 23:02:56 +0000 (UTC)
+Received: by mail-qk0-f195.google.com with SMTP id v138so15404814qka.2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Oct 2016 15:33:39 -0700 (PDT)
+	Mon, 17 Oct 2016 16:02:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=N+PDgUo4nQaFJRBUnmc8cHtkKqPk2Av9h3VNj8O3SZs=;
-	b=kJ5BzPPJt9DPGasxs4Db2gLvII8EHRWwWJMBVOKfllUy6XkTuMRz4c17ukCxujnPAL
-	OdCuWmB734SdPry4O1DrWbu3Xln74DvbkpJfgUnFjSklrobdsYXMe9gy1B8TOZexDWB6
-	A+GW1WrcPZlxYMbtwPPFEpsp+ZaW6jr9bacgr6wrhb7Trs7GkuTJ7n6VuzKLXUKDGg24
-	OzVorpmZYHNntwmiGmwTKWr6HwmRbMo+PQk9ga+K5/PkluM2DzHBngdrWQ5RhZOC2ZXe
-	Je03Mxax2EJne2SLoMOlgawO2z/hol3Kb/ch12eb/BAk2LuHJhc6wu0WeoCtu7jX5HMd
-	R18Q==
+	h=from:to:cc:subject:date:message-id;
+	bh=0/lr7VwHunyGjb9j0Rj2EsRFeV/6gO2L/nKTgsJEfh4=;
+	b=T9Lwt9GQ0kn4xstAiPYTjyxU6+ag7PpDUH9FTav5rZDFsyBoVWSmVWfIvNWKblCeyN
+	eWgL3fnwhwYLGEigy0YZPvylauTNun+WSZXk/zcOh5PGNZelw50t05GVBFx/hZWy1u4c
+	HJMspb9kSNM3Wr1bPYHGcyme00eKMaRC4Rr+OIwLgzfxGaf0hTFDt3/3hYn4OQ2aCEMn
+	s8yTj2/eF6SrQxNaCcYN378plNt32pOhEsOao1RA2uJgpAMGw3rZ+akpD/U4qyQnhp3l
+	eIrv1EsMGBcj+YbSAigExZPBf/dUrgojuRxtuEsByce/U4jkht/ZgbsLSsoSpPZU2emI
+	EWvw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=N+PDgUo4nQaFJRBUnmc8cHtkKqPk2Av9h3VNj8O3SZs=;
-	b=WvwNal7CO35jDsTNv4OLbogA3mDy+cUM8XYTjl2bkn8gEen50o0ZCjF5ZU2mEdpl5i
-	9tjJLjx4h6AmncL/reRX23eMoIY2vLY2a9nzrYAJmfqK5quVfVvzxHd6B2p4vj/q8l5x
-	yvDAXY+P3tbuiAYNcooWKXQMHEqHNhbAaX2TtQBayqW+SViQgp5aJKAK4XqmTFlFx8tX
-	QFvx8HkN2bIz2ofP8HTU/rHxfdFAbhSO4WTs5odv8JIdjjcL0atDD6i6R5yPM5/O0wQ1
-	hXSylG4uVevXdUM4Ng+Ed5lXN29WRDCMObwZtGrcLLL+hdc9Yb9uMsDrQYWWnyhjc8z5
-	2Y9g==
-X-Gm-Message-State: AA6/9Rlx8TjZwOX6py3TA8aMOzbfX1aKt0wjvtdOxlKH+zNiZtg8+VBIWONTV0CC8JvsRRK7FHS+1GkWJtu0rQ==
-X-Received: by 10.31.140.147 with SMTP id o141mr17006195vkd.149.1476743619388; 
-	Mon, 17 Oct 2016 15:33:39 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.103.117.81 with HTTP; Mon, 17 Oct 2016 15:33:38 -0700 (PDT)
-In-Reply-To: <23442997.E5G5x9UaiI@peggleto-mobl.ger.corp.intel.com>
-References: <1476729027-5072-1-git-send-email-ulfalizer@gmail.com>
-	<1476729027-5072-2-git-send-email-ulfalizer@gmail.com>
-	<23442997.E5G5x9UaiI@peggleto-mobl.ger.corp.intel.com>
-From: Ulf Magnusson <ulfalizer@gmail.com>
-Date: Tue, 18 Oct 2016 00:33:38 +0200
-Message-ID: <CAFkk2KREJY+WDZf-Ug-xS_R1k4E1mvWZwYeBt=Zv1EpWHNSM0Q@mail.gmail.com>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] bitbake: bitbake-layers: Make show-recipes show PR
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=0/lr7VwHunyGjb9j0Rj2EsRFeV/6gO2L/nKTgsJEfh4=;
+	b=kICP0ETVNkknMksHnC5W2sCVDyZhz2nFlHPgyoFy3q8QidIUdrw+f3VQfEGhc0/gQS
+	KNbNo1ibSqQLJoaXwnnM4l6b8CYQtfOW5R7fwFTf+b3dBeKqnHWOYJVBUe7lttU1Of/O
+	gWn6KpXWwZhbq2UG/jImicEeLE1FbVngY3YCLSc3lO5PE0kTdPl3T7q/kr7wNR0lfR4C
+	maZY4GEB5OtuIbaFv7AHvTrMg2RPGEqHlYt4y+VwEO1IRCmnKSmvOTd33uDUYw7osP6a
+	64D3NNrN02K4aBkGFyzCXOFXKn9jZqqFtcrwlLmQ5u9tY1g+RvOA8h9m0UX5w0Pwa8/X
+	jpnw==
+X-Gm-Message-State: AA6/9RmTTG+pSNYiQ/xoFXOhIJMZJbMVbpf8nR2jfA3gGZ8JKi/CFLf0wZBAy7MAXYvbZw==
+X-Received: by 10.55.65.75 with SMTP id o72mr24696578qka.84.1476745377982;
+	Mon, 17 Oct 2016 16:02:57 -0700 (PDT)
+Received: from amyr.alm.mentorg.com (nat-lmt.mentorg.com. [139.181.28.34])
+	by smtp.gmail.com with ESMTPSA id
+	l57sm13864806qta.8.2016.10.17.16.02.56
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Mon, 17 Oct 2016 16:02:56 -0700 (PDT)
+From: Christopher Larson <kergoth@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 17 Oct 2016 16:02:53 -0700
+Message-Id: <1476745373-6446-1-git-send-email-kergoth@gmail.com>
+X-Mailer: git-send-email 2.8.0
+Cc: Christopher Larson <chris_larson@mentor.com>
+Subject: [PATCH] buildhistory: fix latest_srcrev in the common case
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,33 +53,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 17 Oct 2016 22:33:38 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 17 Oct 2016 23:02:57 -0000
 
-On Mon, Oct 17, 2016 at 11:42 PM, Paul Eggleton
-<paul.eggleton@linux.intel.com> wrote:
-> Hi Ulf,
->
-> On Mon, 17 Oct 2016 20:30:27 Ulf Magnusson wrote:
->> Only PE and PV were shown, which might have been an oversight. The
->> tuples passed to version_str() contain three elements (PE, PV, and PR),
->> not two.
->
-> I have to say I don't recall exactly but I think it was deliberate. We're
-> talking about the recipe side here - is knowing the PR value actually useful?
-> It's not like you can identify the recipe in any meaningful way by the PR
-> value.
+From: Christopher Larson <chris_larson@mentor.com>
 
-It's helpful when mapping recipes to packages at least.
+buildhistory was writing srcrevs.values() as SRCREV when only one
+srcrev/branch exists. This returns a view of the dictionary values in python
+3, and used to return a list in python 2, neither of which is an appropriate
+value for SRCREV. It was resulting in latest_srcrev files like this:
 
-Waxing philosophical, maybe PR could be viewed as a "recipe revision"
-with PKGR being the "package revision", in the same sense as for
-PE/PKGE and PV/PKGV. That's just an excuse I made up just now though.
-I intuitively expected PR to be in there.
+    # SRCREV = "346584bf6e38232be8773c24fd7dedcbd7b3d9ed"
+    SRCREV = "dict_values(['346584bf6e38232be8773c24fd7dedcbd7b3d9ed'])"
 
-> Cheers,
-> Paul
+Which in turn would result in invalid output in buildhistory-collect-srcrevs.
+Fix by calling `next(iter())` on the `.values()`
 
-Cheers,
-Ulf
+Signed-off-by: Christopher Larson <chris_larson@mentor.com>
+---
+ meta/classes/buildhistory.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/classes/buildhistory.bbclass b/meta/classes/buildhistory.bbclass
+index 3a5bc2c..d82e9bb 100644
+--- a/meta/classes/buildhistory.bbclass
++++ b/meta/classes/buildhistory.bbclass
+@@ -833,7 +833,7 @@ python write_srcrev() {
+                         f.write('# SRCREV_%s = "%s"\n' % (name, orig_srcrev))
+                     f.write('SRCREV_%s = "%s"\n' % (name, srcrev))
+             else:
+-                f.write('SRCREV = "%s"\n' % srcrevs.values())
++                f.write('SRCREV = "%s"\n' % next(iter(srcrevs.values())))
+             if len(tag_srcrevs) > 0:
+                 for name, srcrev in tag_srcrevs.items():
+                     f.write('# tag_%s = "%s"\n' % (name, srcrev))
+-- 
+2.8.0
+
 
