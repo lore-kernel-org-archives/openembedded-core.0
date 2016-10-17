@@ -1,51 +1,52 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f170.google.com (mail-pf0-f170.google.com
-	[209.85.192.170])
-	by mail.openembedded.org (Postfix) with ESMTP id 581D7719F5
+Received: from mail-pf0-f194.google.com (mail-pf0-f194.google.com
+	[209.85.192.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 324496FFD3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Oct 2016 23:41:23 +0000 (UTC)
-Received: by mail-pf0-f170.google.com with SMTP id r16so61113858pfg.1
+	Mon, 17 Oct 2016 23:44:22 +0000 (UTC)
+Received: by mail-pf0-f194.google.com with SMTP id i85so10217429pfa.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Oct 2016 16:41:25 -0700 (PDT)
+	Mon, 17 Oct 2016 16:44:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=subject:mime-version:from:in-reply-to:date:cc:message-id:references
-	:to; bh=OMo7PBDe/y8kaTetuzKiADnVehn15cwRJQUqapqxOUA=;
-	b=UW8XTAgluoszzIGMZeHptwQUPF58/BoqKcLIhsQA1hKeAkN+bugqTpb3C0H2twLavY
-	Nrw8/10RtZwKnLlu1dn2sjGCIKDPTZLzE1DVd3NBCU73RPFgRg1Eaq8s63G2CvgK7f/I
-	+AKFSs3brrVrUjHOfCpeE5wc0ygbxcaoD+ckUx8crFc4ZLUsFzankdgZ0ynXj+psDoMM
-	r31d7sl2clDNbUDwtz0Tk/+MznoRvnUmwoIflCMndD2lg3Ks71xYfJoZUSWcc+Vc4gMT
-	NttfxWU1xjHI9Fsb7CIrPnrd82/FbzWY1lRzr4lb6gsgYjyDc9NA5T9sJ5qMVdQW2zuq
-	ncNw==
+	:to; bh=83iMibKnKtPMOvTugoL2tcqftWcNIZ4jas4K5lhxaE4=;
+	b=RhqJEK6c7G4zvzqsaa2asbDv7V0iyTscgEvc/7oX+W0w1E8pslhA3F8MaK0D4c187h
+	hbW+0HRxV0D0cPf9u4vEenscEBBm8Y3lSIgF94Buwa7X1ivS8C/ab5++87cY8wroO53a
+	nUGqjdYeQFqTVIQeYJf7OxOSBb9XVfk4afIWOWjoGNoVQBIS/dttE5H0PUd7/h28pQpR
+	KCRGKr83FQcn3Yz2HxZMpS1ExDNHIquog91gyiCMgu/deDIMkoEtjy4pUBS2Lt7FXR67
+	Cccf/HF2VEo2tM4RUo94LAvw9DNbONX5+8UZwFbma9Rn69Xrd5JJYBddL9w8ChTkz6LW
+	4ytw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:subject:mime-version:from:in-reply-to:date:cc
 	:message-id:references:to;
-	bh=OMo7PBDe/y8kaTetuzKiADnVehn15cwRJQUqapqxOUA=;
-	b=jBsUllHF1WKwXk7fFncBqDAsTAekwqF+Uiz7erjuZpBqi8CSk+Lec0LnDnnG4QvebU
-	zKE96yEcEYa86Te06g0nNkn09lWsgutvLpTgO1EwrbeBKcsCZ3QtBOiCKJ+jEbtFknm9
-	uFGeblZdiJ4KmTHzjEJhdyjBtJrZfHuA6A91c2TpvwyH1zkVCqPxRN0OyZUoHMJQz0Ub
-	g8SdCy4afhUWPq/MOitAwN5hQ0OnGNOqnnwzRh+Jz/BiW5azLfwW11k1AZCo/vmN5Pzm
-	y0sSnWh1DS2jdv1mHSkSm5es/x0ezgQGfsjRRCCpLC8vk25nXnSodaXhhvu1zotTnc0G
-	jQJw==
-X-Gm-Message-State: AA6/9RlNCQ9y+Mgc8UDH7rCqFYccf/dwrtyfMTYStO5XmhPj0bgiVuMY1vJgpwsUiN8wnA==
-X-Received: by 10.99.36.65 with SMTP id k62mr78830pgk.88.1476747685210;
-	Mon, 17 Oct 2016 16:41:25 -0700 (PDT)
+	bh=83iMibKnKtPMOvTugoL2tcqftWcNIZ4jas4K5lhxaE4=;
+	b=DX7GslKYR5slN6vfLzGFnunmiThNpjMItFPk/2qScZYC6PLbGfHCrEuy2j5G0boO4e
+	00KDDwQXYcZ+aFOOx5fFs7uKogNrjJC6CSuSrt4kbiiMOc86yC/kskXn+FtAgwsqELw+
+	5jPceECTw2D/Bfz+hoSAth1kViU2EGLSCBRigYnBlmGiemzqmZi+IIQc1QiCAF2UCTa/
+	yQffh9D+tNdLzSDOs+HPYms104JO7OZsktH1FcbP4yRWcpgOyXd8KRGlDM9xkDZKUxKb
+	ohimfF5XT9+nbKUhJ+VIbIpLmBwzqZ6zEhpgYfbBlIXy4RxaZFBEu4Z+z9vmKn37oA9B
+	QCEg==
+X-Gm-Message-State: AA6/9RkVYxXFpgh5r6aae5HoCFLuABKQFkoMd05sXKq+f51DhqHpmUgY+N1HgcVoWJZa5g==
+X-Received: by 10.99.55.21 with SMTP id e21mr94517pga.60.1476747864063;
+	Mon, 17 Oct 2016 16:44:24 -0700 (PDT)
 Received: from ?IPv6:2601:646:8882:b8c:ec00:906:f8cb:31c1?
 	([2601:646:8882:b8c:ec00:906:f8cb:31c1])
-	by smtp.gmail.com with ESMTPSA id 3sm50556877pfo.31.2016.10.17.16.41.24
+	by smtp.gmail.com with ESMTPSA id
+	n7sm50560779pfn.62.2016.10.17.16.44.22
 	(version=TLS1 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 17 Oct 2016 16:41:24 -0700 (PDT)
+	Mon, 17 Oct 2016 16:44:23 -0700 (PDT)
 Mime-Version: 1.0 (Mac OS X Mail 9.3 \(3124\))
 X-Pgp-Agent: GPGMail
 From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <35a67fa817544a4fa1a59f5ceef6b8db@HEL-EXCH-02.corp.vaisala.com>
-Date: Mon, 17 Oct 2016 16:41:23 -0700
-Message-Id: <D3C9AE63-D4E7-4905-BF0C-6C49331FED6C@gmail.com>
-References: <35a67fa817544a4fa1a59f5ceef6b8db@HEL-EXCH-02.corp.vaisala.com>
-To: vesa.jaaskelainen@vaisala.com
+In-Reply-To: <1476189809-24240-1-git-send-email-markus.lehtonen@linux.intel.com>
+Date: Mon, 17 Oct 2016 16:44:21 -0700
+Message-Id: <37A549DC-1E86-459B-807F-9BE3A151D1DF@gmail.com>
+References: <1476189809-24240-1-git-send-email-markus.lehtonen@linux.intel.com>
+To: Markus Lehtonen <markus.lehtonen@linux.intel.com>
 X-Mailer: Apple Mail (2.3124)
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: Two kmeta's not allowed for master?
+Subject: Re: [PATCH 0/2] More robust prerm and preinst scriptlets
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,53 +59,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 17 Oct 2016 23:41:24 -0000
-X-Groupsio-MsgNum: 88295
+X-List-Received-Date: Mon, 17 Oct 2016 23:44:24 -0000
+X-Groupsio-MsgNum: 88296
 Content-Type: multipart/signed;
-	boundary="Apple-Mail=_AABBD39D-C24A-41A2-B303-F0F06D352324";
+	boundary="Apple-Mail=_4C3ABDE9-F0F4-4A6E-B7E7-A97A2222D095";
 	protocol="application/pgp-signature"; micalg=pgp-sha1
 
---Apple-Mail=_AABBD39D-C24A-41A2-B303-F0F06D352324
+--Apple-Mail=_4C3ABDE9-F0F4-4A6E-B7E7-A97A2222D095
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain;
-	charset=iso-8859-1
+	charset=us-ascii
 
 
-> On Oct 11, 2016, at 6:15 AM, vesa.jaaskelainen@vaisala.com wrote:
+> On Oct 11, 2016, at 5:43 AM, Markus Lehtonen =
+<markus.lehtonen@linux.intel.com> wrote:
 >=20
-> Hi,
->=20
-> I was trying out how well 'master' branch compiles in our environment.
->=20
-> We are using meta-xilinx and then we have custom BSP layer which =
-bbappends linux-xlnx.
->=20
-> When using meta-xilinx as standalone (w/o our BSP layer) I can get it =
-to compile.
->=20
-> However when using it with combo meta-xilinx and our BSP we get =
-failure on do_kernel_metadata due to missing scc files.
->=20
-> It seems that there can no longer be two kmeta entries in SRC_URI.
->=20
-> meta-xilinx's linux-xlnx.inc has:
-> file://xilinx-base;type=3Dkmeta;destsuffix=3Dxilinx-base
-> our bbappend has:
-> file://meta;type=3Dkmeta;destsuffix=3Dmeta
->=20
-> In krogoth this works fine.
->=20
-> Is this expected change?
+> These patches prevent package deinstallation and upgrade failures =
+caused by
+> init script error on opkg-based systems. The problem was that init =
+script
+> 'stop' will likely return '1' if the daemon is not running. This, in =
+turn
+> caused the scriptlet to error out preventing package =
+(de-)installation.
 
-I guess you need to map your changes to master branch of kernel metadata =
-probably
-guessing since I dont know what you are doing in your BSP layer
+perhaps checking if its running before trying to stop it might be =
+another option
 
 >=20
-> Ps. Sorry for html version of this same email.
+> Markus Lehtonen (2):
+>  update-rc.d.bbclass: ignore init script return code
+>  sysklogd and busybox: ignore return code from init script stop
 >=20
-> Thanks,
-> Vesa J=E4=E4skel=E4inen
+> meta/classes/update-rc.d.bbclass            | 4 ++--
+> meta/recipes-core/busybox/busybox.inc       | 2 +-
+> meta/recipes-extended/sysklogd/sysklogd.inc | 2 +-
+> 3 files changed, 4 insertions(+), 4 deletions(-)
+>=20
+> --
+> 2.6.6
+>=20
 > --
 > _______________________________________________
 > Openembedded-core mailing list
@@ -112,7 +106,7 @@ guessing since I dont know what you are doing in your BSP layer
 > http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
 
---Apple-Mail=_AABBD39D-C24A-41A2-B303-F0F06D352324
+--Apple-Mail=_4C3ABDE9-F0F4-4A6E-B7E7-A97A2222D095
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment;
 	filename=signature.asc
@@ -123,9 +117,9 @@ Content-Description: Message signed with OpenPGP using GPGMail
 -----BEGIN PGP SIGNATURE-----
 Comment: GPGTools - https://gpgtools.org
 
-iEYEARECAAYFAlgFYaMACgkQuwUzVZGdMxQa5ACgkWVcDBZeXygN3G/NDkX2AETU
-mloAnRmN8XGdb7yuuZQvPu9FygviYKSP
-=dhgV
+iEYEARECAAYFAlgFYlUACgkQuwUzVZGdMxSKkQCdFSmaboi8sQELN0yA5V8nF9vC
+YyEAn1SssJKUcQESetYu4JTMw2pt+irr
+=k0wY
 -----END PGP SIGNATURE-----
 
---Apple-Mail=_AABBD39D-C24A-41A2-B303-F0F06D352324--
+--Apple-Mail=_4C3ABDE9-F0F4-4A6E-B7E7-A97A2222D095--
