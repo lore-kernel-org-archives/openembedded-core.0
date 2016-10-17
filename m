@@ -1,28 +1,30 @@
-Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 38082719CD
+Return-Path: <pascal.bach@siemens.com>
+Received: from david.siemens.de (david.siemens.de [192.35.17.14])
+	by mail.openembedded.org (Postfix) with ESMTP id 169FD65C8F
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Oct 2016 14:29:59 +0000 (UTC)
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-	by fmsmga101.fm.intel.com with ESMTP; 17 Oct 2016 07:30:01 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.31,357,1473145200"; d="scan'208,217";a="20382888"
-Received: from lsandov1-mobl2.zpn.intel.com (HELO [10.219.5.38])
-	([10.219.5.38])
-	by fmsmga006.fm.intel.com with ESMTP; 17 Oct 2016 07:30:00 -0700
+	Mon, 17 Oct 2016 14:43:44 +0000 (UTC)
+Received: from mail1.sbs.de (mail1.sbs.de [192.129.41.35])
+	by david.siemens.de (8.15.2/8.15.2) with ESMTPS id u9HEhf7w014961
+	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK); 
+	Mon, 17 Oct 2016 16:43:42 +0200
+Received: from [139.16.78.254] (MD1FZU9C.ww002.siemens.net [139.16.78.254]
+	(may be forged))
+	by mail1.sbs.de (8.15.2/8.15.2) with ESMTPS id u9HEhfrd004519
+	(version=TLSv1.2 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Mon, 17 Oct 2016 16:43:41 +0200
 To: "Burton, Ross" <ross.burton@intel.com>
-References: <cover.1476462963.git.leonardo.sandoval.gonzalez@linux.intel.com>
-	<4139c9aa1622a83597d0b6ea336923686f844bd1.1476462963.git.leonardo.sandoval.gonzalez@linux.intel.com>
-	<CAJTo0LYQucFaMjB1qksJtEfpp6-UJdek_3K4jrjM72LDO3+4jA@mail.gmail.com>
-From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
-Message-ID: <d02cc941-da32-d0b6-3cce-bb760b70ab7b@linux.intel.com>
-Date: Mon, 17 Oct 2016 09:34:12 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+References: <44095a65-4aab-648f-5538-08b02f58bee7@siemens.com>
+	<CAJTo0LYJXgjv=P1KTo1_k9U8zG5AAq0Oy57H5q4edUto=kQ1nw@mail.gmail.com>
+From: Pascal Bach <pascal.bach@siemens.com>
+Message-ID: <6e6e9029-5950-1401-5be2-304a03b252f5@siemens.com>
+Date: Mon, 17 Oct 2016 16:43:41 +0200
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:45.0) Gecko/20100101
 	Thunderbird/45.3.0
 MIME-Version: 1.0
-In-Reply-To: <CAJTo0LYQucFaMjB1qksJtEfpp6-UJdek_3K4jrjM72LDO3+4jA@mail.gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/9] selftest: set correct linux-yocto recipe when distro is poky-tiny
+In-Reply-To: <CAJTo0LYJXgjv=P1KTo1_k9U8zG5AAq0Oy57H5q4edUto=kQ1nw@mail.gmail.com>
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: The future of qemuarm
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,95 +37,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 17 Oct 2016 14:30:04 -0000
-Content-Type: multipart/alternative;
-	boundary="------------B8A802DFE6D368F26828465B"
-
---------------B8A802DFE6D368F26828465B
-Content-Type: text/plain; charset=utf-8; format=flowed
+X-List-Received-Date: Mon, 17 Oct 2016 14:43:46 -0000
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
 
 
-
-On 10/17/2016 06:30 AM, Burton, Ross wrote:
 >
-> On 14 October 2016 at 17:40, 
-> <leonardo.sandoval.gonzalez@linux.intel.com 
-> <mailto:leonardo.sandoval.gonzalez@linux.intel.com>> wrote:
+>     Is the goal to increase the default to a higher arm version?
 >
->      result = runCmd('bitbake-layers show-recipes -i kernel')
->     -        self.assertIn('linux-yocto:', result.output)
->     +        linux_yocto = 'linux-yocto-tiny' if distro == 'poky-tiny'
->     else 'linux-yocto'
->     +        self.assertIn(linux_yocto, result.output)
+>     Is there a bsp layer for other qemuarm variants (cortex-a8, ...)?
 >
 >
-> If we want this test to be distro- and machine-agnostic then we should 
-> handle other BSPs that don't use linux-yocto.  As this is just a test 
-> for bitbake-layers, I'd say we can just delete the "inherits kernel" 
-> block.
+> There is a qemuarm64 in master which is aarch64 based.
 >
-Agreed. Removed all the kernel checks, so sending a v2 today.
+I'm aware of qemuarm64 but I was more talking about 32-bit arm.
 
-> Ross
+Pascal
 
-
---------------B8A802DFE6D368F26828465B
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: 8bit
-
-<html>
-  <head>
-    <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-  </head>
-  <body bgcolor="#FFFFFF" text="#000000">
-    <p><br>
-    </p>
-    <br>
-    <div class="moz-cite-prefix">On 10/17/2016 06:30 AM, Burton, Ross
-      wrote:<br>
-    </div>
-    <blockquote
-cite="mid:CAJTo0LYQucFaMjB1qksJtEfpp6-UJdek_3K4jrjM72LDO3+4jA@mail.gmail.com"
-      type="cite">
-      <div dir="ltr">
-        <div class="gmail_extra"><br>
-          <div class="gmail_quote">On 14 October 2016 at 17:40, <span
-              dir="ltr">&lt;<a moz-do-not-send="true"
-                href="mailto:leonardo.sandoval.gonzalez@linux.intel.com"
-                target="_blank">leonardo.sandoval.gonzalez@linux.intel.com</a>&gt;</span>
-            wrote:<br>
-            <blockquote class="gmail_quote" style="margin:0 0 0
-              .8ex;border-left:1px #ccc solid;padding-left:1ex">
-              <div id=":1d9" class="a3s aXjCH m157c41063d8bb95e">       
-                 result = runCmd('bitbake-layers show-recipes -i
-                kernel')<br>
-                -        self.assertIn('linux-yocto:', result.output)<br>
-                +        linux_yocto = 'linux-yocto-tiny' if distro ==
-                'poky-tiny' else 'linux-yocto'<br>
-                +        self.assertIn(linux_yocto, result.output)</div>
-            </blockquote>
-          </div>
-          <br>
-          If we want this test to be distro- and machine-agnostic then
-          we should handle other BSPs that don't use linux-yocto.  As
-          this is just a test for bitbake-layers, I'd say we can just
-          delete the "inherits kernel" block.</div>
-        <div class="gmail_extra"><br>
-        </div>
-      </div>
-    </blockquote>
-    Agreed. Removed all the kernel checks, so sending a v2 today.<br>
-    <br>
-    <blockquote
-cite="mid:CAJTo0LYQucFaMjB1qksJtEfpp6-UJdek_3K4jrjM72LDO3+4jA@mail.gmail.com"
-      type="cite">
-      <div dir="ltr">
-        <div class="gmail_extra">Ross</div>
-      </div>
-    </blockquote>
-    <br>
-  </body>
-</html>
-
---------------B8A802DFE6D368F26828465B--
