@@ -1,47 +1,47 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-it0-f44.google.com (mail-it0-f44.google.com
-	[209.85.214.44])
-	by mail.openembedded.org (Postfix) with ESMTP id A526C71AAB
+Received: from mail-io0-f174.google.com (mail-io0-f174.google.com
+	[209.85.223.174])
+	by mail.openembedded.org (Postfix) with ESMTP id BDBA771AB9
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Oct 2016 11:30:30 +0000 (UTC)
-Received: by mail-it0-f44.google.com with SMTP id 4so47333297itv.0
+	Mon, 17 Oct 2016 11:33:24 +0000 (UTC)
+Received: by mail-io0-f174.google.com with SMTP id q192so184864550iod.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Oct 2016 04:30:32 -0700 (PDT)
+	Mon, 17 Oct 2016 04:33:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=gG/UEo8ymVDkObyADsJh/xROr6ri9Bwzo6f5vAD5WsY=;
-	b=Fvmkk1sIBQAkA712qo0bYZFLmwYLp/vvW3ZxFjpwfAI6Gd3uj7+TS+LzBvPPqaco7r
-	eZ4f1il/TkOGR8cPlDNf/wvQ1RjprthKZnq7sGwmEDdQhpoQjsuSenicyg5IBGbMoOW0
-	qYQm6GAwin5lRl/DCdR+X9wHcZ92kK/hSPJPfTwWHpksS8oDFYaQD7TDNcchulVEJh5Z
-	PL1x33JXgm1pbE9CaEOtJlvdFHond/RXAKQdXBUY3EMd97C/iKsWdgIRDapcPuqvlSPT
-	Bp+yfjCXrIT8fnRveOrZRoNGu5D+LhridLry6vfsCHyiFw353DsLANsjJyJT/19njdaY
-	5aSA==
+	:cc; bh=jrOYBjDomcQO8JgjKuZ/j7FxHGSrjo/QT3kGCrCkyiI=;
+	b=ez9urzjlhO1LB4ppsZgnqZQ3MEpBdDkwtCGUSlelbTsqWHm5hRndNqpiVZRUawZU1k
+	msaVXtU3j0Dici9ZRRo8b/ZAnG6V9IFU0PW1JG2R/styULZplv2yaatNLo2n96nUp++L
+	yORUHNlGrZmWagDkDg0vzm668lb+WKUaS2UkJ+V9BAOULc/lc3yAoocuKvmOWPrqprUX
+	O8ql6xTETP/DD1po6jnMqnfXo2fVOe5IarFXL3scoFDkcyIoKN8mxaP6U81Os/gcvpmE
+	DrbyrNTfDXj4B8MIWJTni3xCizHYmk/+AgHZ9Y83UvCeuf3e8nXqWguR6I5O1IZPz7Io
+	7Rbw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=gG/UEo8ymVDkObyADsJh/xROr6ri9Bwzo6f5vAD5WsY=;
-	b=h1gb9Wo56YNiOruC8BXrg3PxIWpAafoJLEokCTHeIMvKSPWcRLIVn8V9XNwjkoW8hf
-	A3ecVAUt3fLi4VWLtZ6JdSzkQxkTmgfXR+EQjzSQXc6XElVLGtukZ/spt2F1JmSXsH+m
-	wbmYbyygdJRNZP3Xy9cHVK+jZbmXCF4El0lAWXwTdEBnjmLpCnChPF52VAxl7QiOYxMz
-	/KehmVUqteR1keg8vcrvbKPq0T6h59Dj5wkyKQoUUTFxIx8I64cO/i5nELk3SjImhzhv
-	3QUFEwjv8rk+RES2wtwJfI6vqDseWzTRKXW055h1yFvAI8uPrPiJg1gCIfoUxSs0Q58g
-	Qulw==
-X-Gm-Message-State: AA6/9RlifQZVo7WfFs2MSZzM8AD/53Tur7XPuU8sDPi5m4D9PQr3oWhDzoFozGQAFAn8EPBymnNGxgglik30Y6pL
-X-Received: by 10.36.153.194 with SMTP id a185mr7402497ite.70.1476703831773;
-	Mon, 17 Oct 2016 04:30:31 -0700 (PDT)
+	bh=jrOYBjDomcQO8JgjKuZ/j7FxHGSrjo/QT3kGCrCkyiI=;
+	b=aWgfQMhkSNRY7Y/9jZNIHq2vkNno97GJ4FRQg1btSfJl61ibdndPmaElP1PJbGHa+P
+	K6kfI+BHANEs0Lau4EbU9SyFJnFHLjCrSASD6SfFnWr9FFkGAWR3seImBV8FXqHHm5OS
+	mellg1V3HvPAE7TcN3/dMr1oebcMjjDum426EEPnUdxCFrd29lBntpSAHepZEEl0Zxhb
+	8CAzr9xQeSsDD1QATTOQA8S4X6IQSSDlnp92o1L8ybO+1/i7LKKwqgmEdDnjNZBpMt3H
+	soMBV0vZM0Pa3ewn6K29OhY2C/DRZyxxZs61/RYo4XsAynEQDOrpnsLxdACYjPgF8md4
+	aw0Q==
+X-Gm-Message-State: AA6/9RmV93hdE/hgar18U2TtshiAIyejnImpQgq4IyRd9emIXCANkfGgA1SkGuOkmoZDaH7HcrKuMvmpzGvMCSLP
+X-Received: by 10.107.5.72 with SMTP id 69mr21601029iof.132.1476704005688;
+	Mon, 17 Oct 2016 04:33:25 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.107.168.146 with HTTP; Mon, 17 Oct 2016 04:30:11 -0700 (PDT)
-In-Reply-To: <4139c9aa1622a83597d0b6ea336923686f844bd1.1476462963.git.leonardo.sandoval.gonzalez@linux.intel.com>
-References: <cover.1476462963.git.leonardo.sandoval.gonzalez@linux.intel.com>
-	<4139c9aa1622a83597d0b6ea336923686f844bd1.1476462963.git.leonardo.sandoval.gonzalez@linux.intel.com>
+Received: by 10.107.168.146 with HTTP; Mon, 17 Oct 2016 04:33:05 -0700 (PDT)
+In-Reply-To: <44095a65-4aab-648f-5538-08b02f58bee7@siemens.com>
+References: <44095a65-4aab-648f-5538-08b02f58bee7@siemens.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 17 Oct 2016 12:30:11 +0100
-Message-ID: <CAJTo0LYQucFaMjB1qksJtEfpp6-UJdek_3K4jrjM72LDO3+4jA@mail.gmail.com>
-To: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/9] selftest: set correct linux-yocto recipe when distro is poky-tiny
+Date: Mon, 17 Oct 2016 12:33:05 +0100
+Message-ID: <CAJTo0LYJXgjv=P1KTo1_k9U8zG5AAq0Oy57H5q4edUto=kQ1nw@mail.gmail.com>
+To: Pascal Bach <pascal.bach@siemens.com>
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: The future of qemuarm
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,49 +54,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 17 Oct 2016 11:30:30 -0000
-Content-Type: multipart/alternative; boundary=94eb2c08e51854e6d8053f0de743
+X-List-Received-Date: Mon, 17 Oct 2016 11:33:24 -0000
+Content-Type: multipart/alternative; boundary=001a113efe2cb2c795053f0df128
 
---94eb2c08e51854e6d8053f0de743
+--001a113efe2cb2c795053f0df128
 Content-Type: text/plain; charset=UTF-8
 
-On 14 October 2016 at 17:40, <leonardo.sandoval.gonzalez@linux.intel.com>
-wrote:
+On 17 October 2016 at 12:18, Pascal Bach <pascal.bach@siemens.com> wrote:
 
->          result = runCmd('bitbake-layers show-recipes -i kernel')
-> -        self.assertIn('linux-yocto:', result.output)
-> +        linux_yocto = 'linux-yocto-tiny' if distro == 'poky-tiny' else
-> 'linux-yocto'
-> +        self.assertIn(linux_yocto, result.output)
+> I read several discussions about lifting the default qemuarm target to
+> armv7 or higher.
+> On the mailinglist and on the internet I also found several mentions about
+> machines qemuarmv7 and qemuarma8, but I didn't find any working machine
+> configs for them.
+>
+> What are the planes here?
+>
+> Is the goal to increase the default to a higher arm version?
+>
+> Is there a bsp layer for other qemuarm variants (cortex-a8, ...)?
 >
 
-If we want this test to be distro- and machine-agnostic then we should
-handle other BSPs that don't use linux-yocto.  As this is just a test for
-bitbake-layers, I'd say we can just delete the "inherits kernel" block.
+There is a qemuarm64 in master which is aarch64 based.
 
 Ross
 
---94eb2c08e51854e6d8053f0de743
+--001a113efe2cb2c795053f0df128
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 14 October 2016 at 17:40,  <span dir=3D"ltr">&lt;<a href=3D"mailto:leona=
-rdo.sandoval.gonzalez@linux.intel.com" target=3D"_blank">leonardo.sandoval.=
-gonzalez@linux.intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmai=
-l_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left=
-:1ex"><div id=3D":1d9" class=3D"a3s aXjCH m157c41063d8bb95e">=C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0result =3D runCmd(&#39;bitbake-layers show-recipes -i k=
-ernel&#39;)<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.assertIn(&#39;linux-yocto:&#39;, result.o=
-utput)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 linux_yocto =3D &#39;linux-yocto-tiny&#39; if =
-distro =3D=3D &#39;poky-tiny&#39; else &#39;linux-yocto&#39;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.assertIn(linux_yocto, result.output)</div=
-></blockquote></div><br>If we want this test to be distro- and machine-agno=
-stic then we should handle other BSPs that don&#39;t use linux-yocto.=C2=A0=
- As this is just a test for bitbake-layers, I&#39;d say we can just delete =
-the &quot;inherits kernel&quot; block.</div><div class=3D"gmail_extra"><br>=
-</div><div class=3D"gmail_extra">Ross</div></div>
+On 17 October 2016 at 12:18, Pascal Bach <span dir=3D"ltr">&lt;<a href=3D"m=
+ailto:pascal.bach@siemens.com" target=3D"_blank">pascal.bach@siemens.com</a=
+>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 =
+0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":1b5" clas=
+s=3D"a3s aXjCH m157d267c38817d7d">I read several discussions about lifting =
+the default qemuarm target to armv7 or higher.<br>
+On the mailinglist and on the internet I also found several mentions about =
+machines qemuarmv7 and qemuarma8, but I didn&#39;t find any working machine=
+ configs for them.<br>
+<br>
+What are the planes here?<br>
+<br>
+Is the goal to increase the default to a higher arm version?<br>
+<br>
+Is there a bsp layer for other qemuarm variants (cortex-a8, ...)?</div></bl=
+ockquote></div><br>There is a qemuarm64 in master which is aarch64 based.</=
+div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</d=
+iv></div>
 
---94eb2c08e51854e6d8053f0de743--
+--001a113efe2cb2c795053f0df128--
