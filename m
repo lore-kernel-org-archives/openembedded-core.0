@@ -1,47 +1,47 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f174.google.com (mail-io0-f174.google.com
-	[209.85.223.174])
-	by mail.openembedded.org (Postfix) with ESMTP id BDBA771AB9
+Received: from mail-io0-f178.google.com (mail-io0-f178.google.com
+	[209.85.223.178])
+	by mail.openembedded.org (Postfix) with ESMTP id ACE7A6FFEF
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Oct 2016 11:33:24 +0000 (UTC)
-Received: by mail-io0-f174.google.com with SMTP id q192so184864550iod.0
+	Mon, 17 Oct 2016 11:42:22 +0000 (UTC)
+Received: by mail-io0-f178.google.com with SMTP id j37so184834383ioo.3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Oct 2016 04:33:26 -0700 (PDT)
+	Mon, 17 Oct 2016 04:42:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=jrOYBjDomcQO8JgjKuZ/j7FxHGSrjo/QT3kGCrCkyiI=;
-	b=ez9urzjlhO1LB4ppsZgnqZQ3MEpBdDkwtCGUSlelbTsqWHm5hRndNqpiVZRUawZU1k
-	msaVXtU3j0Dici9ZRRo8b/ZAnG6V9IFU0PW1JG2R/styULZplv2yaatNLo2n96nUp++L
-	yORUHNlGrZmWagDkDg0vzm668lb+WKUaS2UkJ+V9BAOULc/lc3yAoocuKvmOWPrqprUX
-	O8ql6xTETP/DD1po6jnMqnfXo2fVOe5IarFXL3scoFDkcyIoKN8mxaP6U81Os/gcvpmE
-	DrbyrNTfDXj4B8MIWJTni3xCizHYmk/+AgHZ9Y83UvCeuf3e8nXqWguR6I5O1IZPz7Io
-	7Rbw==
+	:cc; bh=VahCf7rjjIgMlCVUXuhJd1wApTR4MjBD2tRmvY5/l3Y=;
+	b=gYPS0b3aQ/EubOWwhBNiUHU2Zvy4i6bVXKip/2IX3Wu56F92D/YtvLTaxY0xOEltkf
+	8DqgYFAEBasm/RyrtElrjBZ0685LjC7oyiYvvJ97yYTMQncyThbcc4JIe1EpxGUYmDK7
+	Id5rfrlQCUm9dJJ3lGs4m/sa8zN5Lzer6ay+uFv/e+IB2QUaEtVJYF/gWBcnWj+OLGxw
+	RAycbrZvPVA0ZXbHL4OIXq3ADUZLh/tgYNhz1cUW+v+8xKoJE/VFmo1eT63BGikws5Fv
+	WEP21ka/GfFVgSpZf2ZkHluT0qScqLh3j0k8oLQjdMXDJBdrJJw8Tjrwk9ECZQsuRuo+
+	s4oQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=jrOYBjDomcQO8JgjKuZ/j7FxHGSrjo/QT3kGCrCkyiI=;
-	b=aWgfQMhkSNRY7Y/9jZNIHq2vkNno97GJ4FRQg1btSfJl61ibdndPmaElP1PJbGHa+P
-	K6kfI+BHANEs0Lau4EbU9SyFJnFHLjCrSASD6SfFnWr9FFkGAWR3seImBV8FXqHHm5OS
-	mellg1V3HvPAE7TcN3/dMr1oebcMjjDum426EEPnUdxCFrd29lBntpSAHepZEEl0Zxhb
-	8CAzr9xQeSsDD1QATTOQA8S4X6IQSSDlnp92o1L8ybO+1/i7LKKwqgmEdDnjNZBpMt3H
-	soMBV0vZM0Pa3ewn6K29OhY2C/DRZyxxZs61/RYo4XsAynEQDOrpnsLxdACYjPgF8md4
-	aw0Q==
-X-Gm-Message-State: AA6/9RmV93hdE/hgar18U2TtshiAIyejnImpQgq4IyRd9emIXCANkfGgA1SkGuOkmoZDaH7HcrKuMvmpzGvMCSLP
-X-Received: by 10.107.5.72 with SMTP id 69mr21601029iof.132.1476704005688;
-	Mon, 17 Oct 2016 04:33:25 -0700 (PDT)
+	bh=VahCf7rjjIgMlCVUXuhJd1wApTR4MjBD2tRmvY5/l3Y=;
+	b=W+SQts8FoQ5F/AjaSDXoaLJE9nHXXoistAmm5O9QfVJfekfHZ7r9/n2ghLZtouFX8f
+	Kw4hQ1WwGijOll4u+RKf1FiKKQcKY9Ydw1gF0WKKrpvTxEoxR7ngJqkBDWbogy13sbd+
+	5VDh/rJJ45eyHskIh/VRUWYLQxKUUrJPcQOdgwjr+jzUQqr2hsmr84JJ6nbNSNSeg7aD
+	dRI6PGxhHmhn/Vkvv4sdhz7v5rsWAqzzvnMzpRSdyLsP4V+EoY2QtqLKKUYnWtnRtnc+
+	HVPxebZ6PBv4cCbEKspuZ+c7eSkJdsDD6Vm7lHaGfZTfeADzW7yDgplFZKfYTut/5y9+
+	W0Dg==
+X-Gm-Message-State: AA6/9RlE0I1ZFY/dF5ldLma6oV3NQdB4Xex6zkS2sh4cmnfh+/0j00ZyXV+lH/8y0bHtmZ7zG5lEIBuIPKw09XOp
+X-Received: by 10.107.138.15 with SMTP id m15mr22787019iod.127.1476704543859; 
+	Mon, 17 Oct 2016 04:42:23 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.107.168.146 with HTTP; Mon, 17 Oct 2016 04:33:05 -0700 (PDT)
-In-Reply-To: <44095a65-4aab-648f-5538-08b02f58bee7@siemens.com>
-References: <44095a65-4aab-648f-5538-08b02f58bee7@siemens.com>
+Received: by 10.107.168.146 with HTTP; Mon, 17 Oct 2016 04:42:03 -0700 (PDT)
+In-Reply-To: <5458be631bd0e452a6b05b09e9b86d6fbf567eeb.1476462963.git.leonardo.sandoval.gonzalez@linux.intel.com>
+References: <cover.1476462963.git.leonardo.sandoval.gonzalez@linux.intel.com>
+	<5458be631bd0e452a6b05b09e9b86d6fbf567eeb.1476462963.git.leonardo.sandoval.gonzalez@linux.intel.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 17 Oct 2016 12:33:05 +0100
-Message-ID: <CAJTo0LYJXgjv=P1KTo1_k9U8zG5AAq0Oy57H5q4edUto=kQ1nw@mail.gmail.com>
-To: Pascal Bach <pascal.bach@siemens.com>
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: The future of qemuarm
+Date: Mon, 17 Oct 2016 12:42:03 +0100
+Message-ID: <CAJTo0LZCuuR-aacRaj-akM8dLWrMtcCP2yH46H7U1tkp5wZVjQ@mail.gmail.com>
+To: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 4/9] selftest: skip some devtool tests when distro is poky-tiny due to missing libx11
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,53 +54,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 17 Oct 2016 11:33:24 -0000
-Content-Type: multipart/alternative; boundary=001a113efe2cb2c795053f0df128
+X-List-Received-Date: Mon, 17 Oct 2016 11:42:24 -0000
+Content-Type: multipart/alternative; boundary=001a113feb3cc6a28b053f0e1184
 
---001a113efe2cb2c795053f0df128
+--001a113feb3cc6a28b053f0e1184
 Content-Type: text/plain; charset=UTF-8
 
-On 17 October 2016 at 12:18, Pascal Bach <pascal.bach@siemens.com> wrote:
+On 14 October 2016 at 17:40, <leonardo.sandoval.gonzalez@linux.intel.com>
+wrote:
 
-> I read several discussions about lifting the default qemuarm target to
-> armv7 or higher.
-> On the mailinglist and on the internet I also found several mentions about
-> machines qemuarmv7 and qemuarma8, but I didn't find any working machine
-> configs for them.
->
-> What are the planes here?
->
-> Is the goal to increase the default to a higher arm version?
->
-> Is there a bsp layer for other qemuarm variants (cortex-a8, ...)?
+>      def test_devtool_add_fetch_git(self):
+> -        # Fetch source
+> +        if self.distro == 'poky-tiny':
+> +            self.skipTest('libmatchbox2 is not buildable with poky-tiny
+> because it requires a libx11 provider')
+>          tempdir = tempfile.mkdtemp(prefix='devtoolqa')
+>          self.track_for_cleanup(tempdir)
+>          url = 'git://git.yoctoproject.org/libmatchbox'
 >
 
-There is a qemuarm64 in master which is aarch64 based.
+Changing the test to use a recipe that doesn't require a distro feature
+that many distros disable seems like a more sustainable fix.
 
 Ross
 
---001a113efe2cb2c795053f0df128
+--001a113feb3cc6a28b053f0e1184
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 17 October 2016 at 12:18, Pascal Bach <span dir=3D"ltr">&lt;<a href=3D"m=
-ailto:pascal.bach@siemens.com" target=3D"_blank">pascal.bach@siemens.com</a=
->&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 =
-0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":1b5" clas=
-s=3D"a3s aXjCH m157d267c38817d7d">I read several discussions about lifting =
-the default qemuarm target to armv7 or higher.<br>
-On the mailinglist and on the internet I also found several mentions about =
-machines qemuarmv7 and qemuarma8, but I didn&#39;t find any working machine=
- configs for them.<br>
+On 14 October 2016 at 17:40,  <span dir=3D"ltr">&lt;<a href=3D"mailto:leona=
+rdo.sandoval.gonzalez@linux.intel.com" target=3D"_blank">leonardo.sandoval.=
+gonzalez@linux.intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmai=
+l_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left=
+:1ex"><div id=3D":1ch" class=3D"a3s aXjCH m157c41168b5229f1">=C2=A0 =C2=A0 =
+=C2=A0def test_devtool_add_fetch_git(<wbr>self):<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 # Fetch source<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if self.distro =3D=3D &#39;poky-tiny&#39;:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.skipTest(&#39;libmatchbox2 =
+is not buildable with poky-tiny because it requires a libx11 provider&#39;)=
 <br>
-What are the planes here?<br>
-<br>
-Is the goal to increase the default to a higher arm version?<br>
-<br>
-Is there a bsp layer for other qemuarm variants (cortex-a8, ...)?</div></bl=
-ockquote></div><br>There is a qemuarm64 in master which is aarch64 based.</=
-div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</d=
-iv></div>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0tempdir =3D tempfile.mkdtemp(prefix=3D&#3=
+9;<wbr>devtoolqa&#39;)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.track_for_cleanup(<wbr>tempdir)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0url =3D &#39;git://<a href=3D"http://git.=
+yoctoproject.org/libmatchbox" rel=3D"noreferrer" target=3D"_blank">git.yoct=
+oproject.org/<wbr>libmatchbox</a>&#39;</div></blockquote></div><br>Changing=
+ the test to use a recipe that doesn&#39;t require a distro feature that ma=
+ny distros disable seems like a more sustainable fix.</div><div class=3D"gm=
+ail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
 
---001a113efe2cb2c795053f0df128--
+--001a113feb3cc6a28b053f0e1184--
