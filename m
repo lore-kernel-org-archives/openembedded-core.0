@@ -1,31 +1,25 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 0A3A871A8C
+Return-Path: <joshua.g.lock@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 84312719F4
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Oct 2016 06:25:26 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u9H6PQof005915
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Sun, 16 Oct 2016 23:25:26 -0700 (PDT)
-Received: from [128.224.162.209] (128.224.162.209) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.294.0;
-	Sun, 16 Oct 2016 23:25:25 -0700
-To: Khem Raj <raj.khem@gmail.com>
-References: <cover.1476004977.git.Qi.Chen@windriver.com>
-	<e7f6b2d54c90833a8c6782a95283b8849438b3a9.1476004977.git.Qi.Chen@windriver.com>
-	<CAMKF1spvigWQZ_NRzMgB--0h0cfqTOWGU2Tdo=c5Tn5hXsfumA@mail.gmail.com>
-From: ChenQi <Qi.Chen@windriver.com>
-Message-ID: <58046ED3.1010106@windriver.com>
-Date: Mon, 17 Oct 2016 14:25:23 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.7.2
-MIME-Version: 1.0
-In-Reply-To: <CAMKF1spvigWQZ_NRzMgB--0h0cfqTOWGU2Tdo=c5Tn5hXsfumA@mail.gmail.com>
-X-Originating-IP: [128.224.162.209]
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] systemd: avoid boot failures for mips64
+	Mon, 17 Oct 2016 07:09:03 +0000 (UTC)
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+	by orsmga102.jf.intel.com with ESMTP; 17 Oct 2016 00:09:02 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.31,356,1473145200"; d="scan'208";a="180510318"
+Received: from haslinge-mobl1.ger.corp.intel.com (HELO
+	jlock-mobl1.ger.corp.intel.com) ([10.252.18.238])
+	by fmsmga004.fm.intel.com with ESMTP; 17 Oct 2016 00:09:01 -0700
+Message-ID: <1476688132.2604.8.camel@linux.intel.com>
+From: Joshua Lock <joshua.g.lock@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 17 Oct 2016 08:08:52 +0100
+In-Reply-To: <88ed2fc1a30df53f6c94192966c00c5c41de3869.1476462963.git.leonardo.sandoval.gonzalez@linux.intel.com>
+References: <cover.1476462963.git.leonardo.sandoval.gonzalez@linux.intel.com>
+	<88ed2fc1a30df53f6c94192966c00c5c41de3869.1476462963.git.leonardo.sandoval.gonzalez@linux.intel.com>
+X-Mailer: Evolution 3.20.5 (3.20.5-1.fc24) 
+Mime-Version: 1.0
+Subject: Re: [PATCH 2/9] selftest: skip two bbtest tests depending on distro
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,75 +32,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 17 Oct 2016 06:25:27 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 17 Oct 2016 07:09:05 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On 10/17/2016 07:03 AM, Khem Raj wrote:
-> On Sun, Oct 9, 2016 at 2:23 AM, Chen Qi <Qi.Chen@windriver.com> wrote:
->> If we start a systemd based qemumips64 target with 'pam' enabled in
->> DISTRO_FEATURES, we could not login in successfully. After you provide
->> username and password to the login prompt, the login prompt just comes up
->> again. Besides, there are other boot failures.
->>
->> Append '-O0' flag for mips64 target as a workaround to this problem.
->>
->> [YOCTO #10250]
->>
->> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
->> ---
->>   meta/recipes-core/systemd/systemd.inc | 1 +
->>   1 file changed, 1 insertion(+)
->>
->> diff --git a/meta/recipes-core/systemd/systemd.inc b/meta/recipes-core/systemd/systemd.inc
->> index f800f42..db588e7 100644
->> --- a/meta/recipes-core/systemd/systemd.inc
->> +++ b/meta/recipes-core/systemd/systemd.inc
->> @@ -23,3 +23,4 @@ PV = "230+git${SRCPV}"
->>   S = "${WORKDIR}/git"
->>
->>   LDFLAGS_append_libc-uclibc = " -lrt -lssp_nonshared -lssp "
->> +CFLAGS_append_mips64 = " -O0"
-> can you instead explore a bit more e.g. disabling lto etc.
-> CFLAGS_append_mips64 = " -fno-lto"
->
-> and also consider little endian
->
+On Fri, 2016-10-14 at 11:40 -0500,
+leonardo.sandoval.gonzalez@linux.intel.com wrote:
+> From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+> 
+> There are two bbtests that just makes sense on certain distros:
+> test_bitbake_g cannot be done on poky-tiny and test_non_gplv3
+> just makes sense on poky and poky-tiny. Skip these when
+> necessary under the latter conditions.
+> 
+> [YOCTO #8525]
+> 
+> Signed-off-by: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.in
+> tel.com>
+> ---
+>  meta/lib/oeqa/selftest/bbtests.py | 7 +++++++
+>  1 file changed, 7 insertions(+)
+> 
+> diff --git a/meta/lib/oeqa/selftest/bbtests.py
+> b/meta/lib/oeqa/selftest/bbtests.py
+> index baae1e0..9b11cd9 100644
+> --- a/meta/lib/oeqa/selftest/bbtests.py
+> +++ b/meta/lib/oeqa/selftest/bbtests.py
+> @@ -114,6 +114,9 @@ class BitbakeTests(oeSelfTest):
+>  
+>      @testcase(167)
+>      def test_bitbake_g(self):
+> +        if self.distro == 'poky-tiny':
+> +            self.skipTest('core-image-full-cmdline is not buildable
+> with poky-tiny')
+> +
 
-Hi Khem,
+This test is still valid for poky-tiny, it's just that the image the
+test builds isn't buildable with poky-tiny, right?
 
-I thought of adding '-O0' to CFLAGS because when I was debugging this 
-problem, I found that several 'printf' statements would make errors 
-disappear. I'm not familiar with these options. I just gave a test for 
-'-fno-lto', and it caused the following error.
+I think it would be better to change the test to a different, smaller,
+image that can also be built for poky-tiny (core-image-minimal?). 
+We'd also need to change the target the test checks for the presence of
+in pn-buildlist.
 
-ERROR: systemd-1_230+gitAUTOINC+3a74d4fc90-r0 do_package: debugedit 
-failed with exit code 1 (cmd was 
-'/buildarea2/chenqi/poky/build-systemd/tmp/sysroots/x86_64-linux/usr/lib/rpm/bin/debugedit' 
--i -l 
-'/buildarea2/chenqi/poky/build-systemd/tmp/work/mips64-poky-linux/systemd/1_230+gitAUTOINC+3a74d4fc90-r0/debugsources.list' 
-'/buildarea2/chenqi/poky/build-systemd/tmp/work/mips64-poky-linux/systemd/1_230+gitAUTOINC+3a74d4fc90-r0/package/usr/lib/systemd/ptest/tests/test-libsystemd-sym.o'):
-/buildarea2/chenqi/poky/build-systemd/tmp/sysroots/x86_64-linux/usr/lib/rpm/bin/debugedit: 
-/buildarea2/chenqi/poky/build-systemd/tmp/work/mips64-poky-linux/systemd/1_230+gitAUTOINC+3a74d4fc90-r0/package/usr/lib/systemd/ptest/tests/test-libsystemd-sym.o: 
-Unhandled relocation 2 in .debug_info section
-ERROR: systemd-1_230+gitAUTOINC+3a74d4fc90-r0 do_package: Function 
-failed: split_and_strip_files
-ERROR: Logfile of failure stored in: 
-/buildarea2/chenqi/poky/build-systemd/tmp/work/mips64-poky-linux/systemd/1_230+gitAUTOINC+3a74d4fc90-r0/temp/log.do_package.8462
-ERROR: Task 
-(/buildarea2/chenqi/poky/meta/recipes-core/systemd/systemd_230.bb:do_package) 
-failed with exit code '1'
+Regards,
 
-Best Regards,
-Chen Qi
+Joshua
 
->> --
->> 1.9.1
->>
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
-
+>          result = bitbake('-g core-image-full-cmdline')
+>          for f in ['pn-buildlist', 'pn-depends.dot', 'package-
+> depends.dot', 'task-depends.dot']:
+>              self.addCleanup(os.remove, f)
+> @@ -229,6 +232,10 @@ INHERIT_remove = \"report-error\"
+>  
+>      @testcase(1119)
+>      def test_non_gplv3(self):
+> +        supported_distros = ['poky', 'poky-tiny']
+> +        if not self.distro in supported_distros:
+> +            self.skipTest('Test considers only %s distros' %
+> ','.join(supported_distros))
+> +
+>          data = 'INCOMPATIBLE_LICENSE = "GPLv3"'
+>          conf = os.path.join(self.builddir, 'conf/local.conf')
+>          ftools.append_file(conf ,data)
+> -- 
+> 2.1.4
+> 
 
