@@ -1,24 +1,24 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 8064A71B49
+	by mail.openembedded.org (Postfix) with ESMTP id 7E2B271BCE
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Oct 2016 15:15:36 +0000 (UTC)
+	Mon, 17 Oct 2016 15:15:37 +0000 (UTC)
 Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-	by fmsmga101.fm.intel.com with ESMTP; 17 Oct 2016 08:15:38 -0700
+	by fmsmga101.fm.intel.com with ESMTP; 17 Oct 2016 08:15:39 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.31,357,1473145200"; d="scan'208";a="180649344"
+X-IronPort-AV: E=Sophos;i="5.31,357,1473145200"; d="scan'208";a="180649361"
 Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by fmsmga004.fm.intel.com with ESMTP; 17 Oct 2016 08:15:39 -0700
+	by fmsmga004.fm.intel.com with ESMTP; 17 Oct 2016 08:15:40 -0700
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 17 Oct 2016 18:12:51 +0300
-Message-Id: <23f9f3837c1dce841aa653865c36fccc19c16fca.1476716907.git.alexander.kanavin@linux.intel.com>
+Date: Mon, 17 Oct 2016 18:12:52 +0300
+Message-Id: <0093626b17c30ef1e7d9f2492f3cb1d41a954f32.1476716907.git.alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.9.3
 In-Reply-To: <cover.1476716907.git.alexander.kanavin@linux.intel.com>
 References: <cover.1476716907.git.alexander.kanavin@linux.intel.com>
 In-Reply-To: <cover.1476716907.git.alexander.kanavin@linux.intel.com>
 References: <cover.1476716907.git.alexander.kanavin@linux.intel.com>
-Subject: [PATCH 11/23] libsecret: enable optional building of manpages
+Subject: [PATCH 12/23] libdrm: enable optional building of manpages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,31 +31,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 17 Oct 2016 15:15:36 -0000
+X-List-Received-Date: Mon, 17 Oct 2016 15:15:37 -0000
 
 Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- meta/recipes-gnome/libsecret/libsecret_0.18.5.bb | 4 ++--
+ meta/recipes-graphics/drm/libdrm_2.4.70.bb | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-gnome/libsecret/libsecret_0.18.5.bb b/meta/recipes-gnome/libsecret/libsecret_0.18.5.bb
-index bcb3046..77b9fd5 100644
---- a/meta/recipes-gnome/libsecret/libsecret_0.18.5.bb
-+++ b/meta/recipes-gnome/libsecret/libsecret_0.18.5.bb
-@@ -2,11 +2,11 @@ SUMMARY = "libsecret is a library for storing and retrieving passwords and other
- LICENSE = "LGPLv2.1"
- LIC_FILES_CHKSUM = "file://COPYING;md5=23c2a5e0106b99d75238986559bb5fc6"
+diff --git a/meta/recipes-graphics/drm/libdrm_2.4.70.bb b/meta/recipes-graphics/drm/libdrm_2.4.70.bb
+index a2b5282..1811927 100644
+--- a/meta/recipes-graphics/drm/libdrm_2.4.70.bb
++++ b/meta/recipes-graphics/drm/libdrm_2.4.70.bb
+@@ -19,15 +19,15 @@ SRC_URI = "http://dri.freedesktop.org/libdrm/${BP}.tar.bz2 \
+ SRC_URI[md5sum] = "920957cfe25a80efb02be9bd90bf3c1e"
+ SRC_URI[sha256sum] = "b17d4b39ed97ca0e4cffa0db06ff609e617bac94646ec38e8e0579d530540e7b"
  
--inherit gnomebase gtk-doc vala gobject-introspection
-+inherit gnomebase gtk-doc vala gobject-introspection manpages
+-inherit autotools pkgconfig
++inherit autotools pkgconfig manpages
  
- DEPENDS += "glib-2.0 libgcrypt gettext-native intltool-native"
- 
--EXTRA_OECONF += "--disable-manpages"
+ EXTRA_OECONF += "--disable-cairo-tests \
+                  --without-cunit \
+                  --enable-omap-experimental-api \
+                  --enable-install-test-programs \
+-                 --disable-manpages \
+                  --disable-valgrind \
+                 "
 +PACKAGECONFIG[manpages] = "--enable-manpages, --disable-manpages, libxslt-native xmlto-native"
  
- SRC_URI[archive.md5sum] = "2d688825921313da8731313b0a7f394c"
- SRC_URI[archive.sha256sum] = "9ce7bd8dd5831f2786c935d82638ac428fa085057cc6780aba0e39375887ccb3"
+ ALLOW_EMPTY_${PN}-drivers = "1"
+ PACKAGES =+ "${PN}-tests ${PN}-drivers ${PN}-radeon ${PN}-nouveau ${PN}-omap \
 -- 
 2.9.3
 
