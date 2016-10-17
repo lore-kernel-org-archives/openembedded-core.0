@@ -1,58 +1,32 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f195.google.com (mail-pf0-f195.google.com
-	[209.85.192.195])
-	by mail.openembedded.org (Postfix) with ESMTP id DD30471AD3
+Return-Path: <ed.bartosh@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 307F860767
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Oct 2016 13:29:11 +0000 (UTC)
-Received: by mail-pf0-f195.google.com with SMTP id r16so12809855pfg.3
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Oct 2016 06:29:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:subject:from:in-reply-to:date:cc
-	:content-transfer-encoding:message-id:references:to;
-	bh=bt/v7wrjZLFVlt2BjaXFw/hooblZP7OHTM3laDSdKws=;
-	b=MxYsGEx9U/BlzKk49A6hWYbeJwiJykKpxJDR4Ol7YJSpMqjMIE3UGWcyrP4o8TwPQu
-	Le1ATUfTvsOIfCw6yVuwGsPqxpPjuq/1aC1wQLeHN8HOnPfmV4xiG84Y623ksw0G9mhQ
-	oSdalrWyQsRr7xFC1GSA4SuHyIAcm5jjSiNK4mHvtdOgDaQgV4YXH3PGkJfceukHplXg
-	7RbapXh46j11p9wbXSdFHJ5GurWkImu8QUU0rbHNPhAOyx3cEFJF+ELqRLOhgVJe9r12
-	7x/W+fRn7PxKCIyUJ49xYvQIwlFHaPxe7fhTJXJ0T1J5/0LnZ66VSMoDlu8OCxhsc9yY
-	jspQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
-	:content-transfer-encoding:message-id:references:to;
-	bh=bt/v7wrjZLFVlt2BjaXFw/hooblZP7OHTM3laDSdKws=;
-	b=Q2gBYOKJT/F7e3WavjGxnjwM5HSfXIBIxpTkQogibj+ul30Sgm7CYLUgAnSj7KKnFO
-	GEf//2FvPIyZURO1q/mop8CR518VvYVLnppo87YLPe1pc3ZQVrprPtVtIvToHN5jEA/M
-	UC0KadnwcAYPRnO7wRTF9/9U9qvuslRpSDSG+K2QJt33gPmJn7dEw4nQV2Xut3BiMsWw
-	iJOJRamNHs33NlUfs5pIcGcgd2CqJ+k2EHYfepGls7OzyngHbvXSBpH1EDC9yVe7uuvw
-	VIUJswU1UhKvmfjiCunrDni0I/jcq2v06Y+gLkJyaqEploeRXX8TBtedCbHtaMNIyS5B
-	+/Mg==
-X-Gm-Message-State: AA6/9RmJwEULFP34nQQf7mzleEj7Ll4O1z4hGC/7MHLqj/BPwygbWbbJKxZS8UosnM0RKg==
-X-Received: by 10.98.77.1 with SMTP id a1mr38084962pfb.160.1476710953258;
-	Mon, 17 Oct 2016 06:29:13 -0700 (PDT)
-Received: from ?IPv6:2601:646:8882:b8c:10af:7454:ca4e:95f6?
-	([2601:646:8882:b8c:10af:7454:ca4e:95f6])
-	by smtp.gmail.com with ESMTPSA id
-	g78sm48317072pfe.19.2016.10.17.06.29.12
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 17 Oct 2016 06:29:12 -0700 (PDT)
-Mime-Version: 1.0 (1.0)
-From: Khem Raj <raj.khem@gmail.com>
-X-Mailer: iPad Mail (14B71)
-In-Reply-To: <97106aec-ccb5-ae4c-1b4d-8519e6b59156@windriver.com>
-Date: Mon, 17 Oct 2016 06:29:11 -0700
-Message-Id: <83A798E4-7985-46C1-A0EE-928EE10BFC66@gmail.com>
-References: <20161012023734.11991-1-kai.kang@windriver.com>
-	<CAJTo0LbhDO+ijOerKVao+s+fruJK98VqQTeMSzxir3_eYWLMbw@mail.gmail.com>
-	<57FF9CD8.9040305@windriver.com>
-	<CAJTo0LaFVw6oUW5jL7kR-B3TWenNwowGRzcG8=5K=CGqPFx+5w@mail.gmail.com>
-	<58009F43.6070904@windriver.com>
-	<CAMKF1srF3ow22DWfsj78MyaR14N5+nCxvdanXwsKqroLG_9DRg@mail.gmail.com>
-	<97106aec-ccb5-ae4c-1b4d-8519e6b59156@windriver.com>
-To: Kang Kai <Kai.Kang@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] gcc-sanitizers: allow empty for lsan and tsan packages
+	Mon, 17 Oct 2016 13:48:00 +0000 (UTC)
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+	by orsmga102.jf.intel.com with ESMTP; 17 Oct 2016 06:48:01 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.31,357,1473145200"; d="scan'208";a="20395517"
+Received: from linux.intel.com ([10.54.29.200])
+	by fmsmga005.fm.intel.com with ESMTP; 17 Oct 2016 06:48:01 -0700
+Received: from linux.intel.com (vmed.fi.intel.com [10.237.72.68])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by linux.intel.com (Postfix) with ESMTP id 813656A4080;
+	Mon, 17 Oct 2016 06:47:28 -0700 (PDT)
+Date: Mon, 17 Oct 2016 16:22:34 +0300
+From: Ed Bartosh <ed.bartosh@linux.intel.com>
+To: Maciej Borzecki <maciej.borzecki@rndity.com>
+Message-ID: <20161017132234.GA14510@linux.intel.com>
+Reply-To: ed.bartosh@linux.intel.com
+References: <30a5ef699fb1b575baf95b986a755f509e9e747e.1476706733.git.maciej.borzecki@rndity.com>
+MIME-Version: 1.0
+In-Reply-To: <30a5ef699fb1b575baf95b986a755f509e9e747e.1476706733.git.maciej.borzecki@rndity.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: Maciej Borzecki <maciek.borzecki@gmail.com>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] wic: add --reserved-size wks option
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -65,96 +39,187 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 17 Oct 2016 13:29:12 -0000
-Content-Type: text/plain;
-	charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 17 Oct 2016 13:48:02 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+Hi Maciej,
+
+There is already --size and --extra-space options.
+Can we get the same or similar result by just using them? Do we really
+need new option for similar purpose?
 
 
-> On Oct 16, 2016, at 10:52 PM, Kang Kai <Kai.Kang@windriver.com> wrote:
->=20
->> On 2016=E5=B9=B410=E6=9C=8814=E6=97=A5 17:32, Khem Raj wrote:
->>> On Fri, Oct 14, 2016 at 11:02 AM, Kang Kai <Kai.Kang@windriver.com> wr=
-ote:
->>> On 2016=E5=B9=B410=E6=9C=8813=E6=97=A5 22:59, Burton, Ross wrote:
->>>=20
->>>=20
->>>> On 13 October 2016 at 15:40, Kang Kai <Kai.Kang@windriver.com> wrote:
->>>> gcc checks tsan and lsan support in source file
->>>> gcc/libsanitizer/configure.tgt, it seems only support x86_64. Then ts=
-an and
->>>> lsan related packages will be empty for other target.
->>>> For qemuarm project, add in local.conf:
->>>>=20
->>>> IMAGE_INSTALL_append =3D " libtsan"
->>>=20
->>> If libtsan is x86-64 only, why not only add it for x86-64 images?  The
->>> package not existing on machines it can't be built for is more obvious=
- than
->>> existing but being empty.
->>>=20
->>>=20
->>> The real scenario is for x86-64 kernel with x86 rootfs. We created a
->>> template to enable gcc sanitize support. It just simple adds sanitize
->>> related packages to image:
->>>=20
->>> LIBX_DEV ?=3D ""
->>> LIBX_DEV_x86-64 =3D "liblsan-dev libtsan-dev"
->>>=20
->>> IMAGE_INSTALL +=3D " \
->>>     gcc-sanitizers \
->>>     libasan-dev \
->>>     libubsan-dev \
->>>     ${LIBX_DEV} \
->>> "
->>>=20
->>> When multilib is enabled, it fails for x86-64 kernel with x86 rootfs s=
-uch as
->>> lib32-xxx-image on qemux86-64. Var IMAGE_INSTALL will be expand with p=
-refix
->>> lib32 but lib32-lsan* and lib32-tsan* are empty then cause the failure=
-s.
->> perhaps we should build sanitizers for multilib too ?
->=20
-> The problem is that thread and leak sanitizers are not supported for x86=
- by checking in gcc/libsanitizer/configure.tgt:
->=20
->=20
-> # Filter out unsupported systems.
-> TSAN_TARGET_DEPENDENT_OBJECTS=3D
-> case "${target}" in
->  x86_64-*-linux* | i?86-*-linux*)
->        if test x$ac_cv_sizeof_void_p =3D x8; then
->                TSAN_SUPPORTED=3Dyes
->                LSAN_SUPPORTED=3Dyes
->                TSAN_TARGET_DEPENDENT_OBJECTS=3Dtsan_rtl_amd64.lo
->        fi
->        ;;
-> ...
->=20
-> that causes packages lib32-lsan* and lib32-tsan* are empty.
+On Mon, Oct 17, 2016 at 03:06:18PM +0200, Maciej Borzecki wrote:
+> Added new option --reserved-size to wks. The option can be used to
+> indicate how much space should be reserved for a partition. This is
+> useful if the disk will be a subject to full filesystem image updates
+> and puts an upper limit of the size of filesystem images.
+> 
+> The actual filesystem image may be smaller than the reserved space, thus
+> leaving some room for growth. If it is larger, an error will be raised.
+> 
+> Signed-off-by: Maciej Borzecki <maciej.borzecki@rndity.com>
+> ---
+>  scripts/lib/wic/help.py                | 11 ++++++++++
+>  scripts/lib/wic/imager/direct.py       |  3 ++-
+>  scripts/lib/wic/ksparser.py            |  1 +
+>  scripts/lib/wic/partition.py           |  1 +
+>  scripts/lib/wic/utils/partitionedfs.py | 37 +++++++++++++++++++++++++---------
+>  5 files changed, 43 insertions(+), 10 deletions(-)
+> 
+> diff --git a/scripts/lib/wic/help.py b/scripts/lib/wic/help.py
+> index e5347ec4b7c900c68fc64351a5293e75de0672b3..1a5c7020ba0cdc5ef2e477a2b14360e09098a896 100644
+> --- a/scripts/lib/wic/help.py
+> +++ b/scripts/lib/wic/help.py
+> @@ -646,6 +646,17 @@ DESCRIPTION
+>                   not specified, the size is in MB.
+>                   You do not need this option if you use --source.
+>  
+> +         --reserved-size: This option specifies that there should be
+> +                          at least that many bytes reserved for
+> +                          the partition during layout. This is useful
+> +                          when the target disk will be a subject
+> +                          to full system image updates in the future.
+> +                          Specifying --reserved-size ensures that
+> +                          there is extra space in the partition allowing
+> +                          for future growth of the file system stored
+> +                          inside. Value format is the same as for
+> +                          --size option.
+> +
+>           --source: This option is a wic-specific option that names the
+>                     source of the data that will populate the
+>                     partition.  The most common value for this option
+> diff --git a/scripts/lib/wic/imager/direct.py b/scripts/lib/wic/imager/direct.py
+> index edf5e5d2214f8e78b6c2a98d7f6cd45fcc0065c4..02e293b9d744b760fcdf17610505dafef3e164ad 100644
+> --- a/scripts/lib/wic/imager/direct.py
+> +++ b/scripts/lib/wic/imager/direct.py
+> @@ -301,7 +301,8 @@ class DirectImageCreator(BaseImageCreator):
+>                                         no_table=part.no_table,
+>                                         part_type=part.part_type,
+>                                         uuid=part.uuid,
+> -                                       system_id=part.system_id)
+> +                                       system_id=part.system_id,
+> +                                       reserved_size=part.reserved_size)
+>  
+>          if fstab_path:
+>              shutil.move(fstab_path + ".orig", fstab_path)
+> diff --git a/scripts/lib/wic/ksparser.py b/scripts/lib/wic/ksparser.py
+> index 0894e2b199a299fbbed272f2e1c95e9d692e3ab1..4118bffdf4337f2d2d393d7e096632cd7aa37402 100644
+> --- a/scripts/lib/wic/ksparser.py
+> +++ b/scripts/lib/wic/ksparser.py
+> @@ -137,6 +137,7 @@ class KickStart():
+>          part.add_argument('--part-type')
+>          part.add_argument('--rootfs-dir')
+>          part.add_argument('--size', type=sizetype, default=0)
+> +        part.add_argument('--reserved-size', type=sizetype, default=0)
+>          part.add_argument('--source')
+>          part.add_argument('--sourceparams')
+>          part.add_argument('--system-id', type=systemidtype)
+> diff --git a/scripts/lib/wic/partition.py b/scripts/lib/wic/partition.py
+> index 90f65a1e3976a5460cd1b265b238168cce22781f..162a3a289de891ccf81437876c1f7a6f3c797b3b 100644
+> --- a/scripts/lib/wic/partition.py
+> +++ b/scripts/lib/wic/partition.py
+> @@ -54,6 +54,7 @@ class Partition():
+>          self.part_type = args.part_type
+>          self.rootfs_dir = args.rootfs_dir
+>          self.size = args.size
+> +        self.reserved_size = args.reserved_size
+>          self.source = args.source
+>          self.sourceparams = args.sourceparams
+>          self.system_id = args.system_id
+> diff --git a/scripts/lib/wic/utils/partitionedfs.py b/scripts/lib/wic/utils/partitionedfs.py
+> index cb03009fc7e3c97305079629ded7d2ff01eba4c4..5d3b1588231459dedf0142f807114736f0bb28ea 100644
+> --- a/scripts/lib/wic/utils/partitionedfs.py
+> +++ b/scripts/lib/wic/utils/partitionedfs.py
+> @@ -91,7 +91,7 @@ class Image():
+>  
+>      def add_partition(self, size, disk_name, mountpoint, source_file=None, fstype=None,
+>                        label=None, fsopts=None, boot=False, align=None, no_table=False,
+> -                      part_type=None, uuid=None, system_id=None):
+> +                      part_type=None, uuid=None, system_id=None, reserved_size=0):
+>          """ Add the next partition. Prtitions have to be added in the
+>          first-to-last order. """
+>  
+> @@ -99,9 +99,11 @@ class Image():
+>  
+>          # Converting kB to sectors for parted
+>          size = size * 1024 // self.sector_size
+> +        reserved_size = reserved_size * 1024 // self.sector_size
+>  
+>          part = {'ks_pnum': ks_pnum, # Partition number in the KS file
+>                  'size': size, # In sectors
+> +                'reserved_size': reserved_size, # space on disk reserved for partition
+>                  'mountpoint': mountpoint, # Mount relative to chroot
+>                  'source_file': source_file, # partition contents
+>                  'fstype': fstype, # Filesystem type
+> @@ -192,7 +194,19 @@ class Image():
+>                      disk['offset'] += align_sectors
+>  
+>              part['start'] = disk['offset']
+> -            disk['offset'] += part['size']
+> +
+> +            if part['reserved_size']:
+> +                if part['size'] > part['reserved_size']:
+> +                    msger.error("Partition %d on disk %s is larger (%s bytes) than its"
+> +                                " reserved space %s bytes" %
+> +                                (disk['numpart'], part['disk_name'],
+> +                                 part['size'] * self.sector_size,
+> +                                 part['reserved_size'] * self.sector_size))
+> +                # next partition starts after the space reserved for the
+> +                # current one
+> +                disk['offset'] += part['reserved_size']
+> +            else:
+> +                disk['offset'] += part['size']
+>  
+>              part['type'] = 'primary'
+>              if not part['no_table']:
+> @@ -207,10 +221,11 @@ class Image():
+>  
+>              disk['partitions'].append(num)
+>              msger.debug("Assigned %s to %s%d, sectors range %d-%d size %d "
+> -                        "sectors (%d bytes)." \
+> +                        "sectors (%d bytes), reserved %d bytes." \
+>                              % (part['mountpoint'], part['disk_name'], part['num'],
+> -                               part['start'], part['start'] + part['size'] - 1,
+> -                               part['size'], part['size'] * self.sector_size))
+> +                               part['start'], disk['offset'] - 1,
+> +                               part['size'], part['size'] * self.sector_size,
+> +                               part['reserved_size'] * self.sector_size))
+>  
+>          # Once all the partitions have been layed out, we can calculate the
+>          # minumim disk sizes.
+> @@ -288,17 +303,21 @@ class Image():
+>                  # Type for ext2/ext3/ext4/btrfs
+>                  parted_fs_type = "ext2"
+>  
+> +            psize = part['size']
+> +            if part['reserved_size']:
+> +                psize = part['reserved_size']
+> +
+>              # Boot ROM of OMAP boards require vfat boot partition to have an
+>              # even number of sectors.
+>              if part['mountpoint'] == "/boot" and part['fstype'] in ["vfat", "msdos"] \
+> -               and part['size'] % 2:
+> -                msger.debug("Substracting one sector from '%s' partition to " \
+> +               and psize % 2:
+> +                msger.debug("Subtracting one sector from '%s' partition to " \
+>                              "get even number of sectors for the partition" % \
+>                              part['mountpoint'])
+> -                part['size'] -= 1
+> +                psize -= 1
+>  
+>              self.__create_partition(disk['disk'].device, part['type'],
+> -                                    parted_fs_type, part['start'], part['size'])
+> +                                    parted_fs_type, part['start'], psize)
+>  
+>              if part['part_type']:
+>                  msger.debug("partition %d: set type UID to %s" % \
+> -- 
+> 2.5.0
+> 
 
-Ok then may be keeping the empty packages is ok even though not optimal
->=20
->=20
-> --Kai
->=20
->>=20
->>> Regards,
->>> Kai
->>>=20
->>>=20
->>> Ross
->>>=20
->>>=20
->>>=20
->>> --
->>> Regards,
->>> Neil | Kai Kang
->=20
->=20
-> -- not=20
-> Regards,
-> Neil | Kai Kang
->=20
+--
+Regards,
+Ed
 
