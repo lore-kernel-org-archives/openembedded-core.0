@@ -1,54 +1,52 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pf0-f194.google.com (mail-pf0-f194.google.com
-	[209.85.192.194])
-	by mail.openembedded.org (Postfix) with ESMTP id DC6F9719BB
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pf0-f195.google.com (mail-pf0-f195.google.com
+	[209.85.192.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 69C5862133
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Oct 2016 23:22:26 +0000 (UTC)
-Received: by mail-pf0-f194.google.com with SMTP id s8so13588985pfj.2
+	Mon, 17 Oct 2016 23:36:53 +0000 (UTC)
+Received: by mail-pf0-f195.google.com with SMTP id s8so13607255pfj.2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Oct 2016 16:22:28 -0700 (PDT)
+	Mon, 17 Oct 2016 16:36:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=subject:to:references:from:message-id:date:user-agent:mime-version
-	:in-reply-to:content-transfer-encoding;
-	bh=VkgB/N6wD22INou8+1YKJUI4/RojK7xUZcXZoLKN4p8=;
-	b=BXQY0m96YJWgcdOHTgbFMvjfCYfqMo0Rf9fuXFRFfEefWNaf9YVwFa002X6YZnIJMX
-	LBfSrxp52APuQD3RFz+WZ2+ssAUeKMhIhveYwWmK5SxlCc7fpW+fgFdrBTUrJqPyUP50
-	xZuZiU0T2+pKXUrag//ydcxi2rKcWCMWkMjgMuEpdmLeB/vSFCmG8NaPxYqiVEqOB5kp
-	ycGsB0pP0cjVWoNcHwmvfEec4xTBUxaynLboxKXj0YVR28SgaHKBULeScYfzxhqXo6DU
-	B720h4nlDTImvoyJSau6L0hIxolypWld/kLanZnFeH10/U5UU+obj67R2ubrd7mPITgj
-	wfng==
+	h=subject:mime-version:from:in-reply-to:date:cc:message-id:references
+	:to; bh=kIe7YbeHwE139OoDShcLXeaMXt0tcpS3YYfe75+sYqE=;
+	b=bgrtq+1lstXCa1YkoXjLwAelxvTus7oCK/nCFi1EF4bHqvQ+VaHGRQVDQzz57gUMjw
+	H+NFi3wm551D7BZ/KpFypOdqYmcOmBYxWOJtXMiF3j1gntuOYrG5cdK5uoNt5vyyfZAU
+	TqrZn+Te4OWW4wGX/sQTcPBCE+AkLrlRKN2VL2E72UuH8kC1wUfu2b46kanNI/PcfB55
+	pnEqjJTRkVBpIOfUkheZ4+JmKqWFKczCXAYdiQDv8OfyNtcUIBU+bF0ja6LvRf+4igul
+	NCjGW+dbk6uwVwnfSCc8U+7fAgL4TxFEOf+OGBagMu1ACBnCNoDrjSCEB7yaicEHIFds
+	Rh5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:subject:to:references:from:message-id:date
-	:user-agent:mime-version:in-reply-to:content-transfer-encoding;
-	bh=VkgB/N6wD22INou8+1YKJUI4/RojK7xUZcXZoLKN4p8=;
-	b=jSVs/SzToH5RWKc0zBb1sl8GHlvRErkjRg4M2uohQhgP8YePj2nuKHM6DqAVDj/0VZ
-	pR3Okr+UBisMLjZ/wZ6czzHzHE6ARe1hU58W1RCUcf5RVVzqEUANY1NCI2VSmywd+owE
-	UuVDBedrOPyePombqrNZfW3lPDoHYxr14DEZH4DLDnqM2HLqaDK1279mLahTzMHyRpMi
-	CjhUPu0xWv5U4MnE8R+PlKhav21nd69Jn3b9+viyBGm8GwFj4KifmCZtU7EHvfozP14P
-	MeZMxYPQijchAKgBnWccNEZpoE2ERp1tAUNovECqOd5GzP+yhsmA3VJ6nFeiPiGtj2Ni
-	p7Eg==
-X-Gm-Message-State: AA6/9Rk+yej2vE9yuhy5CXRGFAFFvLrtOhai+lr5KZaYTlFhxCopCnHUjRo9nHY1/Fg1nQ==
-X-Received: by 10.99.157.135 with SMTP id i129mr23405pgd.16.1476746547814;
-	Mon, 17 Oct 2016 16:22:27 -0700 (PDT)
-Received: from ?IPv6:2601:202:4001:9ea0:5ef:e28f:5dce:e040?
-	([2601:202:4001:9ea0:5ef:e28f:5dce:e040])
+	h=x-gm-message-state:subject:mime-version:from:in-reply-to:date:cc
+	:message-id:references:to;
+	bh=kIe7YbeHwE139OoDShcLXeaMXt0tcpS3YYfe75+sYqE=;
+	b=ef8O6xs56Yx+0gQncuRkLHcR3ktBdU/+TdqTb3cYYlFBZzQaQI7Z94UJebD70aB018
+	IJEFym+XgVd7xhwUfzr6vqTPQLadFwpmNrWFVFS7gZWfvpFU9OHzNEK4ILtxlvR3eYiT
+	l1Dy0Npc33OC8NsMwNSSwXHnNpeK8hCUjTLRrKy/n1qpk8J7R8ryRLMt5yNwPik4kao3
+	08grGOMBHQt/8OgAql1DxYuQBRERrkm6o/xEPKsW7uE0wrb0EI0Gw7dXB8jg26ksskby
+	PaKu1VhN/044AbMl0683sMH0fAqqMR2aAdSmH/blKgzNo6U+C0WGHhw2OV1BxaAtXxRu
+	oc2Q==
+X-Gm-Message-State: AA6/9RnQorCti9EOeFJcFELjn1muTRBKnfO9kRT4NTXw4fJkovz0BPFlhD0uYstGqdsdeA==
+X-Received: by 10.99.116.91 with SMTP id e27mr51399pgn.154.1476747414777;
+	Mon, 17 Oct 2016 16:36:54 -0700 (PDT)
+Received: from ?IPv6:2601:646:8882:b8c:ec00:906:f8cb:31c1?
+	([2601:646:8882:b8c:ec00:906:f8cb:31c1])
 	by smtp.gmail.com with ESMTPSA id
-	zm17sm43387679pab.5.2016.10.17.16.22.17
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 17 Oct 2016 16:22:17 -0700 (PDT)
-To: Saul Wold <saul.wold@intel.com>, openembedded-core@lists.openembedded.org,
-	richard.purdie@linuxfoundation.org
-References: <1476124325-6771-1-git-send-email-sgw@linux.intel.com>
-	<1476714346.31798.249.camel@intel.com>
-From: akuster808 <akuster808@gmail.com>
-Message-ID: <dc336f0e-99da-8962-226c-8d578af5e674@gmail.com>
-Date: Mon, 17 Oct 2016 16:22:16 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.3.0
-MIME-Version: 1.0
-In-Reply-To: <1476714346.31798.249.camel@intel.com>
-Subject: Re: [PATCH][master][krogoth] archiver: fix gcc-source handling
+	bu9sm13693280pab.25.2016.10.17.16.36.53
+	(version=TLS1 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Mon, 17 Oct 2016 16:36:54 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 9.3 \(3124\))
+X-Pgp-Agent: GPGMail
+From: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <1476198850-1529-1-git-send-email-samuli.piippo@qt.io>
+Date: Mon, 17 Oct 2016 16:36:53 -0700
+Message-Id: <64ADE2BA-C5CE-47C5-975F-05C11DE145D2@gmail.com>
+References: <1476198850-1529-1-git-send-email-samuli.piippo@qt.io>
+To: Samuli Piippo <samuli.piippo@qt.io>
+X-Mailer: Apple Mail (2.3124)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [meta-oe][PATCH] systemd-serialgetty: add dependency to agetty
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,69 +59,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 17 Oct 2016 23:22:28 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
+X-List-Received-Date: Mon, 17 Oct 2016 23:36:55 -0000
+X-Groupsio-MsgNum: 88292
+Content-Type: multipart/signed;
+	boundary="Apple-Mail=_2D392D78-868E-4847-BD2E-B4724213DFC6";
+	protocol="application/pgp-signature"; micalg=pgp-sha1
+
+--Apple-Mail=_2D392D78-868E-4847-BD2E-B4724213DFC6
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=utf-8
+
+
+> On Oct 11, 2016, at 8:14 AM, Samuli Piippo <samuli.piippo@qt.io> =
+wrote:
+>=20
+> Signed-off-by: Samuli Piippo <samuli.piippo@qt.io>
+> ---
+> meta/recipes-core/systemd/systemd-serialgetty.bb | 2 +-
+> 1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/meta/recipes-core/systemd/systemd-serialgetty.bb =
+b/meta/recipes-core/systemd/systemd-serialgetty.bb
+> index 768b130..c4e5310 100644
+> --- a/meta/recipes-core/systemd/systemd-serialgetty.bb
+> +++ b/meta/recipes-core/systemd/systemd-serialgetty.bb
+> @@ -38,7 +38,7 @@ do_install() {
+> 	fi
+> }
+>=20
+> -RDEPENDS_${PN} =3D "systemd"
+> +RDEPENDS_${PN} =3D "systemd util-linux-agetty=E2=80=9D
+
+Does it need agetty specifically ? since there are other providers of =
+getty as well.
+I wonder if its possible to use those too
+
+>=20
+> # This is a machine specific file
+> FILES_${PN} =3D "${systemd_unitdir}/system/*.service ${sysconfdir}"
+> --
+> 1.9.1
+>=20
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
+
+--Apple-Mail=_2D392D78-868E-4847-BD2E-B4724213DFC6
 Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+	filename=signature.asc
+Content-Type: application/pgp-signature;
+	name=signature.asc
+Content-Description: Message signed with OpenPGP using GPGMail
 
+-----BEGIN PGP SIGNATURE-----
+Comment: GPGTools - https://gpgtools.org
 
+iEYEARECAAYFAlgFYJUACgkQuwUzVZGdMxQEKgCfR/9cKK5bN95t+yen+qZom9VU
+rlMAoIH6D8Ld5xOxy6LjhGB03OgOJcaE
+=RnXJ
+-----END PGP SIGNATURE-----
 
-On 10/17/2016 07:25 AM, Saul Wold wrote:
-> This has been merged to master ping for Krogoth
-Merged to my stagging.  Thanks for the reminder.
-
-- armin
->
-> Sau!
->
-> On Mon, 2016-10-10 at 11:32 -0700, Saul Wold wrote:
->> The source archiver was not handling the gcc-source target correctly,
->> since it uses the
->> work-shared directory, we don't want to unpack and patch it twice,
->> just as the comments
->> say, but the code was not there to check for the gcc-source target.
->>
->> [YOCTO #10265]
->>
->> Signed-off-by: Saul Wold <sgw@linux.intel.com>
->> ---
->>
->>   meta/classes/archiver.bbclass | 5 +++--
->>   1 file changed, 3 insertions(+), 2 deletions(-)
->>
->> diff --git a/meta/classes/archiver.bbclass
->> b/meta/classes/archiver.bbclass
->> index 1d8e863..9239983 100644
->> --- a/meta/classes/archiver.bbclass
->> +++ b/meta/classes/archiver.bbclass
->> @@ -303,9 +303,10 @@ python do_unpack_and_patch() {
->>           return
->>       ar_outdir = d.getVar('ARCHIVER_OUTDIR', True)
->>       ar_workdir = d.getVar('ARCHIVER_WORKDIR', True)
->> +    pn = d.getVar('PN', True)
->>   
->>       # The kernel class functions require it to be on work-shared, so
->> we dont change WORKDIR
->> -    if not bb.data.inherits_class('kernel-yocto', d):
->> +    if not (bb.data.inherits_class('kernel-yocto', d) or
->> pn.startswith('gcc-source')):
->>           # Change the WORKDIR to make do_unpack do_patch run in
->> another dir.
->>           d.setVar('WORKDIR', ar_workdir)
->>   
->> @@ -323,7 +324,7 @@ python do_unpack_and_patch() {
->>           oe.path.copytree(src, src_orig)
->>   
->>       # Make sure gcc and kernel sources are patched only once
->> -    if not ((d.getVar('SRC_URI', True) == "" or
->> bb.data.inherits_class('kernel-yocto', d))):
->> +    if not (d.getVar('SRC_URI', True) == "" or
->> (bb.data.inherits_class('kernel-yocto', d) or pn.startswith('gcc-
->> source'))):
->>           bb.build.exec_func('do_patch', d)
->>   
->>       # Create the patches
->> -- 
->> 2.7.4
->>
-
-
+--Apple-Mail=_2D392D78-868E-4847-BD2E-B4724213DFC6--
