@@ -1,25 +1,37 @@
-Return-Path: <joshua.g.lock@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 06AF1719A2
+Return-Path: <o.mandel@menlosystems.com>
+X-Greylist: delayed 387 seconds by postgrey-1.34 at layers.openembedded.org;
+	Mon, 17 Oct 2016 08:23:01 UTC
+Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.10])
+	by mail.openembedded.org (Postfix) with ESMTP id 813496071F
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Oct 2016 07:09:19 +0000 (UTC)
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-	by orsmga101.jf.intel.com with ESMTP; 17 Oct 2016 00:09:20 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.31,356,1473145200"; d="scan'208";a="20365950"
-Received: from jlock-mobl1.ger.corp.intel.com ([10.252.18.238])
-	by orsmga005.jf.intel.com with ESMTP; 17 Oct 2016 00:09:16 -0700
-Message-ID: <1476688143.2604.9.camel@linux.intel.com>
-From: Joshua Lock <joshua.g.lock@linux.intel.com>
-To: leonardo.sandoval.gonzalez@linux.intel.com, 
-	openembedded-core@lists.openembedded.org
-Date: Mon, 17 Oct 2016 08:09:03 +0100
-In-Reply-To: <770d29435af19aed00bd15d8b95504218ad600ec.1476462963.git.leonardo.sandoval.gonzalez@linux.intel.com>
-References: <cover.1476462963.git.leonardo.sandoval.gonzalez@linux.intel.com>
-	<770d29435af19aed00bd15d8b95504218ad600ec.1476462963.git.leonardo.sandoval.gonzalez@linux.intel.com>
-X-Mailer: Evolution 3.20.5 (3.20.5-1.fc24) 
-Mime-Version: 1.0
-Subject: Re: [PATCH 7/9] selftest: skip runtime-test's test_testimage_install on poky-tiny distro
+	Mon, 17 Oct 2016 08:23:01 +0000 (UTC)
+Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
+	by mail-out.m-online.net (Postfix) with ESMTP id 3sy9yy1t68z3hjty;
+	Mon, 17 Oct 2016 10:16:42 +0200 (CEST)
+Received: from localhost (dynscan1.mnet-online.de [192.168.6.68])
+	by mail.m-online.net (Postfix) with ESMTP id 3sy9yx3T4JzvkRy;
+	Mon, 17 Oct 2016 10:16:41 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at mnet-online.de
+Received: from mail.mnet-online.de ([192.168.8.182])
+	by localhost (dynscan1.mail.m-online.net [192.168.6.68]) (amavisd-new,
+	port 10024)
+	with ESMTP id zbCvSREOWiyw; Mon, 17 Oct 2016 10:16:38 +0200 (CEST)
+X-Auth-Info: btydcYULZjaLNn/PObOZhl+ECzC6KCKhW5QwIRCtytf7Nbjqa1/ACgLFdRW1dExD
+Received: from menlobuildsrv.menlosystems.local
+	(host-141-40-253-38.customer.izb-online.de [141.40.253.38])
+	(using TLSv1 with cipher AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mail.mnet-online.de (Postfix) with ESMTPSA;
+	Mon, 17 Oct 2016 10:16:38 +0200 (CEST)
+From: Olaf Mandel <o.mandel@menlosystems.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 17 Oct 2016 08:16:28 +0000
+Message-Id: <1476692188-1520-2-git-send-email-o.mandel@menlosystems.com>
+X-Mailer: git-send-email 2.1.4
+In-Reply-To: <1476692188-1520-1-git-send-email-o.mandel@menlosystems.com>
+References: <1476692188-1520-1-git-send-email-o.mandel@menlosystems.com>
+Cc: Olaf Mandel <o.mandel@menlosystems.com>
+Subject: [PATCH] combo-layer: handle ambiguous git arguments
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,51 +44,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 17 Oct 2016 07:09:20 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 17 Oct 2016 08:23:01 -0000
 
-On Fri, 2016-10-14 at 11:40 -0500,
-leonardo.sandoval.gonzalez@linux.intel.com wrote:
-> From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
-> 
-> Distro poky-tiny cannot build the core-image-full-cmdline image, so
-> skip the
-> test if this is the case.
-> 
-> [YOCTO #8525]
+If a branch/src-repository has the same name as a file/directory, git
+since 1.4.0(?) gives an error like the one below:
+ambiguous argument 'bitbake': both revision and filename
+Use '--' to separate paths from revisions, like this:
+'git <command> [<revision>...] -- [<file>...]'
 
-Wouldn't it be better to use a different image, most likely with extra
-packages installed, and maybe a different list of TEST_SUITES for poky-
-tiny so that we're still testing this functionality on poky-tiny?
+Add two dashes to make the intent clear.
 
-Thanks,
+Signed-off-by: Olaf Mandel <o.mandel@menlosystems.com>
+---
+ scripts/combo-layer | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Joshua
+diff --git a/scripts/combo-layer b/scripts/combo-layer
+index 4a210fb..089b65f 100755
+--- a/scripts/combo-layer
++++ b/scripts/combo-layer
+@@ -426,7 +426,7 @@ file_exclude = %s''' % (name, file_filter or '<empty>', repo.get('file_exclude',
+                 merge.append(name)
+                 # Root all commits which have no parent in the common
+                 # ancestor in the new repository.
+-                for start in runcmd('git log --pretty=format:%%H --max-parents=0 %s' % name).split('\n'):
++                for start in runcmd('git log --pretty=format:%%H --max-parents=0 %s --' % name).split('\n'):
+                     runcmd('git replace --graft %s %s' % (start, startrev))
+             try:
+                 runcmd(merge)
+-- 
+2.1.4
 
-> 
-> Signed-off-by: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.in
-> tel.com>
-> ---
->  meta/lib/oeqa/selftest/runtime-test.py | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/meta/lib/oeqa/selftest/runtime-test.py
-> b/meta/lib/oeqa/selftest/runtime-test.py
-> index c2d5b45..e17c261 100644
-> --- a/meta/lib/oeqa/selftest/runtime-test.py
-> +++ b/meta/lib/oeqa/selftest/runtime-test.py
-> @@ -94,6 +94,8 @@ class TestImage(oeSelfTest):
->          Product: oe-core
->          Author: Mariano Lopez <mariano.lopez@intel.com>
->          """
-> +        if self.distro == 'poky-tiny':
-> +            self.skipTest('core-image-full-cmdline not buildable for
-> poky-tiny')
->  
->          features = 'INHERIT += "testimage"\n'
->          features += 'TEST_SUITES = "ping ssh selftest"\n'
-> -- 
-> 2.1.4
-> 
 
