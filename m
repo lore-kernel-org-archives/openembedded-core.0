@@ -1,32 +1,32 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 909BF71A67
+Return-Path: <Kai.Kang@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id BA13B71A6E
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Oct 2016 03:45:20 +0000 (UTC)
+	Mon, 17 Oct 2016 05:52:38 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u9H3jFAM019225
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Sun, 16 Oct 2016 20:45:15 -0700 (PDT)
-Received: from [128.224.162.183] (128.224.162.183) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.294.0;
-	Sun, 16 Oct 2016 20:45:14 -0700
-To: Christopher Larson <clarson@kergoth.com>
-References: <cover.1476351914.git.liezhi.yang@windriver.com>
-	<5efcefb8fb966ad7c7a21a6c217db43199dd7b46.1476351914.git.liezhi.yang@windriver.com>
-	<CAJTo0Lbruk380HCw_c_m5VR+RwT53XWSYGHSULhKH8ar3gQWVA@mail.gmail.com>
-	<92bbcd5d-f7f4-47f7-96c9-635f0cea48ed@windriver.com>
-	<f8b837c9-b252-751d-48b8-f3856a96160a@windriver.com>
-	<CABcZAN=o8j3NYmc1YihJPmS3Z05LMsgA9ZdaSBz_OMVWjvGQCg@mail.gmail.com>
-From: Robert Yang <liezhi.yang@windriver.com>
-Message-ID: <dea1e4c4-19f4-bfc5-f9e7-ca4b42c05db0@windriver.com>
-Date: Mon, 17 Oct 2016 11:45:12 +0800
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u9H5qbPA007594
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
+	Sun, 16 Oct 2016 22:52:38 -0700
+Received: from [128.224.162.161] (128.224.162.161) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.294.0;
+	Sun, 16 Oct 2016 22:52:37 -0700
+To: Khem Raj <raj.khem@gmail.com>
+References: <20161012023734.11991-1-kai.kang@windriver.com>
+	<CAJTo0LbhDO+ijOerKVao+s+fruJK98VqQTeMSzxir3_eYWLMbw@mail.gmail.com>
+	<57FF9CD8.9040305@windriver.com>
+	<CAJTo0LaFVw6oUW5jL7kR-B3TWenNwowGRzcG8=5K=CGqPFx+5w@mail.gmail.com>
+	<58009F43.6070904@windriver.com>
+	<CAMKF1srF3ow22DWfsj78MyaR14N5+nCxvdanXwsKqroLG_9DRg@mail.gmail.com>
+From: Kang Kai <Kai.Kang@windriver.com>
+Message-ID: <97106aec-ccb5-ae4c-1b4d-8519e6b59156@windriver.com>
+Date: Mon, 17 Oct 2016 13:52:35 +0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.2.0
+	Thunderbird/45.3.0
 MIME-Version: 1.0
-In-Reply-To: <CABcZAN=o8j3NYmc1YihJPmS3Z05LMsgA9ZdaSBz_OMVWjvGQCg@mail.gmail.com>
+In-Reply-To: <CAMKF1srF3ow22DWfsj78MyaR14N5+nCxvdanXwsKqroLG_9DRg@mail.gmail.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] package_manager.py: fix for "Argument list too long"
+Subject: Re: [PATCH] gcc-sanitizers: allow empty for lsan and tsan packages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,143 +39,84 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 17 Oct 2016 03:45:22 -0000
+X-List-Received-Date: Mon, 17 Oct 2016 05:52:39 -0000
 Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Hi Christopher,
+On 2016年10月14日 17:32, Khem Raj wrote:
+> On Fri, Oct 14, 2016 at 11:02 AM, Kang Kai <Kai.Kang@windriver.com> wrote:
+>> On 2016年10月13日 22:59, Burton, Ross wrote:
+>>
+>>
+>> On 13 October 2016 at 15:40, Kang Kai <Kai.Kang@windriver.com> wrote:
+>>> gcc checks tsan and lsan support in source file
+>>> gcc/libsanitizer/configure.tgt, it seems only support x86_64. Then tsan and
+>>> lsan related packages will be empty for other target.
+>>> For qemuarm project, add in local.conf:
+>>>
+>>> IMAGE_INSTALL_append = " libtsan"
+>>
+>> If libtsan is x86-64 only, why not only add it for x86-64 images?  The
+>> package not existing on machines it can't be built for is more obvious than
+>> existing but being empty.
+>>
+>>
+>> The real scenario is for x86-64 kernel with x86 rootfs. We created a
+>> template to enable gcc sanitize support. It just simple adds sanitize
+>> related packages to image:
+>>
+>> LIBX_DEV ?= ""
+>> LIBX_DEV_x86-64 = "liblsan-dev libtsan-dev"
+>>
+>> IMAGE_INSTALL += " \
+>>      gcc-sanitizers \
+>>      libasan-dev \
+>>      libubsan-dev \
+>>      ${LIBX_DEV} \
+>> "
+>>
+>> When multilib is enabled, it fails for x86-64 kernel with x86 rootfs such as
+>> lib32-xxx-image on qemux86-64. Var IMAGE_INSTALL will be expand with prefix
+>> lib32 but lib32-lsan* and lib32-tsan* are empty then cause the failures.
+> perhaps we should build sanitizers for multilib too ?
 
-On 10/16/2016 12:26 PM, Christopher Larson wrote:
->
-> On Fri, Oct 14, 2016 at 3:18 AM, Robert Yang <liezhi.yang@windriver.com
-> <mailto:liezhi.yang@windriver.com>> wrote:
->
->     On 10/14/2016 05:58 PM, Robert Yang wrote:
->
->
->
->         On 10/13/2016 06:39 PM, Burton, Ross wrote:
->
->
->             On 13 October 2016 at 10:45, Robert Yang <liezhi.yang@windriver.com
->             <mailto:liezhi.yang@windriver.com>
->             <mailto:liezhi.yang@windriver.com
->             <mailto:liezhi.yang@windriver.com>>> wrote:
->
->                 This is because "copyhardlinktree(deploy_arch_dir,
->             arch_channel)" does:
->                 "cp -afl deploy_arch_dir/* arch_channel", while the
->             deploy_arch_dir/* is
->                 expanded to "deploy_arch_dir/pkg1 deploy_arch_dir/pkg2
->                 deploy_arch_dir/pkg3 ..." which causes the "Argument list too long",
->                 change cwd to deploy_arch_dir can avoid the error.
->
->
->             Would it be better to change the implementation of copyhardlinktree
->             so that it
->             *can't* have this problem?
->
->
->         Good idea, thanks, updated in the repo:
->
->           git://git.openembedded.org/openembedded-core-contrib
->         <http://git.openembedded.org/openembedded-core-contrib> rbt/long
->
->         http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/long
->         <http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/long>
->
->
->     Sorry, this patch is not what I wanted to paste, it should be:
->
->     diff --git a/meta/lib/oe/path.py b/meta/lib/oe/path.py
->     index 06a5af2..1d9cca5 100644
->     --- a/meta/lib/oe/path.py
->     +++ b/meta/lib/oe/path.py
->     @@ -80,15 +80,20 @@ def copyhardlinktree(src, dst):
->              cmd = "cd %s; find . -type d -print | tar --xattrs
->     --xattrs-include='*' -cf - -C %s -p --no-recursion --files-from - | tar
->     --xattrs --xattrs-include='*' -xf - -C %s" % (src, src, dst)
->              subprocess.check_output(cmd, shell=True, stderr=subprocess.STDOUT)
->              source = ''
->     +        oldcwd = os.getcwd()
->              if os.path.isdir(src):
->     +            dst = os.path.realpath(dst)
->     +            # chdir() to src to avoid "Argument list too long" error
->     +            os.chdir(src)
->                  import glob
->     -            if len(glob.glob('%s/.??*' % src)) > 0:
->     -                source = '%s/.??* ' % src
->     -            source = source + '%s/*' % src
->     +            if len(glob.glob('./.??*')) > 0:
->     +                source = './.??* '
->     +            source += './*'
->              else:
->                  source = src
->              cmd = 'cp -afl --preserve=xattr %s %s' % (source, dst)
->              subprocess.check_output(cmd, shell=True, stderr=subprocess.STDOUT)
->     +        os.chdir(oldcwd)
->
->
-> Question, why not just pass cwd=src in the check_output() call, rather than
-> changing it in the parent python process?
-
-src can be a file or directory, so we can't simply use cwd=src, I will use
-os.getcwd() as cwd when it is not a directory. Updated patch in the repo.
-
-   git://git.openembedded.org/openembedded-core-contrib rbt/long
-
-Author: Robert Yang <liezhi.yang@windriver.com>
-Date:   Thu Oct 13 01:28:41 2016 -0700
-
-     oe/path.py: fix for "Argument list too long"
-
-     Fixed when len(TMPDIR) = 410:
-     $ bitbake core-image-sato-sdk
-     [snip]
-     Subprocess output:
-     /bin/sh: /bin/cp: Argument list too long
-
-     ERROR: core-image-sato-sdk-1.0-r0 do_rootfs: Function failed: do_rootfs
-     [snip]
-
-     This is because "copyhardlinktree(src, dst)" does "cp -afl src/* dst",
-     while src/* is expanded to "src/file1 src/file2, src/file3..." which
-     causes the "Argument list too long", use ./* as src and change cwd in
-     subprocess.check_output() to fix the problem.
-
-     Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-
-diff --git a/meta/lib/oe/path.py b/meta/lib/oe/path.py
-index 06a5af2..ed7fd1e 100644
---- a/meta/lib/oe/path.py
-+++ b/meta/lib/oe/path.py
-@@ -83,12 +83,14 @@ def copyhardlinktree(src, dst):
-          if os.path.isdir(src):
-              import glob
-              if len(glob.glob('%s/.??*' % src)) > 0:
--                source = '%s/.??* ' % src
--            source = source + '%s/*' % src
-+                source = './.??* '
-+            source += './*'
-+            s_dir = src
-          else:
-              source = src
--        cmd = 'cp -afl --preserve=xattr %s %s' % (source, dst)
--        subprocess.check_output(cmd, shell=True, stderr=subprocess.STDOUT)
-+            s_dir = os.getcwd()
-+        cmd = 'cp -afl --preserve=xattr %s %s' % (source, os.path.realpath(dst))
-+        subprocess.check_output(cmd, shell=True, cwd=s_dir, 
-stderr=subprocess.STDOUT)
-      else:
-          copytree(src, dst)
+The problem is that thread and leak sanitizers are not supported for x86 
+by checking in gcc/libsanitizer/configure.tgt:
 
 
-// Robert
+# Filter out unsupported systems.
+TSAN_TARGET_DEPENDENT_OBJECTS=
+case "${target}" in
+   x86_64-*-linux* | i?86-*-linux*)
+         if test x$ac_cv_sizeof_void_p = x8; then
+                 TSAN_SUPPORTED=yes
+                 LSAN_SUPPORTED=yes
+                 TSAN_TARGET_DEPENDENT_OBJECTS=tsan_rtl_amd64.lo
+         fi
+         ;;
+...
 
-> --
-> Christopher Larson
-> clarson at kergoth dot com
-> Founder - BitBake, OpenEmbedded, OpenZaurus
-> Maintainer - Tslib
-> Senior Software Engineer, Mentor Graphics
+that causes packages lib32-lsan* and lib32-tsan* are empty.
+
+
+--Kai
+
+>
+>> Regards,
+>> Kai
+>>
+>>
+>> Ross
+>>
+>>
+>>
+>> --
+>> Regards,
+>> Neil | Kai Kang
+
+
+-- 
+Regards,
+Neil | Kai Kang
+
 
