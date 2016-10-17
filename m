@@ -1,30 +1,24 @@
-Return-Path: <rpjday@crashcourse.ca>
-Received: from smtp684.redcondor.net (smtp684.redcondor.net [208.80.206.84])
-	by mail.openembedded.org (Postfix) with ESMTP id B928471AF8
+Return-Path: <saul.wold@intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 10E55719A0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Oct 2016 14:04:03 +0000 (UTC)
-Received: from astoria.ccjclearline.com ([64.235.106.9])
-	by smtp684.redcondor.net ({700db0a8-6fb7-4c8b-9b2a-6812225182d8})
-	via TCP (outbound) with ESMTPS id 20161017140336034_0684;
-	Mon, 17 Oct 2016 14:03:36 +0000
-X-RC-FROM: <rpjday@crashcourse.ca>
-Received: from [216.191.234.70] (port=53426 helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
-	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
-	id 1bw8Vl-00033t-N8; Mon, 17 Oct 2016 10:03:29 -0400
-Date: Mon, 17 Oct 2016 10:02:35 -0400 (EDT)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@ca624034.mitel.com
-To: Phil Blundell <pb@pbcl.net>
-In-Reply-To: <1476712219.31169.2.camel@pbcl.net>
-Message-ID: <alpine.LFD.2.20.1610170957520.8690@ca624034.mitel.com>
-References: <alpine.LFD.2.20.1610170751190.7117@ca624034.mitel.com>
-	<1476712219.31169.2.camel@pbcl.net>
-User-Agent: Alpine 2.20 (LFD 67 2015-01-07)
-MIME-Version: 1.0
-X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: SERIAL_CONSOLE versus SERIAL_CONSOLES?
+	Mon, 17 Oct 2016 14:25:46 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by orsmga103.jf.intel.com with ESMTP; 17 Oct 2016 07:25:47 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.31,357,1473145200"; d="scan'208";a="773595534"
+Received: from swold-mobl2.amr.corp.intel.com ([10.252.139.153])
+	by FMSMGA003.fm.intel.com with ESMTP; 17 Oct 2016 07:25:48 -0700
+Message-ID: <1476714346.31798.249.camel@intel.com>
+From: Saul Wold <saul.wold@intel.com>
+To: openembedded-core@lists.openembedded.org, 
+	richard.purdie@linuxfoundation.org
+Date: Mon, 17 Oct 2016 07:25:46 -0700
+In-Reply-To: <1476124325-6771-1-git-send-email-sgw@linux.intel.com>
+References: <1476124325-6771-1-git-send-email-sgw@linux.intel.com>
+X-Mailer: Evolution 3.20.5 (3.20.5-1.fc24) 
+Mime-Version: 1.0
+Subject: Re: [PATCH][master][krogoth] archiver: fix gcc-source handling
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,61 +31,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 17 Oct 2016 14:04:04 -0000
-Content-Type: multipart/mixed; BOUNDARY="587864349-2029214155-1476712678=:8690"
-Content-ID: <alpine.LFD.2.20.1610171002310.8850@ca624034.mitel.com>
+X-List-Received-Date: Mon, 17 Oct 2016 14:25:47 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
---587864349-2029214155-1476712678=:8690
-Content-Type: text/plain; CHARSET=ISO-8859-15
-Content-Transfer-Encoding: 8BIT
-Content-ID: <alpine.LFD.2.20.1610171002311.8850@ca624034.mitel.com>
+This has been merged to master ping for Krogoth
 
-On Mon, 17 Oct 2016, Phil Blundell wrote:
+Sau!
 
-> On Mon, 2016-10-17 at 07:57 -0400, Robert P. J. Day wrote:
-> >
-> � so is it a fair statement that, pedantically, i might as well just
-> > define everything in terms of SERIAL_CONSOLES and think that way?
-> >
->
-> Yes.  SERIAL_CONSOLE predates SERIAL_CONSOLES and remains supported
-> in the configuration for backwards compatibility.  New
-> configurations and recipes should probably use SERIAL_CONSOLES and
-> ignore SERIAL_CONSOLE entirely.
+On Mon, 2016-10-10 at 11:32 -0700, Saul Wold wrote:
+> The source archiver was not handling the gcc-source target correctly,
+> since it uses the
+> work-shared directory, we don't want to unpack and patch it twice,
+> just as the comments
+> say, but the code was not there to check for the gcc-source target.
+> 
+> [YOCTO #10265]
+> 
+> Signed-off-by: Saul Wold <sgw@linux.intel.com>
+> ---
+> 
+>  meta/classes/archiver.bbclass | 5 +++--
+>  1 file changed, 3 insertions(+), 2 deletions(-)
+> 
+> diff --git a/meta/classes/archiver.bbclass
+> b/meta/classes/archiver.bbclass
+> index 1d8e863..9239983 100644
+> --- a/meta/classes/archiver.bbclass
+> +++ b/meta/classes/archiver.bbclass
+> @@ -303,9 +303,10 @@ python do_unpack_and_patch() {
+>          return
+>      ar_outdir = d.getVar('ARCHIVER_OUTDIR', True)
+>      ar_workdir = d.getVar('ARCHIVER_WORKDIR', True)
+> +    pn = d.getVar('PN', True)
+>  
+>      # The kernel class functions require it to be on work-shared, so
+> we dont change WORKDIR
+> -    if not bb.data.inherits_class('kernel-yocto', d):
+> +    if not (bb.data.inherits_class('kernel-yocto', d) or
+> pn.startswith('gcc-source')):
+>          # Change the WORKDIR to make do_unpack do_patch run in
+> another dir.
+>          d.setVar('WORKDIR', ar_workdir)
+>  
+> @@ -323,7 +324,7 @@ python do_unpack_and_patch() {
+>          oe.path.copytree(src, src_orig)
+>  
+>      # Make sure gcc and kernel sources are patched only once
+> -    if not ((d.getVar('SRC_URI', True) == "" or
+> bb.data.inherits_class('kernel-yocto', d))):
+> +    if not (d.getVar('SRC_URI', True) == "" or
+> (bb.data.inherits_class('kernel-yocto', d) or pn.startswith('gcc-
+> source'))):
+>          bb.build.exec_func('do_patch', d)
+>  
+>      # Create the patches
+> -- 
+> 2.7.4
+> 
 
-  i'm good with that, thanks, and one more question related to setting
-baud rate for the console port, if i may. what is the precedence order
-for the baud rate that is actually used, given that there are a number
-of places this can be specified?
-
-  i'm building a systemd-based system, and i'm looking at the
-do_install() code in systemd-serialgetty.bb, and as i see it, if one
-is using u-boot and a device tree, the baud rate can be specified in a
-number of places.
-
-1) apparently, a number of boards defined in u-boot can set the baud
-rate in their ft_board_setup() routine.
-
-2) u-boot can pass the baud rate on the kernel command line
-
-3) the device tree blob for the target board might have the baud rate
-hard-coded in the DTB
-
-4) using SERIAL_CONSOLES
-
-  am i missing anything? if i follow the code, i'm sure i can puzzle
-it out eventually.
-
-rday
-
--- 
-
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
-
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
-
---587864349-2029214155-1476712678=:8690--
