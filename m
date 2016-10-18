@@ -1,47 +1,48 @@
 Return-Path: <raj.khem@gmail.com>
 Received: from mail-pf0-f193.google.com (mail-pf0-f193.google.com
 	[209.85.192.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 9E341719B6
+	by mail.openembedded.org (Postfix) with ESMTP id EA7EF65CBF
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Oct 2016 14:38:48 +0000 (UTC)
-Received: by mail-pf0-f193.google.com with SMTP id 128so15337607pfz.1
+	Tue, 18 Oct 2016 14:42:01 +0000 (UTC)
+Received: by mail-pf0-f193.google.com with SMTP id 128so15343936pfz.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Oct 2016 07:38:50 -0700 (PDT)
+	Tue, 18 Oct 2016 07:42:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:subject:from:in-reply-to:date:cc
 	:content-transfer-encoding:message-id:references:to;
-	bh=xfN8PfvaWn6TwL2ZRU5TXedoRJ6hl3+AkN0ZujUM5F4=;
-	b=oA7kzUTl308qde0jmlXTgNfHZsijJpW4hkfs9lid5Nrc3AsJpuqo7ZhyZgYUEmxq4X
-	SSevsylgBGM397RfejKBXDIye5b5t6j71t5xB+xlKeHLlBVKK5k2uCL1ZAFhgtk/D/n/
-	dPJZnxA1rWhY2b/5znLXwQr3gMvmnMRgj8aBhF9O6QKj0QRdgswDxoHNI0eCu2g9Wo2M
-	reXDPkC30u+j6Ls14WUDdjxqYograxElOysKxr3HAnw48kaAksO6cJVIXlLIqQHFfUK7
-	ZXxfBh8pEo1EaaQSSvazgWEnaS08MMEi+sdhfTgI5SsckfkCuCc80K/0RbnmO6h19Osg
-	Ar8Q==
+	bh=A7mIwSjvP9HRsxtDyHm9FKas6ERrMe15PT/3QWVbiwA=;
+	b=bCrPWgoHxKBRHNDdQ1UOlrG1gLqzMKb3+cSqqE1lZYllY2JMizhtW/hjWiOQtpC20V
+	3uir2xnsEOoewxtkUhuhPOY9kwC5lxLHEPJ4FkKRYErucGTdUI/nBevDv0Ug7y5KFUws
+	pbzOAFerr0OMbuEQPakbm+u+RZ7pLhOHpLZgVpyfeGY6Q9Z4TBDG9Ok6R1vOi5fOnadO
+	mMoUvg/cupoeND6nfFD5XjcCmko+5IDhgkd7A+oSR2eu2kjIguUaByBTLIZI9u9nI3Wx
+	4D8KHF/OdtyBcQIltvJoe6sErcLG0e3k+EXcyeZApqLBfpIxhzg4uOaG0Mb4npTjUN8h
+	Z9Hg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
 	:content-transfer-encoding:message-id:references:to;
-	bh=xfN8PfvaWn6TwL2ZRU5TXedoRJ6hl3+AkN0ZujUM5F4=;
-	b=Zn5dpZO1JRilV4paR4sIkSrRkynof9piYi9DIyxwdjrZwu5kW4z7fN6kurEwKUsC9E
-	SyipOoCZlLAXM6EGM3iuEzge8JPVApO0mOWVHNPNtTKbdSUIJaxeJydQo7yTsv8gvbQ4
-	+iy9b85NZupbuPcCYsWogkscl75DyMi3r+NRWiJoUK8uVf7dVRB3W+BjsiXgjYOyWGSJ
-	bPuXJ6e6g2ToUkQjo4hTVGwV9H0ngqH9G6l7F9sOqs8GnAWFZwDWmpsex0I0fT2oNQQQ
-	yz95RKJpNSp2coJhWhnjlbaw2XShz6Jc0ZYCENT9i4kPQxFNIf+5h0+8ZSdIDngY9U7G
-	5bow==
-X-Gm-Message-State: AA6/9RnPWyq2Mir7qEF+4J1/FgN6yfJH1y7FBM9DmDbxw3TAN6vjXBsIk+89VTO4l3j1ew==
-X-Received: by 10.98.97.68 with SMTP id v65mr1259099pfb.81.1476801529594;
-	Tue, 18 Oct 2016 07:38:49 -0700 (PDT)
+	bh=A7mIwSjvP9HRsxtDyHm9FKas6ERrMe15PT/3QWVbiwA=;
+	b=XV41ZmGOt561UY3l7hySedj+Ff0Z5VMwIYQHh3r4QvYoa90GQEV996wBBudAjpN7Pc
+	HgvxKDQRTKADHpDQlpuZ9HuM4P20TkIWFebMpkIxTPiES1SgSzcOsNUIMvg+oTecFkpq
+	MfJ9gVhCUWz3SefPrZ9fCi+DWVlyAP1LVEaFC9Ut/pBtm4GyOMIXgoPftujQQ4B31Dtz
+	hwPycjXynjNVpBH8Ipmcpo5dqvrpVU/c04tVmyJfEMldSysKLz3mHQuVS/AuX2vfBYGO
+	Q9/IO6LNxZ1Sq7YGn3zPe7pYgkLqy4+9C11ruNlXkYKAtbR6pOhFseI1mgkMUX9Tm44/
+	l5cQ==
+X-Gm-Message-State: AA6/9RmDGxH5oLBCcKs2hA8L0C5JTAUMegdu3XTOcczrITXJ1HmIfARBy6PKbXfBOLMuxA==
+X-Received: by 10.98.29.131 with SMTP id d125mr1284134pfd.111.1476801723441;
+	Tue, 18 Oct 2016 07:42:03 -0700 (PDT)
 Received: from ?IPv6:2601:646:8882:b8c:10af:7454:ca4e:95f6?
 	([2601:646:8882:b8c:10af:7454:ca4e:95f6])
-	by smtp.gmail.com with ESMTPSA id 3sm56615607pfo.31.2016.10.18.07.38.48
+	by smtp.gmail.com with ESMTPSA id
+	z11sm42550710pfd.49.2016.10.18.07.42.02
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 18 Oct 2016 07:38:49 -0700 (PDT)
+	Tue, 18 Oct 2016 07:42:02 -0700 (PDT)
 Mime-Version: 1.0 (1.0)
 From: Khem Raj <raj.khem@gmail.com>
 X-Mailer: iPad Mail (14B71)
 In-Reply-To: <e6c381fc-a7e3-a1ae-399b-636bb1208130@qt.io>
-Date: Tue, 18 Oct 2016 07:38:48 -0700
-Message-Id: <7DAA6609-2261-4C8A-98AE-2890A5217368@gmail.com>
+Date: Tue, 18 Oct 2016 07:42:02 -0700
+Message-Id: <4ED46338-2099-43DE-AD2B-137012EB420F@gmail.com>
 References: <1476198850-1529-1-git-send-email-samuli.piippo@qt.io>
 	<64ADE2BA-C5CE-47C5-975F-05C11DE145D2@gmail.com>
 	<e6c381fc-a7e3-a1ae-399b-636bb1208130@qt.io>
@@ -60,7 +61,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Oct 2016 14:38:48 -0000
+X-List-Received-Date: Tue, 18 Oct 2016 14:42:04 -0000
 Content-Type: text/plain;
 	charset=utf-8
 Content-Transfer-Encoding: quoted-printable
@@ -98,8 +99,8 @@ ty as well.
 > systemd also has util-linux-agetty in RECOMMENDS, but that could perhaps b=
 e removed.
 
-I see, in this case its fine however it means we need to edit out more if no=
-t using a Getty
+Hmm recommends is probably appropriate for this recipe too so it can be adde=
+d to bad recommendations if needed
 >=20
 >>=20
 >>>=20
