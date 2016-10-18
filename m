@@ -1,39 +1,28 @@
-Return-Path: <juro.bystricky@intel.com>
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
-	by mail.openembedded.org (Postfix) with ESMTP id BB1DD71A5E
+Return-Path: <vesa.jaaskelainen@vaisala.com>
+Received: from hel-mailgw-01.vaisala.com (hel-mailgw-01.vaisala.com
+	[193.143.230.17])
+	by mail.openembedded.org (Postfix) with ESMTP id E85C371998
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Oct 2016 15:33:09 +0000 (UTC)
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-	by orsmga104.jf.intel.com with ESMTP; 18 Oct 2016 08:33:10 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.31,362,1473145200"; d="scan'208";a="20863038"
-Received: from orsmsx102.amr.corp.intel.com ([10.22.225.129])
-	by fmsmga005.fm.intel.com with ESMTP; 18 Oct 2016 08:33:10 -0700
-Received: from orsmsx153.amr.corp.intel.com (10.22.226.247) by
-	ORSMSX102.amr.corp.intel.com (10.22.225.129) with Microsoft SMTP Server
-	(TLS) id 14.3.248.2; Tue, 18 Oct 2016 08:33:10 -0700
-Received: from orsmsx112.amr.corp.intel.com ([169.254.3.16]) by
-	ORSMSX153.amr.corp.intel.com ([10.22.226.247]) with mapi id
-	14.03.0248.002; Tue, 18 Oct 2016 08:33:10 -0700
-From: "Bystricky, Juro" <juro.bystricky@intel.com>
-To: Khem Raj <raj.khem@gmail.com>
-Thread-Topic: [OE-core] [PATCH] insane.bbclass: Additional "mips" and
-	"mipsel" machine definitions
-Thread-Index: AQHSI+COJkptfSD32kuJlPEljcMG16CtzI4AgACVLHA=
-Date: Tue, 18 Oct 2016 15:33:09 +0000
-Message-ID: <6E51916E4A1F32428260031F4C7CD2B61189B107@ORSMSX112.amr.corp.intel.com>
-References: <1476204984-35157-1-git-send-email-juro.bystricky@intel.com>
-	<A514EEE8-721D-425F-8DDF-CDE0624D698E@gmail.com>
-In-Reply-To: <A514EEE8-721D-425F-8DDF-CDE0624D698E@gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.22.254.139]
+	Tue, 18 Oct 2016 15:46:41 +0000 (UTC)
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-Anti-Spam-Result: A2CsBACPQwZY/+EBGKxcHgYMgzwBAQEBAYFwtmKCD4IIhiGCPhMBAgEBAQEBAQGBCYULDwFGGRwCJgJyoTOdMYx2DCaBB45hgnWCPh0FjzSKVJAIj3VJkDIgA4QMG4FWb4gZAQEB
+X-IPAS-Result: A2CsBACPQwZY/+EBGKxcHgYMgzwBAQEBAYFwtmKCD4IIhiGCPhMBAgEBAQEBAQGBCYULDwFGGRwCJgJyoTOdMYx2DCaBB45hgnWCPh0FjzSKVJAIj3VJkDIgA4QMG4FWb4gZAQEB
+X-IronPort-AV: E=Sophos;i="5.31,362,1473109200"; d="scan'208";a="32275081"
+Received: from hel-smtp.corp.vaisala.com ([172.24.1.225])
+	by hel-mailgw-01.vaisala.com with ESMTP; 18 Oct 2016 18:46:19 +0300
+Received: from debian8-vej-yoctovm.corp.vaisala.com ([172.24.65.132]) by
+	HEL-SMTP.corp.vaisala.com over TLS secured channel with
+	Microsoft SMTPSVC(8.5.9600.16384); Tue, 18 Oct 2016 18:46:19 +0300
+From: =?UTF-8?q?Vesa=20J=C3=A4=C3=A4skel=C3=A4inen?=
+	<vesa.jaaskelainen@vaisala.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 18 Oct 2016 18:46:09 +0300
+Message-Id: <1476805570-81549-1-git-send-email-vesa.jaaskelainen@vaisala.com>
+X-Mailer: git-send-email 2.1.4
 MIME-Version: 1.0
-Cc: "jurobystricky@hotmail.com" <jurobystricky@hotmail.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] insane.bbclass: Additional "mips" and "mipsel" machine definitions
+X-OriginalArrivalTime: 18 Oct 2016 15:46:19.0178 (UTC)
+	FILETIME=[C4BC80A0:01D22956]
+Subject: [PATCH 1/2] image_types: Add support to compress initramfs with lz4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,69 +35,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Oct 2016 15:33:09 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 18 Oct 2016 15:46:42 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-yes, good point. I will resend the patch with an updated commit=20
-message.
+Changed to use lz4 as lz4c seems to be deprecated.
 
+Removed use of redirection in favor of using output file.
 
-> -----Original Message-----
-> From: Khem Raj [mailto:raj.khem@gmail.com]
-> Sent: Monday, October 17, 2016 4:38 PM
-> To: Bystricky, Juro <juro.bystricky@intel.com>
-> Cc: openembedded-core@lists.openembedded.org; jurobystricky@hotmail.com
-> Subject: Re: [OE-core] [PATCH] insane.bbclass: Additional "mips" and
-> "mipsel" machine definitions
->=20
->=20
-> > On Oct 11, 2016, at 9:56 AM, Juro Bystricky <juro.bystricky@intel.com>
-> wrote:
-> >
-> > Add "mips" and "mipsel" to "machdata" table.
-> > Although there is a way to add entries to the "machdata" table
-> > from a BSP without modifying the insane.bbclass directly, MIPS is
-> > already supported in poky and as such the relevant entries should be
-> > present in insane.bbclass.
->=20
-> perhaps say s/poky/openembedded-core/ here since thats where the patch
-> is going to go.
->=20
-> >
-> > Signed-off-by: Juro Bystricky <juro.bystricky@intel.com>
-> > ---
-> > meta/classes/insane.bbclass | 2 ++
-> > 1 file changed, 2 insertions(+)
-> >
-> > diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
-> > index b347638..21c5cda 100644
-> > --- a/meta/classes/insane.bbclass
-> > +++ b/meta/classes/insane.bbclass
-> > @@ -66,6 +66,8 @@ def package_qa_get_machine_dict(d):
-> >                         "i586" :      (3,      0,    0,          True,
-> 32),
-> >                         "x86_64":     (62,     0,    0,          True,
-> 64),
-> >                         "epiphany":   (4643,   0,    0,          True,
-> 32),
-> > +                        "mips":       ( 8,     0,    0,          False=
-,
-> 32),
-> > +                        "mipsel":     ( 8,     0,    0,          True,
-> 32),
-> >                       },
-> >             "linux" : {
-> >                         "aarch64" :   (183,    0,    0,          True,
-> 64),
-> > --
-> > 2.7.4
-> >
-> > --
-> > _______________________________________________
-> > Openembedded-core mailing list
-> > Openembedded-core@lists.openembedded.org
-> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
+As Linux kernel supports only legacy format for initial ramdisk add
+COMPRESS_CMD_lz4_legacy mode in case some users are using newer format.
+
+Signed-off-by: Vesa Jääskeläinen <vesa.jaaskelainen@vaisala.com>
+---
+ meta/classes/image_types.bbclass       | 3 ++-
+ meta/classes/image_types_uboot.bbclass | 5 ++++-
+ 2 files changed, 6 insertions(+), 2 deletions(-)
+
+diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
+index a7fffbc..772cb35 100644
+--- a/meta/classes/image_types.bbclass
++++ b/meta/classes/image_types.bbclass
+@@ -333,7 +333,8 @@ CONVERSION_CMD_lzma = "lzma -k -f -7 ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}"
+ CONVERSION_CMD_gz = "gzip -f -9 -c ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} > ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.gz"
+ CONVERSION_CMD_bz2 = "pbzip2 -f -k ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}"
+ CONVERSION_CMD_xz = "xz -f -k -c ${XZ_COMPRESSION_LEVEL} ${XZ_THREADS} --check=${XZ_INTEGRITY_CHECK} ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} > ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.xz"
+-CONVERSION_CMD_lz4 = "lz4c -9 -c ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} > ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.lz4"
++CONVERSION_CMD_lz4 = "lz4 -9 -z ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.lz4"
++CONVERSION_CMD_lz4_legacy = "lz4 -9 -z -l ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.lz4"
+ CONVERSION_CMD_zip = "zip ${ZIP_COMPRESSION_LEVEL} ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.zip ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}"
+ CONVERSION_CMD_sum = "sumtool -i ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} -o ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.sum ${JFFS2_SUM_EXTRA_ARGS}"
+ CONVERSION_CMD_md5sum = "md5sum ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} > ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.md5sum"
+diff --git a/meta/classes/image_types_uboot.bbclass b/meta/classes/image_types_uboot.bbclass
+index 6c8c1ff..49028fa 100644
+--- a/meta/classes/image_types_uboot.bbclass
++++ b/meta/classes/image_types_uboot.bbclass
+@@ -8,7 +8,7 @@ oe_mkimage () {
+     fi
+ }
+ 
+-CONVERSIONTYPES += "gz.u-boot bz2.u-boot lzma.u-boot u-boot"
++CONVERSIONTYPES += "gz.u-boot bz2.u-boot lz4.u-boot lzma.u-boot u-boot"
+ 
+ CONVERSION_DEPENDS_u-boot = "u-boot-mkimage-native"
+ CONVERSION_CMD_u-boot      = "oe_mkimage ${IMAGE_NAME}.rootfs.${type} none"
+@@ -19,6 +19,9 @@ CONVERSION_CMD_gz.u-boot      = "${CONVERSION_CMD_gz}; oe_mkimage ${IMAGE_NAME}.
+ CONVERSION_DEPENDS_bz2.u-boot = "u-boot-mkimage-native"
+ CONVERSION_CMD_bz2.u-boot      = "${CONVERSION_CMD_bz2}; oe_mkimage ${IMAGE_NAME}.rootfs.${type}.bz2 bzip2 clean"
+ 
++CONVERSION_DEPENDS_lz4.u-boot = "u-boot-mkimage-native"
++CONVERSION_CMD_lz4.u-boot      = "${CONVERSION_CMD_lz4_legacy}; oe_mkimage ${IMAGE_NAME}.rootfs.${type}.lz4 lz4 clean"
++
+ CONVERSION_DEPENDS_lzma.u-boot = "u-boot-mkimage-native"
+ CONVERSION_CMD_lzma.u-boot      = "${CONVERSION_CMD_lzma}; oe_mkimage ${IMAGE_NAME}.rootfs.${type}.lzma lzma clean"
+ 
+-- 
+2.1.4
 
 
