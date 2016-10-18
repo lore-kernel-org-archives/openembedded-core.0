@@ -1,28 +1,39 @@
-Return-Path: <Randy.MacLeod@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 2047B71A38
+Return-Path: <juro.bystricky@intel.com>
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+	by mail.openembedded.org (Postfix) with ESMTP id BB1DD71A5E
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Oct 2016 15:13:12 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u9IFDDQp013795
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 18 Oct 2016 08:13:13 -0700 (PDT)
-Received: from [172.25.44.6] (172.25.44.6) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.294.0;
-	Tue, 18 Oct 2016 08:13:12 -0700
-To: Jussi Kukkonen <jussi.kukkonen@intel.com>,
-	<openembedded-core@lists.openembedded.org>
-References: <cover.1476469708.git.jussi.kukkonen@intel.com>
-From: Randy MacLeod <randy.macleod@windriver.com>
-Message-ID: <0464acab-69a2-715d-5a3d-61e3961e8ccb@windriver.com>
-Date: Tue, 18 Oct 2016 11:13:11 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.3.0
+	Tue, 18 Oct 2016 15:33:09 +0000 (UTC)
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+	by orsmga104.jf.intel.com with ESMTP; 18 Oct 2016 08:33:10 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.31,362,1473145200"; d="scan'208";a="20863038"
+Received: from orsmsx102.amr.corp.intel.com ([10.22.225.129])
+	by fmsmga005.fm.intel.com with ESMTP; 18 Oct 2016 08:33:10 -0700
+Received: from orsmsx153.amr.corp.intel.com (10.22.226.247) by
+	ORSMSX102.amr.corp.intel.com (10.22.225.129) with Microsoft SMTP Server
+	(TLS) id 14.3.248.2; Tue, 18 Oct 2016 08:33:10 -0700
+Received: from orsmsx112.amr.corp.intel.com ([169.254.3.16]) by
+	ORSMSX153.amr.corp.intel.com ([10.22.226.247]) with mapi id
+	14.03.0248.002; Tue, 18 Oct 2016 08:33:10 -0700
+From: "Bystricky, Juro" <juro.bystricky@intel.com>
+To: Khem Raj <raj.khem@gmail.com>
+Thread-Topic: [OE-core] [PATCH] insane.bbclass: Additional "mips" and
+	"mipsel" machine definitions
+Thread-Index: AQHSI+COJkptfSD32kuJlPEljcMG16CtzI4AgACVLHA=
+Date: Tue, 18 Oct 2016 15:33:09 +0000
+Message-ID: <6E51916E4A1F32428260031F4C7CD2B61189B107@ORSMSX112.amr.corp.intel.com>
+References: <1476204984-35157-1-git-send-email-juro.bystricky@intel.com>
+	<A514EEE8-721D-425F-8DDF-CDE0624D698E@gmail.com>
+In-Reply-To: <A514EEE8-721D-425F-8DDF-CDE0624D698E@gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.22.254.139]
 MIME-Version: 1.0
-In-Reply-To: <cover.1476469708.git.jussi.kukkonen@intel.com>
-X-Originating-IP: [172.25.44.6]
-Subject: Re: [PATCH 0/2] Re-add piglit to sdk images
+Cc: "jurobystricky@hotmail.com" <jurobystricky@hotmail.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] insane.bbclass: Additional "mips" and "mipsel" machine definitions
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,24 +46,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Oct 2016 15:13:14 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 18 Oct 2016 15:33:09 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-On 2016-10-14 02:31 PM, Jussi Kukkonen wrote:
-> Piglit was removed because the current version was making sdk
-> images too large. This patchset reduces the installed size by 1.5GB
-> and adds piglit back to core-tools-testapps.
->
-> Running piglit still requires the same amount of space so in practice
-> this is useful for installed images only.
->
-> Q: Do I need to declare a runtime dependency that typically comes
-> from busybox (tar)?
+yes, good point. I will resend the patch with an updated commit=20
+message.
 
-Yes, because some people try to eliminate busybox from their image.
--- 
-# Randy MacLeod. SMTS, Linux, Wind River
-Direct: 613.963.1350 | 350 Terry Fox Drive, Suite 200, Ottawa, ON, 
-Canada, K2K 2W5
+
+> -----Original Message-----
+> From: Khem Raj [mailto:raj.khem@gmail.com]
+> Sent: Monday, October 17, 2016 4:38 PM
+> To: Bystricky, Juro <juro.bystricky@intel.com>
+> Cc: openembedded-core@lists.openembedded.org; jurobystricky@hotmail.com
+> Subject: Re: [OE-core] [PATCH] insane.bbclass: Additional "mips" and
+> "mipsel" machine definitions
+>=20
+>=20
+> > On Oct 11, 2016, at 9:56 AM, Juro Bystricky <juro.bystricky@intel.com>
+> wrote:
+> >
+> > Add "mips" and "mipsel" to "machdata" table.
+> > Although there is a way to add entries to the "machdata" table
+> > from a BSP without modifying the insane.bbclass directly, MIPS is
+> > already supported in poky and as such the relevant entries should be
+> > present in insane.bbclass.
+>=20
+> perhaps say s/poky/openembedded-core/ here since thats where the patch
+> is going to go.
+>=20
+> >
+> > Signed-off-by: Juro Bystricky <juro.bystricky@intel.com>
+> > ---
+> > meta/classes/insane.bbclass | 2 ++
+> > 1 file changed, 2 insertions(+)
+> >
+> > diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
+> > index b347638..21c5cda 100644
+> > --- a/meta/classes/insane.bbclass
+> > +++ b/meta/classes/insane.bbclass
+> > @@ -66,6 +66,8 @@ def package_qa_get_machine_dict(d):
+> >                         "i586" :      (3,      0,    0,          True,
+> 32),
+> >                         "x86_64":     (62,     0,    0,          True,
+> 64),
+> >                         "epiphany":   (4643,   0,    0,          True,
+> 32),
+> > +                        "mips":       ( 8,     0,    0,          False=
+,
+> 32),
+> > +                        "mipsel":     ( 8,     0,    0,          True,
+> 32),
+> >                       },
+> >             "linux" : {
+> >                         "aarch64" :   (183,    0,    0,          True,
+> 64),
+> > --
+> > 2.7.4
+> >
+> > --
+> > _______________________________________________
+> > Openembedded-core mailing list
+> > Openembedded-core@lists.openembedded.org
+> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
 
