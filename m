@@ -1,25 +1,29 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by mail.openembedded.org (Postfix) with ESMTP id 115DA71A52
+Return-Path: <amarnath.valluri@intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 1C10660132
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Oct 2016 02:51:43 +0000 (UTC)
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-	by orsmga105.jf.intel.com with ESMTP; 17 Oct 2016 19:51:44 -0700
+	Tue, 18 Oct 2016 06:48:27 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga102.fm.intel.com with ESMTP; 17 Oct 2016 23:48:29 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.31,359,1473145200"; d="scan'208";a="20627613"
-Received: from ssethurx-mobl.gar.corp.intel.com (HELO
-	peggleto-mobl.ger.corp.intel.com) ([10.255.157.103])
-	by fmsmga005.fm.intel.com with ESMTP; 17 Oct 2016 19:51:42 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 18 Oct 2016 15:51:16 +1300
-Message-Id: <d34af1901e034160aa61c4cf74dbce4cefdd1013.1476759034.git.paul.eggleton@linux.intel.com>
-X-Mailer: git-send-email 2.5.5
-In-Reply-To: <cover.1476759034.git.paul.eggleton@linux.intel.com>
-References: <cover.1476759034.git.paul.eggleton@linux.intel.com>
-In-Reply-To: <cover.1476759034.git.paul.eggleton@linux.intel.com>
-References: <cover.1476759034.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 1/1] devtool: runqemu: work around runqemu script path assumption
+X-IronPort-AV: E=Sophos;i="5.31,508,1473145200"; 
+	d="scan'208,217";a="1046219209"
+Received: from avalluri-gigabyte.fi.intel.com (HELO [10.237.72.170])
+	([10.237.72.170])
+	by orsmga001.jf.intel.com with ESMTP; 17 Oct 2016 23:48:28 -0700
+To: Khem Raj <raj.khem@gmail.com>
+References: <1476451269-11260-1-git-send-email-amarnath.valluri@intel.com>
+	<CAMKF1soK1czJxYNo2H=gQsk2SvvvYexL9DSa7p+Yz8Yw3FL+zQ@mail.gmail.com>
+From: Amarnath Valluri <amarnath.valluri@intel.com>
+Message-ID: <7fbd0d05-46a3-81d6-2fef-8c0bc4ea1435@intel.com>
+Date: Tue, 18 Oct 2016 09:49:00 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.3.0
+MIME-Version: 1.0
+In-Reply-To: <CAMKF1soK1czJxYNo2H=gQsk2SvvvYexL9DSa7p+Yz8Yw3FL+zQ@mail.gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [meta-oe][PATCH] glmark2: Enabling c++ 11 features
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,40 +36,124 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Oct 2016 02:51:43 -0000
+X-List-Received-Date: Tue, 18 Oct 2016 06:48:29 -0000
+Content-Type: multipart/alternative;
+	boundary="------------76C97791C0B03CC2867038D4"
 
-The new runqemu script assumes that if OECORE_NATIVE_SYSROOT is set then
-it shouldn't try to run bitbake to find out the values of various
-variables such as DEPLOY_DIR_IMAGE; this assumption is incorrect for the
-extensible SDK. To work around this, clear OECORE_NATIVE_SYSROOT in the
-environment when running runqemu.
+--------------76C97791C0B03CC2867038D4
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"; format="flowed"
+Content-Transfer-Encoding: base64
 
-Fixes [YOCTO #10447].
+CgpPbiBGcmlkYXkgMTQgT2N0b2JlciAyMDE2IDA1OjEzIFBNLCBLaGVtIFJhaiB3cm90ZToKPiBP
+biBGcmksIE9jdCAxNCwgMjAxNiBhdCAzOjIxIFBNLCBBbWFybmF0aCBWYWxsdXJpCj4gPGFtYXJu
+YXRoLnZhbGx1cmlAaW50ZWwuY29tPiAgd3JvdGU6Cj4+ID5UaGUgZmFpbHVyZSB3YXM6Cj4+ID58
+IC4uL3NyYy9pbWFnZS1yZWFkZXIuY3BwOiBJbiBtZW1iZXIgZnVuY3Rpb24gJ2Jvb2wgUE5HUmVh
+ZGVyOjppbml0KGNvbnN0Cj4+ID5zdHJpbmcmKSc6Cj4+ID58IC4uL3NyYy9pbWFnZS1yZWFkZXIu
+Y3BwOjEyMzoxNjogZXJyb3I6ICd1bmlxdWVfcHRyJyBpbiBuYW1lc3BhY2UgJ3N0ZCcgZG9lcwo+
+PiA+bm90IG5hbWUgYSB0ZW1wbGF0ZSB0eXBlCj4+ID4KPj4gPlRoaXMgY2hhbmdlIGVuYWJsZXMg
+YysrMTEgZmVhdHVyZXMsIGFzIGNvZGUgdXNlaW5nIHRoZW0uCj4+ID4KPj4gPlNpZ25lZC1vZmYt
+Ynk6IEFtYXJuYXRoIFZhbGx1cmk8YW1hcm5hdGgudmFsbHVyaUBpbnRlbC5jb20+Cj4+ID4tLS0K
+Pj4gPiAgbWV0YS1vZS9yZWNpcGVzLWJlbmNobWFyay9nbG1hcmsyL2dsbWFyazJfZ2l0LmJiIHwg
+MyArKysKPj4gPiAgMSBmaWxlIGNoYW5nZWQsIDMgaW5zZXJ0aW9ucygrKQo+PiA+Cj4+ID5kaWZm
+IC0tZ2l0IGEvbWV0YS1vZS9yZWNpcGVzLWJlbmNobWFyay9nbG1hcmsyL2dsbWFyazJfZ2l0LmJi
+IGIvbWV0YS1vZS9yZWNpcGVzLWJlbmNobWFyay9nbG1hcmsyL2dsbWFyazJfZ2l0LmJiCj4+ID5p
+bmRleCAzOTZhZTcwLi40Y2IyMzNiIDEwMDY0NAo+PiA+LS0tIGEvbWV0YS1vZS9yZWNpcGVzLWJl
+bmNobWFyay9nbG1hcmsyL2dsbWFyazJfZ2l0LmJiCj4+ID4rKysgYi9tZXRhLW9lL3JlY2lwZXMt
+YmVuY2htYXJrL2dsbWFyazIvZ2xtYXJrMl9naXQuYmIKPj4gPkBAIC0yOCw2ICsyOCw5IEBAIFBB
+Q0tBR0VDT05GSUcgPz0gIiR7QGJiLnV0aWxzLmNvbnRhaW5zKCdESVNUUk9fRkVBVFVSRVMnLCAn
+eDExIG9wZW5nbCcsICd4MTEtZ2wKPj4gPiAgICAgICAgICAgICAgICAgICAgJHtAYmIudXRpbHMu
+Y29udGFpbnMoJ0RJU1RST19GRUFUVVJFUycsICd3YXlsYW5kIG9wZW5nbCcsICd3YXlsYW5kLWds
+IHdheWxhbmQtZ2xlczInLCAnJywgZCl9IFwKPj4gPiAgICAgICAgICAgICAgICAgICAgZHJtLWds
+IGRybS1nbGVzMiIKPj4gPgo+PiA+KyMgRW5hYmxlIEMrKzExIGZlYXR1cmVzCj4+ID4rQ1hYRkxB
+R1MgKz0gIi0tc3RkPWMrKzExIgo+IGdjYzYgbm93IGRlZmF1bHRzIHRvICAtc3RkPWdudSsrMTQs
+c28gSSBoYXZlIGNvdXBsZSBvZiAgcXVlc3Rpb25zIGhlcmUKPgo+ICAgQXJlIHlvdSBwaW5uaW5n
+IGl0IHRvIGMrKzExIGJlY2F1c2UgaXQgZG9lc250IGNvbXBpbGUgd2l0aCBjKysxNCA/IG9yCj4g
+aXMgaXQgYmVjYXVzZSBwYWNrYWdlIGlzIGV4cGxpY2l0bHkgb3ZlcnJkaW5nIHRoZSBzdGQgb3B0
+aW9uLiBJbiBsYXR0ZXIgY2FzZQo+IHBlcmhhcHMgaXRzIGJldHRlciB0byBwYXRjaCB0aGUgcGFj
+a2FnZSBhbmQgYWxzbyBzdWJtaXQgaXQgdXBzdHJlYW0KPgpUaGlzIGZhaWx1cmUgd2FzIHZpc2li
+bGUgd2l0aCBnY2MgdmVyc2lvbiA1LjQoR0NDVkVSU0lPTj01LiUpLiAgV2l0aCAKZ2NjNiBJdCBi
+dWlsdCBzdWNjZXNzZnVsbHkuCgotIEFtYXJuYXRoCgoKLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tCkludGVsIEZpbmxh
+bmQgT3kKUmVnaXN0ZXJlZCBBZGRyZXNzOiBQTCAyODEsIDAwMTgxIEhlbHNpbmtpIApCdXNpbmVz
+cyBJZGVudGl0eSBDb2RlOiAwMzU3NjA2IC0gNCAKRG9taWNpbGVkIGluIEhlbHNpbmtpIAoKVGhp
+cyBlLW1haWwgYW5kIGFueSBhdHRhY2htZW50cyBtYXkgY29udGFpbiBjb25maWRlbnRpYWwgbWF0
+ZXJpYWwgZm9yCnRoZSBzb2xlIHVzZSBvZiB0aGUgaW50ZW5kZWQgcmVjaXBpZW50KHMpLiBBbnkg
+cmV2aWV3IG9yIGRpc3RyaWJ1dGlvbgpieSBvdGhlcnMgaXMgc3RyaWN0bHkgcHJvaGliaXRlZC4g
+SWYgeW91IGFyZSBub3QgdGhlIGludGVuZGVkCnJlY2lwaWVudCwgcGxlYXNlIGNvbnRhY3QgdGhl
+IHNlbmRlciBhbmQgZGVsZXRlIGFsbCBjb3BpZXMuCg==
 
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
----
- scripts/lib/devtool/runqemu.py | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+--------------76C97791C0B03CC2867038D4
+MIME-Version: 1.0
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-diff --git a/scripts/lib/devtool/runqemu.py b/scripts/lib/devtool/runqemu.py
-index 303abca..ae25cee 100644
---- a/scripts/lib/devtool/runqemu.py
-+++ b/scripts/lib/devtool/runqemu.py
-@@ -48,7 +48,12 @@ def runqemu(args, config, basepath, workspace):
-         raise DevtoolError('Unable to determine image name to run, please specify one')
- 
-     try:
--        exec_build_env_command(config.init_path, basepath, 'runqemu %s %s %s' % (machine, imagename, " ".join(args.args)), watch=True)
-+        # FIXME runqemu assumes that if OECORE_NATIVE_SYSROOT is set then it shouldn't
-+        # run bitbake to find out the values of various environment variables, which
-+        # isn't the case for the extensible SDK. Work around it for now.
-+        newenv = dict(os.environ)
-+        newenv.pop('OECORE_NATIVE_SYSROOT', '')
-+        exec_build_env_command(config.init_path, basepath, 'runqemu %s %s %s' % (machine, imagename, " ".join(args.args)), watch=True, env=newenv)
-     except bb.process.ExecutionError as e:
-         # We've already seen the output since watch=True, so just ensure we return something to the user
-         return e.exitcode
--- 
-2.5.5
+PGh0bWw+CiAgPGhlYWQ+CiAgICA8bWV0YSBjb250ZW50PSJ0ZXh0L2h0bWw7IGNoYXJzZXQ9dXRm
+LTgiIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSI+CiAgPC9oZWFkPgogIDxib2R5IGJnY29sb3I9
+IiNGRkZGRkYiIHRleHQ9IiMwMDAwMDAiPgogICAgPHA+PGJyPgogICAgPC9wPgogICAgPGJyPgog
+ICAgPGRpdiBjbGFzcz0ibW96LWNpdGUtcHJlZml4Ij5PbiBGcmlkYXkgMTQgT2N0b2JlciAyMDE2
+IDA1OjEzIFBNLAogICAgICBLaGVtIFJhaiB3cm90ZTo8YnI+CiAgICA8L2Rpdj4KICAgIDxibG9j
+a3F1b3RlCmNpdGU9Im1pZDpDQU1LRjFzb0sxY3pKeFlObzJIPWdRc2syU3Z2dllleEw5RFNhN3Ar
+WXo4WXczRkwrelFAbWFpbC5nbWFpbC5jb20iCiAgICAgIHR5cGU9ImNpdGUiPgogICAgICA8cHJl
+IHdyYXA9IiI+T24gRnJpLCBPY3QgMTQsIDIwMTYgYXQgMzoyMSBQTSwgQW1hcm5hdGggVmFsbHVy
+aQo8YSBtb3otZG8tbm90LXNlbmQ9InRydWUiIGNsYXNzPSJtb3otdHh0LWxpbmstcmZjMjM5NkUi
+IGhyZWY9Im1haWx0bzphbWFybmF0aC52YWxsdXJpQGludGVsLmNvbSI+Jmx0O2FtYXJuYXRoLnZh
+bGx1cmlAaW50ZWwuY29tJmd0OzwvYT4gd3JvdGU6CjwvcHJlPgogICAgICA8YmxvY2txdW90ZSB0
+eXBlPSJjaXRlIiBzdHlsZT0iY29sb3I6ICMwMDAwMDA7Ij4KICAgICAgICA8cHJlIHdyYXA9IiI+
+PHNwYW4gY2xhc3M9Im1vei10eHQtY2l0ZXRhZ3MiPiZndDsgPC9zcGFuPlRoZSBmYWlsdXJlIHdh
+czoKPHNwYW4gY2xhc3M9Im1vei10eHQtY2l0ZXRhZ3MiPiZndDsgPC9zcGFuPnwgLi4vc3JjL2lt
+YWdlLXJlYWRlci5jcHA6IEluIG1lbWJlciBmdW5jdGlvbiAnYm9vbCBQTkdSZWFkZXI6OmluaXQo
+Y29uc3QKPHNwYW4gY2xhc3M9Im1vei10eHQtY2l0ZXRhZ3MiPiZndDsgPC9zcGFuPnN0cmluZyZh
+bXA7KSc6CjxzcGFuIGNsYXNzPSJtb3otdHh0LWNpdGV0YWdzIj4mZ3Q7IDwvc3Bhbj58IC4uL3Ny
+Yy9pbWFnZS1yZWFkZXIuY3BwOjEyMzoxNjogZXJyb3I6ICd1bmlxdWVfcHRyJyBpbiBuYW1lc3Bh
+Y2UgJ3N0ZCcgZG9lcwo8c3BhbiBjbGFzcz0ibW96LXR4dC1jaXRldGFncyI+Jmd0OyA8L3NwYW4+
+bm90IG5hbWUgYSB0ZW1wbGF0ZSB0eXBlCjxzcGFuIGNsYXNzPSJtb3otdHh0LWNpdGV0YWdzIj4m
+Z3Q7PC9zcGFuPgo8c3BhbiBjbGFzcz0ibW96LXR4dC1jaXRldGFncyI+Jmd0OyA8L3NwYW4+VGhp
+cyBjaGFuZ2UgZW5hYmxlcyBjKysxMSBmZWF0dXJlcywgYXMgY29kZSB1c2VpbmcgdGhlbS4KPHNw
+YW4gY2xhc3M9Im1vei10eHQtY2l0ZXRhZ3MiPiZndDs8L3NwYW4+CjxzcGFuIGNsYXNzPSJtb3ot
+dHh0LWNpdGV0YWdzIj4mZ3Q7IDwvc3Bhbj5TaWduZWQtb2ZmLWJ5OiBBbWFybmF0aCBWYWxsdXJp
+IDxhIG1vei1kby1ub3Qtc2VuZD0idHJ1ZSIgY2xhc3M9Im1vei10eHQtbGluay1yZmMyMzk2RSIg
+aHJlZj0ibWFpbHRvOmFtYXJuYXRoLnZhbGx1cmlAaW50ZWwuY29tIj4mbHQ7YW1hcm5hdGgudmFs
+bHVyaUBpbnRlbC5jb20mZ3Q7PC9hPgo8c3BhbiBjbGFzcz0ibW96LXR4dC1jaXRldGFncyI+Jmd0
+OyA8L3NwYW4+LS0tCjxzcGFuIGNsYXNzPSJtb3otdHh0LWNpdGV0YWdzIj4mZ3Q7IDwvc3Bhbj4g
+bWV0YS1vZS9yZWNpcGVzLWJlbmNobWFyay9nbG1hcmsyL2dsbWFyazJfZ2l0LmJiIHwgMyArKysK
+PHNwYW4gY2xhc3M9Im1vei10eHQtY2l0ZXRhZ3MiPiZndDsgPC9zcGFuPiAxIGZpbGUgY2hhbmdl
+ZCwgMyBpbnNlcnRpb25zKCspCjxzcGFuIGNsYXNzPSJtb3otdHh0LWNpdGV0YWdzIj4mZ3Q7PC9z
+cGFuPgo8c3BhbiBjbGFzcz0ibW96LXR4dC1jaXRldGFncyI+Jmd0OyA8L3NwYW4+ZGlmZiAtLWdp
+dCBhL21ldGEtb2UvcmVjaXBlcy1iZW5jaG1hcmsvZ2xtYXJrMi9nbG1hcmsyX2dpdC5iYiBiL21l
+dGEtb2UvcmVjaXBlcy1iZW5jaG1hcmsvZ2xtYXJrMi9nbG1hcmsyX2dpdC5iYgo8c3BhbiBjbGFz
+cz0ibW96LXR4dC1jaXRldGFncyI+Jmd0OyA8L3NwYW4+aW5kZXggMzk2YWU3MC4uNGNiMjMzYiAx
+MDA2NDQKPHNwYW4gY2xhc3M9Im1vei10eHQtY2l0ZXRhZ3MiPiZndDsgPC9zcGFuPi0tLSBhL21l
+dGEtb2UvcmVjaXBlcy1iZW5jaG1hcmsvZ2xtYXJrMi9nbG1hcmsyX2dpdC5iYgo8c3BhbiBjbGFz
+cz0ibW96LXR4dC1jaXRldGFncyI+Jmd0OyA8L3NwYW4+KysrIGIvbWV0YS1vZS9yZWNpcGVzLWJl
+bmNobWFyay9nbG1hcmsyL2dsbWFyazJfZ2l0LmJiCjxzcGFuIGNsYXNzPSJtb3otdHh0LWNpdGV0
+YWdzIj4mZ3Q7IDwvc3Bhbj5AQCAtMjgsNiArMjgsOSBAQCBQQUNLQUdFQ09ORklHID89ICIke0Bi
+Yi51dGlscy5jb250YWlucygnRElTVFJPX0ZFQVRVUkVTJywgJ3gxMSBvcGVuZ2wnLCAneDExLWds
+CjxzcGFuIGNsYXNzPSJtb3otdHh0LWNpdGV0YWdzIj4mZ3Q7IDwvc3Bhbj4gICAgICAgICAgICAg
+ICAgICAgJHtAYmIudXRpbHMuY29udGFpbnMoJ0RJU1RST19GRUFUVVJFUycsICd3YXlsYW5kIG9w
+ZW5nbCcsICd3YXlsYW5kLWdsIHdheWxhbmQtZ2xlczInLCAnJywgZCl9IFwKPHNwYW4gY2xhc3M9
+Im1vei10eHQtY2l0ZXRhZ3MiPiZndDsgPC9zcGFuPiAgICAgICAgICAgICAgICAgICBkcm0tZ2wg
+ZHJtLWdsZXMyIgo8c3BhbiBjbGFzcz0ibW96LXR4dC1jaXRldGFncyI+Jmd0Ozwvc3Bhbj4KPHNw
+YW4gY2xhc3M9Im1vei10eHQtY2l0ZXRhZ3MiPiZndDsgPC9zcGFuPisjIEVuYWJsZSBDKysxMSBm
+ZWF0dXJlcwo8c3BhbiBjbGFzcz0ibW96LXR4dC1jaXRldGFncyI+Jmd0OyA8L3NwYW4+K0NYWEZM
+QUdTICs9ICItLXN0ZD1jKysxMSIKPC9wcmU+CiAgICAgIDwvYmxvY2txdW90ZT4KICAgICAgPHBy
+ZSB3cmFwPSIiPmdjYzYgbm93IGRlZmF1bHRzIHRvICAtc3RkPWdudSsrMTQsc28gSSBoYXZlIGNv
+dXBsZSBvZiAgcXVlc3Rpb25zIGhlcmUKCiBBcmUgeW91IHBpbm5pbmcgaXQgdG8gYysrMTEgYmVj
+YXVzZSBpdCBkb2VzbnQgY29tcGlsZSB3aXRoIGMrKzE0ID8gb3IKaXMgaXQgYmVjYXVzZSBwYWNr
+YWdlIGlzIGV4cGxpY2l0bHkgb3ZlcnJkaW5nIHRoZSBzdGQgb3B0aW9uLiBJbiBsYXR0ZXIgY2Fz
+ZQpwZXJoYXBzIGl0cyBiZXR0ZXIgdG8gcGF0Y2ggdGhlIHBhY2thZ2UgYW5kIGFsc28gc3VibWl0
+IGl0IHVwc3RyZWFtCgo8L3ByZT4KICAgIDwvYmxvY2txdW90ZT4KICAgIFRoaXMgZmFpbHVyZSB3
+YXMgdmlzaWJsZSB3aXRoIGdjYyB2ZXJzaW9uIDUuNChHQ0NWRVJTSU9OPTUuJSkuwqAgV2l0aAog
+ICAgZ2NjNiBJdCBidWlsdCBzdWNjZXNzZnVsbHkuPGJyPgogICAgPGJyPgogICAgLSBBbWFybmF0
+aDxicj4KICAgIDxicj4KICAgIDxicj4KICA8cD4tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS08YnI+CkludGVsIEZpbmxh
+bmQgT3k8YnI+ClJlZ2lzdGVyZWQgQWRkcmVzczogUEwgMjgxLCAwMDE4MSBIZWxzaW5raSA8YnI+
+CkJ1c2luZXNzIElkZW50aXR5IENvZGU6IDAzNTc2MDYgLSA0IDxicj4KRG9taWNpbGVkIGluIEhl
+bHNpbmtpIDwvcD4KCjxwPlRoaXMgZS1tYWlsIGFuZCBhbnkgYXR0YWNobWVudHMgbWF5IGNvbnRh
+aW4gY29uZmlkZW50aWFsIG1hdGVyaWFsIGZvcjxicj4KdGhlIHNvbGUgdXNlIG9mIHRoZSBpbnRl
+bmRlZCByZWNpcGllbnQocykuIEFueSByZXZpZXcgb3IgZGlzdHJpYnV0aW9uPGJyPgpieSBvdGhl
+cnMgaXMgc3RyaWN0bHkgcHJvaGliaXRlZC4gSWYgeW91IGFyZSBub3QgdGhlIGludGVuZGVkPGJy
+PgpyZWNpcGllbnQsIHBsZWFzZSBjb250YWN0IHRoZSBzZW5kZXIgYW5kIGRlbGV0ZSBhbGwgY29w
+aWVzLjwvcD48L2JvZHk+CjwvaHRtbD4K
 
-
+--------------76C97791C0B03CC2867038D4--
