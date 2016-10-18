@@ -1,29 +1,35 @@
-Return-Path: <amarnath.valluri@intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 1C10660132
+Return-Path: <ed.bartosh@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 5CECE60684
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Oct 2016 06:48:27 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga102.fm.intel.com with ESMTP; 17 Oct 2016 23:48:29 -0700
+	Tue, 18 Oct 2016 07:57:04 +0000 (UTC)
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+	by fmsmga103.fm.intel.com with ESMTP; 18 Oct 2016 00:57:05 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.31,508,1473145200"; 
-	d="scan'208,217";a="1046219209"
-Received: from avalluri-gigabyte.fi.intel.com (HELO [10.237.72.170])
-	([10.237.72.170])
-	by orsmga001.jf.intel.com with ESMTP; 17 Oct 2016 23:48:28 -0700
-To: Khem Raj <raj.khem@gmail.com>
-References: <1476451269-11260-1-git-send-email-amarnath.valluri@intel.com>
-	<CAMKF1soK1czJxYNo2H=gQsk2SvvvYexL9DSa7p+Yz8Yw3FL+zQ@mail.gmail.com>
-From: Amarnath Valluri <amarnath.valluri@intel.com>
-Message-ID: <7fbd0d05-46a3-81d6-2fef-8c0bc4ea1435@intel.com>
-Date: Tue, 18 Oct 2016 09:49:00 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.3.0
+X-IronPort-AV: E=Sophos;i="5.31,361,1473145200"; d="scan'208";a="21123806"
+Received: from linux.intel.com ([10.54.29.200])
+	by orsmga004.jf.intel.com with ESMTP; 18 Oct 2016 00:57:05 -0700
+Received: from linux.intel.com (vmed.fi.intel.com [10.237.72.68])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by linux.intel.com (Postfix) with ESMTP id 7A27C6A4006;
+	Tue, 18 Oct 2016 00:56:32 -0700 (PDT)
+Date: Tue, 18 Oct 2016 10:31:38 +0300
+From: Ed Bartosh <ed.bartosh@linux.intel.com>
+To: Maciej =?utf-8?B?Qm9yesSZY2tp?= <maciej.borzecki@rndity.com>
+Message-ID: <20161018073138.GA17569@linux.intel.com>
+Reply-To: ed.bartosh@linux.intel.com
+References: <30a5ef699fb1b575baf95b986a755f509e9e747e.1476706733.git.maciej.borzecki@rndity.com>
+	<20161017132234.GA14510@linux.intel.com>
+	<CAD4b0_K2KcaZ_pwO0yfJPF8NNzgjm8cYFD-24E3k8_DdUaAO3A@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <CAMKF1soK1czJxYNo2H=gQsk2SvvvYexL9DSa7p+Yz8Yw3FL+zQ@mail.gmail.com>
-Cc: Patches and discussions about the oe-core layer
+In-Reply-To: <CAD4b0_K2KcaZ_pwO0yfJPF8NNzgjm8cYFD-24E3k8_DdUaAO3A@mail.gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: Maciej Borzecki <maciek.borzecki@gmail.com>,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [meta-oe][PATCH] glmark2: Enabling c++ 11 features
+Subject: Re: [PATCH] wic: add --reserved-size wks option
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,124 +42,244 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Oct 2016 06:48:29 -0000
-Content-Type: multipart/alternative;
-	boundary="------------76C97791C0B03CC2867038D4"
+X-List-Received-Date: Tue, 18 Oct 2016 07:57:05 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
---------------76C97791C0B03CC2867038D4
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"; format="flowed"
-Content-Transfer-Encoding: base64
+On Mon, Oct 17, 2016 at 04:46:00PM +0200, Maciej Borzęcki wrote:
+> On Mon, Oct 17, 2016 at 3:22 PM, Ed Bartosh <ed.bartosh@linux.intel.com> wrote:
+> > Hi Maciej,
+> >
+> > There is already --size and --extra-space options.
+> > Can we get the same or similar result by just using them? Do we really
+> > need new option for similar purpose?
+> 
+> --reserved-size serves a different purpose, it establishes an upper
+> bound on the size of a partition during layout. Unlike
+> --size/--extra-space does not depend on the size of the filesystem
+> image.
+> 
+> For instance, assume I'm creating an image for SD card/eMMC with a
+> fixed partition layout (something simple: boot partition, primary &
+> secondary rootfs partitions, some data partition). Because future
+> system updates are delivered as filesystem image, I want to make sure
+> that there is exactly xxx MBs for my current and future rootfs images
+> (regardless of current image size). Neither --size nor --extra-space
+> can do that. I could use, say `--size 200 --overhead-factor 1`, but
+> this will needlessly create a 200MB rootfs image and if I happen to
+> cross the 200MB boundary I will not get an error.
+> 
+> I had a private patch that added --fixed-size to enforce --size, but
+> that would still end up creating filesystem image to fill the whole
+> space.
+I didn't get the difference between enforcing partition size and below
+implementation. Can you elaborate a bit?
 
-CgpPbiBGcmlkYXkgMTQgT2N0b2JlciAyMDE2IDA1OjEzIFBNLCBLaGVtIFJhaiB3cm90ZToKPiBP
-biBGcmksIE9jdCAxNCwgMjAxNiBhdCAzOjIxIFBNLCBBbWFybmF0aCBWYWxsdXJpCj4gPGFtYXJu
-YXRoLnZhbGx1cmlAaW50ZWwuY29tPiAgd3JvdGU6Cj4+ID5UaGUgZmFpbHVyZSB3YXM6Cj4+ID58
-IC4uL3NyYy9pbWFnZS1yZWFkZXIuY3BwOiBJbiBtZW1iZXIgZnVuY3Rpb24gJ2Jvb2wgUE5HUmVh
-ZGVyOjppbml0KGNvbnN0Cj4+ID5zdHJpbmcmKSc6Cj4+ID58IC4uL3NyYy9pbWFnZS1yZWFkZXIu
-Y3BwOjEyMzoxNjogZXJyb3I6ICd1bmlxdWVfcHRyJyBpbiBuYW1lc3BhY2UgJ3N0ZCcgZG9lcwo+
-PiA+bm90IG5hbWUgYSB0ZW1wbGF0ZSB0eXBlCj4+ID4KPj4gPlRoaXMgY2hhbmdlIGVuYWJsZXMg
-YysrMTEgZmVhdHVyZXMsIGFzIGNvZGUgdXNlaW5nIHRoZW0uCj4+ID4KPj4gPlNpZ25lZC1vZmYt
-Ynk6IEFtYXJuYXRoIFZhbGx1cmk8YW1hcm5hdGgudmFsbHVyaUBpbnRlbC5jb20+Cj4+ID4tLS0K
-Pj4gPiAgbWV0YS1vZS9yZWNpcGVzLWJlbmNobWFyay9nbG1hcmsyL2dsbWFyazJfZ2l0LmJiIHwg
-MyArKysKPj4gPiAgMSBmaWxlIGNoYW5nZWQsIDMgaW5zZXJ0aW9ucygrKQo+PiA+Cj4+ID5kaWZm
-IC0tZ2l0IGEvbWV0YS1vZS9yZWNpcGVzLWJlbmNobWFyay9nbG1hcmsyL2dsbWFyazJfZ2l0LmJi
-IGIvbWV0YS1vZS9yZWNpcGVzLWJlbmNobWFyay9nbG1hcmsyL2dsbWFyazJfZ2l0LmJiCj4+ID5p
-bmRleCAzOTZhZTcwLi40Y2IyMzNiIDEwMDY0NAo+PiA+LS0tIGEvbWV0YS1vZS9yZWNpcGVzLWJl
-bmNobWFyay9nbG1hcmsyL2dsbWFyazJfZ2l0LmJiCj4+ID4rKysgYi9tZXRhLW9lL3JlY2lwZXMt
-YmVuY2htYXJrL2dsbWFyazIvZ2xtYXJrMl9naXQuYmIKPj4gPkBAIC0yOCw2ICsyOCw5IEBAIFBB
-Q0tBR0VDT05GSUcgPz0gIiR7QGJiLnV0aWxzLmNvbnRhaW5zKCdESVNUUk9fRkVBVFVSRVMnLCAn
-eDExIG9wZW5nbCcsICd4MTEtZ2wKPj4gPiAgICAgICAgICAgICAgICAgICAgJHtAYmIudXRpbHMu
-Y29udGFpbnMoJ0RJU1RST19GRUFUVVJFUycsICd3YXlsYW5kIG9wZW5nbCcsICd3YXlsYW5kLWds
-IHdheWxhbmQtZ2xlczInLCAnJywgZCl9IFwKPj4gPiAgICAgICAgICAgICAgICAgICAgZHJtLWds
-IGRybS1nbGVzMiIKPj4gPgo+PiA+KyMgRW5hYmxlIEMrKzExIGZlYXR1cmVzCj4+ID4rQ1hYRkxB
-R1MgKz0gIi0tc3RkPWMrKzExIgo+IGdjYzYgbm93IGRlZmF1bHRzIHRvICAtc3RkPWdudSsrMTQs
-c28gSSBoYXZlIGNvdXBsZSBvZiAgcXVlc3Rpb25zIGhlcmUKPgo+ICAgQXJlIHlvdSBwaW5uaW5n
-IGl0IHRvIGMrKzExIGJlY2F1c2UgaXQgZG9lc250IGNvbXBpbGUgd2l0aCBjKysxNCA/IG9yCj4g
-aXMgaXQgYmVjYXVzZSBwYWNrYWdlIGlzIGV4cGxpY2l0bHkgb3ZlcnJkaW5nIHRoZSBzdGQgb3B0
-aW9uLiBJbiBsYXR0ZXIgY2FzZQo+IHBlcmhhcHMgaXRzIGJldHRlciB0byBwYXRjaCB0aGUgcGFj
-a2FnZSBhbmQgYWxzbyBzdWJtaXQgaXQgdXBzdHJlYW0KPgpUaGlzIGZhaWx1cmUgd2FzIHZpc2li
-bGUgd2l0aCBnY2MgdmVyc2lvbiA1LjQoR0NDVkVSU0lPTj01LiUpLiAgV2l0aCAKZ2NjNiBJdCBi
-dWlsdCBzdWNjZXNzZnVsbHkuCgotIEFtYXJuYXRoCgoKLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tCkludGVsIEZpbmxh
-bmQgT3kKUmVnaXN0ZXJlZCBBZGRyZXNzOiBQTCAyODEsIDAwMTgxIEhlbHNpbmtpIApCdXNpbmVz
-cyBJZGVudGl0eSBDb2RlOiAwMzU3NjA2IC0gNCAKRG9taWNpbGVkIGluIEhlbHNpbmtpIAoKVGhp
-cyBlLW1haWwgYW5kIGFueSBhdHRhY2htZW50cyBtYXkgY29udGFpbiBjb25maWRlbnRpYWwgbWF0
-ZXJpYWwgZm9yCnRoZSBzb2xlIHVzZSBvZiB0aGUgaW50ZW5kZWQgcmVjaXBpZW50KHMpLiBBbnkg
-cmV2aWV3IG9yIGRpc3RyaWJ1dGlvbgpieSBvdGhlcnMgaXMgc3RyaWN0bHkgcHJvaGliaXRlZC4g
-SWYgeW91IGFyZSBub3QgdGhlIGludGVuZGVkCnJlY2lwaWVudCwgcGxlYXNlIGNvbnRhY3QgdGhl
-IHNlbmRlciBhbmQgZGVsZXRlIGFsbCBjb3BpZXMuCg==
+> Another workaround we used until now was to create a filesystem image
+> manually and use fsimage source plugin. To get a fixed layout with
+> rootfs image that may grow/shrink between builds, you still need to
+> fiddle with --align (for instance, set it to 215040 to have the
+> partition start at 210MB offset).
+> 
 
---------------76C97791C0B03CC2867038D4
-MIME-Version: 1.0
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: base64
+Thanks for the explanations. I'm almost convinced.
 
-PGh0bWw+CiAgPGhlYWQ+CiAgICA8bWV0YSBjb250ZW50PSJ0ZXh0L2h0bWw7IGNoYXJzZXQ9dXRm
-LTgiIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSI+CiAgPC9oZWFkPgogIDxib2R5IGJnY29sb3I9
-IiNGRkZGRkYiIHRleHQ9IiMwMDAwMDAiPgogICAgPHA+PGJyPgogICAgPC9wPgogICAgPGJyPgog
-ICAgPGRpdiBjbGFzcz0ibW96LWNpdGUtcHJlZml4Ij5PbiBGcmlkYXkgMTQgT2N0b2JlciAyMDE2
-IDA1OjEzIFBNLAogICAgICBLaGVtIFJhaiB3cm90ZTo8YnI+CiAgICA8L2Rpdj4KICAgIDxibG9j
-a3F1b3RlCmNpdGU9Im1pZDpDQU1LRjFzb0sxY3pKeFlObzJIPWdRc2syU3Z2dllleEw5RFNhN3Ar
-WXo4WXczRkwrelFAbWFpbC5nbWFpbC5jb20iCiAgICAgIHR5cGU9ImNpdGUiPgogICAgICA8cHJl
-IHdyYXA9IiI+T24gRnJpLCBPY3QgMTQsIDIwMTYgYXQgMzoyMSBQTSwgQW1hcm5hdGggVmFsbHVy
-aQo8YSBtb3otZG8tbm90LXNlbmQ9InRydWUiIGNsYXNzPSJtb3otdHh0LWxpbmstcmZjMjM5NkUi
-IGhyZWY9Im1haWx0bzphbWFybmF0aC52YWxsdXJpQGludGVsLmNvbSI+Jmx0O2FtYXJuYXRoLnZh
-bGx1cmlAaW50ZWwuY29tJmd0OzwvYT4gd3JvdGU6CjwvcHJlPgogICAgICA8YmxvY2txdW90ZSB0
-eXBlPSJjaXRlIiBzdHlsZT0iY29sb3I6ICMwMDAwMDA7Ij4KICAgICAgICA8cHJlIHdyYXA9IiI+
-PHNwYW4gY2xhc3M9Im1vei10eHQtY2l0ZXRhZ3MiPiZndDsgPC9zcGFuPlRoZSBmYWlsdXJlIHdh
-czoKPHNwYW4gY2xhc3M9Im1vei10eHQtY2l0ZXRhZ3MiPiZndDsgPC9zcGFuPnwgLi4vc3JjL2lt
-YWdlLXJlYWRlci5jcHA6IEluIG1lbWJlciBmdW5jdGlvbiAnYm9vbCBQTkdSZWFkZXI6OmluaXQo
-Y29uc3QKPHNwYW4gY2xhc3M9Im1vei10eHQtY2l0ZXRhZ3MiPiZndDsgPC9zcGFuPnN0cmluZyZh
-bXA7KSc6CjxzcGFuIGNsYXNzPSJtb3otdHh0LWNpdGV0YWdzIj4mZ3Q7IDwvc3Bhbj58IC4uL3Ny
-Yy9pbWFnZS1yZWFkZXIuY3BwOjEyMzoxNjogZXJyb3I6ICd1bmlxdWVfcHRyJyBpbiBuYW1lc3Bh
-Y2UgJ3N0ZCcgZG9lcwo8c3BhbiBjbGFzcz0ibW96LXR4dC1jaXRldGFncyI+Jmd0OyA8L3NwYW4+
-bm90IG5hbWUgYSB0ZW1wbGF0ZSB0eXBlCjxzcGFuIGNsYXNzPSJtb3otdHh0LWNpdGV0YWdzIj4m
-Z3Q7PC9zcGFuPgo8c3BhbiBjbGFzcz0ibW96LXR4dC1jaXRldGFncyI+Jmd0OyA8L3NwYW4+VGhp
-cyBjaGFuZ2UgZW5hYmxlcyBjKysxMSBmZWF0dXJlcywgYXMgY29kZSB1c2VpbmcgdGhlbS4KPHNw
-YW4gY2xhc3M9Im1vei10eHQtY2l0ZXRhZ3MiPiZndDs8L3NwYW4+CjxzcGFuIGNsYXNzPSJtb3ot
-dHh0LWNpdGV0YWdzIj4mZ3Q7IDwvc3Bhbj5TaWduZWQtb2ZmLWJ5OiBBbWFybmF0aCBWYWxsdXJp
-IDxhIG1vei1kby1ub3Qtc2VuZD0idHJ1ZSIgY2xhc3M9Im1vei10eHQtbGluay1yZmMyMzk2RSIg
-aHJlZj0ibWFpbHRvOmFtYXJuYXRoLnZhbGx1cmlAaW50ZWwuY29tIj4mbHQ7YW1hcm5hdGgudmFs
-bHVyaUBpbnRlbC5jb20mZ3Q7PC9hPgo8c3BhbiBjbGFzcz0ibW96LXR4dC1jaXRldGFncyI+Jmd0
-OyA8L3NwYW4+LS0tCjxzcGFuIGNsYXNzPSJtb3otdHh0LWNpdGV0YWdzIj4mZ3Q7IDwvc3Bhbj4g
-bWV0YS1vZS9yZWNpcGVzLWJlbmNobWFyay9nbG1hcmsyL2dsbWFyazJfZ2l0LmJiIHwgMyArKysK
-PHNwYW4gY2xhc3M9Im1vei10eHQtY2l0ZXRhZ3MiPiZndDsgPC9zcGFuPiAxIGZpbGUgY2hhbmdl
-ZCwgMyBpbnNlcnRpb25zKCspCjxzcGFuIGNsYXNzPSJtb3otdHh0LWNpdGV0YWdzIj4mZ3Q7PC9z
-cGFuPgo8c3BhbiBjbGFzcz0ibW96LXR4dC1jaXRldGFncyI+Jmd0OyA8L3NwYW4+ZGlmZiAtLWdp
-dCBhL21ldGEtb2UvcmVjaXBlcy1iZW5jaG1hcmsvZ2xtYXJrMi9nbG1hcmsyX2dpdC5iYiBiL21l
-dGEtb2UvcmVjaXBlcy1iZW5jaG1hcmsvZ2xtYXJrMi9nbG1hcmsyX2dpdC5iYgo8c3BhbiBjbGFz
-cz0ibW96LXR4dC1jaXRldGFncyI+Jmd0OyA8L3NwYW4+aW5kZXggMzk2YWU3MC4uNGNiMjMzYiAx
-MDA2NDQKPHNwYW4gY2xhc3M9Im1vei10eHQtY2l0ZXRhZ3MiPiZndDsgPC9zcGFuPi0tLSBhL21l
-dGEtb2UvcmVjaXBlcy1iZW5jaG1hcmsvZ2xtYXJrMi9nbG1hcmsyX2dpdC5iYgo8c3BhbiBjbGFz
-cz0ibW96LXR4dC1jaXRldGFncyI+Jmd0OyA8L3NwYW4+KysrIGIvbWV0YS1vZS9yZWNpcGVzLWJl
-bmNobWFyay9nbG1hcmsyL2dsbWFyazJfZ2l0LmJiCjxzcGFuIGNsYXNzPSJtb3otdHh0LWNpdGV0
-YWdzIj4mZ3Q7IDwvc3Bhbj5AQCAtMjgsNiArMjgsOSBAQCBQQUNLQUdFQ09ORklHID89ICIke0Bi
-Yi51dGlscy5jb250YWlucygnRElTVFJPX0ZFQVRVUkVTJywgJ3gxMSBvcGVuZ2wnLCAneDExLWds
-CjxzcGFuIGNsYXNzPSJtb3otdHh0LWNpdGV0YWdzIj4mZ3Q7IDwvc3Bhbj4gICAgICAgICAgICAg
-ICAgICAgJHtAYmIudXRpbHMuY29udGFpbnMoJ0RJU1RST19GRUFUVVJFUycsICd3YXlsYW5kIG9w
-ZW5nbCcsICd3YXlsYW5kLWdsIHdheWxhbmQtZ2xlczInLCAnJywgZCl9IFwKPHNwYW4gY2xhc3M9
-Im1vei10eHQtY2l0ZXRhZ3MiPiZndDsgPC9zcGFuPiAgICAgICAgICAgICAgICAgICBkcm0tZ2wg
-ZHJtLWdsZXMyIgo8c3BhbiBjbGFzcz0ibW96LXR4dC1jaXRldGFncyI+Jmd0Ozwvc3Bhbj4KPHNw
-YW4gY2xhc3M9Im1vei10eHQtY2l0ZXRhZ3MiPiZndDsgPC9zcGFuPisjIEVuYWJsZSBDKysxMSBm
-ZWF0dXJlcwo8c3BhbiBjbGFzcz0ibW96LXR4dC1jaXRldGFncyI+Jmd0OyA8L3NwYW4+K0NYWEZM
-QUdTICs9ICItLXN0ZD1jKysxMSIKPC9wcmU+CiAgICAgIDwvYmxvY2txdW90ZT4KICAgICAgPHBy
-ZSB3cmFwPSIiPmdjYzYgbm93IGRlZmF1bHRzIHRvICAtc3RkPWdudSsrMTQsc28gSSBoYXZlIGNv
-dXBsZSBvZiAgcXVlc3Rpb25zIGhlcmUKCiBBcmUgeW91IHBpbm5pbmcgaXQgdG8gYysrMTEgYmVj
-YXVzZSBpdCBkb2VzbnQgY29tcGlsZSB3aXRoIGMrKzE0ID8gb3IKaXMgaXQgYmVjYXVzZSBwYWNr
-YWdlIGlzIGV4cGxpY2l0bHkgb3ZlcnJkaW5nIHRoZSBzdGQgb3B0aW9uLiBJbiBsYXR0ZXIgY2Fz
-ZQpwZXJoYXBzIGl0cyBiZXR0ZXIgdG8gcGF0Y2ggdGhlIHBhY2thZ2UgYW5kIGFsc28gc3VibWl0
-IGl0IHVwc3RyZWFtCgo8L3ByZT4KICAgIDwvYmxvY2txdW90ZT4KICAgIFRoaXMgZmFpbHVyZSB3
-YXMgdmlzaWJsZSB3aXRoIGdjYyB2ZXJzaW9uIDUuNChHQ0NWRVJTSU9OPTUuJSkuwqAgV2l0aAog
-ICAgZ2NjNiBJdCBidWlsdCBzdWNjZXNzZnVsbHkuPGJyPgogICAgPGJyPgogICAgLSBBbWFybmF0
-aDxicj4KICAgIDxicj4KICAgIDxicj4KICA8cD4tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS08YnI+CkludGVsIEZpbmxh
-bmQgT3k8YnI+ClJlZ2lzdGVyZWQgQWRkcmVzczogUEwgMjgxLCAwMDE4MSBIZWxzaW5raSA8YnI+
-CkJ1c2luZXNzIElkZW50aXR5IENvZGU6IDAzNTc2MDYgLSA0IDxicj4KRG9taWNpbGVkIGluIEhl
-bHNpbmtpIDwvcD4KCjxwPlRoaXMgZS1tYWlsIGFuZCBhbnkgYXR0YWNobWVudHMgbWF5IGNvbnRh
-aW4gY29uZmlkZW50aWFsIG1hdGVyaWFsIGZvcjxicj4KdGhlIHNvbGUgdXNlIG9mIHRoZSBpbnRl
-bmRlZCByZWNpcGllbnQocykuIEFueSByZXZpZXcgb3IgZGlzdHJpYnV0aW9uPGJyPgpieSBvdGhl
-cnMgaXMgc3RyaWN0bHkgcHJvaGliaXRlZC4gSWYgeW91IGFyZSBub3QgdGhlIGludGVuZGVkPGJy
-PgpyZWNpcGllbnQsIHBsZWFzZSBjb250YWN0IHRoZSBzZW5kZXIgYW5kIGRlbGV0ZSBhbGwgY29w
-aWVzLjwvcD48L2JvZHk+CjwvaHRtbD4K
+See my comments below.
 
---------------76C97791C0B03CC2867038D4--
+> >
+> >
+> > On Mon, Oct 17, 2016 at 03:06:18PM +0200, Maciej Borzecki wrote:
+> >> Added new option --reserved-size to wks. The option can be used to
+> >> indicate how much space should be reserved for a partition. This is
+> >> useful if the disk will be a subject to full filesystem image updates
+> >> and puts an upper limit of the size of filesystem images.
+> >>
+> >> The actual filesystem image may be smaller than the reserved space, thus
+> >> leaving some room for growth. If it is larger, an error will be raised.
+> >>
+> >> Signed-off-by: Maciej Borzecki <maciej.borzecki@rndity.com>
+> >> ---
+> >>  scripts/lib/wic/help.py                | 11 ++++++++++
+> >>  scripts/lib/wic/imager/direct.py       |  3 ++-
+> >>  scripts/lib/wic/ksparser.py            |  1 +
+> >>  scripts/lib/wic/partition.py           |  1 +
+> >>  scripts/lib/wic/utils/partitionedfs.py | 37 +++++++++++++++++++++++++---------
+> >>  5 files changed, 43 insertions(+), 10 deletions(-)
+> >>
+> >> diff --git a/scripts/lib/wic/help.py b/scripts/lib/wic/help.py
+> >> index e5347ec4b7c900c68fc64351a5293e75de0672b3..1a5c7020ba0cdc5ef2e477a2b14360e09098a896 100644
+> >> --- a/scripts/lib/wic/help.py
+> >> +++ b/scripts/lib/wic/help.py
+> >> @@ -646,6 +646,17 @@ DESCRIPTION
+> >>                   not specified, the size is in MB.
+> >>                   You do not need this option if you use --source.
+> >>
+> >> +         --reserved-size: This option specifies that there should be
+> >> +                          at least that many bytes reserved for
+According to the code if partition size > reserved size wic will throw
+an error. This somehow conflicts with 'at least that many bytes' part of the
+description in my opinion.
+
+As far as I uderstood your code this parameter specifies hard upper
+limit for partition size, right?
+
+> >> +                          the partition during layout. This is useful
+> >> +                          when the target disk will be a subject
+> >> +                          to full system image updates in the future.
+> >> +                          Specifying --reserved-size ensures that
+> >> +                          there is extra space in the partition allowing
+> >> +                          for future growth of the file system stored
+> >> +                          inside. Value format is the same as for
+> >> +                          --size option.
+> >> +
+> >>           --source: This option is a wic-specific option that names the
+> >>                     source of the data that will populate the
+> >>                     partition.  The most common value for this option
+> >> diff --git a/scripts/lib/wic/imager/direct.py b/scripts/lib/wic/imager/direct.py
+> >> index edf5e5d2214f8e78b6c2a98d7f6cd45fcc0065c4..02e293b9d744b760fcdf17610505dafef3e164ad 100644
+> >> --- a/scripts/lib/wic/imager/direct.py
+> >> +++ b/scripts/lib/wic/imager/direct.py
+> >> @@ -301,7 +301,8 @@ class DirectImageCreator(BaseImageCreator):
+> >>                                         no_table=part.no_table,
+> >>                                         part_type=part.part_type,
+> >>                                         uuid=part.uuid,
+> >> -                                       system_id=part.system_id)
+> >> +                                       system_id=part.system_id,
+> >> +                                       reserved_size=part.reserved_size)
+> >>
+> >>          if fstab_path:
+> >>              shutil.move(fstab_path + ".orig", fstab_path)
+> >> diff --git a/scripts/lib/wic/ksparser.py b/scripts/lib/wic/ksparser.py
+> >> index 0894e2b199a299fbbed272f2e1c95e9d692e3ab1..4118bffdf4337f2d2d393d7e096632cd7aa37402 100644
+> >> --- a/scripts/lib/wic/ksparser.py
+> >> +++ b/scripts/lib/wic/ksparser.py
+> >> @@ -137,6 +137,7 @@ class KickStart():
+> >>          part.add_argument('--part-type')
+> >>          part.add_argument('--rootfs-dir')
+> >>          part.add_argument('--size', type=sizetype, default=0)
+> >> +        part.add_argument('--reserved-size', type=sizetype, default=0)
+> >>          part.add_argument('--source')
+> >>          part.add_argument('--sourceparams')
+> >>          part.add_argument('--system-id', type=systemidtype)
+> >> diff --git a/scripts/lib/wic/partition.py b/scripts/lib/wic/partition.py
+> >> index 90f65a1e3976a5460cd1b265b238168cce22781f..162a3a289de891ccf81437876c1f7a6f3c797b3b 100644
+> >> --- a/scripts/lib/wic/partition.py
+> >> +++ b/scripts/lib/wic/partition.py
+> >> @@ -54,6 +54,7 @@ class Partition():
+> >>          self.part_type = args.part_type
+> >>          self.rootfs_dir = args.rootfs_dir
+> >>          self.size = args.size
+> >> +        self.reserved_size = args.reserved_size
+> >>          self.source = args.source
+> >>          self.sourceparams = args.sourceparams
+> >>          self.system_id = args.system_id
+> >> diff --git a/scripts/lib/wic/utils/partitionedfs.py b/scripts/lib/wic/utils/partitionedfs.py
+> >> index cb03009fc7e3c97305079629ded7d2ff01eba4c4..5d3b1588231459dedf0142f807114736f0bb28ea 100644
+> >> --- a/scripts/lib/wic/utils/partitionedfs.py
+> >> +++ b/scripts/lib/wic/utils/partitionedfs.py
+> >> @@ -91,7 +91,7 @@ class Image():
+> >>
+> >>      def add_partition(self, size, disk_name, mountpoint, source_file=None, fstype=None,
+> >>                        label=None, fsopts=None, boot=False, align=None, no_table=False,
+> >> -                      part_type=None, uuid=None, system_id=None):
+> >> +                      part_type=None, uuid=None, system_id=None, reserved_size=0):
+> >>          """ Add the next partition. Prtitions have to be added in the
+> >>          first-to-last order. """
+> >>
+> >> @@ -99,9 +99,11 @@ class Image():
+> >>
+> >>          # Converting kB to sectors for parted
+> >>          size = size * 1024 // self.sector_size
+> >> +        reserved_size = reserved_size * 1024 // self.sector_size
+> >>
+> >>          part = {'ks_pnum': ks_pnum, # Partition number in the KS file
+> >>                  'size': size, # In sectors
+> >> +                'reserved_size': reserved_size, # space on disk reserved for partition
+> >>                  'mountpoint': mountpoint, # Mount relative to chroot
+> >>                  'source_file': source_file, # partition contents
+> >>                  'fstype': fstype, # Filesystem type
+> >> @@ -192,7 +194,19 @@ class Image():
+> >>                      disk['offset'] += align_sectors
+> >>
+> >>              part['start'] = disk['offset']
+> >> -            disk['offset'] += part['size']
+> >> +
+> >> +            if part['reserved_size']:
+> >> +                if part['size'] > part['reserved_size']:
+> >> +                    msger.error("Partition %d on disk %s is larger (%s bytes) than its"
+> >> +                                " reserved space %s bytes" %
+> >> +                                (disk['numpart'], part['disk_name'],
+> >> +                                 part['size'] * self.sector_size,
+> >> +                                 part['reserved_size'] * self.sector_size))
+> >> +                # next partition starts after the space reserved for the
+> >> +                # current one
+> >> +                disk['offset'] += part['reserved_size']
+> >> +            else:
+> >> +                disk['offset'] += part['size']
+> >>
+> >>              part['type'] = 'primary'
+> >>              if not part['no_table']:
+> >> @@ -207,10 +221,11 @@ class Image():
+> >>
+> >>              disk['partitions'].append(num)
+> >>              msger.debug("Assigned %s to %s%d, sectors range %d-%d size %d "
+> >> -                        "sectors (%d bytes)." \
+> >> +                        "sectors (%d bytes), reserved %d bytes." \
+> >>                              % (part['mountpoint'], part['disk_name'], part['num'],
+> >> -                               part['start'], part['start'] + part['size'] - 1,
+> >> -                               part['size'], part['size'] * self.sector_size))
+> >> +                               part['start'], disk['offset'] - 1,
+> >> +                               part['size'], part['size'] * self.sector_size,
+> >> +                               part['reserved_size'] * self.sector_size))
+This will produce incorrect output about partition size as in reality partition size will
+be set to part['reserved_size'].
+
+"reserved 0 bytes" message will be produced if --reserved-size option
+is not used. It's a bit confusing as 'reserved' is too generic word. Can
+we use 'reserved size' instead?
+
+> >>
+> >>          # Once all the partitions have been layed out, we can calculate the
+> >>          # minumim disk sizes.
+> >> @@ -288,17 +303,21 @@ class Image():
+> >>                  # Type for ext2/ext3/ext4/btrfs
+> >>                  parted_fs_type = "ext2"
+> >>
+> >> +            psize = part['size']
+> >> +            if part['reserved_size']:
+> >> +                psize = part['reserved_size']
+> >> +
+Here I'm getting confused. How this new parameters differs from --size if it behaves
+the same way, i.e. partition size is set to its value. The only
+difference I see is that if rootfs size is greater than reserved size
+wic will fail to create partition. Would it make sense to name it
+--max-size in this case?
+
+> >>              # Boot ROM of OMAP boards require vfat boot partition to have an
+> >>              # even number of sectors.
+> >>              if part['mountpoint'] == "/boot" and part['fstype'] in ["vfat", "msdos"] \
+> >> -               and part['size'] % 2:
+> >> -                msger.debug("Substracting one sector from '%s' partition to " \
+> >> +               and psize % 2:
+> >> +                msger.debug("Subtracting one sector from '%s' partition to " \
+> >>                              "get even number of sectors for the partition" % \
+> >>                              part['mountpoint'])
+> >> -                part['size'] -= 1
+> >> +                psize -= 1
+> >>
+> >>              self.__create_partition(disk['disk'].device, part['type'],
+> >> -                                    parted_fs_type, part['start'], part['size'])
+> >> +                                    parted_fs_type, part['start'], psize)
+> >>
+> >>              if part['part_type']:
+> >>                  msger.debug("partition %d: set type UID to %s" % \
+
+Can you cover this functionality(and may be other size-related
+functionality too) with tests? You can add testcases to existing
+oe-selftest wic module.
+
+--
+Regards,
+Ed
+
