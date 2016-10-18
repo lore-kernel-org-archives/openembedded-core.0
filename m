@@ -1,51 +1,45 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pa0-f65.google.com (mail-pa0-f65.google.com
-	[209.85.220.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 5BC4471BE5
+Received: from mail-pf0-f194.google.com (mail-pf0-f194.google.com
+	[209.85.192.194])
+	by mail.openembedded.org (Postfix) with ESMTP id E09076AC00
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Oct 2016 23:46:37 +0000 (UTC)
-Received: by mail-pa0-f65.google.com with SMTP id qn10so9689458pac.2
+	Tue, 18 Oct 2016 01:16:24 +0000 (UTC)
+Received: by mail-pf0-f194.google.com with SMTP id 128so13769922pfz.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Oct 2016 16:46:39 -0700 (PDT)
+	Mon, 17 Oct 2016 18:16:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=subject:mime-version:from:in-reply-to:date:cc:message-id:references
-	:to; bh=XXbLADycMVuCY5/CWvD6D8w04G/WTzMVJ/UELKOehQI=;
-	b=TSdcp7JXMlxVngHLtAxIyjBdCV+lOtfrLSR0P0ivssaEF8pV097yiNL2Jwy5jY2fd2
-	AZzPZaMEQIKYh6z4svbqtRVCOgzD7uyu0baU5o+3D5biRHW7UaKJRfG10nmX2fmso2kj
-	dy5a1n9N9XFg7LZyDq94NC7w9esaIAF/16fafu3LKuvowD99KROtL08Sp4UDj+fnVI3p
-	4JWjrDpVSAhjtIdSku3ig8F4rwpSyJLwtTk8vhsehOM+BRGVmbOOwBvOCViiU35Zfnky
-	P2b3BMN7KFmGUuBVt1IJRqQTiHYTw08dJPa1OJNf1f2lzpO9EnvU/PMJ7hFlpYI/q/Ns
-	K/vw==
+	h=from:to:cc:subject:date:message-id;
+	bh=E3BSXeIn/YuGiR+/e3Y1txis1fmIakTjhDDXowgsofk=;
+	b=YCI2BLrDK+mnc86b0gghboIN2w7ImFTQLl8SOESGcKf5761bbQS+jGLM9wi2cyaVTo
+	cwOG1uKDhTjOlCqgQtxQz2GCodU8wVRw8hGtjcQW6qbL3bBpZMXpkL9veGJQFvJMdBOn
+	o4Y1VqHZRPjTowJKD6nBow3uUWm/cdbTzVAMmEoLV6lCCNAZQdiW3Nkoo07/5UPNechP
+	kDsceJtORbQAGAqZpdynHpI+ySp1IGKRo1QJIKGnxn4uNpfjuTTN9p9+gISNEgTPiXqV
+	x3Q9ZaPmcdGkgSCUNp8dVByDaxMrG8Jc07YGHgqa7k7xPCoK/9PKkEEineSbJXnpv01U
+	bmkg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:subject:mime-version:from:in-reply-to:date:cc
-	:message-id:references:to;
-	bh=XXbLADycMVuCY5/CWvD6D8w04G/WTzMVJ/UELKOehQI=;
-	b=SPbOkBDzvghApqsfjkDSpfQX81oMBxuvLkrTEQsFVjU3R8MvzYD9vcdWitxPW6f0gu
-	RGGRrZ6QTvgtYJBGSi+eSCSHJRiKQ/XyE8+5cRr8C5N0om9lMl9N5p8Ba/T9cqRPcmvH
-	vfCB9of4V1j5jfNIpjgqLfTGGuwMV3GcQdWZvkCMCsmpLKjAx0BmJr8Pw9gbC83jy5Li
-	zCb/OQdIRiYubXgfMtiL/hRyodcey82oYH12SQLzM8Ivy4dI1C24BJQosFCxNBTkYGtx
-	hm6FWzF2UyaGq0ODHy3vQCoQK1A6dRu8XAAE+LwDUzv2jDEgwROV9S9v0yWsY4iwu3uj
-	3H5w==
-X-Gm-Message-State: AA6/9RnuAgIVyRZ3GJ1Sdyuzdt9xIeI2TyBETg+FW+1yCsvuAdEkFjqZTH55t0AtjWUSyg==
-X-Received: by 10.66.49.197 with SMTP id w5mr71057pan.73.1476747999597;
-	Mon, 17 Oct 2016 16:46:39 -0700 (PDT)
-Received: from [192.168.0.130] (c-76-102-32-192.hsd1.ca.comcast.net.
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=E3BSXeIn/YuGiR+/e3Y1txis1fmIakTjhDDXowgsofk=;
+	b=ffEIrhx5EySLnNwpyLnxbD8Qgp7ts2EpU4XXmUV6ln9lq1WcvefAP/cRlbkYCIaBhq
+	GGKuU9EZa+i21uHzt/0kchWWbSZ6z1JUSw/SxpyWiWChyjJ1K47GyocmXu/nrpOplWD1
+	pHWxUekbPI0XPj9O8Ud0uLa0Gxa2dUCrKSJXVAdMWPUaWnu40FPxSWZtkVvKK/iwCoeM
+	eY+IhpOHE9Mbu3MKAyFqOoN5cTrMHuVEbjlMYqOpRnFiOclevxvsCVysySqhdzyFe+Ag
+	NXMDNbEaFfFOcdwYohx1AuQ1dRVCL8KMcPZ2aw0OwTSJC0AZtQZabmapdmr3HUqyjKKY
+	93VQ==
+X-Gm-Message-State: AA6/9RlJly7BWYSKJu55XaDywvh15Ba2p0mq9W2nqf/WSyKB73Qm7wr4J2YyFseYNAcGdg==
+X-Received: by 10.99.115.21 with SMTP id o21mr416367pgc.176.1476753385994;
+	Mon, 17 Oct 2016 18:16:25 -0700 (PDT)
+Received: from localhost.localdomain (c-76-102-32-192.hsd1.ca.comcast.net.
 	[76.102.32.192]) by smtp.gmail.com with ESMTPSA id
-	ij5sm36468321pab.2.2016.10.17.16.46.38
-	(version=TLS1 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 17 Oct 2016 16:46:38 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 9.3 \(3124\))
-X-Pgp-Agent: GPGMail
+	w15sm50785931pfi.47.2016.10.17.18.16.25
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 17 Oct 2016 18:16:25 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <1476182905-15182-1-git-send-email-carol.zhu@nxp.com>
-Date: Mon, 17 Oct 2016 16:46:37 -0700
-Message-Id: <36B04FB7-A84E-47BA-912C-69C81F1547AE@gmail.com>
-References: <1476182905-15182-1-git-send-email-carol.zhu@nxp.com>
-To: Yuqing Zhu <carol.zhu@nxp.com>
-X-Mailer: Apple Mail (2.3124)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [poky][PATCH] gstreamer1.0-plugins-good: Remove gst_meta_ximage_transform function
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 17 Oct 2016 18:16:19 -0700
+Message-Id: <20161018011619.31677-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.10.0
+Subject: [PATCH] gnutls_3.5.3.bb: Fix native build on distro with kernel < 3.4.17
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,141 +52,78 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 17 Oct 2016 23:46:38 -0000
-X-Groupsio-MsgNum: 88298
-Content-Type: multipart/signed;
-	boundary="Apple-Mail=_A02A9AC2-749F-4524-ABC0-E231F5E81788";
-	protocol="application/pgp-signature"; micalg=pgp-sha1
+X-List-Received-Date: Tue, 18 Oct 2016 01:16:25 -0000
 
---Apple-Mail=_A02A9AC2-749F-4524-ABC0-E231F5E81788
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=us-ascii
+When using distros which use old kernels gnutls fails to build
+due to missing SYS_getrandom, therefore we need to check for this
+before using it.
+Fixes errorr e.g.
 
-this is ok too
+| ../../../gnutls-3.5.3/lib/nettle/rnd-linux.c: In function 'have_getrandom':
+| ../../../gnutls-3.5.3/lib/nettle/rnd-linux.c:59:42: error: 'SYS_getrandom' undeclared (first use in this function)
+|  #  define getrandom(dst,s,flags) syscall(SYS_getrandom, (void*)dst, (size_t)s, (unsigned int)flags)
 
-> On Oct 11, 2016, at 3:48 AM, Yuqing Zhu <carol.zhu@nxp.com> wrote:
->=20
-> Remove the transform function as it is not supported.
->=20
-> Or gst_buffer_copy_into() will print ERROR log.
->=20
-> Signed-off-by: Yuqing Zhu <carol.zhu@nxp.com>
-> ---
-> ...shouldn-t-implement-transform-if-don-t-su.patch | 48 =
-++++++++++++++++++++++
-> .../gstreamer/gstreamer1.0-plugins-good_1.8.3.bb   |  1 +
-> 2 files changed, 49 insertions(+)
-> create mode 100755 =
-meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/0002-ximageuti=
-l-shouldn-t-implement-transform-if-don-t-su.patch
->=20
-> diff --git =
-a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/0002-ximageu=
-til-shouldn-t-implement-transform-if-don-t-su.patch =
-b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/0002-ximageu=
-til-shouldn-t-implement-transform-if-don-t-su.patch
-> new file mode 100755
-> index 0000000..a73f16e
-> --- /dev/null
-> +++ =
-b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/0002-ximageu=
-til-shouldn-t-implement-transform-if-don-t-su.patch
-> @@ -0,0 +1,48 @@
-> +=46rom 17b1abd8491d87fab389654f313b72bded24afc2 Mon Sep 17 00:00:00 =
-2001
-> +From: Song Bing <bing.song@nxp.com>
-> +Date: Tue, 26 Apr 2016 16:49:33 +0800
-> +Subject: [PATCH] ximageutil: shouldn't implement transform if don't =
-support
-> + it.
-> +
-> +shouldn't implement transform if don't support it. Or
-> +gst_buffer_copy_into() will print ERROR log.
-> +
-> +Upstream-Status: Backport [1.9.1]
-> +
-> +https://bugzilla.gnome.org/show_bug.cgi?id=3D765583
-> +---
-> + sys/ximage/ximageutil.c |   11 +----------
-> + 1 file changed, 1 insertion(+), 10 deletions(-)
-> +
-> +diff --git a/sys/ximage/ximageutil.c b/sys/ximage/ximageutil.c
-> +index ac2fd49..add0422 100644
-> +--- a/sys/ximage/ximageutil.c
-> ++++ b/sys/ximage/ximageutil.c
-> +@@ -36,15 +36,6 @@ gst_meta_ximage_api_get_type (void)
-> +   return type;
-> + }
-> +
-> +-static gboolean
-> +-gst_meta_ximage_transform (GstBuffer * dest, GstMeta * meta,
-> +-    GstBuffer * buffer, GQuark type, gpointer data)
-> +-{
-> +-  /* ximage metadata can't be transformed or copied */
-> +-
-> +-  return FALSE;
-> +-}
-> +-
-> + const GstMetaInfo *
-> + gst_meta_ximage_get_info (void)
-> + {
-> +@@ -54,7 +45,7 @@ gst_meta_ximage_get_info (void)
-> +     const GstMetaInfo *meta =3D
-> +         gst_meta_register (gst_meta_ximage_api_get_type (), =
-"GstMetaXImageSrc",
-> +         sizeof (GstMetaXImage), (GstMetaInitFunction) NULL,
-> +-        (GstMetaFreeFunction) NULL, gst_meta_ximage_transform);
-> ++        (GstMetaFreeFunction) NULL, (GstMetaTransformFunction) =
-NULL);
-> +     g_once_init_leave (&meta_ximage_info, meta);
-> +   }
-> +   return meta_ximage_info;
-> +--
-> +1.7.9.5
-> +
-> diff --git =
-a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.8.3.bb =
-b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.8.3.bb
-> index 5cc6578..34b6008 100644
-> --- =
-a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.8.3.bb
-> +++ =
-b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.8.3.bb
-> @@ -9,6 +9,7 @@ SRC_URI =3D " \
->     =
-file://0001-gstrtpmp4gpay-set-dafault-value-for-MPEG4-without-co.patch \
->     file://avoid-including-sys-poll.h-directly.patch \
->     file://ensure-valid-sentinel-for-gst_structure_get.patch \
-> +    =
-file://0002-ximageutil-shouldn-t-implement-transform-if-don-t-su.patch \
-> "
->=20
-> SRC_URI[md5sum] =3D "473ebb1f15c67de99ddb6e4d027c0876"
-> --
-> 1.9.1
->=20
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ .../gnutls/gnutls/check_SYS_getrandom.patch        | 35 ++++++++++++++++++++++
+ meta/recipes-support/gnutls/gnutls_3.5.3.bb        |  1 +
+ 2 files changed, 36 insertions(+)
+ create mode 100644 meta/recipes-support/gnutls/gnutls/check_SYS_getrandom.patch
+
+diff --git a/meta/recipes-support/gnutls/gnutls/check_SYS_getrandom.patch b/meta/recipes-support/gnutls/gnutls/check_SYS_getrandom.patch
+new file mode 100644
+index 0000000..535c22a
+--- /dev/null
++++ b/meta/recipes-support/gnutls/gnutls/check_SYS_getrandom.patch
+@@ -0,0 +1,35 @@
++From f26c3979ab0325edb2e410d287bc501cf00e0ac0 Mon Sep 17 00:00:00 2001
++From: Nikos Mavrogiannopoulos <nmav@redhat.com>
++Date: Mon, 22 Aug 2016 16:32:34 +0200
++Subject: [PATCH] rnd-linux: added check for SYS_getrandom being defined
++
++This allows to compile the getrandom() code in old Linux systems
++which do not have the system call defined.
++---
++
++Upstream-Status: Backport
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++
++ lib/nettle/rnd-linux.c | 6 +++++-
++ 1 file changed, 5 insertions(+), 1 deletion(-)
++
++diff --git a/lib/nettle/rnd-linux.c b/lib/nettle/rnd-linux.c
++index d7f07a6..7a24d05 100644
++--- a/lib/nettle/rnd-linux.c
+++++ b/lib/nettle/rnd-linux.c
++@@ -56,7 +56,11 @@ static dev_t _gnutls_urandom_fd_rdev = 0;
++ # else
++ #  include <sys/syscall.h>
++ #  undef getrandom
++-#  define getrandom(dst,s,flags) syscall(SYS_getrandom, (void*)dst, (size_t)s, (unsigned int)flags)
+++#  if defined(SYS_getrandom)
+++#   define getrandom(dst,s,flags) syscall(SYS_getrandom, (void*)dst, (size_t)s, (unsigned int)flags)
+++#  else
+++#   define getrandom(dst,s,flags) -1
+++#  endif
++ # endif
++ 
++ static unsigned have_getrandom(void)
++--
++libgit2 0.24.0
++
+diff --git a/meta/recipes-support/gnutls/gnutls_3.5.3.bb b/meta/recipes-support/gnutls/gnutls_3.5.3.bb
+index b2dbb07..0400588 100644
+--- a/meta/recipes-support/gnutls/gnutls_3.5.3.bb
++++ b/meta/recipes-support/gnutls/gnutls_3.5.3.bb
+@@ -4,6 +4,7 @@ SRC_URI += "file://correct_rpl_gettimeofday_signature.patch \
+             file://0001-configure.ac-fix-sed-command.patch \
+             file://use-pkg-config-to-locate-zlib.patch \
+             file://0001-Use-correct-include-dir-with-minitasn.patch \
++            file://check_SYS_getrandom.patch \
+             file://CVE-2016-7444.patch \
+            "
+ SRC_URI[md5sum] = "6c2c7f40ddf52933ee3ca474cb8cb63c"
+-- 
+2.10.0
 
 
---Apple-Mail=_A02A9AC2-749F-4524-ABC0-E231F5E81788
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP using GPGMail
-
------BEGIN PGP SIGNATURE-----
-Comment: GPGTools - https://gpgtools.org
-
-iEYEARECAAYFAlgFYt0ACgkQuwUzVZGdMxTnCACfXyRvylpSsedr5ByKepiZEwx4
-yIEAnAjAqEy5UO0g5J67zqOVRRShKsCa
-=uyTq
------END PGP SIGNATURE-----
-
---Apple-Mail=_A02A9AC2-749F-4524-ABC0-E231F5E81788--
