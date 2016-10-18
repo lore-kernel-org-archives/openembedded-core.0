@@ -1,27 +1,34 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by mail.openembedded.org (Postfix) with ESMTP id 95C9271A15
+Return-Path: <marex@denx.de>
+X-Greylist: delayed 419 seconds by postgrey-1.34 at layers.openembedded.org;
+	Tue, 18 Oct 2016 22:02:24 UTC
+Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.9])
+	by mail.openembedded.org (Postfix) with ESMTP id 8DD3D71AA6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Oct 2016 21:23:04 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga105.jf.intel.com with ESMTP; 18 Oct 2016 14:23:06 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.31,511,1473145200"; d="scan'208";a="1046616266"
-Received: from yuan-mobl3.gar.corp.intel.com (HELO
-	peggleto-mobl.ger.corp.intel.com) ([10.255.158.98])
-	by orsmga001.jf.intel.com with ESMTP; 18 Oct 2016 14:23:04 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Juro Bystricky <juro.bystricky@intel.com>
-Date: Wed, 19 Oct 2016 10:23:03 +1300
-Message-ID: <3151643.dXW46sbQpQ@peggleto-mobl.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.14.10 (Linux/4.7.7-100.fc23.x86_64; KDE/4.14.20; x86_64; ;
-	)
-In-Reply-To: <1476807792-16431-1-git-send-email-juro.bystricky@intel.com>
-References: <1476807792-16431-1-git-send-email-juro.bystricky@intel.com>
-MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v2] insane.bbclass: Additional "mips" and "mipsel" machine definitions
+	Tue, 18 Oct 2016 22:02:24 +0000 (UTC)
+Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
+	by mail-out.m-online.net (Postfix) with ESMTP id 3sz85G5J4nz3hjJk;
+	Tue, 18 Oct 2016 23:55:30 +0200 (CEST)
+Received: from localhost (dynscan1.mnet-online.de [192.168.6.68])
+	by mail.m-online.net (Postfix) with ESMTP id 3sz85G4VZYzvkY3;
+	Tue, 18 Oct 2016 23:55:30 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at mnet-online.de
+Received: from mail.mnet-online.de ([192.168.8.182])
+	by localhost (dynscan1.mail.m-online.net [192.168.6.68]) (amavisd-new,
+	port 10024)
+	with ESMTP id etXZwy98E2RZ; Tue, 18 Oct 2016 23:55:29 +0200 (CEST)
+X-Auth-Info: 3qp0wrUTlG5uccRvqwqlSH3gKn1oNWag1II6pAXkUfM=
+Received: from chi.lan (unknown [195.140.253.167])
+	by mail.mnet-online.de (Postfix) with ESMTPA;
+	Tue, 18 Oct 2016 23:55:29 +0200 (CEST)
+From: Marek Vasut <marex@denx.de>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 18 Oct 2016 23:55:11 +0200
+Message-Id: <20161018215513.2873-3-marex@denx.de>
+X-Mailer: git-send-email 2.9.3
+In-Reply-To: <20161018215513.2873-1-marex@denx.de>
+References: <20161018215513.2873-1-marex@denx.de>
+Cc: Marek Vasut <marex@denx.de>
+Subject: [PATCH 3/5] u-boot: Drop the +git part from PV
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,24 +41,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Oct 2016 21:23:05 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Tue, 18 Oct 2016 22:02:25 -0000
 
-On Tue, 18 Oct 2016 09:23:12 Juro Bystricky wrote:
-> Add "mips" and "mipsel" to "machdata" table.
-> Although there is a way to add entries to the "machdata" table
-> from a BSP without modifying the insane.bbclass directly, MIPS is
-> already supported in openembedded-core and as such the relevant entries
-> should be present in insane.bbclass.
+The U-Boot package is using release versions of U-Boot,
+so drop the extra +git part from PV.
 
-It seems v1 was already merged I'm afraid.
+Signed-off-by: Marek Vasut <marex@denx.de>
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Denys Dmytriyenko <denis@denix.org>
+---
+ meta/recipes-bsp/u-boot/u-boot-common_2016.09.01.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Cheers,
-Paul
-
+diff --git a/meta/recipes-bsp/u-boot/u-boot-common_2016.09.01.inc b/meta/recipes-bsp/u-boot/u-boot-common_2016.09.01.inc
+index ead5077..0a90621 100644
+--- a/meta/recipes-bsp/u-boot/u-boot-common_2016.09.01.inc
++++ b/meta/recipes-bsp/u-boot/u-boot-common_2016.09.01.inc
+@@ -9,7 +9,7 @@ LIC_FILES_CHKSUM = "file://Licenses/README;md5=a2c678cfd4a4d97135585cad908541c6"
+ # repo during parse
+ SRCREV = "f3363c060497515ca8b71451cb56f3ec0abacaa9"
+ 
+-PV = "v2016.09.01+git${SRCPV}"
++PV = "v2016.09.01"
+ 
+ SRC_URI = "git://git.denx.de/u-boot.git;branch=u-boot-2016.09.y"
+ 
 -- 
+2.9.3
 
-Paul Eggleton
-Intel Open Source Technology Centre
 
