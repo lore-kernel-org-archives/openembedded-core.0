@@ -1,51 +1,33 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f171.google.com (mail-qk0-f171.google.com
-	[209.85.220.171])
-	by mail.openembedded.org (Postfix) with ESMTP id 0FDB1607A2
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 756176FFA4
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Oct 2016 21:40:09 +0000 (UTC)
-Received: by mail-qk0-f171.google.com with SMTP id n189so61859262qke.0
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Oct 2016 14:40:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=mhzMKFd1ZSlAA2R3zvQKzT3gs9fbmmf6lIvUXq+jg+U=;
-	b=PgsuN4Rp37I6Z3Nr2TZAoRRZd+9vDOJ4x/OQcAoFa5OQBosEqzThw89BLsdOlJSVgX
-	y7qq6A6IwmdyfIB/2VPGYH/oN+20IfbqHZOxXwHjKP1dsy8li+huTljXdg48iroSYeWw
-	FQwbvrTPhl1kGLuenk/5MhdlBJVw8ySBxZOWvj5o2BL87W9hVmVnw6xaYzDnDGNPL2j+
-	oDAOGU8IUJTJOQjkkSgzP7l2Y3Wjk8U1HNMvWrzVW0+SpfUG47r3VYS1sEBQlYifgcVZ
-	WluBgIhJmmHiCeDivS1Bjtt34vB+BJkTNNzGGYGn0Y4D6Nhkb2JdNp++vdL2a9fo1wr1
-	7xMQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=mhzMKFd1ZSlAA2R3zvQKzT3gs9fbmmf6lIvUXq+jg+U=;
-	b=fGHFmcJzDykugbaNuQAPJVhDAyiMikkxRz+iyS35oH96rm8Kvuz1ODTZQBi7qxaiWV
-	permw6nEoVDbeZpHgGA2hkky0DlEi10Uhfw6ZG904X5B8zg6pkzVS9/eJwMglMk+Djur
-	GEjPuzN3CCqDd8upa6MTcdMY9r4/0wliajw9vELuE/ckjpnfkRnCmlUIkgYYAERS6Wyr
-	xQjvqGpQdewzDJ0NsjeJtC1DAS61koboMC1vnNot+HBCyQ2uzhbJ3cjbOhvY+twa8Qwr
-	YNJSdxNsAA6/RraImdKRyER/+lTGbvOW5GynR3elQsyaNZjahIdX1M3EBMZPHxECJvkr
-	9ckg==
-X-Gm-Message-State: ABUngvcgfF9E2k1Vnohkk/NtGP85T7Lhop0KhrOt3ZlfnDy5dZj2EhWZo6suGDHYWEEFvlEgCeRkvBJJwYFvPxIi
-X-Received: by 10.55.198.132 with SMTP id s4mr5867528qkl.221.1476913210951;
-	Wed, 19 Oct 2016 14:40:10 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.140.85.208 with HTTP; Wed, 19 Oct 2016 14:39:50 -0700 (PDT)
-In-Reply-To: <20161019211532.GV2494@denix.org>
-References: <20161018215513.2873-1-marex@denx.de>
-	<20161018215513.2873-4-marex@denx.de>
-	<20161019201021.GP2494@denix.org>
-	<26a26c16-7eaf-70c3-698e-164bdba67d8b@denx.de>
-	<20161019211532.GV2494@denix.org>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 19 Oct 2016 22:39:50 +0100
-Message-ID: <CAJTo0LbWKZ1Ob1pQdUm4L4sLJX=CKDNifwHJpKSY_UVXoo-6Rw@mail.gmail.com>
-To: Denys Dmytriyenko <denis@denix.org>
-Cc: Marek Vasut <marex@denx.de>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 4/5] u-boot: Drop PV altogether
+	Wed, 19 Oct 2016 22:09:21 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u9JM9A56022929; Wed, 19 Oct 2016 23:09:10 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id AnLmwqm-tV9m; Wed, 19 Oct 2016 23:09:10 +0100 (BST)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u9JM954B022924
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Wed, 19 Oct 2016 23:09:06 +0100
+Message-ID: <1476914945.2166.103.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>, "Robert P. J. Day"
+	<rpjday@crashcourse.ca>
+Date: Wed, 19 Oct 2016 23:09:05 +0100
+In-Reply-To: <1542758.b0vWq7N0OP@peggleto-mobl.ger.corp.intel.com>
+References: <alpine.LFD.2.20.1610191112240.15586@ca624034.mitel.com>
+	<2130816.2i4mC23lpe@peggleto-mobl.ger.corp.intel.com>
+	<alpine.LFD.2.20.1610191541370.14839@localhost.localdomain>
+	<1542758.b0vWq7N0OP@peggleto-mobl.ger.corp.intel.com>
+X-Mailer: Evolution 3.18.5.2-0ubuntu3 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: how can i ask to keep all the generated "nativesdk" rpms?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,46 +40,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Oct 2016 21:40:10 -0000
-Content-Type: multipart/alternative; boundary=001a11438fd04da7e5053f3ea766
+X-List-Received-Date: Wed, 19 Oct 2016 22:09:22 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
---001a11438fd04da7e5053f3ea766
-Content-Type: text/plain; charset=UTF-8
+On Thu, 2016-10-20 at 08:52 +1300, Paul Eggleton wrote:
+> On Wed, 19 Oct 2016 15:42:27 Robert P. J. Day wrote:
+> > 
+> > On Thu, 20 Oct 2016, Paul Eggleton wrote:
+> > > 
+> > > On Wed, 19 Oct 2016 15:32:25 Robert P. J. Day wrote:
+> > > > 
+> > > > i was reading this:
+> > > > 
+> > > > https://patchwork.openembedded.org/patch/120705/
+> > > > 
+> > > > but perhaps i'm just misinterpreting what i'm reading.
+> > > Right - that patch makes the preservation of the package
+> > > management
+> > > database (what it refers to as the "packaging data") conditional.
+> > > That
+> > > code does nothing with the packages themselves.
+> >   i'm about to create a new project directory as a test ... is
+> > there
+> > any configuration i should do to try to preserve all those
+> > nativesdk
+> > rpm files?
+> I am not aware of any configuration that should control the presence
+> or 
+> absence of those files. As far as I'm concerned, if they are
+> disappearing and 
+> you're not doing anything to delete them, that's a bug.
 
-On 19 October 2016 at 22:15, Denys Dmytriyenko <denis@denix.org> wrote:
+I have a suspicion that this is the sstate code removing them because
+it decided that they were stale for some reason. Changing SDKMACHINE
+could conceivably do that (but probably shouldn't?), as could updating
+the metadata and the system deciding the data there was stale and
+"unreachable" from the new metadata.
 
-> > > But do we need to bump PE to ensure upgrade path and proper sorting?
-> >
-> > I don't think so, since the whole U-Boot version got updated.
->
-> Still, vXXXX.YY will always sort higher than XXXX.YY no matter what digits
-> there are. That's what PE is for, to get the sorting working even when
-> versioning schema gets changed in major way like this one...
+So I can imagine it happening but am not sure what the trigger would
+have been. If they were stale/unreachable, it might have been correct
+to remove them.
+
+Cheers,
+
+Richard
 
 
-Agreed, PE is required here.
 
-Ross
-
---001a11438fd04da7e5053f3ea766
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 19 October 2016 at 22:15, Denys Dmytriyenko <span dir=3D"ltr">&lt;<a hre=
-f=3D"mailto:denis@denix.org" target=3D"_blank">denis@denix.org</a>&gt;</spa=
-n> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;b=
-order-left:1px #ccc solid;padding-left:1ex"><span class=3D"">&gt; &gt; But =
-do we need to bump PE to ensure upgrade path and proper sorting?<br>
-&gt;<br>
-&gt; I don&#39;t think so, since the whole U-Boot version got updated.<br>
-<br>
-</span>Still, vXXXX.YY will always sort higher than XXXX.YY no matter what =
-digits<br>
-there are. That&#39;s what PE is for, to get the sorting working even when<=
-br>
-versioning schema gets changed in major way like this one...</blockquote></=
-div><br>Agreed, PE is required here.</div><div class=3D"gmail_extra"><br></=
-div><div class=3D"gmail_extra">Ross</div></div>
-
---001a11438fd04da7e5053f3ea766--
