@@ -1,24 +1,24 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 9874B71A70
+	by mail.openembedded.org (Postfix) with ESMTP id 99E8371A70
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Oct 2016 15:09:24 +0000 (UTC)
+	Wed, 19 Oct 2016 15:09:25 +0000 (UTC)
 Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-	by orsmga101.jf.intel.com with ESMTP; 19 Oct 2016 08:09:26 -0700
+	by orsmga101.jf.intel.com with ESMTP; 19 Oct 2016 08:09:27 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.31,514,1473145200"; d="scan'208";a="21266979"
+X-IronPort-AV: E=Sophos;i="5.31,514,1473145200"; d="scan'208";a="21266983"
 Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by fmsmga006.fm.intel.com with ESMTP; 19 Oct 2016 08:09:25 -0700
+	by fmsmga006.fm.intel.com with ESMTP; 19 Oct 2016 08:09:26 -0700
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 19 Oct 2016 18:06:51 +0300
-Message-Id: <886a26cd3e2f88f1988b010e832471852148f9e3.1476888929.git.alexander.kanavin@linux.intel.com>
+Date: Wed, 19 Oct 2016 18:06:52 +0300
+Message-Id: <bdf7128cee2f417bff6d92431b49660a49e77281.1476888929.git.alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.9.3
 In-Reply-To: <cover.1476888929.git.alexander.kanavin@linux.intel.com>
 References: <cover.1476888929.git.alexander.kanavin@linux.intel.com>
 In-Reply-To: <cover.1476888929.git.alexander.kanavin@linux.intel.com>
 References: <cover.1476888929.git.alexander.kanavin@linux.intel.com>
-Subject: [PATCH 16/19] nss: update to 3.27.1
+Subject: [PATCH 17/19] vala: update to 0.34.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,62 +31,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Oct 2016 15:09:24 -0000
+X-List-Received-Date: Wed, 19 Oct 2016 15:09:25 -0000
 
 Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- meta/recipes-support/nss/nss/pqg.c-ULL_addend.patch     | 8 ++++----
- meta/recipes-support/nss/{nss_3.25.bb => nss_3.27.1.bb} | 6 +++---
- 2 files changed, 7 insertions(+), 7 deletions(-)
- rename meta/recipes-support/nss/{nss_3.25.bb => nss_3.27.1.bb} (97%)
+ meta/recipes-devtools/vala/vala.inc                           | 2 +-
+ meta/recipes-devtools/vala/{vala_0.32.1.bb => vala_0.34.1.bb} | 4 ++--
+ 2 files changed, 3 insertions(+), 3 deletions(-)
+ rename meta/recipes-devtools/vala/{vala_0.32.1.bb => vala_0.34.1.bb} (56%)
 
-diff --git a/meta/recipes-support/nss/nss/pqg.c-ULL_addend.patch b/meta/recipes-support/nss/nss/pqg.c-ULL_addend.patch
-index 9caaaeb..9942bf19 100644
---- a/meta/recipes-support/nss/nss/pqg.c-ULL_addend.patch
-+++ b/meta/recipes-support/nss/nss/pqg.c-ULL_addend.patch
-@@ -13,11 +13,11 @@ Index: nss-3.24/nss/lib/freebl/pqg.c
- @@ -322,8 +322,8 @@ generate_h_candidate(SECItem *hit, mp_in
-  
-  static SECStatus
-- addToSeed(const SECItem * seed,
---          unsigned long   addend,
---          int             seedlen, /* g in 186-1 */
-+ addToSeed(const SECItem *seed,
-+-          unsigned long addend,
-+-          int seedlen, /* g in 186-1 */
- +          unsigned long long  addend,
- +          int                 seedlen, /* g in 186-1 */
--           SECItem * seedout)
-+           SECItem *seedout)
-  {
-      mp_int s, sum, modulus, tmp;
-diff --git a/meta/recipes-support/nss/nss_3.25.bb b/meta/recipes-support/nss/nss_3.27.1.bb
-similarity index 97%
-rename from meta/recipes-support/nss/nss_3.25.bb
-rename to meta/recipes-support/nss/nss_3.27.1.bb
-index eff09eb..0917938 100644
---- a/meta/recipes-support/nss/nss_3.25.bb
-+++ b/meta/recipes-support/nss/nss_3.27.1.bb
-@@ -15,7 +15,7 @@ LIC_FILES_CHKSUM = "file://nss/COPYING;md5=3b1e88e1b9c0b5a4b2881d46cce06a18 \
-                     file://nss/lib/freebl/mpi/doc/LICENSE-MPL;md5=5d425c8f3157dbf212db2ec53d9e5132"
- 
- SRC_URI = "\
--    http://ftp.mozilla.org/pub/mozilla.org/security/nss/releases/NSS_3_25_RTM/src/${BP}.tar.gz \
-+    http://ftp.mozilla.org/pub/mozilla.org/security/nss/releases/NSS_3_27_1_RTM/src/${BP}.tar.gz \
-     file://nss-fix-support-cross-compiling.patch \
-     file://nss-no-rpath-for-cross-compiling.patch \
-     file://nss-fix-incorrect-shebang-of-perl.patch \
-@@ -25,8 +25,8 @@ SRC_URI = "\
-     file://nss.pc.in \
-     file://signlibs.sh \
+diff --git a/meta/recipes-devtools/vala/vala.inc b/meta/recipes-devtools/vala/vala.inc
+index 34c9db9..afa09ec 100644
+--- a/meta/recipes-devtools/vala/vala.inc
++++ b/meta/recipes-devtools/vala/vala.inc
+@@ -46,5 +46,5 @@ vapigen_sysroot_preprocess() {
+         # up our wrapper.
+         sed -i \
+            -e "s|vapigen=.*|vapigen=${bindir}/vapigen-wrapper|" \
+-           ${SYSROOT_DESTDIR}${datadir}/pkgconfig/vapigen-${SHRT_VER}.pc
++           ${SYSROOT_DESTDIR}${libdir}/pkgconfig/vapigen-${SHRT_VER}.pc
+ }
+diff --git a/meta/recipes-devtools/vala/vala_0.32.1.bb b/meta/recipes-devtools/vala/vala_0.34.1.bb
+similarity index 56%
+rename from meta/recipes-devtools/vala/vala_0.32.1.bb
+rename to meta/recipes-devtools/vala/vala_0.34.1.bb
+index b34086e..a94e621 100644
+--- a/meta/recipes-devtools/vala/vala_0.32.1.bb
++++ b/meta/recipes-devtools/vala/vala_0.34.1.bb
+@@ -4,5 +4,5 @@ SRC_URI += " file://0001-git-version-gen-don-t-append-dirty-if-we-re-not-in-g.pa
+              file://0001-vapigen.m4-use-PKG_CONFIG_SYSROOT_DIR.patch \
  "
--SRC_URI[md5sum] = "23169c406adc8ac3672d34bf9ea2433d"
--SRC_URI[sha256sum] = "5d1ad475da19d0c033a716350dc5f8a747999d3eba5ac07ee0368c5bad6e2359"
-+SRC_URI[md5sum] = "f18e1ebfe07969c84b890e45843edcb7"
-+SRC_URI[sha256sum] = "fd3637a1930cd838239a89633a7ed9a18859ae9b599043f3a18f726dc4ec2a6b"
  
- UPSTREAM_CHECK_URI = "https://developer.mozilla.org/en-US/docs/Mozilla/Projects/NSS/NSS_Releases"
- UPSTREAM_CHECK_REGEX = "NSS_(?P<pver>.+)_release_notes"
+-SRC_URI[md5sum] = "755881770bffac020b5ea5f625fbe528"
+-SRC_URI[sha256sum] = "dd0d47e548a34cfb1e4b04149acd082a86414c49057ffb79902eb9a508a161a9"
++SRC_URI[md5sum] = "4c04e73025127e3ae43b968149c96329"
++SRC_URI[sha256sum] = "f5ccfcfc460a0c6797bfbd7e739042bf5988a0f44d82278dbe1880c0e5f29299"
 -- 
 2.9.3
 
