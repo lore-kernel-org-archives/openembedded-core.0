@@ -1,48 +1,40 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qt0-f180.google.com (mail-qt0-f180.google.com
-	[209.85.216.180])
-	by mail.openembedded.org (Postfix) with ESMTP id 3F64F719D3
+Return-Path: <aborduno@cisco.com>
+X-Greylist: delayed 553 seconds by postgrey-1.34 at layers.openembedded.org;
+	Wed, 19 Oct 2016 14:07:16 UTC
+Received: from rcdn-iport-5.cisco.com (rcdn-iport-5.cisco.com [173.37.86.76])
+	by mail.openembedded.org (Postfix) with ESMTP id 5166F71A3A
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Oct 2016 12:53:38 +0000 (UTC)
-Received: by mail-qt0-f180.google.com with SMTP id f6so17803638qtd.2
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Oct 2016 05:53:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=CbSv78y0znehHKESRB/zOa87wQ96qsAlQ7B/Q2Bcz4g=;
-	b=QOTIM1WUt8cZOW2wib1Oeddvf6AIiA73o/KfviVzITiY/nhv+1RWz4ZPOS3M55+QQQ
-	0/+zmj0dzjxf1tg8QFHti2TVM4LMv0viesOM0eCV3dPPT4Ib/q52JdKMy/0Fynxq/maP
-	aBa54T0tl0P1SA3uN0e6Mqn1IG3N7dJpnpmxgzKT38Dgc/01I600YDH/WyOoB0AbVEnV
-	W5kPtxQDOcXuwJNPuGw0y+5mAs/Y/9P0fVklBRaeO5woKTmKW2pOlqL3ggRwi2ZkqXU/
-	PhrP5ZnjgT1p6WuDvz74wPUQK0OD5N6xevPXXrqzH1JoYezltWEFSmbzloHNkWgkZFZ9
-	zSxw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=CbSv78y0znehHKESRB/zOa87wQ96qsAlQ7B/Q2Bcz4g=;
-	b=R6R5hsL1Etu8+OG/6T7oZQyzVHaO1tL0F8IGbw+AglR3U2lsjyGa+6L8pMEYbyCbv6
-	Da6/NBTzglN+7t/vgfx9+rkQTIhySPHqkZoJuday5vXa0kUBgSnVkAN0IkWG5XeJUbBR
-	ocu/SuzvJUVCfaT3LaBMNhw9nnvybA6/rKxgfANMnhdZdphyZasopkfh30qfDuPdL1K5
-	adbPiIVJiOg99AcfgkzNeVR/6UPZt0VOtBsi86rUwq1CAB8B14jQ89+u0D0AxMexQq+1
-	KmmaZQHdVDyEwbg7/zr3M+vcI9HoL0EkbmI6LwfpEZ62y5J11Fhulllg6GogtLJDY5dr
-	yIrQ==
-X-Gm-Message-State: AA6/9Rmyjb8kveGQG3ie4TUm35Ovw9TGuOIUR2tomdrqIX6TWpOzPFw5AAgNp2enVl0IA4Bsr0GFH+ezxzWpgIcs
-X-Received: by 10.200.40.91 with SMTP id 27mr5984053qtr.135.1476881620189;
-	Wed, 19 Oct 2016 05:53:40 -0700 (PDT)
+	Wed, 19 Oct 2016 14:07:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+	d=cisco.com; i=@cisco.com; l=2135; q=dns/txt; s=iport;
+	t=1476886041; x=1478095641;
+	h=subject:to:references:cc:from:message-id:date:
+	mime-version:in-reply-to:content-transfer-encoding;
+	bh=6FtW2kv6oGcvKGDrVuRbldR9/tRH5GWhEOVw/Tf7h/w=;
+	b=PQ3NffSdbiV47T1VQj+un+For03OBtlxjvJffwRhFYv/z14MOGJy7Df7
+	5pv1rgoID+3zbXophtIrEGLxN32Y9bA2KBS4uctRZF79FRrVH4PxWCgys
+	5tyDsmVbMrRpjLwORH4yj6qQ/WaTJVh54Pt2Y0VC4fpb42tTRC+31r1d+ 8=;
+X-IronPort-AV: E=Sophos;i="5.31,514,1473120000"; d="scan'208";a="161634759"
+Received: from rcdn-core-3.cisco.com ([173.37.93.154])
+	by rcdn-iport-5.cisco.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	19 Oct 2016 13:58:05 +0000
+Received: from kbp1-dhp-f50810.synapse.com ([10.24.115.201])
+	(authenticated bits=0)
+	by rcdn-core-3.cisco.com (8.14.5/8.14.5) with ESMTP id u9JDw1xh017279
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NO);
+	Wed, 19 Oct 2016 13:58:04 GMT
+To: openembedded-core@lists.openembedded.org
+References: <1476118955-12401-1-git-send-email-aborduno@cisco.com>
+From: Andrii Bordunov <aborduno@cisco.com>
+Message-ID: <2f612347-5351-fc20-956e-1cf84a5189ff@cisco.com>
+Date: Wed, 19 Oct 2016 16:58:01 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.3.0
 MIME-Version: 1.0
-Received: by 10.140.85.208 with HTTP; Wed, 19 Oct 2016 05:53:19 -0700 (PDT)
-In-Reply-To: <1570516.F2oa9eZtAN@peggleto-mobl.ger.corp.intel.com>
-References: <cover.1476469708.git.jussi.kukkonen@intel.com>
-	<0464acab-69a2-715d-5a3d-61e3961e8ccb@windriver.com>
-	<1570516.F2oa9eZtAN@peggleto-mobl.ger.corp.intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 19 Oct 2016 13:53:19 +0100
-Message-ID: <CAJTo0LZ=q+030y70h7=sq9c-9_mOm5K6sNRcV7xhBO1PEYAhow@mail.gmail.com>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/2] Re-add piglit to sdk images
+In-Reply-To: <1476118955-12401-1-git-send-email-aborduno@cisco.com>
+X-Authenticated-User: aborduno
+Cc: Andrii Bordunov <aborduno@cisco.com>
+Subject: Re: [PATCH] package.bbclass: allow using EXCLUDE_FROM_SHLIBS for subpackages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,56 +47,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Oct 2016 12:53:39 -0000
-Content-Type: multipart/alternative; boundary=001a1141586858e60b053f374c7e
+X-List-Received-Date: Wed, 19 Oct 2016 14:07:19 -0000
+Content-Type: text/plain; charset=windows-1251; format=flowed
+Content-Transfer-Encoding: 7bit
 
---001a1141586858e60b053f374c7e
-Content-Type: text/plain; charset=UTF-8
+Ping? Any comments?
 
-On 18 October 2016 at 22:21, Paul Eggleton <paul.eggleton@linux.intel.com>
-wrote:
 
-> > > Q: Do I need to declare a runtime dependency that typically comes
-> > > from busybox (tar)?
-> >
-> > Yes, because some people try to eliminate busybox from their image.
+
+Thank you,
+Andrii
+
+On 10.10.16 20:02, Andrii Bordunov wrote:
+> Some packages containing shared libraries might be registered
+> as shlib providers when they shouldn't (for example, the lib is for
+> their private use and must not generate any dependency).
 >
-> How would one express such a dependency though, given that it could come
-> from
-> tar or busybox? "Virtual" runtime dependencies aren't allowed except
-> through
-> our somewhat awkward VIRTUAL-RUNTIME convention, but that probably isn't
-> warranted here.
+> EXCLUDE_FROM_SHLIBS is targeted at that, but it could be set
+> for entire recipe only.
+>
+> This patch expands EXCLUDE_FROM_SHLIBS usage, so now it's possible
+> to set it in a style similar with RDEPENDS. For example:
+>  EXCLUDE_FROM_SHLIBS_${PN}-ptest = "1"
+>
+> Signed-off-by: Andrii Bordunov <aborduno@cisco.com>
+> ---
+>  meta/classes/package.bbclass | 12 ++++++++++--
+>  1 file changed, 10 insertions(+), 2 deletions(-)
+>
+> diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
+> index a6f0a7a..9bf43dc 100644
+> --- a/meta/classes/package.bbclass
+> +++ b/meta/classes/package.bbclass
+> @@ -1499,6 +1499,14 @@ python package_do_shlibs() {
+>      libdir_re = re.compile(".*/%s$" % d.getVar('baselib', True))
+>
+>      packages = d.getVar('PACKAGES', True)
+> +
+> +    shlib_pkgs = []
+> +    for pkg in packages.split():
+> +        if d.getVar('EXCLUDE_FROM_SHLIBS_' + pkg, 0):
+> +            bb.note("not generating shlibs for %s" % pkg)
+> +        else:
+> +            shlib_pkgs.append(pkg)
+> +
+>      targetos = d.getVar('TARGET_OS', True)
+>
+>      workdir = d.getVar('WORKDIR', True)
+> @@ -1614,7 +1622,7 @@ python package_do_shlibs() {
+>      needed = {}
+>      shlib_provider = oe.package.read_shlib_providers(d)
+>
+> -    for pkg in packages.split():
+> +    for pkg in shlib_pkgs:
+>          private_libs = d.getVar('PRIVATE_LIBS_' + pkg, True) or d.getVar('PRIVATE_LIBS', True) or ""
+>          private_libs = private_libs.split()
+>          needs_ldconfig = False
+> @@ -1684,7 +1692,7 @@ python package_do_shlibs() {
+>
+>      libsearchpath = [d.getVar('libdir', True), d.getVar('base_libdir', True)]
+>
+> -    for pkg in packages.split():
+> +    for pkg in shlib_pkgs:
+>          bb.debug(2, "calculating shlib requirements for %s" % pkg)
+>
+>          deps = list()
 >
 
-busybox could RRPOVIDE tar?
-
-Ross
-
---001a1141586858e60b053f374c7e
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 18 October 2016 at 22:21, Paul Eggleton <span dir=3D"ltr">&lt;<a href=3D=
-"mailto:paul.eggleton@linux.intel.com" target=3D"_blank">paul.eggleton@linu=
-x.intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" styl=
-e=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><span c=
-lass=3D"">&gt; &gt; Q: Do I need to declare a runtime dependency that typic=
-ally comes<br>
-&gt; &gt; from busybox (tar)?<br>
-&gt;<br>
-&gt; Yes, because some people try to eliminate busybox from their image.<br=
->
-<br>
-</span>How would one express such a dependency though, given that it could =
-come from<br>
-tar or busybox? &quot;Virtual&quot; runtime dependencies aren&#39;t allowed=
- except through<br>
-our somewhat awkward VIRTUAL-RUNTIME convention, but that probably isn&#39;=
-t<br>
-warranted here.<br></blockquote></div><br>busybox could RRPOVIDE tar?</div>=
-<div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div><=
-/div>
-
---001a1141586858e60b053f374c7e--
