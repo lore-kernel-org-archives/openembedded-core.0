@@ -1,37 +1,38 @@
-Return-Path: <marex@denx.de>
-Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.10])
-	by mail.openembedded.org (Postfix) with ESMTP id 35C1B71979
+Return-Path: <juro.bystricky@intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id A344865C8F
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Oct 2016 20:39:14 +0000 (UTC)
-Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
-	by mail-out.m-online.net (Postfix) with ESMTP id 3szkLq4K0Hz3hjhh;
-	Wed, 19 Oct 2016 22:39:15 +0200 (CEST)
-Received: from localhost (dynscan1.mnet-online.de [192.168.6.68])
-	by mail.m-online.net (Postfix) with ESMTP id 3szkLq3JPkzvkds;
-	Wed, 19 Oct 2016 22:39:15 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at mnet-online.de
-Received: from mail.mnet-online.de ([192.168.8.182])
-	by localhost (dynscan1.mail.m-online.net [192.168.6.68]) (amavisd-new,
-	port 10024)
-	with ESMTP id nnk-PB5eyIZ3; Wed, 19 Oct 2016 22:39:13 +0200 (CEST)
-X-Auth-Info: iBDfb4cvpxV4+ZD01pwhPg4LfqlBE4M54JZ+a8mqVB0=
-Received: from [IPv6:::1] (unknown [195.140.253.167])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mail.mnet-online.de (Postfix) with ESMTPSA;
-	Wed, 19 Oct 2016 22:39:13 +0200 (CEST)
-To: Denys Dmytriyenko <denis@denix.org>
-References: <20161018215513.2873-1-marex@denx.de>
-	<20161019201349.GS2494@denix.org>
-From: Marek Vasut <marex@denx.de>
-Message-ID: <090e961b-efb9-e2bd-831e-10fc341ebe6b@denx.de>
-Date: Wed, 19 Oct 2016 22:39:12 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Icedove/45.4.0
+	Wed, 19 Oct 2016 20:48:13 +0000 (UTC)
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+	by orsmga102.jf.intel.com with ESMTP; 19 Oct 2016 13:48:14 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.31,367,1473145200"; d="scan'208";a="21496206"
+Received: from orsmsx106.amr.corp.intel.com ([10.22.225.133])
+	by orsmga005.jf.intel.com with ESMTP; 19 Oct 2016 13:48:14 -0700
+Received: from orsmsx112.amr.corp.intel.com ([169.254.3.58]) by
+	ORSMSX106.amr.corp.intel.com ([10.22.225.133]) with mapi id
+	14.03.0248.002; Wed, 19 Oct 2016 13:48:14 -0700
+From: "Bystricky, Juro" <juro.bystricky@intel.com>
+To: Khem Raj <raj.khem@gmail.com>
+Thread-Topic: [OE-core] [PATCH] kernel-arch.bbclass: Add xtensa and arc into
+	valid_archs table
+Thread-Index: AQHSI90PobTsoYsHZk2G13m9BhTfdqCtzReAgACVh+CAAJwIgIABTZ/g
+Date: Wed, 19 Oct 2016 20:48:14 +0000
+Message-ID: <6E51916E4A1F32428260031F4C7CD2B6118A3259@ORSMSX112.amr.corp.intel.com>
+References: <1476203492-34253-1-git-send-email-juro.bystricky@intel.com>
+	<F6C44CA5-B615-4B5E-9878-A3BE33E35822@gmail.com>
+	<6E51916E4A1F32428260031F4C7CD2B61189B148@ORSMSX112.amr.corp.intel.com>
+	<C5BBB3EA-468F-456B-ABBA-E692E204FBAC@gmail.com>
+In-Reply-To: <C5BBB3EA-468F-456B-ABBA-E692E204FBAC@gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.22.254.138]
 MIME-Version: 1.0
-In-Reply-To: <20161019201349.GS2494@denix.org>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/5] u-boot: Factor out common bits
+Cc: "jurobystricky@hotmail.com" <jurobystricky@hotmail.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] kernel-arch.bbclass: Add xtensa and arc into valid_archs table
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,156 +45,76 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Oct 2016 20:39:16 -0000
-Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 19 Oct 2016 20:48:13 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-On 10/19/2016 10:13 PM, Denys Dmytriyenko wrote:
-> On Tue, Oct 18, 2016 at 11:55:09PM +0200, Marek Vasut wrote:
->> The u-boot recipes share a couple of common variables, which makes
->> updating of the recipes error prone and a toil. Factor those common
->> bits into u-boot-common_${PV}.inc so that they are in one place.
->>
->> The u-boot_${PV}.bb now explicitly require u-boot-common_${PV}.inc
->> before require u-boot.inc , as doing require u-boot-common_${PV}.inc
->> from u-boot.inc would fail due to ${PV} not being set. This is a
->> functional change.
-> 
-> Any issues making .inc file version-agnostic and moving SRCREV out to .bb?
-
-That's what it was initially, but got review comment to not do that.
-I'm fine either way.
-
->> Signed-off-by: Marek Vasut <marex@denx.de>
->> Cc: Richard Purdie <richard.purdie@linuxfoundation.org>
->> Cc: Denys Dmytriyenko <denis@denix.org>
->> ---
->>  meta/recipes-bsp/u-boot/u-boot-common_2016.03.inc  | 16 ++++++++++++++++
->>  meta/recipes-bsp/u-boot/u-boot-fw-utils_2016.03.bb | 16 ++--------------
->>  meta/recipes-bsp/u-boot/u-boot-mkimage_2016.03.bb  | 17 ++---------------
->>  meta/recipes-bsp/u-boot/u-boot.inc                 |  8 --------
->>  meta/recipes-bsp/u-boot/u-boot_2016.03.bb          |  8 +-------
->>  5 files changed, 21 insertions(+), 44 deletions(-)
->>  create mode 100644 meta/recipes-bsp/u-boot/u-boot-common_2016.03.inc
->>
->> diff --git a/meta/recipes-bsp/u-boot/u-boot-common_2016.03.inc b/meta/recipes-bsp/u-boot/u-boot-common_2016.03.inc
->> new file mode 100644
->> index 0000000..403e316
->> --- /dev/null
->> +++ b/meta/recipes-bsp/u-boot/u-boot-common_2016.03.inc
->> @@ -0,0 +1,16 @@
->> +HOMEPAGE = "http://www.denx.de/wiki/U-Boot/WebHome"
->> +SECTION = "bootloaders"
->> +
->> +LICENSE = "GPLv2+"
->> +LIC_FILES_CHKSUM = "file://Licenses/README;md5=a2c678cfd4a4d97135585cad908541c6"
->> +
->> +# This revision corresponds to the tag "v2016.03"
->> +# We use the revision in order to avoid having to fetch it from the
->> +# repo during parse
->> +SRCREV = "df61a74e6845ec9bdcdd48d2aff5e9c2c6debeaa"
->> +
->> +PV = "v2016.03+git${SRCPV}"
->> +
->> +SRC_URI = "git://git.denx.de/u-boot.git;branch=master"
->> +
->> +S = "${WORKDIR}/git"
->> diff --git a/meta/recipes-bsp/u-boot/u-boot-fw-utils_2016.03.bb b/meta/recipes-bsp/u-boot/u-boot-fw-utils_2016.03.bb
->> index 79f1548..f56862c 100644
->> --- a/meta/recipes-bsp/u-boot/u-boot-fw-utils_2016.03.bb
->> +++ b/meta/recipes-bsp/u-boot/u-boot-fw-utils_2016.03.bb
->> @@ -1,20 +1,8 @@
->> +require u-boot-common_${PV}.inc
->> +
->>  SUMMARY = "U-Boot bootloader fw_printenv/setenv utilities"
->> -LICENSE = "GPLv2+"
->> -LIC_FILES_CHKSUM = "file://Licenses/README;md5=a2c678cfd4a4d97135585cad908541c6"
->> -SECTION = "bootloader"
->>  DEPENDS = "mtd-utils"
->>  
->> -# This revision corresponds to the tag "v2016.03"
->> -# We use the revision in order to avoid having to fetch it from the
->> -# repo during parse
->> -SRCREV = "df61a74e6845ec9bdcdd48d2aff5e9c2c6debeaa"
->> -
->> -PV = "v2016.03+git${SRCPV}"
->> -
->> -SRC_URI = "git://git.denx.de/u-boot.git;branch=master"
->> -
->> -S = "${WORKDIR}/git"
->> -
->>  INSANE_SKIP_${PN} = "already-stripped"
->>  EXTRA_OEMAKE_class-target = 'CROSS_COMPILE=${TARGET_PREFIX} CC="${CC} ${CFLAGS} ${LDFLAGS}" V=1'
->>  EXTRA_OEMAKE_class-cross = 'ARCH=${TARGET_ARCH} CC="${CC} ${CFLAGS} ${LDFLAGS}" V=1'
->> diff --git a/meta/recipes-bsp/u-boot/u-boot-mkimage_2016.03.bb b/meta/recipes-bsp/u-boot/u-boot-mkimage_2016.03.bb
->> index d5921a0..5025961 100644
->> --- a/meta/recipes-bsp/u-boot/u-boot-mkimage_2016.03.bb
->> +++ b/meta/recipes-bsp/u-boot/u-boot-mkimage_2016.03.bb
->> @@ -1,21 +1,8 @@
->> -SUMMARY = "U-Boot bootloader image creation tool"
->> -LICENSE = "GPLv2+"
->> -LIC_FILES_CHKSUM = "file://Licenses/README;md5=a2c678cfd4a4d97135585cad908541c6"
->> -SECTION = "bootloader"
->> +require u-boot-common_${PV}.inc
->>  
->> +SUMMARY = "U-Boot bootloader image creation tool"
->>  DEPENDS = "openssl"
->>  
->> -# This revision corresponds to the tag "v2016.03"
->> -# We use the revision in order to avoid having to fetch it from the
->> -# repo during parse
->> -SRCREV = "df61a74e6845ec9bdcdd48d2aff5e9c2c6debeaa"
->> -
->> -PV = "v2016.03+git${SRCPV}"
->> -
->> -SRC_URI = "git://git.denx.de/u-boot.git;branch=master"
->> -
->> -S = "${WORKDIR}/git"
->> -
->>  EXTRA_OEMAKE = 'CROSS_COMPILE="${TARGET_PREFIX}" CC="${CC} ${CFLAGS} ${LDFLAGS}" STRIP=true V=1'
->>  
->>  do_compile () {
->> diff --git a/meta/recipes-bsp/u-boot/u-boot.inc b/meta/recipes-bsp/u-boot/u-boot.inc
->> index 252aae9..afe3fe9 100644
->> --- a/meta/recipes-bsp/u-boot/u-boot.inc
->> +++ b/meta/recipes-bsp/u-boot/u-boot.inc
->> @@ -1,14 +1,6 @@
->>  SUMMARY = "Universal Boot Loader for embedded devices"
->> -HOMEPAGE = "http://www.denx.de/wiki/U-Boot/WebHome"
->> -SECTION = "bootloaders"
->>  PROVIDES = "virtual/bootloader"
->>  
->> -LICENSE = "GPLv2+"
->> -LIC_FILES_CHKSUM = "file://Licenses/README;md5=a2c678cfd4a4d97135585cad908541c6"
->> -
->> -SRC_URI = "git://git.denx.de/u-boot.git;branch=master"
->> -
->> -S = "${WORKDIR}/git"
->>  B = "${WORKDIR}/build"
->>  
->>  PACKAGE_ARCH = "${MACHINE_ARCH}"
->> diff --git a/meta/recipes-bsp/u-boot/u-boot_2016.03.bb b/meta/recipes-bsp/u-boot/u-boot_2016.03.bb
->> index 836b0ce..dabe709 100644
->> --- a/meta/recipes-bsp/u-boot/u-boot_2016.03.bb
->> +++ b/meta/recipes-bsp/u-boot/u-boot_2016.03.bb
->> @@ -1,10 +1,4 @@
->> +require u-boot-common_${PV}.inc
->>  require u-boot.inc
->>  
->>  DEPENDS += "dtc-native"
->> -
->> -# This revision corresponds to the tag "v2016.03"
->> -# We use the revision in order to avoid having to fetch it from the
->> -# repo during parse
->> -SRCREV = "df61a74e6845ec9bdcdd48d2aff5e9c2c6debeaa"
->> -
->> -PV = "v2016.03+git${SRCPV}"
->> -- 
->> 2.9.3
->>
-
-
--- 
-Best regards,
-Marek Vasut
+VGhhbmtzLiBJIHdpbGwgYWRkIHRoZSB0ZXN0IGZvciBUQVJHRVRfT1MgaW4gYSBzZXBhcmF0ZSBw
+YXRjaC4NCg0KPiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBLaGVtIFJhaiBb
+bWFpbHRvOnJhai5raGVtQGdtYWlsLmNvbV0NCj4gU2VudDogVHVlc2RheSwgT2N0b2JlciAxOCwg
+MjAxNiAxMDo1MyBBTQ0KPiBUbzogQnlzdHJpY2t5LCBKdXJvIDxqdXJvLmJ5c3RyaWNreUBpbnRl
+bC5jb20+DQo+IENjOiBvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnOyBq
+dXJvYnlzdHJpY2t5QGhvdG1haWwuY29tDQo+IFN1YmplY3Q6IFJlOiBbT0UtY29yZV0gW1BBVENI
+XSBrZXJuZWwtYXJjaC5iYmNsYXNzOiBBZGQgeHRlbnNhIGFuZCBhcmMgaW50bw0KPiB2YWxpZF9h
+cmNocyB0YWJsZQ0KPiANCj4gDQo+ID4gT24gT2N0IDE4LCAyMDE2LCBhdCA5OjEzIEFNLCBCeXN0
+cmlja3ksIEp1cm8gPGp1cm8uYnlzdHJpY2t5QGludGVsLmNvbT4NCj4gd3JvdGU6DQo+ID4NCj4g
+PiBUaGUgc2luZ2xlIHB1cnBvc2Ugb2YgIm1hcF9rZXJuZWxfYXJjaCIgaXMgdG8gc2V0DQo+ID4N
+Cj4gPiBleHBvcnQgQVJDSCA9ICJhcmNoX3h4eCINCj4gPg0KPiA+IFByZXNlbnRseSwgd2UgbXVz
+dCBzZXQgQVJDSCBldmVuIHdoZW4gYnVpbGRpbmcgYmFyZW1ldGFsIHRvb2xjaGFpbnMgb25seSwN
+Cj4gPiB3aXRob3V0IGFueSBuZWVkIHRvIGJ1aWxkIGtlcm5lbC4gSG93ZXZlciwgaW4gdGhpcyBj
+YXNlIHdlIG1heQ0KPiA+IGVuY291bnRlciBhIGJvZ3VzIGVycm9yIHN1Y2ggYXMgImNhbm5vdCBt
+YXAgYXJjaF94eHggdG8gYSBsaW51eCBrZXJuZWwNCj4gYXJjaGl0ZWN0dXJlIi4NCj4gPiBUaGUg
+c2ltcGxlc3Qgd2F5IHRvIGF2b2lkIHRoaXMgaXMgdG8gcGxhY2UgYXJjaF94eHggaW50byB0aGUg
+dGFibGUNCj4gPiAidmFsaWRfYXJjaHMiLiAoVGhhdCB3YXMgdGhlIG1haW4gcmVhc29uIGZvciB0
+aGUgcGF0Y2gpLg0KPiA+DQo+ID4gQSBiZXR0ZXIgYnV0IG1vcmUgY29tcGxleCB3YXkgd291bGQg
+YmUgdG8gbW9kaWZ5IHRoZSBjb2RlIHNvDQo+ID4gbWFwX2tlcm5lbF9hcmNoIGlzIG5vdCBjYWxs
+ZWQgYXQgYWxsIHdoZW4gTk9UIGJ1aWxkaW5nIGtlcm5lbCBvciBrZXJuZWwNCj4gPiBtb2R1bGVz
+LiBUaGlzIHdvdWxkIGFsc28gYWxsb3cgYnVpbGRpbmcgYmFyZW1ldGFsIGNyb3NzLXRvb2xjaGFp
+bnMgZm9yDQo+IGFyY2hlcw0KPiA+IHRoYXQgZG9uJ3QgaGF2ZSBMaW51eCBrZXJuZWxzIGF0IGFs
+bC4NCj4gPg0KPiA+IEFub3RoZXIgd2F5IHRvIGNvbnNpZGVyIGlzIHBlcmhhcHMganVzdCBnZXR0
+aW5nIHJpZCBvZiB0aGUgdGFibGUNCj4gPiAidmFsaWRfYXJjaHMiIGVudGlyZWx5Lg0KPiA+DQo+
+ID4gIm1hcF9rZXJuZWxfYXJjaCIgbWFwcyBhcmNoX2FhYSAtPiBhcmNoX3h4eCBmb3Igc29tZSBj
+YXNlcy4NCj4gPiBJZiB0aGVyZSBpcyBubyBleHBsaWNpdCBtYXBwaW5nLCB0aGVuIGl0IGNvdWxk
+IHNpbXBseSBtYXANCj4gPg0KPiA+IGFyY2hfYWFhLT5hcmNoX2FhYQ0KPiA+DQo+ID4gcmVzdWx0
+aW5nIGluIGV4cG9ydCBBUkNIPSJhcmNoX2FhYSINCj4gPiBUaGVyZSB3b3VsZCBiZSBubyBlcnJv
+ciBnZW5lcmF0ZWQuIElmIEFSQ0ggaXMgbm90IGEgdmFsaWQNCj4gPiBhcmNoIGZvciBhIExpbnV4
+IGtlcm5lbCwgd2Ugd291bGQgZW5jb3VudGVyIGEgYnVpbGQgZXJyb3IgYXQgc29tZSBwb2ludC4N
+Cj4gPiBCdXQgdGhhdCwgSSBiZWxpZXZlIGlzIHRoZSBzYW1lIGNhc2Ugbm93IGlmIHdlIHRyeSB0
+byBidWlsZCBhIGtlcm5lbA0KPiA+IHdpdGggYSB2YWxpZCBrZXJuZWwgQVJDSCBidXQgbm90IHN1
+cHBvcnRlZCBhY3RpdmVseSBpbiBPRSBvciBleHRlbmRlZCBPRQ0KPiBlY29zeXN0ZW0uDQo+IA0K
+PiBJIHRoaW5rIHlvdSBzaG91bGQgYWRkIGEgY2hlY2sgZm9yIHRlc3RpbmcgVEFSR0VUX09TIGFu
+ZCBpZiBpdHMgbm90IGxpbnV4DQo+IHRoZW4NCj4gaWdub3JlIHRoZSB2YWxpZCBrZXJuZWwgYXJj
+aGVzIGNoZWNrLg0KPiANCj4gPg0KPiA+DQo+ID4NCj4gPg0KPiA+PiAtLS0tLU9yaWdpbmFsIE1l
+c3NhZ2UtLS0tLQ0KPiA+PiBGcm9tOiBLaGVtIFJhaiBbbWFpbHRvOnJhai5raGVtQGdtYWlsLmNv
+bV0NCj4gPj4gU2VudDogTW9uZGF5LCBPY3RvYmVyIDE3LCAyMDE2IDQ6NDAgUE0NCj4gPj4gVG86
+IEJ5c3RyaWNreSwgSnVybyA8anVyby5ieXN0cmlja3lAaW50ZWwuY29tPg0KPiA+PiBDYzogb3Bl
+bmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZzsganVyb2J5c3RyaWNreUBob3Rt
+YWlsLmNvbQ0KPiA+PiBTdWJqZWN0OiBSZTogW09FLWNvcmVdIFtQQVRDSF0ga2VybmVsLWFyY2gu
+YmJjbGFzczogQWRkIHh0ZW5zYSBhbmQgYXJjDQo+IGludG8NCj4gPj4gdmFsaWRfYXJjaHMgdGFi
+bGUNCj4gPj4NCj4gPj4NCj4gPj4+IE9uIE9jdCAxMSwgMjAxNiwgYXQgOTozMSBBTSwgSnVybyBC
+eXN0cmlja3kgPGp1cm8uYnlzdHJpY2t5QGludGVsLmNvbT4NCj4gPj4gd3JvdGU6DQo+ID4+Pg0K
+PiA+Pj4gQm90aCAiYXJjIiBhbmQgInh0ZW5zYSIgYXJlIHZhbGlkIExpbnV4IGFyY2hpdGVjdHVy
+ZXMsIGFkZA0KPiA+Pj4gdGhlbSBpbnRvIHZhbGlkX2FyY2hzIHRhYmxlLg0KPiA+Pj4NCj4gPj4+
+IFNpZ25lZC1vZmYtYnk6IEp1cm8gQnlzdHJpY2t5IDxqdXJvLmJ5c3RyaWNreUBpbnRlbC5jb20+
+DQo+ID4+PiAtLS0NCj4gPj4+IG1ldGEvY2xhc3Nlcy9rZXJuZWwtYXJjaC5iYmNsYXNzIHwgMiAr
+LQ0KPiA+Pj4gMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pDQo+
+ID4+Pg0KPiA+Pj4gZGlmZiAtLWdpdCBhL21ldGEvY2xhc3Nlcy9rZXJuZWwtYXJjaC5iYmNsYXNz
+IGIvbWV0YS9jbGFzc2VzL2tlcm5lbC0NCj4gPj4gYXJjaC5iYmNsYXNzDQo+ID4+PiBpbmRleCA4
+YTRiZWYxLi5lYTk3NmM2IDEwMDY0NA0KPiA+Pj4gLS0tIGEvbWV0YS9jbGFzc2VzL2tlcm5lbC1h
+cmNoLmJiY2xhc3MNCj4gPj4+ICsrKyBiL21ldGEvY2xhc3Nlcy9rZXJuZWwtYXJjaC5iYmNsYXNz
+DQo+ID4+PiBAQCAtMTQsNyArMTQsNyBAQCB2YWxpZF9hcmNocyA9ICJhbHBoYSBjcmlzIGlhNjQg
+XA0KPiA+Pj4gICAgICAgICAgICAgICBwYXJpc2MgczM5MCAgdjg1MCBcDQo+ID4+PiAgICAgICAg
+ICAgICAgIGF2cjMyIGJsYWNrZmluIFwNCj4gPj4+ICAgICAgICAgICAgICAgbWljcm9ibGF6ZSBc
+DQo+ID4+PiAtICAgICAgICAgICAgICAgbmlvczIiDQo+ID4+PiArICAgICAgICAgICAgICAgbmlv
+czIgYXJjIHh0ZW5zYeKAnQ0KPiA+Pg0KPiA+PiB0aGVyZSBwYXJpc2MgZXRjIGFzIHdlbGwgc28g
+aW4gZXNzZW5jZSBwYXRjaCBpcyBvayBidXQgSSB3b25kZXIgaWYgd2UNCj4gPj4gc2hvdWxkDQo+
+ID4+IHJlbW92ZSB0aGUgYXJjaGVzIHdlIGRvbnQgYWN0aXZlbHkgc3VwcG9ydCBpbiBPRSBvciBl
+eHRlbmRlZCBPRQ0KPiBlY29zeXN0ZW0uDQo+ID4+DQo+ID4+Pg0KPiA+Pj4gZGVmIG1hcF9rZXJu
+ZWxfYXJjaChhLCBkKToNCj4gPj4+ICAgIGltcG9ydCByZQ0KPiA+Pj4gLS0NCj4gPj4+IDIuNy40
+DQo+ID4+Pg0KPiA+Pj4gLS0NCj4gPj4+IF9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fDQo+ID4+PiBPcGVuZW1iZWRkZWQtY29yZSBtYWlsaW5nIGxpc3QNCj4g
+Pj4+IE9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNCj4gPj4+IGh0dHA6
+Ly9saXN0cy5vcGVuZW1iZWRkZWQub3JnL21haWxtYW4vbGlzdGluZm8vb3BlbmVtYmVkZGVkLWNv
+cmUNCj4gPg0KDQo=
 
