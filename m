@@ -1,40 +1,57 @@
-Return-Path: <aborduno@cisco.com>
-X-Greylist: delayed 553 seconds by postgrey-1.34 at layers.openembedded.org;
-	Wed, 19 Oct 2016 14:07:16 UTC
-Received: from rcdn-iport-5.cisco.com (rcdn-iport-5.cisco.com [173.37.86.76])
-	by mail.openembedded.org (Postfix) with ESMTP id 5166F71A3A
+Return-Path: <prvs=01002816c1=mike.looijmans@topicproducts.com>
+X-Greylist: delayed 1149 seconds by postgrey-1.34 at layers.openembedded.org;
+	Wed, 19 Oct 2016 14:22:44 UTC
+Received: from mx18-05.smtp.antispamcloud.com (mx18-05.smtp.antispamcloud.com
+	[207.244.64.174])
+	by mail.openembedded.org (Postfix) with ESMTP id 3F903719C0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Oct 2016 14:07:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-	d=cisco.com; i=@cisco.com; l=2135; q=dns/txt; s=iport;
-	t=1476886041; x=1478095641;
-	h=subject:to:references:cc:from:message-id:date:
-	mime-version:in-reply-to:content-transfer-encoding;
-	bh=6FtW2kv6oGcvKGDrVuRbldR9/tRH5GWhEOVw/Tf7h/w=;
-	b=PQ3NffSdbiV47T1VQj+un+For03OBtlxjvJffwRhFYv/z14MOGJy7Df7
-	5pv1rgoID+3zbXophtIrEGLxN32Y9bA2KBS4uctRZF79FRrVH4PxWCgys
-	5tyDsmVbMrRpjLwORH4yj6qQ/WaTJVh54Pt2Y0VC4fpb42tTRC+31r1d+ 8=;
-X-IronPort-AV: E=Sophos;i="5.31,514,1473120000"; d="scan'208";a="161634759"
-Received: from rcdn-core-3.cisco.com ([173.37.93.154])
-	by rcdn-iport-5.cisco.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	19 Oct 2016 13:58:05 +0000
-Received: from kbp1-dhp-f50810.synapse.com ([10.24.115.201])
-	(authenticated bits=0)
-	by rcdn-core-3.cisco.com (8.14.5/8.14.5) with ESMTP id u9JDw1xh017279
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NO);
-	Wed, 19 Oct 2016 13:58:04 GMT
-To: openembedded-core@lists.openembedded.org
-References: <1476118955-12401-1-git-send-email-aborduno@cisco.com>
-From: Andrii Bordunov <aborduno@cisco.com>
-Message-ID: <2f612347-5351-fc20-956e-1cf84a5189ff@cisco.com>
-Date: Wed, 19 Oct 2016 16:58:01 +0300
+	Wed, 19 Oct 2016 14:22:44 +0000 (UTC)
+Received: from [37.74.225.130] (helo=TOP-EX01.TOPIC.LOCAL)
+	by mx18.antispamcloud.com with esmtps (TLSv1:ECDHE-RSA-AES128-SHA:128)
+	(Exim 4.86) (envelope-from <mike.looijmans@topicproducts.com>)
+	id 1bwrRV-0002C5-7V; Wed, 19 Oct 2016 16:03:31 +0200
+Received: from [192.168.80.121] (192.168.80.121) by webmail.topic.nl
+	(192.168.10.102) with Microsoft SMTP Server id 14.3.224.2;
+	Wed, 19 Oct 2016 16:02:02 +0200
+To: "Burton, Ross" <ross.burton@intel.com>, Paul Eggleton
+	<paul.eggleton@linux.intel.com>
+References: <cover.1476469708.git.jussi.kukkonen@intel.com>
+	<0464acab-69a2-715d-5a3d-61e3961e8ccb@windriver.com>
+	<1570516.F2oa9eZtAN@peggleto-mobl.ger.corp.intel.com>
+	<CAJTo0LZ=q+030y70h7=sq9c-9_mOm5K6sNRcV7xhBO1PEYAhow@mail.gmail.com>
+From: Mike Looijmans <mike.looijmans@topic.nl>
+Organization: TOPIC
+Message-ID: <c80b8055-3c0c-4047-ebfd-4c94f41f95ba@topic.nl>
+Date: Wed, 19 Oct 2016 16:02:01 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
 	Thunderbird/45.3.0
 MIME-Version: 1.0
-In-Reply-To: <1476118955-12401-1-git-send-email-aborduno@cisco.com>
-X-Authenticated-User: aborduno
-Cc: Andrii Bordunov <aborduno@cisco.com>
-Subject: Re: [PATCH] package.bbclass: allow using EXCLUDE_FROM_SHLIBS for subpackages
+In-Reply-To: <CAJTo0LZ=q+030y70h7=sq9c-9_mOm5K6sNRcV7xhBO1PEYAhow@mail.gmail.com>
+X-Originating-IP: [192.168.80.121]
+X-EXCLAIMER-MD-CONFIG: 9833cda7-5b21-4d34-9a38-8d025ddc3664
+X-EXCLAIMER-MD-BIFURCATION-INSTANCE: 0
+X-Filter-ID: s0sct1PQhAABKnZB5plbIbbvfIHzQjPVmPLZeVYSu3xU9luQrU+8/8qthi+0Jd/W6KAUC/fjyuDn
+	NXFr4uarwy3Yf5i+byKl6pUyknU7g+6rXMBzn0F1oDrD0qksn30/zxAJCKXfBevAF/4N7O8thBkB
+	nZsK1acKJZ7HOzksFqOGyUIczeD4TAWGto2EA1jFMgby/raZUz8oZkzEwVDiGrv32EeInn7+IwbG
+	dVcXhj3Rm3gO5BAOIQiIjL9+eNDA9PZlU7+BA933uHC1AGujjOn8X9tKbWO/lhy9VTF4P51K/30t
+	WvKPDP13s1LmDQmfIbtf63VNbf0lrvssY+k7AMMIjXBIa3olXKSl/hGyroktU7juyZhYo0PLD0vP
+	9NfRpFUADJFjIldLC6lkryfSaFYFvf25LVONYbYifH5OzZAZ4rPy+USX8ZISIKfFzoCtKaRrAMb1
+	2o1FxRtxWCz2BqrRWcGYMZHP4SnNnmTTef4RFZ4oobg8BBg3Jq+ntzj0tKbf5t0ThbzOzJM63N33
+	IIIHzgrL8il3sV0dVRVXzjqRVYKU9W9tbmVXJBqdHHDmlFyaiSgCQQ1OadeU0o3KJDNLKZUH8kQv
+	CzH7IKj6sa+/C1cmIkpmMu2y/KVVPaNVmWxgBaaPt9++LWwpCu5NcWltkIEyb31pMCMMB0fkaiUf
+	hLP+ssd9qBrF2bUx9HvvbK7Dzzob/RpwUTFjHB8piRgD/FVEY7v4laIdTJ8d+KCo47PshRC2mHFY
+	hRsz6XJxjFEcE6algxqtVm5extMvuw==
+X-Report-Abuse-To: spam@mx99.antispamcloud.com
+X-Originating-IP: 37.74.225.130
+X-SpamExperts-Domain: topic.nl
+X-SpamExperts-Username: 37.74.225.128/28
+Authentication-Results: antispamcloud.com;
+	auth=pass smtp.auth=37.74.225.128/28@topic.nl
+X-SpamExperts-Outgoing-Class: ham
+X-SpamExperts-Outgoing-Evidence: Combined (0.02)
+X-Recommended-Action: accept
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/2] Re-add piglit to sdk images
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,70 +64,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Oct 2016 14:07:19 -0000
-Content-Type: text/plain; charset=windows-1251; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 19 Oct 2016 14:22:45 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: quoted-printable
 
-Ping? Any comments?
+=EF=BB=BFOn 19-10-16 14:53, Burton, Ross wrote:
+>
+> On 18 October 2016 at 22:21, Paul Eggleton <paul.eggleton@linux.intel.com
+> <mailto:paul.eggleton@linux.intel.com>> wrote:
+>
+>     > > Q: Do I need to declare a runtime dependency that typically comes
+>     > > from busybox (tar)?
+>     >
+>     > Yes, because some people try to eliminate busybox from their image.
+>
+>     How would one express such a dependency though, given that it could c=
+ome from
+>     tar or busybox? "Virtual" runtime dependencies aren't allowed except =
+through
+>     our somewhat awkward VIRTUAL-RUNTIME convention, but that probably is=
+n't
+>     warranted here.
+>
+> busybox could RRPOVIDE tar?
+
+If we go down that road, we'd end up with a busybox that RPROVIDES a hundre=
+d=20
+and one utilities. I doubt anyone will be happy with that...
+
+
+Kind regards,
+
+Mike Looijmans
+System Expert
+
+TOPIC Products
+Materiaalweg 4, NL-5681 RJ Best
+Postbus 440, NL-5680 AK Best
+Telefoon: +31 (0) 499 33 69 79
+E-mail: mike.looijmans@topicproducts.com
+Website: www.topicproducts.com
+
+Please consider the environment before printing this e-mail
 
 
 
-Thank you,
-Andrii
 
-On 10.10.16 20:02, Andrii Bordunov wrote:
-> Some packages containing shared libraries might be registered
-> as shlib providers when they shouldn't (for example, the lib is for
-> their private use and must not generate any dependency).
->
-> EXCLUDE_FROM_SHLIBS is targeted at that, but it could be set
-> for entire recipe only.
->
-> This patch expands EXCLUDE_FROM_SHLIBS usage, so now it's possible
-> to set it in a style similar with RDEPENDS. For example:
->  EXCLUDE_FROM_SHLIBS_${PN}-ptest = "1"
->
-> Signed-off-by: Andrii Bordunov <aborduno@cisco.com>
-> ---
->  meta/classes/package.bbclass | 12 ++++++++++--
->  1 file changed, 10 insertions(+), 2 deletions(-)
->
-> diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
-> index a6f0a7a..9bf43dc 100644
-> --- a/meta/classes/package.bbclass
-> +++ b/meta/classes/package.bbclass
-> @@ -1499,6 +1499,14 @@ python package_do_shlibs() {
->      libdir_re = re.compile(".*/%s$" % d.getVar('baselib', True))
->
->      packages = d.getVar('PACKAGES', True)
-> +
-> +    shlib_pkgs = []
-> +    for pkg in packages.split():
-> +        if d.getVar('EXCLUDE_FROM_SHLIBS_' + pkg, 0):
-> +            bb.note("not generating shlibs for %s" % pkg)
-> +        else:
-> +            shlib_pkgs.append(pkg)
-> +
->      targetos = d.getVar('TARGET_OS', True)
->
->      workdir = d.getVar('WORKDIR', True)
-> @@ -1614,7 +1622,7 @@ python package_do_shlibs() {
->      needed = {}
->      shlib_provider = oe.package.read_shlib_providers(d)
->
-> -    for pkg in packages.split():
-> +    for pkg in shlib_pkgs:
->          private_libs = d.getVar('PRIVATE_LIBS_' + pkg, True) or d.getVar('PRIVATE_LIBS', True) or ""
->          private_libs = private_libs.split()
->          needs_ldconfig = False
-> @@ -1684,7 +1692,7 @@ python package_do_shlibs() {
->
->      libsearchpath = [d.getVar('libdir', True), d.getVar('base_libdir', True)]
->
-> -    for pkg in packages.split():
-> +    for pkg in shlib_pkgs:
->          bb.debug(2, "calculating shlib requirements for %s" % pkg)
->
->          deps = list()
->
+
 
