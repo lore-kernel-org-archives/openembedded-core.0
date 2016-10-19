@@ -1,32 +1,51 @@
-Return-Path: <rpjday@crashcourse.ca>
-Received: from smtp486.redcondor.net (smtp486.redcondor.net [208.80.204.86])
-	by mail.openembedded.org (Postfix) with ESMTP id 6A7736FEF3
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qk0-f171.google.com (mail-qk0-f171.google.com
+	[209.85.220.171])
+	by mail.openembedded.org (Postfix) with ESMTP id 0FDB1607A2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Oct 2016 21:36:01 +0000 (UTC)
-Received: from astoria.ccjclearline.com ([64.235.106.9])
-	by smtp486.redcondor.net ({6695537a-536a-45f9-a249-877c85428649})
-	via TCP (outbound) with ESMTPS id 20161019213554776_0486;
-	Wed, 19 Oct 2016 21:35:54 +0000
-X-RC-FROM: <rpjday@crashcourse.ca>
-Received: from [174.118.92.171] (port=51374 helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
-	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
-	id 1bwyWZ-0004tj-Rb; Wed, 19 Oct 2016 17:35:47 -0400
-Date: Wed, 19 Oct 2016 17:34:52 -0400 (EDT)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@localhost.localdomain
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-In-Reply-To: <1542758.b0vWq7N0OP@peggleto-mobl.ger.corp.intel.com>
-Message-ID: <alpine.LFD.2.20.1610191733110.26015@localhost.localdomain>
-References: <alpine.LFD.2.20.1610191112240.15586@ca624034.mitel.com>
-	<2130816.2i4mC23lpe@peggleto-mobl.ger.corp.intel.com>
-	<alpine.LFD.2.20.1610191541370.14839@localhost.localdomain>
-	<1542758.b0vWq7N0OP@peggleto-mobl.ger.corp.intel.com>
-User-Agent: Alpine 2.20 (LFD 67 2015-01-07)
+	Wed, 19 Oct 2016 21:40:09 +0000 (UTC)
+Received: by mail-qk0-f171.google.com with SMTP id n189so61859262qke.0
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 19 Oct 2016 14:40:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=mhzMKFd1ZSlAA2R3zvQKzT3gs9fbmmf6lIvUXq+jg+U=;
+	b=PgsuN4Rp37I6Z3Nr2TZAoRRZd+9vDOJ4x/OQcAoFa5OQBosEqzThw89BLsdOlJSVgX
+	y7qq6A6IwmdyfIB/2VPGYH/oN+20IfbqHZOxXwHjKP1dsy8li+huTljXdg48iroSYeWw
+	FQwbvrTPhl1kGLuenk/5MhdlBJVw8ySBxZOWvj5o2BL87W9hVmVnw6xaYzDnDGNPL2j+
+	oDAOGU8IUJTJOQjkkSgzP7l2Y3Wjk8U1HNMvWrzVW0+SpfUG47r3VYS1sEBQlYifgcVZ
+	WluBgIhJmmHiCeDivS1Bjtt34vB+BJkTNNzGGYGn0Y4D6Nhkb2JdNp++vdL2a9fo1wr1
+	7xMQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=mhzMKFd1ZSlAA2R3zvQKzT3gs9fbmmf6lIvUXq+jg+U=;
+	b=fGHFmcJzDykugbaNuQAPJVhDAyiMikkxRz+iyS35oH96rm8Kvuz1ODTZQBi7qxaiWV
+	permw6nEoVDbeZpHgGA2hkky0DlEi10Uhfw6ZG904X5B8zg6pkzVS9/eJwMglMk+Djur
+	GEjPuzN3CCqDd8upa6MTcdMY9r4/0wliajw9vELuE/ckjpnfkRnCmlUIkgYYAERS6Wyr
+	xQjvqGpQdewzDJ0NsjeJtC1DAS61koboMC1vnNot+HBCyQ2uzhbJ3cjbOhvY+twa8Qwr
+	YNJSdxNsAA6/RraImdKRyER/+lTGbvOW5GynR3elQsyaNZjahIdX1M3EBMZPHxECJvkr
+	9ckg==
+X-Gm-Message-State: ABUngvcgfF9E2k1Vnohkk/NtGP85T7Lhop0KhrOt3ZlfnDy5dZj2EhWZo6suGDHYWEEFvlEgCeRkvBJJwYFvPxIi
+X-Received: by 10.55.198.132 with SMTP id s4mr5867528qkl.221.1476913210951;
+	Wed, 19 Oct 2016 14:40:10 -0700 (PDT)
 MIME-Version: 1.0
-X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: how can i ask to keep all the generated "nativesdk" rpms?
+Received: by 10.140.85.208 with HTTP; Wed, 19 Oct 2016 14:39:50 -0700 (PDT)
+In-Reply-To: <20161019211532.GV2494@denix.org>
+References: <20161018215513.2873-1-marex@denx.de>
+	<20161018215513.2873-4-marex@denx.de>
+	<20161019201021.GP2494@denix.org>
+	<26a26c16-7eaf-70c3-698e-164bdba67d8b@denx.de>
+	<20161019211532.GV2494@denix.org>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 19 Oct 2016 22:39:50 +0100
+Message-ID: <CAJTo0LbWKZ1Ob1pQdUm4L4sLJX=CKDNifwHJpKSY_UVXoo-6Rw@mail.gmail.com>
+To: Denys Dmytriyenko <denis@denix.org>
+Cc: Marek Vasut <marex@denx.de>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 4/5] u-boot: Drop PV altogether
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,83 +58,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Oct 2016 21:36:01 -0000
-Content-Type: text/plain; charset=US-ASCII
+X-List-Received-Date: Wed, 19 Oct 2016 21:40:10 -0000
+Content-Type: multipart/alternative; boundary=001a11438fd04da7e5053f3ea766
 
-On Thu, 20 Oct 2016, Paul Eggleton wrote:
+--001a11438fd04da7e5053f3ea766
+Content-Type: text/plain; charset=UTF-8
 
-> On Wed, 19 Oct 2016 15:42:27 Robert P. J. Day wrote:
-> > On Thu, 20 Oct 2016, Paul Eggleton wrote:
-> > > On Wed, 19 Oct 2016 15:32:25 Robert P. J. Day wrote:
-> > > > On Thu, 20 Oct 2016, Paul Eggleton wrote:
-> > > > > On Wed, 19 Oct 2016 11:27:05 Robert P. J. Day wrote:
-> > > > > > On Wed, 19 Oct 2016, Robert P. J. Day wrote:
-> > > > > > >   not sure how dumb a question this is, but as i was doing a basic
-> > > > > > >   OE
-> > > > > > >
-> > > > > > > build, i saw the growing number of "nativesdk" rpms piling up
-> > > > > > > under
-> > > > > > > tmp/deploy/rpm/x86_64_linux, and wanted to examine a couple of
-> > > > > > > them
-> > > > > > > later, but after the sysroot was (i assume) populated with all of
-> > > > > > > these rpms, that entire directory was deleted.
-> > > > > > >
-> > > > > > >   is there a switch to preserve that directory? thanks.
-> > > > > >
-> > > > > >   oh, wait, i think i found it:
-> > > > > > SDKIMAGE_FEATURES += "package-management"
-> > > > > >
-> > > > > > does that look right?
-> > > > >
-> > > > > No, it doesn't. That's for turning on package management database in
-> > > > > the
-> > > > > SDK, which is not quite the same thing. The fact that those rpms are
-> > > > > disappearing is a separate issue.
-> > > > >
-> > > > > Are you using rm_work?
-> > > > >
-> > > >   no. and are you sure you're reading the above correctly? i'm not
-> > > >
-> > > > saying
-> > > >
-> > > >   IMAGE_FEATURES += "package-management"
-> > >
-> > > Yep, I understood.
-> > >
-> > > > i was reading this:
-> > > >
-> > > > https://patchwork.openembedded.org/patch/120705/
-> > > >
-> > > > but perhaps i'm just misinterpreting what i'm reading.
-> > >
-> > > Right - that patch makes the preservation of the package management
-> > > database (what it refers to as the "packaging data") conditional. That
-> > > code does nothing with the packages themselves.
+On 19 October 2016 at 22:15, Denys Dmytriyenko <denis@denix.org> wrote:
+
+> > > But do we need to bump PE to ensure upgrade path and proper sorting?
 > >
-> >   i'm about to create a new project directory as a test ... is there
-> > any configuration i should do to try to preserve all those nativesdk
-> > rpm files?
+> > I don't think so, since the whole U-Boot version got updated.
 >
-> I am not aware of any configuration that should control the presence
-> or absence of those files. As far as I'm concerned, if they are
-> disappearing and you're not doing anything to delete them, that's a
-> bug.
-
-  so, i'm home and on a different system about to do a build ...
-refresh my memory, where are all those nativesdk rpms supposed to show
-up? if memory serves, they were under tmp/deploy/rpm/x86_64_linux.
-anything i should set before i attempt a build?
-
-rday
-
--- 
-
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
-
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
+> Still, vXXXX.YY will always sort higher than XXXX.YY no matter what digits
+> there are. That's what PE is for, to get the sorting working even when
+> versioning schema gets changed in major way like this one...
 
 
+Agreed, PE is required here.
+
+Ross
+
+--001a11438fd04da7e5053f3ea766
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 19 October 2016 at 22:15, Denys Dmytriyenko <span dir=3D"ltr">&lt;<a hre=
+f=3D"mailto:denis@denix.org" target=3D"_blank">denis@denix.org</a>&gt;</spa=
+n> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;b=
+order-left:1px #ccc solid;padding-left:1ex"><span class=3D"">&gt; &gt; But =
+do we need to bump PE to ensure upgrade path and proper sorting?<br>
+&gt;<br>
+&gt; I don&#39;t think so, since the whole U-Boot version got updated.<br>
+<br>
+</span>Still, vXXXX.YY will always sort higher than XXXX.YY no matter what =
+digits<br>
+there are. That&#39;s what PE is for, to get the sorting working even when<=
+br>
+versioning schema gets changed in major way like this one...</blockquote></=
+div><br>Agreed, PE is required here.</div><div class=3D"gmail_extra"><br></=
+div><div class=3D"gmail_extra">Ross</div></div>
+
+--001a11438fd04da7e5053f3ea766--
