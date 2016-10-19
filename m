@@ -1,56 +1,50 @@
-Return-Path: <prvs=01002816c1=mike.looijmans@topicproducts.com>
-X-Greylist: delayed 1149 seconds by postgrey-1.34 at layers.openembedded.org;
-	Wed, 19 Oct 2016 14:22:44 UTC
-Received: from mx18-05.smtp.antispamcloud.com (mx18-05.smtp.antispamcloud.com
-	[207.244.64.174])
-	by mail.openembedded.org (Postfix) with ESMTP id 3F903719C0
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qt0-f177.google.com (mail-qt0-f177.google.com
+	[209.85.216.177])
+	by mail.openembedded.org (Postfix) with ESMTP id 5D40E6FF69
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Oct 2016 14:22:44 +0000 (UTC)
-Received: from [37.74.225.130] (helo=TOP-EX01.TOPIC.LOCAL)
-	by mx18.antispamcloud.com with esmtps (TLSv1:ECDHE-RSA-AES128-SHA:128)
-	(Exim 4.86) (envelope-from <mike.looijmans@topicproducts.com>)
-	id 1bwrRV-0002C5-7V; Wed, 19 Oct 2016 16:03:31 +0200
-Received: from [192.168.80.121] (192.168.80.121) by webmail.topic.nl
-	(192.168.10.102) with Microsoft SMTP Server id 14.3.224.2;
-	Wed, 19 Oct 2016 16:02:02 +0200
-To: "Burton, Ross" <ross.burton@intel.com>, Paul Eggleton
-	<paul.eggleton@linux.intel.com>
+	Wed, 19 Oct 2016 15:08:20 +0000 (UTC)
+Received: by mail-qt0-f177.google.com with SMTP id s49so23350043qta.0
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 19 Oct 2016 08:08:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=LF6uulb1YdQvJVA8MNSJDGQFd2UOXKrYve31DrAmz6w=;
+	b=KY1rLEYVmDEwjgpS1L4BMt18R+bjizNX9/LvH4fs9wVZ2iNtxFS1RSWQD3f1txFfbl
+	KYEZuKVDLs398GzRSKEM2TUwc3/HzOnkq6SFlxhIxUTo9qu5PYOv2KkLpn8VQ7Z1zO0P
+	F0MhQTPRcN73kDJjZ1VKb//0HH91M/UYlNsQt/UpTuEWr285jeunssEPRVeUFjPgwkMc
+	xRW5E3jUUTOLc9E3XCzk9DKFTcl8kqpn2TNXuM4JsZnaih+DCbOZQPSkIXYZ+MiAybfR
+	WcBcTibqwl3PjIpQ29sx3qPjrl1YajBZRTKjEfWGlt880uRRgws0dM+I+0GuIay4j6LA
+	v+8g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=LF6uulb1YdQvJVA8MNSJDGQFd2UOXKrYve31DrAmz6w=;
+	b=KEt+hoRt++a/9cgKBSEjowaI8o1hJQr2NIZgQHhxI6XdFRboVfcNp8R02yRF0LwIKx
+	4klPkUHnRSuUvKb7AFHP8Itrrgcc3PydlHRMx4S62K+hB/zQ/f3zxCIkrTCc/PxVOfXD
+	dbEmF/ky+93Euy6muBaB0+VTNubEJL7X/nBPstZesC3CQ6eOHikxVMY+QrjLId4f823e
+	XYptOdMojg3mmZoNASBVufvyX5tBRHG5ecfGqL0bdwYUnI/Z3mpTCyllyFdxJWJTU0Ef
+	/AIPBwKKE0FvO4/OoTcQ86brnhJfKL+q0XWlm6no/1pxwurwaDAAT+Amnb8V6sfTxHx6
+	Otig==
+X-Gm-Message-State: AA6/9Rn//MGKej934+pJzmB5fXAPCc67ojBo5QJklLjeq87enHIO6qlSvUAL5vfczwaMQgKrii+gvD/3Au0nb4fY
+X-Received: by 10.55.32.195 with SMTP id g186mr5607750qkg.77.1476889701272;
+	Wed, 19 Oct 2016 08:08:21 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.140.85.208 with HTTP; Wed, 19 Oct 2016 08:08:00 -0700 (PDT)
+In-Reply-To: <c80b8055-3c0c-4047-ebfd-4c94f41f95ba@topic.nl>
 References: <cover.1476469708.git.jussi.kukkonen@intel.com>
 	<0464acab-69a2-715d-5a3d-61e3961e8ccb@windriver.com>
 	<1570516.F2oa9eZtAN@peggleto-mobl.ger.corp.intel.com>
 	<CAJTo0LZ=q+030y70h7=sq9c-9_mOm5K6sNRcV7xhBO1PEYAhow@mail.gmail.com>
-From: Mike Looijmans <mike.looijmans@topic.nl>
-Organization: TOPIC
-Message-ID: <c80b8055-3c0c-4047-ebfd-4c94f41f95ba@topic.nl>
-Date: Wed, 19 Oct 2016 16:02:01 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.3.0
-MIME-Version: 1.0
-In-Reply-To: <CAJTo0LZ=q+030y70h7=sq9c-9_mOm5K6sNRcV7xhBO1PEYAhow@mail.gmail.com>
-X-Originating-IP: [192.168.80.121]
-X-EXCLAIMER-MD-CONFIG: 9833cda7-5b21-4d34-9a38-8d025ddc3664
-X-EXCLAIMER-MD-BIFURCATION-INSTANCE: 0
-X-Filter-ID: s0sct1PQhAABKnZB5plbIbbvfIHzQjPVmPLZeVYSu3xU9luQrU+8/8qthi+0Jd/W6KAUC/fjyuDn
-	NXFr4uarwy3Yf5i+byKl6pUyknU7g+6rXMBzn0F1oDrD0qksn30/zxAJCKXfBevAF/4N7O8thBkB
-	nZsK1acKJZ7HOzksFqOGyUIczeD4TAWGto2EA1jFMgby/raZUz8oZkzEwVDiGrv32EeInn7+IwbG
-	dVcXhj3Rm3gO5BAOIQiIjL9+eNDA9PZlU7+BA933uHC1AGujjOn8X9tKbWO/lhy9VTF4P51K/30t
-	WvKPDP13s1LmDQmfIbtf63VNbf0lrvssY+k7AMMIjXBIa3olXKSl/hGyroktU7juyZhYo0PLD0vP
-	9NfRpFUADJFjIldLC6lkryfSaFYFvf25LVONYbYifH5OzZAZ4rPy+USX8ZISIKfFzoCtKaRrAMb1
-	2o1FxRtxWCz2BqrRWcGYMZHP4SnNnmTTef4RFZ4oobg8BBg3Jq+ntzj0tKbf5t0ThbzOzJM63N33
-	IIIHzgrL8il3sV0dVRVXzjqRVYKU9W9tbmVXJBqdHHDmlFyaiSgCQQ1OadeU0o3KJDNLKZUH8kQv
-	CzH7IKj6sa+/C1cmIkpmMu2y/KVVPaNVmWxgBaaPt9++LWwpCu5NcWltkIEyb31pMCMMB0fkaiUf
-	hLP+ssd9qBrF2bUx9HvvbK7Dzzob/RpwUTFjHB8piRgD/FVEY7v4laIdTJ8d+KCo47PshRC2mHFY
-	hRsz6XJxjFEcE6algxqtVm5extMvuw==
-X-Report-Abuse-To: spam@mx99.antispamcloud.com
-X-Originating-IP: 37.74.225.130
-X-SpamExperts-Domain: topic.nl
-X-SpamExperts-Username: 37.74.225.128/28
-Authentication-Results: antispamcloud.com;
-	auth=pass smtp.auth=37.74.225.128/28@topic.nl
-X-SpamExperts-Outgoing-Class: ham
-X-SpamExperts-Outgoing-Evidence: Combined (0.02)
-X-Recommended-Action: accept
-Cc: OE-core <openembedded-core@lists.openembedded.org>
+	<c80b8055-3c0c-4047-ebfd-4c94f41f95ba@topic.nl>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 19 Oct 2016 16:08:00 +0100
+Message-ID: <CAJTo0LYda+-f0qRAbmJbReezk4Xp_znBH+QMMRr-1JJh0FK6Fg@mail.gmail.com>
+To: Mike Looijmans <mike.looijmans@topic.nl>
+Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
+	OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 0/2] Re-add piglit to sdk images
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -64,51 +58,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Oct 2016 14:22:45 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
+X-List-Received-Date: Wed, 19 Oct 2016 15:08:23 -0000
+Content-Type: multipart/alternative; boundary=001a11470c3a047065053f392eb7
+
+--001a11470c3a047065053f392eb7
+Content-Type: text/plain; charset=UTF-8
+
+On 19 October 2016 at 15:02, Mike Looijmans <mike.looijmans@topic.nl> wrote:
+
+> busybox could RRPOVIDE tar?
+>>
+>
+> If we go down that road, we'd end up with a busybox that RPROVIDES a
+> hundred and one utilities. I doubt anyone will be happy with that...
+>
+
+Well, only for the utilities which are separately packaged and generally
+swapped around. ie it wouldn't need to RPROVIDE "ls".
+
+Ross
+
+--001a11470c3a047065053f392eb7
+Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-=EF=BB=BFOn 19-10-16 14:53, Burton, Ross wrote:
->
-> On 18 October 2016 at 22:21, Paul Eggleton <paul.eggleton@linux.intel.com
-> <mailto:paul.eggleton@linux.intel.com>> wrote:
->
->     > > Q: Do I need to declare a runtime dependency that typically comes
->     > > from busybox (tar)?
->     >
->     > Yes, because some people try to eliminate busybox from their image.
->
->     How would one express such a dependency though, given that it could c=
-ome from
->     tar or busybox? "Virtual" runtime dependencies aren't allowed except =
-through
->     our somewhat awkward VIRTUAL-RUNTIME convention, but that probably is=
-n't
->     warranted here.
->
-> busybox could RRPOVIDE tar?
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 19 October 2016 at 15:02, Mike Looijmans <span dir=3D"ltr">&lt;<a href=
+=3D"mailto:mike.looijmans@topic.nl" target=3D"_blank">mike.looijmans@topic.=
+nl</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"marg=
+in:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><blockquote clas=
+s=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;pad=
+ding-left:1ex"><span class=3D"">busybox could RRPOVIDE tar?<br>
+</span></blockquote>
+<br>
+If we go down that road, we&#39;d end up with a busybox that RPROVIDES a hu=
+ndred and one utilities. I doubt anyone will be happy with that...<br></blo=
+ckquote></div><br>Well, only for the utilities which are separately package=
+d and generally swapped around. ie it wouldn&#39;t need to RPROVIDE &quot;l=
+s&quot;.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extr=
+a">Ross</div></div>
 
-If we go down that road, we'd end up with a busybox that RPROVIDES a hundre=
-d=20
-and one utilities. I doubt anyone will be happy with that...
-
-
-Kind regards,
-
-Mike Looijmans
-System Expert
-
-TOPIC Products
-Materiaalweg 4, NL-5681 RJ Best
-Postbus 440, NL-5680 AK Best
-Telefoon: +31 (0) 499 33 69 79
-E-mail: mike.looijmans@topicproducts.com
-Website: www.topicproducts.com
-
-Please consider the environment before printing this e-mail
-
-
-
-
-
-
+--001a11470c3a047065053f392eb7--
