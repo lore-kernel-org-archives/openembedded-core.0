@@ -1,36 +1,32 @@
-Return-Path: <denis@denix.org>
-Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.17])
-	by mail.openembedded.org (Postfix) with ESMTP id F38E071AAB
+Return-Path: <rpjday@crashcourse.ca>
+Received: from smtp486.redcondor.net (smtp486.redcondor.net [208.80.204.86])
+	by mail.openembedded.org (Postfix) with ESMTP id 6A7736FEF3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Oct 2016 21:15:34 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by mailout4.zoneedit.com (Postfix) with ESMTP id DAB05208EE;
-	Wed, 19 Oct 2016 21:15:35 +0000 (UTC)
-Received: from mailout4.zoneedit.com ([127.0.0.1])
-	by localhost (zmo03-pco.easydns.vpn [127.0.0.1]) (amavisd-new,
-	port 10024)
-	with ESMTP id HgHgfS827EdV; Wed, 19 Oct 2016 21:15:35 +0000 (UTC)
-Received: from gandalf.denix.org (pool-100-15-106-107.washdc.fios.verizon.net
-	[100.15.106.107])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mailout4.zoneedit.com (Postfix) with ESMTPSA id B3B4120058;
-	Wed, 19 Oct 2016 21:15:33 +0000 (UTC)
-Received: by gandalf.denix.org (Postfix, from userid 1000)
-	id D58AD162176; Wed, 19 Oct 2016 17:15:32 -0400 (EDT)
-Date: Wed, 19 Oct 2016 17:15:32 -0400
-From: Denys Dmytriyenko <denis@denix.org>
-To: Marek Vasut <marex@denx.de>
-Message-ID: <20161019211532.GV2494@denix.org>
-References: <20161018215513.2873-1-marex@denx.de>
-	<20161018215513.2873-4-marex@denx.de>
-	<20161019201021.GP2494@denix.org>
-	<26a26c16-7eaf-70c3-698e-164bdba67d8b@denx.de>
+	Wed, 19 Oct 2016 21:36:01 +0000 (UTC)
+Received: from astoria.ccjclearline.com ([64.235.106.9])
+	by smtp486.redcondor.net ({6695537a-536a-45f9-a249-877c85428649})
+	via TCP (outbound) with ESMTPS id 20161019213554776_0486;
+	Wed, 19 Oct 2016 21:35:54 +0000
+X-RC-FROM: <rpjday@crashcourse.ca>
+Received: from [174.118.92.171] (port=51374 helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
+	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
+	id 1bwyWZ-0004tj-Rb; Wed, 19 Oct 2016 17:35:47 -0400
+Date: Wed, 19 Oct 2016 17:34:52 -0400 (EDT)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@localhost.localdomain
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+In-Reply-To: <1542758.b0vWq7N0OP@peggleto-mobl.ger.corp.intel.com>
+Message-ID: <alpine.LFD.2.20.1610191733110.26015@localhost.localdomain>
+References: <alpine.LFD.2.20.1610191112240.15586@ca624034.mitel.com>
+	<2130816.2i4mC23lpe@peggleto-mobl.ger.corp.intel.com>
+	<alpine.LFD.2.20.1610191541370.14839@localhost.localdomain>
+	<1542758.b0vWq7N0OP@peggleto-mobl.ger.corp.intel.com>
+User-Agent: Alpine 2.20 (LFD 67 2015-01-07)
 MIME-Version: 1.0
-In-Reply-To: <26a26c16-7eaf-70c3-698e-164bdba67d8b@denx.de>
-User-Agent: Mutt/1.5.20 (2009-06-14)
+X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 4/5] u-boot: Drop PV altogether
+Subject: Re: how can i ask to keep all the generated "nativesdk" rpms?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,64 +39,83 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Oct 2016 21:15:35 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Wed, 19 Oct 2016 21:36:01 -0000
+Content-Type: text/plain; charset=US-ASCII
 
-On Wed, Oct 19, 2016 at 11:00:02PM +0200, Marek Vasut wrote:
-> On 10/19/2016 10:10 PM, Denys Dmytriyenko wrote:
-> > On Tue, Oct 18, 2016 at 11:55:12PM +0200, Marek Vasut wrote:
-> >> Drop the explicit setting of PV altogether. This changes the U-Boot
-> >> version string from "v20yy.mm" to "20yy.mm" , so layer setting the
-> >> PREFERRED_VERSION_u-boot must be updated by removing the leading 'v'.
-> > 
-> > Finally!
-> > But do we need to bump PE to ensure upgrade path and proper sorting?
-> 
-> I don't think so, since the whole U-Boot version got updated.
+On Thu, 20 Oct 2016, Paul Eggleton wrote:
 
-Still, vXXXX.YY will always sort higher than XXXX.YY no matter what digits 
-there are. That's what PE is for, to get the sorting working even when 
-versioning schema gets changed in major way like this one...
+> On Wed, 19 Oct 2016 15:42:27 Robert P. J. Day wrote:
+> > On Thu, 20 Oct 2016, Paul Eggleton wrote:
+> > > On Wed, 19 Oct 2016 15:32:25 Robert P. J. Day wrote:
+> > > > On Thu, 20 Oct 2016, Paul Eggleton wrote:
+> > > > > On Wed, 19 Oct 2016 11:27:05 Robert P. J. Day wrote:
+> > > > > > On Wed, 19 Oct 2016, Robert P. J. Day wrote:
+> > > > > > >   not sure how dumb a question this is, but as i was doing a basic
+> > > > > > >   OE
+> > > > > > >
+> > > > > > > build, i saw the growing number of "nativesdk" rpms piling up
+> > > > > > > under
+> > > > > > > tmp/deploy/rpm/x86_64_linux, and wanted to examine a couple of
+> > > > > > > them
+> > > > > > > later, but after the sysroot was (i assume) populated with all of
+> > > > > > > these rpms, that entire directory was deleted.
+> > > > > > >
+> > > > > > >   is there a switch to preserve that directory? thanks.
+> > > > > >
+> > > > > >   oh, wait, i think i found it:
+> > > > > > SDKIMAGE_FEATURES += "package-management"
+> > > > > >
+> > > > > > does that look right?
+> > > > >
+> > > > > No, it doesn't. That's for turning on package management database in
+> > > > > the
+> > > > > SDK, which is not quite the same thing. The fact that those rpms are
+> > > > > disappearing is a separate issue.
+> > > > >
+> > > > > Are you using rm_work?
+> > > > >
+> > > >   no. and are you sure you're reading the above correctly? i'm not
+> > > >
+> > > > saying
+> > > >
+> > > >   IMAGE_FEATURES += "package-management"
+> > >
+> > > Yep, I understood.
+> > >
+> > > > i was reading this:
+> > > >
+> > > > https://patchwork.openembedded.org/patch/120705/
+> > > >
+> > > > but perhaps i'm just misinterpreting what i'm reading.
+> > >
+> > > Right - that patch makes the preservation of the package management
+> > > database (what it refers to as the "packaging data") conditional. That
+> > > code does nothing with the packages themselves.
+> >
+> >   i'm about to create a new project directory as a test ... is there
+> > any configuration i should do to try to preserve all those nativesdk
+> > rpm files?
+>
+> I am not aware of any configuration that should control the presence
+> or absence of those files. As far as I'm concerned, if they are
+> disappearing and you're not doing anything to delete them, that's a
+> bug.
 
+  so, i'm home and on a different system about to do a build ...
+refresh my memory, where are all those nativesdk rpms supposed to show
+up? if memory serves, they were under tmp/deploy/rpm/x86_64_linux.
+anything i should set before i attempt a build?
 
-> >> Signed-off-by: Marek Vasut <marex@denx.de>
-> >> Cc: Richard Purdie <richard.purdie@linuxfoundation.org>
-> >> Cc: Denys Dmytriyenko <denis@denix.org>
-> > 
-> > Acked-by: Denys Dmytriyenko <denis@denix.org>
-> 
-> Thanks!
-> 
-> btw. given the layout of the u-boot package after this, updating is a
-> matter of mv+sed combo :)
-> 
-> >> ---
-> >>  meta/recipes-bsp/u-boot/u-boot-common_2016.09.01.inc | 2 --
-> >>  1 file changed, 2 deletions(-)
-> >>
-> >> diff --git a/meta/recipes-bsp/u-boot/u-boot-common_2016.09.01.inc b/meta/recipes-bsp/u-boot/u-boot-common_2016.09.01.inc
-> >> index 0a90621..a535df1 100644
-> >> --- a/meta/recipes-bsp/u-boot/u-boot-common_2016.09.01.inc
-> >> +++ b/meta/recipes-bsp/u-boot/u-boot-common_2016.09.01.inc
-> >> @@ -9,8 +9,6 @@ LIC_FILES_CHKSUM = "file://Licenses/README;md5=a2c678cfd4a4d97135585cad908541c6"
-> >>  # repo during parse
-> >>  SRCREV = "f3363c060497515ca8b71451cb56f3ec0abacaa9"
-> >>  
-> >> -PV = "v2016.09.01"
-> >> -
-> >>  SRC_URI = "git://git.denx.de/u-boot.git;branch=u-boot-2016.09.y"
-> 
-> And once 2016.11 is out, I believe I can even drop the ;branch= bit here.
-> 
-> >>  S = "${WORKDIR}/git"
-> >> -- 
-> >> 2.9.3
-> >>
-> 
-> 
-> -- 
-> Best regards,
-> Marek Vasut
-> 
+rday
+
+-- 
+
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
+
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
+
 
