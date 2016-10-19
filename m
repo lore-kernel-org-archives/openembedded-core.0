@@ -1,21 +1,37 @@
-Return-Path: <jianxun.zhang@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 058AE600BC
+Return-Path: <marex@denx.de>
+Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.9])
+	by mail.openembedded.org (Postfix) with ESMTP id 33A9F606D0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Oct 2016 20:51:28 +0000 (UTC)
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-	by orsmga102.jf.intel.com with ESMTP; 19 Oct 2016 13:51:30 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.31,367,1473145200"; d="scan'208";a="181610146"
-Received: from jzhang80-mac02.jf.intel.com ([10.24.8.203])
-	by fmsmga004.fm.intel.com with ESMTP; 19 Oct 2016 13:51:30 -0700
-From: Jianxun Zhang <jianxun.zhang@linux.intel.com>
-Mime-Version: 1.0 (Mac OS X Mail 10.0 \(3226\))
-Message-Id: <CBD43570-CA3D-4834-86EC-44B3E8EE6D02@linux.intel.com>
-Date: Wed, 19 Oct 2016 13:51:29 -0700
-To: OE-core <openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.3226)
-Subject: Question for OE variable "LABELS"
+	Wed, 19 Oct 2016 21:00:04 +0000 (UTC)
+Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
+	by mail-out.m-online.net (Postfix) with ESMTP id 3szkpq6gdCz3hjQm;
+	Wed, 19 Oct 2016 23:00:03 +0200 (CEST)
+Received: from localhost (dynscan1.mnet-online.de [192.168.6.68])
+	by mail.m-online.net (Postfix) with ESMTP id 3szkpq644vzvkds;
+	Wed, 19 Oct 2016 23:00:03 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at mnet-online.de
+Received: from mail.mnet-online.de ([192.168.8.182])
+	by localhost (dynscan1.mail.m-online.net [192.168.6.68]) (amavisd-new,
+	port 10024)
+	with ESMTP id hLViwNjQgE9T; Wed, 19 Oct 2016 23:00:02 +0200 (CEST)
+X-Auth-Info: zzzA3Wwxpuhx3paf3x+BLAj4O/ERavM/vNglR8e56yU=
+Received: from [IPv6:::1] (unknown [195.140.253.167])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mail.mnet-online.de (Postfix) with ESMTPSA;
+	Wed, 19 Oct 2016 23:00:02 +0200 (CEST)
+To: Denys Dmytriyenko <denis@denix.org>
+References: <20161018215513.2873-1-marex@denx.de>
+	<20161018215513.2873-4-marex@denx.de> <20161019201021.GP2494@denix.org>
+From: Marek Vasut <marex@denx.de>
+Message-ID: <26a26c16-7eaf-70c3-698e-164bdba67d8b@denx.de>
+Date: Wed, 19 Oct 2016 23:00:02 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Icedove/45.4.0
+MIME-Version: 1.0
+In-Reply-To: <20161019201021.GP2494@denix.org>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 4/5] u-boot: Drop PV altogether
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,39 +44,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Oct 2016 20:51:30 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 19 Oct 2016 21:00:05 -0000
+Content-Type: text/plain; charset=windows-1252
+Content-Transfer-Encoding: 7bit
 
-The current OE document has this LABELS variable and OE has some code to =
-support its usage. But if I just set LABELS in a BSP conf or local.conf =
-file, the build will show the warning message:
+On 10/19/2016 10:10 PM, Denys Dmytriyenko wrote:
+> On Tue, Oct 18, 2016 at 11:55:12PM +0200, Marek Vasut wrote:
+>> Drop the explicit setting of PV altogether. This changes the U-Boot
+>> version string from "v20yy.mm" to "20yy.mm" , so layer setting the
+>> PREFERRED_VERSION_u-boot must be updated by removing the leading 'v'.
+> 
+> Finally!
+> But do we need to bump PE to ensure upgrade path and proper sorting?
 
-WARNING: core-image-minimal-1.0-r0 do_bootimg: Found potential =
-conflicted var LABELS, please use LABELS_LIVE rather than LABELS"
+I don't think so, since the whole U-Boot version got updated.
 
-Does anyone know a =E2=80=9Cproper=E2=80=9D usage of LABELS so it =
-won=E2=80=99t trigger the warning message? =46rom the code I dig out, it =
-doesn=E2=80=99t seem so:
+>> Signed-off-by: Marek Vasut <marex@denx.de>
+>> Cc: Richard Purdie <richard.purdie@linuxfoundation.org>
+>> Cc: Denys Dmytriyenko <denis@denix.org>
+> 
+> Acked-by: Denys Dmytriyenko <denis@denix.org>
 
-in meta//classes/live-vm-common.bbclass:
+Thanks!
 
-def set_live_vm_vars(d, suffix):
-    vars =3D ['GRUB_CFG', 'SYSLINUX_CFG', 'ROOT', 'LABELS', 'INITRD']
-    for var in vars:
-        var_with_suffix =3D var + '_' + suffix
-        if d.getVar(var, True):
-            bb.warn('Found potential conflicted var %s, please use %s =
-rather than %s' % \
-                (var, var_with_suffix, var))
-        elif d.getVar(var_with_suffix, True):
-            d.setVar(var, d.getVar(var_with_suffix, True))
+btw. given the layout of the u-boot package after this, updating is a
+matter of mv+sed combo :)
 
-Notice there is another corner case of false alarm when LABELS have same =
-value of LABEL_LIVE or VM.
+>> ---
+>>  meta/recipes-bsp/u-boot/u-boot-common_2016.09.01.inc | 2 --
+>>  1 file changed, 2 deletions(-)
+>>
+>> diff --git a/meta/recipes-bsp/u-boot/u-boot-common_2016.09.01.inc b/meta/recipes-bsp/u-boot/u-boot-common_2016.09.01.inc
+>> index 0a90621..a535df1 100644
+>> --- a/meta/recipes-bsp/u-boot/u-boot-common_2016.09.01.inc
+>> +++ b/meta/recipes-bsp/u-boot/u-boot-common_2016.09.01.inc
+>> @@ -9,8 +9,6 @@ LIC_FILES_CHKSUM = "file://Licenses/README;md5=a2c678cfd4a4d97135585cad908541c6"
+>>  # repo during parse
+>>  SRCREV = "f3363c060497515ca8b71451cb56f3ec0abacaa9"
+>>  
+>> -PV = "v2016.09.01"
+>> -
+>>  SRC_URI = "git://git.denx.de/u-boot.git;branch=u-boot-2016.09.y"
 
-I can have a small patch to change it, but hope to know the intended =
-behaviors first.
+And once 2016.11 is out, I believe I can even drop the ;branch= bit here.
 
-Thanks=
+>>  S = "${WORKDIR}/git"
+>> -- 
+>> 2.9.3
+>>
+
+
+-- 
+Best regards,
+Marek Vasut
 
