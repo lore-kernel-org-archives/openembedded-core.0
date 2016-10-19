@@ -1,24 +1,24 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id AA04760722
+	by mail.openembedded.org (Postfix) with ESMTP id A4F7D71A70
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Oct 2016 15:09:17 +0000 (UTC)
+	Wed, 19 Oct 2016 15:09:18 +0000 (UTC)
 Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-	by orsmga101.jf.intel.com with ESMTP; 19 Oct 2016 08:09:19 -0700
+	by orsmga101.jf.intel.com with ESMTP; 19 Oct 2016 08:09:20 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.31,514,1473145200"; d="scan'208";a="21266949"
+X-IronPort-AV: E=Sophos;i="5.31,514,1473145200"; d="scan'208";a="21266953"
 Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by fmsmga006.fm.intel.com with ESMTP; 19 Oct 2016 08:09:18 -0700
+	by fmsmga006.fm.intel.com with ESMTP; 19 Oct 2016 08:09:19 -0700
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 19 Oct 2016 18:06:44 +0300
-Message-Id: <2995e9ec5eeadb8b780f1b0393f839666df87b45.1476888929.git.alexander.kanavin@linux.intel.com>
+Date: Wed, 19 Oct 2016 18:06:45 +0300
+Message-Id: <9a2f86103e33586c0587cdc62a2633768a4a6648.1476888929.git.alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.9.3
 In-Reply-To: <cover.1476888929.git.alexander.kanavin@linux.intel.com>
 References: <cover.1476888929.git.alexander.kanavin@linux.intel.com>
 In-Reply-To: <cover.1476888929.git.alexander.kanavin@linux.intel.com>
 References: <cover.1476888929.git.alexander.kanavin@linux.intel.com>
-Subject: [PATCH 09/19] ffmpeg: update to 3.1.4
+Subject: [PATCH 10/19] gnome-desktop3: update to 3.22.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,32 +31,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Oct 2016 15:09:17 -0000
+X-List-Received-Date: Wed, 19 Oct 2016 15:09:18 -0000
 
 Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- meta/recipes-multimedia/ffmpeg/{ffmpeg_3.1.3.bb => ffmpeg_3.1.4.bb} | 4 ++--
+ .../{gnome-desktop3_3.20.2.bb => gnome-desktop3_3.22.1.bb}            | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-multimedia/ffmpeg/{ffmpeg_3.1.3.bb => ffmpeg_3.1.4.bb} (97%)
+ rename meta/recipes-gnome/gnome-desktop/{gnome-desktop3_3.20.2.bb => gnome-desktop3_3.22.1.bb} (83%)
 
-diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_3.1.3.bb b/meta/recipes-multimedia/ffmpeg/ffmpeg_3.1.4.bb
-similarity index 97%
-rename from meta/recipes-multimedia/ffmpeg/ffmpeg_3.1.3.bb
-rename to meta/recipes-multimedia/ffmpeg/ffmpeg_3.1.4.bb
-index 050f1ee..06e7a306 100644
---- a/meta/recipes-multimedia/ffmpeg/ffmpeg_3.1.3.bb
-+++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_3.1.4.bb
-@@ -16,8 +16,8 @@ LIC_FILES_CHKSUM = "file://COPYING.GPLv2;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
- SRC_URI = "https://www.ffmpeg.org/releases/${BP}.tar.xz \
-            file://mips64_cpu_detection.patch \
-           "
--SRC_URI[md5sum] = "72769316a4b2b8809c7f6d5a8b6766f4"
--SRC_URI[sha256sum] = "f8575c071e2a64437aeb70c8c030b385cddbe0b5cde20c9b18a6def840128822"
-+SRC_URI[md5sum] = "b54d3e3d2d14d64305b840bb3d287445"
-+SRC_URI[sha256sum] = "a80cb378dda5c9bbcdbd62a99bdec0e4eedbcb47f290e72845af4855c1146b5b"
+diff --git a/meta/recipes-gnome/gnome-desktop/gnome-desktop3_3.20.2.bb b/meta/recipes-gnome/gnome-desktop/gnome-desktop3_3.22.1.bb
+similarity index 83%
+rename from meta/recipes-gnome/gnome-desktop/gnome-desktop3_3.20.2.bb
+rename to meta/recipes-gnome/gnome-desktop/gnome-desktop3_3.22.1.bb
+index eb061b2..867376e 100644
+--- a/meta/recipes-gnome/gnome-desktop/gnome-desktop3_3.20.2.bb
++++ b/meta/recipes-gnome/gnome-desktop/gnome-desktop3_3.22.1.bb
+@@ -7,8 +7,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
+ BPN = "gnome-desktop"
  
- # Build fails when thumb is enabled: https://bugzilla.yoctoproject.org/show_bug.cgi?id=7717
- ARM_INSTRUCTION_SET = "arm"
+ inherit gnome pkgconfig upstream-version-is-even gobject-introspection
+-SRC_URI[archive.md5sum] = "8354ed38624f5eb6b5d34267b658a9c9"
+-SRC_URI[archive.sha256sum] = "492c2da7aa8c3a8b65796e8171fc8f0dfb5d322dd2799c0d76392e1fb061e2b2"
++SRC_URI[archive.md5sum] = "bc09d58d7870d6464f20803850cdb90f"
++SRC_URI[archive.sha256sum] = "6458add4fc3a81fbd9a63db90de22a1e3a62644c1bfd1aca042c43836195aab2"
+ 
+ DEPENDS += "intltool-native gsettings-desktop-schemas gconf libxrandr virtual/libx11 gtk+3 glib-2.0 startup-notification xkeyboard-config iso-codes"
+ 
 -- 
 2.9.3
 
