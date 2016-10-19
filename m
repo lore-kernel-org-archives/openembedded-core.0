@@ -1,51 +1,20 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qt0-f177.google.com (mail-qt0-f177.google.com
-	[209.85.216.177])
-	by mail.openembedded.org (Postfix) with ESMTP id 5D40E6FF69
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 700A871B25
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Oct 2016 15:08:20 +0000 (UTC)
-Received: by mail-qt0-f177.google.com with SMTP id s49so23350043qta.0
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Oct 2016 08:08:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=LF6uulb1YdQvJVA8MNSJDGQFd2UOXKrYve31DrAmz6w=;
-	b=KY1rLEYVmDEwjgpS1L4BMt18R+bjizNX9/LvH4fs9wVZ2iNtxFS1RSWQD3f1txFfbl
-	KYEZuKVDLs398GzRSKEM2TUwc3/HzOnkq6SFlxhIxUTo9qu5PYOv2KkLpn8VQ7Z1zO0P
-	F0MhQTPRcN73kDJjZ1VKb//0HH91M/UYlNsQt/UpTuEWr285jeunssEPRVeUFjPgwkMc
-	xRW5E3jUUTOLc9E3XCzk9DKFTcl8kqpn2TNXuM4JsZnaih+DCbOZQPSkIXYZ+MiAybfR
-	WcBcTibqwl3PjIpQ29sx3qPjrl1YajBZRTKjEfWGlt880uRRgws0dM+I+0GuIay4j6LA
-	v+8g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=LF6uulb1YdQvJVA8MNSJDGQFd2UOXKrYve31DrAmz6w=;
-	b=KEt+hoRt++a/9cgKBSEjowaI8o1hJQr2NIZgQHhxI6XdFRboVfcNp8R02yRF0LwIKx
-	4klPkUHnRSuUvKb7AFHP8Itrrgcc3PydlHRMx4S62K+hB/zQ/f3zxCIkrTCc/PxVOfXD
-	dbEmF/ky+93Euy6muBaB0+VTNubEJL7X/nBPstZesC3CQ6eOHikxVMY+QrjLId4f823e
-	XYptOdMojg3mmZoNASBVufvyX5tBRHG5ecfGqL0bdwYUnI/Z3mpTCyllyFdxJWJTU0Ef
-	/AIPBwKKE0FvO4/OoTcQ86brnhJfKL+q0XWlm6no/1pxwurwaDAAT+Amnb8V6sfTxHx6
-	Otig==
-X-Gm-Message-State: AA6/9Rn//MGKej934+pJzmB5fXAPCc67ojBo5QJklLjeq87enHIO6qlSvUAL5vfczwaMQgKrii+gvD/3Au0nb4fY
-X-Received: by 10.55.32.195 with SMTP id g186mr5607750qkg.77.1476889701272;
-	Wed, 19 Oct 2016 08:08:21 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.140.85.208 with HTTP; Wed, 19 Oct 2016 08:08:00 -0700 (PDT)
-In-Reply-To: <c80b8055-3c0c-4047-ebfd-4c94f41f95ba@topic.nl>
-References: <cover.1476469708.git.jussi.kukkonen@intel.com>
-	<0464acab-69a2-715d-5a3d-61e3961e8ccb@windriver.com>
-	<1570516.F2oa9eZtAN@peggleto-mobl.ger.corp.intel.com>
-	<CAJTo0LZ=q+030y70h7=sq9c-9_mOm5K6sNRcV7xhBO1PEYAhow@mail.gmail.com>
-	<c80b8055-3c0c-4047-ebfd-4c94f41f95ba@topic.nl>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 19 Oct 2016 16:08:00 +0100
-Message-ID: <CAJTo0LYda+-f0qRAbmJbReezk4Xp_znBH+QMMRr-1JJh0FK6Fg@mail.gmail.com>
-To: Mike Looijmans <mike.looijmans@topic.nl>
-Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/2] Re-add piglit to sdk images
+	Wed, 19 Oct 2016 15:09:09 +0000 (UTC)
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+	by orsmga101.jf.intel.com with ESMTP; 19 Oct 2016 08:09:10 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.31,514,1473145200"; d="scan'208";a="21266832"
+Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
+	by fmsmga006.fm.intel.com with ESMTP; 19 Oct 2016 08:09:09 -0700
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 19 Oct 2016 18:06:35 +0300
+Message-Id: <cover.1476888929.git.alexander.kanavin@linux.intel.com>
+X-Mailer: git-send-email 2.9.3
+Subject: [PATCH 00/19] Recipe updates and version check fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,44 +27,101 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Oct 2016 15:08:23 -0000
-Content-Type: multipart/alternative; boundary=001a11470c3a047065053f392eb7
+X-List-Received-Date: Wed, 19 Oct 2016 15:09:09 -0000
 
---001a11470c3a047065053f392eb7
-Content-Type: text/plain; charset=UTF-8
+This is a bunch of assorted version updates, and upstream check fixes. I have also
+re-enabled gobject introspection on musl (seems to work now). Some version updates
+are held off by the need to update glib/gtk first, or are more involved (openssl),
+they will come later.
 
-On 19 October 2016 at 15:02, Mike Looijmans <mike.looijmans@topic.nl> wrote:
+The following changes since commit 9c04beb9adf5ed05b4fe89322bfa4dd60296de2b:
 
-> busybox could RRPOVIDE tar?
->>
->
-> If we go down that road, we'd end up with a busybox that RPROVIDES a
-> hundred and one utilities. I doubt anyone will be happy with that...
->
+  ref-manual: Removed RM_OLD_IMAGE variable description. (2016-10-19 12:56:33 +0100)
 
-Well, only for the utilities which are separately packaged and generally
-swapped around. ie it wouldn't need to RPROVIDE "ls".
+are available in the git repository at:
 
-Ross
+  git://git.yoctoproject.org/poky-contrib akanavin/package-version-updates
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=akanavin/package-version-updates
 
---001a11470c3a047065053f392eb7
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Alexander Kanavin (19):
+  musl: enable gobject introspection
+  mklibs-native: fix upstream version check
+  cve-check-tool: fix upstream version check
+  pigz: fix upstream version check
+  boost: update to 1.62.0
+  btrfs-tools: update to 4.8.1
+  cmake: update to 3.6.2
+  dtc: update to 1.4.2
+  ffmpeg: update to 3.1.4
+  gnome-desktop3: update to 3.22.1
+  gnutls: update to 3.5.5
+  libksba: update to 1.3.5
+  lighttpd: update to 1.4.42
+  mpg123: update to 1.23.8
+  nspr: update to 4.13
+  nss: update to 3.27.1
+  vala: update to 0.34.1
+  webkitgtk: update to 2.14.1
+  epiphany: update to 3.22.1
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 19 October 2016 at 15:02, Mike Looijmans <span dir=3D"ltr">&lt;<a href=
-=3D"mailto:mike.looijmans@topic.nl" target=3D"_blank">mike.looijmans@topic.=
-nl</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"marg=
-in:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><blockquote clas=
-s=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;pad=
-ding-left:1ex"><span class=3D"">busybox could RRPOVIDE tar?<br>
-</span></blockquote>
-<br>
-If we go down that road, we&#39;d end up with a busybox that RPROVIDES a hu=
-ndred and one utilities. I doubt anyone will be happy with that...<br></blo=
-ckquote></div><br>Well, only for the utilities which are separately package=
-d and generally swapped around. ie it wouldn&#39;t need to RPROVIDE &quot;l=
-s&quot;.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extr=
-a">Ross</div></div>
+ meta/conf/distro/include/tclibc-musl.inc           |   4 -
+ .../btrfs-tools/btrfs-tools/fix-parallel.patch     |  32 ---
+ .../{btrfs-tools_4.7.1.bb => btrfs-tools_4.8.1.bb} |   3 +-
+ ...cmake-native_3.6.1.bb => cmake-native_3.6.2.bb} |   0
+ meta/recipes-devtools/cmake/cmake.inc              |   4 +-
+ .../cmake/{cmake_3.6.1.bb => cmake_3.6.2.bb}       |   0
+ .../cve-check-tool/cve-check-tool_5.6.4.bb         |   2 +
+ .../mklibs/mklibs-native_0.1.41.bb                 |   2 +
+ meta/recipes-devtools/vala/vala.inc                |   2 +-
+ .../vala/{vala_0.32.1.bb => vala_0.34.1.bb}        |   4 +-
+ .../{lighttpd_1.4.41.bb => lighttpd_1.4.42.bb}     |   4 +-
+ meta/recipes-extended/pigz/pigz.inc                |   2 -
+ meta/recipes-extended/pigz/pigz_2.3.3.bb           |   2 +-
+ .../{epiphany_3.20.3.bb => epiphany_3.22.1.bb}     |   6 +-
+ ...desktop3_3.20.2.bb => gnome-desktop3_3.22.1.bb} |   4 +-
+ .../dtc/{dtc_git.bb => dtc_1.4.2.bb}               |   3 +-
+ .../ffmpeg/{ffmpeg_3.1.3.bb => ffmpeg_3.1.4.bb}    |   4 +-
+ .../mpg123/{mpg123_1.23.6.bb => mpg123_1.23.8.bb}  |   4 +-
+ ...bKitMacros-Append-to-I-and-not-to-isystem.patch | 272 +++++++++------------
+ .../{webkitgtk_2.12.5.bb => webkitgtk_2.14.1.bb}   |  26 +-
+ ...bjam-native_1.61.0.bb => bjam-native_1.62.0.bb} |   0
+ .../boost/{boost-1.61.0.inc => boost-1.62.0.inc}   |   4 +-
+ ...ips-assembly-doesn-t-compile-in-mips16e-m.patch |  60 -----
+ .../boost/{boost_1.61.0.bb => boost_1.62.0.bb}     |   1 -
+ ...001-Use-correct-include-dir-with-minitasn.patch |  31 ---
+ .../gnutls/gnutls/CVE-2016-7444.patch              |  35 ---
+ meta/recipes-support/gnutls/gnutls_3.5.3.bb        |  13 -
+ meta/recipes-support/gnutls/gnutls_3.5.5.bb        |   9 +
+ .../libksba/{libksba_1.3.4.bb => libksba_1.3.5.bb} |   4 +-
+ .../nspr/{nspr_4.12.bb => nspr_4.13.bb}            |   4 +-
+ .../recipes-support/nss/nss/pqg.c-ULL_addend.patch |   8 +-
+ .../nss/{nss_3.25.bb => nss_3.27.1.bb}             |   6 +-
+ 32 files changed, 173 insertions(+), 382 deletions(-)
+ delete mode 100644 meta/recipes-devtools/btrfs-tools/btrfs-tools/fix-parallel.patch
+ rename meta/recipes-devtools/btrfs-tools/{btrfs-tools_4.7.1.bb => btrfs-tools_4.8.1.bb} (91%)
+ rename meta/recipes-devtools/cmake/{cmake-native_3.6.1.bb => cmake-native_3.6.2.bb} (100%)
+ rename meta/recipes-devtools/cmake/{cmake_3.6.1.bb => cmake_3.6.2.bb} (100%)
+ rename meta/recipes-devtools/vala/{vala_0.32.1.bb => vala_0.34.1.bb} (56%)
+ rename meta/recipes-extended/lighttpd/{lighttpd_1.4.41.bb => lighttpd_1.4.42.bb} (94%)
+ rename meta/recipes-gnome/epiphany/{epiphany_3.20.3.bb => epiphany_3.22.1.bb} (77%)
+ rename meta/recipes-gnome/gnome-desktop/{gnome-desktop3_3.20.2.bb => gnome-desktop3_3.22.1.bb} (83%)
+ rename meta/recipes-kernel/dtc/{dtc_git.bb => dtc_1.4.2.bb} (75%)
+ rename meta/recipes-multimedia/ffmpeg/{ffmpeg_3.1.3.bb => ffmpeg_3.1.4.bb} (97%)
+ rename meta/recipes-multimedia/mpg123/{mpg123_1.23.6.bb => mpg123_1.23.8.bb} (95%)
+ rename meta/recipes-sato/webkit/{webkitgtk_2.12.5.bb => webkitgtk_2.14.1.bb} (85%)
+ rename meta/recipes-support/boost/{bjam-native_1.61.0.bb => bjam-native_1.62.0.bb} (100%)
+ rename meta/recipes-support/boost/{boost-1.61.0.inc => boost-1.62.0.inc} (83%)
+ delete mode 100644 meta/recipes-support/boost/boost/0003-smart_ptr-mips-assembly-doesn-t-compile-in-mips16e-m.patch
+ rename meta/recipes-support/boost/{boost_1.61.0.bb => boost_1.62.0.bb} (85%)
+ delete mode 100644 meta/recipes-support/gnutls/gnutls/0001-Use-correct-include-dir-with-minitasn.patch
+ delete mode 100644 meta/recipes-support/gnutls/gnutls/CVE-2016-7444.patch
+ delete mode 100644 meta/recipes-support/gnutls/gnutls_3.5.3.bb
+ create mode 100644 meta/recipes-support/gnutls/gnutls_3.5.5.bb
+ rename meta/recipes-support/libksba/{libksba_1.3.4.bb => libksba_1.3.5.bb} (86%)
+ rename meta/recipes-support/nspr/{nspr_4.12.bb => nspr_4.13.bb} (96%)
+ rename meta/recipes-support/nss/{nss_3.25.bb => nss_3.27.1.bb} (97%)
 
---001a11470c3a047065053f392eb7--
+-- 
+2.9.3
+
+
