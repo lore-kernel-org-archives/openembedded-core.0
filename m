@@ -1,29 +1,29 @@
 Return-Path: <rpjday@crashcourse.ca>
-Received: from smtp684.redcondor.net (smtp684.redcondor.net [208.80.206.84])
-	by mail.openembedded.org (Postfix) with ESMTP id 859E771999
+Received: from smtp484.redcondor.net (smtp484.redcondor.net [208.80.204.84])
+	by mail.openembedded.org (Postfix) with ESMTP id EE3AB71CA4
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Oct 2016 09:34:27 +0000 (UTC)
+	Thu, 20 Oct 2016 09:47:10 +0000 (UTC)
 Received: from astoria.ccjclearline.com ([64.235.106.9])
-	by smtp684.redcondor.net ({700db0a8-6fb7-4c8b-9b2a-6812225182d8})
-	via TCP (outbound) with ESMTPS id 20161020093427993_0684
+	by smtp484.redcondor.net ({c48374e7-08df-40d9-a0de-96cc9883a037})
+	via TCP (outbound) with ESMTPS id 20161020094711155_0484
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Oct 2016 09:34:27 +0000
+	Thu, 20 Oct 2016 09:47:11 +0000
 X-RC-FROM: <rpjday@crashcourse.ca>
 X-RC-RCPT: <openembedded-core@lists.openembedded.org>
-Received: from [216.191.234.70] (port=55082 helo=crashcourse.ca)
+Received: from [216.191.234.70] (port=37159 helo=crashcourse.ca)
 	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
 	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
-	id 1bx9jx-0003nh-5k for openembedded-core@lists.openembedded.org;
-	Thu, 20 Oct 2016 05:34:21 -0400
-Date: Thu, 20 Oct 2016 05:33:23 -0400 (EDT)
+	id 1bx9wH-00050J-AJ for openembedded-core@lists.openembedded.org;
+	Thu, 20 Oct 2016 05:47:05 -0400
+Date: Thu, 20 Oct 2016 05:46:09 -0400 (EDT)
 From: "Robert P. J. Day" <rpjday@crashcourse.ca>
 X-X-Sender: rpjday@ca624034.mitel.com
 To: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Message-ID: <alpine.LFD.2.20.1610200526270.4275@ca624034.mitel.com>
+Message-ID: <alpine.LFD.2.20.1610200542160.9999@ca624034.mitel.com>
 User-Agent: Alpine 2.20 (LFD 67 2015-01-07)
 MIME-Version: 1.0
 X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
-Subject: how to add "uninative binary shim" to local source mirror?
+Subject: any plans to upgrade to rpm-5.4.17?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,52 +36,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Oct 2016 09:34:28 -0000
-Content-Type: multipart/mixed; BOUNDARY="587864349-2069421826-1476956007=:4275"
-
---587864349-2069421826-1476956007=:4275
-Content-Type: text/plain; charset=KOI8-R
-Content-Transfer-Encoding: 8BIT
+X-List-Received-Date: Thu, 20 Oct 2016 09:47:11 -0000
+Content-Type: text/plain; charset=US-ASCII
 
 
-i use a local source mirror to avoid massive fetching; my site.conf:
+  just noticed in recipe rpm_5.4.16.bb:
 
-  SOURCE_MIRROR_URL ?= "file:///home/rpjday/oe/dist/tarballs/"
-  INHERIT += "own-mirrors"
-  BB_GENERATE_MIRROR_TARBALLS = "1"
-  # BB_NO_NETWORK = "1"
+# There is no official 5.4.16 release yet, so start w/ 5.4.15 and patch it
+# based on CVS
+S = "${WORKDIR}/rpm-5.4.15"
 
-and if anything did need to get downloaded, i have a script i run from
-inside the downloads/ directory to copy new content into my source
-mirror directory (the idea, of course, being to recognize every
-possible format of new, fetched content):
+SRC_URI =
+"http://www.rpm5.org/files/rpm/rpm-5.4/rpm-5.4.15-0.20140824.src.rpm;name=srpm;extract=rpm-5.4.15.tar.gz \
+... snip ...
 
-  for f in *.gz *.tgz *.bz2 *.xz *.rpm *.zip *.bin ; do
-        if [ -f $f -a ! -h $f ] ; then
-                echo "Copying $f ..." ; cp $f ~/oe/dist/tarballs/
-        fi
-  done
+but over at rpm5.org/files/rpm/rpm-5.4, one can see the most recent
+src rpms:
 
-i just noticed new fetched content:
+... snip ...
+rpm-5.4.15-0.20140824.src.rpm 	24-Aug-2014 18:30 	15M
+rpm-5.4.16-0.20160420.src.rpm 	20-Apr-2016 14:21 	17M
+rpm-5.4.17-0.20160512.src.rpm 	12-May-2016 22:03 	19M
 
-NOTE: Fetching uninative binary shim from
-http://downloads.yoctoproject.org/releases/uninative/1.4/x86_64-nativesdk-libc.tar.bz2;sha256sum=101ff8f2580c193488db9e76f9646fb6ed38b65fb76f403acb0e2178ce7127ca
---2016-10-20 05:22:59--
-http://downloads.yoctoproject.org/releases/uninative/1.4/x86_64-nativesdk-libc.tar.bz2
-
-but that fetched content ends up in downloads/ under the subdirectory:
-
-  $ tree uninative/
-  uninative/
-  „€€
-  101ff8f2580c193488db9e76f9646fb6ed38b65fb76f403acb0e2178ce7127ca
-      †€€ x86_64-nativesdk-libc.tar.bz2
-      „€€ x86_64-nativesdk-libc.tar.bz2.done
-
-is it just a matter of copying that bz2 tarball to my local source
-mirror? is there some reason that tarball isn't fetched directly into
-the downloads/ directory? are there any other "special cases" like
-this i should be aware of?
+so is there an ETA for just moving to 5.4.17?
 
 rday
 
@@ -95,4 +72,5 @@ Twitter:                                       http://twitter.com/rpjday
 LinkedIn:                               http://ca.linkedin.com/in/rpjday
 ========================================================================
 
---587864349-2069421826-1476956007=:4275--
+
+
