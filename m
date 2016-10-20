@@ -1,47 +1,27 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f170.google.com (mail-qk0-f170.google.com
-	[209.85.220.170])
-	by mail.openembedded.org (Postfix) with ESMTP id 24A1E71B1F
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id B46D571976
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Oct 2016 18:39:51 +0000 (UTC)
-Received: by mail-qk0-f170.google.com with SMTP id o68so111305162qkf.3
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Oct 2016 11:39:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=IjvnGAptZpE0bhpvHfNIxVRjh64xpqIrER9iJm425Lw=;
-	b=q0CzLbkzzbbeIAqnPaVu+c/o2H9PpIW/TVtRho+/Fa8wV6p6Nwoy5C1JTMkECe3y6C
-	k1jF75L118XVBK6vrHIKWYzFcOIP+Nx9Om4y4hye5oft9OMX0KHM8Shj9z14WkvyiLj2
-	l1lE7ACy+ZyNejLCEF8ywvc9U5c+GaxBv/m7KMG0HRg2Kf2kKqiKe9KlgLmEWI6/gUgY
-	M5fn26PGuvAdjYCk78O//nQNI6pCc7LeW5zJAlxRATFDrx3j5B6nJSeWiExoD/La0dKl
-	PuceqW+9VDBNj+SQeqMe6hqGHocCTovN8ISrMwJE0RV8xPj+6FVV3J+V1rHb6YKGnH/X
-	cghw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=IjvnGAptZpE0bhpvHfNIxVRjh64xpqIrER9iJm425Lw=;
-	b=awQDeYdOk2pTr8HCT1pMigwusSQIvDFxUXiJbPm3R+zDt4QX9HHgzOcLLn0D6LtvPx
-	xV3BWihy9pTCWy/JWEBlhYTaxDMb2/JQfwH2spmIhgT0GLoaYhEkY+vv6pUd3l4qjLft
-	cjRNbjhS2kWJ+5zVvoV7LzsQg9vCpnjbBSwpo5UrVT7JP2rpA3npJ9nOjJpFeg8WmazR
-	tWldKZAyBRVBTQdKeTMJL/oI6iwlra/yygXmoVC2w+SsaGx7LH5Wr+3crFUtzjv3LpTs
-	8YW5cltEL8xVI1hb5d8OKJYX83KnIDyINljg82NWS6e5Esj7alpg2G2McygIByr65o+d
-	eGEQ==
-X-Gm-Message-State: ABUngvdpQJokn9tIkkXTxTi97GggzZRpY50ZXraBAS1OMg66CKFNJf9oRdFSDWBnKiaKvQMEFLyBChkNFaI6afZs
-X-Received: by 10.55.32.195 with SMTP id g186mr1711497qkg.77.1476988792930;
-	Thu, 20 Oct 2016 11:39:52 -0700 (PDT)
+	Thu, 20 Oct 2016 23:29:58 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by fmsmga101.fm.intel.com with ESMTP; 20 Oct 2016 16:29:59 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.31,521,1473145200"; d="scan'208";a="775265314"
+Received: from swang16-mobl1.gar.corp.intel.com (HELO
+	peggleto-mobl.ger.corp.intel.com) ([10.255.182.202])
+	by FMSMGA003.fm.intel.com with ESMTP; 20 Oct 2016 16:29:57 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Olaf Mandel <o.mandel@menlosystems.com>
+Date: Fri, 21 Oct 2016 12:29:55 +1300
+Message-ID: <1985222.nRgBkrL9KW@peggleto-mobl.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.14.10 (Linux/4.7.7-100.fc23.x86_64; KDE/4.14.20; x86_64; ;
+	)
+In-Reply-To: <1476871513-19739-1-git-send-email-o.mandel@menlosystems.com>
+References: <1476871513-19739-1-git-send-email-o.mandel@menlosystems.com>
 MIME-Version: 1.0
-Received: by 10.140.85.208 with HTTP; Thu, 20 Oct 2016 11:39:32 -0700 (PDT)
-In-Reply-To: <47dd48f0f78f6023a4f1ab0469e9ff8537a6be1c.1476888929.git.alexander.kanavin@linux.intel.com>
-References: <cover.1476888929.git.alexander.kanavin@linux.intel.com>
-	<47dd48f0f78f6023a4f1ab0469e9ff8537a6be1c.1476888929.git.alexander.kanavin@linux.intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 20 Oct 2016 19:39:32 +0100
-Message-ID: <CAJTo0LZ5KFEzb_Lkk8kW2kyrjnNgMAs1XSG8PvffM44r5V9icA@mail.gmail.com>
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 06/19] btrfs-tools: update to 4.8.1
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 0/1] $COREBASE/LICENSE in LIC_FILES_CHKSUM
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,47 +34,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Oct 2016 18:39:52 -0000
-Content-Type: multipart/alternative; boundary=001a11470c3a57620a053f504050
+X-List-Received-Date: Thu, 20 Oct 2016 23:29:58 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
---001a11470c3a57620a053f504050
-Content-Type: text/plain; charset=UTF-8
+Hi Olaf,
 
-On 19 October 2016 at 16:06, Alexander Kanavin <
-alexander.kanavin@linux.intel.com> wrote:
+On Wed, 19 Oct 2016 10:05:12 Olaf Mandel wrote:
+> I ran into QA issues when inadvertently replacing OEs LICENSE with
+> Yoctos LICENSE file. Why should recipes depend on the license for
+> the complete collection of layers? At least for "normal" recipes
+> that generate target device packages, this makes no sense to me.
+> 
+> I patched out the global LICENSE file from all those recipes that
+> are short enough and where I feel reasonably confident of not
+> having actually changed the claimed license terms in any way.
 
-> Remove fix-parallel.patch as version.h is now generated by autoconf in
-> configure()
->
+Agreed, doing this cleanup makes sense to me. We should especially discourage
+others from referring to this file in their own recipes, and we start by
+showing a good example.
 
-Doing a rebuild from clean (actually to test the man page patch) resulted
-in this:
+> There are additional recipes that reference the global LICENSE
+> file, but where I am not sure if a less blanket license declaration
+> is appropriate or not. Especially for meta-toolchain and
+> build-appliance-image, the global LICENSE is probably correct.
+> Any comments?
 
-packages/corei7-64-poky-linux/btrfs-tools/btrfs-tools: FILELIST: removed
-"/lib/udev/rules.d/64-btrfs-dm.rules"
+For images and other recipes that don't pull in anything by themselves, there
+shouldn't be a need for LIC_FILES_CHKSUM (or indeed LICENSE) to be set at all
+- in order to understand the license for the result the appropriate place to
+look is the license manifest that represents everything that goes into the
+image. In fact, in master / morty, if SRC_URI is empty then LIC_FILES_CHKSUM
+is no longer verified [1]. Thus, for such recipes we can remove the setting of
+LIC_FILES_CHKSUM (and LICENSE, if possible) altogether.
 
-Presumably there's an implicit dependency on udev.
+Cheers,
+Paul
 
-Ross
+[1] http://cgit.openembedded.org/openembedded-core/commit/?id=c269547ae8e90a78349f6003385137e4145e145f
 
---001a11470c3a57620a053f504050
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+-- 
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 19 October 2016 at 16:06, Alexander Kanavin <span dir=3D"ltr">&lt;<a hre=
-f=3D"mailto:alexander.kanavin@linux.intel.com" target=3D"_blank">alexander.=
-kanavin@linux.intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail=
-_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-left=
--color:rgb(204,204,204);border-left-style:solid;padding-left:1ex"><div id=
-=3D"gmail-:5ml" class=3D"gmail-a3s gmail-aXjCH gmail-m157dd86200e4901d">Rem=
-ove fix-parallel.patch as version.h is now generated by autoconf in configu=
-re()<br></div></blockquote></div><br>Doing a rebuild from clean (actually t=
-o test the man page patch) resulted in this:</div><div class=3D"gmail_extra=
-"><br></div><div class=3D"gmail_extra">packages/corei7-64-poky-linux/btrfs-=
-tools/btrfs-tools: FILELIST: removed &quot;/lib/udev/rules.d/64-btrfs-dm.ru=
-les&quot;<br></div><div class=3D"gmail_extra"><br></div><div class=3D"gmail=
-_extra">Presumably there&#39;s an implicit dependency on udev.</div><div cl=
-ass=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
+Paul Eggleton
+Intel Open Source Technology Centre
 
---001a11470c3a57620a053f504050--
