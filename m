@@ -1,48 +1,29 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f171.google.com (mail-qk0-f171.google.com
-	[209.85.220.171])
-	by mail.openembedded.org (Postfix) with ESMTP id F2FA86FF84
+Return-Path: <rpjday@crashcourse.ca>
+Received: from smtp684.redcondor.net (smtp684.redcondor.net [208.80.206.84])
+	by mail.openembedded.org (Postfix) with ESMTP id 859E771999
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Oct 2016 09:27:32 +0000 (UTC)
-Received: by mail-qk0-f171.google.com with SMTP id o68so82201556qkf.3
+	Thu, 20 Oct 2016 09:34:27 +0000 (UTC)
+Received: from astoria.ccjclearline.com ([64.235.106.9])
+	by smtp684.redcondor.net ({700db0a8-6fb7-4c8b-9b2a-6812225182d8})
+	via TCP (outbound) with ESMTPS id 20161020093427993_0684
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Oct 2016 02:27:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=N2FUodJILuzVgIuTSK1+4mEFqjvHjUyh2JXruSKwFmA=;
-	b=ESILDelka41+RMCSbGtC0sshgko7j+ysGxLuLlCae24Ko8/v1508djZpGeldj7Wmw3
-	q8dWtk/1kdQktDGk542i3rIx3cB/S4aA0YBnMldp/yaD7C7Am8nO7fIEv1I9npZHNNNF
-	8j1wuwG4DZY7zVsgrj3fdVJ357Jj5oHjwrJBJjzDRb8xNUblPdlP+dl65Dx5HhpwP6ud
-	ANd2arZlpY2Nmzy4+PfRguI7bxjm9AyYg1nEg7o3i3Xav2OK36G0EF+2TNYeN8VwZnmJ
-	ROyl8hVeHhRy6iC5hJbI6PsZE34+/rkOiE/ctf8MbmzsZH00CeRedhpOn+we+p/JGifT
-	ZuHQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=N2FUodJILuzVgIuTSK1+4mEFqjvHjUyh2JXruSKwFmA=;
-	b=ObdRZBwMIHyRRA/JzYLtaxWBeGLk2NoJnboLTaIs+vp0AIUgea6wt+UnnSOyLODRph
-	8yuCJ+PkEZujVvWV7u4E4SCk4EjP/jx9gTQRCEdSGSXUc9l8c1TksDKKIZwCR3qmzd8C
-	WSTPtsqaNmDVzm4IYDn8dz+ERYqR/soWv/hsaEsGw6BkbRGlUqDt9ZCjhw8TOi4ftdwu
-	b2BoFPlJ6lhAtTpSJ4Emm4Z3I2LSGkECKsI32TVrxxu1W5Xs3Lx4jI+dhUNgmFVkFn29
-	jHqKT7deMcZ5O8iUHsnaLd6zJV+gFWnRmisyO60A1evNiw1QETNb+TRUWpqZjiBSSqxV
-	RZ0w==
-X-Gm-Message-State: ABUngveUYkKEJdpIVKAXZ1ORK/nnubCQyk3a21vbfcOsJ1se+xLoS5+xmoucDe6OcQS9g9mUkcsGfdpEHOoR0REn
-X-Received: by 10.55.75.215 with SMTP id y206mr10154375qka.26.1476955653705;
-	Thu, 20 Oct 2016 02:27:33 -0700 (PDT)
+	Thu, 20 Oct 2016 09:34:27 +0000
+X-RC-FROM: <rpjday@crashcourse.ca>
+X-RC-RCPT: <openembedded-core@lists.openembedded.org>
+Received: from [216.191.234.70] (port=55082 helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
+	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
+	id 1bx9jx-0003nh-5k for openembedded-core@lists.openembedded.org;
+	Thu, 20 Oct 2016 05:34:21 -0400
+Date: Thu, 20 Oct 2016 05:33:23 -0400 (EDT)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@ca624034.mitel.com
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Message-ID: <alpine.LFD.2.20.1610200526270.4275@ca624034.mitel.com>
+User-Agent: Alpine 2.20 (LFD 67 2015-01-07)
 MIME-Version: 1.0
-Received: by 10.140.85.208 with HTTP; Thu, 20 Oct 2016 02:27:13 -0700 (PDT)
-In-Reply-To: <CAJTo0Lb3B9FSEXHjd4ZhkF4GwosbCkUVkq5nHuM7sEEV7EgVaA@mail.gmail.com>
-References: <cover.1476888929.git.alexander.kanavin@linux.intel.com>
-	<c5f8205c2501e2c8264bd3c315b42569d66ac6c7.1476888929.git.alexander.kanavin@linux.intel.com>
-	<CAJTo0Lb3B9FSEXHjd4ZhkF4GwosbCkUVkq5nHuM7sEEV7EgVaA@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 20 Oct 2016 10:27:13 +0100
-Message-ID: <CAJTo0LYqYBvyYnkE2Mud6DykHxbhD0ORvKCa7kUAZLfKqy_zog@mail.gmail.com>
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 18/19] webkitgtk: update to 2.14.1
+X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
+Subject: how to add "uninative binary shim" to local source mirror?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,67 +36,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Oct 2016 09:27:33 -0000
-Content-Type: multipart/alternative; boundary=001a114a948816c69b053f4889ea
+X-List-Received-Date: Thu, 20 Oct 2016 09:34:28 -0000
+Content-Type: multipart/mixed; BOUNDARY="587864349-2069421826-1476956007=:4275"
 
---001a114a948816c69b053f4889ea
-Content-Type: text/plain; charset=UTF-8
+--587864349-2069421826-1476956007=:4275
+Content-Type: text/plain; charset=KOI8-R
+Content-Transfer-Encoding: 8BIT
 
-On 20 October 2016 at 10:23, Burton, Ross <ross.burton@intel.com> wrote:
 
-> buildhistory-diff reports that the binaries are being removed:
->
-> packages/corei7-64-poky-linux/webkitgtk/webkitgtk-bin: PKGSIZE changed
-> from 213688 to 0 (-100%)
->   * FILELIST: removed all items "/usr/bin/MiniBrowser /usr/bin/jsc"
->
-> Have these all been removed upstream (in which case we can remove
-> lib_package), or are they optional now and we should enable this?
->
+i use a local source mirror to avoid massive fetching; my site.conf:
 
-I should have finished reading the report before hitting send:
+  SOURCE_MIRROR_URL ?= "file:///home/rpjday/oe/dist/tarballs/"
+  INHERIT += "own-mirrors"
+  BB_GENERATE_MIRROR_TARBALLS = "1"
+  # BB_NO_NETWORK = "1"
 
-packages/corei7-64-poky-linux/webkitgtk/webkitgtk: FILELIST: removed
-"/usr/lib/libwebkit2gtk-4.0.so.37.13.11
-/usr/lib/libjavascriptcoregtk-4.0.so.18.3.13" added
-"/usr/lib/libjavascriptcoregtk-4.0.so.18.4.8
-/usr/libexec/webkit2gtk-4.0/MiniBrowser /usr/libexec/webkit2gtk-4.0/jsc
-/usr/lib/libwebkit2gtk-4.0.so.37.14.8"
+and if anything did need to get downloaded, i have a script i run from
+inside the downloads/ directory to copy new content into my source
+mirror directory (the idea, of course, being to recognize every
+possible format of new, fetched content):
 
-If libexecdir is the right place for these then we can remove lib_package,
-otherwise the question is why are they in there and can they be moved back
-to bindir.
+  for f in *.gz *.tgz *.bz2 *.xz *.rpm *.zip *.bin ; do
+        if [ -f $f -a ! -h $f ] ; then
+                echo "Copying $f ..." ; cp $f ~/oe/dist/tarballs/
+        fi
+  done
 
-Ross
+i just noticed new fetched content:
 
---001a114a948816c69b053f4889ea
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+NOTE: Fetching uninative binary shim from
+http://downloads.yoctoproject.org/releases/uninative/1.4/x86_64-nativesdk-libc.tar.bz2;sha256sum=101ff8f2580c193488db9e76f9646fb6ed38b65fb76f403acb0e2178ce7127ca
+--2016-10-20 05:22:59--
+http://downloads.yoctoproject.org/releases/uninative/1.4/x86_64-nativesdk-libc.tar.bz2
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 20 October 2016 at 10:23, Burton, Ross <span dir=3D"ltr">&lt;<a href=3D"=
-mailto:ross.burton@intel.com" target=3D"_blank">ross.burton@intel.com</a>&g=
-t;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px 0=
-px 0px 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);borde=
-r-left-style:solid;padding-left:1ex"><div class=3D"gmail_extra">buildhistor=
-y-diff reports that the binaries are being removed:</div><div class=3D"gmai=
-l_extra"><br></div><div class=3D"gmail_extra"><div class=3D"gmail_extra">pa=
-ckages/corei7-64-poky-linux/<wbr>webkitgtk/webkitgtk-bin: PKGSIZE changed f=
-rom 213688 to 0 (-100%)</div><div class=3D"gmail_extra">=C2=A0 * FILELIST: =
-removed all items &quot;/usr/bin/MiniBrowser /usr/bin/jsc&quot;</div><div c=
-lass=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Have these all be=
-en removed upstream (in which case we can remove lib_package), or are they =
-optional now and we should enable this?</div></div></blockquote></div><br>I=
- should have finished reading the report before hitting send:</div><div cla=
-ss=3D"gmail_extra"><br></div><div class=3D"gmail_extra">packages/corei7-64-=
-poky-linux/webkitgtk/webkitgtk: FILELIST: removed &quot;/usr/lib/libwebkit2=
-gtk-4.0.so.37.13.11 /usr/lib/libjavascriptcoregtk-4.0.so.18.3.13&quot; adde=
-d &quot;/usr/lib/libjavascriptcoregtk-4.0.so.18.4.8 /usr/libexec/webkit2gtk=
--4.0/MiniBrowser /usr/libexec/webkit2gtk-4.0/jsc /usr/lib/libwebkit2gtk-4.0=
-.so.37.14.8&quot;<br></div><div class=3D"gmail_extra"><br></div><div class=
-=3D"gmail_extra">If libexecdir is the right place for these then we can rem=
-ove lib_package, otherwise the question is why are they in there and can th=
-ey be moved back to bindir.</div><div class=3D"gmail_extra"><br></div><div =
-class=3D"gmail_extra">Ross</div></div>
+but that fetched content ends up in downloads/ under the subdirectory:
 
---001a114a948816c69b053f4889ea--
+  $ tree uninative/
+  uninative/
+  „€€
+  101ff8f2580c193488db9e76f9646fb6ed38b65fb76f403acb0e2178ce7127ca
+      †€€ x86_64-nativesdk-libc.tar.bz2
+      „€€ x86_64-nativesdk-libc.tar.bz2.done
+
+is it just a matter of copying that bz2 tarball to my local source
+mirror? is there some reason that tarball isn't fetched directly into
+the downloads/ directory? are there any other "special cases" like
+this i should be aware of?
+
+rday
+
+-- 
+
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
+
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
+
+--587864349-2069421826-1476956007=:4275--
