@@ -1,35 +1,30 @@
-Return-Path: <denis@denix.org>
-Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.17])
-	by mail.openembedded.org (Postfix) with ESMTP id C70E571A52
+Return-Path: <marex@denx.de>
+Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.9])
+	by mail.openembedded.org (Postfix) with ESMTP id 28AE570100
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Oct 2016 13:24:42 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by mailout4.zoneedit.com (Postfix) with ESMTP id DEAFD20901;
-	Thu, 20 Oct 2016 13:24:43 +0000 (UTC)
-Received: from mailout4.zoneedit.com ([127.0.0.1])
-	by localhost (zmo03-pco.easydns.vpn [127.0.0.1]) (amavisd-new,
+	Thu, 20 Oct 2016 13:35:21 +0000 (UTC)
+Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
+	by mail-out.m-online.net (Postfix) with ESMTP id 3t08vG0fgsz3hjWh;
+	Thu, 20 Oct 2016 15:35:22 +0200 (CEST)
+Received: from localhost (dynscan1.mnet-online.de [192.168.6.68])
+	by mail.m-online.net (Postfix) with ESMTP id 3t08vF6sDfzvkjb;
+	Thu, 20 Oct 2016 15:35:21 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at mnet-online.de
+Received: from mail.mnet-online.de ([192.168.8.182])
+	by localhost (dynscan1.mail.m-online.net [192.168.6.68]) (amavisd-new,
 	port 10024)
-	with ESMTP id GmHceJwxA7hq; Thu, 20 Oct 2016 13:24:43 +0000 (UTC)
-Received: from gandalf.denix.org (pool-100-15-106-107.washdc.fios.verizon.net
-	[100.15.106.107])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mailout4.zoneedit.com (Postfix) with ESMTPSA id B7DAA208EE;
-	Thu, 20 Oct 2016 13:24:41 +0000 (UTC)
-Received: by gandalf.denix.org (Postfix, from userid 1000)
-	id CDE22162176; Thu, 20 Oct 2016 09:24:40 -0400 (EDT)
-Date: Thu, 20 Oct 2016 09:24:40 -0400
-From: Denys Dmytriyenko <denis@denix.org>
-To: Khem Raj <raj.khem@gmail.com>
-Message-ID: <20161020132440.GW2494@denix.org>
-References: <58072ca7.c70f420a.fed0f.74b1SMTPIN_ADDED_BROKEN@mx.google.com>
-	<432953B0-59CB-4E94-A670-C4BD4A12C88A@gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <432953B0-59CB-4E94-A670-C4BD4A12C88A@gmail.com>
-User-Agent: Mutt/1.5.20 (2009-06-14)
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: meta-toolchain and meta-toolchain-qt for specific image
+	with ESMTP id kPD1Ropc5tKb; Thu, 20 Oct 2016 15:35:17 +0200 (CEST)
+X-Auth-Info: +cn/pjMjAaxHJv9O6Y3N/0fJdkoC3HHvpqwqjS/BGZ8=
+Received: from chi.lan (unknown [195.140.253.167])
+	by mail.mnet-online.de (Postfix) with ESMTPA;
+	Thu, 20 Oct 2016 15:35:17 +0200 (CEST)
+From: Marek Vasut <marex@denx.de>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 20 Oct 2016 15:35:11 +0200
+Message-Id: <20161020133514.3403-1-marex@denx.de>
+X-Mailer: git-send-email 2.9.3
+Cc: Marek Vasut <marex@denx.de>
+Subject: [PATCH 1/4] u-boot: Update to 2016.09.01 release
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,63 +37,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Oct 2016 13:24:48 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 20 Oct 2016 13:35:22 -0000
 
-On Wed, Oct 19, 2016 at 08:00:12PM -0700, Khem Raj wrote:
-> 
-> > On Oct 19, 2016, at 1:19 AM, thilo.cestonaro@ts.fujitsu.com wrote:
-> > 
-> > Hey!
-> > 
-> > I want to create such a nice toolchain installation package for my image recipe.
-> > The problem I currently hit is, that I need to do populate_sdk and populate_sdk_qt5 to have qt5 toolchain too.
-> > 
-> > Now I had an idea to create a recipe for the SDK like:
-> > 
-> > ----------
-> > SUMMARY = "Meta package for building an installable toolchain"
-> > LICENSE = "MIT"
-> > 
-> > PR = "r0"
-> > 
-> > inherit populate_sdk populate_sdk_qt5
-> > —————
-> 
-> 
-> what is the advantage of such a recipe?
+Upgrade U-Boot to the latest version.
 
-I guess the question is more generic...
+Signed-off-by: Marek Vasut <marex@denx.de>
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Denys Dmytriyenko <denis@denix.org>
+---
+ .../{u-boot-common_2016.03.inc => u-boot-common_2016.09.01.inc}   | 8 ++++----
+ .../{u-boot-fw-utils_2016.03.bb => u-boot-fw-utils_2016.09.01.bb} | 0
+ .../{u-boot-mkimage_2016.03.bb => u-boot-mkimage_2016.09.01.bb}   | 0
+ .../u-boot/{u-boot_2016.03.bb => u-boot_2016.09.01.bb}            | 0
+ 4 files changed, 4 insertions(+), 4 deletions(-)
+ rename meta/recipes-bsp/u-boot/{u-boot-common_2016.03.inc => u-boot-common_2016.09.01.inc} (59%)
+ rename meta/recipes-bsp/u-boot/{u-boot-fw-utils_2016.03.bb => u-boot-fw-utils_2016.09.01.bb} (100%)
+ rename meta/recipes-bsp/u-boot/{u-boot-mkimage_2016.03.bb => u-boot-mkimage_2016.09.01.bb} (100%)
+ rename meta/recipes-bsp/u-boot/{u-boot_2016.03.bb => u-boot_2016.09.01.bb} (100%)
 
-The advantages of a separate meta-toolchain* recipe:
-* a lot of flexibility
-* not tied to a specific image
-* can carry a lot of SDK customizations
-
-
-> > But how can I tell the recipe to additionally install all the "*-dev" packages which my original image recipe installs.
-> > When I require the image recipe, the toolchain recipe does a do_rootfs task (which is not needed, as it is done by building the image).
-> > 
-> > I read something about TOOLCHAIN_TARGET_TASK and adding all the "*-dev" packages I want to this. But that doesn't work.
-> > 
-> > Any hints?
-> > 
-> > cheers,
-> > Thilo--
-> > _______________________________________________
-> > Openembedded-core mailing list
-> > Openembedded-core@lists.openembedded.org
-> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
-> 
-
-
-
-> -- 
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+diff --git a/meta/recipes-bsp/u-boot/u-boot-common_2016.03.inc b/meta/recipes-bsp/u-boot/u-boot-common_2016.09.01.inc
+similarity index 59%
+rename from meta/recipes-bsp/u-boot/u-boot-common_2016.03.inc
+rename to meta/recipes-bsp/u-boot/u-boot-common_2016.09.01.inc
+index 403e316..ead5077 100644
+--- a/meta/recipes-bsp/u-boot/u-boot-common_2016.03.inc
++++ b/meta/recipes-bsp/u-boot/u-boot-common_2016.09.01.inc
+@@ -4,13 +4,13 @@ SECTION = "bootloaders"
+ LICENSE = "GPLv2+"
+ LIC_FILES_CHKSUM = "file://Licenses/README;md5=a2c678cfd4a4d97135585cad908541c6"
+ 
+-# This revision corresponds to the tag "v2016.03"
++# This revision corresponds to the tag "v2016.09.01"
+ # We use the revision in order to avoid having to fetch it from the
+ # repo during parse
+-SRCREV = "df61a74e6845ec9bdcdd48d2aff5e9c2c6debeaa"
++SRCREV = "f3363c060497515ca8b71451cb56f3ec0abacaa9"
+ 
+-PV = "v2016.03+git${SRCPV}"
++PV = "v2016.09.01+git${SRCPV}"
+ 
+-SRC_URI = "git://git.denx.de/u-boot.git;branch=master"
++SRC_URI = "git://git.denx.de/u-boot.git;branch=u-boot-2016.09.y"
+ 
+ S = "${WORKDIR}/git"
+diff --git a/meta/recipes-bsp/u-boot/u-boot-fw-utils_2016.03.bb b/meta/recipes-bsp/u-boot/u-boot-fw-utils_2016.09.01.bb
+similarity index 100%
+rename from meta/recipes-bsp/u-boot/u-boot-fw-utils_2016.03.bb
+rename to meta/recipes-bsp/u-boot/u-boot-fw-utils_2016.09.01.bb
+diff --git a/meta/recipes-bsp/u-boot/u-boot-mkimage_2016.03.bb b/meta/recipes-bsp/u-boot/u-boot-mkimage_2016.09.01.bb
+similarity index 100%
+rename from meta/recipes-bsp/u-boot/u-boot-mkimage_2016.03.bb
+rename to meta/recipes-bsp/u-boot/u-boot-mkimage_2016.09.01.bb
+diff --git a/meta/recipes-bsp/u-boot/u-boot_2016.03.bb b/meta/recipes-bsp/u-boot/u-boot_2016.09.01.bb
+similarity index 100%
+rename from meta/recipes-bsp/u-boot/u-boot_2016.03.bb
+rename to meta/recipes-bsp/u-boot/u-boot_2016.09.01.bb
+-- 
+2.9.3
 
 
