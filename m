@@ -1,34 +1,29 @@
-Return-Path: <denis@denix.org>
-Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.17])
-	by mail.openembedded.org (Postfix) with ESMTP id 42BE771ABB
+Return-Path: <rpjday@crashcourse.ca>
+Received: from smtp685.redcondor.net (smtp685.redcondor.net [208.80.206.85])
+	by mail.openembedded.org (Postfix) with ESMTP id 12EA271A00
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Oct 2016 13:58:25 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by mailout4.zoneedit.com (Postfix) with ESMTP id 5AC4420901;
-	Thu, 20 Oct 2016 13:58:27 +0000 (UTC)
-Received: from mailout4.zoneedit.com ([127.0.0.1])
-	by localhost (zmo03-pco.easydns.vpn [127.0.0.1]) (amavisd-new,
-	port 10024)
-	with ESMTP id 1scxkBEs7Reo; Thu, 20 Oct 2016 13:58:27 +0000 (UTC)
-Received: from gandalf.denix.org (pool-100-15-106-107.washdc.fios.verizon.net
-	[100.15.106.107])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mailout4.zoneedit.com (Postfix) with ESMTPSA id 3234F208EE;
-	Thu, 20 Oct 2016 13:58:25 +0000 (UTC)
-Received: by gandalf.denix.org (Postfix, from userid 1000)
-	id 4F189162176; Thu, 20 Oct 2016 09:58:24 -0400 (EDT)
-Date: Thu, 20 Oct 2016 09:58:24 -0400
-From: Denys Dmytriyenko <denis@denix.org>
-To: Marek Vasut <marex@denx.de>
-Message-ID: <20161020135824.GB2494@denix.org>
-References: <20161020133514.3403-3-marex@denx.de>
-	<20161020134827.3970-1-marex@denx.de>
+	Thu, 20 Oct 2016 15:15:37 +0000 (UTC)
+Received: from astoria.ccjclearline.com ([64.235.106.9])
+	by smtp685.redcondor.net ({20c8e40f-6b6c-4c9e-abff-1640ea7bf404})
+	via TCP (outbound) with ESMTPS id 20161020151538190_0685
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 20 Oct 2016 08:15:38 -0700
+X-RC-FROM: <rpjday@crashcourse.ca>
+X-RC-RCPT: <openembedded-core@lists.openembedded.org>
+Received: from [216.191.234.70] (port=46212 helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
+	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
+	id 1bxF48-0002Ne-3v for openembedded-core@lists.openembedded.org;
+	Thu, 20 Oct 2016 11:15:32 -0400
+Date: Thu, 20 Oct 2016 11:14:36 -0400 (EDT)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@ca624034.mitel.com
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Message-ID: <alpine.LFD.2.20.1610201109590.5212@ca624034.mitel.com>
+User-Agent: Alpine 2.20 (LFD 67 2015-01-07)
 MIME-Version: 1.0
-In-Reply-To: <20161020134827.3970-1-marex@denx.de>
-User-Agent: Mutt/1.5.20 (2009-06-14)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH V3 3/4] u-boot: Drop PV altogether
+X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
+Subject: how do i get "nativesdk-rpm-build-5.4.16-r0.x86_64_nativesdk.rpm" into the SDK?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,55 +36,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Oct 2016 13:58:26 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-On Thu, Oct 20, 2016 at 03:48:27PM +0200, Marek Vasut wrote:
-> Drop the explicit setting of PV altogether. This changes the U-Boot
-> version string from "v20yy.mm" to "20yy.mm" , so layer setting the
-> PREFERRED_VERSION_u-boot must be updated by removing the leading 'v'.
-> 
-> Signed-off-by: Marek Vasut <marex@denx.de>
-> Cc: Richard Purdie <richard.purdie@linuxfoundation.org>
-> Cc: Denys Dmytriyenko <denis@denix.org>
-
-Acked-by: Denys Dmytriyenko <denys@ti.com>
+X-List-Received-Date: Thu, 20 Oct 2016 15:15:39 -0000
+Content-Type: text/plain; charset=US-ASCII
 
 
-> ---
-> V2: - Add PE=1 to increment the epoch of the package, as the version
->       numbering changes in non-backward-compatible way.
-> V3: - Formatting fix of the PE line
+  ok, this one should be simple ... i ran:
 
-Thanks!
+$ bitbake -c populate_sdk core-image-minimal
 
+then popped into tmp/deploy/rpm/x86_64_nativesdk to see the rpms
+of interest to me:
 
-> ---
->  meta/recipes-bsp/u-boot/u-boot-common_2016.09.01.inc | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
-> 
-> diff --git a/meta/recipes-bsp/u-boot/u-boot-common_2016.09.01.inc b/meta/recipes-bsp/u-boot/u-boot-common_2016.09.01.inc
-> index 0a90621..183e222 100644
-> --- a/meta/recipes-bsp/u-boot/u-boot-common_2016.09.01.inc
-> +++ b/meta/recipes-bsp/u-boot/u-boot-common_2016.09.01.inc
-> @@ -3,14 +3,13 @@ SECTION = "bootloaders"
->  
->  LICENSE = "GPLv2+"
->  LIC_FILES_CHKSUM = "file://Licenses/README;md5=a2c678cfd4a4d97135585cad908541c6"
-> +PE = "1"
->  
->  # This revision corresponds to the tag "v2016.09.01"
->  # We use the revision in order to avoid having to fetch it from the
->  # repo during parse
->  SRCREV = "f3363c060497515ca8b71451cb56f3ec0abacaa9"
->  
-> -PV = "v2016.09.01"
-> -
->  SRC_URI = "git://git.denx.de/u-boot.git;branch=u-boot-2016.09.y"
->  
->  S = "${WORKDIR}/git"
-> -- 
-> 2.9.3
-> 
+nativesdk-rpm-5.4.16-r0.x86_64_nativesdk.rpm
+nativesdk-rpm-build-5.4.16-r0.x86_64_nativesdk.rpm
+nativesdk-rpm-common-5.4.16-r0.x86_64_nativesdk.rpm
+nativesdk-rpm-libs-5.4.16-r0.x86_64_nativesdk.rpm
+
+so far, so good.
+
+  but if i pop into tmp/deploy/sdk and check the host.manifest file
+for the generated SDK, i see references to only:
+
+nativesdk-rpm x86_64-nativesdk 5.4.16
+nativesdk-rpm-libs x86_64-nativesdk 5.4.16
+
+is there a special setting to get the nativesdk-rpm-build into the SDK
+as well? or am i just misunderstanding what i'm reading? thanks.
+
+rday
+
+-- 
+
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
+
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
+
 
