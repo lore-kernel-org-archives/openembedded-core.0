@@ -1,42 +1,34 @@
-Return-Path: <marex@denx.de>
-Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.9])
-	by mail.openembedded.org (Postfix) with ESMTP id 512E371A06
+Return-Path: <denis@denix.org>
+Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.17])
+	by mail.openembedded.org (Postfix) with ESMTP id 67559719C4
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Oct 2016 13:36:14 +0000 (UTC)
-Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
-	by mail-out.m-online.net (Postfix) with ESMTP id 3t08wG62XYz3hjSD;
-	Thu, 20 Oct 2016 15:36:14 +0200 (CEST)
-Received: from localhost (dynscan1.mnet-online.de [192.168.6.68])
-	by mail.m-online.net (Postfix) with ESMTP id 3t08wG5VRszvkjX;
-	Thu, 20 Oct 2016 15:36:14 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at mnet-online.de
-Received: from mail.mnet-online.de ([192.168.8.182])
-	by localhost (dynscan1.mail.m-online.net [192.168.6.68]) (amavisd-new,
+	Thu, 20 Oct 2016 13:45:15 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by mailout4.zoneedit.com (Postfix) with ESMTP id 4E09A20901;
+	Thu, 20 Oct 2016 13:45:17 +0000 (UTC)
+Received: from mailout4.zoneedit.com ([127.0.0.1])
+	by localhost (zmo03-pco.easydns.vpn [127.0.0.1]) (amavisd-new,
 	port 10024)
-	with ESMTP id 86_fLsDEB5gK; Thu, 20 Oct 2016 15:36:13 +0200 (CEST)
-X-Auth-Info: 5KG7e8H2vZxGtnFUmYuYVoGcvVTBguvi+JakoVqknqA=
-Received: from [IPv6:::1] (unknown [195.140.253.167])
+	with ESMTP id WpfIPn33IMFx; Thu, 20 Oct 2016 13:45:17 +0000 (UTC)
+Received: from gandalf.denix.org (pool-100-15-106-107.washdc.fios.verizon.net
+	[100.15.106.107])
 	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mail.mnet-online.de (Postfix) with ESMTPSA;
-	Thu, 20 Oct 2016 15:36:13 +0200 (CEST)
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <20161018215513.2873-1-marex@denx.de>
-	<20161018215513.2873-4-marex@denx.de> <20161019201021.GP2494@denix.org>
-	<26a26c16-7eaf-70c3-698e-164bdba67d8b@denx.de>
-	<20161019211532.GV2494@denix.org>
-	<CAJTo0LbWKZ1Ob1pQdUm4L4sLJX=CKDNifwHJpKSY_UVXoo-6Rw@mail.gmail.com>
-	<3e990c83-4b72-10a9-e7ce-4c5f014f12a4@denx.de>
-	<CAJTo0LaqYfAtkKguHX39Pdqp97S58aWKW5+eWvimrCEWu8Wi0Q@mail.gmail.com>
-From: Marek Vasut <marex@denx.de>
-Message-ID: <3a6665b3-6f1a-61e0-3e6a-10edde133e22@denx.de>
-Date: Thu, 20 Oct 2016 15:36:13 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Icedove/45.4.0
+	by mailout4.zoneedit.com (Postfix) with ESMTPSA id 2877E208EE;
+	Thu, 20 Oct 2016 13:45:15 +0000 (UTC)
+Received: by gandalf.denix.org (Postfix, from userid 1000)
+	id A6E60162176; Thu, 20 Oct 2016 09:45:14 -0400 (EDT)
+Date: Thu, 20 Oct 2016 09:45:14 -0400
+From: Denys Dmytriyenko <denis@denix.org>
+To: Marek Vasut <marex@denx.de>
+Message-ID: <20161020134514.GX2494@denix.org>
+References: <20161020133514.3403-1-marex@denx.de>
+	<20161020133514.3403-3-marex@denx.de>
 MIME-Version: 1.0
-In-Reply-To: <CAJTo0LaqYfAtkKguHX39Pdqp97S58aWKW5+eWvimrCEWu8Wi0Q@mail.gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 4/5] u-boot: Drop PV altogether
+In-Reply-To: <20161020133514.3403-3-marex@denx.de>
+User-Agent: Mutt/1.5.20 (2009-06-14)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH V2 3/4] u-boot: Drop PV altogether
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,29 +41,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Oct 2016 13:36:15 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 20 Oct 2016 13:45:16 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 10/20/2016 12:13 PM, Burton, Ross wrote:
-> On 19 October 2016 at 23:53, Marek Vasut <marex@denx.de
-> <mailto:marex@denx.de>> wrote:
+On Thu, Oct 20, 2016 at 03:35:13PM +0200, Marek Vasut wrote:
+> Drop the explicit setting of PV altogether. This changes the U-Boot
+> version string from "v20yy.mm" to "20yy.mm" , so layer setting the
+> PREFERRED_VERSION_u-boot must be updated by removing the leading 'v'.
 > 
->     OK, snap. Can you pick 1,2,3,5 so I don't have to resubmit them ? They
->     should apply cleanly and they are pretty orthogonal from the 4/5.
+> Signed-off-by: Marek Vasut <marex@denx.de>
+> Cc: Richard Purdie <richard.purdie@linuxfoundation.org>
+> Cc: Denys Dmytriyenko <denis@denix.org>
+
+Acked-by: Denys Dmytriyenko <denys@ti.com>
+
+
+> ---
+> V2: - Add PE=1 to increment the epoch of the package, as the version
+>       numbering changes in non-backward-compatible way.
+> ---
+>  meta/recipes-bsp/u-boot/u-boot-common_2016.09.01.inc | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
 > 
+> diff --git a/meta/recipes-bsp/u-boot/u-boot-common_2016.09.01.inc b/meta/recipes-bsp/u-boot/u-boot-common_2016.09.01.inc
+> index 0a90621..e7f6364 100644
+> --- a/meta/recipes-bsp/u-boot/u-boot-common_2016.09.01.inc
+> +++ b/meta/recipes-bsp/u-boot/u-boot-common_2016.09.01.inc
+> @@ -3,14 +3,13 @@ SECTION = "bootloaders"
+>  
+>  LICENSE = "GPLv2+"
+>  LIC_FILES_CHKSUM = "file://Licenses/README;md5=a2c678cfd4a4d97135585cad908541c6"
+> +PE="1"
+
+^^^^^^^^
+Formatting! My OCD is going to kill me... :)
+
+
+
+>  # This revision corresponds to the tag "v2016.09.01"
+>  # We use the revision in order to avoid having to fetch it from the
+>  # repo during parse
+>  SRCREV = "f3363c060497515ca8b71451cb56f3ec0abacaa9"
+>  
+> -PV = "v2016.09.01"
+> -
+>  SRC_URI = "git://git.denx.de/u-boot.git;branch=u-boot-2016.09.y"
+>  
+>  S = "${WORKDIR}/git"
+> -- 
+> 2.9.3
 > 
-> 1 is standalone and I've merged this into ross/mut already, but 3/4/5
-> are all basically fixing problems in 2 so I think they should all be
-> squashed together.
-
-I'm not a huge fan of patches doing multiple things at the same time, so
-I sent them separately. Feel free to squash them if you really want
-to, I won't object either way.
-
-Thanks for the PE hint :)
-
--- 
-Best regards,
-Marek Vasut
 
