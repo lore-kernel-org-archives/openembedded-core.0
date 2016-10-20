@@ -1,35 +1,57 @@
-Return-Path: <rpjday@crashcourse.ca>
-Received: from smtp484.redcondor.net (smtp484.redcondor.net [208.80.204.84])
-	by mail.openembedded.org (Postfix) with ESMTP id 4762D719CF
+Return-Path: <peter.kjellerstedt@axis.com>
+Received: from bes.se.axis.com (bes.se.axis.com [195.60.68.10])
+	by mail.openembedded.org (Postfix) with ESMTP id 9F7DA601F2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Oct 2016 10:32:11 +0000 (UTC)
-Received: from astoria.ccjclearline.com ([64.235.106.9])
-	by smtp484.redcondor.net ({c48374e7-08df-40d9-a0de-96cc9883a037})
-	via TCP (outbound) with ESMTPS id 20161020103211103_0484;
-	Thu, 20 Oct 2016 10:32:11 +0000
-X-RC-FROM: <rpjday@crashcourse.ca>
-Received: from [216.191.234.70] (port=41177 helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
-	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
-	id 1bxAdn-0000U2-Kp; Thu, 20 Oct 2016 06:32:03 -0400
-Date: Thu, 20 Oct 2016 06:31:07 -0400 (EDT)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@ca624034.mitel.com
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-In-Reply-To: <1476915092.2166.105.camel@linuxfoundation.org>
-Message-ID: <alpine.LFD.2.20.1610200514490.4275@ca624034.mitel.com>
-References: <alpine.LFD.2.20.1610191112240.15586@ca624034.mitel.com>
-	<2130816.2i4mC23lpe@peggleto-mobl.ger.corp.intel.com>
-	<alpine.LFD.2.20.1610191541370.14839@localhost.localdomain>
-	<1542758.b0vWq7N0OP@peggleto-mobl.ger.corp.intel.com>
-	<alpine.LFD.2.20.1610191733110.26015@localhost.localdomain>
-	<1476915092.2166.105.camel@linuxfoundation.org>
-User-Agent: Alpine 2.20 (LFD 67 2015-01-07)
+	Thu, 20 Oct 2016 10:44:32 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bes.se.axis.com (Postfix) with ESMTP id 0612D2E304;
+	Thu, 20 Oct 2016 12:44:33 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at bes.se.axis.com
+Received: from bes.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bes.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024)
+	with LMTP id mvZuyc91Jw5I; Thu, 20 Oct 2016 12:44:31 +0200 (CEST)
+Received: from boulder03.se.axis.com (boulder03.se.axis.com [10.0.8.17])
+	by bes.se.axis.com (Postfix) with ESMTPS id 8CFC02E2FA;
+	Thu, 20 Oct 2016 12:44:31 +0200 (CEST)
+Received: from boulder03.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 677DD1E07D;
+	Thu, 20 Oct 2016 12:44:31 +0200 (CEST)
+Received: from boulder03.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 5BBA11E077;
+	Thu, 20 Oct 2016 12:44:31 +0200 (CEST)
+Received: from seth.se.axis.com (unknown [10.0.2.172])
+	by boulder03.se.axis.com (Postfix) with ESMTP;
+	Thu, 20 Oct 2016 12:44:31 +0200 (CEST)
+Received: from XBOX04.axis.com (xbox04.axis.com [10.0.5.18])
+	by seth.se.axis.com (Postfix) with ESMTP id 4FAE8460;
+	Thu, 20 Oct 2016 12:44:31 +0200 (CEST)
+Received: from XBOX02.axis.com (10.0.5.16) by XBOX04.axis.com (10.0.5.18) with
+	Microsoft SMTP Server (TLS) id 15.0.1210.3;
+	Thu, 20 Oct 2016 12:44:31 +0200
+Received: from XBOX02.axis.com ([fe80::50c3:4d2f:4507:7776]) by
+	XBOX02.axis.com ([fe80::50c3:4d2f:4507:7776%21]) with mapi id
+	15.00.1210.000; Thu, 20 Oct 2016 12:44:31 +0200
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: Olaf Mandel <o.mandel@menlosystems.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [PATCH 1/1] Remove $COREBASE/LICENSE from
+	LIC_FILES_CHKSUM
+Thread-Index: AQHSKfIp2fLnvvwPDUGbxklelwfns6CxJZkw
+Date: Thu, 20 Oct 2016 10:44:31 +0000
+Message-ID: <2cc36b90426449c9bf030d2604b93bab@XBOX02.axis.com>
+References: <1476871513-19739-1-git-send-email-o.mandel@menlosystems.com>
+	<1476871513-19739-2-git-send-email-o.mandel@menlosystems.com>
+In-Reply-To: <1476871513-19739-2-git-send-email-o.mandel@menlosystems.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.0.5.60]
 MIME-Version: 1.0
-X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
-Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: how can i ask to keep all the generated "nativesdk" rpms?
+X-TM-AS-GCONF: 00
+Subject: Re: [PATCH 1/1] Remove $COREBASE/LICENSE from LIC_FILES_CHKSUM
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,75 +64,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Oct 2016 10:32:12 -0000
-Content-Type: multipart/mixed; BOUNDARY="587864349-1563063255-1476955560=:4275"
-Content-ID: <alpine.LFD.2.20.1610200536570.4806@ca624034.mitel.com>
+X-List-Received-Date: Thu, 20 Oct 2016 10:44:33 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
---587864349-1563063255-1476955560=:4275
-Content-Type: text/plain; CHARSET=ISO-8859-15
-Content-Transfer-Encoding: 8BIT
-Content-ID: <alpine.LFD.2.20.1610200536571.4806@ca624034.mitel.com>
+> -----Original Message-----
+> From: openembedded-core-bounces@lists.openembedded.org
+> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
+> Olaf Mandel
+> Sent: den 19 oktober 2016 12:05
+> To: openembedded-core@lists.openembedded.org
+> Cc: Olaf Mandel
+> Subject: [OE-core] [PATCH 1/1] Remove $COREBASE/LICENSE from
+> LIC_FILES_CHKSUM
+>=20
+> Several recipes reference the LICENSE file in their LIC_FILES_CHKSUM
+> variable as ${COREBASE}/LICENSE. This forces distribution providers to
+> keep this file verbatim or to overload the affected recipes. The
+> section
+> "Moving to the Yocto Project 1.6 Release" in the Yocto manual suggests
+> removing the LICENSE file where possible.
+>=20
+> Remove LICENSE in cases where COPYING.MIT is also given and replace
+> LICENSE with COPYING.MIT if the former was the only entry. All modified
+> recipes specify LICENSE =3D "MIT" and none of the in-tree files specify a
+> different license either.
+>=20
+> As the packages do not change (the license files are not contained in
+> them), do not increase PR.
+> ---
+>  meta-skeleton/recipes-skeleton/useradd/useradd-example.bb | 3 +--
+>  meta/recipes-bsp/formfactor/formfactor_0.0.bb             | 3 +--
+>  meta/recipes-connectivity/ppp-dialin/ppp-dialin_0.1.bb    | 3 +--
+>  meta/recipes-core/systemd/systemd-compat-units.bb         | 2 +-
+>  meta/recipes-core/systemd/systemd-systemctl-native.bb     | 2 +-
+>  meta/recipes-core/udev/udev-extraconf_1.1.bb              | 3 +--
+>  meta/recipes-devtools/devel-config/distcc-config.bb       | 3 +--
+>  meta/recipes-devtools/devel-config/nfs-export-root.bb     | 3 +--
+>  meta/recipes-devtools/run-postinsts/run-postinsts_1.0.bb  | 3 +--
+>  meta/recipes-graphics/wayland/weston-init.bb              | 2 +-
+>  meta/recipes-sato/shutdown-desktop/shutdown-desktop.bb    | 3 +--
+>  11 files changed, 11 insertions(+), 19 deletions(-)
 
-On Wed, 19 Oct 2016, Richard Purdie wrote:
+Even after this is applied, there are still nine recipes in OE-Core=20
+that reference ${COREBASE}/LICENSE. There is also an example in=20
+dev-manual-common-tasks.xml with a reference to ${COREBASE}/LICENSE.=20
+AFAICT, they all look just like the ones that this patch removes.=20
+Any reason they were not fixed as well?
 
-> On Wed, 2016-10-19 at 17:34 -0400, Robert P. J. Day wrote:
-> >   so, i'm home and on a different system about to do a build ...
-> > refresh my memory, where are all those nativesdk rpms supposed to
-> > show up? if memory serves, they were under
-> > tmp/deploy/rpm/x86_64_linux. anything i should set before i
-> > attempt a build?
->
-> For SDKMACHINE="x86_64", the would appear in:
->
-> tmp/deploy/rpm/x86_64_nativesdk/
->
-> and SDKMACHINE="i686" in:
->
-> tmp/deploy/rpm/i686_nativesdk/
->
-> Switching SDKMACHINE might have been a trigger for one set
-> disappearing, particularly on older versions. Which version was
-> this? There were some bugs fixed in master/morty related to it.
+There are also 17 recipes in OpenEmbedded with a reference to=20
+${COREBASE}/LICENSE. They too need to be fixed.
 
-  just for fun, i'm going to do a fresh build right now, involving:
+//Peter
 
-* fresh "git pull" of poky
-* MACHINE=mpc8315e-rdb
-* bitbake core-image-minimal
 
-  current state of poky (master branch)
-
-$ git show
-commit ef627ab364d52fe19994c94c1a78fbe21620a32c
-Author: Joshua Lock <joshua.g.lock@intel.com>
-Date:   Wed Oct 12 21:46:42 2016 +0100
-
-    local.conf.sample.extended: remove RM_OLD_IMAGE
-    ... etc ...
-
-  that's it, no other customization other than selecting MACHINE and
-pointing build at my local source mirror. and away we go ... and the
-end result is, under tmp/deploy/rpm/:
-
-$ ls -l
-total 328
-drwxr-xr-x. 2 rpjday rpjday   4096 Oct 20 05:54 all
-drwxr-xr-x. 2 rpjday rpjday  40960 Oct 20 06:06 mpc8315e_rdb
-drwxr-xr-x. 2 rpjday rpjday 286720 Oct 20 06:09 ppce300c3
-$
-
-should i have expected a nativesdk directory?
-
-rday
-
--- 
-
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
-
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
-
---587864349-1563063255-1476955560=:4275--
