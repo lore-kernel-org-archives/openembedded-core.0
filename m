@@ -1,37 +1,47 @@
-Return-Path: <marex@denx.de>
-Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.10])
-	by mail.openembedded.org (Postfix) with ESMTP id 8945271979
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qk0-f170.google.com (mail-qk0-f170.google.com
+	[209.85.220.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 24A1E71B1F
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Oct 2016 18:28:55 +0000 (UTC)
-Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
-	by mail-out.m-online.net (Postfix) with ESMTP id 3t0HQ02C2gz3hjdF;
-	Thu, 20 Oct 2016 20:28:54 +0200 (CEST)
-Received: from localhost (dynscan1.mnet-online.de [192.168.6.68])
-	by mail.m-online.net (Postfix) with ESMTP id 3t0HPy32q4zvkc0;
-	Thu, 20 Oct 2016 20:28:54 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at mnet-online.de
-Received: from mail.mnet-online.de ([192.168.8.182])
-	by localhost (dynscan1.mail.m-online.net [192.168.6.68]) (amavisd-new,
-	port 10024)
-	with ESMTP id qvuJerHEcAgB; Thu, 20 Oct 2016 20:28:53 +0200 (CEST)
-X-Auth-Info: KWghTBxjTPaKyYZeY23bm4RR/lRYvYDGaU2VgSQf0R0=
-Received: from [IPv6:::1] (unknown [195.140.253.167])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mail.mnet-online.de (Postfix) with ESMTPSA;
-	Thu, 20 Oct 2016 20:28:53 +0200 (CEST)
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <20161020133514.3403-1-marex@denx.de>
-	<CAJTo0LZNhqMugeFMDNPi_SYZV++F0UE-eA=FuUKv9W2308XPCQ@mail.gmail.com>
-From: Marek Vasut <marex@denx.de>
-Message-ID: <29f2a77d-d938-536b-83eb-278ce5e505ce@denx.de>
-Date: Thu, 20 Oct 2016 20:28:53 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Icedove/45.4.0
+	Thu, 20 Oct 2016 18:39:51 +0000 (UTC)
+Received: by mail-qk0-f170.google.com with SMTP id o68so111305162qkf.3
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 20 Oct 2016 11:39:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=IjvnGAptZpE0bhpvHfNIxVRjh64xpqIrER9iJm425Lw=;
+	b=q0CzLbkzzbbeIAqnPaVu+c/o2H9PpIW/TVtRho+/Fa8wV6p6Nwoy5C1JTMkECe3y6C
+	k1jF75L118XVBK6vrHIKWYzFcOIP+Nx9Om4y4hye5oft9OMX0KHM8Shj9z14WkvyiLj2
+	l1lE7ACy+ZyNejLCEF8ywvc9U5c+GaxBv/m7KMG0HRg2Kf2kKqiKe9KlgLmEWI6/gUgY
+	M5fn26PGuvAdjYCk78O//nQNI6pCc7LeW5zJAlxRATFDrx3j5B6nJSeWiExoD/La0dKl
+	PuceqW+9VDBNj+SQeqMe6hqGHocCTovN8ISrMwJE0RV8xPj+6FVV3J+V1rHb6YKGnH/X
+	cghw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=IjvnGAptZpE0bhpvHfNIxVRjh64xpqIrER9iJm425Lw=;
+	b=awQDeYdOk2pTr8HCT1pMigwusSQIvDFxUXiJbPm3R+zDt4QX9HHgzOcLLn0D6LtvPx
+	xV3BWihy9pTCWy/JWEBlhYTaxDMb2/JQfwH2spmIhgT0GLoaYhEkY+vv6pUd3l4qjLft
+	cjRNbjhS2kWJ+5zVvoV7LzsQg9vCpnjbBSwpo5UrVT7JP2rpA3npJ9nOjJpFeg8WmazR
+	tWldKZAyBRVBTQdKeTMJL/oI6iwlra/yygXmoVC2w+SsaGx7LH5Wr+3crFUtzjv3LpTs
+	8YW5cltEL8xVI1hb5d8OKJYX83KnIDyINljg82NWS6e5Esj7alpg2G2McygIByr65o+d
+	eGEQ==
+X-Gm-Message-State: ABUngvdpQJokn9tIkkXTxTi97GggzZRpY50ZXraBAS1OMg66CKFNJf9oRdFSDWBnKiaKvQMEFLyBChkNFaI6afZs
+X-Received: by 10.55.32.195 with SMTP id g186mr1711497qkg.77.1476988792930;
+	Thu, 20 Oct 2016 11:39:52 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAJTo0LZNhqMugeFMDNPi_SYZV++F0UE-eA=FuUKv9W2308XPCQ@mail.gmail.com>
+Received: by 10.140.85.208 with HTTP; Thu, 20 Oct 2016 11:39:32 -0700 (PDT)
+In-Reply-To: <47dd48f0f78f6023a4f1ab0469e9ff8537a6be1c.1476888929.git.alexander.kanavin@linux.intel.com>
+References: <cover.1476888929.git.alexander.kanavin@linux.intel.com>
+	<47dd48f0f78f6023a4f1ab0469e9ff8537a6be1c.1476888929.git.alexander.kanavin@linux.intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 20 Oct 2016 19:39:32 +0100
+Message-ID: <CAJTo0LZ5KFEzb_Lkk8kW2kyrjnNgMAs1XSG8PvffM44r5V9icA@mail.gmail.com>
+To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/4] u-boot: Update to 2016.09.01 release
+Subject: Re: [PATCH 06/19] btrfs-tools: update to 4.8.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,23 +54,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Oct 2016 18:28:56 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 20 Oct 2016 18:39:52 -0000
+Content-Type: multipart/alternative; boundary=001a11470c3a57620a053f504050
 
-On 10/20/2016 05:16 PM, Burton, Ross wrote:
-> 
-> On 20 October 2016 at 14:35, Marek Vasut <marex@denx.de
-> <mailto:marex@denx.de>> wrote:
-> 
->     Upgrade U-Boot to the latest version.
-> 
-> 
-> I hope nobody objects but I squashed these for clarity.
+--001a11470c3a57620a053f504050
+Content-Type: text/plain; charset=UTF-8
 
-All right ;-)
+On 19 October 2016 at 16:06, Alexander Kanavin <
+alexander.kanavin@linux.intel.com> wrote:
 
--- 
-Best regards,
-Marek Vasut
+> Remove fix-parallel.patch as version.h is now generated by autoconf in
+> configure()
+>
 
+Doing a rebuild from clean (actually to test the man page patch) resulted
+in this:
+
+packages/corei7-64-poky-linux/btrfs-tools/btrfs-tools: FILELIST: removed
+"/lib/udev/rules.d/64-btrfs-dm.rules"
+
+Presumably there's an implicit dependency on udev.
+
+Ross
+
+--001a11470c3a57620a053f504050
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 19 October 2016 at 16:06, Alexander Kanavin <span dir=3D"ltr">&lt;<a hre=
+f=3D"mailto:alexander.kanavin@linux.intel.com" target=3D"_blank">alexander.=
+kanavin@linux.intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail=
+_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-left=
+-color:rgb(204,204,204);border-left-style:solid;padding-left:1ex"><div id=
+=3D"gmail-:5ml" class=3D"gmail-a3s gmail-aXjCH gmail-m157dd86200e4901d">Rem=
+ove fix-parallel.patch as version.h is now generated by autoconf in configu=
+re()<br></div></blockquote></div><br>Doing a rebuild from clean (actually t=
+o test the man page patch) resulted in this:</div><div class=3D"gmail_extra=
+"><br></div><div class=3D"gmail_extra">packages/corei7-64-poky-linux/btrfs-=
+tools/btrfs-tools: FILELIST: removed &quot;/lib/udev/rules.d/64-btrfs-dm.ru=
+les&quot;<br></div><div class=3D"gmail_extra"><br></div><div class=3D"gmail=
+_extra">Presumably there&#39;s an implicit dependency on udev.</div><div cl=
+ass=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
+
+--001a11470c3a57620a053f504050--
