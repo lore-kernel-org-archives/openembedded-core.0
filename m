@@ -1,70 +1,27 @@
-Return-Path: <thilo.cestonaro@ts.fujitsu.com>
-X-Greylist: delayed 427 seconds by postgrey-1.34 at layers.openembedded.org;
-	Thu, 20 Oct 2016 06:32:00 UTC
-Received: from mail1.bemta5.messagelabs.com (mail1.bemta5.messagelabs.com
-	[195.245.231.148])
-	by mail.openembedded.org (Postfix) with ESMTP id 1702971A52
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 138E371B65
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Oct 2016 06:31:59 +0000 (UTC)
-Received: from [85.158.136.83] by server-12.bemta-5.messagelabs.com id
-	AC/7B-09561-63368085; Thu, 20 Oct 2016 06:24:54 +0000
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrDKsWRWlGSWpSXmKPExsViZ8MxRdckmSP
-	CoOmAocWdn+/YLdquz2J0YPLYOesuu8e5jSsYA5iiWDPzkvIrElgzZhw+zVZwTbdiwqRlrA2M
-	u3W6GLk4hARamSROvl3ECuEcY5SY8LSTHcK5yCjROeUOcxcjJwebgLvE1nv3mUBsEQFdieef/
-	7KA2MwCURKTZr8Csjk4hAX8JLbcjQMxRQQCJB5PdYaoNpI4vvs6G4jNIqAqsbf9CthEXgETia
-	8v97OC2EICdRJ3zh8Am84pYCtxvnc5G0TcW+L0x9lg9YwCKhK77m5hhNgqLnHryXywegkBEYm
-	HF0+zQdiiEi8f/2OFsFUkJh1YzQJh60icvf6EEcI2kNi6dB9UXFHiRctnZoiZVRJXzu9mhLhN
-	UOLkzCcsExglZiFZNwtJ2SwkZRBxTYnW7b/ZIWxtiWULXzND2LYS+6+uhLJNJV4f/cgIYStKT
-	Ol+yL6AkWMVo0ZxalFZapGuoZFeUlFmekZJbmJmjq6hgalebmpxcWJ6ak5iUrFecn7uJkZgrD
-	MAwQ7GvlnOhxglOZiURHklfDgihPiS8lMqMxKLM+KLSnNSiw8xynBwKEnwfk0EygkWpaanVqR
-	l5gCTDkxagoNHSYR3MUiat7ggMbc4Mx0idYpRUUqcVyEJKCEAksgozYNrgyW6S4yyUsK8jECH
-	CPEUpBblZpagyr9iFOdgVBLmVQeZwpOZVwI3/RXQYiagxefyWEAWlyQipKQaGJlfa/C+unOLg
-	bv2klJEoJLjnc1ftbInsabbCfhPmtEst1JmvfZ68cgFivHGAXUCfxmmlNlMPMkieT+5fMG37R
-	Uiuw58jK17t1RaYvqZdE/dwzaPNwXuqv04r2qx5ZoPnOWiVvevJO7duag97p+38u2Yjm++Mge
-	CDuhenCQo/WV1Dpf+83VvkpVYijMSDbWYi4oTASg6grdvAwAA
-X-Env-Sender: thilo.cestonaro@ts.fujitsu.com
-X-Msg-Ref: server-8.tower-36.messagelabs.com!1476944692!64662441!1
-X-Originating-IP: [62.60.8.148]
-X-StarScan-Received: 
-X-StarScan-Version: 8.84; banners=-,-,-
-X-VirusChecked: Checked
-Received: (qmail 1267 invoked from network); 20 Oct 2016 06:24:52 -0000
-Received: from unknown (HELO mailhost1.uk.fujitsu.com) (62.60.8.148)
-	by server-8.tower-36.messagelabs.com with DHE-RSA-AES256-GCM-SHA384
-	encrypted SMTP; 20 Oct 2016 06:24:52 -0000
-Received: from R01UKEXCASM124.r01.fujitsu.local (ex2k13_124.fs.fujitsu.com
-	[10.183.43.176])
-	by mailhost1.uk.fujitsu.com (8.14.5/8.14.5) with ESMTP id
-	u9K6ON7j022413
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL);
-	Thu, 20 Oct 2016 07:24:23 +0100
-Received: from R01UKEXCASM121.r01.fujitsu.local (10.183.43.173) by
-	R01UKEXCASM124.r01.fujitsu.local (10.183.43.176) with Microsoft SMTP
-	Server (TLS) id 15.0.1178.4; Thu, 20 Oct 2016 07:24:27 +0100
-Received: from R01UKEXCASM121.r01.fujitsu.local ([fe80::48eb:6503:a1bb:c29c])
-	by R01UKEXCASM121.r01.fujitsu.local ([fe80::48eb:6503:a1bb:c29c%22])
-	with mapi id 15.00.1178.000; Thu, 20 Oct 2016 07:24:27 +0100
-From: "thilo.cestonaro@ts.fujitsu.com" <thilo.cestonaro@ts.fujitsu.com>
-To: "raj.khem@gmail.com" <raj.khem@gmail.com>
-Thread-Topic: [OE-core] meta-toolchain and meta-toolchain-qt for specific image
-Thread-Index: AQHSKn4cfkqmD2imBU+ewOpqGcX0c6Cwz3YA
-Date: Thu, 20 Oct 2016 06:24:26 +0000
-Message-ID: <1476944666.6754.1.camel@ts.fujitsu.com>
-References: <58072ca7.c70f420a.fed0f.74b1SMTPIN_ADDED_BROKEN@mx.google.com>
-	<432953B0-59CB-4E94-A670-C4BD4A12C88A@gmail.com>
-In-Reply-To: <432953B0-59CB-4E94-A670-C4BD4A12C88A@gmail.com>
-Reply-To: "thilo.cestonaro@ts.fujitsu.com" <thilo.cestonaro@ts.fujitsu.com>
-Accept-Language: de-DE, en-GB, en-US
-X-MS-Has-Attach: yes
-X-MS-TNEF-Correlator: 
-x-mailer: Evolution 3.22.0-2ubuntu1 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.183.43.206]
-MIME-Version: 1.0
-Cc: "openembedded-core@lists.openembedded.org"
+	Thu, 20 Oct 2016 07:11:38 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u9K7BcO6026338
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 20 Oct 2016 00:11:38 -0700 (PDT)
+Received: from [128.224.162.183] (128.224.162.183) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.294.0;
+	Thu, 20 Oct 2016 00:11:38 -0700
+To: Jianxun Zhang <jianxun.zhang@linux.intel.com>, OE-core
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: meta-toolchain and meta-toolchain-qt for specific image
+References: <CBD43570-CA3D-4834-86EC-44B3E8EE6D02@linux.intel.com>
+From: Robert Yang <liezhi.yang@windriver.com>
+Message-ID: <09944531-3663-caac-fd43-60e32c478a0f@windriver.com>
+Date: Thu, 20 Oct 2016 15:11:36 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.2.0
+MIME-Version: 1.0
+In-Reply-To: <CBD43570-CA3D-4834-86EC-44B3E8EE6D02@linux.intel.com>
+Subject: Re: Question for OE variable "LABELS"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -77,102 +34,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Oct 2016 06:32:02 -0000
-X-Groupsio-MsgNum: 88408
-Content-Language: en-US
-Content-Type: multipart/signed; micalg=sha-1;
-	protocol="application/x-pkcs7-signature";
-	boundary="=-s4WWTw7QuYa66YUgPFtd"
-
---=-s4WWTw7QuYa66YUgPFtd
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 20 Oct 2016 07:11:41 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
 
 
->=20
-> what is the advantage of such a recipe?
+Hi Jianxun,
 
-The only "advantage" what made me using such a recipe was, that I want to h=
-ave the normal toolchain AND the qt5 toolchain in one installation package =
-together.
-When you know another way to get both together, I would be thankful if you =
-tell me how to do this.
+On 10/20/2016 04:51 AM, Jianxun Zhang wrote:
+> The current OE document has this LABELS variable and OE has some code to support its usage. But if I just set LABELS in a BSP conf or local.conf file, the build will show the warning message:
+>
+> WARNING: core-image-minimal-1.0-r0 do_bootimg: Found potential conflicted var LABELS, please use LABELS_LIVE rather than LABELS"
+>
+> Does anyone know a “proper” usage of LABELS so it won’t trigger the warning message? From the code I dig out, it doesn’t seem so:
+>
+> in meta//classes/live-vm-common.bbclass:
+>
+> def set_live_vm_vars(d, suffix):
+>     vars = ['GRUB_CFG', 'SYSLINUX_CFG', 'ROOT', 'LABELS', 'INITRD']
 
-Cheers,
-Thilo
+LIVE images (such iso) and VM images (such as vmdk) can't use the same
+settings, for these vars, for example they can't use the same INITRD,
+otherwise either of them will fail to boot.
 
---=-s4WWTw7QuYa66YUgPFtd
-Content-Type: application/x-pkcs7-signature; name="smime.p7s"
-Content-Disposition: attachment; filename="smime.p7s"
-Content-Transfer-Encoding: base64
+For LABELS, live images usually needs "boot install", but for VM images,
+it only needs "boot".
 
-MIAGCSqGSIb3DQEHAqCAMIACAQExCzAJBgUrDgMCGgUAMIAGCSqGSIb3DQEHAQAAoIIM6DCCA9Qw
-ggK8oAMCAQICEDTNElfINoNG4L/3PTADbgUwDQYJKoZIhvcNAQEFBQAwLzEtMCsGA1UEAxMkRnVq
-aXRzdSBUZWNobm9sb2d5IFNvbHV0aW9ucyBSb290IENBMB4XDTA5MDMxMjEyMjQ1OVoXDTE5MDMx
-MTEyMjQ1OVowLzEtMCsGA1UEAxMkRnVqaXRzdSBUZWNobm9sb2d5IFNvbHV0aW9ucyBVc2VyIENB
-MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAsBtNf0fN8EkW9y6QqoQGS6LUwezenV2B
-nDzORdGanukRtpGzYMAPdyiwtlp0/zONa+jCJGzkX4iYCjTsiJvx01SPRNZ24fHaFGXpJBX599q6
-ZF0isu+h1aIas1tfyCBalAbKKLvNgIuQjnXhdffVk4vSuBytO3OGcULtJ2+lYVSEvxzGt9iTSwT5
-RnEvKpR0iOC+9/UNVOiPK9XCz5u7bg3iehP5gD+v5uu3YIRwV/5gyd7AZPcckTfYP/GZcybcAXfE
-l5nb/bZiSLHeZEjxMMM8YZqFKhH9xymIdjkcRK7NJ2j8OD708QFv4b4bme1mHGfTjSbxb1nOoUTs
-NtshZwIDAQABo4HrMIHoMB0GA1UdDgQWBBQI9chqv4Dje1DEOfQHmEbobX6XqDALBgNVHQ8EBAMC
-AYYwHwYDVR0jBBgwFoAUFHXiV7YVNxWAKpflUUhlrM+GkMswEgYDVR0TAQH/BAgwBgEB/wIBADBH
-BggrBgEFBQcBAQQ7MDkwNwYIKwYBBQUHMAKGK2h0dHA6Ly9haWEudHMuZnVqaXRzdS5jb20vYWlh
-L2Z0czAxcm9vdC5jZXIwPAYDVR0fBDUwMzAxoC+gLYYraHR0cDovL2NkcC50cy5mdWppdHN1LmNv
-bS9jZHAvZnRzMDFyb290LmNybDANBgkqhkiG9w0BAQUFAAOCAQEAQ7pQP9Lw9bcnt1DhvV5UWb1z
-mnACSo6n6x+bupckQzlrf3aJ7HQZigZuaCak+dexL18I86iNDDOJBBsrz0DcD4XPszcLTUezqqGl
-AyIbviBq5mwDHAWBA9F11GRx6LdrHMKNdHPwAWyC3r6qv4GO6A+z16KUZFSP4kvuaN5YHI481T7F
-FxEmntkylphndX+6mQ1NABApMMhX0aN5dVhPAMAP8nENJ1hGk81IG8gzkoHDPSoLCtffAnNhYAqh
-vrDO2ybXb/9x+Sf3DQuzBg3hpB1yJM3K8foQaS3uTpFITfdMprcQyrIdl4Jw26s/6vpIs0siLVTp
-3yAwgNaqQSgxSTCCBIQwggNsoAMCAQICCiWUlIAAAAACJH0wDQYJKoZIhvcNAQEFBQAwLzEtMCsG
-A1UEAxMkRnVqaXRzdSBUZWNobm9sb2d5IFNvbHV0aW9ucyBVc2VyIENBMB4XDTE0MDMyMTEyMTM1
-M1oXDTE3MDMyMDEyMTM1M1owQjEZMBcGA1UEAwwQQ2VzdG9uYXJvLCBUaGlsbzElMCMGA1UECgwc
-RnVqaXRzdSBUZWNobm9sb2d5IFNvbHV0aW9uczCBnzANBgkqhkiG9w0BAQEFAAOBjQAwgYkCgYEA
-qP3ld/ylkJOTj2rXQ+VrRf/+YMgZS5CGDnMWk+sMoS5f6JqtwfGcfBU/DhfnLsePut2q+ex/RDZF
-M6yCraPS0vdnTKm2O3Q7/UhhAV1Mi4XzzGeY1Y0qm+85EgMBISPwB5mThLYPsun5UIFs6e8tvlwZ
-Rzp/jrv/AzAfsSbHGXcCAwEAAaOCAhEwggINMAsGA1UdDwQEAwIFoDByBgNVHREEazBpgR50aGls
-by5jZXN0b25hcm9AdHMuZnVqaXRzdS5jb22BI1RoaWxvLkNlc3RvbmFyb0BmdWppdHN1LXNpZW1l
-bnMuY29tgSIrNDk4MjE4MDQ4MjMyOEBpbmNvbWluZ2ZheC5mc2MubmV0MB0GA1UdDgQWBBSiHLgI
-jjo+7KxLJ4t1+YZxgBSn8TAfBgNVHSMEGDAWgBQI9chqv4Dje1DEOfQHmEbobX6XqDA8BgNVHR8E
-NTAzMDGgL6AthitodHRwOi8vY2RwLnRzLmZ1aml0c3UuY29tL2NkcC9mdHMwMXVzZXIuY3JsMEcG
-CCsGAQUFBwEBBDswOTA3BggrBgEFBQcwAoYraHR0cDovL2FpYS50cy5mdWppdHN1LmNvbS9haWEv
-ZnRzMDF1c2VyLmNlcjAMBgNVHRMBAf8EAjAAMD0GCSsGAQQBgjcVBwQwMC4GJisGAQQBgjcVCIWF
-xDKBh/9hgYWBBIbsgiCBx4EaeYOIoHGH0vEvAgFkAgEIMBMGA1UdJQQMMAoGCCsGAQUFBwMEMBsG
-CSsGAQQBgjcVCgQOMAwwCgYIKwYBBQUHAwQwRAYJKoZIhvcNAQkPBDcwNTAOBggqhkiG9w0DAgIC
-AIAwDgYIKoZIhvcNAwQCAgCAMAcGBSsOAwIHMAoGCCqGSIb3DQMHMA0GCSqGSIb3DQEBBQUAA4IB
-AQAEGTAyHPmTyCR029H+P/u9xRezlfA2OVvV97Ls/oLCXGGr6EkMvpHodTc6n4EWSb2ul3VPSRQf
-uSmBgIcHQJykHdSChisaqkeOpHG0rjM9GXh2eQ7ECovpQIfdIbRZKNxlJihSDsDWHyZldBlPVbDh
-xMeT6xJ/ylF8UQ8FXKUir6W/BSPZF5kLdsmCeOpWC4jOGNPEMUAcuiHZPyqAhjlWk750I4oJJKvD
-bwO8/mkxmzOjpOsk8O3CdljCjYPoYtJPI/oNVsYdmiokzne4FusPYKDzv5i0dN74KLR48maXvi3/
-WsTFqwks45QeBJT/z+1sYy+dYWpv9XGN+jR1o4ImMIIEhDCCA2ygAwIBAgIKJZSUgAAAAAIkfTAN
-BgkqhkiG9w0BAQUFADAvMS0wKwYDVQQDEyRGdWppdHN1IFRlY2hub2xvZ3kgU29sdXRpb25zIFVz
-ZXIgQ0EwHhcNMTQwMzIxMTIxMzUzWhcNMTcwMzIwMTIxMzUzWjBCMRkwFwYDVQQDDBBDZXN0b25h
-cm8sIFRoaWxvMSUwIwYDVQQKDBxGdWppdHN1IFRlY2hub2xvZ3kgU29sdXRpb25zMIGfMA0GCSqG
-SIb3DQEBAQUAA4GNADCBiQKBgQCo/eV3/KWQk5OPatdD5WtF//5gyBlLkIYOcxaT6wyhLl/omq3B
-8Zx8FT8OF+cux4+63ar57H9ENkUzrIKto9LS92dMqbY7dDv9SGEBXUyLhfPMZ5jVjSqb7zkSAwEh
-I/AHmZOEtg+y6flQgWzp7y2+XBlHOn+Ou/8DMB+xJscZdwIDAQABo4ICETCCAg0wCwYDVR0PBAQD
-AgWgMHIGA1UdEQRrMGmBHnRoaWxvLmNlc3RvbmFyb0B0cy5mdWppdHN1LmNvbYEjVGhpbG8uQ2Vz
-dG9uYXJvQGZ1aml0c3Utc2llbWVucy5jb22BIis0OTgyMTgwNDgyMzI4QGluY29taW5nZmF4LmZz
-Yy5uZXQwHQYDVR0OBBYEFKIcuAiOOj7srEsni3X5hnGAFKfxMB8GA1UdIwQYMBaAFAj1yGq/gON7
-UMQ59AeYRuhtfpeoMDwGA1UdHwQ1MDMwMaAvoC2GK2h0dHA6Ly9jZHAudHMuZnVqaXRzdS5jb20v
-Y2RwL2Z0czAxdXNlci5jcmwwRwYIKwYBBQUHAQEEOzA5MDcGCCsGAQUFBzAChitodHRwOi8vYWlh
-LnRzLmZ1aml0c3UuY29tL2FpYS9mdHMwMXVzZXIuY2VyMAwGA1UdEwEB/wQCMAAwPQYJKwYBBAGC
-NxUHBDAwLgYmKwYBBAGCNxUIhYXEMoGH/2GBhYEEhuyCIIHHgRp5g4igcYfS8S8CAWQCAQgwEwYD
-VR0lBAwwCgYIKwYBBQUHAwQwGwYJKwYBBAGCNxUKBA4wDDAKBggrBgEFBQcDBDBEBgkqhkiG9w0B
-CQ8ENzA1MA4GCCqGSIb3DQMCAgIAgDAOBggqhkiG9w0DBAICAIAwBwYFKw4DAgcwCgYIKoZIhvcN
-AwcwDQYJKoZIhvcNAQEFBQADggEBAAQZMDIc+ZPIJHTb0f4/+73FF7OV8DY5W9X3suz+gsJcYavo
-SQy+keh1NzqfgRZJva6XdU9JFB+5KYGAhwdAnKQd1IKGKxqqR46kcbSuMz0ZeHZ5DsQKi+lAh90h
-tFko3GUmKFIOwNYfJmV0GU9VsOHEx5PrEn/KUXxRDwVcpSKvpb8FI9kXmQt2yYJ46lYLiM4Y08Qx
-QBy6Idk/KoCGOVaTvnQjigkkq8NvA7z+aTGbM6Ok6yTw7cJ2WMKNg+hi0k8j+g1Wxh2aKiTOd7gW
-6w9goPO/mLR03vgotHjyZpe+Lf9axMWrCSzjlB4ElP/P7WxjL51ham/1cY36NHWjgiYxggHhMIIB
-3QIBATA9MC8xLTArBgNVBAMTJEZ1aml0c3UgVGVjaG5vbG9neSBTb2x1dGlvbnMgVXNlciBDQQIK
-JZSUgAAAAAIkfTAJBgUrDgMCGgUAoIH7MBgGCSqGSIb3DQEJAzELBgkqhkiG9w0BBwEwHAYJKoZI
-hvcNAQkFMQ8XDTE2MTAyMDA2MjQyNlowIwYJKoZIhvcNAQkEMRYEFPK3e8OOC6GvQKPP3YduDrLK
-r7jwMEwGCSsGAQQBgjcQBDE/MD0wLzEtMCsGA1UEAxMkRnVqaXRzdSBUZWNobm9sb2d5IFNvbHV0
-aW9ucyBVc2VyIENBAgollJSAAAAAAiR9ME4GCyqGSIb3DQEJEAILMT+gPTAvMS0wKwYDVQQDEyRG
-dWppdHN1IFRlY2hub2xvZ3kgU29sdXRpb25zIFVzZXIgQ0ECCiWUlIAAAAACJH0wDQYJKoZIhvcN
-AQEBBQAEgYB+TGLS/YIFm9uFWDcdmeLSMW0sGIYqtHZ6z8arOko3c1QF6cf8ndwt6DuTUKp8oZmg
-ujImkspxQFzPm6F0A77Uq6x4RZDYmOJ40tzeBiNN3Cg0+ntcwi9syR/wwtXhzqxrgk7izr9hfT7Q
-dVoKGxGnNnHIKWgin9h5ZNSwUwm6ngAAAAAAAA==
+I will send an email to Scott to update the document.
 
---=-s4WWTw7QuYa66YUgPFtd--
+// Robert
+
+>     for var in vars:
+>         var_with_suffix = var + '_' + suffix
+>         if d.getVar(var, True):
+>             bb.warn('Found potential conflicted var %s, please use %s rather than %s' % \
+>                 (var, var_with_suffix, var))
+>         elif d.getVar(var_with_suffix, True):
+>             d.setVar(var, d.getVar(var_with_suffix, True))
+>
+> Notice there is another corner case of false alarm when LABELS have same value of LABEL_LIVE or VM.
+>
+> I can have a small patch to change it, but hope to know the intended behaviors first.
+>
+> Thanks
+>
+
