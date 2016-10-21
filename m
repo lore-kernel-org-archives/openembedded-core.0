@@ -1,37 +1,37 @@
 Return-Path: <bounce+05c21e.62d95b-openembedded-core=lists.openembedded.org@nathanrossi.com>
 Received: from rs224.mailgun.us (rs224.mailgun.us [209.61.151.224])
-	by mail.openembedded.org (Postfix) with ESMTP id 9754760190
+	by mail.openembedded.org (Postfix) with ESMTP id 9939471D45
 	for <openembedded-core@lists.openembedded.org>;
 	Fri, 21 Oct 2016 12:07:49 +0000 (UTC)
 DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=nathanrossi.com;
 	q=dns/txt; 
 	s=pic; t=1477051670; h=References: In-Reply-To: Message-Id: Date:
 	Subject: Cc: To: From: Sender;
-	bh=keZeSRLpY0B2qohD2VkXoQxmgOrZjIav5Db+af4O98s=;
-	b=dtnPxbiuobYjf3Q+76kKsWEN1fFdaAK+di25AjuLvnx8xz/tTjuusrqGn7bHedkcnRj2YUBe
-	fj2kDFnIHwiDrLkVliS8iQfADWI/9W4EfGULdtl3bMuuWEfd2xwvEKjmobl5uL4cQiSX1aJs
-	5xddWvAkI6V36Q4JsPLxV1U/sVA=
+	bh=GqQpjS1nMcMaWPv9eYJYBUgquJNdo+lkSedEH2vVI+A=;
+	b=HDzEZnrSizey6GWlte9p+jHLA6aTejxcddjL52BRX4Q5zh5ZPscuVu0YS9UvH+bJUurW5Sh0
+	rz5npBi2xerr7STWbvj5FWexSawOt93lw6f4bdcHBrPUg4Tq41p9FdVJZRxfpZgAMtTc9dLf
+	JlWjqcLFZiLF8oGNbqddiOyh0Gk=
 DomainKey-Signature: a=rsa-sha1; c=nofws; d=nathanrossi.com; s=pic;
 	q=dns; h=Sender: From: To: Cc: Subject: Date: Message-Id: In-Reply-To:
 	References;
-	b=BoXGBcGk5UdjNrs+Cv6gVjU6P9QfHPaSyPchDfvlkK1GvOBaV7jo4n/ir+XSJT4Noi/3vr
-	Bz0bY85nvxcsSLhopx6LgOzRmG8z1zkQ8s1dGlkr9oQ60iXPLq4a6jGKPnLQaKFDSfHc0C5U
-	MFtOJ/sQg3D6ut4Iay1DgZ8Gv3rdE=
+	b=Fkh7LvVO6l6/cTzXDEOBY/WYRz0iOXf1M7Zwn2BFQE9+hExHA6NKy/pPPnygxpYQ9YEOuI
+	uEohz2WcqToyBaOVUUatkXBeStvDyS6Jjv6rh4af+MWISTFB/3g0W4RtcJjV/jXllRFVlgPh
+	K4jtzGIovpl3qXqBGRFR+N8j/rd3E=
 Sender: nathan@nathanrossi.com
 X-Mailgun-Sending-Ip: 209.61.151.224
 X-Mailgun-Sid: WyI4NjhkNiIsICJvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnIiwgIjYyZDk1YiJd
 Received: from nathanbox.home.rossihq.com
 	(CPE-1-121-165-196.qwl9.woo.bigpond.net.au [1.121.165.196])
-	by mxa.mailgun.org with ESMTP id 580a050a.7f22f408da30-in1;
-	Fri, 21 Oct 2016 12:07:38 -0000 (UTC)
+	by mxa.mailgun.org with ESMTP id 580a050c.7f22f408da30-in1;
+	Fri, 21 Oct 2016 12:07:40 -0000 (UTC)
 From: Nathan Rossi <nathan@nathanrossi.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 21 Oct 2016 22:07:27 +1000
-Message-Id: <20161021120728.22639-2-nathan@nathanrossi.com>
+Date: Fri, 21 Oct 2016 22:07:28 +1000
+Message-Id: <20161021120728.22639-3-nathan@nathanrossi.com>
 X-Mailer: git-send-email 2.9.3
 In-Reply-To: <20161021120728.22639-1-nathan@nathanrossi.com>
 References: <20161021120728.22639-1-nathan@nathanrossi.com>
-Subject: [PATCH] kernel-fitimage.bbclass: Allow unset load/entry addresses for ramdisks
+Subject: [PATCH] kernel-fitimage.bbclass: Don't assume KERNEL_IMAGETYPE == fitImage
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,48 +44,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 21 Oct 2016 12:07:50 -0000
+X-List-Received-Date: Fri, 21 Oct 2016 12:07:51 -0000
 
-Allow the load and entry addresses to remain unset if the UBOOT_RD_*
-variables are also unset for ramdisk entries in the image tree. This
-allows for U-Boot to decide dynamically where to load the ramdisk.
+The name of the output image for a fitImage that contains a ramdisk
+should match the same as for the fitImage that does not contain a
+ramdisk. As such it should not be assumed that KERNEL_IMAGETYPE is
+"fitImage". This change explicitly sets the name of the output
+ramdisk/initramfs to start with fitImage as does the non-ramdisk output.
 
 Signed-off-by: Nathan Rossi <nathan@nathanrossi.com>
 ---
- meta/classes/kernel-fitimage.bbclass | 13 +++++++++++--
- 1 file changed, 11 insertions(+), 2 deletions(-)
+ meta/classes/kernel-fitimage.bbclass | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/meta/classes/kernel-fitimage.bbclass b/meta/classes/kernel-fitimage.bbclass
-index 3bbf91f65a..5c9e76b9ac 100644
+index 5c9e76b9ac..55529b161f 100644
 --- a/meta/classes/kernel-fitimage.bbclass
 +++ b/meta/classes/kernel-fitimage.bbclass
-@@ -178,6 +178,15 @@ EOF
- fitimage_emit_section_ramdisk() {
+@@ -419,11 +419,11 @@ kernel_do_deploy_append() {
  
- 	ramdisk_csum="sha1"
-+	ramdisk_loadline=""
-+	ramdisk_entryline=""
-+
-+	if [ -n "${UBOOT_RD_LOADADDRESS}" ]; then
-+		ramdisk_loadline="load = <${UBOOT_RD_LOADADDRESS}>;"
-+	fi
-+	if [ -n "${UBOOT_RD_ENTRYPOINT}" ]; then
-+		ramdisk_entryline="entry = <${UBOOT_RD_ENTRYPOINT}>;"
-+	fi
+ 		if [ -n "${INITRAMFS_IMAGE}" ]; then
+ 			echo "Copying fit-image-${INITRAMFS_IMAGE}.its source file..."
+-			its_initramfs_base_name="${KERNEL_IMAGETYPE}-its-${INITRAMFS_IMAGE}-${PV}-${PR}-${MACHINE}-${DATETIME}"
+-			its_initramfs_symlink_name=${KERNEL_IMAGETYPE}-its-${INITRAMFS_IMAGE}-${MACHINE}
++			its_initramfs_base_name="fitImage-its-${INITRAMFS_IMAGE}-${PV}-${PR}-${MACHINE}-${DATETIME}"
++			its_initramfs_symlink_name=fitImage-its-${INITRAMFS_IMAGE}-${MACHINE}
+ 			install -m 0644 fit-image-${INITRAMFS_IMAGE}.its ${DEPLOYDIR}/${its_initramfs_base_name}.its
+-			fit_initramfs_base_name="${KERNEL_IMAGETYPE}-${INITRAMFS_IMAGE}-${PV}-${PR}-${MACHINE}-${DATETIME}"
+-			fit_initramfs_symlink_name=${KERNEL_IMAGETYPE}-${INITRAMFS_IMAGE}-${MACHINE}
++			fit_initramfs_base_name="fitImage-${INITRAMFS_IMAGE}-${PV}-${PR}-${MACHINE}-${DATETIME}"
++			fit_initramfs_symlink_name=fitImage-${INITRAMFS_IMAGE}-${MACHINE}
+ 			install -m 0644 arch/${ARCH}/boot/fitImage-${INITRAMFS_IMAGE} ${DEPLOYDIR}/${fit_initramfs_base_name}.bin
+ 		fi
  
- 	cat << EOF >> ${1}
-                 ramdisk@${2} {
-@@ -187,8 +196,8 @@ fitimage_emit_section_ramdisk() {
-                         arch = "${UBOOT_ARCH}";
-                         os = "linux";
-                         compression = "none";
--                        load = <${UBOOT_RD_LOADADDRESS}>;
--                        entry = <${UBOOT_RD_ENTRYPOINT}>;
-+                        ${ramdisk_loadline}
-+                        ${ramdisk_entryline}
-                         hash@1 {
-                                 algo = "${ramdisk_csum}";
-                         };
 -- 
 2.9.3
 
