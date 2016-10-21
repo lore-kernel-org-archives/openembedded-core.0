@@ -1,24 +1,20 @@
-Return-Path: <Yuanjie.Huang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 9B001605C3
+Return-Path: <mikko.ylinen@intel.com>
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+	by mail.openembedded.org (Postfix) with ESMTP id BDBA671AE5
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Oct 2016 02:47:53 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u9L2lqw9013493
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Oct 2016 19:47:53 -0700 (PDT)
-Received: from ala-lpd-susbld2.wrs.com (147.11.105.122) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.294.0; Thu, 20 Oct 2016 19:47:52 -0700
-From: Yuanjie Huang <yuanjie.huang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 20 Oct 2016 19:47:52 -0700
-Message-ID: <20161021024752.5565-1-yuanjie.huang@windriver.com>
+	Fri, 21 Oct 2016 07:05:25 +0000 (UTC)
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+	by orsmga105.jf.intel.com with ESMTP; 21 Oct 2016 00:05:26 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.31,375,1473145200"; d="scan'208";a="22088681"
+Received: from summit.tm.intel.com ([10.237.55.19])
+	by orsmga005.jf.intel.com with ESMTP; 21 Oct 2016 00:05:25 -0700
+From: Mikko Ylinen <mikko.ylinen@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 21 Oct 2016 10:05:45 +0300
+Message-Id: <20161021070545.19812-1-mikko.ylinen@intel.com>
 X-Mailer: git-send-email 2.9.3
-MIME-Version: 1.0
-Subject: [PATCH] binutils: enable warn system direcotories in cross-canadian ld
+Subject: [PATCH] useradd-staticids.bbclass: catch missing uid/gid exceptions
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,31 +27,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 21 Oct 2016 02:47:53 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 21 Oct 2016 07:05:26 -0000
 
-Warn system directories requires a configuration option to be enabled.
-This patch enables the warning for cross-canadian ld, to align with the
-cross version.
+The change to get rid of FuncFailed exceptions changed the behavior
+of how missing uid/gid error are be handled. Instead of catching
+the exception and handling that via bb.parse.SkipPackage(), a fatal
+error was called.
 
-Signed-off-by: Yuanjie Huang <yuanjie.huang@windriver.com>
+This won't work with recipes that are unused and therefore do not have
+UID/GIDs defined. The problem triggers when parsing all recipes (e.g.,
+oe-selftest runs bitbake -p).
+
+The right way to handle this is to raise bb.parse.SkipPackage(). This
+will error correctly once the recipe is needed.
+
+Signed-off-by: Mikko Ylinen <mikko.ylinen@intel.com>
 ---
- meta/recipes-devtools/binutils/binutils-cross-canadian.inc | 1 +
- 1 file changed, 1 insertion(+)
+ meta/classes/useradd-staticids.bbclass | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-devtools/binutils/binutils-cross-canadian.inc b/meta/recipes-devtools/binutils/binutils-cross-canadian.inc
-index ae14642..b3d591e 100644
---- a/meta/recipes-devtools/binutils/binutils-cross-canadian.inc
-+++ b/meta/recipes-devtools/binutils/binutils-cross-canadian.inc
-@@ -6,6 +6,7 @@ BPN = "binutils"
+diff --git a/meta/classes/useradd-staticids.bbclass b/meta/classes/useradd-staticids.bbclass
+index afb580a..4162774 100644
+--- a/meta/classes/useradd-staticids.bbclass
++++ b/meta/classes/useradd-staticids.bbclass
+@@ -53,8 +53,7 @@ def update_useradd_static_config(d):
+     def handle_missing_id(id, type, pkg):
+         # For backwards compatibility we accept "1" in addition to "error"
+         if d.getVar('USERADD_ERROR_DYNAMIC', True) == 'error' or d.getVar('USERADD_ERROR_DYNAMIC', True) == '1':
+-            #bb.error("Skipping recipe %s, package %s which adds %sname %s does not have a static ID defined." % (d.getVar('PN', True),  pkg, type, id))
+-            bb.fatal("%s - %s: %sname %s does not have a static ID defined." % (d.getVar('PN', True), pkg, type, id))
++            raise NotImplementedError("%s - %s: %sname %s does not have a static ID defined. Skipping it." % (d.getVar('PN', True), pkg, type, id))
+         elif d.getVar('USERADD_ERROR_DYNAMIC', True) == 'warn':
+             bb.warn("%s - %s: %sname %s does not have a static ID defined." % (d.getVar('PN', True), pkg, type, id))
  
- DEPENDS = "flex-native bison-native virtual/${HOST_PREFIX}gcc-crosssdk virtual/nativesdk-libc nativesdk-zlib nativesdk-gettext nativesdk-flex"
- EXTRA_OECONF += "--with-sysroot=${SDKPATH}/sysroots/${TUNE_PKGARCH}${TARGET_VENDOR}-${TARGET_OS} \
-+                --enable-poison-system-directories \
-                 "
- 
- # We have to point binutils at a sysroot but we don't need to rebuild if this changes
+@@ -323,7 +322,7 @@ python __anonymous() {
+         and not bb.data.inherits_class('native', d):
+         try:
+             update_useradd_static_config(d)
+-        except bb.build.FuncFailed as f:
++        except NotImplementedError as f:
+             bb.debug(1, "Skipping recipe %s: %s" % (d.getVar('PN', True), f))
+             raise bb.parse.SkipPackage(f)
+ }
 -- 
 2.9.3
+
+---------------------------------------------------------------------
+Intel Finland Oy
+Registered Address: PL 281, 00181 Helsinki 
+Business Identity Code: 0357606 - 4 
+Domiciled in Helsinki 
+
+This e-mail and any attachments may contain confidential material for
+the sole use of the intended recipient(s). Any review or distribution
+by others is strictly prohibited. If you are not the intended
+recipient, please contact the sender and delete all copies.
 
 
