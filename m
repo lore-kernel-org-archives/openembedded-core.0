@@ -1,39 +1,34 @@
 Return-Path: <o.mandel@menlosystems.com>
 Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.9])
-	by mail.openembedded.org (Postfix) with ESMTP id 2DB6F71AEE
+	by mail.openembedded.org (Postfix) with ESMTP id 601EE71CE3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Oct 2016 14:05:30 +0000 (UTC)
+	Fri, 21 Oct 2016 14:06:48 +0000 (UTC)
 Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
-	by mail-out.m-online.net (Postfix) with ESMTP id 3t0nWb5Cdlz3hjV8;
-	Fri, 21 Oct 2016 16:05:31 +0200 (CEST)
+	by mail-out.m-online.net (Postfix) with ESMTP id 3t0nY55PKrz3hjVf;
+	Fri, 21 Oct 2016 16:06:49 +0200 (CEST)
 Received: from localhost (dynscan1.mnet-online.de [192.168.6.68])
-	by mail.m-online.net (Postfix) with ESMTP id 3t0nWb2YQbzvkpl;
-	Fri, 21 Oct 2016 16:05:31 +0200 (CEST)
+	by mail.m-online.net (Postfix) with ESMTP id 3t0nY555jVzvklW;
+	Fri, 21 Oct 2016 16:06:49 +0200 (CEST)
 X-Virus-Scanned: amavisd-new at mnet-online.de
 Received: from mail.mnet-online.de ([192.168.8.182])
 	by localhost (dynscan1.mail.m-online.net [192.168.6.68]) (amavisd-new,
 	port 10024)
-	with ESMTP id w-FRmAftflMV; Fri, 21 Oct 2016 16:05:18 +0200 (CEST)
-X-Auth-Info: KOo9qGkiY1/yfH3L98gaQKltkKNrEAhG8uMTlLKTVRs4ulPcq2h0h+CvPrWMD/yy
-Received: from [10.0.0.72] (host-141-40-253-38.customer.izb-online.de
-	[141.40.253.38])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	with ESMTP id exTfhCBQDcWP; Fri, 21 Oct 2016 16:06:38 +0200 (CEST)
+X-Auth-Info: 6yvRsaiZjHgcpun/g7kbCscWYvh5TYwB0dB5wgqE/mf+gXC1fNBoePzq4i3+VRTA
+Received: from menlobuildsrv.menlosystems.local
+	(host-141-40-253-38.customer.izb-online.de [141.40.253.38])
+	(using TLSv1 with cipher AES256-SHA (256/256 bits))
 	(No client certificate requested)
 	by mail.mnet-online.de (Postfix) with ESMTPSA;
-	Fri, 21 Oct 2016 16:05:18 +0200 (CEST)
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-References: <1476871513-19739-1-git-send-email-o.mandel@menlosystems.com>
-	<1985222.nRgBkrL9KW@peggleto-mobl.ger.corp.intel.com>
+	Fri, 21 Oct 2016 16:06:38 +0200 (CEST)
 From: Olaf Mandel <o.mandel@menlosystems.com>
-Organization: Menlo Systems
-Message-ID: <7c0317d9-f5d2-6a0d-5b2c-93d17fa5712c@menlosystems.com>
-Date: Fri, 21 Oct 2016 16:05:52 +0200
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:45.0) Gecko/20100101
-	Thunderbird/45.4.0
-MIME-Version: 1.0
-In-Reply-To: <1985222.nRgBkrL9KW@peggleto-mobl.ger.corp.intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 0/1] $COREBASE/LICENSE in LIC_FILES_CHKSUM
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 21 Oct 2016 14:06:08 +0000
+Message-Id: <1477058768-25735-1-git-send-email-o.mandel@menlosystems.com>
+X-Mailer: git-send-email 2.1.4
+Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
+	Olaf Mandel <o.mandel@menlosystems.com>
+Subject: [PATCH] Remove LIC_FILES_CHKSUM from recipes without SRC_URI
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,101 +41,268 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 21 Oct 2016 14:05:31 -0000
-X-Groupsio-MsgNum: 88483
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature";
-	boundary="hHac0gOw86pQ7WHWIGsnKeSrdPb9XNEmv"
+X-List-Received-Date: Fri, 21 Oct 2016 14:06:49 -0000
 
---hHac0gOw86pQ7WHWIGsnKeSrdPb9XNEmv
-Content-Type: multipart/mixed; boundary="6QXsuMI3pSIm6nGACnbINUkXQJdmuiljc";
- protected-headers="v1"
-From: Olaf Mandel <o.mandel@menlosystems.com>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Message-ID: <7c0317d9-f5d2-6a0d-5b2c-93d17fa5712c@menlosystems.com>
-Subject: Re: [OE-core] [PATCH 0/1] $COREBASE/LICENSE in LIC_FILES_CHKSUM
-References: <1476871513-19739-1-git-send-email-o.mandel@menlosystems.com>
- <1985222.nRgBkrL9KW@peggleto-mobl.ger.corp.intel.com>
-In-Reply-To: <1985222.nRgBkrL9KW@peggleto-mobl.ger.corp.intel.com>
+LICENSE and LIC_FILES_CHKSUM apply to the sources specified by SRC_URI,
+not to the recipe itself. As such a license declaration for a source-less
+recipe makes little sense. The LICENSE declaration is mandatory, but
+LIC_FILES_CHKSUM can be removed in such cases.
 
---6QXsuMI3pSIm6nGACnbINUkXQJdmuiljc
-Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: quoted-printable
+Remove the LIC_FILES_CHKSUM declarations from all recipes that do not
+need it.
 
-Hi Paul,
+CC: Paul Eggleton <paul.eggleton@linux.intel.com>
+Signed-off-by: Olaf Mandel <o.mandel@menlosystems.com>
+---
+ meta-selftest/recipes-test/error/error.bb                              | 1 -
+ meta/recipes-core/meta/buildtools-tarball.bb                           | 2 --
+ meta/recipes-core/meta/meta-environment.bb                             | 2 --
+ meta/recipes-core/meta/meta-extsdk-toolchain.bb                        | 2 --
+ meta/recipes-core/meta/meta-ide-support.bb                             | 2 --
+ meta/recipes-core/meta/meta-toolchain.bb                               | 3 ---
+ meta/recipes-core/meta/nativesdk-buildtools-perl-dummy.bb              | 1 -
+ meta/recipes-core/meta/signing-keys.bb                                 | 2 --
+ meta/recipes-core/meta/testexport-tarball.bb                           | 2 --
+ meta/recipes-core/meta/uninative-tarball.bb                            | 2 --
+ meta/recipes-core/os-release/os-release.bb                             | 1 -
+ meta/recipes-core/systemd/systemd-compat-units.bb                      | 1 -
+ meta/recipes-devtools/opkg/opkg-arch-config_1.0.bb                     | 1 -
+ .../postinst-intercept/nativesdk-postinst-intercept_1.0.bb             | 1 -
+ meta/recipes-devtools/qemu/qemuwrapper-cross_1.0.bb                    | 1 -
+ meta/recipes-devtools/sgml-common/sgml-common-native_0.6.3.bb          | 1 -
+ meta/recipes-kernel/kmod/depmodwrapper-cross_1.0.bb                    | 1 -
+ meta/recipes-kernel/linux/kernel-devsrc.bb                             | 1 -
+ meta/recipes-kernel/perf/perf.bb                                       | 1 -
+ 19 files changed, 28 deletions(-)
 
-Am 21.10.2016 um 01:29 schrieb Paul Eggleton:
-> On Wed, 19 Oct 2016 10:05:12 Olaf Mandel wrote:
--Snipp-
->> There are additional recipes that reference the global LICENSE
->> file, but where I am not sure if a less blanket license declaration
->> is appropriate or not. Especially for meta-toolchain and
->> build-appliance-image, the global LICENSE is probably correct.
->> Any comments?
->=20
-> For images and other recipes that don't pull in anything by themselves,=
- there
-> shouldn't be a need for LIC_FILES_CHKSUM (or indeed LICENSE) to be set =
-at all
-> - in order to understand the license for the result the appropriate pla=
-ce to
-> look is the license manifest that represents everything that goes into =
-the
-> image. In fact, in master / morty, if SRC_URI is empty then LIC_FILES_C=
-HKSUM
-> is no longer verified [1]. Thus, for such recipes we can remove the set=
-ting of
-> LIC_FILES_CHKSUM (and LICENSE, if possible) altogether.
->=20
-That seems to apply to eight of the nine remaining recipes still
-containing the ${COREBASE}/LICENSE:
+diff --git a/meta-selftest/recipes-test/error/error.bb b/meta-selftest/recipes-test/error/error.bb
+index a7bdecf..3c22e7c 100644
+--- a/meta-selftest/recipes-test/error/error.bb
++++ b/meta-selftest/recipes-test/error/error.bb
+@@ -1,7 +1,6 @@
+ SUMMARY = "Error Test case that fails on do_compile"
+ DESCRIPTION = "This generates a compile time error to be used to for testing."
+ LICENSE = "MIT"
+-LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
+ 
+ INHIBIT_DEFAULT_DEPS = "1"                                                                                                                                                                  
+ EXCLUDE_FROM_WORLD = "1"
+diff --git a/meta/recipes-core/meta/buildtools-tarball.bb b/meta/recipes-core/meta/buildtools-tarball.bb
+index 5808c95..abdc7fe 100644
+--- a/meta/recipes-core/meta/buildtools-tarball.bb
++++ b/meta/recipes-core/meta/buildtools-tarball.bb
+@@ -2,8 +2,6 @@ DESCRIPTION = "SDK type target for building a standalone tarball containing pyth
+                tarball can be used to run bitbake builds on systems which don't meet the usual version requirements."
+ SUMMARY = "Standalone tarball for running builds on systems with inadequate software"
+ LICENSE = "MIT"
+-LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=4d92cd373abda3937c2bc47fbc49d690 \
+-                    file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
+ 
+ TOOLCHAIN_TARGET_TASK ?= ""
+ 
+diff --git a/meta/recipes-core/meta/meta-environment.bb b/meta/recipes-core/meta/meta-environment.bb
+index d9e045f..71e0c23 100644
+--- a/meta/recipes-core/meta/meta-environment.bb
++++ b/meta/recipes-core/meta/meta-environment.bb
+@@ -1,6 +1,4 @@
+ SUMMARY = "Package of environment files for SDK"
+-LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=4d92cd373abda3937c2bc47fbc49d690 \
+-                    file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
+ LICENSE = "MIT"
+ PR = "r8"
+ 
+diff --git a/meta/recipes-core/meta/meta-extsdk-toolchain.bb b/meta/recipes-core/meta/meta-extsdk-toolchain.bb
+index 2bd9a5b..22de0f3 100644
+--- a/meta/recipes-core/meta/meta-extsdk-toolchain.bb
++++ b/meta/recipes-core/meta/meta-extsdk-toolchain.bb
+@@ -1,8 +1,6 @@
+ SUMMARY = "Extensible SDK toolchain meta-recipe"
+ DESCRIPTION = "Meta-recipe for ensuring the build directory contains all appropriate toolchain packages for using an IDE"
+ LICENSE = "MIT"
+-LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=4d92cd373abda3937c2bc47fbc49d690 \
+-                    file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
+ 
+ DEPENDS = "virtual/libc gdb-cross-${TARGET_ARCH} qemu-native qemu-helper-native unfs3-native"
+ 
+diff --git a/meta/recipes-core/meta/meta-ide-support.bb b/meta/recipes-core/meta/meta-ide-support.bb
+index c4ddcfc..1c4aded 100644
+--- a/meta/recipes-core/meta/meta-ide-support.bb
++++ b/meta/recipes-core/meta/meta-ide-support.bb
+@@ -1,8 +1,6 @@
+ SUMMARY = "Integrated Development Environment support"
+ DESCRIPTION = "Meta package for ensuring the build directory contains all appropriate toolchain packages for using an IDE"
+ LICENSE = "MIT"
+-LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=4d92cd373abda3937c2bc47fbc49d690 \
+-                    file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
+ 
+ DEPENDS = "virtual/libc gdb-cross-${TARGET_ARCH} qemu-native qemu-helper-native unfs3-native"
+ PR = "r3"
+diff --git a/meta/recipes-core/meta/meta-toolchain.bb b/meta/recipes-core/meta/meta-toolchain.bb
+index ba9fd88..b02b066 100644
+--- a/meta/recipes-core/meta/meta-toolchain.bb
++++ b/meta/recipes-core/meta/meta-toolchain.bb
+@@ -3,7 +3,4 @@ LICENSE = "MIT"
+ 
+ PR = "r7"
+ 
+-LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=4d92cd373abda3937c2bc47fbc49d690 \
+-                    file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
+-
+ inherit populate_sdk
+diff --git a/meta/recipes-core/meta/nativesdk-buildtools-perl-dummy.bb b/meta/recipes-core/meta/nativesdk-buildtools-perl-dummy.bb
+index 2b96111..0b58a02 100644
+--- a/meta/recipes-core/meta/nativesdk-buildtools-perl-dummy.bb
++++ b/meta/recipes-core/meta/nativesdk-buildtools-perl-dummy.bb
+@@ -1,6 +1,5 @@
+ SUMMARY = "Dummy package which ensures perl is excluded from buildtools"
+ LICENSE = "MIT"
+-LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda2f7b4f302"
+ 
+ inherit allarch
+ 
+diff --git a/meta/recipes-core/meta/signing-keys.bb b/meta/recipes-core/meta/signing-keys.bb
+index 3779037..d088c0c 100644
+--- a/meta/recipes-core/meta/signing-keys.bb
++++ b/meta/recipes-core/meta/signing-keys.bb
+@@ -3,8 +3,6 @@
+ 
+ SUMMARY = "Makes public keys of the signing keys available"
+ LICENSE = "MIT"
+-LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=4d92cd373abda3937c2bc47fbc49d690 \
+-                    file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
+ 
+ 
+ inherit allarch deploy
+diff --git a/meta/recipes-core/meta/testexport-tarball.bb b/meta/recipes-core/meta/testexport-tarball.bb
+index d9861c4..72f5531 100644
+--- a/meta/recipes-core/meta/testexport-tarball.bb
++++ b/meta/recipes-core/meta/testexport-tarball.bb
+@@ -3,8 +3,6 @@ DESCRIPTION = "SDK type target for standalone tarball containing packages define
+                This recipe is almost the same as buildtools-tarball"
+ SUMMARY = "Standalone tarball for test systems with missing software"
+ LICENSE = "MIT"
+-LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=4d92cd373abda3937c2bc47fbc49d690 \
+-                    file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
+ 
+ TEST_EXPORT_SDK_PACKAGES ??= ""
+ 
+diff --git a/meta/recipes-core/meta/uninative-tarball.bb b/meta/recipes-core/meta/uninative-tarball.bb
+index e203a83..bbde0d2 100644
+--- a/meta/recipes-core/meta/uninative-tarball.bb
++++ b/meta/recipes-core/meta/uninative-tarball.bb
+@@ -1,7 +1,5 @@
+ SUMMARY = "libc and patchelf tarball for use with uninative.bbclass"
+ LICENSE = "MIT"
+-LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=4d92cd373abda3937c2bc47fbc49d690 \
+-                    file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
+ 
+ TOOLCHAIN_TARGET_TASK = ""
+ 
+diff --git a/meta/recipes-core/os-release/os-release.bb b/meta/recipes-core/os-release/os-release.bb
+index f519add..fac0bac 100644
+--- a/meta/recipes-core/os-release/os-release.bb
++++ b/meta/recipes-core/os-release/os-release.bb
+@@ -3,7 +3,6 @@ inherit allarch
+ SUMMARY = "Operating system identification"
+ DESCRIPTION = "The /etc/os-release file contains operating system identification data."
+ LICENSE = "MIT"
+-LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
+ INHIBIT_DEFAULT_DEPS = "1"
+ 
+ do_fetch[noexec] = "1"
+diff --git a/meta/recipes-core/systemd/systemd-compat-units.bb b/meta/recipes-core/systemd/systemd-compat-units.bb
+index aa20014..0f0876b 100644
+--- a/meta/recipes-core/systemd/systemd-compat-units.bb
++++ b/meta/recipes-core/systemd/systemd-compat-units.bb
+@@ -1,7 +1,6 @@
+ SUMMARY = "Enhances systemd compatilibity with existing SysVinit scripts"
+ 
+ LICENSE = "MIT"
+-LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
+ 
+ PR = "r29"
+ 
+diff --git a/meta/recipes-devtools/opkg/opkg-arch-config_1.0.bb b/meta/recipes-devtools/opkg/opkg-arch-config_1.0.bb
+index ace3de4..682142a 100644
+--- a/meta/recipes-devtools/opkg/opkg-arch-config_1.0.bb
++++ b/meta/recipes-devtools/opkg/opkg-arch-config_1.0.bb
+@@ -1,6 +1,5 @@
+ SUMMARY = "Architecture-dependent configuration for opkg"
+ LICENSE = "MIT"
+-LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
+ PACKAGE_ARCH = "${MACHINE_ARCH}"
+ PR = "r1"
+ 
+diff --git a/meta/recipes-devtools/postinst-intercept/nativesdk-postinst-intercept_1.0.bb b/meta/recipes-devtools/postinst-intercept/nativesdk-postinst-intercept_1.0.bb
+index 7dc45c6..938ac8a 100644
+--- a/meta/recipes-devtools/postinst-intercept/nativesdk-postinst-intercept_1.0.bb
++++ b/meta/recipes-devtools/postinst-intercept/nativesdk-postinst-intercept_1.0.bb
+@@ -1,6 +1,5 @@
+ SUMMARY = "Postinstall scriptlets"
+ LICENSE = "MIT"
+-LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
+ 
+ FILES_${PN}_append = " ${datadir}/postinst-intercepts/*"
+ 
+diff --git a/meta/recipes-devtools/qemu/qemuwrapper-cross_1.0.bb b/meta/recipes-devtools/qemu/qemuwrapper-cross_1.0.bb
+index 53b302d..881942e 100644
+--- a/meta/recipes-devtools/qemu/qemuwrapper-cross_1.0.bb
++++ b/meta/recipes-devtools/qemu/qemuwrapper-cross_1.0.bb
+@@ -1,6 +1,5 @@
+ SUMMARY = "QEMU wrapper script"
+ LICENSE = "MIT"
+-LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
+ 
+ S = "${WORKDIR}"
+ 
+diff --git a/meta/recipes-devtools/sgml-common/sgml-common-native_0.6.3.bb b/meta/recipes-devtools/sgml-common/sgml-common-native_0.6.3.bb
+index 97b308a..72373e3 100644
+--- a/meta/recipes-devtools/sgml-common/sgml-common-native_0.6.3.bb
++++ b/meta/recipes-devtools/sgml-common/sgml-common-native_0.6.3.bb
+@@ -10,7 +10,6 @@ HOMEPAGE = "http://sources.redhat.com/docbook-tools/"
+ LICENSE = "GPLv2+"
+ # See the comments in license.patch when upgrading this recipe.
+ # This is inteded to be a temporary workaround.
+-LIC_FILES_CHKSUM = "file://LICENSE-GPLv2;md5=ab8a50abe86dfc859e148baae043c89b"
+ SECTION = "base"
+ 
+ PR = "r1"
+diff --git a/meta/recipes-kernel/kmod/depmodwrapper-cross_1.0.bb b/meta/recipes-kernel/kmod/depmodwrapper-cross_1.0.bb
+index 5c7dd52..e617bde 100644
+--- a/meta/recipes-kernel/kmod/depmodwrapper-cross_1.0.bb
++++ b/meta/recipes-kernel/kmod/depmodwrapper-cross_1.0.bb
+@@ -1,6 +1,5 @@
+ SUMMARY = "Wrapper script for the Linux kernel module dependency indexer"
+ LICENSE = "MIT"
+-LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
+ 
+ S = "${WORKDIR}"
+ 
+diff --git a/meta/recipes-kernel/linux/kernel-devsrc.bb b/meta/recipes-kernel/linux/kernel-devsrc.bb
+index 0fdd0ad..9fd2e08 100644
+--- a/meta/recipes-kernel/linux/kernel-devsrc.bb
++++ b/meta/recipes-kernel/linux/kernel-devsrc.bb
+@@ -6,7 +6,6 @@ development or external module builds"
+ SECTION = "kernel"
+ 
+ LICENSE = "GPLv2"
+-LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/GPL-2.0;md5=801f80980d171dd6425610833a22dbe6"
+ 
+ inherit linux-kernel-base
+ 
+diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/perf/perf.bb
+index 471023d..25ae83c 100644
+--- a/meta/recipes-kernel/perf/perf.bb
++++ b/meta/recipes-kernel/perf/perf.bb
+@@ -7,7 +7,6 @@ and software features (software counters, tracepoints) \
+ as well."
+ 
+ LICENSE = "GPLv2"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=d7810fab7487fb0aad327b76f1be7cd7"
+ 
+ PR = "r9"
+ 
+-- 
+2.1.4
 
-meta/recipes-core/meta/buildtools-tarball.bb
-meta/recipes-core/meta/meta-environment.bb
-meta/recipes-core/meta/meta-extsdk-toolchain.bb
-meta/recipes-core/meta/meta-ide-support.bb
-meta/recipes-core/meta/meta-toolchain.bb
-meta/recipes-core/meta/signing-keys.bb
-meta/recipes-core/meta/testexport-tarball.bb
-meta/recipes-core/meta/uninative-tarball.bb
 
-Of the already modified recipes, this applies to:
-meta/recipes-core/systemd/systemd-compat-units.bb
-
-Also, it is not currently possible to remove LICENSE: still causes
-build-errors.
-
-I will send a patch that removes LIC_FILES_CHKSUM from a total of 19
-files, but please someone review it: it also removes the CHKSUM from
-e.g. kernel-devsrc and perf.
-
-This leaves only one instance of ${COREBASE}/LICENSE:
-build-appliance-image. Someone please say if the blanket license text
-from "LICENSE" applies or if the narrower license terms from
-"COPYING.MIT" suffice.
-
-Best regards,
-Olaf
-
-
---6QXsuMI3pSIm6nGACnbINUkXQJdmuiljc--
-
---hHac0gOw86pQ7WHWIGsnKeSrdPb9XNEmv
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
-
-iQEcBAEBCAAGBQJYCiDFAAoJEFS9nbRiUh3/MYoH/2oe6eqD9LIHTJE22GuCXWrC
-tXmbkInaJ2qJ0LQSK1xDgeGRjTHKsjQViGkFKvLgaN9Q11v8bVSI74JemJYNmiRd
-zIhdtJPxrcJptRKVoSg4ZU1MUjsoVl1qW1yXe5BUIMoaP+xcwwAs24uhIChdPfx0
-9x27WzTm+I1ECNZptbj4AKwayGaSwJ9ohoX4vfH/LufukbLDa2XmWTNOzlz6m2iO
-WlHMdrb2oma+dkcorX6CjsazeVcTj9tbV0P3Nfw2UjytlKcCnQlWUSj4lPMCA2RO
-hI/k22HF3BwPaXRH4QpY0deUbxKtFWfagFgegiC3ugirdLO28utxD2DQCy85K3Y=
-=hzcb
------END PGP SIGNATURE-----
-
---hHac0gOw86pQ7WHWIGsnKeSrdPb9XNEmv--
