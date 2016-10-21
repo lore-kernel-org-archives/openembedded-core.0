@@ -1,24 +1,26 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 8E20160603
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Oct 2016 12:48:46 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u9LCmlPX002379
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 21 Oct 2016 05:48:47 -0700 (PDT)
-Received: from yow-bashfiel-d4.wrs.com (128.224.56.94) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.294.0; Fri, 21 Oct 2016 05:48:46 -0700
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-To: <richard.purdie@linuxfoundation.org>
-Date: Fri, 21 Oct 2016 08:48:46 -0400
-Message-ID: <1477054126-23044-1-git-send-email-bruce.ashfield@windriver.com>
-X-Mailer: git-send-email 2.5.0
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 4D514600E2;
+	Fri, 21 Oct 2016 12:57:19 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by fmsmga102.fm.intel.com with ESMTP; 21 Oct 2016 05:57:22 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.31,376,1473145200"; d="scan'208";a="892464671"
+Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
+	([10.237.68.161])
+	by orsmga003.jf.intel.com with ESMTP; 21 Oct 2016 05:57:19 -0700
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>,
+	"openembedded-devel@lists.openembedded.org"
+	<openembedded-devel@lists.openembedded.org>,
+	Yocto Project <yocto@yoctoproject.org>
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Message-ID: <03b5e98b-0724-daa2-8f78-ab4624f52752@linux.intel.com>
+Date: Fri, 21 Oct 2016 15:55:08 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Icedove/45.4.0
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH] linux-yocto/4.8: update to v4.8.3
+Subject: Attention all: patches for upstream source will be applied with stricter criteria for context
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,96 +33,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 21 Oct 2016 12:48:47 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 21 Oct 2016 12:57:20 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Integrating the korg -stable release.
+Hello all,
 
-Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
----
- meta/recipes-kernel/linux/linux-yocto-rt_4.8.bb   |  6 +++---
- meta/recipes-kernel/linux/linux-yocto-tiny_4.8.bb |  6 +++---
- meta/recipes-kernel/linux/linux-yocto_4.8.bb      | 20 ++++++++++----------
- 3 files changed, 16 insertions(+), 16 deletions(-)
+while updating gnutls to a newer version I came across a rather serious 
+issue: the way we patch source code is very lenient about the context 
+for the lines to be changed. Basically, it's enough for one line before 
+and after the changed line to match, because patch command's default 
+setting for 'fuzz factor' allows it. If these lines happen to be 
+whitespace or braces, then there's nothing to prevent the patch from 
+being applied incorrectly.
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_4.8.bb b/meta/recipes-kernel/linux/linux-yocto-rt_4.8.bb
-index fc1c40caf7b2..00c3d2c7bc1f 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_4.8.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_4.8.bb
-@@ -11,13 +11,13 @@ python () {
-         raise bb.parse.SkipPackage("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
- }
- 
--SRCREV_machine ?= "b266f7ba78f0cb3d7073e1bf7bd7dfc92bec7431"
--SRCREV_meta ?= "552a83790b1797b6dd4e4c48ff5bc8f215ed57da"
-+SRCREV_machine ?= "320bceb35315d118c1e209effd441eb8a8dbad57"
-+SRCREV_meta ?= "6d028d2818603cd82cfb707b3231b8a9038f13bb"
- 
- SRC_URI = "git://git.yoctoproject.org/linux-yocto-4.8.git;branch=${KBRANCH};name=machine \
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.8;destsuffix=${KMETA}"
- 
--LINUX_VERSION ?= "4.8"
-+LINUX_VERSION ?= "4.8.3"
- 
- PV = "${LINUX_VERSION}+git${SRCPV}"
- 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_4.8.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_4.8.bb
-index 41ff5637ec59..799c3f37577d 100644
---- a/meta/recipes-kernel/linux/linux-yocto-tiny_4.8.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-tiny_4.8.bb
-@@ -4,13 +4,13 @@ KCONFIG_MODE = "--allnoconfig"
- 
- require recipes-kernel/linux/linux-yocto.inc
- 
--LINUX_VERSION ?= "4.8"
-+LINUX_VERSION ?= "4.8.3"
- 
- KMETA = "kernel-meta"
- KCONF_BSP_AUDIT_LEVEL = "2"
- 
--SRCREV_machine ?= "67813e7efa3a4614e209c2f058d92ef9a636441a"
--SRCREV_meta ?= "552a83790b1797b6dd4e4c48ff5bc8f215ed57da"
-+SRCREV_machine ?= "1adf9d36338dc3c63cdbf6f98bcbdc7bba42a794"
-+SRCREV_meta ?= "6d028d2818603cd82cfb707b3231b8a9038f13bb"
- 
- PV = "${LINUX_VERSION}+git${SRCPV}"
- 
-diff --git a/meta/recipes-kernel/linux/linux-yocto_4.8.bb b/meta/recipes-kernel/linux/linux-yocto_4.8.bb
-index 5738f4974b9b..56fbfc7001bf 100644
---- a/meta/recipes-kernel/linux/linux-yocto_4.8.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_4.8.bb
-@@ -11,20 +11,20 @@ KBRANCH_qemux86  ?= "standard/base"
- KBRANCH_qemux86-64 ?= "standard/base"
- KBRANCH_qemumips64 ?= "standard/mti-malta64"
- 
--SRCREV_machine_qemuarm ?= "f46e49344b4c66a6f0917c5a2e9a1d146176519d"
--SRCREV_machine_qemuarm64 ?= "67813e7efa3a4614e209c2f058d92ef9a636441a"
--SRCREV_machine_qemumips ?= "5a299402ae58d61429ab091f94748550efe45858"
--SRCREV_machine_qemuppc ?= "67813e7efa3a4614e209c2f058d92ef9a636441a"
--SRCREV_machine_qemux86 ?= "67813e7efa3a4614e209c2f058d92ef9a636441a"
--SRCREV_machine_qemux86-64 ?= "67813e7efa3a4614e209c2f058d92ef9a636441a"
--SRCREV_machine_qemumips64 ?= "674818dad577cdfc23c6c857aa2b769fc64e379c"
--SRCREV_machine ?= "67813e7efa3a4614e209c2f058d92ef9a636441a"
--SRCREV_meta ?= "552a83790b1797b6dd4e4c48ff5bc8f215ed57da"
-+SRCREV_machine_qemuarm ?= "4cc544ad09ad704322cb66fe4ba197a6a05dc71f"
-+SRCREV_machine_qemuarm64 ?= "1adf9d36338dc3c63cdbf6f98bcbdc7bba42a794"
-+SRCREV_machine_qemumips ?= "c285969d4f9376a671167ecf397578c8ad3e6a75"
-+SRCREV_machine_qemuppc ?= "1adf9d36338dc3c63cdbf6f98bcbdc7bba42a794"
-+SRCREV_machine_qemux86 ?= "1adf9d36338dc3c63cdbf6f98bcbdc7bba42a794"
-+SRCREV_machine_qemux86-64 ?= "1adf9d36338dc3c63cdbf6f98bcbdc7bba42a794"
-+SRCREV_machine_qemumips64 ?= "64f96ba530e58456070f26b0f3fcce3f64988b72"
-+SRCREV_machine ?= "1adf9d36338dc3c63cdbf6f98bcbdc7bba42a794"
-+SRCREV_meta ?= "6d028d2818603cd82cfb707b3231b8a9038f13bb"
- 
- SRC_URI = "git://git.yoctoproject.org/linux-yocto-4.8.git;name=machine;branch=${KBRANCH}; \
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.8;destsuffix=${KMETA}"
- 
--LINUX_VERSION ?= "4.8"
-+LINUX_VERSION ?= "4.8.3"
- 
- PV = "${LINUX_VERSION}+git${SRCPV}"
- 
--- 
-2.5.0
+Here's a particularly nasty example of this happening completely 
+silently (compile step works fine too), with security implications:
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=10450
 
+I think this absolutely needs to be fixed. The downside is that this 
+will break a lot of patches across all layers - after setting the fuzz 
+to zero in oe-core we have 87 recipes that fail to be patched. Maxin and 
+I are currently going through them one by one and getting them fixed.
+
+Regards,
+Alex
 
