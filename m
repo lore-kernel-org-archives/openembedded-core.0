@@ -1,54 +1,24 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pf0-f180.google.com (mail-pf0-f180.google.com
-	[209.85.192.180])
-	by mail.openembedded.org (Postfix) with ESMTP id 9154071CF7
+Return-Path: <Bruce.Ashfield@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id CCCB462135
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Oct 2016 15:32:02 +0000 (UTC)
-Received: by mail-pf0-f180.google.com with SMTP id r16so58640373pfg.1
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Oct 2016 08:32:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=subject:to:references:from:message-id:date:user-agent:mime-version
-	:in-reply-to; bh=Uqw5+93ovu3Omtt9yPbHs2QXz0Dd5UiMxi5u4/XiHmI=;
-	b=C+r2kW9uvZp1QU9QjUH2yZK4ri14nQ5vtt/aKB2ZeRRRRnzNlOz9YZhoy0gdj88dgq
-	xcO8Y3fBX0DGO940/SSlfFbGneazl5PZY+4y9t8xoPh1wbFx51LPq+pWzijAmIDHwE6O
-	j+0Q99YxMVdyyH1sgNTJz0LJssMi1hBXcx6soAJU2dBPKfUZLfrzRin37e3xpMcE4tl5
-	hXnJGMDM91S8DGJuMgE2xfii3MkY2M8gz7B4nZ+MzY2qH748bI8GBy/zbF8VYGaHYeUb
-	+S+Qebs+pEpmEZ9t8wMOYhZvCSKzMTjYFxJuaRNYaNNQQt7GyvuELy54uvqMy2brF9YB
-	3pDg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:subject:to:references:from:message-id:date
-	:user-agent:mime-version:in-reply-to;
-	bh=Uqw5+93ovu3Omtt9yPbHs2QXz0Dd5UiMxi5u4/XiHmI=;
-	b=Zr9MZrnIV3OMb3xGwKJxN4+wQXWle2cz3zUCCsRsEzCtP6GC1RdCDAceZgTlsJV/oA
-	gC+nIWB+JBARwVNAN2Q3yyR88+Ll9IXWObgSFSJqNKfq9ipTTjm6JWLjKeAqTHAx6ttN
-	gwJBvPNWf7SxfvBDgih0TH1QUY4cqIhCT1HthqWDY6kDEdp0XPP0k/JL4myjA8IveEGl
-	cOROR3fRODJwXCbCnd9qsNAjcmP9p5pq/uhGuSWnZJKwYFotX260QIPuWnM9ibinE84x
-	Z87KJl1IM0DQSo1QW2nZnyEUW+ZTBkdIjQRr17SBU1KIFEMEprekxMNL2fAXVh0T6YSD
-	szlw==
-X-Gm-Message-State: ABUngvcxGH2B+4hpRCLJOM2p4NwI73XsTECgTit5Uu7GgZ23PrjJxf6NP+c1GQhitgzErw==
-X-Received: by 10.99.245.69 with SMTP id e5mr957014pgk.92.1477063922794;
-	Fri, 21 Oct 2016 08:32:02 -0700 (PDT)
-Received: from ?IPv6:2601:202:4001:9ea0:95c6:4f09:f950:8f9?
-	([2601:202:4001:9ea0:95c6:4f09:f950:8f9])
-	by smtp.gmail.com with ESMTPSA id
-	c15sm6097420pfd.53.2016.10.21.08.32.01
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 21 Oct 2016 08:32:02 -0700 (PDT)
-To: "Jolley, Stephen K" <stephen.k.jolley@intel.com>,
-	"yocto@yoctoproject.org" <yocto@yoctoproject.org>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-References: <9ADD3FDE8B189B4AA2F8A3C711F8155E5729D82D@fmsmsx111.amr.corp.intel.com>
-From: akuster808 <akuster808@gmail.com>
-Message-ID: <23bd6029-1062-3065-8d8e-113b21edec6a@gmail.com>
-Date: Fri, 21 Oct 2016 08:32:01 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.3.0
+	Fri, 21 Oct 2016 15:35:36 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u9LFZX0U030011
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
+	Fri, 21 Oct 2016 08:35:33 -0700
+Received: from yow-bashfiel-d4.wrs.com (128.224.56.94) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.294.0; Fri, 21 Oct 2016 08:35:32 -0700
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+To: <richard.purdie@linuxfoundation.org>
+Date: Fri, 21 Oct 2016 11:35:31 -0400
+Message-ID: <1477064131-24205-1-git-send-email-bruce.ashfield@windriver.com>
+X-Mailer: git-send-email 2.5.0
 MIME-Version: 1.0
-In-Reply-To: <9ADD3FDE8B189B4AA2F8A3C711F8155E5729D82D@fmsmsx111.amr.corp.intel.com>
-Subject: Re: [yocto] Yocto Project Status WW43
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH v2] linux-yocto/4.8: update to v4.8.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,1182 +31,163 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 21 Oct 2016 15:32:03 -0000
-Content-Type: multipart/alternative;
-	boundary="------------62F75191128626FC69DE1488"
+X-List-Received-Date: Fri, 21 Oct 2016 15:35:38 -0000
+Content-Type: text/plain
 
---------------62F75191128626FC69DE1488
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 8bit
+Integrating the korg -stable release
 
+One commit of note is the fix for CVE-2016-5195 (http://dirtycow.ninja/):
 
-Stephen,
+ mm: remove gup_flags FOLL_WRITE games from __get_user_pages()
 
-On 10/21/2016 08:26 AM, Jolley, Stephen K wrote:
->
-> Current Dev Position: YP 2.2 M4
->
-> Next Deadline: YP 2.2 M4 which was Oct. 3rd (5:00pm GMT)
->
-> SWAT team rotation: Paul -> Ross
->
-> https://wiki.yoctoproject.org/wiki/Yocto_Build_Failure_Swat_Team
->
-> Key Status/Updates:
->
-> ·Travel for ELC-E did interrupt these status report, apologies for 
-> that. Some of the builds were tricky to debug and/or fix due to some 
-> communication issues the travel didn’t help with too.
->
-> ·2.2 rc4 is currently in QA. Current status is at: 
-> https://wiki.yoctoproject.org/wiki/2.2_QA_Status
->
-> ·At time of press, the runqemu issues are concerning but perhaps not 
-> enough to delay the release, instead being fixed on the branch 
-> immediately afterwards, assuming fixes are available by then.
->
-> ·2.2 rc1-3 had various issues, some autobuilder related, some were new 
-> and interesting bugs we’d never seen before during the release build, 
-> or an intermittent bug we’d not seen for months in one case.
->
-> ·The Morty release branches are in a position to diverge and we have 
-> started to look at queuing the patches that are already being 
-> submitted in -next and mut builds for master.
->
-> ·2.3 planning is underway and RP will send more thoughts on the plans 
-> for that in the next couple of weeks. Recipe specific sysroots look 
-> like one desired feature for multiple reasons and there was good 
-> discussion and feedback and OEDEM
->
-> ·The discussion at OEDEM has great notes (thanks Jan in particular): 
-> http://openembedded.org/wiki/OEDEM_2016#Minutes
->
-> ·Whilst the defect density was decreasing, there has now been an 
-> uptick in the number of defects and things are rising again.
->
-> ·Several good performance issues were found and addressed, a separate 
-> email was sent on that topic.
->
-> ·Proposed 2.3 dates are below but this isn’t 100% confirmed yet.
->
-> Key YP 2.2 Dates:
->
-> ·YP 2.2 M4 release would be: 10/28/16
->
-> Proposed upcoming releases after YP 2.2 are:
->
-> Milestone
->
-> 	
->
-> Cutoff
->
-> 	
->
-> Release
->
-> YP 2.0.3
->
-> 	
->
-> 11/7/2016
->
-> 	
->
-> 11/18/2016
->
-> YP 2.1.2
->
-> 	
->
-> 11/28/2016
->
-> 	
->
-> 12/9/2016
->
-> YP 2.3 M1
->
-> 	
->
-> 12/12/2016
->
-> 	
->
-> 12/23/2016
->
-> YP 2.2.1
->
-> 	
->
-> 1/9/2017
->
-> 	
->
-> 1/20/2017
->
-> YP 2.3 M2
->
-> 	
->
-> 1/23/2017
->
-> 	
->
-> 2/3/2017
->
-> YP 2.3 M3
->
-> 	
->
-> 2/27/2017
->
-> 	
->
-> 3/10/2017
->
-> YP 2.3 M4
->
-> 	
->
-> 4/3/2017
->
-> 	
->
-> 4/28/2017
->
-> YP 2.3
->
-> 	
->
-> 4/3/2017
->
-> 	
->
-> 4/28/2017
->
-> YP 2.1.3
->
-> 	
->
-> 5/8/2017
->
-> 	
->
-> 5/19/2017
->
-> YP 2.2.2
->
-> 	
->
-> 5/15/2017
->
-> 	
->
-> 5/30/2017
->
+The remaining changes are covered by the following shortlog export:
+
+   mm: remove gup_flags FOLL_WRITE games from __get_user_pages()
+   Make __xfs_xattr_put_listen preperly report errors.
+   scsi: configure runtime pm before calling device_add in scsi_add_host_with_dma
+   v4l: rcar-fcp: Don't force users to check for disabled FCP support
+   Linux 4.8.2
+   tpm_crb: fix crb_req_canceled behavior
+   tpm: fix a race condition in tpm2_unseal_trusted()
+   ima: use file_dentry()
+   Bluetooth: Add a new 04ca:3011 QCA_ROME device
+   ARM: cpuidle: Fix error return code
+   ARM: dts: MSM8660 remove flags from SPMI/MPP IRQs
+   ARM: dts: MSM8064 remove flags from SPMI/MPP IRQs
+   ARM: dts: mvebu: armada-390: add missing compatibility string and bracket
+   ARM: fix delays
+   x86/dumpstack: Fix x86_32 kernel_stack_pointer() previous stack access
+   x86/mm/pkeys: Do not skip PKRU register if debug registers are not used
+   arch/x86: Handle non enumerated CPU after physical hotplug
+   x86/apic: Get rid of apic_version[] array
+   x86/platform/intel-mid: Keep SRAM powered on at boot
+   x86/platform/intel-mid: Add Intel Penwell to ID table
+   x86/cpu: Rename Merrifield2 to Moorefield
+   x86/pkeys: Make protection keys an "eager" feature
+   x86/irq: Prevent force migration of irqs which are not in the vector domain
+   x86/boot: Fix kdump, cleanup aborted E820_PRAM max_pfn manipulation
+   arm64: fix dump_backtrace/unwind_frame with NULL tsk
+   KVM: PPC: BookE: Fix a sanity check
+   KVM: arm/arm64: vgic: Don't flush/sync without a working vgic
+   KVM: arm64: Require in-kernel irqchip for PMU support
+   KVM: MIPS: Drop other CPU ASIDs on guest MMU changes
+   KVM: PPC: Book3s PR: Allow access to unprivileged MMCR2 register
+   xen/x86: Update topology map for PV VCPUs
+   mfd: wm8350-i2c: Make sure the i2c regmap functions are compiled
+   mfd: 88pm80x: Double shifting bug in suspend/resume
+   mfd: atmel-hlcdc: Do not sleep in atomic context
+   mfd: rtsx_usb: Avoid setting ucr->current_sg.status
+   ALSA: usb-line6: use the same declaration as definition in header for MIDI manufacturer ID
+   ALSA: usb-audio: Extend DragonFly dB scale quirk to cover other variants
+   ALSA: ali5451: Fix out-of-bound position reporting
+   phy: sun4i-usb: Use spinlock to guard phyctl register access
+   usb: dwc3: fix Clear Stall EP command failure
+   timekeeping: Fix __ktime_get_fast_ns() regression
+   usb: storage: fix runtime pm issue in usb_stor_probe2
+   Linux 4.8.1
+   ALSA: hda - Add the top speaker pin config for HP Spectre x360
+   ALSA: hda - Fix headset mic detection problem for several Dell laptops
+   ALSA: hda - Adding one more ALC255 pin definition for headset problem
+   Revert "usbtmc: convert to devm_kzalloc"
+   USB: serial: cp210x: Add ID for a Juniper console
+   usb: usbip: vudc: fix left shift overflow
+   Staging: fbtft: Fix bug in fbtft-core
+   usb: misc: legousbtower: Fix NULL pointer deference
+   Using BUG_ON() as an assert() is _never_ acceptable
+   arm64: debug: avoid resetting stepping state machine when TIF_SINGLESTEP
+   Using BUG_ON() as an assert() is _never_ acceptable
+
+Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+---
+
+Josh suggested that I highlight the dirtycow CVE fix, so I've spun a v2
+patch for this update that has much more information.
+
+Bruce
+
+ meta/recipes-kernel/linux/linux-yocto-rt_4.8.bb   |  6 +++---
+ meta/recipes-kernel/linux/linux-yocto-tiny_4.8.bb |  6 +++---
+ meta/recipes-kernel/linux/linux-yocto_4.8.bb      | 20 ++++++++++----------
+ 3 files changed, 16 insertions(+), 16 deletions(-)
+
+diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_4.8.bb b/meta/recipes-kernel/linux/linux-yocto-rt_4.8.bb
+index fc1c40caf7b2..00c3d2c7bc1f 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-rt_4.8.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-rt_4.8.bb
+@@ -11,13 +11,13 @@ python () {
+         raise bb.parse.SkipPackage("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
+ }
+ 
+-SRCREV_machine ?= "b266f7ba78f0cb3d7073e1bf7bd7dfc92bec7431"
+-SRCREV_meta ?= "552a83790b1797b6dd4e4c48ff5bc8f215ed57da"
++SRCREV_machine ?= "320bceb35315d118c1e209effd441eb8a8dbad57"
++SRCREV_meta ?= "6d028d2818603cd82cfb707b3231b8a9038f13bb"
+ 
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto-4.8.git;branch=${KBRANCH};name=machine \
+            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.8;destsuffix=${KMETA}"
+ 
+-LINUX_VERSION ?= "4.8"
++LINUX_VERSION ?= "4.8.3"
+ 
+ PV = "${LINUX_VERSION}+git${SRCPV}"
+ 
+diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_4.8.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_4.8.bb
+index 41ff5637ec59..799c3f37577d 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-tiny_4.8.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-tiny_4.8.bb
+@@ -4,13 +4,13 @@ KCONFIG_MODE = "--allnoconfig"
+ 
+ require recipes-kernel/linux/linux-yocto.inc
+ 
+-LINUX_VERSION ?= "4.8"
++LINUX_VERSION ?= "4.8.3"
+ 
+ KMETA = "kernel-meta"
+ KCONF_BSP_AUDIT_LEVEL = "2"
+ 
+-SRCREV_machine ?= "67813e7efa3a4614e209c2f058d92ef9a636441a"
+-SRCREV_meta ?= "552a83790b1797b6dd4e4c48ff5bc8f215ed57da"
++SRCREV_machine ?= "1adf9d36338dc3c63cdbf6f98bcbdc7bba42a794"
++SRCREV_meta ?= "6d028d2818603cd82cfb707b3231b8a9038f13bb"
+ 
+ PV = "${LINUX_VERSION}+git${SRCPV}"
+ 
+diff --git a/meta/recipes-kernel/linux/linux-yocto_4.8.bb b/meta/recipes-kernel/linux/linux-yocto_4.8.bb
+index 5738f4974b9b..56fbfc7001bf 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_4.8.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_4.8.bb
+@@ -11,20 +11,20 @@ KBRANCH_qemux86  ?= "standard/base"
+ KBRANCH_qemux86-64 ?= "standard/base"
+ KBRANCH_qemumips64 ?= "standard/mti-malta64"
+ 
+-SRCREV_machine_qemuarm ?= "f46e49344b4c66a6f0917c5a2e9a1d146176519d"
+-SRCREV_machine_qemuarm64 ?= "67813e7efa3a4614e209c2f058d92ef9a636441a"
+-SRCREV_machine_qemumips ?= "5a299402ae58d61429ab091f94748550efe45858"
+-SRCREV_machine_qemuppc ?= "67813e7efa3a4614e209c2f058d92ef9a636441a"
+-SRCREV_machine_qemux86 ?= "67813e7efa3a4614e209c2f058d92ef9a636441a"
+-SRCREV_machine_qemux86-64 ?= "67813e7efa3a4614e209c2f058d92ef9a636441a"
+-SRCREV_machine_qemumips64 ?= "674818dad577cdfc23c6c857aa2b769fc64e379c"
+-SRCREV_machine ?= "67813e7efa3a4614e209c2f058d92ef9a636441a"
+-SRCREV_meta ?= "552a83790b1797b6dd4e4c48ff5bc8f215ed57da"
++SRCREV_machine_qemuarm ?= "4cc544ad09ad704322cb66fe4ba197a6a05dc71f"
++SRCREV_machine_qemuarm64 ?= "1adf9d36338dc3c63cdbf6f98bcbdc7bba42a794"
++SRCREV_machine_qemumips ?= "c285969d4f9376a671167ecf397578c8ad3e6a75"
++SRCREV_machine_qemuppc ?= "1adf9d36338dc3c63cdbf6f98bcbdc7bba42a794"
++SRCREV_machine_qemux86 ?= "1adf9d36338dc3c63cdbf6f98bcbdc7bba42a794"
++SRCREV_machine_qemux86-64 ?= "1adf9d36338dc3c63cdbf6f98bcbdc7bba42a794"
++SRCREV_machine_qemumips64 ?= "64f96ba530e58456070f26b0f3fcce3f64988b72"
++SRCREV_machine ?= "1adf9d36338dc3c63cdbf6f98bcbdc7bba42a794"
++SRCREV_meta ?= "6d028d2818603cd82cfb707b3231b8a9038f13bb"
+ 
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto-4.8.git;name=machine;branch=${KBRANCH}; \
+            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.8;destsuffix=${KMETA}"
+ 
+-LINUX_VERSION ?= "4.8"
++LINUX_VERSION ?= "4.8.3"
+ 
+ PV = "${LINUX_VERSION}+git${SRCPV}"
+ 
+-- 
+2.5.0
 
 
-These are helpful.
-
-Thanks
-Armin
->
-> Tracking Metrics:
->
-> WDD 2306 (last week 2289)
->
-> (https://wiki.yoctoproject.org/charts/combo.html)
->
-> Key Status Links for YP:
->
-> https://wiki.yoctoproject.org/wiki/Yocto_Project_v2.2_Status
->
-> https://wiki.yoctoproject.org/wiki/Yocto_2.2_Schedule
->
-> https://wiki.yoctoproject.org/wiki/Yocto_2.2_Features
->
-> https://wiki.yoctoproject.org/wiki/Yocto_Project_v2.3_Status
->
-> https://wiki.yoctoproject.org/wiki/Yocto_2.3_Schedule
->
-> https://wiki.yoctoproject.org/wiki/Yocto_2.3_Features
->
->
-> [If anyone has suggestions for other information you’d like to see on 
-> this weekly status update, let us know!]
->
-> Thanks,
->
-> */Stephen K. Jolley/**//*
->
-> *Yocto Project Program Manager*
->
-> *INTEL, MS JF1-255, 2111 N.E. 25th Avenue, Hillsboro, OR 97124 *
->
-> (*Work Telephone*: (503) 712-0534
->
-> (*Cell*: (208) 244-4460
->
-> * *Email*:_stephen.k.jolley@intel.com_
->
->
->
-
-
---------------62F75191128626FC69DE1488
-Content-Type: text/html; charset=windows-1252
-Content-Transfer-Encoding: 8bit
-
-<html>
-  <head>
-    <meta content="text/html; charset=windows-1252"
-      http-equiv="Content-Type">
-  </head>
-  <body bgcolor="#FFFFFF" text="#000000">
-    <p><br>
-    </p>
-    Stephen,<br>
-    <br>
-    <div class="moz-cite-prefix">On 10/21/2016 08:26 AM, Jolley, Stephen
-      K wrote:<br>
-    </div>
-    <blockquote
-cite="mid:9ADD3FDE8B189B4AA2F8A3C711F8155E5729D82D@fmsmsx111.amr.corp.intel.com"
-      type="cite">
-      <meta http-equiv="Content-Type" content="text/html;
-        charset=windows-1252">
-      <meta name="Generator" content="Microsoft Word 15 (filtered
-        medium)">
-      <style><!--
-/* Font Definitions */
-@font-face
-	{font-family:Wingdings;
-	panose-1:5 0 0 0 0 0 0 0 0 0;}
-@font-face
-	{font-family:"Cambria Math";
-	panose-1:2 4 5 3 5 4 6 3 2 4;}
-@font-face
-	{font-family:Calibri;
-	panose-1:2 15 5 2 2 2 4 3 2 4;}
-@font-face
-	{font-family:Consolas;
-	panose-1:2 11 6 9 2 2 4 3 2 4;}
-@font-face
-	{font-family:Tahoma;
-	panose-1:2 11 6 4 3 5 4 4 2 4;}
-@font-face
-	{font-family:"Comic Sans MS";
-	panose-1:3 15 7 2 3 3 2 2 2 4;}
-@font-face
-	{font-family:"MS Sans Serif";
-	panose-1:0 0 0 0 0 0 0 0 0 0;}
-/* Style Definitions */
-p.MsoNormal, li.MsoNormal, div.MsoNormal
-	{margin:0in;
-	margin-bottom:.0001pt;
-	font-size:11.0pt;
-	font-family:"Calibri",sans-serif;}
-a:link, span.MsoHyperlink
-	{mso-style-priority:99;
-	color:#0563C1;
-	text-decoration:underline;}
-a:visited, span.MsoHyperlinkFollowed
-	{mso-style-priority:99;
-	color:#954F72;
-	text-decoration:underline;}
-p
-	{mso-style-priority:99;
-	mso-margin-top-alt:auto;
-	margin-right:0in;
-	mso-margin-bottom-alt:auto;
-	margin-left:0in;
-	font-size:12.0pt;
-	font-family:"Times New Roman",serif;}
-span.EmailStyle18
-	{mso-style-type:personal-compose;
-	font-family:"Calibri",sans-serif;
-	color:windowtext;}
-span.apple-tab-span
-	{mso-style-name:apple-tab-span;}
-.MsoChpDefault
-	{mso-style-type:export-only;
-	font-size:10.0pt;}
-@page WordSection1
-	{size:8.5in 11.0in;
-	margin:1.0in 1.0in 1.0in 1.0in;}
-div.WordSection1
-	{page:WordSection1;}
-/* List Definitions */
-@list l0
-	{mso-list-id:265310024;
-	mso-list-template-ids:2039094302;}
-@list l0:level1
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0B7;
-	mso-level-tab-stop:.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Symbol;}
-@list l0:level2
-	{mso-level-number-format:bullet;
-	mso-level-text:o;
-	mso-level-tab-stop:1.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:"Courier New";
-	mso-bidi-font-family:"Times New Roman";}
-@list l0:level3
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:1.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l0:level4
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:2.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l0:level5
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:2.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l0:level6
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:3.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l0:level7
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:3.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l0:level8
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:4.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l0:level9
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:4.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l1
-	{mso-list-id:277295872;
-	mso-list-template-ids:-2021763744;}
-@list l1:level1
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0B7;
-	mso-level-tab-stop:.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Symbol;}
-@list l1:level2
-	{mso-level-number-format:bullet;
-	mso-level-text:o;
-	mso-level-tab-stop:1.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:"Courier New";
-	mso-bidi-font-family:"Times New Roman";}
-@list l1:level3
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:1.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l1:level4
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:2.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l1:level5
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:2.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l1:level6
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:3.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l1:level7
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:3.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l1:level8
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:4.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l1:level9
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:4.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l2
-	{mso-list-id:395707557;
-	mso-list-template-ids:-640490192;}
-@list l2:level1
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0B7;
-	mso-level-tab-stop:.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Symbol;}
-@list l2:level2
-	{mso-level-number-format:bullet;
-	mso-level-text:o;
-	mso-level-tab-stop:1.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:"Courier New";
-	mso-bidi-font-family:"Times New Roman";}
-@list l2:level3
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:1.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l2:level4
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:2.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l2:level5
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:2.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l2:level6
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:3.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l2:level7
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:3.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l2:level8
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:4.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l2:level9
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:4.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l3
-	{mso-list-id:1612782334;
-	mso-list-template-ids:-1874056916;}
-@list l3:level1
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0B7;
-	mso-level-tab-stop:.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Symbol;}
-@list l3:level2
-	{mso-level-number-format:bullet;
-	mso-level-text:o;
-	mso-level-tab-stop:1.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:"Courier New";
-	mso-bidi-font-family:"Times New Roman";}
-@list l3:level3
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:1.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l3:level4
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:2.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l3:level5
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:2.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l3:level6
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:3.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l3:level7
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:3.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l3:level8
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:4.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l3:level9
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:4.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-ol
-	{margin-bottom:0in;}
-ul
-	{margin-bottom:0in;}
---></style><!--[if gte mso 9]><xml>
-<o:shapedefaults v:ext="edit" spidmax="1026" />
-</xml><![endif]--><!--[if gte mso 9]><xml>
-<o:shapelayout v:ext="edit">
-<o:idmap v:ext="edit" data="1" />
-</o:shapelayout></xml><![endif]-->
-      <div class="WordSection1">
-        <p style="margin:0in;margin-bottom:.0001pt"><span
-style="font-size:11.0pt;font-family:&quot;Arial&quot;,sans-serif;color:black">Current
-            Dev Position: YP 2.2 M4</span><o:p></o:p></p>
-        <p style="margin:0in;margin-bottom:.0001pt"><span
-style="font-size:11.0pt;font-family:&quot;Arial&quot;,sans-serif;color:black">Next
-            Deadline: YP 2.2 M4 which was Oct. 3rd (5:00pm GMT)</span><o:p></o:p></p>
-        <p class="MsoNormal"><o:p> </o:p></p>
-        <p style="margin:0in;margin-bottom:.0001pt"><span
-style="font-size:11.0pt;font-family:&quot;Arial&quot;,sans-serif;color:black">SWAT
-            team rotation: Paul -&gt; Ross</span><o:p></o:p></p>
-        <p style="margin:0in;margin-bottom:.0001pt"><a
-            moz-do-not-send="true"
-            href="https://wiki.yoctoproject.org/wiki/Yocto_Build_Failure_Swat_Team"><span
-style="font-size:11.0pt;font-family:Consolas;color:#1155CC">https://wiki.yoctoproject.org/wiki/Yocto_Build_Failure_Swat_Team</span></a><o:p></o:p></p>
-        <p class="MsoNormal"><o:p> </o:p></p>
-        <p style="margin:0in;margin-bottom:.0001pt"><span
-style="font-size:11.0pt;font-family:&quot;Arial&quot;,sans-serif;color:black">Key
-            Status/Updates:</span><o:p></o:p></p>
-        <p
-style="mso-margin-top-alt:0in;margin-right:0in;margin-bottom:0in;margin-left:.5in;margin-bottom:.0001pt;text-indent:-.25in;mso-list:l2
-          level1 lfo5;vertical-align:baseline">
-          <!--[if !supportLists]--><span
-            style="font-size:10.0pt;font-family:Symbol;color:black"><span
-              style="mso-list:Ignore">·<span style="font:7.0pt
-                &quot;Times New Roman&quot;">       
-              </span></span></span><!--[endif]--><span
-style="font-size:11.0pt;font-family:&quot;Arial&quot;,sans-serif;color:black">Travel
-            for ELC-E did interrupt these status report, apologies for
-            that. Some of the builds were tricky to debug and/or fix due
-            to some communication issues the travel didn’t help with
-            too.<o:p></o:p></span></p>
-        <p
-style="mso-margin-top-alt:0in;margin-right:0in;margin-bottom:0in;margin-left:.5in;margin-bottom:.0001pt;text-indent:-.25in;mso-list:l2
-          level1 lfo5;vertical-align:baseline">
-          <!--[if !supportLists]--><span
-            style="font-size:10.0pt;font-family:Symbol;color:black"><span
-              style="mso-list:Ignore">·<span style="font:7.0pt
-                &quot;Times New Roman&quot;">       
-              </span></span></span><!--[endif]--><span
-style="font-size:11.0pt;font-family:&quot;Arial&quot;,sans-serif;color:black">2.2
-            rc4 is currently in QA. Current status is at:
-            <a moz-do-not-send="true"
-              href="https://wiki.yoctoproject.org/wiki/2.2_QA_Status"><span
-                style="color:#1155CC">https://wiki.yoctoproject.org/wiki/2.2_QA_Status</span></a><o:p></o:p></span></p>
-        <p
-style="mso-margin-top-alt:0in;margin-right:0in;margin-bottom:0in;margin-left:.5in;margin-bottom:.0001pt;text-indent:-.25in;mso-list:l2
-          level1 lfo5;vertical-align:baseline">
-          <!--[if !supportLists]--><span
-            style="font-size:10.0pt;font-family:Symbol;color:black"><span
-              style="mso-list:Ignore">·<span style="font:7.0pt
-                &quot;Times New Roman&quot;">       
-              </span></span></span><!--[endif]--><span
-style="font-size:11.0pt;font-family:&quot;Arial&quot;,sans-serif;color:black">At
-            time of press, the runqemu issues are concerning but perhaps
-            not enough to delay the release, instead being fixed on the
-            branch immediately afterwards, assuming fixes are available
-            by then.<o:p></o:p></span></p>
-        <p
-style="mso-margin-top-alt:0in;margin-right:0in;margin-bottom:0in;margin-left:.5in;margin-bottom:.0001pt;text-indent:-.25in;mso-list:l2
-          level1 lfo5;vertical-align:baseline">
-          <!--[if !supportLists]--><span
-            style="font-size:10.0pt;font-family:Symbol;color:black"><span
-              style="mso-list:Ignore">·<span style="font:7.0pt
-                &quot;Times New Roman&quot;">       
-              </span></span></span><!--[endif]--><span
-style="font-size:11.0pt;font-family:&quot;Arial&quot;,sans-serif;color:black">2.2
-            rc1-3 had various issues, some autobuilder related, some
-            were new and interesting bugs we’d never seen before during
-            the release build, or an intermittent bug we’d not seen for
-            months in one case.<o:p></o:p></span></p>
-        <p
-style="mso-margin-top-alt:0in;margin-right:0in;margin-bottom:0in;margin-left:.5in;margin-bottom:.0001pt;text-indent:-.25in;mso-list:l2
-          level1 lfo5;vertical-align:baseline">
-          <!--[if !supportLists]--><span
-            style="font-size:10.0pt;font-family:Symbol;color:black"><span
-              style="mso-list:Ignore">·<span style="font:7.0pt
-                &quot;Times New Roman&quot;">       
-              </span></span></span><!--[endif]--><span
-style="font-size:11.0pt;font-family:&quot;Arial&quot;,sans-serif;color:black">The
-            Morty release branches are in a position to diverge and we
-            have started to look at queuing the patches that are already
-            being submitted in -next and mut builds for master.<o:p></o:p></span></p>
-        <p
-style="mso-margin-top-alt:0in;margin-right:0in;margin-bottom:0in;margin-left:.5in;margin-bottom:.0001pt;text-indent:-.25in;mso-list:l2
-          level1 lfo5;vertical-align:baseline">
-          <!--[if !supportLists]--><span
-            style="font-size:10.0pt;font-family:Symbol;color:black"><span
-              style="mso-list:Ignore">·<span style="font:7.0pt
-                &quot;Times New Roman&quot;">       
-              </span></span></span><!--[endif]--><span
-style="font-size:11.0pt;font-family:&quot;Arial&quot;,sans-serif;color:black">2.3
-            planning is underway and RP will send more thoughts on the
-            plans for that in the next couple of weeks. Recipe specific
-            sysroots look like one desired feature for multiple reasons
-            and there was good discussion and feedback and OEDEM<o:p></o:p></span></p>
-        <p
-style="mso-margin-top-alt:0in;margin-right:0in;margin-bottom:0in;margin-left:.5in;margin-bottom:.0001pt;text-indent:-.25in;mso-list:l2
-          level1 lfo5;vertical-align:baseline">
-          <!--[if !supportLists]--><span
-            style="font-size:10.0pt;font-family:Symbol;color:black"><span
-              style="mso-list:Ignore">·<span style="font:7.0pt
-                &quot;Times New Roman&quot;">       
-              </span></span></span><!--[endif]--><span
-style="font-size:11.0pt;font-family:&quot;Arial&quot;,sans-serif;color:black">The
-            discussion at OEDEM has great notes (thanks Jan in
-            particular):
-            <a moz-do-not-send="true"
-              href="http://openembedded.org/wiki/OEDEM_2016#Minutes"><span
-                style="color:#1155CC">http://openembedded.org/wiki/OEDEM_2016#Minutes</span></a><o:p></o:p></span></p>
-        <p
-style="mso-margin-top-alt:0in;margin-right:0in;margin-bottom:0in;margin-left:.5in;margin-bottom:.0001pt;text-indent:-.25in;mso-list:l2
-          level1 lfo5;vertical-align:baseline">
-          <!--[if !supportLists]--><span
-            style="font-size:10.0pt;font-family:Symbol;color:black"><span
-              style="mso-list:Ignore">·<span style="font:7.0pt
-                &quot;Times New Roman&quot;">       
-              </span></span></span><!--[endif]--><span
-style="font-size:11.0pt;font-family:&quot;Arial&quot;,sans-serif;color:black">Whilst
-            the defect density was decreasing, there has now been an
-            uptick in the number of defects and things are rising again.<o:p></o:p></span></p>
-        <p
-style="mso-margin-top-alt:0in;margin-right:0in;margin-bottom:0in;margin-left:.5in;margin-bottom:.0001pt;text-indent:-.25in;mso-list:l2
-          level1 lfo5;vertical-align:baseline">
-          <!--[if !supportLists]--><span
-            style="font-size:10.0pt;font-family:Symbol;color:black"><span
-              style="mso-list:Ignore">·<span style="font:7.0pt
-                &quot;Times New Roman&quot;">       
-              </span></span></span><!--[endif]--><span
-style="font-size:11.0pt;font-family:&quot;Arial&quot;,sans-serif;color:black">Several
-            good performance issues were found and addressed, a separate
-            email was sent on that topic.<o:p></o:p></span></p>
-        <p
-style="mso-margin-top-alt:0in;margin-right:0in;margin-bottom:0in;margin-left:.5in;margin-bottom:.0001pt;text-indent:-.25in;mso-list:l2
-          level1 lfo5;vertical-align:baseline">
-          <!--[if !supportLists]--><span
-            style="font-size:10.0pt;font-family:Symbol;color:black"><span
-              style="mso-list:Ignore">·<span style="font:7.0pt
-                &quot;Times New Roman&quot;">       
-              </span></span></span><!--[endif]--><span
-style="font-size:11.0pt;font-family:&quot;Arial&quot;,sans-serif;color:black">Proposed
-            2.3 dates are below but this isn’t 100% confirmed yet.<o:p></o:p></span></p>
-        <p class="MsoNormal"><span
-            style="font-size:12.0pt;font-family:&quot;Times New
-            Roman&quot;,serif"><o:p> </o:p></span></p>
-        <p style="margin:0in;margin-bottom:.0001pt"><span
-style="font-size:11.0pt;font-family:&quot;Arial&quot;,sans-serif;color:black">Key
-            YP 2.2 Dates:</span><o:p></o:p></p>
-        <p
-style="mso-margin-top-alt:0in;margin-right:0in;margin-bottom:0in;margin-left:.5in;margin-bottom:.0001pt;text-indent:-.25in;mso-list:l0
-          level1 lfo6;vertical-align:baseline">
-          <!--[if !supportLists]--><span
-            style="font-size:10.0pt;font-family:Symbol;color:black"><span
-              style="mso-list:Ignore">·<span style="font:7.0pt
-                &quot;Times New Roman&quot;">       
-              </span></span></span><!--[endif]--><span
-style="font-size:11.0pt;font-family:&quot;Arial&quot;,sans-serif;color:black">YP
-            2.2 M4 release would be: 10/28/16<o:p></o:p></span></p>
-        <p
-          style="margin:0in;margin-bottom:.0001pt;vertical-align:baseline"><span
-style="font-size:11.0pt;font-family:&quot;Arial&quot;,sans-serif;color:black"><o:p> </o:p></span></p>
-        <p style="margin:0in;margin-bottom:.0001pt"><span
-style="font-size:11.0pt;font-family:&quot;Arial&quot;,sans-serif;color:black">Proposed
-            upcoming releases after YP 2.2 are:</span></p>
-      </div>
-    </blockquote>
-    <blockquote
-cite="mid:9ADD3FDE8B189B4AA2F8A3C711F8155E5729D82D@fmsmsx111.amr.corp.intel.com"
-      type="cite">
-      <div class="WordSection1">
-        <p style="margin:0in;margin-bottom:.0001pt"><o:p></o:p></p>
-        <table class="MsoNormalTable" style="border-collapse:collapse"
-          border="0" cellpadding="0" cellspacing="0">
-          <tbody>
-            <tr>
-              <td style="border:solid black 1.0pt;padding:5.25pt 5.25pt
-                5.25pt 5.25pt" valign="top">
-                <p style="margin:0in;margin-bottom:.0001pt"><span
-style="font-size:11.0pt;font-family:&quot;Arial&quot;,sans-serif;color:black">Milestone</span><o:p></o:p></p>
-              </td>
-              <td style="border:solid black
-                1.0pt;border-left:none;padding:5.25pt 5.25pt 5.25pt
-                5.25pt" valign="top">
-                <p style="margin:0in;margin-bottom:.0001pt"><span
-style="font-size:11.0pt;font-family:&quot;Arial&quot;,sans-serif;color:black">Cutoff</span><o:p></o:p></p>
-              </td>
-              <td style="border:solid black
-                1.0pt;border-left:none;padding:5.25pt 5.25pt 5.25pt
-                5.25pt" valign="top">
-                <p style="margin:0in;margin-bottom:.0001pt"><span
-style="font-size:11.0pt;font-family:&quot;Arial&quot;,sans-serif;color:black">Release</span><o:p></o:p></p>
-              </td>
-            </tr>
-            <tr>
-              <td style="border:solid black
-                1.0pt;border-top:none;padding:5.25pt 5.25pt 5.25pt
-                5.25pt" valign="top">
-                <p style="margin:0in;margin-bottom:.0001pt"><span
-style="font-size:11.0pt;font-family:&quot;Arial&quot;,sans-serif;color:black">YP
-                    2.0.3</span><o:p></o:p></p>
-              </td>
-              <td
-                style="border-top:none;border-left:none;border-bottom:solid
-                black 1.0pt;border-right:solid black
-                1.0pt;padding:5.25pt 5.25pt 5.25pt 5.25pt" valign="top">
-                <p style="margin:0in;margin-bottom:.0001pt"><span
-style="font-size:11.0pt;font-family:&quot;Arial&quot;,sans-serif;color:black">11/7/2016</span><o:p></o:p></p>
-              </td>
-              <td
-                style="border-top:none;border-left:none;border-bottom:solid
-                black 1.0pt;border-right:solid black
-                1.0pt;padding:5.25pt 5.25pt 5.25pt 5.25pt" valign="top">
-                <p style="margin:0in;margin-bottom:.0001pt"><span
-style="font-size:11.0pt;font-family:&quot;Arial&quot;,sans-serif;color:black">11/18/2016</span><o:p></o:p></p>
-              </td>
-            </tr>
-            <tr>
-              <td style="border:solid black
-                1.0pt;border-top:none;padding:5.25pt 5.25pt 5.25pt
-                5.25pt" valign="top">
-                <p style="margin:0in;margin-bottom:.0001pt"><span
-style="font-size:11.0pt;font-family:&quot;Arial&quot;,sans-serif;color:black">YP
-                    2.1.2</span><o:p></o:p></p>
-              </td>
-              <td
-                style="border-top:none;border-left:none;border-bottom:solid
-                black 1.0pt;border-right:solid black
-                1.0pt;padding:5.25pt 5.25pt 5.25pt 5.25pt" valign="top">
-                <p style="margin:0in;margin-bottom:.0001pt"><span
-style="font-size:11.0pt;font-family:&quot;Arial&quot;,sans-serif;color:black">11/28/2016</span><o:p></o:p></p>
-              </td>
-              <td
-                style="border-top:none;border-left:none;border-bottom:solid
-                black 1.0pt;border-right:solid black
-                1.0pt;padding:5.25pt 5.25pt 5.25pt 5.25pt" valign="top">
-                <p style="margin:0in;margin-bottom:.0001pt"><span
-style="font-size:11.0pt;font-family:&quot;Arial&quot;,sans-serif;color:black">12/9/2016</span><o:p></o:p></p>
-              </td>
-            </tr>
-            <tr>
-              <td style="border:solid black
-                1.0pt;border-top:none;padding:5.25pt 5.25pt 5.25pt
-                5.25pt" valign="top">
-                <p style="margin:0in;margin-bottom:.0001pt"><span
-style="font-size:11.0pt;font-family:&quot;Arial&quot;,sans-serif;color:black">YP
-                    2.3 M1</span><o:p></o:p></p>
-              </td>
-              <td
-                style="border-top:none;border-left:none;border-bottom:solid
-                black 1.0pt;border-right:solid black
-                1.0pt;padding:5.25pt 5.25pt 5.25pt 5.25pt" valign="top">
-                <p style="margin:0in;margin-bottom:.0001pt"><span
-style="font-size:11.0pt;font-family:&quot;Arial&quot;,sans-serif;color:black">12/12/2016</span><o:p></o:p></p>
-              </td>
-              <td
-                style="border-top:none;border-left:none;border-bottom:solid
-                black 1.0pt;border-right:solid black
-                1.0pt;padding:5.25pt 5.25pt 5.25pt 5.25pt" valign="top">
-                <p style="margin:0in;margin-bottom:.0001pt"><span
-style="font-size:11.0pt;font-family:&quot;Arial&quot;,sans-serif;color:black">12/23/2016</span><o:p></o:p></p>
-              </td>
-            </tr>
-            <tr>
-              <td style="border:solid black
-                1.0pt;border-top:none;padding:5.25pt 5.25pt 5.25pt
-                5.25pt" valign="top">
-                <p style="margin:0in;margin-bottom:.0001pt"><span
-style="font-size:11.0pt;font-family:&quot;Arial&quot;,sans-serif;color:black">YP
-                    2.2.1</span><o:p></o:p></p>
-              </td>
-              <td
-                style="border-top:none;border-left:none;border-bottom:solid
-                black 1.0pt;border-right:solid black
-                1.0pt;padding:5.25pt 5.25pt 5.25pt 5.25pt" valign="top">
-                <p style="margin:0in;margin-bottom:.0001pt"><span
-style="font-size:11.0pt;font-family:&quot;Arial&quot;,sans-serif;color:black">1/9/2017</span><o:p></o:p></p>
-              </td>
-              <td
-                style="border-top:none;border-left:none;border-bottom:solid
-                black 1.0pt;border-right:solid black
-                1.0pt;padding:5.25pt 5.25pt 5.25pt 5.25pt" valign="top">
-                <p style="margin:0in;margin-bottom:.0001pt"><span
-style="font-size:11.0pt;font-family:&quot;Arial&quot;,sans-serif;color:black">1/20/2017</span><o:p></o:p></p>
-              </td>
-            </tr>
-            <tr>
-              <td style="border:solid black
-                1.0pt;border-top:none;padding:5.25pt 5.25pt 5.25pt
-                5.25pt" valign="top">
-                <p style="margin:0in;margin-bottom:.0001pt"><span
-style="font-size:11.0pt;font-family:&quot;Arial&quot;,sans-serif;color:black">YP
-                    2.3 M2</span><o:p></o:p></p>
-              </td>
-              <td
-                style="border-top:none;border-left:none;border-bottom:solid
-                black 1.0pt;border-right:solid black
-                1.0pt;padding:5.25pt 5.25pt 5.25pt 5.25pt" valign="top">
-                <p style="margin:0in;margin-bottom:.0001pt"><span
-style="font-size:11.0pt;font-family:&quot;Arial&quot;,sans-serif;color:black">1/23/2017</span><o:p></o:p></p>
-              </td>
-              <td
-                style="border-top:none;border-left:none;border-bottom:solid
-                black 1.0pt;border-right:solid black
-                1.0pt;padding:5.25pt 5.25pt 5.25pt 5.25pt" valign="top">
-                <p style="margin:0in;margin-bottom:.0001pt"><span
-style="font-size:11.0pt;font-family:&quot;Arial&quot;,sans-serif;color:black">2/3/2017</span><o:p></o:p></p>
-              </td>
-            </tr>
-            <tr>
-              <td style="border:solid black
-                1.0pt;border-top:none;padding:5.25pt 5.25pt 5.25pt
-                5.25pt" valign="top">
-                <p style="margin:0in;margin-bottom:.0001pt"><span
-style="font-size:11.0pt;font-family:&quot;Arial&quot;,sans-serif;color:black">YP
-                    2.3 M3</span><o:p></o:p></p>
-              </td>
-              <td
-                style="border-top:none;border-left:none;border-bottom:solid
-                black 1.0pt;border-right:solid black
-                1.0pt;padding:5.25pt 5.25pt 5.25pt 5.25pt" valign="top">
-                <p style="margin:0in;margin-bottom:.0001pt"><span
-style="font-size:11.0pt;font-family:&quot;Arial&quot;,sans-serif;color:black">2/27/2017</span><o:p></o:p></p>
-              </td>
-              <td
-                style="border-top:none;border-left:none;border-bottom:solid
-                black 1.0pt;border-right:solid black
-                1.0pt;padding:5.25pt 5.25pt 5.25pt 5.25pt" valign="top">
-                <p style="margin:0in;margin-bottom:.0001pt"><span
-style="font-size:11.0pt;font-family:&quot;Arial&quot;,sans-serif;color:black">3/10/2017</span><o:p></o:p></p>
-              </td>
-            </tr>
-            <tr>
-              <td style="border:solid black
-                1.0pt;border-top:none;padding:5.25pt 5.25pt 5.25pt
-                5.25pt" valign="top">
-                <p style="margin:0in;margin-bottom:.0001pt"><span
-style="font-size:11.0pt;font-family:&quot;Arial&quot;,sans-serif;color:black">YP
-                    2.3 M4</span><o:p></o:p></p>
-              </td>
-              <td
-                style="border-top:none;border-left:none;border-bottom:solid
-                black 1.0pt;border-right:solid black
-                1.0pt;padding:5.25pt 5.25pt 5.25pt 5.25pt" valign="top">
-                <p style="margin:0in;margin-bottom:.0001pt"><span
-style="font-size:11.0pt;font-family:&quot;Arial&quot;,sans-serif;color:black">4/3/2017</span><o:p></o:p></p>
-              </td>
-              <td
-                style="border-top:none;border-left:none;border-bottom:solid
-                black 1.0pt;border-right:solid black
-                1.0pt;padding:5.25pt 5.25pt 5.25pt 5.25pt" valign="top">
-                <p style="margin:0in;margin-bottom:.0001pt"><span
-style="font-size:11.0pt;font-family:&quot;Arial&quot;,sans-serif;color:black">4/28/2017</span><o:p></o:p></p>
-              </td>
-            </tr>
-            <tr>
-              <td style="border:solid black
-                1.0pt;border-top:none;padding:5.25pt 5.25pt 5.25pt
-                5.25pt" valign="top">
-                <p style="margin:0in;margin-bottom:.0001pt"><span
-style="font-size:11.0pt;font-family:&quot;Arial&quot;,sans-serif;color:black">YP
-                    2.3</span><o:p></o:p></p>
-              </td>
-              <td
-                style="border-top:none;border-left:none;border-bottom:solid
-                black 1.0pt;border-right:solid black
-                1.0pt;padding:5.25pt 5.25pt 5.25pt 5.25pt" valign="top">
-                <p style="margin:0in;margin-bottom:.0001pt"><span
-style="font-size:11.0pt;font-family:&quot;Arial&quot;,sans-serif;color:black">4/3/2017</span><o:p></o:p></p>
-              </td>
-              <td
-                style="border-top:none;border-left:none;border-bottom:solid
-                black 1.0pt;border-right:solid black
-                1.0pt;padding:5.25pt 5.25pt 5.25pt 5.25pt" valign="top">
-                <p style="margin:0in;margin-bottom:.0001pt"><span
-style="font-size:11.0pt;font-family:&quot;Arial&quot;,sans-serif;color:black">4/28/2017</span><o:p></o:p></p>
-              </td>
-            </tr>
-            <tr>
-              <td style="border:solid black
-                1.0pt;border-top:none;padding:5.25pt 5.25pt 5.25pt
-                5.25pt" valign="top">
-                <p style="margin:0in;margin-bottom:.0001pt"><span
-style="font-size:11.0pt;font-family:&quot;Arial&quot;,sans-serif;color:black">YP
-                    2.1.3</span><o:p></o:p></p>
-              </td>
-              <td
-                style="border-top:none;border-left:none;border-bottom:solid
-                black 1.0pt;border-right:solid black
-                1.0pt;padding:5.25pt 5.25pt 5.25pt 5.25pt" valign="top">
-                <p style="margin:0in;margin-bottom:.0001pt"><span
-style="font-size:11.0pt;font-family:&quot;Arial&quot;,sans-serif;color:black">5/8/2017</span><o:p></o:p></p>
-              </td>
-              <td
-                style="border-top:none;border-left:none;border-bottom:solid
-                black 1.0pt;border-right:solid black
-                1.0pt;padding:5.25pt 5.25pt 5.25pt 5.25pt" valign="top">
-                <p style="margin:0in;margin-bottom:.0001pt"><span
-style="font-size:11.0pt;font-family:&quot;Arial&quot;,sans-serif;color:black">5/19/2017</span><o:p></o:p></p>
-              </td>
-            </tr>
-            <tr>
-              <td style="border:solid black
-                1.0pt;border-top:none;padding:5.25pt 5.25pt 5.25pt
-                5.25pt" valign="top">
-                <p style="margin:0in;margin-bottom:.0001pt"><span
-style="font-size:11.0pt;font-family:&quot;Arial&quot;,sans-serif;color:black">YP
-                    2.2.2</span><o:p></o:p></p>
-              </td>
-              <td
-                style="border-top:none;border-left:none;border-bottom:solid
-                black 1.0pt;border-right:solid black
-                1.0pt;padding:5.25pt 5.25pt 5.25pt 5.25pt" valign="top">
-                <p style="margin:0in;margin-bottom:.0001pt"><span
-style="font-size:11.0pt;font-family:&quot;Arial&quot;,sans-serif;color:black">5/15/2017</span><o:p></o:p></p>
-              </td>
-              <td
-                style="border-top:none;border-left:none;border-bottom:solid
-                black 1.0pt;border-right:solid black
-                1.0pt;padding:5.25pt 5.25pt 5.25pt 5.25pt" valign="top">
-                <p style="margin:0in;margin-bottom:.0001pt"><span
-style="font-size:11.0pt;font-family:&quot;Arial&quot;,sans-serif;color:black">5/30/2017</span></p>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </blockquote>
-    <br>
-    <br>
-    These are helpful.  <br>
-    <br>
-    Thanks<br>
-    Armin<br>
-    <blockquote
-cite="mid:9ADD3FDE8B189B4AA2F8A3C711F8155E5729D82D@fmsmsx111.amr.corp.intel.com"
-      type="cite">
-      <div class="WordSection1">
-        <table class="MsoNormalTable" style="border-collapse:collapse"
-          border="0" cellpadding="0" cellspacing="0">
-          <tbody>
-            <tr>
-              <td
-                style="border-top:none;border-left:none;border-bottom:solid
-                black 1.0pt;border-right:solid black
-                1.0pt;padding:5.25pt 5.25pt 5.25pt 5.25pt" valign="top">
-                <p style="margin:0in;margin-bottom:.0001pt"><o:p></o:p></p>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-        <p class="MsoNormal"><o:p> </o:p></p>
-        <p style="margin:0in;margin-bottom:.0001pt"><span
-style="font-size:11.0pt;font-family:&quot;Arial&quot;,sans-serif;color:black">Tracking
-            Metrics:</span><o:p></o:p></p>
-        <p style="margin:0in;margin-bottom:.0001pt"><span
-            class="apple-tab-span"><span
-style="font-size:11.0pt;font-family:&quot;Arial&quot;,sans-serif;color:black">           
-            </span></span><span
-style="font-size:11.0pt;font-family:&quot;Arial&quot;,sans-serif;color:black">WDD
-            2306 (last week 2289)</span><o:p></o:p></p>
-        <p style="margin:0in;margin-bottom:.0001pt;text-indent:.5in"><span
-            style="font-size:11.0pt;font-family:Consolas;color:black">(</span><a
-            moz-do-not-send="true"
-            href="https://wiki.yoctoproject.org/charts/combo.html"><span
-style="font-size:11.0pt;font-family:&quot;Arial&quot;,sans-serif;color:#1155CC">https://wiki.yoctoproject.org/charts/combo.html</span></a><span
-            style="font-size:11.0pt;font-family:Consolas;color:black">)</span><o:p></o:p></p>
-        <p class="MsoNormal"><o:p> </o:p></p>
-        <p style="margin:0in;margin-bottom:.0001pt"><span
-style="font-size:11.0pt;font-family:&quot;Arial&quot;,sans-serif;color:black">Key
-            Status Links for YP:</span><o:p></o:p></p>
-        <p style="margin:0in;margin-bottom:.0001pt"><a
-            moz-do-not-send="true"
-            href="https://wiki.yoctoproject.org/wiki/Yocto_Project_v2.2_Status"><span
-style="font-size:11.0pt;font-family:Consolas;color:#1155CC">https://wiki.yoctoproject.org/wiki/Yocto_Project_v2.2_Status</span></a><o:p></o:p></p>
-        <p style="margin:0in;margin-bottom:.0001pt"><a
-            moz-do-not-send="true"
-            href="https://wiki.yoctoproject.org/wiki/Yocto_2.2_Schedule"><span
-style="font-size:11.0pt;font-family:Consolas;color:#1155CC">https://wiki.yoctoproject.org/wiki/Yocto_2.2_Schedule</span></a><o:p></o:p></p>
-        <p style="margin:0in;margin-bottom:.0001pt"><a
-            moz-do-not-send="true"
-            href="https://wiki.yoctoproject.org/wiki/Yocto_2.2_Features"><span
-style="font-size:11.0pt;font-family:Consolas;color:#1155CC">https://wiki.yoctoproject.org/wiki/Yocto_2.2_Features</span></a><o:p></o:p></p>
-        <p style="margin:0in;margin-bottom:.0001pt"><a
-            moz-do-not-send="true"
-            href="https://wiki.yoctoproject.org/wiki/Yocto_Project_v2.3_Status"><span
-style="font-size:11.0pt;font-family:Consolas;color:#1155CC">https://wiki.yoctoproject.org/wiki/Yocto_Project_v2.3_Status</span></a><o:p></o:p></p>
-        <p style="margin:0in;margin-bottom:.0001pt"><a
-            moz-do-not-send="true"
-            href="https://wiki.yoctoproject.org/wiki/Yocto_2.3_Schedule"><span
-style="font-size:11.0pt;font-family:Consolas;color:#1155CC">https://wiki.yoctoproject.org/wiki/Yocto_2.3_Schedule</span></a><o:p></o:p></p>
-        <p style="margin:0in;margin-bottom:.0001pt"><a
-            moz-do-not-send="true"
-            href="https://wiki.yoctoproject.org/wiki/Yocto_2.3_Features"><span
-style="font-size:11.0pt;font-family:Consolas;color:#1155CC">https://wiki.yoctoproject.org/wiki/Yocto_2.3_Features</span></a><o:p></o:p></p>
-        <p class="MsoNormal"><br>
-          <span
-            style="font-family:&quot;Arial&quot;,sans-serif;color:black">[If
-            anyone has suggestions for other information you’d like to
-            see on this weekly status update, let us know!]<o:p></o:p></span></p>
-        <p class="MsoNormal"><span
-            style="font-family:&quot;Arial&quot;,sans-serif;color:black">Thanks,</span><o:p></o:p></p>
-        <p class="MsoNormal"><o:p> </o:p></p>
-        <p class="MsoNormal"
-          style="page-break-after:avoid;text-autospace:none"><b><i><span
-                style="font-size:16.0pt;font-family:&quot;Times New
-                Roman&quot;,serif;color:purple">Stephen K. Jolley</span></i></b><b><i><span
-style="font-size:16.0pt;font-family:&quot;Tahoma&quot;,sans-serif;color:purple"><o:p></o:p></span></i></b></p>
-        <p class="MsoNormal"><b><span
-              style="font-size:8.0pt;font-family:&quot;Courier
-              New&quot;;color:blue">Yocto Project Program Manager<o:p></o:p></span></b></p>
-        <p class="MsoNormal"
-          style="page-break-after:avoid;text-autospace:none"><b><span
-              style="font-size:10.0pt;font-family:&quot;Courier
-              New&quot;;color:fuchsia">INTEL, MS JF1-255, 2111 N.E. 25th
-              Avenue, Hillsboro, OR 97124
-              <o:p></o:p></span></b></p>
-        <p class="MsoNormal"><span
-            style="font-family:Wingdings;color:black">(</span><span
-            style="font-family:&quot;MS Sans Serif&quot;;color:teal">
-          </span><span style="font-size:8.0pt;font-family:&quot;MS Sans
-            Serif&quot;;color:teal">  </span><b><span
-              style="font-size:8.0pt;font-family:&quot;Comic Sans
-              MS&quot;;color:teal">Work Telephone</span></b><span
-            style="font-family:&quot;MS Sans Serif&quot;;color:teal">:       
-          </span><span style="font-size:9.0pt;font-family:&quot;MS Sans
-            Serif&quot;">(503) 712-0534<o:p></o:p></span></p>
-        <p class="MsoNormal"><span
-            style="font-size:9.0pt;font-family:Wingdings;color:black">(</span><span
-            style="font-size:9.0pt;font-family:&quot;MS Sans
-            Serif&quot;;color:teal">   
-          </span><b><span style="font-size:8.0pt;font-family:&quot;Comic
-              Sans MS&quot;;color:teal">Cell</span></b><span
-            style="font-size:9.0pt;font-family:&quot;MS Sans
-            Serif&quot;;color:teal">:              
-          </span><span style="font-size:9.0pt;font-family:&quot;MS Sans
-            Serif&quot;">(208) 244-4460<span style="color:black"><o:p></o:p></span></span></p>
-        <p class="MsoNormal"><span
-            style="font-size:9.0pt;font-family:Wingdings">* </span>
-          <b><span style="font-size:8.0pt;font-family:&quot;Comic Sans
-              MS&quot;;color:teal" lang="FR">Email</span></b><span
-            style="font-size:9.0pt;font-family:&quot;MS Sans
-            Serif&quot;;color:teal" lang="FR">:</span><span
-            style="font-size:9.0pt;font-family:&quot;MS Sans
-            Serif&quot;" lang="FR">                           
-            <u><span style="color:blue"><a class="moz-txt-link-abbreviated" href="mailto:stephen.k.jolley@intel.com">stephen.k.jolley@intel.com</a></span></u></span><span
-style="font-size:12.0pt;font-family:&quot;Arial&quot;,sans-serif"
-            lang="FR"><o:p></o:p></span></p>
-        <p class="MsoNormal"><o:p> </o:p></p>
-      </div>
-      <br>
-      <fieldset class="mimeAttachmentHeader"></fieldset>
-      <br>
-    </blockquote>
-    <br>
-  </body>
-</html>
-
---------------62F75191128626FC69DE1488--
