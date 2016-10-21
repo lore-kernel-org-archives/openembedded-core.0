@@ -1,33 +1,34 @@
-Return-Path: <o.mandel@menlosystems.com>
-Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.10])
-	by mail.openembedded.org (Postfix) with ESMTP id 71E4860268
+Return-Path: <obi@opendreambox.org>
+Received: from mail.dream-property.net (mail.dream-property.net
+	[82.149.226.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 93A5371A58
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Oct 2016 13:44:34 +0000 (UTC)
-Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
-	by mail-out.m-online.net (Postfix) with ESMTP id 3t0n3R2Y9kz3hjZF;
-	Fri, 21 Oct 2016 15:44:35 +0200 (CEST)
-Received: from localhost (dynscan1.mnet-online.de [192.168.6.68])
-	by mail.m-online.net (Postfix) with ESMTP id 3t0n3R2DsszvkSP;
-	Fri, 21 Oct 2016 15:44:35 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at mnet-online.de
-Received: from mail.mnet-online.de ([192.168.8.182])
-	by localhost (dynscan1.mail.m-online.net [192.168.6.68]) (amavisd-new,
+	Fri, 21 Oct 2016 14:01:12 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by mail.dream-property.net (Postfix) with ESMTP id 916073184A99;
+	Fri, 21 Oct 2016 16:01:12 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at mail.dream-property.net
+Received: from mail.dream-property.net ([127.0.0.1])
+	by localhost (mail.dream-property.net [127.0.0.1]) (amavisd-new,
 	port 10024)
-	with ESMTP id mEatPylsKC-I; Fri, 21 Oct 2016 15:44:34 +0200 (CEST)
-X-Auth-Info: 8prHhvcaqmQWKXptgjAiSf6lUWi65mezzNnhYl6FeQvcSZ0prZtfoAhGJTVgMjOO
-Received: from menlobuildsrv.menlosystems.local
-	(host-141-40-253-38.customer.izb-online.de [141.40.253.38])
-	(using TLSv1 with cipher AES256-SHA (256/256 bits))
+	with LMTP id a2P-VwlHLdnv; Fri, 21 Oct 2016 16:01:08 +0200 (CEST)
+Received: from [172.22.22.61] (55d475bb.access.ecotel.net [85.212.117.187])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by mail.mnet-online.de (Postfix) with ESMTPSA;
-	Fri, 21 Oct 2016 15:44:34 +0200 (CEST)
-From: Olaf Mandel <o.mandel@menlosystems.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 21 Oct 2016 13:44:27 +0000
-Message-Id: <1477057467-25114-1-git-send-email-o.mandel@menlosystems.com>
-X-Mailer: git-send-email 2.1.4
-Cc: Olaf Mandel <o.mandel@menlosystems.com>
-Subject: [PATCH] texi2html: Allow compiling out-of-source
+	by mail.dream-property.net (Postfix) with ESMTPSA id 82E6731849BB;
+	Fri, 21 Oct 2016 16:01:08 +0200 (CEST)
+To: jackie.huang@windriver.com
+References: <cover.1476345470.git.jackie.huang@windriver.com>
+	<07b4065b12f5cf9dfe816e7cdb68a5e7d83e04c0.1476345470.git.jackie.huang@windriver.com>
+From: Andreas Oberritter <obi@opendreambox.org>
+Message-ID: <5c605407-d802-456e-a876-317cefaef461@opendreambox.org>
+Date: Fri, 21 Oct 2016 16:01:07 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.3.0
+MIME-Version: 1.0
+In-Reply-To: <07b4065b12f5cf9dfe816e7cdb68a5e7d83e04c0.1476345470.git.jackie.huang@windriver.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 2/2] ppp: fix building with linux-4.8
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,78 +41,105 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 21 Oct 2016 13:44:35 -0000
+X-List-Received-Date: Fri, 21 Oct 2016 14:01:12 -0000
+Content-Type: text/plain; charset=windows-1252
+Content-Transfer-Encoding: 7bit
 
-Compiling texi2html 5.0 out-of-source with USE_NLS set to no failed
-because it trieed to copy from srcdir without using that variable.
-Fix this issue.
+Dear Jackie,
 
-No need to send upstream: current trunk already contains this.
+this patch broke compilation with linux-libc-headers 4.4, present in
+morty, due to use of incomplete types.
 
-Signed-off-by: Olaf Mandel <o.mandel@menlosystems.com>
----
- .../files/0001-Allow-compiling-out-of-source.patch | 38 ++++++++++++++++++++++
- meta/recipes-extended/texi2html/texi2html_5.0.bb   |  1 +
- 2 files changed, 39 insertions(+)
- create mode 100644 meta/recipes-extended/texi2html/files/0001-Allow-compiling-out-of-source.patch
+Regards,
+Andreas
 
-diff --git a/meta/recipes-extended/texi2html/files/0001-Allow-compiling-out-of-source.patch b/meta/recipes-extended/texi2html/files/0001-Allow-compiling-out-of-source.patch
-new file mode 100644
-index 0000000..754f0a2
---- /dev/null
-+++ b/meta/recipes-extended/texi2html/files/0001-Allow-compiling-out-of-source.patch
-@@ -0,0 +1,38 @@
-+From: Olaf Mandel <o.mandel@menlosystems.com>
-+Date: Fri, 21 Oct 2016 13:04:44 +0000
-+Subject: [PATCH] Allow compiling out-of-source
-+
-+---
-+ Makefile.am | 2 +-
-+ Makefile.in | 2 +-
-+ 2 files changed, 2 insertions(+), 2 deletions(-)
-+
-+diff --git a/Makefile.am b/Makefile.am
-+index 3447463..c9b5b5c 100644
-+--- a/Makefile.am
-++++ b/Makefile.am
-+@@ -208,7 +208,7 @@ i18n/en.thl i18n/: $(po_document_dir)/po_document/$(PACKAGE)_document.pot
-+ 	  done; \
-+ 	  msgexec -i $< "$(srcdir)/gettext_to_separated.pl" | "$(srcdir)/separated_to_hash.pl" en > i18n/en.thl; \
-+ 	else \
-+-	  cp -p i18n_ref/*.thl i18n; \
-++	  cp -p "$(srcdir)/i18n_ref/"*.thl i18n; \
-+ 	fi
-+ 
-+ i18n_ref:
-+diff --git a/Makefile.in b/Makefile.in
-+index 4264b37..a13f84d 100644
-+--- a/Makefile.in
-++++ b/Makefile.in
-+@@ -1126,7 +1126,7 @@ i18n/en.thl i18n/: $(po_document_dir)/po_document/$(PACKAGE)_document.pot
-+ 	  done; \
-+ 	  msgexec -i $< "$(srcdir)/gettext_to_separated.pl" | "$(srcdir)/separated_to_hash.pl" en > i18n/en.thl; \
-+ 	else \
-+-	  cp -p i18n_ref/*.thl i18n; \
-++	  cp -p "$(srcdir)/i18n_ref/"*.thl i18n; \
-+ 	fi
-+ 
-+ i18n_ref:
-+-- 
-+2.1.4
-+
-diff --git a/meta/recipes-extended/texi2html/texi2html_5.0.bb b/meta/recipes-extended/texi2html/texi2html_5.0.bb
-index eac289e..ae64816 100644
---- a/meta/recipes-extended/texi2html/texi2html_5.0.bb
-+++ b/meta/recipes-extended/texi2html/texi2html_5.0.bb
-@@ -7,6 +7,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552"
- PR = "r2"
- 
- SRC_URI     = "${SAVANNAH_GNU_MIRROR}/texi2html/${BPN}-${PV}.tar.bz2 \
-+               file://0001-Allow-compiling-out-of-source.patch \
-                "
- 
- SRC_URI[md5sum] = "f15ac876fcdc8be865b16535f480aa54"
--- 
-2.1.4
+
+On 14.10.2016 02:50, jackie.huang@windriver.com wrote:
+> From: Jackie Huang <jackie.huang@windriver.com>
+> 
+> Fix a build error when using the linux-4.8 headers that results in:
+> 
+> In file included from pppoe.h:87:0,
+>                  from plugin.c:29:
+> ../usr/include/netinet/in.h:211:8: note: originally defined here
+>  struct in6_addr
+>         ^~~~~~~~
+> In file included from ../usr/include/linux/if_pppol2tp.h:20:0,
+>                  from ../usr/include/linux/if_pppox.h:26,
+>                  from plugin.c:52:
+> ../usr/include/linux/in6.h:49:8: error: redefinition of 'struct sockaddr_in6'
+>  struct sockaddr_in6 {
+>         ^~~~~~~~~~~~
+> 
+> Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
+> ---
+>  .../ppp/ppp/ppp-fix-building-with-linux-4.8.patch  | 44 ++++++++++++++++++++++
+>  meta/recipes-connectivity/ppp/ppp_2.4.7.bb         |  1 +
+>  2 files changed, 45 insertions(+)
+>  create mode 100644 meta/recipes-connectivity/ppp/ppp/ppp-fix-building-with-linux-4.8.patch
+> 
+> diff --git a/meta/recipes-connectivity/ppp/ppp/ppp-fix-building-with-linux-4.8.patch b/meta/recipes-connectivity/ppp/ppp/ppp-fix-building-with-linux-4.8.patch
+> new file mode 100644
+> index 0000000..f77b0de
+> --- /dev/null
+> +++ b/meta/recipes-connectivity/ppp/ppp/ppp-fix-building-with-linux-4.8.patch
+> @@ -0,0 +1,44 @@
+> +From 3da19af53e2eee2e77b456cfbb9d633b06656d38 Mon Sep 17 00:00:00 2001
+> +From: Jackie Huang <jackie.huang@windriver.com>
+> +Date: Thu, 13 Oct 2016 13:41:43 +0800
+> +Subject: [PATCH] ppp: fix building with linux-4.8
+> +
+> +Fix a build error when using the linux-4.8 headers that results in:
+> +
+> +In file included from pppoe.h:87:0,
+> +                 from plugin.c:29:
+> +../usr/include/netinet/in.h:211:8: note: originally defined here
+> + struct in6_addr
+> +        ^~~~~~~~
+> +In file included from ../usr/include/linux/if_pppol2tp.h:20:0,
+> +                 from ../usr/include/linux/if_pppox.h:26,
+> +                 from plugin.c:52:
+> +../usr/include/linux/in6.h:49:8: error: redefinition of 'struct sockaddr_in6'
+> + struct sockaddr_in6 {
+> +        ^~~~~~~~~~~~
+> +
+> +Upstream-Status: Submitted [1]
+> +
+> +[1] https://github.com/paulusmack/ppp/pull/69
+> +
+> +Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
+> +---
+> + pppd/plugins/rp-pppoe/pppoe.h | 2 +-
+> + 1 file changed, 1 insertion(+), 1 deletion(-)
+> +
+> +diff --git a/pppd/plugins/rp-pppoe/pppoe.h b/pppd/plugins/rp-pppoe/pppoe.h
+> +index 9ab2eee..96d2794 100644
+> +--- a/pppd/plugins/rp-pppoe/pppoe.h
+> ++++ b/pppd/plugins/rp-pppoe/pppoe.h
+> +@@ -84,7 +84,7 @@ typedef unsigned long UINT32_t;
+> + #include <linux/if_ether.h>
+> + #endif
+> + 
+> +-#include <netinet/in.h>
+> ++#include <linux/in.h>
+> + 
+> + #ifdef HAVE_NETINET_IF_ETHER_H
+> + #include <sys/types.h>
+> +-- 
+> +2.8.3
+> +
+> diff --git a/meta/recipes-connectivity/ppp/ppp_2.4.7.bb b/meta/recipes-connectivity/ppp/ppp_2.4.7.bb
+> index 4437b5c..56dbd98 100644
+> --- a/meta/recipes-connectivity/ppp/ppp_2.4.7.bb
+> +++ b/meta/recipes-connectivity/ppp/ppp_2.4.7.bb
+> @@ -30,6 +30,7 @@ SRC_URI = "http://ppp.samba.org/ftp/ppp/ppp-${PV}.tar.gz \
+>             file://0001-ppp-Fix-compilation-errors-in-Makefile.patch \
+>             file://ppp@.service \
+>             file://fix-CVE-2015-3310.patch \
+> +           file://ppp-fix-building-with-linux-4.8.patch \
+>  "
+>  
+>  SRC_URI_append_libc-musl = "\
+> 
 
 
