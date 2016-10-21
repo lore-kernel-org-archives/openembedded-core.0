@@ -1,34 +1,39 @@
-Return-Path: <obi@opendreambox.org>
-Received: from mail.dream-property.net (mail.dream-property.net
-	[82.149.226.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 93A5371A58
+Return-Path: <o.mandel@menlosystems.com>
+Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.9])
+	by mail.openembedded.org (Postfix) with ESMTP id 2DB6F71AEE
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Oct 2016 14:01:12 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by mail.dream-property.net (Postfix) with ESMTP id 916073184A99;
-	Fri, 21 Oct 2016 16:01:12 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at mail.dream-property.net
-Received: from mail.dream-property.net ([127.0.0.1])
-	by localhost (mail.dream-property.net [127.0.0.1]) (amavisd-new,
+	Fri, 21 Oct 2016 14:05:30 +0000 (UTC)
+Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
+	by mail-out.m-online.net (Postfix) with ESMTP id 3t0nWb5Cdlz3hjV8;
+	Fri, 21 Oct 2016 16:05:31 +0200 (CEST)
+Received: from localhost (dynscan1.mnet-online.de [192.168.6.68])
+	by mail.m-online.net (Postfix) with ESMTP id 3t0nWb2YQbzvkpl;
+	Fri, 21 Oct 2016 16:05:31 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at mnet-online.de
+Received: from mail.mnet-online.de ([192.168.8.182])
+	by localhost (dynscan1.mail.m-online.net [192.168.6.68]) (amavisd-new,
 	port 10024)
-	with LMTP id a2P-VwlHLdnv; Fri, 21 Oct 2016 16:01:08 +0200 (CEST)
-Received: from [172.22.22.61] (55d475bb.access.ecotel.net [85.212.117.187])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	with ESMTP id w-FRmAftflMV; Fri, 21 Oct 2016 16:05:18 +0200 (CEST)
+X-Auth-Info: KOo9qGkiY1/yfH3L98gaQKltkKNrEAhG8uMTlLKTVRs4ulPcq2h0h+CvPrWMD/yy
+Received: from [10.0.0.72] (host-141-40-253-38.customer.izb-online.de
+	[141.40.253.38])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mail.dream-property.net (Postfix) with ESMTPSA id 82E6731849BB;
-	Fri, 21 Oct 2016 16:01:08 +0200 (CEST)
-To: jackie.huang@windriver.com
-References: <cover.1476345470.git.jackie.huang@windriver.com>
-	<07b4065b12f5cf9dfe816e7cdb68a5e7d83e04c0.1476345470.git.jackie.huang@windriver.com>
-From: Andreas Oberritter <obi@opendreambox.org>
-Message-ID: <5c605407-d802-456e-a876-317cefaef461@opendreambox.org>
-Date: Fri, 21 Oct 2016 16:01:07 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.3.0
+	by mail.mnet-online.de (Postfix) with ESMTPSA;
+	Fri, 21 Oct 2016 16:05:18 +0200 (CEST)
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+References: <1476871513-19739-1-git-send-email-o.mandel@menlosystems.com>
+	<1985222.nRgBkrL9KW@peggleto-mobl.ger.corp.intel.com>
+From: Olaf Mandel <o.mandel@menlosystems.com>
+Organization: Menlo Systems
+Message-ID: <7c0317d9-f5d2-6a0d-5b2c-93d17fa5712c@menlosystems.com>
+Date: Fri, 21 Oct 2016 16:05:52 +0200
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:45.0) Gecko/20100101
+	Thunderbird/45.4.0
 MIME-Version: 1.0
-In-Reply-To: <07b4065b12f5cf9dfe816e7cdb68a5e7d83e04c0.1476345470.git.jackie.huang@windriver.com>
+In-Reply-To: <1985222.nRgBkrL9KW@peggleto-mobl.ger.corp.intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 2/2] ppp: fix building with linux-4.8
+Subject: Re: [PATCH 0/1] $COREBASE/LICENSE in LIC_FILES_CHKSUM
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,105 +46,101 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 21 Oct 2016 14:01:12 -0000
+X-List-Received-Date: Fri, 21 Oct 2016 14:05:31 -0000
+X-Groupsio-MsgNum: 88483
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature";
+	boundary="hHac0gOw86pQ7WHWIGsnKeSrdPb9XNEmv"
+
+--hHac0gOw86pQ7WHWIGsnKeSrdPb9XNEmv
+Content-Type: multipart/mixed; boundary="6QXsuMI3pSIm6nGACnbINUkXQJdmuiljc";
+ protected-headers="v1"
+From: Olaf Mandel <o.mandel@menlosystems.com>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Message-ID: <7c0317d9-f5d2-6a0d-5b2c-93d17fa5712c@menlosystems.com>
+Subject: Re: [OE-core] [PATCH 0/1] $COREBASE/LICENSE in LIC_FILES_CHKSUM
+References: <1476871513-19739-1-git-send-email-o.mandel@menlosystems.com>
+ <1985222.nRgBkrL9KW@peggleto-mobl.ger.corp.intel.com>
+In-Reply-To: <1985222.nRgBkrL9KW@peggleto-mobl.ger.corp.intel.com>
+
+--6QXsuMI3pSIm6nGACnbINUkXQJdmuiljc
 Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
 
-Dear Jackie,
+Hi Paul,
 
-this patch broke compilation with linux-libc-headers 4.4, present in
-morty, due to use of incomplete types.
+Am 21.10.2016 um 01:29 schrieb Paul Eggleton:
+> On Wed, 19 Oct 2016 10:05:12 Olaf Mandel wrote:
+-Snipp-
+>> There are additional recipes that reference the global LICENSE
+>> file, but where I am not sure if a less blanket license declaration
+>> is appropriate or not. Especially for meta-toolchain and
+>> build-appliance-image, the global LICENSE is probably correct.
+>> Any comments?
+>=20
+> For images and other recipes that don't pull in anything by themselves,=
+ there
+> shouldn't be a need for LIC_FILES_CHKSUM (or indeed LICENSE) to be set =
+at all
+> - in order to understand the license for the result the appropriate pla=
+ce to
+> look is the license manifest that represents everything that goes into =
+the
+> image. In fact, in master / morty, if SRC_URI is empty then LIC_FILES_C=
+HKSUM
+> is no longer verified [1]. Thus, for such recipes we can remove the set=
+ting of
+> LIC_FILES_CHKSUM (and LICENSE, if possible) altogether.
+>=20
+That seems to apply to eight of the nine remaining recipes still
+containing the ${COREBASE}/LICENSE:
 
-Regards,
-Andreas
+meta/recipes-core/meta/buildtools-tarball.bb
+meta/recipes-core/meta/meta-environment.bb
+meta/recipes-core/meta/meta-extsdk-toolchain.bb
+meta/recipes-core/meta/meta-ide-support.bb
+meta/recipes-core/meta/meta-toolchain.bb
+meta/recipes-core/meta/signing-keys.bb
+meta/recipes-core/meta/testexport-tarball.bb
+meta/recipes-core/meta/uninative-tarball.bb
 
+Of the already modified recipes, this applies to:
+meta/recipes-core/systemd/systemd-compat-units.bb
 
-On 14.10.2016 02:50, jackie.huang@windriver.com wrote:
-> From: Jackie Huang <jackie.huang@windriver.com>
-> 
-> Fix a build error when using the linux-4.8 headers that results in:
-> 
-> In file included from pppoe.h:87:0,
->                  from plugin.c:29:
-> ../usr/include/netinet/in.h:211:8: note: originally defined here
->  struct in6_addr
->         ^~~~~~~~
-> In file included from ../usr/include/linux/if_pppol2tp.h:20:0,
->                  from ../usr/include/linux/if_pppox.h:26,
->                  from plugin.c:52:
-> ../usr/include/linux/in6.h:49:8: error: redefinition of 'struct sockaddr_in6'
->  struct sockaddr_in6 {
->         ^~~~~~~~~~~~
-> 
-> Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
-> ---
->  .../ppp/ppp/ppp-fix-building-with-linux-4.8.patch  | 44 ++++++++++++++++++++++
->  meta/recipes-connectivity/ppp/ppp_2.4.7.bb         |  1 +
->  2 files changed, 45 insertions(+)
->  create mode 100644 meta/recipes-connectivity/ppp/ppp/ppp-fix-building-with-linux-4.8.patch
-> 
-> diff --git a/meta/recipes-connectivity/ppp/ppp/ppp-fix-building-with-linux-4.8.patch b/meta/recipes-connectivity/ppp/ppp/ppp-fix-building-with-linux-4.8.patch
-> new file mode 100644
-> index 0000000..f77b0de
-> --- /dev/null
-> +++ b/meta/recipes-connectivity/ppp/ppp/ppp-fix-building-with-linux-4.8.patch
-> @@ -0,0 +1,44 @@
-> +From 3da19af53e2eee2e77b456cfbb9d633b06656d38 Mon Sep 17 00:00:00 2001
-> +From: Jackie Huang <jackie.huang@windriver.com>
-> +Date: Thu, 13 Oct 2016 13:41:43 +0800
-> +Subject: [PATCH] ppp: fix building with linux-4.8
-> +
-> +Fix a build error when using the linux-4.8 headers that results in:
-> +
-> +In file included from pppoe.h:87:0,
-> +                 from plugin.c:29:
-> +../usr/include/netinet/in.h:211:8: note: originally defined here
-> + struct in6_addr
-> +        ^~~~~~~~
-> +In file included from ../usr/include/linux/if_pppol2tp.h:20:0,
-> +                 from ../usr/include/linux/if_pppox.h:26,
-> +                 from plugin.c:52:
-> +../usr/include/linux/in6.h:49:8: error: redefinition of 'struct sockaddr_in6'
-> + struct sockaddr_in6 {
-> +        ^~~~~~~~~~~~
-> +
-> +Upstream-Status: Submitted [1]
-> +
-> +[1] https://github.com/paulusmack/ppp/pull/69
-> +
-> +Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
-> +---
-> + pppd/plugins/rp-pppoe/pppoe.h | 2 +-
-> + 1 file changed, 1 insertion(+), 1 deletion(-)
-> +
-> +diff --git a/pppd/plugins/rp-pppoe/pppoe.h b/pppd/plugins/rp-pppoe/pppoe.h
-> +index 9ab2eee..96d2794 100644
-> +--- a/pppd/plugins/rp-pppoe/pppoe.h
-> ++++ b/pppd/plugins/rp-pppoe/pppoe.h
-> +@@ -84,7 +84,7 @@ typedef unsigned long UINT32_t;
-> + #include <linux/if_ether.h>
-> + #endif
-> + 
-> +-#include <netinet/in.h>
-> ++#include <linux/in.h>
-> + 
-> + #ifdef HAVE_NETINET_IF_ETHER_H
-> + #include <sys/types.h>
-> +-- 
-> +2.8.3
-> +
-> diff --git a/meta/recipes-connectivity/ppp/ppp_2.4.7.bb b/meta/recipes-connectivity/ppp/ppp_2.4.7.bb
-> index 4437b5c..56dbd98 100644
-> --- a/meta/recipes-connectivity/ppp/ppp_2.4.7.bb
-> +++ b/meta/recipes-connectivity/ppp/ppp_2.4.7.bb
-> @@ -30,6 +30,7 @@ SRC_URI = "http://ppp.samba.org/ftp/ppp/ppp-${PV}.tar.gz \
->             file://0001-ppp-Fix-compilation-errors-in-Makefile.patch \
->             file://ppp@.service \
->             file://fix-CVE-2015-3310.patch \
-> +           file://ppp-fix-building-with-linux-4.8.patch \
->  "
->  
->  SRC_URI_append_libc-musl = "\
-> 
+Also, it is not currently possible to remove LICENSE: still causes
+build-errors.
+
+I will send a patch that removes LIC_FILES_CHKSUM from a total of 19
+files, but please someone review it: it also removes the CHKSUM from
+e.g. kernel-devsrc and perf.
+
+This leaves only one instance of ${COREBASE}/LICENSE:
+build-appliance-image. Someone please say if the blanket license text
+from "LICENSE" applies or if the narrower license terms from
+"COPYING.MIT" suffice.
+
+Best regards,
+Olaf
 
 
+--6QXsuMI3pSIm6nGACnbINUkXQJdmuiljc--
+
+--hHac0gOw86pQ7WHWIGsnKeSrdPb9XNEmv
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
+
+iQEcBAEBCAAGBQJYCiDFAAoJEFS9nbRiUh3/MYoH/2oe6eqD9LIHTJE22GuCXWrC
+tXmbkInaJ2qJ0LQSK1xDgeGRjTHKsjQViGkFKvLgaN9Q11v8bVSI74JemJYNmiRd
+zIhdtJPxrcJptRKVoSg4ZU1MUjsoVl1qW1yXe5BUIMoaP+xcwwAs24uhIChdPfx0
+9x27WzTm+I1ECNZptbj4AKwayGaSwJ9ohoX4vfH/LufukbLDa2XmWTNOzlz6m2iO
+WlHMdrb2oma+dkcorX6CjsazeVcTj9tbV0P3Nfw2UjytlKcCnQlWUSj4lPMCA2RO
+hI/k22HF3BwPaXRH4QpY0deUbxKtFWfagFgegiC3ugirdLO28utxD2DQCy85K3Y=
+=hzcb
+-----END PGP SIGNATURE-----
+
+--hHac0gOw86pQ7WHWIGsnKeSrdPb9XNEmv--
