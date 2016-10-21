@@ -1,27 +1,24 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id B46D571976
+Return-Path: <Yuanjie.Huang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 9B001605C3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Oct 2016 23:29:58 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga101.fm.intel.com with ESMTP; 20 Oct 2016 16:29:59 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.31,521,1473145200"; d="scan'208";a="775265314"
-Received: from swang16-mobl1.gar.corp.intel.com (HELO
-	peggleto-mobl.ger.corp.intel.com) ([10.255.182.202])
-	by FMSMGA003.fm.intel.com with ESMTP; 20 Oct 2016 16:29:57 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Olaf Mandel <o.mandel@menlosystems.com>
-Date: Fri, 21 Oct 2016 12:29:55 +1300
-Message-ID: <1985222.nRgBkrL9KW@peggleto-mobl.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.14.10 (Linux/4.7.7-100.fc23.x86_64; KDE/4.14.20; x86_64; ;
-	)
-In-Reply-To: <1476871513-19739-1-git-send-email-o.mandel@menlosystems.com>
-References: <1476871513-19739-1-git-send-email-o.mandel@menlosystems.com>
+	Fri, 21 Oct 2016 02:47:53 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u9L2lqw9013493
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 20 Oct 2016 19:47:53 -0700 (PDT)
+Received: from ala-lpd-susbld2.wrs.com (147.11.105.122) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.3.294.0; Thu, 20 Oct 2016 19:47:52 -0700
+From: Yuanjie Huang <yuanjie.huang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 20 Oct 2016 19:47:52 -0700
+Message-ID: <20161021024752.5565-1-yuanjie.huang@windriver.com>
+X-Mailer: git-send-email 2.9.3
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 0/1] $COREBASE/LICENSE in LIC_FILES_CHKSUM
+Subject: [PATCH] binutils: enable warn system direcotories in cross-canadian ld
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,47 +31,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Oct 2016 23:29:58 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Fri, 21 Oct 2016 02:47:53 -0000
+Content-Type: text/plain
 
-Hi Olaf,
+Warn system directories requires a configuration option to be enabled.
+This patch enables the warning for cross-canadian ld, to align with the
+cross version.
 
-On Wed, 19 Oct 2016 10:05:12 Olaf Mandel wrote:
-> I ran into QA issues when inadvertently replacing OEs LICENSE with
-> Yoctos LICENSE file. Why should recipes depend on the license for
-> the complete collection of layers? At least for "normal" recipes
-> that generate target device packages, this makes no sense to me.
-> 
-> I patched out the global LICENSE file from all those recipes that
-> are short enough and where I feel reasonably confident of not
-> having actually changed the claimed license terms in any way.
+Signed-off-by: Yuanjie Huang <yuanjie.huang@windriver.com>
+---
+ meta/recipes-devtools/binutils/binutils-cross-canadian.inc | 1 +
+ 1 file changed, 1 insertion(+)
 
-Agreed, doing this cleanup makes sense to me. We should especially discourage
-others from referring to this file in their own recipes, and we start by
-showing a good example.
-
-> There are additional recipes that reference the global LICENSE
-> file, but where I am not sure if a less blanket license declaration
-> is appropriate or not. Especially for meta-toolchain and
-> build-appliance-image, the global LICENSE is probably correct.
-> Any comments?
-
-For images and other recipes that don't pull in anything by themselves, there
-shouldn't be a need for LIC_FILES_CHKSUM (or indeed LICENSE) to be set at all
-- in order to understand the license for the result the appropriate place to
-look is the license manifest that represents everything that goes into the
-image. In fact, in master / morty, if SRC_URI is empty then LIC_FILES_CHKSUM
-is no longer verified [1]. Thus, for such recipes we can remove the setting of
-LIC_FILES_CHKSUM (and LICENSE, if possible) altogether.
-
-Cheers,
-Paul
-
-[1] http://cgit.openembedded.org/openembedded-core/commit/?id=c269547ae8e90a78349f6003385137e4145e145f
-
+diff --git a/meta/recipes-devtools/binutils/binutils-cross-canadian.inc b/meta/recipes-devtools/binutils/binutils-cross-canadian.inc
+index ae14642..b3d591e 100644
+--- a/meta/recipes-devtools/binutils/binutils-cross-canadian.inc
++++ b/meta/recipes-devtools/binutils/binutils-cross-canadian.inc
+@@ -6,6 +6,7 @@ BPN = "binutils"
+ 
+ DEPENDS = "flex-native bison-native virtual/${HOST_PREFIX}gcc-crosssdk virtual/nativesdk-libc nativesdk-zlib nativesdk-gettext nativesdk-flex"
+ EXTRA_OECONF += "--with-sysroot=${SDKPATH}/sysroots/${TUNE_PKGARCH}${TARGET_VENDOR}-${TARGET_OS} \
++                --enable-poison-system-directories \
+                 "
+ 
+ # We have to point binutils at a sysroot but we don't need to rebuild if this changes
 -- 
+2.9.3
 
-Paul Eggleton
-Intel Open Source Technology Centre
 
