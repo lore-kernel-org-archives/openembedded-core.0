@@ -1,35 +1,28 @@
-Return-Path: <denis@denix.org>
-Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.17])
-	by mail.openembedded.org (Postfix) with ESMTP id 4C088606D0
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 20332605FE
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Oct 2016 14:36:54 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by mailout4.zoneedit.com (Postfix) with ESMTP id 02F1320901;
-	Fri, 21 Oct 2016 14:36:56 +0000 (UTC)
-Received: from mailout4.zoneedit.com ([127.0.0.1])
-	by localhost (zmo03-pco.easydns.vpn [127.0.0.1]) (amavisd-new,
-	port 10024)
-	with ESMTP id E2Lk2s64d3u2; Fri, 21 Oct 2016 14:36:55 +0000 (UTC)
-Received: from gandalf.denix.org (pool-100-15-106-107.washdc.fios.verizon.net
-	[100.15.106.107])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mailout4.zoneedit.com (Postfix) with ESMTPSA id C88EF208EE;
-	Fri, 21 Oct 2016 14:36:53 +0000 (UTC)
-Received: by gandalf.denix.org (Postfix, from userid 1000)
-	id 17EC0162177; Fri, 21 Oct 2016 10:36:53 -0400 (EDT)
-Date: Fri, 21 Oct 2016 10:36:53 -0400
-From: Denys Dmytriyenko <denis@denix.org>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-Message-ID: <20161021143653.GC2494@denix.org>
-References: <1476871513-19739-1-git-send-email-o.mandel@menlosystems.com>
-	<1985222.nRgBkrL9KW@peggleto-mobl.ger.corp.intel.com>
+	Fri, 21 Oct 2016 15:06:43 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by orsmga102.jf.intel.com with ESMTP; 21 Oct 2016 08:06:44 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.31,377,1473145200"; d="scan'208";a="1073753339"
+Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
+	([10.237.68.161])
+	by fmsmga002.fm.intel.com with ESMTP; 21 Oct 2016 08:06:44 -0700
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <cover.1476888929.git.alexander.kanavin@linux.intel.com>
+	<9a2f86103e33586c0587cdc62a2633768a4a6648.1476888929.git.alexander.kanavin@linux.intel.com>
+	<CAJTo0LZ==RezUpAvHxOBV5wr=yBahNj4VGtRkGgcAv5UUE1=ZQ@mail.gmail.com>
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Message-ID: <59714d1d-d01e-d1df-1bda-48a76d1b8def@linux.intel.com>
+Date: Fri, 21 Oct 2016 18:04:32 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Icedove/45.4.0
 MIME-Version: 1.0
-In-Reply-To: <1985222.nRgBkrL9KW@peggleto-mobl.ger.corp.intel.com>
-User-Agent: Mutt/1.5.20 (2009-06-14)
-Cc: openembedded-core@lists.openembedded.org,
-	Olaf Mandel <o.mandel@menlosystems.com>
-Subject: Re: [PATCH 0/1] $COREBASE/LICENSE in LIC_FILES_CHKSUM
+In-Reply-To: <CAJTo0LZ==RezUpAvHxOBV5wr=yBahNj4VGtRkGgcAv5UUE1=ZQ@mail.gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 10/19] gnome-desktop3: update to 3.22.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,56 +35,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 21 Oct 2016 14:36:56 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Fri, 21 Oct 2016 15:06:44 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Fri, Oct 21, 2016 at 12:29:55PM +1300, Paul Eggleton wrote:
-> Hi Olaf,
-> 
-> On Wed, 19 Oct 2016 10:05:12 Olaf Mandel wrote:
-> > I ran into QA issues when inadvertently replacing OEs LICENSE with
-> > Yoctos LICENSE file. Why should recipes depend on the license for
-> > the complete collection of layers? At least for "normal" recipes
-> > that generate target device packages, this makes no sense to me.
-> > 
-> > I patched out the global LICENSE file from all those recipes that
-> > are short enough and where I feel reasonably confident of not
-> > having actually changed the claimed license terms in any way.
-> 
-> Agreed, doing this cleanup makes sense to me. We should especially discourage
-> others from referring to this file in their own recipes, and we start by
-> showing a good example.
+On 10/20/2016 12:24 PM, Burton, Ross wrote:
+>
+>   * FILELIST: removed "/usr/lib/libgnome-desktop-3.so.12.1.0
+> /usr/share/libgnome-desktop-3.0/pnp.ids" added
+> "/usr/lib/libgnome-desktop-3.so.12.2.0"
+> packages/corei7-64-poky-linux/gnome-desktop3/libgnome-desktop3:
+> RDEPENDS: removed "libxrandr (['>= 1.5.0'])" added "libudev (['>=
+> 230+git0+3a74d4fc90']) libcap (['>= 2.25'])"
+>
+> Can you verify the build and runtime dependencies?  If it isn't shipping
+> its own pnp.ids do we need to depend on a data package to ensure they're
+> present?
 
-FWIW, we also discussed this topic at OEDEM last week...
+Found it and updated dependencies accordingly:
+
+commit b8cbfbe06475703f333367976eae9477f229891a
+Author: Bastien Nocera <hadess@hadess.net>
+Date:   Wed May 20 13:07:49 2015 +0200
+
+     pnp-ids: Use udev's hwdb to query PNP IDs
+
+     hwdb has its own database which it compiles to binary, so that:
+     1) initialisation is practically free
+     See 
+https://git.gnome.org/browse/gnome-settings-daemon/commit/gnome-settings-daemon/gnome-settings-manager.c?id=d8c158e74caea048dea5a38232bd87c1c7a78a70
+     2) lookups are also quick, as they use a binary DB
+     3) we don't have to maintain our own copy of the database
+     4) allows model lookup rather than simply vendor lookup, when the
+        database contains that information
+
+     The only problem being that non-Linux OSes will need reimplement this
+     section of the code. This will be on top of the usual downstream 
+patches
+     they ship for a number of components.
+
+     https://bugzilla.gnome.org/show_bug.cgi?id=590059
+
+M       configure.ac
+M       libgnome-desktop/Makefile.am
+M       libgnome-desktop/gnome-pnp-ids.c
+D       libgnome-desktop/pnp.ids
+M       libgnome-desktop/test-pnp-ids.c
 
 
-> > There are additional recipes that reference the global LICENSE
-> > file, but where I am not sure if a less blanket license declaration
-> > is appropriate or not. Especially for meta-toolchain and
-> > build-appliance-image, the global LICENSE is probably correct.
-> > Any comments?
-> 
-> For images and other recipes that don't pull in anything by themselves, there
-> shouldn't be a need for LIC_FILES_CHKSUM (or indeed LICENSE) to be set at all
-> - in order to understand the license for the result the appropriate place to
-> look is the license manifest that represents everything that goes into the
-> image. In fact, in master / morty, if SRC_URI is empty then LIC_FILES_CHKSUM
-> is no longer verified [1]. Thus, for such recipes we can remove the setting of
-> LIC_FILES_CHKSUM (and LICENSE, if possible) altogether.
-> 
-> Cheers,
-> Paul
-> 
-> [1] http://cgit.openembedded.org/openembedded-core/commit/?id=c269547ae8e90a78349f6003385137e4145e145f
-> 
-> -- 
-> 
-> Paul Eggleton
-> Intel Open Source Technology Centre
-> -- 
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Alex
+
 
