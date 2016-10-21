@@ -1,28 +1,29 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 69B6971D16
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 4711565C8A
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Oct 2016 15:16:07 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga103.fm.intel.com with ESMTP; 21 Oct 2016 08:16:09 -0700
+	Fri, 21 Oct 2016 15:20:05 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga105.fm.intel.com with ESMTP; 21 Oct 2016 08:20:07 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.31,377,1473145200"; d="scan'208";a="1057189298"
+X-IronPort-AV: E=Sophos;i="5.31,377,1473145200"; d="scan'208";a="1073759489"
 Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
 	([10.237.68.161])
-	by fmsmga001.fm.intel.com with ESMTP; 21 Oct 2016 08:16:08 -0700
-To: akuster <akuster@mvista.com>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-References: <03b5e98b-0724-daa2-8f78-ab4624f52752@linux.intel.com>
-	<62045b91-79db-cc5e-c372-70041b7fcdaa@mvista.com>
+	by fmsmga002.fm.intel.com with ESMTP; 21 Oct 2016 08:20:07 -0700
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <cover.1476888929.git.alexander.kanavin@linux.intel.com>
+	<c5f8205c2501e2c8264bd3c315b42569d66ac6c7.1476888929.git.alexander.kanavin@linux.intel.com>
+	<CAJTo0Lb3B9FSEXHjd4ZhkF4GwosbCkUVkq5nHuM7sEEV7EgVaA@mail.gmail.com>
+	<CAJTo0LYqYBvyYnkE2Mud6DykHxbhD0ORvKCa7kUAZLfKqy_zog@mail.gmail.com>
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <639c3221-23ec-a73c-e333-24ef3ddead81@linux.intel.com>
-Date: Fri, 21 Oct 2016 18:13:57 +0300
+Message-ID: <71a7dd79-4c72-5f9d-d401-82142dccd349@linux.intel.com>
+Date: Fri, 21 Oct 2016 18:17:55 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
 	Icedove/45.4.0
 MIME-Version: 1.0
-In-Reply-To: <62045b91-79db-cc5e-c372-70041b7fcdaa@mvista.com>
-Subject: Re: [yocto] Attention all: patches for upstream source will be applied with stricter criteria for context
+In-Reply-To: <CAJTo0LYqYBvyYnkE2Mud6DykHxbhD0ORvKCa7kUAZLfKqy_zog@mail.gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 18/19] webkitgtk: update to 2.14.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,41 +36,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 21 Oct 2016 15:16:09 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
+X-List-Received-Date: Fri, 21 Oct 2016 15:20:07 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 10/21/2016 06:08 PM, akuster wrote:
->> while updating gnutls to a newer version I came across a rather
->> serious issue: the way we patch source code is very lenient about the
->> context for the lines to be changed. Basically, it's enough for one
->> line before and after the changed line to match, because patch
->> command's default setting for 'fuzz factor' allows it. If these lines
->> happen to be whitespace or braces, then there's nothing to prevent the
->> patch from being applied incorrectly.
->>
->> Here's a particularly nasty example of this happening completely
->> silently (compile step works fine too), with security implications:
->> https://bugzilla.yoctoproject.org/show_bug.cgi?id=10450
->>
->> I think this absolutely needs to be fixed.
+On 10/20/2016 12:27 PM, Burton, Ross wrote:
+> I should have finished reading the report before hitting send:
 >
-> Is there a target milestone for this change?
-
-Currently the plan is to fix all of oe-core and send out a patchset, 
-including the stricter fuzz setting in time for 2.3 M1. Here's the branch:
-https://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/log/?h=akanavin/fix-patch-fuzz
-
->> The downside is that this will break a lot of patches across all
->> layers - after setting the fuzz to zero in oe-core we have 87 recipes
->> that fail to be patched. Maxin and I are currently going through them
->> one by one and getting them fixed.
+> packages/corei7-64-poky-linux/webkitgtk/webkitgtk: FILELIST: removed
+> "/usr/lib/libwebkit2gtk-4.0.so.37.13.11
+> /usr/lib/libjavascriptcoregtk-4.0.so.18.3.13" added
+> "/usr/lib/libjavascriptcoregtk-4.0.so.18.4.8
+> /usr/libexec/webkit2gtk-4.0/MiniBrowser /usr/libexec/webkit2gtk-4.0/jsc
+> /usr/lib/libwebkit2gtk-4.0.so.37.14.8"
 >
-> Is this going to impact the 2.2 release?
+> If libexecdir is the right place for these then we can remove
+> lib_package, otherwise the question is why are they in there and can
+> they be moved back to bindir.
 
-If we find any patches that are applied incorrectly (as opposed to just 
-having out of date context but still applied correctly), then the fixes 
-will be backported as well.
+They did it on purpose, no idea why:
+
+What's new in WebKitGTK+ 2.14.1?
+
+   - MiniBrowser and jsc binaries are now installed in pkglibexecdir 
+instead of bindir.
+
+
+I've dropped the lib_package.
 
 Alex
 
