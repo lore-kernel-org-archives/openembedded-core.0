@@ -1,30 +1,49 @@
-Return-Path: <rpjday@crashcourse.ca>
-Received: from smtp485.redcondor.net (smtp485.redcondor.net [208.80.204.85])
-	by mail.openembedded.org (Postfix) with ESMTP id 2C1DA6AC4B
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 22 Oct 2016 17:26:01 +0000 (UTC)
-Received: from astoria.ccjclearline.com ([64.235.106.9])
-	by smtp485.redcondor.net ({3be039ea-4351-44b0-a8af-642c38b25916})
-	via TCP (outbound) with ESMTPS id 20161022172601960_0485;
-	Sat, 22 Oct 2016 17:26:01 +0000
-X-RC-FROM: <rpjday@crashcourse.ca>
-Received: from [174.118.92.171] (port=44042 helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
-	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
-	id 1by03P-0000ij-34; Sat, 22 Oct 2016 13:25:55 -0400
-Date: Sat, 22 Oct 2016 13:24:58 -0400 (EDT)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@localhost.localdomain
-To: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <68D800E1-2594-4E8B-AB8E-6B9C758FD3CF@gmail.com>
-Message-ID: <alpine.LFD.2.20.1610221323110.8746@localhost.localdomain>
-References: <alpine.LFD.2.20.1610221156210.31588@localhost.localdomain>
-	<68D800E1-2594-4E8B-AB8E-6B9C758FD3CF@gmail.com>
-User-Agent: Alpine 2.20 (LFD 67 2015-01-07)
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pf0-f171.google.com (mail-pf0-f171.google.com
+	[209.85.192.171])
+	by mail.openembedded.org (Postfix) with ESMTP id ED91D719CA;
+	Sat, 22 Oct 2016 17:27:22 +0000 (UTC)
+Received: by mail-pf0-f171.google.com with SMTP id s8so74360176pfj.2;
+	Sat, 22 Oct 2016 10:27:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=to:from:subject:message-id:date:user-agent:mime-version
+	:content-transfer-encoding;
+	bh=OOWl4THgi7BTXr9nhm0TlPgdqVpGNB241gDiJZ0i5vo=;
+	b=v5J5YtkslVJTKMxXzJLjUh44lwI0bI9+xYOB7JUir9nqgEoeF+iqOu9QCDV27Et9P3
+	A3RprokNFO7He2XoksXMsZjXAnOTDoC7WIFpDrYrPGw9j6RTCPPEA4x7Pws2rh2zpL3Q
+	0Mdd0A2lrSQWpilb+1r72ZMlHkMNmkiCHYO074ObXlkOw89jspajVhGilSkzkfx9UCoa
+	tHyPXlInOdFhGwoh0p1Gsb7Bghp0m07a12f+9mbif4EVqW24PXMwrd/iXOmXoLbbrRV1
+	n07cVFsHLzNmbCDK5TG1dPN69c5fXCm7ZudnTRE4sgvTLFElqgF3BDt5+sxUN0LPf94a
+	7cQw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:to:from:subject:message-id:date:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=OOWl4THgi7BTXr9nhm0TlPgdqVpGNB241gDiJZ0i5vo=;
+	b=Jct8G0npOd8LQQfq1wAUjDbYvlEbBzZWNp2NvkrjdIuCjMzjOFERo6aYk8MvM7vC0n
+	ClOnIRJL2iP0dJ59oTekQTIVdIcdMBtBid8towa78DLnXsvgkr0tDve5qWsjr6IFk5VC
+	2kcBIzt9J7cp92TaZ5CRmlzbB6+bBLSK8ulJaGeTwb7IZiga1M3u9VDxLFvwi1A8nTpy
+	Fe2Kp+mTJQNB4/c9kg+0oLgl95aOdCD97DwTdMjV7iY4FNTJNLxKCwE/FKrFwZKKBUlS
+	qlWh2EsJu/+CZeocIpMRBxOetVnJZay+c7VWzV6ZFeFjTjd9TH7aMPaT38wqr7HcUxM7
+	S9WQ==
+X-Gm-Message-State: ABUngvc2cnp1Nno0MVri5NO0HdvTpBeWi9mynnCmcAgt7sjr7ukkjGNTPkkXYPrkSOHvAw==
+X-Received: by 10.98.68.218 with SMTP id m87mr13047283pfi.20.1477157243861;
+	Sat, 22 Oct 2016 10:27:23 -0700 (PDT)
+Received: from Akusters-laptop.local ([2601:202:4001:9ea0:fdf4:1afa:2b08:6b79])
+	by smtp.googlemail.com with ESMTPSA id
+	t128sm13653496pfd.65.2016.10.22.10.27.22
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Sat, 22 Oct 2016 10:27:23 -0700 (PDT)
+To: OpenEmbedded Devel List <openembedded-devel@lists.openembedded.org>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+From: akuster808 <akuster808@gmail.com>
+Message-ID: <142664ed-14dc-6a12-3756-1664f65c70ad@gmail.com>
+Date: Sat, 22 Oct 2016 10:27:27 -0700
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.12; rv:45.0)
+	Gecko/20100101 Thunderbird/45.4.0
 MIME-Version: 1.0
-X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: basic bitbake commands to create an SDK?
+Subject: OEDAM - Portland
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,32 +56,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 22 Oct 2016 17:26:02 -0000
-Content-Type: text/plain; charset=US-ASCII
+X-List-Received-Date: Sat, 22 Oct 2016 17:27:23 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
 
-On Sat, 22 Oct 2016, Khem Raj wrote:
+Hello OE Developers and Users,
 
-> generally meta-toolchain is prior art. You want to use image
-> specific SDKs so -cpopulate_sdk <image> is fine. In this case it
-> will include the needed dev headers/libs in your SDK for that given
-> image automatically it can be any image
+The next OpenEmbedded developer's meeting will be held in Portland
+before or after ELC; Feb 21-23.  A little over 4 months away.  In the
+past, we have relied on funds outside of OE to make our developer
+meetings a reality. This next meeting, we would like the OEDAM to be
+self-funded. 
 
-  yet another dumb question while my build is cranking away ... am i
-correct in assuming that i can generate the SDKs for multiple images
-(same architecture of course) in the same build directory, and the
-resulting generated artifacts will be distinguishable? that is, they
-won't step on each other?
+The OE Developer meetings occur twice a year and it's where OE
+maintainers, developers, members and enthusiasts come together to
+discuss issues and plan future development for OE. 
 
-rday
+If you find yourself using OE, enjoying playing with it or are a company
+using OE in a product, please consider donating to OE. You can find a
+"Donate" button at http://openembedded.org. If you have any questions
+regarding donation, please contact me, off-list.
 
--- 
 
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
+Kind regards,
 
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
+Armin
+
+
 
 
