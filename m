@@ -1,49 +1,45 @@
-Return-Path: <schnitzeltony@googlemail.com>
-Received: from mail-wm0-f66.google.com (mail-wm0-f66.google.com [74.125.82.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 1030B719D3
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 22 Oct 2016 22:39:39 +0000 (UTC)
-Received: by mail-wm0-f66.google.com with SMTP id o81so4072969wma.2
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 22 Oct 2016 15:39:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=googlemail.com; s=20120113;
-	h=from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=N5GD8FZo5X3w8XvpwC/F9U8CXufR7ucSCpEqzwPhFPk=;
-	b=IhHX+eNDCz1TdPfWaecV04WfISDSfKqmTxQhHYRjSzJXFW3eoILyz6NbFl9zFIP5uC
-	l8kSRJ/uz/d+PUOaDN6nGojzz4CCCTU8r5dZddr0AwgEXMXO2Lr1dShDvPcVjY93U0A5
-	WMveYcOAuhEGyQR2H3fAEUoxrwt/rfeJS0s9bx59Q8TktJiB3wQln6QwhndHKfW/dPUb
-	aPBbEIHevb4UOE6sogQYUmjaKSULty4NXmEdUc/EwlBVuXAtlc61Jz7V2xVREXKGGFpu
-	feraUhoVgtmeM6ZeUSLhkmTMxVpsXNY2jYLwvDGHvcqZ9/aVUTZepollALgZMkgxF6KN
-	8iVA==
+Return-Path: <rudolf.streif@gmail.com>
+Received: from mail-it0-f53.google.com (mail-it0-f53.google.com
+	[209.85.214.53])
+	by mail.openembedded.org (Postfix) with ESMTP id C36AD71A2B;
+	Sat, 22 Oct 2016 22:52:31 +0000 (UTC)
+Received: by mail-it0-f53.google.com with SMTP id f129so11974318itc.1;
+	Sat, 22 Oct 2016 15:52:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=qym0xq0hrb+6kGwLZhLQjo1dnEu6o9Ie8qinooa/0OA=;
+	b=TizPjhnVkH4QH1ZSQ/b7mSeQCddIHCI/VGCq5AV2d6e0jzqfKRraxaF7lSkbnp8jot
+	aKbeLhLA1A+QbNMgLZijCA7XbFuxsuDHnXJPWiSjrSjMqAmdSDhMPe2CswlaVrQAvgnZ
+	ckqyMBrdV09lIIK1tmKkLfxBygTSBvEVp1zZH2kHBn/W2oSrj8V2q6/wnLL9nab6mg9+
+	yURsSqtHFkTxV9MJrqDld70hMBhaweBicZXuXX1S/ldDpMT5c+ImvbmhlMgoTALjc+gK
+	Nx8wl1oMoZ3aH7J3z2mM4xk/d/tfA1aAVqbBflBBmsgVRh7KNAQ5OhcaBAjSHyw7rxHS
+	Suvw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=N5GD8FZo5X3w8XvpwC/F9U8CXufR7ucSCpEqzwPhFPk=;
-	b=WYgJMinD+fucm9P2N3uQf5R/6+1UQiOb6qjLo77l8lOehH/xYCwvXnrsYUhbt2CDu4
-	UINayhBKPQ1eWQtYDOzUB/2qPk+ZS+PmzXw00fg4eH36gKKhaENqxFqdwk1SSwbKCo/6
-	Mznf9yNubtTCC31btODL4OA3RK8EqwGW1agljKRnoGXIYQG6A+Izr2Xp6k1wQ6FJ1woc
-	6Ra42/Z/totJt6E4cAIzf7GqP+RSiD585CqFEyHRBNUj6/8oz9tms7lw7o9x4FxP0BL+
-	4OYKXd7NXAnbiHaKvLBzLmkOADSySYGuNycudzlgXOJNKtdy/7h8FtajGYxEwCuAgblh
-	Q1Fg==
-X-Gm-Message-State: ABUngvdWCWGV6HtBM5sgDj54JmRDomgDccx/Ax7Jdky1efwA+WYWQWSvu5G0osRPYjyNwg==
-X-Received: by 10.194.51.37 with SMTP id h5mr5641588wjo.171.1477175979938;
-	Sat, 22 Oct 2016 15:39:39 -0700 (PDT)
-Received: from localhost.localdomain (p5B0A3D96.dip0.t-ipconnect.de.
-	[91.10.61.150]) by smtp.googlemail.com with ESMTPSA id
-	e2sm10507509wjw.14.2016.10.22.15.39.39
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sat, 22 Oct 2016 15:39:39 -0700 (PDT)
-From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@googlemail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sun, 23 Oct 2016 00:39:08 +0200
-Message-Id: <1477175949-6903-1-git-send-email-schnitzeltony@googlemail.com>
-X-Mailer: git-send-email 2.5.5
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=qym0xq0hrb+6kGwLZhLQjo1dnEu6o9Ie8qinooa/0OA=;
+	b=N6xKFnHR+CURMmCRnx3me4ukIGTRVjRakfkyusJjhnNH1QMk/0NJI4JuIYyyRHRrGu
+	9v/ysE5WpnhIOEJO41gNugLQbV9IRiFVv+romd0HfFl/xn3GKsQ248QP9NR/flDeSAeC
+	FfbuuYP0j51uqv4dWMVa2lesEwQUjCVdkSTavELemqnaMUI5QJpyeCIm/p4P92A+HC1H
+	fESsQYwXOM2v1OlFHQG+NCq3TztpWcPpXMK65+nyrDyC+RsfH74ieUmRF0yLi2+TDx8P
+	pj+8tgOcMmu1Kg9BG263ewCuwSOlDWgR7UoCbFpE10pokofVSlVbdHRHVP/XLUn0J/Gn
+	xLig==
+X-Gm-Message-State: AA6/9RmZ0QzsKKy7qgASlrHxgtrjUaHulMo9nz7B7fqYqd1cHYeId1VTtej8ypt7zhwdtqQ6sM//GI1LMYAgmg==
+X-Received: by 10.202.49.4 with SMTP id x4mr13864740oix.129.1477176753323;
+	Sat, 22 Oct 2016 15:52:33 -0700 (PDT)
 MIME-Version: 1.0
-Subject: [PATCH 1/2] libsdl2: update to 2.0.5
+Received: by 10.202.71.87 with HTTP; Sat, 22 Oct 2016 15:52:31 -0700 (PDT)
+Received: by 10.202.71.87 with HTTP; Sat, 22 Oct 2016 15:52:31 -0700 (PDT)
+In-Reply-To: <b90f6c4e-10db-9459-c212-1232e262cb72@balister.org>
+References: <142664ed-14dc-6a12-3756-1664f65c70ad@gmail.com>
+	<b90f6c4e-10db-9459-c212-1232e262cb72@balister.org>
+From: Rudolf Streif <rudolf.streif@gmail.com>
+Date: Sat, 22 Oct 2016 15:52:31 -0700
+Message-ID: <CAEKp-aZfGX_YCWXUGgjUfG34C6MveTHfAkze66kFx6hLWJnpKg@mail.gmail.com>
+To: openembedded-devel@lists.openembedded.org
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [oe] OEDAM - Portland
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,164 +52,135 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 22 Oct 2016 22:39:42 -0000
+X-List-Received-Date: Sat, 22 Oct 2016 22:52:33 -0000
+Content-Type: multipart/alternative; boundary=001a113cdccca7062e053f7c0367
+
+--001a113cdccca7062e053f7c0367
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 
-* video/wayland patch: similar was applied mainline
-* waylamd-protocols alignment was stolen from gtk+3
+If it is of interest to the OE community I can potentially offer Jaguar
+Land Rover's conference facilities at our Open Source Technology Center
+(OSTC). OSTC is located in Portland 's Pearl District. We have
+state-of-the-art facilities with ample space, 20 foot 9-screen video walls,
+VoIP audio systems,  and a really good network.
 
-Signed-off-by: Andreas Müller <schnitzeltony@googlemail.com>
----
- ...-sysroot-path-so-that-make-finds-our-wayl.patch | 32 ++++++++++++
- ...ideo-make-it-compatible-with-wayland-1.10.patch | 57 ----------------------
- .../libsdl2/{libsdl2_2.0.4.bb => libsdl2_2.0.5.bb} | 14 +++---
- 3 files changed, 40 insertions(+), 63 deletions(-)
- create mode 100644 meta/recipes-graphics/libsdl2/libsdl2/0001-prepend-our-sysroot-path-so-that-make-finds-our-wayl.patch
- delete mode 100644 meta/recipes-graphics/libsdl2/libsdl2/0001-src-video-make-it-compatible-with-wayland-1.10.patch
- rename meta/recipes-graphics/libsdl2/{libsdl2_2.0.4.bb => libsdl2_2.0.5.bb} (86%)
+Cheers,
+Rudi
 
-diff --git a/meta/recipes-graphics/libsdl2/libsdl2/0001-prepend-our-sysroot-path-so-that-make-finds-our-wayl.patch b/meta/recipes-graphics/libsdl2/libsdl2/0001-prepend-our-sysroot-path-so-that-make-finds-our-wayl.patch
-new file mode 100644
-index 0000000..d042430
---- /dev/null
-+++ b/meta/recipes-graphics/libsdl2/libsdl2/0001-prepend-our-sysroot-path-so-that-make-finds-our-wayl.patch
-@@ -0,0 +1,32 @@
-+From b44808e43130dcd13b43e5b978b9b24aeb4c134c Mon Sep 17 00:00:00 2001
-+From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@googlemail.com>
-+Date: Thu, 20 Oct 2016 14:57:51 +0200
-+Subject: [PATCH] prepend our sysroot path so that make finds our
-+ wayland-protocol files
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=UTF-8
-+Content-Transfer-Encoding: 8bit
-+
-+Upstream-Status: Inappropriate [embedded specific]
-+
-+Signed-off-by: Andreas Müller <schnitzeltony@googlemail.com>
-+---
-+ configure.in | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/configure.in b/configure.in
-+index 726ded3..3376600 100644
-+--- a/configure.in
-++++ b/configure.in
-+@@ -1206,7 +1206,7 @@ AC_HELP_STRING([--enable-video-wayland-qt-touch], [QtWayland server support for
-+                 WAYLAND_LIBS=`$PKG_CONFIG --libs wayland-client wayland-egl wayland-cursor xkbcommon`
-+                 WAYLAND_SCANNER=`$PKG_CONFIG --variable=wayland_scanner wayland-scanner`
-+                 WAYLAND_CORE_PROTOCOL_DIR=`$PKG_CONFIG --variable=pkgdatadir wayland-client`
-+-                WAYLAND_PROTOCOLS_DIR=`$PKG_CONFIG --variable=pkgdatadir wayland-protocols`
-++                WAYLAND_PROTOCOLS_DIR=${WAYLAND_PROTOCOLS_SYSROOT_DIR}`$PKG_CONFIG --variable=pkgdatadir wayland-protocols`
-+                 video_wayland=yes
-+             fi
-+         fi
-+-- 
-+2.5.5
-+
-diff --git a/meta/recipes-graphics/libsdl2/libsdl2/0001-src-video-make-it-compatible-with-wayland-1.10.patch b/meta/recipes-graphics/libsdl2/libsdl2/0001-src-video-make-it-compatible-with-wayland-1.10.patch
-deleted file mode 100644
-index 44e6d4d..0000000
---- a/meta/recipes-graphics/libsdl2/libsdl2/0001-src-video-make-it-compatible-with-wayland-1.10.patch
-+++ /dev/null
-@@ -1,57 +0,0 @@
--From b1ed3533433501ec52c8289a5b3a294e57e7f798 Mon Sep 17 00:00:00 2001
--From: Martin Jansa <martin.jansa@gmail.com>
--Date: Thu, 26 May 2016 11:31:52 +0000
--Subject: [PATCH] src/video: make it compatible with wayland 1.10
--
--| build/.libs/SDL_waylandevents.o: In function `wl_registry_bind':
--| /usr/include/wayland-client-protocol.h:305: undefined reference to `wl_proxy_marshal_constructor_versioned'
--| /usr/include/wayland-client-protocol.h:305: undefined reference to `wl_proxy_marshal_constructor_versioned'
--| build/.libs/SDL_waylandkeyboard.o: In function `wl_registry_bind':
--| /usr/include/wayland-client-protocol.h:305: undefined reference to `wl_proxy_marshal_constructor_versioned'
--| /usr/include/wayland-client-protocol.h:305: undefined reference to `wl_proxy_marshal_constructor_versioned'
--| build/.libs/SDL_waylandvideo.o: In function `wl_registry_bind':
--| /usr/include/wayland-client-protocol.h:305: undefined reference to `wl_proxy_marshal_constructor_versioned'
--| collect2: error: ld returned 1 exit status
--| make: *** [build/libSDL2.la] Error 1
--| ERROR: oe_runmake failed
--
--Upstream-Status: Pending
--Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
--
-----
-- src/video/wayland/SDL_waylanddyn.h | 1 +
-- src/video/wayland/SDL_waylandsym.h | 4 ++++
-- src/video/webos/SDL_waylanddyn.h   | 1 +
-- src/video/webos/SDL_waylandsym.h   | 4 ++++
-- 4 files changed, 10 insertions(+)
--
--diff --git a/src/video/wayland/SDL_waylanddyn.h b/src/video/wayland/SDL_waylanddyn.h
--index 8d9313a..c7b0157 100644
----- a/src/video/wayland/SDL_waylanddyn.h
--+++ b/src/video/wayland/SDL_waylanddyn.h
--@@ -79,6 +79,7 @@ void SDL_WAYLAND_UnloadSymbols(void);
-- #define wl_proxy_get_user_data (*WAYLAND_wl_proxy_get_user_data)
-- #define wl_proxy_add_listener (*WAYLAND_wl_proxy_add_listener)
-- #define wl_proxy_marshal_constructor (*WAYLAND_wl_proxy_marshal_constructor)
--+#define wl_proxy_marshal_constructor_versioned (*WAYLAND_wl_proxy_marshal_constructor_versioned)
-- 
-- #define wl_seat_interface (*WAYLAND_wl_seat_interface)
-- #define wl_surface_interface (*WAYLAND_wl_surface_interface)
--diff --git a/src/video/wayland/SDL_waylandsym.h b/src/video/wayland/SDL_waylandsym.h
--index c3b4fa5..b9a0d97 100644
----- a/src/video/wayland/SDL_waylandsym.h
--+++ b/src/video/wayland/SDL_waylandsym.h
--@@ -55,6 +55,10 @@ SDL_WAYLAND_SYM(void, wl_list_insert_list, (struct wl_list *, struct wl_list *))
-- SDL_WAYLAND_MODULE(WAYLAND_CLIENT_1_4)
-- SDL_WAYLAND_SYM(struct wl_proxy *, wl_proxy_marshal_constructor, (struct wl_proxy *, uint32_t opcode, const struct wl_interface *interface, ...))
-- 
--+/* These functions are available in Wayland >= 1.10 */
--+SDL_WAYLAND_MODULE(WAYLAND_CLIENT_1_10)
--+SDL_WAYLAND_SYM(struct wl_proxy *, wl_proxy_marshal_constructor_versioned, (struct wl_proxy *proxy, uint32_t opcode, const struct wl_interface *interface, uint32_t version, ...))
--+
-- SDL_WAYLAND_INTERFACE(wl_seat_interface)
-- SDL_WAYLAND_INTERFACE(wl_surface_interface)
-- SDL_WAYLAND_INTERFACE(wl_shm_pool_interface)
---- 
--1.9.1
--
-diff --git a/meta/recipes-graphics/libsdl2/libsdl2_2.0.4.bb b/meta/recipes-graphics/libsdl2/libsdl2_2.0.5.bb
-similarity index 86%
-rename from meta/recipes-graphics/libsdl2/libsdl2_2.0.4.bb
-rename to meta/recipes-graphics/libsdl2/libsdl2_2.0.5.bb
-index 844ff33..ac7312b 100644
---- a/meta/recipes-graphics/libsdl2/libsdl2_2.0.4.bb
-+++ b/meta/recipes-graphics/libsdl2/libsdl2_2.0.5.bb
-@@ -14,15 +14,16 @@ PROVIDES = "virtual/libsdl2"
- 
- DEPENDS_class-nativesdk = "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'virtual/nativesdk-libx11 nativesdk-libxrandr nativesdk-libxrender nativesdk-libxext', '', d)}"
- 
--SRC_URI = "http://www.libsdl.org/release/SDL2-${PV}.tar.gz \
--           file://linkage.patch \
--           file://0001-src-video-make-it-compatible-with-wayland-1.10.patch \
-+SRC_URI = " \
-+    http://www.libsdl.org/release/SDL2-${PV}.tar.gz \
-+    file://linkage.patch \
-+    file://0001-prepend-our-sysroot-path-so-that-make-finds-our-wayl.patch \
- "
- 
- S = "${WORKDIR}/SDL2-${PV}"
- 
--SRC_URI[md5sum] = "44fc4a023349933e7f5d7a582f7b886e"
--SRC_URI[sha256sum] = "da55e540bf6331824153805d58b590a29c39d2d506c6d02fa409aedeab21174b"
-+SRC_URI[md5sum] = "d4055424d556b4a908aa76fad63abd3c"
-+SRC_URI[sha256sum] = "442038cf55965969f2ff06d976031813de643af9c9edc9e331bd761c242e8785"
- 
- inherit autotools lib_package binconfig pkgconfig
- 
-@@ -31,7 +32,8 @@ EXTRA_OECONF = "--disable-oss --disable-esd --disable-arts \
-                 --disable-video-dummy \
-                 --enable-pthreads \
-                 --enable-sdl-dlopen \
--                --disable-rpath"
-+                --disable-rpath \
-+                WAYLAND_PROTOCOLS_SYSROOT_DIR=${STAGING_DIR}/${MACHINE}"
- 
- # opengl packageconfig factored out to make it easy for distros
- # and BSP layers to pick either (desktop) opengl, gles2, or no GL
--- 
-2.5.5
+Kind regards,
+Rudolf J Streif
 
+On Oct 22, 2016 3:27 PM, "Philip Balister" <philip@balister.org> wrote:
 
+> Also, if you want to donate directly via check (reduces processing fees,
+> easier for some businesses) see the SPI donation page at:
+>
+> http://spi-inc.org/donations/
+>
+> It also covers donations from non US people and businesses.
+>
+> Philip
+>
+> On 10/22/2016 01:27 PM, akuster808 wrote:
+> > Hello OE Developers and Users,
+> >
+> > The next OpenEmbedded developer's meeting will be held in Portland
+> > before or after ELC; Feb 21-23.  A little over 4 months away.  In the
+> > past, we have relied on funds outside of OE to make our developer
+> > meetings a reality. This next meeting, we would like the OEDAM to be
+> > self-funded.
+> >
+> > The OE Developer meetings occur twice a year and it's where OE
+> > maintainers, developers, members and enthusiasts come together to
+> > discuss issues and plan future development for OE.
+> >
+> > If you find yourself using OE, enjoying playing with it or are a company
+> > using OE in a product, please consider donating to OE. You can find a
+> > "Donate" button at http://openembedded.org. If you have any questions
+> > regarding donation, please contact me, off-list.
+> >
+> >
+> > Kind regards,
+> >
+> > Armin
+> >
+> >
+> >
+> --
+> _______________________________________________
+> Openembedded-devel mailing list
+> Openembedded-devel@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-devel
+>
+
+--001a113cdccca7062e053f7c0367
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<p dir=3D"ltr">If it is of interest to the OE community I can potentially o=
+ffer Jaguar Land Rover&#39;s conference facilities at our Open Source Techn=
+ology Center (OSTC). OSTC is located in Portland &#39;s Pearl District. We =
+have state-of-the-art facilities with ample space, 20 foot 9-screen video w=
+alls, VoIP audio systems,=C2=A0 and a really good network. </p>
+<p dir=3D"ltr">Cheers, <br>
+Rudi </p>
+<p dir=3D"ltr">Kind regards,<br>
+Rudolf J Streif </p>
+<div class=3D"gmail_extra"><br><div class=3D"gmail_quote">On Oct 22, 2016 3=
+:27 PM, &quot;Philip Balister&quot; &lt;<a href=3D"mailto:philip@balister.o=
+rg">philip@balister.org</a>&gt; wrote:<br type=3D"attribution"><blockquote =
+class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid=
+;padding-left:1ex">Also, if you want to donate directly via check (reduces =
+processing fees,<br>
+easier for some businesses) see the SPI donation page at:<br>
+<br>
+<a href=3D"http://spi-inc.org/donations/" rel=3D"noreferrer" target=3D"_bla=
+nk">http://spi-inc.org/donations/</a><br>
+<br>
+It also covers donations from non US people and businesses.<br>
+<br>
+Philip<br>
+<br>
+On 10/22/2016 01:27 PM, akuster808 wrote:<br>
+&gt; Hello OE Developers and Users,<br>
+&gt;<br>
+&gt; The next OpenEmbedded developer&#39;s meeting will be held in Portland=
+<br>
+&gt; before or after ELC; Feb 21-23.=C2=A0 A little over 4 months away.=C2=
+=A0 In the<br>
+&gt; past, we have relied on funds outside of OE to make our developer<br>
+&gt; meetings a reality. This next meeting, we would like the OEDAM to be<b=
+r>
+&gt; self-funded.<br>
+&gt;<br>
+&gt; The OE Developer meetings occur twice a year and it&#39;s where OE<br>
+&gt; maintainers, developers, members and enthusiasts come together to<br>
+&gt; discuss issues and plan future development for OE.<br>
+&gt;<br>
+&gt; If you find yourself using OE, enjoying playing with it or are a compa=
+ny<br>
+&gt; using OE in a product, please consider donating to OE. You can find a<=
+br>
+&gt; &quot;Donate&quot; button at <a href=3D"http://openembedded.org" rel=
+=3D"noreferrer" target=3D"_blank">http://openembedded.org</a>. If you have =
+any questions<br>
+&gt; regarding donation, please contact me, off-list.<br>
+&gt;<br>
+&gt;<br>
+&gt; Kind regards,<br>
+&gt;<br>
+&gt; Armin<br>
+&gt;<br>
+&gt;<br>
+&gt;<br>
+--<br>
+______________________________<wbr>_________________<br>
+Openembedded-devel mailing list<br>
+<a href=3D"mailto:Openembedded-devel@lists.openembedded.org">Openembedded-d=
+evel@lists.<wbr>openembedded.org</a><br>
+<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-deve=
+l" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/<wbr>=
+mailman/listinfo/openembedded-<wbr>devel</a><br>
+</blockquote></div></div>
+
+--001a113cdccca7062e053f7c0367--
