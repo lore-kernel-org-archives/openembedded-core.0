@@ -1,45 +1,27 @@
-Return-Path: <paul.betafive@gmail.com>
-Received: from mail-wm0-f66.google.com (mail-wm0-f66.google.com [74.125.82.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 1D4C771B99
+Return-Path: <philip@balister.org>
+Received: from sanddollar.geekisp.com (sanddollar.geekisp.com
+	[216.168.135.167])
+	by mail.openembedded.org (Postfix) with SMTP id 617FD71B69
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 22 Oct 2016 18:38:17 +0000 (UTC)
-Received: by mail-wm0-f66.google.com with SMTP id o81so3540673wma.2
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 22 Oct 2016 11:38:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=sender:from:to:cc:subject:date:message-id;
-	bh=iJEKGbynSsSRIIrxyuzvGZ4wKNQ5B/PMltn7y8G+WZQ=;
-	b=mKRa0Yprm3zQwggZQNAEwiqSOvTbQ0gA+mCBnNu00TWYCUg7u3rl2ECAvTqjHDH9e9
-	5ler9AAYjJd5t8r9pc+IyZwL8+HGreC4xaT/+9G2Nvf9kYotkut+y5OWDd/EiXVdNDGC
-	IPsFea2oGsxhOHTw9KsjcR/pEC59bV0RHCDVlF0l+8jOChXCyvS5etuFphpZEgo/cy/M
-	lOhJvzX3zHqOCN0TU/ybqNEIja/s4cqYDv78KC0RqrvmBiRqifkn6L+gOk7RJMDH2cEe
-	Mw+yNRbT+VncBzPbUvQorlND4okG/4OYVGUtmNrYLiZGh+LcaM+OnHdXuNZqbhnYnEqb
-	Z+mw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:sender:from:to:cc:subject:date:message-id;
-	bh=iJEKGbynSsSRIIrxyuzvGZ4wKNQ5B/PMltn7y8G+WZQ=;
-	b=dEu4+EQu8RJFxIA6AGYtOy2hZ1+o1VIP3mWgrpKZbJ1/PanGQA1z1hFwsELA8cAqmf
-	EdERVKklBLy4vV/uXD0R7suxDIxQvkWamrfsY6TVqSQpvhO42wZxIFMR0zqFrgcuMvMC
-	J3iXH0yDzu3vziDxeoacjpIy65NsVcNPs9H0RisJ5T4fPJ5KHrENygOKj1seBIMiNJiq
-	tHIQEJppACW9FUUNYT3QV//mf1OJIoFoU5Xji8aETHWUnykczAYWXMGeGgCZRndwyOrL
-	lCtvfdzpOeqE54laFpNisxqTV23Xunsrdl9/UknDSO+57447NU18HEPCW8OwEbLVPcng
-	dOAg==
-X-Gm-Message-State: AA6/9RmFwew8/e2Bkm7I3F6a2z89XfNfrkcgc09+cAFZtxLbOTOyrbIXABdWXQUtLguJ2Q==
-X-Received: by 10.28.227.11 with SMTP id a11mr7770220wmh.88.1477161498456;
-	Sat, 22 Oct 2016 11:38:18 -0700 (PDT)
-Received: from dev-jessie.betafive.co.uk
-	(cpc11-shep11-2-0-cust130.8-3.cable.virginm.net. [86.27.96.131])
-	by smtp.gmail.com with ESMTPSA id y2sm9603359wjx.20.2016.10.22.11.38.16
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sat, 22 Oct 2016 11:38:17 -0700 (PDT)
-Sender: Paul Barker <paul.betafive@gmail.com>
-From: Paul Barker <paul@paulbarker.me.uk>
-To: OpenEmbedded Core <openembedded-core@lists.openembedded.org>
-Date: Sat, 22 Oct 2016 19:38:00 +0100
-Message-Id: <1477161480-20271-1-git-send-email-paul@paulbarker.me.uk>
-X-Mailer: git-send-email 2.1.4
-Subject: [PATCH] kernel.bbclass: Allow ${S} to be overridden
+	Sat, 22 Oct 2016 22:04:20 +0000 (UTC)
+Received: (qmail 609 invoked by uid 1003); 22 Oct 2016 22:04:21 -0000
+Received: from unknown (HELO ?192.168.11.142?)
+	(philip@opensdr.com@71.171.14.165)
+	by mail.geekisp.com with (DHE-RSA-AES128-SHA encrypted) SMTP;
+	22 Oct 2016 22:04:21 -0000
+To: akuster808 <akuster808@gmail.com>,
+	OpenEmbedded Devel List <openembedded-devel@lists.openembedded.org>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+References: <142664ed-14dc-6a12-3756-1664f65c70ad@gmail.com>
+From: Philip Balister <philip@balister.org>
+Message-ID: <b90f6c4e-10db-9459-c212-1232e262cb72@balister.org>
+Date: Sat, 22 Oct 2016 18:04:20 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.3.0
+MIME-Version: 1.0
+In-Reply-To: <142664ed-14dc-6a12-3756-1664f65c70ad@gmail.com>
+Subject: Re: OEDAM - Portland
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,32 +34,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 22 Oct 2016 18:38:18 -0000
+X-List-Received-Date: Sat, 22 Oct 2016 22:04:23 -0000
+Content-Type: text/plain; charset=windows-1252
+Content-Transfer-Encoding: 7bit
 
-For kernel recipes which fetch sources from an archive instead of git, it's
-necessary to point ${S} at the extracted sources. In kernel.bbclass there is
-already logic in base_do_unpack_append() to link ${KERNEL_STAGING_DIR} to ${S}
-if these aren't the same, so we just need to be able to override ${S}.
+Also, if you want to donate directly via check (reduces processing fees,
+easier for some businesses) see the SPI donation page at:
 
-Signed-off-by: Paul Barker <paul@paulbarker.me.uk>
----
- meta/classes/kernel.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+http://spi-inc.org/donations/
 
-diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-index 25a153c..a7d467b 100644
---- a/meta/classes/kernel.bbclass
-+++ b/meta/classes/kernel.bbclass
-@@ -3,7 +3,7 @@ inherit linux-kernel-base kernel-module-split
- PROVIDES += "virtual/kernel"
- DEPENDS += "virtual/${TARGET_PREFIX}binutils virtual/${TARGET_PREFIX}gcc kmod-native depmodwrapper-cross bc-native lzop-native"
- 
--S = "${STAGING_KERNEL_DIR}"
-+S ?= "${STAGING_KERNEL_DIR}"
- B = "${WORKDIR}/build"
- KBUILD_OUTPUT = "${B}"
- OE_TERMINAL_EXPORTS += "KBUILD_OUTPUT"
--- 
-2.1.4
+It also covers donations from non US people and businesses.
 
+Philip
+
+On 10/22/2016 01:27 PM, akuster808 wrote:
+> Hello OE Developers and Users,
+> 
+> The next OpenEmbedded developer's meeting will be held in Portland
+> before or after ELC; Feb 21-23.  A little over 4 months away.  In the
+> past, we have relied on funds outside of OE to make our developer
+> meetings a reality. This next meeting, we would like the OEDAM to be
+> self-funded. 
+> 
+> The OE Developer meetings occur twice a year and it's where OE
+> maintainers, developers, members and enthusiasts come together to
+> discuss issues and plan future development for OE. 
+> 
+> If you find yourself using OE, enjoying playing with it or are a company
+> using OE in a product, please consider donating to OE. You can find a
+> "Donate" button at http://openembedded.org. If you have any questions
+> regarding donation, please contact me, off-list.
+> 
+> 
+> Kind regards,
+> 
+> Armin
+> 
+> 
+> 
 
