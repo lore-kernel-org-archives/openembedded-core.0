@@ -1,30 +1,29 @@
 Return-Path: <rpjday@crashcourse.ca>
-Received: from smtp684.redcondor.net (smtp684.redcondor.net [208.80.206.84])
-	by mail.openembedded.org (Postfix) with ESMTP id 7BAF960123
+Received: from smtp485.redcondor.net (smtp485.redcondor.net [208.80.204.85])
+	by mail.openembedded.org (Postfix) with ESMTP id 1773A71AFE
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 22 Oct 2016 11:51:44 +0000 (UTC)
+	Sat, 22 Oct 2016 16:06:37 +0000 (UTC)
 Received: from astoria.ccjclearline.com ([64.235.106.9])
-	by smtp684.redcondor.net ({700db0a8-6fb7-4c8b-9b2a-6812225182d8})
-	via TCP (outbound) with ESMTPS id 20161022115143859_0684;
-	Sat, 22 Oct 2016 11:51:43 +0000
+	by smtp485.redcondor.net ({3be039ea-4351-44b0-a8af-642c38b25916})
+	via TCP (outbound) with ESMTPS id 20161022160638457_0485
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 22 Oct 2016 16:06:38 +0000
 X-RC-FROM: <rpjday@crashcourse.ca>
-Received: from [174.118.92.171] (port=35712 helo=crashcourse.ca)
+X-RC-RCPT: <openembedded-core@lists.openembedded.org>
+Received: from [174.118.92.171] (port=42354 helo=crashcourse.ca)
 	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
 	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
-	id 1bxupt-0006k5-DM; Sat, 22 Oct 2016 07:51:37 -0400
-Date: Sat, 22 Oct 2016 07:50:40 -0400 (EDT)
+	id 1bxyoa-0001Yf-D7 for openembedded-core@lists.openembedded.org;
+	Sat, 22 Oct 2016 12:06:32 -0400
+Date: Sat, 22 Oct 2016 12:05:35 -0400 (EDT)
 From: "Robert P. J. Day" <rpjday@crashcourse.ca>
 X-X-Sender: rpjday@localhost.localdomain
-To: Ulf Magnusson <ulfalizer@gmail.com>
-In-Reply-To: <CAFkk2KTbuq=gTjcWGxOa3FJ-yaQiK6gdAALxxGFhAPNTAL-edQ@mail.gmail.com>
-Message-ID: <alpine.LFD.2.20.1610220749240.7751@localhost.localdomain>
-References: <alpine.LFD.2.20.1610220333510.8533@localhost.localdomain>
-	<CAFkk2KTbuq=gTjcWGxOa3FJ-yaQiK6gdAALxxGFhAPNTAL-edQ@mail.gmail.com>
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Message-ID: <alpine.LFD.2.20.1610221156210.31588@localhost.localdomain>
 User-Agent: Alpine 2.20 (LFD 67 2015-01-07)
 MIME-Version: 1.0
 X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: in what recipe context can "bb" show me TOOLCHAIN_HOST_TASK?
+Subject: basic bitbake commands to create an SDK?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,49 +36,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 22 Oct 2016 11:51:45 -0000
+X-List-Received-Date: Sat, 22 Oct 2016 16:06:39 -0000
 Content-Type: text/plain; charset=US-ASCII
 
-On Sat, 22 Oct 2016, Ulf Magnusson wrote:
 
-> Hello,
->
-> On Sat, Oct 22, 2016 at 9:39 AM, Robert P. J. Day <rpjday@crashcourse.ca> wrote:
-> >
-> >   a question about chris larson's nifty "bb" utility ... i recently
-> > figured out that, to get rpm-build into the SDK, i needed to add:
-> >
-> > TOOLCHAIN_HOST_TASK += "nativesdk-rpm-build"
-> >
-> > to my local.conf. now i'd like to use "bb" to display the full
-> > value of that variable, but i'm not sure what recipe context to use to
-> > do that. as in:
-> >
-> > $ bb show -r core-image-minimal TOOLCHAIN_HOST_TASK
-> > Parsing recipes..done.
-> > TOOLCHAIN_HOST_TASK=" nativesdk-rpm-build"
-> > $
-> >
-> > that just shows me what i appended. in what environment or recipe
-> > context could i run that command to get the full value of the variable
-> > when the SDK is being built?
-> >
-> > rday
-> >
-> > p.s. same question if i was using "bitbake -e".
->
-> You're seeing the final value of TOOLCHAIN_HOST_TASK (before any
-> changes to it within a single task anyway). To extend the default
-> value instead of replacing it, you would need to do the following
-> (note the space after the "):
->
->   TOOLCHAIN_HOST_TASK_append = " nativesdk-rpm-build"
->
-> Below is an explanation of why this works:
+  i'm about to dive into SDKs seriously for the first time, so a
+shamefully dumb question to make sure i'm starting with the correct
+understanding.
 
-  actually, i just noticed that a few minutes ago. i'm well aware of
-the difference in processing between += and _append, it just didn't
-occur to me to see if there was a difference at the time. duh.
+  starting with up-to-date OE master branch, i selected
+
+MACHINE=mpc8315e-rdb
+
+now, as i see it, i can create just the SDK with either of:
+
+$ bitbake meta-toolchain
+$ bitbake -s populate_sdk core-image-minimal
+
+(in that second command, i'm assuming the choice of image is
+irrelevant, i just always use core-image-minimal out of habit.)
+
+  i'm assuming those commands are entirely equivalent in terms f
+generating the SDK, given that meta-toolchain.bb consists solely of:
+
+  SUMMARY = "Meta package for building a installable toolchain"
+  LICENSE = "MIT"
+
+  PR = "r7"
+
+  LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=4d92cd373abda3937c2bc47fbc49d690 \
+file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
+
+  inherit populate_sdk
+
+so the more efficient of those commands would be just
+
+$ bitbake meta-toolchain
+
+  also, i did notice the generated host.manifest and target.manifest
+files created along with the SDK -- am i correct in assuming those
+files represent, respectively, the TOOLCHAIN_HOST_TASK and
+TOOLCHAIN_TARGET_TASK values?
+
+  anyway, as long as i'm starting with the right info, pretty sure i
+can take it from there, accompanied by the SDK manual:
+
+http://www.yoctoproject.org/docs/2.2/sdk-manual/sdk-manual.html
 
 rday
 
