@@ -1,29 +1,29 @@
 Return-Path: <maxin.john@intel.com>
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by mail.openembedded.org (Postfix) with ESMTP id BB99D71BBB
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 39A0771B8E
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 23 Oct 2016 11:29:21 +0000 (UTC)
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-	by orsmga105.jf.intel.com with ESMTP; 23 Oct 2016 04:29:23 -0700
+	Sun, 23 Oct 2016 11:29:20 +0000 (UTC)
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+	by fmsmga105.fm.intel.com with ESMTP; 23 Oct 2016 04:29:22 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.31,388,1473145200"; d="scan'208";a="22604794"
+X-IronPort-AV: E=Sophos;i="5.31,388,1473145200"; d="scan'208";a="22731945"
 Received: from linux.intel.com ([10.54.29.200])
-	by fmsmga006.fm.intel.com with ESMTP; 23 Oct 2016 04:29:23 -0700
+	by orsmga005.jf.intel.com with ESMTP; 23 Oct 2016 04:29:22 -0700
 Received: from mbabyjoh-desk.fi.intel.com (mbabyjoh-desk.fi.intel.com
 	[10.237.72.71])
 	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by linux.intel.com (Postfix) with ESMTP id E5E9E6A4080
+	by linux.intel.com (Postfix) with ESMTP id CD3576A4080
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 23 Oct 2016 04:28:49 -0700 (PDT)
+	Sun, 23 Oct 2016 04:28:48 -0700 (PDT)
 From: "Maxin B. John" <maxin.john@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 23 Oct 2016 14:29:53 +0300
-Message-Id: <1477222197-3698-6-git-send-email-maxin.john@intel.com>
+Date: Sun, 23 Oct 2016 14:29:52 +0300
+Message-Id: <1477222197-3698-5-git-send-email-maxin.john@intel.com>
 X-Mailer: git-send-email 2.4.0
 In-Reply-To: <1477222197-3698-1-git-send-email-maxin.john@intel.com>
 References: <1477222197-3698-1-git-send-email-maxin.john@intel.com>
-Subject: [PATCH 06/10] bluez5: Upgrade 5.41 -> 5.42
+Subject: [PATCH 05/10] acpid: Upgrade 2.0.27 -> 2.0.28
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,35 +36,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 23 Oct 2016 11:29:21 -0000
+X-List-Received-Date: Sun, 23 Oct 2016 11:29:23 -0000
 
-Bug fixes, add support for new management tracing capability
-and marking GATT D-Bus APIs as stable interfaces
+Bug fix release
 
 Signed-off-by: Maxin B. John <maxin.john@intel.com>
 ---
- meta/recipes-connectivity/bluez5/{bluez5_5.41.bb => bluez5_5.42.bb} | 4 ++--
+ meta/recipes-bsp/acpid/{acpid_2.0.27.bb => acpid_2.0.28.bb} | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-connectivity/bluez5/{bluez5_5.41.bb => bluez5_5.42.bb} (89%)
+ rename meta/recipes-bsp/acpid/{acpid_2.0.27.bb => acpid_2.0.28.bb} (55%)
 
-diff --git a/meta/recipes-connectivity/bluez5/bluez5_5.41.bb b/meta/recipes-connectivity/bluez5/bluez5_5.42.bb
-similarity index 89%
-rename from meta/recipes-connectivity/bluez5/bluez5_5.41.bb
-rename to meta/recipes-connectivity/bluez5/bluez5_5.42.bb
-index 522aab7..e6ab9b6 100644
---- a/meta/recipes-connectivity/bluez5/bluez5_5.41.bb
-+++ b/meta/recipes-connectivity/bluez5/bluez5_5.42.bb
-@@ -2,8 +2,8 @@ require bluez5.inc
+diff --git a/meta/recipes-bsp/acpid/acpid_2.0.27.bb b/meta/recipes-bsp/acpid/acpid_2.0.28.bb
+similarity index 55%
+rename from meta/recipes-bsp/acpid/acpid_2.0.27.bb
+rename to meta/recipes-bsp/acpid/acpid_2.0.28.bb
+index 509fcfe..686526f 100644
+--- a/meta/recipes-bsp/acpid/acpid_2.0.27.bb
++++ b/meta/recipes-bsp/acpid/acpid_2.0.28.bb
+@@ -3,5 +3,5 @@ require acpid.inc
+ LIC_FILES_CHKSUM = "file://COPYING;md5=8ca43cbc842c2336e835926c2166c28b \
+                     file://acpid.h;endline=24;md5=324a9cf225ae69ddaad1bf9d942115b5"
  
- REQUIRED_DISTRO_FEATURES = "bluez5"
- 
--SRC_URI[md5sum] = "318341b2188698130adb73236ee69244"
--SRC_URI[sha256sum] = "df7dc4462494dad4e60a2943240d584f6e760235dca64f5f10eba46dbab7f5f0"
-+SRC_URI[md5sum] = "cc8c53133d5be0d6c126e00cf2529028"
-+SRC_URI[sha256sum] = "4f166fed80fc017396d6f2b3cae5185520875ab456d1c74d6b4eaa4da0e16109"
- 
- # noinst programs in Makefile.tools that are conditional on READLINE
- # support
+-SRC_URI[md5sum] = "e41bdf628e122edb4342fca432ea7db9"
+-SRC_URI[sha256sum] = "820c223e53cc11d9d7229fb1ffc2c2205f1054082c80f83f5a4ec4df16d3a616"
++SRC_URI[md5sum] = "0432407b5ff75ae8e08afb43052fde2b"
++SRC_URI[sha256sum] = "980c3a54b0d3f2fd49fd845a0584c5c2abeaab9e9ac09fcbb68686bbb57a7110"
 -- 
 2.4.0
 
