@@ -1,29 +1,29 @@
 Return-Path: <rpjday@crashcourse.ca>
-Received: from smtp484.redcondor.net (smtp484.redcondor.net [208.80.204.84])
-	by mail.openembedded.org (Postfix) with ESMTP id 34F3271AD9
+Received: from smtp685.redcondor.net (smtp685.redcondor.net [208.80.206.85])
+	by mail.openembedded.org (Postfix) with ESMTP id 6A3427197B
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 23 Oct 2016 12:52:30 +0000 (UTC)
+	Sun, 23 Oct 2016 14:16:45 +0000 (UTC)
 Received: from astoria.ccjclearline.com ([64.235.106.9])
-	by smtp484.redcondor.net ({c48374e7-08df-40d9-a0de-96cc9883a037})
-	via TCP (outbound) with ESMTPS id 20161023125228621_0484
+	by smtp685.redcondor.net ({20c8e40f-6b6c-4c9e-abff-1640ea7bf404})
+	via TCP (outbound) with ESMTPS id 20161023141645377_0685
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 23 Oct 2016 12:52:28 +0000
+	Sun, 23 Oct 2016 07:16:45 -0700
 X-RC-FROM: <rpjday@crashcourse.ca>
 X-RC-RCPT: <openembedded-core@lists.openembedded.org>
-Received: from [174.118.92.171] (port=42914 helo=crashcourse.ca)
+Received: from [174.118.92.171] (port=43580 helo=crashcourse.ca)
 	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
 	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
-	id 1byIGF-0007C3-65 for openembedded-core@lists.openembedded.org;
-	Sun, 23 Oct 2016 08:52:23 -0400
-Date: Sun, 23 Oct 2016 08:51:25 -0400 (EDT)
+	id 1byJZn-0004Ln-E2 for openembedded-core@lists.openembedded.org;
+	Sun, 23 Oct 2016 10:16:39 -0400
+Date: Sun, 23 Oct 2016 10:15:42 -0400 (EDT)
 From: "Robert P. J. Day" <rpjday@crashcourse.ca>
 X-X-Sender: rpjday@localhost.localdomain
 To: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Message-ID: <alpine.LFD.2.20.1610230847370.32524@localhost.localdomain>
+Message-ID: <alpine.LFD.2.20.1610231006540.1835@localhost.localdomain>
 User-Agent: Alpine 2.20 (LFD 67 2015-01-07)
 MIME-Version: 1.0
 X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
-Subject: "run-postinsts" added twice to PACKAGE_INSTALL
+Subject: clarifying issues building two SDKs, based on different target images
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,41 +36,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 23 Oct 2016 12:52:32 -0000
+X-List-Received-Date: Sun, 23 Oct 2016 14:16:46 -0000
 Content-Type: text/plain; charset=US-ASCII
 
 
-  minor observation ... messing with toolchains, and i noticed (via
-"bb"):
+  if you can tolerate it, a few more questions about building SDKs
+before i sit down and start burning through machine cycles configuring
+and building for the rest of the day.
 
-$ bb show -r core-image-minimal PACKAGE_INSTALL
-Parsing recipes..done.
-# PACKAGE_INSTALL=${IMAGE_INSTALL} ${ROOTFS_BOOTSTRAP_INSTALL}
-${FEATURE_INSTALL}
-export PACKAGE_INSTALL="packagegroup-core-boot run-postinsts
-run-postinsts "
+  first, given that:
 
-  wait a minute ... why is "run-postinsts" listed twice? (no harm, of
-course, just superfluous.)
+"SDK_RDEPENDS=${TOOLCHAIN_TARGET_TASK} ${TOOLCHAIN_HOST_TASK}"
 
-  so ...
+do those two variables map *precisely* to the target.manifest and
+host.manifest files generated when building an SDK? they *appear* to,
+i just wanted to ensure there wasn't some subtle mismatch that might
+confuse me later.
 
-$ bb show -r core-image-minimal IMAGE_INSTALL
-Parsing recipes..done.
-# IMAGE_INSTALL=packagegroup-core-boot ${ROOTFS_PKGMANAGE_BOOTSTRAP}
-${CORE_IMAGE_EXTRA_INSTALL}
-IMAGE_INSTALL="packagegroup-core-boot run-postinsts "
+  next, i assume that if, in the same build directory, i choose to
+build two standard SDKs differing in only the target image:
 
+$ bitbake -c populate_sdk core-image-minimal
+$ bitbake -c populate_sdk core-image-sato
 
-$ bb show -r core-image-minimal ROOTFS_BOOTSTRAP_INSTALL
-Parsing recipes..done.
-# ROOTFS_BOOTSTRAP_INSTALL=${@bb.utils.contains("IMAGE_FEATURES",
-"package-management", "", "${ROOTFS_PKGMANAGE_BOOTSTRAP}",d)}
-ROOTFS_BOOTSTRAP_INSTALL="run-postinsts"
+all common files between the two SDKs will be reused in the final
+construction. so if i build an SDK based on core-image-sato, turning
+around and building one based on core-image-minimal should take very
+little time indeed, correct?
 
-  so it's being added both as part of IMAGE_INSTALL and as part of
-ROOTFS_BOOTSTRAP_INSTALL. someone else is free to decide whether
-that's worth caring about.
+  finally (and the one i'm most unsure about), if i build those two
+SDKs, i'm *assuming* that the x86 nativesdk content will be the same;
+it's the target PPC sysroots that will be different (obviously, the
+sysroot for sato will be noticeably larger than the one for minimal).
+
+  what happens if i try to install those two SDKs in the same
+directory (/opt/poky.2.2/)? would that even work?
+
+  and now, off to read more manual ...
 
 rday
 
