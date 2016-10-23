@@ -1,47 +1,45 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-vk0-f65.google.com (mail-vk0-f65.google.com
-	[209.85.213.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 7E443719D9
+Received: from mail-vk0-f42.google.com (mail-vk0-f42.google.com
+	[209.85.213.42])
+	by mail.openembedded.org (Postfix) with ESMTP id A08D871AF8
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 23 Oct 2016 16:00:17 +0000 (UTC)
-Received: by mail-vk0-f65.google.com with SMTP id b186so6640173vkb.3
+	Sun, 23 Oct 2016 16:13:14 +0000 (UTC)
+Received: by mail-vk0-f42.google.com with SMTP id q126so154797105vkd.2
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 23 Oct 2016 09:00:19 -0700 (PDT)
+	Sun, 23 Oct 2016 09:13:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=BGo8MZmXusgsdvaYpsORJkdhsOOABF3b6S0P9OXrrqQ=;
-	b=Hw7CQTNNjC6/enZWXQI/6CPNNWGiShAPSuQ/mMQ+z7UmZ3vt//1TNk7J3qwW4uBxdV
-	Smt26lM3kbi+Bo91BmwWuBLPveJDzQVJaRLJh4CGHC1LAmrrsbEy8qcaefc2kKzjXx4B
-	0mDXgMojwpixMJhSz2bNv5JVbS3KMxjMJ6gSaqDjb/dIvty7w/XiLHRVAPx+wni3+goa
-	6iiqJXYJcP8qHZtSqOW0CF0Fq8ZNF3MgF0G168ex7MR9K7aoHRzsE7YqpfWGXd09xkSc
-	hjNh0buHNsLg0Vbc9+nXENkGhSUuATpPDB3SKd2w2uP4sFQ5rJTJMtkMH9I+j8lxtJV9
-	LKpQ==
+	:cc; bh=fQMwT948lrjbjpDRb4RcSTAyqk9Z9rYYo3KUghzV7IA=;
+	b=iAKn4udDV/4qqAy0qD5Nz193L+s0sZbik0YJXu+YiZHrDYaCwiaGWP2nAmc9LeZ3dY
+	RvU8+CA/v0uvHizLKp27ARnOxHced64vfBkINEU/go2RkcUNrxq6L+f+hI4nxkND+cU1
+	ZJuu/kNQJlIx/tA/B5bXy8hM5SIkh+PNwvCDuoPhu8EDT7SN09TOhoEYmmndnDDkTAaR
+	Me+N/Jut9gmrkZpDBPFqv1W5bMwaetEHtp6/VXX2Cnc2GKKt54tk94klHBqMqe8LjT6A
+	0uuS71xfa/1Cn7WSy8tlyYt8azTbSQjgovqRZjuXMGSsVsQpuicExSWEoAFC9uIL3eJ6
+	ViGQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=BGo8MZmXusgsdvaYpsORJkdhsOOABF3b6S0P9OXrrqQ=;
-	b=QTFGS1MdVqEw+RnPaKICXLiO4l6N5PE8ulzm2gTO6WpjKd2CaijQM2SVQwViEThJ/M
-	wI4FHteY35eN77kasDz4tBTk28mc2DC0Ks68iNsRylq7kTUrcgxmZdpim/1Ma62JASMX
-	o6YMaKkJR2mbzT/3yQbgZPJCIGuWm4kgN9D72DIYSCghclX/0wV4cqYGKPy7WPOzxdm3
-	RTjsaVRBZpfqsMkxz74TofjVfwIlnmMXxyi5vh/F4L02jgpvbrV928cO8Fpf3SWFFkmq
-	dzvEkgz4nOlkBKwh/NbDNs6DWmjs7XrsL6JLPrCqaJDt5LwbBqTXTGKdHltDKBT8sJ7h
-	QG0w==
-X-Gm-Message-State: ABUngvdZ6RTCT7r+sLbB6K6NpsD2e+3UCqQ+KqCqFwS9Jg4FItO3iX45tucXjBdiVag1bb7hgty61ozGxuGJMw==
-X-Received: by 10.31.217.196 with SMTP id q187mr2093958vkg.84.1477238418871;
-	Sun, 23 Oct 2016 09:00:18 -0700 (PDT)
+	bh=fQMwT948lrjbjpDRb4RcSTAyqk9Z9rYYo3KUghzV7IA=;
+	b=ay+NG3sFk8iStJTdRKcvP5xTAySF053O3cCwgGuWBUFO14R8763+CRO6UXgupJQ5aX
+	mF8Y1Vb2NAtLILSFrEUO+vooraJFOb+kCyMNL3h3ef80p3c1TbEA1DcViISLwuTwTBxr
+	wofziaXlt9Zn8n/+b09MI1A6rHXbo0izCldqYWJ8LVcgKtd3aLdp4bwjvn6rDe/RVE74
+	7y7ekecoGZStKDbdRwwtGobVKddGMnWk4AUSaMQcaqnoBnfUhu7Zin9ZSrWr7dLJUTm6
+	jfcPchsH4xelcQ3rU29jgbb78TvFWve7W5d/z5KVBy4Vh0Va3e0RwuwGuwi540yGHXDl
+	x6Iw==
+X-Gm-Message-State: ABUngvdvU9Xi6ayekrxOGXw2sQupqvu0r/BAyqMLC1ERyGZU4Cw43P1Ly8dgUjbTVs2RgAOiMu6sNX9b3pS4dA==
+X-Received: by 10.31.0.67 with SMTP id 64mr6303815vka.173.1477239195436; Sun,
+	23 Oct 2016 09:13:15 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.176.86.206 with HTTP; Sun, 23 Oct 2016 08:59:48 -0700 (PDT)
-In-Reply-To: <1477222197-3698-10-git-send-email-maxin.john@intel.com>
-References: <1477222197-3698-1-git-send-email-maxin.john@intel.com>
-	<1477222197-3698-10-git-send-email-maxin.john@intel.com>
+Received: by 10.176.86.206 with HTTP; Sun, 23 Oct 2016 09:12:45 -0700 (PDT)
+In-Reply-To: <alpine.LFD.2.20.1610230847370.32524@localhost.localdomain>
+References: <alpine.LFD.2.20.1610230847370.32524@localhost.localdomain>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Sun, 23 Oct 2016 08:59:48 -0700
-Message-ID: <CAMKF1sq-2EiAYS553aeE++pGRvQDd+2FCARq7DMOgVNg4_OZTQ@mail.gmail.com>
-To: "Maxin B. John" <maxin.john@intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 10/10] libpng: Upgrade 1.6.24 -> 1.6.25
+Date: Sun, 23 Oct 2016 09:12:45 -0700
+Message-ID: <CAMKF1soxRpd+YKEBq251+a1eosvSGF-7+G+b6vYLaNGDj-q=0w@mail.gmail.com>
+To: "Robert P. J. Day" <rpjday@crashcourse.ca>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: "run-postinsts" added twice to PACKAGE_INSTALL
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,49 +52,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 23 Oct 2016 16:00:18 -0000
+X-List-Received-Date: Sun, 23 Oct 2016 16:13:14 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On Sun, Oct 23, 2016 at 4:29 AM, Maxin B. John <maxin.john@intel.com> wrote:
-> License file changes are due to updates in Version and Copyright date
+On Sun, Oct 23, 2016 at 5:51 AM, Robert P. J. Day <rpjday@crashcourse.ca> wrote:
+>
+>   minor observation ... messing with toolchains, and i noticed (via
+> "bb"):
+>
+> $ bb show -r core-image-minimal PACKAGE_INSTALL
+> Parsing recipes..done.
+> # PACKAGE_INSTALL=${IMAGE_INSTALL} ${ROOTFS_BOOTSTRAP_INSTALL}
+> ${FEATURE_INSTALL}
+> export PACKAGE_INSTALL="packagegroup-core-boot run-postinsts
+> run-postinsts "
+>
+>   wait a minute ... why is "run-postinsts" listed twice? (no harm, of
+> course, just superfluous.)
+>
+>   so ...
+>
+> $ bb show -r core-image-minimal IMAGE_INSTALL
+> Parsing recipes..done.
+> # IMAGE_INSTALL=packagegroup-core-boot ${ROOTFS_PKGMANAGE_BOOTSTRAP}
+> ${CORE_IMAGE_EXTRA_INSTALL}
+> IMAGE_INSTALL="packagegroup-core-boot run-postinsts "
+>
+>
+> $ bb show -r core-image-minimal ROOTFS_BOOTSTRAP_INSTALL
+> Parsing recipes..done.
+> # ROOTFS_BOOTSTRAP_INSTALL=${@bb.utils.contains("IMAGE_FEATURES",
+> "package-management", "", "${ROOTFS_PKGMANAGE_BOOTSTRAP}",d)}
+> ROOTFS_BOOTSTRAP_INSTALL="run-postinsts"
+>
+>   so it's being added both as part of IMAGE_INSTALL and as part of
+> ROOTFS_BOOTSTRAP_INSTALL. someone else is free to decide whether
+> that's worth caring about.
 
-version of license or version of package ?
+ROOTFS_BOOTSTRAP_INSTALL is conditional upon package-management feature
+so if you want to enforce post installs irrespective then you have to
+demand it explicitly.
 
 >
-> Signed-off-by: Maxin B. John <maxin.john@intel.com>
-> ---
->  .../libpng/{libpng_1.6.24.bb => libpng_1.6.26.bb}                 | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
->  rename meta/recipes-multimedia/libpng/{libpng_1.6.24.bb => libpng_1.6.26.bb} (67%)
->
-> diff --git a/meta/recipes-multimedia/libpng/libpng_1.6.24.bb b/meta/recipes-multimedia/libpng/libpng_1.6.26.bb
-> similarity index 67%
-> rename from meta/recipes-multimedia/libpng/libpng_1.6.24.bb
-> rename to meta/recipes-multimedia/libpng/libpng_1.6.26.bb
-> index f91ab7f..8c1cb8c 100644
-> --- a/meta/recipes-multimedia/libpng/libpng_1.6.24.bb
-> +++ b/meta/recipes-multimedia/libpng/libpng_1.6.26.bb
-> @@ -2,14 +2,14 @@ SUMMARY = "PNG image format decoding library"
->  HOMEPAGE = "http://www.libpng.org/"
->  SECTION = "libs"
->  LICENSE = "Libpng"
-> -LIC_FILES_CHKSUM = "file://LICENSE;md5=5089214833586ba444048fd1dbbc76a4 \
-> -                    file://png.h;endline=149;md5=376d8ff7f69b7c4ad3a09f4672cec696"
-> +LIC_FILES_CHKSUM = "file://LICENSE;md5=ce8d0bd8303802e5492f064ddddef0e7 \
-> +                    file://png.h;endline=149;md5=8cca27e71fd88e1fe1adad7d9e841b5f"
->  DEPENDS = "zlib"
->
->  SRC_URI = "${GENTOO_MIRROR}/libpng-${PV}.tar.xz \
->            "
-> -SRC_URI[md5sum] = "ffcdbd549814787fa8010c372e35ff25"
-> -SRC_URI[sha256sum] = "7932dc9e5e45d55ece9d204e90196bbb5f2c82741ccb0f7e10d07d364a6fd6dd"
-> +SRC_URI[md5sum] = "faed9bb495d2e12dd0c9ec561ca60cd8"
-> +SRC_URI[sha256sum] = "266743a326986c3dbcee9d89b640595f6b16a293fd02b37d8c91348d317b73f9"
->
->  BINCONFIG = "${bindir}/libpng-config ${bindir}/libpng16-config"
+> rday
 >
 > --
-> 2.4.0
+>
+> ========================================================================
+> Robert P. J. Day                                 Ottawa, Ontario, CANADA
+>                         http://crashcourse.ca
+>
+> Twitter:                                       http://twitter.com/rpjday
+> LinkedIn:                               http://ca.linkedin.com/in/rpjday
+> ========================================================================
 >
 > --
 > _______________________________________________
