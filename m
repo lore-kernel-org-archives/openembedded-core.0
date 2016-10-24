@@ -1,51 +1,51 @@
 Return-Path: <schnitzeltony@googlemail.com>
-Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 4236F71B32
+Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
+	by mail.openembedded.org (Postfix) with ESMTP id B114F71B32
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Oct 2016 17:49:21 +0000 (UTC)
-Received: by mail-wm0-f67.google.com with SMTP id o81so10881498wma.2
+	Mon, 24 Oct 2016 17:49:24 +0000 (UTC)
+Received: by mail-wm0-f65.google.com with SMTP id o81so10881643wma.2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Oct 2016 10:49:23 -0700 (PDT)
+	Mon, 24 Oct 2016 10:49:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=googlemail.com; s=20120113;
 	h=from:to:subject:date:message-id:in-reply-to:references:mime-version
 	:content-transfer-encoding;
-	bh=6JcY4jJLG8E5Gjlf7HzGCkrd0RA60xPBb7aDqnTRwso=;
-	b=UtmetG34XU7Y5+zktSb1TY4giyq44v1c3poHQTHM6NHxluUqzbWWnl9Z2KzMaqKGqZ
-	vpyaRRQrV2bO3W72GiAugd6UL8VjsdYebpa/6uIe1y355ijN0gqoHFHl036DcWM3k8iB
-	p7UZ2g1To1tk+MUiSNj+a7+XRRn4DZbKo8GsZg8rWouFLwopGVr5wSsLuf+u4cZ9QTSd
-	o3P0AuwfjyZo844BMNxp8H40bqvdze+bIzChJHJxWjSB9kxSm9wRnfPLfX716jZ6ENf1
-	HdW//H7IY0ejh/pYn7bK49cCTHPPpOpD9vTTw6PZm853nlqh3bpRSFhonXsYqUAHtUvK
-	IC7g==
+	bh=y9cZzYsI73nRU7tHDoZ7/BaVAM4NSNsbpD0Cj8k+eXc=;
+	b=toJR5Fyr5aKgxRo5ZdyseYzbkyfz4aH+6vS9wxFkQyFNNkYf8qhMoGxXrSb+Wlv6CT
+	gBbHZF7DvmJBo2YIABel4WB4W0X8Hrf1+p7PedLg3PepIWysILoV8yy50xfVLiXdyc8m
+	7ZjRK7VAZRFGFiOyrLGECxhndA1wwXtkhDeZvQDrHTCttCsQFB+qZNnglg4lYz/sNDjk
+	9v2UHWA3hyQXeXrr7ujouXfDMs8/wz1O4yprKTl+RhevnCf+lj/gbu+jIxkr6v64YtaK
+	WxA/x0TyfFA2bYuLHO/uqjH+P/UEAARtFAwk1zpxdvoYGrCARkXpOfhb59iHlW/N1yb8
+	FJBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=6JcY4jJLG8E5Gjlf7HzGCkrd0RA60xPBb7aDqnTRwso=;
-	b=fp4Z9MmK+jEpEiMN2SsS660AMuwkS/sggk04V90NTrQHWtRE2fmyCnqRVIu00XwFSF
-	VFPGHpaFzL82/suG7XiVc/PN2vdQ+N7Cx3Q+Zta+CStCXtkAx4Rj8FKGZD4LIzAlPdPg
-	TAHX/o3qrbAWf1g9cyaL6DUOIuoy2eupQseL7vSyGTrFDJTn7Y9NSzIRA8VShNFcNuWO
-	f85JhItwUOJ02sSjQnHD9KSTWYgyFVZWnE2sUmtjj6rGxUupTO1e+/tKqO72heMnWuEc
-	Wkw9cR899X527yujTlCrbqW2/2Z54J23Rdgvby0o9+sTtv35iXPizZmzkQBem702vX4R
-	aqSg==
-X-Gm-Message-State: ABUngvdn2Hd/GZ97rDfu3f1gkvgTKvc/UBRByERt2J6Co4FwnkifrAVwwRzY2z8PjoNzIQ==
-X-Received: by 10.194.113.201 with SMTP id ja9mr12637579wjb.109.1477331362762; 
-	Mon, 24 Oct 2016 10:49:22 -0700 (PDT)
+	bh=y9cZzYsI73nRU7tHDoZ7/BaVAM4NSNsbpD0Cj8k+eXc=;
+	b=eKJRuRz45ryVG6qN3q95D0g5E1++nAvBSOYAbsRWhhbCeYcG4TsDx3imGwpqVJz/XO
+	7F9G3c60pj4cD4IOTZ6/VgmKANu0wTnTj4ifL99MaiF42NNYZTSIpTrR9OOActBFRClT
+	7TISVCKIYcBWjRRcPZ1acBRZvK3uHkRDIkIeo0+hL37nlO5frXJE9EgVbgSdrFoFTPZw
+	HTyOsCbdl/80ZcjqweBlnFv2dXo1rRncQPDWIrOqHuRKDd6JDh3LAZJEMVOyDfeRiY9L
+	ACnum4IJfdl8pNf4tTZttNUqqwOXeR5kH6MSYNr9z7eE5kSP6+6uFlis6pkZmT2mvyZY
+	awwQ==
+X-Gm-Message-State: ABUngveP30l+Vploa0J7IXuy+6lc5v+OBG5TQqDPg0FSYMYdyv4SEO4Ew4QUdpFk5Dn+FA==
+X-Received: by 10.194.23.66 with SMTP id k2mr12284247wjf.108.1477331365177;
+	Mon, 24 Oct 2016 10:49:25 -0700 (PDT)
 Received: from localhost.localdomain (p5B0A3D70.dip0.t-ipconnect.de.
 	[91.10.61.112]) by smtp.googlemail.com with ESMTPSA id
-	e5sm15952078wma.10.2016.10.24.10.49.21
+	e5sm15952078wma.10.2016.10.24.10.49.22
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 24 Oct 2016 10:49:21 -0700 (PDT)
+	Mon, 24 Oct 2016 10:49:24 -0700 (PDT)
 From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@googlemail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 24 Oct 2016 19:49:08 +0200
-Message-Id: <1477331349-3389-2-git-send-email-schnitzeltony@googlemail.com>
+Date: Mon, 24 Oct 2016 19:49:09 +0200
+Message-Id: <1477331349-3389-3-git-send-email-schnitzeltony@googlemail.com>
 X-Mailer: git-send-email 2.5.5
 In-Reply-To: <1477331349-3389-1-git-send-email-schnitzeltony@googlemail.com>
 References: <1477331349-3389-1-git-send-email-schnitzeltony@googlemail.com>
 MIME-Version: 1.0
-Subject: [PATCH v2 1/2] libsdl2: update to 2.0.5
+Subject: [PATCH v2 2/2] taglib: update to 1.11
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,165 +58,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 24 Oct 2016 17:49:22 -0000
+X-List-Received-Date: Mon, 24 Oct 2016 17:49:25 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-* 0001-src-video-make-it-compatible-with-wayland-1.10.patch is removed because
-  the problem has been resolved upstream
-* Add 0001-prepend-our-sysroot-path-so-that-make-finds-our-wayl.patch
-  so that WAYLAND_PROTOCOLS_SYSROOT_DIR is substituted in a way similar to gtk3
-
 Signed-off-by: Andreas Müller <schnitzeltony@googlemail.com>
 ---
- ...-sysroot-path-so-that-make-finds-our-wayl.patch | 32 ++++++++++++
- ...ideo-make-it-compatible-with-wayland-1.10.patch | 57 ----------------------
- .../libsdl2/{libsdl2_2.0.4.bb => libsdl2_2.0.5.bb} | 14 +++---
- 3 files changed, 40 insertions(+), 63 deletions(-)
- create mode 100644 meta/recipes-graphics/libsdl2/libsdl2/0001-prepend-our-sysroot-path-so-that-make-finds-our-wayl.patch
- delete mode 100644 meta/recipes-graphics/libsdl2/libsdl2/0001-src-video-make-it-compatible-with-wayland-1.10.patch
- rename meta/recipes-graphics/libsdl2/{libsdl2_2.0.4.bb => libsdl2_2.0.5.bb} (86%)
+ meta/recipes-support/taglib/{taglib_1.9.1.bb => taglib_1.11.bb} | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
+ rename meta/recipes-support/taglib/{taglib_1.9.1.bb => taglib_1.11.bb} (74%)
 
-diff --git a/meta/recipes-graphics/libsdl2/libsdl2/0001-prepend-our-sysroot-path-so-that-make-finds-our-wayl.patch b/meta/recipes-graphics/libsdl2/libsdl2/0001-prepend-our-sysroot-path-so-that-make-finds-our-wayl.patch
-new file mode 100644
-index 0000000..d042430
---- /dev/null
-+++ b/meta/recipes-graphics/libsdl2/libsdl2/0001-prepend-our-sysroot-path-so-that-make-finds-our-wayl.patch
-@@ -0,0 +1,32 @@
-+From b44808e43130dcd13b43e5b978b9b24aeb4c134c Mon Sep 17 00:00:00 2001
-+From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@googlemail.com>
-+Date: Thu, 20 Oct 2016 14:57:51 +0200
-+Subject: [PATCH] prepend our sysroot path so that make finds our
-+ wayland-protocol files
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=UTF-8
-+Content-Transfer-Encoding: 8bit
-+
-+Upstream-Status: Inappropriate [embedded specific]
-+
-+Signed-off-by: Andreas Müller <schnitzeltony@googlemail.com>
-+---
-+ configure.in | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/configure.in b/configure.in
-+index 726ded3..3376600 100644
-+--- a/configure.in
-++++ b/configure.in
-+@@ -1206,7 +1206,7 @@ AC_HELP_STRING([--enable-video-wayland-qt-touch], [QtWayland server support for
-+                 WAYLAND_LIBS=`$PKG_CONFIG --libs wayland-client wayland-egl wayland-cursor xkbcommon`
-+                 WAYLAND_SCANNER=`$PKG_CONFIG --variable=wayland_scanner wayland-scanner`
-+                 WAYLAND_CORE_PROTOCOL_DIR=`$PKG_CONFIG --variable=pkgdatadir wayland-client`
-+-                WAYLAND_PROTOCOLS_DIR=`$PKG_CONFIG --variable=pkgdatadir wayland-protocols`
-++                WAYLAND_PROTOCOLS_DIR=${WAYLAND_PROTOCOLS_SYSROOT_DIR}`$PKG_CONFIG --variable=pkgdatadir wayland-protocols`
-+                 video_wayland=yes
-+             fi
-+         fi
-+-- 
-+2.5.5
-+
-diff --git a/meta/recipes-graphics/libsdl2/libsdl2/0001-src-video-make-it-compatible-with-wayland-1.10.patch b/meta/recipes-graphics/libsdl2/libsdl2/0001-src-video-make-it-compatible-with-wayland-1.10.patch
-deleted file mode 100644
-index 44e6d4d..0000000
---- a/meta/recipes-graphics/libsdl2/libsdl2/0001-src-video-make-it-compatible-with-wayland-1.10.patch
-+++ /dev/null
-@@ -1,57 +0,0 @@
--From b1ed3533433501ec52c8289a5b3a294e57e7f798 Mon Sep 17 00:00:00 2001
--From: Martin Jansa <martin.jansa@gmail.com>
--Date: Thu, 26 May 2016 11:31:52 +0000
--Subject: [PATCH] src/video: make it compatible with wayland 1.10
--
--| build/.libs/SDL_waylandevents.o: In function `wl_registry_bind':
--| /usr/include/wayland-client-protocol.h:305: undefined reference to `wl_proxy_marshal_constructor_versioned'
--| /usr/include/wayland-client-protocol.h:305: undefined reference to `wl_proxy_marshal_constructor_versioned'
--| build/.libs/SDL_waylandkeyboard.o: In function `wl_registry_bind':
--| /usr/include/wayland-client-protocol.h:305: undefined reference to `wl_proxy_marshal_constructor_versioned'
--| /usr/include/wayland-client-protocol.h:305: undefined reference to `wl_proxy_marshal_constructor_versioned'
--| build/.libs/SDL_waylandvideo.o: In function `wl_registry_bind':
--| /usr/include/wayland-client-protocol.h:305: undefined reference to `wl_proxy_marshal_constructor_versioned'
--| collect2: error: ld returned 1 exit status
--| make: *** [build/libSDL2.la] Error 1
--| ERROR: oe_runmake failed
--
--Upstream-Status: Pending
--Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
--
-----
-- src/video/wayland/SDL_waylanddyn.h | 1 +
-- src/video/wayland/SDL_waylandsym.h | 4 ++++
-- src/video/webos/SDL_waylanddyn.h   | 1 +
-- src/video/webos/SDL_waylandsym.h   | 4 ++++
-- 4 files changed, 10 insertions(+)
--
--diff --git a/src/video/wayland/SDL_waylanddyn.h b/src/video/wayland/SDL_waylanddyn.h
--index 8d9313a..c7b0157 100644
----- a/src/video/wayland/SDL_waylanddyn.h
--+++ b/src/video/wayland/SDL_waylanddyn.h
--@@ -79,6 +79,7 @@ void SDL_WAYLAND_UnloadSymbols(void);
-- #define wl_proxy_get_user_data (*WAYLAND_wl_proxy_get_user_data)
-- #define wl_proxy_add_listener (*WAYLAND_wl_proxy_add_listener)
-- #define wl_proxy_marshal_constructor (*WAYLAND_wl_proxy_marshal_constructor)
--+#define wl_proxy_marshal_constructor_versioned (*WAYLAND_wl_proxy_marshal_constructor_versioned)
-- 
-- #define wl_seat_interface (*WAYLAND_wl_seat_interface)
-- #define wl_surface_interface (*WAYLAND_wl_surface_interface)
--diff --git a/src/video/wayland/SDL_waylandsym.h b/src/video/wayland/SDL_waylandsym.h
--index c3b4fa5..b9a0d97 100644
----- a/src/video/wayland/SDL_waylandsym.h
--+++ b/src/video/wayland/SDL_waylandsym.h
--@@ -55,6 +55,10 @@ SDL_WAYLAND_SYM(void, wl_list_insert_list, (struct wl_list *, struct wl_list *))
-- SDL_WAYLAND_MODULE(WAYLAND_CLIENT_1_4)
-- SDL_WAYLAND_SYM(struct wl_proxy *, wl_proxy_marshal_constructor, (struct wl_proxy *, uint32_t opcode, const struct wl_interface *interface, ...))
-- 
--+/* These functions are available in Wayland >= 1.10 */
--+SDL_WAYLAND_MODULE(WAYLAND_CLIENT_1_10)
--+SDL_WAYLAND_SYM(struct wl_proxy *, wl_proxy_marshal_constructor_versioned, (struct wl_proxy *proxy, uint32_t opcode, const struct wl_interface *interface, uint32_t version, ...))
--+
-- SDL_WAYLAND_INTERFACE(wl_seat_interface)
-- SDL_WAYLAND_INTERFACE(wl_surface_interface)
-- SDL_WAYLAND_INTERFACE(wl_shm_pool_interface)
---- 
--1.9.1
--
-diff --git a/meta/recipes-graphics/libsdl2/libsdl2_2.0.4.bb b/meta/recipes-graphics/libsdl2/libsdl2_2.0.5.bb
-similarity index 86%
-rename from meta/recipes-graphics/libsdl2/libsdl2_2.0.4.bb
-rename to meta/recipes-graphics/libsdl2/libsdl2_2.0.5.bb
-index 844ff33..ac7312b 100644
---- a/meta/recipes-graphics/libsdl2/libsdl2_2.0.4.bb
-+++ b/meta/recipes-graphics/libsdl2/libsdl2_2.0.5.bb
-@@ -14,15 +14,16 @@ PROVIDES = "virtual/libsdl2"
+diff --git a/meta/recipes-support/taglib/taglib_1.9.1.bb b/meta/recipes-support/taglib/taglib_1.11.bb
+similarity index 74%
+rename from meta/recipes-support/taglib/taglib_1.9.1.bb
+rename to meta/recipes-support/taglib/taglib_1.11.bb
+index d125308..9c0d374 100644
+--- a/meta/recipes-support/taglib/taglib_1.9.1.bb
++++ b/meta/recipes-support/taglib/taglib_1.11.bb
+@@ -9,8 +9,8 @@ LIC_FILES_CHKSUM = "file://COPYING.LGPL;md5=4fbd65380cdd255951079008b364516c \
+ DEPENDS = "zlib"
  
- DEPENDS_class-nativesdk = "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'virtual/nativesdk-libx11 nativesdk-libxrandr nativesdk-libxrender nativesdk-libxext', '', d)}"
+ SRC_URI = "http://taglib.github.io/releases/${BP}.tar.gz"
+-SRC_URI[md5sum] = "0d35df96822bbd564c5504cb3c2e4d86"
+-SRC_URI[sha256sum] = "72d371cd1419a87ae200447a53bff2be219283071e80fd12337928cc967dc71a"
++SRC_URI[md5sum] = "be39fa2054df40664cb557126ad7cf7c"
++SRC_URI[sha256sum] = "ed4cabb3d970ff9a30b2620071c2b054c4347f44fc63546dbe06f97980ece288"
  
--SRC_URI = "http://www.libsdl.org/release/SDL2-${PV}.tar.gz \
--           file://linkage.patch \
--           file://0001-src-video-make-it-compatible-with-wayland-1.10.patch \
-+SRC_URI = " \
-+    http://www.libsdl.org/release/SDL2-${PV}.tar.gz \
-+    file://linkage.patch \
-+    file://0001-prepend-our-sysroot-path-so-that-make-finds-our-wayl.patch \
- "
+ UPSTREAM_CHECK_URI = "http://github.com/taglib/taglib/releases/"
  
- S = "${WORKDIR}/SDL2-${PV}"
+@@ -30,3 +30,6 @@ do_configure_prepend () {
+ 	sed -i -e "s/atomic.hpp/atomic-not-exist.hpp/" ${S}/ConfigureChecks.cmake ${S}/taglib/toolkit/trefcounter.cpp
+ }
  
--SRC_URI[md5sum] = "44fc4a023349933e7f5d7a582f7b886e"
--SRC_URI[sha256sum] = "da55e540bf6331824153805d58b590a29c39d2d506c6d02fa409aedeab21174b"
-+SRC_URI[md5sum] = "d4055424d556b4a908aa76fad63abd3c"
-+SRC_URI[sha256sum] = "442038cf55965969f2ff06d976031813de643af9c9edc9e331bd761c242e8785"
- 
- inherit autotools lib_package binconfig pkgconfig
- 
-@@ -31,7 +32,8 @@ EXTRA_OECONF = "--disable-oss --disable-esd --disable-arts \
-                 --disable-video-dummy \
-                 --enable-pthreads \
-                 --enable-sdl-dlopen \
--                --disable-rpath"
-+                --disable-rpath \
-+                WAYLAND_PROTOCOLS_SYSROOT_DIR=${STAGING_DIR}/${MACHINE}"
- 
- # opengl packageconfig factored out to make it easy for distros
- # and BSP layers to pick either (desktop) opengl, gles2, or no GL
++# without -fPIC depending packages failed with many errors like:
++# | <...>/ld: error: <...>/usr/lib/libtag.a(modfilebase.cpp.o): requires unsupported dynamic reloc R_ARM_THM_MOVW_ABS_NC; recompile with -fPIC
++CXXFLAGS += "-fPIC"
 -- 
 2.5.5
 
