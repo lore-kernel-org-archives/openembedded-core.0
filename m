@@ -1,25 +1,49 @@
-Return-Path: <saul.wold@intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id E95C860765
+Return-Path: <schnitzeltony@googlemail.com>
+Received: from mail-wm0-f52.google.com (mail-wm0-f52.google.com [74.125.82.52])
+	by mail.openembedded.org (Postfix) with ESMTP id 29E2E6067C
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Oct 2016 17:34:40 +0000 (UTC)
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-	by fmsmga101.fm.intel.com with ESMTP; 24 Oct 2016 10:34:41 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.31,542,1473145200"; d="scan'208";a="23044722"
-Received: from swold-mobl2.amr.corp.intel.com ([10.252.202.81])
-	by fmsmga006.fm.intel.com with ESMTP; 24 Oct 2016 10:34:41 -0700
-Message-ID: <1477330480.6169.3.camel@intel.com>
-From: Saul Wold <saul.wold@intel.com>
-To: Ed Bartosh <ed.bartosh@linux.intel.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Mon, 24 Oct 2016 10:34:40 -0700
-In-Reply-To: <1477317281-19518-1-git-send-email-ed.bartosh@linux.intel.com>
-References: <1477317281-19518-1-git-send-email-ed.bartosh@linux.intel.com>
-X-Mailer: Evolution 3.20.5 (3.20.5-1.fc24) 
-Mime-Version: 1.0
-Cc: benjamin.esquivel@intel.com
-Subject: Re: [wic][PATCH] systemd-bootdisk.wks: use PARTUUID
+	Mon, 24 Oct 2016 17:49:20 +0000 (UTC)
+Received: by mail-wm0-f52.google.com with SMTP id f193so18358819wmg.1
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 24 Oct 2016 10:49:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=googlemail.com; s=20120113;
+	h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=pWiKCPOaQGtxlX+Op2jtQWU+f0lbqfrKDCHjYYkJNB4=;
+	b=j390KFvrXdaVvRpzKr7Fa1YKRpJPFx3jXapvAzCRnZI2IZ1j8DZaI/UAgPCfHIsODI
+	LZDIv+GrbfVZoF9R4krjWnxznlo54pe7w38Khsq5DbY+7vMuQW3QTQEDwioW6LUaxcRK
+	XYTaR463kxyIgiqu5ITu3Ps53YRVnGFznhP7IGZ4upNqOYE27iK8o2EPHamVC2LE47wE
+	LTC1IQM5l23QXtmfH0bxn3h88o4dGmlrkpKWdqMtYv9tMemm3/PJ3zEH/6b3gzb2Qahw
+	+qTNSHwWVMxzEqqXmT5ktIolFrXMKil0hVQcLTZNOtOOTqj55oUsJqz1Tf50mz7cCrYx
+	zRgA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=pWiKCPOaQGtxlX+Op2jtQWU+f0lbqfrKDCHjYYkJNB4=;
+	b=X+VtXlDjJLNQIXdtrLdJoQIXqXTYl4jT4UWRkXEysb1e43bE0+mD9+TR4+d8YK5XeQ
+	dY7/R9gV90VH5VxFaGkdmvM+dT4r9xBMu3nyFq2AkrRWSgf10nVZTyjym7LhNQO6H710
+	eugVHwFTWrXWrygWUmK5fs3mct7vbWfs1NLKJSEMCGYK4bkQw6zJ5hV32/r5yOASMdpc
+	AFs2q1IXkc5CifATUBt3yJ8X0Orn5iykSnDAJ9dWrJCryWRyCfhcQJHQG8bJ3eZIcjT3
+	RKmWbSTyiywWir++Wr197k4iPhsySko615dZhikYI3SUJ8auPSiJcKA4tTwI4H7Wbjfy
+	lTTQ==
+X-Gm-Message-State: ABUngvf0+KJ7HvAK4vQwPwwAIPML7yEM/mGmd0kj5Da6DVqne+6vAqmoU2GS72ZPZJMnZA==
+X-Received: by 10.194.94.39 with SMTP id cz7mr14798406wjb.141.1477331361613;
+	Mon, 24 Oct 2016 10:49:21 -0700 (PDT)
+Received: from localhost.localdomain (p5B0A3D70.dip0.t-ipconnect.de.
+	[91.10.61.112]) by smtp.googlemail.com with ESMTPSA id
+	e5sm15952078wma.10.2016.10.24.10.49.20
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 24 Oct 2016 10:49:20 -0700 (PDT)
+From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@googlemail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 24 Oct 2016 19:49:07 +0200
+Message-Id: <1477331349-3389-1-git-send-email-schnitzeltony@googlemail.com>
+X-Mailer: git-send-email 2.5.5
+MIME-Version: 1.0
+Subject: [PATCH v2 0/2] update libsdl2 and taglib
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,54 +56,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 24 Oct 2016 17:34:41 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Mon, 24 Oct 2016 17:49:22 -0000
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-On Mon, 2016-10-24 at 16:54 +0300, Ed Bartosh wrote:
-> Root device name in systemd-bootdisk.wks is 'sda'. This can cause
-> images, produced using this wks to refuse booting if real device
-> name is not 'sda'. For example, when booting MinnowBoard MAX from
-> MicroSD card the boot process stucks with this message on the boot
-> console output: Waiting for root device /dev/sda2...
-> This happens because real device name of MicroSD card on this device
-> is mmcblk1.
-> 
-> Used --use-uuid option for root partition. This should make
-> wic to put partiion UUID instead of device name into kernel command
-> line.
-> 
-> [YOCTO #10485]
-> 
-> Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
-> ---
->  scripts/lib/wic/canned-wks/systemd-bootdisk.wks | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/scripts/lib/wic/canned-wks/systemd-bootdisk.wks
-> b/scripts/lib/wic/canned-wks/systemd-bootdisk.wks
-> index b900023..4bd9d6a 100644
-> --- a/scripts/lib/wic/canned-wks/systemd-bootdisk.wks
-> +++ b/scripts/lib/wic/canned-wks/systemd-bootdisk.wks
-> @@ -4,7 +4,7 @@
->  
->  part /boot --source bootimg-efi --sourceparams="loader=systemd-boot" 
-> --ondisk sda --label msdos --active --align 1024
->  
-> -part / --source rootfs --ondisk sda --fstype=ext4 --label platform
-> --align 1024
-> +part / --source rootfs --ondisk sda --fstype=ext4 --label platform
-> --align 1024 --use-uuid
->  
- part swap --ondisk sda --size 44 --label swap1 --fstype=swap
->  
-I understand the --use-uuid for the partition labeling, but how does it
-affect everything marked as ondisk sda?  Or is ondisk ignored with use-
-uuid?
+v1 -> v2: descritions changed as suggested by Alexander Kanavin
 
-Sau!
-> 
-> -- 
-> 2.1.4
-> 
+Andreas Müller (2):
+  libsdl2: update to 2.0.5
+  taglib: update to 1.11
+
+ ...-sysroot-path-so-that-make-finds-our-wayl.patch | 32 ++++++++++++
+ ...ideo-make-it-compatible-with-wayland-1.10.patch | 57 ----------------------
+ .../libsdl2/{libsdl2_2.0.4.bb => libsdl2_2.0.5.bb} | 14 +++---
+ .../taglib/{taglib_1.9.1.bb => taglib_1.11.bb}     |  7 ++-
+ 4 files changed, 45 insertions(+), 65 deletions(-)
+ create mode 100644 meta/recipes-graphics/libsdl2/libsdl2/0001-prepend-our-sysroot-path-so-that-make-finds-our-wayl.patch
+ delete mode 100644 meta/recipes-graphics/libsdl2/libsdl2/0001-src-video-make-it-compatible-with-wayland-1.10.patch
+ rename meta/recipes-graphics/libsdl2/{libsdl2_2.0.4.bb => libsdl2_2.0.5.bb} (86%)
+ rename meta/recipes-support/taglib/{taglib_1.9.1.bb => taglib_1.11.bb} (74%)
+
+-- 
+2.5.5
+
 
