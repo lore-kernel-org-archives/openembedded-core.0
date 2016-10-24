@@ -1,52 +1,66 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pf0-f193.google.com (mail-pf0-f193.google.com
-	[209.85.192.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 168C371A21
+Return-Path: <anders@chargestorm.se>
+Received: from mail-lf0-f44.google.com (mail-lf0-f44.google.com
+	[209.85.215.44])
+	by mail.openembedded.org (Postfix) with ESMTP id 0CFC671AC1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Oct 2016 03:00:17 +0000 (UTC)
-Received: by mail-pf0-f193.google.com with SMTP id r16so15069874pfg.3
+	Mon, 24 Oct 2016 04:36:16 +0000 (UTC)
+Received: by mail-lf0-f44.google.com with SMTP id b81so177109016lfe.1
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 23 Oct 2016 20:00:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:subject:date:message-id:in-reply-to:references:mime-version
-	:content-transfer-encoding;
-	bh=TYv0elVxG4W0tyl2busCetkPOBRDvCOFAroFr7JMMcU=;
-	b=e3DvsUiF9CHmwr6g8PSUGGEWUPq/4xIAMBioI16d5W2yoZpjdow4Wr4O5SpqsBCP31
-	HBbhxxV35qicZlBQ27DgKvWD9oApHHE/kWEn8+juzORYu021o9PdikAj7LUrIPeID2CO
-	AtaHN97izgbGKluq+seiEdCa7TTwip8GdRAiVpzFGNvAM8+r7EE5V+lc0ptTgn66CFH0
-	cUL8kZjD27+Tmp9joAdCaOd9EltmwfRLjmjibMpwbmmgOM9xUyzlyOEgRe6Ly3wf2oeB
-	NVXfTc6l+PyC0ZRj/7LN9i5NMqUg1IH5FFSuSNvKPqRok+xShNV+nEZ/LecCuxC8Cw3o
-	b/8A==
+	Sun, 23 Oct 2016 21:36:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=chargestorm-se.20150623.gappssmtp.com; s=20150623;
+	h=date:from:to:cc:subject:message-id:mail-followup-to:references
+	:mime-version:content-disposition:in-reply-to:organization
+	:user-agent; bh=ElnIheqOhaQIEn6RArsfpON+Z63bKhPCWN8oL47KgTU=;
+	b=KrtIc81Qua9kE4hmDWLnJUt7HGDO6KBe24g46vz/yg9b2/4u2YIqGVZgc6RMndcN9R
+	hlWRcw7B+ohRbG9k04/j0KQjEXQs4Vlfz7Q/+cgnCmAJlx1l45xr9Wk91GY1rXOFLw2l
+	Ne641Uq518+Zk8i80hgrdhSOewTl+V8czReUO7mZP22wwIRqosRboVxfGYw6Eon+Vy1V
+	jYSMMPCCQKXobB8/y7xY3mQXx+shOAUCqDESCkVLq5I7jfNxY4QGX5Uw9Ay2Zi0WPm8G
+	E4LyPhzIh0ULrh5vvouBEnfV0ybxWAaduo/ofp1VO7Wf7eLVRjYKFHn19RWxeXa0XlmL
+	4pMA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=TYv0elVxG4W0tyl2busCetkPOBRDvCOFAroFr7JMMcU=;
-	b=NvEA1Sd2Q+8mlcPbJgysCkU7xM/3MLTJiWHXpaSNk7ROcGhLrvSx8rrqPAhkX1sphc
-	8Oxzyw2CgkMwvVXnGK/Xpo6jSvSPQzG3S8+fVmry5Wri7JJH2VppOQ4Fmsd5plJIk5V1
-	T9ZosHu0DVjKbC00f9kS293+f4O6xW4ndkmolER5ShvalNQtud9feiX2ukCbXIOi0GvK
-	3IXXJlN0X7oulWjKtRnGIR/OKJCntcEd6MZfaHf4848UFTK5E71KNhii8IyewVnfWvde
-	b235Lagx49DxrMFGGJlwAV6hOELY2azu5SDZoSY44SLNc7pwRncjzbxMv1oBcHDJMD3X
-	9pyg==
-X-Gm-Message-State: ABUngvfezxJSaUtM3Up8jkmeEz5Z05BE35Psc2d0QoshQAZsjTdyB1owC6dOTufYkisa1w==
-X-Received: by 10.98.12.208 with SMTP id 77mr24214680pfm.14.1477278019293;
-	Sun, 23 Oct 2016 20:00:19 -0700 (PDT)
-Received: from akuster-ThinkPad-X240.hsd1.ca.comcast.net
-	([2601:202:4001:9ea0:2c34:ed1b:8260:837d])
-	by smtp.gmail.com with ESMTPSA id
-	p88sm20537560pfi.51.2016.10.23.20.00.18
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sun, 23 Oct 2016 20:00:18 -0700 (PDT)
-From: Armin Kuster <akuster808@gmail.com>
-To: akuster@mvista.com,
-	openembedded-core@lists.openembedded.org
-Date: Sun, 23 Oct 2016 20:00:16 -0700
-Message-Id: <1477278016-2481-2-git-send-email-akuster808@gmail.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1477278016-2481-1-git-send-email-akuster808@gmail.com>
-References: <1477278016-2481-1-git-send-email-akuster808@gmail.com>
+	h=x-gm-message-state:date:from:to:cc:subject:message-id
+	:mail-followup-to:references:mime-version:content-disposition
+	:in-reply-to:organization:user-agent;
+	bh=ElnIheqOhaQIEn6RArsfpON+Z63bKhPCWN8oL47KgTU=;
+	b=htjlBfdISkbfeGg2GYbPQXxJbLLz2+W6GdMQcPSlrIZebjh/TQYdaOwYxrI0Uv2uLz
+	FdYdZzJkkZg/ptoT5tWIqUYL6aat2aj34y0MdPnmv61g6ABIhfrqQ8vaEYMgOUdipbO0
+	SxNRzViRxwH+290zKUfXUj/M/XuZv7ku/eWNcoeAPRUJeWi2zWxjDvAuHbXut51TjhyP
+	Z/yQuMhy/r7UNOxBSNEPlOT60uEnXoxY5fuQqJKaqvVD5AgnJu42nz/cRKOS/drcEgNB
+	5FvCSKhY8wFszyv42OwFrHMMJCcETMdCzFvqiWY+Mi2JiJVvLGO5S6+QHpmN2IRAht4O
+	kY/Q==
+X-Gm-Message-State: ABUngveZ3vOTgfqwE+oxnmxmow76E5sStEq9tlvH1KR0BvO880Y516KfJIyYweNL4YG7cg==
+X-Received: by 10.25.153.149 with SMTP id b143mr6228165lfe.150.1477283776902; 
+	Sun, 23 Oct 2016 21:36:16 -0700 (PDT)
+Received: from ad.chargestorm.se (h83-209-191-235.cust.se.alltele.net.
+	[83.209.191.235]) by smtp.gmail.com with ESMTPSA id
+	h138sm2648747lfe.24.2016.10.23.21.36.15
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Sun, 23 Oct 2016 21:36:16 -0700 (PDT)
+Date: Mon, 24 Oct 2016 06:36:14 +0200
+From: Anders Darander <anders@chargestorm.se>
+To: "thilo.cestonaro@ts.fujitsu.com" <thilo.cestonaro@ts.fujitsu.com>
+Message-ID: <20161024043614.3gqmsqpu2h52tnpr@ad.chargestorm.se>
+Mail-Followup-To: "thilo.cestonaro@ts.fujitsu.com"
+	<thilo.cestonaro@ts.fujitsu.com>, 
+	"raj.khem@gmail.com" <raj.khem@gmail.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+References: <58072ca7.c70f420a.fed0f.74b1SMTPIN_ADDED_BROKEN@mx.google.com>
+	<432953B0-59CB-4E94-A670-C4BD4A12C88A@gmail.com>
+	<1476944666.6754.1.camel@ts.fujitsu.com>
 MIME-Version: 1.0
-Subject: [Master][morty][PATCH 2/2] tzdata: Update to 2016h
+In-Reply-To: <1476944666.6754.1.camel@ts.fujitsu.com>
+X-Accept-Language: sv, en, de
+X-GPG-Fingerprint: 5AF0 B2E9 78FE 9D75 D110  6F8F 3E31 84D7 920E 938C
+X-GPG-Key-Id: 0x920E938C
+X-GPG-Keyserver: hkp://keys.gnupg.net
+Organization: ChargeStorm AB
+User-Agent: NeoMutt/20161014 (1.7.1)
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: meta-toolchain and meta-toolchain-qt for specific image
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,59 +73,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 24 Oct 2016 03:00:18 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 24 Oct 2016 04:36:17 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-From: Armin Kuster <akuster@mvista.com>
+* thilo.cestonaro@ts.fujitsu.com <thilo.cestonaro@ts.fujitsu.com> [161020 08:36]:
 
-Changes to future time stamps
+> > what is the advantage of such a recipe?
 
-    Asia/Gaza and Asia/Hebron end DST on 2016-10-29 at 01:00, not
-    2016-10-21 at 00:00.  (Thanks to Sharef Mustafa.)  Predict that
-    future fall transitions will be on the last Saturday of October
-    at 01:00, which is consistent with predicted spring transitions
-    on the last Saturday of March.  (Thanks to Tim Parenti.)
+> The only "advantage" what made me using such a recipe was, that I want
+> to have the normal toolchain AND the qt5 toolchain in one installation
+> package together.  When you know another way to get both together, I
+> would be thankful if you tell me how to do this.
 
-Changes to past time stamps
+Well, have your image `inherit populate_sdk_qt5`, and then call
 
-    In Turkey, transitions in 1986-1990 were at 01:00 standard time
-    not at 02:00, and the spring 1994 transition was on March 20, not
-    March 27.  (Thanks to Kıvanç Yazan.)
+`bitbake <your-image> -c populate_sdk`. That'll give you the standard,
+image-based SDK, with Qt5 in it.
 
-Changes to past and future time zone abbreviations
+Cheers,
+Anders
 
-    Asia/Colombo now uses numeric time zone abbreviations like "+0530"
-    instead of alphabetic ones like "IST" and "LKT".  Various
-    English-language sources use "IST", "LKT" and "SLST", with no
-    working consensus.  (Usage of "SLST" mentioned by Sadika
-    Sumanapala.)
-
-Signed-off-by: Armin Kuster <akuster@mvista.com>
----
- meta/recipes-extended/tzdata/{tzdata_2016g.bb => tzdata_2016h.bb} | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-extended/tzdata/{tzdata_2016g.bb => tzdata_2016h.bb} (98%)
-
-diff --git a/meta/recipes-extended/tzdata/tzdata_2016g.bb b/meta/recipes-extended/tzdata/tzdata_2016h.bb
-similarity index 98%
-rename from meta/recipes-extended/tzdata/tzdata_2016g.bb
-rename to meta/recipes-extended/tzdata/tzdata_2016h.bb
-index 3ee4b5a..00b0f5f 100644
---- a/meta/recipes-extended/tzdata/tzdata_2016g.bb
-+++ b/meta/recipes-extended/tzdata/tzdata_2016h.bb
-@@ -9,8 +9,8 @@ DEPENDS = "tzcode-native"
- SRC_URI = "http://www.iana.org/time-zones/repository/releases/tzdata${PV}.tar.gz;name=tzdata"
- UPSTREAM_CHECK_URI = "http://www.iana.org/time-zones"
- 
--SRC_URI[tzdata.md5sum] = "3c7e97ec8527211104d27cc1d97a23de"
--SRC_URI[tzdata.sha256sum] = "3c7137b2bc47323b0de47b77786bacf81ed503d4b2c693ff8ada2fbd1281ebd1"
-+SRC_URI[tzdata.md5sum] = "878f0ec3fd9e4026ea11dd1b649a315a"
-+SRC_URI[tzdata.sha256sum] = "da1b74fc2dec2ce8b64948dafb0bfc2f923c830d421a7ae4d016226135697a64"
- 
- inherit allarch
- 
 -- 
-2.7.4
-
+Anders Darander, Senior System Architect
+ChargeStorm AB / eStorm AB
 
