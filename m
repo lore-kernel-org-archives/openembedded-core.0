@@ -1,28 +1,27 @@
-Return-Path: <maxin.john@intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 2FF3F71A80
+Return-Path: <michael.blaettler@siemens.com>
+X-Greylist: delayed 1383 seconds by postgrey-1.34 at layers.openembedded.org;
+	Mon, 24 Oct 2016 08:47:10 UTC
+Received: from david.siemens.de (david.siemens.de [192.35.17.14])
+	by mail.openembedded.org (Postfix) with ESMTP id 889D1719DC
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Oct 2016 07:53:38 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga101.fm.intel.com with ESMTP; 24 Oct 2016 00:53:41 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.31,541,1473145200"; d="scan'208";a="893220889"
-Received: from mbabyjoh-desk.fi.intel.com (HELO
-	mbabyjoh-desk.ger.corp.intel.com) ([10.237.72.71])
-	by orsmga003.jf.intel.com with ESMTP; 24 Oct 2016 00:53:39 -0700
-Date: Mon, 24 Oct 2016 10:54:12 +0300
-From: "Maxin B. John" <maxin.john@intel.com>
-To: Khem Raj <raj.khem@gmail.com>
-Message-ID: <20161024075412.GA7910@mbabyjoh-desk.ger.corp.intel.com>
-References: <1477222197-3698-1-git-send-email-maxin.john@intel.com>
-	<1477222197-3698-10-git-send-email-maxin.john@intel.com>
-	<CAMKF1sq-2EiAYS553aeE++pGRvQDd+2FCARq7DMOgVNg4_OZTQ@mail.gmail.com>
+	Mon, 24 Oct 2016 08:47:10 +0000 (UTC)
+Received: from mail2.siemens.de (mail2.siemens.de [139.25.208.11])
+	by david.siemens.de (8.15.2/8.15.2) with ESMTPS id u9O8O5QV020179
+	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 24 Oct 2016 10:24:06 +0200
+Received: from dev.sbt.siemens.com (MD1F3VPC.ww002.siemens.net [139.16.77.53])
+	by mail2.siemens.de (8.15.2/8.15.2) with ESMTP id u9O8O5NW000869;
+	Mon, 24 Oct 2016 10:24:05 +0200
+Received: by dev.sbt.siemens.com (Postfix, from userid 1000)
+	id 99F42844D00; Mon, 24 Oct 2016 10:24:05 +0200 (CEST)
+From: =?UTF-8?q?Michael=20Bl=C3=A4ttler?= <michael.blaettler@siemens.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 24 Oct 2016 10:23:34 +0200
+Message-Id: <1477297414-14338-1-git-send-email-michael.blaettler@siemens.com>
+X-Mailer: git-send-email 2.1.4
 MIME-Version: 1.0
-In-Reply-To: <CAMKF1sq-2EiAYS553aeE++pGRvQDd+2FCARq7DMOgVNg4_OZTQ@mail.gmail.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 10/10] libpng: Upgrade 1.6.24 -> 1.6.25
+Subject: [PATCH] package.py: New EXTRA_STRIPFLAGS variable
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,61 +34,82 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 24 Oct 2016 07:53:42 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Mon, 24 Oct 2016 08:47:12 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Hi Khem,
+The EXTRA_STRIPFLAGS variable can be used to pass additional parameters to the strip command.
+This can be used to remove additional sections or to keep symbols.
+The removal of additional sections can be useful to enable reproducible builds.
+Sections which contain paths or md5sums of the debug binaries (like gnu_debuglink)
+can be eliminated with this flag.
 
-On Sun, Oct 23, 2016 at 08:59:48AM -0700, Khem Raj wrote:
-> On Sun, Oct 23, 2016 at 4:29 AM, Maxin B. John <maxin.john@intel.com> wrote:
-> > License file changes are due to updates in Version and Copyright date
-> 
-> version of license or version of package ?
+Signed-off-by: Pascal Bach <pascal.bach@siemens.com>
+Signed-off-by: Michael Blättler <michael.blaettler@siemens.com>
+---
+ meta/classes/package.bbclass |  5 +++--
+ meta/lib/oe/package.py       | 13 ++++++-------
+ 2 files changed, 9 insertions(+), 9 deletions(-)
 
-It was supposed to be Package version. Generally libpng upgrade modifies it's
-version and Copyright dates in the License file. eg:
+diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
+index a6f0a7a..cd93643 100644
+--- a/meta/classes/package.bbclass
++++ b/meta/classes/package.bbclass
+@@ -1055,14 +1055,15 @@ python split_and_strip_files () {
+     # Now lets go back over things and strip them
+     #
+     if (d.getVar('INHIBIT_PACKAGE_STRIP', True) != '1'):
++        extraflags = d.getVar('EXTRA_STRIP', False)
+         strip = d.getVar("STRIP", True)
+         sfiles = []
+         for file in elffiles:
+             elf_file = int(elffiles[file])
+             #bb.note("Strip %s" % file)
+-            sfiles.append((file, elf_file, strip))
++            sfiles.append((file, elf_file, strip, extraflags))
+         for f in kernmods:
+-            sfiles.append((f, 16, strip))
++            sfiles.append((f, 16, strip, extraflags))
+ 
+         oe.utils.multiprocess_exec(sfiles, oe.package.runstrip)
+ 
+diff --git a/meta/lib/oe/package.py b/meta/lib/oe/package.py
+index 02642f2..757044a 100644
+--- a/meta/lib/oe/package.py
++++ b/meta/lib/oe/package.py
+@@ -10,7 +10,7 @@ def runstrip(arg):
+ 
+     import stat, subprocess
+ 
+-    (file, elftype, strip) = arg
++    (file, elftype, strip, extraflags) = arg
+ 
+     newmode = None
+     if not os.access(file, os.W_OK) or os.access(file, os.R_OK):
+@@ -18,17 +18,16 @@ def runstrip(arg):
+         newmode = origmode | stat.S_IWRITE | stat.S_IREAD
+         os.chmod(file, newmode)
+ 
+-    extraflags = ""
+-
+-    # kernel module    
++    extraflags += ' '
++    # kernel module
+     if elftype & 16:
+-        extraflags = "--strip-debug --remove-section=.comment --remove-section=.note --preserve-dates"
++        extraflags += "--strip-debug --remove-section=.comment --remove-section=.note --preserve-dates"
+     # .so and shared library
+     elif ".so" in file and elftype & 8:
+-        extraflags = "--remove-section=.comment --remove-section=.note --strip-unneeded"
++        extraflags += "--remove-section=.comment --remove-section=.note --strip-unneeded"
+     # shared or executable:
+     elif elftype & 8 or elftype & 4:
+-        extraflags = "--remove-section=.comment --remove-section=.note"
++        extraflags += "--remove-section=.comment --remove-section=.note"
+ 
+     stripcmd = "'%s' %s '%s'" % (strip, extraflags, file)
+     bb.debug(1, "runstrip: %s" % stripcmd)
+-- 
+2.1.4
 
-* libpng versions 1.0.7, July 1, 2000 through 1.6.26, October 20, 2016 are
-* Copyright (c) 2000-2002, 2004, 2006-2016 Glenn Randers-Pehrson
-
-Sorry for creating confusion here.
-
-> >
-> > Signed-off-by: Maxin B. John <maxin.john@intel.com>
-> > ---
-> >  .../libpng/{libpng_1.6.24.bb => libpng_1.6.26.bb}                 | 8 ++++----
-> >  1 file changed, 4 insertions(+), 4 deletions(-)
-> >  rename meta/recipes-multimedia/libpng/{libpng_1.6.24.bb => libpng_1.6.26.bb} (67%)
-> >
-> > diff --git a/meta/recipes-multimedia/libpng/libpng_1.6.24.bb b/meta/recipes-multimedia/libpng/libpng_1.6.26.bb
-> > similarity index 67%
-> > rename from meta/recipes-multimedia/libpng/libpng_1.6.24.bb
-> > rename to meta/recipes-multimedia/libpng/libpng_1.6.26.bb
-> > index f91ab7f..8c1cb8c 100644
-> > --- a/meta/recipes-multimedia/libpng/libpng_1.6.24.bb
-> > +++ b/meta/recipes-multimedia/libpng/libpng_1.6.26.bb
-> > @@ -2,14 +2,14 @@ SUMMARY = "PNG image format decoding library"
-> >  HOMEPAGE = "http://www.libpng.org/"
-> >  SECTION = "libs"
-> >  LICENSE = "Libpng"
-> > -LIC_FILES_CHKSUM = "file://LICENSE;md5=5089214833586ba444048fd1dbbc76a4 \
-> > -                    file://png.h;endline=149;md5=376d8ff7f69b7c4ad3a09f4672cec696"
-> > +LIC_FILES_CHKSUM = "file://LICENSE;md5=ce8d0bd8303802e5492f064ddddef0e7 \
-> > +                    file://png.h;endline=149;md5=8cca27e71fd88e1fe1adad7d9e841b5f"
-> >  DEPENDS = "zlib"
-> >
-> >  SRC_URI = "${GENTOO_MIRROR}/libpng-${PV}.tar.xz \
-> >            "
-> > -SRC_URI[md5sum] = "ffcdbd549814787fa8010c372e35ff25"
-> > -SRC_URI[sha256sum] = "7932dc9e5e45d55ece9d204e90196bbb5f2c82741ccb0f7e10d07d364a6fd6dd"
-> > +SRC_URI[md5sum] = "faed9bb495d2e12dd0c9ec561ca60cd8"
-> > +SRC_URI[sha256sum] = "266743a326986c3dbcee9d89b640595f6b16a293fd02b37d8c91348d317b73f9"
-> >
-> >  BINCONFIG = "${bindir}/libpng-config ${bindir}/libpng16-config"
-> >
-> > --
-
-Best Regards,
-Maxin
 
