@@ -1,34 +1,47 @@
-Return-Path: <Jackie.Huang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id EE0F571AE6
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pf0-f195.google.com (mail-pf0-f195.google.com
+	[209.85.192.195])
+	by mail.openembedded.org (Postfix) with ESMTP id CE27171A21
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Oct 2016 01:11:34 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u9O1BWuv006877
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
-	Sun, 23 Oct 2016 18:11:35 -0700
-Received: from ALA-MBA.corp.ad.wrs.com ([169.254.3.156]) by
-	ALA-HCA.corp.ad.wrs.com ([147.11.189.40]) with mapi id 14.03.0294.000;
-	Sun, 23 Oct 2016 18:11:32 -0700
-From: "Huang, Jie (Jackie)" <Jackie.Huang@windriver.com>
-To: Andreas Oberritter <obi@opendreambox.org>
-Thread-Topic: [OE-core] [PATCH 2/2] ppp: fix building with linux-4.8
-Thread-Index: AQHSK6OoQs9wWy92r0uEWi5WL3jrpqC2zhHw
-Date: Mon, 24 Oct 2016 01:11:30 +0000
-Message-ID: <1B858668EC6A94408DCA5225FDFA85AA013A310347@ALA-MBA.corp.ad.wrs.com>
-References: <cover.1476345470.git.jackie.huang@windriver.com>
-	<07b4065b12f5cf9dfe816e7cdb68a5e7d83e04c0.1476345470.git.jackie.huang@windriver.com>
-	<5c605407-d802-456e-a876-317cefaef461@opendreambox.org>
-In-Reply-To: <5c605407-d802-456e-a876-317cefaef461@opendreambox.org>
-Accept-Language: en-US, zh-CN
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [128.224.162.133]
-MIME-Version: 1.0
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/2] ppp: fix building with linux-4.8
+	Mon, 24 Oct 2016 03:00:17 +0000 (UTC)
+Received: by mail-pf0-f195.google.com with SMTP id r16so15069853pfg.3
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 23 Oct 2016 20:00:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:subject:date:message-id;
+	bh=ftow4uLBvuIuP5wy5xobCYUo+LAbBFY320kGEgJfRJg=;
+	b=DDKaERS7y8+xfm7Fevm/UeJ2YceHFvK+rk2E6SxwIEZYZqrluCVCMosehViOakWEAg
+	7LrLFjV5GspLn8yrmUm1BcwK8ttqEFAHa8ZHS+0NR0YiEa1J/C17oVeu8jn/pc9Bm+Ig
+	T30KiPNGE6INULw/vGsp0/vSx16+52lM0GxnW1K/I52UaxuSlR9uWXzp2kwymw/SHmOM
+	7ZLbew/fdAB4DqRnicKjyp/tg5Z7QhVnOTpRYYQbMnDwawe8hIMNIqwUTYhbzcwImzOg
+	kIkqOWAqy1vAebb4CKHPGqkwQLfqmYSTKXb3CoT8gpKru+I81gP0M8iIZ2a+fostwxyP
+	tdHw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=ftow4uLBvuIuP5wy5xobCYUo+LAbBFY320kGEgJfRJg=;
+	b=ZwOuyOwJfVPRB9+T0vCwfe9RWUZIfXnVc+WBAsqBQ1HHEjYSO4xtZnQxM6RU7EB5XP
+	RKSRSY3fhjfov3/Hh/Eek4/JUUCMBo7QMMPR4apRwxri49P2rRn+HAnjOZmiPmCV3rYf
+	+D+5uib8pa1YwvbU8/CP3nkn3YrDsSTZ9AO0K0X9wyt/ieGAgqjJ3GJplw6WjF+TrDMr
+	hHygYKCF/hIAqTxM+2K7whTJlvpVwA2I5FC36LhQIZmv6fXg9UMGYGe2k/3EMnhVaVVX
+	CaSuZrjvH/il6ZWGsZnVNt57xEL8DIF+dkQ3H4ViQPGbWm5MOcLJ8oUT8zT6N3iedink
+	XI4A==
+X-Gm-Message-State: ABUngvcMUl1foFUKnOjWiqdtBIpEZ/owsBsWkyWK7AUDA6pf3+LxR4kTdFPJemOnI+/p1g==
+X-Received: by 10.99.218.69 with SMTP id l5mr20014826pgj.95.1477278018557;
+	Sun, 23 Oct 2016 20:00:18 -0700 (PDT)
+Received: from akuster-ThinkPad-X240.hsd1.ca.comcast.net
+	([2601:202:4001:9ea0:2c34:ed1b:8260:837d])
+	by smtp.gmail.com with ESMTPSA id
+	p88sm20537560pfi.51.2016.10.23.20.00.17
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Sun, 23 Oct 2016 20:00:18 -0700 (PDT)
+From: Armin Kuster <akuster808@gmail.com>
+To: akuster@mvista.com,
+	openembedded-core@lists.openembedded.org
+Date: Sun, 23 Oct 2016 20:00:15 -0700
+Message-Id: <1477278016-2481-1-git-send-email-akuster808@gmail.com>
+X-Mailer: git-send-email 2.7.4
+Subject: [Master][morty][PATCH 1/2] tzcode-native: update to 2016h
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,133 +54,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 24 Oct 2016 01:11:39 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 24 Oct 2016 03:00:18 -0000
 
+From: Armin Kuster <akuster@mvista.com>
 
+Changes to code
 
-> -----Original Message-----
-> From: Andreas Oberritter [mailto:obi@opendreambox.org]
-> Sent: Friday, October 21, 2016 10:01 PM
-> To: Huang, Jie (Jackie)
-> Cc: openembedded-core@lists.openembedded.org
-> Subject: Re: [OE-core] [PATCH 2/2] ppp: fix building with linux-4.8
->=20
-> Dear Jackie,
->=20
-> this patch broke compilation with linux-libc-headers 4.4, present in
-> morty, due to use of incomplete types.
+zic no longer mishandles relativizing file names when creating
+symbolic links like /etc/localtime, when these symbolic links
+are outside the usual directory hierarchy.  This fixes a bug
+introduced in 2016g.  (Problem reported by Andreas Stieger.)
 
-I didn't realize 4.4 is still be used, sorry about that, feel free to send
-patch to fix it if you have one already, if not, I will fix it later as fol=
-low-up.
+Signed-off-by: Armin Kuster <akuster@mvista.com>
+---
+ .../tzcode/{tzcode-native_2016g.bb => tzcode-native_2016h.bb}     | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+ rename meta/recipes-extended/tzcode/{tzcode-native_2016g.bb => tzcode-native_2016h.bb} (69%)
 
-Thanks,
-Jackie
-
->=20
-> Regards,
-> Andreas
->=20
->=20
-> On 14.10.2016 02:50, jackie.huang@windriver.com wrote:
-> > From: Jackie Huang <jackie.huang@windriver.com>
-> >
-> > Fix a build error when using the linux-4.8 headers that results in:
-> >
-> > In file included from pppoe.h:87:0,
-> >                  from plugin.c:29:
-> > ../usr/include/netinet/in.h:211:8: note: originally defined here
-> >  struct in6_addr
-> >         ^~~~~~~~
-> > In file included from ../usr/include/linux/if_pppol2tp.h:20:0,
-> >                  from ../usr/include/linux/if_pppox.h:26,
-> >                  from plugin.c:52:
-> > ../usr/include/linux/in6.h:49:8: error: redefinition of 'struct sockadd=
-r_in6'
-> >  struct sockaddr_in6 {
-> >         ^~~~~~~~~~~~
-> >
-> > Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
-> > ---
-> >  .../ppp/ppp/ppp-fix-building-with-linux-4.8.patch  | 44 ++++++++++++++=
-++++++++
-> >  meta/recipes-connectivity/ppp/ppp_2.4.7.bb         |  1 +
-> >  2 files changed, 45 insertions(+)
-> >  create mode 100644 meta/recipes-connectivity/ppp/ppp/ppp-fix-building-=
-with-linux-4.8.patch
-> >
-> > diff --git a/meta/recipes-connectivity/ppp/ppp/ppp-fix-building-with-li=
-nux-4.8.patch
-> b/meta/recipes-connectivity/ppp/ppp/ppp-fix-building-with-linux-4.8.patch
-> > new file mode 100644
-> > index 0000000..f77b0de
-> > --- /dev/null
-> > +++ b/meta/recipes-connectivity/ppp/ppp/ppp-fix-building-with-linux-4.8=
-.patch
-> > @@ -0,0 +1,44 @@
-> > +From 3da19af53e2eee2e77b456cfbb9d633b06656d38 Mon Sep 17 00:00:00 2001
-> > +From: Jackie Huang <jackie.huang@windriver.com>
-> > +Date: Thu, 13 Oct 2016 13:41:43 +0800
-> > +Subject: [PATCH] ppp: fix building with linux-4.8
-> > +
-> > +Fix a build error when using the linux-4.8 headers that results in:
-> > +
-> > +In file included from pppoe.h:87:0,
-> > +                 from plugin.c:29:
-> > +../usr/include/netinet/in.h:211:8: note: originally defined here
-> > + struct in6_addr
-> > +        ^~~~~~~~
-> > +In file included from ../usr/include/linux/if_pppol2tp.h:20:0,
-> > +                 from ../usr/include/linux/if_pppox.h:26,
-> > +                 from plugin.c:52:
-> > +../usr/include/linux/in6.h:49:8: error: redefinition of 'struct sockad=
-dr_in6'
-> > + struct sockaddr_in6 {
-> > +        ^~~~~~~~~~~~
-> > +
-> > +Upstream-Status: Submitted [1]
-> > +
-> > +[1] https://github.com/paulusmack/ppp/pull/69
-> > +
-> > +Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
-> > +---
-> > + pppd/plugins/rp-pppoe/pppoe.h | 2 +-
-> > + 1 file changed, 1 insertion(+), 1 deletion(-)
-> > +
-> > +diff --git a/pppd/plugins/rp-pppoe/pppoe.h b/pppd/plugins/rp-pppoe/ppp=
-oe.h
-> > +index 9ab2eee..96d2794 100644
-> > +--- a/pppd/plugins/rp-pppoe/pppoe.h
-> > ++++ b/pppd/plugins/rp-pppoe/pppoe.h
-> > +@@ -84,7 +84,7 @@ typedef unsigned long UINT32_t;
-> > + #include <linux/if_ether.h>
-> > + #endif
-> > +
-> > +-#include <netinet/in.h>
-> > ++#include <linux/in.h>
-> > +
-> > + #ifdef HAVE_NETINET_IF_ETHER_H
-> > + #include <sys/types.h>
-> > +--
-> > +2.8.3
-> > +
-> > diff --git a/meta/recipes-connectivity/ppp/ppp_2.4.7.bb b/meta/recipes-
-> connectivity/ppp/ppp_2.4.7.bb
-> > index 4437b5c..56dbd98 100644
-> > --- a/meta/recipes-connectivity/ppp/ppp_2.4.7.bb
-> > +++ b/meta/recipes-connectivity/ppp/ppp_2.4.7.bb
-> > @@ -30,6 +30,7 @@ SRC_URI =3D "http://ppp.samba.org/ftp/ppp/ppp-${PV}.t=
-ar.gz \
-> >             file://0001-ppp-Fix-compilation-errors-in-Makefile.patch \
-> >             file://ppp@.service \
-> >             file://fix-CVE-2015-3310.patch \
-> > +           file://ppp-fix-building-with-linux-4.8.patch \
-> >  "
-> >
-> >  SRC_URI_append_libc-musl =3D "\
-> >
+diff --git a/meta/recipes-extended/tzcode/tzcode-native_2016g.bb b/meta/recipes-extended/tzcode/tzcode-native_2016h.bb
+similarity index 69%
+rename from meta/recipes-extended/tzcode/tzcode-native_2016g.bb
+rename to meta/recipes-extended/tzcode/tzcode-native_2016h.bb
+index a2e6217..de7d88d 100644
+--- a/meta/recipes-extended/tzcode/tzcode-native_2016g.bb
++++ b/meta/recipes-extended/tzcode/tzcode-native_2016h.bb
+@@ -9,10 +9,10 @@ SRC_URI =" http://www.iana.org/time-zones/repository/releases/tzcode${PV}.tar.gz
+            http://www.iana.org/time-zones/repository/releases/tzdata${PV}.tar.gz;name=tzdata"
+ UPSTREAM_CHECK_URI = "http://www.iana.org/time-zones"
+ 
+-SRC_URI[tzcode.md5sum] = "f89867013676e3cb9544be2df7d36a91"
+-SRC_URI[tzcode.sha256sum] = "1ff90b47ad7986140a513b5287b1851c40f80fd44fd636db5cc5b46d06f9fa2b"
+-SRC_URI[tzdata.md5sum] = "3c7e97ec8527211104d27cc1d97a23de"
+-SRC_URI[tzdata.sha256sum] = "3c7137b2bc47323b0de47b77786bacf81ed503d4b2c693ff8ada2fbd1281ebd1"
++SRC_URI[tzcode.md5sum] = "00c20689d996dea4cf5b45504724ce8f"
++SRC_URI[tzcode.sha256sum] = "30e62f0b86a78fb020d378b950930da023ca31b1a58f08d8fb2066627c4d6566"
++SRC_URI[tzdata.md5sum] = "878f0ec3fd9e4026ea11dd1b649a315a"
++SRC_URI[tzdata.sha256sum] = "da1b74fc2dec2ce8b64948dafb0bfc2f923c830d421a7ae4d016226135697a64"
+ 
+ S = "${WORKDIR}"
+ 
+-- 
+2.7.4
 
 
