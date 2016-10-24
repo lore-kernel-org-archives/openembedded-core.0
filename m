@@ -1,30 +1,25 @@
-Return-Path: <rpjday@crashcourse.ca>
-Received: from smtp484.redcondor.net (smtp484.redcondor.net [208.80.204.84])
-	by mail.openembedded.org (Postfix) with ESMTP id 0AD2471993
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 85A4A7197A
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Oct 2016 09:52:20 +0000 (UTC)
-Received: from astoria.ccjclearline.com ([64.235.106.9])
-	by smtp484.redcondor.net ({c48374e7-08df-40d9-a0de-96cc9883a037})
-	via TCP (outbound) with ESMTPS id 20161024095220777_0484;
-	Mon, 24 Oct 2016 09:52:20 +0000
-X-RC-FROM: <rpjday@crashcourse.ca>
-Received: from [216.191.234.70] (port=38647 helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
-	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
-	id 1bybvR-0001ij-NT; Mon, 24 Oct 2016 05:52:13 -0400
-Date: Mon, 24 Oct 2016 05:51:16 -0400 (EDT)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@ca624034.mitel.com
-To: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <68D800E1-2594-4E8B-AB8E-6B9C758FD3CF@gmail.com>
-Message-ID: <alpine.LFD.2.20.1610240549440.28159@ca624034.mitel.com>
-References: <alpine.LFD.2.20.1610221156210.31588@localhost.localdomain>
-	<68D800E1-2594-4E8B-AB8E-6B9C758FD3CF@gmail.com>
-User-Agent: Alpine 2.20 (LFD 67 2015-01-07)
+	Mon, 24 Oct 2016 11:27:14 +0000 (UTC)
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+	by fmsmga102.fm.intel.com with ESMTP; 24 Oct 2016 04:27:16 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.31,541,1473145200"; d="scan'208";a="22956617"
+Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
+	([10.237.68.161])
+	by fmsmga005.fm.intel.com with ESMTP; 24 Oct 2016 04:27:15 -0700
+To: openembedded-core@lists.openembedded.org
+References: <1477175949-6903-1-git-send-email-schnitzeltony@googlemail.com>
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Message-ID: <61359ca1-a5a2-14b0-a344-48388808ade6@linux.intel.com>
+Date: Mon, 24 Oct 2016 14:25:07 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Icedove/45.4.0
 MIME-Version: 1.0
-X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: basic bitbake commands to create an SDK?
+In-Reply-To: <1477175949-6903-1-git-send-email-schnitzeltony@googlemail.com>
+Subject: Re: [PATCH 1/2] libsdl2: update to 2.0.5
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,33 +32,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 24 Oct 2016 09:52:21 -0000
-Content-Type: text/plain; charset=US-ASCII
+X-List-Received-Date: Mon, 24 Oct 2016 11:27:15 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Sat, 22 Oct 2016, Khem Raj wrote:
+On 10/23/2016 01:39 AM, Andreas Müller wrote:
+> * video/wayland patch: similar was applied mainline
 
-... snip ...
+Be less terse please. A better way to explain why a patch was dropped is
 
-> I would recommend to try using eSDK, which can be generated using
-> -cpopulate_sdk_ext see
->
-> https://wiki.yoctoproject.org/wiki/Application_Development_with_Extensible_SDK
+"0001-src-video-make-it-compatible-with-wayland-1.10.patch is removed 
+because the problem has been resolved upstream".
 
-  just reading up on eSDKs now, am i correct in assuming that if i
-have the time and space to build an eSDK, there is no downside
-compared to building a standard SDK? as in, i don't lose anything from
-the standard SDK, i just get a richer feature set, etc.
+> * waylamd-protocols alignment was stolen from gtk+3
 
-rday
+Again, be less terse, and more specific. If you refer to substitution of 
+WAYLAND_PROTOCOLS_SYSROOT_DIR, then mention it explicitly:
 
--- 
+"Add 
+meta/recipes-graphics/libsdl2/libsdl2/0001-prepend-our-sysroot-path-so-that-make-finds-our-wayl.patch 
+so that WAYLAND_PROTOCOLS_SYSROOT_DIR is substituted in a way similar to 
+gtk3".
 
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
 
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
-
+Alex
 
