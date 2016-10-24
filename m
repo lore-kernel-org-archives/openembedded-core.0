@@ -1,28 +1,24 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id 0CB6D719E5
+Return-Path: <ed.bartosh@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 6772771A62
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Oct 2016 13:35:18 +0000 (UTC)
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-	by fmsmga104.fm.intel.com with ESMTP; 24 Oct 2016 06:35:21 -0700
+	Mon, 24 Oct 2016 14:32:08 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 24 Oct 2016 07:32:09 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.31,542,1473145200"; d="scan'208";a="23347517"
-Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
-	([10.237.68.161])
-	by orsmga004.jf.intel.com with ESMTP; 24 Oct 2016 06:35:18 -0700
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <cover.1476716907.git.alexander.kanavin@linux.intel.com>
-	<b28525b5cea46a4eedd12f8c1fc29c08eaf4f074.1476716907.git.alexander.kanavin@linux.intel.com>
-	<CAJTo0LaxkVj4eM4c=zWNHz+tv9WaQHJj=uxJnwgffwuNgWRjeQ@mail.gmail.com>
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <d1efba56-525c-59ab-fda6-9eab7fb09065@linux.intel.com>
-Date: Mon, 24 Oct 2016 16:33:10 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Icedove/45.4.0
-MIME-Version: 1.0
-In-Reply-To: <CAJTo0LaxkVj4eM4c=zWNHz+tv9WaQHJj=uxJnwgffwuNgWRjeQ@mail.gmail.com>
-Cc: nathan_lynch@mentor.com, OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 14/23] lttng: enable optional building of manpages
+X-IronPort-AV: E=Sophos;i="5.31,542,1473145200"; d="scan'208";a="1058315657"
+Received: from linux.intel.com ([10.54.29.200])
+	by fmsmga001.fm.intel.com with ESMTP; 24 Oct 2016 07:32:09 -0700
+Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.68])
+	by linux.intel.com (Postfix) with ESMTP id 5B11F6A4006;
+	Mon, 24 Oct 2016 07:31:34 -0700 (PDT)
+From: Ed Bartosh <ed.bartosh@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 24 Oct 2016 16:54:41 +0300
+Message-Id: <1477317281-19518-1-git-send-email-ed.bartosh@linux.intel.com>
+X-Mailer: git-send-email 2.1.4
+Cc: benjamin.esquivel@intel.com
+Subject: [wic][PATCH] systemd-bootdisk.wks: use PARTUUID
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,35 +31,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 24 Oct 2016 13:35:19 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 24 Oct 2016 14:32:09 -0000
 
-On 10/21/2016 02:15 PM, Burton, Ross wrote:
-> Something went wrong here when doing the secondary install for the ptest
-> package. It installed duplicates of the man pages and nonsense such as
-> include/config.h.in <http://config.h.in>~, and then the runtime
-> dependency tree went crazy.
+Root device name in systemd-bootdisk.wks is 'sda'. This can cause
+images, produced using this wks to refuse booting if real device
+name is not 'sda'. For example, when booting MinnowBoard MAX from
+MicroSD card the boot process stucks with this message on the boot
+console output: Waiting for root device /dev/sda2...
+This happens because real device name of MicroSD card on this device
+is mmcblk1.
 
-That's because:
+Used --use-uuid option for root partition. This should make
+wic to put partiion UUID instead of device name into kernel command
+line.
 
-commit 206ad10eaa360b54ea277360f82f3337673cb39b
-Author: Nathan Lynch <nathan_lynch@mentor.com>
-Date:   Tue Sep 27 14:04:46 2016 -0500
+[YOCTO #10485]
 
-     lttng-tools: fix ptest
+Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
+---
+ scripts/lib/wic/canned-wks/systemd-bootdisk.wks | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-     Updates to address this include:
-.....
-     - copy entire build directory into PTEST_PATH and then remove 
-unneeded files
+diff --git a/scripts/lib/wic/canned-wks/systemd-bootdisk.wks b/scripts/lib/wic/canned-wks/systemd-bootdisk.wks
+index b900023..4bd9d6a 100644
+--- a/scripts/lib/wic/canned-wks/systemd-bootdisk.wks
++++ b/scripts/lib/wic/canned-wks/systemd-bootdisk.wks
+@@ -4,7 +4,7 @@
+ 
+ part /boot --source bootimg-efi --sourceparams="loader=systemd-boot" --ondisk sda --label msdos --active --align 1024
+ 
+-part / --source rootfs --ondisk sda --fstype=ext4 --label platform --align 1024
++part / --source rootfs --ondisk sda --fstype=ext4 --label platform --align 1024 --use-uuid
+ 
+ part swap --ondisk sda --size 44 --label swap1 --fstype=swap
+ 
+-- 
+2.1.4
 
-
-
-So I'll add more lines to that unneeded files removal, but the approach 
-of copying everything then removing unneeded stuff is not good for 
-maintenance, also considering that for this recipe the build and source 
-trees are the same directory. Should be a selective copy.
-
-Alex
 
