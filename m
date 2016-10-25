@@ -1,45 +1,35 @@
-Return-Path: <ulfalizer@gmail.com>
-Received: from mail-vk0-f66.google.com (mail-vk0-f66.google.com
-	[209.85.213.66])
-	by mail.openembedded.org (Postfix) with ESMTP id BCFAE71C2A
+Return-Path: <michael.blaettler@siemens.com>
+Received: from david.siemens.de (david.siemens.de [192.35.17.14])
+	by mail.openembedded.org (Postfix) with ESMTP id CB3DD71989
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Oct 2016 11:29:46 +0000 (UTC)
-Received: by mail-vk0-f66.google.com with SMTP id 14so786562vke.1
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Oct 2016 04:29:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=KcxdUVwkSmWhx1hUyD3q/PgF63RqhHP03KXg1B28h54=;
-	b=ReAvhPfPKD5zE70BLT315tRFECFuzAbvdJucErNHA1vG+BvhXBkP5uq2yytFazUjts
-	HYHuuYhkeHtqDzTQQh4viQon8lhtjtL+i/un0ECOmrwOPLLdX6RLS4iC6n7iZVp+Io4w
-	G2N8Zrdj86GO+7kpF418MECGOhY2AFj8bjimP8mxNjuK6lOK+vf6gM4Kkn6qnvbJBKnz
-	f+tXtsB2vShl6OBPhYD5bGo5FyjGW9qiPkiBCnEZJTVhkXhuEUaNtl2yFY38fMXnTG3a
-	zAzZ+zBjx9Lzh2ZVAYTO6Cz4Gbzs2kSMnWwCJpn1Ud6jvMddGv230qpO4Gveivmu8sRJ
-	tLPw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=KcxdUVwkSmWhx1hUyD3q/PgF63RqhHP03KXg1B28h54=;
-	b=A910eJJ6iQcV16b3U8qIi2qYG3F2izdfxvJEKGju+OnNU3IXGJ9DeZ5ur36t93M+sL
-	zz3hdJYBVRyyBOiLKvxuapPX05Hr+3kzPHs6Iqj1QR0MWgJPzZfr/dY/9+nAW/84P7Hw
-	PS2qELvp4q8JSFBCU7KOCdW3p9H5f7W+OsQL7ngbVoy8bU3k0KunK38OF8hnQiVhU1FA
-	UYVxmIE72nQnY+JTbTdeaAEUGqLpYOA68ikzdO3AJQSm/rRj+EYCFofCUifcXK9/cR8n
-	Os7AKCLo/rY35bUqVXd2HqIIBeoUiAi/ddEb2sy0SG/I3aFi6pmLY0W3akErXuldmfgP
-	AUlg==
-X-Gm-Message-State: ABUngvd5B4wXvoDUFcJJ9ILX7GiIqM4CknVjW9gAO5wbCm2c6ZCfDughqZpqy5omNWZEaO+5FYUH+9b5NnlFZA==
-X-Received: by 10.31.52.66 with SMTP id b63mr14775009vka.9.1477394987707; Tue,
-	25 Oct 2016 04:29:47 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.103.153.194 with HTTP; Tue, 25 Oct 2016 04:29:47 -0700 (PDT)
-In-Reply-To: <CAFkk2KRg0eC98kRU=vAbdCG8zLAaB6B9_H2tBiY-bweoNfLSsA@mail.gmail.com>
+	Tue, 25 Oct 2016 11:46:56 +0000 (UTC)
+Received: from mail1.sbs.de (mail1.sbs.de [192.129.41.35])
+	by david.siemens.de (8.15.2/8.15.2) with ESMTPS id u9PBkuMk014493
+	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK); 
+	Tue, 25 Oct 2016 13:46:56 +0200
+Received: from DEFTHW99ERNMSX.ww902.siemens.net
+	(defthw99ernmsx.ww902.siemens.net [139.22.70.141])
+	by mail1.sbs.de (8.15.2/8.15.2) with ESMTPS id u9PBkt1o004347
+	(version=TLSv1 cipher=AES256-SHA bits=256 verify=OK);
+	Tue, 25 Oct 2016 13:46:55 +0200
+Received: from DEFTHW99EH2MSX.ww902.siemens.net ([169.254.12.168]) by
+	DEFTHW99ERNMSX.ww902.siemens.net ([139.22.70.141]) with mapi id
+	14.03.0319.002; Tue, 25 Oct 2016 13:46:55 +0200
+From: "Blaettler, Michael" <michael.blaettler@siemens.com>
+To: Ulf Magnusson <ulfalizer@gmail.com>
+Thread-Topic: [OE-core] [PATCH v2] package.py: New EXTRA_STRIPFLAGS variable
+Thread-Index: AQHSLqnF9sq/ldjdbU2Dz6MGL5UenKC45CAAgAADM4CAACU8UA==
+Date: Tue, 25 Oct 2016 11:46:54 +0000
+Message-ID: <347AAC56F29ACA4EA31B39C2109A6FE702F13006@DEFTHW99EH2MSX.ww902.siemens.net>
 References: <1477390980-16319-1-git-send-email-michael.blaettler@siemens.com>
 	<CAFkk2KRg0eC98kRU=vAbdCG8zLAaB6B9_H2tBiY-bweoNfLSsA@mail.gmail.com>
-From: Ulf Magnusson <ulfalizer@gmail.com>
-Date: Tue, 25 Oct 2016 13:29:47 +0200
-Message-ID: <CAFkk2KTg=et1wgtoHMhPdidNQ0iiGeJ95_2APkkQdj1=2yRd3Q@mail.gmail.com>
-To: =?UTF-8?Q?Michael_Bl=C3=A4ttler?= <michael.blaettler@siemens.com>
+	<CAFkk2KTg=et1wgtoHMhPdidNQ0iiGeJ95_2APkkQdj1=2yRd3Q@mail.gmail.com>
+In-Reply-To: <CAFkk2KTg=et1wgtoHMhPdidNQ0iiGeJ95_2APkkQdj1=2yRd3Q@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [139.22.70.52]
+MIME-Version: 1.0
 Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH v2] package.py: New EXTRA_STRIPFLAGS variable
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -54,123 +44,90 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 25 Oct 2016 11:29:47 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 25 Oct 2016 11:46:57 -0000
+Content-Language: de-DE
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-On Tue, Oct 25, 2016 at 1:18 PM, Ulf Magnusson <ulfalizer@gmail.com> wrote:
-> On Tue, Oct 25, 2016 at 12:23 PM, Michael Bl=C3=A4ttler
-> <michael.blaettler@siemens.com> wrote:
->> The EXTRA_STRIPFLAGS variable can be used to pass additional parameters =
-to the strip command.
->> This can be used to remove additional sections or to keep symbols.
->> The removal of additional sections can be useful to enable reproducible =
-builds.
->> Sections which contain paths or md5sums of the debug binaries (like gnu_=
-debuglink)
->> can be eliminated with this flag.
->>
->> Signed-off-by: Pascal Bach <pascal.bach@siemens.com>
->> Signed-off-by: Michael Bl=C3=A4ttler <michael.blaettler@siemens.com>
->> ---
->>  meta/classes/package.bbclass |  5 +++--
->>  meta/lib/oe/package.py       | 13 ++++++-------
->>  2 files changed, 9 insertions(+), 9 deletions(-)
->>
->> diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
->> index a6f0a7a..05b92a8 100644
->> --- a/meta/classes/package.bbclass
->> +++ b/meta/classes/package.bbclass
->> @@ -1055,14 +1055,15 @@ python split_and_strip_files () {
->>      # Now lets go back over things and strip them
->>      #
->>      if (d.getVar('INHIBIT_PACKAGE_STRIP', True) !=3D '1'):
->> +        extraflags =3D d.getVar('EXTRA_STRIPFLAGS', False)
->
-> Why False? That means you can't do e.g.
->
->   EXTRA_STRIPFLAGS =3D "${EXTRA_STRIPSFLAGS_HELPER}"
->
-> or
->
->   EXTRA_STRIPFLAGS =3D "${@calculate_extra_stripflags()}"
->
->>          strip =3D d.getVar("STRIP", True)
->>          sfiles =3D []
->>          for file in elffiles:
->>              elf_file =3D int(elffiles[file])
->>              #bb.note("Strip %s" % file)
->> -            sfiles.append((file, elf_file, strip))
->> +            sfiles.append((file, elf_file, strip, extraflags))
->>          for f in kernmods:
->> -            sfiles.append((f, 16, strip))
->> +            sfiles.append((f, 16, strip, extraflags))
->>
->>          oe.utils.multiprocess_exec(sfiles, oe.package.runstrip)
->>
->> diff --git a/meta/lib/oe/package.py b/meta/lib/oe/package.py
->> index 02642f2..757044a 100644
->> --- a/meta/lib/oe/package.py
->> +++ b/meta/lib/oe/package.py
->> @@ -10,7 +10,7 @@ def runstrip(arg):
->>
->>      import stat, subprocess
->>
->> -    (file, elftype, strip) =3D arg
->> +    (file, elftype, strip, extraflags) =3D arg
->>
->>      newmode =3D None
->>      if not os.access(file, os.W_OK) or os.access(file, os.R_OK):
->> @@ -18,17 +18,16 @@ def runstrip(arg):
->>          newmode =3D origmode | stat.S_IWRITE | stat.S_IREAD
->>          os.chmod(file, newmode)
->>
->> -    extraflags =3D ""
->> -
->> -    # kernel module
->> +    extraflags +=3D ' '
->
-> I'd remove this line and add an extra space to the beginning of the +=3D
-> values below, but no biggie.
->
->> +    # kernel module
->>      if elftype & 16:
->> -        extraflags =3D "--strip-debug --remove-section=3D.comment --rem=
-ove-section=3D.note --preserve-dates"
->> +        extraflags +=3D "--strip-debug --remove-section=3D.comment --re=
-move-section=3D.note --preserve-dates"
->>      # .so and shared library
->>      elif ".so" in file and elftype & 8:
->> -        extraflags =3D "--remove-section=3D.comment --remove-section=3D=
-.note --strip-unneeded"
->> +        extraflags +=3D "--remove-section=3D.comment --remove-section=
-=3D.note --strip-unneeded"
->>      # shared or executable:
->>      elif elftype & 8 or elftype & 4:
->> -        extraflags =3D "--remove-section=3D.comment --remove-section=3D=
-.note"
->> +        extraflags +=3D "--remove-section=3D.comment --remove-section=
-=3D.note"
->>
->>      stripcmd =3D "'%s' %s '%s'" % (strip, extraflags, file)
->>      bb.debug(1, "runstrip: %s" % stripcmd)
->> --
->> 2.1.4
->>
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
-> Cheers,
-> Ulf
-
-This might still have issues if EXTRA_STRIPFLAGS is unset by the way.
-Maybe you want the following, to avoid extraflags becoming None:
-
-  extraflags =3D d.getVar('EXTRA_STRIPFLAGS', True) or ""
-
-Cheers,
-Ulf
+SGkgVWxmDQoNClRoYW5rcyBmb3IgeW91ciBmZWVkYmFjay4NCkkgc2VlIG5vIHByb2JsZW0gaW4g
+dXNpbmcgImQuZ2V0VmFyKCdFWFRSQV9TVFJJUEZMQUdTJywgVHJ1ZSkiLiBJJ2xsIGFwcGx5IHRo
+ZSBjaGFuZ2VzIGFuZCBzZW5kIGFub3RoZXIgcmV2aXNpb24gb2YgdGhlIHBhdGNoLg0KDQpLaW5k
+IHJlZ2FyZHMNCg0KTWljaGFlbA0KDQotLS0tLVVyc3Byw7xuZ2xpY2hlIE5hY2hyaWNodC0tLS0t
+DQpWb246IFVsZiBNYWdudXNzb24gW21haWx0bzp1bGZhbGl6ZXJAZ21haWwuY29tXSANCkdlc2Vu
+ZGV0OiBEaWVuc3RhZywgMjUuIE9rdG9iZXIgMjAxNiAxMzozMA0KQW46IEJsYWV0dGxlciwgTWlj
+aGFlbCAoQlQgQ1BTIFImRCBaRyBGVyBJVFcpDQpDYzogT0UtY29yZQ0KQmV0cmVmZjogUmU6IFtP
+RS1jb3JlXSBbUEFUQ0ggdjJdIHBhY2thZ2UucHk6IE5ldyBFWFRSQV9TVFJJUEZMQUdTIHZhcmlh
+YmxlDQoNCk9uIFR1ZSwgT2N0IDI1LCAyMDE2IGF0IDE6MTggUE0sIFVsZiBNYWdudXNzb24gPHVs
+ZmFsaXplckBnbWFpbC5jb20+IHdyb3RlOg0KPiBPbiBUdWUsIE9jdCAyNSwgMjAxNiBhdCAxMjoy
+MyBQTSwgTWljaGFlbCBCbMOkdHRsZXIgDQo+IDxtaWNoYWVsLmJsYWV0dGxlckBzaWVtZW5zLmNv
+bT4gd3JvdGU6DQo+PiBUaGUgRVhUUkFfU1RSSVBGTEFHUyB2YXJpYWJsZSBjYW4gYmUgdXNlZCB0
+byBwYXNzIGFkZGl0aW9uYWwgcGFyYW1ldGVycyB0byB0aGUgc3RyaXAgY29tbWFuZC4NCj4+IFRo
+aXMgY2FuIGJlIHVzZWQgdG8gcmVtb3ZlIGFkZGl0aW9uYWwgc2VjdGlvbnMgb3IgdG8ga2VlcCBz
+eW1ib2xzLg0KPj4gVGhlIHJlbW92YWwgb2YgYWRkaXRpb25hbCBzZWN0aW9ucyBjYW4gYmUgdXNl
+ZnVsIHRvIGVuYWJsZSByZXByb2R1Y2libGUgYnVpbGRzLg0KPj4gU2VjdGlvbnMgd2hpY2ggY29u
+dGFpbiBwYXRocyBvciBtZDVzdW1zIG9mIHRoZSBkZWJ1ZyBiaW5hcmllcyAobGlrZSANCj4+IGdu
+dV9kZWJ1Z2xpbmspIGNhbiBiZSBlbGltaW5hdGVkIHdpdGggdGhpcyBmbGFnLg0KPj4NCj4+IFNp
+Z25lZC1vZmYtYnk6IFBhc2NhbCBCYWNoIDxwYXNjYWwuYmFjaEBzaWVtZW5zLmNvbT4NCj4+IFNp
+Z25lZC1vZmYtYnk6IE1pY2hhZWwgQmzDpHR0bGVyIDxtaWNoYWVsLmJsYWV0dGxlckBzaWVtZW5z
+LmNvbT4NCj4+IC0tLQ0KPj4gIG1ldGEvY2xhc3Nlcy9wYWNrYWdlLmJiY2xhc3MgfCAgNSArKyst
+LQ0KPj4gIG1ldGEvbGliL29lL3BhY2thZ2UucHkgICAgICAgfCAxMyArKysrKystLS0tLS0tDQo+
+PiAgMiBmaWxlcyBjaGFuZ2VkLCA5IGluc2VydGlvbnMoKyksIDkgZGVsZXRpb25zKC0pDQo+Pg0K
+Pj4gZGlmZiAtLWdpdCBhL21ldGEvY2xhc3Nlcy9wYWNrYWdlLmJiY2xhc3MgDQo+PiBiL21ldGEv
+Y2xhc3Nlcy9wYWNrYWdlLmJiY2xhc3MgaW5kZXggYTZmMGE3YS4uMDViOTJhOCAxMDA2NDQNCj4+
+IC0tLSBhL21ldGEvY2xhc3Nlcy9wYWNrYWdlLmJiY2xhc3MNCj4+ICsrKyBiL21ldGEvY2xhc3Nl
+cy9wYWNrYWdlLmJiY2xhc3MNCj4+IEBAIC0xMDU1LDE0ICsxMDU1LDE1IEBAIHB5dGhvbiBzcGxp
+dF9hbmRfc3RyaXBfZmlsZXMgKCkgew0KPj4gICAgICAjIE5vdyBsZXRzIGdvIGJhY2sgb3ZlciB0
+aGluZ3MgYW5kIHN0cmlwIHRoZW0NCj4+ICAgICAgIw0KPj4gICAgICBpZiAoZC5nZXRWYXIoJ0lO
+SElCSVRfUEFDS0FHRV9TVFJJUCcsIFRydWUpICE9ICcxJyk6DQo+PiArICAgICAgICBleHRyYWZs
+YWdzID0gZC5nZXRWYXIoJ0VYVFJBX1NUUklQRkxBR1MnLCBGYWxzZSkNCj4NCj4gV2h5IEZhbHNl
+PyBUaGF0IG1lYW5zIHlvdSBjYW4ndCBkbyBlLmcuDQo+DQo+ICAgRVhUUkFfU1RSSVBGTEFHUyA9
+ICIke0VYVFJBX1NUUklQU0ZMQUdTX0hFTFBFUn0iDQo+DQo+IG9yDQo+DQo+ICAgRVhUUkFfU1RS
+SVBGTEFHUyA9ICIke0BjYWxjdWxhdGVfZXh0cmFfc3RyaXBmbGFncygpfSINCj4NCj4+ICAgICAg
+ICAgIHN0cmlwID0gZC5nZXRWYXIoIlNUUklQIiwgVHJ1ZSkNCj4+ICAgICAgICAgIHNmaWxlcyA9
+IFtdDQo+PiAgICAgICAgICBmb3IgZmlsZSBpbiBlbGZmaWxlczoNCj4+ICAgICAgICAgICAgICBl
+bGZfZmlsZSA9IGludChlbGZmaWxlc1tmaWxlXSkNCj4+ICAgICAgICAgICAgICAjYmIubm90ZSgi
+U3RyaXAgJXMiICUgZmlsZSkNCj4+IC0gICAgICAgICAgICBzZmlsZXMuYXBwZW5kKChmaWxlLCBl
+bGZfZmlsZSwgc3RyaXApKQ0KPj4gKyAgICAgICAgICAgIHNmaWxlcy5hcHBlbmQoKGZpbGUsIGVs
+Zl9maWxlLCBzdHJpcCwgZXh0cmFmbGFncykpDQo+PiAgICAgICAgICBmb3IgZiBpbiBrZXJubW9k
+czoNCj4+IC0gICAgICAgICAgICBzZmlsZXMuYXBwZW5kKChmLCAxNiwgc3RyaXApKQ0KPj4gKyAg
+ICAgICAgICAgIHNmaWxlcy5hcHBlbmQoKGYsIDE2LCBzdHJpcCwgZXh0cmFmbGFncykpDQo+Pg0K
+Pj4gICAgICAgICAgb2UudXRpbHMubXVsdGlwcm9jZXNzX2V4ZWMoc2ZpbGVzLCBvZS5wYWNrYWdl
+LnJ1bnN0cmlwKQ0KPj4NCj4+IGRpZmYgLS1naXQgYS9tZXRhL2xpYi9vZS9wYWNrYWdlLnB5IGIv
+bWV0YS9saWIvb2UvcGFja2FnZS5weSBpbmRleCANCj4+IDAyNjQyZjIuLjc1NzA0NGEgMTAwNjQ0
+DQo+PiAtLS0gYS9tZXRhL2xpYi9vZS9wYWNrYWdlLnB5DQo+PiArKysgYi9tZXRhL2xpYi9vZS9w
+YWNrYWdlLnB5DQo+PiBAQCAtMTAsNyArMTAsNyBAQCBkZWYgcnVuc3RyaXAoYXJnKToNCj4+DQo+
+PiAgICAgIGltcG9ydCBzdGF0LCBzdWJwcm9jZXNzDQo+Pg0KPj4gLSAgICAoZmlsZSwgZWxmdHlw
+ZSwgc3RyaXApID0gYXJnDQo+PiArICAgIChmaWxlLCBlbGZ0eXBlLCBzdHJpcCwgZXh0cmFmbGFn
+cykgPSBhcmcNCj4+DQo+PiAgICAgIG5ld21vZGUgPSBOb25lDQo+PiAgICAgIGlmIG5vdCBvcy5h
+Y2Nlc3MoZmlsZSwgb3MuV19PSykgb3Igb3MuYWNjZXNzKGZpbGUsIG9zLlJfT0spOg0KPj4gQEAg
+LTE4LDE3ICsxOCwxNiBAQCBkZWYgcnVuc3RyaXAoYXJnKToNCj4+ICAgICAgICAgIG5ld21vZGUg
+PSBvcmlnbW9kZSB8IHN0YXQuU19JV1JJVEUgfCBzdGF0LlNfSVJFQUQNCj4+ICAgICAgICAgIG9z
+LmNobW9kKGZpbGUsIG5ld21vZGUpDQo+Pg0KPj4gLSAgICBleHRyYWZsYWdzID0gIiINCj4+IC0N
+Cj4+IC0gICAgIyBrZXJuZWwgbW9kdWxlDQo+PiArICAgIGV4dHJhZmxhZ3MgKz0gJyAnDQo+DQo+
+IEknZCByZW1vdmUgdGhpcyBsaW5lIGFuZCBhZGQgYW4gZXh0cmEgc3BhY2UgdG8gdGhlIGJlZ2lu
+bmluZyBvZiB0aGUgKz0gDQo+IHZhbHVlcyBiZWxvdywgYnV0IG5vIGJpZ2dpZS4NCj4NCj4+ICsg
+ICAgIyBrZXJuZWwgbW9kdWxlDQo+PiAgICAgIGlmIGVsZnR5cGUgJiAxNjoNCj4+IC0gICAgICAg
+IGV4dHJhZmxhZ3MgPSAiLS1zdHJpcC1kZWJ1ZyAtLXJlbW92ZS1zZWN0aW9uPS5jb21tZW50IC0t
+cmVtb3ZlLXNlY3Rpb249Lm5vdGUgLS1wcmVzZXJ2ZS1kYXRlcyINCj4+ICsgICAgICAgIGV4dHJh
+ZmxhZ3MgKz0gIi0tc3RyaXAtZGVidWcgLS1yZW1vdmUtc2VjdGlvbj0uY29tbWVudCAtLXJlbW92
+ZS1zZWN0aW9uPS5ub3RlIC0tcHJlc2VydmUtZGF0ZXMiDQo+PiAgICAgICMgLnNvIGFuZCBzaGFy
+ZWQgbGlicmFyeQ0KPj4gICAgICBlbGlmICIuc28iIGluIGZpbGUgYW5kIGVsZnR5cGUgJiA4Og0K
+Pj4gLSAgICAgICAgZXh0cmFmbGFncyA9ICItLXJlbW92ZS1zZWN0aW9uPS5jb21tZW50IC0tcmVt
+b3ZlLXNlY3Rpb249Lm5vdGUgLS1zdHJpcC11bm5lZWRlZCINCj4+ICsgICAgICAgIGV4dHJhZmxh
+Z3MgKz0gIi0tcmVtb3ZlLXNlY3Rpb249LmNvbW1lbnQgLS1yZW1vdmUtc2VjdGlvbj0ubm90ZSAt
+LXN0cmlwLXVubmVlZGVkIg0KPj4gICAgICAjIHNoYXJlZCBvciBleGVjdXRhYmxlOg0KPj4gICAg
+ICBlbGlmIGVsZnR5cGUgJiA4IG9yIGVsZnR5cGUgJiA0Og0KPj4gLSAgICAgICAgZXh0cmFmbGFn
+cyA9ICItLXJlbW92ZS1zZWN0aW9uPS5jb21tZW50IC0tcmVtb3ZlLXNlY3Rpb249Lm5vdGUiDQo+
+PiArICAgICAgICBleHRyYWZsYWdzICs9ICItLXJlbW92ZS1zZWN0aW9uPS5jb21tZW50IC0tcmVt
+b3ZlLXNlY3Rpb249Lm5vdGUiDQo+Pg0KPj4gICAgICBzdHJpcGNtZCA9ICInJXMnICVzICclcyci
+ICUgKHN0cmlwLCBleHRyYWZsYWdzLCBmaWxlKQ0KPj4gICAgICBiYi5kZWJ1ZygxLCAicnVuc3Ry
+aXA6ICVzIiAlIHN0cmlwY21kKQ0KPj4gLS0NCj4+IDIuMS40DQo+Pg0KPj4gLS0NCj4+IF9fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fDQo+PiBPcGVuZW1iZWRk
+ZWQtY29yZSBtYWlsaW5nIGxpc3QNCj4+IE9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJl
+ZGRlZC5vcmcNCj4+IGh0dHA6Ly9saXN0cy5vcGVuZW1iZWRkZWQub3JnL21haWxtYW4vbGlzdGlu
+Zm8vb3BlbmVtYmVkZGVkLWNvcmUNCj4NCj4gQ2hlZXJzLA0KPiBVbGYNCg0KVGhpcyBtaWdodCBz
+dGlsbCBoYXZlIGlzc3VlcyBpZiBFWFRSQV9TVFJJUEZMQUdTIGlzIHVuc2V0IGJ5IHRoZSB3YXku
+DQpNYXliZSB5b3Ugd2FudCB0aGUgZm9sbG93aW5nLCB0byBhdm9pZCBleHRyYWZsYWdzIGJlY29t
+aW5nIE5vbmU6DQoNCiAgZXh0cmFmbGFncyA9IGQuZ2V0VmFyKCdFWFRSQV9TVFJJUEZMQUdTJywg
+VHJ1ZSkgb3IgIiINCg0KQ2hlZXJzLA0KVWxmDQo=
 
