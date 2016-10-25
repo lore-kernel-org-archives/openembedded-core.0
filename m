@@ -1,49 +1,47 @@
 Return-Path: <ola.x.nilsson@axis.com>
 Received: from bes.se.axis.com (bes.se.axis.com [195.60.68.10])
-	by mail.openembedded.org (Postfix) with ESMTP id F2EF4607A3
+	by mail.openembedded.org (Postfix) with ESMTP id 0003C71C06
 	for <openembedded-core@lists.openembedded.org>;
 	Tue, 25 Oct 2016 11:03:41 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by bes.se.axis.com (Postfix) with ESMTP id 5DD7C2E47A
+	by bes.se.axis.com (Postfix) with ESMTP id E7A8536207
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Oct 2016 13:03:42 +0200 (CEST)
+	Tue, 25 Oct 2016 13:03:41 +0200 (CEST)
 X-Virus-Scanned: Debian amavisd-new at bes.se.axis.com
 Received: from bes.se.axis.com ([IPv6:::ffff:127.0.0.1])
 	by localhost (bes.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP id GBCwpSAJm3CL
+	port 10024) with LMTP id 6Pkb0ofBh1N1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Oct 2016 13:03:37 +0200 (CEST)
+	Tue, 25 Oct 2016 13:03:36 +0200 (CEST)
 Received: from boulder03.se.axis.com (boulder03.se.axis.com [10.0.8.17])
-	by bes.se.axis.com (Postfix) with ESMTPS id D88A0361BE
+	by bes.se.axis.com (Postfix) with ESMTPS id 82E722E47A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Oct 2016 13:03:37 +0200 (CEST)
+	Tue, 25 Oct 2016 13:03:36 +0200 (CEST)
 Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id AF9E41E094
+	by IMSVA (Postfix) with ESMTP id 697151E094
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Oct 2016 13:03:37 +0200 (CEST)
+	Tue, 25 Oct 2016 13:03:36 +0200 (CEST)
 Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id A3ACE1E092
+	by IMSVA (Postfix) with ESMTP id 5D8F91E092
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Oct 2016 13:03:37 +0200 (CEST)
-Received: from seth.se.axis.com (unknown [10.0.2.172])
+	Tue, 25 Oct 2016 13:03:36 +0200 (CEST)
+Received: from thoth.se.axis.com (unknown [10.0.2.173])
 	by boulder03.se.axis.com (Postfix) with ESMTP
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Oct 2016 13:03:37 +0200 (CEST)
+	Tue, 25 Oct 2016 13:03:36 +0200 (CEST)
 Received: from lnxolani.se.axis.com (lnxolani.se.axis.com [10.88.67.1])
-	by seth.se.axis.com (Postfix) with ESMTP id 5608251D;
+	by thoth.se.axis.com (Postfix) with ESMTP id 505CD3FA;
 	Tue, 25 Oct 2016 13:03:36 +0200 (CEST)
 Received: by lnxolani.se.axis.com (Postfix, from userid 20853)
-	id 0E70D7C614; Tue, 25 Oct 2016 13:03:35 +0200 (CEST)
+	id B0B737C615; Tue, 25 Oct 2016 13:03:35 +0200 (CEST)
 From: Ola x Nilsson <ola.x.nilsson@axis.com>
 To: olani@axis.com,
 	openembedded-core@lists.openembedded.org
-Date: Tue, 25 Oct 2016 13:03:33 +0200
-Message-Id: <1477393415-13053-3-git-send-email-olani@axis.com>
+Date: Tue, 25 Oct 2016 13:03:31 +0200
+Message-Id: <1477393415-13053-1-git-send-email-olani@axis.com>
 X-Mailer: git-send-email 2.1.4
-In-Reply-To: <1477393415-13053-1-git-send-email-olani@axis.com>
-References: <1477393415-13053-1-git-send-email-olani@axis.com>
 X-TM-AS-GCONF: 00
-Subject: [PATCH 2/4] recipetool: selftest: Add test for recipetool plugin loading
+Subject: [PATCH 0/4] Load devtool and reciptool plugins in a well-defined manner
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,130 +58,41 @@ X-List-Received-Date: Tue, 25 Oct 2016 11:03:42 -0000
 
 From: Ola x Nilsson <ola.x.nilsson@axis.com>
 
-Test that recipetool plugins are loaded in a well defined order.
+Make devtool and recipetool load plugins in a well-defined and expected manner.
 
-Signed-off-by: Ola x Nilsson <ola.x.nilsson@axis.com>
----
+devtool and reciptool search for pluings first in scripts/lib/<tool>
+and then in BBPATH.  Each found plugin is loaded, which means that any
+plugin found later in BBPATH shadows previously loaded plugins.
+plugin_init is loaded for all plugins, no matter whether they are
+later replaced.  register_plugin is called once for each time a plugin
+with a certain name is found, but it is always called on the last
+loaded plugin.
+
+Change the scriptutils.load_plugins function to never load a plugin
+file if one with the same filename has already been loaded.  This
+means that the first found plugin wins.
+
+Change the load order to first search BBPATH and then
+scripts/lib/tools.  This means that plugins in scripts/lib/<tool> can
+be shadowed by plugins in layers.
+
+Ola x Nilsson (4):
+  devtool: selftest: add test for devtool plugin loading
+  recipetool: selftest: Add test for recipetool plugin loading
+  devtool: Load plugins in a well defined order
+  recipetool: Load plugins in a well defined order
+
+ meta-selftest/lib/devtool/bbpath.py    | 44 ++++++++++++++++++++++++++++++++++
  meta-selftest/lib/recipetool/bbpath.py | 41 +++++++++++++++++++++++++++++++
+ meta/lib/oeqa/selftest/devtool.py      | 43 +++++++++++++++++++++++++++++++++
  meta/lib/oeqa/selftest/recipetool.py   | 44 ++++++++++++++++++++++++++++++++++
- 2 files changed, 85 insertions(+)
+ scripts/devtool                        |  3 ++-
+ scripts/lib/scriptutils.py             |  8 +++++--
+ scripts/recipetool                     |  4 ++--
+ 7 files changed, 182 insertions(+), 5 deletions(-)
+ create mode 100644 meta-selftest/lib/devtool/bbpath.py
  create mode 100644 meta-selftest/lib/recipetool/bbpath.py
 
-diff --git a/meta-selftest/lib/recipetool/bbpath.py b/meta-selftest/lib/recipetool/bbpath.py
-new file mode 100644
-index 0000000..783b2dc
---- /dev/null
-+++ b/meta-selftest/lib/recipetool/bbpath.py
-@@ -0,0 +1,41 @@
-+import argparse
-+
-+already_loaded = False
-+register_count = 0
-+
-+def plugin_name(filename):
-+    return os.path.splitext(os.path.basename(filename))[0]
-+
-+def plugin_init(plugins):
-+    global already_loaded
-+    already_loaded = plugin_name(__file__) in (plugin_name(p.__name__) for p in plugins)
-+
-+def print_name(opts):
-+    print (__file__)
-+
-+def print_bbdir(opts):
-+    print (__file__.replace('/lib/recipetool/bbpath.py',''))
-+
-+def print_registered(opts):
-+    #global kept_context
-+    #print(kept_context.loaded)
-+    print ("1")
-+
-+def multiloaded(opts):
-+    global already_loaded
-+    print("yes" if already_loaded else "no")
-+
-+def register_commands(subparsers):
-+    global register_count
-+    register_count += 1
-+
-+    def addparser(name, helptxt, func):
-+        parser = subparsers.add_parser(name, help=helptxt,
-+                                       formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-+        parser.set_defaults(func=func)
-+        return parser
-+
-+    addparser('pluginfile', 'Print the filename of this plugin', print_name)
-+    addparser('bbdir', 'Print the BBPATH directory of this plugin', print_bbdir)
-+    addparser('count', 'How many times have this plugin been registered.', print_registered)
-+    addparser('multiloaded', 'How many times have this plugin been initialized', multiloaded)
-diff --git a/meta/lib/oeqa/selftest/recipetool.py b/meta/lib/oeqa/selftest/recipetool.py
-index db1f8de..bcc2b46 100644
---- a/meta/lib/oeqa/selftest/recipetool.py
-+++ b/meta/lib/oeqa/selftest/recipetool.py
-@@ -1,5 +1,6 @@
- import os
- import logging
-+import shutil
- import tempfile
- import urllib.parse
- 
-@@ -485,6 +486,47 @@ class RecipetoolTests(RecipetoolBase):
-         inherits = ['pkgconfig', 'autotools']
-         self._test_recipe_contents(recipefile, checkvars, inherits)
- 
-+    def _copy_file_with_cleanup(self, srcfile, basedstdir, *paths):
-+        dstdir = basedstdir
-+        self.assertTrue(os.path.exists(dstdir))
-+        for p in paths:
-+            dstdir = os.path.join(dstdir, p)
-+            if not os.path.exists(dstdir):
-+                os.makedirs(dstdir)
-+                self.track_for_cleanup(dstdir)
-+        dstfile = os.path.join(dstdir, os.path.basename(srcfile))
-+        if srcfile != dstfile:
-+            shutil.copy(srcfile, dstfile)
-+            self.track_for_cleanup(dstfile)
-+
-+    def test_recipetool_load_plugin(self):
-+        """Test that recipetool loads only the first found plugin in BBPATH."""
-+
-+        recipetool = runCmd("which recipetool")
-+        fromname = runCmd("recipetool --quiet pluginfile")
-+        srcfile = fromname.output
-+        bbpath = get_bb_var('BBPATH')
-+        searchpath = bbpath.split(':') + [os.path.dirname(recipetool.output)]
-+        plugincontent = []
-+        with open(srcfile) as fh:
-+            plugincontent = fh.readlines()
-+        try:
-+            self.assertIn('meta-selftest', srcfile, 'wrong bbpath plugin found')
-+            for path in searchpath:
-+                self._copy_file_with_cleanup(srcfile, path, 'lib', 'recipetool')
-+            result = runCmd("recipetool --quiet count")
-+            self.assertEqual(result.output, '1')
-+            result = runCmd("recipetool --quiet multiloaded")
-+            self.assertEqual(result.output, "no")
-+            for path in searchpath:
-+                result = runCmd("recipetool --quiet bbdir")
-+                self.assertEqual(result.output, path)
-+                os.unlink(os.path.join(result.output, 'lib', 'recipetool', 'bbpath.py'))
-+        finally:
-+            with open(srcfile, 'w') as fh:
-+                fh.writelines(plugincontent)
-+
-+
- class RecipetoolAppendsrcBase(RecipetoolBase):
-     def _try_recipetool_appendsrcfile(self, testrecipe, newfile, destfile, options, expectedlines, expectedfiles):
-         cmd = 'recipetool appendsrcfile %s %s %s %s %s' % (options, self.templayerdir, testrecipe, newfile, destfile)
-@@ -574,6 +616,8 @@ class RecipetoolAppendsrcBase(RecipetoolBase):
-         self.assertIn(filesdir, filesextrapaths)
- 
- 
-+
-+
- class RecipetoolAppendsrcTests(RecipetoolAppendsrcBase):
- 
-     @testcase(1273)
 -- 
 2.1.4
 
