@@ -1,68 +1,32 @@
-Return-Path: <anders@chargestorm.se>
-Received: from mail-lf0-f42.google.com (mail-lf0-f42.google.com
-	[209.85.215.42])
-	by mail.openembedded.org (Postfix) with ESMTP id AE1AE71A6D
+Return-Path: <ed.bartosh@linux.intel.com>
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+	by mail.openembedded.org (Postfix) with ESMTP id 6CD03719A0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Oct 2016 07:49:22 +0000 (UTC)
-Received: by mail-lf0-f42.google.com with SMTP id o16so5832550lff.7
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Oct 2016 00:49:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=chargestorm-se.20150623.gappssmtp.com; s=20150623;
-	h=date:from:to:cc:subject:message-id:mail-followup-to:references
-	:mime-version:content-disposition:in-reply-to:organization
-	:user-agent; bh=fGHzJc5oFXoUGeGK0zSE8ncVVHZbaRlR8VWve8ML8Is=;
-	b=pL4mYDiHoVhws6FxZe0JoSKaRwXc5AikSAQp0LPeYRvhi0RzCzTUfu7kdurkOxL8tz
-	MKF9LzlgLpIHQBvM1+MMC0qBWbMmlcDb2ebuzOvxxmfIxoGRSCC9hm67WWB2eWEV3r4N
-	ixemMwqr3woETfHQM7vAKgSgsI9A6cZoVKypC0IWRRe63GO8LVLSXlhcGxYe1OvugRH9
-	lkEcRjm7yPGhZBpUzGukwt7DChgsxJBy7RWX6oosa6Q0x6KB9hWofiZ0bEbhZdWF9Mba
-	GWOo/QH2bA7U0bHYa8bwb9D3yWFZ8f8euJ72cStRoF2ErI1RGcRQ1bZ9gNWIzRj1PbNw
-	Soew==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:date:from:to:cc:subject:message-id
-	:mail-followup-to:references:mime-version:content-disposition
-	:in-reply-to:organization:user-agent;
-	bh=fGHzJc5oFXoUGeGK0zSE8ncVVHZbaRlR8VWve8ML8Is=;
-	b=lhuu6Rko/iQ9xloExFRjB2A0sUPzDs/gT80B/pL0QDSgI0xxBdSFwWoldNJ4Vl1AR1
-	k6jniE5ba6/49eC+8Bb6iOj5bndVl783aJehlDxUaZKmHDDGcxsvWY064YsEHl6YVJ4R
-	aQoRPHhZE4E0EzQDz6L0onrH4wVAXskKX4Nu3cnbNiWcluprw0P5mrUXOOM8Ivl2/ddC
-	2Slt6x2OxBppMUy/Senw1cFAe3iCQMlarr1f2ziO9dLU2mDQRDsr4lQ+awvHNAysQttq
-	ats3Pc29FlufK3dcusLxtozaJRrlXtqUVf3/ZJL2ARky1p4BZ/xpOmduYMJEOSrCLscY
-	vU8g==
-X-Gm-Message-State: ABUngvdOxbZ9YCpAwoLlq0yuuOZ+MlEz4hXbLRBOYJak/MDEqm0p85XQZx0zsLMj4o/mhQ==
-X-Received: by 10.25.26.73 with SMTP id a70mr9630988lfa.108.1477381763524;
-	Tue, 25 Oct 2016 00:49:23 -0700 (PDT)
-Received: from ad.chargestorm.se (213-64-218-49-no126.business.telia.com.
-	[213.64.218.49])
-	by smtp.gmail.com with ESMTPSA id u3sm3638011lja.8.2016.10.25.00.49.22
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Tue, 25 Oct 2016 00:49:22 -0700 (PDT)
-Date: Tue, 25 Oct 2016 09:49:21 +0200
-From: Anders Darander <anders@chargestorm.se>
-To: "thilo.cestonaro@ts.fujitsu.com" <thilo.cestonaro@ts.fujitsu.com>
-Message-ID: <20161025074921.sqpe3dup4jqkcqe5@ad.chargestorm.se>
-Mail-Followup-To: "thilo.cestonaro@ts.fujitsu.com"
-	<thilo.cestonaro@ts.fujitsu.com>, 
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>, 
-	"raj.khem@gmail.com" <raj.khem@gmail.com>
-References: <58072ca7.c70f420a.fed0f.74b1SMTPIN_ADDED_BROKEN@mx.google.com>
-	<432953B0-59CB-4E94-A670-C4BD4A12C88A@gmail.com>
-	<1476944666.6754.1.camel@ts.fujitsu.com>
-	<20161024043614.3gqmsqpu2h52tnpr@ad.chargestorm.se>
-	<1477380507.4894.4.camel@ts.fujitsu.com>
+	Tue, 25 Oct 2016 08:33:36 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by orsmga104.jf.intel.com with ESMTP; 25 Oct 2016 01:33:38 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.31,545,1473145200"; d="scan'208";a="1075324093"
+Received: from linux.intel.com ([10.54.29.200])
+	by fmsmga002.fm.intel.com with ESMTP; 25 Oct 2016 01:33:30 -0700
+Received: from linux.intel.com (vmed.fi.intel.com [10.237.72.68])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by linux.intel.com (Postfix) with ESMTP id 776916A4080;
+	Tue, 25 Oct 2016 01:32:55 -0700 (PDT)
+Date: Tue, 25 Oct 2016 10:56:13 +0300
+From: Ed Bartosh <ed.bartosh@linux.intel.com>
+To: Saul Wold <saul.wold@intel.com>
+Message-ID: <20161025075613.GA22683@linux.intel.com>
+Reply-To: ed.bartosh@linux.intel.com
+References: <1477317281-19518-1-git-send-email-ed.bartosh@linux.intel.com>
+	<1477330480.6169.3.camel@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <1477380507.4894.4.camel@ts.fujitsu.com>
-X-Accept-Language: sv, en, de
-X-GPG-Fingerprint: 5AF0 B2E9 78FE 9D75 D110  6F8F 3E31 84D7 920E 938C
-X-GPG-Key-Id: 0x920E938C
-X-GPG-Keyserver: hkp://keys.gnupg.net
-Organization: ChargeStorm AB
-User-Agent: NeoMutt/20161014 (1.7.1)
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: meta-toolchain and meta-toolchain-qt for specific image
+In-Reply-To: <1477330480.6169.3.camel@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: benjamin.esquivel@intel.com, openembedded-core@lists.openembedded.org
+Subject: Re: [wic][PATCH] systemd-bootdisk.wks: use PARTUUID
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -75,29 +39,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 25 Oct 2016 07:49:24 -0000
-Content-Type: text/plain; charset=us-ascii
+X-List-Received-Date: Tue, 25 Oct 2016 08:33:37 -0000
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-* thilo.cestonaro@ts.fujitsu.com <thilo.cestonaro@ts.fujitsu.com> [161025 09:28]:
+On Mon, Oct 24, 2016 at 10:34:40AM -0700, Saul Wold wrote:
+> On Mon, 2016-10-24 at 16:54 +0300, Ed Bartosh wrote:
+> > Root device name in systemd-bootdisk.wks is 'sda'. This can cause
+> > images, produced using this wks to refuse booting if real device
+> > name is not 'sda'. For example, when booting MinnowBoard MAX from
+> > MicroSD card the boot process stucks with this message on the boot
+> > console output: Waiting for root device /dev/sda2...
+> > This happens because real device name of MicroSD card on this device
+> > is mmcblk1.
+> > 
+> > Used --use-uuid option for root partition. This should make
+> > wic to put partiion UUID instead of device name into kernel command
+> > line.
+> > 
+> > [YOCTO #10485]
+> > 
+> > Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
+> > ---
+> >  scripts/lib/wic/canned-wks/systemd-bootdisk.wks | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > 
+> > diff --git a/scripts/lib/wic/canned-wks/systemd-bootdisk.wks
+> > b/scripts/lib/wic/canned-wks/systemd-bootdisk.wks
+> > index b900023..4bd9d6a 100644
+> > --- a/scripts/lib/wic/canned-wks/systemd-bootdisk.wks
+> > +++ b/scripts/lib/wic/canned-wks/systemd-bootdisk.wks
+> > @@ -4,7 +4,7 @@
+> >  
+> >  part /boot --source bootimg-efi --sourceparams="loader=systemd-boot" 
+> > --ondisk sda --label msdos --active --align 1024
+> >  
+> > -part / --source rootfs --ondisk sda --fstype=ext4 --label platform
+> > --align 1024
+> > +part / --source rootfs --ondisk sda --fstype=ext4 --label platform
+> > --align 1024 --use-uuid
+> >  
+>  part swap --ondisk sda --size 44 --label swap1 --fstype=swap
+> >  
+> I understand the --use-uuid for the partition labeling, but how does it
+> affect everything marked as ondisk sda?  Or is ondisk ignored with use-
+> uuid?
 
-> Hey
+--use-uuid uses PARTUUID to specify root device in kernel command line
+instead of /dev/sdaX. In this sense yes, sda is ignored.
 
-> > Well, have your image `inherit populate_sdk_qt5`, and then call
+However, disk name(sda) is also used to group partitions to one disk image.
+Theoretically wic can produce several images if more than one disk name
+is used in .wks file.
 
-> > `bitbake <your-image> -c populate_sdk`. That'll give you the standard,
-> > image-based SDK, with Qt5 in it.
+For swap position sda is still used, which can make swap partitions not
+functional on the devices with different disk names. This needs to be fixed
+by using PARTUUID in fstab for swap partitions. For this to work in poky images
+busybox swapon should support PARTUUID syntax, which I'm not entirely sure it does.
 
-> Can the image and the sdk be build seperatly then? Or will a "bitbake <my-image>" build the qt5 toolchain directly too?
-> This is what I intended to get rid off. To be able to build the image and the sdk in two independed build steps.
-
-Yes, `bitbake <my-image>` does only build your image and `bitbake
-<my-image> -c populate_sdk` does only build the SDK. 
-
-Cheers,
-Anders
-
--- 
-Anders Darander, Senior System Architect
-ChargeStorm AB / eStorm AB
+--
+Regards,
+Ed
 
