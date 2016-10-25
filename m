@@ -1,37 +1,30 @@
-Return-Path: <michael.blaettler@siemens.com>
-Received: from david.siemens.de (david.siemens.de [192.35.17.14])
-	by mail.openembedded.org (Postfix) with ESMTP id CB3DD71989
+Return-Path: <rpjday@crashcourse.ca>
+Received: from smtp484.redcondor.net (smtp484.redcondor.net [208.80.204.84])
+	by mail.openembedded.org (Postfix) with ESMTP id 60846719A8
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Oct 2016 11:46:56 +0000 (UTC)
-Received: from mail1.sbs.de (mail1.sbs.de [192.129.41.35])
-	by david.siemens.de (8.15.2/8.15.2) with ESMTPS id u9PBkuMk014493
-	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK); 
-	Tue, 25 Oct 2016 13:46:56 +0200
-Received: from DEFTHW99ERNMSX.ww902.siemens.net
-	(defthw99ernmsx.ww902.siemens.net [139.22.70.141])
-	by mail1.sbs.de (8.15.2/8.15.2) with ESMTPS id u9PBkt1o004347
-	(version=TLSv1 cipher=AES256-SHA bits=256 verify=OK);
-	Tue, 25 Oct 2016 13:46:55 +0200
-Received: from DEFTHW99EH2MSX.ww902.siemens.net ([169.254.12.168]) by
-	DEFTHW99ERNMSX.ww902.siemens.net ([139.22.70.141]) with mapi id
-	14.03.0319.002; Tue, 25 Oct 2016 13:46:55 +0200
-From: "Blaettler, Michael" <michael.blaettler@siemens.com>
-To: Ulf Magnusson <ulfalizer@gmail.com>
-Thread-Topic: [OE-core] [PATCH v2] package.py: New EXTRA_STRIPFLAGS variable
-Thread-Index: AQHSLqnF9sq/ldjdbU2Dz6MGL5UenKC45CAAgAADM4CAACU8UA==
-Date: Tue, 25 Oct 2016 11:46:54 +0000
-Message-ID: <347AAC56F29ACA4EA31B39C2109A6FE702F13006@DEFTHW99EH2MSX.ww902.siemens.net>
-References: <1477390980-16319-1-git-send-email-michael.blaettler@siemens.com>
-	<CAFkk2KRg0eC98kRU=vAbdCG8zLAaB6B9_H2tBiY-bweoNfLSsA@mail.gmail.com>
-	<CAFkk2KTg=et1wgtoHMhPdidNQ0iiGeJ95_2APkkQdj1=2yRd3Q@mail.gmail.com>
-In-Reply-To: <CAFkk2KTg=et1wgtoHMhPdidNQ0iiGeJ95_2APkkQdj1=2yRd3Q@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [139.22.70.52]
+	Tue, 25 Oct 2016 11:52:34 +0000 (UTC)
+Received: from astoria.ccjclearline.com ([64.235.106.9])
+	by smtp484.redcondor.net ({c48374e7-08df-40d9-a0de-96cc9883a037})
+	via TCP (outbound) with ESMTPS id 20161025115228504_0484;
+	Tue, 25 Oct 2016 11:52:28 +0000
+X-RC-FROM: <rpjday@crashcourse.ca>
+Received: from [216.191.234.70] (port=11319 helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
+	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
+	id 1bz0HG-0004Lz-1n; Tue, 25 Oct 2016 07:52:22 -0400
+Date: Tue, 25 Oct 2016 07:51:23 -0400 (EDT)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@ca624034.mitel.com
+To: Christopher Larson <clarson@kergoth.com>
+In-Reply-To: <CABcZANnYLS0pfSpdzf3NVV4KEg_88b9mPark9gpstJUFHZTzxQ@mail.gmail.com>
+Message-ID: <alpine.LFD.2.20.1610250738570.8652@ca624034.mitel.com>
+References: <alpine.LFD.2.20.1610241644480.15919@localhost.localdomain>
+	<CABcZANnYLS0pfSpdzf3NVV4KEg_88b9mPark9gpstJUFHZTzxQ@mail.gmail.com>
+User-Agent: Alpine 2.20 (LFD 67 2015-01-07)
 MIME-Version: 1.0
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] package.py: New EXTRA_STRIPFLAGS variable
+X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: most efficient way to map perl RH rpms to OE package names?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,90 +37,84 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 25 Oct 2016 11:46:57 -0000
-Content-Language: de-DE
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Tue, 25 Oct 2016 11:52:35 -0000
+Content-Type: text/plain; charset=US-ASCII
 
-SGkgVWxmDQoNClRoYW5rcyBmb3IgeW91ciBmZWVkYmFjay4NCkkgc2VlIG5vIHByb2JsZW0gaW4g
-dXNpbmcgImQuZ2V0VmFyKCdFWFRSQV9TVFJJUEZMQUdTJywgVHJ1ZSkiLiBJJ2xsIGFwcGx5IHRo
-ZSBjaGFuZ2VzIGFuZCBzZW5kIGFub3RoZXIgcmV2aXNpb24gb2YgdGhlIHBhdGNoLg0KDQpLaW5k
-IHJlZ2FyZHMNCg0KTWljaGFlbA0KDQotLS0tLVVyc3Byw7xuZ2xpY2hlIE5hY2hyaWNodC0tLS0t
-DQpWb246IFVsZiBNYWdudXNzb24gW21haWx0bzp1bGZhbGl6ZXJAZ21haWwuY29tXSANCkdlc2Vu
-ZGV0OiBEaWVuc3RhZywgMjUuIE9rdG9iZXIgMjAxNiAxMzozMA0KQW46IEJsYWV0dGxlciwgTWlj
-aGFlbCAoQlQgQ1BTIFImRCBaRyBGVyBJVFcpDQpDYzogT0UtY29yZQ0KQmV0cmVmZjogUmU6IFtP
-RS1jb3JlXSBbUEFUQ0ggdjJdIHBhY2thZ2UucHk6IE5ldyBFWFRSQV9TVFJJUEZMQUdTIHZhcmlh
-YmxlDQoNCk9uIFR1ZSwgT2N0IDI1LCAyMDE2IGF0IDE6MTggUE0sIFVsZiBNYWdudXNzb24gPHVs
-ZmFsaXplckBnbWFpbC5jb20+IHdyb3RlOg0KPiBPbiBUdWUsIE9jdCAyNSwgMjAxNiBhdCAxMjoy
-MyBQTSwgTWljaGFlbCBCbMOkdHRsZXIgDQo+IDxtaWNoYWVsLmJsYWV0dGxlckBzaWVtZW5zLmNv
-bT4gd3JvdGU6DQo+PiBUaGUgRVhUUkFfU1RSSVBGTEFHUyB2YXJpYWJsZSBjYW4gYmUgdXNlZCB0
-byBwYXNzIGFkZGl0aW9uYWwgcGFyYW1ldGVycyB0byB0aGUgc3RyaXAgY29tbWFuZC4NCj4+IFRo
-aXMgY2FuIGJlIHVzZWQgdG8gcmVtb3ZlIGFkZGl0aW9uYWwgc2VjdGlvbnMgb3IgdG8ga2VlcCBz
-eW1ib2xzLg0KPj4gVGhlIHJlbW92YWwgb2YgYWRkaXRpb25hbCBzZWN0aW9ucyBjYW4gYmUgdXNl
-ZnVsIHRvIGVuYWJsZSByZXByb2R1Y2libGUgYnVpbGRzLg0KPj4gU2VjdGlvbnMgd2hpY2ggY29u
-dGFpbiBwYXRocyBvciBtZDVzdW1zIG9mIHRoZSBkZWJ1ZyBiaW5hcmllcyAobGlrZSANCj4+IGdu
-dV9kZWJ1Z2xpbmspIGNhbiBiZSBlbGltaW5hdGVkIHdpdGggdGhpcyBmbGFnLg0KPj4NCj4+IFNp
-Z25lZC1vZmYtYnk6IFBhc2NhbCBCYWNoIDxwYXNjYWwuYmFjaEBzaWVtZW5zLmNvbT4NCj4+IFNp
-Z25lZC1vZmYtYnk6IE1pY2hhZWwgQmzDpHR0bGVyIDxtaWNoYWVsLmJsYWV0dGxlckBzaWVtZW5z
-LmNvbT4NCj4+IC0tLQ0KPj4gIG1ldGEvY2xhc3Nlcy9wYWNrYWdlLmJiY2xhc3MgfCAgNSArKyst
-LQ0KPj4gIG1ldGEvbGliL29lL3BhY2thZ2UucHkgICAgICAgfCAxMyArKysrKystLS0tLS0tDQo+
-PiAgMiBmaWxlcyBjaGFuZ2VkLCA5IGluc2VydGlvbnMoKyksIDkgZGVsZXRpb25zKC0pDQo+Pg0K
-Pj4gZGlmZiAtLWdpdCBhL21ldGEvY2xhc3Nlcy9wYWNrYWdlLmJiY2xhc3MgDQo+PiBiL21ldGEv
-Y2xhc3Nlcy9wYWNrYWdlLmJiY2xhc3MgaW5kZXggYTZmMGE3YS4uMDViOTJhOCAxMDA2NDQNCj4+
-IC0tLSBhL21ldGEvY2xhc3Nlcy9wYWNrYWdlLmJiY2xhc3MNCj4+ICsrKyBiL21ldGEvY2xhc3Nl
-cy9wYWNrYWdlLmJiY2xhc3MNCj4+IEBAIC0xMDU1LDE0ICsxMDU1LDE1IEBAIHB5dGhvbiBzcGxp
-dF9hbmRfc3RyaXBfZmlsZXMgKCkgew0KPj4gICAgICAjIE5vdyBsZXRzIGdvIGJhY2sgb3ZlciB0
-aGluZ3MgYW5kIHN0cmlwIHRoZW0NCj4+ICAgICAgIw0KPj4gICAgICBpZiAoZC5nZXRWYXIoJ0lO
-SElCSVRfUEFDS0FHRV9TVFJJUCcsIFRydWUpICE9ICcxJyk6DQo+PiArICAgICAgICBleHRyYWZs
-YWdzID0gZC5nZXRWYXIoJ0VYVFJBX1NUUklQRkxBR1MnLCBGYWxzZSkNCj4NCj4gV2h5IEZhbHNl
-PyBUaGF0IG1lYW5zIHlvdSBjYW4ndCBkbyBlLmcuDQo+DQo+ICAgRVhUUkFfU1RSSVBGTEFHUyA9
-ICIke0VYVFJBX1NUUklQU0ZMQUdTX0hFTFBFUn0iDQo+DQo+IG9yDQo+DQo+ICAgRVhUUkFfU1RS
-SVBGTEFHUyA9ICIke0BjYWxjdWxhdGVfZXh0cmFfc3RyaXBmbGFncygpfSINCj4NCj4+ICAgICAg
-ICAgIHN0cmlwID0gZC5nZXRWYXIoIlNUUklQIiwgVHJ1ZSkNCj4+ICAgICAgICAgIHNmaWxlcyA9
-IFtdDQo+PiAgICAgICAgICBmb3IgZmlsZSBpbiBlbGZmaWxlczoNCj4+ICAgICAgICAgICAgICBl
-bGZfZmlsZSA9IGludChlbGZmaWxlc1tmaWxlXSkNCj4+ICAgICAgICAgICAgICAjYmIubm90ZSgi
-U3RyaXAgJXMiICUgZmlsZSkNCj4+IC0gICAgICAgICAgICBzZmlsZXMuYXBwZW5kKChmaWxlLCBl
-bGZfZmlsZSwgc3RyaXApKQ0KPj4gKyAgICAgICAgICAgIHNmaWxlcy5hcHBlbmQoKGZpbGUsIGVs
-Zl9maWxlLCBzdHJpcCwgZXh0cmFmbGFncykpDQo+PiAgICAgICAgICBmb3IgZiBpbiBrZXJubW9k
-czoNCj4+IC0gICAgICAgICAgICBzZmlsZXMuYXBwZW5kKChmLCAxNiwgc3RyaXApKQ0KPj4gKyAg
-ICAgICAgICAgIHNmaWxlcy5hcHBlbmQoKGYsIDE2LCBzdHJpcCwgZXh0cmFmbGFncykpDQo+Pg0K
-Pj4gICAgICAgICAgb2UudXRpbHMubXVsdGlwcm9jZXNzX2V4ZWMoc2ZpbGVzLCBvZS5wYWNrYWdl
-LnJ1bnN0cmlwKQ0KPj4NCj4+IGRpZmYgLS1naXQgYS9tZXRhL2xpYi9vZS9wYWNrYWdlLnB5IGIv
-bWV0YS9saWIvb2UvcGFja2FnZS5weSBpbmRleCANCj4+IDAyNjQyZjIuLjc1NzA0NGEgMTAwNjQ0
-DQo+PiAtLS0gYS9tZXRhL2xpYi9vZS9wYWNrYWdlLnB5DQo+PiArKysgYi9tZXRhL2xpYi9vZS9w
-YWNrYWdlLnB5DQo+PiBAQCAtMTAsNyArMTAsNyBAQCBkZWYgcnVuc3RyaXAoYXJnKToNCj4+DQo+
-PiAgICAgIGltcG9ydCBzdGF0LCBzdWJwcm9jZXNzDQo+Pg0KPj4gLSAgICAoZmlsZSwgZWxmdHlw
-ZSwgc3RyaXApID0gYXJnDQo+PiArICAgIChmaWxlLCBlbGZ0eXBlLCBzdHJpcCwgZXh0cmFmbGFn
-cykgPSBhcmcNCj4+DQo+PiAgICAgIG5ld21vZGUgPSBOb25lDQo+PiAgICAgIGlmIG5vdCBvcy5h
-Y2Nlc3MoZmlsZSwgb3MuV19PSykgb3Igb3MuYWNjZXNzKGZpbGUsIG9zLlJfT0spOg0KPj4gQEAg
-LTE4LDE3ICsxOCwxNiBAQCBkZWYgcnVuc3RyaXAoYXJnKToNCj4+ICAgICAgICAgIG5ld21vZGUg
-PSBvcmlnbW9kZSB8IHN0YXQuU19JV1JJVEUgfCBzdGF0LlNfSVJFQUQNCj4+ICAgICAgICAgIG9z
-LmNobW9kKGZpbGUsIG5ld21vZGUpDQo+Pg0KPj4gLSAgICBleHRyYWZsYWdzID0gIiINCj4+IC0N
-Cj4+IC0gICAgIyBrZXJuZWwgbW9kdWxlDQo+PiArICAgIGV4dHJhZmxhZ3MgKz0gJyAnDQo+DQo+
-IEknZCByZW1vdmUgdGhpcyBsaW5lIGFuZCBhZGQgYW4gZXh0cmEgc3BhY2UgdG8gdGhlIGJlZ2lu
-bmluZyBvZiB0aGUgKz0gDQo+IHZhbHVlcyBiZWxvdywgYnV0IG5vIGJpZ2dpZS4NCj4NCj4+ICsg
-ICAgIyBrZXJuZWwgbW9kdWxlDQo+PiAgICAgIGlmIGVsZnR5cGUgJiAxNjoNCj4+IC0gICAgICAg
-IGV4dHJhZmxhZ3MgPSAiLS1zdHJpcC1kZWJ1ZyAtLXJlbW92ZS1zZWN0aW9uPS5jb21tZW50IC0t
-cmVtb3ZlLXNlY3Rpb249Lm5vdGUgLS1wcmVzZXJ2ZS1kYXRlcyINCj4+ICsgICAgICAgIGV4dHJh
-ZmxhZ3MgKz0gIi0tc3RyaXAtZGVidWcgLS1yZW1vdmUtc2VjdGlvbj0uY29tbWVudCAtLXJlbW92
-ZS1zZWN0aW9uPS5ub3RlIC0tcHJlc2VydmUtZGF0ZXMiDQo+PiAgICAgICMgLnNvIGFuZCBzaGFy
-ZWQgbGlicmFyeQ0KPj4gICAgICBlbGlmICIuc28iIGluIGZpbGUgYW5kIGVsZnR5cGUgJiA4Og0K
-Pj4gLSAgICAgICAgZXh0cmFmbGFncyA9ICItLXJlbW92ZS1zZWN0aW9uPS5jb21tZW50IC0tcmVt
-b3ZlLXNlY3Rpb249Lm5vdGUgLS1zdHJpcC11bm5lZWRlZCINCj4+ICsgICAgICAgIGV4dHJhZmxh
-Z3MgKz0gIi0tcmVtb3ZlLXNlY3Rpb249LmNvbW1lbnQgLS1yZW1vdmUtc2VjdGlvbj0ubm90ZSAt
-LXN0cmlwLXVubmVlZGVkIg0KPj4gICAgICAjIHNoYXJlZCBvciBleGVjdXRhYmxlOg0KPj4gICAg
-ICBlbGlmIGVsZnR5cGUgJiA4IG9yIGVsZnR5cGUgJiA0Og0KPj4gLSAgICAgICAgZXh0cmFmbGFn
-cyA9ICItLXJlbW92ZS1zZWN0aW9uPS5jb21tZW50IC0tcmVtb3ZlLXNlY3Rpb249Lm5vdGUiDQo+
-PiArICAgICAgICBleHRyYWZsYWdzICs9ICItLXJlbW92ZS1zZWN0aW9uPS5jb21tZW50IC0tcmVt
-b3ZlLXNlY3Rpb249Lm5vdGUiDQo+Pg0KPj4gICAgICBzdHJpcGNtZCA9ICInJXMnICVzICclcyci
-ICUgKHN0cmlwLCBleHRyYWZsYWdzLCBmaWxlKQ0KPj4gICAgICBiYi5kZWJ1ZygxLCAicnVuc3Ry
-aXA6ICVzIiAlIHN0cmlwY21kKQ0KPj4gLS0NCj4+IDIuMS40DQo+Pg0KPj4gLS0NCj4+IF9fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fDQo+PiBPcGVuZW1iZWRk
-ZWQtY29yZSBtYWlsaW5nIGxpc3QNCj4+IE9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJl
-ZGRlZC5vcmcNCj4+IGh0dHA6Ly9saXN0cy5vcGVuZW1iZWRkZWQub3JnL21haWxtYW4vbGlzdGlu
-Zm8vb3BlbmVtYmVkZGVkLWNvcmUNCj4NCj4gQ2hlZXJzLA0KPiBVbGYNCg0KVGhpcyBtaWdodCBz
-dGlsbCBoYXZlIGlzc3VlcyBpZiBFWFRSQV9TVFJJUEZMQUdTIGlzIHVuc2V0IGJ5IHRoZSB3YXku
-DQpNYXliZSB5b3Ugd2FudCB0aGUgZm9sbG93aW5nLCB0byBhdm9pZCBleHRyYWZsYWdzIGJlY29t
-aW5nIE5vbmU6DQoNCiAgZXh0cmFmbGFncyA9IGQuZ2V0VmFyKCdFWFRSQV9TVFJJUEZMQUdTJywg
-VHJ1ZSkgb3IgIiINCg0KQ2hlZXJzLA0KVWxmDQo=
+
+  following up on my original query, i'm now in the process of
+"mapping" a couple hundred CentOS perl rpms to their OE equivalents,
+and here's the process so far; just want to check that i'm going about
+this in a sane way.
+
+  first, as chris larson suggested, use "oe-pkgdata-util" to see which
+generated perl modules appear to match up to equivalent rpms, and
+quite a number of them seem to be direct equivalents, such as:
+
+ * perl-HTTP-Tiny-0.033-3.el7.noarch
+ * perl-module-http-tiny
+
+so examples like that appear pretty straightforward.
+
+  next, i noticed that there are a few perl recipes under OE,
+recipes-devtools and recipes-extended, a couple *apparent*
+equivalents:
+
+ * perl-XML-LibXML-2.0018-5.el7.x86_64
+ * libxml-perl_0.08.bb
+
+ * perl-XML-NamespaceSupport-1.11-10.el7.noarch
+ * libxml-namespacesupport-perl_1.11.bb
+
+and so on. not so many of those but still, that took care of a few
+more matches.
+
+  finally, i figure i'm going to have to dive into meta-cpan for the
+rest, and here's something puzzling.
+
+  one of the RH rpms to be matched was
+perl-IO-Compress-2.061-2.el7.noarch, but the generated modules were:
+
+  perl-module-io-compress-deflate
+  perl-module-io-compress-adapter-bzip2
+  perl-module-io-compress-zlib-extra
+  perl-module-io-compress-zip-constants
+  perl-module-io-compress-bzip2
+  perl-module-io-compress-adapter-identity
+  perl-module-io-compress-zlib-constants
+  perl-module-io-compress-base-common
+  perl-module-io-compress-adapter-deflate
+  perl-module-io-compress-gzip
+  perl-module-io-compress-zip
+  perl-module-io-compress-gzip-constants
+  perl-module-io-compress-base
+  perl-module-io-compress-rawdeflate
+
+but no "perl-module-io-compress", which is what i would have expected.
+
+  however, if i pop over to meta-cpan, there *is* a recipe file
+"io-compress-perl_2.069.bb". can anyone explain how i should interpret
+this?
+
+  it seems (and i am not a perl expert) that the foundation
+IO::Compress recipe is at meta-cpan, but the more specific sub-modules
+are built from the base OE perl recipe. or is it that these modules:
+
+  perl-module-io-compress-base-common
+  perl-module-io-compress-base
+
+represent the base class? i'm just trying to figure out the standard
+OE packaging for perl modules.
+
+rday
+
+-- 
+
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
+
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
+
 
