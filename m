@@ -1,32 +1,65 @@
-Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
-	by mail.openembedded.org (Postfix) with ESMTP id 6CD03719A0
+Return-Path: <thilo.cestonaro@ts.fujitsu.com>
+Received: from mail1.bemta3.messagelabs.com (mail1.bemta3.messagelabs.com
+	[195.245.230.176])
+	by mail.openembedded.org (Postfix) with ESMTP id 6ECA671A5E
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Oct 2016 08:33:36 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by orsmga104.jf.intel.com with ESMTP; 25 Oct 2016 01:33:38 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.31,545,1473145200"; d="scan'208";a="1075324093"
-Received: from linux.intel.com ([10.54.29.200])
-	by fmsmga002.fm.intel.com with ESMTP; 25 Oct 2016 01:33:30 -0700
-Received: from linux.intel.com (vmed.fi.intel.com [10.237.72.68])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by linux.intel.com (Postfix) with ESMTP id 776916A4080;
-	Tue, 25 Oct 2016 01:32:55 -0700 (PDT)
-Date: Tue, 25 Oct 2016 10:56:13 +0300
-From: Ed Bartosh <ed.bartosh@linux.intel.com>
-To: Saul Wold <saul.wold@intel.com>
-Message-ID: <20161025075613.GA22683@linux.intel.com>
-Reply-To: ed.bartosh@linux.intel.com
-References: <1477317281-19518-1-git-send-email-ed.bartosh@linux.intel.com>
-	<1477330480.6169.3.camel@intel.com>
+	Tue, 25 Oct 2016 09:32:17 +0000 (UTC)
+Received: from [195.245.230.51] by server-16.bemta-3.messagelabs.com id
+	73/2C-01653-2A62F085; Tue, 25 Oct 2016 09:32:18 +0000
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrLKsWRWlGSWpSXmKPExsViZ8MxVXeRGn+
+	EwevTbBZ3fr5jd2D0OLdxBWMAYxRrZl5SfkUCa8aSxx/ZC9brVjQ/W8HewLhcp4uRi0NIYAuT
+	xI9rW1kgnGOMEgsnPWWGcC4ySpxsm8XaxcjJwSbgLrH13n0mEFtEIEri5q5n7CC2sICDxLQFr
+	4DiHEBxV4lPPxkhSvQkOo6/ArNZBFQljt7bCdbKK2Aqcb1nMTOILSTgLXH642wwm1FARWLX3S
+	1g9cwC4hK3nswHq5cQEJF4ePE0G4QtKvHy8T9WCFtF4uXMZihbR+Ls9SeMELaBxNal+1ggbEW
+	JFy2fmUFOYxaokthxOQbiBEGJkzOfsExgFJ2FZNsshKpZSKogSjQlWrf/ZoewtSWWLXzNDGHb
+	Suy/uhLKNpV4ffQjI4StKDGl+yH7AkaOVYwaxalFZalFukZGeklFmekZJbmJmTm6hgbGermpx
+	cWJ6ak5iUnFesn5uZsYgdFYz8DAuINx6gm/Q4ySHExKoryNn/kihPiS8lMqMxKLM+KLSnNSiw
+	8xynBwKEnw+qjyRwgJFqWmp1akZeYA0wJMWoKDR0mEVwEkzVtckJhbnJkOkTrFqCglzssDkhA
+	ASWSU5sG1wVLRJUZZKWFeRgYGBiGegtSi3MwSVPlXjOIcjErCvEkgU3gy80rgpr8CWswEtFgw
+	ngdkcUkiQkqqgbGvX0vrj53jjZb30WUlDwtCV/cs83o9Y9a75WFLH17jY54eZlhyImNt6J8Xh
+	788C63vPPqkbG7T83WTVz3+e2tnsZxWTFZR3++vDfrXc57s+KR+cplb5PIvTu7WRjvXZE/1+X
+	/3j0fnLu9DdzKuTDBL7f46ja3lem5uuarp07lnVJefPfjja+ZZJZbijERDLeai4kQAWvjVr0A
+	DAAA=
+X-Env-Sender: thilo.cestonaro@ts.fujitsu.com
+X-Msg-Ref: server-5.tower-33.messagelabs.com!1477387936!22938771!1
+X-Originating-IP: [62.60.8.149]
+X-StarScan-Received: 
+X-StarScan-Version: 9.0.13; banners=-,-,-
+X-VirusChecked: Checked
+Received: (qmail 2193 invoked from network); 25 Oct 2016 09:32:17 -0000
+Received: from unknown (HELO mailhost2.uk.fujitsu.com) (62.60.8.149)
+	by server-5.tower-33.messagelabs.com with DHE-RSA-AES256-GCM-SHA384
+	encrypted SMTP; 25 Oct 2016 09:32:17 -0000
+Received: from R01UKEXCASM124.r01.fujitsu.local (ex2k13_124.fs.fujitsu.com
+	[10.183.43.176])
+	by mailhost2.uk.fujitsu.com (8.14.5/8.14.5) with ESMTP id
+	u9P9XBTB009797
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 25 Oct 2016 10:33:22 +0100
+Received: from R01UKEXCASM121.r01.fujitsu.local (10.183.43.173) by
+	R01UKEXCASM124.r01.fujitsu.local (10.183.43.176) with Microsoft SMTP
+	Server (TLS) id 15.0.1178.4; Tue, 25 Oct 2016 10:32:05 +0100
+Received: from R01UKEXCASM121.r01.fujitsu.local ([fe80::48eb:6503:a1bb:c29c])
+	by R01UKEXCASM121.r01.fujitsu.local ([fe80::48eb:6503:a1bb:c29c%22])
+	with mapi id 15.00.1178.000; Tue, 25 Oct 2016 10:32:05 +0100
+From: "thilo.cestonaro@ts.fujitsu.com" <thilo.cestonaro@ts.fujitsu.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: Howto find the providing recipe for a specific package?
+Thread-Index: AQHSLqKlCBV/HiX230uCkasUP6n2Vw==
+Date: Tue, 25 Oct 2016 09:32:05 +0000
+Message-ID: <1477387924.20929.1.camel@ts.fujitsu.com>
+Reply-To: "thilo.cestonaro@ts.fujitsu.com" <thilo.cestonaro@ts.fujitsu.com>
+Accept-Language: de-DE, en-GB, en-US
+X-MS-Has-Attach: yes
+X-MS-TNEF-Correlator: 
+x-mailer: Evolution 3.22.1-0ubuntu2 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.183.43.206]
 MIME-Version: 1.0
-In-Reply-To: <1477330480.6169.3.camel@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: benjamin.esquivel@intel.com, openembedded-core@lists.openembedded.org
-Subject: Re: [wic][PATCH] systemd-bootdisk.wks: use PARTUUID
+Subject: Howto find the providing recipe for a specific package?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,66 +72,103 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 25 Oct 2016 08:33:37 -0000
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 25 Oct 2016 09:32:18 -0000
+X-Groupsio-MsgNum: 88574
+Content-Language: en-US
+Content-Type: multipart/signed; micalg=sha-1;
+	protocol="application/x-pkcs7-signature";
+	boundary="=-7Nu6av3ygphhCVXa1Tby"
 
-On Mon, Oct 24, 2016 at 10:34:40AM -0700, Saul Wold wrote:
-> On Mon, 2016-10-24 at 16:54 +0300, Ed Bartosh wrote:
-> > Root device name in systemd-bootdisk.wks is 'sda'. This can cause
-> > images, produced using this wks to refuse booting if real device
-> > name is not 'sda'. For example, when booting MinnowBoard MAX from
-> > MicroSD card the boot process stucks with this message on the boot
-> > console output: Waiting for root device /dev/sda2...
-> > This happens because real device name of MicroSD card on this device
-> > is mmcblk1.
-> > 
-> > Used --use-uuid option for root partition. This should make
-> > wic to put partiion UUID instead of device name into kernel command
-> > line.
-> > 
-> > [YOCTO #10485]
-> > 
-> > Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
-> > ---
-> >  scripts/lib/wic/canned-wks/systemd-bootdisk.wks | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > 
-> > diff --git a/scripts/lib/wic/canned-wks/systemd-bootdisk.wks
-> > b/scripts/lib/wic/canned-wks/systemd-bootdisk.wks
-> > index b900023..4bd9d6a 100644
-> > --- a/scripts/lib/wic/canned-wks/systemd-bootdisk.wks
-> > +++ b/scripts/lib/wic/canned-wks/systemd-bootdisk.wks
-> > @@ -4,7 +4,7 @@
-> >  
-> >  part /boot --source bootimg-efi --sourceparams="loader=systemd-boot" 
-> > --ondisk sda --label msdos --active --align 1024
-> >  
-> > -part / --source rootfs --ondisk sda --fstype=ext4 --label platform
-> > --align 1024
-> > +part / --source rootfs --ondisk sda --fstype=ext4 --label platform
-> > --align 1024 --use-uuid
-> >  
->  part swap --ondisk sda --size 44 --label swap1 --fstype=swap
-> >  
-> I understand the --use-uuid for the partition labeling, but how does it
-> affect everything marked as ondisk sda?  Or is ondisk ignored with use-
-> uuid?
+--=-7Nu6av3ygphhCVXa1Tby
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
---use-uuid uses PARTUUID to specify root device in kernel command line
-instead of /dev/sdaX. In this sense yes, sda is ignored.
+Hey!
 
-However, disk name(sda) is also used to group partitions to one disk image.
-Theoretically wic can produce several images if more than one disk name
-is used in .wks file.
+How can I programmatically reverse lookup the recipe which provides a spec=
+ific package?
 
-For swap position sda is still used, which can make swap partitions not
-functional on the devices with different disk names. This needs to be fixed
-by using PARTUUID in fstab for swap partitions. For this to work in poky images
-busybox swapon should support PARTUUID syntax, which I'm not entirely sure it does.
+e.g. kernel-module-xfrm6-mode-transport is produced via the recipe linux-m=
+ainline, in my case,
+but the packagename doesn't tell this anyhow.
 
---
-Regards,
-Ed
+Is there a way to get the recipe?
 
+Cheers,
+Thilo
+
+--=-7Nu6av3ygphhCVXa1Tby
+Content-Type: application/x-pkcs7-signature; name="smime.p7s"
+Content-Disposition: attachment; filename="smime.p7s"
+Content-Transfer-Encoding: base64
+
+MIAGCSqGSIb3DQEHAqCAMIACAQExCzAJBgUrDgMCGgUAMIAGCSqGSIb3DQEHAQAAoIIM6DCCA9Qw
+ggK8oAMCAQICEDTNElfINoNG4L/3PTADbgUwDQYJKoZIhvcNAQEFBQAwLzEtMCsGA1UEAxMkRnVq
+aXRzdSBUZWNobm9sb2d5IFNvbHV0aW9ucyBSb290IENBMB4XDTA5MDMxMjEyMjQ1OVoXDTE5MDMx
+MTEyMjQ1OVowLzEtMCsGA1UEAxMkRnVqaXRzdSBUZWNobm9sb2d5IFNvbHV0aW9ucyBVc2VyIENB
+MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAsBtNf0fN8EkW9y6QqoQGS6LUwezenV2B
+nDzORdGanukRtpGzYMAPdyiwtlp0/zONa+jCJGzkX4iYCjTsiJvx01SPRNZ24fHaFGXpJBX599q6
+ZF0isu+h1aIas1tfyCBalAbKKLvNgIuQjnXhdffVk4vSuBytO3OGcULtJ2+lYVSEvxzGt9iTSwT5
+RnEvKpR0iOC+9/UNVOiPK9XCz5u7bg3iehP5gD+v5uu3YIRwV/5gyd7AZPcckTfYP/GZcybcAXfE
+l5nb/bZiSLHeZEjxMMM8YZqFKhH9xymIdjkcRK7NJ2j8OD708QFv4b4bme1mHGfTjSbxb1nOoUTs
+NtshZwIDAQABo4HrMIHoMB0GA1UdDgQWBBQI9chqv4Dje1DEOfQHmEbobX6XqDALBgNVHQ8EBAMC
+AYYwHwYDVR0jBBgwFoAUFHXiV7YVNxWAKpflUUhlrM+GkMswEgYDVR0TAQH/BAgwBgEB/wIBADBH
+BggrBgEFBQcBAQQ7MDkwNwYIKwYBBQUHMAKGK2h0dHA6Ly9haWEudHMuZnVqaXRzdS5jb20vYWlh
+L2Z0czAxcm9vdC5jZXIwPAYDVR0fBDUwMzAxoC+gLYYraHR0cDovL2NkcC50cy5mdWppdHN1LmNv
+bS9jZHAvZnRzMDFyb290LmNybDANBgkqhkiG9w0BAQUFAAOCAQEAQ7pQP9Lw9bcnt1DhvV5UWb1z
+mnACSo6n6x+bupckQzlrf3aJ7HQZigZuaCak+dexL18I86iNDDOJBBsrz0DcD4XPszcLTUezqqGl
+AyIbviBq5mwDHAWBA9F11GRx6LdrHMKNdHPwAWyC3r6qv4GO6A+z16KUZFSP4kvuaN5YHI481T7F
+FxEmntkylphndX+6mQ1NABApMMhX0aN5dVhPAMAP8nENJ1hGk81IG8gzkoHDPSoLCtffAnNhYAqh
+vrDO2ybXb/9x+Sf3DQuzBg3hpB1yJM3K8foQaS3uTpFITfdMprcQyrIdl4Jw26s/6vpIs0siLVTp
+3yAwgNaqQSgxSTCCBIQwggNsoAMCAQICCiWUlIAAAAACJH0wDQYJKoZIhvcNAQEFBQAwLzEtMCsG
+A1UEAxMkRnVqaXRzdSBUZWNobm9sb2d5IFNvbHV0aW9ucyBVc2VyIENBMB4XDTE0MDMyMTEyMTM1
+M1oXDTE3MDMyMDEyMTM1M1owQjEZMBcGA1UEAwwQQ2VzdG9uYXJvLCBUaGlsbzElMCMGA1UECgwc
+RnVqaXRzdSBUZWNobm9sb2d5IFNvbHV0aW9uczCBnzANBgkqhkiG9w0BAQEFAAOBjQAwgYkCgYEA
+qP3ld/ylkJOTj2rXQ+VrRf/+YMgZS5CGDnMWk+sMoS5f6JqtwfGcfBU/DhfnLsePut2q+ex/RDZF
+M6yCraPS0vdnTKm2O3Q7/UhhAV1Mi4XzzGeY1Y0qm+85EgMBISPwB5mThLYPsun5UIFs6e8tvlwZ
+Rzp/jrv/AzAfsSbHGXcCAwEAAaOCAhEwggINMAsGA1UdDwQEAwIFoDByBgNVHREEazBpgR50aGls
+by5jZXN0b25hcm9AdHMuZnVqaXRzdS5jb22BI1RoaWxvLkNlc3RvbmFyb0BmdWppdHN1LXNpZW1l
+bnMuY29tgSIrNDk4MjE4MDQ4MjMyOEBpbmNvbWluZ2ZheC5mc2MubmV0MB0GA1UdDgQWBBSiHLgI
+jjo+7KxLJ4t1+YZxgBSn8TAfBgNVHSMEGDAWgBQI9chqv4Dje1DEOfQHmEbobX6XqDA8BgNVHR8E
+NTAzMDGgL6AthitodHRwOi8vY2RwLnRzLmZ1aml0c3UuY29tL2NkcC9mdHMwMXVzZXIuY3JsMEcG
+CCsGAQUFBwEBBDswOTA3BggrBgEFBQcwAoYraHR0cDovL2FpYS50cy5mdWppdHN1LmNvbS9haWEv
+ZnRzMDF1c2VyLmNlcjAMBgNVHRMBAf8EAjAAMD0GCSsGAQQBgjcVBwQwMC4GJisGAQQBgjcVCIWF
+xDKBh/9hgYWBBIbsgiCBx4EaeYOIoHGH0vEvAgFkAgEIMBMGA1UdJQQMMAoGCCsGAQUFBwMEMBsG
+CSsGAQQBgjcVCgQOMAwwCgYIKwYBBQUHAwQwRAYJKoZIhvcNAQkPBDcwNTAOBggqhkiG9w0DAgIC
+AIAwDgYIKoZIhvcNAwQCAgCAMAcGBSsOAwIHMAoGCCqGSIb3DQMHMA0GCSqGSIb3DQEBBQUAA4IB
+AQAEGTAyHPmTyCR029H+P/u9xRezlfA2OVvV97Ls/oLCXGGr6EkMvpHodTc6n4EWSb2ul3VPSRQf
+uSmBgIcHQJykHdSChisaqkeOpHG0rjM9GXh2eQ7ECovpQIfdIbRZKNxlJihSDsDWHyZldBlPVbDh
+xMeT6xJ/ylF8UQ8FXKUir6W/BSPZF5kLdsmCeOpWC4jOGNPEMUAcuiHZPyqAhjlWk750I4oJJKvD
+bwO8/mkxmzOjpOsk8O3CdljCjYPoYtJPI/oNVsYdmiokzne4FusPYKDzv5i0dN74KLR48maXvi3/
+WsTFqwks45QeBJT/z+1sYy+dYWpv9XGN+jR1o4ImMIIEhDCCA2ygAwIBAgIKJZSUgAAAAAIkfTAN
+BgkqhkiG9w0BAQUFADAvMS0wKwYDVQQDEyRGdWppdHN1IFRlY2hub2xvZ3kgU29sdXRpb25zIFVz
+ZXIgQ0EwHhcNMTQwMzIxMTIxMzUzWhcNMTcwMzIwMTIxMzUzWjBCMRkwFwYDVQQDDBBDZXN0b25h
+cm8sIFRoaWxvMSUwIwYDVQQKDBxGdWppdHN1IFRlY2hub2xvZ3kgU29sdXRpb25zMIGfMA0GCSqG
+SIb3DQEBAQUAA4GNADCBiQKBgQCo/eV3/KWQk5OPatdD5WtF//5gyBlLkIYOcxaT6wyhLl/omq3B
+8Zx8FT8OF+cux4+63ar57H9ENkUzrIKto9LS92dMqbY7dDv9SGEBXUyLhfPMZ5jVjSqb7zkSAwEh
+I/AHmZOEtg+y6flQgWzp7y2+XBlHOn+Ou/8DMB+xJscZdwIDAQABo4ICETCCAg0wCwYDVR0PBAQD
+AgWgMHIGA1UdEQRrMGmBHnRoaWxvLmNlc3RvbmFyb0B0cy5mdWppdHN1LmNvbYEjVGhpbG8uQ2Vz
+dG9uYXJvQGZ1aml0c3Utc2llbWVucy5jb22BIis0OTgyMTgwNDgyMzI4QGluY29taW5nZmF4LmZz
+Yy5uZXQwHQYDVR0OBBYEFKIcuAiOOj7srEsni3X5hnGAFKfxMB8GA1UdIwQYMBaAFAj1yGq/gON7
+UMQ59AeYRuhtfpeoMDwGA1UdHwQ1MDMwMaAvoC2GK2h0dHA6Ly9jZHAudHMuZnVqaXRzdS5jb20v
+Y2RwL2Z0czAxdXNlci5jcmwwRwYIKwYBBQUHAQEEOzA5MDcGCCsGAQUFBzAChitodHRwOi8vYWlh
+LnRzLmZ1aml0c3UuY29tL2FpYS9mdHMwMXVzZXIuY2VyMAwGA1UdEwEB/wQCMAAwPQYJKwYBBAGC
+NxUHBDAwLgYmKwYBBAGCNxUIhYXEMoGH/2GBhYEEhuyCIIHHgRp5g4igcYfS8S8CAWQCAQgwEwYD
+VR0lBAwwCgYIKwYBBQUHAwQwGwYJKwYBBAGCNxUKBA4wDDAKBggrBgEFBQcDBDBEBgkqhkiG9w0B
+CQ8ENzA1MA4GCCqGSIb3DQMCAgIAgDAOBggqhkiG9w0DBAICAIAwBwYFKw4DAgcwCgYIKoZIhvcN
+AwcwDQYJKoZIhvcNAQEFBQADggEBAAQZMDIc+ZPIJHTb0f4/+73FF7OV8DY5W9X3suz+gsJcYavo
+SQy+keh1NzqfgRZJva6XdU9JFB+5KYGAhwdAnKQd1IKGKxqqR46kcbSuMz0ZeHZ5DsQKi+lAh90h
+tFko3GUmKFIOwNYfJmV0GU9VsOHEx5PrEn/KUXxRDwVcpSKvpb8FI9kXmQt2yYJ46lYLiM4Y08Qx
+QBy6Idk/KoCGOVaTvnQjigkkq8NvA7z+aTGbM6Ok6yTw7cJ2WMKNg+hi0k8j+g1Wxh2aKiTOd7gW
+6w9goPO/mLR03vgotHjyZpe+Lf9axMWrCSzjlB4ElP/P7WxjL51ham/1cY36NHWjgiYxggHhMIIB
+3QIBATA9MC8xLTArBgNVBAMTJEZ1aml0c3UgVGVjaG5vbG9neSBTb2x1dGlvbnMgVXNlciBDQQIK
+JZSUgAAAAAIkfTAJBgUrDgMCGgUAoIH7MBgGCSqGSIb3DQEJAzELBgkqhkiG9w0BBwEwHAYJKoZI
+hvcNAQkFMQ8XDTE2MTAyNTA5MzIwNFowIwYJKoZIhvcNAQkEMRYEFBDJliLPXBmLo+TvglCkA2j5
+osvOMEwGCSsGAQQBgjcQBDE/MD0wLzEtMCsGA1UEAxMkRnVqaXRzdSBUZWNobm9sb2d5IFNvbHV0
+aW9ucyBVc2VyIENBAgollJSAAAAAAiR9ME4GCyqGSIb3DQEJEAILMT+gPTAvMS0wKwYDVQQDEyRG
+dWppdHN1IFRlY2hub2xvZ3kgU29sdXRpb25zIFVzZXIgQ0ECCiWUlIAAAAACJH0wDQYJKoZIhvcN
+AQEBBQAEgYCn3xRVJR6Ax71u5cVcbOXMh+SpSGJi+nx71PoxuR8PRe28gDpB2ZmsIn5BGw3UaWUj
+N0bbWKwL9WWhUi7olGnOSr9okDj3gzmZZ6CxQwdfPROw+NxSG70bhd8S5AwKlC5Tibz32504h0yR
+01kFVgxgJxrTd7qqC0cw/oAqIJk3xQAAAAAAAA==
+
+--=-7Nu6av3ygphhCVXa1Tby--
