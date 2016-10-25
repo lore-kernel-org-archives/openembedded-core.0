@@ -1,46 +1,22 @@
-Return-Path: <tcflorea@yahoo.com>
-Received: from nm47-vm9.bullet.mail.gq1.yahoo.com
-	(nm47-vm9.bullet.mail.gq1.yahoo.com [67.195.87.187])
-	by mail.openembedded.org (Postfix) with ESMTP id 1C4A16057A
+Return-Path: <brian.avery@intel.com>
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 8E872600EB
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Oct 2016 21:46:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
-	t=1477431980; bh=fTF1C8qSTgoyPDIQGNSExHv7KBNHGhV/Nx6AnhyI0Rs=;
-	h=Date:From:Reply-To:To:Subject:References:From:Subject;
-	b=gRY04hArzusEBOsF00sOE/G104yqeCABL9ETAVqr7YRT90YO4ZNvluBbXRo/nzoBJCCm7Eg2skl23kLNWx7vp4Iu9YAtK7S64O3dd4bt4kodAjclAJmg1xaYC0986aJHqrOWIsb8FgWNfokC1bXR7+MD34Dj1+tbk/urIJB8J/iixpTITUv9oQy/dyBDQzC5Rys+2ZW2LHckG+ImymKtSk6c6SFXW4gvOb6fVCtKTN/neyNSwS12oDhmeqfZjum3FWIjX2nxPRs9P0IPk4tziLIcPHMwSanHnedhi/0wIq7LqCt6pVn0nIMdC0sUiooqmyD5tis6td8dPf3NINcPMA==
-Received: from [127.0.0.1] by nm47.bullet.mail.gq1.yahoo.com with NNFMP;
-	25 Oct 2016 21:46:20 -0000
-Received: from [98.137.12.174] by nm47.bullet.mail.gq1.yahoo.com with NNFMP;
-	25 Oct 2016 21:43:35 -0000
-Received: from [98.139.214.32] by tm13.bullet.mail.gq1.yahoo.com with NNFMP;
-	25 Oct 2016 21:43:35 -0000
-Received: from [98.139.212.195] by tm15.bullet.mail.bf1.yahoo.com with NNFMP;
-	25 Oct 2016 21:43:35 -0000
-Received: from [127.0.0.1] by omp1004.mail.bf1.yahoo.com with NNFMP;
-	25 Oct 2016 21:43:35 -0000
-X-Yahoo-Newman-Property: ymail-4
-X-Yahoo-Newman-Id: 104716.61371.bm@omp1004.mail.bf1.yahoo.com
-X-YMail-OSG: i51qEWoVM1lyixZxhwZosLjo5qTCXL3NR78Z8MX39HSX.cwnqS03LGVPfRqdhTW
-	af_85OdKS5TNn55Wm2dy2GqdCcdhpFS8ZzImbuDh7boNFXI56YKr.ZvxBmQ6.um0QLDQ5s5BiMFw
-	OEQhDDpYTCH9v0BUcp_XUSyFnaHhaylNdXAxcRwxHPWfNIif7_pkcWu4MFRBoAK2pqDrT3QBAhIR
-	woqEbqff3gFGBelEq.NvT4Ugb36b7.qINNT2Pn0wApj_.BNjAdYzzepyzJeGPiTE92DYltI7PYXr
-	wTtZXwC1EJTD07nZeJfJgvopJlQbHKRSQ71TgI1vcqKCZ6qaXM9KZ1q6GJx1rsbyA6.rl_EQr86g
-	l4mY_j6Wb7AKvp1jOmHdqNeCZtsbNG1e9IrQ1uBq0hxfOPeJq3XMqoiUCFUe671inCcceLDYyV9t
-	wiOIPux3bXkl9LDPyEb.MtjU3D5G9Yv85JHjWoQhEvJJLAYrCfBrnt0gy0j1Wi2MA3JsFFqbXUg4
-	zLycTEN4kzt5XbSV5TVzmjXfUkUfUBkQjMnlCB6Rl23aW05Jk
-Received: from jws400131.mail.bf2.yahoo.com by
-	sendmailws125.mail.bf1.yahoo.com;
-	Tue, 25 Oct 2016 21:43:34 +0000; 1477431814.685
-Date: Tue, 25 Oct 2016 21:43:08 +0000 (UTC)
-From: Tudor Florea <tcflorea@yahoo.com>
-Reply-To: Tudor Florea <tcflorea@yahoo.com>
-To: "jkrishnanjanappa@mvista.com" <jkrishnanjanappa@mvista.com>, 
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Message-ID: <709988291.930326.1477431788589@mail.yahoo.com>
-MIME-Version: 1.0
-References: <709988291.930326.1477431788589.ref@mail.yahoo.com>
-Subject: Re: [master][morty][PATCH] libunwind: add ptest support
+	Tue, 25 Oct 2016 23:57:55 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga105.fm.intel.com with ESMTP; 25 Oct 2016 16:57:56 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.31,548,1473145200"; d="scan'208";a="1050140255"
+Received: from bavery-ws-desk.jf.intel.com ([10.7.198.85])
+	by orsmga001.jf.intel.com with ESMTP; 25 Oct 2016 16:57:57 -0700
+From: brian avery <brian.avery@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 25 Oct 2016 16:59:27 -0700
+Message-Id: <f43feb2283048aa01ae19eb79620961c38de5699.1477439714.git.brian.avery@intel.com>
+X-Mailer: git-send-email 1.9.1
+In-Reply-To: <cover.1477439714.git.brian.avery@intel.com>
+References: <cover.1477439714.git.brian.avery@intel.com>
+Subject: [PATCH 1/1] This is a backport from master of 2 consecutive fixes.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,76 +29,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 25 Oct 2016 21:46:19 -0000
-Content-Type: multipart/alternative; 
-	boundary="----=_Part_930325_1917350690.1477431788587"
+X-List-Received-Date: Tue, 25 Oct 2016 23:57:55 -0000
 
-------=_Part_930325_1917350690.1477431788587
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+From: Jussi Kukkonen <jussi.kukkonen@intel.com>
 
-Hi Jagadeesh,
+First fix commit:
+1100af93cb07caf24d568c039d52fb0c80714c30
+Second fix commit:
+b7b2e348716161deb21c9864ac5caa5f1df1fa9c
 
-> The patch include below changes:
-...
-> 2. Some of the libunwind test cases such as run-check-namespace,
->=C2=A0=C2=A0=C2=A0 run-coredump-unwind require debug symbols to be present=
- in
->=C2=A0=C2=A0=C2=A0 libunwind library. So set INHIBIT_PACKAGE_STRIP to "1".
-> --- a/meta/recipes-support/libunwind/libunwind_git.bb
-> +++ b/meta/recipes-support/libunwind/libunwind_git.bb
-...
-> +INHIBIT_PACKAGE_STRIP =3D "1"
-> +
+The error these commits fix can prevent Eclipse debugging on
+certain target configurations.
 
-The change above have the effect of inhibiting the package strip even if pt=
-est=C2=A0 is not enabled at all. I think this have to be something specific=
- to ptest.
-You may consider using INSANE_SKIP_${PN}-ptest [1] and add unstripped binar=
-ies needed for ptest in {PN}-ptest (along with the original - stripped - on=
-es) or simply consider the appropriate tests as XFAIL for openembedded.
-Regards,
-=C2=A0 Tudor.
+* base-files: Add shell test quoting
 
-[1] http://www.yoctoproject.org/docs/2.1/ref-manual/ref-manual.html#ref-cla=
-sses-insane
+  tty can return "not a tt" which results in warnings when /etc/profile
+  is executed.
+
+  (From OE-Core rev: eed586dd238efe859442b21b425f04e262bcdb2b)
+
+  Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
+  Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+
+* base-files: fix profile error under < /dev/null
+
+  Previous attempts to constrain execution of `resize` to only TTYs did
+  not properly handle situations when `tty` would return the string "not a
+  tty". The symptom is "/etc/profile: line 34: test: too many arguments".
+  Fix this by utilizing the exit code of `tty`. Also use `case` instead of
+  `cut` to eliminate a subshell.
+
+  (From OE-Core rev: e67637e4472ff3a1e2801b84ee3d69d4e14b9efc)
+
+  Signed-off-by: Richard Tollerton <rich.tollerton@ni.com>
+  Signed-off-by: Ross Burton <ross.burton@intel.com>
+  Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+
+Signed-off-by: brian avery <brian.avery@intel.com>
+---
+ meta/recipes-core/base-files/base-files/profile | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/meta/recipes-core/base-files/base-files/profile b/meta/recipes-core/base-files/base-files/profile
+index ba1b9ba..1f02e52 100644
+--- a/meta/recipes-core/base-files/base-files/profile
++++ b/meta/recipes-core/base-files/base-files/profile
+@@ -28,10 +28,12 @@ if [ -d /etc/profile.d ]; then
+   unset i
+ fi
+ 
+-if [ -x /usr/bin/resize ];then
++if [ -x /usr/bin/resize ] && termpath="`tty`"; then
+   # Make sure we are on a serial console (i.e. the device used starts with /dev/tty),
+   # otherwise we confuse e.g. the eclipse launcher which tries do use ssh
+-  test `tty | cut -c1-8` = "/dev/tty" && resize >/dev/null
++  case "$termpath" in
++  /dev/tty*) resize >/dev/null
++  esac
+ fi
+ 
+ export PATH PS1 OPIEDIR QPEDIR QTDIR EDITOR TERM
+-- 
+1.9.1
 
 
-
-------=_Part_930325_1917350690.1477431788587
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<html><head></head><body><div style=3D"color:#000; background-color:#fff; f=
-ont-family:garamond, new york, times, serif;font-size:16px"><div id=3D"yui_=
-3_16_0_ym19_1_1477346198248_20479" dir=3D"ltr">Hi Jagadeesh,<br id=3D"yui_3=
-_16_0_ym19_1_1477346198248_20596"><br id=3D"yui_3_16_0_ym19_1_1477346198248=
-_20597">&gt; The patch include below changes:<br id=3D"yui_3_16_0_ym19_1_14=
-77346198248_20598">...<br id=3D"yui_3_16_0_ym19_1_1477346198248_20599">&gt;=
- 2. Some of the libunwind test cases such as run-check-namespace,<br id=3D"=
-yui_3_16_0_ym19_1_1477346198248_20600">&gt;&nbsp;&nbsp;&nbsp; run-coredump-=
-unwind require debug symbols to be present in<br id=3D"yui_3_16_0_ym19_1_14=
-77346198248_20601">&gt;&nbsp;&nbsp;&nbsp; libunwind library. So set INHIBIT=
-_PACKAGE_STRIP to "1".<br id=3D"yui_3_16_0_ym19_1_1477346198248_20602">&gt;=
- --- a/meta/recipes-support/libunwind/libunwind_git.bb<br id=3D"yui_3_16_0_=
-ym19_1_1477346198248_20603">&gt; +++ b/meta/recipes-support/libunwind/libun=
-wind_git.bb<br id=3D"yui_3_16_0_ym19_1_1477346198248_20604">...<br id=3D"yu=
-i_3_16_0_ym19_1_1477346198248_20605">&gt; +INHIBIT_PACKAGE_STRIP =3D "1"<br=
- id=3D"yui_3_16_0_ym19_1_1477346198248_20606">&gt; +<br id=3D"yui_3_16_0_ym=
-19_1_1477346198248_20607"><br id=3D"yui_3_16_0_ym19_1_1477346198248_20608">=
-The change above have the effect of inhibiting the package strip even if pt=
-est&nbsp; is not enabled at all. I think this have to be something specific=
- to ptest.<br id=3D"yui_3_16_0_ym19_1_1477346198248_20611">You may consider=
- using INSANE_SKIP_${PN}-ptest [1] and add unstripped binaries needed for p=
-test in {PN}-ptest (along with the original - stripped - ones) or simply co=
-nsider the appropriate tests as XFAIL for openembedded.<br id=3D"yui_3_16_0=
-_ym19_1_1477346198248_20613">Regards,<br id=3D"yui_3_16_0_ym19_1_1477346198=
-248_20614">&nbsp; Tudor.<br id=3D"yui_3_16_0_ym19_1_1477346198248_20615"><b=
-r id=3D"yui_3_16_0_ym19_1_1477346198248_20616">[1] <a href=3D"http://www.yo=
-ctoproject.org/docs/2.1/ref-manual/ref-manual.html#ref-classes-insane" clas=
-s=3D"" id=3D"yui_3_16_0_ym19_1_1477346198248_20626">http://www.yoctoproject=
-.org/docs/2.1/ref-manual/ref-manual.html#ref-classes-insane</a><br></div><d=
-iv id=3D"yui_3_16_0_ym19_1_1477346198248_20674"><br></div><div id=3D"yui_3_=
-16_0_ym19_1_1477346198248_20728"><br></div></div></body></html>
-
-------=_Part_930325_1917350690.1477431788587--
