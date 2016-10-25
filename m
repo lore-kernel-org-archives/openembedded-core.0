@@ -1,65 +1,47 @@
-Return-Path: <thilo.cestonaro@ts.fujitsu.com>
-Received: from mail1.bemta3.messagelabs.com (mail1.bemta3.messagelabs.com
-	[195.245.230.176])
-	by mail.openembedded.org (Postfix) with ESMTP id 6ECA671A5E
+Return-Path: <jussi.kukkonen@intel.com>
+Received: from mail-ua0-f182.google.com (mail-ua0-f182.google.com
+	[209.85.217.182])
+	by mail.openembedded.org (Postfix) with ESMTP id AD475600E3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Oct 2016 09:32:17 +0000 (UTC)
-Received: from [195.245.230.51] by server-16.bemta-3.messagelabs.com id
-	73/2C-01653-2A62F085; Tue, 25 Oct 2016 09:32:18 +0000
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrLKsWRWlGSWpSXmKPExsViZ8MxVXeRGn+
-	EwevTbBZ3fr5jd2D0OLdxBWMAYxRrZl5SfkUCa8aSxx/ZC9brVjQ/W8HewLhcp4uRi0NIYAuT
-	xI9rW1kgnGOMEgsnPWWGcC4ySpxsm8XaxcjJwSbgLrH13n0mEFtEIEri5q5n7CC2sICDxLQFr
-	4DiHEBxV4lPPxkhSvQkOo6/ArNZBFQljt7bCdbKK2Aqcb1nMTOILSTgLXH642wwm1FARWLX3S
-	1g9cwC4hK3nswHq5cQEJF4ePE0G4QtKvHy8T9WCFtF4uXMZihbR+Ls9SeMELaBxNal+1ggbEW
-	JFy2fmUFOYxaokthxOQbiBEGJkzOfsExgFJ2FZNsshKpZSKogSjQlWrf/ZoewtSWWLXzNDGHb
-	Suy/uhLKNpV4ffQjI4StKDGl+yH7AkaOVYwaxalFZalFukZGeklFmekZJbmJmTm6hgbGermpx
-	cWJ6ak5iUnFesn5uZsYgdFYz8DAuINx6gm/Q4ySHExKoryNn/kihPiS8lMqMxKLM+KLSnNSiw
-	8xynBwKEnw+qjyRwgJFqWmp1akZeYA0wJMWoKDR0mEVwEkzVtckJhbnJkOkTrFqCglzssDkhA
-	ASWSU5sG1wVLRJUZZKWFeRgYGBiGegtSi3MwSVPlXjOIcjErCvEkgU3gy80rgpr8CWswEtFgw
-	ngdkcUkiQkqqgbGvX0vrj53jjZb30WUlDwtCV/cs83o9Y9a75WFLH17jY54eZlhyImNt6J8Xh
-	788C63vPPqkbG7T83WTVz3+e2tnsZxWTFZR3++vDfrXc57s+KR+cplb5PIvTu7WRjvXZE/1+X
-	/3j0fnLu9DdzKuTDBL7f46ja3lem5uuarp07lnVJefPfjja+ZZJZbijERDLeai4kQAWvjVr0A
-	DAAA=
-X-Env-Sender: thilo.cestonaro@ts.fujitsu.com
-X-Msg-Ref: server-5.tower-33.messagelabs.com!1477387936!22938771!1
-X-Originating-IP: [62.60.8.149]
-X-StarScan-Received: 
-X-StarScan-Version: 9.0.13; banners=-,-,-
-X-VirusChecked: Checked
-Received: (qmail 2193 invoked from network); 25 Oct 2016 09:32:17 -0000
-Received: from unknown (HELO mailhost2.uk.fujitsu.com) (62.60.8.149)
-	by server-5.tower-33.messagelabs.com with DHE-RSA-AES256-GCM-SHA384
-	encrypted SMTP; 25 Oct 2016 09:32:17 -0000
-Received: from R01UKEXCASM124.r01.fujitsu.local (ex2k13_124.fs.fujitsu.com
-	[10.183.43.176])
-	by mailhost2.uk.fujitsu.com (8.14.5/8.14.5) with ESMTP id
-	u9P9XBTB009797
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
+	Tue, 25 Oct 2016 10:02:15 +0000 (UTC)
+Received: by mail-ua0-f182.google.com with SMTP id 12so3257785uas.2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Oct 2016 10:33:22 +0100
-Received: from R01UKEXCASM121.r01.fujitsu.local (10.183.43.173) by
-	R01UKEXCASM124.r01.fujitsu.local (10.183.43.176) with Microsoft SMTP
-	Server (TLS) id 15.0.1178.4; Tue, 25 Oct 2016 10:32:05 +0100
-Received: from R01UKEXCASM121.r01.fujitsu.local ([fe80::48eb:6503:a1bb:c29c])
-	by R01UKEXCASM121.r01.fujitsu.local ([fe80::48eb:6503:a1bb:c29c%22])
-	with mapi id 15.00.1178.000; Tue, 25 Oct 2016 10:32:05 +0100
-From: "thilo.cestonaro@ts.fujitsu.com" <thilo.cestonaro@ts.fujitsu.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: Howto find the providing recipe for a specific package?
-Thread-Index: AQHSLqKlCBV/HiX230uCkasUP6n2Vw==
-Date: Tue, 25 Oct 2016 09:32:05 +0000
-Message-ID: <1477387924.20929.1.camel@ts.fujitsu.com>
-Reply-To: "thilo.cestonaro@ts.fujitsu.com" <thilo.cestonaro@ts.fujitsu.com>
-Accept-Language: de-DE, en-GB, en-US
-X-MS-Has-Attach: yes
-X-MS-TNEF-Correlator: 
-x-mailer: Evolution 3.22.1-0ubuntu2 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.183.43.206]
+	Tue, 25 Oct 2016 03:02:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=LUdjozYQ2bEJdnGpm8CtG4bCjI72ZJ8aZaUJmnoWS1k=;
+	b=EsfC9s0T8D/wPqX0LDxsNifWwzyWX7ucq4JzYNg2YT9CWljpKe+DoHWe5IsVpXRiPv
+	erIgYdNi38dDM925sspE9pZeG7Q7GRCEZKvTb2C6n+baGb8jQj4bh3cyIC2pLPD47h4b
+	zAP4PFjvwQYtEtrEKWnF09tABCy8nsDFvYM+sWd3ZLv7rQGeZl0ND3Yn9gyt3gcpAW/w
+	Z0d0eZ7WVl6NNIoqKaYuklGPBP0FFly5aJKFU3FuDY28ctXaiPIEI574eDnFy+JPoAx8
+	t5mRUNODz5bpbMoJmk6Y/B9f1GinPiqDkCaHOSxDyFpE6gNOxl9qmoZpgAtFsIfhXvgH
+	2dIw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=LUdjozYQ2bEJdnGpm8CtG4bCjI72ZJ8aZaUJmnoWS1k=;
+	b=IdCZwoBghbfeAA9OhuISkKgfcQnWAYYMwT+krcVYJoa18URYPo8jz6/pOX1duB/dMR
+	Z+5xklKo1aiP+m6bOvGzJyv/Q4eaboKFBgAscud66uVgdgKe6qHPGU5HP0XkmvCGfSQT
+	gtjUGCPClFkLVm4hkJWl3y4InuBNvH9cAMSYKaSDebgNnLzhwpoKEuQyrg2xNX9Jw8hB
+	ug9hAwIKMgCjz5JoZEOP4X5j0Z4aMpiu03SV1GQr7H15HYDEjdyjrYzOjfwRooq/PAcS
+	FogAM/NUFRZG9vx6pOtA7PNlVGg+P5M436qG4dJQt+ipS/19v+dWfc2DKOj7Pv+h0Lt4
+	S7cA==
+X-Gm-Message-State: ABUngve6ZiiVZyaLzPJZO+wjfKMD+wVH90sfwtTc1Ca8ovRnGr0A/NHkrU+1cj71ZSQyMg1t+v1jxB8+EuhrWg4x
+X-Received: by 10.159.38.52 with SMTP id 49mr6969501uag.14.1477389737110; Tue,
+	25 Oct 2016 03:02:17 -0700 (PDT)
 MIME-Version: 1.0
-Subject: Howto find the providing recipe for a specific package?
+Received: by 10.103.74.195 with HTTP; Tue, 25 Oct 2016 03:01:46 -0700 (PDT)
+In-Reply-To: <1477387924.20929.1.camel@ts.fujitsu.com>
+References: <1477387924.20929.1.camel@ts.fujitsu.com>
+From: Jussi Kukkonen <jussi.kukkonen@intel.com>
+Date: Tue, 25 Oct 2016 13:01:46 +0300
+Message-ID: <CAHiDW_HLiPEOXC6FgaenUr1s0sByoG6Zn1X-u6Q2D439A8rOXg@mail.gmail.com>
+To: "thilo.cestonaro@ts.fujitsu.com" <thilo.cestonaro@ts.fujitsu.com>
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: Howto find the providing recipe for a specific package?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -72,103 +54,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 25 Oct 2016 09:32:18 -0000
-X-Groupsio-MsgNum: 88574
-Content-Language: en-US
-Content-Type: multipart/signed; micalg=sha-1;
-	protocol="application/x-pkcs7-signature";
-	boundary="=-7Nu6av3ygphhCVXa1Tby"
+X-List-Received-Date: Tue, 25 Oct 2016 10:02:16 -0000
+Content-Type: multipart/alternative; boundary=001a1141b91279d0a5053fad9aa0
 
---=-7Nu6av3ygphhCVXa1Tby
-Content-Type: text/plain; charset="UTF-8"
+--001a1141b91279d0a5053fad9aa0
+Content-Type: text/plain; charset=UTF-8
+
+On 25 October 2016 at 12:32, thilo.cestonaro@ts.fujitsu.com <
+thilo.cestonaro@ts.fujitsu.com> wrote:
+
+> Hey!
+>
+> How can I programmatically reverse lookup the recipe which provides a
+> specific package?
+>
+> e.g. kernel-module-xfrm6-mode-transport is produced via the recipe
+> linux-mainline, in my case,
+> but the packagename doesn't tell this anyhow.
+>
+> Is there a way to get the recipe?
+>
+
+This should work after the recipe has been built:
+
+$ oe-pkgdata-util lookup-recipe kernel-module-xfrm6-mode-transport
+
+
+
+HTH,
+  Jussi
+
+--001a1141b91279d0a5053fad9aa0
+Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-Hey!
+<div dir=3D"ltr"><div class=3D"gmail_extra"><div class=3D"gmail_quote">On 2=
+5 October 2016 at 12:32, <a href=3D"mailto:thilo.cestonaro@ts.fujitsu.com">=
+thilo.cestonaro@ts.fujitsu.com</a> <span dir=3D"ltr">&lt;<a href=3D"mailto:=
+thilo.cestonaro@ts.fujitsu.com" target=3D"_blank">thilo.cestonaro@ts.fujits=
+u.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"m=
+argin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left=
+:1ex">Hey!<br>
+<br>
+How can I programmatically reverse lookup the recipe which provides a speci=
+fic package?<br>
+<br>
+e.g. kernel-module-xfrm6-mode-<wbr>transport is produced via the recipe lin=
+ux-mainline, in my case,<br>
+but the packagename doesn&#39;t tell this anyhow.<br>
+<br>
+Is there a way to get the recipe?<br></blockquote><div><br></div><div><div>=
+This should work after the recipe has been built:</div><div><br></div><div>=
+$ oe-pkgdata-util lookup-recipe kernel-module-xfrm6-mode-transport<br></div=
+></div><div><br></div><div><br></div><div><br></div><div>HTH,</div><div>=C2=
+=A0 Jussi=C2=A0</div><div><br></div><div><br></div></div></div></div>
 
-How can I programmatically reverse lookup the recipe which provides a spec=
-ific package?
-
-e.g. kernel-module-xfrm6-mode-transport is produced via the recipe linux-m=
-ainline, in my case,
-but the packagename doesn't tell this anyhow.
-
-Is there a way to get the recipe?
-
-Cheers,
-Thilo
-
---=-7Nu6av3ygphhCVXa1Tby
-Content-Type: application/x-pkcs7-signature; name="smime.p7s"
-Content-Disposition: attachment; filename="smime.p7s"
-Content-Transfer-Encoding: base64
-
-MIAGCSqGSIb3DQEHAqCAMIACAQExCzAJBgUrDgMCGgUAMIAGCSqGSIb3DQEHAQAAoIIM6DCCA9Qw
-ggK8oAMCAQICEDTNElfINoNG4L/3PTADbgUwDQYJKoZIhvcNAQEFBQAwLzEtMCsGA1UEAxMkRnVq
-aXRzdSBUZWNobm9sb2d5IFNvbHV0aW9ucyBSb290IENBMB4XDTA5MDMxMjEyMjQ1OVoXDTE5MDMx
-MTEyMjQ1OVowLzEtMCsGA1UEAxMkRnVqaXRzdSBUZWNobm9sb2d5IFNvbHV0aW9ucyBVc2VyIENB
-MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAsBtNf0fN8EkW9y6QqoQGS6LUwezenV2B
-nDzORdGanukRtpGzYMAPdyiwtlp0/zONa+jCJGzkX4iYCjTsiJvx01SPRNZ24fHaFGXpJBX599q6
-ZF0isu+h1aIas1tfyCBalAbKKLvNgIuQjnXhdffVk4vSuBytO3OGcULtJ2+lYVSEvxzGt9iTSwT5
-RnEvKpR0iOC+9/UNVOiPK9XCz5u7bg3iehP5gD+v5uu3YIRwV/5gyd7AZPcckTfYP/GZcybcAXfE
-l5nb/bZiSLHeZEjxMMM8YZqFKhH9xymIdjkcRK7NJ2j8OD708QFv4b4bme1mHGfTjSbxb1nOoUTs
-NtshZwIDAQABo4HrMIHoMB0GA1UdDgQWBBQI9chqv4Dje1DEOfQHmEbobX6XqDALBgNVHQ8EBAMC
-AYYwHwYDVR0jBBgwFoAUFHXiV7YVNxWAKpflUUhlrM+GkMswEgYDVR0TAQH/BAgwBgEB/wIBADBH
-BggrBgEFBQcBAQQ7MDkwNwYIKwYBBQUHMAKGK2h0dHA6Ly9haWEudHMuZnVqaXRzdS5jb20vYWlh
-L2Z0czAxcm9vdC5jZXIwPAYDVR0fBDUwMzAxoC+gLYYraHR0cDovL2NkcC50cy5mdWppdHN1LmNv
-bS9jZHAvZnRzMDFyb290LmNybDANBgkqhkiG9w0BAQUFAAOCAQEAQ7pQP9Lw9bcnt1DhvV5UWb1z
-mnACSo6n6x+bupckQzlrf3aJ7HQZigZuaCak+dexL18I86iNDDOJBBsrz0DcD4XPszcLTUezqqGl
-AyIbviBq5mwDHAWBA9F11GRx6LdrHMKNdHPwAWyC3r6qv4GO6A+z16KUZFSP4kvuaN5YHI481T7F
-FxEmntkylphndX+6mQ1NABApMMhX0aN5dVhPAMAP8nENJ1hGk81IG8gzkoHDPSoLCtffAnNhYAqh
-vrDO2ybXb/9x+Sf3DQuzBg3hpB1yJM3K8foQaS3uTpFITfdMprcQyrIdl4Jw26s/6vpIs0siLVTp
-3yAwgNaqQSgxSTCCBIQwggNsoAMCAQICCiWUlIAAAAACJH0wDQYJKoZIhvcNAQEFBQAwLzEtMCsG
-A1UEAxMkRnVqaXRzdSBUZWNobm9sb2d5IFNvbHV0aW9ucyBVc2VyIENBMB4XDTE0MDMyMTEyMTM1
-M1oXDTE3MDMyMDEyMTM1M1owQjEZMBcGA1UEAwwQQ2VzdG9uYXJvLCBUaGlsbzElMCMGA1UECgwc
-RnVqaXRzdSBUZWNobm9sb2d5IFNvbHV0aW9uczCBnzANBgkqhkiG9w0BAQEFAAOBjQAwgYkCgYEA
-qP3ld/ylkJOTj2rXQ+VrRf/+YMgZS5CGDnMWk+sMoS5f6JqtwfGcfBU/DhfnLsePut2q+ex/RDZF
-M6yCraPS0vdnTKm2O3Q7/UhhAV1Mi4XzzGeY1Y0qm+85EgMBISPwB5mThLYPsun5UIFs6e8tvlwZ
-Rzp/jrv/AzAfsSbHGXcCAwEAAaOCAhEwggINMAsGA1UdDwQEAwIFoDByBgNVHREEazBpgR50aGls
-by5jZXN0b25hcm9AdHMuZnVqaXRzdS5jb22BI1RoaWxvLkNlc3RvbmFyb0BmdWppdHN1LXNpZW1l
-bnMuY29tgSIrNDk4MjE4MDQ4MjMyOEBpbmNvbWluZ2ZheC5mc2MubmV0MB0GA1UdDgQWBBSiHLgI
-jjo+7KxLJ4t1+YZxgBSn8TAfBgNVHSMEGDAWgBQI9chqv4Dje1DEOfQHmEbobX6XqDA8BgNVHR8E
-NTAzMDGgL6AthitodHRwOi8vY2RwLnRzLmZ1aml0c3UuY29tL2NkcC9mdHMwMXVzZXIuY3JsMEcG
-CCsGAQUFBwEBBDswOTA3BggrBgEFBQcwAoYraHR0cDovL2FpYS50cy5mdWppdHN1LmNvbS9haWEv
-ZnRzMDF1c2VyLmNlcjAMBgNVHRMBAf8EAjAAMD0GCSsGAQQBgjcVBwQwMC4GJisGAQQBgjcVCIWF
-xDKBh/9hgYWBBIbsgiCBx4EaeYOIoHGH0vEvAgFkAgEIMBMGA1UdJQQMMAoGCCsGAQUFBwMEMBsG
-CSsGAQQBgjcVCgQOMAwwCgYIKwYBBQUHAwQwRAYJKoZIhvcNAQkPBDcwNTAOBggqhkiG9w0DAgIC
-AIAwDgYIKoZIhvcNAwQCAgCAMAcGBSsOAwIHMAoGCCqGSIb3DQMHMA0GCSqGSIb3DQEBBQUAA4IB
-AQAEGTAyHPmTyCR029H+P/u9xRezlfA2OVvV97Ls/oLCXGGr6EkMvpHodTc6n4EWSb2ul3VPSRQf
-uSmBgIcHQJykHdSChisaqkeOpHG0rjM9GXh2eQ7ECovpQIfdIbRZKNxlJihSDsDWHyZldBlPVbDh
-xMeT6xJ/ylF8UQ8FXKUir6W/BSPZF5kLdsmCeOpWC4jOGNPEMUAcuiHZPyqAhjlWk750I4oJJKvD
-bwO8/mkxmzOjpOsk8O3CdljCjYPoYtJPI/oNVsYdmiokzne4FusPYKDzv5i0dN74KLR48maXvi3/
-WsTFqwks45QeBJT/z+1sYy+dYWpv9XGN+jR1o4ImMIIEhDCCA2ygAwIBAgIKJZSUgAAAAAIkfTAN
-BgkqhkiG9w0BAQUFADAvMS0wKwYDVQQDEyRGdWppdHN1IFRlY2hub2xvZ3kgU29sdXRpb25zIFVz
-ZXIgQ0EwHhcNMTQwMzIxMTIxMzUzWhcNMTcwMzIwMTIxMzUzWjBCMRkwFwYDVQQDDBBDZXN0b25h
-cm8sIFRoaWxvMSUwIwYDVQQKDBxGdWppdHN1IFRlY2hub2xvZ3kgU29sdXRpb25zMIGfMA0GCSqG
-SIb3DQEBAQUAA4GNADCBiQKBgQCo/eV3/KWQk5OPatdD5WtF//5gyBlLkIYOcxaT6wyhLl/omq3B
-8Zx8FT8OF+cux4+63ar57H9ENkUzrIKto9LS92dMqbY7dDv9SGEBXUyLhfPMZ5jVjSqb7zkSAwEh
-I/AHmZOEtg+y6flQgWzp7y2+XBlHOn+Ou/8DMB+xJscZdwIDAQABo4ICETCCAg0wCwYDVR0PBAQD
-AgWgMHIGA1UdEQRrMGmBHnRoaWxvLmNlc3RvbmFyb0B0cy5mdWppdHN1LmNvbYEjVGhpbG8uQ2Vz
-dG9uYXJvQGZ1aml0c3Utc2llbWVucy5jb22BIis0OTgyMTgwNDgyMzI4QGluY29taW5nZmF4LmZz
-Yy5uZXQwHQYDVR0OBBYEFKIcuAiOOj7srEsni3X5hnGAFKfxMB8GA1UdIwQYMBaAFAj1yGq/gON7
-UMQ59AeYRuhtfpeoMDwGA1UdHwQ1MDMwMaAvoC2GK2h0dHA6Ly9jZHAudHMuZnVqaXRzdS5jb20v
-Y2RwL2Z0czAxdXNlci5jcmwwRwYIKwYBBQUHAQEEOzA5MDcGCCsGAQUFBzAChitodHRwOi8vYWlh
-LnRzLmZ1aml0c3UuY29tL2FpYS9mdHMwMXVzZXIuY2VyMAwGA1UdEwEB/wQCMAAwPQYJKwYBBAGC
-NxUHBDAwLgYmKwYBBAGCNxUIhYXEMoGH/2GBhYEEhuyCIIHHgRp5g4igcYfS8S8CAWQCAQgwEwYD
-VR0lBAwwCgYIKwYBBQUHAwQwGwYJKwYBBAGCNxUKBA4wDDAKBggrBgEFBQcDBDBEBgkqhkiG9w0B
-CQ8ENzA1MA4GCCqGSIb3DQMCAgIAgDAOBggqhkiG9w0DBAICAIAwBwYFKw4DAgcwCgYIKoZIhvcN
-AwcwDQYJKoZIhvcNAQEFBQADggEBAAQZMDIc+ZPIJHTb0f4/+73FF7OV8DY5W9X3suz+gsJcYavo
-SQy+keh1NzqfgRZJva6XdU9JFB+5KYGAhwdAnKQd1IKGKxqqR46kcbSuMz0ZeHZ5DsQKi+lAh90h
-tFko3GUmKFIOwNYfJmV0GU9VsOHEx5PrEn/KUXxRDwVcpSKvpb8FI9kXmQt2yYJ46lYLiM4Y08Qx
-QBy6Idk/KoCGOVaTvnQjigkkq8NvA7z+aTGbM6Ok6yTw7cJ2WMKNg+hi0k8j+g1Wxh2aKiTOd7gW
-6w9goPO/mLR03vgotHjyZpe+Lf9axMWrCSzjlB4ElP/P7WxjL51ham/1cY36NHWjgiYxggHhMIIB
-3QIBATA9MC8xLTArBgNVBAMTJEZ1aml0c3UgVGVjaG5vbG9neSBTb2x1dGlvbnMgVXNlciBDQQIK
-JZSUgAAAAAIkfTAJBgUrDgMCGgUAoIH7MBgGCSqGSIb3DQEJAzELBgkqhkiG9w0BBwEwHAYJKoZI
-hvcNAQkFMQ8XDTE2MTAyNTA5MzIwNFowIwYJKoZIhvcNAQkEMRYEFBDJliLPXBmLo+TvglCkA2j5
-osvOMEwGCSsGAQQBgjcQBDE/MD0wLzEtMCsGA1UEAxMkRnVqaXRzdSBUZWNobm9sb2d5IFNvbHV0
-aW9ucyBVc2VyIENBAgollJSAAAAAAiR9ME4GCyqGSIb3DQEJEAILMT+gPTAvMS0wKwYDVQQDEyRG
-dWppdHN1IFRlY2hub2xvZ3kgU29sdXRpb25zIFVzZXIgQ0ECCiWUlIAAAAACJH0wDQYJKoZIhvcN
-AQEBBQAEgYCn3xRVJR6Ax71u5cVcbOXMh+SpSGJi+nx71PoxuR8PRe28gDpB2ZmsIn5BGw3UaWUj
-N0bbWKwL9WWhUi7olGnOSr9okDj3gzmZZ6CxQwdfPROw+NxSG70bhd8S5AwKlC5Tibz32504h0yR
-01kFVgxgJxrTd7qqC0cw/oAqIJk3xQAAAAAAAA==
-
---=-7Nu6av3ygphhCVXa1Tby--
+--001a1141b91279d0a5053fad9aa0--
