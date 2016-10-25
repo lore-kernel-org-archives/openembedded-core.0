@@ -1,35 +1,35 @@
 Return-Path: <denis@denix.org>
 Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.17])
-	by mail.openembedded.org (Postfix) with ESMTP id 5A77171A6E
+	by mail.openembedded.org (Postfix) with ESMTP id D98136013D
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Oct 2016 18:29:41 +0000 (UTC)
+	Tue, 25 Oct 2016 18:32:41 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by mailout4.zoneedit.com (Postfix) with ESMTP id 8B423209BC;
-	Tue, 25 Oct 2016 18:29:42 +0000 (UTC)
+	by mailout4.zoneedit.com (Postfix) with ESMTP id F306D20911;
+	Tue, 25 Oct 2016 18:32:42 +0000 (UTC)
 Received: from mailout4.zoneedit.com ([127.0.0.1])
 	by localhost (zmo03-pco.easydns.vpn [127.0.0.1]) (amavisd-new,
 	port 10024)
-	with ESMTP id qjmsTz5PQKfx; Tue, 25 Oct 2016 18:29:42 +0000 (UTC)
+	with ESMTP id YgACVbEb0uLk; Tue, 25 Oct 2016 18:32:42 +0000 (UTC)
 Received: from gandalf.denix.org (pool-100-15-106-107.washdc.fios.verizon.net
 	[100.15.106.107])
 	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mailout4.zoneedit.com (Postfix) with ESMTPSA id 61B3120911;
-	Tue, 25 Oct 2016 18:29:40 +0000 (UTC)
+	by mailout4.zoneedit.com (Postfix) with ESMTPSA id AABF5204E0;
+	Tue, 25 Oct 2016 18:32:40 +0000 (UTC)
 Received: by gandalf.denix.org (Postfix, from userid 1000)
-	id AF45A16217E; Tue, 25 Oct 2016 14:29:39 -0400 (EDT)
-Date: Tue, 25 Oct 2016 14:29:39 -0400
+	id C25CD16217E; Tue, 25 Oct 2016 14:32:39 -0400 (EDT)
+Date: Tue, 25 Oct 2016 14:32:39 -0400
 From: Denys Dmytriyenko <denis@denix.org>
-To: "Robert P. J. Day" <rpjday@crashcourse.ca>
-Message-ID: <20161025182939.GE2494@denix.org>
-References: <alpine.LFD.2.20.1610221156210.31588@localhost.localdomain>
-	<68D800E1-2594-4E8B-AB8E-6B9C758FD3CF@gmail.com>
-	<alpine.LFD.2.20.1610221251550.7526@localhost.localdomain>
+To: Marek Vasut <marex@denx.de>
+Message-ID: <20161025183239.GF2494@denix.org>
+References: <20161020133514.3403-1-marex@denx.de>
+	<CAJTo0LZeox5Xe6hpnH82JZLaMb1_LtuUjKpcZtmcLOAOnosSUg@mail.gmail.com>
+	<016763e0-b2cb-0c2c-f0d0-219da1c1faa3@denx.de>
 MIME-Version: 1.0
-In-Reply-To: <alpine.LFD.2.20.1610221251550.7526@localhost.localdomain>
+In-Reply-To: <016763e0-b2cb-0c2c-f0d0-219da1c1faa3@denx.de>
 User-Agent: Mutt/1.5.20 (2009-06-14)
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: basic bitbake commands to create an SDK?
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/4] u-boot: Update to 2016.09.01 release
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,62 +42,84 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 25 Oct 2016 18:29:46 -0000
+X-List-Received-Date: Tue, 25 Oct 2016 18:32:44 -0000
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-On Sat, Oct 22, 2016 at 12:53:24PM -0400, Robert P. J. Day wrote:
-> On Sat, 22 Oct 2016, Khem Raj wrote:
+On Sat, Oct 22, 2016 at 10:32:12PM +0200, Marek Vasut wrote:
+> On 10/21/2016 09:47 AM, Burton, Ross wrote:
 > 
-> > generally meta-toolchain is prior art. You want to use image
-> > specific SDKs so -cpopulate_sdk <image> is fine. In this case it
-> > will include the needed dev headers/libs in your SDK for that given
-> > image automatically it can be any image
+> Hi!
 > 
->   ah, good to know, i was starting to get that impression from the
-> readings. (is there any mention in the docs that meta-toolchain is
-> deprecated? if that's the correct word.)
+> > On 20 October 2016 at 14:35, Marek Vasut <marex@denx.de
+> > <mailto:marex@denx.de>> wrote:
+> > 
+> >     Upgrade U-Boot to the latest version.
+> > 
+> > 
+> > As usual, u-boot-mkimage broke again:
+> 
+> That's weird, I successfully built it for nios2 during my tests.
+> Can you tell me how I can replicate the issue , so I can test for it to
+> prevent regression and roll out a patch ?
 
-It's not really depricated! It's still useful in cases when you need a 
-standalone toolchain that is not based on any specific image recipe.
-It's prone to errors and more complicated for beginners, hence the new "-c 
-populate_sdk" method is recommended by default, unless you know what you 
-are doing...
+Marek, Ross,
+
+Any progress on this? Need any help testing?
+
+-- 
+Denys
 
 
-> > I would recommend to try using eSDK, which can be generated using
-> > -cpopulate_sdk_ext see
-> >
-> > https://wiki.yoctoproject.org/wiki/Application_Development_with_Extensible_SDK
+> > | DEBUG: Executing shell function do_compile
+> > |   x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3
+> > -mfpmath=sse
+> > --sysroot=/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-no-x11/build/build/tmp/sysroots/qemux86-64
+> >  -O2 -pipe -g -feliminate-unused-debug-types
+> > -fdebug-prefix-map=/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-no-x11/build/build/tmp/work/core2-64-poky-linux/u-boot-mkimage/1_2016.09.01-r0=/usr/src/debug/u-boot-mkimage/1_2016.09.01-r0
+> > -fdebug-prefix-map=/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-no-x11/build/build/tmp/sysroots/x86_64-linux=
+> > -fdebug-prefix-map=/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-no-x11/build/build/tmp/sysroots/qemux86-64=
+> >  -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed
+> > -Wp,-MD,tools/.bin2header.d -Wall -Wstrict-prototypes -O2
+> > -fomit-frame-pointer    -DCONFIG_FIT_SIGNATURE -include
+> > ./include/libfdt_env.h -idirafterinclude
+> > -idirafter./arch/sandbox/include -I./lib/libfdt -I./tools
+> > -DCONFIG_SYS_TEXT_BASE=0 -DUSE_HOSTCC -D__KERNEL_STRICT_NAMES
+> > -D_GNU_SOURCE  -o tools/bin2header tools/bin2header.c
+> > | cat ./Licenses/gpl-2.0.txt | gzip -9 -c | \
+> > | tools/bin2header license_gzip > ./include/license.h
+> > |   x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3
+> > -mfpmath=sse
+> > --sysroot=/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-no-x11/build/build/tmp/sysroots/qemux86-64
+> >  -O2 -pipe -g -feliminate-unused-debug-types
+> > -fdebug-prefix-map=/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-no-x11/build/build/tmp/work/core2-64-poky-linux/u-boot-mkimage/1_2016.09.01-r0=/usr/src/debug/u-boot-mkimage/1_2016.09.01-r0
+> > -fdebug-prefix-map=/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-no-x11/build/build/tmp/sysroots/x86_64-linux=
+> > -fdebug-prefix-map=/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-no-x11/build/build/tmp/sysroots/qemux86-64=
+> >  -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed
+> > -Wp,-MD,tools/lib/.crc32.o.d -Wall -Wstrict-prototypes -O2
+> > -fomit-frame-pointer    -DCONFIG_FIT_SIGNATURE -include
+> > ./include/libfdt_env.h -idirafterinclude
+> > -idirafter./arch/sandbox/include -I./lib/libfdt -I./tools
+> > -DCONFIG_SYS_TEXT_BASE=0 -DUSE_HOSTCC -D__KERNEL_STRICT_NAMES
+> > -D_GNU_SOURCE -pedantic -c -o tools/lib/crc32.o tools/lib/crc32.c
+> > | /bin/sh: tools/bin2header: /lib/ld-linux-x86-64.so.2: bad ELF
+> > interpreter: No such file or directory
+> > | ERROR: oe_runmake failed
+> > | make[1]: *** [include/license.h] Error 126
+> > NOTE: recipe u-boot-mkimage-1_2016.09.01-r0: task do_compile: Failed
+> > ERROR: Task
+> > (/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-no-x11/build/meta/recipes-bsp/u-boot/u-boot-mkimage_2016.09.01.bb:do_compile)
+> > failed with exit code '1'
+> > 
+> > It's using the target compiler/sysroot/options to build a runtime tool
+> > (so should use BUILD_CC instead of CC, etc).
+> > 
+> > Ross
 > 
->   i was just perusing the testsdk.bbclass file, where i read at the
-> top:
-> 
->   # testsdk.bbclass enables testing for SDK and Extensible SDK
->   #
->   # For run SDK tests you need to do,
->   # - bitbake core-image-sato -c populate_sdk
->   # - bitbake core-image-sato -c testsdk
->   #
->   # For run eSDK tests you need to do,
->   # - bitbake core-image-sato -c populate_sdk_ext
->   # - bitbake core-image-sato -c testsdkext
-> 
-> does that testing actually require the core-image-sato image? that's
-> certainly what those comments seem to suggest.
-> 
-> rday
 > 
 > -- 
-> 
-> ========================================================================
-> Robert P. J. Day                                 Ottawa, Ontario, CANADA
->                         http://crashcourse.ca
-> 
-> Twitter:                                       http://twitter.com/rpjday
-> LinkedIn:                               http://ca.linkedin.com/in/rpjday
-> ========================================================================
-> 
+> Best regards,
+> Marek Vasut
 > -- 
 > _______________________________________________
 > Openembedded-core mailing list
