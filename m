@@ -1,47 +1,25 @@
-Return-Path: <jussi.kukkonen@intel.com>
-Received: from mail-ua0-f182.google.com (mail-ua0-f182.google.com
-	[209.85.217.182])
-	by mail.openembedded.org (Postfix) with ESMTP id AD475600E3
+Return-Path: <michael.blaettler@siemens.com>
+Received: from thoth.sbs.de (thoth.sbs.de [192.35.17.2])
+	by mail.openembedded.org (Postfix) with ESMTP id B932C71AED
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Oct 2016 10:02:15 +0000 (UTC)
-Received: by mail-ua0-f182.google.com with SMTP id 12so3257785uas.2
+	Tue, 25 Oct 2016 10:23:04 +0000 (UTC)
+Received: from mail2.siemens.de (mail2.siemens.de [139.25.208.11])
+	by thoth.sbs.de (8.15.2/8.15.2) with ESMTPS id u9PAN2vw016270
+	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Oct 2016 03:02:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=LUdjozYQ2bEJdnGpm8CtG4bCjI72ZJ8aZaUJmnoWS1k=;
-	b=EsfC9s0T8D/wPqX0LDxsNifWwzyWX7ucq4JzYNg2YT9CWljpKe+DoHWe5IsVpXRiPv
-	erIgYdNi38dDM925sspE9pZeG7Q7GRCEZKvTb2C6n+baGb8jQj4bh3cyIC2pLPD47h4b
-	zAP4PFjvwQYtEtrEKWnF09tABCy8nsDFvYM+sWd3ZLv7rQGeZl0ND3Yn9gyt3gcpAW/w
-	Z0d0eZ7WVl6NNIoqKaYuklGPBP0FFly5aJKFU3FuDY28ctXaiPIEI574eDnFy+JPoAx8
-	t5mRUNODz5bpbMoJmk6Y/B9f1GinPiqDkCaHOSxDyFpE6gNOxl9qmoZpgAtFsIfhXvgH
-	2dIw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=LUdjozYQ2bEJdnGpm8CtG4bCjI72ZJ8aZaUJmnoWS1k=;
-	b=IdCZwoBghbfeAA9OhuISkKgfcQnWAYYMwT+krcVYJoa18URYPo8jz6/pOX1duB/dMR
-	Z+5xklKo1aiP+m6bOvGzJyv/Q4eaboKFBgAscud66uVgdgKe6qHPGU5HP0XkmvCGfSQT
-	gtjUGCPClFkLVm4hkJWl3y4InuBNvH9cAMSYKaSDebgNnLzhwpoKEuQyrg2xNX9Jw8hB
-	ug9hAwIKMgCjz5JoZEOP4X5j0Z4aMpiu03SV1GQr7H15HYDEjdyjrYzOjfwRooq/PAcS
-	FogAM/NUFRZG9vx6pOtA7PNlVGg+P5M436qG4dJQt+ipS/19v+dWfc2DKOj7Pv+h0Lt4
-	S7cA==
-X-Gm-Message-State: ABUngve6ZiiVZyaLzPJZO+wjfKMD+wVH90sfwtTc1Ca8ovRnGr0A/NHkrU+1cj71ZSQyMg1t+v1jxB8+EuhrWg4x
-X-Received: by 10.159.38.52 with SMTP id 49mr6969501uag.14.1477389737110; Tue,
-	25 Oct 2016 03:02:17 -0700 (PDT)
+	Tue, 25 Oct 2016 12:23:02 +0200
+Received: from dev.sbt.siemens.com (MD1F3VPC.ww002.siemens.net [139.16.77.53])
+	by mail2.siemens.de (8.15.2/8.15.2) with ESMTP id u9PAN1Af019507;
+	Tue, 25 Oct 2016 12:23:02 +0200
+Received: by dev.sbt.siemens.com (Postfix, from userid 1000)
+	id 65C2F844D05; Tue, 25 Oct 2016 12:23:02 +0200 (CEST)
+From: =?UTF-8?q?Michael=20Bl=C3=A4ttler?= <michael.blaettler@siemens.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 25 Oct 2016 12:23:00 +0200
+Message-Id: <1477390980-16319-1-git-send-email-michael.blaettler@siemens.com>
+X-Mailer: git-send-email 2.1.4
 MIME-Version: 1.0
-Received: by 10.103.74.195 with HTTP; Tue, 25 Oct 2016 03:01:46 -0700 (PDT)
-In-Reply-To: <1477387924.20929.1.camel@ts.fujitsu.com>
-References: <1477387924.20929.1.camel@ts.fujitsu.com>
-From: Jussi Kukkonen <jussi.kukkonen@intel.com>
-Date: Tue, 25 Oct 2016 13:01:46 +0300
-Message-ID: <CAHiDW_HLiPEOXC6FgaenUr1s0sByoG6Zn1X-u6Q2D439A8rOXg@mail.gmail.com>
-To: "thilo.cestonaro@ts.fujitsu.com" <thilo.cestonaro@ts.fujitsu.com>
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: Howto find the providing recipe for a specific package?
+Subject: [PATCH v2] package.py: New EXTRA_STRIPFLAGS variable
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,59 +32,82 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 25 Oct 2016 10:02:16 -0000
-Content-Type: multipart/alternative; boundary=001a1141b91279d0a5053fad9aa0
-
---001a1141b91279d0a5053fad9aa0
+X-List-Received-Date: Tue, 25 Oct 2016 10:23:09 -0000
 Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On 25 October 2016 at 12:32, thilo.cestonaro@ts.fujitsu.com <
-thilo.cestonaro@ts.fujitsu.com> wrote:
+The EXTRA_STRIPFLAGS variable can be used to pass additional parameters to the strip command.
+This can be used to remove additional sections or to keep symbols.
+The removal of additional sections can be useful to enable reproducible builds.
+Sections which contain paths or md5sums of the debug binaries (like gnu_debuglink)
+can be eliminated with this flag.
 
-> Hey!
->
-> How can I programmatically reverse lookup the recipe which provides a
-> specific package?
->
-> e.g. kernel-module-xfrm6-mode-transport is produced via the recipe
-> linux-mainline, in my case,
-> but the packagename doesn't tell this anyhow.
->
-> Is there a way to get the recipe?
->
+Signed-off-by: Pascal Bach <pascal.bach@siemens.com>
+Signed-off-by: Michael Blättler <michael.blaettler@siemens.com>
+---
+ meta/classes/package.bbclass |  5 +++--
+ meta/lib/oe/package.py       | 13 ++++++-------
+ 2 files changed, 9 insertions(+), 9 deletions(-)
 
-This should work after the recipe has been built:
+diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
+index a6f0a7a..05b92a8 100644
+--- a/meta/classes/package.bbclass
++++ b/meta/classes/package.bbclass
+@@ -1055,14 +1055,15 @@ python split_and_strip_files () {
+     # Now lets go back over things and strip them
+     #
+     if (d.getVar('INHIBIT_PACKAGE_STRIP', True) != '1'):
++        extraflags = d.getVar('EXTRA_STRIPFLAGS', False)
+         strip = d.getVar("STRIP", True)
+         sfiles = []
+         for file in elffiles:
+             elf_file = int(elffiles[file])
+             #bb.note("Strip %s" % file)
+-            sfiles.append((file, elf_file, strip))
++            sfiles.append((file, elf_file, strip, extraflags))
+         for f in kernmods:
+-            sfiles.append((f, 16, strip))
++            sfiles.append((f, 16, strip, extraflags))
+ 
+         oe.utils.multiprocess_exec(sfiles, oe.package.runstrip)
+ 
+diff --git a/meta/lib/oe/package.py b/meta/lib/oe/package.py
+index 02642f2..757044a 100644
+--- a/meta/lib/oe/package.py
++++ b/meta/lib/oe/package.py
+@@ -10,7 +10,7 @@ def runstrip(arg):
+ 
+     import stat, subprocess
+ 
+-    (file, elftype, strip) = arg
++    (file, elftype, strip, extraflags) = arg
+ 
+     newmode = None
+     if not os.access(file, os.W_OK) or os.access(file, os.R_OK):
+@@ -18,17 +18,16 @@ def runstrip(arg):
+         newmode = origmode | stat.S_IWRITE | stat.S_IREAD
+         os.chmod(file, newmode)
+ 
+-    extraflags = ""
+-
+-    # kernel module    
++    extraflags += ' '
++    # kernel module
+     if elftype & 16:
+-        extraflags = "--strip-debug --remove-section=.comment --remove-section=.note --preserve-dates"
++        extraflags += "--strip-debug --remove-section=.comment --remove-section=.note --preserve-dates"
+     # .so and shared library
+     elif ".so" in file and elftype & 8:
+-        extraflags = "--remove-section=.comment --remove-section=.note --strip-unneeded"
++        extraflags += "--remove-section=.comment --remove-section=.note --strip-unneeded"
+     # shared or executable:
+     elif elftype & 8 or elftype & 4:
+-        extraflags = "--remove-section=.comment --remove-section=.note"
++        extraflags += "--remove-section=.comment --remove-section=.note"
+ 
+     stripcmd = "'%s' %s '%s'" % (strip, extraflags, file)
+     bb.debug(1, "runstrip: %s" % stripcmd)
+-- 
+2.1.4
 
-$ oe-pkgdata-util lookup-recipe kernel-module-xfrm6-mode-transport
 
-
-
-HTH,
-  Jussi
-
---001a1141b91279d0a5053fad9aa0
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><div class=3D"gmail_quote">On 2=
-5 October 2016 at 12:32, <a href=3D"mailto:thilo.cestonaro@ts.fujitsu.com">=
-thilo.cestonaro@ts.fujitsu.com</a> <span dir=3D"ltr">&lt;<a href=3D"mailto:=
-thilo.cestonaro@ts.fujitsu.com" target=3D"_blank">thilo.cestonaro@ts.fujits=
-u.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"m=
-argin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left=
-:1ex">Hey!<br>
-<br>
-How can I programmatically reverse lookup the recipe which provides a speci=
-fic package?<br>
-<br>
-e.g. kernel-module-xfrm6-mode-<wbr>transport is produced via the recipe lin=
-ux-mainline, in my case,<br>
-but the packagename doesn&#39;t tell this anyhow.<br>
-<br>
-Is there a way to get the recipe?<br></blockquote><div><br></div><div><div>=
-This should work after the recipe has been built:</div><div><br></div><div>=
-$ oe-pkgdata-util lookup-recipe kernel-module-xfrm6-mode-transport<br></div=
-></div><div><br></div><div><br></div><div><br></div><div>HTH,</div><div>=C2=
-=A0 Jussi=C2=A0</div><div><br></div><div><br></div></div></div></div>
-
---001a1141b91279d0a5053fad9aa0--
