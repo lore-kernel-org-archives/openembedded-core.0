@@ -1,40 +1,51 @@
-Return-Path: <prvs=71068b085e=michael.davis@essvote.com>
-Received: from mail1.essvote.com (mail1.essvote.com [66.37.226.19])
-	by mail.openembedded.org (Postfix) with ESMTP id 7C2056093D
+Return-Path: <kergoth@gmail.com>
+Received: from mail-oi0-f66.google.com (mail-oi0-f66.google.com
+	[209.85.218.66])
+	by mail.openembedded.org (Postfix) with ESMTP id BB1E6719CD
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Oct 2016 14:32:55 +0000 (UTC)
-X-AuditID: 0a000213-f79036d00000110e-08-580f6d176146
-Received: from ESS-EX01.essvote.corp.local (Unknown_Domain [172.16.110.40])
-	by mail1.essvote.com (Symantec Messaging Gateway) with SMTP id
-	BA.7C.04366.71D6F085; Tue, 25 Oct 2016 09:32:56 -0500 (CDT)
-Received: from ESS-EX01.essvote.corp.local ([::1]) by
-	ESS-EX01.essvote.corp.local ([::1]) with mapi id 14.03.0301.000;
-	Tue, 25 Oct 2016 09:32:55 -0500
-From: "Davis, Michael" <michael.davis@essvote.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [meta-oe][krogoth][PATCH] pcsc-lite: Seperate GPLV3 portions
-	from BSD
-Thread-Index: AQHSLsysmeG7fJrNeEmoTg6H5uPmbQ==
-Date: Tue, 25 Oct 2016 14:32:55 +0000
-Message-ID: <1477405943-3543-1-git-send-email-michael.davis@essvote.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.1.1.128]
+	Tue, 25 Oct 2016 15:07:46 +0000 (UTC)
+Received: by mail-oi0-f66.google.com with SMTP id i127so7606744oia.0
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 25 Oct 2016 08:07:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:from:date:message-id
+	:subject:to:cc;
+	bh=13m3V3DZKFD7TgFz2fuv7cvFZsmYaG2skiOw7Ubk1sY=;
+	b=kT71VmW+tKoHipGbqNWgvjMBWwV+6d81s9GlvuFw+ceLQkql6Hz2aWOIenoihSisyL
+	z/7YEiAmz4FfF7R913jshNDzuyj+F9rRLKsQH0bJqujwlxx8fSYpOGuue265ewbQ7XvJ
+	S7vcDgCiJA8zUczHbzxqTBeSwYivL7+MZL54coP5LrQCEQpsix1fqLv28eH4wMnZ7uuV
+	DsYQhPNuQSFTiO8caEgX+1ttXU+Z231DW0ua4exurY+CdqVlIyf8R+AByEHX9wmCQqlJ
+	tmxhBGN3NU6AcoCOmY4tFo5a2C/b9VntnuQQ8gv2QvAMhEFqbZ4Rv24OdccK1gjnNdI0
+	JQ0A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:sender:in-reply-to:references:from
+	:date:message-id:subject:to:cc;
+	bh=13m3V3DZKFD7TgFz2fuv7cvFZsmYaG2skiOw7Ubk1sY=;
+	b=Abm9tO/SQdbiDp1NIAjaZYNIHWWuvnpPMdcNKzAqm0pyUHpcGTUb6OEdmP2/0peQYh
+	2bL6YRwycXc1Yf0PwgjJ0Qp9la3Ywr5ZaDRz8xhw6QRgTPk0LK2N6JkkBrb+AYebZ5KA
+	bUw4ONAunc7Qgkb4bsO+87UtsgMz7jXd6H7D7HoDIeZ8ajuNKAW3L0SYLoUkl/BOXlW4
+	9OLHPMCWxOvaOKI2Ig7fb4BpYeSijjWU8m0b0tWGZ9C2MpuXv1JVa8JgsuEuMQP0F3Mk
+	P0U6PRmodRZeC1Sw0hPthn0Zgs8q8S5NWx2Fx2b7gNUXTi7eQ0DNIzM9lCzrGJHJoeNj
+	4U1A==
+X-Gm-Message-State: ABUngvcpmP9O6bMaVi+fLrSAbbWPdHuwGbQInZJOA/Up0K3KcnneXCP19YAJP9qyTgNx2GugL+Jp9bZhothWMw==
+X-Received: by 10.157.31.18 with SMTP id x18mr5058022otd.29.1477408067404;
+	Tue, 25 Oct 2016 08:07:47 -0700 (PDT)
 MIME-Version: 1.0
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrFLMWRmVeSWpSXmKPExsWyRiBPQ1cilz/CYPIrFotff6cwW9z5+Y7d
-	gclj56y77B7nNq5gDGCK4rZJSiwpC85Mz9O3S+DOeHvtOVvBD6GKnc+2sjYwPuTvYuTkkBAw
-	kTjx9TgrhC0mceHeejYQW0jgBKPEvf36EPYsRonGjgIQm03ASOLc9U2MILaIQLTE0hkz2bsY
-	OTiYBSIlDjWZg4SFBQIk3t89ygoSFhEIlbj91BGiWk9izZtTzCA2i4CqxMPje1hAbF4BD4nt
-	J5eB2YxAF3w/tYYJxGYWEJe49WQ+E8RlAhJL9pxnhrBFJV4+/gd1sZxE/8NtjBD1ehI3pk5h
-	g7C1JZYtfM0MMV9Q4uTMJywTGEVmIRk7C0nLLCQts5C0LGBkWcUomJuYmWOol1pcXJZfkqqX
-	nJ+7iREYA1wMTMI7GOdMsT3EKMDBqMTDG1DGFyHEmlhWXJl7iFGag0VJnPfah0fhQgLpiSWp
-	2ampBalF8UWlOanFhxiZODgPMUpwcEmJFKfmpaQWJZaWZMSDoiq+GBhXUg2MOftblL5yRLqH
-	9/ko/ts4d17JL7OQq71vPE/rnizcE5Lpx5mmMT9kv2POnlq2789qsrKOpWWFVG0Q9Ql4WdDx
-	YmN7yXKFj3pKbld2BT9L3veZN9p77brf705mLeo7csTdLmzrR1Xl6sdzVLzfv7/wqzr76or8
-	EJFPt99MnP0poJlTtmqt9A52JZbijERDLeai4kQAywWxU30CAAA=
-Subject: [meta-oe][krogoth][PATCH] pcsc-lite: Seperate GPLV3 portions from BSD
+Sender: kergoth@gmail.com
+Received: by 10.157.13.194 with HTTP; Tue, 25 Oct 2016 08:07:27 -0700 (PDT)
+In-Reply-To: <alpine.LFD.2.20.1610250303460.20837@localhost.localdomain>
+References: <alpine.LFD.2.20.1610241644480.15919@localhost.localdomain>
+	<CABcZANnYLS0pfSpdzf3NVV4KEg_88b9mPark9gpstJUFHZTzxQ@mail.gmail.com>
+	<alpine.LFD.2.20.1610250246460.19688@localhost.localdomain>
+	<alpine.LFD.2.20.1610250303460.20837@localhost.localdomain>
+From: Christopher Larson <clarson@kergoth.com>
+Date: Tue, 25 Oct 2016 08:07:27 -0700
+X-Google-Sender-Auth: G2os0Q_YtgtmodnObSprLd2yM8c
+Message-ID: <CABcZANnku9xzQ=Zz6NnUX+myzbAX9K34gPVjkTCd0jKSAXSXRw@mail.gmail.com>
+To: "Robert P. J. Day" <rpjday@crashcourse.ca>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: most efficient way to map perl RH rpms to OE package names?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,75 +58,152 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 25 Oct 2016 14:32:56 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="iso-8859-1"
+X-List-Received-Date: Tue, 25 Oct 2016 15:07:48 -0000
+Content-Type: multipart/alternative; boundary=001a113d028c0bc9b0053fb1dfba
+
+--001a113d028c0bc9b0053fb1dfba
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-From: "Davis, Michael" <michael.davis@essvote.com>
+On Tue, Oct 25, 2016 at 12:05 AM, Robert P. J. Day <rpjday@crashcourse.ca>
+wrote:
 
-GPLV3 and BSD portions were originally placed in the same package.
-The GPLv3 portion has been seperated into pcsc-lite-spy and
-pcsc-lite-spy-dev so the package can be used with GPLv3 blacklisted.
+> On Tue, 25 Oct 2016, Robert P. J. Day wrote:
+>
+> > On Mon, 24 Oct 2016, Christopher Larson wrote:
+> >
+> > >
+> > > On Mon, Oct 24, 2016 at 1:53 PM, Robert P. J. Day <
+> rpjday@crashcourse.ca> wrote:
+> > >         i've just been handed a list of about 200 perl packages by
+> their
+> > >       centos rpm names, and i want to map most, if not all, of them t=
+o
+> their
+> > >       equivalent OE package names.
+> > >
+> > >        my first instinct (based on not having used a lot of perl OE
+> > >       packages) is to add both "perl" and "perl-modules" to
+> IMAGE_INSTALL,
+> > >       just to fetch and build every possible module available through
+> the OE
+> > >       perl recipe -- that will at least give me an idea of what's
+> available.
+> > >
+> > >         next, i can see the pattern in some OE package names -- i've
+> > >       verified that the Time::HiRes package is available in OE as
+> > >       perl-module-time-hires, which i assume is part of the dynamic
+> naming
+> > >       being done in perl_5.22.1.bb.
+> > >
+> > >        am i approaching this the right way?
+> > >
+> > >
+> > > Could also bitbake perl, then use oe-pkgdata-util to locate the
+> > > actual perl modules in the packages, i.e. */Time/HiRes.pm.
+> >
+> >   i once wrote a wiki page on "bb", distinguishing between queries
+> > you could make before you did a build, versus queries that needed a
+> > build. it seems like oe-pkgdata-util needs a completed build for
+> > pretty much everything, do i have that right?
+>
+>   never mind, i just read this snippet from the YP ref manual:
+>
+> "You can use the oe-pkgdata-util command-line utility to query
+> PKGDATA_DIR and display various package-related information. When you
+> use the utility, you must use it to view information on packages that
+> have already been built."
+>
+> so i'm assuming that means for *all* oe-pkgdata subcommands, no
+> exceptions.
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-(cherry picked from commit 54c7e784c7689d8cff4173db716bb7913c65315f)
-Signed-off-by: Michael Davis <michael.davis@essvote.com>
----
- .../recipes-support/pcsc-lite/pcsc-lite_1.8.13.bb  | 24 ++++++++++++++++++=
-----
- 1 file changed, 20 insertions(+), 4 deletions(-)
 
-diff --git a/meta-oe/recipes-support/pcsc-lite/pcsc-lite_1.8.13.bb b/meta-o=
-e/recipes-support/pcsc-lite/pcsc-lite_1.8.13.bb
-index cc72549..0d2cb33 100644
---- a/meta-oe/recipes-support/pcsc-lite/pcsc-lite_1.8.13.bb
-+++ b/meta-oe/recipes-support/pcsc-lite/pcsc-lite_1.8.13.bb
-@@ -1,7 +1,13 @@
- SUMMARY =3D "PC/SC Lite smart card framework and applications"
- HOMEPAGE =3D "http://pcsclite.alioth.debian.org/"
- LICENSE =3D "BSD & GPLv3+"
--LICENSE_${PN}-dev =3D "GPLv3+"
-+LICENSE_${PN} =3D "BSD"
-+LICENSE_${PN}-lib =3D "BSD"
-+LICENSE_${PN}-doc =3D "BSD"
-+LICENSE_${PN}-dev =3D "BSD"
-+LICENSE_${PN}-dbg =3D "BSD & GPLv3+"
-+LICENSE_${PN}-spy =3D "GPLv3+"
-+LICENSE_${PN}-spy-dev =3D "GPLv3+"
- LIC_FILES_CHKSUM =3D "file://COPYING;md5=3Dbcfbd85230ac3c586fb294c8b627cf3=
-2"
- DEPENDS =3D "udev"
-=20
-@@ -20,14 +26,24 @@ EXTRA_OECONF =3D " \
-=20
- S =3D "${WORKDIR}/pcsc-lite-${PV}"
-=20
--PACKAGES =3D+ "${PN}-lib"
-+PACKAGES =3D "${PN} ${PN}-dbg ${PN}-dev ${PN}-lib ${PN}-doc ${PN}-spy ${PN=
-}-spy-dev"
-=20
- RRECOMMENDS_${PN} =3D "ccid"
-=20
--FILES_${PN}-lib =3D "${libdir}/lib*${SOLIBS}"
-+FILES_${PN} =3D "${sbindir}/pcscd"
-+FILES_${PN}-lib =3D "${libdir}/libpcsclite*${SOLIBS}"
-+FILES_${PN}-dev =3D "${includedir} \
-+                   ${libdir}/pkgconfig \
-+                   ${libdir}/libpcsclite.la \
-+                   ${libdir}/libpcsclite.so"
-+                  =20
-+FILES_${PN}-spy =3D "${bindir}/pcsc-spy \
-+                   ${libdir}/libpcscspy*${SOLIBS}"
-+FILES_${PN}-spy-dev =3D "${libdir}/libpcscspy.la \
-+                       ${libdir}/libpcscspy.so "
-=20
- RPROVIDES_${PN} +=3D "${PN}-systemd"
- RREPLACES_${PN} +=3D "${PN}-systemd"
- RCONFLICTS_${PN} +=3D "${PN}-systemd"
- SYSTEMD_SERVICE_${PN} =3D "pcscd.socket"
--RDEPENDS_${PN} +=3D"python"
-+RDEPENDS_${PN}-spy +=3D"python"
+Right, oe-pkgdata-util is about inspecting build output via pkgdata,
+whereas most of bb is inspection tools about the metadata =E2=80=94 before =
+the
+build. The only exception is bb-contents, which is a convenience, just
+wraps oe-pkgdata-util under the hood and tells the user the oe-pkgdata-util
+command in case they want to run it directly.
 --=20
-2.5.5
+Christopher Larson
+clarson at kergoth dot com
+Founder - BitBake, OpenEmbedded, OpenZaurus
+Maintainer - Tslib
+Senior Software Engineer, Mentor Graphics
 
+--001a113d028c0bc9b0053fb1dfba
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On Tue, Oct 25, 2016 at 12:05 AM, Robert P. J. Day <span dir=3D"ltr">&lt;<a=
+ href=3D"mailto:rpjday@crashcourse.ca" target=3D"_blank">rpjday@crashcourse=
+.ca</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"mar=
+gin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><span class=3D"=
+">On Tue, 25 Oct 2016, Robert P. J. Day wrote:<br>
+<br>
+&gt; On Mon, 24 Oct 2016, Christopher Larson wrote:<br>
+&gt;<br>
+&gt; &gt;<br>
+&gt; &gt; On Mon, Oct 24, 2016 at 1:53 PM, Robert P. J. Day &lt;<a href=3D"=
+mailto:rpjday@crashcourse.ca">rpjday@crashcourse.ca</a>&gt; wrote:<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0 i&#39;ve just been handed a list=
+ of about 200 perl packages by their<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0centos rpm names, and i want to map mos=
+t, if not all, of them to their<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0equivalent OE package names.<br>
+&gt; &gt;<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0my first instinct (based on not h=
+aving used a lot of perl OE<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0packages) is to add both &quot;perl&quo=
+t; and &quot;perl-modules&quot; to IMAGE_INSTALL,<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0just to fetch and build every possible =
+module available through the OE<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0perl recipe -- that will at least give =
+me an idea of what&#39;s available.<br>
+&gt; &gt;<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0 next, i can see the pattern in s=
+ome OE package names -- i&#39;ve<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0verified that the Time::HiRes package i=
+s available in OE as<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0perl-module-time-hires, which i assume =
+is part of the dynamic naming<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0being done in <a href=3D"http://perl_5.=
+22.1.bb" rel=3D"noreferrer" target=3D"_blank">perl_5.22.1.bb</a>.<br>
+&gt; &gt;<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0am i approaching this the right w=
+ay?<br>
+&gt; &gt;<br>
+&gt; &gt;<br>
+&gt; &gt; Could also bitbake perl, then use oe-pkgdata-util to locate the<b=
+r>
+&gt; &gt; actual perl modules in the packages, i.e. */Time/HiRes.pm.<br>
+&gt;<br>
+&gt;=C2=A0 =C2=A0i once wrote a wiki page on &quot;bb&quot;, distinguishing=
+ between queries<br>
+&gt; you could make before you did a build, versus queries that needed a<br=
+>
+&gt; build. it seems like oe-pkgdata-util needs a completed build for<br>
+&gt; pretty much everything, do i have that right?<br>
+<br>
+</span>=C2=A0 never mind, i just read this snippet from the YP ref manual:<=
+br>
+<br>
+&quot;You can use the oe-pkgdata-util command-line utility to query<br>
+PKGDATA_DIR and display various package-related information. When you<br>
+use the utility, you must use it to view information on packages that<br>
+have already been built.&quot;<br>
+<br>
+so i&#39;m assuming that means for *all* oe-pkgdata subcommands, no<br>
+exceptions.</blockquote></div><br>Right, oe-pkgdata-util is about inspectin=
+g build output via pkgdata, whereas most of bb is inspection tools about th=
+e metadata =E2=80=94 before the build. The only exception is bb-contents, w=
+hich is a convenience, just wraps oe-pkgdata-util under the hood and tells =
+the user the oe-pkgdata-util command in case they want to run it directly.<=
+br>-- <br><div class=3D"gmail_signature" data-smartmail=3D"gmail_signature"=
+>Christopher Larson<br>clarson at kergoth dot com<br>Founder - BitBake, Ope=
+nEmbedded, OpenZaurus<br>Maintainer - Tslib<br>Senior Software Engineer, Me=
+ntor Graphics</div>
+</div></div>
+
+--001a113d028c0bc9b0053fb1dfba--
