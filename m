@@ -1,34 +1,35 @@
 Return-Path: <denis@denix.org>
 Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.17])
-	by mail.openembedded.org (Postfix) with ESMTP id 3188571A37
+	by mail.openembedded.org (Postfix) with ESMTP id 5A77171A6E
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Oct 2016 18:24:40 +0000 (UTC)
+	Tue, 25 Oct 2016 18:29:41 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by mailout4.zoneedit.com (Postfix) with ESMTP id BBD4320911;
-	Tue, 25 Oct 2016 18:24:39 +0000 (UTC)
+	by mailout4.zoneedit.com (Postfix) with ESMTP id 8B423209BC;
+	Tue, 25 Oct 2016 18:29:42 +0000 (UTC)
 Received: from mailout4.zoneedit.com ([127.0.0.1])
 	by localhost (zmo03-pco.easydns.vpn [127.0.0.1]) (amavisd-new,
 	port 10024)
-	with ESMTP id I3CBbK1PlidF; Tue, 25 Oct 2016 18:24:39 +0000 (UTC)
+	with ESMTP id qjmsTz5PQKfx; Tue, 25 Oct 2016 18:29:42 +0000 (UTC)
 Received: from gandalf.denix.org (pool-100-15-106-107.washdc.fios.verizon.net
 	[100.15.106.107])
 	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mailout4.zoneedit.com (Postfix) with ESMTPSA id 8EAA6204E0;
-	Tue, 25 Oct 2016 18:24:38 +0000 (UTC)
+	by mailout4.zoneedit.com (Postfix) with ESMTPSA id 61B3120911;
+	Tue, 25 Oct 2016 18:29:40 +0000 (UTC)
 Received: by gandalf.denix.org (Postfix, from userid 1000)
-	id E96D716217E; Tue, 25 Oct 2016 14:24:37 -0400 (EDT)
-Date: Tue, 25 Oct 2016 14:24:37 -0400
+	id AF45A16217E; Tue, 25 Oct 2016 14:29:39 -0400 (EDT)
+Date: Tue, 25 Oct 2016 14:29:39 -0400
 From: Denys Dmytriyenko <denis@denix.org>
-To: "Davis, Michael" <michael.davis@essvote.com>
-Message-ID: <20161025182437.GD2494@denix.org>
-References: <1477405943-3543-1-git-send-email-michael.davis@essvote.com>
+To: "Robert P. J. Day" <rpjday@crashcourse.ca>
+Message-ID: <20161025182939.GE2494@denix.org>
+References: <alpine.LFD.2.20.1610221156210.31588@localhost.localdomain>
+	<68D800E1-2594-4E8B-AB8E-6B9C758FD3CF@gmail.com>
+	<alpine.LFD.2.20.1610221251550.7526@localhost.localdomain>
 MIME-Version: 1.0
-In-Reply-To: <1477405943-3543-1-git-send-email-michael.davis@essvote.com>
+In-Reply-To: <alpine.LFD.2.20.1610221251550.7526@localhost.localdomain>
 User-Agent: Mutt/1.5.20 (2009-06-14)
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [meta-oe][krogoth][PATCH] pcsc-lite: Seperate GPLV3 portions from BSD
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: basic bitbake commands to create an SDK?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,79 +42,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 25 Oct 2016 18:24:41 -0000
+X-List-Received-Date: Tue, 25 Oct 2016 18:29:46 -0000
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-meta-oe patches should be submitted to openembedded-devel mailing list. Thanks.
-
--- 
-Denys
-
-
-On Tue, Oct 25, 2016 at 02:32:55PM +0000, Davis, Michael wrote:
-> From: "Davis, Michael" <michael.davis@essvote.com>
+On Sat, Oct 22, 2016 at 12:53:24PM -0400, Robert P. J. Day wrote:
+> On Sat, 22 Oct 2016, Khem Raj wrote:
 > 
-> GPLV3 and BSD portions were originally placed in the same package.
-> The GPLv3 portion has been seperated into pcsc-lite-spy and
-> pcsc-lite-spy-dev so the package can be used with GPLv3 blacklisted.
+> > generally meta-toolchain is prior art. You want to use image
+> > specific SDKs so -cpopulate_sdk <image> is fine. In this case it
+> > will include the needed dev headers/libs in your SDK for that given
+> > image automatically it can be any image
 > 
-> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-> (cherry picked from commit 54c7e784c7689d8cff4173db716bb7913c65315f)
-> Signed-off-by: Michael Davis <michael.davis@essvote.com>
-> ---
->  .../recipes-support/pcsc-lite/pcsc-lite_1.8.13.bb  | 24 ++++++++++++++++++----
->  1 file changed, 20 insertions(+), 4 deletions(-)
+>   ah, good to know, i was starting to get that impression from the
+> readings. (is there any mention in the docs that meta-toolchain is
+> deprecated? if that's the correct word.)
+
+It's not really depricated! It's still useful in cases when you need a 
+standalone toolchain that is not based on any specific image recipe.
+It's prone to errors and more complicated for beginners, hence the new "-c 
+populate_sdk" method is recommended by default, unless you know what you 
+are doing...
+
+
+> > I would recommend to try using eSDK, which can be generated using
+> > -cpopulate_sdk_ext see
+> >
+> > https://wiki.yoctoproject.org/wiki/Application_Development_with_Extensible_SDK
 > 
-> diff --git a/meta-oe/recipes-support/pcsc-lite/pcsc-lite_1.8.13.bb b/meta-oe/recipes-support/pcsc-lite/pcsc-lite_1.8.13.bb
-> index cc72549..0d2cb33 100644
-> --- a/meta-oe/recipes-support/pcsc-lite/pcsc-lite_1.8.13.bb
-> +++ b/meta-oe/recipes-support/pcsc-lite/pcsc-lite_1.8.13.bb
-> @@ -1,7 +1,13 @@
->  SUMMARY = "PC/SC Lite smart card framework and applications"
->  HOMEPAGE = "http://pcsclite.alioth.debian.org/"
->  LICENSE = "BSD & GPLv3+"
-> -LICENSE_${PN}-dev = "GPLv3+"
-> +LICENSE_${PN} = "BSD"
-> +LICENSE_${PN}-lib = "BSD"
-> +LICENSE_${PN}-doc = "BSD"
-> +LICENSE_${PN}-dev = "BSD"
-> +LICENSE_${PN}-dbg = "BSD & GPLv3+"
-> +LICENSE_${PN}-spy = "GPLv3+"
-> +LICENSE_${PN}-spy-dev = "GPLv3+"
->  LIC_FILES_CHKSUM = "file://COPYING;md5=bcfbd85230ac3c586fb294c8b627cf32"
->  DEPENDS = "udev"
->  
-> @@ -20,14 +26,24 @@ EXTRA_OECONF = " \
->  
->  S = "${WORKDIR}/pcsc-lite-${PV}"
->  
-> -PACKAGES =+ "${PN}-lib"
-> +PACKAGES = "${PN} ${PN}-dbg ${PN}-dev ${PN}-lib ${PN}-doc ${PN}-spy ${PN}-spy-dev"
->  
->  RRECOMMENDS_${PN} = "ccid"
->  
-> -FILES_${PN}-lib = "${libdir}/lib*${SOLIBS}"
-> +FILES_${PN} = "${sbindir}/pcscd"
-> +FILES_${PN}-lib = "${libdir}/libpcsclite*${SOLIBS}"
-> +FILES_${PN}-dev = "${includedir} \
-> +                   ${libdir}/pkgconfig \
-> +                   ${libdir}/libpcsclite.la \
-> +                   ${libdir}/libpcsclite.so"
-> +                   
-> +FILES_${PN}-spy = "${bindir}/pcsc-spy \
-> +                   ${libdir}/libpcscspy*${SOLIBS}"
-> +FILES_${PN}-spy-dev = "${libdir}/libpcscspy.la \
-> +                       ${libdir}/libpcscspy.so "
->  
->  RPROVIDES_${PN} += "${PN}-systemd"
->  RREPLACES_${PN} += "${PN}-systemd"
->  RCONFLICTS_${PN} += "${PN}-systemd"
->  SYSTEMD_SERVICE_${PN} = "pcscd.socket"
-> -RDEPENDS_${PN} +="python"
-> +RDEPENDS_${PN}-spy +="python"
+>   i was just perusing the testsdk.bbclass file, where i read at the
+> top:
+> 
+>   # testsdk.bbclass enables testing for SDK and Extensible SDK
+>   #
+>   # For run SDK tests you need to do,
+>   # - bitbake core-image-sato -c populate_sdk
+>   # - bitbake core-image-sato -c testsdk
+>   #
+>   # For run eSDK tests you need to do,
+>   # - bitbake core-image-sato -c populate_sdk_ext
+>   # - bitbake core-image-sato -c testsdkext
+> 
+> does that testing actually require the core-image-sato image? that's
+> certainly what those comments seem to suggest.
+> 
+> rday
+> 
 > -- 
-> 2.5.5
+> 
+> ========================================================================
+> Robert P. J. Day                                 Ottawa, Ontario, CANADA
+>                         http://crashcourse.ca
+> 
+> Twitter:                                       http://twitter.com/rpjday
+> LinkedIn:                               http://ca.linkedin.com/in/rpjday
+> ========================================================================
+> 
 > -- 
 > _______________________________________________
 > Openembedded-core mailing list
