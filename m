@@ -1,45 +1,28 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f196.google.com (mail-pf0-f196.google.com
-	[209.85.192.196])
-	by mail.openembedded.org (Postfix) with ESMTP id D500471AE6
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id A1FE260750
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Oct 2016 01:50:21 +0000 (UTC)
-Received: by mail-pf0-f196.google.com with SMTP id s8so21098983pfj.2
+	Wed, 26 Oct 2016 02:09:31 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u9Q29WGv021769
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Oct 2016 18:50:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=5i6hOh4HlAWPVybcIaFbfl7qz16OCpyIwJfJmgXTws4=;
-	b=LmTDTmUqgpRpDAu4qOAEy0G+l/mpAlYKgNF8Qjfn5k08QdEYFdR7gHEez4GNQmnYir
-	71oCLuaFmRixY7Dce+WqDVoagNhCR5XIZgGzwMgJZH/bg/GOrnObFheGmLBoB5jp38AI
-	catraz62H2n4+0/DUDik8Hy2BBVyDiB0HTka+CIEqAmg5vPZjmOi9hex7R6b8YAdkkJi
-	TeC/e7h4QH+I4S2dA2yUGoWQevdhM0uzehr6Ckre0duTkLIvdmmQXOtvh36YujFl4eLg
-	1N9l4+oEhnLJtf70PjbhWcYZK5lDCUnWCe1auRyVqp8QUAm6KEr7pQs0fr5OSwAkU8XR
-	ws8Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=5i6hOh4HlAWPVybcIaFbfl7qz16OCpyIwJfJmgXTws4=;
-	b=cUjnBusQ+JulnrgGeOLML0I/MFk/Mhxc2AK/DKGeOV0FHnJFTJOs6lZszsx1fXB9Cu
-	PCuaVeOsOQWjUcMpo1QSnAdH3OpFQuYx+1EVI8uWSyPVRBkPRRtwWf6WkVGboRe2VnP8
-	VkW451S/bcYomv2iqA6z84Kmc53beQ5KdFqlANUVIcyLvVl2sRVG7SoRJh/Ngch1ODYI
-	hpPdr+4rECcp1PX/BH3ILWHzSgevJT1XGUH/r6Tsc3FQNHZ6CUQXzutSgMcO4U51jmZN
-	2v02BOsuxaPzsnH81HV11Bj7zaqbSIRW5JB7s6TqPPc788qMDyXEzQNroOofdx67mSxD
-	fU8A==
-X-Gm-Message-State: ABUngveX4ztqu6U+hK348lBp6JWxRzqZSPJGoV0iJg67p4F+Ry/HUlSQABODjUD6BFzdrw==
-X-Received: by 10.99.117.3 with SMTP id q3mr37070861pgc.50.1477446623584;
-	Tue, 25 Oct 2016 18:50:23 -0700 (PDT)
-Received: from localhost.localdomain (c-76-102-32-192.hsd1.ca.comcast.net.
-	[76.102.32.192]) by smtp.gmail.com with ESMTPSA id
-	zh13sm36318522pab.4.2016.10.25.18.50.22
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 25 Oct 2016 18:50:23 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 25 Oct 2016 18:50:17 -0700
-Message-Id: <20161026015017.13160-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.10.1
-Subject: [PATCH] wic: Add dosfstools-native mtools-native to dependencies
+	Tue, 25 Oct 2016 19:09:32 -0700 (PDT)
+Received: from [128.224.162.209] (128.224.162.209) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.294.0;
+	Tue, 25 Oct 2016 19:09:32 -0700
+To: <openembedded-core@lists.openembedded.org>
+References: <cover.1477381190.git.Qi.Chen@windriver.com>
+From: ChenQi <Qi.Chen@windriver.com>
+Message-ID: <58101066.7010007@windriver.com>
+Date: Wed, 26 Oct 2016 10:09:42 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.7.2
+MIME-Version: 1.0
+In-Reply-To: <cover.1477381190.git.Qi.Chen@windriver.com>
+X-Originating-IP: [128.224.162.209]
+Subject: Re: [PATCH 0/1] systemd: CVE-2016-7795
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,30 +35,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 26 Oct 2016 01:50:22 -0000
+X-List-Received-Date: Wed, 26 Oct 2016 02:09:32 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-these tools are needed for building wic images for some
-boards e.g. overo/gumstix
+Hi All,
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/classes/image_types.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+I just realized that my patch does not conform to the CVE patch 
+requirement in the link below.
+I'll send out V2.
 
-diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
-index a7fffbc..be7e38c 100644
---- a/meta/classes/image_types.bbclass
-+++ b/meta/classes/image_types.bbclass
-@@ -298,7 +298,7 @@ IMAGE_DEPENDS_elf = "virtual/kernel mkelfimage-native"
- IMAGE_DEPENDS_ubi = "mtd-utils-native"
- IMAGE_DEPENDS_ubifs = "mtd-utils-native"
- IMAGE_DEPENDS_multiubi = "mtd-utils-native"
--IMAGE_DEPENDS_wic = "parted-native"
-+IMAGE_DEPENDS_wic = "parted-native dosfstools-native mtools-native"
- 
- # This variable is available to request which values are suitable for IMAGE_FSTYPES
- IMAGE_TYPES = " \
--- 
-2.10.1
+http://openembedded.org/wiki/Commit_Patch_Message_Guidelines#Example:_CVE_patch_header
+
+Best Regards,
+Chen Qi
+
+On 10/25/2016 03:40 PM, Chen Qi wrote:
+> The following changes since commit 6e96deb024e4c41d911f590ff2b92b402f672661:
+>
+>    local.conf.sample.extended: remove RM_OLD_IMAGE (2016-10-19 17:07:14 +0100)
+>
+> are available in the git repository at:
+>
+>    git://git.openembedded.org/openembedded-core-contrib ChenQi/CVE-2016-7795
+>    http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=ChenQi/CVE-2016-7795
+>
+> Chen Qi (1):
+>    systemd: CVE-2016-7795
+>
+>   ...s-zero-length-notification-messages-again.patch | 68 ++++++++++++++++++++++
+>   meta/recipes-core/systemd/systemd_230.bb           |  1 +
+>   2 files changed, 69 insertions(+)
+>   create mode 100644 meta/recipes-core/systemd/systemd/0001-pid1-process-zero-length-notification-messages-again.patch
+>
 
 
