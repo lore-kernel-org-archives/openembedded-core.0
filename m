@@ -1,23 +1,20 @@
-Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id ABAA370022
+Return-Path: <todor.minchev@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id F272F71AD7
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Oct 2016 14:25:22 +0000 (UTC)
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-	by orsmga103.jf.intel.com with ESMTP; 26 Oct 2016 07:25:07 -0700
+	Wed, 26 Oct 2016 17:06:01 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga102.fm.intel.com with ESMTP; 26 Oct 2016 10:06:02 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.31,551,1473145200"; d="scan'208";a="23915765"
-Received: from linux.intel.com ([10.54.29.200])
-	by fmsmga005.fm.intel.com with ESMTP; 26 Oct 2016 07:25:06 -0700
-Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.68])
-	by linux.intel.com (Postfix) with ESMTP id EE8E66A4006;
-	Wed, 26 Oct 2016 07:24:31 -0700 (PDT)
-From: Ed Bartosh <ed.bartosh@linux.intel.com>
+X-IronPort-AV: E=Sophos;i="5.31,551,1473145200"; d="scan'208";a="1050577597"
+Received: from unknown (HELO localhost.localdomain) ([10.7.197.100])
+	by orsmga001.jf.intel.com with ESMTP; 26 Oct 2016 10:06:03 -0700
+From: Todor Minchev <todor.minchev@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 26 Oct 2016 17:24:48 +0300
-Message-Id: <1477491888-4142-1-git-send-email-ed.bartosh@linux.intel.com>
-X-Mailer: git-send-email 2.1.4
-Subject: [PATCH] uninative: rebuild uninative for gcc 4.8 and 4.9
+Date: Wed, 26 Oct 2016 10:05:59 -0700
+Message-Id: <20161026170559.9444-1-todor.minchev@linux.intel.com>
+X-Mailer: git-send-email 2.10.1
+Subject: [PATCH 1/1] runqemu: add user mode (SLIRP) support to x86 QEMU targets
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,60 +27,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 26 Oct 2016 14:25:22 -0000
+X-List-Received-Date: Wed, 26 Oct 2016 17:06:04 -0000
 
-Some c++ libraries fail to build if uninative is built
-with gcc 5.x and host gcc version is either 4.8 or 4.9.
+Using 'slirp' as a command line option to runqemu will start QEMU
+with user mode networking instead of creating tun/tap devices.
+SLIRP does not require root access. By default port 2222 on the
+host will be mapped to port 22 in the guest. The default port
+mapping can be overwritten with the QB_SLIRP_OPT variable e.g.
 
-The issue should be solved by making separate uninative sstate
-directory structure sstate-cache/universal-<gcc version> for host gcc
-versions 4.8 and 4.9. This causes rebuilds of uninative if host gcc
-is either 4.8 or 4.9 and it doesn't match gcc version used to build
-uninative.
+QB_SLIRP_OPT = "-net nic,model=e1000 -net user,hostfwd=tcp::2222-:22"
 
-[YOCTO #10441]
-
-Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
+Signed-off-by: Todor Minchev <todor.minchev@linux.intel.com>
 ---
- meta/classes/uninative.bbclass | 20 +++++++++++++++++++-
- 1 file changed, 19 insertions(+), 1 deletion(-)
+ meta/conf/machine/include/qemuboot-x86.inc | 1 +
+ scripts/runqemu                            | 3 ++-
+ 2 files changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/meta/classes/uninative.bbclass b/meta/classes/uninative.bbclass
-index 89cec07..35c1496 100644
---- a/meta/classes/uninative.bbclass
-+++ b/meta/classes/uninative.bbclass
-@@ -95,11 +95,29 @@ python uninative_event_enable() {
-     enable_uninative(d)
- }
- 
-+def gcc_version(d):
-+    compiler = d.getVar("BUILD_CC", True)
-+    retval, output = oe.utils.getstatusoutput("%s --version" % compiler)
-+    if retval:
-+        bb.fatal("Error running %s --version: %s" % (compiler, output))
-+
-+    import re
-+    match = re.match(".* (\d\.\d)\.\d .*", output.split('\n')[0])
-+    if not match:
-+        bb.fatal("Can't get compiler version from %s --version output" % compiler)
-+
-+    version = match.group(1)
-+    return "-%s" % version if version in ("4.8", "4.9") else ""
-+
- def enable_uninative(d):
-     loader = d.getVar("UNINATIVE_LOADER", True)
-     if os.path.exists(loader):
-         bb.debug(2, "Enabling uninative")
--        d.setVar("NATIVELSBSTRING", "universal")
-+        gcc_ver = d.getVar("GCC_VERSION", True)
-+        if not gcc_ver:
-+            gcc_ver = gcc_version(d)
-+            d.setVar("GCC_VERSION", gcc_ver)
-+        d.setVar("NATIVELSBSTRING", "universal%s" % gcc_ver)
-         d.appendVar("SSTATEPOSTUNPACKFUNCS", " uninative_changeinterp")
-         d.prependVar("PATH", "${STAGING_DIR}-uninative/${BUILD_ARCH}-linux${bindir_native}:")
- 
+diff --git a/meta/conf/machine/include/qemuboot-x86.inc b/meta/conf/machine/include/qemuboot-x86.inc
+index 06ac983..0870294 100644
+--- a/meta/conf/machine/include/qemuboot-x86.inc
++++ b/meta/conf/machine/include/qemuboot-x86.inc
+@@ -13,3 +13,4 @@ QB_AUDIO_OPT = "-soundhw ac97,es1370"
+ QB_KERNEL_CMDLINE_APPEND = "vga=0 uvesafb.mode_option=640x480-32 oprofile.timer=1 uvesafb.task_timeout=-1"
+ # Add the 'virtio-rng-pci' device otherwise the guest may run out of entropy
+ QB_OPT_APPEND = "-vga vmware -show-cursor -usb -usbdevice tablet -device virtio-rng-pci"
++QB_SLIRP_OPT = "-net nic,model=e1000 -net user,hostfwd=tcp::2222-:22"
+diff --git a/scripts/runqemu b/scripts/runqemu
+index dbe17ab..6952f32 100755
+--- a/scripts/runqemu
++++ b/scripts/runqemu
+@@ -542,7 +542,8 @@ class BaseConfig(object):
+     def check_and_set(self):
+         """Check configs sanity and set when needed"""
+         self.validate_paths()
+-        check_tun()
++        if not self.slirp_enabled:
++            check_tun()
+         # Check audio
+         if self.audio_enabled:
+             if not self.get('QB_AUDIO_DRV'):
 -- 
-2.1.4
+2.10.1
 
 
