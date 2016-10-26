@@ -1,26 +1,37 @@
-Return-Path: <Kai.Kang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 8DD9371B05
+Return-Path: <andre.draszik@gmail.com>
+Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 8175971AD8
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Oct 2016 10:00:58 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u9QA10sF022558
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Wed, 26 Oct 2016 12:07:27 +0000 (UTC)
+Received: by mail-wm0-f65.google.com with SMTP id y138so3309730wme.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Oct 2016 03:01:00 -0700 (PDT)
-Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.294.0; Wed, 26 Oct 2016 03:00:59 -0700
-From: <kai.kang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 26 Oct 2016 17:54:50 +0800
-Message-ID: <368ae0ea1c00bc5a7d11c0afbc9b900bb6e90038.1477475596.git.kai.kang@windriver.com>
-X-Mailer: git-send-email 2.10.1
-In-Reply-To: <cover.1477475596.git.kai.kang@windriver.com>
-References: <cover.1477475596.git.kai.kang@windriver.com>
+	Wed, 26 Oct 2016 05:07:29 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=UB14nq3qC7YEB6+N4Rk6bGhSF7hr51iQjOcDCYHl0X4=;
+	b=XwQN0tpy9D849RPzkQz9q/e7bFkZEk0L0f5cGhdUCECpC1qJ50dCsF797hOhD3cb76
+	/ID82Y/njeR2rF6qidvNmeR1Gtu5kMgeQhPZLz1LLLUmq7Ef8xe969z9gnRj8GV3jkq0
+	FnnaBeoybI7wrc0kPHXa2p3mFMklCHR2vB08mPHJpJXX7yzVBDEsuMUbqrI+mgWZe1K1
+	PVzzi8o6EqaUZvXXhHQu9+hEyq+WwYchyf7iof+tDZ/pl/1uIflQld5HYQ9W2+9jshnM
+	fV2J7jSk4/RZKhQlSmLwmmn9dU5SbOqRKGcK4rM71k+B2H9VDXoSPM7BOKflVNhd9KIx
+	ncyg==
+X-Gm-Message-State: ABUngvfRKceI3jcvMSHDyYgkx1GLOzocFB5uAtBIhqMqXI3zFBgVJlyf8OsI0rcWUu7hEw==
+X-Received: by 10.28.232.23 with SMTP id f23mr2570484wmh.125.1477483647903;
+	Wed, 26 Oct 2016 05:07:27 -0700 (PDT)
+Received: from tfsielt31850.tycofs.com ([77.107.218.170])
+	by smtp.gmail.com with ESMTPSA id u64sm9258468wmd.6.2016.10.26.05.07.26
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 26 Oct 2016 05:07:26 -0700 (PDT)
+From: =?UTF-8?q?Andr=C3=A9=20Draszik?= <git@andred.net>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 26 Oct 2016 13:07:25 +0100
+Message-Id: <20161026120725.27983-1-git@andred.net>
+X-Mailer: git-send-email 2.9.3
 MIME-Version: 1.0
-Subject: [PATCH 2/2] qemu: fix CVE-2016-7423 and CVE-2016-7908
+Subject: [PATCH] boost: disable 'wave' in MIPS16e mode
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,155 +44,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 26 Oct 2016 10:01:00 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 26 Oct 2016 12:07:28 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-From: Kai Kang <kai.kang@windriver.com>
+From: André Draszik <adraszik@tycoint.com>
 
-Backport patches to fix CVE-2016-7423 and CVE-2016-7908 of qemu.
+This doesn't compile, see
+  https://gcc.gnu.org/bugzilla/show_bug.cgi?id=77757#c2
 
-Signed-off-by: Kai Kang <kai.kang@windriver.com>
+Signed-off-by: André Draszik <adraszik@tycoint.com>
+Acked-by: Sylvain Lemieux <slemieux@tycoint.com>
 ---
- .../qemu/qemu/0002-fix-CVE-2016-7423.patch         | 45 ++++++++++++++++
- .../qemu/qemu/0003-fix-CVE-2016-7908.patch         | 62 ++++++++++++++++++++++
- meta/recipes-devtools/qemu/qemu_2.7.0.bb           |  2 +
- 3 files changed, 109 insertions(+)
- create mode 100644 meta/recipes-devtools/qemu/qemu/0002-fix-CVE-2016-7423.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/0003-fix-CVE-2016-7908.patch
+ meta/recipes-support/boost/boost.inc | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/recipes-devtools/qemu/qemu/0002-fix-CVE-2016-7423.patch b/meta/recipes-devtools/qemu/qemu/0002-fix-CVE-2016-7423.patch
-new file mode 100644
-index 0000000..fdf58a3
---- /dev/null
-+++ b/meta/recipes-devtools/qemu/qemu/0002-fix-CVE-2016-7423.patch
-@@ -0,0 +1,45 @@
-+Upstream-Status: Backport
-+
-+Backport patch to fix CVE-2016-7423 from:
-+
-+http://git.qemu.org/?p=qemu.git;a=commit;h=670e56d3ed
-+
-+CVE: CVE-2016-7423
-+
-+Signed-off-by: Kai Kang <kai.kang@windriver.com>
-+---
-+From 670e56d3ed2918b3861d9216f2c0540d9e9ae0d5 Mon Sep 17 00:00:00 2001
-+From: Li Qiang <liqiang6-s@360.cn>
-+Date: Mon, 12 Sep 2016 18:14:11 +0530
-+Subject: [PATCH] scsi: mptsas: use g_new0 to allocate MPTSASRequest object
-+
-+When processing IO request in mptsas, it uses g_new to allocate
-+a 'req' object. If an error occurs before 'req->sreq' is
-+allocated, It could lead to an OOB write in mptsas_free_request
-+function. Use g_new0 to avoid it.
-+
-+Reported-by: Li Qiang <liqiang6-s@360.cn>
-+Signed-off-by: Prasad J Pandit <pjp@fedoraproject.org>
-+Message-Id: <1473684251-17476-1-git-send-email-ppandit@redhat.com>
-+Cc: qemu-stable@nongnu.org
-+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-+---
-+ hw/scsi/mptsas.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/hw/scsi/mptsas.c b/hw/scsi/mptsas.c
-+index 0e0a22f..eaae1bb 100644
-+--- a/hw/scsi/mptsas.c
-++++ b/hw/scsi/mptsas.c
-+@@ -304,7 +304,7 @@ static int mptsas_process_scsi_io_request(MPTSASState *s,
-+         goto bad;
-+     }
-+ 
-+-    req = g_new(MPTSASRequest, 1);
-++    req = g_new0(MPTSASRequest, 1);
-+     QTAILQ_INSERT_TAIL(&s->pending, req, next);
-+     req->scsi_io = *scsi_io;
-+     req->dev = s;
-+-- 
-+2.9.3
-+
-diff --git a/meta/recipes-devtools/qemu/qemu/0003-fix-CVE-2016-7908.patch b/meta/recipes-devtools/qemu/qemu/0003-fix-CVE-2016-7908.patch
-new file mode 100644
-index 0000000..05cc3d9
---- /dev/null
-+++ b/meta/recipes-devtools/qemu/qemu/0003-fix-CVE-2016-7908.patch
-@@ -0,0 +1,62 @@
-+Upstream-Status: Backport
-+
-+Backport patch to fix CVE-2016-7908 from:
-+
-+http://git.qemu.org/?p=qemu.git;a=commit;h=070c4b92b8c
-+
-+CVE: CVE-2016-7908
-+
-+Signed-off-by: Kai Kang <kai.kang@windriver.com>
-+---
-+From 070c4b92b8cd5390889716677a0b92444d6e087a Mon Sep 17 00:00:00 2001
-+From: Prasad J Pandit <pjp@fedoraproject.org>
-+Date: Thu, 22 Sep 2016 16:02:37 +0530
-+Subject: [PATCH] net: mcf: limit buffer descriptor count
-+
-+ColdFire Fast Ethernet Controller uses buffer descriptors to manage
-+data flow to/fro receive & transmit queues. While transmitting
-+packets, it could continue to read buffer descriptors if a buffer
-+descriptor has length of zero and has crafted values in bd.flags.
-+Set upper limit to number of buffer descriptors.
-+
-+Reported-by: Li Qiang <liqiang6-s@360.cn>
-+Signed-off-by: Prasad J Pandit <pjp@fedoraproject.org>
-+Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
-+Signed-off-by: Jason Wang <jasowang@redhat.com>
-+---
-+ hw/net/mcf_fec.c | 5 +++--
-+ 1 file changed, 3 insertions(+), 2 deletions(-)
-+
-+diff --git a/hw/net/mcf_fec.c b/hw/net/mcf_fec.c
-+index 0ee8ad9..d31fea1 100644
-+--- a/hw/net/mcf_fec.c
-++++ b/hw/net/mcf_fec.c
-+@@ -23,6 +23,7 @@ do { printf("mcf_fec: " fmt , ## __VA_ARGS__); } while (0)
-+ #define DPRINTF(fmt, ...) do {} while(0)
-+ #endif
-+ 
-++#define FEC_MAX_DESC 1024
-+ #define FEC_MAX_FRAME_SIZE 2032
-+ 
-+ typedef struct {
-+@@ -149,7 +150,7 @@ static void mcf_fec_do_tx(mcf_fec_state *s)
-+     uint32_t addr;
-+     mcf_fec_bd bd;
-+     int frame_size;
-+-    int len;
-++    int len, descnt = 0;
-+     uint8_t frame[FEC_MAX_FRAME_SIZE];
-+     uint8_t *ptr;
-+ 
-+@@ -157,7 +158,7 @@ static void mcf_fec_do_tx(mcf_fec_state *s)
-+     ptr = frame;
-+     frame_size = 0;
-+     addr = s->tx_descriptor;
-+-    while (1) {
-++    while (descnt++ < FEC_MAX_DESC) {
-+         mcf_fec_read_bd(&bd, addr);
-+         DPRINTF("tx_bd %x flags %04x len %d data %08x\n",
-+                 addr, bd.flags, bd.length, bd.data);
-+-- 
-+2.9.3
-+
-diff --git a/meta/recipes-devtools/qemu/qemu_2.7.0.bb b/meta/recipes-devtools/qemu/qemu_2.7.0.bb
-index 90e4eec..a75bcdf 100644
---- a/meta/recipes-devtools/qemu/qemu_2.7.0.bb
-+++ b/meta/recipes-devtools/qemu/qemu_2.7.0.bb
-@@ -10,6 +10,8 @@ SRC_URI += "file://configure-fix-Darwin-target-detection.patch \
-             file://pathlimit.patch \
-             file://qemu-2.5.0-cflags.patch \
-             file://0001-virtio-zero-vq-inuse-in-virtio_reset.patch \
-+            file://0002-fix-CVE-2016-7423.patch \
-+            file://0003-fix-CVE-2016-7908.patch \
- "
+diff --git a/meta/recipes-support/boost/boost.inc b/meta/recipes-support/boost/boost.inc
+index ef16533..1966d3d 100644
+--- a/meta/recipes-support/boost/boost.inc
++++ b/meta/recipes-support/boost/boost.inc
+@@ -34,6 +34,8 @@ BOOST_LIBS_append_x86-64 = " context coroutine"
+ BOOST_LIBS_append_powerpc = " context coroutine"
+ # need consistent settings for native builds (x86 override not applied for native)
+ BOOST_LIBS_remove_class-native = " context coroutine"
++# does not compile
++BOOST_LIBS_remove_mips16e = "wave"
  
- SRC_URI_prepend = "http://wiki.qemu-project.org/download/${BP}.tar.bz2"
+ # optional libraries
+ PACKAGECONFIG ??= "locale"
 -- 
-2.10.1
+2.9.3
 
 
