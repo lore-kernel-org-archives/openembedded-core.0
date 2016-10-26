@@ -1,24 +1,26 @@
 Return-Path: <Qi.Chen@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 1A7AD6E5FB
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 9E94D6E5FB
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Oct 2016 06:09:34 +0000 (UTC)
+	Wed, 26 Oct 2016 06:09:36 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u9Q69ZGv014508
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u9Q69bB9020777
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Oct 2016 23:09:36 -0700 (PDT)
+	Tue, 25 Oct 2016 23:09:37 -0700 (PDT)
 Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.209) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.294.0; Tue, 25 Oct 2016 23:09:34 -0700
+	14.3.294.0; Tue, 25 Oct 2016 23:09:36 -0700
 From: Chen Qi <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 26 Oct 2016 14:09:46 +0800
-Message-ID: <cover.1477462109.git.Qi.Chen@windriver.com>
+Date: Wed, 26 Oct 2016 14:09:47 +0800
+Message-ID: <03fe8f1085b1f9ab381e69f1735ba8b1c049d4b8.1477462109.git.Qi.Chen@windriver.com>
 X-Mailer: git-send-email 1.9.1
+In-Reply-To: <cover.1477462109.git.Qi.Chen@windriver.com>
+References: <cover.1477462109.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH V2 0/1] systemd: CVE-2016-7795
+Subject: [PATCH V2 1/1] systemd: CVE-2016-7795
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,27 +36,109 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Wed, 26 Oct 2016 06:09:36 -0000
 Content-Type: text/plain
 
-Changes since V1:
-Change the patch's commit message to conform to OE's requirements.
+The manager_invoke_notify_message function in systemd 231 and earlier allows
+local users to cause a denial of service (assertion failure and PID 1 hang)
+via a zero-length message received over a notify socket.
 
+The patch is a backport from the latest git repo.
 
-The following changes since commit 1886ab2f1dc1e3b5758a85604998e8deb9198f5e:
+Please see the link below for more information.
+https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-7795
 
-  image_types: Use softer setting of WKS_FILE (2016-10-25 17:58:41 +0100)
-
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib ChenQi/CVE-2016-7795
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=ChenQi/CVE-2016-7795
-
-Chen Qi (1):
-  systemd: CVE-2016-7795
-
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+---
  .../systemd/systemd/CVE-2016-7795.patch            | 69 ++++++++++++++++++++++
  meta/recipes-core/systemd/systemd_230.bb           |  1 +
  2 files changed, 70 insertions(+)
  create mode 100644 meta/recipes-core/systemd/systemd/CVE-2016-7795.patch
 
+diff --git a/meta/recipes-core/systemd/systemd/CVE-2016-7795.patch b/meta/recipes-core/systemd/systemd/CVE-2016-7795.patch
+new file mode 100644
+index 0000000..5ecb9c3
+--- /dev/null
++++ b/meta/recipes-core/systemd/systemd/CVE-2016-7795.patch
+@@ -0,0 +1,69 @@
++Subject: Fix CVE-2016-7795
++
++This undoes 531ac2b. I acked that patch without looking at the code
++carefully enough. There are two problems:
++- we want to process the fds anyway
++- in principle empty notification messages are valid, and we should
++  process them as usual, including logging using log_unit_debug().
++
++Upstream-Status: Backport
++CVE: CVE-2016-7795
++
++Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
++---
++ src/core/manager.c | 11 ++++++-----
++ 1 file changed, 6 insertions(+), 5 deletions(-)
++
++diff --git a/src/core/manager.c b/src/core/manager.c
++index 7838f56..f165d08e 100644
++--- a/src/core/manager.c
+++++ b/src/core/manager.c
++@@ -1589,13 +1589,12 @@ static int manager_dispatch_cgroups_agent_fd(sd_event_source *source, int fd, ui
++         return 0;
++ }
++ 
++-static void manager_invoke_notify_message(Manager *m, Unit *u, pid_t pid, const char *buf, size_t n, FDSet *fds) {
+++static void manager_invoke_notify_message(Manager *m, Unit *u, pid_t pid, const char *buf, FDSet *fds) {
++         _cleanup_strv_free_ char **tags = NULL;
++ 
++         assert(m);
++         assert(u);
++         assert(buf);
++-        assert(n > 0);
++ 
++         tags = strv_split(buf, "\n\r");
++         if (!tags) {
++@@ -1688,25 +1687,27 @@ static int manager_dispatch_notify_fd(sd_event_source *source, int fd, uint32_t
++                 return 0;
++         }
++ 
+++        /* The message should be a string. Here we make sure it's NUL-terminated,
+++         * but only the part until first NUL will be used anyway. */
++         buf[n] = 0;
++ 
++         /* Notify every unit that might be interested, but try
++          * to avoid notifying the same one multiple times. */
++         u1 = manager_get_unit_by_pid_cgroup(m, ucred->pid);
++         if (u1) {
++-                manager_invoke_notify_message(m, u1, ucred->pid, buf, n, fds);
+++                manager_invoke_notify_message(m, u1, ucred->pid, buf, fds);
++                 found = true;
++         }
++ 
++         u2 = hashmap_get(m->watch_pids1, PID_TO_PTR(ucred->pid));
++         if (u2 && u2 != u1) {
++-                manager_invoke_notify_message(m, u2, ucred->pid, buf, n, fds);
+++                manager_invoke_notify_message(m, u2, ucred->pid, buf, fds);
++                 found = true;
++         }
++ 
++         u3 = hashmap_get(m->watch_pids2, PID_TO_PTR(ucred->pid));
++         if (u3 && u3 != u2 && u3 != u1) {
++-                manager_invoke_notify_message(m, u3, ucred->pid, buf, n, fds);
+++                manager_invoke_notify_message(m, u3, ucred->pid, buf, fds);
++                 found = true;
++         }
++ 
++-- 
++2.8.3
++
+diff --git a/meta/recipes-core/systemd/systemd_230.bb b/meta/recipes-core/systemd/systemd_230.bb
+index a949fe8..19d144d 100644
+--- a/meta/recipes-core/systemd/systemd_230.bb
++++ b/meta/recipes-core/systemd/systemd_230.bb
+@@ -36,6 +36,7 @@ SRC_URI += " \
+            file://0021-include-missing.h-for-getting-secure_getenv-definiti.patch \
+            file://0022-socket-util-don-t-fail-if-libc-doesn-t-support-IDN.patch \
+            file://udev-re-enable-mount-propagation-for-udevd.patch \
++           file://CVE-2016-7795.patch \
+ "
+ SRC_URI_append_libc-uclibc = "\
+            file://0002-units-Prefer-getty-to-agetty-in-console-setup-system.patch \
 -- 
 1.9.1
 
