@@ -1,27 +1,23 @@
-Return-Path: <Yi.Zhao@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id D296071AAD
+Return-Path: <jussi.kukkonen@intel.com>
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+	by mail.openembedded.org (Postfix) with ESMTP id 8B60560123
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Oct 2016 08:27:11 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u9Q8RDH8012408
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Oct 2016 01:27:13 -0700 (PDT)
-Received: from localhost (128.224.162.198) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.294.0;
-	Wed, 26 Oct 2016 01:27:12 -0700
-From: Yi Zhao <yi.zhao@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 26 Oct 2016 16:26:48 +0800
-Message-ID: <48d4f88a3012d5e46e1e59d71350493fea25f163.1477470209.git.yi.zhao@windriver.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <cover.1477470209.git.yi.zhao@windriver.com>
-References: <cover.1477470209.git.yi.zhao@windriver.com>
-MIME-Version: 1.0
-X-Originating-IP: [128.224.162.198]
-Subject: [PATCH 5/5] tiff: Security fix CVE-2016-3622
+	Wed, 26 Oct 2016 08:37:25 +0000 (UTC)
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+	by orsmga105.jf.intel.com with ESMTP; 26 Oct 2016 01:37:26 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.31,549,1473145200"; d="scan'208";a="23758149"
+Received: from linux.intel.com ([10.54.29.200])
+	by fmsmga006.fm.intel.com with ESMTP; 26 Oct 2016 01:37:26 -0700
+Received: from theory.fi.intel.com (theory.fi.intel.com [10.237.72.53])
+	by linux.intel.com (Postfix) with ESMTP id 785016A4006;
+	Wed, 26 Oct 2016 01:36:51 -0700 (PDT)
+From: Jussi Kukkonen <jussi.kukkonen@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 26 Oct 2016 11:37:21 +0300
+Message-Id: <cover.1477469885.git.jussi.kukkonen@intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCHv2 00/16] Make libinput default X input driver + upgrades
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,176 +30,112 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 26 Oct 2016 08:27:12 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 26 Oct 2016 08:37:25 -0000
 
-CVE-2016-3622 libtiff: The fpAcc function in tif_predict.c in the
-tiff2rgba tool in LibTIFF 4.0.6 and earlier allows remote attackers to
-cause a denial of service (divide-by-zero error) via a crafted TIFF
-image.
+Changes since v1:
+* Remove references to legacy drivers in xorg.conf files. As far as
+  I can tell no input driver configuration is needed nowadays: I'm no
+  qemu expert so advice on this is welcome though.
+* Drop the changes to scripts/lib/bsp/ (as they are for meta-yocto)
 
-External References:
-https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-3622
-http://www.openwall.com/lists/oss-security/2016/04/07/4
+So the last commit is new, the one before it was modified. Otherwise
+commits are as in v1.
 
-Patch from:
-https://github.com/vadz/libtiff/commit/92d966a5fcfbdca67957c8c5c47b467aa650b286
 
-Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
----
- .../libtiff/files/CVE-2016-3622.patch              | 129 +++++++++++++++++++++
- meta/recipes-multimedia/libtiff/tiff_4.0.6.bb      |   1 +
- 2 files changed, 130 insertions(+)
- create mode 100644 meta/recipes-multimedia/libtiff/files/CVE-2016-3622.patch
+original cover letter follows:
 
-diff --git a/meta/recipes-multimedia/libtiff/files/CVE-2016-3622.patch b/meta/recipes-multimedia/libtiff/files/CVE-2016-3622.patch
-new file mode 100644
-index 0000000..0c8b716
---- /dev/null
-+++ b/meta/recipes-multimedia/libtiff/files/CVE-2016-3622.patch
-@@ -0,0 +1,129 @@
-+From 92d966a5fcfbdca67957c8c5c47b467aa650b286 Mon Sep 17 00:00:00 2001
-+From: bfriesen <bfriesen>
-+Date: Sat, 24 Sep 2016 23:11:55 +0000
-+Subject: [PATCH] * libtiff/tif_getimage.c (TIFFRGBAImageOK): Reject attempts
-+ to read floating point images.
-+
-+* libtiff/tif_predict.c (PredictorSetup): Enforce bits-per-sample
-+requirements of floating point predictor (3).  Fixes CVE-2016-3622
-+"Divide By Zero in the tiff2rgba tool."
-+
-+CVE: CVE-2016-3622
-+Upstream-Status: Backport
-+https://github.com/vadz/libtiff/commit/92d966a5fcfbdca67957c8c5c47b467aa650b286
-+
-+Signed-off-by: Yi Zhao <yi.zhao@windirver.com>
-+---
-+ ChangeLog              | 11 ++++++++++-
-+ libtiff/tif_getimage.c | 38 ++++++++++++++++++++------------------
-+ libtiff/tif_predict.c  | 11 ++++++++++-
-+ 3 files changed, 40 insertions(+), 20 deletions(-)
-+
-+diff --git a/ChangeLog b/ChangeLog
-+index 26d6f47..a628277 100644
-+--- a/ChangeLog
-++++ b/ChangeLog
-+@@ -1,3 +1,12 @@
-++2016-09-24  Bob Friesenhahn  <bfriesen@simple.dallas.tx.us>
-++
-++	* libtiff/tif_getimage.c (TIFFRGBAImageOK): Reject attempts to
-++	read floating point images.
-++
-++	* libtiff/tif_predict.c (PredictorSetup): Enforce bits-per-sample
-++	requirements of floating point predictor (3).  Fixes CVE-2016-3622
-++	"Divide By Zero in the tiff2rgba tool."
-++
-+ 2016-08-15 Even Rouault <even.rouault at spatialys.com>
-+ 
-+ 	* tools/rgb2ycbcr.c: validate values of -v and -h parameters to
-+diff --git a/libtiff/tif_getimage.c b/libtiff/tif_getimage.c
-+index 386cee0..3e689ee 100644
-+--- a/libtiff/tif_getimage.c
-++++ b/libtiff/tif_getimage.c
-+@@ -95,6 +95,10 @@ TIFFRGBAImageOK(TIFF* tif, char emsg[1024])
-+ 			    td->td_bitspersample);
-+ 			return (0);
-+ 	}
-++        if (td->td_sampleformat == SAMPLEFORMAT_IEEEFP) {
-++                sprintf(emsg, "Sorry, can not handle images with IEEE floating-point samples");
-++                return (0);
-++        }
-+ 	colorchannels = td->td_samplesperpixel - td->td_extrasamples;
-+ 	if (!TIFFGetField(tif, TIFFTAG_PHOTOMETRIC, &photometric)) {
-+ 		switch (colorchannels) {
-+@@ -182,27 +186,25 @@ TIFFRGBAImageOK(TIFF* tif, char emsg[1024])
-+ 				    "Planarconfiguration", td->td_planarconfig);
-+ 				return (0);
-+ 			}
-+-			if( td->td_samplesperpixel != 3 || colorchannels != 3 )
-+-            {
-+-                sprintf(emsg,
-+-                        "Sorry, can not handle image with %s=%d, %s=%d",
-+-                        "Samples/pixel", td->td_samplesperpixel,
-+-                        "colorchannels", colorchannels);
-+-                return 0;
-+-            }
-++			if ( td->td_samplesperpixel != 3 || colorchannels != 3 ) {
-++                                sprintf(emsg,
-++                                        "Sorry, can not handle image with %s=%d, %s=%d",
-++                                        "Samples/pixel", td->td_samplesperpixel,
-++                                        "colorchannels", colorchannels);
-++                                return 0;
-++                        }
-+ 			break;
-+ 		case PHOTOMETRIC_CIELAB:
-+-            if( td->td_samplesperpixel != 3 || colorchannels != 3 || td->td_bitspersample != 8 )
-+-            {
-+-                sprintf(emsg,
-+-                        "Sorry, can not handle image with %s=%d, %s=%d and %s=%d",
-+-                        "Samples/pixel", td->td_samplesperpixel,
-+-                        "colorchannels", colorchannels,
-+-                        "Bits/sample", td->td_bitspersample);
-+-                return 0;
-+-            }
-++                        if ( td->td_samplesperpixel != 3 || colorchannels != 3 || td->td_bitspersample != 8 ) {
-++                                sprintf(emsg,
-++                                        "Sorry, can not handle image with %s=%d, %s=%d and %s=%d",
-++                                        "Samples/pixel", td->td_samplesperpixel,
-++                                        "colorchannels", colorchannels,
-++                                        "Bits/sample", td->td_bitspersample);
-++                                return 0;
-++                        }
-+ 			break;
-+-		default:
-++                default:
-+ 			sprintf(emsg, "Sorry, can not handle image with %s=%d",
-+ 			    photoTag, photometric);
-+ 			return (0);
-+diff --git a/libtiff/tif_predict.c b/libtiff/tif_predict.c
-+index 081eb11..555f2f9 100644
-+--- a/libtiff/tif_predict.c
-++++ b/libtiff/tif_predict.c
-+@@ -80,6 +80,15 @@ PredictorSetup(TIFF* tif)
-+ 				    td->td_sampleformat);
-+ 				return 0;
-+ 			}
-++                        if (td->td_bitspersample != 16
-++                            && td->td_bitspersample != 24
-++                            && td->td_bitspersample != 32
-++                            && td->td_bitspersample != 64) { /* Should 64 be allowed? */
-++                                TIFFErrorExt(tif->tif_clientdata, module,
-++                                             "Floating point \"Predictor\" not supported with %d-bit samples",
-++                                             td->td_bitspersample);
-++				return 0;
-++                            }
-+ 			break;
-+ 		default:
-+ 			TIFFErrorExt(tif->tif_clientdata, module,
-+@@ -174,7 +183,7 @@ PredictorSetupDecode(TIFF* tif)
-+ 		}
-+ 		/*
-+ 		 * Allocate buffer to keep the decoded bytes before
-+-		 * rearranging in the ight order
-++		 * rearranging in the right order
-+ 		 */
-+ 	}
-+ 
-+-- 
-+2.7.4
-+
-diff --git a/meta/recipes-multimedia/libtiff/tiff_4.0.6.bb b/meta/recipes-multimedia/libtiff/tiff_4.0.6.bb
-index 466dfbb..796d86e 100644
---- a/meta/recipes-multimedia/libtiff/tiff_4.0.6.bb
-+++ b/meta/recipes-multimedia/libtiff/tiff_4.0.6.bb
-@@ -14,6 +14,7 @@ SRC_URI = "http://download.osgeo.org/libtiff/tiff-${PV}.tar.gz \
-            file://CVE-2016-3990.patch \
-            file://CVE-2016-3991.patch \
-            file://CVE-2016-3623.patch \
-+           file://CVE-2016-3622.patch \
-           "
- 
- SRC_URI[md5sum] = "d1d2e940dea0b5ad435f21f03d96dd72"
+The only interesting bit is in the last commit: it removes all legacy
+X input drivers from the machine configurations, and makes xserver-xorg
+RRECOMMEND the libinput driver instead -- better design ideas for this
+are welcome.
+
+I wonder if VMware mouse device support is really needed? I have
+removed the vmmouse X driver from the configs but the corresponding
+kernel driver could be enabled instead if there is a need.
+
+I've smoke tested this change on x86* and a few qemus.
+
+Thanks,
+ Jussi
+
+
+
+
+The following changes since commit 30d1af89ce2a2fb30f32a898ec12c9a51db57013:
+
+  image_types: Use softer setting of WKS_FILE (2016-10-25 17:58:59 +0100)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib jku/xorg
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=jku/xorg
+
+Jussi Kukkonen (16):
+  libinput: Upgrade 1.4.1 -> 1.5.0
+  libevdev: Upgrade 1.5.2 -> 1.5.4
+  libdrm: Upgrade 2.4.70 -> 2.4.71
+  xf86-input-libinput: Upgrade 0.19.0 -> 0.22.0
+  xproto: Upgrade 7.0.29 -> 7.0.31
+  libxvmc: Upgrade 1.0.9 -> 1.0.10
+  libxv: Upgrade 1.0.10 -> 1.0.11
+  libxtst: Upgrade 1.2.2 -> 1.2.3
+  libxrender: Upgrade 0.9.9 -> 0.9.10
+  libxi: Upgrade 1.7.6 -> 1.7.7
+  libxfont: Upgrade 1.5.1 -> 1.5.2
+  libxfixes: Upgrade 5.0.2 -> 5.0.3
+  libx11: Upgrade 1.6.3 -> 1.6.4
+  libx11-diet: Upgrade 1.6.3 -> 1.6.4
+  conf: Use xf86-input-libinput by default
+  xserver-xf86-config: Remove legacy drivers from xorg.conf
+
+ meta/conf/machine/include/qemu.inc                 |  4 +-
+ meta/conf/machine/include/x86-base.inc             |  4 --
+ meta/conf/machine/qemux86-64.conf                  |  3 -
+ meta/conf/machine/qemux86.conf                     |  3 -
+ .../drm/{libdrm_2.4.70.bb => libdrm_2.4.71.bb}     |  4 +-
+ .../packagegroups/packagegroup-core-x11-xserver.bb |  2 +-
+ .../{libinput_1.4.1.bb => libinput_1.5.0.bb}       |  4 +-
+ ...put_0.19.0.bb => xf86-input-libinput_0.22.0.bb} |  4 +-
+ .../{libx11-diet_1.6.3.bb => libx11-diet_1.6.4.bb} |  4 +-
+ .../libx11/libX11-Add-missing-NULL-check.patch     | 72 ----------------------
+ meta/recipes-graphics/xorg-lib/libx11_1.6.3.bb     | 11 ----
+ meta/recipes-graphics/xorg-lib/libx11_1.6.4.bb     | 10 +++
+ .../{libxfixes_5.0.2.bb => libxfixes_5.0.3.bb}     |  5 +-
+ .../{libxfont_1.5.1.bb => libxfont_1.5.2.bb}       |  4 +-
+ .../xorg-lib/{libxi_1.7.6.bb => libxi_1.7.7.bb}    |  5 +-
+ .../{libxrender_0.9.9.bb => libxrender_0.9.10.bb}  |  5 +-
+ .../{libxtst_1.2.2.bb => libxtst_1.2.3.bb}         |  5 +-
+ .../xorg-lib/{libxv_1.0.10.bb => libxv_1.0.11.bb}  |  5 +-
+ .../{libxvmc_1.0.9.bb => libxvmc_1.0.10.bb}        |  4 +-
+ .../{xproto_7.0.29.bb => xproto_7.0.31.bb}         |  4 +-
+ .../xserver-xf86-config/qemuarm/xorg.conf          | 31 ----------
+ .../xserver-xf86-config/qemumips/xorg.conf         | 31 ----------
+ .../xserver-xf86-config/qemumips64/xorg.conf       | 31 ----------
+ .../xserver-xf86-config/qemuppc/xorg.conf          | 31 ----------
+ .../xserver-xf86-config/qemush4/xorg.conf          | 31 ----------
+ .../xserver-xf86-config/qemux86-64/xorg.conf       | 31 ----------
+ .../xserver-xf86-config/qemux86/xorg.conf          | 31 ----------
+ .../recipes-graphics/xorg-xserver/xserver-xorg.inc |  2 +-
+ .../{libevdev_1.5.2.bb => libevdev_1.5.4.bb}       |  4 +-
+ 29 files changed, 44 insertions(+), 341 deletions(-)
+ rename meta/recipes-graphics/drm/{libdrm_2.4.70.bb => libdrm_2.4.71.bb} (93%)
+ rename meta/recipes-graphics/wayland/{libinput_1.4.1.bb => libinput_1.5.0.bb} (85%)
+ rename meta/recipes-graphics/xorg-driver/{xf86-input-libinput_0.19.0.bb => xf86-input-libinput_0.22.0.bb} (63%)
+ rename meta/recipes-graphics/xorg-lib/{libx11-diet_1.6.3.bb => libx11-diet_1.6.4.bb} (73%)
+ delete mode 100644 meta/recipes-graphics/xorg-lib/libx11/libX11-Add-missing-NULL-check.patch
+ delete mode 100644 meta/recipes-graphics/xorg-lib/libx11_1.6.3.bb
+ create mode 100644 meta/recipes-graphics/xorg-lib/libx11_1.6.4.bb
+ rename meta/recipes-graphics/xorg-lib/{libxfixes_5.0.2.bb => libxfixes_5.0.3.bb} (79%)
+ rename meta/recipes-graphics/xorg-lib/{libxfont_1.5.1.bb => libxfont_1.5.2.bb} (81%)
+ rename meta/recipes-graphics/xorg-lib/{libxi_1.7.6.bb => libxi_1.7.7.bb} (81%)
+ rename meta/recipes-graphics/xorg-lib/{libxrender_0.9.9.bb => libxrender_0.9.10.bb} (82%)
+ rename meta/recipes-graphics/xorg-lib/{libxtst_1.2.2.bb => libxtst_1.2.3.bb} (78%)
+ rename meta/recipes-graphics/xorg-lib/{libxv_1.0.10.bb => libxv_1.0.11.bb} (78%)
+ rename meta/recipes-graphics/xorg-lib/{libxvmc_1.0.9.bb => libxvmc_1.0.10.bb} (76%)
+ rename meta/recipes-graphics/xorg-proto/{xproto_7.0.29.bb => xproto_7.0.31.bb} (74%)
+ rename meta/recipes-support/libevdev/{libevdev_1.5.2.bb => libevdev_1.5.4.bb} (74%)
+
 -- 
-2.7.4
+2.1.4
 
 
