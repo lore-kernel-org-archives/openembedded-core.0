@@ -1,23 +1,23 @@
 Return-Path: <rpjday@crashcourse.ca>
-Received: from smtp484.redcondor.net (smtp484.redcondor.net [208.80.204.84])
-	by mail.openembedded.org (Postfix) with ESMTP id AFD4971A98
+Received: from smtp684.redcondor.net (smtp684.redcondor.net [208.80.206.84])
+	by mail.openembedded.org (Postfix) with ESMTP id 7073360111
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Oct 2016 09:49:28 +0000 (UTC)
+	Wed, 26 Oct 2016 09:56:41 +0000 (UTC)
 Received: from astoria.ccjclearline.com ([64.235.106.9])
-	by smtp484.redcondor.net ({c48374e7-08df-40d9-a0de-96cc9883a037})
-	via TCP (outbound) with ESMTPS id 20161026094929199_0484;
-	Wed, 26 Oct 2016 09:49:29 +0000
+	by smtp684.redcondor.net ({700db0a8-6fb7-4c8b-9b2a-6812225182d8})
+	via TCP (outbound) with ESMTPS id 20161026095634022_0684;
+	Wed, 26 Oct 2016 09:56:34 +0000
 X-RC-FROM: <rpjday@crashcourse.ca>
-Received: from [216.191.234.70] (port=12337 helo=crashcourse.ca)
+Received: from [216.191.234.70] (port=22848 helo=crashcourse.ca)
 	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
 	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
-	id 1bzKpm-0004aa-JZ; Wed, 26 Oct 2016 05:49:22 -0400
-Date: Wed, 26 Oct 2016 05:48:24 -0400 (EDT)
+	id 1bzKwd-0005Ez-A1; Wed, 26 Oct 2016 05:56:27 -0400
+Date: Wed, 26 Oct 2016 05:55:30 -0400 (EDT)
 From: "Robert P. J. Day" <rpjday@crashcourse.ca>
 X-X-Sender: rpjday@ca624034.mitel.com
 To: Christopher Larson <clarson@kergoth.com>
 In-Reply-To: <CABcZANnku9xzQ=Zz6NnUX+myzbAX9K34gPVjkTCd0jKSAXSXRw@mail.gmail.com>
-Message-ID: <alpine.LFD.2.20.1610260520300.17717@ca624034.mitel.com>
+Message-ID: <alpine.LFD.2.20.1610260549570.17717@ca624034.mitel.com>
 References: <alpine.LFD.2.20.1610241644480.15919@localhost.localdomain>
 	<CABcZANnYLS0pfSpdzf3NVV4KEg_88b9mPark9gpstJUFHZTzxQ@mail.gmail.com>
 	<alpine.LFD.2.20.1610250246460.19688@localhost.localdomain>
@@ -40,92 +40,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 26 Oct 2016 09:49:31 -0000
-Content-Type: text/plain; charset=US-ASCII
+X-List-Received-Date: Wed, 26 Oct 2016 09:56:42 -0000
+Content-Type: multipart/mixed;
+	BOUNDARY="2071690107-283997265-1477475731=:17717"
 
+--2071690107-283997265-1477475731=:17717
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
 
-  ok, one more question about all this "mapping RH/CentOS rpms to Perl
-modules" nonsense i'm buried in, with the hope i can resolve this once
-and for all and finish this off, and then i can shut up about this.
+On Tue, 25 Oct 2016, Christopher Larson wrote:
 
-  in brief, a current build system creates an X86-target bootable
-linux system by installing (among other things) a couple hundred
-CentOS Perl module RPMs. rather than list them all here, i took a few
-minutes and put them all up on a wiki page yesterday:
+> On Tue, Oct 25, 2016 at 12:05 AM, Robert P. J. Day <rpjday@crashcourse.ca> wrote:
+>       On Tue, 25 Oct 2016, Robert P. J. Day wrote:
+>
+>       >   i once wrote a wiki page on "bb", distinguishing between queries
+>       > you could make before you did a build, versus queries that
+>       > needed a build. it seems like oe-pkgdata-util needs a
+>       > completed build for pretty much everything, do i have that
+>       > right?
+>
+>         never mind, i just read this snippet from the YP ref manual:
+>
+>       "You can use the oe-pkgdata-util command-line utility to query
+>       PKGDATA_DIR and display various package-related information.
+>       When you use the utility, you must use it to view information
+>       on packages that have already been built."
+>
+>       so i'm assuming that means for *all* oe-pkgdata subcommands, no
+>       exceptions.
+>
+> Right, oe-pkgdata-util is about inspecting build output via pkgdata,
+> whereas most of bb is inspection tools about the metadata — before
+> the build. The only exception is bb-contents, which is a
+> convenience, just wraps oe-pkgdata-util under the hood and tells the
+> user the oe-pkgdata-util command in case they want to run it
+> directly.
 
-  http://www.crashcourse.ca/wiki/index.php/RPM_OE
-
-to keep track of progress. as you can see, all those RPMs (being
-mostly perl modules) are either x86_64 or noarch rpms, no surprise
-there. obviously, to convert this build system to OE/YP, i need to
-determine the OE recipe/package equivalent of all those rpms. i
-originally thought that wouldn't be so hard ... silly me.
-
-  as i started poking around, i noted (as you can read in the Overview
-i wrote on that wiki page) that some of those modules could be found
-in a number of places:
-
-  * part of the "perl-modules" definition when building perl itself
-  * from the OE layer
-  * from the meta-openembedded/meta-perl layer
-  * from the meta-cpan layer
-
-(side note: the new target system is not x86, it's powerpc, which
-explains the necessity of replacing the current build system, which is
-x86 only and therefore unusable.)
-
-  to start things off and to see how much of all that i could get into
-the target image during a first pass, i did the obvious:
-
-  * selected "qemuppc" as the target MACHINE
-  * added "perl-modules" to IMAGE_INSTALL to add *all* generated
-    perl modules to the image
-  * IMAGE_FEATURES += "package-management", to get "rpm" on the
-    target to examine the installed rpms
-  * built a "core-image-minimal"
-
-all that worked fine, i fired up the resulting qemuppc image and
-verified that it did indeed have all 639 "perl-module-*ppc7400.rpm"
-generated packages. overkill, yes, but i don't care at the moment.
-
-  and this is where the fun starts as i now need to figure out where
-to get the rest. i spent a few minutes just searching the layers i
-mentioned above but, surely, there's an easier way. one of the
-absolutely crucial modules that needs to be on the target is
-Text::Template, but i see no existing recipe for that.
-
-  more to the point, i would have thought that OE would have a
-mechanism to build such modules dynamically -- i thought that was the
-whole purpose of the "meta-cpan" layer. i was reading this linkedin
-page:
-
-https://www.linkedin.com/pulse/how-we-brought-cpan-embedded-devices-jens-rehsack?articleId=8774955546707699773
-
-which refers to "automating basic package maintenance", so i assumed
-there was some automatic way of doing this. am i misreading that?
-
-  in any event, what is the *proper* way to do this? surely it doesn't
-involve manually hunting down each recipe file one by one. in
-addition, even when i find a recipe file, it sometimes doesn't have
-related recipe files in the same place.
-
-  case in point -- we need these two modules:
-
- * perl-Authen-PAM-0.16-16.el7.x86_64
- * perl-Authen-SASL-2.15-10.el7.noarch
-
-however, the meta-perl layer contains the second, but not the first,
-so it's not clear to me what criteria is used to include perl module
-recipes in any given layer.
-
-  thoughts? as a single example, how would one include the
-Text::Template module in a target image? any assistance gratefully
-received.
+  ah, excellent, this is important for me since, when i teach OE/YP,
+one of the first things i do is distinguish between a "build" and
+"nobuild" project directory ("nobuild" meaning configured only), and
+use "bb" to show how much one can query about the project before any
+compilation is done. this is amazingly useful.
 
 rday
 
-p.s. i typically don't work with perl modules, so if i sound clueless
-about perl packaging, that's because i am.
+p.s. if readers don't know about "bb", i wrote a page on it once upon
+a time:
+
+  http://www.crashcourse.ca/wiki/index.php/Bb
+
+i better go back and make sure it's up to date.
 
 -- 
 
@@ -137,4 +101,4 @@ Twitter:                                       http://twitter.com/rpjday
 LinkedIn:                               http://ca.linkedin.com/in/rpjday
 ========================================================================
 
-
+--2071690107-283997265-1477475731=:17717--
