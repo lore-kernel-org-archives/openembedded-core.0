@@ -1,33 +1,24 @@
-Return-Path: <rpjday@crashcourse.ca>
-Received: from smtp684.redcondor.net (smtp684.redcondor.net [208.80.206.84])
-	by mail.openembedded.org (Postfix) with ESMTP id 7073360111
+Return-Path: <Kai.Kang@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id BCAD771A34
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Oct 2016 09:56:41 +0000 (UTC)
-Received: from astoria.ccjclearline.com ([64.235.106.9])
-	by smtp684.redcondor.net ({700db0a8-6fb7-4c8b-9b2a-6812225182d8})
-	via TCP (outbound) with ESMTPS id 20161026095634022_0684;
-	Wed, 26 Oct 2016 09:56:34 +0000
-X-RC-FROM: <rpjday@crashcourse.ca>
-Received: from [216.191.234.70] (port=22848 helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
-	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
-	id 1bzKwd-0005Ez-A1; Wed, 26 Oct 2016 05:56:27 -0400
-Date: Wed, 26 Oct 2016 05:55:30 -0400 (EDT)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@ca624034.mitel.com
-To: Christopher Larson <clarson@kergoth.com>
-In-Reply-To: <CABcZANnku9xzQ=Zz6NnUX+myzbAX9K34gPVjkTCd0jKSAXSXRw@mail.gmail.com>
-Message-ID: <alpine.LFD.2.20.1610260549570.17717@ca624034.mitel.com>
-References: <alpine.LFD.2.20.1610241644480.15919@localhost.localdomain>
-	<CABcZANnYLS0pfSpdzf3NVV4KEg_88b9mPark9gpstJUFHZTzxQ@mail.gmail.com>
-	<alpine.LFD.2.20.1610250246460.19688@localhost.localdomain>
-	<alpine.LFD.2.20.1610250303460.20837@localhost.localdomain>
-	<CABcZANnku9xzQ=Zz6NnUX+myzbAX9K34gPVjkTCd0jKSAXSXRw@mail.gmail.com>
-User-Agent: Alpine 2.20 (LFD 67 2015-01-07)
+	Wed, 26 Oct 2016 10:00:56 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u9QA0vwf023992
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 26 Oct 2016 03:00:57 -0700
+Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.294.0; Wed, 26 Oct 2016 03:00:56 -0700
+From: <kai.kang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 26 Oct 2016 17:54:48 +0800
+Message-ID: <cover.1477475596.git.kai.kang@windriver.com>
+X-Mailer: git-send-email 2.10.1
 MIME-Version: 1.0
-X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: most efficient way to map perl RH rpms to OE package names?
+Subject: [PATCH 0/2] V2: Fix qemu cve issues
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,65 +31,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 26 Oct 2016 09:56:42 -0000
-Content-Type: multipart/mixed;
-	BOUNDARY="2071690107-283997265-1477475731=:17717"
+X-List-Received-Date: Wed, 26 Oct 2016 10:00:56 -0000
+Content-Type: text/plain
 
---2071690107-283997265-1477475731=:17717
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
+From: Kai Kang <kai.kang@windriver.com>
 
-On Tue, 25 Oct 2016, Christopher Larson wrote:
+V2:
 
-> On Tue, Oct 25, 2016 at 12:05 AM, Robert P. J. Day <rpjday@crashcourse.ca> wrote:
->       On Tue, 25 Oct 2016, Robert P. J. Day wrote:
->
->       >   i once wrote a wiki page on "bb", distinguishing between queries
->       > you could make before you did a build, versus queries that
->       > needed a build. it seems like oe-pkgdata-util needs a
->       > completed build for pretty much everything, do i have that
->       > right?
->
->         never mind, i just read this snippet from the YP ref manual:
->
->       "You can use the oe-pkgdata-util command-line utility to query
->       PKGDATA_DIR and display various package-related information.
->       When you use the utility, you must use it to view information
->       on packages that have already been built."
->
->       so i'm assuming that means for *all* oe-pkgdata subcommands, no
->       exceptions.
->
-> Right, oe-pkgdata-util is about inspecting build output via pkgdata,
-> whereas most of bb is inspection tools about the metadata — before
-> the build. The only exception is bb-contents, which is a
-> convenience, just wraps oe-pkgdata-util under the hood and tells the
-> user the oe-pkgdata-util command in case they want to run it
-> directly.
+* correct commit messages
 
-  ah, excellent, this is important for me since, when i teach OE/YP,
-one of the first things i do is distinguish between a "build" and
-"nobuild" project directory ("nobuild" meaning configured only), and
-use "bb" to show how much one can query about the project before any
-compilation is done. this is amazingly useful.
+The following changes since commit 30d1af89ce2a2fb30f32a898ec12c9a51db57013:
 
-rday
+  image_types: Use softer setting of WKS_FILE (2016-10-25 17:58:59 +0100)
 
-p.s. if readers don't know about "bb", i wrote a page on it once upon
-a time:
+are available in the git repository at:
 
-  http://www.crashcourse.ca/wiki/index.php/Bb
+  git://git.pokylinux.org/poky-contrib kangkai/qemu-cves
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=kangkai/qemu-cves
 
-i better go back and make sure it's up to date.
+Kai Kang (2):
+  qemu: supplementary fix of CVE-2016-5403
+  qemu: fix CVE-2016-7423 and CVE-2016-7908
+
+ ...0001-virtio-zero-vq-inuse-in-virtio_reset.patch | 57 ++++++++++++++++++++
+ .../qemu/qemu/0002-fix-CVE-2016-7423.patch         | 45 ++++++++++++++++
+ .../qemu/qemu/0003-fix-CVE-2016-7908.patch         | 62 ++++++++++++++++++++++
+ meta/recipes-devtools/qemu/qemu_2.7.0.bb           |  3 ++
+ 4 files changed, 167 insertions(+)
+ create mode 100644 meta/recipes-devtools/qemu/qemu/0001-virtio-zero-vq-inuse-in-virtio_reset.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/0002-fix-CVE-2016-7423.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/0003-fix-CVE-2016-7908.patch
 
 -- 
+2.10.1
 
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
 
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
-
---2071690107-283997265-1477475731=:17717--
