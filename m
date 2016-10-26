@@ -1,27 +1,27 @@
 Return-Path: <jussi.kukkonen@intel.com>
 Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id E6B4A607A4
+	by mail.openembedded.org (Postfix) with ESMTP id 32576607A4
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Oct 2016 13:28:16 +0000 (UTC)
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-	by fmsmga104.fm.intel.com with ESMTP; 26 Oct 2016 06:28:09 -0700
+	Wed, 26 Oct 2016 13:28:17 +0000 (UTC)
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+	by fmsmga104.fm.intel.com with ESMTP; 26 Oct 2016 06:28:10 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.31,550,1473145200"; d="scan'208";a="23846760"
+X-IronPort-AV: E=Sophos;i="5.31,550,1473145200"; d="scan'208";a="24249152"
 Received: from linux.intel.com ([10.54.29.200])
-	by fmsmga006.fm.intel.com with ESMTP; 26 Oct 2016 06:28:09 -0700
+	by orsmga004.jf.intel.com with ESMTP; 26 Oct 2016 06:28:10 -0700
 Received: from theory.fi.intel.com (theory.fi.intel.com [10.237.72.53])
-	by linux.intel.com (Postfix) with ESMTP id 985A46A4006;
-	Wed, 26 Oct 2016 06:27:34 -0700 (PDT)
+	by linux.intel.com (Postfix) with ESMTP id E9DF16A4006;
+	Wed, 26 Oct 2016 06:27:35 -0700 (PDT)
 From: Jussi Kukkonen <jussi.kukkonen@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 26 Oct 2016 16:27:50 +0300
-Message-Id: <fb4932447896d94e0a47913ca785c88a2dd35708.1477488358.git.jussi.kukkonen@intel.com>
+Date: Wed, 26 Oct 2016 16:27:51 +0300
+Message-Id: <6247f979128efef0875eaea4c54dcd537196924a.1477488358.git.jussi.kukkonen@intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <a9e6d45292ddc9ff04c359ac3f2016f4ed22e548.1477488358.git.jussi.kukkonen@intel.com>
 References: <a9e6d45292ddc9ff04c359ac3f2016f4ed22e548.1477488358.git.jussi.kukkonen@intel.com>
 In-Reply-To: <cover.1477488358.git.jussi.kukkonen@intel.com>
 References: <cover.1477488358.git.jussi.kukkonen@intel.com>
-Subject: [PATCH 09/14] freetype: Upgrade 2.6.5 -> 2.7
+Subject: [PATCH 10/14] glib-networking: Upgrade 2.48.2 -> 2.50.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,31 +36,31 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 26 Oct 2016 13:28:17 -0000
 
-Includes new default subpixel hinting mode (aka ClearType).
+Six-monthly feature release, mostly bug fixes.
 
 Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
 ---
- meta/recipes-graphics/freetype/{freetype_2.6.5.bb => freetype_2.7.bb} | 4 ++--
+ .../{glib-networking_2.48.2.bb => glib-networking_2.50.0.bb}          | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-graphics/freetype/{freetype_2.6.5.bb => freetype_2.7.bb} (93%)
+ rename meta/recipes-core/glib-networking/{glib-networking_2.48.2.bb => glib-networking_2.50.0.bb} (88%)
 
-diff --git a/meta/recipes-graphics/freetype/freetype_2.6.5.bb b/meta/recipes-graphics/freetype/freetype_2.7.bb
-similarity index 93%
-rename from meta/recipes-graphics/freetype/freetype_2.6.5.bb
-rename to meta/recipes-graphics/freetype/freetype_2.7.bb
-index 97dde3a..36da1fb 100644
---- a/meta/recipes-graphics/freetype/freetype_2.6.5.bb
-+++ b/meta/recipes-graphics/freetype/freetype_2.7.bb
-@@ -18,8 +18,8 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/freetype/freetype-${PV}.tar.bz2 \
- UPSTREAM_CHECK_URI = "http://sourceforge.net/projects/freetype/files/freetype2/"
- UPSTREAM_CHECK_REGEX = "(?P<pver>\d+(\.\d+)+)"
+diff --git a/meta/recipes-core/glib-networking/glib-networking_2.48.2.bb b/meta/recipes-core/glib-networking/glib-networking_2.50.0.bb
+similarity index 88%
+rename from meta/recipes-core/glib-networking/glib-networking_2.48.2.bb
+rename to meta/recipes-core/glib-networking/glib-networking_2.50.0.bb
+index 50d9983..0baaffd 100644
+--- a/meta/recipes-core/glib-networking/glib-networking_2.48.2.bb
++++ b/meta/recipes-core/glib-networking/glib-networking_2.50.0.bb
+@@ -9,8 +9,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=5f30f0716dfdd0d91eb439ebec522ec2"
+ SECTION = "libs"
+ DEPENDS = "glib-2.0 intltool-native"
  
--SRC_URI[md5sum] = "6a386964e18ba28cb93370e57a19031b"
--SRC_URI[sha256sum] = "e20a6e1400798fd5e3d831dd821b61c35b1f9a6465d6b18a53a9df4cf441acf0"
-+SRC_URI[md5sum] = "be4601619827b7935e1d861745923a68"
-+SRC_URI[sha256sum] = "d6a451f5b754857d2aa3964fd4473f8bc5c64e879b24516d780fb26bec7f7d48"
+-SRC_URI[archive.md5sum] = "d7cf81d52c856b0c66f7821021f40e08"
+-SRC_URI[archive.sha256sum] = "925c0c49d6b2b8b5695f2e33cd952d1dbb7d18d3f2f796413577719315bb3a84"
++SRC_URI[archive.md5sum] = "4d06d0224646f274918b1cb6da9a07f6"
++SRC_URI[archive.sha256sum] = "3f1a442f3c2a734946983532ce59ed49120319fdb10c938447c373d5e5286bee"
  
- inherit autotools pkgconfig binconfig-disabled multilib_header
+ PACKAGECONFIG ??= "ca-certificates gnutls"
  
 -- 
 2.1.4
