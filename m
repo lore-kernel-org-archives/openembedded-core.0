@@ -1,49 +1,44 @@
-Return-Path: <jkrishnanjanappa@mvista.com>
-Received: from mail-lf0-f50.google.com (mail-lf0-f50.google.com
-	[209.85.215.50])
-	by mail.openembedded.org (Postfix) with ESMTP id 7013E719A3
+Return-Path: <ulfalizer@gmail.com>
+Received: from mail-wm0-f41.google.com (mail-wm0-f41.google.com [74.125.82.41])
+	by mail.openembedded.org (Postfix) with ESMTP id 0CD6571CD5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Oct 2016 17:37:15 +0000 (UTC)
-Received: by mail-lf0-f50.google.com with SMTP id x79so11346752lff.0
+	Wed, 26 Oct 2016 17:39:09 +0000 (UTC)
+Received: by mail-wm0-f41.google.com with SMTP id e69so46572369wmg.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Oct 2016 10:37:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=mvista-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=IsSrPUMHVDXRK/yDWCXtV3HEaW9M72Je0hr813RmSKU=;
-	b=qMK4GheX6ozh/jDYyRy3VGSC7gwNme8sYYa1pipxlaK4X6q2O6zeCnnsYwYH6zvFpD
-	xzpwwDpnrCLU89EU+DNkB2f+7wCBHhoAsGIqQIUI1p5obvaGXJzGwse4+FISR+RJh60Y
-	EnxbPKyKxPuqc7xaVzttDL7SDqY6RQdW8xFnA3mXZtN36n8vGMyTJ/MBWp78oZjnO74Y
-	eZYCgnckk/GE6NqBIpIrvOGe8VOdtCkquFQQFTooNMFZ5jzOCd+vX+XyBf5UCwV3fUbG
-	XBMkOllAJeG07/aNFeLrka/hRIFYrE2/z8xZ4ndmz2nDy85jfmh/cnAXWix6fs2FVGsh
-	oY8g==
+	Wed, 26 Oct 2016 10:39:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=uUgc7vx/z2+1ia2aBFBOZdZm6dXEMsRwjPeO5TyUfqE=;
+	b=uC05NJJmLLVJxITMzZSVbSP4JwmXncbIf8EQrBMCFAyxERpHnLHih9zA61vv/wkfyc
+	SjIJON3RMSFcKGKQTmnK6nltaKUR8xHtdD9Ngk4GZGZYfBN4/WCRyglXEUHvEQ7uVhv2
+	bO6wmGBiMJB3+6OPK55NwVrcaqiOFgClX6hPfgv9gdkt+TP+1lzsf19TujQXReZPxaD8
+	mdvuyWZgAyaYA1i73X/smeWpZq73P9a4XttKr1BtYlSCbfSB7T93Jqx1g7U/XhOImOWS
+	qhOuG1ICwXFs1YXoOGPlPo+tqyh83aQu7rH9i8KGm2KzZJO9IYgqmgORMYQjBmSf1f44
+	fxpA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=IsSrPUMHVDXRK/yDWCXtV3HEaW9M72Je0hr813RmSKU=;
-	b=K5II7oQtTsTOQdHxxg2BJeoREchsUQPl7rAXYXsoV06OthuEaAeVhblomHsGdqw3b2
-	lRQ0Zen7qMl/A52Rv9/Zhn1nvc4dH+mSygNsmz6MWbE0JHoEPwuSHUyZLtqoOCBzpdXB
-	JL7+/Rm/2BJnl7VGLrYdtZq7V5/8XUBAqqCF8hHM9qL4nyK9PANTy6wXmDObytLfIWFd
-	TIcOMkyF/9JuWxmau/ZQEBgFoZ5qq3j78RsPLoIOuTnRTBbWXfmiUvP5rg+YJV2km302
-	XqgosDnbIiUgdZLBXwmcCwbCL4WfkN3n91gTJjF4JhIYRoGdY2pVIB7dMHEwujoTgL0Q
-	sQfw==
-X-Gm-Message-State: ABUngvdhaS/HPr44CK5DzPODVmFnUQm7RTljpM67HfSdNvnXvf/S6aiPgB/uV8BNoTee0jOloArPOtw8lUVjRa1N
-X-Received: by 10.25.190.71 with SMTP id o68mr2955888lff.23.1477503436581;
-	Wed, 26 Oct 2016 10:37:16 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.114.122.1 with HTTP; Wed, 26 Oct 2016 10:37:15 -0700 (PDT)
-In-Reply-To: <CAD3vsf6wvx4RdDpsFcC8H1wyLvQ8q=dQnHnBObi-pc9ZJrEA3w@mail.gmail.com>
-References: <709988291.930326.1477431788589.ref@mail.yahoo.com>
-	<709988291.930326.1477431788589@mail.yahoo.com>
-	<CAD3vsf6wvx4RdDpsFcC8H1wyLvQ8q=dQnHnBObi-pc9ZJrEA3w@mail.gmail.com>
-From: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
-Date: Wed, 26 Oct 2016 23:07:15 +0530
-Message-ID: <CAD3vsf7KspudaxhBUEPLxi2En0cAJvAyJO2QPBevXe_kPaH+=Q@mail.gmail.com>
-To: Tudor Florea <tcflorea@yahoo.com>
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [master][morty][PATCH] libunwind: add ptest support
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=uUgc7vx/z2+1ia2aBFBOZdZm6dXEMsRwjPeO5TyUfqE=;
+	b=fN1Rj2b0I8Wi3iGo3070qpGH0Nzgj5+YK36l6zp8SJD2r/gHxrwhqRifwcZrcbQxt6
+	G2CGY+ivmdjykEKetVWmJBTnZgsJkfHGXaY1Mbb03ifScTFlfEQb9+e7E52hGhsElEEV
+	ms6D7YOhq4VvefUyDdgmmLdfwzyUmS2a1ZZJLHcsyAhxYJqpwtkg4fRB+ruFl//X+0iZ
+	70II2vf1q6NaZr5sARQu0ZlVW0xWNY7vER90g9DVS9mGz0uF+tkBF/slso/S07u5t+40
+	JnwX523w5rIXnwhYLfdCSouw4bM2xbJrdd6OU0z4mf+DuTWb7PdQbyEWhITRPYfY1T58
+	O4ng==
+X-Gm-Message-State: ABUngvfBqFrr4mo2w0fG1tJRz1t8j61MCY/ucYUbeidt0+MwELRb07bVoHhdsGMIuLilAw==
+X-Received: by 10.194.203.6 with SMTP id km6mr3146315wjc.226.1477503550647;
+	Wed, 26 Oct 2016 10:39:10 -0700 (PDT)
+Received: from huvuddator.home ([2a02:810d:1f40:230:4956:ab83:2adb:d88a])
+	by smtp.gmail.com with ESMTPSA id
+	pe5sm3801657wjb.15.2016.10.26.10.39.09
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 26 Oct 2016 10:39:10 -0700 (PDT)
+From: Ulf Magnusson <ulfalizer@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 26 Oct 2016 19:39:03 +0200
+Message-Id: <1477503544-13794-1-git-send-email-ulfalizer@gmail.com>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH v2 0/1] Remove unused variables and imports from package.bbclass
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,128 +51,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 26 Oct 2016 17:37:16 -0000
-Content-Type: multipart/alternative; boundary=94eb2c1a18007e01c2053fc8139f
+X-List-Received-Date: Wed, 26 Oct 2016 17:39:13 -0000
 
---94eb2c1a18007e01c2053fc8139f
-Content-Type: text/plain; charset=UTF-8
+Changes since v1:
 
->
->
->
->> The change above have the effect of inhibiting the package strip even if
->> ptest  is not enabled at all. I think this have to be something specific to
->> ptest.
->> You may consider using INSANE_SKIP_${PN}-ptest [1] and add unstripped
->> binaries needed for ptest in {PN}-ptest (along with the original - stripped
->> - ones)
->>
->
-> I didn't get how unstripped and stripped binaries can co-exist in a single
-> package called ${PN}-test.
-> The split_and_strip_files function keeps files containing debug symbols in
-> a separate directory
-> ( like ../.debug/..). Do you mean to say include files containing debug
-> symbols (i,e debugdirectory) in ${PN}-test package and
-> set  INSANE_SKIP_${PN}-ptest += "debug-files"
-> to prevent packaging .debug directories in non -dbg package.
->
-> This doesn't help,  as run-coredump-unwind requires unstripped "crasher"
->  program to be present at target, to get procedure names using libuwind
-> APIs.
->
->
-> or simply consider the appropriate tests as XFAIL for openembedded.
->>
-> Yes, for such test (e.g: run-coredump-unwind) XFAIL is fine, if
-> INHIBIT_PACKAGE_STRIP = "1" is
-> not used.
->
->
-However, I have sent a v2 patch, marking test cases which depend on
-unstripped binaries as expected failures and removed INHIBIT_PACKAGE_STRIP
-= "1" line from the earlier patch.
-Made sure run-check-namespace test passes with libunwind library containing
-debug symbols.
+Remove accidentally omitted 's' variable too.
 
-Regards,
-Jagadeesh
+Ulf Magnusson (1):
+  package.bbclass: Remove unused variables and imports
 
->
->>
->
+ meta/classes/package.bbclass | 13 +------------
+ 1 file changed, 1 insertion(+), 12 deletions(-)
 
---94eb2c1a18007e01c2053fc8139f
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+-- 
+2.7.4
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><div class=3D"gmail_quote"><blo=
-ckquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left=
--width:1px;border-left-color:rgb(204,204,204);border-left-style:solid;paddi=
-ng-left:1ex"><div dir=3D"ltr"><div class=3D"gmail_extra"><div class=3D"gmai=
-l_quote"><span class=3D"m_5830943973678559804gmail-"><div>=C2=A0</div><bloc=
-kquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left-=
-width:1px;border-left-style:solid;border-left-color:rgb(204,204,204);paddin=
-g-left:1ex"><div><div style=3D"color:rgb(0,0,0);font-family:garamond,&#39;n=
-ew york&#39;,times,serif;font-size:16px;background-color:rgb(255,255,255)">=
-<div id=3D"m_5830943973678559804gmail-m_-5765033722591276788gmail-m_8849950=
-624476238808yui_3_16_0_ym19_1_1477346198248_20479" dir=3D"ltr">The change a=
-bove have the effect of inhibiting the package strip even if ptest=C2=A0 is=
- not enabled at all. I think this have to be something specific to ptest.<b=
-r id=3D"m_5830943973678559804gmail-m_-5765033722591276788gmail-m_8849950624=
-476238808yui_3_16_0_ym19_1_1477346198248_20611">You may consider using INSA=
-NE_SKIP_${PN}-ptest [1] and add unstripped binaries needed for ptest in {PN=
-}-ptest (along with the original - stripped - ones)</div></div></div></bloc=
-kquote><div>=C2=A0</div></span><div><font face=3D"arial, helvetica, sans-se=
-rif">I didn&#39;t get how unstripped and stripped binaries can co-exist in =
-a single package called ${PN}-test.</font></div><div><font face=3D"arial, h=
-elvetica, sans-serif">The split_and_strip_files function keeps files contai=
-ning debug symbols in a separate directory</font></div><div><font face=3D"a=
-rial, helvetica, sans-serif">( like ../.debug/..). Do you mean to say inclu=
-de files containing=C2=A0debug symbols (i,e </font><span style=3D"font-fami=
-ly:arial,helvetica,sans-serif">debugdirectory) in ${PN}-test package and se=
-t=C2=A0=C2=A0INSANE_SKIP_${PN}-ptest +=3D &quot;</span><span style=3D"font-=
-family:arial,helvetica,sans-serif;color:rgb(51,51,51);line-height:24px"><co=
-de class=3D"m_5830943973678559804gmail-m_-5765033722591276788gmail-filename=
-">debug-files</code></span><span style=3D"font-family:arial,helvetica,sans-=
-serif">&quot;</span></div><div><font face=3D"arial, helvetica, sans-serif">=
-to prevent packaging .debug directories in non -dbg package.</font></div><d=
-iv><font face=3D"arial, helvetica, sans-serif"><br></font></div><div><font =
-face=3D"arial, helvetica, sans-serif">This doesn&#39;t help, =C2=A0</font><=
-span style=3D"font-family:arial,helvetica,sans-serif">as run-coredump-unwin=
-d requires unstripped &quot;crasher&quot; =C2=A0program to be present at ta=
-rget,=C2=A0</span><span style=3D"font-family:arial,helvetica,sans-serif">to=
- get procedure names using libuwind APIs.</span></div><span class=3D"m_5830=
-943973678559804gmail-"><div><span style=3D"font-family:arial,helvetica,sans=
--serif"><br></span></div><div><br></div><blockquote class=3D"gmail_quote" s=
-tyle=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-style:so=
-lid;border-left-color:rgb(204,204,204);padding-left:1ex"><div><div style=3D=
-"color:rgb(0,0,0);font-family:garamond,&#39;new york&#39;,times,serif;font-=
-size:16px;background-color:rgb(255,255,255)"><div id=3D"m_58309439736785598=
-04gmail-m_-5765033722591276788gmail-m_8849950624476238808yui_3_16_0_ym19_1_=
-1477346198248_20479" dir=3D"ltr">or simply consider the appropriate tests a=
-s XFAIL for openembedded.<br id=3D"m_5830943973678559804gmail-m_-5765033722=
-591276788gmail-m_8849950624476238808yui_3_16_0_ym19_1_1477346198248_20613">=
-</div></div></div></blockquote></span><div>Yes, for such test (e.g: run-cor=
-edump-unwind) XFAIL is fine, if INHIBIT_PACKAGE_STRIP =3D &quot;1&quot; is<=
-/div><div>not used.</div><div><br></div></div></div></div></blockquote><div=
-><br></div><div>However, I have sent a v2 patch, marking test cases which d=
-epend on unstripped binaries as expected failures and removed INHIBIT_PACKA=
-GE_STRIP =3D &quot;1&quot; line from the earlier patch.</div><div>Made sure=
-=C2=A0<span style=3D"font-size:12.8000001907349px">run-check-namespace test=
- passes with libunwind library containing</span></div><div><span style=3D"f=
-ont-size:12.8000001907349px">debug symbols.</span></div><div><br></div><div=
->Regards,</div><div>Jagadeesh</div><blockquote class=3D"gmail_quote" style=
-=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-color:rgb(20=
-4,204,204);border-left-style:solid;padding-left:1ex"><div dir=3D"ltr"><div =
-class=3D"gmail_extra"><div class=3D"gmail_quote"><blockquote class=3D"gmail=
-_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-left=
--style:solid;border-left-color:rgb(204,204,204);padding-left:1ex"><div><div=
- style=3D"color:rgb(0,0,0);font-family:garamond,&#39;new york&#39;,times,se=
-rif;font-size:16px;background-color:rgb(255,255,255)"><div id=3D"m_58309439=
-73678559804gmail-m_-5765033722591276788gmail-m_8849950624476238808yui_3_16_=
-0_ym19_1_1477346198248_20728"><br></div></div></div></blockquote></div><br>=
-</div></div>
-</blockquote></div><br></div></div>
 
---94eb2c1a18007e01c2053fc8139f--
