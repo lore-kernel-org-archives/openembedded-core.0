@@ -1,26 +1,25 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 9E94D6E5FB
+Return-Path: <michael.blaettler@siemens.com>
+Received: from thoth.sbs.de (thoth.sbs.de [192.35.17.2])
+	by mail.openembedded.org (Postfix) with ESMTP id 06ACD719B3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Oct 2016 06:09:36 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u9Q69bB9020777
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Wed, 26 Oct 2016 06:51:20 +0000 (UTC)
+Received: from mail2.siemens.de (mail2.siemens.de [139.25.208.11])
+	by thoth.sbs.de (8.15.2/8.15.2) with ESMTPS id u9Q6pLbV012509
+	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Oct 2016 23:09:37 -0700 (PDT)
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.209) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.294.0; Tue, 25 Oct 2016 23:09:36 -0700
-From: Chen Qi <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 26 Oct 2016 14:09:47 +0800
-Message-ID: <03fe8f1085b1f9ab381e69f1735ba8b1c049d4b8.1477462109.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1477462109.git.Qi.Chen@windriver.com>
-References: <cover.1477462109.git.Qi.Chen@windriver.com>
+	Wed, 26 Oct 2016 08:51:21 +0200
+Received: from dev.sbt.siemens.com (MD1F3VPC.ww002.siemens.net [139.16.77.53])
+	by mail2.siemens.de (8.15.2/8.15.2) with ESMTP id u9Q6pLBZ006068;
+	Wed, 26 Oct 2016 08:51:21 +0200
+Received: by dev.sbt.siemens.com (Postfix, from userid 1000)
+	id C8BE1844D05; Wed, 26 Oct 2016 08:51:21 +0200 (CEST)
+From: =?UTF-8?q?Michael=20Bl=C3=A4ttler?= <michael.blaettler@siemens.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 26 Oct 2016 08:51:13 +0200
+Message-Id: <1477464673-6184-1-git-send-email-michael.blaettler@siemens.com>
+X-Mailer: git-send-email 2.1.4
 MIME-Version: 1.0
-Subject: [PATCH V2 1/1] systemd: CVE-2016-7795
+Subject: [PATCH v3] package.py: New EXTRA_STRIPFLAGS variable
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,113 +32,81 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 26 Oct 2016 06:09:36 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 26 Oct 2016 06:51:23 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-The manager_invoke_notify_message function in systemd 231 and earlier allows
-local users to cause a denial of service (assertion failure and PID 1 hang)
-via a zero-length message received over a notify socket.
+The EXTRA_STRIPFLAGS variable can be used to pass additional parameters to the strip command.
+This can be used to remove additional sections or to keep symbols.
+The removal of additional sections can be useful to enable reproducible builds.
+Sections which contain paths or md5sums of the debug binaries (like gnu_debuglink)
+can be eliminated with this flag.
 
-The patch is a backport from the latest git repo.
-
-Please see the link below for more information.
-https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-7795
-
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+Signed-off-by: Pascal Bach <pascal.bach@siemens.com>
+Signed-off-by: Michael Blättler <michael.blaettler@siemens.com>
 ---
- .../systemd/systemd/CVE-2016-7795.patch            | 69 ++++++++++++++++++++++
- meta/recipes-core/systemd/systemd_230.bb           |  1 +
- 2 files changed, 70 insertions(+)
- create mode 100644 meta/recipes-core/systemd/systemd/CVE-2016-7795.patch
+ meta/classes/package.bbclass |  5 +++--
+ meta/lib/oe/package.py       | 12 +++++-------
+ 2 files changed, 8 insertions(+), 9 deletions(-)
 
-diff --git a/meta/recipes-core/systemd/systemd/CVE-2016-7795.patch b/meta/recipes-core/systemd/systemd/CVE-2016-7795.patch
-new file mode 100644
-index 0000000..5ecb9c3
---- /dev/null
-+++ b/meta/recipes-core/systemd/systemd/CVE-2016-7795.patch
-@@ -0,0 +1,69 @@
-+Subject: Fix CVE-2016-7795
-+
-+This undoes 531ac2b. I acked that patch without looking at the code
-+carefully enough. There are two problems:
-+- we want to process the fds anyway
-+- in principle empty notification messages are valid, and we should
-+  process them as usual, including logging using log_unit_debug().
-+
-+Upstream-Status: Backport
-+CVE: CVE-2016-7795
-+
-+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-+---
-+ src/core/manager.c | 11 ++++++-----
-+ 1 file changed, 6 insertions(+), 5 deletions(-)
-+
-+diff --git a/src/core/manager.c b/src/core/manager.c
-+index 7838f56..f165d08e 100644
-+--- a/src/core/manager.c
-++++ b/src/core/manager.c
-+@@ -1589,13 +1589,12 @@ static int manager_dispatch_cgroups_agent_fd(sd_event_source *source, int fd, ui
-+         return 0;
-+ }
-+ 
-+-static void manager_invoke_notify_message(Manager *m, Unit *u, pid_t pid, const char *buf, size_t n, FDSet *fds) {
-++static void manager_invoke_notify_message(Manager *m, Unit *u, pid_t pid, const char *buf, FDSet *fds) {
-+         _cleanup_strv_free_ char **tags = NULL;
-+ 
-+         assert(m);
-+         assert(u);
-+         assert(buf);
-+-        assert(n > 0);
-+ 
-+         tags = strv_split(buf, "\n\r");
-+         if (!tags) {
-+@@ -1688,25 +1687,27 @@ static int manager_dispatch_notify_fd(sd_event_source *source, int fd, uint32_t
-+                 return 0;
-+         }
-+ 
-++        /* The message should be a string. Here we make sure it's NUL-terminated,
-++         * but only the part until first NUL will be used anyway. */
-+         buf[n] = 0;
-+ 
-+         /* Notify every unit that might be interested, but try
-+          * to avoid notifying the same one multiple times. */
-+         u1 = manager_get_unit_by_pid_cgroup(m, ucred->pid);
-+         if (u1) {
-+-                manager_invoke_notify_message(m, u1, ucred->pid, buf, n, fds);
-++                manager_invoke_notify_message(m, u1, ucred->pid, buf, fds);
-+                 found = true;
-+         }
-+ 
-+         u2 = hashmap_get(m->watch_pids1, PID_TO_PTR(ucred->pid));
-+         if (u2 && u2 != u1) {
-+-                manager_invoke_notify_message(m, u2, ucred->pid, buf, n, fds);
-++                manager_invoke_notify_message(m, u2, ucred->pid, buf, fds);
-+                 found = true;
-+         }
-+ 
-+         u3 = hashmap_get(m->watch_pids2, PID_TO_PTR(ucred->pid));
-+         if (u3 && u3 != u2 && u3 != u1) {
-+-                manager_invoke_notify_message(m, u3, ucred->pid, buf, n, fds);
-++                manager_invoke_notify_message(m, u3, ucred->pid, buf, fds);
-+                 found = true;
-+         }
-+ 
-+-- 
-+2.8.3
-+
-diff --git a/meta/recipes-core/systemd/systemd_230.bb b/meta/recipes-core/systemd/systemd_230.bb
-index a949fe8..19d144d 100644
---- a/meta/recipes-core/systemd/systemd_230.bb
-+++ b/meta/recipes-core/systemd/systemd_230.bb
-@@ -36,6 +36,7 @@ SRC_URI += " \
-            file://0021-include-missing.h-for-getting-secure_getenv-definiti.patch \
-            file://0022-socket-util-don-t-fail-if-libc-doesn-t-support-IDN.patch \
-            file://udev-re-enable-mount-propagation-for-udevd.patch \
-+           file://CVE-2016-7795.patch \
- "
- SRC_URI_append_libc-uclibc = "\
-            file://0002-units-Prefer-getty-to-agetty-in-console-setup-system.patch \
+diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
+index a6f0a7a..7e1c5c3 100644
+--- a/meta/classes/package.bbclass
++++ b/meta/classes/package.bbclass
+@@ -1055,14 +1055,15 @@ python split_and_strip_files () {
+     # Now lets go back over things and strip them
+     #
+     if (d.getVar('INHIBIT_PACKAGE_STRIP', True) != '1'):
++        extraflags = d.getVar('EXTRA_STRIPFLAGS', True) or ''
+         strip = d.getVar("STRIP", True)
+         sfiles = []
+         for file in elffiles:
+             elf_file = int(elffiles[file])
+             #bb.note("Strip %s" % file)
+-            sfiles.append((file, elf_file, strip))
++            sfiles.append((file, elf_file, strip, extraflags))
+         for f in kernmods:
+-            sfiles.append((f, 16, strip))
++            sfiles.append((f, 16, strip, extraflags))
+ 
+         oe.utils.multiprocess_exec(sfiles, oe.package.runstrip)
+ 
+diff --git a/meta/lib/oe/package.py b/meta/lib/oe/package.py
+index 02642f2..ab5f616 100644
+--- a/meta/lib/oe/package.py
++++ b/meta/lib/oe/package.py
+@@ -10,7 +10,7 @@ def runstrip(arg):
+ 
+     import stat, subprocess
+ 
+-    (file, elftype, strip) = arg
++    (file, elftype, strip, extraflags) = arg
+ 
+     newmode = None
+     if not os.access(file, os.W_OK) or os.access(file, os.R_OK):
+@@ -18,17 +18,15 @@ def runstrip(arg):
+         newmode = origmode | stat.S_IWRITE | stat.S_IREAD
+         os.chmod(file, newmode)
+ 
+-    extraflags = ""
+-
+-    # kernel module    
++    # kernel module
+     if elftype & 16:
+-        extraflags = "--strip-debug --remove-section=.comment --remove-section=.note --preserve-dates"
++        extraflags += " --strip-debug --remove-section=.comment --remove-section=.note --preserve-dates"
+     # .so and shared library
+     elif ".so" in file and elftype & 8:
+-        extraflags = "--remove-section=.comment --remove-section=.note --strip-unneeded"
++        extraflags += " --remove-section=.comment --remove-section=.note --strip-unneeded"
+     # shared or executable:
+     elif elftype & 8 or elftype & 4:
+-        extraflags = "--remove-section=.comment --remove-section=.note"
++        extraflags += " --remove-section=.comment --remove-section=.note"
+ 
+     stripcmd = "'%s' %s '%s'" % (strip, extraflags, file)
+     bb.debug(1, "runstrip: %s" % stripcmd)
 -- 
-1.9.1
+2.1.4
 
 
