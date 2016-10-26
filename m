@@ -1,27 +1,27 @@
 Return-Path: <Yi.Zhao@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 85F1A71AAD
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 8AB0E71AAD
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Oct 2016 08:27:04 +0000 (UTC)
+	Wed, 26 Oct 2016 08:27:08 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u9Q8R69s021928
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u9Q8R9Fc021827
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Oct 2016 01:27:06 -0700 (PDT)
+	Wed, 26 Oct 2016 01:27:10 -0700
 Received: from localhost (128.224.162.198) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.294.0;
-	Wed, 26 Oct 2016 01:27:05 -0700
+	Wed, 26 Oct 2016 01:27:09 -0700
 From: Yi Zhao <yi.zhao@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 26 Oct 2016 16:26:46 +0800
-Message-ID: <254deb41526b02c301ff6a5f39feaa797c1f44cf.1477470209.git.yi.zhao@windriver.com>
+Date: Wed, 26 Oct 2016 16:26:47 +0800
+Message-ID: <04011c68da9d6453149248aa0bd0ff7327546cfc.1477470209.git.yi.zhao@windriver.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1477470209.git.yi.zhao@windriver.com>
 References: <cover.1477470209.git.yi.zhao@windriver.com>
 MIME-Version: 1.0
 X-Originating-IP: [128.224.162.198]
-Subject: [PATCH 3/5] tiff: Security fix CVE-2016-3991
+Subject: [PATCH 4/5] tiff: Security fix CVE-2016-3623
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,190 +34,94 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 26 Oct 2016 08:27:04 -0000
+X-List-Received-Date: Wed, 26 Oct 2016 08:27:08 -0000
 Content-Type: text/plain
 
-CVE-2016-3991 libtiff: Heap-based buffer overflow in the loadImage
-function in the tiffcrop tool in LibTIFF 4.0.6 and earlier allows remote
-attackers to cause a denial of service (out-of-bounds write) or execute
-arbitrary code via a crafted TIFF image with zero tiles.
+CVE-2016-3623 libtiff: The rgb2ycbcr tool in LibTIFF 4.0.6 and earlier
+allows remote attackers to cause a denial of service (divide-by-zero) by
+setting the (1) v or (2) h parameter to 0.
 
 External References:
-https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-3991
-http://bugzilla.maptools.org/show_bug.cgi?id=2543
+https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-3623
+http://bugzilla.maptools.org/show_bug.cgi?id=2569
 
 Patch from:
-https://github.com/vadz/libtiff/commit/e596d4e27c5afb7960dc360fdd3afd90ba0fb8ba
+https://github.com/vadz/libtiff/commit/bd024f07019f5d9fea236675607a69f74a66bc7b
 
 Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
 ---
- .../libtiff/files/CVE-2016-3991.patch              | 147 +++++++++++++++++++++
- meta/recipes-multimedia/libtiff/tiff_4.0.6.bb      |   1 +
- 2 files changed, 148 insertions(+)
- create mode 100644 meta/recipes-multimedia/libtiff/files/CVE-2016-3991.patch
+ .../libtiff/files/CVE-2016-3623.patch              | 52 ++++++++++++++++++++++
+ meta/recipes-multimedia/libtiff/tiff_4.0.6.bb      |  1 +
+ 2 files changed, 53 insertions(+)
+ create mode 100644 meta/recipes-multimedia/libtiff/files/CVE-2016-3623.patch
 
-diff --git a/meta/recipes-multimedia/libtiff/files/CVE-2016-3991.patch b/meta/recipes-multimedia/libtiff/files/CVE-2016-3991.patch
+diff --git a/meta/recipes-multimedia/libtiff/files/CVE-2016-3623.patch b/meta/recipes-multimedia/libtiff/files/CVE-2016-3623.patch
 new file mode 100644
-index 0000000..27dfd37
+index 0000000..f554ac5
 --- /dev/null
-+++ b/meta/recipes-multimedia/libtiff/files/CVE-2016-3991.patch
-@@ -0,0 +1,147 @@
-+From e596d4e27c5afb7960dc360fdd3afd90ba0fb8ba Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-multimedia/libtiff/files/CVE-2016-3623.patch
+@@ -0,0 +1,52 @@
++From bd024f07019f5d9fea236675607a69f74a66bc7b Mon Sep 17 00:00:00 2001
 +From: erouault <erouault>
-+Date: Mon, 15 Aug 2016 21:05:40 +0000
-+Subject: [PATCH 2/2] * tools/tiffcrop.c: Fix out-of-bounds write in
-+ loadImage(). From patch libtiff-CVE-2016-3991.patch from
-+ libtiff-4.0.3-25.el7_2.src.rpm by Nikola Forro (bugzilla #2543)
++Date: Mon, 15 Aug 2016 21:26:56 +0000
++Subject: [PATCH] * tools/rgb2ycbcr.c: validate values of -v and -h parameters
++ to avoid potential divide by zero. Fixes CVE-2016-3623 (bugzilla #2569)
 +
-+CVE: CVE-2016-3991
++CVE: CVE-2016-3623
 +Upstream-Status: Backport
-+https://github.com/vadz/libtiff/commit/e596d4e27c5afb7960dc360fdd3afd90ba0fb8ba
++https://github.com/vadz/libtiff/commit/bd024f07019f5d9fea236675607a69f74a66bc7b
 +
 +Signed-off-by: Yi Zhao <yi.zhao@windirver.com>
 +---
-+ ChangeLog        |  6 ++++++
-+ tools/tiffcrop.c | 59 +++++++++++++++++++++++++++++++++++++++++++++++++++++---
-+ 2 files changed, 62 insertions(+), 3 deletions(-)
++ ChangeLog         | 5 +++++
++ tools/rgb2ycbcr.c | 4 ++++
++ 2 files changed, 9 insertions(+)
 +
 +diff --git a/ChangeLog b/ChangeLog
-+index db4ea18..5d60608 100644
++index 5d60608..3e6642a 100644
 +--- a/ChangeLog
 ++++ b/ChangeLog
-+@@ -1,5 +1,11 @@
++@@ -1,5 +1,10 @@
 + 2016-08-15 Even Rouault <even.rouault at spatialys.com>
 + 
-++	* tools/tiffcrop.c: Fix out-of-bounds write in loadImage().
-++	From patch libtiff-CVE-2016-3991.patch from
-++	libtiff-4.0.3-25.el7_2.src.rpm by Nikola Forro (bugzilla #2543)
+++	* tools/rgb2ycbcr.c: validate values of -v and -h parameters to
+++	avoid potential divide by zero. Fixes CVE-2016-3623 (bugzilla #2569)
 ++
 ++2016-08-15 Even Rouault <even.rouault at spatialys.com>
 ++
-+ 	* libtiff/tif_pixarlog.c: Fix write buffer overflow in PixarLogEncode
-+ 	if more input samples are provided than expected by PixarLogSetupEncode.
-+ 	Idea based on libtiff-CVE-2016-3990.patch from
-+diff --git a/tools/tiffcrop.c b/tools/tiffcrop.c
-+index 27abc0b..ddba7b9 100644
-+--- a/tools/tiffcrop.c
-++++ b/tools/tiffcrop.c
-+@@ -798,6 +798,11 @@ static int readContigTilesIntoBuffer (TIFF* in, uint8* buf,
-+     }
-+ 
-+   tile_buffsize = tilesize;
-++  if (tilesize == 0 || tile_rowsize == 0)
-++  {
-++     TIFFError("readContigTilesIntoBuffer", "Tile size or tile rowsize is zero");
-++     exit(-1);
-++  }
-+ 
-+   if (tilesize < (tsize_t)(tl * tile_rowsize))
-+     {
-+@@ -807,7 +812,12 @@ static int readContigTilesIntoBuffer (TIFF* in, uint8* buf,
-+               tilesize, tl * tile_rowsize);
-+ #endif
-+     tile_buffsize = tl * tile_rowsize;
-+-    } 
-++    if (tl != (tile_buffsize / tile_rowsize))
-++    {
-++    	TIFFError("readContigTilesIntoBuffer", "Integer overflow when calculating buffer size.");
-++        exit(-1);
-++    }
-++    }
-+ 
-+   tilebuf = _TIFFmalloc(tile_buffsize);
-+   if (tilebuf == 0)
-+@@ -1210,6 +1220,12 @@ static int writeBufferToContigTiles (TIFF* out, uint8* buf, uint32 imagelength,
-+       !TIFFGetField(out, TIFFTAG_BITSPERSAMPLE, &bps) )
-+       return 1;
-+ 
-++  if (tilesize == 0 || tile_rowsize == 0 || tl == 0 || tw == 0)
-++  {
-++    TIFFError("writeBufferToContigTiles", "Tile size, tile row size, tile width, or tile length is zero");
-++    exit(-1);
-++  }
-++  
-+   tile_buffsize = tilesize;
-+   if (tilesize < (tsize_t)(tl * tile_rowsize))
-+     {
-+@@ -1219,6 +1235,11 @@ static int writeBufferToContigTiles (TIFF* out, uint8* buf, uint32 imagelength,
-+               tilesize, tl * tile_rowsize);
-+ #endif
-+     tile_buffsize = tl * tile_rowsize;
-++    if (tl != tile_buffsize / tile_rowsize)
-++    {
-++	TIFFError("writeBufferToContigTiles", "Integer overflow when calculating buffer size");
-++	exit(-1);
-++    }
-+     }
-+ 
-+   tilebuf = _TIFFmalloc(tile_buffsize);
-+@@ -5945,12 +5966,27 @@ loadImage(TIFF* in, struct image_data *image, struct dump_opts *dump, unsigned c
-+     TIFFGetField(in, TIFFTAG_TILELENGTH, &tl);
-+ 
-+     tile_rowsize  = TIFFTileRowSize(in);      
-++    if (ntiles == 0 || tlsize == 0 || tile_rowsize == 0)
-++    {
-++	TIFFError("loadImage", "File appears to be tiled, but the number of tiles, tile size, or tile rowsize is zero.");
-++	exit(-1);
-++    }
-+     buffsize = tlsize * ntiles;
-++    if (tlsize != (buffsize / ntiles))
-++    {
-++	TIFFError("loadImage", "Integer overflow when calculating buffer size");
-++	exit(-1);
-++    }
-+ 
-+-        
-+     if (buffsize < (uint32)(ntiles * tl * tile_rowsize))
-+       {
-+       buffsize = ntiles * tl * tile_rowsize;
-++      if (ntiles != (buffsize / tl / tile_rowsize))
-++      {
-++	TIFFError("loadImage", "Integer overflow when calculating buffer size");
-++	exit(-1);
-++      }
-++      
-+ #ifdef DEBUG2
-+       TIFFError("loadImage",
-+ 	        "Tilesize %u is too small, using ntiles * tilelength * tilerowsize %lu",
-+@@ -5969,8 +6005,25 @@ loadImage(TIFF* in, struct image_data *image, struct dump_opts *dump, unsigned c
-+     TIFFGetFieldDefaulted(in, TIFFTAG_ROWSPERSTRIP, &rowsperstrip);
-+     stsize = TIFFStripSize(in);
-+     nstrips = TIFFNumberOfStrips(in);
-++    if (nstrips == 0 || stsize == 0)
-++    {
-++	TIFFError("loadImage", "File appears to be striped, but the number of stipes or stripe size is zero.");
-++	exit(-1);
-++    }
-++
-+     buffsize = stsize * nstrips;
-+-    
-++    if (stsize != (buffsize / nstrips))
-++    {
-++	TIFFError("loadImage", "Integer overflow when calculating buffer size");
-++	exit(-1);
-++    }
-++    uint32 buffsize_check;
-++    buffsize_check = ((length * width * spp * bps) + 7);
-++    if (length != ((buffsize_check - 7) / width / spp / bps))
-++    {
-++	TIFFError("loadImage", "Integer overflow detected.");
-++	exit(-1);
-++    }
-+     if (buffsize < (uint32) (((length * width * spp * bps) + 7) / 8))
-+       {
-+       buffsize =  ((length * width * spp * bps) + 7) / 8;
++ 	* tools/tiffcrop.c: Fix out-of-bounds write in loadImage().
++ 	From patch libtiff-CVE-2016-3991.patch from
++ 	libtiff-4.0.3-25.el7_2.src.rpm by Nikola Forro (bugzilla #2543)
++diff --git a/tools/rgb2ycbcr.c b/tools/rgb2ycbcr.c
++index 3829d6b..51f4259 100644
++--- a/tools/rgb2ycbcr.c
+++++ b/tools/rgb2ycbcr.c
++@@ -95,9 +95,13 @@ main(int argc, char* argv[])
++ 			break;
++ 		case 'h':
++ 			horizSubSampling = atoi(optarg);
+++            if( horizSubSampling != 1 && horizSubSampling != 2 && horizSubSampling != 4 )
+++                usage(-1);
++ 			break;
++ 		case 'v':
++ 			vertSubSampling = atoi(optarg);
+++            if( vertSubSampling != 1 && vertSubSampling != 2 && vertSubSampling != 4 )
+++                usage(-1);
++ 			break;
++ 		case 'r':
++ 			rowsperstrip = atoi(optarg);
 +-- 
 +2.7.4
 +
 diff --git a/meta/recipes-multimedia/libtiff/tiff_4.0.6.bb b/meta/recipes-multimedia/libtiff/tiff_4.0.6.bb
-index dfb2996..713cf24 100644
+index 713cf24..466dfbb 100644
 --- a/meta/recipes-multimedia/libtiff/tiff_4.0.6.bb
 +++ b/meta/recipes-multimedia/libtiff/tiff_4.0.6.bb
-@@ -12,6 +12,7 @@ SRC_URI = "http://download.osgeo.org/libtiff/tiff-${PV}.tar.gz \
-            file://CVE-2016-5323.patch \
+@@ -13,6 +13,7 @@ SRC_URI = "http://download.osgeo.org/libtiff/tiff-${PV}.tar.gz \
             file://CVE-2016-3945.patch \
             file://CVE-2016-3990.patch \
-+           file://CVE-2016-3991.patch \
+            file://CVE-2016-3991.patch \
++           file://CVE-2016-3623.patch \
            "
  
  SRC_URI[md5sum] = "d1d2e940dea0b5ad435f21f03d96dd72"
