@@ -1,27 +1,27 @@
 Return-Path: <jussi.kukkonen@intel.com>
 Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id 5AE62607A4
+	by mail.openembedded.org (Postfix) with ESMTP id 84EDE71C7D
 	for <openembedded-core@lists.openembedded.org>;
 	Wed, 26 Oct 2016 13:28:16 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga104.fm.intel.com with ESMTP; 26 Oct 2016 06:28:04 -0700
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+	by fmsmga104.fm.intel.com with ESMTP; 26 Oct 2016 06:28:07 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.31,550,1473145200"; d="scan'208";a="1076033678"
+X-IronPort-AV: E=Sophos;i="5.31,550,1473145200"; d="scan'208";a="24249114"
 Received: from linux.intel.com ([10.54.29.200])
-	by fmsmga002.fm.intel.com with ESMTP; 26 Oct 2016 06:28:00 -0700
+	by orsmga004.jf.intel.com with ESMTP; 26 Oct 2016 06:28:07 -0700
 Received: from theory.fi.intel.com (theory.fi.intel.com [10.237.72.53])
-	by linux.intel.com (Postfix) with ESMTP id A370F6A4006;
-	Wed, 26 Oct 2016 06:27:25 -0700 (PDT)
+	by linux.intel.com (Postfix) with ESMTP id 474806A4006;
+	Wed, 26 Oct 2016 06:27:33 -0700 (PDT)
 From: Jussi Kukkonen <jussi.kukkonen@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 26 Oct 2016 16:27:43 +0300
-Message-Id: <422f55b993bccbc521f23c7dca533057fd534c6c.1477488358.git.jussi.kukkonen@intel.com>
+Date: Wed, 26 Oct 2016 16:27:49 +0300
+Message-Id: <6d1742dfa941d57c9a6dcb5c1d4ec303cda022b9.1477488358.git.jussi.kukkonen@intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <a9e6d45292ddc9ff04c359ac3f2016f4ed22e548.1477488358.git.jussi.kukkonen@intel.com>
 References: <a9e6d45292ddc9ff04c359ac3f2016f4ed22e548.1477488358.git.jussi.kukkonen@intel.com>
 In-Reply-To: <cover.1477488358.git.jussi.kukkonen@intel.com>
 References: <cover.1477488358.git.jussi.kukkonen@intel.com>
-Subject: [PATCH 02/14] adwaita-icon-theme: Upgrade 3.20 -> 3.22.0
+Subject: [PATCH 08/14] at-spi2-atk: Upgrade 2.20.1 -> 2.22.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,41 +36,32 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 26 Oct 2016 13:28:16 -0000
 
-Package 512x512 icons in adwaita-icon-theme-hires.
+Six-monthly release, mostly bug fixes.
 
 Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
 ---
- .../{adwaita-icon-theme_3.20.bb => adwaita-icon-theme_3.22.0.bb}   | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
- rename meta/recipes-gnome/gnome/{adwaita-icon-theme_3.20.bb => adwaita-icon-theme_3.22.0.bb} (86%)
+ .../atk/{at-spi2-atk_2.20.1.bb => at-spi2-atk_2.22.0.bb}              | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-support/atk/{at-spi2-atk_2.20.1.bb => at-spi2-atk_2.22.0.bb} (81%)
 
-diff --git a/meta/recipes-gnome/gnome/adwaita-icon-theme_3.20.bb b/meta/recipes-gnome/gnome/adwaita-icon-theme_3.22.0.bb
-similarity index 86%
-rename from meta/recipes-gnome/gnome/adwaita-icon-theme_3.20.bb
-rename to meta/recipes-gnome/gnome/adwaita-icon-theme_3.22.0.bb
-index bb0eaeb..1cbc1e6 100644
---- a/meta/recipes-gnome/gnome/adwaita-icon-theme_3.20.bb
-+++ b/meta/recipes-gnome/gnome/adwaita-icon-theme_3.22.0.bb
-@@ -13,8 +13,8 @@ MAJ_VER = "${@oe.utils.trim_version("${PV}", 2)}"
- SRC_URI = "${GNOME_MIRROR}/${BPN}/${MAJ_VER}/${BPN}-${PV}.tar.xz \
-           "
+diff --git a/meta/recipes-support/atk/at-spi2-atk_2.20.1.bb b/meta/recipes-support/atk/at-spi2-atk_2.22.0.bb
+similarity index 81%
+rename from meta/recipes-support/atk/at-spi2-atk_2.20.1.bb
+rename to meta/recipes-support/atk/at-spi2-atk_2.22.0.bb
+index d4120b6..80ba642 100644
+--- a/meta/recipes-support/atk/at-spi2-atk_2.20.1.bb
++++ b/meta/recipes-support/atk/at-spi2-atk_2.22.0.bb
+@@ -5,8 +5,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=e9f288ba982d60518f375b5898283886"
+ MAJ_VER = "${@oe.utils.trim_version("${PV}", 2)}"
  
--SRC_URI[md5sum] = "411be2bd68dd8b0a3c86aca2eb351ce4"
--SRC_URI[sha256sum] = "7a0a887349f340dd644032f89d81264b694c4b006bd51af1c2c368d431e7ae35"
-+SRC_URI[md5sum] = "cde51d7dfcbcfa3b8cdc3e5f0df8c799"
-+SRC_URI[sha256sum] = "c18bf6e26087d9819a962c77288b291efab25d0419b73d909dd771716a45dcb7"
+ SRC_URI = "${GNOME_MIRROR}/${BPN}/${MAJ_VER}/${BPN}-${PV}.tar.xz"
+-SRC_URI[md5sum] = "23309b6f8e1623871ace6347fb734dce"
+-SRC_URI[sha256sum] = "2358a794e918e8f47ce0c7370eee8fc8a6207ff1afe976ec9ff547a03277bf8e"
++SRC_URI[md5sum] = "aa62aed21b8e03dc44ab81ae49d893ca"
++SRC_URI[sha256sum] = "e8bdedbeb873eb229eb08c88e11d07713ec25ae175251648ad1a9da6c21113c1"
  
- do_install_append() {
- 	# Build uses gtk-encode-symbolic-svg to create png versions:
-@@ -36,6 +36,7 @@ FILES_${PN}-symbolic-hires = "${prefix}/share/icons/Adwaita/96x96/*/*.symbolic.p
-                               ${prefix}/share/icons/Adwaita/32x32/*/*.symbolic.png"
- FILES_${PN}-symbolic = "${prefix}/share/icons/Adwaita/16x16/*/*.symbolic.png \
-                         ${prefix}/share/icons/Adwaita/24x24/*/*.symbolic.png"
--FILES_${PN}-hires = "${prefix}/share/icons/Adwaita/256x256/"
-+FILES_${PN}-hires = "${prefix}/share/icons/Adwaita/256x256/ \
-+                     ${prefix}/share/icons/Adwaita/512x512/"
- FILES_${PN} = "${prefix}/share/icons/Adwaita/ \
-                ${prefix}/share/pkgconfig/adwaita-icon-theme.pc"
+ DEPENDS = "dbus glib-2.0 atk at-spi2-core"
+ 
 -- 
 2.1.4
 
