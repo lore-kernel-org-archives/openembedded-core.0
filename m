@@ -1,47 +1,47 @@
-Return-Path: <ulfalizer@gmail.com>
-Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
-	by mail.openembedded.org (Postfix) with ESMTP id A2BF66013D
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-ua0-f194.google.com (mail-ua0-f194.google.com
+	[209.85.217.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 906DE60053
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Oct 2016 17:39:11 +0000 (UTC)
-Received: by mail-wm0-f65.google.com with SMTP id d128so4206523wmf.0
+	Wed, 26 Oct 2016 23:54:39 +0000 (UTC)
+Received: by mail-ua0-f194.google.com with SMTP id 12so715137uas.3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Oct 2016 10:39:13 -0700 (PDT)
+	Wed, 26 Oct 2016 16:54:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=do3cF612N9KoyHZCG8f4WCxVT88iz/IVxiDlu09eNjY=;
-	b=rORG7HNaeD1TY3g+zIa4uyIH2qqkYSSqx+kCB5X2DczGWJh9DGoT22PVhntjC8nrN3
-	Dxj0YBlKWsuDGHUzPtjOUH4KD89A5tAz5mhnYyVrGVq/OW4S+NKnG0dzvNvbpLGIxwnT
-	4ttRA9wVx3aN0x+L/3AC29q4gBdLvsFKeS9uNP4s4+My6J5J1XvcFHejyJFvr13yT628
-	tpF6aeYIkJEBTLZZJv/GzQSkmAal0BZGU7yPyjia4xUI1Lvi58MUXK2wQABCs+I33ceW
-	QpSKB1Sje3OUYg82nPWExWI1t8JjeNYPjBA73JNX/7XAGyYPMuocnnm0tUqHJlTSlHVd
-	oA6A==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=siCG4UnVCnRQMvcv8vQDFpiWfda02cv6X7FGF7WDq8M=;
+	b=SYpGK0mgimO6c1GA7KIdbkJsxOmOz0/W8hvHb5nH8vBz80wJ7u9FacfrxjsET/ZQUu
+	PFYmHIS39LFN8BdgqjsrZsfJtPHbSk4molir9omBB+mfEL5vjA6B0yTJz5zRm67qlGnL
+	Ve4sc27oMMV9SA2vhBw3goaeiiXXvtSyt7r1qd30h+nxwurkDxALifJXo7qiBv2hHG8C
+	EZ7XAdk2PcV+PjPweoXnYS0jobjebJgOBOtWMwGGD4EmaBBJvINan83xcdX2R2Y8OFHr
+	Do7X3NXN6KGlwjHgABf5JOmJermr6q+FKjIV65nXZVp3oPDdm5vrA31SpRphUboRcsxF
+	csHg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=do3cF612N9KoyHZCG8f4WCxVT88iz/IVxiDlu09eNjY=;
-	b=dRAqBWRrHR57IjdBe1GABIB2uEIOrFVT1wxp9EU17+EdD9uo3i9HnWoV4grdh5E/rh
-	1K5s/tpz+tdC4YJ+T2jw839LTS11teiAhlUaRywxqW5bkiB5HBMl0JVEAJhgdSMavOn5
-	u+hWDcR/42z5UhKlXkwhfNnaUnFzAoxLtd1xVqLLz49QLEPV79n3TeZuvkHuN5A2cGJ9
-	FHaZulPgEKYybxTKH1/WQhB1Ib25kZ3kjIIGyhB2cBNUtqaG3VByDgsMJq24mGsXWRO7
-	uDnjKl7OtcSk1Sne0P3jCuubO3hR4/giSCZc7cuuqlY1X+Ow/K4dnOMMUcPUapsUPjIn
-	EEVg==
-X-Gm-Message-State: ABUngvdqHwYh9aCT9qLXuGKoiRZ/ysC7MrloyFBG6dlG9BFjQPShYSZRqowyYddzhISz/Q==
-X-Received: by 10.28.38.2 with SMTP id m2mr10229777wmm.102.1477503552745;
-	Wed, 26 Oct 2016 10:39:12 -0700 (PDT)
-Received: from huvuddator.home ([2a02:810d:1f40:230:4956:ab83:2adb:d88a])
-	by smtp.gmail.com with ESMTPSA id
-	pe5sm3801657wjb.15.2016.10.26.10.39.11
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 26 Oct 2016 10:39:12 -0700 (PDT)
-From: Ulf Magnusson <ulfalizer@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 26 Oct 2016 19:39:04 +0200
-Message-Id: <1477503544-13794-2-git-send-email-ulfalizer@gmail.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1477503544-13794-1-git-send-email-ulfalizer@gmail.com>
-References: <1477503544-13794-1-git-send-email-ulfalizer@gmail.com>
-Subject: [PATCH v2 1/1] package.bbclass: Remove unused variables and imports
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=siCG4UnVCnRQMvcv8vQDFpiWfda02cv6X7FGF7WDq8M=;
+	b=IkdMg/zY5ajF7cS/Rt9Ove0XAlc+tu1zjpQfrCnnlW1ZqEuyX1yVXMnk/RzFPMbjcE
+	98pTcmtuwESH1YP6pHjr7f5SlSsCwbpWX9aLs8S06jS4i9YJf+fHKBLJNICDSg0GqNf3
+	IW1SMN9Fhm2VozX7oZ5o6nJyNjX1yDLxb9fCeM7R1RPZ3NdHfqi/xs4jvkk/us2T1YoL
+	qmJNWrHDHNLoDQv86yyYvjf2/srspkXUiDbSvzyv2TcWTv8xOkCf0qgCP14rZZAQISSu
+	disMU3xekbRwCEEVZLMHaLS7Yo0kYlPGVaKaVo9xvO7rJYBcydaeBuYR3c6tqxiMixSX
+	K38w==
+X-Gm-Message-State: ABUngve/ANTQjxvb4I6wavCBrXrL1KaujAtdC38zWnKa8+votTJ1v4fklwN0dTox32N/QgNaoNL/uw9ZM6VVrg==
+X-Received: by 10.159.55.200 with SMTP id q66mr3621144uaq.107.1477526081238;
+	Wed, 26 Oct 2016 16:54:41 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.176.5.136 with HTTP; Wed, 26 Oct 2016 16:54:10 -0700 (PDT)
+In-Reply-To: <20161026092715.GA2297@linux.intel.com>
+References: <20161026015017.13160-1-raj.khem@gmail.com>
+	<20161026092715.GA2297@linux.intel.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 26 Oct 2016 16:54:10 -0700
+Message-ID: <CAMKF1sqHUr7MKMQs09=mKVNdiEtrqEPWd2ikODzANyLSE7JkMQ@mail.gmail.com>
+To: Ed Bartosh <ed.bartosh@linux.intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] wic: Add dosfstools-native mtools-native to dependencies
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,87 +54,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 26 Oct 2016 17:39:13 -0000
+X-List-Received-Date: Wed, 26 Oct 2016 23:54:40 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Probably leftovers. Verified with a full core-image-sato build. For
-imports, I tried to find helper functions that might use an import from
-the parent function as well.
+On Wed, Oct 26, 2016 at 2:27 AM, Ed Bartosh <ed.bartosh@linux.intel.com> wrote:
+> Hi Khem,
+>
+> On Tue, Oct 25, 2016 at 06:50:17PM -0700, Khem Raj wrote:
+>> these tools are needed for building wic images for some
+>> boards e.g. overo/gumstix
+> NAK
+>
+> Usage of native tools depends on .wks content: modules, partition types,
+> etc. Your change will cause unnecessary build activity for some
+> machines/wks files where those tools are not used.
+>
+> I'd suggest to put these dependencies to board-dependent meta.
+> Please, look how it's done for genericx86, beaglebone and edgerouter:
+> https://git.yoctoproject.org/cgit/cgit.cgi/poky/tree/meta-yocto-bsp/conf/machine/include/genericx86-common.inc
+> https://git.yoctoproject.org/cgit/cgit.cgi/poky/tree/meta-yocto-bsp/conf/machine/beaglebone.conf
+> https://git.yoctoproject.org/cgit/cgit.cgi/poky/tree/meta-yocto-bsp/conf/machine/edgerouter.conf
+>
+yes, agreed, I was trying to see if it could be made easy for using
+wic out of box but then there
+are many machine specific deps would make it futile I guess.
 
-Signed-off-by: Ulf Magnusson <ulfalizer@gmail.com>
----
- meta/classes/package.bbclass | 13 +------------
- 1 file changed, 1 insertion(+), 12 deletions(-)
-
-diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
-index a6f0a7a..3d5b981 100644
---- a/meta/classes/package.bbclass
-+++ b/meta/classes/package.bbclass
-@@ -335,7 +335,6 @@ def splitdebuginfo(file, debugfile, debugsrcdir, sourcefile, d):
- 
-     import stat
- 
--    dvar = d.getVar('PKGD', True)
-     objcopy = d.getVar("OBJCOPY", True)
-     debugedit = d.expand("${STAGING_LIBDIR_NATIVE}/rpm/bin/debugedit")
- 
-@@ -378,14 +377,9 @@ def copydebugsources(debugsrcdir, d):
-     # The debug src information written out to sourcefile is further procecessed
-     # and copied to the destination here.
- 
--    import stat
--
-     sourcefile = d.expand("${WORKDIR}/debugsources.list")
-     if debugsrcdir and os.path.isfile(sourcefile):
-         dvar = d.getVar('PKGD', True)
--        strip = d.getVar("STRIP", True)
--        objcopy = d.getVar("OBJCOPY", True)
--        debugedit = d.expand("${STAGING_LIBDIR_NATIVE}/rpm/bin/debugedit")
-         workdir = d.getVar("WORKDIR", True)
-         workparentdir = os.path.dirname(os.path.dirname(workdir))
-         workbasedir = os.path.basename(os.path.dirname(workdir)) + "/" + os.path.basename(workdir)
-@@ -489,7 +483,6 @@ def runtime_mapping_rename (varname, pkg, d):
- 
- python package_get_auto_pr() {
-     import oe.prservice
--    import re
- 
-     # Support per recipe PRSERV_HOST
-     pn = d.getVar('PN', True)
-@@ -1024,7 +1017,7 @@ python split_and_strip_files () {
-             fpath = dvar + dest
-             # Skip it if the target doesn't exist
-             try:
--                s = os.stat(fpath)
-+                os.stat(fpath)
-             except OSError as e:
-                 (err, strerror) = e.args
-                 if err != errno.ENOENT:
-@@ -1073,8 +1066,6 @@ python split_and_strip_files () {
- }
- 
- python populate_packages () {
--    import glob, re
--
-     workdir = d.getVar('WORKDIR', True)
-     outdir = d.getVar('DEPLOY_DIR', True)
-     dvar = d.getVar('PKGD', True)
-@@ -1219,7 +1210,6 @@ python populate_packages () {
- populate_packages[dirs] = "${D}"
- 
- python package_fixsymlinks () {
--    import errno
-     pkgdest = d.getVar('PKGDEST', True)
-     packages = d.getVar("PACKAGES", False).split()
- 
-@@ -1630,7 +1620,6 @@ python package_do_shlibs() {
-         sonames = list()
-         renames = list()
-         for file in pkgfiles[pkg]:
--                soname = None
-                 if cpath.islink(file):
-                     continue
-                 if targetos == "darwin" or targetos == "darwin8":
--- 
-2.7.4
-
+>> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+>> ---
+>>  meta/classes/image_types.bbclass | 2 +-
+>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
+>> index a7fffbc..be7e38c 100644
+>> --- a/meta/classes/image_types.bbclass
+>> +++ b/meta/classes/image_types.bbclass
+>> @@ -298,7 +298,7 @@ IMAGE_DEPENDS_elf = "virtual/kernel mkelfimage-native"
+>>  IMAGE_DEPENDS_ubi = "mtd-utils-native"
+>>  IMAGE_DEPENDS_ubifs = "mtd-utils-native"
+>>  IMAGE_DEPENDS_multiubi = "mtd-utils-native"
+>> -IMAGE_DEPENDS_wic = "parted-native"
+>> +IMAGE_DEPENDS_wic = "parted-native dosfstools-native mtools-native"
+>>
+>>  # This variable is available to request which values are suitable for IMAGE_FSTYPES
+>>  IMAGE_TYPES = " \
+>> --
+>> 2.10.1
+>>
+>> --
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+> --
+> Regards,
+> Ed
 
