@@ -1,46 +1,27 @@
-Return-Path: <ulfalizer@gmail.com>
-Received: from mail-ua0-f195.google.com (mail-ua0-f195.google.com
-	[209.85.217.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 52C19719CE
+Return-Path: <jussi.kukkonen@intel.com>
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+	by mail.openembedded.org (Postfix) with ESMTP id 7F7EE607A4
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Oct 2016 13:16:30 +0000 (UTC)
-Received: by mail-ua0-f195.google.com with SMTP id 6so202614uat.1
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Oct 2016 06:16:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=loFwRSCjZUwsYBMP+xbbS7A+LcX29PmasIdM7rAHAvg=;
-	b=L4R2Uuv8N+lMzDcsHyWjQFaNTyKkp1XlGVrkLxQkWZXWeODoverETOIC2euxAThf0v
-	StJkpY0tb3vyortZOHgzLb4I+zLaMf12UEDEC8nu6ta1Jn7HTxr8vC9MPvzSJd8+LdQw
-	tReNuQoa0lbRx0gvUjuSt8Dfj5yF0e6pKX7Unu75ISnLNTXdVG2b08JajdXuHypG4vlz
-	tB/Yf2ntnaSeZdrfM2MHOMnXHODpw6N/u7qQUZjWAgqSm/g4Uq3g1y5SC7U2Cg0ry7BD
-	rC42aQvx1VlkL9KBnQt/irJLSwGoq7oRgZFQPqFkZ6E3TFgZ8jAki3Rz336qzjXI3tVP
-	mWdA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=loFwRSCjZUwsYBMP+xbbS7A+LcX29PmasIdM7rAHAvg=;
-	b=RvITRKXIFhP50FGBNDtAFra+q4nJeMSy3TvK9QttSPaEjZ8jWwV5P2P5pFUtRprxQY
-	jGMM1z7YPtm8gwyqn+Ub0GYIyEMUUmkIIN48oUA0PGwg6psl1/psSy8VgJW35TVlZDfN
-	aCSAD6gKZfrDZpDB+/7dTb+xm1SlBpcmt8WBtzsPRwLCVQ7pXWZjlg3mTaI6tRuIYRh8
-	zq622Z3U8025vS3WKK8wh3WRZIpBNtZqG1IWpwDSgXese52I4B+OfgvU4iPtk75Zf5fC
-	pi5MqZpLCfPtS1mEuqEIaxyp95XBErvdSOhLFrkEkUioeD/5iJ/+YfNwPQdCOoXkkrPO
-	8sLA==
-X-Gm-Message-State: ABUngvfouxBY6yKKRV2K0CM1pxYcI8WfgK+ewVKQan7IcAQ5FP8+E9KXIBUG2fz+iwXhyxL2LDpEbrHzZFJ4Gg==
-X-Received: by 10.176.3.203 with SMTP id 69mr900821uau.91.1477487791371; Wed,
-	26 Oct 2016 06:16:31 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.103.153.194 with HTTP; Wed, 26 Oct 2016 06:16:30 -0700 (PDT)
-In-Reply-To: <1477464673-6184-1-git-send-email-michael.blaettler@siemens.com>
-References: <1477464673-6184-1-git-send-email-michael.blaettler@siemens.com>
-From: Ulf Magnusson <ulfalizer@gmail.com>
-Date: Wed, 26 Oct 2016 15:16:30 +0200
-Message-ID: <CAFkk2KQ8ErNVTZ22TyLQLK6aJ64y95=snp_8Fspu6qf+AWjRjA@mail.gmail.com>
-To: =?UTF-8?Q?Michael_Bl=C3=A4ttler?= <michael.blaettler@siemens.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v3] package.py: New EXTRA_STRIPFLAGS variable
+	Wed, 26 Oct 2016 13:28:01 +0000 (UTC)
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+	by orsmga104.jf.intel.com with ESMTP; 26 Oct 2016 06:28:02 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.31,550,1473145200"; d="scan'208";a="23939317"
+Received: from linux.intel.com ([10.54.29.200])
+	by orsmga005.jf.intel.com with ESMTP; 26 Oct 2016 06:28:02 -0700
+Received: from theory.fi.intel.com (theory.fi.intel.com [10.237.72.53])
+	by linux.intel.com (Postfix) with ESMTP id 1ABA76A4006;
+	Wed, 26 Oct 2016 06:27:27 -0700 (PDT)
+From: Jussi Kukkonen <jussi.kukkonen@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 26 Oct 2016 16:27:45 +0300
+Message-Id: <82ad55565920ef03325fc5a4c7e42f5be03abaa0.1477488358.git.jussi.kukkonen@intel.com>
+X-Mailer: git-send-email 2.1.4
+In-Reply-To: <a9e6d45292ddc9ff04c359ac3f2016f4ed22e548.1477488358.git.jussi.kukkonen@intel.com>
+References: <a9e6d45292ddc9ff04c359ac3f2016f4ed22e548.1477488358.git.jussi.kukkonen@intel.com>
+In-Reply-To: <cover.1477488358.git.jussi.kukkonen@intel.com>
+References: <cover.1477488358.git.jussi.kukkonen@intel.com>
+Subject: [PATCH 04/14] glib-2.0: Upgrade 2.48.2 -> 2.50.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,110 +34,110 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 26 Oct 2016 13:16:33 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 26 Oct 2016 13:28:01 -0000
 
-Hello,
+Six-monthly feature release.
 
-On Wed, Oct 26, 2016 at 8:51 AM, Michael Bl=C3=A4ttler
-<michael.blaettler@siemens.com> wrote:
-> The EXTRA_STRIPFLAGS variable can be used to pass additional parameters t=
-o the strip command.
-> This can be used to remove additional sections or to keep symbols.
-> The removal of additional sections can be useful to enable reproducible b=
-uilds.
-> Sections which contain paths or md5sums of the debug binaries (like gnu_d=
-ebuglink)
-> can be eliminated with this flag.
->
-> Signed-off-by: Pascal Bach <pascal.bach@siemens.com>
-> Signed-off-by: Michael Bl=C3=A4ttler <michael.blaettler@siemens.com>
-> ---
->  meta/classes/package.bbclass |  5 +++--
->  meta/lib/oe/package.py       | 12 +++++-------
->  2 files changed, 8 insertions(+), 9 deletions(-)
->
-> diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
-> index a6f0a7a..7e1c5c3 100644
-> --- a/meta/classes/package.bbclass
-> +++ b/meta/classes/package.bbclass
-> @@ -1055,14 +1055,15 @@ python split_and_strip_files () {
->      # Now lets go back over things and strip them
->      #
->      if (d.getVar('INHIBIT_PACKAGE_STRIP', True) !=3D '1'):
-> +        extraflags =3D d.getVar('EXTRA_STRIPFLAGS', True) or ''
->          strip =3D d.getVar("STRIP", True)
->          sfiles =3D []
->          for file in elffiles:
->              elf_file =3D int(elffiles[file])
->              #bb.note("Strip %s" % file)
-> -            sfiles.append((file, elf_file, strip))
-> +            sfiles.append((file, elf_file, strip, extraflags))
->          for f in kernmods:
-> -            sfiles.append((f, 16, strip))
-> +            sfiles.append((f, 16, strip, extraflags))
->
->          oe.utils.multiprocess_exec(sfiles, oe.package.runstrip)
->
-> diff --git a/meta/lib/oe/package.py b/meta/lib/oe/package.py
-> index 02642f2..ab5f616 100644
-> --- a/meta/lib/oe/package.py
-> +++ b/meta/lib/oe/package.py
-> @@ -10,7 +10,7 @@ def runstrip(arg):
->
->      import stat, subprocess
->
-> -    (file, elftype, strip) =3D arg
-> +    (file, elftype, strip, extraflags) =3D arg
->
->      newmode =3D None
->      if not os.access(file, os.W_OK) or os.access(file, os.R_OK):
-> @@ -18,17 +18,15 @@ def runstrip(arg):
->          newmode =3D origmode | stat.S_IWRITE | stat.S_IREAD
->          os.chmod(file, newmode)
->
-> -    extraflags =3D ""
-> -
-> -    # kernel module
-> +    # kernel module
->      if elftype & 16:
-> -        extraflags =3D "--strip-debug --remove-section=3D.comment --remo=
-ve-section=3D.note --preserve-dates"
-> +        extraflags +=3D " --strip-debug --remove-section=3D.comment --re=
-move-section=3D.note --preserve-dates"
->      # .so and shared library
->      elif ".so" in file and elftype & 8:
-> -        extraflags =3D "--remove-section=3D.comment --remove-section=3D.=
-note --strip-unneeded"
-> +        extraflags +=3D " --remove-section=3D.comment --remove-section=
-=3D.note --strip-unneeded"
->      # shared or executable:
->      elif elftype & 8 or elftype & 4:
-> -        extraflags =3D "--remove-section=3D.comment --remove-section=3D.=
-note"
-> +        extraflags +=3D " --remove-section=3D.comment --remove-section=
-=3D.note"
+glib-2.0-utils now includes "gio" command line utility.
 
-Another approach would be to use STRIPFLAGS and
-STRIPFLAGS_EXTRA_{MODULE,SO,EXE} variables with default values in
-metadata. Not sure if that's overengineering things for little benefit
-though.
+Drop a patch that's now upstream. Add PACKAGECONFIG for libmount,
+enabled by default.
 
->
->      stripcmd =3D "'%s' %s '%s'" % (strip, extraflags, file)
->      bb.debug(1, "runstrip: %s" % stripcmd)
-> --
-> 2.1.4
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
+---
+ .../glib-2.0/0002-tests-Ignore-y2k-warnings.patch  | 42 ----------------------
+ .../{glib-2.0_2.48.2.bb => glib-2.0_2.50.1.bb}     |  5 ++-
+ meta/recipes-core/glib-2.0/glib.inc                |  3 +-
+ 3 files changed, 4 insertions(+), 46 deletions(-)
+ delete mode 100644 meta/recipes-core/glib-2.0/glib-2.0/0002-tests-Ignore-y2k-warnings.patch
+ rename meta/recipes-core/glib-2.0/{glib-2.0_2.48.2.bb => glib-2.0_2.50.1.bb} (82%)
 
-Looks fine to me codewise now, though I haven't tested it.
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0/0002-tests-Ignore-y2k-warnings.patch b/meta/recipes-core/glib-2.0/glib-2.0/0002-tests-Ignore-y2k-warnings.patch
+deleted file mode 100644
+index f61fa0a..0000000
+--- a/meta/recipes-core/glib-2.0/glib-2.0/0002-tests-Ignore-y2k-warnings.patch
++++ /dev/null
+@@ -1,42 +0,0 @@
+-From b06b22fecc7deda8c65e28670562ca2371e4e725 Mon Sep 17 00:00:00 2001
+-From: Khem Raj <raj.khem@gmail.com>
+-Date: Sat, 16 Apr 2016 13:43:54 -0700
+-Subject: [PATCH 2/2] tests: Ignore y2k warnings
+-
+-silences
+-| ../../../../../../../../workspace/sources/glib-2.0/glib/tests/gdatetime.c: In function 'test_strftime':
+-| ../../../../../../../../workspace/sources/glib-2.0/glib/tests/gdatetime.c:1338:3: error: '%c' yields only last 2 digits of year in some locales [-Werror=format-y2k]
+-|    "a%a A%A b%b B%B c%c C%C d%d e%e F%F g%g G%G h%h H%H I%I j%j m%m M%M "
+-
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+----
+-Upstream-Status: Submitted
+-
+- glib/tests/gdatetime.c | 4 ++++
+- 1 file changed, 4 insertions(+)
+-
+-diff --git a/glib/tests/gdatetime.c b/glib/tests/gdatetime.c
+-index 16a163c..e6062fc 100644
+---- a/glib/tests/gdatetime.c
+-+++ b/glib/tests/gdatetime.c
+-@@ -1326,6 +1326,9 @@ test_z (void)
+-   g_time_zone_unref (tz);
+- }
+- 
+-+#pragma GCC diagnostic push
+-+#pragma GCC diagnostic ignored "-Wformat-y2k"
+-+
+- static void
+- test_strftime (void)
+- {
+-@@ -1351,6 +1354,7 @@ test_strftime (void)
+-     }
+- #endif
+- }
+-+#pragma GCC diagnostic pop
+- 
+- static void
+- test_find_interval (void)
+--- 
+-2.8.0
+-
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.48.2.bb b/meta/recipes-core/glib-2.0/glib-2.0_2.50.1.bb
+similarity index 82%
+rename from meta/recipes-core/glib-2.0/glib-2.0_2.48.2.bb
+rename to meta/recipes-core/glib-2.0/glib-2.0_2.50.1.bb
+index a45f644..00ae7ef 100644
+--- a/meta/recipes-core/glib-2.0/glib-2.0_2.48.2.bb
++++ b/meta/recipes-core/glib-2.0/glib-2.0_2.50.1.bb
+@@ -16,11 +16,10 @@ SRC_URI = "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-${PV}.tar.xz \
+            file://gi-exclude.patch \
+            file://0001-Install-gio-querymodules-as-libexec_PROGRAM.patch \
+            file://0001-Do-not-ignore-return-value-of-write.patch \
+-           file://0002-tests-Ignore-y2k-warnings.patch \
+            "
+ 
+ SRC_URI_append_class-native = " file://glib-gettextize-dir.patch \
+                                 file://relocate-modules.patch"
+ 
+-SRC_URI[md5sum] = "f4ac1aa2efd4f5798c37625ea697ac57"
+-SRC_URI[sha256sum] = "f25e751589cb1a58826eac24fbd4186cda4518af772806b666a3f91f66e6d3f4"
++SRC_URI[md5sum] = "6baee4d7e3b1ec791b4ced93976365ee"
++SRC_URI[sha256sum] = "2ef87a78f37c1eb5b95f4cc95efd5b66f69afad9c9c0899918d04659cf6df7dd"
+diff --git a/meta/recipes-core/glib-2.0/glib.inc b/meta/recipes-core/glib-2.0/glib.inc
+index 906e0d4..acac0ba 100644
+--- a/meta/recipes-core/glib-2.0/glib.inc
++++ b/meta/recipes-core/glib-2.0/glib.inc
+@@ -30,9 +30,10 @@ inherit autotools gettext gtk-doc pkgconfig ptest-gnome upstream-version-is-even
+ 
+ S = "${WORKDIR}/glib-${PV}"
+ 
+-PACKAGECONFIG ??= "system-pcre"
++PACKAGECONFIG ??= "system-pcre libmount"
+ # To use the system pcre it must be configured with --enable-unicode-properties
+ PACKAGECONFIG[system-pcre] = "--with-pcre=system,--with-pcre=internal,libpcre"
++PACKAGECONFIG[libmount] = "--enable-libmount,--disable-libmount,util-linux"
+ 
+ CORECONF = "--disable-dtrace --disable-fam --disable-libelf --disable-systemtap --disable-man"
+ 
+-- 
+2.1.4
 
-Cheers,
-Ulf
 
