@@ -1,26 +1,26 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id C03A071AFD
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 557A76003C
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Oct 2016 02:31:21 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u9Q2VLIe023662
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 25 Oct 2016 19:31:21 -0700 (PDT)
-Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.294.0;
-	Tue, 25 Oct 2016 19:31:21 -0700
-From: Hongxu Jia <hongxu.jia@windriver.com>
-To: <openembedded-core@lists.openembedded.org>, <ross.burton@intel.com>,
-	<richard.purdie@linuxfoundation.org>
-Date: Tue, 25 Oct 2016 22:31:17 -0400
-Message-ID: <f1a7d03a68bf628db677027d48281c55f2b8dfba.1477448814.git.hongxu.jia@windriver.com>
-X-Mailer: git-send-email 2.8.1
-In-Reply-To: <cover.1477448814.git.hongxu.jia@windriver.com>
-References: <cover.1477448814.git.hongxu.jia@windriver.com>
+	Wed, 26 Oct 2016 03:07:31 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u9Q37WGO014840
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 25 Oct 2016 20:07:33 -0700
+Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.209) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.294.0; Tue, 25 Oct 2016 20:07:32 -0700
+From: Chen Qi <Qi.Chen@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 26 Oct 2016 11:07:40 +0800
+Message-ID: <9edffac4c64f48743c45304c8a04ff8bd40c8e9d.1477449270.git.Qi.Chen@windriver.com>
+X-Mailer: git-send-email 1.9.1
+In-Reply-To: <cover.1477449270.git.Qi.Chen@windriver.com>
+References: <cover.1477449270.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/1] fontcache: fix fonts postinst failed
+Subject: [PATCH 1/1] perl: remove plan9 related stuff in perl-ptest package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,55 +33,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 26 Oct 2016 02:31:21 -0000
+X-List-Received-Date: Wed, 26 Oct 2016 03:07:32 -0000
 Content-Type: text/plain
 
-While instal liberation-fonts to image, the fonts postinst
-failed at do_rootfs time:
------------------------------------------------
-|WARNING: core-image-minimal-1.0-r0 do_rootfs: The postinstall intercept hook
-'update_font_cache' failed (exit code: 139)! See log for details!
-|WARNING: core-image-minimal-1.0-r0 do_rootfs: The postinstalls for the
-following packages will be postponed for first boot: liberation-fonts
------------------------------------------------
+Remove plan9 related stuff as they are useless for linux systems.
 
-Since the following commit applied in oe-core
------------------------------------------------
-commit ce1e7fcc60276040477c1d5e3129e029bb9f204b
-Author: Richard Purdie <richard.purdie@linuxfoundation.org>
-Date:   Fri Sep 30 17:43:23 2016 +0100
-
-    allarch: Fixes to stop rebuilds when change multilibs
------------------------------------------------
-It assignes base_libdir="/none" which caused fonts postinst failed at
-do_rootfs.
-
-The fonts postinst invoke qemu to update font cache which requires
-base_libdir arch relative(such as base_libdir="/lib64").
-
-We refer what meta/conf/multilib.conf does, assign it with arch relative.
-
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 ---
- meta/classes/fontcache.bbclass | 4 ++++
- 1 file changed, 4 insertions(+)
+ meta/recipes-devtools/perl/perl-ptest.inc | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/meta/classes/fontcache.bbclass b/meta/classes/fontcache.bbclass
-index 8ebdfc4..ce22170 100644
---- a/meta/classes/fontcache.bbclass
-+++ b/meta/classes/fontcache.bbclass
-@@ -38,6 +38,10 @@ python () {
+diff --git a/meta/recipes-devtools/perl/perl-ptest.inc b/meta/recipes-devtools/perl/perl-ptest.inc
+index d136c5c..8dfc179 100644
+--- a/meta/recipes-devtools/perl/perl-ptest.inc
++++ b/meta/recipes-devtools/perl/perl-ptest.inc
+@@ -23,7 +23,8 @@ do_install_ptest () {
+ 	    ${D}${PTEST_PATH}/lib/Config.pm
+ 
+ 	ln -sf ${bindir}/perl ${D}${PTEST_PATH}/t/perl
+-
++	# Remove plan9 related stuff
++	rm -rf ${D}${PTEST_PATH}/plan9 ${D}${PTEST_PATH}/README.plan9 ${D}${PTEST_PATH}/pod/perlplan9.pod
  }
  
- python add_fontcache_postinsts() {
-+    baselib = d.getVar('BASE_LIB_tune-' + (d.getVar('DEFAULTTUNE', True) or 'INVALID'), True) or \
-+              d.getVar('BASELIB', True)
-+    d.setVar("baselib", baselib)
-+
-     for pkg in d.getVar('FONT_PACKAGES', True).split():
-         bb.note("adding fonts postinst and postrm scripts to %s" % pkg)
-         postinst = d.getVar('pkg_postinst_%s' % pkg, True) or d.getVar('pkg_postinst', True)
+ python populate_packages_prepend() {
 -- 
-2.8.1
+1.9.1
 
 
