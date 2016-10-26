@@ -1,27 +1,27 @@
 Return-Path: <jussi.kukkonen@intel.com>
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-	by mail.openembedded.org (Postfix) with ESMTP id A6A1C71B7C
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 3D0EA71B7C
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Oct 2016 08:37:45 +0000 (UTC)
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-	by fmsmga105.fm.intel.com with ESMTP; 26 Oct 2016 01:37:47 -0700
+	Wed, 26 Oct 2016 08:37:46 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga103.jf.intel.com with ESMTP; 26 Oct 2016 01:37:49 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.31,549,1473145200"; d="scan'208";a="23758386"
+X-IronPort-AV: E=Sophos;i="5.31,549,1473145200"; d="scan'208";a="1059303002"
 Received: from linux.intel.com ([10.54.29.200])
-	by fmsmga006.fm.intel.com with ESMTP; 26 Oct 2016 01:37:46 -0700
+	by fmsmga001.fm.intel.com with ESMTP; 26 Oct 2016 01:37:48 -0700
 Received: from theory.fi.intel.com (theory.fi.intel.com [10.237.72.53])
-	by linux.intel.com (Postfix) with ESMTP id 548DA6A4006;
-	Wed, 26 Oct 2016 01:37:12 -0700 (PDT)
+	by linux.intel.com (Postfix) with ESMTP id AF02C6A4006;
+	Wed, 26 Oct 2016 01:37:13 -0700 (PDT)
 From: Jussi Kukkonen <jussi.kukkonen@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 26 Oct 2016 11:37:26 +0300
-Message-Id: <36527969cc55209885ef4837c0fae3acd8fc2259.1477469885.git.jussi.kukkonen@intel.com>
+Date: Wed, 26 Oct 2016 11:37:27 +0300
+Message-Id: <89319fe7c306ce720b23c99719de882b0b9a58c9.1477469885.git.jussi.kukkonen@intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <b4be4ec82b3f01924e2fb87dc868f56284d0a8cf.1477469885.git.jussi.kukkonen@intel.com>
 References: <b4be4ec82b3f01924e2fb87dc868f56284d0a8cf.1477469885.git.jussi.kukkonen@intel.com>
 In-Reply-To: <cover.1477469885.git.jussi.kukkonen@intel.com>
 References: <cover.1477469885.git.jussi.kukkonen@intel.com>
-Subject: [PATCHv2 03/16] libdrm: Upgrade 2.4.70 -> 2.4.71
+Subject: [PATCHv2 04/16] xf86-input-libinput: Upgrade 0.19.0 -> 0.22.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,34 +34,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 26 Oct 2016 08:37:45 -0000
+X-List-Received-Date: Wed, 26 Oct 2016 08:37:47 -0000
 
-Mostly a bug fix release.
+Bug fixes and some added configuration support.
 
 Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
 ---
- meta/recipes-graphics/drm/{libdrm_2.4.70.bb => libdrm_2.4.71.bb} | 4 ++--
+ .../{xf86-input-libinput_0.19.0.bb => xf86-input-libinput_0.22.0.bb}  | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-graphics/drm/{libdrm_2.4.70.bb => libdrm_2.4.71.bb} (93%)
+ rename meta/recipes-graphics/xorg-driver/{xf86-input-libinput_0.19.0.bb => xf86-input-libinput_0.22.0.bb} (63%)
 
-diff --git a/meta/recipes-graphics/drm/libdrm_2.4.70.bb b/meta/recipes-graphics/drm/libdrm_2.4.71.bb
-similarity index 93%
-rename from meta/recipes-graphics/drm/libdrm_2.4.70.bb
-rename to meta/recipes-graphics/drm/libdrm_2.4.71.bb
-index a2b5282..d7ca4a9 100644
---- a/meta/recipes-graphics/drm/libdrm_2.4.70.bb
-+++ b/meta/recipes-graphics/drm/libdrm_2.4.71.bb
-@@ -16,8 +16,8 @@ SRC_URI = "http://dri.freedesktop.org/libdrm/${BP}.tar.bz2 \
-            file://0001-configure.ac-Allow-explicit-enabling-of-cunit-tests.patch \
-           "
+diff --git a/meta/recipes-graphics/xorg-driver/xf86-input-libinput_0.19.0.bb b/meta/recipes-graphics/xorg-driver/xf86-input-libinput_0.22.0.bb
+similarity index 63%
+rename from meta/recipes-graphics/xorg-driver/xf86-input-libinput_0.19.0.bb
+rename to meta/recipes-graphics/xorg-driver/xf86-input-libinput_0.22.0.bb
+index 5e5c471..a102bbf 100644
+--- a/meta/recipes-graphics/xorg-driver/xf86-input-libinput_0.19.0.bb
++++ b/meta/recipes-graphics/xorg-driver/xf86-input-libinput_0.22.0.bb
+@@ -5,7 +5,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=5e6b20ea2ef94a998145f0ea3f788ee0"
  
--SRC_URI[md5sum] = "920957cfe25a80efb02be9bd90bf3c1e"
--SRC_URI[sha256sum] = "b17d4b39ed97ca0e4cffa0db06ff609e617bac94646ec38e8e0579d530540e7b"
-+SRC_URI[md5sum] = "776bccc84618b616fc57a7143836ae7a"
-+SRC_URI[sha256sum] = "c66287ddeee5f46ea8f8880b94b80acb3bbc33ba6321d17767eef145046df9b8"
+ DEPENDS += "libinput"
  
- inherit autotools pkgconfig
+-SRC_URI[md5sum] = "52c38b1369764243bfcf6ead1e4c6d32"
+-SRC_URI[sha256sum] = "6c5d30dc7c8b8ae34261340e1dc9cbb8ef435078e084b8ef507527a8a21af477"
++SRC_URI[md5sum] = "e4364319f15f97dc2ef0ef62c8616826"
++SRC_URI[sha256sum] = "c762b4072ed448e2ae9f35cebd7fec8df7fd42b3ae61462cc3b2f720a873eae2"
  
+ FILES_${PN} += "${datadir}/X11/xorg.conf.d"
 -- 
 2.1.4
 
