@@ -1,26 +1,28 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 906AB71A5B
+Return-Path: <ejo@pengutronix.de>
+Received: from metis.ext.4.pengutronix.de (metis.ext.4.pengutronix.de
+	[92.198.50.35])
+	by mail.openembedded.org (Postfix) with ESMTP id 38B2E60125
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Oct 2016 07:49:33 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u9R7nZ3r023069
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Oct 2016 00:49:35 -0700
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.209) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.294.0; Thu, 27 Oct 2016 00:49:34 -0700
-From: Chen Qi <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 27 Oct 2016 15:49:46 +0800
-Message-ID: <afc940231d3061121537c5eabd3abca6a40b73d3.1477554547.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1477554547.git.Qi.Chen@windriver.com>
-References: <cover.1477554547.git.Qi.Chen@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH 1/1] rpm: fix file location of rpm2cpio.real
+	Thu, 27 Oct 2016 08:06:36 +0000 (UTC)
+Received: from dude.hi.pengutronix.de ([2001:67c:670:100:1d::7])
+	by metis.ext.pengutronix.de with esmtps
+	(TLS1.2:RSA_AES_256_CBC_SHA1:256) (Exim 4.80)
+	(envelope-from <ejo@pengutronix.de>)
+	id 1bzfhs-0007iN-Eu; Thu, 27 Oct 2016 10:06:36 +0200
+Received: from ejo by dude.hi.pengutronix.de with local (Exim 4.87)
+	(envelope-from <ejo@pengutronix.de>)
+	id 1bzfhr-0007U5-UN; Thu, 27 Oct 2016 10:06:35 +0200
+From: Enrico Jorns <ejo@pengutronix.de>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 27 Oct 2016 10:06:35 +0200
+Message-Id: <20161027080635.28708-1-ejo@pengutronix.de>
+X-Mailer: git-send-email 2.9.3
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::7
+X-SA-Exim-Mail-From: ejo@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+	SAEximRunCond expanded to false
+X-PTX-Original-Recipient: openembedded-core@lists.openembedded.org
+Subject: [PATCH][krogoth] db: let fix-parallel-build.patch apply again
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,34 +35,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 27 Oct 2016 07:49:34 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 27 Oct 2016 08:06:37 -0000
 
-rpm2cpio is in ${PN}-common, but rpm2cpio.real is in ${PN}. This seperation
-is really weird. Put them both in ${PN}-common.
+This patch fails to apply with quilt for the 6.0.30 version of db in
+some cases. This issue is fixed in upstream, this is a minimal version
+of the fix, adapted to krogoth stable branch.
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+Signed-off-by: Enrico Jorns <ejo@pengutronix.de>
 ---
- meta/recipes-devtools/rpm/rpm_5.4.16.bb | 2 +-
+ meta/recipes-support/db/db/fix-parallel-build.patch | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/rpm/rpm_5.4.16.bb b/meta/recipes-devtools/rpm/rpm_5.4.16.bb
-index 1332397..85eb5fe 100644
---- a/meta/recipes-devtools/rpm/rpm_5.4.16.bb
-+++ b/meta/recipes-devtools/rpm/rpm_5.4.16.bb
-@@ -384,10 +384,10 @@ FILES_${PN} =  "${bindir}/rpm \
- 		${localstatedir}/lib/wdj \
- 		${bindir}/rpm.real \
- 		${bindir}/rpmconstant.real \
--		${bindir}/rpm2cpio.real \
- 		"
+diff --git a/meta/recipes-support/db/db/fix-parallel-build.patch b/meta/recipes-support/db/db/fix-parallel-build.patch
+index 2c7f1e1..14ed8be 100644
+--- a/meta/recipes-support/db/db/fix-parallel-build.patch
++++ b/meta/recipes-support/db/db/fix-parallel-build.patch
+@@ -8,7 +8,7 @@ Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
  
- FILES_${PN}-common = "${bindir}/rpm2cpio \
-+		${bindir}/rpm2cpio.real \
- 		${bindir}/gendiff \
- 		${sysconfdir}/rpm \
- 		${localstatedir}/spool/repackage \
+ --- dist.orig/Makefile.in	2012-05-11 19:57:48.000000000 +0200
+ +++ dist/Makefile.in	2013-10-31 18:17:11.875532522 +0100
+-@@ -1034,7 +1034,7 @@
++@@ -1041,7 +1041,7 @@
+  	    db_recover@o@ util_sig@o@ $(DEF_LIB) $(LIBS)
+  	$(POSTLINK) $@
+  
 -- 
-1.9.1
+2.9.3
 
 
