@@ -1,33 +1,49 @@
-Return-Path: <o.mandel@menlosystems.com>
-Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.10])
-	by mail.openembedded.org (Postfix) with ESMTP id C3DA9719A2
+Return-Path: <schnitzeltony@googlemail.com>
+Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 669A571957
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Oct 2016 16:38:19 +0000 (UTC)
-Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
-	by mail-out.m-online.net (Postfix) with ESMTP id 3t4Xd913Tdz3hjcS;
-	Thu, 27 Oct 2016 18:38:21 +0200 (CEST)
-Received: from localhost (dynscan1.mnet-online.de [192.168.6.68])
-	by mail.m-online.net (Postfix) with ESMTP id 3t4Xd90wh9zvl75;
-	Thu, 27 Oct 2016 18:38:21 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at mnet-online.de
-Received: from mail.mnet-online.de ([192.168.8.182])
-	by localhost (dynscan1.mail.m-online.net [192.168.6.68]) (amavisd-new,
-	port 10024)
-	with ESMTP id a0CAdcGNcuvW; Thu, 27 Oct 2016 18:38:20 +0200 (CEST)
-X-Auth-Info: k2ljJM5EKau1hL8Wb64e2IbIATa8VKC9Bs45Tngq4xSZB1XQTwvxMdQbRmjq4bgN
-Received: from menlobuildsrv.menlosystems.local
-	(host-141-40-253-38.customer.izb-online.de [141.40.253.38])
-	(using TLSv1 with cipher AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mail.mnet-online.de (Postfix) with ESMTPSA;
-	Thu, 27 Oct 2016 18:38:20 +0200 (CEST)
-From: Olaf Mandel <o.mandel@menlosystems.com>
+	Thu, 27 Oct 2016 20:07:36 +0000 (UTC)
+Received: by mail-wm0-f67.google.com with SMTP id b80so4284940wme.2
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 27 Oct 2016 13:07:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=googlemail.com; s=20120113;
+	h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=9BMKzL4OhLvs7Qi69UjwnE/55wfE/nwJYkAyeCwpw0Y=;
+	b=PnoLSnmhtN2e8HdwwmFMBgSEkXOsqKBdpaDY8dMSY5zRlF27NzgDcol2hrJ0QEecYe
+	XlqxLETRTfnfYjpdtPc0GrJj3i/nsT5JEUhQ71vSppltVSqzD1Tj7DJZJGazEW4jvDAu
+	4v2DUPrTz5RcStCweVsz7YDuBkOPteHtuctEuCH5dqEcQBPKGaWxlvkd/QFQaePA92mP
+	jrhSI25WmSgoyl+247MxvEIxBglcGuARCnwvEnwvnKSa0bMG+1MGSKI4S1986jHEOFjx
+	u5IaKhFH8ibGQAi0UPrIYrfbV2JLpLyPEc0ONzpPXPTo7/eZmLK11TPf1vjNqA4RiCtu
+	9EHw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=9BMKzL4OhLvs7Qi69UjwnE/55wfE/nwJYkAyeCwpw0Y=;
+	b=aHDvU6QmjNB7zR1hdb/CSq+xLDGV5QIt6QtXSOsF3iJDAeuLpqr5uGOCmRDDJClKpi
+	OIw4GmW8ZdSStOlvaVbg4a4aY4CELwLzDQAZnsNaMwleDZ1RQPfx6R96sv1TnMNlZ5oZ
+	uig5Sj5eahWcMb68H/nxyzdpMwDIPuvhkMQGYe9g8UbdeQ33WmUAkcteaRb97JWs2ewh
+	CD8BrFYV4eiEMUJN4GrH/oZztIKTNNsBMx9nwxyLvjPNjq+ohpTQDK39CKGKrGoQ14vU
+	uCaALMmwCKn1uiExKoBWQrUVOaAKcS7q4KoiEF007WIhRv12wj1unnjQtHMMn7bInX7E
+	2QYA==
+X-Gm-Message-State: ABUngvdaIFn2KAzP/0dIEB2xbYIvhdTuh2eJ/CZdwPvzZyy6R623H9ILzU4/K7/fe5kC9Q==
+X-Received: by 10.195.2.11 with SMTP id bk11mr8147092wjd.119.1477598857653;
+	Thu, 27 Oct 2016 13:07:37 -0700 (PDT)
+Received: from localhost.localdomain (p5B0A3F33.dip0.t-ipconnect.de.
+	[91.10.63.51]) by smtp.googlemail.com with ESMTPSA id
+	a5sm10294203wjv.6.2016.10.27.13.07.36
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 27 Oct 2016 13:07:37 -0700 (PDT)
+From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@googlemail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 27 Oct 2016 16:37:43 +0000
-Message-Id: <1477586263-29453-1-git-send-email-o.mandel@menlosystems.com>
-X-Mailer: git-send-email 2.1.4
-Cc: Olaf Mandel <o.mandel@menlosystems.com>
-Subject: [PATCH] toaster: fix if USER_CLASSES is missing buildstats
+Date: Thu, 27 Oct 2016 22:07:18 +0200
+Message-Id: <1477598840-1768-1-git-send-email-schnitzeltony@googlemail.com>
+X-Mailer: git-send-email 2.5.5
+MIME-Version: 1.0
+Subject: [PATCH v3 0/2] update libsdl2 and taglib
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,38 +56,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 27 Oct 2016 16:38:20 -0000
+X-List-Received-Date: Thu, 27 Oct 2016 20:07:37 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-buildstats not being in USER_CLASSES is no reason to fail every
-single task in toaster_collect_task_stats: using a non-existing
-variable results in a None argument to os.path.join().
+v1 -> v2: descriptions changed as suggested by Alexander Kanavin
+v2 -> v3: taglib build dynamic libraries instead of static
 
-Check the variable availability before trying to use it.
+Andreas Müller (2):
+  libsdl2: update to 2.0.5
+  taglib: update to 1.11
 
-Signed-off-by: Olaf Mandel <o.mandel@menlosystems.com>
----
- meta/classes/toaster.bbclass | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ ...-sysroot-path-so-that-make-finds-our-wayl.patch | 32 ++++++++++++
+ ...ideo-make-it-compatible-with-wayland-1.10.patch | 57 ----------------------
+ .../libsdl2/{libsdl2_2.0.4.bb => libsdl2_2.0.5.bb} | 14 +++---
+ .../taglib/{taglib_1.9.1.bb => taglib_1.11.bb}     |  9 ++--
+ 4 files changed, 46 insertions(+), 66 deletions(-)
+ create mode 100644 meta/recipes-graphics/libsdl2/libsdl2/0001-prepend-our-sysroot-path-so-that-make-finds-our-wayl.patch
+ delete mode 100644 meta/recipes-graphics/libsdl2/libsdl2/0001-src-video-make-it-compatible-with-wayland-1.10.patch
+ rename meta/recipes-graphics/libsdl2/{libsdl2_2.0.4.bb => libsdl2_2.0.5.bb} (86%)
+ rename meta/recipes-support/taglib/{taglib_1.9.1.bb => taglib_1.11.bb} (67%)
 
-diff --git a/meta/classes/toaster.bbclass b/meta/classes/toaster.bbclass
-index 4bddf34..638bb39 100644
---- a/meta/classes/toaster.bbclass
-+++ b/meta/classes/toaster.bbclass
-@@ -157,11 +157,11 @@ python toaster_collect_task_stats() {
-     import bb.utils
-     import os
- 
--    toaster_statlist_file = os.path.join(e.data.getVar('BUILDSTATS_BASE', True), "toasterstatlist")
--
-     if not e.data.getVar('BUILDSTATS_BASE', True):
-         return  # if we don't have buildstats, we cannot collect stats
- 
-+    toaster_statlist_file = os.path.join(e.data.getVar('BUILDSTATS_BASE', True), "toasterstatlist")
-+
-     def stat_to_float(value):
-         return float(value.strip('% \n\r'))
- 
 -- 
-2.1.4
+2.5.5
 
 
