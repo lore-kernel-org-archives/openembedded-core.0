@@ -1,28 +1,39 @@
-Return-Path: <Dengke.Du@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 8730371CA2
+Return-Path: <denis@denix.org>
+Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.17])
+	by mail.openembedded.org (Postfix) with ESMTP id 1983B71A8E
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Oct 2016 01:53:17 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u9S1rJOj014647
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Oct 2016 18:53:19 -0700 (PDT)
-Received: from [128.224.162.169] (128.224.162.169) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.294.0;
-	Thu, 27 Oct 2016 18:53:18 -0700
-To: <openembedded-core@lists.openembedded.org>
-References: <cover.1475211809.git.dengke.du@windriver.com>
-	<65f138952d1e0942e73bea4eca028650439bbfc9.1475211809.git.dengke.du@windriver.com>
-From: Dengke Du <dengke.du@windriver.com>
-Message-ID: <7e909541-8c3b-d857-4763-1463e90d49ee@windriver.com>
-Date: Fri, 28 Oct 2016 09:53:16 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.3.0
+	Fri, 28 Oct 2016 02:11:37 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by mailout4.zoneedit.com (Postfix) with ESMTP id 2B86C20863;
+	Fri, 28 Oct 2016 02:11:38 +0000 (UTC)
+Received: from mailout4.zoneedit.com ([127.0.0.1])
+	by localhost (zmo03-pco.easydns.vpn [127.0.0.1]) (amavisd-new,
+	port 10024)
+	with ESMTP id g-Tnt-aaPsvv; Fri, 28 Oct 2016 02:11:38 +0000 (UTC)
+Received: from gandalf.denix.org (pool-100-15-106-107.washdc.fios.verizon.net
+	[100.15.106.107])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mailout4.zoneedit.com (Postfix) with ESMTPSA id 040302023B;
+	Fri, 28 Oct 2016 02:11:35 +0000 (UTC)
+Received: by gandalf.denix.org (Postfix, from userid 1000)
+	id D36D5162186; Thu, 27 Oct 2016 22:11:34 -0400 (EDT)
+Date: Thu, 27 Oct 2016 22:11:34 -0400
+From: Denys Dmytriyenko <denis@denix.org>
+To: Marek Vasut <marex@denx.de>
+Message-ID: <20161028021134.GK2494@denix.org>
+References: <20161020133514.3403-1-marex@denx.de>
+	<CAJTo0LZeox5Xe6hpnH82JZLaMb1_LtuUjKpcZtmcLOAOnosSUg@mail.gmail.com>
+	<016763e0-b2cb-0c2c-f0d0-219da1c1faa3@denx.de>
+	<20161025183239.GF2494@denix.org>
+	<83c5347a-3962-7b3b-30d3-d5ee876fc2aa@denx.de>
+	<5811E899.6050000@phytec.de>
+	<ae855dd3-d95b-8616-8b6b-a3cf1f0a5275@denx.de>
 MIME-Version: 1.0
-In-Reply-To: <65f138952d1e0942e73bea4eca028650439bbfc9.1475211809.git.dengke.du@windriver.com>
-Subject: Re: [PATCH 1/1] rng-tools: add systemd service file
+In-Reply-To: <ae855dd3-d95b-8616-8b6b-a3cf1f0a5275@denx.de>
+User-Agent: Mutt/1.5.20 (2009-06-14)
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/4] u-boot: Update to 2016.09.01 release
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,79 +46,97 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 28 Oct 2016 01:53:20 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+X-List-Received-Date: Fri, 28 Oct 2016 02:11:40 -0000
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
 
-Ping.
+On Fri, Oct 28, 2016 at 02:18:59AM +0200, Marek Vasut wrote:
+> On 10/27/2016 01:44 PM, Stefan M�ller-Klieser wrote:
+> > On 25.10.2016 21:24, Marek Vasut wrote:
+> >> On 10/25/2016 08:32 PM, Denys Dmytriyenko wrote:
+> >>> On Sat, Oct 22, 2016 at 10:32:12PM +0200, Marek Vasut wrote:
+> >>>> On 10/21/2016 09:47 AM, Burton, Ross wrote:
+> >>>>
+> >>>> Hi!
+> >>>>
+> >>>>> On 20 October 2016 at 14:35, Marek Vasut <marex@denx.de
+> >>>>> <mailto:marex@denx.de>> wrote:
+> >>>>>
+> >>>>>     Upgrade U-Boot to the latest version.
+> >>>>>
+> >>>>>
+> >>>>> As usual, u-boot-mkimage broke again:
+> >>>>
+> >>>> That's weird, I successfully built it for nios2 during my tests.
+> >>>> Can you tell me how I can replicate the issue , so I can test for it to
+> >>>> prevent regression and roll out a patch ?
+> >>>
+> >>> Marek, Ross,
+> >>>
+> >>> Any progress on this? Need any help testing?
+> >>>
+> >> Yeah, how do you replicate this issue ?
+> >>
+> > Hi!
+> 
+> Hi!
+> 
+> > I am just looking at a similar problem and want to jump into the discussion.
+> > As Ross said, the problem is to not respect host/target -- cc/cflags/ldflags.
+> > So to replicate the issue, you can use a bare minimum build host with no
+> > cross toolchain installed, and I guess all targets will fail to build.
+> 
+> Well both ARM and nios2 builds for me, so I wonder what sort of stupid
+> thing am I doing.
 
-// Dengke
+Well, that's the thing - your patches didn't change anything around toolchain, 
+so it shouldn't break what used to be working before, right? Unless it was 
+already broken...
+
+Ross,
+
+Care to elaborate on what is breaking for you and what setup you are using?
 
 
-On 2016年09月30日 13:05, Dengke Du wrote:
-> Add systemd service file for rng-tools.
->
-> Signed-off-by: Dengke Du <dengke.du@windriver.com>
-> ---
->   meta/recipes-support/rng-tools/rng-tools/rngd.service |  9 +++++++++
->   meta/recipes-support/rng-tools/rng-tools_5.bb         | 14 ++++++++++++--
->   2 files changed, 21 insertions(+), 2 deletions(-)
->   create mode 100644 meta/recipes-support/rng-tools/rng-tools/rngd.service
->
-> diff --git a/meta/recipes-support/rng-tools/rng-tools/rngd.service b/meta/recipes-support/rng-tools/rng-tools/rngd.service
-> new file mode 100644
-> index 0000000..b94ad50
-> --- /dev/null
-> +++ b/meta/recipes-support/rng-tools/rng-tools/rngd.service
-> @@ -0,0 +1,9 @@
-> +[Unit]
-> +Description=Hardware RNG Entropy Gatherer Daemon
-> +
-> +[Service]
-> +ExecStart=@SBINDIR@/rngd -f -r /dev/urandom
-> +SuccessExitStatus=66
-> +
-> +[Install]
-> +WantedBy=multi-user.target
-> diff --git a/meta/recipes-support/rng-tools/rng-tools_5.bb b/meta/recipes-support/rng-tools/rng-tools_5.bb
-> index 913a092..e9786f9 100644
-> --- a/meta/recipes-support/rng-tools/rng-tools_5.bb
-> +++ b/meta/recipes-support/rng-tools/rng-tools_5.bb
-> @@ -8,7 +8,9 @@ SRC_URI = "http://heanet.dl.sourceforge.net/sourceforge/gkernel/${BP}.tar.gz \
->              file://underquote.patch \
->              file://uclibc-libuargp-configure.patch \
->              file://init \
-> -           file://default"
-> +           file://default \
-> +           file://rngd.service \
-> +"
->   
->   SRC_URI[md5sum] = "6726cdc6fae1f5122463f24ae980dd68"
->   SRC_URI[sha256sum] = "60a102b6603bbcce2da341470cad42eeaa9564a16b4490e7867026ca11a3078e"
-> @@ -20,7 +22,7 @@ python () {
->           d.setVar("INHIBIT_UPDATERCD_BBCLASS", "1")
->   }
->   
-> -inherit autotools update-rc.d
-> +inherit autotools update-rc.d systemd
->   
->   PACKAGECONFIG = "libgcrypt"
->   PACKAGECONFIG_libc-musl = "libargp"
-> @@ -40,7 +42,15 @@ do_install_append() {
->           install -d "${D}${sysconfdir}/default"
->           install -m 0644 ${WORKDIR}/default ${D}${sysconfdir}/default/rng-tools
->       fi
-> +
-> +    if ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'true', 'false', d)}; then
-> +        install -d ${D}${systemd_unitdir}/system
-> +        install -m 644 ${WORKDIR}/rngd.service ${D}${systemd_unitdir}/system
-> +        sed -i -e 's,@SBINDIR@,${sbindir},g' ${D}${systemd_unitdir}/system/rngd.service
-> +    fi
->   }
->   
->   INITSCRIPT_NAME = "rng-tools"
->   INITSCRIPT_PARAMS = "start 30 2 3 4 5 . stop 30 0 6 1 ."
-> +
-> +SYSTEMD_SERVICE_${PN} = "rngd.service"
+> > As this has been broken so many times, I want to discuss some possible fixes:
+> > In the top level Makefile we have:
+> > HOSTCC = cc
+> > HOSTCFLAGS = ...
+> > The problem is, you cannot properly override those variables, as they get used
+> > a lot to do different things, e.g. in tools/Makefile we have (for cross tools
+> > target) HOSTCC = $(CC) and for HOSTCFLAGS we have appends for configuration. 
+> > Thats why we have the current workaround with a squashed override. I see many
+> > possible solutions and would like to hear your opinion:
+> > 1. Make top level Makefile HOST assignments conditional "?="
+> >    - easy
+> >    - will probably not be accepted upstream
+> 
+> Why ?
 
+Heh, good one! :)
+
+
+> > 2. add "override" to appends in sublevel Makefiles
+> >    - adds complexity/one level of override hierarchy
+> > 3. Don't use appends for those variables (like in the kernel Makefile), overrides
+> >    in the recipe
+> >    - clean
+> >    - quite some rework in uboot
+> 
+> Can you provide details ?
+> 
+> > 4. Hack around in the recipe with class overrides and exports
+> >    - quickfix, no patch required
+> >    - fails easily in the future
+> > 
+> > Any thoughts?
+> > Stefan
+> > 
+> 
+> 
+> -- 
+> Best regards,
+> Marek Vasut
+> 
 
