@@ -1,28 +1,31 @@
 Return-Path: <ejo@pengutronix.de>
 Received: from metis.ext.4.pengutronix.de (metis.ext.4.pengutronix.de
 	[92.198.50.35])
-	by mail.openembedded.org (Postfix) with ESMTP id A854071A2B
+	by mail.openembedded.org (Postfix) with ESMTP id 2BD7870100
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Oct 2016 06:09:01 +0000 (UTC)
+	Fri, 28 Oct 2016 06:37:40 +0000 (UTC)
 Received: from dude.hi.pengutronix.de ([2001:67c:670:100:1d::7])
 	by metis.ext.pengutronix.de with esmtps
 	(TLS1.2:RSA_AES_256_CBC_SHA1:256) (Exim 4.80)
 	(envelope-from <ejo@pengutronix.de>)
-	id 1c00Le-0007xp-UF; Fri, 28 Oct 2016 08:09:02 +0200
+	id 1c00nN-0001x4-9B; Fri, 28 Oct 2016 08:37:41 +0200
 Received: from ejo by dude.hi.pengutronix.de with local (Exim 4.87)
 	(envelope-from <ejo@pengutronix.de>)
-	id 1c00Le-0000LI-D9; Fri, 28 Oct 2016 08:09:02 +0200
+	id 1c00nM-0006gc-VZ; Fri, 28 Oct 2016 08:37:40 +0200
 From: Enrico Jorns <ejo@pengutronix.de>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 28 Oct 2016 08:09:02 +0200
-Message-Id: <20161028060902.1133-1-ejo@pengutronix.de>
+Date: Fri, 28 Oct 2016 08:36:57 +0200
+Message-Id: <20161028063657.24601-1-ejo@pengutronix.de>
 X-Mailer: git-send-email 2.9.3
+In-Reply-To: <20161028060902.1133-1-ejo@pengutronix.de>
+References: <20161028060902.1133-1-ejo@pengutronix.de>
 X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::7
 X-SA-Exim-Mail-From: ejo@pengutronix.de
 X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
 	SAEximRunCond expanded to false
 X-PTX-Original-Recipient: openembedded-core@lists.openembedded.org
-Subject: [PATCH][krogoth] pseudo: backport 'Work around issues with glibc 2.24'
+Cc: Enrico Jorns <ejo@pengutronix.de>
+Subject: [PATCH v2][krogoth] pseudo: backport 'Work around issues with glibc 2.24'
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,7 +38,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 28 Oct 2016 06:09:04 -0000
+X-List-Received-Date: Fri, 28 Oct 2016 06:37:41 -0000
 
 This patch is required for krogoth, too in order to make it properly
 work with glibc 2.24.
@@ -53,19 +56,14 @@ various issues properly.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta-jupiter                                       |  2 +-
+
+Cleaned-up version of the former patch.
+
  .../pseudo/pseudo-glibc-rtld-next-workaround.patch | 85 ++++++++++++++++++++++
  meta/recipes-devtools/pseudo/pseudo_1.7.5.bb       |  1 +
- 3 files changed, 87 insertions(+), 1 deletion(-)
+ 2 files changed, 86 insertions(+)
  create mode 100644 meta/recipes-devtools/pseudo/pseudo/pseudo-glibc-rtld-next-workaround.patch
 
-diff --git a/meta-jupiter b/meta-jupiter
-index a1299a3..5a66c62 160000
---- a/meta-jupiter
-+++ b/meta-jupiter
-@@ -1 +1 @@
--Subproject commit a1299a3e711c93ed8a7eb652bdbacd83669263c6
-+Subproject commit 5a66c628800824585208d0130ee6b731c7e95edd
 diff --git a/meta/recipes-devtools/pseudo/pseudo/pseudo-glibc-rtld-next-workaround.patch b/meta/recipes-devtools/pseudo/pseudo/pseudo-glibc-rtld-next-workaround.patch
 new file mode 100644
 index 0000000..6710734
