@@ -1,28 +1,28 @@
 Return-Path: <ejo@pengutronix.de>
 Received: from metis.ext.4.pengutronix.de (metis.ext.4.pengutronix.de
 	[92.198.50.35])
-	by mail.openembedded.org (Postfix) with ESMTP id BB35971B56
+	by mail.openembedded.org (Postfix) with ESMTP id A854071A2B
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Oct 2016 06:06:29 +0000 (UTC)
+	Fri, 28 Oct 2016 06:09:01 +0000 (UTC)
 Received: from dude.hi.pengutronix.de ([2001:67c:670:100:1d::7])
 	by metis.ext.pengutronix.de with esmtps
 	(TLS1.2:RSA_AES_256_CBC_SHA1:256) (Exim 4.80)
 	(envelope-from <ejo@pengutronix.de>)
-	id 1c00JC-0007sP-CM; Fri, 28 Oct 2016 08:06:30 +0200
+	id 1c00Le-0007xp-UF; Fri, 28 Oct 2016 08:09:02 +0200
 Received: from ejo by dude.hi.pengutronix.de with local (Exim 4.87)
 	(envelope-from <ejo@pengutronix.de>)
-	id 1c00JB-0008Qz-QS; Fri, 28 Oct 2016 08:06:29 +0200
+	id 1c00Le-0000LI-D9; Fri, 28 Oct 2016 08:09:02 +0200
 From: Enrico Jorns <ejo@pengutronix.de>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 28 Oct 2016 08:06:29 +0200
-Message-Id: <20161028060629.32357-1-ejo@pengutronix.de>
+Date: Fri, 28 Oct 2016 08:09:02 +0200
+Message-Id: <20161028060902.1133-1-ejo@pengutronix.de>
 X-Mailer: git-send-email 2.9.3
 X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::7
 X-SA-Exim-Mail-From: ejo@pengutronix.de
 X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
 	SAEximRunCond expanded to false
 X-PTX-Original-Recipient: openembedded-core@lists.openembedded.org
-Subject: [PATCH][krogoth] nss: fix compilation with glibc-2.24
+Subject: [PATCH][krogoth] pseudo: backport 'Work around issues with glibc 2.24'
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,148 +35,140 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 28 Oct 2016 06:06:31 -0000
+X-List-Received-Date: Fri, 28 Oct 2016 06:09:04 -0000
 
-`readdir_r` is deprecated as of glibc-2.24 and leads to a compilation
-error:
-
-| In file included from sysrand.c:16:0:
-| unix_rand.c: In function 'ReadOneFile':
-| unix_rand.c:1090:6: error: 'readdir_r' is deprecated [-Werror=deprecated-declarations]
-|       error = readdir_r(fd, &entry_dir, &result);
-|       ^~~~~
-| In file included from unix_rand.c:1032:0,
-|                  from sysrand.c:16:
-| /usr/include/dirent.h:183:12: note: declared here
-|  extern int readdir_r (DIR *__restrict __dirp,
-|             ^~~~~~~~~
-| cc1: all warnings being treated as errors
-
-The issue is reported in nss bug tracker
-(https://bugzilla.mozilla.org/show_bug.cgi?id=1254334) and fixed in nss
-mainline.
-The fixing patch is extracted from the nss source code repository.
+This patch is required for krogoth, too in order to make it properly
+work with glibc 2.24.
 
 Signed-off-by: Enrico Jorns <ejo@pengutronix.de>
----
- .../nss/nss/use-readdir-instead-of-readdir_r.patch | 95 ++++++++++++++++++++++
- meta/recipes-support/nss/nss_3.21.bb               |  1 +
- 2 files changed, 96 insertions(+)
- create mode 100644 meta/recipes-support/nss/nss/use-readdir-instead-of-readdir_r.patch
 
-diff --git a/meta/recipes-support/nss/nss/use-readdir-instead-of-readdir_r.patch b/meta/recipes-support/nss/nss/use-readdir-instead-of-readdir_r.patch
+Below the message of the original commit:
+
+There are issues with a change made to RTLD_NEXT behaviour in glibc 2.24
+and that change was also backported to older glibc versions in some distros
+like Fedora 23. This adds a workaround whilst the pseudo maintainer fixes
+various issues properly.
+
+(From OE-Core rev: 21c38a091c4a1917f62a942c4751b0fd11dce340)
+
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta-jupiter                                       |  2 +-
+ .../pseudo/pseudo-glibc-rtld-next-workaround.patch | 85 ++++++++++++++++++++++
+ meta/recipes-devtools/pseudo/pseudo_1.7.5.bb       |  1 +
+ 3 files changed, 87 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-devtools/pseudo/pseudo/pseudo-glibc-rtld-next-workaround.patch
+
+diff --git a/meta-jupiter b/meta-jupiter
+index a1299a3..5a66c62 160000
+--- a/meta-jupiter
++++ b/meta-jupiter
+@@ -1 +1 @@
+-Subproject commit a1299a3e711c93ed8a7eb652bdbacd83669263c6
++Subproject commit 5a66c628800824585208d0130ee6b731c7e95edd
+diff --git a/meta/recipes-devtools/pseudo/pseudo/pseudo-glibc-rtld-next-workaround.patch b/meta/recipes-devtools/pseudo/pseudo/pseudo-glibc-rtld-next-workaround.patch
 new file mode 100644
-index 0000000..00f671f
+index 0000000..6710734
 --- /dev/null
-+++ b/meta/recipes-support/nss/nss/use-readdir-instead-of-readdir_r.patch
-@@ -0,0 +1,95 @@
-+# HG changeset patch
-+# User Martin Thomson <martin.thomson@gmail.com>
-+# Date 1457600884 -39600
-+#      Thu Mar 10 20:08:04 2016 +1100
-+# Node ID 7309fcbce2eceae1e4e3c687348e540905ae286a
-+# Parent  e7b6fca4f01427cafb4328f6e279af62290a2f34
-+Bug 1254334 - Use readdir instead of readdir_r, r=emaldona, sr=rrelyea
++++ b/meta/recipes-devtools/pseudo/pseudo/pseudo-glibc-rtld-next-workaround.patch
+@@ -0,0 +1,85 @@
++We started seeing:
 +
-+diff -r e7b6fca4f014 -r 7309fcbce2ec lib/freebl/unix_rand.c
-+--- a/nss/lib/freebl/unix_rand.c	Wed Apr 20 15:22:46 2016 +0200
-++++ b/nss/lib/freebl/unix_rand.c	Thu Mar 10 20:08:04 2016 +1100
-+@@ -1054,26 +1054,16 @@
-+  *
-+  * return 1 if it's time to reset the fileToRead (no more files to read).
-+  */
-+-int ReadOneFile(int fileToRead)
-++static int
-++ReadOneFile(int fileToRead)
-+ {
-+     char *dir = "/etc";
-+     DIR *fd = opendir(dir);
-+     int resetCount = 0;
-+-#ifdef SOLARIS
-+-     /* grumble, Solaris does not define struct dirent to be the full length */
-+-    typedef union {
-+-	unsigned char space[sizeof(struct dirent) + MAXNAMELEN];
-+-	struct dirent dir;
-+-    } dirent_hack;
-+-    dirent_hack entry, firstEntry;
-+-
-+-#define entry_dir entry.dir
-+-#else
-+-    struct dirent entry, firstEntry;
-+-#define entry_dir entry
-+-#endif
-+-
-+-    int i, error = -1;
-++    struct dirent *entry;
-++    char firstName[NAME_MAX + 1];
-++    const char *name = NULL;
-++    int i;
-+ 
-+     if (fd == NULL) {
-+ 	dir = PR_GetEnvSecure("HOME");
-+@@ -1085,33 +1075,34 @@
-+ 	return 1;
-+     }
-+ 
-++    firstName[0] = '\0';
-+     for (i=0; i <= fileToRead; i++) {
-+-	struct dirent *result = NULL;
-+ 	do {
-+-	    error = readdir_r(fd, &entry_dir, &result);
-+-	} while (error == 0 && result != NULL  &&
-+-					!ReadFileOK(dir,&result->d_name[0]));
-+-	if (error != 0 || result == NULL)  {
-++            /* readdir() isn't guaranteed to be thread safe on every platform;
-++             * this code assumes the same directory isn't read concurrently.
-++             * This usage is confirmed safe on Linux, see bug 1254334. */
-++	    entry = readdir(fd);
-++	} while (entry != NULL && !ReadFileOK(dir, &entry->d_name[0]));
-++	if (entry == NULL)  {
-+ 	    resetCount = 1; /* read to the end, start again at the beginning */
-+-	    if (i != 0) {
-++	    if (firstName[0]) {
-+ 		/* ran out of entries in the directory, use the first one */
-+-	 	entry = firstEntry;
-+-	 	error = 0;
-+-	 	break;
-++	 	name = firstName;
-+ 	    }
-+-	    /* if i== 0, there were no readable entries in the directory */
-+ 	    break;
++No real function for mknod: /home/paul/poky_sdk/tmp/sysroots/x86_64-
++linux/usr/bin/../lib/pseudo/lib64/libpseudo.so: undefined symbol: mknod
++No real function for mknodat: /home/paul/poky_sdk/tmp/sysroots/x86_64-
++linux/usr/bin/../lib/pseudo/lib64/libpseudo.so: undefined symbol: mknodat
++
++In glibc 2.24 they've merged:
++
++https://sourceware.org/git/?p=glibc.git;a=commit;h=7d45c163d00c88d5875a112343c4ea3e61349e6b
++related to bugzilla entry:
++https://sourceware.org/bugzilla/show_bug.cgi?id=19509
++
++which means that the behaviour of RTLD_NEXT is slightly different.
++As far as I can tell, mknod has not been present in glibc for a while. 
++To quote stat.h:
++
++/* To allow the `struct stat' structure and the file type `mode_t'
++   bits to vary without changing shared library major version number,
++   the `stat' family of functions and `mknod' are in fact inline
++   wrappers around calls to `xstat', `fxstat', `lxstat', and `xmknod',
++   which all take a leading version-number argument designating the
++   data structure and bits used.  <bits/stat.h> defines _STAT_VER with
++   the version number corresponding to `struct stat' as defined in
++   that file; and _MKNOD_VER with the version number corresponding to
++   the S_IF* macros defined therein.  It is arranged that when not
++   inlined these function are always statically linked; that way a
++   dynamically-linked executable always encodes the version number
++   corresponding to the data structures it uses, so the `x' functions
++   in the shared library can adapt without needing to recompile all
++   callers.  */
++
++so I suspect mknod has not existed for a while, if ever and what we
++were finding, who knows. Everying in the system links against _xmknod
++which we have a separate wrapper for.
++
++Anyhow, ignoring that problem which hasn't caused a issue in the past, 
++the RTLD_NEXT change causes messages to be printed to stdout which causes 
++carnage if for example the packaging code is expecting a list of packages:
++
++WARNING: core-image-minimal-1.0-r0 do_rootfs: No not found in the base feeds (qemux86_64 core2-64 x86_64 noarch any all).
++WARNING: core-image-minimal-1.0-r0 do_rootfs: real not found in the base feeds (qemux86_64 core2-64 x86_64 noarch any all).
++WARNING: core-image-minimal-1.0-r0 do_rootfs: function not found in the base feeds (qemux86_64 core2-64 x86_64 noarch any all).
++WARNING: core-image-minimal-1.0-r0 do_rootfs: for not found in the base feeds (qemux86_64 core2-64 x86_64 noarch any all).
++WARNING: core-image-minimal-1.0-r0 do_rootfs: mknod: not found in the base feeds (qemux86_64 core2-64 x86_64 noarch any all).
++[etc]
++
++This bug will affect:
++* any distro using glibc 2.24
++* any system using a uninative tarball for glibc 2.24
++* any system which took a backport for the fix which was merged into
++  the 2.23 branch for a while before it was reverted (Fedora 23 had this)
++
++The easiest thing to do is to ignore the problem and disable the diag
++message which masks the problem with no ill effects.
++
++As Peter notes, there are a few issues here:
++
++* the fact there is no mknod symbol
++* the fact an error here isn't fatal
++* the #ifdef/#else looks suspect
++* handle RTLD_NEXT chaining properly (need more libs?)
++
++which he'll work on upstream and hopefully have fixed in a new version.
++
++Upstream-Status: Submitted [Peter is aware of the issue]
++
++RP 2016/5/18
++
++Index: pseudo-1.7.5/pseudo_wrappers.c
++===================================================================
++--- pseudo-1.7.5.orig/pseudo_wrappers.c
+++++ pseudo-1.7.5/pseudo_wrappers.c
++@@ -146,9 +146,9 @@ pseudo_init_one_wrapper(pseudo_function
++ 			return;
++ 		}
++ #else
++-		if (e != NULL) {
+++		/*if (e != NULL) {
++ 			pseudo_diag("No real function for %s: %s\n", func->name, e);
++-		}
+++		}*/
++ #endif
 + 	}
-+-	if (i==0) {
-+-	    /* save the first entry in case we run out of entries */
-+-	    firstEntry = entry;
-++        name = entry->d_name;
-++	if (i == 0) {
-++	    /* copy the name of the first in case we run out of entries */
-++            PORT_Assert(PORT_Strlen(name) <= NAME_MAX);
-++            PORT_Strncpy(firstName, name, NAME_MAX);
-++            firstName[NAME_MAX] = '\0';
-+ 	}
-+     }
-+ 
-+-    if (error == 0) {
-++    if (name) {
-+ 	char filename[PATH_MAX];
-+-	int count = snprintf(filename, sizeof filename, 
-+-				"%s/%s",dir, &entry_dir.d_name[0]);
-++	int count = snprintf(filename, sizeof(filename), "%s/%s",dir, name);
-+ 	if (count >= 1) {
-+ 	    ReadSingleFile(filename);
-+ 	}
-diff --git a/meta/recipes-support/nss/nss_3.21.bb b/meta/recipes-support/nss/nss_3.21.bb
-index 05d81c2..39b0994 100644
---- a/meta/recipes-support/nss/nss_3.21.bb
-+++ b/meta/recipes-support/nss/nss_3.21.bb
-@@ -21,6 +21,7 @@ SRC_URI = "\
-     file://nss-fix-incorrect-shebang-of-perl.patch \
-     file://nss-fix-nsinstall-build.patch \
-     file://0001-Fix-build-failure-on-opensuse-13.1.patch \
-+    file://use-readdir-instead-of-readdir_r.patch \
-     file://nss-gcc6-fix.patch \
-     file://nss.pc.in \
-     file://signlibs.sh \
++ }
+diff --git a/meta/recipes-devtools/pseudo/pseudo_1.7.5.bb b/meta/recipes-devtools/pseudo/pseudo_1.7.5.bb
+index d90e644..38e6f4d 100644
+--- a/meta/recipes-devtools/pseudo/pseudo_1.7.5.bb
++++ b/meta/recipes-devtools/pseudo/pseudo_1.7.5.bb
+@@ -7,6 +7,7 @@ SRC_URI = " \
+     file://fallback-group \
+     file://moreretries.patch \
+     file://handle-remove-xattr.patch \
++    file://pseudo-glibc-rtld-next-workaround.patch \
+ "
+ 
+ SRC_URI[md5sum] = "c10209938f03128d0c193f041ff3596d"
 -- 
 2.9.3
 
