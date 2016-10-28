@@ -1,58 +1,28 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pa0-f68.google.com (mail-pa0-f68.google.com
-	[209.85.220.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 5BAEA719D9
+Return-Path: <ejo@pengutronix.de>
+Received: from metis.ext.4.pengutronix.de (metis.ext.4.pengutronix.de
+	[92.198.50.35])
+	by mail.openembedded.org (Postfix) with ESMTP id BB35971B56
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Oct 2016 04:23:49 +0000 (UTC)
-Received: by mail-pa0-f68.google.com with SMTP id qn10so2511pac.2
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Oct 2016 21:23:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=subject:mime-version:from:in-reply-to:date:cc:message-id:references
-	:to; bh=tmrFdJcm2iLSd6BdTIDSeWUzvXnVWgMJZ5pgLmoDwUU=;
-	b=hOQxMYEqRTRi1JqutkGuTLuTV9tXmpZrP9QRrsKyQ+qdrTVkBq91yiQaQu22avJmJK
-	SYRpDhv8kuLazP710/N+7iYsjPA9oXksnJqJQlCpEuPG+R3YNAjEeIW0siQ1MoiBO6pU
-	EXvRWPonop78wNPl1UhX/DBMtThNYLMyUZJdPgtqLQpiOwtbOtw4LgM02PyH82MRNkOx
-	63tYfe0QLmi+OIkDS3vz8stQTJkLXyTwV1oy7tHaahh12rOPaHCk2evYUg8/zZXQGyVj
-	2lwLlFi/bRoyvMFfW/gwTsD6I79zaTP5Dg6TcpwYFmuKOdp8goInA2ipKDfT7eaQwf3l
-	8Wvw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:subject:mime-version:from:in-reply-to:date:cc
-	:message-id:references:to;
-	bh=tmrFdJcm2iLSd6BdTIDSeWUzvXnVWgMJZ5pgLmoDwUU=;
-	b=J+O/8k2SGJfRoPd0Gltc7dBf5U5Z5EGCtOV691l876Zu4hQCi/obHGnub0tc/JFt2p
-	4huP73pN3lKjeznTOkyKUTIb3TDMaUpuvORHe5SwZ3c21wlhQGicMUrBtK+/NgOBn2bK
-	kkL9S0hiAq3Xzt8BVRbM0IQ6pXTdl+Q6FPI14lbFawc24NFnLBmBpN9NfodIjV/wQrNr
-	pD/FdzsIXy30aIljBy2LuBtgVfNlgWXHUqXdtI9GS2rBCxI3sJ6/uCacF0WYJf4UZkNy
-	cXt1mmZeAoLpA3TXUfEiVVIC14OJhMlRFThVxrClJzCw/X5yUs0mmlr4AUDFnbmqHkTo
-	qv5g==
-X-Gm-Message-State: ABUngvdyADgTpHTtbtqrySeylUsMRnbQOhO3nqrknKSQR7K8W6BBu3sTNOKDUjD+AxjKdQ==
-X-Received: by 10.99.218.21 with SMTP id c21mr17225041pgh.67.1477628630595;
-	Thu, 27 Oct 2016 21:23:50 -0700 (PDT)
-Received: from ?IPv6:2601:646:8882:b8c:f559:242f:d781:af84?
-	([2601:646:8882:b8c:f559:242f:d781:af84])
-	by smtp.gmail.com with ESMTPSA id
-	o85sm15048868pfj.15.2016.10.27.21.23.48
-	(version=TLS1 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 27 Oct 2016 21:23:48 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 9.3 \(3124\))
-X-Pgp-Agent: GPGMail
-From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <ae855dd3-d95b-8616-8b6b-a3cf1f0a5275@denx.de>
-Date: Thu, 27 Oct 2016 21:23:43 -0700
-Message-Id: <6BB27325-3BFC-461B-B568-438E4CF04963@gmail.com>
-References: <20161020133514.3403-1-marex@denx.de>
-	<CAJTo0LZeox5Xe6hpnH82JZLaMb1_LtuUjKpcZtmcLOAOnosSUg@mail.gmail.com>
-	<016763e0-b2cb-0c2c-f0d0-219da1c1faa3@denx.de>
-	<20161025183239.GF2494@denix.org>
-	<83c5347a-3962-7b3b-30d3-d5ee876fc2aa@denx.de>
-	<5811E899.6050000@phytec.de>
-	<ae855dd3-d95b-8616-8b6b-a3cf1f0a5275@denx.de>
-To: Marek Vasut <marex@denx.de>
-X-Mailer: Apple Mail (2.3124)
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/4] u-boot: Update to 2016.09.01 release
+	Fri, 28 Oct 2016 06:06:29 +0000 (UTC)
+Received: from dude.hi.pengutronix.de ([2001:67c:670:100:1d::7])
+	by metis.ext.pengutronix.de with esmtps
+	(TLS1.2:RSA_AES_256_CBC_SHA1:256) (Exim 4.80)
+	(envelope-from <ejo@pengutronix.de>)
+	id 1c00JC-0007sP-CM; Fri, 28 Oct 2016 08:06:30 +0200
+Received: from ejo by dude.hi.pengutronix.de with local (Exim 4.87)
+	(envelope-from <ejo@pengutronix.de>)
+	id 1c00JB-0008Qz-QS; Fri, 28 Oct 2016 08:06:29 +0200
+From: Enrico Jorns <ejo@pengutronix.de>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 28 Oct 2016 08:06:29 +0200
+Message-Id: <20161028060629.32357-1-ejo@pengutronix.de>
+X-Mailer: git-send-email 2.9.3
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::7
+X-SA-Exim-Mail-From: ejo@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+	SAEximRunCond expanded to false
+X-PTX-Original-Recipient: openembedded-core@lists.openembedded.org
+Subject: [PATCH][krogoth] nss: fix compilation with glibc-2.24
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -65,154 +35,149 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 28 Oct 2016 04:23:50 -0000
-X-Groupsio-MsgNum: 88700
-Content-Type: multipart/signed;
-	boundary="Apple-Mail=_D50DF6B2-98FD-4005-9EF4-50809A834F3B";
-	protocol="application/pgp-signature"; micalg=pgp-sha1
+X-List-Received-Date: Fri, 28 Oct 2016 06:06:31 -0000
 
---Apple-Mail=_D50DF6B2-98FD-4005-9EF4-50809A834F3B
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=windows-1252
+`readdir_r` is deprecated as of glibc-2.24 and leads to a compilation
+error:
+
+| In file included from sysrand.c:16:0:
+| unix_rand.c: In function 'ReadOneFile':
+| unix_rand.c:1090:6: error: 'readdir_r' is deprecated [-Werror=deprecated-declarations]
+|       error = readdir_r(fd, &entry_dir, &result);
+|       ^~~~~
+| In file included from unix_rand.c:1032:0,
+|                  from sysrand.c:16:
+| /usr/include/dirent.h:183:12: note: declared here
+|  extern int readdir_r (DIR *__restrict __dirp,
+|             ^~~~~~~~~
+| cc1: all warnings being treated as errors
+
+The issue is reported in nss bug tracker
+(https://bugzilla.mozilla.org/show_bug.cgi?id=1254334) and fixed in nss
+mainline.
+The fixing patch is extracted from the nss source code repository.
+
+Signed-off-by: Enrico Jorns <ejo@pengutronix.de>
+---
+ .../nss/nss/use-readdir-instead-of-readdir_r.patch | 95 ++++++++++++++++++++++
+ meta/recipes-support/nss/nss_3.21.bb               |  1 +
+ 2 files changed, 96 insertions(+)
+ create mode 100644 meta/recipes-support/nss/nss/use-readdir-instead-of-readdir_r.patch
+
+diff --git a/meta/recipes-support/nss/nss/use-readdir-instead-of-readdir_r.patch b/meta/recipes-support/nss/nss/use-readdir-instead-of-readdir_r.patch
+new file mode 100644
+index 0000000..00f671f
+--- /dev/null
++++ b/meta/recipes-support/nss/nss/use-readdir-instead-of-readdir_r.patch
+@@ -0,0 +1,95 @@
++# HG changeset patch
++# User Martin Thomson <martin.thomson@gmail.com>
++# Date 1457600884 -39600
++#      Thu Mar 10 20:08:04 2016 +1100
++# Node ID 7309fcbce2eceae1e4e3c687348e540905ae286a
++# Parent  e7b6fca4f01427cafb4328f6e279af62290a2f34
++Bug 1254334 - Use readdir instead of readdir_r, r=emaldona, sr=rrelyea
++
++diff -r e7b6fca4f014 -r 7309fcbce2ec lib/freebl/unix_rand.c
++--- a/nss/lib/freebl/unix_rand.c	Wed Apr 20 15:22:46 2016 +0200
+++++ b/nss/lib/freebl/unix_rand.c	Thu Mar 10 20:08:04 2016 +1100
++@@ -1054,26 +1054,16 @@
++  *
++  * return 1 if it's time to reset the fileToRead (no more files to read).
++  */
++-int ReadOneFile(int fileToRead)
+++static int
+++ReadOneFile(int fileToRead)
++ {
++     char *dir = "/etc";
++     DIR *fd = opendir(dir);
++     int resetCount = 0;
++-#ifdef SOLARIS
++-     /* grumble, Solaris does not define struct dirent to be the full length */
++-    typedef union {
++-	unsigned char space[sizeof(struct dirent) + MAXNAMELEN];
++-	struct dirent dir;
++-    } dirent_hack;
++-    dirent_hack entry, firstEntry;
++-
++-#define entry_dir entry.dir
++-#else
++-    struct dirent entry, firstEntry;
++-#define entry_dir entry
++-#endif
++-
++-    int i, error = -1;
+++    struct dirent *entry;
+++    char firstName[NAME_MAX + 1];
+++    const char *name = NULL;
+++    int i;
++ 
++     if (fd == NULL) {
++ 	dir = PR_GetEnvSecure("HOME");
++@@ -1085,33 +1075,34 @@
++ 	return 1;
++     }
++ 
+++    firstName[0] = '\0';
++     for (i=0; i <= fileToRead; i++) {
++-	struct dirent *result = NULL;
++ 	do {
++-	    error = readdir_r(fd, &entry_dir, &result);
++-	} while (error == 0 && result != NULL  &&
++-					!ReadFileOK(dir,&result->d_name[0]));
++-	if (error != 0 || result == NULL)  {
+++            /* readdir() isn't guaranteed to be thread safe on every platform;
+++             * this code assumes the same directory isn't read concurrently.
+++             * This usage is confirmed safe on Linux, see bug 1254334. */
+++	    entry = readdir(fd);
+++	} while (entry != NULL && !ReadFileOK(dir, &entry->d_name[0]));
+++	if (entry == NULL)  {
++ 	    resetCount = 1; /* read to the end, start again at the beginning */
++-	    if (i != 0) {
+++	    if (firstName[0]) {
++ 		/* ran out of entries in the directory, use the first one */
++-	 	entry = firstEntry;
++-	 	error = 0;
++-	 	break;
+++	 	name = firstName;
++ 	    }
++-	    /* if i== 0, there were no readable entries in the directory */
++ 	    break;
++ 	}
++-	if (i==0) {
++-	    /* save the first entry in case we run out of entries */
++-	    firstEntry = entry;
+++        name = entry->d_name;
+++	if (i == 0) {
+++	    /* copy the name of the first in case we run out of entries */
+++            PORT_Assert(PORT_Strlen(name) <= NAME_MAX);
+++            PORT_Strncpy(firstName, name, NAME_MAX);
+++            firstName[NAME_MAX] = '\0';
++ 	}
++     }
++ 
++-    if (error == 0) {
+++    if (name) {
++ 	char filename[PATH_MAX];
++-	int count = snprintf(filename, sizeof filename, 
++-				"%s/%s",dir, &entry_dir.d_name[0]);
+++	int count = snprintf(filename, sizeof(filename), "%s/%s",dir, name);
++ 	if (count >= 1) {
++ 	    ReadSingleFile(filename);
++ 	}
+diff --git a/meta/recipes-support/nss/nss_3.21.bb b/meta/recipes-support/nss/nss_3.21.bb
+index 05d81c2..39b0994 100644
+--- a/meta/recipes-support/nss/nss_3.21.bb
++++ b/meta/recipes-support/nss/nss_3.21.bb
+@@ -21,6 +21,7 @@ SRC_URI = "\
+     file://nss-fix-incorrect-shebang-of-perl.patch \
+     file://nss-fix-nsinstall-build.patch \
+     file://0001-Fix-build-failure-on-opensuse-13.1.patch \
++    file://use-readdir-instead-of-readdir_r.patch \
+     file://nss-gcc6-fix.patch \
+     file://nss.pc.in \
+     file://signlibs.sh \
+-- 
+2.9.3
 
 
-> On Oct 27, 2016, at 5:18 PM, Marek Vasut <marex@denx.de> wrote:
->=20
-> On 10/27/2016 01:44 PM, Stefan M=FCller-Klieser wrote:
->> On 25.10.2016 21:24, Marek Vasut wrote:
->>> On 10/25/2016 08:32 PM, Denys Dmytriyenko wrote:
->>>> On Sat, Oct 22, 2016 at 10:32:12PM +0200, Marek Vasut wrote:
->>>>> On 10/21/2016 09:47 AM, Burton, Ross wrote:
->>>>>=20
->>>>> Hi!
->>>>>=20
->>>>>> On 20 October 2016 at 14:35, Marek Vasut <marex@denx.de
->>>>>> <mailto:marex@denx.de>> wrote:
->>>>>>=20
->>>>>>    Upgrade U-Boot to the latest version.
->>>>>>=20
->>>>>>=20
->>>>>> As usual, u-boot-mkimage broke again:
->>>>>=20
->>>>> That's weird, I successfully built it for nios2 during my tests.
->>>>> Can you tell me how I can replicate the issue , so I can test for =
-it to
->>>>> prevent regression and roll out a patch ?
->>>>=20
->>>> Marek, Ross,
->>>>=20
->>>> Any progress on this? Need any help testing?
->>>>=20
->>> Yeah, how do you replicate this issue ?
->>>=20
->> Hi!
->=20
-> Hi!
->=20
->> I am just looking at a similar problem and want to jump into the =
-discussion.
->> As Ross said, the problem is to not respect host/target -- =
-cc/cflags/ldflags.
->> So to replicate the issue, you can use a bare minimum build host with =
-no
->> cross toolchain installed, and I guess all targets will fail to =
-build.
->=20
-> Well both ARM and nios2 builds for me, so I wonder what sort of stupid
-> thing am I doing.
-
-
-perhaps, its manifesting when toolchain is used from sstate, moreover =
-the sstate
-comes from a mirror which is populated from a workspace which has =
-different
-build time paths, which means its encoding a different default sysroot =
-into
-toolchain. So unless you add TOOLCHAIN_OPTIONS to the CC and its ilk
-you will have issues.
-
-May be you can reproduce it by
-
-1. build first time ./oe-init-build-env /path/to/build1
-2. Now set another builddir may be using ./oe-init-build-env =
-/path/to/build2
-3. Add a SSTATE_MIRROR pointing to sstate from first builddir add below =
-to local.conf
-
-SSTATE_MIRRORS ?=3D "\
-file://.* file:///path/to/build1/sstate-cache/PATH=94
-
-4. bitbake <package>
-5. bitbake -ccleansstate <package>
-6. bitbake package
-
-
-
->=20
->> As this has been broken so many times, I want to discuss some =
-possible fixes:
->> In the top level Makefile we have:
->> HOSTCC =3D cc
->> HOSTCFLAGS =3D ...
->> The problem is, you cannot properly override those variables, as they =
-get used
->> a lot to do different things, e.g. in tools/Makefile we have (for =
-cross tools
->> target) HOSTCC =3D $(CC) and for HOSTCFLAGS we have appends for =
-configuration.
->> Thats why we have the current workaround with a squashed override. I =
-see many
->> possible solutions and would like to hear your opinion:
->> 1. Make top level Makefile HOST assignments conditional "?=3D"
->>   - easy
->>   - will probably not be accepted upstream
->=20
-> Why ?
->=20
->> 2. add "override" to appends in sublevel Makefiles
->>   - adds complexity/one level of override hierarchy
->> 3. Don't use appends for those variables (like in the kernel =
-Makefile), overrides
->>   in the recipe
->>   - clean
->>   - quite some rework in uboot
->=20
-> Can you provide details ?
->=20
->> 4. Hack around in the recipe with class overrides and exports
->>   - quickfix, no patch required
->>   - fails easily in the future
->>=20
->> Any thoughts?
->> Stefan
->>=20
->=20
->=20
-> --
-> Best regards,
-> Marek Vasut
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
-
-
---Apple-Mail=_D50DF6B2-98FD-4005-9EF4-50809A834F3B
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP using GPGMail
-
------BEGIN PGP SIGNATURE-----
-Comment: GPGTools - https://gpgtools.org
-
-iEYEARECAAYFAlgS0tMACgkQuwUzVZGdMxTCDACdFE+08IB5LrwrN/TL69gBN94b
-maUAnjNrGrXPOWRZFhguAtI3KtesuN40
-=mcPO
------END PGP SIGNATURE-----
-
---Apple-Mail=_D50DF6B2-98FD-4005-9EF4-50809A834F3B--
