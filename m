@@ -1,24 +1,24 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by mail.openembedded.org (Postfix) with ESMTP id 937F671D60
+	by mail.openembedded.org (Postfix) with ESMTP id AE95371B0A
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Oct 2016 15:15:12 +0000 (UTC)
+	Fri, 28 Oct 2016 15:15:13 +0000 (UTC)
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
-	by orsmga105.jf.intel.com with ESMTP; 28 Oct 2016 08:15:14 -0700
+	by orsmga105.jf.intel.com with ESMTP; 28 Oct 2016 08:15:15 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.31,410,1473145200"; d="scan'208";a="24878757"
+X-IronPort-AV: E=Sophos;i="5.31,410,1473145200"; d="scan'208";a="24878764"
 Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by orsmga005.jf.intel.com with ESMTP; 28 Oct 2016 08:15:13 -0700
+	by orsmga005.jf.intel.com with ESMTP; 28 Oct 2016 08:15:14 -0700
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 28 Oct 2016 18:12:18 +0300
-Message-Id: <bcea62401f03c3ac4eefe2bf7e4322b3cf937f97.1477667287.git.alexander.kanavin@linux.intel.com>
+Date: Fri, 28 Oct 2016 18:12:19 +0300
+Message-Id: <5d79c3ec1d571851df0ffea7e3e5cef9711a0832.1477667287.git.alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.9.3
 In-Reply-To: <cover.1477667287.git.alexander.kanavin@linux.intel.com>
 References: <cover.1477667287.git.alexander.kanavin@linux.intel.com>
 In-Reply-To: <cover.1477667287.git.alexander.kanavin@linux.intel.com>
 References: <cover.1477667287.git.alexander.kanavin@linux.intel.com>
-Subject: [PATCHv2 15/26] alsa-utils: enable optional building of manpages
+Subject: [PATCHv2 16/26] pulseaudio: enable optional building of manpages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,38 +31,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 28 Oct 2016 15:15:12 -0000
-
-'xmlto' package feature is renamed to 'manpages' for consistency
-with other manpage-enabled recipes.
+X-List-Received-Date: Fri, 28 Oct 2016 15:15:13 -0000
 
 Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- meta/recipes-multimedia/alsa/alsa-utils_1.1.2.bb | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/recipes-multimedia/pulseaudio/pulseaudio.inc | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-multimedia/alsa/alsa-utils_1.1.2.bb b/meta/recipes-multimedia/alsa/alsa-utils_1.1.2.bb
-index a22d999..e1651ae 100644
---- a/meta/recipes-multimedia/alsa/alsa-utils_1.1.2.bb
-+++ b/meta/recipes-multimedia/alsa/alsa-utils_1.1.2.bb
-@@ -17,7 +17,7 @@ PACKAGECONFIG ??= "udev"
- PACKAGECONFIG[bat] = "--enable-bat,--disable-bat,fftwf"
+diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
+index 7e54ad4..f5c5ed2 100644
+--- a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
++++ b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
+@@ -13,7 +13,7 @@ DEPENDS = "libatomic-ops libsndfile1 libtool intltool-native"
+ DEPENDS += "udev alsa-lib glib-2.0 gconf"
+ DEPENDS += "json-c gdbm speexdsp libxml-parser-perl-native libcap"
  
- PACKAGECONFIG[udev] = "--with-udev-rules-dir=`pkg-config --variable=udevdir udev`/rules.d,,udev"
--PACKAGECONFIG[xmlto] = "--enable-xmlto, --disable-xmlto, xmlto-native docbook-xml-dtd4-native docbook-xsl-stylesheets-native"
-+PACKAGECONFIG[manpages] = "--enable-xmlto, --disable-xmlto, xmlto-native docbook-xml-dtd4-native docbook-xsl-stylesheets-native"
+-inherit autotools bash-completion pkgconfig useradd gettext perlnative bluetooth systemd
++inherit autotools bash-completion pkgconfig useradd gettext perlnative bluetooth systemd manpages
  
- SRC_URI = "ftp://ftp.alsa-project.org/pub/utils/alsa-utils-${PV}.tar.bz2 \
-            file://0001-alsactl-don-t-let-systemd-unit-restore-the-volume-wh.patch \
-@@ -32,7 +32,7 @@ SRC_URI[sha256sum] = "7af603c0877d1251599d65b4fbc372e63a54371b888f5c26c6a86ac1d0
- #
- EXTRA_OECONF_append_libc-uclibc = " --disable-nls"
+ # *.desktop rules wont be generated during configure and build will fail
+ # if using --disable-nls
+@@ -62,6 +62,7 @@ PACKAGECONFIG[autospawn-for-root] = ",,,"
+ PACKAGECONFIG[lirc] = "--enable-lirc,--disable-lirc,lirc"
+ PACKAGECONFIG[webrtc] = "--enable-webrtc-aec,--disable-webrtc-aec,webrtc-audio-processing"
+ PACKAGECONFIG[ipv6] = "--enable-ipv6,--disable-ipv6,"
++PACKAGECONFIG[manpages] = "--enable-manpages, --disable-manpages, "
  
--inherit autotools gettext pkgconfig
-+inherit autotools gettext pkgconfig manpages
- 
- # This are all packages that we need to make. Also, the now empty alsa-utils
- # ipk depends on them.
+ EXTRA_OECONF_append_arm = "${@bb.utils.contains("TUNE_FEATURES", "neon", "", " --enable-neon-opt=no", d)}"
+ EXTRA_OECONF_append_armeb = "${@bb.utils.contains("TUNE_FEATURES", "neon", "", " --enable-neon-opt=no", d)}"
 -- 
 2.9.3
 
