@@ -1,45 +1,29 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f195.google.com (mail-pf0-f195.google.com
-	[209.85.192.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 91827719E9
+Return-Path: <Nathan_Lynch@mentor.com>
+Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
+	by mail.openembedded.org (Postfix) with ESMTP id 02A546FF9F
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Oct 2016 18:41:04 +0000 (UTC)
-Received: by mail-pf0-f195.google.com with SMTP id i85so1914234pfa.0
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Oct 2016 11:41:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=Zlu+2XnAeAqa7N8qcY7MWct/BQvxbdL4OrItMKPpHUY=;
-	b=jyb1yLhKjBzZa94lBViVpIqfcvBpDIOnuK6LySWPlaCLXdaqzoJfLDPNBAjx2FTqOo
-	PXnZCusjGcbDvq0Vhae8MyQPTB7avzIlaFe9hkYtL04CDXTHb+iVLB8EtaGNuYKPi1lz
-	hNR2R8Qc2vwvIU/GytkkYo5zohXJPEgK11Xy5JkzavzG01/n6wD53rDlKLhJbQII1b8K
-	Apy9rlSfA7OCYgTAdmzEFbepFTMZRFeUS6fB3iUKxbWWQsc6zPZJKaXZieUUxt+zeKV7
-	CtqnOEtJa1CLo9th9vyRUxgncXQkdDkgdjrsNt0yrAraJ1kM5g9wtUNWgdqHs4CkLevO
-	soiA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=Zlu+2XnAeAqa7N8qcY7MWct/BQvxbdL4OrItMKPpHUY=;
-	b=ICTZ5PQZoWVXwVMOtdf/mQI8v0yI3osl48FMc2kprUHL+QIyd60vRJgqUHYB0kWZyP
-	30zRulnX3tKp3jo/i8ez5e87rckDkLPSx2al9dsgFvbxMVM+HOqNbvlY28HQRCjttxBC
-	ssyFhqUzjZi5LvKQgagzM2p2FfYNxQZVrTjZhBJOvUJ1xu9RDD4vudgyV9uS9kSE3WWk
-	fI7/NzJ9Dt5bMUIekYEfbpS6og1wy0Rkvj/+zjKtyBihGaGUo/GwMWLNMwujfe+uXReI
-	jkHEGGJdC+zKX2g+WF2oImeQa0PEgDQAqQqaLoaqatBkcL4zEtQ57DgbgXgScMLbpCyW
-	omow==
-X-Gm-Message-State: ABUngvc7KZ9Y6boXwmo+z98W2qIIRLNwGajAls2nWXVKOXlT9+prT5aUfxrQw0qmS1p4cA==
-X-Received: by 10.98.202.156 with SMTP id y28mr27413626pfk.130.1477680066329; 
-	Fri, 28 Oct 2016 11:41:06 -0700 (PDT)
-Received: from localhost.localdomain (c-76-102-32-192.hsd1.ca.comcast.net.
-	[76.102.32.192]) by smtp.gmail.com with ESMTPSA id
-	i123sm20546435pfg.30.2016.10.28.11.41.05
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 28 Oct 2016 11:41:05 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 28 Oct 2016 11:40:58 -0700
-Message-Id: <20161028184058.14189-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.10.1
-Subject: [master/morty][PATCH] binutils-2.27: Fix linker segfaults when linking binary files
+	Fri, 28 Oct 2016 18:46:13 +0000 (UTC)
+Received: from svr-orw-mbx-02.mgc.mentorg.com ([147.34.90.202])
+	by relay1.mentorg.com with esmtp 
+	id 1c0CAQ-0007b9-9K from Nathan_Lynch@mentor.com ;
+	Fri, 28 Oct 2016 11:46:14 -0700
+Received: from [172.30.80.120] (147.34.91.1) by svr-orw-mbx-02.mgc.mentorg.com
+	(147.34.90.202) with Microsoft SMTP Server (TLS) id 15.0.1210.3;
+	Fri, 28 Oct 2016 11:46:11 -0700
+To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+References: <cover.1477667287.git.alexander.kanavin@linux.intel.com>
+	<a47281b1272e238a4eeda7a034dfda9c02e5f089.1477667287.git.alexander.kanavin@linux.intel.com>
+From: Nathan Lynch <Nathan_Lynch@mentor.com>
+Message-ID: <c39f2013-9bad-9e64-d2b8-721db94001a0@mentor.com>
+Date: Fri, 28 Oct 2016 13:46:09 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.3.0
+MIME-Version: 1.0
+In-Reply-To: <a47281b1272e238a4eeda7a034dfda9c02e5f089.1477667287.git.alexander.kanavin@linux.intel.com>
+X-ClientProxiedBy: svr-orw-mbx-03.mgc.mentorg.com (147.34.90.203) To
+	svr-orw-mbx-02.mgc.mentorg.com (147.34.90.202)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCHv2 24/26] lttng-tools: do not install manpages in ptest package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,77 +36,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 28 Oct 2016 18:41:05 -0000
+X-List-Received-Date: Fri, 28 Oct 2016 18:46:14 -0000
+Content-Type: text/plain; charset="windows-1252"
+Content-Transfer-Encoding: 7bit
 
-Fixes segfaults when doing partial linking and generaring binary objects
+On 10/28/2016 10:12 AM, Alexander Kanavin wrote:
+> Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+> ---
+>  meta/recipes-kernel/lttng/lttng-tools_git.bb | 3 +++
+>  1 file changed, 3 insertions(+)
+> 
+> diff --git a/meta/recipes-kernel/lttng/lttng-tools_git.bb b/meta/recipes-kernel/lttng/lttng-tools_git.bb
+> index 016346f..18259e4 100644
+> --- a/meta/recipes-kernel/lttng/lttng-tools_git.bb
+> +++ b/meta/recipes-kernel/lttng/lttng-tools_git.bb
+> @@ -113,4 +113,7 @@ do_install_ptest () {
+>  	# checkpatch.pl is unneeded on target and causes file-rdeps QA
+>  	# warnings.
+>  	rm -f ${D}${PTEST_PATH}/extras/checkpatch.pl
+> +
+> +        # Remove manpages if they are built
+> +        rm -f ${D}${PTEST_PATH}/doc/man/*.[0-9]
+>  }
 
-/tmp/binu/ld/ld-new -r -b binary -o etc_certs_ui_ca_pem.o etc_certs_ui_ca_pem
 
-0  elf32_arm_count_additional_relocs (sec=0x79bf40) at /mnt/a/work/oe/binutils-gdb/bfd/elf32-arm.c:18210
-1  0x000000000047635a in bfd_elf_final_link (abfd=abfd@entry=0x783250, info=info@entry=0x748400 <link_info>) at /mnt/a/work/oe/binutils-gdb/bfd/elflink.c:11224
-2  0x000000000044df7b in elf32_arm_final_link (abfd=0x783250, info=0x748400 <link_info>) at /mnt/a/work/oe/binutils-gdb/bfd/elf32-arm.c:12131
-3  0x0000000000418917 in ldwrite () at /mnt/a/work/oe/binutils-gdb/ld/ldwrite.c:577
-4  0x000000000040365f in main (argc=<optimized out>, argv=<optimized out>) at /mnt/a/work/oe/binutils-gdb/ld/ldmain.c:433
+This actually breaks running the lttng-tools test suite on the target:
 
-gold works ok. The patch is already applied in master binutils
+root@qemux86-64:/usr/lib/lttng-tools/ptest# cat run-ptest
+#!/bin/sh
+# Without --ignore-exit, the tap harness causes any FAILs within a
+# test plan to raise ERRORs; this is just noise.
+makeargs="LOG_DRIVER_FLAGS=--ignore-exit"
+make -t all >/dev/null 2>&1 && exec make -s $makeargs check 2>/dev/null
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/recipes-devtools/binutils/binutils-2.27.inc   |  1 +
- ...lt-in-ARM-linker-when-trying-to-parse-a-b.patch | 31 ++++++++++++++++++++++
- 2 files changed, 32 insertions(+)
- create mode 100644 meta/recipes-devtools/binutils/binutils/0016-Fix-seg-fault-in-ARM-linker-when-trying-to-parse-a-b.patch
+root@qemux86-64:/usr/lib/lttng-tools/ptest# sh -x run-ptest
++ makeargs=LOG_DRIVER_FLAGS=--ignore-exit
++ make -t all
 
-diff --git a/meta/recipes-devtools/binutils/binutils-2.27.inc b/meta/recipes-devtools/binutils/binutils-2.27.inc
-index af1420b..fc81721 100644
---- a/meta/recipes-devtools/binutils/binutils-2.27.inc
-+++ b/meta/recipes-devtools/binutils/binutils-2.27.inc
-@@ -36,6 +36,7 @@ SRC_URI = "\
-      file://0014-libtool-remove-rpath.patch \
-      file://0015-binutils-mips-gas-pic-relax-linkonce.diff \
-      file://0015-Refine-.cfi_sections-check-to-only-consider-compact-.patch \
-+     file://0016-Fix-seg-fault-in-ARM-linker-when-trying-to-parse-a-b.patch \
- "
- S  = "${WORKDIR}/git"
- 
-diff --git a/meta/recipes-devtools/binutils/binutils/0016-Fix-seg-fault-in-ARM-linker-when-trying-to-parse-a-b.patch b/meta/recipes-devtools/binutils/binutils/0016-Fix-seg-fault-in-ARM-linker-when-trying-to-parse-a-b.patch
-new file mode 100644
-index 0000000..33bf1e8
---- /dev/null
-+++ b/meta/recipes-devtools/binutils/binutils/0016-Fix-seg-fault-in-ARM-linker-when-trying-to-parse-a-b.patch
-@@ -0,0 +1,31 @@
-+From 72b09de92cc597c53b1d762882b67a17fe56846c Mon Sep 17 00:00:00 2001
-+From: Nick Clifton <nickc@redhat.com>
-+Date: Tue, 23 Aug 2016 09:45:11 +0100
-+Subject: [PATCH 16/16] Fix seg-fault in ARM linker when trying to parse a
-+ binary file.
-+
-+	* elf32-arm.c (elf32_arm_count_additional_relocs): Return zero if
-+	there is no arm data associated with the section.
-+---
-+Upstream-Status: Backport
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+
-+ bfd/elf32-arm.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/bfd/elf32-arm.c b/bfd/elf32-arm.c
-+index 700bec3..3fab609 100644
-+--- a/bfd/elf32-arm.c
-++++ b/bfd/elf32-arm.c
-+@@ -18207,7 +18207,7 @@ elf32_arm_count_additional_relocs (asection *sec)
-+ {
-+   struct _arm_elf_section_data *arm_data;
-+   arm_data = get_arm_elf_section_data (sec);
-+-  return arm_data->additional_reloc_count;
-++  return arm_data == NULL ? 0 : arm_data->additional_reloc_count;
-+ }
-+ 
-+ /* Called to set the sh_flags, sh_link and sh_info fields of OSECTION which
-+-- 
-+2.10.1
-+
--- 
-2.10.1
+root@qemux86-64:/usr/lib/lttng-tools/ptest# echo $?
+2
+
+root@qemux86-64:/usr/lib/lttng-tools/ptest# make -s -t all
+make[2]: *** No rule to make target 'lttng-health-check.3', needed by
+'all-am'.  Stop.
+make[1]: *** [Makefile:537: all-recursive] Error 1
+make: *** [Makefile:570: all-recursive] Error 1
+
+
+I'd rather see "do not install shared libraries in ptest package" go in
+first as it fixes an existing problem without regressing lttng-tools-ptest.
+
+I'm looking at reworking do_install_ptest to do a selective copy, as you
+suggested earlier, so maybe just drop this patch?
 
 
