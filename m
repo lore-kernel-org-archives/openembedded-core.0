@@ -1,24 +1,24 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by mail.openembedded.org (Postfix) with ESMTP id 7AA8971B0A
+	by mail.openembedded.org (Postfix) with ESMTP id 937F671D60
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Oct 2016 15:15:11 +0000 (UTC)
+	Fri, 28 Oct 2016 15:15:12 +0000 (UTC)
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
-	by orsmga105.jf.intel.com with ESMTP; 28 Oct 2016 08:15:13 -0700
+	by orsmga105.jf.intel.com with ESMTP; 28 Oct 2016 08:15:14 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.31,410,1473145200"; d="scan'208";a="24878742"
+X-IronPort-AV: E=Sophos;i="5.31,410,1473145200"; d="scan'208";a="24878757"
 Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by orsmga005.jf.intel.com with ESMTP; 28 Oct 2016 08:15:12 -0700
+	by orsmga005.jf.intel.com with ESMTP; 28 Oct 2016 08:15:13 -0700
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 28 Oct 2016 18:12:17 +0300
-Message-Id: <f7417b7979c5a5d0ee11d30739c49932742f6325.1477667287.git.alexander.kanavin@linux.intel.com>
+Date: Fri, 28 Oct 2016 18:12:18 +0300
+Message-Id: <bcea62401f03c3ac4eefe2bf7e4322b3cf937f97.1477667287.git.alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.9.3
 In-Reply-To: <cover.1477667287.git.alexander.kanavin@linux.intel.com>
 References: <cover.1477667287.git.alexander.kanavin@linux.intel.com>
 In-Reply-To: <cover.1477667287.git.alexander.kanavin@linux.intel.com>
 References: <cover.1477667287.git.alexander.kanavin@linux.intel.com>
-Subject: [PATCHv2 14/26] lttng: enable optional building of manpages
+Subject: [PATCHv2 15/26] alsa-utils: enable optional building of manpages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,58 +31,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 28 Oct 2016 15:15:11 -0000
+X-List-Received-Date: Fri, 28 Oct 2016 15:15:12 -0000
+
+'xmlto' package feature is renamed to 'manpages' for consistency
+with other manpage-enabled recipes.
 
 Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- meta/recipes-kernel/lttng/lttng-tools_git.bb | 4 ++--
- meta/recipes-kernel/lttng/lttng-ust_git.bb   | 4 ++--
- 2 files changed, 4 insertions(+), 4 deletions(-)
+ meta/recipes-multimedia/alsa/alsa-utils_1.1.2.bb | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-kernel/lttng/lttng-tools_git.bb b/meta/recipes-kernel/lttng/lttng-tools_git.bb
-index bfc657b..016346f 100644
---- a/meta/recipes-kernel/lttng/lttng-tools_git.bb
-+++ b/meta/recipes-kernel/lttng/lttng-tools_git.bb
-@@ -26,7 +26,7 @@ PACKAGECONFIG ??= "lttng-ust"
- PACKAGECONFIG[python] = "--enable-python-bindings ${PYTHON_OPTION},,python3 swig-native"
- PACKAGECONFIG[lttng-ust] = "--with-lttng-ust, --without-lttng-ust, lttng-ust"
- PACKAGECONFIG[kmod] = "--enable-kmod, --disable-kmod, kmod"
--PACKAGECONFIG[manpages] = "--enable-man-pages, --disable-man-pages, asciidoc-native"
-+PACKAGECONFIG[manpages] = "--enable-man-pages, --disable-man-pages, asciidoc-native xmlto-native libxslt-native"
- PACKAGECONFIG_remove_libc-musl = "lttng-ust"
+diff --git a/meta/recipes-multimedia/alsa/alsa-utils_1.1.2.bb b/meta/recipes-multimedia/alsa/alsa-utils_1.1.2.bb
+index a22d999..e1651ae 100644
+--- a/meta/recipes-multimedia/alsa/alsa-utils_1.1.2.bb
++++ b/meta/recipes-multimedia/alsa/alsa-utils_1.1.2.bb
+@@ -17,7 +17,7 @@ PACKAGECONFIG ??= "udev"
+ PACKAGECONFIG[bat] = "--enable-bat,--disable-bat,fftwf"
  
- SRC_URI = "git://git.lttng.org/lttng-tools.git;branch=stable-2.8 \
-@@ -35,7 +35,7 @@ SRC_URI = "git://git.lttng.org/lttng-tools.git;branch=stable-2.8 \
+ PACKAGECONFIG[udev] = "--with-udev-rules-dir=`pkg-config --variable=udevdir udev`/rules.d,,udev"
+-PACKAGECONFIG[xmlto] = "--enable-xmlto, --disable-xmlto, xmlto-native docbook-xml-dtd4-native docbook-xsl-stylesheets-native"
++PACKAGECONFIG[manpages] = "--enable-xmlto, --disable-xmlto, xmlto-native docbook-xml-dtd4-native docbook-xsl-stylesheets-native"
  
- S = "${WORKDIR}/git"
+ SRC_URI = "ftp://ftp.alsa-project.org/pub/utils/alsa-utils-${PV}.tar.bz2 \
+            file://0001-alsactl-don-t-let-systemd-unit-restore-the-volume-wh.patch \
+@@ -32,7 +32,7 @@ SRC_URI[sha256sum] = "7af603c0877d1251599d65b4fbc372e63a54371b888f5c26c6a86ac1d0
+ #
+ EXTRA_OECONF_append_libc-uclibc = " --disable-nls"
  
--inherit autotools-brokensep ptest pkgconfig useradd python3-dir
-+inherit autotools-brokensep ptest pkgconfig useradd python3-dir manpages
+-inherit autotools gettext pkgconfig
++inherit autotools gettext pkgconfig manpages
  
- USERADD_PACKAGES = "${PN}"
- GROUPADD_PARAM_${PN} = "tracing"
-diff --git a/meta/recipes-kernel/lttng/lttng-ust_git.bb b/meta/recipes-kernel/lttng/lttng-ust_git.bb
-index baff71f..07ce2f4 100644
---- a/meta/recipes-kernel/lttng/lttng-ust_git.bb
-+++ b/meta/recipes-kernel/lttng/lttng-ust_git.bb
-@@ -8,7 +8,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=c963eb366b781252b0bf0fdf1624d9e9 \
-                     file://snprintf/snprintf.c;endline=32;md5=d3d544959d8a3782b2e07451be0a903c \
-                     file://snprintf/various.h;endline=31;md5=89f2509b6b4682c4fc95255eec4abe44"
- 
--inherit autotools lib_package
-+inherit autotools lib_package manpages
- 
- DEPENDS = "liburcu util-linux"
- RDEPENDS_${PN}-bin = "python3-core"
-@@ -26,7 +26,7 @@ SRC_URI = "git://git.lttng.org/lttng-ust.git;branch=stable-2.8 \
-            file://lttng-ust-doc-examples-disable.patch \
-           "
- 
--EXTRA_OECONF += "--disable-man-pages"
-+PACKAGECONFIG[manpages] = "--enable-man-pages, --disable-man-pages, asciidoc-native xmlto-native libxslt-native"
- 
- do_install_append() {
-         # Patch python tools to use Python 3; they should be source compatible, but
+ # This are all packages that we need to make. Also, the now empty alsa-utils
+ # ipk depends on them.
 -- 
 2.9.3
 
