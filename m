@@ -1,54 +1,42 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pf0-f196.google.com (mail-pf0-f196.google.com
-	[209.85.192.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 357AC6093E
+Return-Path: <marex@denx.de>
+Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.9])
+	by mail.openembedded.org (Postfix) with ESMTP id 6E14371AB5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Oct 2016 21:36:41 +0000 (UTC)
-Received: by mail-pf0-f196.google.com with SMTP id u84so3625550pfj.1
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Oct 2016 14:36:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=subject:to:references:from:message-id:date:user-agent:mime-version
-	:in-reply-to:content-transfer-encoding;
-	bh=j7ikvU+mtjgzCyfBuFFqfAB42dvu2eRrxuOO3cjdtxU=;
-	b=rw8IbausUItLJg6D7Mntu4XSiKCwqLfbm/DL7RuU5dMmmn6t2Z7rjSCIyzeArbxka5
-	qlB285oYDAlFD0WkILnbMseCRgFnakbhCEZigqIFNwdi6k2XAkQA2VgXQXO4nupnUrtX
-	rqYpsgf93eLN4TPcE0uC7vXr01jvyVHDvzl7PdN9JGsIJ/4rA9nxO3fBg5lAel0uI+eW
-	SzoyZgcLePKhqJwYTiom2WSjdYGo6VZ5qOyer8oQ2KezosFBi9FmlODzdV0Br2+p41uB
-	9IA8qZOkA2i5RWly9ML+hzDzdUgjx8TZgO0eZNacQCWi6MW09E6FPHVgSkQlMWmUDgyI
-	uiDA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:subject:to:references:from:message-id:date
-	:user-agent:mime-version:in-reply-to:content-transfer-encoding;
-	bh=j7ikvU+mtjgzCyfBuFFqfAB42dvu2eRrxuOO3cjdtxU=;
-	b=VcG/Z4Vz6ITNwNpAeqE8rXVShuJ0m3AUTLSQfgYEspvlziAg15qSNAkIJ+OLX1BkEj
-	gv8PjGWmDta4D0iL4EnCW5aptZ5AG07a0zox7AJQ2Ti56K/7i1E5/5rAgGle6GarylEx
-	8wuGljrLJkCoaogoFIna5v7I/sjiejnJcxkVv1QEhyTXY1JdccCb0CYTo13CCi30o5Ss
-	FJkviCPD50Ip8OKfIItqZCWXYjPywyy2QOwqH96PnX4Tsv+v3flGQdeVArTfZJ6rTtvH
-	ni4B9ymIzII0OKFGUdcVr0vgOCwsUWyK2Upb9Me5xdR9s53BjPxTASe4vj6/8orErY6M
-	Ql9g==
-X-Gm-Message-State: ABUngvc+KT6aWZapLtOhkH6LjtracXnbnkSHggxSjOGXLfBolYa+rmhZK9n6fHhpOydLDw==
-X-Received: by 10.99.176.7 with SMTP id h7mr2874444pgf.170.1477604202714;
-	Thu, 27 Oct 2016 14:36:42 -0700 (PDT)
-Received: from ?IPv6:2601:202:4001:9ea0:c57:6cb7:8938:cc04?
-	([2601:202:4001:9ea0:c57:6cb7:8938:cc04])
-	by smtp.gmail.com with ESMTPSA id
-	e90sm13908699pfd.5.2016.10.27.14.36.42
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 27 Oct 2016 14:36:42 -0700 (PDT)
-To: openembedded-core@lists.openembedded.org
-References: <1476124325-6771-1-git-send-email-sgw@linux.intel.com>
-	<1477600328.2097.1.camel@intel.com>
-From: akuster808 <akuster808@gmail.com>
-Message-ID: <13e9b950-6aa1-359d-88d3-fff04b0dbfd1@gmail.com>
-Date: Thu, 27 Oct 2016 14:36:41 -0700
+	Fri, 28 Oct 2016 01:35:24 +0000 (UTC)
+Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
+	by mail-out.m-online.net (Postfix) with ESMTP id 3t4mXs2CMfz3hjPM;
+	Fri, 28 Oct 2016 03:35:25 +0200 (CEST)
+Received: from localhost (dynscan1.mnet-online.de [192.168.6.68])
+	by mail.m-online.net (Postfix) with ESMTP id 3t4mXs1Pr3zvmC4;
+	Fri, 28 Oct 2016 03:35:25 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at mnet-online.de
+Received: from mail.mnet-online.de ([192.168.8.182])
+	by localhost (dynscan1.mail.m-online.net [192.168.6.68]) (amavisd-new,
+	port 10024)
+	with ESMTP id F6Ho8UD5RhAE; Fri, 28 Oct 2016 03:35:24 +0200 (CEST)
+X-Auth-Info: 2NNapQQCsr1N37vVSSt1An2VcamuFcXObuBSTpcZkOE=
+Received: from [IPv6:::1] (unknown [195.140.253.167])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mail.mnet-online.de (Postfix) with ESMTPSA;
+	Fri, 28 Oct 2016 03:35:24 +0200 (CEST)
+To: =?UTF-8?Q?Stefan_M=c3=bcller-Klieser?= <s.mueller-klieser@phytec.de>,
+	Denys Dmytriyenko <denis@denix.org>
+References: <20161020133514.3403-1-marex@denx.de>
+	<CAJTo0LZeox5Xe6hpnH82JZLaMb1_LtuUjKpcZtmcLOAOnosSUg@mail.gmail.com>
+	<016763e0-b2cb-0c2c-f0d0-219da1c1faa3@denx.de>
+	<20161025183239.GF2494@denix.org>
+	<83c5347a-3962-7b3b-30d3-d5ee876fc2aa@denx.de>
+	<5811E899.6050000@phytec.de>
+From: Marek Vasut <marex@denx.de>
+Message-ID: <ae855dd3-d95b-8616-8b6b-a3cf1f0a5275@denx.de>
+Date: Fri, 28 Oct 2016 02:18:59 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.3.0
+	Icedove/45.4.0
 MIME-Version: 1.0
-In-Reply-To: <1477600328.2097.1.camel@intel.com>
-Subject: Re: [PATCH][master][krogoth] archiver: fix gcc-source handling
+In-Reply-To: <5811E899.6050000@phytec.de>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/4] u-boot: Update to 2016.09.01 release
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,74 +49,82 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 27 Oct 2016 21:36:42 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 28 Oct 2016 01:35:25 -0000
+Content-Type: text/plain; charset=windows-1252
+Content-Transfer-Encoding: 8bit
 
-
-
-On 10/27/2016 01:32 PM, Wold, Saul wrote:
-> This has been merged to master ping for Krogoth
->
-> Sau!
-
-is in my staging work.
-http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/commit/?h=akuster/krogoth-next&id=d52071671f6b93a7653b8445bf9bf2b9a5c0e29a
-
-I am working on getting a clean build out of the AB before doing a pull 
-request. I suppose I should send a pre-pull request for review.
-
-- armin
->
-> On Mon, 2016-10-10 at 11:32 -0700, Saul Wold wrote:
->> The source archiver was not handling the gcc-source target correctly,
->> since it uses the
->> work-shared directory, we don't want to unpack and patch it twice,
->> just as the comments
->> say, but the code was not there to check for the gcc-source target.
+On 10/27/2016 01:44 PM, Stefan Müller-Klieser wrote:
+> On 25.10.2016 21:24, Marek Vasut wrote:
+>> On 10/25/2016 08:32 PM, Denys Dmytriyenko wrote:
+>>> On Sat, Oct 22, 2016 at 10:32:12PM +0200, Marek Vasut wrote:
+>>>> On 10/21/2016 09:47 AM, Burton, Ross wrote:
+>>>>
+>>>> Hi!
+>>>>
+>>>>> On 20 October 2016 at 14:35, Marek Vasut <marex@denx.de
+>>>>> <mailto:marex@denx.de>> wrote:
+>>>>>
+>>>>>     Upgrade U-Boot to the latest version.
+>>>>>
+>>>>>
+>>>>> As usual, u-boot-mkimage broke again:
+>>>>
+>>>> That's weird, I successfully built it for nios2 during my tests.
+>>>> Can you tell me how I can replicate the issue , so I can test for it to
+>>>> prevent regression and roll out a patch ?
+>>>
+>>> Marek, Ross,
+>>>
+>>> Any progress on this? Need any help testing?
+>>>
+>> Yeah, how do you replicate this issue ?
 >>
->> [YOCTO #10265]
->>
->> Signed-off-by: Saul Wold <sgw@linux.intel.com>
->> ---
->>
->>   meta/classes/archiver.bbclass | 5 +++--
->>   1 file changed, 3 insertions(+), 2 deletions(-)
->>
->> diff --git a/meta/classes/archiver.bbclass
->> b/meta/classes/archiver.bbclass
->> index 1d8e863..9239983 100644
->> --- a/meta/classes/archiver.bbclass
->> +++ b/meta/classes/archiver.bbclass
->> @@ -303,9 +303,10 @@ python do_unpack_and_patch() {
->>           return
->>       ar_outdir = d.getVar('ARCHIVER_OUTDIR', True)
->>       ar_workdir = d.getVar('ARCHIVER_WORKDIR', True)
->> +    pn = d.getVar('PN', True)
->>   
->>       # The kernel class functions require it to be on work-shared, so
->> we dont change WORKDIR
->> -    if not bb.data.inherits_class('kernel-yocto', d):
->> +    if not (bb.data.inherits_class('kernel-yocto', d) or
->> pn.startswith('gcc-source')):
->>           # Change the WORKDIR to make do_unpack do_patch run in
->> another dir.
->>           d.setVar('WORKDIR', ar_workdir)
->>   
->> @@ -323,7 +324,7 @@ python do_unpack_and_patch() {
->>           oe.path.copytree(src, src_orig)
->>   
->>       # Make sure gcc and kernel sources are patched only once
->> -    if not ((d.getVar('SRC_URI', True) == "" or
->> bb.data.inherits_class('kernel-yocto', d))):
->> +    if not (d.getVar('SRC_URI', True) == "" or
->> (bb.data.inherits_class('kernel-yocto', d) or pn.startswith('gcc-
->> source'))):
->>           bb.build.exec_func('do_patch', d)
->>   
->>       # Create the patches
->> -- 
->> 2.7.4
->>
+> Hi!
 
+Hi!
+
+> I am just looking at a similar problem and want to jump into the discussion.
+> As Ross said, the problem is to not respect host/target -- cc/cflags/ldflags.
+> So to replicate the issue, you can use a bare minimum build host with no
+> cross toolchain installed, and I guess all targets will fail to build.
+
+Well both ARM and nios2 builds for me, so I wonder what sort of stupid
+thing am I doing.
+
+> As this has been broken so many times, I want to discuss some possible fixes:
+> In the top level Makefile we have:
+> HOSTCC = cc
+> HOSTCFLAGS = ...
+> The problem is, you cannot properly override those variables, as they get used
+> a lot to do different things, e.g. in tools/Makefile we have (for cross tools
+> target) HOSTCC = $(CC) and for HOSTCFLAGS we have appends for configuration. 
+> Thats why we have the current workaround with a squashed override. I see many
+> possible solutions and would like to hear your opinion:
+> 1. Make top level Makefile HOST assignments conditional "?="
+>    - easy
+>    - will probably not be accepted upstream
+
+Why ?
+
+> 2. add "override" to appends in sublevel Makefiles
+>    - adds complexity/one level of override hierarchy
+> 3. Don't use appends for those variables (like in the kernel Makefile), overrides
+>    in the recipe
+>    - clean
+>    - quite some rework in uboot
+
+Can you provide details ?
+
+> 4. Hack around in the recipe with class overrides and exports
+>    - quickfix, no patch required
+>    - fails easily in the future
+> 
+> Any thoughts?
+> Stefan
+> 
+
+
+-- 
+Best regards,
+Marek Vasut
 
