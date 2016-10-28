@@ -1,46 +1,51 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qt0-f177.google.com (mail-qt0-f177.google.com
-	[209.85.216.177])
-	by mail.openembedded.org (Postfix) with ESMTP id AD5FA71C75
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pf0-f194.google.com (mail-pf0-f194.google.com
+	[209.85.192.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 9EBE671CF1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Oct 2016 15:54:50 +0000 (UTC)
-Received: by mail-qt0-f177.google.com with SMTP id 12so46984990qtm.3
+	Fri, 28 Oct 2016 18:00:21 +0000 (UTC)
+Received: by mail-pf0-f194.google.com with SMTP id n85so1849180pfi.3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Oct 2016 08:54:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=TvuSFLdgyicchfOsyG1VrVN6YYE02GDA1hpIZ036Wvk=;
-	b=gWI/xbtlCJEHktpzczr9Vd9NyiosMcaIU5UzxVBnKWKwHD4nBIiCJcH/u4m7Imp72U
-	4VL7mvgR0XIOlaLI0QSaTibWVXNcgjrKm0oYWPD7JqiivaN5LFCOPLgC96cm4YrgokIK
-	LwItbuvPQvQmmH9zaFiti7ZrjodHGnmGz/1jUqGA8gTsuV2LX+TJbvNeNzQeHNj5JqiT
-	UR11AaxNypVD+xTleLtpMh3vTRqWJHtdyVh9NuB4h/t8faN9eVqNazBkMFzFzzaMIZRX
-	qcdQmTEuX6QVXwI267t85HK4zq612WPfuzvpnnFC+UNisI0m2Ld5RrOVGKcF70Biny/n
-	SdXg==
+	Fri, 28 Oct 2016 11:00:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=subject:mime-version:from:in-reply-to:date:cc:message-id:references
+	:to; bh=zLcrtv22GrHlb0AaLYo9S5Di+Mu2dToza6KJp62VOFM=;
+	b=e0H4y9+IdBwQxgxSZL+j7j6r81/Xbzs7ap1atu6lowuBiugZaWjWsSqcPaZfVfb2vV
+	9QYTSRXq23i9Pvpi0dpSPFPByBK6FWMRSerum/HjJHa9eJjQxb6lwzA4XE9ccDNk1DFC
+	ls6NpWFTfgrFlPVxAv8zNYLsyDdUhkGWZK3l5FTcUBRVq0n5iBHGIizdFvcxBtSYkwmG
+	k8V8mPVJMDj4wNyJOblUshz76vFAsNmeTk4S1S4tCAVTu0tb9wpmA6Us3rpN87v+2Fyu
+	vfxDHTR040y3fiXe4IQrAhCp+PSX8E73TfZB/MKV7UeftplKJUPJGWG2yrsz4+IUQhdF
+	7C7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=TvuSFLdgyicchfOsyG1VrVN6YYE02GDA1hpIZ036Wvk=;
-	b=gjTeDJ4B8FX6lAwDGbtai44y84HfXr4i8AxFSHlguOSkdZqq5AwcEogCO538D1ZB0a
-	CIrg6COo8GSlqa5s0VsovXI7E2uIiBknSf/XnqmkW8CDWrkFQAbQ068UR1oyjkrhomcp
-	V1fNxsWg2YTc5331DH/tE3saYwopqvf7lGhrDklGcGOhs0QUJWV1NegVm+QRGvnV/fxj
-	fU53x7MgCMaum+/Fknem9CTphm0XMIYjjSHs3ezGe8b93Uz3Sh9cOMwb1x59zuYYKsvR
-	4sRhdimm1RW4pkbX0qqc/gd93uuWn2phhgCawiOT+asyjG+QaFZE7JK/1YtEUkO0oeCK
-	herA==
-X-Gm-Message-State: ABUngvcJq8LruV0mMtreOPdLHlqkxvJvEQiCtO0JyY9O09hHazIBN3+AFEYDhj2TGJr2cxbTxAReT/sj7qpDK0Pj
-X-Received: by 10.200.50.35 with SMTP id x32mr6304845qta.78.1477670091475;
-	Fri, 28 Oct 2016 08:54:51 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.140.85.208 with HTTP; Fri, 28 Oct 2016 08:54:31 -0700 (PDT)
-In-Reply-To: <1477418985-28961-1-git-send-email-daniel.diaz@linaro.org>
-References: <1477418985-28961-1-git-send-email-daniel.diaz@linaro.org>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 28 Oct 2016 16:54:31 +0100
-Message-ID: <CAJTo0LaJdDBiUA29J0VZF_VU=rpZXknH3WdCJc3h6LZrCg8Xog@mail.gmail.com>
-To: =?UTF-8?B?RGFuaWVsIETDrWF6?= <daniel.diaz@linaro.org>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH][krogoth] weston: Add no-input-device patch to 1.9.0.
+	h=x-gm-message-state:subject:mime-version:from:in-reply-to:date:cc
+	:message-id:references:to;
+	bh=zLcrtv22GrHlb0AaLYo9S5Di+Mu2dToza6KJp62VOFM=;
+	b=JlyxQ2vD+710oPJs8bQbC/8PXBsyeEmGE/xZkRz4ZyEshYxB+wy5Ne6xXARFmpCw1c
+	1bpZ+HGRHJRCi0ahYVSDSIrA6mfgiG2qGUROLImVRmoW+vl/WYicnnD78+KiwoWrh7VR
+	1kVQ5DrrjvtmLu+0Y9XlkJgspnacGrS6iIwdwVgssD/O6rXtQcIEySuuCG83PE8EernN
+	jKXLrp1CiirP6E3+GdHTVycjUK/D9FGMMD2j2adWF0hu0fz7KTUlMcQeCHf9chJYH9g6
+	RRJuQGEZJq3FOQUADNUJsm4cd1nl7ltP0uV5tqPtVyxV/igwEGGb3fsD2FPE0tXdfJ2C
+	OWBg==
+X-Gm-Message-State: ABUngvfcjEAb4uSbdPr1YQMOteBqxuIrT4YWF5AQp2KSCs7mhRrkJ4i6OZm5Wprj20XAFg==
+X-Received: by 10.99.0.196 with SMTP id 187mr22093104pga.78.1477677622933;
+	Fri, 28 Oct 2016 11:00:22 -0700 (PDT)
+Received: from ?IPv6:2601:646:8882:b8c:3551:a82d:200e:cc39?
+	([2601:646:8882:b8c:3551:a82d:200e:cc39])
+	by smtp.gmail.com with ESMTPSA id s3sm8118111pfe.27.2016.10.28.11.00.20
+	(version=TLS1 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Fri, 28 Oct 2016 11:00:21 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 9.3 \(3124\))
+X-Pgp-Agent: GPGMail
+From: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <20161028143627.15891-1-linus.wallgren@scypho.com>
+Date: Fri, 28 Oct 2016 11:00:20 -0700
+Message-Id: <D2F9E708-19E4-4967-AAF5-5D9C1D9941EA@gmail.com>
+References: <20161028143627.15891-1-linus.wallgren@scypho.com>
+To: Linus Wallgren <linus.wallgren@scypho.com>
+X-Mailer: Apple Mail (2.3124)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] systemd: Reload configuration on package install
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,45 +58,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 28 Oct 2016 15:54:50 -0000
-Content-Type: multipart/alternative; boundary=001a1143e1dae6286d053feee067
+X-List-Received-Date: Fri, 28 Oct 2016 18:00:21 -0000
+X-Groupsio-MsgNum: 88741
+Content-Type: multipart/signed;
+	boundary="Apple-Mail=_D5B89E80-1865-49BF-B14D-02CE0D108459";
+	protocol="application/pgp-signature"; micalg=pgp-sha1
 
---001a1143e1dae6286d053feee067
-Content-Type: text/plain; charset=UTF-8
+--Apple-Mail=_D5B89E80-1865-49BF-B14D-02CE0D108459
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=us-ascii
 
-On 25 October 2016 at 19:09, Daniel D=C3=ADaz <daniel.diaz@linaro.org> wrot=
-e:
 
-> The included patch, backported from Weston master, allows
-> it to run without any input device at launch. An ini option
-> is introduced for this purpose, so there is no behavioral
-> change.
->
+> On Oct 28, 2016, at 7:36 AM, Linus Wallgren =
+<linus.wallgren@scypho.com> wrote:
+>=20
+> When a systemd service file has changed it is required to reload
+> systemd's configuration. Otherwise changes to a service file will not =
+be
+> picked up during package upgrade.
 
-The patch process requires that unless there are exceptional circumstances,
-patches should be submitted to master and then past releases in order.
-Does the weston in oe-core master/morty have this patch included already?
+while this seems reasonable. Does that happen on other distros using =
+systemd
+too ?
 
-Ross
+> ---
+> meta/classes/systemd.bbclass | 4 ++++
+> 1 file changed, 4 insertions(+)
+>=20
+> diff --git a/meta/classes/systemd.bbclass =
+b/meta/classes/systemd.bbclass
+> index d56c760..7e51ed6 100644
+> --- a/meta/classes/systemd.bbclass
+> +++ b/meta/classes/systemd.bbclass
+> @@ -29,6 +29,10 @@ if [ -n "$D" ]; then
+> fi
+>=20
+> if type systemctl >/dev/null 2>/dev/null; then
+> +	if [ -z "$D" ]; then
+> +		systemctl daemon-reload
+> +	fi
+> +
+> 	systemctl $OPTS ${SYSTEMD_AUTO_ENABLE} ${SYSTEMD_SERVICE}
+>=20
+> 	if [ -z "$D" -a "${SYSTEMD_AUTO_ENABLE}" =3D "enable" ]; then
+> --
+> 2.9.3
+>=20
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
---001a1143e1dae6286d053feee067
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 25 October 2016 at 19:09, Daniel D=C3=ADaz <span dir=3D"ltr">&lt;<a href=
-=3D"mailto:daniel.diaz@linaro.org" target=3D"_blank">daniel.diaz@linaro.org=
-</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin=
-:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":nq" cl=
-ass=3D"a3s aXjCH m157fd0e1ccc9bd3d">The included patch, backported from Wes=
-ton master, allows<br>
-it to run without any input device at launch. An ini option<br>
-is introduced for this purpose, so there is no behavioral<br>
-change.</div></blockquote></div><br>The patch process requires that unless =
-there are exceptional circumstances, patches should be submitted to master =
-and then past releases in order.=C2=A0 Does the weston in oe-core master/mo=
-rty have this patch included already?</div><div class=3D"gmail_extra"><br><=
-/div><div class=3D"gmail_extra">Ross</div></div>
+--Apple-Mail=_D5B89E80-1865-49BF-B14D-02CE0D108459
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+	filename=signature.asc
+Content-Type: application/pgp-signature;
+	name=signature.asc
+Content-Description: Message signed with OpenPGP using GPGMail
 
---001a1143e1dae6286d053feee067--
+-----BEGIN PGP SIGNATURE-----
+Comment: GPGTools - https://gpgtools.org
+
+iEYEARECAAYFAlgTkjQACgkQuwUzVZGdMxT8egCeNRWUVAZ6R8Fse/NbvvF+F8tQ
+ttIAnR6hPUHdv3RDoOwJDuhPCqgLnc7V
+=F/qg
+-----END PGP SIGNATURE-----
+
+--Apple-Mail=_D5B89E80-1865-49BF-B14D-02CE0D108459--
