@@ -1,20 +1,21 @@
-Return-Path: <markus.lehtonen@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 3C7CD71A78
+Return-Path: <seebs@seebs.net>
+Received: from mail.plethora.net (mail.plethora.net [184.173.250.112])
+	by mail.openembedded.org (Postfix) with ESMTP id C895E71A38
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Oct 2016 12:18:48 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga103.fm.intel.com with ESMTP; 28 Oct 2016 05:18:49 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.31,557,1473145200"; d="scan'208";a="895071914"
-Received: from marquiz.fi.intel.com ([10.237.72.155])
-	by orsmga003.jf.intel.com with ESMTP; 28 Oct 2016 05:18:48 -0700
-From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
+	Fri, 28 Oct 2016 13:54:06 +0000 (UTC)
+Received: from [10.10.10.132] (home.seebs.net [74.122.98.108])
+	by mail.plethora.net (Postfix) with ESMTPSA id 70080C495D
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 28 Oct 2016 08:54:05 -0500 (CDT)
+From: Seebs <seebs@seebs.net>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 28 Oct 2016 15:18:47 +0300
-Message-Id: <1477657127-10568-1-git-send-email-markus.lehtonen@linux.intel.com>
-X-Mailer: git-send-email 2.6.6
-Subject: [PATCH] python: fix python-tests rdepends
+Date: Fri, 28 Oct 2016 08:54:04 -0500
+Message-ID: <7474A9CF-FE6A-4700-B71B-B14A638092FF@seebs.net>
+In-Reply-To: <20161028060902.1133-1-ejo@pengutronix.de>
+References: <20161028060902.1133-1-ejo@pengutronix.de>
+MIME-Version: 1.0
+X-Mailer: MailMate (1.9.5r5263)
+Subject: Re: [PATCH][krogoth] pseudo: backport 'Work around issues with glibc 2.24'
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,31 +28,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 28 Oct 2016 12:18:51 -0000
+X-List-Received-Date: Fri, 28 Oct 2016 13:54:07 -0000
+Content-Type: text/plain; format=flowed
 
-test.regrtest depends on most of python modules so require all of them.
+On 28 Oct 2016, at 1:09, Enrico Jorns wrote:
 
-[YOCTO #10522]
+> + #else
+> +-		if (e != NULL) {
+> ++		/*if (e != NULL) {
+> + 			pseudo_diag("No real function for %s: %s\n", func->name, e);
+> +-		}
+> ++		}*/
+> + #endif
 
-Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
----
- meta/recipes-devtools/python/python-2.7-manifest.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Looking at upstream, I do have a fix for this apparently, which is to 
+add
+mknod/mknodat wrappers to ports/linux/mknodat.c, but there may be other 
+things that
+relies on (my memory's not online yet today), and this is a reasonable 
+workaround
+for now.
 
-diff --git a/meta/recipes-devtools/python/python-2.7-manifest.inc b/meta/recipes-devtools/python/python-2.7-manifest.inc
-index 189689d..621024f 100644
---- a/meta/recipes-devtools/python/python-2.7-manifest.inc
-+++ b/meta/recipes-devtools/python/python-2.7-manifest.inc
-@@ -246,7 +246,7 @@ RDEPENDS_${PN}-terminal="${PN}-core ${PN}-io"
- FILES_${PN}-terminal="${libdir}/python2.7/pty.* ${libdir}/python2.7/tty.* "
- 
- SUMMARY_${PN}-tests="Python tests"
--RDEPENDS_${PN}-tests="${PN}-core"
-+RDEPENDS_${PN}-tests="${PN}-core ${PN}-modules"
- FILES_${PN}-tests="${libdir}/python2.7/test "
- 
- SUMMARY_${PN}-textutils="Python option parsing, text wrapping and CSV support"
--- 
-2.6.6
+Historical note:
+mknod and mknodat have wrappers because I still periodically maintain 
+the OS X
+port that was fervently demanded on a regular basis until about a week 
+after I added
+it, and OS X doesn't have the xmknod/xstat/etc thing.
 
+-s
 
