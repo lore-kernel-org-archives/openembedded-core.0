@@ -1,24 +1,24 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by mail.openembedded.org (Postfix) with ESMTP id 14A2871B0A
+	by mail.openembedded.org (Postfix) with ESMTP id 3522E71D75
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Oct 2016 15:15:07 +0000 (UTC)
+	Fri, 28 Oct 2016 15:15:08 +0000 (UTC)
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
-	by orsmga105.jf.intel.com with ESMTP; 28 Oct 2016 08:15:09 -0700
+	by orsmga105.jf.intel.com with ESMTP; 28 Oct 2016 08:15:10 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.31,410,1473145200"; d="scan'208";a="24878683"
+X-IronPort-AV: E=Sophos;i="5.31,410,1473145200"; d="scan'208";a="24878697"
 Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by orsmga005.jf.intel.com with ESMTP; 28 Oct 2016 08:15:08 -0700
+	by orsmga005.jf.intel.com with ESMTP; 28 Oct 2016 08:15:09 -0700
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 28 Oct 2016 18:12:13 +0300
-Message-Id: <5fa512032a6768cfa040c818a8cf64242a9562eb.1477667287.git.alexander.kanavin@linux.intel.com>
+Date: Fri, 28 Oct 2016 18:12:14 +0300
+Message-Id: <36a2f7dea458b7587f70b6b33acb9cc0a8bf9751.1477667287.git.alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.9.3
 In-Reply-To: <cover.1477667287.git.alexander.kanavin@linux.intel.com>
 References: <cover.1477667287.git.alexander.kanavin@linux.intel.com>
 In-Reply-To: <cover.1477667287.git.alexander.kanavin@linux.intel.com>
 References: <cover.1477667287.git.alexander.kanavin@linux.intel.com>
-Subject: [PATCHv2 10/26] json-glib: enable optional building of manpages
+Subject: [PATCHv2 11/26] libsecret: enable optional building of manpages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,27 +31,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 28 Oct 2016 15:15:07 -0000
+X-List-Received-Date: Fri, 28 Oct 2016 15:15:08 -0000
 
 Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- meta/recipes-gnome/json-glib/json-glib_1.2.2.bb | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ meta/recipes-gnome/libsecret/libsecret_0.18.5.bb | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-gnome/json-glib/json-glib_1.2.2.bb b/meta/recipes-gnome/json-glib/json-glib_1.2.2.bb
-index 8df2a42..4e272be 100644
---- a/meta/recipes-gnome/json-glib/json-glib_1.2.2.bb
-+++ b/meta/recipes-gnome/json-glib/json-glib_1.2.2.bb
-@@ -13,6 +13,8 @@ DEPENDS = "glib-2.0"
- SRC_URI[archive.md5sum] = "c1daefb8d0fb59612af0c072c8aabb58"
- SRC_URI[archive.sha256sum] = "ea128ab52a824fcd06e5448fbb2bd8d9a13740d51c66d445828edba71321a621"
+diff --git a/meta/recipes-gnome/libsecret/libsecret_0.18.5.bb b/meta/recipes-gnome/libsecret/libsecret_0.18.5.bb
+index bcb3046..77b9fd5 100644
+--- a/meta/recipes-gnome/libsecret/libsecret_0.18.5.bb
++++ b/meta/recipes-gnome/libsecret/libsecret_0.18.5.bb
+@@ -2,11 +2,11 @@ SUMMARY = "libsecret is a library for storing and retrieving passwords and other
+ LICENSE = "LGPLv2.1"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=23c2a5e0106b99d75238986559bb5fc6"
  
--inherit gnomebase gettext lib_package gobject-introspection gtk-doc
-+inherit gnomebase gettext lib_package gobject-introspection gtk-doc manpages
-+
-+PACKAGECONFIG[manpages] = "--enable-man --with-xml-catalog=${STAGING_ETCDIR_NATIVE}/xml/catalog.xml, --disable-man, libxslt-native xmlto-native"
+-inherit gnomebase gtk-doc vala gobject-introspection
++inherit gnomebase gtk-doc vala gobject-introspection manpages
  
- BBCLASSEXTEND = "native"
+ DEPENDS += "glib-2.0 libgcrypt gettext-native intltool-native"
+ 
+-EXTRA_OECONF += "--disable-manpages"
++PACKAGECONFIG[manpages] = "--enable-manpages, --disable-manpages, libxslt-native xmlto-native"
+ 
+ SRC_URI[archive.md5sum] = "2d688825921313da8731313b0a7f394c"
+ SRC_URI[archive.sha256sum] = "9ce7bd8dd5831f2786c935d82638ac428fa085057cc6780aba0e39375887ccb3"
 -- 
 2.9.3
 
