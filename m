@@ -1,24 +1,24 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by mail.openembedded.org (Postfix) with ESMTP id AE95371B0A
+	by mail.openembedded.org (Postfix) with ESMTP id CB24871D60
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Oct 2016 15:15:13 +0000 (UTC)
+	Fri, 28 Oct 2016 15:15:14 +0000 (UTC)
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
-	by orsmga105.jf.intel.com with ESMTP; 28 Oct 2016 08:15:15 -0700
+	by orsmga105.jf.intel.com with ESMTP; 28 Oct 2016 08:15:16 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.31,410,1473145200"; d="scan'208";a="24878764"
+X-IronPort-AV: E=Sophos;i="5.31,410,1473145200"; d="scan'208";a="24878774"
 Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by orsmga005.jf.intel.com with ESMTP; 28 Oct 2016 08:15:14 -0700
+	by orsmga005.jf.intel.com with ESMTP; 28 Oct 2016 08:15:15 -0700
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 28 Oct 2016 18:12:19 +0300
-Message-Id: <5d79c3ec1d571851df0ffea7e3e5cef9711a0832.1477667287.git.alexander.kanavin@linux.intel.com>
+Date: Fri, 28 Oct 2016 18:12:20 +0300
+Message-Id: <07e04af79a45a49a8ce4cb1cde76b73d0200b204.1477667287.git.alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.9.3
 In-Reply-To: <cover.1477667287.git.alexander.kanavin@linux.intel.com>
 References: <cover.1477667287.git.alexander.kanavin@linux.intel.com>
 In-Reply-To: <cover.1477667287.git.alexander.kanavin@linux.intel.com>
 References: <cover.1477667287.git.alexander.kanavin@linux.intel.com>
-Subject: [PATCHv2 16/26] pulseaudio: enable optional building of manpages
+Subject: [PATCHv2 17/26] btrfs-tools: enable optional building of manpages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,34 +31,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 28 Oct 2016 15:15:13 -0000
+X-List-Received-Date: Fri, 28 Oct 2016 15:15:15 -0000
 
 Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- meta/recipes-multimedia/pulseaudio/pulseaudio.inc | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ meta/recipes-devtools/btrfs-tools/btrfs-tools_4.7.1.bb | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
-index 7e54ad4..f5c5ed2 100644
---- a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
-+++ b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
-@@ -13,7 +13,7 @@ DEPENDS = "libatomic-ops libsndfile1 libtool intltool-native"
- DEPENDS += "udev alsa-lib glib-2.0 gconf"
- DEPENDS += "json-c gdbm speexdsp libxml-parser-perl-native libcap"
+diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools_4.7.1.bb b/meta/recipes-devtools/btrfs-tools/btrfs-tools_4.7.1.bb
+index becf093..36695c9 100644
+--- a/meta/recipes-devtools/btrfs-tools/btrfs-tools_4.7.1.bb
++++ b/meta/recipes-devtools/btrfs-tools/btrfs-tools_4.7.1.bb
+@@ -18,9 +18,9 @@ SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/kdave/btrfs-progs.git \
+            file://fix-parallel.patch \
+ "
  
--inherit autotools bash-completion pkgconfig useradd gettext perlnative bluetooth systemd
-+inherit autotools bash-completion pkgconfig useradd gettext perlnative bluetooth systemd manpages
+-inherit autotools-brokensep pkgconfig
++inherit autotools-brokensep pkgconfig manpages
  
- # *.desktop rules wont be generated during configure and build will fail
- # if using --disable-nls
-@@ -62,6 +62,7 @@ PACKAGECONFIG[autospawn-for-root] = ",,,"
- PACKAGECONFIG[lirc] = "--enable-lirc,--disable-lirc,lirc"
- PACKAGECONFIG[webrtc] = "--enable-webrtc-aec,--disable-webrtc-aec,webrtc-audio-processing"
- PACKAGECONFIG[ipv6] = "--enable-ipv6,--disable-ipv6,"
-+PACKAGECONFIG[manpages] = "--enable-manpages, --disable-manpages, "
+-EXTRA_OECONF += "--disable-documentation"
++PACKAGECONFIG[manpages] = "--enable-documentation, --disable-documentation, asciidoc-native xmlto-native"
+ EXTRA_OECONF_append_libc-musl = " --disable-backtrace "
  
- EXTRA_OECONF_append_arm = "${@bb.utils.contains("TUNE_FEATURES", "neon", "", " --enable-neon-opt=no", d)}"
- EXTRA_OECONF_append_armeb = "${@bb.utils.contains("TUNE_FEATURES", "neon", "", " --enable-neon-opt=no", d)}"
+ 
 -- 
 2.9.3
 
