@@ -1,29 +1,46 @@
-Return-Path: <rpjday@crashcourse.ca>
-Received: from smtp486.redcondor.net (smtp486.redcondor.net [208.80.204.86])
-	by mail.openembedded.org (Postfix) with ESMTP id 1AB5860017
+Return-Path: <nathan@nathanrossi.com>
+Received: from mail-pf0-f193.google.com (mail-pf0-f193.google.com
+	[209.85.192.193])
+	by mail.openembedded.org (Postfix) with ESMTP id D631671DB1
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 29 Oct 2016 09:10:25 +0000 (UTC)
-Received: from astoria.ccjclearline.com ([64.235.106.9])
-	by smtp486.redcondor.net ({6695537a-536a-45f9-a249-877c85428649})
-	via TCP (outbound) with ESMTPS id 20161029091025003_0486
+	Sat, 29 Oct 2016 13:50:31 +0000 (UTC)
+Received: by mail-pf0-f193.google.com with SMTP id u84so4009297pfj.1
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 29 Oct 2016 09:10:25 +0000
-X-RC-FROM: <rpjday@crashcourse.ca>
-X-RC-RCPT: <openembedded-core@lists.openembedded.org>
-Received: from [174.118.92.171] (port=57880 helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
-	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
-	id 1c0Ped-0000tz-3u for openembedded-core@lists.openembedded.org;
-	Sat, 29 Oct 2016 05:10:19 -0400
-Date: Sat, 29 Oct 2016 05:09:20 -0400 (EDT)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@localhost.localdomain
-To: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Message-ID: <alpine.LFD.2.20.1610290417080.7859@localhost.localdomain>
-User-Agent: Alpine 2.20 (LFD 67 2015-01-07)
-MIME-Version: 1.0
-X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
-Subject: mapping centos RPM(s) to OE recipe: example involving openssl-perl
+	Sat, 29 Oct 2016 06:50:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=nathanrossi.com; s=google;
+	h=from:to:cc:subject:date:message-id;
+	bh=/id3CnJ3qwvrB5SHL7uxllrcsaMRSZokeFWjDHEJJ5I=;
+	b=EMIrzpU2/t5T6X8TzF1PM3SF6j7/PpPFcsf8ThgJjwh+QZlhpdBh0iWdYJgbuAYqYK
+	oIJEuyJKwLSiY7DmIox8/ldiraAIkVY+vSZGJ4dYIMo9uwtLWVrymOhs5dPnOk4O8sOp
+	Yjv2JiQw+TJ5tHq7TnTQSeBkNg1PRMvMHSlGB9AH2ApMxezSmr6elw/rOcACO+gz39nH
+	pAxmGAik3S8R4mzaLoYehdyY1cjyHdTVyMu95SMipQgup0qMgivg3SymIdqlLfHeet5B
+	Eg/YkDXG17aKIiyj4dxXsjP75NZZ6Q3qqm9IWyfHk66jc+J/JdE1gs74I6suBxtAxpXP
+	7TZA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=/id3CnJ3qwvrB5SHL7uxllrcsaMRSZokeFWjDHEJJ5I=;
+	b=HLbimkMpvZEvNrysNmyjY8XGLEd6195qetTGbwNxNaqPFZE+1cUgu5VGSEW3gmtpCW
+	SdKIX6NSwxSx/sA301/g3KeZdSUXyZkl7kl0CdfyQNR9UwKlBgkpmcVDE0S6vHz0W8Yp
+	CRSb9khc98R/yu5EsaUgAYC3jpKpFFT/PJj9YkiDMKiF4/LCpspcFOBtI04fWv53CQlr
+	gnMOEZ/dDhix5sehaKlvh0f5BvbHK+AyUmG3202JverHT3M5pjLnkQP6QjN0tLnbwzUb
+	nR28uTdLEV4+PGZua3zBuHwvP1+6VzmxJt78IApIkdkYHoaSjmWvEO8S0QmhvzyDDNBl
+	wOTg==
+X-Gm-Message-State: ABUngvdrzXLv3rWJfzbi1MrkHyzdPWkOakVB5GbQV3M0dFswZtMz0x/XB6+XjzYjNLLJKQ==
+X-Received: by 10.99.6.134 with SMTP id 128mr27887474pgg.53.1477749032610;
+	Sat, 29 Oct 2016 06:50:32 -0700 (PDT)
+Received: from nathanbox.home.rossihq.com
+	(CPE-1-121-165-196.qwl9.woo.bigpond.net.au. [1.121.165.196])
+	by smtp.gmail.com with ESMTPSA id 3sm25528640pam.21.2016.10.29.06.50.30
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Sat, 29 Oct 2016 06:50:31 -0700 (PDT)
+From: Nathan Rossi <nathan@nathanrossi.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sat, 29 Oct 2016 23:50:19 +1000
+Message-Id: <20161029135020.2579-1-nathan@nathanrossi.com>
+X-Mailer: git-send-email 2.10.1
+Subject: [PATCH] qemuboot.bbclass: Setup the vardeps for write_qemuboot_conf
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,125 +53,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 29 Oct 2016 09:10:26 -0000
-Content-Type: text/plain; charset=US-ASCII
+X-List-Received-Date: Sat, 29 Oct 2016 13:50:31 -0000
 
+Setting up the vardeps on write_qemuboot_conf forces the updating of
+variables in qemuboot.conf when machine/deploy configuration changes.
+This is particularly useful when developing or setting up the qemuboot
+(e.g.  changing QB_* variables) for new targets or when changing
+deployment variables (e.g. KERNEL_IMAGETYPE).
 
-  finally figured out enough to ask intelligent(?) questions about how
-to map CentOS RPMs to equivalent OE recipes and config settings, so
-here goes -- feel free to tell me where i've screwed up, and i'll be
-putting all this on a public wiki page when i'm done.
+Signed-off-by: Nathan Rossi <nathan@nathanrossi.com>
+---
+ meta/classes/qemuboot.bbclass | 21 +++++++++------------
+ 1 file changed, 9 insertions(+), 12 deletions(-)
 
-  scenario: existing x86 system based on CentOS 7 and lots of custom
-RPMs to be ported to PPC using OE (actually, wind river linux, but i'm
-starting with OE/YP for simplicity), have a massive list of RPMs
-installed on current x86 system, so methodically going through list
-and figuring out the OE equivalent. sometimes, it's obvious; sometimes
-not. and while i'm doing this, trying to write a guide for how others
-with little to no OE familiarity can do this.
-
-  (side note: starting with "core-image-minimal" image so that already
-sucks up a fair number of required packages.)
-
-  first note i'm going to make -- while centos system requires
-installation of individual and sometimes closely-related RPMs, a
-single OE recipe has the ability to generate multiple RPMs. so if
-centos system has pile of installed RPMs:
-
-  * X
-  * X-a
-  * X-b
-  * X-c  etc ...
-
-it is entirely possible that those centos RPMs map to a single OE
-recipe for "X" (with possibly PACKAGECONFIG settings added to generate
-those subpackages). simple example -- OE recipe for dhcp:
-
-  PACKAGES += "dhcp-server dhcp-server-config dhcp-client dhcp-relay dhcp-omshell"
-
-  FILES_${PN} = ""
-  RDEPENDS_${PN}-dev = ""
-  RDEPENDS_${PN}-staticdev = ""
-
-  FILES_${PN}-server = "${sbindir}/dhcpd   ${sysconfdir}/init.d/dhcp-server"
-  RRECOMMENDS_${PN}-server = "dhcp-server-config"
-
-  FILES_${PN}-server-config = "${sysconfdir}/default/dhcp-server ${sysconfdir}/dhcp/dhcpd.conf"
-
-  FILES_${PN}-relay = "${sbindir}/dhcrelay ${sysconfdir}/init.d/dhcp-relay ${sysconfdir}/default/dhcp-relay"
-
-  FILES_${PN}-client = "${base_sbindir}/dhclient ${base_sbindir}/dhclient-script ${sysconfdir}/dhcp/dhclient.conf"
-
-  FILES_${PN}-omshell = "${bindir}/omshell"
-
-so in cases like that, it should be easy to see how a set of dhcp RPMs
-would map to the single OE recipe, that part seems easy.
-
-  i was particularly interested in RPMs that represent language APIs
-for a package; lots of RPMs with names like "X-perl" and "Y-python",
-which would normally be installed explicitly on centos, but which in
-many cases are generated by the OE recipe for "X" or "Y", depending on
-the configuration. or so i thought, until i started picking on
-examples.
-
-  case in point -- centos system needs "openssl-perl" RPM, so i
-queried that package on my fedora system to check its contents:
-
-  $ rpm -ql openssl-perl
-  /etc/pki/tls/misc/CA.pl
-  /etc/pki/tls/misc/tsget
-  /usr/bin/c_rehash
-  /usr/share/man/man1/CA.pl.1ssl.gz
-  /usr/share/man/man1/c_rehash.1ssl.gz
-  /usr/share/man/man1/tsget.1ssl.gz
-  $
-
-ignoring docs files, apparently, that package installs three perl
-scripts "for converting certificates and keys from other formats to
-the formats used by the OpenSSL toolkit."
-
-  fair enough, so i just assumed there was an openssl recipe setting
-that would generate a separate "openssl-perl" rpm file if one was
-requested. instead, i found this in the "openssl.inc" file:
-
-  PACKAGECONFIG[perl] = ",,,"
-  ...
-  PACKAGES =+ "libcrypto libssl ${PN}-misc openssl-conf"
-  ...
-  FILES_${PN}-misc = "${libdir}/ssl/misc"
-
-and further down ...
-
-  do_install () {
-
-        ... snip ...
-
-        if [ "${@bb.utils.contains('PACKAGECONFIG', 'perl', 'perl', '', d)}" = "perl" ]; then
-                sed -i -e '1s,.*,#!${bindir}/env perl,' ${D}${libdir}/ssl/misc/CA.pl
-                sed -i -e '1s,.*,#!${bindir}/env perl,' ${D}${libdir}/ssl/misc/tsget
-        else
-                rm -f ${D}${libdir}/ssl/misc/CA.pl ${D}${libdir}/ssl/misc/tsget
-        fi
-
-so, rather than generating a separate "openssl-perl" package, as i
-read this, the openssl recipe, by default, installs those two scripts
-"CA.pl" and "tsget", then unless you explicitly add "perl" to
-PACKAGECONFIG, it removes them during installation.
-
-  it has the same effect, i guess, but it seems a bit weird. is there
-a rationale for doing this? i might have a couple more questions about
-this particular recipe after i read further.
-
-rday
-
+diff --git a/meta/classes/qemuboot.bbclass b/meta/classes/qemuboot.bbclass
+index b5cc93dc93..39df3ad388 100644
+--- a/meta/classes/qemuboot.bbclass
++++ b/meta/classes/qemuboot.bbclass
+@@ -44,25 +44,22 @@ QB_OPT_APPEND ?= "-show-cursor"
+ # Create qemuboot.conf
+ ROOTFS_POSTPROCESS_COMMAND += "write_qemuboot_conf; "
+ 
+-python write_qemuboot_conf() {
+-    import configparser
+-
+-    build_vars = ['MACHINE', 'TUNE_ARCH', 'DEPLOY_DIR_IMAGE', \
+-                'KERNEL_IMAGETYPE', 'IMAGE_NAME', 'IMAGE_LINK_NAME', \
+-                'STAGING_DIR_NATIVE', 'STAGING_BINDIR_NATIVE', \
++def qemuboot_vars(d):
++    build_vars = ['MACHINE', 'TUNE_ARCH', 'DEPLOY_DIR_IMAGE',
++                'KERNEL_IMAGETYPE', 'IMAGE_NAME', 'IMAGE_LINK_NAME',
++                'STAGING_DIR_NATIVE', 'STAGING_BINDIR_NATIVE',
+                 'STAGING_DIR_HOST']
++    return build_vars + [k for k in d.keys() if k.startswith('QB_')]
+ 
+-    # Vars from bsp
+-    qb_vars = []
+-    for k in d.keys():
+-        if k.startswith('QB_'):
+-            qb_vars.append(k)
++write_qemuboot_conf[vardeps] += "${@' '.join(qemuboot_vars(d))}"
++python write_qemuboot_conf() {
++    import configparser
+ 
+     qemuboot = "%s/%s.qemuboot.conf" % (d.getVar('DEPLOY_DIR_IMAGE', True), d.getVar('IMAGE_NAME', True))
+     qemuboot_link = "%s/%s.qemuboot.conf" % (d.getVar('DEPLOY_DIR_IMAGE', True), d.getVar('IMAGE_LINK_NAME', True))
+     cf = configparser.ConfigParser()
+     cf.add_section('config_bsp')
+-    for k in build_vars + qb_vars:
++    for k in qemuboot_vars(d):
+         cf.set('config_bsp', k, '%s' % d.getVar(k, True))
+ 
+     # QB_DEFAULT_KERNEL's value of KERNEL_IMAGETYPE is the name of a symlink
 -- 
-
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
-
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
+2.10.1
 
 
