@@ -1,42 +1,45 @@
-Return-Path: <fathi.boudra@linaro.org>
-Received: from mail-lf0-f42.google.com (mail-lf0-f42.google.com
-	[209.85.215.42])
-	by mail.openembedded.org (Postfix) with ESMTP id C18E671AC0
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pf0-f195.google.com (mail-pf0-f195.google.com
+	[209.85.192.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 0DF9B71A5B
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 29 Oct 2016 14:57:50 +0000 (UTC)
-Received: by mail-lf0-f42.google.com with SMTP id m193so1217430lfm.0
+	Sat, 29 Oct 2016 19:46:21 +0000 (UTC)
+Received: by mail-pf0-f195.google.com with SMTP id u84so4546215pfj.1
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 29 Oct 2016 07:57:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	Sat, 29 Oct 2016 12:46:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id;
-	bh=XCHrNnQg4PN6Xord+KQoLDobdCNTDFqHnxWqssl2fNI=;
-	b=SiOjWWW57/NfLevfOBzkIRcQ06LAg9FykkZLX8zx2bp3Q0GVDJApE9PMkfRSEQc3gM
-	pqepNvDLnMtLbZjHp7AZ+ryvntn/Rm/XCfFhHUrutA7DFWD8A4p8of/jNL00GS2SAXnb
-	PotmRvY4Rm3yGCjtWJU0uJ1RKpvIAfUGItHcw=
+	bh=6y0DxnEF77J3+4nIph3/2clgLTIUlnKyqUNOono4QXo=;
+	b=Xs5SkG4ONq1fRkv71+D/18LYQNI+p+l//PU8m7YGTZlhvHBTzludpYWix/6n/Ah7OY
+	aNGJ3Lj1M5eJ+zb6+mlbuxwtczmlpxS+djAHOeUVmdrf1knsw6veYWK4XpOe76NzA3Yi
+	lKSvbzKKR0k1VbvM72RH01jXgO7QUIGn3JR3gRcGZd1xW+CplVX+jwv9IAzUHy94wj3V
+	x76Va8Qm5HhFMML1C8NyH8siG+EWh4yOtbIrlGlAtasI5VEgnOBfc9MgJS4HUuQAKCCY
+	YWVqyS0ClspyCId59ZG9JT9tT8UkkGV1CnmIkQfHQvtHyeLkdBrS0YzEJ9YJh2oh4VcO
+	wHng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=XCHrNnQg4PN6Xord+KQoLDobdCNTDFqHnxWqssl2fNI=;
-	b=N4n1muc0raIlo5PPW3BAPvO7/RNgxMkOdG2KH/lRaa3UWBXrkb4yNw1+xpbCFrqQG2
-	rOol3VnJBgj1xGAzL1VzvcQfyBjRXcVZeqYw32BX+igQMj2gVR1h58o9d4RGS1UCFJLz
-	JJQdqRNTc5OcpX/SR+ZXLuM0KCAW70IAZrT2uUP9EeCj79onhe8quXrDEnP5egGbb1fJ
-	tpjWB7dtZO05jJ+ZOPCyvEqT8P8hS/4Mfue0RzgxBp5AspFm3b2o24idnhh7iAycYHlw
-	WM6GQ2IEAj9GE+8HKQy/79JyPDByeAjwzK81IrTPpxGCPbUqaxjaEzmf03Mjwdsubkeu
-	9bnA==
-X-Gm-Message-State: ABUngvesaXvAxHZhFTxZaZrFHepz6bQDmPcs7mEouztlT9/Ii95ccHp4kHzs3o0bWAJhXcok
-X-Received: by 10.25.18.72 with SMTP id h69mr13859567lfi.106.1477753070766;
-	Sat, 29 Oct 2016 07:57:50 -0700 (PDT)
-Received: from localhost.localdomain (a91-156-68-16.elisa-laajakaista.fi.
-	[91.156.68.16])
-	by smtp.gmail.com with ESMTPSA id 87sm2887535lfs.0.2016.10.29.07.57.49
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sat, 29 Oct 2016 07:57:49 -0700 (PDT)
-From: Fathi Boudra <fathi.boudra@linaro.org>
+	bh=6y0DxnEF77J3+4nIph3/2clgLTIUlnKyqUNOono4QXo=;
+	b=EjNV23kw2J0DbSwYe/UjB6tNRfEC2gTWIC4ixfw/FJNdWFsj+nl8kMqnlqJHiddIC1
+	MUfvU0NSn0WYUF0/Xuv77BtxuZcqlvsCkRMJ34mwNETX7WMT83zFkr/7NpLXhGAtMgWe
+	lIzqIdjdrWIr7nPbEHKV9dCP1zN8cL5pcCbZT0ReZ2SW5EsASsJgeNm48VWNnpxwdf2K
+	OEct3Mk0a/AYfW7L6C4SA6BnUOqa0MKO8aTYIrAFrvq9bISGfbS5urq0qSQh/2LRMP1m
+	rEWd3zKQINIfUkZ1I2alhoNNDj/Njit6y7jP6vE4icNad9RcheybH2SsENP567BnvzPw
+	mC2g==
+X-Gm-Message-State: ABUngvf3i0kv+hCjnjbkixaDFtTcC7KrKWW1h3dySFl8TbJk0blfzbdZsPNa5McM/1rqcg==
+X-Received: by 10.99.174.71 with SMTP id e7mr29831826pgp.116.1477770382681;
+	Sat, 29 Oct 2016 12:46:22 -0700 (PDT)
+Received: from localhost.localdomain (c-76-102-32-192.hsd1.ca.comcast.net.
+	[76.102.32.192]) by smtp.gmail.com with ESMTPSA id
+	b64sm4411162pfc.74.2016.10.29.12.46.21
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Sat, 29 Oct 2016 12:46:22 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat, 29 Oct 2016 17:57:47 +0300
-Message-Id: <20161029145747.32390-1-fathi.boudra@linaro.org>
+Date: Sat, 29 Oct 2016 12:46:15 -0700
+Message-Id: <20161029194615.19954-1-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.10.1
-Subject: [oe-core PATCH] wayland: upgrade from 1.11.0 to 1.11.1
+Subject: [PATCH] boost: Fix SRC_URI checksums
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,48 +52,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 29 Oct 2016 14:57:51 -0000
+X-List-Received-Date: Sat, 29 Oct 2016 19:46:22 -0000
 
-Update release tarball md5sum/sha256sum
-
-Signed-off-by: Fathi Boudra <fathi.boudra@linaro.org>
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- .../wayland/wayland/0001-scanner-Use-unit32_t-instead-of-uint.patch   | 2 +-
- .../recipes-graphics/wayland/{wayland_1.11.0.bb => wayland_1.11.1.bb} | 4 ++--
- 2 files changed, 3 insertions(+), 3 deletions(-)
- rename meta/recipes-graphics/wayland/{wayland_1.11.0.bb => wayland_1.11.1.bb} (92%)
+ meta/recipes-support/boost/boost-1.62.0.inc | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-graphics/wayland/wayland/0001-scanner-Use-unit32_t-instead-of-uint.patch b/meta/recipes-graphics/wayland/wayland/0001-scanner-Use-unit32_t-instead-of-uint.patch
-index dece95c..ef41b79 100644
---- a/meta/recipes-graphics/wayland/wayland/0001-scanner-Use-unit32_t-instead-of-uint.patch
-+++ b/meta/recipes-graphics/wayland/wayland/0001-scanner-Use-unit32_t-instead-of-uint.patch
-@@ -16,7 +16,7 @@ diff --git a/src/scanner.c b/src/scanner.c
- index 5f06e8e..10a4023 100644
- --- a/src/scanner.c
- +++ b/src/scanner.c
--@@ -808,7 +808,7 @@ find_enumeration(struct protocol *protocol,
-+@@ -812,7 +812,7 @@ find_enumeration(struct protocol *protocol,
-  	struct interface *i;
-  	struct enumeration *e;
-  	char *enum_name;
-diff --git a/meta/recipes-graphics/wayland/wayland_1.11.0.bb b/meta/recipes-graphics/wayland/wayland_1.11.1.bb
-similarity index 92%
-rename from meta/recipes-graphics/wayland/wayland_1.11.0.bb
-rename to meta/recipes-graphics/wayland/wayland_1.11.1.bb
-index 3413406..fa674f6 100644
---- a/meta/recipes-graphics/wayland/wayland_1.11.0.bb
-+++ b/meta/recipes-graphics/wayland/wayland_1.11.1.bb
-@@ -13,8 +13,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b31d8f53b6aaf2b4985d7dd7810a70d1 \
- SRC_URI = "https://wayland.freedesktop.org/releases/${BPN}-${PV}.tar.xz \
-            file://0001-scanner-Use-unit32_t-instead-of-uint.patch \
-            "
--SRC_URI[md5sum] = "fccf680be066e234729d5b69e0bd0fa9"
--SRC_URI[sha256sum] = "9540925f7928becfdf5e3b84c70757f6589bf1ceef09bea78784d8e4772c0db0"
-+SRC_URI[md5sum] = "82f227c65faec3df0335847626811303"
-+SRC_URI[sha256sum] = "4c8a99d030282740e898dead98c92d92023be9c3536c7f504444d215a7e39195"
+diff --git a/meta/recipes-support/boost/boost-1.62.0.inc b/meta/recipes-support/boost/boost-1.62.0.inc
+index a097ea1..1144ac9 100644
+--- a/meta/recipes-support/boost/boost-1.62.0.inc
++++ b/meta/recipes-support/boost/boost-1.62.0.inc
+@@ -13,7 +13,7 @@ BOOST_P = "boost_${BOOST_VER}"
  
- EXTRA_OECONF_class-native = "--disable-documentation --disable-libraries"
+ SRC_URI = "${SOURCEFORGE_MIRROR}/boost/${BOOST_P}.tar.bz2"
  
+-SRC_URI[md5sum] = "7ef085456c48c49a7fe8237f07e5f674"
+-SRC_URI[sha256sum] = "bce80293052e2d6230f1bec9b7524b33412e4fb26e9723460a0f362ac15b7acb"
++SRC_URI[md5sum] = "21b799e5d35ba2beef75b225deaf199a"
++SRC_URI[sha256sum] = "a715dc2adff2d451719352b1e863d78cbb100a03f7ed76097c89b9016c59091e"
+ 
+ S = "${WORKDIR}/${BOOST_P}"
 -- 
 2.10.1
 
