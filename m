@@ -1,45 +1,29 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f194.google.com (mail-pf0-f194.google.com
-	[209.85.192.194])
-	by mail.openembedded.org (Postfix) with ESMTP id B653871976
+Return-Path: <rpjday@crashcourse.ca>
+Received: from smtp486.redcondor.net (smtp486.redcondor.net [208.80.204.86])
+	by mail.openembedded.org (Postfix) with ESMTP id 1AB5860017
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 29 Oct 2016 08:47:11 +0000 (UTC)
-Received: by mail-pf0-f194.google.com with SMTP id u84so3446180pfj.1
+	Sat, 29 Oct 2016 09:10:25 +0000 (UTC)
+Received: from astoria.ccjclearline.com ([64.235.106.9])
+	by smtp486.redcondor.net ({6695537a-536a-45f9-a249-877c85428649})
+	via TCP (outbound) with ESMTPS id 20161029091025003_0486
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 29 Oct 2016 01:47:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=wlKlZw3eaa00e1FMjqSwaDS2D2P99qlcwsWJ1X7w4o8=;
-	b=AHdpT5fk6fqkW9v+pvNsKdh+Gf9Er5HHgUzfDltgDBbmUIsauqHYmP5dG5vggzsoV0
-	ZADzREEKzwWe+3kUoLWlTuEq0oytJf74HezBC46J9lujobssHkQ02bFHBkiOJVHe7u8Z
-	FUVQBlcCwQu9DG9C29E6LQBXSQ4VvfxEihR+YcZwOz9SlQse+tYgMGY0nclUvodggkDN
-	SOEjWrn4RBZgNmCKqTwVTrzbCJsyZt82PhbvO69moT8M6ZWLydUIwoP/0pPU8ox+pPET
-	q/Xl0ko82qPxFBK7izg9PCKGGNawzU0ix1ykzUqugifWWzh2lRGiandZfASKrMmMWv07
-	QNkA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=wlKlZw3eaa00e1FMjqSwaDS2D2P99qlcwsWJ1X7w4o8=;
-	b=A8d88uyKSoORXBdU63Aa4pvY1C2bCCICevIFOtTtz3Ou/20RwhKmAViIidHigXoFZC
-	OGyPN67/ZlXgjM+m+JY7qi8mqfn53BzH2iTAdszmXzMqu61MDRQqXcV8CkB/83Nnc8u4
-	h9apilk3jWrH/MBBzjC0GRL9Vetkg1uyaFvF2p/La2yPKxqvQisTTJhxeYILDlt7mYIu
-	KONvkkoqWnYYLZg3v+bc6qrujLgie1l7MO9D6DwSnHMss32agzgyScXF8yjd6JoXm4TX
-	xUh4q9U64VpquPFB6uhe0iSbyqrzSDuzWYB65gN8jf3H2MX+M+9XAIjN4XZeFBypAAMZ
-	1XOQ==
-X-Gm-Message-State: ABUngvegRWLQvwgE2vR+HIYC1BPnnhteHNxc5g9hRjXPGNxlhqJWkJLBsHVYu8HzlhbW1A==
-X-Received: by 10.98.74.12 with SMTP id x12mr31759258pfa.140.1477730833549;
-	Sat, 29 Oct 2016 01:47:13 -0700 (PDT)
-Received: from localhost.localdomain (c-76-102-32-192.hsd1.ca.comcast.net.
-	[76.102.32.192]) by smtp.gmail.com with ESMTPSA id
-	f129sm23781930pfc.3.2016.10.29.01.47.12
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sat, 29 Oct 2016 01:47:13 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sat, 29 Oct 2016 01:47:07 -0700
-Message-Id: <20161029084707.29652-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.10.1
-Subject: [PATCH] cmake.bbclass: Exclude native sysroot from CMAKE_FIND_ROOT_PATH
+	Sat, 29 Oct 2016 09:10:25 +0000
+X-RC-FROM: <rpjday@crashcourse.ca>
+X-RC-RCPT: <openembedded-core@lists.openembedded.org>
+Received: from [174.118.92.171] (port=57880 helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
+	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
+	id 1c0Ped-0000tz-3u for openembedded-core@lists.openembedded.org;
+	Sat, 29 Oct 2016 05:10:19 -0400
+Date: Sat, 29 Oct 2016 05:09:20 -0400 (EDT)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@localhost.localdomain
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Message-ID: <alpine.LFD.2.20.1610290417080.7859@localhost.localdomain>
+User-Agent: Alpine 2.20 (LFD 67 2015-01-07)
+MIME-Version: 1.0
+X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
+Subject: mapping centos RPM(s) to OE recipe: example involving openssl-perl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,52 +36,125 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 29 Oct 2016 08:47:12 -0000
+X-List-Received-Date: Sat, 29 Oct 2016 09:10:26 -0000
+Content-Type: text/plain; charset=US-ASCII
 
-This has been cause of issue where we were getting both usr/include
-dirs ( from target as well as native sysroot) added to compiler
-flags.
 
-CXX_INCLUDES in final flags.cmake would include
--I<target-sysroot>/usr/include -I<native-sysroot>/usr/include
-most of the time it would work since headers are mostly
-common but netflix package failed to compile since one of
-the headers was including curl headers which it could not
-find in target sysroot and it went to next include path
-and found it in native sysroot which is not what we want
-when doing cross compile.
+  finally figured out enough to ask intelligent(?) questions about how
+to map CentOS RPMs to equivalent OE recipes and config settings, so
+here goes -- feel free to tell me where i've screwed up, and i'll be
+putting all this on a public wiki page when i'm done.
 
-As per https://cmake.org/Wiki/CMake_Cross_Compiling
-never search for programs in target sysroot but search
-for packages,libs,includes only.
+  scenario: existing x86 system based on CentOS 7 and lots of custom
+RPMs to be ported to PPC using OE (actually, wind river linux, but i'm
+starting with OE/YP for simplicity), have a massive list of RPMs
+installed on current x86 system, so methodically going through list
+and figuring out the OE equivalent. sometimes, it's obvious; sometimes
+not. and while i'm doing this, trying to write a guide for how others
+with little to no OE familiarity can do this.
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/classes/cmake.bbclass | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+  (side note: starting with "core-image-minimal" image so that already
+sucks up a fair number of required packages.)
 
-diff --git a/meta/classes/cmake.bbclass b/meta/classes/cmake.bbclass
-index 3e762de..3e8df37 100644
---- a/meta/classes/cmake.bbclass
-+++ b/meta/classes/cmake.bbclass
-@@ -25,6 +25,7 @@ OECMAKE_PERLNATIVE_DIR ??= ""
- OECMAKE_EXTRA_ROOT_PATH ?= ""
- 
- OECMAKE_FIND_ROOT_PATH_MODE_PROGRAM = "ONLY"
-+OECMAKE_FIND_ROOT_PATH_MODE_PROGRAM_class-target = "NEVER"
- OECMAKE_FIND_ROOT_PATH_MODE_PROGRAM_class-native = "BOTH"
- 
- EXTRA_OECMAKE_append = " ${PACKAGECONFIG_CONFARGS}"
-@@ -60,7 +61,7 @@ set( CMAKE_CXX_LINK_FLAGS "${OECMAKE_CXX_LINK_FLAGS}" CACHE STRING "LDFLAGS" )
- 
- # only search in the paths provided so cmake doesnt pick
- # up libraries and tools from the native build machine
--set( CMAKE_FIND_ROOT_PATH ${STAGING_DIR_HOST} ${STAGING_DIR_NATIVE} ${CROSS_DIR} ${OECMAKE_PERLNATIVE_DIR} ${OECMAKE_EXTRA_ROOT_PATH} ${EXTERNAL_TOOLCHAIN})
-+set( CMAKE_FIND_ROOT_PATH ${STAGING_DIR_HOST} ${CROSS_DIR} ${OECMAKE_PERLNATIVE_DIR} ${OECMAKE_EXTRA_ROOT_PATH} ${EXTERNAL_TOOLCHAIN})
- set( CMAKE_FIND_ROOT_PATH_MODE_PACKAGE ONLY )
- set( CMAKE_FIND_ROOT_PATH_MODE_PROGRAM ${OECMAKE_FIND_ROOT_PATH_MODE_PROGRAM} )
- set( CMAKE_FIND_ROOT_PATH_MODE_LIBRARY ONLY )
+  first note i'm going to make -- while centos system requires
+installation of individual and sometimes closely-related RPMs, a
+single OE recipe has the ability to generate multiple RPMs. so if
+centos system has pile of installed RPMs:
+
+  * X
+  * X-a
+  * X-b
+  * X-c  etc ...
+
+it is entirely possible that those centos RPMs map to a single OE
+recipe for "X" (with possibly PACKAGECONFIG settings added to generate
+those subpackages). simple example -- OE recipe for dhcp:
+
+  PACKAGES += "dhcp-server dhcp-server-config dhcp-client dhcp-relay dhcp-omshell"
+
+  FILES_${PN} = ""
+  RDEPENDS_${PN}-dev = ""
+  RDEPENDS_${PN}-staticdev = ""
+
+  FILES_${PN}-server = "${sbindir}/dhcpd   ${sysconfdir}/init.d/dhcp-server"
+  RRECOMMENDS_${PN}-server = "dhcp-server-config"
+
+  FILES_${PN}-server-config = "${sysconfdir}/default/dhcp-server ${sysconfdir}/dhcp/dhcpd.conf"
+
+  FILES_${PN}-relay = "${sbindir}/dhcrelay ${sysconfdir}/init.d/dhcp-relay ${sysconfdir}/default/dhcp-relay"
+
+  FILES_${PN}-client = "${base_sbindir}/dhclient ${base_sbindir}/dhclient-script ${sysconfdir}/dhcp/dhclient.conf"
+
+  FILES_${PN}-omshell = "${bindir}/omshell"
+
+so in cases like that, it should be easy to see how a set of dhcp RPMs
+would map to the single OE recipe, that part seems easy.
+
+  i was particularly interested in RPMs that represent language APIs
+for a package; lots of RPMs with names like "X-perl" and "Y-python",
+which would normally be installed explicitly on centos, but which in
+many cases are generated by the OE recipe for "X" or "Y", depending on
+the configuration. or so i thought, until i started picking on
+examples.
+
+  case in point -- centos system needs "openssl-perl" RPM, so i
+queried that package on my fedora system to check its contents:
+
+  $ rpm -ql openssl-perl
+  /etc/pki/tls/misc/CA.pl
+  /etc/pki/tls/misc/tsget
+  /usr/bin/c_rehash
+  /usr/share/man/man1/CA.pl.1ssl.gz
+  /usr/share/man/man1/c_rehash.1ssl.gz
+  /usr/share/man/man1/tsget.1ssl.gz
+  $
+
+ignoring docs files, apparently, that package installs three perl
+scripts "for converting certificates and keys from other formats to
+the formats used by the OpenSSL toolkit."
+
+  fair enough, so i just assumed there was an openssl recipe setting
+that would generate a separate "openssl-perl" rpm file if one was
+requested. instead, i found this in the "openssl.inc" file:
+
+  PACKAGECONFIG[perl] = ",,,"
+  ...
+  PACKAGES =+ "libcrypto libssl ${PN}-misc openssl-conf"
+  ...
+  FILES_${PN}-misc = "${libdir}/ssl/misc"
+
+and further down ...
+
+  do_install () {
+
+        ... snip ...
+
+        if [ "${@bb.utils.contains('PACKAGECONFIG', 'perl', 'perl', '', d)}" = "perl" ]; then
+                sed -i -e '1s,.*,#!${bindir}/env perl,' ${D}${libdir}/ssl/misc/CA.pl
+                sed -i -e '1s,.*,#!${bindir}/env perl,' ${D}${libdir}/ssl/misc/tsget
+        else
+                rm -f ${D}${libdir}/ssl/misc/CA.pl ${D}${libdir}/ssl/misc/tsget
+        fi
+
+so, rather than generating a separate "openssl-perl" package, as i
+read this, the openssl recipe, by default, installs those two scripts
+"CA.pl" and "tsget", then unless you explicitly add "perl" to
+PACKAGECONFIG, it removes them during installation.
+
+  it has the same effect, i guess, but it seems a bit weird. is there
+a rationale for doing this? i might have a couple more questions about
+this particular recipe after i read further.
+
+rday
+
 -- 
-2.10.1
+
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
+
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
 
 
