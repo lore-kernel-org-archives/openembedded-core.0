@@ -1,30 +1,48 @@
-Return-Path: <rpjday@crashcourse.ca>
-Received: from smtp486.redcondor.net (smtp486.redcondor.net [208.80.204.86])
-	by mail.openembedded.org (Postfix) with ESMTP id 70B356FEFA
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-ua0-f196.google.com (mail-ua0-f196.google.com
+	[209.85.217.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 954D471A51
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 30 Oct 2016 17:36:52 +0000 (UTC)
-Received: from astoria.ccjclearline.com ([64.235.106.9])
-	by smtp486.redcondor.net ({6695537a-536a-45f9-a249-877c85428649})
-	via TCP (outbound) with ESMTPS id 20161030173650597_0486;
-	Sun, 30 Oct 2016 17:36:50 +0000
-X-RC-FROM: <rpjday@crashcourse.ca>
-Received: from [174.118.92.171] (port=49324 helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
-	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
-	id 1c0u2F-0000QR-PW; Sun, 30 Oct 2016 13:36:43 -0400
-Date: Sun, 30 Oct 2016 13:35:44 -0400 (EDT)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@localhost.localdomain
-To: Christopher Larson <clarson@kergoth.com>
-In-Reply-To: <CABcZANnPcmg+iBWgB7HHbEEaTaDOfwtdXr8vfrG7OPzruRdTTQ@mail.gmail.com>
-Message-ID: <alpine.LFD.2.20.1610301333390.3944@localhost.localdomain>
-References: <alpine.LFD.2.20.1610300813220.27025@localhost.localdomain>
-	<CABcZANnPcmg+iBWgB7HHbEEaTaDOfwtdXr8vfrG7OPzruRdTTQ@mail.gmail.com>
-User-Agent: Alpine 2.20 (LFD 67 2015-01-07)
+	Sun, 30 Oct 2016 17:38:32 +0000 (UTC)
+Received: by mail-ua0-f196.google.com with SMTP id 50so4283218uae.2
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 30 Oct 2016 10:38:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-transfer-encoding;
+	bh=RLx/wSRvZ0Qnq4LRxhUv7Gr5HEvQfres6rCS377HJ4c=;
+	b=gFyvBoR2KCQGz/9JIIgiwDRdIkwJNSJtnDdTaKnG+U3TcE4Mdqlmjt3KDYFK35v5Mb
+	pTOBO2Lr9dhRkdhCKN8OMIT7ikMKbohX1rr5Z939YS/T0pFG15m52WeipAptgL3JORI6
+	1jW/t/VjVLZyZ1yqC2GKHZHDy+dVokxaBMPPYcADnROuaYdHiAsrvT776y9Ojh8QKCNr
+	m0DJWhTPv/gOAqgUdz2ojYSOmzpz4Iyyr/h/GEsSg/Izzb04hiy+X08WMJBnZU2l3mlV
+	uGCdMMQcqO3oxq5Nx9au0HxSG0wkQIRWBt7Gk/ZFIt4dC9bhEXg1oZ+a0GXVuOwgiclt
+	P0zA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=RLx/wSRvZ0Qnq4LRxhUv7Gr5HEvQfres6rCS377HJ4c=;
+	b=Np07v1Jxz8DVEDqRbgcL5X5qAXDhHRyOe7Gz6CsroQY9UpcHTzu2ODQScA9l4v/CAk
+	FQNLZwx6+UayEZq50C0kOR4LJt6k/k4TbKxcHXCZtnX3RWcjnZl7uYeHNOwdDkNMNmMW
+	7vsJuhqKm+jq95CBfIGcx89p8nJFnfG+ZHc5QqCDjWc7dOtkxtbGKRx6Bf0LtNjYpipP
+	KY3GpJEJrIAJmiehd7T2002oZgSEbTVvRCErzeQ0TShOvg1K84h+hBsG2IbEB/ie7Tsi
+	lLlTIydiMkR2bnRGhMDBYHuh+wF0gtveCDspyvzdf2vKnzL2Y46JTIAF2nEvqQh6lesT
+	SJBw==
+X-Gm-Message-State: ABUngveRfntsEAr9tzyTw9xt6LFXoIS/xLsJzJEIJNyaOIFddWC4++De+GB6c/KY0ncMadWlJKQeJWNWzFgCtA==
+X-Received: by 10.176.1.17 with SMTP id 17mr17727317uak.143.1477849113510;
+	Sun, 30 Oct 2016 10:38:33 -0700 (PDT)
 MIME-Version: 1.0
-X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: should a "*git.bb" recipe lock that recipe to a fixed version?
+Received: by 10.176.5.136 with HTTP; Sun, 30 Oct 2016 10:38:03 -0700 (PDT)
+In-Reply-To: <CALbNGRSvqDHCA-3VPt379-Np29hZo-0ONbj=ZFd+Eew1K=4zFw@mail.gmail.com>
+References: <20161029084707.29652-1-raj.khem@gmail.com>
+	<CALbNGRSvqDHCA-3VPt379-Np29hZo-0ONbj=ZFd+Eew1K=4zFw@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Sun, 30 Oct 2016 10:38:03 -0700
+Message-ID: <CAMKF1sr=VwcPUpdV9BTfVKuq_sD0Btnm6zkW3xFWNh=e_T=ZHw@mail.gmail.com>
+To: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] cmake.bbclass: Exclude native sysroot from CMAKE_FIND_ROOT_PATH
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,77 +55,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 30 Oct 2016 17:36:53 -0000
-Content-Type: multipart/mixed; BOUNDARY="8323328-270796150-1477848946=:3944"
-
---8323328-270796150-1477848946=:3944
+X-List-Received-Date: Sun, 30 Oct 2016 17:38:32 -0000
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
+Content-Transfer-Encoding: quoted-printable
 
-On Sun, 30 Oct 2016, Christopher Larson wrote:
+On Sun, Oct 30, 2016 at 6:34 AM, Andreas M=C3=BCller
+<schnitzeltony@googlemail.com> wrote:
+> On Sat, Oct 29, 2016 at 10:47 AM, Khem Raj <raj.khem@gmail.com> wrote:
+>> This has been cause of issue where we were getting both usr/include
+>> dirs ( from target as well as native sysroot) added to compiler
+>> flags.
+>>
+>> CXX_INCLUDES in final flags.cmake would include
+>> -I<target-sysroot>/usr/include -I<native-sysroot>/usr/include
+>> most of the time it would work since headers are mostly
+>> common but netflix package failed to compile since one of
+>> the headers was including curl headers which it could not
+>> find in target sysroot and it went to next include path
+>> and found it in native sysroot which is not what we want
+>> when doing cross compile.
+>>
+>> As per https://cmake.org/Wiki/CMake_Cross_Compiling
+>> never search for programs in target sysroot but search
+>> for packages,libs,includes only.
+>>
+>> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+>> ---
+>>  meta/classes/cmake.bbclass | 3 ++-
+>>  1 file changed, 2 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/meta/classes/cmake.bbclass b/meta/classes/cmake.bbclass
+>> index 3e762de..3e8df37 100644
+>> --- a/meta/classes/cmake.bbclass
+>> +++ b/meta/classes/cmake.bbclass
+>> @@ -25,6 +25,7 @@ OECMAKE_PERLNATIVE_DIR ??=3D ""
+>>  OECMAKE_EXTRA_ROOT_PATH ?=3D ""
+>>
+>>  OECMAKE_FIND_ROOT_PATH_MODE_PROGRAM =3D "ONLY"
+>> +OECMAKE_FIND_ROOT_PATH_MODE_PROGRAM_class-target =3D "NEVER"
+> ^ Split this into a second patch please you are changing two more or
+> less unrelated settings in one patch.
 
-> On Sun, Oct 30, 2016 at 5:25 AM, Robert P. J. Day <rpjday@crashcourse.ca> wrote:
->
->         not sure if i should have noticed this before, but i was building a
->       number of python modules, and my collection of layers gave me two
->       possibilities for python-django:
->
->         * python-django_git.bb      (meta-openstack)
->         * python-django_1.9.7.bb    (meta-python)
->
->         i simply assumed that any "git"-versioned recipe would typically
->       take precedence over a fixed version recipe, so i was surprised to see
->       that what was built was python-django-1.8.6. huh?
->
->         then i looked at the recipe from meta-openstack, and it contained
->       the lines:
->
->         PV = "1.8.6"
->         SRCREV = "80b7e9d09f2d23209b591288f9b2cf3eb3d927c8"
->
->         SRC_URI = " \
->             git://github.com/django/django.git;branch=stable/1.8.x \
->             "
->
->       am i right in being a bit confused by that? i checked out the github
->       repo, and it has branches "stable/1.8.x", and also "stable/1.9.x" and
->       "stable/1.10.x". so what is that supposed to mean?
->
->         am i right in assuming that a "git" recipe will (in the absence of
->       any PREFERRED_VERSION settings or other overriding settings) always be
->       considered before a fixed version recipe? and is that why i got this
->       (for me) unexpected result?
->
->
-> Bitbake selects default versions via DEFAULT_VERSION,
-> PREFERRED_VERSION, and lacking both, a naïve version comparison.
-> There’s nothing magic to select or not select an _git recipe.
->
-> It’s been a very common pattern for the _git recipe to be the
-> development version / branch HEAD, to be used only when explicitly
-> selected, whereas the versioned recipes are stable and versioned, so
-> are appropriate defaults. That said, there are also _git recipes
-> that set specific versions, and version recipes that use git to
-> fetch that version. There’s a lack of consistency in that regard,
-> but what you were surprised by has basically been the expected,
-> default convention in the past, not the exception.
+These changes are related and should stay together in same patch
+otherwise it will break.
 
-  fair enough ... i'm embarrassed to admit i didn't really understand
-the versioning selection so i'm going to examine it way more carefully
-now. i wonder how many recipes in oe-core are "_git" recipes that, in
-the end, just lock down to a specific version. as you say, i was a bit
-surprised.
+>>  OECMAKE_FIND_ROOT_PATH_MODE_PROGRAM_class-native =3D "BOTH"
+>>
+>>  EXTRA_OECMAKE_append =3D " ${PACKAGECONFIG_CONFARGS}"
+>> @@ -60,7 +61,7 @@ set( CMAKE_CXX_LINK_FLAGS "${OECMAKE_CXX_LINK_FLAGS}" =
+CACHE STRING "LDFLAGS" )
+>>
+>>  # only search in the paths provided so cmake doesnt pick
+>>  # up libraries and tools from the native build machine
+>> -set( CMAKE_FIND_ROOT_PATH ${STAGING_DIR_HOST} ${STAGING_DIR_NATIVE} ${C=
+ROSS_DIR} ${OECMAKE_PERLNATIVE_DIR} ${OECMAKE_EXTRA_ROOT_PATH} ${EXTERNAL_T=
+OOLCHAIN})
+>> +set( CMAKE_FIND_ROOT_PATH ${STAGING_DIR_HOST} ${CROSS_DIR} ${OECMAKE_PE=
+RLNATIVE_DIR} ${OECMAKE_EXTRA_ROOT_PATH} ${EXTERNAL_TOOLCHAIN})
+> ^ Are you sure this doesn't break native builds? I am a bit scared: In
+> meta-qt5-extra I have lot's of native builds for build-helpers. KDE
+> guys seem to prefer this over shell scripts...
 
-rday
+It hasnt broken anything for my world builds thus far. I dont use
+meta-qt5-extras though. So testing help is welcome.
 
--- 
-
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
-
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
-
---8323328-270796150-1477848946=:3944--
