@@ -1,50 +1,49 @@
-Return-Path: <schnitzeltony@googlemail.com>
-Received: from mail-vk0-f68.google.com (mail-vk0-f68.google.com
-	[209.85.213.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 4D0CA719D0
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qk0-f172.google.com (mail-qk0-f172.google.com
+	[209.85.220.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 200B2719A2
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 30 Oct 2016 20:06:59 +0000 (UTC)
-Received: by mail-vk0-f68.google.com with SMTP id x186so716318vkd.2
+	Sun, 30 Oct 2016 23:36:35 +0000 (UTC)
+Received: by mail-qk0-f172.google.com with SMTP id v138so54583878qka.0
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 30 Oct 2016 13:07:01 -0700 (PDT)
+	Sun, 30 Oct 2016 16:36:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=googlemail.com; s=20120113;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=CH3uZkt3o/htKgOVP71Mm6eoCut/hE6DKmcg9b9r8sc=;
-	b=sjw4MVvFqqHgd2sgiugyTrQfpTTRtunSEi7e8OOKW/NObxq6uyZqpWQZn3jBy5qanw
-	9k5/LW5guc5MjuvKW0m8nGbpNGmHcapclcmQ9L3bQ7iRsszBWXXG0Myf5D5JviANinJl
-	2OPW0VCBonPZwlvbJqOZ2qpSMNqwfse1NR1CjQXrYvYw/97QVz9OK5TS3DSYmbeqRA6t
-	Jgn0vKZNT58Qr18Hrs/1h7CWy6Tx0/Xw/BzK9KzToCyTdh5BIS+9jXJ+Tk8chxyyBtN4
-	QYT5ohJqYC9XbsrbvRpLhupcOnHbT12S2boUmFaVl4zZTYpIJ0oSdkRep00pHcDMDAYT
-	tvKA==
+	:cc; bh=QXoUHD2dEspbsLyL/GBQFTIFpnAMHFQ4fjSolyrF5Ro=;
+	b=USOif7eP+Ui8yKw6HbS7Mobv/xCUTcLA8Znnr0DlIMtWc6Otpa2Fs7hBkGEDuen5kf
+	4H1Qbrt0Tbibutpe3YbQoHXoHXdlWWpVbHX04XztmE2oh8+wiApVz8S4uLlJYB+3gtzn
+	9oOO8cdD1UYyptH6y5ga+bEfpOGN+rH5oPDmKXrFoM64bDt0kVFA3Cixwh3SUNQBfJpX
+	Fep3EFm0SArmWdhSrWZ8jKPTetHnfEZCBl4aX1XkXjwLw+PlWnE11nqDkcGHLZomGhyM
+	4bfVwZw0qjI17gQNzZ6yjad1sKAROj0PxKVJodtrtjDnDYhX6xQB/dmkzs+bMCTCKwnn
+	0/Gw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=CH3uZkt3o/htKgOVP71Mm6eoCut/hE6DKmcg9b9r8sc=;
-	b=UZJYgpaU55xo3es/cZ51XU0/7ETQ1dzL9k8KIIIGeqTHtEyBn7FoXePhW7+MsSYlmZ
-	bt3tC4IgQFqHzxcr9U8Y6XHO0PZqYpr9+Jn/DlE0MbG/fzDw01LBAzv/6trrAEJqzL57
-	3QQqtevnikNQ4U4nk6LH23ZmocA+bcM63liCpyQhoJ2hgXEU1uGxhhv7wUekTEPW+EsU
-	vHYAqjriD1/8CUpvOoYYDR995MOLJek3TnXEGSv3SwZCaZ3ZoW780exUOnOoPyzvSgx1
-	8X7EjZNvXGQdDHYVCjZD+UrIftIj3AFaUd2ISaanF/CtTWG/86OCuDQXXVqnfTJEBqqB
-	Mjug==
-X-Gm-Message-State: ABUngvdQx+oi/nPLczlTLiAbRlBa5qqAI12HicYaieIeZcmmVqr9pC+hMGPE5j4cm91dLbh4A7+cM+IaPdmS1A==
-X-Received: by 10.31.216.4 with SMTP id p4mr18682416vkg.51.1477858021047; Sun,
-	30 Oct 2016 13:07:01 -0700 (PDT)
+	:message-id:subject:to:cc;
+	bh=QXoUHD2dEspbsLyL/GBQFTIFpnAMHFQ4fjSolyrF5Ro=;
+	b=Md4CcXjfm4kATpo8pwj4l6I8ZfIilo21pDwiVT5+zyIeKactS/jZuAX5LEnIqKmLSH
+	0pvaVnBKwICGFhV83D9R3sjR40OM+YTvkPyFikd1e5EJ2EnQMxgnWqYyYzSLankWImp4
+	HRRdjAiJffR6PhijlFVFyAE7nnPQDCLBNjoI2O2Ng5Ehe70bvjcYGnBG4ajg5gF35Eyq
+	E3iAOBWsqz6gR/vYBMBqrL8bQoZKP/QRNUVnwC7Au4VLbN8q7KZ12wGKGLMliq2dl5wq
+	cMou+cd6ef9Wqqobfyn8z7p1WBNrryk/0aESXZmqZ6LFeOwYKOeuodhwfZO0D/uhlQUL
+	s5KA==
+X-Gm-Message-State: ABUngvc351LOx5E0MvyCWSFRTHSBFCtvezI/tOKAJbwci9ciA05Mihh3t4o0ve/a0TnrGavHM8v/EAvBqOP4Pqk1
+X-Received: by 10.55.75.17 with SMTP id y17mr3382936qka.26.1477870597034; Sun,
+	30 Oct 2016 16:36:37 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.159.36.211 with HTTP; Sun, 30 Oct 2016 13:07:00 -0700 (PDT)
-In-Reply-To: <CAMKF1sr=VwcPUpdV9BTfVKuq_sD0Btnm6zkW3xFWNh=e_T=ZHw@mail.gmail.com>
-References: <20161029084707.29652-1-raj.khem@gmail.com>
-	<CALbNGRSvqDHCA-3VPt379-Np29hZo-0ONbj=ZFd+Eew1K=4zFw@mail.gmail.com>
-	<CAMKF1sr=VwcPUpdV9BTfVKuq_sD0Btnm6zkW3xFWNh=e_T=ZHw@mail.gmail.com>
-From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
-Date: Sun, 30 Oct 2016 21:07:00 +0100
-Message-ID: <CALbNGRQ2aKUmRyH1b-aAjx1FNgyrrkOyCWwSRVENM5repVGY9w@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] cmake.bbclass: Exclude native sysroot from CMAKE_FIND_ROOT_PATH
+Received: by 10.140.85.208 with HTTP; Sun, 30 Oct 2016 16:36:16 -0700 (PDT)
+In-Reply-To: <alpine.LFD.2.20.1610301333390.3944@localhost.localdomain>
+References: <alpine.LFD.2.20.1610300813220.27025@localhost.localdomain>
+	<CABcZANnPcmg+iBWgB7HHbEEaTaDOfwtdXr8vfrG7OPzruRdTTQ@mail.gmail.com>
+	<alpine.LFD.2.20.1610301333390.3944@localhost.localdomain>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Sun, 30 Oct 2016 23:36:16 +0000
+Message-ID: <CAJTo0LZcHSgs+Qw1Zkrj4bUWnU-p6Ja-vg3+J8H22vxoscTrRg@mail.gmail.com>
+To: "Robert P. J. Day" <rpjday@crashcourse.ca>
+Cc: Christopher Larson <clarson@kergoth.com>,
+	OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: should a "*git.bb" recipe lock that recipe to a fixed version?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,71 +56,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 30 Oct 2016 20:07:00 -0000
+X-List-Received-Date: Sun, 30 Oct 2016 23:36:36 -0000
+Content-Type: multipart/alternative; boundary=001a114a88c8f5eee405401d8f9d
+
+--001a114a88c8f5eee405401d8f9d
 Content-Type: text/plain; charset=UTF-8
+
+On 30 October 2016 at 17:35, Robert P. J. Day <rpjday@crashcourse.ca> wrote:
+
+>   fair enough ... i'm embarrassed to admit i didn't really understand
+> the versioning selection so i'm going to examine it way more carefully
+> now. i wonder how many recipes in oe-core are "_git" recipes that, in
+> the end, just lock down to a specific version. as you say, i was a bit
+> surprised.
+>
+
+Personally I've been endorsing the practise where _git.bb is only used for
+recipes that are actually tracking git development branches, and if it's
+just a release that it simply fetched over git via a SHA of a release tag
+then the recipe should be _1.2.3.bb for clarity.
+
+Ross
+
+--001a114a88c8f5eee405401d8f9d
+Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-On Sun, Oct 30, 2016 at 6:38 PM, Khem Raj <raj.khem@gmail.com> wrote:
-> On Sun, Oct 30, 2016 at 6:34 AM, Andreas M=C3=BCller
-> <schnitzeltony@googlemail.com> wrote:
->> On Sat, Oct 29, 2016 at 10:47 AM, Khem Raj <raj.khem@gmail.com> wrote:
->>> This has been cause of issue where we were getting both usr/include
->>> dirs ( from target as well as native sysroot) added to compiler
->>> flags.
->>>
->>> CXX_INCLUDES in final flags.cmake would include
->>> -I<target-sysroot>/usr/include -I<native-sysroot>/usr/include
->>> most of the time it would work since headers are mostly
->>> common but netflix package failed to compile since one of
->>> the headers was including curl headers which it could not
->>> find in target sysroot and it went to next include path
->>> and found it in native sysroot which is not what we want
->>> when doing cross compile.
->>>
->>> As per https://cmake.org/Wiki/CMake_Cross_Compiling
->>> never search for programs in target sysroot but search
->>> for packages,libs,includes only.
->>>
->>> Signed-off-by: Khem Raj <raj.khem@gmail.com>
->>> ---
->>>  meta/classes/cmake.bbclass | 3 ++-
->>>  1 file changed, 2 insertions(+), 1 deletion(-)
->>>
->>> diff --git a/meta/classes/cmake.bbclass b/meta/classes/cmake.bbclass
->>> index 3e762de..3e8df37 100644
->>> --- a/meta/classes/cmake.bbclass
->>> +++ b/meta/classes/cmake.bbclass
->>> @@ -25,6 +25,7 @@ OECMAKE_PERLNATIVE_DIR ??=3D ""
->>>  OECMAKE_EXTRA_ROOT_PATH ?=3D ""
->>>
->>>  OECMAKE_FIND_ROOT_PATH_MODE_PROGRAM =3D "ONLY"
->>> +OECMAKE_FIND_ROOT_PATH_MODE_PROGRAM_class-target =3D "NEVER"
->> ^ Split this into a second patch please you are changing two more or
->> less unrelated settings in one patch.
->
-> These changes are related and should stay together in same patch
-> otherwise it will break.
->
->>>  OECMAKE_FIND_ROOT_PATH_MODE_PROGRAM_class-native =3D "BOTH"
->>>
->>>  EXTRA_OECMAKE_append =3D " ${PACKAGECONFIG_CONFARGS}"
->>> @@ -60,7 +61,7 @@ set( CMAKE_CXX_LINK_FLAGS "${OECMAKE_CXX_LINK_FLAGS}"=
- CACHE STRING "LDFLAGS" )
->>>
->>>  # only search in the paths provided so cmake doesnt pick
->>>  # up libraries and tools from the native build machine
->>> -set( CMAKE_FIND_ROOT_PATH ${STAGING_DIR_HOST} ${STAGING_DIR_NATIVE} ${=
-CROSS_DIR} ${OECMAKE_PERLNATIVE_DIR} ${OECMAKE_EXTRA_ROOT_PATH} ${EXTERNAL_=
-TOOLCHAIN})
->>> +set( CMAKE_FIND_ROOT_PATH ${STAGING_DIR_HOST} ${CROSS_DIR} ${OECMAKE_P=
-ERLNATIVE_DIR} ${OECMAKE_EXTRA_ROOT_PATH} ${EXTERNAL_TOOLCHAIN})
->> ^ Are you sure this doesn't break native builds? I am a bit scared: In
->> meta-qt5-extra I have lot's of native builds for build-helpers. KDE
->> guys seem to prefer this over shell scripts...
->
-> It hasnt broken anything for my world builds thus far. I dont use
-> meta-qt5-extras though. So testing help is welcome.
-I'll give it a meta-qt5-extra world build and let you know
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 30 October 2016 at 17:35, Robert P. J. Day <span dir=3D"ltr">&lt;<a href=
+=3D"mailto:rpjday@crashcourse.ca" target=3D"_blank">rpjday@crashcourse.ca</=
+a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0=
+ 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":p7" clas=
+s=3D"a3s aXjCH m15816aec4d9c0267">=C2=A0 fair enough ... i&#39;m embarrasse=
+d to admit i didn&#39;t really understand<br>
+the versioning selection so i&#39;m going to examine it way more carefully<=
+br>
+now. i wonder how many recipes in oe-core are &quot;_git&quot; recipes that=
+, in<br>
+the end, just lock down to a specific version. as you say, i was a bit<br>
+surprised.</div></blockquote></div><br>Personally I&#39;ve been endorsing t=
+he practise where _<a href=3D"http://git.bb">git.bb</a> is only used for re=
+cipes that are actually tracking git development branches, and if it&#39;s =
+just a release that it simply fetched over git via a SHA of a release tag t=
+hen the recipe should be _<a href=3D"http://1.2.3.bb">1.2.3.bb</a> for clar=
+ity.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">R=
+oss</div></div>
 
-Andreas
-
+--001a114a88c8f5eee405401d8f9d--
