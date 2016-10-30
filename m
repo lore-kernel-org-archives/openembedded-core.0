@@ -1,29 +1,28 @@
-Return-Path: <rpjday@crashcourse.ca>
-Received: from smtp685.redcondor.net (smtp685.redcondor.net [208.80.206.85])
-	by mail.openembedded.org (Postfix) with ESMTP id 72AC66060F
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 7353371A38
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 30 Oct 2016 14:45:41 +0000 (UTC)
-Received: from astoria.ccjclearline.com ([64.235.106.9])
-	by smtp685.redcondor.net ({20c8e40f-6b6c-4c9e-abff-1640ea7bf404})
-	via TCP (outbound) with ESMTPS id 20161030144541618_0685
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 30 Oct 2016 07:45:41 -0700
-X-RC-FROM: <rpjday@crashcourse.ca>
-X-RC-RCPT: <openembedded-core@lists.openembedded.org>
-Received: from [174.118.92.171] (port=45926 helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
-	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
-	id 1c0rMd-0001go-Uc for openembedded-core@lists.openembedded.org;
-	Sun, 30 Oct 2016 10:45:36 -0400
-Date: Sun, 30 Oct 2016 10:44:36 -0400 (EDT)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@localhost.localdomain
-To: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Message-ID: <alpine.LFD.2.20.1610301042290.19661@localhost.localdomain>
-User-Agent: Alpine 2.20 (LFD 67 2015-01-07)
-MIME-Version: 1.0
-X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
-Subject: postgresql: "Taskhash mismatch"
+	Sun, 30 Oct 2016 16:40:33 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u9UGeX1O032473; Sun, 30 Oct 2016 16:40:33 GMT
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id 18QATVlzFo7z; Sun, 30 Oct 2016 16:40:33 +0000 (GMT)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u9UGeTO2032468
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Sun, 30 Oct 2016 16:40:30 GMT
+Message-ID: <1477845629.23123.20.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Khem Raj <raj.khem@gmail.com>, openembedded-core@lists.openembedded.org
+Date: Sun, 30 Oct 2016 16:40:29 +0000
+In-Reply-To: <20161029194615.19954-1-raj.khem@gmail.com>
+References: <20161029194615.19954-1-raj.khem@gmail.com>
+X-Mailer: Evolution 3.18.5.2-0ubuntu3 
+Mime-Version: 1.0
+Subject: Re: [PATCH] boost: Fix SRC_URI checksums
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,38 +35,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 30 Oct 2016 14:45:43 -0000
-Content-Type: text/plain; charset=US-ASCII
+X-List-Received-Date: Sun, 30 Oct 2016 16:40:34 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+
+On Sat, 2016-10-29 at 12:46 -0700, Khem Raj wrote:
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+
+Why, what happened?
+
+Cheers,
+
+Richard
 
 
-  i've never seen one of these before -- this was generated in a
-completely fresh build:
-
-ERROR: postgresql-9.4.8-r0.0 do_deploychef_install: Taskhash mismatch
-834561f3f96987debe459a38ed29e3b5 versus
-30bd6bedbae7ee7577cb2e6f9cd67d28 for
-/home/rpjday/oe/dist/layers/meta-openembedded/meta-oe/recipes-support/postgresql/postgresql_9.4.8.bb.do_deploychef_install
-ERROR: Taskhash mismatch 834561f3f96987debe459a38ed29e3b5 versus
-30bd6bedbae7ee7577cb2e6f9cd67d28 for
-/home/rpjday/oe/dist/layers/meta-openembedded/meta-oe/recipes-support/postgresql/postgresql_9.4.8.bb.do_deploychef_install
-ERROR: postgresql-9.4.8-r0.0 do_package: Taskhash mismatch
-dd7583ca4559829157cde56fe9a05763 versus
-c875f1d5c39516c88f5063e4ba88a7cb for
-/home/rpjday/oe/dist/layers/meta-openembedded/meta-oe/recipes-support/postgresql/postgresql_9.4.8.bb.do_package
-ERROR: Taskhash mismatch dd7583ca4559829157cde56fe9a05763 versus
-c875f1d5c39516c88f5063e4ba88a7cb for
-/home/rpjday/oe/dist/layers/meta-openembedded/meta-oe/recipes-support/postgresql/postgresql_9.4.8.bb.do_package
-
-rday
-
--- 
-
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
-
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
-
+> ---
+>  meta/recipes-support/boost/boost-1.62.0.inc | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/meta/recipes-support/boost/boost-1.62.0.inc
+> b/meta/recipes-support/boost/boost-1.62.0.inc
+> index a097ea1..1144ac9 100644
+> --- a/meta/recipes-support/boost/boost-1.62.0.inc
+> +++ b/meta/recipes-support/boost/boost-1.62.0.inc
+> @@ -13,7 +13,7 @@ BOOST_P = "boost_${BOOST_VER}"
+>  
+>  SRC_URI = "${SOURCEFORGE_MIRROR}/boost/${BOOST_P}.tar.bz2"
+>  
+> -SRC_URI[md5sum] = "7ef085456c48c49a7fe8237f07e5f674"
+> -SRC_URI[sha256sum] =
+> "bce80293052e2d6230f1bec9b7524b33412e4fb26e9723460a0f362ac15b7acb"
+> +SRC_URI[md5sum] = "21b799e5d35ba2beef75b225deaf199a"
+> +SRC_URI[sha256sum] =
+> "a715dc2adff2d451719352b1e863d78cbb100a03f7ed76097c89b9016c59091e"
+>  
+>  S = "${WORKDIR}/${BOOST_P}"
+> -- 
+> 2.10.1
+> 
 
