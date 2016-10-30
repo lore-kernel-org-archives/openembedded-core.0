@@ -1,48 +1,47 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-ua0-f196.google.com (mail-ua0-f196.google.com
-	[209.85.217.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 954D471A51
+Received: from mail-ua0-f176.google.com (mail-ua0-f176.google.com
+	[209.85.217.176])
+	by mail.openembedded.org (Postfix) with ESMTP id B80C571A28
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 30 Oct 2016 17:38:32 +0000 (UTC)
-Received: by mail-ua0-f196.google.com with SMTP id 50so4283218uae.2
+	Sun, 30 Oct 2016 17:40:03 +0000 (UTC)
+Received: by mail-ua0-f176.google.com with SMTP id 51so71619918uai.1
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 30 Oct 2016 10:38:34 -0700 (PDT)
+	Sun, 30 Oct 2016 10:40:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=RLx/wSRvZ0Qnq4LRxhUv7Gr5HEvQfres6rCS377HJ4c=;
-	b=gFyvBoR2KCQGz/9JIIgiwDRdIkwJNSJtnDdTaKnG+U3TcE4Mdqlmjt3KDYFK35v5Mb
-	pTOBO2Lr9dhRkdhCKN8OMIT7ikMKbohX1rr5Z939YS/T0pFG15m52WeipAptgL3JORI6
-	1jW/t/VjVLZyZ1yqC2GKHZHDy+dVokxaBMPPYcADnROuaYdHiAsrvT776y9Ojh8QKCNr
-	m0DJWhTPv/gOAqgUdz2ojYSOmzpz4Iyyr/h/GEsSg/Izzb04hiy+X08WMJBnZU2l3mlV
-	uGCdMMQcqO3oxq5Nx9au0HxSG0wkQIRWBt7Gk/ZFIt4dC9bhEXg1oZ+a0GXVuOwgiclt
-	P0zA==
+	:cc; bh=6uytqjZb/Uk/7CfX+xXCzlMhHepN4v1dUyAQ6046GHI=;
+	b=IZmRr6+mSu2ER7ClKerwkf6sery4VN6uDl1Scxw860QU/cgdxbihg0CAsOWFEmrj5Q
+	CYN9ZfUwYMT2gUQdrtSyQKdfspO+paGs0pkIsE3qnvJVgQLo3FFSK2feLRgRK+kk2z89
+	0u4LbFicpQhj+Ekv7QQCAns5Nu3DLiz+YLZGw4nb42/6mOfu53RfnyR+3hqBCIqnmd1O
+	qwpwEet7ou8bQTPEAp/y2YNCr6XYKoYtgM2USv3bx463DrgOrF1ZcXyVBXr6S8W2Kt1l
+	r0IX1e3BPzdKVURlH1HH893WJOGDPE9aCq/5kyLJwccC+B+9qksN1Vsz1PwtUq9WZIJ+
+	jjiA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=RLx/wSRvZ0Qnq4LRxhUv7Gr5HEvQfres6rCS377HJ4c=;
-	b=Np07v1Jxz8DVEDqRbgcL5X5qAXDhHRyOe7Gz6CsroQY9UpcHTzu2ODQScA9l4v/CAk
-	FQNLZwx6+UayEZq50C0kOR4LJt6k/k4TbKxcHXCZtnX3RWcjnZl7uYeHNOwdDkNMNmMW
-	7vsJuhqKm+jq95CBfIGcx89p8nJFnfG+ZHc5QqCDjWc7dOtkxtbGKRx6Bf0LtNjYpipP
-	KY3GpJEJrIAJmiehd7T2002oZgSEbTVvRCErzeQ0TShOvg1K84h+hBsG2IbEB/ie7Tsi
-	lLlTIydiMkR2bnRGhMDBYHuh+wF0gtveCDspyvzdf2vKnzL2Y46JTIAF2nEvqQh6lesT
-	SJBw==
-X-Gm-Message-State: ABUngveRfntsEAr9tzyTw9xt6LFXoIS/xLsJzJEIJNyaOIFddWC4++De+GB6c/KY0ncMadWlJKQeJWNWzFgCtA==
-X-Received: by 10.176.1.17 with SMTP id 17mr17727317uak.143.1477849113510;
-	Sun, 30 Oct 2016 10:38:33 -0700 (PDT)
+	:message-id:subject:to:cc;
+	bh=6uytqjZb/Uk/7CfX+xXCzlMhHepN4v1dUyAQ6046GHI=;
+	b=CgKE6sSR+s+DIobJrFttb0mSJwkiDB99XWT2SOT+nBfQaxNZNo+21YKTALMIzSlS9G
+	xwCZ9J9tmaWCMQv5hzFfdqFXKR185MbXVT/Z7o35qn7qGsP5rE7gFxjaGKTNYT1YCt7y
+	8ZAqcnuagPvqlL6eyqN4bUR8CjEZjzOqEiBw4KMWdxrdLOz4+omg/OlaxN0bQ0NJddQn
+	W3CRCaWVP1n6FcoyF0AhxdOZ/hFNQeKpVc5ekveRuBYrjuS6lqz3JgFok8uWXRWgMNJ2
+	OSzSPADp3xissiWDDTIhxb2eZCeaTNAVEUesFVhOFxbd5/1bobICeaEoDufQZckfpsZV
+	wVRA==
+X-Gm-Message-State: ABUngvd4QItYc8sDhf65Vt120vtBrpc9H7nptFYEar53GgIe5Yxu0QLkfL2YNMyIVQrxr1z1SPSSqUfOAH45YQ==
+X-Received: by 10.176.0.180 with SMTP id 49mr2967398uaj.32.1477849204446; Sun,
+	30 Oct 2016 10:40:04 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.176.5.136 with HTTP; Sun, 30 Oct 2016 10:38:03 -0700 (PDT)
-In-Reply-To: <CALbNGRSvqDHCA-3VPt379-Np29hZo-0ONbj=ZFd+Eew1K=4zFw@mail.gmail.com>
-References: <20161029084707.29652-1-raj.khem@gmail.com>
-	<CALbNGRSvqDHCA-3VPt379-Np29hZo-0ONbj=ZFd+Eew1K=4zFw@mail.gmail.com>
+Received: by 10.176.5.136 with HTTP; Sun, 30 Oct 2016 10:39:34 -0700 (PDT)
+In-Reply-To: <1477845629.23123.20.camel@linuxfoundation.org>
+References: <20161029194615.19954-1-raj.khem@gmail.com>
+	<1477845629.23123.20.camel@linuxfoundation.org>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Sun, 30 Oct 2016 10:38:03 -0700
-Message-ID: <CAMKF1sr=VwcPUpdV9BTfVKuq_sD0Btnm6zkW3xFWNh=e_T=ZHw@mail.gmail.com>
-To: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
+Date: Sun, 30 Oct 2016 10:39:34 -0700
+Message-ID: <CAMKF1sriW41+1MTxTuBHQAbeR+b0LM65fkuUDRL-HapKSLze0A@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] cmake.bbclass: Exclude native sysroot from CMAKE_FIND_ROOT_PATH
+Subject: Re: [PATCH] boost: Fix SRC_URI checksums
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,67 +54,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 30 Oct 2016 17:38:32 -0000
+X-List-Received-Date: Sun, 30 Oct 2016 17:40:03 -0000
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-On Sun, Oct 30, 2016 at 6:34 AM, Andreas M=C3=BCller
-<schnitzeltony@googlemail.com> wrote:
-> On Sat, Oct 29, 2016 at 10:47 AM, Khem Raj <raj.khem@gmail.com> wrote:
->> This has been cause of issue where we were getting both usr/include
->> dirs ( from target as well as native sysroot) added to compiler
->> flags.
->>
->> CXX_INCLUDES in final flags.cmake would include
->> -I<target-sysroot>/usr/include -I<native-sysroot>/usr/include
->> most of the time it would work since headers are mostly
->> common but netflix package failed to compile since one of
->> the headers was including curl headers which it could not
->> find in target sysroot and it went to next include path
->> and found it in native sysroot which is not what we want
->> when doing cross compile.
->>
->> As per https://cmake.org/Wiki/CMake_Cross_Compiling
->> never search for programs in target sysroot but search
->> for packages,libs,includes only.
->>
+On Sun, Oct 30, 2016 at 9:40 AM, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> On Sat, 2016-10-29 at 12:46 -0700, Khem Raj wrote:
 >> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+>
+> Why, what happened?
+
+I haven't checked in detail but after the recent master commits my
+builds started to fail with checksum errors.
+since it was happening on two different machines I though it might
+have been over sight.
+>
+> Cheers,
+>
+> Richard
+>
+>
 >> ---
->>  meta/classes/cmake.bbclass | 3 ++-
->>  1 file changed, 2 insertions(+), 1 deletion(-)
+>>  meta/recipes-support/boost/boost-1.62.0.inc | 4 ++--
+>>  1 file changed, 2 insertions(+), 2 deletions(-)
 >>
->> diff --git a/meta/classes/cmake.bbclass b/meta/classes/cmake.bbclass
->> index 3e762de..3e8df37 100644
->> --- a/meta/classes/cmake.bbclass
->> +++ b/meta/classes/cmake.bbclass
->> @@ -25,6 +25,7 @@ OECMAKE_PERLNATIVE_DIR ??=3D ""
->>  OECMAKE_EXTRA_ROOT_PATH ?=3D ""
+>> diff --git a/meta/recipes-support/boost/boost-1.62.0.inc
+>> b/meta/recipes-support/boost/boost-1.62.0.inc
+>> index a097ea1..1144ac9 100644
+>> --- a/meta/recipes-support/boost/boost-1.62.0.inc
+>> +++ b/meta/recipes-support/boost/boost-1.62.0.inc
+>> @@ -13,7 +13,7 @@ BOOST_P = "boost_${BOOST_VER}"
 >>
->>  OECMAKE_FIND_ROOT_PATH_MODE_PROGRAM =3D "ONLY"
->> +OECMAKE_FIND_ROOT_PATH_MODE_PROGRAM_class-target =3D "NEVER"
-> ^ Split this into a second patch please you are changing two more or
-> less unrelated settings in one patch.
-
-These changes are related and should stay together in same patch
-otherwise it will break.
-
->>  OECMAKE_FIND_ROOT_PATH_MODE_PROGRAM_class-native =3D "BOTH"
+>>  SRC_URI = "${SOURCEFORGE_MIRROR}/boost/${BOOST_P}.tar.bz2"
 >>
->>  EXTRA_OECMAKE_append =3D " ${PACKAGECONFIG_CONFARGS}"
->> @@ -60,7 +61,7 @@ set( CMAKE_CXX_LINK_FLAGS "${OECMAKE_CXX_LINK_FLAGS}" =
-CACHE STRING "LDFLAGS" )
+>> -SRC_URI[md5sum] = "7ef085456c48c49a7fe8237f07e5f674"
+>> -SRC_URI[sha256sum] =
+>> "bce80293052e2d6230f1bec9b7524b33412e4fb26e9723460a0f362ac15b7acb"
+>> +SRC_URI[md5sum] = "21b799e5d35ba2beef75b225deaf199a"
+>> +SRC_URI[sha256sum] =
+>> "a715dc2adff2d451719352b1e863d78cbb100a03f7ed76097c89b9016c59091e"
 >>
->>  # only search in the paths provided so cmake doesnt pick
->>  # up libraries and tools from the native build machine
->> -set( CMAKE_FIND_ROOT_PATH ${STAGING_DIR_HOST} ${STAGING_DIR_NATIVE} ${C=
-ROSS_DIR} ${OECMAKE_PERLNATIVE_DIR} ${OECMAKE_EXTRA_ROOT_PATH} ${EXTERNAL_T=
-OOLCHAIN})
->> +set( CMAKE_FIND_ROOT_PATH ${STAGING_DIR_HOST} ${CROSS_DIR} ${OECMAKE_PE=
-RLNATIVE_DIR} ${OECMAKE_EXTRA_ROOT_PATH} ${EXTERNAL_TOOLCHAIN})
-> ^ Are you sure this doesn't break native builds? I am a bit scared: In
-> meta-qt5-extra I have lot's of native builds for build-helpers. KDE
-> guys seem to prefer this over shell scripts...
-
-It hasnt broken anything for my world builds thus far. I dont use
-meta-qt5-extras though. So testing help is welcome.
+>>  S = "${WORKDIR}/${BOOST_P}"
+>> --
+>> 2.10.1
+>>
 
