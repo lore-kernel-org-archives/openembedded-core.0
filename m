@@ -1,58 +1,46 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f195.google.com (mail-pf0-f195.google.com
-	[209.85.192.195])
-	by mail.openembedded.org (Postfix) with ESMTP id EBFE26078D
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wm0-f42.google.com (mail-wm0-f42.google.com [74.125.82.42])
+	by mail.openembedded.org (Postfix) with ESMTP id 1406F719B3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 31 Oct 2016 16:31:51 +0000 (UTC)
-Received: by mail-pf0-f195.google.com with SMTP id n85so9135755pfi.3
+	Mon, 31 Oct 2016 16:48:18 +0000 (UTC)
+Received: by mail-wm0-f42.google.com with SMTP id a197so31333609wmd.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 31 Oct 2016 09:31:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=subject:mime-version:from:in-reply-to:date:cc:message-id:references
-	:to; bh=MemDl4/YqoOS8qWN3Xeqtzx7MH1fzjH23+uszISZ/SE=;
-	b=Pj8aNgwLpWHfobTrfbJNBeVj1EjjtpVOrT4sgrYkHL8KYfwHj76McR1REosibPpXjV
-	hly5GcpSFp43X65wVWkk+IbWM0EseI5iDtzZYNioT7K1x4f1xonOyekPhs+vvx47/ulY
-	pEfcUZisSFQwE7s1QAjdY20GSVaYqgu7sAp5qERWz/JIekEpM7Rk+1aqxQ4yZtkkhrFj
-	HZzCLZ5JKN7epyMPZhaPs/s4CIS5jkRm+PI2Vaj++GnviBR9OymoiTP4v8yE59OYWPVp
-	Bur2mJHru4fVX4WpkkEV2yLMl6QAdm860G7db0PJlCjrPXqyFY2G2ot5p+s+QNJqAgiC
-	E9/w==
+	Mon, 31 Oct 2016 09:48:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=t7MdqQMNcqVELnQdhNzVBsEg+ojTVLfFysUsMONWkOg=;
+	b=CJHCumudqAEUbPuwFXztRr3mtHqAdwMvxHVkMHbHV+bb7P77y5CUwA8DXg+PMUo6I8
+	d2tLL5PveIaKRD9Fd8aUozxqin4sMU9MFHlFZRsPtpAhUExABXUKh189DC4dywB1kZ0X
+	KE7F68N0XeyQXFFRkYBDUKeVxd7e7RpwDabZuw/T4sQ4zMVxGvX6VJNYL+YZrRZw2LjQ
+	70W8p03PT/tanw6qbtIyQ0+RTg7d55ijTRDcGjJo5zqQvutJu2QgkUUK70leD1CK5d8l
+	yVgxczG9RyaQEMzI3TgYgAdgB5wpcwAOqT+F6o80/+A4Ra7s+WAki/WVNA8vyUdjI2Cp
+	voTQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:subject:mime-version:from:in-reply-to:date:cc
-	:message-id:references:to;
-	bh=MemDl4/YqoOS8qWN3Xeqtzx7MH1fzjH23+uszISZ/SE=;
-	b=nCtGeq2YgDw3BeklkONJm1fa3r2g33WHzT2CIg+mUpFT8JYOxT+NvvlsUuTitQ9ukx
-	J6Wc+bzChb5H82C/dc8TKfa/+CkKSGBLr/3RGNAmypMUBYnlDDON5t3bvi8/zIdYKHaw
-	8fKnMEh7D8gfSgpg04Ta0eZSvrbiG6bQgv5ECQA/VUBYwoqv1MpZ6bKxUwAm50QuM2Zs
-	8YH28Q2n2G1ywOeWkayRUABxobqhz/u5ovMfB7S3hEISr51lQFT+lGH0kdYsLzFAiknr
-	2Ju4j4q4dDksJqClIKUzcCCkUmrIpgI0iqqzd1h+ecQny4qsRXy8D6HyTSiVrZAPUxoR
-	THsA==
-X-Gm-Message-State: ABUngvfzZxg197QqK75f4T2Q9kmE2El0YczoYPBEHG6bvKw6evixszlvisJxQSNAirxpjQ==
-X-Received: by 10.99.184.25 with SMTP id p25mr42256113pge.120.1477931513096;
-	Mon, 31 Oct 2016 09:31:53 -0700 (PDT)
-Received: from ?IPv6:2601:646:8882:b8c:793b:10a4:267d:c6fc?
-	([2601:646:8882:b8c:793b:10a4:267d:c6fc])
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=t7MdqQMNcqVELnQdhNzVBsEg+ojTVLfFysUsMONWkOg=;
+	b=cO+dhgyqECcR18ZkKhaEqa2vkoUTQ7h1Gkj79nvcc7zeVw3JTcwriKTXXv+8iVaRYJ
+	rZvcf9aOcHiahzfkH9PKAPkIhD2BJehS6ugml7c62LjiUAXLpRGCBLAgLdzlV6z/bNma
+	aJWHTFrh1Ap8wSJeTkER2fzszs5OLQhopjHUFEupGEhcEvU5U51IqNDSiSGV3j3Xo5ht
+	uWBObLBn6nHTKrs04A1s8h+piOV1Nw+u1Crhfj1DJ+KUDauJFfIggM9+caINDwMbNgVN
+	E/iz6nRxErTQldXEeRAFzmNkyNYDQkhnPOqK1TZ1LCw/qKZ+/NTp/YKuRz+dzXosUOgf
+	v5tw==
+X-Gm-Message-State: ABUngvdSKcxqMNdcQuK3n0cVXch/LQzePDdGzUX4WTNz55vshSQuV9d/549Bp2bvZDxmh1ad
+X-Received: by 10.194.116.104 with SMTP id jv8mr14092632wjb.12.1477932499091; 
+	Mon, 31 Oct 2016 09:48:19 -0700 (PDT)
+Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
 	by smtp.gmail.com with ESMTPSA id
-	v66sm32875198pfa.33.2016.10.31.09.31.52
-	(version=TLS1 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 31 Oct 2016 09:31:52 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 9.3 \(3124\))
-X-Pgp-Agent: GPGMail
-From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <alpine.LFD.2.20.1610310223510.6909@localhost.localdomain>
-Date: Mon, 31 Oct 2016 09:31:50 -0700
-Message-Id: <5B7BC861-2451-44F4-A166-429D238D6DC1@gmail.com>
-References: <alpine.LFD.2.20.1610300813220.27025@localhost.localdomain>
-	<CABcZANnPcmg+iBWgB7HHbEEaTaDOfwtdXr8vfrG7OPzruRdTTQ@mail.gmail.com>
-	<alpine.LFD.2.20.1610301333390.3944@localhost.localdomain>
-	<CAJTo0LZcHSgs+Qw1Zkrj4bUWnU-p6Ja-vg3+J8H22vxoscTrRg@mail.gmail.com>
-	<F99EA06D-E6DA-4FD4-BBED-D10D157F200C@gmail.com>
-	<alpine.LFD.2.20.1610310223510.6909@localhost.localdomain>
-To: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-Mailer: Apple Mail (2.3124)
-Cc: Christopher Larson <clarson@kergoth.com>,
-	OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: should a "*git.bb" recipe lock that recipe to a fixed version?
+	18sm25667499wmp.24.2016.10.31.09.48.18
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Mon, 31 Oct 2016 09:48:18 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 31 Oct 2016 16:48:14 +0000
+Message-Id: <1477932495-21204-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 2.8.1
+Subject: [PATCH 1/2] slang: add PREMIRRORS to handle upstream moving tarballs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -65,113 +53,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 31 Oct 2016 16:31:52 -0000
-X-Groupsio-MsgNum: 88810
-Content-Type: multipart/signed;
-	boundary="Apple-Mail=_D371269F-5EE0-454E-8477-2EF9125EFFFC";
-	protocol="application/pgp-signature"; micalg=pgp-sha1
+X-List-Received-Date: Mon, 31 Oct 2016 16:48:19 -0000
 
---Apple-Mail=_D371269F-5EE0-454E-8477-2EF9125EFFFC
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=utf-8
+The slang maintainer only puts the current release at
+jedsoft.org/releases/slang/slang-1.2.3.tar.bz2, all previous releases are moved
+into /releases/slang/old/.
 
+As this breaks the fetch the moment a new version is released, use PREMIRRORS to
+also look in the /old/ directory.
 
-> On Oct 30, 2016, at 11:29 PM, Robert P. J. Day <rpjday@crashcourse.ca> =
-wrote:
->=20
-> On Sun, 30 Oct 2016, Khem Raj wrote:
->=20
->>      On Oct 30, 2016, at 4:36 PM, Burton, Ross =
-<ross.burton@intel.com> wrote:
->>=20
->> On 30 October 2016 at 17:35, Robert P. J. Day <rpjday@crashcourse.ca> =
-wrote:
->>        fair enough ... i'm embarrassed to admit i didn't really =
-understand
->>      the versioning selection so i'm going to examine it way more =
-carefully
->>      now. i wonder how many recipes in oe-core are "_git" recipes =
-that, in
->>      the end, just lock down to a specific version. as you say, i was =
-a bit
->>      surprised.
->>=20
->> Personally I've been endorsing the practise where _git.bb is only
->> used for recipes that are actually tracking git development
->> branches, and if it's just a release that it simply fetched over git
->> via a SHA of a release tag then the recipe should be _1.2.3.bb for
->> clarity.
->>=20
->> with a system integrators hat on I agree. With developer hat on I do =
-not.
->=20
-> khem:
->=20
->  could you expand on that? now that i understand how the versioning
-> works, i'll be more careful in the future, but it's still misleading
-> for a "_git"-named recipe file to be locked to a particular version.
->=20
->  AFAICT, there are plenty of OE recipes that download via git, but
-> are still named as being version locked. eg, here's
-> meta/recipes-devtools/file/file_5.28.bb:
->=20
->  SRC_URI =3D "git://github.com/file/file.git \
->        file://debian-742262.patch \
->        file://0001-Add-P-prompt-into-Usage-info.patch \
->        "
->=20
->  SRCREV =3D "3c521817322a6bf5160cfeb09b9145ccde587b2a"
->=20
-> i'm assuming that that particular SRCREV corresponds to release
-> version 5,28, so that makes perfect sense.
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-extended/slang/slang_2.3.0.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-for traversing the git history file renaming doesnt work well
-so when you want to use git log you get a distorted view unless you
-use =E2=80=94follow option.
-
-If we want to have a systematic way of flagging a package being locked ( =
-foo_x.y.z.bb)
-versus one using AUTOREV ( foo_git.bb), it will be fine and become
-more useful.
-
->=20
-> rday
->=20
-> --
->=20
-> =
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> Robert P. J. Day                                 Ottawa, Ontario, =
-CANADA
->                        http://crashcourse.ca
->=20
-> Twitter:                                       =
-http://twitter.com/rpjday
-> LinkedIn:                               =
-http://ca.linkedin.com/in/rpjday
-> =
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+diff --git a/meta/recipes-extended/slang/slang_2.3.0.bb b/meta/recipes-extended/slang/slang_2.3.0.bb
+index 17efbbe..ce7b16a 100644
+--- a/meta/recipes-extended/slang/slang_2.3.0.bb
++++ b/meta/recipes-extended/slang/slang_2.3.0.bb
+@@ -22,6 +22,7 @@ SRC_URI = "http://www.jedsoft.org/releases/${BPN}/${BP}.tar.bz2 \
+            file://0001-Fix-error-conflicting-types-for-posix_close.patch \
+           "
+ UPSTREAM_CHECK_URI = "http://www.jedsoft.org/releases/slang/"
++PREMIRRORS_append = "\n http://www.jedsoft.org/releases/slang/.* http://www.jedsoft.org/releases/slang/old/ \n"
+ 
+ inherit autotools-brokensep
+ 
+-- 
+2.8.1
 
 
---Apple-Mail=_D371269F-5EE0-454E-8477-2EF9125EFFFC
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP using GPGMail
-
------BEGIN PGP SIGNATURE-----
-Comment: GPGTools - https://gpgtools.org
-
-iEYEARECAAYFAlgXcfYACgkQuwUzVZGdMxS3tACbB+RdO4QrV6kFvVtTUIfHuicL
-F+YAmgLiLzX08CNUxv4ZordWT9LUb1Ql
-=a9dF
------END PGP SIGNATURE-----
-
---Apple-Mail=_D371269F-5EE0-454E-8477-2EF9125EFFFC--
