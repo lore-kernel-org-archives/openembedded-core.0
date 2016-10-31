@@ -1,28 +1,20 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 8CD6B71A8D
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+	by mail.openembedded.org (Postfix) with ESMTP id A145671A6F
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 31 Oct 2016 12:56:13 +0000 (UTC)
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-	by orsmga101.jf.intel.com with ESMTP; 31 Oct 2016 05:56:15 -0700
+	Mon, 31 Oct 2016 13:25:58 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by fmsmga105.fm.intel.com with ESMTP; 31 Oct 2016 06:25:59 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.31,575,1473145200"; d="scan'208";a="25722340"
-Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
-	([10.237.68.161])
-	by orsmga005.jf.intel.com with ESMTP; 31 Oct 2016 05:56:14 -0700
-To: openembedded-core@lists.openembedded.org
-References: <20161029194615.19954-1-raj.khem@gmail.com>
-	<CAMKF1sriW41+1MTxTuBHQAbeR+b0LM65fkuUDRL-HapKSLze0A@mail.gmail.com>
-	<1552039.tK8Y5jYAKD@peggleto-mobl.ger.corp.intel.com>
-	<2141657.IdrglOmXLR@peggleto-mobl.ger.corp.intel.com>
+X-IronPort-AV: E=Sophos;i="5.31,575,1473145200"; d="scan'208";a="895990096"
+Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
+	by orsmga003.jf.intel.com with ESMTP; 31 Oct 2016 06:25:58 -0700
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <6a58f235-b235-f25c-b068-fe0c84cf4915@linux.intel.com>
-Date: Mon, 31 Oct 2016 14:53:54 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Icedove/45.4.0
-MIME-Version: 1.0
-In-Reply-To: <2141657.IdrglOmXLR@peggleto-mobl.ger.corp.intel.com>
-Subject: Re: [PATCH] boost: Fix SRC_URI checksums
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 31 Oct 2016 15:23:36 +0200
+Message-Id: <20161031132336.16626-1-alexander.kanavin@linux.intel.com>
+X-Mailer: git-send-email 2.9.3
+Subject: [PATCH] boost: fix the SRC_URI to point to an actual release, and not a master snapshot
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,31 +27,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 31 Oct 2016 12:56:15 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 31 Oct 2016 13:25:59 -0000
 
-On 10/31/2016 05:45 AM, Paul Eggleton wrote:
->> Alex, any idea what's happened here? Do you have the originals from when you
->> did the upgrade?
->
-> Hmm, it seems we aren't the only ones to have hit this:
->
->   http://osdir.com/ml/blfs-dev/2016-10/msg00013.html
->
-> That said, I still don't think we should blindly trust the latest archives
-> until we're sure of what the differences are.
+Sourceforge does a not-so-clever redirecting that fails miserably here:
 
-Sourceforge is doing too-clever redirecting that fails miserably here:
+     Proxy request sent, awaiting response... 301 Moved Permanently
+     Location: http://downloads.sourceforge.net/project/boost/boost/snapshots/master/boost_1_62_0.tar.bz2 [following]
 
-Proxy request sent, awaiting response... 301 Moved Permanently
-Location: 
-http://downloads.sourceforge.net/project/boost/boost/snapshots/master/boost_1_62_0.tar.bz2 
-[following]
+Also, boost developers are naming their snapshot tarballs the same as
+release tarballs. The two things conspired together.
 
-So we've been fetching a moving master snapshot all along. Patch is 
-coming shortly.
+The new tarball does have the same checksum as the one in release
+announcement, so we should be good now:
 
-Alex
+http://lists.boost.org/Archives/boost/2016/09/230886.php
+
+Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+---
+ meta/recipes-support/boost/boost-1.62.0.inc | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
+
+diff --git a/meta/recipes-support/boost/boost-1.62.0.inc b/meta/recipes-support/boost/boost-1.62.0.inc
+index a097ea1..cd99b0e 100644
+--- a/meta/recipes-support/boost/boost-1.62.0.inc
++++ b/meta/recipes-support/boost/boost-1.62.0.inc
+@@ -11,9 +11,11 @@ BOOST_VER = "${@"_".join(d.getVar("PV", True).split("."))}"
+ BOOST_MAJ = "${@"_".join(d.getVar("PV", True).split(".")[0:2])}"
+ BOOST_P = "boost_${BOOST_VER}"
+ 
+-SRC_URI = "${SOURCEFORGE_MIRROR}/boost/${BOOST_P}.tar.bz2"
++SRC_URI = "${SOURCEFORGE_MIRROR}/project/boost/boost/${PV}/${BOOST_P}.tar.bz2"
+ 
+-SRC_URI[md5sum] = "7ef085456c48c49a7fe8237f07e5f674"
+-SRC_URI[sha256sum] = "bce80293052e2d6230f1bec9b7524b33412e4fb26e9723460a0f362ac15b7acb"
++SRC_URI[md5sum] = "5fb94629535c19e48703bdb2b2e9490f"
++SRC_URI[sha256sum] = "36c96b0f6155c98404091d8ceb48319a28279ca0333fba1ad8611eb90afb2ca0"
++
++PR = "r1"
+ 
+ S = "${WORKDIR}/${BOOST_P}"
+-- 
+2.9.3
 
 
