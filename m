@@ -1,51 +1,47 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
-	by mail.openembedded.org (Postfix) with ESMTP id CC40160017
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qk0-f182.google.com (mail-qk0-f182.google.com
+	[209.85.220.182])
+	by mail.openembedded.org (Postfix) with ESMTP id 9E44A6B6F7
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 31 Oct 2016 16:56:47 +0000 (UTC)
-Received: by mail-wm0-f65.google.com with SMTP id 68so12504752wmz.2
+	Mon, 31 Oct 2016 17:05:11 +0000 (UTC)
+Received: by mail-qk0-f182.google.com with SMTP id v138so78779338qka.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 31 Oct 2016 09:56:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:date:to:cc:subject:message-id:references:mime-version
-	:content-disposition:in-reply-to:user-agent;
-	bh=eZNlf96rsd/dgnZ4YnAz4sz/dU67LWqF3vjJ7EsTg18=;
-	b=wcxUM3jTNZKLwx6iWGO+edTMfbsDOUcas6OkSZZHnYlzFxItvbZa4MmX0Q6Frgsl3h
-	ZY0KpTnWLTKfu50P772Hf57/kUtHAzVn2QM3O7tNenupeBQjoAsu5qj6pcSyD8R7bRkU
-	k852oiy27RbEj6UfG8oD3i58bwGapJxQiVO7l6NmKeUxERGmznB6ADYylCpQE+05oMWk
-	qBJGtKg4sF2/qzte/QMdmgGm1+AtRI8xkeGZGeOjsiuFYmJanRwxp/EFQ9uE/KxVaI9F
-	xFqTkltMTWHq7TMGeEMGcvAiBthcn/hKrBH8pUByeMsWXhNf6qtMSkj2oZ9OPF0p2Rmq
-	5eOw==
+	Mon, 31 Oct 2016 10:05:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=g2CMV/1XS7it7WNYAqBrSVrtcPFD2cByGicOFw/K5oI=;
+	b=Hf3J0psalXB0ookWYJBN81svyBAwgFvx9KIkouc9d4Elww7aXiIUsDRlwd1mQnFZT1
+	EbLuKnpBqji6PqFu7EWtodaRS70yzT5OuWQW95WSy4g6E2vXdbVStnH3buDyj/1F3Ezt
+	0ydat5JdlxlgBsa9VIBmPbBT8AHcp27OW6R9bTt/amwkArK+B309PRRnizC+WZUs5hUq
+	RmD4jee/K83JKStsC5MiqUE8zFcOkTPGLjCwK/P9Cfh7T/M6x+6unLA+lbNacmoXQmIo
+	jPd7DqYDv8ddIrY6oMSkgX7Iz7Tx4uOa7fjF/eHo+zJdmUNrx9lxDl1W9+qB5d9oX6yR
+	26yA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:date:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=eZNlf96rsd/dgnZ4YnAz4sz/dU67LWqF3vjJ7EsTg18=;
-	b=YOU7c6T8nZhljCXxocouVymGIY5wSHqwGg1CG4y4ihJgNHgO1uuS+ZD3hCpQ8f+TV/
-	YQAfZe8EwpsB0J27prtOfxHKD7qJRHwLDYtpHfXhMbTBQTudGYBdfZ7PsXSKJUQeHONR
-	C7/mvVNRONLqYWOcrDnIQIOSPAV6NzgcphCHE+9XGO7baYWsthk7zoh/GzzqYU4XsjqD
-	sap3xviFrvWJ4hOUiDGBVtHvMwfC9zURnUG5R1YSbl7wJdC+chb0HuWj6kkvG16GpLTi
-	uawN577knXf2c2HsBs1rjjMLeurbrcGn3drrcoQwOf96yyidLw+g+8dfXfVLMK6WbfNo
-	w1ZQ==
-X-Gm-Message-State: ABUngvcKk7++DTTtIYNO2dnLgix08kTiuAZwNwAMRp/NjT2eciJ9yJxVt06fh1PnaHB44w==
-X-Received: by 10.194.117.10 with SMTP id ka10mr29133721wjb.148.1477933008538; 
-	Mon, 31 Oct 2016 09:56:48 -0700 (PDT)
-Received: from localhost ([217.30.64.102]) by smtp.gmail.com with ESMTPSA id
-	w203sm25538932wmw.16.2016.10.31.09.56.47
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Mon, 31 Oct 2016 09:56:47 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Mon, 31 Oct 2016 17:56:51 +0100
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-Message-ID: <20161031165651.GA3008@jama>
-References: <cover.1477886344.git.paul.eggleton@linux.intel.com>
-	<e1af68e680f3fbf20d7b0a8c55802a9cdd3f404b.1477886344.git.paul.eggleton@linux.intel.com>
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=g2CMV/1XS7it7WNYAqBrSVrtcPFD2cByGicOFw/K5oI=;
+	b=V3nwcdx66sI2ykoPKNb7Xbpuk3y15IU8dj9qEtf5sInddEBSxGJRbClRPqTJOQmZ+x
+	IVej5UFWId7iMjzqWI2cGkL7v/YVp9WDqfjmcJhYq+Z3E+85XDmJ97hiBmZmohSt2yiN
+	+SF6kXjlYt6MmcQuHtJ5D0iEJl7YfU9pFHdxZSoSrhk5QFC1VliaMICjkW+NOjt45qaq
+	OWieHklRw5zcVGssD8osM7+mvvRsNcvcLc7DTxEDRhwQlQXUZqIbXyrhF1K7D+PAN9fI
+	v6lS9tnkqcGxoKpXSm4JUOTL3XyxWR3lKyghNXvd/uxu3Tn+bqKG/o+1xqFTH1BJCLW1
+	xsCA==
+X-Gm-Message-State: ABUngvfpR8GXsmYpTRUjKrAVJEQSESuWKNDCmxeCqf9S1Coqe9a+1oc62YAKMUm2NTGkd0chgbntV/I8KRdQ11IY
+X-Received: by 10.55.130.7 with SMTP id e7mr28217007qkd.121.1477933512895;
+	Mon, 31 Oct 2016 10:05:12 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <e1af68e680f3fbf20d7b0a8c55802a9cdd3f404b.1477886344.git.paul.eggleton@linux.intel.com>
-User-Agent: Mutt/1.7.1 (2016-10-04)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/7] classes/license: fix handling of symlinks pointed to in LIC_FILES_CHKSUM
+Received: by 10.140.85.208 with HTTP; Mon, 31 Oct 2016 10:04:52 -0700 (PDT)
+In-Reply-To: <1477503544-13794-2-git-send-email-ulfalizer@gmail.com>
+References: <1477503544-13794-1-git-send-email-ulfalizer@gmail.com>
+	<1477503544-13794-2-git-send-email-ulfalizer@gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 31 Oct 2016 17:04:52 +0000
+Message-ID: <CAJTo0LZ6tiZGsTZ1WSRPa2wyY4oRY+5wLkisLN4cd6f1wmor1w@mail.gmail.com>
+To: Ulf Magnusson <ulfalizer@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2 1/1] package.bbclass: Remove unused variables and imports
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,72 +54,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 31 Oct 2016 16:56:48 -0000
-X-Groupsio-MsgNum: 88813
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="ZGiS0Q5IWpPtfppv"
-Content-Disposition: inline
+X-List-Received-Date: Mon, 31 Oct 2016 17:05:13 -0000
+Content-Type: multipart/alternative; boundary=94eb2c074bda09c7f805402c3647
 
---ZGiS0Q5IWpPtfppv
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+--94eb2c074bda09c7f805402c3647
+Content-Type: text/plain; charset=UTF-8
+
+On 26 October 2016 at 18:39, Ulf Magnusson <ulfalizer@gmail.com> wrote:
+
+>              # Skip it if the target doesn't exist
+>              try:
+> -                s = os.stat(fpath)
+> +                os.stat(fpath)
+>              except OSError as e:
+>                  (err, strerror) = e.args
+>                  if err != errno.ENOENT:
+>
+
+Urgh, why not just use os.path.lexists()...   Can you change the code to do
+that?
+
+Ross
+
+--94eb2c074bda09c7f805402c3647
+Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Oct 31, 2016 at 04:59:43PM +1300, Paul Eggleton wrote:
-> If you set LIC_FILES_CHKSUM to point to a relative symlink then you'll
-> get "Could not copy license file" warnings in copy_license_files() since
-> the symlink won't be valid after it's copied. If the source is a symlink
-> then we need to dereference it first.
->=20
-> I encountered this when I used recipetool on the sources for capnproto,
-> where the c++ directory contains a LICENSE.txt symlink to the LICENSE
-> file in the parent directory, and this symlink ends up being pointed to
-> in LIC_FILES_CHKSUM.
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 26 October 2016 at 18:39, Ulf Magnusson <span dir=3D"ltr">&lt;<a href=3D=
+"mailto:ulfalizer@gmail.com" target=3D"_blank">ulfalizer@gmail.com</a>&gt;<=
+/span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8=
+ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":15c" class=3D"a=
+3s aXjCH m158022896582464f">=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0# Skip it if the target doesn&#39;t exist<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0try:<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 s =3D os.stat(fpat=
+h)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 os.stat(fpath)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0except OSError as e:<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0(err, strerro=
+r) =3D e.args<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if err !=3D e=
+rrno.ENOENT:</div></blockquote></div><br>Urgh, why not just use os.path.lex=
+ists()... =C2=A0 Can you change the code to do that?</div><div class=3D"gma=
+il_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
 
-Acked-by: Martin Jansa <Martin.Jansa@gmail.com>
-
-Please cherry-pick this to morty as well.
-
-> Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
-> ---
->  meta/classes/license.bbclass | 2 ++
->  1 file changed, 2 insertions(+)
->=20
-> diff --git a/meta/classes/license.bbclass b/meta/classes/license.bbclass
-> index da4fc3e..660b85f 100644
-> --- a/meta/classes/license.bbclass
-> +++ b/meta/classes/license.bbclass
-> @@ -351,6 +351,8 @@ def copy_license_files(lic_files_paths, destdir):
->              dst =3D os.path.join(destdir, basename)
->              if os.path.exists(dst):
->                  os.remove(dst)
-> +            if os.path.islink(src):
-> +                src =3D os.path.realpath(src)
->              canlink =3D os.access(src, os.W_OK) and (os.stat(src).st_dev=
- =3D=3D os.stat(destdir).st_dev)
->              if canlink:
->                  try:
-> --=20
-> 2.5.5
->=20
-> --=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
-
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---ZGiS0Q5IWpPtfppv
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iEYEARECAAYFAlgXd9IACgkQN1Ujt2V2gBy0WQCePH0Immj3hSQO3kkUGD3yUQ5L
-6PYAn1CpZbznPZzR8+CXs7td6McUNEt8
-=4Ctr
------END PGP SIGNATURE-----
-
---ZGiS0Q5IWpPtfppv--
+--94eb2c074bda09c7f805402c3647--
