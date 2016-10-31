@@ -1,46 +1,33 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qt0-f171.google.com (mail-qt0-f171.google.com
-	[209.85.216.171])
-	by mail.openembedded.org (Postfix) with ESMTP id 0A76171AA7
+Return-Path: <obi@opendreambox.org>
+Received: from mail.dream-property.net (mail.dream-property.net
+	[82.149.226.172])
+	by mail.openembedded.org (Postfix) with ESMTP id DEF9071A6A
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 31 Oct 2016 20:11:55 +0000 (UTC)
-Received: by mail-qt0-f171.google.com with SMTP id n6so45518745qtd.1
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 31 Oct 2016 13:11:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=tgHPfiH7criJYRFjQgWhRAr98pnOGBqnqmnLY/iAx/Q=;
-	b=qcbixndfw2HyPR6sFzLZubRmTCNlHiLhKgOToiC6Or20jULZjiiovf06sWh0Ob/A5E
-	obIHWGg5zGGJ9GC6XLdermf2MZFPLznQNj5rwU5Qk8PxNADb2nUTv2qWLghValHK5wo3
-	yuyfoASwlFtZeYeQ4UmtEBV4+anNRUv29/Hl2KgSrurlT1IOyfEG1a178FuzhRhXs731
-	pIzDC2fLWEA7pMkbQZnpvAJUF2LnLVdTsrST+9GRyuVbuubmyWJlWWfPideeGnPen7fu
-	SshjaqGutursDqrnjMJKwStu2cPOiSDpxlR4FHjatqIbkNwzSghqDtoDxk/tF9IJbWMs
-	1IQQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=tgHPfiH7criJYRFjQgWhRAr98pnOGBqnqmnLY/iAx/Q=;
-	b=k9rBUhFnoGqd7uGbrNyXH3Sx+iU8qgO4IZUPGvmZCuQ5FVvypMG7QavavVSjOgnFoA
-	nsAeslm2fKSpghFxFGIL45T1qnhnq6TkvIlbQ0LjvYh5u+uC1IzlTGzxrTqa+4uBm9oF
-	GvOCbnuzqtjPqiAcynLIzzIOCtja8jhUAmthBfkytZfiuH8W4oD3AgQIbYu8r2JBppib
-	EduYGu0Avg9/GQ4aO2pxb85e8pIJ8wqAWQD8J0gg70EDnH/j3th9I2CwGuQqb8SHfsmT
-	mL0tOHPboulEOYxNHvlRGsT8ackmZE/9phv+e9CjmmBs7n9LIDYwWJGBV/5+ciNJGyzR
-	1Zxg==
-X-Gm-Message-State: ABUngveIdFMnL7Qrtaiz543WMfOAbArbEmBep2Hu3Cw8BdtHKBON9Evfq27W+q+RIne+4zsvQgOEjfMtCt+T56ni
-X-Received: by 10.237.33.212 with SMTP id m20mr6335825qtc.130.1477944717001;
-	Mon, 31 Oct 2016 13:11:57 -0700 (PDT)
+	Mon, 31 Oct 2016 20:44:29 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by mail.dream-property.net (Postfix) with ESMTP id 8C8EC3184AE2;
+	Mon, 31 Oct 2016 21:44:30 +0100 (CET)
+X-Virus-Scanned: Debian amavisd-new at mail.dream-property.net
+Received: from mail.dream-property.net ([127.0.0.1])
+	by localhost (mail.dream-property.net [127.0.0.1]) (amavisd-new,
+	port 10024)
+	with LMTP id S6WyAXj1ohSe; Mon, 31 Oct 2016 21:44:27 +0100 (CET)
+Received: from [172.22.22.61] (55d45b97.access.ecotel.net [85.212.91.151])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by mail.dream-property.net (Postfix) with ESMTPSA id 148783183FB8;
+	Mon, 31 Oct 2016 21:44:27 +0100 (CET)
+To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+References: <20161031132336.16626-1-alexander.kanavin@linux.intel.com>
+From: Andreas Oberritter <obi@opendreambox.org>
+Message-ID: <2de2e824-4b57-1adf-5053-6f9fcd518b8d@opendreambox.org>
+Date: Mon, 31 Oct 2016 21:44:26 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.4.0
 MIME-Version: 1.0
-Received: by 10.140.85.208 with HTTP; Mon, 31 Oct 2016 13:11:36 -0700 (PDT)
-In-Reply-To: <1477552212-8536-1-git-send-email-ed.bartosh@linux.intel.com>
-References: <1477552212-8536-1-git-send-email-ed.bartosh@linux.intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 31 Oct 2016 20:11:36 +0000
-Message-ID: <CAJTo0LbZ=dQWK7XyUOz5My8iKje8DYgCMmkLPCTXeEicWoj9xg@mail.gmail.com>
-To: Ed Bartosh <ed.bartosh@linux.intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] uninative: rebuild uninative for gcc 4.8 and 4.9
+In-Reply-To: <20161031132336.16626-1-alexander.kanavin@linux.intel.com>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] boost: fix the SRC_URI to point to an actual release, and not a master snapshot
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,43 +40,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 31 Oct 2016 20:11:58 -0000
-Content-Type: multipart/alternative; boundary=001a11498e00dae3f105402ed109
+X-List-Received-Date: Mon, 31 Oct 2016 20:44:31 -0000
+Content-Type: text/plain; charset=windows-1252
+Content-Transfer-Encoding: 7bit
 
---001a11498e00dae3f105402ed109
-Content-Type: text/plain; charset=UTF-8
+Hello Alexander,
 
-On 27 October 2016 at 08:10, Ed Bartosh <ed.bartosh@linux.intel.com> wrote:
+On 31.10.2016 14:23, Alexander Kanavin wrote:
+> Sourceforge does a not-so-clever redirecting that fails miserably here:
+> 
+>      Proxy request sent, awaiting response... 301 Moved Permanently
+>      Location: http://downloads.sourceforge.net/project/boost/boost/snapshots/master/boost_1_62_0.tar.bz2 [following]
+> 
+> Also, boost developers are naming their snapshot tarballs the same as
+> release tarballs. The two things conspired together.
+> 
+> The new tarball does have the same checksum as the one in release
+> announcement, so we should be good now:
+> 
+> http://lists.boost.org/Archives/boost/2016/09/230886.php
+> 
+> Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+> ---
+>  meta/recipes-support/boost/boost-1.62.0.inc | 8 +++++---
+>  1 file changed, 5 insertions(+), 3 deletions(-)
+> 
+> diff --git a/meta/recipes-support/boost/boost-1.62.0.inc b/meta/recipes-support/boost/boost-1.62.0.inc
+> index a097ea1..cd99b0e 100644
+> --- a/meta/recipes-support/boost/boost-1.62.0.inc
+> +++ b/meta/recipes-support/boost/boost-1.62.0.inc
+> @@ -11,9 +11,11 @@ BOOST_VER = "${@"_".join(d.getVar("PV", True).split("."))}"
+>  BOOST_MAJ = "${@"_".join(d.getVar("PV", True).split(".")[0:2])}"
+>  BOOST_P = "boost_${BOOST_VER}"
+>  
+> -SRC_URI = "${SOURCEFORGE_MIRROR}/boost/${BOOST_P}.tar.bz2"
+> +SRC_URI = "${SOURCEFORGE_MIRROR}/project/boost/boost/${PV}/${BOOST_P}.tar.bz2"
+>  
+> -SRC_URI[md5sum] = "7ef085456c48c49a7fe8237f07e5f674"
+> -SRC_URI[sha256sum] = "bce80293052e2d6230f1bec9b7524b33412e4fb26e9723460a0f362ac15b7acb"
+> +SRC_URI[md5sum] = "5fb94629535c19e48703bdb2b2e9490f"
+> +SRC_URI[sha256sum] = "36c96b0f6155c98404091d8ceb48319a28279ca0333fba1ad8611eb90afb2ca0"
+> +
+> +PR = "r1"
 
-> +    match = re.match(".* (\d\.\d)\.\d .*", output.split('\n')[0])
->
+doesn't the changed SRC_URI (or even the modified checksums alone)
+render the PR bump unnecessary?
 
-Debian uses this string:
+Regards,
+Andreas
 
-gcc (Debian 4.9.2-10) 4.9.2
-
-So your regex needs to be a bit more permissive, and it looks like grabbing
-the second number would be more appropriate here too.
-
-Ross
-
---001a11498e00dae3f105402ed109
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 27 October 2016 at 08:10, Ed Bartosh <span dir=3D"ltr">&lt;<a href=3D"ma=
-ilto:ed.bartosh@linux.intel.com" target=3D"_blank">ed.bartosh@linux.intel.c=
-om</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"marg=
-in:0px 0px 0px 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,20=
-4);border-left-style:solid;padding-left:1ex"><div id=3D"gmail-:3fu" class=
-=3D"gmail-a3s gmail-aXjCH gmail-m15804ff93a44e9dd">+=C2=A0 =C2=A0 match =3D=
- re.match(&quot;.* (\d\.\d)\.\d .*&quot;, output.split(&#39;\n&#39;)[0])<br=
-></div></blockquote></div><div class=3D"gmail_extra"><br></div>Debian uses =
-this string:</div><div class=3D"gmail_extra"><br>gcc (Debian 4.9.2-10) 4.9.=
-2<br></div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">=
-So your regex needs to be a bit more permissive, and it looks like grabbing=
- the second number would be more appropriate here too.</div><div class=3D"g=
-mail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
-
---001a11498e00dae3f105402ed109--
