@@ -1,49 +1,52 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f172.google.com (mail-qk0-f172.google.com
-	[209.85.220.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 200B2719A2
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pf0-f172.google.com (mail-pf0-f172.google.com
+	[209.85.192.172])
+	by mail.openembedded.org (Postfix) with ESMTP id D3662601F2
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 30 Oct 2016 23:36:35 +0000 (UTC)
-Received: by mail-qk0-f172.google.com with SMTP id v138so54583878qka.0
+	Mon, 31 Oct 2016 02:51:36 +0000 (UTC)
+Received: by mail-pf0-f172.google.com with SMTP id n85so69027094pfi.1
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 30 Oct 2016 16:36:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=QXoUHD2dEspbsLyL/GBQFTIFpnAMHFQ4fjSolyrF5Ro=;
-	b=USOif7eP+Ui8yKw6HbS7Mobv/xCUTcLA8Znnr0DlIMtWc6Otpa2Fs7hBkGEDuen5kf
-	4H1Qbrt0Tbibutpe3YbQoHXoHXdlWWpVbHX04XztmE2oh8+wiApVz8S4uLlJYB+3gtzn
-	9oOO8cdD1UYyptH6y5ga+bEfpOGN+rH5oPDmKXrFoM64bDt0kVFA3Cixwh3SUNQBfJpX
-	Fep3EFm0SArmWdhSrWZ8jKPTetHnfEZCBl4aX1XkXjwLw+PlWnE11nqDkcGHLZomGhyM
-	4bfVwZw0qjI17gQNzZ6yjad1sKAROj0PxKVJodtrtjDnDYhX6xQB/dmkzs+bMCTCKwnn
-	0/Gw==
+	Sun, 30 Oct 2016 19:51:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=subject:mime-version:from:in-reply-to:date:cc:message-id:references
+	:to; bh=ypIsT+kgQJIbWKWOYulTg7o2qw6vtp+L+eSt8UoeCuE=;
+	b=Rvo2TCtO90EjwvT/Zr1nMYC0g1K1R9RWfVWHVIB4GS2KN1DATpHG6qv9+XwL26zB1g
+	SuLmJlUTdoXHV0MGX9eELdLRmaZ/rw1Tl5CxP5jNh8kVrauW3xg8Bx22GUII2P/Kq3i9
+	28xY9NeGlguPN/f+mQw5oBGsjuDV8ah6ryKeqpTMpfQkWHReE79tmVBQKkehq86UbkVT
+	6ZtMvqwsWKcypRzs+AIeFENtUnaCDoF92+mz+kvVvEAU2uMZwgADIB+k/Km9m6LVAXiZ
+	3DvZ/hJiYewzH1SAnjmAwVOq1U5wTaC+c/iRW4QG4H3eaOf/aNUKCRhmIIqAi05gw88X
+	x9OA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=QXoUHD2dEspbsLyL/GBQFTIFpnAMHFQ4fjSolyrF5Ro=;
-	b=Md4CcXjfm4kATpo8pwj4l6I8ZfIilo21pDwiVT5+zyIeKactS/jZuAX5LEnIqKmLSH
-	0pvaVnBKwICGFhV83D9R3sjR40OM+YTvkPyFikd1e5EJ2EnQMxgnWqYyYzSLankWImp4
-	HRRdjAiJffR6PhijlFVFyAE7nnPQDCLBNjoI2O2Ng5Ehe70bvjcYGnBG4ajg5gF35Eyq
-	E3iAOBWsqz6gR/vYBMBqrL8bQoZKP/QRNUVnwC7Au4VLbN8q7KZ12wGKGLMliq2dl5wq
-	cMou+cd6ef9Wqqobfyn8z7p1WBNrryk/0aESXZmqZ6LFeOwYKOeuodhwfZO0D/uhlQUL
-	s5KA==
-X-Gm-Message-State: ABUngvc351LOx5E0MvyCWSFRTHSBFCtvezI/tOKAJbwci9ciA05Mihh3t4o0ve/a0TnrGavHM8v/EAvBqOP4Pqk1
-X-Received: by 10.55.75.17 with SMTP id y17mr3382936qka.26.1477870597034; Sun,
-	30 Oct 2016 16:36:37 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.140.85.208 with HTTP; Sun, 30 Oct 2016 16:36:16 -0700 (PDT)
-In-Reply-To: <alpine.LFD.2.20.1610301333390.3944@localhost.localdomain>
-References: <alpine.LFD.2.20.1610300813220.27025@localhost.localdomain>
-	<CABcZANnPcmg+iBWgB7HHbEEaTaDOfwtdXr8vfrG7OPzruRdTTQ@mail.gmail.com>
-	<alpine.LFD.2.20.1610301333390.3944@localhost.localdomain>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Sun, 30 Oct 2016 23:36:16 +0000
-Message-ID: <CAJTo0LZcHSgs+Qw1Zkrj4bUWnU-p6Ja-vg3+J8H22vxoscTrRg@mail.gmail.com>
+	h=x-gm-message-state:subject:mime-version:from:in-reply-to:date:cc
+	:message-id:references:to;
+	bh=ypIsT+kgQJIbWKWOYulTg7o2qw6vtp+L+eSt8UoeCuE=;
+	b=GL9oTe9oGy2rwqGs2zMOVHy2otY8ZKEEl8tJok2VkkEUrjQO3L+nQtj9BpJ0U5PqTF
+	2iTry35clW0Ot4ROQ6p8aPrf3lda6zaLg6Sj1OKQrUar1AfXM10eE9SiM/6X7frt7qNe
+	4EaKmhjffJFhS83S9l+FDeHFfiq2tf+FQwUOcQdpvponb3XuF8pdKg3dHCskObB2asOH
+	+wX0x/hMc2y6wzcbR+DRUlnXilNchN4zXZVVcpn0PLEo/R4KLUFZJyzq91c3UJRtMm6x
+	vqPdyNDKR4u8I+EbRXiELI1yRIjOnOvYpYicMau2GhrChoryZ9ebra9Iubk2B6JO3ofR
+	Lcqw==
+X-Gm-Message-State: ABUngvfEfXEnsH0GlgFSBk9Fdk6Q2CzSTq+ZT8+OQwwbcuNPMZwS++DTHsfxACqrpkDR/A==
+X-Received: by 10.99.167.75 with SMTP id w11mr37669910pgo.16.1477882297991;
+	Sun, 30 Oct 2016 19:51:37 -0700 (PDT)
+Received: from ?IPv6:2601:646:8882:b8c:21ec:cda8:5c43:1476?
+	([2601:646:8882:b8c:21ec:cda8:5c43:1476])
+	by smtp.gmail.com with ESMTPSA id
+	73sm32350182pfn.45.2016.10.30.19.51.37
+	(version=TLS1 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Sun, 30 Oct 2016 19:51:37 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 9.3 \(3124\))
+X-Pgp-Agent: GPGMail
+From: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <alpine.LFD.2.20.1610300507330.27931@localhost.localdomain>
+Date: Sun, 30 Oct 2016 19:51:30 -0700
+Message-Id: <FB84115D-98FF-497A-8252-CD05EBA1E1E6@gmail.com>
+References: <alpine.LFD.2.20.1610300507330.27931@localhost.localdomain>
 To: "Robert P. J. Day" <rpjday@crashcourse.ca>
-Cc: Christopher Larson <clarson@kergoth.com>,
-	OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: should a "*git.bb" recipe lock that recipe to a fixed version?
+X-Mailer: Apple Mail (2.3124)
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: any issue with duplicate recipes spread over different layers?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,50 +59,92 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 30 Oct 2016 23:36:36 -0000
-Content-Type: multipart/alternative; boundary=001a114a88c8f5eee405401d8f9d
+X-List-Received-Date: Mon, 31 Oct 2016 02:51:36 -0000
+X-Groupsio-MsgNum: 88772
+Content-Type: multipart/signed;
+	boundary="Apple-Mail=_85570E2B-366A-46F1-AF97-2160C98E2333";
+	protocol="application/pgp-signature"; micalg=pgp-sha1
 
---001a114a88c8f5eee405401d8f9d
-Content-Type: text/plain; charset=UTF-8
-
-On 30 October 2016 at 17:35, Robert P. J. Day <rpjday@crashcourse.ca> wrote:
-
->   fair enough ... i'm embarrassed to admit i didn't really understand
-> the versioning selection so i'm going to examine it way more carefully
-> now. i wonder how many recipes in oe-core are "_git" recipes that, in
-> the end, just lock down to a specific version. as you say, i was a bit
-> surprised.
->
-
-Personally I've been endorsing the practise where _git.bb is only used for
-recipes that are actually tracking git development branches, and if it's
-just a release that it simply fetched over git via a SHA of a release tag
-then the recipe should be _1.2.3.bb for clarity.
-
-Ross
-
---001a114a88c8f5eee405401d8f9d
-Content-Type: text/html; charset=UTF-8
+--Apple-Mail=_85570E2B-366A-46F1-AF97-2160C98E2333
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=us-ascii
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 30 October 2016 at 17:35, Robert P. J. Day <span dir=3D"ltr">&lt;<a href=
-=3D"mailto:rpjday@crashcourse.ca" target=3D"_blank">rpjday@crashcourse.ca</=
-a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0=
- 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":p7" clas=
-s=3D"a3s aXjCH m15816aec4d9c0267">=C2=A0 fair enough ... i&#39;m embarrasse=
-d to admit i didn&#39;t really understand<br>
-the versioning selection so i&#39;m going to examine it way more carefully<=
-br>
-now. i wonder how many recipes in oe-core are &quot;_git&quot; recipes that=
-, in<br>
-the end, just lock down to a specific version. as you say, i was a bit<br>
-surprised.</div></blockquote></div><br>Personally I&#39;ve been endorsing t=
-he practise where _<a href=3D"http://git.bb">git.bb</a> is only used for re=
-cipes that are actually tracking git development branches, and if it&#39;s =
-just a release that it simply fetched over git via a SHA of a release tag t=
-hen the recipe should be _<a href=3D"http://1.2.3.bb">1.2.3.bb</a> for clar=
-ity.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">R=
-oss</div></div>
 
---001a114a88c8f5eee405401d8f9d--
+> On Oct 30, 2016, at 2:10 AM, Robert P. J. Day <rpjday@crashcourse.ca> =
+wrote:
+>=20
+>=20
+>  not a burning issue, but while cataloguing some python recipes, i'm
+> running across stuff like this:
+>=20
+> $ find . -name python-six_1.10.0.bb
+> ./meta-virtualization/recipes-devtools/python/python-six_1.10.0.bb
+> ./openembedded-core/meta/recipes-devtools/python/python-six_1.10.0.bb
+> =
+./meta-openembedded/meta-python/recipes-devtools/python/python-six_1.10.0.=
+bb
+> ...
+>=20
+> $ find . -name python3-six_1.10.0.bb
+> ./openembedded-core/meta/recipes-devtools/python/python3-six_1.10.0.bb
+> =
+./meta-openembedded/meta-python/recipes-devtools/python/python3-six_1.10.0=
+.bb
+> ...
+>=20
+>  so it appears the same(?) recipe for python-six appears in three
+> different layers ... is there any effort expended to identify
+> redundancy and remove it?
+
+since its in OE-Core ( since July 2016 ), it would have been good if a
+pull request to these layers went out atomically to remove them. But
+its never too late, I encourage you to send removal patches to these
+layers
+
+>=20
+> rday
+>=20
+> --
+>=20
+> =
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> Robert P. J. Day                                 Ottawa, Ontario, =
+CANADA
+>                        http://crashcourse.ca
+>=20
+> Twitter:                                       =
+http://twitter.com/rpjday
+> LinkedIn:                               =
+http://ca.linkedin.com/in/rpjday
+> =
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>=20
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
+
+--Apple-Mail=_85570E2B-366A-46F1-AF97-2160C98E2333
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+	filename=signature.asc
+Content-Type: application/pgp-signature;
+	name=signature.asc
+Content-Description: Message signed with OpenPGP using GPGMail
+
+-----BEGIN PGP SIGNATURE-----
+Comment: GPGTools - https://gpgtools.org
+
+iEYEARECAAYFAlgWsbgACgkQuwUzVZGdMxQb/ACfQBq7XJPFISdLAAqtuIUcAeei
+47MAn2ZzB3odHGuHwPPiPfy16EKEZpq6
+=zPc5
+-----END PGP SIGNATURE-----
+
+--Apple-Mail=_85570E2B-366A-46F1-AF97-2160C98E2333--
