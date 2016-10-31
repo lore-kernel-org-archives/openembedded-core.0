@@ -1,33 +1,56 @@
-Return-Path: <obi@opendreambox.org>
-Received: from mail.dream-property.net (mail.dream-property.net
-	[82.149.226.172])
-	by mail.openembedded.org (Postfix) with ESMTP id DEF9071A6A
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pf0-f196.google.com (mail-pf0-f196.google.com
+	[209.85.192.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 14D2960111
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 31 Oct 2016 20:44:29 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by mail.dream-property.net (Postfix) with ESMTP id 8C8EC3184AE2;
-	Mon, 31 Oct 2016 21:44:30 +0100 (CET)
-X-Virus-Scanned: Debian amavisd-new at mail.dream-property.net
-Received: from mail.dream-property.net ([127.0.0.1])
-	by localhost (mail.dream-property.net [127.0.0.1]) (amavisd-new,
-	port 10024)
-	with LMTP id S6WyAXj1ohSe; Mon, 31 Oct 2016 21:44:27 +0100 (CET)
-Received: from [172.22.22.61] (55d45b97.access.ecotel.net [85.212.91.151])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by mail.dream-property.net (Postfix) with ESMTPSA id 148783183FB8;
-	Mon, 31 Oct 2016 21:44:27 +0100 (CET)
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-References: <20161031132336.16626-1-alexander.kanavin@linux.intel.com>
-From: Andreas Oberritter <obi@opendreambox.org>
-Message-ID: <2de2e824-4b57-1adf-5053-6f9fcd518b8d@opendreambox.org>
-Date: Mon, 31 Oct 2016 21:44:26 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.4.0
-MIME-Version: 1.0
-In-Reply-To: <20161031132336.16626-1-alexander.kanavin@linux.intel.com>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] boost: fix the SRC_URI to point to an actual release, and not a master snapshot
+	Mon, 31 Oct 2016 22:34:21 +0000 (UTC)
+Received: by mail-pf0-f196.google.com with SMTP id a136so6403172pfa.0
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 31 Oct 2016 15:34:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=subject:mime-version:from:in-reply-to:date:cc:message-id:references
+	:to; bh=0UlgVmz8D77cNmpkGqz0Q3BnG2/0X1BmPxWIO5+7qX8=;
+	b=CuS6Ysx2xQhxbme/cy68jC/sk9CE+elWVcE6IvyB+d0BrVlV9+FM+yY5s2U7RMdJOg
+	jKQFp2Du8VqBkXxTSZorHauouXSzeJoEeWhhPoxDN5aphJiWwqm46BIl7zLH4YDAI/bQ
+	KUalfp2jk4PyUOTn6m6k5VMkXotl/vZfQQhFrrv7s1HsjBbdnubClJGRNaomi7Hb5XJC
+	LkyvFMf1yd38LQpbKsVPp+jEruKEeLTl9j00GP6AqbPNCzhaEAurvDZ1eA/QNur8LayA
+	TgtMD7N2jGWRWy/B2z837qaA86RjAn1OW/UpuRiGdsMD8j6nWyq0TYUdp2q/PufoLSBE
+	FKjA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:subject:mime-version:from:in-reply-to:date:cc
+	:message-id:references:to;
+	bh=0UlgVmz8D77cNmpkGqz0Q3BnG2/0X1BmPxWIO5+7qX8=;
+	b=PCffZjT4rw3C4vgbhlZ8YG+ooHOKwMynsMhr2xrQLLIpa5DxSpnMIjWbajEYGC+TUb
+	caO5cgtzytVhvYucDvZ3SFKFeVzfTFnSM6AZpTP8itV6IUjK/vHpUaTDQTnw00JtHYT4
+	o7KQVIyZfK7oNKfiTOBWw15lz1XQUif3XXYb8UDAcAkaxW4LdTLAZMekz2ztKte7/iiO
+	KLQsrkKULJM7DMx4srpI48F/gBnhHkcWi3+waBoYH0uQvMupcXbIHSwwTpXg7ua3Msph
+	lUVYZ1xGayKUEwq3BvowbPEFnitjwpvL+hnVdtdw8j0/Zf1PXyYuP1fWGd5Si8oVf+1Q
+	eHqA==
+X-Gm-Message-State: ABUngvdol5K3mtDmWelVn/pWUWE3xNa+OPqZgIH9awSB3Jk5G/TsSlkRlYVCBc3tV68GKg==
+X-Received: by 10.98.69.151 with SMTP id n23mr53128972pfi.60.1477953262762;
+	Mon, 31 Oct 2016 15:34:22 -0700 (PDT)
+Received: from ?IPv6:2601:646:8882:b8c:2cc8:a0e4:7c5b:437?
+	([2601:646:8882:b8c:2cc8:a0e4:7c5b:437])
+	by smtp.gmail.com with ESMTPSA id
+	xn11sm37780406pac.38.2016.10.31.15.34.21
+	(version=TLS1 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Mon, 31 Oct 2016 15:34:22 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 9.3 \(3124\))
+X-Pgp-Agent: GPGMail
+From: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <2111229.GbldrazETl@peggleto-mobl.ger.corp.intel.com>
+Date: Mon, 31 Oct 2016 15:34:16 -0700
+Message-Id: <1A7D1C00-1B1C-40CF-8240-9BC100D0EA8A@gmail.com>
+References: <cover.1477886344.git.paul.eggleton@linux.intel.com>
+	<e1af68e680f3fbf20d7b0a8c55802a9cdd3f404b.1477886344.git.paul.eggleton@linux.intel.com>
+	<CAMKF1soshS9nzHZ_OEQ9cJvZNRREnAKQKz6fXUzcJQGBD6nvHA@mail.gmail.com>
+	<2111229.GbldrazETl@peggleto-mobl.ger.corp.intel.com>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+X-Mailer: Apple Mail (2.3124)
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/7] classes/license: fix handling of symlinks pointed to in LIC_FILES_CHKSUM
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,52 +63,113 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 31 Oct 2016 20:44:31 -0000
-Content-Type: text/plain; charset=windows-1252
+X-List-Received-Date: Mon, 31 Oct 2016 22:34:25 -0000
+X-Groupsio-MsgNum: 88821
+Content-Type: multipart/signed;
+	boundary="Apple-Mail=_F4CBDE7C-20FC-47F5-BFA6-875E463E5A4E";
+	protocol="application/pgp-signature"; micalg=pgp-sha1
+
+--Apple-Mail=_F4CBDE7C-20FC-47F5-BFA6-875E463E5A4E
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=us-ascii
+
+
+> On Oct 31, 2016, at 12:41 PM, Paul Eggleton =
+<paul.eggleton@linux.intel.com> wrote:
+>=20
+> Hi Khem,
+>=20
+> Why wouldn't it be?
+
+Was thinking out loud if the path is expanded to absolute paths then
+does it get recorded into task checksums  ?
+
+>=20
+> Cheers,
+> Paul
+>=20
+> On Mon, 31 Oct 2016 12:23:04 Khem Raj wrote:
+>> Is this sstate safe?
+>>=20
+>> On Oct 30, 2016 9:11 PM, "Paul Eggleton" =
+<paul.eggleton@linux.intel.com>
+>>=20
+>> wrote:
+>>> If you set LIC_FILES_CHKSUM to point to a relative symlink then =
+you'll
+>>> get "Could not copy license file" warnings in copy_license_files() =
+since
+>>> the symlink won't be valid after it's copied. If the source is a =
+symlink
+>>> then we need to dereference it first.
+>>>=20
+>>> I encountered this when I used recipetool on the sources for =
+capnproto,
+>>> where the c++ directory contains a LICENSE.txt symlink to the =
+LICENSE
+>>> file in the parent directory, and this symlink ends up being pointed =
+to
+>>> in LIC_FILES_CHKSUM.
+>>>=20
+>>> Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+>>> ---
+>>>=20
+>>> meta/classes/license.bbclass | 2 ++
+>>> 1 file changed, 2 insertions(+)
+>>>=20
+>>> diff --git a/meta/classes/license.bbclass =
+b/meta/classes/license.bbclass
+>>> index da4fc3e..660b85f 100644
+>>> --- a/meta/classes/license.bbclass
+>>> +++ b/meta/classes/license.bbclass
+>>>=20
+>>> @@ -351,6 +351,8 @@ def copy_license_files(lic_files_paths, =
+destdir):
+>>>             dst =3D os.path.join(destdir, basename)
+>>>=20
+>>>             if os.path.exists(dst):
+>>>                 os.remove(dst)
+>>>=20
+>>> +            if os.path.islink(src):
+>>> +                src =3D os.path.realpath(src)
+>>>=20
+>>>             canlink =3D os.access(src, os.W_OK) and =
+(os.stat(src).st_dev =3D=3D
+>>>=20
+>>> os.stat(destdir).st_dev)
+>>>=20
+>>>             if canlink:
+>>>                 try:
+>>> --
+>>> 2.5.5
+>>>=20
+>>> --
+>>> _______________________________________________
+>>> Openembedded-core mailing list
+>>> Openembedded-core@lists.openembedded.org
+>>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>=20
+> --
+>=20
+> Paul Eggleton
+> Intel Open Source Technology Centre
+
+
+--Apple-Mail=_F4CBDE7C-20FC-47F5-BFA6-875E463E5A4E
 Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+	filename=signature.asc
+Content-Type: application/pgp-signature;
+	name=signature.asc
+Content-Description: Message signed with OpenPGP using GPGMail
 
-Hello Alexander,
+-----BEGIN PGP SIGNATURE-----
+Comment: GPGTools - https://gpgtools.org
 
-On 31.10.2016 14:23, Alexander Kanavin wrote:
-> Sourceforge does a not-so-clever redirecting that fails miserably here:
-> 
->      Proxy request sent, awaiting response... 301 Moved Permanently
->      Location: http://downloads.sourceforge.net/project/boost/boost/snapshots/master/boost_1_62_0.tar.bz2 [following]
-> 
-> Also, boost developers are naming their snapshot tarballs the same as
-> release tarballs. The two things conspired together.
-> 
-> The new tarball does have the same checksum as the one in release
-> announcement, so we should be good now:
-> 
-> http://lists.boost.org/Archives/boost/2016/09/230886.php
-> 
-> Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-> ---
->  meta/recipes-support/boost/boost-1.62.0.inc | 8 +++++---
->  1 file changed, 5 insertions(+), 3 deletions(-)
-> 
-> diff --git a/meta/recipes-support/boost/boost-1.62.0.inc b/meta/recipes-support/boost/boost-1.62.0.inc
-> index a097ea1..cd99b0e 100644
-> --- a/meta/recipes-support/boost/boost-1.62.0.inc
-> +++ b/meta/recipes-support/boost/boost-1.62.0.inc
-> @@ -11,9 +11,11 @@ BOOST_VER = "${@"_".join(d.getVar("PV", True).split("."))}"
->  BOOST_MAJ = "${@"_".join(d.getVar("PV", True).split(".")[0:2])}"
->  BOOST_P = "boost_${BOOST_VER}"
->  
-> -SRC_URI = "${SOURCEFORGE_MIRROR}/boost/${BOOST_P}.tar.bz2"
-> +SRC_URI = "${SOURCEFORGE_MIRROR}/project/boost/boost/${PV}/${BOOST_P}.tar.bz2"
->  
-> -SRC_URI[md5sum] = "7ef085456c48c49a7fe8237f07e5f674"
-> -SRC_URI[sha256sum] = "bce80293052e2d6230f1bec9b7524b33412e4fb26e9723460a0f362ac15b7acb"
-> +SRC_URI[md5sum] = "5fb94629535c19e48703bdb2b2e9490f"
-> +SRC_URI[sha256sum] = "36c96b0f6155c98404091d8ceb48319a28279ca0333fba1ad8611eb90afb2ca0"
-> +
-> +PR = "r1"
+iEYEARECAAYFAlgXxu0ACgkQuwUzVZGdMxSbfwCfUjJ4b0oCReOHJFbWoGRpuTo/
+W6UAn1FKip5I+Z9aAVzee5ViLIScn5Dq
+=SnNk
+-----END PGP SIGNATURE-----
 
-doesn't the changed SRC_URI (or even the modified checksums alone)
-render the PR bump unnecessary?
-
-Regards,
-Andreas
-
+--Apple-Mail=_F4CBDE7C-20FC-47F5-BFA6-875E463E5A4E--
