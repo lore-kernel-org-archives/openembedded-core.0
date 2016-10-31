@@ -1,30 +1,46 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 41201719DA
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qt0-f171.google.com (mail-qt0-f171.google.com
+	[209.85.216.171])
+	by mail.openembedded.org (Postfix) with ESMTP id 0A76171AA7
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 31 Oct 2016 19:41:50 +0000 (UTC)
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-	by fmsmga101.fm.intel.com with ESMTP; 31 Oct 2016 12:41:51 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.31,428,1473145200"; d="scan'208";a="25865429"
-Received: from mbi370x-mobl.gar.corp.intel.com (HELO
-	peggleto-mobl.ger.corp.intel.com) ([10.255.185.81])
-	by orsmga005.jf.intel.com with ESMTP; 31 Oct 2016 12:41:49 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 01 Nov 2016 08:41:46 +1300
-Message-ID: <2111229.GbldrazETl@peggleto-mobl.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.14.10 (Linux/4.7.9-100.fc23.x86_64; KDE/4.14.20; x86_64; ;
-	)
-In-Reply-To: <CAMKF1soshS9nzHZ_OEQ9cJvZNRREnAKQKz6fXUzcJQGBD6nvHA@mail.gmail.com>
-References: <cover.1477886344.git.paul.eggleton@linux.intel.com>
-	<e1af68e680f3fbf20d7b0a8c55802a9cdd3f404b.1477886344.git.paul.eggleton@linux.intel.com>
-	<CAMKF1soshS9nzHZ_OEQ9cJvZNRREnAKQKz6fXUzcJQGBD6nvHA@mail.gmail.com>
+	Mon, 31 Oct 2016 20:11:55 +0000 (UTC)
+Received: by mail-qt0-f171.google.com with SMTP id n6so45518745qtd.1
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 31 Oct 2016 13:11:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=tgHPfiH7criJYRFjQgWhRAr98pnOGBqnqmnLY/iAx/Q=;
+	b=qcbixndfw2HyPR6sFzLZubRmTCNlHiLhKgOToiC6Or20jULZjiiovf06sWh0Ob/A5E
+	obIHWGg5zGGJ9GC6XLdermf2MZFPLznQNj5rwU5Qk8PxNADb2nUTv2qWLghValHK5wo3
+	yuyfoASwlFtZeYeQ4UmtEBV4+anNRUv29/Hl2KgSrurlT1IOyfEG1a178FuzhRhXs731
+	pIzDC2fLWEA7pMkbQZnpvAJUF2LnLVdTsrST+9GRyuVbuubmyWJlWWfPideeGnPen7fu
+	SshjaqGutursDqrnjMJKwStu2cPOiSDpxlR4FHjatqIbkNwzSghqDtoDxk/tF9IJbWMs
+	1IQQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=tgHPfiH7criJYRFjQgWhRAr98pnOGBqnqmnLY/iAx/Q=;
+	b=k9rBUhFnoGqd7uGbrNyXH3Sx+iU8qgO4IZUPGvmZCuQ5FVvypMG7QavavVSjOgnFoA
+	nsAeslm2fKSpghFxFGIL45T1qnhnq6TkvIlbQ0LjvYh5u+uC1IzlTGzxrTqa+4uBm9oF
+	GvOCbnuzqtjPqiAcynLIzzIOCtja8jhUAmthBfkytZfiuH8W4oD3AgQIbYu8r2JBppib
+	EduYGu0Avg9/GQ4aO2pxb85e8pIJ8wqAWQD8J0gg70EDnH/j3th9I2CwGuQqb8SHfsmT
+	mL0tOHPboulEOYxNHvlRGsT8ackmZE/9phv+e9CjmmBs7n9LIDYwWJGBV/5+ciNJGyzR
+	1Zxg==
+X-Gm-Message-State: ABUngveIdFMnL7Qrtaiz543WMfOAbArbEmBep2Hu3Cw8BdtHKBON9Evfq27W+q+RIne+4zsvQgOEjfMtCt+T56ni
+X-Received: by 10.237.33.212 with SMTP id m20mr6335825qtc.130.1477944717001;
+	Mon, 31 Oct 2016 13:11:57 -0700 (PDT)
 MIME-Version: 1.0
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/7] classes/license: fix handling of symlinks pointed to in LIC_FILES_CHKSUM
+Received: by 10.140.85.208 with HTTP; Mon, 31 Oct 2016 13:11:36 -0700 (PDT)
+In-Reply-To: <1477552212-8536-1-git-send-email-ed.bartosh@linux.intel.com>
+References: <1477552212-8536-1-git-send-email-ed.bartosh@linux.intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 31 Oct 2016 20:11:36 +0000
+Message-ID: <CAJTo0LbZ=dQWK7XyUOz5My8iKje8DYgCMmkLPCTXeEicWoj9xg@mail.gmail.com>
+To: Ed Bartosh <ed.bartosh@linux.intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2] uninative: rebuild uninative for gcc 4.8 and 4.9
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,70 +53,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 31 Oct 2016 19:41:52 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Mon, 31 Oct 2016 20:11:58 -0000
+Content-Type: multipart/alternative; boundary=001a11498e00dae3f105402ed109
 
-Hi Khem,
+--001a11498e00dae3f105402ed109
+Content-Type: text/plain; charset=UTF-8
 
-Why wouldn't it be?
+On 27 October 2016 at 08:10, Ed Bartosh <ed.bartosh@linux.intel.com> wrote:
 
-Cheers,
-Paul
+> +    match = re.match(".* (\d\.\d)\.\d .*", output.split('\n')[0])
+>
 
-On Mon, 31 Oct 2016 12:23:04 Khem Raj wrote:
-> Is this sstate safe?
-> 
-> On Oct 30, 2016 9:11 PM, "Paul Eggleton" <paul.eggleton@linux.intel.com>
-> 
-> wrote:
-> > If you set LIC_FILES_CHKSUM to point to a relative symlink then you'll
-> > get "Could not copy license file" warnings in copy_license_files() since
-> > the symlink won't be valid after it's copied. If the source is a symlink
-> > then we need to dereference it first.
-> > 
-> > I encountered this when I used recipetool on the sources for capnproto,
-> > where the c++ directory contains a LICENSE.txt symlink to the LICENSE
-> > file in the parent directory, and this symlink ends up being pointed to
-> > in LIC_FILES_CHKSUM.
-> > 
-> > Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
-> > ---
-> > 
-> >  meta/classes/license.bbclass | 2 ++
-> >  1 file changed, 2 insertions(+)
-> > 
-> > diff --git a/meta/classes/license.bbclass b/meta/classes/license.bbclass
-> > index da4fc3e..660b85f 100644
-> > --- a/meta/classes/license.bbclass
-> > +++ b/meta/classes/license.bbclass
-> > 
-> > @@ -351,6 +351,8 @@ def copy_license_files(lic_files_paths, destdir):
-> >              dst = os.path.join(destdir, basename)
-> >              
-> >              if os.path.exists(dst):
-> >                  os.remove(dst)
-> > 
-> > +            if os.path.islink(src):
-> > +                src = os.path.realpath(src)
-> > 
-> >              canlink = os.access(src, os.W_OK) and (os.stat(src).st_dev ==
-> > 
-> > os.stat(destdir).st_dev)
-> > 
-> >              if canlink:
-> >                  try:
-> > --
-> > 2.5.5
-> > 
-> > --
-> > _______________________________________________
-> > Openembedded-core mailing list
-> > Openembedded-core@lists.openembedded.org
-> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Debian uses this string:
 
--- 
+gcc (Debian 4.9.2-10) 4.9.2
 
-Paul Eggleton
-Intel Open Source Technology Centre
+So your regex needs to be a bit more permissive, and it looks like grabbing
+the second number would be more appropriate here too.
 
+Ross
+
+--001a11498e00dae3f105402ed109
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 27 October 2016 at 08:10, Ed Bartosh <span dir=3D"ltr">&lt;<a href=3D"ma=
+ilto:ed.bartosh@linux.intel.com" target=3D"_blank">ed.bartosh@linux.intel.c=
+om</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"marg=
+in:0px 0px 0px 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,20=
+4);border-left-style:solid;padding-left:1ex"><div id=3D"gmail-:3fu" class=
+=3D"gmail-a3s gmail-aXjCH gmail-m15804ff93a44e9dd">+=C2=A0 =C2=A0 match =3D=
+ re.match(&quot;.* (\d\.\d)\.\d .*&quot;, output.split(&#39;\n&#39;)[0])<br=
+></div></blockquote></div><div class=3D"gmail_extra"><br></div>Debian uses =
+this string:</div><div class=3D"gmail_extra"><br>gcc (Debian 4.9.2-10) 4.9.=
+2<br></div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">=
+So your regex needs to be a bit more permissive, and it looks like grabbing=
+ the second number would be more appropriate here too.</div><div class=3D"g=
+mail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
+
+--001a11498e00dae3f105402ed109--
