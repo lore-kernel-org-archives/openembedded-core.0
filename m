@@ -1,30 +1,23 @@
-Return-Path: <rpjday@crashcourse.ca>
-Received: from smtp485.redcondor.net (smtp485.redcondor.net [208.80.204.85])
-	by mail.openembedded.org (Postfix) with ESMTP id 68B9671A4B
+Return-Path: <ed.bartosh@linux.intel.com>
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+	by mail.openembedded.org (Postfix) with ESMTP id B101F6FFA4
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 31 Oct 2016 10:41:14 +0000 (UTC)
-Received: from astoria.ccjclearline.com ([64.235.106.9])
-	by smtp485.redcondor.net ({3be039ea-4351-44b0-a8af-642c38b25916})
-	via TCP (outbound) with ESMTPS id 20161031104110530_0485;
-	Mon, 31 Oct 2016 10:41:10 +0000
-X-RC-FROM: <rpjday@crashcourse.ca>
-Received: from [216.191.234.70] (port=28541 helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
-	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
-	id 1c1A1X-0007o4-8E; Mon, 31 Oct 2016 06:41:03 -0400
-Date: Mon, 31 Oct 2016 06:40:02 -0400 (EDT)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@ca624034.mitel.com
-To: "Burton, Ross" <ross.burton@intel.com>
-In-Reply-To: <CAJTo0LYORU9-1SCYVikomMkQA=XGJ=PNn5PpFg37+X5ubvXj8A@mail.gmail.com>
-Message-ID: <alpine.LFD.2.20.1610310639270.5379@ca624034.mitel.com>
-References: <alpine.LFD.2.20.1610290343130.7545@localhost.localdomain>
-	<CAJTo0LYORU9-1SCYVikomMkQA=XGJ=PNn5PpFg37+X5ubvXj8A@mail.gmail.com>
-User-Agent: Alpine 2.20 (LFD 67 2015-01-07)
-MIME-Version: 1.0
-X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: couple questions about proper PACKAGECONFIG usage
+	Mon, 31 Oct 2016 10:46:46 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by fmsmga105.fm.intel.com with ESMTP; 31 Oct 2016 03:46:47 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.31,426,1473145200"; d="scan'208";a="780284599"
+Received: from linux.intel.com ([10.54.29.200])
+	by FMSMGA003.fm.intel.com with ESMTP; 31 Oct 2016 03:46:47 -0700
+Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.68])
+	by linux.intel.com (Postfix) with ESMTP id C789B6A4080;
+	Mon, 31 Oct 2016 03:46:11 -0700 (PDT)
+From: Ed Bartosh <ed.bartosh@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 31 Oct 2016 12:46:41 +0200
+Message-Id: <1477910801-9169-1-git-send-email-ed.bartosh@linux.intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH] mkefidisk.sh: add deprecation warning to the output
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,42 +30,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 31 Oct 2016 10:41:14 -0000
-Content-Type: multipart/mixed; BOUNDARY="587864349-1686021549-1477910404=:5379"
+X-List-Received-Date: Mon, 31 Oct 2016 10:46:46 -0000
 
---587864349-1686021549-1477910404=:5379
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
+mkefidisk.sh will soon be deprecated in favor of .wic images.
 
-On Mon, 31 Oct 2016, Burton, Ross wrote:
+Added deprecation warning to the script to inform users that
+this script will soon be removed from the codebase.
 
-> On 29 October 2016 at 09:08, Robert P. J. Day <rpjday@crashcourse.ca> wrote:
->         actually, that might be it for this post ... am i missing any other
->       subtleties involving PACKAGECONFIG worth mentioning? another
->       PACAKGECONFIG-related post coming shortly, but it's more focused so
->       i'll post it separately.
->
-> The only interesting thing is that the behaviour has changed
-> recently: the PACKAGECONFIG implementation now sets
-> PACKAGECONFIG_CONFARGS and it's up to the recipe and/or class to do
-> what it needs with it.  autotools.bbclass adds it to EXTRA_OECONF,
-> cmake.bbclass adds it to EXTRA_OECMAKE, and so on.  In the past it
-> was added directly to EXTRA_OECONF but that made integration with
-> non-autotools harder.
+Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
+---
+ scripts/contrib/mkefidisk.sh | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-  yes, i'd noticed that, definitely going to add that to my
-explanation.
-
-rday
-
+diff --git a/scripts/contrib/mkefidisk.sh b/scripts/contrib/mkefidisk.sh
+index d8db3c0..a175895 100755
+--- a/scripts/contrib/mkefidisk.sh
++++ b/scripts/contrib/mkefidisk.sh
+@@ -20,6 +20,11 @@
+ 
+ LANG=C
+ 
++echo
++echo "WARNING: This script is deprecated and will be removed soon."
++echo "Please consider using wic EFI images instead."
++echo
++
+ # Set to 1 to enable additional output
+ DEBUG=0
+ OUT="/dev/null"
 -- 
+2.1.4
 
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
 
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
-
---587864349-1686021549-1477910404=:5379--
