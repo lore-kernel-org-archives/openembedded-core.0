@@ -1,27 +1,28 @@
-Return-Path: <jussi.kukkonen@intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 8477071AA7
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id A76737017D
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 31 Oct 2016 13:40:26 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by orsmga102.jf.intel.com with ESMTP; 31 Oct 2016 06:40:28 -0700
+	Mon, 31 Oct 2016 13:45:55 +0000 (UTC)
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+	by orsmga101.jf.intel.com with ESMTP; 31 Oct 2016 06:45:57 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.31,575,1473145200"; d="scan'208";a="780336169"
-Received: from linux.intel.com ([10.54.29.200])
-	by FMSMGA003.fm.intel.com with ESMTP; 31 Oct 2016 06:40:26 -0700
-Received: from theory.fi.intel.com (theory.fi.intel.com [10.237.72.53])
-	by linux.intel.com (Postfix) with ESMTP id 93D786A4080;
-	Mon, 31 Oct 2016 06:39:50 -0700 (PDT)
-From: Jussi Kukkonen <jussi.kukkonen@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 31 Oct 2016 15:40:18 +0200
-Message-Id: <eadfd186c794a4ba465421d25d6bf94f0c22da7c.1477914497.git.jussi.kukkonen@intel.com>
-X-Mailer: git-send-email 2.1.4
-In-Reply-To: <c1588f91c5cfe65c0daede3a52ed35ee84f3e612.1477914497.git.jussi.kukkonen@intel.com>
-References: <c1588f91c5cfe65c0daede3a52ed35ee84f3e612.1477914497.git.jussi.kukkonen@intel.com>
-In-Reply-To: <cover.1477914497.git.jussi.kukkonen@intel.com>
-References: <cover.1477914497.git.jussi.kukkonen@intel.com>
-Subject: [PATCH 3/3] distcc: Don't remove users/groups in postrm
+X-IronPort-AV: E=Sophos;i="5.31,575,1473145200"; d="scan'208";a="25737986"
+Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
+	([10.237.68.161])
+	by orsmga005.jf.intel.com with ESMTP; 31 Oct 2016 06:45:56 -0700
+To: Nathan Lynch <Nathan_Lynch@mentor.com>
+References: <cover.1477667287.git.alexander.kanavin@linux.intel.com>
+	<a47281b1272e238a4eeda7a034dfda9c02e5f089.1477667287.git.alexander.kanavin@linux.intel.com>
+	<c39f2013-9bad-9e64-d2b8-721db94001a0@mentor.com>
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Message-ID: <c3dd23a6-a778-2b02-0a4d-ef37624f5896@linux.intel.com>
+Date: Mon, 31 Oct 2016 15:43:35 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Icedove/45.4.0
+MIME-Version: 1.0
+In-Reply-To: <c39f2013-9bad-9e64-d2b8-721db94001a0@mentor.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCHv2 24/26] lttng-tools: do not install manpages in ptest package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,31 +35,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 31 Oct 2016 13:40:26 -0000
+X-List-Received-Date: Mon, 31 Oct 2016 13:45:55 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 
-There's no way to ensure that files owned by the users aren't left
-on the system at postrm time: Removing the user would mean those
-files are now owned by a non-existing user, and later may be owned
-by a completely unrelated new user.
+On 10/28/2016 09:46 PM, Nathan Lynch wrote:
+> This actually breaks running the lttng-tools test suite on the target:
+>
+> root@qemux86-64:/usr/lib/lttng-tools/ptest# cat run-ptest
+> #!/bin/sh
+> # Without --ignore-exit, the tap harness causes any FAILs within a
+> # test plan to raise ERRORs; this is just noise.
+> makeargs="LOG_DRIVER_FLAGS=--ignore-exit"
+> make -t all >/dev/null 2>&1 && exec make -s $makeargs check 2>/dev/null
+>
+> root@qemux86-64:/usr/lib/lttng-tools/ptest# sh -x run-ptest
+> + makeargs=LOG_DRIVER_FLAGS=--ignore-exit
+> + make -t all
+>
+> root@qemux86-64:/usr/lib/lttng-tools/ptest# echo $?
+> 2
+>
+> root@qemux86-64:/usr/lib/lttng-tools/ptest# make -s -t all
+> make[2]: *** No rule to make target 'lttng-health-check.3', needed by
+> 'all-am'.  Stop.
+> make[1]: *** [Makefile:537: all-recursive] Error 1
+> make: *** [Makefile:570: all-recursive] Error 1
+>
+>
+> I'd rather see "do not install shared libraries in ptest package" go in
+> first as it fixes an existing problem without regressing lttng-tools-ptest.
+>
+> I'm looking at reworking do_install_ptest to do a selective copy, as you
+> suggested earlier, so maybe just drop this patch?
 
-Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
----
- meta/recipes-devtools/distcc/distcc_3.2.bb | 4 ----
- 1 file changed, 4 deletions(-)
+Thanks for checking. This hasn't yet made it to master, so it could 
+simply be dropped from master-next. If this doesn't happen, I'll submit 
+a revertion patch.
 
-diff --git a/meta/recipes-devtools/distcc/distcc_3.2.bb b/meta/recipes-devtools/distcc/distcc_3.2.bb
-index c084ad2..ea3d7c1 100644
---- a/meta/recipes-devtools/distcc/distcc_3.2.bb
-+++ b/meta/recipes-devtools/distcc/distcc_3.2.bb
-@@ -65,7 +65,3 @@ FILES_${PN} = " ${sysconfdir} \
- 		${systemd_unitdir}/system/distcc.service"
- FILES_distcc-distmon-gnome = "  ${bindir}/distccmon-gnome \
- 				${datadir}/distcc"
--
--pkg_postrm_${PN} () {
--	deluser distcc || true
--}
--- 
-2.1.4
+Alex
 
 
