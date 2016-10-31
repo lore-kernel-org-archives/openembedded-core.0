@@ -1,25 +1,25 @@
 Return-Path: <paul.eggleton@linux.intel.com>
 Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 4958571A49
+	by mail.openembedded.org (Postfix) with ESMTP id C89C971A49
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 31 Oct 2016 04:00:22 +0000 (UTC)
+	Mon, 31 Oct 2016 04:00:24 +0000 (UTC)
 Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-	by orsmga103.jf.intel.com with ESMTP; 30 Oct 2016 21:00:24 -0700
+	by orsmga103.jf.intel.com with ESMTP; 30 Oct 2016 21:00:27 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.31,573,1473145200"; d="scan'208";a="25576822"
+X-IronPort-AV: E=Sophos;i="5.31,573,1473145200"; d="scan'208";a="25576835"
 Received: from mbi370x-mobl.gar.corp.intel.com (HELO
 	peggleto-mobl.ger.corp.intel.com) ([10.255.185.81])
-	by fmsmga005.fm.intel.com with ESMTP; 30 Oct 2016 21:00:22 -0700
+	by fmsmga005.fm.intel.com with ESMTP; 30 Oct 2016 21:00:24 -0700
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 31 Oct 2016 16:59:45 +1300
-Message-Id: <e12d7ba1997bad8c2ee1b93624766363062c06b1.1477886344.git.paul.eggleton@linux.intel.com>
+Date: Mon, 31 Oct 2016 16:59:46 +1300
+Message-Id: <299bdc10f6f62885565d15669097dae33cc60081.1477886344.git.paul.eggleton@linux.intel.com>
 X-Mailer: git-send-email 2.5.5
 In-Reply-To: <cover.1477886344.git.paul.eggleton@linux.intel.com>
 References: <cover.1477886344.git.paul.eggleton@linux.intel.com>
 In-Reply-To: <cover.1477886344.git.paul.eggleton@linux.intel.com>
 References: <cover.1477886344.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 3/7] devtool: finish: fix error if destination layer is not in bblayers.conf
+Subject: [PATCH 4/7] devtool: finish: warn if moving recipe to unconfigured destination layer
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,56 +32,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 31 Oct 2016 04:00:22 -0000
+X-List-Received-Date: Mon, 31 Oct 2016 04:00:24 -0000
 
-If devtool finish is run on a recipe where the recipe file itself is in
-the workspace (e.g. where devtool add / devtool upgrade has been used)
-and the specified destination layer is not in bblayers.conf, then we
-need to avoid running bitbake -c clean at the end because the recipe has
-been moved, but the bbappend is still present in the workspace layer at
-that point and so if we do it will fail due to the dangling bbappend.
-It's difficult to do the clean at the point we'd want to because tinfoil
-is holding bitbake.lock for most of the time, but in any case cleaning
-the recipe is less important than it used to be since we started
-managing the sysroot contents more strictly, so just disable cleaning
-under these circumstances to avoid the problem.
-
-Fixes [YOCTO #10484].
+If you run devtool finish to move a recipe created in the workspace by
+devtool add or devtool upgrade to a layer, and that layer is not
+currently included in bblayers.conf (perhaps unintentionally), then the
+recipe will no longer be visible to bitbake. In this scenario, show a
+warning so that the user isn't surprised by the recipe "going missing".
 
 Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
 ---
- scripts/lib/devtool/standard.py | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ scripts/lib/devtool/standard.py | 5 +++++
+ 1 file changed, 5 insertions(+)
 
 diff --git a/scripts/lib/devtool/standard.py b/scripts/lib/devtool/standard.py
-index 8dfd538..9511d56 100644
+index 9511d56..c15bfef 100644
 --- a/scripts/lib/devtool/standard.py
 +++ b/scripts/lib/devtool/standard.py
-@@ -1479,6 +1479,7 @@ def finish(args, config, basepath, workspace):
- 
-     check_workspace_recipe(workspace, args.recipename)
- 
-+    no_clean = False
-     tinfoil = setup_tinfoil(basepath=basepath, tracking=True)
-     try:
-         rd = parse_recipe(config, tinfoil, args.recipename, True)
-@@ -1540,6 +1541,7 @@ def finish(args, config, basepath, workspace):
-         if origlayerdir == config.workspace_path and destpath:
-             # Recipe file itself is in the workspace - need to move it and any
-             # associated files to the specified layer
-+            no_clean = True
-             logger.info('Moving recipe file to %s' % destpath)
-             recipedir = os.path.dirname(rd.getVar('FILE', True))
-             for root, _, files in os.walk(recipedir):
-@@ -1554,7 +1556,7 @@ def finish(args, config, basepath, workspace):
-         tinfoil.shutdown()
- 
-     # Everything else has succeeded, we can now reset
--    _reset([args.recipename], no_clean=False, config=config, basepath=basepath, workspace=workspace)
-+    _reset([args.recipename], no_clean=no_clean, config=config, basepath=basepath, workspace=workspace)
- 
-     return 0
- 
+@@ -1517,6 +1517,11 @@ def finish(args, config, basepath, workspace):
+             destpath = oe.recipeutils.get_bbfile_path(rd, destlayerdir, origrelpath)
+             if not destpath:
+                 raise DevtoolError("Unable to determine destination layer path - check that %s specifies an actual layer and %s/conf/layer.conf specifies BBFILES. You may also need to specify a more complete path." % (args.destination, destlayerdir))
++            # Warn if the layer isn't in bblayers.conf (the code to create a bbappend will do this in other cases)
++            layerdirs = [os.path.abspath(layerdir) for layerdir in rd.getVar('BBLAYERS', True).split()]
++            if not os.path.abspath(destlayerdir) in layerdirs:
++                bb.warn('Specified destination layer is not currently enabled in bblayers.conf, so the %s recipe will now be unavailable in your current configuration until you add the layer there' % args.recipename)
++
+         elif destlayerdir == origlayerdir:
+             # Same layer, update the original recipe
+             appendlayerdir = None
 -- 
 2.5.5
 
