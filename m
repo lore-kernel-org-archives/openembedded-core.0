@@ -1,49 +1,49 @@
 Return-Path: <fabio.berton@ossystems.com.br>
-Received: from mail-ua0-f195.google.com (mail-ua0-f195.google.com
-	[209.85.217.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 6150F71B15
+Received: from mail-ua0-f193.google.com (mail-ua0-f193.google.com
+	[209.85.217.193])
+	by mail.openembedded.org (Postfix) with ESMTP id CC7466FFEF
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  1 Nov 2016 19:54:45 +0000 (UTC)
-Received: by mail-ua0-f195.google.com with SMTP id 12so6863748uas.3
+	Tue,  1 Nov 2016 19:54:47 +0000 (UTC)
+Received: by mail-ua0-f193.google.com with SMTP id b35so6142848uaa.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 01 Nov 2016 12:54:47 -0700 (PDT)
+	Tue, 01 Nov 2016 12:54:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:organization; bh=W9a+jKQqkPeLOqOJWqrx9Nb1+aRXUBSQVVKTMwlRv2M=;
-	b=1LNF8yWVMeUP7notX9+tXuj7jwoBvZI1OYJGoERxiwC4H7qb3YyC/8MyWSV8bXi87+
-	o7SsqB0jBnCrt+fe/p93Sfc/mpztAhjv7zThYQPYjEQ79j+6EI4wUM7dManvXvzCO1zS
-	JxanvKFczFixE5mTncBAG9VnkymDAXsA1korxnDXxvH4iQUyheVuPHkkWU2YIpGd05u0
-	QSDGISK8cb2cgD69cmyk5h4btuVLnTHnn8ineBBKY+pXHRHHvPYztNF3Mb7zI8eh9MFS
-	ZVM/1VY8nU/JHSa8sk8KKxmgoFLk84rH0RWficOykskfRv6JaYbxDq7MnQRKZNgnGBWN
-	RMgg==
+	:organization; bh=akJvi9e22moMii87UKklx3aDBWWCjD/quafi4EZinx8=;
+	b=brN65OdtLKB5JyX0IRKOqteCDFpr8XpdBU3H1uRPS49xBGxJ4lOxnmXKYgCFH9sYhU
+	9+aR3IdAWiUS/B9HgAc1Cl440Hw5045HpFcm4X4DA80n9sWWGB7iwE5/KeYqYbgDcEMe
+	6NZeIfIO1rw3lXeSloAfHz1RjGMqHNBvGl21HIE2I55xBjNlBAOw0Q/isP+inx8rB+Uo
+	zrUp09dMZU4ecRRsKtLB1G+mQRIa6a8lbAhPDXFM6V8PKlObrxEwsXtyh+Iq+xyYkObz
+	ggGwqdPXvrS5vJ2oHvUMy5Be+TtwU/S0byxaI2Aa2B30lW004BfUMIXRsgoVfSdWzQFx
+	FN1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:organization;
-	bh=W9a+jKQqkPeLOqOJWqrx9Nb1+aRXUBSQVVKTMwlRv2M=;
-	b=AAnJVFNeY+tt024Jw3LHZZ0rn2GH/EJx8QTaM8IY0GCY8pIRPmdJhPxU9Ycy9/aTIB
-	iMKmK1+C+8auTfnNAKmxnYqlWQcgiHXcURSerOi6lBCPXZG+YNdfhYYrQv/zbUO63cHo
-	W5khKAxkWsFjvNGVaIhVAHwuuGXQtKwyF23KozyMwqRZvswxRS3yVXyIjaCibuBdZOnO
-	ac8ip1oERf78dptHvBEQUuXEGnzcJ82kz/7QhKVWAXmuuyLJv0m0GSXMOz0vTIV2+txM
-	7P1vyYDem55G9bErDCIWOWY6ynaHb6OLy2YzGQ+hIgBumrAGMZQhGzNXpQqDXA2pMgfe
-	tY8w==
-X-Gm-Message-State: ABUngvcIQYanYyz3uH+n5GZfPs73RxR0D4sdFiyNTTWDmLpLjkiYZEndU+xfk4iw+dMwZA==
-X-Received: by 10.159.38.52 with SMTP id 49mr26809060uag.14.1478030086894;
-	Tue, 01 Nov 2016 12:54:46 -0700 (PDT)
+	bh=akJvi9e22moMii87UKklx3aDBWWCjD/quafi4EZinx8=;
+	b=TedZefVhlE7LE9wNqoM7bWwLzwQMM+Vl/B0U672K8XtzoF1ulqOJLRvwLcISPTbiwF
+	8jv248KGKF5JtEWmcB4EosYnY9F6kcm+sHl6ih1RFcS0E1jSSvQDRMrimMleS7TSZ1Jc
+	FXfnKyAHM/FFYidcKetybT+fJ2sgKbE/2jiEDua7wlDCskGPa/whuF6wCCDDcldXgc7h
+	jZVPRSclc6c/WIoo2913v2XBRx8VvXp4quzd5sukhbKbm82D1VlecmjRl2vvclNXaHsd
+	U1w4E1SUxoGf8lbXfd2tiFfHJmQcQSiUPERUKUsyNt6cTO+L3XZHIwYAQcHbwWsxm4aq
+	T2Nw==
+X-Gm-Message-State: ABUngvcDeo0WJNRS3iBKbp78Wc2MS4kccaJg/WofH234N2D528+Uxt+DAPhzch4ZW/sz6A==
+X-Received: by 10.159.49.27 with SMTP id m27mr9303005uab.178.1478030089162;
+	Tue, 01 Nov 2016 12:54:49 -0700 (PDT)
 Received: from monster.lab.ossystems.com.br ([187.23.155.148])
-	by smtp.gmail.com with ESMTPSA id q7sm8055913vke.20.2016.11.01.12.54.44
+	by smtp.gmail.com with ESMTPSA id q7sm8055913vke.20.2016.11.01.12.54.47
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 01 Nov 2016 12:54:45 -0700 (PDT)
+	Tue, 01 Nov 2016 12:54:48 -0700 (PDT)
 From: Fabio Berton <fabio.berton@ossystems.com.br>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  1 Nov 2016 17:53:57 -0200
-Message-Id: <1478030040-20670-5-git-send-email-fabio.berton@ossystems.com.br>
+Date: Tue,  1 Nov 2016 17:53:58 -0200
+Message-Id: <1478030040-20670-6-git-send-email-fabio.berton@ossystems.com.br>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <1478030040-20670-1-git-send-email-fabio.berton@ossystems.com.br>
 References: <1478030040-20670-1-git-send-email-fabio.berton@ossystems.com.br>
 Organization: O.S. Systems Software LTDA.
-Subject: [PATCH 5/8] libsamplerate0: Update to version 0.1.9
+Subject: [PATCH 6/8] libxrandr: Update to version 1.5.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,41 +56,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 01 Nov 2016 19:54:45 -0000
+X-List-Received-Date: Tue, 01 Nov 2016 19:54:48 -0000
 
 Signed-off-by: Fabio Berton <fabio.berton@ossystems.com.br>
 ---
- .../{libsamplerate0_0.1.8.bb => libsamplerate0_0.1.9.bb}          | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
- rename meta/recipes-multimedia/libsamplerate/{libsamplerate0_0.1.8.bb => libsamplerate0_0.1.9.bb} (65%)
+ .../xorg-lib/{libxrandr_1.5.0.bb => libxrandr_1.5.1.bb}               | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-graphics/xorg-lib/{libxrandr_1.5.0.bb => libxrandr_1.5.1.bb} (81%)
 
-diff --git a/meta/recipes-multimedia/libsamplerate/libsamplerate0_0.1.8.bb b/meta/recipes-multimedia/libsamplerate/libsamplerate0_0.1.9.bb
-similarity index 65%
-rename from meta/recipes-multimedia/libsamplerate/libsamplerate0_0.1.8.bb
-rename to meta/recipes-multimedia/libsamplerate/libsamplerate0_0.1.9.bb
-index 1c37681..6ea7971 100644
---- a/meta/recipes-multimedia/libsamplerate/libsamplerate0_0.1.8.bb
-+++ b/meta/recipes-multimedia/libsamplerate/libsamplerate0_0.1.9.bb
-@@ -2,15 +2,15 @@ SUMMARY = "Audio Sample Rate Conversion library"
- HOMEPAGE = "http://www.mega-nerd.com/SRC/"
- SECTION = "libs"
- LICENSE = "GPLv2+"
--LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
--                    file://src/samplerate.c;beginline=1;endline=17;md5=d0807c35fc906466d24a50463534815a"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=336d6faf40fb600bafb0061f4052f1f4 \
-+                    file://src/samplerate.c;beginline=1;endline=17;md5=c45e8e3c7371009f0a4a569f2f22e25c"
- DEPENDS = "flac libsndfile1"
- PR = "r1"
+diff --git a/meta/recipes-graphics/xorg-lib/libxrandr_1.5.0.bb b/meta/recipes-graphics/xorg-lib/libxrandr_1.5.1.bb
+similarity index 81%
+rename from meta/recipes-graphics/xorg-lib/libxrandr_1.5.0.bb
+rename to meta/recipes-graphics/xorg-lib/libxrandr_1.5.1.bb
+index abbbae5..48e88d2 100644
+--- a/meta/recipes-graphics/xorg-lib/libxrandr_1.5.0.bb
++++ b/meta/recipes-graphics/xorg-lib/libxrandr_1.5.1.bb
+@@ -19,5 +19,5 @@ XORG_PN = "libXrandr"
  
- SRC_URI = "http://www.mega-nerd.com/SRC/libsamplerate-${PV}.tar.gz"
+ BBCLASSEXTEND = "native nativesdk"
  
--SRC_URI[md5sum] = "1c7fb25191b4e6e3628d198a66a84f47"
--SRC_URI[sha256sum] = "93b54bdf46d5e6d2354b7034395fe329c222a966790de34520702bb9642f1c06"
-+SRC_URI[md5sum] = "2b78ae9fe63b36b9fbb6267fad93f259"
-+SRC_URI[sha256sum] = "0a7eb168e2f21353fb6d84da152e4512126f7dc48ccb0be80578c565413444c1"
- 
- UPSTREAM_CHECK_URI = "http://www.mega-nerd.com/SRC/download.html"
- 
+-SRC_URI[md5sum] = "309762867e41c6fd813da880d8a1bc93"
+-SRC_URI[sha256sum] = "6f864959b7fc35db11754b270d71106ef5b5cf363426aa58589cb8ac8266de58"
++SRC_URI[md5sum] = "28e486f1d491b757173dd85ba34ee884"
++SRC_URI[sha256sum] = "1ff9e7fa0e4adea912b16a5f0cfa7c1d35b0dcda0e216831f7715c8a3abcf51a"
 -- 
 2.1.4
 
