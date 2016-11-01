@@ -1,24 +1,26 @@
 Return-Path: <Kai.Kang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id B6C7B60684
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 03E2B60684
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  1 Nov 2016 07:46:03 +0000 (UTC)
+	Tue,  1 Nov 2016 07:46:05 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id uA17k4Kt020082
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id uA17k6QA027255
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 1 Nov 2016 00:46:05 -0700 (PDT)
+	Tue, 1 Nov 2016 00:46:06 -0700 (PDT)
 Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.294.0; Tue, 1 Nov 2016 00:46:04 -0700
+	14.3.294.0; Tue, 1 Nov 2016 00:46:05 -0700
 From: <kai.kang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 1 Nov 2016 15:39:41 +0800
-Message-ID: <cover.1477985510.git.kai.kang@windriver.com>
+Date: Tue, 1 Nov 2016 15:39:42 +0800
+Message-ID: <20d9918c64b28177c657e8e30ed1fcd3de526b45.1477985510.git.kai.kang@windriver.com>
 X-Mailer: git-send-email 2.10.1
+In-Reply-To: <cover.1477985510.git.kai.kang@windriver.com>
+References: <cover.1477985510.git.kai.kang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/3] Fixes for python3 and dbus-ptest
+Subject: [PATCH 1/3] dbus-test: correct paths in service and conf files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,69 +33,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 01 Nov 2016 07:46:04 -0000
+X-List-Received-Date: Tue, 01 Nov 2016 07:46:08 -0000
 Content-Type: text/plain
 
 From: Kai Kang <kai.kang@windriver.com>
 
-1
-when multilib is enabled, python3 fails to start:
-root@qemux86-64:~# python3 
-Could not find platform independent libraries <prefix>
-Could not find platform dependent libraries <exec_prefix>
-Consider setting $PYTHONHOME to <prefix>[:<exec_prefix>]
-Fatal Python error: Py_Initialize: Unable to get the locale encoding
-ImportError: No module named 'encodings'
+Build path ${B} exists in some service and conf files of ptest. Replace
+with right directory.
 
-Current thread 0x00007f4d9b268700 (most recent call first):
-Aborted
-
-It is library path issue, and fix it. Then check sys.path are right:
-
-root@qemux86-64:~# python3
-Python 3.5.2 (default, Nov  1 2016, 15:32:42) 
-[GCC 6.2.0] on linux
-Type "help", "copyright", "credits" or "license" for more information.
->>> import sys
->>> sys.path
-['', '/usr/lib64/python35.zip', '/usr/lib64/python3.5', '/usr/lib64/python3.5/plat-linux', '/usr/lib64/python3.5/lib-dynload']
->>>
-
-
-2
-Only 4 cases PASS of dbus-ptest. With the fixes, all ptests cases PASS on qemux86-64.
-And for qemuarm, only one case fails:
-
-./run-ptest: line 10:   283 Aborted                 ./$i ./test/data DBUS_TEST_HOMEDIR=./test > /dev/null
-FAIL: test/test-refs
-
-
-It is a multi-threads issue, and need more work to fix it.
-
-
+Signed-off-by: Kai Kang <kai.kang@windriver.com>
 ---
-The following changes since commit 003b053498aea91fdb8c5418d0d8bbda7b23dbc0:
+ meta/recipes-core/dbus/dbus-test_1.10.10.bb | 3 +++
+ 1 file changed, 3 insertions(+)
 
-  boost: fix the SRC_URI to point to an actual release, and not a master snapshot (2016-10-31 14:23:12 +0000)
-
-are available in the git repository at:
-
-  git://git.pokylinux.org/poky-contrib kangkai/python3_and_dbus
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=kangkai/python3_and_dbus
-
-Kai Kang (3):
-  dbus-test: correct paths in service and conf files
-  dbus: update build options when enable ptest
-  python3: fix library search path
-
- meta/recipes-core/dbus/dbus-test_1.10.10.bb        |  3 ++
- meta/recipes-core/dbus/dbus_1.10.10.bb             |  4 +-
- ...t-python3-lib-pathes-for-multilib-support.patch | 49 ++++++++++++++++++++++
- .../python/python3/python-3.3-multilib.patch       | 13 +++---
- meta/recipes-devtools/python/python3_3.5.2.bb      |  1 +
- 5 files changed, 61 insertions(+), 9 deletions(-)
- create mode 100644 meta/recipes-devtools/python/python3/correct-python3-lib-pathes-for-multilib-support.patch
-
+diff --git a/meta/recipes-core/dbus/dbus-test_1.10.10.bb b/meta/recipes-core/dbus/dbus-test_1.10.10.bb
+index 650b7ab..29d7f91 100644
+--- a/meta/recipes-core/dbus/dbus-test_1.10.10.bb
++++ b/meta/recipes-core/dbus/dbus-test_1.10.10.bb
+@@ -54,5 +54,8 @@ do_install_ptest() {
+ 	for i in $l; do install ${B}/bus/.libs/test-$i ${D}${PTEST_PATH}/test; done
+ 	install ${B}/dbus/.libs/test-dbus ${D}${PTEST_PATH}/test
+ 	cp -r ${B}/test/data ${D}${PTEST_PATH}/test
++
++	# set right path in service and conf files
++	find ${D} -type f -not -executable -exec sed -i 's#${B}#${PTEST_PATH}#' {} \;
+ }
+ RDEPENDS_${PN}-ptest += "bash"
 -- 
 2.10.1
 
