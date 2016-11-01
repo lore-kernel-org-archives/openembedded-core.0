@@ -1,43 +1,24 @@
-Return-Path: <fathi.boudra@linaro.org>
-Received: from mail-wm0-f42.google.com (mail-wm0-f42.google.com [74.125.82.42])
-	by mail.openembedded.org (Postfix) with ESMTP id 68FFD71A39
+Return-Path: <Kai.Kang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id B6C7B60684
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  1 Nov 2016 07:04:01 +0000 (UTC)
-Received: by mail-wm0-f42.google.com with SMTP id a197so61256186wmd.0
+	Tue,  1 Nov 2016 07:46:03 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id uA17k4Kt020082
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 01 Nov 2016 00:04:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=/nMQeWZRGJdoHJPr06apkIqCane94x561+O3HzhKbj8=;
-	b=fCFpzb9AljCdDhj6SfJ1Gl9GMYx/pitcYH3kgxCAOkZyx7SZ0Y9Z5dVF1yVACNQzOk
-	CzFCoDvwFuZ+aQ4fI1WgiweNwZEZ5mPJKyZz2w0OPY7juuamg7Ckhg5WcexRIt52kt1D
-	ODB0KQTeJLFN5PDWWCyBXncDRlyiIanNQW0DA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=/nMQeWZRGJdoHJPr06apkIqCane94x561+O3HzhKbj8=;
-	b=d1mOsWL1PEUDPeMI7XsURgvA1WC9VmSaQzhNgcwZe5aAxcqpLPI2Lso0e+Cn8FMcEZ
-	LtTPnV5ZGqzTNN9MmodGon3UdXXz8GIFd257Ug0J1Rj9QS5tyMutkFYkJmsEMjUHsizR
-	VjFTAYgV7qDlEc61T0orRZUVUo9asQiUpFIIZMeJVRsMj/aguO07kyhgp2+9Ro3DnnYs
-	1rCyN0TMjXAGs3UFl6B5bAZ4d21vQ5eFy51gK4P0kElj10B/MDZUNH3H6RMVHHRHb/+7
-	YGETm/xvlK2IVBdP6SZ/qIKmLTQRFxh4Se/x90fJoKloPvh67A6J8tGaAHRt58VkPFE0
-	nXYw==
-X-Gm-Message-State: ABUngvfbAb0HoO7J78tnKVUyx7spYcGgBh2jjOTlJmj3inLl4hxriJvnE+WplT9rWGO7Wc1/wjKc1dvIQteoBeH1
-X-Received: by 10.28.17.212 with SMTP id 203mr235835wmr.48.1477983842317; Tue,
-	01 Nov 2016 00:04:02 -0700 (PDT)
+	Tue, 1 Nov 2016 00:46:05 -0700 (PDT)
+Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.294.0; Tue, 1 Nov 2016 00:46:04 -0700
+From: <kai.kang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 1 Nov 2016 15:39:41 +0800
+Message-ID: <cover.1477985510.git.kai.kang@windriver.com>
+X-Mailer: git-send-email 2.10.1
 MIME-Version: 1.0
-Received: by 10.28.211.65 with HTTP; Tue, 1 Nov 2016 00:04:01 -0700 (PDT)
-In-Reply-To: <CAJTo0LYBANe9f--NJkex3sN52ZGUH6Nrd45ktaYV1qxdY8gNJg@mail.gmail.com>
-References: <20161029145747.32390-1-fathi.boudra@linaro.org>
-	<CAHvQdo11Y5ZV0GaC0YsdFCEz6KwLymLms51hDkASayPXo-3TVA@mail.gmail.com>
-	<CAJTo0LYBANe9f--NJkex3sN52ZGUH6Nrd45ktaYV1qxdY8gNJg@mail.gmail.com>
-From: Fathi Boudra <fathi.boudra@linaro.org>
-Date: Tue, 1 Nov 2016 09:04:01 +0200
-Message-ID: <CAGNsrLAHewjcgMojrCaVT+T-cAogpicW2=o=D0T6Fn+3tmNdog@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [oe-core PATCH] wayland: upgrade from 1.11.0 to 1.11.1
+Subject: [PATCH 0/3] Fixes for python3 and dbus-ptest
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,26 +31,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 01 Nov 2016 07:04:03 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 01 Nov 2016 07:46:04 -0000
+Content-Type: text/plain
 
-On 31 October 2016 at 13:32, Burton, Ross <ross.burton@intel.com> wrote:
->
-> On 31 October 2016 at 08:25, Johannes Pointner <h4nn35.work@gmail.com>
-> wrote:
->>
->> Wouldn't it make more sense to update to 1.12?
->> Since 1.11.1 is backporting fixes from 1.12 as stated in the annouce
->> mail of the release.
->
->
-> Absolutely - there's a 1.12 so unless there's a good reason to avoid it in
-> master we should be moving to that.
+From: Kai Kang <kai.kang@windriver.com>
 
-The reason is pretty simple, I submitted this change only to go with
-the weston patch backported from master to 1.11 serie since it is what
-is available in oe-core. It's the combination I tested on my available
-boards and nothing related with newer version.
+1
+when multilib is enabled, python3 fails to start:
+root@qemux86-64:~# python3 
+Could not find platform independent libraries <prefix>
+Could not find platform dependent libraries <exec_prefix>
+Consider setting $PYTHONHOME to <prefix>[:<exec_prefix>]
+Fatal Python error: Py_Initialize: Unable to get the locale encoding
+ImportError: No module named 'encodings'
 
-> Ross
+Current thread 0x00007f4d9b268700 (most recent call first):
+Aborted
+
+It is library path issue, and fix it. Then check sys.path are right:
+
+root@qemux86-64:~# python3
+Python 3.5.2 (default, Nov  1 2016, 15:32:42) 
+[GCC 6.2.0] on linux
+Type "help", "copyright", "credits" or "license" for more information.
+>>> import sys
+>>> sys.path
+['', '/usr/lib64/python35.zip', '/usr/lib64/python3.5', '/usr/lib64/python3.5/plat-linux', '/usr/lib64/python3.5/lib-dynload']
+>>>
+
+
+2
+Only 4 cases PASS of dbus-ptest. With the fixes, all ptests cases PASS on qemux86-64.
+And for qemuarm, only one case fails:
+
+./run-ptest: line 10:   283 Aborted                 ./$i ./test/data DBUS_TEST_HOMEDIR=./test > /dev/null
+FAIL: test/test-refs
+
+
+It is a multi-threads issue, and need more work to fix it.
+
+
+---
+The following changes since commit 003b053498aea91fdb8c5418d0d8bbda7b23dbc0:
+
+  boost: fix the SRC_URI to point to an actual release, and not a master snapshot (2016-10-31 14:23:12 +0000)
+
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib kangkai/python3_and_dbus
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=kangkai/python3_and_dbus
+
+Kai Kang (3):
+  dbus-test: correct paths in service and conf files
+  dbus: update build options when enable ptest
+  python3: fix library search path
+
+ meta/recipes-core/dbus/dbus-test_1.10.10.bb        |  3 ++
+ meta/recipes-core/dbus/dbus_1.10.10.bb             |  4 +-
+ ...t-python3-lib-pathes-for-multilib-support.patch | 49 ++++++++++++++++++++++
+ .../python/python3/python-3.3-multilib.patch       | 13 +++---
+ meta/recipes-devtools/python/python3_3.5.2.bb      |  1 +
+ 5 files changed, 61 insertions(+), 9 deletions(-)
+ create mode 100644 meta/recipes-devtools/python/python3/correct-python3-lib-pathes-for-multilib-support.patch
+
+-- 
+2.10.1
+
 
