@@ -1,29 +1,29 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 82312719C9
+Return-Path: <rpjday@crashcourse.ca>
+Received: from smtp485.redcondor.net (smtp485.redcondor.net [208.80.204.85])
+	by mail.openembedded.org (Postfix) with ESMTP id 812376E5FC
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  1 Nov 2016 10:18:17 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id uA1AIISl015686
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 1 Nov 2016 03:18:18 -0700 (PDT)
-Received: from [128.224.162.183] (128.224.162.183) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.294.0;
-	Tue, 1 Nov 2016 03:18:17 -0700
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	<openembedded-core@lists.openembedded.org>
-References: <cover.1477928374.git.liezhi.yang@windriver.com>
-	<bc402b553331b622af35b7fea7d30d82c7f2f686.1477928374.git.liezhi.yang@windriver.com>
-	<1477994978.23123.46.camel@linuxfoundation.org>
-From: Robert Yang <liezhi.yang@windriver.com>
-Message-ID: <fcb641d9-c4ae-bb72-cb96-98ec92e34797@windriver.com>
-Date: Tue, 1 Nov 2016 18:18:13 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.2.0
+	Tue,  1 Nov 2016 10:19:29 +0000 (UTC)
+Received: from astoria.ccjclearline.com ([64.235.106.9])
+	by smtp485.redcondor.net ({3be039ea-4351-44b0-a8af-642c38b25916})
+	via TCP (outbound) with ESMTPS id 20161101101929504_0485
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 01 Nov 2016 10:19:29 +0000
+X-RC-FROM: <rpjday@crashcourse.ca>
+X-RC-RCPT: <openembedded-core@lists.openembedded.org>
+Received: from [216.191.234.70] (port=35714 helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
+	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
+	id 1c1WA7-0002H0-G1 for openembedded-core@lists.openembedded.org;
+	Tue, 01 Nov 2016 06:19:23 -0400
+Date: Tue, 1 Nov 2016 06:18:22 -0400 (EDT)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@ca624034.mitel.com
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Message-ID: <alpine.LFD.2.20.1611010604480.25706@ca624034.mitel.com>
+User-Agent: Alpine 2.20 (LFD 67 2015-01-07)
 MIME-Version: 1.0
-In-Reply-To: <1477994978.23123.46.camel@linuxfoundation.org>
-Subject: Re: [PATCH 1/1] oe/copy_buildsystem.py: dereference symlink
+X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
+Subject: curious about inherent value of dynamic layers
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,51 +36,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 01 Nov 2016 10:18:18 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 01 Nov 2016 10:19:29 -0000
+Content-Type: text/plain; charset=US-ASCII
 
 
+  more pedantry: i notice that a small number of layers (eg,
+meta-freescale, meta-mentor) include "dynamic" layers, so that some
+sublayers are included only conditionally if others layers are
+included. from meta-freescale's layer.conf:
 
-On 11/01/2016 06:09 PM, Richard Purdie wrote:
-> On Mon, 2016-10-31 at 08:48 -0700, Robert Yang wrote:
->> When there is a relative symlink in the layer, for example:
->> symA -> ../out/of/layer/file
->>
->> symA will be invalid fater copied, it would be invalid from build
->> time
->> if it points to a relative path, and would be invalid after extracted
->> the sdk if it points to a absolute py. Dereference symlink when copy
->> will fix the problem.
->>
->> Use tar rather than shutil.copytree() to copy is because:
->> 1) shutil.copytree(symlinks=Fasle) has bugs when dereference
->> symlinks:
->>    https://bugs.python.org/issue21697
->>    And Ubunutu 1404 doesn't upgrade python3 to fix the problem.
->>
->> 2) shutil.copytree(symlinks=False) raises errors when there is a
->> invalid
->>    symlink, and tar just prints a warning, tar is preferred here
->> since
->>    the real world is unpredicatable
->>
->> 3) tar is faster than shutil.copytree() as said by oe.path.copytree()
->
-> Could we just use oe.path.copytree() here?
+///// start
 
-I should explain why not use oe.path.copytree(), but it was late last
-night, so I forgot that. We can't use oe.path.copytree() since:
-1) oe.path.copytree() doesn't dereference symlink
-2) We need --exclude='.git'
+  # The dynamic-layers directory hosts the extensions and layer specific
+  # modifications related to Freescale products.
+  #
+  # The .bbappend and .bb files are included if the respective layer
+  # collection is available.
+  BBFILES += "${@' '.join('${LAYERDIR}/dynamic-layers/%s/recipes*/*/*.bbappend' % layer \
+               for layer in BBFILE_COLLECTIONS.split())}"
+  BBFILES += "${@' '.join('${LAYERDIR}/dynamic-layers/%s/recipes*/*/*.bb' % layer \
+               for layer in BBFILE_COLLECTIONS.split())}"
 
-I'd like to add two arguments to oe.path.copytree() to do this if it is worth.
+///// end
 
-// Robert
+where the "dynamic-layers" directory in that layer contains further
+recipe directories with .bbappend files related to other layers:
 
->
-> Cheers,
->
-> Richard
->
+  drwxrwxr-x. 3 rpjday rpjday 4096 Jun 26 06:36 browser-layer
+  drwxrwxr-x. 3 rpjday rpjday 4096 Jun 26 06:36 efl-layer
+  drwxrwxr-x. 3 rpjday rpjday 4096 Jun 26 06:36 filesystem-layer
+  drwxrwxr-x. 4 rpjday rpjday 4096 Jun 26 06:36 networking-layer
+  drwxrwxr-x. 6 rpjday rpjday 4096 Jun 26 06:36 openembedded-layer
+  drwxrwxr-x. 3 rpjday rpjday 4096 Jun 26 06:36 qt4-layer
+  drwxrwxr-x. 3 rpjday rpjday 4096 Jun 26 06:36 qt5-layer
+  drwxrwxr-x. 3 rpjday rpjday 4096 Jun 26 06:36 virtualization-layer
+
+seems like an interesting idea ... opinions on whether this is a
+useful approach? or possibly overly confusing? is this approach
+mentioned in any OE/YP doc?
+
+rday
+
+-- 
+
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
+
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
+
 
