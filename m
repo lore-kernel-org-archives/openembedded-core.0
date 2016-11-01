@@ -1,24 +1,24 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 8CDA871A23
+	by mail.openembedded.org (Postfix) with ESMTP id 8A31071A23
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  1 Nov 2016 15:27:57 +0000 (UTC)
+	Tue,  1 Nov 2016 15:27:58 +0000 (UTC)
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga101.fm.intel.com with ESMTP; 01 Nov 2016 08:27:59 -0700
+	by fmsmga101.fm.intel.com with ESMTP; 01 Nov 2016 08:28:00 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.31,580,1473145200"; d="scan'208";a="780876223"
+X-IronPort-AV: E=Sophos;i="5.31,580,1473145200"; d="scan'208";a="780876245"
 Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by FMSMGA003.fm.intel.com with ESMTP; 01 Nov 2016 08:27:59 -0700
+	by FMSMGA003.fm.intel.com with ESMTP; 01 Nov 2016 08:28:00 -0700
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  1 Nov 2016 17:25:16 +0200
-Message-Id: <fced9d20130046ffaf6daa1fe7d619098fdf91c6.1478013702.git.alexander.kanavin@linux.intel.com>
+Date: Tue,  1 Nov 2016 17:25:17 +0200
+Message-Id: <f66ff7e584c07a3821433bb003641a1d1bac410e.1478013702.git.alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.10.1
 In-Reply-To: <cover.1478013701.git.alexander.kanavin@linux.intel.com>
 References: <cover.1478013701.git.alexander.kanavin@linux.intel.com>
 In-Reply-To: <cover.1478013701.git.alexander.kanavin@linux.intel.com>
 References: <cover.1478013701.git.alexander.kanavin@linux.intel.com>
-Subject: [PATCH 09/13] icu: update to 58.1
+Subject: [PATCH 10/13] libarchive: update to 3.2.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,70 +31,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 01 Nov 2016 15:27:57 -0000
-
-The copyright for the software has been transferred to Unicode Inc from IBM,
-but the terms are same.
-
-libiculx and libicule are no longer produced as they depend on an external
-package icu-le-hb (previous versions had an option of using an internal
-implementation which now has been dropped). I have verified that icu
-dependencies in oe-core and meta-oe still build.
+X-List-Received-Date: Tue, 01 Nov 2016 15:27:58 -0000
 
 Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- meta/recipes-support/icu/icu.inc                      | 4 +---
- meta/recipes-support/icu/{icu_57.1.bb => icu_58.1.bb} | 6 +++---
- 2 files changed, 4 insertions(+), 6 deletions(-)
- rename meta/recipes-support/icu/{icu_57.1.bb => icu_58.1.bb} (77%)
+ .../libarchive/{libarchive_3.2.1.bb => libarchive_3.2.2.bb}           | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-extended/libarchive/{libarchive_3.2.1.bb => libarchive_3.2.2.bb} (94%)
 
-diff --git a/meta/recipes-support/icu/icu.inc b/meta/recipes-support/icu/icu.inc
-index cc6f222..3e3a391 100644
---- a/meta/recipes-support/icu/icu.inc
-+++ b/meta/recipes-support/icu/icu.inc
-@@ -36,15 +36,13 @@ do_install_append_class-native() {
- 	cp -r ${B}/tools ${D}/${STAGING_ICU_DIR_NATIVE}
- }
+diff --git a/meta/recipes-extended/libarchive/libarchive_3.2.1.bb b/meta/recipes-extended/libarchive/libarchive_3.2.2.bb
+similarity index 94%
+rename from meta/recipes-extended/libarchive/libarchive_3.2.1.bb
+rename to meta/recipes-extended/libarchive/libarchive_3.2.2.bb
+index b65b5df..cf66e9d 100644
+--- a/meta/recipes-extended/libarchive/libarchive_3.2.1.bb
++++ b/meta/recipes-extended/libarchive/libarchive_3.2.2.bb
+@@ -34,8 +34,8 @@ PACKAGECONFIG[lz4] = "--with-lz4,--without-lz4,lz4,"
+ SRC_URI = "http://libarchive.org/downloads/libarchive-${PV}.tar.gz \
+            "
  
--PACKAGES =+ "libicudata libicuuc libicui18n libicule libiculx libicutu libicuio"
-+PACKAGES =+ "libicudata libicuuc libicui18n libicutu libicuio"
+-SRC_URI[md5sum] = "afa257047d1941a565216edbf0171e72"
+-SRC_URI[sha256sum] = "72ee1a4e3fd534525f13a0ba1aa7b05b203d186e0c6072a8a4738649d0b3cfd2"
++SRC_URI[md5sum] = "1ec00b7dcaf969dd2a5712f85f23c764"
++SRC_URI[sha256sum] = "691c194ee132d1f0f7a42541f091db811bc2e56f7107e9121be2bc8c04f1060f"
  
- FILES_${PN}-dev += "${libdir}/${BPN}/"
+ inherit autotools update-alternatives pkgconfig
  
- FILES_libicudata = "${libdir}/libicudata.so.*"
- FILES_libicuuc = "${libdir}/libicuuc.so.*"
- FILES_libicui18n = "${libdir}/libicui18n.so.*"
--FILES_libicule = "${libdir}/libicule.so.*"
--FILES_libiculx = "${libdir}/libiculx.so.*"
- FILES_libicutu = "${libdir}/libicutu.so.*"
- FILES_libicuio = "${libdir}/libicuio.so.*"
- 
-diff --git a/meta/recipes-support/icu/icu_57.1.bb b/meta/recipes-support/icu/icu_58.1.bb
-similarity index 77%
-rename from meta/recipes-support/icu/icu_57.1.bb
-rename to meta/recipes-support/icu/icu_58.1.bb
-index 90c2b82..cc7c947 100644
---- a/meta/recipes-support/icu/icu_57.1.bb
-+++ b/meta/recipes-support/icu/icu_58.1.bb
-@@ -1,6 +1,6 @@
- require icu.inc
- 
--LIC_FILES_CHKSUM = "file://../LICENSE;md5=787d3b37867445c1cdd6f6167bd0e347"
-+LIC_FILES_CHKSUM = "file://../LICENSE;md5=1b3b75c1777cd49ad5c6a24cd338cfc9"
- 
- def icu_download_version(d):
-     pvsplit = d.getVar('PV', True).split('.')
-@@ -21,8 +21,8 @@ SRC_URI = "${BASE_SRC_URI} \
- SRC_URI_append_class-target = "\
-            file://0001-Disable-LDFLAGSICUDT-for-Linux.patch \
-           "
--SRC_URI[md5sum] = "976734806026a4ef8bdd17937c8898b9"
--SRC_URI[sha256sum] = "ff8c67cb65949b1e7808f2359f2b80f722697048e90e7cfc382ec1fe229e9581"
-+SRC_URI[md5sum] = "1901302aaff1c1633ef81862663d2917"
-+SRC_URI[sha256sum] = "0eb46ba3746a9c2092c8ad347a29b1a1b4941144772d13a88667a7b11ea30309"
- 
- UPSTREAM_CHECK_REGEX = "(?P<pver>\d+(\.\d+)+)/"
- UPSTREAM_CHECK_URI = "http://download.icu-project.org/files/icu4c/"
 -- 
 2.10.1
 
