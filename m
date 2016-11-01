@@ -1,52 +1,52 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pf0-f194.google.com (mail-pf0-f194.google.com
-	[209.85.192.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 3404371B8A
+Received: from mail-pf0-f196.google.com (mail-pf0-f196.google.com
+	[209.85.192.196])
+	by mail.openembedded.org (Postfix) with ESMTP id E43CF60767
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  1 Nov 2016 14:46:21 +0000 (UTC)
-Received: by mail-pf0-f194.google.com with SMTP id i88so528889pfk.2
+	Tue,  1 Nov 2016 14:48:32 +0000 (UTC)
+Received: by mail-pf0-f196.google.com with SMTP id n85so11860831pfi.3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 01 Nov 2016 07:46:23 -0700 (PDT)
+	Tue, 01 Nov 2016 07:48:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=subject:to:references:from:message-id:date:user-agent:mime-version
-	:in-reply-to:content-transfer-encoding;
-	bh=PqxPjoCAEnhi/GFBVgLVT5+Y1STLAQOSrE1bWy7ahlk=;
-	b=Af83ALDTCZ3SLLPrdABDLKtMhY1CUYespz6tNjoa7pGTlJ7lc+lVnyR2uXfSNdiRyn
-	RqiDeMN/WBv6GQysLxmKdpoO/2qweQh1YQWwniZ9ysLIsh8mSc7YWog1Ou1PejscmRQq
-	jwiBiG6L/QJXLecOhBuGHBYyWEH5M5BNvrtjL0/Gg2itJWi8CoR/MxUEzpRIZVC4W+zw
-	xi1S5cHYeb+HkpQ7LgdOZ5xwG2HeexccER58SNtVOE5KKOGxpu+9fywnmy31G5atyIcq
-	mqP/e60GEwtBxbDp2Wb/00f5heAcbn8gdtDgMfT9gIpNi/Kv++/CHUget/SqvxZQAKfK
-	7VfA==
+	h=subject:to:references:cc:from:message-id:date:user-agent
+	:mime-version:in-reply-to:content-transfer-encoding;
+	bh=wDnwoGQtp691NiPttD4uyG/f8Wckh7gf08Na9dwDgc0=;
+	b=ia9y1O+Qje0HlJOcQvTm3q1YVnn7mnFQMkhOw+1NCtzWDbcEr6ZUfe6qez69L840ki
+	wuPpM5t2Gzg16NwgpORtuLR4c9i78Tsu12UuwYZF7aspTvVLJkACpfXxOHcAo866C+Jc
+	tjz5vVlkIMICp/hx3xcUcnyrBWy/1JzGPSS7xGrqbdGKWY7vLKozklQYtWN4e5TOiXIp
+	sbz5FawdcanN8fJCAxZ4ur52Z0q9PdA1fAWv5M/ZnjnP0Q+GkvTMv2dpDkUmif5Ph/hG
+	7aWmamGseFiWDPNNSBRFfOkGGESRxHph8FdqRmHpICJVnIzlDGdvnVVj9Sm40mwoNM3k
+	qsaA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:subject:to:references:from:message-id:date
+	h=x-gm-message-state:subject:to:references:cc:from:message-id:date
 	:user-agent:mime-version:in-reply-to:content-transfer-encoding;
-	bh=PqxPjoCAEnhi/GFBVgLVT5+Y1STLAQOSrE1bWy7ahlk=;
-	b=eI+ojJcV+BTxGto1Y6jjRPU3qwvQVDGkagpkP3WtWVSAFxEal7U6bwXCVYQ1apO444
-	UIdGEauW+HpqTmScPhxmtILznSfPM2bWqCh9eubew4taWoAYCRiuImZZp7Z92pl3DuOw
-	B/Oxr4+dpRbOPDDFOSDBdbVX37oMCLWCVaR1gRp1dSMZsmFGo0wOz7S8UAotyli+xJE+
-	tfpIEURovUtgDCYvoGqrtp2dBxWDi86Tjzs24RHvB4WH44sO1Tui3fzTDzFiBf8Oa4qw
-	YVpSRCUMqnpo6nSCN0nSszOwM3oiE2GKVQej1OnxkShk8Qn1hWdbY5hLAqJS1RSuPEa6
-	qzYg==
-X-Gm-Message-State: ABUngveC8WJB1BALHcU6A9ONezn5e+J6JD9Tu9CoLMEAgFLQdGWjGtrC1XxspIlucaVOWg==
-X-Received: by 10.98.135.13 with SMTP id i13mr33533119pfe.138.1478011582866;
-	Tue, 01 Nov 2016 07:46:22 -0700 (PDT)
+	bh=wDnwoGQtp691NiPttD4uyG/f8Wckh7gf08Na9dwDgc0=;
+	b=AQYVuSTJR6JoRbyv1i70hjoga37AtrlbHN81mhhDx9Uh9Qz3Zr33jfMIm66NPRm/V+
+	gtjOqY2rj95nnMnqrJ/UFm7MY2jHtsjbqnzFsWlFlwC0bl/29mKV6xUzuK44dt1eYHq2
+	n6U2xG433jgi4w3ah9pfPQZGwwhq89HYYEOWWiBrce4tNpW+PfKN+XlUqlbKA1xl75mA
+	84eF6IuSMMSjYJDv8ebbrQY9JUSkPCG3FSvZajZh3XbWCX43K17tn6tBgm29jUv2NMT5
+	dF4Fl1GOdrH2U6us0T/G9n/zBIpkkHdCHqhnfjwDhCbyBquDZDSKe1Urq5l+Cx6kXTzm
+	qE4A==
+X-Gm-Message-State: ABUngvcxMofPPfrl3u6GWQeije7guzPfkT0rFgXboIhxu7WtOynZU5On07pKRTf4Cwrw7A==
+X-Received: by 10.99.44.84 with SMTP id s81mr20690022pgs.153.1478011714016;
+	Tue, 01 Nov 2016 07:48:34 -0700 (PDT)
 Received: from ?IPv6:2601:202:4001:9ea0:bddd:dc37:37:9aa?
 	([2601:202:4001:9ea0:bddd:dc37:37:9aa])
 	by smtp.gmail.com with ESMTPSA id
-	yx8sm42872315pac.29.2016.11.01.07.46.22
+	z6sm42907261pay.31.2016.11.01.07.48.33
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 01 Nov 2016 07:46:22 -0700 (PDT)
+	Tue, 01 Nov 2016 07:48:33 -0700 (PDT)
 To: Enrico Jorns <ejo@pengutronix.de>, openembedded-core@lists.openembedded.org
-References: <20161028060629.32357-1-ejo@pengutronix.de>
+References: <20161028060902.1133-1-ejo@pengutronix.de>
 From: akuster808 <akuster808@gmail.com>
-Message-ID: <4b9e1364-53da-c237-276e-e2e011e13505@gmail.com>
-Date: Tue, 1 Nov 2016 07:46:21 -0700
+Message-ID: <ae3851e6-46cc-91ef-0d77-39d64e26412f@gmail.com>
+Date: Tue, 1 Nov 2016 07:48:32 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
 	Thunderbird/45.4.0
 MIME-Version: 1.0
-In-Reply-To: <20161028060629.32357-1-ejo@pengutronix.de>
-Subject: Re: [PATCH][krogoth] nss: fix compilation with glibc-2.24
+In-Reply-To: <20161028060902.1133-1-ejo@pengutronix.de>
+Subject: Re: [PATCH][krogoth] pseudo: backport 'Work around issues with glibc 2.24'
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,159 +59,150 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 01 Nov 2016 14:46:24 -0000
+X-List-Received-Date: Tue, 01 Nov 2016 14:48:37 -0000
 Content-Type: text/plain; charset=windows-1252; format=flowed
 Content-Transfer-Encoding: 7bit
 
-Enrico,
+Enrico
 
-On 10/27/2016 11:06 PM, Enrico Jorns wrote:
-> `readdir_r` is deprecated as of glibc-2.24 and leads to a compilation
-> error:
->
-> | In file included from sysrand.c:16:0:
-> | unix_rand.c: In function 'ReadOneFile':
-> | unix_rand.c:1090:6: error: 'readdir_r' is deprecated [-Werror=deprecated-declarations]
-> |       error = readdir_r(fd, &entry_dir, &result);
-> |       ^~~~~
-> | In file included from unix_rand.c:1032:0,
-> |                  from sysrand.c:16:
-> | /usr/include/dirent.h:183:12: note: declared here
-> |  extern int readdir_r (DIR *__restrict __dirp,
-> |             ^~~~~~~~~
-> | cc1: all warnings being treated as errors
->
-> The issue is reported in nss bug tracker
-> (https://bugzilla.mozilla.org/show_bug.cgi?id=1254334) and fixed in nss
-> mainline.
-> The fixing patch is extracted from the nss source code repository.
+
+On 10/27/2016 11:09 PM, Enrico Jorns wrote:
+> This patch is required for krogoth, too in order to make it properly
+> work with glibc 2.24.
 >
 > Signed-off-by: Enrico Jorns <ejo@pengutronix.de>
-> ---
->   .../nss/nss/use-readdir-instead-of-readdir_r.patch | 95 ++++++++++++++++++++++
->   meta/recipes-support/nss/nss_3.21.bb               |  1 +
->   2 files changed, 96 insertions(+)
->   create mode 100644 meta/recipes-support/nss/nss/use-readdir-instead-of-readdir_r.patch
 >
-> diff --git a/meta/recipes-support/nss/nss/use-readdir-instead-of-readdir_r.patch b/meta/recipes-support/nss/nss/use-readdir-instead-of-readdir_r.patch
+> Below the message of the original commit:
+>
+> There are issues with a change made to RTLD_NEXT behaviour in glibc 2.24
+> and that change was also backported to older glibc versions in some distros
+> like Fedora 23. This adds a workaround whilst the pseudo maintainer fixes
+> various issues properly.
+>
+> (From OE-Core rev: 21c38a091c4a1917f62a942c4751b0fd11dce340)
+
+Merged to staging,
+
+Thanks,
+Armin
+>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> ---
+>   meta-jupiter                                       |  2 +-
+>   .../pseudo/pseudo-glibc-rtld-next-workaround.patch | 85 ++++++++++++++++++++++
+>   meta/recipes-devtools/pseudo/pseudo_1.7.5.bb       |  1 +
+>   3 files changed, 87 insertions(+), 1 deletion(-)
+>   create mode 100644 meta/recipes-devtools/pseudo/pseudo/pseudo-glibc-rtld-next-workaround.patch
+>
+> diff --git a/meta-jupiter b/meta-jupiter
+> index a1299a3..5a66c62 160000
+> --- a/meta-jupiter
+> +++ b/meta-jupiter
+> @@ -1 +1 @@
+> -Subproject commit a1299a3e711c93ed8a7eb652bdbacd83669263c6
+> +Subproject commit 5a66c628800824585208d0130ee6b731c7e95edd
+> diff --git a/meta/recipes-devtools/pseudo/pseudo/pseudo-glibc-rtld-next-workaround.patch b/meta/recipes-devtools/pseudo/pseudo/pseudo-glibc-rtld-next-workaround.patch
 > new file mode 100644
-> index 0000000..00f671f
+> index 0000000..6710734
 > --- /dev/null
-> +++ b/meta/recipes-support/nss/nss/use-readdir-instead-of-readdir_r.patch
-> @@ -0,0 +1,95 @@
-> +# HG changeset patch
-> +# User Martin Thomson <martin.thomson@gmail.com>
-> +# Date 1457600884 -39600
-> +#      Thu Mar 10 20:08:04 2016 +1100
-> +# Node ID 7309fcbce2eceae1e4e3c687348e540905ae286a
-> +# Parent  e7b6fca4f01427cafb4328f6e279af62290a2f34
-> +Bug 1254334 - Use readdir instead of readdir_r, r=emaldona, sr=rrelyea
-
-The patch is missing the appropriate patch formating. I am expecting 
-"Upstream-Status: blah" etc
-
-http://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-
-- Armin
+> +++ b/meta/recipes-devtools/pseudo/pseudo/pseudo-glibc-rtld-next-workaround.patch
+> @@ -0,0 +1,85 @@
+> +We started seeing:
 > +
-> +diff -r e7b6fca4f014 -r 7309fcbce2ec lib/freebl/unix_rand.c
-> +--- a/nss/lib/freebl/unix_rand.c	Wed Apr 20 15:22:46 2016 +0200
-> ++++ b/nss/lib/freebl/unix_rand.c	Thu Mar 10 20:08:04 2016 +1100
-> +@@ -1054,26 +1054,16 @@
-> +  *
-> +  * return 1 if it's time to reset the fileToRead (no more files to read).
-> +  */
-> +-int ReadOneFile(int fileToRead)
-> ++static int
-> ++ReadOneFile(int fileToRead)
-> + {
-> +     char *dir = "/etc";
-> +     DIR *fd = opendir(dir);
-> +     int resetCount = 0;
-> +-#ifdef SOLARIS
-> +-     /* grumble, Solaris does not define struct dirent to be the full length */
-> +-    typedef union {
-> +-	unsigned char space[sizeof(struct dirent) + MAXNAMELEN];
-> +-	struct dirent dir;
-> +-    } dirent_hack;
-> +-    dirent_hack entry, firstEntry;
-> +-
-> +-#define entry_dir entry.dir
-> +-#else
-> +-    struct dirent entry, firstEntry;
-> +-#define entry_dir entry
-> +-#endif
-> +-
-> +-    int i, error = -1;
-> ++    struct dirent *entry;
-> ++    char firstName[NAME_MAX + 1];
-> ++    const char *name = NULL;
-> ++    int i;
+> +No real function for mknod: /home/paul/poky_sdk/tmp/sysroots/x86_64-
+> +linux/usr/bin/../lib/pseudo/lib64/libpseudo.so: undefined symbol: mknod
+> +No real function for mknodat: /home/paul/poky_sdk/tmp/sysroots/x86_64-
+> +linux/usr/bin/../lib/pseudo/lib64/libpseudo.so: undefined symbol: mknodat
 > +
-> +     if (fd == NULL) {
-> + 	dir = PR_GetEnvSecure("HOME");
-> +@@ -1085,33 +1075,34 @@
-> + 	return 1;
-> +     }
+> +In glibc 2.24 they've merged:
 > +
-> ++    firstName[0] = '\0';
-> +     for (i=0; i <= fileToRead; i++) {
-> +-	struct dirent *result = NULL;
-> + 	do {
-> +-	    error = readdir_r(fd, &entry_dir, &result);
-> +-	} while (error == 0 && result != NULL  &&
-> +-					!ReadFileOK(dir,&result->d_name[0]));
-> +-	if (error != 0 || result == NULL)  {
-> ++            /* readdir() isn't guaranteed to be thread safe on every platform;
-> ++             * this code assumes the same directory isn't read concurrently.
-> ++             * This usage is confirmed safe on Linux, see bug 1254334. */
-> ++	    entry = readdir(fd);
-> ++	} while (entry != NULL && !ReadFileOK(dir, &entry->d_name[0]));
-> ++	if (entry == NULL)  {
-> + 	    resetCount = 1; /* read to the end, start again at the beginning */
-> +-	    if (i != 0) {
-> ++	    if (firstName[0]) {
-> + 		/* ran out of entries in the directory, use the first one */
-> +-	 	entry = firstEntry;
-> +-	 	error = 0;
-> +-	 	break;
-> ++	 	name = firstName;
-> + 	    }
-> +-	    /* if i== 0, there were no readable entries in the directory */
-> + 	    break;
+> +https://sourceware.org/git/?p=glibc.git;a=commit;h=7d45c163d00c88d5875a112343c4ea3e61349e6b
+> +related to bugzilla entry:
+> +https://sourceware.org/bugzilla/show_bug.cgi?id=19509
+> +
+> +which means that the behaviour of RTLD_NEXT is slightly different.
+> +As far as I can tell, mknod has not been present in glibc for a while.
+> +To quote stat.h:
+> +
+> +/* To allow the `struct stat' structure and the file type `mode_t'
+> +   bits to vary without changing shared library major version number,
+> +   the `stat' family of functions and `mknod' are in fact inline
+> +   wrappers around calls to `xstat', `fxstat', `lxstat', and `xmknod',
+> +   which all take a leading version-number argument designating the
+> +   data structure and bits used.  <bits/stat.h> defines _STAT_VER with
+> +   the version number corresponding to `struct stat' as defined in
+> +   that file; and _MKNOD_VER with the version number corresponding to
+> +   the S_IF* macros defined therein.  It is arranged that when not
+> +   inlined these function are always statically linked; that way a
+> +   dynamically-linked executable always encodes the version number
+> +   corresponding to the data structures it uses, so the `x' functions
+> +   in the shared library can adapt without needing to recompile all
+> +   callers.  */
+> +
+> +so I suspect mknod has not existed for a while, if ever and what we
+> +were finding, who knows. Everying in the system links against _xmknod
+> +which we have a separate wrapper for.
+> +
+> +Anyhow, ignoring that problem which hasn't caused a issue in the past,
+> +the RTLD_NEXT change causes messages to be printed to stdout which causes
+> +carnage if for example the packaging code is expecting a list of packages:
+> +
+> +WARNING: core-image-minimal-1.0-r0 do_rootfs: No not found in the base feeds (qemux86_64 core2-64 x86_64 noarch any all).
+> +WARNING: core-image-minimal-1.0-r0 do_rootfs: real not found in the base feeds (qemux86_64 core2-64 x86_64 noarch any all).
+> +WARNING: core-image-minimal-1.0-r0 do_rootfs: function not found in the base feeds (qemux86_64 core2-64 x86_64 noarch any all).
+> +WARNING: core-image-minimal-1.0-r0 do_rootfs: for not found in the base feeds (qemux86_64 core2-64 x86_64 noarch any all).
+> +WARNING: core-image-minimal-1.0-r0 do_rootfs: mknod: not found in the base feeds (qemux86_64 core2-64 x86_64 noarch any all).
+> +[etc]
+> +
+> +This bug will affect:
+> +* any distro using glibc 2.24
+> +* any system using a uninative tarball for glibc 2.24
+> +* any system which took a backport for the fix which was merged into
+> +  the 2.23 branch for a while before it was reverted (Fedora 23 had this)
+> +
+> +The easiest thing to do is to ignore the problem and disable the diag
+> +message which masks the problem with no ill effects.
+> +
+> +As Peter notes, there are a few issues here:
+> +
+> +* the fact there is no mknod symbol
+> +* the fact an error here isn't fatal
+> +* the #ifdef/#else looks suspect
+> +* handle RTLD_NEXT chaining properly (need more libs?)
+> +
+> +which he'll work on upstream and hopefully have fixed in a new version.
+> +
+> +Upstream-Status: Submitted [Peter is aware of the issue]
+> +
+> +RP 2016/5/18
+> +
+> +Index: pseudo-1.7.5/pseudo_wrappers.c
+> +===================================================================
+> +--- pseudo-1.7.5.orig/pseudo_wrappers.c
+> ++++ pseudo-1.7.5/pseudo_wrappers.c
+> +@@ -146,9 +146,9 @@ pseudo_init_one_wrapper(pseudo_function
+> + 			return;
+> + 		}
+> + #else
+> +-		if (e != NULL) {
+> ++		/*if (e != NULL) {
+> + 			pseudo_diag("No real function for %s: %s\n", func->name, e);
+> +-		}
+> ++		}*/
+> + #endif
 > + 	}
-> +-	if (i==0) {
-> +-	    /* save the first entry in case we run out of entries */
-> +-	    firstEntry = entry;
-> ++        name = entry->d_name;
-> ++	if (i == 0) {
-> ++	    /* copy the name of the first in case we run out of entries */
-> ++            PORT_Assert(PORT_Strlen(name) <= NAME_MAX);
-> ++            PORT_Strncpy(firstName, name, NAME_MAX);
-> ++            firstName[NAME_MAX] = '\0';
-> + 	}
-> +     }
-> +
-> +-    if (error == 0) {
-> ++    if (name) {
-> + 	char filename[PATH_MAX];
-> +-	int count = snprintf(filename, sizeof filename,
-> +-				"%s/%s",dir, &entry_dir.d_name[0]);
-> ++	int count = snprintf(filename, sizeof(filename), "%s/%s",dir, name);
-> + 	if (count >= 1) {
-> + 	    ReadSingleFile(filename);
-> + 	}
-> diff --git a/meta/recipes-support/nss/nss_3.21.bb b/meta/recipes-support/nss/nss_3.21.bb
-> index 05d81c2..39b0994 100644
-> --- a/meta/recipes-support/nss/nss_3.21.bb
-> +++ b/meta/recipes-support/nss/nss_3.21.bb
-> @@ -21,6 +21,7 @@ SRC_URI = "\
->       file://nss-fix-incorrect-shebang-of-perl.patch \
->       file://nss-fix-nsinstall-build.patch \
->       file://0001-Fix-build-failure-on-opensuse-13.1.patch \
-> +    file://use-readdir-instead-of-readdir_r.patch \
->       file://nss-gcc6-fix.patch \
->       file://nss.pc.in \
->       file://signlibs.sh \
+> + }
+> diff --git a/meta/recipes-devtools/pseudo/pseudo_1.7.5.bb b/meta/recipes-devtools/pseudo/pseudo_1.7.5.bb
+> index d90e644..38e6f4d 100644
+> --- a/meta/recipes-devtools/pseudo/pseudo_1.7.5.bb
+> +++ b/meta/recipes-devtools/pseudo/pseudo_1.7.5.bb
+> @@ -7,6 +7,7 @@ SRC_URI = " \
+>       file://fallback-group \
+>       file://moreretries.patch \
+>       file://handle-remove-xattr.patch \
+> +    file://pseudo-glibc-rtld-next-workaround.patch \
+>   "
+>   
+>   SRC_URI[md5sum] = "c10209938f03128d0c193f041ff3596d"
 
 
