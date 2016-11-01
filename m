@@ -1,29 +1,30 @@
-Return-Path: <rpjday@crashcourse.ca>
-Received: from smtp685.redcondor.net (smtp685.redcondor.net [208.80.206.85])
-	by mail.openembedded.org (Postfix) with ESMTP id 2CBAA71AC0
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 7A8BC60111
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  1 Nov 2016 10:06:26 +0000 (UTC)
-Received: from astoria.ccjclearline.com ([64.235.106.9])
-	by smtp685.redcondor.net ({20c8e40f-6b6c-4c9e-abff-1640ea7bf404})
-	via TCP (outbound) with ESMTPS id 20161101100626242_0685
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 01 Nov 2016 03:06:26 -0700
-X-RC-FROM: <rpjday@crashcourse.ca>
-X-RC-RCPT: <openembedded-core@lists.openembedded.org>
-Received: from [216.191.234.70] (port=15375 helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
-	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
-	id 1c1Vwv-00012T-Ug for openembedded-core@lists.openembedded.org;
-	Tue, 01 Nov 2016 06:05:46 -0400
-Date: Tue, 1 Nov 2016 06:04:44 -0400 (EDT)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@ca624034.mitel.com
-To: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Message-ID: <alpine.LFD.2.20.1611010545380.25706@ca624034.mitel.com>
-User-Agent: Alpine 2.20 (LFD 67 2015-01-07)
-MIME-Version: 1.0
-X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
-Subject: some pedantic questions about layer.conf "best practices"
+	Tue,  1 Nov 2016 10:09:39 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	uA1A9eit008128; Tue, 1 Nov 2016 10:09:40 GMT
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id atv6MN3M1WHQ; Tue,  1 Nov 2016 10:09:40 +0000 (GMT)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	uA1A9cW5008124
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Tue, 1 Nov 2016 10:09:39 GMT
+Message-ID: <1477994978.23123.46.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Robert Yang <liezhi.yang@windriver.com>,
+	openembedded-core@lists.openembedded.org
+Date: Tue, 01 Nov 2016 10:09:38 +0000
+In-Reply-To: <bc402b553331b622af35b7fea7d30d82c7f2f686.1477928374.git.liezhi.yang@windriver.com>
+References: <cover.1477928374.git.liezhi.yang@windriver.com>
+	<bc402b553331b622af35b7fea7d30d82c7f2f686.1477928374.git.liezhi.yang@windriver.com>
+X-Mailer: Evolution 3.18.5.2-0ubuntu3 
+Mime-Version: 1.0
+Subject: Re: [PATCH 1/1] oe/copy_buildsystem.py: dereference symlink
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,60 +37,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 01 Nov 2016 10:06:28 -0000
-Content-Type: text/plain; charset=US-ASCII
+X-List-Received-Date: Tue, 01 Nov 2016 10:09:40 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
+On Mon, 2016-10-31 at 08:48 -0700, Robert Yang wrote:
+> When there is a relative symlink in the layer, for example:
+> symA -> ../out/of/layer/file
+> 
+> symA will be invalid fater copied, it would be invalid from build
+> time
+> if it points to a relative path, and would be invalid after extracted
+> the sdk if it points to a absolute py. Dereference symlink when copy
+> will fix the problem.
+> 
+> Use tar rather than shutil.copytree() to copy is because:
+> 1) shutil.copytree(symlinks=Fasle) has bugs when dereference
+> symlinks:
+>    https://bugs.python.org/issue21697
+>    And Ubunutu 1404 doesn't upgrade python3 to fix the problem.
+> 
+> 2) shutil.copytree(symlinks=False) raises errors when there is a
+> invalid
+>    symlink, and tar just prints a warning, tar is preferred here
+> since
+>    the real world is unpredicatable
+> 
+> 3) tar is faster than shutil.copytree() as said by oe.path.copytree()
 
-  updating a tutorial about writing a proper layer.conf file, so some
-nitpicky questions about recommended style.
+Could we just use oe.path.copytree() here?
 
-  first, when appending to BBFILES, is it recommended to explicitly
-use separate wildcard patterns of "*.bb" and "*.bbappend", or just get
-lazy and use "*.bb*"? i realize that, in the end, it makes no
-effective difference; i just happen to prefer the more explicit
-pattern; just wondering if anyone has any preferences on this either
-way. (i did say "nitpicky.")
+Cheers,
 
-  next, what is best practice for naming a layer, since standards seem
-to differ. if i create a layer named "meta-rday", i've seen standards
-where the layer is "named" with one of:
-
-  BBFILE_COLLECTIONS += "rday"
-  BBFILE_COLLECTIONS += "meta-rday"
-  BBFILE_COLLECTIONS += "rday-layer"
-
-amusingly, some freescale layers bounce around:
-
-  BBFILE_COLLECTIONS += "freescale-layer"
-  BBFILE_COLLECTIONS += "fsl-arm"
-  BBFILE_COLLECTIONS += "fsl-ppc"
-
-even the meta-openembedded (sub)layers don't have a consistent style;
-some examples, which show all three styles:
-
-  meta-filesystems/conf/layer.conf:BBFILE_COLLECTIONS += "filesystems-layer"
-  meta-initramfs/conf/layer.conf:BBFILE_COLLECTIONS += "meta-initramfs"
-  meta-webserver/conf/layer.conf:BBFILE_COLLECTIONS += "webserver"
-
-is there an encouraged style?
-
-  finally, is it necessary to have LAYERDEPENDS include "core"? isn't
-that automatic? how could you possibly have a viable build system
-without the oe-core layer (unless this gives you the freedom to
-replace it with a custom one, which i don't see the value of).
-
-  i think that's it for now ... thoughts?
-
-rday
-
--- 
-
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
-
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
-
+Richard
 
