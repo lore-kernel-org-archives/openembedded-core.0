@@ -1,27 +1,53 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-	by mail.openembedded.org (Postfix) with ESMTP id C6E99719C5
+Return-Path: <lnowak.tyco@gmail.com>
+Received: from mail-lf0-f51.google.com (mail-lf0-f51.google.com
+	[209.85.215.51])
+	by mail.openembedded.org (Postfix) with ESMTP id 4C64660079
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  1 Nov 2016 12:46:59 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga105.fm.intel.com with ESMTP; 01 Nov 2016 05:47:01 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.31,579,1473145200"; d="scan'208";a="1078954755"
-Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
-	([10.237.68.161])
-	by fmsmga002.fm.intel.com with ESMTP; 01 Nov 2016 05:47:00 -0700
-To: Andreas Oberritter <obi@opendreambox.org>
-References: <20161031132336.16626-1-alexander.kanavin@linux.intel.com>
-	<2de2e824-4b57-1adf-5053-6f9fcd518b8d@opendreambox.org>
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <ed46ccb7-6c9f-93d2-b3f4-7d6523368349@linux.intel.com>
-Date: Tue, 1 Nov 2016 14:44:33 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Icedove/45.4.0
+	Tue,  1 Nov 2016 12:53:53 +0000 (UTC)
+Received: by mail-lf0-f51.google.com with SMTP id b81so125219023lfe.1
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 01 Nov 2016 05:53:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=subject:to:references:cc:from:message-id:date:user-agent
+	:mime-version:in-reply-to:content-transfer-encoding;
+	bh=QtwxdHpLXU54dy6mfcHwsaJsi2kE4OpN0dEdqQK7PsM=;
+	b=tuzGc5UUHRXGcTR3Upt2Q6/EmAKV4Geq0wypn39W1r4G7znHWskjfC8XYSFE6Bql5k
+	HCQt7zbyQzpBAA8rtbcdU3/jiHaQRUpPnrwd3FJyanuoR2IVPWUVnKwPrR6WlQyk4vaM
+	GwklnppgUJWbjaJ5LIW+3VxdtikagBQmFXa6XH20b1byTSkBIuoprvHoAikc7MEK7BhP
+	dLsdF4073Lg5iQum58pzLzgPnT3h9ZyUyLxnQv8P1/phHonCWnICHDN6dw/kTfdjluct
+	PVT52sF3DdqzRiuf5mNFpy1k9IGuDATzAOFdzOet95MQAzIPTFIXt/K+zE83ghnj4xdw
+	QhPQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:subject:to:references:cc:from:message-id:date
+	:user-agent:mime-version:in-reply-to:content-transfer-encoding;
+	bh=QtwxdHpLXU54dy6mfcHwsaJsi2kE4OpN0dEdqQK7PsM=;
+	b=B9uJx2VFaR0NrMyPQH4tZYKiQ8uArxD2vaVXYfxpKIP8pjhB3v9eT4jbn3Cw9a5zSK
+	q4fN3rHXGtvXJuG3IN0yMaPHStgRO9I3PQHsuCfnfaemOleWhhhcz0fSlTdPDVAbIUe+
+	qovBCUrvNmVqFlolMXSVbsLqAS/SeMtmr3Pwj3l0vc0OHajfzsQXWt8NDDpWwGDkRBZy
+	XORS4QB0XFh7QL0YOPsZ4CE/ArpSRvP5zfQGIgLk++6GS17VBB1YX2NVaBFJWs8Dv8sP
+	Mbb6cU3QhcIygcs/dcN4ciSeF4rQMi/7UXq9HSVwGEjiXYwFVaU7Etp5TAl3V4SdOPGt
+	IF0g==
+X-Gm-Message-State: ABUngvf9/em7wRnAuuWaWJ1cpaPNRS3HsOwob4QRLTOG6CqsltTYJZsuXgSwF8+LKgCC3w==
+X-Received: by 10.25.166.8 with SMTP id p8mr101211lfe.47.1478004833987;
+	Tue, 01 Nov 2016 05:53:53 -0700 (PDT)
+Received: from [10.20.30.24] (159-205-99-3.adsl.inetia.pl. [159.205.99.3])
+	by smtp.gmail.com with ESMTPSA id
+	127sm3182280ljf.27.2016.11.01.05.53.53
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 01 Nov 2016 05:53:53 -0700 (PDT)
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <c64cf308-d847-eac0-a2f7-bc8e686c2262@gmail.com>
+	<CAJTo0LbR6gQYppuR6EPo30xnADd7-mfG6wg3Nf_r7a2-xgHgrw@mail.gmail.com>
+From: Lukasz Nowak <lnowak.tyco@gmail.com>
+Message-ID: <a7611154-80b8-3a80-131a-9200ba4ccb34@gmail.com>
+Date: Tue, 1 Nov 2016 13:53:44 +0100
+User-Agent: Mozilla/5.0 (X11; Linux i686; rv:45.0) Gecko/20100101
+	Thunderbird/45.4.0
 MIME-Version: 1.0
-In-Reply-To: <2de2e824-4b57-1adf-5053-6f9fcd518b8d@opendreambox.org>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] boost: fix the SRC_URI to point to an actual release, and not a master snapshot
+In-Reply-To: <CAJTo0LbR6gQYppuR6EPo30xnADd7-mfG6wg3Nf_r7a2-xgHgrw@mail.gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] connman: fix bad file descriptor initialisation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,28 +60,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 01 Nov 2016 12:46:59 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
+X-List-Received-Date: Tue, 01 Nov 2016 12:53:54 -0000
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
 
-On 10/31/2016 10:44 PM, Andreas Oberritter wrote:
+Hi Ross,
 
->> -SRC_URI = "${SOURCEFORGE_MIRROR}/boost/${BOOST_P}.tar.bz2"
->> +SRC_URI = "${SOURCEFORGE_MIRROR}/project/boost/boost/${PV}/${BOOST_P}.tar.bz2"
->>
->> -SRC_URI[md5sum] = "7ef085456c48c49a7fe8237f07e5f674"
->> -SRC_URI[sha256sum] = "bce80293052e2d6230f1bec9b7524b33412e4fb26e9723460a0f362ac15b7acb"
->> +SRC_URI[md5sum] = "5fb94629535c19e48703bdb2b2e9490f"
->> +SRC_URI[sha256sum] = "36c96b0f6155c98404091d8ceb48319a28279ca0333fba1ad8611eb90afb2ca0"
->> +
->> +PR = "r1"
->
-> doesn't the changed SRC_URI (or even the modified checksums alone)
-> render the PR bump unnecessary?
+It is a re-send. Apologies, but I have not received either of my two e-mails back from the mailing list, so I assumed the first one got stuck somewhere. I can see both of them in the web archive, though. Is that normal?
 
-Frankly I'm not sure, but I thought bumping PR ensures that anyone using 
-package feeds will get an updated package.
+I've just checked and I have the "Receive your own posts to the list?" option set to Yes.
 
-Alex
+Lukasz
 
+
+On 01.11.2016 12:46, Burton, Ross wrote:
+> On 1 November 2016 at 08:50, Lukasz Nowak <lnowak.tyco@gmail.com <mailto:lnowak.tyco@gmail.com>> wrote:
+> 
+>     From: Lukasz Nowak <lnowak@tycoint.com <mailto:lnowak@tycoint.com>>
+> 
+>     Import a patch from upstream, which fixes a connman daemon freeze
+>     under certain conditions (multiple active interfaces, no r/w storage).
+> 
+>     Signed-off-by: Lukasz Nowak <lnowak@tycoint.com <mailto:lnowak@tycoint.com>>
+>     ---
+> 
+> 
+> Is this a resent of your earlier patch, or a v2?
+> 
+> Ross
 
