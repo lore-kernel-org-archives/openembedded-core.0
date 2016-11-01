@@ -1,31 +1,24 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id C106D71BBC
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id C054A65C5B
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  1 Nov 2016 12:43:12 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by orsmga103.jf.intel.com with ESMTP; 01 Nov 2016 05:43:14 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.31,579,1473145200"; d="scan'208";a="1078953612"
-Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
-	([10.237.68.161])
-	by fmsmga002.fm.intel.com with ESMTP; 01 Nov 2016 05:43:12 -0700
-To: Khem Raj <raj.khem@gmail.com>
-References: <20161029194615.19954-1-raj.khem@gmail.com>
-	<CAMKF1sriW41+1MTxTuBHQAbeR+b0LM65fkuUDRL-HapKSLze0A@mail.gmail.com>
-	<1552039.tK8Y5jYAKD@peggleto-mobl.ger.corp.intel.com>
-	<2141657.IdrglOmXLR@peggleto-mobl.ger.corp.intel.com>
-	<6a58f235-b235-f25c-b068-fe0c84cf4915@linux.intel.com>
-	<C35FC1E0-3663-4060-9E1C-A286B7A92512@gmail.com>
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <4187af59-ca62-773d-d814-44dd31cbde88@linux.intel.com>
-Date: Tue, 1 Nov 2016 14:40:45 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Icedove/45.4.0
+	Tue,  1 Nov 2016 12:44:45 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id uA1Ciln4001570
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 1 Nov 2016 05:44:47 -0700 (PDT)
+Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.294.0;
+	Tue, 1 Nov 2016 05:44:46 -0700
+From: Robert Yang <liezhi.yang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 1 Nov 2016 05:44:45 -0700
+Message-ID: <cover.1478004257.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 2.9.0
 MIME-Version: 1.0
-In-Reply-To: <C35FC1E0-3663-4060-9E1C-A286B7A92512@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] boost: Fix SRC_URI checksums
+Subject: [PATCH 0/1] insane.bbclass:buildpaths: open() file with 'rb'
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,25 +31,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 01 Nov 2016 12:43:12 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 01 Nov 2016 12:44:47 -0000
+Content-Type: text/plain
 
-On 10/31/2016 06:22 PM, Khem Raj wrote:
+The following changes since commit 98c6ebf1e05158c689e01b785d32757847cdb10c:
 
->> Sourceforge is doing too-clever redirecting that fails miserably here:
->>
->> Proxy request sent, awaiting response... 301 Moved Permanently
->> Location: http://downloads.sourceforge.net/project/boost/boost/snapshots/master/boost_1_62_0.tar.bz2 [following]
->>
->> So we've been fetching a moving master snapshot all along. Patch is coming shortly.
->
-> we should specify boost/boost/1.62.0/boost_1_62_0.tar.bz2 instead of boost/boost/boost_1_62_0.tar.bz2
+  oeqa/selftest/kernel.py: Add new file destined for kernel related tests (2016-11-01 10:05:40 +0000)
 
-Incorrect. That will still download a master snapshot tarball. Only if 
-the 'project/' is prefixed, SF will give you the release tarball.
+are available in the git repository at:
 
+  git://git.openembedded.org/openembedded-core-contrib rbt/bp
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/bp
 
-Alex
+Robert Yang (1):
+  insane.bbclass:buildpaths: open() file with 'rb'
+
+ meta/classes/insane.bbclass | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+-- 
+2.9.0
 
 
