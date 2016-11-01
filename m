@@ -1,30 +1,58 @@
-Return-Path: <rpjday@crashcourse.ca>
-Received: from smtp484.redcondor.net (smtp484.redcondor.net [208.80.204.84])
-	by mail.openembedded.org (Postfix) with ESMTP id 517A965CC7
+Return-Path: <enrico.scholz@sigma-chemnitz.de>
+Received: from mail.cvg.de (mail.cvg.de [62.153.82.30])
+	by mail.openembedded.org (Postfix) with ESMTP id 3F82171B0A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  1 Nov 2016 11:05:36 +0000 (UTC)
-Received: from astoria.ccjclearline.com ([64.235.106.9])
-	by smtp484.redcondor.net ({c48374e7-08df-40d9-a0de-96cc9883a037})
-	via TCP (outbound) with ESMTPS id 20161101110537119_0484;
-	Tue, 01 Nov 2016 11:05:37 +0000
-X-RC-FROM: <rpjday@crashcourse.ca>
-Received: from [216.191.234.70] (port=56415 helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
-	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
-	id 1c1Wsk-0006qO-K3; Tue, 01 Nov 2016 07:05:30 -0400
-Date: Tue, 1 Nov 2016 07:04:29 -0400 (EDT)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@ca624034.mitel.com
-To: Gary Thomas <gary@mlbassoc.com>
-In-Reply-To: <df783f19-0a54-efd5-fa17-a25da1c4bcef@mlbassoc.com>
-Message-ID: <alpine.LFD.2.20.1611010704040.25631@ca624034.mitel.com>
-References: <alpine.LFD.2.20.1611010545380.25706@ca624034.mitel.com>
-	<df783f19-0a54-efd5-fa17-a25da1c4bcef@mlbassoc.com>
-User-Agent: Alpine 2.20 (LFD 67 2015-01-07)
+	Tue,  1 Nov 2016 11:35:24 +0000 (UTC)
+Received: from mail-mta-0.intern.sigma-chemnitz.de
+	(mail-mta-0.intern.sigma-chemnitz.de [192.168.12.76])
+	by mailout-1.intern.sigma-chemnitz.de (8.14.7/8.14.7) with ESMTP id
+	uA1BZL9X015688
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256
+	verify=OK) for <openembedded-core@lists.openembedded.org>;
+	Tue, 1 Nov 2016 12:35:22 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sigma-chemnitz.de;
+	s=v2012061000; t=1478000123;
+	bh=/8RA4HvJ4V3qsCAUs6RhYYYSEMBlYGm+R7FE5AxTiDM=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type:Sender;
+	b=KwYC4PUdhs5SydJ2FGXD7LtD+UukfcgyzNCGOEUStreedFfNyW9PBVTzyfiD+iMLl
+	uzihVQRvDBzi3xrqfiKT9z/Gi4A+apHE0zKaNmcGIpqwxyoo50W9LDmVDTQC8vTydw
+	dWelzAIs3COj+CobSOhAcSFp3aP1at/2a1803mz8=
+Received: from reddoxx.intern.sigma-chemnitz.de
+	(reddoxx.intern.sigma-chemnitz.de [192.168.0.193])
+	by mail-mta-0.intern.sigma-chemnitz.de (8.14.7/8.14.7) with ESMTP id
+	uA1BZDCl009572 for <openembedded-core@lists.openembedded.org> from
+	enrico.scholz@sigma-chemnitz.de; Tue, 1 Nov 2016 12:35:14 +0100
+Received: from mail-msa-0.intern.sigma-chemnitz.de ( [192.168.12.77]) by
+	reddoxx.intern.sigma-chemnitz.de
+	(Reddoxx engine) with SMTP id 412090C7E9; Tue, 1 Nov 2016 12:22:13 +0100
+Received: from ensc-virt.intern.sigma-chemnitz.de
+	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
+	by mail-msa-0.intern.sigma-chemnitz.de (8.14.7/8.14.7) with ESMTP id
+	uA1BZBHQ009569
+	(version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org> from
+	ensc@sigma-chemnitz.de; Tue, 1 Nov 2016 12:35:11 +0100
+Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
+	4.86_2) (envelope-from <ensc@sigma-chemnitz.de>) id 1c1XLT-0007Zr-E8
+	for openembedded-core@lists.openembedded.org;
+	Tue, 01 Nov 2016 12:35:11 +0100
+From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+To: openembedded-core@lists.openembedded.org
+Mail-Followup-To: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+Date: Tue, 01 Nov 2016 12:35:11 +0100
+Message-ID: <lywpgnv3f4.fsf@ensc-virt.intern.sigma-chemnitz.de>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/25.1 (gnu/linux)
 MIME-Version: 1.0
-X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: some pedantic questions about layer.conf "best practices"
+Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+X-DSPAM-Result: Innocent
+X-DSPAM-Probability: 0
+X-DSPAM-Confidence: 0.99
+X-Spam-Score: -6.3
+X-Spam-Level: ------
+X-Spam-Tests: AWL, BAYES_00, DKIM_ADSP_ALL, RP_MATCHES_RCVD, SPF_NEUTRAL,
+	DSPAM_INNOCENT
+X-Scanned-By: MIMEDefang 2.78
+Subject: Sanity check fails with 'ccache'
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,38 +65,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 01 Nov 2016 11:05:37 -0000
-Content-Type: text/plain; charset=US-ASCII
+X-List-Received-Date: Tue, 01 Nov 2016 11:35:27 -0000
+Content-Type: text/plain
 
-On Tue, 1 Nov 2016, Gary Thomas wrote:
+Hi,
 
-> On 2016-11-01 11:04, Robert P. J. Day wrote:
-> >
-> >   updating a tutorial about writing a proper layer.conf file, so some
-> > nitpicky questions about recommended style.
-> >
-> >   first, when appending to BBFILES, is it recommended to explicitly
-> > use separate wildcard patterns of "*.bb" and "*.bbappend", or just get
-> > lazy and use "*.bb*"? i realize that, in the end, it makes no
-> > effective difference; i just happen to prefer the more explicit
-> > pattern; just wondering if anyone has any preferences on this either
-> > way. (i did say "nitpicky.")
->
-> "*.bb*" also matches "*.bb~" and "*.bbappend~" (I use emacs which makes
-> these backup files) that could be WAY confusing...
+with 'morty', sanity check fails with
 
-  ah, of course, good point.
+|    Please install the following missing utilities: C Compiler (ccache gcc ),C++ Compiler (ccache g++ )
 
-rday
+I think, parts of 89f55bf8e9d633cfb508a0885a462afb561c7cee should be
+reverted.
 
--- 
 
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
 
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
-
+Enrico
 
