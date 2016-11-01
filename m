@@ -1,54 +1,52 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f196.google.com (mail-pf0-f196.google.com
-	[209.85.192.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 14D2960111
+Return-Path: <kergoth@gmail.com>
+Received: from mail-oi0-f68.google.com (mail-oi0-f68.google.com
+	[209.85.218.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 6286660722
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 31 Oct 2016 22:34:21 +0000 (UTC)
-Received: by mail-pf0-f196.google.com with SMTP id a136so6403172pfa.0
+	Tue,  1 Nov 2016 00:53:19 +0000 (UTC)
+Received: by mail-oi0-f68.google.com with SMTP id 128so6709712oih.3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 31 Oct 2016 15:34:23 -0700 (PDT)
+	Mon, 31 Oct 2016 17:53:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=subject:mime-version:from:in-reply-to:date:cc:message-id:references
-	:to; bh=0UlgVmz8D77cNmpkGqz0Q3BnG2/0X1BmPxWIO5+7qX8=;
-	b=CuS6Ysx2xQhxbme/cy68jC/sk9CE+elWVcE6IvyB+d0BrVlV9+FM+yY5s2U7RMdJOg
-	jKQFp2Du8VqBkXxTSZorHauouXSzeJoEeWhhPoxDN5aphJiWwqm46BIl7zLH4YDAI/bQ
-	KUalfp2jk4PyUOTn6m6k5VMkXotl/vZfQQhFrrv7s1HsjBbdnubClJGRNaomi7Hb5XJC
-	LkyvFMf1yd38LQpbKsVPp+jEruKEeLTl9j00GP6AqbPNCzhaEAurvDZ1eA/QNur8LayA
-	TgtMD7N2jGWRWy/B2z837qaA86RjAn1OW/UpuRiGdsMD8j6nWyq0TYUdp2q/PufoLSBE
-	FKjA==
+	h=mime-version:sender:in-reply-to:references:from:date:message-id
+	:subject:to:cc;
+	bh=uZP5NKR74s6D01Kvb2GBfGrci/PIdET/Am7QHBaNshU=;
+	b=dRqX+UjcxGkpQD4H8/x92AyewlSuxp8gBB79nFIBJC+C7KtkYFIaGnXz132qruajpe
+	f8T9TZAc4c5CqfzGFA6o2OIARyZ1kzVKnqMUK1fCOmcl5xgeabFuM3IBP7eYoHch3XxT
+	ExPv0XfRjniyyVvzP9IQnyN63vdl8s6sMNQp4BKiR+TSpZCEy3PH5gmbZPxRe3b+lc0o
+	zVKiHp3uM6HNnoFUOtm8qbtKhIBj756Dr4FcSHpxhdR0JhPpJxIlCPPtpWmITICNkbC7
+	eDOUp6xofb2o0JfPnBInMUP/fknkCLLj5/+S3FfLabpWuA2CFHCO7fFSmVOqRfRlx8pH
+	49BQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:subject:mime-version:from:in-reply-to:date:cc
-	:message-id:references:to;
-	bh=0UlgVmz8D77cNmpkGqz0Q3BnG2/0X1BmPxWIO5+7qX8=;
-	b=PCffZjT4rw3C4vgbhlZ8YG+ooHOKwMynsMhr2xrQLLIpa5DxSpnMIjWbajEYGC+TUb
-	caO5cgtzytVhvYucDvZ3SFKFeVzfTFnSM6AZpTP8itV6IUjK/vHpUaTDQTnw00JtHYT4
-	o7KQVIyZfK7oNKfiTOBWw15lz1XQUif3XXYb8UDAcAkaxW4LdTLAZMekz2ztKte7/iiO
-	KLQsrkKULJM7DMx4srpI48F/gBnhHkcWi3+waBoYH0uQvMupcXbIHSwwTpXg7ua3Msph
-	lUVYZ1xGayKUEwq3BvowbPEFnitjwpvL+hnVdtdw8j0/Zf1PXyYuP1fWGd5Si8oVf+1Q
-	eHqA==
-X-Gm-Message-State: ABUngvdol5K3mtDmWelVn/pWUWE3xNa+OPqZgIH9awSB3Jk5G/TsSlkRlYVCBc3tV68GKg==
-X-Received: by 10.98.69.151 with SMTP id n23mr53128972pfi.60.1477953262762;
-	Mon, 31 Oct 2016 15:34:22 -0700 (PDT)
-Received: from ?IPv6:2601:646:8882:b8c:2cc8:a0e4:7c5b:437?
-	([2601:646:8882:b8c:2cc8:a0e4:7c5b:437])
-	by smtp.gmail.com with ESMTPSA id
-	xn11sm37780406pac.38.2016.10.31.15.34.21
-	(version=TLS1 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 31 Oct 2016 15:34:22 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 9.3 \(3124\))
-X-Pgp-Agent: GPGMail
-From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <2111229.GbldrazETl@peggleto-mobl.ger.corp.intel.com>
-Date: Mon, 31 Oct 2016 15:34:16 -0700
-Message-Id: <1A7D1C00-1B1C-40CF-8240-9BC100D0EA8A@gmail.com>
+	h=x-gm-message-state:mime-version:sender:in-reply-to:references:from
+	:date:message-id:subject:to:cc;
+	bh=uZP5NKR74s6D01Kvb2GBfGrci/PIdET/Am7QHBaNshU=;
+	b=ZpYR8eYYPRE148PQnmZKYZ7TYkELv+fN22dJxflnFr3QenMJjbGRc8GIS4H0fq4wur
+	DDZutCuK752p6XtVVtj/XOI/w7H72fOZKx1nFDGOKAJOF7EHb16K0M1sY2x7M8LbeQCI
+	sV7J+IjRgmK9X78Z34+yjlOzkHvKSe+KkXwJoEl+QIodwXlTTyhKaf41DFbfyuxA2Y2y
+	Vz32Dx8ncd91SetOe8unD78x8JxNhB+E/HWzo+dybMuh+fEAM1enzrw31Wa1IncLBr1Y
+	Gj0DHig3xNNt15vWJXAGP1yLbRrEs0DtrCnVuzdVcQB2QD7ZCyc1E1bj+cdqJucDhbdz
+	hbAg==
+X-Gm-Message-State: ABUngvcOuvurZGDwTT8lnN+07lg16V8eFSqM07L5h5Htyp1VySpwF0vr277FQeigEijAIDGf+gOqLchdn7jlxQ==
+X-Received: by 10.157.58.35 with SMTP id j32mr21597440otc.166.1477961601439;
+	Mon, 31 Oct 2016 17:53:21 -0700 (PDT)
+MIME-Version: 1.0
+Sender: kergoth@gmail.com
+Received: by 10.157.13.194 with HTTP; Mon, 31 Oct 2016 17:53:01 -0700 (PDT)
+In-Reply-To: <1A7D1C00-1B1C-40CF-8240-9BC100D0EA8A@gmail.com>
 References: <cover.1477886344.git.paul.eggleton@linux.intel.com>
 	<e1af68e680f3fbf20d7b0a8c55802a9cdd3f404b.1477886344.git.paul.eggleton@linux.intel.com>
 	<CAMKF1soshS9nzHZ_OEQ9cJvZNRREnAKQKz6fXUzcJQGBD6nvHA@mail.gmail.com>
 	<2111229.GbldrazETl@peggleto-mobl.ger.corp.intel.com>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-X-Mailer: Apple Mail (2.3124)
-Cc: Patches and discussions about the oe-core layer
+	<1A7D1C00-1B1C-40CF-8240-9BC100D0EA8A@gmail.com>
+From: Christopher Larson <clarson@kergoth.com>
+Date: Mon, 31 Oct 2016 17:53:01 -0700
+X-Google-Sender-Auth: BLwyxKVCaLtv8ydH0T3XTB6nCEE
+Message-ID: <CABcZANkuOrrB7npS448CUokhGL5YkO+fdHpmK7QcKbFR+-NPCg@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 1/7] classes/license: fix handling of symlinks pointed to in LIC_FILES_CHKSUM
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -63,113 +61,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 31 Oct 2016 22:34:25 -0000
-X-Groupsio-MsgNum: 88821
-Content-Type: multipart/signed;
-	boundary="Apple-Mail=_F4CBDE7C-20FC-47F5-BFA6-875E463E5A4E";
-	protocol="application/pgp-signature"; micalg=pgp-sha1
+X-List-Received-Date: Tue, 01 Nov 2016 00:53:20 -0000
+Content-Type: multipart/alternative; boundary=001a114713ac3edd47054032c045
 
---Apple-Mail=_F4CBDE7C-20FC-47F5-BFA6-875E463E5A4E
+--001a114713ac3edd47054032c045
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=us-ascii
+
+On Mon, Oct 31, 2016 at 3:34 PM, Khem Raj <raj.khem@gmail.com> wrote:
+
+> > On Oct 31, 2016, at 12:41 PM, Paul Eggleton <
+> paul.eggleton@linux.intel.com> wrote:
+> >
+> > Hi Khem,
+> >
+> > Why wouldn't it be?
+>
+> Was thinking out loud if the path is expanded to absolute paths then
+> does it get recorded into task checksums  ?
 
 
-> On Oct 31, 2016, at 12:41 PM, Paul Eggleton =
-<paul.eggleton@linux.intel.com> wrote:
->=20
-> Hi Khem,
->=20
-> Why wouldn't it be?
+It=E2=80=99s resolved in the copy_license_files function, not at parse time=
+. Of
+course, any functions calling copy_license_files will change checksums due
+to the function itself changing, presumably.
+--=20
+Christopher Larson
+clarson at kergoth dot com
+Founder - BitBake, OpenEmbedded, OpenZaurus
+Maintainer - Tslib
+Senior Software Engineer, Mentor Graphics
 
-Was thinking out loud if the path is expanded to absolute paths then
-does it get recorded into task checksums  ?
+--001a114713ac3edd47054032c045
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
->=20
-> Cheers,
-> Paul
->=20
-> On Mon, 31 Oct 2016 12:23:04 Khem Raj wrote:
->> Is this sstate safe?
->>=20
->> On Oct 30, 2016 9:11 PM, "Paul Eggleton" =
-<paul.eggleton@linux.intel.com>
->>=20
->> wrote:
->>> If you set LIC_FILES_CHKSUM to point to a relative symlink then =
-you'll
->>> get "Could not copy license file" warnings in copy_license_files() =
-since
->>> the symlink won't be valid after it's copied. If the source is a =
-symlink
->>> then we need to dereference it first.
->>>=20
->>> I encountered this when I used recipetool on the sources for =
-capnproto,
->>> where the c++ directory contains a LICENSE.txt symlink to the =
-LICENSE
->>> file in the parent directory, and this symlink ends up being pointed =
-to
->>> in LIC_FILES_CHKSUM.
->>>=20
->>> Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
->>> ---
->>>=20
->>> meta/classes/license.bbclass | 2 ++
->>> 1 file changed, 2 insertions(+)
->>>=20
->>> diff --git a/meta/classes/license.bbclass =
-b/meta/classes/license.bbclass
->>> index da4fc3e..660b85f 100644
->>> --- a/meta/classes/license.bbclass
->>> +++ b/meta/classes/license.bbclass
->>>=20
->>> @@ -351,6 +351,8 @@ def copy_license_files(lic_files_paths, =
-destdir):
->>>             dst =3D os.path.join(destdir, basename)
->>>=20
->>>             if os.path.exists(dst):
->>>                 os.remove(dst)
->>>=20
->>> +            if os.path.islink(src):
->>> +                src =3D os.path.realpath(src)
->>>=20
->>>             canlink =3D os.access(src, os.W_OK) and =
-(os.stat(src).st_dev =3D=3D
->>>=20
->>> os.stat(destdir).st_dev)
->>>=20
->>>             if canlink:
->>>                 try:
->>> --
->>> 2.5.5
->>>=20
->>> --
->>> _______________________________________________
->>> Openembedded-core mailing list
->>> Openembedded-core@lists.openembedded.org
->>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->=20
-> --
->=20
-> Paul Eggleton
-> Intel Open Source Technology Centre
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On Mon, Oct 31, 2016 at 3:34 PM, Khem Raj <span dir=3D"ltr">&lt;<a href=3D"=
+mailto:raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt;</sp=
+an> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;=
+border-left:1px #ccc solid;padding-left:1ex"><span class=3D"">&gt; On Oct 3=
+1, 2016, at 12:41 PM, Paul Eggleton &lt;<a href=3D"mailto:paul.eggleton@lin=
+ux.intel.com">paul.eggleton@linux.intel.com</a><wbr>&gt; wrote:<br>
+&gt;<br>
+&gt; Hi Khem,<br>
+&gt;<br>
+&gt; Why wouldn&#39;t it be?<br>
+<br>
+</span>Was thinking out loud if the path is expanded to absolute paths then=
+<br>
+does it get recorded into task checksums=C2=A0 ?</blockquote></div><br>It=
+=E2=80=99s resolved in the copy_license_files function, not at parse time. =
+Of course, any functions calling copy_license_files will change checksums d=
+ue to the function itself changing, presumably.<br>-- <br><div class=3D"gma=
+il_signature" data-smartmail=3D"gmail_signature">Christopher Larson<br>clar=
+son at kergoth dot com<br>Founder - BitBake, OpenEmbedded, OpenZaurus<br>Ma=
+intainer - Tslib<br>Senior Software Engineer, Mentor Graphics</div>
+</div></div>
 
-
---Apple-Mail=_F4CBDE7C-20FC-47F5-BFA6-875E463E5A4E
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP using GPGMail
-
------BEGIN PGP SIGNATURE-----
-Comment: GPGTools - https://gpgtools.org
-
-iEYEARECAAYFAlgXxu0ACgkQuwUzVZGdMxSbfwCfUjJ4b0oCReOHJFbWoGRpuTo/
-W6UAn1FKip5I+Z9aAVzee5ViLIScn5Dq
-=SnNk
------END PGP SIGNATURE-----
-
---Apple-Mail=_F4CBDE7C-20FC-47F5-BFA6-875E463E5A4E--
+--001a114713ac3edd47054032c045--
