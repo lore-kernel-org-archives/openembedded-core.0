@@ -1,24 +1,24 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 7FE9A71BE5
+	by mail.openembedded.org (Postfix) with ESMTP id 8217A71A23
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  1 Nov 2016 15:27:55 +0000 (UTC)
+	Tue,  1 Nov 2016 15:27:56 +0000 (UTC)
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga101.fm.intel.com with ESMTP; 01 Nov 2016 08:27:57 -0700
+	by fmsmga101.fm.intel.com with ESMTP; 01 Nov 2016 08:27:58 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.31,580,1473145200"; d="scan'208";a="780876205"
+X-IronPort-AV: E=Sophos;i="5.31,580,1473145200"; d="scan'208";a="780876213"
 Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by FMSMGA003.fm.intel.com with ESMTP; 01 Nov 2016 08:27:57 -0700
+	by FMSMGA003.fm.intel.com with ESMTP; 01 Nov 2016 08:27:58 -0700
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  1 Nov 2016 17:25:14 +0200
-Message-Id: <6b15afe06a52c40d7314c1039e1f3a135b13ef32.1478013702.git.alexander.kanavin@linux.intel.com>
+Date: Tue,  1 Nov 2016 17:25:15 +0200
+Message-Id: <92f01e2216e1e9ad1d38222ca6977442bd4d6512.1478013702.git.alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.10.1
 In-Reply-To: <cover.1478013701.git.alexander.kanavin@linux.intel.com>
 References: <cover.1478013701.git.alexander.kanavin@linux.intel.com>
 In-Reply-To: <cover.1478013701.git.alexander.kanavin@linux.intel.com>
 References: <cover.1478013701.git.alexander.kanavin@linux.intel.com>
-Subject: [PATCH 07/13] epiphany: remove unnecessary libwnck3 dependency
+Subject: [PATCH 08/13] libwnck3: remove the recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,33 +31,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 01 Nov 2016 15:27:55 -0000
+X-List-Received-Date: Tue, 01 Nov 2016 15:27:56 -0000
 
-libwnck3 dependency was removed upstream
+Nothing requires it in oe-core now, so it will be re-added to meta-openembedded.
 
 Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- meta/recipes-gnome/epiphany/epiphany_3.22.1.bb | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+ meta/recipes-gnome/libwnck/libwnck3_3.20.1.bb | 19 -------------------
+ 1 file changed, 19 deletions(-)
+ delete mode 100644 meta/recipes-gnome/libwnck/libwnck3_3.20.1.bb
 
-diff --git a/meta/recipes-gnome/epiphany/epiphany_3.22.1.bb b/meta/recipes-gnome/epiphany/epiphany_3.22.1.bb
-index 57784ae..673eb95 100644
---- a/meta/recipes-gnome/epiphany/epiphany_3.22.1.bb
-+++ b/meta/recipes-gnome/epiphany/epiphany_3.22.1.bb
-@@ -2,12 +2,10 @@ SUMMARY = "WebKit based web browser for GNOME"
- LICENSE = "GPLv2+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe"
- 
--DEPENDS = "libsoup-2.4 webkitgtk gtk+3 iso-codes ca-certificates avahi libnotify gcr libwnck3 \
-+DEPENDS = "libsoup-2.4 webkitgtk gtk+3 iso-codes ca-certificates avahi libnotify gcr \
- 	   gsettings-desktop-schemas gnome-desktop3 libxml2-native intltool-native"
- 
- inherit gnomebase gsettings distro_features_check upstream-version-is-even
--# libwnck3 is x11 only
+diff --git a/meta/recipes-gnome/libwnck/libwnck3_3.20.1.bb b/meta/recipes-gnome/libwnck/libwnck3_3.20.1.bb
+deleted file mode 100644
+index fd4ef69..0000000
+--- a/meta/recipes-gnome/libwnck/libwnck3_3.20.1.bb
++++ /dev/null
+@@ -1,19 +0,0 @@
+-SUMMARY = "Window navigation construction toolkit"
+-LICENSE = "LGPLv2"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=5f30f0716dfdd0d91eb439ebec522ec2"
+-
+-BPN = "libwnck"
+-
+-SECTION = "x11/libs"
+-DEPENDS = "intltool-native gtk+3 gdk-pixbuf-native libxres"
+-
+-PACKAGECONFIG ??= "startup-notification"
+-PACKAGECONFIG[startup-notification] = "--enable-startup-notification,--disable-startup-notification,startup-notification"
+-
+-inherit gnomebase gobject-introspection gtk-doc
+-SRC_URI[archive.md5sum] = "487938d65d4bfae1f2501052b1bd7492"
+-SRC_URI[archive.sha256sum] = "1cb03716bc477058dfdf3ebfa4f534de3b13b1aa067fcd064d0b7813291cba72"
+-
+-inherit distro_features_check
+-# libxres means x11 only
 -REQUIRED_DISTRO_FEATURES = "x11"
- 
- SRC_URI += "file://0001-yelp.m4-drop-the-check-for-itstool.patch"
- SRC_URI[archive.md5sum] = "9b9b73601a32f5b11c02411952cec27a"
 -- 
 2.10.1
 
