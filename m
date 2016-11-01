@@ -1,24 +1,24 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 7577171A34
+	by mail.openembedded.org (Postfix) with ESMTP id 708A371A23
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  1 Nov 2016 15:27:51 +0000 (UTC)
+	Tue,  1 Nov 2016 15:27:52 +0000 (UTC)
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga101.fm.intel.com with ESMTP; 01 Nov 2016 08:27:53 -0700
+	by fmsmga101.fm.intel.com with ESMTP; 01 Nov 2016 08:27:54 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.31,580,1473145200"; d="scan'208";a="780876152"
+X-IronPort-AV: E=Sophos;i="5.31,580,1473145200"; d="scan'208";a="780876160"
 Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by FMSMGA003.fm.intel.com with ESMTP; 01 Nov 2016 08:27:52 -0700
+	by FMSMGA003.fm.intel.com with ESMTP; 01 Nov 2016 08:27:53 -0700
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  1 Nov 2016 17:25:10 +0200
-Message-Id: <348b956a0405e79fed0641af3ddf83b7f15f6d1d.1478013701.git.alexander.kanavin@linux.intel.com>
+Date: Tue,  1 Nov 2016 17:25:11 +0200
+Message-Id: <103bbeb25da3e3fa88a9414c28dbd89e408ec75d.1478013701.git.alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.10.1
 In-Reply-To: <cover.1478013701.git.alexander.kanavin@linux.intel.com>
 References: <cover.1478013701.git.alexander.kanavin@linux.intel.com>
 In-Reply-To: <cover.1478013701.git.alexander.kanavin@linux.intel.com>
 References: <cover.1478013701.git.alexander.kanavin@linux.intel.com>
-Subject: [PATCH 03/13] gnome-desktop3: fix dependencies
+Subject: [PATCH 04/13] nspr: update to 4.13.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,34 +31,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 01 Nov 2016 15:27:51 -0000
-
-libxrandr dependency has been removed upstream
-
-Udev dependecy has been added upstream:
-
-    commit b8cbfbe06475703f333367976eae9477f229891a
-
-    pnp-ids: Use udev's hwdb to query PNP IDs
+X-List-Received-Date: Tue, 01 Nov 2016 15:27:52 -0000
 
 Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- meta/recipes-gnome/gnome-desktop/gnome-desktop3_3.22.1.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-support/nspr/{nspr_4.13.bb => nspr_4.13.1.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-support/nspr/{nspr_4.13.bb => nspr_4.13.1.bb} (96%)
 
-diff --git a/meta/recipes-gnome/gnome-desktop/gnome-desktop3_3.22.1.bb b/meta/recipes-gnome/gnome-desktop/gnome-desktop3_3.22.1.bb
-index 867376e..59b1c4f 100644
---- a/meta/recipes-gnome/gnome-desktop/gnome-desktop3_3.22.1.bb
-+++ b/meta/recipes-gnome/gnome-desktop/gnome-desktop3_3.22.1.bb
-@@ -10,7 +10,7 @@ inherit gnome pkgconfig upstream-version-is-even gobject-introspection
- SRC_URI[archive.md5sum] = "bc09d58d7870d6464f20803850cdb90f"
- SRC_URI[archive.sha256sum] = "6458add4fc3a81fbd9a63db90de22a1e3a62644c1bfd1aca042c43836195aab2"
+diff --git a/meta/recipes-support/nspr/nspr_4.13.bb b/meta/recipes-support/nspr/nspr_4.13.1.bb
+similarity index 96%
+rename from meta/recipes-support/nspr/nspr_4.13.bb
+rename to meta/recipes-support/nspr/nspr_4.13.1.bb
+index c616035..4a13f39 100644
+--- a/meta/recipes-support/nspr/nspr_4.13.bb
++++ b/meta/recipes-support/nspr/nspr_4.13.1.bb
+@@ -21,8 +21,8 @@ CACHED_CONFIGUREVARS_append_libc-musl = " CFLAGS='${CFLAGS} -D_PR_POLL_AVAILABLE
+ UPSTREAM_CHECK_URI = "http://ftp.mozilla.org/pub/nspr/releases/"
+ UPSTREAM_CHECK_REGEX = "v(?P<pver>\d+(\.\d+)+)/"
  
--DEPENDS += "intltool-native gsettings-desktop-schemas gconf libxrandr virtual/libx11 gtk+3 glib-2.0 startup-notification xkeyboard-config iso-codes"
-+DEPENDS += "intltool-native gsettings-desktop-schemas gconf virtual/libx11 gtk+3 glib-2.0 startup-notification xkeyboard-config iso-codes udev"
+-SRC_URI[md5sum] = "74ef1def8a9ff311e32e7648e2c5c8ce"
+-SRC_URI[sha256sum] = "19c33334bb3fa6d24800ffa65d7d806c54ad5f8c3758a5c11352ad43212ab181"
++SRC_URI[md5sum] = "9c44298a6fc478b3c0a4e98f4f9981ed"
++SRC_URI[sha256sum] = "5e4c1751339a76e7c772c0c04747488d7f8c98980b434dc846977e43117833ab"
  
- inherit distro_features_check gtk-doc
- REQUIRED_DISTRO_FEATURES = "x11"
+ S = "${WORKDIR}/nspr-${PV}/nspr"
+ 
 -- 
 2.10.1
 
