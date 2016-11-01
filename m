@@ -1,46 +1,20 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f45.google.com (mail-wm0-f45.google.com [74.125.82.45])
-	by mail.openembedded.org (Postfix) with ESMTP id 543A171A23
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 1618671C2F
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  1 Nov 2016 15:06:57 +0000 (UTC)
-Received: by mail-wm0-f45.google.com with SMTP id u144so16081981wmu.1
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 01 Nov 2016 08:06:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=4uhFe3CPr6eXzyZms0cYyK6lPoLTkMcLEic17y5tzc4=;
-	b=yMbml7Iu8OZmsnlL01ebWqssIMytXdoLUIMi83PQmh+N7Hq72JxUkJ5wsAKDgZZz05
-	65QT/R3U2yGewgYGjKlUD179S3T1Ickqs8ahz7UrbWqfPJS0bph6RYGxI+hopSme+ADM
-	tlVCLk+T+Bxqqia+pwLSAL2SevLakHk/iDf0yqnakmX3VImfGol2tyGYhH2cjhCJIQKG
-	dzR+aq9hdfWLibIn2tFDrik3v0Qs36hHm2ImACxSg5w3QIQVIVPqYDrIF5rXJPq+PKf+
-	SE/YHKLP7s9Gk3Jspo6xhVS7VUk5Q6oNFPaPxSda4fWoNU4sGBNuu047fZPZZM3lI/xy
-	N9wg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=4uhFe3CPr6eXzyZms0cYyK6lPoLTkMcLEic17y5tzc4=;
-	b=k6NeP6GtiBQao1G5o52ZbhQK60A7mqXkzaI1MTCk2GYSETmNckMtD98Gb7yCUiq3Vp
-	FMKjM1LUK6+LICMSEPWF/B+8RNEFA3nGCgac+18V/FEEPSM1z9D2E0Y4A9MPahxWiqlq
-	uQyimMgeaCDojMilMbg8xkJV0H1ZZhuZiO5/MA9A5k8yuK5UMdPPIm4zhyXCS1Mina7J
-	5ES79TSERCrUOWP5V6LNEbj4tXUf/E1jWJRv7ZXmune3QJubbgVCarZsNaaMiLXpHkjS
-	tEC/EM0O7HJ111FZ8vKpEfwAjdP2woCwuNgI5WrT3YJCOvIOxq+J8WOYgU5aB6lQ1WwN
-	Jy9A==
-X-Gm-Message-State: ABUngvf7luGHB9qgn88cQBffciWPy0SL+LIg5kHbjqGryPzdah0xk5f2bi/pQIFQlUU2YIJF
-X-Received: by 10.28.215.6 with SMTP id o6mr1902322wmg.124.1478012818541;
-	Tue, 01 Nov 2016 08:06:58 -0700 (PDT)
-Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id
-	c198sm30954467wme.24.2016.11.01.08.06.57
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 01 Nov 2016 08:06:58 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
+	Tue,  1 Nov 2016 15:27:49 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by fmsmga101.fm.intel.com with ESMTP; 01 Nov 2016 08:27:50 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.31,580,1473145200"; d="scan'208";a="780876132"
+Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
+	by FMSMGA003.fm.intel.com with ESMTP; 01 Nov 2016 08:27:49 -0700
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  1 Nov 2016 15:06:52 +0000
-Message-Id: <1478012813-7913-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 2.8.1
-Subject: [PATCH 1/2] util-linux: add su.1 to update-alternatives
+Date: Tue,  1 Nov 2016 17:25:07 +0200
+Message-Id: <cover.1478013701.git.alexander.kanavin@linux.intel.com>
+X-Mailer: git-send-email 2.10.1
+Subject: [PATCH 00/13] Version updates, and various fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,38 +27,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 01 Nov 2016 15:07:00 -0000
+X-List-Received-Date: Tue, 01 Nov 2016 15:27:50 -0000
 
-The su binary is handled by alternatives but the man page wasn't, so
-installing both util-linux-doc and shadow-doc produces errors.
+Here's another batch of version updates that didn't make it into
+the previous patchset, and also a few dependency fixes and
+other small improvements.
 
-Also use d.expand() to neaten the code.
+The following changes since commit c3d2df883a9d6d5036277114339673656d89a728:
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-core/util-linux/util-linux.inc | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
+  oeqa/selftest/kernel.py: Add new file destined for kernel related tests (2016-11-01 10:05:46 +0000)
 
-diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
-index c635502..70cba6b 100644
---- a/meta/recipes-core/util-linux/util-linux.inc
-+++ b/meta/recipes-core/util-linux/util-linux.inc
-@@ -271,9 +271,11 @@ BBCLASSEXTEND = "native nativesdk"
- 
- python do_package_prepend () {
-     if '--enable-su' in d.getVar('EXTRA_OECONF', True).split():
--        alt_name = "su"
--        d.setVarFlag('ALTERNATIVE_LINK_NAME', alt_name, '%s/%s' % (d.getVar('base_bindir', True), alt_name))
--        d.appendVar('ALTERNATIVE_%s' % (d.getVar('PN', True)), ' ' + alt_name)
-+        d.appendVar(d.expand('ALTERNATIVE_${PN}'), ' su')
-+        d.appendVar(d.expand('ALTERNATIVE_${PN}-doc'), ' su.1')
-+
-+        d.setVarFlag('ALTERNATIVE_LINK_NAME', "su", d.expand('${base_bindir}/su'))
-+        d.setVarFlag('ALTERNATIVE_LINK_NAME', "su.1", d.expand('${mandir}/man1/su.1'))
- }
- 
- python populate_packages_prepend() {
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib akanavin/package-version-updates
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=akanavin/package-version-updates
+
+Alexander Kanavin (13):
+  btrfs-tools: update to 4.8.2
+  ffmpeg: update to 3.2
+  gnome-desktop3: fix dependencies
+  nspr: update to 4.13.1
+  vala: update to 0.34.2
+  webkitgtk: remove lib_package inherit as executables are now installed
+    in libexecdir
+  epiphany: remove unnecessary libwnck3 dependency
+  libwnck3: remove the recipe
+  icu: update to 58.1
+  libarchive: update to 3.2.2
+  valgrind: update to 3.12.0
+  rt-tests: fix the recipe version to match upstream
+  boost: fix upstream version check
+
+ .../{btrfs-tools_4.8.1.bb => btrfs-tools_4.8.2.bb} |  4 +-
+ .../vala/{vala_0.34.1.bb => vala_0.34.2.bb}        |  4 +-
+ .../valgrind/valgrind/11_mips-link-tool.patch      | 37 -------------
+ .../valgrind/valgrind/gcc5-port.patch              | 64 ----------------------
+ .../{valgrind_3.11.0.bb => valgrind_3.12.0.bb}     |  6 +-
+ .../{libarchive_3.2.1.bb => libarchive_3.2.2.bb}   |  4 +-
+ meta/recipes-gnome/epiphany/epiphany_3.22.1.bb     |  4 +-
+ .../gnome-desktop/gnome-desktop3_3.22.1.bb         |  2 +-
+ meta/recipes-gnome/libwnck/libwnck3_3.20.1.bb      | 19 -------
+ .../ffmpeg/{ffmpeg_3.1.4.bb => ffmpeg_3.2.bb}      |  7 +--
+ .../{hwlatdetect_2.0.bb => hwlatdetect_1.1.bb}     |  0
+ meta/recipes-rt/rt-tests/rt-tests.inc              |  5 +-
+ .../rt-tests/{rt-tests_2.0.bb => rt-tests_1.1.bb}  |  0
+ meta/recipes-sato/webkit/webkitgtk_2.14.1.bb       |  2 +-
+ meta/recipes-support/boost/boost-1.62.0.inc        |  2 +
+ meta/recipes-support/icu/icu.inc                   |  4 +-
+ .../icu/{icu_57.1.bb => icu_58.1.bb}               |  6 +-
+ .../nspr/{nspr_4.13.bb => nspr_4.13.1.bb}          |  4 +-
+ 18 files changed, 25 insertions(+), 149 deletions(-)
+ rename meta/recipes-devtools/btrfs-tools/{btrfs-tools_4.8.1.bb => btrfs-tools_4.8.2.bb} (90%)
+ rename meta/recipes-devtools/vala/{vala_0.34.1.bb => vala_0.34.2.bb} (56%)
+ delete mode 100644 meta/recipes-devtools/valgrind/valgrind/11_mips-link-tool.patch
+ delete mode 100644 meta/recipes-devtools/valgrind/valgrind/gcc5-port.patch
+ rename meta/recipes-devtools/valgrind/{valgrind_3.11.0.bb => valgrind_3.12.0.bb} (95%)
+ rename meta/recipes-extended/libarchive/{libarchive_3.2.1.bb => libarchive_3.2.2.bb} (94%)
+ delete mode 100644 meta/recipes-gnome/libwnck/libwnck3_3.20.1.bb
+ rename meta/recipes-multimedia/ffmpeg/{ffmpeg_3.1.4.bb => ffmpeg_3.2.bb} (95%)
+ rename meta/recipes-rt/rt-tests/{hwlatdetect_2.0.bb => hwlatdetect_1.1.bb} (100%)
+ rename meta/recipes-rt/rt-tests/{rt-tests_2.0.bb => rt-tests_1.1.bb} (100%)
+ rename meta/recipes-support/icu/{icu_57.1.bb => icu_58.1.bb} (77%)
+ rename meta/recipes-support/nspr/{nspr_4.13.bb => nspr_4.13.1.bb} (96%)
+
 -- 
-2.8.1
+2.10.1
 
 
