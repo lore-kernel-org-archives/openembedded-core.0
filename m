@@ -1,50 +1,29 @@
-Return-Path: <lnowak.tyco@gmail.com>
-Received: from mail-lf0-f66.google.com (mail-lf0-f66.google.com
-	[209.85.215.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 29D4471999
+Return-Path: <rpjday@crashcourse.ca>
+Received: from smtp685.redcondor.net (smtp685.redcondor.net [208.80.206.85])
+	by mail.openembedded.org (Postfix) with ESMTP id 2CBAA71AC0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  1 Nov 2016 08:50:28 +0000 (UTC)
-Received: by mail-lf0-f66.google.com with SMTP id p100so4072321lfg.2
+	Tue,  1 Nov 2016 10:06:26 +0000 (UTC)
+Received: from astoria.ccjclearline.com ([64.235.106.9])
+	by smtp685.redcondor.net ({20c8e40f-6b6c-4c9e-abff-1640ea7bf404})
+	via TCP (outbound) with ESMTPS id 20161101100626242_0685
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 01 Nov 2016 01:50:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=to:from:subject:message-id:date:user-agent:mime-version
-	:content-transfer-encoding;
-	bh=yeSyVzBMlLwNYxPQ5deO7yjrKEtfcPkf7bktlF8Q+SE=;
-	b=VBTV6ruvfN5XjQRlHiHaHG3KQQUASWGgY0i59efwfiXNQCt0L+pynec+Xrx61Ccsqm
-	7HakB+0ePHX6+2qhzNUh8Gp2fUr517aHUSoDhbioILuxo8xVirlfdX6oHm1Y+zUV+Ss+
-	9mCjyIwU/HY498geEdYc57cemtosPNejYbCwSTerQGlo3elRaq49vKSKV0RnhGRU68xk
-	xzz1UXRZznoTSTmfBsft6FzpXBx7r9JlqD9Qf3mAFlZ5NqD69ocg/9mfyEXWQ6ANRQiq
-	i+d8OzQY+jJrOY94/nTaYT7Eeen3CWMM4DG46F187MzOi6ePTr1VL8RBVxp/ad7+6XLs
-	FgFg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:to:from:subject:message-id:date:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=yeSyVzBMlLwNYxPQ5deO7yjrKEtfcPkf7bktlF8Q+SE=;
-	b=aPvGSyYIAK9sHFoMhwip4sQe3T4dBeD1xdwTQRQiUp7mz6+Onlw2mqGagANpUViVFi
-	AQGsRjz6tXudvuib48lD5GMh4L3+J/02KX11LzEekEvkhFuTIvacPmMu58RGs6JjbaSM
-	FgWheKtIyTiMYorUhTRd/fCk9Wpt6fumkqWDAcCaWHuKjg6kgTZSrOjzgMSfNAeU1ngJ
-	2MJmX15wHE5yTdHXd1Ng5fCUXOTl9GHIy144gGPB6TyfHYBlRJ6PaWl6KkbCPUvzkCyp
-	NHmtQ3owP3nYNVPuss/ogGj3dGOj7pf2+BbnMxYKHbrc3qciWdEvaxFps7wNM35862Ky
-	fQXg==
-X-Gm-Message-State: ABUngvfb97hsOeOmIPQlLZW6tG+cgseJCsST1XFtONHW7kc+lJmLxsEToNv5XAAf+FMq/Q==
-X-Received: by 10.25.40.74 with SMTP id o71mr20119072lfo.183.1477990228620;
-	Tue, 01 Nov 2016 01:50:28 -0700 (PDT)
-Received: from [10.20.30.24] (159-205-99-3.adsl.inetia.pl. [159.205.99.3])
-	by smtp.gmail.com with ESMTPSA id
-	e94sm1571624lji.40.2016.11.01.01.50.27
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 01 Nov 2016 01:50:27 -0700 (PDT)
-To: openembedded-core@lists.openembedded.org
-From: Lukasz Nowak <lnowak.tyco@gmail.com>
-Message-ID: <c64cf308-d847-eac0-a2f7-bc8e686c2262@gmail.com>
-Date: Tue, 1 Nov 2016 09:50:26 +0100
-User-Agent: Mozilla/5.0 (X11; Linux i686; rv:45.0) Gecko/20100101
-	Thunderbird/45.4.0
+	Tue, 01 Nov 2016 03:06:26 -0700
+X-RC-FROM: <rpjday@crashcourse.ca>
+X-RC-RCPT: <openembedded-core@lists.openembedded.org>
+Received: from [216.191.234.70] (port=15375 helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
+	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
+	id 1c1Vwv-00012T-Ug for openembedded-core@lists.openembedded.org;
+	Tue, 01 Nov 2016 06:05:46 -0400
+Date: Tue, 1 Nov 2016 06:04:44 -0400 (EDT)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@ca624034.mitel.com
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Message-ID: <alpine.LFD.2.20.1611010545380.25706@ca624034.mitel.com>
+User-Agent: Alpine 2.20 (LFD 67 2015-01-07)
 MIME-Version: 1.0
-Subject: [PATCH] connman: fix bad file descriptor initialisation
+X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
+Subject: some pedantic questions about layer.conf "best practices"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,143 +36,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 01 Nov 2016 08:50:32 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 01 Nov 2016 10:06:28 -0000
+Content-Type: text/plain; charset=US-ASCII
 
-From: Lukasz Nowak <lnowak@tycoint.com>
 
-Import a patch from upstream, which fixes a connman daemon freeze
-under certain conditions (multiple active interfaces, no r/w storage).
+  updating a tutorial about writing a proper layer.conf file, so some
+nitpicky questions about recommended style.
 
-Signed-off-by: Lukasz Nowak <lnowak@tycoint.com>
----
- ...ts-Fix-bad-file-descriptor-initialisation.patch | 102 +++++++++++++++++++++
- meta/recipes-connectivity/connman/connman_1.33.bb  |   1 +
- 2 files changed, 103 insertions(+)
- create mode 100644 meta/recipes-connectivity/connman/connman/0003-stats-Fix-bad-file-descriptor-initialisation.patch
+  first, when appending to BBFILES, is it recommended to explicitly
+use separate wildcard patterns of "*.bb" and "*.bbappend", or just get
+lazy and use "*.bb*"? i realize that, in the end, it makes no
+effective difference; i just happen to prefer the more explicit
+pattern; just wondering if anyone has any preferences on this either
+way. (i did say "nitpicky.")
 
-diff --git a/meta/recipes-connectivity/connman/connman/0003-stats-Fix-bad-file-descriptor-initialisation.patch b/meta/recipes-connectivity/connman/connman/0003-stats-Fix-bad-file-descriptor-initialisation.patch
-new file mode 100644
-index 0000000..c545811
---- /dev/null
-+++ b/meta/recipes-connectivity/connman/connman/0003-stats-Fix-bad-file-descriptor-initialisation.patch
-@@ -0,0 +1,102 @@
-+From c7f4151fb053b0d0691d8f10d7e3690265d28889 Mon Sep 17 00:00:00 2001
-+From: Lukasz Nowak <lnowak@tycoint.com>
-+Date: Wed, 26 Oct 2016 18:13:02 +0100
-+Subject: [PATCH] stats: Fix bad file descriptor initialisation
-+
-+Stats file code initialises its file descriptor field to 0.  But 0 is
-+a valid fd value. -1 should be used instead.  This causes problems
-+when an error happens before a stats file is open (e.g. mkdir
-+fails). The clean-up procedure, stats_free() calls close(fd).  When fd
-+is 0, this first closes stdin, and then any files/sockets which
-+received fd=0, re-used by the OS.
-+
-+Fixed several instances of bad file descriptor field handling, in case
-+of errors.
-+
-+The bug results with connman freezing if there is no read/write storage
-+directory available, and there are multiple active interfaces
-+(fd=0 gets re-used for sockets in that case).
-+
-+The patch was imported from the Connman git repository
-+(git://git.kernel.org/pub/scm/network/connman) as of commit id
-+c7f4151fb053b0d0691d8f10d7e3690265d28889. 
-+
-+Upstream-Status: Accepted
-+Signed-off-by: Lukasz Nowak <lnowak@tycoint.com>
-+---
-+ src/stats.c | 15 +++++++++++++++
-+ src/util.c  |  4 ++--
-+ 2 files changed, 17 insertions(+), 2 deletions(-)
-+
-+diff --git a/src/stats.c b/src/stats.c
-+index 26343b1..c3ca738 100644
-+--- a/src/stats.c
-++++ b/src/stats.c
-+@@ -378,6 +378,7 @@ static int stats_file_setup(struct stats_file *file)
-+ 			strerror(errno), file->name);
-+ 
-+ 		TFR(close(file->fd));
-++		file->fd = -1;
-+ 		g_free(file->name);
-+ 		file->name = NULL;
-+ 
-+@@ -393,6 +394,7 @@ static int stats_file_setup(struct stats_file *file)
-+ 	err = stats_file_remap(file, size);
-+ 	if (err < 0) {
-+ 		TFR(close(file->fd));
-++		file->fd = -1;
-+ 		g_free(file->name);
-+ 		file->name = NULL;
-+ 
-+@@ -649,6 +651,13 @@ static int stats_file_history_update(struct stats_file *data_file)
-+ 	bzero(history_file, sizeof(struct stats_file));
-+ 	bzero(temp_file, sizeof(struct stats_file));
-+ 
-++	/*
-++	 * 0 is a valid file descriptor - fd needs to be initialized
-++	 * to -1 to handle errors correctly
-++	 */
-++	history_file->fd = -1;
-++	temp_file->fd = -1;
-++
-+ 	err = stats_open(history_file, data_file->history_name);
-+ 	if (err < 0)
-+ 		return err;
-+@@ -682,6 +691,12 @@ int __connman_stats_service_register(struct connman_service *service)
-+ 		if (!file)
-+ 			return -ENOMEM;
-+ 
-++		/*
-++		 * 0 is a valid file descriptor - fd needs to be initialized
-++		 * to -1 to handle errors correctly
-++		 */
-++		file->fd = -1;
-++
-+ 		g_hash_table_insert(stats_hash, service, file);
-+ 	} else {
-+ 		return -EALREADY;
-+diff --git a/src/util.c b/src/util.c
-+index e6532c8..732d451 100644
-+--- a/src/util.c
-++++ b/src/util.c
-+@@ -63,7 +63,7 @@ int __connman_util_init(void)
-+ {
-+ 	int r = 0;
-+ 
-+-	if (f > 0)
-++	if (f >= 0)
-+ 		return 0;
-+ 
-+ 	f = open(URANDOM, O_RDONLY);
-+@@ -86,7 +86,7 @@ int __connman_util_init(void)
-+ 
-+ void __connman_util_cleanup(void)
-+ {
-+-	if (f > 0)
-++	if (f >= 0)
-+ 		close(f);
-+ 
-+ 	f = -1;
-+-- 
-+2.7.4
-+
-diff --git a/meta/recipes-connectivity/connman/connman_1.33.bb b/meta/recipes-connectivity/connman/connman_1.33.bb
-index 6ea1a08..56a0a0f 100644
---- a/meta/recipes-connectivity/connman/connman_1.33.bb
-+++ b/meta/recipes-connectivity/connman/connman_1.33.bb
-@@ -5,6 +5,7 @@ SRC_URI  = "${KERNELORG_MIRROR}/linux/network/${BPN}/${BP}.tar.xz \
-             file://connman \
-             file://no-version-scripts.patch \
-             file://includes.patch \
-+            file://0003-stats-Fix-bad-file-descriptor-initialisation.patch \
-             "
- SRC_URI_append_libc-musl = " file://0002-resolve-musl-does-not-implement-res_ninit.patch"
- 
+  next, what is best practice for naming a layer, since standards seem
+to differ. if i create a layer named "meta-rday", i've seen standards
+where the layer is "named" with one of:
+
+  BBFILE_COLLECTIONS += "rday"
+  BBFILE_COLLECTIONS += "meta-rday"
+  BBFILE_COLLECTIONS += "rday-layer"
+
+amusingly, some freescale layers bounce around:
+
+  BBFILE_COLLECTIONS += "freescale-layer"
+  BBFILE_COLLECTIONS += "fsl-arm"
+  BBFILE_COLLECTIONS += "fsl-ppc"
+
+even the meta-openembedded (sub)layers don't have a consistent style;
+some examples, which show all three styles:
+
+  meta-filesystems/conf/layer.conf:BBFILE_COLLECTIONS += "filesystems-layer"
+  meta-initramfs/conf/layer.conf:BBFILE_COLLECTIONS += "meta-initramfs"
+  meta-webserver/conf/layer.conf:BBFILE_COLLECTIONS += "webserver"
+
+is there an encouraged style?
+
+  finally, is it necessary to have LAYERDEPENDS include "core"? isn't
+that automatic? how could you possibly have a viable build system
+without the oe-core layer (unless this gives you the freedom to
+replace it with a custom one, which i don't see the value of).
+
+  i think that's it for now ... thoughts?
+
+rday
+
 -- 
-2.7.4
+
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
+
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
 
 
