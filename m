@@ -1,46 +1,44 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qt0-f170.google.com (mail-qt0-f170.google.com
-	[209.85.216.170])
-	by mail.openembedded.org (Postfix) with ESMTP id 91BAB71C40
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 26001719CE
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  1 Nov 2016 17:45:48 +0000 (UTC)
-Received: by mail-qt0-f170.google.com with SMTP id p16so98517023qta.0
+	Tue,  1 Nov 2016 18:28:15 +0000 (UTC)
+Received: by mail-wm0-f65.google.com with SMTP id p190so17577786wmp.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 01 Nov 2016 10:45:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	Tue, 01 Nov 2016 11:28:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=GPo3HaOZgVbBUzflrHnL8EbSxsA4gHU0Y16BMxptb/g=;
-	b=wsmNbGsaV27WaY81XLLZULpyMjionmCJ/xF26ABpzBN7b/a8kyoWej8EmvH9Qor7s8
-	QuIhCqlPu5TfYGVyE3od/bQosFLqKLc0g7Wik+WIz3RzU2kah/PhI/ednhJ6Qlh8DpU1
-	l3bzs9Gf0YaCM7d3tpbmxfmbJDba/bhex349PJbsVY4SkAdKx0om9Z6kGY78O549kuwg
-	fJjUJUOAL0ZCLRmVXo7QGIsc1JAAaf9DZCys9/Znfvh8mvDK7os6qZ+ntIgMvOrqVOyR
-	y86VF3GCapwLgPBwm9YpGJE+OxU4BWgzOjLfaRT6radlRj6keUZ3J/8etpBf53c+NSal
-	iKBA==
+	:cc; bh=eWdMuL5LaX5sJMUk0q08edAgxmYV/CWCJ+IxgMc4fGA=;
+	b=A/SdS6j2kEYKbtSdWvO6mW0fSlUozM+4niAw8AZy2ivrliiRZUuk/UKFvEFXLOJ/TU
+	M0g68EShH0BFp4ImrzBWi0OeCtqVG6RejXxazty+lgQzi/J7Iyt0USEIv0LqAgNFSMis
+	0AR77Yz5jwdZy4FG7t3FYWFZpdcrpVBp5MgyjtpmJORGGqQReQ49LzzPs30crqsoZeN4
+	kAedUseQ8Dgdw53rHp/hZJrXV1lJk2lQU1HT5/n0XKKTx7EPz8xu5ahAlRGWXTw7AgZf
+	vSt0IHqyuuSn2Eslxio/Bzy8HSy1grfbPvj9FFcOmyQdPV3KLCi0aFTFCs5b/MbPeWHv
+	zz3Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=GPo3HaOZgVbBUzflrHnL8EbSxsA4gHU0Y16BMxptb/g=;
-	b=VYGqUvrZjuZGcgTWqR6wmSh8/nO1k565MxfupgnUnZtih/dy6zWrCCRPVKpiLvtdvn
-	0HzMnwAjcIalOB9JsWVfy3qmwxjfEQD7KaIgqk6paUj0oQg5zzKcp0RXRpIsq2EblWyl
-	m8xhtBfv3bhN8D0ljtV0YDXFyJKjJLnIKL9d9bqrC4NBE/qloevPRO8WedUUNhUtAJrw
-	Tm+zOizIcoD8VPYvYhqeRP3mQ3KKTrXgh8GEw8Q+hVNKQTR3gxiYYndsqeBbvXtJfkzL
-	uY77iDHc0ikeOj+uEUGYQe8IsqTCduwCu0vTuLnXrSPqKCPYN2qSx8BwbQ9k99WmCYkP
-	+jGA==
-X-Gm-Message-State: ABUngvdxs32VN4QrKTd/8z8Sl5dGg6FPRzJM5TJswDVeLS8RLNazrpzaWuXHHKcxee0BndxvFrqA6Idk6EpVGvnp
-X-Received: by 10.200.50.35 with SMTP id x32mr25960852qta.78.1478022349722;
-	Tue, 01 Nov 2016 10:45:49 -0700 (PDT)
+	bh=eWdMuL5LaX5sJMUk0q08edAgxmYV/CWCJ+IxgMc4fGA=;
+	b=XdDFJ+bBUiUo2P+anXIBXQ8//DaAHFwwktDn5JyPkT2LQC3tvA0tRCPoMS9tRB5/wg
+	8fHeH0XnQeJPZcd1uob4lvqYt9o7nSIvUZu3TbaLVkFMr26WI/yGMf7Ijj+IZucipLcB
+	vn8X6+jVi9970CjCPWqFGcGCNOjhkVc6q91TNG8Jl45EENFm8Jy2rv6J2aiHSsrhgTb0
+	TVI1y4uKCdAJaPOAkswzRz/t2b1QTpUCmhZWKOpEQ6uvg3KXacz0fQaH7Z6H7auAEaKZ
+	MlJQWTGSOfmWyc39d6m4KLzmLJHT/9mprvFvcW1XrukNGzYyf9ecEi1HYguK8MPoKr4I
+	4MGQ==
+X-Gm-Message-State: ABUngvdjB4YknfNPRiGUVtJrcSdTf8Yo72RbptUsvU4R3ZJiznm4DStep5sLMqqZtkOF1JfuAdfvlP0IiVIn9w==
+X-Received: by 10.28.27.23 with SMTP id b23mr2960696wmb.82.1478024896088; Tue,
+	01 Nov 2016 11:28:16 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.140.85.208 with HTTP; Tue, 1 Nov 2016 10:45:29 -0700 (PDT)
-In-Reply-To: <1477464673-6184-1-git-send-email-michael.blaettler@siemens.com>
-References: <1477464673-6184-1-git-send-email-michael.blaettler@siemens.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 1 Nov 2016 17:45:29 +0000
-Message-ID: <CAJTo0LavsVSZTR7M_9Ph3g5dfgKV-qc6a83H2H0YimsYFh-VfA@mail.gmail.com>
-To: =?UTF-8?Q?Michael_Bl=C3=A4ttler?= <michael.blaettler@siemens.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v3] package.py: New EXTRA_STRIPFLAGS variable
+Received: by 10.194.155.103 with HTTP; Tue, 1 Nov 2016 11:28:15 -0700 (PDT)
+In-Reply-To: <20161029084707.29652-1-raj.khem@gmail.com>
+References: <20161029084707.29652-1-raj.khem@gmail.com>
+From: Andre McCurdy <armccurdy@gmail.com>
+Date: Tue, 1 Nov 2016 11:28:15 -0700
+Message-ID: <CAJ86T=Xw0qavJpud1YSSU94dQgYp=3tueYq59Z-jFatbhTjM0Q@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] cmake.bbclass: Exclude native sysroot from CMAKE_FIND_ROOT_PATH
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,68 +51,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 01 Nov 2016 17:45:51 -0000
-Content-Type: multipart/alternative; boundary=001a1143e1da204ce6054040e535
-
---001a1143e1da204ce6054040e535
+X-List-Received-Date: Tue, 01 Nov 2016 18:28:16 -0000
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-On 26 October 2016 at 07:51, Michael Bl=C3=A4ttler <michael.blaettler@sieme=
-ns.com
-> wrote:
-
-> +++ b/meta/lib/oe/package.py
-> @@ -10,7 +10,7 @@ def runstrip(arg):
+On Sat, Oct 29, 2016 at 1:47 AM, Khem Raj <raj.khem@gmail.com> wrote:
+> This has been cause of issue where we were getting both usr/include
+> dirs ( from target as well as native sysroot) added to compiler
+> flags.
 >
->      import stat, subprocess
+> CXX_INCLUDES in final flags.cmake would include
+> -I<target-sysroot>/usr/include -I<native-sysroot>/usr/include
+> most of the time it would work since headers are mostly
+> common but netflix package failed to compile since one of
+> the headers was including curl headers which it could not
+> find in target sysroot and it went to next include path
+> and found it in native sysroot which is not what we want
+> when doing cross compile.
 >
-> -    (file, elftype, strip) =3D arg
-> +    (file, elftype, strip, extraflags) =3D arg
+> As per https://cmake.org/Wiki/CMake_Cross_Compiling
+> never search for programs in target sysroot but search
+> for packages,libs,includes only.
 >
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> ---
+>  meta/classes/cmake.bbclass | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+>
+> diff --git a/meta/classes/cmake.bbclass b/meta/classes/cmake.bbclass
+> index 3e762de..3e8df37 100644
+> --- a/meta/classes/cmake.bbclass
+> +++ b/meta/classes/cmake.bbclass
+> @@ -25,6 +25,7 @@ OECMAKE_PERLNATIVE_DIR ??= ""
+>  OECMAKE_EXTRA_ROOT_PATH ?= ""
+>
+>  OECMAKE_FIND_ROOT_PATH_MODE_PROGRAM = "ONLY"
+> +OECMAKE_FIND_ROOT_PATH_MODE_PROGRAM_class-target = "NEVER"
 
-This causes sysroot_strip to fail:
+Using the _class-target over-ride looks odd. Perhaps making "NEVER"
+the default and adding over-rides for the classes which need "ONLY"
+(if there are any?) would make this clearer?
 
-File: '/home/ross/Yocto/poky/meta/classes/staging.bbclass', lineno: 164,
-function: sysroot_strip
-     0160:            elf_file =3D int(elffiles[file])
-     0161:            #bb.note("Strip %s" % file)
-     0162:            sfiles.append((file, elf_file, strip))
-     0163:
- *** 0164:        oe.utils.multiprocess_exec(sfiles, oe.package.runstrip)
+>  OECMAKE_FIND_ROOT_PATH_MODE_PROGRAM_class-native = "BOTH"
+>
+>  EXTRA_OECMAKE_append = " ${PACKAGECONFIG_CONFARGS}"
+> @@ -60,7 +61,7 @@ set( CMAKE_CXX_LINK_FLAGS "${OECMAKE_CXX_LINK_FLAGS}" CACHE STRING "LDFLAGS" )
+>
+>  # only search in the paths provided so cmake doesnt pick
+>  # up libraries and tools from the native build machine
+> -set( CMAKE_FIND_ROOT_PATH ${STAGING_DIR_HOST} ${STAGING_DIR_NATIVE} ${CROSS_DIR} ${OECMAKE_PERLNATIVE_DIR} ${OECMAKE_EXTRA_ROOT_PATH} ${EXTERNAL_TOOLCHAIN})
+> +set( CMAKE_FIND_ROOT_PATH ${STAGING_DIR_HOST} ${CROSS_DIR} ${OECMAKE_PERLNATIVE_DIR} ${OECMAKE_EXTRA_ROOT_PATH} ${EXTERNAL_TOOLCHAIN})
+>  set( CMAKE_FIND_ROOT_PATH_MODE_PACKAGE ONLY )
+>  set( CMAKE_FIND_ROOT_PATH_MODE_PROGRAM ${OECMAKE_FIND_ROOT_PATH_MODE_PROGRAM} )
+>  set( CMAKE_FIND_ROOT_PATH_MODE_LIBRARY ONLY )
+> --
+> 2.10.1
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
-Ross
-
---001a1143e1da204ce6054040e535
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 26 October 2016 at 07:51, Michael Bl=C3=A4ttler <span dir=3D"ltr">&lt;<a=
- href=3D"mailto:michael.blaettler@siemens.com" target=3D"_blank">michael.bl=
-aettler@siemens.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quo=
-te" style=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-col=
-or:rgb(204,204,204);border-left-style:solid;padding-left:1ex"><div id=3D"gm=
-ail-:18y" class=3D"gmail-a3s gmail-aXjCH gmail-m157ffca7583f50b0">+++ b/met=
-a/lib/oe/<span class=3D"gmail-il">package</span>.py<br>
-@@ -10,7 +10,7 @@ def runstrip(arg):<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0import stat, subprocess<br>
-<br>
--=C2=A0 =C2=A0 (file, elftype, strip) =3D arg<br>
-+=C2=A0 =C2=A0 (file, elftype, strip, extraflags) =3D arg<br></div></blockq=
-uote></div><br><div class=3D"gmail_extra">This causes sysroot_strip to fail=
-:</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">File=
-: &#39;/home/ross/Yocto/poky/meta/classes/staging.bbclass&#39;, lineno: 164=
-, function: sysroot_strip</div><div class=3D"gmail_extra">=C2=A0 =C2=A0 =C2=
-=A00160: =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0elf_file =3D int(elffiles=
-[file])</div><div class=3D"gmail_extra">=C2=A0 =C2=A0 =C2=A00161: =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0#bb.note(&quot;Strip %s&quot; % file)</di=
-v><div class=3D"gmail_extra">=C2=A0 =C2=A0 =C2=A00162: =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0sfiles.append((file, elf_file, strip))</div><div class=
-=3D"gmail_extra">=C2=A0 =C2=A0 =C2=A00163:</div><div class=3D"gmail_extra">=
-=C2=A0*** 0164: =C2=A0 =C2=A0 =C2=A0 =C2=A0oe.utils.multiprocess_exec(sfile=
-s, oe.package.runstrip)</div><div class=3D"gmail_extra"><br></div><div clas=
-s=3D"gmail_extra">Ross</div></div></div>
-
---001a1143e1da204ce6054040e535--
