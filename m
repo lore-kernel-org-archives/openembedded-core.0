@@ -1,52 +1,49 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pf0-f196.google.com (mail-pf0-f196.google.com
-	[209.85.192.196])
-	by mail.openembedded.org (Postfix) with ESMTP id E43CF60767
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wm0-f53.google.com (mail-wm0-f53.google.com [74.125.82.53])
+	by mail.openembedded.org (Postfix) with ESMTP id 23A2F60290
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  1 Nov 2016 14:48:32 +0000 (UTC)
-Received: by mail-pf0-f196.google.com with SMTP id n85so11860831pfi.3
+	Tue,  1 Nov 2016 15:06:59 +0000 (UTC)
+Received: by mail-wm0-f53.google.com with SMTP id a197so83463400wmd.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 01 Nov 2016 07:48:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=subject:to:references:cc:from:message-id:date:user-agent
-	:mime-version:in-reply-to:content-transfer-encoding;
-	bh=wDnwoGQtp691NiPttD4uyG/f8Wckh7gf08Na9dwDgc0=;
-	b=ia9y1O+Qje0HlJOcQvTm3q1YVnn7mnFQMkhOw+1NCtzWDbcEr6ZUfe6qez69L840ki
-	wuPpM5t2Gzg16NwgpORtuLR4c9i78Tsu12UuwYZF7aspTvVLJkACpfXxOHcAo866C+Jc
-	tjz5vVlkIMICp/hx3xcUcnyrBWy/1JzGPSS7xGrqbdGKWY7vLKozklQYtWN4e5TOiXIp
-	sbz5FawdcanN8fJCAxZ4ur52Z0q9PdA1fAWv5M/ZnjnP0Q+GkvTMv2dpDkUmif5Ph/hG
-	7aWmamGseFiWDPNNSBRFfOkGGESRxHph8FdqRmHpICJVnIzlDGdvnVVj9Sm40mwoNM3k
-	qsaA==
+	Tue, 01 Nov 2016 08:07:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id:in-reply-to:references;
+	bh=U5SKpXgjG7Z0y6R0ZGuFTpSTnE6WFbxJwYuvidu1sHQ=;
+	b=sb3IYxV0YE1qjwD9Q0d0S+JLlp0uxhHneSnlK8rr//lYc15EDGDCLSjIYZnhGWbnYX
+	jTxJqe8Gu2a8Dgj3zvxCmrEaqhovtmPdaCOdyjlgiIP90GDVj/L2Ndl+j6izUbOR6eIt
+	/OlGMbo7Tu9Kx2gwAefUkoZLr9bfJYnFGM3vZThUb9/Wu4QnYxYZ8cYqhrws/kKYLFJO
+	0k2Vvux8bZmUQ7zK/ltEqPEDZfvGG+4y7FfmV8rVd1soeRM8m62dwnYt8dS1XZE2P9Nh
+	/zHq9Ln/WTa+gl7dF5xwTJU9vxr9Q5tA+O5IPcTWyovISkLejwQHeWRaSRj/7QAwLUR8
+	ntmg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:subject:to:references:cc:from:message-id:date
-	:user-agent:mime-version:in-reply-to:content-transfer-encoding;
-	bh=wDnwoGQtp691NiPttD4uyG/f8Wckh7gf08Na9dwDgc0=;
-	b=AQYVuSTJR6JoRbyv1i70hjoga37AtrlbHN81mhhDx9Uh9Qz3Zr33jfMIm66NPRm/V+
-	gtjOqY2rj95nnMnqrJ/UFm7MY2jHtsjbqnzFsWlFlwC0bl/29mKV6xUzuK44dt1eYHq2
-	n6U2xG433jgi4w3ah9pfPQZGwwhq89HYYEOWWiBrce4tNpW+PfKN+XlUqlbKA1xl75mA
-	84eF6IuSMMSjYJDv8ebbrQY9JUSkPCG3FSvZajZh3XbWCX43K17tn6tBgm29jUv2NMT5
-	dF4Fl1GOdrH2U6us0T/G9n/zBIpkkHdCHqhnfjwDhCbyBquDZDSKe1Urq5l+Cx6kXTzm
-	qE4A==
-X-Gm-Message-State: ABUngvcxMofPPfrl3u6GWQeije7guzPfkT0rFgXboIhxu7WtOynZU5On07pKRTf4Cwrw7A==
-X-Received: by 10.99.44.84 with SMTP id s81mr20690022pgs.153.1478011714016;
-	Tue, 01 Nov 2016 07:48:34 -0700 (PDT)
-Received: from ?IPv6:2601:202:4001:9ea0:bddd:dc37:37:9aa?
-	([2601:202:4001:9ea0:bddd:dc37:37:9aa])
+	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+	:references;
+	bh=U5SKpXgjG7Z0y6R0ZGuFTpSTnE6WFbxJwYuvidu1sHQ=;
+	b=EfpLIcceaAo2q9YexQF6AYa3XMr/4Y6bkmENanjeclPL8+Gvi6VPjnyKQp9pugBZB4
+	+JCrxIj9Nm81CaS3/WGGo+7lygQlF5qtDdsAoTKriNkD4k4W1/75W1S5q1YdVeDYg0Zv
+	4sxmqwdmuQY3gklX6LGaoRpD8m7KZHo4GpTuyUSAURzJzvzmHgiiUQ3FEZpPlaGZmjGN
+	sinGrOXacusJUQ7Tvi86nkrDAVp8J7aZoBqP69k+LRz+KuGPFl1LRkKkauLfiLo9b5uN
+	pQYGAUzT81KlFtm7KfCW0/1UhCn2/KCOmrc38kRNzKsYQQZoiP+r/83SRXrC2lLMIKDi
+	XwkA==
+X-Gm-Message-State: ABUngve910gWJN7KtJMNAc3CBkwfYPv65ePvvkhxJ8LnZfw92LA/Ovn+jkdnBFSxgraWFy7I
+X-Received: by 10.28.163.5 with SMTP id m5mr852926wme.98.1478012819969;
+	Tue, 01 Nov 2016 08:06:59 -0700 (PDT)
+Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
 	by smtp.gmail.com with ESMTPSA id
-	z6sm42907261pay.31.2016.11.01.07.48.33
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 01 Nov 2016 07:48:33 -0700 (PDT)
-To: Enrico Jorns <ejo@pengutronix.de>, openembedded-core@lists.openembedded.org
-References: <20161028060902.1133-1-ejo@pengutronix.de>
-From: akuster808 <akuster808@gmail.com>
-Message-ID: <ae3851e6-46cc-91ef-0d77-39d64e26412f@gmail.com>
-Date: Tue, 1 Nov 2016 07:48:32 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.4.0
-MIME-Version: 1.0
-In-Reply-To: <20161028060902.1133-1-ejo@pengutronix.de>
-Subject: Re: [PATCH][krogoth] pseudo: backport 'Work around issues with glibc 2.24'
+	c198sm30954467wme.24.2016.11.01.08.06.58
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Tue, 01 Nov 2016 08:06:58 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  1 Nov 2016 15:06:53 +0000
+Message-Id: <1478012813-7913-2-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 2.8.1
+In-Reply-To: <1478012813-7913-1-git-send-email-ross.burton@intel.com>
+References: <1478012813-7913-1-git-send-email-ross.burton@intel.com>
+Subject: [PATCH 2/2] shadow: add nologin.8 to alternatives
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,150 +56,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 01 Nov 2016 14:48:37 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 01 Nov 2016 15:07:00 -0000
 
-Enrico
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-extended/shadow/shadow.inc | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-
-On 10/27/2016 11:09 PM, Enrico Jorns wrote:
-> This patch is required for krogoth, too in order to make it properly
-> work with glibc 2.24.
->
-> Signed-off-by: Enrico Jorns <ejo@pengutronix.de>
->
-> Below the message of the original commit:
->
-> There are issues with a change made to RTLD_NEXT behaviour in glibc 2.24
-> and that change was also backported to older glibc versions in some distros
-> like Fedora 23. This adds a workaround whilst the pseudo maintainer fixes
-> various issues properly.
->
-> (From OE-Core rev: 21c38a091c4a1917f62a942c4751b0fd11dce340)
-
-Merged to staging,
-
-Thanks,
-Armin
->
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> ---
->   meta-jupiter                                       |  2 +-
->   .../pseudo/pseudo-glibc-rtld-next-workaround.patch | 85 ++++++++++++++++++++++
->   meta/recipes-devtools/pseudo/pseudo_1.7.5.bb       |  1 +
->   3 files changed, 87 insertions(+), 1 deletion(-)
->   create mode 100644 meta/recipes-devtools/pseudo/pseudo/pseudo-glibc-rtld-next-workaround.patch
->
-> diff --git a/meta-jupiter b/meta-jupiter
-> index a1299a3..5a66c62 160000
-> --- a/meta-jupiter
-> +++ b/meta-jupiter
-> @@ -1 +1 @@
-> -Subproject commit a1299a3e711c93ed8a7eb652bdbacd83669263c6
-> +Subproject commit 5a66c628800824585208d0130ee6b731c7e95edd
-> diff --git a/meta/recipes-devtools/pseudo/pseudo/pseudo-glibc-rtld-next-workaround.patch b/meta/recipes-devtools/pseudo/pseudo/pseudo-glibc-rtld-next-workaround.patch
-> new file mode 100644
-> index 0000000..6710734
-> --- /dev/null
-> +++ b/meta/recipes-devtools/pseudo/pseudo/pseudo-glibc-rtld-next-workaround.patch
-> @@ -0,0 +1,85 @@
-> +We started seeing:
-> +
-> +No real function for mknod: /home/paul/poky_sdk/tmp/sysroots/x86_64-
-> +linux/usr/bin/../lib/pseudo/lib64/libpseudo.so: undefined symbol: mknod
-> +No real function for mknodat: /home/paul/poky_sdk/tmp/sysroots/x86_64-
-> +linux/usr/bin/../lib/pseudo/lib64/libpseudo.so: undefined symbol: mknodat
-> +
-> +In glibc 2.24 they've merged:
-> +
-> +https://sourceware.org/git/?p=glibc.git;a=commit;h=7d45c163d00c88d5875a112343c4ea3e61349e6b
-> +related to bugzilla entry:
-> +https://sourceware.org/bugzilla/show_bug.cgi?id=19509
-> +
-> +which means that the behaviour of RTLD_NEXT is slightly different.
-> +As far as I can tell, mknod has not been present in glibc for a while.
-> +To quote stat.h:
-> +
-> +/* To allow the `struct stat' structure and the file type `mode_t'
-> +   bits to vary without changing shared library major version number,
-> +   the `stat' family of functions and `mknod' are in fact inline
-> +   wrappers around calls to `xstat', `fxstat', `lxstat', and `xmknod',
-> +   which all take a leading version-number argument designating the
-> +   data structure and bits used.  <bits/stat.h> defines _STAT_VER with
-> +   the version number corresponding to `struct stat' as defined in
-> +   that file; and _MKNOD_VER with the version number corresponding to
-> +   the S_IF* macros defined therein.  It is arranged that when not
-> +   inlined these function are always statically linked; that way a
-> +   dynamically-linked executable always encodes the version number
-> +   corresponding to the data structures it uses, so the `x' functions
-> +   in the shared library can adapt without needing to recompile all
-> +   callers.  */
-> +
-> +so I suspect mknod has not existed for a while, if ever and what we
-> +were finding, who knows. Everying in the system links against _xmknod
-> +which we have a separate wrapper for.
-> +
-> +Anyhow, ignoring that problem which hasn't caused a issue in the past,
-> +the RTLD_NEXT change causes messages to be printed to stdout which causes
-> +carnage if for example the packaging code is expecting a list of packages:
-> +
-> +WARNING: core-image-minimal-1.0-r0 do_rootfs: No not found in the base feeds (qemux86_64 core2-64 x86_64 noarch any all).
-> +WARNING: core-image-minimal-1.0-r0 do_rootfs: real not found in the base feeds (qemux86_64 core2-64 x86_64 noarch any all).
-> +WARNING: core-image-minimal-1.0-r0 do_rootfs: function not found in the base feeds (qemux86_64 core2-64 x86_64 noarch any all).
-> +WARNING: core-image-minimal-1.0-r0 do_rootfs: for not found in the base feeds (qemux86_64 core2-64 x86_64 noarch any all).
-> +WARNING: core-image-minimal-1.0-r0 do_rootfs: mknod: not found in the base feeds (qemux86_64 core2-64 x86_64 noarch any all).
-> +[etc]
-> +
-> +This bug will affect:
-> +* any distro using glibc 2.24
-> +* any system using a uninative tarball for glibc 2.24
-> +* any system which took a backport for the fix which was merged into
-> +  the 2.23 branch for a while before it was reverted (Fedora 23 had this)
-> +
-> +The easiest thing to do is to ignore the problem and disable the diag
-> +message which masks the problem with no ill effects.
-> +
-> +As Peter notes, there are a few issues here:
-> +
-> +* the fact there is no mknod symbol
-> +* the fact an error here isn't fatal
-> +* the #ifdef/#else looks suspect
-> +* handle RTLD_NEXT chaining properly (need more libs?)
-> +
-> +which he'll work on upstream and hopefully have fixed in a new version.
-> +
-> +Upstream-Status: Submitted [Peter is aware of the issue]
-> +
-> +RP 2016/5/18
-> +
-> +Index: pseudo-1.7.5/pseudo_wrappers.c
-> +===================================================================
-> +--- pseudo-1.7.5.orig/pseudo_wrappers.c
-> ++++ pseudo-1.7.5/pseudo_wrappers.c
-> +@@ -146,9 +146,9 @@ pseudo_init_one_wrapper(pseudo_function
-> + 			return;
-> + 		}
-> + #else
-> +-		if (e != NULL) {
-> ++		/*if (e != NULL) {
-> + 			pseudo_diag("No real function for %s: %s\n", func->name, e);
-> +-		}
-> ++		}*/
-> + #endif
-> + 	}
-> + }
-> diff --git a/meta/recipes-devtools/pseudo/pseudo_1.7.5.bb b/meta/recipes-devtools/pseudo/pseudo_1.7.5.bb
-> index d90e644..38e6f4d 100644
-> --- a/meta/recipes-devtools/pseudo/pseudo_1.7.5.bb
-> +++ b/meta/recipes-devtools/pseudo/pseudo_1.7.5.bb
-> @@ -7,6 +7,7 @@ SRC_URI = " \
->       file://fallback-group \
->       file://moreretries.patch \
->       file://handle-remove-xattr.patch \
-> +    file://pseudo-glibc-rtld-next-workaround.patch \
->   "
->   
->   SRC_URI[md5sum] = "c10209938f03128d0c193f041ff3596d"
+diff --git a/meta/recipes-extended/shadow/shadow.inc b/meta/recipes-extended/shadow/shadow.inc
+index 35a18f8..f79565b 100644
+--- a/meta/recipes-extended/shadow/shadow.inc
++++ b/meta/recipes-extended/shadow/shadow.inc
+@@ -180,11 +180,12 @@ ALTERNATIVE_${PN}-base = "newgrp groups login su"
+ ALTERNATIVE_LINK_NAME[login] = "${base_bindir}/login"
+ ALTERNATIVE_LINK_NAME[su] = "${base_bindir}/su"
+ 
+-ALTERNATIVE_${PN}-doc = "passwd.5 getspnam.3 groups.1 su.1"
++ALTERNATIVE_${PN}-doc = "passwd.5 getspnam.3 groups.1 su.1 nologin.8"
+ ALTERNATIVE_LINK_NAME[passwd.5] = "${mandir}/man5/passwd.5"
+ ALTERNATIVE_LINK_NAME[getspnam.3] = "${mandir}/man3/getspnam.3"
+ ALTERNATIVE_LINK_NAME[groups.1] = "${mandir}/man1/groups.1"
+ ALTERNATIVE_LINK_NAME[su.1] = "${mandir}/man1/su.1"
++ALTERNATIVE_LINK_NAME[nologin.8] = "${mandir}/man8/nologin.8"
+ 
+ pkg_postinst_${PN} () {
+ 	if [ "x$D" != "x" ]; then
+-- 
+2.8.1
 
 
