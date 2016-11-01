@@ -1,60 +1,55 @@
 Return-Path: <raj.khem@gmail.com>
 Received: from mail-pf0-f195.google.com (mail-pf0-f195.google.com
 	[209.85.192.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 50325601F1
+	by mail.openembedded.org (Postfix) with ESMTP id A19A971C30
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  1 Nov 2016 16:45:53 +0000 (UTC)
-Received: by mail-pf0-f195.google.com with SMTP id y68so6225988pfb.1
+	Tue,  1 Nov 2016 17:00:37 +0000 (UTC)
+Received: by mail-pf0-f195.google.com with SMTP id n85so12117115pfi.3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 01 Nov 2016 09:45:55 -0700 (PDT)
+	Tue, 01 Nov 2016 10:00:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=subject:mime-version:from:in-reply-to:date:cc:message-id:references
-	:to; bh=6RDzX2HlWhdSlo/bCdzdMLa49Y8vbrzNtuN0FmOn+Ac=;
-	b=xA2/53NSpksvZddjgaegcY58vciVW4yXahW4Za9ea6IEF1pGhkm7mpwIUxP5ev6jf8
-	IsmpY5MhKgSTs4uj6OE0Ah8RzlBq0v+VhtvLDO1YFMCTeFThNDyd6uXNiEmtDDbYL2+Y
-	25Akcb1z8JnyvCRiE6JDf8SgcDBqhcC3n9OOlABf8koIifBkylik1D6q3K2ppLEWji0g
-	NRL+QAubD0aOAwqNa3BmLDVRaVVuWsX7JtHFGaVgdpMiusRreBsOjRfldqxaDoSyPQuR
-	EKRHhHAK1DA7O8xRD5/LrWZVnnTWpyXIbFWL8SXBwQnAWaXs42CQpySIGzyCumTiD2jm
-	gQVw==
+	:to; bh=J9aCmE4B8e69D7G38PR5V0G9FkRZGbIEDhoZUfyCupc=;
+	b=hPb+UUk6L6rzs03OutoBeb9ANVWmJznH3FVer4PDBWNDi5sJYszoMg20hOw3s/K26c
+	C66KxWSk50VAS3f5NpXBZRE5WgFrzWGIsEbmF4bPYMAEBGd8lEjVaoH9qEX8FrckQnZb
+	tv167K3tI5TrzwJqGSBBlb7HdZSPCOM8eNidrUWxrLDUZ9vHaMREeH+IaeeLQ23ChItB
+	OaG2yP11MBuy54ikUXijpwAUbu/aA/l829odm+ip2GQ3+5uQP0lmgvXtp2lGjl1A8J+/
+	PJnIIVJAZvO2kTios3CL+ZhqyK7KXMI7vA8yTn80wxpEirgUZUbt5YITSNddPpnVEFzT
+	Cw1g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:subject:mime-version:from:in-reply-to:date:cc
 	:message-id:references:to;
-	bh=6RDzX2HlWhdSlo/bCdzdMLa49Y8vbrzNtuN0FmOn+Ac=;
-	b=fCjFpZFa2g80nGyjiYdHLnUP09Fyoj625xcmMpBxD1GRyYMY9FJWslI57NG63DoCwI
-	g36IwdFkS0xGnF+JnYHrrDz94iD1oAY4PB/+Jfs0vwne64uclmKqvv2CzKpJXDKFTryF
-	fOrE4gpXqT20tdI9FAJBvuuG4U7bZr3xlCnalVrpHjNP7FfauBt4fYozpCjmWlzouqZb
-	DJwTTktafuy23BL86ZJ8LMX/2kyq7b+vXQC11YAtcq4zqfKUk3WIMh/ifcsWC1ngJuIg
-	eFJwsZWqVlnjPJtGSK2GD2lnTJpbyz4qcT+6ypKBOJAkn0tiA9laetr5Hvz5FwnkJxcw
-	JXiw==
-X-Gm-Message-State: ABUngvfIxkj9QomyjtTvVMTIbUQxCEgdw4N6+jKH0ijoCetTZIXSvHK8XOYUltBhhNtR7Q==
-X-Received: by 10.98.198.85 with SMTP id m82mr1515902pfg.69.1478018755387;
-	Tue, 01 Nov 2016 09:45:55 -0700 (PDT)
+	bh=J9aCmE4B8e69D7G38PR5V0G9FkRZGbIEDhoZUfyCupc=;
+	b=YGKyQIoTQVrezbVG+ROVusK6/C/LVbWhat3jFRWgK3YKRO9ZeiYZ0IOBoLveBizF92
+	WRc9rhjRyEIGEmX0vdvML8VxXjrBbyhJ9ingPiXkoCIrdKC29aLTifU7QQCNWmesw/HW
+	8OjYAwJBGL80G/3lHSie3DjyyAUFmDjrBDXIen8KZiMV1MqMUOfr54T/mR59jmRilumm
+	8418GfNLVjH6DJqvUfbakq1GIKRld74idDlvMKk1cQFzy+ozXFswA0/JJkEexAsaZjYj
+	x/z5nO79vYuMqIMxTVdigqhhlgZaXRvmHm4/ke/9XMByIi2/WyDfXC7vZzCBAyWH1d5p
+	z1nA==
+X-Gm-Message-State: ABUngveQiJAVuzrc0Qx+VJLSRnw9m2Bv4h06fsnFjScCPg+7fqLHowNpZjdnmZC0fv62Vw==
+X-Received: by 10.98.9.67 with SMTP id e64mr62282616pfd.74.1478019638029;
+	Tue, 01 Nov 2016 10:00:38 -0700 (PDT)
 Received: from ?IPv6:2601:646:8882:b8c:bd37:fcaa:669f:4910?
 	([2601:646:8882:b8c:bd37:fcaa:669f:4910])
 	by smtp.gmail.com with ESMTPSA id
-	k67sm19993746pfj.47.2016.11.01.09.45.53
+	q28sm19801601pfj.73.2016.11.01.10.00.37
 	(version=TLS1 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 01 Nov 2016 09:45:53 -0700 (PDT)
+	Tue, 01 Nov 2016 10:00:37 -0700 (PDT)
 Mime-Version: 1.0 (Mac OS X Mail 9.3 \(3124\))
 X-Pgp-Agent: GPGMail
 From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <cfa1b8cc-7134-fccf-2033-08f4e6c40104@linux.intel.com>
-Date: Tue, 1 Nov 2016 09:45:48 -0700
-Message-Id: <E9D64287-7893-4199-8439-F065E146E6AE@gmail.com>
-References: <20161029194615.19954-1-raj.khem@gmail.com>
-	<CAMKF1sriW41+1MTxTuBHQAbeR+b0LM65fkuUDRL-HapKSLze0A@mail.gmail.com>
-	<1552039.tK8Y5jYAKD@peggleto-mobl.ger.corp.intel.com>
-	<2141657.IdrglOmXLR@peggleto-mobl.ger.corp.intel.com>
-	<6a58f235-b235-f25c-b068-fe0c84cf4915@linux.intel.com>
-	<C35FC1E0-3663-4060-9E1C-A286B7A92512@gmail.com>
-	<4187af59-ca62-773d-d814-44dd31cbde88@linux.intel.com>
-	<5A2C0C3E-AA22-4E5B-91B8-3CA9A5282093@gmail.com>
-	<cfa1b8cc-7134-fccf-2033-08f4e6c40104@linux.intel.com>
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+In-Reply-To: <CAGNsrLAHewjcgMojrCaVT+T-cAogpicW2=o=D0T6Fn+3tmNdog@mail.gmail.com>
+Date: Tue, 1 Nov 2016 10:00:32 -0700
+Message-Id: <428BE263-16FC-4F67-AE69-982BEED0E18E@gmail.com>
+References: <20161029145747.32390-1-fathi.boudra@linaro.org>
+	<CAHvQdo11Y5ZV0GaC0YsdFCEz6KwLymLms51hDkASayPXo-3TVA@mail.gmail.com>
+	<CAJTo0LYBANe9f--NJkex3sN52ZGUH6Nrd45ktaYV1qxdY8gNJg@mail.gmail.com>
+	<CAGNsrLAHewjcgMojrCaVT+T-cAogpicW2=o=D0T6Fn+3tmNdog@mail.gmail.com>
+To: Fathi Boudra <fathi.boudra@linaro.org>
 X-Mailer: Apple Mail (2.3124)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] boost: Fix SRC_URI checksums
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [oe-core PATCH] wayland: upgrade from 1.11.0 to 1.11.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -67,44 +62,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 01 Nov 2016 16:45:57 -0000
-X-Groupsio-MsgNum: 88872
+X-List-Received-Date: Tue, 01 Nov 2016 17:00:37 -0000
+X-Groupsio-MsgNum: 88873
 Content-Type: multipart/signed;
-	boundary="Apple-Mail=_4D50A1DD-EA64-4CDA-817E-DA9A98AF5C1D";
+	boundary="Apple-Mail=_EDEEE478-7706-4411-9C8F-857BE951F046";
 	protocol="application/pgp-signature"; micalg=pgp-sha1
 
---Apple-Mail=_4D50A1DD-EA64-4CDA-817E-DA9A98AF5C1D
-Content-Transfer-Encoding: quoted-printable
+--Apple-Mail=_EDEEE478-7706-4411-9C8F-857BE951F046
+Content-Transfer-Encoding: 7bit
 Content-Type: text/plain;
-	charset=windows-1252
+	charset=us-ascii
 
 
-> On Nov 1, 2016, at 9:33 AM, Alexander Kanavin =
-<alexander.kanavin@linux.intel.com> wrote:
->=20
-> On 11/01/2016 06:06 PM, Khem Raj wrote:
->=20
->>>> we should specify boost/boost/1.62.0/boost_1_62_0.tar.bz2 instead =
-of boost/boost/boost_1_62_0.tar.bz2
->>>=20
->>> Incorrect. That will still download a master snapshot tarball. Only =
-if the 'project/' is prefixed, SF will give you the release tarball.
->>=20
->> if we need projects/ then it should be encoded into =
-SOURCEFORGE_MIRROR variable in bitbake.conf. Since that required for
->> every sf.net project.
->=20
-> Would you then also fix the remaining recipe-specific part of the URI =
-in all those recipes? I don't have the bandwidth for that right now, and =
-it's a problem that is unlikely to happen in other recipes.
->=20
+> On Nov 1, 2016, at 12:04 AM, Fathi Boudra <fathi.boudra@linaro.org> wrote:
+> 
+> On 31 October 2016 at 13:32, Burton, Ross <ross.burton@intel.com> wrote:
+>> 
+>> On 31 October 2016 at 08:25, Johannes Pointner <h4nn35.work@gmail.com>
+>> wrote:
+>>> 
+>>> Wouldn't it make more sense to update to 1.12?
+>>> Since 1.11.1 is backporting fixes from 1.12 as stated in the annouce
+>>> mail of the release.
+>> 
+>> 
+>> Absolutely - there's a 1.12 so unless there's a good reason to avoid it in
+>> master we should be moving to that.
+> 
+> The reason is pretty simple, I submitted this change only to go with
+> the weston patch backported from master to 1.11 serie since it is what
+> is available in oe-core. It's the combination I tested on my available
+> boards and nothing related with newer version.
 
-I wonder if same problem would not happen for other sf.net packages.
-probably we never run into it probably because it gets backed up on yp =
-download mirror
-and then used. I am not expecting you to fix it, don't worry.
+This also raised a question if minor version upgrades will be accepted
+in maintained released branches.
 
---Apple-Mail=_4D50A1DD-EA64-4CDA-817E-DA9A98AF5C1D
+> 
+>> Ross
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
+
+--Apple-Mail=_EDEEE478-7706-4411-9C8F-857BE951F046
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment;
 	filename=signature.asc
@@ -115,9 +117,9 @@ Content-Description: Message signed with OpenPGP using GPGMail
 -----BEGIN PGP SIGNATURE-----
 Comment: GPGTools - https://gpgtools.org
 
-iEYEARECAAYFAlgYxsEACgkQuwUzVZGdMxSnugCeMs0/Cu/Jng0namoDT3P7lXeq
-CvoAmQFG971V3w2QTEeNYdpFNGjz2SBt
-=T0f1
+iEYEARECAAYFAlgYyjQACgkQuwUzVZGdMxSx8ACfYB4cZ8JBn/BqeGhJx71joWUH
+8Q8An2kBTYuoUh+a1qWsmxYjQM/5r9gv
+=U3t/
 -----END PGP SIGNATURE-----
 
---Apple-Mail=_4D50A1DD-EA64-4CDA-817E-DA9A98AF5C1D--
+--Apple-Mail=_EDEEE478-7706-4411-9C8F-857BE951F046--
