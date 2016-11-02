@@ -1,20 +1,23 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 176B071A6B
+	by mail.openembedded.org (Postfix) with ESMTP id 7367371B5E
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  2 Nov 2016 17:07:54 +0000 (UTC)
+	Wed,  2 Nov 2016 17:07:55 +0000 (UTC)
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by orsmga103.jf.intel.com with ESMTP; 02 Nov 2016 10:07:33 -0700
+	by orsmga103.jf.intel.com with ESMTP; 02 Nov 2016 10:07:35 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.31,583,1473145200"; d="scan'208";a="1079637403"
+X-IronPort-AV: E=Sophos;i="5.31,583,1473145200"; d="scan'208";a="1079637413"
 Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by fmsmga002.fm.intel.com with ESMTP; 02 Nov 2016 10:07:32 -0700
+	by fmsmga002.fm.intel.com with ESMTP; 02 Nov 2016 10:07:33 -0700
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  2 Nov 2016 19:05:04 +0200
-Message-Id: <20161102170505.14228-1-alexander.kanavin@linux.intel.com>
+Date: Wed,  2 Nov 2016 19:05:05 +0200
+Message-Id: <20161102170505.14228-2-alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.10.1
-Subject: [PATCH 1/2] lttng: enable optional building of manpages
+In-Reply-To: <20161102170505.14228-1-alexander.kanavin@linux.intel.com>
+References: <20161102170505.14228-1-alexander.kanavin@linux.intel.com>
+Cc: Costin Constantin <costin.c.constantin@intel.com>
+Subject: [PATCH 2/2] oeqa/selftest/kernel.py: Add new file destined for kernel related tests
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,60 +32,62 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 02 Nov 2016 17:07:55 -0000
 
-(From OE-Core rev: 6ca9b7a56fac1d1b4f087346d3279bfdd50b93a3)
+From: Costin Constantin <costin.c.constantin@intel.com>
 
-Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+[YP#7202]:  Test for linux-dummy
+The new kernel.py file is intended for kernel related test cases.
+The test for linux-dummy will ensure it is in good shape and can
+be used as a kernel replacement at build time. To do this, the
+test will first clean sstate for linux-dummy target, ensuring no
+file is present in the stamps directory. After, core-image-minimal
+is built, ensuring linux-dummy can be used as a kernel substitute.
+
+(From OE-Core rev: 98c6ebf1e05158c689e01b785d32757847cdb10c)
+
+Signed-off-by: Costin Constantin <costin.c.constantin@intel.com>
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- meta/recipes-kernel/lttng/lttng-tools_git.bb | 4 ++--
- meta/recipes-kernel/lttng/lttng-ust_git.bb   | 4 ++--
- 2 files changed, 4 insertions(+), 4 deletions(-)
+ meta/lib/oeqa/selftest/kernel.py | 29 +++++++++++++++++++++++++++++
+ 1 file changed, 29 insertions(+)
+ create mode 100644 meta/lib/oeqa/selftest/kernel.py
 
-diff --git a/meta/recipes-kernel/lttng/lttng-tools_git.bb b/meta/recipes-kernel/lttng/lttng-tools_git.bb
-index bfc657b..016346f 100644
---- a/meta/recipes-kernel/lttng/lttng-tools_git.bb
-+++ b/meta/recipes-kernel/lttng/lttng-tools_git.bb
-@@ -26,7 +26,7 @@ PACKAGECONFIG ??= "lttng-ust"
- PACKAGECONFIG[python] = "--enable-python-bindings ${PYTHON_OPTION},,python3 swig-native"
- PACKAGECONFIG[lttng-ust] = "--with-lttng-ust, --without-lttng-ust, lttng-ust"
- PACKAGECONFIG[kmod] = "--enable-kmod, --disable-kmod, kmod"
--PACKAGECONFIG[manpages] = "--enable-man-pages, --disable-man-pages, asciidoc-native"
-+PACKAGECONFIG[manpages] = "--enable-man-pages, --disable-man-pages, asciidoc-native xmlto-native libxslt-native"
- PACKAGECONFIG_remove_libc-musl = "lttng-ust"
- 
- SRC_URI = "git://git.lttng.org/lttng-tools.git;branch=stable-2.8 \
-@@ -35,7 +35,7 @@ SRC_URI = "git://git.lttng.org/lttng-tools.git;branch=stable-2.8 \
- 
- S = "${WORKDIR}/git"
- 
--inherit autotools-brokensep ptest pkgconfig useradd python3-dir
-+inherit autotools-brokensep ptest pkgconfig useradd python3-dir manpages
- 
- USERADD_PACKAGES = "${PN}"
- GROUPADD_PARAM_${PN} = "tracing"
-diff --git a/meta/recipes-kernel/lttng/lttng-ust_git.bb b/meta/recipes-kernel/lttng/lttng-ust_git.bb
-index baff71f..07ce2f4 100644
---- a/meta/recipes-kernel/lttng/lttng-ust_git.bb
-+++ b/meta/recipes-kernel/lttng/lttng-ust_git.bb
-@@ -8,7 +8,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=c963eb366b781252b0bf0fdf1624d9e9 \
-                     file://snprintf/snprintf.c;endline=32;md5=d3d544959d8a3782b2e07451be0a903c \
-                     file://snprintf/various.h;endline=31;md5=89f2509b6b4682c4fc95255eec4abe44"
- 
--inherit autotools lib_package
-+inherit autotools lib_package manpages
- 
- DEPENDS = "liburcu util-linux"
- RDEPENDS_${PN}-bin = "python3-core"
-@@ -26,7 +26,7 @@ SRC_URI = "git://git.lttng.org/lttng-ust.git;branch=stable-2.8 \
-            file://lttng-ust-doc-examples-disable.patch \
-           "
- 
--EXTRA_OECONF += "--disable-man-pages"
-+PACKAGECONFIG[manpages] = "--enable-man-pages, --disable-man-pages, asciidoc-native xmlto-native libxslt-native"
- 
- do_install_append() {
-         # Patch python tools to use Python 3; they should be source compatible, but
+diff --git a/meta/lib/oeqa/selftest/kernel.py b/meta/lib/oeqa/selftest/kernel.py
+new file mode 100644
+index 0000000..3fe3517
+--- /dev/null
++++ b/meta/lib/oeqa/selftest/kernel.py
+@@ -0,0 +1,29 @@
++import os
++import oeqa.utils.ftools as ftools
++from oeqa.selftest.base import oeSelfTest
++from oeqa.utils.commands import runCmd, bitbake, get_bb_var
++from oeqa.utils.decorators import testcase
++
++class KernelTests(oeSelfTest):
++    def  test_dummy_kernel(self):
++        """
++        [YP#7202]
++        - test that linux-dummy target can be used as kernel provider for an image
++        - check no "multiple providers are available for" message is received while building the image
++        """
++        config_param = 'PREFERRED_PROVIDER_virtual/kernel = "linux-dummy"'
++        self.append_config(config_param)
++        arch_dir = get_bb_var('MULTIMACH_TARGET_SYS', target='linux-dummy')
++        stamps_dir = os.path.join(os.getenv('BUILDDIR'), "tmp/stamps")
++        lnx_dmy_stamps_dir = os.path.join(stamps_dir, arch_dir, 'linux-dummy')
++        res = bitbake("linux-dummy -ccleansstate") # ensure we have nothing related to linux-dummy in stamps dir.
++        self.assertFalse(os.listdir(lnx_dmy_stamps_dir), msg='linux-dummy stamps dir. should have been cleaned. Something \
++                         happened with bitbake linux-dummy -ccleansstate')
++        res = bitbake("core-image-minimal")# testing linux-dummy is both buildable and usable within an image
++        self.remove_config(config_param)
++        self.assertEqual(res.status, 0, msg="core-image-minimal failed to build. Please check logs. ")
++        self.assertNotIn("multiple providers are available for", res.output, msg="'multiple providers are available for\
++                        linux-dummy' message received during buildtime.")
++        self.assertTrue(os.listdir(lnx_dmy_stamps_dir), msg="linux-dummy didn't build correctly. No stamp present in stamps \
++                        dir. %s" % lnx_dmy_stamps_dir)
++         
 -- 
 2.10.1
 
