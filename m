@@ -1,45 +1,47 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f47.google.com (mail-wm0-f47.google.com [74.125.82.47])
-	by mail.openembedded.org (Postfix) with ESMTP id 751646060F
+Return-Path: <pidge@toganlabs.com>
+X-Greylist: delayed 407 seconds by postgrey-1.34 at layers.openembedded.org;
+	Wed, 02 Nov 2016 18:44:37 UTC
+Received: from burlywood.maple.relay.mailchannels.net
+	(burlywood.maple.relay.mailchannels.net [23.83.214.26])
+	by mail.openembedded.org (Postfix) with ESMTP id 8938D719D9
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  2 Nov 2016 17:48:31 +0000 (UTC)
-Received: by mail-wm0-f47.google.com with SMTP id n67so52968382wme.1
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 02 Nov 2016 10:48:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=pH/4X+g10PRtUnGS57ma9NuqfSJuYsQLN9Ofidp6Igc=;
-	b=AQBK85le5QTLCV+YEGN4fLV7hwUTWVloPHIUU9C9lf70gLMkvXaEfWX8ZhQWaLbJdt
-	DbP5YvmBp/0+M8pTOLovS2coCO7U7dNZwhQwq3nrtS0KNEH82x1kSBYUdIr/+vV/zedi
-	5fM9k1mECms3LpkFEGN3B9C+mejUEFfqEPRrgHPMbFfEiNDE+/G+yjJblz0izn6CCHy/
-	IsKfKb0YPcDgB292mLphGV1rL+RCbtDweuPS04DFJoSOytt4euw1qxspjZNM2CczX9qV
-	cet0rqMwCD43pBOGpgURn4q6zrSxaKXpz7br5y/dEF8Tuwac7Z+9NT+bEzctHYl3JFia
-	CBzA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=pH/4X+g10PRtUnGS57ma9NuqfSJuYsQLN9Ofidp6Igc=;
-	b=Assrb6P+a4UAE9L5v++6x/keh0ZBs7axDHwudTB/KREGTJZojr+ZsRZ+8gz0OJ+KxM
-	qV8aFc1ZYVcGiSMdGziJseBybX9FpAbSdMTVfvEpTmodOEQqVVv14uAB1mxnjq/Vc2El
-	cit0KDfOc/w+sJ5MxLkhFdv1u5vYlY6/UKNXjNxcd3BsD0dOliIEdTEgxTo1+8XItqNK
-	1ILa43mwX+FtO80Pw30VoP19ZrMaknotr42UB/OpKY9fl0Xuum3g5/CUUWEgDYsouS9G
-	abAppj6FGERCgw8Bf8HBGqAKim8zbyhPXOge35vDuB0iXLb7bwQ7RBrWaTJdP9kb6fYX
-	xsNA==
-X-Gm-Message-State: ABUngvcpshnzpxZei1xJPCXYBIAwP/otH4cFdGA4DEGKlNHgyjWPdnbAdN4i+UBL2ZMx59s5
-X-Received: by 10.194.157.9 with SMTP id wi9mr3838712wjb.143.1478108912780;
-	Wed, 02 Nov 2016 10:48:32 -0700 (PDT)
-Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id r4sm4507089wmb.19.2016.11.02.10.48.31
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 02 Nov 2016 10:48:32 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  2 Nov 2016 17:48:28 +0000
-Message-Id: <1478108908-9140-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 2.8.1
-Subject: [PATCH] db: remove pointless documentation
+	Wed,  2 Nov 2016 18:44:36 +0000 (UTC)
+X-Sender-Id: hostpapa|x-authuser|pidge@toganlabs.com
+Received: from relay.mailchannels.net (localhost [127.0.0.1])
+	by relay.mailchannels.net (Postfix) with ESMTP id A844421116;
+	Wed,  2 Nov 2016 18:37:50 +0000 (UTC)
+Received: from hp181.hostpapa.com (ip-10-120-4-226.us-west-2.compute.internal
+	[10.120.4.226])
+	by relay.mailchannels.net (Postfix) with ESMTPA id 9CE8021E90;
+	Wed,  2 Nov 2016 18:37:45 +0000 (UTC)
+X-Sender-Id: hostpapa|x-authuser|pidge@toganlabs.com
+Received: from hp181.hostpapa.com ([TEMPUNAVAIL]. [10.95.17.29])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384)
+	by 0.0.0.0:2500 (trex/5.7.8); Wed, 02 Nov 2016 18:37:50 +0000
+X-MC-Relay: Neutral
+X-MailChannels-SenderId: hostpapa|x-authuser|pidge@toganlabs.com
+X-MailChannels-Auth-Id: hostpapa
+X-MC-Loop-Signature: 1478111865956:38508874
+X-MC-Ingress-Time: 1478111865955
+Received: from [37.228.247.203] (port=27338 helo=[192.168.0.60])
+	by hp181.hostpapa.com with esmtpsa
+	(TLSv1.2:ECDHE-RSA-AES128-GCM-SHA256:128) (Exim 4.87)
+	(envelope-from <pidge@toganlabs.com>)
+	id 1c20Pr-003pDb-DQ; Wed, 02 Nov 2016 19:37:40 +0100
+Message-ID: <1478111855.32080.20.camel@toganlabs.com>
+From: Beth 'pidge' Flanagan <pidge@toganlabs.com>
+Reply-To: pidge@toganlabs.com
+To: Ross Burton <ross.burton@intel.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Wed, 02 Nov 2016 18:37:35 +0000
+In-Reply-To: <1478099232-23987-1-git-send-email-ross.burton@intel.com>
+References: <1478099232-23987-1-git-send-email-ross.burton@intel.com>
+Organization: toganlabs.com
+X-Mailer: Evolution 3.18.5.2-0ubuntu3 
+Mime-Version: 1.0
+X-OutGoing-Spam-Status: No, score=-1.0
+X-AuthUser: pidge@toganlabs.com
+Subject: Re: [PATCH] classes/license: copy licenses even if there are no checksummed files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,55 +54,80 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 02 Nov 2016 17:48:32 -0000
+X-List-Received-Date: Wed, 02 Nov 2016 18:44:37 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-db-doc has an installed footprint of 94MB, but 60MB of that is the documentation
-for the Java and C# bindings which are not part of this recipe.  Remove them and
-the for-print PDF manuals to massively reduce the footprint of db-doc.
+On Wed, 2016-11-02 at 15:07 +0000, Ross Burton wrote:
+> Previously do_populate_lic would bail writing the license files (such
+> as the MIT
+> license text) to deploy/licenses/${PN}/ if there were no files listed
+> in
+> LIC_FILES_CHKSUM.
+>=20
+> However this means that recipes that generate their content (such as
+> os-release)
+> or are otherwise "interesting" (such as perf) don't have their
+> license files
+> copied over, resulting in warnings from do_rootfs.
+>=20
 
-Also improve the fix for the documentation install path, and put the
-documentation under ${docdir}/db instead of just ${docdir} (which is
-/usr/share/doc by default).
+It's been a bit since I've looked at license.bbclass, but I guess my
+question here is this seems to take out all notification that a recipe
+doesn't have a LIC_FILES_CHKSUM, correct?
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-support/db/db_6.0.35.bb | 14 ++++++--------
- 1 file changed, 6 insertions(+), 8 deletions(-)
+I'd rather we maybe kept the note in and maybe whitelisted recipes that
+did interesting things so that didn't appear than just ignored when a
+recipe was missing it.=C2=A0
 
-diff --git a/meta/recipes-support/db/db_6.0.35.bb b/meta/recipes-support/db/db_6.0.35.bb
-index 32afbe8..f60edf9 100644
---- a/meta/recipes-support/db/db_6.0.35.bb
-+++ b/meta/recipes-support/db/db_6.0.35.bb
-@@ -87,7 +87,7 @@ MUTEX_arm = "${ARM_MUTEX}"
- MUTEX_armeb = "${ARM_MUTEX}"
- EXTRA_OECONF += "${MUTEX}"
- EXTRA_OEMAKE_append_class-target = " LIBTOOL=${STAGING_BINDIR_CROSS}/${HOST_SYS}-libtool"
--EXTRA_OEMAKE += "STRIP=true"
-+EXTRA_OEMAKE += "STRIP=true docdir=${docdir}/db/"
- 
- do_compile_prepend() {
- 	# Stop libtool adding RPATHs
-@@ -101,14 +101,12 @@ do_install_append() {
- 	ln -s db60/db.h ${D}/${includedir}/db.h
- 	ln -s db60/db_cxx.h ${D}/${includedir}/db_cxx.h
- 
--	# The docs end up in /usr/docs - not right.
--	if test -d "${D}/${prefix}/docs"
--	then
--		mkdir -p "${D}/${datadir}"
--		test ! -d "${D}/${docdir}" || rm -rf "${D}/${docdir}"
--		mv "${D}/${prefix}/docs" "${D}/${docdir}"
--	fi
-+	# Prune the documentation to remove large (PDF) or pointless (Java) files.
-+	find ${D}${docdir} -name *.pdf -delete
-+	rm -rf ${D}${docdir}/db/java
-+	rm -rf ${D}${docdir}/db/csharp
- 
-+	# The makefiles use cp -p, so we need to chmod until that is fixed.
- 	chown -R root:root ${D}
- }
- 
--- 
-2.8.1
+Because if we don't at least bb.note it, I can see people just ignoring
+it entirely (which would be bad in a lot of ways)
 
+-b
+
+> Signed-off-by: Ross Burton <ross.burton@intel.com>
+> ---
+> =C2=A0meta/classes/license.bbclass | 8 +-------
+> =C2=A01 file changed, 1 insertion(+), 7 deletions(-)
+>=20
+> diff --git a/meta/classes/license.bbclass
+> b/meta/classes/license.bbclass
+> index 660b85f..afcfbfc 100644
+> --- a/meta/classes/license.bbclass
+> +++ b/meta/classes/license.bbclass
+> @@ -390,7 +390,7 @@ def find_license_files(d):
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0from collections import defaultdict, Orde=
+redDict
+> =C2=A0
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0# All the license files for the package
+> -=C2=A0=C2=A0=C2=A0=C2=A0lic_files =3D d.getVar('LIC_FILES_CHKSUM', Tru=
+e)
+> +=C2=A0=C2=A0=C2=A0=C2=A0lic_files =3D d.getVar('LIC_FILES_CHKSUM', Tru=
+e) or ""
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0pn =3D d.getVar('PN', True)
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0# The license files are located in S/LIC_=
+FILE_CHECKSUM.
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0srcdir =3D d.getVar('S', True)
+> @@ -469,12 +469,6 @@ def find_license_files(d):
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0if not generic_directory:
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0bb.fatal("COMMON_=
+LICENSE_DIR is unset. Please set this in
+> your distro config")
+> =C2=A0
+> -=C2=A0=C2=A0=C2=A0=C2=A0if not lic_files:
+> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0# No recipe should hav=
+e an invalid license file. This is
+> checked else
+> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0# where, but let's be =
+pedantic
+> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0bb.note(pn + ": Recipe=
+ file does not have license file
+> information.")
+> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0return lic_files_paths
+> -
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0for url in lic_files.split():
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0try:
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0(type, host, path, user, pswd, parm) =3D
+> bb.fetch.decodeurl(url)
 
