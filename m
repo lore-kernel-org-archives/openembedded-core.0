@@ -1,30 +1,47 @@
 Return-Path: <marex@denx.de>
-Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.10])
-	by mail.openembedded.org (Postfix) with ESMTP id F0CD871B8A
+Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.9])
+	by mail.openembedded.org (Postfix) with ESMTP id 547AB6E688
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  2 Nov 2016 12:07:39 +0000 (UTC)
+	Wed,  2 Nov 2016 12:08:18 +0000 (UTC)
 Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
-	by mail-out.m-online.net (Postfix) with ESMTP id 3t86L416Z3z3hkd6;
-	Wed,  2 Nov 2016 13:07:40 +0100 (CET)
+	by mail-out.m-online.net (Postfix) with ESMTP id 3t86Ln3TB6z3hjQQ;
+	Wed,  2 Nov 2016 13:08:17 +0100 (CET)
 Received: from localhost (dynscan1.mnet-online.de [192.168.6.68])
-	by mail.m-online.net (Postfix) with ESMTP id 3t86L40mr3zvm7M;
-	Wed,  2 Nov 2016 13:07:40 +0100 (CET)
+	by mail.m-online.net (Postfix) with ESMTP id 3t86Ln0WfCzvlQL;
+	Wed,  2 Nov 2016 13:08:17 +0100 (CET)
 X-Virus-Scanned: amavisd-new at mnet-online.de
 Received: from mail.mnet-online.de ([192.168.8.182])
 	by localhost (dynscan1.mail.m-online.net [192.168.6.68]) (amavisd-new,
 	port 10024)
-	with ESMTP id XQl7BSN_e1SI; Wed,  2 Nov 2016 13:07:34 +0100 (CET)
-X-Auth-Info: L2yOgSO8k/WN+ldGYvLdDCjUKhad30J6VdtK/i3gBks=
-Received: from chi.lan (unknown [195.140.253.167])
-	by mail.mnet-online.de (Postfix) with ESMTPA;
-	Wed,  2 Nov 2016 13:07:34 +0100 (CET)
+	with ESMTP id B4sY8qg7-fHc; Wed,  2 Nov 2016 13:08:16 +0100 (CET)
+X-Auth-Info: N/mufIC8VvtQy9yLHqxZjgOFhNZi50cEInN2Mvz9NBM=
+Received: from [IPv6:::1] (unknown [195.140.253.167])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mail.mnet-online.de (Postfix) with ESMTPSA;
+	Wed,  2 Nov 2016 13:08:15 +0100 (CET)
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <20161020133514.3403-1-marex@denx.de>
+	<CAJTo0LZeox5Xe6hpnH82JZLaMb1_LtuUjKpcZtmcLOAOnosSUg@mail.gmail.com>
+	<016763e0-b2cb-0c2c-f0d0-219da1c1faa3@denx.de>
+	<20161025183239.GF2494@denix.org>
+	<83c5347a-3962-7b3b-30d3-d5ee876fc2aa@denx.de>
+	<5811E899.6050000@phytec.de>
+	<ae855dd3-d95b-8616-8b6b-a3cf1f0a5275@denx.de>
+	<20161028021134.GK2494@denix.org>
+	<c53d058c-c4f9-ac6f-8a55-bc3d78c180a1@denx.de>
+	<CAJTo0LbtQGRnE_ET=1joJKk2V70UF=uK10TfCv=WLSbnT7BAkA@mail.gmail.com>
+	<7cf154dd-ce37-d648-4f56-636e82a197c0@denx.de>
+	<CAJTo0LZoN5QRB3pg0+kP0_tQqJ_WTzZuaH_FA-ijDtoY+mYHPg@mail.gmail.com>
 From: Marek Vasut <marex@denx.de>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  2 Nov 2016 13:07:24 +0100
-Message-Id: <20161102120724.30063-1-marex@denx.de>
-X-Mailer: git-send-email 2.9.3
-Cc: Marek Vasut <marex@denx.de>
-Subject: [PATCH] u-boot: mkimage: Fix build of u-boot-mkimage
+Message-ID: <2cef9ced-0733-aa13-17e6-0cbc71616339@denx.de>
+Date: Wed, 2 Nov 2016 13:08:07 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Icedove/45.4.0
+MIME-Version: 1.0
+In-Reply-To: <CAJTo0LZoN5QRB3pg0+kP0_tQqJ_WTzZuaH_FA-ijDtoY+mYHPg@mail.gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/4] u-boot: Update to 2016.09.01 release
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,39 +54,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 02 Nov 2016 12:07:40 -0000
+X-List-Received-Date: Wed, 02 Nov 2016 12:08:19 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
 
-The build failed on qemux86-64 because it couldn't execute
-tools/bin2header on a host due to it being compiled with target
-toolchain. Drop the incorrect EXTRA_OEMAKE and just use the one
-from u-boot-common*.inc . Moreover, since U-Boot buildsystem
-already strips the tools, add INSANE_SKIP = "already-stripped" .
+On 10/31/2016 03:59 PM, Burton, Ross wrote:
+> 
+> On 30 October 2016 at 18:18, Marek Vasut <marex@denx.de
+> <mailto:marex@denx.de>> wrote:
+> 
+>     So the simplest test would be to do the build of native u-boot-mkimage
+>     on, say, centos/fedora ?
+> 
+> 
+> No, a build on Debian (I've just replicated this on my own debian build
+> machine).  Literally just "bitbake u-boot-mkimage" fails to build.
 
-Signed-off-by: Marek Vasut <marex@denx.de>
-Cc: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-bsp/u-boot/u-boot-mkimage_2016.09.01.bb | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+Got it, replicated, thanks.
 
-diff --git a/meta/recipes-bsp/u-boot/u-boot-mkimage_2016.09.01.bb b/meta/recipes-bsp/u-boot/u-boot-mkimage_2016.09.01.bb
-index 5025961..76b303e 100644
---- a/meta/recipes-bsp/u-boot/u-boot-mkimage_2016.09.01.bb
-+++ b/meta/recipes-bsp/u-boot/u-boot-mkimage_2016.09.01.bb
-@@ -3,8 +3,6 @@ require u-boot-common_${PV}.inc
- SUMMARY = "U-Boot bootloader image creation tool"
- DEPENDS = "openssl"
- 
--EXTRA_OEMAKE = 'CROSS_COMPILE="${TARGET_PREFIX}" CC="${CC} ${CFLAGS} ${LDFLAGS}" STRIP=true V=1'
--
- do_compile () {
- 	oe_runmake sandbox_defconfig
- 	oe_runmake cross_tools NO_SDL=1
-@@ -17,3 +15,4 @@ do_install () {
- }
- 
- BBCLASSEXTEND = "native nativesdk"
-+INSANE_SKIP_${PN} = "already-stripped"
+I sent a patch, see if that works for you.
+
 -- 
-2.9.3
-
+Best regards,
+Marek Vasut
 
