@@ -1,26 +1,61 @@
-Return-Path: <Dengke.Du@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 64D7E719E3
+Return-Path: <anders@chargestorm.se>
+Received: from mail-lf0-f54.google.com (mail-lf0-f54.google.com
+	[209.85.215.54])
+	by mail.openembedded.org (Postfix) with ESMTP id 8008E6072C
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  2 Nov 2016 07:12:12 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id uA27CDT1024361
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	Wed,  2 Nov 2016 08:10:49 +0000 (UTC)
+Received: by mail-lf0-f54.google.com with SMTP id c13so5933560lfg.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 2 Nov 2016 00:12:13 -0700
-Received: from pek-lpgtest20.wrs.com (128.224.179.28) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.294.0; Wed, 2 Nov 2016 00:12:12 -0700
-From: Dengke Du <dengke.du@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 2 Nov 2016 15:12:10 +0800
-Message-ID: <6e20c8f29a91f3e2d490112186fa2b15616bae68.1478070580.git.dengke.du@windriver.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <cover.1478070580.git.dengke.du@windriver.com>
-References: <cover.1478070580.git.dengke.du@windriver.com>
+	Wed, 02 Nov 2016 01:10:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=chargestorm-se.20150623.gappssmtp.com; s=20150623;
+	h=date:from:to:subject:message-id:mail-followup-to:references
+	:mime-version:content-disposition:in-reply-to:organization
+	:user-agent; bh=5EEFhXmKThWKiHyink8vcbJa/V+3wWGp1MM5tiy0eJc=;
+	b=dtJrVn4t72Eaa9UoElU/vxMeLVp7L8wTXAajJfvsrUz2H20Hj0BWcOQUX7fFIULwKE
+	xQHqxh6rwQ+aezm6dodsmid9wHwslIQWb6s5xQvVQoD3BCIbYwLZ8RbyVx7qZYx6PAgM
+	LbOC67toTOcUvtP4fQJL7VUKbovw+Rtv7ra2Kp1alBQNA07q/mtE0JSSCQaAKd7M1d0E
+	GQlifMNn1PotDiz9700mE7OBQq4JXdZJdWwbniGdO0LagOcXBYZ6ws2MQbT588VMaDAa
+	F1HMHr7BSvD0Seze8tJe4d4+tFiaSNQCpS4aJ85ZlKL+/Si6QcE+UguxRm5m+tSMEffI
+	W0EA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:date:from:to:subject:message-id:mail-followup-to
+	:references:mime-version:content-disposition:in-reply-to
+	:organization:user-agent;
+	bh=5EEFhXmKThWKiHyink8vcbJa/V+3wWGp1MM5tiy0eJc=;
+	b=M652nUfa2IUlN14r25amOj/Qy28JgUjWVqGW00mrLRoYV+AzGPDOb55IgfwBR7QvcC
+	gRSGVl7rxXRi8hgSeKJUr40lhxSYM0MV22eiXN9q19hjHHk/zGkIjkLgzV4aJiD6fhK8
+	bdtsZtrjvK4sRM06RnBpkVLvIrKneArdy4MCD86RtuFrrXxr9WCrkAEQqKBvIhIyHzf9
+	rKWvmMnrQqzRGqZ9vX4/WsNXC7Eb0bQHRqBKrw5RMbBavVYz0DLdYnhP8/2cVoCEmInV
+	F3LVNwdqVEt3Y98C3o0FARU/z8i0+EjC+7keW+46qP3KKpKNzUoxdRvviN6GK4GfT6TE
+	QDwA==
+X-Gm-Message-State: ABUngvcz3j5QupU6KR9yAyqz6oIF6J4H9E4d4XC07M14/xLGSz0IMusrWFDIeePx3lPMRw==
+X-Received: by 10.25.35.6 with SMTP id j6mr1088991lfj.137.1478074250272;
+	Wed, 02 Nov 2016 01:10:50 -0700 (PDT)
+Received: from ad.chargestorm.se (213-64-218-49-no126.business.telia.com.
+	[213.64.218.49])
+	by smtp.gmail.com with ESMTPSA id 144sm190440ljf.6.2016.11.02.01.10.49
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Wed, 02 Nov 2016 01:10:49 -0700 (PDT)
+Date: Wed, 2 Nov 2016 09:10:48 +0100
+From: Anders Darander <anders@chargestorm.se>
+To: openembedded-core@lists.openembedded.org
+Message-ID: <20161102081048.jsxkqya6o6oibyep@ad.chargestorm.se>
+Mail-Followup-To: openembedded-core@lists.openembedded.org
+References: <c64cf308-d847-eac0-a2f7-bc8e686c2262@gmail.com>
+	<CAJTo0LbR6gQYppuR6EPo30xnADd7-mfG6wg3Nf_r7a2-xgHgrw@mail.gmail.com>
+	<a7611154-80b8-3a80-131a-9200ba4ccb34@gmail.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/1] fix "svnadmin create" fail on x86
+In-Reply-To: <a7611154-80b8-3a80-131a-9200ba4ccb34@gmail.com>
+X-Accept-Language: sv, en, de
+X-GPG-Fingerprint: 5AF0 B2E9 78FE 9D75 D110  6F8F 3E31 84D7 920E 938C
+X-GPG-Key-Id: 0x920E938C
+X-GPG-Keyserver: hkp://keys.gnupg.net
+Organization: ChargeStorm AB
+User-Agent: NeoMutt/20161014 (1.7.1)
+Subject: Re: [PATCH] connman: fix bad file descriptor initialisation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,115 +68,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 02 Nov 2016 07:12:13 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 02 Nov 2016 08:10:51 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-When run the following command on x86:
+* Lukasz Nowak <lnowak.tyco@gmail.com> [161101 13:57]:
 
-        svnadmin create /var/test_repo
+> It is a re-send. Apologies, but I have not received either of my two
+> e-mails back from the mailing list, so I assumed the first one got
+> stuck somewhere. I can see both of them in the web archive, though. Is
+> that normal?
 
-It cause segmentation fault error like the following:
+Are you receiving any email you send to an list? GMail is pretty good at
+removing the e-mails from a list that you sent yourself... At least,
+I've never received any of them myself.
 
-        [16499.751837] svnadmin[21117]: segfault at 83 ip 00000000f74bf7f6 sp 00000000ffdd9b34 error 4 in libc-2.24.so[f7441000+1af000]
-        Segmentation fault (core dumped)
+There's quite a few old threads about this on GMails support forum.
 
-This is because in source code ./subversion/libsvn_fs_fs/low_level.c,
-function svn_fs_fs__unparse_footer, when:
+/Anders
 
-        target arch:    x86
-        apr_off_t:      4 bytes
-
-if the "APR_OFF_T_FMT" is "lld", it still use type "apr_off_t" to pass
-data to apr, but in apr source code file apr_snprintf.c the function
-apr_vformatter meet "lld", it would use the:
-
-        i_quad = va_arg(ap, apr_int64_t);
-
-It uses the apr_int64_t to deal data, it read 8 bytes, so the follow-up
-data may be error.
-
-Signed-off-by: Dengke Du <dengke.du@windriver.com>
----
- .../0001-fix-svnadmin-create-fail-on-x86.patch     | 56 ++++++++++++++++++++++
- .../subversion/subversion_1.9.4.bb                 |  1 +
- 2 files changed, 57 insertions(+)
- create mode 100644 meta/recipes-devtools/subversion/subversion/0001-fix-svnadmin-create-fail-on-x86.patch
-
-diff --git a/meta/recipes-devtools/subversion/subversion/0001-fix-svnadmin-create-fail-on-x86.patch b/meta/recipes-devtools/subversion/subversion/0001-fix-svnadmin-create-fail-on-x86.patch
-new file mode 100644
-index 0000000..d440528
---- /dev/null
-+++ b/meta/recipes-devtools/subversion/subversion/0001-fix-svnadmin-create-fail-on-x86.patch
-@@ -0,0 +1,56 @@
-+From 09475e0befca8d120c957177ce8568fa2209a1a9 Mon Sep 17 00:00:00 2001
-+From: Dengke Du <dengke.du@windriver.com>
-+Date: Wed, 2 Nov 2016 11:09:44 +0800
-+Subject: [PATCH] fix "svnadmin create" fail on x86
-+
-+When run the following command on x86:
-+
-+        svnadmin create /var/test_repo
-+
-+It cause segmentation fault error like the following:
-+
-+        [16499.751837] svnadmin[21117]: segfault at 83 ip 00000000f74bf7f6 sp 00000000ffdd9b34 error 4 in libc-2.24.so[f7441000+1af000]
-+        Segmentation fault (core dumped)
-+
-+This is because in source code ./subversion/libsvn_fs_fs/low_level.c,
-+function svn_fs_fs__unparse_footer, when:
-+
-+        target arch:    x86
-+        apr_off_t:      4 bytes
-+
-+if the "APR_OFF_T_FMT" is "lld", it still use type "apr_off_t" to pass
-+data to apr, but in apr source code file apr_snprintf.c the function
-+apr_vformatter meet "lld", it would use the:
-+
-+        i_quad = va_arg(ap, apr_int64_t);
-+
-+It uses the apr_int64_t to deal data, it read 8 bytes, so the follow-up
-+data may be error.
-+
-+Upstream-Status: Pending
-+
-+Signed-off-by: Dengke Du <dengke.du@windriver.com>
-+---
-+ subversion/libsvn_fs_fs/low_level.c | 4 ++--
-+ 1 file changed, 2 insertions(+), 2 deletions(-)
-+
-+diff --git a/subversion/libsvn_fs_fs/low_level.c b/subversion/libsvn_fs_fs/low_level.c
-+index a27bbcc..6ddbe28 100644
-+--- a/subversion/libsvn_fs_fs/low_level.c
-++++ b/subversion/libsvn_fs_fs/low_level.c
-+@@ -250,10 +250,10 @@ svn_fs_fs__unparse_footer(apr_off_t l2p_offset,
-+ {
-+   return svn_stringbuf_createf(result_pool,
-+                                "%" APR_OFF_T_FMT " %s %" APR_OFF_T_FMT " %s",
-+-                               l2p_offset,
-++                               (APR_OFF_T_FMT=="lld") ? (apr_int64_t)l2p_offset : l2p_offset,
-+                                svn_checksum_to_cstring(l2p_checksum,
-+                                                        scratch_pool),
-+-                               p2l_offset,
-++                               (APR_OFF_T_FMT=="lld") ? (apr_int64_t)p2l_offset : p2l_offset,
-+                                svn_checksum_to_cstring(p2l_checksum,
-+                                                        scratch_pool));
-+ }
-+-- 
-+2.7.4
-+
-diff --git a/meta/recipes-devtools/subversion/subversion_1.9.4.bb b/meta/recipes-devtools/subversion/subversion_1.9.4.bb
-index 3ce83c1..fa6a7f2 100644
---- a/meta/recipes-devtools/subversion/subversion_1.9.4.bb
-+++ b/meta/recipes-devtools/subversion/subversion_1.9.4.bb
-@@ -14,6 +14,7 @@ SRC_URI = "${APACHE_MIRROR}/${BPN}/${BPN}-${PV}.tar.bz2 \
-            file://disable_macos.patch \
-            file://serf.m4-Regex-modified-to-allow-D-in-paths.patch \
-            file://0001-Fix-libtool-name-in-configure.ac.patch \
-+           file://0001-fix-svnadmin-create-fail-on-x86.patch \
-            "
- 
- SRC_URI[md5sum] = "29121a038f87641055a8183f49e9739f"
 -- 
-2.7.4
-
+Anders Darander, Senior System Architect
+ChargeStorm AB / eStorm AB
 
