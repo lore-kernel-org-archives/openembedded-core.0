@@ -1,45 +1,45 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f170.google.com (mail-qk0-f170.google.com
-	[209.85.220.170])
-	by mail.openembedded.org (Postfix) with ESMTP id E341271AE9
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-pf0-f194.google.com (mail-pf0-f194.google.com
+	[209.85.192.194])
+	by mail.openembedded.org (Postfix) with ESMTP id BB04A71A68
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  2 Nov 2016 20:42:28 +0000 (UTC)
-Received: by mail-qk0-f170.google.com with SMTP id q130so33303310qke.1
+	Wed,  2 Nov 2016 22:57:11 +0000 (UTC)
+Received: by mail-pf0-f194.google.com with SMTP id y68so2895226pfb.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 02 Nov 2016 13:42:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=btzcSnPdzx/uJ6QyocRoM6FyKzddYYCU9FXiwcrqxb0=;
-	b=SSsKoUkE1PcaQINKzO+91HHj9JPXTKXeHUoR82vhSA5V3T/0q8HyWQcvazwGLwU53c
-	y6pvxuHRUCu7VMtqc6k9oAzrKnXIMUaQeNDzyxQBb9gJskUSUkhgwuL5tMKF6zMgVXY0
-	A+hm2nc4/7W0M6d+yXsc1KGdF4nQc8aE0Q5yCobBvLmiXi7TCn9E0dk9EoDnr4owk+3z
-	7df8IrOEvlPMCWQ/Zk7nnSsHfTf+maxoDHUGWlyqdGhJeuF5ZA1RDWEd26P22I0Ehnuj
-	w4U720e2NReZxY2s/2FQEFOHr01BYvdAuTd3ntyRW+ZfHSOysJxAeHlGIN0JTpRB7Q2c
-	28Ug==
+	Wed, 02 Nov 2016 15:57:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=6G1IKX1ynVtwNx1gDBefCue8bT28YVqX4mKGV++z+BQ=;
+	b=HEN7FNtV2OMUNPkYl1b7UepEjOREX9Y8KTBMS1N+9Uk9ElkVL/PVgtXyg7fDPjJirm
+	jN5IEDUpPR6XdN8DEr6iGIj6Yhd1AXQrQlsnOSAcqJ2+4OZoHbll45rKOOnZAzOXAI9S
+	7+lr6AVRJdQja1gAQiYd9HUdUhsJSUCkgcLIrVmAOn5k0OlvYhRyXfo6DriHKifGJLYZ
+	TvjQ8+cTlra7meybbqC0sAKVTu4sC11ND0Mrqth5zJSWuRNJarBCyNh5ZCC7C42xLe+s
+	kismLZoJwLkIn3/MRoHHw6XuOxA6HAJbRFnx8O5u67MVDJWao0gupntXXnrHNmM4/bWA
+	Nhdg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=btzcSnPdzx/uJ6QyocRoM6FyKzddYYCU9FXiwcrqxb0=;
-	b=eWEKCemg/V7RtnDt8T3kILbTjOD5Nro4VXdLd6d8mo/3yfdmn2ntoctbwSn/DnvvCA
-	K8XYocm4LlEvMB3R8yfrViEt9YAfvNOUvUbQ7y9+/PNc4UC92foN5Le7aZMRhcMVpcQ4
-	e17eVnFUX7Fy1uJcnHgal11Nj3mvLl9NrA5zzDdkz1qYGtFM0H9kQpntLBwSJkD8glun
-	VsCabLjsfWnrgsnl1CACERt5bMjNkCpr2XwYfHJlNVu3aDmZ3jCCWjpVMeyAvETZD928
-	UPFBvnaB2aXvzL43ekuo9802Mm7CpwcJx1KAc4h2OQXCsaadq3RKIkqB/b34oBbxJkqz
-	HATA==
-X-Gm-Message-State: ABUngvdnyKw0BcboGUD2tcEpkVm++rbIpyW7kOuX6EaCRU1tos+kneAt7C4cl6cjo0JlYSYeyb1zs6phpD2Qbclj
-X-Received: by 10.55.5.145 with SMTP id 139mr4671882qkf.77.1478119349943; Wed,
-	02 Nov 2016 13:42:29 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.140.85.208 with HTTP; Wed, 2 Nov 2016 13:42:09 -0700 (PDT)
-In-Reply-To: <1478099232-23987-1-git-send-email-ross.burton@intel.com>
-References: <1478099232-23987-1-git-send-email-ross.burton@intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 2 Nov 2016 20:42:09 +0000
-Message-ID: <CAJTo0Lb8gkAUwAAvytpRvdA9eL1hmAu2Am0Xsp9vgHPm8wOWJw@mail.gmail.com>
-To: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] classes/license: copy licenses even if there are no checksummed files
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=6G1IKX1ynVtwNx1gDBefCue8bT28YVqX4mKGV++z+BQ=;
+	b=GqyjXY1ONMzd66hLUQmOVOi8Jqf1flgUH3IzPqFaDdmt8pCqcUtVZmJm+Db9TTF73y
+	mWz/yqqlZ/QWLnV8cYpzSY3O9yYZKTZ8h+dnm3MNUEnXfgAi4LgrglOXnaBMWEyysjwj
+	Hafzp9/T03XqD/QPzlN3zkIOeHPNdrn24PSmsrUOdSpCvAjOOB5B9ylxM8ebkSX9kvEh
+	5PeetPmOBv7DjnRu+DdxSyKsr5DADhUGqGP6XMgsuM35hW7OcSHgV6PfRZ0Y8q6WlN35
+	zuHjMdxnkfFn/GI8TMK7bjEwdJnnQULsAYpKSRTJeHu8rD0ddP1hxZ3zFhvlCnhW4abJ
+	iFEA==
+X-Gm-Message-State: ABUngve6MW5OhqOAuAk66WbapH94KMOtko/FaGa/n+eXlWVsrPX44hueuPSBzIZjb5Mvgg==
+X-Received: by 10.98.10.198 with SMTP id 67mr10620619pfk.157.1478127433127;
+	Wed, 02 Nov 2016 15:57:13 -0700 (PDT)
+Received: from e6520.adbgroup.pl
+	(50-204-102-64-static.hfc.comcastbusiness.net. [50.204.102.64])
+	by smtp.gmail.com with ESMTPSA id n7sm7170868pfn.62.2016.11.02.15.57.11
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 02 Nov 2016 15:57:12 -0700 (PDT)
+From: Andre McCurdy <armccurdy@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  2 Nov 2016 15:57:03 -0700
+Message-Id: <1478127423-4954-1-git-send-email-armccurdy@gmail.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [PATCH] gdb: update 7.11+git1a982b689c -> 7.11.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,83 +52,132 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 02 Nov 2016 20:42:29 -0000
-Content-Type: multipart/alternative; boundary=001a114c8f84ca263a0540577ab6
+X-List-Received-Date: Wed, 02 Nov 2016 22:57:12 -0000
 
---001a114c8f84ca263a0540577ab6
-Content-Type: text/plain; charset=UTF-8
+  41d8236 Set GDB version number to 7.11.1.
+  136613e Fix PR gdb/19828: gdb -p <process from a container>: internal error
+  a0de87e Make gdb/linux-nat.c consider a waitstatus pending on the infrun side
+  cf2cd51 Add mi-threads-interrupt.exp test (PR 20039)
+  f0a8d0d Fix double prompt output after run control MI commands with mi-async on (PR 20045)
+  b5f0db4 Fix -exec-run not running asynchronously with mi-async on (PR gdb/18077)
+  7f8e34d Use target_terminal_ours_for_output in MI
 
-On 2 November 2016 at 15:07, Ross Burton <ross.burton@intel.com> wrote:
+Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+---
+ meta/recipes-devtools/gdb/gdb-7.11.1.inc           | 22 ++++++++++++++++++++
+ meta/recipes-devtools/gdb/gdb-7.11.inc             |  9 --------
+ meta/recipes-devtools/gdb/gdb-common.inc           | 24 ----------------------
+ ...nadian_7.11.bb => gdb-cross-canadian_7.11.1.bb} |  0
+ .../gdb/{gdb-cross_7.11.bb => gdb-cross_7.11.1.bb} |  0
+ .../gdb/{gdb_7.11.bb => gdb_7.11.1.bb}             |  0
+ 6 files changed, 22 insertions(+), 33 deletions(-)
+ create mode 100644 meta/recipes-devtools/gdb/gdb-7.11.1.inc
+ delete mode 100644 meta/recipes-devtools/gdb/gdb-7.11.inc
+ rename meta/recipes-devtools/gdb/{gdb-cross-canadian_7.11.bb => gdb-cross-canadian_7.11.1.bb} (100%)
+ rename meta/recipes-devtools/gdb/{gdb-cross_7.11.bb => gdb-cross_7.11.1.bb} (100%)
+ rename meta/recipes-devtools/gdb/{gdb_7.11.bb => gdb_7.11.1.bb} (100%)
 
-> Previously do_populate_lic would bail writing the license files (such as
-> the MIT
-> license text) to deploy/licenses/${PN}/ if there were no files listed in
-> LIC_FILES_CHKSUM.
->
-> However this means that recipes that generate their content (such as
-> os-release)
-> or are otherwise "interesting" (such as perf) don't have their license
-> files
-> copied over, resulting in warnings from do_rootfs.
->
+diff --git a/meta/recipes-devtools/gdb/gdb-7.11.1.inc b/meta/recipes-devtools/gdb/gdb-7.11.1.inc
+new file mode 100644
+index 0000000..d9dfe6f
+--- /dev/null
++++ b/meta/recipes-devtools/gdb/gdb-7.11.1.inc
+@@ -0,0 +1,22 @@
++LICENSE = "GPLv2 & GPLv3 & LGPLv2 & LGPLv3"
++LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552 \
++		    file://COPYING3;md5=d32239bcb673463ab874e80d47fae504 \
++		    file://COPYING3.LIB;md5=6a6a8e020838b23406c81b19c1d46df6 \
++		    file://COPYING.LIB;md5=9f604d8a4f8e74f4f5140845a21b6674"
++
++SRC_URI = "http://ftp.gnu.org/gnu/gdb/gdb-${PV}.tar.xz \
++           file://0001-include-sys-types.h-for-mode_t.patch \
++           file://0002-make-man-install-relative-to-DESTDIR.patch \
++           file://0003-mips-linux-nat-Define-_ABIO32-if-not-defined.patch \
++           file://0004-ppc-ptrace-Define-pt_regs-uapi_pt_regs-on-GLIBC-syst.patch \
++           file://0005-Add-support-for-Renesas-SH-sh4-architecture.patch \
++           file://0006-Dont-disable-libreadline.a-when-using-disable-static.patch \
++           file://0007-use-asm-sgidefs.h.patch \
++           file://0008-Use-exorted-definitions-of-SIGRTMIN.patch \
++           file://0009-Change-order-of-CFLAGS.patch \
++           file://0010-resolve-restrict-keyword-conflict.patch \
++           file://0011-avx_mpx.patch \
++"
++
++SRC_URI[md5sum] = "5aa71522e488e358243917967db87476"
++SRC_URI[sha256sum] = "e9216da4e3755e9f414c1aa0026b626251dfc57ffe572a266e98da4f6988fc70"
+diff --git a/meta/recipes-devtools/gdb/gdb-7.11.inc b/meta/recipes-devtools/gdb/gdb-7.11.inc
+deleted file mode 100644
+index a9267d5..0000000
+--- a/meta/recipes-devtools/gdb/gdb-7.11.inc
++++ /dev/null
+@@ -1,9 +0,0 @@
+-LICENSE = "GPLv2 & GPLv3 & LGPLv2 & LGPLv3"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552 \
+-		    file://COPYING3;md5=d32239bcb673463ab874e80d47fae504 \
+-		    file://COPYING3.LIB;md5=6a6a8e020838b23406c81b19c1d46df6 \
+-		    file://COPYING.LIB;md5=9f604d8a4f8e74f4f5140845a21b6674"
+-
+-SRC_URI[md5sum] = "b93a2721393e5fa226375b42d567d90b"
+-SRC_URI[sha256sum] = "ff14f8050e6484508c73cbfa63731e57901478490ca1672dc0b5e2b03f6af622"
+-
+diff --git a/meta/recipes-devtools/gdb/gdb-common.inc b/meta/recipes-devtools/gdb/gdb-common.inc
+index 0923143..33a5ce9 100644
+--- a/meta/recipes-devtools/gdb/gdb-common.inc
++++ b/meta/recipes-devtools/gdb/gdb-common.inc
+@@ -1,6 +1,5 @@
+ SUMMARY = "GNU debugger"
+ HOMEPAGE = "http://www.gnu.org/software/gdb/"
+-LICENSE = "GPLv3+"
+ SECTION = "devel"
+ DEPENDS = "expat zlib ncurses virtual/libiconv ${LTTNGUST}"
+ 
+@@ -16,33 +15,10 @@ LTTNGUST_mips64eln32 = ""
+ LTTNGUST_sh4 = ""
+ LTTNGUST_libc-musl = ""
+ 
+-LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552 \
+-		file://COPYING.LIB;md5=9f604d8a4f8e74f4f5140845a21b6674 \
+-		file://COPYING3;md5=d32239bcb673463ab874e80d47fae504 \
+-		file://COPYING3.LIB;md5=6a6a8e020838b23406c81b19c1d46df6"
+-
+ inherit autotools texinfo
+ 
+-SRCREV = "1a982b689ce4e20523bdf69e47fdd574c4f63934"
+-
+-SRC_URI = "git://sourceware.org/git/binutils-gdb.git;branch=gdb-7.11-branch \
+-           file://0001-include-sys-types.h-for-mode_t.patch \
+-           file://0002-make-man-install-relative-to-DESTDIR.patch \
+-           file://0003-mips-linux-nat-Define-_ABIO32-if-not-defined.patch \
+-           file://0004-ppc-ptrace-Define-pt_regs-uapi_pt_regs-on-GLIBC-syst.patch \
+-           file://0005-Add-support-for-Renesas-SH-sh4-architecture.patch \
+-           file://0006-Dont-disable-libreadline.a-when-using-disable-static.patch \
+-           file://0007-use-asm-sgidefs.h.patch \
+-           file://0008-Use-exorted-definitions-of-SIGRTMIN.patch \
+-           file://0009-Change-order-of-CFLAGS.patch \
+-           file://0010-resolve-restrict-keyword-conflict.patch \
+-           file://0011-avx_mpx.patch \
+-"
+-
+ UPSTREAM_CHECK_GITTAGREGEX = "gdb\-(?P<pver>.+)\-release"
+ 
+-S = "${WORKDIR}/git"
+-
+ B = "${WORKDIR}/build-${TARGET_SYS}"
+ 
+ EXTRA_OEMAKE = "'SUBDIRS=intl mmalloc libiberty opcodes bfd sim gdb etc utils'"
+diff --git a/meta/recipes-devtools/gdb/gdb-cross-canadian_7.11.bb b/meta/recipes-devtools/gdb/gdb-cross-canadian_7.11.1.bb
+similarity index 100%
+rename from meta/recipes-devtools/gdb/gdb-cross-canadian_7.11.bb
+rename to meta/recipes-devtools/gdb/gdb-cross-canadian_7.11.1.bb
+diff --git a/meta/recipes-devtools/gdb/gdb-cross_7.11.bb b/meta/recipes-devtools/gdb/gdb-cross_7.11.1.bb
+similarity index 100%
+rename from meta/recipes-devtools/gdb/gdb-cross_7.11.bb
+rename to meta/recipes-devtools/gdb/gdb-cross_7.11.1.bb
+diff --git a/meta/recipes-devtools/gdb/gdb_7.11.bb b/meta/recipes-devtools/gdb/gdb_7.11.1.bb
+similarity index 100%
+rename from meta/recipes-devtools/gdb/gdb_7.11.bb
+rename to meta/recipes-devtools/gdb/gdb_7.11.1.bb
+-- 
+1.9.1
 
-I just did a bit more digging that I meant to do earlier but failed.  This
-has recently become apparent because of
-oe-core b18fa5f2f2f46afc6fdc58f4d29679dea9c36c43 which removed redundant
-LIC_FILES_CHKSUMs from recipes.  For example, os-release had this:
 
-LIC_FILES_CHKSUM =
-"file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
-
-Which prompts the license code to copy COPYING.MIT and generic_MIT into
-deploy/licenses.  It was removed because it generally serves no purpose:
-you're verifying a license statement that has no relation to the contents
-of the recipe (in this case, the content is generated, but other recipes
-have no content).  The side effect was that the files are not copied, so my
-patch changes the behaviour so that the recipe wide license file is
-*always* copied even if there are no files in LIC_FILES_CHKSUM.
-
-I'll update the commit message to reflect this.
-
-Ross
-
---001a114c8f84ca263a0540577ab6
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 2 November 2016 at 15:07, Ross Burton <span dir=3D"ltr">&lt;<a href=3D"m=
-ailto:ross.burton@intel.com" target=3D"_blank">ross.burton@intel.com</a>&gt=
-;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px 0p=
-x 0px 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);border=
--left-style:solid;padding-left:1ex"><div id=3D"gmail-:3i2" class=3D"gmail-a=
-3s gmail-aXjCH gmail-m15825947664f74b5">Previously do_populate_lic would ba=
-il writing the license files (such as the MIT<br>
-license text) to deploy/licenses/${PN}/ if there were no files listed in<br=
->
-LIC_FILES_CHKSUM.<br>
-<br>
-However this means that recipes that generate their content (such as os-rel=
-ease)<br>
-or are otherwise &quot;interesting&quot; (such as perf) don&#39;t have thei=
-r license files<br>
-copied over, resulting in warnings from do_rootfs.<br></div></blockquote></=
-div><br>I just did a bit more digging that I meant to do earlier but failed=
-.=C2=A0 This has recently become apparent because of oe-core=C2=A0b18fa5f2f=
-2f46afc6fdc58f4d29679dea9c36c43 which removed redundant LIC_FILES_CHKSUMs f=
-rom recipes.=C2=A0 For example, os-release had this:</div><div class=3D"gma=
-il_extra"><br></div><div class=3D"gmail_extra">LIC_FILES_CHKSUM =3D &quot;f=
-ile://${COREBASE}/meta/COPYING.MIT;md5=3D3da9cfbcb788c80a0384361b4de20420&q=
-uot;<br></div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extr=
-a">Which prompts the license code to copy COPYING.MIT and generic_MIT into =
-deploy/licenses.=C2=A0 It was removed because it generally serves no purpos=
-e: you&#39;re verifying a license statement that has no relation to the con=
-tents of the recipe (in this case, the content is generated, but other reci=
-pes have no content).=C2=A0 The side effect was that the files are not copi=
-ed, so my patch changes the behaviour so that the recipe wide license file =
-is *always* copied even if there are no files in LIC_FILES_CHKSUM.</div><di=
-v class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">I&#39;ll updat=
-e the commit message to reflect this.</div><div class=3D"gmail_extra"><br><=
-/div><div class=3D"gmail_extra">Ross</div></div>
-
---001a114c8f84ca263a0540577ab6--
