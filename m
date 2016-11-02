@@ -1,38 +1,45 @@
-Return-Path: <andre.draszik@gmail.com>
-Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 9D1D3602D9
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qk0-f176.google.com (mail-qk0-f176.google.com
+	[209.85.220.176])
+	by mail.openembedded.org (Postfix) with ESMTP id C1BA3719CF
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  2 Nov 2016 14:44:48 +0000 (UTC)
-Received: by mail-wm0-f65.google.com with SMTP id c17so3391555wmc.3
+	Wed,  2 Nov 2016 14:48:52 +0000 (UTC)
+Received: by mail-qk0-f176.google.com with SMTP id o68so20597891qkf.3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 02 Nov 2016 07:44:50 -0700 (PDT)
+	Wed, 02 Nov 2016 07:48:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=dxZVap9LT83nxeShxyfJI+tFHXuptku9y22jgRRKMk8=;
+	b=LYHPtJypIkOUneiNE/JOX/FcLQo6Vv6fc5Rh7NzDM6YCHEqxp+pumllPkHQ9kcfOv9
+	8ig7IAWQZFm29gRJHl9A5siSI9uG4iFCNUP8Ewn+2IZ9nraAmB2oEyPVFBCE2gVviR2J
+	NfB5o9IGG7ThNu2lytPZCLUIsNprJweM/8JbBcGgeKp0OO7aHwPwE+LkA2X/k/+8u239
+	2kJ5WdWIinEwl/vlzbgdJQB3Qukk2DbnZvrHjWTAiXWk0Y3T5JxwAahQ7qqJxR5EBBFY
+	1NF3nfPlpU4RD3N9XNqmJxHE9JKW9vOErmiurwYSc3QffXy6jaze6JZKDnkEczSWzlSw
+	j8RQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=Xgj9xI3H0OtM5AylJJeNgYB3j5RFGzTFU/PYXp189ms=;
-	b=eV067SFZ9GiXZ4rjmBGIEp625G8Lt23oAnzynF14ikZi9SAssMSOZ9YYrn/YkLtBi0
-	2ft9Gqw2WzejjCZEsD/mCgBTwJ5cIMzQ3gFb+8Te0fp4Z0SoDSiKiL6LdaWqdnjYMfVs
-	WBvMuPVULGGsWaeJaUcafdnPe/hJjP4O1rK52VR+JOIAMPkTjje3EE5mAWcn2atJIhWa
-	uOqnMwcWpFqOGQs+QojiYmS2tNro8M4X5nUIroAsJk9BIDXkw/kEMCDLo+ah9ZbSjf8m
-	hm2jmeMwkD6Eey70P8gh8fRokiLa54Jzuv/DOOoQCFW53geQ3o9NykvuTC6BZkqiYCgJ
-	Wx7A==
-X-Gm-Message-State: ABUngvfYmKMW3gwV5Lr2QJLNT0Oqgr5zIKvAZx/+tsjmU9rn5/YiLxWoGsrWPpKt9psgsw==
-X-Received: by 10.28.167.139 with SMTP id q133mr3790095wme.15.1478097889452;
-	Wed, 02 Nov 2016 07:44:49 -0700 (PDT)
-Received: from tfsielt31850 ([77.107.218.170])
-	by smtp.gmail.com with ESMTPSA id h2sm3135558wjy.40.2016.11.02.07.44.48
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Wed, 02 Nov 2016 07:44:48 -0700 (PDT)
-Message-ID: <1478097887.24374.8.camel@andred.net>
-From: =?ISO-8859-1?Q?Andr=E9?= Draszik <git@andred.net>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 02 Nov 2016 14:44:47 +0000
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=dxZVap9LT83nxeShxyfJI+tFHXuptku9y22jgRRKMk8=;
+	b=S6xVbGXpsKl6FmpDyBgbVAESzTdKP+hT9LJ3QxfHfPHNZsOmmqfz882Cm1OVHS93Cj
+	WaGF6/P+D3z0h6Nn8kOVfiV9xSX4UUH3YrDiIve14QUGZ0arNRrckws7o5rH9e4cVX2G
+	yg5y9+y6dlnFIhlq/2Qutt3gKkgBW7TVsFrT6FVJnReB/qbHON+7q4tr1Q+QyWxAN2G0
+	WV6xjKud5eWuUILozNDFJOnsrsS/qOmA+D2gx7iIQbEHmmD1MbHkg7tZDUExwU3ZIZen
+	RFTooWoDUfcDb+UPo7Mgn/RJlM01XjQIcGjky+9gHv8PAREDf8OQTtoZgjCDhUTssfyU
+	PPDw==
+X-Gm-Message-State: ABUngvfyJxGU9TRgBfwfyQhP1Mt8icC2v+pmkBMdJdJmfwfsD3ndciYTOwxOhGrpcqMbYpKC9L4p7dCPkqEG8gc9
+X-Received: by 10.55.215.6 with SMTP id m6mr3292016qki.244.1478098134458; Wed,
+	02 Nov 2016 07:48:54 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.140.85.208 with HTTP; Wed, 2 Nov 2016 07:48:34 -0700 (PDT)
 In-Reply-To: <20161102120724.30063-1-marex@denx.de>
 References: <20161102120724.30063-1-marex@denx.de>
-X-Mailer: Evolution 3.22.1-2 
-Mime-Version: 1.0
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 2 Nov 2016 14:48:34 +0000
+Message-ID: <CAJTo0LaoMkEMaB8LC=w_DUFcZE4AVr4ARZMWTVZNGKJu=X=dAQ@mail.gmail.com>
+To: Marek Vasut <marex@denx.de>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] u-boot: mkimage: Fix build of u-boot-mkimage
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -46,50 +53,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 02 Nov 2016 14:44:50 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 02 Nov 2016 14:48:54 -0000
+Content-Type: multipart/alternative; boundary=001a1149dcbc3f95860540528a7c
 
-On Wed, 2016-11-02 at 13:07 +0100, Marek Vasut wrote:
-> The build failed on qemux86-64 because it couldn't execute
-> tools/bin2header on a host due to it being compiled with target
-> toolchain. Drop the incorrect EXTRA_OEMAKE and just use the one
+--001a1149dcbc3f95860540528a7c
+Content-Type: text/plain; charset=UTF-8
+
+On 2 November 2016 at 12:07, Marek Vasut <marex@denx.de> wrote:
+
+> Drop the incorrect EXTRA_OEMAKE and just use the one
 > from u-boot-common*.inc . Moreover, since U-Boot buildsystem
 > already strips the tools, add INSANE_SKIP = "already-stripped" .
-> 
-> Signed-off-by: Marek Vasut <marex@denx.de>
-> Cc: Ross Burton <ross.burton@intel.com>
-> ---
->  meta/recipes-bsp/u-boot/u-boot-mkimage_2016.09.01.bb | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
-> 
-> diff --git a/meta/recipes-bsp/u-boot/u-boot-mkimage_2016.09.01.bb
-> b/meta/recipes-bsp/u-boot/u-boot-mkimage_2016.09.01.bb
-> index 5025961..76b303e 100644
-> --- a/meta/recipes-bsp/u-boot/u-boot-mkimage_2016.09.01.bb
-> +++ b/meta/recipes-bsp/u-boot/u-boot-mkimage_2016.09.01.bb
-> @@ -3,8 +3,6 @@ require u-boot-common_${PV}.inc
->  SUMMARY = "U-Boot bootloader image creation tool"
->  DEPENDS = "openssl"
->  
-> -EXTRA_OEMAKE = 'CROSS_COMPILE="${TARGET_PREFIX}" CC="${CC} ${CFLAGS}
-> ${LDFLAGS}" STRIP=true V=1'
+>
 
-Can we keep V=1, please? (Unless it's default anyway).
+But u-boot-common doesn't set EXTRA_OEMAKE...
 
-Cheers,
-Andre'
+Ross
 
-> -
->  do_compile () {
->  	oe_runmake sandbox_defconfig
->  	oe_runmake cross_tools NO_SDL=1
-> @@ -17,3 +15,4 @@ do_install () {
->  }
->  
->  BBCLASSEXTEND = "native nativesdk"
-> +INSANE_SKIP_${PN} = "already-stripped"
-> -- 
-> 2.9.3
-> 
+--001a1149dcbc3f95860540528a7c
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 2 November 2016 at 12:07, Marek Vasut <span dir=3D"ltr">&lt;<a href=3D"m=
+ailto:marex@denx.de" target=3D"_blank">marex@denx.de</a>&gt;</span> wrote:<=
+br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left=
+:1px #ccc solid;padding-left:1ex"><div id=3D":2pa" class=3D"a3s aXjCH m1582=
+4f04e95cf58f">Drop the incorrect EXTRA_OEMAKE and just use the one<br>
+from <span class=3D"il">u</span>-<span class=3D"il">boot</span>-common*.inc=
+ . Moreover, since <span class=3D"il">U</span>-<span class=3D"il">Boot</spa=
+n> buildsystem<br>
+already strips the tools, add INSANE_SKIP =3D &quot;already-stripped&quot; =
+.</div></blockquote></div><br>But u-boot-common doesn&#39;t set EXTRA_OEMAK=
+E...</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">R=
+oss</div></div>
+
+--001a1149dcbc3f95860540528a7c--
