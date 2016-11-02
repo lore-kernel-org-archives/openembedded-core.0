@@ -1,49 +1,47 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-qt0-f181.google.com (mail-qt0-f181.google.com
-	[209.85.216.181])
-	by mail.openembedded.org (Postfix) with ESMTP id CCA5E601D3
+Received: from mail-qk0-f175.google.com (mail-qk0-f175.google.com
+	[209.85.220.175])
+	by mail.openembedded.org (Postfix) with ESMTP id A692971BE5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  2 Nov 2016 12:21:49 +0000 (UTC)
-Received: by mail-qt0-f181.google.com with SMTP id w33so7530655qtc.3
+	Wed,  2 Nov 2016 12:30:55 +0000 (UTC)
+Received: by mail-qk0-f175.google.com with SMTP id q130so15712882qke.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 02 Nov 2016 05:21:51 -0700 (PDT)
+	Wed, 02 Nov 2016 05:30:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=ruRyMMX1DPQantgp/lMauV8GQsV5eFd5mhqFZXXknts=;
-	b=fu6mFjWPxGdO3PJVRPIQIKmqYBQBvZSED4G7AUXHhXhkuXC2YLBB2N+VR6SslQc/P1
-	+xToVSQDF8pm0x6klTX1FBGy6s/0aS085RgLiZNY7W/6W/b4eMEy07OglnYzneYnEl00
-	jVte5x8plDxVMkNdCAuvLUN7+1aD+rK16zFdl3AxdIsG5bCGinVd0qgOO6hweol7Eanm
-	tmb+ckNDPtJ1wQI/QPiWvBcTqYEZ36pOTOl1LnrJK9JQ+wN/GGlvZPAVT+4qTqgkGYiZ
-	klRAP3VbVPGMFipHs/bkL0KFzz/Jc/Gz2If8YEa6G9g3OWBNEYPvEYjsAqDY8wV0DF9c
-	ck3g==
+	:cc; bh=odR9OMGicIyqr9OSovQdF5CHc5b0PA+86USql9SFaFs=;
+	b=19tm9T6InBSEV5rJ0zMFZvlhfgJ3hzQDiBOHYUscu4lIjRbSjUy8D+WjzcDpyKt6Kz
+	ohlfz/+pz7NcgXDlGs7171aRSRrWcqHPsDOlXicChyKC+nr8eU4kRzhQ7RmhFoqQ8v8D
+	RPa0FUBtpdnYUp2SskpstAyrhkHJ2V+Kl+yg0hLV6Nfe7C7J5UZtx8+xrUS4nKP8vpbJ
+	qSjqNj+CaapwUl0v1pF+T9/gZLSnrFdJ8abvi63fqzYQhLzRCa0S6gsJyB/DzNrdJfkI
+	hoJ7vSr+o/oXbABQIMp1DNi+iuy+NIclGf+4QejG30JRWHxYkAeQWFHfzn4Jlj+yiBPG
+	8txw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=ruRyMMX1DPQantgp/lMauV8GQsV5eFd5mhqFZXXknts=;
-	b=DWvUU0jpTLHn3C96MnCr8fAD9O8NknTcvyVztL82Br3dv8CBX08j1iAZeVxkA8KseC
-	afIlcCOvEmj8H2EptE5Rk7uJtPtOeCrDG+3giZW8ESVJFZnmryLBwrtQhHJ4n+5burA8
-	+fSq4hSXAi/rHNJO/FtjuFtT/pATA5h6aLQ30/mB4F2rBJ2OXWXO47h/xiYtu86wfYCG
-	qqsIAzR0AVRKy5xYN5AX7vKoTZEjPFt6i7DEMkNdeHWYF/YlApys2TnI9ZgC9FCjg307
-	8AZGcT4ou56kz05tzC/tXVlLK9MUlbbSA0+NkmyrkI6T5S27J1PEYDytqtJMoeGyaTsE
-	6Jzw==
-X-Gm-Message-State: ABUngveIvT7GDzVCXNt5p9OvyGc5+94SUaYEW3Y46RKIPiT7Bogvm3ujMHatOzlEKICtd06GCGHmmPB1gVSQ21UQ
-X-Received: by 10.200.50.35 with SMTP id x32mr2981525qta.78.1478089310714;
-	Wed, 02 Nov 2016 05:21:50 -0700 (PDT)
+	bh=odR9OMGicIyqr9OSovQdF5CHc5b0PA+86USql9SFaFs=;
+	b=TQc8QTwREawWPdUyHbO/DFg8N3DsMu9qbj5UkK2dOdq3nM4wEfstjTU85S2e1Mrkj5
+	pFUp9VmY8IjhwYnFAneHPLmGlwPLd+iB2OEXaWOZyC1LOZ4W4zbJU2usbTtlndQRI85G
+	Mjij/6APLitkHJjypEuqHTXHuJuBhaqAT6J/47Pv1qH+Wd5XiLOGKNEuiWUZD2IYkB60
+	tOtBvRgXQsiY5k5lv82/Z7/CIcZV2jlhXnfcEtqlQ6dVP3g6thCuKNsjLtBZVyRAZSsb
+	kBadllkG7S7bddKDFaxBj4p1PuLP9GlZIvZe+zKSC0+ch1vbbH93PQgjVfwN/wSsFRl7
+	UL+w==
+X-Gm-Message-State: ABUngvfS34vS9OzOQpFZk8WP8LKHo/UGM/9pmggiFuIhraUoStnOxpCOf8qixTe6lT6AMv9UCTAkt2/2ijM9fXD5
+X-Received: by 10.55.5.145 with SMTP id 139mr2897122qkf.77.1478089856549; Wed,
+	02 Nov 2016 05:30:56 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.140.85.208 with HTTP; Wed, 2 Nov 2016 05:21:30 -0700 (PDT)
-In-Reply-To: <1BF9A377-D1BB-467B-90F2-0E205B7CEF49@basmevissen.nl>
+Received: by 10.140.85.208 with HTTP; Wed, 2 Nov 2016 05:30:36 -0700 (PDT)
+In-Reply-To: <1478030040-20670-8-git-send-email-fabio.berton@ossystems.com.br>
 References: <1478030040-20670-1-git-send-email-fabio.berton@ossystems.com.br>
-	<1478030040-20670-4-git-send-email-fabio.berton@ossystems.com.br>
-	<CAJTo0LbZrrrcvMmqpb943oarTKY6B=UkmszpdFLv=3cWqCV9SA@mail.gmail.com>
-	<1BF9A377-D1BB-467B-90F2-0E205B7CEF49@basmevissen.nl>
+	<1478030040-20670-8-git-send-email-fabio.berton@ossystems.com.br>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 2 Nov 2016 12:21:30 +0000
-Message-ID: <CAJTo0LbayQcAY1qGtiJWjfJ2X+kNHZAeC4cf43d-5rwWx-EEjA@mail.gmail.com>
-To: Bas Mevissen <abuse@basmevissen.nl>
+Date: Wed, 2 Nov 2016 12:30:36 +0000
+Message-ID: <CAJTo0LZ64bNx4EZodnXohiQo=bDjtgaCfvKt1UytdZFujC3dSA@mail.gmail.com>
+To: Fabio Berton <fabio.berton@ossystems.com.br>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 4/8] serf: Update to version 1.3.9
+Subject: Re: [PATCH 8/8] guilt-native: Update to tag v0.36
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,42 +54,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 02 Nov 2016 12:21:50 -0000
-Content-Type: multipart/alternative; boundary=001a1143e1da4fd2190540507c28
+X-List-Received-Date: Wed, 02 Nov 2016 12:30:55 -0000
+Content-Type: multipart/alternative; boundary=001a114c8f84d89e290540509cac
 
---001a1143e1da4fd2190540507c28
+--001a114c8f84d89e290540509cac
 Content-Type: text/plain; charset=UTF-8
 
-On 2 November 2016 at 11:39, Bas Mevissen <abuse@basmevissen.nl> wrote:
+On 1 November 2016 at 19:54, Fabio Berton <fabio.berton@ossystems.com.br>
+wrote:
 
-> It looks like https://archive.apache.org/dist/serf contains all releases,
-> including the current one.
+> Signed-off-by: Fabio Berton <fabio.berton@ossystems.com.br>
 >
 
-Perfect, can you send a v2?
+The kernel tooling doesn't use this anymore, so I propose we remove it
+instead.
 
-(just checked the history and it moved to snapshot.debian.org from
-googlecode)
-
-Thanks,
 Ross
 
---001a1143e1da4fd2190540507c28
+--001a114c8f84d89e290540509cac
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 2 November 2016 at 11:39, Bas Mevissen <span dir=3D"ltr">&lt;<a href=3D"=
-mailto:abuse@basmevissen.nl" target=3D"_blank">abuse@basmevissen.nl</a>&gt;=
-</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .=
-8ex;border-left:1px #ccc solid;padding-left:1ex"><div dir=3D"auto">It looks=
- like=C2=A0<a href=3D"https://archive.apache.org/dist/serf/" target=3D"_bla=
-nk">https://archive.apache.<wbr>org/dist/serf</a>=C2=A0contains all release=
-s, including the current one.<div></div></div></blockquote></div><br>Perfec=
-t, can you send a v2?</div><div class=3D"gmail_extra"><br></div><div class=
-=3D"gmail_extra">(just checked the history and it moved to <a href=3D"http:=
-//snapshot.debian.org">snapshot.debian.org</a> from googlecode)</div><div c=
-lass=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Thanks,</div><div=
- class=3D"gmail_extra">Ross</div></div>
+On 1 November 2016 at 19:54, Fabio Berton <span dir=3D"ltr">&lt;<a href=3D"=
+mailto:fabio.berton@ossystems.com.br" target=3D"_blank">fabio.berton@ossyst=
+ems.com.br</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=
+=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=
+=3D":281" class=3D"a3s aXjCH m158217aeeacae473">Signed-off-by: Fabio Berton=
+ &lt;<a href=3D"mailto:fabio.berton@ossystems.com.br">fabio.berton@ossystem=
+s.com.br</a><wbr>&gt;<br></div></blockquote></div><br>The kernel tooling do=
+esn&#39;t use this anymore, so I propose we remove it instead.</div><div cl=
+ass=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
 
---001a1143e1da4fd2190540507c28--
+--001a114c8f84d89e290540509cac--
