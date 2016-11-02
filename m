@@ -1,37 +1,23 @@
-Return-Path: <marex@denx.de>
-Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.9])
-	by mail.openembedded.org (Postfix) with ESMTP id 9A50A71A9F
+Return-Path: <ed.bartosh@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id CCE3471AE2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  2 Nov 2016 20:33:01 +0000 (UTC)
-Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
-	by mail-out.m-online.net (Postfix) with ESMTP id 3t8KY972CRz3hjP2;
-	Wed,  2 Nov 2016 21:33:00 +0100 (CET)
-Received: from localhost (dynscan1.mnet-online.de [192.168.6.68])
-	by mail.m-online.net (Postfix) with ESMTP id 3t8KY817SWzw2pM;
-	Wed,  2 Nov 2016 21:33:00 +0100 (CET)
-X-Virus-Scanned: amavisd-new at mnet-online.de
-Received: from mail.mnet-online.de ([192.168.8.182])
-	by localhost (dynscan1.mail.m-online.net [192.168.6.68]) (amavisd-new,
-	port 10024)
-	with ESMTP id vX6WrJkcyu5H; Wed,  2 Nov 2016 21:32:58 +0100 (CET)
-X-Auth-Info: h+jQuwf7J/FSeBQ32H425as3FEsfV+FgU/QSCOc6Lek=
-Received: from [IPv6:::1] (unknown [195.140.253.167])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mail.mnet-online.de (Postfix) with ESMTPSA;
-	Wed,  2 Nov 2016 21:32:58 +0100 (CET)
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <20161102120724.30063-1-marex@denx.de>
-	<CAJTo0LaoMkEMaB8LC=w_DUFcZE4AVr4ARZMWTVZNGKJu=X=dAQ@mail.gmail.com>
-From: Marek Vasut <marex@denx.de>
-Message-ID: <ac4a3766-6dee-2e89-141f-1eab2e4b9fa6@denx.de>
-Date: Wed, 2 Nov 2016 20:40:29 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Icedove/45.4.0
-MIME-Version: 1.0
-In-Reply-To: <CAJTo0LaoMkEMaB8LC=w_DUFcZE4AVr4ARZMWTVZNGKJu=X=dAQ@mail.gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] u-boot: mkimage: Fix build of u-boot-mkimage
+	Wed,  2 Nov 2016 20:33:17 +0000 (UTC)
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+	by orsmga103.jf.intel.com with ESMTP; 02 Nov 2016 13:33:20 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.31,436,1473145200"; d="scan'208";a="186903040"
+Received: from linux.intel.com ([10.54.29.200])
+	by fmsmga004.fm.intel.com with ESMTP; 02 Nov 2016 13:33:18 -0700
+Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.68])
+	by linux.intel.com (Postfix) with ESMTP id 20CA46A4082;
+	Wed,  2 Nov 2016 13:32:41 -0700 (PDT)
+From: Ed Bartosh <ed.bartosh@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  2 Nov 2016 22:33:07 +0200
+Message-Id: <1478118787-20776-1-git-send-email-ed.bartosh@linux.intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [wic][PATCH] wic: call os.ftruncate instead of running truncate
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,26 +30,88 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 02 Nov 2016 20:33:03 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 02 Nov 2016 20:33:17 -0000
 
-On 11/02/2016 03:48 PM, Burton, Ross wrote:
-> 
-> On 2 November 2016 at 12:07, Marek Vasut <marex@denx.de
-> <mailto:marex@denx.de>> wrote:
-> 
->     Drop the incorrect EXTRA_OEMAKE and just use the one
->     from u-boot-common*.inc . Moreover, since U-Boot buildsystem
->     already strips the tools, add INSANE_SKIP = "already-stripped" .
-> 
-> 
-> But u-boot-common doesn't set EXTRA_OEMAKE...
+Replaced running of truncate utility with the standard library
+call os.ftruncate
 
-Should be u-boot.inc , sorry.
+Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
+---
+ scripts/lib/wic/imager/direct.py |  5 +++--
+ scripts/lib/wic/partition.py     | 15 ++++++++++-----
+ 2 files changed, 13 insertions(+), 7 deletions(-)
 
-
+diff --git a/scripts/lib/wic/imager/direct.py b/scripts/lib/wic/imager/direct.py
+index edf5e5d..2bedef0 100644
+--- a/scripts/lib/wic/imager/direct.py
++++ b/scripts/lib/wic/imager/direct.py
+@@ -56,8 +56,9 @@ class DiskImage():
+         if self.created:
+             return
+         # create sparse disk image
+-        cmd = "truncate %s -s %s" % (self.device, self.size)
+-        exec_cmd(cmd)
++        with open(self.device, 'w') as sparse:
++            os.ftruncate(sparse.fileno(), self.size)
++
+         self.created = True
+ 
+ class DirectImageCreator(BaseImageCreator):
+diff --git a/scripts/lib/wic/partition.py b/scripts/lib/wic/partition.py
+index 90f65a1..89c33ab 100644
+--- a/scripts/lib/wic/partition.py
++++ b/scripts/lib/wic/partition.py
+@@ -217,7 +217,8 @@ class Partition():
+         msger.debug("Added %d extra blocks to %s to get to %d total blocks" % \
+                     (extra_blocks, self.mountpoint, rootfs_size))
+ 
+-        exec_cmd("truncate %s -s %d" % (rootfs, rootfs_size * 1024))
++        with open(rootfs, 'w') as sparse:
++            os.ftruncate(sparse.fileno(), rootfs_size * 1024)
+ 
+         extra_imagecmd = "-i 8192"
+ 
+@@ -250,7 +251,8 @@ class Partition():
+         msger.debug("Added %d extra blocks to %s to get to %d total blocks" % \
+                     (extra_blocks, self.mountpoint, rootfs_size))
+ 
+-        exec_cmd("truncate %s -s %d" % (rootfs, rootfs_size * 1024))
++        with open(rootfs, 'w') as sparse:
++            os.ftruncate(sparse.fileno(), rootfs_size * 1024)
+ 
+         label_str = ""
+         if self.label:
+@@ -305,7 +307,8 @@ class Partition():
+         """
+         Prepare an empty ext2/3/4 partition.
+         """
+-        exec_cmd("truncate %s -s %d" % (rootfs, self.size * 1024))
++        with open(rootfs, 'w') as sparse:
++            os.ftruncate(sparse.fileno(), rootfs_size * 1024)
+ 
+         extra_imagecmd = "-i 8192"
+ 
+@@ -322,7 +325,8 @@ class Partition():
+         """
+         Prepare an empty btrfs partition.
+         """
+-        exec_cmd("truncate %s -s %d" % (rootfs, self.size * 1024))
++        with open(rootfs, 'w') as sparse:
++            os.ftruncate(sparse.fileno(), rootfs_size * 1024)
+ 
+         label_str = ""
+         if self.label:
+@@ -383,7 +387,8 @@ class Partition():
+         """
+         path = "%s/fs.%s" % (cr_workdir, self.fstype)
+ 
+-        exec_cmd("truncate %s -s %d" % (path, self.size * 1024))
++        with open(path, 'w') as sparse:
++            os.ftruncate(sparse.fileno(), self.size * 1024)
+ 
+         import uuid
+         label_str = ""
 -- 
-Best regards,
-Marek Vasut
+2.1.4
+
 
