@@ -1,49 +1,49 @@
 Return-Path: <fabio.berton@ossystems.com.br>
-Received: from mail-ua0-f193.google.com (mail-ua0-f193.google.com
-	[209.85.217.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 13AEF71B1C
+Received: from mail-vk0-f68.google.com (mail-vk0-f68.google.com
+	[209.85.213.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 3922171B1C
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  3 Nov 2016 20:42:59 +0000 (UTC)
-Received: by mail-ua0-f193.google.com with SMTP id b35so2379561uaa.1
+	Thu,  3 Nov 2016 20:43:01 +0000 (UTC)
+Received: by mail-vk0-f68.google.com with SMTP id w194so2405132vkw.3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 03 Nov 2016 13:43:01 -0700 (PDT)
+	Thu, 03 Nov 2016 13:43:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:organization; bh=e682kMvtyN8yvtdVZzfgpltWx/3eO08Iv3HX76UNZec=;
-	b=qYSmjQuGoiPqppMqlGoHLtD9kgIL3oVKHsnC01hRfVFr/co52ap9NDeC9RXjYlfMqL
-	gfHb/agHQBTkreHD7hgucI3X3gERBFs6OhqPrVWGJ9dtc4/I7TetabT2KljQOdDivaC3
-	ZnGkNRJEJ0BZuWxuyjGSwn/m/qixY1exMgobDm1nY79CEZQqD61COJHINdtMiUpwUjm/
-	31YPz0Ml8+kTtsSvMLCxyWuCCIOVnrGEDXMDYVGOYkgTFx0PZrxSOzYvuXJSBCqHajng
-	9AkiV7q/5iNNnNZxyaBur0m6OM1k+tCfxavGYUcBsDQBwMBdslAquUwYfPybdFsLACos
-	pjJQ==
+	:organization; bh=zz9O07G4nGa6DcUmXDXolFE3Wc1maEIOrjEXHPeLOG4=;
+	b=uhHCdjqJ8cpu0m4PSaS5kpSGrxmutG7bK+vxDRuGFyNPr3Izic+Nvrdg9+RhAXrs0i
+	rFeQDlPh5UY5sl41tm+uEjnEBjOmRzCRTl6+cz2PjxDYm4g6d/4ZFhzF6e77EiD7P2vq
+	8eacc5SOVNTt8jnuLjY+1YjsZPca66RnLeBabw8GXwWAzOfrHF6SkWrC8iV0p+QnCbmJ
+	ll5xwxmD656BzpM/ze7rvMoyIfXrugCqFNGR00zkseiO8odRFdHw944rB66dhRQG9rQa
+	uHAVQJWW6Sofizd9SDDZEgy0IrsB3XXBV5AThT7TOIpw/lS36wlxX/ovdXN0pIoe26Cr
+	Z9xQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:organization;
-	bh=e682kMvtyN8yvtdVZzfgpltWx/3eO08Iv3HX76UNZec=;
-	b=UcplEOJNd3tvj6cfSwy8t8e5jRqCQ93DlSNVhLOEp4kJNI0kl2YjluJmgpsB1Df8UY
-	i3rmzRpha3dwMOB4HGUGldsZOPC114DWcvrOzRZxI29KweTsh/cBrlX+cz9ZYkaDsLcw
-	YLbOY7LSKWT3V/GPkypcIizCvLUpSfQBUzFHKmRGT2dQTqxZvWOPg2hEiu6L0GAs9Zry
-	rmViaxd4eBXofMYHGj/7CQU5dDv2GXFbRpvmzLUOtanryaIXrBAmVlesuwCg8bQb2hM3
-	a1Bn6z+tg4H+yCnY7+4/62lA4BPJbZH8wkslvfWHdglDF4a8MhC6opTpqysa+JXiw4tr
-	34ig==
-X-Gm-Message-State: ABUngveaSJN4xSYpK7+yohTBuCXAXHogYDO7mKXni1lCHe8K203qR6RezTZfg+RXDqtSlg==
-X-Received: by 10.176.0.169 with SMTP id 38mr9183079uaj.34.1478205781071;
-	Thu, 03 Nov 2016 13:43:01 -0700 (PDT)
+	bh=zz9O07G4nGa6DcUmXDXolFE3Wc1maEIOrjEXHPeLOG4=;
+	b=Bbq/25e8dfY0UgWXlzSpEshr+Z3MYDJtAUWVYiq3Z/etRejpYlFp9HZxD4l0Y8HDJr
+	N+9BIhPnrHepG464TiCpxUc1CnGwc9vD5PY/uq3MjVrVQ2k3PzWbEI5sehpOqW3k0qLj
+	s9aw5ERPWVrhV1DjyrYs/Ma7rK3LvRDCRotTt6i0Lf63ute7kxGzKiKuhmjP036VNX9W
+	U5Y3cXc25nwb0E5DnWvLOXdQ4IkKJ3ucHcI9GgRWzHlu72lwtxa2X1mS5gJDoJBFA8Gq
+	R7OJgsSYdVJWp6kfoZmqe1OvAFwDcVYcNuATIVV2q+cDvgRir4Lh1cYWqj3CeWCOU4s8
+	DiEw==
+X-Gm-Message-State: ABUngvc9vKzu8ihzH0lkvC9XJl8viVnwruaePu3yqHDkUnzzQkWmvBF8JuFktxUvBZtq7g==
+X-Received: by 10.31.138.143 with SMTP id m137mr8982938vkd.148.1478205783167; 
+	Thu, 03 Nov 2016 13:43:03 -0700 (PDT)
 Received: from monster.lab.ossystems.com.br ([187.23.155.148])
-	by smtp.gmail.com with ESMTPSA id 42sm2151339uah.2.2016.11.03.13.42.59
+	by smtp.gmail.com with ESMTPSA id 42sm2151339uah.2.2016.11.03.13.43.01
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 03 Nov 2016 13:43:00 -0700 (PDT)
+	Thu, 03 Nov 2016 13:43:02 -0700 (PDT)
 From: Fabio Berton <fabio.berton@ossystems.com.br>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  3 Nov 2016 18:41:58 -0200
-Message-Id: <1478205719-28589-2-git-send-email-fabio.berton@ossystems.com.br>
+Date: Thu,  3 Nov 2016 18:41:59 -0200
+Message-Id: <1478205719-28589-3-git-send-email-fabio.berton@ossystems.com.br>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <1478205719-28589-1-git-send-email-fabio.berton@ossystems.com.br>
 References: <1478205719-28589-1-git-send-email-fabio.berton@ossystems.com.br>
 Organization: O.S. Systems Software LTDA.
-Subject: [PATCH] 2/3] curl: Update to version 7.51.0
+Subject: [PATCH] 3/3] readline: Update to version 7.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,49 +56,84 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 03 Nov 2016 20:43:00 -0000
+X-List-Received-Date: Thu, 03 Nov 2016 20:43:02 -0000
 
-CVE fixed in 7.51.0:
-
-  CVE-2016-8615: cookie injection for other servers
-  CVE-2016-8616: case insensitive password comparison
-  CVE-2016-8617: OOB write via unchecked multiplication
-  CVE-2016-8618: double-free in curl_maprintf
-  CVE-2016-8619: double-free in krb5 code
-  CVE-2016-8620: glob parser write/read out of bounds
-  CVE-2016-8621: curl_getdate read out of bounds
-  CVE-2016-8622: URL unescape heap overflow via integer truncation
-  CVE-2016-8623: Use-after-free via shared cookies
-  CVE-2016-8624: invalid URL parsing with '#'
-  CVE-2016-8625: IDNA 2003 makes curl use wrong host
-
-To see complete log access link bellow:
-  https://curl.haxx.se/changes.html#7_51_0
+Remove readline 6.3 patches and config-dirent-symbols.patch already
+apply on upstream.
 
 Signed-off-by: Fabio Berton <fabio.berton@ossystems.com.br>
 ---
- meta/recipes-support/curl/{curl_7.50.1.bb => curl_7.51.0.bb} | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-support/curl/{curl_7.50.1.bb => curl_7.51.0.bb} (94%)
+ .../configure-fix.patch                            |  0
+ .../{readline-6.3 => readline-7.0}/norpath.patch   |  0
+ meta/recipes-core/readline/readline_6.3.bb         | 34 ----------------------
+ meta/recipes-core/readline/readline_7.0.bb         |  7 +++++
+ 4 files changed, 7 insertions(+), 34 deletions(-)
+ rename meta/recipes-core/readline/{readline-6.3 => readline-7.0}/configure-fix.patch (100%)
+ rename meta/recipes-core/readline/{readline-6.3 => readline-7.0}/norpath.patch (100%)
+ delete mode 100644 meta/recipes-core/readline/readline_6.3.bb
+ create mode 100644 meta/recipes-core/readline/readline_7.0.bb
 
-diff --git a/meta/recipes-support/curl/curl_7.50.1.bb b/meta/recipes-support/curl/curl_7.51.0.bb
-similarity index 94%
-rename from meta/recipes-support/curl/curl_7.50.1.bb
-rename to meta/recipes-support/curl/curl_7.51.0.bb
-index a21419a..e1a996b 100644
---- a/meta/recipes-support/curl/curl_7.50.1.bb
-+++ b/meta/recipes-support/curl/curl_7.51.0.bb
-@@ -14,8 +14,8 @@ SRC_URI = "http://curl.haxx.se/download/curl-${PV}.tar.bz2 \
- #
- SRC_URI += " file://configure_ac.patch"
- 
--SRC_URI[md5sum] = "015f6a0217ca6f2c5442ca406476920b"
--SRC_URI[sha256sum] = "3c12c5f54ccaa1d40abc65d672107dcc75d3e1fcb38c267484334280096e5156"
-+SRC_URI[md5sum] = "09a7c5769a7eae676d5e2c86d51f167e"
-+SRC_URI[sha256sum] = "7f8240048907e5030f67be0a6129bc4b333783b9cca1391026d700835a788dde"
- 
- inherit autotools pkgconfig binconfig multilib_header
- 
+diff --git a/meta/recipes-core/readline/readline-6.3/configure-fix.patch b/meta/recipes-core/readline/readline-7.0/configure-fix.patch
+similarity index 100%
+rename from meta/recipes-core/readline/readline-6.3/configure-fix.patch
+rename to meta/recipes-core/readline/readline-7.0/configure-fix.patch
+diff --git a/meta/recipes-core/readline/readline-6.3/norpath.patch b/meta/recipes-core/readline/readline-7.0/norpath.patch
+similarity index 100%
+rename from meta/recipes-core/readline/readline-6.3/norpath.patch
+rename to meta/recipes-core/readline/readline-7.0/norpath.patch
+diff --git a/meta/recipes-core/readline/readline_6.3.bb b/meta/recipes-core/readline/readline_6.3.bb
+deleted file mode 100644
+index 8ec7c4a..0000000
+--- a/meta/recipes-core/readline/readline_6.3.bb
++++ /dev/null
+@@ -1,34 +0,0 @@
+-require readline.inc
+-
+-SRC_URI += "${GNU_MIRROR}/readline/readline-6.3-patches/readline63-001;name=patch1;apply=yes;striplevel=0 \
+-            ${GNU_MIRROR}/readline/readline-6.3-patches/readline63-002;name=patch2;apply=yes;striplevel=0 \
+-            ${GNU_MIRROR}/readline/readline-6.3-patches/readline63-003;name=patch3;apply=yes;striplevel=0 \
+-            ${GNU_MIRROR}/readline/readline-6.3-patches/readline63-004;name=patch4;apply=yes;striplevel=0 \
+-            ${GNU_MIRROR}/readline/readline-6.3-patches/readline63-005;name=patch5;apply=yes;striplevel=0 \
+-            ${GNU_MIRROR}/readline/readline-6.3-patches/readline63-006;name=patch6;apply=yes;striplevel=0 \
+-            ${GNU_MIRROR}/readline/readline-6.3-patches/readline63-007;name=patch7;apply=yes;striplevel=0 \
+-            ${GNU_MIRROR}/readline/readline-6.3-patches/readline63-008;name=patch8;apply=yes;striplevel=0 \
+-            file://configure-fix.patch \
+-            file://config-dirent-symbols.patch \
+-            file://norpath.patch"
+-
+-SRC_URI[archive.md5sum] = "33c8fb279e981274f485fd91da77e94a"
+-SRC_URI[archive.sha256sum] = "56ba6071b9462f980c5a72ab0023893b65ba6debb4eeb475d7a563dc65cafd43"
+-
+-SRC_URI[patch1.md5sum]    = "4343f5ea9b0f42447f102fb61576b398"
+-SRC_URI[patch1.sha256sum] = "1a79bbb6eaee750e0d6f7f3d059b30a45fc54e8e388a8e05e9c3ae598590146f"
+-SRC_URI[patch2.md5sum]    = "700295212f7e2978577feaee584afddb"
+-SRC_URI[patch2.sha256sum] = "39e304c7a526888f9e112e733848215736fb7b9d540729b9e31f3347b7a1e0a5"
+-SRC_URI[patch3.md5sum]    = "af4963862f5156fbf9111c2c6fa86ed7"
+-SRC_URI[patch3.sha256sum] = "ec41bdd8b00fd884e847708513df41d51b1243cecb680189e31b7173d01ca52f"
+-SRC_URI[patch4.md5sum]    = "11f9def89803a5052db3ba72394ce14f"
+-SRC_URI[patch4.sha256sum] = "4547b906fb2570866c21887807de5dee19838a60a1afb66385b272155e4355cc"
+-SRC_URI[patch5.md5sum]    = "93721c31cd225393f80cb3aadb165544"
+-SRC_URI[patch5.sha256sum] = "877788f9228d1a9907a4bcfe3d6dd0439c08d728949458b41208d9bf9060274b"
+-SRC_URI[patch6.md5sum]    = "71dc6ecce66d1489b96595f55d142a52"
+-SRC_URI[patch6.sha256sum] = "5c237ab3c6c97c23cf52b2a118adc265b7fb411b57c93a5f7c221d50fafbe556"
+-SRC_URI[patch7.md5sum]    = "062a08ed60679d3c4878710b3d595b65"
+-SRC_URI[patch7.sha256sum] = "4d79b5a2adec3c2e8114cbd3d63c1771f7c6cf64035368624903d257014f5bea"
+-SRC_URI[patch8.md5sum]    = "ee1c04072154826870848d8b218d7b04"
+-SRC_URI[patch8.sha256sum] = "3bc093cf526ceac23eb80256b0ec87fa1735540d659742107b6284d635c43787"
+-
+diff --git a/meta/recipes-core/readline/readline_7.0.bb b/meta/recipes-core/readline/readline_7.0.bb
+new file mode 100644
+index 0000000..85dfaa6
+--- /dev/null
++++ b/meta/recipes-core/readline/readline_7.0.bb
+@@ -0,0 +1,7 @@
++require readline.inc
++
++SRC_URI += "file://configure-fix.patch \
++            file://norpath.patch"
++
++SRC_URI[archive.md5sum] = "205b03a87fc83dab653b628c59b9fc91"
++SRC_URI[archive.sha256sum] = "750d437185286f40a369e1e4f4764eda932b9459b5ec9a731628393dd3d32334"
 -- 
 2.1.4
 
