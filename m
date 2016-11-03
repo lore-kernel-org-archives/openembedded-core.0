@@ -1,48 +1,46 @@
 Return-Path: <fabio.berton@ossystems.com.br>
-Received: from mail-lf0-f54.google.com (mail-lf0-f54.google.com
-	[209.85.215.54])
-	by mail.openembedded.org (Postfix) with ESMTP id 52EFC7197B
+Received: from mail-ua0-f194.google.com (mail-ua0-f194.google.com
+	[209.85.217.194])
+	by mail.openembedded.org (Postfix) with ESMTP id CD07A71B1C
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  3 Nov 2016 20:37:47 +0000 (UTC)
-Received: by mail-lf0-f54.google.com with SMTP id t196so49172667lff.3
+	Thu,  3 Nov 2016 20:42:58 +0000 (UTC)
+Received: by mail-ua0-f194.google.com with SMTP id 20so2384787uak.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 03 Nov 2016 13:37:49 -0700 (PDT)
+	Thu, 03 Nov 2016 13:43:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=NjENtbopOUxNkwp+26Klf7Vn/BGzsVM44S4yCVmIrNI=;
-	b=B4pY/H/U+MsDR5Mfd97SD0jJU8f5kGHMli61JPm9MFuoYt+pgiFmQU/kBk6qE8DC50
-	5y8pDFkA5vlBPmzkPvHz7uCnINsV1fyv0CCpABZEzyOh++xMFvDW0uWb6kO+inZJQ5Xi
-	TA/FuyKjc7nR8kjg8ZZZxeef7PTV0bYtQ/MwjWSTWXpZ2X/C530yu0NKfsL2ifjAjLhW
-	VrjVbcRE5Lx9LKopTITJEuxOA/oYh1QnyH6A9r0EJl7XHyTL+uRXCSeeQj4/mrT/bWqO
-	WOaUy77s99w7O1v7c37plXvhpnVyoyZIRorV+o+TD7w3yaf39Z/CXXvbj8emgzxQ12rh
-	4Ucw==
+	h=from:to:cc:subject:date:message-id:organization;
+	bh=3H7hST7ZdkObUlbm7oYPNg1Z9QWwmVzeZwveiDPjxRs=;
+	b=NKD5RNM/EftHA6SLKkmWJouyxO8pR/crMREXMBeI0zh41QjcCd9QoLWXStGlWrcwm/
+	XG2VfEX0NSFtDqdacPV7kxw1c/SMMS1gKV6ckxzsAycMlnPMpI2+FRmLmzjMgvu9ExDR
+	OcdLv4ovkPNO7rnZlaxmE1PYIZNyey505GW3IGGJAlCi3T2mMwYGL74XHEzOLTICR6bp
+	/WuJEQeSuGbm9SBVMKCJZG/G38dnVswyG4H++EAowuFEXdhdrVjPNqDm9Ir0UuiLlv9o
+	z0qkWkHgcXJp7YemjUmo983s1lvGVRR5r2hUNw2G0CCaDixpR5nNHEHJYzSMAuR9JDID
+	x51Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=NjENtbopOUxNkwp+26Klf7Vn/BGzsVM44S4yCVmIrNI=;
-	b=KZ5schzX0/vzUBZb7IJToCY5D38eff9L7RY1g94x/9SeIFACUe0+DRyQNABevdlR1k
-	Rj2BifZ9H3rc/3Ig/5HsQeG97jDk6lctd2nA5/HjrRt8tNmbWoN8aylc+Nt6b/PTV4/w
-	qG2nl7hEKmWH0cfU3JzssLRz2qZKUWbv2wFBDCoSsr2oYPeOivpX0EPY6aFjxEfjSb2I
-	leKYDuTqyD+QvQkE1Bnwv/Kd9mGMVtM1CG7B0lvv7QMmbUBTaqPPvSe+tTpbfCJFXM/e
-	lctPB3Ln58X/gcTuCpQ+sDrRMBDKfEJPkuS/sBZuJHLY1jGvoN2qvG/jIqPrxWR05ycb
-	62Eg==
-X-Gm-Message-State: ABUngvd4+Zz13J6IK4CBq65CEfqOcUwd3vKRdLcWHz8ejZ/s5yInyY0XCS9Ddp+Zsxy8kKUKljWKcRVdsvnA1A==
-X-Received: by 10.25.28.143 with SMTP id c137mr6940245lfc.149.1478205468298;
-	Thu, 03 Nov 2016 13:37:48 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.25.89.139 with HTTP; Thu, 3 Nov 2016 13:37:17 -0700 (PDT)
-X-Originating-IP: [187.23.155.148]
-In-Reply-To: <CAJTo0Lb7KFypggDwyWF5_7KutJ-Tq9k2+8E69696CirEWrcpRQ@mail.gmail.com>
-References: <1478187243-17488-1-git-send-email-fabio.berton@ossystems.com.br>
-	<CAJTo0Lb7KFypggDwyWF5_7KutJ-Tq9k2+8E69696CirEWrcpRQ@mail.gmail.com>
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:organization;
+	bh=3H7hST7ZdkObUlbm7oYPNg1Z9QWwmVzeZwveiDPjxRs=;
+	b=bacUjF0ISx0htT+pQKhFOqnoLjgmE4wiU54JfbrdQkt312DXBTI7sbXNlKqlnvYRfD
+	nstpIMuvptGe9mAK0eRieNzgKt++K7Ej4H+pvLyaJaA3SUV0UGI/zN49naPHighnn+Vx
+	oxYwVVU3xuyDRyDAmGp0lPPV1TSdUf45V7Z/4dVribzZRi+yeWStlsyAXGaJQqBsqmJo
+	mghuaQC1ge7xGBeD3Gte9bJkV/qmGD/lnrXqrlhkxJADwOz9yEUECOUydcVqi6TUksF9
+	/4biRn2FnQ4wtUoCZWKlv/5p7KytSImDNf5NIJrgwh3BENlH/6M72+Teo5EfpByJsKrb
+	x7nw==
+X-Gm-Message-State: ABUngve8SKjAogEyEGPhIQN5Amm0HDgGBy/eDTN4tEEWJMZTeoo3NHM+1Fjw280/zjgE3w==
+X-Received: by 10.176.0.82 with SMTP id 76mr8801495uai.46.1478205778942;
+	Thu, 03 Nov 2016 13:42:58 -0700 (PDT)
+Received: from monster.lab.ossystems.com.br ([187.23.155.148])
+	by smtp.gmail.com with ESMTPSA id 42sm2151339uah.2.2016.11.03.13.42.56
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Thu, 03 Nov 2016 13:42:57 -0700 (PDT)
 From: Fabio Berton <fabio.berton@ossystems.com.br>
-Date: Thu, 3 Nov 2016 18:37:17 -0200
-Message-ID: <CAAPZna34h1DC_bp5r5L48E1BxTj2fdV9fpsXRk9LBRZvsNnFWg@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] serf: Update to version 1.3.9
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  3 Nov 2016 18:41:57 -0200
+Message-Id: <1478205719-28589-1-git-send-email-fabio.berton@ossystems.com.br>
+X-Mailer: git-send-email 2.1.4
+Organization: O.S. Systems Software LTDA.
+Subject: [PATCH] 1/3] grep: Update to version 2.26
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,67 +53,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 03 Nov 2016 20:37:49 -0000
-Content-Type: multipart/alternative; boundary=001a1140209ad7e60005406b876e
+X-List-Received-Date: Thu, 03 Nov 2016 20:42:59 -0000
 
---001a1140209ad7e60005406b876e
-Content-Type: text/plain; charset=UTF-8
+Signed-off-by: Fabio Berton <fabio.berton@ossystems.com.br>
+---
+ meta/recipes-extended/grep/{grep_2.25.bb => grep_2.26.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-extended/grep/{grep_2.25.bb => grep_2.26.bb} (88%)
 
-Hi Ross,
+diff --git a/meta/recipes-extended/grep/grep_2.25.bb b/meta/recipes-extended/grep/grep_2.26.bb
+similarity index 88%
+rename from meta/recipes-extended/grep/grep_2.25.bb
+rename to meta/recipes-extended/grep/grep_2.26.bb
+index 9720d9f..9e6f05e 100644
+--- a/meta/recipes-extended/grep/grep_2.25.bb
++++ b/meta/recipes-extended/grep/grep_2.26.bb
+@@ -9,8 +9,8 @@ SRC_URI = "${GNU_MIRROR}/grep/grep-${PV}.tar.xz \
+            file://0001-Unset-need_charset_alias-when-building-for-musl.patch \
+           "
+ 
+-SRC_URI[md5sum] = "04e96b0e6f0fe6a180ae62c88fcd0af6"
+-SRC_URI[sha256sum] = "e21e83bac50450e0d0d61a42c154ee0dceaacdbf4f604ef6e79071cb8e596830"
++SRC_URI[md5sum] = "afdd61c7221434722671baf002ac9267"
++SRC_URI[sha256sum] = "246a8fb37e82aa33d495b07c22fdab994c039ab0f818538eac81b01e78636870"
+ 
+ inherit autotools gettext texinfo
+ 
+-- 
+2.1.4
 
-I removed UPSTREAM_CHECK_URI and checked with bitbake serf -c checkpkg and
-I got the same output. So, I'll remove UPSTREAM_CHECK_URI and send a v3.
 
-Thanks
-
-Fabio
-
-On Thu, Nov 3, 2016 at 5:40 PM, Burton, Ross <ross.burton@intel.com> wrote:
-
->
-> On 3 November 2016 at 15:34, Fabio Berton <fabio.berton@ossystems.com.br>
-> wrote:
->
->> -UPSTREAM_CHECK_URI = "${DEBIAN_MIRROR}/main/s/serf/"
->> +UPSTREAM_CHECK_URI = "${APACHE_MIRROR}/${BPN}/"
->>
->
-> As all the tarballs are in a single directory you can probably just delete
-> this line (though please do check with bitbake serf -c checkpkg).
->
-> Ross
->
-
---001a1140209ad7e60005406b876e
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_default" style=3D"font-family:monospac=
-e,monospace;font-size:small">Hi Ross,<br><br>I removed UPSTREAM_CHECK_URI a=
-nd checked with bitbake serf -c checkpkg and I got the same output. So, I&#=
-39;ll remove UPSTREAM_CHECK_URI and send a v3.<br><br></div><div class=3D"g=
-mail_default" style=3D"font-family:monospace,monospace;font-size:small">Tha=
-nks<br><br></div><div class=3D"gmail_default" style=3D"font-family:monospac=
-e,monospace;font-size:small">Fabio<br></div></div><div class=3D"gmail_extra=
-"><br><div class=3D"gmail_quote">On Thu, Nov 3, 2016 at 5:40 PM, Burton, Ro=
-ss <span dir=3D"ltr">&lt;<a href=3D"mailto:ross.burton@intel.com" target=3D=
-"_blank">ross.burton@intel.com</a>&gt;</span> wrote:<br><blockquote class=
-=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padd=
-ing-left:1ex"><div dir=3D"ltr"><div class=3D"gmail_extra"><span class=3D"">=
-<br><div class=3D"gmail_quote">On 3 November 2016 at 15:34, Fabio Berton <s=
-pan dir=3D"ltr">&lt;<a href=3D"mailto:fabio.berton@ossystems.com.br" target=
-=3D"_blank">fabio.berton@ossystems.com.br</a><wbr>&gt;</span> wrote:<br><bl=
-ockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #=
-ccc solid;padding-left:1ex"><div id=3D"m_1134557946887258966:1ar" class=3D"=
-m_1134557946887258966a3s m_1134557946887258966aXjCH m_1134557946887258966m1=
-582af0cb93027db">-UPSTREAM_CHECK_URI =3D &quot;${DEBIAN_MIRROR}/main/s/serf=
-/<wbr>&quot;<br>
-+UPSTREAM_CHECK_URI =3D &quot;${APACHE_MIRROR}/${BPN}/&quot;<br></div></blo=
-ckquote></div><br></span>As all the tarballs are in a single directory you =
-can probably just delete this line (though please do check with bitbake ser=
-f -c checkpkg).</div><span class=3D"HOEnZb"><font color=3D"#888888"><div cl=
-ass=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></font><=
-/span></div>
-</blockquote></div><br></div>
-
---001a1140209ad7e60005406b876e--
