@@ -1,49 +1,52 @@
-Return-Path: <fabio.berton@ossystems.com.br>
-Received: from mail-vk0-f68.google.com (mail-vk0-f68.google.com
-	[209.85.213.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 3922171B1C
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pf0-f194.google.com (mail-pf0-f194.google.com
+	[209.85.192.194])
+	by mail.openembedded.org (Postfix) with ESMTP id B87B071A69
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  3 Nov 2016 20:43:01 +0000 (UTC)
-Received: by mail-vk0-f68.google.com with SMTP id w194so2405132vkw.3
+	Thu,  3 Nov 2016 21:42:43 +0000 (UTC)
+Received: by mail-pf0-f194.google.com with SMTP id i88so5871061pfk.2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 03 Nov 2016 13:43:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:organization; bh=zz9O07G4nGa6DcUmXDXolFE3Wc1maEIOrjEXHPeLOG4=;
-	b=uhHCdjqJ8cpu0m4PSaS5kpSGrxmutG7bK+vxDRuGFyNPr3Izic+Nvrdg9+RhAXrs0i
-	rFeQDlPh5UY5sl41tm+uEjnEBjOmRzCRTl6+cz2PjxDYm4g6d/4ZFhzF6e77EiD7P2vq
-	8eacc5SOVNTt8jnuLjY+1YjsZPca66RnLeBabw8GXwWAzOfrHF6SkWrC8iV0p+QnCbmJ
-	ll5xwxmD656BzpM/ze7rvMoyIfXrugCqFNGR00zkseiO8odRFdHw944rB66dhRQG9rQa
-	uHAVQJWW6Sofizd9SDDZEgy0IrsB3XXBV5AThT7TOIpw/lS36wlxX/ovdXN0pIoe26Cr
-	Z9xQ==
+	Thu, 03 Nov 2016 14:42:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=subject:mime-version:from:in-reply-to:date:cc:message-id:references
+	:to; bh=J0COhXGjKpyg79rlhXAXw3R6FhvVrGZTpyEn2A6iU4E=;
+	b=eghmX74GWdUFxDOO1w9WaDe3FpA/4IDLKOHOAFkiMKhJxnCseaLBSVVUJ9OyC2Lpk6
+	YtPSaQVsPiBVsFo+oq2RqnpZnEH2xaW5NmUEBWCargf3gE+CGOQhRHT1D48ascUD1DUA
+	UuxmKhHUwUTsla1BkQLL1mxQ2Fu8o1euiuqgagfDcrt95RHAMSfcQEPwHT/4TBEF9oZB
+	83vIXRHXbH2WTEDZOz6C4MWAB5eQ4KDxbAooFfUGYj8UNNGngk9wdR5emwOydp1V2TcI
+	t4W54+A5sXHVXbygpsTMo4wba7iaKsFzw2MjrbTvNlgPtDhr038Akq0A2ZXhPX6bLOYU
+	Qm7Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references:organization;
-	bh=zz9O07G4nGa6DcUmXDXolFE3Wc1maEIOrjEXHPeLOG4=;
-	b=Bbq/25e8dfY0UgWXlzSpEshr+Z3MYDJtAUWVYiq3Z/etRejpYlFp9HZxD4l0Y8HDJr
-	N+9BIhPnrHepG464TiCpxUc1CnGwc9vD5PY/uq3MjVrVQ2k3PzWbEI5sehpOqW3k0qLj
-	s9aw5ERPWVrhV1DjyrYs/Ma7rK3LvRDCRotTt6i0Lf63ute7kxGzKiKuhmjP036VNX9W
-	U5Y3cXc25nwb0E5DnWvLOXdQ4IkKJ3ucHcI9GgRWzHlu72lwtxa2X1mS5gJDoJBFA8Gq
-	R7OJgsSYdVJWp6kfoZmqe1OvAFwDcVYcNuATIVV2q+cDvgRir4Lh1cYWqj3CeWCOU4s8
-	DiEw==
-X-Gm-Message-State: ABUngvc9vKzu8ihzH0lkvC9XJl8viVnwruaePu3yqHDkUnzzQkWmvBF8JuFktxUvBZtq7g==
-X-Received: by 10.31.138.143 with SMTP id m137mr8982938vkd.148.1478205783167; 
-	Thu, 03 Nov 2016 13:43:03 -0700 (PDT)
-Received: from monster.lab.ossystems.com.br ([187.23.155.148])
-	by smtp.gmail.com with ESMTPSA id 42sm2151339uah.2.2016.11.03.13.43.01
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 03 Nov 2016 13:43:02 -0700 (PDT)
-From: Fabio Berton <fabio.berton@ossystems.com.br>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  3 Nov 2016 18:41:59 -0200
-Message-Id: <1478205719-28589-3-git-send-email-fabio.berton@ossystems.com.br>
-X-Mailer: git-send-email 2.1.4
-In-Reply-To: <1478205719-28589-1-git-send-email-fabio.berton@ossystems.com.br>
-References: <1478205719-28589-1-git-send-email-fabio.berton@ossystems.com.br>
-Organization: O.S. Systems Software LTDA.
-Subject: [PATCH] 3/3] readline: Update to version 7.0
+	h=x-gm-message-state:subject:mime-version:from:in-reply-to:date:cc
+	:message-id:references:to;
+	bh=J0COhXGjKpyg79rlhXAXw3R6FhvVrGZTpyEn2A6iU4E=;
+	b=Ogw39V0IXAJSZdgu1BPOessrluOwsNQj9ObEwSON87jDU9s8JMGO9k4u///vmxHsHK
+	NuWCb69HnOimdzB3tvm0V1NdnYaR4u2vkZsm0dqhRWVjyREkR+Uw9rsPmPieQ60ELykE
+	l7Y6myx95dBKRfO2kduK+7t/CiGlMGmDD5ILQ896pwR8Asn8A5/J5ZM0W3PUtJOrpzLl
+	G2C1a5zx9AppR4zOsniahOLDN5LjsfvQZ8oQINyycCuWPkj49aiT33VdvnU8GqXONs4p
+	PHK8hacUZOT7pyg8/cq4in32wAyq+kWqFwV1/1mtIw1RTDGyjsq9aYn1vBWKNYG956T0
+	k87A==
+X-Gm-Message-State: ABUngvfL86Yn/DgYgeYtsIG8q6DVgrHG657AftVx3vg7H+K6sHqplPZvvY8R8fJpQ+rfHQ==
+X-Received: by 10.98.57.144 with SMTP id u16mr20297462pfj.142.1478209364845;
+	Thu, 03 Nov 2016 14:42:44 -0700 (PDT)
+Received: from ?IPv6:2601:646:8882:b8c:d87c:cd06:754:6afe?
+	([2601:646:8882:b8c:d87c:cd06:754:6afe])
+	by smtp.gmail.com with ESMTPSA id
+	rx1sm14909856pab.32.2016.11.03.14.42.44
+	(version=TLS1 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Thu, 03 Nov 2016 14:42:44 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 9.3 \(3124\))
+X-Pgp-Agent: GPGMail
+From: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <1477910801-9169-1-git-send-email-ed.bartosh@linux.intel.com>
+Date: Thu, 3 Nov 2016 14:42:39 -0700
+Message-Id: <CD1ACFFA-619F-4C36-99AC-76D6A6068E74@gmail.com>
+References: <1477910801-9169-1-git-send-email-ed.bartosh@linux.intel.com>
+To: Ed Bartosh <ed.bartosh@linux.intel.com>
+X-Mailer: Apple Mail (2.3124)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] mkefidisk.sh: add deprecation warning to the output
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,85 +59,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 03 Nov 2016 20:43:02 -0000
+X-List-Received-Date: Thu, 03 Nov 2016 21:42:43 -0000
+X-Groupsio-MsgNum: 88998
+Content-Type: multipart/signed;
+	boundary="Apple-Mail=_099D2279-FE52-42E3-A268-A281BC6A2667";
+	protocol="application/pgp-signature"; micalg=pgp-sha1
 
-Remove readline 6.3 patches and config-dirent-symbols.patch already
-apply on upstream.
-
-Signed-off-by: Fabio Berton <fabio.berton@ossystems.com.br>
----
- .../configure-fix.patch                            |  0
- .../{readline-6.3 => readline-7.0}/norpath.patch   |  0
- meta/recipes-core/readline/readline_6.3.bb         | 34 ----------------------
- meta/recipes-core/readline/readline_7.0.bb         |  7 +++++
- 4 files changed, 7 insertions(+), 34 deletions(-)
- rename meta/recipes-core/readline/{readline-6.3 => readline-7.0}/configure-fix.patch (100%)
- rename meta/recipes-core/readline/{readline-6.3 => readline-7.0}/norpath.patch (100%)
- delete mode 100644 meta/recipes-core/readline/readline_6.3.bb
- create mode 100644 meta/recipes-core/readline/readline_7.0.bb
-
-diff --git a/meta/recipes-core/readline/readline-6.3/configure-fix.patch b/meta/recipes-core/readline/readline-7.0/configure-fix.patch
-similarity index 100%
-rename from meta/recipes-core/readline/readline-6.3/configure-fix.patch
-rename to meta/recipes-core/readline/readline-7.0/configure-fix.patch
-diff --git a/meta/recipes-core/readline/readline-6.3/norpath.patch b/meta/recipes-core/readline/readline-7.0/norpath.patch
-similarity index 100%
-rename from meta/recipes-core/readline/readline-6.3/norpath.patch
-rename to meta/recipes-core/readline/readline-7.0/norpath.patch
-diff --git a/meta/recipes-core/readline/readline_6.3.bb b/meta/recipes-core/readline/readline_6.3.bb
-deleted file mode 100644
-index 8ec7c4a..0000000
---- a/meta/recipes-core/readline/readline_6.3.bb
-+++ /dev/null
-@@ -1,34 +0,0 @@
--require readline.inc
--
--SRC_URI += "${GNU_MIRROR}/readline/readline-6.3-patches/readline63-001;name=patch1;apply=yes;striplevel=0 \
--            ${GNU_MIRROR}/readline/readline-6.3-patches/readline63-002;name=patch2;apply=yes;striplevel=0 \
--            ${GNU_MIRROR}/readline/readline-6.3-patches/readline63-003;name=patch3;apply=yes;striplevel=0 \
--            ${GNU_MIRROR}/readline/readline-6.3-patches/readline63-004;name=patch4;apply=yes;striplevel=0 \
--            ${GNU_MIRROR}/readline/readline-6.3-patches/readline63-005;name=patch5;apply=yes;striplevel=0 \
--            ${GNU_MIRROR}/readline/readline-6.3-patches/readline63-006;name=patch6;apply=yes;striplevel=0 \
--            ${GNU_MIRROR}/readline/readline-6.3-patches/readline63-007;name=patch7;apply=yes;striplevel=0 \
--            ${GNU_MIRROR}/readline/readline-6.3-patches/readline63-008;name=patch8;apply=yes;striplevel=0 \
--            file://configure-fix.patch \
--            file://config-dirent-symbols.patch \
--            file://norpath.patch"
--
--SRC_URI[archive.md5sum] = "33c8fb279e981274f485fd91da77e94a"
--SRC_URI[archive.sha256sum] = "56ba6071b9462f980c5a72ab0023893b65ba6debb4eeb475d7a563dc65cafd43"
--
--SRC_URI[patch1.md5sum]    = "4343f5ea9b0f42447f102fb61576b398"
--SRC_URI[patch1.sha256sum] = "1a79bbb6eaee750e0d6f7f3d059b30a45fc54e8e388a8e05e9c3ae598590146f"
--SRC_URI[patch2.md5sum]    = "700295212f7e2978577feaee584afddb"
--SRC_URI[patch2.sha256sum] = "39e304c7a526888f9e112e733848215736fb7b9d540729b9e31f3347b7a1e0a5"
--SRC_URI[patch3.md5sum]    = "af4963862f5156fbf9111c2c6fa86ed7"
--SRC_URI[patch3.sha256sum] = "ec41bdd8b00fd884e847708513df41d51b1243cecb680189e31b7173d01ca52f"
--SRC_URI[patch4.md5sum]    = "11f9def89803a5052db3ba72394ce14f"
--SRC_URI[patch4.sha256sum] = "4547b906fb2570866c21887807de5dee19838a60a1afb66385b272155e4355cc"
--SRC_URI[patch5.md5sum]    = "93721c31cd225393f80cb3aadb165544"
--SRC_URI[patch5.sha256sum] = "877788f9228d1a9907a4bcfe3d6dd0439c08d728949458b41208d9bf9060274b"
--SRC_URI[patch6.md5sum]    = "71dc6ecce66d1489b96595f55d142a52"
--SRC_URI[patch6.sha256sum] = "5c237ab3c6c97c23cf52b2a118adc265b7fb411b57c93a5f7c221d50fafbe556"
--SRC_URI[patch7.md5sum]    = "062a08ed60679d3c4878710b3d595b65"
--SRC_URI[patch7.sha256sum] = "4d79b5a2adec3c2e8114cbd3d63c1771f7c6cf64035368624903d257014f5bea"
--SRC_URI[patch8.md5sum]    = "ee1c04072154826870848d8b218d7b04"
--SRC_URI[patch8.sha256sum] = "3bc093cf526ceac23eb80256b0ec87fa1735540d659742107b6284d635c43787"
--
-diff --git a/meta/recipes-core/readline/readline_7.0.bb b/meta/recipes-core/readline/readline_7.0.bb
-new file mode 100644
-index 0000000..85dfaa6
---- /dev/null
-+++ b/meta/recipes-core/readline/readline_7.0.bb
-@@ -0,0 +1,7 @@
-+require readline.inc
-+
-+SRC_URI += "file://configure-fix.patch \
-+            file://norpath.patch"
-+
-+SRC_URI[archive.md5sum] = "205b03a87fc83dab653b628c59b9fc91"
-+SRC_URI[archive.sha256sum] = "750d437185286f40a369e1e4f4764eda932b9459b5ec9a731628393dd3d32334"
--- 
-2.1.4
+--Apple-Mail=_099D2279-FE52-42E3-A268-A281BC6A2667
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=utf-8
 
 
+> On Oct 31, 2016, at 3:46 AM, Ed Bartosh <ed.bartosh@linux.intel.com> =
+wrote:
+>=20
+> mkefidisk.sh will soon be deprecated in favor of .wic images.
+>=20
+> Added deprecation warning to the script to inform users that
+> this script will soon be removed from the codebase.
+>=20
+> Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
+> ---
+> scripts/contrib/mkefidisk.sh | 5 +++++
+> 1 file changed, 5 insertions(+)
+>=20
+> diff --git a/scripts/contrib/mkefidisk.sh =
+b/scripts/contrib/mkefidisk.sh
+> index d8db3c0..a175895 100755
+> --- a/scripts/contrib/mkefidisk.sh
+> +++ b/scripts/contrib/mkefidisk.sh
+> @@ -20,6 +20,11 @@
+>=20
+> LANG=3DC
+>=20
+> +echo
+> +echo "WARNING: This script is deprecated and will be removed soon."
+> +echo "Please consider using wic EFI images instead."
+> +echo
+> +
+
+is .wic image dd=E2=80=99able directly ?
+We should also document, the wic steps in wiki pages e.g. =
+http://wiki.minnowboard.org/Yocto_Project
+
+
+
+> # Set to 1 to enable additional output
+> DEBUG=3D0
+> OUT=3D"/dev/null"
+> --
+> 2.1.4
+>=20
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
+
+--Apple-Mail=_099D2279-FE52-42E3-A268-A281BC6A2667
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+	filename=signature.asc
+Content-Type: application/pgp-signature;
+	name=signature.asc
+Content-Description: Message signed with OpenPGP using GPGMail
+
+-----BEGIN PGP SIGNATURE-----
+Comment: GPGTools - https://gpgtools.org
+
+iEYEARECAAYFAlgbr1MACgkQuwUzVZGdMxTRQACghJp7hogIycuWoUJzEwh1v2TI
+RugAni5iF1SR+dgkZqbQiCkOO9RbViu2
+=NrkC
+-----END PGP SIGNATURE-----
+
+--Apple-Mail=_099D2279-FE52-42E3-A268-A281BC6A2667--
