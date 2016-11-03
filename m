@@ -1,25 +1,51 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id DF75A71A2D
+Return-Path: <patrick.ohly@intel.com>
+Received: from mail-yw0-f172.google.com (mail-yw0-f172.google.com
+	[209.85.161.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 32D96719BB
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  3 Nov 2016 16:37:30 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga102.fm.intel.com with ESMTP; 03 Nov 2016 09:37:31 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.31,587,1473145200"; d="scan'208";a="897365619"
-Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
-	([10.237.68.161])
-	by orsmga003.jf.intel.com with ESMTP; 03 Nov 2016 09:37:30 -0700
-To: Christopher Larson <clarson@kergoth.com>
+	Thu,  3 Nov 2016 16:52:52 +0000 (UTC)
+Received: by mail-yw0-f172.google.com with SMTP id h14so54804084ywa.2
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 03 Nov 2016 09:52:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:organization:mime-version:content-transfer-encoding;
+	bh=SONYYF9s2/ikRKu7ezJuSA+tzXeDurcOYAMT0/Fhu4A=;
+	b=Ub5KMfFmVDHULhR4cywit3sPh+Cny5lIJQiI99ZykEPx+IJGHJzUUgd422hRsCpwiE
+	gIoAZECtSgDNtYs1wdY/u1JAyiwBWjJ5waiRC5ZbrkqBOfgGMJ8PoW/Gh3bKlR0lQUwu
+	Hvu9kljlLZNizJcefc7IAMjfggLNYAXSFyyJj/wqW5wkAX0rLVnNgTX0G5/V8s1UZZnX
+	rt0xLEfUSeRFZ1k22312CQtsYg6ka5yRmoQ33EjEbpQNuDOWZyTVt/l3W60Wv+19nM0a
+	YYsgt8olLT4wjWcCSUjsPJWG2q+T5DjTvci0kfrO7fwtVxBhFarnBllGnLSS1pVUBu2g
+	1eEQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:organization:mime-version:content-transfer-encoding;
+	bh=SONYYF9s2/ikRKu7ezJuSA+tzXeDurcOYAMT0/Fhu4A=;
+	b=XE22mSvp0z6JJJasZbKv+YqgSzmoA/hKhrM4tHrkHu3giOuNh+M7BqsPdqrXr/G6TH
+	beyA0G2am2zA3lrRcW5Zcc4BRngV5W9ticYp1sV0h8Rb1lWxMUUfAsLzEajrxYk0XswU
+	rxz76Ysa0rxDkejWCqS3zRKNpB+pL1x5g/EDQd65Ko0MWozQAj9Dcj0EveNoUkbKshzN
+	ImFVQeI64I1MKRV2rEti1jcdzJfj9EJutuym406sW3d+UOj8IhRqKPJCN21jQB7GD0HT
+	XRDs6rzaCd3MkyGhqj/UZVOwyhEaBJxwOWsPXWU3UnOHIQ2Eoklf3WBeNyCwR5Qdzsyi
+	jPXw==
+X-Gm-Message-State: ABUngvdKBF8Nr4iFizJGjw3QgI4kaU959Y7QWTm7O+IOBiPwVBhZ8Jj4KkmYs7SYozpWdXRK
+X-Received: by 10.107.6.160 with SMTP id f32mr3695498ioi.201.1478191973803;
+	Thu, 03 Nov 2016 09:52:53 -0700 (PDT)
+Received: from pohly-mobl1 (p5DE8E52F.dip0.t-ipconnect.de. [93.232.229.47])
+	by smtp.gmail.com with ESMTPSA id
+	k81sm3079296iod.20.2016.11.03.09.52.51
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 03 Nov 2016 09:52:52 -0700 (PDT)
+Message-ID: <1478191970.13356.103.camel@intel.com>
+From: Patrick Ohly <patrick.ohly@intel.com>
+To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Date: Thu, 03 Nov 2016 17:52:50 +0100
+In-Reply-To: <6511599a-ddb1-77b0-f42e-69afeaa60cae@linux.intel.com>
 References: <6511599a-ddb1-77b0-f42e-69afeaa60cae@linux.intel.com>
-	<CABcZANnYeGT9VVFBH3cNGUKnE_jPw8CDGv2YC_10-w5pe=WmKQ@mail.gmail.com>
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <86a0da96-542d-685b-cdd3-588df6fe7024@linux.intel.com>
-Date: Thu, 3 Nov 2016 18:35:05 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Icedove/45.4.0
-MIME-Version: 1.0
-In-Reply-To: <CABcZANnYeGT9VVFBH3cNGUKnE_jPw8CDGv2YC_10-w5pe=WmKQ@mail.gmail.com>
+Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
+X-Mailer: Evolution 3.12.9-1+b1 
+Mime-Version: 1.0
 Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
 	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
@@ -36,25 +62,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 03 Nov 2016 16:37:31 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
+X-List-Received-Date: Thu, 03 Nov 2016 16:52:53 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 11/03/2016 06:29 PM, Christopher Larson wrote:
-> git already provides such a UI, afaik devtool just needs to use git-am
-> to apply the patches, ideally passing -3 to it, and let the user use git
-> am to resolve and continue applying patches.
+On Thu, 2016-11-03 at 18:01 +0200, Alexander Kanavin wrote:
+> Hello Paul,
+> 
+> it would be very useful if devtool offered support for rebasing source 
+> patches when they fail to apply
 
-I don't think git am has any UI that helps with rebasing the rejects, 
-and -3 is often not useful here, as we don't have the commit history, if 
-the source is coming from tarball.
++1 for that.
 
-What you need to do here is to use git am --reject, which would 
-partially apply the patch, then find all the *.rej files and let the 
-user manually edit them in, then complete the patch application with git 
-am --continue.
+I tried it the other way around: first "devtool modify", then rebasing
+using git (which only works when the recipe fetches from a git repo),
+and finally changing the recipe such that it refers to the version I
+rebased onto. But that version change in the recipe confused "devtool
+update-recipe" considerably (as in "added all patches between the
+version", if I remember correctly).
+
+-- 
+Best Regards, Patrick Ohly
+
+The content of this message is my personal opinion only and although
+I am an employee of Intel, the statements I make here in no way
+represent Intel's position on the issue, nor am I authorized to speak
+on behalf of Intel on this matter.
 
 
-Alex
 
 
