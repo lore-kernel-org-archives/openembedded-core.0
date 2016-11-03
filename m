@@ -1,28 +1,46 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by mail.openembedded.org (Postfix) with ESMTP id BED2071C47
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qt0-f176.google.com (mail-qt0-f176.google.com
+	[209.85.216.176])
+	by mail.openembedded.org (Postfix) with ESMTP id 01B8A71AC9
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  3 Nov 2016 19:34:30 +0000 (UTC)
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-	by orsmga105.jf.intel.com with ESMTP; 03 Nov 2016 12:34:31 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.31,440,1473145200"; d="scan'208";a="27240399"
-Received: from bkarakos-mobl.ger.corp.intel.com (HELO
-	peggleto-mobl.ger.corp.intel.com) ([10.255.187.65])
-	by orsmga005.jf.intel.com with ESMTP; 03 Nov 2016 12:34:29 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Date: Fri, 04 Nov 2016 08:34:27 +1300
-Message-ID: <1890495.kdAhvlCMlm@peggleto-mobl.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.14.10 (Linux/4.7.10-100.fc23.x86_64; KDE/4.14.20; x86_64; ;
-	)
-In-Reply-To: <1480827.LzmdYstA2d@peggleto-mobl.ger.corp.intel.com>
-References: <6511599a-ddb1-77b0-f42e-69afeaa60cae@linux.intel.com>
-	<1480827.LzmdYstA2d@peggleto-mobl.ger.corp.intel.com>
+	Thu,  3 Nov 2016 19:39:28 +0000 (UTC)
+Received: by mail-qt0-f176.google.com with SMTP id n6so35305452qtd.1
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 03 Nov 2016 12:39:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=EYx8nYelJzVdGpIjJcE268c8Eu72kqZavaMZ8iWBVUY=;
+	b=u/guuu3eM5/3wQGo38A6oTZAnAN7Zbnl+nporJGZocNIfGhRrOYVYemIJn/zvmvvHz
+	BxelHF2NSO0ayjRZNfbKom1oPQZujKbfe9qrDrvg5b+ryFLC6aQQjIOc7xjlEV3WR8US
+	Jtv+l5Q42G9js9omY5xRjg+Ojg+I2vwcC3hNJ7kUw8qMxVo8A++J5DBEBXZVunkXZ2e2
+	PiN4p1ev2ppogwEEB51DbUY6iu4sabX4eKDX/i6o3uBUeyjQXmlX8RD4W2hxKtbyHJNF
+	dUoKPmUbEjgZ6/zY4gfdjUpSamxHQa3PMa2+yQCz15mp9nap2tjxtv/YeOrxMfvAT68d
+	gyxg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=EYx8nYelJzVdGpIjJcE268c8Eu72kqZavaMZ8iWBVUY=;
+	b=Ik5rlWEbzrpeU34WJfAwNFa0XUW0ZxUDRYBakwkaNf8h36cnYxqb2WINXpC3REhtcd
+	wHw6PHdwE5HI6opdWXyHDBmRtwJZXtTNxCjEBTrNXV4Xjt1VZriQT7/bcrOtrnl2mqh5
+	UtHc5EvP6NM8/SWzY8bDsMI3/TyBauVIarEKI84pAvx6NsFqfNidIJtLyi8TBKI1r9A+
+	RkqYWbSd17dOmbu4xap+95K6/dcLSX7X6Ej4r482xI8TSu7qDj6mULlmarYASKQEWyxE
+	I0TG8iCpNhtAFEHKUfg6lK/OBB4aPtSgk2orRcaEuruTxkOGBWEfXxb6TP1nPKsgqzM7
+	rzSA==
+X-Gm-Message-State: ABUngveDsyZ54+4wnXWBuFeWUQ9X/iUbgHpcRtwKk40XA3cqFAe2cHFeTjxsNB9bo2IK6GeTqhrmAlO9PoeT6Caw
+X-Received: by 10.200.53.69 with SMTP id z5mr9889798qtb.64.1478201967629; Thu,
+	03 Nov 2016 12:39:27 -0700 (PDT)
 MIME-Version: 1.0
-Subject: Re: using devtool for rebasing patches
+Received: by 10.140.85.208 with HTTP; Thu, 3 Nov 2016 12:39:07 -0700 (PDT)
+In-Reply-To: <1478196294-7594-1-git-send-email-jkrishnanjanappa@mvista.com>
+References: <1478196294-7594-1-git-send-email-jkrishnanjanappa@mvista.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 3 Nov 2016 19:39:07 +0000
+Message-ID: <CAJTo0LbvVLrkAJuF3uEMm-_DPmJQLsX2=rT0a4hvKUi9k79MYQ@mail.gmail.com>
+To: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [master][morty][PATCH 1/2] ltp: Fix QA warning
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,63 +53,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 03 Nov 2016 19:34:30 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Thu, 03 Nov 2016 19:39:29 -0000
+Content-Type: multipart/alternative; boundary=001a114058582fec4005406ab7ab
 
-On Fri, 04 Nov 2016 08:29:26 Paul Eggleton wrote:
-> Hi Alex,
-> 
-> On Thu, 03 Nov 2016 18:01:27 Alexander Kanavin wrote:
-> > it would be very useful if devtool offered support for rebasing source
-> > patches when they fail to apply, but currently there does not seem to be
-> > any such feature:
-> > 
-> > ak@kanavin-desktop:~/development/poky/build$ devtool modify libksba
-> > Parsing recipes..done.
-> > NOTE: Fetching libksba...
-> > NOTE: Unpacking...
-> > NOTE: Patching...
-> > ERROR: Applying 'ksba-add-pkgconfig-support.patch' failed:
-> > checking file Makefile.am
-> > Hunk #1 FAILED at 21.
-> > 1 out of 1 hunk FAILED
-> > checking file configure.ac
-> > Hunk #1 succeeded at 414 (offset 14 lines).
-> > checking file ksba.pc.in
-> > checking file src/ksba.m4
-> > ERROR: Function failed: patch_do_patch
-> > ak@kanavin-desktop:~/development/poky/build$
-> > 
-> > What devtool could do here is apply the patches that can be applied and
-> > then partially apply the patches that fail. Then give the developer some
-> > kind of UI for dealing with the rejected hunks (which typically means
-> > finding the place in the target file where the changes should go and
-> > then manually editing them in, while looking at the original patch).
-> > 
-> > Without this feature devtool is half as useful as it could be
-> > particularly for recipe version updates.
-> 
-> "devtool upgrade" is designed specifically to handle the upgrade case and
-> tries to rebase the old patches onto the new version, putting you into
-> resolution mode with "git am" if it fails to apply a patch. I appreciate
-> that you may now be working through sorting out all of the patches to
-> reduce the fuzziness when applying, and that won't help in that scenario,
-> but it would definitely be worth considering for upgrades.
-> 
-> I'm open to implementing better support for handling patch application
-> failure for devtool modify - in fact there is a bug open for just that:
-> 
->   https://bugzilla.yoctoproject.org/show_bug.cgi?id=8325
+--001a114058582fec4005406ab7ab
+Content-Type: text/plain; charset=UTF-8
 
-(Although admittedly that was mostly for an earlier issue - we ought to add a 
-bit of description of where to go from here.)
+On 3 November 2016 at 18:04, Jagadeesh Krishnanjanappa <
+jkrishnanjanappa@mvista.com> wrote:
 
-Cheers,
-Paul
+> WARNING: ltp-20160126-r0 do_package_qa: QA Issue:
+> /opt/ltp/share/licenses/ltp/run_freezer.sh contained in package ltp-lic
+> requires /bin/bash, but no providers found in RDEPENDS_ltp-lic? [file-rdeps]
+>
 
--- 
+So the common problem "if PN-lic contains a license statement embedded in a
+file with a hashbang, file-rdeps is triggered", so I'd say file-rdeps
+should be added to INSANE_SKIP_${PN}-lic in bitbake.conf instead of dealing
+with this per recipe.
 
-Paul Eggleton
-Intel Open Source Technology Centre
+Ross
 
+--001a114058582fec4005406ab7ab
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 3 November 2016 at 18:04, Jagadeesh Krishnanjanappa <span dir=3D"ltr">&l=
+t;<a href=3D"mailto:jkrishnanjanappa@mvista.com" target=3D"_blank">jkrishna=
+njanappa@mvista.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quo=
+te" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"=
+><div id=3D":1a8" class=3D"a3s aXjCH m1582b6c357bbac23">WARNING: ltp-201601=
+26-r0 do_package_qa: QA Issue: /opt/ltp/share/licenses/ltp/<wbr>run_freezer=
+.sh contained in package ltp-lic requires /bin/bash, but no providers found=
+ in RDEPENDS_ltp-lic? [file-rdeps]<br></div></blockquote></div><br>So the c=
+ommon problem &quot;if PN-lic contains a license statement embedded in a fi=
+le with a hashbang, file-rdeps is triggered&quot;, so I&#39;d say file-rdep=
+s should be added to INSANE_SKIP_${PN}-lic in bitbake.conf instead of deali=
+ng with this per recipe.</div><div class=3D"gmail_extra"><br></div><div cla=
+ss=3D"gmail_extra">Ross</div></div>
+
+--001a114058582fec4005406ab7ab--
