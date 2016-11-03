@@ -1,52 +1,50 @@
-Return-Path: <kergoth@gmail.com>
-Received: from mail-oi0-f67.google.com (mail-oi0-f67.google.com
-	[209.85.218.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 12E026093E
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pf0-f195.google.com (mail-pf0-f195.google.com
+	[209.85.192.195])
+	by mail.openembedded.org (Postfix) with ESMTP id B47F171B87
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  3 Nov 2016 17:15:15 +0000 (UTC)
-Received: by mail-oi0-f67.google.com with SMTP id 128so7761169oih.3
+	Thu,  3 Nov 2016 17:37:34 +0000 (UTC)
+Received: by mail-pf0-f195.google.com with SMTP id y68so5435178pfb.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 03 Nov 2016 10:15:17 -0700 (PDT)
+	Thu, 03 Nov 2016 10:37:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:from:date:message-id
-	:subject:to:cc;
-	bh=J4Sjnxi0o07IlPgoONofCabEDVGcWyuKQ3+l8gyvSXY=;
-	b=RPifIqPRC79Kb881JuGwyrcK5A1sccmd0Ra1/0K708Vs9Of/juEI9rrGZz5lXMm/II
-	jaeWgjwQb3pnFUXTMmwrPsYX4D0Do+pWquNi7H36BAY3WML09YL2KzUVtaWZk8kuKStx
-	PS86iKtjEYSuaGPjROPXle9bqrgYbVz3dKtGKOmLW/MxnFjFlzjrvV9KbsC1JMCYu7WG
-	GXy48lSe2KvAgpbEW9GjqzwhLqcjGy2f4I00n3dr87jAH3y2n0XaTTxPPceWRu8Qn+HU
-	oOgCREXkgSvJYdYfZ6zNRUYsNMYf3wfD7DlshoHrci49v/bEnVaRv9hGkpaePCdsE6B2
-	vt2w==
+	h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=fsAtXh965STyo/+IM9h+SPTqsHzdDdN4wGoS9Y7UNC4=;
+	b=gjoV5k2xM2K2fRbDRNpC6x7J8nRI4j777YnmI8DCgLD0THDsujPBV0y5InZJt+S5tC
+	h2YittsiZRtmXNRyTYE668b0vMSzgRqHEVMeYgizI8hwAsd5vAKIHuho93MWINM4VQsi
+	ardCgBzX9cAze6DyF5VPiSKds/LQ3oO81wy0gLG9MjYhA4iYK8TdlLIBcdjDq0tmQgJl
+	qolomUrRFWLQbouPH2EQbFucuTxxg/09e6VxuH+lZDIJHmNfmZfKGu5oLNCiDPn5/3/Q
+	LEemf9TkWVie15qGZhUt7QHBCcr2hqPvEVD9eCozafDg3L4U+MgjMnMaB3EcoZMMD0Am
+	RXqg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:sender:in-reply-to:references:from
-	:date:message-id:subject:to:cc;
-	bh=J4Sjnxi0o07IlPgoONofCabEDVGcWyuKQ3+l8gyvSXY=;
-	b=OdFYy8wVjU13ZmL0Ivb2tWzznZpaoNj6LUqSUVs0gc/deJIABR0BdVxxWw5Z3N7/cG
-	NCVBaxw+puW94dG/lQ6SsHgc9xh2poZz463UuHvWw2rFxTR86MeOuXP5An4P0TVcgsiR
-	ZnnKb2eCc/TlNzsRJaVfdWcKE1kv7EjqGhKvbjaKbVKuHNm4mAe3CyZZuT4g2CxSr6Nf
-	Uyiv/pIky+m5k8cDR78uism032JAvi7ASWyLedmOpXbkHo+2jXGAYaw+DSZlMogB4Ri7
-	NCn5eFvRfSGbdZIu9DZ78A7CbF5Y/PjbKCH7QwmedAbJwo8CXmbmSCtkLp+LJXwFAjEy
-	LWNA==
-X-Gm-Message-State: ABUngvdouz4gSO++u62Xut2AENclTyax70JP5iNCjMC/7/ZqN8JxokvOMnBkDGALeP1uRQX+cIkFt8sqhKk+0Q==
-X-Received: by 10.202.74.88 with SMTP id x85mr9399939oia.77.1478193316744;
-	Thu, 03 Nov 2016 10:15:16 -0700 (PDT)
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=fsAtXh965STyo/+IM9h+SPTqsHzdDdN4wGoS9Y7UNC4=;
+	b=KGufzf7SIk++4GTEQTnEVlqNa9u3jK9qvSRwwowzBvgSbiSr62BDXrDTPqy9wgl6tg
+	xr8quKFekuIpi9p+Ajea62uw0YSQXCS1xyE2tljIQAgeo/gt7371TVtxLdKHNU8zO1Es
+	n17LFXDRsThIK39k3/z4lmxcOL8ZUe951xRQfBrnarhZyimZbPDZfWQEMOqTxZLc6aFj
+	+CJo0YYpG4V8bJCQViFLO++GjvtCV1ugxQucWa55GQe2zL6wnzP6tG0gi6712L9+r5Pf
+	5mNxkMOsxyrSz9lciLEUEcpzfSCjS384N32wla/RQiN+TVq/JHmc75coC8JhaOZSzNXe
+	1KPg==
+X-Gm-Message-State: ABUngvdq83y+4hwdffmMQRHVdrCNoAvr8lgT0nbcAJPcEB65TKRvumyOWlC+2U9S1dkdew==
+X-Received: by 10.99.66.130 with SMTP id p124mr15630233pga.30.1478194655877;
+	Thu, 03 Nov 2016 10:37:35 -0700 (PDT)
+Received: from Pahoa2.hsd1.ca.comcast.net
+	([2601:202:4001:9ea0:614c:a5d9:489d:9d27])
+	by smtp.gmail.com with ESMTPSA id
+	y200sm1864109pfb.16.2016.11.03.10.37.35
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Thu, 03 Nov 2016 10:37:35 -0700 (PDT)
+From: Armin Kuster <akuster808@gmail.com>
+To: akuster808@gmail.com,
+	openembedded-core@lists.openembedded.org
+Date: Thu,  3 Nov 2016 10:36:49 -0700
+Message-Id: <cover.1478184013.git.akuster808@gmail.com>
+X-Mailer: git-send-email 2.3.5
 MIME-Version: 1.0
-Sender: kergoth@gmail.com
-Received: by 10.157.13.194 with HTTP; Thu, 3 Nov 2016 10:14:56 -0700 (PDT)
-In-Reply-To: <86a0da96-542d-685b-cdd3-588df6fe7024@linux.intel.com>
-References: <6511599a-ddb1-77b0-f42e-69afeaa60cae@linux.intel.com>
-	<CABcZANnYeGT9VVFBH3cNGUKnE_jPw8CDGv2YC_10-w5pe=WmKQ@mail.gmail.com>
-	<86a0da96-542d-685b-cdd3-588df6fe7024@linux.intel.com>
-From: Christopher Larson <clarson@kergoth.com>
-Date: Thu, 3 Nov 2016 10:14:56 -0700
-X-Google-Sender-Auth: GrbF4SNwF0r2EpRIbFfv44fwsGk
-Message-ID: <CABcZAN=6WvHcfyUj5hYmFG6nYoYTkYLrqO6s70v31bYNn85iXg@mail.gmail.com>
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: using devtool for rebasing patches
+Subject: [PATCH 00/43] Krogoth-next pull request
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,82 +57,166 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 03 Nov 2016 17:15:17 -0000
-Content-Type: multipart/alternative; boundary=001a113db3508dd37c054068b339
-
---001a113db3508dd37c054068b339
+X-List-Received-Date: Thu, 03 Nov 2016 17:37:34 -0000
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Thu, Nov 3, 2016 at 9:35 AM, Alexander Kanavin <
-alexander.kanavin@linux.intel.com> wrote:
-
-> On 11/03/2016 06:29 PM, Christopher Larson wrote:
->
->> git already provides such a UI, afaik devtool just needs to use git-am
->> to apply the patches, ideally passing -3 to it, and let the user use git
->> am to resolve and continue applying patches.
->>
->
-> I don't think git am has any UI that helps with rebasing the rejects, and
-> -3 is often not useful here, as we don't have the commit history, if the
-> source is coming from tarball.
->
-
-Fairly sure that=E2=80=99s not actually correct. See below.
+Please consider these changes for krogoth-next
 
 
-> What you need to do here is to use git am --reject, which would partially
-> apply the patch, then find all the *.rej files and let the user manually
-> edit them in, then complete the patch application with git am --continue.
+The following changes since commit 40f4a6d075236265086cc79400dea3c14720383a:
+
+  bsp-guide: Updated the yocto-bsp create selections in the example. (2016-10-13 23:16:56 +0100)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib akuster/krogoth-next
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=akuster/krogoth-next
+
+Aníbal Limón (1):
+  bitbake: bb.event: fix infinite loop on print_ui_queue
+
+Armin Kuster (2):
+  meta-linux-yocto: update to 4.1.33
+  meta-linux-yocto: update 4.4 to 4.4.26
+
+Bruce Ashfield (7):
+  linux-yocto/4.1: update to 4.1.33
+  linux-yocto/4.4: update to v4.4.22
+  linux-yocto/4.1/4.4: remove innappropriate standard/base patches
+  linux-yocto/4.4/4.8: kernel config warning cleanups
+  linux-yocto/4.4: update to v4.4.26
+  linux-yocto/4.1: fix CVE-2016-5195 (dirtycow)
+  perf: adapt to Makefile.config
+
+California Sullivan (4):
+  parselogs.py: Add amd_nb error to x86_common whitelist
+  parselogs.py: Add dmi and ioremap errors to ignore list for core2
+  parselogs.py: Ignore Skylake graphics firmware load errors on
+    genericx86-64
+  parselogs.py: Add disabling eDP error to x86_common whitelist
+
+Christopher Larson (1):
+  perf: Fix to obey LD failure on qemux86-64
+
+Ed Bartosh (1):
+  bitbake: event.py: output errors and warnings to stderr
+
+Enrico Scholz (1):
+  bitbake: fetch: copy files with -H
+
+Joshua Lock (1):
+  bitbake: event: prevent unclosed file warning in print_ui_queue
+
+Juro Bystricky (3):
+  libgcc-common.inc: Fix broken symlinks for multilib SDK
+  gcc-runtime.inc: add CPP support for mips64-n32 tune
+  gcc-runtime.inc: Add CPP support for x86-64-x32 tune
+
+Jussi Kukkonen (1):
+  This is a backport from master of 2 consecutive fixes.
+
+Khem Raj (1):
+  binutils: Fix gas error with cfi_section inconsistencies
+
+Markus Lehtonen (1):
+  rpm: prevent race in tempdir creation
+
+Ola x Nilsson (2):
+  devtool: build_image: Fix recipe filter
+  devtool: Use the wildcard flag in update_recipe_patch
+
+Pascal Bach (1):
+  glibc: fix CVE-2016-1234, CVE-2016-3075, CVE-2016-5417
+
+Paul Eggleton (8):
+  devtool: update-recipe: fix --initial-rev option
+  devtool: reset: allow reset to work if the recipe file has been
+    deleted
+  recipetool: create: fix handling of github URLs
+  lib/oe/recipeutils: fix patch_recipe*() with empty input
+  recipetool: create: fix greedy regex that broke support for github
+    tarballs
+  oe-selftest: recipetool: add tests for git URL mangling
+  devtool: add: fix error message when only specifying a recipe name
+  classes/externalsrc: re-run do_configure when configure files change
+
+Richard Purdie (3):
+  parselogs: Ignore amb_nb warning messages under qemux86*
+  parselogs: Ignore uvesafb timeouts
+  oeqa/parselogs: Don't use cwd for file transfers
+
+Saul Wold (1):
+  archiver: fix gcc-source handling
+
+Sona Sarmadi (2):
+  dropbear: fix multiple CVEs
+  bash: Security fix CVE-2016-0634
+
+Sujith Haridasan (1):
+  perf: Fix to obey LD failure
+
+Zheng Ruoqin (1):
+  bind: fix two CVEs
+
+ bitbake/lib/bb/event.py                            |   17 +-
+ bitbake/lib/bb/fetch2/__init__.py                  |    2 +-
+ .../recipes-kernel/linux/linux-yocto_4.1.bbappend  |   17 +-
+ .../recipes-kernel/linux/linux-yocto_4.4.bbappend  |   17 +-
+ meta/classes/archiver.bbclass                      |    5 +-
+ meta/classes/autotools.bbclass                     |    2 +
+ meta/classes/cmake.bbclass                         |    2 +
+ meta/classes/externalsrc.bbclass                   |   22 +
+ meta/lib/oe/recipeutils.py                         |    2 +-
+ meta/lib/oeqa/runtime/parselogs.py                 |   29 +-
+ meta/lib/oeqa/selftest/recipetool.py               |   43 +
+ .../bind/bind/CVE-2016-2775.patch                  |   90 +
+ .../bind/bind/CVE-2016-2776.patch                  |  123 +
+ meta/recipes-connectivity/bind/bind_9.10.3-P3.bb   |    2 +
+ meta/recipes-core/base-files/base-files/profile    |    6 +-
+ meta/recipes-core/dropbear/dropbear.inc            |    4 +
+ .../dropbear/dropbear/CVE-2016-7406.patch          |  102 +
+ .../dropbear/dropbear/CVE-2016-7407.patch          | 2486 ++++++++++++++++++++
+ .../dropbear/dropbear/CVE-2016-7408.patch          |  101 +
+ .../dropbear/dropbear/CVE-2016-7409.patch          |   27 +
+ meta/recipes-core/glibc/glibc/CVE-2016-1234.patch  |  427 ++++
+ meta/recipes-core/glibc/glibc/CVE-2016-3075.patch  |   37 +
+ meta/recipes-core/glibc/glibc/CVE-2016-5417.patch  |   28 +
+ meta/recipes-core/glibc/glibc_2.23.bb              |    3 +
+ meta/recipes-devtools/binutils/binutils-2.26.inc   |    1 +
+ ..._sections-check-to-only-consider-compact-.patch |   97 +
+ meta/recipes-devtools/gcc/gcc-runtime.inc          |   18 +
+ meta/recipes-devtools/gcc/libgcc-common.inc        |    8 +-
+ ...more-verbose-error-logging-in-rpmTempFile.patch |   26 +-
+ .../rpmdb-prevent-race-in-tmpdir-creation.patch    |   41 +
+ meta/recipes-devtools/rpm/rpm_5.4.16.bb            |    1 +
+ .../recipes-extended/bash/bash/CVE-2016-0634.patch |  136 ++
+ meta/recipes-extended/bash/bash_4.3.30.bb          |    1 +
+ meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb    |    6 +-
+ meta/recipes-kernel/linux/linux-yocto-rt_4.4.bb    |    6 +-
+ meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb  |    6 +-
+ meta/recipes-kernel/linux/linux-yocto-tiny_4.4.bb  |    6 +-
+ meta/recipes-kernel/linux/linux-yocto_4.1.bb       |   20 +-
+ meta/recipes-kernel/linux/linux-yocto_4.4.bb       |   20 +-
+ meta/recipes-kernel/perf/perf.bb                   |   13 +-
+ scripts/lib/devtool/build_image.py                 |    2 +-
+ scripts/lib/devtool/standard.py                    |   18 +-
+ scripts/lib/recipetool/create.py                   |    2 +-
+ 43 files changed, 3923 insertions(+), 99 deletions(-)
+ create mode 100644 meta/recipes-connectivity/bind/bind/CVE-2016-2775.patch
+ create mode 100644 meta/recipes-connectivity/bind/bind/CVE-2016-2776.patch
+ create mode 100644 meta/recipes-core/dropbear/dropbear/CVE-2016-7406.patch
+ create mode 100644 meta/recipes-core/dropbear/dropbear/CVE-2016-7407.patch
+ create mode 100644 meta/recipes-core/dropbear/dropbear/CVE-2016-7408.patch
+ create mode 100644 meta/recipes-core/dropbear/dropbear/CVE-2016-7409.patch
+ create mode 100644 meta/recipes-core/glibc/glibc/CVE-2016-1234.patch
+ create mode 100644 meta/recipes-core/glibc/glibc/CVE-2016-3075.patch
+ create mode 100644 meta/recipes-core/glibc/glibc/CVE-2016-5417.patch
+ create mode 100644 meta/recipes-devtools/binutils/binutils/0015-Refine-.cfi_sections-check-to-only-consider-compact-.patch
+ create mode 100644 meta/recipes-devtools/rpm/rpm/rpmdb-prevent-race-in-tmpdir-creation.patch
+ create mode 100644 meta/recipes-extended/bash/bash/CVE-2016-0634.patch
+
+-- 
+2.3.5
 
 
-With -3, it=E2=80=99ll merge it into the file with conflict markers, which =
-is a lot
-more pleasant to deal with than .rej files, even without the merge-base
-being available.
---=20
-Christopher Larson
-clarson at kergoth dot com
-Founder - BitBake, OpenEmbedded, OpenZaurus
-Maintainer - Tslib
-Senior Software Engineer, Mentor Graphics
-
---001a113db3508dd37c054068b339
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On Thu, Nov 3, 2016 at 9:35 AM, Alexander Kanavin <span dir=3D"ltr">&lt;<a =
-href=3D"mailto:alexander.kanavin@linux.intel.com" target=3D"_blank">alexand=
-er.kanavin@linux.intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gm=
-ail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-le=
-ft:1ex"><span class=3D"">On 11/03/2016 06:29 PM, Christopher Larson wrote:<=
-br>
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex">
-git already provides such a UI, afaik devtool just needs to use git-am<br>
-to apply the patches, ideally passing -3 to it, and let the user use git<br=
->
-am to resolve and continue applying patches.<br>
-</blockquote>
-<br></span>
-I don&#39;t think git am has any UI that helps with rebasing the rejects, a=
-nd -3 is often not useful here, as we don&#39;t have the commit history, if=
- the source is coming from tarball.<br></blockquote><div><br></div><div>Fai=
-rly sure that=E2=80=99s not actually correct. See below.</div><div>=C2=A0</=
-div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-lef=
-t:1px #ccc solid;padding-left:1ex">
-What you need to do here is to use git am --reject, which would partially a=
-pply the patch, then find all the *.rej files and let the user manually edi=
-t them in, then complete the patch application with git am --continue.</blo=
-ckquote><div><br></div><div>With -3, it=E2=80=99ll merge it into the file w=
-ith conflict markers, which is a lot more pleasant to deal with than .rej f=
-iles, even without the merge-base being available.</div></div>-- <br><div c=
-lass=3D"gmail_signature" data-smartmail=3D"gmail_signature">Christopher Lar=
-son<br>clarson at kergoth dot com<br>Founder - BitBake, OpenEmbedded, OpenZ=
-aurus<br>Maintainer - Tslib<br>Senior Software Engineer, Mentor Graphics</d=
-iv>
-</div></div>
-
---001a113db3508dd37c054068b339--
