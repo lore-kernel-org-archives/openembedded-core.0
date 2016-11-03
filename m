@@ -1,47 +1,135 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-ua0-f173.google.com (mail-ua0-f173.google.com
-	[209.85.217.173])
-	by mail.openembedded.org (Postfix) with ESMTP id 7CBCB71AD3
+Return-Path: <alistai@xilinx.com>
+X-Greylist: delayed 2450 seconds by postgrey-1.34 at layers.openembedded.org;
+	Thu, 03 Nov 2016 00:34:41 UTC
+Received: from NAM02-CY1-obe.outbound.protection.outlook.com
+	(mail-cys01nam02on0056.outbound.protection.outlook.com
+	[104.47.37.56])
+	by mail.openembedded.org (Postfix) with ESMTP id A2CDE71A9F
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  3 Nov 2016 00:30:39 +0000 (UTC)
-Received: by mail-ua0-f173.google.com with SMTP id 51so26812747uai.1
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 02 Nov 2016 17:30:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=ojZ19DK+Z0726GKjsAD2wWmMO4vD8TKd8kd5Yhalwwo=;
-	b=IXGlJ0300rsf4Tu9JfLVxR1EzfK88Ae2NTGtAABm+AxsILj86LUgn4v+drJtsJbY0k
-	gtqWTHaVGGGoIJbwrXskXJIzCInk4ZKHgy+4mUIF7LYEuNqFjYbTiM5Znia95ov42GqI
-	DANtZ1p97fTbbe/j3nyDsYAYYXjG0c8IOYILdUo87yiOq4cyous0mm6e3h85k4UrfLQq
-	FHTUywaDyR9b20JOK856KhO+weQ0bTHXUgLXeaEG40MDcli3S9XFLW5fPozyuxTVd/7b
-	J2CwSs5WCqjTv/uuRKZYWCzJAKUts6ePXn35AE4SMRG1pDevLLaUkddGMGUjDMJW/GY8
-	1HfA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=ojZ19DK+Z0726GKjsAD2wWmMO4vD8TKd8kd5Yhalwwo=;
-	b=lOd8RqWt84meZibL3iBEanjtw/gicJ7amIW695/fPPQIszu7pjghfBJytf5jTM9V6g
-	lPRPKeDsI2dDpjX3oFH0SlQLrNQ4NJqBFUtxiNbK/FqZ+YbZkwWhU4CjX9jNdJxdTl1w
-	3amm/34Q5Ww/byCJUPP7iXiNcr7/kkAcY8Hskq1tvdAJlG5e1lOYqKec/0ogEi/1azJy
-	8ujx72gTSyDwiXbG8irdYBIBnAokoPNrDy3z0vstHlB1U9oGxNbQIsXdqHdjofLikB+R
-	FgvqHJEU4SxzDoACsGIEjAwaSFBf6aNEganQSH7rBA1fbWrGAjcYYNWTs2rYDYt8igBA
-	Ua7Q==
-X-Gm-Message-State: ABUngveKPARlvw3HMVPA82O3hUnr48PYKQZL11498LFHycu4AxH0BRVWCcKG1Bn6aVEnOJf8828Dcc77byXRvg==
-X-Received: by 10.159.55.141 with SMTP id q13mr5291557uaq.107.1478133041212;
-	Wed, 02 Nov 2016 17:30:41 -0700 (PDT)
+	Thu,  3 Nov 2016 00:34:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=xilinx.onmicrosoft.com; s=selector1-xilinx-com;
+	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version;
+	bh=8/k0b7ZlWcGCqv6YU6YuFIvoko4ERplSIvbViDcoLFs=;
+	b=sROHvuqo/R47AQtdHtoP765z2vHMyzSGXv79+4M1qKbjIsOtLfrPGiXMG5xA2SjbX01wFmc3ZrWBhsIv7b5sWujtUD9IfHMfmr+JkhuM59uD3z6hAIIX8ZPXUlYRLn7FOOYl6tMfKyQvQzOqJ1PqfNRfDislnqGvUcjnt2iIcJ4=
+Received: from BN6PR02CA0055.namprd02.prod.outlook.com (10.175.94.145) by
+	BN1PR02MB152.namprd02.prod.outlook.com (10.242.212.156) with Microsoft
+	SMTP Server (version=TLS1_2,
+	cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id
+	15.1.693.12; Thu, 3 Nov 2016 00:19:00 +0000
+Received: from BL2NAM02FT054.eop-nam02.prod.protection.outlook.com
+	(2a01:111:f400:7e46::200) by BN6PR02CA0055.outlook.office365.com
+	(2603:10b6:404:f9::17) with Microsoft SMTP Server (version=TLS1_2,
+	cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id 15.1.693.12 via
+	Frontend Transport; Thu, 3 Nov 2016 00:18:57 +0000
+Authentication-Results: spf=pass (sender IP is 149.199.60.100)
+	smtp.mailfrom=xilinx.com; nathanrossi.com;
+	dkim=none (message not signed)
+	header.d=none;nathanrossi.com; dmarc=bestguesspass action=none
+	header.from=xilinx.com;
+Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
+	149.199.60.100 as permitted sender) receiver=protection.outlook.com;
+	client-ip=149.199.60.100; helo=xsj-pvapsmtpgw02;
+Received: from xsj-pvapsmtpgw02 (149.199.60.100) by
+	BL2NAM02FT054.mail.protection.outlook.com (10.152.77.107) with
+	Microsoft SMTP Server (version=TLS1_0,
+	cipher=TLS_RSA_WITH_AES_256_CBC_SHA) id 15.1.693.6
+	via Frontend Transport; Thu, 3 Nov 2016 00:18:56 +0000
+X-IncomingTopHeaderMarker: OriginalChecksum:; UpperCasedChecksum:;
+	SizeAsReceived:1595; Count:17
+Received: from unknown-38-66.xilinx.com ([149.199.38.66]:36859
+	helo=xsj-pvapsmtp01) by xsj-pvapsmtpgw02 with esmtp (Exim 4.63)
+	(envelope-from <alistair.francis@xilinx.com>)
+	id 1c25k8-0007SE-8d; Wed, 02 Nov 2016 17:18:56 -0700
+Received: from [127.0.0.1] (helo=localhost)
+	by xsj-pvapsmtp01 with smtp (Exim 4.63)
+	(envelope-from <alistair.francis@xilinx.com>)
+	id 1c25k8-0007NB-59; Wed, 02 Nov 2016 17:18:56 -0700
+Received: from xsj-pvapsmtp01 (smtp2.xilinx.com [149.199.38.66])
+	by xsj-smtp-dlp1.xlnx.xilinx.com (8.13.8/8.13.1) with ESMTP id
+	uA30Ik9Q025841; Wed, 2 Nov 2016 17:18:46 -0700
+Received: from [172.19.74.182] (helo=xsjalistai50.xilinx.com)
+	by xsj-pvapsmtp01 with esmtp (Exim 4.63)
+	(envelope-from <alistair.francis@xilinx.com>)
+	id 1c25jy-0007L9-BO; Wed, 02 Nov 2016 17:18:46 -0700
+From: Alistair Francis <alistair.francis@xilinx.com>
+To: <liezhi.yang@windriver.com>, <openembedded-core@lists.openembedded.org>
+Date: Wed, 2 Nov 2016 17:17:17 -0700
+Message-ID: <1478132237-28350-3-git-send-email-alistair.francis@xilinx.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1478132237-28350-1-git-send-email-alistair.francis@xilinx.com>
+References: <1478132237-28350-1-git-send-email-alistair.francis@xilinx.com>
+X-RCIS-Action: ALLOW
+X-TM-AS-Product-Ver: IMSS-7.1.0.1224-8.0.0.1202-22674.005
+X-TM-AS-User-Approved-Sender: Yes;Yes
+X-IncomingHeaderCount: 17
+X-EOPAttributedMessage: 0
+X-MS-Office365-Filtering-HT: Tenant
+X-Forefront-Antispam-Report: CIP:149.199.60.100; IPV:NLI; CTRY:US; EFV:NLI;
+	SFV:NSPM;
+	SFS:(10009020)(6009001)(7916002)(2980300002)(438002)(189002)(199003)(36756003)(5001770100001)(77096005)(189998001)(19580395003)(107886002)(4326007)(48376002)(33646002)(229853001)(586003)(19580405001)(5003940100001)(4001430100002)(50466002)(9786002)(2906002)(5660300001)(356003)(87936001)(7846002)(305945005)(50986999)(2950100002)(47776003)(50226002)(8676002)(11100500001)(81156014)(92566002)(76176999)(626004)(81166006)(6666003)(63266004)(36386004)(8936002)(106466001)(107986001)(5001870100001);
+	DIR:OUT; SFP:1101; SCL:1; SRVR:BN1PR02MB152; H:xsj-pvapsmtpgw02;
+	FPR:; SPF:Pass; PTR:xapps1.xilinx.com,unknown-60-100.xilinx.com;
+	MX:1; A:1; LANG:en; 
+X-Microsoft-Exchange-Diagnostics: 1; BL2NAM02FT054;
+	1:vI6vRy4jnfNOMvVAhPj11mUk/Ng4DVLsrQKyuZDuYQJbFnl3ou8GVmCmc0kpSv4n/3WoaEk8jsbOdMS6zYfCugsRuAH2K6JOXQ9uxpNXkVMQ26T6BOmTOYgSoLUIUIEv9eSNfYoo43k+EMZerV6OXsHXbYIWqcyv52Rt7fooEitx6zlLq5SZGuOYOCYfTMjPkBVF/LWq+9sTS1nLhk9HEACkdv13m0mnbBlAd5HnRXl/kPiuVh9DVpCTTUzZVu8LZmap2W+Q0iXPXp6SPVBidHA02pjQ7mDdSMFEvEQH1rRKtvpSg9dMY/F1R0fJJoZniMg++as14OrkQ8BayM4rlqHWMWKZ1Eiaw5FPajWInIzch3UNcNMPFBKhbcRTPpprmZPWUQbekH1MFc31TevxTmn/ftwvabFETO/kTYqxoU3lPtyb1u4TetKIzVJp4xBEZ7A6U+JfXKrIPRTpFp2Vtg2NQ5z2KtSbLaBQT1BEJ+X46HM9vb2pfFubMEg4LJBjmb6addKn3qttoF+njb5+uRCODSp/us/aX0v7ENSfq9IxN0HkpCkLuOPmzWMA9AhAFUKGa7p+DBlBrpfoaO1hIceY7zrKyQNSlYsA3hvXVGs=
 MIME-Version: 1.0
-Received: by 10.176.5.136 with HTTP; Wed, 2 Nov 2016 17:30:40 -0700 (PDT)
-Received: by 10.176.5.136 with HTTP; Wed, 2 Nov 2016 17:30:40 -0700 (PDT)
-In-Reply-To: <1478127423-4954-1-git-send-email-armccurdy@gmail.com>
-References: <1478127423-4954-1-git-send-email-armccurdy@gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 2 Nov 2016 17:30:40 -0700
-Message-ID: <CAMKF1soo1AuwGA_y-vhF0bmOGjYj-OO-5U8Z2+3ZqawOWXetqA@mail.gmail.com>
-To: Andre McCurdy <armccurdy@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] gdb: update 7.11+git1a982b689c -> 7.11.1
+X-MS-Office365-Filtering-Correlation-Id: 0c09e8cf-4eed-48d1-1024-08d4037f00b8
+X-Microsoft-Exchange-Diagnostics: 1; BN1PR02MB152;
+	2:n5sw4cGsaMc2GiXmxE48nmme3Amit4yv81smcAJ8ItU+luNgU+mmmZoG7UKn7jR2TWVtSBJVlrvpJoKieAZgpoq8tOgenky4rx6I1yqTpFsFVf4yTLRhuPDPPDXZJsnI++Rb8xLqfdg7u822H57hDTM/kyOw9m50vljwmYMDOY3AVBlLLHtA+9sRJRmG9MVhzauxCemSRp+GE2aVIUv4eA==;
+	3:Z6kEbRiRoHTCln04Lrr9JePAyvh4NpXuvTdj/R5vTauVljUhfVp+wJ29Io3jLgKxW0ur6V5mRNM3HBIVYCUhpmUSoQWqqDBRkJq901YOMDJ/B550jqOybc+/ZXJ2ZCjG8v3z2zIk30yIO/ChEJ0I5zeKVx0WWvJzqLlgnjwvOJPQujws3CgiXK+PbvVN9vD7dNwaNnoeY6dsTgjCiGlZGW/B039hHwRa9UKjAFSZtx3fP5O9VD7ZIPIv1rMC7+3WRp7sI69pvOC13Q0owkdvySRsOymNyrGJv0QucG/+Uj8=
+X-Microsoft-Antispam: UriScan:; BCL:0; PCL:0; RULEID:(8251501002);
+	SRVR:BN1PR02MB152; 
+X-Microsoft-Exchange-Diagnostics: 1; BN1PR02MB152;
+	25:RiXpl0730hq4Dthm1zfsizdBOfdaGWjLI6gA8lmcrUT5oo+UIycZUXOVe+/jXIlSzL0VPK0nHMQcFynOFnRlq6BUy8vJNzpxpaPb7Ez2HwR6z5Seo9d5uGt3OwlhvQBmm4Oe5qmEbxcytfUeB/ezR0Psg3duCM3Govyz3vPByPZBwz8OJliFUjtZUVtekj4XledRuf/YNWIXz1wXWUHQEfww/UBbfN/lXZ+fH/0mhmg5mwxdt9Zq6hwRGZMn0uqgJgEPBluj0tAov6EKbiSavjHvHAnZBQJaJIONWt7TqjumL99B5Y/FCLOZ9jYQN1yQw1GrsXPBHR+lD+DypR+sP2Ijri4es06yxkgEoyHbQEP+Gcm6dkWlileLrBKXCHxXaU8cIBktRrZs0lV4FqDZTKAuQsrnVvidceZQuTkgv4xIvO5tUf+pmL9VGrOMlXeNwpgQU34gmMnhpS8hwxgjVZ9zQMXskIEmkjszWxA94eEOD9pna9SsvtksRFlewyokXH8KEEO2ijYQluVDiz7TfnsSYEtoszu227McKIYaHVuc73aOTeeIeRHyy057n019m02hoLBoE9uw9k/4dJx5L7XU6zKIeRpzavEulJkaapyiaaWUsTt2mA+0GOlbYPBu2TjYrCBqxCjZu6xTGkzB9274ulxzonq5zPXrhfERzggEF3LV/QcwelqjXL/Xeg46s0mw21xd2BDOrdDEnHs+EM30eSD2XQwxXL+aqI6ccWF3FrhetMSjVRg9yh1wAASEGWfl4VUpMGW1ngmSB6ftxltIztOcwouwlbTzwFvTgrvsWqvJCLy+CO2kvUurt+bi
+X-Microsoft-Exchange-Diagnostics: 1; BN1PR02MB152;
+	31:sXRuTmdXU4GjSbg3e8PZtkWge/BIJ9hVYUGnSNQEbLBi/2OK1EIV7rAuL9703Tl8svKYIS0+lg0Y3xtJIDUTq53QIgtGmux6rbumvcJOWayJoXBQU2HeKWi5tozZIRvimqXw3h0xTWCHYW6WkeiaU4iGwTKxK9R3KeFLZFOvqak7JDcG9hKjpFY6MIessorcqipcOm+99+zD3bcSTvXYVx4YbggiXhtffjsUNwIuuN3Te22t39Dj2AzeCSuVYpZqJJi/2ekwPlkCNef+TqC/hg==;
+	20:HIf2j/1phBn8ZOajBT1WVEu2R+Y6Z//48Ep0bfRPREgDJXWkVp8Z24PtIfFqWLfSrS3BcY3ekXsx+u/KyC5shHp6Nv0pG8X3PCZ0KCKa3zwBnrWQYBw6ME31B6UetPwtP6bQhIXdfrJ+W54hK3MorFkxsEqPzGYOU2vqi8MC20cs3rfooQu9YAiwvgJ1tL9LxcNwmOtOujGmJd1d+XUH2F3bi0bgfAgls9Dwk8AHhBHEZ5LXkL7/zizLxPe/9JpIn0PbBXcrKUH6E4XeMNRmPuh5ZXSn1OoBUBrf9e2lHSiBpXbyk5+bhALtNA+joSG3m/ZLWH9h3gNG2Q8WuBpJ8gxvhaDu7pGdQHEVJXJ9xTKX/EstV2TsxutpZVKRfDLan6KIKwK1qmg2MXnqv5UyOnnXpMyP0nt8qEaNezWoAPjZDL0EjjBr+a5JS07309p1rTck4X610NVPfBgBpnLlTrb+6vouu2GvqOhUSg491qHyfQScYeHsC/jUmIYAqXnV
+X-Microsoft-Antispam-PRVS: <BN1PR02MB1521EFAFE2FCEF66EEF06F2DCA30@BN1PR02MB152.namprd02.prod.outlook.com>
+X-Exchange-Antispam-Report-Test: UriScan:(192813158149592);
+X-Exchange-Antispam-Report-CFA-Test: BCL:0; PCL:0;
+	RULEID:(6040176)(601004)(2401047)(13015025)(5005006)(13017025)(8121501046)(13024025)(13018025)(13023025)(10201501046)(3002001)(6055026);
+	SRVR:BN1PR02MB152; BCL:0; PCL:0; RULEID:; SRVR:BN1PR02MB152; 
+X-Microsoft-Exchange-Diagnostics: 1; BN1PR02MB152;
+	4:hYEGtKUQlNwkeqMT874wLM6DEVwBOrcdL6EvtYhx2qM1urPCrY4gYPmUYbXH7a3EPMRsWkgyUthlTex1fRF4NbB0vnHS867DL6XJBLPu9ZLu4TLBQ1np4TS9Qlwmp5Vy+Ew2A2Gs/QPEPXeLVwcCjRlSBZuLBA/6qmmm8A7rLmp//B9Vb0eePDiy56MDSY7IJFFNjGbJ15bUjtF6JNtLsnTBvEhjRTsANCNJMchIyHXJyRzMQD0R+uXFJCGC6l24a6jCrFJKoYJydpbsO412+yDNG8IkeJuWzvSHvtoo/cm68R4GSnkQx3EGJChB0s/mjm60K+QGyoXLfsRv+2Gp4FA1cHSaLv95XuFbIPNt2oIMS2LUX4PPAfPJTAwJhu/lAwMPysCfsbu63cYtBKMXen3qC58tr96Z2P/bcARaXoPhpVri/8nukogY3GorSIf8fEs3wtEEIND64h2QsvANO6joa0D3/hlRuIYH218ooEfgT+k6PjOhv+PkvnaKvMVspItKjTGc8EYzY4LI7jNFEEyx50+EBNt8wtWbhIYJrtpSGokY7oK3r2SZ7Y6DRJzr
+X-Forefront-PRVS: 011579F31F
+X-Microsoft-Exchange-Diagnostics: =?us-ascii?Q?1; BN1PR02MB152;
+	23:bRdDCAm5gIiJT7ltympeUqBsBvvYJnaNdyXJHUCE6d?=
+	=?us-ascii?Q?yAKNTkrNSGSULTHGXTMukgQ3gwESDX9f+rgkdD5pxSd3aCgON+/9m31JwcbP?=
+	=?us-ascii?Q?4zZ49rbo/1fdTnk2FuuzrdHVdfchKoTNgAEMx1Om9kBciGwKTlibYuoRZ0M+?=
+	=?us-ascii?Q?lPQSi72MKdGthvO6/8o1dGNY0RfkWLi8fATSWj/Tk+9Jfh+aSHxr9poSSgvh?=
+	=?us-ascii?Q?snIgvUnRyBN6gIrxCWQ/fw6CSHE0IeJK+Fkw9lOnKUSH3aq7zJsSbJPua3fB?=
+	=?us-ascii?Q?xkHvNpVa8cMnDAWRoyEBg09tHoXoW3UhKsTu+JiaIBUG+haZgT9JfE+Yms8v?=
+	=?us-ascii?Q?PNZzu7L5ihhB0wEDeisKwLhfXoq8hRiATSGtUHipPb6kazwZ+J1yHRec7Qho?=
+	=?us-ascii?Q?gaie+ylu04mRJa92J9BMwKj6ELj/o4P9X+5Mw3zSJj2IY0otVf75d47tpuRS?=
+	=?us-ascii?Q?hC8vXXh5sw5AFj8ER3jUZCTLd4sz6/FlpK5Bd8GEqfN651y9SljxTxMD428x?=
+	=?us-ascii?Q?i7O3mvDszwYcNqHuA5GNmFSj7hQ92P5/4/SUvHuy5246bsdiilaAU9F1NY+F?=
+	=?us-ascii?Q?TU2nVCtKu9dLD0ZQIK24xxgjfgCpM0jF5yYA27hdIqPgjXV7RiOnYu4J4F2X?=
+	=?us-ascii?Q?yCAl0mdIPWUGaHM8n6XMVUNZBv1utj0lP/GOny0aY1/W/6tPcXNZ9As0oDUM?=
+	=?us-ascii?Q?3OeBx831sLa1t5aRDNoM17l2IGJVtsnUGS2cx6ux80X/ao8mNbVrT9mZyPl+?=
+	=?us-ascii?Q?K04A5/ZZOnpTdsFeAxbe3hjoxFotRkD/hN6EIA0LtzucbkyqiX1sjn9uwuKY?=
+	=?us-ascii?Q?dTUw7eHHck+6NQp9eD5r1PB5fm2UGLMKwBPr+k5hua2HTQXO1g6tSg7to39S?=
+	=?us-ascii?Q?j271OmpThR1qdyrUc2/4RCAj4nlBhUc6NL1VucJYOm8aAZ/HRL+cgbHB3IGi?=
+	=?us-ascii?Q?/QHZNv74wTr3GKR8m3/pXeKduW9FNn7h0MO1941w22/sJHmJxaURLvZnbuUQ?=
+	=?us-ascii?Q?upGH71HyxEUEztFFq0jJEypmIOnoF84AUN1jxEVX4dIResgxTebIGKQAjsT5?=
+	=?us-ascii?Q?VyE9J8nZ/eboHjysg/4DFVXxU9jjtLb+/iylTEsTKPqqLijwlaFCBg56p9+I?=
+	=?us-ascii?Q?QpESUubIgtROYSUM0qGswMbDq6LxWA?=
+X-Microsoft-Exchange-Diagnostics: 1; BN1PR02MB152;
+	6:qkCDDOstVGXr4OFBMWbC6V/EozAIo0kV7r1xvqLq93EDiyUZRgQ3ou8/YGSNmoI09CcWs7b7561sFsJK9tF/zDgoRw7W3yAn1rXyc0u1zmSXg4rl7jRVwnHLjryMfM47iMatx2z3Oy6/TiCStkirOIhLXfXOX2M/l26CaPb0KgmtRBjrii0xEkFauSubYzOKh3CASdQljHrhcDFhzSXe5fy0mzY46KSIV9BOQxf10qLT24osT7kZu7v3HcfP1xDE0uXH6A1A5QjK5xXPecapajDrXqJzL6BbCZ9eFYCCC+Qxv3k2uvoiMA1VB8Z23T4TCt3OcVyNaW10G0MYH1fiIeQRRO8JqtbmVeruutqWX8o=;
+	5:M9fiyQAQQ+OjlKtATaKATEqJfFruHYdeyiIDddU8h5h7bifvO6fDBewaX4ZDNXABR0UjA55u+bQfCdmSqqCOkW5XNbCwB95xwvqXAMDcCVyVXtxOHUbxPEM20rd7yW6Sj+4+ahmPsbkcRX4bw5bKzAvHEuBMpXgqsdrWKi+xlwM=;
+	24:GdUl9Q2gEORqjk9ELqC8MA2D+e34kF5NqJfidrj8I3w+XUn3xjJN8roYltOzvM89+P1JsjT4wYQ1ktGyq6ciS7iBGAG+2W1tdhsT32YLtys=
+SpamDiagnosticOutput: 1:99
+SpamDiagnosticMetadata: NSPM
+X-Microsoft-Exchange-Diagnostics: 1; BN1PR02MB152;
+	7:sfoMzOov5Jj0KOkbmm6FzFdzDGRlQ6i32LzcgCY6WJlCX3WxT1P2hLIFQSV7L1ork7IYXr1bPtDlPAh3H67j7NDLsm/OZyY9W2InBww0rOuNpqU6PaW97ILiL/Yq7EAjFtfBvb3zJp9Ah8YqXUkmIceoYUnjiXwDgJebqvTp/0EuoYnxS81mplTFc9DXlnS4SbbHQ8H5qwLnNX+J7XMwYeeGqheNyDch/HhJg9l5R/wp1GKOip/BYm8YVLselkN28xQEBOo3APG9g/b2rO+PS65JOUGMphVAYacQsEo5Tn0psHfc2y1ILCB3MtHXM8V2+/hwxrwGGvcc/7tZw2UUBkGjk+Lf2jiaihzN8wHgahg=
+X-OriginatorOrg: xilinx.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Nov 2016 00:18:56.9343 (UTC)
+X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c;
+	Ip=[149.199.60.100]; Helo=[xsj-pvapsmtpgw02]
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN1PR02MB152
+Subject: [PATCH v2 2/2] runqemu: Allow the user to specity no kernel or rootFS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,415 +142,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 03 Nov 2016 00:30:41 -0000
-Content-Type: multipart/alternative; boundary=94eb2c04227ada315105405aaaa6
+X-List-Received-Date: Thu, 03 Nov 2016 00:34:43 -0000
+Content-Type: text/plain
 
---94eb2c04227ada315105405aaaa6
-Content-Type: text/plain; charset=UTF-8
+In some cirsumstances the user doesn't want to supply a kernel, rootFS
+or DTB to QEMU. This will occur more now that QEMU supports loading
+images using a '-device loader' method.
 
-This is ok. Please backport it to morty as well
+Allow users to specify 'none' for QB_DEFAULT_FSTYPE or QB_DEFAULT_KERNEL
+to avoid supplying these options to QEMU.
 
-On Nov 2, 2016 4:00 PM, "Andre McCurdy" <armccurdy@gmail.com> wrote:
+Signed-off-by: Alistair Francis <alistair.francis@xilinx.com>
+---
+ scripts/runqemu | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
 
->   41d8236 Set GDB version number to 7.11.1.
->   136613e Fix PR gdb/19828: gdb -p <process from a container>: internal
-> error
->   a0de87e Make gdb/linux-nat.c consider a waitstatus pending on the infrun
-> side
->   cf2cd51 Add mi-threads-interrupt.exp test (PR 20039)
->   f0a8d0d Fix double prompt output after run control MI commands with
-> mi-async on (PR 20045)
->   b5f0db4 Fix -exec-run not running asynchronously with mi-async on (PR
-> gdb/18077)
->   7f8e34d Use target_terminal_ours_for_output in MI
->
-> Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
-> ---
->  meta/recipes-devtools/gdb/gdb-7.11.1.inc           | 22
-> ++++++++++++++++++++
->  meta/recipes-devtools/gdb/gdb-7.11.inc             |  9 --------
->  meta/recipes-devtools/gdb/gdb-common.inc           | 24
-> ----------------------
->  ...nadian_7.11.bb => gdb-cross-canadian_7.11.1.bb} |  0
->  .../gdb/{gdb-cross_7.11.bb => gdb-cross_7.11.1.bb} |  0
->  .../gdb/{gdb_7.11.bb => gdb_7.11.1.bb}             |  0
->  6 files changed, 22 insertions(+), 33 deletions(-)
->  create mode 100644 meta/recipes-devtools/gdb/gdb-7.11.1.inc
->  delete mode 100644 meta/recipes-devtools/gdb/gdb-7.11.inc
->  rename meta/recipes-devtools/gdb/{gdb-cross-canadian_7.11.bb =>
-> gdb-cross-canadian_7.11.1.bb} (100%)
->  rename meta/recipes-devtools/gdb/{gdb-cross_7.11.bb =>
-> gdb-cross_7.11.1.bb} (100%)
->  rename meta/recipes-devtools/gdb/{gdb_7.11.bb => gdb_7.11.1.bb} (100%)
->
-> diff --git a/meta/recipes-devtools/gdb/gdb-7.11.1.inc
-> b/meta/recipes-devtools/gdb/gdb-7.11.1.inc
-> new file mode 100644
-> index 0000000..d9dfe6f
-> --- /dev/null
-> +++ b/meta/recipes-devtools/gdb/gdb-7.11.1.inc
-> @@ -0,0 +1,22 @@
-> +LICENSE = "GPLv2 & GPLv3 & LGPLv2 & LGPLv3"
-> +LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552 \
-> +                   file://COPYING3;md5=d32239bcb673463ab874e80d47fae504 \
-> +                   file://COPYING3.LIB;md5=6a6a8e020838b23406c81b19c1d46df6
-> \
-> +                   file://COPYING.LIB;md5=9f604d8a4f8e74f4f5140845a21b66
-> 74"
-> +
-> +SRC_URI = "http://ftp.gnu.org/gnu/gdb/gdb-${PV}.tar.xz \
-> +           file://0001-include-sys-types.h-for-mode_t.patch \
-> +           file://0002-make-man-install-relative-to-DESTDIR.patch \
-> +           file://0003-mips-linux-nat-Define-_ABIO32-if-not-defined.patch
-> \
-> +           file://0004-ppc-ptrace-Define-pt_regs-uapi_pt_regs-on-GLIBC-syst.patch
-> \
-> +           file://0005-Add-support-for-Renesas-SH-sh4-architecture.patch
-> \
-> +           file://0006-Dont-disable-libreadline.a-when-using-disable-static.patch
-> \
-> +           file://0007-use-asm-sgidefs.h.patch \
-> +           file://0008-Use-exorted-definitions-of-SIGRTMIN.patch \
-> +           file://0009-Change-order-of-CFLAGS.patch \
-> +           file://0010-resolve-restrict-keyword-conflict.patch \
-> +           file://0011-avx_mpx.patch \
-> +"
-> +
-> +SRC_URI[md5sum] = "5aa71522e488e358243917967db87476"
-> +SRC_URI[sha256sum] = "e9216da4e3755e9f414c1aa0026b62
-> 6251dfc57ffe572a266e98da4f6988fc70"
-> diff --git a/meta/recipes-devtools/gdb/gdb-7.11.inc
-> b/meta/recipes-devtools/gdb/gdb-7.11.inc
-> deleted file mode 100644
-> index a9267d5..0000000
-> --- a/meta/recipes-devtools/gdb/gdb-7.11.inc
-> +++ /dev/null
-> @@ -1,9 +0,0 @@
-> -LICENSE = "GPLv2 & GPLv3 & LGPLv2 & LGPLv3"
-> -LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552 \
-> -                   file://COPYING3;md5=d32239bcb673463ab874e80d47fae504 \
-> -                   file://COPYING3.LIB;md5=6a6a8e020838b23406c81b19c1d46df6
-> \
-> -                   file://COPYING.LIB;md5=9f604d8a4f8e74f4f5140845a21b66
-> 74"
-> -
-> -SRC_URI[md5sum] = "b93a2721393e5fa226375b42d567d90b"
-> -SRC_URI[sha256sum] = "ff14f8050e6484508c73cbfa63731e
-> 57901478490ca1672dc0b5e2b03f6af622"
-> -
-> diff --git a/meta/recipes-devtools/gdb/gdb-common.inc
-> b/meta/recipes-devtools/gdb/gdb-common.inc
-> index 0923143..33a5ce9 100644
-> --- a/meta/recipes-devtools/gdb/gdb-common.inc
-> +++ b/meta/recipes-devtools/gdb/gdb-common.inc
-> @@ -1,6 +1,5 @@
->  SUMMARY = "GNU debugger"
->  HOMEPAGE = "http://www.gnu.org/software/gdb/"
-> -LICENSE = "GPLv3+"
->  SECTION = "devel"
->  DEPENDS = "expat zlib ncurses virtual/libiconv ${LTTNGUST}"
->
-> @@ -16,33 +15,10 @@ LTTNGUST_mips64eln32 = ""
->  LTTNGUST_sh4 = ""
->  LTTNGUST_libc-musl = ""
->
-> -LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552 \
-> -               file://COPYING.LIB;md5=9f604d8a4f8e74f4f5140845a21b6674 \
-> -               file://COPYING3;md5=d32239bcb673463ab874e80d47fae504 \
-> -               file://COPYING3.LIB;md5=6a6a8e020838b23406c81b19c1d46df6"
-> -
->  inherit autotools texinfo
->
-> -SRCREV = "1a982b689ce4e20523bdf69e47fdd574c4f63934"
-> -
-> -SRC_URI = "git://sourceware.org/git/binutils-gdb.git;branch=gdb-7.
-> 11-branch \
-> -           file://0001-include-sys-types.h-for-mode_t.patch \
-> -           file://0002-make-man-install-relative-to-DESTDIR.patch \
-> -           file://0003-mips-linux-nat-Define-_ABIO32-if-not-defined.patch
-> \
-> -           file://0004-ppc-ptrace-Define-pt_regs-uapi_pt_regs-on-GLIBC-syst.patch
-> \
-> -           file://0005-Add-support-for-Renesas-SH-sh4-architecture.patch
-> \
-> -           file://0006-Dont-disable-libreadline.a-when-using-disable-static.patch
-> \
-> -           file://0007-use-asm-sgidefs.h.patch \
-> -           file://0008-Use-exorted-definitions-of-SIGRTMIN.patch \
-> -           file://0009-Change-order-of-CFLAGS.patch \
-> -           file://0010-resolve-restrict-keyword-conflict.patch \
-> -           file://0011-avx_mpx.patch \
-> -"
-> -
->  UPSTREAM_CHECK_GITTAGREGEX = "gdb\-(?P<pver>.+)\-release"
->
-> -S = "${WORKDIR}/git"
-> -
->  B = "${WORKDIR}/build-${TARGET_SYS}"
->
->  EXTRA_OEMAKE = "'SUBDIRS=intl mmalloc libiberty opcodes bfd sim gdb etc
-> utils'"
-> diff --git a/meta/recipes-devtools/gdb/gdb-cross-canadian_7.11.bb
-> b/meta/recipes-devtools/gdb/gdb-cross-canadian_7.11.1.bb
-> similarity index 100%
-> rename from meta/recipes-devtools/gdb/gdb-cross-canadian_7.11.bb
-> rename to meta/recipes-devtools/gdb/gdb-cross-canadian_7.11.1.bb
-> diff --git a/meta/recipes-devtools/gdb/gdb-cross_7.11.bb
-> b/meta/recipes-devtools/gdb/gdb-cross_7.11.1.bb
-> similarity index 100%
-> rename from meta/recipes-devtools/gdb/gdb-cross_7.11.bb
-> rename to meta/recipes-devtools/gdb/gdb-cross_7.11.1.bb
-> diff --git a/meta/recipes-devtools/gdb/gdb_7.11.bb
-> b/meta/recipes-devtools/gdb/gdb_7.11.1.bb
-> similarity index 100%
-> rename from meta/recipes-devtools/gdb/gdb_7.11.bb
-> rename to meta/recipes-devtools/gdb/gdb_7.11.1.bb
-> --
-> 1.9.1
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
+diff --git a/scripts/runqemu b/scripts/runqemu
+index 922ebaf..5f60312 100755
+--- a/scripts/runqemu
++++ b/scripts/runqemu
+@@ -453,7 +453,7 @@ class BaseConfig(object):
+     def check_rootfs(self):
+         """Check and set rootfs"""
+ 
+-        if self.fstype == 'nfs':
++        if self.fstype == 'nfs' or self.fstype == "none":
+             return
+ 
+         if self.rootfs and not os.path.exists(self.rootfs):
+@@ -481,6 +481,10 @@ class BaseConfig(object):
+         # QB_DEFAULT_KERNEL is always a full file path
+         kernel_name = os.path.basename(self.get('QB_DEFAULT_KERNEL'))
+ 
++        # The user didn't want a kernel to be loaded
++        if kernel_name == "none":
++            return
++
+         deploy_dir_image = self.get('DEPLOY_DIR_IMAGE')
+         if not self.kernel:
+             kernel_match_name = "%s/%s" % (deploy_dir_image, kernel_name)
+@@ -857,6 +861,9 @@ class BaseConfig(object):
+             k_root = '/dev/nfs nfsroot=%s:%s,%s' % (self.nfs_server, self.nfs_dir, self.unfs_opts)
+             self.kernel_cmdline = 'root=%s rw highres=off' % k_root
+ 
++        if self.fstype == 'none':
++            self.rootfs_options = ''
++
+         self.set('ROOTFS_OPTIONS', self.rootfs_options)
+ 
+     def guess_qb_system(self):
+-- 
+2.7.4
 
---94eb2c04227ada315105405aaaa6
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-<p dir=3D"ltr">This is ok. Please backport it to morty as well</p>
-<div class=3D"gmail_extra"><br><div class=3D"gmail_quote">On Nov 2, 2016 4:=
-00 PM, &quot;Andre McCurdy&quot; &lt;<a href=3D"mailto:armccurdy@gmail.com"=
->armccurdy@gmail.com</a>&gt; wrote:<br type=3D"attribution"><blockquote cla=
-ss=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;pa=
-dding-left:1ex">=C2=A0 41d8236 Set GDB version number to 7.11.1.<br>
-=C2=A0 136613e Fix PR gdb/19828: gdb -p &lt;process from a container&gt;: i=
-nternal error<br>
-=C2=A0 a0de87e Make gdb/linux-nat.c consider a waitstatus pending on the in=
-frun side<br>
-=C2=A0 cf2cd51 Add mi-threads-interrupt.exp test (PR 20039)<br>
-=C2=A0 f0a8d0d Fix double prompt output after run control MI commands with =
-mi-async on (PR 20045)<br>
-=C2=A0 b5f0db4 Fix -exec-run not running asynchronously with mi-async on (P=
-R gdb/18077)<br>
-=C2=A0 7f8e34d Use target_terminal_ours_for_<wbr>output in MI<br>
-<br>
-Signed-off-by: Andre McCurdy &lt;<a href=3D"mailto:armccurdy@gmail.com">arm=
-ccurdy@gmail.com</a>&gt;<br>
----<br>
-=C2=A0meta/recipes-devtools/gdb/gdb-<wbr>7.11.1.inc=C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0| 22 ++++++++++++++++++++<br>
-=C2=A0meta/recipes-devtools/gdb/gdb-<wbr>7.11.inc=C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 9 --------<br>
-=C2=A0meta/recipes-devtools/gdb/gdb-<wbr>common.inc=C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0| 24 ----------------------<br>
-=C2=A0...<a href=3D"http://nadian_7.11.bb" rel=3D"noreferrer" target=3D"_bl=
-ank">nadian_7.11.bb</a> =3D&gt; <a href=3D"http://gdb-cross-canadian_7.11.1=
-.bb" rel=3D"noreferrer" target=3D"_blank">gdb-cross-canadian_7.11.1.bb</a>}=
- |=C2=A0 0<br>
-=C2=A0.../gdb/{<a href=3D"http://gdb-cross_7.11.bb" rel=3D"noreferrer" targ=
-et=3D"_blank">gdb-cross_7.11.bb</a> =3D&gt; <a href=3D"http://gdb-cross_7.1=
-1.1.bb" rel=3D"noreferrer" target=3D"_blank">gdb-cross_7.11.1.bb</a>} |=C2=
-=A0 0<br>
-=C2=A0.../gdb/{<a href=3D"http://gdb_7.11.bb" rel=3D"noreferrer" target=3D"=
-_blank">gdb_7.11.bb</a> =3D&gt; <a href=3D"http://gdb_7.11.1.bb" rel=3D"nor=
-eferrer" target=3D"_blank">gdb_7.11.1.bb</a>}=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0|=C2=A0 0<br>
-=C2=A06 files changed, 22 insertions(+), 33 deletions(-)<br>
-=C2=A0create mode 100644 meta/recipes-devtools/gdb/gdb-<wbr>7.11.1.inc<br>
-=C2=A0delete mode 100644 meta/recipes-devtools/gdb/gdb-<wbr>7.11.inc<br>
-=C2=A0rename meta/recipes-devtools/gdb/{<a href=3D"http://gdb-cross-canadia=
-n_7.11.bb" rel=3D"noreferrer" target=3D"_blank">gdb<wbr>-cross-canadian_7.1=
-1.bb</a> =3D&gt; <a href=3D"http://gdb-cross-canadian_7.11.1.bb" rel=3D"nor=
-eferrer" target=3D"_blank">gdb-cross-canadian_7.11.1.bb</a>} (100%)<br>
-=C2=A0rename meta/recipes-devtools/gdb/{<a href=3D"http://gdb-cross_7.11.bb=
-" rel=3D"noreferrer" target=3D"_blank">gdb<wbr>-cross_7.11.bb</a> =3D&gt; <=
-a href=3D"http://gdb-cross_7.11.1.bb" rel=3D"noreferrer" target=3D"_blank">=
-gdb-cross_7.11.1.bb</a>} (100%)<br>
-=C2=A0rename meta/recipes-devtools/gdb/{<a href=3D"http://gdb_7.11.bb" rel=
-=3D"noreferrer" target=3D"_blank">gdb<wbr>_7.11.bb</a> =3D&gt; <a href=3D"h=
-ttp://gdb_7.11.1.bb" rel=3D"noreferrer" target=3D"_blank">gdb_7.11.1.bb</a>=
-} (100%)<br>
-<br>
-diff --git a/meta/recipes-devtools/gdb/<wbr>gdb-7.11.1.inc b/meta/recipes-d=
-evtools/gdb/<wbr>gdb-7.11.1.inc<br>
-new file mode 100644<br>
-index 0000000..d9dfe6f<br>
---- /dev/null<br>
-+++ b/meta/recipes-devtools/gdb/<wbr>gdb-7.11.1.inc<br>
-@@ -0,0 +1,22 @@<br>
-+LICENSE =3D &quot;GPLv2 &amp; GPLv3 &amp; LGPLv2 &amp; LGPLv3&quot;<br>
-+LIC_FILES_CHKSUM =3D &quot;file://COPYING;md5=3D<wbr>59530bdf33659b29e73d4=
-adb9f9f65<wbr>52 \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file:=
-//COPYING3;md5=3D<wbr>d32239bcb673463ab874e80d47fae5<wbr>04 \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file:=
-//COPYING3.LIB;md5=3D<wbr>6a6a8e020838b23406c81b19c1d46d<wbr>f6 \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file:=
-//COPYING.LIB;md5=3D<wbr>9f604d8a4f8e74f4f5140845a21b66<wbr>74&quot;<br>
-+<br>
-+SRC_URI =3D &quot;<a href=3D"http://ftp.gnu.org/gnu/gdb/gdb-${PV}.tar.xz" =
-rel=3D"noreferrer" target=3D"_blank">http://ftp.gnu.org/gnu/gdb/<wbr>gdb-${=
-PV}.tar.xz</a> \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0001-include-sys-types.<wb=
-r>h-for-mode_t.patch \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0002-make-man-install-<wbr=
->relative-to-DESTDIR.patch \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0003-mips-linux-nat-<wbr>D=
-efine-_ABIO32-if-not-defined.<wbr>patch \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0004-ppc-ptrace-Define-<wb=
-r>pt_regs-uapi_pt_regs-on-GLIBC-<wbr>syst.patch \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0005-Add-support-for-<wbr>=
-Renesas-SH-sh4-architecture.<wbr>patch \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0006-Dont-disable-<wbr>lib=
-readline.a-when-using-<wbr>disable-static.patch \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0007-use-asm-sgidefs.h.<wb=
-r>patch \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0008-Use-exorted-<wbr>defi=
-nitions-of-SIGRTMIN.patch \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0009-Change-order-of-<wbr>=
-CFLAGS.patch \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0010-resolve-restrict-<wbr=
->keyword-conflict.patch \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0011-avx_mpx.patch \<br>
-+&quot;<br>
-+<br>
-+SRC_URI[md5sum] =3D &quot;<wbr>5aa71522e488e358243917967db874<wbr>76&quot;=
-<br>
-+SRC_URI[sha256sum] =3D &quot;<wbr>e9216da4e3755e9f414c1aa0026b62<wbr>6251d=
-fc57ffe572a266e98da4f6988<wbr>fc70&quot;<br>
-diff --git a/meta/recipes-devtools/gdb/<wbr>gdb-7.11.inc b/meta/recipes-dev=
-tools/gdb/<wbr>gdb-7.11.inc<br>
-deleted file mode 100644<br>
-index a9267d5..0000000<br>
---- a/meta/recipes-devtools/gdb/<wbr>gdb-7.11.inc<br>
-+++ /dev/null<br>
-@@ -1,9 +0,0 @@<br>
--LICENSE =3D &quot;GPLv2 &amp; GPLv3 &amp; LGPLv2 &amp; LGPLv3&quot;<br>
--LIC_FILES_CHKSUM =3D &quot;file://COPYING;md5=3D<wbr>59530bdf33659b29e73d4=
-adb9f9f65<wbr>52 \<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file:=
-//COPYING3;md5=3D<wbr>d32239bcb673463ab874e80d47fae5<wbr>04 \<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file:=
-//COPYING3.LIB;md5=3D<wbr>6a6a8e020838b23406c81b19c1d46d<wbr>f6 \<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file:=
-//COPYING.LIB;md5=3D<wbr>9f604d8a4f8e74f4f5140845a21b66<wbr>74&quot;<br>
--<br>
--SRC_URI[md5sum] =3D &quot;<wbr>b93a2721393e5fa226375b42d567d9<wbr>0b&quot;=
-<br>
--SRC_URI[sha256sum] =3D &quot;<wbr>ff14f8050e6484508c73cbfa63731e<wbr>57901=
-478490ca1672dc0b5e2b03f6a<wbr>f622&quot;<br>
--<br>
-diff --git a/meta/recipes-devtools/gdb/<wbr>gdb-common.inc b/meta/recipes-d=
-evtools/gdb/<wbr>gdb-common.inc<br>
-index 0923143..33a5ce9 100644<br>
---- a/meta/recipes-devtools/gdb/<wbr>gdb-common.inc<br>
-+++ b/meta/recipes-devtools/gdb/<wbr>gdb-common.inc<br>
-@@ -1,6 +1,5 @@<br>
-=C2=A0SUMMARY =3D &quot;GNU debugger&quot;<br>
-=C2=A0HOMEPAGE =3D &quot;<a href=3D"http://www.gnu.org/software/gdb/" rel=
-=3D"noreferrer" target=3D"_blank">http://www.gnu.org/software/<wbr>gdb/</a>=
-&quot;<br>
--LICENSE =3D &quot;GPLv3+&quot;<br>
-=C2=A0SECTION =3D &quot;devel&quot;<br>
-=C2=A0DEPENDS =3D &quot;expat zlib ncurses virtual/libiconv ${LTTNGUST}&quo=
-t;<br>
-<br>
-@@ -16,33 +15,10 @@ LTTNGUST_mips64eln32 =3D &quot;&quot;<br>
-=C2=A0LTTNGUST_sh4 =3D &quot;&quot;<br>
-=C2=A0LTTNGUST_libc-musl =3D &quot;&quot;<br>
-<br>
--LIC_FILES_CHKSUM =3D &quot;file://COPYING;md5=3D<wbr>59530bdf33659b29e73d4=
-adb9f9f65<wbr>52 \<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://COPYING.LIB;=
-md5=3D<wbr>9f604d8a4f8e74f4f5140845a21b66<wbr>74 \<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://COPYING3;md5=
-=3D<wbr>d32239bcb673463ab874e80d47fae5<wbr>04 \<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://COPYING3.LIB=
-;md5=3D<wbr>6a6a8e020838b23406c81b19c1d46d<wbr>f6&quot;<br>
--<br>
-=C2=A0inherit autotools texinfo<br>
-<br>
--SRCREV =3D &quot;<wbr>1a982b689ce4e20523bdf69e47fdd5<wbr>74c4f63934&quot;<=
-br>
--<br>
--SRC_URI =3D &quot;git://<a href=3D"http://sourceware.org/git/binutils-gdb.=
-git;branch=3Dgdb-7.11-branch" rel=3D"noreferrer" target=3D"_blank">sourcewa=
-re.org/git/<wbr>binutils-gdb.git;branch=3Dgdb-7.<wbr>11-branch</a> \<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0001-include-sys-types.<wb=
-r>h-for-mode_t.patch \<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0002-make-man-install-<wbr=
->relative-to-DESTDIR.patch \<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0003-mips-linux-nat-<wbr>D=
-efine-_ABIO32-if-not-defined.<wbr>patch \<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0004-ppc-ptrace-Define-<wb=
-r>pt_regs-uapi_pt_regs-on-GLIBC-<wbr>syst.patch \<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0005-Add-support-for-<wbr>=
-Renesas-SH-sh4-architecture.<wbr>patch \<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0006-Dont-disable-<wbr>lib=
-readline.a-when-using-<wbr>disable-static.patch \<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0007-use-asm-sgidefs.h.<wb=
-r>patch \<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0008-Use-exorted-<wbr>defi=
-nitions-of-SIGRTMIN.patch \<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0009-Change-order-of-<wbr>=
-CFLAGS.patch \<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0010-resolve-restrict-<wbr=
->keyword-conflict.patch \<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0011-avx_mpx.patch \<br>
--&quot;<br>
--<br>
-=C2=A0UPSTREAM_CHECK_GITTAGREGEX =3D &quot;gdb\-(?P&lt;pver&gt;.+)\-release=
-&quot;<br>
-<br>
--S =3D &quot;${WORKDIR}/git&quot;<br>
--<br>
-=C2=A0B =3D &quot;${WORKDIR}/build-${TARGET_<wbr>SYS}&quot;<br>
-<br>
-=C2=A0EXTRA_OEMAKE =3D &quot;&#39;SUBDIRS=3Dintl mmalloc libiberty opcodes =
-bfd sim gdb etc utils&#39;&quot;<br>
-diff --git a/meta/recipes-devtools/gdb/<a href=3D"http://gdb-cross-canadian=
-_7.11.bb" rel=3D"noreferrer" target=3D"_blank">gd<wbr>b-cross-canadian_7.11=
-.bb</a> b/meta/recipes-devtools/gdb/<a href=3D"http://gdb-cross-canadian_7.=
-11.1.bb" rel=3D"noreferrer" target=3D"_blank">gd<wbr>b-cross-canadian_7.11.=
-1.bb</a><br>
-similarity index 100%<br>
-rename from meta/recipes-devtools/gdb/<a href=3D"http://gdb-cross-canadian_=
-7.11.bb" rel=3D"noreferrer" target=3D"_blank">gdb-<wbr>cross-canadian_7.11.=
-bb</a><br>
-rename to meta/recipes-devtools/gdb/<a href=3D"http://gdb-cross-canadian_7.=
-11.1.bb" rel=3D"noreferrer" target=3D"_blank">gdb-<wbr>cross-canadian_7.11.=
-1.bb</a><br>
-diff --git a/meta/recipes-devtools/gdb/<a href=3D"http://gdb-cross_7.11.bb"=
- rel=3D"noreferrer" target=3D"_blank">gd<wbr>b-cross_7.11.bb</a> b/meta/rec=
-ipes-devtools/gdb/<a href=3D"http://gdb-cross_7.11.1.bb" rel=3D"noreferrer"=
- target=3D"_blank">gd<wbr>b-cross_7.11.1.bb</a><br>
-similarity index 100%<br>
-rename from meta/recipes-devtools/gdb/<a href=3D"http://gdb-cross_7.11.bb" =
-rel=3D"noreferrer" target=3D"_blank">gdb-<wbr>cross_7.11.bb</a><br>
-rename to meta/recipes-devtools/gdb/<a href=3D"http://gdb-cross_7.11.1.bb" =
-rel=3D"noreferrer" target=3D"_blank">gdb-<wbr>cross_7.11.1.bb</a><br>
-diff --git a/meta/recipes-devtools/gdb/<a href=3D"http://gdb_7.11.bb" rel=
-=3D"noreferrer" target=3D"_blank">gd<wbr>b_7.11.bb</a> b/meta/recipes-devto=
-ols/gdb/<a href=3D"http://gdb_7.11.1.bb" rel=3D"noreferrer" target=3D"_blan=
-k">gd<wbr>b_7.11.1.bb</a><br>
-similarity index 100%<br>
-rename from meta/recipes-devtools/gdb/<a href=3D"http://gdb_7.11.bb" rel=3D=
-"noreferrer" target=3D"_blank">gdb_<wbr>7.11.bb</a><br>
-rename to meta/recipes-devtools/gdb/<a href=3D"http://gdb_7.11.1.bb" rel=3D=
-"noreferrer" target=3D"_blank">gdb_<wbr>7.11.1.bb</a><br>
---<br>
-1.9.1<br>
-<br>
---<br>
-______________________________<wbr>_________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
-re@lists.<wbr>openembedded.org</a><br>
-<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
-" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/<wbr>m=
-ailman/listinfo/openembedded-<wbr>core</a><br>
-</blockquote></div></div>
-
---94eb2c04227ada315105405aaaa6--
