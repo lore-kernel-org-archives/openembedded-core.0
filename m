@@ -1,43 +1,50 @@
-Return-Path: <Adrian.Dudau@enea.com>
-Received: from smtp-out11.electric.net (smtp-out11.electric.net
-	[185.38.181.39])
-	by mail.openembedded.org (Postfix) with ESMTP id 5E493719BE
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qt0-f180.google.com (mail-qt0-f180.google.com
+	[209.85.216.180])
+	by mail.openembedded.org (Postfix) with ESMTP id 137B971B59
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  3 Nov 2016 13:48:18 +0000 (UTC)
-Received: from 1c2Hu5-0006Y4-Un by out11d.electric.net with emc1-ok (Exim 4.87)
-	(envelope-from <Adrian.Dudau@enea.com>) id 1c2Hu5-0006Yw-VF
-	for openembedded-core@lists.openembedded.org;
-	Thu, 03 Nov 2016 06:18:01 -0700
-Received: by emcmailer; Thu, 03 Nov 2016 06:18:01 -0700
-Received: from [192.36.1.72] (helo=mx-3.enea.com)
-	by out11d.electric.net with esmtps (TLSv1:AES128-SHA:128) (Exim 4.87)
-	(envelope-from <Adrian.Dudau@enea.com>) id 1c2Hu5-0006Y4-Un
-	for openembedded-core@lists.openembedded.org;
-	Thu, 03 Nov 2016 06:18:01 -0700
-Received: from sestofb11.enea.se (172.21.3.152) by smtp.enea.com
-	(172.21.1.209) with Microsoft SMTP Server id 14.3.294.0; Thu, 3 Nov 2016
-	14:18:01 +0100
-Received: by sestofb11.enea.se (Postfix, from userid 4451)	id 3E43044158E;
-	Thu,  3 Nov 2016 14:18:01 +0100 (CET)
-From: Adrian Dudau <adrian.dudau@enea.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 3 Nov 2016 14:18:00 +0100
-Message-ID: <1478179081-34596-1-git-send-email-adrian.dudau@enea.com>
-X-Mailer: git-send-email 1.9.1
+	Thu,  3 Nov 2016 14:07:05 +0000 (UTC)
+Received: by mail-qt0-f180.google.com with SMTP id n6so28776946qtd.1
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 03 Nov 2016 07:07:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=AAyuxa1Dj/msPh9rdYfFGqvh7qmwl8DbldK6EKdqD48=;
+	b=fGPQiDmje7CvAeXnriRv8hk3TVmrnYti6D1CM9WX+vsFNP+lEQ6OUkk0LWuUjW0+tb
+	NfTaH/tzvpm6aack7qlvIRP1Yy3qexzLyuk2ojwlM7+eq8hXgsWdgQKf4Zq0zAD8HyeZ
+	LmfoP3ukZIQPi7MZHP4pJdDaxnMcJxlh/JfAO2bIW+YV6CBfZ9x3OJxtl5aV7Ucd9uDW
+	wqHjAgpWjcYAgixOjwFFSLZb7wC/qBGOoLJFZhRdERo13IfRiIk8cIZ1n0DqHP/rBwz9
+	h+/F1QJgc/BFNDJnlUE+flVWZwyLtJKwPk80uqySeefyV5MaiWnU/e27TiobRsibzwro
+	Yqrg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=AAyuxa1Dj/msPh9rdYfFGqvh7qmwl8DbldK6EKdqD48=;
+	b=LuIyqZbkYrtGGx6Iz3Xk7aK4IPzP92AhfN1KoT3WedLTgw1D+OhVVrlFx+8C2gM39a
+	fQVSUVgsfg6HJUNXHOpQRr1nsIV5LhJx31y5BvlMBy37Y0ocOuIVLIYCa1pUFShLqTw8
+	Br8EUXgSjpZLu892rkFSgMu1rkSx9yKzyrNqXNuZRnOrGOhU0j+1Ir9F8Velj9s0dh6N
+	iGnXMVuCQeaEwr3fZFnFKR5jw9V6p+4xOwIWk3Y1kgJBdL6T2QtfOaioj31NfJ6lfTv6
+	ZZG/sAtoGsO8ZbADdlSWevjXDKVfWxw02E9BjaU1FN3sIiXifcdNt1DAzXmjuq928XWc
+	L2nQ==
+X-Gm-Message-State: ABUngvdhwOhFjzyhXVaJJK3MrQXs+0HG7PQFp5LhOrcdKs+ye5viuzfmq2fqMy2u6l8OC/LCPdn6wlOkE436hpVl
+X-Received: by 10.200.53.69 with SMTP id z5mr8282587qtb.64.1478182026915; Thu,
+	03 Nov 2016 07:07:06 -0700 (PDT)
 MIME-Version: 1.0
-Received-SPF: None (SESTOEX03.enea.se: adrian.dudau@enea.com does not
-	designate permitted sender hosts)
-X-Outbound-IP: 192.36.1.72
-X-Env-From: Adrian.Dudau@enea.com
-X-Proto: esmtps
-X-Revdns: mx-3.enea.com
-X-HELO: mx-3.enea.com
-X-TLS: TLSv1:AES128-SHA:128
-X-Authenticated_ID: 
-X-PolicySMART: 6551647
-X-Virus-Status: Scanned by VirusSMART (c)
-X-Virus-Status: Scanned by VirusSMART (s)
-Subject: [krogoth][PATCH 1/2] qemu: Security fix CVE-2016-4439
+Received: by 10.140.85.208 with HTTP; Thu, 3 Nov 2016 07:06:46 -0700 (PDT)
+In-Reply-To: <13e6f9fa-fc42-68cf-3961-33c43d26e13f@linux.intel.com>
+References: <CAJ86T=Wp0B_kpgD20y2q89cL=C8hfy5AT0jF42-hiSDE-L+wKA@mail.gmail.com>
+	<CAJTo0LZdGvZ2wvuwQR6v-daF8yHyq9+hTrNNAgxj2GHwMEZnBA@mail.gmail.com>
+	<CAMKF1src9Pw2=6T7V3J7vmrccFkU5-POCukerpZYFQDxj8we+A@mail.gmail.com>
+	<CAMKF1sp2Bft-bhJqT_C0siXFiHJyT8ouqoNQ2vmt-XGnJqw9Wg@mail.gmail.com>
+	<13e6f9fa-fc42-68cf-3961-33c43d26e13f@linux.intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 3 Nov 2016 14:06:46 +0000
+Message-ID: <CAJTo0LayXt5s0d+Sho6HtWiU53vnoJ5=JaZPLz5hKDXsCB_jtw@mail.gmail.com>
+To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: version of gdb in morty
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,128 +57,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 03 Nov 2016 13:48:19 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 03 Nov 2016 14:07:06 -0000
+Content-Type: multipart/alternative; boundary=001a11405858a0e9a20540661273
 
-affects qemu < 2.7.0
+--001a11405858a0e9a20540661273
+Content-Type: text/plain; charset=UTF-8
 
-Quick Emulator(Qemu) built with the ESP/NCR53C9x controller emulation
-support is vulnerable to an OOB write access issue. The controller uses
-16-byte FIFO buffer for command and data transfer. The OOB write occurs
-while writing to this command buffer in routine get_cmd().
+On 3 November 2016 at 13:32, Alexander Kanavin <
+alexander.kanavin@linux.intel.com> wrote:
 
-A privileged user inside guest could use this flaw to crash the Qemu
-process resulting in DoS.
+> Update to 7.12 for master branch please.
+>
 
-References:
-----------
-http://www.openwall.com/lists/oss-security/2016/05/19/4
-https://bugzilla.redhat.com/show_bug.cgi?id=CVE-2016-4441
+To ease backporting to morty, taking 7.11.1 and then 7.12 makes sense to me.
 
-Signed-off-by: Adrian Dudau <adrian.dudau@enea.com>
----
- .../recipes-devtools/qemu/qemu/CVE-2016-4441.patch | 78 ++++++++++++++++++++++
- meta/recipes-devtools/qemu/qemu_2.5.0.bb           |  1 +
- 2 files changed, 79 insertions(+)
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2016-4441.patch
+Ross
 
-diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2016-4441.patch b/meta/recipes-devtools/qemu/qemu/CVE-2016-4441.patch
-new file mode 100644
-index 0000000..3cbe394
---- /dev/null
-+++ b/meta/recipes-devtools/qemu/qemu/CVE-2016-4441.patch
-@@ -0,0 +1,78 @@
-+From 6c1fef6b59563cc415f21e03f81539ed4b33ad90 Mon Sep 17 00:00:00 2001
-+From: Prasad J Pandit <pjp@fedoraproject.org>
-+Date: Thu, 19 May 2016 16:09:31 +0530
-+Subject: [PATCH] esp: check dma length before reading scsi command(CVE-2016-4441)
-+
-+The 53C9X Fast SCSI Controller(FSC) comes with an internal 16-byte
-+FIFO buffer. It is used to handle command and data transfer.
-+Routine get_cmd() uses DMA to read scsi commands into this buffer.
-+Add check to validate DMA length against buffer size to avoid any
-+overrun.
-+
-+Fixes CVE-2016-4441.
-+
-+Upstream-Status: Backport
-+
-+Reported-by: Li Qiang <liqiang6-s@360.cn>
-+Cc: qemu-stable@nongnu.org
-+Signed-off-by: Prasad J Pandit <pjp@fedoraproject.org>
-+Message-Id: <1463654371-11169-3-git-send-email-ppandit@redhat.com>
-+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-+Signed-off-by: Adrian Dudau <adrian.dudau@enea.com>
-+---
-+ hw/scsi/esp.c |   11 +++++++----
-+ 1 files changed, 7 insertions(+), 4 deletions(-)
-+
-+diff --git a/hw/scsi/esp.c b/hw/scsi/esp.c
-+index 01497e6..591c817 100644
-+--- a/hw/scsi/esp.c
-++++ b/hw/scsi/esp.c
-+@@ -82,7 +82,7 @@ void esp_request_cancelled(SCSIRequest *req)
-+     }
-+ }
-+ 
-+-static uint32_t get_cmd(ESPState *s, uint8_t *buf)
-++static uint32_t get_cmd(ESPState *s, uint8_t *buf, uint8_t buflen)
-+ {
-+     uint32_t dmalen;
-+     int target;
-+@@ -92,6 +92,9 @@ static uint32_t get_cmd(ESPState *s, uint8_t *buf)
-+         dmalen = s->rregs[ESP_TCLO];
-+         dmalen |= s->rregs[ESP_TCMID] << 8;
-+         dmalen |= s->rregs[ESP_TCHI] << 16;
-++        if (dmalen > buflen) {
-++            return 0;
-++        }
-+         s->dma_memory_read(s->dma_opaque, buf, dmalen);
-+     } else {
-+         dmalen = s->ti_size;
-+@@ -166,7 +169,7 @@ static void handle_satn(ESPState *s)
-+         s->dma_cb = handle_satn;
-+         return;
-+     }
-+-    len = get_cmd(s, buf);
-++    len = get_cmd(s, buf, sizeof(buf));
-+     if (len)
-+         do_cmd(s, buf);
-+ }
-+@@ -180,7 +183,7 @@ static void handle_s_without_atn(ESPState *s)
-+         s->dma_cb = handle_s_without_atn;
-+         return;
-+     }
-+-    len = get_cmd(s, buf);
-++    len = get_cmd(s, buf, sizeof(buf));
-+     if (len) {
-+         do_busid_cmd(s, buf, 0);
-+     }
-+@@ -192,7 +195,7 @@ static void handle_satn_stop(ESPState *s)
-+         s->dma_cb = handle_satn_stop;
-+         return;
-+     }
-+-    s->cmdlen = get_cmd(s, s->cmdbuf);
-++    s->cmdlen = get_cmd(s, s->cmdbuf, sizeof(s->cmdbuf));
-+     if (s->cmdlen) {
-+         trace_esp_handle_satn_stop(s->cmdlen);
-+         s->do_cmd = 1;
-+-- 
-+1.7.0.4
-+
-diff --git a/meta/recipes-devtools/qemu/qemu_2.5.0.bb b/meta/recipes-devtools/qemu/qemu_2.5.0.bb
-index ed8d911..58902b1 100644
---- a/meta/recipes-devtools/qemu/qemu_2.5.0.bb
-+++ b/meta/recipes-devtools/qemu/qemu_2.5.0.bb
-@@ -26,6 +26,7 @@ SRC_URI += "file://configure-fix-Darwin-target-detection.patch \
-             file://CVE-2016-6351_p2.patch \
-             file://CVE-2016-4002.patch \
-             file://CVE-2016-5403.patch \
-+            file://CVE-2016-4441.patch \
-            "
- SRC_URI_prepend = "http://wiki.qemu-project.org/download/${BP}.tar.bz2"
- SRC_URI[md5sum] = "f469f2330bbe76e3e39db10e9ac4f8db"
--- 
-1.9.1
+--001a11405858a0e9a20540661273
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 3 November 2016 at 13:32, Alexander Kanavin <span dir=3D"ltr">&lt;<a hre=
+f=3D"mailto:alexander.kanavin@linux.intel.com" target=3D"_blank">alexander.=
+kanavin@linux.intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail=
+_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:=
+1ex"><div id=3D":qo" class=3D"a3s aXjCH m1582a82958039971">Update to 7.12 f=
+or master branch please.<br></div></blockquote></div><br>To ease backportin=
+g to morty, taking 7.11.1 and then 7.12 makes sense to me.</div><div class=
+=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
 
+--001a11405858a0e9a20540661273--
