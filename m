@@ -1,24 +1,49 @@
-Return-Path: <pb@pbcl.net>
-Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
-	by mail.openembedded.org (Postfix) with ESMTP id AC655605BF
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qk0-f180.google.com (mail-qk0-f180.google.com
+	[209.85.220.180])
+	by mail.openembedded.org (Postfix) with ESMTP id 2789C71C05
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  4 Nov 2016 23:14:57 +0000 (UTC)
-Received: from blundell.swaffham-prior.co.uk ([91.216.112.25] helo=tp13)
-	by hetzner.pbcl.net with esmtpsa
-	(TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.84)
-	(envelope-from <pb@pbcl.net>)
-	id 1c2nhG-0006Dy-KJ; Sat, 05 Nov 2016 00:14:55 +0100
-Message-ID: <1478301288.3662.21.camel@pbcl.net>
-From: Phil Blundell <pb@pbcl.net>
-To: Khem Raj <raj.khem@gmail.com>, Li Zhou <li.zhou@windriver.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Fri, 04 Nov 2016 23:14:48 +0000
-In-Reply-To: <b3c8d5de-1d26-b37b-e28c-f8cca01c9ba3@gmail.com>
-References: <20161104090719.30795-1-li.zhou@windriver.com>
-	<b3c8d5de-1d26-b37b-e28c-f8cca01c9ba3@gmail.com>
-X-Mailer: Evolution 3.20.5-1 
-Mime-Version: 1.0
-Subject: Re: [PATCH] db: disable the ARM assembler mutex code
+	Fri,  4 Nov 2016 23:25:04 +0000 (UTC)
+Received: by mail-qk0-f180.google.com with SMTP id q130so116649762qke.1
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 04 Nov 2016 16:25:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=11DzD1iSHTbvIiymR49DEqJ9+rV16JUSLFc1xp+hpx0=;
+	b=jkDyiObUXSQkf5UCQiqNpzsIvSPDAKf0dZlX2l11K5dXHDwxfJVDDw03GJyBatJ8Mh
+	tFKSZxL3rq3neSVtT8B8AXLAxgKMjjpOKE+Bqu21f/1eUK4j1onQkFooWEo6iwG5L55C
+	h/6HKkJJQaeT1CCSQP4uCYwcrHCG3QPELkqu6vag78RWddCJL/LIzdJReaH9Hrh0YPNa
+	vmc0vGrkd0IaiEuk4cLvQ/CvDlIMiWJm9PVmqGNAODPW+dMVNMP+zlFUaDWbVVTjMcuU
+	cJnEEn8EtyVzywGcQP20swOOSPfhMI5HShyQ0/HRfjjlgcYwaGvTuGaQ9lYddpBeb6cV
+	Jfsw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=11DzD1iSHTbvIiymR49DEqJ9+rV16JUSLFc1xp+hpx0=;
+	b=PTGkkXKYRPyOj9mq5owN2zkv9fFw/BSDgLroznnQ3L3SPv9UrFgm1SZzNs88VVaIP6
+	u5lb/N8zqC58Py+RWNeJ9psWVdrhqYed5PU0ZAXgN6zFomLE7+h9OdoWwHHw0AJQuFn9
+	5/bslLdBR7m8NEyDIjZhgLAVSyjkWdx8bSeUmj/vD7wXeP3Zf48maVRbwJRE9YI0nQ2r
+	oe80szKhFV7lx1GQPetaYEhJLvdsgsafK0y4u98jTmS/JnEZ0PjgRac+f1Mnx0fmeWZw
+	5/QRfPRsOT+mmjQ4gMOuloJQCR2dtqhrO1OEpWVGaOKsRJeFSZHK8GitIGgiHmt5AYrr
+	h11A==
+X-Gm-Message-State: ABUngvdtwbn4FYsxmiuB/mh6BHKS7L8qea91myrnWV4/0tqeB5g8f4qGwpuST/zLmjTrd18AJWtrofFBZCtVkAUY
+X-Received: by 10.55.8.20 with SMTP id 20mr17248855qki.3.1478301905961; Fri,
+	04 Nov 2016 16:25:05 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.140.85.208 with HTTP; Fri, 4 Nov 2016 16:24:45 -0700 (PDT)
+In-Reply-To: <CAP71Wjyy-qQH+nE34FTKUhqgRqGZocpfQ4CrkmTPh+OOMGK6jg@mail.gmail.com>
+References: <1476952202-8842-1-git-send-email-koen.kooi@linaro.org>
+	<CAJTo0LaC2t1BN9VpKRx4W7fMT88mDdmCBYhzgBgvsdDJXhNk_w@mail.gmail.com>
+	<CAP71Wjyy-qQH+nE34FTKUhqgRqGZocpfQ4CrkmTPh+OOMGK6jg@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 4 Nov 2016 23:24:45 +0000
+Message-ID: <CAJTo0LZAGq8szm0vL0wyyR_rFVe1LBoMWYcoZh+VBMBcw5kW-Q@mail.gmail.com>
+To: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+Cc: Koen Kooi <koen.kooi@linaro.org>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] libbsd 0.8.3: BBCLASSEXTEND to native and nativesdk
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,43 +56,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 04 Nov 2016 23:15:00 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 04 Nov 2016 23:25:07 -0000
+Content-Type: multipart/alternative; boundary=001a114c9d60f9d846054081fbfe
 
-On Fri, 2016-11-04 at 11:22 -0700, Khem Raj wrote:
-> 
-> 
-> On 11/4/16 2:07 AM, Li Zhou wrote:
-> > 
-> > The swpb in macro MUTEX_SET will cause "undefined instruction"
-> > error
-> > on the new arm arches which don't support this assembly instruction
-> > any more. If use ldrex/strex to replace swpb, the old arm arches
-> > don't
-> > support them. So to avoid this issue, just disable the ARM
-> > assembler
-> > mutex code, and use the default pthreads mutex.
-> > 
+--001a114c9d60f9d846054081fbfe
+Content-Type: text/plain; charset=UTF-8
 
-> it would be good to keep this for older < armv5 arches
+On 4 November 2016 at 21:25, Nicolas Dechesne <nicolas.dechesne@linaro.org>
+wrote:
 
-I guess you meant "<= ARMv5".  STREX etc were introduced in ARMv6, so
-ARMv5 (and ARMv5TE) don't have it.  But in any case, won't the default
-libpthread mutex work just fine on those older architectures?  There is
-no SMP on anything before ARMv6 anyway so lock contention will be
-relatively low, and it seems fairly unlikely that anybody has a real-
-world application which uses db so heavily that the mutex
-implementation will have any noticeable performance impact.
+> So in order to get the build error you are seeing, that means that
+> SYS_getrandom is define to NR_getrandom (in syscall.h), but that
+> NR_getrandom is not set to the right syscall ID. That makes it quite
+> inconsistent.. could we be mixing HOST and sysroot content here?
+>
 
-And, given that it's now something like 15 years since support for
-STREX was introduced in ARMv6, and more than 10 years since support for
-SWP was deleted in ARMv7, it doesn't seem entirely unreasonable for oe-
-core to pick the newer paradigm as the case to optimise for.  Distros
-that want to target ARMv5 or older are obviously free to do so and they
-can carry the SWP patch locally if they want to.  But as far as oe-core 
-itself is concerned, at this point it seems like it's just scar tissue.
+No, I checked the files in /usr on the host, as this is a native build it
+should be linking against the host libc.
 
-p.
+$ grep -r getrandom
+x86_64-linux-gnu/bits/syscall.h:#define SYS_getrandom __NR_getrandom
+x86_64-linux-gnu/bits/syscall.h:#define SYS_getrandom __NR_getrandom
+x86_64-linux-gnu/bits/syscall.h:#define SYS_getrandom __NR_getrandom
 
+Yes, looks like Debian headers are a bit broken.
 
+Ross
+
+--001a114c9d60f9d846054081fbfe
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 4 November 2016 at 21:25, Nicolas Dechesne <span dir=3D"ltr">&lt;<a href=
+=3D"mailto:nicolas.dechesne@linaro.org" target=3D"_blank">nicolas.dechesne@=
+linaro.org</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=
+=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-color:rgb(20=
+4,204,204);border-left-style:solid;padding-left:1ex"><div id=3D"gmail-:18w"=
+ class=3D"gmail-a3s gmail-aXjCH gmail-m158313c25fcb7cd9">So in order to get=
+ the build error you are seeing, that means that<br>
+SYS_getrandom is define to NR_getrandom (in syscall.h), but that<br>
+NR_getrandom is not set to the right syscall ID. That makes it quite<br>
+inconsistent.. could we be mixing HOST and sysroot content here?</div></blo=
+ckquote></div><br>No, I checked the files in /usr on the host, as this is a=
+ native build it should be linking against the host libc.</div><div class=
+=3D"gmail_extra"><br></div><div class=3D"gmail_extra"><div class=3D"gmail_e=
+xtra">$ grep -r getrandom</div><div class=3D"gmail_extra">x86_64-linux-gnu/=
+bits/syscall.h:#define SYS_getrandom __NR_getrandom</div><div class=3D"gmai=
+l_extra">x86_64-linux-gnu/bits/syscall.h:#define SYS_getrandom __NR_getrand=
+om</div><div class=3D"gmail_extra">x86_64-linux-gnu/bits/syscall.h:#define =
+SYS_getrandom __NR_getrandom</div></div><div class=3D"gmail_extra"><div cla=
+ss=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Yes, looks like Deb=
+ian headers are a bit broken.</div><div class=3D"gmail_extra"><br></div><di=
+v class=3D"gmail_extra">Ross</div></div></div>
+
+--001a114c9d60f9d846054081fbfe--
