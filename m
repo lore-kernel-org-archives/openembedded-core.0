@@ -1,21 +1,21 @@
 Return-Path: <Li.Zhou@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 9FBE2719CC
+	by mail.openembedded.org (Postfix) with ESMTP id 5548371ADC
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  4 Nov 2016 09:08:02 +0000 (UTC)
+	Fri,  4 Nov 2016 09:13:01 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id uA4982G9024437
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id uA49D2ft025485
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 4 Nov 2016 02:08:03 -0700 (PDT)
+	Fri, 4 Nov 2016 02:13:03 -0700 (PDT)
 Received: from pek-lzhou2-d1.corp.ad.wrs.com (128.224.162.243) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server
-	(TLS) id 14.3.294.0; Fri, 4 Nov 2016 02:08:01 -0700
+	(TLS) id 14.3.294.0; Fri, 4 Nov 2016 02:13:01 -0700
 From: Li Zhou <li.zhou@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 4 Nov 2016 17:07:19 +0800
-Message-ID: <20161104090719.30795-1-li.zhou@windriver.com>
+Date: Fri, 4 Nov 2016 17:12:15 +0800
+Message-ID: <20161104091215.31043-1-li.zhou@windriver.com>
 X-Mailer: git-send-email 2.9.3
 MIME-Version: 1.0
 X-Originating-IP: [128.224.162.243]
@@ -32,7 +32,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 04 Nov 2016 09:08:02 -0000
+X-List-Received-Date: Fri, 04 Nov 2016 09:13:01 -0000
 Content-Type: text/plain
 
 The swpb in macro MUTEX_SET will cause "undefined instruction" error
