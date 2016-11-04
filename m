@@ -1,23 +1,25 @@
 Return-Path: <jussi.kukkonen@intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 1C26F6E64A
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+	by mail.openembedded.org (Postfix) with ESMTP id B74966E64A
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  4 Nov 2016 13:16:45 +0000 (UTC)
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-	by orsmga102.jf.intel.com with ESMTP; 04 Nov 2016 06:16:46 -0700
+	Fri,  4 Nov 2016 13:16:51 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by orsmga105.jf.intel.com with ESMTP; 04 Nov 2016 06:16:53 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.31,443,1473145200"; d="scan'208";a="27778559"
+X-IronPort-AV: E=Sophos;i="5.31,443,1473145200"; d="scan'208";a="897714723"
 Received: from linux.intel.com ([10.54.29.200])
-	by orsmga004.jf.intel.com with ESMTP; 04 Nov 2016 06:16:46 -0700
+	by orsmga003.jf.intel.com with ESMTP; 04 Nov 2016 06:16:53 -0700
 Received: from theory.fi.intel.com (theory.fi.intel.com [10.237.72.53])
-	by linux.intel.com (Postfix) with ESMTP id B98B42C8001;
-	Fri,  4 Nov 2016 06:16:09 -0700 (PDT)
+	by linux.intel.com (Postfix) with ESMTP id F37342C8001;
+	Fri,  4 Nov 2016 06:16:15 -0700 (PDT)
 From: Jussi Kukkonen <jussi.kukkonen@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  4 Nov 2016 15:16:42 +0200
-Message-Id: <cover.1478258311.git.jussi.kukkonen@intel.com>
+Date: Fri,  4 Nov 2016 15:16:49 +0200
+Message-Id: <e1c9c1d5c21b61868054fdd1ade16f446e33b231.1478258311.git.jussi.kukkonen@intel.com>
 X-Mailer: git-send-email 2.1.4
-Subject: [PATCH 0/1] run-postinsts: Use opkg/dpkg to configure when possible
+In-Reply-To: <cover.1478258311.git.jussi.kukkonen@intel.com>
+References: <cover.1478258311.git.jussi.kukkonen@intel.com>
+Subject: [PATCH 1/1] run-postinsts: Use opkg/dpkg to configure when possible
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,39 +32,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 04 Nov 2016 13:16:46 -0000
+X-List-Received-Date: Fri, 04 Nov 2016 13:16:52 -0000
 
-run-postinst has not been using package managers to configure the
-packages: the code was there all along but a bug prevented it from
-being used.
+Currently run-postinsts script has code to run postinst scripts
+via opkg/dpkg configure but that code is never used. The advantage
+of using package managers instead of just executing the scripts is
+to keep the package manager DB updated.
 
-I was hesitating sending this a bit as it felt quite difficult to test
-comprehensively and the change is not completely trivial: as an example
-the order of postinsts will likely change as it's now handled by the
-package manager instead of OE. I can still run more tests if anyone
-has good ideas...
+Fix the script so that the package managers are used when appropriate.
+Also use $localstatedir for the opkg runtime file location.
 
+Fixes [YOCTO #10478].
 
-
-Cheers, 
-  Jussi
-
-
-The following changes since commit c3d2df883a9d6d5036277114339673656d89a728:
-
-  oeqa/selftest/kernel.py: Add new file destined for kernel related tests (2016-11-01 10:05:46 +0000)
-
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib jku/10478
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=jku/10478
-
-Jussi Kukkonen (1):
-  run-postinsts: Use opkg/dpkg to configure when possible
-
+Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
+---
  .../recipes-devtools/run-postinsts/run-postinsts/run-postinsts | 10 ++++++----
  1 file changed, 6 insertions(+), 4 deletions(-)
 
+diff --git a/meta/recipes-devtools/run-postinsts/run-postinsts/run-postinsts b/meta/recipes-devtools/run-postinsts/run-postinsts/run-postinsts
+index 04ba394..10f2118 100755
+--- a/meta/recipes-devtools/run-postinsts/run-postinsts/run-postinsts
++++ b/meta/recipes-devtools/run-postinsts/run-postinsts/run-postinsts
+@@ -16,23 +16,25 @@ pm_installed=false
+ for pm in $backend_list; do
+ 	pi_dir="#SYSCONFDIR#/$pm-postinsts"
+ 
+-	[ -d $pi_dir ] && break
++	if [ ! -d $pi_dir ]; then
++		continue
++	fi
+ 
++	# found the package manager, it has postinsts
+ 	case $pm in
+ 		"deb")
+ 			if [ -s "#LOCALSTATEDIR#/lib/dpkg/status" ]; then
+ 				pm_installed=true
+-				break
+ 			fi
+ 			;;
+ 
+ 		"ipk")
+-			if [ -s "/var/lib/opkg/status" ]; then
++			if [ -s "#LOCALSTATEDIR#/lib/opkg/status" ]; then
+ 				pm_installed=true
+-				break
+ 			fi
+ 			;;
+ 	esac
++	break
+ done
+ 
+ remove_rcsd_link () {
 -- 
 2.1.4
 
