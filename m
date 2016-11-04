@@ -1,29 +1,23 @@
-Return-Path: <rpjday@crashcourse.ca>
-Received: from smtp685.redcondor.net (smtp685.redcondor.net [208.80.206.85])
-	by mail.openembedded.org (Postfix) with ESMTP id 1381B7017D
+Return-Path: <jussi.kukkonen@intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 1C26F6E64A
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  4 Nov 2016 12:51:08 +0000 (UTC)
-Received: from astoria.ccjclearline.com ([64.235.106.9])
-	by smtp685.redcondor.net ({20c8e40f-6b6c-4c9e-abff-1640ea7bf404})
-	via TCP (outbound) with ESMTPS id 20161104125100611_0685
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 04 Nov 2016 05:51:00 -0700
-X-RC-FROM: <rpjday@crashcourse.ca>
-X-RC-RCPT: <openembedded-core@lists.openembedded.org>
-Received: from [216.191.234.70] (port=57758 helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
-	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
-	id 1c2dxO-0006Ro-Tz for openembedded-core@lists.openembedded.org;
-	Fri, 04 Nov 2016 08:50:55 -0400
-Date: Fri, 4 Nov 2016 08:49:52 -0400 (EDT)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@ca624034.mitel.com
-To: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Message-ID: <alpine.LFD.2.20.1611040841040.623@ca624034.mitel.com>
-User-Agent: Alpine 2.20 (LFD 67 2015-01-07)
-MIME-Version: 1.0
-X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
-Subject: trying to build rpm with perl bindings
+	Fri,  4 Nov 2016 13:16:45 +0000 (UTC)
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+	by orsmga102.jf.intel.com with ESMTP; 04 Nov 2016 06:16:46 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.31,443,1473145200"; d="scan'208";a="27778559"
+Received: from linux.intel.com ([10.54.29.200])
+	by orsmga004.jf.intel.com with ESMTP; 04 Nov 2016 06:16:46 -0700
+Received: from theory.fi.intel.com (theory.fi.intel.com [10.237.72.53])
+	by linux.intel.com (Postfix) with ESMTP id B98B42C8001;
+	Fri,  4 Nov 2016 06:16:09 -0700 (PDT)
+From: Jussi Kukkonen <jussi.kukkonen@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  4 Nov 2016 15:16:42 +0200
+Message-Id: <cover.1478258311.git.jussi.kukkonen@intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH 0/1] run-postinsts: Use opkg/dpkg to configure when possible
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,70 +30,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 04 Nov 2016 12:51:10 -0000
-Content-Type: text/plain; charset=US-ASCII
+X-List-Received-Date: Fri, 04 Nov 2016 13:16:46 -0000
+
+run-postinst has not been using package managers to configure the
+packages: the code was there all along but a bug prevented it from
+being used.
+
+I was hesitating sending this a bit as it felt quite difficult to test
+comprehensively and the change is not completely trivial: as an example
+the order of postinsts will likely change as it's now handled by the
+package manager instead of OE. I can still run more tests if anyone
+has good ideas...
 
 
-  for my qemuppc target, i wanted to add perl bindings to the target
-"rpm" command, so i checked the "rpm_5.4.16.bb" recipe file to find:
 
-  # Perl modules are not built, but they could be enabled fairly easily
-  # the perl module creation and installation would need to be patched.
-  # (currently has host perl contamination issues)
-  WITH_PERL = "--with-perl --without-perlembed --without-perl-urpm"
-  WITHOUT_PERL = "--without-perl --without-perl-urpm"
-  PACKAGECONFIG[perl] = "${WITH_PERL},${WITHOUT_PERL},perl,"
+Cheers, 
+  Jussi
 
-um ... ok, no idea what the issue is here but what the heck, let's
-just try it and see what happens, so added:
 
-  PACKAGECONFIG_append_pn-rpm = " perl"
+The following changes since commit c3d2df883a9d6d5036277114339673656d89a728:
 
-to "local.conf", ran "bitbake rpm" and eventually got:
+  oeqa/selftest/kernel.py: Add new file destined for kernel related tests (2016-11-01 10:05:46 +0000)
 
-| Making all in perl
-| make[2]: Entering directory
-'/home/rpjday/oe/builds/msm_qemuppc/tmp/work/ppc7400-poky-linux/rpm/5.4.16-r0/build/perl'
-| /usr/bin/perl Makefile.PL CC="powerpc-poky-linux-gcc  -m32
--mhard-float -mcpu=7400 -mno-spe
---sysroot=/home/rpjday/oe/builds/msm_qemuppc/tmp/sysroots/qemuppc"
-MAKEFILE=Makefile.perl
-| Bareword found where operator expected at Makefile.PL line 71, near
-"--sysroot"
-| 	(Missing operator before sysroot?)
-| Can't modify constant item in postdecrement (--) at Makefile.PL line
-71, near "spe --"
-| syntax error at Makefile.PL line 71, near "--sysroot"
-... snip ...
+are available in the git repository at:
 
- ????. so i open build/perl/Makefile.PL and, sure enough, down at line
-71:
+  git://git.yoctoproject.org/poky-contrib jku/10478
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=jku/10478
 
-  WriteMakefile(
-        'NAME'  => 'RPM',
-        'OBJECT'        => join(' ', @objects),
-        'VERSION' => '5.4.16',
-        'MAKEFILE'=> 'Makefile.perl',
-        'CC'      => powerpc-poky-linux-gcc  -m32 -mhard-float -mcpu=7400 -mno-spe
-  --sysroot=/home/rpjday/oe/builds/msm_qemuppc/tmp/sysroots/qemuppc,
-        ... snip ...
+Jussi Kukkonen (1):
+  run-postinsts: Use opkg/dpkg to configure when possible
 
-doesn't that 'CC' line also need quotes around the value being
-assigned? that seems to be a fairly blatant error, no? or am i
-misreading something?
-
-rday
+ .../recipes-devtools/run-postinsts/run-postinsts/run-postinsts | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
 
 -- 
-
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
-
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
-
-
+2.1.4
 
 
