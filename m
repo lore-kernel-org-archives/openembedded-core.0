@@ -1,46 +1,56 @@
-Return-Path: <nicolas.dechesne@linaro.org>
-Received: from mail-qk0-f176.google.com (mail-qk0-f176.google.com
-	[209.85.220.176])
-	by mail.openembedded.org (Postfix) with ESMTP id E376B601D3
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pf0-f195.google.com (mail-pf0-f195.google.com
+	[209.85.192.195])
+	by mail.openembedded.org (Postfix) with ESMTP id CD6B071C39
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  4 Nov 2016 23:47:58 +0000 (UTC)
-Received: by mail-qk0-f176.google.com with SMTP id n204so106676636qke.2
+	Fri,  4 Nov 2016 23:55:22 +0000 (UTC)
+Received: by mail-pf0-f195.google.com with SMTP id i88so9185669pfk.2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 04 Nov 2016 16:47:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=mrtpxLjic9RT0ROjlqj4OsI4DBUpdDYLBVZ9nn29g5M=;
-	b=FylY3G7lA0cAokmdS25lCt0TFhEfvOrpO4vXQNf3qk/jXM9mO47vmHBk8dnIjtqqn9
-	Pp3RrQHMEbIrNGbjCb/tawE2Hr3NO5gvzHwCG+shLTMi7xgp3hUJzVrsmb7nGUiCKjIN
-	8mv3+YVAB1rn/+eRI0IF0g4R6iozJYX1vTPzM=
+	Fri, 04 Nov 2016 16:55:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=subject:to:references:from:organization:message-id:date:user-agent
+	:mime-version:in-reply-to:content-transfer-encoding;
+	bh=wO4ijuDTtaA006LqSgPNEQKZXO/YcALHYGH9B6R+RYo=;
+	b=cP/PBq68tXFCElJNorz93rGr8a2DyGbGLkrS49HAzUm4aby/nVP13oKiV+/HrjaSxD
+	cPIh2IInWHT5DiMytxkzuTD28QnS8VyGzI7C+7IiNEiMGcENRVe5g8SD0zSEZUNei9WO
+	2MLAd+RTEybTest84ZGOMAMJo59dTxAxMwi/o3sgaZa0YxJU2TtPCPZP5taqj/KTDGhn
+	v44PO/jw4DV4WGY8RRy2P5gg6umVQ9UesiTMdjDGmJwDoi3je8h5GkUebIOfReC1UTFR
+	XZ5L/VCdBxory+38PJvOu5N77MugHwHU8tgehrM1fNdfKoqzf3A+X7zb0BdcbX4zGvva
+	PGnA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=mrtpxLjic9RT0ROjlqj4OsI4DBUpdDYLBVZ9nn29g5M=;
-	b=FHda3NHrs3OTbC3R+EWeXjn2ZfwMVMV5zmDUQ5X0JbBFAoXKO2/yrYcjUTzNds7kxn
-	jn5zLHz7kXBfWK8QSL4gHkEbKcoSU0SIg2BKQeP0aN8Np8bxOZRc29cE1LvlLUm4aWu2
-	z4hAUBNnSmhnYtUSXEHYDK/wFguQY5ju7Vv+TQN8SS1RBFNNog1AJqytn075yR+ackX+
-	nNJhG/Hc5ijCNLkrcafaEX7sZivjl6jocDvu7HBrg1iPEO045ABL1NJVebyYnDaqm9uB
-	hypV3y1MLIrp4bViAR+8ZjL643USXCDlAQtgBvUxmH2GeqF6Ak8f2Uo6BfIe2z4NGb2f
-	kASA==
-X-Gm-Message-State: ABUngvdzj7zIYbiw2eEULXckzUpCEZzW20dU0cDg/v52awls505shprj8bGvFQhHWsjaY1+ZDonqrf6JLFlBBBHH
-X-Received: by 10.55.138.193 with SMTP id m184mr17330568qkd.70.1478303279403; 
-	Fri, 04 Nov 2016 16:47:59 -0700 (PDT)
+	h=x-gm-message-state:subject:to:references:from:organization
+	:message-id:date:user-agent:mime-version:in-reply-to
+	:content-transfer-encoding;
+	bh=wO4ijuDTtaA006LqSgPNEQKZXO/YcALHYGH9B6R+RYo=;
+	b=YIlMNZsHd06fm4bOiE2vG/25cZTwOjGO41l+OnSJ+xIAAicU/TMxo7/jFcS+DKCZ8v
+	IUyJWv3kPm5Oxa6nCPoUyeILLhg/jAIoeqrtVKRF6zKmU/sJ4v05+HoxuljM2dPXC4dZ
+	sdCFWc41Vm+INxZTlqKUKg3ukvkI0NNzMeygVhzGTyoT6vNZ9IIiDQKTy4L51wObM3bN
+	1gZmry4nj9w6ca9ODbAXneDnCzdgkfkm8lh8T7is9glYEJWv08KdqDKePWgaidk9HGoF
+	Q1/tTWWKtgBJkfIrdHSfhQTxhw/UVpNKb+BbPLZgnGhi55ZNMHJenmWcWNh6yJvyJxVc
+	AzAA==
+X-Gm-Message-State: ABUngvfXTCrl3Sgi3LEIKZUk1zE7Gq5VYXfDbyE3k13a40RgN+dEtXoD4h6fmvv7MOkl5A==
+X-Received: by 10.98.223.25 with SMTP id u25mr30753391pfg.96.1478303724001;
+	Fri, 04 Nov 2016 16:55:24 -0700 (PDT)
+Received: from CACSVMO-14452.local ([2601:646:8882:b8c:e83e:7662:2fe9:93ef])
+	by smtp.gmail.com with ESMTPSA id
+	z9sm22837311pfd.29.2016.11.04.16.55.22
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 04 Nov 2016 16:55:23 -0700 (PDT)
+To: Phil Blundell <pb@pbcl.net>, Li Zhou <li.zhou@windriver.com>,
+	openembedded-core@lists.openembedded.org
+References: <20161104090719.30795-1-li.zhou@windriver.com>
+	<b3c8d5de-1d26-b37b-e28c-f8cca01c9ba3@gmail.com>
+	<1478301288.3662.21.camel@pbcl.net>
+From: Khem Raj <raj.khem@gmail.com>
+Organization: himvis.com
+Message-ID: <3ceaa47d-7f30-4b0a-f554-eb193a10f82a@gmail.com>
+Date: Fri, 4 Nov 2016 16:55:21 -0700
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:45.0)
+	Gecko/20100101 Thunderbird/45.4.0
 MIME-Version: 1.0
-Received: by 10.140.104.102 with HTTP; Fri, 4 Nov 2016 16:47:38 -0700 (PDT)
-In-Reply-To: <CAJTo0LZAGq8szm0vL0wyyR_rFVe1LBoMWYcoZh+VBMBcw5kW-Q@mail.gmail.com>
-References: <1476952202-8842-1-git-send-email-koen.kooi@linaro.org>
-	<CAJTo0LaC2t1BN9VpKRx4W7fMT88mDdmCBYhzgBgvsdDJXhNk_w@mail.gmail.com>
-	<CAP71Wjyy-qQH+nE34FTKUhqgRqGZocpfQ4CrkmTPh+OOMGK6jg@mail.gmail.com>
-	<CAJTo0LZAGq8szm0vL0wyyR_rFVe1LBoMWYcoZh+VBMBcw5kW-Q@mail.gmail.com>
-From: Nicolas Dechesne <nicolas.dechesne@linaro.org>
-Date: Sat, 5 Nov 2016 00:47:38 +0100
-Message-ID: <CAP71Wjzd7iZZ9=Mro6RMNZb1x5rYZ2+RamPyubYvJ=zueR2fVQ@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: Koen Kooi <koen.kooi@linaro.org>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] libbsd 0.8.3: BBCLASSEXTEND to native and nativesdk
+In-Reply-To: <1478301288.3662.21.camel@pbcl.net>
+Subject: Re: [PATCH] db: disable the ARM assembler mutex code
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,40 +63,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 04 Nov 2016 23:47:59 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 04 Nov 2016 23:55:22 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
 
-On Sat, Nov 5, 2016 at 12:24 AM, Burton, Ross <ross.burton@intel.com> wrote:
-> On 4 November 2016 at 21:25, Nicolas Dechesne <nicolas.dechesne@linaro.org>
-> wrote:
+Phil
+
+On 11/4/16 4:14 PM, Phil Blundell wrote:
+> On Fri, 2016-11-04 at 11:22 -0700, Khem Raj wrote:
 >>
->> So in order to get the build error you are seeing, that means that
->> SYS_getrandom is define to NR_getrandom (in syscall.h), but that
->> NR_getrandom is not set to the right syscall ID. That makes it quite
->> inconsistent.. could we be mixing HOST and sysroot content here?
->
->
-> No, I checked the files in /usr on the host, as this is a native build it
-> should be linking against the host libc.
->
-> $ grep -r getrandom
-> x86_64-linux-gnu/bits/syscall.h:#define SYS_getrandom __NR_getrandom
-> x86_64-linux-gnu/bits/syscall.h:#define SYS_getrandom __NR_getrandom
-> x86_64-linux-gnu/bits/syscall.h:#define SYS_getrandom __NR_getrandom
->
-> Yes, looks like Debian headers are a bit broken.
+>>
+>> On 11/4/16 2:07 AM, Li Zhou wrote:
+>>>
+>>> The swpb in macro MUTEX_SET will cause "undefined instruction"
+>>> error
+>>> on the new arm arches which don't support this assembly instruction
+>>> any more. If use ldrex/strex to replace swpb, the old arm arches
+>>> don't
+>>> support them. So to avoid this issue, just disable the ARM
+>>> assembler
+>>> mutex code, and use the default pthreads mutex.
+>>>
+> 
+>> it would be good to keep this for older < armv5 arches
+> 
+> I guess you meant "<= ARMv5".  STREX etc were introduced in ARMv6, so
+> ARMv5 (and ARMv5TE) don't have it.  But in any case, won't the default
+> libpthread mutex work just fine on those older architectures?  There is
+> no SMP on anything before ARMv6 anyway so lock contention will be
+> relatively low, and it seems fairly unlikely that anybody has a real-
+> world application which uses db so heavily that the mutex
+> implementation will have any noticeable performance impact.
 
-hmm. not for me...
+yes I meant <= v5, it should work usually, I am just thinking its a untested
+option, it may not be as bad as I think but some testing might be useful
 
-root@nikaia:/usr/include# grep getrandom
-/usr/include/x86_64-linux-gnu/bits/syscall.h
+> 
+> And, given that it's now something like 15 years since support for
+> STREX was introduced in ARMv6, and more than 10 years since support for
+> SWP was deleted in ARMv7, it doesn't seem entirely unreasonable for oe-
+> core to pick the newer paradigm as the case to optimise for.  Distros
+> that want to target ARMv5 or older are obviously free to do so and they
+> can carry the SWP patch locally if they want to.  But as far as oe-core 
+> itself is concerned, at this point it seems like it's just scar tissue.
 
-root@nikaia:/usr/include# dpkg -S /usr/include/x86_64-linux-gnu/bits/syscall.h
-libc6-dev:amd64: /usr/include/x86_64-linux-gnu/bits/syscall.h
+yeah agree here.
 
-root@nikaia:/usr/include# dpkg -l | grep libc6-dev
-ii  libc6-dev:amd64                2.19-18+deb8u6           amd64
-  GNU C Library: Development Libraries and Header Files
-
-this is from a fresh jessie debootstrap
+> 
+> p.
+> 
 
