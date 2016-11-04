@@ -1,29 +1,25 @@
-Return-Path: <rpjday@crashcourse.ca>
-Received: from smtp485.redcondor.net (smtp485.redcondor.net [208.80.204.85])
-	by mail.openembedded.org (Postfix) with ESMTP id 313DD71A23
+Return-Path: <Li.Zhou@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 9FBE2719CC
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  4 Nov 2016 08:04:02 +0000 (UTC)
-Received: from astoria.ccjclearline.com ([64.235.106.9])
-	by smtp485.redcondor.net ({3be039ea-4351-44b0-a8af-642c38b25916})
-	via TCP (outbound) with ESMTPS id 20161104080402594_0485;
-	Fri, 04 Nov 2016 08:04:02 +0000
-X-RC-FROM: <rpjday@crashcourse.ca>
-Received: from [216.191.234.70] (port=41041 helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
-	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
-	id 1c2ZTd-00087p-L2; Fri, 04 Nov 2016 04:03:53 -0400
-Date: Fri, 4 Nov 2016 04:02:46 -0400 (EDT)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@ca624034.mitel.com
-To: Gary Thomas <gary@mlbassoc.com>
-In-Reply-To: <d1522ddb-4dd2-5f1c-5dc6-558ff6aefd75@mlbassoc.com>
-Message-ID: <alpine.LFD.2.20.1611040402190.12985@ca624034.mitel.com>
-References: <d1522ddb-4dd2-5f1c-5dc6-558ff6aefd75@mlbassoc.com>
-User-Agent: Alpine 2.20 (LFD 67 2015-01-07)
+	Fri,  4 Nov 2016 09:08:02 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id uA4982G9024437
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 4 Nov 2016 02:08:03 -0700 (PDT)
+Received: from pek-lzhou2-d1.corp.ad.wrs.com (128.224.162.243) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server
+	(TLS) id 14.3.294.0; Fri, 4 Nov 2016 02:08:01 -0700
+From: Li Zhou <li.zhou@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 4 Nov 2016 17:07:19 +0800
+Message-ID: <20161104090719.30795-1-li.zhou@windriver.com>
+X-Mailer: git-send-email 2.9.3
 MIME-Version: 1.0
-X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: uninative binary?
+X-Originating-IP: [128.224.162.243]
+Subject: [PATCH] db: disable the ARM assembler mutex code
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,32 +32,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 04 Nov 2016 08:04:05 -0000
-Content-Type: text/plain; charset=US-ASCII
+X-List-Received-Date: Fri, 04 Nov 2016 09:08:02 -0000
+Content-Type: text/plain
 
-On Fri, 4 Nov 2016, Gary Thomas wrote:
+The swpb in macro MUTEX_SET will cause "undefined instruction" error
+on the new arm arches which don't support this assembly instruction
+any more. If use ldrex/strex to replace swpb, the old arm arches don't
+support them. So to avoid this issue, just disable the ARM assembler
+mutex code, and use the default pthreads mutex.
 
-> Some of my customers need to be able to build without any
-> network connectivity, so I normally use BB_NO_NETWORK="1"
->
-> Is there a way to add the uninative "binary shim" to my
-> download mirror?  Given that the path includes a hash as
-> a directory, it's not clear to me how to put it into my
-> mirror.
+Signed-off-by: Li Zhou <li.zhou@windriver.com>
+---
+ meta/recipes-support/db/db_6.0.30.bb | 9 ---------
+ 1 file changed, 9 deletions(-)
 
-  weirdly, i was about to ask the very same question ... you should
-have waited. :-)
-
-rday
-
+diff --git a/meta/recipes-support/db/db_6.0.30.bb b/meta/recipes-support/db/db_6.0.30.bb
+index 50a469b..2d08b5e 100644
+--- a/meta/recipes-support/db/db_6.0.30.bb
++++ b/meta/recipes-support/db/db_6.0.30.bb
+@@ -74,15 +74,6 @@ DB6_CONFIG ?= "--enable-o_direct --disable-cryptography --disable-queue --disabl
+ 
+ EXTRA_OECONF = "${DB6_CONFIG} --enable-shared --enable-cxx --with-sysroot"
+ 
+-# Override the MUTEX setting here, the POSIX library is
+-# the default - "POSIX/pthreads/library".
+-# Don't ignore the nice SWP instruction on the ARM:
+-# These enable the ARM assembler mutex code
+-ARM_MUTEX = "--with-mutex=ARM/gcc-assembly"
+-MUTEX = ""
+-MUTEX_arm = "${ARM_MUTEX}"
+-MUTEX_armeb = "${ARM_MUTEX}"
+-EXTRA_OECONF += "${MUTEX}"
+ EXTRA_OEMAKE_class-target = "LIBTOOL=${STAGING_BINDIR_CROSS}/${HOST_SYS}-libtool"
+ 
+ # Cancel the site stuff - it's set for db3 and destroys the
 -- 
-
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
-
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
+2.9.3
 
 
