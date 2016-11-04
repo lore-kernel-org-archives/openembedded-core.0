@@ -1,26 +1,30 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id A952071AE7
+Return-Path: <gary@mlbassoc.com>
+Received: from mail.analogue-micro.com (mail.analogue-micro.com
+	[217.144.149.242])
+	by mail.openembedded.org (Postfix) with ESMTP id 54FD57197B
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  4 Nov 2016 06:44:32 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id uA46iXsP004007
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 3 Nov 2016 23:44:33 -0700 (PDT)
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.209) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.294.0; Thu, 3 Nov 2016 23:44:33 -0700
-From: Chen Qi <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 4 Nov 2016 14:44:57 +0800
-Message-ID: <292d1ca47a2d3d4c09884edf53be5b0a79c3acab.1478241842.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1478241842.git.Qi.Chen@windriver.com>
-References: <cover.1478241842.git.Qi.Chen@windriver.com>
+	Fri,  4 Nov 2016 07:16:26 +0000 (UTC)
+Received: by mail.analogue-micro.com (Postfix, from userid 999)
+	id 92DF768A019; Fri,  4 Nov 2016 07:16:26 +0000 (GMT)
+X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
+	loki.analogue-micro-ltd.com
+X-Spam-Level: 
+X-Spam-Status: No, score=-0.2 required=5.0 tests=ALL_TRUSTED,BAYES_00,
+	DNS_FROM_AHBL_RHSBL autolearn=no version=3.3.2
+Received: from zeus.mlbassoc.com (unknown [10.8.0.2])
+	by mail.analogue-micro.com (Postfix) with ESMTP id 2C42968A019;
+	Fri,  4 Nov 2016 07:16:26 +0000 (GMT)
+Received: from [127.0.0.1] (localhost.localdomain [127.0.0.1])
+	by zeus.mlbassoc.com (Postfix) with ESMTP id 7F87267401F0;
+	Fri,  4 Nov 2016 08:16:25 +0100 (CET)
+From: Gary Thomas <gary@mlbassoc.com>
+To: OE-core <openembedded-core@lists.openembedded.org>
+Message-ID: <d1522ddb-4dd2-5f1c-5dc6-558ff6aefd75@mlbassoc.com>
+Date: Fri, 4 Nov 2016 08:16:25 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.4.0
 MIME-Version: 1.0
-Subject: [PATCH 1/1] tcf-agent: fix systemd service file
+Subject: uninative binary?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,32 +37,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 04 Nov 2016 06:44:34 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 04 Nov 2016 07:16:27 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Fix tcf-agent service file so that `systemctl stop tcf-agent' doesn't
-fail.
+Some of my customers need to be able to build without any
+network connectivity, so I normally use BB_NO_NETWORK="1"
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
----
- meta/recipes-devtools/tcf-agent/tcf-agent/tcf-agent.service | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+Is there a way to add the uninative "binary shim" to my
+download mirror?  Given that the path includes a hash as
+a directory, it's not clear to me how to put it into my
+mirror.
 
-diff --git a/meta/recipes-devtools/tcf-agent/tcf-agent/tcf-agent.service b/meta/recipes-devtools/tcf-agent/tcf-agent/tcf-agent.service
-index fd9a6c4..dd3a79b 100644
---- a/meta/recipes-devtools/tcf-agent/tcf-agent/tcf-agent.service
-+++ b/meta/recipes-devtools/tcf-agent/tcf-agent/tcf-agent.service
-@@ -3,8 +3,7 @@ Description=Target Communication Framework agent
- After=network.target
- 
- [Service]
--Type=forking
--ExecStart=@SBINDIR@/tcf-agent -d -L- -l0
-+ExecStart=@SBINDIR@/tcf-agent -L- -l0
- 
- [Install]
- WantedBy=multi-user.target
+Thanks for any ideas
+
 -- 
-1.9.1
-
+------------------------------------------------------------
+Gary Thomas                 |  Consulting for the
+MLB Associates              |    Embedded world
+------------------------------------------------------------
 
