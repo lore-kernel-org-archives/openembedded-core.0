@@ -1,50 +1,47 @@
-Return-Path: <kergoth@gmail.com>
-Received: from mail-oi0-f66.google.com (mail-oi0-f66.google.com
-	[209.85.218.66])
-	by mail.openembedded.org (Postfix) with ESMTP id F0E1070100
+Return-Path: <jkrishnanjanappa@mvista.com>
+Received: from mail-lf0-f44.google.com (mail-lf0-f44.google.com
+	[209.85.215.44])
+	by mail.openembedded.org (Postfix) with ESMTP id 93EE960248
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  4 Nov 2016 02:23:43 +0000 (UTC)
-Received: by mail-oi0-f66.google.com with SMTP id v84so10053433oie.2
+	Fri,  4 Nov 2016 05:46:51 +0000 (UTC)
+Received: by mail-lf0-f44.google.com with SMTP id t196so56062891lff.3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 03 Nov 2016 19:23:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:from:date:message-id
-	:subject:to:cc;
-	bh=XEk2t+KP7XVgVcceHAqtK8UwtFYZTXb7tgatP79KJh4=;
-	b=k2Jvp8r7+SrUxkDe8hhbqJnfcxarYuohH5lkJGQ52eqlWTW+gZzkl0ayQarCKicjS1
-	/lBJDh8+XPeBb6cXFZbt1MP0QL3mkHspgQORnY3NMj9nwFwi18TtzvRQAtXwz4txDW63
-	e8Nvo96egJnfokouFYKcBpl7x0WBwzLb8WEjOg3Y2Hljelh+QyEfJRJ3IKEh8qfvOZwf
-	IiPlBMqCU6t6XWuaBxlP4+y04DzO9IsTPOGvEyQFNEmtY40bm/Wk5TEOl41kJqjrJN4C
-	wd7YXdcyE5eMeLJvuqhKvvT/WYqHXQt7UB52JKyq1b8WJWMql40wXOr/GceMfZ9xlc5c
-	4Xxw==
+	Thu, 03 Nov 2016 22:46:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=mvista-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=ss/0meRMTg1/D+5EofJHbCmDLNqX74iR6jPfxwSOnS8=;
+	b=p0n9mRWQIKyqMtlH4rHmTT+0tq+/vSLC+DWqXvtOyPcOMyYBKgx9dNzYSGPhh1EmAI
+	DOoUQsaR69NlyK3ikm4e9Ctjv2zkXcmonKKW8OlEtt6/PdPXu4+EXeOzuPLjO9FcbI9j
+	xy6i8Fg5NkcXlC/rlEgx+cnP2vIwThsM5wslR52Y1Y3FUmVchFUHiE+VAb5hCb/b3KkH
+	1CN0GZQ44krVGIb+ppHxp06cxwvO/83gYtUyNGbGHb8fX0NKRJKgr1qexPR5H9a2VIO8
+	2pnIrT7waWJwexaiy7Yul/Yaa7zIXL1B00rrZhuCRb1kHY267gg63bOTKIXAmC0yqS2b
+	bPfQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:sender:in-reply-to:references:from
-	:date:message-id:subject:to:cc;
-	bh=XEk2t+KP7XVgVcceHAqtK8UwtFYZTXb7tgatP79KJh4=;
-	b=RjHoTP4lPckrdt6rwxmCnVdjERCn5+TWm/vfDUa0Lk7IcBo98UPhd1F2eehUZgPhoC
-	//6smBY/O2SjqtfpE2v0m133qSnaGFJg00kkaSapFg+h+JvSI/jvdqC3yYewDYDqj6Vv
-	nDwWO4C6B3474f8AB1UnN5qoHaih7bRLB0qRjuzcsFxQVyOa32coXYKRYs1M8Gkw0oia
-	jvqSpYH0zi+mTHACyYS0jNdP8S1DXp1Dq/1kGt1uRSRLuSyBHnfZSSxn9wadok5Q/rwE
-	KzMCNb56Dg5djwDqpKF/quQdVzy4heneJzgTd/MZjO/ofVZzrvdanUUXjX6w3cZneeN2
-	NOAw==
-X-Gm-Message-State: ABUngvf7/Q8WkhzKM2Dv5RI3+4FMY5dFb1cnueE8cGPEevwP+FCaEhqMbEv6RX1HPgRtrd/WbXbBReHrFceOlA==
-X-Received: by 10.202.74.88 with SMTP id x85mr11505060oia.77.1478226225015;
-	Thu, 03 Nov 2016 19:23:45 -0700 (PDT)
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=ss/0meRMTg1/D+5EofJHbCmDLNqX74iR6jPfxwSOnS8=;
+	b=k3+0ThOhtploWzdmr/si5E84FKPqh86NnBRKA8iFmRjNOJRYG7DU60gu1/oxPON6P/
+	UXCnpI69crC9yCS7zJPH2MFKK0JiGFEHf54TXpHoz3/TMq4R57r6JR/oTjzCOk/Ykron
+	h2u2+2gXCwWtEcbayx7eOI/C7T2j+b53i1jp52Quk9CQhsQFlBxFH3PidL0TZXpxrkvT
+	AZZ+49rwnbHHVhjusTyu7X7Fvqh5TAxamB3SI7FuMXY/MW7pTn0nCmrp+vzBoWEgIPDu
+	J3XdP26uWw+CtoULk/OY2IokPqTCD4hrUY5tGKaEwytBfGpLqwYW3GG42ddmZkIuWbK+
+	5zJQ==
+X-Gm-Message-State: ABUngvdEFqzAUFJPcy0tIfmeBdoiGrQuH0Kt2yZsFYSaBkVoh+ERpMf03J79rItaDAZVWA8HwLEkjzfYpU1wrO+Z
+X-Received: by 10.25.99.12 with SMTP id x12mr6786666lfb.174.1478238412022;
+	Thu, 03 Nov 2016 22:46:52 -0700 (PDT)
 MIME-Version: 1.0
-Sender: kergoth@gmail.com
-Received: by 10.157.13.194 with HTTP; Thu, 3 Nov 2016 19:23:24 -0700 (PDT)
-In-Reply-To: <CD1ACFFA-619F-4C36-99AC-76D6A6068E74@gmail.com>
-References: <1477910801-9169-1-git-send-email-ed.bartosh@linux.intel.com>
-	<CD1ACFFA-619F-4C36-99AC-76D6A6068E74@gmail.com>
-From: Christopher Larson <clarson@kergoth.com>
-Date: Thu, 3 Nov 2016 19:23:24 -0700
-X-Google-Sender-Auth: RWiFFI_stMphKhtLHT7vS6bhFRM
-Message-ID: <CABcZANkm7CbH8pOHi5Wo3oN=usiCfX9kmOr6fPp9j9-M7E0AMg@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] mkefidisk.sh: add deprecation warning to the output
+Received: by 10.114.186.69 with HTTP; Thu, 3 Nov 2016 22:46:51 -0700 (PDT)
+In-Reply-To: <CAJTo0LbvVLrkAJuF3uEMm-_DPmJQLsX2=rT0a4hvKUi9k79MYQ@mail.gmail.com>
+References: <1478196294-7594-1-git-send-email-jkrishnanjanappa@mvista.com>
+	<CAJTo0LbvVLrkAJuF3uEMm-_DPmJQLsX2=rT0a4hvKUi9k79MYQ@mail.gmail.com>
+From: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
+Date: Fri, 4 Nov 2016 11:16:51 +0530
+Message-ID: <CAD3vsf7VFWyN72TAZu9yUs4Rq0Vurc1R8AR1rCeQ-rF8M7tykA@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [master][morty][PATCH 1/2] ltp: Fix QA warning
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,105 +54,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 04 Nov 2016 02:23:44 -0000
-Content-Type: multipart/alternative; boundary=001a113db3500a33d90540705d64
+X-List-Received-Date: Fri, 04 Nov 2016 05:46:51 -0000
+Content-Type: multipart/alternative; boundary=94eb2c0eb7687136db05407333c7
 
---001a113db3500a33d90540705d64
+--94eb2c0eb7687136db05407333c7
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-On Thu, Nov 3, 2016 at 2:42 PM, Khem Raj <raj.khem@gmail.com> wrote:
-
-> > On Oct 31, 2016, at 3:46 AM, Ed Bartosh <ed.bartosh@linux.intel.com>
-> wrote:
-> >
-> > mkefidisk.sh will soon be deprecated in favor of .wic images.
-> >
-> > Added deprecation warning to the script to inform users that
-> > this script will soon be removed from the codebase.
-> >
-> > Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
-> > ---
-> > scripts/contrib/mkefidisk.sh | 5 +++++
-> > 1 file changed, 5 insertions(+)
-> >
-> > diff --git a/scripts/contrib/mkefidisk.sh b/scripts/contrib/mkefidisk.s=
-h
-> > index d8db3c0..a175895 100755
-> > --- a/scripts/contrib/mkefidisk.sh
-> > +++ b/scripts/contrib/mkefidisk.sh
-> > @@ -20,6 +20,11 @@
-> >
-> > LANG=3DC
-> >
-> > +echo
-> > +echo "WARNING: This script is deprecated and will be removed soon."
-> > +echo "Please consider using wic EFI images instead."
-> > +echo
-> > +
 >
-> is .wic image dd=E2=80=99able directly ?
+>
+> On 3 November 2016 at 18:04, Jagadeesh Krishnanjanappa <
+> jkrishnanjanappa@mvista.com> wrote:
+>
+>> WARNING: ltp-20160126-r0 do_package_qa: QA Issue:
+>> /opt/ltp/share/licenses/ltp/run_freezer.sh contained in package ltp-lic
+>> requires /bin/bash, but no providers found in RDEPENDS_ltp-lic? [file-rdeps]
+>>
+>
+> So the common problem "if PN-lic contains a license statement embedded in
+> a file with a hashbang, file-rdeps is triggered", so I'd say file-rdeps
+> should be added to INSANE_SKIP_${PN}-lic in bitbake.conf instead of dealing
+> with this per recipe.
+>
+>  Thanks for the review. I will send v2 adding INSANE_SKIP_${PN}-lic =
+"file-rdeps" in bitbake.conf file.
+
+Regards,
+Jagadeesh
+
+
+Ross
 >
 
-Yes, that=E2=80=99s the point :) Though I prefer bmaptool w/ IMAGE_FSTYPES =
-+=3D
-=E2=80=9Cwic.bmap=E2=80=9D personally, don=E2=80=99t have to rely on the fi=
-le keeping its
-sparseness when scp=E2=80=99ing it around and whatnot.
---=20
-Christopher Larson
-clarson at kergoth dot com
-Founder - BitBake, OpenEmbedded, OpenZaurus
-Maintainer - Tslib
-Senior Software Engineer, Mentor Graphics
-
---001a113db3500a33d90540705d64
+--94eb2c0eb7687136db05407333c7
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On Thu, Nov 3, 2016 at 2:42 PM, Khem Raj <span dir=3D"ltr">&lt;<a href=3D"m=
-ailto:raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt;</spa=
-n> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;b=
-order-left:1px #ccc solid;padding-left:1ex"><span class=3D"">&gt; On Oct 31=
-, 2016, at 3:46 AM, Ed Bartosh &lt;<a href=3D"mailto:ed.bartosh@linux.intel=
-.com">ed.bartosh@linux.intel.com</a>&gt; wrote:<br>
-&gt;<br>
-&gt; mkefidisk.sh will soon be deprecated in favor of .wic images.<br>
-&gt;<br>
-&gt; Added deprecation warning to the script to inform users that<br>
-&gt; this script will soon be removed from the codebase.<br>
-&gt;<br>
-&gt; Signed-off-by: Ed Bartosh &lt;<a href=3D"mailto:ed.bartosh@linux.intel=
-.com">ed.bartosh@linux.intel.com</a>&gt;<br>
-&gt; ---<br>
-&gt; scripts/contrib/mkefidisk.sh | 5 +++++<br>
-&gt; 1 file changed, 5 insertions(+)<br>
-&gt;<br>
-&gt; diff --git a/scripts/contrib/mkefidisk.sh b/scripts/contrib/mkefidisk.=
-sh<br>
-&gt; index d8db3c0..a175895 100755<br>
-&gt; --- a/scripts/contrib/mkefidisk.sh<br>
-&gt; +++ b/scripts/contrib/mkefidisk.sh<br>
-&gt; @@ -20,6 +20,11 @@<br>
-&gt;<br>
-&gt; LANG=3DC<br>
-&gt;<br>
-&gt; +echo<br>
-&gt; +echo &quot;WARNING: This script is deprecated and will be removed soo=
-n.&quot;<br>
-&gt; +echo &quot;Please consider using wic EFI images instead.&quot;<br>
-&gt; +echo<br>
-&gt; +<br>
-<br>
-</span>is .wic image dd=E2=80=99able directly ?<br></blockquote><div><br></=
-div><div>Yes, that=E2=80=99s the point :) Though I prefer bmaptool w/ IMAGE=
-_FSTYPES +=3D =E2=80=9Cwic.bmap=E2=80=9D personally, don=E2=80=99t have to =
-rely on the file keeping its sparseness when scp=E2=80=99ing it around and =
-whatnot.</div></div>-- <br><div class=3D"gmail_signature" data-smartmail=3D=
-"gmail_signature">Christopher Larson<br>clarson at kergoth dot com<br>Found=
-er - BitBake, OpenEmbedded, OpenZaurus<br>Maintainer - Tslib<br>Senior Soft=
-ware Engineer, Mentor Graphics</div>
-</div></div>
+<div dir=3D"ltr"><div class=3D"gmail_extra"><div class=3D"gmail_quote"><blo=
+ckquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left=
+-width:1px;border-left-color:rgb(204,204,204);border-left-style:solid;paddi=
+ng-left:1ex"><div dir=3D"ltr"><div class=3D"gmail_extra"><span class=3D"gma=
+il-"><br><div class=3D"gmail_quote">On 3 November 2016 at 18:04, Jagadeesh =
+Krishnanjanappa <span dir=3D"ltr">&lt;<a href=3D"mailto:jkrishnanjanappa@mv=
+ista.com" target=3D"_blank">jkrishnanjanappa@mvista.com</a>&gt;</span> wrot=
+e:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;b=
+order-left-width:1px;border-left-color:rgb(204,204,204);border-left-style:s=
+olid;padding-left:1ex"><div id=3D"gmail-m_6721955320836053959:1a8" class=3D=
+"gmail-m_6721955320836053959a3s gmail-m_6721955320836053959aXjCH gmail-m_67=
+21955320836053959m1582b6c357bbac23">WARNING: ltp-20160126-r0 do_package_qa:=
+ QA Issue: /opt/ltp/share/licenses/ltp/ru<wbr>n_freezer.sh contained in pac=
+kage ltp-lic requires /bin/bash, but no providers found in RDEPENDS_ltp-lic=
+? [file-rdeps]<br></div></blockquote></div><br></span>So the common problem=
+ &quot;if PN-lic contains a license statement embedded in a file with a has=
+hbang, file-rdeps is triggered&quot;, so I&#39;d say file-rdeps should be a=
+dded to INSANE_SKIP_${PN}-lic in bitbake.conf instead of dealing with this =
+per recipe.</div><span class=3D"gmail-HOEnZb"><font color=3D"#888888"><div =
+class=3D"gmail_extra"><br></div></font></span></div></blockquote><div>=C2=
+=A0Thanks for the review. I will send v2 adding=C2=A0INSANE_SKIP_${PN}-lic =
+=3D &quot;file-rdeps&quot; in bitbake.conf file.</div><div><br></div><div>R=
+egards,</div><div>Jagadeesh</div><div><br></div><div><br></div><blockquote =
+class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left-width:1=
+px;border-left-color:rgb(204,204,204);border-left-style:solid;padding-left:=
+1ex"><div dir=3D"ltr"><span class=3D"gmail-HOEnZb"><font color=3D"#888888">=
+<div class=3D"gmail_extra"></div><div class=3D"gmail_extra">Ross</div></fon=
+t></span></div>
+</blockquote></div><br></div></div>
 
---001a113db3500a33d90540705d64--
+--94eb2c0eb7687136db05407333c7--
