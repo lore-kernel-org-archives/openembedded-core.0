@@ -1,45 +1,47 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f44.google.com (mail-wm0-f44.google.com [74.125.82.44])
-	by mail.openembedded.org (Postfix) with ESMTP id 8512F71B18
+Received: from mail-qk0-f174.google.com (mail-qk0-f174.google.com
+	[209.85.220.174])
+	by mail.openembedded.org (Postfix) with ESMTP id D2BD271C2E
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  4 Nov 2016 20:19:46 +0000 (UTC)
-Received: by mail-wm0-f44.google.com with SMTP id f82so12274073wmf.1
+	Fri,  4 Nov 2016 20:27:12 +0000 (UTC)
+Received: by mail-qk0-f174.google.com with SMTP id n204so101914897qke.2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 04 Nov 2016 13:19:48 -0700 (PDT)
+	Fri, 04 Nov 2016 13:27:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=GXv5l9W18D6eP77mnyaH3rlqV4GXe33va/CUw+rgMhU=;
-	b=axBGuKvpLU7lH/NeAJuuChGF6Tp8SiZjy/80mP5es9ye7q7v/lrZjyOlcSevHxRJl2
-	spd8w/LyYwQH8fhmPOyuk7mKop1ldBdxf+jMmMkTODnEGB5LUIYUQ+Y5EY/IndXXA0D0
-	CBr3z+RhVmsdWl4ATH5ZkvjMKQvZ25uRj5gUi3tWLVs+E/kaCcoAN2fA+OtzLvTBLK0l
-	nUW9fDIYgwN5ipIQW7v0VKGGw4KiPmsdHTrzAn7Q2pJj1g/Bl4ciuBde0+6ieITmCzS9
-	f+otUqW00B8vbfakyQmKx1keaD07sfrwJueMdph3s0sg0zPufHFS92rF8eNWsz0eHkU9
-	Zdrg==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=ZJu/GJJnFhKLZa1cFvHcWX3GQ3nVFXKLrAM4HkoHpEc=;
+	b=v/oGNK7Na1KXCmKkO/hgAFW2fvNFRpyGcWIqmFq2yyX3QlqfFFdA6M++wkAOmZpT+5
+	L1U+1hFRjM1hfDVaZEKunba6vObA/MMaSTqoV1pW+GEySAsp3W+eFO4kHamPKrxvu2az
+	qMmcB52Siz02/ysqkQMaPxWiHtPSZ7VHh9Ra/14TTe/PsKtj1OuKxThfm7CjP2qylxXI
+	YgJrJMZFiVqSdvvzkNtfd5/Q8BUWuOW1KOZgKpj5sWXD7NddwXeyeamztjL23r4Cx+wU
+	Cgk+qE/IikCcdWvbHQGkdJwBTY1eeq1Wd5qCUVDiJmc1qGfIcVTMmM9uyaQELpTFuCfh
+	EMOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=GXv5l9W18D6eP77mnyaH3rlqV4GXe33va/CUw+rgMhU=;
-	b=KcRJ8q79PEcNEhv+UEDc3nSjoCUQlNueFm+Bt/TaQlJEwHUPDI5g3+g2czbznxo85K
-	GyPxJLCADIY6A52DmGUDVXishZnv/1R6PxKGdQRIQt4VtAkKmOzFXteLi8WHeV9PDsT/
-	Weqps2wV29MTJws0Z78NMCtfnmHIcHtxdaPK6VGjhBoHghvrCuAcR0+/2HpBfZmsRcn3
-	eJvhsZzvgm6VHrprBzG6pqqo51DlB7jMQZ9pHc6BU4cdBCsE2ppeIjXJ/gS0V94BiNSH
-	XxNlskiLu6eAurPHHxmdpzLlLcb/ej2zaQT4mIDNLKD0dXIaAmBOh5EClBvIGnh3malw
-	mcww==
-X-Gm-Message-State: ABUngvdV44rX8SjuQCa/SRZakjLaL1fg0azu4vNKrw0KxODlBFtXBvdmqFA/8W/UVdCvBpvj
-X-Received: by 10.194.115.135 with SMTP id jo7mr13331777wjb.21.1478290787435; 
-	Fri, 04 Nov 2016 13:19:47 -0700 (PDT)
-Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id w66sm6371763wme.4.2016.11.04.13.19.46
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 04 Nov 2016 13:19:46 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  4 Nov 2016 20:19:44 +0000
-Message-Id: <1478290784-20316-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 2.8.1
-Subject: [PATCH] distro_check: MeeGo is long dead, compare against Clear Linux instead
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=ZJu/GJJnFhKLZa1cFvHcWX3GQ3nVFXKLrAM4HkoHpEc=;
+	b=gLA2Mswvi0OQFhvRzwheJ6DYrUyTRUA+0F4nseLioC1RF1tgyKd+NmU+VJt9eXZd+i
+	4G/C6GLS4Uqu6QEe7wSO8Q1tO7qFt2GNODapuow3z45BXCd6YSfmUNvpt2CSyvxrn1lt
+	I1OOO7dl7df4WW3PXdHDn5zU2yQn9sMqOiVRbFIEKffI2U7QgjRaTJETa3syVaLDq6YU
+	eGCmJi8hG3ugzifjMHzmYpGYjGIgkozPlNkJiajyec8F9ZtC9MABApkcmCoG00ueT1mb
+	ScsZ7wOFBoZZLKvXTFVXlGUm+GL/DJKb/wmY7Xt5q57zIrnhbw95zAMOZJXdwQh6pj3N
+	3VHQ==
+X-Gm-Message-State: ABUngvcgQ6O/SjCMuYXiXL9UDV1Xzhlx9ImP4iZvhtjfNsAEXa2iqGjxH2n77H/9iR1T/VkoSC6UZ+4G77a5tA0q
+X-Received: by 10.55.8.20 with SMTP id 20mr16615204qki.3.1478291233914; Fri,
+	04 Nov 2016 13:27:13 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.140.85.208 with HTTP; Fri, 4 Nov 2016 13:26:53 -0700 (PDT)
+In-Reply-To: <44145dc1-a9cf-7191-3c74-ce23b9aa2aaf@linux.intel.com>
+References: <1478238808-28688-1-git-send-email-akuster808@gmail.com>
+	<44145dc1-a9cf-7191-3c74-ce23b9aa2aaf@linux.intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 4 Nov 2016 20:26:53 +0000
+Message-ID: <CAJTo0La+=ijE8MdzcZenDGobWbHMrBV1OnnLjrL8rvBTB_2R6A@mail.gmail.com>
+To: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/2] Time zone update to 2016i
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,60 +54,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 04 Nov 2016 20:19:47 -0000
+X-List-Received-Date: Fri, 04 Nov 2016 20:27:13 -0000
+Content-Type: multipart/alternative; boundary=001a114c9d60df532205407f7f58
 
-Instead of checking against a file that represents a distribution that hasn't
-existed for years, fetch package names for Clear Linux instead.
+--001a114c9d60df532205407f7f58
+Content-Type: text/plain; charset=UTF-8
 
-[ YOCTO #10601 ]
+On 4 November 2016 at 16:04, Leonardo Sandoval <
+leonardo.sandoval.gonzalez@linux.intel.com> wrote:
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/lib/oe/distro_check.py | 16 ++++++----------
- 1 file changed, 6 insertions(+), 10 deletions(-)
+> git pw mbox 3757 -r 1 | git apply --check
+> error: meta/recipes-extended/tzcode/tzcode-native_2016h.bb: No such file
+> or directory
+> error: meta/recipes-extended/tzdata/tzdata_2016h.bb: No such file or
+> directory
+>
 
-diff --git a/meta/lib/oe/distro_check.py b/meta/lib/oe/distro_check.py
-index 00c827e..c666ddc 100644
---- a/meta/lib/oe/distro_check.py
-+++ b/meta/lib/oe/distro_check.py
-@@ -43,15 +43,6 @@ def package_name_from_srpm(srpm):
-     (name, version, release) = srpm.replace(".src.rpm", "").rsplit("-", 2)
-     return name
- 
--def get_latest_released_meego_source_package_list(d):
--    "Returns list of all the name os packages in the latest meego distro"
--
--    package_names = set()
--    with open("/tmp/Meego-1.1", "r") as f:
--        for line in f:
--            package_names.add(line.strip() + ":" + "main")
--    return "1.1", package_names
--
- def get_source_package_list_from_url(url, section, d):
-     "Return a sectioned list of package names from a URL list"
- 
-@@ -99,6 +90,11 @@ def get_latest_released_mandriva_source_package_list(d):
-     package_names |= get_source_package_list_from_url("http://distrib-coffee.ipsl.jussieu.fr/pub/linux/MandrivaLinux/official/%s/SRPMS/main/updates/" % latest, "updates", d)
-     return latest, package_names
- 
-+def get_latest_released_clear_source_package_list(d):
-+    latest = find_latest_numeric_release("https://download.clearlinux.org/releases/", d)
-+    package_names = get_source_package_list_from_url("https://download.clearlinux.org/releases/%s/clear/source/SRPMS/" % latest, "main", d)
-+    return latest, package_names
-+
- def find_latest_debian_release(url, d):
-     "Find the latest listed debian release on the given url"
- 
-@@ -167,7 +163,7 @@ def create_distro_packages_list(distro_check_dir, d):
-                             ("Fedora", get_latest_released_fedora_source_package_list),
-                             ("OpenSuSE", get_latest_released_opensuse_source_package_list),
-                             ("Mandriva", get_latest_released_mandriva_source_package_list),
--                            ("Meego", get_latest_released_meego_source_package_list)
-+                            ("Clear", get_latest_released_clear_source_package_list),
-                            )
- 
-     for name, fetcher_func in per_distro_functions:
--- 
-2.8.1
+It depends on the update to 2016h that Armin sent earlier but isn't yet in
+master.
 
+Ross
 
+--001a114c9d60df532205407f7f58
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 4 November 2016 at 16:04, Leonardo Sandoval <span dir=3D"ltr">&lt;<a hre=
+f=3D"mailto:leonardo.sandoval.gonzalez@linux.intel.com" target=3D"_blank">l=
+eonardo.sandoval.gonzalez@linux.intel.com</a>&gt;</span> wrote:<br><blockqu=
+ote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc s=
+olid;padding-left:1ex"><div id=3D":1s0" class=3D"a3s aXjCH m15830286fa1188f=
+1">git pw mbox 3757 -r 1 | git apply --check<br>
+error: meta/recipes-extended/tzcode/<a href=3D"http://tzcode-native_2016h.b=
+b" rel=3D"noreferrer" target=3D"_blank">t<wbr>zcode-native_2016h.bb</a>: No=
+ such file or directory<br>
+error: meta/recipes-extended/tzdata/<a href=3D"http://tzdata_2016h.bb" rel=
+=3D"noreferrer" target=3D"_blank">t<wbr>zdata_2016h.bb</a>: No such file or=
+ directory<br></div></blockquote></div><br>It depends on the update to 2016=
+h that Armin sent earlier but isn&#39;t yet in master.</div><div class=3D"g=
+mail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
+
+--001a114c9d60df532205407f7f58--
