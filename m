@@ -1,26 +1,55 @@
-Return-Path: <pb@pbcl.net>
-Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
-	by mail.openembedded.org (Postfix) with ESMTP id 19B3A71B0F
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pf0-f195.google.com (mail-pf0-f195.google.com
+	[209.85.192.195])
+	by mail.openembedded.org (Postfix) with ESMTP id E0AF271C26
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  5 Nov 2016 00:01:45 +0000 (UTC)
-Received: from blundell.swaffham-prior.co.uk ([91.216.112.25] helo=tp13)
-	by hetzner.pbcl.net with esmtpsa
-	(TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.84)
-	(envelope-from <pb@pbcl.net>)
-	id 1c2oQZ-0006Hl-DJ; Sat, 05 Nov 2016 01:01:44 +0100
-Message-ID: <1478304097.3662.25.camel@pbcl.net>
-From: Phil Blundell <pb@pbcl.net>
-To: Khem Raj <raj.khem@gmail.com>, Li Zhou <li.zhou@windriver.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Sat, 05 Nov 2016 00:01:37 +0000
-In-Reply-To: <3ceaa47d-7f30-4b0a-f554-eb193a10f82a@gmail.com>
-References: <20161104090719.30795-1-li.zhou@windriver.com>
-	<b3c8d5de-1d26-b37b-e28c-f8cca01c9ba3@gmail.com>
-	<1478301288.3662.21.camel@pbcl.net>
-	<3ceaa47d-7f30-4b0a-f554-eb193a10f82a@gmail.com>
-X-Mailer: Evolution 3.20.5-1 
-Mime-Version: 1.0
-Subject: Re: [PATCH] db: disable the ARM assembler mutex code
+	Sat,  5 Nov 2016 00:04:25 +0000 (UTC)
+Received: by mail-pf0-f195.google.com with SMTP id y68so9224405pfb.1
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 04 Nov 2016 17:04:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=subject:to:references:cc:from:organization:message-id:date
+	:user-agent:mime-version:in-reply-to:content-transfer-encoding;
+	bh=liNvvwxEdgpOmCkSRIsNocdR9+yfZbxV+MQNSOdMl8c=;
+	b=ZQlf6I214PoTUAT17lcxZbPymoYJ7fsefXePjB0bascOEEGXGbjnaHwzB6ygZjfmtl
+	QzRPL/CHoB9z0nC4ONXnNg38ODpPGefj19NgW43KHUmfn0czSC8KnCDgw0SshE3BO9xx
+	18bMWjqRgmq87gM7da1GnPJbzG6KcDxZsnA5dmv/JvWJLXfW2Fai4aJ8y3lkl+UJDD7N
+	ANSgxFtJ6sDuing5cWYYR+mk/qiZkXoAEr3WhuBAnpT78hqP8az11cyNOqNjhwhrsgiv
+	r35Kz410/MLyYXAAgOQwJY8SpJAZFRu/RchdiarhU36Qu0Z3cP3JUhV8Toy4IHKd5Llq
+	FYCA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:subject:to:references:cc:from:organization
+	:message-id:date:user-agent:mime-version:in-reply-to
+	:content-transfer-encoding;
+	bh=liNvvwxEdgpOmCkSRIsNocdR9+yfZbxV+MQNSOdMl8c=;
+	b=jOiJeEk6Por6LEsLIGCSB6yHNUIc+8h4ormcU5MlH+oMO1sfzONbSvUk6XR/1bgKGk
+	EZoPuBij7OAXK9R8s4kt4oXKG90RtuioDsZYWcb/wnSS/9b1e1ANgoZXyCxD7fHecCxL
+	jPdM+zxSxPOdoSjJ7AA40a9uM+yH9/bDhBb8WgVTQighrDN4flp8aUJ/crfnqtn7xMBU
+	lMWL3jSnUtrKaObEjx/rPy7Fll+Ng6OtxxuWPhenNW9BVvJL+QpgfXrtJmZ0tRs082G6
+	ljl1V964FDebuALGElbvz1RArafnJZDfUwfX0pdS4sYZJsa1APW073l2SRYYopCkjNVP
+	0LFg==
+X-Gm-Message-State: ABUngvfMsfMYlGZ0s0+q+iTZVx2zvaEIonXomrWfMnQqayFFp+mscsq9m6QQW7aOSOOt/Q==
+X-Received: by 10.99.176.7 with SMTP id h7mr25826652pgf.170.1478304267332;
+	Fri, 04 Nov 2016 17:04:27 -0700 (PDT)
+Received: from CACSVMO-14452.local ([2601:646:8882:b8c:e83e:7662:2fe9:93ef])
+	by smtp.gmail.com with ESMTPSA id
+	rx1sm22874671pab.32.2016.11.04.17.04.26
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 04 Nov 2016 17:04:26 -0700 (PDT)
+To: "Burton, Ross" <ross.burton@intel.com>, Koen Kooi <koen.kooi@linaro.org>
+References: <1476952202-8842-1-git-send-email-koen.kooi@linaro.org>
+	<CAJTo0LaC2t1BN9VpKRx4W7fMT88mDdmCBYhzgBgvsdDJXhNk_w@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Organization: himvis.com
+Message-ID: <d1bde394-d86a-518d-ea44-68c4fbe788e3@gmail.com>
+Date: Fri, 4 Nov 2016 17:04:25 -0700
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:45.0)
+	Gecko/20100101 Thunderbird/45.4.0
+MIME-Version: 1.0
+In-Reply-To: <CAJTo0LaC2t1BN9VpKRx4W7fMT88mDdmCBYhzgBgvsdDJXhNk_w@mail.gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] libbsd 0.8.3: BBCLASSEXTEND to native and nativesdk
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,29 +62,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 05 Nov 2016 00:01:48 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Sat, 05 Nov 2016 00:04:26 -0000
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
 
-On Fri, 2016-11-04 at 16:55 -0700, Khem Raj wrote:
+
+
+On 10/20/16 4:05 AM, Burton, Ross wrote:
 > 
-> yes I meant <= v5, it should work usually, I am just thinking its a
-> untested
-> option, it may not be as bad as I think but some testing might be
-> useful
+> On 20 October 2016 at 09:30, Koen Kooi <koen.kooi@linaro.org
+> <mailto:koen.kooi@linaro.org>> wrote:
+> 
+>     +BBCLASSEXTEND = "native nativesdk"
+> 
+> 
+> The native form fails on Debian stable hosts:
+> 
+> | make[2]: Entering directory
+> '/data/poky-master/tmp-glibc/work/x86_64-linux/libbsd-native/0.8.3-r0/build/src'
+> | ../x86_64-linux-libtool  --tag=CC   --mode=compile gcc  -DHAVE_CONFIG_H  
+> -I.. -isystem ../../libbsd-0.8.3/include/bsd/ -include ../config.h
+> -DLIBBSD_OVERLAY -DLIBBSD_DISABLE_DEPRECATED -D__REENTRANT
+> -isystem/data/poky-master/tmp-glibc/sysroots/x86_64-linux/usr/include
+>  -isystem/data/poky-master/tmp-glibc/sysroots/x86_64-linux/usr/include -O2
+> -pipe -c -o getentropy.lo ../../libbsd-0.8.3/src/getentropy.c
+> | x86_64-linux-libtool: compile:  gcc -DHAVE_CONFIG_H -I.. -isystem
+> ../../libbsd-0.8.3/include/bsd/ -include ../config.h -DLIBBSD_OVERLAY
+> -DLIBBSD_DISABLE_DEPRECATED -D__REENTRANT
+> -isystem/data/poky-master/tmp-glibc/sysroots/x86_64-linux/usr/include
+> -isystem/data/poky-master/tmp-glibc/sysroots/x86_64-linux/usr/include -O2
+> -pipe -c ../../libbsd-0.8.3/src/getentropy.c  -fPIC -DPIC -o .libs/getentropy.o
+> | In file included from /usr/include/x86_64-linux-gnu/sys/syscall.h:31:0,
+> |                  from ../../libbsd-0.8.3/src/getentropy_linux.c:29,
+> |                  from ../../libbsd-0.8.3/src/getentropy.c:28:
+> | ../../libbsd-0.8.3/src/getentropy_linux.c: In function ‘getentropy_getrandom’:
+> | ../../libbsd-0.8.3/src/getentropy_linux.c:203:17: error: ‘__NR_getrandom’
+> undeclared (first use in this function)
+> |    ret = syscall(SYS_getrandom, buf, len, 0);
+> |                  ^
+> | ../../libbsd-0.8.3/src/getentropy_linux.c:203:17: note: each undeclared
+> identifier is reported only once for each function it appears in
+> 
+> It's not wrong - there's no actual definition of __NR_getrandom in
+> /usr/include here.
 
-Well, I admit I haven't looked at the actual code, but from the
-comments in the patch I get the impression that it just causes db to
-use the same code (i.e. pthread_mutex_xx) on ARM as it already was
-doing on every other architecture.  I think it's safe to say that
-pthread_mutex_lock() on ARM probably does work, otherwise any number of
-programs would be broken, and db probably does work with
-pthread_mutex_lock generically otherwise it would be broken on x86 and
-so on.
 
-You're right of course that this specific combination could do with
-some testing but all in all it seems like a fairly low-risk change.
+Do you have libbsd pre-installed on your build system ?
 
-p.
-
+> 
+> Ross
+> 
+> 
 
