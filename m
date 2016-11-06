@@ -1,28 +1,43 @@
-Return-Path: <rpjday@crashcourse.ca>
-Received: from smtp684.redcondor.net (smtp684.redcondor.net [208.80.206.84])
-	by mail.openembedded.org (Postfix) with ESMTP id D6E3A6011B
+Return-Path: <ticotimo@gmail.com>
+Received: from mail-vk0-f52.google.com (mail-vk0-f52.google.com
+	[209.85.213.52])
+	by mail.openembedded.org (Postfix) with ESMTP id 20342600E2
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  6 Nov 2016 16:32:48 +0000 (UTC)
-Received: from astoria.ccjclearline.com ([64.235.106.9])
-	by smtp684.redcondor.net ({700db0a8-6fb7-4c8b-9b2a-6812225182d8})
-	via TCP (outbound) with ESMTPS id 20161106163240097_0684;
-	Sun, 06 Nov 2016 16:32:40 +0000
-X-RC-FROM: <rpjday@crashcourse.ca>
-Received: from [174.118.92.171] (port=49468 helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
-	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
-	id 1c3QMy-000491-Gx; Sun, 06 Nov 2016 11:32:32 -0500
-Date: Sun, 6 Nov 2016 11:31:29 -0500 (EST)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@localhost.localdomain
-To: Christopher Larson <clarson@kergoth.com>
-In-Reply-To: <CABcZANneDWqsPA8HEDCes7uKvvBVPTKhzk8w78g5a38SgxWxGw@mail.gmail.com>
-Message-ID: <alpine.LFD.2.20.1611061125090.6660@localhost.localdomain>
-References: <alpine.LFD.2.20.1611060625550.19174@localhost.localdomain>
-	<CABcZANneDWqsPA8HEDCes7uKvvBVPTKhzk8w78g5a38SgxWxGw@mail.gmail.com>
-User-Agent: Alpine 2.20 (LFD 67 2015-01-07)
+	Sun,  6 Nov 2016 18:01:35 +0000 (UTC)
+Received: by mail-vk0-f52.google.com with SMTP id p9so104928995vkd.3
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 06 Nov 2016 10:01:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=xflIRzuM0xb8NW3GWXIiC4HdFeTvbdyISVc/y9JHZzM=;
+	b=ZFarrF0kZ/3h4Zdi8ryMxb7wsFVDk4wyRfgoTc6R9NZteb1nXcIHgUpVrKBzCTlsNM
+	4lLHshna8Q7bP8IIvUVDY1V4PqR6xHPgRhkK3CG1o12Jd/9ciCfyrDqlJPXKjQrcQtxY
+	tyU0DD63gqFU3wunzJLRQERIKpueJu8FTTLZq8+qah20KJMDeMfdexBgvYsPqcbA1Dnu
+	2ebwJzVl7yhp7NsbGcPGYHVg/UDuYhA5YOVgRvEuj/aksv8z2Oq9FHbzCctbvNrJWbeh
+	LvQj2p8YR6SQUl4Xyv68vVVr3JROHVH5Inu1fCMNeuWVPY5b2l42Wgt2U3MoF/Wg7qOq
+	A+/A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=xflIRzuM0xb8NW3GWXIiC4HdFeTvbdyISVc/y9JHZzM=;
+	b=UzB8yLcYiWXE2M9aEqjre8L1qxOmrfj9tEZjip5JuqdHdcyJgEk1UMVvtaFZ+wGnAP
+	4bASclrYbuLeoWKAX6m2BiMqTkfBkuRsjpPqgo9pYrodYF0bL5sqTVsZvi8RJddnb8mj
+	NOqYYOe0c87h+KP3FrW+bSGOMYPpEm0scXhGspODNW7diObQWIiSfbcwfplFw4rqz3dW
+	hQrHCK6k93XzObuG1HBBVmIZQkw9dHdF7LCv2zmM3tEusn5Tf482O8HSIvPurRcCcbGr
+	yRScouGhpQAWeiydaDHeEBZ3eSoHBygYLPYPBn2CAWgCOzoMbU7TgIr3fyY8WfwNDsFK
+	2plQ==
+X-Gm-Message-State: ABUngvc/O7dYIZtLEs5egte0aIgo8PQMjNEe+Kxpyv86c9yL8tNijgx4TDZ4CkWcOPdVGXoxdCjQHdCRaiZV9w==
+X-Received: by 10.31.8.146 with SMTP id 140mr1618510vki.173.1478455296768;
+	Sun, 06 Nov 2016 10:01:36 -0800 (PST)
 MIME-Version: 1.0
-X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
+Received: by 10.31.107.142 with HTTP; Sun, 6 Nov 2016 10:01:36 -0800 (PST)
+In-Reply-To: <alpine.LFD.2.20.1611060625550.19174@localhost.localdomain>
+References: <alpine.LFD.2.20.1611060625550.19174@localhost.localdomain>
+From: Tim Orling <ticotimo@gmail.com>
+Date: Sun, 6 Nov 2016 10:01:36 -0800
+Message-ID: <CANx9H-DKBM9qaLr9+d0pa7YgoBs6qz6SqoJrG8L_hN0ua0xQDQ@mail.gmail.com>
+To: "Robert P. J. Day" <rpjday@crashcourse.ca>
 Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
 Subject: Re: "Can't install perl-soap-lite-1.20-r0@all: no package provides /bin/env" ??
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -37,94 +52,195 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 06 Nov 2016 16:32:49 -0000
-Content-Type: multipart/mixed; BOUNDARY="8323328-1265308305-1478449616=:6660"
-Content-ID: <alpine.LFD.2.20.1611061129050.7065@localhost.localdomain>
+X-List-Received-Date: Sun, 06 Nov 2016 18:01:36 -0000
+Content-Type: multipart/alternative; boundary=001a1144fa12c7bf8d0540a5b220
 
---8323328-1265308305-1478449616=:6660
-Content-Type: text/plain; CHARSET=ISO-8859-7
-Content-Transfer-Encoding: 8BIT
-Content-ID: <alpine.LFD.2.20.1611061129051.7065@localhost.localdomain>
+--001a1144fa12c7bf8d0540a5b220
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On Sun, 6 Nov 2016, Christopher Larson wrote:
+https://github.com/redhotpenguin/soaplite/search?utf8=3D=E2=9C=93&q=3D%2Fbi=
+n%2Fenv
+<https://github.com/redhotpenguin/soaplite/search?utf8=3D%E2%9C%93&q=3D%2Fb=
+in%2Fenv>
+
+It's only for the tests (in the ${S}/t directory by convention for perl
+modules). I would try just doing sed to /usr/bin/env on all those.
+
+Cheers.
+
+--Tim
+
+On Sun, Nov 6, 2016 at 3:28 AM, Robert P. J. Day <rpjday@crashcourse.ca>
+wrote:
 
 >
-> On Sun, Nov 6, 2016 at 4:28 AM, Robert P. J. Day <rpjday@crashcourse.ca> wrote:
->         currently writing my first batch of perl recipes, fairly mindlessly
->       plagiarizing from existing recipes, first bunch worked fine, then i
->       whipped together a recipe for SOAP::Lite from here:
+>   currently writing my first batch of perl recipes, fairly mindlessly
+> plagiarizing from existing recipes, first bunch worked fine, then i
+> whipped together a recipe for SOAP::Lite from here:
 >
->         https://metacpan.org/pod/SOAP::Lite
+>   https://metacpan.org/pod/SOAP::Lite
 >
->       built fine, but when i tried to add the perl-soap-lite-1.20-r0.all.rpm
->       to my core-image-minimal build, i got:
+> built fine, but when i tried to add the perl-soap-lite-1.20-r0.all.rpm
+> to my core-image-minimal build, i got:
 >
->         Computing transaction...error: Can't install \
->           perl-soap-lite-1.20-r0@all: no package provides /bin/env
+>   Computing transaction...error: Can't install \
+>     perl-soap-lite-1.20-r0@all: no package provides /bin/env
 >
->       sure enough, that rpm has that dependency:
+> sure enough, that rpm has that dependency:
 >
->         $ rpm -qpR perl-soap-lite-1.20-r0.all.rpm
->         /bin/env
->         /usr/bin/env
->         perl
->         $
+>   $ rpm -qpR perl-soap-lite-1.20-r0.all.rpm
+>   /bin/env
+>   /usr/bin/env
+>   perl
+>   $
 >
->       and when i fire up my "qemuppc" session for that core-image-minimal
->       image, there is indeed no /bin/env file (hence the error), but there
->       is:
+> and when i fire up my "qemuppc" session for that core-image-minimal
+> image, there is indeed no /bin/env file (hence the error), but there
+> is:
 >
->         /usr/bin/env -> /bin/busybox.nosuid
+>   /usr/bin/env -> /bin/busybox.nosuid
 >
->       so ... what is the proper solution for this? i suspect i'm going to
->       run into this issue again in upcoming recipes, so i'd love to resolve
->       it in a minimally hacky way.
+> so ... what is the proper solution for this? i suspect i'm going to
+> run into this issue again in upcoming recipes, so i'd love to resolve
+> it in a minimally hacky way.
 >
+> rday
 >
-> Sounds like there¢s a script in that package with a #!/bin/env,
-> which is wrong.
+> p.s. now that i think about it, why would a package have a dependency
+> on *both* /bin/env and /usr/bin/env? isn't that sort of redundant?
+>
+> p.p.s. i searched for the phrase "no package provides /bin/env" as a
+> first attempt, and i weirdly got this:
+>
+> https://www.google.ca/search?q=3D%22no+package+provides+/bin/
+> env%22&ie=3Dutf-8&oe=3Dutf-8&gws_rd=3Dcr&ei=3DjBMfWJ20JIfZjwTKzarIBg
+>
+> never heard of that website before, and no other matches. seems a bit
+> odd.
+>
+> --
+>
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> Robert P. J. Day                                 Ottawa, Ontario, CANADA
+>                         http://crashcourse.ca
+>
+> Twitter:                                       http://twitter.com/rpjday
+> LinkedIn:                               http://ca.linkedin.com/in/rpjday
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
 
-  dang, i should have thought of that ... and, yes, after fetching and
-unpacking source (no patches yet):
+--001a1144fa12c7bf8d0540a5b220
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-$ grep -r "/bin/env" *
-bin/stubmaker.pl:#!/usr/bin/env perl
-bin/SOAPsh.pl:#!/bin/env perl
-examples/XMLRPC/xmlrpc.daemon:#!/usr/bin/env perl
-examples/XMLRPC/xmlrpc.cgi:#!/usr/bin/env perl
-t/15-daemon.t:#!/bin/env perl
-t/17-mod_soap.t:#!/bin/env perl
-t/05-customxml.t:#!/bin/env perl
-t/03-server.t:#!/bin/env perl
-t/04-attach.t:#!/bin/env perl
-t/11-cgi.t:#!/bin/env perl
-t/02-payload.t:#!/bin/env perl
-t/12-cgi_https.t:#!/bin/env perl
-t/24-wsdl.t:#!/bin/env perl
-t/14-cgi_apache.t:#!/bin/env perl
-t/23-ppm.t:#!/bin/env perl
-t/01-core.t:#!/bin/env perl
-t/13-mod_perl.t:#!/bin/env perl
-t/22-interop_apache.t:#!/bin/env perl
-t/19-apachesoap.t:#!/bin/env perl
-t/08-schema.t:#!/bin/env perl
-t/06-modules.t:#!/bin/env perl
-t/21-public.t:#!/bin/env perl
-$
+<div dir=3D"ltr"><a href=3D"https://github.com/redhotpenguin/soaplite/searc=
+h?utf8=3D%E2%9C%93&amp;q=3D%2Fbin%2Fenv">https://github.com/redhotpenguin/s=
+oaplite/search?utf8=3D=E2=9C=93&amp;q=3D%2Fbin%2Fenv</a><br><div><br></div>=
+<div>It&#39;s only for the tests (in the ${S}/t directory by convention for=
+ perl modules). I would try just doing sed to /usr/bin/env on all those.</d=
+iv><div><br></div><div>Cheers.</div><div><br></div><div>--Tim</div></div><d=
+iv class=3D"gmail_extra"><br><div class=3D"gmail_quote">On Sun, Nov 6, 2016=
+ at 3:28 AM, Robert P. J. Day <span dir=3D"ltr">&lt;<a href=3D"mailto:rpjda=
+y@crashcourse.ca" target=3D"_blank">rpjday@crashcourse.ca</a>&gt;</span> wr=
+ote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border=
+-left:1px #ccc solid;padding-left:1ex"><br>
+=C2=A0 currently writing my first batch of perl recipes, fairly mindlessly<=
+br>
+plagiarizing from existing recipes, first bunch worked fine, then i<br>
+whipped together a recipe for SOAP::Lite from here:<br>
+<br>
+=C2=A0 <a href=3D"https://metacpan.org/pod/SOAP::Lite" rel=3D"noreferrer" t=
+arget=3D"_blank">https://metacpan.org/pod/SOAP:<wbr>:Lite</a><br>
+<br>
+built fine, but when i tried to add the perl-soap-lite-1.20-r0.all.rpm<br>
+to my core-image-minimal build, i got:<br>
+<br>
+=C2=A0 Computing transaction...error: Can&#39;t install \<br>
+=C2=A0 =C2=A0 perl-soap-lite-1.20-r0@all: no package provides /bin/env<br>
+<br>
+sure enough, that rpm has that dependency:<br>
+<br>
+=C2=A0 $ rpm -qpR perl-soap-lite-1.20-r0.all.rpm<br>
+=C2=A0 /bin/env<br>
+=C2=A0 /usr/bin/env<br>
+=C2=A0 perl<br>
+=C2=A0 $<br>
+<br>
+and when i fire up my &quot;qemuppc&quot; session for that core-image-minim=
+al<br>
+image, there is indeed no /bin/env file (hence the error), but there<br>
+is:<br>
+<br>
+=C2=A0 /usr/bin/env -&gt; /bin/busybox.nosuid<br>
+<br>
+so ... what is the proper solution for this? i suspect i&#39;m going to<br>
+run into this issue again in upcoming recipes, so i&#39;d love to resolve<b=
+r>
+it in a minimally hacky way.<br>
+<br>
+rday<br>
+<br>
+p.s. now that i think about it, why would a package have a dependency<br>
+on *both* /bin/env and /usr/bin/env? isn&#39;t that sort of redundant?<br>
+<br>
+p.p.s. i searched for the phrase &quot;no package provides /bin/env&quot; a=
+s a<br>
+first attempt, and i weirdly got this:<br>
+<br>
+<a href=3D"https://www.google.ca/search?q=3D%22no+package+provides+/bin/env=
+%22&amp;ie=3Dutf-8&amp;oe=3Dutf-8&amp;gws_rd=3Dcr&amp;ei=3DjBMfWJ20JIfZjwTK=
+zarIBg" rel=3D"noreferrer" target=3D"_blank">https://www.google.ca/search?<=
+wbr>q=3D%22no+package+provides+/bin/<wbr>env%22&amp;ie=3Dutf-8&amp;oe=3Dutf=
+-8&amp;gws_<wbr>rd=3Dcr&amp;ei=3D<wbr>jBMfWJ20JIfZjwTKzarIBg</a><br>
+<br>
+never heard of that website before, and no other matches. seems a bit<br>
+odd.<br>
+<span class=3D"HOEnZb"><font color=3D"#888888"><br>
+--<br>
+<br>
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D<wbr>=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D<wbr>=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D<br>
+Robert P. J. Day=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0Ottawa, Ontario,=
+ CANADA<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 <a href=3D"http://crashcourse.ca" rel=3D"noreferrer" target=3D"_=
+blank">http://crashcourse.ca</a><br>
+<br>
+Twitter:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0<a=
+ href=3D"http://twitter.com/rpjday" rel=3D"noreferrer" target=3D"_blank">ht=
+tp://twitter.com/rpjday</a><br>
+LinkedIn:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0<a href=3D"http://ca.linkedin.=
+com/in/rpjday" rel=3D"noreferrer" target=3D"_blank">http://ca.linkedin.com/=
+in/<wbr>rpjday</a><br>
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D<wbr>=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D<wbr>=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D<br>
+<br>
+--<br>
+______________________________<wbr>_________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
+re@lists.<wbr>openembedded.org</a><br>
+<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
+" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/<wbr>m=
+ailman/listinfo/openembedded-<wbr>core</a><br>
+</font></span></blockquote></div><br></div>
 
-  is the obvious solution to just patch all those "/bin/env" to
-"/usr/bin/env"?
-
-rday
-
--- 
-
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
-
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
-
---8323328-1265308305-1478449616=:6660--
+--001a1144fa12c7bf8d0540a5b220--
