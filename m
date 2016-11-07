@@ -1,24 +1,28 @@
-Return-Path: <Zubair.Kakakhel@imgtec.com>
-Received: from mailapp01.imgtec.com (mailapp01.imgtec.com [195.59.15.196])
-	by mail.openembedded.org (Postfix) with ESMTP id BE4DF71A91
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 25CE5719DB
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  7 Nov 2016 15:16:53 +0000 (UTC)
-Received: from HHMAIL01.hh.imgtec.org (unknown [10.100.10.19])
-	by Forcepoint Email with ESMTPS id 8CCBD980AC555;
-	Mon,  7 Nov 2016 15:01:38 +0000 (GMT)
-Received: from zkakakhel-linux.le.imgtec.org (192.168.154.45) by
-	HHMAIL01.hh.imgtec.org (10.100.10.21) with Microsoft SMTP Server (TLS)
-	id 14.3.294.0; Mon, 7 Nov 2016 15:01:41 +0000
-From: Zubair Lutfullah Kakakhel <Zubair.Kakakhel@imgtec.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 7 Nov 2016 15:01:24 +0000
-Message-ID: <20161107150135.40266-3-Zubair.Kakakhel@imgtec.com>
-X-Mailer: git-send-email 2.10.2
-In-Reply-To: <20161107150135.40266-1-Zubair.Kakakhel@imgtec.com>
+	Mon,  7 Nov 2016 16:05:31 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id uA7G5SjT010980
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 7 Nov 2016 08:05:28 -0800 (PST)
+Received: from soho-mhatle-m.local (172.25.36.226) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.294.0;
+	Mon, 7 Nov 2016 08:05:26 -0800
+To: Zubair Lutfullah Kakakhel <Zubair.Kakakhel@imgtec.com>,
+	<openembedded-core@lists.openembedded.org>
 References: <20161107150135.40266-1-Zubair.Kakakhel@imgtec.com>
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+Message-ID: <72beb05b-1399-f8c7-f258-94a7885cc188@windriver.com>
+Date: Mon, 7 Nov 2016 10:05:25 -0600
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.12; rv:45.0)
+	Gecko/20100101 Thunderbird/45.4.0
 MIME-Version: 1.0
-X-Originating-IP: [192.168.154.45]
-Subject: [Patch 02/13] bitbake.conf: Reduce duplication in MIPS variants
+In-Reply-To: <20161107150135.40266-1-Zubair.Kakakhel@imgtec.com>
+Subject: Re: [Patch 00/13] MIPS: Use MACHINEOVERRIDES and reduce duplication
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,40 +35,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 07 Nov 2016 15:16:55 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 07 Nov 2016 16:05:32 -0000
+Content-Type: text/plain; charset="windows-1252"
+Content-Transfer-Encoding: 7bit
 
-Reduce duplication in MIPS variants now that the MACHINEOVERRIDES
-variable is defined
 
-Signed-off-by: Zubair Lutfullah Kakakhel <Zubair.Kakakhel@imgtec.com>
----
- meta/conf/bitbake.conf | 11 +----------
- 1 file changed, 1 insertion(+), 10 deletions(-)
+I've looked over the set, it all looks reasonable to me.
 
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index 9f445bb..1472e8f 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -533,16 +533,7 @@ BUILDSDK_LDFLAGS = "-Wl,-O1"
- 
- LINKER_HASH_STYLE ??= "gnu"
- # mips does not support GNU hash style therefore we override
--LINKER_HASH_STYLE_mips = "sysv"
--LINKER_HASH_STYLE_mipsel = "sysv"
--LINKER_HASH_STYLE_mips64 = "sysv"
--LINKER_HASH_STYLE_mips64el = "sysv"
--LINKER_HASH_STYLE_mips64n32 = "sysv"
--LINKER_HASH_STYLE_mips64eln32 = "sysv"
--LINKER_HASH_STYLE_mipsisa32r6 = "sysv"
--LINKER_HASH_STYLE_mipsisa32r6el = "sysv"
--LINKER_HASH_STYLE_mipsisa64r6 = "sysv"
--LINKER_HASH_STYLE_mipsisa64r6el = "sysv"
-+LINKER_HASH_STYLE_mipsarch = "sysv"
- 
- TARGET_LINK_HASH_STYLE ?= "${@['-Wl,--hash-style=gnu',''][d.getVar('LINKER_HASH_STYLE', True) != 'gnu']}"
- 
--- 
-2.10.2
+Acked-by: Mark Hatle <mark.hatle@windriver.com>
+
+--Mark
+
+On 11/7/16 9:01 AM, Zubair Lutfullah Kakakhel wrote:
+> Hi,
+> 
+> This patch series adds a few MACHINEOVERRIDES options in arch-mips
+> to reduce duplicate configurations in various recipes.
+> 
+> Further info in 
+> https://bugzilla.yoctoproject.org/show_bug.cgi?id=10404
+> 
+> Regards,
+> ZubairLK
+> 
+> Zubair Lutfullah Kakakhel (13):
+>   arch-mips: Add MACHINEOVERRIDES variables to reduce duplication
+>   bitbake.conf: Reduce duplication in MIPS variants
+>   fts: Reduce duplication in MIPS variants.
+>   glibc: Reduce duplication in MIPS variants
+>   packagegroup: Reduce duplication in MIPS variants.
+>   gcc-runtime: Reduce duplication in MIPS variants.
+>   gdb: Reduce duplication in MIPS variants.
+>   mmc-utils: Reduce duplication in MIPS variants.
+>   valgrind: Reduce duplication in MIPS variants.
+>   ghostscript: Reduce duplication in MIPS variants.
+>   ltp: Reduce duplication in MIPS variants.
+>   mdadm: Reduce duplication in MIPS variants.
+>   webkit: Reduce duplication in MIPS variants.
+> 
+>  meta/conf/bitbake.conf                                  | 11 +----------
+>  meta/conf/machine/include/mips/arch-mips.inc            |  7 +++++++
+>  meta/recipes-core/fts/fts.bb                            |  5 +----
+>  meta/recipes-core/glibc/glibc-ld.inc                    | 17 ++---------------
+>  .../recipes-core/packagegroups/packagegroup-core-sdk.bb |  5 +----
+>  .../packagegroups/packagegroup-core-tools-profile.bb    | 10 ++--------
+>  meta/recipes-devtools/gcc/gcc-runtime.inc               |  9 +--------
+>  meta/recipes-devtools/gdb/gdb-common.inc                |  7 +------
+>  meta/recipes-devtools/mmc/mmc-utils_git.bb              |  6 ++++--
+>  meta/recipes-devtools/valgrind/valgrind_3.12.0.bb       |  3 +--
+>  meta/recipes-extended/ghostscript/ghostscript_9.19.bb   |  4 ++--
+>  meta/recipes-extended/ltp/ltp_20160126.bb               |  3 ++-
+>  meta/recipes-extended/mdadm/mdadm_3.4.bb                |  6 ++++--
+>  meta/recipes-sato/webkit/webkitgtk_2.14.1.bb            |  3 +--
+>  14 files changed, 30 insertions(+), 66 deletions(-)
+> 
 
 
