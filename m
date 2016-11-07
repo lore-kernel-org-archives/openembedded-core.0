@@ -1,55 +1,46 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f194.google.com (mail-pf0-f194.google.com
-	[209.85.192.194])
-	by mail.openembedded.org (Postfix) with ESMTP id C8D66719C4
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qk0-f171.google.com (mail-qk0-f171.google.com
+	[209.85.220.171])
+	by mail.openembedded.org (Postfix) with ESMTP id 23443719AA
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  7 Nov 2016 17:33:39 +0000 (UTC)
-Received: by mail-pf0-f194.google.com with SMTP id y68so16686467pfb.1
+	Mon,  7 Nov 2016 17:52:02 +0000 (UTC)
+Received: by mail-qk0-f171.google.com with SMTP id q130so186186071qke.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 07 Nov 2016 09:33:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=subject:to:references:from:organization:message-id:date:user-agent
-	:mime-version:in-reply-to:content-transfer-encoding;
-	bh=77MUCwFRSuCSeg3E3UY+/AjCptuGzLs0HdDJU7E89k4=;
-	b=p6PE7umcSD7z9A+rAZQptWm2o53ymVDDotixQf1Vb8WCWWwUpPZxR4I+OrhIaZF9pW
-	TCBtFgdsugWEOlMzplQ+mN8PLxB/j4IXO21O3yTzRwNT5z1zSxJy99EwqYzz6ahuMIEN
-	S9cQKUoRtZFhYI43yFrcbHSu0VKkO2APD9K/CXUcLMEIrb22iPB4n4PbQN0tif9Znhb6
-	QofwTtKNH2M0NJSVEBft2G8qMH+kcmFXd/rwQgdxhPM1qCymVMtZfVxqQuXWh/Bs/42b
-	FGjzaKR9ABwh8IndI8creJmmRC5aeaWA7wPxSmgQN6NLjHYGE7OUKmjVvQ2AnAMQQ3QC
-	t+YA==
+	Mon, 07 Nov 2016 09:52:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=ovvS2Aer7xxYwfsrKsmsuu5Iittws5eIUcv/+/Zc+1U=;
+	b=DZDXY64Ke/8OcsBleqfwKFxA0jcvfs4m0sacd2gmCJB2JmYy6f/VMlRzb0Ru3JHGE/
+	RUwcRBNXFMbKV1TUlY7HOtdeQEPTgpWgc9ok7XM6bq43wnu205bu3L418F+tQ7MXlATH
+	TxGl3uKLsXYYpAcfMXY2Zr/i7UDlKpfsBMe4tgGQN3GP7dQfdYyRMKY86Holx4iuCJib
+	TzCYuqjyPMQ3kcxs5hBcOvgFoqzut/zoi24cLeDrjg96aIPBcKpaVnxVrUG22a6Dj+P3
+	9DPJ+uQMnLlMx/Wu2s04mOgmZ7onlpgg+JupiuFN3HyUuFq8tngpCnbdCbqe9tQmuMJ8
+	UPbw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:subject:to:references:from:organization
-	:message-id:date:user-agent:mime-version:in-reply-to
-	:content-transfer-encoding;
-	bh=77MUCwFRSuCSeg3E3UY+/AjCptuGzLs0HdDJU7E89k4=;
-	b=O4nIuBaY1Fci7IR2NsKA6Lr5mahvky0VchWi5K9sAbd4odmg+xdmRnFacJ7FE8j5Lc
-	pSATG33Oi7cXfkdt2bpSMxItQ4e4LvekF5nZbn6ziQNgg7bWjj0RP0eLoUlhRtnaA8br
-	Owz3BvFiM57XbcOuIhNDsM8Ng3bbF2rdG5miL7UFmwcoxXvvp9iBQe+ekIbpWMre1Htm
-	n+t94dvYVXq/uZhDaDEpsb32/l2Wt56ZD7qffEEEp1kNeiwXtz8SsTAZ/uaacxiDj2Ub
-	H17vQk/Q3ycLjfPTu+di86jlAN9KHJSBfDsdLZ2RnRXprIE3moEFYSWZJ1ugyAuFgDNk
-	gL8w==
-X-Gm-Message-State: ABUngvdGFlpOrndmEDJ6yKDpT08G+JkfwbehENEysWTJ+mu/4rdWb07t8DYSKFkN83CXQQ==
-X-Received: by 10.99.36.65 with SMTP id k62mr343016pgk.88.1478540021024;
-	Mon, 07 Nov 2016 09:33:41 -0800 (PST)
-Received: from CACSVMO-14452.local ([2601:646:8882:b8c:d844:e9e6:5f6d:525])
-	by smtp.gmail.com with ESMTPSA id
-	v66sm41956853pfa.33.2016.11.07.09.33.40
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 07 Nov 2016 09:33:40 -0800 (PST)
-To: Zubair Lutfullah Kakakhel <Zubair.Kakakhel@imgtec.com>,
-	openembedded-core@lists.openembedded.org
-References: <20161107150135.40266-1-Zubair.Kakakhel@imgtec.com>
-	<20161107150135.40266-11-Zubair.Kakakhel@imgtec.com>
-From: Khem Raj <raj.khem@gmail.com>
-Organization: himvis.com
-Message-ID: <0a4d6196-ee91-0631-7939-256f3757277a@gmail.com>
-Date: Mon, 7 Nov 2016 09:33:39 -0800
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:45.0)
-	Gecko/20100101 Thunderbird/45.4.0
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=ovvS2Aer7xxYwfsrKsmsuu5Iittws5eIUcv/+/Zc+1U=;
+	b=BexDoaCg551IUuP7nqmxIWpi/TJfCbKjS/4zwjR1a52DRITWnZmt4GQrt4NAHPUDJ9
+	+PAATDXt0XVr64aGMaukEFiVA+9wNgNMzXE8//3AlEAFXsa3faFgYg+R5DIdK5iCGEna
+	I11dJWOQnq585TcRXMJ153BO6OljkHV/y1HIlcEJj2tiOx3Z0p7k2ATFV2MdesPAg/H3
+	dWsgssD5zJS6IIgAbeE3Au54GbaiNmQxXksU+VkZye6ADdH3+2TlUvVd37VhAGVj4rHY
+	jjROVecRxiRh7RAKnn1l2tEYL1CS3LzrI5/ZJraPZ8qKHjinQAJS7iqYqLNmFrXqVYKl
+	mj1A==
+X-Gm-Message-State: ABUngve1oneBI3uWa7ucRe6DQ7Mb2iJ06DIetwX8pqkADtovxOMt92VTSTFhndGFE0Z+LyUQ2Y6BWDwfiUDEKGTe
+X-Received: by 10.55.31.157 with SMTP id n29mr7639204qkh.221.1478541123850;
+	Mon, 07 Nov 2016 09:52:03 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20161107150135.40266-11-Zubair.Kakakhel@imgtec.com>
-Subject: Re: [Patch 10/13] ghostscript: Reduce duplication in MIPS variants.
+Received: by 10.140.85.136 with HTTP; Mon, 7 Nov 2016 09:51:43 -0800 (PST)
+In-Reply-To: <20161107081541.14964-1-jackie.huang@windriver.com>
+References: <20161107081541.14964-1-jackie.huang@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 7 Nov 2016 17:51:43 +0000
+Message-ID: <CAJTo0LZXAuCirjLnZQVgPVZP909rBVLnYVi4tjHiZ4MJ_U_eaQ@mail.gmail.com>
+To: "jackie.huang@windriver.com" <jackie.huang@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] packagegroup-core-sdk: Disable sanitizers for mips64el
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,46 +53,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 07 Nov 2016 17:33:41 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 07 Nov 2016 17:52:03 -0000
+Content-Type: multipart/alternative; boundary=001a1147f228791e8e0540b9ae16
 
+--001a1147f228791e8e0540b9ae16
+Content-Type: text/plain; charset=UTF-8
 
+On 7 November 2016 at 08:15, <jackie.huang@windriver.com> wrote:
 
-On 11/7/16 7:01 AM, Zubair Lutfullah Kakakhel wrote:
-> Reduce duplication in MIPS variants now that the MACHINEOVERRIDES
-> variable is defined
-> 
-> Signed-off-by: Zubair Lutfullah Kakakhel <Zubair.Kakakhel@imgtec.com>
-> ---
->  meta/recipes-extended/ghostscript/ghostscript_9.19.bb | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/meta/recipes-extended/ghostscript/ghostscript_9.19.bb b/meta/recipes-extended/ghostscript/ghostscript_9.19.bb
-> index fe2016b..52f6fe3 100644
-> --- a/meta/recipes-extended/ghostscript/ghostscript_9.19.bb
-> +++ b/meta/recipes-extended/ghostscript/ghostscript_9.19.bb
-> @@ -46,8 +46,8 @@ EXTRA_OECONF = "--without-x --with-system-libtiff --without-jbig2dec \
->                  --with-cups-datadir=${datadir}/cups \
->                  "
->  
-> -EXTRA_OECONF_append_mips = " --with-large_color_index=0"
-> -EXTRA_OECONF_append_mipsel = " --with-large_color_index=0"
-> +EXTRA_OECONF_append_mipsarcho32 = " --with-large_color_index=0"
-> +EXTRA_OECONF_append_mipsarcho32el = " --with-large_color_index=0"
+> These are not available on mips64el yet, so disable them.
+>
 
-Now that you have opened the pandora box
-Can there be something like
+This was just superseded by the MIPS arch override, so this won't be
+applied.
 
-mipsarch = "common for LE and BE"
-mipsarcheb = "BE"
-mipsarchel = "LE"
+Ross
 
-most of the times options are endian independent but LE suffers because its
-not default and we assume without qualifying endianness its BE
+--001a1147f228791e8e0540b9ae16
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
->  
->  # Explicity disable libtiff, fontconfig,
->  # freetype, cups for ghostscript-native
-> 
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 7 November 2016 at 08:15,  <span dir=3D"ltr">&lt;<a href=3D"mailto:jacki=
+e.huang@windriver.com" target=3D"_blank">jackie.huang@windriver.com</a>&gt;=
+</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .=
+8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":fu" class=3D"a=
+3s aXjCH m1583df2bbd0877f9">These are not available on mips64el yet, so dis=
+able them.<br></div></blockquote></div><br>This was just superseded by the =
+MIPS arch override, so this won&#39;t be applied.</div><div class=3D"gmail_=
+extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
 
+--001a1147f228791e8e0540b9ae16--
