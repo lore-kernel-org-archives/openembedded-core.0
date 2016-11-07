@@ -1,46 +1,45 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f52.google.com (mail-wm0-f52.google.com [74.125.82.52])
-	by mail.openembedded.org (Postfix) with ESMTP id AFD7B71A24
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pf0-f194.google.com (mail-pf0-f194.google.com
+	[209.85.192.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 2FB2060722
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  7 Nov 2016 16:45:11 +0000 (UTC)
-Received: by mail-wm0-f52.google.com with SMTP id t79so188739660wmt.0
+	Mon,  7 Nov 2016 17:08:54 +0000 (UTC)
+Received: by mail-pf0-f194.google.com with SMTP id n85so16608926pfi.3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 07 Nov 2016 08:45:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=S0wo0OcGHtPekDED0MSNMTB1Jz2R3j+LOg9VNXcip4c=;
-	b=CYCR86ZenTccslO3GT+BFA2bMunBOX4BycLxZsl2bUH4Y0P3WImwMz00FUqLCK2aF4
-	gXFIljB1gxWqDg0yTP8Vu+m6ev1SGdCD8M9X8/1wDTXyBch/IWuv/Id4FYXlCb/8u6rV
-	lngwR4VOxqYB/zxU9B1fGeRv+btOZNGXPwfjFibCgXKLoVbnoj7c0DwbVP3UF5GJMaU6
-	gb16zsSmscax5Ok7QT1bVDXmd5zUCx4/9DvTpVU8Ir8rf35fP9Bav+YdhIdq3vNioOPV
-	R82cSAOJB4/skAkeqXWIhtnlt3EnU+jfLkyklk75qeXofJJPLVXrgde88uoQZTmMSOCS
-	ipdw==
+	Mon, 07 Nov 2016 09:08:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=zv7ORsGMA3CvPer+s6+wjheicf2rd2qFzgP5GE61n74=;
+	b=GCFp1cW4Sbu3We/RkeF8vnBOeYfeYqERt7uk8B1oPqg4a6QDx1kRjJVy93yQlGXUQh
+	p634yA3/7l/CGv4X5y72jM4xlhW0KdlDi1FmhBdlGUR/8+kfkxpgOUd7uEyJpP0jVbsU
+	IuDWV3AdrLj+RDvWzoCUKamACdX5gbiIm+Toj+4Ku02SPpaBaTruiE1tcbiNSi8ZSTKr
+	mlIiCUw4gjQ3+0kwwnAhyDxifv0tigTbshYPpnhLb4OcFpnjLKuBRRSsQptxKi0DZYo/
+	b3S+hOtCKoGu6aKTcjQITCJv6+BhSjnmMMk/cuVj1UMMsS0RDsHrBY3UV+stQk6zdRtY
+	XoHg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=S0wo0OcGHtPekDED0MSNMTB1Jz2R3j+LOg9VNXcip4c=;
-	b=JYIUR2aV9OTQQ64vxGWQzYJkeDgI1252VcQdZGQNnEejRX8P2cTPkWv3Pw3hUF4DbE
-	bjd3ZPUH3Y/ewcYRLqSh90uXpzs5m+A+TKDf6t0FzaYek3j76PyVTK4BYlZM67xvZbnS
-	nXA0vExMN5zhVb0fOPHOp2Csl+JsDUaqEDooeY1YQLPuA/jXKcgBQLUYn+56pvOu0wbB
-	jR9LggNdPSLKuqkO/VoD/hj4BFWvFnAIVX3r+pegqy9Z7msB1k5eb7no+9QlVU3i5Oy5
-	bHiMTl4LNcKZlPjK+zs9hbXDHGpIzfXuPSSOcb4iWI2gplFtbE3a379IvO9ooPke0Ntm
-	tOtA==
-X-Gm-Message-State: ABUngvdM2tXrRcFEzWZXr9JxIZBy7v3xbkwi8UkEevu4lNovC61gsfKZrTEnui0MY/4D0ap5
-X-Received: by 10.28.224.5 with SMTP id x5mr5131326wmg.70.1478537112274;
-	Mon, 07 Nov 2016 08:45:12 -0800 (PST)
-Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id
-	n72sm14505898wmd.11.2016.11.07.08.45.11
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 07 Nov 2016 08:45:11 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=zv7ORsGMA3CvPer+s6+wjheicf2rd2qFzgP5GE61n74=;
+	b=e3IEP47wxjIc4jsXPHnRRsKnfMvhDh5iZky8tXDUJDv9rthROcd3esU2S3tjaKjY5n
+	jxuAMj4gqIh5rY2/VJHATbtRglekP7wAyXfVsnGa6xMAr+E3fUz4SVRdbXYGZuCGbyI3
+	b+vODUz0aeKMJzXuSjrqY/aeolPwO2ch5vZC7d3nJwQDSDnI4YoSEovR6gAFK2UfukZt
+	EV2QJ6qKZgmYDryjnJEIhX3CKZWMHBGVW8++SwpkxdhDEg0hkZywmAuMJt6hmwLWlMC9
+	0MjBeCK5Ht8fWmuTN1Z90sb+YsL/rJjA4KVAoDyB++Xcj/hbBoyjpt0WLndr8kFJL5iC
+	UfGA==
+X-Gm-Message-State: ABUngveNu02tbxDGXW3/inSTRYlHU3hftmQw6vW3npuLC/etc1WXw+Xos4qyjDW1IV+xeA==
+X-Received: by 10.98.20.131 with SMTP id 125mr15311811pfu.51.1478538536453;
+	Mon, 07 Nov 2016 09:08:56 -0800 (PST)
+Received: from localhost.localdomain (c-76-102-32-192.hsd1.ca.comcast.net.
+	[76.102.32.192]) by smtp.gmail.com with ESMTPSA id
+	g82sm41834137pfb.43.2016.11.07.09.08.55
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 07 Nov 2016 09:08:55 -0800 (PST)
+From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  7 Nov 2016 16:45:08 +0000
-Message-Id: <1478537108-18958-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 2.8.1
-Subject: [PATCH][V2] lib/oe/qa: handle binaries with segments outside the first 4kb
+Date: Mon,  7 Nov 2016 09:08:49 -0800
+Message-Id: <20161107170849.3602-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.10.2
+Subject: [PATCH] musl: Upgrade to master tip
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,165 +52,124 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 07 Nov 2016 16:45:14 -0000
+X-List-Received-Date: Mon, 07 Nov 2016 17:08:56 -0000
 
-The ELF parser was assuming that the segment tables are in the first 4kb of the
-binary.  Whilst this generally appears to be the case, there have been instances
-where the segment table is elsewhere (offset 2MB, in this sample I have).  Solve
-this problem by mmap()ing the file instead.
+Drop backported patch
 
-Also clean up the code a little whilst chasing the problem.
-
-Signed-off-by: Ross Burton <ross.burton@intel.com>
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/lib/oe/qa.py | 82 +++++++++++++++++++++++++++----------------------------
- 1 file changed, 41 insertions(+), 41 deletions(-)
+ meta/recipes-core/musl/files/CVE-2016-8859.patch | 79 ------------------------
+ meta/recipes-core/musl/musl_git.bb               |  3 +-
+ 2 files changed, 1 insertion(+), 81 deletions(-)
+ delete mode 100644 meta/recipes-core/musl/files/CVE-2016-8859.patch
 
-diff --git a/meta/lib/oe/qa.py b/meta/lib/oe/qa.py
-index fbe719d..22d76dc 100644
---- a/meta/lib/oe/qa.py
-+++ b/meta/lib/oe/qa.py
-@@ -1,4 +1,4 @@
--import os, struct
-+import os, struct, mmap
+diff --git a/meta/recipes-core/musl/files/CVE-2016-8859.patch b/meta/recipes-core/musl/files/CVE-2016-8859.patch
+deleted file mode 100644
+index 82da86f..0000000
+--- a/meta/recipes-core/musl/files/CVE-2016-8859.patch
++++ /dev/null
+@@ -1,79 +0,0 @@
+-From c3edc06d1e1360f3570db9155d6b318ae0d0f0f7 Mon Sep 17 00:00:00 2001
+-From: Rich Felker <dalias@aerifal.cx>
+-Date: Thu, 6 Oct 2016 18:34:58 -0400
+-Subject: [PATCH] fix missing integer overflow checks in regexec buffer size
+- computations
+-
+-most of the possible overflows were already ruled out in practice by
+-regcomp having already succeeded performing larger allocations.
+-however at least the num_states*num_tags multiplication can clearly
+-overflow in practice. for safety, check them all, and use the proper
+-type, size_t, rather than int.
+-
+-also improve comments, use calloc in place of malloc+memset, and
+-remove bogus casts.
+-
+-Upstream-Status: Backport
+-CVE: CVE-2016-8859
+-
+-Signed-off-by: Armin Kuster <akuster@mvista.com>
+-
+----
+- src/regex/regexec.c | 23 ++++++++++++++++++-----
+- 1 file changed, 18 insertions(+), 5 deletions(-)
+-
+-diff --git a/src/regex/regexec.c b/src/regex/regexec.c
+-index 16c5d0a..dd52319 100644
+---- a/src/regex/regexec.c
+-+++ b/src/regex/regexec.c
+-@@ -34,6 +34,7 @@
+- #include <wchar.h>
+- #include <wctype.h>
+- #include <limits.h>
+-+#include <stdint.h>
+- 
+- #include <regex.h>
+- 
+-@@ -206,11 +207,24 @@ tre_tnfa_run_parallel(const tre_tnfa_t *tnfa, const void *string,
+- 
+-   /* Allocate memory for temporary data required for matching.	This needs to
+-      be done for every matching operation to be thread safe.  This allocates
+--     everything in a single large block from the stack frame using alloca()
+--     or with malloc() if alloca is unavailable. */
+-+     everything in a single large block with calloc(). */
+-   {
+--    int tbytes, rbytes, pbytes, xbytes, total_bytes;
+-+    size_t tbytes, rbytes, pbytes, xbytes, total_bytes;
+-     char *tmp_buf;
+-+
+-+    /* Ensure that tbytes and xbytes*num_states cannot overflow, and that
+-+     * they don't contribute more than 1/8 of SIZE_MAX to total_bytes. */
+-+    if (num_tags > SIZE_MAX/(8 * sizeof(int) * tnfa->num_states))
+-+      goto error_exit;
+-+
+-+    /* Likewise check rbytes. */
+-+    if (tnfa->num_states+1 > SIZE_MAX/(8 * sizeof(*reach_next)))
+-+      goto error_exit;
+-+
+-+    /* Likewise check pbytes. */
+-+    if (tnfa->num_states > SIZE_MAX/(8 * sizeof(*reach_pos)))
+-+      goto error_exit;
+-+
+-     /* Compute the length of the block we need. */
+-     tbytes = sizeof(*tmp_tags) * num_tags;
+-     rbytes = sizeof(*reach_next) * (tnfa->num_states + 1);
+-@@ -221,10 +235,9 @@ tre_tnfa_run_parallel(const tre_tnfa_t *tnfa, const void *string,
+-       + (rbytes + xbytes * tnfa->num_states) * 2 + tbytes + pbytes;
+- 
+-     /* Allocate the memory. */
+--    buf = xmalloc((unsigned)total_bytes);
+-+    buf = calloc(total_bytes, 1);
+-     if (buf == NULL)
+-       return REG_ESPACE;
+--    memset(buf, 0, (size_t)total_bytes);
+- 
+-     /* Get the various pointers within tmp_buf (properly aligned). */
+-     tmp_tags = (void *)buf;
+--- 
+-2.7.4
+-
+diff --git a/meta/recipes-core/musl/musl_git.bb b/meta/recipes-core/musl/musl_git.bb
+index 1ee56b6..63f3334 100644
+--- a/meta/recipes-core/musl/musl_git.bb
++++ b/meta/recipes-core/musl/musl_git.bb
+@@ -3,7 +3,7 @@
  
- class NotELFFileError(Exception):
-     pass
-@@ -23,9 +23,9 @@ class ELFFile:
-     EV_CURRENT   = 1
+ require musl.inc
  
-     # possible values for EI_DATA
--    ELFDATANONE  = 0
--    ELFDATA2LSB  = 1
--    ELFDATA2MSB  = 2
-+    EI_DATA_NONE  = 0
-+    EI_DATA_LSB  = 1
-+    EI_DATA_MSB  = 2
+-SRCREV = "39494a273eaa6b714e0fa0c59ce7a1f5fbc80a1e"
++SRCREV = "7597fc25a2743d49500926a286da71f8e033936c"
  
-     PT_INTERP = 3
+ PV = "1.1.15+git${SRCPV}"
  
-@@ -34,51 +34,46 @@ class ELFFile:
-             #print "'%x','%x' %s" % (ord(expectation), ord(result), self.name)
-             raise NotELFFileError("%s is not an ELF" % self.name)
+@@ -11,7 +11,6 @@ PV = "1.1.15+git${SRCPV}"
  
--    def __init__(self, name, bits = 0):
-+    def __init__(self, name):
-         self.name = name
--        self.bits = bits
-         self.objdump_output = {}
+ SRC_URI = "git://git.musl-libc.org/musl \
+            file://0001-Make-dynamic-linker-a-relative-symlink-to-libc.patch \
+-           file://CVE-2016-8859.patch \
+           "
  
--    def open(self):
--        if not os.path.isfile(self.name):
--            raise NotELFFileError("%s is not a normal file" % self.name)
-+    # Context Manager functions to close the mmap explicitly
-+    def __enter__(self):
-+        return self
-+
-+    def __exit__(self, exc_type, exc_value, traceback):
-+        self.data.close()
- 
-+    def open(self):
-         with open(self.name, "rb") as f:
--            # Read 4k which should cover most of the headers we're after
--            self.data = f.read(4096)
-+            try:
-+                self.data = mmap.mmap(f.fileno(), 0, access=mmap.ACCESS_READ)
-+            except ValueError:
-+                # This means the file is empty
-+                raise NotELFFileError("%s is empty" % self.name)
- 
-+        # Check the file has the minimum number of ELF table entries
-         if len(self.data) < ELFFile.EI_NIDENT + 4:
-             raise NotELFFileError("%s is not an ELF" % self.name)
- 
-+        # ELF header
-         self.my_assert(self.data[0], 0x7f)
-         self.my_assert(self.data[1], ord('E'))
-         self.my_assert(self.data[2], ord('L'))
-         self.my_assert(self.data[3], ord('F'))
--        if self.bits == 0:
--            if self.data[ELFFile.EI_CLASS] == ELFFile.ELFCLASS32:
--                self.bits = 32
--            elif self.data[ELFFile.EI_CLASS] == ELFFile.ELFCLASS64:
--                self.bits = 64
--            else:
--                # Not 32-bit or 64.. lets assert
--                raise NotELFFileError("ELF but not 32 or 64 bit.")
--        elif self.bits == 32:
--            self.my_assert(self.data[ELFFile.EI_CLASS], ELFFile.ELFCLASS32)
--        elif self.bits == 64:
--            self.my_assert(self.data[ELFFile.EI_CLASS], ELFFile.ELFCLASS64)
-+        if self.data[ELFFile.EI_CLASS] == ELFFile.ELFCLASS32:
-+            self.bits = 32
-+        elif self.data[ELFFile.EI_CLASS] == ELFFile.ELFCLASS64:
-+            self.bits = 64
-         else:
--            raise NotELFFileError("Must specify unknown, 32 or 64 bit size.")
-+            # Not 32-bit or 64.. lets assert
-+            raise NotELFFileError("ELF but not 32 or 64 bit.")
-         self.my_assert(self.data[ELFFile.EI_VERSION], ELFFile.EV_CURRENT)
- 
--        self.sex = self.data[ELFFile.EI_DATA]
--        if self.sex == ELFFile.ELFDATANONE:
--            raise NotELFFileError("self.sex == ELFDATANONE")
--        elif self.sex == ELFFile.ELFDATA2LSB:
--            self.sex = "<"
--        elif self.sex == ELFFile.ELFDATA2MSB:
--            self.sex = ">"
--        else:
--            raise NotELFFileError("Unknown self.sex")
-+        self.endian = self.data[ELFFile.EI_DATA]
-+        if self.endian not in (ELFFile.EI_DATA_LSB, ELFFile.EI_DATA_MSB):
-+            raise NotELFFileError("Unexpected EI_DATA %x" % self.endian)
- 
-     def osAbi(self):
-         return self.data[ELFFile.EI_OSABI]
-@@ -90,16 +85,20 @@ class ELFFile:
-         return self.bits
- 
-     def isLittleEndian(self):
--        return self.sex == "<"
-+        return self.endian == ELFFile.EI_DATA_LSB
- 
-     def isBigEndian(self):
--        return self.sex == ">"
-+        return self.endian == ELFFile.EI_DATA_MSB
-+
-+    def getStructEndian(self):
-+        return {ELFFile.EI_DATA_LSB: "<",
-+                ELFFile.EI_DATA_MSB: ">"}[self.endian]
- 
-     def getShort(self, offset):
--        return struct.unpack_from(self.sex+"H", self.data, offset)[0]
-+        return struct.unpack_from(self.getStructEndian() + "H", self.data, offset)[0]
- 
-     def getWord(self, offset):
--        return struct.unpack_from(self.sex+"i", self.data, offset)[0]
-+        return struct.unpack_from(self.getStructEndian() + "i", self.data, offset)[0]
- 
-     def isDynamic(self):
-         """
-@@ -118,7 +117,7 @@ class ELFFile:
- 
-     def machine(self):
-         """
--        We know the sex stored in self.sex and we
-+        We know the endian stored in self.endian and we
-         know the position
-         """
-         return self.getShort(ELFFile.E_MACHINE)
-@@ -166,6 +165,7 @@ def elf_machine_to_string(machine):
- 
- if __name__ == "__main__":
-     import sys
--    elf = ELFFile(sys.argv[1])
--    elf.open()
--    print(elf.isDynamic())
-+
-+    with ELFFile(sys.argv[1]) as elf:
-+        elf.open()
-+        print(elf.isDynamic())
+ S = "${WORKDIR}/git"
 -- 
-2.8.1
+2.10.2
 
 
