@@ -1,30 +1,46 @@
-Return-Path: <marex@denx.de>
-Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.9])
-	by mail.openembedded.org (Postfix) with ESMTP id 450726FF76
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qt0-f181.google.com (mail-qt0-f181.google.com
+	[209.85.216.181])
+	by mail.openembedded.org (Postfix) with ESMTP id 55F4D71A21
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  7 Nov 2016 18:20:14 +0000 (UTC)
-Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
-	by mail-out.m-online.net (Postfix) with ESMTP id 3tCLMf3vM0z3hj2R;
-	Mon,  7 Nov 2016 19:20:14 +0100 (CET)
-Received: from localhost (dynscan1.mnet-online.de [192.168.6.68])
-	by mail.m-online.net (Postfix) with ESMTP id 3tCLMf3dB8zvkvK;
-	Mon,  7 Nov 2016 19:20:14 +0100 (CET)
-X-Virus-Scanned: amavisd-new at mnet-online.de
-Received: from mail.mnet-online.de ([192.168.8.182])
-	by localhost (dynscan1.mail.m-online.net [192.168.6.68]) (amavisd-new,
-	port 10024)
-	with ESMTP id BmUNmaPqnNpo; Mon,  7 Nov 2016 19:20:13 +0100 (CET)
-X-Auth-Info: Tg6bheSt0037Uu9jeTw7n48sOuiwzfvYJ1BKv+LPuIo=
-Received: from chi.lan (unknown [195.140.253.167])
-	by mail.mnet-online.de (Postfix) with ESMTPA;
-	Mon,  7 Nov 2016 19:20:12 +0100 (CET)
-From: Marek Vasut <marex@denx.de>
-To: openembedded-core@lists.openembedded.org
-Date: Mon,  7 Nov 2016 19:20:06 +0100
-Message-Id: <20161107182006.4207-1-marex@denx.de>
-X-Mailer: git-send-email 2.9.3
-Cc: Marek Vasut <marex@denx.de>
-Subject: [PATCH] u-boot: mkimage: Fix build of u-boot-mkimage
+	Mon,  7 Nov 2016 20:15:50 +0000 (UTC)
+Received: by mail-qt0-f181.google.com with SMTP id c47so94719951qtc.2
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 07 Nov 2016 12:15:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=UnvvaWx10ydOaikaoSqWDU8fLZKD0Uo+YC1ETUj7o8g=;
+	b=EghAMwMbZkYUvThgubu4zu7fKvmaGEW0iyZ55ZPapJNen+cmAm/05qt9EY73UTu6Da
+	mFspBgNoQMpa4kbpKsAgKnAc8mC0/3mpxfrasY9c/ocDx2bE+v8vET3K1WbOEmd0kCnQ
+	lU4qS7SI9EhniXN5AuAzM+z7cc+IZ3/mWSzHSHTrAV0JPpElc2VmPY0fNpyMx+iNMXfi
+	nlM4vSmq2O94OtLGi7PaAiEaDkGuuoRSSUxrL/HFusGf+A1lCCSR3JJitA7YElmK1FNT
+	OpgkGtN8GUbQhGKbYrp8iB/NVX4EAaBArYn1eaZfcXlm7fyIigvWQiHb47UiZytCSfGN
+	gPYA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=UnvvaWx10ydOaikaoSqWDU8fLZKD0Uo+YC1ETUj7o8g=;
+	b=Usf4DMShcRbYM6T3rLcR76y1dUP+fkgZtpPfWk70XjLaFiPj4SFi6C46dUTBgo1XnM
+	mfsKet/SwpHfbLnwD0qD/o/qRkRlamcI+WrIZtE4PDkmOHlSVFLmKJ0AFoQvMlewQrpW
+	9MgLAyM4GBR6tpJRM+ocaleWM88goiZ7migLNoy3erMHLTHb+1BkXdvixqVGpuQ76HDC
+	KoKUh5qRHGxGxlhJ54wHx7hm69Dz04HI/Yd1GBNpt8nt8bEAIIVAiLxZNHiMHvIdnZM6
+	kAz0/IGRV0BueAsh/b3XMfh/gpMJdKs6ZellN67am5TWBOtZjbs4S5qgSbO2kGINkcRO
+	3GuA==
+X-Gm-Message-State: ABUngvdA6ErfEQVr2ixjmJmNssk+tNJ3jIjg1s96MexraI38wmmiWSyX33ZmS8M2JtTdTBbpoJZd6bgJ4YlOHP1N
+X-Received: by 10.200.53.69 with SMTP id z5mr8611065qtb.64.1478549752132; Mon,
+	07 Nov 2016 12:15:52 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.140.85.136 with HTTP; Mon, 7 Nov 2016 12:15:31 -0800 (PST)
+In-Reply-To: <20161107182006.4207-1-marex@denx.de>
+References: <20161107182006.4207-1-marex@denx.de>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 7 Nov 2016 20:15:31 +0000
+Message-ID: <CAJTo0LYgvyAriBj2Wf839f6E6Vv04+MLh++gBOEdqSQS+zizwg@mail.gmail.com>
+To: Marek Vasut <marex@denx.de>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] u-boot: mkimage: Fix build of u-boot-mkimage
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,46 +53,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 07 Nov 2016 18:20:16 -0000
+X-List-Received-Date: Mon, 07 Nov 2016 20:15:54 -0000
+Content-Type: multipart/alternative; boundary=001a11405858c257b80540bbb0c3
 
-The build failed on qemux86-64 because it couldn't execute
-tools/bin2header on a host due to it being compiled with target
-toolchain. Drop the incorrect EXTRA_OEMAKE, U-Boot Kbuild/Kconfig
-respects the flags from OE. Moreover, since U-Boot buildsystem
-already strips the tools, add INSANE_SKIP = "already-stripped" .
+--001a11405858c257b80540bbb0c3
+Content-Type: text/plain; charset=UTF-8
 
-Signed-off-by: Marek Vasut <marex@denx.de>
-Cc: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-bsp/u-boot/u-boot-mkimage_2016.09.01.bb | 11 ++++++++++-
- 1 file changed, 10 insertions(+), 1 deletion(-)
+On 7 November 2016 at 18:20, Marek Vasut <marex@denx.de> wrote:
 
-diff --git a/meta/recipes-bsp/u-boot/u-boot-mkimage_2016.09.01.bb b/meta/recipes-bsp/u-boot/u-boot-mkimage_2016.09.01.bb
-index 5025961..8adc1e6 100644
---- a/meta/recipes-bsp/u-boot/u-boot-mkimage_2016.09.01.bb
-+++ b/meta/recipes-bsp/u-boot/u-boot-mkimage_2016.09.01.bb
-@@ -3,10 +3,19 @@ require u-boot-common_${PV}.inc
- SUMMARY = "U-Boot bootloader image creation tool"
- DEPENDS = "openssl"
- 
--EXTRA_OEMAKE = 'CROSS_COMPILE="${TARGET_PREFIX}" CC="${CC} ${CFLAGS} ${LDFLAGS}" STRIP=true V=1'
-+EXTRA_OEMAKE = 'HOSTCC="${BUILD_CC} ${BUILD_CFLAGS} ${BUILD_LDFLAGS}"'
-+EXTRA_OEMAKE_append_class-target = 'CROSS_COMPILE="${TARGET_PREFIX}" CC="${CC} ${CFLAGS} ${LDFLAGS}" STRIP=true V=1'
-+EXTRA_OEMAKE_append_class-native = 'CC="${BUILD_CC} ${BUILD_CFLAGS} ${BUILD_LDFLAGS}" STRIP=true V=1'
-+EXTRA_OEMAKE_append_class-nativesdk = 'CC="${BUILD_CC} ${BUILD_CFLAGS} ${BUILD_LDFLAGS}" STRIP=true V=1'
- 
- do_compile () {
- 	oe_runmake sandbox_defconfig
-+
-+	# Disable CONFIG_CMD_LICENSE, license.h is not used by tools and
-+	# generating it requires bin2header tool, which for target build
-+	# is built with target tools and thus cannot be executed on host.
-+	sed -i "s/CONFIG_CMD_LICENSE.*/# CONFIG_CMD_LICENSE is not set/" .config
-+
- 	oe_runmake cross_tools NO_SDL=1
- }
- 
--- 
-2.9.3
+> +       # Disable CONFIG_CMD_LICENSE, license.h is not used by tools and
+> +       # generating it requires bin2header tool, which for target build
+> +       # is built with target tools and thus cannot be executed on host.
+> +       sed -i "s/CONFIG_CMD_LICENSE.*/# CONFIG_CMD_LICENSE is not set/"
+> .config
+>
 
+Looking at the makefile this isn't the case - it's part of hostprogs so if
+anyone of the host-built tools work, they all should.
 
+Ross
+
+--001a11405858c257b80540bbb0c3
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 7 November 2016 at 18:20, Marek Vasut <span dir=3D"ltr">&lt;<a href=3D"m=
+ailto:marex@denx.de" target=3D"_blank">marex@denx.de</a>&gt;</span> wrote:<=
+br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left=
+:1px #ccc solid;padding-left:1ex"><div id=3D":2nj" class=3D"a3s aXjCH m1584=
+00582b1a1c80">+=C2=A0 =C2=A0 =C2=A0 =C2=A0# Disable CONFIG_CMD_LICENSE, lic=
+ense.h is not used by tools and<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0# generating it requires bin2header tool, which=
+ for target build<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0# is built with target tools and thus cannot be=
+ executed on host.<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0sed -i &quot;s/CONFIG_CMD_LICENSE.*/# CONFIG_CM=
+D_LICENSE is not set/&quot; .config</div></blockquote></div><br>Looking at =
+the makefile this isn&#39;t the case - it&#39;s part of hostprogs so if any=
+one of the host-built tools work, they all should.</div><div class=3D"gmail=
+_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
+
+--001a11405858c257b80540bbb0c3--
