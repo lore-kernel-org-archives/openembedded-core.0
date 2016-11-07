@@ -1,46 +1,56 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f171.google.com (mail-qk0-f171.google.com
-	[209.85.220.171])
-	by mail.openembedded.org (Postfix) with ESMTP id 23443719AA
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pf0-f194.google.com (mail-pf0-f194.google.com
+	[209.85.192.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 785186059F
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  7 Nov 2016 17:52:02 +0000 (UTC)
-Received: by mail-qk0-f171.google.com with SMTP id q130so186186071qke.1
+	Mon,  7 Nov 2016 17:52:42 +0000 (UTC)
+Received: by mail-pf0-f194.google.com with SMTP id i88so16692885pfk.2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 07 Nov 2016 09:52:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=ovvS2Aer7xxYwfsrKsmsuu5Iittws5eIUcv/+/Zc+1U=;
-	b=DZDXY64Ke/8OcsBleqfwKFxA0jcvfs4m0sacd2gmCJB2JmYy6f/VMlRzb0Ru3JHGE/
-	RUwcRBNXFMbKV1TUlY7HOtdeQEPTgpWgc9ok7XM6bq43wnu205bu3L418F+tQ7MXlATH
-	TxGl3uKLsXYYpAcfMXY2Zr/i7UDlKpfsBMe4tgGQN3GP7dQfdYyRMKY86Holx4iuCJib
-	TzCYuqjyPMQ3kcxs5hBcOvgFoqzut/zoi24cLeDrjg96aIPBcKpaVnxVrUG22a6Dj+P3
-	9DPJ+uQMnLlMx/Wu2s04mOgmZ7onlpgg+JupiuFN3HyUuFq8tngpCnbdCbqe9tQmuMJ8
-	UPbw==
+	Mon, 07 Nov 2016 09:52:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=subject:to:references:from:organization:message-id:date:user-agent
+	:mime-version:in-reply-to:content-transfer-encoding;
+	bh=ouVjb+JMldYwPgE+a8jnYPfbKRHV5CV+bGBusPW2WIA=;
+	b=FwjnF0QTTGgitxzJaal3KdFxZ3du16uwPE5KSJDmBOdgp9b6ciJQFdjuNeJS0ndFbS
+	2+DSCcMV31FpudLUatKps5haYFDlLLD0QAw2xsrsnejEfzMGg8UgClF9JbOtGCNx5c8c
+	+ujJVp/w/b8RE3d65LXhzgXneTYdJyb3y/3Oal1njUJS6+nWxhHHeFBxwrnA7kr9a7hy
+	mTjrXx+7b7QchCS3jIfvMK5S6I+Vo+k8xd7l0v8d7I1JzeLd5eGB5mRdd2iW06wLX/tf
+	/AZbqSMtHKk6jv7n2UzeTAjbylNA3Xn30Bqdu1yioRJ36FqcgsDPk5gfBgdxLJ5r6sIP
+	LhuQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=ovvS2Aer7xxYwfsrKsmsuu5Iittws5eIUcv/+/Zc+1U=;
-	b=BexDoaCg551IUuP7nqmxIWpi/TJfCbKjS/4zwjR1a52DRITWnZmt4GQrt4NAHPUDJ9
-	+PAATDXt0XVr64aGMaukEFiVA+9wNgNMzXE8//3AlEAFXsa3faFgYg+R5DIdK5iCGEna
-	I11dJWOQnq585TcRXMJ153BO6OljkHV/y1HIlcEJj2tiOx3Z0p7k2ATFV2MdesPAg/H3
-	dWsgssD5zJS6IIgAbeE3Au54GbaiNmQxXksU+VkZye6ADdH3+2TlUvVd37VhAGVj4rHY
-	jjROVecRxiRh7RAKnn1l2tEYL1CS3LzrI5/ZJraPZ8qKHjinQAJS7iqYqLNmFrXqVYKl
-	mj1A==
-X-Gm-Message-State: ABUngve1oneBI3uWa7ucRe6DQ7Mb2iJ06DIetwX8pqkADtovxOMt92VTSTFhndGFE0Z+LyUQ2Y6BWDwfiUDEKGTe
-X-Received: by 10.55.31.157 with SMTP id n29mr7639204qkh.221.1478541123850;
-	Mon, 07 Nov 2016 09:52:03 -0800 (PST)
+	h=x-gm-message-state:subject:to:references:from:organization
+	:message-id:date:user-agent:mime-version:in-reply-to
+	:content-transfer-encoding;
+	bh=ouVjb+JMldYwPgE+a8jnYPfbKRHV5CV+bGBusPW2WIA=;
+	b=cSwuZ4eZnmUPXFSqsn703NP0T3LNleHrzaz3xjHYeuwSjsEt0BnTrjoyHYAkU1gcNk
+	OmCMisU3xn7WjUOFDKwARk6pobnfV5bl3ANLb+8u8i/4rjMK7pTPjGV8bAfjht6o4BdQ
+	XJTovScZr/4AaF3v3xL3L1WrnhO9nXVoxXm0kTfipqwJpH/CaRZ6WXwkE45U9Af2P657
+	MxNdQ6EX5T3XLB1M/LfSQ4y/PnS6q85J8nv6Rck+/vkrvZOX56IQ6F/KrgVv9Vv3q9ln
+	OHQoBkc5v7mnF7nDBoT9/hFfRrYsYwtofeSd2sOkaHSgMOLQL3YQN7gSUfp5pmaGlcIO
+	u/cA==
+X-Gm-Message-State: ABUngvd4smN/mjpi3OzJ6valX5BZkm2oqdwTb9uRCPGiiMwU2YVSDvyo8jkCrh24Cb04tw==
+X-Received: by 10.99.144.65 with SMTP id a62mr12360253pge.103.1478540095509;
+	Mon, 07 Nov 2016 09:34:55 -0800 (PST)
+Received: from CACSVMO-14452.local ([2601:646:8882:b8c:d844:e9e6:5f6d:525])
+	by smtp.gmail.com with ESMTPSA id
+	y2sm41917092pff.82.2016.11.07.09.34.54
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 07 Nov 2016 09:34:54 -0800 (PST)
+To: Mark Hatle <mark.hatle@windriver.com>,
+	Zubair Lutfullah Kakakhel <Zubair.Kakakhel@imgtec.com>,
+	openembedded-core@lists.openembedded.org
+References: <20161107150135.40266-1-Zubair.Kakakhel@imgtec.com>
+	<72beb05b-1399-f8c7-f258-94a7885cc188@windriver.com>
+From: Khem Raj <raj.khem@gmail.com>
+Organization: himvis.com
+Message-ID: <1c6c09da-efbc-f4a4-8be6-8197eb94ed81@gmail.com>
+Date: Mon, 7 Nov 2016 09:34:53 -0800
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:45.0)
+	Gecko/20100101 Thunderbird/45.4.0
 MIME-Version: 1.0
-Received: by 10.140.85.136 with HTTP; Mon, 7 Nov 2016 09:51:43 -0800 (PST)
-In-Reply-To: <20161107081541.14964-1-jackie.huang@windriver.com>
-References: <20161107081541.14964-1-jackie.huang@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 7 Nov 2016 17:51:43 +0000
-Message-ID: <CAJTo0LZXAuCirjLnZQVgPVZP909rBVLnYVi4tjHiZ4MJ_U_eaQ@mail.gmail.com>
-To: "jackie.huang@windriver.com" <jackie.huang@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] packagegroup-core-sdk: Disable sanitizers for mips64el
+In-Reply-To: <72beb05b-1399-f8c7-f258-94a7885cc188@windriver.com>
+Subject: Re: [Patch 00/13] MIPS: Use MACHINEOVERRIDES and reduce duplication
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,34 +63,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 07 Nov 2016 17:52:03 -0000
-Content-Type: multipart/alternative; boundary=001a1147f228791e8e0540b9ae16
+X-List-Received-Date: Mon, 07 Nov 2016 17:52:42 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
 
---001a1147f228791e8e0540b9ae16
-Content-Type: text/plain; charset=UTF-8
 
-On 7 November 2016 at 08:15, <jackie.huang@windriver.com> wrote:
 
-> These are not available on mips64el yet, so disable them.
->
+On 11/7/16 8:05 AM, Mark Hatle wrote:
+> 
+> I've looked over the set, it all looks reasonable to me.
 
-This was just superseded by the MIPS arch override, so this won't be
-applied.
+Its an improvement definitely, however we should address
+the endianness issue while we are here.
 
-Ross
+> 
+> Acked-by: Mark Hatle <mark.hatle@windriver.com>
+> 
+> --Mark
+> 
+> On 11/7/16 9:01 AM, Zubair Lutfullah Kakakhel wrote:
+>> Hi,
+>>
+>> This patch series adds a few MACHINEOVERRIDES options in arch-mips
+>> to reduce duplicate configurations in various recipes.
+>>
+>> Further info in 
+>> https://bugzilla.yoctoproject.org/show_bug.cgi?id=10404
+>>
+>> Regards,
+>> ZubairLK
+>>
+>> Zubair Lutfullah Kakakhel (13):
+>>   arch-mips: Add MACHINEOVERRIDES variables to reduce duplication
+>>   bitbake.conf: Reduce duplication in MIPS variants
+>>   fts: Reduce duplication in MIPS variants.
+>>   glibc: Reduce duplication in MIPS variants
+>>   packagegroup: Reduce duplication in MIPS variants.
+>>   gcc-runtime: Reduce duplication in MIPS variants.
+>>   gdb: Reduce duplication in MIPS variants.
+>>   mmc-utils: Reduce duplication in MIPS variants.
+>>   valgrind: Reduce duplication in MIPS variants.
+>>   ghostscript: Reduce duplication in MIPS variants.
+>>   ltp: Reduce duplication in MIPS variants.
+>>   mdadm: Reduce duplication in MIPS variants.
+>>   webkit: Reduce duplication in MIPS variants.
+>>
+>>  meta/conf/bitbake.conf                                  | 11 +----------
+>>  meta/conf/machine/include/mips/arch-mips.inc            |  7 +++++++
+>>  meta/recipes-core/fts/fts.bb                            |  5 +----
+>>  meta/recipes-core/glibc/glibc-ld.inc                    | 17 ++---------------
+>>  .../recipes-core/packagegroups/packagegroup-core-sdk.bb |  5 +----
+>>  .../packagegroups/packagegroup-core-tools-profile.bb    | 10 ++--------
+>>  meta/recipes-devtools/gcc/gcc-runtime.inc               |  9 +--------
+>>  meta/recipes-devtools/gdb/gdb-common.inc                |  7 +------
+>>  meta/recipes-devtools/mmc/mmc-utils_git.bb              |  6 ++++--
+>>  meta/recipes-devtools/valgrind/valgrind_3.12.0.bb       |  3 +--
+>>  meta/recipes-extended/ghostscript/ghostscript_9.19.bb   |  4 ++--
+>>  meta/recipes-extended/ltp/ltp_20160126.bb               |  3 ++-
+>>  meta/recipes-extended/mdadm/mdadm_3.4.bb                |  6 ++++--
+>>  meta/recipes-sato/webkit/webkitgtk_2.14.1.bb            |  3 +--
+>>  14 files changed, 30 insertions(+), 66 deletions(-)
+>>
+> 
 
---001a1147f228791e8e0540b9ae16
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 7 November 2016 at 08:15,  <span dir=3D"ltr">&lt;<a href=3D"mailto:jacki=
-e.huang@windriver.com" target=3D"_blank">jackie.huang@windriver.com</a>&gt;=
-</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .=
-8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":fu" class=3D"a=
-3s aXjCH m1583df2bbd0877f9">These are not available on mips64el yet, so dis=
-able them.<br></div></blockquote></div><br>This was just superseded by the =
-MIPS arch override, so this won&#39;t be applied.</div><div class=3D"gmail_=
-extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
-
---001a1147f228791e8e0540b9ae16--
