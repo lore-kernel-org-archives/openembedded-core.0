@@ -1,24 +1,24 @@
 Return-Path: <Zubair.Kakakhel@imgtec.com>
 Received: from mailapp01.imgtec.com (mailapp01.imgtec.com [195.59.15.196])
-	by mail.openembedded.org (Postfix) with ESMTP id BCE7B71A73
+	by mail.openembedded.org (Postfix) with ESMTP id BCF7D71A77
 	for <openembedded-core@lists.openembedded.org>;
 	Mon,  7 Nov 2016 15:16:53 +0000 (UTC)
 Received: from HHMAIL01.hh.imgtec.org (unknown [10.100.10.19])
-	by Forcepoint Email with ESMTPS id 33241720C20B9;
-	Mon,  7 Nov 2016 15:01:45 +0000 (GMT)
+	by Forcepoint Email with ESMTPS id 7F3FE7E65ADBE;
+	Mon,  7 Nov 2016 15:01:44 +0000 (GMT)
 Received: from zkakakhel-linux.le.imgtec.org (192.168.154.45) by
 	HHMAIL01.hh.imgtec.org (10.100.10.21) with Microsoft SMTP Server (TLS)
 	id 14.3.294.0; Mon, 7 Nov 2016 15:01:47 +0000
 From: Zubair Lutfullah Kakakhel <Zubair.Kakakhel@imgtec.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 7 Nov 2016 15:01:33 +0000
-Message-ID: <20161107150135.40266-12-Zubair.Kakakhel@imgtec.com>
+Date: Mon, 7 Nov 2016 15:01:32 +0000
+Message-ID: <20161107150135.40266-11-Zubair.Kakakhel@imgtec.com>
 X-Mailer: git-send-email 2.10.2
 In-Reply-To: <20161107150135.40266-1-Zubair.Kakakhel@imgtec.com>
 References: <20161107150135.40266-1-Zubair.Kakakhel@imgtec.com>
 MIME-Version: 1.0
 X-Originating-IP: [192.168.154.45]
-Subject: [Patch 11/13] ltp: Reduce duplication in MIPS variants.
+Subject: [Patch 10/13] ghostscript: Reduce duplication in MIPS variants.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,23 +39,24 @@ variable is defined
 
 Signed-off-by: Zubair Lutfullah Kakakhel <Zubair.Kakakhel@imgtec.com>
 ---
- meta/recipes-extended/ltp/ltp_20160126.bb | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ meta/recipes-extended/ghostscript/ghostscript_9.19.bb | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-extended/ltp/ltp_20160126.bb b/meta/recipes-extended/ltp/ltp_20160126.bb
-index 7631e0e..41670a5 100644
---- a/meta/recipes-extended/ltp/ltp_20160126.bb
-+++ b/meta/recipes-extended/ltp/ltp_20160126.bb
-@@ -23,7 +23,8 @@ DEPENDS = "attr libaio libcap acl openssl zip-native"
- DEPENDS_append_libc-musl = " fts "
- EXTRA_OEMAKE_append_libc-musl = " LIBC=musl "
- CFLAGS_append_powerpc64 = " -D__SANE_USERSPACE_TYPES__"
--CFLAGS_append_mips64 = " -D__SANE_USERSPACE_TYPES__"
-+CFLAGS_append_mipsarchn64 = " -D__SANE_USERSPACE_TYPES__"
-+CFLAGS_append_mipsarchn64el = " -D__SANE_USERSPACE_TYPES__"
- SRCREV = "fce797676b14f50406718e7ef640b50da66c9b36"
+diff --git a/meta/recipes-extended/ghostscript/ghostscript_9.19.bb b/meta/recipes-extended/ghostscript/ghostscript_9.19.bb
+index fe2016b..52f6fe3 100644
+--- a/meta/recipes-extended/ghostscript/ghostscript_9.19.bb
++++ b/meta/recipes-extended/ghostscript/ghostscript_9.19.bb
+@@ -46,8 +46,8 @@ EXTRA_OECONF = "--without-x --with-system-libtiff --without-jbig2dec \
+                 --with-cups-datadir=${datadir}/cups \
+                 "
  
- SRC_URI = "git://github.com/linux-test-project/ltp.git \
+-EXTRA_OECONF_append_mips = " --with-large_color_index=0"
+-EXTRA_OECONF_append_mipsel = " --with-large_color_index=0"
++EXTRA_OECONF_append_mipsarcho32 = " --with-large_color_index=0"
++EXTRA_OECONF_append_mipsarcho32el = " --with-large_color_index=0"
+ 
+ # Explicity disable libtiff, fontconfig,
+ # freetype, cups for ghostscript-native
 -- 
 2.10.2
 
