@@ -1,24 +1,24 @@
 Return-Path: <Zubair.Kakakhel@imgtec.com>
 Received: from mailapp01.imgtec.com (mailapp01.imgtec.com [195.59.15.196])
-	by mail.openembedded.org (Postfix) with ESMTP id BCD2671A6C
+	by mail.openembedded.org (Postfix) with ESMTP id BCE7B71A73
 	for <openembedded-core@lists.openembedded.org>;
 	Mon,  7 Nov 2016 15:16:53 +0000 (UTC)
 Received: from HHMAIL01.hh.imgtec.org (unknown [10.100.10.19])
-	by Forcepoint Email with ESMTPS id 22C8A3AA4D162;
-	Mon,  7 Nov 2016 15:01:42 +0000 (GMT)
+	by Forcepoint Email with ESMTPS id 33241720C20B9;
+	Mon,  7 Nov 2016 15:01:45 +0000 (GMT)
 Received: from zkakakhel-linux.le.imgtec.org (192.168.154.45) by
 	HHMAIL01.hh.imgtec.org (10.100.10.21) with Microsoft SMTP Server (TLS)
-	id 14.3.294.0; Mon, 7 Nov 2016 15:01:44 +0000
+	id 14.3.294.0; Mon, 7 Nov 2016 15:01:47 +0000
 From: Zubair Lutfullah Kakakhel <Zubair.Kakakhel@imgtec.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 7 Nov 2016 15:01:29 +0000
-Message-ID: <20161107150135.40266-8-Zubair.Kakakhel@imgtec.com>
+Date: Mon, 7 Nov 2016 15:01:33 +0000
+Message-ID: <20161107150135.40266-12-Zubair.Kakakhel@imgtec.com>
 X-Mailer: git-send-email 2.10.2
 In-Reply-To: <20161107150135.40266-1-Zubair.Kakakhel@imgtec.com>
 References: <20161107150135.40266-1-Zubair.Kakakhel@imgtec.com>
 MIME-Version: 1.0
 X-Originating-IP: [192.168.154.45]
-Subject: [Patch 07/13] gdb: Reduce duplication in MIPS variants.
+Subject: [Patch 11/13] ltp: Reduce duplication in MIPS variants.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,27 +39,23 @@ variable is defined
 
 Signed-off-by: Zubair Lutfullah Kakakhel <Zubair.Kakakhel@imgtec.com>
 ---
- meta/recipes-devtools/gdb/gdb-common.inc | 7 +------
- 1 file changed, 1 insertion(+), 6 deletions(-)
+ meta/recipes-extended/ltp/ltp_20160126.bb | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/gdb/gdb-common.inc b/meta/recipes-devtools/gdb/gdb-common.inc
-index 33a5ce9..5b8087c 100644
---- a/meta/recipes-devtools/gdb/gdb-common.inc
-+++ b/meta/recipes-devtools/gdb/gdb-common.inc
-@@ -6,12 +6,7 @@ DEPENDS = "expat zlib ncurses virtual/libiconv ${LTTNGUST}"
- LTTNGUST = "lttng-ust"
- LTTNGUST_aarch64 = ""
- LTTNGUST_libc-uclibc = ""
--LTTNGUST_mips = ""
--LTTNGUST_mipsel = ""
--LTTNGUST_mips64 = ""
--LTTNGUST_mips64el = ""
--LTTNGUST_mips64n32 = ""
--LTTNGUST_mips64eln32 = ""
-+LTTNGUST_mipsarch = ""
- LTTNGUST_sh4 = ""
- LTTNGUST_libc-musl = ""
+diff --git a/meta/recipes-extended/ltp/ltp_20160126.bb b/meta/recipes-extended/ltp/ltp_20160126.bb
+index 7631e0e..41670a5 100644
+--- a/meta/recipes-extended/ltp/ltp_20160126.bb
++++ b/meta/recipes-extended/ltp/ltp_20160126.bb
+@@ -23,7 +23,8 @@ DEPENDS = "attr libaio libcap acl openssl zip-native"
+ DEPENDS_append_libc-musl = " fts "
+ EXTRA_OEMAKE_append_libc-musl = " LIBC=musl "
+ CFLAGS_append_powerpc64 = " -D__SANE_USERSPACE_TYPES__"
+-CFLAGS_append_mips64 = " -D__SANE_USERSPACE_TYPES__"
++CFLAGS_append_mipsarchn64 = " -D__SANE_USERSPACE_TYPES__"
++CFLAGS_append_mipsarchn64el = " -D__SANE_USERSPACE_TYPES__"
+ SRCREV = "fce797676b14f50406718e7ef640b50da66c9b36"
  
+ SRC_URI = "git://github.com/linux-test-project/ltp.git \
 -- 
 2.10.2
 
