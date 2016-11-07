@@ -1,47 +1,51 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-qt0-f180.google.com (mail-qt0-f180.google.com
-	[209.85.216.180])
-	by mail.openembedded.org (Postfix) with ESMTP id 2068A6FFC8
+Received: from mail-qk0-f169.google.com (mail-qk0-f169.google.com
+	[209.85.220.169])
+	by mail.openembedded.org (Postfix) with ESMTP id 65DC560248
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  7 Nov 2016 09:21:34 +0000 (UTC)
-Received: by mail-qt0-f180.google.com with SMTP id w33so83199167qtc.3
+	Mon,  7 Nov 2016 09:28:46 +0000 (UTC)
+Received: by mail-qk0-f169.google.com with SMTP id q130so168658247qke.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 07 Nov 2016 01:21:36 -0800 (PST)
+	Mon, 07 Nov 2016 01:28:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=oSKn0Ck6Z7jmSmpJhsJ6HvuujeGfLowc9yRnWNymwpE=;
-	b=Twg3MVDaaUxj3SzDavlu8MqpD73kq9Q8uUpExqbrPnbOyUr/kf/ZtYfSU+WKKhcVy2
-	EZAM+2pwNh/Oo3zqxfo19aoul627WA6k6EerQQfFAryfreChvL5G58e1wyDtb/5tfjqi
-	iekEci/DfixJM0EDMfjs3Pql5ChK70fVwi9GUgvpPXaUhM0WTnQ66vpfTsz3S2IbxcdB
-	zNpjL248SBitJifaHwKd9E/f4dj1ofiNHWuQnF2Gc5DFFQ4K13NY2C+/c9jgpgOM5v0S
-	nHJ2wLzkAzsCMXdwU7pF76itrTNqns7jmyd+vlvT6V5pXDYUhdlpWwrNF520PwVSROQR
-	gScA==
+	:cc; bh=mCyHZZfvlN3vYQVI0bhUajgTZG7083UoZgod7EMvuN4=;
+	b=IL8mElsFmZHXqm07cawFJEm+GOAUQCG6YkciQXs2L93/q7+y409DEvUqB3WxbSRCIO
+	0utU6RxWnfAWe6d+njhoppTBpQkUnaGEITx+1jbMqEsH1hh7nciftieFw938i/XueBTL
+	6kj1qRzwkSJgwme28zW3XOkGzqefS2wE6QyU31qoAr6yCATEOYLNBDtwnI+qLrtr44Rz
+	+RYUZ8mnqt70qXRpwsSoaDtwlTBIs2S/96S+ditg52ut53tyl5x4zDWwfPvhM1uE4Jmh
+	Paz3hZWGFKT90SP1uV8sCzWfVA2o+DYkmuYkRcq5gkdr4zpCWjybV8awrXxEEYsWnSqF
+	IaBg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=oSKn0Ck6Z7jmSmpJhsJ6HvuujeGfLowc9yRnWNymwpE=;
-	b=jU3FjTDdrgeuE8iURA7HIp01zLWWKo6FQRer+5NhHMnm93gDDKlvt6258O3BsyR5Ow
-	KvjM55AQh8N0OnksSvr5UfBArNKsWI/qyOb/tqqzwWWh+Mz/262PLE9Yt7QDoAKnPPe5
-	ALtDc32Xo6hI6rj1QB/qoYq11SXAP+3QAYiTBbUSUEvlzVW1aHt7l0B0xd+jrtkbC27u
-	hh9PKRGVe8pvmTENYgsGrwxuyDjo0pUfYxm/aSLsa+NNb7z6Kz1v3Lds+zvDOJUoiH4e
-	XGWId6BM0lhpI4ILijdYmvIv4oO8WX81dL/QTWiVeF2UkG0a4bqgWz6Qii3ZGqQFf/Mr
-	j6Yg==
-X-Gm-Message-State: ABUngvc2hNDbdlpsA8zotJbsV9/MH+3T8t6emWyoQPSM1G+aSeHURqQiB2ZgTcxCpDgzYNra37g9t9a+pkFrzveD
-X-Received: by 10.237.37.60 with SMTP id v57mr5800963qtc.135.1478510495968;
-	Mon, 07 Nov 2016 01:21:35 -0800 (PST)
+	bh=mCyHZZfvlN3vYQVI0bhUajgTZG7083UoZgod7EMvuN4=;
+	b=mUc+f8laO31LEBeRw9J6IGOaBHsiyaKVkCVPoUbsLeyGY+/baKoB+ZyYHERhp8plB5
+	ckcoOCM3HzH5Ofl5XNjPCDB8yy5ZeFLjC6BUxRwmKKIH3A0b7U9J6lC357CpMHGGYSlS
+	7TkineJ52Ty9s8v/A/VCPRQszJqY8Z8Vhfv7j8rWdc4hdJPij9YrueIWYt/k/15kWaOY
+	R8itUIlQi+f04728z2jdfxCuBHuY8TD/jzr5sKF8NuuSPsevSkG056VyBCmfb62iXkub
+	YFS06CaapzLgt6TrpJxQseK9c5WwtjJAWDMCzYtcL4MooOEVSZfllYRdVVxAlHNFIYfE
+	Q+kQ==
+X-Gm-Message-State: ABUngveRN8XMWAQJiaqVHV5Xq7QKwYNd1Vt7ekHVrTNBBCJ+Ilg0wVAhIjorLX2QDAYDzq8277xry03DqlMfrESO
+X-Received: by 10.55.8.20 with SMTP id 20mr6164577qki.3.1478510928196; Mon, 07
+	Nov 2016 01:28:48 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.140.85.136 with HTTP; Mon, 7 Nov 2016 01:21:15 -0800 (PST)
-In-Reply-To: <d0e0e5d4c0fb820f9917735e384e55eac602b587.1478323482.git.dengke.du@windriver.com>
-References: <cover.1478323482.git.dengke.du@windriver.com>
-	<d0e0e5d4c0fb820f9917735e384e55eac602b587.1478323482.git.dengke.du@windriver.com>
+Received: by 10.140.85.136 with HTTP; Mon, 7 Nov 2016 01:28:27 -0800 (PST)
+In-Reply-To: <1478304597.3662.28.camel@pbcl.net>
+References: <1476952202-8842-1-git-send-email-koen.kooi@linaro.org>
+	<CAJTo0LaC2t1BN9VpKRx4W7fMT88mDdmCBYhzgBgvsdDJXhNk_w@mail.gmail.com>
+	<CAP71Wjyy-qQH+nE34FTKUhqgRqGZocpfQ4CrkmTPh+OOMGK6jg@mail.gmail.com>
+	<CAJTo0LZAGq8szm0vL0wyyR_rFVe1LBoMWYcoZh+VBMBcw5kW-Q@mail.gmail.com>
+	<1478304597.3662.28.camel@pbcl.net>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 7 Nov 2016 09:21:15 +0000
-Message-ID: <CAJTo0LZBTSZjPQyTK67=3Oe2YAZnFRKBWZiqywutoF7cv=rs8A@mail.gmail.com>
-To: Dengke Du <dengke.du@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] trace-cmd: fix QA warning
+Date: Mon, 7 Nov 2016 09:28:27 +0000
+Message-ID: <CAJTo0LaKjNiFY3Z41Zk0Ln1fH_mLBF+hjKhr46+f3tewO5bTow@mail.gmail.com>
+To: Phil Blundell <pb@pbcl.net>
+Cc: Koen Kooi <koen.kooi@linaro.org>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] libbsd 0.8.3: BBCLASSEXTEND to native and nativesdk
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,72 +58,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 07 Nov 2016 09:21:35 -0000
-Content-Type: multipart/alternative; boundary=001a114125e0e8c57c0540b28ca9
+X-List-Received-Date: Mon, 07 Nov 2016 09:28:47 -0000
+Content-Type: multipart/alternative; boundary=001a114c9d60ac00430540b2a6dc
 
---001a114125e0e8c57c0540b28ca9
+--001a114c9d60ac00430540b2a6dc
 Content-Type: text/plain; charset=UTF-8
 
-On 5 November 2016 at 05:29, Dengke Du <dengke.du@windriver.com> wrote:
+On 5 November 2016 at 00:09, Phil Blundell <pb@pbcl.net> wrote:
 
-> +PACKAGECONFIG ??= ""
-> +PACKAGECONFIG[audit] = ",,audit"
-> +
->  EXTRA_OEMAKE = "\
->      'prefix=${prefix}' \
->      'bindir=${bindir}' \
-> @@ -20,6 +23,7 @@ EXTRA_OEMAKE = "\
->      'libdir=${@oe.path.relative(prefix, libdir)}' \
->      \
->      NO_PYTHON=1 \
-> +    ${@bb.utils.contains('PACKAGECONFIG', 'audit', '', 'NO_AUDIT=1', d)}
-> \
->  "
+> That would happen if your glibc was compiled against a newer version of
+> the kernel headers than you actually have installed (bits/syscall.h is
+> auto-generated from the kernel headers at build time). If this is a clean
+> Debian install then it does sound like they have messed up the packaging
+> somehow.
 >
 
-A neater way of doing this would be:
-
-PACKAGECONFIG ??= ""
-PACKAGECONFIG[audit] = ',NO_AUDIT=1,audit'
-EXTRA_OECMAKE = ".... ${PACKAGECONFIG_CONFARGS}"
-
-This works as the PACKAGECONFIG expansion adds the active expressions to
-PACKAGECONFIG_CONFARGS, so you can add that directly to EXTRA_OEMAKE.
+Ah.  I might (cough) have a hybrid stable/testing setup as I needed a newer
+kernel.  I'll have a look.
 
 Ross
 
---001a114125e0e8c57c0540b28ca9
+--001a114c9d60ac00430540b2a6dc
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 5 November 2016 at 05:29, Dengke Du <span dir=3D"ltr">&lt;<a href=3D"mai=
-lto:dengke.du@windriver.com" target=3D"_blank">dengke.du@windriver.com</a>&=
-gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px =
-0px 0px 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);bord=
-er-left-style:solid;padding-left:1ex"><div id=3D"gmail-:1sg" class=3D"gmail=
--a3s gmail-aXjCH gmail-m158330fcb48b8c32">+PACKAGECONFIG ??=3D &quot;&quot;=
-<br>
-+PACKAGECONFIG[audit] =3D &quot;,,audit&quot;<br>
-+<br>
-=C2=A0EXTRA_OEMAKE =3D &quot;\<br>
-=C2=A0 =C2=A0 =C2=A0&#39;prefix=3D${prefix}&#39; \<br>
-=C2=A0 =C2=A0 =C2=A0&#39;bindir=3D${bindir}&#39; \<br>
-@@ -20,6 +23,7 @@ EXTRA_OEMAKE =3D &quot;\<br>
-=C2=A0 =C2=A0 =C2=A0&#39;libdir=3D${@oe.path.relative(<wbr>prefix, libdir)}=
-&#39; \<br>
-=C2=A0 =C2=A0 =C2=A0\<br>
-=C2=A0 =C2=A0 =C2=A0NO_PYTHON=3D1 \<br>
-+=C2=A0 =C2=A0 ${@bb.utils.contains(&#39;<wbr>PACKAGECONFIG&#39;, &#39;audi=
-t&#39;, &#39;&#39;, &#39;NO_AUDIT=3D1&#39;, d)} \<br>
-=C2=A0&quot;</div></blockquote></div><br>A neater way of doing this would b=
-e:</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">PAC=
-KAGECONFIG ??=3D &quot;&quot;</div><div class=3D"gmail_extra">PACKAGECONFIG=
-[audit] =3D &#39;,NO_AUDIT=3D1,audit&#39;</div><div class=3D"gmail_extra">E=
-XTRA_OECMAKE =3D &quot;.... ${PACKAGECONFIG_CONFARGS}&quot;</div><div class=
-=3D"gmail_extra"><br></div><div class=3D"gmail_extra">This works as the PAC=
-KAGECONFIG expansion adds the active expressions to PACKAGECONFIG_CONFARGS,=
- so you can add that directly to EXTRA_OEMAKE.</div><div class=3D"gmail_ext=
-ra"><br></div><div class=3D"gmail_extra">Ross</div></div>
+On 5 November 2016 at 00:09, Phil Blundell <span dir=3D"ltr">&lt;<a href=3D=
+"mailto:pb@pbcl.net" target=3D"_blank">pb@pbcl.net</a>&gt;</span> wrote:<br=
+><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1=
+px #ccc solid;padding-left:1ex"><div>That would happen if your glibc was co=
+mpiled against a newer version of the kernel headers than you actually have=
+ installed (bits/syscall.h is auto-generated from the kernel headers at bui=
+ld time). If this is a clean Debian install then it does sound like they ha=
+ve messed up the packaging somehow.</div></blockquote><div><br></div><div>A=
+h.=C2=A0 I might (cough) have a hybrid stable/testing setup as I needed a n=
+ewer kernel.=C2=A0 I&#39;ll have a look.</div><div><br></div><div>Ross=C2=
+=A0</div></div><br></div></div>
 
---001a114125e0e8c57c0540b28ca9--
+--001a114c9d60ac00430540b2a6dc--
