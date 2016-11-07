@@ -1,24 +1,24 @@
 Return-Path: <joshua.g.lock@linux.intel.com>
 Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by mail.openembedded.org (Postfix) with ESMTP id 4328771A5A
+	by mail.openembedded.org (Postfix) with ESMTP id 9338360248
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  7 Nov 2016 22:47:41 +0000 (UTC)
+	Mon,  7 Nov 2016 22:47:42 +0000 (UTC)
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga105.jf.intel.com with ESMTP; 07 Nov 2016 14:47:43 -0800
+	by orsmga105.jf.intel.com with ESMTP; 07 Nov 2016 14:47:44 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.31,459,1473145200"; d="scan'208";a="1056519069"
+X-IronPort-AV: E=Sophos;i="5.31,459,1473145200"; d="scan'208";a="1056519072"
 Received: from jlock-mobl1.ger.corp.intel.com ([10.252.14.208])
-	by orsmga001.jf.intel.com with ESMTP; 07 Nov 2016 14:47:41 -0800
+	by orsmga001.jf.intel.com with ESMTP; 07 Nov 2016 14:47:43 -0800
 From: Joshua Lock <joshua.g.lock@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  7 Nov 2016 22:47:24 +0000
-Message-Id: <8a2842620aca528dab7eb32ed310bffeb12f97ae.1478558432.git.joshua.g.lock@intel.com>
+Date: Mon,  7 Nov 2016 22:47:25 +0000
+Message-Id: <255dfef0d5fbf4859835867e35907fda20644f33.1478558432.git.joshua.g.lock@intel.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1478558432.git.joshua.g.lock@intel.com>
 References: <cover.1478558432.git.joshua.g.lock@intel.com>
 In-Reply-To: <cover.1478558432.git.joshua.g.lock@intel.com>
 References: <cover.1478558432.git.joshua.g.lock@intel.com>
-Subject: [PATCH 3/4] lib/oe/lsb: prefer /etc/os-release for distribution data
+Subject: [PATCH 4/4] lib/oe/lsb: attempt to ensure consistent distro id regardless of source
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,78 +31,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 07 Nov 2016 22:47:41 -0000
+X-List-Received-Date: Mon, 07 Nov 2016 22:47:42 -0000
 
-os-release(5) is an increasingly standard source of operating system
-identification and more likely to be present on modern OS deployments, i.e.
-many container variants of common distros include os-release and not the
-lsb_release tool.
+The LSB Distributor ID and os-release NAME differ for most of the
+distributions tested by the Yocto Project (CentOS, Debian, Fedora,
+openSUSE and Ubuntu) however for all but openSUSE the os-release ID
+matches the LSB Distributor ID when both are lowered before
+comparison.
 
-Therefore we should favour parsing /etc/os-release in distro_identifier(),
-try lsb_release when that fails and finally fall back on various distro
-specific sources of OS identification.
+Therefore, in order to improve the consistency of identification of
+a distribution, switch to using the os-release ID and converting
+the ID value to lowercase.
+
+Table showing comparison of LSB Distributor ID to os-release fields NAME
+and ID for current Yocto Project supported host distributions:
+
+Distribution | Version | Distributor ID   | NAME             | ID       |
+-------------------------------------------------------------------------
+CentOS       | 7       | CentOS           | CentOS Linux     | centos   |
+Debian       | 8       | Debian           | Debian GNU/Linux | debian   |
+Fedora       | 23      | Fedora           | Fedora           | fedora   |
+Fedora       | 24      | Fedora           | Fedora           | fedora   |
+openSUSE     | 13.2    | openSUSE project | openSUSE         | opensuse |
+openSUSE     | 42.1    | SUSE LINUX       | openSUSE Leap    | opensuse |
+Ubuntu       | 14.04   | Ubuntu           | Ubuntu           | ubuntu   |
+Ubuntu       | 16.04   | Ubuntu           | Ubuntu           | ubuntu   |
+
+[YOCTO #10591]
 
 Signed-off-by: Joshua Lock <joshua.g.lock@intel.com>
 ---
- meta/lib/oe/lsb.py | 34 +++++++++++++++++++++++++---------
- 1 file changed, 25 insertions(+), 9 deletions(-)
+ meta/lib/oe/lsb.py | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/meta/lib/oe/lsb.py b/meta/lib/oe/lsb.py
-index 0bb7686..bdc893f 100644
+index bdc893f..cd43731 100644
 --- a/meta/lib/oe/lsb.py
 +++ b/meta/lib/oe/lsb.py
-@@ -1,3 +1,22 @@
-+def release_dict_osr():
-+    """ Populate a dict with pertinent values from /etc/os-release """
-+    if not os.path.exists('/etc/os-release'):
-+        return None
-+
-+    data = {}
-+    with open('/etc/os-release') as f:
-+        for line in f:
-+            key, val = line.rstrip().split('=', 1)
-+            if key == 'NAME':
-+                data['DISTRIB_ID'] = val
-+            if key == 'VERSION_ID':
-+                data['DISTRIB_RELEASE'] = val
-+
-+    if len(data.keys()) != 2:
-+        return None
-+
-+    return data
-+
- def release_dict_lsb():
-     """ Return the output of lsb_release -ir as a dictionary """
-     from subprocess import PIPE
-@@ -46,14 +65,6 @@ def release_dict_file():
-             if match:
-                 data['DISTRIB_ID'] = match.group(1)
-                 data['DISTRIB_RELEASE'] = match.group(2)
--        elif os.path.exists('/etc/os-release'):
--            data = {}
--            with open('/etc/os-release') as f:
--                for line in f:
--                    if line.startswith('NAME='):
--                        data['DISTRIB_ID'] = line[5:].rstrip().strip('"')
--                    if line.startswith('VERSION_ID='):
--                        data['DISTRIB_RELEASE'] = line[11:].rstrip().strip('"')
-         elif os.path.exists('/etc/SuSE-release'):
-             data = {}
-             data['DISTRIB_ID'] = 'SUSE LINUX'
-@@ -73,7 +84,12 @@ def distro_identifier(adjust_hook=None):
+@@ -7,7 +7,7 @@ def release_dict_osr():
+     with open('/etc/os-release') as f:
+         for line in f:
+             key, val = line.rstrip().split('=', 1)
+-            if key == 'NAME':
++            if key == 'ID':
+                 data['DISTRIB_ID'] = val
+             if key == 'VERSION_ID':
+                 data['DISTRIB_RELEASE'] = val
+@@ -104,7 +104,7 @@ def distro_identifier(adjust_hook=None):
+     distro_id = re.sub(r'\W', '', distro_id)
  
-     import re
- 
--    distro_data = release_dict_lsb()
-+    # Try /etc/os-release first, then the output of `lsb_release -ir` and
-+    # finally fall back on parsing various release files in order to determine
-+    # host distro name and version.
-+    distro_data = release_dict_osr()
-+    if not distro_data:
-+        distro_data = release_dict_lsb()
-     if not distro_data:
-         distro_data = release_dict_file()
- 
+     if release:
+-        id_str = '{0}-{1}'.format(distro_id, release)
++        id_str = '{0}-{1}'.format(distro_id.lower(), release)
+     else:
+         id_str = distro_id
+     return id_str.replace(' ','-').replace('/','-')
 -- 
 2.7.4
 
