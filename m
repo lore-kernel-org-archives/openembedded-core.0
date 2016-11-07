@@ -1,35 +1,39 @@
-Return-Path: <nicolas.dechesne@linaro.org>
-Received: from mail-qk0-f179.google.com (mail-qk0-f179.google.com
-	[209.85.220.179])
-	by mail.openembedded.org (Postfix) with ESMTP id 588D7719D3
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qk0-f173.google.com (mail-qk0-f173.google.com
+	[209.85.220.173])
+	by mail.openembedded.org (Postfix) with ESMTP id BF9B771A35
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  7 Nov 2016 09:43:05 +0000 (UTC)
-Received: by mail-qk0-f179.google.com with SMTP id q130so168992128qke.1
+	Mon,  7 Nov 2016 09:55:06 +0000 (UTC)
+Received: by mail-qk0-f173.google.com with SMTP id n21so58319207qka.3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 07 Nov 2016 01:43:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	Mon, 07 Nov 2016 01:55:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=MXf49/zFuEkr2ZnupDMZ53cTSigkvySN/z3CXsdymiA=;
-	b=Xr2mREC2NQCOZKLFzIcgtw2ifvJMnDCWEM+fsvBxxAggBd9kBCaNArOLxOf1g2wFrt
-	GOmYCv9KixEN4u+c6dFATSS2Qx/zWeeWDjTaCiB8JbyyyDsbbDvrTvs4hh+JpJMWZxoL
-	nskxAgrpIqWSPxwiEZ070LpEiOlVzcJOc7TiU=
+	:cc; bh=DLNwTckhJTRdFQDlaK+fEUkMA5wsh6wYEbLtTxQPgxw=;
+	b=IMmaWQrOvV47oBmXdWnZs/WAz/tf6rSmGX/mngatyi3bRbz0UvyukzCcgTK4BGcJvl
+	ayOgq96lHqrmjNSfQUgsJKtcI5fOir6izCjH37Tq34Kd4CMjTNYpQssCWvsjbzc+uMQ6
+	ooqQuq206v/6sEBo3pw0HcHPxUAJvsXpxNB7tVy/jyQjN+a0ocwCaTo/BlzIrOA5nC+p
+	jWod5DIMAGXUk4ovtr+GQ10hXmaG1B8Cpa0bVA5yeDHHdhGGpwIlr9S4FRXtw37HBCtq
+	1KiEhcfH0ZJTDtl9HL4+t00y51E5kOSSIUIMGjH2xj2PdFVVmcXOfEDsZ/psum0k8KWY
+	PqZg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=MXf49/zFuEkr2ZnupDMZ53cTSigkvySN/z3CXsdymiA=;
-	b=e9iy28/SzXysHuM3yWlpI9wGce6QP2rUn5B73PUNK/Ypysxb3ZZeDY5fhBKvdHD94H
-	s9ryEym+t9jfwAKb6UPAba+QcO/4TYosUAgPw3nqLTImTGlepqzrsOY8NrAcqDRW2efT
-	7yp8PIe9HoxXWckBJAsD45OwjsdlLyo/0iBw2jUx7CHwoV+/Bl1CrzAbF9jtAVaFrX9s
-	VavO8tl5/q77ptxjHGkLuVpcZ3vlaHmpLirgD1xtKQKKx6Phuzak5WTOokPdPA0nwnTB
-	hvXkEvFqFMXJygs37K4oekuZSjDyeS1Ri/jWNApWoR6mxHLq8Fu21Mom4SkPVsJSwnr4
-	fM2Q==
-X-Gm-Message-State: ABUngvfh1In/GX3nM8RBJGBdkpGjwDNldLVpPpPGNsF7qXL/7sVJl7k8QalS5DV6mEWE//emF/In6JZbTClLnGl0
-X-Received: by 10.55.48.72 with SMTP id w69mr6412926qkw.320.1478511786892;
-	Mon, 07 Nov 2016 01:43:06 -0800 (PST)
+	bh=DLNwTckhJTRdFQDlaK+fEUkMA5wsh6wYEbLtTxQPgxw=;
+	b=VMqZsDa/oSL6tBJEty4HhiStx22UVwmqfYaQAj8HPsxaw6I259RCiJQcD9ExtWsTGD
+	XYqAPwqrNSAFEBR6xPho/cId38P4pFKev/0k4hgap9JzozpW4qVQp27Oh/lhZDefTLhT
+	VwwmzcmLAehvcDzziw1XAz4E9s2Gk7F04oiUFuZE/ZCnqiPe5XqPULRe0nUnPdsSJJUf
+	KFM+bXHFwq6nDWxjhGxYaZ3eKI0WhObPlKaDog+XZylvOqTCU+tChVTgrtpmgwJrnQQC
+	uCWCkT5QCo/xEeMLh0AzmEzKsj74nR6QJITPtIib95yDyotKjsKYvzIk6ClFDSyyjTr7
+	fa8Q==
+X-Gm-Message-State: ABUngveK/IZtjrqMeViMr9UyYwpdZF2LMrRCnrJE3GoT2PRfPIO7Bis0ujbpg6qd2Lma8b2xROUYBrSxsflFZxZH
+X-Received: by 10.55.75.17 with SMTP id y17mr5799024qka.26.1478512508350; Mon,
+	07 Nov 2016 01:55:08 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.140.104.102 with HTTP; Mon, 7 Nov 2016 01:42:46 -0800 (PST)
-In-Reply-To: <CAJTo0LbiSBPq3ZHKmmHYpoM+GZWcOgDNyJy3-Cd4XhRxF9Lt1w@mail.gmail.com>
+Received: by 10.140.85.136 with HTTP; Mon, 7 Nov 2016 01:54:48 -0800 (PST)
+In-Reply-To: <CAP71WjyP-GE7evimye661zy-L4G7VdAwNX_8-6qOVSTj1y11eg@mail.gmail.com>
 References: <1476952202-8842-1-git-send-email-koen.kooi@linaro.org>
 	<CAJTo0LaC2t1BN9VpKRx4W7fMT88mDdmCBYhzgBgvsdDJXhNk_w@mail.gmail.com>
 	<CAP71Wjyy-qQH+nE34FTKUhqgRqGZocpfQ4CrkmTPh+OOMGK6jg@mail.gmail.com>
@@ -37,10 +41,11 @@ References: <1476952202-8842-1-git-send-email-koen.kooi@linaro.org>
 	<1478304597.3662.28.camel@pbcl.net>
 	<CAJTo0LaKjNiFY3Z41Zk0Ln1fH_mLBF+hjKhr46+f3tewO5bTow@mail.gmail.com>
 	<CAJTo0LbiSBPq3ZHKmmHYpoM+GZWcOgDNyJy3-Cd4XhRxF9Lt1w@mail.gmail.com>
-From: Nicolas Dechesne <nicolas.dechesne@linaro.org>
-Date: Mon, 7 Nov 2016 10:42:46 +0100
-Message-ID: <CAP71WjyP-GE7evimye661zy-L4G7VdAwNX_8-6qOVSTj1y11eg@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
+	<CAP71WjyP-GE7evimye661zy-L4G7VdAwNX_8-6qOVSTj1y11eg@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 7 Nov 2016 09:54:48 +0000
+Message-ID: <CAJTo0LYBQtYwq5LBQxE=1s4G1hfH+92m_P=pRPVzcwALeJR4dw@mail.gmail.com>
+To: Nicolas Dechesne <nicolas.dechesne@linaro.org>
 Cc: Koen Kooi <koen.kooi@linaro.org>,
 	OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] libbsd 0.8.3: BBCLASSEXTEND to native and nativesdk
@@ -56,30 +61,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 07 Nov 2016 09:43:06 -0000
+X-List-Received-Date: Mon, 07 Nov 2016 09:55:09 -0000
+Content-Type: multipart/alternative; boundary=001a114a88c8db696a0540b30453
+
+--001a114a88c8db696a0540b30453
 Content-Type: text/plain; charset=UTF-8
 
-On Mon, Nov 7, 2016 at 10:30 AM, Burton, Ross <ross.burton@intel.com> wrote:
-> On 7 November 2016 at 09:28, Burton, Ross <ross.burton@intel.com> wrote:
->>
->> Ah.  I might (cough) have a hybrid stable/testing setup as I needed a
->> newer kernel.  I'll have a look.
->
->
-> $ grep -r getrandom
-> x86_64-linux-gnu/bits/syscall.h:#define SYS_getrandom __NR_getrandom
-> x86_64-linux-gnu/bits/syscall.h:#define SYS_getrandom __NR_getrandom
-> x86_64-linux-gnu/bits/syscall.h:#define SYS_getrandom __NR_getrandom
-> x86_64-linux-gnu/asm/unistd_x32.h:#define __NR_getrandom (__X32_SYSCALL_BIT
-> + 318)
-> x86_64-linux-gnu/asm/unistd_64.h:#define __NR_getrandom 318
-> x86_64-linux-gnu/asm/unistd_32.h:#define __NR_getrandom 355
->
-> That's better.  Thanks Phil.
+On 7 November 2016 at 09:42, Nicolas Dechesne <nicolas.dechesne@linaro.org>
+wrote:
 
-great. Does that mean that this patch can be merged or do you have any
-other issue?
+> great. Does that mean that this patch can be merged or do you have any
+> other issue?
+>
 
-It's needed to get the android tools -native.. and we will need a
-backport on morty too (but we will send that separately).
+Yeah, it's queued in my staging branch now. Sorry for user error stalling
+this.
 
+Ross
+
+--001a114a88c8db696a0540b30453
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 7 November 2016 at 09:42, Nicolas Dechesne <span dir=3D"ltr">&lt;<a href=
+=3D"mailto:nicolas.dechesne@linaro.org" target=3D"_blank">nicolas.dechesne@=
+linaro.org</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=
+=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=
+=3D":2jq" class=3D"a3s aXjCH m1583e2c401922127">great. Does that mean that =
+this patch can be merged or do you have any<br>
+other issue?<br></div></blockquote></div><br>Yeah, it&#39;s queued in my st=
+aging branch now. Sorry for user error stalling this.</div><div class=3D"gm=
+ail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
+
+--001a114a88c8db696a0540b30453--
