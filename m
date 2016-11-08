@@ -1,47 +1,31 @@
-Return-Path: <nathan@nathanrossi.com>
-Received: from mail-qk0-f193.google.com (mail-qk0-f193.google.com
-	[209.85.220.193])
-	by mail.openembedded.org (Postfix) with ESMTP id A7CF76067D
+Return-Path: <rpjday@crashcourse.ca>
+Received: from smtp485.redcondor.net (smtp485.redcondor.net [208.80.204.85])
+	by mail.openembedded.org (Postfix) with ESMTP id A54156B6F7
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  8 Nov 2016 11:15:42 +0000 (UTC)
-Received: by mail-qk0-f193.google.com with SMTP id h201so13524199qke.3
+	Tue,  8 Nov 2016 11:18:41 +0000 (UTC)
+Received: from astoria.ccjclearline.com ([64.235.106.9])
+	by smtp485.redcondor.net ({3be039ea-4351-44b0-a8af-642c38b25916})
+	via TCP (outbound) with ESMTPS id 20161108111842110_0485
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 08 Nov 2016 03:15:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=nathanrossi.com; s=google;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=UrXPWKwsfx8lOQYuRucI5AB+iMljMDFOsbzBKfbWVsQ=;
-	b=fJ7j+rPXxVnxSFehbRif2RYxB1Hoh/62l9LWjBiI/X13aP0RBEm/psbNtgybt7+brq
-	TLpMhmAhJ3y1H+J+WGLI1l0cC9IKsoh5yfjTknx0coQ9ERPoKWmtCCeD8yXu67G79D7N
-	ccXaFJOc2piaFn/Xf2H6JcXYAP/gtuZt56wqF8VY0Z4CxeoJtxbtMQMdCNP/2knN2ENt
-	9MIx8Qaa++ptKAPESE5kmXFxm2ahlh7heY8uWNjDoXmAt10DTwk9PLo1lq9jCpVrxuJO
-	dzXY6QQO+HEKF6F22Ry1V67Mk1JD+riY+z/vFPhU1WyzM8I+U5K60dhNpRBdSVc7k/q/
-	5Phw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=UrXPWKwsfx8lOQYuRucI5AB+iMljMDFOsbzBKfbWVsQ=;
-	b=h36qgVyd6eV9kcBWAcLzTknf648KIUNu7FTfnsna9webAJzn5fmTq0m75EQhnJj1c2
-	5lvnXQ/KE6QuGUh/FcTPlSMfEfTNOAl3EBU7uqWc4o17XJjcG8IyLfdQJkL9UGSSdigU
-	4kZ0AEnAqcUeQPbPfQdx9S6cro+7BIsUHVcCNhXlrnn/zdcFDAjsbdSVBUspmOrghsWM
-	XDCFOuxs3t1cFcddhQyQnO7wuCY9Wg5Nbe1tB7ZvziHSYtY/Mk3b0+oWXLsIv4dv9D1K
-	5Ohm0nhRBYoEdkt6O93liifqDpG6TQPKzDqvGuGOQIWk0TbZLN5IXdM0nCy3MU2Mv/rP
-	9fHA==
-X-Gm-Message-State: ABUngvdmXcfJ3aPnEDJQrLTWYo8c5SB/C0e51pL8Hohfcq0VPC5TFh6Wmn+ehzbzR449VzKP34cufIbRCXq0Kg==
-X-Received: by 10.55.75.17 with SMTP id y17mr11755469qka.26.1478603744036;
-	Tue, 08 Nov 2016 03:15:44 -0800 (PST)
+	Tue, 08 Nov 2016 11:18:42 +0000
+X-RC-FROM: <rpjday@crashcourse.ca>
+X-RC-RCPT: <openembedded-core@lists.openembedded.org>
+Received: from [216.191.234.70] (port=29884 helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
+	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
+	id 1c44QG-0000Bj-7J for openembedded-core@lists.openembedded.org;
+	Tue, 08 Nov 2016 06:18:36 -0500
+Date: Tue, 8 Nov 2016 06:17:33 -0500 (EST)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@ca624034.mitel.com
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+In-Reply-To: <alpine.LFD.2.20.1611080334060.19840@localhost.localdomain>
+Message-ID: <alpine.LFD.2.20.1611080556150.4555@ca624034.mitel.com>
+References: <alpine.LFD.2.20.1611080334060.19840@localhost.localdomain>
+User-Agent: Alpine 2.20 (LFD 67 2015-01-07)
 MIME-Version: 1.0
-Received: by 10.12.140.134 with HTTP; Tue, 8 Nov 2016 03:15:43 -0800 (PST)
-In-Reply-To: <1478132237-28350-3-git-send-email-alistair.francis@xilinx.com>
-References: <1478132237-28350-1-git-send-email-alistair.francis@xilinx.com>
-	<1478132237-28350-3-git-send-email-alistair.francis@xilinx.com>
-From: Nathan Rossi <nathan@nathanrossi.com>
-Date: Tue, 8 Nov 2016 21:15:43 +1000
-Message-ID: <CA+aJhH2_HGwTCuOy8ahGpygxXWBJLLOb6O6Cao9scvUAWYrFbw@mail.gmail.com>
-To: Alistair Francis <alistair.francis@xilinx.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v2 2/2] runqemu: Allow the user to specity no kernel or rootFS
+X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
+Subject: Re: compile error for handwritten "perl-RPM2", 'RPM_GNUC_NULL_TERMINATED' error
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,75 +38,152 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Nov 2016 11:15:43 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 08 Nov 2016 11:18:43 -0000
+Content-Type: text/plain; charset=US-ASCII
 
-On 3 November 2016 at 10:17, Alistair Francis
-<alistair.francis@xilinx.com> wrote:
-> In some cirsumstances the user doesn't want to supply a kernel, rootFS
-> or DTB to QEMU. This will occur more now that QEMU supports loading
-> images using a '-device loader' method.
->
-> Allow users to specify 'none' for QB_DEFAULT_FSTYPE or QB_DEFAULT_KERNEL
-> to avoid supplying these options to QEMU.
 
-Just wondering if it would be worth adding a "QB_KERNEL_OPT" similar
-to how QB_ROOTFS_OPT works. This way the "none" would not be needed
-and it would allow for using the "-device loader" arg for machines
-that boot that way.
+  replying to my earlier post with additional info ... man, i want to
+debug this ...
 
-e.g.
+On Tue, 8 Nov 2016, Robert P. J. Day wrote:
 
-QB_KERNEL_OPT = "-kernel @KERNEL@"
-or
-QB_KERNEL_OPT = "-device loader,addr=0xdeadbeef,file=@KERNEL@"
-or (if not able to load kernel, aka 'none')
-QB_KERNEL_OPT = ""
+>   following on my earlier post, here's the specific issue i'm
+> tackling. having found no existing OE recipe equivalent to a centos
+> "perl-RPM2" RPM, i wrote my own. here's the info about that RH RPM on
+> my fedora system, so i know what the final result should look like:
+>
+>   $ rpm -ql perl-RPM2
+>   /usr/lib64/perl5/vendor_perl/RPM2.pm
+>   /usr/lib64/perl5/vendor_perl/auto/RPM2
+>   /usr/lib64/perl5/vendor_perl/auto/RPM2/RPM2.so
+>   /usr/share/doc/perl-RPM2
+>   /usr/share/doc/perl-RPM2/Changes
+>   /usr/share/doc/perl-RPM2/README
+>   /usr/share/man/man3/RPM2.3pm.gz
+>   $
+>
+> so, as before, track down the source at cpan:
+>
+>   https://metacpan.org/pod/RPM2
+>
+> and write a boilerplate recipe, "perl-rpm2", containing the following
+> line since it's an older style recipe:
+>
+>   inherit cpan_build
+>
+> fetching works fine:
+>
+>   $ bitbake -c fetchall perl-rpm2
+>
+> but here's the problem:
+>
+>   $ bitbake perl-rpm2
+>
+> ... snip ...
+>
+> | DEBUG: Executing shell function do_compile
+> | Copying lib/RPM2.pm -> blib/lib/RPM2.pm
+> | lib/RPM2.xs -> lib/RPM2.c
+> | powerpc-poky-linux-gcc -m32 -mhard-float -mcpu=7400 -mno-spe
+> --sysroot=/home/rpjday/oe/builds/msm_qemuppc/tmp/sysroots/qemuppc
+> -I/home/rpjday/oe/builds/msm_qemuppc/tmp/sysroots/qemuppc/usr/lib/perl/5.22.1/CORE
+> -DVERSION="1.3" -DXS_VERSION="1.3" -fPIC -DRPM2_API=5004
+> -I/home/rpjday/oe/builds/msm_qemuppc/tmp/sysroots/qemuppc/usr/include/rpm
+> -c -O2 -pipe -g -feliminate-unused-debug-types
+> -fdebug-prefix-map=/home/rpjday/oe/builds/msm_qemuppc/tmp/work/ppc7400-poky-linux/perl/5.22.1-r0=/usr/src/debug/perl/5.22.1-r0
+> -fdebug-prefix-map=/home/rpjday/oe/builds/msm_qemuppc/tmp/sysroots/x86_64-linux=
+> -fdebug-prefix-map=/home/rpjday/oe/builds/msm_qemuppc/tmp/sysroots/qemuppc=
+> -DDEBIAN -D_REENTRANT -D_GNU_SOURCE -fwrapv -fno-strict-aliasing -pipe
+> -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -D_FORTIFY_SOURCE=2 -O2
+> -pipe -g -feliminate-unused-debug-types
+> -fdebug-prefix-map=/home/rpjday/oe/builds/msm_qemuppc/tmp/work/ppc7400-poky-linux/perl-rpm2/1.3-r0=/usr/src/debug/perl-rpm2/1.3-r0
+> -fdebug-prefix-map=/home/rpjday/oe/builds/msm_qemuppc/tmp/sysroots/x86_64-linux=
+> -fdebug-prefix-map=/home/rpjday/oe/builds/msm_qemuppc/tmp/sysroots/qemuppc=
+> -O2 -o lib/RPM2.o lib/RPM2.c
+> | In file included from
+> /home/rpjday/oe/builds/msm_qemuppc/tmp/sysroots/qemuppc/usr/include/rpm/rpmcli.h:9:0,
+> |                  from lib/RPM2.xs:3:
+> |
+> /home/rpjday/oe/builds/msm_qemuppc/tmp/sysroots/qemuppc/usr/include/rpm/rpmmacro.h:
+> In function 'rpmExpand':
+> |
+> /home/rpjday/oe/builds/msm_qemuppc/tmp/sysroots/qemuppc/usr/include/rpm/rpmmacro.h:249:2:
+> error: expected declaration specifiers before
+> 'RPM_GNUC_NULL_TERMINATED'
+> |   RPM_GNUC_NULL_TERMINATED
+> |   ^~~~~~~~~~~~~~~~~~~~~~~~
+> |
+> /home/rpjday/oe/builds/msm_qemuppc/tmp/sysroots/qemuppc/usr/include/rpm/rpmmacro.h:260:2:
+> error: expected '=', ',', ';', 'asm' or '__attribute__' before
+> 'RPM_GNUC_NULL_TERMINATED'
+> |   RPM_GNUC_NULL_TERMINATED
+> |   ^~~~~~~~~~~~~~~~~~~~~~~~
+>
+> ... big snip, lots more errors ...
 
-Regards,
-Nathan
+  ok, here's my wildly-uneducated record of what is going on:
 
->
-> Signed-off-by: Alistair Francis <alistair.francis@xilinx.com>
-> ---
->  scripts/runqemu | 9 ++++++++-
->  1 file changed, 8 insertions(+), 1 deletion(-)
->
-> diff --git a/scripts/runqemu b/scripts/runqemu
-> index 922ebaf..5f60312 100755
-> --- a/scripts/runqemu
-> +++ b/scripts/runqemu
-> @@ -453,7 +453,7 @@ class BaseConfig(object):
->      def check_rootfs(self):
->          """Check and set rootfs"""
->
-> -        if self.fstype == 'nfs':
-> +        if self.fstype == 'nfs' or self.fstype == "none":
->              return
->
->          if self.rootfs and not os.path.exists(self.rootfs):
-> @@ -481,6 +481,10 @@ class BaseConfig(object):
->          # QB_DEFAULT_KERNEL is always a full file path
->          kernel_name = os.path.basename(self.get('QB_DEFAULT_KERNEL'))
->
-> +        # The user didn't want a kernel to be loaded
-> +        if kernel_name == "none":
-> +            return
-> +
->          deploy_dir_image = self.get('DEPLOY_DIR_IMAGE')
->          if not self.kernel:
->              kernel_match_name = "%s/%s" % (deploy_dir_image, kernel_name)
-> @@ -857,6 +861,9 @@ class BaseConfig(object):
->              k_root = '/dev/nfs nfsroot=%s:%s,%s' % (self.nfs_server, self.nfs_dir, self.unfs_opts)
->              self.kernel_cmdline = 'root=%s rw highres=off' % k_root
->
-> +        if self.fstype == 'none':
-> +            self.rootfs_options = ''
-> +
->          self.set('ROOTFS_OPTIONS', self.rootfs_options)
->
->      def guess_qb_system(self):
-> --
-> 2.7.4
->
+  first, unpacking and configuring perl-RPM2 source (and running XS
+processor) gives me the source file "lib/RPM2.c" (which is what is
+generating the first build error above), which includes the header
+file:
+
+  #include <rpm/rpmcli.h>
+
+  next, wander over to the qemuppc sysroot, to usr/include/rpm/, to
+check out that header file, which contains (among other things):
+
+  #include <popt.h>
+  #include <rpmmacro.h>      <----- there
+  #include <rpmtypes.h>
+  #include <rpmtag.h>
+  #include <rpmps.h>
+  #include <rpmrc.h>
+  #include <rpmfi.h>      /* XXX rpmfileAttrs */
+  #include <rpmts.h>      /* XXX rpmdepFlags *
+
+  next, in the same directory, examine rpmmacro.h, which contains:
+
+  #if defined(_MACRO_INTERNAL)
+  #include <rpmiotypes.h>
+  ... snip ...
+
+  at this point, inclusion is now conditional on _MACRO_INTERNAL, so
+move on to rpmiotypes.h, which contains:
+
+  #include <rpmutil.h>
+
+and finally visit that header file in the qemuppc sysroot to find:
+
+  #if     __GNUC__ >= 4
+  #define RPM_GNUC_NULL_TERMINATED __attribute__((__sentinel__))
+  #else
+  #define RPM_GNUC_NULL_TERMINATED
+  #endif
+
+where we find the definition of that macro.
+
+  now, is it my imagination, or could a lot of this compile-time error
+be resolved by simply defining the macro "_MACRO_INTERNAL" for the
+build? and if so, what is the proper way to add that setting to the
+compile step for this recipe?
+
+  would i use the standard EXTRA_* variables? or are there
+perl-specific variables one would use when build CPAN recipes? or am i
+totally off-track here?
+
+rday
+
+-- 
+
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
+
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
+
+
+
 
