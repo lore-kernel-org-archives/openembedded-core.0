@@ -1,23 +1,25 @@
 Return-Path: <Zubair.Kakakhel@imgtec.com>
 Received: from mailapp01.imgtec.com (mailapp01.imgtec.com [195.59.15.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 15E7671A84
+	by mail.openembedded.org (Postfix) with ESMTP id 14EA860797
 	for <openembedded-core@lists.openembedded.org>;
 	Tue,  8 Nov 2016 17:12:42 +0000 (UTC)
 Received: from HHMAIL01.hh.imgtec.org (unknown [10.100.10.19])
-	by Forcepoint Email with ESMTPS id E5C5A57623E9D
+	by Forcepoint Email with ESMTPS id 86E01A00C7C11
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  8 Nov 2016 17:12:37 +0000 (GMT)
+	Tue,  8 Nov 2016 17:12:39 +0000 (GMT)
 Received: from zkakakhel-linux.le.imgtec.org (192.168.154.45) by
 	HHMAIL01.hh.imgtec.org (10.100.10.21) with Microsoft SMTP Server (TLS)
-	id 14.3.294.0; Tue, 8 Nov 2016 17:12:41 +0000
+	id 14.3.294.0; Tue, 8 Nov 2016 17:12:43 +0000
 From: Zubair Lutfullah Kakakhel <Zubair.Kakakhel@imgtec.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 8 Nov 2016 17:12:21 +0000
-Message-ID: <20161108171235.41837-1-Zubair.Kakakhel@imgtec.com>
+Date: Tue, 8 Nov 2016 17:12:24 +0000
+Message-ID: <20161108171235.41837-4-Zubair.Kakakhel@imgtec.com>
 X-Mailer: git-send-email 2.10.2
+In-Reply-To: <20161108171235.41837-1-Zubair.Kakakhel@imgtec.com>
+References: <20161108171235.41837-1-Zubair.Kakakhel@imgtec.com>
 MIME-Version: 1.0
 X-Originating-IP: [192.168.154.45]
-Subject: [Patch v2 00/14] MIPS: Use MACHINEOVERRIDES and reduce duplication
+Subject: [Patch v2 03/14] bitbake.conf: Reduce duplication in MIPS variants
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,55 +35,36 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Tue, 08 Nov 2016 17:12:43 -0000
 Content-Type: text/plain
 
-Hi,
+Reduce duplication in MIPS variants now that the MACHINEOVERRIDES
+variable is defined
 
-This patch series adds a few MACHINEOVERRIDES options in arch-mips
-to reduce duplicate configurations in various recipes.
+Signed-off-by: Zubair Lutfullah Kakakhel <Zubair.Kakakhel@imgtec.com>
+---
+ meta/conf/bitbake.conf | 11 +----------
+ 1 file changed, 1 insertion(+), 10 deletions(-)
 
-Further info in 
-https://bugzilla.yoctoproject.org/show_bug.cgi?id=10404
-
-Regards,
-ZubairLK
-
-V1 -> V2
-Added more options for endian independent and big/little endian
-Added another patch for o32 in TUNE_FEATURES for MIPS32R6.
-
-Zubair Lutfullah Kakakhel (14):
-  arch-mips: Add o32 in TUNE_FEATURES for MIPS32R6
-  arch-mips: Add MACHINEOVERRIDES variables to reduce duplication
-  bitbake.conf: Reduce duplication in MIPS variants
-  fts: Reduce duplication in MIPS variants.
-  glibc: Reduce duplication in MIPS variants
-  packagegroup: Reduce duplication in MIPS variants.
-  gcc-runtime: Reduce duplication in MIPS variants.
-  gdb: Reduce duplication in MIPS variants.
-  mmc-utils: Reduce duplication in MIPS variants.
-  valgrind: Reduce duplication in MIPS variants.
-  ghostscript: Reduce duplication in MIPS variants.
-  ltp: Reduce duplication in MIPS variants.
-  mdadm: Reduce duplication in MIPS variants.
-  webkit: Reduce duplication in MIPS variants.
-
- meta/conf/bitbake.conf                                  | 11 +----------
- meta/conf/machine/include/mips/README                   |  3 +++
- meta/conf/machine/include/mips/arch-mips.inc            | 12 ++++++++++++
- meta/conf/machine/include/tune-mips32r6.inc             |  8 ++++----
- meta/recipes-core/fts/fts.bb                            |  5 +----
- meta/recipes-core/glibc/glibc-ld.inc                    | 17 ++---------------
- .../recipes-core/packagegroups/packagegroup-core-sdk.bb |  5 +----
- .../packagegroups/packagegroup-core-tools-profile.bb    | 10 ++--------
- meta/recipes-devtools/gcc/gcc-runtime.inc               |  9 +--------
- meta/recipes-devtools/gdb/gdb-common.inc                |  7 +------
- meta/recipes-devtools/mmc/mmc-utils_git.bb              |  4 ++--
- meta/recipes-devtools/valgrind/valgrind_3.12.0.bb       |  3 +--
- meta/recipes-extended/ghostscript/ghostscript_9.19.bb   |  3 +--
- meta/recipes-extended/ltp/ltp_20160126.bb               |  2 +-
- meta/recipes-extended/mdadm/mdadm_3.4.bb                |  4 ++--
- meta/recipes-sato/webkit/webkitgtk_2.14.1.bb            |  3 +--
- 16 files changed, 36 insertions(+), 70 deletions(-)
-
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 9f445bb..1472e8f 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -533,16 +533,7 @@ BUILDSDK_LDFLAGS = "-Wl,-O1"
+ 
+ LINKER_HASH_STYLE ??= "gnu"
+ # mips does not support GNU hash style therefore we override
+-LINKER_HASH_STYLE_mips = "sysv"
+-LINKER_HASH_STYLE_mipsel = "sysv"
+-LINKER_HASH_STYLE_mips64 = "sysv"
+-LINKER_HASH_STYLE_mips64el = "sysv"
+-LINKER_HASH_STYLE_mips64n32 = "sysv"
+-LINKER_HASH_STYLE_mips64eln32 = "sysv"
+-LINKER_HASH_STYLE_mipsisa32r6 = "sysv"
+-LINKER_HASH_STYLE_mipsisa32r6el = "sysv"
+-LINKER_HASH_STYLE_mipsisa64r6 = "sysv"
+-LINKER_HASH_STYLE_mipsisa64r6el = "sysv"
++LINKER_HASH_STYLE_mipsarch = "sysv"
+ 
+ TARGET_LINK_HASH_STYLE ?= "${@['-Wl,--hash-style=gnu',''][d.getVar('LINKER_HASH_STYLE', True) != 'gnu']}"
+ 
 -- 
 2.10.2
 
