@@ -1,54 +1,48 @@
 Return-Path: <maciej.borzecki@rndity.com>
-Received: from mail-lf0-f49.google.com (mail-lf0-f49.google.com
-	[209.85.215.49])
-	by mail.openembedded.org (Postfix) with ESMTP id F31256022F
+Received: from mail-lf0-f44.google.com (mail-lf0-f44.google.com
+	[209.85.215.44])
+	by mail.openembedded.org (Postfix) with ESMTP id 0493471A80
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  8 Nov 2016 15:56:24 +0000 (UTC)
-Received: by mail-lf0-f49.google.com with SMTP id b14so142753350lfg.2
+	Tue,  8 Nov 2016 15:56:23 +0000 (UTC)
+Received: by mail-lf0-f44.google.com with SMTP id o141so70836264lff.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 08 Nov 2016 07:56:26 -0800 (PST)
+	Tue, 08 Nov 2016 07:56:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=rndity-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:in-reply-to:references;
-	bh=onxC7kPkkfghB5a4DMxWD46Is6Gy/18E8DapyOuAkCc=;
-	b=p1uhXjViIFFnFNZV63r5GJ8ivm851cZtv7VzuUJN6z3RxZmmcbJ1JKzNl9zZDmZ59A
-	PuMwGXOjigMXNytjTOYsWsSzmylvvULpNMp4SNZv9PyMzYAzBgNOQIf+U5vcdh/tI64R
-	o2b5DNH+5Ha5XzbtxvyDYJeoGEkeVWRrp8Qxw7dVK/GPyUOz6uASMsBlGILZHxeRW3ox
-	asN/d3aw8eyQ7Kvv+bb6o9ZUD2WZTKVirvfViqBXZ5vOwzhMzd03d5Ht2e333JYSdYPu
-	+K92SSYeA7iPhvWwITSUvJJNQx9VAm1DwAvciHnHapW2vOyrFZi+GjATZddCszHTke95
-	Wfvw==
+	h=from:to:cc:subject:date:message-id;
+	bh=BUHwRDfeMvtish3ZmttW7E6cenJ3e1kKr0dYpw6+TwY=;
+	b=XjnmcUZLlXv1DPa5aiEbDnt9SwiKwWP+j4xt51ox6PmBmr6HLvsk+weepO8yCW4NSd
+	FiTUS+O+HHYpsFP6bGWPv5pnDuq8C4kMNhxbVETafW8sLM4EHF7qvL/upLxKOWjELhGo
+	QKHFP3VHuA8EYKNpCFwrbmatutjopGeoD760sKNOj51JWuxk9Tac4K8B66DJesrP/En7
+	kNBITUzOSyBOvghTUlouTHKy4SauC5HDg55ZcDjjCl3jgaUF9TogkDmgAiaqhtpo6wjw
+	ZQqsnc+gnpbB/kEllfjXsmwG2TC1BN4/VQD0PianCOj0OG4SNgNHxQjDhAaPj/FpXx3C
+	ygSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references:in-reply-to:references;
-	bh=onxC7kPkkfghB5a4DMxWD46Is6Gy/18E8DapyOuAkCc=;
-	b=VFikfXRK1kmR8K+pKNN8ddD/wNPQS3EeuWEsnyhy/RgaHl5/B2uCs4XtU1gb8uIYka
-	GB6nZFDvVT8Q+Ijv3Hx/UVkLrvCF1RLhrsCQzJeJT1JwbzggMeHBbkelTueuryvC5hbn
-	6INDcBLEc7GiofXjKf6ThG8kt0C1mFEbsXHs4Fum8Au47dJdbDupZyqNxMVSaLmwWj8q
-	kfdK7rnemPZFeCkpwodxC/g01proWd98kfmlSRHkP0JdRtLZVb+JSeCMSleA2v9L9dhO
-	ZstrG8azU9LKrc+/ZLtfynNE/kcGToGODcGk+W1w2JKnykxGSO0j2vHd1lwIiACPkE/H
-	gBKQ==
-X-Gm-Message-State: ABUngvdnaOSyymZON6akpX3je/InQ7nxz23jKBjWiC2CK0ACQzGcJRujVpWAFgzoROyRRg==
-X-Received: by 10.25.130.149 with SMTP id e143mr7402594lfd.87.1478620585767;
-	Tue, 08 Nov 2016 07:56:25 -0800 (PST)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=BUHwRDfeMvtish3ZmttW7E6cenJ3e1kKr0dYpw6+TwY=;
+	b=T/RhC9qTM9bQD5WCN/f3wHAjlL0b2ogfBsqUEgvWTuRPOAub0MNb1sZcOq/atqmxnQ
+	kg6bOfC8Sg1/9wxC32h4jXiOUybmFLpYa2AB2cFTLYlM0/4EeYynnbfaWWSUFokoq0kb
+	KllALb8gYNTKgoSQwYWfHo4rJMEp+4buHh3+SY4/hGBEAsgbk4ejrGOXgWX/ivCqzfDS
+	9wo14x/BGNsuwmeYZ0lTGAs3/rV1bdS1GT95FS1qEX/F8FIyd2T7kvu0twgJsclDKF07
+	y3rFdfDCF+yJyboURQufTnak7wkP1hnaw7q1JntsjiHR0xJeOm1JSFAcIU37Dv5Hz0IS
+	zmUA==
+X-Gm-Message-State: ABUngvev08Asi8gcfdpH1aXsI+oSp3mxB5bJmpx69cOaCNNFEBOCg6L2GKvaFCwt3L8k7A==
+X-Received: by 10.25.165.144 with SMTP id o138mr913047lfe.80.1478620584704;
+	Tue, 08 Nov 2016 07:56:24 -0800 (PST)
 Received: from comp_016_pc_buildenv.localdomain
 	(staticline-31-182-60-238.toya.net.pl. [31.182.60.238])
 	by smtp.gmail.com with ESMTPSA id
-	h95sm2976939ljh.13.2016.11.08.07.56.24
+	h95sm2976939ljh.13.2016.11.08.07.56.23
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 08 Nov 2016 07:56:25 -0800 (PST)
+	Tue, 08 Nov 2016 07:56:23 -0800 (PST)
 From: Maciej Borzecki <maciej.borzecki@rndity.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  8 Nov 2016 16:56:07 +0100
-Message-Id: <1fc1bb97bb79facb8b22a7da4ed7b5c752ea5e14.1478619682.git.maciej.borzecki@rndity.com>
+Date: Tue,  8 Nov 2016 16:56:06 +0100
+Message-Id: <cover.1478619682.git.maciej.borzecki@rndity.com>
 X-Mailer: git-send-email 2.5.0
-In-Reply-To: <cover.1478619682.git.maciej.borzecki@rndity.com>
-References: <cover.1478619682.git.maciej.borzecki@rndity.com>
-In-Reply-To: <cover.1478619682.git.maciej.borzecki@rndity.com>
-References: <cover.1478619682.git.maciej.borzecki@rndity.com>
 Cc: Maciej Borzecki <maciek.borzecki@gmail.com>
-Subject: [PATCH 1/5] wic: make sure that partition size is always an integer in internal processing
+Subject: [PATCH 0/5] wic: bugfixes & --fixed-size support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -63,42 +57,38 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 08 Nov 2016 15:56:26 -0000
 
-Signed-off-by: Maciej Borzecki <maciej.borzecki@rndity.com>
----
- scripts/lib/wic/partition.py | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+The patch series is a follow-up after a previous attempt of adding
+--reserved-size option to wic[1].
 
-diff --git a/scripts/lib/wic/partition.py b/scripts/lib/wic/partition.py
-index 89c33ab8b7d54bb14678b2e07e706e3feb6ae57a..4b8d769437120adadb5dba2f3919d4eb96141292 100644
---- a/scripts/lib/wic/partition.py
-+++ b/scripts/lib/wic/partition.py
-@@ -157,7 +157,7 @@ class Partition():
-         out = exec_cmd(du_cmd)
-         rootfs_size = out.split()[0]
- 
--        self.size = rootfs_size
-+        self.size = int(rootfs_size)
-         self.source_file = rootfs
- 
-     def prepare_rootfs(self, cr_workdir, oe_builddir, rootfs_dir,
-@@ -194,7 +194,7 @@ class Partition():
-                 # get the rootfs size in the right units for kickstart (kB)
-                 du_cmd = "du -Lbks %s" % rootfs
-                 out = exec_cmd(du_cmd)
--                self.size = out.split()[0]
-+                self.size = int(out.split()[0])
- 
-                 break
- 
-@@ -379,7 +379,7 @@ class Partition():
-         out = exec_cmd(du_cmd)
-         fs_size = out.split()[0]
- 
--        self.size = fs_size
-+        self.size = int(fs_size)
- 
-     def prepare_swap_partition(self, cr_workdir, oe_builddir, native_sysroot):
-         """
+The series introduces a number of fixes in patches 1 - 4.
+
+The last patch in the series introduces --fixed-size option as discussed in [1].
+The patch also introduces minor refactoring to code responsible for computing
+partition size.
+
+Aside from new option, another user-visible change is how the size rootfs
+partitions with vfat is calculated. In previous code, vfat rootfs partition size
+did not account for --extra-space nor --overhead-factor. Now, all rootfs
+partitions (except for squashfs) are subject to the same rules of partition
+sizing.
+
+http://lists.openembedded.org/pipermail/openembedded-core/2016-October/127634.html
+
+Maciej Borzecki (5):
+  wic: make sure that partition size is always an integer in internal
+    processing
+  wic: use partition size when creating empty partition files
+  wic: check that filesystem is specified for a rootfs partition
+  wic: fix function comment typos
+  wic: add --fixed-size wks option
+
+ scripts/lib/wic/help.py                | 14 +++--
+ scripts/lib/wic/imager/direct.py       |  2 +-
+ scripts/lib/wic/ksparser.py            | 41 +++++++++++++--
+ scripts/lib/wic/partition.py           | 93 +++++++++++++++++++++-------------
+ scripts/lib/wic/utils/partitionedfs.py |  6 +--
+ 5 files changed, 109 insertions(+), 47 deletions(-)
+
 -- 
 2.5.0
 
