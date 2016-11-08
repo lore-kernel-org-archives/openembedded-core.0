@@ -1,54 +1,53 @@
-Return-Path: <maciej.borzecki@rndity.com>
-Received: from mail-lf0-f48.google.com (mail-lf0-f48.google.com
-	[209.85.215.48])
-	by mail.openembedded.org (Postfix) with ESMTP id 7B9EB71A88
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pf0-f169.google.com (mail-pf0-f169.google.com
+	[209.85.192.169])
+	by mail.openembedded.org (Postfix) with ESMTP id 2F36D719EF
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  8 Nov 2016 15:56:29 +0000 (UTC)
-Received: by mail-lf0-f48.google.com with SMTP id o141so70838578lff.1
+	Tue,  8 Nov 2016 16:22:05 +0000 (UTC)
+Received: by mail-pf0-f169.google.com with SMTP id d2so110423382pfd.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 08 Nov 2016 07:56:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=rndity-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:in-reply-to:references;
-	bh=e7XraFjNLgBv22FEAuOgRRkRw5QGrODuLmkE7Avg3vA=;
-	b=eenwMWlZqYZoo3ImHQGQJ6V43+mo7lycjy6eCgeCTqHLs7liPOKsGI8heqjPVoqVAI
-	MmqrsLwjqlcYiF0QgpjaNcqXu3M06waXxzAGpy601DJavO2ez5u9KTeLWPM0zfyR9Dew
-	HD0BrI58LBtMvGPLjzbAsumQDE25u/k5OrqiLBa2RFIlxsXxwWrxB9ClBwF5B6JKNBxW
-	d+Wqmsi9pPNxFFLVzHSjgxMU0+0368qiJPJv3zpKcz8MzF5XKcFUmFfYpBrhIyY6LLEC
-	/M81lTDIu0DdQkV4F2GFBeLKzWnCIHzNWX4Jw7DGgVQjMrQggs26EJqV0rmkja2cfIGm
-	AA1Q==
+	Tue, 08 Nov 2016 08:22:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=subject:to:references:from:organization:message-id:date:user-agent
+	:mime-version:in-reply-to;
+	bh=12oaCj0hUdyAk1rPE0W//XC9nEV6Xh+OZ+1+PqIgQq4=;
+	b=ScXFWA9ToQrQJUJc14AFanQ4kMLFIm+6ZtQkRjBZiXUZQKBC3OlGNCU3JGLhL25M+b
+	8H6f//3U0efGGBNO6Sw89GRoWzDiIWp///bU4mWdyT0FPuxXdbN0vvRTQaEC4s7OywLI
+	BjZYPbXKKtar9H8UMU3NWGw1RAMyulwmDJoZOX+52v9x/0CzYiIuWulYKHj909yqyqxp
+	1lqeyueF1BFXuo2smVX3WPFaml+meWJMuuz1HaV1vYsibU0cvXA3M5lBPJyegPiwjv7n
+	qK9RzI0GO0hOTS0QCmjIw4jdJRhKzhkIAaxtw2M1HbUEFcuo9f+hZK+c39M6RHH52Eed
+	ulNQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references:in-reply-to:references;
-	bh=e7XraFjNLgBv22FEAuOgRRkRw5QGrODuLmkE7Avg3vA=;
-	b=F/YrqMFvX/a2Wb3j2cVJCWzAl7+yotI2hvIa1AHVoztFu07hN4sLIpsBGGCpkC/uGP
-	W6+NtxcJi3ss6gX9FQJBhmWWRdoZ44zGjHCZ+C+scoc5B61lgSIHuF27DH89PJG7ln6f
-	mQvFOVnMGvALX6mihEHb81fNwXyXWhhmexpXHmMDS8CbCC0Bgiu0c1pvGC7DJJlflUh6
-	InBftvwfCsoynX7ulgySJiv4Qdcdly6mOgHbu+b3Itd58Jq3icyb9z20Tz/HHSGYNGoj
-	lqZQrTq8Bdg9SwaGZLjGyrPaeDanwLcDQwNEG4A46P1YmH9SA1jSMQ+nbWd5KxcRh5Cz
-	o/Lw==
-X-Gm-Message-State: ABUngvdU6oKnk0mZbYwCQJQRwjgpBWTz5RNLlcVTotSYBTq6i7Ocx+qOtWGtbu9Ansb+Gw==
-X-Received: by 10.25.33.131 with SMTP id h125mr6150818lfh.49.1478620589886;
-	Tue, 08 Nov 2016 07:56:29 -0800 (PST)
-Received: from comp_016_pc_buildenv.localdomain
-	(staticline-31-182-60-238.toya.net.pl. [31.182.60.238])
+	h=x-gm-message-state:subject:to:references:from:organization
+	:message-id:date:user-agent:mime-version:in-reply-to;
+	bh=12oaCj0hUdyAk1rPE0W//XC9nEV6Xh+OZ+1+PqIgQq4=;
+	b=OlBKAs8U/EcTQ2rHR2NC+rTdZsFS/v0R8HwU/gzf5cR2OOQQB/bn57537LYlyPUbZz
+	sefQr4cQAly6YhRJI+ypXDNeSjVFMgsSyrIPPyGq44pXTO/R3Wjv5Fuf0kgiurpLCjk3
+	sOJNbSzUUSvBZLJPjeRkbMbuB7YUWCwhZF08zPLMCjb2kzd0sAmOm2zY/6FaQ+34As6q
+	zwtr8due/Psem0oqKAibPeG5c11EseY6iGBHkXQ+73tzSmRwL5J0MPZ+fTXWlqhCceMR
+	/mLA3GHCksVa/0+uilwBZ7hY7Du86g0Al8v41e5vgDDksIk39HnNEU04GVBupNvnDKvu
+	d1Ww==
+X-Gm-Message-State: ABUngvex1dnXIaEH/F7FOSI7cT6qtD/hVku+NciprvFansIlowgJKZErbm8qrLQQcW6rdA==
+X-Received: by 10.98.43.67 with SMTP id r64mr24575616pfr.55.1478622127345;
+	Tue, 08 Nov 2016 08:22:07 -0800 (PST)
+Received: from CACSVMO-14452.local ([2601:646:8882:b8c:8af:972a:9de4:9514])
 	by smtp.gmail.com with ESMTPSA id
-	h95sm2976939ljh.13.2016.11.08.07.56.28
+	y2sm49305789pfk.54.2016.11.08.08.22.06
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 08 Nov 2016 07:56:29 -0800 (PST)
-From: Maciej Borzecki <maciej.borzecki@rndity.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  8 Nov 2016 16:56:11 +0100
-Message-Id: <1135a635b723fcf1eb2ce8d2b9f8463a577f6acd.1478619682.git.maciej.borzecki@rndity.com>
-X-Mailer: git-send-email 2.5.0
-In-Reply-To: <cover.1478619682.git.maciej.borzecki@rndity.com>
-References: <cover.1478619682.git.maciej.borzecki@rndity.com>
-In-Reply-To: <cover.1478619682.git.maciej.borzecki@rndity.com>
-References: <cover.1478619682.git.maciej.borzecki@rndity.com>
-Cc: Maciej Borzecki <maciek.borzecki@gmail.com>
-Subject: [PATCH 5/5] wic: add --fixed-size wks option
+	Tue, 08 Nov 2016 08:22:06 -0800 (PST)
+To: "Robert P. J. Day" <rpjday@crashcourse.ca>,
+	OE Core mailing list <openembedded-core@lists.openembedded.org>
+References: <alpine.LFD.2.20.1611080239410.18324@localhost.localdomain>
+From: Khem Raj <raj.khem@gmail.com>
+Organization: himvis.com
+Message-ID: <2baa43c4-5e7d-376f-edfa-3b0fea57986d@gmail.com>
+Date: Tue, 8 Nov 2016 08:22:01 -0800
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:45.0)
+	Gecko/20100101 Thunderbird/45.4.0
+MIME-Version: 1.0
+In-Reply-To: <alpine.LFD.2.20.1611080239410.18324@localhost.localdomain>
+Subject: Re: methodology for writing OE perl recipes equivalent to RH RPMs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,330 +60,190 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Nov 2016 15:56:30 -0000
+X-List-Received-Date: Tue, 08 Nov 2016 16:22:06 -0000
+X-Groupsio-MsgNum: 89149
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature";
+	boundary="E52OxuhPF2hwRCPuFd4GLr8KcQ5DTvH0O"
 
-Added new option --fixed-size to wks. The option can be used to indicate
-the exact size of a partition. The option cannot be added together with
---size, in which case an error will be raised. Other options that
-influence automatic partition size (--extra-space, --overhead-factor),
-if specifiec along with --fixed-size, will raise an error.
+--E52OxuhPF2hwRCPuFd4GLr8KcQ5DTvH0O
+Content-Type: multipart/mixed; boundary="hqIfhL1cIbGJnXKdNxmc31BKNUWXDLXEt";
+ protected-headers="v1"
+From: Khem Raj <raj.khem@gmail.com>
+To: "Robert P. J. Day" <rpjday@crashcourse.ca>,
+ OE Core mailing list <openembedded-core@lists.openembedded.org>
+Message-ID: <2baa43c4-5e7d-376f-edfa-3b0fea57986d@gmail.com>
+Subject: Re: [OE-core] methodology for writing OE perl recipes equivalent to
+ RH RPMs
+References: <alpine.LFD.2.20.1611080239410.18324@localhost.localdomain>
+In-Reply-To: <alpine.LFD.2.20.1611080239410.18324@localhost.localdomain>
 
-If it partition data is larger than the amount of space specified with
---fixed-size option wic will raise an error.
-
-Signed-off-by: Maciej Borzecki <maciej.borzecki@rndity.com>
----
- scripts/lib/wic/help.py                | 14 ++++--
- scripts/lib/wic/imager/direct.py       |  2 +-
- scripts/lib/wic/ksparser.py            | 41 +++++++++++++++--
- scripts/lib/wic/partition.py           | 83 ++++++++++++++++++++--------------
- scripts/lib/wic/utils/partitionedfs.py |  2 +-
- 5 files changed, 100 insertions(+), 42 deletions(-)
-
-diff --git a/scripts/lib/wic/help.py b/scripts/lib/wic/help.py
-index e5347ec4b7c900c68fc64351a5293e75de0672b3..daa11bf489c135627ddfe4cef968e48f8e3ad1d8 100644
---- a/scripts/lib/wic/help.py
-+++ b/scripts/lib/wic/help.py
-@@ -646,6 +646,12 @@ DESCRIPTION
-                  not specified, the size is in MB.
-                  You do not need this option if you use --source.
- 
-+         --fixed-size: Exact partition size. Value format is the same
-+                       as for --size option. This option cannot be
-+                       specified along with --size. If partition data
-+                       is larger than --fixed-size and error will be
-+                       raised when assembling disk image.
-+
-          --source: This option is a wic-specific option that names the
-                    source of the data that will populate the
-                    partition.  The most common value for this option
-@@ -719,13 +725,15 @@ DESCRIPTION
-                         space after the space filled by the content
-                         of the partition. The final size can go
-                         beyond the size specified by --size.
--                        By default, 10MB.
-+                        By default, 10MB. This option cannot be used
-+                        with --fixed-size option.
- 
-          --overhead-factor: This option is specific to wic. The
-                             size of the partition is multiplied by
-                             this factor. It has to be greater than or
--                            equal to 1.
--                            The default value is 1.3.
-+                            equal to 1. The default value is 1.3.
-+                            This option cannot be used with --fixed-size
-+                            option.
- 
-          --part-type: This option is specific to wic. It specifies partition
-                       type GUID for GPT partitions.
-diff --git a/scripts/lib/wic/imager/direct.py b/scripts/lib/wic/imager/direct.py
-index 2bedef08d6450096c786def6f75a9ee53fcd4b3b..c01a1ea538428e36a75ac5b31a822e01901bea6a 100644
---- a/scripts/lib/wic/imager/direct.py
-+++ b/scripts/lib/wic/imager/direct.py
-@@ -290,7 +290,7 @@ class DirectImageCreator(BaseImageCreator):
-                          self.bootimg_dir, self.kernel_dir, self.native_sysroot)
- 
- 
--            self.__image.add_partition(int(part.size),
-+            self.__image.add_partition(part.get_size(),
-                                        part.disk,
-                                        part.mountpoint,
-                                        part.source_file,
-diff --git a/scripts/lib/wic/ksparser.py b/scripts/lib/wic/ksparser.py
-index 0894e2b199a299fbbed272f2e1c95e9d692e3ab1..62c490274aa92bf82aac304d9323250e3b728d0c 100644
---- a/scripts/lib/wic/ksparser.py
-+++ b/scripts/lib/wic/ksparser.py
-@@ -113,6 +113,9 @@ def systemidtype(arg):
- class KickStart():
-     """"Kickstart parser implementation."""
- 
-+    DEFAULT_EXTRA_SPACE = 10*1024
-+    DEFAULT_OVERHEAD_FACTOR = 1.3
-+
-     def __init__(self, confpath):
- 
-         self.partitions = []
-@@ -127,16 +130,24 @@ class KickStart():
-         part.add_argument('mountpoint', nargs='?')
-         part.add_argument('--active', action='store_true')
-         part.add_argument('--align', type=int)
--        part.add_argument("--extra-space", type=sizetype, default=10*1024)
-+        part.add_argument("--extra-space", type=sizetype)
-         part.add_argument('--fsoptions', dest='fsopts')
-         part.add_argument('--fstype')
-         part.add_argument('--label')
-         part.add_argument('--no-table', action='store_true')
-         part.add_argument('--ondisk', '--ondrive', dest='disk')
--        part.add_argument("--overhead-factor", type=overheadtype, default=1.3)
-+        part.add_argument("--overhead-factor", type=overheadtype)
-         part.add_argument('--part-type')
-         part.add_argument('--rootfs-dir')
--        part.add_argument('--size', type=sizetype, default=0)
-+
-+        # --size and --fixed-size cannot be specified together; options
-+        # ----extra-space and --overhead-factor should also raise a parser
-+        # --error, but since nesting mutually exclusive groups does not work,
-+        # ----extra-space/--overhead-factor are handled later
-+        sizeexcl = part.add_mutually_exclusive_group()
-+        sizeexcl.add_argument('--size', type=sizetype, default=0)
-+        sizeexcl.add_argument('--fixed-size', type=sizetype, default=0)
-+
-         part.add_argument('--source')
-         part.add_argument('--sourceparams')
-         part.add_argument('--system-id', type=systemidtype)
-@@ -170,11 +181,33 @@ class KickStart():
-                 lineno += 1
-                 if line and line[0] != '#':
-                     try:
--                        parsed = parser.parse_args(shlex.split(line))
-+                        line_args = shlex.split(line)
-+                        parsed = parser.parse_args(line_args)
-                     except ArgumentError as err:
-                         raise KickStartError('%s:%d: %s' % \
-                                              (confpath, lineno, err))
-                     if line.startswith('part'):
-+                        # using ArgumentParser one cannot easily tell if option
-+                        # was passed as argument, if said option has a default
-+                        # value; --overhead-factor/--extra-space cannot be used
-+                        # with --fixed-size, so at least detect when these were
-+                        # passed with non-0 values ...
-+                        if parsed.fixed_size:
-+                            if parsed.overhead_factor or parsed.extra_space:
-+                                err = "%s:%d: arguments --overhead-factor and --extra-space not "\
-+                                      "allowed with argument --fixed-size" \
-+                                      % (confpath, lineno)
-+                                raise KickStartError(err)
-+                        else:
-+                            # ... and provide defaults if not using
-+                            # --fixed-size iff given option was not used
-+                            # (again, one cannot tell if option was passed but
-+                            # with value equal to 0)
-+                            if '--overhead-factor' not in line_args:
-+                                parsed.overhead_factor = self.DEFAULT_OVERHEAD_FACTOR
-+                            if '--extra-space' not in line_args:
-+                                parsed.extra_space = self.DEFAULT_EXTRA_SPACE
-+
-                         self.partnum += 1
-                         self.partitions.append(Partition(parsed, self.partnum))
-                     elif line.startswith('include'):
-diff --git a/scripts/lib/wic/partition.py b/scripts/lib/wic/partition.py
-index 24e657592738dc7c5cdff78e3740d7c373021e9d..354d4b44c50c77baa54331e95ce0876c32d09339 100644
---- a/scripts/lib/wic/partition.py
-+++ b/scripts/lib/wic/partition.py
-@@ -54,6 +54,7 @@ class Partition():
-         self.part_type = args.part_type
-         self.rootfs_dir = args.rootfs_dir
-         self.size = args.size
-+        self.fixed_size = args.fixed_size
-         self.source = args.source
-         self.sourceparams = args.sourceparams
-         self.system_id = args.system_id
-@@ -87,6 +88,39 @@ class Partition():
-         else:
-             return 0
- 
-+    def get_rootfs_size(self, actual_rootfs_size=0):
-+        """
-+        Calculate the required size of rootfs taking into consideration
-+        --size/--fixed-size flags as well as overhead and extra space, as
-+        specified in kickstart file. Raises an error if the
-+        `actual_rootfs_size` is larger than fixed-size rootfs.
-+
-+        """
-+        if self.fixed_size:
-+            rootfs_size = self.fixed_size
-+            if actual_rootfs_size > rootfs_size:
-+                msger.error("Actual rootfs size (%d kB) is larger than allowed size %d kB" \
-+                            %(actual_rootfs_size, rootfs_size))
-+        else:
-+            extra_blocks = self.get_extra_block_count(actual_rootfs_size)
-+            if extra_blocks < self.extra_space:
-+                extra_blocks = self.extra_space
-+
-+            rootfs_size = actual_rootfs_size + extra_blocks
-+            rootfs_size *= self.overhead_factor
-+
-+            msger.debug("Added %d extra blocks to %s to get to %d total blocks" % \
-+                        (extra_blocks, self.mountpoint, rootfs_size))
-+
-+        return rootfs_size
-+
-+    def get_size(self):
-+        """
-+        Obtain partition size taking into consideration --size/--fixed-size
-+        options.
-+        """
-+        return self.fixed_size if self.fixed_size else self.size
-+
-     def prepare(self, creator, cr_workdir, oe_builddir, rootfs_dir,
-                 bootimg_dir, kernel_dir, native_sysroot):
-         """
-@@ -97,9 +131,9 @@ class Partition():
-             self.sourceparams_dict = parse_sourceparams(self.sourceparams)
- 
-         if not self.source:
--            if not self.size:
--                msger.error("The %s partition has a size of zero.  Please "
--                            "specify a non-zero --size for that partition." % \
-+            if not self.size and not self.fixed_size:
-+                msger.error("The %s partition has a size of zero. Please "
-+                            "specify a non-zero --size/--fixed-size for that partition." % \
-                             self.mountpoint)
-             if self.fstype and self.fstype == "swap":
-                 self.prepare_swap_partition(cr_workdir, oe_builddir,
-@@ -146,6 +180,10 @@ class Partition():
-                                                      oe_builddir,
-                                                      bootimg_dir, kernel_dir, rootfs_dir,
-                                                      native_sysroot)
-+        if self.fixed_size and self.size > self.fixed_size:
-+            msger.error("File system image of partition %s is larger (%d kB) than its"\
-+                        "allowed size %d kB" % (self.mountpoint,
-+                                                self.size, self.fixed_size))
- 
-     def prepare_rootfs_from_fs_image(self, cr_workdir, oe_builddir,
-                                      rootfs_dir):
-@@ -211,15 +249,7 @@ class Partition():
-         out = exec_cmd(du_cmd)
-         actual_rootfs_size = int(out.split()[0])
- 
--        extra_blocks = self.get_extra_block_count(actual_rootfs_size)
--        if extra_blocks < self.extra_space:
--            extra_blocks = self.extra_space
--
--        rootfs_size = actual_rootfs_size + extra_blocks
--        rootfs_size *= self.overhead_factor
--
--        msger.debug("Added %d extra blocks to %s to get to %d total blocks" % \
--                    (extra_blocks, self.mountpoint, rootfs_size))
-+        rootfs_size = self.get_rootfs_size(actual_rootfs_size)
- 
-         with open(rootfs, 'w') as sparse:
-             os.ftruncate(sparse.fileno(), rootfs_size * 1024)
-@@ -245,15 +275,7 @@ class Partition():
-         out = exec_cmd(du_cmd)
-         actual_rootfs_size = int(out.split()[0])
- 
--        extra_blocks = self.get_extra_block_count(actual_rootfs_size)
--        if extra_blocks < self.extra_space:
--            extra_blocks = self.extra_space
--
--        rootfs_size = actual_rootfs_size + extra_blocks
--        rootfs_size *= self.overhead_factor
--
--        msger.debug("Added %d extra blocks to %s to get to %d total blocks" % \
--                    (extra_blocks, self.mountpoint, rootfs_size))
-+        rootfs_size = self.get_rootfs_size(actual_rootfs_size)
- 
-         with open(rootfs, 'w') as sparse:
-             os.ftruncate(sparse.fileno(), rootfs_size * 1024)
-@@ -275,20 +297,13 @@ class Partition():
-         out = exec_cmd(du_cmd)
-         blocks = int(out.split()[0])
- 
--        extra_blocks = self.get_extra_block_count(blocks)
--        if extra_blocks < self.extra_space:
--            extra_blocks = self.extra_space
--
--        blocks += extra_blocks
--
--        msger.debug("Added %d extra blocks to %s to get to %d total blocks" % \
--                    (extra_blocks, self.mountpoint, blocks))
-+        rootfs_size = self.get_rootfs_size(blocks)
- 
-         label_str = "-n boot"
-         if self.label:
-             label_str = "-n %s" % self.label
- 
--        dosfs_cmd = "mkdosfs %s -S 512 -C %s %d" % (label_str, rootfs, blocks)
-+        dosfs_cmd = "mkdosfs %s -S 512 -C %s %d" % (label_str, rootfs, rootfs_size)
-         exec_native_cmd(dosfs_cmd, native_sysroot)
- 
-         mcopy_cmd = "mcopy -i %s -s %s/* ::/" % (rootfs, rootfs_dir)
-@@ -311,8 +326,9 @@ class Partition():
-         """
-         Prepare an empty ext2/3/4 partition.
-         """
-+        size = self.get_size()
-         with open(rootfs, 'w') as sparse:
--            os.ftruncate(sparse.fileno(), self.size * 1024)
-+            os.ftruncate(sparse.fileno(), size * 1024)
- 
-         extra_imagecmd = "-i 8192"
- 
-@@ -329,8 +345,9 @@ class Partition():
-         """
-         Prepare an empty btrfs partition.
-         """
-+        size = self.get_size()
-         with open(rootfs, 'w') as sparse:
--            os.ftruncate(sparse.fileno(), self.size * 1024)
-+            os.ftruncate(sparse.fileno(), size * 1024)
- 
-         label_str = ""
-         if self.label:
-@@ -345,7 +362,7 @@ class Partition():
-         """
-         Prepare an empty vfat partition.
-         """
--        blocks = self.size
-+        blocks = self.get_size()
- 
-         label_str = "-n boot"
-         if self.label:
-diff --git a/scripts/lib/wic/utils/partitionedfs.py b/scripts/lib/wic/utils/partitionedfs.py
-index 9e76487844eebfffc7227d053a65dc9fdab3678b..cfa5f5ce09b764c1c2a9b7a3f7bf7d677a6811c4 100644
---- a/scripts/lib/wic/utils/partitionedfs.py
-+++ b/scripts/lib/wic/utils/partitionedfs.py
-@@ -209,7 +209,7 @@ class Image():
-             msger.debug("Assigned %s to %s%d, sectors range %d-%d size %d "
-                         "sectors (%d bytes)." \
-                             % (part['mountpoint'], part['disk_name'], part['num'],
--                               part['start'], part['start'] + part['size'] - 1,
-+                               part['start'], disk['offset'] - 1,
-                                part['size'], part['size'] * self.sector_size))
- 
-         # Once all the partitions have been layed out, we can calculate the
--- 
-2.5.0
+--hqIfhL1cIbGJnXKdNxmc31BKNUWXDLXEt
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
 
+
+On 11/8/16 12:19 AM, Robert P. J. Day wrote:
+>=20
+>   (NOTE: i'm fighting with a compile error in a perl recipe i've
+> written, but rather than ask about that right this instant, i want to
+> explain my general methodology for writing these sorts of recipes so
+> that, in the future, i'll have a much better idea of how to solve
+> issues like this, so i apologize for the verbosity, and if people want
+> to chime in with advice, i'll be delighted to write all this up later
+> for everyone else's benefit. *then* i'll ask about my compile error.)
+>=20
+>   at the moment, for a "qemuppc" core-image-minimal target, i'm trying
+> to write OE-equivalent perl and/or python recipes for 200+ x86_64
+> centos RPMs -- effectively trying to reproduce (for powerpc) a running
+> centos 7 system. in short, trying to port a centos 7 system to an
+> OE-based powerpc box, which involves reproducing with OE equivalents
+> quite a number of stock RPMs for which there are no obvious available
+> recipes. from that initial list of 200+ RPMs, i'm down to less than 60
+> to go, so that's progress.
+>=20
+>   most of what's left is perl, so here's my methodology for creating a
+> perl recipe, and i'll use a specific example, "perl-Net-IP", and even
+> though i'm doing this on my fedora system, there's not much difference
+> between this system and a centos box, other than RPM version
+> differences.
+>=20
+>   first, i typically pop over to the OE layers page, and do a search
+> to see if there's already a recipe for what i'm looking for -- in this
+> case, i didn't see an equivalent for "perl-Net-IP":
+>=20
+> https://layers.openembedded.org/layerindex/branch/master/recipes/?q=3Dp=
+erl+net+ip
+>=20
+> (Q: is that a reasonably comprehensive search approach? oh, and i've
+> already been advised to avoid using the meta-debian layer.)
+>=20
+>   next, since it looks like i'll need to write a recipe, i install the
+> equivalent recipe on my fedora box, just to see what i'm aiming for as
+> a final result (or something reasonably equivalent):
+>=20
+>   $ sudo dnf install perl-Net-IP
+>   $ rpm -ql perl-Net-IP
+>   /usr/bin/ipcount
+>   /usr/bin/iptab
+>   /usr/share/doc/perl-Net-IP
+>   /usr/share/doc/perl-Net-IP/COPYING
+>   /usr/share/doc/perl-Net-IP/Changes
+>   /usr/share/doc/perl-Net-IP/README
+>   /usr/share/man/man3/Net::IP.3pm.gz
+>   /usr/share/perl5/vendor_perl/Net
+>   /usr/share/perl5/vendor_perl/Net/IP.pm
+>   $
+>=20
+> ok, now i have an idea of what my final OE build should produce.
+>=20
+>   next, pop over to metacpan.org and search for corresponding source
+> to find:
+>=20
+>   https://metacpan.org/pod/Net::IP
+>=20
+> at which point, write a fairly boilerplate recipe (the "noarch" RPMs
+> are the easy ones), filling in among other things:
+>=20
+>   * "SRC_URI"
+>   * checksums
+>   * "S"
+>   * "inherit cpan allarch"
+>=20
+> ///// start /////
+>=20
+> DESCRIPTION =3D "Net::IP"
+>=20
+> SECTION =3D "libs"
+> LICENSE =3D "Artisticv1 | GPLv1+"
+> PR =3D "r0"
+>=20
+> MAINTAINER=3D     "rday"
+> HOMEPAGE=3D       "https://metacpan.org/pod/Net::IP"
+>=20
+> LIC_FILES_CHKSUM =3D "file://${COMMON_LICENSE_DIR}/Artistic-1.0;md5=3Dc=
+da03bbdc3c1951996392b872397b798 \
+> file://${COMMON_LICENSE_DIR}/GPL-1.0;md5=3De9e36a9de734199567a4d769498f=
+743d"
+>=20
+> SRC_URI =3D "https://cpan.metacpan.org/authors/id/M/MA/MANU/Net-IP-1.26=
+=2Etar.gz"
+>=20
+> SRC_URI[md5sum] =3D "3a98e3ac45d69ea38a63a7e678bd716d"
+> SRC_URI[sha256sum] =3D "040f16f3066647d761b724a3b70754d28cbd1e6fe5ea01c=
+63ed1cd857117d639"
+>=20
+> S =3D "${WORKDIR}/Net-IP-${PV}"
+>=20
+> inherit cpan allarch
+>=20
+> BBCLASSEXTEND =3D "native"
+>=20
+> ///// end /////
+>=20
+>   at this point, i run:
+>=20
+>   $ bitbake -c fetchall perl-net-ip
+>=20
+> to make sure the fetch works (and adjust checksums to taste), then:
+>=20
+>   $ bitbake perl-net-ip
+>=20
+> to build, and check the contents of the resulting rpm file to see that
+> it matches:
+>=20
+>   $ rpm -qpl perl-net-ip-1.26-r0.all.rpm
+>   /usr
+>   /usr/bin
+>   /usr/bin/ipcount
+>   /usr/bin/iptab
+>   /usr/lib
+>   /usr/lib/perl
+>   /usr/lib/perl/vendor_perl
+>   /usr/lib/perl/vendor_perl/5.22.1
+>   /usr/lib/perl/vendor_perl/5.22.1/Net
+>   /usr/lib/perl/vendor_perl/5.22.1/Net/IP.pm
+>   $
+>=20
+> looks good, so that gets added to my build, and on to the next recipe.
+>=20
+>   couple final notes:
+>=20
+> * i'm currently ignoring all the dependencies i should be adding to
+> those recipes; i'll put them in later
+>=20
+> * it's easy to see when i should use "inherit cpan_build" for the
+> older-style Build.PL-based recipes
+>=20
+> * about to get into the arch-specific recipes, so that will get more
+> interesting ... back shortly with my recipe that's causing the build
+> error
+>=20
+>   thoughts?
+>=20
+
+this seems OK approach to me. I wonder how would recipe-tool fair doing t=
+he
+new recipe work of this sort of usecase. ( devtool add )
+
+> rday
+>=20
+
+
+--hqIfhL1cIbGJnXKdNxmc31BKNUWXDLXEt--
+
+--E52OxuhPF2hwRCPuFd4GLr8KcQ5DTvH0O
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+Comment: GPGTools - https://gpgtools.org
+
+iEYEARECAAYFAlgh+60ACgkQuwUzVZGdMxSQuQCfW/NX35TVu6Ts7GqyX49W3qvC
+qvAAnjEJ9yY5NYnMi5VaTKzJfH7sQpA8
+=Uyll
+-----END PGP SIGNATURE-----
+
+--E52OxuhPF2hwRCPuFd4GLr8KcQ5DTvH0O--
