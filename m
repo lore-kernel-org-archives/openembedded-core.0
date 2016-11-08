@@ -1,24 +1,39 @@
-Return-Path: <joshua.g.lock@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 22BD271A04
+Return-Path: <marex@denx.de>
+Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.9])
+	by mail.openembedded.org (Postfix) with ESMTP id B536970178
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  8 Nov 2016 14:50:10 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga102.fm.intel.com with ESMTP; 08 Nov 2016 06:50:11 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.31,462,1473145200"; d="scan'208";a="1056869897"
-Received: from jlock-mobl1.ger.corp.intel.com ([10.252.8.222])
-	by orsmga001.jf.intel.com with ESMTP; 08 Nov 2016 06:50:10 -0800
-From: Joshua Lock <joshua.g.lock@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  8 Nov 2016 14:49:56 +0000
-Message-Id: <dbce9d3db8013c56d7c814fc9757c62beb2df04d.1478615920.git.joshua.g.lock@intel.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <cover.1478615920.git.joshua.g.lock@intel.com>
-References: <cover.1478615920.git.joshua.g.lock@intel.com>
-In-Reply-To: <cover.1478615920.git.joshua.g.lock@intel.com>
-References: <cover.1478615920.git.joshua.g.lock@intel.com>
-Subject: [PATCH v2 4/4] lib/oe/lsb: attempt to ensure consistent distro id regardless of source
+	Tue,  8 Nov 2016 14:50:35 +0000 (UTC)
+Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
+	by mail-out.m-online.net (Postfix) with ESMTP id 3tCsgH6RFrz3hjPd;
+	Tue,  8 Nov 2016 15:50:34 +0100 (CET)
+Received: from localhost (dynscan1.mnet-online.de [192.168.6.68])
+	by mail.m-online.net (Postfix) with ESMTP id 3tCsgG50gqzvl28;
+	Tue,  8 Nov 2016 15:50:34 +0100 (CET)
+X-Virus-Scanned: amavisd-new at mnet-online.de
+Received: from mail.mnet-online.de ([192.168.8.182])
+	by localhost (dynscan1.mail.m-online.net [192.168.6.68]) (amavisd-new,
+	port 10024)
+	with ESMTP id 0JM_YwC0QG9k; Tue,  8 Nov 2016 15:50:33 +0100 (CET)
+X-Auth-Info: kPJwlUz4A2YXrnLXypn8Y++9v3l8gRCA9SRfKiKK3wI=
+Received: from [IPv6:::1] (host-82-135-33-74.customer.m-online.net
+	[82.135.33.74])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mail.mnet-online.de (Postfix) with ESMTPSA;
+	Tue,  8 Nov 2016 15:50:33 +0100 (CET)
+To: Jussi Kukkonen <jussi.kukkonen@intel.com>
+References: <20161107182006.4207-1-marex@denx.de>
+	<CAHiDW_Gynj2f6ByeSwYe61S8kQ_q8BiAG9Ng2d8BzQ-KNwH=EA@mail.gmail.com>
+From: Marek Vasut <marex@denx.de>
+Message-ID: <ce7eb69f-a02d-d1b4-5a40-f0ac129e8d22@denx.de>
+Date: Tue, 8 Nov 2016 15:49:53 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Icedove/45.4.0
+MIME-Version: 1.0
+In-Reply-To: <CAHiDW_Gynj2f6ByeSwYe61S8kQ_q8BiAG9Ng2d8BzQ-KNwH=EA@mail.gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] u-boot: mkimage: Fix build of u-boot-mkimage
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,62 +46,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Nov 2016 14:50:10 -0000
+X-List-Received-Date: Tue, 08 Nov 2016 14:50:36 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
 
-The LSB Distributor ID and os-release NAME differ for most of the
-distributions tested by the Yocto Project (CentOS, Debian, Fedora,
-openSUSE and Ubuntu) however for all but openSUSE the os-release ID
-matches the LSB Distributor ID when both are lowered before
-comparison.
+On 11/07/2016 09:43 PM, Jussi Kukkonen wrote:
+> On 7 November 2016 at 20:20, Marek Vasut <marex@denx.de
+> <mailto:marex@denx.de>> wrote:
+> 
+>     The build failed on qemux86-64 because it couldn't execute
+>     tools/bin2header on a host due to it being compiled with target
+>     toolchain. Drop the incorrect EXTRA_OEMAKE, U-Boot Kbuild/Kconfig
+>     respects the flags from OE. Moreover, since U-Boot buildsystem
+>     already strips the tools, add INSANE_SKIP = "already-stripped" .
+> 
+> 
+> The INSANE_SKIP mentioned here is no longer included in the patch.
 
-Therefore, in order to improve the consistency of identification of
-a distribution, switch to using the os-release ID and converting
-the ID value to lowercase.
+I just noticed that too that I forgot to update the commit message
+altogether.
 
-Table showing comparison of LSB Distributor ID to os-release fields NAME
-and ID for current Yocto Project supported host distributions:
 
-Distribution | Version | Distributor ID   | NAME             | ID       |
--------------------------------------------------------------------------
-CentOS       | 7       | CentOS           | CentOS Linux     | centos   |
-Debian       | 8       | Debian           | Debian GNU/Linux | debian   |
-Fedora       | 23      | Fedora           | Fedora           | fedora   |
-Fedora       | 24      | Fedora           | Fedora           | fedora   |
-openSUSE     | 13.2    | openSUSE project | openSUSE         | opensuse |
-openSUSE     | 42.1    | SUSE LINUX       | openSUSE Leap    | opensuse |
-Ubuntu       | 14.04   | Ubuntu           | Ubuntu           | ubuntu   |
-Ubuntu       | 16.04   | Ubuntu           | Ubuntu           | ubuntu   |
-
-[YOCTO #10591]
-
-Signed-off-by: Joshua Lock <joshua.g.lock@intel.com>
----
- meta/lib/oe/lsb.py | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/meta/lib/oe/lsb.py b/meta/lib/oe/lsb.py
-index 8018c7b..5a795a1 100644
---- a/meta/lib/oe/lsb.py
-+++ b/meta/lib/oe/lsb.py
-@@ -10,7 +10,7 @@ def release_dict_osr():
-                 key, val = line.rstrip().split('=', 1)
-             except ValueError:
-                 continue
--            if key == 'NAME':
-+            if key == 'ID':
-                 data['DISTRIB_ID'] = val.strip('"')
-             if key == 'VERSION_ID':
-                 data['DISTRIB_RELEASE'] = val.strip('"')
-@@ -107,7 +107,7 @@ def distro_identifier(adjust_hook=None):
-     distro_id = re.sub(r'\W', '', distro_id)
- 
-     if release:
--        id_str = '{0}-{1}'.format(distro_id, release)
-+        id_str = '{0}-{1}'.format(distro_id.lower(), release)
-     else:
-         id_str = distro_id
-     return id_str.replace(' ','-').replace('/','-')
 -- 
-2.7.4
-
+Best regards,
+Marek Vasut
 
