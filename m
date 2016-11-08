@@ -1,41 +1,43 @@
-Return-Path: <sona.sarmadi@enea.com>
-Received: from smtp-out11.electric.net (smtp-out11.electric.net
-	[185.38.181.34])
-	by mail.openembedded.org (Postfix) with ESMTP id E78256E65F
+Return-Path: <andre.draszik@gmail.com>
+Received: from mail-wm0-f66.google.com (mail-wm0-f66.google.com [74.125.82.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 03B6C71A31
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  8 Nov 2016 10:42:05 +0000 (UTC)
-Received: from 1c43qv-0003yy-WC by out11d.electric.net with emc1-ok (Exim 4.87)
-	(envelope-from <sona.sarmadi@enea.com>) id 1c43qw-00040U-UR
-	for openembedded-core@lists.openembedded.org;
-	Tue, 08 Nov 2016 02:42:06 -0800
-Received: by emcmailer; Tue, 08 Nov 2016 02:42:06 -0800
-Received: from [192.36.1.72] (helo=mx-3.enea.com)
-	by out11d.electric.net with esmtps (TLSv1:AES128-SHA:128) (Exim 4.87)
-	(envelope-from <sona.sarmadi@enea.com>) id 1c43qv-0003yy-WC
-	for openembedded-core@lists.openembedded.org;
-	Tue, 08 Nov 2016 02:42:05 -0800
-Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
-	(172.21.1.209) with Microsoft SMTP Server id 14.3.294.0; Tue, 8 Nov 2016
-	11:42:05 +0100
-From: Sona Sarmadi <sona.sarmadi@enea.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 8 Nov 2016 11:41:58 +0100
-Message-ID: <1478601718-12481-1-git-send-email-sona.sarmadi@enea.com>
-X-Mailer: git-send-email 1.9.1
-MIME-Version: 1.0
-Received-SPF: None (SESTOEX03.enea.se: sona.sarmadi@enea.com does not
-	designate permitted sender hosts)
-X-Outbound-IP: 192.36.1.72
-X-Env-From: sona.sarmadi@enea.com
-X-Proto: esmtps
-X-Revdns: mx-3.enea.com
-X-HELO: mx-3.enea.com
-X-TLS: TLSv1:AES128-SHA:128
-X-Authenticated_ID: 
-X-PolicySMART: 6551647
-X-Virus-Status: Scanned by VirusSMART (c)
-X-Virus-Status: Scanned by VirusSMART (s)
-Subject: [PATCH] curl: Upgrade 7.50.1.bb -> curl_7.51.0.bb
+	Tue,  8 Nov 2016 10:54:11 +0000 (UTC)
+Received: by mail-wm0-f66.google.com with SMTP id c17so21678099wmc.3
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 08 Nov 2016 02:54:13 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=/MR4veSdvAnK+U7BdNoXVrMsJK4LyLojBqtbe4amJdA=;
+	b=WsO+ih8fUqdGZ3itJyO09lhHs+irfPxyMUglaFz/bRiJNP81CSspoEXtuWCCEpzmsD
+	kJZJWK5ViLX6S219OZP0NmZQxA+R3BW9G1bdrhdNGvIJiW+fjfsdWtaJ7iuXBq9cX/tR
+	3hDBuHzIDMxfjFb/cBr6LkFK+hsORP98JolXPGHoOgjK/LagxutCCGoGkJMArm15PKBE
+	VBBJROmiRPlZkgsxpaqZsLRisVgrolQzkp5lyaJxQpLIyLdpT24sJCfCYcNxmSLCbO/D
+	9671D8kkHx7Lk2HjsCv0L4y/BZrmKCJ1wFMa2ZhobihaRURk1U/5ktDsP9+rvLc2WsLn
+	VZdw==
+X-Gm-Message-State: ABUngveHfMM636Bxzun7maSIbMYrZAA53ntHmdAiU37bBY0m57ua/DlWYXFHGBn7LHFhlQ==
+X-Received: by 10.28.6.137 with SMTP id 131mr13662566wmg.49.1478602452167;
+	Tue, 08 Nov 2016 02:54:12 -0800 (PST)
+Received: from tfsielt31850 ([77.107.218.170])
+	by smtp.gmail.com with ESMTPSA id
+	vf8sm36338320wjc.27.2016.11.08.02.54.10
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Tue, 08 Nov 2016 02:54:11 -0800 (PST)
+Message-ID: <1478602450.8895.9.camel@andred.net>
+From: =?ISO-8859-1?Q?Andr=E9?= Draszik <git@andred.net>
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Date: Tue, 08 Nov 2016 10:54:10 +0000
+In-Reply-To: <CAJ86T=UAjjvEOoxJjWX16x-iDNqb-EAHqgCEBZ9_SyW00W7mEg@mail.gmail.com>
+References: <20161107150135.40266-1-Zubair.Kakakhel@imgtec.com>
+	<20161107150135.40266-2-Zubair.Kakakhel@imgtec.com>
+	<dfeea628-1c1b-1e1e-b015-aa4cd5b9b42c@gmail.com>
+	<CAJ86T=UAjjvEOoxJjWX16x-iDNqb-EAHqgCEBZ9_SyW00W7mEg@mail.gmail.com>
+X-Mailer: Evolution 3.22.1-2 
+Mime-Version: 1.0
+Subject: Re: [Patch 01/13] arch-mips: Add MACHINEOVERRIDES variables to reduce duplication
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,52 +50,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Nov 2016 10:42:07 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 08 Nov 2016 10:54:12 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-The upgrade addresses following CVEs:
-CVE-2016-8615: cookie injection for other servers
-CVE-2016-8616: case insensitive password comparison
-CVE-2016-8617: OOB write via unchecked multiplication
-CVE-2016-8618: double-free in curl_maprintf
-CVE-2016-8619: double-free in krb5 code
-CVE-2016-8620: glob parser write/read out of bounds
-CVE-2016-8621: curl_getdate read out of bounds
-CVE-2016-8622: URL unescape heap overflow via integer truncation
-CVE-2016-8623: Use-after-free via shared cookies
-CVE-2016-8624: invalid URL parsing with '#'
-CVE-2016-8625: IDNA 2003 makes curl use wrong host
+On Mon, 2016-11-07 at 18:32 -0800, Andre McCurdy wrote:
+> On Mon, Nov 7, 2016 at 9:30 AM, Khem Raj <raj.khem@gmail.com> wrote:
+> > 
+> > On 11/7/16 7:01 AM, Zubair Lutfullah Kakakhel wrote:
+> > > In some cases, each MIPS variant in a recipe requires a duplicate
+> > > line. Even if the passed flag is the same.
+> > > 
+> > > Add global MACHINEOVERRIDES variables for the following
+> > >  * mipsarch           : All MIPS
+> > >  * mipsarchr6         : All MIPS R6
+> > >  * mipsarcho32{el}    : All MIPS o32
+> > >  * mipsarchn32{el}    : All MIPS n32
+> > >  * mipsarchn64{el}    : All MIPS n64
+> > > 
+> > > This is intended to reduce duplications in recipes
+> > > 
+> > > [YOCTO #10404]
+> > > 
+> > > Signed-off-by: Zubair Lutfullah Kakakhel <Zubair.Kakakhel@imgtec.com>
+> > > ---
+> > >  meta/conf/machine/include/mips/arch-mips.inc | 7 +++++++
+> > >  1 file changed, 7 insertions(+)
+> > > 
+> > > diff --git a/meta/conf/machine/include/mips/arch-mips.inc
+> > > b/meta/conf/machine/include/mips/arch-mips.inc
+> > > index 6069ca1..5b42841 100644
+> > > --- a/meta/conf/machine/include/mips/arch-mips.inc
+> > > +++ b/meta/conf/machine/include/mips/arch-mips.inc
+> > > @@ -50,6 +50,13 @@ MIPSPKGSFX_32R6 = "${@bb.utils.contains('TUNE_FEATU
+> > > RES', 'mipsisa32r6', 'isa32',
+> > >  TUNE_ARCH =
+> > > "mips${MIPSPKGSFX_32R6}${MIPSPKGSFX_64R6}${MIPSPKGSFX_BYTE}${MIPSPKGSF
+> > > X_R6}${MIPSPKGSFX_ENDIAN}"
+> > >  TUNE_PKGARCH = "${MIPSPKGSFX_VARIANT_tune-
+> > > ${DEFAULTTUNE}}${MIPSPKGSFX_FPU}${MIPSPKGSFX_ABI}"
+> > > 
+> > > +# Various Global Machine Overrides
+> > > +MACHINEOVERRIDES =. "mipsarch:"
+> > > +MACHINEOVERRIDES =. "${@bb.utils.contains('TUNE_FEATURES', 'r6',
+> > > 'mipsarchr6:', '' ,d)}"
+> > > +MACHINEOVERRIDES =. "${@bb.utils.contains('TUNE_FEATURES', 'n32',
+> > > 'mipsarchn32${MIPSPKGSFX_ENDIAN}:', '' ,d)}"
+> > > +MACHINEOVERRIDES =. "${@bb.utils.contains('TUNE_FEATURES', 'o32',
+> > > 'mipsarcho32${MIPSPKGSFX_ENDIAN}:', '' ,d)}"
+> > > +MACHINEOVERRIDES =. "${@bb.utils.contains('TUNE_FEATURES', 'n64',
+> > > 'mipsarch64${MIPSPKGSFX_ENDIAN}:', '' ,d)}"
+> > 
+> > how about mips16 ?
+> 
+> We explicitly removed _thumb as an over-ride for ARM, so adding the
+> equivalent for MIPS would be odd, unless you see a clear need for it?
 
-Reference:
-https://curl.haxx.se/docs/security.html
+There is a need as not all code compiles in MIPS16e mode... The override is
+already there in OE - modelled after the original (now gone) thumb override.
 
-Fixes [Yocto #10617]
+http://git.openembedded.org/openembedded-core/tree/meta/conf/machine/include/mips/feature-mips-mips16e.inc
 
-Signed-off-by: Sona Sarmadi <sona.sarmadi@enea.com>
----
- meta/recipes-support/curl/{curl_7.50.1.bb => curl_7.51.0.bb} | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-support/curl/{curl_7.50.1.bb => curl_7.51.0.bb} (94%)
-
-diff --git a/meta/recipes-support/curl/curl_7.50.1.bb b/meta/recipes-support/curl/curl_7.51.0.bb
-similarity index 94%
-rename from meta/recipes-support/curl/curl_7.50.1.bb
-rename to meta/recipes-support/curl/curl_7.51.0.bb
-index a21419a..e1a996b 100644
---- a/meta/recipes-support/curl/curl_7.50.1.bb
-+++ b/meta/recipes-support/curl/curl_7.51.0.bb
-@@ -14,8 +14,8 @@ SRC_URI = "http://curl.haxx.se/download/curl-${PV}.tar.bz2 \
- #
- SRC_URI += " file://configure_ac.patch"
- 
--SRC_URI[md5sum] = "015f6a0217ca6f2c5442ca406476920b"
--SRC_URI[sha256sum] = "3c12c5f54ccaa1d40abc65d672107dcc75d3e1fcb38c267484334280096e5156"
-+SRC_URI[md5sum] = "09a7c5769a7eae676d5e2c86d51f167e"
-+SRC_URI[sha256sum] = "7f8240048907e5030f67be0a6129bc4b333783b9cca1391026d700835a788dde"
- 
- inherit autotools pkgconfig binconfig multilib_header
- 
--- 
-1.9.1
+Cheers,
+Andre'
 
 
