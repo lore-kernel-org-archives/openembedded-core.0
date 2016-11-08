@@ -1,45 +1,45 @@
 Return-Path: <raj.khem@gmail.com>
 Received: from mail-pf0-f195.google.com (mail-pf0-f195.google.com
 	[209.85.192.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 94D5D70100
+	by mail.openembedded.org (Postfix) with ESMTP id 30CC4719F2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  8 Nov 2016 05:23:29 +0000 (UTC)
-Received: by mail-pf0-f195.google.com with SMTP id n85so18084327pfi.3
+	Tue,  8 Nov 2016 06:01:39 +0000 (UTC)
+Received: by mail-pf0-f195.google.com with SMTP id y68so18219240pfb.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 07 Nov 2016 21:23:30 -0800 (PST)
+	Mon, 07 Nov 2016 22:01:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id;
-	bh=SWf2ONbIvYhJQ7Y1drPgrc2LI2l7ft81a/Hn5F/64sw=;
-	b=yE/459hjguOxxPAtxnCukn5SQzDd3UE/Ke6fNxThKVA7Mq84uSQkKPEvpY56WgSEId
-	r9nElTCKw7xa4rOhwa8p0yC/eVmDZ6rrigxdWUGqYT5SO3KURlHPGAUEtJ3qVfnzvsXw
-	Q14TDHOyh7NVsf7GONrwWy7YnTIJkt7fdd0vO/w0S5uWgps1CHkT7Q6PfngMppSiPyvu
-	OO18UbfwM4ayWPbHbhxl/049013ULCp3QrzN2UB87Yg6FrHmG900p6cruaeL913y4G0n
-	Ej1To9MOQDfF3w7wG5o/h7xDyLMurxXaTI27L5IiF1szXCG2GRvjbfIc7GkLqv+za8NW
-	6odA==
+	bh=4VQASa0BgQ3e3c5MfE7CHeWT0o2XCJXtsqMdIM7K2OA=;
+	b=yXG907vr8bOPyaLOnEKssnJ6ZphetfxPhvl79WlRgX13X+6XsCAgnDJq73O2413VPi
+	tbQ6aqVupTFeq1A7K7Fi7b1Z7duIzxtEn73/ZLBaVMLhvA+8VrOBiQHWyFKdbAZ5URMN
+	VGe4NWlWiMsGKh0kQWxpmpHLQencAQtcL7OfaCKwA47aBPNV9zg4dJ3P+12OM9HdR9Lc
+	Do2mZiX2z2aHSC/3GYYWwXwF9YwV2rBESFObibyettfm8f8b3GEQ9zfVVmWCW4hk7zr3
+	Mmt9Z6LEe179lD34WE7U396Idm3oQMQLnEMzwjV3dTVVkW3hN+bL55O7K7Y4zCZdTb13
+	kSHg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=SWf2ONbIvYhJQ7Y1drPgrc2LI2l7ft81a/Hn5F/64sw=;
-	b=Z+5OftJCUFaDvS/xkGvo8Lnzq8RN6QplncfB9zH3Hl6uLZMMLkamRKccBd4PZ3IUP3
-	mYMaEO7dzoxLcRBvTEIcDraMp15Cb61tGGrDqU7p6FanGsNFGazUJyTQSuO1hhlFScQT
-	UyzThODdKt6+8hLIiXjd7hIEa8qliMn1Yim6wINrS7n9cA4o0+CPqqZ+CWZgl03B/Emz
-	nJ0rhnnkdKtwCJI8dtySk1C0yE4ExK/Pv9lTYTpFEj3q7cyI/vm3RgHLHJmQDW/Ws42E
-	inZbFy4xuPub6DZv0yYvgG4ZayyR4PdUhZjD4U1Y/BDVjak5DcP+8un6RCfC5sli8Wzv
-	z4EQ==
-X-Gm-Message-State: ABUngvdvMZUgGRa0OgctgKSUhI3R/NusqFoH70gsaOophDICixqeVWmF1PHSt1VlLVz0/A==
-X-Received: by 10.98.18.6 with SMTP id a6mr20340972pfj.184.1478582610733;
-	Mon, 07 Nov 2016 21:23:30 -0800 (PST)
+	bh=4VQASa0BgQ3e3c5MfE7CHeWT0o2XCJXtsqMdIM7K2OA=;
+	b=Kf/6n9bn3mZGI1AGRUtACRMPzqo008o0lP3Is8gHp2vylZYnJp1gB9+ZGs9Kx1RsJE
+	W3idIOvLdEJ6UUH/P7zbV4Md2fuj2kVVGum4+97AnZeRgnlE3RB5PzL03SVtl11l4bJo
+	27nPFEJW4JZr8p6COenkpGfVYdN7qUHyZ2aT25uj5uET3PjSP5xSKyoR4n41QeMdEMGX
+	3smhlSqzAo3VtDNhlFRxE6iRD2+b9TwXA6T5V4fxuOVjOAa8+9B02eFw8FT9/WwMr00d
+	05UGtZ9Xf/3WILdM8/a20iQ93CjjAivbsTRb74FfaKa6lFewaAsxhEaznH24Nt95V1hI
+	Ksgg==
+X-Gm-Message-State: ABUngvcOzkmC1mQvw87PJpAbDMyaLz8kxJsl2m1TdH+NZeMhzOPxsJpFYhFJYQnX8gQtLA==
+X-Received: by 10.98.103.201 with SMTP id t70mr20222329pfj.99.1478583908598;
+	Mon, 07 Nov 2016 21:45:08 -0800 (PST)
 Received: from localhost.localdomain (c-76-102-32-192.hsd1.ca.comcast.net.
 	[76.102.32.192]) by smtp.gmail.com with ESMTPSA id
-	cp2sm44658693pad.3.2016.11.07.21.23.29
+	fg2sm44804753pad.23.2016.11.07.21.45.07
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 07 Nov 2016 21:23:30 -0800 (PST)
+	Mon, 07 Nov 2016 21:45:08 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  7 Nov 2016 21:23:25 -0800
-Message-Id: <20161108052325.11907-1-raj.khem@gmail.com>
+Date: Mon,  7 Nov 2016 21:45:03 -0800
+Message-Id: <20161108054503.15107-1-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.10.2
-Subject: [PATCH] x264: Update to latest on stable branch
+Subject: [PATCH V2] musl: Update to latest on master
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,82 +52,121 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Nov 2016 05:23:33 -0000
-
-- Switch URI to use github mirror for reliabality
-- Disable openCL code, its not used
-- TEXTRELs are fixed, therefore dont skip QA check
+X-List-Received-Date: Tue, 08 Nov 2016 06:01:40 -0000
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- .../x264/x264/don-t-default-to-cortex-a9-with-neon.patch    | 13 ++-----------
- meta/recipes-multimedia/x264/x264_git.bb                    |  9 +++------
- 2 files changed, 5 insertions(+), 17 deletions(-)
+ meta/recipes-core/musl/files/CVE-2016-8859.patch | 79 ------------------------
+ meta/recipes-core/musl/musl_git.bb               |  3 +-
+ 2 files changed, 1 insertion(+), 81 deletions(-)
+ delete mode 100644 meta/recipes-core/musl/files/CVE-2016-8859.patch
 
-diff --git a/meta/recipes-multimedia/x264/x264/don-t-default-to-cortex-a9-with-neon.patch b/meta/recipes-multimedia/x264/x264/don-t-default-to-cortex-a9-with-neon.patch
-index bf72fca..73f2aac 100644
---- a/meta/recipes-multimedia/x264/x264/don-t-default-to-cortex-a9-with-neon.patch
-+++ b/meta/recipes-multimedia/x264/x264/don-t-default-to-cortex-a9-with-neon.patch
-@@ -5,10 +5,10 @@ Upstream-Status: Pending
- Signed-off-by: Andrei Gherzan <andrei@gherzan.ro>
- 
- diff --git a/configure b/configure
--index 2916036..f4ece40 100755
-+index 9d1586c..3109ec4 100755
- --- a/configure
- +++ b/configure
--@@ -773,9 +773,6 @@ if [ $asm = auto -a \( $ARCH = X86 -o $ARCH = X86_64 \) ] ; then
-+@@ -874,9 +874,6 @@ if [ $asm = auto -a \( $ARCH = X86 -o $ARCH = X86_64 \) ] ; then
-  fi
-  
-  if [ $asm = auto -a $ARCH = ARM ] ; then
-@@ -18,12 +18,3 @@ index 2916036..f4ece40 100755
-      if  cc_check '' '' '__asm__("rev ip, ip");' ; then      define HAVE_ARMV6
-          cc_check '' '' '__asm__("movt r0, #0");'         && define HAVE_ARMV6T2
-          cc_check '' '' '__asm__("vadd.i16 q0, q0, q0");' && define HAVE_NEON
--@@ -788,8 +785,6 @@ if [ $asm = auto -a $ARCH = ARM ] ; then
-- fi
-- 
-- if [ $asm = auto -a $ARCH = AARCH64 ] ; then
---    # set flags so neon is built by default
---    echo $CFLAGS | grep -Eq '(-mcpu|-march|-mfpu|-arch)' || CFLAGS="$CFLAGS -arch arm64 -mfpu=neon"
-- 
--     if  cc_check '' '' '__asm__("cmeq v0.8h, v0.8h, #0");' ; then define HAVE_NEON
--         ASFLAGS="$ASFLAGS -c"
-diff --git a/meta/recipes-multimedia/x264/x264_git.bb b/meta/recipes-multimedia/x264/x264_git.bb
-index 393310f..8a239e1 100644
---- a/meta/recipes-multimedia/x264/x264_git.bb
-+++ b/meta/recipes-multimedia/x264/x264_git.bb
-@@ -8,11 +8,11 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f"
- 
- DEPENDS = "yasm-native"
- 
--SRC_URI = "git://git.videolan.org/x264.git \
-+SRC_URI = "git://github.com/mirror/x264;branch=stable \
-            file://don-t-default-to-cortex-a9-with-neon.patch \
-            "
- 
--SRCREV = "c8a773ebfca148ef04f5a60d42cbd7336af0baf6"
-+SRCREV = "86b71982e131eaa70125f8d0e725fcade9c4c677"
- 
- PV = "r2491+git${SRCPV}"
- 
-@@ -34,6 +34,7 @@ EXTRA_OECONF = '--prefix=${prefix} \
-                 --enable-static \
-                 --disable-lavf \
-                 --disable-swscale \
-+                --disable-opencl \
-                 --enable-pic \
-                 ${X264_DISABLE_ASM} \
-                '
-@@ -47,7 +48,3 @@ AS = "${TARGET_PREFIX}gcc"
- do_install() {
-     oe_runmake install DESTDIR=${D}
- }
+diff --git a/meta/recipes-core/musl/files/CVE-2016-8859.patch b/meta/recipes-core/musl/files/CVE-2016-8859.patch
+deleted file mode 100644
+index 82da86f..0000000
+--- a/meta/recipes-core/musl/files/CVE-2016-8859.patch
++++ /dev/null
+@@ -1,79 +0,0 @@
+-From c3edc06d1e1360f3570db9155d6b318ae0d0f0f7 Mon Sep 17 00:00:00 2001
+-From: Rich Felker <dalias@aerifal.cx>
+-Date: Thu, 6 Oct 2016 18:34:58 -0400
+-Subject: [PATCH] fix missing integer overflow checks in regexec buffer size
+- computations
 -
--# PIC can't be enabled for few BSP's
--INSANE_SKIP_${PN}_append = " textrel"
+-most of the possible overflows were already ruled out in practice by
+-regcomp having already succeeded performing larger allocations.
+-however at least the num_states*num_tags multiplication can clearly
+-overflow in practice. for safety, check them all, and use the proper
+-type, size_t, rather than int.
 -
+-also improve comments, use calloc in place of malloc+memset, and
+-remove bogus casts.
+-
+-Upstream-Status: Backport
+-CVE: CVE-2016-8859
+-
+-Signed-off-by: Armin Kuster <akuster@mvista.com>
+-
+----
+- src/regex/regexec.c | 23 ++++++++++++++++++-----
+- 1 file changed, 18 insertions(+), 5 deletions(-)
+-
+-diff --git a/src/regex/regexec.c b/src/regex/regexec.c
+-index 16c5d0a..dd52319 100644
+---- a/src/regex/regexec.c
+-+++ b/src/regex/regexec.c
+-@@ -34,6 +34,7 @@
+- #include <wchar.h>
+- #include <wctype.h>
+- #include <limits.h>
+-+#include <stdint.h>
+- 
+- #include <regex.h>
+- 
+-@@ -206,11 +207,24 @@ tre_tnfa_run_parallel(const tre_tnfa_t *tnfa, const void *string,
+- 
+-   /* Allocate memory for temporary data required for matching.	This needs to
+-      be done for every matching operation to be thread safe.  This allocates
+--     everything in a single large block from the stack frame using alloca()
+--     or with malloc() if alloca is unavailable. */
+-+     everything in a single large block with calloc(). */
+-   {
+--    int tbytes, rbytes, pbytes, xbytes, total_bytes;
+-+    size_t tbytes, rbytes, pbytes, xbytes, total_bytes;
+-     char *tmp_buf;
+-+
+-+    /* Ensure that tbytes and xbytes*num_states cannot overflow, and that
+-+     * they don't contribute more than 1/8 of SIZE_MAX to total_bytes. */
+-+    if (num_tags > SIZE_MAX/(8 * sizeof(int) * tnfa->num_states))
+-+      goto error_exit;
+-+
+-+    /* Likewise check rbytes. */
+-+    if (tnfa->num_states+1 > SIZE_MAX/(8 * sizeof(*reach_next)))
+-+      goto error_exit;
+-+
+-+    /* Likewise check pbytes. */
+-+    if (tnfa->num_states > SIZE_MAX/(8 * sizeof(*reach_pos)))
+-+      goto error_exit;
+-+
+-     /* Compute the length of the block we need. */
+-     tbytes = sizeof(*tmp_tags) * num_tags;
+-     rbytes = sizeof(*reach_next) * (tnfa->num_states + 1);
+-@@ -221,10 +235,9 @@ tre_tnfa_run_parallel(const tre_tnfa_t *tnfa, const void *string,
+-       + (rbytes + xbytes * tnfa->num_states) * 2 + tbytes + pbytes;
+- 
+-     /* Allocate the memory. */
+--    buf = xmalloc((unsigned)total_bytes);
+-+    buf = calloc(total_bytes, 1);
+-     if (buf == NULL)
+-       return REG_ESPACE;
+--    memset(buf, 0, (size_t)total_bytes);
+- 
+-     /* Get the various pointers within tmp_buf (properly aligned). */
+-     tmp_tags = (void *)buf;
+--- 
+-2.7.4
+-
+diff --git a/meta/recipes-core/musl/musl_git.bb b/meta/recipes-core/musl/musl_git.bb
+index 1ee56b6..be5c5af 100644
+--- a/meta/recipes-core/musl/musl_git.bb
++++ b/meta/recipes-core/musl/musl_git.bb
+@@ -3,7 +3,7 @@
+ 
+ require musl.inc
+ 
+-SRCREV = "39494a273eaa6b714e0fa0c59ce7a1f5fbc80a1e"
++SRCREV = "33ce920857405d4f4b342c85b74588a15e2702e5"
+ 
+ PV = "1.1.15+git${SRCPV}"
+ 
+@@ -11,7 +11,6 @@ PV = "1.1.15+git${SRCPV}"
+ 
+ SRC_URI = "git://git.musl-libc.org/musl \
+            file://0001-Make-dynamic-linker-a-relative-symlink-to-libc.patch \
+-           file://CVE-2016-8859.patch \
+           "
+ 
+ S = "${WORKDIR}/git"
 -- 
 2.10.2
 
