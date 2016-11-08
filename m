@@ -1,20 +1,24 @@
 Return-Path: <joshua.g.lock@linux.intel.com>
 Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id B928471A04
+	by mail.openembedded.org (Postfix) with ESMTP id BA66471A36
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  8 Nov 2016 14:50:04 +0000 (UTC)
+	Tue,  8 Nov 2016 14:50:05 +0000 (UTC)
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga102.fm.intel.com with ESMTP; 08 Nov 2016 06:50:05 -0800
+	by fmsmga102.fm.intel.com with ESMTP; 08 Nov 2016 06:50:07 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.31,462,1473145200"; d="scan'208";a="1056869813"
+X-IronPort-AV: E=Sophos;i="5.31,462,1473145200"; d="scan'208";a="1056869837"
 Received: from jlock-mobl1.ger.corp.intel.com ([10.252.8.222])
-	by orsmga001.jf.intel.com with ESMTP; 08 Nov 2016 06:50:04 -0800
+	by orsmga001.jf.intel.com with ESMTP; 08 Nov 2016 06:50:06 -0800
 From: Joshua Lock <joshua.g.lock@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  8 Nov 2016 14:49:52 +0000
-Message-Id: <cover.1478615920.git.joshua.g.lock@intel.com>
+Date: Tue,  8 Nov 2016 14:49:53 +0000
+Message-Id: <31dd1686db1c6cec459989b7efe09a58198ec860.1478615920.git.joshua.g.lock@intel.com>
 X-Mailer: git-send-email 2.7.4
-Subject: [PATCH v2 0/4] Make oe.lsb.distro_identifier() more consistent
+In-Reply-To: <cover.1478615920.git.joshua.g.lock@intel.com>
+References: <cover.1478615920.git.joshua.g.lock@intel.com>
+In-Reply-To: <cover.1478615920.git.joshua.g.lock@intel.com>
+References: <cover.1478615920.git.joshua.g.lock@intel.com>
+Subject: [PATCH v2 1/4] lib/oe/path: remove duplicate import
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,42 +33,27 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 08 Nov 2016 14:50:05 -0000
 
-The oe.lsb.distro_identifier() method call will return different identification
-information depending on the source which is found to provide that information.
+There's no need to import glob inside copyhardlinktree() as it's
+already imported for the entire path module.
 
-This series attempts to address this in two ways:
-1) preferring os-release(5) as the source of distribution identification. this
-  increasingly common standard mechanism is available on each of the build host
-  distributions we commonly test on.
-2) converting the distribution identifier to lower case before including it in
-  the distro_identifier return value. This ensures that, for most of the tested
-  distros, the identifier returned via the LSB code paths matches that returned
-  by the os-release code paths.
+Signed-off-by: Joshua Lock <joshua.g.lock@intel.com>
+---
+ meta/lib/oe/path.py | 1 -
+ 1 file changed, 1 deletion(-)
 
-Changes since v1:
-* improve release_dict_osr() in patch 3 to handle empty lines and values with surrounding quotation marks in /etc/os-release, as used in CentOS
-
-
-The following changes since commit 9303d8055c45a0f6af295d70a6f6a8b9d8d8a7c9:
-
-  devtool: add "rename" subcommand (2016-11-07 11:04:17 +0000)
-
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib joshuagl/liboe
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=joshuagl/liboe
-
-Joshua Lock (4):
-  lib/oe/path: remove duplicate import
-  lib/oe/lsb: make the release dict keys consistent regardless of source
-  lib/oe/lsb: prefer /etc/os-release for distribution data
-  lib/oe/lsb: attempt to ensure consistent distro id regardless of
-    source
-
- meta/lib/oe/lsb.py  | 73 +++++++++++++++++++++++++++++++++++------------------
- meta/lib/oe/path.py |  1 -
- 2 files changed, 49 insertions(+), 25 deletions(-)
-
+diff --git a/meta/lib/oe/path.py b/meta/lib/oe/path.py
+index 06a5af2..f73fd4a 100644
+--- a/meta/lib/oe/path.py
++++ b/meta/lib/oe/path.py
+@@ -81,7 +81,6 @@ def copyhardlinktree(src, dst):
+         subprocess.check_output(cmd, shell=True, stderr=subprocess.STDOUT)
+         source = ''
+         if os.path.isdir(src):
+-            import glob
+             if len(glob.glob('%s/.??*' % src)) > 0:
+                 source = '%s/.??* ' % src
+             source = source + '%s/*' % src
 -- 
 2.7.4
+
 
