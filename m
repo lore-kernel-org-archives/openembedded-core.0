@@ -1,25 +1,25 @@
 Return-Path: <Zubair.Kakakhel@imgtec.com>
 Received: from mailapp01.imgtec.com (mailapp01.imgtec.com [195.59.15.196])
-	by mail.openembedded.org (Postfix) with ESMTP id BA69471A93
+	by mail.openembedded.org (Postfix) with ESMTP id 1CDD971A93
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  8 Nov 2016 17:12:44 +0000 (UTC)
+	Tue,  8 Nov 2016 17:12:45 +0000 (UTC)
 Received: from HHMAIL01.hh.imgtec.org (unknown [10.100.10.19])
-	by Forcepoint Email with ESMTPS id 9C83A589260A6
+	by Forcepoint Email with ESMTPS id 2B893FDA91EAE
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  8 Nov 2016 17:12:41 +0000 (GMT)
+	Tue,  8 Nov 2016 17:12:42 +0000 (GMT)
 Received: from zkakakhel-linux.le.imgtec.org (192.168.154.45) by
 	HHMAIL01.hh.imgtec.org (10.100.10.21) with Microsoft SMTP Server (TLS)
 	id 14.3.294.0; Tue, 8 Nov 2016 17:12:45 +0000
 From: Zubair Lutfullah Kakakhel <Zubair.Kakakhel@imgtec.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 8 Nov 2016 17:12:27 +0000
-Message-ID: <20161108171235.41837-7-Zubair.Kakakhel@imgtec.com>
+Date: Tue, 8 Nov 2016 17:12:28 +0000
+Message-ID: <20161108171235.41837-8-Zubair.Kakakhel@imgtec.com>
 X-Mailer: git-send-email 2.10.2
 In-Reply-To: <20161108171235.41837-1-Zubair.Kakakhel@imgtec.com>
 References: <20161108171235.41837-1-Zubair.Kakakhel@imgtec.com>
 MIME-Version: 1.0
 X-Originating-IP: [192.168.154.45]
-Subject: [Patch v2 06/14] packagegroup: Reduce duplication in MIPS variants.
+Subject: [Patch v2 07/14] gcc-runtime: Reduce duplication in MIPS variants.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,54 +40,29 @@ variable is defined
 
 Signed-off-by: Zubair Lutfullah Kakakhel <Zubair.Kakakhel@imgtec.com>
 ---
- meta/recipes-core/packagegroups/packagegroup-core-sdk.bb       |  5 +----
- .../packagegroups/packagegroup-core-tools-profile.bb           | 10 ++--------
- 2 files changed, 3 insertions(+), 12 deletions(-)
+ meta/recipes-devtools/gcc/gcc-runtime.inc | 9 +--------
+ 1 file changed, 1 insertion(+), 8 deletions(-)
 
-diff --git a/meta/recipes-core/packagegroups/packagegroup-core-sdk.bb b/meta/recipes-core/packagegroups/packagegroup-core-sdk.bb
-index aceba78..327cd8e 100644
---- a/meta/recipes-core/packagegroups/packagegroup-core-sdk.bb
-+++ b/meta/recipes-core/packagegroups/packagegroup-core-sdk.bb
-@@ -28,10 +28,7 @@ RDEPENDS_packagegroup-core-sdk = "\
+diff --git a/meta/recipes-devtools/gcc/gcc-runtime.inc b/meta/recipes-devtools/gcc/gcc-runtime.inc
+index 15252f1..d56f82a 100644
+--- a/meta/recipes-devtools/gcc/gcc-runtime.inc
++++ b/meta/recipes-devtools/gcc/gcc-runtime.inc
+@@ -17,14 +17,7 @@ EXTRA_OECONF_PATHS = "\
+ EXTRA_OECONF_append_linuxstdbase = " --enable-clocale=gnu"
  
- SANITIZERS = "libasan-dev libubsan-dev"
- SANITIZERS_aarch64 = ""
--SANITIZERS_mips = ""
--SANITIZERS_mipsel = ""
--SANITIZERS_mips64 = ""
--SANITIZERS_mips64n32 = ""
-+SANITIZERS_mipsarch = ""
- SANITIZERS_nios2 = ""
- SANITIZERS_powerpc64 = ""
- SANITIZERS_sparc = ""
-diff --git a/meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb b/meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb
-index dd98445..31ad82b 100644
---- a/meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb
-+++ b/meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb
-@@ -36,10 +36,7 @@ PERF_libc-musl = ""
- SYSTEMTAP = "systemtap"
- SYSTEMTAP_libc-uclibc = ""
- SYSTEMTAP_libc-musl = ""
--SYSTEMTAP_mips = ""
--SYSTEMTAP_mipsel = ""
--SYSTEMTAP_mips64 = ""
--SYSTEMTAP_mips64n32 = ""
-+SYSTEMTAP_mipsarch = ""
- SYSTEMTAP_nios2 = ""
- SYSTEMTAP_aarch64 = ""
+ RUNTIMELIBITM = "libitm"
+-RUNTIMELIBITM_mips = ""
+-RUNTIMELIBITM_mipsel = ""
+-RUNTIMELIBITM_mips64 = ""
+-RUNTIMELIBITM_mips64el = ""
+-RUNTIMELIBITM_mipsisa32r6 = ""
+-RUNTIMELIBITM_mipsisa32r6el = ""
+-RUNTIMELIBITM_mipsisa64r6 = ""
+-RUNTIMELIBITM_mipsisa64r6el = ""
++RUNTIMELIBITM_mipsarch = ""
+ RUNTIMELIBITM_nios2 = ""
+ RUNTIMELIBITM_microblaze = ""
  
-@@ -65,10 +62,7 @@ BABELTRACE = "babeltrace"
- VALGRIND = "valgrind"
- VALGRIND_libc-uclibc = ""
- VALGRIND_libc-musl = ""
--VALGRIND_mips = ""
--VALGRIND_mipsel = ""
--VALGRIND_mips64 = ""
--VALGRIND_mips64n32 = ""
-+VALGRIND_mipsarch = ""
- VALGRIND_nios2 = ""
- VALGRIND_armv4 = ""
- VALGRIND_armv5 = ""
 -- 
 2.10.2
 
