@@ -1,56 +1,46 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f193.google.com (mail-pf0-f193.google.com
-	[209.85.192.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 4F5187199E
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 85E2D65D00
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  7 Nov 2016 23:44:11 +0000 (UTC)
-Received: by mail-pf0-f193.google.com with SMTP id y68so17369904pfb.1
+	Tue,  8 Nov 2016 02:32:40 +0000 (UTC)
+Received: by mail-wm0-f68.google.com with SMTP id a20so8951755wme.2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 07 Nov 2016 15:44:13 -0800 (PST)
+	Mon, 07 Nov 2016 18:32:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=subject:to:references:cc:from:organization:message-id:date
-	:user-agent:mime-version:in-reply-to:content-transfer-encoding;
-	bh=aexoxpZD8LYexY5KOoWp6/WG/erj0O+a2JnafeqqBoI=;
-	b=KZMhCtBByA1DkbdWudb+M+yMIPKWeKair0/wuiMQ521elROki2py8ZQNWRJkf2OTB2
-	xa8bXU7yqSDK57sqlTzg1tpoi+9LxcRIQPLTM84G1zhqUQG17kpQk+u8kpyKHeX4SdcC
-	CEkBLAgxzTUGidJwD7iICttxxEHRh2FBIg2iOWpfDRqEJYrgc8W/QBLmc1/UKR/+OouA
-	5o0rry9dXnrdJ7iVFy8Wj+ttiI0jfCr2Kvt3WAjOfgJ7FlVQ3H0rCmJPZnchLUBMi8kh
-	W0vWwQHo6BpmHVpZBN/OXlBpaeLn0v5YnfC4NPfwnRS+qftpiqiNy6u+mN/m+sW/t4/Q
-	gfjA==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=tjTpva1RW25rBPgFo21gcBPU8TMZN6b4kajqIr/p3Rc=;
+	b=EO8f20T5s2fDzRjiMnbs+/Md+Fmvqd38t4bF6ONddp1S+Dyb9qImxAy2wE7BjZZhyd
+	bp1d5eFugMVJDrNJ1iWi10ONYUHbVDVZnvie94AKZB5d5NrJG9UaKIy4e2Jf9qnQkrgx
+	s/oMFYB4UOZ7cTGJ0cyzLbs85oiArbQzIFJyDOKHhNUfSct4GYcRt3PJkLV5U+tpSY7C
+	/AXYDDRPRztXma6wYLeA1pywlau6us7bfb10nGW7BKnI+jzg9M2p62gKCkPppU+ABWL/
+	UVK8I6+xf2cb344urywz4i0h6QWwUzakXA0wVMRTau+MlY1XXlQ6pgu+Iz3C1tem5nzl
+	8rag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:subject:to:references:cc:from:organization
-	:message-id:date:user-agent:mime-version:in-reply-to
-	:content-transfer-encoding;
-	bh=aexoxpZD8LYexY5KOoWp6/WG/erj0O+a2JnafeqqBoI=;
-	b=Ewr4YyeoED+M/9GRTi5kwEkurGaWgf8kV3VRmKLleZ0wtZjfsqf9/Z/dUi3hQ8zexP
-	ztN0l/geVHGkf+zrEPm0EpyArZ2L4fjrykJcHzitPDyd3pglrQd9wR74zq8C0Gp5SA94
-	fj7Uf09OIOqu8DqLQUtlUNDYwblPanPJUHdgDYkYiuN7yawU0UdPKuqKA5586sfUzmf7
-	ZM2qWaOPonbc2wjkeyHgRaSeTNBMLOVPWKnd0OxnKN8bZFIeo5Yg+QZqzop+Fh+kcfIf
-	K0TtKmbhZesN701B9/UjTLJHabA6qkw+vgB77wPRYtljSzllWlgj8S/RyB5HDanZEuvs
-	vPjA==
-X-Gm-Message-State: ABUngvfI28XcHts1I126dFER02rBWK5p2IRReoXrzfdoqpzoQQQGACvXl30x4IqRAkGIjw==
-X-Received: by 10.99.130.198 with SMTP id w189mr2285562pgd.172.1478562253308; 
-	Mon, 07 Nov 2016 15:44:13 -0800 (PST)
-Received: from CACSVMO-14452.local ([2601:646:8882:b8c:dd13:b690:f36a:6733])
-	by smtp.gmail.com with ESMTPSA id
-	d197sm43051681pfd.38.2016.11.07.15.44.12
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 07 Nov 2016 15:44:12 -0800 (PST)
-To: ed.bartosh@linux.intel.com
-References: <1477910801-9169-1-git-send-email-ed.bartosh@linux.intel.com>
-	<CD1ACFFA-619F-4C36-99AC-76D6A6068E74@gmail.com>
-	<20161107230047.GA7754@linux.intel.com>
-From: Khem Raj <raj.khem@gmail.com>
-Organization: himvis.com
-Message-ID: <32b3605d-9c79-d1be-c6cc-80309cad7a1a@gmail.com>
-Date: Mon, 7 Nov 2016 15:44:11 -0800
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:45.0)
-	Gecko/20100101 Thunderbird/45.4.0
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=tjTpva1RW25rBPgFo21gcBPU8TMZN6b4kajqIr/p3Rc=;
+	b=kVWLBJHv3wH6s76T3JQKXxp/f7cPoi6W1v/Xp3P3vivcTF1axRmrXMYh2Jk1dfBq/P
+	jooCljEXgETBAlPy/zneDi0AFUQYLvUxS+oK0c/UV/t95pTeJeiEBdzLc9HBoRNisDT1
+	O3NNQmOEK0nyuUu7/ixB2rjE6bEkn3i88rM1Ya5QaPfZrHrIDLFrk8+uB/2OWqhuBpDx
+	E5AyuQccONJvinatROtpet37w28/UrzV3o8KABI+va9hQa38AjzYtm1YJD+PhpnbU7a6
+	fVLOz4c+LTAGjcBhKFeh6XLX5kea/IvFJhb/Xikwxx5YzJTZvwcK6dSDNTneyjZSKmGm
+	PU0g==
+X-Gm-Message-State: ABUngvf743S8NvMtSXM5B2L0XlxTUyDcxyLpC6gXfVTbvpn9mYXRI10OR0poAEQLY+fgchBYkQtt/jsR/YYeSQ==
+X-Received: by 10.28.18.5 with SMTP id 5mr9419538wms.35.1478572361259; Mon, 07
+	Nov 2016 18:32:41 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20161107230047.GA7754@linux.intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] mkefidisk.sh: add deprecation warning to the output
+Received: by 10.194.45.33 with HTTP; Mon, 7 Nov 2016 18:32:40 -0800 (PST)
+In-Reply-To: <dfeea628-1c1b-1e1e-b015-aa4cd5b9b42c@gmail.com>
+References: <20161107150135.40266-1-Zubair.Kakakhel@imgtec.com>
+	<20161107150135.40266-2-Zubair.Kakakhel@imgtec.com>
+	<dfeea628-1c1b-1e1e-b015-aa4cd5b9b42c@gmail.com>
+From: Andre McCurdy <armccurdy@gmail.com>
+Date: Mon, 7 Nov 2016 18:32:40 -0800
+Message-ID: <CAJ86T=UAjjvEOoxJjWX16x-iDNqb-EAHqgCEBZ9_SyW00W7mEg@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [Patch 01/13] arch-mips: Add MACHINEOVERRIDES variables to reduce duplication
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -63,55 +53,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 07 Nov 2016 23:44:12 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 08 Nov 2016 02:32:40 -0000
+Content-Type: text/plain; charset=UTF-8
 
-
-
-On 11/7/16 3:00 PM, Ed Bartosh wrote:
-> On Thu, Nov 03, 2016 at 02:42:39PM -0700, Khem Raj wrote:
+On Mon, Nov 7, 2016 at 9:30 AM, Khem Raj <raj.khem@gmail.com> wrote:
+>
+> On 11/7/16 7:01 AM, Zubair Lutfullah Kakakhel wrote:
+>> In some cases, each MIPS variant in a recipe requires a duplicate
+>> line. Even if the passed flag is the same.
 >>
->>> On Oct 31, 2016, at 3:46 AM, Ed Bartosh <ed.bartosh@linux.intel.com> wrote:
->>>
->>> mkefidisk.sh will soon be deprecated in favor of .wic images.
->>>
->>> Added deprecation warning to the script to inform users that
->>> this script will soon be removed from the codebase.
->>>
->>> Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
->>> ---
->>> scripts/contrib/mkefidisk.sh | 5 +++++
->>> 1 file changed, 5 insertions(+)
->>>
->>> diff --git a/scripts/contrib/mkefidisk.sh b/scripts/contrib/mkefidisk.sh
->>> index d8db3c0..a175895 100755
->>> --- a/scripts/contrib/mkefidisk.sh
->>> +++ b/scripts/contrib/mkefidisk.sh
->>> @@ -20,6 +20,11 @@
->>>
->>> LANG=C
->>>
->>> +echo
->>> +echo "WARNING: This script is deprecated and will be removed soon."
->>> +echo "Please consider using wic EFI images instead."
->>> +echo
->>> +
+>> Add global MACHINEOVERRIDES variables for the following
+>>  * mipsarch           : All MIPS
+>>  * mipsarchr6         : All MIPS R6
+>>  * mipsarcho32{el}    : All MIPS o32
+>>  * mipsarchn32{el}    : All MIPS n32
+>>  * mipsarchn64{el}    : All MIPS n64
 >>
->> is .wic image dd’able directly ?
-> Yes, they are.
-> 
->> We should also document, the wic steps in wiki pages e.g. http://wiki.minnowboard.org/Yocto_Project
-> It's already documented in README.hardware: https://git.yoctoproject.org/cgit/cgit.cgi/poky/tree/README.hardware
-> 
-> And in Yocto manual:
-> http://www.yoctoproject.org/docs/2.2/mega-manual/mega-manual.html#building-an-image-for-hardware
+>> This is intended to reduce duplications in recipes
+>>
+>> [YOCTO #10404]
+>>
+>> Signed-off-by: Zubair Lutfullah Kakakhel <Zubair.Kakakhel@imgtec.com>
+>> ---
+>>  meta/conf/machine/include/mips/arch-mips.inc | 7 +++++++
+>>  1 file changed, 7 insertions(+)
+>>
+>> diff --git a/meta/conf/machine/include/mips/arch-mips.inc b/meta/conf/machine/include/mips/arch-mips.inc
+>> index 6069ca1..5b42841 100644
+>> --- a/meta/conf/machine/include/mips/arch-mips.inc
+>> +++ b/meta/conf/machine/include/mips/arch-mips.inc
+>> @@ -50,6 +50,13 @@ MIPSPKGSFX_32R6 = "${@bb.utils.contains('TUNE_FEATURES', 'mipsisa32r6', 'isa32',
+>>  TUNE_ARCH = "mips${MIPSPKGSFX_32R6}${MIPSPKGSFX_64R6}${MIPSPKGSFX_BYTE}${MIPSPKGSFX_R6}${MIPSPKGSFX_ENDIAN}"
+>>  TUNE_PKGARCH = "${MIPSPKGSFX_VARIANT_tune-${DEFAULTTUNE}}${MIPSPKGSFX_FPU}${MIPSPKGSFX_ABI}"
+>>
+>> +# Various Global Machine Overrides
+>> +MACHINEOVERRIDES =. "mipsarch:"
+>> +MACHINEOVERRIDES =. "${@bb.utils.contains('TUNE_FEATURES', 'r6', 'mipsarchr6:', '' ,d)}"
+>> +MACHINEOVERRIDES =. "${@bb.utils.contains('TUNE_FEATURES', 'n32', 'mipsarchn32${MIPSPKGSFX_ENDIAN}:', '' ,d)}"
+>> +MACHINEOVERRIDES =. "${@bb.utils.contains('TUNE_FEATURES', 'o32', 'mipsarcho32${MIPSPKGSFX_ENDIAN}:', '' ,d)}"
+>> +MACHINEOVERRIDES =. "${@bb.utils.contains('TUNE_FEATURES', 'n64', 'mipsarch64${MIPSPKGSFX_ENDIAN}:', '' ,d)}"
+>
+> how about mips16 ?
 
-Thanks, now can you also nudge the minnowboard.org to do the same ?
+We explicitly removed _thumb as an over-ride for ARM, so adding the
+equivalent for MIPS would be odd, unless you see a clear need for it?
 
-> 
+  http://git.openembedded.org/openembedded-core/commit/?id=351443d71eb246a946b41f12b54d57b36fe1574e
+
+>> +
+>>  # Base tunes
+>>  AVAILTUNES += "mips mips64-n32 mips64 mipsel mips64el-n32 mips64el mips-nf mips64-nf-n32 mips64-nf mipsel-nf mips64el-nf-n32 mips64el-nf"
+>>  TUNE_FEATURES_tune-mips = "o32 bigendian fpu-hard"
+>>
 > --
-> Regards,
-> Ed
-> 
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
