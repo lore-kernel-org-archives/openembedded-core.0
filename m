@@ -1,28 +1,20 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 38C4170016
+Return-Path: <joshua.g.lock@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id B928471A04
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  8 Nov 2016 14:48:32 +0000 (UTC)
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-	by orsmga101.jf.intel.com with ESMTP; 08 Nov 2016 06:48:33 -0800
+	Tue,  8 Nov 2016 14:50:04 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga102.fm.intel.com with ESMTP; 08 Nov 2016 06:50:05 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.31,462,1473145200"; d="scan'208";a="189022938"
-Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
-	([10.237.68.161])
-	by fmsmga004.fm.intel.com with ESMTP; 08 Nov 2016 06:48:32 -0800
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <cover.1478013701.git.alexander.kanavin@linux.intel.com>
-	<fced9d20130046ffaf6daa1fe7d619098fdf91c6.1478013702.git.alexander.kanavin@linux.intel.com>
-	<CAJTo0Laf3ZkyWqz2qY8Evj2R3OB1swBzfWeAZ9D+y3hFXjSecg@mail.gmail.com>
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <4c171a1e-eb6b-0193-12a9-07ef533710a0@linux.intel.com>
-Date: Tue, 8 Nov 2016 16:48:33 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Icedove/45.4.0
-MIME-Version: 1.0
-In-Reply-To: <CAJTo0Laf3ZkyWqz2qY8Evj2R3OB1swBzfWeAZ9D+y3hFXjSecg@mail.gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 09/13] icu: update to 58.1
+X-IronPort-AV: E=Sophos;i="5.31,462,1473145200"; d="scan'208";a="1056869813"
+Received: from jlock-mobl1.ger.corp.intel.com ([10.252.8.222])
+	by orsmga001.jf.intel.com with ESMTP; 08 Nov 2016 06:50:04 -0800
+From: Joshua Lock <joshua.g.lock@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  8 Nov 2016 14:49:52 +0000
+Message-Id: <cover.1478615920.git.joshua.g.lock@intel.com>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH v2 0/4] Make oe.lsb.distro_identifier() more consistent
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,33 +27,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Nov 2016 14:48:33 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 08 Nov 2016 14:50:05 -0000
 
-On 11/02/2016 02:16 PM, Burton, Ross wrote:
+The oe.lsb.distro_identifier() method call will return different identification
+information depending on the source which is found to provide that information.
 
-> This breaks under musl:
->
-> ../../icu/source/i18n/digitlst.cpp:67:24: fatal error: xlocale.h: No
-> such file or directory
->  #   include <xlocale.h>
->
-> musl doesn't have xlocale.h but does have a crippled strtod_l (doesn't
-> actually support a passed in locale, which is the entire point of the _l
-> functions).
->
-> Upstreams such as pulseaudio have
-> done https://bugs.freedesktop.org/attachment.cgi?id=118644 to guard the
-> include, but I see that digitlist.cpp has an alternative branch where
-> strtod_l isn't supported: as that function on musl is crippled maybe ICU
-> should be told not to use it?
+This series attempts to address this in two ways:
+1) preferring os-release(5) as the source of distribution identification. this
+  increasingly common standard mechanism is available on each of the build host
+  distributions we commonly test on.
+2) converting the distribution identifier to lower case before including it in
+  the distro_identifier return value. This ensures that, for most of the tested
+  distros, the identifier returned via the LSB code paths matches that returned
+  by the os-release code paths.
 
-Thanks, I've forced icu to take that alternative branch (when musl is in 
-use) by monkey patching configure.ac; the updated patch will come with 
-the next batch of updates. There's no configure switch or environment 
-variable that will have the necessary effect.
+Changes since v1:
+* improve release_dict_osr() in patch 3 to handle empty lines and values with surrounding quotation marks in /etc/os-release, as used in CentOS
 
-Alex
 
+The following changes since commit 9303d8055c45a0f6af295d70a6f6a8b9d8d8a7c9:
+
+  devtool: add "rename" subcommand (2016-11-07 11:04:17 +0000)
+
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib joshuagl/liboe
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=joshuagl/liboe
+
+Joshua Lock (4):
+  lib/oe/path: remove duplicate import
+  lib/oe/lsb: make the release dict keys consistent regardless of source
+  lib/oe/lsb: prefer /etc/os-release for distribution data
+  lib/oe/lsb: attempt to ensure consistent distro id regardless of
+    source
+
+ meta/lib/oe/lsb.py  | 73 +++++++++++++++++++++++++++++++++++------------------
+ meta/lib/oe/path.py |  1 -
+ 2 files changed, 49 insertions(+), 25 deletions(-)
+
+-- 
+2.7.4
 
