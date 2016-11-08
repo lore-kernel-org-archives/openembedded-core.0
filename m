@@ -1,46 +1,45 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 85E2D65D00
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pf0-f195.google.com (mail-pf0-f195.google.com
+	[209.85.192.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 94D5D70100
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  8 Nov 2016 02:32:40 +0000 (UTC)
-Received: by mail-wm0-f68.google.com with SMTP id a20so8951755wme.2
+	Tue,  8 Nov 2016 05:23:29 +0000 (UTC)
+Received: by mail-pf0-f195.google.com with SMTP id n85so18084327pfi.3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 07 Nov 2016 18:32:42 -0800 (PST)
+	Mon, 07 Nov 2016 21:23:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=tjTpva1RW25rBPgFo21gcBPU8TMZN6b4kajqIr/p3Rc=;
-	b=EO8f20T5s2fDzRjiMnbs+/Md+Fmvqd38t4bF6ONddp1S+Dyb9qImxAy2wE7BjZZhyd
-	bp1d5eFugMVJDrNJ1iWi10ONYUHbVDVZnvie94AKZB5d5NrJG9UaKIy4e2Jf9qnQkrgx
-	s/oMFYB4UOZ7cTGJ0cyzLbs85oiArbQzIFJyDOKHhNUfSct4GYcRt3PJkLV5U+tpSY7C
-	/AXYDDRPRztXma6wYLeA1pywlau6us7bfb10nGW7BKnI+jzg9M2p62gKCkPppU+ABWL/
-	UVK8I6+xf2cb344urywz4i0h6QWwUzakXA0wVMRTau+MlY1XXlQ6pgu+Iz3C1tem5nzl
-	8rag==
+	h=from:to:cc:subject:date:message-id;
+	bh=SWf2ONbIvYhJQ7Y1drPgrc2LI2l7ft81a/Hn5F/64sw=;
+	b=yE/459hjguOxxPAtxnCukn5SQzDd3UE/Ke6fNxThKVA7Mq84uSQkKPEvpY56WgSEId
+	r9nElTCKw7xa4rOhwa8p0yC/eVmDZ6rrigxdWUGqYT5SO3KURlHPGAUEtJ3qVfnzvsXw
+	Q14TDHOyh7NVsf7GONrwWy7YnTIJkt7fdd0vO/w0S5uWgps1CHkT7Q6PfngMppSiPyvu
+	OO18UbfwM4ayWPbHbhxl/049013ULCp3QrzN2UB87Yg6FrHmG900p6cruaeL913y4G0n
+	Ej1To9MOQDfF3w7wG5o/h7xDyLMurxXaTI27L5IiF1szXCG2GRvjbfIc7GkLqv+za8NW
+	6odA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=tjTpva1RW25rBPgFo21gcBPU8TMZN6b4kajqIr/p3Rc=;
-	b=kVWLBJHv3wH6s76T3JQKXxp/f7cPoi6W1v/Xp3P3vivcTF1axRmrXMYh2Jk1dfBq/P
-	jooCljEXgETBAlPy/zneDi0AFUQYLvUxS+oK0c/UV/t95pTeJeiEBdzLc9HBoRNisDT1
-	O3NNQmOEK0nyuUu7/ixB2rjE6bEkn3i88rM1Ya5QaPfZrHrIDLFrk8+uB/2OWqhuBpDx
-	E5AyuQccONJvinatROtpet37w28/UrzV3o8KABI+va9hQa38AjzYtm1YJD+PhpnbU7a6
-	fVLOz4c+LTAGjcBhKFeh6XLX5kea/IvFJhb/Xikwxx5YzJTZvwcK6dSDNTneyjZSKmGm
-	PU0g==
-X-Gm-Message-State: ABUngvf743S8NvMtSXM5B2L0XlxTUyDcxyLpC6gXfVTbvpn9mYXRI10OR0poAEQLY+fgchBYkQtt/jsR/YYeSQ==
-X-Received: by 10.28.18.5 with SMTP id 5mr9419538wms.35.1478572361259; Mon, 07
-	Nov 2016 18:32:41 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.194.45.33 with HTTP; Mon, 7 Nov 2016 18:32:40 -0800 (PST)
-In-Reply-To: <dfeea628-1c1b-1e1e-b015-aa4cd5b9b42c@gmail.com>
-References: <20161107150135.40266-1-Zubair.Kakakhel@imgtec.com>
-	<20161107150135.40266-2-Zubair.Kakakhel@imgtec.com>
-	<dfeea628-1c1b-1e1e-b015-aa4cd5b9b42c@gmail.com>
-From: Andre McCurdy <armccurdy@gmail.com>
-Date: Mon, 7 Nov 2016 18:32:40 -0800
-Message-ID: <CAJ86T=UAjjvEOoxJjWX16x-iDNqb-EAHqgCEBZ9_SyW00W7mEg@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [Patch 01/13] arch-mips: Add MACHINEOVERRIDES variables to reduce duplication
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=SWf2ONbIvYhJQ7Y1drPgrc2LI2l7ft81a/Hn5F/64sw=;
+	b=Z+5OftJCUFaDvS/xkGvo8Lnzq8RN6QplncfB9zH3Hl6uLZMMLkamRKccBd4PZ3IUP3
+	mYMaEO7dzoxLcRBvTEIcDraMp15Cb61tGGrDqU7p6FanGsNFGazUJyTQSuO1hhlFScQT
+	UyzThODdKt6+8hLIiXjd7hIEa8qliMn1Yim6wINrS7n9cA4o0+CPqqZ+CWZgl03B/Emz
+	nJ0rhnnkdKtwCJI8dtySk1C0yE4ExK/Pv9lTYTpFEj3q7cyI/vm3RgHLHJmQDW/Ws42E
+	inZbFy4xuPub6DZv0yYvgG4ZayyR4PdUhZjD4U1Y/BDVjak5DcP+8un6RCfC5sli8Wzv
+	z4EQ==
+X-Gm-Message-State: ABUngvdvMZUgGRa0OgctgKSUhI3R/NusqFoH70gsaOophDICixqeVWmF1PHSt1VlLVz0/A==
+X-Received: by 10.98.18.6 with SMTP id a6mr20340972pfj.184.1478582610733;
+	Mon, 07 Nov 2016 21:23:30 -0800 (PST)
+Received: from localhost.localdomain (c-76-102-32-192.hsd1.ca.comcast.net.
+	[76.102.32.192]) by smtp.gmail.com with ESMTPSA id
+	cp2sm44658693pad.3.2016.11.07.21.23.29
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 07 Nov 2016 21:23:30 -0800 (PST)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  7 Nov 2016 21:23:25 -0800
+Message-Id: <20161108052325.11907-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.10.2
+Subject: [PATCH] x264: Update to latest on stable branch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,61 +52,83 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Nov 2016 02:32:40 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 08 Nov 2016 05:23:33 -0000
 
-On Mon, Nov 7, 2016 at 9:30 AM, Khem Raj <raj.khem@gmail.com> wrote:
->
-> On 11/7/16 7:01 AM, Zubair Lutfullah Kakakhel wrote:
->> In some cases, each MIPS variant in a recipe requires a duplicate
->> line. Even if the passed flag is the same.
->>
->> Add global MACHINEOVERRIDES variables for the following
->>  * mipsarch           : All MIPS
->>  * mipsarchr6         : All MIPS R6
->>  * mipsarcho32{el}    : All MIPS o32
->>  * mipsarchn32{el}    : All MIPS n32
->>  * mipsarchn64{el}    : All MIPS n64
->>
->> This is intended to reduce duplications in recipes
->>
->> [YOCTO #10404]
->>
->> Signed-off-by: Zubair Lutfullah Kakakhel <Zubair.Kakakhel@imgtec.com>
->> ---
->>  meta/conf/machine/include/mips/arch-mips.inc | 7 +++++++
->>  1 file changed, 7 insertions(+)
->>
->> diff --git a/meta/conf/machine/include/mips/arch-mips.inc b/meta/conf/machine/include/mips/arch-mips.inc
->> index 6069ca1..5b42841 100644
->> --- a/meta/conf/machine/include/mips/arch-mips.inc
->> +++ b/meta/conf/machine/include/mips/arch-mips.inc
->> @@ -50,6 +50,13 @@ MIPSPKGSFX_32R6 = "${@bb.utils.contains('TUNE_FEATURES', 'mipsisa32r6', 'isa32',
->>  TUNE_ARCH = "mips${MIPSPKGSFX_32R6}${MIPSPKGSFX_64R6}${MIPSPKGSFX_BYTE}${MIPSPKGSFX_R6}${MIPSPKGSFX_ENDIAN}"
->>  TUNE_PKGARCH = "${MIPSPKGSFX_VARIANT_tune-${DEFAULTTUNE}}${MIPSPKGSFX_FPU}${MIPSPKGSFX_ABI}"
->>
->> +# Various Global Machine Overrides
->> +MACHINEOVERRIDES =. "mipsarch:"
->> +MACHINEOVERRIDES =. "${@bb.utils.contains('TUNE_FEATURES', 'r6', 'mipsarchr6:', '' ,d)}"
->> +MACHINEOVERRIDES =. "${@bb.utils.contains('TUNE_FEATURES', 'n32', 'mipsarchn32${MIPSPKGSFX_ENDIAN}:', '' ,d)}"
->> +MACHINEOVERRIDES =. "${@bb.utils.contains('TUNE_FEATURES', 'o32', 'mipsarcho32${MIPSPKGSFX_ENDIAN}:', '' ,d)}"
->> +MACHINEOVERRIDES =. "${@bb.utils.contains('TUNE_FEATURES', 'n64', 'mipsarch64${MIPSPKGSFX_ENDIAN}:', '' ,d)}"
->
-> how about mips16 ?
+- Switch URI to use github mirror for reliabality
+- Disable openCL code, its not used
+- TEXTRELs are fixed, therefore dont skip QA check
 
-We explicitly removed _thumb as an over-ride for ARM, so adding the
-equivalent for MIPS would be odd, unless you see a clear need for it?
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ .../x264/x264/don-t-default-to-cortex-a9-with-neon.patch    | 13 ++-----------
+ meta/recipes-multimedia/x264/x264_git.bb                    |  9 +++------
+ 2 files changed, 5 insertions(+), 17 deletions(-)
 
-  http://git.openembedded.org/openembedded-core/commit/?id=351443d71eb246a946b41f12b54d57b36fe1574e
+diff --git a/meta/recipes-multimedia/x264/x264/don-t-default-to-cortex-a9-with-neon.patch b/meta/recipes-multimedia/x264/x264/don-t-default-to-cortex-a9-with-neon.patch
+index bf72fca..73f2aac 100644
+--- a/meta/recipes-multimedia/x264/x264/don-t-default-to-cortex-a9-with-neon.patch
++++ b/meta/recipes-multimedia/x264/x264/don-t-default-to-cortex-a9-with-neon.patch
+@@ -5,10 +5,10 @@ Upstream-Status: Pending
+ Signed-off-by: Andrei Gherzan <andrei@gherzan.ro>
+ 
+ diff --git a/configure b/configure
+-index 2916036..f4ece40 100755
++index 9d1586c..3109ec4 100755
+ --- a/configure
+ +++ b/configure
+-@@ -773,9 +773,6 @@ if [ $asm = auto -a \( $ARCH = X86 -o $ARCH = X86_64 \) ] ; then
++@@ -874,9 +874,6 @@ if [ $asm = auto -a \( $ARCH = X86 -o $ARCH = X86_64 \) ] ; then
+  fi
+  
+  if [ $asm = auto -a $ARCH = ARM ] ; then
+@@ -18,12 +18,3 @@ index 2916036..f4ece40 100755
+      if  cc_check '' '' '__asm__("rev ip, ip");' ; then      define HAVE_ARMV6
+          cc_check '' '' '__asm__("movt r0, #0");'         && define HAVE_ARMV6T2
+          cc_check '' '' '__asm__("vadd.i16 q0, q0, q0");' && define HAVE_NEON
+-@@ -788,8 +785,6 @@ if [ $asm = auto -a $ARCH = ARM ] ; then
+- fi
+- 
+- if [ $asm = auto -a $ARCH = AARCH64 ] ; then
+--    # set flags so neon is built by default
+--    echo $CFLAGS | grep -Eq '(-mcpu|-march|-mfpu|-arch)' || CFLAGS="$CFLAGS -arch arm64 -mfpu=neon"
+- 
+-     if  cc_check '' '' '__asm__("cmeq v0.8h, v0.8h, #0");' ; then define HAVE_NEON
+-         ASFLAGS="$ASFLAGS -c"
+diff --git a/meta/recipes-multimedia/x264/x264_git.bb b/meta/recipes-multimedia/x264/x264_git.bb
+index 393310f..8a239e1 100644
+--- a/meta/recipes-multimedia/x264/x264_git.bb
++++ b/meta/recipes-multimedia/x264/x264_git.bb
+@@ -8,11 +8,11 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f"
+ 
+ DEPENDS = "yasm-native"
+ 
+-SRC_URI = "git://git.videolan.org/x264.git \
++SRC_URI = "git://github.com/mirror/x264;branch=stable \
+            file://don-t-default-to-cortex-a9-with-neon.patch \
+            "
+ 
+-SRCREV = "c8a773ebfca148ef04f5a60d42cbd7336af0baf6"
++SRCREV = "86b71982e131eaa70125f8d0e725fcade9c4c677"
+ 
+ PV = "r2491+git${SRCPV}"
+ 
+@@ -34,6 +34,7 @@ EXTRA_OECONF = '--prefix=${prefix} \
+                 --enable-static \
+                 --disable-lavf \
+                 --disable-swscale \
++                --disable-opencl \
+                 --enable-pic \
+                 ${X264_DISABLE_ASM} \
+                '
+@@ -47,7 +48,3 @@ AS = "${TARGET_PREFIX}gcc"
+ do_install() {
+     oe_runmake install DESTDIR=${D}
+ }
+-
+-# PIC can't be enabled for few BSP's
+-INSANE_SKIP_${PN}_append = " textrel"
+-
+-- 
+2.10.2
 
->> +
->>  # Base tunes
->>  AVAILTUNES += "mips mips64-n32 mips64 mipsel mips64el-n32 mips64el mips-nf mips64-nf-n32 mips64-nf mipsel-nf mips64el-nf-n32 mips64el-nf"
->>  TUNE_FEATURES_tune-mips = "o32 bigendian fpu-hard"
->>
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
