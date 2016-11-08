@@ -1,33 +1,45 @@
-Return-Path: <gary@mlbassoc.com>
-Received: from mail.analogue-micro.com (mail.analogue-micro.com
-	[217.144.149.242])
-	by mail.openembedded.org (Postfix) with ESMTP id BEF9360938
+Return-Path: <fathi.boudra@linaro.org>
+Received: from mail-lf0-f49.google.com (mail-lf0-f49.google.com
+	[209.85.215.49])
+	by mail.openembedded.org (Postfix) with ESMTP id D379E6071F
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  8 Nov 2016 06:41:35 +0000 (UTC)
-Received: by mail.analogue-micro.com (Postfix, from userid 999)
-	id 73A6768A019; Tue,  8 Nov 2016 06:41:35 +0000 (GMT)
-X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
-	loki.analogue-micro-ltd.com
-X-Spam-Level: *
-X-Spam-Status: No, score=1.7 required=5.0 tests=ALL_TRUSTED,BAYES_40,
-	DNS_FROM_AHBL_RHSBL autolearn=no version=3.3.2
-Received: from zeus.mlbassoc.com (unknown [10.8.0.2])
-	by mail.analogue-micro.com (Postfix) with ESMTP id DFC1D68A019;
-	Tue,  8 Nov 2016 06:41:34 +0000 (GMT)
-Received: from [127.0.0.1] (localhost.localdomain [127.0.0.1])
-	by zeus.mlbassoc.com (Postfix) with ESMTP id 5E4A36740384;
-	Tue,  8 Nov 2016 07:41:34 +0100 (CET)
+	Tue,  8 Nov 2016 07:58:04 +0000 (UTC)
+Received: by mail-lf0-f49.google.com with SMTP id c13so132658482lfg.0
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 07 Nov 2016 23:58:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=X3QvdmN4pauRmPdjXWmBsQmw5uncQNVZeD3w+qg0o4c=;
+	b=VwbMjSTBqovdFRbkjdTYAuHQ2Sk1EOrRjBhFKTBGjdTh1de+ww71JEoEH+gRBNgXPH
+	lK+ebKos6ygz+TRJE+LESQGYYEA4x6M/ukUwGM0v4mm60SlWzZhxSXTqNJSKAt1Kemmn
+	BacJNDss92EXgi/CQKenmn4Tdf82PuaTehD1k=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=X3QvdmN4pauRmPdjXWmBsQmw5uncQNVZeD3w+qg0o4c=;
+	b=iwJnRK2grynAYmR3OrTa7QmO7llLHTFufFUigcFpK+oT6ZPPm1kSbknNnp1t0v0ajS
+	W+TxoSXgFspMOQ73xiPQXyN3UXDPXavf9x+MSrrOL5oQR1u+QjIqo98/Kp7nhxbBokf9
+	N4w5uv8y+QUbNcX+RmvuKwuD2QXZEKbBgnLCuElsXksE8Hkcaibyy896DoW2vo5O7Qy/
+	tL5tSyIvRVWXAMN4KFI0iAPE3AUpFpGcyl7M7vJ7gPdaSY9c+FC4Vjb4ROrHNV3ir0T6
+	UH59hKUDInRERazykcGS96KTvB6LbRMnayxisXhcPU/Mh3hIp+x365NRJJEYKsuxSKLs
+	Rj/w==
+X-Gm-Message-State: ABUngvc1Y5BeAdzC3kc7yZhgqatwDrFn6ilCEQiG7eohdwSCXOSFqG6JCvEwetTlpXfaae1r
+X-Received: by 10.25.29.8 with SMTP id d8mr5288867lfd.18.1478591884738;
+	Mon, 07 Nov 2016 23:58:04 -0800 (PST)
+Received: from localhost.localdomain (a91-156-68-16.elisa-laajakaista.fi.
+	[91.156.68.16]) by smtp.gmail.com with ESMTPSA id
+	g38sm4423880lfi.40.2016.11.07.23.58.03
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Mon, 07 Nov 2016 23:58:03 -0800 (PST)
+From: Fathi Boudra <fathi.boudra@linaro.org>
 To: openembedded-core@lists.openembedded.org
-References: <d1522ddb-4dd2-5f1c-5dc6-558ff6aefd75@mlbassoc.com>
-	<1478253823.23123.93.camel@linuxfoundation.org>
-From: Gary Thomas <gary@mlbassoc.com>
-Message-ID: <390c7dd5-dd7b-8364-66ac-d2853f0a574a@mlbassoc.com>
-Date: Tue, 8 Nov 2016 07:41:33 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.4.0
+Date: Tue,  8 Nov 2016 09:57:58 +0200
+Message-Id: <20161108075758.26411-1-fathi.boudra@linaro.org>
+X-Mailer: git-send-email 2.10.2
 MIME-Version: 1.0
-In-Reply-To: <1478253823.23123.93.camel@linuxfoundation.org>
-Subject: Re: uninative binary?
+Subject: [PATCH] wayland: upgrade from 1.11.1 to 1.12.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,46 +52,80 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Nov 2016 06:41:36 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 08 Nov 2016 07:58:05 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On 2016-11-04 11:03, Richard Purdie wrote:
-> On Fri, 2016-11-04 at 08:16 +0100, Gary Thomas wrote:
->> Some of my customers need to be able to build without any
->> network connectivity, so I normally use BB_NO_NETWORK="1"
->>
->> Is there a way to add the uninative "binary shim" to my
->> download mirror?  Given that the path includes a hash as
->> a directory, it's not clear to me how to put it into my
->> mirror.
->>
->> Thanks for any ideas
->
-> Set UNINATIVE_URL to point at your mirror?
->
-> If the file already exists in DL_DIR, it will be used without touching
-> the network.
+* Remove 0001-scanner-Use-unit32_t-instead-of-uint.patch applied upstream
+  https://cgit.freedesktop.org/wayland/wayland/commit/?id=6750b47d9e0d30
+* Update release tarball md5sum/sha256sum
 
-Thanks, that worked.  I keep a link to my mirror in my meta tree,
-so I added these lines to my ${DISTRO}.conf:
-   UNINATIVE_URL ?= "file://${COREBASE}/sources/uninative/1.4/"
-   require conf/distro/include/yocto-uninative.inc
-   INHERIT += "uninative"
-When I ran a build, this got sucked into my ${DL_DIR} as
-   $ ls -lR downloads/uninative/
-   downloads/uninative/:
-   total 4
-   drwxrwxr-x 2 gthomas gthomas 4096 Nov  7 13:02 101ff8f2580c193488db9e76f9646fb6ed38b65fb76f403acb0e2178ce7127ca
+Signed-off-by: Daniel Díaz <daniel.diaz@linaro.org>
+Signed-off-by: Fathi Boudra <fathi.boudra@linaro.org>
+---
+ ...0001-scanner-Use-unit32_t-instead-of-uint.patch | 30 ----------------------
+ .../{wayland_1.11.1.bb => wayland_1.12.0.bb}       |  5 ++--
+ 2 files changed, 2 insertions(+), 33 deletions(-)
+ delete mode 100644 meta/recipes-graphics/wayland/wayland/0001-scanner-Use-unit32_t-instead-of-uint.patch
+ rename meta/recipes-graphics/wayland/{wayland_1.11.1.bb => wayland_1.12.0.bb} (88%)
 
-   downloads/uninative/101ff8f2580c193488db9e76f9646fb6ed38b65fb76f403acb0e2178ce7127ca:
-   total 4
-   lrwxrwxrwx 1 gthomas gthomas 76 Nov  7 13:02 x86_64-nativesdk-libc.tar.bz2 -> 
-/local/poky-cutting-edge/sources/uninative/1.4/x86_64-nativesdk-libc.tar.bz2
-
+diff --git a/meta/recipes-graphics/wayland/wayland/0001-scanner-Use-unit32_t-instead-of-uint.patch b/meta/recipes-graphics/wayland/wayland/0001-scanner-Use-unit32_t-instead-of-uint.patch
+deleted file mode 100644
+index ef41b79..0000000
+--- a/meta/recipes-graphics/wayland/wayland/0001-scanner-Use-unit32_t-instead-of-uint.patch
++++ /dev/null
+@@ -1,30 +0,0 @@
+-From 5516d32e694badca35b6c71b02a3f08f650308bf Mon Sep 17 00:00:00 2001
+-From: Khem Raj <raj.khem@gmail.com>
+-Date: Fri, 15 Jul 2016 16:23:48 -0700
+-Subject: [PATCH] scanner: Use unit32_t instead of uint
+-
+-uint32_t is C99 defined stdint type
+-
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+-Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
+-Upstream-Status: Submitted
+----
+- src/scanner.c | 2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
+-
+-diff --git a/src/scanner.c b/src/scanner.c
+-index 5f06e8e..10a4023 100644
+---- a/src/scanner.c
+-+++ b/src/scanner.c
+-@@ -812,7 +812,7 @@ find_enumeration(struct protocol *protocol,
+- 	struct interface *i;
+- 	struct enumeration *e;
+- 	char *enum_name;
+--	uint idx = 0, j;
+-+	uint32_t idx = 0, j;
+- 
+- 	for (j = 0; j + 1 < strlen(enum_attribute); j++) {
+- 		if (enum_attribute[j] == '.') {
+--- 
+-2.1.4
+-
+diff --git a/meta/recipes-graphics/wayland/wayland_1.11.1.bb b/meta/recipes-graphics/wayland/wayland_1.12.0.bb
+similarity index 88%
+rename from meta/recipes-graphics/wayland/wayland_1.11.1.bb
+rename to meta/recipes-graphics/wayland/wayland_1.12.0.bb
+index fa674f6..de261fe 100644
+--- a/meta/recipes-graphics/wayland/wayland_1.11.1.bb
++++ b/meta/recipes-graphics/wayland/wayland_1.12.0.bb
+@@ -11,10 +11,9 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b31d8f53b6aaf2b4985d7dd7810a70d1 \
+                     file://src/wayland-server.c;endline=24;md5=b8e046164a766bb1ede8ba38e9dcd7ce"
+ 
+ SRC_URI = "https://wayland.freedesktop.org/releases/${BPN}-${PV}.tar.xz \
+-           file://0001-scanner-Use-unit32_t-instead-of-uint.patch \
+            "
+-SRC_URI[md5sum] = "82f227c65faec3df0335847626811303"
+-SRC_URI[sha256sum] = "4c8a99d030282740e898dead98c92d92023be9c3536c7f504444d215a7e39195"
++SRC_URI[md5sum] = "ee615e2d1e205eec48b02f069327eb96"
++SRC_URI[sha256sum] = "d6b4135cba0188abcb7275513c72dede751d6194f6edc5b82183a3ba8b821ab1"
+ 
+ EXTRA_OECONF_class-native = "--disable-documentation --disable-libraries"
+ 
 -- 
-------------------------------------------------------------
-Gary Thomas                 |  Consulting for the
-MLB Associates              |    Embedded world
-------------------------------------------------------------
+2.10.2
+
 
