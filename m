@@ -1,38 +1,38 @@
-Return-Path: <paul@paulbarker.me.uk>
-X-Greylist: delayed 11097 seconds by postgrey-1.34 at layers.openembedded.org;
-	Wed, 09 Nov 2016 21:13:55 UTC
-Received: from 1.mo5.mail-out.ovh.net (1.mo5.mail-out.ovh.net [188.165.57.91])
-	by mail.openembedded.org (Postfix) with ESMTP id 6911E719D8
+Return-Path: <jose.perez.carranza@intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id DECE160620
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  9 Nov 2016 21:13:55 +0000 (UTC)
-Received: from player760.ha.ovh.net (b9.ovh.net [213.186.33.59])
-	by mo5.mail-out.ovh.net (Postfix) with ESMTP id 483BB406AB
-	for <openembedded-core@lists.openembedded.org>;
-	Wed,  9 Nov 2016 19:08:57 +0100 (CET)
-Received: from nuc.betafive.co.uk
-	(cpc11-shep11-2-0-cust130.8-3.cable.virginm.net [86.27.96.131])
-	(Authenticated sender: paul@betafive.co.uk)
-	by player760.ha.ovh.net (Postfix) with ESMTPSA id 66A71334;
-	Wed,  9 Nov 2016 19:08:55 +0100 (CET)
-Date: Wed, 9 Nov 2016 18:08:54 +0000
-From: Paul Barker <paul@paulbarker.me.uk>
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-Message-ID: <20161109180854.130d6804@nuc.betafive.co.uk>
-In-Reply-To: <CADkTA4NmhstuGn7cZLD-MGB1OdNbAFLkiOKrf20Bri0KSEsuQA@mail.gmail.com>
-References: <1477161480-20271-1-git-send-email-paul@paulbarker.me.uk>
-	<20161105101438.1ef1f627@nuc.betafive.co.uk>
-	<CAJTo0LbB0eGStoFbyinDYP0zzEJ27BL0eDyGKFkjdh=AaWBPVA@mail.gmail.com>
-	<CADkTA4OaRgUJwFwT=S_h41EW4OO_Koa+QQr=t3t+X+6pszrzBQ@mail.gmail.com>
-	<CAJTo0LZxGYzpjUetPspX6mKktoL_XnDqfncyHFWN5Kzfij8-UQ@mail.gmail.com>
-	<CADkTA4NmhstuGn7cZLD-MGB1OdNbAFLkiOKrf20Bri0KSEsuQA@mail.gmail.com>
-X-Mailer: Claws Mail 3.11.1 (GTK+ 2.24.25; x86_64-pc-linux-gnu)
+	Wed,  9 Nov 2016 22:04:38 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by orsmga102.jf.intel.com with ESMTP; 09 Nov 2016 14:04:39 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.31,615,1473145200"; d="scan'208";a="1083047398"
+Received: from fmsmsx107.amr.corp.intel.com ([10.18.124.205])
+	by fmsmga002.fm.intel.com with ESMTP; 09 Nov 2016 14:04:39 -0800
+Received: from fmsmsx102.amr.corp.intel.com (10.18.124.200) by
+	fmsmsx107.amr.corp.intel.com (10.18.124.205) with Microsoft SMTP Server
+	(TLS) id 14.3.248.2; Wed, 9 Nov 2016 14:04:39 -0800
+Received: from fmsmsx101.amr.corp.intel.com ([169.254.1.27]) by
+	FMSMSX102.amr.corp.intel.com ([169.254.10.34]) with mapi id
+	14.03.0248.002; Wed, 9 Nov 2016 14:04:38 -0800
+From: "Perez Carranza, Jose" <jose.perez.carranza@intel.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>, openembedded-core
+	<openembedded-core@lists.openembedded.org>, Armin Kuster
+	<akuster808@gmail.com>
+Thread-Topic: krogoth 2.1.2 status
+Thread-Index: AQHSOoUROU4BtORkUUKK7D12UEegP6DRJvBA
+Date: Wed, 9 Nov 2016 22:04:38 +0000
+Message-ID: <0A5D9A624DF90343892F8F3FE7DE525A0205D3B3@fmsmsx101.amr.corp.intel.com>
+References: <1478694607.23123.176.camel@linuxfoundation.org>
+In-Reply-To: <1478694607.23123.176.camel@linuxfoundation.org>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ctpclassification: CTP_IC
+x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiOGU1N2Q0YWUtNmJhZC00YmIyLWJmMzUtMDgxZDZmZGZjNjM3IiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX0lDIn1dfV19LCJTdWJqZWN0TGFiZWxzIjpbXSwiVE1DVmVyc2lvbiI6IjE1LjkuNi42IiwiVHJ1c3RlZExhYmVsSGFzaCI6IkZnbzI4cG5UU3pvRFBlZzF5MGFzTXBnK2JDVlZwZlQ5VCtXN1BVNHlHSFk9In0=
+x-originating-ip: [10.1.200.106]
 MIME-Version: 1.0
-X-Ovh-Tracer-Id: 7365918667942627670
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrfeelfedrtddtgdejjecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
-Cc: OpenEmbedded Core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] kernel.bbclass: Allow ${S} to be overridden
+Subject: Re: krogoth 2.1.2 status
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,93 +45,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 09 Nov 2016 21:13:56 -0000
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 09 Nov 2016 22:04:39 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-On Wed, 9 Nov 2016 08:09:09 -0500
-Bruce Ashfield <bruce.ashfield@gmail.com> wrote:
-
-> On Wed, Nov 9, 2016 at 5:04 AM, Burton, Ross <ross.burton@intel.com> wrote:
-> 
-> >
-> > On 9 November 2016 at 02:23, Bruce Ashfield <bruce.ashfield@gmail.com>
-> > wrote:
-> >
-> >> I can ack this patch, since no defaults change .. there's no risk to
-> >> existing users.
-> >>
-> >
-> > Saying that of course doomed the patch:
-> >
-> 
-> interesting.
-> 
-> Paul: obviously you were building with this in place, and my local test did
-> work here
-> as well .. so any idea to the difference ?
-> 
-> Let me know if you want any help looking into it.
-> 
-> Cheers,
-> 
-> Bruce
-> 
-
-The reason for this patch is that I'm using a tarball for the kernel
-sources in the new meta-arduino layer. That tarball doesn't get
-extracted to ${STAGING_KERNEL_DIR} and so it needs to be copied over to
-there. Looking at kernel.bbclass, it looks like the logic to do this is
-present:
-
-
-    # Old style kernels may set ${S} = ${WORKDIR}/git for example
-    # We need to move these over to STAGING_KERNEL_DIR. We can't just
-    # create the symlink in advance as the git fetcher can't cope with
-    # the symlink.
-    do_unpack[cleandirs] += " ${S} ${STAGING_KERNEL_DIR} ${B} ${STAGING_KERNEL_BUILDDIR}"
-    do_clean[cleandirs] += " ${S} ${STAGING_KERNEL_DIR} ${B} ${STAGING_KERNEL_BUILDDIR}"
-    base_do_unpack_append () {
-        s = d.getVar("S", True)
-        if s[-1] == '/':
-            # drop trailing slash, so that os.symlink(kernsrc, s) doesn't use s as directory name and fail
-            s=s[:-1]
-        kernsrc = d.getVar("STAGING_KERNEL_DIR", True)
-        if s != kernsrc:
-            bb.utils.mkdirhier(kernsrc)
-            bb.utils.remove(kernsrc, recurse=True)
-            if d.getVar("EXTERNALSRC", True):
-                # With EXTERNALSRC S will not be wiped so we can symlink to it
-                os.symlink(s, kernsrc)
-            else:
-                import shutil
-                shutil.move(s, kernsrc)
-                os.symlink(kernsrc, s)
-    }
-
-The problem is we can't set S to anything unless we can override it.
-
-I've now looked into this futher and it seems to be working for some
-kernel recipes but not others. The issue may be that we have an
-assignment for S in bitbake.conf:
-
-    S = "${WORKDIR}/${BP}"
-
-That's obviously overriding the 'S ?= ...' assignment when my patch is
-applied where S isn't also explicitly assigned in the recipe, some
-other class or include file.
-
-I'm not sure on how precedence is determined if a variable is assigned
-using '=' multiple times.
-
-I'll have another look into it and see where I get. I have a workaround
-in place for the meta-arduino layer for now so it doesn't need an
-urgent fix.
-
-However, if it turns out we can't reliably override S in a kernel recipe
-then should we still have that comment and base_do_unpack_append() in
-kernel.bbclass?
-
-Thanks,
-Paul
+SGkgDQoNCkJhc2VkIG9uIGJlbG93IGNvbW1lbnRzIHdlIHdpbGwgc3RhcnQgdGhlIFFBIGN5Y2xl
+IGZvciAyLjEuMiwgd2Ugd2lsbCBzdGFydCB0b21vcnJvdyBvbmNlIHRoZSBRQSBjeWNsZSBmb3Ig
+bWV0YS1pbnRlbCBpcyBmaW5pc2hlZC4gDQoNClJlZ2FyZHMsDQpKb3PDqQ0KDQoNCi0tLS0tT3Jp
+Z2luYWwgTWVzc2FnZS0tLS0tDQpGcm9tOiBSaWNoYXJkIFB1cmRpZSBbbWFpbHRvOnJpY2hhcmQu
+cHVyZGllQGxpbnV4Zm91bmRhdGlvbi5vcmddIA0KU2VudDogV2VkbmVzZGF5LCBOb3ZlbWJlciA5
+LCAyMDE2IDY6MzAgQU0NClRvOiBvcGVuZW1iZWRkZWQtY29yZSA8b3BlbmVtYmVkZGVkLWNvcmVA
+bGlzdHMub3BlbmVtYmVkZGVkLm9yZz47IEFybWluIEt1c3RlciA8YWt1c3RlcjgwOEBnbWFpbC5j
+b20+DQpDYzogUGVyZXogQ2FycmFuemEsIEpvc2UgPGpvc2UucGVyZXouY2FycmFuemFAaW50ZWwu
+Y29tPjsgSm9sbGV5LCBTdGVwaGVuIEsgPHN0ZXBoZW4uay5qb2xsZXlAaW50ZWwuY29tPjsgRGVs
+Z2FkbywgU29uaWEgPHNvbmlhLmRlbGdhZG9AaW50ZWwuY29tPg0KU3ViamVjdDoga3JvZ290aCAy
+LjEuMiBzdGF0dXMNCg0KSSByYW4gYSBrcm9nb3RoIDIuMS4yIGJ1aWxkLiBJdCBkaWQgaGF2ZSBz
+b21lIGlzc3VlczoNCg0KKiBvbmUgcnVudGltZSBzYW5pdHkgdGVzdCBoYWQgYSB0aW1lb3V0IGlz
+c3VlDQoqIHNvbWUgdXJscyBhcmUgc3RhbGUgKHBlcnBldHVhbCBwcm9ibGVtKQ0KKiBtdXNsIHJ1
+bnRpbWUgdGVzdGluZyBmYWlscyAobmV2ZXIgdGVzdGVkIG9uIGtyb2dvdGggcHJldmlvdXNseSkN
+Ciogbm8teDExIHJ1bnRpbWUgdGVzdGluZyBoYWQgYSBmYWlsdXJlIChuZXZlciB0ZXN0ZWQgb24g
+a3JvZ290aA0KcHJldmlvdXNseSkNCg0KSSBzdXNwZWN0IHdlIGNhbiBjYWxsIHRoaXMgZ29vZCBl
+bm91Z2ggdG8gcHV0IGludG8gUUEgYnV0IHRoZXJlIHdlcmUgZW5vdWdoICdmYWlsdXJlcycgSSB3
+YW50ZWQgdG8gc2VuZCB0aGlzIG91dCBpbiBjYXNlIHNvbWVvbmUgb2JqZWN0cy4NCg0KUGFydCBv
+ZiB0aGUgcHJvYmxlbSBoZXJlIGlzIHdlIGFwcGx5IG91ciBjdXJyZW50IGF1dG9idWlsZGVyIHRl
+c3Qgc2V0dXAgdG8gdGhlIG9sZGVyIHJlbGVhc2VzIGFzIHdlbGwuIEknbSBhd2FyZSB0aGVyZSBt
+YXkgYmUgYmV0dGVyIHdheXMgdG8gZG8gdGhpcyBidXQgSSBkb24ndCBrbm93IGFueW9uZSB3aXRo
+IHRpbWUgdG8gd29yayBvbiB0aGF0LCB3ZSBoYXZlIG90aGVyIG1vcmUgcHJlc3NpbmcgcHJvYmxl
+bXMuDQoNCkNoZWVycywNCg0KUmljaGFyZA0KDQo=
 
