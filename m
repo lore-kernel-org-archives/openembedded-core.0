@@ -1,46 +1,25 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f45.google.com (mail-wm0-f45.google.com [74.125.82.45])
-	by mail.openembedded.org (Postfix) with ESMTP id 40AB56013D
+Return-Path: <clopez@igalia.com>
+Received: from smtp4.mundo-r.com (smtp3.mundo-r.com [212.51.32.191])
+	by mail.openembedded.org (Postfix) with ESMTP id 33856700F3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  9 Nov 2016 17:26:27 +0000 (UTC)
-Received: by mail-wm0-f45.google.com with SMTP id c184so46318292wmd.0
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 09 Nov 2016 09:26:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=OcoLMuYUqjqwPPmMMATXycFsbzt3kdN9DIY1hGQP80I=;
-	b=MAzs2TNpPomrZHmUe8XjCrc9TK0GZR44L9Bs9J39xteg0yhb6gFq6NT2l0mQhRKOxe
-	KjNFC4b4b7qzsWToQRSMT5J480lqGxczmpd5F+vkUSn5XtCSgVWUAaBjFwqcti/J4PvF
-	VoUM/fkEzSSaxCQl9erb7xo9SsKMvYjVxuWlSRMpkdfOHbXBx5XTvphVcaDnW/yBgBzM
-	RTxUhBjj0aO78RVdATHEfkttntBI2TXF99K3cu9oGiTfwj2dW/wHmlQqeKNZyinnKAmx
-	4AgbsnSwScSL2/DM0q0p8Vf8iaT9mbuV0l/yXW1BLYnDnWRCpYDkiKP4Z8h/qZoITagt
-	OIEg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=OcoLMuYUqjqwPPmMMATXycFsbzt3kdN9DIY1hGQP80I=;
-	b=Q9EP41kx3Bz3/Kf9S1HGGqw9MX/HKkPev+lbm/3vb78Cumk72YDk6fLgwnphNLG/h7
-	5d2eU2sM1JoQwP6uHkS8ckJJqTdQTzE2IfFnYM3o/zep8ZlmVIPCon5V/XZQ+YjxQoMl
-	AyPjN7PtLM6PsYxTG68D+IgzsWjqP7DbOV+tjIBXV/VwAX4LW8CXiubtdo895f1uzfbe
-	VeLKiOf1W59asuwrxY0Fqj+waqU0XSYZ1xuN7oIPBNLxFkbRbvLd6e4C3NfasVaWIccD
-	ZaP7oX7WrykxOTXHWgQ2CZZGpvQ77mLVc5Y6VlM8W3SVcZziSsP0C052Qyxct9Kw7bFR
-	DTIQ==
-X-Gm-Message-State: ABUngvcAWp1vLGwNQVY9j8vO53xSvm39k4kdIx2aVbxozUn+LrVo/HLqrtzUByqw2WnSWDfA
-X-Received: by 10.28.113.218 with SMTP id d87mr1361074wmi.111.1478712388427;
-	Wed, 09 Nov 2016 09:26:28 -0800 (PST)
-Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id
-	c133sm1368906wme.12.2016.11.09.09.26.27
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 09 Nov 2016 09:26:27 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
+	Wed,  9 Nov 2016 17:39:37 +0000 (UTC)
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-Anti-Spam-Result: A2AVBQAZXiNY/5tjdVtdHgYMgy8BAQEBAR9Yf7cOgg+CCBkQiBBAEwECAQEBAQEBAWIohTMBgX6IYAEJoQuSPIQfAYdShj6JboIAC4MJBZoxhjiKFwKCO4c+hh0CkT8gAjNjDwqCZAxHG4FePTQBhSwrgg8BAQE
+X-IPAS-Result: A2AVBQAZXiNY/5tjdVtdHgYMgy8BAQEBAR9Yf7cOgg+CCBkQiBBAEwECAQEBAQEBAWIohTMBgX6IYAEJoQuSPIQfAYdShj6JboIAC4MJBZoxhjiKFwKCO4c+hh0CkT8gAjNjDwqCZAxHG4FePTQBhSwrgg8BAQE
+X-IronPort-AV: E=Sophos;i="5.31,614,1473112800"; d="scan'208";a="192835505"
+Received: from fanzine.igalia.com ([91.117.99.155])
+	by smtp4.mundo-r.com with ESMTP; 09 Nov 2016 18:39:38 +0100
+Received: from [192.168.10.140] (helo=trinity.local.igalia.com)
+	by fanzine.igalia.com with esmtpsa 
+	(Cipher TLS1.2:ECDHE_RSA_AES_128_CBC_SHA256:128) (Exim)
+	id 1c4WqY-0007aZ-4w for <openembedded-core@lists.openembedded.org>;
+	Wed, 09 Nov 2016 18:39:38 +0100
+From: Carlos Alberto Lopez Perez <clopez@igalia.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  9 Nov 2016 17:26:26 +0000
-Message-Id: <1478712386-6773-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 2.8.1
-Subject: [PATCH] glib-networking: remove intltool dependency
+Date: Wed,  9 Nov 2016 18:39:35 +0100
+Message-Id: <1478713175-11446-1-git-send-email-clopez@igalia.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH] Move the recommends on ca-certificates from epiphany to webkitgtk.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,29 +32,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 09 Nov 2016 17:26:29 -0000
+X-List-Received-Date: Wed, 09 Nov 2016 17:39:38 -0000
 
-glib-networking 2.50 moved away from intltool to modern gettext, so remove the build dependency.
+ * The webkitgtk package should recommend the ca-certificates one,
+   because any program usign webkit (and not only epiphany) would
+   expect that the CAs certificates are available and that https
+   validation works as expected.
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
+ * For example, webkitgtk includes a MiniBrowser program that would
+   fail to proper verify https sites if the ca-certificate package
+   is not installed
+
+ * Instead of making each one of the webkitgtk consumers care about
+   the certificate package, do this in webkit itself.
+
+Signed-off-by: Carlos Alberto Lopez Perez <clopez@igalia.com>
 ---
- meta/recipes-core/glib-networking/glib-networking_2.50.0.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-gnome/epiphany/epiphany_3.22.1.bb | 3 +--
+ meta/recipes-sato/webkit/webkitgtk_2.14.1.bb   | 2 ++
+ 2 files changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-core/glib-networking/glib-networking_2.50.0.bb b/meta/recipes-core/glib-networking/glib-networking_2.50.0.bb
-index 0baaffd..2782bd9 100644
---- a/meta/recipes-core/glib-networking/glib-networking_2.50.0.bb
-+++ b/meta/recipes-core/glib-networking/glib-networking_2.50.0.bb
-@@ -7,7 +7,7 @@ LICENSE = "LGPLv2"
- LIC_FILES_CHKSUM = "file://COPYING;md5=5f30f0716dfdd0d91eb439ebec522ec2"
+diff --git a/meta/recipes-gnome/epiphany/epiphany_3.22.1.bb b/meta/recipes-gnome/epiphany/epiphany_3.22.1.bb
+index 3c63d33..2a9d200 100644
+--- a/meta/recipes-gnome/epiphany/epiphany_3.22.1.bb
++++ b/meta/recipes-gnome/epiphany/epiphany_3.22.1.bb
+@@ -2,7 +2,7 @@ SUMMARY = "WebKit based web browser for GNOME"
+ LICENSE = "GPLv2+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe"
  
- SECTION = "libs"
--DEPENDS = "glib-2.0 intltool-native"
-+DEPENDS = "glib-2.0"
+-DEPENDS = "libsoup-2.4 webkitgtk gtk+3 iso-codes ca-certificates avahi libnotify gcr \
++DEPENDS = "libsoup-2.4 webkitgtk gtk+3 iso-codes avahi libnotify gcr \
+ 	   gsettings-desktop-schemas gnome-desktop3 libxml2-native intltool-native"
  
- SRC_URI[archive.md5sum] = "4d06d0224646f274918b1cb6da9a07f6"
- SRC_URI[archive.sha256sum] = "3f1a442f3c2a734946983532ce59ed49120319fdb10c938447c373d5e5286bee"
+ inherit gnomebase gsettings distro_features_check upstream-version-is-even
+@@ -20,4 +20,3 @@ do_configure_prepend() {
+ 
+ FILES_${PN} += "${datadir}/appdata ${datadir}/dbus-1 ${datadir}/gnome-shell/search-providers"
+ RDEPENDS_${PN} = "iso-codes adwaita-icon-theme"
+-RRECOMMENDS_${PN} = "ca-certificates"
+diff --git a/meta/recipes-sato/webkit/webkitgtk_2.14.1.bb b/meta/recipes-sato/webkit/webkitgtk_2.14.1.bb
+index d6d9c14..39197bc 100644
+--- a/meta/recipes-sato/webkit/webkitgtk_2.14.1.bb
++++ b/meta/recipes-sato/webkit/webkitgtk_2.14.1.bb
+@@ -90,6 +90,8 @@ SECURITY_CFLAGS_append_aarch64 = " -fPIE"
+ 
+ FILES_${PN} += "${libdir}/webkit2gtk-4.0/injected-bundle/libwebkit2gtkinjectedbundle.so"
+ 
++RRECOMMENDS_${PN} += "ca-certificates"
++
+ # http://errors.yoctoproject.org/Errors/Details/20370/
+ ARM_INSTRUCTION_SET_armv4 = "arm"
+ ARM_INSTRUCTION_SET_armv5 = "arm"
 -- 
-2.8.1
+2.1.4
 
 
