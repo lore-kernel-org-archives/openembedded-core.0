@@ -1,50 +1,48 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qt0-f174.google.com (mail-qt0-f174.google.com
-	[209.85.216.174])
-	by mail.openembedded.org (Postfix) with ESMTP id C151F6FEFE
+Return-Path: <sona.sarmadi@enea.com>
+Received: from smtp-out10.electric.net (smtp-out10.electric.net
+	[185.38.180.45])
+	by mail.openembedded.org (Postfix) with ESMTP id EB50571979
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  9 Nov 2016 11:35:17 +0000 (UTC)
-Received: by mail-qt0-f174.google.com with SMTP id p16so124515553qta.0
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 09 Nov 2016 03:35:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=IY/7mMF9x5783BRrx5kIMDA9GVneyFaMqZvqIHmBcN8=;
-	b=ytDsT0aSdz2fHD+NztG4o2tsDThDvbsuY1nyDMAK/Vrd+oZe3h4D9Y6WRXJn0y4HVG
-	BlH7+RLUEt68DtVnrgnPaQ0G/uzZbBbK7QKl+VC7yu0okjPiMa4tc4yC2VmUbtFcLbKt
-	k0732sGUiCvXSbsKUCZjIJduDcfLpLToxU6XXlRczBB63fnxSS3JNoYVW+u6Lr+wjPQ9
-	x8c3EsS05hivZtpYoiJ/m0dn47Qfy0SBYwgA4S2Q/dsQRYCAjuXn21xdWtDoPI08ymTz
-	WLRLskc7ucksTqEtF4fU1RCHyqIpJN6MzRY7kgzdb5ABewPCA9NxHvXk2nhzRiC42EUc
-	ZPWw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=IY/7mMF9x5783BRrx5kIMDA9GVneyFaMqZvqIHmBcN8=;
-	b=ZA6uVfFssLBrOU8CAwulOdpWfNfiV+2Ev93NTQfF1sM0e+VCKCLnt+B8TNllPCTrWW
-	5r/MNAyDGGTzXzlyJ6oUI6cP1LyV25GVMhiAMG/WoBU4uaKOa+eDYbp+9M/oWhEhKnUL
-	gjUJJPw0fV0FTGRRBQcw69Ot4ATAVfcKk3ueLTCV0cuhQU7LIwshevp0pe8qJA2ynbLv
-	DWVtyZbfodntLGGQiYL05WBxWPXU9XJal+dHuVWgx5mW96bC75DOkZivkrVQrk/DxoIO
-	Lpd+W798E+k+EX/L2Qc0Wsl14c3xPavTdFYQWLIf1xdW5u43d2BFuu1+2PzKMOKktiVB
-	hJfQ==
-X-Gm-Message-State: ABUngvfkQG3DcywdvPGdhqSpoZTsHmddIX6xpmN4GSfnuboToc8GTaVGZp9ymdUEvNArSEIZAcxJJwm+jgC6aTFn
-X-Received: by 10.237.61.210 with SMTP id j18mr17477419qtf.137.1478691319286; 
-	Wed, 09 Nov 2016 03:35:19 -0800 (PST)
+	Wed,  9 Nov 2016 11:58:41 +0000 (UTC)
+Received: from 1c4RWb-0004bW-VP by out10b.electric.net with emc1-ok (Exim 4.87)
+	(envelope-from <sona.sarmadi@enea.com>)
+	id 1c4RWc-0004d6-Tp; Wed, 09 Nov 2016 03:58:42 -0800
+Received: by emcmailer; Wed, 09 Nov 2016 03:58:42 -0800
+Received: from [192.36.1.72] (helo=mx-3.enea.com)
+	by out10b.electric.net with esmtps (TLSv1:AES128-SHA:128) (Exim 4.87)
+	(envelope-from <sona.sarmadi@enea.com>)
+	id 1c4RWb-0004bW-VP; Wed, 09 Nov 2016 03:58:41 -0800
+Received: from SESTOEX04.enea.se ([fe80::bc2d:9299:d6b2:d0b7]) by
+	SESTOEX08.enea.se ([fe80::1c3:4003:dc47:23c0%11]) with mapi id
+	14.03.0294.000; Wed, 9 Nov 2016 12:58:41 +0100
+From: Sona Sarmadi <sona.sarmadi@enea.com>
+To: "Richard Purdie (richard.purdie@linuxfoundation.org)"
+	<richard.purdie@linuxfoundation.org>, "Armin Kuster (akuster808@gmail.com)"
+	<akuster808@gmail.com>
+Thread-Topic: [OE-core] [PATCH] curl: Upgrade 7.50.1.bb -> curl_7.51.0.bb
+Thread-Index: AQHSOa5efZsyE1G8mkKD7MeVQUhAm6DQi6cw
+Date: Wed, 9 Nov 2016 11:58:40 +0000
+Message-ID: <3230301C09DEF9499B442BBE162C5E48ABEB644D@SESTOEX04.enea.se>
+References: <1478601718-12481-1-git-send-email-sona.sarmadi@enea.com>
+In-Reply-To: <1478601718-12481-1-git-send-email-sona.sarmadi@enea.com>
+Accept-Language: sv-SE, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [172.21.1.188]
 MIME-Version: 1.0
-Received: by 10.140.85.136 with HTTP; Wed, 9 Nov 2016 03:34:58 -0800 (PST)
-In-Reply-To: <CAJTo0LZxGYzpjUetPspX6mKktoL_XnDqfncyHFWN5Kzfij8-UQ@mail.gmail.com>
-References: <1477161480-20271-1-git-send-email-paul@paulbarker.me.uk>
-	<20161105101438.1ef1f627@nuc.betafive.co.uk>
-	<CAJTo0LbB0eGStoFbyinDYP0zzEJ27BL0eDyGKFkjdh=AaWBPVA@mail.gmail.com>
-	<CADkTA4OaRgUJwFwT=S_h41EW4OO_Koa+QQr=t3t+X+6pszrzBQ@mail.gmail.com>
-	<CAJTo0LZxGYzpjUetPspX6mKktoL_XnDqfncyHFWN5Kzfij8-UQ@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 9 Nov 2016 11:34:58 +0000
-Message-ID: <CAJTo0LZdAJk0pKHhrh1ktud-GmxQ=RVgs7z+TNNKGmHHbws5Kw@mail.gmail.com>
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-Cc: OpenEmbedded Core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] kernel.bbclass: Allow ${S} to be overridden
+X-Outbound-IP: 192.36.1.72
+X-Env-From: sona.sarmadi@enea.com
+X-Proto: esmtps
+X-Revdns: mx-3.enea.com
+X-HELO: mx-3.enea.com
+X-TLS: TLSv1:AES128-SHA:128
+X-Authenticated_ID: 
+X-PolicySMART: 6551647
+X-Virus-Status: Scanned by VirusSMART (c)
+X-Virus-Status: Scanned by VirusSMART (s)
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] curl: Upgrade 7.50.1.bb -> curl_7.51.0.bb
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,65 +55,85 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 09 Nov 2016 11:35:22 -0000
-Content-Type: multipart/alternative; boundary=001a11401094d19f0d0540dca6dc
-
---001a11401094d19f0d0540dca6dc
-Content-Type: text/plain; charset=UTF-8
-
-On 9 November 2016 at 10:04, Burton, Ross <ross.burton@intel.com> wrote:
-
-> Saying that of course doomed the patch:
->
-
-Double doomed, perf can't build either.
-
-ERROR: perf-1.0-r9 do_configure: Function failed: do_configure (log file is
-located at
-/data/poky-master/tmp-glibc/work/intel_corei7_64-poky-linux/perf/1.0-r9/temp/log.do_configure.23322)
-ERROR: Logfile of failure stored in:
-/data/poky-master/tmp-glibc/work/intel_corei7_64-poky-linux/perf/1.0-r9/temp/log.do_configure.23322
-Log data follows:
-| DEBUG: Executing python function sysroot_cleansstate
-| DEBUG: Python function sysroot_cleansstate finished
-| DEBUG: Executing shell function do_configure
-| sed: can't read
-/data/poky-master/tmp-glibc/work-shared/intel-corei7-64/kernel-source/tools/perf/Makefile*:
-No such file or directory
-| WARNING: exit code 2 from a shell command.
-| ERROR: Function failed: do_configure (log file is located at
-/data/poky-master/tmp-glibc/work/intel_corei7_64-poky-linux/perf/1.0-r9/temp/log.do_configure.23322)
-
-Ross
-
---001a11401094d19f0d0540dca6dc
-Content-Type: text/html; charset=UTF-8
+X-List-Received-Date: Wed, 09 Nov 2016 11:58:43 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 9 November 2016 at 10:04, Burton, Ross <span dir=3D"ltr">&lt;<a href=3D"=
-mailto:ross.burton@intel.com" target=3D"_blank">ross.burton@intel.com</a>&g=
-t;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px 0=
-px 0px 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);borde=
-r-left-style:solid;padding-left:1ex"><div class=3D"gmail_extra">Saying that=
- of course doomed the patch:</div></blockquote></div><br>Double doomed, per=
-f can&#39;t build either.</div><div class=3D"gmail_extra"><br></div><div cl=
-ass=3D"gmail_extra"><div class=3D"gmail_extra">ERROR: perf-1.0-r9 do_config=
-ure: Function failed: do_configure (log file is located at /data/poky-maste=
-r/tmp-glibc/work/intel_corei7_64-poky-linux/perf/1.0-r9/temp/log.do_configu=
-re.23322)</div><div class=3D"gmail_extra">ERROR: Logfile of failure stored =
-in: /data/poky-master/tmp-glibc/work/intel_corei7_64-poky-linux/perf/1.0-r9=
-/temp/log.do_configure.23322</div><div class=3D"gmail_extra">Log data follo=
-ws:</div><div class=3D"gmail_extra">| DEBUG: Executing python function sysr=
-oot_cleansstate</div><div class=3D"gmail_extra">| DEBUG: Python function sy=
-sroot_cleansstate finished</div><div class=3D"gmail_extra">| DEBUG: Executi=
-ng shell function do_configure</div><div class=3D"gmail_extra">| sed: can&#=
-39;t read /data/poky-master/tmp-glibc/work-shared/intel-corei7-64/kernel-so=
-urce/tools/perf/Makefile*: No such file or directory</div><div class=3D"gma=
-il_extra">| WARNING: exit code 2 from a shell command.</div><div class=3D"g=
-mail_extra">| ERROR: Function failed: do_configure (log file is located at =
-/data/poky-master/tmp-glibc/work/intel_corei7_64-poky-linux/perf/1.0-r9/tem=
-p/log.do_configure.23322)</div><div class=3D"gmail_extra"><br></div><div cl=
-ass=3D"gmail_extra">Ross</div></div></div>
+Hi guys,
 
---001a11401094d19f0d0540dca6dc--
+curl 7.51.0-r0 addresses all these CVEs. I wonder if we can upgrade krogoth=
+ and morty to curl 7.51.0-r0 as well? Both package versions are using same =
+share library version i.e. libcurl.so.4.4.0 so I assume full ABI compatibil=
+ity.
+
+tmp/work/i586-poky-linux/curl/7.47.1-r0/sysroot-destdir/usr/lib/libcurl.so.=
+4.4.0
+tmp/work/i586-poky-linux/curl/7.51.0-r0/sysroot-destdir/usr/lib/libcurl.so.=
+4.4.0
+
+For more info see:
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D10617
+
+Thanks
+//Sona
+-----Original Message-----
+From: openembedded-core-bounces@lists.openembedded.org [mailto:openembedded=
+-core-bounces@lists.openembedded.org] On Behalf Of Sona Sarmadi
+Sent: den 8 november 2016 11:42
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core] [PATCH] curl: Upgrade 7.50.1.bb -> curl_7.51.0.bb
+
+The upgrade addresses following CVEs:
+CVE-2016-8615: cookie injection for other servers
+CVE-2016-8616: case insensitive password comparison
+CVE-2016-8617: OOB write via unchecked multiplication
+CVE-2016-8618: double-free in curl_maprintf
+CVE-2016-8619: double-free in krb5 code
+CVE-2016-8620: glob parser write/read out of bounds
+CVE-2016-8621: curl_getdate read out of bounds
+CVE-2016-8622: URL unescape heap overflow via integer truncation
+CVE-2016-8623: Use-after-free via shared cookies
+CVE-2016-8624: invalid URL parsing with '#'
+CVE-2016-8625: IDNA 2003 makes curl use wrong host
+
+Reference:
+https://curl.haxx.se/docs/security.html
+
+Fixes [Yocto #10617]
+
+Signed-off-by: Sona Sarmadi <sona.sarmadi@enea.com>
+---
+ meta/recipes-support/curl/{curl_7.50.1.bb =3D> curl_7.51.0.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)  rename meta/recipes-suppo=
+rt/curl/{curl_7.50.1.bb =3D> curl_7.51.0.bb} (94%)
+
+diff --git a/meta/recipes-support/curl/curl_7.50.1.bb b/meta/recipes-suppor=
+t/curl/curl_7.51.0.bb
+similarity index 94%
+rename from meta/recipes-support/curl/curl_7.50.1.bb
+rename to meta/recipes-support/curl/curl_7.51.0.bb
+index a21419a..e1a996b 100644
+--- a/meta/recipes-support/curl/curl_7.50.1.bb
++++ b/meta/recipes-support/curl/curl_7.51.0.bb
+@@ -14,8 +14,8 @@ SRC_URI =3D "http://curl.haxx.se/download/curl-${PV}.tar.=
+bz2 \  #  SRC_URI +=3D " file://configure_ac.patch"
+=20
+-SRC_URI[md5sum] =3D "015f6a0217ca6f2c5442ca406476920b"
+-SRC_URI[sha256sum] =3D "3c12c5f54ccaa1d40abc65d672107dcc75d3e1fcb38c267484=
+334280096e5156"
++SRC_URI[md5sum] =3D "09a7c5769a7eae676d5e2c86d51f167e"
++SRC_URI[sha256sum] =3D "7f8240048907e5030f67be0a6129bc4b333783b9cca1391026=
+d700835a788dde"
+=20
+ inherit autotools pkgconfig binconfig multilib_header
+=20
+--
+1.9.1
+
+--
+_______________________________________________
+Openembedded-core mailing list
+Openembedded-core@lists.openembedded.org
+http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
