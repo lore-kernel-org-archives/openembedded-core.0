@@ -1,48 +1,45 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f41.google.com (mail-wm0-f41.google.com [74.125.82.41])
-	by mail.openembedded.org (Postfix) with ESMTP id E73417198F
+Received: from mail-wm0-f53.google.com (mail-wm0-f53.google.com [74.125.82.53])
+	by mail.openembedded.org (Postfix) with ESMTP id 2872C71A23
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  9 Nov 2016 00:10:47 +0000 (UTC)
-Received: by mail-wm0-f41.google.com with SMTP id a197so276994175wmd.0
+	Wed,  9 Nov 2016 00:10:46 +0000 (UTC)
+Received: by mail-wm0-f53.google.com with SMTP id f82so212300041wmf.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 08 Nov 2016 16:10:49 -0800 (PST)
+	Tue, 08 Nov 2016 16:10:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=sBdxxTXEUkL3D52jwhfv8mzpHhox885JCIhgv1lo7dA=;
-	b=xVGtoFD3I1IF+3iOUcQQxfGa2l2eApIjJw8mEBr0LMU+tSADuZw6Djr+Luvv8wvWOG
-	LAV7bfTNjoQslaI416NjczmdJwnwirQ9H28amIeLAxjFdK7UxuH8GqSq3hKNtbYbDEnz
-	kFYjCeUGMzoi69YQu6VfH8gTlqgmGt6eFQiPSu4U5+k9K7U6USoFfnwGS7b53759ki23
-	4lIh5bFUc8ZtupFR6NPGoGUusvs31BAzi0Y+8zEDpEmlRDE/4MwwKz5SjEg9+vt0+RaJ
-	GOhFWxeY1FYmo3N8xBuUht/5N16bRI7m5KQLq+Yx4bIXYu5IkXQVf5sScTcijPLtw46S
-	ikGA==
+	h=from:to:subject:date:message-id;
+	bh=DF5LC6vAXzThYXD3Lufx/OtO9zcxBKiguTAnRBBliBw=;
+	b=aM5I32irpgGpb+gBK4ZWcykGmtrC3Jrzd0lk32+3wNO7awW3RAQniCR8CDMpPeS893
+	yTOzObFToaAVr14ntEA+ko54/VO3koIeRA/K8tbXEmdoIJI5yAS20dGhOdJa1DeRWj0w
+	VzVUTrLO6FdGHeQmCOe4lbeJOXQ4mrdRlgEIBhDUMYSGPbJoD/bMAR9HSBcFjbLzIYPD
+	bY/oHXpeqV5xYktQ/V0E3DAMJtN7BVdg/tFEKnuhxVz8R6bwM500zH66a7QNHqwrwW/o
+	6PWBItzVWxzCIaD0NIYagQbF+96ROBdo16ZFJm+rvFAAQ1wT8oO3oVlAX/++7iSz11GY
+	zFOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references;
-	bh=sBdxxTXEUkL3D52jwhfv8mzpHhox885JCIhgv1lo7dA=;
-	b=Eaq+a0UPvwWe0LTnFlSP1/BB9iEaFlxphiUju/bvhv/oLgWeFHKGFPt63Zt+Q1tmHk
-	Ln3DUM2gxTjkmPSLxsZJXy6PdFs+J1dxxL1JM3cKYk29RaI5QHGbB0gz34bYOJwmQwMc
-	6S0ZTOevGAr5SCBdopQWuGJrOyCT8QSHwPtkX6KcL9HSPNoc3BWuTsYFx1DGp7cnFNq5
-	qRCYeMeC758GOiD1aTWDx7tHqh5Xns8JeQtTDBDVm0CL/jKp8HZS9lB9Eap7B0p/AbgU
-	z4XkKsbYbwTDWorWamMaN4UQd46CJCDhMELGVSFFnfn7AVxBy1oJUm/4jP9NBciSOfj3
-	pd2A==
-X-Gm-Message-State: ABUngvcJE/KnV+L0CyD9H3/dQSuBnjv3XrJPCR5tmbvfRYUBxBINBoMyzFBgwcYZQpXBclw9
-X-Received: by 10.28.178.10 with SMTP id b10mr19430521wmf.83.1478650248396;
-	Tue, 08 Nov 2016 16:10:48 -0800 (PST)
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=DF5LC6vAXzThYXD3Lufx/OtO9zcxBKiguTAnRBBliBw=;
+	b=LSHqMgPNyShOzMHkYm1CdeHgiUEYQWyvZeiYiuVvzBbJ2f/n68l5g8CWehQq7FziNe
+	fl/eFdhK/t+8REbUFReMoqskakpCiJSDKeHwUtxHvM9qQWrHE/BhHyiK1swdx1FLwqc3
+	UHM/aYBxpQBv8sUycbOhz9s7DXCwDtsEi/Osf5eanrIlB1THik1xhzRBsG6yWBv1svt+
+	Vkun2z1aDm5lkZq54FmZIVuuCL0NyZdgNut+L81xcOgaWJFH/Ib1tKGljBmqW7sAyqfx
+	9DY38ZrPtHvFUw1tEkkG0CcOslMmx+Lw+oBQy+UaOndJoRyvxq7a/LkB6rzvguzsz3Yh
+	R7aQ==
+X-Gm-Message-State: ABUngvdks79imBoGxTXWCnjUg+1lgh1IBNydxkEJN1oHk9Y6SfrPS/tA7ax2Z4AtemXLUZBs
+X-Received: by 10.194.23.67 with SMTP id k3mr12748238wjf.103.1478650247580;
+	Tue, 08 Nov 2016 16:10:47 -0800 (PST)
 Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id 18sm22330985wmr.6.2016.11.08.16.10.47
+	by smtp.gmail.com with ESMTPSA id 18sm22330985wmr.6.2016.11.08.16.10.46
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
 	Tue, 08 Nov 2016 16:10:47 -0800 (PST)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  9 Nov 2016 00:10:44 +0000
-Message-Id: <1478650244-7002-2-git-send-email-ross.burton@intel.com>
+Date: Wed,  9 Nov 2016 00:10:43 +0000
+Message-Id: <1478650244-7002-1-git-send-email-ross.burton@intel.com>
 X-Mailer: git-send-email 2.8.1
-In-Reply-To: <1478650244-7002-1-git-send-email-ross.burton@intel.com>
-References: <1478650244-7002-1-git-send-email-ross.burton@intel.com>
-Subject: [PATCH 2/2] systemtap: fix native linking on recent Ubuntu
+Subject: [PATCH 1/2] systemtap: remove explicit msgfmt check
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,74 +54,48 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 09 Nov 2016 00:10:48 -0000
 
-The latest Ubuntu uses yet more aggressive hardening options, which causes the
-unconventional build order used by systemtap to fail.
-
-[ YOCTO #10521 ]
+Passing --disable-nls should be enough to disable the requirement for a full
+gettext to be present, but the upstream configure explicitly checks for msgfmt
+even if it isn't going to be used.  To avoid having to depend on gettext-native,
+patch this check out.
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- .../systemtap/systemtap/fix-monitor-linking.patch  | 41 ++++++++++++++++++++++
- meta/recipes-kernel/systemtap/systemtap_git.inc    |  1 +
- 2 files changed, 42 insertions(+)
- create mode 100644 meta/recipes-kernel/systemtap/systemtap/fix-monitor-linking.patch
+ .../systemtap/systemtap/no-msgfmt-check.patch             | 15 +++++++++++++++
+ meta/recipes-kernel/systemtap/systemtap_git.inc           |  1 +
+ 2 files changed, 16 insertions(+)
+ create mode 100644 meta/recipes-kernel/systemtap/systemtap/no-msgfmt-check.patch
 
-diff --git a/meta/recipes-kernel/systemtap/systemtap/fix-monitor-linking.patch b/meta/recipes-kernel/systemtap/systemtap/fix-monitor-linking.patch
+diff --git a/meta/recipes-kernel/systemtap/systemtap/no-msgfmt-check.patch b/meta/recipes-kernel/systemtap/systemtap/no-msgfmt-check.patch
 new file mode 100644
-index 0000000..2bf0742a1
+index 0000000..471e62c
 --- /dev/null
-+++ b/meta/recipes-kernel/systemtap/systemtap/fix-monitor-linking.patch
-@@ -0,0 +1,41 @@
-+Upstream-Status: Submitted
++++ b/meta/recipes-kernel/systemtap/systemtap/no-msgfmt-check.patch
+@@ -0,0 +1,15 @@
++There is no need to explicitly check that msgfmt was found as the gettext macros
++handle this for us if NLS is enabled.
++
++Upstream-Status: Pending
 +Signed-off-by: Ross Burton <ross.burton@intel.com>
 +
-+From d940aa0079c253b958cf9158e9ec7922ecf464f9 Mon Sep 17 00:00:00 2001
-+From: Ross Burton <ross.burton@intel.com>
-+Date: Wed, 9 Nov 2016 00:00:48 +0000
-+Subject: [PATCH] staprun: fix linking if monitor is enabled
-+
-+If the monitor is enabled, monitor.c needs to link against json-c and ncurses.
-+Instead of adding these linker flags to AM_CFLAGS (global CC flags) add them to
-+stapio_LDADD.
-+
-+Apart from being the "right" thing to do, this fixes build failures on systems
-+such as current Ubuntu (which defaults to using --as-needed and similar) where
-+link order is important.
-+---
-+ staprun/Makefile.am | 7 +++----
-+ 1 file changed, 3 insertions(+), 4 deletions(-)
-+
-+diff --git a/staprun/Makefile.am b/staprun/Makefile.am
-+index 63d4088..66b3e21 100644
-+--- a/staprun/Makefile.am
-++++ b/staprun/Makefile.am
-+@@ -42,12 +42,11 @@ staprun_CXXFLAGS += $(nss_CFLAGS)
-+ staprun_LDADD += $(nss_LIBS)
-+ endif
-+ 
-+-if HAVE_MONITOR_LIBS
-+-AM_CFLAGS += $(jsonc_LIBS) $(ncurses_LIBS)
-+-endif
++diff --git a/configure.ac b/configure.ac
++index e56079a..284bbe0 100644
++--- a/configure.ac
+++++ b/configure.ac
++@@ -39,4 +38,0 @@ AM_GNU_GETTEXT_VERSION([0.19.4])
++-if test "x$GMSGFMT" = "x:"; then
++-   AC_MSG_ERROR([missing gnu /usr/bin/msgfmt])
++-fi
 +-
-+ stapio_SOURCES = stapio.c mainloop.c common.c ctl.c relay.c relay_old.c monitor.c
-+ stapio_LDADD = libstrfloctime.a -lpthread
-++if HAVE_MONITOR_LIBS
-++stapio_LDADD += $(jsonc_LIBS) $(ncurses_LIBS)
-++endif
-+ 
-+ man_MANS = staprun.8
-+ 
-+-- 
-+2.8.1
 diff --git a/meta/recipes-kernel/systemtap/systemtap_git.inc b/meta/recipes-kernel/systemtap/systemtap_git.inc
-index 34cf227..a0f0e68 100644
+index 304eb99..34cf227 100644
 --- a/meta/recipes-kernel/systemtap/systemtap_git.inc
 +++ b/meta/recipes-kernel/systemtap/systemtap_git.inc
-@@ -10,6 +10,7 @@ SRC_URI = "git://sourceware.org/git/systemtap.git \
+@@ -9,6 +9,7 @@ SRC_URI = "git://sourceware.org/git/systemtap.git \
+            file://configure-allow-to-disable-libvirt.patch \
             file://x32_abi_time.patch \
             file://monitor-option.patch \
-            file://no-msgfmt-check.patch \
-+           file://fix-monitor-linking.patch \
++           file://no-msgfmt-check.patch \
            "
  
  # systemtap doesn't support mips
