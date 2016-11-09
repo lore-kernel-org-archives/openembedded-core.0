@@ -1,52 +1,46 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pf0-f177.google.com (mail-pf0-f177.google.com
-	[209.85.192.177])
-	by mail.openembedded.org (Postfix) with ESMTP id 0F6DE6FEFE
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wm0-f45.google.com (mail-wm0-f45.google.com [74.125.82.45])
+	by mail.openembedded.org (Postfix) with ESMTP id 40AB56013D
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  9 Nov 2016 15:20:52 +0000 (UTC)
-Received: by mail-pf0-f177.google.com with SMTP id i88so127858135pfk.2
+	Wed,  9 Nov 2016 17:26:27 +0000 (UTC)
+Received: by mail-wm0-f45.google.com with SMTP id c184so46318292wmd.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 09 Nov 2016 07:20:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=subject:to:references:cc:from:message-id:date:user-agent
-	:mime-version:in-reply-to:content-transfer-encoding;
-	bh=5MiSbCvq1qngKAA97u2jbr9xUOfgvWKdKackAKpZ5i8=;
-	b=NO573QwdY0kYFKRuAiP6mHp0L2itf71H01aVutkx5K4e8lfPhQx5ckb+LrBv9Mnar/
-	mthcNPMqxPu1gt4OcUfTN2O06H78c/OE8zsTsViHsha/kS4lqORBlh1UW6RO8hUDPye5
-	AJHZjG3R6W1822Fxgx3Kurg9At9rMlzhWnMd+siXUjcXkxC0ZN8gCr1KEP36/9bROHiX
-	dt+tQA/dzj2NK2JRNuyCwt9o8iDotXAqywJl7ESK//MLY2t3aMf9tGPjGiq1JBOfwozU
-	95dGP9J+VNSCgJPvlHOTUJp0cI275I8GewS+hSphkt9D+WIHxg4RdQv38Z82luxuEv64
-	5krw==
+	Wed, 09 Nov 2016 09:26:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=OcoLMuYUqjqwPPmMMATXycFsbzt3kdN9DIY1hGQP80I=;
+	b=MAzs2TNpPomrZHmUe8XjCrc9TK0GZR44L9Bs9J39xteg0yhb6gFq6NT2l0mQhRKOxe
+	KjNFC4b4b7qzsWToQRSMT5J480lqGxczmpd5F+vkUSn5XtCSgVWUAaBjFwqcti/J4PvF
+	VoUM/fkEzSSaxCQl9erb7xo9SsKMvYjVxuWlSRMpkdfOHbXBx5XTvphVcaDnW/yBgBzM
+	RTxUhBjj0aO78RVdATHEfkttntBI2TXF99K3cu9oGiTfwj2dW/wHmlQqeKNZyinnKAmx
+	4AgbsnSwScSL2/DM0q0p8Vf8iaT9mbuV0l/yXW1BLYnDnWRCpYDkiKP4Z8h/qZoITagt
+	OIEg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:subject:to:references:cc:from:message-id:date
-	:user-agent:mime-version:in-reply-to:content-transfer-encoding;
-	bh=5MiSbCvq1qngKAA97u2jbr9xUOfgvWKdKackAKpZ5i8=;
-	b=D3ZYrSuMKwtC7msSP69vcPotLG0JVf9v+OvzqMG8tZyg3DsLSoNioKUY5MqjZJI7LU
-	tZSBgaYk0zS9gX7ZRw12Cz5UqSHx4ACmWIut5jMx+cFiIfwqFlq6k0maBYP7zdVL8qAV
-	FItPmDgwarsdOe0kpbogPvgpVopzBMl4TE9jbW3tl9sSNVm1kvEA7tsAPydVIcEp2Ih6
-	8oTJFlpbrThL7fankhqrXCIuJ9h+wUDQLtBUZYcteCRwaLDmQ9gTG9OpQmiOGJ1TwJXK
-	zy6D/sAyWHleERcT8Xv3x5FSta9ZGBA8xX29g9GTFvR+K8kALaV8HRNEhpO2/KTAYYer
-	WeLQ==
-X-Gm-Message-State: ABUngvc1fBJRZ4PJ3qTC89NL3ZQJQFk1rKUkbNbWxPVMr6VdK+SwzfjoFLZ4d6Ch/PeHDQ==
-X-Received: by 10.99.150.10 with SMTP id c10mr15857864pge.46.1478704854112;
-	Wed, 09 Nov 2016 07:20:54 -0800 (PST)
-Received: from ?IPv6:2601:202:4001:9ea0:b5e1:5184:77d2:e8cb?
-	([2601:202:4001:9ea0:b5e1:5184:77d2:e8cb])
-	by smtp.gmail.com with ESMTPSA id r1sm81989pfg.56.2016.11.09.07.20.53
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 09 Nov 2016 07:20:53 -0800 (PST)
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	openembedded-core <openembedded-core@lists.openembedded.org>
-References: <1478694607.23123.176.camel@linuxfoundation.org>
-From: akuster808 <akuster808@gmail.com>
-Message-ID: <20b7d7ec-377d-0efe-b09b-fd733214093e@gmail.com>
-Date: Wed, 9 Nov 2016 07:20:52 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.4.0
-MIME-Version: 1.0
-In-Reply-To: <1478694607.23123.176.camel@linuxfoundation.org>
-Subject: Re: krogoth 2.1.2 status
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=OcoLMuYUqjqwPPmMMATXycFsbzt3kdN9DIY1hGQP80I=;
+	b=Q9EP41kx3Bz3/Kf9S1HGGqw9MX/HKkPev+lbm/3vb78Cumk72YDk6fLgwnphNLG/h7
+	5d2eU2sM1JoQwP6uHkS8ckJJqTdQTzE2IfFnYM3o/zep8ZlmVIPCon5V/XZQ+YjxQoMl
+	AyPjN7PtLM6PsYxTG68D+IgzsWjqP7DbOV+tjIBXV/VwAX4LW8CXiubtdo895f1uzfbe
+	VeLKiOf1W59asuwrxY0Fqj+waqU0XSYZ1xuN7oIPBNLxFkbRbvLd6e4C3NfasVaWIccD
+	ZaP7oX7WrykxOTXHWgQ2CZZGpvQ77mLVc5Y6VlM8W3SVcZziSsP0C052Qyxct9Kw7bFR
+	DTIQ==
+X-Gm-Message-State: ABUngvcAWp1vLGwNQVY9j8vO53xSvm39k4kdIx2aVbxozUn+LrVo/HLqrtzUByqw2WnSWDfA
+X-Received: by 10.28.113.218 with SMTP id d87mr1361074wmi.111.1478712388427;
+	Wed, 09 Nov 2016 09:26:28 -0800 (PST)
+Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
+	by smtp.gmail.com with ESMTPSA id
+	c133sm1368906wme.12.2016.11.09.09.26.27
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 09 Nov 2016 09:26:27 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  9 Nov 2016 17:26:26 +0000
+Message-Id: <1478712386-6773-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 2.8.1
+Subject: [PATCH] glib-networking: remove intltool dependency
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,37 +53,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 09 Nov 2016 15:20:54 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 09 Nov 2016 17:26:29 -0000
 
+glib-networking 2.50 moved away from intltool to modern gettext, so remove the build dependency.
 
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-core/glib-networking/glib-networking_2.50.0.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-On 11/09/2016 04:30 AM, Richard Purdie wrote:
-> I ran a krogoth 2.1.2 build. It did have some issues:
->
-> * one runtime sanity test had a timeout issue
-> * some urls are stale (perpetual problem)
-> * musl runtime testing fails (never tested on krogoth previously)
-> * no-x11 runtime testing had a failure (never tested on krogoth
-> previously)
-Can we get those issues bugged ( if not done so already) so we can make 
-decisions on what to do with each.
->
-> I suspect we can call this good enough to put into QA but there were
-> enough 'failures' I wanted to send this out in case someone objects.
->
-> Part of the problem here is we apply our current autobuilder test setup
-> to the older releases as well. I'm aware there may be better ways to do
-> this but I don't know anyone with time to work on that, we have other
-> more pressing problems.
-I suspect Jethro will have similar or worse issues.
-
-- Armin
->
-> Cheers,
->
-> Richard
->
+diff --git a/meta/recipes-core/glib-networking/glib-networking_2.50.0.bb b/meta/recipes-core/glib-networking/glib-networking_2.50.0.bb
+index 0baaffd..2782bd9 100644
+--- a/meta/recipes-core/glib-networking/glib-networking_2.50.0.bb
++++ b/meta/recipes-core/glib-networking/glib-networking_2.50.0.bb
+@@ -7,7 +7,7 @@ LICENSE = "LGPLv2"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=5f30f0716dfdd0d91eb439ebec522ec2"
+ 
+ SECTION = "libs"
+-DEPENDS = "glib-2.0 intltool-native"
++DEPENDS = "glib-2.0"
+ 
+ SRC_URI[archive.md5sum] = "4d06d0224646f274918b1cb6da9a07f6"
+ SRC_URI[archive.sha256sum] = "3f1a442f3c2a734946983532ce59ed49120319fdb10c938447c373d5e5286bee"
+-- 
+2.8.1
 
 
