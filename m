@@ -1,37 +1,56 @@
-Return-Path: <andre.draszik@gmail.com>
-Received: from mail-wm0-f66.google.com (mail-wm0-f66.google.com [74.125.82.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 559A56093B
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pf0-f195.google.com (mail-pf0-f195.google.com
+	[209.85.192.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 392A0719B9
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  9 Nov 2016 14:48:54 +0000 (UTC)
-Received: by mail-wm0-f66.google.com with SMTP id p190so29773499wmp.1
+	Wed,  9 Nov 2016 15:16:23 +0000 (UTC)
+Received: by mail-pf0-f195.google.com with SMTP id n85so628018pfi.3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 09 Nov 2016 06:48:55 -0800 (PST)
+	Wed, 09 Nov 2016 07:16:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=subject:to:references:cc:from:message-id:date:user-agent
+	:mime-version:in-reply-to:content-transfer-encoding;
+	bh=AXePtYymY9yK1Tlc90qrz6mFD5pwTcKcR4bTKJ1C3Ok=;
+	b=G4CSwi05QFt4yfCNI7MhqC13lKHTvGPMaeTgCjwD6ceZawQH86XoyhsLupQJiK3gN/
+	v4VeKhIF0Yjo2hfch1IgRk0YKs3PY17AdwpJqc5XMy3y986qYd9Vq7pm6L5KwOOQU0nv
+	gIQ+VX/ywfsWuiPngAZm4Z+KXW89LlEBP+7fXsDRYU8QyF5KvtOYANzlVY5ZTn8IPWn1
+	P2PgnTY0b1TZDh+F3F7qmXmguh1gYXGpEn2F3AtD6qmOGhoMd0UfcSrTFulqlKLz5xqV
+	gSnFPFqRPv3Qb76ji/dh0yD34OW1ve7ImST/9XS28m3McdNBeEa3Gi/ciDBa4v4eDgEu
+	TIng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=/+xqxSnfXgnNr0JAGWvManhgopTctnJnNCbHqzyxUAA=;
-	b=VBNeLoykcwSHdKE8SQU9aq0gOe1O9icoX1QfsR755ZFTTIj3yZOPVeJvmFVUgxHfEO
-	6u4FUa5WUAk5xTp7I1ANZKDbstHwKxdgMkFk07NgSLztsKtfOB1ErmI7eXQRFYNGGGPL
-	JxAMmKWdoA9aDW1EtIDH625t7gwQhFeqjxrn0rUiO+6u3IKxAfjmhKJXaERnmhKo/CQW
-	HJIalIGtTaDfN+viN37foqJwqjzcqCsUib3T0Uv1TB8NMUzqwPZHDVhtGgYJfMCNZVK4
-	JojacIU+yLgiKqkuCajyj0PaCCWrejRytUS+/mpJa5nsx5kVY/Ro/DpyUXLcsoVgT7rY
-	8DVg==
-X-Gm-Message-State: ABUngve0wORX6UAiU1G2ZezJ5LJQBdOBpbAnsKsiWSBuZBEjjdWPH6hARQz5P3MVORHqDw==
-X-Received: by 10.28.166.208 with SMTP id p199mr22499017wme.27.1478702934714; 
-	Wed, 09 Nov 2016 06:48:54 -0800 (PST)
-Received: from tfsielt31850.tycofs.com ([77.107.218.170])
-	by smtp.gmail.com with ESMTPSA id b184sm671009wma.0.2016.11.09.06.48.53
-	for <openembedded-core@lists.openembedded.org>
+	h=x-gm-message-state:subject:to:references:cc:from:message-id:date
+	:user-agent:mime-version:in-reply-to:content-transfer-encoding;
+	bh=AXePtYymY9yK1Tlc90qrz6mFD5pwTcKcR4bTKJ1C3Ok=;
+	b=kYDYgvXXYuihy4Ta2xai6PTrokqQpf6jMYYZz7HmRoP1pRRsStV11c1Uv6ErBNXr2O
+	HhGmEq08Kke+nYkNdYG/GR9Tel0NsjnKG1MxUisZILmEzkMKoXC9U5+E+b/0bjtUMusR
+	tNBFnV6494yPsTesjspeoRTyBoSMGlFD9BNOy7oj6D3/HQlPfXxGvzzhfU4LhX+g5y+7
+	MAaCNmhDw/wKc9i4lJn2UBmzAHBluajrME/ZeqBaeIcuh6fmDslGtj161D380VDHDiXJ
+	JOHXdB9OybdhrKGpSxYLk5wwTqwTw+Fy8VbDZN68M85gCYt4ezAD0aPWcXrHKtTK2N5j
+	sEPQ==
+X-Gm-Message-State: ABUngvfLAEupKOuvbLm+SQxMTfNZ0KuY3Qzeny9G1OnuvuYfTrAaTjkm5dSZjkbEEvNBqg==
+X-Received: by 10.98.67.89 with SMTP id q86mr142000pfa.178.1478704585153;
+	Wed, 09 Nov 2016 07:16:25 -0800 (PST)
+Received: from ?IPv6:2601:202:4001:9ea0:b5e1:5184:77d2:e8cb?
+	([2601:202:4001:9ea0:b5e1:5184:77d2:e8cb])
+	by smtp.gmail.com with ESMTPSA id sh9sm41042pac.41.2016.11.09.07.16.24
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 09 Nov 2016 06:48:53 -0800 (PST)
-From: =?UTF-8?q?Andr=C3=A9=20Draszik?= <git@andred.net>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  9 Nov 2016 14:48:53 +0000
-Message-Id: <20161109144853.4452-1-git@andred.net>
-X-Mailer: git-send-email 2.10.2
+	Wed, 09 Nov 2016 07:16:24 -0800 (PST)
+To: Sona Sarmadi <sona.sarmadi@enea.com>,
+	"Richard Purdie (richard.purdie@linuxfoundation.org)"
+	<richard.purdie@linuxfoundation.org>
+References: <1478601718-12481-1-git-send-email-sona.sarmadi@enea.com>
+	<3230301C09DEF9499B442BBE162C5E48ABEB644D@SESTOEX04.enea.se>
+From: akuster808 <akuster808@gmail.com>
+Message-ID: <176055c3-bd60-fbb0-e5af-a25c56c9390c@gmail.com>
+Date: Wed, 9 Nov 2016 07:16:23 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.4.0
 MIME-Version: 1.0
-Subject: [PATCH] openssl: fix bashism in c_rehash shell script
+In-Reply-To: <3230301C09DEF9499B442BBE162C5E48ABEB644D@SESTOEX04.enea.se>
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] curl: Upgrade 7.50.1.bb -> curl_7.51.0.bb
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,49 +63,83 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 09 Nov 2016 14:48:54 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 09 Nov 2016 15:16:24 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 
-From: André Draszik <adraszik@tycoint.com>
 
-This script claims to be a /bin/sh script, but it uses
-a bashism:
 
-from checkbashisms:
+On 11/09/2016 03:58 AM, Sona Sarmadi wrote:
+> Hi guys,
+>
+> curl 7.51.0-r0 addresses all these CVEs. I wonder if we can upgrade krogoth and morty to curl 7.51.0-r0 as well?
+Updating morty seems plausible . I appears the changes are mostly bug fixes.
+Krogoth is a large jump and I would not recommend upgrading the package.
 
-possible bashism in meta/recipes-connectivity/openssl/openssl/openssl-c_rehash.sh line 151 (should be 'b = a'):
-	    if [ "x/" == "x$( echo ${FILE} | cut -c1 -)" ]
+- Armin
 
-This causes build issues on systems that don't have
-/bin/sh symlinked to bash:
-
-Updating certificates in ${WORKDIR}/rootfs/etc/ssl/certs...
-<builddir>/tmp/sysroots/x86_64-linux/usr/bin/c_rehash: 151: [: x/: unexpected operator
- ...
-
-Fix this by using POSIX shell syntax for the comparison.
-
-Signed-off-by: André Draszik <adraszik@tycoint.com>
-Reviewed-by: Sylvain Lemieux <slemieux@tycoint.com>
----
- meta/recipes-connectivity/openssl/openssl/openssl-c_rehash.sh | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/recipes-connectivity/openssl/openssl/openssl-c_rehash.sh b/meta/recipes-connectivity/openssl/openssl/openssl-c_rehash.sh
-index 25ea729..6620fdc 100644
---- a/meta/recipes-connectivity/openssl/openssl/openssl-c_rehash.sh
-+++ b/meta/recipes-connectivity/openssl/openssl/openssl-c_rehash.sh
-@@ -148,7 +148,7 @@ hash_dir()
- 	then
- 	    FILE=$( readlink ${FILE} )
- 	    # check the symlink is absolute (or dangling in other word)
--	    if [ "x/" == "x$( echo ${FILE} | cut -c1 -)" ]
-+	    if [ "x/" = "x$( echo ${FILE} | cut -c1 -)" ]
- 	    then
- 		REAL_FILE=${SYSROOT}/${FILE}
- 	    fi
--- 
-2.10.2
+> Both package versions are using same share library version i.e. libcurl.so.4.4.0 so I assume full ABI compatibility.
+>
+> tmp/work/i586-poky-linux/curl/7.47.1-r0/sysroot-destdir/usr/lib/libcurl.so.4.4.0
+> tmp/work/i586-poky-linux/curl/7.51.0-r0/sysroot-destdir/usr/lib/libcurl.so.4.4.0
+>
+> For more info see:
+> https://bugzilla.yoctoproject.org/show_bug.cgi?id=10617
+>
+> Thanks
+> //Sona
+> -----Original Message-----
+> From: openembedded-core-bounces@lists.openembedded.org [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of Sona Sarmadi
+> Sent: den 8 november 2016 11:42
+> To: openembedded-core@lists.openembedded.org
+> Subject: [OE-core] [PATCH] curl: Upgrade 7.50.1.bb -> curl_7.51.0.bb
+>
+> The upgrade addresses following CVEs:
+> CVE-2016-8615: cookie injection for other servers
+> CVE-2016-8616: case insensitive password comparison
+> CVE-2016-8617: OOB write via unchecked multiplication
+> CVE-2016-8618: double-free in curl_maprintf
+> CVE-2016-8619: double-free in krb5 code
+> CVE-2016-8620: glob parser write/read out of bounds
+> CVE-2016-8621: curl_getdate read out of bounds
+> CVE-2016-8622: URL unescape heap overflow via integer truncation
+> CVE-2016-8623: Use-after-free via shared cookies
+> CVE-2016-8624: invalid URL parsing with '#'
+> CVE-2016-8625: IDNA 2003 makes curl use wrong host
+>
+> Reference:
+> https://curl.haxx.se/docs/security.html
+>
+> Fixes [Yocto #10617]
+>
+> Signed-off-by: Sona Sarmadi <sona.sarmadi@enea.com>
+> ---
+>   meta/recipes-support/curl/{curl_7.50.1.bb => curl_7.51.0.bb} | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)  rename meta/recipes-support/curl/{curl_7.50.1.bb => curl_7.51.0.bb} (94%)
+>
+> diff --git a/meta/recipes-support/curl/curl_7.50.1.bb b/meta/recipes-support/curl/curl_7.51.0.bb
+> similarity index 94%
+> rename from meta/recipes-support/curl/curl_7.50.1.bb
+> rename to meta/recipes-support/curl/curl_7.51.0.bb
+> index a21419a..e1a996b 100644
+> --- a/meta/recipes-support/curl/curl_7.50.1.bb
+> +++ b/meta/recipes-support/curl/curl_7.51.0.bb
+> @@ -14,8 +14,8 @@ SRC_URI = "http://curl.haxx.se/download/curl-${PV}.tar.bz2 \  #  SRC_URI += " file://configure_ac.patch"
+>   
+> -SRC_URI[md5sum] = "015f6a0217ca6f2c5442ca406476920b"
+> -SRC_URI[sha256sum] = "3c12c5f54ccaa1d40abc65d672107dcc75d3e1fcb38c267484334280096e5156"
+> +SRC_URI[md5sum] = "09a7c5769a7eae676d5e2c86d51f167e"
+> +SRC_URI[sha256sum] = "7f8240048907e5030f67be0a6129bc4b333783b9cca1391026d700835a788dde"
+>   
+>   inherit autotools pkgconfig binconfig multilib_header
+>   
+> --
+> 1.9.1
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
 
