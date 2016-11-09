@@ -1,32 +1,33 @@
 Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 9A60971A62
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 3F19F605C2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  9 Nov 2016 09:39:39 +0000 (UTC)
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-	by fmsmga101.fm.intel.com with ESMTP; 09 Nov 2016 01:39:41 -0800
+	Wed,  9 Nov 2016 09:44:59 +0000 (UTC)
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+	by fmsmga103.fm.intel.com with ESMTP; 09 Nov 2016 01:45:01 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.31,465,1473145200"; d="scan'208";a="29109662"
+X-IronPort-AV: E=Sophos;i="5.31,465,1473145200"; d="scan'208";a="29233188"
 Received: from linux.intel.com ([10.54.29.200])
-	by fmsmga006.fm.intel.com with ESMTP; 09 Nov 2016 01:39:41 -0800
+	by orsmga005.jf.intel.com with ESMTP; 09 Nov 2016 01:45:01 -0800
 Received: from linux.intel.com (vmed.fi.intel.com [10.237.72.68])
 	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by linux.intel.com (Postfix) with ESMTP id CF2496A4006;
-	Wed,  9 Nov 2016 01:39:02 -0800 (PST)
-Date: Wed, 9 Nov 2016 11:39:32 +0200
+	by linux.intel.com (Postfix) with ESMTP id 857406A4006;
+	Wed,  9 Nov 2016 01:44:22 -0800 (PST)
+Date: Wed, 9 Nov 2016 11:44:51 +0200
 From: Ed Bartosh <ed.bartosh@linux.intel.com>
 To: Maciej Borzecki <maciej.borzecki@rndity.com>
-Message-ID: <20161109093932.GC10823@linux.intel.com>
+Message-ID: <20161109094451.GD10823@linux.intel.com>
 Reply-To: ed.bartosh@linux.intel.com
 References: <cover.1478619682.git.maciej.borzecki@rndity.com>
+	<9d17d4a574a0a2b809f832b33a0af41fb7682ea4.1478619682.git.maciej.borzecki@rndity.com>
 MIME-Version: 1.0
-In-Reply-To: <cover.1478619682.git.maciej.borzecki@rndity.com>
+In-Reply-To: <9d17d4a574a0a2b809f832b33a0af41fb7682ea4.1478619682.git.maciej.borzecki@rndity.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 User-Agent: Mutt/1.5.21 (2010-09-15)
 Cc: Maciej Borzecki <maciek.borzecki@gmail.com>,
 	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 0/5] wic: bugfixes & --fixed-size support
+Subject: Re: [PATCH 3/5] wic: check that filesystem is specified for a rootfs partition
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,50 +40,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 09 Nov 2016 09:39:40 -0000
+X-List-Received-Date: Wed, 09 Nov 2016 09:45:02 -0000
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-On Tue, Nov 08, 2016 at 04:56:06PM +0100, Maciej Borzecki wrote:
-> The patch series is a follow-up after a previous attempt of adding
-> --reserved-size option to wic[1].
+On Tue, Nov 08, 2016 at 04:56:09PM +0100, Maciej Borzecki wrote:
+> Signed-off-by: Maciej Borzecki <maciej.borzecki@rndity.com>
+> ---
+>  scripts/lib/wic/partition.py | 4 ++++
+>  1 file changed, 4 insertions(+)
 > 
-> The series introduces a number of fixes in patches 1 - 4.
-> 
-> The last patch in the series introduces --fixed-size option as discussed in [1].
-> The patch also introduces minor refactoring to code responsible for computing
-> partition size.
-> 
-> Aside from new option, another user-visible change is how the size rootfs
-> partitions with vfat is calculated. In previous code, vfat rootfs partition size
-> did not account for --extra-space nor --overhead-factor. Now, all rootfs
-> partitions (except for squashfs) are subject to the same rules of partition
-> sizing.
-> 
-Thank you for the patchset!
+> diff --git a/scripts/lib/wic/partition.py b/scripts/lib/wic/partition.py
+> index 8adc698240c8e3bd9f4118663a5d7a167e0bb4a4..24e657592738dc7c5cdff78e3740d7c373021e9d 100644
+> --- a/scripts/lib/wic/partition.py
+> +++ b/scripts/lib/wic/partition.py
+> @@ -184,6 +184,10 @@ class Partition():
+>          if os.path.isfile(rootfs):
+>              os.remove(rootfs)
+>  
+> +        if not self.fstype:
+> +            msger.error("File system for partition %s not specified in kickstart, " \
+> +                        "use --fstype option" % (self.mountpoint))
+> +
+Would it make sense to make --fstype mandatory in ksparser?
 
-+1 (if my comments are taken into account)
-
-It would be great if you add tests for this functionality to oe-selftest
-wic suite.
-
-> http://lists.openembedded.org/pipermail/openembedded-core/2016-October/127634.html
-> 
-> Maciej Borzecki (5):
->   wic: make sure that partition size is always an integer in internal
->     processing
->   wic: use partition size when creating empty partition files
->   wic: check that filesystem is specified for a rootfs partition
->   wic: fix function comment typos
->   wic: add --fixed-size wks option
-> 
->  scripts/lib/wic/help.py                | 14 +++--
->  scripts/lib/wic/imager/direct.py       |  2 +-
->  scripts/lib/wic/ksparser.py            | 41 +++++++++++++--
->  scripts/lib/wic/partition.py           | 93 +++++++++++++++++++++-------------
->  scripts/lib/wic/utils/partitionedfs.py |  6 +--
->  5 files changed, 109 insertions(+), 47 deletions(-)
-> 
+>          for prefix in ("ext", "btrfs", "vfat", "squashfs"):
+>              if self.fstype.startswith(prefix):
+>                  method = getattr(self, "prepare_rootfs_" + prefix)
 > -- 
 > 2.5.0
 > 
