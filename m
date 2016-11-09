@@ -1,45 +1,47 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f53.google.com (mail-wm0-f53.google.com [74.125.82.53])
-	by mail.openembedded.org (Postfix) with ESMTP id 2872C71A23
+Received: from mail-qk0-f170.google.com (mail-qk0-f170.google.com
+	[209.85.220.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 64DC5719A9
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  9 Nov 2016 00:10:46 +0000 (UTC)
-Received: by mail-wm0-f53.google.com with SMTP id f82so212300041wmf.1
+	Wed,  9 Nov 2016 00:13:36 +0000 (UTC)
+Received: by mail-qk0-f170.google.com with SMTP id x190so236283229qkb.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 08 Nov 2016 16:10:48 -0800 (PST)
+	Tue, 08 Nov 2016 16:13:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=DF5LC6vAXzThYXD3Lufx/OtO9zcxBKiguTAnRBBliBw=;
-	b=aM5I32irpgGpb+gBK4ZWcykGmtrC3Jrzd0lk32+3wNO7awW3RAQniCR8CDMpPeS893
-	yTOzObFToaAVr14ntEA+ko54/VO3koIeRA/K8tbXEmdoIJI5yAS20dGhOdJa1DeRWj0w
-	VzVUTrLO6FdGHeQmCOe4lbeJOXQ4mrdRlgEIBhDUMYSGPbJoD/bMAR9HSBcFjbLzIYPD
-	bY/oHXpeqV5xYktQ/V0E3DAMJtN7BVdg/tFEKnuhxVz8R6bwM500zH66a7QNHqwrwW/o
-	6PWBItzVWxzCIaD0NIYagQbF+96ROBdo16ZFJm+rvFAAQ1wT8oO3oVlAX/++7iSz11GY
-	zFOQ==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=qMVkhtkm5eBolHfoIbnej2kLYSct+6OUm5LZyrI4e/8=;
+	b=NWdNsASbXABAR6UvHnTw3/nj8FQVioVvX0rKIZaNMwxj+8PiAIST7TsunyPhRD3pFE
+	GP0Ysu9D8yqalELQZ2THm6wFFSrzsQm/s9sEOawc/i8lOGZUzZ1D4TahVSUnqDJfq69z
+	ivN//CVCi/MbWyHIHdqv8LUbOl8eFDbO5AmeaEGEMYJx0eAD79ZDyp5Q3rJC6gixBOuy
+	nYR5qAf0swawFSrgjkVm8rD2vuzgH0HyON9KkqsD8fk0e+HEcKe6ew/NPHaoBp06C2+6
+	iD8GF2w7tLRcY6B4c4xn3QMIAk1aGaTDnazCYVevjsAtwriOYd4ejlGWO/+e+m2p83w0
+	nnRQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=DF5LC6vAXzThYXD3Lufx/OtO9zcxBKiguTAnRBBliBw=;
-	b=LSHqMgPNyShOzMHkYm1CdeHgiUEYQWyvZeiYiuVvzBbJ2f/n68l5g8CWehQq7FziNe
-	fl/eFdhK/t+8REbUFReMoqskakpCiJSDKeHwUtxHvM9qQWrHE/BhHyiK1swdx1FLwqc3
-	UHM/aYBxpQBv8sUycbOhz9s7DXCwDtsEi/Osf5eanrIlB1THik1xhzRBsG6yWBv1svt+
-	Vkun2z1aDm5lkZq54FmZIVuuCL0NyZdgNut+L81xcOgaWJFH/Ib1tKGljBmqW7sAyqfx
-	9DY38ZrPtHvFUw1tEkkG0CcOslMmx+Lw+oBQy+UaOndJoRyvxq7a/LkB6rzvguzsz3Yh
-	R7aQ==
-X-Gm-Message-State: ABUngvdks79imBoGxTXWCnjUg+1lgh1IBNydxkEJN1oHk9Y6SfrPS/tA7ax2Z4AtemXLUZBs
-X-Received: by 10.194.23.67 with SMTP id k3mr12748238wjf.103.1478650247580;
-	Tue, 08 Nov 2016 16:10:47 -0800 (PST)
-Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id 18sm22330985wmr.6.2016.11.08.16.10.46
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 08 Nov 2016 16:10:47 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  9 Nov 2016 00:10:43 +0000
-Message-Id: <1478650244-7002-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 2.8.1
-Subject: [PATCH 1/2] systemtap: remove explicit msgfmt check
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=qMVkhtkm5eBolHfoIbnej2kLYSct+6OUm5LZyrI4e/8=;
+	b=QiabChsYgj0qUX04/hBmE8FnVehARAyNyXnaAsb1iEohahx39CF01IrZ1u2eUOaTrY
+	VoJa8JkRA9nTFyZ929LkwO3XRc8ywTE3mcqF7tFT4XHSTjsYHlDmpzDKidChO5z7DTUw
+	RLvO6GyDyfeIBH+QjVYCfqa6kBEtw1eSiUdOYbTVanopkvO3dINCtzBa7LvD9DUMPafj
+	mNhYmhV0bmooZPNtbRISSc2Kl6Ro8CUig2iMMtxFLpEuIdCzlFR9pSywKL41mGBCP6AG
+	CcPh13EiUU4TLAgwyO3RzuzQ3nfRjQJnx+J+PA7FG9Z3YbefMZZu6y7cRhEh7wMpmgGT
+	P04w==
+X-Gm-Message-State: ABUngveajt4U3k44z2N5Be84Rp9aL18K0FUewZjYL1fAUTwPD/ulmscnm++rtqIMLG2RewzfV6vT6BAxbpg0t63y
+X-Received: by 10.55.207.78 with SMTP id e75mr18262074qkj.36.1478650417517;
+	Tue, 08 Nov 2016 16:13:37 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.140.85.136 with HTTP; Tue, 8 Nov 2016 16:13:17 -0800 (PST)
+In-Reply-To: <20161108171235.41837-13-Zubair.Kakakhel@imgtec.com>
+References: <20161108171235.41837-1-Zubair.Kakakhel@imgtec.com>
+	<20161108171235.41837-13-Zubair.Kakakhel@imgtec.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 9 Nov 2016 00:13:17 +0000
+Message-ID: <CAJTo0LZTHPYsot=YkNGXh=p2AP37X89JqW2xMgdYjanftpDxxQ@mail.gmail.com>
+To: Zubair Lutfullah Kakakhel <Zubair.Kakakhel@imgtec.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [Patch v2 12/14] ltp: Reduce duplication in MIPS variants.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,54 +54,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 09 Nov 2016 00:10:48 -0000
+X-List-Received-Date: Wed, 09 Nov 2016 00:13:36 -0000
+Content-Type: multipart/alternative; boundary=001a1145b7b8e26dfa0540d320c6
 
-Passing --disable-nls should be enough to disable the requirement for a full
-gettext to be present, but the upstream configure explicitly checks for msgfmt
-even if it isn't going to be used.  To avoid having to depend on gettext-native,
-patch this check out.
+--001a1145b7b8e26dfa0540d320c6
+Content-Type: text/plain; charset=UTF-8
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- .../systemtap/systemtap/no-msgfmt-check.patch             | 15 +++++++++++++++
- meta/recipes-kernel/systemtap/systemtap_git.inc           |  1 +
- 2 files changed, 16 insertions(+)
- create mode 100644 meta/recipes-kernel/systemtap/systemtap/no-msgfmt-check.patch
+On 8 November 2016 at 17:12, Zubair Lutfullah Kakakhel <
+Zubair.Kakakhel@imgtec.com> wrote:
 
-diff --git a/meta/recipes-kernel/systemtap/systemtap/no-msgfmt-check.patch b/meta/recipes-kernel/systemtap/systemtap/no-msgfmt-check.patch
-new file mode 100644
-index 0000000..471e62c
---- /dev/null
-+++ b/meta/recipes-kernel/systemtap/systemtap/no-msgfmt-check.patch
-@@ -0,0 +1,15 @@
-+There is no need to explicitly check that msgfmt was found as the gettext macros
-+handle this for us if NLS is enabled.
-+
-+Upstream-Status: Pending
-+Signed-off-by: Ross Burton <ross.burton@intel.com>
-+
-+diff --git a/configure.ac b/configure.ac
-+index e56079a..284bbe0 100644
-+--- a/configure.ac
-++++ b/configure.ac
-+@@ -39,4 +38,0 @@ AM_GNU_GETTEXT_VERSION([0.19.4])
-+-if test "x$GMSGFMT" = "x:"; then
-+-   AC_MSG_ERROR([missing gnu /usr/bin/msgfmt])
-+-fi
-+-
-diff --git a/meta/recipes-kernel/systemtap/systemtap_git.inc b/meta/recipes-kernel/systemtap/systemtap_git.inc
-index 304eb99..34cf227 100644
---- a/meta/recipes-kernel/systemtap/systemtap_git.inc
-+++ b/meta/recipes-kernel/systemtap/systemtap_git.inc
-@@ -9,6 +9,7 @@ SRC_URI = "git://sourceware.org/git/systemtap.git \
-            file://configure-allow-to-disable-libvirt.patch \
-            file://x32_abi_time.patch \
-            file://monitor-option.patch \
-+           file://no-msgfmt-check.patch \
-           "
- 
- # systemtap doesn't support mips
--- 
-2.8.1
+> Reduce duplication in MIPS variants now that the MACHINEOVERRIDES
+> variable is defined
+>
 
+I'm guessing that this is the cause of this error for qemumips64:
 
+http://errors.yoctoproject.org/Errors/Details/99744/
+
+Ross
+
+--001a1145b7b8e26dfa0540d320c6
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 8 November 2016 at 17:12, Zubair Lutfullah Kakakhel <span dir=3D"ltr">&l=
+t;<a href=3D"mailto:Zubair.Kakakhel@imgtec.com" target=3D"_blank">Zubair.Ka=
+kakhel@imgtec.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote=
+" style=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-color=
+:rgb(204,204,204);border-left-style:solid;padding-left:1ex"><div id=3D"gmai=
+l-:20x" class=3D"gmail-a3s gmail-aXjCH gmail-m15844fae74502ab9">Reduce dupl=
+ication in MIPS variants now that the MACHINEOVERRIDES<br>
+variable is defined<br></div></blockquote></div><br>I&#39;m guessing that t=
+his is the cause of this error for qemumips64:</div><div class=3D"gmail_ext=
+ra"><br></div><div class=3D"gmail_extra"><a href=3D"http://errors.yoctoproj=
+ect.org/Errors/Details/99744/">http://errors.yoctoproject.org/Errors/Detail=
+s/99744/</a><br></div><div class=3D"gmail_extra"><br></div><div class=3D"gm=
+ail_extra">Ross</div></div>
+
+--001a1145b7b8e26dfa0540d320c6--
