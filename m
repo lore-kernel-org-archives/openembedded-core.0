@@ -1,25 +1,38 @@
-Return-Path: <clopez@igalia.com>
-Received: from smtp4.mundo-r.com (smtp3.mundo-r.com [212.51.32.191])
-	by mail.openembedded.org (Postfix) with ESMTP id 33856700F3
+Return-Path: <paul@paulbarker.me.uk>
+X-Greylist: delayed 11097 seconds by postgrey-1.34 at layers.openembedded.org;
+	Wed, 09 Nov 2016 21:13:55 UTC
+Received: from 1.mo5.mail-out.ovh.net (1.mo5.mail-out.ovh.net [188.165.57.91])
+	by mail.openembedded.org (Postfix) with ESMTP id 6911E719D8
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  9 Nov 2016 17:39:37 +0000 (UTC)
-X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-Anti-Spam-Result: A2AVBQAZXiNY/5tjdVtdHgYMgy8BAQEBAR9Yf7cOgg+CCBkQiBBAEwECAQEBAQEBAWIohTMBgX6IYAEJoQuSPIQfAYdShj6JboIAC4MJBZoxhjiKFwKCO4c+hh0CkT8gAjNjDwqCZAxHG4FePTQBhSwrgg8BAQE
-X-IPAS-Result: A2AVBQAZXiNY/5tjdVtdHgYMgy8BAQEBAR9Yf7cOgg+CCBkQiBBAEwECAQEBAQEBAWIohTMBgX6IYAEJoQuSPIQfAYdShj6JboIAC4MJBZoxhjiKFwKCO4c+hh0CkT8gAjNjDwqCZAxHG4FePTQBhSwrgg8BAQE
-X-IronPort-AV: E=Sophos;i="5.31,614,1473112800"; d="scan'208";a="192835505"
-Received: from fanzine.igalia.com ([91.117.99.155])
-	by smtp4.mundo-r.com with ESMTP; 09 Nov 2016 18:39:38 +0100
-Received: from [192.168.10.140] (helo=trinity.local.igalia.com)
-	by fanzine.igalia.com with esmtpsa 
-	(Cipher TLS1.2:ECDHE_RSA_AES_128_CBC_SHA256:128) (Exim)
-	id 1c4WqY-0007aZ-4w for <openembedded-core@lists.openembedded.org>;
-	Wed, 09 Nov 2016 18:39:38 +0100
-From: Carlos Alberto Lopez Perez <clopez@igalia.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  9 Nov 2016 18:39:35 +0100
-Message-Id: <1478713175-11446-1-git-send-email-clopez@igalia.com>
-X-Mailer: git-send-email 2.1.4
-Subject: [PATCH] Move the recommends on ca-certificates from epiphany to webkitgtk.
+	Wed,  9 Nov 2016 21:13:55 +0000 (UTC)
+Received: from player760.ha.ovh.net (b9.ovh.net [213.186.33.59])
+	by mo5.mail-out.ovh.net (Postfix) with ESMTP id 483BB406AB
+	for <openembedded-core@lists.openembedded.org>;
+	Wed,  9 Nov 2016 19:08:57 +0100 (CET)
+Received: from nuc.betafive.co.uk
+	(cpc11-shep11-2-0-cust130.8-3.cable.virginm.net [86.27.96.131])
+	(Authenticated sender: paul@betafive.co.uk)
+	by player760.ha.ovh.net (Postfix) with ESMTPSA id 66A71334;
+	Wed,  9 Nov 2016 19:08:55 +0100 (CET)
+Date: Wed, 9 Nov 2016 18:08:54 +0000
+From: Paul Barker <paul@paulbarker.me.uk>
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+Message-ID: <20161109180854.130d6804@nuc.betafive.co.uk>
+In-Reply-To: <CADkTA4NmhstuGn7cZLD-MGB1OdNbAFLkiOKrf20Bri0KSEsuQA@mail.gmail.com>
+References: <1477161480-20271-1-git-send-email-paul@paulbarker.me.uk>
+	<20161105101438.1ef1f627@nuc.betafive.co.uk>
+	<CAJTo0LbB0eGStoFbyinDYP0zzEJ27BL0eDyGKFkjdh=AaWBPVA@mail.gmail.com>
+	<CADkTA4OaRgUJwFwT=S_h41EW4OO_Koa+QQr=t3t+X+6pszrzBQ@mail.gmail.com>
+	<CAJTo0LZxGYzpjUetPspX6mKktoL_XnDqfncyHFWN5Kzfij8-UQ@mail.gmail.com>
+	<CADkTA4NmhstuGn7cZLD-MGB1OdNbAFLkiOKrf20Bri0KSEsuQA@mail.gmail.com>
+X-Mailer: Claws Mail 3.11.1 (GTK+ 2.24.25; x86_64-pc-linux-gnu)
+MIME-Version: 1.0
+X-Ovh-Tracer-Id: 7365918667942627670
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrfeelfedrtddtgdejjecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+Cc: OpenEmbedded Core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] kernel.bbclass: Allow ${S} to be overridden
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,58 +45,93 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 09 Nov 2016 17:39:38 -0000
+X-List-Received-Date: Wed, 09 Nov 2016 21:13:56 -0000
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
- * The webkitgtk package should recommend the ca-certificates one,
-   because any program usign webkit (and not only epiphany) would
-   expect that the CAs certificates are available and that https
-   validation works as expected.
+On Wed, 9 Nov 2016 08:09:09 -0500
+Bruce Ashfield <bruce.ashfield@gmail.com> wrote:
 
- * For example, webkitgtk includes a MiniBrowser program that would
-   fail to proper verify https sites if the ca-certificate package
-   is not installed
+> On Wed, Nov 9, 2016 at 5:04 AM, Burton, Ross <ross.burton@intel.com> wrote:
+> 
+> >
+> > On 9 November 2016 at 02:23, Bruce Ashfield <bruce.ashfield@gmail.com>
+> > wrote:
+> >
+> >> I can ack this patch, since no defaults change .. there's no risk to
+> >> existing users.
+> >>
+> >
+> > Saying that of course doomed the patch:
+> >
+> 
+> interesting.
+> 
+> Paul: obviously you were building with this in place, and my local test did
+> work here
+> as well .. so any idea to the difference ?
+> 
+> Let me know if you want any help looking into it.
+> 
+> Cheers,
+> 
+> Bruce
+> 
 
- * Instead of making each one of the webkitgtk consumers care about
-   the certificate package, do this in webkit itself.
+The reason for this patch is that I'm using a tarball for the kernel
+sources in the new meta-arduino layer. That tarball doesn't get
+extracted to ${STAGING_KERNEL_DIR} and so it needs to be copied over to
+there. Looking at kernel.bbclass, it looks like the logic to do this is
+present:
 
-Signed-off-by: Carlos Alberto Lopez Perez <clopez@igalia.com>
----
- meta/recipes-gnome/epiphany/epiphany_3.22.1.bb | 3 +--
- meta/recipes-sato/webkit/webkitgtk_2.14.1.bb   | 2 ++
- 2 files changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-gnome/epiphany/epiphany_3.22.1.bb b/meta/recipes-gnome/epiphany/epiphany_3.22.1.bb
-index 3c63d33..2a9d200 100644
---- a/meta/recipes-gnome/epiphany/epiphany_3.22.1.bb
-+++ b/meta/recipes-gnome/epiphany/epiphany_3.22.1.bb
-@@ -2,7 +2,7 @@ SUMMARY = "WebKit based web browser for GNOME"
- LICENSE = "GPLv2+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe"
- 
--DEPENDS = "libsoup-2.4 webkitgtk gtk+3 iso-codes ca-certificates avahi libnotify gcr \
-+DEPENDS = "libsoup-2.4 webkitgtk gtk+3 iso-codes avahi libnotify gcr \
- 	   gsettings-desktop-schemas gnome-desktop3 libxml2-native intltool-native"
- 
- inherit gnomebase gsettings distro_features_check upstream-version-is-even
-@@ -20,4 +20,3 @@ do_configure_prepend() {
- 
- FILES_${PN} += "${datadir}/appdata ${datadir}/dbus-1 ${datadir}/gnome-shell/search-providers"
- RDEPENDS_${PN} = "iso-codes adwaita-icon-theme"
--RRECOMMENDS_${PN} = "ca-certificates"
-diff --git a/meta/recipes-sato/webkit/webkitgtk_2.14.1.bb b/meta/recipes-sato/webkit/webkitgtk_2.14.1.bb
-index d6d9c14..39197bc 100644
---- a/meta/recipes-sato/webkit/webkitgtk_2.14.1.bb
-+++ b/meta/recipes-sato/webkit/webkitgtk_2.14.1.bb
-@@ -90,6 +90,8 @@ SECURITY_CFLAGS_append_aarch64 = " -fPIE"
- 
- FILES_${PN} += "${libdir}/webkit2gtk-4.0/injected-bundle/libwebkit2gtkinjectedbundle.so"
- 
-+RRECOMMENDS_${PN} += "ca-certificates"
-+
- # http://errors.yoctoproject.org/Errors/Details/20370/
- ARM_INSTRUCTION_SET_armv4 = "arm"
- ARM_INSTRUCTION_SET_armv5 = "arm"
--- 
-2.1.4
+    # Old style kernels may set ${S} = ${WORKDIR}/git for example
+    # We need to move these over to STAGING_KERNEL_DIR. We can't just
+    # create the symlink in advance as the git fetcher can't cope with
+    # the symlink.
+    do_unpack[cleandirs] += " ${S} ${STAGING_KERNEL_DIR} ${B} ${STAGING_KERNEL_BUILDDIR}"
+    do_clean[cleandirs] += " ${S} ${STAGING_KERNEL_DIR} ${B} ${STAGING_KERNEL_BUILDDIR}"
+    base_do_unpack_append () {
+        s = d.getVar("S", True)
+        if s[-1] == '/':
+            # drop trailing slash, so that os.symlink(kernsrc, s) doesn't use s as directory name and fail
+            s=s[:-1]
+        kernsrc = d.getVar("STAGING_KERNEL_DIR", True)
+        if s != kernsrc:
+            bb.utils.mkdirhier(kernsrc)
+            bb.utils.remove(kernsrc, recurse=True)
+            if d.getVar("EXTERNALSRC", True):
+                # With EXTERNALSRC S will not be wiped so we can symlink to it
+                os.symlink(s, kernsrc)
+            else:
+                import shutil
+                shutil.move(s, kernsrc)
+                os.symlink(kernsrc, s)
+    }
 
+The problem is we can't set S to anything unless we can override it.
+
+I've now looked into this futher and it seems to be working for some
+kernel recipes but not others. The issue may be that we have an
+assignment for S in bitbake.conf:
+
+    S = "${WORKDIR}/${BP}"
+
+That's obviously overriding the 'S ?= ...' assignment when my patch is
+applied where S isn't also explicitly assigned in the recipe, some
+other class or include file.
+
+I'm not sure on how precedence is determined if a variable is assigned
+using '=' multiple times.
+
+I'll have another look into it and see where I get. I have a workaround
+in place for the meta-arduino layer for now so it doesn't need an
+urgent fix.
+
+However, if it turns out we can't reliably override S in a kernel recipe
+then should we still have that comment and base_do_unpack_append() in
+kernel.bbclass?
+
+Thanks,
+Paul
 
