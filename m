@@ -1,49 +1,46 @@
-Return-Path: <maciej.borzecki@rndity.com>
-Received: from mail-wm0-f51.google.com (mail-wm0-f51.google.com [74.125.82.51])
-	by mail.openembedded.org (Postfix) with ESMTP id 7C0CC600BC
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qk0-f176.google.com (mail-qk0-f176.google.com
+	[209.85.220.176])
+	by mail.openembedded.org (Postfix) with ESMTP id EB3F471989
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  9 Nov 2016 12:09:02 +0000 (UTC)
-Received: by mail-wm0-f51.google.com with SMTP id a197so302995038wmd.0
+	Wed,  9 Nov 2016 12:15:47 +0000 (UTC)
+Received: by mail-qk0-f176.google.com with SMTP id n204so242738937qke.2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 09 Nov 2016 04:09:04 -0800 (PST)
+	Wed, 09 Nov 2016 04:15:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=rndity-com.20150623.gappssmtp.com; s=20150623;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=Zv7otRv0vys8RoyiciBitLyHbl+NrsDfcE/n+NYPO2s=;
-	b=ST5iTZoHphoBfctg9xPNXN+j0aZ73igHUJrSsKcjoOIkfFkD6lqYDD/k6YGgoGT1w3
-	GWG+WPQIs3HD0hnl45k+4hgjlrtmMBtUYUpt3omPLeVjF2jXFdEG6BUzWkFapScVZjMr
-	xlWONtppWL9VfVDIOBzs0YTI8u3FL/9bTvEC3Gvy5wENqeCRZef9PeCrxlzf7LXEs900
-	SMD4lg9wMe7P8p6bUTbPh6C3M2f6V5CSsh2sQ1uz2nUfRz3qCiU8ZXbIIgsvJD29RZ6d
-	aIlqL2AioV7uxE+EKQkpO7QVkTXygZIDsB4dJqr4vi1W3qDqao+ryneDH6EqGdZHTsSe
-	FOkw==
+	:cc; bh=pNvwDfKrGnQk9P1GHGHtdsp7divCeMvzSvLlcLG+2os=;
+	b=zcBaAezCdAfriNHP5Om1o5ze20wPwIriKZnNwZdwKQL+883CO3P+babS3ohM4xMOGK
+	O4aDS+IEWlBdIJw9rH6DNKva0L0LO8GHHa+NL8pwF3/bm+Xj8+7hZWTTOX4sH2cGUtj8
+	Azw+SGn+89p8OqrJXKirvDp2+wotEoLbq0Xi0tIpOOJYETDjDNxinT9RUt4Hxo7+PKjm
+	C5QmvwbYFHYvISNBJXQuBgSN92mV5vDjxzrNEQRuPnfUL7/cch0wXkvr5q3DVUXAwVgi
+	J70jmfd5dZeMbVqoS5dEIwxl4exkqQXAM/F3Z7XcJqO7NnliaZxOrARZZWJQvmZehbwc
+	my6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=Zv7otRv0vys8RoyiciBitLyHbl+NrsDfcE/n+NYPO2s=;
-	b=GhgVKoOTYEcDdEVnQUwCQr2QyBsl8pTfd18Ew++WukWLAXsyEwcdfBxugKAqbu1ASY
-	Z+im3F47geX1YAEt5NsNud8Uv3HrA3GVKSo4dhA2agnNBrG9hmqcBQTo9Zj+uDCqc/cs
-	R7GKhRLX8sEDp+EP4aeuk+/f+G+QSbQi2tarwyTt77Yel31+lG2NrtXrlv7CKxaWsjC5
-	frC2MPbjMqSIrROm9Gb32HyYpAt+RncQ2gKNewmiU1TiXF7y92WtlIFSUAs8NvXW48Qe
-	QxtWKVQDgjT9JBP6E9Jy5xwPKQPnsKVVRwz/OxFkHizvMpguZEL0j5LNjNJNbtw+LHiM
-	AMsA==
-X-Gm-Message-State: ABUngvcufmug5/RWnOWVnN3gpXVn5l2OHPtFJGfdTNxDfb+RPl9/I9x3OBY3TH1TPUkN9eme5hL/j2UM0tPXkA==
-X-Received: by 10.28.152.79 with SMTP id a76mr16767979wme.47.1478693343628;
-	Wed, 09 Nov 2016 04:09:03 -0800 (PST)
+	bh=pNvwDfKrGnQk9P1GHGHtdsp7divCeMvzSvLlcLG+2os=;
+	b=Ven+8CFCat0xga5Y4t5GlJQh+cnkxtwltLqw2ghk2v4U/dCHEz2tvK9hV5EMtaljB7
+	v2e93lZ9qAC8HFP+DAovuTTY6+J1Xl8KxcGxMms+QMfJp8zm1F2ZZBHWmRktLcVN1rMX
+	q5yaVx6ATyOlFIIdEGpElvT547FrECvckr35PfhhCx0T5ZHzJOfmZpkgVBaHzpgBnLhS
+	jkgLaIEZbcNWIp8FLroQ3BZX+Z3GRfbWB9KAyPR7PLg/QSind7xDYyv4Ji1dO2hr8Zdo
+	at4RwFmz6SQaJG/43gfXnkb6gQQYHjlUWaqW+SoMHP+Yeh+O+5hNkUOHC2jfikJVpdDj
+	EYiQ==
+X-Gm-Message-State: ABUngveF2D4Ozvuk1hSTO/IAzsYC/h7cqAHE8csdmV9nxQZN/+MjPte80QowGmfOEgdKdng9nU5HIv5NHxjNA/G7
+X-Received: by 10.55.75.17 with SMTP id y17mr18214088qka.26.1478693749363;
+	Wed, 09 Nov 2016 04:15:49 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.28.5.141 with HTTP; Wed, 9 Nov 2016 04:08:43 -0800 (PST)
-In-Reply-To: <20161109093627.GB10823@linux.intel.com>
-References: <cover.1478619682.git.maciej.borzecki@rndity.com>
-	<1135a635b723fcf1eb2ce8d2b9f8463a577f6acd.1478619682.git.maciej.borzecki@rndity.com>
-	<20161109093627.GB10823@linux.intel.com>
-From: =?UTF-8?Q?Maciej_Borz=C4=99cki?= <maciej.borzecki@rndity.com>
-Date: Wed, 9 Nov 2016 13:08:43 +0100
-Message-ID: <CAD4b0_+8mN14vUDqafXaqTOzNuZ4XLr42cb5kJoaw8LWM_GTrw@mail.gmail.com>
-To: Ed Bartosh <ed.bartosh@linux.intel.com>
-Cc: Maciej Borzecki <maciek.borzecki@gmail.com>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 5/5] wic: add --fixed-size wks option
+Received: by 10.140.85.136 with HTTP; Wed, 9 Nov 2016 04:15:29 -0800 (PST)
+In-Reply-To: <20161108135457.13249-1-fathi.boudra@linaro.org>
+References: <20161108135457.13249-1-fathi.boudra@linaro.org>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 9 Nov 2016 12:15:29 +0000
+Message-ID: <CAJTo0LZhZi+hgbUvd87E413nEOKP3g5uGY2eqZB5yX2ydHZKGA@mail.gmail.com>
+To: Fathi Boudra <fathi.boudra@linaro.org>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] weston: upgrade from 1.11.1 to 1.12.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,376 +53,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 09 Nov 2016 12:09:04 -0000
+X-List-Received-Date: Wed, 09 Nov 2016 12:15:49 -0000
+Content-Type: multipart/alternative; boundary=001a114a88c8a9cbeb0540dd37ab
+
+--001a114a88c8a9cbeb0540dd37ab
 Content-Type: text/plain; charset=UTF-8
 
-On Wed, Nov 9, 2016 at 10:36 AM, Ed Bartosh <ed.bartosh@linux.intel.com> wrote:
-> On Tue, Nov 08, 2016 at 04:56:11PM +0100, Maciej Borzecki wrote:
->> Added new option --fixed-size to wks. The option can be used to indicate
->> the exact size of a partition. The option cannot be added together with
->> --size, in which case an error will be raised. Other options that
->> influence automatic partition size (--extra-space, --overhead-factor),
->> if specifiec along with --fixed-size, will raise an error.
->>
->> If it partition data is larger than the amount of space specified with
->> --fixed-size option wic will raise an error.
->>
->> Signed-off-by: Maciej Borzecki <maciej.borzecki@rndity.com>
->> ---
->>  scripts/lib/wic/help.py                | 14 ++++--
->>  scripts/lib/wic/imager/direct.py       |  2 +-
->>  scripts/lib/wic/ksparser.py            | 41 +++++++++++++++--
->>  scripts/lib/wic/partition.py           | 83 ++++++++++++++++++++--------------
->>  scripts/lib/wic/utils/partitionedfs.py |  2 +-
->>  5 files changed, 100 insertions(+), 42 deletions(-)
->>
->> diff --git a/scripts/lib/wic/help.py b/scripts/lib/wic/help.py
->> index e5347ec4b7c900c68fc64351a5293e75de0672b3..daa11bf489c135627ddfe4cef968e48f8e3ad1d8 100644
->> --- a/scripts/lib/wic/help.py
->> +++ b/scripts/lib/wic/help.py
->> @@ -646,6 +646,12 @@ DESCRIPTION
->>                   not specified, the size is in MB.
->>                   You do not need this option if you use --source.
->>
->> +         --fixed-size: Exact partition size. Value format is the same
->> +                       as for --size option. This option cannot be
->> +                       specified along with --size. If partition data
->> +                       is larger than --fixed-size and error will be
->> +                       raised when assembling disk image.
->> +
->>           --source: This option is a wic-specific option that names the
->>                     source of the data that will populate the
->>                     partition.  The most common value for this option
->> @@ -719,13 +725,15 @@ DESCRIPTION
->>                          space after the space filled by the content
->>                          of the partition. The final size can go
->>                          beyond the size specified by --size.
->> -                        By default, 10MB.
->> +                        By default, 10MB. This option cannot be used
->> +                        with --fixed-size option.
->>
->>           --overhead-factor: This option is specific to wic. The
->>                              size of the partition is multiplied by
->>                              this factor. It has to be greater than or
->> -                            equal to 1.
->> -                            The default value is 1.3.
->> +                            equal to 1. The default value is 1.3.
->> +                            This option cannot be used with --fixed-size
->> +                            option.
->>
->>           --part-type: This option is specific to wic. It specifies partition
->>                        type GUID for GPT partitions.
->> diff --git a/scripts/lib/wic/imager/direct.py b/scripts/lib/wic/imager/direct.py
->> index 2bedef08d6450096c786def6f75a9ee53fcd4b3b..c01a1ea538428e36a75ac5b31a822e01901bea6a 100644
->> --- a/scripts/lib/wic/imager/direct.py
->> +++ b/scripts/lib/wic/imager/direct.py
->> @@ -290,7 +290,7 @@ class DirectImageCreator(BaseImageCreator):
->>                           self.bootimg_dir, self.kernel_dir, self.native_sysroot)
->>
->>
->> -            self.__image.add_partition(int(part.size),
->> +            self.__image.add_partition(part.get_size(),
->>                                         part.disk,
->>                                         part.mountpoint,
->>                                         part.source_file,
->> diff --git a/scripts/lib/wic/ksparser.py b/scripts/lib/wic/ksparser.py
->> index 0894e2b199a299fbbed272f2e1c95e9d692e3ab1..62c490274aa92bf82aac304d9323250e3b728d0c 100644
->> --- a/scripts/lib/wic/ksparser.py
->> +++ b/scripts/lib/wic/ksparser.py
->> @@ -113,6 +113,9 @@ def systemidtype(arg):
->>  class KickStart():
->>      """"Kickstart parser implementation."""
->>
->> +    DEFAULT_EXTRA_SPACE = 10*1024
->> +    DEFAULT_OVERHEAD_FACTOR = 1.3
->> +
->>      def __init__(self, confpath):
->>
->>          self.partitions = []
->> @@ -127,16 +130,24 @@ class KickStart():
->>          part.add_argument('mountpoint', nargs='?')
->>          part.add_argument('--active', action='store_true')
->>          part.add_argument('--align', type=int)
->> -        part.add_argument("--extra-space", type=sizetype, default=10*1024)
->> +        part.add_argument("--extra-space", type=sizetype)
->>          part.add_argument('--fsoptions', dest='fsopts')
->>          part.add_argument('--fstype')
->>          part.add_argument('--label')
->>          part.add_argument('--no-table', action='store_true')
->>          part.add_argument('--ondisk', '--ondrive', dest='disk')
->> -        part.add_argument("--overhead-factor", type=overheadtype, default=1.3)
->> +        part.add_argument("--overhead-factor", type=overheadtype)
->>          part.add_argument('--part-type')
->>          part.add_argument('--rootfs-dir')
->> -        part.add_argument('--size', type=sizetype, default=0)
->> +
->> +        # --size and --fixed-size cannot be specified together; options
->> +        # ----extra-space and --overhead-factor should also raise a parser
->> +        # --error, but since nesting mutually exclusive groups does not work,
->> +        # ----extra-space/--overhead-factor are handled later
->> +        sizeexcl = part.add_mutually_exclusive_group()
->> +        sizeexcl.add_argument('--size', type=sizetype, default=0)
->> +        sizeexcl.add_argument('--fixed-size', type=sizetype, default=0)
->> +
->>          part.add_argument('--source')
->>          part.add_argument('--sourceparams')
->>          part.add_argument('--system-id', type=systemidtype)
->> @@ -170,11 +181,33 @@ class KickStart():
->>                  lineno += 1
->>                  if line and line[0] != '#':
->>                      try:
->> -                        parsed = parser.parse_args(shlex.split(line))
->> +                        line_args = shlex.split(line)
->> +                        parsed = parser.parse_args(line_args)
->>                      except ArgumentError as err:
->>                          raise KickStartError('%s:%d: %s' % \
->>                                               (confpath, lineno, err))
->>                      if line.startswith('part'):
->> +                        # using ArgumentParser one cannot easily tell if option
->> +                        # was passed as argument, if said option has a default
->> +                        # value; --overhead-factor/--extra-space cannot be used
->> +                        # with --fixed-size, so at least detect when these were
->> +                        # passed with non-0 values ...
-> I'd suggest to handle this using argparse mutual exclusion:
-> https://docs.python.org/2/library/argparse.html#mutual-exclusion
+On 8 November 2016 at 13:54, Fathi Boudra <fathi.boudra@linaro.org> wrote:
 
-I don't think argpare.ArgumentParser() can handle nested groups. Right
-now --fixed-size and --size are in exclusive group, there's this part in
-the patch:
-
->> +        sizeexcl = part.add_mutually_exclusive_group()
->> +        sizeexcl.add_argument('--size', type=sizetype, default=0)
->> +        sizeexcl.add_argument('--fixed-size', type=sizetype, default=0)
-
-The most logical way to express a conflict between options would be
-using a snippet like this:
-
-   sizeexcl = part.add_mutually_exclusive_group()
-   sizeexcl.add_argument('--fixed-size', type=sizetype, default=0)
-   szg = sizeexcl.add_argument_group()
-   szg.add_argument('--size', type=sizetype, default=0)
-   szg.add_argument('--overhead-factor', type=sizetype, default=0)
-   szg.add_argument('--extra-space', type=sizetype, default=0)
-
-Unfortunately, this does not work as expected with vanilla
-ArgumentParser. That's why I've added this workaround, along with a
-lengthy comment.
-
->
->> +                        if parsed.fixed_size:
->> +                            if parsed.overhead_factor or parsed.extra_space:
->> +                                err = "%s:%d: arguments --overhead-factor and --extra-space not "\
->> +                                      "allowed with argument --fixed-size" \
->> +                                      % (confpath, lineno)
->> +                                raise KickStartError(err)
->> +                        else:
->> +                            # ... and provide defaults if not using
->> +                            # --fixed-size iff given option was not used
->> +                            # (again, one cannot tell if option was passed but
->> +                            # with value equal to 0)
->> +                            if '--overhead-factor' not in line_args:
->> +                                parsed.overhead_factor = self.DEFAULT_OVERHEAD_FACTOR
->> +                            if '--extra-space' not in line_args:
->> +                                parsed.extra_space = self.DEFAULT_EXTRA_SPACE
->> +
->>                          self.partnum += 1
->>                          self.partitions.append(Partition(parsed, self.partnum))
->>                      elif line.startswith('include'):
->> diff --git a/scripts/lib/wic/partition.py b/scripts/lib/wic/partition.py
->> index 24e657592738dc7c5cdff78e3740d7c373021e9d..354d4b44c50c77baa54331e95ce0876c32d09339 100644
->> --- a/scripts/lib/wic/partition.py
->> +++ b/scripts/lib/wic/partition.py
->> @@ -54,6 +54,7 @@ class Partition():
->>          self.part_type = args.part_type
->>          self.rootfs_dir = args.rootfs_dir
->>          self.size = args.size
->> +        self.fixed_size = args.fixed_size
->>          self.source = args.source
->>          self.sourceparams = args.sourceparams
->>          self.system_id = args.system_id
->> @@ -87,6 +88,39 @@ class Partition():
->>          else:
->>              return 0
->>
->> +    def get_rootfs_size(self, actual_rootfs_size=0):
->> +        """
->> +        Calculate the required size of rootfs taking into consideration
->> +        --size/--fixed-size flags as well as overhead and extra space, as
->> +        specified in kickstart file. Raises an error if the
->> +        `actual_rootfs_size` is larger than fixed-size rootfs.
->> +
->> +        """
->> +        if self.fixed_size:
->> +            rootfs_size = self.fixed_size
->> +            if actual_rootfs_size > rootfs_size:
->> +                msger.error("Actual rootfs size (%d kB) is larger than allowed size %d kB" \
->> +                            %(actual_rootfs_size, rootfs_size))
->> +        else:
->> +            extra_blocks = self.get_extra_block_count(actual_rootfs_size)
->> +            if extra_blocks < self.extra_space:
->> +                extra_blocks = self.extra_space
->> +
->> +            rootfs_size = actual_rootfs_size + extra_blocks
->> +            rootfs_size *= self.overhead_factor
->> +
->> +            msger.debug("Added %d extra blocks to %s to get to %d total blocks" % \
->> +                        (extra_blocks, self.mountpoint, rootfs_size))
->> +
->> +        return rootfs_size
->> +
->> +    def get_size(self):
->> +        """
->> +        Obtain partition size taking into consideration --size/--fixed-size
->> +        options.
->> +        """
->> +        return self.fixed_size if self.fixed_size else self.size
->> +
->>      def prepare(self, creator, cr_workdir, oe_builddir, rootfs_dir,
->>                  bootimg_dir, kernel_dir, native_sysroot):
-> Can you make self.size and self.fixed_size getters as properties(use @property decorator)?
-> It should make code look more pythonic.
+>  FILES_${PN}-xwayland = "${libdir}/${BPN}/xwayland.so"
 >
 
-Good point. I'll incorporate this in v2.
+Because you didn't fix this patch the weston-xwayland package is never
+built, buildhistory is huge and core-image-weston with X11 enabled doesn't
+build.
 
->>          """
->> @@ -97,9 +131,9 @@ class Partition():
->>              self.sourceparams_dict = parse_sourceparams(self.sourceparams)
->>
->>          if not self.source:
->> -            if not self.size:
->> -                msger.error("The %s partition has a size of zero.  Please "
->> -                            "specify a non-zero --size for that partition." % \
->> +            if not self.size and not self.fixed_size:
->> +                msger.error("The %s partition has a size of zero. Please "
->> +                            "specify a non-zero --size/--fixed-size for that partition." % \
->>                              self.mountpoint)
->>              if self.fstype and self.fstype == "swap":
->>                  self.prepare_swap_partition(cr_workdir, oe_builddir,
->> @@ -146,6 +180,10 @@ class Partition():
->>                                                       oe_builddir,
->>                                                       bootimg_dir, kernel_dir, rootfs_dir,
->>                                                       native_sysroot)
->> +        if self.fixed_size and self.size > self.fixed_size:
->> +            msger.error("File system image of partition %s is larger (%d kB) than its"\
->> +                        "allowed size %d kB" % (self.mountpoint,
->> +                                                self.size, self.fixed_size))
->>
->>      def prepare_rootfs_from_fs_image(self, cr_workdir, oe_builddir,
->>                                       rootfs_dir):
->> @@ -211,15 +249,7 @@ class Partition():
->>          out = exec_cmd(du_cmd)
->>          actual_rootfs_size = int(out.split()[0])
->>
->> -        extra_blocks = self.get_extra_block_count(actual_rootfs_size)
->> -        if extra_blocks < self.extra_space:
->> -            extra_blocks = self.extra_space
->> -
->> -        rootfs_size = actual_rootfs_size + extra_blocks
->> -        rootfs_size *= self.overhead_factor
->> -
->> -        msger.debug("Added %d extra blocks to %s to get to %d total blocks" % \
->> -                    (extra_blocks, self.mountpoint, rootfs_size))
->> +        rootfs_size = self.get_rootfs_size(actual_rootfs_size)
->>
->>          with open(rootfs, 'w') as sparse:
->>              os.ftruncate(sparse.fileno(), rootfs_size * 1024)
->> @@ -245,15 +275,7 @@ class Partition():
->>          out = exec_cmd(du_cmd)
->>          actual_rootfs_size = int(out.split()[0])
->>
->> -        extra_blocks = self.get_extra_block_count(actual_rootfs_size)
->> -        if extra_blocks < self.extra_space:
->> -            extra_blocks = self.extra_space
->> -
->> -        rootfs_size = actual_rootfs_size + extra_blocks
->> -        rootfs_size *= self.overhead_factor
->> -
->> -        msger.debug("Added %d extra blocks to %s to get to %d total blocks" % \
->> -                    (extra_blocks, self.mountpoint, rootfs_size))
->> +        rootfs_size = self.get_rootfs_size(actual_rootfs_size)
->>
->>          with open(rootfs, 'w') as sparse:
->>              os.ftruncate(sparse.fileno(), rootfs_size * 1024)
->> @@ -275,20 +297,13 @@ class Partition():
->>          out = exec_cmd(du_cmd)
->>          blocks = int(out.split()[0])
->>
->> -        extra_blocks = self.get_extra_block_count(blocks)
->> -        if extra_blocks < self.extra_space:
->> -            extra_blocks = self.extra_space
->> -
->> -        blocks += extra_blocks
->> -
->> -        msger.debug("Added %d extra blocks to %s to get to %d total blocks" % \
->> -                    (extra_blocks, self.mountpoint, blocks))
->> +        rootfs_size = self.get_rootfs_size(blocks)
->>
->>          label_str = "-n boot"
->>          if self.label:
->>              label_str = "-n %s" % self.label
->>
->> -        dosfs_cmd = "mkdosfs %s -S 512 -C %s %d" % (label_str, rootfs, blocks)
->> +        dosfs_cmd = "mkdosfs %s -S 512 -C %s %d" % (label_str, rootfs, rootfs_size)
->>          exec_native_cmd(dosfs_cmd, native_sysroot)
->>
->>          mcopy_cmd = "mcopy -i %s -s %s/* ::/" % (rootfs, rootfs_dir)
->> @@ -311,8 +326,9 @@ class Partition():
->>          """
->>          Prepare an empty ext2/3/4 partition.
->>          """
->> +        size = self.get_size()
->>          with open(rootfs, 'w') as sparse:
->> -            os.ftruncate(sparse.fileno(), self.size * 1024)
->> +            os.ftruncate(sparse.fileno(), size * 1024)
->>
->>          extra_imagecmd = "-i 8192"
->>
->> @@ -329,8 +345,9 @@ class Partition():
->>          """
->>          Prepare an empty btrfs partition.
->>          """
->> +        size = self.get_size()
->>          with open(rootfs, 'w') as sparse:
->> -            os.ftruncate(sparse.fileno(), self.size * 1024)
->> +            os.ftruncate(sparse.fileno(), size * 1024)
->>
->>          label_str = ""
->>          if self.label:
->> @@ -345,7 +362,7 @@ class Partition():
->>          """
->>          Prepare an empty vfat partition.
->>          """
->> -        blocks = self.size
->> +        blocks = self.get_size()
->>
->>          label_str = "-n boot"
->>          if self.label:
->> diff --git a/scripts/lib/wic/utils/partitionedfs.py b/scripts/lib/wic/utils/partitionedfs.py
->> index 9e76487844eebfffc7227d053a65dc9fdab3678b..cfa5f5ce09b764c1c2a9b7a3f7bf7d677a6811c4 100644
->> --- a/scripts/lib/wic/utils/partitionedfs.py
->> +++ b/scripts/lib/wic/utils/partitionedfs.py
->> @@ -209,7 +209,7 @@ class Image():
->>              msger.debug("Assigned %s to %s%d, sectors range %d-%d size %d "
->>                          "sectors (%d bytes)." \
->>                              % (part['mountpoint'], part['disk_name'], part['num'],
->> -                               part['start'], part['start'] + part['size'] - 1,
->> +                               part['start'], disk['offset'] - 1,
->>                                 part['size'], part['size'] * self.sector_size))
->>
->>          # Once all the partitions have been layed out, we can calculate the
->> --
->> 2.5.0
->>
->
-> --
-> --
-> Regards,
-> Ed
+Ross
 
+--001a114a88c8a9cbeb0540dd37ab
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 8 November 2016 at 13:54, Fathi Boudra <span dir=3D"ltr">&lt;<a href=3D"=
+mailto:fathi.boudra@linaro.org" target=3D"_blank">fathi.boudra@linaro.org</=
+a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0=
+ 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":2qb" cla=
+ss=3D"a3s aXjCH m1584438eba688b94">=C2=A0FILES_${PN}-xwayland =3D &quot;${l=
+ibdir}/${BPN}/xwayland.so&quot;<br></div></blockquote><div><br></div><div>B=
+ecause you didn&#39;t fix this patch the weston-xwayland package is never b=
+uilt, buildhistory is huge and core-image-weston with X11 enabled doesn&#39=
+;t build.</div><div><br></div><div>Ross</div></div></div></div>
 
--- 
-Maciej Borzecki
-RnDity
-
+--001a114a88c8a9cbeb0540dd37ab--
