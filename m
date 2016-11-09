@@ -1,49 +1,50 @@
-Return-Path: <maciej.borzecki@rndity.com>
-Received: from mail-wm0-f54.google.com (mail-wm0-f54.google.com [74.125.82.54])
-	by mail.openembedded.org (Postfix) with ESMTP id 3F7C460017
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qt0-f174.google.com (mail-qt0-f174.google.com
+	[209.85.216.174])
+	by mail.openembedded.org (Postfix) with ESMTP id C151F6FEFE
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  9 Nov 2016 10:43:14 +0000 (UTC)
-Received: by mail-wm0-f54.google.com with SMTP id a197so298624341wmd.0
+	Wed,  9 Nov 2016 11:35:17 +0000 (UTC)
+Received: by mail-qt0-f174.google.com with SMTP id p16so124515553qta.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 09 Nov 2016 02:43:16 -0800 (PST)
+	Wed, 09 Nov 2016 03:35:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=rndity-com.20150623.gappssmtp.com; s=20150623;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=NLL3qwSgV5ny8Cj2MQl7+xoINVoz85x+nXJ0iZxkuoE=;
-	b=d7Q8O5BrSTCdNeEi21clh+xV/AXlJm2Rx8v1MIOzPSKEn9+iYZgUTfYr9//TB1fgu7
-	1aKIx3wVlCnvX+YlFHbXPMu/Dv7oGfY6rFpELhKDmt/YOxZ339qIIFLheGVu8sOc5DVz
-	jkXTnquvqJ15/kr3f5Ou2IoJD6vob/Q70sb/XY/WL69gRM9n8Tq0KXqNDMyvIv1pEp/i
-	i38VuGAxI6GjFBaUSMvriyEEbAtgDrj31Yrsg6+6Zl0T/MwZQfXccwTNa5Eb4hYyG1O6
-	y9Dtouh3Lumqk4c7nub2nKlT4vv27iDU90rXrjsrfQDcJ2ThH+Z6xdJjUWkxzUSTein2
-	+dYw==
+	:cc; bh=IY/7mMF9x5783BRrx5kIMDA9GVneyFaMqZvqIHmBcN8=;
+	b=ytDsT0aSdz2fHD+NztG4o2tsDThDvbsuY1nyDMAK/Vrd+oZe3h4D9Y6WRXJn0y4HVG
+	BlH7+RLUEt68DtVnrgnPaQ0G/uzZbBbK7QKl+VC7yu0okjPiMa4tc4yC2VmUbtFcLbKt
+	k0732sGUiCvXSbsKUCZjIJduDcfLpLToxU6XXlRczBB63fnxSS3JNoYVW+u6Lr+wjPQ9
+	x8c3EsS05hivZtpYoiJ/m0dn47Qfy0SBYwgA4S2Q/dsQRYCAjuXn21xdWtDoPI08ymTz
+	WLRLskc7ucksTqEtF4fU1RCHyqIpJN6MzRY7kgzdb5ABewPCA9NxHvXk2nhzRiC42EUc
+	ZPWw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=NLL3qwSgV5ny8Cj2MQl7+xoINVoz85x+nXJ0iZxkuoE=;
-	b=jNix1aUiBIOc4Om/cmJERmcwOXwxCroDtQ4XS6o/xC+f603wG4F3ofxadtzWNYc7cd
-	5+Mr7DKKONg4XlkI4Hw6HY9ZIiqY5mq66IPxlMlyaTrncbMsXSIuyneDWcvtKrMOMI0D
-	6clmiWl0KLTDO4n5/NLNCxzigNMSPf+M2vCre3XQrRY753Iz+bcIJrzhK4d+H1o7UhMF
-	pvvHCojQeGDzTsHa+LqqLOA1tFaRH0HCM0bRc9OsuKrR/h8Ykg6KJSG4Ud9aBCvCFM4x
-	OY3BB5UoHbaReDxnsjurmLOduu22mLsClpJAU2if1Tj9NYejWqDnB+zvdqFGTzAL3vdl
-	pgcA==
-X-Gm-Message-State: ABUngvc3C1VMl5S2fsELLb0HOxDhrdshwIN/8jwPEJkeOiMqTUpB4Wg0Co6yHacOYTLhmJkRx+WcsauVBP8kCw==
-X-Received: by 10.28.21.1 with SMTP id 1mr18725508wmv.133.1478688195794; Wed,
-	09 Nov 2016 02:43:15 -0800 (PST)
+	bh=IY/7mMF9x5783BRrx5kIMDA9GVneyFaMqZvqIHmBcN8=;
+	b=ZA6uVfFssLBrOU8CAwulOdpWfNfiV+2Ev93NTQfF1sM0e+VCKCLnt+B8TNllPCTrWW
+	5r/MNAyDGGTzXzlyJ6oUI6cP1LyV25GVMhiAMG/WoBU4uaKOa+eDYbp+9M/oWhEhKnUL
+	gjUJJPw0fV0FTGRRBQcw69Ot4ATAVfcKk3ueLTCV0cuhQU7LIwshevp0pe8qJA2ynbLv
+	DWVtyZbfodntLGGQiYL05WBxWPXU9XJal+dHuVWgx5mW96bC75DOkZivkrVQrk/DxoIO
+	Lpd+W798E+k+EX/L2Qc0Wsl14c3xPavTdFYQWLIf1xdW5u43d2BFuu1+2PzKMOKktiVB
+	hJfQ==
+X-Gm-Message-State: ABUngvfkQG3DcywdvPGdhqSpoZTsHmddIX6xpmN4GSfnuboToc8GTaVGZp9ymdUEvNArSEIZAcxJJwm+jgC6aTFn
+X-Received: by 10.237.61.210 with SMTP id j18mr17477419qtf.137.1478691319286; 
+	Wed, 09 Nov 2016 03:35:19 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.28.5.141 with HTTP; Wed, 9 Nov 2016 02:42:55 -0800 (PST)
-In-Reply-To: <20161109094451.GD10823@linux.intel.com>
-References: <cover.1478619682.git.maciej.borzecki@rndity.com>
-	<9d17d4a574a0a2b809f832b33a0af41fb7682ea4.1478619682.git.maciej.borzecki@rndity.com>
-	<20161109094451.GD10823@linux.intel.com>
-From: =?UTF-8?Q?Maciej_Borz=C4=99cki?= <maciej.borzecki@rndity.com>
-Date: Wed, 9 Nov 2016 11:42:55 +0100
-Message-ID: <CAD4b0_K-B66AEBGtvx0J7_n-+mNKOpez3rWL0ouJw+9w-q8JFw@mail.gmail.com>
-To: Ed Bartosh <ed.bartosh@linux.intel.com>
-Cc: Maciej Borzecki <maciek.borzecki@gmail.com>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/5] wic: check that filesystem is specified for a rootfs partition
+Received: by 10.140.85.136 with HTTP; Wed, 9 Nov 2016 03:34:58 -0800 (PST)
+In-Reply-To: <CAJTo0LZxGYzpjUetPspX6mKktoL_XnDqfncyHFWN5Kzfij8-UQ@mail.gmail.com>
+References: <1477161480-20271-1-git-send-email-paul@paulbarker.me.uk>
+	<20161105101438.1ef1f627@nuc.betafive.co.uk>
+	<CAJTo0LbB0eGStoFbyinDYP0zzEJ27BL0eDyGKFkjdh=AaWBPVA@mail.gmail.com>
+	<CADkTA4OaRgUJwFwT=S_h41EW4OO_Koa+QQr=t3t+X+6pszrzBQ@mail.gmail.com>
+	<CAJTo0LZxGYzpjUetPspX6mKktoL_XnDqfncyHFWN5Kzfij8-UQ@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 9 Nov 2016 11:34:58 +0000
+Message-ID: <CAJTo0LZdAJk0pKHhrh1ktud-GmxQ=RVgs7z+TNNKGmHHbws5Kw@mail.gmail.com>
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+Cc: OpenEmbedded Core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] kernel.bbclass: Allow ${S} to be overridden
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,35 +57,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 09 Nov 2016 10:43:15 -0000
+X-List-Received-Date: Wed, 09 Nov 2016 11:35:22 -0000
+Content-Type: multipart/alternative; boundary=001a11401094d19f0d0540dca6dc
+
+--001a11401094d19f0d0540dca6dc
 Content-Type: text/plain; charset=UTF-8
 
-On Wed, Nov 9, 2016 at 10:44 AM, Ed Bartosh <ed.bartosh@linux.intel.com> wrote:
-> On Tue, Nov 08, 2016 at 04:56:09PM +0100, Maciej Borzecki wrote:
->> Signed-off-by: Maciej Borzecki <maciej.borzecki@rndity.com>
->> ---
->>  scripts/lib/wic/partition.py | 4 ++++
->>  1 file changed, 4 insertions(+)
->>
->> diff --git a/scripts/lib/wic/partition.py b/scripts/lib/wic/partition.py
->> index 8adc698240c8e3bd9f4118663a5d7a167e0bb4a4..24e657592738dc7c5cdff78e3740d7c373021e9d 100644
->> --- a/scripts/lib/wic/partition.py
->> +++ b/scripts/lib/wic/partition.py
->> @@ -184,6 +184,10 @@ class Partition():
->>          if os.path.isfile(rootfs):
->>              os.remove(rootfs)
->>
->> +        if not self.fstype:
->> +            msger.error("File system for partition %s not specified in kickstart, " \
->> +                        "use --fstype option" % (self.mountpoint))
->> +
-> Would it make sense to make --fstype mandatory in ksparser?
+On 9 November 2016 at 10:04, Burton, Ross <ross.burton@intel.com> wrote:
 
-I'm afraid that would make fstype mandatory in all cases, while we only
-need it for rootfs source plugin.
+> Saying that of course doomed the patch:
+>
 
+Double doomed, perf can't build either.
 
--- 
-Maciej Borzecki
-RnDity
+ERROR: perf-1.0-r9 do_configure: Function failed: do_configure (log file is
+located at
+/data/poky-master/tmp-glibc/work/intel_corei7_64-poky-linux/perf/1.0-r9/temp/log.do_configure.23322)
+ERROR: Logfile of failure stored in:
+/data/poky-master/tmp-glibc/work/intel_corei7_64-poky-linux/perf/1.0-r9/temp/log.do_configure.23322
+Log data follows:
+| DEBUG: Executing python function sysroot_cleansstate
+| DEBUG: Python function sysroot_cleansstate finished
+| DEBUG: Executing shell function do_configure
+| sed: can't read
+/data/poky-master/tmp-glibc/work-shared/intel-corei7-64/kernel-source/tools/perf/Makefile*:
+No such file or directory
+| WARNING: exit code 2 from a shell command.
+| ERROR: Function failed: do_configure (log file is located at
+/data/poky-master/tmp-glibc/work/intel_corei7_64-poky-linux/perf/1.0-r9/temp/log.do_configure.23322)
 
+Ross
+
+--001a11401094d19f0d0540dca6dc
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 9 November 2016 at 10:04, Burton, Ross <span dir=3D"ltr">&lt;<a href=3D"=
+mailto:ross.burton@intel.com" target=3D"_blank">ross.burton@intel.com</a>&g=
+t;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px 0=
+px 0px 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);borde=
+r-left-style:solid;padding-left:1ex"><div class=3D"gmail_extra">Saying that=
+ of course doomed the patch:</div></blockquote></div><br>Double doomed, per=
+f can&#39;t build either.</div><div class=3D"gmail_extra"><br></div><div cl=
+ass=3D"gmail_extra"><div class=3D"gmail_extra">ERROR: perf-1.0-r9 do_config=
+ure: Function failed: do_configure (log file is located at /data/poky-maste=
+r/tmp-glibc/work/intel_corei7_64-poky-linux/perf/1.0-r9/temp/log.do_configu=
+re.23322)</div><div class=3D"gmail_extra">ERROR: Logfile of failure stored =
+in: /data/poky-master/tmp-glibc/work/intel_corei7_64-poky-linux/perf/1.0-r9=
+/temp/log.do_configure.23322</div><div class=3D"gmail_extra">Log data follo=
+ws:</div><div class=3D"gmail_extra">| DEBUG: Executing python function sysr=
+oot_cleansstate</div><div class=3D"gmail_extra">| DEBUG: Python function sy=
+sroot_cleansstate finished</div><div class=3D"gmail_extra">| DEBUG: Executi=
+ng shell function do_configure</div><div class=3D"gmail_extra">| sed: can&#=
+39;t read /data/poky-master/tmp-glibc/work-shared/intel-corei7-64/kernel-so=
+urce/tools/perf/Makefile*: No such file or directory</div><div class=3D"gma=
+il_extra">| WARNING: exit code 2 from a shell command.</div><div class=3D"g=
+mail_extra">| ERROR: Function failed: do_configure (log file is located at =
+/data/poky-master/tmp-glibc/work/intel_corei7_64-poky-linux/perf/1.0-r9/tem=
+p/log.do_configure.23322)</div><div class=3D"gmail_extra"><br></div><div cl=
+ass=3D"gmail_extra">Ross</div></div></div>
+
+--001a11401094d19f0d0540dca6dc--
