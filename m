@@ -1,33 +1,38 @@
-Return-Path: <s.mueller-klieser@phytec.de>
-Received: from root.phytec.de (mail.phytec.de [217.6.246.34])
-	by mail.openembedded.org (Postfix) with ESMTP id 04FCD60777
+Return-Path: <andre.draszik@gmail.com>
+Received: from mail-wm0-f66.google.com (mail-wm0-f66.google.com [74.125.82.66])
+	by mail.openembedded.org (Postfix) with ESMTP id C8708719F0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Nov 2016 10:01:33 +0000 (UTC)
-Received: from idefix.phytec.de (idefix.phytec.de [172.16.0.10])
-	by root.phytec.de (Postfix) with ESMTP id F06AEA001D0;
-	Thu, 10 Nov 2016 11:02:10 +0100 (CET)
-Received: from [172.16.25.229] ([172.16.25.229])
-	by idefix.phytec.de (IBM Domino Release 9.0.1FP5 HF413)
-	with ESMTP id 2016111011013385-52712 ;
-	Thu, 10 Nov 2016 11:01:33 +0100 
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <1478257606-15637-1-git-send-email-s.mueller-klieser@phytec.de>
-	<CAJTo0Lb1-FjGzvxn6Lsc6Lme4LB6=Rs8rv_vggS8SkXPHRcduw@mail.gmail.com>
-From: =?UTF-8?Q?Stefan_M=c3=bcller-Klieser?= <s.mueller-klieser@phytec.de>
-Organization: PHYTEC Messtechnik GmbH
-Message-ID: <5824457E.9040002@phytec.de>
-Date: Thu, 10 Nov 2016 11:01:34 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.8.0
+	Thu, 10 Nov 2016 10:46:20 +0000 (UTC)
+Received: by mail-wm0-f66.google.com with SMTP id a20so2271410wme.2
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 10 Nov 2016 02:46:22 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=nwlISydWxHtt88vZrvjgn7G5vNRPGhnNEShMMcICiek=;
+	b=l3EdEbSw/fP6vyFm1FnshuDMqlMV/2GOk/bEViVrvjioxu+fR5c/+722JI2BUy1JCO
+	fBk3SxGPCC4R2KyuogMiI4F/5HKAXEWtRPB+wWgEKy7V6mGwdM3Sb51x5JMXkUXEhdw6
+	5RJ4PBZ4HUaDLEAdcVksd4FGct2BwFlnuPIRWvI1HPJ/JBL3FSl1Kg5/qT5yO7uulPfi
+	rBnaJvEXq4HobpCBZFWAwEoaTR6A89MMGE/DLW8twMFDTE8TnYYubHYCTCHDhbYcc8Wb
+	XBCSCHP+tYjyrY+cgV9u9d9CP9QBP/Yz1mzFW0ni/8nfQrSiF2op4pQ5pFX7kdrOWfTU
+	r7xw==
+X-Gm-Message-State: ABUngvdVcMkjbR6/t/HEmWPHf2kvvyzum5yLh5JJ3GBjZaCdGhk9WHaIbnxDeJwil9Gb/Q==
+X-Received: by 10.28.25.134 with SMTP id 128mr23830302wmz.99.1478774781429;
+	Thu, 10 Nov 2016 02:46:21 -0800 (PST)
+Received: from tfsielt31850.tycofs.com ([77.107.218.170])
+	by smtp.gmail.com with ESMTPSA id
+	p13sm5447299wmd.20.2016.11.10.02.46.20
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 10 Nov 2016 02:46:20 -0800 (PST)
+From: =?UTF-8?q?Andr=C3=A9=20Draszik?= <git@andred.net>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 10 Nov 2016 10:46:19 +0000
+Message-Id: <20161110104619.22964-1-git@andred.net>
+X-Mailer: git-send-email 2.10.2
 MIME-Version: 1.0
-In-Reply-To: <CAJTo0Lb1-FjGzvxn6Lsc6Lme4LB6=Rs8rv_vggS8SkXPHRcduw@mail.gmail.com>
-X-MIMETrack: Itemize by SMTP Server on Idefix/Phytec(Release 9.0.1FP5
-	HF413|March 21, 2016) at 10.11.2016 11:01:33,
-	Serialize by Router on Idefix/Phytec(Release 9.0.1FP5 HF413|March 21,
-	2016) at 10.11.2016 11:01:33
-X-TNEFEvaluated: 1
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] u-boot: mkimage: fix build
+Subject: [PATCH] opkg-utils: clear update-alternatives database on uninstall
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,56 +45,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 10 Nov 2016 10:01:34 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 10 Nov 2016 10:46:21 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On 07.11.2016 16:00, Burton, Ross wrote:
-> On 4 November 2016 at 11:06, Stefan M=C3=BCller-Klieser <
-> s.mueller-klieser@phytec.de> wrote:
->=20
->> This fixes the mkimage build for situations where HOSTCC and friends
->> need to be overridden and the u-boot makefile defaults don't work.
->>
->=20
-> I applied this on top of the u-boot upgrades and it still breaks:
->=20
-> make -f ./scripts/Makefile.build obj=3Dtools
->   x86=5F64-poky-linux-gcc  -m64 -march=3Dcorei7 -mtune=3Dcorei7 -mfpmath=
-=3Dsse
-> -msse4.2 --sysroot=3D/data/poky-master/tmp-glibc/sysroots/intel-corei7-64
-> -Wp,-MD,tools/.bin2header.d -O2 -pipe -g -feliminate-unused-debug-types
-> -fdebug-prefix-map=3D/data/poky-master/tmp-glibc/work/corei7-64-poky-linu=
-x/u-boot-mkimage/2016.09.01-r0=3D/usr/src/debug/u-boot-mkimage/2016.09.01-r0
-> -fdebug-prefix-map=3D/data/poky-master/tmp-glibc/sysroots/x86=5F64-linux=
-=3D
-> -fdebug-prefix-map=3D/data/poky-master/tmp-glibc/sysroots/intel-corei7-64=
-=3D
->  -fstack-protector-strong -pie -fpie -D=5FFORTIFY=5FSOURCE=3D2 -Wformat
-> -Wformat-security -Werror=3Dformat-security   -DCONFIG=5FFIT=5FSIGNATURE =
--include
-> ./include/libfdt=5Fenv.h -idirafterinclude -idirafter./arch/sandbox/inclu=
-de
-> -I./lib/libfdt -I./tools -DCONFIG=5FSYS=5FTEXT=5FBASE=3D0 -DUSE=5FHOSTCC
-> -D=5F=5FKERNEL=5FSTRICT=5FNAMES -D=5FGNU=5FSOURCE  -o tools/bin2header
-> tools/bin2header.c
-> ...
-> cat ./Licenses/gpl-2.0.txt | gzip -9 -c | \
-> tools/bin2header license=5Fgzip > ./include/license.h
-> /bin/sh: 2: tools/bin2header: not found
-> tools/Makefile:256: recipe for target 'include/license.h' failed
->=20
-> Looks like HOSTCC isn't being set correctly.
+From: André Draszik <adraszik@tycoint.com>
 
-Ok, this bin2header issue seems to be unrelated, as Marek sent a v1 upstrea=
-m, fixing
-the execution path. I am not in a hurry with the oe-core, so please ignore =
-the patch.
-I will send it upstream first.
+When uninstalling update-alternatives, it doesn't seem to
+make much sense to keep the update-alternatives database
+around.
+In particular when removing packaging data, e.g. due to
+read-only rootfs, update-alternatives is removed from
+the target file system. Leaving its database around
+serves no purpose in that case as there is no way to
+use it afterwards anyway.
 
-Stefan
+This frees close to 700KB of (uncompressed) space in
+a busybox based environment.
 
->=20
-> Ross
->=20
+Signed-off-by: André Draszik <adraszik@tycoint.com>
+---
+ meta/recipes-devtools/opkg-utils/opkg-utils_git.bb | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/meta/recipes-devtools/opkg-utils/opkg-utils_git.bb b/meta/recipes-devtools/opkg-utils/opkg-utils_git.bb
+index a7aec45..19a852e 100644
+--- a/meta/recipes-devtools/opkg-utils/opkg-utils_git.bb
++++ b/meta/recipes-devtools/opkg-utils/opkg-utils_git.bb
+@@ -43,4 +43,9 @@ RPROVIDES_update-alternatives-opkg = "update-alternatives update-alternatives-cw
+ RREPLACES_update-alternatives-opkg = "update-alternatives-cworth"
+ RCONFLICTS_update-alternatives-opkg = "update-alternatives-cworth"
+ 
++pkg_postrm_update-alternatives-opkg() {
++	rm -rf $OPKG_OFFLINE_ROOT${nonarch_libdir}/opkg/alternatives
++	rmdir --ignore-fail-on-non-empty $OPKG_OFFLINE_ROOT${nonarch_libdir}/opkg
++}
++
+ BBCLASSEXTEND = "native nativesdk"
+-- 
+2.10.2
+
 
