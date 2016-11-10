@@ -1,21 +1,25 @@
 Return-Path: <paul.eggleton@linux.intel.com>
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id CBE6060720
+	by mail.openembedded.org (Postfix) with ESMTP id A74CF60720
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Nov 2016 01:45:47 +0000 (UTC)
+	Thu, 10 Nov 2016 01:45:49 +0000 (UTC)
 Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-	by fmsmga101.fm.intel.com with ESMTP; 09 Nov 2016 17:45:49 -0800
+	by fmsmga101.fm.intel.com with ESMTP; 09 Nov 2016 17:45:51 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.31,616,1473145200"; d="scan'208";a="189697322"
+X-IronPort-AV: E=Sophos;i="5.31,616,1473145200"; d="scan'208";a="189697332"
 Received: from yspay-mobl1.gar.corp.intel.com (HELO
 	peggleto-mobl.ger.corp.intel.com) ([10.255.158.149])
-	by fmsmga004.fm.intel.com with ESMTP; 09 Nov 2016 17:45:46 -0800
+	by fmsmga004.fm.intel.com with ESMTP; 09 Nov 2016 17:45:49 -0800
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 10 Nov 2016 14:45:13 +1300
-Message-Id: <cover.1478742229.git.paul.eggleton@linux.intel.com>
+Date: Thu, 10 Nov 2016 14:45:14 +1300
+Message-Id: <5a9b5fccb4378b66b71e0fbfdb4ae3139d30effa.1478742229.git.paul.eggleton@linux.intel.com>
 X-Mailer: git-send-email 2.5.5
-Subject: [PATCH 0/7] A bunch of fixes for devtool update-recipe
+In-Reply-To: <cover.1478742229.git.paul.eggleton@linux.intel.com>
+References: <cover.1478742229.git.paul.eggleton@linux.intel.com>
+In-Reply-To: <cover.1478742229.git.paul.eggleton@linux.intel.com>
+References: <cover.1478742229.git.paul.eggleton@linux.intel.com>
+Subject: [PATCH 1/7] devtool: update-recipe: check output before treating it as a string
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,52 +32,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 10 Nov 2016 01:45:48 -0000
+X-List-Received-Date: Thu, 10 Nov 2016 01:45:49 -0000
 
-A bunch of fixes for devtool update-recipe and associated oe-selftest tests.
+As of the move to Python 3 and the fixes we applied at that time,
+bb.process.run() will return a byte array of length 0 rather than an
+empty string if the output is empty. That may be a bug that we should
+fix, but for now it's easiest to just check the result here before
+treating it as a string. This fixes running "devtool update-recipe" or
+"devtool finish" on a recipe which has no source tree, for example
+initramfs-framework.
 
-The following changes since commit 9303d8055c45a0f6af295d70a6f6a8b9d8d8a7c9:
+Fixes [YOCTO #10563].
 
-  devtool: add "rename" subcommand (2016-11-07 11:04:17 +0000)
+Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+---
+ scripts/lib/devtool/standard.py | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
 
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib paule/devtool23-oe
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/devtool23-oe
-
-Paul Eggleton (7):
-  devtool: update-recipe: check output before treating it as a string
-  oe-selftest: devtool: test update-recipe with only local files
-  lib/oe/patch: fix handling of patches with no header
-  devtool: update-recipe: fix handling of compressed local patches
-  devtool: update-recipe: support replacing remote patches
-  lib/oe/recipeutils: ignore archives by default in
-    get_recipe_local_files()
-  oe-selftest: devtool: test that updating a file with subdir= works
-
- .../recipes-test/devtool/devtool-test-localonly.bb |   6 ++
- .../devtool/devtool-test-localonly/file1           |   1 +
- .../devtool/devtool-test-localonly/file2           |   1 +
- .../recipes-test/devtool/devtool-test-patch-gz.bb  |  16 ++++
- .../devtool/devtool-test-patch-gz/readme.patch.gz  | Bin 0 -> 449 bytes
- .../recipes-test/devtool/devtool-test-subdir.bb    |   7 ++
- .../devtool-test-subdir/devtool-test-subdir.tar.gz | Bin 0 -> 181 bytes
- .../devtool/devtool-test-subdir/testfile           |   1 +
- meta/classes/patch.bbclass                         |   9 ++-
- meta/lib/oe/patch.py                               |   8 +-
- meta/lib/oe/recipeutils.py                         |  22 +++--
- meta/lib/oeqa/selftest/devtool.py                  |  67 +++++++++++++++
- scripts/lib/devtool/standard.py                    |  90 +++++++++++++++------
- 13 files changed, 193 insertions(+), 35 deletions(-)
- create mode 100644 meta-selftest/recipes-test/devtool/devtool-test-localonly.bb
- create mode 100644 meta-selftest/recipes-test/devtool/devtool-test-localonly/file1
- create mode 100644 meta-selftest/recipes-test/devtool/devtool-test-localonly/file2
- create mode 100644 meta-selftest/recipes-test/devtool/devtool-test-patch-gz.bb
- create mode 100644 meta-selftest/recipes-test/devtool/devtool-test-patch-gz/readme.patch.gz
- create mode 100644 meta-selftest/recipes-test/devtool/devtool-test-subdir.bb
- create mode 100644 meta-selftest/recipes-test/devtool/devtool-test-subdir/devtool-test-subdir.tar.gz
- create mode 100644 meta-selftest/recipes-test/devtool/devtool-test-subdir/testfile
-
+diff --git a/scripts/lib/devtool/standard.py b/scripts/lib/devtool/standard.py
+index 4523048..1511641 100644
+--- a/scripts/lib/devtool/standard.py
++++ b/scripts/lib/devtool/standard.py
+@@ -332,10 +332,11 @@ def _git_ls_tree(repodir, treeish='HEAD', recursive=False):
+         cmd.append('-r')
+     out, _ = bb.process.run(cmd, cwd=repodir)
+     ret = {}
+-    for line in out.split('\0'):
+-        if line:
+-            split = line.split(None, 4)
+-            ret[split[3]] = split[0:3]
++    if out:
++        for line in out.split('\0'):
++            if line:
++                split = line.split(None, 4)
++                ret[split[3]] = split[0:3]
+     return ret
+ 
+ def _git_exclude_path(srctree, path):
 -- 
 2.5.5
 
