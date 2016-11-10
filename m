@@ -1,26 +1,26 @@
 Return-Path: <sona.sarmadi@enea.com>
-Received: from smtp-out11.electric.net (smtp-out11.electric.net
-	[185.38.181.39])
-	by mail.openembedded.org (Postfix) with ESMTP id 465036069C
+Received: from smtp-out10.electric.net (smtp-out10.electric.net
+	[185.38.180.40])
+	by mail.openembedded.org (Postfix) with ESMTP id 97813606CA
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Nov 2016 09:16:22 +0000 (UTC)
-Received: from 1c4lT4-0001oa-UO by out11d.electric.net with emc1-ok (Exim 4.87)
-	(envelope-from <sona.sarmadi@enea.com>) id 1c4lT5-0001pP-TE
+	Thu, 10 Nov 2016 09:23:38 +0000 (UTC)
+Received: from 1c4la6-0004rq-U0 by out10d.electric.net with emc1-ok (Exim 4.87)
+	(envelope-from <sona.sarmadi@enea.com>) id 1c4la6-0004sm-UT
 	for openembedded-core@lists.openembedded.org;
-	Thu, 10 Nov 2016 01:16:23 -0800
-Received: by emcmailer; Thu, 10 Nov 2016 01:16:23 -0800
+	Thu, 10 Nov 2016 01:23:38 -0800
+Received: by emcmailer; Thu, 10 Nov 2016 01:23:38 -0800
 Received: from [192.36.1.72] (helo=mx-3.enea.com)
-	by out11d.electric.net with esmtps (TLSv1:AES128-SHA:128) (Exim 4.87)
-	(envelope-from <sona.sarmadi@enea.com>) id 1c4lT4-0001oa-UO
+	by out10d.electric.net with esmtps (TLSv1:AES128-SHA:128) (Exim 4.87)
+	(envelope-from <sona.sarmadi@enea.com>) id 1c4la6-0004rq-U0
 	for openembedded-core@lists.openembedded.org;
-	Thu, 10 Nov 2016 01:16:22 -0800
+	Thu, 10 Nov 2016 01:23:38 -0800
 Received: from sestofb11.enea.se (172.21.3.152) by smtp.enea.com
 	(172.21.1.209) with Microsoft SMTP Server id 14.3.294.0;
-	Thu, 10 Nov 2016 10:16:21 +0100
+	Thu, 10 Nov 2016 10:23:37 +0100
 From: Sona Sarmadi <sona.sarmadi@enea.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 10 Nov 2016 10:16:20 +0100
-Message-ID: <1478769380-41497-1-git-send-email-sona.sarmadi@enea.com>
+Date: Thu, 10 Nov 2016 10:23:35 +0100
+Message-ID: <1478769815-54819-1-git-send-email-sona.sarmadi@enea.com>
 X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
 Received-SPF: None (SESTOEX03.enea.se: sona.sarmadi@enea.com does not
@@ -35,7 +35,7 @@ X-Authenticated_ID:
 X-PolicySMART: 6551647
 X-Virus-Status: Scanned by VirusSMART (c)
 X-Virus-Status: Scanned by VirusSMART (s)
-Subject: [PATCH][krogoth] curl: fix multiple CVEs
+Subject: [PATCHv2][krogoth] curl: fix multiple CVEs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,7 +48,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 10 Nov 2016 09:16:24 -0000
+X-List-Received-Date: Thu, 10 Nov 2016 09:23:40 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 
@@ -76,18 +76,18 @@ Signed-off-by: Sona Sarmadi <sona.sarmadi@enea.com>
 ---
  meta/recipes-support/curl/curl/CVE-2016-8615.patch |  70 +++
  meta/recipes-support/curl/curl/CVE-2016-8616.patch |  50 ++
- meta/recipes-support/curl/curl/CVE-2016-8617.patch |  29 ++
+ meta/recipes-support/curl/curl/CVE-2016-8617.patch |  29 +
  meta/recipes-support/curl/curl/CVE-2016-8618.patch |  49 ++
  meta/recipes-support/curl/curl/CVE-2016-8619.patch |  49 ++
  meta/recipes-support/curl/curl/CVE-2016-8620.patch |  47 ++
  meta/recipes-support/curl/curl/CVE-2016-8621.patch | 104 ++++
  meta/recipes-support/curl/curl/CVE-2016-8622.patch |  95 ++++
- meta/recipes-support/curl/curl/CVE-2016-8623.patch | 174 +++++++
+ meta/recipes-support/curl/curl/CVE-2016-8623.patch | 174 ++++++
  meta/recipes-support/curl/curl/CVE-2016-8624.patch |  55 ++
- meta/recipes-support/curl/curl/CVE-2016-8625.patch | 580 +++++++++++++++++++++
- .../url-remove-unconditional-idn2.h-include.patch  |  29 ++
+ meta/recipes-support/curl/curl/CVE-2016-8625.patch | 593 +++++++++++++++++++++
+ .../url-remove-unconditional-idn2.h-include.patch  |  29 +
  meta/recipes-support/curl/curl_7.47.1.bb           |  12 +
- 13 files changed, 1343 insertions(+)
+ 13 files changed, 1356 insertions(+)
  create mode 100644 meta/recipes-support/curl/curl/CVE-2016-8615.patch
  create mode 100644 meta/recipes-support/curl/curl/CVE-2016-8616.patch
  create mode 100644 meta/recipes-support/curl/curl/CVE-2016-8617.patch
@@ -885,10 +885,23 @@ index 0000000..fb62282
 +        is bigger than the path. Use +1 to move the zero byte too. */
 diff --git a/meta/recipes-support/curl/curl/CVE-2016-8625.patch b/meta/recipes-support/curl/curl/CVE-2016-8625.patch
 new file mode 100644
-index 0000000..0aac977
+index 0000000..eb21e60
 --- /dev/null
 +++ b/meta/recipes-support/curl/curl/CVE-2016-8625.patch
-@@ -0,0 +1,580 @@
+@@ -0,0 +1,593 @@
++commit 9c91ec778104ae3b744b39444d544e82d5ee9ece
++Author: Daniel Stenberg <daniel@haxx.se>
++Date:   Wed Oct 12 09:01:06 2016 +0200
++
++idn: switch to libidn2 use and IDNA2008 support
++
++CVE: CVE-2016-8625
++Upstream-Status: Backport
++
++Bug: https://curl.haxx.se/docs/adv_20161102K.html
++Reported-by: Christian Heimes
++Signed-off-by: Sona Sarmadi <sona.sarmadi@enea.com>
++
 +diff -ruN a/CMakeLists.txt b/CMakeLists.txt
 +--- a/CMakeLists.txt	2016-02-03 00:08:44.000000000 +0100
 ++++ b/CMakeLists.txt	2016-11-08 13:05:14.055757175 +0100
