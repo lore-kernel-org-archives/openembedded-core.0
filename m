@@ -1,49 +1,54 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f178.google.com (mail-qk0-f178.google.com
-	[209.85.220.178])
-	by mail.openembedded.org (Postfix) with ESMTP id 3776D6FF84
+Return-Path: <patrick.ohly@intel.com>
+Received: from mail-it0-f52.google.com (mail-it0-f52.google.com
+	[209.85.214.52])
+	by mail.openembedded.org (Postfix) with ESMTP id 2E6E862135
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Nov 2016 17:37:17 +0000 (UTC)
-Received: by mail-qk0-f178.google.com with SMTP id n204so294831058qke.2
+	Thu, 10 Nov 2016 17:53:14 +0000 (UTC)
+Received: by mail-it0-f52.google.com with SMTP id u205so57970853itc.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Nov 2016 09:37:19 -0800 (PST)
+	Thu, 10 Nov 2016 09:53:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=OWAjbB4TecQkg7G1vA/4X9QLVzPKcmAmyD1nYMWm+KE=;
-	b=vPJQLQROzoYg+nvZeOiX1HQNpaD8QrjTcEdudD/94V4isWGRoRp5ipmSjzayy2utnR
-	qbcMtBnuvfAvzZ2vgMmqRt3igCRGV0+XztAzx4SDMPIAKL5l/32OofVXQ8ubncTDVT7D
-	1So+szEUJfOIlfefAVRP+3bcgSHhEAKXs6VMeqHQTwiY0DNCJXBk3lmZxaOrKUGS+mIy
-	90fmVtRyYB9I0oUC/bWeuKGzLvBi20Iep7+xBJBJV7oKiILTQBUYh1xa4aofexyYwZhU
-	93WcrtP7SMQEAjLWsz6bH3LasYgNUMXfdAdjuNiYCTf0wwgWfyEYB69FaercwHXn7m5W
-	B0HQ==
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:organization:mime-version:content-transfer-encoding;
+	bh=+vEVNKYi6ZCrDiKJtXO9aQ7DGl7xkQT7W1Yfrz2dcto=;
+	b=DkCOYnnk+DdIlY9dEyPwevPIQtPLu6kGN3vmkt72KDQG7dS5YXYuR1bT/TSbbGm9U2
+	w0/jntYi+b/BKAVBQ7ktldM2EkmJPK26/YuWarvBUtCyZiMZ40JDUwGCyGtTlQhRJuw9
+	bMK2MWtuSBUzFPkPqcEmnQmtQ+ZINJ7Q4RD7PYbPztlOGp/CSWEsap5ZQOrr0xS5QSYO
+	GV0XsU0KjckGkud0R+QfKLhIi6blTBlvPUBnaaMMWpLd5xHSsfGhNpJYFNaKcckBczwR
+	C1l2JDziatGYSFdB5Ec9g/B8Nx7/1PhRsYlNJ3SND2PYZVRAz7fcb+Ja2V7WwJ4EfPvP
+	Q7oA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=OWAjbB4TecQkg7G1vA/4X9QLVzPKcmAmyD1nYMWm+KE=;
-	b=LpZbcqrs8ffLrnGeJMjWn9d5EkuA9A1nrz2uSIS/1WA8I+/rsKmkSPB69RNnlm+lIQ
-	jTDmY32idrhkLE0D2kUcpi8ehEU70JPcWDaIgW3LzDSd2xukI0sBFx7ox6SiYtT7ega4
-	gHGi23VTyXNHDs7DF6U9NOLh4UfUw+enepY3kPi6+ZanooZ8pGJrUqpLUoVGYBYVC8sp
-	jtmODUmR0LlNCs2JUcyh4HMjD6Ex6+wsfFIhagZ44utWWiMeJ1DmqBGm/DlRb9mLJ4fu
-	Akn1kxpgZUKCAmJAtWhxiEvzcN2eq0GuBfy0nPCc0ekf1P6XhHi+DxqRBoBtiSMgm0vp
-	ScLg==
-X-Gm-Message-State: ABUngveaZuQ6uB6ie/KNQLqMbT/Iht0TTDQQM22Ssl1zsZdRvTYk5y38poR5p33wOXWWxRdao1OggkThJBGSgX65
-X-Received: by 10.55.207.78 with SMTP id e75mr8049603qkj.36.1478799438654;
-	Thu, 10 Nov 2016 09:37:18 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.140.85.136 with HTTP; Thu, 10 Nov 2016 09:36:58 -0800 (PST)
-In-Reply-To: <CAP9ODKoQNOgTWgsW=ZTDvU5hBgjCGaF_=YWcA+rjhxoy5wVXfg@mail.gmail.com>
-References: <20161110121414.12937-1-otavio@ossystems.com.br>
-	<CAJTo0LbQYQwY07evm3Re4x2_Bu-6AmcCW3_=GuAWGOJxGxFQ9A@mail.gmail.com>
-	<CAP9ODKoQNOgTWgsW=ZTDvU5hBgjCGaF_=YWcA+rjhxoy5wVXfg@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 10 Nov 2016 17:36:58 +0000
-Message-ID: <CAJTo0LY8HD_rLf-NbFnjvnTfjVfjMKnTTRt45JoCCC7=4h-ooQ@mail.gmail.com>
-To: Otavio Salvador <otavio.salvador@ossystems.com.br>
-Cc: Otavio Salvador <otavio@ossystems.com.br>,
-	OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] python3-native: Extend RPROVIDES list
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:organization:mime-version:content-transfer-encoding;
+	bh=+vEVNKYi6ZCrDiKJtXO9aQ7DGl7xkQT7W1Yfrz2dcto=;
+	b=VprQrvlzLFcg6iGa5/m3+tDEa5WxsDO5UwInPq6IbnRgwCJR6MQHjbs3ttA6iBSdMr
+	s9aIEE7L3kDMKLvPV7RUrgwPjhAsR21YqhMsc9LDf6wueByCtW5m86VX6L84+HdUck0x
+	sEN/tXwLWjYFv6WaLV8SdjBAmHuLiZXGxTl8e+j6+p3Udg20uj2DWYVd4kuhHVT9/7ST
+	PRaFgmFE3TZqQqVm5AIWAwbeTzby/gG1S8BMekYS1fN6lrb9dWRnHtlXzuDHr7FgwvVd
+	LQoksfjcHfKFA/QmKs6KSj7OMOHOYIVIon+6vdCmYN7z2RN6xGlGf5xeSeP9fgfDgp01
+	SNxg==
+X-Gm-Message-State: ABUngvfu9YJxCe6Uvii4zsg2bJBFLyIAE0h1h3KoHxBtO+JBj27sx3PrNOV5IEFAyBC05IEG
+X-Received: by 10.36.78.85 with SMTP id r82mr16039071ita.20.1478800396013;
+	Thu, 10 Nov 2016 09:53:16 -0800 (PST)
+Received: from pohly-mobl1 (p5DE8C632.dip0.t-ipconnect.de. [93.232.198.50])
+	by smtp.gmail.com with ESMTPSA id
+	u190sm2358790itc.21.2016.11.10.09.53.14
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 10 Nov 2016 09:53:15 -0800 (PST)
+Message-ID: <1478800392.3449.79.camel@intel.com>
+From: Patrick Ohly <patrick.ohly@intel.com>
+To: Jianxun Zhang <jianxun.zhang@linux.intel.com>
+Date: Thu, 10 Nov 2016 18:53:12 +0100
+In-Reply-To: <1476389794-109684-1-git-send-email-jianxun.zhang@linux.intel.com>
+References: <1476389794-109684-1-git-send-email-jianxun.zhang@linux.intel.com>
+Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
+X-Mailer: Evolution 3.12.9-1+b1 
+Mime-Version: 1.0
+Cc: Olev Kartau <olev.kartau@intel.com>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH V2] sqlite3: Revert ad601c7962 from 3.14.1 amalgamation package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,38 +61,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 10 Nov 2016 17:37:18 -0000
-Content-Type: multipart/alternative; boundary=001a1145b7b83c41090540f5d338
+X-List-Received-Date: Thu, 10 Nov 2016 17:53:15 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
---001a1145b7b83c41090540f5d338
-Content-Type: text/plain; charset=UTF-8
+On Thu, 2016-10-13 at 13:16 -0700, Jianxun Zhang wrote:
+> It turns out this change between 3.12.2 and 3.13 introduces
+> a 2% increase of build time based on statistic data in
+> bz10367.
 
-On 10 November 2016 at 17:29, Otavio Salvador <
-otavio.salvador@ossystems.com.br> wrote:
+Let me add that this patch increased build performance in Ostro even
+more: apparently one big impact of the sqlite performance issue is on
+pseudo. Ostro depends fairly heavily on pseudo because of meta-swupd and
+xattrs on all files.
 
-> I am fine in doing so but this fix is important for us and it is
-> trivial enough to allow backport for krogoth and morty.
->
+When this patch and others recently landed in Ostro, total build times
+dropped from 4:46h (build #508,
+https://ostroproject.org/jenkins/job/build_intel-corei7-64/2763/console)
+to 2:07h (build #510,
+https://ostroproject.org/jenkins/job/build_intel-corei7-64/2831/console).
 
-Absolutely.  I've marked this to merge, and will file a bug for extending
-the manifest tool.
+That could also be because of other improvements, perhaps even in our CI
+hardware, so take those numbers with a large chunk of salt.
 
-Ross
+However, in local builds with and without this patch (i.e. everything
+else the same) I also see big differences for pseudo-heavy operations:
 
---001a1145b7b83c41090540f5d338
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+$ buildstats-diff --diff-attr walltime --min-val 60 with-patch/ without-patch/
+Ignoring tasks less than 01:00.0 (60.0s)
+Ignoring differences less than 00:02.0 (2.0s)
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 10 November 2016 at 17:29, Otavio Salvador <span dir=3D"ltr">&lt;<a href=
-=3D"mailto:otavio.salvador@ossystems.com.br" target=3D"_blank">otavio.salva=
-dor@ossystems.com.br</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_qu=
-ote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex=
-"><div id=3D":5bv" class=3D"a3s aXjCH m1584f4a246222c04">I am fine in doing=
- so but this fix is important for us and it is<br>
-trivial enough to allow backport for krogoth and morty.<br></div></blockquo=
-te><div><br></div><div>Absolutely.=C2=A0 I&#39;ve marked this to merge, and=
- will file a bug for extending the manifest tool.</div><div><br></div><div>=
-Ross=C2=A0</div></div><br></div></div>
+  PKG                                     TASK                      ABSDIFF   RELDIFF  WALLTIME1 -> WALLTIME2
+...
+  bundle-ostro-image-swupd-qa-bundle-b    do_rootfs                   78.1s   +115.4%      67.7s -> 145.8s   
+  bundle-ostro-image-swupd-qa-bundle-a    do_rootfs                   80.3s   +116.8%      68.8s -> 149.1s   
+  bundle-ostro-image-swupd-qa-bundle-a    do_image                   106.8s   +291.9%      36.6s -> 143.3s   
+  bundle-ostro-image-swupd-qa-bundle-b    do_image                   107.9s   +298.2%      36.2s -> 144.1s   
+  bundle-ostro-image-swupd-mega           do_image                   244.4s    +74.2%     329.2s -> 573.6s   
+  bundle-ostro-image-swupd-world-dev      do_rootfs                  246.7s   +207.2%     119.1s -> 365.8s   
+  bundle-ostro-image-swupd-world-dev      do_image                   269.2s    +83.5%     322.6s -> 591.7s   
+  bundle-ostro-image-swupd-mega           do_rootfs                  272.6s   +246.1%     110.8s -> 383.3s   
+  ostro-image-swupd                       do_rootfs                  676.1s   +808.1%      83.7s -> 759.8s   
+  bundle-ostro-image-swupd-world-dev      do_copy_bundle_contents   1339.5s  +2957.6%      45.3s -> 1384.8s  
+  bundle-ostro-image-swupd-qa-bundle-b    do_copy_bundle_contents   1475.0s  +3147.8%      46.9s -> 1521.9s  
+  bundle-ostro-image-swupd-qa-bundle-a    do_copy_bundle_contents   1503.9s  +3283.0%      45.8s -> 1549.8s  
 
---001a1145b7b83c41090540f5d338--
+Cumulative walltime:
+  6070.9s    +326.9%    30:57.3 (1857.3s) -> 2:12:08.2 (7928.2s)
+
+So it really seems that the sqlite change is a very relevant
+improvement.
+
+That leads me to a bigger question: has upstream been notified about
+this?
+
+Our observation may also be relevant to other sqlite users. Besides, not
+getting this fixed upstream means that we'll have to do the same tricky
+revert for the next upstream version update.
+
+-- 
+Best Regards, Patrick Ohly
+
+The content of this message is my personal opinion only and although
+I am an employee of Intel, the statements I make here in no way
+represent Intel's position on the issue, nor am I authorized to speak
+on behalf of Intel on this matter.
+
+
+
+
