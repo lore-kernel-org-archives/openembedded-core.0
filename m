@@ -1,50 +1,49 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f176.google.com (mail-qk0-f176.google.com
-	[209.85.220.176])
-	by mail.openembedded.org (Postfix) with ESMTP id 19CDF6E688
+Return-Path: <maciej.borzecki@rndity.com>
+Received: from mail-wm0-f51.google.com (mail-wm0-f51.google.com [74.125.82.51])
+	by mail.openembedded.org (Postfix) with ESMTP id E031F65C90
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Nov 2016 20:25:17 +0000 (UTC)
-Received: by mail-qk0-f176.google.com with SMTP id q130so311492518qke.1
+	Thu, 10 Nov 2016 20:33:52 +0000 (UTC)
+Received: by mail-wm0-f51.google.com with SMTP id f82so55359565wmf.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Nov 2016 12:25:19 -0800 (PST)
+	Thu, 10 Nov 2016 12:33:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	d=rndity-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=dJbTVeTZXKxWxpvKUH7KIu/q8hf7vDeLu8kXHpMO2s8=;
-	b=fyZEX0wi5u3LAESJMOvOn5VNf2FSPgUe1ficsQg/o4ZL8RjAG6NOkrgFGwTXOOCrx3
-	3hDrjw9NoDPhXE9MtmQ66gtbfgk1xLb1bC9BfFT4LdPZDtLQheP4lhylQnEyI5aIXlsG
-	lSRerGRrGIz6PXmt7X+HHRJZ2nZ0nJTe+9ZBl+L/fJgWil/pQAJZVT6imC04lWpoStuR
-	jSpdD8phQBcQQwYX1YEE+1y9mhiSGyKT4An6kG/D4QZVNNGombaSDOctsICYUVeA6AYN
-	o/srhWHiP2EU1NOJqJoZMcb9NZ90zWjYjCF/ofGWwO8tQFRIq8bMutbvlyA9qKLWFFg9
-	qbLg==
+	:cc; bh=g2pYarRe1hZe1mqcgnBUJpiuugyoaBODOTuwhdt6E4c=;
+	b=GigSqMx111vkW0hSI7WvzCZeINoM+NkDT07yISuvI1BqpzDeVuUpuT46LdrFz3sVBz
+	kgy1egeCX4IysYlTTWDA/RWnBFU60Dr1VP7vksufik6bPtsFtK4RyBXqcKGeFOSSnQC5
+	piJKnvKJufDXWFxnVeIPITXhABA2HRCqzIlzBT3T3KVeIfof/Ozl6ifmdmx9GEjFrErL
+	/AMIzvZFqmwksnzbJ3c12+oklJAmufV/TGPQ8qN2MOo4oV1kkrUy6NAroWVL4iwgXIhB
+	EO93v5Ahc7/10dnzNgAaL0o38M/t2+jCdkU4cs/I1G7yyPHV3dRrYxXtIQ/5STlJSsw0
+	J0zg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=dJbTVeTZXKxWxpvKUH7KIu/q8hf7vDeLu8kXHpMO2s8=;
-	b=CiPxuRXxK8Cydq4r0lw7pV+LrYsnlPzvLusgE9DtWClCc81LYxvMwyquK7z2Q+a4mG
-	Ar7y5O/7SuvZcUk0swiYZFn0dVPJQzrgQeHbcsAg8eIzLfaj9Zel/PPNzYemrPB99SLa
-	JriT+PQUH9nWiQpOGIxKl8BUHri02yFtYOvt80dAyfsTVAvopZx8JlCvvNTo4t2euiO/
-	A4tooIyGjqDXPwyVNaWwVZb5XHNOgnsQw3pbI5cm9F+UTZm67M4dPZAnWqu2pcLWQt8J
-	a+VHArE4cB2PMjP6zhtLvAWyf6Fmpc/HRiJSv6zdYGXGQRaTsV625lW/S4yANa+M6bGU
-	MQeA==
-X-Gm-Message-State: ABUngvevvguA2Zu61nlpWWbf5LkRZu9y/p6u1wWRdo5bg14RmNT9RHf2xAO1lDB0ag5iyET1Ae+p6tL5uGazjmNG
-X-Received: by 10.55.75.17 with SMTP id y17mr7777990qka.26.1478809518629; Thu,
-	10 Nov 2016 12:25:18 -0800 (PST)
+	bh=g2pYarRe1hZe1mqcgnBUJpiuugyoaBODOTuwhdt6E4c=;
+	b=J2kHjR8069OKKOmKpSv52n646D6kt8l07BceNeV6WIbmx/aZ59O+0bzyOS0NdY6x62
+	NuESgMabR8vSg74zPkzDmsHCRlUnOuWcvxQcBXwRKXUFnWSGw4KvT7m/4vMq/q/97/+J
+	SfBrWaufi4mESUzb6ZprCVvstqj7kGNy42oVluKo5YK7rb41oTkGGkXZw2uzs+01WxYn
+	VU1sTykHZxui0nA5xLZxAzyiQ6naEpmw1vJwo7MIu1C9PcQuXnhvN4X2nbXLzmze1ufD
+	eYUZMkzGqSwT1iv9xLVEZ+H2TTuCC1o+kfJc4AZjzMrffFW0e1h+6p0twjCMMlYkfIGd
+	wl/Q==
+X-Gm-Message-State: ABUngvdpIsjUtsrid76ZcnSS96BG+Cbx7v4gBHCLNgbkGyxNBGiLEI15lpf3bSB44iyo3z8ZoZyKcMyMtvQwWQ==
+X-Received: by 10.194.231.8 with SMTP id tc8mr5900140wjc.193.1478810033930;
+	Thu, 10 Nov 2016 12:33:53 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.140.85.136 with HTTP; Thu, 10 Nov 2016 12:24:58 -0800 (PST)
-In-Reply-To: <7e997c0b-1fe2-5881-f977-48b180b36545@imgtec.com>
-References: <20161108171235.41837-1-Zubair.Kakakhel@imgtec.com>
-	<20161108171235.41837-13-Zubair.Kakakhel@imgtec.com>
-	<CAJTo0LZTHPYsot=YkNGXh=p2AP37X89JqW2xMgdYjanftpDxxQ@mail.gmail.com>
-	<5ac79668-0555-5329-e9d3-048ee217d3ff@gmail.com>
-	<7e997c0b-1fe2-5881-f977-48b180b36545@imgtec.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 10 Nov 2016 20:24:58 +0000
-Message-ID: <CAJTo0LY1uX9pUDiVNnPBzT2L-XCe8C04G4Q6itde5R9Ehm9WXA@mail.gmail.com>
-To: Zubair Lutfullah Kakakhel <Zubair.Kakakhel@imgtec.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [Patch v2 12/14] ltp: Reduce duplication in MIPS variants.
+Received: by 10.28.15.9 with HTTP; Thu, 10 Nov 2016 12:33:33 -0800 (PST)
+In-Reply-To: <CAJTo0LbKYTd9SRZgHHHyuF0Wt+7AqYdLcweUTO78ROgYsG9VYA@mail.gmail.com>
+References: <cover.1478779674.git.maciej.borzecki@rndity.com>
+	<504135c9082216ff89af282dfcb686a50b22f578.1478779674.git.maciej.borzecki@rndity.com>
+	<CAJTo0LbKYTd9SRZgHHHyuF0Wt+7AqYdLcweUTO78ROgYsG9VYA@mail.gmail.com>
+From: =?UTF-8?Q?Maciej_Borz=C4=99cki?= <maciej.borzecki@rndity.com>
+Date: Thu, 10 Nov 2016 21:33:33 +0100
+Message-ID: <CAD4b0_KMU9ba8-EhtLOLqnp1XGLGryKGLVfYZUQVjaZgeSZsKg@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
+	Maciej Borzecki <maciek.borzecki@gmail.com>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2 08/10] wic: selftest: do not repeat core-image-minimal
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,38 +56,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 10 Nov 2016 20:25:19 -0000
-Content-Type: multipart/alternative; boundary=001a114a88c80c7b570540f82ca3
-
---001a114a88c80c7b570540f82ca3
+X-List-Received-Date: Thu, 10 Nov 2016 20:33:54 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On 10 November 2016 at 11:37, Zubair Lutfullah Kakakhel <
-Zubair.Kakakhel@imgtec.com> wrote:
-
-> I can't seem to be able to reproduce this error using just my patches on
-> top of poky master.
+On Thu, Nov 10, 2016 at 9:15 PM, Burton, Ross <ross.burton@intel.com> wrote:
+>
+> On 10 November 2016 at 12:18, Maciej Borzecki <maciej.borzecki@rndity.com>
+> wrote:
+>>
+>>      def test_qemux86_directdisk(self):
+>>          """Test creation of qemux-86-directdisk image"""
+>>          image = "qemux86-directdisk"
+>> -        self.assertEqual(0, runCmd("wic create %s -e core-image-minimal"
+>> \
+>> -                                   % image).status)
+>> +        wic_cmd_vars = {
+>> +            'wks': image,
+>> +            'image': self.OE_IMAGE,
+>> +        }
+>> +        self.assertEqual(0, runCmd("wic create %(wks)s -e %(image)s" \
+>> +                                   % wic_cmd_vars).status)
+>
+>
+> Is it just me who thinks that this is more understandable then?
+>
+> def test_qemux86_directdisk(self):
+>   self.assertEqual(0, runCmd("wic create qemux86-directdisk -e
+> core-image-minimal").status)
+>   self.assertEqual(1, len(glob(os.path.join(self.resultdir,
+> "core-image-minimal-*direct"))))
+>
+> Not my test case so just an opinion :)
 >
 
-Yeah me neither.  I love it when the autobuilder does this.  I'll throw it
-back into the mix and see what happens.
+Now that I look at this patch, I probably might have overdone it a little. Let's
+wait and see what Ed thinks about this change. I suppose there might be a need
+for v3 of this series, in which case I'll just drop this patch and rebase the
+remaining patches.
 
-Ross
+Cheers,
+-- 
+Maciej Borzecki
+RnDity
 
---001a114a88c80c7b570540f82ca3
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 10 November 2016 at 11:37, Zubair Lutfullah Kakakhel <span dir=3D"ltr">&=
-lt;<a href=3D"mailto:Zubair.Kakakhel@imgtec.com" target=3D"_blank">Zubair.K=
-akakhel@imgtec.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quot=
-e" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">=
-<div id=3D":6hf" class=3D"a3s aXjCH m1584e076e59188ca">I can&#39;t seem to =
-be able to reproduce this error using just my patches on top of poky master=
-.<br></div></blockquote></div><br>Yeah me neither.=C2=A0 I love it when the=
- autobuilder does this.=C2=A0 I&#39;ll throw it back into the mix and see w=
-hat happens.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_=
-extra">Ross</div></div>
-
---001a114a88c80c7b570540f82ca3--
