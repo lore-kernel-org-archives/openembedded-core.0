@@ -1,38 +1,29 @@
-Return-Path: <andre.draszik@gmail.com>
-Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 0EBAE606D0
+Return-Path: <Zubair.Kakakhel@imgtec.com>
+Received: from mailapp01.imgtec.com (mailapp01.imgtec.com [195.59.15.196])
+	by mail.openembedded.org (Postfix) with ESMTP id EA890719D0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Nov 2016 10:47:01 +0000 (UTC)
-Received: by mail-wm0-f67.google.com with SMTP id u144so2280122wmu.0
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Nov 2016 02:47:03 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=cctPGnvPg5o7XLvgkPFEnn1Lr87CLulTe92hGa26XV4=;
-	b=jUkM9kgeM/ovvKATzWRYZZSJdL/9ImckKQWZfqJ7ajETwgC881i3UJdA0YYXgFz+Ol
-	vvaUq81IJEURHXzufegUxh0JDWhmx5y8uewphbxYvY782D8ugLPLGe1nGnpEVHF/2V3x
-	7Um3b4EVhcX9jBLK2NkJoTnTD/K+FE9vMHNcYRHJrmr5KHT6cgZJGDJEol2uJizkOHn3
-	XASJRzPDB3GNyNB/OFL11wawR9elxaUlKr3OYhGv+HK/KIH5+++9fiW5vGEXYebwqfWJ
-	K4INJgmJvwtMu9shRbh/7qg4x7ncMoT+zG00dL9J8mydDCuiVwzMlhC68UQbdoJhguzE
-	Kyvw==
-X-Gm-Message-State: ABUngvcnHgMiirZgCScuAR6IOppWwJE3xDsNWwQBe1D6DD5g2Ztopne6l6gkkRGhiEuCIw==
-X-Received: by 10.194.141.11 with SMTP id rk11mr4264797wjb.198.1478774822656; 
-	Thu, 10 Nov 2016 02:47:02 -0800 (PST)
-Received: from tfsielt31850.tycofs.com ([77.107.218.170])
-	by smtp.gmail.com with ESMTPSA id
-	c202sm20839728wme.1.2016.11.10.02.47.01
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 10 Nov 2016 02:47:01 -0800 (PST)
-From: =?UTF-8?q?Andr=C3=A9=20Draszik?= <git@andred.net>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 10 Nov 2016 10:47:01 +0000
-Message-Id: <20161110104701.23097-1-git@andred.net>
-X-Mailer: git-send-email 2.10.2
+	Thu, 10 Nov 2016 11:37:30 +0000 (UTC)
+Received: from HHMAIL01.hh.imgtec.org (unknown [10.100.10.19])
+	by Forcepoint Email with ESMTPS id 2781E98AD885F;
+	Thu, 10 Nov 2016 11:37:28 +0000 (GMT)
+Received: from zkakakhel-linux.le.imgtec.org (192.168.154.45) by
+	HHMAIL01.hh.imgtec.org (10.100.10.21) with Microsoft SMTP Server (TLS)
+	id 14.3.294.0; Thu, 10 Nov 2016 11:37:30 +0000
+To: Khem Raj <raj.khem@gmail.com>, "Burton, Ross" <ross.burton@intel.com>
+References: <20161108171235.41837-1-Zubair.Kakakhel@imgtec.com>
+	<20161108171235.41837-13-Zubair.Kakakhel@imgtec.com>
+	<CAJTo0LZTHPYsot=YkNGXh=p2AP37X89JqW2xMgdYjanftpDxxQ@mail.gmail.com>
+	<5ac79668-0555-5329-e9d3-048ee217d3ff@gmail.com>
+From: Zubair Lutfullah Kakakhel <Zubair.Kakakhel@imgtec.com>
+Message-ID: <7e997c0b-1fe2-5881-f977-48b180b36545@imgtec.com>
+Date: Thu, 10 Nov 2016 11:37:29 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.2.0
 MIME-Version: 1.0
-Subject: [PATCH] sysvinit-inittab: make TERM=vt102 on serial consoles
+In-Reply-To: <5ac79668-0555-5329-e9d3-048ee217d3ff@gmail.com>
+X-Originating-IP: [192.168.154.45]
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [Patch v2 12/14] ltp: Reduce duplication in MIPS variants.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,51 +36,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 10 Nov 2016 10:47:02 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 10 Nov 2016 11:37:31 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-From: André Draszik <adraszik@tycoint.com>
+Hi,
 
-This makes more sense than the default TERM=linux (as set
-by the linux kernel).
-In addition, when using busybox init, it tries to achieve
-the same (in a different way).
+On 11/09/2016 12:46 AM, Khem Raj wrote:
+>
+>
+> On 11/8/16 4:13 PM, Burton, Ross wrote:
+>>
+>> On 8 November 2016 at 17:12, Zubair Lutfullah Kakakhel
+>> <Zubair.Kakakhel@imgtec.com <mailto:Zubair.Kakakhel@imgtec.com>> wrote:
+>>
+>>     Reduce duplication in MIPS variants now that the MACHINEOVERRIDES
+>>     variable is defined
+>>
+>>
+>> I'm guessing that this is the cause of this error for qemumips64:
+>>
+>> http://errors.yoctoproject.org/Errors/Details/99744/
+>
+> seems to be yes.
 
-Both agetty, and busybox getty support the terminal type as
-the last argument.
+I can't seem to be able to reproduce this error using just my patches on top of poky master.
 
-Signed-off-by: André Draszik <adraszik@tycoint.com>
----
- meta/recipes-core/sysvinit/sysvinit-inittab/start_getty | 2 +-
- meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb  | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+Regards,
+ZubairLK
 
-diff --git a/meta/recipes-core/sysvinit/sysvinit-inittab/start_getty b/meta/recipes-core/sysvinit/sysvinit-inittab/start_getty
-index 6eaeb7a..e3d052a 100644
---- a/meta/recipes-core/sysvinit/sysvinit-inittab/start_getty
-+++ b/meta/recipes-core/sysvinit/sysvinit-inittab/start_getty
-@@ -1,5 +1,5 @@
- #!/bin/sh
- if [ -c /dev/$2 ]
- then 
--	/sbin/getty -L $1 $2
-+	/sbin/getty -L $1 $2 $3
- fi
-diff --git a/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb b/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
-index f136ad8..c219cbf 100644
---- a/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
-+++ b/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
-@@ -28,7 +28,7 @@ do_install() {
- 	j=`echo ${i} | sed s/\;/\ /g`
- 	l=`echo ${i} | sed -e 's/tty//' -e 's/^.*;//' -e 's/;.*//'`
- 	label=`echo $l | sed 's/.*\(....\)/\1/'`
--	echo "$label:12345:respawn:${base_bindir}/start_getty ${j}" >> ${D}${sysconfdir}/inittab
-+	echo "$label:12345:respawn:${base_bindir}/start_getty ${j} vt102" >> ${D}${sysconfdir}/inittab
-     done
- 
-     if [ "${USE_VT}" = "1" ]; then
--- 
-2.10.2
-
+>
+>>
+>> Ross
+>>
+>>
+>
 
