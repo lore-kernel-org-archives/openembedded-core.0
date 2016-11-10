@@ -1,25 +1,25 @@
 Return-Path: <paul.eggleton@linux.intel.com>
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 25C7060720
+	by mail.openembedded.org (Postfix) with ESMTP id ACAF960720
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Nov 2016 01:45:52 +0000 (UTC)
+	Thu, 10 Nov 2016 01:45:54 +0000 (UTC)
 Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-	by fmsmga101.fm.intel.com with ESMTP; 09 Nov 2016 17:45:54 -0800
+	by fmsmga101.fm.intel.com with ESMTP; 09 Nov 2016 17:45:56 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.31,616,1473145200"; d="scan'208";a="189697346"
+X-IronPort-AV: E=Sophos;i="5.31,616,1473145200"; d="scan'208";a="189697357"
 Received: from yspay-mobl1.gar.corp.intel.com (HELO
 	peggleto-mobl.ger.corp.intel.com) ([10.255.158.149])
-	by fmsmga004.fm.intel.com with ESMTP; 09 Nov 2016 17:45:51 -0800
+	by fmsmga004.fm.intel.com with ESMTP; 09 Nov 2016 17:45:54 -0800
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 10 Nov 2016 14:45:15 +1300
-Message-Id: <c1c3e70a313f37eacbeef1180d70af0e3ca52ac8.1478742229.git.paul.eggleton@linux.intel.com>
+Date: Thu, 10 Nov 2016 14:45:16 +1300
+Message-Id: <09407cc6b7d5b3b7bd269d7a1e774bed593e8eb8.1478742229.git.paul.eggleton@linux.intel.com>
 X-Mailer: git-send-email 2.5.5
 In-Reply-To: <cover.1478742229.git.paul.eggleton@linux.intel.com>
 References: <cover.1478742229.git.paul.eggleton@linux.intel.com>
 In-Reply-To: <cover.1478742229.git.paul.eggleton@linux.intel.com>
 References: <cover.1478742229.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 2/7] oe-selftest: devtool: test update-recipe with only local files
+Subject: [PATCH 3/7] lib/oe/patch: fix handling of patches with no header
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,80 +32,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 10 Nov 2016 01:45:52 -0000
+X-List-Received-Date: Thu, 10 Nov 2016 01:45:54 -0000
 
-Add a test to ensure devtool update-recipe works properly on recipes
-that contain only local files (since the other tests we have didn't test
-that).
+If a patch applied by a recipe has no header and we turn the recipe's
+source into a git tree (when PATCHTOOL = "git" or when using devtool
+extract / modify / upgrade), the commit message ends up consisting only
+of the original filename marker ("%% original patch: filename.patch").
+When we come to do turn the commits back into a set of patches in
+extractPatches(), this first line ends up in the "Subject: " part of
+the file, but we were ignoring it because the line didn't start with the
+marker text. The end result was we weren't able to get the original
+patch name. Strip off any "Subject [PATCH x/y]" part before looking for
+the marker text to fix.
 
-Relates to [YOCTO #10563].
+This caused "devtool modify openssl" followed by "devtool update-recipe
+openssl" (without any changes in-between) to remove version-script.patch
+because that patch has no header and we weren't able to determine the
+original filename.
 
 Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
 ---
- .../recipes-test/devtool/devtool-test-localonly.bb     |  6 ++++++
- .../recipes-test/devtool/devtool-test-localonly/file1  |  1 +
- .../recipes-test/devtool/devtool-test-localonly/file2  |  1 +
- meta/lib/oeqa/selftest/devtool.py                      | 18 ++++++++++++++++++
- 4 files changed, 26 insertions(+)
- create mode 100644 meta-selftest/recipes-test/devtool/devtool-test-localonly.bb
- create mode 100644 meta-selftest/recipes-test/devtool/devtool-test-localonly/file1
- create mode 100644 meta-selftest/recipes-test/devtool/devtool-test-localonly/file2
+ meta/lib/oe/patch.py | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
-diff --git a/meta-selftest/recipes-test/devtool/devtool-test-localonly.bb b/meta-selftest/recipes-test/devtool/devtool-test-localonly.bb
-new file mode 100644
-index 0000000..28ff49e
---- /dev/null
-+++ b/meta-selftest/recipes-test/devtool/devtool-test-localonly.bb
-@@ -0,0 +1,6 @@
-+LICENSE = "CLOSED"
-+INHIBIT_DEFAULT_DEPS = "1"
-+
-+SRC_URI = "file://file1 \
-+           file://file2"
-+
-diff --git a/meta-selftest/recipes-test/devtool/devtool-test-localonly/file1 b/meta-selftest/recipes-test/devtool/devtool-test-localonly/file1
-new file mode 100644
-index 0000000..f4bdcfc
---- /dev/null
-+++ b/meta-selftest/recipes-test/devtool/devtool-test-localonly/file1
-@@ -0,0 +1 @@
-+The first file
-diff --git a/meta-selftest/recipes-test/devtool/devtool-test-localonly/file2 b/meta-selftest/recipes-test/devtool/devtool-test-localonly/file2
-new file mode 100644
-index 0000000..a7e2414
---- /dev/null
-+++ b/meta-selftest/recipes-test/devtool/devtool-test-localonly/file2
-@@ -0,0 +1 @@
-+The second file
-diff --git a/meta/lib/oeqa/selftest/devtool.py b/meta/lib/oeqa/selftest/devtool.py
-index 46f5a0b..f6226c1 100644
---- a/meta/lib/oeqa/selftest/devtool.py
-+++ b/meta/lib/oeqa/selftest/devtool.py
-@@ -930,6 +930,24 @@ class DevtoolTests(DevtoolBase):
-                            ('??', '.*/0001-Add-new-file.patch$')]
-         self._check_repo_status(os.path.dirname(recipefile), expected_status)
- 
-+    def test_devtool_update_recipe_local_files_3(self):
-+        # First, modify the recipe
-+        testrecipe = 'devtool-test-localonly'
-+        recipefile = get_bb_var('FILE', testrecipe)
-+        src_uri = get_bb_var('SRC_URI', testrecipe)
-+        tempdir = tempfile.mkdtemp(prefix='devtoolqa')
-+        self.track_for_cleanup(tempdir)
-+        self.track_for_cleanup(self.workspacedir)
-+        self.add_command_to_tearDown('bitbake-layers remove-layer */workspace')
-+        # (don't bother with cleaning the recipe on teardown, we won't be building it)
-+        result = runCmd('devtool modify %s' % testrecipe)
-+        # Modify one file
-+        runCmd('echo "Another line" >> file2', cwd=os.path.join(self.workspacedir, 'sources', testrecipe, 'oe-local-files'))
-+        self.add_command_to_tearDown('cd %s; rm %s/*; git checkout %s %s' % (os.path.dirname(recipefile), testrecipe, testrecipe, os.path.basename(recipefile)))
-+        result = runCmd('devtool update-recipe %s' % testrecipe)
-+        expected_status = [(' M', '.*/%s/file2$' % testrecipe)]
-+        self._check_repo_status(os.path.dirname(recipefile), expected_status)
-+
-     @testcase(1163)
-     def test_devtool_extract(self):
-         tempdir = tempfile.mkdtemp(prefix='devtoolqa')
+diff --git a/meta/lib/oe/patch.py b/meta/lib/oe/patch.py
+index 0332f10..dbefd28 100644
+--- a/meta/lib/oe/patch.py
++++ b/meta/lib/oe/patch.py
+@@ -428,6 +428,7 @@ class GitApplyTree(PatchTree):
+     def extractPatches(tree, startcommit, outdir, paths=None):
+         import tempfile
+         import shutil
++        import re
+         tempdir = tempfile.mkdtemp(prefix='oepatch')
+         try:
+             shellcmd = ["git", "format-patch", startcommit, "-o", tempdir]
+@@ -443,10 +444,13 @@ class GitApplyTree(PatchTree):
+                         try:
+                             with open(srcfile, 'r', encoding=encoding) as f:
+                                 for line in f:
+-                                    if line.startswith(GitApplyTree.patch_line_prefix):
++                                    checkline = line
++                                    if checkline.startswith('Subject: '):
++                                        checkline = re.sub(r'\[.+?\]\s*', '', checkline[9:])
++                                    if checkline.startswith(GitApplyTree.patch_line_prefix):
+                                         outfile = line.split()[-1].strip()
+                                         continue
+-                                    if line.startswith(GitApplyTree.ignore_commit_prefix):
++                                    if checkline.startswith(GitApplyTree.ignore_commit_prefix):
+                                         continue
+                                     patchlines.append(line)
+                         except UnicodeDecodeError:
 -- 
 2.5.5
 
