@@ -1,55 +1,49 @@
-Return-Path: <patrick.ohly@intel.com>
-Received: from mail-it0-f52.google.com (mail-it0-f52.google.com
-	[209.85.214.52])
-	by mail.openembedded.org (Postfix) with ESMTP id 438BA6FEF3
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qk0-f171.google.com (mail-qk0-f171.google.com
+	[209.85.220.171])
+	by mail.openembedded.org (Postfix) with ESMTP id D9B68719F2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Nov 2016 19:39:05 +0000 (UTC)
-Received: by mail-it0-f52.google.com with SMTP id e187so282186981itc.0
+	Thu, 10 Nov 2016 20:05:32 +0000 (UTC)
+Received: by mail-qk0-f171.google.com with SMTP id x190so308701582qkb.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Nov 2016 11:39:07 -0800 (PST)
+	Thu, 10 Nov 2016 12:05:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:organization:mime-version:content-transfer-encoding;
-	bh=Kl8Zinw/oeTNZ/Q4zOnS9gyPsNMr3EezJ6HT68l6vd8=;
-	b=sUzxsTc6r8pgtHtdCQsqRs/3D0l7lwjY49HAIciXo/ES+DLmsvmREs3WbKUJctYAmM
-	fPdhUfLi0GPJ5kpmoOzkZpEPXdXA3v5hP/VLBj8kTPnYV14TB1SR35Wn8AwM+w3+0BUl
-	x+wGDe0PhV4Md3C/gFvILI0InmUGHzeoP8S6DP1S9akzMDqfxUj4+hV5jpqEIGY7T7I5
-	lOXG5wiFjiGJysDjMlI8ZIem/i93CXr03FowoGRs9zc84Ng97Gl4D3rnRL9tD0JrJ27Z
-	RWJbRz/G5YA4UJdhfBIXNXpRgi9LPTUfDzqXcPnfdWFxy34qrjbUWBT0sYi1II4P+NYQ
-	oggw==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=dsf58Jbyrmo4EDtK0pPMmNpdr+sXXu0T7e4QRequo9s=;
+	b=w+55Mx+q7A7Plb4ijLnhn4/a+4YueVjLmvNwmTkWZTlzQk6/wy9Iay16mVq8rtgMJn
+	MT4jeRUoe0qSOyhaiTbbn/q6x0sNLy58mplDUOPmmdkWAwYcDmftdEr2M8DHCXYhOMkW
+	I2RkyFNfDWsRThEbAvWLk9n/PJjfp7KM/dvdzKmhiXjexSGm4Euw1AdLGyHrqBF9hW6q
+	yWtEH+MsI+o50PXKWgBwlzcW7qq0Ch3WhnVMe9iZOiQVeEgtqhF5FxxqoAYIzzSxpVUg
+	oZCmn7R22GmKQN/HZFCzFxfECwOiyvBdKK5UaBLzJFzjskig17o1o60QybiVodyIwjOy
+	/32A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:organization:mime-version:content-transfer-encoding;
-	bh=Kl8Zinw/oeTNZ/Q4zOnS9gyPsNMr3EezJ6HT68l6vd8=;
-	b=Wq2xlbQ+d+b1YYKSL3vNAmGB3wF2zqsbABBtw6D48Pixv3L7Twdzhe31ZSx7Qo0Lk8
-	XO77Z7Px005XBUCWrPHFWpeqT/2ae19yKwTemu3nCocJErxKqBZO2sFn3Z0Ns5vNwXk3
-	PoJHG0bXmmIMbgbAOnfgb8IgSI4l2Atgso7KNlWSUyLjjjxgvzB8vTYuunEkPJzFrpt/
-	zBRTwXe/FqAdAMDq7tJ9EYnlqIPcHXHUInfqgrz+r4rU7srO3/wR1xST7OVuXRGdhffE
-	F8oEDUMz8BOCPg2P6ocTSWv7RUZ1h2QVyIv/Zrxi+8L14Qw8lx4fkekYwTG1/3KsxOuK
-	UlNg==
-X-Gm-Message-State: ABUngvcwUfcoKnPQiJJWyT4F0jSKeU56Olemdh0C2vI9nSf6nCQ93RDd4FTsrGz/3YQdDBvf
-X-Received: by 10.36.233.66 with SMTP id f63mr14403653ith.55.1478806743851;
-	Thu, 10 Nov 2016 11:39:03 -0800 (PST)
-Received: from pohly-mobl1 (p5DE8C632.dip0.t-ipconnect.de. [93.232.198.50])
-	by smtp.gmail.com with ESMTPSA id
-	u19sm2520897iou.31.2016.11.10.11.39.01
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 10 Nov 2016 11:39:02 -0800 (PST)
-Message-ID: <1478806739.3449.82.camel@intel.com>
-From: Patrick Ohly <patrick.ohly@intel.com>
-To: Jianxun Zhang <jianxun.zhang@linux.intel.com>
-Date: Thu, 10 Nov 2016 20:38:59 +0100
-In-Reply-To: <1478800392.3449.79.camel@intel.com>
-References: <1476389794-109684-1-git-send-email-jianxun.zhang@linux.intel.com>
-	<1478800392.3449.79.camel@intel.com>
-Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
-X-Mailer: Evolution 3.12.9-1+b1 
-Mime-Version: 1.0
-Cc: Olev Kartau <olev.kartau@intel.com>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH V2] sqlite3: Revert ad601c7962 from 3.14.1 amalgamation package
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=dsf58Jbyrmo4EDtK0pPMmNpdr+sXXu0T7e4QRequo9s=;
+	b=d3ysF7uXYjmVm6Z3EkwucLeSi5AXHC5h8XuuwSouxS1hAfZ8ZNSeUFuDVWmbyyMBhY
+	bss3lOMQwMek8j6odiqn690oGUjeG3piJtzRbqCRIUPhkLVbzw+1jyNgZ1XTurRg/Lll
+	uKNEY0EXfmLe5wdnb4mGP5HwGVAyCeEtcYv/hI142d8ukzRqwLPW1atEJqF3GxnUI9pa
+	fvLdsXvho2yN+J7R9Ah4ZH5bc7bIiilV4luPu+eEoK7kuNa5XeeV3nHO51Fj44IxORw1
+	cHgU6OEfkP8cNb8yXwx8trNRnEz7PTCAmNbtTQr1n4Bx+oF7IjaepXYZvgeZcLF8FQd7
+	2qwQ==
+X-Gm-Message-State: ABUngvfx5RBwLd9g5h+wEfHKa2f5R8zQIBSnFuoYmIhUqNMRLE8czNrN8zrRdX6zKh8Z/ylBdGv1M09jcYyJdY4p
+X-Received: by 10.55.5.145 with SMTP id 139mr7709940qkf.77.1478808333269; Thu,
+	10 Nov 2016 12:05:33 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.140.85.136 with HTTP; Thu, 10 Nov 2016 12:05:12 -0800 (PST)
+In-Reply-To: <cdfe7f669ad98f3d36c074e847e9ecd29eeab86b.1478779674.git.maciej.borzecki@rndity.com>
+References: <cover.1478779674.git.maciej.borzecki@rndity.com>
+	<cdfe7f669ad98f3d36c074e847e9ecd29eeab86b.1478779674.git.maciej.borzecki@rndity.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 10 Nov 2016 20:05:12 +0000
+Message-ID: <CAJTo0LbnJydYvd8a7e_AXM-h3v7pHB0S_EQUsZyBFu=mS7_L1g@mail.gmail.com>
+To: Maciej Borzecki <maciej.borzecki@rndity.com>
+Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
+	Maciej Borzecki <maciek.borzecki@gmail.com>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2 06/10] oe-selftest: fix handling of test cases without ID in --list-tests-by
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,40 +56,85 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 10 Nov 2016 19:39:06 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 10 Nov 2016 20:05:33 -0000
+Content-Type: multipart/alternative; boundary=001a114c8f846556f10540f7e550
 
-On Thu, 2016-11-10 at 18:53 +0100, Patrick Ohly wrote:
-> On Thu, 2016-10-13 at 13:16 -0700, Jianxun Zhang wrote:
-> > It turns out this change between 3.12.2 and 3.13 introduces
-> > a 2% increase of build time based on statistic data in
-> > bz10367.
-> 
-> Let me add that this patch increased build performance in Ostro even
-> more: apparently one big impact of the sqlite performance issue is on
-> pseudo. Ostro depends fairly heavily on pseudo because of meta-swupd and
-> xattrs on all files.
-> 
-> When this patch and others recently landed in Ostro, total build times
-> dropped from 4:46h (build #508,
-> https://ostroproject.org/jenkins/job/build_intel-corei7-64/2763/console)
-> to 2:07h (build #510,
-> https://ostroproject.org/jenkins/job/build_intel-corei7-64/2831/console).
+--001a114c8f846556f10540f7e550
+Content-Type: text/plain; charset=UTF-8
 
-In case that someone wonders: in addition to that enhancement, we can
-still do even better by also reducing the work that meta-swupd causes. A
-build with my recent meta-swupd enhancements takes the build time down
-to 1:05h.
+On 10 November 2016 at 12:18, Maciej Borzecki <maciej.borzecki@rndity.com>
+wrote:
 
--- 
-Best Regards, Patrick Ohly
+> -    ts = sorted([ (tc.tcid, tc.tctag, tc.tcname, tc.tcclass, tc.tcmodule)
+> for tc in get_testsuite_by(criteria, keyword) ])
+> -
+> -    print('%-4s\t%-20s\t%-60s\t%-25s\t%-20s' % ('id', 'tag', 'name',
+> 'class', 'module'))
+> +    def tc_key(t):
+> +        if t[0] is None:
+> +            return  (0,) + t[1:]
+> +        return t
+> +    # tcid may be None if no ID was assigned, in which case sorted() will
+> throw
+> +    # a TypeError as Python 3 does not allow comparison (<,<=,>=,>) of
+> +    # heterogeneous types, handle this by using a custom key generator
+> +    ts = sorted([ (tc.tcid, tc.tctag, tc.tcname, tc.tcclass, tc.tcmodule)
+> \
+> +                  for tc in get_testsuite_by(criteria, keyword) ],
+> key=tc_key)
+>
 
-The content of this message is my personal opinion only and although
-I am an employee of Intel, the statements I make here in no way
-represent Intel's position on the issue, nor am I authorized to speak
-on behalf of Intel on this matter.
+Wouldn't a shorter (but untested!) form alternative be just?
 
+-    ts = sorted([ (tc.tcid, tc.tctag, tc.tcname, tc.tcclass, tc.tcmodule)
+for tc in get_testsuite_by(criteria, keyword) ])
++    ts = sorted([ (tc.tcid or 0, tc.tctag, tc.tcname, tc.tcclass,
+tc.tcmodule) for tc in get_testsuite_by(criteria, keyword) ])
 
+Ross
 
+--001a114c8f846556f10540f7e550
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 10 November 2016 at 12:18, Maciej Borzecki <span dir=3D"ltr">&lt;<a href=
+=3D"mailto:maciej.borzecki@rndity.com" target=3D"_blank">maciej.borzecki@rn=
+dity.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=
+=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-color:rgb(20=
+4,204,204);border-left-style:solid;padding-left:1ex"><div id=3D"gmail-:37c"=
+ class=3D"gmail-a3s gmail-aXjCH gmail-m1584e36ab07531d6">-=C2=A0 =C2=A0 ts =
+=3D sorted([ (tc.tcid, tc.tctag, tc.tcname, tc.tcclass, tc.tcmodule) for tc=
+ in get_testsuite_by(criteria, keyword) ])<br>
+-<br>
+-=C2=A0 =C2=A0 print(&#39;%-4s\t%-20s\t%-60s\t%-<wbr>25s\t%-20s&#39; % (&#3=
+9;id&#39;, &#39;tag&#39;, &#39;name&#39;, &#39;class&#39;, &#39;module&#39;=
+))<br>
++=C2=A0 =C2=A0 def tc_key(t):<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if t[0] is None:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return=C2=A0 (0,) + t[1:]<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 return t<br>
++=C2=A0 =C2=A0 # tcid may be None if no ID was assigned, in which case sort=
+ed() will throw<br>
++=C2=A0 =C2=A0 # a TypeError as Python 3 does not allow comparison (&lt;,&l=
+t;=3D,&gt;=3D,&gt;) of<br>
++=C2=A0 =C2=A0 # heterogeneous types, handle this by using a custom key gen=
+erator<br>
++=C2=A0 =C2=A0 ts =3D sorted([ (tc.tcid, tc.tctag, tc.tcname, tc.tcclass, t=
+c.tcmodule) \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 for tc in g=
+et_testsuite_by(criteria, keyword) ], key=3Dtc_key)</div></blockquote></div=
+><br>Wouldn&#39;t a shorter (but untested!) form alternative be just?</div>=
+<div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra"><span style=
+=3D"font-size:12.800000190734863px">-=C2=A0 =C2=A0 ts =3D sorted([ (tc.tcid=
+, tc.tctag, tc.tcname, tc.tcclass, tc.tcmodule) for tc in get_testsuite_by(=
+criteria, keyword) ])</span><br style=3D"font-size:12.800000190734863px"></=
+div><div class=3D"gmail_extra"><span style=3D"font-size:12.800000190734863p=
+x">+ =C2=A0 =C2=A0ts =3D sorted([ (tc.tcid or 0, tc.tctag, tc.tcname, tc.tc=
+class, tc.tcmodule) for tc in get_testsuite_by(criteria, keyword) ])</span>=
+<br style=3D"font-size:12.800000190734863px"></div><div class=3D"gmail_extr=
+a"><span style=3D"font-size:12.800000190734863px"><br></span></div><div cla=
+ss=3D"gmail_extra"><span style=3D"font-size:12.800000190734863px">Ross</spa=
+n></div></div>
+
+--001a114c8f846556f10540f7e550--
