@@ -1,50 +1,50 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
-	by mail.openembedded.org (Postfix) with ESMTP id C66A6719A2
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pf0-f193.google.com (mail-pf0-f193.google.com
+	[209.85.192.193])
+	by mail.openembedded.org (Postfix) with ESMTP id C5D86719C8
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  9 Nov 2016 23:42:29 +0000 (UTC)
-Received: by mail-wm0-f67.google.com with SMTP id c17so32213428wmc.3
+	Thu, 10 Nov 2016 00:39:42 +0000 (UTC)
+Received: by mail-pf0-f193.google.com with SMTP id y68so1941153pfb.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 09 Nov 2016 15:42:31 -0800 (PST)
+	Wed, 09 Nov 2016 16:39:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=upv7UjJE8gZatlwMbRsYaC7g0bQdHYsLAAN0+tzcxiw=;
-	b=IPNLUn6YhkzJsCFW8Zau0h/WaIgy6u0eeWj1lCJ5l3FdBJ6lYV4NDHSN0y5h3HH8UG
-	dEll9Av728SlxfEto9aAgdyeH8jr5Zm7Gn+KVNQ4cXjv8smPJl9+Tbg7LA1ndYziP7mC
-	oCCWvgD+LkHq2N23+7AxAWjO0z46nP8q3Jz8p4bY1sL2pSdn4TS6VPRsYE4m0xFcRUko
-	QeJdhRceQtVyp421VW6sCKfmcWPcRD68MIkCuBpWVn9BSInqDcaD88xrwfiejmuCN0L1
-	79H8VlrL0x134UnTVV7iPRbVrL7lALcVh5wAbLom3ZM16M3volYUlMflEsTzPWicUASh
-	XRuA==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references
+	:mime-version:content-transfer-encoding;
+	bh=gcEPOn4TkgbsrlSFg7ZCnOWnnJQIiLWVuhiO0IPYK10=;
+	b=iUCsh2Jfp9ph621/lCcVHTjgPRyeP7RHk0ozP9aXe9gtNnwDyizAvoK/idVYy8U+hv
+	A6l/iMlJGI1WGs12eSFbxZsW4fDCUEb/8FWvppR1RTCkRgQ/NtW+ST+N6OT3D4l91qUB
+	5uBlYV4BN4lM8xAZdP5BVM/u0GwFQwDnvu1NnrrmkjHvoS+dH4l9YSNbipDvij7OIHy2
+	38GFAYtF7ejBLAn9QBKGBaRkXmGKzQUmS/xaFhmH8C8adV3MgCsttKMN3NgUhI5oQk4p
+	rM/WiERUTvN095P1XY9kb2hW07udZg+m1f+MTXdA0mKMtjILurNXcElSGIArU7qEA95e
+	wn5w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=upv7UjJE8gZatlwMbRsYaC7g0bQdHYsLAAN0+tzcxiw=;
-	b=i1WDgmE8aiH1w7IO1mUWyumXVzteZ7grvlFt1S/I2h0nFL2ErZxR9pr4ieLuvfajBv
-	NtpWpGEEpsNK/DMWjqVXwrgK39WuEDb7SgnCtNlHB8kdLhZrL9fhYU/XUfOHv//xihhn
-	Uv4sH0t6iGceFUkMqr1bEx/O188iz3ZUYIwfZU1EACxui58HLMBhQfU/tMkuic0ZybaU
-	tmtYnFZjJaqqkWSHsZkA40wBlNL5wBpEhPeVc6Huo9HZzy6O3/VYNusdFbLFrS0qxQZQ
-	+13y+ifAFvbBDBY36vaiNrI4ae3TEtfc+/fNaUawSTo8MFRSjn3Bz4xouVh6NPJWBzZZ
-	RKhw==
-X-Gm-Message-State: ABUngvdm5qn+3v1zV33OytzclVrFsCKp684g4sm+BS738rSDydqueTqeiiT9EuOqp/10J/FkDn0zI3eunT7aQQ==
-X-Received: by 10.195.30.165 with SMTP id kf5mr1809787wjd.41.1478734950508;
-	Wed, 09 Nov 2016 15:42:30 -0800 (PST)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=gcEPOn4TkgbsrlSFg7ZCnOWnnJQIiLWVuhiO0IPYK10=;
+	b=GbVYX6/v011tK0JKg6t2c+73M01rXEfpXkrHQc7Z7xsXM3NCQsDK8QQZoDaLImT1Is
+	fkv2mxVZa1MGDCqdEYqUNbfOeVdDL9HPa3Imk5wEYb4d8S780Cf3Tyt0v+ddZ5Iv43OY
+	0PFzYb3HTi0DLf90RbLevu4lZ0GhJBh6tg7orq1KlFUAZZzYIPlLwt8ytayHv0piJ4Xw
+	dKIkr2baEc9OPdWLRuPeoxO2kJiinkxe0cml8moAchREMtLfkD7IIcYP1OsPt5i1fGei
+	FGImWBkuxDvRXsOUuQFoN4hVk648AMSfOFkGkTjuRy8BhaU27XonCBncpAlzK1AWOBBk
+	2q1A==
+X-Gm-Message-State: ABUngvcDUZh1D621TwnvrHaCKg4MryEE7zQrjJ5UrNxnbgrXXr8FAEhE6OCRIpBnBd66yA==
+X-Received: by 10.99.114.73 with SMTP id c9mr19292120pgn.44.1478738383742;
+	Wed, 09 Nov 2016 16:39:43 -0800 (PST)
+Received: from localhost.localdomain (c-76-102-32-192.hsd1.ca.comcast.net.
+	[76.102.32.192]) by smtp.gmail.com with ESMTPSA id
+	ix3sm1959306pac.17.2016.11.09.16.39.43
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 09 Nov 2016 16:39:43 -0800 (PST)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  9 Nov 2016 16:39:35 -0800
+Message-Id: <20161110003935.1858-2-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.10.2
+In-Reply-To: <20161110003935.1858-1-raj.khem@gmail.com>
+References: <20161110003935.1858-1-raj.khem@gmail.com>
 MIME-Version: 1.0
-Received: by 10.194.45.33 with HTTP; Wed, 9 Nov 2016 15:42:29 -0800 (PST)
-In-Reply-To: <20161109180854.130d6804@nuc.betafive.co.uk>
-References: <1477161480-20271-1-git-send-email-paul@paulbarker.me.uk>
-	<20161105101438.1ef1f627@nuc.betafive.co.uk>
-	<CAJTo0LbB0eGStoFbyinDYP0zzEJ27BL0eDyGKFkjdh=AaWBPVA@mail.gmail.com>
-	<CADkTA4OaRgUJwFwT=S_h41EW4OO_Koa+QQr=t3t+X+6pszrzBQ@mail.gmail.com>
-	<CAJTo0LZxGYzpjUetPspX6mKktoL_XnDqfncyHFWN5Kzfij8-UQ@mail.gmail.com>
-	<CADkTA4NmhstuGn7cZLD-MGB1OdNbAFLkiOKrf20Bri0KSEsuQA@mail.gmail.com>
-	<20161109180854.130d6804@nuc.betafive.co.uk>
-From: Andre McCurdy <armccurdy@gmail.com>
-Date: Wed, 9 Nov 2016 15:42:29 -0800
-Message-ID: <CAJ86T=XNd_ypY_aBc+eVGpJ4ntUUecT7Umdg37hUrNqZNAw_6g@mail.gmail.com>
-To: Paul Barker <paul@paulbarker.me.uk>
-Cc: OpenEmbedded Core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] kernel.bbclass: Allow ${S} to be overridden
+Subject: [PATCH 2/2] go-examples: Add an example, helloworld written in go
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,101 +57,76 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 09 Nov 2016 23:42:30 -0000
+X-List-Received-Date: Thu, 10 Nov 2016 00:39:42 -0000
 Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Wed, Nov 9, 2016 at 10:08 AM, Paul Barker <paul@paulbarker.me.uk> wrote:
-> On Wed, 9 Nov 2016 08:09:09 -0500
-> Bruce Ashfield <bruce.ashfield@gmail.com> wrote:
->
->> On Wed, Nov 9, 2016 at 5:04 AM, Burton, Ross <ross.burton@intel.com> wrote:
->>
->> >
->> > On 9 November 2016 at 02:23, Bruce Ashfield <bruce.ashfield@gmail.com>
->> > wrote:
->> >
->> >> I can ack this patch, since no defaults change .. there's no risk to
->> >> existing users.
->> >>
->> >
->> > Saying that of course doomed the patch:
->> >
->>
->> interesting.
->>
->> Paul: obviously you were building with this in place, and my local test did
->> work here
->> as well .. so any idea to the difference ?
->>
->> Let me know if you want any help looking into it.
->>
->> Cheers,
->>
->> Bruce
->>
->
-> The reason for this patch is that I'm using a tarball for the kernel
-> sources in the new meta-arduino layer. That tarball doesn't get
-> extracted to ${STAGING_KERNEL_DIR} and so it needs to be copied over to
-> there. Looking at kernel.bbclass, it looks like the logic to do this is
-> present:
->
->
->     # Old style kernels may set ${S} = ${WORKDIR}/git for example
->     # We need to move these over to STAGING_KERNEL_DIR. We can't just
->     # create the symlink in advance as the git fetcher can't cope with
->     # the symlink.
->     do_unpack[cleandirs] += " ${S} ${STAGING_KERNEL_DIR} ${B} ${STAGING_KERNEL_BUILDDIR}"
->     do_clean[cleandirs] += " ${S} ${STAGING_KERNEL_DIR} ${B} ${STAGING_KERNEL_BUILDDIR}"
->     base_do_unpack_append () {
->         s = d.getVar("S", True)
->         if s[-1] == '/':
->             # drop trailing slash, so that os.symlink(kernsrc, s) doesn't use s as directory name and fail
->             s=s[:-1]
->         kernsrc = d.getVar("STAGING_KERNEL_DIR", True)
->         if s != kernsrc:
->             bb.utils.mkdirhier(kernsrc)
->             bb.utils.remove(kernsrc, recurse=True)
->             if d.getVar("EXTERNALSRC", True):
->                 # With EXTERNALSRC S will not be wiped so we can symlink to it
->                 os.symlink(s, kernsrc)
->             else:
->                 import shutil
->                 shutil.move(s, kernsrc)
->                 os.symlink(kernsrc, s)
->     }
->
-> The problem is we can't set S to anything unless we can override it.
->
-> I've now looked into this futher and it seems to be working for some
-> kernel recipes but not others. The issue may be that we have an
-> assignment for S in bitbake.conf:
->
->     S = "${WORKDIR}/${BP}"
->
-> That's obviously overriding the 'S ?= ...' assignment when my patch is
-> applied where S isn't also explicitly assigned in the recipe, some
-> other class or include file.
->
-> I'm not sure on how precedence is determined if a variable is assigned
-> using '=' multiple times.
->
-> I'll have another look into it and see where I get. I have a workaround
-> in place for the meta-arduino layer for now so it doesn't need an
-> urgent fix.
->
-> However, if it turns out we can't reliably override S in a kernel recipe
-> then should we still have that comment and base_do_unpack_append() in
-> kernel.bbclass?
+This should serve as temlate for writing go recipes
 
-The solution I use (learned the hard way) is to ensure that "S = ..."
-comes after "inherit kernel" in the kernel recipe.
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ meta/recipes-extended/go-examples/files/helloworld.go  | 10 ++++++++++
+ meta/recipes-extended/go-examples/go-examples.inc      | 10 ++++++++++
+ meta/recipes-extended/go-examples/go-helloworld_0.1.bb | 15 +++++++++++++++
+ 3 files changed, 35 insertions(+)
+ create mode 100644 meta/recipes-extended/go-examples/files/helloworld.go
+ create mode 100644 meta/recipes-extended/go-examples/go-examples.inc
+ create mode 100644 meta/recipes-extended/go-examples/go-helloworld_0.1.bb
 
-> Thanks,
-> Paul
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+diff --git a/meta/recipes-extended/go-examples/files/helloworld.go b/meta/recipes-extended/go-examples/files/helloworld.go
+new file mode 100644
+index 0000000..0253c40
+--- /dev/null
++++ b/meta/recipes-extended/go-examples/files/helloworld.go
+@@ -0,0 +1,10 @@
++// You can edit this code!
++// Click here and start typing.
++// taken from https://golang.org/
++package main
++
++import "fmt"
++
++func main() {
++	fmt.Println("Hello, 世界")
++}
+diff --git a/meta/recipes-extended/go-examples/go-examples.inc b/meta/recipes-extended/go-examples/go-examples.inc
+new file mode 100644
+index 0000000..c632681
+--- /dev/null
++++ b/meta/recipes-extended/go-examples/go-examples.inc
+@@ -0,0 +1,10 @@
++DESCRIPTION = "This is a simple example recipe that cross-compiles a Go program."
++SECTION = "examples"
++HOMEPAGE = "https://golang.org/"
++
++LICENSE = "MIT"
++LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda2f7b4f302"
++
++S = "${WORKDIR}"
++
++inherit go
+diff --git a/meta/recipes-extended/go-examples/go-helloworld_0.1.bb b/meta/recipes-extended/go-examples/go-helloworld_0.1.bb
+new file mode 100644
+index 0000000..af9d3b7
+--- /dev/null
++++ b/meta/recipes-extended/go-examples/go-helloworld_0.1.bb
+@@ -0,0 +1,15 @@
++require go-examples.inc
++
++
++SRC_URI += " \
++  file://helloworld.go \
++"
++
++do_compile() {
++  go build helloworld.go
++}
++
++do_install() {
++  install -d "${D}/${bindir}"
++  install -m 0755 "${S}/helloworld" "${D}/${bindir}"
++}
+-- 
+2.10.2
+
 
