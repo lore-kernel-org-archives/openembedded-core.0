@@ -1,26 +1,25 @@
 Return-Path: <Kai.Kang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id BB48B60103
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 95EFA60103
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Nov 2016 07:08:26 +0000 (UTC)
+	Thu, 10 Nov 2016 07:08:27 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id uAA78RH1028510
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTP id uAA78T1K009891
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 9 Nov 2016 23:08:27 -0800 (PST)
+	Wed, 9 Nov 2016 23:08:29 -0800 (PST)
 Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.294.0; Wed, 9 Nov 2016 23:08:26 -0800
+	14.3.294.0; Wed, 9 Nov 2016 23:08:28 -0800
 From: <kai.kang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 10 Nov 2016 15:01:23 +0800
-Message-ID: <4706e664d86c244110e0e08a08e673cbce2c2139.1478760924.git.kai.kang@windriver.com>
+Date: Thu, 10 Nov 2016 15:01:24 +0800
+Message-ID: <439d773a9b9d5275345bd85af7d2074b2916e913.1478760924.git.kai.kang@windriver.com>
 X-Mailer: git-send-email 2.10.1
 In-Reply-To: <cover.1478760924.git.kai.kang@windriver.com>
 References: <cover.1478760924.git.kai.kang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/4] openssh: fix CVE-2016-8858
+Subject: [PATCH 2/4] glibc: fix CVE-2016-6323
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,80 +32,88 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 10 Nov 2016 07:08:26 -0000
+X-List-Received-Date: Thu, 10 Nov 2016 07:08:27 -0000
 Content-Type: text/plain
 
 From: Kai Kang <kai.kang@windriver.com>
 
-Backport patch to fix CVE-2016-8858 of openssh.
+Backport patch to fix CVE-2016-6323 of glibc. And remove the section of
+file ChangeLog which can't be applied.
 
 Ref:
-https://bugzilla.redhat.com/show_bug.cgi?id=1384860
+https://sourceware.org/bugzilla/show_bug.cgi?id=20435
 
 Signed-off-by: Kai Kang <kai.kang@windriver.com>
 ---
- .../openssh/openssh/fix-CVE-2016-8858.patch        | 39 ++++++++++++++++++++++
- meta/recipes-connectivity/openssh/openssh_7.3p1.bb |  1 +
- 2 files changed, 40 insertions(+)
- create mode 100644 meta/recipes-connectivity/openssh/openssh/fix-CVE-2016-8858.patch
+ ...k-__startcontext-as-.cantunwind-bug-20435.patch | 46 ++++++++++++++++++++++
+ meta/recipes-core/glibc/glibc_2.24.bb              |  1 +
+ 2 files changed, 47 insertions(+)
+ create mode 100644 meta/recipes-core/glibc/glibc/0027-arm-mark-__startcontext-as-.cantunwind-bug-20435.patch
 
-diff --git a/meta/recipes-connectivity/openssh/openssh/fix-CVE-2016-8858.patch b/meta/recipes-connectivity/openssh/openssh/fix-CVE-2016-8858.patch
+diff --git a/meta/recipes-core/glibc/glibc/0027-arm-mark-__startcontext-as-.cantunwind-bug-20435.patch b/meta/recipes-core/glibc/glibc/0027-arm-mark-__startcontext-as-.cantunwind-bug-20435.patch
 new file mode 100644
-index 0000000..b26ee81
+index 0000000..95067d3
 --- /dev/null
-+++ b/meta/recipes-connectivity/openssh/openssh/fix-CVE-2016-8858.patch
-@@ -0,0 +1,39 @@
-+Fix CVE-2016-8858 of openssh
++++ b/meta/recipes-core/glibc/glibc/0027-arm-mark-__startcontext-as-.cantunwind-bug-20435.patch
+@@ -0,0 +1,46 @@
++Backport patch to fix CVE-2016-6323 for glibc. And remove the section of
++ChangeLog which can't be applied.
 +
-+Backport patch from upstream and drop the change of comment which can NOT be applied.
-+
-+Upstream-Status: Backport [ https://anongit.mindrot.org/openssh.git/commit/?id=ec165c3 ]
-+CVE: CVE-2016-8858
-+
++Upstream-Status: Backport [https://sourceware.org/git/gitweb.cgi?p=glibc.git;h=9e2ff6c]
++CVE: CVE-2016-6323
 +Signed-off-by: Kai Kang <kai.kang@windriver.com>
 +---
-+From ec165c392ca54317dbe3064a8c200de6531e89ad Mon Sep 17 00:00:00 2001
-+From: "markus@openbsd.org" <markus@openbsd.org>
-+Date: Mon, 10 Oct 2016 19:28:48 +0000
-+Subject: [PATCH] upstream commit
++From 9e2ff6c9cc54c0b4402b8d49e4abe7000fde7617 Mon Sep 17 00:00:00 2001
++From: Andreas Schwab <schwab@suse.de>
++Date: Mon, 8 Aug 2016 09:29:18 +0200
++Subject: [PATCH] arm: mark __startcontext as .cantunwind (bug 20435)
 +
-+Unregister the KEXINIT handler after message has been
-+received. Otherwise an unauthenticated peer can repeat the KEXINIT and cause
-+allocation of up to 128MB -- until the connection is closed. Reported by
-+shilei-c at 360.cn
-+
-+Upstream-ID: 43649ae12a27ef94290db16d1a98294588b75c05
++__startcontext marks the bottom of the call stack of the contexts created
++by makecontext.
 +---
-+ kex.c | 3 ++-
-+ 1 file changed, 2 insertions(+), 1 deletion(-)
++ ChangeLog                                | 6 ++++++
++ sysdeps/unix/sysv/linux/arm/setcontext.S | 7 +++++++
++ 2 files changed, 13 insertions(+)
 +
-+diff --git a/kex.c b/kex.c
-+index 3f97f8c..6a94bc5 100644
-+--- a/kex.c
-++++ b/kex.c
-+@@ -481,6 +481,7 @@ kex_input_kexinit(int type, u_int32_t seq, void *ctxt)
-+ 	if (kex == NULL)
-+ 		return SSH_ERR_INVALID_ARGUMENT;
++diff --git a/sysdeps/unix/sysv/linux/arm/setcontext.S b/sysdeps/unix/sysv/linux/arm/setcontext.S
++index 603e508..d1f168f 100644
++--- a/sysdeps/unix/sysv/linux/arm/setcontext.S
+++++ b/sysdeps/unix/sysv/linux/arm/setcontext.S
++@@ -86,12 +86,19 @@ weak_alias(__setcontext, setcontext)
 + 
-++	ssh_dispatch_set(ssh, SSH2_MSG_KEXINIT, NULL);
-+ 	ptr = sshpkt_ptr(ssh, &dlen);
-+ 	if ((r = sshbuf_put(kex->peer, ptr, dlen)) != 0)
-+ 		return r;
++ 	/* Called when a makecontext() context returns.  Start the
++ 	   context in R4 or fall through to exit().  */
+++	/* Unwind descriptors are looked up based on PC - 2, so we have to
+++	   make sure to mark the instruction preceding the __startcontext
+++	   label as .cantunwind.  */
+++	.fnstart
+++	.cantunwind
+++	nop
++ ENTRY(__startcontext)
++ 	movs    r0, r4
++ 	bne     PLTJMP(__setcontext)
++ 
++ 	@ New context was 0 - exit
++ 	b       PLTJMP(HIDDEN_JUMPTARGET(exit))
+++	.fnend
++ END(__startcontext)
++ 
++ #ifdef PIC
 +-- 
 +2.10.1
 +
-diff --git a/meta/recipes-connectivity/openssh/openssh_7.3p1.bb b/meta/recipes-connectivity/openssh/openssh_7.3p1.bb
-index 039b0ff..94eb0ed 100644
---- a/meta/recipes-connectivity/openssh/openssh_7.3p1.bb
-+++ b/meta/recipes-connectivity/openssh/openssh_7.3p1.bb
-@@ -25,6 +25,7 @@ SRC_URI = "http://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}.tar
-            file://openssh-7.1p1-conditional-compile-des-in-cipher.patch \
-            file://openssh-7.1p1-conditional-compile-des-in-pkcs11.patch \
-            file://fix-potential-signed-overflow-in-pointer-arithmatic.patch \
-+           file://fix-CVE-2016-8858.patch \
-            "
+diff --git a/meta/recipes-core/glibc/glibc_2.24.bb b/meta/recipes-core/glibc/glibc_2.24.bb
+index f5a21b2..475c133 100644
+--- a/meta/recipes-core/glibc/glibc_2.24.bb
++++ b/meta/recipes-core/glibc/glibc_2.24.bb
+@@ -37,6 +37,7 @@ SRC_URI = "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
+            file://0024-eglibc-Forward-port-cross-locale-generation-support.patch \
+            file://0025-Define-DUMMY_LOCALE_T-if-not-defined.patch \
+            file://0026-build_local_scope.patch \
++           file://0027-arm-mark-__startcontext-as-.cantunwind-bug-20435.patch \
+ "
  
- PAM_SRC_URI = "file://sshd"
+ SRC_URI += "\
 -- 
 2.10.1
 
