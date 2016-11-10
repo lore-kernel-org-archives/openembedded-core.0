@@ -1,29 +1,39 @@
-Return-Path: <Zubair.Kakakhel@imgtec.com>
-Received: from mailapp01.imgtec.com (mailapp01.imgtec.com [195.59.15.196])
-	by mail.openembedded.org (Postfix) with ESMTP id EA890719D0
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-ua0-f193.google.com (mail-ua0-f193.google.com
+	[209.85.217.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 89DE360269
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Nov 2016 11:37:30 +0000 (UTC)
-Received: from HHMAIL01.hh.imgtec.org (unknown [10.100.10.19])
-	by Forcepoint Email with ESMTPS id 2781E98AD885F;
-	Thu, 10 Nov 2016 11:37:28 +0000 (GMT)
-Received: from zkakakhel-linux.le.imgtec.org (192.168.154.45) by
-	HHMAIL01.hh.imgtec.org (10.100.10.21) with Microsoft SMTP Server (TLS)
-	id 14.3.294.0; Thu, 10 Nov 2016 11:37:30 +0000
-To: Khem Raj <raj.khem@gmail.com>, "Burton, Ross" <ross.burton@intel.com>
-References: <20161108171235.41837-1-Zubair.Kakakhel@imgtec.com>
-	<20161108171235.41837-13-Zubair.Kakakhel@imgtec.com>
-	<CAJTo0LZTHPYsot=YkNGXh=p2AP37X89JqW2xMgdYjanftpDxxQ@mail.gmail.com>
-	<5ac79668-0555-5329-e9d3-048ee217d3ff@gmail.com>
-From: Zubair Lutfullah Kakakhel <Zubair.Kakakhel@imgtec.com>
-Message-ID: <7e997c0b-1fe2-5881-f977-48b180b36545@imgtec.com>
-Date: Thu, 10 Nov 2016 11:37:29 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.2.0
-MIME-Version: 1.0
-In-Reply-To: <5ac79668-0555-5329-e9d3-048ee217d3ff@gmail.com>
-X-Originating-IP: [192.168.154.45]
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [Patch v2 12/14] ltp: Reduce duplication in MIPS variants.
+	Thu, 10 Nov 2016 12:14:20 +0000 (UTC)
+Received: by mail-ua0-f193.google.com with SMTP id b35so10851921uaa.1
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 10 Nov 2016 04:14:22 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:organization;
+	bh=/eiQQXWvODlfuD2v22idxkAfSYjRv1QwVnrsRiFfADg=;
+	b=JnSSV0gtHEI0ZTfM02je3kJb/GEIl/VnThVf37RP2+F68EY9bzOfEuQjmIlqLp8RJO
+	TysxPCeD8c9Fwheffr8LK8wsb9MqtCy7qLWbthAB/AVyBmWDxanWk3aCgO2GXqYBnIhB
+	cIURPquvOv4aNVAbsF1GE1ZqrN4KlH2frkBE8seBodWYZjwu0DUw/O8ocJMbCvIxmfDw
+	nuXKmiwN3fIt/ClodNvcFav3mafkuUp836/Qq60GK8CSWnK0DkV/I/IcrBc2F4BSYGqX
+	Mtb/+Op1AdoGkt40BmwGOFW5R6mj7yKD2oYZWMfgLrRAJwjqQA8KTKO6hqX+4FPi8qUL
+	ptCQ==
+X-Gm-Message-State: ABUngvcmca1wgnsOW2YWDUqj+vl64VXP5kpxVJCQmJKlNUe7HsAMcZAxuCEyxN+zOpg22w==
+X-Received: by 10.176.17.18 with SMTP id e18mr3150031uab.19.1478780062109;
+	Thu, 10 Nov 2016 04:14:22 -0800 (PST)
+Received: from localhost ([187.23.155.148])
+	by smtp.gmail.com with ESMTPSA id r85sm996042vke.27.2016.11.10.04.14.19
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 10 Nov 2016 04:14:21 -0800 (PST)
+Received: by localhost (sSMTP sendmail emulation);
+	Thu, 10 Nov 2016 10:14:15 -0200
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Date: Thu, 10 Nov 2016 10:14:14 -0200
+Message-Id: <20161110121414.12937-1-otavio@ossystems.com.br>
+X-Mailer: git-send-email 2.10.2
+Organization: O.S. Systems Software LTDA.
+Cc: Otavio Salvador <otavio@ossystems.com.br>
+Subject: [PATCH] python3-native: Extend RPROVIDES list
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,39 +46,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 10 Nov 2016 11:37:31 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 10 Nov 2016 12:14:22 -0000
 
-Hi,
+This extends the RPROVIDES list to include:
 
-On 11/09/2016 12:46 AM, Khem Raj wrote:
->
->
-> On 11/8/16 4:13 PM, Burton, Ross wrote:
->>
->> On 8 November 2016 at 17:12, Zubair Lutfullah Kakakhel
->> <Zubair.Kakakhel@imgtec.com <mailto:Zubair.Kakakhel@imgtec.com>> wrote:
->>
->>     Reduce duplication in MIPS variants now that the MACHINEOVERRIDES
->>     variable is defined
->>
->>
->> I'm guessing that this is the cause of this error for qemumips64:
->>
->> http://errors.yoctoproject.org/Errors/Details/99744/
->
-> seems to be yes.
+ - python3-datetime-native
+ - python3-enum-native
+ - python3-terminal-native
 
-I can't seem to be able to reproduce this error using just my patches on top of poky master.
+Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+---
 
-Regards,
-ZubairLK
+ meta/recipes-devtools/python/python3-native_3.5.2.bb | 3 +++
+ 1 file changed, 3 insertions(+)
 
->
->>
->> Ross
->>
->>
->
+diff --git a/meta/recipes-devtools/python/python3-native_3.5.2.bb b/meta/recipes-devtools/python/python3-native_3.5.2.bb
+index 594f15c..93bcc33 100644
+--- a/meta/recipes-devtools/python/python3-native_3.5.2.bb
++++ b/meta/recipes-devtools/python/python3-native_3.5.2.bb
+@@ -46,6 +46,9 @@ RPROVIDES += " \
+     python3-compression-native \
+     python3-core-native \
+     python3-distutils-native \
++    python3-datetime-native \
++    python3-enum-native \
++    python3-terminal-native \
+     python3-email-native \
+     python3-importlib-native \
+     python3-io-native \
+-- 
+2.10.2
+
 
