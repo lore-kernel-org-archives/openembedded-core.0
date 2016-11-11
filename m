@@ -1,47 +1,42 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qt0-f180.google.com (mail-qt0-f180.google.com
-	[209.85.216.180])
-	by mail.openembedded.org (Postfix) with ESMTP id E06AC6093B
+Return-Path: <sona.sarmadi@enea.com>
+Received: from smtp-out10.electric.net (smtp-out10.electric.net
+	[185.38.180.41])
+	by mail.openembedded.org (Postfix) with ESMTP id 08330719BD
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 Nov 2016 11:08:09 +0000 (UTC)
-Received: by mail-qt0-f180.google.com with SMTP id c47so7416465qtc.2
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 Nov 2016 03:08:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=vGv2dKLu8Ioo1ScG/3xDOLP+81hHytLEcQmcKyjNOSE=;
-	b=VNW+RgpxABjix543NJaHhMkYMF0gONVds5wjLnWyBPo41QM87aR9y0z1GTkUYnmIt8
-	Obj+tV6cbb7KicNRpeiUc7cO65+0MTCN0mzWfkg86ZKIyrag11Y18IjCUMr4maQ5P1YV
-	skhaR5utD4YBRTsOSsze02Qp2deuzejGIoyzKBf1OgyKZtGD27DsDCTC/hUR7VZsEYdA
-	KxQrbl6qGGZw1/ZNHCr0iyVVbV09I2z3meaDw9frJEXPXAQbaWNh/cN2F7xwBIM9zHD+
-	vaXsvDEzDioVtCg07EJ/LgT1ENsd12ZwMioWZ6aIh22r00/N9Y0gKZ55fwtUo/A4zRAT
-	uadw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=vGv2dKLu8Ioo1ScG/3xDOLP+81hHytLEcQmcKyjNOSE=;
-	b=NnQMK3bl89K10FpSi0cIvZuSTtHpj+JNGGpSl68JWJ1PheOks6VjouAngMxd66Ju7N
-	wcKDYl85S7WLZKIkl7n2LBGS9x6UV/w9p3WH1T3veBVn4/VdNcDkcNf3Hk6vbwE4m8mt
-	JSDRqGxeEFyF8NEcGKS1oBRElrCpB8q70rO8Cajm9ScgWSDbWaq7EHJ+ACNLZtxtsJhD
-	nI139JlIq8dBkk9nJBPuF/dTCeoUW+hsQduvRjnmOG3hz1Ab4que/tiIe+S5ya6P9UUK
-	Gus3LDM92OTDz70593QsIPKVXHTa3/gn63BJ1/lrF2d7WdC9G1bweub6z3cxgbwa6tDX
-	7nEA==
-X-Gm-Message-State: ABUngvfVRQpllxjIcCLL4FK+AoYNtcAdswwjv3VkcyKTJNd1I4CZVXl2c3Rie2jngXYKUF2MeWvoA8W3+8QXYwEi
-X-Received: by 10.200.53.69 with SMTP id z5mr2581101qtb.64.1478862490813; Fri,
-	11 Nov 2016 03:08:10 -0800 (PST)
+	Fri, 11 Nov 2016 11:28:25 +0000 (UTC)
+Received: from 1c5A0P-0004UP-Up by out10d.electric.net with emc1-ok (Exim 4.87)
+	(envelope-from <sona.sarmadi@enea.com>) id 1c5A0P-0004V7-VW
+	for openembedded-core@lists.openembedded.org;
+	Fri, 11 Nov 2016 03:28:25 -0800
+Received: by emcmailer; Fri, 11 Nov 2016 03:28:25 -0800
+Received: from [192.36.1.72] (helo=mx-3.enea.com)
+	by out10d.electric.net with esmtps (TLSv1:AES128-SHA:128) (Exim 4.87)
+	(envelope-from <sona.sarmadi@enea.com>) id 1c5A0P-0004UP-Up
+	for openembedded-core@lists.openembedded.org;
+	Fri, 11 Nov 2016 03:28:25 -0800
+Received: from sestofb11.enea.se (172.21.3.152) by smtp.enea.com
+	(172.21.1.209) with Microsoft SMTP Server id 14.3.294.0;
+	Fri, 11 Nov 2016 12:28:24 +0100
+From: Sona Sarmadi <sona.sarmadi@enea.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 11 Nov 2016 12:28:23 +0100
+Message-ID: <1478863703-12920-1-git-send-email-sona.sarmadi@enea.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-Received: by 10.140.85.136 with HTTP; Fri, 11 Nov 2016 03:07:50 -0800 (PST)
-In-Reply-To: <1478857754-61379-12-git-send-email-sona.sarmadi@enea.com>
-References: <1478857754-61379-1-git-send-email-sona.sarmadi@enea.com>
-	<1478857754-61379-12-git-send-email-sona.sarmadi@enea.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 11 Nov 2016 11:07:50 +0000
-Message-ID: <CAJTo0LZoc39Bu9aM5L_+J_gj8JavO2MuqAFi5sVpXWeTqHaGpg@mail.gmail.com>
-To: Sona Sarmadi <sona.sarmadi@enea.com>
-Cc: sona@enea.se, OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH][krogoth 12/12] curl/url: remove unconditional idn2.h include
+Received-SPF: None (SESTOEX03.enea.se: sona.sarmadi@enea.com does not
+	designate permitted sender hosts)
+X-Outbound-IP: 192.36.1.72
+X-Env-From: sona.sarmadi@enea.com
+X-Proto: esmtps
+X-Revdns: mx-3.enea.com
+X-HELO: mx-3.enea.com
+X-TLS: TLSv1:AES128-SHA:128
+X-Authenticated_ID: 
+X-PolicySMART: 6551647
+X-Virus-Status: Scanned by VirusSMART (c)
+X-Virus-Status: Scanned by VirusSMART (s)
+Cc: sona@enea.se
+Subject: [PATCHv4][krogoth] curl: CVE-2016-8625
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,51 +49,694 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 11 Nov 2016 11:08:12 -0000
-Content-Type: multipart/alternative; boundary=001a114058586fdad5054104812a
+X-List-Received-Date: Fri, 11 Nov 2016 11:28:29 -0000
+Content-Type: text/plain
 
---001a114058586fdad5054104812a
-Content-Type: text/plain; charset=UTF-8
+IDNA 2003 makes curl use wrong host
 
-On 11 November 2016 at 09:49, Sona Sarmadi <sona.sarmadi@enea.com> wrote:
+Affected versions: curl 7.12.0 to and including 7.50.3
+Reference:
+https://curl.haxx.se/docs/adv_20161102K.html
 
-> +From c27013c05d99d92370b57e1a7af1b854eef4e7c1 Mon Sep 17 00:00:00 2001
-> +From: Daniel Stenberg <daniel@haxx.se>
-> +Date: Mon, 31 Oct 2016 09:49:50 +0100
-> +Subject: [PATCH] url: remove unconditional idn2.h include
-> +
-> +Mistake brought by 9c91ec778104a [fix to CVE-2016-8625]
-> +
-> +Signed-off-by: Sona Sarmadi <sona.sarmadi@enea.com>
->
+Signed-off-by: Sona Sarmadi <sona.sarmadi@enea.com>
+---
+ meta/recipes-support/curl/curl/CVE-2016-8625.patch | 615 +++++++++++++++++++++
+ .../url-remove-unconditional-idn2.h-include.patch  |  29 +
+ meta/recipes-support/curl/curl_7.47.1.bb           |   2 +
+ 3 files changed, 646 insertions(+)
+ create mode 100755 meta/recipes-support/curl/curl/CVE-2016-8625.patch
+ create mode 100644 meta/recipes-support/curl/curl/url-remove-unconditional-idn2.h-include.patch
 
-No Upstream-Status in this.  If it's part of the fix to the CVE, maybe it
-should be applied in the same patch?
+diff --git a/meta/recipes-support/curl/curl/CVE-2016-8625.patch b/meta/recipes-support/curl/curl/CVE-2016-8625.patch
+new file mode 100755
+index 0000000..b618277
+--- /dev/null
++++ b/meta/recipes-support/curl/curl/CVE-2016-8625.patch
+@@ -0,0 +1,615 @@
++commit 914aae739463ec72340130ea9ad42e04b02a5338
++Author: Daniel Stenberg <daniel@haxx.se>
++Date:   Wed Oct 12 09:01:06 2016 +0200
++
++idn: switch to libidn2 use and IDNA2008 support
++
++CVE: CVE-2016-8625
++Upstream-Status: Backport
++
++Bug: https://curl.haxx.se/docs/adv_20161102K.html
++Reported-by: Christian Heimes
++
++Conflicts:
++	CMakeLists.txt
++	lib/url.c
++
++Signed-off-by: Martin Borg <martin.borg@enea.com>
++Signed-off-by: Sona Sarmadi <sona.sarmadi@enea.com>
++diff --git a/CMakeLists.txt b/CMakeLists.txt
++index 06f18cf..c3e5c7c 100644
++--- a/CMakeLists.txt
+++++ b/CMakeLists.txt
++@@ -440,7 +440,7 @@ if(NOT CURL_DISABLE_LDAPS)
++ endif()
++ 
++ # Check for idn
++-check_library_exists_concat("idn" idna_to_ascii_lz HAVE_LIBIDN)
+++check_library_exists_concat("idn2" idn2_lookup_ul HAVE_LIBIDN2)
++ 
++ # Check for symbol dlopen (same as HAVE_LIBDL)
++ check_library_exists("${CURL_LIBS}" dlopen "" HAVE_DLOPEN)
++@@ -608,7 +608,7 @@ check_include_file_concat("des.h"            HAVE_DES_H)
++ check_include_file_concat("err.h"            HAVE_ERR_H)
++ check_include_file_concat("errno.h"          HAVE_ERRNO_H)
++ check_include_file_concat("fcntl.h"          HAVE_FCNTL_H)
++-check_include_file_concat("idn-free.h"       HAVE_IDN_FREE_H)
+++check_include_file_concat("idn2.h"           HAVE_IDN2_H)
++ check_include_file_concat("ifaddrs.h"        HAVE_IFADDRS_H)
++ check_include_file_concat("io.h"             HAVE_IO_H)
++ check_include_file_concat("krb.h"            HAVE_KRB_H)
++@@ -638,7 +638,6 @@ check_include_file_concat("stropts.h"        HAVE_STROPTS_H)
++ check_include_file_concat("termio.h"         HAVE_TERMIO_H)
++ check_include_file_concat("termios.h"        HAVE_TERMIOS_H)
++ check_include_file_concat("time.h"           HAVE_TIME_H)
++-check_include_file_concat("tld.h"            HAVE_TLD_H)
++ check_include_file_concat("unistd.h"         HAVE_UNISTD_H)
++ check_include_file_concat("utime.h"          HAVE_UTIME_H)
++ check_include_file_concat("x509.h"           HAVE_X509_H)
++@@ -652,9 +651,6 @@ check_include_file_concat("netinet/if_ether.h" HAVE_NETINET_IF_ETHER_H)
++ check_include_file_concat("stdint.h"        HAVE_STDINT_H)
++ check_include_file_concat("sockio.h"        HAVE_SOCKIO_H)
++ check_include_file_concat("sys/utsname.h"   HAVE_SYS_UTSNAME_H)
++-check_include_file_concat("idna.h"          HAVE_IDNA_H)
++-
++-
++ 
++ check_type_size(size_t  SIZEOF_SIZE_T)
++ check_type_size(ssize_t  SIZEOF_SSIZE_T)
++@@ -802,9 +798,6 @@ check_symbol_exists(pipe           "${CURL_INCLUDES}" HAVE_PIPE)
++ check_symbol_exists(ftruncate      "${CURL_INCLUDES}" HAVE_FTRUNCATE)
++ check_symbol_exists(getprotobyname "${CURL_INCLUDES}" HAVE_GETPROTOBYNAME)
++ check_symbol_exists(getrlimit      "${CURL_INCLUDES}" HAVE_GETRLIMIT)
++-check_symbol_exists(idn_free       "${CURL_INCLUDES}" HAVE_IDN_FREE)
++-check_symbol_exists(idna_strerror  "${CURL_INCLUDES}" HAVE_IDNA_STRERROR)
++-check_symbol_exists(tld_strerror   "${CURL_INCLUDES}" HAVE_TLD_STRERROR)
++ check_symbol_exists(setlocale      "${CURL_INCLUDES}" HAVE_SETLOCALE)
++ check_symbol_exists(setrlimit      "${CURL_INCLUDES}" HAVE_SETRLIMIT)
++ check_symbol_exists(fcntl          "${CURL_INCLUDES}" HAVE_FCNTL)
++@@ -1067,7 +1060,7 @@ _add_if("IPv6"          ENABLE_IPV6)
++ _add_if("unix-sockets"  USE_UNIX_SOCKETS)
++ _add_if("libz"          HAVE_LIBZ)
++ _add_if("AsynchDNS"     USE_ARES OR USE_THREADS_POSIX)
++-_add_if("IDN"           HAVE_LIBIDN)
+++_add_if("IDN"           HAVE_LIBIDN2)
++ # TODO SSP1 (WinSSL) check is missing
++ _add_if("SSPI"          USE_WINDOWS_SSPI)
++ _add_if("GSS-API"       HAVE_GSSAPI)
++diff --git a/configure.ac b/configure.ac
++index 4c9862f..c8e2721 100644
++--- a/configure.ac
+++++ b/configure.ac
++@@ -157,7 +157,7 @@ curl_tls_srp_msg="no      (--enable-tls-srp)"
++     curl_res_msg="default (--enable-ares / --enable-threaded-resolver)"
++    curl_ipv6_msg="no      (--enable-ipv6)"
++ curl_unix_sockets_msg="no      (--enable-unix-sockets)"
++-    curl_idn_msg="no      (--with-{libidn,winidn})"
+++    curl_idn_msg="no      (--with-{libidn2,winidn})"
++  curl_manual_msg="no      (--enable-manual)"
++ curl_libcurl_msg="enabled (--disable-libcurl-option)"
++ curl_verbose_msg="enabled (--disable-verbose)"
++@@ -2825,15 +2825,15 @@ dnl **********************************************************************
++ dnl Check for the presence of IDN libraries and headers
++ dnl **********************************************************************
++ 
++-AC_MSG_CHECKING([whether to build with libidn])
+++AC_MSG_CHECKING([whether to build with libidn2])
++ OPT_IDN="default"
++ AC_ARG_WITH(libidn,
++-AC_HELP_STRING([--with-libidn=PATH],[Enable libidn usage])
++-AC_HELP_STRING([--without-libidn],[Disable libidn usage]),
+++AC_HELP_STRING([--with-libidn2=PATH],[Enable libidn2 usage])
+++AC_HELP_STRING([--without-libidn2],[Disable libidn2 usage]),
++   [OPT_IDN=$withval])
++ case "$OPT_IDN" in
++   no)
++-    dnl --without-libidn option used
+++    dnl --without-libidn2 option used
++     want_idn="no"
++     AC_MSG_RESULT([no])
++     ;;
++@@ -2844,13 +2844,13 @@ case "$OPT_IDN" in
++     AC_MSG_RESULT([(assumed) yes])
++     ;;
++   yes)
++-    dnl --with-libidn option used without path
+++    dnl --with-libidn2 option used without path
++     want_idn="yes"
++     want_idn_path="default"
++     AC_MSG_RESULT([yes])
++     ;;
++   *)
++-    dnl --with-libidn option used with path
+++    dnl --with-libidn2 option used with path
++     want_idn="yes"
++     want_idn_path="$withval"
++     AC_MSG_RESULT([yes ($withval)])
++@@ -2867,33 +2867,33 @@ if test "$want_idn" = "yes"; then
++   if test "$want_idn_path" != "default"; then
++     dnl path has been specified
++     IDN_PCDIR="$want_idn_path/lib$libsuff/pkgconfig"
++-    CURL_CHECK_PKGCONFIG(libidn, [$IDN_PCDIR])
+++    CURL_CHECK_PKGCONFIG(libidn2, [$IDN_PCDIR])
++     if test "$PKGCONFIG" != "no"; then
++       IDN_LIBS=`CURL_EXPORT_PCDIR([$IDN_PCDIR]) dnl
++-        $PKGCONFIG --libs-only-l libidn 2>/dev/null`
+++        $PKGCONFIG --libs-only-l libidn2 2>/dev/null`
++       IDN_LDFLAGS=`CURL_EXPORT_PCDIR([$IDN_PCDIR]) dnl
++-        $PKGCONFIG --libs-only-L libidn 2>/dev/null`
+++        $PKGCONFIG --libs-only-L libidn2 2>/dev/null`
++       IDN_CPPFLAGS=`CURL_EXPORT_PCDIR([$IDN_PCDIR]) dnl
++-        $PKGCONFIG --cflags-only-I libidn 2>/dev/null`
+++        $PKGCONFIG --cflags-only-I libidn2 2>/dev/null`
++       IDN_DIR=`echo $IDN_LDFLAGS | $SED -e 's/-L//'`
++     else
++       dnl pkg-config not available or provides no info
++-      IDN_LIBS="-lidn"
+++      IDN_LIBS="-lidn2"
++       IDN_LDFLAGS="-L$want_idn_path/lib$libsuff"
++       IDN_CPPFLAGS="-I$want_idn_path/include"
++       IDN_DIR="$want_idn_path/lib$libsuff"
++     fi
++   else
++     dnl path not specified
++-    CURL_CHECK_PKGCONFIG(libidn)
+++    CURL_CHECK_PKGCONFIG(libidn2)
++     if test "$PKGCONFIG" != "no"; then
++-      IDN_LIBS=`$PKGCONFIG --libs-only-l libidn 2>/dev/null`
++-      IDN_LDFLAGS=`$PKGCONFIG --libs-only-L libidn 2>/dev/null`
++-      IDN_CPPFLAGS=`$PKGCONFIG --cflags-only-I libidn 2>/dev/null`
+++      IDN_LIBS=`$PKGCONFIG --libs-only-l libidn2 2>/dev/null`
+++      IDN_LDFLAGS=`$PKGCONFIG --libs-only-L libidn2 2>/dev/null`
+++      IDN_CPPFLAGS=`$PKGCONFIG --cflags-only-I libidn2 2>/dev/null`
++       IDN_DIR=`echo $IDN_LDFLAGS | $SED -e 's/-L//'`
++     else
++       dnl pkg-config not available or provides no info
++-      IDN_LIBS="-lidn"
+++      IDN_LIBS="-lidn2"
++     fi
++   fi
++   #
++@@ -2913,9 +2913,9 @@ if test "$want_idn" = "yes"; then
++   LDFLAGS="$IDN_LDFLAGS $LDFLAGS"
++   LIBS="$IDN_LIBS $LIBS"
++   #
++-  AC_MSG_CHECKING([if idna_to_ascii_4i can be linked])
+++  AC_MSG_CHECKING([if idn2_lookup_ul can be linked])
++   AC_LINK_IFELSE([
++-    AC_LANG_FUNC_LINK_TRY([idna_to_ascii_4i])
+++    AC_LANG_FUNC_LINK_TRY([idn2_lookup_ul])
++   ],[
++     AC_MSG_RESULT([yes])
++     tst_links_libidn="yes"
++@@ -2923,37 +2923,19 @@ if test "$want_idn" = "yes"; then
++     AC_MSG_RESULT([no])
++     tst_links_libidn="no"
++   ])
++-  if test "$tst_links_libidn" = "no"; then
++-    AC_MSG_CHECKING([if idna_to_ascii_lz can be linked])
++-    AC_LINK_IFELSE([
++-      AC_LANG_FUNC_LINK_TRY([idna_to_ascii_lz])
++-    ],[
++-      AC_MSG_RESULT([yes])
++-      tst_links_libidn="yes"
++-    ],[
++-      AC_MSG_RESULT([no])
++-      tst_links_libidn="no"
++-    ])
++-  fi
++   #
+++  AC_CHECK_HEADERS( idn2.h )
+++
++   if test "$tst_links_libidn" = "yes"; then
++-    AC_DEFINE(HAVE_LIBIDN, 1, [Define to 1 if you have the `idn' library (-lidn).])
+++    AC_DEFINE(HAVE_LIBIDN2, 1, [Define to 1 if you have the `idn2' library (-lidn2).])
++     dnl different versions of libidn have different setups of these:
++-    AC_CHECK_FUNCS( idn_free idna_strerror tld_strerror )
++-    AC_CHECK_HEADERS( idn-free.h tld.h )
++-    if test "x$ac_cv_header_tld_h" = "xyes"; then
++-      AC_SUBST([IDN_ENABLED], [1])
++-      curl_idn_msg="enabled"
++-      if test -n "$IDN_DIR" -a "x$cross_compiling" != "xyes"; then
++-        LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$IDN_DIR"
++-        export LD_LIBRARY_PATH
++-        AC_MSG_NOTICE([Added $IDN_DIR to LD_LIBRARY_PATH])
++-      fi
++-    else
++-      AC_MSG_WARN([Libraries for IDN support too old: IDN disabled])
++-      CPPFLAGS="$clean_CPPFLAGS"
++-      LDFLAGS="$clean_LDFLAGS"
++-      LIBS="$clean_LIBS"
+++
+++    AC_SUBST([IDN_ENABLED], [1])
+++    curl_idn_msg="enabled (libidn2)"
+++    if test -n "$IDN_DIR" -a "x$cross_compiling" != "xyes"; then
+++      LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$IDN_DIR"
+++      export LD_LIBRARY_PATH
+++      AC_MSG_NOTICE([Added $IDN_DIR to LD_LIBRARY_PATH])
++     fi
++   else
++     AC_MSG_WARN([Cannot find libraries for IDN support: IDN disabled])
++diff --git a/lib/curl_setup.h b/lib/curl_setup.h
++index 33ad129..5fb241b 100644
++--- a/lib/curl_setup.h
+++++ b/lib/curl_setup.h
++@@ -590,10 +590,9 @@ int netware_init(void);
++ #endif
++ #endif
++ 
++-#if defined(HAVE_LIBIDN) && defined(HAVE_TLD_H)
++-/* The lib was present and the tld.h header (which is missing in libidn 0.3.X
++-   but we only work with libidn 0.4.1 or later) */
++-#define USE_LIBIDN
+++#if defined(HAVE_LIBIDN2) && defined(HAVE_IDN2_H)
+++/* The lib and header are present */
+++#define USE_LIBIDN2
++ #endif
++ 
++ #ifndef SIZEOF_TIME_T
++diff --git a/lib/easy.c b/lib/easy.c
++index d529da8..51d57e3 100644
++--- a/lib/easy.c
+++++ b/lib/easy.c
++@@ -144,28 +144,6 @@ static CURLcode win32_init(void)
++   return CURLE_OK;
++ }
++ 
++-#ifdef USE_LIBIDN
++-/*
++- * Initialise use of IDNA library.
++- * It falls back to ASCII if $CHARSET isn't defined. This doesn't work for
++- * idna_to_ascii_lz().
++- */
++-static void idna_init (void)
++-{
++-#ifdef WIN32
++-  char buf[60];
++-  UINT cp = GetACP();
++-
++-  if(!getenv("CHARSET") && cp > 0) {
++-    snprintf(buf, sizeof(buf), "CHARSET=cp%u", cp);
++-    putenv(buf);
++-  }
++-#else
++-  /* to do? */
++-#endif
++-}
++-#endif  /* USE_LIBIDN */
++-
++ /* true globals -- for curl_global_init() and curl_global_cleanup() */
++ static unsigned int  initialized;
++ static long          init_flags;
++@@ -262,10 +240,6 @@ static CURLcode global_init(long flags, bool memoryfuncs)
++   }
++ #endif
++ 
++-#ifdef USE_LIBIDN
++-  idna_init();
++-#endif
++-
++   if(Curl_resolver_global_init()) {
++     DEBUGF(fprintf(stderr, "Error: resolver_global_init failed\n"));
++     return CURLE_FAILED_INIT;
++diff --git a/lib/strerror.c b/lib/strerror.c
++index d222a1f..bf4faae 100644
++--- a/lib/strerror.c
+++++ b/lib/strerror.c
++@@ -35,8 +35,8 @@
++ 
++ #include <curl/curl.h>
++ 
++-#ifdef USE_LIBIDN
++-#include <idna.h>
+++#ifdef USE_LIBIDN2
+++#include <idn2.h>
++ #endif
++ 
++ #ifdef USE_WINDOWS_SSPI
++@@ -723,83 +723,6 @@ const char *Curl_strerror(struct connectdata *conn, int err)
++   return buf;
++ }
++ 
++-#ifdef USE_LIBIDN
++-/*
++- * Return error-string for libidn status as returned from idna_to_ascii_lz().
++- */
++-const char *Curl_idn_strerror (struct connectdata *conn, int err)
++-{
++-#ifdef HAVE_IDNA_STRERROR
++-  (void)conn;
++-  return idna_strerror((Idna_rc) err);
++-#else
++-  const char *str;
++-  char *buf;
++-  size_t max;
++-
++-  DEBUGASSERT(conn);
++-
++-  buf = conn->syserr_buf;
++-  max = sizeof(conn->syserr_buf)-1;
++-  *buf = '\0';
++-
++-#ifndef CURL_DISABLE_VERBOSE_STRINGS
++-  switch ((Idna_rc)err) {
++-    case IDNA_SUCCESS:
++-      str = "No error";
++-      break;
++-    case IDNA_STRINGPREP_ERROR:
++-      str = "Error in string preparation";
++-      break;
++-    case IDNA_PUNYCODE_ERROR:
++-      str = "Error in Punycode operation";
++-      break;
++-    case IDNA_CONTAINS_NON_LDH:
++-      str = "Illegal ASCII characters";
++-      break;
++-    case IDNA_CONTAINS_MINUS:
++-      str = "Contains minus";
++-      break;
++-    case IDNA_INVALID_LENGTH:
++-      str = "Invalid output length";
++-      break;
++-    case IDNA_NO_ACE_PREFIX:
++-      str = "No ACE prefix (\"xn--\")";
++-      break;
++-    case IDNA_ROUNDTRIP_VERIFY_ERROR:
++-      str = "Round trip verify error";
++-      break;
++-    case IDNA_CONTAINS_ACE_PREFIX:
++-      str = "Already have ACE prefix (\"xn--\")";
++-      break;
++-    case IDNA_ICONV_ERROR:
++-      str = "Locale conversion failed";
++-      break;
++-    case IDNA_MALLOC_ERROR:
++-      str = "Allocation failed";
++-      break;
++-    case IDNA_DLOPEN_ERROR:
++-      str = "dlopen() error";
++-      break;
++-    default:
++-      snprintf(buf, max, "error %d", err);
++-      str = NULL;
++-      break;
++-  }
++-#else
++-  if((Idna_rc)err == IDNA_SUCCESS)
++-    str = "No error";
++-  else
++-    str = "Error";
++-#endif
++-  if(str)
++-    strncpy(buf, str, max);
++-  buf[max] = '\0';
++-  return (buf);
++-#endif
++-}
++-#endif  /* USE_LIBIDN */
++-
++ #ifdef USE_WINDOWS_SSPI
++ const char *Curl_sspi_strerror (struct connectdata *conn, int err)
++ {
++diff --git a/lib/strerror.h b/lib/strerror.h
++index ae8c96b..627273e 100644
++--- a/lib/strerror.h
+++++ b/lib/strerror.h
++@@ -7,7 +7,7 @@
++  *                            | (__| |_| |  _ <| |___
++  *                             \___|\___/|_| \_\_____|
++  *
++- * Copyright (C) 1998 - 2012, Daniel Stenberg, <daniel@haxx.se>, et al.
+++ * Copyright (C) 1998 - 2016, Daniel Stenberg, <daniel@haxx.se>, et al.
++  *
++  * This software is licensed as described in the file COPYING, which
++  * you should have received as part of this distribution. The terms
++@@ -26,7 +26,7 @@
++ 
++ const char *Curl_strerror (struct connectdata *conn, int err);
++ 
++-#ifdef USE_LIBIDN
+++#ifdef USE_LIBIDN2
++ const char *Curl_idn_strerror (struct connectdata *conn, int err);
++ #endif
++ 
++diff --git a/lib/url.c b/lib/url.c
++index 8832989..8d52152 100644
++--- a/lib/url.c
+++++ b/lib/url.c
++@@ -59,24 +59,15 @@
++ #include <limits.h>
++ #endif
++ 
++-#ifdef USE_LIBIDN
++-#include <idna.h>
++-#include <tld.h>
++-#include <stringprep.h>
++-#ifdef HAVE_IDN_FREE_H
++-#include <idn-free.h>
++-#else
++-/* prototype from idn-free.h, not provided by libidn 0.4.5's make install! */
++-void idn_free (void *ptr);
++-#endif
++-#ifndef HAVE_IDN_FREE
++-/* if idn_free() was not found in this version of libidn use free() instead */
++-#define idn_free(x) (free)(x)
++-#endif
+++#ifdef USE_LIBIDN2
+++#include <idn2.h>
+++
++ #elif defined(USE_WIN32_IDN)
++ /* prototype for curl_win32_idn_to_ascii() */
++ int curl_win32_idn_to_ascii(const char *in, char **out);
++-#endif  /* USE_LIBIDN */
+++#endif  /* USE_LIBIDN2 */
+++
+++#include <idn2.h>
++ 
++ #include "urldata.h"
++ #include "netrc.h"
++@@ -3693,59 +3684,15 @@ static bool is_ASCII_name(const char *hostname)
++   return TRUE;
++ }
++ 
++-#ifdef USE_LIBIDN
++-/*
++- * Check if characters in hostname is allowed in Top Level Domain.
++- */
++-static bool tld_check_name(struct SessionHandle *data,
++-                           const char *ace_hostname)
++-{
++-  size_t err_pos;
++-  char *uc_name = NULL;
++-  int rc;
++-#ifndef CURL_DISABLE_VERBOSE_STRINGS
++-  const char *tld_errmsg = "<no msg>";
++-#else
++-  (void)data;
++-#endif
++-
++-  /* Convert (and downcase) ACE-name back into locale's character set */
++-  rc = idna_to_unicode_lzlz(ace_hostname, &uc_name, 0);
++-  if(rc != IDNA_SUCCESS)
++-    return FALSE;
++-
++-  rc = tld_check_lz(uc_name, &err_pos, NULL);
++-#ifndef CURL_DISABLE_VERBOSE_STRINGS
++-#ifdef HAVE_TLD_STRERROR
++-  if(rc != TLD_SUCCESS)
++-    tld_errmsg = tld_strerror((Tld_rc)rc);
++-#endif
++-  if(rc == TLD_INVALID)
++-    infof(data, "WARNING: %s; pos %u = `%c'/0x%02X\n",
++-          tld_errmsg, err_pos, uc_name[err_pos],
++-          uc_name[err_pos] & 255);
++-  else if(rc != TLD_SUCCESS)
++-    infof(data, "WARNING: TLD check for %s failed; %s\n",
++-          uc_name, tld_errmsg);
++-#endif /* CURL_DISABLE_VERBOSE_STRINGS */
++-  if(uc_name)
++-     idn_free(uc_name);
++-  if(rc != TLD_SUCCESS)
++-    return FALSE;
++-
++-  return TRUE;
++-}
++-#endif
++-
++ /*
++  * Perform any necessary IDN conversion of hostname
++  */
++-static void fix_hostname(struct SessionHandle *data,
++-                         struct connectdata *conn, struct hostname *host)
+++static void fix_hostname(struct connectdata *conn, struct hostname *host)
++ {
++   size_t len;
+++  struct Curl_easy *data = conn->data;
++ 
++-#ifndef USE_LIBIDN
+++#ifndef USE_LIBIDN2
++   (void)data;
++   (void)conn;
++ #elif defined(CURL_DISABLE_VERBOSE_STRINGS)
++@@ -3762,26 +3709,18 @@ static void fix_hostname(struct SessionHandle *data,
++     host->name[len-1]=0;
++ 
++   if(!is_ASCII_name(host->name)) {
++-#ifdef USE_LIBIDN
++-  /*************************************************************
++-   * Check name for non-ASCII and convert hostname to ACE form.
++-   *************************************************************/
++-  if(stringprep_check_version(LIBIDN_REQUIRED_VERSION)) {
++-    char *ace_hostname = NULL;
++-    int rc = idna_to_ascii_lz(host->name, &ace_hostname, 0);
++-    infof (data, "Input domain encoded as `%s'\n",
++-           stringprep_locale_charset ());
++-    if(rc != IDNA_SUCCESS)
++-      infof(data, "Failed to convert %s to ACE; %s\n",
++-            host->name, Curl_idn_strerror(conn, rc));
++-    else {
++-      /* tld_check_name() displays a warning if the host name contains
++-         "illegal" characters for this TLD */
++-      (void)tld_check_name(data, ace_hostname);
++-
++-      host->encalloc = ace_hostname;
++-      /* change the name pointer to point to the encoded hostname */
++-      host->name = host->encalloc;
+++#ifdef USE_LIBIDN2
+++    if(idn2_check_version(IDN2_VERSION)) {
+++      char *ace_hostname = NULL;
+++      int rc = idn2_lookup_ul((const char *)host->name, &ace_hostname, 0);
+++      if(rc == IDN2_OK) {
+++        host->encalloc = (char *)ace_hostname;
+++        /* change the name pointer to point to the encoded hostname */
+++        host->name = host->encalloc;
+++      }
+++      else
+++        infof(data, "Failed to convert %s to ACE; %s\n", host->name,
+++              idn2_strerror(rc));
++     }
++   }
++ #elif defined(USE_WIN32_IDN)
++@@ -3809,9 +3748,9 @@ static void fix_hostname(struct SessionHandle *data,
++  */
++ static void free_fixed_hostname(struct hostname *host)
++ {
++-#if defined(USE_LIBIDN)
+++#if defined(USE_LIBIDN2)
++   if(host->encalloc) {
++-    idn_free(host->encalloc); /* must be freed with idn_free() since this was
+++    idn2_free(host->encalloc); /* must be freed with idn2_free() since this was
++                                  allocated by libidn */
++     host->encalloc = NULL;
++   }
++@@ -5707,9 +5646,9 @@ static CURLcode create_conn(struct SessionHandle *data,
++   /*************************************************************
++    * IDN-fix the hostnames
++    *************************************************************/
++-  fix_hostname(data, conn, &conn->host);
+++  fix_hostname(conn, &conn->host);
++   if(conn->proxy.name && *conn->proxy.name)
++-    fix_hostname(data, conn, &conn->proxy);
+++    fix_hostname(conn, &conn->proxy);
++ 
++   /*************************************************************
++    * Setup internals depending on protocol. Needs to be done after
++diff --git a/lib/version.c b/lib/version.c
++index 7f14fa5..a5c9811 100644
++--- a/lib/version.c
+++++ b/lib/version.c
++@@ -36,8 +36,8 @@
++ #  include <ares.h>
++ #endif
++ 
++-#ifdef USE_LIBIDN
++-#include <stringprep.h>
+++#ifdef USE_LIBIDN2
+++#include <idn2.h>
++ #endif
++ 
++ #ifdef USE_LIBPSL
++@@ -97,9 +97,9 @@ char *curl_version(void)
++   left -= len;
++   ptr += len;
++ #endif
++-#ifdef USE_LIBIDN
++-  if(stringprep_check_version(LIBIDN_REQUIRED_VERSION)) {
++-    len = snprintf(ptr, left, " libidn/%s", stringprep_check_version(NULL));
+++#ifdef USE_LIBIDN2
+++  if(idn2_check_version(IDN2_VERSION)) {
+++    len = snprintf(ptr, left, " libidn2/%s", idn2_check_version(NULL));
++     left -= len;
++     ptr += len;
++   }
++@@ -344,10 +344,10 @@ curl_version_info_data *curl_version_info(CURLversion stamp)
++     version_info.ares_num = aresnum;
++   }
++ #endif
++-#ifdef USE_LIBIDN
+++#ifdef USE_LIBIDN2
++   /* This returns a version string if we use the given version or later,
++      otherwise it returns NULL */
++-  version_info.libidn = stringprep_check_version(LIBIDN_REQUIRED_VERSION);
+++  version_info.libidn = idn2_check_version(IDN2_VERSION);
++   if(version_info.libidn)
++     version_info.features |= CURL_VERSION_IDN;
++ #elif defined(USE_WIN32_IDN)
+diff --git a/meta/recipes-support/curl/curl/url-remove-unconditional-idn2.h-include.patch b/meta/recipes-support/curl/curl/url-remove-unconditional-idn2.h-include.patch
+new file mode 100644
+index 0000000..3549101
+--- /dev/null
++++ b/meta/recipes-support/curl/curl/url-remove-unconditional-idn2.h-include.patch
+@@ -0,0 +1,29 @@
++From c27013c05d99d92370b57e1a7af1b854eef4e7c1 Mon Sep 17 00:00:00 2001
++From: Daniel Stenberg <daniel@haxx.se>
++Date: Mon, 31 Oct 2016 09:49:50 +0100
++Subject: [PATCH] url: remove unconditional idn2.h include
++
++Mistake brought by 9c91ec778104a [fix to CVE-2016-8625]
++Upstream-Status: Backport
++
++Signed-off-by: Sona Sarmadi <sona.sarmadi@enea.com>
++---
++ lib/url.c | 2 --
++ 1 file changed, 2 deletions(-)
++
++diff --git a/lib/url.c b/lib/url.c
++index c90a1c5..b997f41 100644
++--- a/lib/url.c
+++++ b/lib/url.c
++@@ -67,8 +67,6 @@
++ bool curl_win32_idn_to_ascii(const char *in, char **out);
++ #endif  /* USE_LIBIDN2 */
++ 
++-#include <idn2.h>
++-
++ #include "urldata.h"
++ #include "netrc.h"
++ 
++-- 
++1.9.1
++
+diff --git a/meta/recipes-support/curl/curl_7.47.1.bb b/meta/recipes-support/curl/curl_7.47.1.bb
+index 3c877e4..7fab7cf 100644
+--- a/meta/recipes-support/curl/curl_7.47.1.bb
++++ b/meta/recipes-support/curl/curl_7.47.1.bb
+@@ -25,6 +25,8 @@ SRC_URI += " file://configure_ac.patch \
+              file://CVE-2016-8622.patch \
+              file://CVE-2016-8623.patch \
+              file://CVE-2016-8624.patch \
++             file://CVE-2016-8625.patch \
++             file://url-remove-unconditional-idn2.h-include.patch \
+            "
+ 
+ SRC_URI[md5sum] = "9ea3123449439bbd960cd25cf98796fb"
+-- 
+1.9.1
 
-Ross
 
---001a114058586fdad5054104812a
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 11 November 2016 at 09:49, Sona Sarmadi <span dir=3D"ltr">&lt;<a href=3D=
-"mailto:sona.sarmadi@enea.com" target=3D"_blank">sona.sarmadi@enea.com</a>&=
-gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 =
-0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":50c" class=
-=3D"a3s aXjCH m15852e2e9535a1ff">+From c27013c05d99d92370b57e1a7af1b8<wbr>5=
-4eef4e7c1 Mon Sep 17 00:00:00 2001<br>
-+From: Daniel Stenberg &lt;<a href=3D"mailto:daniel@haxx.se">daniel@haxx.se=
-</a>&gt;<br>
-+Date: Mon, 31 Oct 2016 09:49:50 +0100<br>
-+Subject: [PATCH] url: remove unconditional idn2.h include<br>
-+<br>
-+Mistake brought by 9c91ec778104a [fix to CVE-2016-8625]<br>
-+<br>
-+Signed-off-by: Sona Sarmadi &lt;<a href=3D"mailto:sona.sarmadi@enea.com">s=
-ona.sarmadi@enea.com</a>&gt;</div></blockquote></div><br>No Upstream-Status=
- in this.=C2=A0 If it&#39;s part of the fix to the CVE, maybe it should be =
-applied in the same patch?</div><div class=3D"gmail_extra"><br></div><div c=
-lass=3D"gmail_extra">Ross</div></div>
-
---001a114058586fdad5054104812a--
