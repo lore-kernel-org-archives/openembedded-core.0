@@ -1,29 +1,27 @@
 Return-Path: <sona.sarmadi@enea.com>
 Received: from smtp-out11.electric.net (smtp-out11.electric.net
-	[185.38.181.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 9555371A9B
+	[185.38.181.32])
+	by mail.openembedded.org (Postfix) with ESMTP id A122571AA4
 	for <openembedded-core@lists.openembedded.org>;
 	Fri, 11 Nov 2016 09:49:16 +0000 (UTC)
-Received: from 1c58ST-0005ty-Vw by out11c.electric.net with emc1-ok (Exim 4.87)
-	(envelope-from <sona.sarmadi@enea.com>) id 1c58SU-0005uW-T2
+Received: from 1c58SS-0005rn-Ud by out11c.electric.net with emc1-ok (Exim 4.87)
+	(envelope-from <sona.sarmadi@enea.com>) id 1c58SS-0005sJ-VB
 	for openembedded-core@lists.openembedded.org;
-	Fri, 11 Nov 2016 01:49:17 -0800
-Received: by emcmailer; Fri, 11 Nov 2016 01:49:17 -0800
+	Fri, 11 Nov 2016 01:49:16 -0800
+Received: by emcmailer; Fri, 11 Nov 2016 01:49:16 -0800
 Received: from [192.36.1.72] (helo=mx-3.enea.com)
 	by out11c.electric.net with esmtps (TLSv1:AES128-SHA:128) (Exim 4.87)
-	(envelope-from <sona.sarmadi@enea.com>) id 1c58ST-0005ty-Vw
+	(envelope-from <sona.sarmadi@enea.com>) id 1c58SS-0005rn-Ud
 	for openembedded-core@lists.openembedded.org;
-	Fri, 11 Nov 2016 01:49:17 -0800
+	Fri, 11 Nov 2016 01:49:16 -0800
 Received: from sestofb11.enea.se (172.21.3.152) by smtp.enea.com
 	(172.21.1.208) with Microsoft SMTP Server id 14.3.294.0;
-	Fri, 11 Nov 2016 10:49:17 +0100
+	Fri, 11 Nov 2016 10:49:16 +0100
 From: Sona Sarmadi <sona.sarmadi@enea.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 11 Nov 2016 10:49:09 +0100
-Message-ID: <1478857754-61379-7-git-send-email-sona.sarmadi@enea.com>
+Date: Fri, 11 Nov 2016 10:49:03 +0100
+Message-ID: <1478857754-61379-1-git-send-email-sona.sarmadi@enea.com>
 X-Mailer: git-send-email 1.9.1
-In-Reply-To: <1478857754-61379-1-git-send-email-sona.sarmadi@enea.com>
-References: <1478857754-61379-1-git-send-email-sona.sarmadi@enea.com>
 MIME-Version: 1.0
 Received-SPF: None (SESTOEX08.enea.se: sona.sarmadi@enea.com does not
 	designate permitted sender hosts)
@@ -38,7 +36,7 @@ X-PolicySMART: 6551647
 X-Virus-Status: Scanned by VirusSMART (c)
 X-Virus-Status: Scanned by VirusSMART (s)
 Cc: sona@enea.se
-Subject: [PATCH][krogoth 07/12] curl: CVE-2016-8621
+Subject: [PATCH][krogoth 01/12] curl: CVE-2016-8615
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,157 +50,114 @@ List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 11 Nov 2016 09:49:19 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-curl_getdate read out of bounds
+cookie injection for other servers
 
-Affected versions: curl 7.12.2 to and including 7.50.3
+Affected versions: curl 7.1 to and including 7.50.3
+
 Reference:
-https://curl.haxx.se/docs/adv_20161102G.html
+https://curl.haxx.se/docs/adv_20161102A.html
 
 Signed-off-by: Sona Sarmadi <sona.sarmadi@enea.com>
 ---
- meta/recipes-support/curl/curl/CVE-2016-8621.patch | 120 +++++++++++++++++++++
- meta/recipes-support/curl/curl_7.47.1.bb           |   1 +
- 2 files changed, 121 insertions(+)
- create mode 100644 meta/recipes-support/curl/curl/CVE-2016-8621.patch
+ meta/recipes-support/curl/curl/CVE-2016-8615.patch | 77 ++++++++++++++++++++++
+ meta/recipes-support/curl/curl_7.47.1.bb           |  1 +
+ 2 files changed, 78 insertions(+)
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2016-8615.patch
 
-diff --git a/meta/recipes-support/curl/curl/CVE-2016-8621.patch b/meta/recipes-support/curl/curl/CVE-2016-8621.patch
+diff --git a/meta/recipes-support/curl/curl/CVE-2016-8615.patch b/meta/recipes-support/curl/curl/CVE-2016-8615.patch
 new file mode 100644
-index 0000000..7345838
+index 0000000..5faa423
 --- /dev/null
-+++ b/meta/recipes-support/curl/curl/CVE-2016-8621.patch
-@@ -0,0 +1,120 @@
-+From 8a6d9ded5f02f0294ae63a007e26087316c1998e Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-support/curl/curl/CVE-2016-8615.patch
+@@ -0,0 +1,77 @@
++From 1620f552a277ed5b23a48b9c27dbf07663cac068 Mon Sep 17 00:00:00 2001
 +From: Daniel Stenberg <daniel@haxx.se>
-+Date: Tue, 4 Oct 2016 16:59:38 +0200
-+Subject: [PATCH] parsedate: handle cut off numbers better
++Date: Tue, 27 Sep 2016 17:36:19 +0200
++Subject: [PATCH] cookie: replace use of fgets() with custom version
 +
-+... and don't read outside of the given buffer!
++... that will ignore lines that are too long to fit in the buffer.
 +
-+CVE: CVE-2016-8621
++CVE: CVE-2016-8615
 +Upstream-Status: Backport
 +
-+bug: https://curl.haxx.se/docs/adv_20161102G.html
-+Reported-by: Luật Nguyễn
++Bug: https://curl.haxx.se/docs/adv_20161102A.html
++Reported-by: Cure53
 +Signed-off-by: Sona Sarmadi <sona.sarmadi@enea.com>
 +---
-+ lib/parsedate.c        | 12 +++++++-----
-+ tests/data/test517     |  6 ++++++
-+ tests/libtest/lib517.c |  8 +++++++-
-+ 3 files changed, 20 insertions(+), 6 deletions(-)
++ lib/cookie.c | 31 ++++++++++++++++++++++++++++++-
++ 1 file changed, 30 insertions(+), 1 deletion(-)
 +
-+diff --git a/lib/parsedate.c b/lib/parsedate.c
-+index dfcf855..8e932f4 100644
-+--- a/lib/parsedate.c
-++++ b/lib/parsedate.c
-+@@ -3,11 +3,11 @@
-+  *  Project                     ___| | | |  _ \| |
-+  *                             / __| | | | |_) | |
-+  *                            | (__| |_| |  _ <| |___
-+  *                             \___|\___/|_| \_\_____|
-+  *
-+- * Copyright (C) 1998 - 2014, Daniel Stenberg, <daniel@haxx.se>, et al.
-++ * Copyright (C) 1998 - 2016, Daniel Stenberg, <daniel@haxx.se>, et al.
-+  *
-+  * This software is licensed as described in the file COPYING, which
-+  * you should have received as part of this distribution. The terms
-+  * are also available at https://curl.haxx.se/docs/copyright.html.
-+  *
-+@@ -384,19 +384,21 @@ static int parsedate(const char *date, time_t *output)
-+     }
-+     else if(ISDIGIT(*date)) {
-+       /* a digit */
-+       int val;
-+       char *end;
-++      int len=0;
-+       if((secnum == -1) &&
-+-         (3 == sscanf(date, "%02d:%02d:%02d", &hournum, &minnum, &secnum))) {
-++         (3 == sscanf(date, "%02d:%02d:%02d%n",
-++                      &hournum, &minnum, &secnum, &len))) {
-+         /* time stamp! */
-+-        date += 8;
-++        date += len;
-+       }
-+       else if((secnum == -1) &&
-+-              (2 == sscanf(date, "%02d:%02d", &hournum, &minnum))) {
-++              (2 == sscanf(date, "%02d:%02d%n", &hournum, &minnum, &len))) {
-+         /* time stamp without seconds */
-+-        date += 5;
-++        date += len;
-+         secnum = 0;
-+       }
-+       else {
-+         long lval;
-+         int error;
-+diff --git a/tests/data/test517 b/tests/data/test517
-+index c81a45e..513634f 100644
-+--- a/tests/data/test517
-++++ b/tests/data/test517
-+@@ -114,10 +114,16 @@ nothing
-+ 79: 20110632 12:34:56 => -1
-+ 80: 20110623 56:34:56 => -1
-+ 81: 20111323 12:34:56 => -1
-+ 82: 20110623 12:34:79 => -1
-+ 83: Wed, 31 Dec 2008 23:59:60 GMT => 1230768000
-++84: 20110623 12:3 => 1308830580
-++85: 20110623 1:3 => 1308790980
-++86: 20110623 1:30 => 1308792600
-++87: 20110623 12:12:3 => 1308831123
-++88: 20110623 01:12:3 => 1308791523
-++89: 20110623 01:99:30 => -1
-+ </stdout>
++diff --git a/lib/cookie.c b/lib/cookie.c
++index 0f05da2..e5097d3 100644
++--- a/lib/cookie.c
+++++ b/lib/cookie.c
++@@ -901,10 +901,39 @@ Curl_cookie_add(struct Curl_easy *data,
++   }
 + 
-+ # This test case previously tested an overflow case ("2094 Nov 6 =>
-+ # 2147483647") for 32bit time_t, but since some systems have 64bit time_t and
-+ # handles this (returning 3939840000), and some 64bit-time_t systems don't
-+diff --git a/tests/libtest/lib517.c b/tests/libtest/lib517.c
-+index 2f68ebd..22162ff 100644
-+--- a/tests/libtest/lib517.c
-++++ b/tests/libtest/lib517.c
-+@@ -3,11 +3,11 @@
-+  *  Project                     ___| | | |  _ \| |
-+  *                             / __| | | | |_) | |
-+  *                            | (__| |_| |  _ <| |___
-+  *                             \___|\___/|_| \_\_____|
-+  *
-+- * Copyright (C) 1998 - 2011, Daniel Stenberg, <daniel@haxx.se>, et al.
-++ * Copyright (C) 1998 - 2016, Daniel Stenberg, <daniel@haxx.se>, et al.
-+  *
-+  * This software is licensed as described in the file COPYING, which
-+  * you should have received as part of this distribution. The terms
-+  * are also available at https://curl.haxx.se/docs/copyright.html.
-+  *
-+@@ -114,10 +114,16 @@ static const char * const dates[]={
-+   "20110632 12:34:56",
-+   "20110623 56:34:56",
-+   "20111323 12:34:56",
-+   "20110623 12:34:79",
-+   "Wed, 31 Dec 2008 23:59:60 GMT", /* leap second */
-++  "20110623 12:3",
-++  "20110623 1:3",
-++  "20110623 1:30",
-++  "20110623 12:12:3",
-++  "20110623 01:12:3",
-++  "20110623 01:99:30",
-+   NULL
-+ };
++   return co;
++ }
 + 
-+ int test(char *URL)
-+ {
+++/*
+++ * get_line() makes sure to only return complete whole lines that fit in 'len'
+++ * bytes and end with a newline.
+++ */
+++static char *get_line(char *buf, int len, FILE *input)
+++{
+++  bool partial = FALSE;
+++  while(1) {
+++    char *b = fgets(buf, len, input);
+++    if(b) {
+++      size_t rlen = strlen(b);
+++      if(rlen && (b[rlen-1] == '\n')) {
+++        if(partial) {
+++          partial = FALSE;
+++          continue;
+++        }
+++        return b;
+++      }
+++      else
+++        /* read a partial, discard the next piece that ends with newline */
+++        partial = TRUE;
+++    }
+++    else
+++      break;
+++  }
+++  return NULL;
+++}
+++
+++
++ /*****************************************************************************
++  *
++  * Curl_cookie_init()
++  *
++  * Inits a cookie struct to read data from a local file. This is always
++@@ -957,11 +986,11 @@ struct CookieInfo *Curl_cookie_init(struct Curl_easy *data,
++     bool headerline;
++ 
++     line = malloc(MAX_COOKIE_LINE);
++     if(!line)
++       goto fail;
++-    while(fgets(line, MAX_COOKIE_LINE, fp)) {
+++    while(get_line(line, MAX_COOKIE_LINE, fp)) {
++       if(checkprefix("Set-Cookie:", line)) {
++         /* This is a cookie line, get it! */
++         lineptr=&line[11];
++         headerline=TRUE;
++       }
 +-- 
 +2.9.3
 +
 diff --git a/meta/recipes-support/curl/curl_7.47.1.bb b/meta/recipes-support/curl/curl_7.47.1.bb
-index e6ad03f..67b07da 100644
+index 3670a11..1f2758c 100644
 --- a/meta/recipes-support/curl/curl_7.47.1.bb
 +++ b/meta/recipes-support/curl/curl_7.47.1.bb
-@@ -21,6 +21,7 @@ SRC_URI += " file://configure_ac.patch \
-              file://CVE-2016-8618.patch \
-              file://CVE-2016-8619.patch \
-              file://CVE-2016-8620.patch \
-+             file://CVE-2016-8621.patch \
+@@ -15,6 +15,7 @@ SRC_URI += " file://configure_ac.patch \
+              file://CVE-2016-5420.patch \
+              file://CVE-2016-5421.patch \
+              file://CVE-2016-7141.patch \
++             file://CVE-2016-8615.patch \
             "
  
  SRC_URI[md5sum] = "9ea3123449439bbd960cd25cf98796fb"
