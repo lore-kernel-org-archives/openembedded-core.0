@@ -1,26 +1,26 @@
 Return-Path: <sona.sarmadi@enea.com>
 Received: from smtp-out10.electric.net (smtp-out10.electric.net
 	[185.38.180.41])
-	by mail.openembedded.org (Postfix) with ESMTP id 2498A71AAB
+	by mail.openembedded.org (Postfix) with ESMTP id 2485F71A98
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 Nov 2016 09:49:17 +0000 (UTC)
-Received: from 1c58SV-0002jU-TG by out10a.electric.net with emc1-ok (Exim 4.87)
-	(envelope-from <sona.sarmadi@enea.com>) id 1c58SV-0002k8-Tj
+	Fri, 11 Nov 2016 09:49:16 +0000 (UTC)
+Received: from 1c58ST-0002cz-Tf by out10a.electric.net with emc1-ok (Exim 4.87)
+	(envelope-from <sona.sarmadi@enea.com>) id 1c58ST-0002dj-U4
 	for openembedded-core@lists.openembedded.org;
-	Fri, 11 Nov 2016 01:49:19 -0800
-Received: by emcmailer; Fri, 11 Nov 2016 01:49:19 -0800
+	Fri, 11 Nov 2016 01:49:17 -0800
+Received: by emcmailer; Fri, 11 Nov 2016 01:49:17 -0800
 Received: from [192.36.1.72] (helo=mx-3.enea.com)
 	by out10a.electric.net with esmtps (TLSv1:AES128-SHA:128) (Exim 4.87)
-	(envelope-from <sona.sarmadi@enea.com>) id 1c58SV-0002jU-TG
+	(envelope-from <sona.sarmadi@enea.com>) id 1c58ST-0002cz-Tf
 	for openembedded-core@lists.openembedded.org;
-	Fri, 11 Nov 2016 01:49:19 -0800
+	Fri, 11 Nov 2016 01:49:17 -0800
 Received: from sestofb11.enea.se (172.21.3.152) by smtp.enea.com
 	(172.21.1.208) with Microsoft SMTP Server id 14.3.294.0;
-	Fri, 11 Nov 2016 10:49:18 +0100
+	Fri, 11 Nov 2016 10:49:16 +0100
 From: Sona Sarmadi <sona.sarmadi@enea.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 11 Nov 2016 10:49:14 +0100
-Message-ID: <1478857754-61379-12-git-send-email-sona.sarmadi@enea.com>
+Date: Fri, 11 Nov 2016 10:49:06 +0100
+Message-ID: <1478857754-61379-4-git-send-email-sona.sarmadi@enea.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <1478857754-61379-1-git-send-email-sona.sarmadi@enea.com>
 References: <1478857754-61379-1-git-send-email-sona.sarmadi@enea.com>
@@ -38,7 +38,7 @@ X-PolicySMART: 6551647
 X-Virus-Status: Scanned by VirusSMART (c)
 X-Virus-Status: Scanned by VirusSMART (s)
 Cc: sona@enea.se
-Subject: [PATCH][krogoth 12/12] curl/url: remove unconditional idn2.h include
+Subject: [PATCH][krogoth 04/12] curl: CVE-2016-8618
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,58 +54,86 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Fri, 11 Nov 2016 09:49:19 -0000
 Content-Type: text/plain
 
-Mistake brought by 9c91ec778104a [fix to CVE-2016-8625]
+double-free in curl_maprintf
+
+Affected versions: curl 7.1 to and including 7.50.3
+Reference:
+https://curl.haxx.se/docs/adv_20161102D.html
 
 Signed-off-by: Sona Sarmadi <sona.sarmadi@enea.com>
 ---
- .../url-remove-unconditional-idn2.h-include.patch  | 28 ++++++++++++++++++++++
+ meta/recipes-support/curl/curl/CVE-2016-8618.patch | 52 ++++++++++++++++++++++
  meta/recipes-support/curl/curl_7.47.1.bb           |  1 +
- 2 files changed, 29 insertions(+)
- create mode 100644 meta/recipes-support/curl/curl/url-remove-unconditional-idn2.h-include.patch
+ 2 files changed, 53 insertions(+)
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2016-8618.patch
 
-diff --git a/meta/recipes-support/curl/curl/url-remove-unconditional-idn2.h-include.patch b/meta/recipes-support/curl/curl/url-remove-unconditional-idn2.h-include.patch
+diff --git a/meta/recipes-support/curl/curl/CVE-2016-8618.patch b/meta/recipes-support/curl/curl/CVE-2016-8618.patch
 new file mode 100644
-index 0000000..e2a88e4
+index 0000000..2fd4749
 --- /dev/null
-+++ b/meta/recipes-support/curl/curl/url-remove-unconditional-idn2.h-include.patch
-@@ -0,0 +1,28 @@
-+From c27013c05d99d92370b57e1a7af1b854eef4e7c1 Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-support/curl/curl/CVE-2016-8618.patch
+@@ -0,0 +1,52 @@
++From 31106a073882656a2a5ab56c4ce2847e9a334c3c Mon Sep 17 00:00:00 2001
 +From: Daniel Stenberg <daniel@haxx.se>
-+Date: Mon, 31 Oct 2016 09:49:50 +0100
-+Subject: [PATCH] url: remove unconditional idn2.h include
++Date: Wed, 28 Sep 2016 10:15:34 +0200
++Subject: [PATCH] aprintf: detect wrap-around when growing allocation
 +
-+Mistake brought by 9c91ec778104a [fix to CVE-2016-8625]
++On 32bit systems we could otherwise wrap around after 2GB and allocate 0
++bytes and crash.
 +
++CVE: CVE-2016-8618
++Upstream-Status: Backport
++
++Bug: https://curl.haxx.se/docs/adv_20161102D.html
++Reported-by: Cure53
 +Signed-off-by: Sona Sarmadi <sona.sarmadi@enea.com>
 +---
-+ lib/url.c | 2 --
-+ 1 file changed, 2 deletions(-)
++ lib/mprintf.c | 9 ++++++---
++ 1 file changed, 6 insertions(+), 3 deletions(-)
 +
-+diff --git a/lib/url.c b/lib/url.c
-+index c90a1c5..b997f41 100644
-+--- a/lib/url.c
-++++ b/lib/url.c
-+@@ -67,8 +67,6 @@
-+ bool curl_win32_idn_to_ascii(const char *in, char **out);
-+ #endif  /* USE_LIBIDN2 */
++diff --git a/lib/mprintf.c b/lib/mprintf.c
++index dbedeaa..2c88aa8 100644
++--- a/lib/mprintf.c
+++++ b/lib/mprintf.c
++@@ -1034,20 +1034,23 @@ static int alloc_addbyter(int output, FILE *data)
++     }
++     infop->alloc = 32;
++     infop->len =0;
++   }
++   else if(infop->len+1 >= infop->alloc) {
++-    char *newptr;
+++    char *newptr = NULL;
+++    size_t newsize = infop->alloc*2;
 + 
-+-#include <idn2.h>
-+-
-+ #include "urldata.h"
-+ #include "netrc.h"
++-    newptr = realloc(infop->buffer, infop->alloc*2);
+++    /* detect wrap-around or other overflow problems */
+++    if(newsize > infop->alloc)
+++      newptr = realloc(infop->buffer, newsize);
 + 
++     if(!newptr) {
++       infop->fail = 1;
++       return -1; /* fail */
++     }
++     infop->buffer = newptr;
++-    infop->alloc *= 2;
+++    infop->alloc = newsize;
++   }
++ 
++   infop->buffer[ infop->len ] = outc;
++ 
++   infop->len++;
 +-- 
-+1.9.1
++2.9.3
 +
 diff --git a/meta/recipes-support/curl/curl_7.47.1.bb b/meta/recipes-support/curl/curl_7.47.1.bb
-index a7f6917..7fab7cf 100644
+index 3724411..27a999e 100644
 --- a/meta/recipes-support/curl/curl_7.47.1.bb
 +++ b/meta/recipes-support/curl/curl_7.47.1.bb
-@@ -26,6 +26,7 @@ SRC_URI += " file://configure_ac.patch \
-              file://CVE-2016-8623.patch \
-              file://CVE-2016-8624.patch \
-              file://CVE-2016-8625.patch \
-+             file://url-remove-unconditional-idn2.h-include.patch \
+@@ -18,6 +18,7 @@ SRC_URI += " file://configure_ac.patch \
+              file://CVE-2016-8615.patch \
+              file://CVE-2016-8616.patch \
+              file://CVE-2016-8617.patch \
++             file://CVE-2016-8618.patch \
             "
  
  SRC_URI[md5sum] = "9ea3123449439bbd960cd25cf98796fb"
