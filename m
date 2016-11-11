@@ -1,47 +1,47 @@
-Return-Path: <zeenix@gmail.com>
-Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 7B4A260103
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qk0-f174.google.com (mail-qk0-f174.google.com
+	[209.85.220.174])
+	by mail.openembedded.org (Postfix) with ESMTP id D7D846093B
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 Nov 2016 14:25:45 +0000 (UTC)
-Received: by mail-wm0-f65.google.com with SMTP id g23so9852886wme.1
+	Fri, 11 Nov 2016 14:55:28 +0000 (UTC)
+Received: by mail-qk0-f174.google.com with SMTP id n21so21809532qka.3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 Nov 2016 06:25:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=sender:from:to:cc:subject:date:message-id;
-	bh=gLBfP5Zi4qEhXW53cY3MWem4WzSVxJY992JtyBBsNzQ=;
-	b=uNu+Ls17YwhIWu3otCyEwg2k5AzLyuV2bOvqB5EDvIQ7UggVQP/3U+Y3XPnHxTCYjh
-	iF3GV6WSeJg96o06FmYCOw2hjNYbeV+osZsEeGFFtm3tCFcind4HQ2HVrPGtdFk2nR7Q
-	UA4wgOcWrylZv+6/8/dpLJ4HRn0moHfCtvZjHD8bP766F2yGMiiuqD03CX0URHQIo3pk
-	BimGbLx6ruIexg4q3m5uU2BTmtjrW7wccsIj13vcFv1yHvhFE4AYOOP+YuT5iNdoDeZ+
-	BkeyxXoPNf5x0Vg6ObY/kBWb1up5ZuyquB7s2KhbqzZy2OxVkqJVQD09mPuLYwC0vOsB
-	yx1A==
+	Fri, 11 Nov 2016 06:55:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=ayqVoCUJqaCxjYzsZmJcaH5j9Fdog/Gb02szRC+REJM=;
+	b=SmAQNYNJe6Yab4C3CB92ff5Sodj9HtJWvr9gFXBPePxRxs62PVDnUJikDZSbu/kkLl
+	D8C9t/wOtlPF+dRYA61VoPwf7lf5lFVbpJsXFsij4stBZp0eKGKu+kzOi16TPIXIZw6l
+	xrMh2ubkJra5ceRqE3b/XzVe/2R9KLzKj+37BypipR602cSsZRLXfacLgShbfITBU+Py
+	WBAyIO8APFbOl5XEnXO1cveF4XzfIXnCfHiLlij8mDxpVqLnc5x+/9+BV8joMVNHYUT6
+	iDMATFyB81XZkKvJohqPYIq9o/ljwy5e2ipeUD1JSvCo1jtbwRmv7x/zH5rbO5NgrJ/J
+	eWiA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:sender:from:to:cc:subject:date:message-id;
-	bh=gLBfP5Zi4qEhXW53cY3MWem4WzSVxJY992JtyBBsNzQ=;
-	b=K5WoN+8R7JniAgO/NbFJm/YK4GIl19UcksYgS4dLWQZ8HUooHVas6cR20PWp7rjeFB
-	Ewapo4qN5dBzcgYBgG4BjeMh0QW4wzXzfEoYI15Js6sQr0gcilO4eRQFmYj2hfa2zwV7
-	f+fvHrHrUx/hsOJBI4pzApoiz1kc8LXzLzgnnuYoQS8hNaTq8zpjHYFpOSkPiAhajeLq
-	H6aWrljI9UNEyRmEGS2Ul3SFtM4J5bN9sYnelgw3beWhNo1dOzrLcsK3y7G8ROYtspJK
-	LMWIQbA7gKVUMxu675jKoHHcTsbGw2DsiuRgMkXKuK1m3RAEPvCWbAbnyjYvdPGI0peF
-	hMHA==
-X-Gm-Message-State: ABUngvdx18xYloXPDw6KNfUvPzJcVDnlMjRp5nybMpioiifxckLr1iz9extlfKEjmayMkQ==
-X-Received: by 10.28.25.68 with SMTP id 65mr11381937wmz.93.1478874347017;
-	Fri, 11 Nov 2016 06:25:47 -0800 (PST)
-Received: from zeelaptop.office.pelagicore.net ([83.218.80.242])
-	by smtp.gmail.com with ESMTPSA id
-	q125sm12483080wmd.2.2016.11.11.06.25.45
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 11 Nov 2016 06:25:45 -0800 (PST)
-Sender: Zeeshan Ali <zeenix@gmail.com>
-From: Zeeshan Ali <zeeshanak@gnome.org>
-X-Google-Original-From: Zeeshan Ali <zeeshan.ali@pelagicore.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 11 Nov 2016 15:25:25 +0100
-Message-Id: <20161111142525.20700-1-zeeshan.ali@pelagicore.com>
-X-Mailer: git-send-email 2.9.3
-Cc: Zeeshan Ali <zeeshan.ali@pelagicore.com>
-Subject: [PATCH] [krogoth] nss: Disable warning on deprecated API usage
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=ayqVoCUJqaCxjYzsZmJcaH5j9Fdog/Gb02szRC+REJM=;
+	b=FeKHSlc5zK59T7HqrMsM48z8URl/hcU8XZKN4hr67BzHq83l8I5Oiz68rHdQ5W9SBO
+	G+fiV6GDxTeybYvBj3BrofH4heCXQZBRfjgadilqQ8jeo9CIN95iOakOolRRP2KDnhi5
+	TVJFQUeYjKK6JhnVY7X7NUh5PCk2Tpx0E9l0TcUlI54F4MynN5jtPfJfp+sfAUHv/pVR
+	rvsTVwCBrG75QkWfZft//iknh1Mrnxq7b/5I4oSDbu//LLgLpFKX+F2FbOzZJWD/IW7E
+	D2pR2/vqECKQlf5rcM8ScJSNGeRNNCfBdqrd4YRWCuj23msqVBw9C3QFCjCCYSaNUdYd
+	n+/g==
+X-Gm-Message-State: ABUngvdiBsQArfo5by0VqoxbA0+V4CaQYpzQdaDZ3jiaKVHos2TUHqQvt3x/dX0XvTsByHa88OUVoqHy7GtZSIp9
+X-Received: by 10.55.207.78 with SMTP id e75mr4222446qkj.36.1478876129623;
+	Fri, 11 Nov 2016 06:55:29 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.140.85.136 with HTTP; Fri, 11 Nov 2016 06:55:09 -0800 (PST)
+In-Reply-To: <20161111142525.20700-1-zeeshan.ali@pelagicore.com>
+References: <20161111142525.20700-1-zeeshan.ali@pelagicore.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 11 Nov 2016 14:55:09 +0000
+Message-ID: <CAJTo0LaBdAd86OqS0dAEc90y_xJMuSzhGZ-8HEdZJdEN4oCC1w@mail.gmail.com>
+To: Zeeshan Ali <zeeshanak@gnome.org>
+Cc: Zeeshan Ali <zeeshan.ali@pelagicore.com>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] [krogoth] nss: Disable warning on deprecated API usage
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,63 +54,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 11 Nov 2016 14:25:46 -0000
+X-List-Received-Date: Fri, 11 Nov 2016 14:55:29 -0000
+Content-Type: multipart/alternative; boundary=001a1145b7b85fb902054107ae53
 
-nss itself enables Werror if gcc is version 4.8 of greater, which fails
-the build against new glibc (2.24) because of use of readdir_r(), which
-is now deprecated. Let's just disable warnings on deprecated API usage.
+--001a1145b7b85fb902054107ae53
+Content-Type: text/plain; charset=UTF-8
 
-https://bugzilla.yoctoproject.org/show_bug.cgi?id=10644
----
+On 11 November 2016 at 14:25, Zeeshan Ali <zeeshanak@gnome.org> wrote:
 
-This patch is not needed for master or morty, cause they use the latest version of nss. 
+> +Upstream-Status: Pending
+>
 
- .../nss/nss-disable-werror-on-deprecated-api.patch | 22 ++++++++++++++++++++++
- meta/recipes-support/nss/nss_3.21.bb               |  1 +
- 2 files changed, 23 insertions(+)
- create mode 100644 meta/recipes-support/nss/nss/nss-disable-werror-on-deprecated-api.patch
+Please use either Backport (upstream did the same change) or Inappropriate
+(upstream did an invasive change, this is easier to audit for a stable
+release).
 
-diff --git a/meta/recipes-support/nss/nss/nss-disable-werror-on-deprecated-api.patch b/meta/recipes-support/nss/nss/nss-disable-werror-on-deprecated-api.patch
-new file mode 100644
-index 0000000..bbd5243
---- /dev/null
-+++ b/meta/recipes-support/nss/nss/nss-disable-werror-on-deprecated-api.patch
-@@ -0,0 +1,22 @@
-+Disable Werror on deprecated API
-+
-+nss itself enables Werror if gcc is version 4.8 of greater, which fails
-+the build against new glibc (2.24) because of use of readdir_r(), which is
-+now deprecated. Let's just disable warnings on deprecated API usage.
-+
-+Upstream-Status: Pending
-+
-+Signed-off-by: Zeeshan Ali <zeeshan.ali@pelagicore.com>
-+===================================================
-+diff -u -r a/nss/coreconf/Werror.mk b/nss/coreconf/Werror.mk
-+--- a/nss/coreconf/Werror.mk	2015-11-09 06:12:59.000000000 +0100
-++++ b/nss/coreconf/Werror.mk	2016-11-11 14:36:36.301062957 +0100
-+@@ -60,7 +60,7 @@
-+   endif #ndef NSS_ENABLE_WERROR
-+ 
-+   ifeq ($(NSS_ENABLE_WERROR),1)
-+-    WARNING_CFLAGS += -Werror
-++    WARNING_CFLAGS += -Werror -Wno-deprecated -Wno-deprecated-declarations
-+   else
-+     # Old versions of gcc (< 4.8) don't support #pragma diagnostic in functions.
-+     # Use this to disable use of that #pragma and the warnings it suppresses.
-diff --git a/meta/recipes-support/nss/nss_3.21.bb b/meta/recipes-support/nss/nss_3.21.bb
-index 05d81c2..7933883 100644
---- a/meta/recipes-support/nss/nss_3.21.bb
-+++ b/meta/recipes-support/nss/nss_3.21.bb
-@@ -22,6 +22,7 @@ SRC_URI = "\
-     file://nss-fix-nsinstall-build.patch \
-     file://0001-Fix-build-failure-on-opensuse-13.1.patch \
-     file://nss-gcc6-fix.patch \
-+    file://nss-disable-werror-on-deprecated-api.patch \
-     file://nss.pc.in \
-     file://signlibs.sh \
- "
--- 
-2.9.3
+Ross
 
+--001a1145b7b85fb902054107ae53
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 11 November 2016 at 14:25, Zeeshan Ali <span dir=3D"ltr">&lt;<a href=3D"=
+mailto:zeeshanak@gnome.org" target=3D"_blank">zeeshanak@gnome.org</a>&gt;</=
+span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8e=
+x;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":747" class=3D"a3=
+s aXjCH m15853db7bd6199f1">+Upstream-Status: Pending<br></div></blockquote>=
+</div><br>Please use either Backport (upstream did the same change) or Inap=
+propriate (upstream did an invasive change, this is easier to audit for a s=
+table release).</div><div class=3D"gmail_extra"><br></div><div class=3D"gma=
+il_extra">Ross</div></div>
+
+--001a1145b7b85fb902054107ae53--
