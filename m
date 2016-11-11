@@ -1,40 +1,41 @@
-Return-Path: <obi@opendreambox.org>
-Received: from mail.dream-property.net (mail.dream-property.net
-	[82.149.226.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 3379C71A9B
+Return-Path: <paul@paulbarker.me.uk>
+X-Greylist: delayed 8866 seconds by postgrey-1.34 at layers.openembedded.org;
+	Fri, 11 Nov 2016 22:06:54 UTC
+Received: from 10.mo68.mail-out.ovh.net (10.mo68.mail-out.ovh.net
+	[46.105.79.203])
+	by mail.openembedded.org (Postfix) with ESMTP id A5CCD62134
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 Nov 2016 18:49:55 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by mail.dream-property.net (Postfix) with ESMTP id 765A131C026C;
-	Fri, 11 Nov 2016 19:49:56 +0100 (CET)
-X-Virus-Scanned: Debian amavisd-new at mail.dream-property.net
-Received: from mail.dream-property.net ([127.0.0.1])
-	by localhost (mail.dream-property.net [127.0.0.1]) (amavisd-new,
-	port 10024)
-	with LMTP id 1FJPq6l1oR6U; Fri, 11 Nov 2016 19:49:54 +0100 (CET)
-Received: from [172.22.22.61] (55d475ce.access.ecotel.net [85.212.117.206])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by mail.dream-property.net (Postfix) with ESMTPSA id A0DFF31C0269;
-	Fri, 11 Nov 2016 19:49:53 +0100 (CET)
-To: akuster808 <akuster808@gmail.com>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>,
-	"Jolley, Stephen K" <stephen.k.jolley@intel.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-References: <9ADD3FDE8B189B4AA2F8A3C711F8155E572AE52E@fmsmsx111.amr.corp.intel.com>
-	<e188c300-ce1b-4591-cb87-81a1497bbf34@opendreambox.org>
-	<1478613085.23123.137.camel@linuxfoundation.org>
-	<c2bf93e9-5aa6-1849-487c-3a30336b9a0f@opendreambox.org>
-	<414710d2-e436-02cb-6df9-a9a2f83f3a29@gmail.com>
-From: Andreas Oberritter <obi@opendreambox.org>
-Message-ID: <f3d95b6f-f7b2-7f51-1c91-3f206b251e52@opendreambox.org>
-Date: Fri, 11 Nov 2016 19:49:52 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.4.0
+	Fri, 11 Nov 2016 22:06:54 +0000 (UTC)
+Received: from player763.ha.ovh.net (b9.ovh.net [213.186.33.59])
+	by mo68.mail-out.ovh.net (Postfix) with ESMTP id 928B7BC79
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 11 Nov 2016 20:39:07 +0100 (CET)
+Received: from nuc.betafive.co.uk
+	(cpc11-shep11-2-0-cust130.8-3.cable.virginm.net [86.27.96.131])
+	(Authenticated sender: paul@betafive.co.uk)
+	by player763.ha.ovh.net (Postfix) with ESMTPSA id 29DA43C0067;
+	Fri, 11 Nov 2016 20:39:05 +0100 (CET)
+Date: Fri, 11 Nov 2016 19:39:02 +0000
+From: Paul Barker <paul@paulbarker.me.uk>
+To: Andre McCurdy <armccurdy@gmail.com>
+Message-ID: <20161111193902.3e34bf60@nuc.betafive.co.uk>
+In-Reply-To: <CAJ86T=XNd_ypY_aBc+eVGpJ4ntUUecT7Umdg37hUrNqZNAw_6g@mail.gmail.com>
+References: <1477161480-20271-1-git-send-email-paul@paulbarker.me.uk>
+	<20161105101438.1ef1f627@nuc.betafive.co.uk>
+	<CAJTo0LbB0eGStoFbyinDYP0zzEJ27BL0eDyGKFkjdh=AaWBPVA@mail.gmail.com>
+	<CADkTA4OaRgUJwFwT=S_h41EW4OO_Koa+QQr=t3t+X+6pszrzBQ@mail.gmail.com>
+	<CAJTo0LZxGYzpjUetPspX6mKktoL_XnDqfncyHFWN5Kzfij8-UQ@mail.gmail.com>
+	<CADkTA4NmhstuGn7cZLD-MGB1OdNbAFLkiOKrf20Bri0KSEsuQA@mail.gmail.com>
+	<20161109180854.130d6804@nuc.betafive.co.uk>
+	<CAJ86T=XNd_ypY_aBc+eVGpJ4ntUUecT7Umdg37hUrNqZNAw_6g@mail.gmail.com>
+X-Mailer: Claws Mail 3.11.1 (GTK+ 2.24.25; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <414710d2-e436-02cb-6df9-a9a2f83f3a29@gmail.com>
-Subject: Re: Yocto Project Status WW45 - UPDATED
+X-Ovh-Tracer-Id: 2187342047023171937
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrfeelfedrtdeigdduvdeiucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddm
+Cc: OpenEmbedded Core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] kernel.bbclass: Allow ${S} to be overridden
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,62 +48,86 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 11 Nov 2016 18:49:56 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 11 Nov 2016 22:06:55 -0000
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On 11.11.2016 19:20, akuster808 wrote:
+On Wed, 9 Nov 2016 15:42:29 -0800
+Andre McCurdy <armccurdy@gmail.com> wrote:
+
+> On Wed, Nov 9, 2016 at 10:08 AM, Paul Barker <paul@paulbarker.me.uk> wrote:
+> >
+> > The reason for this patch is that I'm using a tarball for the kernel
+> > sources in the new meta-arduino layer. That tarball doesn't get
+> > extracted to ${STAGING_KERNEL_DIR} and so it needs to be copied over to
+> > there. Looking at kernel.bbclass, it looks like the logic to do this is
+> > present:
+> >
+> >
+> >     # Old style kernels may set ${S} = ${WORKDIR}/git for example
+> >     # We need to move these over to STAGING_KERNEL_DIR. We can't just
+> >     # create the symlink in advance as the git fetcher can't cope with
+> >     # the symlink.
+> >     do_unpack[cleandirs] += " ${S} ${STAGING_KERNEL_DIR} ${B} ${STAGING_KERNEL_BUILDDIR}"
+> >     do_clean[cleandirs] += " ${S} ${STAGING_KERNEL_DIR} ${B} ${STAGING_KERNEL_BUILDDIR}"
+> >     base_do_unpack_append () {
+> >         s = d.getVar("S", True)
+> >         if s[-1] == '/':
+> >             # drop trailing slash, so that os.symlink(kernsrc, s) doesn't use s as directory name and fail
+> >             s=s[:-1]
+> >         kernsrc = d.getVar("STAGING_KERNEL_DIR", True)
+> >         if s != kernsrc:
+> >             bb.utils.mkdirhier(kernsrc)
+> >             bb.utils.remove(kernsrc, recurse=True)
+> >             if d.getVar("EXTERNALSRC", True):
+> >                 # With EXTERNALSRC S will not be wiped so we can symlink to it
+> >                 os.symlink(s, kernsrc)
+> >             else:
+> >                 import shutil
+> >                 shutil.move(s, kernsrc)
+> >                 os.symlink(kernsrc, s)
+> >     }
+> >
+> > The problem is we can't set S to anything unless we can override it.
+> >
+> > I've now looked into this futher and it seems to be working for some
+> > kernel recipes but not others. The issue may be that we have an
+> > assignment for S in bitbake.conf:
+> >
+> >     S = "${WORKDIR}/${BP}"
+> >
+> > That's obviously overriding the 'S ?= ...' assignment when my patch is
+> > applied where S isn't also explicitly assigned in the recipe, some
+> > other class or include file.
+> >
+> > I'm not sure on how precedence is determined if a variable is assigned
+> > using '=' multiple times.
+> >
+> > I'll have another look into it and see where I get. I have a workaround
+> > in place for the meta-arduino layer for now so it doesn't need an
+> > urgent fix.
+> >
+> > However, if it turns out we can't reliably override S in a kernel recipe
+> > then should we still have that comment and base_do_unpack_append() in
+> > kernel.bbclass?
 > 
-> 
-> On 11/11/2016 12:53 AM, Andreas Oberritter wrote:
->> On 08.11.2016 14:51, Richard Purdie wrote:
->>> On Tue, 2016-11-08 at 11:00 +0100, Andreas Oberritter wrote:
->>>> Hello Stephen,
->>>>
->>>> On 04.11.2016 18:06, Jolley, Stephen K wrote:
->>>>> ·        There was a challenging taskhash mismatch test case this
->>>>> week
->>>>> which has resulted in some significant debugging improvements for
->>>>> taskhashes and basehashes which are now in master.
->>>> is there an entry in bugzilla about this issue, or can you please add
->>>> a reference to the actual commits in master? I'm facing a similar
->>>> issue, so it might be helpful for me to backport them to the branch
->>>> I'm using.
->>> http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=0a4a6d6956a10aa0a6589de12b0b2380a9f0a7d9
->>>
->>>
->>> has info in the commit message. You also want:
->>>
->>> http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=589f08aa852dd43af5d05d698cfa917bec084210
->>>
->>> http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=157947efc7e505e01baafb33ec93fe2f485308fe
->>>
->>> http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=f6b0c60664e86fec55d282f1ea41238abd74712d
->>>
->>> http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=71c837611690ab4bec1656a58d13ca48e7c6a6e6
->>>
->> I backported these patches to krogoth. I think I would never have found
->> the cause for my taskhash mismatch without them. Thank you very much!
-> sounds like I should queue these up in my staging.
-
-The first commits are for bitbake. I needed to make some adjustments for
-python 2.7. You can find my backported patches here:
-
-https://github.com/opendreambox/bitbake/commits/1.30
-
-Regards,
-Andreas
-
-> 
-> - Armin
->>
->> Best regards,
->> Andreas
->>
->>> Cheers,
->>>
->>> Richard
->>>
+> The solution I use (learned the hard way) is to ensure that "S = ..."
+> comes after "inherit kernel" in the kernel recipe.
 > 
 
+Ok, yea, this works for me.
+
+Is this expected? S is set to ${STAGING_KERNEL_DIR} at the start of
+kernel.bbclass. The base_do_unpack_append() function is defined later
+in kernel.bbclass. If S is set to ${WORKDIR}/${BP} only after
+kernel.bbclass is inherited, then that's after base_do_unpack_append()
+has been parsed.
+
+I've re-read the bitbake user manual [1] but I can't clearly understand
+why this works. Is it to do with when the _append is applied?
+
+Is there any way we can make this more obvious or is this just the
+nature of bitbake?
+
+[1]: http://www.yoctoproject.org/docs/2.2/bitbake-user-manual/bitbake-user-manual.html#basic-syntax
 
