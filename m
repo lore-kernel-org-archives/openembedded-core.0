@@ -1,46 +1,30 @@
-Return-Path: <philip.balister@gmail.com>
-Received: from mail-qt0-f193.google.com (mail-qt0-f193.google.com
-	[209.85.216.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 82A9771A0A
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 26C4F6FFEA
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 Nov 2016 17:52:28 +0000 (UTC)
-Received: by mail-qt0-f193.google.com with SMTP id n34so1319592qtb.3
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 Nov 2016 09:52:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=sender:from:to:cc:subject:date:message-id;
-	bh=JW5dhMV0BT1mNUO0t340dt0xO2qy7fBfUUSvSq5PTGs=;
-	b=Obpes25/XzoI9wt8dC0VqMWz1n6Xe85EH8S96fs+vMZ19G0zMnjIW2GKc9a4KvDwyX
-	WTqo9m3DcU/2rTR2N8V6ERrKrhYA8ef1foSnmc3msAKl3xbCwuYvM9SlkwdAAWF+asoX
-	28n5XekHtO+4WEcUJjDaePbQ+46U8a3IrSPbReNr9vcHHJZQttSJbvNvtOGd9/SGBCQP
-	8TWFq0NN++LcJcXIQ6syJcf5ToQltqeenRFD9i+5lAqYor48HiHZrCuVIHq/rt25PWxj
-	ClqQaNMaMpfVULNwHRzCtguPLryN4hqPon0tw63OdtfI+sCycpFDFwoZ/gBDxZYZTBm0
-	AwdA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:sender:from:to:cc:subject:date:message-id;
-	bh=JW5dhMV0BT1mNUO0t340dt0xO2qy7fBfUUSvSq5PTGs=;
-	b=PY//OFoOxxHgVW05pgFyrGvRf4G2dSk9eHG4IPM4i5FcRnDv/q8CZMpUWEXyYuWVxD
-	SHyjqIuvFLjwSgOnS0slcK8ae53KHojIdZ+mdrxHFqHrmkuHCWwp1V7aRo8fBKELX2uJ
-	KxVIEQVTK2Wt1HKIZKHhbbTYf2X+E0r51Yly562DQvVt1FF6URzZ8rG1MaD21Z1+bS35
-	GczvrPreGWGyldirRHFOBJzYBlx0sYwm0qe/J7Ypchiirkr7TcrGXJQyGzMxFkBrNy+c
-	0zduD9cmJptbtHYfg2gq1stQwfwjje6YEltcD+DqjGajGWvkdS01h/YKERfConUU30WY
-	x5yQ==
-X-Gm-Message-State: ABUngveLRKYx8gj0LyYNus06cd/jlaFKu7+PIP2Hnpa70zOBCUoPKJf74xvkruMs2alp3A==
-X-Received: by 10.200.49.106 with SMTP id h39mr4460011qtb.69.1478886750035;
-	Fri, 11 Nov 2016 09:52:30 -0800 (PST)
-Received: from thuvia.localdomain
-	(pool-108-44-116-162.ronkva.east.verizon.net. [108.44.116.162])
-	by smtp.gmail.com with ESMTPSA id t7sm5898904qtd.13.2016.11.11.09.52.26
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 11 Nov 2016 09:52:29 -0800 (PST)
-Sender: Philip Balister <philip.balister@gmail.com>
-From: Philip Balister <philip@balister.org>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 11 Nov 2016 12:52:13 -0500
-Message-Id: <1478886733-27782-1-git-send-email-philip@balister.org>
-X-Mailer: git-send-email 2.7.4
-Subject: [PATCH] wic: Fix rootfs_size variable not found error.
+	Fri, 11 Nov 2016 18:04:39 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	uABI3eih002952; Fri, 11 Nov 2016 18:04:37 GMT
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id zUOzYoOnU3Hm; Fri, 11 Nov 2016 18:04:37 +0000 (GMT)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	uABI4Yjp003051
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Fri, 11 Nov 2016 18:04:35 GMT
+Message-ID: <1478887474.23123.233.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Alexander Kanavin <alexander.kanavin@linux.intel.com>,
+	openembedded-core@lists.openembedded.org
+Date: Fri, 11 Nov 2016 18:04:34 +0000
+In-Reply-To: <d8dfb2d5-66de-8daf-99c3-13c611a7f5b2@linux.intel.com>
+References: <20161110003935.1858-1-raj.khem@gmail.com>
+	<d8dfb2d5-66de-8daf-99c3-13c611a7f5b2@linux.intel.com>
+X-Mailer: Evolution 3.18.5.2-0ubuntu3 
+Mime-Version: 1.0
+Subject: Re: [PATCH 1/2] go: Add recipes for golang compilers and tools
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,40 +37,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 11 Nov 2016 17:52:29 -0000
+X-List-Received-Date: Fri, 11 Nov 2016 18:04:40 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Commit 1ba6101ceaee354816e690d44bc9a5dd8dcf4011 introduced the runtime
-error. Thi scommit should fix it. Tested with an sd card build with
-an ext4 file system.
+On Fri, 2016-11-11 at 15:10 +0200, Alexander Kanavin wrote:
+> On 11/10/2016 02:39 AM, Khem Raj wrote:
+> > 
+> > This is converging the recipes for go from
+> > meta-virtualization and oe-meta-go
+> Wait a moment, why this should go to oe-core and not to meta-go? Is 
+> there something in oe-core itself that requires presence of go
+> compiler?
 
-Signed-off-by: Philip Balister <philip@balister.org>
----
- scripts/lib/wic/partition.py | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+This was something that came up at OEDEM. There are several layers with
+several attempts at getting this right, most have some issues.
 
-diff --git a/scripts/lib/wic/partition.py b/scripts/lib/wic/partition.py
-index 89c33ab..dc85b42 100644
---- a/scripts/lib/wic/partition.py
-+++ b/scripts/lib/wic/partition.py
-@@ -308,7 +308,7 @@ class Partition():
-         Prepare an empty ext2/3/4 partition.
-         """
-         with open(rootfs, 'w') as sparse:
--            os.ftruncate(sparse.fileno(), rootfs_size * 1024)
-+            os.ftruncate(sparse.fileno(), self.size * 1024)
- 
-         extra_imagecmd = "-i 8192"
- 
-@@ -326,7 +326,7 @@ class Partition():
-         Prepare an empty btrfs partition.
-         """
-         with open(rootfs, 'w') as sparse:
--            os.ftruncate(sparse.fileno(), rootfs_size * 1024)
-+            os.ftruncate(sparse.fileno(), self.size * 1024)
- 
-         label_str = ""
-         if self.label:
--- 
-2.7.4
+Whilst we've been pulling things out of core, we also need to consider
+things that perhaps should get added. Having this in core would
+certainly address a number of issues (but is also potentially a
+maintenance burden).
 
+We did agree there that we'd consider this. Obviously input from people
+not there is welcome though and this does need discussion. I'm leaning
+moderately in favour of adding it as things stand.
+
+Cheers,
+
+Richard
 
