@@ -1,45 +1,50 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f195.google.com (mail-pf0-f195.google.com
-	[209.85.192.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 8D80F71A27
+Return-Path: <kergoth@gmail.com>
+Received: from mail-it0-f65.google.com (mail-it0-f65.google.com
+	[209.85.214.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 7F14B607A5
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 Nov 2016 02:13:31 +0000 (UTC)
-Received: by mail-pf0-f195.google.com with SMTP id n85so492281pfi.3
+	Fri, 11 Nov 2016 02:59:55 +0000 (UTC)
+Received: by mail-it0-f65.google.com with SMTP id q124so7693582itd.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Nov 2016 18:13:32 -0800 (PST)
+	Thu, 10 Nov 2016 18:59:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=AraSXZKICNXSQE7Rw5Zl4eggyeUCw8gRsAfIc5nvVYE=;
-	b=mbn+2ZeRCeFCFB41MHswPoFY/f0wCy3j/Q2Q6CUzOJZ8C4bHH9hqDD95q+esIjlpD/
-	fiV0X7FzVKtCFMoB5jBzcK6Ni8xxZOjadofVmMfK1AbGbb3bQygaDbEyblRopI2yaVMw
-	2Pl/gheM7LlSWedt1EKhByKH3WMegw3a9KHtW2roKBHQnt+sB05wpPYh+b5n+tsGBmzc
-	ocJ193676Y+YRYk84u8xkbq4S4edIhpcTuTsZDxUsi6jJ/WbOMIBjj6ib4VViNa2r96H
-	0X7fxXOge1c4w9xcf3iojdXwLFY6ElcjaLiiKM/5P82OIcLofVhlUd61MMdZfAPVuqFp
-	1xAQ==
+	h=mime-version:sender:in-reply-to:references:from:date:message-id
+	:subject:to:cc;
+	bh=uwOddLfGn4BUbghTDfq6a0AngokvraiGTDihlFAED2w=;
+	b=APSmn94WR8m1La0vtfAHw7uWNIuwOO+RZiGFhqGdCU12Niv+bpmoWjRbZUkBK/AHAQ
+	f4OLofxhDNmu51QQ660e8WU7wkR0w6LUQbrm0omfxojW2FmInD/To6mclZyTh8jhaG4C
+	NSe0JeaSi2z/DIvj1/VNdy5zchP80z6V8p5qEs9fxyzspCLO8RpXRoMwcmmo7bjbfvRc
+	YVBvsKRJQBaHB97OQkfMETa8l3PJhrXH3S8OZlTsd0ZVqPXrHu8ezyEfoOrqM/9ggJbA
+	QLeEFNqgjvXyS/LOycOeF5VyGYJaZVgrO6VtUljbC79G90NOAqUXpxZeVAhmkVrvJkmu
+	5iAQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=AraSXZKICNXSQE7Rw5Zl4eggyeUCw8gRsAfIc5nvVYE=;
-	b=Xg25SnRnRYeO+OR7zno7JHXtaOaa+7NDRStKAfGxoRjK/y7eLEu/E/uhdM/2A0jGbK
-	CZhMHgAOtAc+RImJ+mdslQYNMZ6IBs28XhlunxCxJ9Qr+zjXcoUQDYOodZ5+AQtzA9uf
-	Drw/kIUKmlRFlSxthZrA0gVOmKmtVT/jp7TTwxGIhIs8JvVoKIPK1T8paW9gwanQAzv2
-	SKCpbKnJcKUlST5wAMra7TABlOD7V2yPVNbcFpadgNzTfzYoN/bFlBUIF4/HFycNAJff
-	fg5AKXBDylkubKhFh32VxbJ3TeD3yrcdtiIr/bzwQm3EGRxsW4m5hqmxrUEyV1WHV+w4
-	9zyw==
-X-Gm-Message-State: ABUngvfSlyJf1rHfSjpFtsHSyT2gFXjwfXIeNVzLBUwwProns61kYKVRAIHp43F/Su78Hw==
-X-Received: by 10.99.152.25 with SMTP id q25mr545435pgd.36.1478830412246;
-	Thu, 10 Nov 2016 18:13:32 -0800 (PST)
-Received: from localhost.localdomain (c-76-102-32-192.hsd1.ca.comcast.net.
-	[76.102.32.192]) by smtp.gmail.com with ESMTPSA id
-	vz6sm10227854pab.15.2016.11.10.18.13.31
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 10 Nov 2016 18:13:31 -0800 (PST)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 10 Nov 2016 18:13:26 -0800
-Message-Id: <20161111021326.26750-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.10.2
-Subject: [PATCH V2] musl: Update to latest on master
+	h=x-gm-message-state:mime-version:sender:in-reply-to:references:from
+	:date:message-id:subject:to:cc;
+	bh=uwOddLfGn4BUbghTDfq6a0AngokvraiGTDihlFAED2w=;
+	b=PMTRE+eeB2VZRkpYjLZgTRhXsgDmqqUt9l+rvFr1+LhHyQpvFD43xHNOzJnUjmo4Eo
+	nH9VsJq9euNO3N5v9WdbX627Cz9ViVqocp1ObAHQ0NKKK4Sv+zEJFBHfS2Im/izKM+Qn
+	Ci4sHyMqPpNacn43TwtT/qATGenxUi0Ka3eDKUfFNIFEgy6JDBCF5DsHqq6kWOuf6whG
+	H+2jfIOmVceGJc66q9piIS9Whf7/4v+69behwBDRZ2uYeuPh7pz0LkB67XtmSiuaZBdR
+	3WLoAtN5FWDCPQzfTSS6bqJG7NS9Qxt+Od4U1PJoUt/wv094A/GVNJHz/nyoqYtXldPJ
+	4cqg==
+X-Gm-Message-State: ABUngvdVfdU/FBF/uASOt5or9amKN+w27Ekwws0HiPM1fOVgSFTmz7Pjqc/Yr9098Kde2t+l6vcJGhlfbm2Zww==
+X-Received: by 10.157.24.109 with SMTP id t42mr293710ott.166.1478833196492;
+	Thu, 10 Nov 2016 18:59:56 -0800 (PST)
+MIME-Version: 1.0
+Sender: kergoth@gmail.com
+Received: by 10.157.35.166 with HTTP; Thu, 10 Nov 2016 18:59:36 -0800 (PST)
+In-Reply-To: <20161110003935.1858-2-raj.khem@gmail.com>
+References: <20161110003935.1858-1-raj.khem@gmail.com>
+	<20161110003935.1858-2-raj.khem@gmail.com>
+From: Christopher Larson <clarson@kergoth.com>
+Date: Thu, 10 Nov 2016 19:59:36 -0700
+X-Google-Sender-Auth: -8t-eDk-zx4One4dH3V6hNLx2F0
+Message-ID: <CABcZANmkhnCF0-p75sAC-p2fOrYmjSPo9==OqDjPDwnZd-uUzQ@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/2] go-examples: Add an example, helloworld written in go
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,122 +57,115 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 11 Nov 2016 02:13:31 -0000
+X-List-Received-Date: Fri, 11 Nov 2016 02:59:55 -0000
+Content-Type: multipart/alternative; boundary=001a1142ebfe5bf8950540fdaf7b
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/recipes-core/musl/files/CVE-2016-8859.patch | 79 ------------------------
- meta/recipes-core/musl/musl_git.bb               |  3 +-
- 2 files changed, 1 insertion(+), 81 deletions(-)
- delete mode 100644 meta/recipes-core/musl/files/CVE-2016-8859.patch
+--001a1142ebfe5bf8950540fdaf7b
+Content-Type: text/plain; charset=UTF-8
 
-diff --git a/meta/recipes-core/musl/files/CVE-2016-8859.patch b/meta/recipes-core/musl/files/CVE-2016-8859.patch
-deleted file mode 100644
-index 82da86f..0000000
---- a/meta/recipes-core/musl/files/CVE-2016-8859.patch
-+++ /dev/null
-@@ -1,79 +0,0 @@
--From c3edc06d1e1360f3570db9155d6b318ae0d0f0f7 Mon Sep 17 00:00:00 2001
--From: Rich Felker <dalias@aerifal.cx>
--Date: Thu, 6 Oct 2016 18:34:58 -0400
--Subject: [PATCH] fix missing integer overflow checks in regexec buffer size
-- computations
--
--most of the possible overflows were already ruled out in practice by
--regcomp having already succeeded performing larger allocations.
--however at least the num_states*num_tags multiplication can clearly
--overflow in practice. for safety, check them all, and use the proper
--type, size_t, rather than int.
--
--also improve comments, use calloc in place of malloc+memset, and
--remove bogus casts.
--
--Upstream-Status: Backport
--CVE: CVE-2016-8859
--
--Signed-off-by: Armin Kuster <akuster@mvista.com>
--
-----
-- src/regex/regexec.c | 23 ++++++++++++++++++-----
-- 1 file changed, 18 insertions(+), 5 deletions(-)
--
--diff --git a/src/regex/regexec.c b/src/regex/regexec.c
--index 16c5d0a..dd52319 100644
----- a/src/regex/regexec.c
--+++ b/src/regex/regexec.c
--@@ -34,6 +34,7 @@
-- #include <wchar.h>
-- #include <wctype.h>
-- #include <limits.h>
--+#include <stdint.h>
-- 
-- #include <regex.h>
-- 
--@@ -206,11 +207,24 @@ tre_tnfa_run_parallel(const tre_tnfa_t *tnfa, const void *string,
-- 
--   /* Allocate memory for temporary data required for matching.	This needs to
--      be done for every matching operation to be thread safe.  This allocates
---     everything in a single large block from the stack frame using alloca()
---     or with malloc() if alloca is unavailable. */
--+     everything in a single large block with calloc(). */
--   {
---    int tbytes, rbytes, pbytes, xbytes, total_bytes;
--+    size_t tbytes, rbytes, pbytes, xbytes, total_bytes;
--     char *tmp_buf;
--+
--+    /* Ensure that tbytes and xbytes*num_states cannot overflow, and that
--+     * they don't contribute more than 1/8 of SIZE_MAX to total_bytes. */
--+    if (num_tags > SIZE_MAX/(8 * sizeof(int) * tnfa->num_states))
--+      goto error_exit;
--+
--+    /* Likewise check rbytes. */
--+    if (tnfa->num_states+1 > SIZE_MAX/(8 * sizeof(*reach_next)))
--+      goto error_exit;
--+
--+    /* Likewise check pbytes. */
--+    if (tnfa->num_states > SIZE_MAX/(8 * sizeof(*reach_pos)))
--+      goto error_exit;
--+
--     /* Compute the length of the block we need. */
--     tbytes = sizeof(*tmp_tags) * num_tags;
--     rbytes = sizeof(*reach_next) * (tnfa->num_states + 1);
--@@ -221,10 +235,9 @@ tre_tnfa_run_parallel(const tre_tnfa_t *tnfa, const void *string,
--       + (rbytes + xbytes * tnfa->num_states) * 2 + tbytes + pbytes;
-- 
--     /* Allocate the memory. */
---    buf = xmalloc((unsigned)total_bytes);
--+    buf = calloc(total_bytes, 1);
--     if (buf == NULL)
--       return REG_ESPACE;
---    memset(buf, 0, (size_t)total_bytes);
-- 
--     /* Get the various pointers within tmp_buf (properly aligned). */
--     tmp_tags = (void *)buf;
---- 
--2.7.4
--
-diff --git a/meta/recipes-core/musl/musl_git.bb b/meta/recipes-core/musl/musl_git.bb
-index 1ee56b6..d4467bc 100644
---- a/meta/recipes-core/musl/musl_git.bb
-+++ b/meta/recipes-core/musl/musl_git.bb
-@@ -3,7 +3,7 @@
- 
- require musl.inc
- 
--SRCREV = "39494a273eaa6b714e0fa0c59ce7a1f5fbc80a1e"
-+SRCREV = "4078a5c31fa67987051c2180db7a07702534032f"
- 
- PV = "1.1.15+git${SRCPV}"
- 
-@@ -11,7 +11,6 @@ PV = "1.1.15+git${SRCPV}"
- 
- SRC_URI = "git://git.musl-libc.org/musl \
-            file://0001-Make-dynamic-linker-a-relative-symlink-to-libc.patch \
--           file://CVE-2016-8859.patch \
-           "
- 
- S = "${WORKDIR}/git"
+On Wed, Nov 9, 2016 at 5:39 PM, Khem Raj <raj.khem@gmail.com> wrote:
+
+> diff --git a/meta/recipes-extended/go-examples/go-examples.inc
+> b/meta/recipes-extended/go-examples/go-examples.inc
+> new file mode 100644
+> index 0000000..c632681
+> --- /dev/null
+> +++ b/meta/recipes-extended/go-examples/go-examples.inc
+> @@ -0,0 +1,10 @@
+> +DESCRIPTION = "This is a simple example recipe that cross-compiles a Go
+> program."
+> +SECTION = "examples"
+> +HOMEPAGE = "https://golang.org/"
+> +
+> +LICENSE = "MIT"
+> +LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=
+> 0835ade698e0bcf8506ecda2f7b4f302"
+> +
+> +S = "${WORKDIR}"
+> +
+> +inherit go
+> diff --git a/meta/recipes-extended/go-examples/go-helloworld_0.1.bb
+> b/meta/recipes-extended/go-examples/go-helloworld_0.1.bb
+> new file mode 100644
+> index 0000000..af9d3b7
+> --- /dev/null
+> +++ b/meta/recipes-extended/go-examples/go-helloworld_0.1.bb
+> @@ -0,0 +1,15 @@
+> +require go-examples.inc
+> +
+> +
+> +SRC_URI += " \
+> +  file://helloworld.go \
+> +"
+> +
+> +do_compile() {
+> +  go build helloworld.go
+> +}
+>
+
+Under what circumstances would one use the go_do_compile from go.bbclass vs
+this?
 -- 
-2.10.2
+Christopher Larson
+clarson at kergoth dot com
+Founder - BitBake, OpenEmbedded, OpenZaurus
+Maintainer - Tslib
+Senior Software Engineer, Mentor Graphics
 
+--001a1142ebfe5bf8950540fdaf7b
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On Wed, Nov 9, 2016 at 5:39 PM, Khem Raj <span dir=3D"ltr">&lt;<a href=3D"m=
+ailto:raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt;</spa=
+n> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;b=
+order-left:1px #ccc solid;padding-left:1ex"><div id=3D":2k2" class=3D"a3s a=
+XjCH m1584bad6ff3633b4">diff --git a/meta/recipes-extended/go-<wbr>examples=
+/go-examples.inc b/meta/recipes-extended/go-<wbr>examples/go-examples.inc<b=
+r>
+new file mode 100644<br>
+index 0000000..c632681<br>
+--- /dev/null<br>
++++ b/meta/recipes-extended/go-<wbr>examples/go-examples.inc<br>
+@@ -0,0 +1,10 @@<br>
++DESCRIPTION =3D &quot;This is a simple example recipe that cross-compiles =
+a Go program.&quot;<br>
++SECTION =3D &quot;examples&quot;<br>
++HOMEPAGE =3D &quot;<a href=3D"https://golang.org/" rel=3D"noreferrer" targ=
+et=3D"_blank">https://golang.org/</a>&quot;<br>
++<br>
++LICENSE =3D &quot;MIT&quot;<br>
++LIC_FILES_CHKSUM =3D &quot;file://${COMMON_LICENSE_DIR}/<wbr>MIT;md5=3D<wb=
+r>0835ade698e0bcf8506ecda2f7b4f3<wbr>02&quot;<br>
++<br>
++S =3D &quot;${WORKDIR}&quot;<br>
++<br>
++inherit go<br>
+diff --git a/meta/recipes-extended/go-<wbr>examples/<a href=3D"http://go-he=
+lloworld_0.1.bb" rel=3D"noreferrer" target=3D"_blank">go-helloworld_0.1.bb<=
+/a> b/meta/recipes-extended/go-<wbr>examples/<a href=3D"http://go-helloworl=
+d_0.1.bb" rel=3D"noreferrer" target=3D"_blank">go-helloworld_0.1.bb</a><br>
+new file mode 100644<br>
+index 0000000..af9d3b7<br>
+--- /dev/null<br>
++++ b/meta/recipes-extended/go-<wbr>examples/<a href=3D"http://go-helloworl=
+d_0.1.bb" rel=3D"noreferrer" target=3D"_blank">go-helloworld_0.1.bb</a><br>
+@@ -0,0 +1,15 @@<br>
++require go-examples.inc<br>
++<br>
++<br>
++SRC_URI +=3D &quot; \<br>
++=C2=A0 file://helloworld.go \<br>
++&quot;<br>
++<br>
++do_compile() {<br>
++=C2=A0 go build helloworld.go<br>
++}</div></blockquote></div><br>Under what circumstances would one use the g=
+o_do_compile from go.bbclass vs this?<br>-- <br><div class=3D"gmail_signatu=
+re" data-smartmail=3D"gmail_signature">Christopher Larson<br>clarson at ker=
+goth dot com<br>Founder - BitBake, OpenEmbedded, OpenZaurus<br>Maintainer -=
+ Tslib<br>Senior Software Engineer, Mentor Graphics</div>
+</div></div>
+
+--001a1142ebfe5bf8950540fdaf7b--
