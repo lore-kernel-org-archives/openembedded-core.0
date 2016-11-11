@@ -1,37 +1,44 @@
-Return-Path: <obi@opendreambox.org>
-Received: from mail.dream-property.net (mail.dream-property.net
-	[82.149.226.172])
-	by mail.openembedded.org (Postfix) with ESMTP id CA315719B5
+Return-Path: <sona.sarmadi@enea.com>
+Received: from smtp-out11.electric.net (smtp-out11.electric.net
+	[185.38.181.44])
+	by mail.openembedded.org (Postfix) with ESMTP id 764486FFED
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 Nov 2016 08:53:21 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by mail.dream-property.net (Postfix) with ESMTP id 2E77E31A63ED;
-	Fri, 11 Nov 2016 09:53:22 +0100 (CET)
-X-Virus-Scanned: Debian amavisd-new at mail.dream-property.net
-Received: from mail.dream-property.net ([127.0.0.1])
-	by localhost (mail.dream-property.net [127.0.0.1]) (amavisd-new,
-	port 10024)
-	with LMTP id J64H4NBdiS9d; Fri, 11 Nov 2016 09:53:19 +0100 (CET)
-Received: from [172.22.22.61] (55d475ce.access.ecotel.net [85.212.117.206])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by mail.dream-property.net (Postfix) with ESMTPSA id 2691C31A6340;
-	Fri, 11 Nov 2016 09:53:18 +0100 (CET)
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	"Jolley, Stephen K" <stephen.k.jolley@intel.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-References: <9ADD3FDE8B189B4AA2F8A3C711F8155E572AE52E@fmsmsx111.amr.corp.intel.com>
-	<e188c300-ce1b-4591-cb87-81a1497bbf34@opendreambox.org>
-	<1478613085.23123.137.camel@linuxfoundation.org>
-From: Andreas Oberritter <obi@opendreambox.org>
-Message-ID: <c2bf93e9-5aa6-1849-487c-3a30336b9a0f@opendreambox.org>
-Date: Fri, 11 Nov 2016 09:53:18 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.4.0
+	Fri, 11 Nov 2016 09:49:16 +0000 (UTC)
+Received: from 1c58ST-0000uq-UQ by out11b.electric.net with emc1-ok (Exim 4.87)
+	(envelope-from <sona.sarmadi@enea.com>) id 1c58SU-0000vg-T3
+	for openembedded-core@lists.openembedded.org;
+	Fri, 11 Nov 2016 01:49:17 -0800
+Received: by emcmailer; Fri, 11 Nov 2016 01:49:17 -0800
+Received: from [192.36.1.72] (helo=mx-3.enea.com)
+	by out11b.electric.net with esmtps (TLSv1:AES128-SHA:128) (Exim 4.87)
+	(envelope-from <sona.sarmadi@enea.com>) id 1c58ST-0000uq-UQ
+	for openembedded-core@lists.openembedded.org;
+	Fri, 11 Nov 2016 01:49:17 -0800
+Received: from sestofb11.enea.se (172.21.3.152) by smtp.enea.com
+	(172.21.1.208) with Microsoft SMTP Server id 14.3.294.0;
+	Fri, 11 Nov 2016 10:49:17 +0100
+From: Sona Sarmadi <sona.sarmadi@enea.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 11 Nov 2016 10:49:07 +0100
+Message-ID: <1478857754-61379-5-git-send-email-sona.sarmadi@enea.com>
+X-Mailer: git-send-email 1.9.1
+In-Reply-To: <1478857754-61379-1-git-send-email-sona.sarmadi@enea.com>
+References: <1478857754-61379-1-git-send-email-sona.sarmadi@enea.com>
 MIME-Version: 1.0
-In-Reply-To: <1478613085.23123.137.camel@linuxfoundation.org>
-Subject: Re: Yocto Project Status WW45 - UPDATED
+Received-SPF: None (SESTOEX08.enea.se: sona.sarmadi@enea.com does not
+	designate permitted sender hosts)
+X-Outbound-IP: 192.36.1.72
+X-Env-From: sona.sarmadi@enea.com
+X-Proto: esmtps
+X-Revdns: mx-3.enea.com
+X-HELO: mx-3.enea.com
+X-TLS: TLSv1:AES128-SHA:128
+X-Authenticated_ID: 
+X-PolicySMART: 6551647
+X-Virus-Status: Scanned by VirusSMART (c)
+X-Virus-Status: Scanned by VirusSMART (s)
+Cc: sona@enea.se
+Subject: [PATCH][krogoth 05/12] curl: CVE-2016-8619
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,44 +51,93 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 11 Nov 2016 08:53:23 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 11 Nov 2016 09:49:18 -0000
+Content-Type: text/plain
 
-On 08.11.2016 14:51, Richard Purdie wrote:
-> On Tue, 2016-11-08 at 11:00 +0100, Andreas Oberritter wrote:
->> Hello Stephen,
->>
->> On 04.11.2016 18:06, Jolley, Stephen K wrote:
->>>
->>> ·        There was a challenging taskhash mismatch test case this
->>> week
->>> which has resulted in some significant debugging improvements for
->>> taskhashes and basehashes which are now in master.
->> is there an entry in bugzilla about this issue, or can you please add
->> a reference to the actual commits in master? I'm facing a similar
->> issue, so it might be helpful for me to backport them to the branch
->> I'm using.
-> 
-> http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=0a4a6d6956a10aa0a6589de12b0b2380a9f0a7d9
-> 
-> has info in the commit message. You also want:
-> 
-> http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=589f08aa852dd43af5d05d698cfa917bec084210
-> http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=157947efc7e505e01baafb33ec93fe2f485308fe
-> http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=f6b0c60664e86fec55d282f1ea41238abd74712d
-> http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=71c837611690ab4bec1656a58d13ca48e7c6a6e6
+double-free in krb5 code
 
-I backported these patches to krogoth. I think I would never have found
-the cause for my taskhash mismatch without them. Thank you very much!
+Affected versions: curl 7.3 to and including 7.50.3
+Reference:
+https://curl.haxx.se/docs/adv_20161102E.html
 
-Best regards,
-Andreas
+Signed-off-by: Sona Sarmadi <sona.sarmadi@enea.com>
+---
+ meta/recipes-support/curl/curl/CVE-2016-8619.patch | 52 ++++++++++++++++++++++
+ meta/recipes-support/curl/curl_7.47.1.bb           |  1 +
+ 2 files changed, 53 insertions(+)
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2016-8619.patch
 
-> 
-> Cheers,
-> 
-> Richard
-> 
+diff --git a/meta/recipes-support/curl/curl/CVE-2016-8619.patch b/meta/recipes-support/curl/curl/CVE-2016-8619.patch
+new file mode 100644
+index 0000000..fb21cf6
+--- /dev/null
++++ b/meta/recipes-support/curl/curl/CVE-2016-8619.patch
+@@ -0,0 +1,52 @@
++From 91239f7040b1f026d4d15765e7e3f58e92e93761 Mon Sep 17 00:00:00 2001
++From: Daniel Stenberg <daniel@haxx.se>
++Date: Wed, 28 Sep 2016 12:56:02 +0200
++Subject: [PATCH] krb5: avoid realloc(0)
++
++If the requested size is zero, bail out with error instead of doing a
++realloc() that would cause a double-free: realloc(0) acts as a free()
++and then there's a second free in the cleanup path.
++
++CVE: CVE-2016-8619
++Upstream-Status: Backport
++
++Bug: https://curl.haxx.se/docs/adv_20161102E.html
++Reported-by: Cure53
++Signed-off-by: Sona Sarmadi <sona.sarmadi@enea.com>
++---
++ lib/security.c | 9 ++++++---
++ 1 file changed, 6 insertions(+), 3 deletions(-)
++
++diff --git a/lib/security.c b/lib/security.c
++index a268d4a..4cef8f8 100644
++--- a/lib/security.c
+++++ b/lib/security.c
++@@ -190,19 +190,22 @@ socket_write(struct connectdata *conn, curl_socket_t fd, const void *to,
++ static CURLcode read_data(struct connectdata *conn,
++                           curl_socket_t fd,
++                           struct krb5buffer *buf)
++ {
++   int len;
++-  void* tmp;
+++  void *tmp = NULL;
++   CURLcode result;
++ 
++   result = socket_read(fd, &len, sizeof(len));
++   if(result)
++     return result;
++ 
++-  len = ntohl(len);
++-  tmp = realloc(buf->data, len);
+++  if(len) {
+++    /* only realloc if there was a length */
+++    len = ntohl(len);
+++    tmp = realloc(buf->data, len);
+++  }
++   if(tmp == NULL)
++     return CURLE_OUT_OF_MEMORY;
++ 
++   buf->data = tmp;
++   result = socket_read(fd, buf->data, len);
++-- 
++2.9.3
++
+diff --git a/meta/recipes-support/curl/curl_7.47.1.bb b/meta/recipes-support/curl/curl_7.47.1.bb
+index 27a999e..9ef5718 100644
+--- a/meta/recipes-support/curl/curl_7.47.1.bb
++++ b/meta/recipes-support/curl/curl_7.47.1.bb
+@@ -19,6 +19,7 @@ SRC_URI += " file://configure_ac.patch \
+              file://CVE-2016-8616.patch \
+              file://CVE-2016-8617.patch \
+              file://CVE-2016-8618.patch \
++             file://CVE-2016-8619.patch \
+            "
+ 
+ SRC_URI[md5sum] = "9ea3123449439bbd960cd25cf98796fb"
+-- 
+1.9.1
 
 
