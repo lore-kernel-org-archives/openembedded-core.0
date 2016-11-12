@@ -1,41 +1,38 @@
-Return-Path: <paul@paulbarker.me.uk>
-X-Greylist: delayed 8866 seconds by postgrey-1.34 at layers.openembedded.org;
-	Fri, 11 Nov 2016 22:06:54 UTC
-Received: from 10.mo68.mail-out.ovh.net (10.mo68.mail-out.ovh.net
-	[46.105.79.203])
-	by mail.openembedded.org (Postfix) with ESMTP id A5CCD62134
+Return-Path: <marex@denx.de>
+Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.9])
+	by mail.openembedded.org (Postfix) with ESMTP id E6F4B719C9
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 Nov 2016 22:06:54 +0000 (UTC)
-Received: from player763.ha.ovh.net (b9.ovh.net [213.186.33.59])
-	by mo68.mail-out.ovh.net (Postfix) with ESMTP id 928B7BC79
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 Nov 2016 20:39:07 +0100 (CET)
-Received: from nuc.betafive.co.uk
-	(cpc11-shep11-2-0-cust130.8-3.cable.virginm.net [86.27.96.131])
-	(Authenticated sender: paul@betafive.co.uk)
-	by player763.ha.ovh.net (Postfix) with ESMTPSA id 29DA43C0067;
-	Fri, 11 Nov 2016 20:39:05 +0100 (CET)
-Date: Fri, 11 Nov 2016 19:39:02 +0000
-From: Paul Barker <paul@paulbarker.me.uk>
-To: Andre McCurdy <armccurdy@gmail.com>
-Message-ID: <20161111193902.3e34bf60@nuc.betafive.co.uk>
-In-Reply-To: <CAJ86T=XNd_ypY_aBc+eVGpJ4ntUUecT7Umdg37hUrNqZNAw_6g@mail.gmail.com>
-References: <1477161480-20271-1-git-send-email-paul@paulbarker.me.uk>
-	<20161105101438.1ef1f627@nuc.betafive.co.uk>
-	<CAJTo0LbB0eGStoFbyinDYP0zzEJ27BL0eDyGKFkjdh=AaWBPVA@mail.gmail.com>
-	<CADkTA4OaRgUJwFwT=S_h41EW4OO_Koa+QQr=t3t+X+6pszrzBQ@mail.gmail.com>
-	<CAJTo0LZxGYzpjUetPspX6mKktoL_XnDqfncyHFWN5Kzfij8-UQ@mail.gmail.com>
-	<CADkTA4NmhstuGn7cZLD-MGB1OdNbAFLkiOKrf20Bri0KSEsuQA@mail.gmail.com>
-	<20161109180854.130d6804@nuc.betafive.co.uk>
-	<CAJ86T=XNd_ypY_aBc+eVGpJ4ntUUecT7Umdg37hUrNqZNAw_6g@mail.gmail.com>
-X-Mailer: Claws Mail 3.11.1 (GTK+ 2.24.25; x86_64-pc-linux-gnu)
+	Sat, 12 Nov 2016 19:19:54 +0000 (UTC)
+Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
+	by mail-out.m-online.net (Postfix) with ESMTP id 3tGRSC1vWFz3hjGp;
+	Sat, 12 Nov 2016 20:19:55 +0100 (CET)
+Received: from localhost (dynscan1.mnet-online.de [192.168.6.68])
+	by mail.m-online.net (Postfix) with ESMTP id 3tGRSC0VNwzvknj;
+	Sat, 12 Nov 2016 20:19:55 +0100 (CET)
+X-Virus-Scanned: amavisd-new at mnet-online.de
+Received: from mail.mnet-online.de ([192.168.8.182])
+	by localhost (dynscan1.mail.m-online.net [192.168.6.68]) (amavisd-new,
+	port 10024)
+	with ESMTP id rulN9lj4wZej; Sat, 12 Nov 2016 20:19:54 +0100 (CET)
+X-Auth-Info: oaPdEFp2c37FAiIoDRCWFubsI9TcbNVPVoVUHE+gCF4=
+Received: from [IPv6:::1] (unknown [195.140.253.167])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mail.mnet-online.de (Postfix) with ESMTPSA;
+	Sat, 12 Nov 2016 20:19:54 +0100 (CET)
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <20161107182006.4207-1-marex@denx.de>
+	<CAJTo0LYgvyAriBj2Wf839f6E6Vv04+MLh++gBOEdqSQS+zizwg@mail.gmail.com>
+	<CAJTo0LYV3L=i9Nq94uYHck9cGHrqvHrVtJsqOv0do+A4j-eBhg@mail.gmail.com>
+From: Marek Vasut <marex@denx.de>
+Message-ID: <db0f1a76-ef02-c274-9dfd-1bb8808faebc@denx.de>
+Date: Sat, 12 Nov 2016 19:31:04 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Icedove/45.4.0
 MIME-Version: 1.0
-X-Ovh-Tracer-Id: 2187342047023171937
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrfeelfedrtdeigdduvdeiucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddm
-Cc: OpenEmbedded Core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] kernel.bbclass: Allow ${S} to be overridden
+In-Reply-To: <CAJTo0LYV3L=i9Nq94uYHck9cGHrqvHrVtJsqOv0do+A4j-eBhg@mail.gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] u-boot: mkimage: Fix build of u-boot-mkimage
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,86 +45,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 11 Nov 2016 22:06:55 -0000
-Content-Type: text/plain; charset=US-ASCII
+X-List-Received-Date: Sat, 12 Nov 2016 19:19:56 -0000
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
 
-On Wed, 9 Nov 2016 15:42:29 -0800
-Andre McCurdy <armccurdy@gmail.com> wrote:
-
-> On Wed, Nov 9, 2016 at 10:08 AM, Paul Barker <paul@paulbarker.me.uk> wrote:
-> >
-> > The reason for this patch is that I'm using a tarball for the kernel
-> > sources in the new meta-arduino layer. That tarball doesn't get
-> > extracted to ${STAGING_KERNEL_DIR} and so it needs to be copied over to
-> > there. Looking at kernel.bbclass, it looks like the logic to do this is
-> > present:
-> >
-> >
-> >     # Old style kernels may set ${S} = ${WORKDIR}/git for example
-> >     # We need to move these over to STAGING_KERNEL_DIR. We can't just
-> >     # create the symlink in advance as the git fetcher can't cope with
-> >     # the symlink.
-> >     do_unpack[cleandirs] += " ${S} ${STAGING_KERNEL_DIR} ${B} ${STAGING_KERNEL_BUILDDIR}"
-> >     do_clean[cleandirs] += " ${S} ${STAGING_KERNEL_DIR} ${B} ${STAGING_KERNEL_BUILDDIR}"
-> >     base_do_unpack_append () {
-> >         s = d.getVar("S", True)
-> >         if s[-1] == '/':
-> >             # drop trailing slash, so that os.symlink(kernsrc, s) doesn't use s as directory name and fail
-> >             s=s[:-1]
-> >         kernsrc = d.getVar("STAGING_KERNEL_DIR", True)
-> >         if s != kernsrc:
-> >             bb.utils.mkdirhier(kernsrc)
-> >             bb.utils.remove(kernsrc, recurse=True)
-> >             if d.getVar("EXTERNALSRC", True):
-> >                 # With EXTERNALSRC S will not be wiped so we can symlink to it
-> >                 os.symlink(s, kernsrc)
-> >             else:
-> >                 import shutil
-> >                 shutil.move(s, kernsrc)
-> >                 os.symlink(kernsrc, s)
-> >     }
-> >
-> > The problem is we can't set S to anything unless we can override it.
-> >
-> > I've now looked into this futher and it seems to be working for some
-> > kernel recipes but not others. The issue may be that we have an
-> > assignment for S in bitbake.conf:
-> >
-> >     S = "${WORKDIR}/${BP}"
-> >
-> > That's obviously overriding the 'S ?= ...' assignment when my patch is
-> > applied where S isn't also explicitly assigned in the recipe, some
-> > other class or include file.
-> >
-> > I'm not sure on how precedence is determined if a variable is assigned
-> > using '=' multiple times.
-> >
-> > I'll have another look into it and see where I get. I have a workaround
-> > in place for the meta-arduino layer for now so it doesn't need an
-> > urgent fix.
-> >
-> > However, if it turns out we can't reliably override S in a kernel recipe
-> > then should we still have that comment and base_do_unpack_append() in
-> > kernel.bbclass?
+On 11/07/2016 09:21 PM, Burton, Ross wrote:
 > 
-> The solution I use (learned the hard way) is to ensure that "S = ..."
-> comes after "inherit kernel" in the kernel recipe.
+> On 7 November 2016 at 20:15, Burton, Ross <ross.burton@intel.com
+> <mailto:ross.burton@intel.com>> wrote:
 > 
+>     Looking at the makefile this isn't the case - it's part of hostprogs
+>     so if anyone of the host-built tools work, they all should.
+> 
+> 
+> Just verified that the HOSTCC changes in this patch make it work for me
+> even after removing the sed.  Can you send a revision?
 
-Ok, yea, this works for me.
+It cannot work without the sed, try building for target. Then the
+bin2header is built for target.
 
-Is this expected? S is set to ${STAGING_KERNEL_DIR} at the start of
-kernel.bbclass. The base_do_unpack_append() function is defined later
-in kernel.bbclass. If S is set to ${WORKDIR}/${BP} only after
-kernel.bbclass is inherited, then that's after base_do_unpack_append()
-has been parsed.
+> Also the u-boot series went through a number of revisions, can you
+> verify that the patches in poky-contrib:ross/mut match what you expect
+> to see?
 
-I've re-read the bitbake user manual [1] but I can't clearly understand
-why this works. Is it to do with when the _append is applied?
+Do you have a link for me ?
 
-Is there any way we can make this more obvious or is this just the
-nature of bitbake?
-
-[1]: http://www.yoctoproject.org/docs/2.2/bitbake-user-manual/bitbake-user-manual.html#basic-syntax
+-- 
+Best regards,
+Marek Vasut
 
