@@ -1,36 +1,35 @@
 Return-Path: <marex@denx.de>
-Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.9])
-	by mail.openembedded.org (Postfix) with ESMTP id E6F4B719C9
+Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.10])
+	by mail.openembedded.org (Postfix) with ESMTP id 3C7BD719C9
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 12 Nov 2016 19:19:54 +0000 (UTC)
+	Sat, 12 Nov 2016 19:19:55 +0000 (UTC)
 Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
-	by mail-out.m-online.net (Postfix) with ESMTP id 3tGRSC1vWFz3hjGp;
-	Sat, 12 Nov 2016 20:19:55 +0100 (CET)
+	by mail-out.m-online.net (Postfix) with ESMTP id 3tGRSD3hpCz3hjhT;
+	Sat, 12 Nov 2016 20:19:56 +0100 (CET)
 Received: from localhost (dynscan1.mnet-online.de [192.168.6.68])
-	by mail.m-online.net (Postfix) with ESMTP id 3tGRSC0VNwzvknj;
-	Sat, 12 Nov 2016 20:19:55 +0100 (CET)
+	by mail.m-online.net (Postfix) with ESMTP id 3tGRSD29Jmzvknn;
+	Sat, 12 Nov 2016 20:19:56 +0100 (CET)
 X-Virus-Scanned: amavisd-new at mnet-online.de
 Received: from mail.mnet-online.de ([192.168.8.182])
 	by localhost (dynscan1.mail.m-online.net [192.168.6.68]) (amavisd-new,
 	port 10024)
-	with ESMTP id rulN9lj4wZej; Sat, 12 Nov 2016 20:19:54 +0100 (CET)
-X-Auth-Info: oaPdEFp2c37FAiIoDRCWFubsI9TcbNVPVoVUHE+gCF4=
+	with ESMTP id 1jATsdhMDBxx; Sat, 12 Nov 2016 20:19:55 +0100 (CET)
+X-Auth-Info: mTJKQQGAydhmEELELHSNulYopoAGLqDopGQmyjJWtMI=
 Received: from [IPv6:::1] (unknown [195.140.253.167])
 	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
 	by mail.mnet-online.de (Postfix) with ESMTPSA;
-	Sat, 12 Nov 2016 20:19:54 +0100 (CET)
+	Sat, 12 Nov 2016 20:19:55 +0100 (CET)
 To: "Burton, Ross" <ross.burton@intel.com>
 References: <20161107182006.4207-1-marex@denx.de>
-	<CAJTo0LYgvyAriBj2Wf839f6E6Vv04+MLh++gBOEdqSQS+zizwg@mail.gmail.com>
-	<CAJTo0LYV3L=i9Nq94uYHck9cGHrqvHrVtJsqOv0do+A4j-eBhg@mail.gmail.com>
+	<CAJTo0LaSLN1eVRH1ju1w5Ba3PLh6d+E0ZwmRimxcN1DjKRk6iQ@mail.gmail.com>
 From: Marek Vasut <marex@denx.de>
-Message-ID: <db0f1a76-ef02-c274-9dfd-1bb8808faebc@denx.de>
-Date: Sat, 12 Nov 2016 19:31:04 +0100
+Message-ID: <8fe5bfa6-cbf3-ebc3-394e-e1cef3ae8fc9@denx.de>
+Date: Sat, 12 Nov 2016 19:31:22 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
 	Icedove/45.4.0
 MIME-Version: 1.0
-In-Reply-To: <CAJTo0LYV3L=i9Nq94uYHck9cGHrqvHrVtJsqOv0do+A4j-eBhg@mail.gmail.com>
+In-Reply-To: <CAJTo0LaSLN1eVRH1ju1w5Ba3PLh6d+E0ZwmRimxcN1DjKRk6iQ@mail.gmail.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] u-boot: mkimage: Fix build of u-boot-mkimage
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -45,30 +44,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 12 Nov 2016 19:19:56 -0000
+X-List-Received-Date: Sat, 12 Nov 2016 19:19:57 -0000
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
 
-On 11/07/2016 09:21 PM, Burton, Ross wrote:
+On 11/09/2016 01:15 AM, Burton, Ross wrote:
 > 
-> On 7 November 2016 at 20:15, Burton, Ross <ross.burton@intel.com
-> <mailto:ross.burton@intel.com>> wrote:
+> On 7 November 2016 at 18:20, Marek Vasut <marex@denx.de
+> <mailto:marex@denx.de>> wrote:
 > 
->     Looking at the makefile this isn't the case - it's part of hostprogs
->     so if anyone of the host-built tools work, they all should.
+>     -EXTRA_OEMAKE = 'CROSS_COMPILE="${TARGET_PREFIX}" CC="${CC}
+>     ${CFLAGS} ${LDFLAGS}" STRIP=true V=1'
+>     +EXTRA_OEMAKE = 'HOSTCC="${BUILD_CC} ${BUILD_CFLAGS} ${BUILD_LDFLAGS}"'
+>     +EXTRA_OEMAKE_append_class-target =
+>     'CROSS_COMPILE="${TARGET_PREFIX}" CC="${CC} ${CFLAGS} ${LDFLAGS}"
+>     STRIP=true V=1'
+>     +EXTRA_OEMAKE_append_class-native = 'CC="${BUILD_CC} ${BUILD_CFLAGS}
+>     ${BUILD_LDFLAGS}" STRIP=true V=1'
+>     +EXTRA_OEMAKE_append_class-nativesdk = 'CC="${BUILD_CC}
+>     ${BUILD_CFLAGS} ${BUILD_LDFLAGS}" STRIP=true V=1'
 > 
 > 
-> Just verified that the HOSTCC changes in this patch make it work for me
-> even after removing the sed.  Can you send a revision?
+> You're going to start hating u-boot...
+> 
+> Fails on the autobuilder if you're building for a 32-bit x86 target on a
+> 64-bit x86 host:
+> 
+> ERROR: QA Issue: Architecture did not match (x86-64, expected x86) on
+> /work/i586-poky-linux-musl/u-boot-mkimage/1_2016.09.01-r0/packages-split/u-boot-mkimage/usr/bin/uboot-mkimage
+> [arch]
+> 
+> I'm guessing that it is using the host compiler instead of the cross
+> compiler.
 
-It cannot work without the sed, try building for target. Then the
-bin2header is built for target.
+I should have a fix for it all I hope.
 
-> Also the u-boot series went through a number of revisions, can you
-> verify that the patches in poky-contrib:ross/mut match what you expect
-> to see?
-
-Do you have a link for me ?
 
 -- 
 Best regards,
