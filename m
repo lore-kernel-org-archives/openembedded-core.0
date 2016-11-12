@@ -1,37 +1,29 @@
-Return-Path: <marex@denx.de>
-Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.10])
-	by mail.openembedded.org (Postfix) with ESMTP id 3C7BD719C9
+Return-Path: <rpjday@crashcourse.ca>
+Received: from smtp484.redcondor.net (smtp484.redcondor.net [208.80.204.84])
+	by mail.openembedded.org (Postfix) with ESMTP id 56FDB71A40
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 12 Nov 2016 19:19:55 +0000 (UTC)
-Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
-	by mail-out.m-online.net (Postfix) with ESMTP id 3tGRSD3hpCz3hjhT;
-	Sat, 12 Nov 2016 20:19:56 +0100 (CET)
-Received: from localhost (dynscan1.mnet-online.de [192.168.6.68])
-	by mail.m-online.net (Postfix) with ESMTP id 3tGRSD29Jmzvknn;
-	Sat, 12 Nov 2016 20:19:56 +0100 (CET)
-X-Virus-Scanned: amavisd-new at mnet-online.de
-Received: from mail.mnet-online.de ([192.168.8.182])
-	by localhost (dynscan1.mail.m-online.net [192.168.6.68]) (amavisd-new,
-	port 10024)
-	with ESMTP id 1jATsdhMDBxx; Sat, 12 Nov 2016 20:19:55 +0100 (CET)
-X-Auth-Info: mTJKQQGAydhmEELELHSNulYopoAGLqDopGQmyjJWtMI=
-Received: from [IPv6:::1] (unknown [195.140.253.167])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mail.mnet-online.de (Postfix) with ESMTPSA;
-	Sat, 12 Nov 2016 20:19:55 +0100 (CET)
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <20161107182006.4207-1-marex@denx.de>
-	<CAJTo0LaSLN1eVRH1ju1w5Ba3PLh6d+E0ZwmRimxcN1DjKRk6iQ@mail.gmail.com>
-From: Marek Vasut <marex@denx.de>
-Message-ID: <8fe5bfa6-cbf3-ebc3-394e-e1cef3ae8fc9@denx.de>
-Date: Sat, 12 Nov 2016 19:31:22 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Icedove/45.4.0
+	Sat, 12 Nov 2016 19:46:18 +0000 (UTC)
+Received: from astoria.ccjclearline.com ([64.235.106.9])
+	by smtp484.redcondor.net ({c48374e7-08df-40d9-a0de-96cc9883a037})
+	via TCP (outbound) with ESMTPS id 20161112194618935_0484
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 12 Nov 2016 19:46:18 +0000
+X-RC-FROM: <rpjday@crashcourse.ca>
+X-RC-RCPT: <openembedded-core@lists.openembedded.org>
+Received: from [174.118.92.171] (port=34418 helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
+	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
+	id 1c5eFg-0007Fx-Th for openembedded-core@lists.openembedded.org;
+	Sat, 12 Nov 2016 14:46:12 -0500
+Date: Sat, 12 Nov 2016 14:45:08 -0500 (EST)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@localhost.localdomain
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Message-ID: <alpine.LFD.2.20.1611121436420.20479@localhost.localdomain>
+User-Agent: Alpine 2.20 (LFD 67 2015-01-07)
 MIME-Version: 1.0
-In-Reply-To: <CAJTo0LaSLN1eVRH1ju1w5Ba3PLh6d+E0ZwmRimxcN1DjKRk6iQ@mail.gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] u-boot: mkimage: Fix build of u-boot-mkimage
+X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
+Subject: WRL error: "Can't locate Config_heavy-target.pl in @INC" -- OE versus WRL
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,43 +36,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 12 Nov 2016 19:19:57 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sat, 12 Nov 2016 19:46:19 -0000
+Content-Type: text/plain; charset=US-ASCII
 
-On 11/09/2016 01:15 AM, Burton, Ross wrote:
-> 
-> On 7 November 2016 at 18:20, Marek Vasut <marex@denx.de
-> <mailto:marex@denx.de>> wrote:
-> 
->     -EXTRA_OEMAKE = 'CROSS_COMPILE="${TARGET_PREFIX}" CC="${CC}
->     ${CFLAGS} ${LDFLAGS}" STRIP=true V=1'
->     +EXTRA_OEMAKE = 'HOSTCC="${BUILD_CC} ${BUILD_CFLAGS} ${BUILD_LDFLAGS}"'
->     +EXTRA_OEMAKE_append_class-target =
->     'CROSS_COMPILE="${TARGET_PREFIX}" CC="${CC} ${CFLAGS} ${LDFLAGS}"
->     STRIP=true V=1'
->     +EXTRA_OEMAKE_append_class-native = 'CC="${BUILD_CC} ${BUILD_CFLAGS}
->     ${BUILD_LDFLAGS}" STRIP=true V=1'
->     +EXTRA_OEMAKE_append_class-nativesdk = 'CC="${BUILD_CC}
->     ${BUILD_CFLAGS} ${BUILD_LDFLAGS}" STRIP=true V=1'
-> 
-> 
-> You're going to start hating u-boot...
-> 
-> Fails on the autobuilder if you're building for a 32-bit x86 target on a
-> 64-bit x86 host:
-> 
-> ERROR: QA Issue: Architecture did not match (x86-64, expected x86) on
-> /work/i586-poky-linux-musl/u-boot-mkimage/1_2016.09.01-r0/packages-split/u-boot-mkimage/usr/bin/uboot-mkimage
-> [arch]
-> 
-> I'm guessing that it is using the host compiler instead of the cross
-> compiler.
 
-I should have a fix for it all I hope.
+  (note: this is actually an error i'm getting under wind river linux
+8, i'm just curious as to why OE works just fine.)
 
+  as mentioned, when trying to build a trivial hand-rolled perl recipe
+under wind river linux 8, i'm getting:
+
+| Can't locate Config_heavy-target.pl in @INC (@INC contains: ... long
+path snipped ...) at
+.../tmp/sysroots/x86_64-linux/usr/lib/perl-native/perl/5.22.0/Config.pm
+line 88.
+
+  but building precisely the same recipe under regular OE (actually,
+poky) works just fine. i did some searching, and found this:
+
+https://patchwork.openembedded.org/patch/111047/
+
+but i have no idea what it means. i also notice that the standard
+bitbake.conf (which i haven't looked at in a while), now contains a
+few more ASSUME_PROVIDED entries, including:
+
+    hostperl-runtime-native \
+    hostpython-runtime-native \
+
+while the WRL version contains:
+
+    perl-native-runtime \
+    python-native-runtime \
+
+i have no idea what to make of this. thoughts?
+
+rday
 
 -- 
-Best regards,
-Marek Vasut
+
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
+
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
+
+
 
