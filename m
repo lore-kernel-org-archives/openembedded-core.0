@@ -1,27 +1,51 @@
-Return-Path: <linus@scypho.com>
-Received: from mx-out01.mykolab.com (mx.kolabnow.com [95.128.36.1])
-	by mail.openembedded.org (Postfix) with ESMTP id 83E2A6FFD8
+Return-Path: <maciej.borzecki@rndity.com>
+Received: from mail-wm0-f42.google.com (mail-wm0-f42.google.com [74.125.82.42])
+	by mail.openembedded.org (Postfix) with ESMTP id DAADE70100
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Nov 2016 10:36:03 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at kolabnow.com
-X-Spam-Flag: NO
-X-Spam-Score: -2.9
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 tagged_above=-10 required=6.31
-	tests=[ALL_TRUSTED=-1, BAYES_00=-1.9] autolearn=ham
-Received: from mx03.mykolab.com (mx03.mykolab.com [10.20.7.101])
-	by mx-out01.mykolab.com (Postfix) with ESMTPS id 0DDB360DAF
+	Mon, 14 Nov 2016 10:38:50 +0000 (UTC)
+Received: by mail-wm0-f42.google.com with SMTP id a197so89703048wmd.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Nov 2016 11:36:03 +0100 (CET)
-Received: from linus by linus.scypho.com with local (Exim 4.87)
-	(envelope-from <linus@scypho.com>)
-	id 1c6EcM-0005Bb-1x; Mon, 14 Nov 2016 11:36:02 +0100
-From: Linus Wallgren <linus.wallgren@scypho.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 14 Nov 2016 11:35:44 +0100
-Message-Id: <20161114103544.19886-1-linus.wallgren@scypho.com>
-Cc: Linus Wallgren <linus.wallgren@scypho.com>
-Subject: [PATCH] Supply correct argument to .deb pre/postinsts
+	Mon, 14 Nov 2016 02:38:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=rndity-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-transfer-encoding;
+	bh=9pLYlgIX/028NgTmm7qECf2q9MjSIkR6+54aq1K7Vg4=;
+	b=Eyie7ZDdwndiHLPwIHJ+/z0/Uf467vGEN1OjWppHISRZ6PFWtg2AhYDN2ZdhLoQ5Gk
+	s0RHU9llyARpLyd0Ywvi0neWSIMdttbSy+EYqhvWcjmTCZof8YhbYHUcIsBirG2zg1fj
+	FYkX4i1I7UG68c6Fzb5onzvXNocz+EWee2DwpJjtAlCtbEeD86v742L6cDfu7VT4JCd9
+	hZ2fszkGMUEjcqVdw5M9ymgR4YBpYuQsjI0KpdEB91toYU8bhz1w/rzw0/PxyR0WK0yD
+	bYeCdhrrXiXJwEJFprFJ+8VSjBRZbYjFYzwP03pzhrMZ0j0w7hTAgNjvh1d5xLv+l9xW
+	iNiA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=9pLYlgIX/028NgTmm7qECf2q9MjSIkR6+54aq1K7Vg4=;
+	b=JfIQ46JkpJ7Q4FjtLZIFkTWONNV0nUwsRFITIClBWr+2xIlhmgH6Q624+3SWkXNsLe
+	wZQvQBvCzVipGNHigLJvptsLzxnS9q7D0syFuI4likukK02scy2GBA4R6N8MvHpYm8Bm
+	rCOb74ipOuSgG4fgl6DcmMp5nRevVWtk/0jIybtBMVEUvOfUcsLhn3IBQeu9oHo4rmB9
+	g5Wlmd1uaX4/9uL9i5zfJEq3lYdMGV2g1F8ebY8yNMs6EAiAJ/9rdybzpRyICZGSEy2i
+	T8O0Jh5pnENuWRuWNXAwTMGS5ZOADB/OnR7R8MHEtpVQJZEIuWiE9ybJSQfstJR7wB3J
+	ZX/A==
+X-Gm-Message-State: ABUngve/moVENjirJmtQKDtoYMxjoS3Ezyn7xAYrikdnWWKNqAWLpWiHiG+QMsCJCNwTzFr7VGCwPY7Upic0kw==
+X-Received: by 10.28.66.7 with SMTP id p7mr10170207wma.64.1479119931951; Mon,
+	14 Nov 2016 02:38:51 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.28.15.9 with HTTP; Mon, 14 Nov 2016 02:38:31 -0800 (PST)
+In-Reply-To: <CAD4b0_KMU9ba8-EhtLOLqnp1XGLGryKGLVfYZUQVjaZgeSZsKg@mail.gmail.com>
+References: <cover.1478779674.git.maciej.borzecki@rndity.com>
+	<504135c9082216ff89af282dfcb686a50b22f578.1478779674.git.maciej.borzecki@rndity.com>
+	<CAJTo0LbKYTd9SRZgHHHyuF0Wt+7AqYdLcweUTO78ROgYsG9VYA@mail.gmail.com>
+	<CAD4b0_KMU9ba8-EhtLOLqnp1XGLGryKGLVfYZUQVjaZgeSZsKg@mail.gmail.com>
+From: =?UTF-8?Q?Maciej_Borz=C4=99cki?= <maciej.borzecki@rndity.com>
+Date: Mon, 14 Nov 2016 11:38:31 +0100
+Message-ID: <CAD4b0_JW-zxqcsuRQzk69in17OgG1SOo7EjpeAK8Nf72B7X_Vg@mail.gmail.com>
+To: Ed Bartosh <ed.bartosh@linux.intel.com>
+Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
+	Maciej Borzecki <maciek.borzecki@gmail.com>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2 08/10] wic: selftest: do not repeat core-image-minimal
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,60 +58,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 14 Nov 2016 10:36:05 -0000
+X-List-Received-Date: Mon, 14 Nov 2016 10:38:52 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-The debian policy manual and MaintainerScripts wiki page states that the
-postinst script is supposed to be called with the `configure` argument
-at first install, likewise the preinst script is supposed to be called
-with the `install` argument on first install.
+On Thu, Nov 10, 2016 at 9:33 PM, Maciej Borz=C4=99cki
+<maciej.borzecki@rndity.com> wrote:
+> On Thu, Nov 10, 2016 at 9:15 PM, Burton, Ross <ross.burton@intel.com> wro=
+te:
+>>
+>> On 10 November 2016 at 12:18, Maciej Borzecki <maciej.borzecki@rndity.co=
+m>
+>> wrote:
+>>>
+>>>      def test_qemux86_directdisk(self):
+>>>          """Test creation of qemux-86-directdisk image"""
+>>>          image =3D "qemux86-directdisk"
+>>> -        self.assertEqual(0, runCmd("wic create %s -e core-image-minima=
+l"
+>>> \
+>>> -                                   % image).status)
+>>> +        wic_cmd_vars =3D {
+>>> +            'wks': image,
+>>> +            'image': self.OE_IMAGE,
+>>> +        }
+>>> +        self.assertEqual(0, runCmd("wic create %(wks)s -e %(image)s" \
+>>> +                                   % wic_cmd_vars).status)
+>>
+>>
+>> Is it just me who thinks that this is more understandable then?
+>>
+>> def test_qemux86_directdisk(self):
+>>   self.assertEqual(0, runCmd("wic create qemux86-directdisk -e
+>> core-image-minimal").status)
+>>   self.assertEqual(1, len(glob(os.path.join(self.resultdir,
+>> "core-image-minimal-*direct"))))
+>>
+>> Not my test case so just an opinion :)
+>>
+>
+> Now that I look at this patch, I probably might have overdone it a little=
+. Let's
+> wait and see what Ed thinks about this change. I suppose there might be a=
+ need
+> for v3 of this series, in which case I'll just drop this patch and rebase=
+ the
+> remaining patches.
 
-https://www.debian.org/doc/debian-policy/ch-maintainerscripts.html
-https://wiki.debian.org/MaintainerScripts
----
- meta/lib/oe/package_manager.py | 17 +++++++++++------
- 1 file changed, 11 insertions(+), 6 deletions(-)
+Ed, did you get a chance to review this series?
 
-diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
-index 3cee973..ec947c3 100644
---- a/meta/lib/oe/package_manager.py
-+++ b/meta/lib/oe/package_manager.py
-@@ -1993,7 +1993,10 @@ class DpkgPM(OpkgDpkgPM):
-     """
-     def run_pre_post_installs(self, package_name=None):
-         info_dir = self.target_rootfs + "/var/lib/dpkg/info"
--        suffixes = [(".preinst", "Preinstall"), (".postinst", "Postinstall")]
-+        ControlScript = collections.namedtuple("ControlScript", ["suffix", "name", "argument"])
-+        control_scripts = [
-+                ControlScript(".preinst", "Preinstall", "install"),
-+                ControlScript(".postinst", "Postinstall", "configure")]
-         status_file = self.target_rootfs + "/var/lib/dpkg/status"
-         installed_pkgs = []
- 
-@@ -2016,16 +2019,18 @@ class DpkgPM(OpkgDpkgPM):
- 
-         failed_pkgs = []
-         for pkg_name in installed_pkgs:
--            for suffix in suffixes:
--                p_full = os.path.join(info_dir, pkg_name + suffix[0])
-+            for control_script in control_scripts:
-+                p_full = os.path.join(info_dir, pkg_name + control_script.suffix)
-                 if os.path.exists(p_full):
-                     try:
-                         bb.note("Executing %s for package: %s ..." %
--                                 (suffix[1].lower(), pkg_name))
--                        subprocess.check_output(p_full, stderr=subprocess.STDOUT)
-+                                 (control_script.name.lower(), pkg_name))
-+                        subprocess.check_output([p_full, control_script.argument],
-+                                stderr=subprocess.STDOUT)
-                     except subprocess.CalledProcessError as e:
-                         bb.note("%s for package %s failed with %d:\n%s" %
--                                (suffix[1], pkg_name, e.returncode, e.output.decode("utf-8")))
-+                                (control_script.name, pkg_name, e.returncode,
-+                                    e.output.decode("utf-8")))
-                         failed_pkgs.append(pkg_name)
-                         break
- 
--- 
-2.10.2
-
+Cheers,
+--=20
+Maciej Borzecki
+RnDity
 
