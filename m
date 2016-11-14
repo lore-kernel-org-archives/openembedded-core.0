@@ -1,30 +1,56 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id CDC9962132
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pf0-f193.google.com (mail-pf0-f193.google.com
+	[209.85.192.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 60C4A60107
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 13 Nov 2016 16:16:20 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id uADGGCZO005185
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Sun, 13 Nov 2016 08:16:12 -0800 (PST)
-Received: from soho-mhatle-m.local (147.11.116.45) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.294.0;
-	Sun, 13 Nov 2016 08:16:11 -0800
-To: "Robert P. J. Day" <rpjday@crashcourse.ca>
-References: <alpine.LFD.2.20.1611121436420.20479@localhost.localdomain>
-	<ca53cb96-5c1e-35f1-55f3-8f61897de18f@windriver.com>
-	<alpine.LFD.2.20.1611130434570.28277@localhost.localdomain>
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-Message-ID: <d8928e95-46b1-4369-521d-62178c8c6510@windriver.com>
-Date: Sun, 13 Nov 2016 11:16:11 -0500
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.12; rv:45.0)
-	Gecko/20100101 Thunderbird/45.4.0
+	Mon, 14 Nov 2016 02:07:53 +0000 (UTC)
+Received: by mail-pf0-f193.google.com with SMTP id y68so5256926pfb.1
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 13 Nov 2016 18:07:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=subject:to:references:cc:from:organization:message-id:date
+	:user-agent:mime-version:in-reply-to;
+	bh=CWTtQyoPGrvk4IG2n9x2d+jvU5TgIRTHsmIqtDCuEaM=;
+	b=kBlIg3j/+wfCrxZ8kbVYHgtzWrBAS03+d8oeNEw0I+JDkYR7sDjq5qhyZ8et+V29HT
+	+J4pLfxs0wWEyMkdv8Yd6cD+S5fg43376LnI/cjjJNR2HsqMGzz7G7ogHtXFcwa0S8qO
+	AIjpKRD3QddgDeyQIrsQHHeGf0DjI/SWrv3daDliteseCSxpQXJOA2w4hs7Y+LCJu0sT
+	jPQkfHEXb9NblElLjby/0bkcwj9MVpiyHous/INUdyfb3PJqio+ZdQenUFt2oN2fbJ+G
+	HRlceM0wUi7ojTiDKZbDKgLhGHu3ulUrYxj++JCVcBWd5h3yYTyV8RbzdrbjNOtKB1Pg
+	ZMuw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:subject:to:references:cc:from:organization
+	:message-id:date:user-agent:mime-version:in-reply-to;
+	bh=CWTtQyoPGrvk4IG2n9x2d+jvU5TgIRTHsmIqtDCuEaM=;
+	b=O4Q2VhakChYY6G+Saz22kYyW+QacP5W5iMnCEhbKIXUQNqD9RsikJ/haFUjsmw1L92
+	u4ufD8aDUnZbs5lN4V76nPEproxGCQbuqTY/8NFk6ybaSlC9eeVRC08xnczaY4/cl6GR
+	w77aYTuBjXJyWGqx19XuE5Bkp8tOTfGQztIMXp83UbR5C3NYvbVieHtBCCr5GGF84W+J
+	6HyOSh0TJHtdCokShUUPG+rI2cu/bOG4JlnY+vn9kAWMj0LkJm4d4iUlz6yvC8QzWRST
+	PbaJIfNV9kjauw1uIjk3chVzt9I07HG68DuEVjk+QKVIsfiUVGFxkf1m+EtxkOwAuamR
+	30gA==
+X-Gm-Message-State: ABUngvek/dpPKJiq8RktwpVRKIhW+HobOcKURQyESHaDPvYLHa2LiKEzs7da55D2dPoi/Q==
+X-Received: by 10.99.172.26 with SMTP id v26mr24823064pge.164.1479089274992;
+	Sun, 13 Nov 2016 18:07:54 -0800 (PST)
+Received: from CACSVMO-14452.local ([2601:646:8882:b8c:7d70:121:3c74:ab01])
+	by smtp.gmail.com with ESMTPSA id
+	hv3sm30743868pad.30.2016.11.13.18.07.54
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Sun, 13 Nov 2016 18:07:54 -0800 (PST)
+To: Christopher Larson <clarson@kergoth.com>
+References: <20161110003935.1858-1-raj.khem@gmail.com>
+	<20161110003935.1858-2-raj.khem@gmail.com>
+	<CABcZANmkhnCF0-p75sAC-p2fOrYmjSPo9==OqDjPDwnZd-uUzQ@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Organization: himvis.com
+Message-ID: <24f641ad-b1da-4941-f882-60dfea11d72c@gmail.com>
+Date: Sun, 13 Nov 2016 18:07:47 -0800
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:50.0)
+	Gecko/20100101 Thunderbird/50.0
 MIME-Version: 1.0
-In-Reply-To: <alpine.LFD.2.20.1611130434570.28277@localhost.localdomain>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: WRL error: "Can't locate Config_heavy-target.pl in @INC" -- OE versus WRL
+In-Reply-To: <CABcZANmkhnCF0-p75sAC-p2fOrYmjSPo9==OqDjPDwnZd-uUzQ@mail.gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/2] go-examples: Add an example, helloworld written in go
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,131 +63,103 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 13 Nov 2016 16:16:21 -0000
-Content-Type: text/plain; charset="windows-1252"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 14 Nov 2016 02:07:54 -0000
+X-Groupsio-MsgNum: 89310
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature";
+	boundary="wIBQLB8pV1NUxLWrRqK6Bv76Brrk95F8a"
 
-On 11/13/16 4:49 AM, Robert P. J. Day wrote:
-> 
->   sorry, i'm still confused, let me make sure i understand this ...
-> 
-> On Sat, 12 Nov 2016, Mark Hatle wrote:
-> 
->> On 11/12/16 2:45 PM, Robert P. J. Day wrote:
->>>
->>>   (note: this is actually an error i'm getting under wind river linux
->>> 8, i'm just curious as to why OE works just fine.)
->>>
->>>   as mentioned, when trying to build a trivial hand-rolled perl recipe
->>> under wind river linux 8, i'm getting:
->>>
->>> | Can't locate Config_heavy-target.pl in @INC (@INC contains: ... long
->>> path snipped ...) at
->>> .../tmp/sysroots/x86_64-linux/usr/lib/perl-native/perl/5.22.0/Config.pm
->>> line 88.
->>
->> My suspicion is that you are not using the buildtools-tarball with
->> your OE build, ...
-> 
->   that would be correct, i've never used that, never needed to, on my
-> fedora system. which means (correct me if i'm wrong) that i *am* using
+--wIBQLB8pV1NUxLWrRqK6Bv76Brrk95F8a
+Content-Type: multipart/mixed; boundary="OnbSGk6dA4N6SnEfCFqhfBnJAE6jsoD7E";
+ protected-headers="v1"
+From: Khem Raj <raj.khem@gmail.com>
+To: Christopher Larson <clarson@kergoth.com>
+Cc: Patches and discussions about the oe-core layer
+ <openembedded-core@lists.openembedded.org>
+Message-ID: <24f641ad-b1da-4941-f882-60dfea11d72c@gmail.com>
+Subject: Re: [OE-core] [PATCH 2/2] go-examples: Add an example, helloworld
+ written in go
+References: <20161110003935.1858-1-raj.khem@gmail.com>
+ <20161110003935.1858-2-raj.khem@gmail.com>
+ <CABcZANmkhnCF0-p75sAC-p2fOrYmjSPo9==OqDjPDwnZd-uUzQ@mail.gmail.com>
+In-Reply-To: <CABcZANmkhnCF0-p75sAC-p2fOrYmjSPo9==OqDjPDwnZd-uUzQ@mail.gmail.com>
 
-You are using host content to build instead of the buildtools-tarball content.
-(buildtools-tarball is supposed to include all of the host's tools necessary to
-build a reasonable system with the correct versions.)
-
-> some natively-installed content, based on ASSUME_PROVIDED from
-> bitbake.conf. and i notice there's a few extra lines there than what i
-> remember from quite some time back, including
-
-All the assumed provide says is if anything requires one of those items, assume
-it exists -- don't complain or try to build it.
-
->     hostperl-runtime-native \
-> 
-> so i'll have to look at what that means. but the point here is that
-> the OE build *does* work.
-> 
->> but Wind River Linux automatically uses this in an attempt to avoid
->> host incompatibilities with all of the random hosts our customers
->> use.
-> 
->   ok, so WRL builds and uses the buildtools-tarball, and that's where
-> i get the aforementioned error.
-
-if there is a bug in the buildtools-tarball content (nativesdk packages) then it
-can manifest itself like this.
-
->> To use the OE version of buildtools-tarball, you will have to build
->> it, extract it and then source the environment file.
-> 
->   and that's where i'm confused ... i'm not using the OE version of
-> buildtools-tarball with my OE build and things *work*, so why would i
-> want to use it *now*? this seems backwards.
-
-If your host is missing content and you don't have root access.. you don't have
-a choice but to build the components yourself -- or the easier way to build and
-use the buildtools-tarball.
-
-A -lot- of commercial customers do not have root access on their build machines
-(either at their desk or elsewhere).  So when they find something is missing,
-say python3 or the right version or tar or make or git... they don't have any
-easy way to fix the problem.  The buildtools-tarball content provides these and
-other components.
-
->>>   but building precisely the same recipe under regular OE (actually,
->>> poky) works just fine. i did some searching, and found this:
->>>
->>> https://patchwork.openembedded.org/patch/111047/
->>>
->>> but i have no idea what it means. i also notice that the standard
->>> bitbake.conf (which i haven't looked at in a while), now contains a
->>> few more ASSUME_PROVIDED entries, including:
->>>
->>>     hostperl-runtime-native \
->>>     hostpython-runtime-native \
->>
->> f4dade8e meta/conf/bitbake.conf         (Ed Bartosh                2016-01-07
->> 13:39:39 +0200 179)     hostperl-runtime-native \
->> 8a474057 meta/conf/bitbake.conf         (Ed Bartosh                2016-01-13
->> 10:03:04 +0200 180)     hostpython-runtime-native \
->>
->> These are newer then Wind River Linux 8, which is based on Yocto Project 2.0 /
->> Jethro which was released around Nov 2015.
->>
->>> while the WRL version contains:
->>>
->>>     perl-native-runtime \
->>>     python-native-runtime \
->>
->> You you look at Jethro you will see:
->>
->> 34927dfa meta/conf/bitbake.conf         (Richard Purdie          2007-12-18
->> 15:04:06 +0000 174)     perl-native-runtime \
->> 34927dfa meta/conf/bitbake.conf         (Richard Purdie          2007-12-18
->> 15:04:06 +0000 175)     python-native-runtime \
->>
->> So you are attempting to compare apples to oranges (master/morty/krogoth against
->> jethro.)
-> 
->   so ... what is the solution here? how would i tweak my WRL build to
-> resolve this issue? again, apologies for asking a WRL question on the
-> OE list, i'm just trying to understand the difference.
-
-First if you are comparing any commercial embedded Linux to OE, be sure to be
-comparing the same version.  In this case WRL 8 to master, morty or krogoth is
-not a reasonable comparison as it is based on Jethro.  (The commercial vendor
-will be able to tell you what version they are based on.)
-
-If you are having a specific problem with a commercial distribution you should
-contact them for support.  Our support organization can help you determine if
-it's a usage problem, or something broken in our product.
-
-I've not run across this issue, so I can't help any further on the product side.
-
---Mark
-
-> rday
-> 
+--OnbSGk6dA4N6SnEfCFqhfBnJAE6jsoD7E
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
 
+
+On 11/10/16 6:59 PM, Christopher Larson wrote:
+>=20
+> On Wed, Nov 9, 2016 at 5:39 PM, Khem Raj <raj.khem@gmail.com
+> <mailto:raj.khem@gmail.com>> wrote:
+>=20
+>     diff --git a/meta/recipes-extended/go-examples/go-examples.inc
+>     b/meta/recipes-extended/go-examples/go-examples.inc
+>     new file mode 100644
+>     index 0000000..c632681
+>     --- /dev/null
+>     +++ b/meta/recipes-extended/go-examples/go-examples.inc
+>     @@ -0,0 +1,10 @@
+>     +DESCRIPTION =3D "This is a simple example recipe that cross-compil=
+es a Go
+>     program."
+>     +SECTION =3D "examples"
+>     +HOMEPAGE =3D "https://golang.org/"
+>     +
+>     +LICENSE =3D "MIT"
+>     +LIC_FILES_CHKSUM =3D
+>     "file://${COMMON_LICENSE_DIR}/MIT;md5=3D0835ade698e0bcf8506ecda2f7b=
+4f302"
+>     +
+>     +S =3D "${WORKDIR}"
+>     +
+>     +inherit go
+>     diff --git a/meta/recipes-extended/go-examples/go-helloworld_0.1.bb=
+
+>     <http://go-helloworld_0.1.bb>
+>     b/meta/recipes-extended/go-examples/go-helloworld_0.1.bb
+>     <http://go-helloworld_0.1.bb>
+>     new file mode 100644
+>     index 0000000..af9d3b7
+>     --- /dev/null
+>     +++ b/meta/recipes-extended/go-examples/go-helloworld_0.1.bb
+>     <http://go-helloworld_0.1.bb>
+>     @@ -0,0 +1,15 @@
+>     +require go-examples.inc
+>     +
+>     +
+>     +SRC_URI +=3D " \
+>     +  file://helloworld.go \
+>     +"
+>     +
+>     +do_compile() {
+>     +  go build helloworld.go
+>     +}
+>=20
+>=20
+> Under what circumstances would one use the go_do_compile from go.bbclas=
+s vs this?
+
+I think this is a good point. It would be more appropriate to use
+the primitives from go.bbclass in this example. I will try to rework it
+
+
+--OnbSGk6dA4N6SnEfCFqhfBnJAE6jsoD7E--
+
+--wIBQLB8pV1NUxLWrRqK6Bv76Brrk95F8a
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+Comment: GPGTools - https://gpgtools.org
+
+iEYEARECAAYFAlgpHHkACgkQuwUzVZGdMxSa9gCfWIjRSbTabLFdIDvUY8xH0UYZ
+zTUAn3FHXfpkEEBa2fgw9flZQyppC0s5
+=EfaL
+-----END PGP SIGNATURE-----
+
+--wIBQLB8pV1NUxLWrRqK6Bv76Brrk95F8a--
