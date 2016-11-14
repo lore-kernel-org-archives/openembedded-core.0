@@ -1,50 +1,65 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f173.google.com (mail-qk0-f173.google.com
-	[209.85.220.173])
-	by mail.openembedded.org (Postfix) with ESMTP id 81FF460720
+Return-Path: <thilo.cestonaro@ts.fujitsu.com>
+Received: from mail1.bemta3.messagelabs.com (mail1.bemta3.messagelabs.com
+	[195.245.230.166])
+	by mail.openembedded.org (Postfix) with ESMTP id 673C86076F
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Nov 2016 10:16:54 +0000 (UTC)
-Received: by mail-qk0-f173.google.com with SMTP id n21so89629108qka.3
+	Mon, 14 Nov 2016 10:33:49 +0000 (UTC)
+Received: from [85.158.138.179] by server-6.bemta-3.messagelabs.com id
+	4B/D0-25811-E0399285; Mon, 14 Nov 2016 10:33:50 +0000
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrLKsWRWlGSWpSXmKPExsViZ8MxVZd3sma
+	EwbJJihZ3fr5jd2D0OLdxBWMAYxRrZl5SfkUCa8bH1R/ZCm7rVnTPLGxgPKnTxcjFISSwiUli
+	95W9jF2MnEDOMUaJk62OEImLjBI/38xhA0mwCbhLbL13nwnEFhGIkri56xk7iC0sICLxfMVfV
+	oi4pMSqKx1sELaeRNPxRpYuRg4OFgFViQ1TpUHCvAImEscufGaH2OUtcfrjbGYQm1FARWLX3S
+	1gNzALiEvcejIfbJUE0PiHF0+zQdiiEi8f/2OFsFUktqz7wA5h60icvf6EEcI2kNi6dB8LhK0
+	o8aLlMzPEzCqJu99OMkLcIChxcuYTlgmMorOQrJuFpGwWkjKIuKZE6/bf7BC2tsSyha+ZIWxb
+	if1XV0LZphKvj35khLAVJaZ0P2RfwMixilGjOLWoLLVI19BSL6koMz2jJDcxM0fX0MBYLze1u
+	DgxPTUnMalYLzk/dxMjMBrrGRgYdzD+Pu53iFGSg0lJlDc+UjNCiC8pP6UyI7E4I76oNCe1+B
+	CjDAeHkgTvuYlAOcGi1PTUirTMHGBagElLcPAoifD+B0nzFhck5hZnpkOkTjEqSonzFoIkBEA
+	SGaV5cG2wVHSJUVZKmJeRgYFBiKcgtSg3swRV/hWjOAejkjDvC5ApPJl5JXDTXwEtZgJavMtc
+	A2RxSSJCSqqBcTXf8nlt9077HDwVmHv966XHG6uL/947u0vRbZ1w8/k9Paqe/aLSrCnbM37vC
+	Vl/l69EtW7drZDXW6bYc/16etezXkVEtHWTZvKSqpsWduyya59b/d86w7L0kUn6/vWur6Tm7X
+	no5fnr84pWYePvZy83n3A2+vPvmkfv0/qNe3oTj1d8mV56oEuJpTgj0VCLuag4EQB09QlLQAM
+	AAA==
+X-Env-Sender: thilo.cestonaro@ts.fujitsu.com
+X-Msg-Ref: server-11.tower-169.messagelabs.com!1479119628!77120815!1
+X-Originating-IP: [62.60.8.149]
+X-StarScan-Received: 
+X-StarScan-Version: 9.0.16; banners=-,-,-
+X-VirusChecked: Checked
+Received: (qmail 23543 invoked from network); 14 Nov 2016 10:33:48 -0000
+Received: from unknown (HELO mailhost2.uk.fujitsu.com) (62.60.8.149)
+	by server-11.tower-169.messagelabs.com with DHE-RSA-AES256-GCM-SHA384
+	encrypted SMTP; 14 Nov 2016 10:33:48 -0000
+Received: from R01UKEXCASM124.r01.fujitsu.local (ex2k13_124.fs.fujitsu.com
+	[10.183.43.176])
+	by mailhost2.uk.fujitsu.com (8.14.5/8.14.5) with ESMTP id
+	uAEAY7ZZ000815
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Nov 2016 02:16:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=gU71P/QaxEjxyspJFK82JVKsdS/a3ozYQjQzBhFQs3k=;
-	b=0JTF1h0SYY66dnYMaS0QSrqx3LNRaMQG8k2b2g/20Vg23gSsj88iewIEEY1hghCoNM
-	fHXdRtcB84IHJkdI7wRUH9pZKLeRd8PaQvuJYW9nPpS6E/agx9EB5aaT0kS3eW9PUqxu
-	HOLENK+7ACJhRoMXfBlVfL5lDg5TSHT75q4r5bSPOVEP23pieL7EEOvkDdETs0kzSK4R
-	ZhY6KihQca3OEDnPl2XubkrqwpwRxj2NsTYT75kpz+tYgBit46MRkkm0Irz6CJVIELOk
-	+JQXW51mrwomUKnCwveUKEIxpBaPbxGrNrTqh9+15IBNHOBbtemT9D2+XRgqRf7NQ/W/
-	CoBw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=gU71P/QaxEjxyspJFK82JVKsdS/a3ozYQjQzBhFQs3k=;
-	b=UDuDsMTauI/N1bdxoIaTtp4eCKSLCZlpm8UXLSu/dxXqNctQKsLBmQFr6mHdJ7+7LX
-	qr//w51UbdQFFCEnM+O1S/hlX51+2TyQgG7yOqHrCtvS2i27hgACPOd41QyrewF6Z0zm
-	DYz7t3omvhwp3wUgvcldXS8AHJ7W52GHQdFgSV+MUvZpn6bMiwiqj1wAKOQ5F71j2LCh
-	e1PZ4/WQWWpVcpjK4B4VigFN9J7PFPtUSdBG7dOy60eQUtPxg1mnqP9QW9ZAAnDYHNs0
-	SrNNTEDWpREMa9B0U7oneCXNwqDdLMRcs0ummYGuPt2bueYSdS73RXFz/sMQwR3l7EnX
-	Mc/Q==
-X-Gm-Message-State: ABUngvfGV7FH/pMxhD4ck5qLrACXSou8FuLaaqP1GeyCgKuBbn3+TZYI+9IVCOZ8hLyYYx0GyT0bcO6E6mjJ6YQz
-X-Received: by 10.55.39.88 with SMTP id n85mr15070112qkn.244.1479118615608;
-	Mon, 14 Nov 2016 02:16:55 -0800 (PST)
+	Mon, 14 Nov 2016 10:34:16 GMT
+Received: from R01UKEXCASM121.r01.fujitsu.local (10.183.43.173) by
+	R01UKEXCASM124.r01.fujitsu.local (10.183.43.176) with Microsoft SMTP
+	Server (TLS) id 15.0.1178.4; Mon, 14 Nov 2016 10:33:39 +0000
+Received: from R01UKEXCASM121.r01.fujitsu.local ([fe80::48eb:6503:a1bb:c29c])
+	by R01UKEXCASM121.r01.fujitsu.local ([fe80::48eb:6503:a1bb:c29c%22])
+	with mapi id 15.00.1178.000; Mon, 14 Nov 2016 10:33:39 +0000
+From: "thilo.cestonaro@ts.fujitsu.com" <thilo.cestonaro@ts.fujitsu.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: libdbus-c++
+Thread-Index: AQHSPmKPAk8NurXD20y1oo1p9CiCIg==
+Date: Mon, 14 Nov 2016 10:33:39 +0000
+Message-ID: <1479119619.8647.1.camel@ts.fujitsu.com>
+Reply-To: "thilo.cestonaro@ts.fujitsu.com" <thilo.cestonaro@ts.fujitsu.com>
+Accept-Language: de-DE, en-GB, en-US
+X-MS-Has-Attach: yes
+X-MS-TNEF-Correlator: 
+x-mailer: Evolution 3.22.2-1ubuntu1 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.183.43.206]
 MIME-Version: 1.0
-Received: by 10.140.85.136 with HTTP; Mon, 14 Nov 2016 02:16:35 -0800 (PST)
-In-Reply-To: <CAD4b0_J6hKetcbiXvUS3wAeo19QSGF=5DCFZnLK-0Lz904-6DA@mail.gmail.com>
-References: <cover.1478779674.git.maciej.borzecki@rndity.com>
-	<CAJTo0LZiXenXy8WC28z+5a4+ibJekaqeD+0_O84aejyi9XNH4w@mail.gmail.com>
-	<CAD4b0_J6hKetcbiXvUS3wAeo19QSGF=5DCFZnLK-0Lz904-6DA@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 14 Nov 2016 10:16:35 +0000
-Message-ID: <CAJTo0LaLwE+VOJwa3vad2XOc0FmwPpcGOxUvev=7RbnatnOKRg@mail.gmail.com>
-To: =?UTF-8?Q?Maciej_Borz=C4=99cki?= <maciej.borzecki@rndity.com>
-Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
-	Maciej Borzecki <maciek.borzecki@gmail.com>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2 00/10] wic: bugfixes & --fixed-size support, tests, selftest: minor fixes
+Subject: libdbus-c++
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,75 +72,101 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 14 Nov 2016 10:16:56 -0000
-Content-Type: multipart/alternative; boundary=94eb2c094b16aa1337054140233d
+X-List-Received-Date: Mon, 14 Nov 2016 10:33:51 -0000
+X-Groupsio-MsgNum: 89318
+Content-Language: en-US
+Content-Type: multipart/signed; micalg=sha-1;
+	protocol="application/x-pkcs7-signature";
+	boundary="=-GnnFOzaAVdBHrCEwvDNx"
 
---94eb2c094b16aa1337054140233d
-Content-Type: text/plain; charset=UTF-8
+--=-GnnFOzaAVdBHrCEwvDNx
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On 14 November 2016 at 10:02, Maciej Borz=C4=99cki <maciej.borzecki@rndity.=
-com>
-wrote:
+Hey!
 
-> I see that the builds were running with qemux85-64 MACHINE, shouldn't
-> TARGET_ARCH be set to x86-64 then? There's a check that builds
-> syslinux(-native) for x86 archs only since it's not buildable for
-> anything else. Same for HDDIMG.
->
+I wanted to build an executable using libdbus-c++ but OE-Core has no recipe=
+ providing libdbus-c++, please correct me if I'm wrong here!
 
-Not quite:
+Is there a reason, other than no one wanted a recipe for libdbus-c++=C2=A0y=
+et, against the usage of dbus-c++ implementation or why isn't there a recip=
+e for libdbus-c++?
 
-$ MACHINE=3Dqemux86 bitbake core-image-minimal -e | grep ^TARGET_ARCH=3D
-TARGET_ARCH=3D"i586"
+Regards,
+Thilo
 
-$ MACHINE=3Dqemux86-64 bitbake core-image-minimal -e | grep ^TARGET_ARCH=3D
-TARGET_ARCH=3D"x86_64"
+--=-GnnFOzaAVdBHrCEwvDNx
+Content-Type: application/x-pkcs7-signature; name="smime.p7s"
+Content-Disposition: attachment; filename="smime.p7s"
+Content-Transfer-Encoding: base64
 
-(had to patch bitbake.conf to export TARGET_ARCH)
+MIAGCSqGSIb3DQEHAqCAMIACAQExCzAJBgUrDgMCGgUAMIAGCSqGSIb3DQEHAQAAoIIM6DCCA9Qw
+ggK8oAMCAQICEDTNElfINoNG4L/3PTADbgUwDQYJKoZIhvcNAQEFBQAwLzEtMCsGA1UEAxMkRnVq
+aXRzdSBUZWNobm9sb2d5IFNvbHV0aW9ucyBSb290IENBMB4XDTA5MDMxMjEyMjQ1OVoXDTE5MDMx
+MTEyMjQ1OVowLzEtMCsGA1UEAxMkRnVqaXRzdSBUZWNobm9sb2d5IFNvbHV0aW9ucyBVc2VyIENB
+MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAsBtNf0fN8EkW9y6QqoQGS6LUwezenV2B
+nDzORdGanukRtpGzYMAPdyiwtlp0/zONa+jCJGzkX4iYCjTsiJvx01SPRNZ24fHaFGXpJBX599q6
+ZF0isu+h1aIas1tfyCBalAbKKLvNgIuQjnXhdffVk4vSuBytO3OGcULtJ2+lYVSEvxzGt9iTSwT5
+RnEvKpR0iOC+9/UNVOiPK9XCz5u7bg3iehP5gD+v5uu3YIRwV/5gyd7AZPcckTfYP/GZcybcAXfE
+l5nb/bZiSLHeZEjxMMM8YZqFKhH9xymIdjkcRK7NJ2j8OD708QFv4b4bme1mHGfTjSbxb1nOoUTs
+NtshZwIDAQABo4HrMIHoMB0GA1UdDgQWBBQI9chqv4Dje1DEOfQHmEbobX6XqDALBgNVHQ8EBAMC
+AYYwHwYDVR0jBBgwFoAUFHXiV7YVNxWAKpflUUhlrM+GkMswEgYDVR0TAQH/BAgwBgEB/wIBADBH
+BggrBgEFBQcBAQQ7MDkwNwYIKwYBBQUHMAKGK2h0dHA6Ly9haWEudHMuZnVqaXRzdS5jb20vYWlh
+L2Z0czAxcm9vdC5jZXIwPAYDVR0fBDUwMzAxoC+gLYYraHR0cDovL2NkcC50cy5mdWppdHN1LmNv
+bS9jZHAvZnRzMDFyb290LmNybDANBgkqhkiG9w0BAQUFAAOCAQEAQ7pQP9Lw9bcnt1DhvV5UWb1z
+mnACSo6n6x+bupckQzlrf3aJ7HQZigZuaCak+dexL18I86iNDDOJBBsrz0DcD4XPszcLTUezqqGl
+AyIbviBq5mwDHAWBA9F11GRx6LdrHMKNdHPwAWyC3r6qv4GO6A+z16KUZFSP4kvuaN5YHI481T7F
+FxEmntkylphndX+6mQ1NABApMMhX0aN5dVhPAMAP8nENJ1hGk81IG8gzkoHDPSoLCtffAnNhYAqh
+vrDO2ybXb/9x+Sf3DQuzBg3hpB1yJM3K8foQaS3uTpFITfdMprcQyrIdl4Jw26s/6vpIs0siLVTp
+3yAwgNaqQSgxSTCCBIQwggNsoAMCAQICCiWUlIAAAAACJH0wDQYJKoZIhvcNAQEFBQAwLzEtMCsG
+A1UEAxMkRnVqaXRzdSBUZWNobm9sb2d5IFNvbHV0aW9ucyBVc2VyIENBMB4XDTE0MDMyMTEyMTM1
+M1oXDTE3MDMyMDEyMTM1M1owQjEZMBcGA1UEAwwQQ2VzdG9uYXJvLCBUaGlsbzElMCMGA1UECgwc
+RnVqaXRzdSBUZWNobm9sb2d5IFNvbHV0aW9uczCBnzANBgkqhkiG9w0BAQEFAAOBjQAwgYkCgYEA
+qP3ld/ylkJOTj2rXQ+VrRf/+YMgZS5CGDnMWk+sMoS5f6JqtwfGcfBU/DhfnLsePut2q+ex/RDZF
+M6yCraPS0vdnTKm2O3Q7/UhhAV1Mi4XzzGeY1Y0qm+85EgMBISPwB5mThLYPsun5UIFs6e8tvlwZ
+Rzp/jrv/AzAfsSbHGXcCAwEAAaOCAhEwggINMAsGA1UdDwQEAwIFoDByBgNVHREEazBpgR50aGls
+by5jZXN0b25hcm9AdHMuZnVqaXRzdS5jb22BI1RoaWxvLkNlc3RvbmFyb0BmdWppdHN1LXNpZW1l
+bnMuY29tgSIrNDk4MjE4MDQ4MjMyOEBpbmNvbWluZ2ZheC5mc2MubmV0MB0GA1UdDgQWBBSiHLgI
+jjo+7KxLJ4t1+YZxgBSn8TAfBgNVHSMEGDAWgBQI9chqv4Dje1DEOfQHmEbobX6XqDA8BgNVHR8E
+NTAzMDGgL6AthitodHRwOi8vY2RwLnRzLmZ1aml0c3UuY29tL2NkcC9mdHMwMXVzZXIuY3JsMEcG
+CCsGAQUFBwEBBDswOTA3BggrBgEFBQcwAoYraHR0cDovL2FpYS50cy5mdWppdHN1LmNvbS9haWEv
+ZnRzMDF1c2VyLmNlcjAMBgNVHRMBAf8EAjAAMD0GCSsGAQQBgjcVBwQwMC4GJisGAQQBgjcVCIWF
+xDKBh/9hgYWBBIbsgiCBx4EaeYOIoHGH0vEvAgFkAgEIMBMGA1UdJQQMMAoGCCsGAQUFBwMEMBsG
+CSsGAQQBgjcVCgQOMAwwCgYIKwYBBQUHAwQwRAYJKoZIhvcNAQkPBDcwNTAOBggqhkiG9w0DAgIC
+AIAwDgYIKoZIhvcNAwQCAgCAMAcGBSsOAwIHMAoGCCqGSIb3DQMHMA0GCSqGSIb3DQEBBQUAA4IB
+AQAEGTAyHPmTyCR029H+P/u9xRezlfA2OVvV97Ls/oLCXGGr6EkMvpHodTc6n4EWSb2ul3VPSRQf
+uSmBgIcHQJykHdSChisaqkeOpHG0rjM9GXh2eQ7ECovpQIfdIbRZKNxlJihSDsDWHyZldBlPVbDh
+xMeT6xJ/ylF8UQ8FXKUir6W/BSPZF5kLdsmCeOpWC4jOGNPEMUAcuiHZPyqAhjlWk750I4oJJKvD
+bwO8/mkxmzOjpOsk8O3CdljCjYPoYtJPI/oNVsYdmiokzne4FusPYKDzv5i0dN74KLR48maXvi3/
+WsTFqwks45QeBJT/z+1sYy+dYWpv9XGN+jR1o4ImMIIEhDCCA2ygAwIBAgIKJZSUgAAAAAIkfTAN
+BgkqhkiG9w0BAQUFADAvMS0wKwYDVQQDEyRGdWppdHN1IFRlY2hub2xvZ3kgU29sdXRpb25zIFVz
+ZXIgQ0EwHhcNMTQwMzIxMTIxMzUzWhcNMTcwMzIwMTIxMzUzWjBCMRkwFwYDVQQDDBBDZXN0b25h
+cm8sIFRoaWxvMSUwIwYDVQQKDBxGdWppdHN1IFRlY2hub2xvZ3kgU29sdXRpb25zMIGfMA0GCSqG
+SIb3DQEBAQUAA4GNADCBiQKBgQCo/eV3/KWQk5OPatdD5WtF//5gyBlLkIYOcxaT6wyhLl/omq3B
+8Zx8FT8OF+cux4+63ar57H9ENkUzrIKto9LS92dMqbY7dDv9SGEBXUyLhfPMZ5jVjSqb7zkSAwEh
+I/AHmZOEtg+y6flQgWzp7y2+XBlHOn+Ou/8DMB+xJscZdwIDAQABo4ICETCCAg0wCwYDVR0PBAQD
+AgWgMHIGA1UdEQRrMGmBHnRoaWxvLmNlc3RvbmFyb0B0cy5mdWppdHN1LmNvbYEjVGhpbG8uQ2Vz
+dG9uYXJvQGZ1aml0c3Utc2llbWVucy5jb22BIis0OTgyMTgwNDgyMzI4QGluY29taW5nZmF4LmZz
+Yy5uZXQwHQYDVR0OBBYEFKIcuAiOOj7srEsni3X5hnGAFKfxMB8GA1UdIwQYMBaAFAj1yGq/gON7
+UMQ59AeYRuhtfpeoMDwGA1UdHwQ1MDMwMaAvoC2GK2h0dHA6Ly9jZHAudHMuZnVqaXRzdS5jb20v
+Y2RwL2Z0czAxdXNlci5jcmwwRwYIKwYBBQUHAQEEOzA5MDcGCCsGAQUFBzAChitodHRwOi8vYWlh
+LnRzLmZ1aml0c3UuY29tL2FpYS9mdHMwMXVzZXIuY2VyMAwGA1UdEwEB/wQCMAAwPQYJKwYBBAGC
+NxUHBDAwLgYmKwYBBAGCNxUIhYXEMoGH/2GBhYEEhuyCIIHHgRp5g4igcYfS8S8CAWQCAQgwEwYD
+VR0lBAwwCgYIKwYBBQUHAwQwGwYJKwYBBAGCNxUKBA4wDDAKBggrBgEFBQcDBDBEBgkqhkiG9w0B
+CQ8ENzA1MA4GCCqGSIb3DQMCAgIAgDAOBggqhkiG9w0DBAICAIAwBwYFKw4DAgcwCgYIKoZIhvcN
+AwcwDQYJKoZIhvcNAQEFBQADggEBAAQZMDIc+ZPIJHTb0f4/+73FF7OV8DY5W9X3suz+gsJcYavo
+SQy+keh1NzqfgRZJva6XdU9JFB+5KYGAhwdAnKQd1IKGKxqqR46kcbSuMz0ZeHZ5DsQKi+lAh90h
+tFko3GUmKFIOwNYfJmV0GU9VsOHEx5PrEn/KUXxRDwVcpSKvpb8FI9kXmQt2yYJ46lYLiM4Y08Qx
+QBy6Idk/KoCGOVaTvnQjigkkq8NvA7z+aTGbM6Ok6yTw7cJ2WMKNg+hi0k8j+g1Wxh2aKiTOd7gW
+6w9goPO/mLR03vgotHjyZpe+Lf9axMWrCSzjlB4ElP/P7WxjL51ham/1cY36NHWjgiYxggHhMIIB
+3QIBATA9MC8xLTArBgNVBAMTJEZ1aml0c3UgVGVjaG5vbG9neSBTb2x1dGlvbnMgVXNlciBDQQIK
+JZSUgAAAAAIkfTAJBgUrDgMCGgUAoIH7MBgGCSqGSIb3DQEJAzELBgkqhkiG9w0BBwEwHAYJKoZI
+hvcNAQkFMQ8XDTE2MTExNDEwMzMzOVowIwYJKoZIhvcNAQkEMRYEFGasComCRIMPqZzuMY83GDGh
+9k5MMEwGCSsGAQQBgjcQBDE/MD0wLzEtMCsGA1UEAxMkRnVqaXRzdSBUZWNobm9sb2d5IFNvbHV0
+aW9ucyBVc2VyIENBAgollJSAAAAAAiR9ME4GCyqGSIb3DQEJEAILMT+gPTAvMS0wKwYDVQQDEyRG
+dWppdHN1IFRlY2hub2xvZ3kgU29sdXRpb25zIFVzZXIgQ0ECCiWUlIAAAAACJH0wDQYJKoZIhvcN
+AQEBBQAEgYBvw4R8SA8cfl4UDsS2b6ic//3wNS4zTpIQcZvcWGGDOJmHVodk2MnTGkMpP9GGLVtG
+plecZMSf61HwhgUxFSPC69iD/F/A5eoqBxT50R21vTUq5X5DlFL+q56fO0IiL/aLXWtU9J08znq2
+xj6GH6DbB1mJ120QpfsSG9pM1QTZ5gAAAAAAAA==
 
-
-> One more question, the assert raised when comparing parted's output is
-> caused by different locale. Do you think it would be ok to just enforce
-> LC_ALL=3DC when running commands under wic?
->
-
-Yes, enforcing a  locale is essential when comparing output of commands.
-Bitbake switches to en_US.UTF8 on startup for the same reason, so feel free
-to use that or C.
-
-Ross
-
---94eb2c094b16aa1337054140233d
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 14 November 2016 at 10:02, Maciej Borz=C4=99cki <span dir=3D"ltr">&lt;<a=
- href=3D"mailto:maciej.borzecki@rndity.com" target=3D"_blank">maciej.borzec=
-ki@rndity.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" st=
-yle=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-color:rgb=
-(204,204,204);border-left-style:solid;padding-left:1ex"><div id=3D"gmail-:1=
-8u" class=3D"gmail-a3s gmail-aXjCH gmail-m158624a7f32db916">I see that the =
-builds were running with qemux85-64 MACHINE, shouldn&#39;t<br>
-TARGET_ARCH be set to x86-64 then? There&#39;s a check that builds<br>
-syslinux(-native) for x86 archs only since it&#39;s not buildable for<br>
-anything else. Same for HDDIMG.<br></div></blockquote><div><br></div><div>N=
-ot quite:</div><div><br></div><div>$ MACHINE=3Dqemux86 bitbake core-image-m=
-inimal -e | grep ^TARGET_ARCH=3D</div><div>TARGET_ARCH=3D&quot;i586&quot;<b=
-r></div><div><br></div><div>$ MACHINE=3Dqemux86-64 bitbake core-image-minim=
-al -e | grep ^TARGET_ARCH=3D<br></div><div>TARGET_ARCH=3D&quot;x86_64&quot;=
-</div><div><br></div><div>(had to patch bitbake.conf to export TARGET_ARCH)=
-</div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0p=
-x 0px 0px 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);bo=
-rder-left-style:solid;padding-left:1ex"><div id=3D"gmail-:18u" class=3D"gma=
-il-a3s gmail-aXjCH gmail-m158624a7f32db916">One more question, the assert r=
-aised when comparing parted&#39;s output is<br>
-caused by different locale. Do you think it would be ok to just enforce<br>
-LC_ALL=3DC when running commands under wic?</div></blockquote></div><br>Yes=
-, enforcing a =C2=A0locale is essential when comparing output of commands.=
-=C2=A0 Bitbake switches to en_US.UTF8 on startup for the same reason, so fe=
-el free to use that or C.</div><div class=3D"gmail_extra"><br></div><div cl=
-ass=3D"gmail_extra">Ross</div></div>
-
---94eb2c094b16aa1337054140233d--
+--=-GnnFOzaAVdBHrCEwvDNx--
