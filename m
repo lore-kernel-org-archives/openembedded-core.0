@@ -1,25 +1,25 @@
 Return-Path: <Liezhi.Yang@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 24DBD71978
+	by mail.openembedded.org (Postfix) with ESMTP id 260F87197B
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Nov 2016 14:34:06 +0000 (UTC)
+	Mon, 14 Nov 2016 14:34:08 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTP id uAEEY8sH025875
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTP id uAEEYAO9025878
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Nov 2016 06:34:08 -0800 (PST)
+	Mon, 14 Nov 2016 06:34:10 -0800 (PST)
 Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.294.0;
-	Mon, 14 Nov 2016 06:34:07 -0800
+	Mon, 14 Nov 2016 06:34:09 -0800
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 14 Nov 2016 06:34:03 -0800
-Message-ID: <04ded58ccc9845b09f502358a0ef3e362beb8c37.1479133967.git.liezhi.yang@windriver.com>
+Date: Mon, 14 Nov 2016 06:34:06 -0800
+Message-ID: <8c8065fec7073acfbe7c9ea308137e7bb8b83321.1479133967.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.10.2
 In-Reply-To: <cover.1479133967.git.liezhi.yang@windriver.com>
 References: <cover.1479133967.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/4] populate_sdk_ext.bbclass: use weak assignment for TOOLCHAINEXT_OUTPUTNAME
+Subject: [PATCH 4/4] sanity.bbclass: fix check_connectivity() for BB_NO_NETWORK = "0"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,31 +35,47 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Mon, 14 Nov 2016 14:34:09 -0000
 Content-Type: text/plain
 
-The TOOLCHAINEXT_OUTPUTNAME is different from TOOLCHAIN_OUTPUTNAME, it
-is used for eSDK only, so that it doesn't mix with SDK, use "?=" for it
-so that other conf file can define it.
+The old code:
+network_enabled = not d.getVar('BB_NO_NETWORK', True)
 
-If we don't use "?=" here, then we need use forcevariable to redfine it:
-TOOLCHAINEXT_OUTPUTNAME_forcevariable = "foo"
+It is True only when BB_NO_NETWORK is not set (None),
+but BB_NO_NETWORK = "0" should also be True while "1" means no network,
+"0" means need network in a normal case.
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- meta/classes/populate_sdk_ext.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/classes/sanity.bbclass | 14 +++++++++-----
+ 1 file changed, 9 insertions(+), 5 deletions(-)
 
-diff --git a/meta/classes/populate_sdk_ext.bbclass b/meta/classes/populate_sdk_ext.bbclass
-index a0856d4..2c9def6 100644
---- a/meta/classes/populate_sdk_ext.bbclass
-+++ b/meta/classes/populate_sdk_ext.bbclass
-@@ -77,7 +77,7 @@ COREBASE_FILES ?= " \
+diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
+index 7e383f9..c5e3809 100644
+--- a/meta/classes/sanity.bbclass
++++ b/meta/classes/sanity.bbclass
+@@ -363,15 +363,19 @@ def check_connectivity(d):
+     test_uris = (d.getVar('CONNECTIVITY_CHECK_URIS', True) or "").split()
+     retval = ""
  
- SDK_DIR_task-populate-sdk-ext = "${WORKDIR}/sdk-ext"
- B_task-populate-sdk-ext = "${SDK_DIR}"
--TOOLCHAINEXT_OUTPUTNAME = "${SDK_NAME}-toolchain-ext-${SDK_VERSION}"
-+TOOLCHAINEXT_OUTPUTNAME ?= "${SDK_NAME}-toolchain-ext-${SDK_VERSION}"
- TOOLCHAIN_OUTPUTNAME_task-populate-sdk-ext = "${TOOLCHAINEXT_OUTPUTNAME}"
- 
- SDK_EXT_TARGET_MANIFEST = "${SDK_DEPLOY}/${TOOLCHAINEXT_OUTPUTNAME}.target.manifest"
++    bbn = d.getVar('BB_NO_NETWORK', True)
++    if bbn not in (None, '0', '1'):
++        return 'BB_NO_NETWORK should be "0" or "1", but it is "%s"' % bbn
++
+     # Only check connectivity if network enabled and the
+     # CONNECTIVITY_CHECK_URIS are set
+-    network_enabled = not d.getVar('BB_NO_NETWORK', True)
++    network_enabled = not (bbn == '1')
+     check_enabled = len(test_uris)
+-    # Take a copy of the data store and unset MIRRORS and PREMIRRORS
+-    data = bb.data.createCopy(d)
+-    data.delVar('PREMIRRORS')
+-    data.delVar('MIRRORS')
+     if check_enabled and network_enabled:
++        # Take a copy of the data store and unset MIRRORS and PREMIRRORS
++        data = bb.data.createCopy(d)
++        data.delVar('PREMIRRORS')
++        data.delVar('MIRRORS')
+         try:
+             fetcher = bb.fetch2.Fetch(test_uris, data)
+             fetcher.checkstatus()
 -- 
 2.10.2
 
