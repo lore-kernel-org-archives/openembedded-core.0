@@ -1,55 +1,30 @@
-Return-Path: <maciej.borzecki@rndity.com>
-Received: from mail-wm0-f43.google.com (mail-wm0-f43.google.com [74.125.82.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 3125165CC7
+Return-Path: <rpjday@crashcourse.ca>
+Received: from smtp684.redcondor.net (smtp684.redcondor.net [208.80.206.84])
+	by mail.openembedded.org (Postfix) with ESMTP id 9763460797
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Nov 2016 14:37:51 +0000 (UTC)
-Received: by mail-wm0-f43.google.com with SMTP id g23so101618359wme.1
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Nov 2016 06:37:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=rndity-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=toyCldpax/Tx4iWtIs+Cqq1oFlb43renJhDgOwJ7s8c=;
-	b=l3OyPV7kTQydUL77GRqV8MfwxMv4JoeYJ5mxyJRWkFil3v1B500W+YAZciSEAC/pt1
-	lc29tfczlP9aq3TTQD7jECjV0H97mVq9JB3uQD44dTRvVYi/iw7Pccns7XcHFjelqtXf
-	ydlw0O73tdKJuw20m3c57nzjS6vrGi9wD0xOotD5QCbNsplMbRvbb3eSRYCC5U/MSeUr
-	fnFVP9OPL1d25rEnCb/pcOwYTg8WIeEWJXO9N1jdcizzbmWK8XBb6KKNT2NNSfbso0cV
-	4QY7NVJH4Tx6UCupRvc5eII6w0y4hy9EiBUxXndA2IfXVnB8IP4fgi2oDfmtggm0wHIJ
-	7B1w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=toyCldpax/Tx4iWtIs+Cqq1oFlb43renJhDgOwJ7s8c=;
-	b=SSKqbg98EwT2yCXVa+P1bfo+7sQAqyTyZh1ItmjGkT7bnDsMQIiVmq5hJIjzwzzVCS
-	KAHMeAB4oNBqIIY86TlMYNiPL3QZkuG/ooW3RRJdYMJtws4x49zhJbfSYkGbvZiahg5O
-	zvbkYXhNxvvQflhdbwUvaPgniG+Z12HYUzoYWljH0A0n2ULzvD7bEXc158EqC6JoOThu
-	e9RFRuKcC/2c6zk380OATroOZng/2A5Uz/69t+V1t41ZFfr7xy2+khZTmRateHyS+Kxf
-	s+hd8cv0mo9oWXGOBuoRvvAnwdrgLQm34dYSqxeNR/1mMYfAcgOX5o7HBK/jaifQ7CfA
-	NkVQ==
-X-Gm-Message-State: ABUngvckpDta4UYyEv+AiV3IrmroTl6NTjTOXjvfD5NQxWnTypEW0U919ndF0lDEqL2F6Qf+hktxnGvXsiC+Yw==
-X-Received: by 10.28.8.202 with SMTP id 193mr10093201wmi.101.1479134272230;
-	Mon, 14 Nov 2016 06:37:52 -0800 (PST)
+	Mon, 14 Nov 2016 14:41:37 +0000 (UTC)
+Received: from astoria.ccjclearline.com ([64.235.106.9])
+	by smtp684.redcondor.net ({700db0a8-6fb7-4c8b-9b2a-6812225182d8})
+	via TCP (outbound) with ESMTPS id 20161114144137510_0684;
+	Mon, 14 Nov 2016 14:41:37 +0000
+X-RC-FROM: <rpjday@crashcourse.ca>
+Received: from [216.191.234.70] (port=53461 helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
+	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
+	id 1c6IRt-0002jN-L8; Mon, 14 Nov 2016 09:41:29 -0500
+Date: Mon, 14 Nov 2016 09:40:25 -0500 (EST)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@ca624034.mitel.com
+To: Mark Hatle <mark.hatle@windriver.com>
+In-Reply-To: <ca53cb96-5c1e-35f1-55f3-8f61897de18f@windriver.com>
+Message-ID: <alpine.LFD.2.20.1611140938130.15267@ca624034.mitel.com>
+References: <alpine.LFD.2.20.1611121436420.20479@localhost.localdomain>
+	<ca53cb96-5c1e-35f1-55f3-8f61897de18f@windriver.com>
+User-Agent: Alpine 2.20 (LFD 67 2015-01-07)
 MIME-Version: 1.0
-Received: by 10.28.15.9 with HTTP; Mon, 14 Nov 2016 06:37:31 -0800 (PST)
-In-Reply-To: <CAJTo0Lby4RLXxxe8cG_Kr8Uq-srb8nv2tZCTCuQxBYD8hY5YyA@mail.gmail.com>
-References: <cover.1478779674.git.maciej.borzecki@rndity.com>
-	<CAJTo0LZiXenXy8WC28z+5a4+ibJekaqeD+0_O84aejyi9XNH4w@mail.gmail.com>
-	<CAD4b0_J6hKetcbiXvUS3wAeo19QSGF=5DCFZnLK-0Lz904-6DA@mail.gmail.com>
-	<CAJTo0LaLwE+VOJwa3vad2XOc0FmwPpcGOxUvev=7RbnatnOKRg@mail.gmail.com>
-	<CAD4b0_LBO_WbaGdaYne7U8KT0QiBb=P5_Th0MjzR24F6px-vXA@mail.gmail.com>
-	<CAJTo0LZ+JpE8G-qvLOQburPb+vFCJ-GB6HnGpKZD80tnLpv86A@mail.gmail.com>
-	<CAD4b0_KC108KpwO3kvWqt7LCoqAQZ88_R0b_BXmmuSFAv_xVfQ@mail.gmail.com>
-	<CAJTo0Lby4RLXxxe8cG_Kr8Uq-srb8nv2tZCTCuQxBYD8hY5YyA@mail.gmail.com>
-From: =?UTF-8?Q?Maciej_Borz=C4=99cki?= <maciej.borzecki@rndity.com>
-Date: Mon, 14 Nov 2016 15:37:31 +0100
-Message-ID: <CAD4b0_+P2+VECFC3s-RG3urDaArb8v+7sTet98fvgVniQM8Kqw@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
-	Maciej Borzecki <maciek.borzecki@gmail.com>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2 00/10] wic: bugfixes & --fixed-size support, tests, selftest: minor fixes
+X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: WRL error: "Can't locate Config_heavy-target.pl in @INC" -- OE versus WRL
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,36 +37,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 14 Nov 2016 14:37:52 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-On Mon, Nov 14, 2016 at 3:07 PM, Burton, Ross <ross.burton@intel.com> wrote=
-:
->
-> On 14 November 2016 at 14:03, Maciej Borz=C4=99cki <maciej.borzecki@rndit=
-y.com>
-> wrote:
->>
->> TARGET_ARCH is in fact not exported as you have indicated, there's this
->> piece in meta/conf/bitbake.conf:
->
->
-> Ah yes there's a bit of bad interaction between unexport variables, the h=
-ack
-> that is -e, and the even greater hack that is get_bb_var.
->
-> I actually have a patch to change the -e output, I've just noticed that i=
-t
-> will break selftest as that makes assumptions about -e output, but it doe=
-s
-> solve the problem that you can't reliably use get_bb_var() on unexport.
-
-I suppose that settles it then. I will stick with HOST_ARCH in v3 of the se=
-ries.
+X-List-Received-Date: Mon, 14 Nov 2016 14:41:39 -0000
+Content-Type: text/plain; charset=US-ASCII
 
 
---=20
-Maciej Borzecki
-RnDity
+  i think i figured out the problem ... all of the perl recipes i was
+trying to build (from meta-cpan) had the line:
+
+  inherit cpan allarch
+
+rather than just:
+
+  inherit cpan
+
+so the native perl built by WRL chokes on that, while the slightly
+newer perl that comes with OE has a patch to handle that.
+
+  at least, that's what *appears* to be happening. does that make any
+sense?
+
+rday
+
+-- 
+
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
+
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
+
 
