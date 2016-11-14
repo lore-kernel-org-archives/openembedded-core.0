@@ -1,21 +1,26 @@
-Return-Path: <edwin.plauchu.camacho@linux.intel.com>
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
-	by mail.openembedded.org (Postfix) with ESMTP id EFE7B6FF72
+Return-Path: <jianxun.zhang@linux.intel.com>
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 2657F6612C
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Nov 2016 22:51:20 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by orsmga104.jf.intel.com with ESMTP; 14 Nov 2016 14:51:22 -0800
+	Mon, 14 Nov 2016 23:08:18 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by fmsmga105.fm.intel.com with ESMTP; 14 Nov 2016 15:08:20 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.31,640,1473145200"; d="scan'208";a="1085173640"
-Received: from pianodaemon-contraption.zpn.intel.com ([10.219.128.75])
-	by fmsmga002.fm.intel.com with ESMTP; 14 Nov 2016 14:51:21 -0800
-From: Edwin Plauchu <edwin.plauchu.camacho@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 14 Nov 2016 16:52:41 -0600
-Message-Id: <20161114225241.2282-1-edwin.plauchu.camacho@linux.intel.com>
-X-Mailer: git-send-email 2.9.3
-Cc: Edwin Plauchu <edwin.plauchu.camacho@intel.com>
-Subject: [PATCH] python3-mako: upgrade to 1.0.6
+X-IronPort-AV: E=Sophos;i="5.31,640,1473145200"; 
+   d="scan'208";a="4161003"
+Received: from jzhang80-mac02.jf.intel.com ([10.24.8.157])
+	by orsmga002.jf.intel.com with ESMTP; 14 Nov 2016 15:08:21 -0800
+Mime-Version: 1.0 (Mac OS X Mail 10.1 \(3251\))
+From: Jianxun Zhang <jianxun.zhang@linux.intel.com>
+In-Reply-To: <41ae9aed-3c93-09dc-bdde-5553fe5d5fbc@gmail.com>
+Date: Mon, 14 Nov 2016 15:08:20 -0800
+Message-Id: <D48DD72C-50E1-4475-9976-65C59A0705D3@linux.intel.com>
+References: <1479161454-236511-1-git-send-email-jianxun.zhang@linux.intel.com>
+	<41ae9aed-3c93-09dc-bdde-5553fe5d5fbc@gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+X-Mailer: Apple Mail (2.3251)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] rmc: Fix compiling issue with musl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,37 +33,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 14 Nov 2016 22:51:22 -0000
+X-List-Received-Date: Mon, 14 Nov 2016 23:08:19 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-From: Edwin Plauchu <edwin.plauchu.camacho@intel.com>
 
-Signed-off-by: Edwin Plauchu <edwin.plauchu.camacho@intel.com>
----
- meta/recipes-devtools/python/python-mako.inc                          | 4 ++--
- .../python/{python3-mako_1.0.4.bb => python3-mako_1.0.6.bb}           | 0
- 2 files changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-devtools/python/{python3-mako_1.0.4.bb => python3-mako_1.0.6.bb} (100%)
+> On Nov 14, 2016, at 2:50 PM, Khem Raj <raj.khem@gmail.com> wrote:
+>=20
+>=20
+>=20
+> On 11/14/16 2:10 PM, Jianxun Zhang wrote:
+>> | src/rmcl/rmcl.c: In function 'query_policy_from_db':
+>> | src/rmcl/rmcl.c:254:25: error: unknown type name 'ssize_t'
+>> | ssize_t cmd_name_len =3D strlen((char *)&rmc_db[policy_idx]) + 1;
+>> | ^~~~~~~~
+>>=20
+>> The musl C lib provides ssize_t but we need to enable it
+>> with a macro.
+>>=20
+>> Signed-off-by: Jianxun Zhang <jianxun.zhang@linux.intel.com>
+>> ---
+>> Before maintainer(s) push "merge" button, please read this short =
+summary.
+>> I feel there could be a better syntax to do it. And We could need to =
+get
+>> an ack from Hernandez, Alejandro who reported this issue and seems =
+still
+>> have (other) compiling errors even with this patch.
+>>=20
+>> I submit this patch based on my thoughts and test out of tiny config.
+>>=20
+>> Tests:
+>> () Specify TCLIBC =3D "musl" in local.conf in my build dir.
+>> () Build quark
+>> () I can see this issue happens without the fix
+>> () With this patch and do clean builds for quark and corei7-64,
+>> Compiling passes. Boot test passed on RMC targets quark and =
+Broxton-m.
+>>=20
+>> Thanks
+>>=20
+>>=20
+>> common/recipes-bsp/rmc/rmc.bb | 2 ++
+>> 1 file changed, 2 insertions(+)
+>>=20
+>> diff --git a/common/recipes-bsp/rmc/rmc.bb =
+b/common/recipes-bsp/rmc/rmc.bb
+>> index aeaf12e..61a1bdb 100644
+>> --- a/common/recipes-bsp/rmc/rmc.bb
+>> +++ b/common/recipes-bsp/rmc/rmc.bb
+>> @@ -24,6 +24,8 @@ COMPATIBLE_HOST =3D "(x86_64.*|i.86.*)-linux*"
+>>=20
+>> EXTRA_OEMAKE=3D'RMC_CFLAGS=3D"-Wl,--hash-style=3Dboth"'
+>>=20
+>> +EXTRA_OEMAKE_append_libc-musl =3D '" -D__NEED_ssize_t"'
+>=20
+> this is not right way to handle it. you should be doing something like
+> #include <sys/types.h> in your source file
+Khem,
+Thanks lot for your review even when I wrongly submit it here! I tried =
+it first but didn=E2=80=99t succeed for some reason with the suggested =
+change.
 
-diff --git a/meta/recipes-devtools/python/python-mako.inc b/meta/recipes-devtools/python/python-mako.inc
-index 85ec217..10364db 100644
---- a/meta/recipes-devtools/python/python-mako.inc
-+++ b/meta/recipes-devtools/python/python-mako.inc
-@@ -5,8 +5,8 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=1bb21fa2d2f7a534c884b990430a6863"
- 
- SRC_URI = "https://files.pythonhosted.org/packages/source/M/Mako/Mako-${PV}.tar.gz"
- 
--SRC_URI[md5sum] = "c5fc31a323dd4990683d2f2da02d4e20"
--SRC_URI[sha256sum] = "fed99dbe4d0ddb27a33ee4910d8708aca9ef1fe854e668387a9ab9a90cbf9059"
-+SRC_URI[md5sum] = "a28e22a339080316b2acc352b9ee631c"
-+SRC_URI[sha256sum] = "48559ebd872a8e77f92005884b3d88ffae552812cdf17db6768e5c3be5ebbe0d"
- 
- UPSTREAM_CHECK_URI = "https://pypi.python.org/pypi/mako/"
- UPSTREAM_CHECK_REGEX = "/Mako/(?P<pver>(\d+[\.\-_]*)+)"
-diff --git a/meta/recipes-devtools/python/python3-mako_1.0.4.bb b/meta/recipes-devtools/python/python3-mako_1.0.6.bb
-similarity index 100%
-rename from meta/recipes-devtools/python/python3-mako_1.0.4.bb
-rename to meta/recipes-devtools/python/python3-mako_1.0.6.bb
--- 
-2.9.3
+Let me try it again...
+
+>=20
+>=20
+>> +
+>> # from gnu-efi, we should align arch-mapping with it.
+>> def rmc_efi_arch(d):
+>>     import re
 
 
