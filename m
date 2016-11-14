@@ -1,21 +1,20 @@
-Return-Path: <edwin.plauchu.camacho@linux.intel.com>
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by mail.openembedded.org (Postfix) with ESMTP id AC5576FEE0
+Return-Path: <jianxun.zhang@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 9167B6FEE0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Nov 2016 22:07:47 +0000 (UTC)
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-	by orsmga105.jf.intel.com with ESMTP; 14 Nov 2016 14:07:48 -0800
+	Mon, 14 Nov 2016 22:07:48 +0000 (UTC)
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+	by orsmga101.jf.intel.com with ESMTP; 14 Nov 2016 14:07:50 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.31,640,1473145200"; d="scan'208";a="31183240"
-Received: from pianodaemon-contraption.zpn.intel.com ([10.219.128.75])
-	by fmsmga005.fm.intel.com with ESMTP; 14 Nov 2016 14:07:47 -0800
-From: Edwin Plauchu <edwin.plauchu.camacho@linux.intel.com>
+X-IronPort-AV: E=Sophos;i="5.31,640,1473145200"; d="scan'208";a="31220577"
+Received: from chang-s2600cp.jf.intel.com ([10.54.77.22])
+	by fmsmga006.fm.intel.com with ESMTP; 14 Nov 2016 14:07:50 -0800
+From: Jianxun Zhang <jianxun.zhang@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 14 Nov 2016 16:09:07 -0600
-Message-Id: <20161114220907.10988-1-edwin.plauchu.camacho@linux.intel.com>
-X-Mailer: git-send-email 2.9.3
-Cc: Edwin Plauchu <edwin.plauchu.camacho@intel.com>
-Subject: [PATCH] python3-pip: upgrade to 9.0.1
+Date: Mon, 14 Nov 2016 14:10:54 -0800
+Message-Id: <1479161454-236511-1-git-send-email-jianxun.zhang@linux.intel.com>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH] rmc: Fix compiling issue with musl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,35 +27,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 14 Nov 2016 22:07:48 -0000
+X-List-Received-Date: Mon, 14 Nov 2016 22:07:49 -0000
 
-From: Edwin Plauchu <edwin.plauchu.camacho@intel.com>
+| src/rmcl/rmcl.c: In function 'query_policy_from_db':
+| src/rmcl/rmcl.c:254:25: error: unknown type name 'ssize_t'
+| ssize_t cmd_name_len = strlen((char *)&rmc_db[policy_idx]) + 1;
+| ^~~~~~~~
 
-Signed-off-by: Edwin Plauchu <edwin.plauchu.camacho@linux.intel.com>
+The musl C lib provides ssize_t but we need to enable it
+with a macro.
+
+Signed-off-by: Jianxun Zhang <jianxun.zhang@linux.intel.com>
 ---
- .../python/{python3-pip_8.1.2.bb => python3-pip_9.0.1.bb}             | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-devtools/python/{python3-pip_8.1.2.bb => python3-pip_9.0.1.bb} (90%)
+Before maintainer(s) push "merge" button, please read this short summary.
+I feel there could be a better syntax to do it. And We could need to get
+an ack from Hernandez, Alejandro who reported this issue and seems still
+have (other) compiling errors even with this patch.
 
-diff --git a/meta/recipes-devtools/python/python3-pip_8.1.2.bb b/meta/recipes-devtools/python/python3-pip_9.0.1.bb
-similarity index 90%
-rename from meta/recipes-devtools/python/python3-pip_8.1.2.bb
-rename to meta/recipes-devtools/python/python3-pip_9.0.1.bb
-index eefb4cb..6ac94bb 100644
---- a/meta/recipes-devtools/python/python3-pip_8.1.2.bb
-+++ b/meta/recipes-devtools/python/python3-pip_9.0.1.bb
-@@ -9,8 +9,8 @@ DEPENDS += "python3 python3-setuptools-native"
+I submit this patch based on my thoughts and test out of tiny config.
+
+Tests:
+() Specify TCLIBC = "musl" in local.conf in my build dir.
+() Build quark
+() I can see this issue happens without the fix
+() With this patch and do clean builds for quark and corei7-64,
+Compiling passes. Boot test passed on RMC targets quark and Broxton-m.
+
+Thanks
+
+
+ common/recipes-bsp/rmc/rmc.bb | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/common/recipes-bsp/rmc/rmc.bb b/common/recipes-bsp/rmc/rmc.bb
+index aeaf12e..61a1bdb 100644
+--- a/common/recipes-bsp/rmc/rmc.bb
++++ b/common/recipes-bsp/rmc/rmc.bb
+@@ -24,6 +24,8 @@ COMPATIBLE_HOST = "(x86_64.*|i.86.*)-linux*"
  
- SRC_URI = "https://files.pythonhosted.org/packages/source/p/${SRCNAME}/${SRCNAME}-${PV}.tar.gz"
+ EXTRA_OEMAKE='RMC_CFLAGS="-Wl,--hash-style=both"'
  
--SRC_URI[md5sum] = "87083c0b9867963b29f7aba3613e8f4a"
--SRC_URI[sha256sum] = "4d24b03ffa67638a3fa931c09fd9e0273ffa904e95ebebe7d4b1a54c93d7b732"
-+SRC_URI[md5sum] = "35f01da33009719497f01a4ba69d63c9"
-+SRC_URI[sha256sum] = "09f243e1a7b461f654c26a725fa373211bb7ff17a9300058b205c61658ca940d"
- 
- UPSTREAM_CHECK_URI = "https://pypi.python.org/pypi/pip"
- 
++EXTRA_OEMAKE_append_libc-musl = '" -D__NEED_ssize_t"'
++
+ # from gnu-efi, we should align arch-mapping with it.
+ def rmc_efi_arch(d):
+     import re
 -- 
-1.9.1
+2.7.4
 
 
