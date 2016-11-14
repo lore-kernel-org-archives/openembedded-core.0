@@ -1,20 +1,21 @@
-Return-Path: <stephano.cetola@linux.intel.com>
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id 91B1E62134
+Return-Path: <edwin.plauchu.camacho@linux.intel.com>
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+	by mail.openembedded.org (Postfix) with ESMTP id AC5576FEE0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Nov 2016 21:46:12 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga104.fm.intel.com with ESMTP; 14 Nov 2016 13:46:14 -0800
+	Mon, 14 Nov 2016 22:07:47 +0000 (UTC)
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+	by orsmga105.jf.intel.com with ESMTP; 14 Nov 2016 14:07:48 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.31,640,1473145200"; d="scan'208";a="901333592"
-Received: from pequod.jf.intel.com ([10.7.201.50])
-	by orsmga003.jf.intel.com with ESMTP; 14 Nov 2016 13:46:13 -0800
-From: Stephano Cetola <stephano.cetola@linux.intel.com>
+X-IronPort-AV: E=Sophos;i="5.31,640,1473145200"; d="scan'208";a="31183240"
+Received: from pianodaemon-contraption.zpn.intel.com ([10.219.128.75])
+	by fmsmga005.fm.intel.com with ESMTP; 14 Nov 2016 14:07:47 -0800
+From: Edwin Plauchu <edwin.plauchu.camacho@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 14 Nov 2016 13:45:17 -0800
-Message-Id: <20161114214517.67709-1-stephano.cetola@linux.intel.com>
-X-Mailer: git-send-email 2.10.2
-Subject: [PATCH] devshell: list commands when throwing NoSupportedTerminals
+Date: Mon, 14 Nov 2016 16:09:07 -0600
+Message-Id: <20161114220907.10988-1-edwin.plauchu.camacho@linux.intel.com>
+X-Mailer: git-send-email 2.9.3
+Cc: Edwin Plauchu <edwin.plauchu.camacho@intel.com>
+Subject: [PATCH] python3-pip: upgrade to 9.0.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,85 +28,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 14 Nov 2016 21:46:13 -0000
+X-List-Received-Date: Mon, 14 Nov 2016 22:07:48 -0000
 
-When attempting to run devshell, if no terminal is available, the
-error being thrown was not very specific. This adds a list of
-commands that failed, informing the user of what they can install to
-fix the error.
+From: Edwin Plauchu <edwin.plauchu.camacho@intel.com>
 
-Signed-off-by: Stephano Cetola <stephano.cetola@linux.intel.com>
+Signed-off-by: Edwin Plauchu <edwin.plauchu.camacho@linux.intel.com>
 ---
- meta/classes/terminal.bbclass |  7 +++++--
- meta/lib/oe/terminal.py       | 15 ++++++++++++---
- 2 files changed, 17 insertions(+), 5 deletions(-)
+ .../python/{python3-pip_8.1.2.bb => python3-pip_9.0.1.bb}             | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-devtools/python/{python3-pip_8.1.2.bb => python3-pip_9.0.1.bb} (90%)
 
-diff --git a/meta/classes/terminal.bbclass b/meta/classes/terminal.bbclass
-index a94f755..5cfc7ac 100644
---- a/meta/classes/terminal.bbclass
-+++ b/meta/classes/terminal.bbclass
-@@ -88,8 +88,11 @@ def oe_terminal(command, title, d):
+diff --git a/meta/recipes-devtools/python/python3-pip_8.1.2.bb b/meta/recipes-devtools/python/python3-pip_9.0.1.bb
+similarity index 90%
+rename from meta/recipes-devtools/python/python3-pip_8.1.2.bb
+rename to meta/recipes-devtools/python/python3-pip_9.0.1.bb
+index eefb4cb..6ac94bb 100644
+--- a/meta/recipes-devtools/python/python3-pip_8.1.2.bb
++++ b/meta/recipes-devtools/python/python3-pip_9.0.1.bb
+@@ -9,8 +9,8 @@ DEPENDS += "python3 python3-setuptools-native"
  
-     try:
-         oe.terminal.spawn_preferred(command, title, None, d)
--    except oe.terminal.NoSupportedTerminals:
--        bb.fatal('No valid terminal found, unable to open devshell')
-+    except oe.terminal.NoSupportedTerminals as nosup:
-+        cmds = '\n\t'.join(nosup.terms).replace("{command}",
-+                    "do_terminal").replace("{title}", title)
-+        bb.fatal('No valid terminal found, unable to open devshell.\n' +
-+                'Tried the following commands:\n\t%s' % cmds)
-     except oe.terminal.ExecutionError as exc:
-         bb.fatal('Unable to spawn terminal %s: %s' % (terminal, exc))
+ SRC_URI = "https://files.pythonhosted.org/packages/source/p/${SRCNAME}/${SRCNAME}-${PV}.tar.gz"
  
-diff --git a/meta/lib/oe/terminal.py b/meta/lib/oe/terminal.py
-index 7446c44..e772a37 100644
---- a/meta/lib/oe/terminal.py
-+++ b/meta/lib/oe/terminal.py
-@@ -11,7 +11,8 @@ class UnsupportedTerminal(Exception):
-     pass
+-SRC_URI[md5sum] = "87083c0b9867963b29f7aba3613e8f4a"
+-SRC_URI[sha256sum] = "4d24b03ffa67638a3fa931c09fd9e0273ffa904e95ebebe7d4b1a54c93d7b732"
++SRC_URI[md5sum] = "35f01da33009719497f01a4ba69d63c9"
++SRC_URI[sha256sum] = "09f243e1a7b461f654c26a725fa373211bb7ff17a9300058b205c61658ca940d"
  
- class NoSupportedTerminals(Exception):
--    pass
-+    def __init__(self, terms):
-+        self.terms = terms
+ UPSTREAM_CHECK_URI = "https://pypi.python.org/pypi/pip"
  
- 
- class Registry(oe.classutils.ClassRegistry):
-@@ -191,7 +192,7 @@ class Tmux(Terminal):
-             logger.warn(msg)
- 
- class Custom(Terminal):
--    command = 'false' # This is a placeholder
-+    command = None # This is a placeholder
-     priority = 3
- 
-     def __init__(self, sh_cmd, title=None, env=None, d=None):
-@@ -209,6 +210,14 @@ class Custom(Terminal):
- def prioritized():
-     return Registry.prioritized()
- 
-+def get_cmd_list():
-+    terms = Registry.prioritized()
-+    cmds = []
-+    for term in terms:
-+        if term.command:
-+            cmds.append(term.command)
-+    return cmds
-+
- def spawn_preferred(sh_cmd, title=None, env=None, d=None):
-     """Spawn the first supported terminal, by priority"""
-     for terminal in prioritized():
-@@ -218,7 +227,7 @@ def spawn_preferred(sh_cmd, title=None, env=None, d=None):
-         except UnsupportedTerminal:
-             continue
-     else:
--        raise NoSupportedTerminals()
-+        raise NoSupportedTerminals(get_cmd_list())
- 
- def spawn(name, sh_cmd, title=None, env=None, d=None):
-     """Spawn the specified terminal, by name"""
 -- 
-2.10.2
+1.9.1
 
 
