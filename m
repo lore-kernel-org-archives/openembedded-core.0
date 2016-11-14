@@ -1,21 +1,21 @@
 Return-Path: <edwin.plauchu.camacho@linux.intel.com>
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by mail.openembedded.org (Postfix) with ESMTP id 7959B719BE
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+	by mail.openembedded.org (Postfix) with ESMTP id 5DE44719C3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Nov 2016 16:30:04 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga105.jf.intel.com with ESMTP; 14 Nov 2016 08:30:06 -0800
+	Mon, 14 Nov 2016 16:31:01 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by orsmga104.jf.intel.com with ESMTP; 14 Nov 2016 08:31:03 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.31,491,1473145200"; d="scan'208";a="1068286245"
+X-IronPort-AV: E=Sophos;i="5.31,491,1473145200"; d="scan'208";a="1085028309"
 Received: from pianodaemon-contraption.zpn.intel.com ([10.219.128.75])
-	by fmsmga001.fm.intel.com with ESMTP; 14 Nov 2016 08:30:05 -0800
+	by fmsmga002.fm.intel.com with ESMTP; 14 Nov 2016 08:31:02 -0800
 From: Edwin Plauchu <edwin.plauchu.camacho@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 14 Nov 2016 10:31:25 -0600
-Message-Id: <20161114163125.20090-1-edwin.plauchu.camacho@linux.intel.com>
+Date: Mon, 14 Nov 2016 10:32:21 -0600
+Message-Id: <20161114163221.20150-1-edwin.plauchu.camacho@linux.intel.com>
 X-Mailer: git-send-email 2.9.3
 Cc: Edwin Plauchu <edwin.plauchu.camacho@intel.com>
-Subject: [PATCH] python3-pygobject: upgrade to 3.22.0
+Subject: [PATCH] python3-git: upgrade to 2.1.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,35 +28,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 14 Nov 2016 16:30:07 -0000
+X-List-Received-Date: Mon, 14 Nov 2016 16:31:02 -0000
 
+From: Edwin Plauchu <edwin.plauchu.camacho@intel.com>
 
 Signed-off-by: Edwin Plauchu <edwin.plauchu.camacho@intel.com>
-
 ---
- .../{python3-pygobject_3.20.1.bb => python3-pygobject_3.22.0.bb}      | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-devtools/python/{python3-pygobject_3.20.1.bb => python3-pygobject_3.22.0.bb} (82%)
+ meta/recipes-devtools/python/python-git.inc                         | 6 +++---
+ .../python/{python3-git_2.0.7.bb => python3-git_2.1.0.bb}           | 0
+ 2 files changed, 3 insertions(+), 3 deletions(-)
+ rename meta/recipes-devtools/python/{python3-git_2.0.7.bb => python3-git_2.1.0.bb} (100%)
 
-diff --git a/meta/recipes-devtools/python/python3-pygobject_3.20.1.bb b/meta/recipes-devtools/python/python3-pygobject_3.22.0.bb
-similarity index 82%
-rename from meta/recipes-devtools/python/python3-pygobject_3.20.1.bb
-rename to meta/recipes-devtools/python/python3-pygobject_3.22.0.bb
-index cda16f1..e052f11 100644
---- a/meta/recipes-devtools/python/python3-pygobject_3.20.1.bb
-+++ b/meta/recipes-devtools/python/python3-pygobject_3.22.0.bb
-@@ -13,8 +13,8 @@ SRC_URI = " \
-     file://0001-configure.ac-add-sysroot-path-to-GI_DATADIR-don-t-se.patch \
- "
+diff --git a/meta/recipes-devtools/python/python-git.inc b/meta/recipes-devtools/python/python-git.inc
+index 13c097a..e0ee73b 100644
+--- a/meta/recipes-devtools/python/python-git.inc
++++ b/meta/recipes-devtools/python/python-git.inc
+@@ -8,10 +8,10 @@ SECTION = "devel/python"
+ LICENSE = "BSD-3-Clause"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=8b8d26c37c1d5a04f9b0186edbebc183"
  
--SRC_URI[md5sum] = "4354c6283b135f859563b72457f6a321"
--SRC_URI[sha256sum] = "3d261005d6fed6a92ac4c25f283792552f7dad865d1b7e0c03c2b84c04dbd745"
-+SRC_URI[md5sum] = "ed4117ed5d554d25fd7718807fbf819f"
-+SRC_URI[sha256sum] = "08b29cfb08efc80f7a8630a2734dec65a99c1b59f1e5771c671d2e4ed8a5cbe7"
+-SRC_URI = "https://files.pythonhosted.org/packages/source/G/GitPython/GitPython-${PV}.tar.gz"
++SRC_URI = "https://pypi.python.org/packages/d7/16/e914d345d7d4e988f9196b9719a99220bad6a5dbd636162f9b5cc35f3bd6/GitPython-${PV}.tar.gz"
  
- S = "${WORKDIR}/${SRCNAME}-${PV}"
+-SRC_URI[md5sum] = "aa0ba9df0abe4c8f35dd7bb9be85d56e"
+-SRC_URI[sha256sum] = "d8e7adaacceedd3d043e6cd2544f57dbe00c53fc26374880b7cea67f3188aa68"
++SRC_URI[md5sum] = "29b1fcf504d080dc7a5e630957e829d7"
++SRC_URI[sha256sum] = "3ebda1e6ff1ef68597e41dcd1b99c2a5ae902f4dc2b22ad3533cc89c32b42aad"
  
+ UPSTREAM_CHECK_URI = "https://pypi.python.org/pypi/GitPython/"
+ UPSTREAM_CHECK_REGEX = "/GitPython/(?P<pver>(\d+[\.\-_]*)+)"
+diff --git a/meta/recipes-devtools/python/python3-git_2.0.7.bb b/meta/recipes-devtools/python/python3-git_2.1.0.bb
+similarity index 100%
+rename from meta/recipes-devtools/python/python3-git_2.0.7.bb
+rename to meta/recipes-devtools/python/python3-git_2.1.0.bb
 -- 
-1.9.1
+2.9.3
 
 
