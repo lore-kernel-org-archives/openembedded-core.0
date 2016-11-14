@@ -1,28 +1,21 @@
-Return-Path: <linus@scypho.com>
-Received: from mx-out02.mykolab.com (mx.kolabnow.com [95.128.36.1])
-	by mail.openembedded.org (Postfix) with ESMTP id BF1FD60017
+Return-Path: <edwin.plauchu.camacho@linux.intel.com>
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+	by mail.openembedded.org (Postfix) with ESMTP id 7959B719BE
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Nov 2016 16:20:45 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at kolabnow.com
-X-Spam-Flag: NO
-X-Spam-Score: -2.9
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 tagged_above=-10 required=6.31
-	tests=[ALL_TRUSTED=-1, BAYES_00=-1.9] autolearn=ham
-Received: from mx03.mykolab.com (mx03.mykolab.com [10.20.7.101])
-	by mx-out02.mykolab.com (Postfix) with ESMTPS id 8FD96616F7;
-	Mon, 14 Nov 2016 17:20:42 +0100 (CET)
-Received: from linus by linus.scypho.com with local (Exim 4.87)
-	(envelope-from <linus@scypho.com>)
-	id 1c6Jzs-0007jL-QF; Mon, 14 Nov 2016 17:20:40 +0100
-From: Linus Wallgren <linus.wallgren@scypho.com>
+	Mon, 14 Nov 2016 16:30:04 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga105.jf.intel.com with ESMTP; 14 Nov 2016 08:30:06 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.31,491,1473145200"; d="scan'208";a="1068286245"
+Received: from pianodaemon-contraption.zpn.intel.com ([10.219.128.75])
+	by fmsmga001.fm.intel.com with ESMTP; 14 Nov 2016 08:30:05 -0800
+From: Edwin Plauchu <edwin.plauchu.camacho@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 14 Nov 2016 17:20:13 +0100
-Message-Id: <20161114162013.29677-1-linus.wallgren@scypho.com>
-In-Reply-To: <CAJTo0LZQxKxVVTPY3FEwRNxsF_V18E9Uf9Qm0RiBNWnu67G2VQ@mail.gmail.com>
-References: <CAJTo0LZQxKxVVTPY3FEwRNxsF_V18E9Uf9Qm0RiBNWnu67G2VQ@mail.gmail.com>
-Cc: Linus Wallgren <linus.wallgren@scypho.com>
-Subject: [PATCH] lib/oe/package_manager: .deb pre/postinst args
+Date: Mon, 14 Nov 2016 10:31:25 -0600
+Message-Id: <20161114163125.20090-1-edwin.plauchu.camacho@linux.intel.com>
+X-Mailer: git-send-email 2.9.3
+Cc: Edwin Plauchu <edwin.plauchu.camacho@intel.com>
+Subject: [PATCH] python3-pygobject: upgrade to 3.22.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,62 +28,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 14 Nov 2016 16:20:46 -0000
+X-List-Received-Date: Mon, 14 Nov 2016 16:30:07 -0000
 
-The debian policy manual and MaintainerScripts wiki page states that the
-postinst script is supposed to be called with the `configure` argument
-at first install, likewise the preinst script is supposed to be called
-with the `install` argument on first install.
 
-https://www.debian.org/doc/debian-policy/ch-maintainerscripts.html
-https://wiki.debian.org/MaintainerScripts
+Signed-off-by: Edwin Plauchu <edwin.plauchu.camacho@intel.com>
 
-Signed-off-by: Linus Wallgren <linus.wallgren@scypho.com>
 ---
- meta/lib/oe/package_manager.py | 17 +++++++++++------
- 1 file changed, 11 insertions(+), 6 deletions(-)
+ .../{python3-pygobject_3.20.1.bb => python3-pygobject_3.22.0.bb}      | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-devtools/python/{python3-pygobject_3.20.1.bb => python3-pygobject_3.22.0.bb} (82%)
 
-diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
-index 3cee973..ec947c3 100644
---- a/meta/lib/oe/package_manager.py
-+++ b/meta/lib/oe/package_manager.py
-@@ -1993,7 +1993,10 @@ class DpkgPM(OpkgDpkgPM):
-     """
-     def run_pre_post_installs(self, package_name=None):
-         info_dir = self.target_rootfs + "/var/lib/dpkg/info"
--        suffixes = [(".preinst", "Preinstall"), (".postinst", "Postinstall")]
-+        ControlScript = collections.namedtuple("ControlScript", ["suffix", "name", "argument"])
-+        control_scripts = [
-+                ControlScript(".preinst", "Preinstall", "install"),
-+                ControlScript(".postinst", "Postinstall", "configure")]
-         status_file = self.target_rootfs + "/var/lib/dpkg/status"
-         installed_pkgs = []
+diff --git a/meta/recipes-devtools/python/python3-pygobject_3.20.1.bb b/meta/recipes-devtools/python/python3-pygobject_3.22.0.bb
+similarity index 82%
+rename from meta/recipes-devtools/python/python3-pygobject_3.20.1.bb
+rename to meta/recipes-devtools/python/python3-pygobject_3.22.0.bb
+index cda16f1..e052f11 100644
+--- a/meta/recipes-devtools/python/python3-pygobject_3.20.1.bb
++++ b/meta/recipes-devtools/python/python3-pygobject_3.22.0.bb
+@@ -13,8 +13,8 @@ SRC_URI = " \
+     file://0001-configure.ac-add-sysroot-path-to-GI_DATADIR-don-t-se.patch \
+ "
  
-@@ -2016,16 +2019,18 @@ class DpkgPM(OpkgDpkgPM):
+-SRC_URI[md5sum] = "4354c6283b135f859563b72457f6a321"
+-SRC_URI[sha256sum] = "3d261005d6fed6a92ac4c25f283792552f7dad865d1b7e0c03c2b84c04dbd745"
++SRC_URI[md5sum] = "ed4117ed5d554d25fd7718807fbf819f"
++SRC_URI[sha256sum] = "08b29cfb08efc80f7a8630a2734dec65a99c1b59f1e5771c671d2e4ed8a5cbe7"
  
-         failed_pkgs = []
-         for pkg_name in installed_pkgs:
--            for suffix in suffixes:
--                p_full = os.path.join(info_dir, pkg_name + suffix[0])
-+            for control_script in control_scripts:
-+                p_full = os.path.join(info_dir, pkg_name + control_script.suffix)
-                 if os.path.exists(p_full):
-                     try:
-                         bb.note("Executing %s for package: %s ..." %
--                                 (suffix[1].lower(), pkg_name))
--                        subprocess.check_output(p_full, stderr=subprocess.STDOUT)
-+                                 (control_script.name.lower(), pkg_name))
-+                        subprocess.check_output([p_full, control_script.argument],
-+                                stderr=subprocess.STDOUT)
-                     except subprocess.CalledProcessError as e:
-                         bb.note("%s for package %s failed with %d:\n%s" %
--                                (suffix[1], pkg_name, e.returncode, e.output.decode("utf-8")))
-+                                (control_script.name, pkg_name, e.returncode,
-+                                    e.output.decode("utf-8")))
-                         failed_pkgs.append(pkg_name)
-                         break
+ S = "${WORKDIR}/${SRCNAME}-${PV}"
  
 -- 
-2.10.2
+1.9.1
 
 
