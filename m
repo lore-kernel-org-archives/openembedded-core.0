@@ -1,46 +1,20 @@
-Return-Path: <max.oss.09@gmail.com>
-Received: from mail-qk0-f195.google.com (mail-qk0-f195.google.com
-	[209.85.220.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 8D05060125
+Return-Path: <stephano.cetola@linux.intel.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id 91B1E62134
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Nov 2016 19:35:52 +0000 (UTC)
-Received: by mail-qk0-f195.google.com with SMTP id n204so13014053qke.2
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Nov 2016 11:35:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=LOGJZT3HQeUgv3pOeThpmxVWemzzOidiqiYhDCTG2DQ=;
-	b=TaPCfH+S8m9C1zk+vjxCFHhntluUEO71OmV9h8SrfCO2Z8VUoV2S2+FIQ7wJo+avVe
-	y08QLvlCxNYKM0MM+WJxouE4Wcu99ovbQEDxs5zGgAjmpVGulkr8KCsZbj0kNeotDdL+
-	XuJNFPaxc+Qr0FXHy67a/Qej0+GvwNsipgUeen2uF6GwHpnqp0W/jazJ5C0g/Goc0UU5
-	VWmR6UzQ+BWVnBH6WGezzvRVxAGx2EBGz9RbdqQy77GxqPbYgoTU1F4WRsvayC/DiHyy
-	S3+stTMnjee4W1PaG1XTTYz0itn/FoeKFrmLs7tdWtQ6BlzNu0um1wIdfHDVsh6i6lA1
-	7yMw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=LOGJZT3HQeUgv3pOeThpmxVWemzzOidiqiYhDCTG2DQ=;
-	b=nD0FsYauyx6rkQEPLHmj2rfW9GbUA69unYuQ/QYpHrneKdyof5YdO9yOTGxX0KDZnR
-	d4qkEvHpgTjOr8XrOfVPMjge5zLifrfSNXmmU/nErDBfn9TyDVASairhueIMXGK2poE3
-	P7MlYBVcPXby7wimMYqYJ9ti51xzeXuaIU8+Cq3uD8M/3kcwGcJgeP0HGkqch/CTt0Xh
-	Db7fw8USDZMdpfHg8aygeeJddqhZpyKzz27PljAwaLAJvdZNnMKGuVpB2wCIL+nA6OQ2
-	7xbW7RCWv+s5Q7Bb4Iw+tuNRh6MJmOBX2+BjWUwNIvKVcswFl2ji1UB86+iBbIMA6eok
-	oYqg==
-X-Gm-Message-State: ABUngvdtZm0iPVtLGv92z6lohpRWNWBPM+wdp5VDsO9HHpw6jksPc4Kt2pe/yUvtUFyoaA==
-X-Received: by 10.194.22.41 with SMTP id a9mr9847388wjf.30.1479152153703;
-	Mon, 14 Nov 2016 11:35:53 -0800 (PST)
-Received: from linuxdev.toradex.int ([46.140.72.82])
-	by smtp.gmail.com with ESMTPSA id c202sm182134wme.1.2016.11.14.11.35.52
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 14 Nov 2016 11:35:53 -0800 (PST)
-From: Max Krummenacher <max.oss.09@gmail.com>
-X-Google-Original-From: Max Krummenacher <max.krummenacher@toradex.com>
+	Mon, 14 Nov 2016 21:46:12 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by fmsmga104.fm.intel.com with ESMTP; 14 Nov 2016 13:46:14 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.31,640,1473145200"; d="scan'208";a="901333592"
+Received: from pequod.jf.intel.com ([10.7.201.50])
+	by orsmga003.jf.intel.com with ESMTP; 14 Nov 2016 13:46:13 -0800
+From: Stephano Cetola <stephano.cetola@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 14 Nov 2016 20:35:40 +0100
-Message-Id: <1479152140-17722-1-git-send-email-max.krummenacher@toradex.com>
-X-Mailer: git-send-email 2.5.5
-Cc: Max Krummenacher <max.krummenacher@toradex.com>
-Subject: [oe][Patch] systemd: systemd should not depend on systemd-container
+Date: Mon, 14 Nov 2016 13:45:17 -0800
+Message-Id: <20161114214517.67709-1-stephano.cetola@linux.intel.com>
+X-Mailer: git-send-email 2.10.2
+Subject: [PATCH] devshell: list commands when throwing NoSupportedTerminals
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,33 +27,85 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 14 Nov 2016 19:35:54 -0000
+X-List-Received-Date: Mon, 14 Nov 2016 21:46:13 -0000
 
-Currently systemd depends on systemd-container due to a dangling
-symlink deployed with systemd.
-Move the symlink to systemd-container.
+When attempting to run devshell, if no terminal is available, the
+error being thrown was not very specific. This adds a list of
+commands that failed, informing the user of what they can install to
+fix the error.
 
-| DEBUG: systemd contains dangling link /lib/systemd/system/systemd-machined.service
-| DEBUG: target found in systemd-container
-
-Signed-off-by: Max Krummenacher <max.krummenacher@toradex.com>
+Signed-off-by: Stephano Cetola <stephano.cetola@linux.intel.com>
 ---
- meta/recipes-core/systemd/systemd_230.bb | 1 +
- 1 file changed, 1 insertion(+)
+ meta/classes/terminal.bbclass |  7 +++++--
+ meta/lib/oe/terminal.py       | 15 ++++++++++++---
+ 2 files changed, 17 insertions(+), 5 deletions(-)
 
-diff --git a/meta/recipes-core/systemd/systemd_230.bb b/meta/recipes-core/systemd/systemd_230.bb
-index a949fe8..cc196d1 100644
---- a/meta/recipes-core/systemd/systemd_230.bb
-+++ b/meta/recipes-core/systemd/systemd_230.bb
-@@ -369,6 +369,7 @@ FILES_${PN}-container = "${sysconfdir}/dbus-1/system.d/org.freedesktop.import1.c
-                          ${systemd_system_unitdir}/org.freedesktop.machine1.busname \
-                          ${systemd_system_unitdir}/systemd-importd.service \
-                          ${systemd_system_unitdir}/systemd-machined.service \
-+                         ${systemd_system_unitdir}/dbus-org.freedesktop.machine1.service \
-                          ${systemd_system_unitdir}/var-lib-machines.mount \
-                          ${rootlibexecdir}/systemd/systemd-import \
-                          ${rootlibexecdir}/systemd/systemd-importd \
+diff --git a/meta/classes/terminal.bbclass b/meta/classes/terminal.bbclass
+index a94f755..5cfc7ac 100644
+--- a/meta/classes/terminal.bbclass
++++ b/meta/classes/terminal.bbclass
+@@ -88,8 +88,11 @@ def oe_terminal(command, title, d):
+ 
+     try:
+         oe.terminal.spawn_preferred(command, title, None, d)
+-    except oe.terminal.NoSupportedTerminals:
+-        bb.fatal('No valid terminal found, unable to open devshell')
++    except oe.terminal.NoSupportedTerminals as nosup:
++        cmds = '\n\t'.join(nosup.terms).replace("{command}",
++                    "do_terminal").replace("{title}", title)
++        bb.fatal('No valid terminal found, unable to open devshell.\n' +
++                'Tried the following commands:\n\t%s' % cmds)
+     except oe.terminal.ExecutionError as exc:
+         bb.fatal('Unable to spawn terminal %s: %s' % (terminal, exc))
+ 
+diff --git a/meta/lib/oe/terminal.py b/meta/lib/oe/terminal.py
+index 7446c44..e772a37 100644
+--- a/meta/lib/oe/terminal.py
++++ b/meta/lib/oe/terminal.py
+@@ -11,7 +11,8 @@ class UnsupportedTerminal(Exception):
+     pass
+ 
+ class NoSupportedTerminals(Exception):
+-    pass
++    def __init__(self, terms):
++        self.terms = terms
+ 
+ 
+ class Registry(oe.classutils.ClassRegistry):
+@@ -191,7 +192,7 @@ class Tmux(Terminal):
+             logger.warn(msg)
+ 
+ class Custom(Terminal):
+-    command = 'false' # This is a placeholder
++    command = None # This is a placeholder
+     priority = 3
+ 
+     def __init__(self, sh_cmd, title=None, env=None, d=None):
+@@ -209,6 +210,14 @@ class Custom(Terminal):
+ def prioritized():
+     return Registry.prioritized()
+ 
++def get_cmd_list():
++    terms = Registry.prioritized()
++    cmds = []
++    for term in terms:
++        if term.command:
++            cmds.append(term.command)
++    return cmds
++
+ def spawn_preferred(sh_cmd, title=None, env=None, d=None):
+     """Spawn the first supported terminal, by priority"""
+     for terminal in prioritized():
+@@ -218,7 +227,7 @@ def spawn_preferred(sh_cmd, title=None, env=None, d=None):
+         except UnsupportedTerminal:
+             continue
+     else:
+-        raise NoSupportedTerminals()
++        raise NoSupportedTerminals(get_cmd_list())
+ 
+ def spawn(name, sh_cmd, title=None, env=None, d=None):
+     """Spawn the specified terminal, by name"""
 -- 
-2.5.5
+2.10.2
 
 
