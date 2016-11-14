@@ -1,40 +1,27 @@
-Return-Path: <marex@denx.de>
-Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.9])
-	by mail.openembedded.org (Postfix) with ESMTP id 20A43719A6
+Return-Path: <dmitry.rozhkov@linux.intel.com>
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+	by mail.openembedded.org (Postfix) with ESMTP id C9A5665C5B
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Nov 2016 14:48:30 +0000 (UTC)
-Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
-	by mail-out.m-online.net (Postfix) with ESMTP id 3tHYL72RNTz3hjQf;
-	Mon, 14 Nov 2016 15:48:31 +0100 (CET)
-Received: from localhost (dynscan1.mnet-online.de [192.168.6.68])
-	by mail.m-online.net (Postfix) with ESMTP id 3tHYL71zXFzvkFB;
-	Mon, 14 Nov 2016 15:48:31 +0100 (CET)
-X-Virus-Scanned: amavisd-new at mnet-online.de
-Received: from mail.mnet-online.de ([192.168.8.182])
-	by localhost (dynscan1.mail.m-online.net [192.168.6.68]) (amavisd-new,
-	port 10024)
-	with ESMTP id kBC9qC1wgozq; Mon, 14 Nov 2016 15:48:30 +0100 (CET)
-X-Auth-Info: Z15XFNOltlLn72v8MGNVBy9EGxBqSJcFhyeyP/gGj/o=
-Received: from [IPv6:::1] (unknown [195.140.253.167])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mail.mnet-online.de (Postfix) with ESMTPSA;
-	Mon, 14 Nov 2016 15:48:30 +0100 (CET)
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <20161107182006.4207-1-marex@denx.de>
-	<CAJTo0LYgvyAriBj2Wf839f6E6Vv04+MLh++gBOEdqSQS+zizwg@mail.gmail.com>
-	<CAJTo0LYV3L=i9Nq94uYHck9cGHrqvHrVtJsqOv0do+A4j-eBhg@mail.gmail.com>
-	<db0f1a76-ef02-c274-9dfd-1bb8808faebc@denx.de>
-	<CAJTo0LZVXqvWmRaYHCchxLJ-Bpb86d+EQk-49J3cUZUH07Q5NQ@mail.gmail.com>
-From: Marek Vasut <marex@denx.de>
-Message-ID: <56dfa413-c2e2-80f6-8cda-d0837f9fd99d@denx.de>
-Date: Mon, 14 Nov 2016 15:48:25 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Icedove/45.4.0
-MIME-Version: 1.0
-In-Reply-To: <CAJTo0LZVXqvWmRaYHCchxLJ-Bpb86d+EQk-49J3cUZUH07Q5NQ@mail.gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] u-boot: mkimage: Fix build of u-boot-mkimage
+	Mon, 14 Nov 2016 14:52:09 +0000 (UTC)
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+	by orsmga104.jf.intel.com with ESMTP; 14 Nov 2016 06:52:11 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.31,638,1473145200"; d="scan'208";a="191196142"
+Received: from linux.intel.com ([10.54.29.200])
+	by fmsmga004.fm.intel.com with ESMTP; 14 Nov 2016 06:52:10 -0800
+Received: from drozhkov-desk.fi.intel.com (drozhkov-desk.fi.intel.com
+	[10.237.72.60])
+	by linux.intel.com (Postfix) with ESMTP id 133766A4080;
+	Mon, 14 Nov 2016 06:51:30 -0800 (PST)
+Message-ID: <1479135128.4026.360.camel@linux.intel.com>
+From: Dmitry Rozhkov <dmitry.rozhkov@linux.intel.com>
+To: Khem Raj <raj.khem@gmail.com>, openembedded-core@lists.openembedded.org
+Date: Mon, 14 Nov 2016 16:52:08 +0200
+In-Reply-To: <20161110061149.20570-1-raj.khem@gmail.com>
+References: <20161110061149.20570-1-raj.khem@gmail.com>
+X-Mailer: Evolution 3.18.5.2 (3.18.5.2-1.fc23) 
+Mime-Version: 1.0
+Subject: Re: [RFT][PATCH] systemd: Upgrade to 232
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,29 +34,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 14 Nov 2016 14:48:31 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 14 Nov 2016 14:52:10 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On 11/14/2016 03:45 PM, Burton, Ross wrote:
+On Wed, 2016-11-09 at 22:11 -0800, Khem Raj wrote:
+> * Drop support for rcS.d SysV init scripts.
+>   These are prone to cause dependency loops, and almost all packages
+> with
+>   rcS scripts now ship a native systemd service.
 > 
-> On 12 November 2016 at 18:31, Marek Vasut <marex@denx.de
-> <mailto:marex@denx.de>> wrote:
+> * Drop mount propagation patch, it only happens with libseccomp, OE
+> doesnt
+>   enable it
 > 
->     > Also the u-boot series went through a number of revisions, can you
->     > verify that the patches in poky-contrib:ross/mut match what you expect
->     > to see?
+> * kdbus option has disappeared from configure
 > 
->     Do you have a link for me ?
+> * Ignore dev-so for PN now since systemd introduced private .so see
+>   https://github.com/systemd/systemd/issues/3810
 > 
-> 
-> http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/commit/?h=ross/mut-broken&id=4f6dbc99950da645dc4d0e23e0065ff8245a0e74
-> 
-> As the cleanups didn't really make sense standalone, I squashed the lot.
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
 
-I prefer to keep the history, but OK. It looks like what I'd expect there.
+I've "smoke"-tested systemd-resolved's new functionality: seems to work
+as expected and I haven't noticed regressions so far in the rest of
+SystemD.
 
--- 
-Best regards,
-Marek Vasut
+BR,
+Dmitry
 
