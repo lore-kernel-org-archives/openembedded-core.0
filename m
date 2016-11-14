@@ -1,48 +1,47 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qt0-f175.google.com (mail-qt0-f175.google.com
-	[209.85.216.175])
-	by mail.openembedded.org (Postfix) with ESMTP id B9FA76022E
+Return-Path: <zeenix@gmail.com>
+Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
+	by mail.openembedded.org (Postfix) with ESMTP id C77576010B
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Nov 2016 09:24:33 +0000 (UTC)
-Received: by mail-qt0-f175.google.com with SMTP id p16so43697115qta.0
+	Mon, 14 Nov 2016 09:41:07 +0000 (UTC)
+Received: by mail-wm0-f65.google.com with SMTP id a20so13643790wme.2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Nov 2016 01:24:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=BQbpqODhJzxyIrCdiifjV+WdvVV3UKvKYf7T0CTGdEM=;
-	b=oDGILGiIREhAKwoiNe0+FwoPJUNnmC0JTmpCfOE2GESh17Sz+v9j6vwL1aKi826UcS
-	VK8SYbi7ahmXErA6DQeuO9AzWFtDtBpT1HYQZGhubNh1oiOeiwSrK+1VLtSGItEsXyRv
-	Wv4UXz1CJiTBCb/F86lvEmQ3HoNkV2DfDHXKWtyyrFxy3jss/sZINDCyrozTXH+T6zwJ
-	Jn7H5zDK6Ur9aFvRqlrC2IKizQ5cemkzXW3eiKmTaF0hlWJNA4kiesjWDHNLVeCbtqCY
-	VK2MR+8SeETKyqOyoXI6VX37e3nA6yGwjtbhHhfjaj1qbKtkaoghtUn8bY5z8oudA7qm
-	gAdw==
+	Mon, 14 Nov 2016 01:41:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=sender:from:to:cc:subject:date:message-id;
+	bh=lrwV8dzC+Ih2rt8rIMtS2EV9h2DE/NaTeVUP+6OfmSg=;
+	b=mg6wKpJSab9lkajvNy6GSc35gcxiazHRFBh3El6kFr5gXxYR8HbLpVLPWhFk8Krjso
+	KCGd+5w8pRkF5CSNNJlU4aCMFV5iZkhh0c1MIOoofj6tzx40Sehyzqoaz4kJCSTp+5Uq
+	rGipoVslfFReuPPzCiPteMrPeWiTXaV9aBoi1PSAculAukTDky4+mYDfANRw3oDdWr3Q
+	Rv04kz0qGXOtEg5Jxd4e9S4pl+OkWXTu2baQvCKqijxMJ6hKkEzmXogSQVgUipq9k5uz
+	i872OZBsWVCbplKh7mvB5+1f9U3BrhpV5ILMSfvAKYJ6CxSEU1D8YeCx3vjswUe/TCn1
+	D47g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=BQbpqODhJzxyIrCdiifjV+WdvVV3UKvKYf7T0CTGdEM=;
-	b=Ud2q/QTksFHTWLrIP+e/I5zQanregLNNUj9HgrRRFm7rXECfrVbWRDhaARlMxeczkS
-	lukyU6rQNnXkHHogbL4gwV9QA57PTt0UnmoVwVnKDXsdeSBkD+AfT3tgbLk8bceZV2p8
-	RLxCyE5jo39FEBs8t8u7xnkgVB0JMLXM1MbLWyvCl7q8WAjLUER+NEHcejPF4vdZdyob
-	nQZF3PjibH5iz+3eaA9Q/vEbSHJcM3p9GT5IbIJcD28A/OWaJckISYXh7WUNJijMkkOJ
-	SfGaeWXzVC0Qr4Kwug8GD30beRutAaxvTuHKDwFHERU0kHkjzaUrPwUWFdgmfgyPDpsS
-	pagQ==
-X-Gm-Message-State: ABUngve8/1Xe2tY7eZ1Ku+qySMQCS22c33dnVOT2H2dZcJEWGhU62HpNPe+K6Nqb00dYSkQxuoT9ev9UTITX5eC7
-X-Received: by 10.200.57.54 with SMTP id s51mr10082387qtb.68.1479115475143;
-	Mon, 14 Nov 2016 01:24:35 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.140.85.136 with HTTP; Mon, 14 Nov 2016 01:24:14 -0800 (PST)
-In-Reply-To: <cover.1478779674.git.maciej.borzecki@rndity.com>
-References: <cover.1478779674.git.maciej.borzecki@rndity.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 14 Nov 2016 09:24:14 +0000
-Message-ID: <CAJTo0LZiXenXy8WC28z+5a4+ibJekaqeD+0_O84aejyi9XNH4w@mail.gmail.com>
-To: Maciej Borzecki <maciej.borzecki@rndity.com>
-Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
-	Maciej Borzecki <maciek.borzecki@gmail.com>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2 00/10] wic: bugfixes & --fixed-size support, tests, selftest: minor fixes
+	h=x-gm-message-state:sender:from:to:cc:subject:date:message-id;
+	bh=lrwV8dzC+Ih2rt8rIMtS2EV9h2DE/NaTeVUP+6OfmSg=;
+	b=KBl/LjIJi40zcIR9Td5E4k/R96amBE4uXJe1zc/vJdO1dORW5vTah4FUphUJgX4DLV
+	KPOcBetEZWZhSadRkPerH7iILt9tDKXQsLowWi4SViugGR+6mafcqxGAg1LIWrxrNKSS
+	yPK7fF6kowuuLnOROD6jH/MdDvtF+gPtf2T6wLorgbi9gOq7D6oAD5h2XaD0kwIxCVi4
+	N4OEvjyrVo8h1SveGeBUUnqH/Qtau+gE0aiLVxhMk6jl3y4/K+evHo6ttXYkbMIlz8ff
+	e8gelDgSGKUvUMlxtXoy3L9ZbZ9DO/4y6iLZMKohby8atYT7W1b8fxknJfy612Ki+WTB
+	A0yg==
+X-Gm-Message-State: ABUngve+UjsXtEhH69T/mS/UpwnVkOUCTRUbSjFfweUeelD2E1iLhu105cFI8Y1GGvGVsA==
+X-Received: by 10.194.103.5 with SMTP id fs5mr18242734wjb.227.1479116467951;
+	Mon, 14 Nov 2016 01:41:07 -0800 (PST)
+Received: from zeelaptop.office.pelagicore.net ([83.218.80.242])
+	by smtp.gmail.com with ESMTPSA id
+	hy10sm27588982wjb.10.2016.11.14.01.41.07
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 14 Nov 2016 01:41:07 -0800 (PST)
+Sender: Zeeshan Ali <zeenix@gmail.com>
+From: Zeeshan Ali <zeeshanak@gnome.org>
+X-Google-Original-From: Zeeshan Ali <zeeshan.ali@pelagicore.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 14 Nov 2016 10:40:54 +0100
+Message-Id: <20161114094054.21393-1-zeeshan.ali@pelagicore.com>
+X-Mailer: git-send-email 2.9.3
+Cc: Zeeshan Ali <zeeshan.ali@pelagicore.com>
+Subject: [PATCH v2] [krogoth] nss: Disable warning on deprecated API usage
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,86 +54,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 14 Nov 2016 09:24:34 -0000
-Content-Type: multipart/alternative; boundary=001a113a01e87a699305413f6859
+X-List-Received-Date: Mon, 14 Nov 2016 09:41:08 -0000
 
---001a113a01e87a699305413f6859
-Content-Type: text/plain; charset=UTF-8
+nss itself enables Werror if gcc is version 4.8 of greater, which fails
+the build against new glibc (2.24) because of use of readdir_r(), which
+is now deprecated. Let's just disable warnings on deprecated API usage.
 
-On 10 November 2016 at 12:18, Maciej Borzecki <maciej.borzecki@rndity.com>
-wrote:
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=10644
 
-> v2 of patch series previously posted here [1].
->
-> The series introduces anumber of fixes to wic, as well as a new
-> --fixed-size
-> option applicable to `part` entries in kickstart files. The option makes it
-> possible to have a fixed size partition, with additional verification that
-> the
-> file system image fits into the allocated disk space. This is in cotrast
-> with
-> --size option, which the minimum size, and partition may in fact be larger
-> in
-> the final disk image.
->
-> The series introduces two tests that verify if wic has created the image
-> with
-> properly sized partition and that partition size checks work as expected.
->
-> Patch `oe-selftest: fix handling of test cases without ID in
-> --list-tests-by` is
-> a small bugfix for oe-selftes tool which resolves an issue triggered by
-> Python
-> 3.x being more strict than 2.x.
->
+Signed-off-by: Zeeshan Ali <zeeshan.ali@pelagicore.com>
+---
 
-This series appears to be causing selftest to fail on the autobuilders:
+This patch is not needed for master or morty, cause they use the latest version of nss.
 
-https://autobuilder.yoctoproject.org/main/builders/nightly-oe-selftest/builds/732/steps/Running%20oe-selftest/logs/stdio
+ .../nss/nss-disable-werror-on-deprecated-api.patch | 22 ++++++++++++++++++++++
+ meta/recipes-support/nss/nss_3.21.bb               |  1 +
+ 2 files changed, 23 insertions(+)
+ create mode 100644 meta/recipes-support/nss/nss/nss-disable-werror-on-deprecated-api.patch
 
-Ross
+diff --git a/meta/recipes-support/nss/nss/nss-disable-werror-on-deprecated-api.patch b/meta/recipes-support/nss/nss/nss-disable-werror-on-deprecated-api.patch
+new file mode 100644
+index 0000000..fbaa6a6
+--- /dev/null
++++ b/meta/recipes-support/nss/nss/nss-disable-werror-on-deprecated-api.patch
+@@ -0,0 +1,22 @@
++Disable Werror on deprecated API
++
++nss itself enables Werror if gcc is version 4.8 of greater, which fails
++the build against new glibc (2.24) because of use of readdir_r(), which is
++now deprecated. Let's just disable warnings on deprecated API usage.
++
++Upstream-Status: Inappropriate [Dev branch on newer version w/o this issue]
++
++Signed-off-by: Zeeshan Ali <zeeshan.ali@pelagicore.com>
++===================================================
++diff -u -r a/nss/coreconf/Werror.mk b/nss/coreconf/Werror.mk
++--- a/nss/coreconf/Werror.mk	2015-11-09 06:12:59.000000000 +0100
+++++ b/nss/coreconf/Werror.mk	2016-11-11 14:36:36.301062957 +0100
++@@ -60,7 +60,7 @@
++   endif #ndef NSS_ENABLE_WERROR
++ 
++   ifeq ($(NSS_ENABLE_WERROR),1)
++-    WARNING_CFLAGS += -Werror
+++    WARNING_CFLAGS += -Werror -Wno-deprecated -Wno-deprecated-declarations
++   else
++     # Old versions of gcc (< 4.8) don't support #pragma diagnostic in functions.
++     # Use this to disable use of that #pragma and the warnings it suppresses.
+diff --git a/meta/recipes-support/nss/nss_3.21.bb b/meta/recipes-support/nss/nss_3.21.bb
+index 05d81c2..7933883 100644
+--- a/meta/recipes-support/nss/nss_3.21.bb
++++ b/meta/recipes-support/nss/nss_3.21.bb
+@@ -22,6 +22,7 @@ SRC_URI = "\
+     file://nss-fix-nsinstall-build.patch \
+     file://0001-Fix-build-failure-on-opensuse-13.1.patch \
+     file://nss-gcc6-fix.patch \
++    file://nss-disable-werror-on-deprecated-api.patch \
+     file://nss.pc.in \
+     file://signlibs.sh \
+ "
+-- 
+2.9.3
 
---001a113a01e87a699305413f6859
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 10 November 2016 at 12:18, Maciej Borzecki <span dir=3D"ltr">&lt;<a href=
-=3D"mailto:maciej.borzecki@rndity.com" target=3D"_blank">maciej.borzecki@rn=
-dity.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=
-=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-color:rgb(20=
-4,204,204);border-left-style:solid;padding-left:1ex"><div id=3D"gmail-:3t" =
-class=3D"gmail-a3s gmail-aXjCH gmail-m1584e3562a4c9c01">v2 of patch series =
-previously posted here [1].<br>
-<br>
-The series introduces anumber of fixes to <span class=3D"gmail-il">wic</spa=
-n>, as well as a new --fixed-size<br>
-option applicable to `part` entries in kickstart files. The option makes it=
-<br>
-possible to have a fixed size partition, with additional verification that =
-the<br>
-file system image fits into the allocated disk space. This is in cotrast wi=
-th<br>
---size option, which the minimum size, and partition may in fact be larger =
-in<br>
-the final disk image.<br>
-<br>
-The series introduces two tests that verify if <span class=3D"gmail-il">wic=
-</span> has created the image with<br>
-properly sized partition and that partition size checks work as expected.<b=
-r>
-<br>
-Patch `oe-selftest: fix handling of test cases without ID in --list-tests-b=
-y` is<br>
-a small bugfix for oe-selftes tool which resolves an issue triggered by Pyt=
-hon<br>
-3.x being more strict than 2.x.</div></blockquote></div><div class=3D"gmail=
-_extra"><br></div>This series appears to be causing selftest to fail on the=
- autobuilders:</div><div class=3D"gmail_extra"><br><a href=3D"https://autob=
-uilder.yoctoproject.org/main/builders/nightly-oe-selftest/builds/732/steps/=
-Running%20oe-selftest/logs/stdio">https://autobuilder.yoctoproject.org/main=
-/builders/nightly-oe-selftest/builds/732/steps/Running%20oe-selftest/logs/s=
-tdio</a><br></div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_=
-extra">Ross</div></div>
-
---001a113a01e87a699305413f6859--
