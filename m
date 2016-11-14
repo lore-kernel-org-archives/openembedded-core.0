@@ -1,61 +1,48 @@
-Return-Path: <patrick.ohly@intel.com>
-Received: from mail-it0-f43.google.com (mail-it0-f43.google.com
-	[209.85.214.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 07E196078D
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qt0-f175.google.com (mail-qt0-f175.google.com
+	[209.85.216.175])
+	by mail.openembedded.org (Postfix) with ESMTP id B9FA76022E
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Nov 2016 07:59:56 +0000 (UTC)
-Received: by mail-it0-f43.google.com with SMTP id q124so100153558itd.1
+	Mon, 14 Nov 2016 09:24:33 +0000 (UTC)
+Received: by mail-qt0-f175.google.com with SMTP id p16so43697115qta.0
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 13 Nov 2016 23:59:58 -0800 (PST)
+	Mon, 14 Nov 2016 01:24:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:organization:mime-version:content-transfer-encoding;
-	bh=rgB4y9BkpS4oOHtmzwxcFPoTwhoLqFoOyH94R4B/DuY=;
-	b=gPpvrl8ofFfVBGjn2047GA06dJsj2ruGD6bFU5q3+uZN9SEeB2CRDSoc0tmHZu15Vc
-	RsSFX9hOyRK7+c6rMwmlz8S/bPJ3eIc4TVE/k/deVCwxrv1do4yftfhTvrTzy8X4jyFf
-	kGBTejaARZfPadkBSgdLq33V5dBLX4Cboyjj+zD1910ppyz3HHvuKDueZXm3TnNunTk8
-	x4a9MhMzCcwxWr2fBR2/qQ0pLr+AvQC2rgN4CVH9b9I8ZhzZjHqUtsl/QSqyYc+cC9eW
-	ryLZVf4isX/eBVYFmyA62p3C587B7I38hPl/bqWIOSYlEMWAYW302Yda5UaegNSkDso5
-	a27w==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=BQbpqODhJzxyIrCdiifjV+WdvVV3UKvKYf7T0CTGdEM=;
+	b=oDGILGiIREhAKwoiNe0+FwoPJUNnmC0JTmpCfOE2GESh17Sz+v9j6vwL1aKi826UcS
+	VK8SYbi7ahmXErA6DQeuO9AzWFtDtBpT1HYQZGhubNh1oiOeiwSrK+1VLtSGItEsXyRv
+	Wv4UXz1CJiTBCb/F86lvEmQ3HoNkV2DfDHXKWtyyrFxy3jss/sZINDCyrozTXH+T6zwJ
+	Jn7H5zDK6Ur9aFvRqlrC2IKizQ5cemkzXW3eiKmTaF0hlWJNA4kiesjWDHNLVeCbtqCY
+	VK2MR+8SeETKyqOyoXI6VX37e3nA6yGwjtbhHhfjaj1qbKtkaoghtUn8bY5z8oudA7qm
+	gAdw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:organization:mime-version:content-transfer-encoding;
-	bh=rgB4y9BkpS4oOHtmzwxcFPoTwhoLqFoOyH94R4B/DuY=;
-	b=EL48lvt3BiUfEFMDgB6RaxxALgHEZnY7iM3A87+xb6NNpSkcQme6cv0mitdO9umLTr
-	qJRslAAjGm9OWdsvLdjwtJWHGMD9U565QfyCn4XxnzE0LB/39TkXN0utyjjmrVLieBbW
-	3rkaJ605lqsGROtf0/c0fSuRpY5CBc925dFlyYVL5y1xKoWZeg718rpDnZUbJ4VxcHrc
-	WBfgLBrz5RveWhYLjAtcc+H9uVQdGR7hKZoJsH+IAYX375ryMcvMYsWWrbAixd2lMWjg
-	U1wR8T4NpwUhTpeyfwZoRAmgNXJqzSBxQO9Hg+wOoBCiTsnmVENRPivU68Sfb6trBt7a
-	p0DA==
-X-Gm-Message-State: ABUngvcuvYRp8yl2C8uH3UKTYRLxXgAHTuDWB4PWz9RQ02sw5pGZAS9IbG3rtzw3bk/JqOES
-X-Received: by 10.107.48.134 with SMTP id w128mr29934046iow.226.1479110397704; 
-	Sun, 13 Nov 2016 23:59:57 -0800 (PST)
-Received: from pohly-mobl1 (p5DE8FC67.dip0.t-ipconnect.de. [93.232.252.103])
-	by smtp.gmail.com with ESMTPSA id
-	g96sm8898236iod.10.2016.11.13.23.59.55
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 13 Nov 2016 23:59:56 -0800 (PST)
-Message-ID: <1479110393.3240.3.camel@intel.com>
-From: Patrick Ohly <patrick.ohly@intel.com>
-To: Paul Barker <paul@paulbarker.me.uk>
-Date: Mon, 14 Nov 2016 08:59:53 +0100
-In-Reply-To: <20161111193902.3e34bf60@nuc.betafive.co.uk>
-References: <1477161480-20271-1-git-send-email-paul@paulbarker.me.uk>
-	<20161105101438.1ef1f627@nuc.betafive.co.uk>
-	<CAJTo0LbB0eGStoFbyinDYP0zzEJ27BL0eDyGKFkjdh=AaWBPVA@mail.gmail.com>
-	<CADkTA4OaRgUJwFwT=S_h41EW4OO_Koa+QQr=t3t+X+6pszrzBQ@mail.gmail.com>
-	<CAJTo0LZxGYzpjUetPspX6mKktoL_XnDqfncyHFWN5Kzfij8-UQ@mail.gmail.com>
-	<CADkTA4NmhstuGn7cZLD-MGB1OdNbAFLkiOKrf20Bri0KSEsuQA@mail.gmail.com>
-	<20161109180854.130d6804@nuc.betafive.co.uk>
-	<CAJ86T=XNd_ypY_aBc+eVGpJ4ntUUecT7Umdg37hUrNqZNAw_6g@mail.gmail.com>
-	<20161111193902.3e34bf60@nuc.betafive.co.uk>
-Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
-X-Mailer: Evolution 3.12.9-1+b1 
-Mime-Version: 1.0
-Cc: OpenEmbedded Core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] kernel.bbclass: Allow ${S} to be overridden
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=BQbpqODhJzxyIrCdiifjV+WdvVV3UKvKYf7T0CTGdEM=;
+	b=Ud2q/QTksFHTWLrIP+e/I5zQanregLNNUj9HgrRRFm7rXECfrVbWRDhaARlMxeczkS
+	lukyU6rQNnXkHHogbL4gwV9QA57PTt0UnmoVwVnKDXsdeSBkD+AfT3tgbLk8bceZV2p8
+	RLxCyE5jo39FEBs8t8u7xnkgVB0JMLXM1MbLWyvCl7q8WAjLUER+NEHcejPF4vdZdyob
+	nQZF3PjibH5iz+3eaA9Q/vEbSHJcM3p9GT5IbIJcD28A/OWaJckISYXh7WUNJijMkkOJ
+	SfGaeWXzVC0Qr4Kwug8GD30beRutAaxvTuHKDwFHERU0kHkjzaUrPwUWFdgmfgyPDpsS
+	pagQ==
+X-Gm-Message-State: ABUngve8/1Xe2tY7eZ1Ku+qySMQCS22c33dnVOT2H2dZcJEWGhU62HpNPe+K6Nqb00dYSkQxuoT9ev9UTITX5eC7
+X-Received: by 10.200.57.54 with SMTP id s51mr10082387qtb.68.1479115475143;
+	Mon, 14 Nov 2016 01:24:35 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.140.85.136 with HTTP; Mon, 14 Nov 2016 01:24:14 -0800 (PST)
+In-Reply-To: <cover.1478779674.git.maciej.borzecki@rndity.com>
+References: <cover.1478779674.git.maciej.borzecki@rndity.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 14 Nov 2016 09:24:14 +0000
+Message-ID: <CAJTo0LZiXenXy8WC28z+5a4+ibJekaqeD+0_O84aejyi9XNH4w@mail.gmail.com>
+To: Maciej Borzecki <maciej.borzecki@rndity.com>
+Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
+	Maciej Borzecki <maciek.borzecki@gmail.com>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2 00/10] wic: bugfixes & --fixed-size support, tests, selftest: minor fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -68,41 +55,86 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 14 Nov 2016 08:00:01 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 14 Nov 2016 09:24:34 -0000
+Content-Type: multipart/alternative; boundary=001a113a01e87a699305413f6859
 
-On Fri, 2016-11-11 at 19:39 +0000, Paul Barker wrote:
-> On Wed, 9 Nov 2016 15:42:29 -0800
-> Andre McCurdy <armccurdy@gmail.com> wrote:
-> 
-> > The solution I use (learned the hard way) is to ensure that "S = ..."
-> > comes after "inherit kernel" in the kernel recipe.
-> > 
-> 
-> Ok, yea, this works for me.
-> 
-> Is this expected? S is set to ${STAGING_KERNEL_DIR} at the start of
-> kernel.bbclass. The base_do_unpack_append() function is defined later
-> in kernel.bbclass. If S is set to ${WORKDIR}/${BP} only after
-> kernel.bbclass is inherited, then that's after base_do_unpack_append()
-> has been parsed.
+--001a113a01e87a699305413f6859
+Content-Type: text/plain; charset=UTF-8
 
-Parsing itself does not expand variable references (*), so it is
-possible to use a variable that gets changed later on and use the value
-that the variable eventually ends up having.
+On 10 November 2016 at 12:18, Maciej Borzecki <maciej.borzecki@rndity.com>
+wrote:
 
-(*) There's one exception - the := assignment expands based on the
-currently defined variables at the time of parsing the assignment.
+> v2 of patch series previously posted here [1].
+>
+> The series introduces anumber of fixes to wic, as well as a new
+> --fixed-size
+> option applicable to `part` entries in kickstart files. The option makes it
+> possible to have a fixed size partition, with additional verification that
+> the
+> file system image fits into the allocated disk space. This is in cotrast
+> with
+> --size option, which the minimum size, and partition may in fact be larger
+> in
+> the final disk image.
+>
+> The series introduces two tests that verify if wic has created the image
+> with
+> properly sized partition and that partition size checks work as expected.
+>
+> Patch `oe-selftest: fix handling of test cases without ID in
+> --list-tests-by` is
+> a small bugfix for oe-selftes tool which resolves an issue triggered by
+> Python
+> 3.x being more strict than 2.x.
+>
 
--- 
-Best Regards, Patrick Ohly
+This series appears to be causing selftest to fail on the autobuilders:
 
-The content of this message is my personal opinion only and although
-I am an employee of Intel, the statements I make here in no way
-represent Intel's position on the issue, nor am I authorized to speak
-on behalf of Intel on this matter.
+https://autobuilder.yoctoproject.org/main/builders/nightly-oe-selftest/builds/732/steps/Running%20oe-selftest/logs/stdio
 
+Ross
 
+--001a113a01e87a699305413f6859
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 10 November 2016 at 12:18, Maciej Borzecki <span dir=3D"ltr">&lt;<a href=
+=3D"mailto:maciej.borzecki@rndity.com" target=3D"_blank">maciej.borzecki@rn=
+dity.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=
+=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-color:rgb(20=
+4,204,204);border-left-style:solid;padding-left:1ex"><div id=3D"gmail-:3t" =
+class=3D"gmail-a3s gmail-aXjCH gmail-m1584e3562a4c9c01">v2 of patch series =
+previously posted here [1].<br>
+<br>
+The series introduces anumber of fixes to <span class=3D"gmail-il">wic</spa=
+n>, as well as a new --fixed-size<br>
+option applicable to `part` entries in kickstart files. The option makes it=
+<br>
+possible to have a fixed size partition, with additional verification that =
+the<br>
+file system image fits into the allocated disk space. This is in cotrast wi=
+th<br>
+--size option, which the minimum size, and partition may in fact be larger =
+in<br>
+the final disk image.<br>
+<br>
+The series introduces two tests that verify if <span class=3D"gmail-il">wic=
+</span> has created the image with<br>
+properly sized partition and that partition size checks work as expected.<b=
+r>
+<br>
+Patch `oe-selftest: fix handling of test cases without ID in --list-tests-b=
+y` is<br>
+a small bugfix for oe-selftes tool which resolves an issue triggered by Pyt=
+hon<br>
+3.x being more strict than 2.x.</div></blockquote></div><div class=3D"gmail=
+_extra"><br></div>This series appears to be causing selftest to fail on the=
+ autobuilders:</div><div class=3D"gmail_extra"><br><a href=3D"https://autob=
+uilder.yoctoproject.org/main/builders/nightly-oe-selftest/builds/732/steps/=
+Running%20oe-selftest/logs/stdio">https://autobuilder.yoctoproject.org/main=
+/builders/nightly-oe-selftest/builds/732/steps/Running%20oe-selftest/logs/s=
+tdio</a><br></div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_=
+extra">Ross</div></div>
 
+--001a113a01e87a699305413f6859--
