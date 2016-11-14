@@ -1,45 +1,21 @@
-Return-Path: <maciej.borzecki@rndity.com>
-Received: from mail-wm0-f53.google.com (mail-wm0-f53.google.com [74.125.82.53])
-	by mail.openembedded.org (Postfix) with ESMTP id 52546607F8
+Return-Path: <edwin.plauchu.camacho@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 83B70719C0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Nov 2016 16:42:34 +0000 (UTC)
-Received: by mail-wm0-f53.google.com with SMTP id g23so108567903wme.1
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Nov 2016 08:42:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=rndity-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=+zoajNigYbGynhtqtyNyR5tJmQMtV+pk0kHxVHFJQ90=;
-	b=jPwFlWtoEbAteQoUkuaZiHJBD0UmMkRvNXKD/X5k3EKD64i4zFzejR3HE/VwwLqxep
-	6SbKXqlMHQFk0RZrPB/Emezy9YS6WOVBJE3tNyMyFGAzL/HIzNHsad/kqbZajUWdfTGS
-	4lNWtwD8ph2kObkc6N+MfLgZdG04AQemV0xk+XEr5cwZnliaZZwLjmjfmdFcpeHnOnDI
-	zqhOuExZ0/W8ahAUsy+a3nLNcqVjkvttDVzsCfDv5zRyLflxrd3GxaJNDJz5fXagfmH2
-	JwKhqMU1rfLEMXCjWR9hDPh6/+Dgi5twcSMjC8KzoQHJxItGnMinAzcHNNj3sgqLL9J6
-	DYeQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=+zoajNigYbGynhtqtyNyR5tJmQMtV+pk0kHxVHFJQ90=;
-	b=ERfgujHUtal3iq3lGKdnZsxk6QUSN0EWR2+0dwmsprk/+kyQX6s9+NJ23iKfXDpV8W
-	mvjAkwUjOg/ZGHZMluiXbiahn3ZhxwwxL9861bAzZNIvIsZf2faEBrHj3Q9xOYjLAZHT
-	PQDdOv3ctxHXfbAf9l+EdiAUZL1yvXP1VXZvN69LP1l3ZNeKuK9Lw0VpZq0LpsezedLv
-	r7GZyF6reqSbaEdyMV1s/YP3uWqk9X6a05TdAbzU15Mqp7i/J8uvxzBJFH0ixc9JFJmg
-	1Lf7mZw3Bw9bNeT97ieObmCrjXk0ts1mBCGYmOb3wC2HSdYBfzXGa9bkAG/4nQErH7cm
-	FyQw==
-X-Gm-Message-State: ABUngvfDG6SqvOMrFpLCxTxBqxGm+o6itL9nN/WniAHU2T7qnRud4XBPm96bjS1w27R3GVGuYeVq2nZoi45W+g==
-X-Received: by 10.194.41.163 with SMTP id g3mr19402485wjl.162.1479141755861;
-	Mon, 14 Nov 2016 08:42:35 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.28.15.9 with HTTP; Mon, 14 Nov 2016 08:42:15 -0800 (PST)
-In-Reply-To: <95b4383a-727c-a022-9a9a-5398c7dabf36@topic.nl>
-References: <95b4383a-727c-a022-9a9a-5398c7dabf36@topic.nl>
-From: =?UTF-8?Q?Maciej_Borz=C4=99cki?= <maciej.borzecki@rndity.com>
-Date: Mon, 14 Nov 2016 17:42:15 +0100
-Message-ID: <CAD4b0_+uUXSEhBPx9-Pde5qNn43yP1fniL8gt9R5qwLh_7PxUg@mail.gmail.com>
-To: Mike Looijmans <mike.looijmans@topic.nl>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: Creating 'wic' image
+	Mon, 14 Nov 2016 17:31:53 +0000 (UTC)
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+	by orsmga101.jf.intel.com with ESMTP; 14 Nov 2016 09:31:51 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.31,491,1473145200"; d="scan'208";a="31113782"
+Received: from pianodaemon-contraption.zpn.intel.com ([10.219.128.75])
+	by orsmga005.jf.intel.com with ESMTP; 14 Nov 2016 09:31:50 -0800
+From: Edwin Plauchu <edwin.plauchu.camacho@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 14 Nov 2016 11:33:09 -0600
+Message-Id: <20161114173309.1690-1-edwin.plauchu.camacho@linux.intel.com>
+X-Mailer: git-send-email 2.9.3
+Cc: Edwin Plauchu <edwin.plauchu.camacho@intel.com>
+Subject: [PATCH V2] python3-git: upgrade to 2.1.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,115 +28,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 14 Nov 2016 16:42:35 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 14 Nov 2016 17:31:56 -0000
 
-On Mon, Nov 14, 2016 at 4:23 PM, Mike Looijmans <mike.looijmans@topic.nl> wrote:
-> In order to make life easier for people, I was looking into creating images
-> with the "wic" tool.
->
-> There's just one big piece of documentation lacking: What's the format it
-> wants my rootfs and boot files?
-> http://www.yoctoproject.org/docs/2.2/mega-manual/mega-manual.html
+From: Edwin Plauchu <edwin.plauchu.camacho@intel.com>
 
-I agree that wic is not exactly user-friendly, even after going through
-the documentation.
+Signed-off-by: Edwin Plauchu <edwin.plauchu.camacho@linux.intel.com>
+---
+ meta/recipes-devtools/python/python-git.inc                           | 4 ++--
+ .../python/{python3-git_2.0.7.bb => python3-git_2.1.0.bb}             | 0
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-devtools/python/{python3-git_2.0.7.bb => python3-git_2.1.0.bb} (100%)
 
-There is no 'special 'format for rootfs or boot files. All that wic does
-is assemble a disk image with partitions specified in kickstart file.
-Partitions are created by source plugins (scripts/lib/wic/plugins/source
-in poky tree).
-
-Currently, you'll find the following files there (I'll comment on the
-ones I use[d]):
-
-- bootimg-efi.py
-
-- bootimg-partition.py
-
-  Creates a partition of given --fstype and populates it with files
-  listed in IMAGE_BOOT_FILES. The files must exist in DEPLOY_DIR_IMAGE.
-  For instance, you can use this plugin to prepare a boot partition for
-  BeagleBone Black, copying over MLO and u-boot.img. Alternatively you
-  could also prepare a boot partition for Raspberry Pi, copying over
-  Broadcom files and kernel image. See
-  https://www.yoctoproject.org/docs/current/mega-manual/mega-manual.html#var-IMAGE_BOOT_FILES
-  https://git.yoctoproject.org/cgit/cgit.cgi/meta-raspberrypi/tree/conf/machine/include/rpi-base.inc#n55
-  https://git.yoctoproject.org/cgit/cgit.cgi/poky/tree/meta-yocto-bsp/conf/machine/beaglebone.conf#n42
-
-- bootimg-pcbios.py
-
-- fsimage.py
-
-  This one can be used if you happen to have a filesystem image ready.
-  We actually use it in Mender because currently, wic lacks the ability
-  to specify a fixed size of a partition (a patch series adding that was
-  posted).
-
-  The way it works, you are assumed to have a file system image ready
-  upfront and then just specify it like this in kickstart:
-
-    part / --source fsimage --sourceparams=file=<path> --ondisk
-mmcblk0 --label primary
-
-- isoimage-isohybrid.py
-
-  For all I know, this one requires syslinux.
-
-- rawcopy.py
-
-  rawcopy puts a verbatim copy of a file inside the disk image,
-  basically covers a use case when, for instance, you need to place a
-  bootloader at a specific offset. Minor quirks:
-  - you are not able to explicitly specify offset, hence commonly used
-    with --align,
-  - it's usually undesirable to have a partition table entry for this
-    partition, hence often used with --no-table
-
-- rootfs_pcbios_ext.py
-
-- rootfs.py
-
-  Creates a partition image with contents of rootfs of a particular
-  image (if -e was used) or some directory (not necessarily the actualy
-  rootfs). The file system to use is determined by --fstype.
-
->
-> Basically I want an SD card with a FAT boot partition and an ext4 rootfs,
-> and "sdimage-bootpart" is pretty close to that.
-
-The 'sdimage-bootpart' image is actually used by beaglebone (as defined
-in meta-yocto-bsp). Machine config sets this:
-
-  WKS_FILE = "sdimage-bootpart.wks"
-
-See
-https://git.yoctoproject.org/cgit/cgit.cgi/poky/tree/meta-yocto-bsp/conf/machine/beaglebone.conf#n21
-for reference
-
-
->
-> Without "wic", I build a tar of the rootfs and copy the boot files using a
-> bit of shell scripting.
->
-> Adding "wic" to IMAGE_FSTYPES just results in an error that I should set
-> WKS_FILE but I have no clue as to what file that should point to.
-
->
-> Running wic manually just results in more missing variables that I can't
-> find what to specify in them...
-
-Another thing that is not obvious is that wic will not cause bitbake to
-build native tools that may be required when building in image. The user
-is expected to figure out by themselves.
-
-https://git.yoctoproject.org/cgit/cgit.cgi/poky/tree/meta-yocto-bsp/conf/machine/beaglebone.conf#n23
-
-
-Hope that helps.
-
-Cheers,
+diff --git a/meta/recipes-devtools/python/python-git.inc b/meta/recipes-devtools/python/python-git.inc
+index 13c097a..ad41561 100644
+--- a/meta/recipes-devtools/python/python-git.inc
++++ b/meta/recipes-devtools/python/python-git.inc
+@@ -10,8 +10,8 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=8b8d26c37c1d5a04f9b0186edbebc183"
+ 
+ SRC_URI = "https://files.pythonhosted.org/packages/source/G/GitPython/GitPython-${PV}.tar.gz"
+ 
+-SRC_URI[md5sum] = "aa0ba9df0abe4c8f35dd7bb9be85d56e"
+-SRC_URI[sha256sum] = "d8e7adaacceedd3d043e6cd2544f57dbe00c53fc26374880b7cea67f3188aa68"
++SRC_URI[md5sum] = "29b1fcf504d080dc7a5e630957e829d7"
++SRC_URI[sha256sum] = "3ebda1e6ff1ef68597e41dcd1b99c2a5ae902f4dc2b22ad3533cc89c32b42aad"
+ 
+ UPSTREAM_CHECK_URI = "https://pypi.python.org/pypi/GitPython/"
+ UPSTREAM_CHECK_REGEX = "/GitPython/(?P<pver>(\d+[\.\-_]*)+)"
+diff --git a/meta/recipes-devtools/python/python3-git_2.0.7.bb b/meta/recipes-devtools/python/python3-git_2.1.0.bb
+similarity index 100%
+rename from meta/recipes-devtools/python/python3-git_2.0.7.bb
+rename to meta/recipes-devtools/python/python3-git_2.1.0.bb
 -- 
-Maciej Borzecki
-RnDity
+2.1.4
+
 
