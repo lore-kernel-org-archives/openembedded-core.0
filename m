@@ -1,56 +1,45 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f193.google.com (mail-pf0-f193.google.com
-	[209.85.192.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 60C4A60107
+Received: from mail-pf0-f196.google.com (mail-pf0-f196.google.com
+	[209.85.192.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 1890060102
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Nov 2016 02:07:53 +0000 (UTC)
-Received: by mail-pf0-f193.google.com with SMTP id y68so5256926pfb.1
+	Mon, 14 Nov 2016 05:35:54 +0000 (UTC)
+Received: by mail-pf0-f196.google.com with SMTP id y68so5559135pfb.1
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 13 Nov 2016 18:07:55 -0800 (PST)
+	Sun, 13 Nov 2016 21:35:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=subject:to:references:cc:from:organization:message-id:date
-	:user-agent:mime-version:in-reply-to;
-	bh=CWTtQyoPGrvk4IG2n9x2d+jvU5TgIRTHsmIqtDCuEaM=;
-	b=kBlIg3j/+wfCrxZ8kbVYHgtzWrBAS03+d8oeNEw0I+JDkYR7sDjq5qhyZ8et+V29HT
-	+J4pLfxs0wWEyMkdv8Yd6cD+S5fg43376LnI/cjjJNR2HsqMGzz7G7ogHtXFcwa0S8qO
-	AIjpKRD3QddgDeyQIrsQHHeGf0DjI/SWrv3daDliteseCSxpQXJOA2w4hs7Y+LCJu0sT
-	jPQkfHEXb9NblElLjby/0bkcwj9MVpiyHous/INUdyfb3PJqio+ZdQenUFt2oN2fbJ+G
-	HRlceM0wUi7ojTiDKZbDKgLhGHu3ulUrYxj++JCVcBWd5h3yYTyV8RbzdrbjNOtKB1Pg
-	ZMuw==
+	h=from:to:cc:subject:date:message-id;
+	bh=vrRzTJHA8uKGShG4Tg0iObUSf5Ug6nEkadiFTNvjhmw=;
+	b=GKD/JG+sFam0/fq5jzIL041QmwPipdxZMigNEzvhB9N4ZGDAWXnU/5A687Pl/9ih4R
+	GvJwBZufd0dcJBeI6FfpQ+gHcItm64gUfGtXlvswSWTZBlK5AtwqnkhILgFZ7Cwx+vfT
+	sUrDIoW8NwsKJJRkFB66Vh7n3jg6QPSmi3j/NkAHgHIwHNT52Sdroa1+evqKHVfBr6OS
+	AzzlRqlzWA5TZTkZMtnyTPGclsx2WoSCLqFZpaS1OZzJ3SpcijJaj/kB7dRkCtg2YGxw
+	5iynREThAvRQCWcZcJ56XCpjc3KTgQ/OjrGOEiF/UclvlKr4+o1XDL3xnTeUNPs9WPNp
+	2w9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:subject:to:references:cc:from:organization
-	:message-id:date:user-agent:mime-version:in-reply-to;
-	bh=CWTtQyoPGrvk4IG2n9x2d+jvU5TgIRTHsmIqtDCuEaM=;
-	b=O4Q2VhakChYY6G+Saz22kYyW+QacP5W5iMnCEhbKIXUQNqD9RsikJ/haFUjsmw1L92
-	u4ufD8aDUnZbs5lN4V76nPEproxGCQbuqTY/8NFk6ybaSlC9eeVRC08xnczaY4/cl6GR
-	w77aYTuBjXJyWGqx19XuE5Bkp8tOTfGQztIMXp83UbR5C3NYvbVieHtBCCr5GGF84W+J
-	6HyOSh0TJHtdCokShUUPG+rI2cu/bOG4JlnY+vn9kAWMj0LkJm4d4iUlz6yvC8QzWRST
-	PbaJIfNV9kjauw1uIjk3chVzt9I07HG68DuEVjk+QKVIsfiUVGFxkf1m+EtxkOwAuamR
-	30gA==
-X-Gm-Message-State: ABUngvek/dpPKJiq8RktwpVRKIhW+HobOcKURQyESHaDPvYLHa2LiKEzs7da55D2dPoi/Q==
-X-Received: by 10.99.172.26 with SMTP id v26mr24823064pge.164.1479089274992;
-	Sun, 13 Nov 2016 18:07:54 -0800 (PST)
-Received: from CACSVMO-14452.local ([2601:646:8882:b8c:7d70:121:3c74:ab01])
-	by smtp.gmail.com with ESMTPSA id
-	hv3sm30743868pad.30.2016.11.13.18.07.54
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=vrRzTJHA8uKGShG4Tg0iObUSf5Ug6nEkadiFTNvjhmw=;
+	b=fOO/ooVknipvbNZEFmIskypm4cTiqaI4ndrmBFisRYPiANAYJkrUbINJ033OqJ34qD
+	wr50G4rE6DvXGih5asAcfjVYI7SssdYWhpvjopYzcLvYr1lXGpqURrHJkSVe3d8efQAS
+	3PZIxPeU6ZQY/CLYD9sMZYpJEARAbX1sDah69z+w34eXmeXoZcj00MPsDoWt9ca0UagE
+	ZkIJX/kNUO+zAV9IwkzxiLHTpmkMoMcsf5YZ/YUHF6MdrCUHfoHDfGioSXuSOGEh6zA6
+	K2ckqb6s5MXQdttuZM3fCVMpAsOeLYEdHn6titQm209UGSGhtfSw+UGgWDUbKo3Pq3uJ
+	LwLA==
+X-Gm-Message-State: ABUngvfmHMbcyJW8dREOKzWZYTO5pZ6Z0RWE5dQNsVPB6p0I5I86kn1B5CpSrYBhhFRN3Q==
+X-Received: by 10.99.176.78 with SMTP id z14mr42065278pgo.3.1479101755751;
+	Sun, 13 Nov 2016 21:35:55 -0800 (PST)
+Received: from localhost.localdomain (c-76-102-32-192.hsd1.ca.comcast.net.
+	[76.102.32.192]) by smtp.gmail.com with ESMTPSA id
+	s3sm27742027pfe.27.2016.11.13.21.35.54
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 13 Nov 2016 18:07:54 -0800 (PST)
-To: Christopher Larson <clarson@kergoth.com>
-References: <20161110003935.1858-1-raj.khem@gmail.com>
-	<20161110003935.1858-2-raj.khem@gmail.com>
-	<CABcZANmkhnCF0-p75sAC-p2fOrYmjSPo9==OqDjPDwnZd-uUzQ@mail.gmail.com>
+	Sun, 13 Nov 2016 21:35:55 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
-Organization: himvis.com
-Message-ID: <24f641ad-b1da-4941-f882-60dfea11d72c@gmail.com>
-Date: Sun, 13 Nov 2016 18:07:47 -0800
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:50.0)
-	Gecko/20100101 Thunderbird/50.0
-MIME-Version: 1.0
-In-Reply-To: <CABcZANmkhnCF0-p75sAC-p2fOrYmjSPo9==OqDjPDwnZd-uUzQ@mail.gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/2] go-examples: Add an example, helloworld written in go
+To: openembedded-core@lists.openembedded.org
+Date: Sun, 13 Nov 2016 21:35:46 -0800
+Message-Id: <20161114053546.1051-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.10.2
+Subject: [PATCH] cmake.bbclass: Set CXXFLAGS and CFLAGS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -63,103 +52,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 14 Nov 2016 02:07:54 -0000
-X-Groupsio-MsgNum: 89310
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature";
-	boundary="wIBQLB8pV1NUxLWrRqK6Bv76Brrk95F8a"
+X-List-Received-Date: Mon, 14 Nov 2016 05:35:55 -0000
 
---wIBQLB8pV1NUxLWrRqK6Bv76Brrk95F8a
-Content-Type: multipart/mixed; boundary="OnbSGk6dA4N6SnEfCFqhfBnJAE6jsoD7E";
- protected-headers="v1"
-From: Khem Raj <raj.khem@gmail.com>
-To: Christopher Larson <clarson@kergoth.com>
-Cc: Patches and discussions about the oe-core layer
- <openembedded-core@lists.openembedded.org>
-Message-ID: <24f641ad-b1da-4941-f882-60dfea11d72c@gmail.com>
-Subject: Re: [OE-core] [PATCH 2/2] go-examples: Add an example, helloworld
- written in go
-References: <20161110003935.1858-1-raj.khem@gmail.com>
- <20161110003935.1858-2-raj.khem@gmail.com>
- <CABcZANmkhnCF0-p75sAC-p2fOrYmjSPo9==OqDjPDwnZd-uUzQ@mail.gmail.com>
-In-Reply-To: <CABcZANmkhnCF0-p75sAC-p2fOrYmjSPo9==OqDjPDwnZd-uUzQ@mail.gmail.com>
+We strip the TOOLCHAIN_OPTIONS and HOST_CC_ARCH from CC/CXX in cmake.bbclass
+whereas CFLAFS and CXXFLAGS assume that TOOLCHAIN_OPTIONS are
+part of CC/CXX variables, this causes compile failures when cmake
+is running compiler tests during configure on some architectures
+especially armhf, because hf ABI information -mfloat-abi is part
+of TOOLCHAIN_OPTIONS, so what happens is that testcase gets compiled
+without hard-float, howver, during linking the float ABI option
+is passed via LDFLAGS, now linker rejects this and fails like
+/mnt/a/build/tmp-glibc/sysroots/x86_64-linux/usr/libexec/arm-oe-linux-gnueabi/gcc/arm-oe-linux-gnueabi/6.2.0/ld: error: cmTC_27947 uses VFP register arguments, CMakeFiles/cmTC_27947.dir/src.cxx.o does not
+mnt/a/build/tmp-glibc/sysroots/x86_64-linux/usr/libexec/arm-oe-linux-gnueabi/gcc/arm-oe-linux-gnueabi/6.2.0/ld: failed to merge target specific data of file CMakeFiles/cmTC_27947.dir/src.cxx.o
+collect2: error: ld returned 1 exit status
 
---OnbSGk6dA4N6SnEfCFqhfBnJAE6jsoD7E
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+This means that CMake now fails the configure time test too
+which is not right, e.g. it might disable features which actually do exist
+and should be enabled e.g. in case above it is resulting as below
 
+Performing C++ SOURCE FILE Test HAS_BUILTIN_SYNC_SUB_AND_FETCH failed with the following output:
 
+Its actually a bug in CMake see
+https://gitlab.kitware.com/cmake/cmake/issues/16421
 
-On 11/10/16 6:59 PM, Christopher Larson wrote:
->=20
-> On Wed, Nov 9, 2016 at 5:39 PM, Khem Raj <raj.khem@gmail.com
-> <mailto:raj.khem@gmail.com>> wrote:
->=20
->     diff --git a/meta/recipes-extended/go-examples/go-examples.inc
->     b/meta/recipes-extended/go-examples/go-examples.inc
->     new file mode 100644
->     index 0000000..c632681
->     --- /dev/null
->     +++ b/meta/recipes-extended/go-examples/go-examples.inc
->     @@ -0,0 +1,10 @@
->     +DESCRIPTION =3D "This is a simple example recipe that cross-compil=
-es a Go
->     program."
->     +SECTION =3D "examples"
->     +HOMEPAGE =3D "https://golang.org/"
->     +
->     +LICENSE =3D "MIT"
->     +LIC_FILES_CHKSUM =3D
->     "file://${COMMON_LICENSE_DIR}/MIT;md5=3D0835ade698e0bcf8506ecda2f7b=
-4f302"
->     +
->     +S =3D "${WORKDIR}"
->     +
->     +inherit go
->     diff --git a/meta/recipes-extended/go-examples/go-helloworld_0.1.bb=
+CMake is ignoring CMAKE_CXX_FLAGS when using CHECK_CXX_SOURCE_COMPILES
+function.
 
->     <http://go-helloworld_0.1.bb>
->     b/meta/recipes-extended/go-examples/go-helloworld_0.1.bb
->     <http://go-helloworld_0.1.bb>
->     new file mode 100644
->     index 0000000..af9d3b7
->     --- /dev/null
->     +++ b/meta/recipes-extended/go-examples/go-helloworld_0.1.bb
->     <http://go-helloworld_0.1.bb>
->     @@ -0,0 +1,15 @@
->     +require go-examples.inc
->     +
->     +
->     +SRC_URI +=3D " \
->     +  file://helloworld.go \
->     +"
->     +
->     +do_compile() {
->     +  go build helloworld.go
->     +}
->=20
->=20
-> Under what circumstances would one use the go_do_compile from go.bbclas=
-s vs this?
+Until it is fixed upstream, we add HOST_CC_ARCH and TOOLCHAIN_OPTIONS
+to CFLAGS and CXXFLAGS, so that we can ensure that compiler invocation
+remains consistent.
 
-I think this is a good point. It would be more appropriate to use
-the primitives from go.bbclass in this example. I will try to rework it
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ meta/classes/cmake.bbclass | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/meta/classes/cmake.bbclass b/meta/classes/cmake.bbclass
+index 3e762de..fad0baa 100644
+--- a/meta/classes/cmake.bbclass
++++ b/meta/classes/cmake.bbclass
+@@ -19,6 +19,8 @@ OECMAKE_C_FLAGS_RELEASE ?= "-DNDEBUG"
+ OECMAKE_CXX_FLAGS_RELEASE ?= "-DNDEBUG"
+ OECMAKE_C_LINK_FLAGS ?= "${HOST_CC_ARCH} ${TOOLCHAIN_OPTIONS} ${CPPFLAGS} ${LDFLAGS}"
+ OECMAKE_CXX_LINK_FLAGS ?= "${HOST_CC_ARCH} ${TOOLCHAIN_OPTIONS} ${CXXFLAGS} ${LDFLAGS}"
++CXXFLAGS += "${HOST_CC_ARCH} ${TOOLCHAIN_OPTIONS}"
++CFLAGS += "${HOST_CC_ARCH} ${TOOLCHAIN_OPTIONS}"
+ 
+ OECMAKE_RPATH ?= ""
+ OECMAKE_PERLNATIVE_DIR ??= ""
+-- 
+2.10.2
 
 
---OnbSGk6dA4N6SnEfCFqhfBnJAE6jsoD7E--
-
---wIBQLB8pV1NUxLWrRqK6Bv76Brrk95F8a
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-Comment: GPGTools - https://gpgtools.org
-
-iEYEARECAAYFAlgpHHkACgkQuwUzVZGdMxSa9gCfWIjRSbTabLFdIDvUY8xH0UYZ
-zTUAn3FHXfpkEEBa2fgw9flZQyppC0s5
-=EfaL
------END PGP SIGNATURE-----
-
---wIBQLB8pV1NUxLWrRqK6Bv76Brrk95F8a--
