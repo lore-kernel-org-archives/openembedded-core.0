@@ -1,50 +1,46 @@
-Return-Path: <kergoth@gmail.com>
-Received: from mail-yw0-f195.google.com (mail-yw0-f195.google.com
-	[209.85.161.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 88D0D60589
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qk0-f173.google.com (mail-qk0-f173.google.com
+	[209.85.220.173])
+	by mail.openembedded.org (Postfix) with ESMTP id 928EB70178
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Nov 2016 15:03:52 +0000 (UTC)
-Received: by mail-yw0-f195.google.com with SMTP id a10so6981429ywa.1
+	Mon, 14 Nov 2016 15:24:58 +0000 (UTC)
+Received: by mail-qk0-f173.google.com with SMTP id n21so99092111qka.3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Nov 2016 07:03:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:from:date:message-id
-	:subject:to:cc;
-	bh=nP6E4Klm+BOfK8EZVZvhpy5YDHu3Y8e/gvS/zKc2cLo=;
-	b=bXrRFW2i7Xg3K3cYmcPA75OfDuk3K5rmqtvO0Rio9ATXOVSE9IQPDDxYUGn50GeIfc
-	A6ZgsttVfzBiGBmmHNpJ5HMOgPpNGbg6/nIa7JEOhyOwMwtsS6054UM85hPg3+0u0cs/
-	OCn0zb4q9DyOeVxMUnBzshBxwAxH3gwngmvHRrk1ctvi1KOJ4EOYxXYQZVHqoymqi1RH
-	faBU+OgrOOSm4eLffKXZdub1I8AAkQF04X1h8YPEmKvM+TpVWmYFc641g73Z6mOKKmGE
-	ywPmDATm0uMGcrAttajkldRLiQ7Hm0ePqhJIeHHsRoWYpW8GH3aeaAjHE0X4cKvq+C1D
-	KSuA==
+	Mon, 14 Nov 2016 07:25:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=+WZvk1F/mz2lbDCg+i0kmQ1bqGaDlS3ZGUsTeL1VK2o=;
+	b=Yyq2N7pCD8NnNbEodmOEAMshkPbqy0epxsPfVa/W1moeNCI6Pv0jpT8oWnOVYM2dW9
+	ywvGiu/3DUwoLp3ZShM0kUCfL8ErUS9jUDFgB8X7gNsnINBTkJra9neygMirIxn6W7DZ
+	5fJaImpJBx/kV5jvHPznBCbqv2wuvy6mA4irm9GQJnFhI1gTG2rMb/AYx9lPGEl5cjz0
+	+upvULBU4Ikq4WRFLlOzC5mLU56Rh8Q2+kbZA3slKQkAjpGbAM9EPAM8oSL+rG1BKNXr
+	L7ggf8Rih+E0UPXrDk2GftyvwD36pZJcbsF0HyY1IPWqW+AfbPasO5ZIJ54bELPy3/Y7
+	v0iA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:sender:in-reply-to:references:from
-	:date:message-id:subject:to:cc;
-	bh=nP6E4Klm+BOfK8EZVZvhpy5YDHu3Y8e/gvS/zKc2cLo=;
-	b=lfnepfeEd7VMTv7swa12GHQV+TYPvkfaKHMhPJXnhPpT1Lo+zR9fyMP8f26k8XK3RG
-	I+ERQu+1fLwZw6RCB2Ejz3c0NGYe4OcvnKwcpnALvSnpq+mXRrW1d4sGZX3fNpGU5dL0
-	3iT4QFykbBvDT9bkCTv3aRbESBLuUGHXGZQZXJL1x3l5HoUpRz2iIvFM4DVBFy8ZXQ7i
-	0CBaUFDzLgwdVB8F92MQ3P2F8QjK7ZC8RkWc7+tOzZaNvuAwg5pmTz5fbz0wcCN9EMf8
-	p8aFIgYIWX51L/2NCBqQ2pK0yyhBtNsoBAGHRH0+RDML70HNIKxUmOWfi1LLKP7hhhpM
-	39pg==
-X-Gm-Message-State: ABUngvdN7eU+qdNVzQ+bI3wCEWUbYQYWokB00iSPsi/4Mt0GyYLBryJNcxAX4FYe8NioNcT162PbxkcEtIWDBA==
-X-Received: by 10.202.226.1 with SMTP id z1mr8342366oig.115.1479135830230;
-	Mon, 14 Nov 2016 07:03:50 -0800 (PST)
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=+WZvk1F/mz2lbDCg+i0kmQ1bqGaDlS3ZGUsTeL1VK2o=;
+	b=Uojco8FIFOEfygxGT4o9cM4y0ZqSRaXQMrkillh8WkSlBMusGzM8Q1IsXp7V0bB5b2
+	er00iMDpX/CPKLqjX/XIyAMobKnBo+LoyDNOvKD8ctt9JcRwJTUOsyWirRGI4y1pNFiC
+	UZnSaVjzgfunzW3Q4Xu4UK3MXrmwz6rgCI4g6s76RCc8lnX91ScqawHND5K2Nv+L9ZTJ
+	JpWdlep5JvE5w9aqPVnEE6wdhC4ZMdv7lZlWY7y6BJBzvZQVX+FaYGY1WxgU/sJHDle4
+	VHkc23+BWQvz/42kgqAbYgG+ihGm/5oUVK1uFPlPed3ChL+W2xTQQtbm0TyLf6d0Jntl
+	Czcw==
+X-Gm-Message-State: ABUngvdG28hJCLmMsuHHE16Y8FuIt7BCIS0Ng1tXCzTvhd5QsaCzFln6Ycq7dv1GQ6i2rt7mmqEsYSc43H0/5yQm
+X-Received: by 10.55.106.134 with SMTP id f128mr18870867qkc.121.1479137100393; 
+	Mon, 14 Nov 2016 07:25:00 -0800 (PST)
 MIME-Version: 1.0
-Sender: kergoth@gmail.com
-Received: by 10.157.29.137 with HTTP; Mon, 14 Nov 2016 07:03:29 -0800 (PST)
-In-Reply-To: <8c8065fec7073acfbe7c9ea308137e7bb8b83321.1479133967.git.liezhi.yang@windriver.com>
-References: <cover.1479133967.git.liezhi.yang@windriver.com>
-	<8c8065fec7073acfbe7c9ea308137e7bb8b83321.1479133967.git.liezhi.yang@windriver.com>
-From: Christopher Larson <clarson@kergoth.com>
-Date: Mon, 14 Nov 2016 08:03:29 -0700
-X-Google-Sender-Auth: znHKf9lGq6WbZ2SJIZFXhjvR0_4
-Message-ID: <CABcZANn7+CW65pS-fV8d=0ju9v5YjAY64=b3=qZLnZ8C+uz+hg@mail.gmail.com>
-To: Robert Yang <liezhi.yang@windriver.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 4/4] sanity.bbclass: fix check_connectivity() for BB_NO_NETWORK = "0"
+Received: by 10.140.85.136 with HTTP; Mon, 14 Nov 2016 07:24:40 -0800 (PST)
+In-Reply-To: <1478886733-27782-1-git-send-email-philip@balister.org>
+References: <1478886733-27782-1-git-send-email-philip@balister.org>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 14 Nov 2016 15:24:40 +0000
+Message-ID: <CAJTo0LY3bXxCdX6GOqeY3ZHqiLwJyWkOJmRdyAfXsgmc0zFN=Q@mail.gmail.com>
+To: Philip Balister <philip@balister.org>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] wic: Fix rootfs_size variable not found error.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,95 +53,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 14 Nov 2016 15:03:53 -0000
-Content-Type: multipart/alternative; boundary=001a11409568c0728b05414425cb
+X-List-Received-Date: Mon, 14 Nov 2016 15:25:01 -0000
+Content-Type: multipart/alternative; boundary=001a114fddf6717faf0541447170
 
---001a11409568c0728b05414425cb
+--001a114fddf6717faf0541447170
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-On Mon, Nov 14, 2016 at 7:34 AM, Robert Yang <liezhi.yang@windriver.com>
-wrote:
+On 11 November 2016 at 17:52, Philip Balister <philip@balister.org> wrote:
 
-> The old code:
-> network_enabled =3D not d.getVar('BB_NO_NETWORK', True)
->
-> It is True only when BB_NO_NETWORK is not set (None),
-> but BB_NO_NETWORK =3D "0" should also be True while "1" means no network,
-> "0" means need network in a normal case.
->
-> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-> ---
->  meta/classes/sanity.bbclass | 14 +++++++++-----
->  1 file changed, 9 insertions(+), 5 deletions(-)
->
-> diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
-> index 7e383f9..c5e3809 100644
-> --- a/meta/classes/sanity.bbclass
-> +++ b/meta/classes/sanity.bbclass
-> @@ -363,15 +363,19 @@ def check_connectivity(d):
->      test_uris =3D (d.getVar('CONNECTIVITY_CHECK_URIS', True) or "").spli=
-t()
->      retval =3D ""
->
-> +    bbn =3D d.getVar('BB_NO_NETWORK', True)
-> +    if bbn not in (None, '0', '1'):
-> +        return 'BB_NO_NETWORK should be "0" or "1", but it is "%s"' % bb=
-n
+> Commit 1ba6101ceaee354816e690d44bc9a5dd8dcf4011 introduced the runtime
+> error. Thi scommit should fix it. Tested with an sd card build with
+> an ext4 file system.
 >
 
-Does this mirror the same logic used in bitbake? What=E2=80=99s the behavio=
-r if
-it=E2=80=99s set, but to the empty string?
---=20
-Christopher Larson
-clarson at kergoth dot com
-Founder - BitBake, OpenEmbedded, OpenZaurus
-Maintainer - Tslib
-Senior Software Engineer, Mentor Graphics
+Already sent as "wic: use partition size when creating empty partition
+files", should be in master soon.
 
---001a11409568c0728b05414425cb
+Ross
+
+--001a114fddf6717faf0541447170
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On Mon, Nov 14, 2016 at 7:34 AM, Robert Yang <span dir=3D"ltr">&lt;<a href=
-=3D"mailto:liezhi.yang@windriver.com" target=3D"_blank">liezhi.yang@windriv=
-er.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"=
-margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":=
-67f" class=3D"a3s aXjCH m158634c1f9be4f74">The old code:<br>
-network_enabled =3D not d.getVar(&#39;BB_NO_NETWORK&#39;, True)<br>
-<br>
-It is True only when BB_NO_NETWORK is not set (None),<br>
-but BB_NO_NETWORK =3D &quot;0&quot; should also be True while &quot;1&quot;=
- means no network,<br>
-&quot;0&quot; means need network in a normal case.<br>
-<br>
-Signed-off-by: Robert Yang &lt;<a href=3D"mailto:liezhi.yang@windriver.com"=
->liezhi.yang@windriver.com</a>&gt;<br>
----<br>
-=C2=A0meta/classes/sanity.bbclass | 14 +++++++++-----<br>
-=C2=A01 file changed, 9 insertions(+), 5 deletions(-)<br>
-<br>
-diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass<br>
-index 7e383f9..c5e3809 100644<br>
---- a/meta/classes/sanity.bbclass<br>
-+++ b/meta/classes/sanity.bbclass<br>
-@@ -363,15 +363,19 @@ def check_connectivity(d):<br>
-=C2=A0 =C2=A0 =C2=A0test_uris =3D (d.getVar(&#39;CONNECTIVITY_CHECK_<wbr>UR=
-IS&#39;, True) or &quot;&quot;).split()<br>
-=C2=A0 =C2=A0 =C2=A0retval =3D &quot;&quot;<br>
-<br>
-+=C2=A0 =C2=A0 bbn =3D d.getVar(&#39;BB_NO_NETWORK&#39;, True)<br>
-+=C2=A0 =C2=A0 if bbn not in (None, &#39;0&#39;, &#39;1&#39;):<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 return &#39;BB_NO_NETWORK should be &quot;0&qu=
-ot; or &quot;1&quot;, but it is &quot;%s&quot;&#39; % bbn</div></blockquote=
-></div><br>Does this mirror the same logic used in bitbake? What=E2=80=99s =
-the behavior if it=E2=80=99s set, but to the empty string?<br>-- <br><div c=
-lass=3D"gmail_signature" data-smartmail=3D"gmail_signature">Christopher Lar=
-son<br>clarson at kergoth dot com<br>Founder - BitBake, OpenEmbedded, OpenZ=
-aurus<br>Maintainer - Tslib<br>Senior Software Engineer, Mentor Graphics</d=
-iv>
-</div></div>
+On 11 November 2016 at 17:52, Philip Balister <span dir=3D"ltr">&lt;<a href=
+=3D"mailto:philip@balister.org" target=3D"_blank">philip@balister.org</a>&g=
+t;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px 0=
+px 0px 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);borde=
+r-left-style:solid;padding-left:1ex"><div id=3D"gmail-:2e2" class=3D"gmail-=
+a3s gmail-aXjCH gmail-m158549c1b58d6e90">Commit 1ba6101ceaee354816e690d44bc=
+9a5<wbr>dd8dcf4011 introduced the runtime<br>
+error. Thi scommit should fix it. Tested with an sd card build with<br>
+an ext4 file system.</div></blockquote></div><br>Already sent as &quot;wic:=
+ use partition size when creating empty partition files&quot;, should be in=
+ master soon.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail=
+_extra">Ross</div></div>
 
---001a11409568c0728b05414425cb--
+--001a114fddf6717faf0541447170--
