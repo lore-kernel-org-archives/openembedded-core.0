@@ -1,46 +1,55 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f45.google.com (mail-wm0-f45.google.com [74.125.82.45])
-	by mail.openembedded.org (Postfix) with ESMTP id 724216AC4B
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pg0-f66.google.com (mail-pg0-f66.google.com [74.125.83.66])
+	by mail.openembedded.org (Postfix) with ESMTP id AB20660053
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Nov 2016 17:39:44 +0000 (UTC)
-Received: by mail-wm0-f45.google.com with SMTP id g23so111618262wme.1
+	Mon, 14 Nov 2016 17:49:20 +0000 (UTC)
+Received: by mail-pg0-f66.google.com with SMTP id x23so9483853pgx.3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Nov 2016 09:39:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=ZzIuppm5PKKVEYqw78RFgOXuaF/v71DFsky2Z0oc9V0=;
-	b=VHkS5yGRWEeHYhFWu/zgtL0R4fh6qCUJIx6KyQxyGIZ/HsTS0NFuPnsq3dNRkubRaF
-	jG1Ox3f1uupz0kt26EDTM8dn2lo/T9TjJby0jzxoTYJe7rM8kMojxHxBA4WWrXXmCa5e
-	ry0VMvX+zhMuok0+qOe9Gax9TRyIctlb6Z4+5rKjxWUwKMWh9MAwF285NWiqPwLaZHmB
-	9PY6zLIki3F1lp1mcP+FuTRP3i3FR4UjKDyrBZMBfCaZQM046mDJDQP9JPfiyShWryoS
-	GQToKEZgDkTvDHb7U/nWiPuFvG7UAn+QK0W0FT0uU020GYxSgQju4/JVsFpbPzD9fO/x
-	ynbA==
+	Mon, 14 Nov 2016 09:49:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=subject:to:references:from:organization:message-id:date:user-agent
+	:mime-version:in-reply-to;
+	bh=JWkLIkiwmL2PQpc+yBhNh+Gp55du8Cj0f2RciNrutPg=;
+	b=gVssazjmkMJzxW8mUDmW7XuL46SVnuVQgQIjsFhOedSyFcqg7VgR4MiEGEeSreFGel
+	/wOB4bfUllycxUV49kV0mSvZo49gb38NLq8mnzsPKYyn2GmLT5MYIMFMxbVP9Sr0Pss9
+	vAiM/ycem9IIKo8MuOcL+ckvBx+bBVZq0noBx7CJCgbpk58FEzQMpFF8/N53Oli5dtrL
+	RFZSglh7WhIfW8gztxd3PuET49xTwMDtvvDeYV7yQJH8L0zqLKvmx+6hZyJSLzvmKa/i
+	On88pgv6uSBT0Ds3/C2EVF0EzgDne+Wt1eb2DZZFjJxiLldnD0zv6ez7zFwQCodqBGxK
+	eRjQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=ZzIuppm5PKKVEYqw78RFgOXuaF/v71DFsky2Z0oc9V0=;
-	b=Pvc86Gm3sY5yMSaN5z9abjYdi2Xh1tLnaXAd1evPehQFXOT0ZLGaySCnr5L5KCNZYV
-	MTFWKrWLhCs4UZst1pzkP53wJew+baukNaRj8u6+iEgUb822dqA9Ae5XGvXRCYcOiB/j
-	rIUf6+6ojgJ2senn4eIwdFPPT2iG8XgY6c4D2wZ77Gj7DFmws9o4emwC2UT0PFOv+p/A
-	KnXykHIvzMR8FpK5IO5LBo8vR5ONwe7Ysf9ZZ7AXxb23piw9IdOi1v8RFT734JIaQKKc
-	UagJLLmkZtYfku2vt+AR34X3h9ScSxg9Y+TBXDPmCXjiV8QE+1iOkfAj6VcscCrxazSt
-	ilkg==
-X-Gm-Message-State: ABUngvclmYv4ygP8ufqMtBGsBXYYqtoKw9tge+Bw19uPw3+SGxhdGjEdkZZoWtlGaxb4NArC
-X-Received: by 10.194.119.196 with SMTP id kw4mr2224390wjb.181.1479145185378; 
-	Mon, 14 Nov 2016 09:39:45 -0800 (PST)
-Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
+	h=x-gm-message-state:subject:to:references:from:organization
+	:message-id:date:user-agent:mime-version:in-reply-to;
+	bh=JWkLIkiwmL2PQpc+yBhNh+Gp55du8Cj0f2RciNrutPg=;
+	b=VbQGeF+wZoCpNgDBuKpUcvWPRUzsIU6TpfD6y52LBwEKtnfLDga9VnkqqV41Ead/7+
+	KR/Gq6Wdrvq/djMkOTmZqWRbA8OXJC/OT3KVWopLNNUmnClTFvCFm1yhNLdwpjUZlZh+
+	mq9VajDbVxiFZn6x4k3ekIIZ1WXNIWDKXmZ0d7QayrUTt/Um2YBg7O9QUkE0VLk1iYi+
+	8pvmRcVCptPzhR1iAh8F3MUM8Smn5IRHKyvdfr/q/IyzuDcwAv0Dm+/LIO22DGjXoJrJ
+	KFKGFe6VzbAyGmtIT8sLD7O/K0TeXG7tczJDchM2QaD92Sx3pekpVVEdzDsA2Hhz6b3o
+	JqvQ==
+X-Gm-Message-State: ABUngvd1MWGFRv4Djrgf9Rjsp7f0lXR8Lz8GYHdicB5EMSRPfCh0ED0gxjCSz5SXyrwm5A==
+X-Received: by 10.98.35.5 with SMTP id j5mr37913866pfj.91.1479145761951;
+	Mon, 14 Nov 2016 09:49:21 -0800 (PST)
+Received: from CACSVMO-14452.local ([2601:646:8882:b8c:d8e8:a625:64a7:acd8])
 	by smtp.gmail.com with ESMTPSA id
-	r138sm23344153wme.9.2016.11.14.09.39.44
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 14 Nov 2016 09:39:44 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 14 Nov 2016 17:39:40 +0000
-Message-Id: <1479145180-25985-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 2.8.1
-Subject: [PATCH] glib: remove obsolete gi-exclude patch
+	r194sm36639539pfr.94.2016.11.14.09.49.21
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 14 Nov 2016 09:49:21 -0800 (PST)
+To: Alexander Kanavin <alexander.kanavin@linux.intel.com>,
+	openembedded-core@lists.openembedded.org
+References: <20161110003935.1858-1-raj.khem@gmail.com>
+	<d8dfb2d5-66de-8daf-99c3-13c611a7f5b2@linux.intel.com>
+	<1478887474.23123.233.camel@linuxfoundation.org>
+	<dce6aa96-0ebb-6158-e9fa-f5074ec1fadd@linux.intel.com>
+From: Khem Raj <raj.khem@gmail.com>
+Organization: himvis.com
+Message-ID: <d06531a1-474b-0b82-33cc-fd87fe82fa47@gmail.com>
+Date: Mon, 14 Nov 2016 09:49:20 -0800
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:50.0)
+	Gecko/20100101 Thunderbird/50.0
+MIME-Version: 1.0
+In-Reply-To: <dce6aa96-0ebb-6158-e9fa-f5074ec1fadd@linux.intel.com>
+Subject: Re: [PATCH 1/2] go: Add recipes for golang compilers and tools
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,96 +62,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 14 Nov 2016 17:39:45 -0000
+X-List-Received-Date: Mon, 14 Nov 2016 17:49:20 -0000
+X-Groupsio-MsgNum: 89356
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature";
+	boundary="b3vF1EIFu1jJQLQJbDI7S5t8iJVvmiMp8"
 
-This patch has been superseded by 2907b1 in gobject-introspection, which we're
-now shipping.
+--b3vF1EIFu1jJQLQJbDI7S5t8iJVvmiMp8
+Content-Type: multipart/mixed; boundary="e5VCgwLcBs4uxWBi9d1O84p5mj96sB5xe";
+ protected-headers="v1"
+From: Khem Raj <raj.khem@gmail.com>
+To: Alexander Kanavin <alexander.kanavin@linux.intel.com>,
+ openembedded-core@lists.openembedded.org
+Message-ID: <d06531a1-474b-0b82-33cc-fd87fe82fa47@gmail.com>
+Subject: Re: [OE-core] [PATCH 1/2] go: Add recipes for golang compilers and
+ tools
+References: <20161110003935.1858-1-raj.khem@gmail.com>
+ <d8dfb2d5-66de-8daf-99c3-13c611a7f5b2@linux.intel.com>
+ <1478887474.23123.233.camel@linuxfoundation.org>
+ <dce6aa96-0ebb-6158-e9fa-f5074ec1fadd@linux.intel.com>
+In-Reply-To: <dce6aa96-0ebb-6158-e9fa-f5074ec1fadd@linux.intel.com>
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- .../glib-2.0/glib-2.0/gi-exclude.patch             | 59 ----------------------
- meta/recipes-core/glib-2.0/glib-2.0_2.50.1.bb      |  1 -
- 2 files changed, 60 deletions(-)
- delete mode 100644 meta/recipes-core/glib-2.0/glib-2.0/gi-exclude.patch
-
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0/gi-exclude.patch b/meta/recipes-core/glib-2.0/glib-2.0/gi-exclude.patch
-deleted file mode 100644
-index dc62b92..0000000
---- a/meta/recipes-core/glib-2.0/glib-2.0/gi-exclude.patch
-+++ /dev/null
-@@ -1,59 +0,0 @@
--The autoptr types should be excluded from gobject-introspection parsing as
--they're not user-facing.
--
--Upstream-Status: Submitted
--Signed-off-by: Ross Burton <ross.burton@intel.com>
--
--diff --git a/gio/gio-autocleanups.h b/gio/gio-autocleanups.h
--index a95ba65..24ccc2d 100644
----- a/gio/gio-autocleanups.h
--+++ b/gio/gio-autocleanups.h
--@@ -21,6 +21,8 @@
-- #error "Only <gio/gio.h> can be included directly."
-- #endif
-- 
--+#ifndef __GI_SCANNER__
--+
-- G_DEFINE_AUTOPTR_CLEANUP_FUNC(GAction, g_object_unref)
-- G_DEFINE_AUTOPTR_CLEANUP_FUNC(GActionMap, g_object_unref)
-- G_DEFINE_AUTOPTR_CLEANUP_FUNC(GAppInfo, g_object_unref)
--@@ -146,3 +148,5 @@ G_DEFINE_AUTOPTR_CLEANUP_FUNC(GVolume, g_object_unref)
-- G_DEFINE_AUTOPTR_CLEANUP_FUNC(GVolumeMonitor, g_object_unref)
-- G_DEFINE_AUTOPTR_CLEANUP_FUNC(GZlibCompressor, g_object_unref)
-- G_DEFINE_AUTOPTR_CLEANUP_FUNC(GZlibDecompressor, g_object_unref)
--+
--+#endif
--diff --git a/glib/glib-autocleanups.h b/glib/glib-autocleanups.h
--index 6355f75..09d28be 100644
----- a/glib/glib-autocleanups.h
--+++ b/glib/glib-autocleanups.h
--@@ -21,6 +21,8 @@
-- #error "Only <glib.h> can be included directly."
-- #endif
-- 
--+#ifndef __GI_SCANNER__
--+
-- static inline void
-- g_autoptr_cleanup_generic_gfree (void *p)
-- {
--@@ -87,3 +89,5 @@ G_DEFINE_AUTOPTR_CLEANUP_FUNC(GVariantDict, g_variant_dict_unref)
-- G_DEFINE_AUTO_CLEANUP_CLEAR_FUNC(GVariantDict, g_variant_dict_clear)
-- G_DEFINE_AUTOPTR_CLEANUP_FUNC(GVariantType, g_variant_type_free)
-- G_DEFINE_AUTO_CLEANUP_FREE_FUNC(GStrv, g_strfreev, NULL)
--+
--+#endif
--diff --git a/gobject/gobject-autocleanups.h b/gobject/gobject-autocleanups.h
--index 980203f..a1d4ba1 100644
----- a/gobject/gobject-autocleanups.h
--+++ b/gobject/gobject-autocleanups.h
--@@ -21,6 +21,10 @@
-- #error "Only <glib-object.h> can be included directly."
-- #endif
-- 
--+#ifndef __GI_SCANNER__
--+
-- G_DEFINE_AUTOPTR_CLEANUP_FUNC(GObject, g_object_unref)
-- G_DEFINE_AUTOPTR_CLEANUP_FUNC(GInitiallyUnowned, g_object_unref)
-- G_DEFINE_AUTO_CLEANUP_CLEAR_FUNC(GValue, g_value_unset)
--+
--+#endif
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.50.1.bb b/meta/recipes-core/glib-2.0/glib-2.0_2.50.1.bb
-index 17016c8..e4fccc7 100644
---- a/meta/recipes-core/glib-2.0/glib-2.0_2.50.1.bb
-+++ b/meta/recipes-core/glib-2.0/glib-2.0_2.50.1.bb
-@@ -13,7 +13,6 @@ SRC_URI = "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-${PV}.tar.xz \
-            file://allow-run-media-sdX-drive-mount-if-username-root.patch \
-            file://0001-Remove-the-warning-about-deprecated-paths-in-schemas.patch \
-            file://Enable-more-tests-while-cross-compiling.patch \
--           file://gi-exclude.patch \
-            file://0001-Install-gio-querymodules-as-libexec_PROGRAM.patch \
-            file://0001-Do-not-ignore-return-value-of-write.patch \
-            file://0001-Test-for-pthread_getname_np-before-using-it.patch \
--- 
-2.8.1
+--e5VCgwLcBs4uxWBi9d1O84p5mj96sB5xe
+Content-Type: text/plain; charset=windows-1252
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
 
+
+On 11/14/16 5:00 AM, Alexander Kanavin wrote:
+> On 11/11/2016 08:04 PM, Richard Purdie wrote:
+>=20
+>> This was something that came up at OEDEM. There are several layers wit=
+h
+>> several attempts at getting this right, most have some issues.
+>>
+>> Whilst we've been pulling things out of core, we also need to consider=
+
+>> things that perhaps should get added. Having this in core would
+>> certainly address a number of issues (but is also potentially a
+>> maintenance burden).
+>>
+>> We did agree there that we'd consider this. Obviously input from peopl=
+e
+>> not there is welcome though and this does need discussion. I'm leaning=
+
+>> moderately in favour of adding it as things stand.
+>=20
+> I guess I would be more open to this if Khem at the same time sent a pa=
+tch
+> that explicitly assigns maintainership of all those new recipes. So ple=
+ase
+> don't merge until that is agreed and done.
+
+Sure, Ross will add that
+
+>=20
+> Alex
+>=20
+
+
+--e5VCgwLcBs4uxWBi9d1O84p5mj96sB5xe--
+
+--b3vF1EIFu1jJQLQJbDI7S5t8iJVvmiMp8
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+Comment: GPGTools - https://gpgtools.org
+
+iEYEARECAAYFAlgp+SAACgkQuwUzVZGdMxQT/QCfVjX19yHKT2RGQ3YhzFOdDM9j
+NwsAnjZS73FNwJThLu3gbLPmT6js6YY+
+=d9U5
+-----END PGP SIGNATURE-----
+
+--b3vF1EIFu1jJQLQJbDI7S5t8iJVvmiMp8--
