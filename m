@@ -1,22 +1,23 @@
-Return-Path: <stephano.cetola@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 377466069D
+Return-Path: <jianxun.zhang@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 0921B60190
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Nov 2016 22:17:20 +0000 (UTC)
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-	by orsmga101.jf.intel.com with ESMTP; 14 Nov 2016 14:17:14 -0800
+	Mon, 14 Nov 2016 22:28:57 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 14 Nov 2016 14:28:58 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.31,640,1473145200"; d="scan'208";a="31213591"
-Received: from pequod.jf.intel.com ([10.7.201.50])
-	by orsmga005.jf.intel.com with ESMTP; 14 Nov 2016 14:17:14 -0800
-From: Stephano Cetola <stephano.cetola@linux.intel.com>
+X-IronPort-AV: E=Sophos;i="5.31,640,1473145200"; d="scan'208";a="1059439987"
+Received: from jzhang80-mac02.jf.intel.com ([10.24.8.157])
+	by orsmga001.jf.intel.com with ESMTP; 14 Nov 2016 14:28:58 -0800
+From: Jianxun Zhang <jianxun.zhang@linux.intel.com>
+Mime-Version: 1.0 (Mac OS X Mail 10.1 \(3251\))
+Date: Mon, 14 Nov 2016 14:28:58 -0800
+References: <1479161454-236511-1-git-send-email-jianxun.zhang@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 14 Nov 2016 14:16:16 -0800
-Message-Id: <20161114221616.70170-2-stephano.cetola@linux.intel.com>
-X-Mailer: git-send-email 2.10.2
-In-Reply-To: <20161114221616.70170-1-stephano.cetola@linux.intel.com>
-References: <20161114221616.70170-1-stephano.cetola@linux.intel.com>
-Subject: [PATCH V2] devshell: list commands when throwing NoSupportedTerminals
+In-Reply-To: <1479161454-236511-1-git-send-email-jianxun.zhang@linux.intel.com>
+Message-Id: <B44DEF34-228F-4390-A88D-D08B61B4951B@linux.intel.com>
+X-Mailer: Apple Mail (2.3251)
+Subject: Re: [PATCH] rmc: Fix compiling issue with musl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,77 +30,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 14 Nov 2016 22:17:20 -0000
+X-List-Received-Date: Mon, 14 Nov 2016 22:29:00 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-When attempting to run devshell, if no terminal is available, the
-error being thrown was not very specific. This adds a list of
-commands that failed, informing the user of what they can install to
-fix the error.
+OOPS. Please ignore this patch. It is for another BSP project!
 
-Signed-off-by: Stephano Cetola <stephano.cetola@linux.intel.com>
----
- meta/classes/terminal.bbclass |  8 ++++++--
- meta/lib/oe/terminal.py       | 13 +++++++++++--
- 2 files changed, 17 insertions(+), 4 deletions(-)
 
-diff --git a/meta/classes/terminal.bbclass b/meta/classes/terminal.bbclass
-index a94f755..cd8d124 100644
---- a/meta/classes/terminal.bbclass
-+++ b/meta/classes/terminal.bbclass
-@@ -88,8 +88,12 @@ def oe_terminal(command, title, d):
- 
-     try:
-         oe.terminal.spawn_preferred(command, title, None, d)
--    except oe.terminal.NoSupportedTerminals:
--        bb.fatal('No valid terminal found, unable to open devshell')
-+    except oe.terminal.NoSupportedTerminals as nosup:
-+        nosup.terms.remove("false")
-+        cmds = '\n\t'.join(nosup.terms).replace("{command}",
-+                    "do_terminal").replace("{title}", title)
-+        bb.fatal('No valid terminal found, unable to open devshell.\n' +
-+                'Tried the following commands:\n\t%s' % cmds)
-     except oe.terminal.ExecutionError as exc:
-         bb.fatal('Unable to spawn terminal %s: %s' % (terminal, exc))
- 
-diff --git a/meta/lib/oe/terminal.py b/meta/lib/oe/terminal.py
-index 7446c44..38e66ce 100644
---- a/meta/lib/oe/terminal.py
-+++ b/meta/lib/oe/terminal.py
-@@ -11,7 +11,8 @@ class UnsupportedTerminal(Exception):
-     pass
- 
- class NoSupportedTerminals(Exception):
--    pass
-+    def __init__(self, terms):
-+        self.terms = terms
- 
- 
- class Registry(oe.classutils.ClassRegistry):
-@@ -209,6 +210,14 @@ class Custom(Terminal):
- def prioritized():
-     return Registry.prioritized()
- 
-+def get_cmd_list():
-+    terms = Registry.prioritized()
-+    cmds = []
-+    for term in terms:
-+        if term.command:
-+            cmds.append(term.command)
-+    return cmds
-+
- def spawn_preferred(sh_cmd, title=None, env=None, d=None):
-     """Spawn the first supported terminal, by priority"""
-     for terminal in prioritized():
-@@ -218,7 +227,7 @@ def spawn_preferred(sh_cmd, title=None, env=None, d=None):
-         except UnsupportedTerminal:
-             continue
-     else:
--        raise NoSupportedTerminals()
-+        raise NoSupportedTerminals(get_cmd_list())
- 
- def spawn(name, sh_cmd, title=None, env=None, d=None):
-     """Spawn the specified terminal, by name"""
--- 
-2.10.2
+> On Nov 14, 2016, at 2:10 PM, Jianxun Zhang =
+<jianxun.zhang@linux.intel.com> wrote:
+>=20
+> | src/rmcl/rmcl.c: In function 'query_policy_from_db':
+> | src/rmcl/rmcl.c:254:25: error: unknown type name 'ssize_t'
+> | ssize_t cmd_name_len =3D strlen((char *)&rmc_db[policy_idx]) + 1;
+> | ^~~~~~~~
+>=20
+> The musl C lib provides ssize_t but we need to enable it
+> with a macro.
+>=20
+> Signed-off-by: Jianxun Zhang <jianxun.zhang@linux.intel.com>
+> ---
+> Before maintainer(s) push "merge" button, please read this short =
+summary.
+> I feel there could be a better syntax to do it. And We could need to =
+get
+> an ack from Hernandez, Alejandro who reported this issue and seems =
+still
+> have (other) compiling errors even with this patch.
+>=20
+> I submit this patch based on my thoughts and test out of tiny config.
+>=20
+> Tests:
+> () Specify TCLIBC =3D "musl" in local.conf in my build dir.
+> () Build quark
+> () I can see this issue happens without the fix
+> () With this patch and do clean builds for quark and corei7-64,
+> Compiling passes. Boot test passed on RMC targets quark and Broxton-m.
+>=20
+> Thanks
+>=20
+>=20
+> common/recipes-bsp/rmc/rmc.bb | 2 ++
+> 1 file changed, 2 insertions(+)
+>=20
+> diff --git a/common/recipes-bsp/rmc/rmc.bb =
+b/common/recipes-bsp/rmc/rmc.bb
+> index aeaf12e..61a1bdb 100644
+> --- a/common/recipes-bsp/rmc/rmc.bb
+> +++ b/common/recipes-bsp/rmc/rmc.bb
+> @@ -24,6 +24,8 @@ COMPATIBLE_HOST =3D "(x86_64.*|i.86.*)-linux*"
+>=20
+> EXTRA_OEMAKE=3D'RMC_CFLAGS=3D"-Wl,--hash-style=3Dboth"'
+>=20
+> +EXTRA_OEMAKE_append_libc-musl =3D '" -D__NEED_ssize_t"'
+> +
+> # from gnu-efi, we should align arch-mapping with it.
+> def rmc_efi_arch(d):
+>     import re
+> --=20
+> 2.7.4
+>=20
 
 
