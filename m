@@ -1,26 +1,26 @@
 Return-Path: <sona.sarmadi@enea.com>
 Received: from smtp-out10.electric.net (smtp-out10.electric.net
-	[185.38.180.36])
-	by mail.openembedded.org (Postfix) with ESMTP id 4B46B719E3
+	[185.38.180.34])
+	by mail.openembedded.org (Postfix) with ESMTP id 7BEBC719E6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Nov 2016 09:08:23 +0000 (UTC)
-Received: from 1c6Zj6-0004Q6-TW by out10a.electric.net with emc1-ok (Exim 4.87)
-	(envelope-from <sona.sarmadi@enea.com>) id 1c6Zj6-0004Rb-VG
+	Tue, 15 Nov 2016 09:08:24 +0000 (UTC)
+Received: from 1c6Zj6-00085s-VM by out10d.electric.net with emc1-ok (Exim 4.87)
+	(envelope-from <sona.sarmadi@enea.com>) id 1c6Zj7-00087c-Tk
 	for openembedded-core@lists.openembedded.org;
-	Tue, 15 Nov 2016 01:08:24 -0800
-Received: by emcmailer; Tue, 15 Nov 2016 01:08:24 -0800
+	Tue, 15 Nov 2016 01:08:25 -0800
+Received: by emcmailer; Tue, 15 Nov 2016 01:08:25 -0800
 Received: from [192.36.1.72] (helo=mx-3.enea.com)
-	by out10a.electric.net with esmtps (TLSv1:AES128-SHA:128) (Exim 4.87)
-	(envelope-from <sona.sarmadi@enea.com>) id 1c6Zj6-0004Q6-TW
+	by out10d.electric.net with esmtps (TLSv1:AES128-SHA:128) (Exim 4.87)
+	(envelope-from <sona.sarmadi@enea.com>) id 1c6Zj6-00085s-VM
 	for openembedded-core@lists.openembedded.org;
 	Tue, 15 Nov 2016 01:08:24 -0800
 Received: from sestofb11.enea.se (172.21.3.152) by smtp.enea.com
 	(172.21.1.208) with Microsoft SMTP Server id 14.3.294.0;
-	Tue, 15 Nov 2016 10:08:23 +0100
+	Tue, 15 Nov 2016 10:08:24 +0100
 From: Sona Sarmadi <sona.sarmadi@enea.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 15 Nov 2016 10:08:14 +0100
-Message-ID: <1479200900-39007-5-git-send-email-sona.sarmadi@enea.com>
+Date: Tue, 15 Nov 2016 10:08:16 +0100
+Message-ID: <1479200900-39007-7-git-send-email-sona.sarmadi@enea.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <1479200900-39007-1-git-send-email-sona.sarmadi@enea.com>
 References: <1479200900-39007-1-git-send-email-sona.sarmadi@enea.com>
@@ -38,7 +38,7 @@ X-PolicySMART: 6551647
 X-Virus-Status: Scanned by VirusSMART (c)
 X-Virus-Status: Scanned by VirusSMART (s)
 Cc: sona@enea.se
-Subject: [PATCHv5][krogoth 05/11] curl: CVE-2016-8619
+Subject: [PATCHv5][krogoth 07/11] curl: CVE-2016-8621
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,88 +52,157 @@ List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 15 Nov 2016 09:08:24 -0000
-Content-Type: text/plain
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-double-free in krb5 code
+curl_getdate read out of bounds
 
-Affected versions: curl 7.3 to and including 7.50.3
+Affected versions: curl 7.12.2 to and including 7.50.3
 Reference:
-https://curl.haxx.se/docs/adv_20161102E.html
+https://curl.haxx.se/docs/adv_20161102G.html
 
 Signed-off-by: Sona Sarmadi <sona.sarmadi@enea.com>
 ---
- meta/recipes-support/curl/curl/CVE-2016-8619.patch | 52 ++++++++++++++++++++++
- meta/recipes-support/curl/curl_7.47.1.bb           |  1 +
- 2 files changed, 53 insertions(+)
- create mode 100644 meta/recipes-support/curl/curl/CVE-2016-8619.patch
+ meta/recipes-support/curl/curl/CVE-2016-8621.patch | 120 +++++++++++++++++++++
+ meta/recipes-support/curl/curl_7.47.1.bb           |   1 +
+ 2 files changed, 121 insertions(+)
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2016-8621.patch
 
-diff --git a/meta/recipes-support/curl/curl/CVE-2016-8619.patch b/meta/recipes-support/curl/curl/CVE-2016-8619.patch
+diff --git a/meta/recipes-support/curl/curl/CVE-2016-8621.patch b/meta/recipes-support/curl/curl/CVE-2016-8621.patch
 new file mode 100644
-index 0000000..fb21cf6
+index 0000000..7345838
 --- /dev/null
-+++ b/meta/recipes-support/curl/curl/CVE-2016-8619.patch
-@@ -0,0 +1,52 @@
-+From 91239f7040b1f026d4d15765e7e3f58e92e93761 Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-support/curl/curl/CVE-2016-8621.patch
+@@ -0,0 +1,120 @@
++From 8a6d9ded5f02f0294ae63a007e26087316c1998e Mon Sep 17 00:00:00 2001
 +From: Daniel Stenberg <daniel@haxx.se>
-+Date: Wed, 28 Sep 2016 12:56:02 +0200
-+Subject: [PATCH] krb5: avoid realloc(0)
++Date: Tue, 4 Oct 2016 16:59:38 +0200
++Subject: [PATCH] parsedate: handle cut off numbers better
 +
-+If the requested size is zero, bail out with error instead of doing a
-+realloc() that would cause a double-free: realloc(0) acts as a free()
-+and then there's a second free in the cleanup path.
++... and don't read outside of the given buffer!
 +
-+CVE: CVE-2016-8619
++CVE: CVE-2016-8621
 +Upstream-Status: Backport
 +
-+Bug: https://curl.haxx.se/docs/adv_20161102E.html
-+Reported-by: Cure53
++bug: https://curl.haxx.se/docs/adv_20161102G.html
++Reported-by: Luật Nguyễn
 +Signed-off-by: Sona Sarmadi <sona.sarmadi@enea.com>
 +---
-+ lib/security.c | 9 ++++++---
-+ 1 file changed, 6 insertions(+), 3 deletions(-)
++ lib/parsedate.c        | 12 +++++++-----
++ tests/data/test517     |  6 ++++++
++ tests/libtest/lib517.c |  8 +++++++-
++ 3 files changed, 20 insertions(+), 6 deletions(-)
 +
-+diff --git a/lib/security.c b/lib/security.c
-+index a268d4a..4cef8f8 100644
-+--- a/lib/security.c
-++++ b/lib/security.c
-+@@ -190,19 +190,22 @@ socket_write(struct connectdata *conn, curl_socket_t fd, const void *to,
-+ static CURLcode read_data(struct connectdata *conn,
-+                           curl_socket_t fd,
-+                           struct krb5buffer *buf)
++diff --git a/lib/parsedate.c b/lib/parsedate.c
++index dfcf855..8e932f4 100644
++--- a/lib/parsedate.c
+++++ b/lib/parsedate.c
++@@ -3,11 +3,11 @@
++  *  Project                     ___| | | |  _ \| |
++  *                             / __| | | | |_) | |
++  *                            | (__| |_| |  _ <| |___
++  *                             \___|\___/|_| \_\_____|
++  *
++- * Copyright (C) 1998 - 2014, Daniel Stenberg, <daniel@haxx.se>, et al.
+++ * Copyright (C) 1998 - 2016, Daniel Stenberg, <daniel@haxx.se>, et al.
++  *
++  * This software is licensed as described in the file COPYING, which
++  * you should have received as part of this distribution. The terms
++  * are also available at https://curl.haxx.se/docs/copyright.html.
++  *
++@@ -384,19 +384,21 @@ static int parsedate(const char *date, time_t *output)
++     }
++     else if(ISDIGIT(*date)) {
++       /* a digit */
++       int val;
++       char *end;
+++      int len=0;
++       if((secnum == -1) &&
++-         (3 == sscanf(date, "%02d:%02d:%02d", &hournum, &minnum, &secnum))) {
+++         (3 == sscanf(date, "%02d:%02d:%02d%n",
+++                      &hournum, &minnum, &secnum, &len))) {
++         /* time stamp! */
++-        date += 8;
+++        date += len;
++       }
++       else if((secnum == -1) &&
++-              (2 == sscanf(date, "%02d:%02d", &hournum, &minnum))) {
+++              (2 == sscanf(date, "%02d:%02d%n", &hournum, &minnum, &len))) {
++         /* time stamp without seconds */
++-        date += 5;
+++        date += len;
++         secnum = 0;
++       }
++       else {
++         long lval;
++         int error;
++diff --git a/tests/data/test517 b/tests/data/test517
++index c81a45e..513634f 100644
++--- a/tests/data/test517
+++++ b/tests/data/test517
++@@ -114,10 +114,16 @@ nothing
++ 79: 20110632 12:34:56 => -1
++ 80: 20110623 56:34:56 => -1
++ 81: 20111323 12:34:56 => -1
++ 82: 20110623 12:34:79 => -1
++ 83: Wed, 31 Dec 2008 23:59:60 GMT => 1230768000
+++84: 20110623 12:3 => 1308830580
+++85: 20110623 1:3 => 1308790980
+++86: 20110623 1:30 => 1308792600
+++87: 20110623 12:12:3 => 1308831123
+++88: 20110623 01:12:3 => 1308791523
+++89: 20110623 01:99:30 => -1
++ </stdout>
++ 
++ # This test case previously tested an overflow case ("2094 Nov 6 =>
++ # 2147483647") for 32bit time_t, but since some systems have 64bit time_t and
++ # handles this (returning 3939840000), and some 64bit-time_t systems don't
++diff --git a/tests/libtest/lib517.c b/tests/libtest/lib517.c
++index 2f68ebd..22162ff 100644
++--- a/tests/libtest/lib517.c
+++++ b/tests/libtest/lib517.c
++@@ -3,11 +3,11 @@
++  *  Project                     ___| | | |  _ \| |
++  *                             / __| | | | |_) | |
++  *                            | (__| |_| |  _ <| |___
++  *                             \___|\___/|_| \_\_____|
++  *
++- * Copyright (C) 1998 - 2011, Daniel Stenberg, <daniel@haxx.se>, et al.
+++ * Copyright (C) 1998 - 2016, Daniel Stenberg, <daniel@haxx.se>, et al.
++  *
++  * This software is licensed as described in the file COPYING, which
++  * you should have received as part of this distribution. The terms
++  * are also available at https://curl.haxx.se/docs/copyright.html.
++  *
++@@ -114,10 +114,16 @@ static const char * const dates[]={
++   "20110632 12:34:56",
++   "20110623 56:34:56",
++   "20111323 12:34:56",
++   "20110623 12:34:79",
++   "Wed, 31 Dec 2008 23:59:60 GMT", /* leap second */
+++  "20110623 12:3",
+++  "20110623 1:3",
+++  "20110623 1:30",
+++  "20110623 12:12:3",
+++  "20110623 01:12:3",
+++  "20110623 01:99:30",
++   NULL
++ };
++ 
++ int test(char *URL)
 + {
-+   int len;
-+-  void* tmp;
-++  void *tmp = NULL;
-+   CURLcode result;
-+ 
-+   result = socket_read(fd, &len, sizeof(len));
-+   if(result)
-+     return result;
-+ 
-+-  len = ntohl(len);
-+-  tmp = realloc(buf->data, len);
-++  if(len) {
-++    /* only realloc if there was a length */
-++    len = ntohl(len);
-++    tmp = realloc(buf->data, len);
-++  }
-+   if(tmp == NULL)
-+     return CURLE_OUT_OF_MEMORY;
-+ 
-+   buf->data = tmp;
-+   result = socket_read(fd, buf->data, len);
 +-- 
 +2.9.3
 +
 diff --git a/meta/recipes-support/curl/curl_7.47.1.bb b/meta/recipes-support/curl/curl_7.47.1.bb
-index 27a999e..9ef5718 100644
+index e6ad03f..67b07da 100644
 --- a/meta/recipes-support/curl/curl_7.47.1.bb
 +++ b/meta/recipes-support/curl/curl_7.47.1.bb
-@@ -19,6 +19,7 @@ SRC_URI += " file://configure_ac.patch \
-              file://CVE-2016-8616.patch \
-              file://CVE-2016-8617.patch \
+@@ -21,6 +21,7 @@ SRC_URI += " file://configure_ac.patch \
               file://CVE-2016-8618.patch \
-+             file://CVE-2016-8619.patch \
+              file://CVE-2016-8619.patch \
+              file://CVE-2016-8620.patch \
++             file://CVE-2016-8621.patch \
             "
  
  SRC_URI[md5sum] = "9ea3123449439bbd960cd25cf98796fb"
