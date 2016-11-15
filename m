@@ -1,26 +1,26 @@
 Return-Path: <sona.sarmadi@enea.com>
 Received: from smtp-out11.electric.net (smtp-out11.electric.net
-	[185.38.181.47])
-	by mail.openembedded.org (Postfix) with ESMTP id D9BD571A07
+	[185.38.181.40])
+	by mail.openembedded.org (Postfix) with ESMTP id D83A071A07
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Nov 2016 09:08:25 +0000 (UTC)
-Received: from 1c6Zj7-0004O0-V5 by out11b.electric.net with emc1-ok (Exim 4.87)
-	(envelope-from <sona.sarmadi@enea.com>) id 1c6Zj8-0004Pi-Ti
+	Tue, 15 Nov 2016 09:08:23 +0000 (UTC)
+Received: from 1c6Zj6-0000Q4-Ua by out11a.electric.net with emc1-ok (Exim 4.87)
+	(envelope-from <sona.sarmadi@enea.com>) id 1c6Zj6-0000QZ-Uw
 	for openembedded-core@lists.openembedded.org;
-	Tue, 15 Nov 2016 01:08:26 -0800
-Received: by emcmailer; Tue, 15 Nov 2016 01:08:26 -0800
+	Tue, 15 Nov 2016 01:08:24 -0800
+Received: by emcmailer; Tue, 15 Nov 2016 01:08:24 -0800
 Received: from [192.36.1.72] (helo=mx-3.enea.com)
-	by out11b.electric.net with esmtps (TLSv1:AES128-SHA:128) (Exim 4.87)
-	(envelope-from <sona.sarmadi@enea.com>) id 1c6Zj7-0004O0-V5
+	by out11a.electric.net with esmtps (TLSv1:AES128-SHA:128) (Exim 4.87)
+	(envelope-from <sona.sarmadi@enea.com>) id 1c6Zj6-0000Q4-Ua
 	for openembedded-core@lists.openembedded.org;
-	Tue, 15 Nov 2016 01:08:25 -0800
+	Tue, 15 Nov 2016 01:08:24 -0800
 Received: from sestofb11.enea.se (172.21.3.152) by smtp.enea.com
 	(172.21.1.208) with Microsoft SMTP Server id 14.3.294.0;
-	Tue, 15 Nov 2016 10:08:25 +0100
+	Tue, 15 Nov 2016 10:08:24 +0100
 From: Sona Sarmadi <sona.sarmadi@enea.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 15 Nov 2016 10:08:19 +0100
-Message-ID: <1479200900-39007-10-git-send-email-sona.sarmadi@enea.com>
+Date: Tue, 15 Nov 2016 10:08:15 +0100
+Message-ID: <1479200900-39007-6-git-send-email-sona.sarmadi@enea.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <1479200900-39007-1-git-send-email-sona.sarmadi@enea.com>
 References: <1479200900-39007-1-git-send-email-sona.sarmadi@enea.com>
@@ -38,7 +38,7 @@ X-PolicySMART: 6551647
 X-Virus-Status: Scanned by VirusSMART (c)
 X-Virus-Status: Scanned by VirusSMART (s)
 Cc: sona@enea.se
-Subject: [PATCHv5][krogoth 10/11] curl: CVE-2016-8624
+Subject: [PATCHv5][krogoth 06/11] curl: CVE-2016-8620
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,89 +51,82 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 Nov 2016 09:08:26 -0000
+X-List-Received-Date: Tue, 15 Nov 2016 09:08:27 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 
-invalid URL parsing with '#'
+glob parser write/read out of bounds
 
-Affected versions: curl 7.1 to and including 7.50.3
+Affected versions: curl 7.34.0 to and including 7.50.3
 Reference:
-https://curl.haxx.se/docs/adv_20161102J.html
+https://curl.haxx.se/docs/adv_20161102F.html
 
 Signed-off-by: Sona Sarmadi <sona.sarmadi@enea.com>
 ---
- meta/recipes-support/curl/curl/CVE-2016-8624.patch | 51 ++++++++++++++++++++++
+ meta/recipes-support/curl/curl/CVE-2016-8620.patch | 44 ++++++++++++++++++++++
  meta/recipes-support/curl/curl_7.47.1.bb           |  1 +
- 2 files changed, 52 insertions(+)
- create mode 100644 meta/recipes-support/curl/curl/CVE-2016-8624.patch
+ 2 files changed, 45 insertions(+)
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2016-8620.patch
 
-diff --git a/meta/recipes-support/curl/curl/CVE-2016-8624.patch b/meta/recipes-support/curl/curl/CVE-2016-8624.patch
+diff --git a/meta/recipes-support/curl/curl/CVE-2016-8620.patch b/meta/recipes-support/curl/curl/CVE-2016-8620.patch
 new file mode 100644
-index 0000000..009f7d0
+index 0000000..613ace3
 --- /dev/null
-+++ b/meta/recipes-support/curl/curl/CVE-2016-8624.patch
-@@ -0,0 +1,51 @@
-+From 3bb273db7e40ebc284cff45f3ce3f0475c8339c2 Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-support/curl/curl/CVE-2016-8620.patch
+@@ -0,0 +1,44 @@
++From fbb5f1aa0326d485d5a7ac643b48481897ca667f Mon Sep 17 00:00:00 2001
 +From: Daniel Stenberg <daniel@haxx.se>
-+Date: Tue, 11 Oct 2016 00:48:35 +0200
-+Subject: [PATCH] urlparse: accept '#' as end of host name
++Date: Mon, 3 Oct 2016 17:27:16 +0200
++Subject: [PATCH] range: prevent negative end number in a glob range
 +
-+'http://example.com#@127.0.0.1/x.txt' equals a request to example.com
-+for the '/' document with the rest of the URL being a fragment.
++CVE: CVE-2016-8620
 +
-+CVE: CVE-2016-8624
 +Upstream-Status: Backport
 +
-+Bug: https://curl.haxx.se/docs/adv_20161102J.html
-+Reported-by: Fernando Muñoz
-+
++Bug: https://curl.haxx.se/docs/adv_20161102F.html
++Reported-by: Luật Nguyễn
 +Signed-off-by: Sona Sarmadi <sona.sarmadi@enea.com>
++---
++ src/tool_urlglob.c | 7 +++++++
++ 1 file changed, 7 insertions(+)
 +
-+diff -ruN a/lib/url.c b/lib/url.c
-+--- a/lib/url.c	2016-11-07 08:50:23.030126833 +0100
-++++ b/lib/url.c	2016-11-07 10:16:13.562089428 +0100
-+@@ -4086,7 +4086,7 @@
-+     path[0]=0;
++diff --git a/src/tool_urlglob.c b/src/tool_urlglob.c
++index a357b8b..64c75ba 100644
++--- a/src/tool_urlglob.c
+++++ b/src/tool_urlglob.c
++@@ -257,6 +257,12 @@ static CURLcode glob_range(URLGlob *glob, char **patternp,
++         endp = NULL;
++       else {
++         pattern = endp+1;
+++        while(*pattern && ISBLANK(*pattern))
+++          pattern++;
+++        if(!ISDIGIT(*pattern)) {
+++          endp = NULL;
+++          goto fail;
+++        }
++         errno = 0;
++         max_n = strtoul(pattern, &endp, 10);
++         if(errno || (*endp == ':')) {
++@@ -277,6 +283,7 @@ static CURLcode glob_range(URLGlob *glob, char **patternp,
++       }
++     }
 + 
-+     if(2 > sscanf(data->change.url,
-+-                   "%15[^\n:]://%[^\n/?]%[^\n]",
-++                   "%15[^\n:]://%[^\n/?#]%[^\n]",
-+                    protobuf,
-+                    conn->host.name, path)) {
+++    fail:
++     *posp += (pattern - *patternp);
 + 
-+@@ -4094,7 +4094,7 @@
-+        * The URL was badly formatted, let's try the browser-style _without_
-+        * protocol specified like 'http://'.
-+        */
-+-      rc = sscanf(data->change.url, "%[^\n/?]%[^\n]", conn->host.name, path);
-++      rc = sscanf(data->change.url, "%[^\n/?#]%[^\n]", conn->host.name, path);
-+       if(1 > rc) {
-+         /*
-+          * We couldn't even get this format.
-+@@ -4184,10 +4184,10 @@
-+   }
-+ 
-+   /* If the URL is malformatted (missing a '/' after hostname before path) we
-+-   * insert a slash here. The only letter except '/' we accept to start a path
-+-   * is '?'.
-++   * insert a slash here. The only letters except '/' that can start a path is
-++   * '?' and '#' - as controlled by the two sscanf() patterns above.
-+    */
-+-  if(path[0] == '?') {
-++  if(path[0] != '/') {
-+     /* We need this function to deal with overlapping memory areas. We know
-+        that the memory area 'path' points to is 'urllen' bytes big and that
-+        is bigger than the path. Use +1 to move the zero byte too. */
++     if(!endp || (min_n > max_n) || (step_n > (max_n - min_n)) || !step_n)
++-- 
++1.9.1
++
 diff --git a/meta/recipes-support/curl/curl_7.47.1.bb b/meta/recipes-support/curl/curl_7.47.1.bb
-index 0f8fa3a..3c877e4 100644
+index 9ef5718..e6ad03f 100644
 --- a/meta/recipes-support/curl/curl_7.47.1.bb
 +++ b/meta/recipes-support/curl/curl_7.47.1.bb
-@@ -24,6 +24,7 @@ SRC_URI += " file://configure_ac.patch \
-              file://CVE-2016-8621.patch \
-              file://CVE-2016-8622.patch \
-              file://CVE-2016-8623.patch \
-+             file://CVE-2016-8624.patch \
+@@ -20,6 +20,7 @@ SRC_URI += " file://configure_ac.patch \
+              file://CVE-2016-8617.patch \
+              file://CVE-2016-8618.patch \
+              file://CVE-2016-8619.patch \
++             file://CVE-2016-8620.patch \
             "
  
  SRC_URI[md5sum] = "9ea3123449439bbd960cd25cf98796fb"
