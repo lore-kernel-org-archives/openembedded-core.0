@@ -1,27 +1,29 @@
 Return-Path: <sona.sarmadi@enea.com>
-Received: from smtp-out10.electric.net (smtp-out10.electric.net
-	[185.38.180.32])
-	by mail.openembedded.org (Postfix) with ESMTP id B20416080F
+Received: from smtp-out11.electric.net (smtp-out11.electric.net
+	[185.38.181.47])
+	by mail.openembedded.org (Postfix) with ESMTP id B6E1C719C3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Nov 2016 09:08:22 +0000 (UTC)
-Received: from 1c6Zj5-0007xf-Te by out10d.electric.net with emc1-ok (Exim 4.87)
-	(envelope-from <sona.sarmadi@enea.com>) id 1c6Zj5-0007y9-UK
+	Tue, 15 Nov 2016 09:08:23 +0000 (UTC)
+Received: from 1c6Zj5-0000Oa-US by out11a.electric.net with emc1-ok (Exim 4.87)
+	(envelope-from <sona.sarmadi@enea.com>) id 1c6Zj6-0000PI-T4
 	for openembedded-core@lists.openembedded.org;
-	Tue, 15 Nov 2016 01:08:23 -0800
+	Tue, 15 Nov 2016 01:08:24 -0800
 Received: by emcmailer; Tue, 15 Nov 2016 01:08:23 -0800
 Received: from [192.36.1.72] (helo=mx-3.enea.com)
-	by out10d.electric.net with esmtps (TLSv1:AES128-SHA:128) (Exim 4.87)
-	(envelope-from <sona.sarmadi@enea.com>) id 1c6Zj5-0007xf-Te
+	by out11a.electric.net with esmtps (TLSv1:AES128-SHA:128) (Exim 4.87)
+	(envelope-from <sona.sarmadi@enea.com>) id 1c6Zj5-0000Oa-US
 	for openembedded-core@lists.openembedded.org;
 	Tue, 15 Nov 2016 01:08:23 -0800
 Received: from sestofb11.enea.se (172.21.3.152) by smtp.enea.com
 	(172.21.1.208) with Microsoft SMTP Server id 14.3.294.0;
-	Tue, 15 Nov 2016 10:08:22 +0100
+	Tue, 15 Nov 2016 10:08:23 +0100
 From: Sona Sarmadi <sona.sarmadi@enea.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 15 Nov 2016 10:08:10 +0100
-Message-ID: <1479200900-39007-1-git-send-email-sona.sarmadi@enea.com>
+Date: Tue, 15 Nov 2016 10:08:11 +0100
+Message-ID: <1479200900-39007-2-git-send-email-sona.sarmadi@enea.com>
 X-Mailer: git-send-email 1.9.1
+In-Reply-To: <1479200900-39007-1-git-send-email-sona.sarmadi@enea.com>
+References: <1479200900-39007-1-git-send-email-sona.sarmadi@enea.com>
 MIME-Version: 1.0
 Received-SPF: None (SESTOEX08.enea.se: sona.sarmadi@enea.com does not
 	designate permitted sender hosts)
@@ -36,7 +38,7 @@ X-PolicySMART: 6551647
 X-Virus-Status: Scanned by VirusSMART (c)
 X-Virus-Status: Scanned by VirusSMART (s)
 Cc: sona@enea.se
-Subject: [PATCHv5][krogoth 01/11] curl: CVE-2016-8615
+Subject: [PATCHv5][krogoth 02/11] curl: CVE-2016-8616
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,112 +54,84 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Tue, 15 Nov 2016 09:08:24 -0000
 Content-Type: text/plain
 
-cookie injection for other servers
+case insensitive password comparison
 
-Affected versions: curl 7.1 to and including 7.50.3
+Affected versions: curl 7.7 to and including 7.50.3
 
 Reference:
-https://curl.haxx.se/docs/adv_20161102A.html
+https://curl.haxx.se/docs/adv_20161102B.html
 
 Signed-off-by: Sona Sarmadi <sona.sarmadi@enea.com>
 ---
- meta/recipes-support/curl/curl/CVE-2016-8615.patch | 77 ++++++++++++++++++++++
+ meta/recipes-support/curl/curl/CVE-2016-8616.patch | 49 ++++++++++++++++++++++
  meta/recipes-support/curl/curl_7.47.1.bb           |  1 +
- 2 files changed, 78 insertions(+)
- create mode 100644 meta/recipes-support/curl/curl/CVE-2016-8615.patch
+ 2 files changed, 50 insertions(+)
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2016-8616.patch
 
-diff --git a/meta/recipes-support/curl/curl/CVE-2016-8615.patch b/meta/recipes-support/curl/curl/CVE-2016-8615.patch
+diff --git a/meta/recipes-support/curl/curl/CVE-2016-8616.patch b/meta/recipes-support/curl/curl/CVE-2016-8616.patch
 new file mode 100644
-index 0000000..5faa423
+index 0000000..d5d78fc
 --- /dev/null
-+++ b/meta/recipes-support/curl/curl/CVE-2016-8615.patch
-@@ -0,0 +1,77 @@
-+From 1620f552a277ed5b23a48b9c27dbf07663cac068 Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-support/curl/curl/CVE-2016-8616.patch
+@@ -0,0 +1,49 @@
++From b3ee26c5df75d97f6895e6ec4538894ebaf76e48 Mon Sep 17 00:00:00 2001
 +From: Daniel Stenberg <daniel@haxx.se>
-+Date: Tue, 27 Sep 2016 17:36:19 +0200
-+Subject: [PATCH] cookie: replace use of fgets() with custom version
++Date: Tue, 27 Sep 2016 18:01:53 +0200
++Subject: [PATCH] connectionexists: use case sensitive user/password
++ comparisons
 +
-+... that will ignore lines that are too long to fit in the buffer.
-+
-+CVE: CVE-2016-8615
++CVE: CVE-2016-8616
 +Upstream-Status: Backport
 +
-+Bug: https://curl.haxx.se/docs/adv_20161102A.html
++Bug: https://curl.haxx.se/docs/adv_20161102B.html
 +Reported-by: Cure53
 +Signed-off-by: Sona Sarmadi <sona.sarmadi@enea.com>
-+---
-+ lib/cookie.c | 31 ++++++++++++++++++++++++++++++-
-+ 1 file changed, 30 insertions(+), 1 deletion(-)
 +
-+diff --git a/lib/cookie.c b/lib/cookie.c
-+index 0f05da2..e5097d3 100644
-+--- a/lib/cookie.c
-++++ b/lib/cookie.c
-+@@ -901,10 +901,39 @@ Curl_cookie_add(struct Curl_easy *data,
-+   }
++diff -ruN a/lib/url.c b/lib/url.c
++--- a/lib/url.c	2016-11-07 08:50:23.030126833 +0100
+++++ b/lib/url.c	2016-11-07 09:16:20.459836564 +0100
++@@ -3305,8 +3305,8 @@
++       if(!(needle->handler->flags & PROTOPT_CREDSPERREQUEST)) {
++         /* This protocol requires credentials per connection,
++            so verify that we're using the same name and password as well */
++-        if(!strequal(needle->user, check->user) ||
++-           !strequal(needle->passwd, check->passwd)) {
+++        if(strcmp(needle->user, check->user) ||
+++           strcmp(needle->passwd, check->passwd)) {
++           /* one of them was different */
++           continue;
++         }
++@@ -3369,8 +3369,8 @@
++            possible. (Especially we must not reuse the same connection if
++            partway through a handshake!) */
++         if(wantNTLMhttp) {
++-          if(!strequal(needle->user, check->user) ||
++-             !strequal(needle->passwd, check->passwd))
+++          if(strcmp(needle->user, check->user) ||
+++             strcmp(needle->passwd, check->passwd))
++             continue;
++         }
++         else if(check->ntlm.state != NTLMSTATE_NONE) {
++@@ -3380,8 +3380,8 @@
 + 
-+   return co;
-+ }
-+ 
-++/*
-++ * get_line() makes sure to only return complete whole lines that fit in 'len'
-++ * bytes and end with a newline.
-++ */
-++static char *get_line(char *buf, int len, FILE *input)
-++{
-++  bool partial = FALSE;
-++  while(1) {
-++    char *b = fgets(buf, len, input);
-++    if(b) {
-++      size_t rlen = strlen(b);
-++      if(rlen && (b[rlen-1] == '\n')) {
-++        if(partial) {
-++          partial = FALSE;
-++          continue;
-++        }
-++        return b;
-++      }
-++      else
-++        /* read a partial, discard the next piece that ends with newline */
-++        partial = TRUE;
-++    }
-++    else
-++      break;
-++  }
-++  return NULL;
-++}
-++
-++
-+ /*****************************************************************************
-+  *
-+  * Curl_cookie_init()
-+  *
-+  * Inits a cookie struct to read data from a local file. This is always
-+@@ -957,11 +986,11 @@ struct CookieInfo *Curl_cookie_init(struct Curl_easy *data,
-+     bool headerline;
-+ 
-+     line = malloc(MAX_COOKIE_LINE);
-+     if(!line)
-+       goto fail;
-+-    while(fgets(line, MAX_COOKIE_LINE, fp)) {
-++    while(get_line(line, MAX_COOKIE_LINE, fp)) {
-+       if(checkprefix("Set-Cookie:", line)) {
-+         /* This is a cookie line, get it! */
-+         lineptr=&line[11];
-+         headerline=TRUE;
-+       }
-+-- 
-+2.9.3
-+
++         /* Same for Proxy NTLM authentication */
++         if(wantProxyNTLMhttp) {
++-          if(!strequal(needle->proxyuser, check->proxyuser) ||
++-             !strequal(needle->proxypasswd, check->proxypasswd))
+++          if(strcmp(needle->proxyuser, check->proxyuser) ||
+++             strcmp(needle->proxypasswd, check->proxypasswd))
++             continue;
++         }
++         else if(check->proxyntlm.state != NTLMSTATE_NONE) {
 diff --git a/meta/recipes-support/curl/curl_7.47.1.bb b/meta/recipes-support/curl/curl_7.47.1.bb
-index 3670a11..1f2758c 100644
+index 1f2758c..20c3721 100644
 --- a/meta/recipes-support/curl/curl_7.47.1.bb
 +++ b/meta/recipes-support/curl/curl_7.47.1.bb
-@@ -15,6 +15,7 @@ SRC_URI += " file://configure_ac.patch \
-              file://CVE-2016-5420.patch \
+@@ -16,6 +16,7 @@ SRC_URI += " file://configure_ac.patch \
               file://CVE-2016-5421.patch \
               file://CVE-2016-7141.patch \
-+             file://CVE-2016-8615.patch \
+              file://CVE-2016-8615.patch \
++             file://CVE-2016-8616.patch \
             "
  
  SRC_URI[md5sum] = "9ea3123449439bbd960cd25cf98796fb"
