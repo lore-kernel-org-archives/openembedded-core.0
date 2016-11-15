@@ -1,24 +1,25 @@
 Return-Path: <Qi.Chen@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id E375470034
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 8933970034
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Nov 2016 06:30:23 +0000 (UTC)
+	Tue, 15 Nov 2016 06:30:24 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id uAF6UObt024612
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTP id uAF6UP49002576
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Nov 2016 22:30:24 -0800 (PST)
+	Mon, 14 Nov 2016 22:30:25 -0800 (PST)
 Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.209) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.294.0; Mon, 14 Nov 2016 22:30:23 -0800
+	14.3.294.0; Mon, 14 Nov 2016 22:30:25 -0800
 From: Chen Qi <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 15 Nov 2016 14:31:05 +0800
-Message-ID: <cover.1479191367.git.Qi.Chen@windriver.com>
+Date: Tue, 15 Nov 2016 14:31:06 +0800
+Message-ID: <77d67e1026284cb6061e1e3e785b4d30b6b0192c.1479191367.git.Qi.Chen@windriver.com>
 X-Mailer: git-send-email 1.9.1
+In-Reply-To: <cover.1479191367.git.Qi.Chen@windriver.com>
+References: <cover.1479191367.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/1] rpm: fix multilib macro installation
+Subject: [PATCH 1/1] rpm: fix multilib macro installation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,21 +35,47 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Tue, 15 Nov 2016 06:30:24 -0000
 Content-Type: text/plain
 
-The following changes since commit 9303d8055c45a0f6af295d70a6f6a8b9d8d8a7c9:
+For now, the rpm macro for multilib is not installed correctly. For
+example, in x86-64 lib32 situation, the macro is installed under
+tmp/work/x86-pokymllib32-linux/rpm/5.4.16-r0/image/usr/lib/rpm/poky/i686-linux/.
 
-  devtool: add "rename" subcommand (2016-11-07 11:04:17 +0000)
+The directory is even not under WORKDIR. And it will of course not be
+packaged.
 
-are available in the git repository at:
+We need to save necessary values before updating the localdata and restore
+them so that the macros could be installed into the correct directory.
 
-  git://git.openembedded.org/openembedded-core-contrib ChenQi/rpm-macros
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=ChenQi/rpm-macros
-
-Chen Qi (1):
-  rpm: fix multilib macro installation
-
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+---
  meta/recipes-devtools/rpm/rpm_5.4.16.bb | 8 ++++++--
  1 file changed, 6 insertions(+), 2 deletions(-)
 
+diff --git a/meta/recipes-devtools/rpm/rpm_5.4.16.bb b/meta/recipes-devtools/rpm/rpm_5.4.16.bb
+index 85eb5fe..182818e 100644
+--- a/meta/recipes-devtools/rpm/rpm_5.4.16.bb
++++ b/meta/recipes-devtools/rpm/rpm_5.4.16.bb
+@@ -626,8 +626,9 @@ def multilib_rpmmacros(d):
+     localdata.delVar('TOOLCHAIN_OPTIONS')
+ 
+     # Set 'localdata' values to be consistent with 'd' values.
+-    localdata.setVar('distromacrodir', d.getVar('distromacrodir', True))
+-    localdata.setVar('WORKDIR', d.getVar('WORKDIR', True))
++    distromacrodirVal = d.getVar('distromacrodir', True)
++    workdirVal = d.getVar('WORKDIR', True)
++    dval = d.getVar('D', True)
+ 
+     ret = gen_arch_macro(localdata)
+ 
+@@ -639,6 +640,9 @@ def multilib_rpmmacros(d):
+         localdata.setVar("OVERRIDES", overrides)
+         localdata.setVar("MLPREFIX", item + "-")
+         bb.data.update_data(localdata)
++        localdata.setVar('WORKDIR', workdirVal)
++        localdata.setVar('distromacrodir', distromacrodirVal)
++        localdata.setVar('D', dval)
+         ret += gen_arch_macro(localdata)
+     return ret
+ 
 -- 
 1.9.1
 
