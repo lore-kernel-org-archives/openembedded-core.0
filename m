@@ -1,41 +1,24 @@
-Return-Path: <jiajie.hu@intel.com>
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by mail.openembedded.org (Postfix) with ESMTP id 1F76A6057A
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id E375470034
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Nov 2016 05:44:57 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by orsmga105.jf.intel.com with ESMTP; 14 Nov 2016 21:44:59 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.31,640,1473145200"; 
-	d="scan'208,217";a="1085312559"
-Received: from fmsmsx108.amr.corp.intel.com ([10.18.124.206])
-	by fmsmga002.fm.intel.com with ESMTP; 14 Nov 2016 21:44:58 -0800
-Received: from fmsmsx113.amr.corp.intel.com (10.18.116.7) by
-	FMSMSX108.amr.corp.intel.com (10.18.124.206) with Microsoft SMTP Server
-	(TLS) id 14.3.248.2; Mon, 14 Nov 2016 21:44:57 -0800
-Received: from shsmsx152.ccr.corp.intel.com (10.239.6.52) by
-	FMSMSX113.amr.corp.intel.com (10.18.116.7) with Microsoft SMTP Server
-	(TLS) id 14.3.248.2; Mon, 14 Nov 2016 21:44:57 -0800
-Received: from shsmsx102.ccr.corp.intel.com ([169.254.2.239]) by
-	SHSMSX152.ccr.corp.intel.com ([169.254.6.138]) with mapi id
-	14.03.0248.002; Tue, 15 Nov 2016 13:44:55 +0800
-From: "Hu, Jiajie" <jiajie.hu@intel.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Thread-Topic: [OE-core] [PATCH] devtool: fix handling of unicode characters
-	from subprocess stdout
-Thread-Index: AQHSO+ETbd5SAcg/0kOw3Lpet2zuDKDTLqaAgAZamPA=
-Date: Tue, 15 Nov 2016 05:44:54 +0000
-Message-ID: <E042790F5644A34FAA76B670E59147663A3B2963@shsmsx102.ccr.corp.intel.com>
-References: <1478844138-13407-1-git-send-email-jiajie.hu@intel.com>
-	<CAJTo0LaUcWr-=YvHBj=u+_yz0HtTS7HYWTAy6ggZjVi435La+Q@mail.gmail.com>
-In-Reply-To: <CAJTo0LaUcWr-=YvHBj=u+_yz0HtTS7HYWTAy6ggZjVi435La+Q@mail.gmail.com>
-Accept-Language: zh-CN, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.239.127.40]
+	Tue, 15 Nov 2016 06:30:23 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id uAF6UObt024612
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 14 Nov 2016 22:30:24 -0800 (PST)
+Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.209) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.294.0; Mon, 14 Nov 2016 22:30:23 -0800
+From: Chen Qi <Qi.Chen@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 15 Nov 2016 14:31:05 +0800
+Message-ID: <cover.1479191367.git.Qi.Chen@windriver.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] devtool: fix handling of unicode characters from subprocess stdout
+Subject: [PATCH 0/1] rpm: fix multilib macro installation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,116 +31,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 Nov 2016 05:44:59 -0000
-Content-Language: en-US
-Content-Type: multipart/alternative;
-	boundary="_000_E042790F5644A34FAA76B670E59147663A3B2963shsmsx102ccrcor_"
+X-List-Received-Date: Tue, 15 Nov 2016 06:30:24 -0000
+Content-Type: text/plain
 
---_000_E042790F5644A34FAA76B670E59147663A3B2963shsmsx102ccrcor_
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+The following changes since commit 9303d8055c45a0f6af295d70a6f6a8b9d8d8a7c9:
 
-SSB0cmllZCB0byBmb2xsb3cgdGhlIG9yaWdpbmFsIGltcGxlbWVudGF0aW9uIGhlcmUuIEl0IHNl
-ZW1zIHRoYXQgYSBzaW1wbGUgcmVhZCgpIGlzIGJsb2NraW5nIGFuZCB0aGUgb3V0cHV0IG9mIHRo
-ZSBzdWJwcm9jZXNzIGNhbm5vdCBiZSByZWRpcmVjdGVkIGluIHRpbWUuIEUuZy4sIOKAmE5vdGU6
-IEZldGNoaW5nIOKApuKAmSBpcyBub3Qgc2hvd24gdW50aWwgdGhlIHVucGFjayBpcyBmaW5pc2hl
-ZC4NCg0KRnJvbTogQnVydG9uLCBSb3NzIFttYWlsdG86cm9zcy5idXJ0b25AaW50ZWwuY29tXQ0K
-U2VudDogRnJpZGF5LCBOb3ZlbWJlciAxMSwgMjAxNiA4OjIyIFBNDQpUbzogSHUsIEppYWppZSA8
-amlhamllLmh1QGludGVsLmNvbT4NCkNjOiBPRS1jb3JlIDxvcGVuZW1iZWRkZWQtY29yZUBsaXN0
-cy5vcGVuZW1iZWRkZWQub3JnPg0KU3ViamVjdDogUmU6IFtPRS1jb3JlXSBbUEFUQ0hdIGRldnRv
-b2w6IGZpeCBoYW5kbGluZyBvZiB1bmljb2RlIGNoYXJhY3RlcnMgZnJvbSBzdWJwcm9jZXNzIHN0
-ZG91dA0KDQoNCk9uIDExIE5vdmVtYmVyIDIwMTYgYXQgMDY6MDIsIEppYWppZSBIdSA8amlhamll
-Lmh1QGludGVsLmNvbTxtYWlsdG86amlhamllLmh1QGludGVsLmNvbT4+IHdyb3RlOg0KKyAgICBy
-ZWFkZXIgPSBjb2RlY3MuZ2V0cmVhZGVyKCd1dGYtOCcpKHByb2Nlc3Muc3Rkb3V0KQ0KICAgICBi
-dWYgPSAnJw0KICAgICB3aGlsZSBUcnVlOg0KLSAgICAgICAgb3V0ID0gcHJvY2Vzcy5zdGRvdXQu
-cmVhZCgxKQ0KLSAgICAgICAgb3V0ID0gb3V0LmRlY29kZSgndXRmLTgnKQ0KKyAgICAgICAgb3V0
-ID0gcmVhZGVyLnJlYWQoMSwgMSkNCg0KQSByZWFkZXIgaXMgZGVmaW5pdGVseSB0aGUgcmlnaHQg
-dGhpbmcgaGVyZSwgYnV0IEknbSB3b25kZXJpbmcgd2h5IHRoaXMgbmVlZHMgdG8gbG9vcCBvbiBz
-aW5nbGUgY2hhcmFjdGVycy4gIEFzIEkgdW5kZXJzdGFuZCBpdCBkb2luZyBhIHJlYWQoKSBvbiBh
-IHJlYWRlciB3cmFwcGluZyBzdGRvdXQgd2lsbCByZWFkIHVudGlsIGl0IGJsb2NrcyAoYmVjYXVz
-ZSB0aGUgcHJvY2VzcyBoYXNuJ3QgZ290IGFueXRoaW5nIHRvIG91dHB1dCkgc28gcmVzdWx0IGlu
-IGxlc3MgcG9pbnRsZXNzIGl0ZXJhdGluZy4NCg0KUm9zcw0K
+  devtool: add "rename" subcommand (2016-11-07 11:04:17 +0000)
 
---_000_E042790F5644A34FAA76B670E59147663A3B2963shsmsx102ccrcor_
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: base64
+are available in the git repository at:
 
-PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
-bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
-YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
-cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
-VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
-Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
-ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTUgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
-PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
-5a6L5L2TOw0KCXBhbm9zZS0xOjIgMSA2IDAgMyAxIDEgMSAxIDE7fQ0KQGZvbnQtZmFjZQ0KCXtm
-b250LWZhbWlseToiQ2FtYnJpYSBNYXRoIjsNCglwYW5vc2UtMToyIDQgNSAzIDUgNCA2IDMgMiA0
-O30NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6Q2FsaWJyaTsNCglwYW5vc2UtMToyIDE1IDUg
-MiAyIDIgNCAzIDIgNDt9DQpAZm9udC1mYWNlDQoJe2ZvbnQtZmFtaWx5OiJcQOWui+S9kyI7DQoJ
-cGFub3NlLTE6MiAxIDYgMCAzIDEgMSAxIDEgMTt9DQovKiBTdHlsZSBEZWZpbml0aW9ucyAqLw0K
-cC5Nc29Ob3JtYWwsIGxpLk1zb05vcm1hbCwgZGl2Lk1zb05vcm1hbA0KCXttYXJnaW46MGNtOw0K
-CW1hcmdpbi1ib3R0b206LjAwMDFwdDsNCglmb250LXNpemU6MTIuMHB0Ow0KCWZvbnQtZmFtaWx5
-OuWui+S9kzt9DQphOmxpbmssIHNwYW4uTXNvSHlwZXJsaW5rDQoJe21zby1zdHlsZS1wcmlvcml0
-eTo5OTsNCgljb2xvcjpibHVlOw0KCXRleHQtZGVjb3JhdGlvbjp1bmRlcmxpbmU7fQ0KYTp2aXNp
-dGVkLCBzcGFuLk1zb0h5cGVybGlua0ZvbGxvd2VkDQoJe21zby1zdHlsZS1wcmlvcml0eTo5OTsN
-Cgljb2xvcjpwdXJwbGU7DQoJdGV4dC1kZWNvcmF0aW9uOnVuZGVybGluZTt9DQpzcGFuLkVtYWls
-U3R5bGUxNw0KCXttc28tc3R5bGUtdHlwZTpwZXJzb25hbC1yZXBseTsNCglmb250LWZhbWlseToi
-Q2FsaWJyaSIsc2Fucy1zZXJpZjsNCgljb2xvcjojMUY0OTdEO30NCi5Nc29DaHBEZWZhdWx0DQoJ
-e21zby1zdHlsZS10eXBlOmV4cG9ydC1vbmx5Ow0KCWZvbnQtZmFtaWx5OiJDYWxpYnJpIixzYW5z
-LXNlcmlmO30NCkBwYWdlIFdvcmRTZWN0aW9uMQ0KCXtzaXplOjYxMi4wcHQgNzkyLjBwdDsNCglt
-YXJnaW46NzIuMHB0IDkwLjBwdCA3Mi4wcHQgOTAuMHB0O30NCmRpdi5Xb3JkU2VjdGlvbjENCgl7
-cGFnZTpXb3JkU2VjdGlvbjE7fQ0KLS0+PC9zdHlsZT48IS0tW2lmIGd0ZSBtc28gOV0+PHhtbD4N
-CjxvOnNoYXBlZGVmYXVsdHMgdjpleHQ9ImVkaXQiIHNwaWRtYXg9IjEwMjYiIC8+DQo8L3htbD48
-IVtlbmRpZl0tLT48IS0tW2lmIGd0ZSBtc28gOV0+PHhtbD4NCjxvOnNoYXBlbGF5b3V0IHY6ZXh0
-PSJlZGl0Ij4NCjxvOmlkbWFwIHY6ZXh0PSJlZGl0IiBkYXRhPSIxIiAvPg0KPC9vOnNoYXBlbGF5
-b3V0PjwveG1sPjwhW2VuZGlmXS0tPg0KPC9oZWFkPg0KPGJvZHkgbGFuZz0iWkgtQ04iIGxpbms9
-ImJsdWUiIHZsaW5rPSJwdXJwbGUiPg0KPGRpdiBjbGFzcz0iV29yZFNlY3Rpb24xIj4NCjxwIGNs
-YXNzPSJNc29Ob3JtYWwiPjxzcGFuIGxhbmc9IkVOLVVTIiBzdHlsZT0iZm9udC1zaXplOjEwLjVw
-dDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LHNhbnMtc2VyaWY7Y29sb3I6IzFGNDk3
-RCI+SSB0cmllZCB0byBmb2xsb3cgdGhlIG9yaWdpbmFsIGltcGxlbWVudGF0aW9uIGhlcmUuIEl0
-IHNlZW1zIHRoYXQgYSBzaW1wbGUgcmVhZCgpIGlzIGJsb2NraW5nIGFuZCB0aGUgb3V0cHV0IG9m
-IHRoZSBzdWJwcm9jZXNzIGNhbm5vdCBiZSByZWRpcmVjdGVkDQogaW4gdGltZS4gRS5nLiwg4oCY
-Tm90ZTogRmV0Y2hpbmcg4oCm4oCZIGlzIG5vdCBzaG93biB1bnRpbCB0aGUgdW5wYWNrIGlzIGZp
-bmlzaGVkLjxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFu
-IGxhbmc9IkVOLVVTIiBzdHlsZT0iZm9udC1zaXplOjEwLjVwdDtmb250LWZhbWlseTomcXVvdDtD
-YWxpYnJpJnF1b3Q7LHNhbnMtc2VyaWY7Y29sb3I6IzFGNDk3RCI+PG86cD4mbmJzcDs8L286cD48
-L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PGEgbmFtZT0iX19fX19yZXBseXNlcGFy
-YXRvciI+PC9hPjxiPjxzcGFuIGxhbmc9IkVOLVVTIiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtm
-b250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LHNhbnMtc2VyaWYiPkZyb206PC9zcGFuPjwv
-Yj48c3BhbiBsYW5nPSJFTi1VUyIgc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6
-JnF1b3Q7Q2FsaWJyaSZxdW90OyxzYW5zLXNlcmlmIj4gQnVydG9uLCBSb3NzIFttYWlsdG86cm9z
-cy5idXJ0b25AaW50ZWwuY29tXQ0KPGJyPg0KPGI+U2VudDo8L2I+IEZyaWRheSwgTm92ZW1iZXIg
-MTEsIDIwMTYgODoyMiBQTTxicj4NCjxiPlRvOjwvYj4gSHUsIEppYWppZSAmbHQ7amlhamllLmh1
-QGludGVsLmNvbSZndDs8YnI+DQo8Yj5DYzo8L2I+IE9FLWNvcmUgJmx0O29wZW5lbWJlZGRlZC1j
-b3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcmZ3Q7PGJyPg0KPGI+U3ViamVjdDo8L2I+IFJlOiBb
-T0UtY29yZV0gW1BBVENIXSBkZXZ0b29sOiBmaXggaGFuZGxpbmcgb2YgdW5pY29kZSBjaGFyYWN0
-ZXJzIGZyb20gc3VicHJvY2VzcyBzdGRvdXQ8bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFz
-cz0iTXNvTm9ybWFsIj48c3BhbiBsYW5nPSJFTi1VUyI+PG86cD4mbmJzcDs8L286cD48L3NwYW4+
-PC9wPg0KPGRpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBsYW5nPSJFTi1V
-UyI+PG86cD4mbmJzcDs8L286cD48L3NwYW4+PC9wPg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3Jt
-YWwiPjxzcGFuIGxhbmc9IkVOLVVTIj5PbiAxMSBOb3ZlbWJlciAyMDE2IGF0IDA2OjAyLCBKaWFq
-aWUgSHUgJmx0OzxhIGhyZWY9Im1haWx0bzpqaWFqaWUuaHVAaW50ZWwuY29tIiB0YXJnZXQ9Il9i
-bGFuayI+amlhamllLmh1QGludGVsLmNvbTwvYT4mZ3Q7IHdyb3RlOjxvOnA+PC9vOnA+PC9zcGFu
-PjwvcD4NCjxibG9ja3F1b3RlIHN0eWxlPSJib3JkZXI6bm9uZTtib3JkZXItbGVmdDpzb2xpZCAj
-Q0NDQ0NDIDEuMHB0O3BhZGRpbmc6MGNtIDBjbSAwY20gNi4wcHQ7bWFyZ2luLWxlZnQ6NC44cHQ7
-bWFyZ2luLXJpZ2h0OjBjbSI+DQo8ZGl2IGlkPSI6NzF4Ij4NCjxwIGNsYXNzPSJNc29Ob3JtYWwi
-PjxzcGFuIGxhbmc9IkVOLVVTIj4mIzQzOyZuYnNwOyAmbmJzcDsgcmVhZGVyID0gY29kZWNzLmdl
-dHJlYWRlcigndXRmLTgnKShwcm9jZXNzLnN0ZG91dCk8YnI+DQombmJzcDsgJm5ic3A7ICZuYnNw
-O2J1ZiA9ICcnPGJyPg0KJm5ic3A7ICZuYnNwOyAmbmJzcDt3aGlsZSBUcnVlOjxicj4NCi0mbmJz
-cDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgb3V0ID0gcHJvY2Vzcy5zdGRvdXQucmVhZCgxKTxicj4N
-Ci0mbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgb3V0ID0gb3V0LmRlY29kZSgndXRmLTgnKTxi
-cj4NCiYjNDM7Jm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7IG91dCA9IHJlYWRlci5yZWFkKDEs
-IDEpPG86cD48L286cD48L3NwYW4+PC9wPg0KPC9kaXY+DQo8L2Jsb2NrcXVvdGU+DQo8L2Rpdj4N
-CjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIGxhbmc9IkVOLVVTIj48YnI+DQpBIHJlYWRlciBp
-cyBkZWZpbml0ZWx5IHRoZSByaWdodCB0aGluZyBoZXJlLCBidXQgSSdtIHdvbmRlcmluZyB3aHkg
-dGhpcyBuZWVkcyB0byBsb29wIG9uIHNpbmdsZSBjaGFyYWN0ZXJzLiZuYnNwOyBBcyBJIHVuZGVy
-c3RhbmQgaXQgZG9pbmcgYSByZWFkKCkgb24gYSByZWFkZXIgd3JhcHBpbmcgc3Rkb3V0IHdpbGwg
-cmVhZCB1bnRpbCBpdCBibG9ja3MgKGJlY2F1c2UgdGhlIHByb2Nlc3MgaGFzbid0IGdvdCBhbnl0
-aGluZyB0byBvdXRwdXQpIHNvIHJlc3VsdA0KIGluIGxlc3MgcG9pbnRsZXNzIGl0ZXJhdGluZy48
-bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFs
-Ij48c3BhbiBsYW5nPSJFTi1VUyI+PG86cD4mbmJzcDs8L286cD48L3NwYW4+PC9wPg0KPC9kaXY+
-DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gbGFuZz0iRU4tVVMiPlJvc3M8bzpw
-PjwvbzpwPjwvc3Bhbj48L3A+DQo8L2Rpdj4NCjwvZGl2Pg0KPC9kaXY+DQo8L2JvZHk+DQo8L2h0
-bWw+DQo=
+  git://git.openembedded.org/openembedded-core-contrib ChenQi/rpm-macros
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=ChenQi/rpm-macros
 
---_000_E042790F5644A34FAA76B670E59147663A3B2963shsmsx102ccrcor_--
+Chen Qi (1):
+  rpm: fix multilib macro installation
+
+ meta/recipes-devtools/rpm/rpm_5.4.16.bb | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
+
+-- 
+1.9.1
+
+
