@@ -1,45 +1,68 @@
 Return-Path: <thilo.cestonaro@ts.fujitsu.com>
 Received: from mail1.bemta3.messagelabs.com (mail1.bemta3.messagelabs.com
-	[195.245.230.177])
-	by mail.openembedded.org (Postfix) with ESMTP id 50EEC719A4
+	[195.245.230.168])
+	by mail.openembedded.org (Postfix) with ESMTP id 3689060103
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Nov 2016 15:25:52 +0000 (UTC)
-Received: from [85.158.138.179] by server-17.bemta-3.messagelabs.com id
-	0E/6A-31715-0092B285; Tue, 15 Nov 2016 15:25:52 +0000
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrNLMWRWlGSWpSXmKPExsViZ8MxVZdBUzv
-	CoOuAuMWdn+/YHRg9zm1cwRjAGMWamZeUX5HAmrH092+mgr8KFbeWCDYwnpTtYuTkEBK4yCjx
-	55Z7FyMXkN3NKDHv5H/WLkYODjYBM4lv6wtBTBEBHYk3H71AypkF1CQWPD7ABmILC5hItDYuZ
-	QSxWQRUJXa8mMEMYvMKOEmcn9/ODmJLCMhLLDx/hGkCI+cCRoZVjBrFqUVlqUW6RsZ6SUWZ6R
-	kluYmZObqGBsZ6uanFxYnpqTmJScV6yfm5mxiBnqpnYGDcwdi31+8QoyQHk5Iob7aydoQQX1J
-	+SmVGYnFGfFFpTmrxIUYZDg4lCV4eDaCcYFFqempFWmYOMGRg0hIcPEoivFwgad7igsTc4sx0
-	iNQpRkUpcV4WkIQASCKjNA+uDRamlxhlpYR5GRkYGIR4ClKLcjNLUOVfMYpzMCoJ8/KCTOHJz
-	CuBm/4KaDET0OJd5hogi0sSEVJSDYyrEp83Jzbw22dP3/hVrOnL223pNnUL/r3qrLhxZuVKQb
-	3YZInHFkaJCtsiXMIYkiW+lbtcmXyVkfu6qCSDzFG9Dr2HX4QYmK82FPqp9WzwED4VdIbBw9p
-	BSInj/JKalsmBE/pv23nedOpbr7ZwU2dJ9ME1/xVfBRXIpf2e9pejMrLCeYn1TyWW4oxEQy3m
-	ouJEAAfTXTJOAgAA
+	Tue, 15 Nov 2016 15:27:05 +0000 (UTC)
+Received: from [85.158.138.179] by server-8.bemta-3.messagelabs.com id
+	AD/0F-26755-A492B285; Tue, 15 Nov 2016 15:27:06 +0000
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrDKsWRWlGSWpSXmKPExsViZ8MxVddLUzv
+	C4N8nIYs7P9+xW8zbYe/A5LF4z0smj3MbVzAGMEWxZuYl5VcksGZ8mrCZpeCzacXW5pXsDYxr
+	jbsYuTiEBJqZJGbdeM8K4RxjlPj09yY7hHORUaJx9yXGLkZODjYBd4mt9+4zdTFycIgIGEvsn
+	MUCEmYWiJKYNPsVmC0sYC2xYedJZhBbRMBGov3eGSjbSmL//xtsIDaLgKrE6ZaFTCA2r4CJxL
+	xJD5khdnUxSsxqbAJLcAoESkxq6gHbKyTgLXH642ywQYwCKhK77m5hhFgsLnHryXywegkBEYm
+	HF0+zQdiiEi8f/2OFsFUktqz7wA5h60icvf6EEcI2kNi6dB8LhK0o8aLlMzPEzCqJI7d7WSCO
+	E5Q4OfMJywSgs5Csm4WkbBaSMoi4pkTr9t/sELa2xLKFr5khbFuJ/VdXQtmmEq+PfmSEsBUlp
+	nQ/ZF/AyLGKUb04tagstUjXXC+pKDM9oyQ3MTNH19DAWC83tbg4MT01JzGpWC85P3cTIzDWGY
+	BgB2Pjd6dDjJIcTEqivNnK2hFCfEn5KZUZicUZ8UWlOanFhxhlODiUJHh5NIBygkWp6akVaZk
+	5wKQDk5bg4FES4bUBSfMWFyTmFmemQ6ROMSpKifOygCQEQBIZpXlwbbBEd4lRVkqYlxHoECGe
+	gtSi3MwSVPlXjOIcjErCvLwgU3gy80rgpr8CWswEtHiXuQbI4pJEhJRUA6Nm/hGHmf9bDpcdj
+	i0SCXII7C5OKY9Yuk9S5prA2XR3G3MLEcYuF5kSqeCrB3Mf1F2/1Zf8YnHxzqYUS0djc5XLy0
+	x21fCrHdFbPddCK/DpnlenzOf+Kmb2aZ1594/g84yiwDqhSi2G028zw05ZBJ2fJ1Ep3Hnje2h
+	vKX+oiOq6qPOvVi3fo8RSnJFoqMVcVJwIAFgL4ehvAwAA
 X-Env-Sender: thilo.cestonaro@ts.fujitsu.com
-X-Msg-Ref: server-10.tower-169.messagelabs.com!1479223543!73057745!1
+X-Msg-Ref: server-13.tower-169.messagelabs.com!1479223626!77513064!1
 X-Originating-IP: [62.60.8.149]
 X-StarScan-Received: 
 X-StarScan-Version: 9.0.16; banners=-,-,-
 X-VirusChecked: Checked
-Received: (qmail 3899 invoked from network); 15 Nov 2016 15:25:44 -0000
+Received: (qmail 10891 invoked from network); 15 Nov 2016 15:27:06 -0000
 Received: from unknown (HELO mailhost2.uk.fujitsu.com) (62.60.8.149)
-	by server-10.tower-169.messagelabs.com with DHE-RSA-AES256-GCM-SHA384
-	encrypted SMTP; 15 Nov 2016 15:25:44 -0000
-Received: from abgdgate50u.abg.fsc.net ([172.25.138.66])
+	by server-13.tower-169.messagelabs.com with DHE-RSA-AES256-GCM-SHA384
+	encrypted SMTP; 15 Nov 2016 15:27:06 -0000
+Received: from R01UKEXCASM121.r01.fujitsu.local (ex2k13_121.fs.fujitsu.com
+	[10.183.43.173])
 	by mailhost2.uk.fujitsu.com (8.14.5/8.14.5) with ESMTP id
-	uAFFQ9V8003016 for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Nov 2016 15:26:09 GMT
-Received: from unknown (HELO abg4858n-lnx.CSOD.local) ([10.172.228.10])
-	by abgdgate50u.abg.fsc.net with ESMTP; 15 Nov 2016 16:25:43 +0100
-From: Thilo Cestonaro <thilo.cestonaro@ts.fujitsu.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 15 Nov 2016 16:21:58 +0100
-Message-Id: <20161115152158.7883-1-thilo.cestonaro@ts.fujitsu.com>
-X-Mailer: git-send-email 2.10.2
-Cc: Thilo Cestonaro <thilo@cestona.ro>
-Subject: [PATCH v2] libdbus-c++: added recipe for it
+	uAFFRVhb004140
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL);
+	Tue, 15 Nov 2016 15:27:31 GMT
+Received: from R01UKEXCASM121.r01.fujitsu.local (10.183.43.173) by
+	R01UKEXCASM121.r01.fujitsu.local (10.183.43.173) with Microsoft SMTP
+	Server (TLS) id 15.0.1178.4; Tue, 15 Nov 2016 15:27:05 +0000
+Received: from R01UKEXCASM121.r01.fujitsu.local ([fe80::48eb:6503:a1bb:c29c])
+	by R01UKEXCASM121.r01.fujitsu.local ([fe80::48eb:6503:a1bb:c29c%22])
+	with mapi id 15.00.1178.000; Tue, 15 Nov 2016 15:27:05 +0000
+From: "thilo.cestonaro@ts.fujitsu.com" <thilo.cestonaro@ts.fujitsu.com>
+To: "ross.burton@intel.com" <ross.burton@intel.com>
+Thread-Topic: [OE-core] [PATCH] added recipe for libdbus-c++
+Thread-Index: AQHSP0copeIY+KWsuk6OtY6bEmmG2qDaGQQAgAAQ1YA=
+Date: Tue, 15 Nov 2016 15:27:05 +0000
+Message-ID: <1479223403.5380.6.camel@ts.fujitsu.com>
+References: <20161115134607.13337-1-thilo.cestonaro@ts.fujitsu.com>
+	<CAJTo0LY0_hUiFhYJKA3B+qouLoBhXd4W_ab=3T-gYDMPFUj7tw@mail.gmail.com>
+In-Reply-To: <CAJTo0LY0_hUiFhYJKA3B+qouLoBhXd4W_ab=3T-gYDMPFUj7tw@mail.gmail.com>
+Reply-To: "thilo.cestonaro@ts.fujitsu.com" <thilo.cestonaro@ts.fujitsu.com>
+Accept-Language: de-DE, en-GB, en-US
+X-MS-Has-Attach: yes
+X-MS-TNEF-Correlator: 
+x-mailer: Evolution 3.22.2-1ubuntu1 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.183.43.206]
+MIME-Version: 1.0
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] added recipe for libdbus-c++
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,115 +75,122 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 Nov 2016 15:25:54 -0000
+X-List-Received-Date: Tue, 15 Nov 2016 15:27:06 -0000
+X-Groupsio-MsgNum: 89418
+Content-Language: en-US
+Content-Type: multipart/signed; micalg=sha-1;
+	protocol="application/x-pkcs7-signature";
+	boundary="=-FC5BNJjKuUa4Ww6IvaHw"
 
-From: Thilo Cestonaro <thilo@cestona.ro>
+--=-FC5BNJjKuUa4Ww6IvaHw
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-to fix the build, two patches where needed.
+Am Dienstag, den 15.11.2016, 14:23 +0000 schrieb Burton, Ross:
+>=20
+> On 15 November 2016 at 13:46, Thilo Cestonaro <thilo.cestonaro@ts.fujitsu=
+.com> wrote:
+> > Signed-off-by: Thilo Cestonaro <thilo.cestonaro@ts.fujitsu.com>
+> >=20
+>=20
+> As Alex said, please submit this to meta-oe as there's no strong rational=
+e to keep it in oe-core, especially considering it's abandoned.
+>=20
+> The remove_CXX_FOR_BUILD-stuff patch can be trimmed to just modify config=
+ure.ac and tools/Makefile.am, the other files will be regenerated at do_con=
+figure and patching them can cause conflicts if
+> upstream ever makes a new release.
+>=20
+> Also please explain clearly why that has to be removed in the patch heade=
+r because usually we need to patch *in* the _FOR_BUILD macros: I was curiou=
+s and ended up looking at the build to understand
+> why. AFAICT it's because upstream if cross-compiling it refuses to build =
+target tools and will only build host tools so the test suite can run, but =
+disabling the tests and patching out CXX_FOR_BUILD
+> we can build target tools.=C2=A0 The downside is that we have no test sui=
+te, which is useful (see the ptest class).
 
-One which just adds an include of unistd.h, as the functions pipe, write and
-close defined by this include, weren't defined.
+Perhaps I will add ptest in another patch later. Will need to look into it.
+Thanks for your comments!
 
-The other patch enables the build to build the tools of libdbus-c++ for the
-target, which, without the patch, will always be build for the host, even when
-cross compiling.
+>=20
+> Thank you for being the first person in a long time to actually submit th=
+e recipe to the community!
+>=20
+> Ross
 
-Signed-off-by: Thilo Cestonaro <thilo@cestona.ro>
----
- .../fix-missing-unistd.h-include.patch             | 12 +++++++++++
- .../remove-CXX_FOR_BUILD-stuff.patch               | 24 ++++++++++++++++++++++
- meta-oe/recipes-core/dbus/libdbus-c++_0.9.0.bb     | 24 ++++++++++++++++++++++
- 3 files changed, 60 insertions(+)
- create mode 100644 meta-oe/recipes-core/dbus/libdbus-c++-0.9.0/fix-missing-unistd.h-include.patch
- create mode 100644 meta-oe/recipes-core/dbus/libdbus-c++-0.9.0/remove-CXX_FOR_BUILD-stuff.patch
- create mode 100644 meta-oe/recipes-core/dbus/libdbus-c++_0.9.0.bb
+--=-FC5BNJjKuUa4Ww6IvaHw
+Content-Type: application/x-pkcs7-signature; name="smime.p7s"
+Content-Disposition: attachment; filename="smime.p7s"
+Content-Transfer-Encoding: base64
 
-changelog:
-v2:
-Stripped down the remove-CXX_FOR_BUILD-stuff patch, as Ross said, to only
-include configure.ac and the tools/Makefile.am
-Added description about the patches in the commit.
-Patch goes into meta-oe of meta-openembedded.
+MIAGCSqGSIb3DQEHAqCAMIACAQExCzAJBgUrDgMCGgUAMIAGCSqGSIb3DQEHAQAAoIIM6DCCA9Qw
+ggK8oAMCAQICEDTNElfINoNG4L/3PTADbgUwDQYJKoZIhvcNAQEFBQAwLzEtMCsGA1UEAxMkRnVq
+aXRzdSBUZWNobm9sb2d5IFNvbHV0aW9ucyBSb290IENBMB4XDTA5MDMxMjEyMjQ1OVoXDTE5MDMx
+MTEyMjQ1OVowLzEtMCsGA1UEAxMkRnVqaXRzdSBUZWNobm9sb2d5IFNvbHV0aW9ucyBVc2VyIENB
+MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAsBtNf0fN8EkW9y6QqoQGS6LUwezenV2B
+nDzORdGanukRtpGzYMAPdyiwtlp0/zONa+jCJGzkX4iYCjTsiJvx01SPRNZ24fHaFGXpJBX599q6
+ZF0isu+h1aIas1tfyCBalAbKKLvNgIuQjnXhdffVk4vSuBytO3OGcULtJ2+lYVSEvxzGt9iTSwT5
+RnEvKpR0iOC+9/UNVOiPK9XCz5u7bg3iehP5gD+v5uu3YIRwV/5gyd7AZPcckTfYP/GZcybcAXfE
+l5nb/bZiSLHeZEjxMMM8YZqFKhH9xymIdjkcRK7NJ2j8OD708QFv4b4bme1mHGfTjSbxb1nOoUTs
+NtshZwIDAQABo4HrMIHoMB0GA1UdDgQWBBQI9chqv4Dje1DEOfQHmEbobX6XqDALBgNVHQ8EBAMC
+AYYwHwYDVR0jBBgwFoAUFHXiV7YVNxWAKpflUUhlrM+GkMswEgYDVR0TAQH/BAgwBgEB/wIBADBH
+BggrBgEFBQcBAQQ7MDkwNwYIKwYBBQUHMAKGK2h0dHA6Ly9haWEudHMuZnVqaXRzdS5jb20vYWlh
+L2Z0czAxcm9vdC5jZXIwPAYDVR0fBDUwMzAxoC+gLYYraHR0cDovL2NkcC50cy5mdWppdHN1LmNv
+bS9jZHAvZnRzMDFyb290LmNybDANBgkqhkiG9w0BAQUFAAOCAQEAQ7pQP9Lw9bcnt1DhvV5UWb1z
+mnACSo6n6x+bupckQzlrf3aJ7HQZigZuaCak+dexL18I86iNDDOJBBsrz0DcD4XPszcLTUezqqGl
+AyIbviBq5mwDHAWBA9F11GRx6LdrHMKNdHPwAWyC3r6qv4GO6A+z16KUZFSP4kvuaN5YHI481T7F
+FxEmntkylphndX+6mQ1NABApMMhX0aN5dVhPAMAP8nENJ1hGk81IG8gzkoHDPSoLCtffAnNhYAqh
+vrDO2ybXb/9x+Sf3DQuzBg3hpB1yJM3K8foQaS3uTpFITfdMprcQyrIdl4Jw26s/6vpIs0siLVTp
+3yAwgNaqQSgxSTCCBIQwggNsoAMCAQICCiWUlIAAAAACJH0wDQYJKoZIhvcNAQEFBQAwLzEtMCsG
+A1UEAxMkRnVqaXRzdSBUZWNobm9sb2d5IFNvbHV0aW9ucyBVc2VyIENBMB4XDTE0MDMyMTEyMTM1
+M1oXDTE3MDMyMDEyMTM1M1owQjEZMBcGA1UEAwwQQ2VzdG9uYXJvLCBUaGlsbzElMCMGA1UECgwc
+RnVqaXRzdSBUZWNobm9sb2d5IFNvbHV0aW9uczCBnzANBgkqhkiG9w0BAQEFAAOBjQAwgYkCgYEA
+qP3ld/ylkJOTj2rXQ+VrRf/+YMgZS5CGDnMWk+sMoS5f6JqtwfGcfBU/DhfnLsePut2q+ex/RDZF
+M6yCraPS0vdnTKm2O3Q7/UhhAV1Mi4XzzGeY1Y0qm+85EgMBISPwB5mThLYPsun5UIFs6e8tvlwZ
+Rzp/jrv/AzAfsSbHGXcCAwEAAaOCAhEwggINMAsGA1UdDwQEAwIFoDByBgNVHREEazBpgR50aGls
+by5jZXN0b25hcm9AdHMuZnVqaXRzdS5jb22BI1RoaWxvLkNlc3RvbmFyb0BmdWppdHN1LXNpZW1l
+bnMuY29tgSIrNDk4MjE4MDQ4MjMyOEBpbmNvbWluZ2ZheC5mc2MubmV0MB0GA1UdDgQWBBSiHLgI
+jjo+7KxLJ4t1+YZxgBSn8TAfBgNVHSMEGDAWgBQI9chqv4Dje1DEOfQHmEbobX6XqDA8BgNVHR8E
+NTAzMDGgL6AthitodHRwOi8vY2RwLnRzLmZ1aml0c3UuY29tL2NkcC9mdHMwMXVzZXIuY3JsMEcG
+CCsGAQUFBwEBBDswOTA3BggrBgEFBQcwAoYraHR0cDovL2FpYS50cy5mdWppdHN1LmNvbS9haWEv
+ZnRzMDF1c2VyLmNlcjAMBgNVHRMBAf8EAjAAMD0GCSsGAQQBgjcVBwQwMC4GJisGAQQBgjcVCIWF
+xDKBh/9hgYWBBIbsgiCBx4EaeYOIoHGH0vEvAgFkAgEIMBMGA1UdJQQMMAoGCCsGAQUFBwMEMBsG
+CSsGAQQBgjcVCgQOMAwwCgYIKwYBBQUHAwQwRAYJKoZIhvcNAQkPBDcwNTAOBggqhkiG9w0DAgIC
+AIAwDgYIKoZIhvcNAwQCAgCAMAcGBSsOAwIHMAoGCCqGSIb3DQMHMA0GCSqGSIb3DQEBBQUAA4IB
+AQAEGTAyHPmTyCR029H+P/u9xRezlfA2OVvV97Ls/oLCXGGr6EkMvpHodTc6n4EWSb2ul3VPSRQf
+uSmBgIcHQJykHdSChisaqkeOpHG0rjM9GXh2eQ7ECovpQIfdIbRZKNxlJihSDsDWHyZldBlPVbDh
+xMeT6xJ/ylF8UQ8FXKUir6W/BSPZF5kLdsmCeOpWC4jOGNPEMUAcuiHZPyqAhjlWk750I4oJJKvD
+bwO8/mkxmzOjpOsk8O3CdljCjYPoYtJPI/oNVsYdmiokzne4FusPYKDzv5i0dN74KLR48maXvi3/
+WsTFqwks45QeBJT/z+1sYy+dYWpv9XGN+jR1o4ImMIIEhDCCA2ygAwIBAgIKJZSUgAAAAAIkfTAN
+BgkqhkiG9w0BAQUFADAvMS0wKwYDVQQDEyRGdWppdHN1IFRlY2hub2xvZ3kgU29sdXRpb25zIFVz
+ZXIgQ0EwHhcNMTQwMzIxMTIxMzUzWhcNMTcwMzIwMTIxMzUzWjBCMRkwFwYDVQQDDBBDZXN0b25h
+cm8sIFRoaWxvMSUwIwYDVQQKDBxGdWppdHN1IFRlY2hub2xvZ3kgU29sdXRpb25zMIGfMA0GCSqG
+SIb3DQEBAQUAA4GNADCBiQKBgQCo/eV3/KWQk5OPatdD5WtF//5gyBlLkIYOcxaT6wyhLl/omq3B
+8Zx8FT8OF+cux4+63ar57H9ENkUzrIKto9LS92dMqbY7dDv9SGEBXUyLhfPMZ5jVjSqb7zkSAwEh
+I/AHmZOEtg+y6flQgWzp7y2+XBlHOn+Ou/8DMB+xJscZdwIDAQABo4ICETCCAg0wCwYDVR0PBAQD
+AgWgMHIGA1UdEQRrMGmBHnRoaWxvLmNlc3RvbmFyb0B0cy5mdWppdHN1LmNvbYEjVGhpbG8uQ2Vz
+dG9uYXJvQGZ1aml0c3Utc2llbWVucy5jb22BIis0OTgyMTgwNDgyMzI4QGluY29taW5nZmF4LmZz
+Yy5uZXQwHQYDVR0OBBYEFKIcuAiOOj7srEsni3X5hnGAFKfxMB8GA1UdIwQYMBaAFAj1yGq/gON7
+UMQ59AeYRuhtfpeoMDwGA1UdHwQ1MDMwMaAvoC2GK2h0dHA6Ly9jZHAudHMuZnVqaXRzdS5jb20v
+Y2RwL2Z0czAxdXNlci5jcmwwRwYIKwYBBQUHAQEEOzA5MDcGCCsGAQUFBzAChitodHRwOi8vYWlh
+LnRzLmZ1aml0c3UuY29tL2FpYS9mdHMwMXVzZXIuY2VyMAwGA1UdEwEB/wQCMAAwPQYJKwYBBAGC
+NxUHBDAwLgYmKwYBBAGCNxUIhYXEMoGH/2GBhYEEhuyCIIHHgRp5g4igcYfS8S8CAWQCAQgwEwYD
+VR0lBAwwCgYIKwYBBQUHAwQwGwYJKwYBBAGCNxUKBA4wDDAKBggrBgEFBQcDBDBEBgkqhkiG9w0B
+CQ8ENzA1MA4GCCqGSIb3DQMCAgIAgDAOBggqhkiG9w0DBAICAIAwBwYFKw4DAgcwCgYIKoZIhvcN
+AwcwDQYJKoZIhvcNAQEFBQADggEBAAQZMDIc+ZPIJHTb0f4/+73FF7OV8DY5W9X3suz+gsJcYavo
+SQy+keh1NzqfgRZJva6XdU9JFB+5KYGAhwdAnKQd1IKGKxqqR46kcbSuMz0ZeHZ5DsQKi+lAh90h
+tFko3GUmKFIOwNYfJmV0GU9VsOHEx5PrEn/KUXxRDwVcpSKvpb8FI9kXmQt2yYJ46lYLiM4Y08Qx
+QBy6Idk/KoCGOVaTvnQjigkkq8NvA7z+aTGbM6Ok6yTw7cJ2WMKNg+hi0k8j+g1Wxh2aKiTOd7gW
+6w9goPO/mLR03vgotHjyZpe+Lf9axMWrCSzjlB4ElP/P7WxjL51ham/1cY36NHWjgiYxggHhMIIB
+3QIBATA9MC8xLTArBgNVBAMTJEZ1aml0c3UgVGVjaG5vbG9neSBTb2x1dGlvbnMgVXNlciBDQQIK
+JZSUgAAAAAIkfTAJBgUrDgMCGgUAoIH7MBgGCSqGSIb3DQEJAzELBgkqhkiG9w0BBwEwHAYJKoZI
+hvcNAQkFMQ8XDTE2MTExNTE1MjMyM1owIwYJKoZIhvcNAQkEMRYEFLOGBUFqSX8tWVa2rcBKEWz/
+Cz0DMEwGCSsGAQQBgjcQBDE/MD0wLzEtMCsGA1UEAxMkRnVqaXRzdSBUZWNobm9sb2d5IFNvbHV0
+aW9ucyBVc2VyIENBAgollJSAAAAAAiR9ME4GCyqGSIb3DQEJEAILMT+gPTAvMS0wKwYDVQQDEyRG
+dWppdHN1IFRlY2hub2xvZ3kgU29sdXRpb25zIFVzZXIgQ0ECCiWUlIAAAAACJH0wDQYJKoZIhvcN
+AQEBBQAEgYAGyXvZb/ksvri6iMVTkHo+lwR94092llf1KxMosNQ7XI3y/jyISSvR17QD4KBLFWHZ
+KvOdBGt3x+hmffLt9934abcQRiAz/Qie1iRXwrioa58e3eGChD/5gefogf1v+P5kl+mU+SQB9z79
+O6DURuIyXx58+Rp3HrNFq+0IdvfCawAAAAAAAA==
 
-diff --git a/meta-oe/recipes-core/dbus/libdbus-c++-0.9.0/fix-missing-unistd.h-include.patch b/meta-oe/recipes-core/dbus/libdbus-c++-0.9.0/fix-missing-unistd.h-include.patch
-new file mode 100644
-index 0000000..5cb8096
---- /dev/null
-+++ b/meta-oe/recipes-core/dbus/libdbus-c++-0.9.0/fix-missing-unistd.h-include.patch
-@@ -0,0 +1,12 @@
-+diff --git a/include/dbus-c++/eventloop-integration.h b/include/dbus-c++/eventloop-integration.h
-+index 1b0302e..3e44304 100644
-+--- a/include/dbus-c++/eventloop-integration.h
-++++ b/include/dbus-c++/eventloop-integration.h
-+@@ -26,6 +26,7 @@
-+ #define __DBUSXX_EVENTLOOP_INTEGRATION_H
-+ 
-+ #include <errno.h>
-++#include <unistd.h>
-+ #include "api.h"
-+ #include "dispatcher.h"
-+ #include "util.h"
-diff --git a/meta-oe/recipes-core/dbus/libdbus-c++-0.9.0/remove-CXX_FOR_BUILD-stuff.patch b/meta-oe/recipes-core/dbus/libdbus-c++-0.9.0/remove-CXX_FOR_BUILD-stuff.patch
-new file mode 100644
-index 0000000..906470a
---- /dev/null
-+++ b/meta-oe/recipes-core/dbus/libdbus-c++-0.9.0/remove-CXX_FOR_BUILD-stuff.patch
-@@ -0,0 +1,24 @@
-+diff -Naur libdbus-c++-0.9.0.ori/configure.ac libdbus-c++-0.9.0/configure.ac
-+--- libdbus-c++-0.9.0.ori/configure.ac	2016-11-15 14:25:36.085882774 +0100
-++++ libdbus-c++-0.9.0/configure.ac	2016-11-15 14:27:08.814568717 +0100
-+@@ -64,9 +64,6 @@
-+ AC_PROG_CC
-+ AC_PROG_CXX
-+ 
-+-CXX_FOR_BUILD=${CXX_FOR_BUILD-${CXX}}
-+-AC_SUBST(CXX_FOR_BUILD)
-+-
-+ AM_PROG_LIBTOOL
-+ 
-+ PKG_PROG_PKG_CONFIG
-+diff -Naur libdbus-c++-0.9.0.ori/tools/Makefile.am libdbus-c++-0.9.0/tools/Makefile.am
-+--- libdbus-c++-0.9.0.ori/tools/Makefile.am	2016-11-15 14:25:36.089882803 +0100
-++++ libdbus-c++-0.9.0/tools/Makefile.am	2016-11-15 14:26:19.454203583 +0100
-+@@ -1,7 +1,5 @@
-+ # hacky, but ...
-+ 
-+-CXX = $(CXX_FOR_BUILD)
-+-
-+ AM_CPPFLAGS = \
-+ 	$(dbus_CFLAGS) \
-+ 	$(xml_CFLAGS) \
-diff --git a/meta-oe/recipes-core/dbus/libdbus-c++_0.9.0.bb b/meta-oe/recipes-core/dbus/libdbus-c++_0.9.0.bb
-new file mode 100644
-index 0000000..7edaffc
---- /dev/null
-+++ b/meta-oe/recipes-core/dbus/libdbus-c++_0.9.0.bb
-@@ -0,0 +1,24 @@
-+SUMMARY = "DBus-C++ Library"
-+DESCRIPTION = "DBus-c++ attempts to provide a C++ API for D-BUS. The library has a glib and an Ecore mainloop integration. It also offers an optional own main loop."
-+HOMEPAGE = "http://dbus-cplusplus.sourceforge.net"
-+SECTION = "base"
-+LICENSE = "LGPLv2.1"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=fbc093901857fcd118f065f900982c24"
-+DEPENDS = "dbus glib-2.0 libpcre"
-+
-+SRC_URI = "${SOURCEFORGE_MIRROR}/project/dbus-cplusplus/dbus-c++/${PV}/${BPN}-${PV}.tar.gz \
-+		   file://fix-missing-unistd.h-include.patch \
-+		   file://remove-CXX_FOR_BUILD-stuff.patch"
-+SRC_URI[md5sum] = "e752116f523fa88ef041e63d3dee4de2"
-+SRC_URI[sha256sum] = "bc11ac297b3cb010be904c72789695543ee3fdf3d75cdc8225fd371385af4e61"
-+
-+EXTRA_OECONF = "--disable-ecore --disable-examples --disable-tests"
-+
-+inherit autotools pkgconfig
-+
-+PACKAGES += "${PN}-tools"
-+
-+FILES_${PN} = "${libdir}"
-+FILES_${PN}-tools = "${bindir}"
-+
-+BBCLASSEXTEND = "native"
--- 
-2.10.2
-
-
+--=-FC5BNJjKuUa4Ww6IvaHw--
