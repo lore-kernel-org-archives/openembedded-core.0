@@ -1,46 +1,49 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f180.google.com (mail-qk0-f180.google.com
-	[209.85.220.180])
-	by mail.openembedded.org (Postfix) with ESMTP id 27CA371A03
+Received: from mail-qk0-f173.google.com (mail-qk0-f173.google.com
+	[209.85.220.173])
+	by mail.openembedded.org (Postfix) with ESMTP id 10ABE6093D
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Nov 2016 11:18:56 +0000 (UTC)
-Received: by mail-qk0-f180.google.com with SMTP id x190so130922706qkb.0
+	Tue, 15 Nov 2016 11:40:19 +0000 (UTC)
+Received: by mail-qk0-f173.google.com with SMTP id n21so131378761qka.3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Nov 2016 03:18:58 -0800 (PST)
+	Tue, 15 Nov 2016 03:40:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=ARF+VGES2l1gHhjmdYPr04Jh7jrJQBXayep8nC6A9zY=;
-	b=dQYdVd6hjUrmfeWLvWf8CizUm2VSDmUu2iIauyU6B0NkWrc0F9ovW44td073kiuC9S
-	/7cdLxBRD3/fOni+R+Me9XgdFPjmsLjSFLrZbdqC/6ISgzIwePLoBjHoM5mPb5OP/Zqx
-	uzNZDO+aPgHe0uJ/wjrTUQHhtrxO2I8arq0+SJMTMrjpCDijNXG1ANCspxAvvjTt+mRf
-	Mz2Z+xkVpJYXv1pVDrA2Dv0tOlsfD7mmkp05Crt71CgFOJCJJQJcxY6uSC94lp4ubCD1
-	ZT3igpEHCutCOizn0qf1l/FBXGCDhYdRCLkXfwEfO7KwGqhSXcQGqRXPIKuePlgwCrYN
-	oEsQ==
+	:cc; bh=dGjzHTwUAS7FW5rPi2fVK5iZQo36Y0Ki6jp3LluUfNQ=;
+	b=EWp3fFxQOacNMhNFvQSRTncmC21zkLdabdz1NcP/2pilfzHEyShNWHIXi4qHnjJB6t
+	oUUbTzfyMvwiVkFdsvmpDBy6cedB3JZCogEKiYtOEDtIkWFw6gOB8KUDBhdB6WdP7QP/
+	Pj7vMqMrhWxC5/85F8HSANCRFfYTeaIOUxZOJ6pFOjSVgJDFsIT4ZTXOutv9l4Dlj4+r
+	U23aat1YEhmQHTe0nKGysKl8WkV0NJVx32R9EWsWHI1qgadOq43Z05SSQc1h9y6RelE5
+	ds23H9eHjTw8s9b4AB9SXZyB6MNACgb339QtBkX9Lv6wtKnS7Luq2EmnE2LHMxl+BVkK
+	odxA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=ARF+VGES2l1gHhjmdYPr04Jh7jrJQBXayep8nC6A9zY=;
-	b=hc63y3ZN10O1tYICsR9NBIX5JRB/T3dyrSB9aOSys6UQFJtxufvGbN5kyBLqdhINhG
-	QbH36/sXgSu++6fp+egVXC3MaJ3qsM+m4gEPH0EVYlvmexkDop7Vrx/YiVXbvCsqS186
-	bMu6Q4schpOiBaVCEcdwFpioISyGhwUhyH8RjguMGRwLvqPBw/OKPbUoPCKbW+ZO899W
-	uPuU3NIj/sw3IYBog7wJtXkn62beI1EtEkv9p1b5x2u2KkH627k085W5vmuuNHUnrZQM
-	wQk3oNefxPBNUPJiOzp4TGYr/kf06oftusK4KX6SBeX/rSii456GYbQFV3nEG3ciMH6R
-	ciBA==
-X-Gm-Message-State: ABUngvehGCMbE+Cqwey7TY+JlCTRv8wyOQbJO3YD4526R/kIDHti+FLhXdrDT8V0lsNHSum1hqBrdfH53+tlFPH6
-X-Received: by 10.55.75.17 with SMTP id y17mr21658456qka.26.1479208737878;
-	Tue, 15 Nov 2016 03:18:57 -0800 (PST)
+	bh=dGjzHTwUAS7FW5rPi2fVK5iZQo36Y0Ki6jp3LluUfNQ=;
+	b=kECR2JI4Yy3rP3fBSqw8nLupL7v9SM7gYwsHi2HEy3wYmD89oezHrhYZk7bmJDT8+1
+	H/b632bb6fV/dmKdDtqNyHzGBheFaS2wpRqiRM1os+1qQ5gbhw4UHqQt+VTX5B227ffY
+	1LN0kYMrMWJtkbBEmdVmZ7YqwvlKWZgydidj3jRn8SkkWzrFKrcRdpALCUBbQqeSu7b3
+	lQRq2HRF5W6WBkDVWcWc6VAmFshgLvvZCsHjyn6v5UHEQ4HlhW8Ob3hHpWqEe7LL2Kfy
+	IpJVJa0BDi3qnoAaJn9r6fey8WrANjCUGJXJLfhfeuiXRO7Ai8MgFhOZV7SZB7alG0Za
+	9FKw==
+X-Gm-Message-State: ABUngvepUJfMOGDxkYPSyzHBW8ZGUk3v8OF+iKM0wSzeIUJTvDeUDhjHG6XiV42SFtBW+eBIjgbIWVkG1v9mue8K
+X-Received: by 10.55.106.134 with SMTP id f128mr24183287qkc.121.1479210020542; 
+	Tue, 15 Nov 2016 03:40:20 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.140.85.136 with HTTP; Tue, 15 Nov 2016 03:18:37 -0800 (PST)
-In-Reply-To: <1479208109-20859-1-git-send-email-diego.ml@zoho.com>
-References: <1479208109-20859-1-git-send-email-diego.ml@zoho.com>
+Received: by 10.140.85.136 with HTTP; Tue, 15 Nov 2016 03:40:00 -0800 (PST)
+In-Reply-To: <1479130386.8647.5.camel@ts.fujitsu.com>
+References: <1479119619.8647.1.camel@ts.fujitsu.com>
+	<CAJTo0LZ68DbpCMpHy=5AKuxsHNCjzw2vJMJBd1WC27VTga=fqg@mail.gmail.com>
+	<1479130386.8647.5.camel@ts.fujitsu.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 15 Nov 2016 11:18:37 +0000
-Message-ID: <CAJTo0LYb35C9dy1+Bj_BRL8_gvvtrqcPxiA-cPe8-T5cj7ZeQA@mail.gmail.com>
-To: Diego Rondini <diego.ml@zoho.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] xinput-calibrator: use up-to-date git version
+Date: Tue, 15 Nov 2016 11:40:00 +0000
+Message-ID: <CAJTo0Lb1zdvfoU4H=mYFokAax-6uTysQ=m_A_JM4w46fJd8uuQ@mail.gmail.com>
+To: "thilo.cestonaro@ts.fujitsu.com" <thilo.cestonaro@ts.fujitsu.com>
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: libdbus-c++
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,59 +56,80 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 Nov 2016 11:18:57 -0000
-Content-Type: multipart/alternative; boundary=001a114a88c85ecf480541551fd1
+X-List-Received-Date: Tue, 15 Nov 2016 11:40:20 -0000
+Content-Type: multipart/alternative; boundary=001a114fddf6d2e1140541556b24
 
---001a114a88c85ecf480541551fd1
+--001a114fddf6d2e1140541556b24
 Content-Type: text/plain; charset=UTF-8
 
-On 15 November 2016 at 11:08, Diego Rondini <diego.ml@zoho.com> wrote:
+On 14 November 2016 at 13:33, thilo.cestonaro@ts.fujitsu.com <
+thilo.cestonaro@ts.fujitsu.com> wrote:
 
-> Use up-to-date version from git. While currently there aren't official
-> releases
-> newer than 0.7.5, quite some new features have been added in git, for
-> example
-> the ability to disable the calibration screen timeout.
+> Yeah I propably can and will be if I need to write my own. But the funny
+> thing is, that there ones was a meta-oe dbus-c++ recipe and this was
+> removed with the comment, that it didn't work and it's
+> better to use the one from oe-core :)
 >
 
-buildhistory-diff in my local automated testing says:
+Just found this recipe in my WIP folder, no idea if it works but it's
+probably a starting point:
 
-packages/corei7-64-poky-linux/xinput-calibrator/xinput-calibrator:
-RDEPENDS: removed "libxrandr (['>= 1.5.1'])"
+$ cat dbus-cxx_0.8.0.bb
+SUMMARY = "C++ bindings for dbus"
+HOMEPAGE = "http://dbus-cxx.sourceforge.net/"
+SECTION = "libs"
+LICENSE = "GPLv3"
+LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
 
-https://github.com/tias/xinput_calibrator/blob/master/configure.ac#L72
-shows that xinput-calibrator has an automatic dependency on xrandr.  We
-build and ship this, and I can't see any downside to using it, so this
-should be in DEPENDS so the build is deterministic.
+DEPENDS = "dbus libsigc++-2.0 popt"
+
+SRC_URI = "${SOURCEFORGE_MIRROR}/${BPN}/${BP}.tar.bz2"
+SRC_URI[md5sum] = "ab89f48dd0cd3c581a9228fcbb3af96b"
+SRC_URI[sha256sum] =
+"a7c179cb7ecafc6477c789b080bd936ac3620220604ffb2ae214a33719839d13"
+
+inherit autotools pkgconfig
+
+BBCLASSEXTEND = "native"
 
 Ross
 
---001a114a88c85ecf480541551fd1
+--001a114fddf6d2e1140541556b24
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 15 November 2016 at 11:08, Diego Rondini <span dir=3D"ltr">&lt;<a href=
-=3D"mailto:diego.ml@zoho.com" target=3D"_blank">diego.ml@zoho.com</a>&gt;</=
-span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0=
-px 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);border-le=
-ft-style:solid;padding-left:1ex"><div id=3D"gmail-:51w" class=3D"gmail-a3s =
-gmail-aXjCH gmail-m15867a84aec1d8ce">Use up-to-date version from git. While=
- currently there aren&#39;t official releases<br>
-newer than 0.7.5, quite some new features have been added in git, for examp=
-le<br>
-the ability to disable the calibration screen timeout.<br></div></blockquot=
-e></div><div class=3D"gmail_extra"><br></div>buildhistory-diff in my local =
-automated testing says:</div><div class=3D"gmail_extra"><br>packages/corei7=
--64-poky-linux/xinput-calibrator/xinput-calibrator: RDEPENDS: removed &quot=
-;libxrandr ([&#39;&gt;=3D 1.5.1&#39;])&quot;<br></div><div class=3D"gmail_e=
-xtra"><br></div><div class=3D"gmail_extra"><a href=3D"https://github.com/ti=
-as/xinput_calibrator/blob/master/configure.ac#L72">https://github.com/tias/=
-xinput_calibrator/blob/master/configure.ac#L72</a> shows that xinput-calibr=
-ator has an automatic dependency on xrandr.=C2=A0 We build and ship this, a=
-nd I can&#39;t see any downside to using it, so this should be in DEPENDS s=
-o the build is deterministic.<br></div><div class=3D"gmail_extra"><br></div=
-><div class=3D"gmail_extra">Ross</div><div class=3D"gmail_extra"><br></div>=
-</div>
+On 14 November 2016 at 13:33, <a href=3D"mailto:thilo.cestonaro@ts.fujitsu.=
+com">thilo.cestonaro@ts.fujitsu.com</a> <span dir=3D"ltr">&lt;<a href=3D"ma=
+ilto:thilo.cestonaro@ts.fujitsu.com" target=3D"_blank">thilo.cestonaro@ts.f=
+ujitsu.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=
+=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-color:rgb(20=
+4,204,204);border-left-style:solid;padding-left:1ex"><div id=3D"gmail-:3eb"=
+ class=3D"gmail-a3s gmail-aXjCH gmail-m158630b4f8ed16c3">Yeah I propably ca=
+n and will be if I need to write my own. But the funny thing is, that there=
+ ones was a meta-oe <span class=3D"gmail-il">dbus</span>-<span class=3D"gma=
+il-il">c++</span> recipe and this was removed with the comment, that it did=
+n&#39;t work and it&#39;s<br>
+better to use the one from oe-core :)</div></blockquote></div><br>Just foun=
+d this recipe in my WIP folder, no idea if it works but it&#39;s probably a=
+ starting point:</div><div class=3D"gmail_extra"><br></div><div class=3D"gm=
+ail_extra"><div class=3D"gmail_extra">$ cat <a href=3D"http://dbus-cxx_0.8.=
+0.bb">dbus-cxx_0.8.0.bb</a></div><div class=3D"gmail_extra">SUMMARY =3D &qu=
+ot;C++ bindings for dbus&quot;</div><div class=3D"gmail_extra">HOMEPAGE =3D=
+ &quot;<a href=3D"http://dbus-cxx.sourceforge.net/">http://dbus-cxx.sourcef=
+orge.net/</a>&quot;</div><div class=3D"gmail_extra">SECTION =3D &quot;libs&=
+quot;</div><div class=3D"gmail_extra">LICENSE =3D &quot;GPLv3&quot;</div><d=
+iv class=3D"gmail_extra">LIC_FILES_CHKSUM =3D &quot;file://COPYING;md5=3Dd3=
+2239bcb673463ab874e80d47fae504&quot;</div><div class=3D"gmail_extra"><br></=
+div><div class=3D"gmail_extra">DEPENDS =3D &quot;dbus libsigc++-2.0 popt&qu=
+ot;</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">SR=
+C_URI =3D &quot;${SOURCEFORGE_MIRROR}/${BPN}/${BP}.tar.bz2&quot;</div><div =
+class=3D"gmail_extra">SRC_URI[md5sum] =3D &quot;ab89f48dd0cd3c581a9228fcbb3=
+af96b&quot;</div><div class=3D"gmail_extra">SRC_URI[sha256sum] =3D &quot;a7=
+c179cb7ecafc6477c789b080bd936ac3620220604ffb2ae214a33719839d13&quot;</div><=
+div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">inherit auto=
+tools pkgconfig</div><div class=3D"gmail_extra"><br></div><div class=3D"gma=
+il_extra">BBCLASSEXTEND =3D &quot;native&quot;</div><div class=3D"gmail_ext=
+ra"><br></div><div class=3D"gmail_extra">Ross</div></div></div>
 
---001a114a88c85ecf480541551fd1--
+--001a114fddf6d2e1140541556b24--
