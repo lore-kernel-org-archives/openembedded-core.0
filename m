@@ -1,49 +1,23 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f173.google.com (mail-qk0-f173.google.com
-	[209.85.220.173])
-	by mail.openembedded.org (Postfix) with ESMTP id 10ABE6093D
+Return-Path: <jussi.kukkonen@intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 99637719AF
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Nov 2016 11:40:19 +0000 (UTC)
-Received: by mail-qk0-f173.google.com with SMTP id n21so131378761qka.3
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Nov 2016 03:40:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=dGjzHTwUAS7FW5rPi2fVK5iZQo36Y0Ki6jp3LluUfNQ=;
-	b=EWp3fFxQOacNMhNFvQSRTncmC21zkLdabdz1NcP/2pilfzHEyShNWHIXi4qHnjJB6t
-	oUUbTzfyMvwiVkFdsvmpDBy6cedB3JZCogEKiYtOEDtIkWFw6gOB8KUDBhdB6WdP7QP/
-	Pj7vMqMrhWxC5/85F8HSANCRFfYTeaIOUxZOJ6pFOjSVgJDFsIT4ZTXOutv9l4Dlj4+r
-	U23aat1YEhmQHTe0nKGysKl8WkV0NJVx32R9EWsWHI1qgadOq43Z05SSQc1h9y6RelE5
-	ds23H9eHjTw8s9b4AB9SXZyB6MNACgb339QtBkX9Lv6wtKnS7Luq2EmnE2LHMxl+BVkK
-	odxA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=dGjzHTwUAS7FW5rPi2fVK5iZQo36Y0Ki6jp3LluUfNQ=;
-	b=kECR2JI4Yy3rP3fBSqw8nLupL7v9SM7gYwsHi2HEy3wYmD89oezHrhYZk7bmJDT8+1
-	H/b632bb6fV/dmKdDtqNyHzGBheFaS2wpRqiRM1os+1qQ5gbhw4UHqQt+VTX5B227ffY
-	1LN0kYMrMWJtkbBEmdVmZ7YqwvlKWZgydidj3jRn8SkkWzrFKrcRdpALCUBbQqeSu7b3
-	lQRq2HRF5W6WBkDVWcWc6VAmFshgLvvZCsHjyn6v5UHEQ4HlhW8Ob3hHpWqEe7LL2Kfy
-	IpJVJa0BDi3qnoAaJn9r6fey8WrANjCUGJXJLfhfeuiXRO7Ai8MgFhOZV7SZB7alG0Za
-	9FKw==
-X-Gm-Message-State: ABUngvepUJfMOGDxkYPSyzHBW8ZGUk3v8OF+iKM0wSzeIUJTvDeUDhjHG6XiV42SFtBW+eBIjgbIWVkG1v9mue8K
-X-Received: by 10.55.106.134 with SMTP id f128mr24183287qkc.121.1479210020542; 
-	Tue, 15 Nov 2016 03:40:20 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.140.85.136 with HTTP; Tue, 15 Nov 2016 03:40:00 -0800 (PST)
-In-Reply-To: <1479130386.8647.5.camel@ts.fujitsu.com>
-References: <1479119619.8647.1.camel@ts.fujitsu.com>
-	<CAJTo0LZ68DbpCMpHy=5AKuxsHNCjzw2vJMJBd1WC27VTga=fqg@mail.gmail.com>
-	<1479130386.8647.5.camel@ts.fujitsu.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 15 Nov 2016 11:40:00 +0000
-Message-ID: <CAJTo0Lb1zdvfoU4H=mYFokAax-6uTysQ=m_A_JM4w46fJd8uuQ@mail.gmail.com>
-To: "thilo.cestonaro@ts.fujitsu.com" <thilo.cestonaro@ts.fujitsu.com>
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: libdbus-c++
+	Tue, 15 Nov 2016 11:41:47 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by orsmga103.jf.intel.com with ESMTP; 15 Nov 2016 03:41:49 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.31,494,1473145200"; d="scan'208";a="1085432900"
+Received: from linux.intel.com ([10.54.29.200])
+	by fmsmga002.fm.intel.com with ESMTP; 15 Nov 2016 03:41:49 -0800
+Received: from theory.fi.intel.com (theory.fi.intel.com [10.237.72.53])
+	by linux.intel.com (Postfix) with ESMTP id 1F5FD6A4006;
+	Tue, 15 Nov 2016 03:41:08 -0800 (PST)
+From: Jussi Kukkonen <jussi.kukkonen@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 15 Nov 2016 13:41:34 +0200
+Message-Id: <cover.1479130124.git.jussi.kukkonen@intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH 0/2] X initialization refactoring
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,80 +30,86 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 Nov 2016 11:40:20 -0000
-Content-Type: multipart/alternative; boundary=001a114fddf6d2e1140541556b24
+X-List-Received-Date: Tue, 15 Nov 2016 11:41:48 -0000
 
---001a114fddf6d2e1140541556b24
-Content-Type: text/plain; charset=UTF-8
+This set has a companion set on meta-oe, neither set makes much sense
+without the other. Cover letters are identical. Please CC both lists
+if needed.
 
-On 14 November 2016 at 13:33, thilo.cestonaro@ts.fujitsu.com <
-thilo.cestonaro@ts.fujitsu.com> wrote:
 
-> Yeah I propably can and will be if I need to write my own. But the funny
-> thing is, that there ones was a meta-oe dbus-c++ recipe and this was
-> removed with the comment, that it didn't work and it's
-> better to use the one from oe-core :)
->
+Current state:
+ * meta-oe and oe-core both provide xserver-nodm-init: the oe-core
+   version should already do everything the meta-oe version does, but
+   the meta-oe version gets selected by default because of layer
+   priority.
+ * meta-oe and oe-core provide xserver-common and x11-common:
+   x11-common files are essentially a subset of xserver-common files.
 
-Just found this recipe in my WIP folder, no idea if it works but it's
-probably a starting point:
 
-$ cat dbus-cxx_0.8.0.bb
-SUMMARY = "C++ bindings for dbus"
-HOMEPAGE = "http://dbus-cxx.sourceforge.net/"
-SECTION = "libs"
-LICENSE = "GPLv3"
-LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
+Goals:
+ * Adding meta-oe to bblayers alone should not modify X initialization
+ * meta-oe and oe-core should not duplicate content without reason
+ * xserver startup should still be modifiable from other layers
+   (just not implicitly)
 
-DEPENDS = "dbus libsigc++-2.0 popt"
 
-SRC_URI = "${SOURCEFORGE_MIRROR}/${BPN}/${BP}.tar.bz2"
-SRC_URI[md5sum] = "ab89f48dd0cd3c581a9228fcbb3af96b"
-SRC_URI[sha256sum] =
-"a7c179cb7ecafc6477c789b080bd936ac3620220604ffb2ae214a33719839d13"
+What was done to achieve those goals:
+ * (oe-core) Removed old cruft from x11-common. What was left is
+   Xsession and a few Xsession scripts.
+ * (oe-core) Merged what's left of x11-common into xserver-nodm-init
+ * (meta-oe) Removed xserver-nodm-init-2.0 as unneeded
+ * (meta-oe) No longer install files in xserver-common that oe-core
+   xserver-nodm-init installs
 
-inherit autotools pkgconfig
 
-BBCLASSEXTEND = "native"
+xserver-common now has to be explicitly installed if it is wanted.
 
-Ross
+There are multiple ways to solve these issues: I'm prepared to try
+alternative approaches if needed. Testing results are appreciated
+as well. 
 
---001a114fddf6d2e1140541556b24
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 14 November 2016 at 13:33, <a href=3D"mailto:thilo.cestonaro@ts.fujitsu.=
-com">thilo.cestonaro@ts.fujitsu.com</a> <span dir=3D"ltr">&lt;<a href=3D"ma=
-ilto:thilo.cestonaro@ts.fujitsu.com" target=3D"_blank">thilo.cestonaro@ts.f=
-ujitsu.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=
-=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-color:rgb(20=
-4,204,204);border-left-style:solid;padding-left:1ex"><div id=3D"gmail-:3eb"=
- class=3D"gmail-a3s gmail-aXjCH gmail-m158630b4f8ed16c3">Yeah I propably ca=
-n and will be if I need to write my own. But the funny thing is, that there=
- ones was a meta-oe <span class=3D"gmail-il">dbus</span>-<span class=3D"gma=
-il-il">c++</span> recipe and this was removed with the comment, that it did=
-n&#39;t work and it&#39;s<br>
-better to use the one from oe-core :)</div></blockquote></div><br>Just foun=
-d this recipe in my WIP folder, no idea if it works but it&#39;s probably a=
- starting point:</div><div class=3D"gmail_extra"><br></div><div class=3D"gm=
-ail_extra"><div class=3D"gmail_extra">$ cat <a href=3D"http://dbus-cxx_0.8.=
-0.bb">dbus-cxx_0.8.0.bb</a></div><div class=3D"gmail_extra">SUMMARY =3D &qu=
-ot;C++ bindings for dbus&quot;</div><div class=3D"gmail_extra">HOMEPAGE =3D=
- &quot;<a href=3D"http://dbus-cxx.sourceforge.net/">http://dbus-cxx.sourcef=
-orge.net/</a>&quot;</div><div class=3D"gmail_extra">SECTION =3D &quot;libs&=
-quot;</div><div class=3D"gmail_extra">LICENSE =3D &quot;GPLv3&quot;</div><d=
-iv class=3D"gmail_extra">LIC_FILES_CHKSUM =3D &quot;file://COPYING;md5=3Dd3=
-2239bcb673463ab874e80d47fae504&quot;</div><div class=3D"gmail_extra"><br></=
-div><div class=3D"gmail_extra">DEPENDS =3D &quot;dbus libsigc++-2.0 popt&qu=
-ot;</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">SR=
-C_URI =3D &quot;${SOURCEFORGE_MIRROR}/${BPN}/${BP}.tar.bz2&quot;</div><div =
-class=3D"gmail_extra">SRC_URI[md5sum] =3D &quot;ab89f48dd0cd3c581a9228fcbb3=
-af96b&quot;</div><div class=3D"gmail_extra">SRC_URI[sha256sum] =3D &quot;a7=
-c179cb7ecafc6477c789b080bd936ac3620220604ffb2ae214a33719839d13&quot;</div><=
-div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">inherit auto=
-tools pkgconfig</div><div class=3D"gmail_extra"><br></div><div class=3D"gma=
-il_extra">BBCLASSEXTEND =3D &quot;native&quot;</div><div class=3D"gmail_ext=
-ra"><br></div><div class=3D"gmail_extra">Ross</div></div></div>
+Cheers,
+ Jussi
 
---001a114fddf6d2e1140541556b24--
+The following changes since commit 43e652f3d1fee5ce7fad67e6400315eab1b34270:
+
+  devtool: add "rename" subcommand (2016-11-07 11:04:22 +0000)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib jku/x-init-refactor
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=jku/x-init-refactor
+
+Jussi Kukkonen (2):
+  xserver-nodm-init: Bump PV to ensure upgrade from 2.0
+  x11-common: Merge into xserver-nodm-init
+
+ meta/conf/distro/include/distro_alias.inc          |   1 -
+ .../packagegroups/packagegroup-core-x11.bb         |   9 +-
+ .../x11-common/x11-common/etc/X11/Xdefaults        |   3 -
+ .../x11-common/etc/X11/Xsession.d/12keymap.sh      |   4 -
+ .../x11-common/x11-common/etc/X11/default.xmodmap  | 260 ---------------
+ .../x11-common/x11-common/gplv2-license.patch      | 355 ---------------------
+ meta/recipes-graphics/x11-common/x11-common_0.1.bb |  22 --
+ .../etc => xserver-nodm-init}/X11/Xsession         |   0
+ .../X11/Xsession.d/13xdgbasedirs.sh                |   0
+ .../X11/Xsession.d/89xdgautostart.sh               |   0
+ .../X11/Xsession.d/90XWindowManager.sh             |   0
+ ...erver-nodm-init.bb => xserver-nodm-init_3.0.bb} |   5 +
+ 12 files changed, 11 insertions(+), 648 deletions(-)
+ delete mode 100644 meta/recipes-graphics/x11-common/x11-common/etc/X11/Xdefaults
+ delete mode 100644 meta/recipes-graphics/x11-common/x11-common/etc/X11/Xsession.d/12keymap.sh
+ delete mode 100644 meta/recipes-graphics/x11-common/x11-common/etc/X11/default.xmodmap
+ delete mode 100644 meta/recipes-graphics/x11-common/x11-common/gplv2-license.patch
+ delete mode 100644 meta/recipes-graphics/x11-common/x11-common_0.1.bb
+ rename meta/recipes-graphics/x11-common/{x11-common/etc => xserver-nodm-init}/X11/Xsession (100%)
+ rename meta/recipes-graphics/x11-common/{x11-common/etc => xserver-nodm-init}/X11/Xsession.d/13xdgbasedirs.sh (100%)
+ rename meta/recipes-graphics/x11-common/{x11-common/etc => xserver-nodm-init}/X11/Xsession.d/89xdgautostart.sh (100%)
+ rename meta/recipes-graphics/x11-common/{x11-common/etc => xserver-nodm-init}/X11/Xsession.d/90XWindowManager.sh (100%)
+ rename meta/recipes-graphics/x11-common/{xserver-nodm-init.bb => xserver-nodm-init_3.0.bb} (89%)
+
+-- 
+2.1.4
+
+
