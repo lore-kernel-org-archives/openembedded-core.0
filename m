@@ -1,24 +1,47 @@
-Return-Path: <radzy@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id E961771A1C
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qt0-f175.google.com (mail-qt0-f175.google.com
+	[209.85.216.175])
+	by mail.openembedded.org (Postfix) with ESMTP id 2C8CD6FEFE
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Nov 2016 22:17:27 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id uAFMHTht014476
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Tue, 15 Nov 2016 23:06:00 +0000 (UTC)
+Received: by mail-qt0-f175.google.com with SMTP id w33so85856903qtc.3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Nov 2016 14:17:29 -0800 (PST)
-Received: from ala-d3039.corp.ad.wrs.com (147.11.216.76) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.294.0; Tue, 15 Nov 2016 14:17:28 -0800
-From: "T.O. Radzy Radzykewycz" <radzy@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 15 Nov 2016 14:14:38 -0800
-Message-ID: <1479248078-19815-1-git-send-email-radzy@windriver.com>
-X-Mailer: git-send-email 1.9.1
+	Tue, 15 Nov 2016 15:06:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=o94hkMw+CL3PuOhGZ3kBJO/vNnyYuTGEX3cdYc5vOm0=;
+	b=dEeV3yhW94zHrRB+SwBcwfDgO9qdTOugZnInhj0F/Y8ERha9KIxSFcunMjCRd06l0s
+	81yLqJrxkcQtA/UEM2HUmm9chmxIYBeVd0qDvVDdDfa5aQ+gZtV/S1ksrD6dQckqv6LQ
+	5E8tPzfARd1SuZWpNZapgatTJ5VLLBJImDzBnOI7aO28IIk+C/nzCuQCoTLUjVU/2a2D
+	n9u/fMz9mwaDiezWo30u7e5P9WJ6yijFpHAIxenOkND7hNP2tVm0hQf6ADY7OqPI6otP
+	NCDIHF7bdjy7XvoMbuaoGjByGNOfliE/mp0LeUf71yMHXSSOgTtqZ8aw7HB7D8KEVYXH
+	iAuw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=o94hkMw+CL3PuOhGZ3kBJO/vNnyYuTGEX3cdYc5vOm0=;
+	b=NrQkhidM1OxE2t6py4A/gk/RSEy2GGvemNH0MO+in0Pcjtg4PIB7wd1eAqwqHCW/as
+	d5eYNn7qluKU1kmOiuMbAfHFglIFmaOvdqmJuXUmYH0cDIdCfGernyioDcCj2BcbHQZR
+	ThKt947lN2iDnWXJd6iL3YsjmHVKGuILpdWzQLyNsJo4+ayQx6eHy9yPy7QKaSRHGtmk
+	EaOwRhhbNyaeYSKkonenmkajwPC+pNTty9Ut8ZPNcqn10mKDOriaVuDlfbHbB6DRfcVf
+	3x3El54IFJ2ZBhlpNK/WQh7oZKdBnvJjRAko9FAreGmito6RVdqBxlVvQx1lPYlQMWdI
+	8qqA==
+X-Gm-Message-State: ABUngvd7BfxIqZxyQACmHHNNhmn4QNPrGbb/BnIGkyzRzRRZMs4rs8Zo9imYmX035GkuKtdr23B5CdYboNBupjIx
+X-Received: by 10.237.44.161 with SMTP id g30mr15379197qtd.144.1479251161863; 
+	Tue, 15 Nov 2016 15:06:01 -0800 (PST)
 MIME-Version: 1.0
-Subject: [PATCH] [V2] OpenSSL: CVE-2004-2761 replace MD5 hash algorithm
+Received: by 10.140.85.136 with HTTP; Tue, 15 Nov 2016 15:05:41 -0800 (PST)
+In-Reply-To: <20161115152158.7883-1-thilo.cestonaro@ts.fujitsu.com>
+References: <20161115152158.7883-1-thilo.cestonaro@ts.fujitsu.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 15 Nov 2016 23:05:41 +0000
+Message-ID: <CAJTo0Lat+q9JZLmc34aXB8VV2Ggc4Nf0a5SU=7nZwqVWmvwi5A@mail.gmail.com>
+To: Thilo Cestonaro <thilo.cestonaro@ts.fujitsu.com>
+Cc: Thilo Cestonaro <thilo@cestona.ro>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2] libdbus-c++: added recipe for it
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,106 +54,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 Nov 2016 22:17:28 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 15 Nov 2016 23:06:01 -0000
+Content-Type: multipart/alternative; boundary=94eb2c125848096e0e05415f00a2
 
-Use SHA256 as default digest for OpenSSL instead of MD5.
+--94eb2c125848096e0e05415f00a2
+Content-Type: text/plain; charset=UTF-8
 
-CVE: CVE-2004-2761
+On 15 November 2016 at 15:21, Thilo Cestonaro <
+thilo.cestonaro@ts.fujitsu.com> wrote:
 
-    The MD5 Message-Digest Algorithm is not collision resistant,
-    which makes it easier for context-dependent attackers to
-    conduct spoofing attacks, as demonstrated by attacks on the
-    use of MD5 in the signature algorithm of an X.509 certificate.
+> Patch goes into meta-oe of meta-openembedded.
+>
 
-Upstream-Status: Backport
-Backport from OpenSSL 2.0 to OpenSSL 1.0.2
-Commit f8547f62c212837dbf44fb7e2755e5774a59a57b
+meta-oe patches should go to openembedded-devel@lists.openembedded.org.
 
-Reviewed-by: Viktor Dukhovni <viktor@openssl.org>
-Signed-off-by: Zhang Xiao <xiao.zhang@windriver.com>
-Signed-off-by: T.O. Radzy Radzykewycz <radzy@windriver.com>
----
- .../Use-SHA256-not-MD5-as-default-digest.patch     | 69 ++++++++++++++++++++++
- 1 file changed, 69 insertions(+)
- create mode 100644 meta/recipes-connectivity/openssl/openssl/Use-SHA256-not-MD5-as-default-digest.patch
+Thanks,
+Ross
 
-diff --git a/meta/recipes-connectivity/openssl/openssl/Use-SHA256-not-MD5-as-default-digest.patch b/meta/recipes-connectivity/openssl/openssl/Use-SHA256-not-MD5-as-default-digest.patch
-new file mode 100644
-index 000000000000..58c9ee784433
---- /dev/null
-+++ b/meta/recipes-connectivity/openssl/openssl/Use-SHA256-not-MD5-as-default-digest.patch
-@@ -0,0 +1,69 @@
-+From d795f5f20a29adecf92c09459a3ee07ffac01a99 Mon Sep 17 00:00:00 2001
-+From: Rich Salz <rsalz@akamai.com>
-+Date: Sat, 13 Jun 2015 17:03:39 -0400
-+Subject: [PATCH] Use SHA256 not MD5 as default digest.
-+
-+Commit f8547f62c212837dbf44fb7e2755e5774a59a57b upstream.
-+
-+Upstream-Status: Backport
-+Backport from OpenSSL 2.0 to OpenSSL 1.0.2
-+Commit f8547f62c212837dbf44fb7e2755e5774a59a57b   
-+
-+CVE: CVE-2004-2761
-+
-+    The MD5 Message-Digest Algorithm is not collision resistant,
-+    which makes it easier for context-dependent attackers to            
-+    conduct spoofing attacks, as demonstrated by attacks on the     
-+    use of MD5 in the signature algorithm of an X.509 certificate.     
-+
-+Reviewed-by: Viktor Dukhovni <viktor@openssl.org>
-+Signed-off-by: Zhang Xiao <xiao.zhang@windriver.com>     
-+Signed-off-by: T.O. Radzy Radzykewycz <radzy@windriver.com> 
-+---
-+ apps/ca.c   | 2 +-
-+ apps/dgst.c | 2 +-
-+ apps/enc.c  | 2 +-
-+ 3 files changed, 3 insertions(+), 3 deletions(-)
-+
-+diff --git a/apps/ca.c b/apps/ca.c
-+index 3b7336c..8f3a84b 100644
-+--- a/apps/ca.c
-++++ b/apps/ca.c
-+@@ -1612,7 +1612,7 @@ static int certify_cert(X509 **xret, char *infile, EVP_PKEY *pkey, X509 *x509,
-+     } else
-+         BIO_printf(bio_err, "Signature ok\n");
-+ 
-+-    if ((rreq = X509_to_X509_REQ(req, NULL, EVP_md5())) == NULL)
-++    if ((rreq = X509_to_X509_REQ(req, NULL, NULL)) == NULL)
-+         goto err;
-+ 
-+     ok = do_body(xret, pkey, x509, dgst, sigopts, policy, db, serial, subj,
-+diff --git a/apps/dgst.c b/apps/dgst.c
-+index 95e5fa3..0d1529f 100644
-+--- a/apps/dgst.c
-++++ b/apps/dgst.c
-+@@ -442,7 +442,7 @@ int MAIN(int argc, char **argv)
-+             goto end;
-+         }
-+         if (md == NULL)
-+-            md = EVP_md5();
-++            md = EVP_sha256();
-+         if (!EVP_DigestInit_ex(mctx, md, impl)) {
-+             BIO_printf(bio_err, "Error setting digest %s\n", pname);
-+             ERR_print_errors(bio_err);
-+diff --git a/apps/enc.c b/apps/enc.c
-+index 7b7c70b..a7d944c 100644
-+--- a/apps/enc.c
-++++ b/apps/enc.c
-+@@ -344,7 +344,7 @@ int MAIN(int argc, char **argv)
-+     }
-+ 
-+     if (dgst == NULL) {
-+-        dgst = EVP_md5();
-++        dgst = EVP_sha256();
-+     }
-+ 
-+     if (bufsize != NULL) {
-+-- 
-+1.9.1
-+
--- 
-1.9.1
+--94eb2c125848096e0e05415f00a2
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 15 November 2016 at 15:21, Thilo Cestonaro <span dir=3D"ltr">&lt;<a href=
+=3D"mailto:thilo.cestonaro@ts.fujitsu.com" target=3D"_blank">thilo.cestonar=
+o@ts.fujitsu.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote"=
+ style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><d=
+iv id=3D":352" class=3D"a3s aXjCH m158689e38e8d4b29">Patch goes into meta-o=
+e of meta-openembedded.<br></div></blockquote></div><br>meta-oe patches sho=
+uld go to <a href=3D"mailto:openembedded-devel@lists.openembedded.org">open=
+embedded-devel@lists.openembedded.org</a>.</div><div class=3D"gmail_extra">=
+<br></div><div class=3D"gmail_extra">Thanks,</div><div class=3D"gmail_extra=
+">Ross</div></div>
 
+--94eb2c125848096e0e05415f00a2--
