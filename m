@@ -1,46 +1,25 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f176.google.com (mail-qk0-f176.google.com
-	[209.85.220.176])
-	by mail.openembedded.org (Postfix) with ESMTP id 3C1E071993
+Return-Path: <diego.ml@zoho.com>
+Received: from sender153-mail.zoho.com (sender153-mail.zoho.com
+	[74.201.84.153])
+	by mail.openembedded.org (Postfix) with ESMTP id A830B71A1D
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Nov 2016 10:43:29 +0000 (UTC)
-Received: by mail-qk0-f176.google.com with SMTP id n204so130080606qke.2
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Nov 2016 02:43:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=Q9DgVJmm6OnaseaX8IBSYhPIuA8Xk0yzCg1oyDRfv4U=;
-	b=KvsurUAbVvQjprm0TptxRyXBxMeiJAud4EymWiwSmQUKYIRmE/fTXEqL5DV/hsY7JI
-	UW/hvRUUgD1W99XxwZ8RSrlUEeMhewEVfG5XeqyhMyFIWzEtJfblqW/ydVxmTtaM8RT+
-	QLTCLkrtkHHHfYQ4aBtkRDUzkLi/RUBOeYzirNYTymeDRBwdlMOcEx2zc4WeVvDzvqFX
-	yqt204MU/AxYUAS0Xp6GNPZ/1/Bwis/sKUtExnbSHltkXJ8qiAyaVAxPv79WrLwoYGZb
-	N+ciqqU9cN/h/zDsp1QBk+wlBgB4qRMq98s0MOm7HzRuCDBqCkcI2plEL/XMbb1cH3j0
-	opyA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=Q9DgVJmm6OnaseaX8IBSYhPIuA8Xk0yzCg1oyDRfv4U=;
-	b=gt2ZEN4skGDBRJdagsBV4+St2NKv6avP8mCKYePbDbQs0MM8w8PdZCrmfbUYxItl7z
-	c+7aglJTwgOJlqfd8i64MiLXQEwX8p5l3u8DOpJMa70yirSMHnlQAwwc8XCsT/FCJKEV
-	OKE/iGGEeWp7USGCwI3Atw1ktOvptUbCmN/CTq8/DqcEC4Z6e2zEfHOFTG1ctBQeVz9e
-	CdbTg07Ct7vJN2QHsmtLm45L0GiJ/zmR0e/7z4agpgXpeEsqqROkfqjsm7BCsziFHeiE
-	zkWayJorfil+tDB9dAEELTkc1Jmr15mIPzlcKwyM6kRXYuORnrjQOdBqSrertSfuWodx
-	uMFw==
-X-Gm-Message-State: ABUngvdtpZrLLiYxLl0/FlY5voGjXrvQuQK/HwL8QFeth5AsL6hVDXuVktgnA+oBuESaDfjyqkEC0s2VPBmyKxgV
-X-Received: by 10.55.5.145 with SMTP id 139mr21378697qkf.77.1479206611239;
-	Tue, 15 Nov 2016 02:43:31 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.140.85.136 with HTTP; Tue, 15 Nov 2016 02:43:10 -0800 (PST)
-In-Reply-To: <1479202785-20652-1-git-send-email-diego.ml@zoho.com>
-References: <1479202785-20652-1-git-send-email-diego.ml@zoho.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 15 Nov 2016 10:43:10 +0000
-Message-ID: <CAJTo0LboEcommpQrRwz0svMtc-0orYVDCeZsW7Gz30brb92OEA@mail.gmail.com>
-To: Diego Rondini <diego.ml@zoho.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] xinput-calibrator: use up-to-date git version
+	Tue, 15 Nov 2016 11:02:36 +0000 (UTC)
+DomainKey-Signature: a=rsa-sha1; q=dns; c=nofws; s=zapps768; d=zoho.com; 
+	h=from:to:cc:subject:date:message-id; 
+	b=EDKdpScjIIES/tzbIJcq83H3xt3XTNCzKb/YI1V8xn7k9DnOfMHKfI0GMyVhA7YelpypEDmkf8aT
+	xaP8XLWH007BQNPWGjhHz+V+gACFkRwrtXmnW/XYprSU9zXkjl9Z  
+Received: from ip-172-31-0-222.eu-west-1.compute.internal
+	(ec2-52-48-117-71.eu-west-1.compute.amazonaws.com
+	[52.48.117.71]) by mx.zohomail.com
+	with SMTPS id 1479207748114388.03647647098774;
+	Tue, 15 Nov 2016 03:02:28 -0800 (PST)
+From: Diego Rondini <diego.ml@zoho.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 15 Nov 2016 11:08:29 +0000
+Message-Id: <1479208109-20859-1-git-send-email-diego.ml@zoho.com>
+X-Mailer: git-send-email 1.9.1
+Cc: Diego Rondini <diego.ml@zoho.com>
+Subject: [PATCH v2] xinput-calibrator: use up-to-date git version
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,36 +32,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 Nov 2016 10:43:30 -0000
-Content-Type: multipart/alternative; boundary=001a114c8f849d02a8054154a097
+X-List-Received-Date: Tue, 15 Nov 2016 11:02:36 -0000
 
---001a114c8f849d02a8054154a097
-Content-Type: text/plain; charset=UTF-8
+Use up-to-date version from git. While currently there aren't official releases
+newer than 0.7.5, quite some new features have been added in git, for example
+the ability to disable the calibration screen timeout.
 
-On 15 November 2016 at 09:39, Diego Rondini <diego.ml@zoho.com> wrote:
+Signed-off-by: Diego Rondini <diego.ml@zoho.com>
+---
+ meta/recipes-graphics/xinput-calibrator/xinput-calibrator_git.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> -PR = "r6"
-> +PR = "r7"
->
+diff --git a/meta/recipes-graphics/xinput-calibrator/xinput-calibrator_git.bb b/meta/recipes-graphics/xinput-calibrator/xinput-calibrator_git.bb
+index 57c3a7a..87f09e7 100644
+--- a/meta/recipes-graphics/xinput-calibrator/xinput-calibrator_git.bb
++++ b/meta/recipes-graphics/xinput-calibrator/xinput-calibrator_git.bb
+@@ -11,7 +11,7 @@ inherit autotools pkgconfig distro_features_check
+ # depends on virtual/libx11
+ REQUIRED_DISTRO_FEATURES = "x11"
+ 
+-SRCREV = "c01c5af807cb4b0157b882ab07a893df9a810111"
++SRCREV = "03dadf55109bd43d3380f040debe9f82f66f2f35"
+ SRC_URI = "git://github.com/tias/xinput_calibrator.git \
+            file://30xinput_calibrate.sh \
+            file://Allow-xinput_calibrator_pointercal.sh-to-be-run-as-n.patch \
+-- 
+1.9.1
 
-No need to bump PR anymore, this is historical and when they release PR can
-be removed.
 
-Ross
 
---001a114c8f849d02a8054154a097
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 15 November 2016 at 09:39, Diego Rondini <span dir=3D"ltr">&lt;<a href=
-=3D"mailto:diego.ml@zoho.com" target=3D"_blank">diego.ml@zoho.com</a>&gt;</=
-span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8e=
-x;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":4nd" class=3D"a3=
-s aXjCH m158676f416f9b6a5">-PR =3D &quot;r6&quot;<br>
-+PR =3D &quot;r7&quot;<br></div></blockquote></div><br>No need to bump PR a=
-nymore, this is historical and when they release PR can be removed.</div><d=
-iv class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></d=
-iv>
-
---001a114c8f849d02a8054154a097--
