@@ -1,22 +1,49 @@
-Return-Path: <jose.perez.carranza@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id DC03A6025F
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pg0-f50.google.com (mail-pg0-f50.google.com [74.125.83.50])
+	by mail.openembedded.org (Postfix) with ESMTP id 4CB9765C5B
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Nov 2016 16:14:27 +0000 (UTC)
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-	by fmsmga102.fm.intel.com with ESMTP; 15 Nov 2016 08:14:28 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.31,495,1473145200"; d="scan'208";a="31226643"
-Received: from jgperezc.zpn.intel.com ([10.219.5.31])
-	by orsmga004.jf.intel.com with ESMTP; 15 Nov 2016 08:14:28 -0800
-From: jose.perez.carranza@linux.intel.com
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 15 Nov 2016 10:24:33 -0600
-Message-Id: <1479227073-13133-1-git-send-email-jose.perez.carranza@linux.intel.com>
-X-Mailer: git-send-email 2.1.4
-In-Reply-To: <B6EBB6A4080>
-References: <B6EBB6A4080>
-Subject: [PATCH v2] oe-tests: Migrate tests from /oe/test to /oeqa/selftest/oe-tests
+	Tue, 15 Nov 2016 16:30:00 +0000 (UTC)
+Received: by mail-pg0-f50.google.com with SMTP id 3so68432334pgd.0
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 15 Nov 2016 08:30:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=zsg9QxBsK9JolIfpwiyEe2AzPTsn/GaZOGgWSsztpqQ=;
+	b=0DA82zdOUa94NXrTnouMG38kg5QkL1s2PVJiMpXn+rRVU/MATgWCaPyQU+/x9Z1XIM
+	B00U30Zw0jYUFem0IP9fLx84L/GQDdcLGw2wqv00WTCIxZ7HEu2Dwd8IAPb3r9noc8PU
+	2IVOHWXgcObnUbOUJ9tKVA/WBrqumizZyxmAn8TvolQ7nwTF+yX5/wVjAjHe4yCnjOKu
+	3gyHDvQiMBdpMwkfYh8YOfxF8O7R0LtUdrDNPWiGz56Pk+4j5x2HLis1FpOn6Ju4tqR3
+	o6jf0EgC3/NU4dCIf4ikxz97H1AtO9GUKV7r6ZbOpaPHcDy9/Uo8t+c7T5SYgbYwt0sd
+	rjrA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=zsg9QxBsK9JolIfpwiyEe2AzPTsn/GaZOGgWSsztpqQ=;
+	b=BEMxayaL8eagEa3AAfjEutARPNR+6bxDxofpvpvMeusdhgVgKPDHDAW9shb07tWTqw
+	kyvRMz8410mV0Yfcl539kDdbHrupZc99/3rOmelBaH6erFLePMouU14eYr7XXyXUQfqi
+	Qj9Hc4o9ilhjZasJJGrR756Uugif0xr4On2p8u1obkOE3RpQNvrz8uNJPVeoyJyfD+XG
+	PxrSE+zJSMT8IfYzXpEC2cunRXSJyIPCeJirBjKENsqblZ/Amw+y6Dw0clK6HmXGMwxM
+	CQgC7zdE2Tq01gM0djmkPfUCEt3yLeKffMxQPAoj8EQI37sGsYAZzPcpKcIxBSoB72XO
+	Rv9A==
+X-Gm-Message-State: ABUngvewyjHscAX1j7l3HESth2CP+tclooGNN0VUsuBL7iw1pdkJvSDdgGOFe6y5NXzeOg==
+X-Received: by 10.98.219.5 with SMTP id f5mr48849488pfg.131.1479227402208;
+	Tue, 15 Nov 2016 08:30:02 -0800 (PST)
+Received: from Pahoa2.hsd1.ca.comcast.net
+	([2601:202:4001:9ea0:4df7:42c0:6403:eac6])
+	by smtp.gmail.com with ESMTPSA id
+	t89sm42248261pfe.50.2016.11.15.08.30.01
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Tue, 15 Nov 2016 08:30:01 -0800 (PST)
+From: Armin Kuster <akuster808@gmail.com>
+To: akuster@mvista.com,
+	openembedded-core@lists.openembedded.org
+Date: Tue, 15 Nov 2016 08:29:12 -0800
+Message-Id: <cover.1479227001.git.akuster808@gmail.com>
+X-Mailer: git-send-email 2.3.5
+MIME-Version: 1.0
+Subject: [PATCH 00/45] Morty: Patch set review
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,696 +56,226 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 Nov 2016 16:14:28 -0000
+X-List-Received-Date: Tue, 15 Nov 2016 16:30:01 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-From: Jose Perez Carranza <jose.perez.carranza@linux.intel.com>
+Sending cover leter only:
 
-Currently the unittests for scripts on meta/lib/oe/tests are not being
-executed by any suite hence the best option is migrate them to
-meta/lib/oeqa/selftest/oelib-tests to be executed along with the selftest suite.
+I have pulled together a set of patches which seem to be appropriate for Morty.
+Please review to see if a commit is inappropriate or missing.
 
-[YOCTO #7376]
 
-Signed-off-by: Jose Perez Carranza <jose.perez.carranza@linux.intel.com>
----
- meta/lib/oe/tests/__init__.py                  |  0
- meta/lib/oe/tests/test_elf.py                  | 21 ------
- meta/lib/oe/tests/test_license.py              | 68 -------------------
- meta/lib/oe/tests/test_path.py                 | 89 -------------------------
- meta/lib/oe/tests/test_types.py                | 62 ------------------
- meta/lib/oe/tests/test_utils.py                | 51 ---------------
- meta/lib/oeqa/selftest/oelib-tests/__init__.py |  0
- meta/lib/oeqa/selftest/oelib-tests/elf.py      | 22 +++++++
- meta/lib/oeqa/selftest/oelib-tests/license.py  | 69 ++++++++++++++++++++
- meta/lib/oeqa/selftest/oelib-tests/path.py     | 90 ++++++++++++++++++++++++++
- meta/lib/oeqa/selftest/oelib-tests/types.py    | 61 +++++++++++++++++
- meta/lib/oeqa/selftest/oelib-tests/utils.py    | 52 +++++++++++++++
- 12 files changed, 294 insertions(+), 291 deletions(-)
- delete mode 100644 meta/lib/oe/tests/__init__.py
- delete mode 100644 meta/lib/oe/tests/test_elf.py
- delete mode 100644 meta/lib/oe/tests/test_license.py
- delete mode 100644 meta/lib/oe/tests/test_path.py
- delete mode 100644 meta/lib/oe/tests/test_types.py
- delete mode 100644 meta/lib/oe/tests/test_utils.py
- create mode 100644 meta/lib/oeqa/selftest/oelib-tests/__init__.py
- create mode 100644 meta/lib/oeqa/selftest/oelib-tests/elf.py
- create mode 100644 meta/lib/oeqa/selftest/oelib-tests/license.py
- create mode 100644 meta/lib/oeqa/selftest/oelib-tests/path.py
- create mode 100644 meta/lib/oeqa/selftest/oelib-tests/types.py
- create mode 100644 meta/lib/oeqa/selftest/oelib-tests/utils.py
+The following changes since commit 6c9f6b5f70ab3ee194b2c2c6f3bd462c994848fa:
 
-diff --git a/meta/lib/oe/tests/__init__.py b/meta/lib/oe/tests/__init__.py
-deleted file mode 100644
-index e69de29..0000000
-diff --git a/meta/lib/oe/tests/test_elf.py b/meta/lib/oe/tests/test_elf.py
-deleted file mode 100644
-index 1f59037..0000000
---- a/meta/lib/oe/tests/test_elf.py
-+++ /dev/null
-@@ -1,21 +0,0 @@
--import unittest
--import oe.qa
--
--class TestElf(unittest.TestCase):
--    def test_machine_name(self):
--        """
--        Test elf_machine_to_string()
--        """
--        self.assertEqual(oe.qa.elf_machine_to_string(0x02), "SPARC")
--        self.assertEqual(oe.qa.elf_machine_to_string(0x03), "x86")
--        self.assertEqual(oe.qa.elf_machine_to_string(0x08), "MIPS")
--        self.assertEqual(oe.qa.elf_machine_to_string(0x14), "PowerPC")
--        self.assertEqual(oe.qa.elf_machine_to_string(0x28), "ARM")
--        self.assertEqual(oe.qa.elf_machine_to_string(0x2A), "SuperH")
--        self.assertEqual(oe.qa.elf_machine_to_string(0x32), "IA-64")
--        self.assertEqual(oe.qa.elf_machine_to_string(0x3E), "x86-64")
--        self.assertEqual(oe.qa.elf_machine_to_string(0xB7), "AArch64")
--
--        self.assertEqual(oe.qa.elf_machine_to_string(0x00), "Unknown (0)")
--        self.assertEqual(oe.qa.elf_machine_to_string(0xDEADBEEF), "Unknown (3735928559)")
--        self.assertEqual(oe.qa.elf_machine_to_string("foobar"), "Unknown ('foobar')")
-diff --git a/meta/lib/oe/tests/test_license.py b/meta/lib/oe/tests/test_license.py
-deleted file mode 100644
-index c388886..0000000
---- a/meta/lib/oe/tests/test_license.py
-+++ /dev/null
-@@ -1,68 +0,0 @@
--import unittest
--import oe.license
--
--class SeenVisitor(oe.license.LicenseVisitor):
--    def __init__(self):
--        self.seen = []
--        oe.license.LicenseVisitor.__init__(self)
--
--    def visit_Str(self, node):
--        self.seen.append(node.s)
--
--class TestSingleLicense(unittest.TestCase):
--    licenses = [
--        "GPLv2",
--        "LGPL-2.0",
--        "Artistic",
--        "MIT",
--        "GPLv3+",
--        "FOO_BAR",
--    ]
--    invalid_licenses = ["GPL/BSD"]
--
--    @staticmethod
--    def parse(licensestr):
--        visitor = SeenVisitor()
--        visitor.visit_string(licensestr)
--        return visitor.seen
--
--    def test_single_licenses(self):
--        for license in self.licenses:
--            licenses = self.parse(license)
--            self.assertListEqual(licenses, [license])
--
--    def test_invalid_licenses(self):
--        for license in self.invalid_licenses:
--            with self.assertRaises(oe.license.InvalidLicense) as cm:
--                self.parse(license)
--            self.assertEqual(cm.exception.license, license)
--
--class TestSimpleCombinations(unittest.TestCase):
--    tests = {
--        "FOO&BAR": ["FOO", "BAR"],
--        "BAZ & MOO": ["BAZ", "MOO"],
--        "ALPHA|BETA": ["ALPHA"],
--        "BAZ&MOO|FOO": ["FOO"],
--        "FOO&BAR|BAZ": ["FOO", "BAR"],
--    }
--    preferred = ["ALPHA", "FOO", "BAR"]
--
--    def test_tests(self):
--        def choose(a, b):
--            if all(lic in self.preferred for lic in b):
--                return b
--            else:
--                return a
--
--        for license, expected in self.tests.items():
--            licenses = oe.license.flattened_licenses(license, choose)
--            self.assertListEqual(licenses, expected)
--
--class TestComplexCombinations(TestSimpleCombinations):
--    tests = {
--        "FOO & (BAR | BAZ)&MOO": ["FOO", "BAR", "MOO"],
--        "(ALPHA|(BETA&THETA)|OMEGA)&DELTA": ["OMEGA", "DELTA"],
--        "((ALPHA|BETA)&FOO)|BAZ": ["BETA", "FOO"],
--        "(GPL-2.0|Proprietary)&BSD-4-clause&MIT": ["GPL-2.0", "BSD-4-clause", "MIT"],
--    }
--    preferred = ["BAR", "OMEGA", "BETA", "GPL-2.0"]
-diff --git a/meta/lib/oe/tests/test_path.py b/meta/lib/oe/tests/test_path.py
-deleted file mode 100644
-index 44d0681..0000000
---- a/meta/lib/oe/tests/test_path.py
-+++ /dev/null
-@@ -1,89 +0,0 @@
--import unittest
--import oe, oe.path
--import tempfile
--import os
--import errno
--import shutil
--
--class TestRealPath(unittest.TestCase):
--    DIRS = [ "a", "b", "etc", "sbin", "usr", "usr/bin", "usr/binX", "usr/sbin", "usr/include", "usr/include/gdbm" ]
--    FILES = [ "etc/passwd", "b/file" ]
--    LINKS = [
--        ( "bin",             "/usr/bin",             "/usr/bin" ),
--        ( "binX",            "usr/binX",             "/usr/binX" ),
--        ( "c",               "broken",               "/broken" ),
--        ( "etc/passwd-1",    "passwd",               "/etc/passwd" ),
--        ( "etc/passwd-2",    "passwd-1",             "/etc/passwd" ),
--        ( "etc/passwd-3",    "/etc/passwd-1",        "/etc/passwd" ),
--        ( "etc/shadow-1",    "/etc/shadow",          "/etc/shadow" ),
--        ( "etc/shadow-2",    "/etc/shadow-1",        "/etc/shadow" ),
--        ( "prog-A",          "bin/prog-A",           "/usr/bin/prog-A" ),
--        ( "prog-B",          "/bin/prog-B",          "/usr/bin/prog-B" ),
--        ( "usr/bin/prog-C",  "../../sbin/prog-C",    "/sbin/prog-C" ),
--        ( "usr/bin/prog-D",  "/sbin/prog-D",         "/sbin/prog-D" ),
--        ( "usr/binX/prog-E", "../sbin/prog-E",       None ),
--        ( "usr/bin/prog-F",  "../../../sbin/prog-F", "/sbin/prog-F" ),
--        ( "loop",            "a/loop",               None ),
--        ( "a/loop",          "../loop",              None ),
--        ( "b/test",          "file/foo",             "/b/file/foo" ),
--    ]
--
--    LINKS_PHYS = [
--        ( "./",          "/",                "" ),
--        ( "binX/prog-E", "/usr/sbin/prog-E", "/sbin/prog-E" ),
--    ]
--
--    EXCEPTIONS = [
--        ( "loop",   errno.ELOOP ),
--        ( "b/test", errno.ENOENT ),
--    ]
--
--    def __del__(self):
--        try:
--            #os.system("tree -F %s" % self.tmpdir)
--            shutil.rmtree(self.tmpdir)
--        except:
--            pass
--
--    def setUp(self):
--        self.tmpdir = tempfile.mkdtemp(prefix = "oe-test_path")
--        self.root = os.path.join(self.tmpdir, "R")
--
--        os.mkdir(os.path.join(self.tmpdir, "_real"))
--        os.symlink("_real", self.root)
--
--        for d in self.DIRS:
--            os.mkdir(os.path.join(self.root, d))
--        for f in self.FILES:
--            open(os.path.join(self.root, f), "w")
--        for l in self.LINKS:
--            os.symlink(l[1], os.path.join(self.root, l[0]))
--
--    def __realpath(self, file, use_physdir, assume_dir = True):
--        return oe.path.realpath(os.path.join(self.root, file), self.root,
--                                use_physdir, assume_dir = assume_dir)
--
--    def test_norm(self):
--        for l in self.LINKS:
--            if l[2] == None:
--                continue
--
--            target_p = self.__realpath(l[0], True)
--            target_l = self.__realpath(l[0], False)
--
--            if l[2] != False:
--                self.assertEqual(target_p, target_l)
--                self.assertEqual(l[2], target_p[len(self.root):])
--
--    def test_phys(self):
--        for l in self.LINKS_PHYS:
--            target_p = self.__realpath(l[0], True)
--            target_l = self.__realpath(l[0], False)
--
--            self.assertEqual(l[1], target_p[len(self.root):])
--            self.assertEqual(l[2], target_l[len(self.root):])
--
--    def test_loop(self):
--        for e in self.EXCEPTIONS:
--            self.assertRaisesRegex(OSError, r'\[Errno %u\]' % e[1],
--                                    self.__realpath, e[0], False, False)
-diff --git a/meta/lib/oe/tests/test_types.py b/meta/lib/oe/tests/test_types.py
-deleted file mode 100644
-index 367cc30..0000000
---- a/meta/lib/oe/tests/test_types.py
-+++ /dev/null
-@@ -1,62 +0,0 @@
--import unittest
--from oe.maketype import create, factory
--
--class TestTypes(unittest.TestCase):
--    def assertIsInstance(self, obj, cls):
--        return self.assertTrue(isinstance(obj, cls))
--
--    def assertIsNot(self, obj, other):
--        return self.assertFalse(obj is other)
--
--    def assertFactoryCreated(self, value, type, **flags):
--        cls = factory(type)
--        self.assertIsNot(cls, None)
--        self.assertIsInstance(create(value, type, **flags), cls)
--
--class TestBooleanType(TestTypes):
--    def test_invalid(self):
--        self.assertRaises(ValueError, create, '', 'boolean')
--        self.assertRaises(ValueError, create, 'foo', 'boolean')
--        self.assertRaises(TypeError, create, object(), 'boolean')
--
--    def test_true(self):
--        self.assertTrue(create('y', 'boolean'))
--        self.assertTrue(create('yes', 'boolean'))
--        self.assertTrue(create('1', 'boolean'))
--        self.assertTrue(create('t', 'boolean'))
--        self.assertTrue(create('true', 'boolean'))
--        self.assertTrue(create('TRUE', 'boolean'))
--        self.assertTrue(create('truE', 'boolean'))
--
--    def test_false(self):
--        self.assertFalse(create('n', 'boolean'))
--        self.assertFalse(create('no', 'boolean'))
--        self.assertFalse(create('0', 'boolean'))
--        self.assertFalse(create('f', 'boolean'))
--        self.assertFalse(create('false', 'boolean'))
--        self.assertFalse(create('FALSE', 'boolean'))
--        self.assertFalse(create('faLse', 'boolean'))
--
--    def test_bool_equality(self):
--        self.assertEqual(create('n', 'boolean'), False)
--        self.assertNotEqual(create('n', 'boolean'), True)
--        self.assertEqual(create('y', 'boolean'), True)
--        self.assertNotEqual(create('y', 'boolean'), False)
--
--class TestList(TestTypes):
--    def assertListEqual(self, value, valid, sep=None):
--        obj = create(value, 'list', separator=sep)
--        self.assertEqual(obj, valid)
--        if sep is not None:
--            self.assertEqual(obj.separator, sep)
--        self.assertEqual(str(obj), obj.separator.join(obj))
--
--    def test_list_nosep(self):
--        testlist = ['alpha', 'beta', 'theta']
--        self.assertListEqual('alpha beta theta', testlist)
--        self.assertListEqual('alpha  beta\ttheta', testlist)
--        self.assertListEqual('alpha', ['alpha'])
--
--    def test_list_usersep(self):
--        self.assertListEqual('foo:bar', ['foo', 'bar'], ':')
--        self.assertListEqual('foo:bar:baz', ['foo', 'bar', 'baz'], ':')
-diff --git a/meta/lib/oe/tests/test_utils.py b/meta/lib/oe/tests/test_utils.py
-deleted file mode 100644
-index 5d9ac52..0000000
---- a/meta/lib/oe/tests/test_utils.py
-+++ /dev/null
-@@ -1,51 +0,0 @@
--import unittest
--from oe.utils import packages_filter_out_system
--
--class TestPackagesFilterOutSystem(unittest.TestCase):
--    def test_filter(self):
--        """
--        Test that oe.utils.packages_filter_out_system works.
--        """
--        try:
--            import bb
--        except ImportError:
--            self.skipTest("Cannot import bb")
--
--        d = bb.data_smart.DataSmart()
--        d.setVar("PN", "foo")
--
--        d.setVar("PACKAGES", "foo foo-doc foo-dev")
--        pkgs = packages_filter_out_system(d)
--        self.assertEqual(pkgs, [])
--
--        d.setVar("PACKAGES", "foo foo-doc foo-data foo-dev")
--        pkgs = packages_filter_out_system(d)
--        self.assertEqual(pkgs, ["foo-data"])
--
--        d.setVar("PACKAGES", "foo foo-locale-en-gb")
--        pkgs = packages_filter_out_system(d)
--        self.assertEqual(pkgs, [])
--
--        d.setVar("PACKAGES", "foo foo-data foo-locale-en-gb")
--        pkgs = packages_filter_out_system(d)
--        self.assertEqual(pkgs, ["foo-data"])
--
--
--class TestTrimVersion(unittest.TestCase):
--    def test_version_exception(self):
--        with self.assertRaises(TypeError):
--            trim_version(None, 2)
--        with self.assertRaises(TypeError):
--            trim_version((1, 2, 3), 2)
--
--    def test_num_exception(self):
--        with self.assertRaises(ValueError):
--            trim_version("1.2.3", 0)
--        with self.assertRaises(ValueError):
--            trim_version("1.2.3", -1)
--
--    def test_valid(self):
--        self.assertEqual(trim_version("1.2.3", 1), "1")
--        self.assertEqual(trim_version("1.2.3", 2), "1.2")
--        self.assertEqual(trim_version("1.2.3", 3), "1.2.3")
--        self.assertEqual(trim_version("1.2.3", 4), "1.2.3")
-diff --git a/meta/lib/oeqa/selftest/oelib-tests/__init__.py b/meta/lib/oeqa/selftest/oelib-tests/__init__.py
-new file mode 100644
-index 0000000..e69de29
-diff --git a/meta/lib/oeqa/selftest/oelib-tests/elf.py b/meta/lib/oeqa/selftest/oelib-tests/elf.py
-new file mode 100644
-index 0000000..582d772
---- /dev/null
-+++ b/meta/lib/oeqa/selftest/oelib-tests/elf.py
-@@ -0,0 +1,22 @@
-+from oeqa.selftest.base import oeSelfTest
-+from oeqa.utils.decorators import testcase
-+import oe.qa
-+
-+class TestElf(oeSelfTest):
-+    def test_machine_name(self):
-+        """
-+        Test elf_machine_to_string()
-+        """
-+        self.assertEqual(oe.qa.elf_machine_to_string(0x02), "SPARC")
-+        self.assertEqual(oe.qa.elf_machine_to_string(0x03), "x86")
-+        self.assertEqual(oe.qa.elf_machine_to_string(0x08), "MIPS")
-+        self.assertEqual(oe.qa.elf_machine_to_string(0x14), "PowerPC")
-+        self.assertEqual(oe.qa.elf_machine_to_string(0x28), "ARM")
-+        self.assertEqual(oe.qa.elf_machine_to_string(0x2A), "SuperH")
-+        self.assertEqual(oe.qa.elf_machine_to_string(0x32), "IA-64")
-+        self.assertEqual(oe.qa.elf_machine_to_string(0x3E), "x86-64")
-+        self.assertEqual(oe.qa.elf_machine_to_string(0xB7), "AArch64")
-+
-+        self.assertEqual(oe.qa.elf_machine_to_string(0x00), "Unknown (0)")
-+        self.assertEqual(oe.qa.elf_machine_to_string(0xDEADBEEF), "Unknown (3735928559)")
-+        self.assertEqual(oe.qa.elf_machine_to_string("foobar"), "Unknown ('foobar')")
-diff --git a/meta/lib/oeqa/selftest/oelib-tests/license.py b/meta/lib/oeqa/selftest/oelib-tests/license.py
-new file mode 100644
-index 0000000..90bdf51
---- /dev/null
-+++ b/meta/lib/oeqa/selftest/oelib-tests/license.py
-@@ -0,0 +1,69 @@
-+import oe.license
-+from oeqa.selftest.base import oeSelfTest
-+from oeqa.utils.decorators import testcase
-+
-+class SeenVisitor(oe.license.LicenseVisitor):
-+    def __init__(self):
-+        self.seen = []
-+        oe.license.LicenseVisitor.__init__(self)
-+
-+    def visit_Str(self, node):
-+        self.seen.append(node.s)
-+
-+class TestSingleLicense(oeSelfTest):
-+    licenses = [
-+        "GPLv2",
-+        "LGPL-2.0",
-+        "Artistic",
-+        "MIT",
-+        "GPLv3+",
-+        "FOO_BAR",
-+    ]
-+    invalid_licenses = ["GPL/BSD"]
-+
-+    @staticmethod
-+    def parse(licensestr):
-+        visitor = SeenVisitor()
-+        visitor.visit_string(licensestr)
-+        return visitor.seen
-+
-+    def test_single_licenses(self):
-+        for license in self.licenses:
-+            licenses = self.parse(license)
-+            self.assertListEqual(licenses, [license])
-+
-+    def test_invalid_licenses(self):
-+        for license in self.invalid_licenses:
-+            with self.assertRaises(oe.license.InvalidLicense) as cm:
-+                self.parse(license)
-+            self.assertEqual(cm.exception.license, license)
-+
-+class TestSimpleCombinations(oeSelfTest):
-+    tests = {
-+        "FOO&BAR": ["FOO", "BAR"],
-+        "BAZ & MOO": ["BAZ", "MOO"],
-+        "ALPHA|BETA": ["ALPHA"],
-+        "BAZ&MOO|FOO": ["FOO"],
-+        "FOO&BAR|BAZ": ["FOO", "BAR"],
-+    }
-+    preferred = ["ALPHA", "FOO", "BAR"]
-+
-+    def test_tests(self):
-+        def choose(a, b):
-+            if all(lic in self.preferred for lic in b):
-+                return b
-+            else:
-+                return a
-+
-+        for license, expected in self.tests.items():
-+            licenses = oe.license.flattened_licenses(license, choose)
-+            self.assertListEqual(licenses, expected)
-+
-+class TestComplexCombinations(TestSimpleCombinations):
-+    tests = {
-+        "FOO & (BAR | BAZ)&MOO": ["FOO", "BAR", "MOO"],
-+        "(ALPHA|(BETA&THETA)|OMEGA)&DELTA": ["OMEGA", "DELTA"],
-+        "((ALPHA|BETA)&FOO)|BAZ": ["BETA", "FOO"],
-+        "(GPL-2.0|Proprietary)&BSD-4-clause&MIT": ["GPL-2.0", "BSD-4-clause", "MIT"],
-+    }
-+    preferred = ["BAR", "OMEGA", "BETA", "GPL-2.0"]
-diff --git a/meta/lib/oeqa/selftest/oelib-tests/path.py b/meta/lib/oeqa/selftest/oelib-tests/path.py
-new file mode 100644
-index 0000000..09b56cb
---- /dev/null
-+++ b/meta/lib/oeqa/selftest/oelib-tests/path.py
-@@ -0,0 +1,90 @@
-+from oeqa.selftest.base import oeSelfTest
-+from oeqa.utils.decorators import testcase
-+import oe, oe.path
-+import tempfile
-+import os
-+import errno
-+import shutil
-+
-+class TestRealPath(oeSelfTest):
-+    DIRS = [ "a", "b", "etc", "sbin", "usr", "usr/bin", "usr/binX", "usr/sbin", "usr/include", "usr/include/gdbm" ]
-+    FILES = [ "etc/passwd", "b/file" ]
-+    LINKS = [
-+        ( "bin",             "/usr/bin",             "/usr/bin" ),
-+        ( "binX",            "usr/binX",             "/usr/binX" ),
-+        ( "c",               "broken",               "/broken" ),
-+        ( "etc/passwd-1",    "passwd",               "/etc/passwd" ),
-+        ( "etc/passwd-2",    "passwd-1",             "/etc/passwd" ),
-+        ( "etc/passwd-3",    "/etc/passwd-1",        "/etc/passwd" ),
-+        ( "etc/shadow-1",    "/etc/shadow",          "/etc/shadow" ),
-+        ( "etc/shadow-2",    "/etc/shadow-1",        "/etc/shadow" ),
-+        ( "prog-A",          "bin/prog-A",           "/usr/bin/prog-A" ),
-+        ( "prog-B",          "/bin/prog-B",          "/usr/bin/prog-B" ),
-+        ( "usr/bin/prog-C",  "../../sbin/prog-C",    "/sbin/prog-C" ),
-+        ( "usr/bin/prog-D",  "/sbin/prog-D",         "/sbin/prog-D" ),
-+        ( "usr/binX/prog-E", "../sbin/prog-E",       None ),
-+        ( "usr/bin/prog-F",  "../../../sbin/prog-F", "/sbin/prog-F" ),
-+        ( "loop",            "a/loop",               None ),
-+        ( "a/loop",          "../loop",              None ),
-+        ( "b/test",          "file/foo",             "/b/file/foo" ),
-+    ]
-+
-+    LINKS_PHYS = [
-+        ( "./",          "/",                "" ),
-+        ( "binX/prog-E", "/usr/sbin/prog-E", "/sbin/prog-E" ),
-+    ]
-+
-+    EXCEPTIONS = [
-+        ( "loop",   errno.ELOOP ),
-+        ( "b/test", errno.ENOENT ),
-+    ]
-+
-+    def __del__(self):
-+        try:
-+            #os.system("tree -F %s" % self.tmpdir)
-+            shutil.rmtree(self.tmpdir)
-+        except:
-+            pass
-+
-+    def setUp(self):
-+        self.tmpdir = tempfile.mkdtemp(prefix = "oe-test_path")
-+        self.root = os.path.join(self.tmpdir, "R")
-+
-+        os.mkdir(os.path.join(self.tmpdir, "_real"))
-+        os.symlink("_real", self.root)
-+
-+        for d in self.DIRS:
-+            os.mkdir(os.path.join(self.root, d))
-+        for f in self.FILES:
-+            open(os.path.join(self.root, f), "w")
-+        for l in self.LINKS:
-+            os.symlink(l[1], os.path.join(self.root, l[0]))
-+
-+    def __realpath(self, file, use_physdir, assume_dir = True):
-+        return oe.path.realpath(os.path.join(self.root, file), self.root,
-+                                use_physdir, assume_dir = assume_dir)
-+
-+    def test_norm(self):
-+        for l in self.LINKS:
-+            if l[2] == None:
-+                continue
-+
-+            target_p = self.__realpath(l[0], True)
-+            target_l = self.__realpath(l[0], False)
-+
-+            if l[2] != False:
-+                self.assertEqual(target_p, target_l)
-+                self.assertEqual(l[2], target_p[len(self.root):])
-+
-+    def test_phys(self):
-+        for l in self.LINKS_PHYS:
-+            target_p = self.__realpath(l[0], True)
-+            target_l = self.__realpath(l[0], False)
-+
-+            self.assertEqual(l[1], target_p[len(self.root):])
-+            self.assertEqual(l[2], target_l[len(self.root):])
-+
-+    def test_loop(self):
-+        for e in self.EXCEPTIONS:
-+            self.assertRaisesRegex(OSError, r'\[Errno %u\]' % e[1],
-+                                    self.__realpath, e[0], False, False)
-diff --git a/meta/lib/oeqa/selftest/oelib-tests/types.py b/meta/lib/oeqa/selftest/oelib-tests/types.py
-new file mode 100644
-index 0000000..2613da9
---- /dev/null
-+++ b/meta/lib/oeqa/selftest/oelib-tests/types.py
-@@ -0,0 +1,61 @@
-+from oeqa.selftest.base import oeSelfTest
-+from oeqa.utils.decorators import testcase
-+from oe.maketype import create, factory
-+
-+class TestTypes(oeSelfTest):
-+    def assertIsInstance(self, obj, cls):
-+        return self.assertTrue(isinstance(obj, cls))
-+
-+    def assertIsNot(self, obj, other):
-+        return self.assertFalse(obj is other)
-+
-+    def assertFactoryCreated(self, value, type, **flags):
-+        cls = factory(type)
-+        self.assertIsNot(cls, None)
-+        self.assertIsInstance(create(value, type, **flags), cls)
-+
-+    def assertListIsEqual(self, value, valid, sep=None):
-+        obj = create(value, 'list', separator=sep)
-+        self.assertListEqual(obj, valid)
-+
-+class TestBooleanType(TestTypes):
-+    def test_invalid(self):
-+        self.assertRaises(ValueError, create, '', 'boolean')
-+        self.assertRaises(ValueError, create, 'foo', 'boolean')
-+        self.assertRaises(TypeError, create, object(), 'boolean')
-+
-+    def test_true(self):
-+        self.assertTrue(create('y', 'boolean'))
-+        self.assertTrue(create('yes', 'boolean'))
-+        self.assertTrue(create('1', 'boolean'))
-+        self.assertTrue(create('t', 'boolean'))
-+        self.assertTrue(create('true', 'boolean'))
-+        self.assertTrue(create('TRUE', 'boolean'))
-+        self.assertTrue(create('truE', 'boolean'))
-+
-+    def test_false(self):
-+        self.assertFalse(create('n', 'boolean'))
-+        self.assertFalse(create('no', 'boolean'))
-+        self.assertFalse(create('0', 'boolean'))
-+        self.assertFalse(create('f', 'boolean'))
-+        self.assertFalse(create('false', 'boolean'))
-+        self.assertFalse(create('FALSE', 'boolean'))
-+        self.assertFalse(create('faLse', 'boolean'))
-+
-+    def test_bool_equality(self):
-+        self.assertEqual(create('n', 'boolean'), False)
-+        self.assertNotEqual(create('n', 'boolean'), True)
-+        self.assertEqual(create('y', 'boolean'), True)
-+        self.assertNotEqual(create('y', 'boolean'), False)
-+
-+class TestList(TestTypes):
-+
-+    def test_list_nosep(self):
-+        testlist = ['alpha', 'beta', 'theta']
-+        self.assertListIsEqual('alpha beta theta', testlist)
-+        self.assertListIsEqual('alpha  beta\ttheta', testlist)
-+        self.assertListIsEqual('alpha', ['alpha'])
-+
-+    def test_list_usersep(self):
-+        self.assertListIsEqual('foo:bar', ['foo', 'bar'], ':')
-+        self.assertListIsEqual('foo:bar:baz', ['foo', 'bar', 'baz'], ':')
-diff --git a/meta/lib/oeqa/selftest/oelib-tests/utils.py b/meta/lib/oeqa/selftest/oelib-tests/utils.py
-new file mode 100644
-index 0000000..25c60e1
---- /dev/null
-+++ b/meta/lib/oeqa/selftest/oelib-tests/utils.py
-@@ -0,0 +1,52 @@
-+from oeqa.selftest.base import oeSelfTest
-+from oeqa.utils.decorators import testcase
-+from oe.utils import packages_filter_out_system, trim_version
-+
-+class TestPackagesFilterOutSystem(oeSelfTest):
-+    def test_filter(self):
-+        """
-+        Test that oe.utils.packages_filter_out_system works.
-+        """
-+        try:
-+            import bb
-+        except ImportError:
-+            self.skipTest("Cannot import bb")
-+
-+        d = bb.data_smart.DataSmart()
-+        d.setVar("PN", "foo")
-+
-+        d.setVar("PACKAGES", "foo foo-doc foo-dev")
-+        pkgs = packages_filter_out_system(d)
-+        self.assertEqual(pkgs, [])
-+
-+        d.setVar("PACKAGES", "foo foo-doc foo-data foo-dev")
-+        pkgs = packages_filter_out_system(d)
-+        self.assertEqual(pkgs, ["foo-data"])
-+
-+        d.setVar("PACKAGES", "foo foo-locale-en-gb")
-+        pkgs = packages_filter_out_system(d)
-+        self.assertEqual(pkgs, [])
-+
-+        d.setVar("PACKAGES", "foo foo-data foo-locale-en-gb")
-+        pkgs = packages_filter_out_system(d)
-+        self.assertEqual(pkgs, ["foo-data"])
-+
-+
-+class TestTrimVersion(oeSelfTest):
-+    def test_version_exception(self):
-+        with self.assertRaises(TypeError):
-+            trim_version(None, 2)
-+        with self.assertRaises(TypeError):
-+            trim_version((1, 2, 3), 2)
-+
-+    def test_num_exception(self):
-+        with self.assertRaises(ValueError):
-+            trim_version("1.2.3", 0)
-+        with self.assertRaises(ValueError):
-+            trim_version("1.2.3", -1)
-+
-+    def test_valid(self):
-+        self.assertEqual(trim_version("1.2.3", 1), "1")
-+        self.assertEqual(trim_version("1.2.3", 2), "1.2")
-+        self.assertEqual(trim_version("1.2.3", 3), "1.2.3")
-+        self.assertEqual(trim_version("1.2.3", 4), "1.2.3")
+  bitbake: toaster: buildinfohelper Handle regex paths (2016-11-03 17:41:15 +0000)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib akuster/morty-next
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=akuster/morty-next
+
+Alexander Kanavin (8):
+  lttng-tools: do not install shared libraries in ptest package
+  gnome-desktop3: fix dependencies
+  webkitgtk: remove lib_package inherit as executables are now installed
+    in libexecdir
+  rt-tests: fix the recipe version to match upstream
+  epiphany: remove unnecessary libwnck3 dependency
+  libwnck3: remove the recipe
+  libarchive: update to 3.2.2
+  valgrind: update to 3.12.0
+
+Andre McCurdy (1):
+  gdb: update 7.11+git1a982b689c -> 7.11.1
+
+André Draszik (2):
+  boost: disable 'wave' in MIPS16e mode
+  bash_3.2.x: update recipe version to match what we're shipping
+
+Armin Kuster (2):
+  tzcode-native: update to 2016h
+  tzdata: Update to 2016h
+
+Chen Qi (2):
+  rpm: fix file location of rpm2cpio.real
+  systemd: CVE-2016-7795
+
+Dengke Du (1):
+  subversion: fix "svnadmin create" fail on x86
+
+Dmitry Rozhkov (1):
+  openssl: rehash actual mozilla certificates inside rootfs
+
+George McCollister (1):
+  uboot-sign: fix do_concat_dtb for .img, .rom
+
+Juro Bystricky (1):
+  build-appliance-image: Fix incorrect PATH
+
+Kai Kang (2):
+  qemu: supplementary fix of CVE-2016-5403
+  qemu: fix CVE-2016-7423 and CVE-2016-7908
+
+Khem Raj (1):
+  binutils-2.27: Fix linker segfaults when linking binary files
+
+Lukasz Nowak (1):
+  connman: fix bad file descriptor initialisation
+
+Markus Lehtonen (1):
+  python: fix python-tests rdepends
+
+Mike Looijmans (1):
+  busybox/mdev.conf: Ignore eMMC RPMB and boot block devices
+
+Olaf Mandel (1):
+  texi2html: Allow compiling out-of-source
+
+Paul Eggleton (5):
+  classes/license: fix handling of symlinks pointed to in
+    LIC_FILES_CHKSUM
+  classes/populate_sdk_base: fix usage of & character in SDK_TITLE
+  classes/nativesdk: set SDK_OLDEST_KERNEL appropriately
+  oe-setup-builddir: fix TEMPLATECONF error message
+  classes/populate_sdk_ext: prevent invalid TEMPLATECONF entering eSDK
+
+Robert P. J. Day (2):
+  testsdk.bbclass: Clean up comments, clarify image choices.
+  oe-pkgdata-util: Use standard verb form in help info.
+
+Robert Yang (2):
+  oe/copy_buildsystem.py: dereference symlink
+  insane.bbclass:buildpaths: open() file with 'rb'
+
+Ross Burton (4):
+  slang: add PREMIRRORS to handle upstream moving tarballs
+  slang: clean up options and dependencies
+  util-linux: add su.1 to update-alternatives
+  shadow: add nologin.8 to alternatives
+
+Samuli Piippo (1):
+  package_manager.py: correctly remove all dependent packages
+
+Yi Zhao (5):
+  tiff: Security fix CVE-2016-3945
+  tiff: Security fix CVE-2016-3990
+  tiff: Security fix CVE-2016-3991
+  tiff: Security fix CVE-2016-3623
+  tiff: Security fix CVE-2016-3622
+
+ meta/classes/insane.bbclass                        |   4 +-
+ meta/classes/license.bbclass                       |   2 +
+ meta/classes/nativesdk.bbclass                     |   2 +
+ meta/classes/populate_sdk_base.bbclass             |   7 +-
+ meta/classes/populate_sdk_ext.bbclass              |   6 +-
+ meta/classes/testsdk.bbclass                       |  14 +-
+ meta/classes/uboot-sign.bbclass                    |   4 +-
+ meta/conf/bitbake.conf                             |   5 +
+ meta/conf/machine-sdk/i586.conf                    |   1 +
+ meta/conf/machine-sdk/i686.conf                    |   1 +
+ meta/conf/machine-sdk/x86_64.conf                  |   1 +
+ meta/lib/oe/copy_buildsystem.py                    |   6 +-
+ meta/lib/oe/package_manager.py                     |   2 +-
+ ...ts-Fix-bad-file-descriptor-initialisation.patch | 102 ++++++++++++++
+ meta/recipes-connectivity/connman/connman_1.33.bb  |   1 +
+ .../openssl/openssl/openssl-c_rehash.sh            |  20 ++-
+ meta/recipes-core/busybox/files/mdev.conf          |   2 +
+ .../images/build-appliance-image_15.0.0.bb         |   2 +-
+ .../systemd/systemd/CVE-2016-7795.patch            |  69 ++++++++++
+ meta/recipes-core/systemd/systemd_230.bb           |   1 +
+ meta/recipes-core/util-linux/util-linux.inc        |   8 +-
+ meta/recipes-devtools/binutils/binutils-2.27.inc   |   1 +
+ ...lt-in-ARM-linker-when-trying-to-parse-a-b.patch |  31 +++++
+ meta/recipes-devtools/gdb/gdb-7.11.1.inc           |  22 +++
+ meta/recipes-devtools/gdb/gdb-7.11.inc             |   9 --
+ meta/recipes-devtools/gdb/gdb-common.inc           |  24 ----
+ ...nadian_7.11.bb => gdb-cross-canadian_7.11.1.bb} |   0
+ .../gdb/{gdb-cross_7.11.bb => gdb-cross_7.11.1.bb} |   0
+ .../gdb/{gdb_7.11.bb => gdb_7.11.1.bb}             |   0
+ .../python/python-2.7-manifest.inc                 |   2 +-
+ ...0001-virtio-zero-vq-inuse-in-virtio_reset.patch |  57 ++++++++
+ .../qemu/qemu/0002-fix-CVE-2016-7423.patch         |  45 +++++++
+ .../qemu/qemu/0003-fix-CVE-2016-7908.patch         |  62 +++++++++
+ meta/recipes-devtools/qemu/qemu_2.7.0.bb           |   3 +
+ meta/recipes-devtools/rpm/rpm_5.4.16.bb            |   2 +-
+ .../0001-fix-svnadmin-create-fail-on-x86.patch     |  56 ++++++++
+ .../subversion/subversion_1.9.4.bb                 |   1 +
+ .../valgrind/valgrind/11_mips-link-tool.patch      |  37 ------
+ .../valgrind/valgrind/gcc5-port.patch              |  64 ---------
+ .../{valgrind_3.11.0.bb => valgrind_3.12.0.bb}     |   6 +-
+ .../{bash-3.2.48 => bash-3.2.57}/build-tests.patch |   0
+ ...ont-include-target-CFLAGS-in-host-LDFLAGS.patch |   0
+ .../mkbuiltins_have_stringize.patch                |   0
+ .../bash/{bash-3.2.48 => bash-3.2.57}/run-ptest    |   0
+ .../string-format.patch                            |   0
+ .../{bash-3.2.48 => bash-3.2.57}/test-output.patch |   0
+ meta/recipes-extended/bash/bash_3.2.48.bb          |  47 -------
+ meta/recipes-extended/bash/bash_3.2.57.bb          |  18 +++
+ .../{libarchive_3.2.1.bb => libarchive_3.2.2.bb}   |   4 +-
+ meta/recipes-extended/shadow/shadow.inc            |   3 +-
+ meta/recipes-extended/slang/slang/no-x.patch       |  14 ++
+ meta/recipes-extended/slang/slang_2.3.0.bb         |  16 ++-
+ .../files/0001-Allow-compiling-out-of-source.patch |  39 ++++++
+ meta/recipes-extended/texi2html/texi2html_5.0.bb   |   1 +
+ ...code-native_2016g.bb => tzcode-native_2016h.bb} |   8 +-
+ .../tzdata/{tzdata_2016g.bb => tzdata_2016h.bb}    |   4 +-
+ meta/recipes-gnome/epiphany/epiphany_3.20.3.bb     |   4 +-
+ .../gnome-desktop/gnome-desktop3_3.20.2.bb         |   2 +-
+ meta/recipes-gnome/libwnck/libwnck3_3.20.1.bb      |  19 ---
+ meta/recipes-kernel/lttng/lttng-tools_git.bb       |   3 +
+ .../libtiff/files/CVE-2016-3622.patch              | 129 ++++++++++++++++++
+ .../libtiff/files/CVE-2016-3623.patch              |  52 ++++++++
+ .../libtiff/files/CVE-2016-3945.patch              | 118 +++++++++++++++++
+ .../libtiff/files/CVE-2016-3990.patch              |  66 +++++++++
+ .../libtiff/files/CVE-2016-3991.patch              | 147 +++++++++++++++++++++
+ meta/recipes-multimedia/libtiff/tiff_4.0.6.bb      |   5 +
+ .../{hwlatdetect_2.0.bb => hwlatdetect_1.1.bb}     |   0
+ meta/recipes-rt/rt-tests/rt-tests.inc              |   5 +-
+ .../rt-tests/{rt-tests_2.0.bb => rt-tests_1.1.bb}  |   0
+ meta/recipes-sato/webkit/webkitgtk_2.12.5.bb       |   2 +-
+ meta/recipes-support/boost/boost.inc               |   2 +
+ scripts/oe-pkgdata-util                            |   2 +-
+ scripts/oe-setup-builddir                          |   2 +-
+ 73 files changed, 1138 insertions(+), 256 deletions(-)
+ create mode 100644 meta/recipes-connectivity/connman/connman/0003-stats-Fix-bad-file-descriptor-initialisation.patch
+ create mode 100644 meta/recipes-core/systemd/systemd/CVE-2016-7795.patch
+ create mode 100644 meta/recipes-devtools/binutils/binutils/0016-Fix-seg-fault-in-ARM-linker-when-trying-to-parse-a-b.patch
+ create mode 100644 meta/recipes-devtools/gdb/gdb-7.11.1.inc
+ delete mode 100644 meta/recipes-devtools/gdb/gdb-7.11.inc
+ rename meta/recipes-devtools/gdb/{gdb-cross-canadian_7.11.bb => gdb-cross-canadian_7.11.1.bb} (100%)
+ rename meta/recipes-devtools/gdb/{gdb-cross_7.11.bb => gdb-cross_7.11.1.bb} (100%)
+ rename meta/recipes-devtools/gdb/{gdb_7.11.bb => gdb_7.11.1.bb} (100%)
+ create mode 100644 meta/recipes-devtools/qemu/qemu/0001-virtio-zero-vq-inuse-in-virtio_reset.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/0002-fix-CVE-2016-7423.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/0003-fix-CVE-2016-7908.patch
+ create mode 100644 meta/recipes-devtools/subversion/subversion/0001-fix-svnadmin-create-fail-on-x86.patch
+ delete mode 100644 meta/recipes-devtools/valgrind/valgrind/11_mips-link-tool.patch
+ delete mode 100644 meta/recipes-devtools/valgrind/valgrind/gcc5-port.patch
+ rename meta/recipes-devtools/valgrind/{valgrind_3.11.0.bb => valgrind_3.12.0.bb} (95%)
+ rename meta/recipes-extended/bash/{bash-3.2.48 => bash-3.2.57}/build-tests.patch (100%)
+ rename meta/recipes-extended/bash/{bash-3.2.48 => bash-3.2.57}/dont-include-target-CFLAGS-in-host-LDFLAGS.patch (100%)
+ rename meta/recipes-extended/bash/{bash-3.2.48 => bash-3.2.57}/mkbuiltins_have_stringize.patch (100%)
+ rename meta/recipes-extended/bash/{bash-3.2.48 => bash-3.2.57}/run-ptest (100%)
+ rename meta/recipes-extended/bash/{bash-3.2.48 => bash-3.2.57}/string-format.patch (100%)
+ rename meta/recipes-extended/bash/{bash-3.2.48 => bash-3.2.57}/test-output.patch (100%)
+ delete mode 100644 meta/recipes-extended/bash/bash_3.2.48.bb
+ create mode 100644 meta/recipes-extended/bash/bash_3.2.57.bb
+ rename meta/recipes-extended/libarchive/{libarchive_3.2.1.bb => libarchive_3.2.2.bb} (94%)
+ create mode 100644 meta/recipes-extended/slang/slang/no-x.patch
+ create mode 100644 meta/recipes-extended/texi2html/files/0001-Allow-compiling-out-of-source.patch
+ rename meta/recipes-extended/tzcode/{tzcode-native_2016g.bb => tzcode-native_2016h.bb} (69%)
+ rename meta/recipes-extended/tzdata/{tzdata_2016g.bb => tzdata_2016h.bb} (98%)
+ delete mode 100644 meta/recipes-gnome/libwnck/libwnck3_3.20.1.bb
+ create mode 100644 meta/recipes-multimedia/libtiff/files/CVE-2016-3622.patch
+ create mode 100644 meta/recipes-multimedia/libtiff/files/CVE-2016-3623.patch
+ create mode 100644 meta/recipes-multimedia/libtiff/files/CVE-2016-3945.patch
+ create mode 100644 meta/recipes-multimedia/libtiff/files/CVE-2016-3990.patch
+ create mode 100644 meta/recipes-multimedia/libtiff/files/CVE-2016-3991.patch
+ rename meta/recipes-rt/rt-tests/{hwlatdetect_2.0.bb => hwlatdetect_1.1.bb} (100%)
+ rename meta/recipes-rt/rt-tests/{rt-tests_2.0.bb => rt-tests_1.1.bb} (100%)
+
 -- 
-2.1.4
+2.3.5
 
 
