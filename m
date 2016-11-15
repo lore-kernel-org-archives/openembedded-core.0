@@ -1,46 +1,21 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-wm0-f66.google.com (mail-wm0-f66.google.com [74.125.82.66])
-	by mail.openembedded.org (Postfix) with ESMTP id E51176FF76
+Return-Path: <edwin.plauchu.camacho@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id C17686025F
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Nov 2016 21:16:46 +0000 (UTC)
-Received: by mail-wm0-f66.google.com with SMTP id a20so4267306wme.2
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Nov 2016 13:16:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=KUrUruhyfaQ8d7BbNeCb7KTjaYDYifEifDQ6tj92jPY=;
-	b=d4xggQWAJ831cw7U6mL7VwvLH7VkIIxoKtgP/Sc/z7q4Yajg1Qm8KpoIhh71ieouw/
-	wkPHOzo1TPikEKr0TQdUyinFELpqVWeyDF4pbl2lxPLUjmu8HkU8FwKpRTF97cvx6rxk
-	0RwhRDGFloHePYgCOKUa4e/r4S6SdgD3DyfldL4vjveiIYzGAwPvYBnyzqVdD3m63L9I
-	eKtNU/2EY63UZiA4gxC0Cgx/2/l3F3eW/le+N+53IS4j/PWTpzPxt8Zob1+jgjagysCw
-	vTzoZDou91zgPeIKefGNEOWfdFukg71btuv2pZzST3W1YTXs6K64vXEwd9FzEQGPEDKi
-	MdOA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=KUrUruhyfaQ8d7BbNeCb7KTjaYDYifEifDQ6tj92jPY=;
-	b=ZmNX1h4NOgn16JlM5oe6bzmyf9peZMh/Bn0W0U0wj2VsHcp4OnT7wLXrDatNU8bhD4
-	cjUwfJU52SVs67LRAByIVmNqswpLSpxV6EIyKIhiWy0BonJ3S90sSt7b/VIGzHH9dzk0
-	EIzhD5rt/A5QwjfGUpJAq+l7LP0ueTkIy8xYsAgLBBjEsbmO4TcR+ovnz9JAGzhua2kk
-	G4PiYlO2WZKAAPktHz413qxO5ZcpOP68mPss0kUIypo7gbV/5ay21znGmsBrEpvM3vzZ
-	RMUEchvV6WlhX6Xx61q10is5s9Na3iA2D8B2onxLAI23ccb96ljC3I7lE3eSExg7tWSG
-	PnFA==
-X-Gm-Message-State: ABUngveRSZ7C4zjkcOs7n4j8+C5yL3TgYiYikaaTDb/dCJ1qEP5EBV84kgcPm2oJxBGEtkYoKNtokpAO4/8DRg==
-X-Received: by 10.194.115.226 with SMTP id jr2mr14912665wjb.75.1479244607676; 
-	Tue, 15 Nov 2016 13:16:47 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.194.45.33 with HTTP; Tue, 15 Nov 2016 13:16:46 -0800 (PST)
-In-Reply-To: <CAGNsrLACnGpM2t_0s00kzvdpkHLsB57KEcLRwmy8wJ5r83dnsw@mail.gmail.com>
-References: <20161108135457.13249-1-fathi.boudra@linaro.org>
-	<CAJTo0LZhZi+hgbUvd87E413nEOKP3g5uGY2eqZB5yX2ydHZKGA@mail.gmail.com>
-	<CAGNsrLACnGpM2t_0s00kzvdpkHLsB57KEcLRwmy8wJ5r83dnsw@mail.gmail.com>
-From: Andre McCurdy <armccurdy@gmail.com>
-Date: Tue, 15 Nov 2016 13:16:46 -0800
-Message-ID: <CAJ86T=UqQ0fP73OcLeWNG_iqS9nQQCMNgXyyEjFZbfVgAFRAVg@mail.gmail.com>
-To: Fathi Boudra <fathi.boudra@linaro.org>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] weston: upgrade from 1.11.1 to 1.12.0
+	Tue, 15 Nov 2016 22:06:15 +0000 (UTC)
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+	by fmsmga101.fm.intel.com with ESMTP; 15 Nov 2016 14:06:16 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.31,496,1473145200"; d="scan'208";a="31774123"
+Received: from pianodaemon-contraption.zpn.intel.com ([10.219.128.75])
+	by fmsmga006.fm.intel.com with ESMTP; 15 Nov 2016 14:06:16 -0800
+From: Edwin Plauchu <edwin.plauchu.camacho@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 15 Nov 2016 16:07:35 -0600
+Message-Id: <20161115220735.23514-1-edwin.plauchu.camacho@linux.intel.com>
+X-Mailer: git-send-email 2.9.3
+Cc: Edwin Plauchu <edwin.plauchu.camacho@intel.com>
+Subject: [PATCH] python3-setuptools: upgrade to 28.8.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,29 +28,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 Nov 2016 21:16:47 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 15 Nov 2016 22:06:17 -0000
 
-On Wed, Nov 9, 2016 at 6:41 AM, Fathi Boudra <fathi.boudra@linaro.org> wrote:
-> On 9 November 2016 at 14:15, Burton, Ross <ross.burton@intel.com> wrote:
->>
->> On 8 November 2016 at 13:54, Fathi Boudra <fathi.boudra@linaro.org> wrote:
->>>
->>>  FILES_${PN}-xwayland = "${libdir}/${BPN}/xwayland.so"
->>
->>
->> Because you didn't fix this patch the weston-xwayland package is never
->> built, buildhistory is huge and core-image-weston with X11 enabled doesn't
->> build.
->
-> I'll spin a v2 with Jussi suggested split.
+From: Edwin Plauchu <edwin.plauchu.camacho@intel.com>
 
-Would it be OK to split the version update and the packaging changes
-across two commits?
+Signed-off-by: Edwin Plauchu <edwin.plauchu.camacho@linux.intel.com>
+---
+ meta/recipes-devtools/python/python-setuptools.inc                  | 6 +++---
+ .../{python3-setuptools_22.0.5.bb => python3-setuptools_28.8.0.bb}  | 0
+ 2 files changed, 3 insertions(+), 3 deletions(-)
+ rename meta/recipes-devtools/python/{python3-setuptools_22.0.5.bb => python3-setuptools_28.8.0.bb} (100%)
 
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+diff --git a/meta/recipes-devtools/python/python-setuptools.inc b/meta/recipes-devtools/python/python-setuptools.inc
+index 92ca9a0..d3eef13 100644
+--- a/meta/recipes-devtools/python/python-setuptools.inc
++++ b/meta/recipes-devtools/python/python-setuptools.inc
+@@ -3,14 +3,14 @@ HOMEPAGE = "https://pypi.python.org/pypi/setuptools"
+ SECTION = "devel/python"
+ LICENSE = "MIT"
+ 
+-LIC_FILES_CHKSUM = "file://setup.py;beginline=134;endline=134;md5=3e8df024d6c1442d18e84acf8fbbc475"
++LIC_FILES_CHKSUM = "file://setup.py;beginline=146;endline=146;md5=3e8df024d6c1442d18e84acf8fbbc475"
+ 
+ SRCNAME = "setuptools"
+ 
+ SRC_URI = "https://files.pythonhosted.org/packages/source/s/${SRCNAME}/${SRCNAME}-${PV}.tar.gz"
+ 
+-SRC_URI[md5sum] = "869f3029dcc66a64ba39875e2a2f044a"
+-SRC_URI[sha256sum] = "19aad19471052d5daefe96f2c1fa2e88dcdb17488bf8708d7e6356881ea833cb"
++SRC_URI[md5sum] = "43d6eb25f60e8a2682a8f826ce9e3f42"
++SRC_URI[sha256sum] = "432a1ad4044338c34c2d09b0ff75d509b9849df8cf329f4c1c7706d9c2ba3c61"
+ 
+ UPSTREAM_CHECK_URI = "https://pypi.python.org/pypi/setuptools"
+ 
+diff --git a/meta/recipes-devtools/python/python3-setuptools_22.0.5.bb b/meta/recipes-devtools/python/python3-setuptools_28.8.0.bb
+similarity index 100%
+rename from meta/recipes-devtools/python/python3-setuptools_22.0.5.bb
+rename to meta/recipes-devtools/python/python3-setuptools_28.8.0.bb
+-- 
+2.9.3
+
 
