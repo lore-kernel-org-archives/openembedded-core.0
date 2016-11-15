@@ -1,48 +1,46 @@
-Return-Path: <maciej.borzecki@rndity.com>
-Received: from mail-wm0-f51.google.com (mail-wm0-f51.google.com [74.125.82.51])
-	by mail.openembedded.org (Postfix) with ESMTP id E3199606CA
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qk0-f176.google.com (mail-qk0-f176.google.com
+	[209.85.220.176])
+	by mail.openembedded.org (Postfix) with ESMTP id 3C1E071993
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Nov 2016 10:37:28 +0000 (UTC)
-Received: by mail-wm0-f51.google.com with SMTP id f82so159675411wmf.1
+	Tue, 15 Nov 2016 10:43:29 +0000 (UTC)
+Received: by mail-qk0-f176.google.com with SMTP id n204so130080606qke.2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Nov 2016 02:37:30 -0800 (PST)
+	Tue, 15 Nov 2016 02:43:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=rndity-com.20150623.gappssmtp.com; s=20150623;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=sN9z6j/+QIE+183laaS+Thn1usZkN/9SRCdfGDEFqnQ=;
-	b=h4qojXgpChOt7iPsyTnlEF3xxlGqbj5XjvzvcoM0+avNMl+nRFLauwKG6vBcTdzkmX
-	ncLdw+SujaCL8f8a2LVIbZiL59xKt+ZCNQJRzEPEnqZn2r/u1D8jYwi8sci66HNBlVpd
-	Er+OXT5Gfe0FX7ZJUEXzaaJCQyacfWM88ewzHrxQ7iQq5Q0o+UnK1dN4As9vQy4kubiC
-	kHlDREWZQKDm7PNdnG+9j7NQme1HBKXlPUE/UGkx6pWz/PkXkf5qJu0KQBnvEkxYkDF9
-	M7ycDRfbX78Zx3rIqhsjiz5yMdsPCESJgPgqyUwh39Wm4QwNVn66YuFK5Fwv/hdESJVv
-	l7Kg==
+	:cc; bh=Q9DgVJmm6OnaseaX8IBSYhPIuA8Xk0yzCg1oyDRfv4U=;
+	b=KvsurUAbVvQjprm0TptxRyXBxMeiJAud4EymWiwSmQUKYIRmE/fTXEqL5DV/hsY7JI
+	UW/hvRUUgD1W99XxwZ8RSrlUEeMhewEVfG5XeqyhMyFIWzEtJfblqW/ydVxmTtaM8RT+
+	QLTCLkrtkHHHfYQ4aBtkRDUzkLi/RUBOeYzirNYTymeDRBwdlMOcEx2zc4WeVvDzvqFX
+	yqt204MU/AxYUAS0Xp6GNPZ/1/Bwis/sKUtExnbSHltkXJ8qiAyaVAxPv79WrLwoYGZb
+	N+ciqqU9cN/h/zDsp1QBk+wlBgB4qRMq98s0MOm7HzRuCDBqCkcI2plEL/XMbb1cH3j0
+	opyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=sN9z6j/+QIE+183laaS+Thn1usZkN/9SRCdfGDEFqnQ=;
-	b=EifKs0r5pdL8QqwwAMGiKN1VgkRZul209ijQ+21Hfk4HnEvbJcYVglK87sVE1YKCB2
-	+c+O2DKEORI77JK290UncoN+jfGt6P4ktspMCAyHuXY90svkB9M5qYbdWNPett+wfo7g
-	Dagg520Kdw3aS4IEeE6+1UvhFl0vjtpH6DjUEyEFqLzr5gxN7utAX4DEEV6OXjTY8Lfx
-	okLdG2axi2jYbu/XOGD3Id07tKH9vlYsDMdrczPEB5waql4KDaChuGsvcAvbUMFhJOQ9
-	psaBV47jNnoqN7KAHs1bLMV9xI9nRTPbvkGx6mQkA2pUhbtsc6kubV4HC++FLNA7tKv2
-	8dlw==
-X-Gm-Message-State: ABUngvf/kDKP51lvPCdXrS9XcScPVoqDdousxpTHk+8jULJy97ODjkkAcPNlueJmgDKhnBzaVrUiXr0Wku+9HA==
-X-Received: by 10.194.41.163 with SMTP id g3mr22449135wjl.162.1479206248909;
-	Tue, 15 Nov 2016 02:37:28 -0800 (PST)
+	bh=Q9DgVJmm6OnaseaX8IBSYhPIuA8Xk0yzCg1oyDRfv4U=;
+	b=gt2ZEN4skGDBRJdagsBV4+St2NKv6avP8mCKYePbDbQs0MM8w8PdZCrmfbUYxItl7z
+	c+7aglJTwgOJlqfd8i64MiLXQEwX8p5l3u8DOpJMa70yirSMHnlQAwwc8XCsT/FCJKEV
+	OKE/iGGEeWp7USGCwI3Atw1ktOvptUbCmN/CTq8/DqcEC4Z6e2zEfHOFTG1ctBQeVz9e
+	CdbTg07Ct7vJN2QHsmtLm45L0GiJ/zmR0e/7z4agpgXpeEsqqROkfqjsm7BCsziFHeiE
+	zkWayJorfil+tDB9dAEELTkc1Jmr15mIPzlcKwyM6kRXYuORnrjQOdBqSrertSfuWodx
+	uMFw==
+X-Gm-Message-State: ABUngvdtpZrLLiYxLl0/FlY5voGjXrvQuQK/HwL8QFeth5AsL6hVDXuVktgnA+oBuESaDfjyqkEC0s2VPBmyKxgV
+X-Received: by 10.55.5.145 with SMTP id 139mr21378697qkf.77.1479206611239;
+	Tue, 15 Nov 2016 02:43:31 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.28.15.9 with HTTP; Tue, 15 Nov 2016 02:37:08 -0800 (PST)
-In-Reply-To: <CAJTo0LYeL-yaSsM2yp_Ss8FQAGbBGwaJCB=ZO4jEy1c_SSrUkg@mail.gmail.com>
-References: <cover.1479201985.git.maciej.borzecki@rndity.com>
-	<CAJTo0LYeL-yaSsM2yp_Ss8FQAGbBGwaJCB=ZO4jEy1c_SSrUkg@mail.gmail.com>
-From: =?UTF-8?Q?Maciej_Borz=C4=99cki?= <maciej.borzecki@rndity.com>
-Date: Tue, 15 Nov 2016 11:37:08 +0100
-Message-ID: <CAD4b0_K9M3ax=KkXKYdyxgzTsge3qqKssWPS2Uus1kzNKKs-CA@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
-	Maciej Borzecki <maciek.borzecki@gmail.com>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v3 00/11] wic: bugfixes & --fixed-size support, tests, oe-selftest: minor fixes
+Received: by 10.140.85.136 with HTTP; Tue, 15 Nov 2016 02:43:10 -0800 (PST)
+In-Reply-To: <1479202785-20652-1-git-send-email-diego.ml@zoho.com>
+References: <1479202785-20652-1-git-send-email-diego.ml@zoho.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 15 Nov 2016 10:43:10 +0000
+Message-ID: <CAJTo0LboEcommpQrRwz0svMtc-0orYVDCeZsW7Gz30brb92OEA@mail.gmail.com>
+To: Diego Rondini <diego.ml@zoho.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] xinput-calibrator: use up-to-date git version
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,36 +53,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 Nov 2016 10:37:30 -0000
+X-List-Received-Date: Tue, 15 Nov 2016 10:43:30 -0000
+Content-Type: multipart/alternative; boundary=001a114c8f849d02a8054154a097
+
+--001a114c8f849d02a8054154a097
 Content-Type: text/plain; charset=UTF-8
 
-On Tue, Nov 15, 2016 at 11:32 AM, Burton, Ross <ross.burton@intel.com> wrote:
->
-> On 15 November 2016 at 09:52, Maciej Borzecki <maciej.borzecki@rndity.com>
-> wrote:
->>
->> I have noticed that Ross has cherry-picked some patches into his
->> pull request to master. Just for reference, the patches are included in
->> this
->> series, but have not been changed since the previous version. The
->> patches in question are:
->>   oe-selftest: fix handling of test cases without ID in --list-tests-by
->>   wic: make sure that partition size is always an integer in internal
->>     processing
->>   wic: use partition size when creating empty partition files
->>   wic: check that filesystem is specified for a rootfs partition
->>   wic: fix function comment typos
->>   wic: add --fixed-size wks option
->
->
-> These were simple and/or fixing serious problems, hope I didn't cause too
-> much inconvenience doing this.
+On 15 November 2016 at 09:39, Diego Rondini <diego.ml@zoho.com> wrote:
 
-None at all. I was actually about to propose cherry picking those
-patches along with `oe-selftest: enforce en_US.UTF-8 locale`, when your
-pull request to OE-core came in.
+> -PR = "r6"
+> +PR = "r7"
+>
 
--- 
-Maciej Borzecki
-RnDity
+No need to bump PR anymore, this is historical and when they release PR can
+be removed.
 
+Ross
+
+--001a114c8f849d02a8054154a097
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 15 November 2016 at 09:39, Diego Rondini <span dir=3D"ltr">&lt;<a href=
+=3D"mailto:diego.ml@zoho.com" target=3D"_blank">diego.ml@zoho.com</a>&gt;</=
+span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8e=
+x;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":4nd" class=3D"a3=
+s aXjCH m158676f416f9b6a5">-PR =3D &quot;r6&quot;<br>
++PR =3D &quot;r7&quot;<br></div></blockquote></div><br>No need to bump PR a=
+nymore, this is historical and when they release PR can be removed.</div><d=
+iv class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></d=
+iv>
+
+--001a114c8f849d02a8054154a097--
