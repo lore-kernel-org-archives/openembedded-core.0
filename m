@@ -1,21 +1,20 @@
-Return-Path: <edwin.plauchu.camacho@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id C17686025F
+Return-Path: <joshua.g.lock@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id BD633605FF
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Nov 2016 22:06:15 +0000 (UTC)
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-	by fmsmga101.fm.intel.com with ESMTP; 15 Nov 2016 14:06:16 -0800
+	Tue, 15 Nov 2016 22:09:06 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 15 Nov 2016 14:09:07 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.31,496,1473145200"; d="scan'208";a="31774123"
-Received: from pianodaemon-contraption.zpn.intel.com ([10.219.128.75])
-	by fmsmga006.fm.intel.com with ESMTP; 15 Nov 2016 14:06:16 -0800
-From: Edwin Plauchu <edwin.plauchu.camacho@linux.intel.com>
+X-IronPort-AV: E=Sophos;i="5.31,496,1473145200"; d="scan'208";a="1059902589"
+Received: from jlock-mobl1.ger.corp.intel.com ([10.249.254.65])
+	by orsmga001.jf.intel.com with ESMTP; 15 Nov 2016 14:09:06 -0800
+From: Joshua Lock <joshua.g.lock@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 15 Nov 2016 16:07:35 -0600
-Message-Id: <20161115220735.23514-1-edwin.plauchu.camacho@linux.intel.com>
-X-Mailer: git-send-email 2.9.3
-Cc: Edwin Plauchu <edwin.plauchu.camacho@intel.com>
-Subject: [PATCH] python3-setuptools: upgrade to 28.8.0
+Date: Tue, 15 Nov 2016 22:08:54 +0000
+Message-Id: <1479247734-30259-1-git-send-email-joshua.g.lock@intel.com>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH] lib/oe/lsb: better handle missing fields
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,44 +27,76 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 Nov 2016 22:06:17 -0000
+X-List-Received-Date: Tue, 15 Nov 2016 22:09:09 -0000
 
-From: Edwin Plauchu <edwin.plauchu.camacho@intel.com>
+Some rolling release distros, such as Arch Linux, don't include a
+VERSION_ID field in their os-release file.
 
-Signed-off-by: Edwin Plauchu <edwin.plauchu.camacho@linux.intel.com>
+Change release_dict_osr() to better handle this optional field
+being absent.
+
+Further improve the resilience of the release_dict_*() methods by
+always returning a dict and using dict.get() in distro_identifier()
+to supply a default, empty string, value when then key is missing.
+
+Signed-off-by: Joshua Lock <joshua.g.lock@intel.com>
 ---
- meta/recipes-devtools/python/python-setuptools.inc                  | 6 +++---
- .../{python3-setuptools_22.0.5.bb => python3-setuptools_28.8.0.bb}  | 0
- 2 files changed, 3 insertions(+), 3 deletions(-)
- rename meta/recipes-devtools/python/{python3-setuptools_22.0.5.bb => python3-setuptools_28.8.0.bb} (100%)
+ meta/lib/oe/lsb.py | 13 +++++--------
+ 1 file changed, 5 insertions(+), 8 deletions(-)
 
-diff --git a/meta/recipes-devtools/python/python-setuptools.inc b/meta/recipes-devtools/python/python-setuptools.inc
-index 92ca9a0..d3eef13 100644
---- a/meta/recipes-devtools/python/python-setuptools.inc
-+++ b/meta/recipes-devtools/python/python-setuptools.inc
-@@ -3,14 +3,14 @@ HOMEPAGE = "https://pypi.python.org/pypi/setuptools"
- SECTION = "devel/python"
- LICENSE = "MIT"
+diff --git a/meta/lib/oe/lsb.py b/meta/lib/oe/lsb.py
+index 5a795a1..3a945e0 100644
+--- a/meta/lib/oe/lsb.py
++++ b/meta/lib/oe/lsb.py
+@@ -15,9 +15,6 @@ def release_dict_osr():
+             if key == 'VERSION_ID':
+                 data['DISTRIB_RELEASE'] = val.strip('"')
  
--LIC_FILES_CHKSUM = "file://setup.py;beginline=134;endline=134;md5=3e8df024d6c1442d18e84acf8fbbc475"
-+LIC_FILES_CHKSUM = "file://setup.py;beginline=146;endline=146;md5=3e8df024d6c1442d18e84acf8fbbc475"
+-    if len(data.keys()) != 2:
+-        return None
+-
+     return data
  
- SRCNAME = "setuptools"
+ def release_dict_lsb():
+@@ -27,7 +24,7 @@ def release_dict_lsb():
+     try:
+         output, err = bb.process.run(['lsb_release', '-ir'], stderr=PIPE)
+     except bb.process.CmdError as exc:
+-        return None
++        return {}
  
- SRC_URI = "https://files.pythonhosted.org/packages/source/s/${SRCNAME}/${SRCNAME}-${PV}.tar.gz"
+     lsb_map = { 'Distributor ID': 'DISTRIB_ID',
+                 'Release': 'DISTRIB_RELEASE'}
+@@ -51,7 +48,7 @@ def release_dict_lsb():
  
--SRC_URI[md5sum] = "869f3029dcc66a64ba39875e2a2f044a"
--SRC_URI[sha256sum] = "19aad19471052d5daefe96f2c1fa2e88dcdb17488bf8708d7e6356881ea833cb"
-+SRC_URI[md5sum] = "43d6eb25f60e8a2682a8f826ce9e3f42"
-+SRC_URI[sha256sum] = "432a1ad4044338c34c2d09b0ff75d509b9849df8cf329f4c1c7706d9c2ba3c61"
+ def release_dict_file():
+     """ Try to gather release information manually when other methods fail """
+-    data = None
++    data = {}
+     try:
+         if os.path.exists('/etc/lsb-release'):
+             data = {}
+@@ -78,7 +75,7 @@ def release_dict_file():
+                         break
  
- UPSTREAM_CHECK_URI = "https://pypi.python.org/pypi/setuptools"
+     except IOError:
+-        return None
++        return {}
+     return data
  
-diff --git a/meta/recipes-devtools/python/python3-setuptools_22.0.5.bb b/meta/recipes-devtools/python/python3-setuptools_28.8.0.bb
-similarity index 100%
-rename from meta/recipes-devtools/python/python3-setuptools_22.0.5.bb
-rename to meta/recipes-devtools/python/python3-setuptools_28.8.0.bb
+ def distro_identifier(adjust_hook=None):
+@@ -96,8 +93,8 @@ def distro_identifier(adjust_hook=None):
+     if not distro_data:
+         distro_data = release_dict_file()
+ 
+-    distro_id = distro_data['DISTRIB_ID']
+-    release = distro_data['DISTRIB_RELEASE']
++    distro_id = distro_data.get('DISTRIB_ID', '')
++    release = distro_data.get('DISTRIB_RELEASE', '')
+ 
+     if adjust_hook:
+         distro_id, release = adjust_hook(distro_id, release)
 -- 
-2.9.3
+2.7.4
 
 
