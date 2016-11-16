@@ -1,47 +1,25 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qt0-f171.google.com (mail-qt0-f171.google.com
-	[209.85.216.171])
-	by mail.openembedded.org (Postfix) with ESMTP id 0B19B60069
+Return-Path: <Yi.Zhao@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id CD54A6612C
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Nov 2016 10:06:25 +0000 (UTC)
-Received: by mail-qt0-f171.google.com with SMTP id n6so94997733qtd.1
+	Wed, 16 Nov 2016 10:07:36 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id uAGA7bmK024697
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Nov 2016 02:06:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=OjrTraYMjjlCs2a+zg5x0yskwBBcOb2UCLldVGbUNZ0=;
-	b=j9zkDNTga/QLVVv8CiQMNZdz7d+meh4bgCA0Xr6FqdHU1Fe3x2jOjKAPAUR0GIkQp2
-	lXL2X9bdYHaO49Ox0NUVmQq3dZ1kKoZIvzibm79H5cPkV0oxo2R+ugUEtccmvVnxRpmG
-	2TGUNeJO0OkjFUTHShkimY9EwxUfAbLV/KoMm0qqVjpR7lHJB/JW651SP56uvy60RJit
-	i6QIVKWgTddVeGDm/nTCuzro9Skx2D4BEdpDOdVXnyPiEuX0199E5Eh8JDIELasnEDT7
-	VsqTn1/JQIUHa48rkO1Z3+E1hppNcGycPsdh3limAxgEIlwuA8zLLmhmhISLXmMgW3Bl
-	Wuow==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=OjrTraYMjjlCs2a+zg5x0yskwBBcOb2UCLldVGbUNZ0=;
-	b=bEGF8g+Eahq833MoSMFat6Rrni44IdYBvTy/yFAadsnmASlPlxXAYzbT60YElfproT
-	9T2JkLe9eCbyRF4FtWZejn3qTuNo10ecl8KJAvTHKc5eAvMGOCWkpyr7ZQ3uOml7NNmM
-	EsG+tMp90TLRJxwdWbLTTtK4euSX82JOmfu6AO+/baqlrLf27oRKCAvw+RyI8obDN1cD
-	Ukcm61+c8C42251n49LTlFZEUWsQH+ZUo7DH5YRJv+rb6aroGaTqtVFJsZDJFxsC9Bbr
-	3ndBiQaNpyc29lhSPHd0T5Mt7Z715aP03nYQKkwtkIwaxMubUAK1DjPghhcD6bPnWcPE
-	MWzA==
-X-Gm-Message-State: AKaTC02Y5xOsBpjc0zTQ6Qw16egH5YPp6KxdrEHAmy0BH3Bbu/cfa8jZ0QWneXkIRNxT+Gy9DTCDTK8irhWG4E7d
-X-Received: by 10.237.44.161 with SMTP id g30mr1148426qtd.144.1479290787344;
-	Wed, 16 Nov 2016 02:06:27 -0800 (PST)
+	Wed, 16 Nov 2016 02:07:37 -0800
+Received: from localhost (128.224.162.198) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.294.0;
+	Wed, 16 Nov 2016 02:07:35 -0800
+From: Yi Zhao <yi.zhao@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 16 Nov 2016 18:07:33 +0800
+Message-ID: <1479290853-11390-1-git-send-email-yi.zhao@windriver.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Received: by 10.140.85.136 with HTTP; Wed, 16 Nov 2016 02:06:06 -0800 (PST)
-In-Reply-To: <20161114225241.2282-1-edwin.plauchu.camacho@linux.intel.com>
-References: <20161114225241.2282-1-edwin.plauchu.camacho@linux.intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 16 Nov 2016 10:06:06 +0000
-Message-ID: <CAJTo0La-NgoDXBsVcq5Puf2xZYS_aDJcqZ1UW6F_H_Qcmk0xjQ@mail.gmail.com>
-To: Edwin Plauchu <edwin.plauchu.camacho@linux.intel.com>
-Cc: Edwin Plauchu <edwin.plauchu.camacho@intel.com>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] python3-mako: upgrade to 1.0.6
+X-Originating-IP: [128.224.162.198]
+Subject: [PATCH] openssl: Security fix CVE-2016-7055
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,51 +32,89 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 16 Nov 2016 10:06:27 -0000
-Content-Type: multipart/alternative; boundary=94eb2c125848e65b8f05416839ed
+X-List-Received-Date: Wed, 16 Nov 2016 10:07:36 -0000
+Content-Type: text/plain
 
---94eb2c125848e65b8f05416839ed
-Content-Type: text/plain; charset=UTF-8
+There is a carry propagating bug in the Broadwell-specific Montgomery
+multiplication procedure that handles input lengths divisible by, but
+longer than 256 bits.
 
-On 14 November 2016 at 22:52, Edwin Plauchu <
-edwin.plauchu.camacho@linux.intel.com> wrote:
+External References:
+http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2016-7055
+https://www.openssl.org/news/secadv/20161110.txt
 
->  meta/recipes-devtools/python/python-mako.inc                          |
-> 4 ++--
->  .../python/{python3-mako_1.0.4.bb => python3-mako_1.0.6.bb}           | 0
->  2 files changed, 2 insertions(+), 2 deletions(-)
->  rename meta/recipes-devtools/python/{python3-mako_1.0.4.bb =>
-> python3-mako_1.0.6.bb} (100%)
->
+Patch from:
+https://github.com/openssl/openssl/commit/57c4b9f6a2f800b41ce2836986fe33640f6c3f8a
 
-Same problem as python3-git.
+Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
+---
+ .../openssl/openssl/CVE-2016-7055.patch            | 43 ++++++++++++++++++++++
+ .../recipes-connectivity/openssl/openssl_1.0.2j.bb |  1 +
+ 2 files changed, 44 insertions(+)
+ create mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2016-7055.patch
 
-Ross
+diff --git a/meta/recipes-connectivity/openssl/openssl/CVE-2016-7055.patch b/meta/recipes-connectivity/openssl/openssl/CVE-2016-7055.patch
+new file mode 100644
+index 0000000..83a74cd
+--- /dev/null
++++ b/meta/recipes-connectivity/openssl/openssl/CVE-2016-7055.patch
+@@ -0,0 +1,43 @@
++From 57c4b9f6a2f800b41ce2836986fe33640f6c3f8a Mon Sep 17 00:00:00 2001
++From: Andy Polyakov <appro@openssl.org>
++Date: Sun, 6 Nov 2016 18:33:17 +0100
++Subject: [PATCH] bn/asm/x86_64-mont.pl: fix for CVE-2016-7055 (Low severity).
++
++Reviewed-by: Rich Salz <rsalz@openssl.org>
++(cherry picked from commit 2fac86d9abeaa643677d1ffd0a139239fdf9406a)
++
++Upstream-Status: Backport [https://github.com/openssl/openssl/commit/57c4b9f6a2f800b41ce2836986fe33640f6c3f8a]
++CVE: CVE-2016-7055
++Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
++---
++ crypto/bn/asm/x86_64-mont.pl | 5 ++---
++ 1 file changed, 2 insertions(+), 3 deletions(-)
++
++diff --git a/crypto/bn/asm/x86_64-mont.pl b/crypto/bn/asm/x86_64-mont.pl
++index 044fd7e..80492d8 100755
++--- a/crypto/bn/asm/x86_64-mont.pl
+++++ b/crypto/bn/asm/x86_64-mont.pl
++@@ -1148,18 +1148,17 @@ $code.=<<___;
++ 	mulx	2*8($aptr),%r15,%r13	# ...
++ 	adox	-3*8($tptr),%r11
++ 	adcx	%r15,%r12
++-	adox	$zero,%r12
+++	adox	-2*8($tptr),%r12
++ 	adcx	$zero,%r13
+++	adox	$zero,%r13
++ 
++ 	mov	$bptr,8(%rsp)		# off-load &b[i]
++-	.byte	0x67
++ 	mov	$mi,%r15
++ 	imulq	24(%rsp),$mi		# "t[0]"*n0
++ 	xor	%ebp,%ebp		# xor	$zero,$zero	# cf=0, of=0
++ 
++ 	mulx	3*8($aptr),%rax,%r14
++ 	 mov	$mi,%rdx
++-	adox	-2*8($tptr),%r12
++ 	adcx	%rax,%r13
++ 	adox	-1*8($tptr),%r13
++ 	adcx	$zero,%r14
++-- 
++2.7.4
++
+diff --git a/meta/recipes-connectivity/openssl/openssl_1.0.2j.bb b/meta/recipes-connectivity/openssl/openssl_1.0.2j.bb
+index 257e3cf..f2aca36 100644
+--- a/meta/recipes-connectivity/openssl/openssl_1.0.2j.bb
++++ b/meta/recipes-connectivity/openssl/openssl_1.0.2j.bb
+@@ -40,6 +40,7 @@ SRC_URI += "file://find.pl;subdir=${BP}/util/ \
+             file://configure-musl-target.patch \
+             file://parallel.patch \
+             file://openssl-util-perlpath.pl-cwd.patch \
++            file://CVE-2016-7055.patch \
+            "
+ SRC_URI[md5sum] = "96322138f0b69e61b7212bc53d5e912b"
+ SRC_URI[sha256sum] = "e7aff292be21c259c6af26469c7a9b3ba26e9abaaffd325e3dccc9785256c431"
+-- 
+2.7.4
 
---94eb2c125848e65b8f05416839ed
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 14 November 2016 at 22:52, Edwin Plauchu <span dir=3D"ltr">&lt;<a href=
-=3D"mailto:edwin.plauchu.camacho@linux.intel.com" target=3D"_blank">edwin.p=
-lauchu.camacho@linux.intel.com</a>&gt;</span> wrote:<br><blockquote class=
-=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padd=
-ing-left:1ex"><div id=3D":3xh" class=3D"a3s aXjCH m1586512b3eb7376a">=C2=A0=
-meta/recipes-devtools/<span class=3D"il">python</span>/<wbr><span class=3D"=
-il">python</span>-mako.inc=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 4 ++--<br>
-=C2=A0.../<span class=3D"il">python</span>/{<a href=3D"http://python3-mako_=
-1.0.4.bb" rel=3D"noreferrer" target=3D"_blank">python3-mako_1.0.<wbr>4.bb</=
-a> =3D&gt; <a href=3D"http://python3-mako_1.0.6.bb" rel=3D"noreferrer" targ=
-et=3D"_blank">python3-mako_1.0.6.bb</a>}=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0| 0<br>
-=C2=A02 files changed, 2 insertions(+), 2 deletions(-)<br>
-=C2=A0rename meta/recipes-devtools/<span class=3D"il">python</span>/{<a hre=
-f=3D"http://python3-mako_1.0.4.bb" rel=3D"noreferrer" target=3D"_blank"><wb=
-r>python3-mako_1.0.4.bb</a> =3D&gt; <a href=3D"http://python3-mako_1.0.6.bb=
-" rel=3D"noreferrer" target=3D"_blank">python3-mako_1.0.6.bb</a>} (100%)</d=
-iv></blockquote></div><br>Same problem as python3-git.</div><div class=3D"g=
-mail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
-
---94eb2c125848e65b8f05416839ed--
