@@ -1,30 +1,23 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 8001671A22
+Return-Path: <jussi.kukkonen@intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 67F83607A3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Nov 2016 11:49:45 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	uAGBnkr2016469 for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Nov 2016 11:49:46 GMT
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id fo1khQbe0qTr
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Nov 2016 11:49:46 +0000 (GMT)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	uAGBnfpZ016462
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Nov 2016 11:49:42 GMT
-Message-ID: <1479296981.28508.18.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Wed, 16 Nov 2016 11:49:41 +0000
-X-Mailer: Evolution 3.18.5.2-0ubuntu3 
-Mime-Version: 1.0
-Subject: Morty maintainer
+	Wed, 16 Nov 2016 13:14:52 +0000 (UTC)
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+	by fmsmga103.fm.intel.com with ESMTP; 16 Nov 2016 05:14:53 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.31,500,1473145200"; d="scan'208";a="32044189"
+Received: from linux.intel.com ([10.54.29.200])
+	by fmsmga006.fm.intel.com with ESMTP; 16 Nov 2016 05:14:51 -0800
+Received: from theory.fi.intel.com (theory.fi.intel.com [10.237.72.53])
+	by linux.intel.com (Postfix) with ESMTP id B432A6A4080;
+	Wed, 16 Nov 2016 05:14:10 -0800 (PST)
+From: Jussi Kukkonen <jussi.kukkonen@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 16 Nov 2016 15:14:39 +0200
+Message-Id: <cover.1479301275.git.jussi.kukkonen@intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH 0/4] Upgrade mesa, piglit
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,18 +30,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 16 Nov 2016 11:49:46 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 16 Nov 2016 13:14:52 -0000
 
-Armin has kindly volunteered to maintain the morty stable release
-branch and has already put together a great series.
+This includes
+ * Mesa 13.0.1 upgrade
+ * piglit master upgrade
+ * piglit test compression patches that I sent earlier
+All three are independent of each other.
 
-I don't want to overload Armin so if anyone else wants to step forward,
-let me know and we can discuss it. Right now its looking likely Armin
-will be the maintainer though (thanks Armin!).
+This passes a quick smoke test and piglit results are ok:
 
-Cheers,
+           pass:   57334
+           fail:     345
+          crash:       1
+           skip:    7558
+           warn:       7
+          total:   65245
 
-Richard
+
+Thanks,
+ Jussi
+
+The following changes since commit 7c3a47ed8965c3a3eb90a9a4678d5caedbba6337:
+
+  bitbake: toaster: settings set ALLOWED_HOSTS to * in debug mode (2016-11-16 11:38:44 +0000)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib jku/mesa-piglit
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=jku/mesa-piglit
+
+Jussi Kukkonen (4):
+  piglit: Package tests in compressed form as well
+  core-tools-testapps: Re-add piglit
+  piglit: Upgrade to current master head
+  mesa: Upgrade 12.0.3 -> 13.0.1
+
+ .../packagegroup-core-tools-testapps.bb            |  2 +
+ .../0001-Use-wayland-scanner-in-the-path.patch     | 37 +++++++++++++++
+ .../files/replace_glibc_check_with_linux.patch     | 25 ++++++----
+ .../mesa/{mesa-gl_12.0.3.bb => mesa-gl_13.0.1.bb}  |  0
+ meta/recipes-graphics/mesa/mesa.inc                |  2 +-
+ .../mesa/{mesa_12.0.3.bb => mesa_13.0.1.bb}        |  5 +-
+ .../0001-cmake-Link-test-utils-with-ldl.patch      | 41 ----------------
+ ...0001-cmake-Link-utils-with-xcb-explicitly.patch | 54 ----------------------
+ meta/recipes-graphics/piglit/piglit/piglit.sh      | 20 ++++++++
+ meta/recipes-graphics/piglit/piglit_git.bb         | 26 +++++++++--
+ 10 files changed, 101 insertions(+), 111 deletions(-)
+ create mode 100644 meta/recipes-graphics/mesa/files/0001-Use-wayland-scanner-in-the-path.patch
+ rename meta/recipes-graphics/mesa/{mesa-gl_12.0.3.bb => mesa-gl_13.0.1.bb} (100%)
+ rename meta/recipes-graphics/mesa/{mesa_12.0.3.bb => mesa_13.0.1.bb} (75%)
+ delete mode 100644 meta/recipes-graphics/piglit/piglit/0001-cmake-Link-test-utils-with-ldl.patch
+ delete mode 100644 meta/recipes-graphics/piglit/piglit/0001-cmake-Link-utils-with-xcb-explicitly.patch
+ create mode 100644 meta/recipes-graphics/piglit/piglit/piglit.sh
+
+-- 
+2.1.4
+
 
