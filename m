@@ -1,23 +1,22 @@
 Return-Path: <jose.a.lamego@linux.intel.com>
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 27AAA6025F
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+	by mail.openembedded.org (Postfix) with ESMTP id A904660111
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Nov 2016 21:22:29 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga105.fm.intel.com with ESMTP; 16 Nov 2016 13:22:31 -0800
+	Wed, 16 Nov 2016 21:46:03 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga104.jf.intel.com with ESMTP; 16 Nov 2016 13:46:04 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.31,650,1473145200"; d="scan'208";a="1086248729"
+X-IronPort-AV: E=Sophos;i="5.31,650,1473145200"; 
+   d="scan'208";a="5242152"
 Received: from fsantes-mobl2.amr.corp.intel.com (HELO
 	jalamego-MOBL2.zpn.intel.com) ([10.219.5.141])
-	by fmsmga002.fm.intel.com with ESMTP; 16 Nov 2016 13:22:30 -0800
+	by orsmga002.jf.intel.com with ESMTP; 16 Nov 2016 13:46:03 -0800
 From: Jose Lamego <jose.a.lamego@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 16 Nov 2016 15:22:16 -0600
-Message-Id: <1479331336-14097-5-git-send-email-jose.a.lamego@linux.intel.com>
+Date: Wed, 16 Nov 2016 15:45:57 -0600
+Message-Id: <1479332757-14496-1-git-send-email-jose.a.lamego@linux.intel.com>
 X-Mailer: git-send-email 1.9.1
-In-Reply-To: <1479331336-14097-1-git-send-email-jose.a.lamego@linux.intel.com>
-References: <1479331336-14097-1-git-send-email-jose.a.lamego@linux.intel.com>
-Subject: [PATCH 4/4] python-scons*: upgrade to 2.5.1
+Subject: [PATCH] maintainers: Change maintainers for python(3) modules
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,42 +29,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 16 Nov 2016 21:22:29 -0000
+X-List-Received-Date: Wed, 16 Nov 2016 21:46:03 -0000
 
-Both python-scons and python-scons-native need to be upgraded to latest
-upstream version.
-This change was tested using qemux86 with core-image-sato.
+Some packages with recipes for both python2 and python3
+must be upgraded simultaneously to avoid version conflicts
+due to common dependencies.
+This change distributes responsibilities to provide
+a single maintainer for related recipes.
 
 Signed-off-by: Jose Lamego <jose.a.lamego@linux.intel.com>
 ---
- .../{python-scons-native_2.5.0.bb => python-scons-native_2.5.1.bb}    | 0
- .../python/{python-scons_2.5.0.bb => python-scons_2.5.1.bb}           | 4 ++--
- 2 files changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-devtools/python/{python-scons-native_2.5.0.bb => python-scons-native_2.5.1.bb} (100%)
- rename meta/recipes-devtools/python/{python-scons_2.5.0.bb => python-scons_2.5.1.bb} (78%)
+ meta-poky/conf/distro/include/maintainers.inc | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/meta/recipes-devtools/python/python-scons-native_2.5.0.bb b/meta/recipes-devtools/python/python-scons-native_2.5.1.bb
-similarity index 100%
-rename from meta/recipes-devtools/python/python-scons-native_2.5.0.bb
-rename to meta/recipes-devtools/python/python-scons-native_2.5.1.bb
-diff --git a/meta/recipes-devtools/python/python-scons_2.5.0.bb b/meta/recipes-devtools/python/python-scons_2.5.1.bb
-similarity index 78%
-rename from meta/recipes-devtools/python/python-scons_2.5.0.bb
-rename to meta/recipes-devtools/python/python-scons_2.5.1.bb
-index 8543c41..3f43856 100644
---- a/meta/recipes-devtools/python/python-scons_2.5.0.bb
-+++ b/meta/recipes-devtools/python/python-scons_2.5.1.bb
-@@ -6,8 +6,8 @@ SRCNAME = "scons"
- 
- SRC_URI = "https://files.pythonhosted.org/packages/source/s/${SRCNAME}/${SRCNAME}-${PV}.tar.gz"
- 
--SRC_URI[md5sum] = "bda5530a70a41a7831d83c8b191c021e"
--SRC_URI[sha256sum] = "01f1b3d6023516a8e1b5e77799e5a82a23b32953b1102d339059ffeca8600493"
-+SRC_URI[md5sum] = "3eac81e5e8206304a9b4683c57665aa4"
-+SRC_URI[sha256sum] = "c8de85fc02ed1a687b1f2ac791eaa0c1707b4382a204f17d782b5b111b9fdf07"
- 
- UPSTREAM_CHECK_URI = "https://pypi.python.org/pypi/SCons/"
- 
+diff --git a/meta-poky/conf/distro/include/maintainers.inc b/meta-poky/conf/distro/include/maintainers.inc
+index 54410aa..cdf5c72 100644
+--- a/meta-poky/conf/distro/include/maintainers.inc
++++ b/meta-poky/conf/distro/include/maintainers.inc
+@@ -624,7 +624,7 @@ RECIPE_MAINTAINER_pn-python-imaging = "Jose Lamego <jose.a.lamego@linux.intel.co
+ RECIPE_MAINTAINER_pn-python-mako = "Jose Lamego <jose.a.lamego@linux.intel.com>"
+ RECIPE_MAINTAINER_pn-python-native = "Alejandro Hernandez <alejandro.hernandez@linux.intel.com>"
+ RECIPE_MAINTAINER_pn-python-nose = "Jose Lamego <jose.a.lamego@linux.intel.com>"
+-RECIPE_MAINTAINER_pn-python-numpy = "Jose Lamego <jose.a.lamego@linux.intel.com>"
++RECIPE_MAINTAINER_pn-python-numpy = "Edwin Plauchu <edwin.plauchu.camacho@linux.intel.com>"
+ RECIPE_MAINTAINER_pn-python-pexpect = "Jose Lamego <jose.a.lamego@linux.intel.com>"
+ RECIPE_MAINTAINER_pn-python-ptyprocess = "Jose Lamego <jose.a.lamego@linux.intel.com>"
+ RECIPE_MAINTAINER_pn-python-pycairo = "Jose Lamego <jose.a.lamego@linux.intel.com>"
+@@ -633,7 +633,7 @@ RECIPE_MAINTAINER_pn-python-pygtk = "Jose Lamego <jose.a.lamego@linux.intel.com>
+ RECIPE_MAINTAINER_pn-python-pyrex = "Jose Lamego <jose.a.lamego@linux.intel.com>"
+ RECIPE_MAINTAINER_pn-python-scons = "Jose Lamego <jose.a.lamego@linux.intel.com>"
+ RECIPE_MAINTAINER_pn-python-scons-native = "Jose Lamego <jose.a.lamego@linux.intel.com>"
+-RECIPE_MAINTAINER_pn-python-setuptools = "Jose Lamego <jose.a.lamego@linux.intel.com>"
++RECIPE_MAINTAINER_pn-python-setuptools = "Edwin Plauchu <edwin.plauchu.camacho@linux.intel.com>"
+ RECIPE_MAINTAINER_pn-python-six = "Jose Lamego <jose.a.lamego@linux.intel.com>"
+ RECIPE_MAINTAINER_pn-python-smartpm = "Jose Lamego <jose.a.lamego@linux.intel.com>"
+ RECIPE_MAINTAINER_pn-python-smmap = "Jose Lamego <jose.a.lamego@linux.intel.com>"
+@@ -642,9 +642,9 @@ RECIPE_MAINTAINER_pn-python3-async = "Edwin Plauchu <edwin.plauchu.camacho@linux
+ RECIPE_MAINTAINER_pn-python3-dbus = "Edwin Plauchu <edwin.plauchu.camacho@linux.intel.com>"
+ RECIPE_MAINTAINER_pn-python3-distribute = "Edwin Plauchu <edwin.plauchu.camacho@linux.intel.com>"
+ RECIPE_MAINTAINER_pn-python3-docutils = "Edwin Plauchu <edwin.plauchu.camacho@linux.intel.com>"
+-RECIPE_MAINTAINER_pn-python3-git = "Edwin Plauchu <edwin.plauchu.camacho@linux.intel.com>"
++RECIPE_MAINTAINER_pn-python3-git = "Jose Lamego <jose.a.lamego@linux.intel.com>"
+ RECIPE_MAINTAINER_pn-python3-gitdb = "Edwin Plauchu <edwin.plauchu.camacho@linux.intel.com>"
+-RECIPE_MAINTAINER_pn-python3-mako = "Edwin Plauchu <edwin.plauchu.camacho@linux.intel.com>"
++RECIPE_MAINTAINER_pn-python3-mako = "Jose Lamego <jose.a.lamego@linux.intel.com>"
+ RECIPE_MAINTAINER_pn-python3-native = "Alejandro Hernandez <alejandro.hernandez@linux.intel.com>"
+ RECIPE_MAINTAINER_pn-python3-nose = "Edwin Plauchu <edwin.plauchu.camacho@linux.intel.com>"
+ RECIPE_MAINTAINER_pn-python3-numpy = "Edwin Plauchu <edwin.plauchu.camacho@linux.intel.com>"
 -- 
 1.9.1
 
