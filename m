@@ -1,50 +1,55 @@
-Return-Path: <patrick.ohly@intel.com>
-Received: from mail-it0-f44.google.com (mail-it0-f44.google.com
-	[209.85.214.44])
-	by mail.openembedded.org (Postfix) with ESMTP id 2AC5A719F0
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pg0-f47.google.com (mail-pg0-f47.google.com [74.125.83.47])
+	by mail.openembedded.org (Postfix) with ESMTP id 687B3719A6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Nov 2016 15:37:04 +0000 (UTC)
-Received: by mail-it0-f44.google.com with SMTP id o1so58339309ito.1
+	Wed, 16 Nov 2016 16:17:34 +0000 (UTC)
+Received: by mail-pg0-f47.google.com with SMTP id p66so80591047pga.2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Nov 2016 07:37:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=message-id:subject:from:to:date:organization:mime-version
-	:content-transfer-encoding;
-	bh=mEGOFXhliLZJKACODgrYZz5iptaefi2pvFFHee4ZxQs=;
-	b=ImmpcHvtnPEI9vL3NmF9uAylPhugE2X301SKOZ7r0oB1LiilDf4yPsrTSr1bfNgC7k
-	F980E2R1yJhXggGdCqNH/Dh1KlCdBmoFseMwHPPGilBuUjlK9QQSpEcKUAMn7s6F4gc+
-	wRo1bNuQ5I5cvDd77XhBX3OUC5gvF34iIL06PiEh1FKhOmmXmzZGCWc41AQMKFoZxEBv
-	+HxdY07S3h7OK87w3NyK0DDULgqYzf27gj1804S5zfGXmLAjg/c7abcmJO2gJeSRuM5j
-	CE0/hUxz6jlHBuaznffH2oRlc0dSYik4g+/+iqTNUqTxqCJByM+CzWW/A5m1cr24+9L4
-	z9/Q==
+	Wed, 16 Nov 2016 08:17:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=subject:to:references:cc:from:message-id:date:user-agent
+	:mime-version:in-reply-to:content-transfer-encoding;
+	bh=z0n+3IennU+4LfwITzdMBtWOYehhFRM8JxiFjT6BgQ8=;
+	b=AWqiiOdOQbD+4n9we8M8GXVMWyc7ndPsvJaPc2h8uFwkF8wHtxF+jy6IGYSRz6b2Jf
+	SIzxiPFrGkRnkpD/5z/Alaua+ikE32xyannUiEr9Zr5IQx9b/PTUi/RI3wONdAz1h+b/
+	7VrRjb7/H1aJFJP9DX79m6rvZ0ko3Yu90k7fCSb2DWvTbIgcgoHwgNZsMm/ZRogquCt1
+	MRWjz3iTv9hFxrQsM9xlEkBzMjP5KwXlEtnlzVrNgpzFSE8n4f5wB8bn5xJZ1GLZVcQE
+	tZQaopvAF217DcWUwU4vz/hnaPpBqXWkqKicC8QTbOmaSWCPr4+tz7gS23mFMDIJJ/XE
+	tMqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:message-id:subject:from:to:date:organization
-	:mime-version:content-transfer-encoding;
-	bh=mEGOFXhliLZJKACODgrYZz5iptaefi2pvFFHee4ZxQs=;
-	b=lbts5rIqyZrJ9nyXuqXrO1GVC1aE+FxZ6/wpL2mxdZkGfGQq6DHXoX3c8wn77HDMSI
-	mvcyMIeuBQIaQJEcSS8+ZKb8300dRm+nu0WfwyHlxvsYgHf5ZsOhNqpw5R9HHe3wFbC0
-	2bdnaEInmNquLNNMu8VWCVXJTxSM4lSCrxNSw0MlwJHu3VJ7JyT9CHOmjv4lmkZFjjyL
-	VV2aY22czSghWhBXLIzGkl3XQs0fazN1LAPX1WRl7bO7oMBwlmiDj5X+GVF2Id20mBgK
-	w5GxNrOSGiIPFVC7T8O6R9QvHwQMFHojMstur0yEHuDL2m8sqqATVM6cUNYv4C/Gtm10
-	iomg==
-X-Gm-Message-State: ABUngvdaCqpenuOxdfrcraM+ZRMInBkCnZB6j+BBig/KmxY0J2q2B6Chgqn79gwXa4Dde4nF
-X-Received: by 10.36.88.65 with SMTP id f62mr8766835itb.89.1479310592339;
-	Wed, 16 Nov 2016 07:36:32 -0800 (PST)
-Received: from pohly-mobl1 (p5DE8EAC8.dip0.t-ipconnect.de. [93.232.234.200])
+	h=x-gm-message-state:subject:to:references:cc:from:message-id:date
+	:user-agent:mime-version:in-reply-to:content-transfer-encoding;
+	bh=z0n+3IennU+4LfwITzdMBtWOYehhFRM8JxiFjT6BgQ8=;
+	b=AYt+GXlk0De9cERhllK6czlKOVHHaJNg8sfCQdf7Ig/3ZmkAbPT1zSy8UJkeQfgl7X
+	/K3TtWDeXNFy3u/2iUAd42RUVVeiUzFDmr6nVblPqlGc8ZtKVpDUM8p9fIK/cv/9y5Bj
+	XYG1FFfraabQ0klVa55XIZjz1/cjoePY09kZuZSduwuFxtSAGUdmuLPK0yCw9iU2HbpU
+	O5jr9BA5S/ttdOCXm/439M0WVPfMaO9eiV3IMdWUHCMaJPd1i00TwfwoNIeGk6+T7/RN
+	Lx6MWyFu4ytWfLK5E543fyPmJpLferaX/M7Ke5lb97NArINVBFSSvNFLe3UDilygcjjr
+	5S0g==
+X-Gm-Message-State: ABUngvcWnY4gZYu/2CXYHMJ9wyDXphILT6v9503jOGtMc7OpCGsmN+W291wtynZ5l0YzPQ==
+X-Received: by 10.99.122.14 with SMTP id v14mr9933288pgc.31.1479313055818;
+	Wed, 16 Nov 2016 08:17:35 -0800 (PST)
+Received: from ?IPv6:2601:202:4001:9ea0:90e8:e402:95d:e46d?
+	([2601:202:4001:9ea0:90e8:e402:95d:e46d])
 	by smtp.gmail.com with ESMTPSA id
-	g126sm2748035ioa.13.2016.11.16.07.36.30
+	g82sm55333766pfb.43.2016.11.16.08.17.34
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 16 Nov 2016 07:36:31 -0800 (PST)
-Message-ID: <1479310588.18151.22.camel@intel.com>
-From: Patrick Ohly <patrick.ohly@intel.com>
-To: OpenEmbedded <openembedded-core@lists.openembedded.org>
-Date: Wed, 16 Nov 2016 16:36:28 +0100
-Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
-X-Mailer: Evolution 3.12.9-1+b1 
-Mime-Version: 1.0
-Subject: truncating quoted text in emails
+	Wed, 16 Nov 2016 08:17:35 -0800 (PST)
+To: Andreas Oberritter <obi@opendreambox.org>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+References: <9ADD3FDE8B189B4AA2F8A3C711F8155E572AE52E@fmsmsx111.amr.corp.intel.com>
+	<e188c300-ce1b-4591-cb87-81a1497bbf34@opendreambox.org>
+	<1478613085.23123.137.camel@linuxfoundation.org>
+From: akuster808 <akuster808@gmail.com>
+Message-ID: <2b20c3bd-32e1-695f-cc5b-58f9e2f5996e@gmail.com>
+Date: Wed, 16 Nov 2016 08:17:34 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.4.0
+MIME-Version: 1.0
+In-Reply-To: <1478613085.23123.137.camel@linuxfoundation.org>
+Subject: Re: Yocto Project Status WW45 - UPDATED
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,32 +62,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 16 Nov 2016 15:37:05 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-
-Hello!
-
-While trying to follow patch reviews on this list I noticed that
-(subjectively?) quite a few replies completely quote the original email
-and then just add a few lines. That looks fine in GMail where the quoted
-text is folded, but not so much in mail readers where quoted text is
-unfolded (Evolution).
-
-A random example:
-http://lists.openembedded.org/pipermail/openembedded-core/2016-November/128861.html
-
-Not sure what the netiquette is for this list, but at least I would
-appreciate a bit more aggressive trimming in replies - thanks! ;-}
-
--- 
-Best Regards, Patrick Ohly
-
-The content of this message is my personal opinion only and although
-I am an employee of Intel, the statements I make here in no way
-represent Intel's position on the issue, nor am I authorized to speak
-on behalf of Intel on this matter.
+X-List-Received-Date: Wed, 16 Nov 2016 16:17:36 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
 
+Andreas,
+
+On 11/08/2016 05:51 AM, Richard Purdie wrote:
+> On Tue, 2016-11-08 at 11:00 +0100, Andreas Oberritter wrote:
+>> Hello Stephen,
+>>
+>> On 04.11.2016 18:06, Jolley, Stephen K wrote:
+>>> ·        There was a challenging taskhash mismatch test case this
+>>> week
+>>> which has resulted in some significant debugging improvements for
+>>> taskhashes and basehashes which are now in master.
+>> is there an entry in bugzilla about this issue, or can you please add
+>> a reference to the actual commits in master? I'm facing a similar
+>> issue, so it might be helpful for me to backport them to the branch
+>> I'm using.
+> http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=0a4a6d6956a10aa0a6589de12b0b2380a9f0a7d9
+>
+> has info in the commit message. You also want:
+>
+> http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=589f08aa852dd43af5d05d698cfa917bec084210
+> http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=157947efc7e505e01baafb33ec93fe2f485308fe
+> http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=f6b0c60664e86fec55d282f1ea41238abd74712d
+> http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=71c837611690ab4bec1656a58d13ca48e7c6a6e6
+
+This are now in Morty via Richard merging. I pulling these over for Krogoth.
+
+- armin
+>
+> Cheers,
+>
+> Richard
 
 
