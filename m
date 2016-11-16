@@ -1,26 +1,50 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id D0B0371A68
+Return-Path: <patrick.ohly@intel.com>
+Received: from mail-it0-f44.google.com (mail-it0-f44.google.com
+	[209.85.214.44])
+	by mail.openembedded.org (Postfix) with ESMTP id 2AC5A719F0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Nov 2016 14:24:40 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id uAGEOfMu011630
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 16 Nov 2016 06:24:41 -0800 (PST)
-Received: from yow-bashfiel-d4.wrs.com (128.224.56.94) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.294.0; Wed, 16 Nov 2016 06:24:41 -0800
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-To: <richard.purdie@linuxfoundation.org>
-Date: Wed, 16 Nov 2016 09:24:35 -0500
-Message-ID: <5fee293bc9ff05d7ac9d60c85c76e300cbdb18fc.1479306112.git.bruce.ashfield@windriver.com>
-X-Mailer: git-send-email 2.5.0
-In-Reply-To: <cover.1479306112.git.bruce.ashfield@windriver.com>
-References: <cover.1479306112.git.bruce.ashfield@windriver.com>
-MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 5/5] kern-tools: error checking and tree generation fixes
+	Wed, 16 Nov 2016 15:37:04 +0000 (UTC)
+Received: by mail-it0-f44.google.com with SMTP id o1so58339309ito.1
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 16 Nov 2016 07:37:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=message-id:subject:from:to:date:organization:mime-version
+	:content-transfer-encoding;
+	bh=mEGOFXhliLZJKACODgrYZz5iptaefi2pvFFHee4ZxQs=;
+	b=ImmpcHvtnPEI9vL3NmF9uAylPhugE2X301SKOZ7r0oB1LiilDf4yPsrTSr1bfNgC7k
+	F980E2R1yJhXggGdCqNH/Dh1KlCdBmoFseMwHPPGilBuUjlK9QQSpEcKUAMn7s6F4gc+
+	wRo1bNuQ5I5cvDd77XhBX3OUC5gvF34iIL06PiEh1FKhOmmXmzZGCWc41AQMKFoZxEBv
+	+HxdY07S3h7OK87w3NyK0DDULgqYzf27gj1804S5zfGXmLAjg/c7abcmJO2gJeSRuM5j
+	CE0/hUxz6jlHBuaznffH2oRlc0dSYik4g+/+iqTNUqTxqCJByM+CzWW/A5m1cr24+9L4
+	z9/Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:message-id:subject:from:to:date:organization
+	:mime-version:content-transfer-encoding;
+	bh=mEGOFXhliLZJKACODgrYZz5iptaefi2pvFFHee4ZxQs=;
+	b=lbts5rIqyZrJ9nyXuqXrO1GVC1aE+FxZ6/wpL2mxdZkGfGQq6DHXoX3c8wn77HDMSI
+	mvcyMIeuBQIaQJEcSS8+ZKb8300dRm+nu0WfwyHlxvsYgHf5ZsOhNqpw5R9HHe3wFbC0
+	2bdnaEInmNquLNNMu8VWCVXJTxSM4lSCrxNSw0MlwJHu3VJ7JyT9CHOmjv4lmkZFjjyL
+	VV2aY22czSghWhBXLIzGkl3XQs0fazN1LAPX1WRl7bO7oMBwlmiDj5X+GVF2Id20mBgK
+	w5GxNrOSGiIPFVC7T8O6R9QvHwQMFHojMstur0yEHuDL2m8sqqATVM6cUNYv4C/Gtm10
+	iomg==
+X-Gm-Message-State: ABUngvdaCqpenuOxdfrcraM+ZRMInBkCnZB6j+BBig/KmxY0J2q2B6Chgqn79gwXa4Dde4nF
+X-Received: by 10.36.88.65 with SMTP id f62mr8766835itb.89.1479310592339;
+	Wed, 16 Nov 2016 07:36:32 -0800 (PST)
+Received: from pohly-mobl1 (p5DE8EAC8.dip0.t-ipconnect.de. [93.232.234.200])
+	by smtp.gmail.com with ESMTPSA id
+	g126sm2748035ioa.13.2016.11.16.07.36.30
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 16 Nov 2016 07:36:31 -0800 (PST)
+Message-ID: <1479310588.18151.22.camel@intel.com>
+From: Patrick Ohly <patrick.ohly@intel.com>
+To: OpenEmbedded <openembedded-core@lists.openembedded.org>
+Date: Wed, 16 Nov 2016 16:36:28 +0100
+Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
+X-Mailer: Evolution 3.12.9-1+b1 
+Mime-Version: 1.0
+Subject: truncating quoted text in emails
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,87 +57,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 16 Nov 2016 14:24:41 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 16 Nov 2016 15:37:05 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-During processing of the kernel meta data the kern tools were
-not properly exiting on syntax errors or invalid commands.
+Hello!
 
-Noticing and debugging these issues wasn't trivial. To make this
-easier, we now trap the error and dump the offending meta-data
-for the user to see.
+While trying to follow patch reviews on this list I noticed that
+(subjectively?) quite a few replies completely quote the original email
+and then just add a few lines. That looks fine in GMail where the quoted
+text is folded, but not so much in mail readers where quoted text is
+unfolded (Evolution).
 
-There was also an issue with creating branches during tree
-generation, which is resolved by always switching to the
-active branch.
+A random example:
+http://lists.openembedded.org/pipermail/openembedded-core/2016-November/128861.html
 
-The following are the commit logs of the changes themselves:
+Not sure what the netiquette is for this list, but at least I would
+appreciate a bit more aggressive trimming in replies - thanks! ;-}
 
-[
-  commit b36f6f9a5695f2084b83823393e13ca42284bed9
-  Author: Paul Gortmaker <paul.gortmaker@windriver.com>
-  Date:   Sat Oct 22 17:23:25 2016 -0400
-
-      kgit-scc: dont mention meta-repo in help ; it doesnt exist
-
-      Signed-off-by: Paul Gortmaker <paul.gortmaker@windriver.com>
-      Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
-
-  commit 08463d684c1952e74c25344cddace4c3f24c739d
-  Author: Bruce Ashfield <bruce.ashfield@windriver.com>
-  Date:   Mon Oct 31 14:30:12 2016 -0400
-
-      scc: exit on error
-
-      If there is an error in the processing of the input files, scc
-      should exit and inform the user.
-
-      scc is executed on a combined/preprocessed file and as a result
-      it doesn't have the granularity to see each input file individually.
-
-      Rather than moving preprocessing into scc (from spp), we can trap
-      the line number of the error and dump context around the line.
-      This gives the user a pointer to the input file and the specific
-      line that caused the problem.
-
-      Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
-
-  commit bf99953e8ac14cee653e559f2d4a6022c847a182
-  Author: Bruce Ashfield <bruce.ashfield@windriver.com>
-  Date:   Fri Oct 28 21:23:27 2016 -0400
-
-      kgit-meta: always checkout branches on branch commands
-
-      During a tree generation we must always make the branch active when
-      we see any kind of branch command. This ensures that any subsequent
-      patches are applied in the proper context.
-
-      Previously, only branch creation was changing the active branch, and
-      this mean that tree generation was not determinstic and relied
-      on the order of processing to generate a correct tree.
-
-      Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
-]
-
-Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
----
- meta/recipes-kernel/kern-tools/kern-tools-native_git.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb b/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
-index d8041ddd38c5..88b1aee729c9 100644
---- a/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
-+++ b/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
-@@ -4,7 +4,7 @@ LIC_FILES_CHKSUM = "file://git/tools/kgit;beginline=5;endline=9;md5=a6c2fa8aef1b
- 
- DEPENDS = "git-native"
- 
--SRCREV = "9a3995ee8daabf37e92e1b51b133cf8582d85809"
-+SRCREV = "b36f6f9a5695f2084b83823393e13ca42284bed9"
- PR = "r12"
- PV = "0.2+git${SRCPV}"
- 
 -- 
-2.5.0
+Best Regards, Patrick Ohly
+
+The content of this message is my personal opinion only and although
+I am an employee of Intel, the statements I make here in no way
+represent Intel's position on the issue, nor am I authorized to speak
+on behalf of Intel on this matter.
+
+
 
 
