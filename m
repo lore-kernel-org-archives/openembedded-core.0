@@ -1,28 +1,28 @@
 Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id C957A719DE
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 1DAE571A1F
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Nov 2016 22:19:05 +0000 (UTC)
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-	by fmsmga104.fm.intel.com with ESMTP; 16 Nov 2016 14:19:06 -0800
+	Wed, 16 Nov 2016 22:21:57 +0000 (UTC)
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+	by fmsmga102.fm.intel.com with ESMTP; 16 Nov 2016 14:21:58 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.31,650,1473145200"; d="scan'208";a="32248154"
+X-IronPort-AV: E=Sophos;i="5.31,650,1473145200"; d="scan'208";a="32192497"
 Received: from llgoh-mobl.gar.corp.intel.com (HELO
 	peggleto-mobl.ger.corp.intel.com) ([10.255.159.102])
-	by fmsmga006.fm.intel.com with ESMTP; 16 Nov 2016 14:19:05 -0800
+	by fmsmga005.fm.intel.com with ESMTP; 16 Nov 2016 14:21:55 -0800
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 17 Nov 2016 11:19:03 +1300
-Message-ID: <2510085.L1HP8FaYoY@peggleto-mobl.ger.corp.intel.com>
+Date: Thu, 17 Nov 2016 11:21:53 +1300
+Message-ID: <2737183.lHG0REoQPa@peggleto-mobl.ger.corp.intel.com>
 Organization: Intel Corporation
 User-Agent: KMail/4.14.10 (Linux/4.7.10-100.fc23.x86_64; KDE/4.14.20; x86_64; ;
 	)
-In-Reply-To: <5248602.HLsnDvu2hn@peggleto-mobl.ger.corp.intel.com>
-References: <1479331336-14097-1-git-send-email-jose.a.lamego@linux.intel.com>
-	<20161116215522.7692.73016@do.openembedded.org>
-	<5248602.HLsnDvu2hn@peggleto-mobl.ger.corp.intel.com>
+In-Reply-To: <20161116171420.GA66534@bwitkowx-mobl.ger.corp.intel.com>
+References: <1478844138-13407-1-git-send-email-jiajie.hu@intel.com>
+	<CAJTo0LaUcWr-=YvHBj=u+_yz0HtTS7HYWTAy6ggZjVi435La+Q@mail.gmail.com>
+	<20161116171420.GA66534@bwitkowx-mobl.ger.corp.intel.com>
 MIME-Version: 1.0
-Subject: =?UTF-8?B?UmU6IOKclyBwYXRjaHRlc3Q6IGZhaWx1cmUgZm9yIHB5dGhvbi1naXQgYW5kIDMgbW9yZSB1cGdyYWRlcw==?=
+Subject: Re: [PATCH] devtool: fix handling of unicode characters from subprocess stdout
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,39 +35,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 16 Nov 2016 22:19:06 -0000
+X-List-Received-Date: Wed, 16 Nov 2016 22:22:00 -0000
 Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="us-ascii"
 
-On Thu, 17 Nov 2016 11:03:21 Paul Eggleton wrote:
-> On Wed, 16 Nov 2016 21:55:22 Patchwork wrote:
-> > == Series Details ==
-> > 
-> > Series: python-git and 3 more upgrades
-> > Revision: 1
-> > URL   : https://patchwork.openembedded.org/series/3947/
-> > State : failure
-> > 
-> > == Summary ==
-> > 
-> > Thank you for submitting this patch series to OpenEmbedded Core. This is
-> > an automated response. Several tests have been executed on the proposed
-> > series (series 3947, revision 1) by patchtest resulting in
-> > the following failures:
-> > 
-> > 
-> > * Patch            [1/4] python*-git: upgrade to 2.1.0
-> > 
-> >   Issue            Shortlog does not follow expected format
-> > 
-> > [test_shortlog_format] Suggested fix    Commit shortlog (first line of
-> > commit message) should follow the format "<target>: <summary>"
+On Wed, 16 Nov 2016 09:14:20 Stephano Cetola wrote:
+> On 11/11, Burton, Ross wrote:
+> > A reader is definitely the right thing here, but I'm wondering why this
+> > needs to loop on single characters.  As I understand it doing a read() on
+> > a
+> > reader wrapping stdout will read until it blocks (because the process
+> > hasn't got anything to output) so result in less pointless iterating.
 > 
-> I guess our regex is being a bit strict here.
+> I've tested this and it fixes the issue, and resolves this bug:
+> https://bugzilla.yoctoproject.org/show_bug.cgi?id=10649
+> 
+> We may be able to stream this without blocking using
+> Queue.get_nowait(). This could solve the looping issue as well, as
+> you'd be looping over stdout.readline and placing that in the queue,
+> rather than looping over each character.
 
-Sigh, this wasn't meant to go to the list. I guess by this and others that you 
-can see we're working on this though. It's about time we posted something 
-proper about it.
+FWIW I'd rather see this one merged and the issue fixed and we can optimise it 
+later, especially as the original version used a single-byte read.
+
+Thanks Jiajie for fixing the issue I caused and Stephano for verifying.
+
+Acked-by: Paul Eggleton <paul.eggleton@linux.intel.com>
 
 Cheers,
 Paul
