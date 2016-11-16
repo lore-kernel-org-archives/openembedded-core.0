@@ -1,49 +1,57 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f176.google.com (mail-qk0-f176.google.com
-	[209.85.220.176])
-	by mail.openembedded.org (Postfix) with ESMTP id 7823E71978
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pf0-f195.google.com (mail-pf0-f195.google.com
+	[209.85.192.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 412F96E5FC
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Nov 2016 17:26:23 +0000 (UTC)
-Received: by mail-qk0-f176.google.com with SMTP id x190so184313080qkb.0
+	Wed, 16 Nov 2016 17:28:58 +0000 (UTC)
+Received: by mail-pf0-f195.google.com with SMTP id c4so7610641pfb.3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Nov 2016 09:26:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=hDQdafuYYHS7hRLm+4mdfLTXtEafrv70bgxdKSQLB4c=;
-	b=AIVyEs6z4YhjhU3odwZjpaC04fvcv6QMRLocjO3a6TAHIZ5GwmupLSgRSLNvMBf0y/
-	IlJ7sxNqyq9/YCJIAD7Q0P2i+M0JdllwbAAEV78iEJMhpxCprt+1OHRV+/TPJCDJ1kNT
-	V6leV7EPCPHHR1YKNV9hqxQGDLx8HbPJ7bouQJ3m83aPZx+8yZjEbbiQMN0hAb79P/LF
-	T9QYbxJOqBKzEP0Bj0lU8aYhwqSE6WMMgN/pzsTPIOYxOyp/eDhjF1F8U1WVIFOvkN1k
-	52/qe5LgPbTrzvXWI85dpJqsA5LdFDtNNGS2Re1EfNBwxKLg1YvJMcatZvvsgbdZFJkY
-	DfiQ==
+	Wed, 16 Nov 2016 09:29:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=subject:to:references:cc:from:organization:message-id:date
+	:user-agent:mime-version:in-reply-to;
+	bh=h12oW/PXjy44haDa3D5fiOLzpx6K83c01RJ9+uU8Opk=;
+	b=ZFOWkKYNblMBSZ5/uv5vUB6o+3ujYBrOlb7ZOlKAJ6pX52m+FawR6gR/ei25ItuZVP
+	phgpXMVgzSybGkimZh/ZBwYubr/q1kXqW2F4MXRqdxOZ7oue5f253wLVjzBB4lmxkVMY
+	zDDRUf7zbOA+N0DfPLtv6F+ijxgZPc8YZOsE9LrnDcaPBO6TGho2el++noz/np8Z3EP/
+	zBn0DhWqiQWqQ+179GM9AAkEJZtBhHHIbuuwOi7DSF3bano8Q9CWobV2Pe0zHO6H9BDx
+	DaW8fKrSNRqEuzlcs+8BJ6pxZ+AwQTerRn5WYWDty/NeWMnn+oFuCw7cI9dk3bQzbCSV
+	18qQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=hDQdafuYYHS7hRLm+4mdfLTXtEafrv70bgxdKSQLB4c=;
-	b=V6gesQkWdB0AeXJK8bI3HKl0HsSZ7tFJ0x5TXufVIVnTBqSVqqkr6MPyKbZN2Elr0W
-	plCXRatkjumSNuLtpOzTZz9ksUf8b/hQXEg5G5spuQnz0seyuuSQnrZDFMa0oMlNhLGx
-	nQcFY5D6zEySxHMBiRjxRGTYpZEq3QZ4yoG0WSgnfnrc8MfR1YighSomVkCCw7omyDf5
-	KgfrE1tJS/sOWNGYvQYGs3Gu0m8mpWGgRC9oVixfxGgs9DHqgwY3PTujMs7W7EWBBfQu
-	tNjo0OPQVvwTIpkSJkkoIZCrFgPlhYybuysALZB5H0wkuVIJo4If3nZ6DbJBJxiQQ8Mc
-	iRag==
-X-Gm-Message-State: AKaTC00U/Cf3oc+FejeYcWsYBQkP+FjAgzaSTApL85BxbzkGrRv8vE1uWNZ6mwmVklf3NbnC5ABoyWlcmw0PobvR
-X-Received: by 10.55.8.20 with SMTP id 20mr5259972qki.3.1479317184853; Wed, 16
-	Nov 2016 09:26:24 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.140.85.136 with HTTP; Wed, 16 Nov 2016 09:26:04 -0800 (PST)
-In-Reply-To: <22d481e0-2b32-2959-522f-0ed7dbf71889@gmail.com>
+	h=x-gm-message-state:subject:to:references:cc:from:organization
+	:message-id:date:user-agent:mime-version:in-reply-to;
+	bh=h12oW/PXjy44haDa3D5fiOLzpx6K83c01RJ9+uU8Opk=;
+	b=Qf4nlwLhRlWIoQ3uRaB0OyKju4BKGZT1ihxsIGgDFsC6Mpt4M+yhU1kVlYdKcBF1nP
+	W4hdvzR2G7+m856Mzkp+zth2LTJMcw5IMObNZGAwrUjKIpLldR1XrMEjzbidac4t9j9/
+	hcYB3x9UkjgI2KrjqC40KzJzx3loWiSX/R02kAYQ4Zel/wDdzVVGxslT7wWRTuypkv1R
+	EO/tDhxVRA4tTUMvCwOa8YCBVfwhFZmGN39agIMVChe/HkvcmMufktbWJyubs2bXON5n
+	rVtBBxBEgXniRECOb0vzl2joJpHh2ZjabTYlnp2Ajb4lXQlcDMtBBzFQb8KpcHIPro9J
+	l7HQ==
+X-Gm-Message-State: ABUngvebRJuEJ3RpBQZfJeKkA8HJzr3h0J3GkaGGs4BV7ITOn86Zgn/QOLm3ug8ikFHs7Q==
+X-Received: by 10.98.89.6 with SMTP id n6mr6162775pfb.43.1479317340578;
+	Wed, 16 Nov 2016 09:29:00 -0800 (PST)
+Received: from CACSVMO-14452.local ([2601:646:8882:b8c:253b:db0b:7823:74ba])
+	by smtp.gmail.com with ESMTPSA id
+	t21sm31690973pfa.1.2016.11.16.09.28.59
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 16 Nov 2016 09:28:59 -0800 (PST)
+To: "Burton, Ross" <ross.burton@intel.com>
 References: <0e379627-328b-cd37-0310-67a14156d90e@embed.me.uk>
 	<CAJTo0LaY5K8gY97hXbLgGkaRNbKGv-DwvLU0H1jt8oSkXg+rug@mail.gmail.com>
 	<be2d8fe9-686b-b174-48a3-f609f36f0969@embed.me.uk>
 	<CAJTo0LZoieB7vWei+fM=3vWzm1j4wgGmvyxE_5X0H-ZYdsZmaw@mail.gmail.com>
 	<977eace4-b716-70f8-c9f3-837f0b6c239a@embed.me.uk>
 	<22d481e0-2b32-2959-522f-0ed7dbf71889@gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 16 Nov 2016 17:26:04 +0000
-Message-ID: <CAJTo0LZZR73+uoC6zC2u9btouQhEm8tKsz0svf0NvBqyVhQu9g@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
+	<CAJTo0LZZR73+uoC6zC2u9btouQhEm8tKsz0svf0NvBqyVhQu9g@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Organization: himvis.com
+Message-ID: <023d639b-3fff-8321-4652-f60ec7ae97ec@gmail.com>
+Date: Wed, 16 Nov 2016 09:28:59 -0800
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:50.0)
+	Gecko/20100101 Thunderbird/50.0
+MIME-Version: 1.0
+In-Reply-To: <CAJTo0LZZR73+uoC6zC2u9btouQhEm8tKsz0svf0NvBqyVhQu9g@mail.gmail.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: libtool --with-libtool-sysroot
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -58,34 +66,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 16 Nov 2016 17:26:24 -0000
-Content-Type: multipart/alternative; boundary=001a114c9d6050a09a05416e5fd0
+X-List-Received-Date: Wed, 16 Nov 2016 17:28:59 -0000
+X-Groupsio-MsgNum: 89479
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature";
+	boundary="WMNKdfJEJ7K6ouqf2r5jIupkhVo1LuoJO"
 
---001a114c9d6050a09a05416e5fd0
-Content-Type: text/plain; charset=UTF-8
+--WMNKdfJEJ7K6ouqf2r5jIupkhVo1LuoJO
+Content-Type: multipart/mixed; boundary="Fx88RTu26DHtmlpMXWicULXVTDkfb9JiN";
+ protected-headers="v1"
+From: Khem Raj <raj.khem@gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Cc: Jack Mitchell <ml@embed.me.uk>,
+ OE-core <openembedded-core@lists.openembedded.org>
+Message-ID: <023d639b-3fff-8321-4652-f60ec7ae97ec@gmail.com>
+Subject: Re: [OE-core] libtool --with-libtool-sysroot
+References: <0e379627-328b-cd37-0310-67a14156d90e@embed.me.uk>
+ <CAJTo0LaY5K8gY97hXbLgGkaRNbKGv-DwvLU0H1jt8oSkXg+rug@mail.gmail.com>
+ <be2d8fe9-686b-b174-48a3-f609f36f0969@embed.me.uk>
+ <CAJTo0LZoieB7vWei+fM=3vWzm1j4wgGmvyxE_5X0H-ZYdsZmaw@mail.gmail.com>
+ <977eace4-b716-70f8-c9f3-837f0b6c239a@embed.me.uk>
+ <22d481e0-2b32-2959-522f-0ed7dbf71889@gmail.com>
+ <CAJTo0LZZR73+uoC6zC2u9btouQhEm8tKsz0svf0NvBqyVhQu9g@mail.gmail.com>
+In-Reply-To: <CAJTo0LZZR73+uoC6zC2u9btouQhEm8tKsz0svf0NvBqyVhQu9g@mail.gmail.com>
 
-On 16 November 2016 at 17:22, Khem Raj <raj.khem@gmail.com> wrote:
-
-> what us autotools bbclass doing in this case ?
->
-
-The class is passing --force, so this only happens if you're running
-autoreconf manually.
-
-Ross
-
---001a114c9d6050a09a05416e5fd0
-Content-Type: text/html; charset=UTF-8
+--Fx88RTu26DHtmlpMXWicULXVTDkfb9JiN
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 16 November 2016 at 17:22, Khem Raj <span dir=3D"ltr">&lt;<a href=3D"mai=
-lto:raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt;</span>=
- wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bor=
-der-left:1px #ccc solid;padding-left:1ex"><div id=3D":605" class=3D"a3s aXj=
-CH m1586e29d40b75ae1">what us autotools bbclass doing in this case ?<br></d=
-iv></blockquote></div><br>The class is passing --force, so this only happen=
-s if you&#39;re running autoreconf manually.</div><div class=3D"gmail_extra=
-"><br></div><div class=3D"gmail_extra">Ross</div></div>
 
---001a114c9d6050a09a05416e5fd0--
+
+On 11/16/16 9:26 AM, Burton, Ross wrote:
+>=20
+> On 16 November 2016 at 17:22, Khem Raj <raj.khem@gmail.com
+> <mailto:raj.khem@gmail.com>> wrote:
+>=20
+>     what us autotools bbclass doing in this case ?
+>=20
+>=20
+> The class is passing --force, so this only happens if you're running
+> autoreconf manually.
+>=20
+
+OK thanks so there is nothing to fix. But may be FAQ entry would be good
+
+> Ross
+
+
+--Fx88RTu26DHtmlpMXWicULXVTDkfb9JiN--
+
+--WMNKdfJEJ7K6ouqf2r5jIupkhVo1LuoJO
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+Comment: GPGTools - https://gpgtools.org
+
+iEYEARECAAYFAlgsl1sACgkQuwUzVZGdMxQK4gCfUXdppBR295nJfQuTJDMZ7FxE
+7FgAnj2K+OwsuQFrLoo11qWs9RBXg8mX
+=P3UB
+-----END PGP SIGNATURE-----
+
+--WMNKdfJEJ7K6ouqf2r5jIupkhVo1LuoJO--
