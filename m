@@ -1,48 +1,54 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f195.google.com (mail-pf0-f195.google.com
-	[209.85.192.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 0E21A71A1C
+Received: from mail-pg0-f68.google.com (mail-pg0-f68.google.com [74.125.83.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 94B2B60685
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Nov 2016 17:47:57 +0000 (UTC)
-Received: by mail-pf0-f195.google.com with SMTP id c4so7630231pfb.3
+	Wed, 16 Nov 2016 18:08:34 +0000 (UTC)
+Received: by mail-pg0-f68.google.com with SMTP id p66so15290266pga.2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Nov 2016 09:47:59 -0800 (PST)
+	Wed, 16 Nov 2016 10:08:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=+5wWXGKZUHLYurZYLsACpfRG4WMv4wOvXbe+pQvATHE=;
-	b=NEYEpcUOQ4hRid6GboOU+o5KnG5qKWovnvZXS3SUdLq/fDCxIHs6+0tHTWEhYa7PJr
-	tbbgax+36RuF0G9WCMs8C0pTMtwBh9EJ9syX8ysQqM+hAFKpjTsFn6Q3450lZBirrG/P
-	dILW/0fVcTQxcVLA8k55soRiZXSqMmqt9HhhdAqF+V0aHmJwuUsG7dPkcwN1ocFfnrMw
-	g3bcMvelRhRhJEcI6lNnsPF/rQ+EGU6MnkSJ2BKKlUIa0cXwFi9o5/mdrYBktwO6Rfwh
-	pC8wril+3qwnVSFJdsN8+pSevmwToAYJoWjJ0IXZqtHAZ52F1agkkK0Prq8jr6bVdNaQ
-	bXzQ==
+	h=subject:to:references:cc:from:organization:message-id:date
+	:user-agent:mime-version:in-reply-to;
+	bh=xuda1cZ8XMVdSlwt71NCzaIELQzeXtqMq4GBJaA5Y9A=;
+	b=s3j91cvUCqQPTl01cVz941CT8AZ8Fzupjg1A/ZJbX0mZc/WcS5bkPnO1g0ocJxiN+b
+	3Xk1/SVDjK09oOeVjg+MXj3WOUYvN4+OxuORBua3chUrtr64a6KEfEPZtnY5PDSy4Rw1
+	f0MxGBQYxfWBZwwStw9iRL0ElA8HzasUOUZleApAWPxUHMtA+CoMw+IeRfLyhMKWux4y
+	qbnjX8Y6Q97aLVLD9hHjmY0qkgOV23OlGHLtuggDNl/wQdugc28J/fdDDlcChXKyu4wH
+	8H8/hhcnCXDXbkOkV4kVon0E++9yBaV8Wa3yz02c/13yCcJqLcg/h5UGzAHJWCKtpaFe
+	Wj4g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=+5wWXGKZUHLYurZYLsACpfRG4WMv4wOvXbe+pQvATHE=;
-	b=fkcqUPCX7sgLqSK6b+MfDFfoJwf/bNzBxRERoTD4ZtvM+n6CpNacJO7ZL5liU83z47
-	PRL7bzwqnLNfO4+HPzLkulybnUokBa41Q/tQCWP/TNACQyqAcZsYsfbm5k/sTpgtwlL/
-	weLRdMH1qbiIyCFSppEHy6yw9uc+HkvolCuQkoY0hWaWYtehkGRcoYqs07Hreo5SEDJ4
-	Dn/6bvANoqdIQhMZdAwvZJkASa1137/A29Xwo83gk8oTeswzBkJMkhaVtBhOTR6qf1KO
-	c+vcyajk1OdwzXCiJERnay63hNc64Bf6eanNmJISx03UW8vK+KwdAHg/jZk0clsfchdo
-	tFjg==
-X-Gm-Message-State: ABUngveX4R9pcRAuZIMb2XlyUE59BbQYZexqPC112pO3nsSCchyHHNDfrV4grvfoWw7erA==
-X-Received: by 10.99.62.13 with SMTP id l13mr10841471pga.112.1479318479047;
-	Wed, 16 Nov 2016 09:47:59 -0800 (PST)
-Received: from localhost.localdomain (c-76-102-32-192.hsd1.ca.comcast.net.
-	[76.102.32.192]) by smtp.gmail.com with ESMTPSA id
-	s2sm55946617pfi.10.2016.11.16.09.47.58
+	h=x-gm-message-state:subject:to:references:cc:from:organization
+	:message-id:date:user-agent:mime-version:in-reply-to;
+	bh=xuda1cZ8XMVdSlwt71NCzaIELQzeXtqMq4GBJaA5Y9A=;
+	b=Y1LnApIpyx+mGslz0TbjIrs5v8BpxGobPj1Ju1UQdZaz66LcjiiYVeOeJLVgnL2NSO
+	tFj9xXxLZkr8OXl9UCwg5xCt8dkaan9lCqCSKp+NIugnDbX8jYQon7f5L719tLmpujaU
+	yEgi5A3w/JZtV2jOLFhoJK2rWv2nQw7YqXubcXs1z3gaCDhQUJfQbm8ezkuvxoOhUdOX
+	Cv7lW8jAaSkgdTqxkWQMPFRBvmnEGxmZ3d0MLz4Ql5HovJg49yLeqC4gVIl8kBVVKe84
+	+1nF+E4YgnWybHKbK8rIeqxYdS/Az3ASXiR44t0EXAe4sMTb8/dlv+8hWKXD905WsFpn
+	jBHA==
+X-Gm-Message-State: ABUngvd/OR5F/72qtTHjH1/orII/BgTahm3RR4S7kVSDTwck0ab/NOgp9fwVG6GLSucjKQ==
+X-Received: by 10.99.239.5 with SMTP id u5mr10990291pgh.61.1479319715772;
+	Wed, 16 Nov 2016 10:08:35 -0800 (PST)
+Received: from CACSVMO-14452.local ([2601:646:8882:b8c:253b:db0b:7823:74ba])
+	by smtp.gmail.com with ESMTPSA id
+	y200sm56035614pfb.16.2016.11.16.10.08.34
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 16 Nov 2016 09:47:58 -0800 (PST)
+	Wed, 16 Nov 2016 10:08:35 -0800 (PST)
+To: Bruce Ashfield <bruce.ashfield@gmail.com>,
+	Patrick Ohly <patrick.ohly@intel.com>
+References: <1479310588.18151.22.camel@intel.com>
+	<CADkTA4Pti3PEn7C1AWcy0H0RrWfjphSC1+396tp16z2Wm5PWww@mail.gmail.com>
 From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 16 Nov 2016 09:47:48 -0800
-Message-Id: <20161116174748.26994-5-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.10.2
-In-Reply-To: <20161116174748.26994-1-raj.khem@gmail.com>
-References: <20161116174748.26994-1-raj.khem@gmail.com>
-Subject: [PATCH 5/5] binutils: Fix parsing of ppc apuinfo for spe
+Organization: himvis.com
+Message-ID: <8dacb506-b9e2-4e0f-96d5-5fb267301f5d@gmail.com>
+Date: Wed, 16 Nov 2016 10:08:34 -0800
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:50.0)
+	Gecko/20100101 Thunderbird/50.0
+MIME-Version: 1.0
+In-Reply-To: <CADkTA4Pti3PEn7C1AWcy0H0RrWfjphSC1+396tp16z2Wm5PWww@mail.gmail.com>
+Cc: OpenEmbedded <openembedded-core@lists.openembedded.org>
+Subject: Re: truncating quoted text in emails
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,67 +61,81 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 16 Nov 2016 17:47:58 -0000
+X-List-Received-Date: Wed, 16 Nov 2016 18:08:34 -0000
+X-Groupsio-MsgNum: 89485
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature";
+	boundary="OtCWI5KsMLbeuDpIqmoFvNCrAdXwlV3Qf"
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/recipes-devtools/binutils/binutils-2.27.inc   |  1 +
- ...17-ppc-apuinfo-for-spe-parsed-incorrectly.patch | 33 ++++++++++++++++++++++
- 2 files changed, 34 insertions(+)
- create mode 100644 meta/recipes-devtools/binutils/binutils/0017-ppc-apuinfo-for-spe-parsed-incorrectly.patch
+--OtCWI5KsMLbeuDpIqmoFvNCrAdXwlV3Qf
+Content-Type: multipart/mixed; boundary="lN8CnBfR4G83STBH5dGOJwRRTa45nJ905";
+ protected-headers="v1"
+From: Khem Raj <raj.khem@gmail.com>
+To: Bruce Ashfield <bruce.ashfield@gmail.com>,
+ Patrick Ohly <patrick.ohly@intel.com>
+Cc: OpenEmbedded <openembedded-core@lists.openembedded.org>
+Message-ID: <8dacb506-b9e2-4e0f-96d5-5fb267301f5d@gmail.com>
+Subject: Re: [OE-core] truncating quoted text in emails
+References: <1479310588.18151.22.camel@intel.com>
+ <CADkTA4Pti3PEn7C1AWcy0H0RrWfjphSC1+396tp16z2Wm5PWww@mail.gmail.com>
+In-Reply-To: <CADkTA4Pti3PEn7C1AWcy0H0RrWfjphSC1+396tp16z2Wm5PWww@mail.gmail.com>
 
-diff --git a/meta/recipes-devtools/binutils/binutils-2.27.inc b/meta/recipes-devtools/binutils/binutils-2.27.inc
-index fc81721..e1be176 100644
---- a/meta/recipes-devtools/binutils/binutils-2.27.inc
-+++ b/meta/recipes-devtools/binutils/binutils-2.27.inc
-@@ -37,6 +37,7 @@ SRC_URI = "\
-      file://0015-binutils-mips-gas-pic-relax-linkonce.diff \
-      file://0015-Refine-.cfi_sections-check-to-only-consider-compact-.patch \
-      file://0016-Fix-seg-fault-in-ARM-linker-when-trying-to-parse-a-b.patch \
-+     file://0017-ppc-apuinfo-for-spe-parsed-incorrectly.patch \
- "
- S  = "${WORKDIR}/git"
- 
-diff --git a/meta/recipes-devtools/binutils/binutils/0017-ppc-apuinfo-for-spe-parsed-incorrectly.patch b/meta/recipes-devtools/binutils/binutils/0017-ppc-apuinfo-for-spe-parsed-incorrectly.patch
-new file mode 100644
-index 0000000..02f5efb
---- /dev/null
-+++ b/meta/recipes-devtools/binutils/binutils/0017-ppc-apuinfo-for-spe-parsed-incorrectly.patch
-@@ -0,0 +1,33 @@
-+From 2a0b8eb7a7974ff7605cb3ba5dffa5abef286ffa Mon Sep 17 00:00:00 2001
-+From: Alan Modra <amodra@gmail.com>
-+Date: Tue, 30 Aug 2016 20:57:32 +0930
-+Subject: [PATCH] ppc apuinfo for spe parsed incorrectly
-+
-+apuinfo saying SPE resulted in mach = bfd_mach_ppc_vle due to a
-+missing break.
-+
-+	PR 20531
-+	* elf32-ppc.c (_bfd_elf_ppc_set_arch): Add missing "break".
-+---
-+Upstream-Status: Backport
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+
-+ bfd/ChangeLog   | 5 +++++
-+ bfd/elf32-ppc.c | 1 +
-+ 2 files changed, 6 insertions(+)
-+
-+diff --git a/bfd/elf32-ppc.c b/bfd/elf32-ppc.c
-+index 95ce1dc..e42ef1c 100644
-+--- a/bfd/elf32-ppc.c
-++++ b/bfd/elf32-ppc.c
-+@@ -2246,6 +2246,7 @@ _bfd_elf_ppc_set_arch (bfd *abfd)
-+ 		case PPC_APUINFO_BRLOCK:
-+ 		  if (mach != bfd_mach_ppc_vle)
-+ 		    mach = bfd_mach_ppc_e500;
-++		  break;
-+ 
-+ 		case PPC_APUINFO_VLE:
-+ 		  mach = bfd_mach_ppc_vle;
-+-- 
-+2.10.2
-+
--- 
-2.10.2
+--lN8CnBfR4G83STBH5dGOJwRRTa45nJ905
+Content-Type: text/plain; charset=windows-1252
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
 
+
+On 11/16/16 9:01 AM, Bruce Ashfield wrote:
+>=20
+>=20
+> On Wed, Nov 16, 2016 at 10:36 AM, Patrick Ohly <patrick.ohly@intel.com
+> <mailto:patrick.ohly@intel.com>> wrote:
+>=20
+>     Hello!
+>=20
+>     While trying to follow patch reviews on this list I noticed that
+>     (subjectively?) quite a few replies completely quote the original e=
+mail
+>     and then just add a few lines. That looks fine in GMail where the q=
+uoted
+>     text is folded, but not so much in mail readers where quoted text i=
+s
+>     unfolded (Evolution).
+>=20
+>     A random example:
+>     http://lists.openembedded.org/pipermail/openembedded-core/2016-Nove=
+mber/128861.html
+>     <http://lists.openembedded.org/pipermail/openembedded-core/2016-Nov=
+ember/128861.html>
+>=20
+>     Not sure what the netiquette is for this list, but at least I would=
+
+>     appreciate a bit more aggressive trimming in replies - thanks! ;-}
+>=20
+>=20
+>=20
+> We might as well try to agree on an editor to use ;)
+
+I would expect the users to be aware and do the needed. Worst case
+your email wont be read or replied to.
+
+
+
+--lN8CnBfR4G83STBH5dGOJwRRTa45nJ905--
+
+--OtCWI5KsMLbeuDpIqmoFvNCrAdXwlV3Qf
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+Comment: GPGTools - https://gpgtools.org
+
+iEYEARECAAYFAlgsoKIACgkQuwUzVZGdMxQ7wwCffSGOTafrl7CSGrhm8cZJIrdM
+wh0An0e3cH7mbE7/MnUIDEPvDCzwcXjP
+=AwMZ
+-----END PGP SIGNATURE-----
+
+--OtCWI5KsMLbeuDpIqmoFvNCrAdXwlV3Qf--
