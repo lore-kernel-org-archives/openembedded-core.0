@@ -1,28 +1,46 @@
-Return-Path: <jose.perez.carranza@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 3B816605C3
+Return-Path: <fabio.berton@ossystems.com.br>
+Received: from mail-qk0-f195.google.com (mail-qk0-f195.google.com
+	[209.85.220.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 285C260589
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Nov 2016 15:23:20 +0000 (UTC)
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-	by fmsmga101.fm.intel.com with ESMTP; 17 Nov 2016 07:23:22 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.31,506,1473145200"; 
-	d="scan'208,217";a="192578604"
-Received: from jgperezc.zpn.intel.com (HELO [10.219.5.31]) ([10.219.5.31])
-	by fmsmga004.fm.intel.com with ESMTP; 17 Nov 2016 07:23:21 -0800
-To: "Burton, Ross" <ross.burton@intel.com>,
-	Francisco Pedraza <francisco.j.pedraza.gonzalez@intel.com>
-References: <1479257423-4281-1-git-send-email-francisco.j.pedraza.gonzalez@intel.com>
-	<CAJTo0LbxF0sdYqmK3ttUyaiyTPmg+ME9qbSS1NnpcA4H7iQLaQ@mail.gmail.com>
-From: Jose Perez Carranza <jose.perez.carranza@linux.intel.com>
-Message-ID: <358803d5-7678-9c6e-2017-9007263d02d5@linux.intel.com>
-Date: Thu, 17 Nov 2016 09:33:33 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.4.0
-MIME-Version: 1.0
-In-Reply-To: <CAJTo0LbxF0sdYqmK3ttUyaiyTPmg+ME9qbSS1NnpcA4H7iQLaQ@mail.gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] Test needed to verify postinst script order.
+	Thu, 17 Nov 2016 15:27:01 +0000 (UTC)
+Received: by mail-qk0-f195.google.com with SMTP id n204so26696750qke.2
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 17 Nov 2016 07:27:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
+	h=from:to:cc:subject:date:message-id:organization;
+	bh=5Pn8AiFdv4ZRUwj+x/PJ5JJThg28cu3kbajwjAfsT4I=;
+	b=PdC2+HySu3wciyORypYaYrZ5WZqp9C5RAjIpxZVqJGkSHUDVUtlX2Qxy0yNEhmjE+k
+	bKyOE9mbvUHcSJlXYmQZ9R8fm5oOyBb0AB1fJnBLKOwEkJmK5JJyV4iqnnyFa9UMmbt+
+	TUPDWBDaiACkfA5OXdeVLuhP4DAU4BGX4fHejMXpGe4XDr06sWURxJxtlMtbXh3gQMG+
+	LgtraalX4qHh5Ql267tZ1f1vpDubHKLoJ81E4kNtw+BnqiIkJHWc9KTPTHfdSQcWYOoY
+	VLkhxRHIRA7AIq8kOeXGi5DjJFY2npLSP17mxgZK/lxSAl/OYB/Fmdi8Q7V7hsa8blFk
+	bU3Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:organization;
+	bh=5Pn8AiFdv4ZRUwj+x/PJ5JJThg28cu3kbajwjAfsT4I=;
+	b=FZxo/EjH0XaqEhv0csPnJVy18TrW0po/UIAshPcsOICRPTZZw2VSUYUh3+DbNOtvZi
+	tCyc2XkxB570yE4ljNpUDJerog1jkhW3vPeQghZo2w/3d4txA48LDIo/wrPhrEwwKYOL
+	EBq78X8Um5VkWt4NI2pJ5XRaq068jvbtVOB97hunemG4D4mECRwbzQ8ytN286p2eQySP
+	jeqXZm61imMCKXnBkeTIXTifZ5F0AIxCLzYno8wQp+Tca1J/cckqagtxpWjh6j0ZrVpE
+	3ByNQx8tV7OAfYm8lRI8Df5S91IU6A/iXNUy1ReDzm0H6xfF36PONzZfVFQ/mIu67Pzj
+	2yTA==
+X-Gm-Message-State: AKaTC02oc5J4atNeBrBsjme8cKJDTFBCxGX8YAWZS3mnnaxHavd/WzjNBpFxk/1I41i/9A==
+X-Received: by 10.233.220.71 with SMTP id q68mr4385892qkf.8.1479396422763;
+	Thu, 17 Nov 2016 07:27:02 -0800 (PST)
+Received: from monster.lab.ossystems.com.br ([181.220.123.3])
+	by smtp.gmail.com with ESMTPSA id 73sm1691597qky.2.2016.11.17.07.27.00
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Thu, 17 Nov 2016 07:27:01 -0800 (PST)
+From: Fabio Berton <fabio.berton@ossystems.com.br>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 17 Nov 2016 13:26:34 -0200
+Message-Id: <1479396394-26134-1-git-send-email-fabio.berton@ossystems.com.br>
+X-Mailer: git-send-email 2.1.4
+Organization: O.S. Systems Software LTDA.
+Subject: [PATCH] libpcap: Fix build when PACKAGECONFIG ipv6 is not enable
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,179 +53,175 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 17 Nov 2016 15:23:21 -0000
-Content-Type: multipart/alternative;
-	boundary="------------DA3F07FCAF74AF27D72E5FD2"
+X-List-Received-Date: Thu, 17 Nov 2016 15:27:03 -0000
 
---------------DA3F07FCAF74AF27D72E5FD2
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+Add patches to fix error:
+/
+| ERROR: oe_runmake failed
+| config.status: creating pcap-config.tmp
+| mv pcap-config.tmp pcap-config
+| chmod a+x pcap-config
+| ../libpcap-1.8.1/gencode.c: In function 'pcap_compile':
+| ../libpcap-1.8.1/gencode.c:693:8: error: 'compiler_state_t
+| {aka struct _compiler_state}' has no member named 'ai'
+|   cstate.ai = NULL;
+|         ^
+| ../libpcap-1.8.1/gencode.c: In function 'gen_gateway':
+| ../libpcap-1.8.1/gencode.c:4914:13: error: 'cstate' undeclared
+| (first use in this function)
+|    bpf_error(cstate, "direction applied to 'gateway'");
+|              ^~~~~~
+| ../libpcap-1.8.1/gencode.c:4914:13: note: each undeclared identifier is
+| reported only once for each function it appears in
+\
+
+Patches were submitted to upstream [1]
+
+[1] https://github.com/the-tcpdump-group/libpcap/pull/541
+
+Signed-off-by: Fabio Berton <fabio.berton@ossystems.com.br>
+---
+ ...r_state_t.ai-usage-when-INET6-is-not-defi.patch | 41 +++++++++++++
+ ...02-Add-missing-compiler_state_t-parameter.patch | 67 ++++++++++++++++++++++
+ meta/recipes-connectivity/libpcap/libpcap_1.8.1.bb |  2 +
+ 3 files changed, 110 insertions(+)
+ create mode 100644 meta/recipes-connectivity/libpcap/libpcap/0001-Fix-compiler_state_t.ai-usage-when-INET6-is-not-defi.patch
+ create mode 100644 meta/recipes-connectivity/libpcap/libpcap/0002-Add-missing-compiler_state_t-parameter.patch
+
+diff --git a/meta/recipes-connectivity/libpcap/libpcap/0001-Fix-compiler_state_t.ai-usage-when-INET6-is-not-defi.patch b/meta/recipes-connectivity/libpcap/libpcap/0001-Fix-compiler_state_t.ai-usage-when-INET6-is-not-defi.patch
+new file mode 100644
+index 0000000..edb6ae5
+--- /dev/null
++++ b/meta/recipes-connectivity/libpcap/libpcap/0001-Fix-compiler_state_t.ai-usage-when-INET6-is-not-defi.patch
+@@ -0,0 +1,41 @@
++From 64aa033a061c43fc15c711f2490ae41d23b868c3 Mon Sep 17 00:00:00 2001
++From: Fabio Berton <fabio.berton@ossystems.com.br>
++Date: Thu, 17 Nov 2016 09:44:42 -0200
++Subject: [PATCH 1/2] Fix compiler_state_t.ai usage when INET6 is not defined
++Organization: O.S. Systems Software LTDA.
++
++Fix error:
++
++/
++| ../libpcap-1.8.1/gencode.c: In function 'pcap_compile':
++| ../libpcap-1.8.1/gencode.c:693:8: error: 'compiler_state_t
++| {aka struct _compiler_state}' has no member named 'ai'
++|   cstate.ai = NULL;
++\
++
++Upstream-Status: Submitted [1]
++
++[1] https://github.com/the-tcpdump-group/libpcap/pull/541
++
++Signed-off-by: Fabio Berton <fabio.berton@ossystems.com.br>
++---
++ gencode.c | 2 ++
++ 1 file changed, 2 insertions(+)
++
++diff --git a/gencode.c b/gencode.c
++index a887f27..e103c70 100644
++--- a/gencode.c
+++++ b/gencode.c
++@@ -690,7 +690,9 @@ pcap_compile(pcap_t *p, struct bpf_program *program,
++ 	}
++ 	initchunks(&cstate);
++ 	cstate.no_optimize = 0;
+++#ifdef INET6
++ 	cstate.ai = NULL;
+++#endif
++ 	cstate.ic.root = NULL;
++ 	cstate.ic.cur_mark = 0;
++ 	cstate.bpf_pcap = p;
++-- 
++2.1.4
++
+diff --git a/meta/recipes-connectivity/libpcap/libpcap/0002-Add-missing-compiler_state_t-parameter.patch b/meta/recipes-connectivity/libpcap/libpcap/0002-Add-missing-compiler_state_t-parameter.patch
+new file mode 100644
+index 0000000..032b265
+--- /dev/null
++++ b/meta/recipes-connectivity/libpcap/libpcap/0002-Add-missing-compiler_state_t-parameter.patch
+@@ -0,0 +1,67 @@
++From 50ec0a088d5924a8305b2d70dcba71b0942dee1a Mon Sep 17 00:00:00 2001
++From: Fabio Berton <fabio.berton@ossystems.com.br>
++Date: Thu, 17 Nov 2016 09:47:29 -0200
++Subject: [PATCH 2/2] Add missing compiler_state_t parameter
++Organization: O.S. Systems Software LTDA.
++
++Fix error:
++
++/
++|../libpcap-1.8.1/gencode.c: In function 'gen_gateway':
++|../libpcap-1.8.1/gencode.c:4914:13: error: 'cstate' undeclared
++| (first use in this function)
++|    bpf_error(cstate, "direction applied to 'gateway'");
++\
++
++Upstream-Status: Submitted [1]
++
++[1] https://github.com/the-tcpdump-group/libpcap/pull/541
++
++Signed-off-by: Fabio Berton <fabio.berton@ossystems.com.br>
++---
++ gencode.c | 15 ++++++++-------
++ 1 file changed, 8 insertions(+), 7 deletions(-)
++
++diff --git a/gencode.c b/gencode.c
++index e103c70..f07c0be 100644
++--- a/gencode.c
+++++ b/gencode.c
++@@ -523,7 +523,7 @@ static struct block *gen_host6(compiler_state_t *, struct in6_addr *,
++     struct in6_addr *, int, int, int);
++ #endif
++ #ifndef INET6
++-static struct block *gen_gateway(const u_char *, bpf_u_int32 **, int, int);
+++static struct block *gen_gateway(compiler_state_t *, const u_char *, bpf_u_int32 **, int, int);
++ #endif
++ static struct block *gen_ipfrag(compiler_state_t *);
++ static struct block *gen_portatom(compiler_state_t *, int, bpf_int32);
++@@ -4904,11 +4904,12 @@ gen_host6(compiler_state_t *cstate, struct in6_addr *addr,
++ 
++ #ifndef INET6
++ static struct block *
++-gen_gateway(eaddr, alist, proto, dir)
++-	const u_char *eaddr;
++-	bpf_u_int32 **alist;
++-	int proto;
++-	int dir;
+++gen_gateway(cstate, eaddr, alist, proto, dir)
+++    compiler_state_t *cstate;
+++    const u_char *eaddr;
+++    bpf_u_int32 **alist;
+++    int proto;
+++    int dir;
++ {
++ 	struct block *b0, *b1, *tmp;
++ 
++@@ -6472,7 +6473,7 @@ gen_scode(compiler_state_t *cstate, const char *name, struct qual q)
++ 		alist = pcap_nametoaddr(name);
++ 		if (alist == NULL || *alist == NULL)
++ 			bpf_error(cstate, "unknown host '%s'", name);
++-		b = gen_gateway(eaddr, alist, proto, dir);
+++		b = gen_gateway(cstate, eaddr, alist, proto, dir);
++ 		free(eaddr);
++ 		return b;
++ #else
++-- 
++2.1.4
++
+diff --git a/meta/recipes-connectivity/libpcap/libpcap_1.8.1.bb b/meta/recipes-connectivity/libpcap/libpcap_1.8.1.bb
+index 9072fe0..e9db28a 100644
+--- a/meta/recipes-connectivity/libpcap/libpcap_1.8.1.bb
++++ b/meta/recipes-connectivity/libpcap/libpcap_1.8.1.bb
+@@ -2,6 +2,8 @@ require libpcap.inc
+ 
+ SRC_URI += " \
+     file://libpcap-pkgconfig-support.patch \
++    file://0001-Fix-compiler_state_t.ai-usage-when-INET6-is-not-defi.patch \
++    file://0002-Add-missing-compiler_state_t-parameter.patch \
+ "
+ 
+ SRC_URI[md5sum] = "3d48f9cd171ff12b0efd9134b52f1447"
+-- 
+2.1.4
 
 
-
-On 11/17/2016 06:14 AM, Burton, Ross wrote:
->
-> On 16 November 2016 at 00:50, Francisco Pedraza 
-> <francisco.j.pedraza.gonzalez@intel.com 
-> <mailto:francisco.j.pedraza.gonzalez@intel.com>> wrote:
->
->     Will verify the following:
->     1. Compile a minimal image.
->     2. The compiled image will add the created layer with the
->     recipes postinstz postinsta postinstb postinstd postinstp postinstt
->     created previously at "meta-selftest/recipes-test"
->     2. Run qemu
->     3. Validate the task execution order.
->     V4
->
->
-> This is missing the test that some postinsts should be happening at 
-> rootfs time.
-I have assigned the bug 8433 and I will send a different patch to add 
-those test cases, I'm just waiting to the final implementation of this  
-patch to be accepted to avoid execution and merge conflicts.
->
-> Also, can it permute PACKAGE_CLASSES (rotate through all three 
-> options) so it exercises all backends.
->
->     Signed-off-by: Francisco Pedraza
->     <francisco.j.pedraza.gonzalez@intel.com
->     <mailto:francisco.j.pedraza.gonzalez@intel.com>>
->     ---
->      .../recipes-test/postinsta/postinsta_1.0.bb
->     <http://postinsta_1.0.bb>        | 20 +++++++++++
->      .../recipes-test/postinstb/postinstb_1.0.bb
->     <http://postinstb_1.0.bb>        | 22 ++++++++++++
->      .../recipes-test/postinstd/postinstd_1.0.bb
->     <http://postinstd_1.0.bb>        | 22 ++++++++++++
->      .../recipes-test/postinstp/postinstp_1.0.bb
->     <http://postinstp_1.0.bb>        | 22 ++++++++++++
->      .../recipes-test/postinstt/postinstt_1.0.bb
->     <http://postinstt_1.0.bb>        | 22 ++++++++++++
->      .../recipes-test/postinstz/postinstz_1.0.bb
->     <http://postinstz_1.0.bb>        | 12 +++++++
->
->
-> For clarity can all of these be squashed into a single recipe with 
-> clearer names?
->
-> Ross
->
->
-
-
---------------DA3F07FCAF74AF27D72E5FD2
-Content-Type: text/html; charset=windows-1252
-Content-Transfer-Encoding: 8bit
-
-<html>
-  <head>
-    <meta content="text/html; charset=windows-1252"
-      http-equiv="Content-Type">
-  </head>
-  <body text="#000000" bgcolor="#FFFFFF">
-    <p><br>
-    </p>
-    <br>
-    <div class="moz-cite-prefix">On 11/17/2016 06:14 AM, Burton, Ross
-      wrote:<br>
-    </div>
-    <blockquote
-cite="mid:CAJTo0LbxF0sdYqmK3ttUyaiyTPmg+ME9qbSS1NnpcA4H7iQLaQ@mail.gmail.com"
-      type="cite">
-      <div dir="ltr">
-        <div class="gmail_extra"><br>
-          <div class="gmail_quote">On 16 November 2016 at 00:50,
-            Francisco Pedraza <span dir="ltr">&lt;<a
-                moz-do-not-send="true"
-                href="mailto:francisco.j.pedraza.gonzalez@intel.com"
-                target="_blank">francisco.j.pedraza.gonzalez@intel.com</a>&gt;</span>
-            wrote:<br>
-            <blockquote class="gmail_quote" style="margin:0 0 0
-              .8ex;border-left:1px #ccc solid;padding-left:1ex">
-              <div id=":619" class="a3s aXjCH m1586aa8e9d4ce13a">Will
-                verify the following:<br>
-                1. Compile a minimal image.<br>
-                2. The compiled image will add the created layer with
-                the<br>
-                recipes postinstz postinsta postinstb postinstd
-                postinstp postinstt<br>
-                created previously at "meta-selftest/recipes-test"<br>
-                2. Run qemu<br>
-                3. Validate the task execution order.<br>
-                V4<br>
-              </div>
-            </blockquote>
-            <div><br>
-            </div>
-            <div>This is missing the test that some postinsts should be
-              happening at rootfs time.</div>
-          </div>
-        </div>
-      </div>
-    </blockquote>
-    I have assigned the bug 8433 and I will send a different patch to
-    add those test cases, I'm just waiting to the final implementation
-    of this  patch to be accepted to avoid execution and merge
-    conflicts.  <br>
-    <blockquote
-cite="mid:CAJTo0LbxF0sdYqmK3ttUyaiyTPmg+ME9qbSS1NnpcA4H7iQLaQ@mail.gmail.com"
-      type="cite">
-      <div dir="ltr">
-        <div class="gmail_extra">
-          <div class="gmail_quote">
-            <div><br>
-            </div>
-            <div>Also, can it permute PACKAGE_CLASSES (rotate through
-              all three options) so it exercises all backends.</div>
-            <div><br>
-            </div>
-            <blockquote class="gmail_quote" style="margin:0 0 0
-              .8ex;border-left:1px #ccc solid;padding-left:1ex">
-              <div id=":619" class="a3s aXjCH m1586aa8e9d4ce13a">
-                Signed-off-by: Francisco Pedraza &lt;<a
-                  moz-do-not-send="true"
-                  href="mailto:francisco.j.pedraza.gonzalez@intel.com">francisco.j.pedraza.gonzalez@<wbr>intel.com</a>&gt;<br>
-                ---<br>
-                 .../recipes-test/postinsta/<a moz-do-not-send="true"
-                  href="http://postinsta_1.0.bb" rel="noreferrer"
-                  target="_blank">pos<wbr>tinsta_1.0.bb</a>        | 20
-                +++++++++++<br>
-                 .../recipes-test/postinstb/<a moz-do-not-send="true"
-                  href="http://postinstb_1.0.bb" rel="noreferrer"
-                  target="_blank">pos<wbr>tinstb_1.0.bb</a>        | 22
-                ++++++++++++<br>
-                 .../recipes-test/postinstd/<a moz-do-not-send="true"
-                  href="http://postinstd_1.0.bb" rel="noreferrer"
-                  target="_blank">pos<wbr>tinstd_1.0.bb</a>        | 22
-                ++++++++++++<br>
-                 .../recipes-test/postinstp/<a moz-do-not-send="true"
-                  href="http://postinstp_1.0.bb" rel="noreferrer"
-                  target="_blank">pos<wbr>tinstp_1.0.bb</a>        | 22
-                ++++++++++++<br>
-                 .../recipes-test/postinstt/<a moz-do-not-send="true"
-                  href="http://postinstt_1.0.bb" rel="noreferrer"
-                  target="_blank">pos<wbr>tinstt_1.0.bb</a>        | 22
-                ++++++++++++<br>
-                 .../recipes-test/postinstz/<a moz-do-not-send="true"
-                  href="http://postinstz_1.0.bb" rel="noreferrer"
-                  target="_blank">pos<wbr>tinstz_1.0.bb</a>        | 12
-                +++++++</div>
-            </blockquote>
-          </div>
-          <br>
-          For clarity can all of these be squashed into a single recipe
-          with clearer names?</div>
-        <div class="gmail_extra"><br>
-        </div>
-        <div class="gmail_extra">Ross</div>
-      </div>
-      <br>
-      <fieldset class="mimeAttachmentHeader"></fieldset>
-      <br>
-    </blockquote>
-    <br>
-  </body>
-</html>
-
---------------DA3F07FCAF74AF27D72E5FD2--
