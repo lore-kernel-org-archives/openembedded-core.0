@@ -1,48 +1,47 @@
-Return-Path: <kergoth@gmail.com>
-Received: from mail-yb0-f195.google.com (mail-yb0-f195.google.com
-	[209.85.213.195])
-	by mail.openembedded.org (Postfix) with ESMTP id B63466069D
+Return-Path: <fabio.berton@ossystems.com.br>
+Received: from mail-wm0-f66.google.com (mail-wm0-f66.google.com [74.125.82.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 4D46B71A73
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Nov 2016 16:15:40 +0000 (UTC)
-Received: by mail-yb0-f195.google.com with SMTP id d128so7208021ybh.3
+	Thu, 17 Nov 2016 16:21:59 +0000 (UTC)
+Received: by mail-wm0-f66.google.com with SMTP id u144so22690624wmu.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Nov 2016 08:15:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:from:date:message-id
-	:subject:to:cc;
-	bh=9TlVftVl5JnNYP6158TqxbWNPR3PBVqkH7zK/U8He5I=;
-	b=f787DVMHxlR2Qb+X4vA8FVAjFWNx5bEahDfi99tk55Z/e0cljVxN6WIV2LiqWt7c7u
-	ZmKMYdvT2p9L8L7o+Z6xRswPhJSYAAHD0xaLjhjv58tivs6uOTr5+7qWUy9swl1HrwoO
-	vUtUk1LouMSHSPH+C20IqrE42/6YOXhpk190KelxuccGsc6GoB6jELUC6kd2EjpyKzZc
-	IwCDi5YSdB73PmLOYigBrP13wqrAgQlYh7Kfo6OXYwNdBLQUHCcZ3ePreNV/HkujvM+0
-	VDthn8WEy574vipC3XGwCe3Bjr3Hetx/H3HD1daDlAfT4zd/2pSkDMNpPNwLUuOVj+0I
-	ngGg==
+	Thu, 17 Nov 2016 08:22:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=O/UnoxrIaPfmAGUXCDBlse3a/uwGvnn7/93IgFl6C2g=;
+	b=pyY2ujBu5K/98OlIjRTGPUlRQX4ZM3BWc07nweBj2WihvOcE4nhHKlkvnJPW2HuM4m
+	P+pG+RhnGl7T76P8TH474TES7BLaAT13Nm6tA5P5B67ZaTurtvqh/I7DEAEUTPHpl8eT
+	yhreNnBabJE+uUAbtneMPdu69uNcg3h9rxzeIpgpv3Ga5C6Qvd16zlzATHqheZteWrM8
+	uf/yLksWXk/4RY0i54O37HPgJetZwI0oPqKk1/r8A4MkAgWo8JkN/FIhJcrjfkmWi/Yx
+	iUAI7BDbS9O0o5CTdAzU6D94Q8jqEdeHbs/Z9WyLSOqnm7xrD6/XhGdzbXsfyBsWPhgj
+	eU+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:sender:in-reply-to:references:from
-	:date:message-id:subject:to:cc;
-	bh=9TlVftVl5JnNYP6158TqxbWNPR3PBVqkH7zK/U8He5I=;
-	b=UT0cphOfmghiKhHMMF1WHpBT7MCyTaQaDc5g5kQRKNwLQ+W2PCaynWTWHPZrt6VrNt
-	Di3zMjiOh6c78snIqGE/YSNiIsLtc+nNR/5tVPVtKa+HvobXzRIxSl9ofS9t+N8Nh8Et
-	AU2l9QR8xCWiJxm00WP8cfGsS5GjzQNGVcxiC2ZqiRgmms78T0/hjdUanbKq2yIbxTVU
-	cr44Zf5PYjrgeWcU+/hTK7Sf+HtIJcvM43nCAxXKuz/0WQNfjWF4QVpL0EPvJeRQhb99
-	4x+qzAQB6Es7MpZZeOi8AkVAZ4VUGg71liDutJE/elC9IXbD+9WEVwgRDpXqXl4sIl3m
-	9zZw==
-X-Gm-Message-State: AKaTC036uOsBHtfKyp4o/VIg4/dGTm7clE6IKsSSA7MzUCmo8DyIMwWr09TxG5eWJSksBVUhQBR9KtiJsIVsVg==
-X-Received: by 10.157.17.174 with SMTP id v43mr1655075otf.251.1479399341756;
-	Thu, 17 Nov 2016 08:15:41 -0800 (PST)
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=O/UnoxrIaPfmAGUXCDBlse3a/uwGvnn7/93IgFl6C2g=;
+	b=TbXSe5OfsEUdUczaU4dRdELuVSxG7uy5GKO32WHeyShcD16H7w/2WptXg0f7Tjqnaz
+	iO2JxyPTzXpB/ifV92sEEiHj9nnCcSBVYA3JtcyztvYHikV/B9TocNkt1eNBcaIKNuRj
+	d4c4qU7Wq8y8mUPNDcQjoEN25xBnzyuljXQuPAlLECEBSiaDy/apjFQS5W+OB7cCVJeE
+	YMQjWbWQ8rpQw38X3NNH4H4ld/f9BELG9RWEFG5e80yTyhmFz2UcsGgO83CnKbQWgh1K
+	nqdO9PfcwnZ5D82jNdWI3LK1+qY4Jid73PLHjEVdUvRro7gpL04FzXZQNekrJ6Pem99h
+	Tynw==
+X-Gm-Message-State: AKaTC01mjMSFeTvrKBh4YZNDs7hVogU6iPxbA2938eaWANwakHAU+W554XCaxSEI9Tz1dpIo8PJNr1o6z/oMxA==
+X-Received: by 10.46.8.25 with SMTP id 25mr1783803lji.21.1479399720922; Thu,
+	17 Nov 2016 08:22:00 -0800 (PST)
 MIME-Version: 1.0
-Sender: kergoth@gmail.com
-Received: by 10.157.35.65 with HTTP; Thu, 17 Nov 2016 08:15:21 -0800 (PST)
-In-Reply-To: <CAAPZna2pDLyq6PH6sb8c0J_Bxa2Pi+FNNZw_tVJ38o90mGsEJw@mail.gmail.com>
+Received: by 10.25.40.6 with HTTP; Thu, 17 Nov 2016 08:21:30 -0800 (PST)
+X-Originating-IP: [189.114.111.135]
+In-Reply-To: <CABcZAN=55DOHHy0fMJi6pPaR+TuwgwfErOd7YBAN=s_e9D0rwA@mail.gmail.com>
 References: <1479396394-26134-1-git-send-email-fabio.berton@ossystems.com.br>
 	<CABcZANmh+pV4Xxwi2UY7fA+BctpVXRvM6gLcgMJEx-rwODMi4g@mail.gmail.com>
 	<CAAPZna2pDLyq6PH6sb8c0J_Bxa2Pi+FNNZw_tVJ38o90mGsEJw@mail.gmail.com>
-From: Christopher Larson <clarson@kergoth.com>
-Date: Thu, 17 Nov 2016 09:15:21 -0700
-X-Google-Sender-Auth: m-9nvjSa8pjJ5hBaXqEnWrUHwKw
-Message-ID: <CABcZAN=55DOHHy0fMJi6pPaR+TuwgwfErOd7YBAN=s_e9D0rwA@mail.gmail.com>
-To: Fabio Berton <fabio.berton@ossystems.com.br>
+	<CABcZAN=55DOHHy0fMJi6pPaR+TuwgwfErOd7YBAN=s_e9D0rwA@mail.gmail.com>
+From: Fabio Berton <fabio.berton@ossystems.com.br>
+Date: Thu, 17 Nov 2016 14:21:30 -0200
+Message-ID: <CAAPZna2dHKqh-rDSo6UGu0uP=CBLRHaGbhC-c=OisccQ4HUUsQ@mail.gmail.com>
+To: Christopher Larson <clarson@kergoth.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] libpcap: Fix build when PACKAGECONFIG ipv6 is not enable
@@ -58,52 +57,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 17 Nov 2016 16:15:40 -0000
-Content-Type: multipart/alternative; boundary=94eb2c18fcd43f1a9a0541818058
+X-List-Received-Date: Thu, 17 Nov 2016 16:22:00 -0000
+Content-Type: multipart/alternative; boundary=f403045ec286d8c6970541819646
 
---94eb2c18fcd43f1a9a0541818058
+--f403045ec286d8c6970541819646
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Nov 17, 2016 at 9:11 AM, Fabio Berton <fabio.berton@ossystems.com.b=
-r
-> wrote:
+No, I created a patch, git format-patch and then edit generated files with
+Upstream-Status tag and added to recipe. Is this wrong?
 
-> Patches in this commit have Upstream-Status: Submitted tag.
+On Thu, Nov 17, 2016 at 2:15 PM, Christopher Larson <clarson@kergoth.com>
+wrote:
+
+>
+> On Thu, Nov 17, 2016 at 9:11 AM, Fabio Berton <
+> fabio.berton@ossystems.com.br> wrote:
+>
+>> Patches in this commit have Upstream-Status: Submitted tag.
+>>
+>
+> I know, the point was the tag was within the commit message in the patch,
+> not just the patch file =E2=80=94 wrong location within the patch file. I=
+s the
+> Upstream-Status tag in the commits you submitted upstream? Unlikely, it=
+=E2=80=99s
+> oe-specific metadata.
+> --
+> Christopher Larson
+> clarson at kergoth dot com
+> Founder - BitBake, OpenEmbedded, OpenZaurus
+> Maintainer - Tslib
+> Senior Software Engineer, Mentor Graphics
 >
 
-I know, the point was the tag was within the commit message in the patch,
-not just the patch file =E2=80=94 wrong location within the patch file. Is =
-the
-Upstream-Status tag in the commits you submitted upstream? Unlikely, it=E2=
-=80=99s
-oe-specific metadata.
---=20
-Christopher Larson
-clarson at kergoth dot com
-Founder - BitBake, OpenEmbedded, OpenZaurus
-Maintainer - Tslib
-Senior Software Engineer, Mentor Graphics
-
---94eb2c18fcd43f1a9a0541818058
+--f403045ec286d8c6970541819646
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On Thu, Nov 17, 2016 at 9:11 AM, Fabio Berton <span dir=3D"ltr">&lt;<a href=
-=3D"mailto:fabio.berton@ossystems.com.br" target=3D"_blank">fabio.berton@os=
-systems.com.br</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" s=
-tyle=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div=
- class=3D"gmail_default" style=3D"font-family:monospace,monospace;font-size=
-:small">Patches in this commit have Upstream-Status: Submitted tag.<br></di=
-v></blockquote></div><br>I know, the point was the tag was within the commi=
-t message in the patch, not just the patch file =E2=80=94 wrong location wi=
-thin the patch file. Is the Upstream-Status tag in the commits you submitte=
-d upstream? Unlikely, it=E2=80=99s oe-specific metadata.<br>-- <br><div cla=
-ss=3D"gmail_signature" data-smartmail=3D"gmail_signature">Christopher Larso=
-n<br>clarson at kergoth dot com<br>Founder - BitBake, OpenEmbedded, OpenZau=
-rus<br>Maintainer - Tslib<br>Senior Software Engineer, Mentor Graphics</div=
->
-</div></div>
+<div dir=3D"ltr"><div class=3D"gmail_default" style=3D"font-family:monospac=
+e,monospace;font-size:small">No, I created a patch, git format-patch and th=
+en edit generated files with Upstream-Status tag and added to recipe. Is th=
+is wrong?<br></div></div><div class=3D"gmail_extra"><br><div class=3D"gmail=
+_quote">On Thu, Nov 17, 2016 at 2:15 PM, Christopher Larson <span dir=3D"lt=
+r">&lt;<a href=3D"mailto:clarson@kergoth.com" target=3D"_blank">clarson@ker=
+goth.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=
+=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div dir=
+=3D"ltr"><div class=3D"gmail_extra"><span class=3D""><br><div class=3D"gmai=
+l_quote">On Thu, Nov 17, 2016 at 9:11 AM, Fabio Berton <span dir=3D"ltr">&l=
+t;<a href=3D"mailto:fabio.berton@ossystems.com.br" target=3D"_blank">fabio.=
+berton@ossystems.com.br</a><wbr>&gt;</span> wrote:<br><blockquote class=3D"=
+gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-=
+left:1ex"><div class=3D"gmail_default" style=3D"font-family:monospace,monos=
+pace;font-size:small">Patches in this commit have Upstream-Status: Submitte=
+d tag.<br></div></blockquote></div><br></span>I know, the point was the tag=
+ was within the commit message in the patch, not just the patch file =E2=80=
+=94 wrong location within the patch file. Is the Upstream-Status tag in the=
+ commits you submitted upstream? Unlikely, it=E2=80=99s oe-specific metadat=
+a.<span class=3D""><br>-- <br><div class=3D"m_-5864478152592581664gmail_sig=
+nature" data-smartmail=3D"gmail_signature">Christopher Larson<br>clarson at=
+ kergoth dot com<br>Founder - BitBake, OpenEmbedded, OpenZaurus<br>Maintain=
+er - Tslib<br>Senior Software Engineer, Mentor Graphics</div>
+</span></div></div>
+</blockquote></div><br></div>
 
---94eb2c18fcd43f1a9a0541818058--
+--f403045ec286d8c6970541819646--
