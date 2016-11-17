@@ -1,42 +1,47 @@
-Return-Path: <nicolas.dechesne@linaro.org>
-Received: from mail-wm0-f50.google.com (mail-wm0-f50.google.com [74.125.82.50])
-	by mail.openembedded.org (Postfix) with ESMTP id 959706E65F
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qk0-f179.google.com (mail-qk0-f179.google.com
+	[209.85.220.179])
+	by mail.openembedded.org (Postfix) with ESMTP id 9433C60107
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Nov 2016 11:33:52 +0000 (UTC)
-Received: by mail-wm0-f50.google.com with SMTP id f82so139753328wmf.1
+	Thu, 17 Nov 2016 11:48:22 +0000 (UTC)
+Received: by mail-qk0-f179.google.com with SMTP id n21so215177231qka.3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Nov 2016 03:33:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=from:to:cc:subject:date:message-id;
-	bh=onqHugehHVEl/isuI+FXD8VXvG1aKKFrkYTu2XoiD9w=;
-	b=R0XFaXwXeVjlNkk5syu1BNCSQvJsEtA4gT8HCkE03t8q5Mv7NfwXDWkZB8svYoJjYS
-	ZnsHAJ+uYbXpeBX5AaI4FZQWumPlReCq7JOPEEt1Xl7DlXliL5HloMkfd0bE93J9i2cp
-	2RYVjysNhV8Fafl3Sf3k83CuJv9ZISpHW2kNE=
+	Thu, 17 Nov 2016 03:48:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=hRpQbWlUpuS4SAux60nfqaA23lZDXMBKOvQpNdKPtCU=;
+	b=YGJF5BiBjkC4IRmobGfdOIZcFm7xgWMrjxs3q5K82M45Mj6uDaN23IL5qj0CHprHe0
+	FmCgRGfv5a51V7qee27yao4ysDI+FYKPzLFRr8kx5rf0AoM/8YcGfnxEU8T3fvCpVHoZ
+	GY/ndyUpXuxxjomyR4MbqNy9gZcp9p+GSfm0lgo89yBjIhq3d3ym8D6/raq98ed8xfz8
+	EtzFkAFkcqyAWNWnLYlTdYESiX8VRYiGQn0CrVqD8uKzXU8ScDQ62c2pdiSV35ZcdX7o
+	OMKhPBvtJdRTW3xQif0E2w/nZNRVTFlbpqA3/efH1OgjBc7+vTGuqKEWB0mmTiuAC1EU
+	AhlA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=onqHugehHVEl/isuI+FXD8VXvG1aKKFrkYTu2XoiD9w=;
-	b=cf+Fud0wwtBsR5tibHsQ727U8bDgePg6a5fUMgb7+P2Zc0k1i5UFTLUFFIfPEEK4kL
-	44YfsG8uX5BXnRxl23v7AEXQyljep+4cLbvXuUfBU1MyTBRNyh4QSIOZitM/BBG+id9j
-	J4IdrDheBRAqn4BtQGwyMs0kRvu2TcWD8zxkaAVbbgZreTxtP718rvenXSygOoc7iyG2
-	NCiRIbmcHRzq2b7tQTVxlYfDQnppTxaspID7HCP0iW4zJcag8A/tpCzg87GSEvmKeS3U
-	Ca/bzgE+luI/+We9gXQ5puAo6Ll38AHcTAgakAZgiyVOPfvsz/MjEyL1ZeGQK3gnYqX7
-	/f2Q==
-X-Gm-Message-State: ABUngvfElxxBVW/PUvxIG1+PbHfuRKf/9mHqykSdEqAl/hb9irM9kzEkcVrVCu3YVH1m+Ycc
-X-Received: by 10.28.86.131 with SMTP id k125mr3782899wmb.89.1479382433100;
-	Thu, 17 Nov 2016 03:33:53 -0800 (PST)
-Received: from hackbox.linaro.org ([81.128.185.36])
-	by smtp.gmail.com with ESMTPSA id x5sm2758503wje.36.2016.11.17.03.33.52
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 17 Nov 2016 03:33:52 -0800 (PST)
-From: Nicolas Dechesne <nicolas.dechesne@linaro.org>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 17 Nov 2016 11:33:45 +0000
-Message-Id: <1479382425-3578-1-git-send-email-nicolas.dechesne@linaro.org>
-X-Mailer: git-send-email 2.7.0
-Cc: Nicolas Dechesne <nicolas.dechesne@linaro.org>,
-	Koen Kooi <koen.kooi@linaro.org>
-Subject: [morty][PATCH] libbsd 0.8.3: BBCLASSEXTEND to native and nativesdk
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=hRpQbWlUpuS4SAux60nfqaA23lZDXMBKOvQpNdKPtCU=;
+	b=F+pY+aGCaegKTab7qKfxrBxFyBDcaxwDcNpLfySMc8gvaRRTOtwByWKuhNceoH9FR9
+	VmkKS9INgH+Oxz+q28XV/Iil+Scy5n5RdzPXdbT5WA4xj70NK5c6BjrT3+D2YXN50P90
+	lXV5pX28JSj9sO/hs/cr9jGNawYB7eDCnYA4QIbz4EiI3BIZIrXi3QeS/HZvdCPrUU9z
+	+qKClqRNuyuWxwcXsLaW9Nj9I+62NyGc2pF/Dy6s6EcMgf15Vvq+NMte2lfDluSLTfjP
+	74M7ga2etKNeitT8fo8yDrjOB2xcUS3MOa++8DHIHmBtbVGpPrQoH0O3vqVYuLxwNAw/
+	DWug==
+X-Gm-Message-State: AKaTC0329O4s/5Inz6adIcf5ox0wKCO7LYp5PYHT4P3QmaDHDFW7CdAdpzGiLcqZBvm+dDYMKm1INO5ITofPEte2
+X-Received: by 10.55.31.157 with SMTP id n29mr2467066qkh.221.1479383303566;
+	Thu, 17 Nov 2016 03:48:23 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.140.85.136 with HTTP; Thu, 17 Nov 2016 03:48:03 -0800 (PST)
+In-Reply-To: <2492cb242375d6dbc1efd5c530c555a1cd0dfb72.1479301275.git.jussi.kukkonen@intel.com>
+References: <cover.1479301275.git.jussi.kukkonen@intel.com>
+	<2492cb242375d6dbc1efd5c530c555a1cd0dfb72.1479301275.git.jussi.kukkonen@intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 17 Nov 2016 11:48:03 +0000
+Message-ID: <CAJTo0LZn1JAR9KuzYsDyCRAPqJ499hMRkCu_4C9y7S9ctiqpgg@mail.gmail.com>
+To: Jussi Kukkonen <jussi.kukkonen@intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 4/4] mesa: Upgrade 12.0.3 -> 13.0.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,31 +54,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 17 Nov 2016 11:33:55 -0000
+X-List-Received-Date: Thu, 17 Nov 2016 11:48:22 -0000
+Content-Type: multipart/alternative; boundary=001a1147f2284bf1bd05417dc422
 
-From: Koen Kooi <koen.kooi@linaro.org>
+--001a1147f2284bf1bd05417dc422
+Content-Type: text/plain; charset=UTF-8
 
-Android-tools depends on it and to build the native versions of fastboot, adb, mkbootimg and others libbsd needs to support native builds.
+On 16 November 2016 at 13:15, Jussi Kukkonen <jussi.kukkonen@intel.com>
+wrote:
 
-Signed-off-by: Koen Kooi <koen.kooi@linaro.org>
-Signed-off-by: Ross Burton <ross.burton@intel.com>
-(cherry picked from commit b02cef58ee35dd277fff48538ce2803df1cbc4d5)
-Signed-off-by: Nicolas Dechesne <nicolas.dechesne@linaro.org>
----
- meta/recipes-support/libbsd/libbsd_0.8.3.bb | 2 ++
- 1 file changed, 2 insertions(+)
+> New major release with OpenGL 4.4 support. Dependency on libudev has
+> been removed.
+>
+> Rebase replace_glibc_check_with_linux.patch.
+> Add patch to find native wayland-scanner.
+>
+> Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
+>
 
-diff --git a/meta/recipes-support/libbsd/libbsd_0.8.3.bb b/meta/recipes-support/libbsd/libbsd_0.8.3.bb
-index 92121ef..6f734ab 100644
---- a/meta/recipes-support/libbsd/libbsd_0.8.3.bb
-+++ b/meta/recipes-support/libbsd/libbsd_0.8.3.bb
-@@ -41,3 +41,5 @@ SRC_URI[md5sum] = "e935c1bb6cc98a4a43cb1da22795493a"
- SRC_URI[sha256sum] = "934b634f4dfd865b6482650b8f522c70ae65c463529de8be907b53c89c3a34a8"
- 
- inherit autotools pkgconfig
-+
-+BBCLASSEXTEND = "native nativesdk"
--- 
-2.7.0
+This has removed some files:
 
+packages/corei7-64-poky-linux/mesa/libgl-mesa-dev: FILELIST: removed
+"/usr/include/GL/osmesa.h /usr/include/GL/wglext.h
+/usr/include/GL/mesa_glinterop.h"
 
+osmesa is now behind a disabled configure option, so I guess we should make
+that an option at least, even if we do disable it by default.
+
+wglext is Windows specific, and mesa-glinterop.h appears to be internal
+only, so they're good.
+
+Ross
+
+--001a1147f2284bf1bd05417dc422
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 16 November 2016 at 13:15, Jussi Kukkonen <span dir=3D"ltr">&lt;<a href=
+=3D"mailto:jussi.kukkonen@intel.com" target=3D"_blank">jussi.kukkonen@intel=
+.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"ma=
+rgin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,=
+204);border-left-style:solid;padding-left:1ex"><div id=3D"gmail-:oh" class=
+=3D"gmail-a3s gmail-aXjCH gmail-m1586d4ae89439661">New major release with O=
+penGL 4.4 support. Dependency on libudev has<br>
+been removed.<br>
+<br>
+Rebase replace_glibc_check_with_<wbr>linux.patch.<br>
+Add patch to find native wayland-scanner.<br>
+<br>
+Signed-off-by: Jussi Kukkonen &lt;<a href=3D"mailto:jussi.kukkonen@intel.co=
+m">jussi.kukkonen@intel.com</a>&gt;</div></blockquote></div><br>This has re=
+moved some files:</div><div class=3D"gmail_extra"><br></div>packages/corei7=
+-64-poky-linux/mesa/libgl-mesa-dev: FILELIST: removed &quot;/usr/include/GL=
+/osmesa.h /usr/include/GL/wglext.h /usr/include/GL/mesa_glinterop.h&quot;<b=
+r><div><br></div><div>osmesa is now behind a disabled configure option, so =
+I guess we should make that an option at least, even if we do disable it by=
+ default.</div><div><br></div><div>wglext is Windows specific, and mesa-gli=
+nterop.h appears to be internal only, so they&#39;re good.</div><div><br></=
+div><div>Ross</div></div>
+
+--001a1147f2284bf1bd05417dc422--
