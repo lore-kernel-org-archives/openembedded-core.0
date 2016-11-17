@@ -1,40 +1,28 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-wm0-f54.google.com (mail-wm0-f54.google.com [74.125.82.54])
-	by mail.openembedded.org (Postfix) with ESMTP id 293C770101
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Nov 2016 21:28:54 +0000 (UTC)
-Received: by mail-wm0-f54.google.com with SMTP id a197so337905374wmd.0
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Nov 2016 13:28:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:from:date:message-id:subject:to;
-	bh=gqHmg1Y7CJvJz984aOZ/4C2m+8ojowme6tgSeEuGCkU=;
-	b=mPx7pNYbgYDUv38E4+0faL2W9bpV2R35yD1gSyi6zD+OR1hhQTBoEzqsDirBc8W2lc
-	r66d6qEdA3nAslufMQYtaadWr2uEt8YgdWItcUrRaUVMS5lRjwbSFarPU8+9dOHZP4pO
-	GQ42NaIBio64rFmy0QXMKgk3A6N3ENa/1LmfIvPv26ufHoGgcB1LZx/t5ouB4fa/PGAY
-	C1YbAm7hJWDIiLbGV0zDejsBIPn2OSz8bFwS96Jfw+BeT06YwDcmG+VXlEEZsjN6HvaZ
-	lexNDazAxhT16b98hrLRRl8fAhxg0Sx+rVh4eOEEJYczMtbST9beu/uWls6pvJg/DvwS
-	iLvQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-	bh=gqHmg1Y7CJvJz984aOZ/4C2m+8ojowme6tgSeEuGCkU=;
-	b=PXlqI0ItPPrzshOGWOCfODzXGtJ0ITLyxF1T+Pl7Ct3ruKPQYwHBVXpHyVTe3gOdq/
-	VntltGujZ51fiMKvfbPb9kdT7VzZixiSF2Btr1PBghGLQF96WCYVYiYG/qp9r2aCd30m
-	KG3ozPqKbS+9LxGe5I/wbQnYl/DaAHkiX/0oSBeQVZOcg7gf9JlU8N37KEUrdMXgyvr4
-	jJN+fsMdUYfGhR5vGstDmuC1St99HoDJKyJ+NKJKv2THs73Nal8w0jP71KCNVbN1ub8P
-	ahHGqJdDS6jrmQlODTQpcKXuhcc4Otj4+Yh55rbo19odACQL39Dgij3OAn9kn2hecbP4
-	B/3A==
-X-Gm-Message-State: AKaTC03VgUr/HtQqUS50wdBZlv9hmMpD47QuxZ5kA3mg69e+y9ZoVCuiJudiDm59fi7uv67QyVs0ZK48mfbm/Q==
-X-Received: by 10.194.112.170 with SMTP id ir10mr3379089wjb.190.1479418135301; 
-	Thu, 17 Nov 2016 13:28:55 -0800 (PST)
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 40AD071A75;
+	Thu, 17 Nov 2016 21:47:25 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id uAHLlQnS008159
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 17 Nov 2016 13:47:26 -0800 (PST)
+Received: from soho-mhatle-m.wrs.com (128.224.60.190) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.3.294.0; Thu, 17 Nov 2016 13:47:26 -0800
+To: "Burton, Ross" <ross.burton@intel.com>, OE-core
+	<openembedded-core@lists.openembedded.org>, openembedded-architecture
+	<openembedded-architecture@lists.openembedded.org>
+References: <CAJTo0LbvGwRpzxfOL0505w+Vz=Jhf6O3QOr5Z8SX9XaFqaZ7eg@mail.gmail.com>
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+Message-ID: <c0278d51-cd77-1fe4-bb50-d89855487078@windriver.com>
+Date: Thu, 17 Nov 2016 16:47:25 -0500
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.12; rv:45.0)
+	Gecko/20100101 Thunderbird/45.4.0
 MIME-Version: 1.0
-Received: by 10.194.45.33 with HTTP; Thu, 17 Nov 2016 13:28:54 -0800 (PST)
-From: Andre McCurdy <armccurdy@gmail.com>
-Date: Thu, 17 Nov 2016 13:28:54 -0800
-Message-ID: <CAJ86T=U8RB13J_we2bte22bFQKwnahCe3v5L6na9SDPKm6O8bA@mail.gmail.com>
-To: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Modifying SRC_URI from anonymous python
+In-Reply-To: <CAJTo0LbvGwRpzxfOL0505w+Vz=Jhf6O3QOr5Z8SX9XaFqaZ7eg@mail.gmail.com>
+Subject: Re: [Openembedded-architecture] Enabling uninative by default in oe-core?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,39 +35,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 17 Nov 2016 21:28:59 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 17 Nov 2016 21:47:29 -0000
+Content-Type: text/plain; charset="windows-1252"
+Content-Transfer-Encoding: 7bit
 
-I have a supplier who provides recipes which set SRC_URI to their
-private git servers. To make those same recipes usable by others (ie
-me), some anonymous python is used to transform the default SRC_URI
-(elements which contain private git URLs are replaced, patches and
-other files are left as-is).
+On 11/17/16 12:31 PM, Burton, Ross wrote:
+> Hi,
+> 
+> Background: uninative is a class that downloads a precompiled host glibc for use
+> in the sysroot, thus isolating the native sysroot from the host environment. 
+> This means greater sstate reuse, as instead of native builds being dependent on
+> the host system they're able to be shared between all hosts.  There is a
+> reference tarball hosted on www.yoctoproject.org <http://www.yoctoproject.org>,
+> and the URL can be overridden by distros if you would prefer to build your own.
+> 
+> We enable this in Poky so that we get greater reuse on the autobuilders, and due
+> to some issues with the C++ ABI the eSDK generation in master now requires
+> uninative to be enabled.  The question is: do we now enable uninative by default
+> in oe-core's nodistro (pointing at the yoctoproject tarball), or do we keep it
+> disabled by default and require the user to enable uninative if they wish to
+> build an eSDK?
+> 
+> Personally I'm torn: I don't like eSDK not working out of the box, but I don't
+> really like oe-core nodistro depending on uninative.  Though enabling uninative
+> globally does mean everything works out of the box, so following the principle
+> of Least Surprise that's what we should do.
 
-This apparently worked in OE 2.0 but from 2.1 onwards the anonymous
-python which modifies SRC_URI races with the anonymous python in
-base.bbclass which parses SRC_URI to determine additional
-do_fetch/do_unpack dependencies and whether or not to call
-fetch2.get_srcrev(). Specifically I get failures because
-fetch2.get_srcrev() sees the original SRC_URI and tries to resolve
-AUTOREV from a repo to which I don't have access.
+I agree, I see both sides.
 
-The proposed solution from the supplier is this patch to base.bbclass:
+I'm tempted though to say, at a minimum it would be nice if oe-core had a
+working (prebuilt) uninative -- or at least instructions for someone to build it
+themselves.  Also corresponding instructions for the eSDK that says, BTW you
+need this and this is how to do it.
 
-@@ -598,7 +598,7 @@ python () {
-             d.appendVarFlag('do_unpack', 'depends', '
-file-native:do_populate_sysroot')
+That would let people use the uninative with oe-core... and maybe? let us vet
+this so we can determine if it's the right thing to do by default in the future
+or not.
 
-     if needsrcrev:
--        d.setVar("SRCPV", "${@bb.fetch2.get_srcrev(d)}")
-+        d.setVar("SRCPV", "${@bb.fetch2.get_srcrev(d)}", parsing=True)
+(With that said, the stuff I'm working on is using the uninative -- and it's
+solved a number of minor issues..)
 
-     set_packagetriplet(d)
+--Mark
 
-After reading the setVar source I'm not very clear how or why this
-works, but it looks dubious. What is parsing=True intended to do?
+> Ross
+> 
+> 
+> _______________________________________________
+> Openembedded-architecture mailing list
+> Openembedded-architecture@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-architecture
+> 
 
-Is it documented somewhere that modifying SRC_URI from anonymous
-python isn't allowed? I've now seen two suppliers both independently
-run into the same problem when updating to OE 2.1.
 
