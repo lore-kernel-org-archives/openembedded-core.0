@@ -1,48 +1,27 @@
-Return-Path: <kergoth@gmail.com>
-Received: from mail-oi0-f47.google.com (mail-oi0-f47.google.com
-	[209.85.218.47])
-	by mail.openembedded.org (Postfix) with ESMTP id 7D6E5600BC
+Return-Path: <anibal.limon@linux.intel.com>
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+	by mail.openembedded.org (Postfix) with ESMTP id EFFF1719FE
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Nov 2016 22:00:57 +0000 (UTC)
-Received: by mail-oi0-f47.google.com with SMTP id 128so69193797oih.0
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Nov 2016 14:00:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:from:date:message-id
-	:subject:to:cc;
-	bh=N+Ojnhtt3CVBOScn8lgp/cEyYjsU5UGOJ133LgbST4w=;
-	b=eCggCThqu09nMff9059QmPW2/0MKvhZUVptU4llC7/CW+leDJxFiBnpqKKmTRwAwBh
-	DGNqKaRXrzqwNAeJCu3jH0mKs+EYfpE5xqDkODP1Wc2WybzG17Fu816azR2zvQubfvq3
-	TvQSQ7QwBm/MqTKZzJu4lrrWqI8wTB7K6Qp7P/XCLHy0u1FdzqMBilSiudbFxDYpqXjM
-	EtY0sT739H+XfYadlYrevNSekB+DcVrUjWFvGu6KUdAH0YstrNc0MqAmxuzTcKPrGZcW
-	QNjNrOONaBWOx+D4ZlcMpiAsL70v74v3sjRZRM/fDXC7x5dYqJonuPnArDMmUzDBniFl
-	JtgA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:sender:in-reply-to:references:from
-	:date:message-id:subject:to:cc;
-	bh=N+Ojnhtt3CVBOScn8lgp/cEyYjsU5UGOJ133LgbST4w=;
-	b=dI8ZTWlzWtIgooyXntt0AeHZ5D5UaxAucGKOkiQ8Hw5pveO/DTrrkCrTUyyu/Sb4eH
-	apTfpACFWOdokoJ8ucjLeyXU1wSxC8mgt2kT+LuVfC+492uDSOlqnQzLb1q/LeBDy5RM
-	KRNwy77LiMoPwNbN9ACHu9I1ojVYAWy3xmk+OkXDCxSH7j4sC8fNc3kS+RECAIqtsQAM
-	AebeVbI4V83QHA1AB2Te7BH/Dz20cX5Uls0Z+YV2jS3ETa+CcNLLw0DdjF3xSCsi9dDd
-	joFu5Slh/w3jv5iGv6eGeeHq4EY/+UGxATGPe6aQciPpF3iyI+588WOSRJA+mG8IWdbL
-	nmcA==
-X-Gm-Message-State: ABUngvemmEXQ1nkXa43N4qq1ucqaXibqd+ADTP22wQXZSSPq4Cd8KNN9p3GHQJ/XCXADr+XYjnesMQcDqt1sTg==
-X-Received: by 10.157.40.151 with SMTP id s23mr2766604ota.68.1479420058889;
-	Thu, 17 Nov 2016 14:00:58 -0800 (PST)
+	Thu, 17 Nov 2016 22:14:57 +0000 (UTC)
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+	by orsmga105.jf.intel.com with ESMTP; 17 Nov 2016 14:14:58 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.31,655,1473145200"; 
+	d="asc'?scan'208";a="32635771"
+Received: from alimonb-mobl1.zpn.intel.com (HELO [10.219.5.143])
+	([10.219.5.143])
+	by fmsmga005.fm.intel.com with ESMTP; 17 Nov 2016 14:14:57 -0800
+To: Linus Wallgren <linus.wallgren@scypho.com>,
+	openembedded-core@lists.openembedded.org
+References: <20161116163315.18662-1-linus.wallgren@scypho.com>
+From: =?UTF-8?B?QW7DrWJhbCBMaW3Ds24=?= <anibal.limon@linux.intel.com>
+Message-ID: <582E2C46.9090605@linux.intel.com>
+Date: Thu, 17 Nov 2016 16:16:38 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.3.0
 MIME-Version: 1.0
-Sender: kergoth@gmail.com
-Received: by 10.157.35.65 with HTTP; Thu, 17 Nov 2016 14:00:38 -0800 (PST)
-In-Reply-To: <CAJ86T=U8RB13J_we2bte22bFQKwnahCe3v5L6na9SDPKm6O8bA@mail.gmail.com>
-References: <CAJ86T=U8RB13J_we2bte22bFQKwnahCe3v5L6na9SDPKm6O8bA@mail.gmail.com>
-From: Christopher Larson <clarson@kergoth.com>
-Date: Thu, 17 Nov 2016 15:00:38 -0700
-X-Google-Sender-Auth: ZaknJq4V-Y8_6R8gQSn7e8MS0Q4
-Message-ID: <CABcZANmfZSGZsFFcXvSAhTgPBPvoQm=wx=p9Q7sPgSSn3D4mAg@mail.gmail.com>
-To: Andre McCurdy <armccurdy@gmail.com>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: Modifying SRC_URI from anonymous python
+In-Reply-To: <20161116163315.18662-1-linus.wallgren@scypho.com>
+Subject: Re: [PATCH] apt-package: Include maintenance scripts
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,66 +34,109 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 17 Nov 2016 22:00:58 -0000
-Content-Type: multipart/alternative; boundary=001a11c1494a15779405418653b3
+X-List-Received-Date: Thu, 17 Nov 2016 22:14:59 -0000
+X-Groupsio-MsgNum: 89549
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature";
+	boundary="ta4eXluuMVpqjAOkXTw1UmGx7JK0pMSLU"
 
---001a11c1494a15779405418653b3
-Content-Type: text/plain; charset=UTF-8
-
-On Thu, Nov 17, 2016 at 2:28 PM, Andre McCurdy <armccurdy@gmail.com> wrote:
-
-> I have a supplier who provides recipes which set SRC_URI to their
-> private git servers. To make those same recipes usable by others (ie
-> me), some anonymous python is used to transform the default SRC_URI
-> (elements which contain private git URLs are replaced, patches and
-> other files are left as-is).
->
-> This apparently worked in OE 2.0 but from 2.1 onwards the anonymous
-> python which modifies SRC_URI races with the anonymous python in
-> base.bbclass which parses SRC_URI to determine additional
-> do_fetch/do_unpack dependencies and whether or not to call
-> fetch2.get_srcrev(). Specifically I get failures because
-> fetch2.get_srcrev() sees the original SRC_URI and tries to resolve
-> AUTOREV from a repo to which I don't have access.
->
-
-You might want to try using a RecipePreFinalise event handler instead, they
-run before anonymous python functions do.
--- 
-Christopher Larson
-clarson at kergoth dot com
-Founder - BitBake, OpenEmbedded, OpenZaurus
-Maintainer - Tslib
-Senior Software Engineer, Mentor Graphics
-
---001a11c1494a15779405418653b3
-Content-Type: text/html; charset=UTF-8
+--ta4eXluuMVpqjAOkXTw1UmGx7JK0pMSLU
+Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On Thu, Nov 17, 2016 at 2:28 PM, Andre McCurdy <span dir=3D"ltr">&lt;<a hre=
-f=3D"mailto:armccurdy@gmail.com" target=3D"_blank">armccurdy@gmail.com</a>&=
-gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 =
-0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":n3" class=
-=3D"a3s aXjCH m158744864715b647">I have a supplier who provides recipes whi=
-ch set SRC_URI to their<br>
-private git servers. To make those same recipes usable by others (ie<br>
-me), some anonymous python is used to transform the default SRC_URI<br>
-(elements which contain private git URLs are replaced, patches and<br>
-other files are left as-is).<br>
-<br>
-This apparently worked in OE 2.0 but from 2.1 onwards the anonymous<br>
-python which modifies SRC_URI races with the anonymous python in<br>
-base.bbclass which parses SRC_URI to determine additional<br>
-do_fetch/do_unpack dependencies and whether or not to call<br>
-fetch2.get_srcrev(). Specifically I get failures because<br>
-fetch2.get_srcrev() sees the original SRC_URI and tries to resolve<br>
-AUTOREV from a repo to which I don&#39;t have access.</div></blockquote></d=
-iv><br>You might want to try using a RecipePreFinalise event handler instea=
-d, they run before anonymous python functions do.<br>-- <br><div class=3D"g=
-mail_signature" data-smartmail=3D"gmail_signature">Christopher Larson<br>cl=
-arson at kergoth dot com<br>Founder - BitBake, OpenEmbedded, OpenZaurus<br>=
-Maintainer - Tslib<br>Senior Software Engineer, Mentor Graphics</div>
-</div></div>
+Hi Linus,
 
---001a11c1494a15779405418653b3--
+Your patch looks good, only missing one thing you need to conditional
+those lines to only work when systemd is enabled in DISTRO_FEATURES, see
+example:
+
+http://git.yoctoproject.org/cgit/cgit.cgi/poky/tree/meta/recipes-support/=
+consolekit/consolekit_0.4.6.bb#n26
+
+Thanks in advance,
+	alimon
+
+
+On 11/16/2016 10:33 AM, Linus Wallgren wrote:
+> Apt can run multiple tasks daily, such as for example clean, update,
+> autoclean, unattended-upgrades etc.
+>=20
+> [YOCTO #10669]
+>=20
+> Signed-off-by: Linus Wallgren <linus.wallgren@scypho.com>
+> ---
+>  meta/recipes-devtools/apt/apt-package.inc | 15 ++++++++++++++-
+>  1 file changed, 14 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/meta/recipes-devtools/apt/apt-package.inc b/meta/recipes-d=
+evtools/apt/apt-package.inc
+> index a553aa2..38cd558 100644
+> --- a/meta/recipes-devtools/apt/apt-package.inc
+> +++ b/meta/recipes-devtools/apt/apt-package.inc
+> @@ -32,13 +32,19 @@ FILES_${PN} =3D "${bindir}/apt-cdrom ${bindir}/apt-=
+get \
+>  	       ${bindir}/apt-config ${bindir}/apt-cache \
+>  	       ${libdir}/apt ${libdir}/libapt*.so.* \
+>  	       ${localstatedir} ${sysconfdir} \
+> -	       ${libdir}/dpkg"
+> +	       ${libdir}/dpkg \
+> +	       ${systemd_unitdir}/system \
+> +           "
+>  FILES_${PN}-utils =3D "${bindir}/apt-sortpkgs ${bindir}/apt-extracttem=
+plates"
+>  FILES_${PN}-doc =3D "${@get_files_apt_doc(d, bb, d.getVar('apt-manpage=
+s', True))} \
+>  		   ${docdir}/apt"
+>  FILES_${PN}-utils-doc =3D "${@get_files_apt_doc(d, bb, d.getVar('apt-u=
+tils-manpages', True))}"
+>  FILES_${PN}-dev =3D "${libdir}/libapt*.so ${includedir}"
+> =20
+> +inherit systemd
+> +
+> +SYSTEMD_SERVICE_${PN} =3D "apt-daily.timer"
+> +
+>  do_install () {
+>  	set -x
+>  	install -d ${D}${bindir}
+> @@ -75,4 +81,11 @@ do_install () {
+> =20
+>  	install -d ${D}${includedir}/apt-pkg/
+>  	install -m 0644 include/apt-pkg/*.h ${D}${includedir}/apt-pkg/
+> +
+> +    install -d ${D}${systemd_unitdir}/system/
+> +    install -m 0644 ${S}/debian/apt.systemd.daily ${D}/usr/lib/apt/
+> +    install -m 0644 ${S}/debian/apt-daily.service ${D}${systemd_unitdi=
+r}/system/
+> +    install -m 0644 ${S}/debian/apt-daily.timer ${D}${systemd_unitdir}=
+/system/
+> +    install -d ${D}${sysconfdir}/cron.daily/
+> +    install -m 0755 ${S}/debian/apt.apt-compat.cron.daily ${D}${syscon=
+fdir}/cron.daily/
+>  }
+>=20
+
+
+--ta4eXluuMVpqjAOkXTw1UmGx7JK0pMSLU
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
+
+iQIcBAEBAgAGBQJYLixIAAoJEGJqcE9h3glgjqkP/2ecp86DCKKx4n0eP3DHKwtT
+pG1mxdKBOHQNOm/lII6MoIaYT1sWE07bKtPYzkHVtUtveh7Yi5+xEjdt++fdfIBi
+NctMNCnJPNy6dHtaaU6voA7QbgPPtTWC/MeLniPoFUdzO4H7jXzVyHUivFr/WxTm
+7JlZyAWc459Db+4Vt+3zoHioAbC6EmyRpHpNlRpeS+gtSSCVARKcHwvNF9SbhtrM
+M0Y8IG2qiXrhN23l4DkhIZ9yH0ywj2nj5xe93+rslWKdMuCP8QOPvVOHrdQkbyC1
+FIsMl+mxHbddJQyyFJZpaSmxcNkXiwyJOZg0O5WbiL8+coNIDabREpbx0oMaEdl+
+FjTUABA8Z8PkKMfORVZ5qP1YwAnvoNkglXJ3OGBNl0KEOg2iNprkgWKDPqZJqAwK
++IfqlPYIaHG9gQwFyc44BkPVfbPSZRMnbbCuPAlvwJgcWe77luKkVlnjqnSqOBeT
+bRpq90KzfR0ex/LVBocJvub/bqLDj82KiegwSlHX+fRHA8YFXXILzIQPFyzxiH3u
+Nl9zib7inqe0Xd3iIU/DtOGhokMtzlE8tzWrneRbEvwvtTEUr9KvTZO7jlvBs/Cr
+xLBBTIMAGIo6VxGEVbtBZjrNoBzuZKEJkFFDV6bHJbouOa6/joUwAZmrSX2/rCNQ
+D4OukpEI9Ehb0uVGWl2i
+=Ppll
+-----END PGP SIGNATURE-----
+
+--ta4eXluuMVpqjAOkXTw1UmGx7JK0pMSLU--
