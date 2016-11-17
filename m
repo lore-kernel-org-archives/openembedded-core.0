@@ -1,48 +1,43 @@
-Return-Path: <schnitzeltony@googlemail.com>
-Received: from mail-vk0-f67.google.com (mail-vk0-f67.google.com
-	[209.85.213.67])
-	by mail.openembedded.org (Postfix) with ESMTP id E1E6A60602
+Return-Path: <andre.draszik@gmail.com>
+Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 2CE9A71A7F
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Nov 2016 09:46:00 +0000 (UTC)
-Received: by mail-vk0-f67.google.com with SMTP id w194so14008558vkw.3
+	Thu, 17 Nov 2016 10:22:18 +0000 (UTC)
+Received: by mail-wm0-f65.google.com with SMTP id g23so19830947wme.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Nov 2016 01:46:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=googlemail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=RvmXGTgsnPQCk+9eIIEGPWGwsR0cNIY9KKBNqyeQTRU=;
-	b=ovUxY6H2s9Bi1WgAZNpz7NITg2fa8mg2ZZa91PEXY9RFFWvRFiTx706QBsIS4v6+08
-	UTR2QkbGSsRomtqK2BNGK3wCQJnC82RplT60kj8hj2/ZQvWqJy4IvCZ1M3aDMdwSm6wb
-	XSO6Gmpi7PqXOk1eL+O+xN0flLjdKLsgroV7AcIwDfnYDiMiVIo/T6MIWbxq23hG18jW
-	nJ8xu4aukT6wqQhyvsNjGd2HWFKvSEt9ZLr4qBspliEKuI9mUQ9+lJ2qJPALEhAP9uvY
-	Yg3pcFOfikpxYaN6HBQJX6Pv/128mCALHQ2cvSkXjCESLuJ80GYXJ86tzLzK0kxecis1
-	//2A==
+	Thu, 17 Nov 2016 02:22:20 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=RvmXGTgsnPQCk+9eIIEGPWGwsR0cNIY9KKBNqyeQTRU=;
-	b=Y7ra+yZ3r7PwupXsIQp+RlFiYsa3Pl83hBGulon+UFKg3ei/5Tbo04UTu4K70L4j85
-	n0DHqSeXJ2oLuN6e3VHQISB/vji52GJfMKP9JYfxGCoWvgcJtfK0FPef+kiybz/mTFIZ
-	f2/gxTDTtw8CTT3Uf+GtiHG4vLeiY9jWq9YaOSqLw3n1/q0TKvjEbNvoKKY2x2/OKH+T
-	5VbYaCIiUWmu3LqXov3BzeQG9FYywBZJlnBnk+Dzw80LJJ1iydpu7IrQJsJDyQAhVR3Y
-	eL2QJeIlCVfXMMate0caHLrY6P8Eq+72W9sbMDgP7LkRM63LbnL4PDYyWFsBfVhFZ+LA
-	FaOg==
-X-Gm-Message-State: AKaTC01konhz2OHYzFQiEMh6t1c2JYKAAgZwVp2taK1drbzDFWnY+IQi2CTlZUgUnou/s3e/hc63Cz/PK3OdpA==
-X-Received: by 10.31.88.1 with SMTP id m1mr1018492vkb.83.1479375961852; Thu,
-	17 Nov 2016 01:46:01 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.159.36.211 with HTTP; Thu, 17 Nov 2016 01:46:01 -0800 (PST)
-In-Reply-To: <1479372964-21409-1-git-send-email-jussi.kukkonen@intel.com>
-References: <cover.1479301275.git.jussi.kukkonen@intel.com>
-	<1479372964-21409-1-git-send-email-jussi.kukkonen@intel.com>
-From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
-Date: Thu, 17 Nov 2016 10:46:01 +0100
-Message-ID: <CALbNGRQiOMdkinrafMm2ZCYmPdGu2wHy9FJ9OAs3TO6eTgJooA@mail.gmail.com>
-To: Jussi Kukkonen <jussi.kukkonen@intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] libdrm: Upgrade 2.4.71 -> 2.4.73
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=07hTXhh0kg8+yCERNIAqrMVozCodcJsSBHfpEG3yOeM=;
+	b=LhG8YnoD9IyFYqMFj2b2xKPa+QBUIlnGBK93YfO/uiOA3MUsf7dSILwrLaEUULDSAW
+	xydPfonsX/onCHOF7myb/Re11QL4fgF0w6ca6XrAIYESyjHpadtoILlzrrBSDOn91XmQ
+	hjP0of838frvetDB9awpR5vV2kfDcdwim5A0vse8TZb8FjJvnce71AEUZgdMDxb6M3is
+	yV+JeC+qA1Swvb7N/gD1ccTYrpBkcFXUv+EjgX6AkBW1nZt+P7SpV8Db1s6upRJKOwq3
+	w6NoqoHNnNHNtz8venM/2rC/pyyKzwEa9CbKlLfxu47gCu2Uc/ygWffXkrtAmndmFeUy
+	PI7g==
+X-Gm-Message-State: AKaTC015ZPw2RlezY2Xun6roooXCccyBzd86/TYbFHT3LESBG+GVlUGhHTPIz/oinozYFQ==
+X-Received: by 10.194.31.167 with SMTP id b7mr1758300wji.168.1479378139738;
+	Thu, 17 Nov 2016 02:22:19 -0800 (PST)
+Received: from tfsielt31850 ([77.107.218.170])
+	by smtp.gmail.com with ESMTPSA id
+	bj1sm2454842wjc.17.2016.11.17.02.22.18
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Thu, 17 Nov 2016 02:22:19 -0800 (PST)
+Message-ID: <1479378138.27546.1.camel@andred.net>
+From: =?ISO-8859-1?Q?Andr=E9?= Draszik <git@andred.net>
+To: Denys Dmytriyenko <denis@denix.org>
+Date: Thu, 17 Nov 2016 10:22:18 +0000
+In-Reply-To: <20161116201836.GA26131@denix.org>
+References: <20160817152538.14181-1-git@andred.net>
+	<20160818075626.15973-1-git@andred.net>
+	<20160818075626.15973-2-git@andred.net>
+	<20161116201836.GA26131@denix.org>
+X-Mailer: Evolution 3.22.1-2 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v2 1/3] module.bbclass: use Module.symvers for dependants
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,49 +50,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 17 Nov 2016 09:46:02 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 17 Nov 2016 10:22:19 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Thu, Nov 17, 2016 at 9:56 AM, Jussi Kukkonen
-<jussi.kukkonen@intel.com> wrote:
-> Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
-> ---
->
-> I've pushed this into the mesa-piglit update branch:
->
->   git://git.yoctoproject.org/poky-contrib jku/mesa-piglit
->   http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=jku/mesa-piglit
->
-> Thanks,
->  Jussi
->
->
->  meta/recipes-graphics/drm/{libdrm_2.4.71.bb => libdrm_2.4.73.bb} | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->  rename meta/recipes-graphics/drm/{libdrm_2.4.71.bb => libdrm_2.4.73.bb} (93%)
->
-> diff --git a/meta/recipes-graphics/drm/libdrm_2.4.71.bb b/meta/recipes-graphics/drm/libdrm_2.4.73.bb
-> similarity index 93%
-> rename from meta/recipes-graphics/drm/libdrm_2.4.71.bb
-> rename to meta/recipes-graphics/drm/libdrm_2.4.73.bb
-> index 152cf55..3315014 100644
-> --- a/meta/recipes-graphics/drm/libdrm_2.4.71.bb
-> +++ b/meta/recipes-graphics/drm/libdrm_2.4.73.bb
-> @@ -16,8 +16,8 @@ SRC_URI = "http://dri.freedesktop.org/libdrm/${BP}.tar.bz2 \
->             file://0001-configure.ac-Allow-explicit-enabling-of-cunit-tests.patch \
->            "
->
-> -SRC_URI[md5sum] = "776bccc84618b616fc57a7143836ae7a"
-> -SRC_URI[sha256sum] = "c66287ddeee5f46ea8f8880b94b80acb3bbc33ba6321d17767eef145046df9b8"
-> +SRC_URI[md5sum] = "bc1cee09cde72ffe3b952e8f50ccdaa8"
-> +SRC_URI[sha256sum] = "96bfd39242fe168017d95f22e141645a35591f5902a7d98c2fa4ca8c31df5e4d"
->
->  inherit autotools pkgconfig manpages
->
-> --
-> 2.1.4
->
-Thanks!
+Hi,
 
-Andreas
+On Wed, 2016-11-16 at 15:18 -0500, Denys Dmytriyenko wrote:
+> On Thu, Aug 18, 2016 at 08:56:24AM +0100, André Draszik wrote:
+> >  
+> > @@ -24,6 +34,11 @@ module_do_install() {
+> >  	           CC="${KERNEL_CC}" LD="${KERNEL_LD}" \
+> >  	           O=${STAGING_KERNEL_BUILDDIR} \
+> >  	           ${MODULES_INSTALL_TARGET}
+> > +
+> > +	install -d -m0755 ${D}${includedir}/${BPN}
+> > +	cp -a --no-preserve=ownership ${B}/Module.symvers
+> > ${D}${includedir}/${BPN}
+> 
+> Hmm, why is Module.symvers expected to be in the root of ${B}? This seems
+> like 
+> a very artificial assumption/requirement!
+
+[...]
+
+> I wonder if this should have been rolled into ${MODULES_INSTALL_TARGET} 
+> step...
+
+What about adding a (lazy ?=) variable to be able to override the location
+of Module.symvers within ${B}, or alternatively using find to automatically
+detect it? I guess there could also be more than one in theory? Do you have
+something different in mind?
+
+A.
+
 
