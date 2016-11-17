@@ -1,22 +1,33 @@
-Return-Path: <edwin.plauchu.camacho@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 98A896067D
+Return-Path: <denis@denix.org>
+Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.17])
+	by mail.openembedded.org (Postfix) with ESMTP id 336AE6093A
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Nov 2016 23:47:28 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by fmsmga103.fm.intel.com with ESMTP; 16 Nov 2016 15:47:29 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.31,650,1473145200"; 
-   d="scan'208";a="5285243"
-Received: from pianodaemon-contraption.zpn.intel.com ([10.219.128.75])
-	by orsmga002.jf.intel.com with ESMTP; 16 Nov 2016 15:47:28 -0800
-From: Edwin Plauchu <edwin.plauchu.camacho@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 16 Nov 2016 17:48:50 -0600
-Message-Id: <20161116234850.15970-1-edwin.plauchu.camacho@linux.intel.com>
-X-Mailer: git-send-email 2.9.3
-Cc: Edwin Plauchu <edwin.plauchu.camacho@intel.com>
-Subject: [PATCH V2] python3-numpy: upgrade to 1.11.2
+	Thu, 17 Nov 2016 04:08:50 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by mailout4.zoneedit.com (Postfix) with ESMTP id 3E94C20ADD;
+	Thu, 17 Nov 2016 04:08:52 +0000 (UTC)
+Received: from mailout4.zoneedit.com ([127.0.0.1])
+	by localhost (zmo03-pco.easydns.vpn [127.0.0.1]) (amavisd-new,
+	port 10024)
+	with ESMTP id Vn9nprwryl_I; Thu, 17 Nov 2016 04:08:52 +0000 (UTC)
+Received: from gandalf.denix.org (pool-100-15-95-79.washdc.fios.verizon.net
+	[100.15.95.79])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mailout4.zoneedit.com (Postfix) with ESMTPSA id 1B15120567;
+	Thu, 17 Nov 2016 04:08:51 +0000 (UTC)
+Received: by gandalf.denix.org (Postfix, from userid 1000)
+	id 3F5781621A4; Wed, 16 Nov 2016 23:08:50 -0500 (EST)
+Date: Wed, 16 Nov 2016 23:08:50 -0500
+From: Denys Dmytriyenko <denis@denix.org>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Message-ID: <20161117040850.GC26131@denix.org>
+References: <1479296981.28508.18.camel@linuxfoundation.org>
+MIME-Version: 1.0
+In-Reply-To: <1479296981.28508.18.camel@linuxfoundation.org>
+User-Agent: Mutt/1.5.20 (2009-06-14)
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: Morty maintainer
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,57 +40,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 16 Nov 2016 23:47:28 -0000
+X-List-Received-Date: Thu, 17 Nov 2016 04:08:51 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-From: Edwin Plauchu <edwin.plauchu.camacho@intel.com>
+On Wed, Nov 16, 2016 at 11:49:41AM +0000, Richard Purdie wrote:
+> Armin has kindly volunteered to maintain the morty stable release
+> branch and has already put together a great series.
+> 
+> I don't want to overload Armin so if anyone else wants to step forward,
+> let me know and we can discuss it. Right now its looking likely Armin
+> will be the maintainer though (thanks Armin!).
 
-It is a simultaneous upgrade for python 2 and 3 over numpy module.
+I'd like to offer Armin my help with this task, as I'm not sure I'll be able 
+to completely replace him yet. Will that work?
 
-Signed-off-by: Edwin Plauchu <edwin.plauchu.camacho@intel.com>
----
- .../python-numpy/{python-numpy_1.11.1.bb => python-numpy_1.11.2.bb}   | 4 ++--
- .../python-numpy/{python3-numpy_1.11.0.bb => python3-numpy_1.11.2.bb} | 4 ++--
- 2 files changed, 4 insertions(+), 4 deletions(-)
- rename meta/recipes-devtools/python-numpy/{python-numpy_1.11.1.bb => python-numpy_1.11.2.bb} (95%)
- rename meta/recipes-devtools/python-numpy/{python3-numpy_1.11.0.bb => python3-numpy_1.11.2.bb} (95%)
-
-diff --git a/meta/recipes-devtools/python-numpy/python-numpy_1.11.1.bb b/meta/recipes-devtools/python-numpy/python-numpy_1.11.2.bb
-similarity index 95%
-rename from meta/recipes-devtools/python-numpy/python-numpy_1.11.1.bb
-rename to meta/recipes-devtools/python-numpy/python-numpy_1.11.2.bb
-index c5af720..dafd7e2 100644
---- a/meta/recipes-devtools/python-numpy/python-numpy_1.11.1.bb
-+++ b/meta/recipes-devtools/python-numpy/python-numpy_1.11.2.bb
-@@ -73,8 +73,8 @@ do_compile_prepend_class-target() {
- 
- FILES_${PN}-staticdev += "${PYTHON_SITEPACKAGES_DIR}/numpy/core/lib/*.a"
- 
--SRC_URI[md5sum] = "2f44a895a8104ffac140c3a70edbd450"
--SRC_URI[sha256sum] = "dc4082c43979cc856a2bf352a8297ea109ccb3244d783ae067eb2ee5b0d577cd"
-+SRC_URI[md5sum] = "03bd7927c314c43780271bf1ab795ebc"
-+SRC_URI[sha256sum] = "04db2fbd64e2e7c68e740b14402b25af51418fc43a59d9e54172b38b906b0f69"
- 
- # install what is needed for numpy.test()
- RDEPENDS_${PN} = "python-unittest \
-diff --git a/meta/recipes-devtools/python-numpy/python3-numpy_1.11.0.bb b/meta/recipes-devtools/python-numpy/python3-numpy_1.11.2.bb
-similarity index 95%
-rename from meta/recipes-devtools/python-numpy/python3-numpy_1.11.0.bb
-rename to meta/recipes-devtools/python-numpy/python3-numpy_1.11.2.bb
-index 3cca223..c34df6f 100644
---- a/meta/recipes-devtools/python-numpy/python3-numpy_1.11.0.bb
-+++ b/meta/recipes-devtools/python-numpy/python3-numpy_1.11.2.bb
-@@ -73,8 +73,8 @@ do_compile_prepend_class-target() {
- 
- FILES_${PN}-staticdev += "${PYTHON_SITEPACKAGES_DIR}/numpy/core/lib/*.a"
- 
--SRC_URI[md5sum] = "bc56fb9fc2895aa4961802ffbdb31d0b"
--SRC_URI[sha256sum] = "a1d1268d200816bfb9727a7a27b78d8e37ecec2e4d5ebd33eb64e2789e0db43e"
-+SRC_URI[md5sum] = "03bd7927c314c43780271bf1ab795ebc"
-+SRC_URI[sha256sum] = "04db2fbd64e2e7c68e740b14402b25af51418fc43a59d9e54172b38b906b0f69"
- 
- # install what is needed for numpy.test()
- RDEPENDS_${PN} = "python3-unittest \
 -- 
-2.9.3
-
+Denys
 
