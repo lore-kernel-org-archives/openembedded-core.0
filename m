@@ -1,55 +1,54 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f196.google.com (mail-pf0-f196.google.com
-	[209.85.192.196])
-	by mail.openembedded.org (Postfix) with ESMTP id A402B70101;
-	Thu, 17 Nov 2016 23:19:30 +0000 (UTC)
-Received: by mail-pf0-f196.google.com with SMTP id c4so9697455pfb.3;
-	Thu, 17 Nov 2016 15:19:32 -0800 (PST)
+Received: from mail-pg0-f66.google.com (mail-pg0-f66.google.com [74.125.83.66])
+	by mail.openembedded.org (Postfix) with ESMTP id B8CB471A95;
+	Thu, 17 Nov 2016 23:22:26 +0000 (UTC)
+Received: by mail-pg0-f66.google.com with SMTP id e9so18382119pgc.1;
+	Thu, 17 Nov 2016 15:22:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=subject:to:references:cc:from:organization:message-id:date
 	:user-agent:mime-version:in-reply-to;
-	bh=7+1kuyrq8rNOn+RFPqPmtV4HNbziA3wU4RPUmO+mCOE=;
-	b=hcUuvLdxwC3YywVaYpttJjyQhQcBqtVBvuHfc9y9+e5q0NPZytThVgbZYwv/Mjh3XJ
-	tzBpvPU0kd55mJGnYyirwIiagYzKqWLrVCTgKNFbgsJjp48JuDxmZ89xXcRzjBxw+hFv
-	W1xfvfgMzANd2P+KTJVmIszExF5LALMT+8M6SvHSPHQ6B7yr7FApL90WJo5RUnFNtENv
-	QgHjQkrmsBAPL426cPb9j7c+TtWx4/rjylLTmf51ydAz4Xf5S+8wbPnVovUzWM4noryb
-	VT1TvNXI7UcsEQMgXgfoHZBwBnBTUU3Fw5EvryDR6QyRNiPThTiQduXWejzvhc2ZsfE9
-	sL5A==
+	bh=egQPxnJs33AWSFIni4OxGQ8y+dcQQnVLxWTJ2p/E5iY=;
+	b=GokXdvBaKHHomgZbhcQxM9n+OoT5e8hHejKvJPMW3M050Lti7zvCRPiY1ZYYrRoNnr
+	Qn9rObJauHoGw8rREfzYj/YRFhS77RscbiQMY4nwjxDT8RNwiNgmTUlwZTxxlmkmf4M7
+	EC7cwY/bwceBgdZWpVOj260h7CcO4JwniKv1CTCJfBnv20UkLzy+xvN95LWbZi1dA07y
+	seHM2UAHQN0XyNhbqTexjLrM+Wuu+fM2YMGLuYEe1J33hmoCavjg3HnFLIoy8w5sTmBc
+	UbsInGc48lSXhRNHW88ltEK7yGbhm+g/I7Ub4dKuA9bQ+tlOxXD3ImK6Z8K+Crrpno8U
+	O+7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:subject:to:references:cc:from:organization
 	:message-id:date:user-agent:mime-version:in-reply-to;
-	bh=7+1kuyrq8rNOn+RFPqPmtV4HNbziA3wU4RPUmO+mCOE=;
-	b=bfiznElYtuJTmzna/bjLQVCVoq31ebSJfBj2t6LuYYTJYoSs7i28YBklVa46Pw9jK/
-	rQuPhWgWhhdGfEO9yHnp6A+RR/e+dsfHMJAPqPvV6cccWy2my9LmhYMHK87WwOv+Eylc
-	1uSDB/R3aLM6vJUKEVBjWlQphsihrZcxcKAEfR3ZY0VrJr7EAjK8uHX3fOeMbs7UjaQy
-	tQmqQ7adxV8/GxPiGydF22Os4BjROk5vpjAIIUB5KwsOo5KWz+2BN9wbuZs9AUVrTuL8
-	eNMCJkeJeGTQ/E1SzwDBtmGyrTQoIZaIjqGV1dzAvU0Hy/JghAjc/8iL+hh3Ax4Lb54c
-	nzHg==
-X-Gm-Message-State: ABUngvfw5NbPYlDEG9c0swVAuZDx7FNrm+HU4YiTMMLqc8UTfKeM93YlC2WEQ6PJnX7m1Q==
-X-Received: by 10.99.217.81 with SMTP id e17mr7002204pgj.127.1479424771680;
-	Thu, 17 Nov 2016 15:19:31 -0800 (PST)
+	bh=egQPxnJs33AWSFIni4OxGQ8y+dcQQnVLxWTJ2p/E5iY=;
+	b=IohVOZ21EO1jJ1MyKWMPr9TE+327FmV8Q/aa513r6lG8KL1Flbj+OoQsQltDQisVIk
+	vAHMtFq3j8SD05zvpcO94DN55fj3QPnt8ugU2pZ0NsWNj4Lz/rJI6p50yiIecHNNnuMN
+	JFsQgw7uMvXXluYzextX4OOhqvGBg26giSXOb+RgJwCkWWT+iPWbKoEUfWCrkIo1jL9g
+	rEQ2x9Xqe2fqhujRtd61iircrvMFmIu/UJet6T+qf47uPQd1hTgegnV4jdkH9teJ7D5A
+	ZarNlHO54t/Zfazgo9qJVpJMbmTznVb0MYT+OL+HIRUVQrFfm9RfBnBNuhXyOZ7ZAlnk
+	3jew==
+X-Gm-Message-State: ABUngvdhUs5WfjSBb4EAU4a0NCYyTnoN5pYfLwnk8TyN4hzwAu/YsbKEgwZHrRwkkITxlA==
+X-Received: by 10.99.185.78 with SMTP id v14mr12245970pgo.179.1479424948349;
+	Thu, 17 Nov 2016 15:22:28 -0800 (PST)
 Received: from CACSVMO-14452.local ([2601:646:8882:b8c:952d:89df:6fe0:f7d9])
 	by smtp.gmail.com with ESMTPSA id
-	g63sm10860538pfd.60.2016.11.17.15.19.30
+	a66sm10872085pfa.64.2016.11.17.15.22.27
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 17 Nov 2016 15:19:31 -0800 (PST)
-To: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+	Thu, 17 Nov 2016 15:22:27 -0800 (PST)
+To: Denys Dmytriyenko <denis@denix.org>
 References: <CAJTo0LbvGwRpzxfOL0505w+Vz=Jhf6O3QOr5Z8SX9XaFqaZ7eg@mail.gmail.com>
 	<4181f25d-a2bc-bb94-2b94-4d18ad654ab8@gmail.com>
-	<CAP71WjwJDTVsAcU9YrVh0uBcQ87Xt6HB9fCuj_t-jHcaGsjEWw@mail.gmail.com>
+	<20161117185001.GE26131@denix.org>
 From: Khem Raj <raj.khem@gmail.com>
 Organization: himvis.com
-Message-ID: <0cc6e1e2-aeca-b999-5123-768cac5213b8@gmail.com>
-Date: Thu, 17 Nov 2016 15:19:25 -0800
+Message-ID: <ac552119-5afe-85a8-08a1-8a8ac3e0cf1d@gmail.com>
+Date: Thu, 17 Nov 2016 15:22:26 -0800
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.12; rv:50.0)
 	Gecko/20100101 Thunderbird/50.0
 MIME-Version: 1.0
-In-Reply-To: <CAP71WjwJDTVsAcU9YrVh0uBcQ87Xt6HB9fCuj_t-jHcaGsjEWw@mail.gmail.com>
+In-Reply-To: <20161117185001.GE26131@denix.org>
 Cc: openembedded-architecture
 	<openembedded-architecture@lists.openembedded.org>,
 	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: Enabling uninative by default in oe-core?
+Subject: Re: [Openembedded-architecture] Enabling uninative by default in oe-core?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,36 +61,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 17 Nov 2016 23:19:30 -0000
-X-Groupsio-MsgNum: 89553
+X-List-Received-Date: Thu, 17 Nov 2016 23:22:28 -0000
+X-Groupsio-MsgNum: 89554
 Content-Type: multipart/signed; micalg=pgp-sha1;
 	protocol="application/pgp-signature";
-	boundary="TfXk6KthHRLWO8pA9Jt4TI0dGFmoehEWi"
+	boundary="lMk4NieRnbD3gk4a9aU9VxjVLMxigSqcA"
 
---TfXk6KthHRLWO8pA9Jt4TI0dGFmoehEWi
-Content-Type: multipart/mixed; boundary="B8uWPQ7arrGov3LRhbwgUOMrNld60nEOV";
+--lMk4NieRnbD3gk4a9aU9VxjVLMxigSqcA
+Content-Type: multipart/mixed; boundary="CaWHH6cw7Q1vAwAsrXJPGLXVrVNiOw7jX";
  protected-headers="v1"
 From: Khem Raj <raj.khem@gmail.com>
-To: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+To: Denys Dmytriyenko <denis@denix.org>
 Cc: "Burton, Ross" <ross.burton@intel.com>,
  OE-core <openembedded-core@lists.openembedded.org>,
  openembedded-architecture <openembedded-architecture@lists.openembedded.org>
-Message-ID: <0cc6e1e2-aeca-b999-5123-768cac5213b8@gmail.com>
-Subject: Re: [OE-core] Enabling uninative by default in oe-core?
+Message-ID: <ac552119-5afe-85a8-08a1-8a8ac3e0cf1d@gmail.com>
+Subject: Re: [Openembedded-architecture] [OE-core] Enabling uninative by
+ default in oe-core?
 References: <CAJTo0LbvGwRpzxfOL0505w+Vz=Jhf6O3QOr5Z8SX9XaFqaZ7eg@mail.gmail.com>
  <4181f25d-a2bc-bb94-2b94-4d18ad654ab8@gmail.com>
- <CAP71WjwJDTVsAcU9YrVh0uBcQ87Xt6HB9fCuj_t-jHcaGsjEWw@mail.gmail.com>
-In-Reply-To: <CAP71WjwJDTVsAcU9YrVh0uBcQ87Xt6HB9fCuj_t-jHcaGsjEWw@mail.gmail.com>
+ <20161117185001.GE26131@denix.org>
+In-Reply-To: <20161117185001.GE26131@denix.org>
 
---B8uWPQ7arrGov3LRhbwgUOMrNld60nEOV
-Content-Type: text/plain; charset=utf-8
+--CaWHH6cw7Q1vAwAsrXJPGLXVrVNiOw7jX
+Content-Type: text/plain; charset=windows-1252
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
 
 
-On 11/17/16 10:56 AM, Nicolas Dechesne wrote:
-> On Thu, Nov 17, 2016 at 7:06 PM, Khem Raj <raj.khem@gmail.com> wrote:
+On 11/17/16 10:50 AM, Denys Dmytriyenko wrote:
+> On Thu, Nov 17, 2016 at 10:06:46AM -0800, Khem Raj wrote:
+>>
+>>
+>> On 11/17/16 9:31 AM, Burton, Ross wrote:
+>>> Hi,
+>>>
 >>> Background: uninative is a class that downloads a precompiled host gl=
 ibc for
 >>> use in the sysroot, thus isolating the native sysroot from the host
@@ -133,40 +138,24 @@ oo
 r
 >> redundancy
 >=20
->=20
-> I am not sure how people would care about that (yet ;-) but uninative
-> does not work for arm64 (host).
->=20
-> Build Configuration:
-> BB_VERSION        =3D "1.32.0"
-> BUILD_SYS         =3D "aarch64-linux"
-> NATIVELSBSTRING   =3D "Debian-8.6"
-> TARGET_SYS        =3D "arm-oe-linux-gnueabi"
-> MACHINE           =3D "qemuarm"
-> DISTRO            =3D "nodistro"
-> DISTRO_VERSION    =3D "nodistro.0"
-> TUNE_FEATURES     =3D "arm armv5 thumb dsp"
-> TARGET_FPU        =3D "soft"
-> meta              =3D "master:9303d8055c45a0f6af295d70a6f6a8b9d8d8a7c9"=
+> I still believe this new feature is moving to become mandatory a bit to=
+o=20
+> soon...
+
+perhaps keeping it optional for 1 release would be acceptable ? it also m=
+eans
+that we may not be able to develop core features using this and it would =
+also
+mean more testing matrix, which I believe is fine. Since we know non unin=
+ative
+version wont get as much coverage.
 
 >=20
-> ERROR: Uninative selected but not configured correctly, please set
-> UNINATIVE_CHECKSUM[aarch64]
->=20
-> I don't know much about it, but it would be nice to fix that before we
-> enable it by default. I will try to have a look at it more closely..
->=20
-
-Someone with aarch64 hardware in build boxes could take that up. I dont t=
-hink
-yocto project or many community members have access to hardware. I would =
-be
-happy if it informed me and continues without uninative.
 
 
---B8uWPQ7arrGov3LRhbwgUOMrNld60nEOV--
+--CaWHH6cw7Q1vAwAsrXJPGLXVrVNiOw7jX--
 
---TfXk6KthHRLWO8pA9Jt4TI0dGFmoehEWi
+--lMk4NieRnbD3gk4a9aU9VxjVLMxigSqcA
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="signature.asc"
@@ -174,9 +163,9 @@ Content-Disposition: attachment; filename="signature.asc"
 -----BEGIN PGP SIGNATURE-----
 Comment: GPGTools - https://gpgtools.org
 
-iEYEARECAAYFAlguOwEACgkQuwUzVZGdMxS5uACdE+CaRzJHwMXoyDNXEfqiKaze
-hdwAn3rJvR/Qo6sIy1OyQCW/GLX+TI5N
-=r5Ak
+iEYEARECAAYFAlguO7IACgkQuwUzVZGdMxTrswCeMVKuumSn65QctXmd6uLq3UUi
+z5MAnjq6PwGsF5GX8bwrtUaikL++QFd5
+=GChy
 -----END PGP SIGNATURE-----
 
---TfXk6KthHRLWO8pA9Jt4TI0dGFmoehEWi--
+--lMk4NieRnbD3gk4a9aU9VxjVLMxigSqcA--
