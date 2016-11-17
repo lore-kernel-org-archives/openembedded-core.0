@@ -1,25 +1,48 @@
-Return-Path: <jussi.kukkonen@intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 7C187606CA
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qk0-f178.google.com (mail-qk0-f178.google.com
+	[209.85.220.178])
+	by mail.openembedded.org (Postfix) with ESMTP id C57F17199A
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Nov 2016 08:56:18 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by orsmga101.jf.intel.com with ESMTP; 17 Nov 2016 00:56:18 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.31,504,1473145200"; d="scan'208";a="1086475330"
-Received: from linux.intel.com ([10.54.29.200])
-	by fmsmga002.fm.intel.com with ESMTP; 17 Nov 2016 00:56:17 -0800
-Received: from theory.fi.intel.com (theory.fi.intel.com [10.237.72.53])
-	by linux.intel.com (Postfix) with ESMTP id 6CDDD6A4006;
-	Thu, 17 Nov 2016 00:55:37 -0800 (PST)
-From: Jussi Kukkonen <jussi.kukkonen@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 17 Nov 2016 10:56:04 +0200
-Message-Id: <1479372964-21409-1-git-send-email-jussi.kukkonen@intel.com>
-X-Mailer: git-send-email 2.1.4
-In-Reply-To: <cover.1479301275.git.jussi.kukkonen@intel.com>
-References: <cover.1479301275.git.jussi.kukkonen@intel.com>
-Subject: [PATCH] libdrm: Upgrade 2.4.71 -> 2.4.73
+	Thu, 17 Nov 2016 09:02:40 +0000 (UTC)
+Received: by mail-qk0-f178.google.com with SMTP id n204so209894910qke.2
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 17 Nov 2016 01:02:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=ZN7c4Erm60d6DZsO4E3XdNQjOuld26/BjIvAexqfztw=;
+	b=fK7uCTf6k0HX/jfi4uIUi4aGXFkKkeaSMpBB/BiL32M9/eC6h3dFuzanrieTKvFCZ7
+	LyJM8s8ntR9475uP3bCa4Z7HvGq6BJZCwJ0EiS4mqRTQWZsj1vWaOKJb8bpEUBivzx8u
+	2m+bivSKFOxPLIw0Wxp85pdUVlyX+cmgC6jsicFRGq+lwfxBQEj6Hyp9oHW78/XshFpr
+	oYluCY3RJOp+Ek19pWhjiHm4xBlq0pkKAfhDWdaC9UHwwby/f0OZmMqbtbnX1NAfXp2Z
+	tM1x4zi6cj55xH58YqzCMR9Quiaunpn4RSUMpImEIx8q4NciG5V+CdpYbuLhhQzn8HCT
+	vOfA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=ZN7c4Erm60d6DZsO4E3XdNQjOuld26/BjIvAexqfztw=;
+	b=JO/QfzAYS58TW7lv+bM3H6bxmB/2Y6dr54IxoqLdX7hvqyiMQ+aRE+7K536xo36b5J
+	1NQnlR/dyFgkClaH1eM82NFHBLFGiTO3UJwq7pI+XNe8BS+d1O8WzBMqLcOCZrU91E0a
+	RLNowV1NKHrLMvXL3wczHXaeydV2AMSuN8gT6XNB47Fjfd8i/4F3ROV2GffZqbj/ZXQO
+	52ufcJ+oZOWmtF9ySS/8eC1EIvhCdzqwnBkeKoFrgekhoMzAJTZsJDwEY6FbTPRO4PVR
+	DkGtFy2XeXMVionIid5dg0bpmzihJSb0eF4KuCLhraJoNT0BCpxRspFJqfH68lZsX+KV
+	Tb/A==
+X-Gm-Message-State: AKaTC02A35IIQavDyHEhk6WWT+lRPMHkJ5zLhyt02ito5zaWLq03zlOqM8CyGED/UJKe/oNv7d10aKNXwVrHAK1i
+X-Received: by 10.55.207.78 with SMTP id e75mr2402132qkj.36.1479373361873;
+	Thu, 17 Nov 2016 01:02:41 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.140.85.136 with HTTP; Thu, 17 Nov 2016 01:02:21 -0800 (PST)
+In-Reply-To: <20161117065519.7693.7868@do.openembedded.org>
+References: <cover.1479363545.git.liezhi.yang@windriver.com>
+	<20161117065519.7693.7868@do.openembedded.org>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 17 Nov 2016 09:02:21 +0000
+Message-ID: <CAJTo0LYTbP3h5T+YEMiESUCwq0YM6QXtj5+_nr0ZWMH1Z3mhNQ@mail.gmail.com>
+To: OE-core <openembedded-core@lists.openembedded.org>
+Cc: "Lock, Joshua G" <joshua.g.lock@intel.com>,
+	Paul Eggleton <paul.eggleton@linux.intel.com>
+Subject: =?UTF-8?B?UmU6IOKclyBwYXRjaHRlc3Q6IGZhaWx1cmUgZm9yIEZpeGVzIGZvciBlU0RLIGFuZCB0ZXN0c2RrZXh0?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,43 +55,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 17 Nov 2016 08:56:21 -0000
+X-List-Received-Date: Thu, 17 Nov 2016 09:02:41 -0000
+Content-Type: multipart/alternative; boundary=001a1145b7b8b9cbb505417b73d2
 
-Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
----
+--001a1145b7b8b9cbb505417b73d2
+Content-Type: text/plain; charset=UTF-8
 
-I've pushed this into the mesa-piglit update branch:
+On 17 November 2016 at 06:55, Patchwork <
+patchwork@patchwork.openembedded.org> wrote:
 
-  git://git.yoctoproject.org/poky-contrib jku/mesa-piglit
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=jku/mesa-piglit
+> * Patch            [7/8] oeqa/sdkext/devtool.py: skip
+> test_extend_autotools_recipe_creation when no libxml2
+>   Issue            Commit shortlog is too long [test_shortlog_length]
+>   Suggested fix    Edit shortlog so that it is 80 characters or less
+> (currently 82 characters)
+>
 
-Thanks,
- Jussi
+I'm not sure we've ever been super-strict on this, so I'm wondering if
+warning over 90 is sensible so that we allow an extra two characters when
+function names are long but still detect when someone has put an essay in
+the first line (which does happen if the submitter isn't aware of the git
+convention).
 
+Ross
 
- meta/recipes-graphics/drm/{libdrm_2.4.71.bb => libdrm_2.4.73.bb} | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-graphics/drm/{libdrm_2.4.71.bb => libdrm_2.4.73.bb} (93%)
+--001a1145b7b8b9cbb505417b73d2
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/meta/recipes-graphics/drm/libdrm_2.4.71.bb b/meta/recipes-graphics/drm/libdrm_2.4.73.bb
-similarity index 93%
-rename from meta/recipes-graphics/drm/libdrm_2.4.71.bb
-rename to meta/recipes-graphics/drm/libdrm_2.4.73.bb
-index 152cf55..3315014 100644
---- a/meta/recipes-graphics/drm/libdrm_2.4.71.bb
-+++ b/meta/recipes-graphics/drm/libdrm_2.4.73.bb
-@@ -16,8 +16,8 @@ SRC_URI = "http://dri.freedesktop.org/libdrm/${BP}.tar.bz2 \
-            file://0001-configure.ac-Allow-explicit-enabling-of-cunit-tests.patch \
-           "
- 
--SRC_URI[md5sum] = "776bccc84618b616fc57a7143836ae7a"
--SRC_URI[sha256sum] = "c66287ddeee5f46ea8f8880b94b80acb3bbc33ba6321d17767eef145046df9b8"
-+SRC_URI[md5sum] = "bc1cee09cde72ffe3b952e8f50ccdaa8"
-+SRC_URI[sha256sum] = "96bfd39242fe168017d95f22e141645a35591f5902a7d98c2fa4ca8c31df5e4d"
- 
- inherit autotools pkgconfig manpages
- 
--- 
-2.1.4
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 17 November 2016 at 06:55, Patchwork <span dir=3D"ltr">&lt;<a href=3D"ma=
+ilto:patchwork@patchwork.openembedded.org" target=3D"_blank">patchwork@patc=
+hwork.openembedded.org</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_=
+quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1=
+ex"><div id=3D":3fv" class=3D"a3s aXjCH m1587111a6568b301">* Patch=C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 [7/8] oeqa/sdkext/devtool.py: skip test_=
+extend_autotools_recipe_<wbr>creation when no libxml2<br>
+=C2=A0 Issue=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 Commit shortlog is to=
+o long [test_shortlog_length]<br>
+=C2=A0 Suggested fix=C2=A0 =C2=A0 Edit shortlog so that it is 80 characters=
+ or less (currently 82 characters)<br></div></blockquote></div><br>I&#39;m =
+not sure we&#39;ve ever been super-strict on this, so I&#39;m wondering if =
+warning over 90 is sensible so that we allow an extra two characters when f=
+unction names are long but still detect when someone has put an essay in th=
+e first line (which does happen if the submitter isn&#39;t aware of the git=
+ convention).</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail=
+_extra">Ross</div></div>
 
-
+--001a1145b7b8b9cbb505417b73d2--
