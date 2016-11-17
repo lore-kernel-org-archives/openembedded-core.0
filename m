@@ -1,28 +1,48 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 40AD071A75;
-	Thu, 17 Nov 2016 21:47:25 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id uAHLlQnS008159
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 17 Nov 2016 13:47:26 -0800 (PST)
-Received: from soho-mhatle-m.wrs.com (128.224.60.190) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.294.0; Thu, 17 Nov 2016 13:47:26 -0800
-To: "Burton, Ross" <ross.burton@intel.com>, OE-core
-	<openembedded-core@lists.openembedded.org>, openembedded-architecture
-	<openembedded-architecture@lists.openembedded.org>
-References: <CAJTo0LbvGwRpzxfOL0505w+Vz=Jhf6O3QOr5Z8SX9XaFqaZ7eg@mail.gmail.com>
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-Message-ID: <c0278d51-cd77-1fe4-bb50-d89855487078@windriver.com>
-Date: Thu, 17 Nov 2016 16:47:25 -0500
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.12; rv:45.0)
-	Gecko/20100101 Thunderbird/45.4.0
+Return-Path: <kergoth@gmail.com>
+Received: from mail-oi0-f47.google.com (mail-oi0-f47.google.com
+	[209.85.218.47])
+	by mail.openembedded.org (Postfix) with ESMTP id 7D6E5600BC
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 17 Nov 2016 22:00:57 +0000 (UTC)
+Received: by mail-oi0-f47.google.com with SMTP id 128so69193797oih.0
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 17 Nov 2016 14:00:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:from:date:message-id
+	:subject:to:cc;
+	bh=N+Ojnhtt3CVBOScn8lgp/cEyYjsU5UGOJ133LgbST4w=;
+	b=eCggCThqu09nMff9059QmPW2/0MKvhZUVptU4llC7/CW+leDJxFiBnpqKKmTRwAwBh
+	DGNqKaRXrzqwNAeJCu3jH0mKs+EYfpE5xqDkODP1Wc2WybzG17Fu816azR2zvQubfvq3
+	TvQSQ7QwBm/MqTKZzJu4lrrWqI8wTB7K6Qp7P/XCLHy0u1FdzqMBilSiudbFxDYpqXjM
+	EtY0sT739H+XfYadlYrevNSekB+DcVrUjWFvGu6KUdAH0YstrNc0MqAmxuzTcKPrGZcW
+	QNjNrOONaBWOx+D4ZlcMpiAsL70v74v3sjRZRM/fDXC7x5dYqJonuPnArDMmUzDBniFl
+	JtgA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:sender:in-reply-to:references:from
+	:date:message-id:subject:to:cc;
+	bh=N+Ojnhtt3CVBOScn8lgp/cEyYjsU5UGOJ133LgbST4w=;
+	b=dI8ZTWlzWtIgooyXntt0AeHZ5D5UaxAucGKOkiQ8Hw5pveO/DTrrkCrTUyyu/Sb4eH
+	apTfpACFWOdokoJ8ucjLeyXU1wSxC8mgt2kT+LuVfC+492uDSOlqnQzLb1q/LeBDy5RM
+	KRNwy77LiMoPwNbN9ACHu9I1ojVYAWy3xmk+OkXDCxSH7j4sC8fNc3kS+RECAIqtsQAM
+	AebeVbI4V83QHA1AB2Te7BH/Dz20cX5Uls0Z+YV2jS3ETa+CcNLLw0DdjF3xSCsi9dDd
+	joFu5Slh/w3jv5iGv6eGeeHq4EY/+UGxATGPe6aQciPpF3iyI+588WOSRJA+mG8IWdbL
+	nmcA==
+X-Gm-Message-State: ABUngvemmEXQ1nkXa43N4qq1ucqaXibqd+ADTP22wQXZSSPq4Cd8KNN9p3GHQJ/XCXADr+XYjnesMQcDqt1sTg==
+X-Received: by 10.157.40.151 with SMTP id s23mr2766604ota.68.1479420058889;
+	Thu, 17 Nov 2016 14:00:58 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <CAJTo0LbvGwRpzxfOL0505w+Vz=Jhf6O3QOr5Z8SX9XaFqaZ7eg@mail.gmail.com>
-Subject: Re: [Openembedded-architecture] Enabling uninative by default in oe-core?
+Sender: kergoth@gmail.com
+Received: by 10.157.35.65 with HTTP; Thu, 17 Nov 2016 14:00:38 -0800 (PST)
+In-Reply-To: <CAJ86T=U8RB13J_we2bte22bFQKwnahCe3v5L6na9SDPKm6O8bA@mail.gmail.com>
+References: <CAJ86T=U8RB13J_we2bte22bFQKwnahCe3v5L6na9SDPKm6O8bA@mail.gmail.com>
+From: Christopher Larson <clarson@kergoth.com>
+Date: Thu, 17 Nov 2016 15:00:38 -0700
+X-Google-Sender-Auth: ZaknJq4V-Y8_6R8gQSn7e8MS0Q4
+Message-ID: <CABcZANmfZSGZsFFcXvSAhTgPBPvoQm=wx=p9Q7sPgSSn3D4mAg@mail.gmail.com>
+To: Andre McCurdy <armccurdy@gmail.com>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: Modifying SRC_URI from anonymous python
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,55 +55,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 17 Nov 2016 21:47:29 -0000
-Content-Type: text/plain; charset="windows-1252"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 17 Nov 2016 22:00:58 -0000
+Content-Type: multipart/alternative; boundary=001a11c1494a15779405418653b3
 
-On 11/17/16 12:31 PM, Burton, Ross wrote:
-> Hi,
-> 
-> Background: uninative is a class that downloads a precompiled host glibc for use
-> in the sysroot, thus isolating the native sysroot from the host environment. 
-> This means greater sstate reuse, as instead of native builds being dependent on
-> the host system they're able to be shared between all hosts.  There is a
-> reference tarball hosted on www.yoctoproject.org <http://www.yoctoproject.org>,
-> and the URL can be overridden by distros if you would prefer to build your own.
-> 
-> We enable this in Poky so that we get greater reuse on the autobuilders, and due
-> to some issues with the C++ ABI the eSDK generation in master now requires
-> uninative to be enabled.  The question is: do we now enable uninative by default
-> in oe-core's nodistro (pointing at the yoctoproject tarball), or do we keep it
-> disabled by default and require the user to enable uninative if they wish to
-> build an eSDK?
-> 
-> Personally I'm torn: I don't like eSDK not working out of the box, but I don't
-> really like oe-core nodistro depending on uninative.  Though enabling uninative
-> globally does mean everything works out of the box, so following the principle
-> of Least Surprise that's what we should do.
+--001a11c1494a15779405418653b3
+Content-Type: text/plain; charset=UTF-8
 
-I agree, I see both sides.
+On Thu, Nov 17, 2016 at 2:28 PM, Andre McCurdy <armccurdy@gmail.com> wrote:
 
-I'm tempted though to say, at a minimum it would be nice if oe-core had a
-working (prebuilt) uninative -- or at least instructions for someone to build it
-themselves.  Also corresponding instructions for the eSDK that says, BTW you
-need this and this is how to do it.
+> I have a supplier who provides recipes which set SRC_URI to their
+> private git servers. To make those same recipes usable by others (ie
+> me), some anonymous python is used to transform the default SRC_URI
+> (elements which contain private git URLs are replaced, patches and
+> other files are left as-is).
+>
+> This apparently worked in OE 2.0 but from 2.1 onwards the anonymous
+> python which modifies SRC_URI races with the anonymous python in
+> base.bbclass which parses SRC_URI to determine additional
+> do_fetch/do_unpack dependencies and whether or not to call
+> fetch2.get_srcrev(). Specifically I get failures because
+> fetch2.get_srcrev() sees the original SRC_URI and tries to resolve
+> AUTOREV from a repo to which I don't have access.
+>
 
-That would let people use the uninative with oe-core... and maybe? let us vet
-this so we can determine if it's the right thing to do by default in the future
-or not.
+You might want to try using a RecipePreFinalise event handler instead, they
+run before anonymous python functions do.
+-- 
+Christopher Larson
+clarson at kergoth dot com
+Founder - BitBake, OpenEmbedded, OpenZaurus
+Maintainer - Tslib
+Senior Software Engineer, Mentor Graphics
 
-(With that said, the stuff I'm working on is using the uninative -- and it's
-solved a number of minor issues..)
+--001a11c1494a15779405418653b3
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
---Mark
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On Thu, Nov 17, 2016 at 2:28 PM, Andre McCurdy <span dir=3D"ltr">&lt;<a hre=
+f=3D"mailto:armccurdy@gmail.com" target=3D"_blank">armccurdy@gmail.com</a>&=
+gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 =
+0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":n3" class=
+=3D"a3s aXjCH m158744864715b647">I have a supplier who provides recipes whi=
+ch set SRC_URI to their<br>
+private git servers. To make those same recipes usable by others (ie<br>
+me), some anonymous python is used to transform the default SRC_URI<br>
+(elements which contain private git URLs are replaced, patches and<br>
+other files are left as-is).<br>
+<br>
+This apparently worked in OE 2.0 but from 2.1 onwards the anonymous<br>
+python which modifies SRC_URI races with the anonymous python in<br>
+base.bbclass which parses SRC_URI to determine additional<br>
+do_fetch/do_unpack dependencies and whether or not to call<br>
+fetch2.get_srcrev(). Specifically I get failures because<br>
+fetch2.get_srcrev() sees the original SRC_URI and tries to resolve<br>
+AUTOREV from a repo to which I don&#39;t have access.</div></blockquote></d=
+iv><br>You might want to try using a RecipePreFinalise event handler instea=
+d, they run before anonymous python functions do.<br>-- <br><div class=3D"g=
+mail_signature" data-smartmail=3D"gmail_signature">Christopher Larson<br>cl=
+arson at kergoth dot com<br>Founder - BitBake, OpenEmbedded, OpenZaurus<br>=
+Maintainer - Tslib<br>Senior Software Engineer, Mentor Graphics</div>
+</div></div>
 
-> Ross
-> 
-> 
-> _______________________________________________
-> Openembedded-architecture mailing list
-> Openembedded-architecture@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-architecture
-> 
-
-
+--001a11c1494a15779405418653b3--
