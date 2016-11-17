@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id BDFEC71978
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 711BE71A99
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Nov 2016 06:19:40 +0000 (UTC)
+	Thu, 17 Nov 2016 06:19:41 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id uAH6JgSk021959
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id uAH6JhaS021298
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Nov 2016 22:19:42 -0800
+	Wed, 16 Nov 2016 22:19:43 -0800 (PST)
 Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.294.0;
-	Wed, 16 Nov 2016 22:19:41 -0800
+	Wed, 16 Nov 2016 22:19:42 -0800
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 16 Nov 2016 22:19:34 -0800
-Message-ID: <5cea51d1030f17c4c8fecfb4da3b04bd63a2b6c2.1479363545.git.liezhi.yang@windriver.com>
+Date: Wed, 16 Nov 2016 22:19:35 -0800
+Message-ID: <1ce7dbfb44b9669e9e4515d8b1b585d75baae66d.1479363545.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.10.2
 In-Reply-To: <cover.1479363545.git.liezhi.yang@windriver.com>
 References: <cover.1479363545.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 5/8] oeqa/sdkext/devtool.py: don't reset when the test is failed
+Subject: [PATCH 6/8] oeqa/oetest.py: add hasLockedSig()
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,60 +33,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 17 Nov 2016 06:19:40 -0000
+X-List-Received-Date: Thu, 17 Nov 2016 06:19:41 -0000
 Content-Type: text/plain
 
-The contents are helpful to debug when the error happens.
+It checks whether there is a "recipe:do_populate_sysroot:" in
+locked-sigs.inc, which will help to determine whether the testcase will
+run or not.
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- meta/lib/oeqa/sdkext/devtool.py | 5 -----
- 1 file changed, 5 deletions(-)
+ meta/lib/oeqa/oetest.py | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
-diff --git a/meta/lib/oeqa/sdkext/devtool.py b/meta/lib/oeqa/sdkext/devtool.py
-index f101eb6..c91090e 100644
---- a/meta/lib/oeqa/sdkext/devtool.py
-+++ b/meta/lib/oeqa/sdkext/devtool.py
-@@ -24,7 +24,6 @@ class DevtoolTest(oeSDKExtTest):
-             self._run('devtool build myapp')
-         except Exception as e:
-             print(e.output)
--            self._run('devtool reset myapp')
-             raise e
-         self._run('devtool reset myapp')
+diff --git a/meta/lib/oeqa/oetest.py b/meta/lib/oeqa/oetest.py
+index 95d3bf7..d12381d 100644
+--- a/meta/lib/oeqa/oetest.py
++++ b/meta/lib/oeqa/oetest.py
+@@ -171,6 +171,12 @@ class oeSDKExtTest(oeSDKTest):
+         return subprocess.check_output(". %s > /dev/null;"\
+             " %s;" % (self.tc.sdkenv, cmd), stderr=subprocess.STDOUT, shell=True, env=env).decode("utf-8")
  
-@@ -34,7 +33,6 @@ class DevtoolTest(oeSDKExtTest):
-             self._run('devtool package myapp')
-         except Exception as e:
-             print(e.output)
--            self._run('devtool reset myapp')
-             raise e
-         self._run('devtool reset myapp')
++    @classmethod
++    def hasLockedSig(self, recipe):
++        if re.search(" " + recipe + ":do_populate_sysroot:", oeTest.tc.locked_sigs):
++            return True
++        return False
++
+ def getmodule(pos=2):
+     # stack returns a list of tuples containg frame information
+     # First element of the list the is current frame, caller is 1
+@@ -708,6 +714,13 @@ class SDKExtTestContext(SDKTestContext):
+         self.sdkextfilesdir = os.path.join(os.path.dirname(os.path.abspath(
+             oeqa.sdkext.__file__)), "files")
  
-@@ -73,7 +71,6 @@ class DevtoolTest(oeSDKExtTest):
-             self._run('devtool build %s' % recipe)
-         except Exception as e:
-             print(e.output)
--            self._run('devtool reset %s' % recipe)
-             raise e
-         self._run('devtool reset %s' % recipe)
- 
-@@ -87,7 +84,6 @@ class DevtoolTest(oeSDKExtTest):
-             self._run('devtool build %s' % recipe)
-         except Exception as e:
-             print(e.output)
--            self._run('devtool reset %s' % recipe)
-             raise e
-         self._run('devtool reset %s' % recipe)
- 
-@@ -100,7 +96,6 @@ class DevtoolTest(oeSDKExtTest):
-             self._run('devtool build %s ' % package_nodejs)
-         except Exception as e:
-             print(e.output)
--            self._run('devtool reset %s' % package_nodejs)
-             raise e
-         self._run('devtool reset %s '% package_nodejs)
- 
++        self.locked_sig_file = os.path.join(self.sdktestdir, "tc/conf/locked-sigs.inc")
++        if os.path.exists(self.locked_sig_file):
++            with open(self.locked_sig_file) as f:
++                self.locked_sigs = f.read()
++        else:
++            bb.fatal("%s not found. Did you build the ext sdk image?\n%s" % e)
++
+     def _get_test_namespace(self):
+         if self.cm:
+             return "sdk"
 -- 
 2.10.2
 
