@@ -1,44 +1,53 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qt0-f173.google.com (mail-qt0-f173.google.com
-	[209.85.216.173])
-	by mail.openembedded.org (Postfix) with ESMTP id A6D1D719A9
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Nov 2016 17:31:22 +0000 (UTC)
-Received: by mail-qt0-f173.google.com with SMTP id w33so138511671qtc.3
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Nov 2016 09:31:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:from:date:message-id:subject:to;
-	bh=q0VuxJi4sI7t9GESRTOjgMTr3rY8IcUWo+TTzBoaSWk=;
-	b=n+3mMVCXvD4f167CAb0Bp79ffPRyeK73jZfEzQJs85zkrowlOCW5oRCcw1/Ed2CNLh
-	eSs4BbR8jsRcLr97PCCqwQ4Knx4YEMtPeecL3agrdULOWTvOFvtHBq3HXT6c1W5ycPPW
-	OqF3M6e9o0EvhEDiehowgswmdESnANGLU43OUJYt6oLBGNwnPgEbAJY8G6rzHQbW5dWw
-	GwDrXdaa1O/1nW7RMD2qSRgjItev5wVz+cpje+I8LNzNdqo7MlNBcODE8CF/rKXoVrjg
-	gEdJgaFZG20E/TisBwI774Jp/oGTvOtG6VdItd9Hos9KCy0QoMaO5qGOeDO7Rbtss9Sf
-	Avcw==
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-it0-f47.google.com (mail-it0-f47.google.com
+	[209.85.214.47])
+	by mail.openembedded.org (Postfix) with ESMTP id B0F10719D7;
+	Thu, 17 Nov 2016 18:08:11 +0000 (UTC)
+Received: by mail-it0-f47.google.com with SMTP id y23so67346510itc.0;
+	Thu, 17 Nov 2016 10:08:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=subject:to:references:from:organization:message-id:date:user-agent
+	:mime-version:in-reply-to;
+	bh=XIi0SjxfreWWfW59HoPywr06R0CWHW5v6cGwyCO7Gu8=;
+	b=KoxTi4URq/vnx9BBfxmv7Sp2biv6W0xLb7b9mCR00jQvpxy7dNpanxTXZsb+YKc2eS
+	kmW5lY71dxheplQPVYvBQ4lVNiN2i65qpaPIT8ofiC4EpYnm8at/YcQbPbNHJu8bDd8Q
+	cvtQiuQmDGWdxk1+5/ND8/V5h2/4RusFBHVaEAseHP2Aii+8VwKOzEoMo0Sb7Cvbs3qJ
+	xBx9ZOGhE9Zib4Smxx2OIRbKVXpkM95z1zaCwNErM8wVQTheF2LVHoE1OB3gXq07j2pB
+	ozZ0QlxpJCQwkX3pOlsOd8opnwFgy89xCVkkER1nHuvUUFFG8rOpVkhhpbGWVXBM6wnX
+	gDjA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-	bh=q0VuxJi4sI7t9GESRTOjgMTr3rY8IcUWo+TTzBoaSWk=;
-	b=eHks+oMSWou5adpeX933N7iwI+pyD4nvGsCLvKH90l03Myrjc8xKWhHlONicI9LtQe
-	x5SQL2yfbuGncderMHE3+u9+5Imwl7uMmXCmsTBYF9Kp6gaiOhOh1/2BR7lv3oo6DAk8
-	4YeHnnRR7Jto1nYkzUHwCqi/iKtpkhrVphFO+0D897JQIN3DStWCMoiK/1MV7rjL78Ox
-	2IzPjTJgh4iSH2mUHO0lfjNLhcu4f9BUHIFTj7q/GBTn0I9Gfsym6UmTGbk9WibFxKgm
-	cD7+fTWB2iGvfyHUtWGy7ekOB/ybMyTUhPQ0iCR4LPXkIfnmhzuQMA5ecXBPkRDF3Kam
-	nzxQ==
-X-Gm-Message-State: AKaTC00bFyL8SGGloc43pa6W2Y4ycbUc65CDVw8v0Uo+NR4uCNBjQ/wcLKdGBeqLYizMYYJkD4W+oeHmQJ129zwd
-X-Received: by 10.237.61.42 with SMTP id g39mr3151896qtf.65.1479403883628;
-	Thu, 17 Nov 2016 09:31:23 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.140.85.136 with HTTP; Thu, 17 Nov 2016 09:31:03 -0800 (PST)
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 17 Nov 2016 17:31:03 +0000
-Message-ID: <CAJTo0LbvGwRpzxfOL0505w+Vz=Jhf6O3QOr5Z8SX9XaFqaZ7eg@mail.gmail.com>
-To: OE-core <openembedded-core@lists.openembedded.org>, 
+	h=x-gm-message-state:subject:to:references:from:organization
+	:message-id:date:user-agent:mime-version:in-reply-to;
+	bh=XIi0SjxfreWWfW59HoPywr06R0CWHW5v6cGwyCO7Gu8=;
+	b=aQYqOwT/c7vN9LqHH9KXZXf4XObc87rCQ4W53sdjjwLSGTBduxWXiH0EsEUcEeUFKS
+	CtCXbCUs/ShEwU6q/5lPaaSQw1arwJfJueqa82j+O5BpYm3KSMIEd0AJFnlFQEIpxMlX
+	aYJ9MidQGe+6e5DQKg4B5p57AO0Ru7E0qVQlaIocS/j+99EWlMZ733aJPfwlbf+Oomdx
+	xTr8SH1kcKuus8SigAfYH/maJ0uDThUilB5J+Ck4cbc5jHUgH7n0tvUnJD59rg8jVDiO
+	IRvHAKmAPfoR4z+UHyMREOmjCKES2gHwTGiizxKi0lFe5CyJuJ48LWmBQgs1fBbrAuE5
+	GPVA==
+X-Gm-Message-State: ABUngvfoTBIKESCUfOWFsYtJx1+sKsyQJ3bGO14h3bbgYn0IkXIYa1H3u+TEt14Bb+4wBw==
+X-Received: by 10.36.82.85 with SMTP id d82mr14343527itb.95.1479406092785;
+	Thu, 17 Nov 2016 10:08:12 -0800 (PST)
+Received: from CACSVMO-14452.local (c-76-102-32-192.hsd1.ca.comcast.net.
+	[76.102.32.192]) by smtp.gmail.com with ESMTPSA id
+	c79sm1615835itc.13.2016.11.17.10.08.11
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 17 Nov 2016 10:08:11 -0800 (PST)
+To: "Burton, Ross" <ross.burton@intel.com>,
+	OE-core <openembedded-core@lists.openembedded.org>,
 	openembedded-architecture
 	<openembedded-architecture@lists.openembedded.org>
-Subject: Enabling uninative by default in oe-core?
+References: <CAJTo0LbvGwRpzxfOL0505w+Vz=Jhf6O3QOr5Z8SX9XaFqaZ7eg@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Organization: himvis.com
+Message-ID: <4181f25d-a2bc-bb94-2b94-4d18ad654ab8@gmail.com>
+Date: Thu, 17 Nov 2016 10:06:46 -0800
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:50.0)
+	Gecko/20100101 Thunderbird/50.0
+MIME-Version: 1.0
+In-Reply-To: <CAJTo0LbvGwRpzxfOL0505w+Vz=Jhf6O3QOr5Z8SX9XaFqaZ7eg@mail.gmail.com>
+Subject: Re: Enabling uninative by default in oe-core?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,57 +60,91 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 17 Nov 2016 17:31:22 -0000
-Content-Type: multipart/alternative; boundary=001a1142a3eaf695ce0541828ea1
+X-List-Received-Date: Thu, 17 Nov 2016 18:08:14 -0000
+X-Groupsio-MsgNum: 89540
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature";
+	boundary="IVHmtg215F3jnkTm6xP3IKgAKanSbGvJP"
 
---001a1142a3eaf695ce0541828ea1
-Content-Type: text/plain; charset=UTF-8
+--IVHmtg215F3jnkTm6xP3IKgAKanSbGvJP
+Content-Type: multipart/mixed; boundary="3ljX3IHs9EQq9ixxgCl7SEJmbCFMQ26wv";
+ protected-headers="v1"
+From: Khem Raj <raj.khem@gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>,
+ OE-core <openembedded-core@lists.openembedded.org>,
+ openembedded-architecture <openembedded-architecture@lists.openembedded.org>
+Message-ID: <4181f25d-a2bc-bb94-2b94-4d18ad654ab8@gmail.com>
+Subject: Re: [OE-core] Enabling uninative by default in oe-core?
+References: <CAJTo0LbvGwRpzxfOL0505w+Vz=Jhf6O3QOr5Z8SX9XaFqaZ7eg@mail.gmail.com>
+In-Reply-To: <CAJTo0LbvGwRpzxfOL0505w+Vz=Jhf6O3QOr5Z8SX9XaFqaZ7eg@mail.gmail.com>
 
-Hi,
-
-Background: uninative is a class that downloads a precompiled host glibc
-for use in the sysroot, thus isolating the native sysroot from the host
-environment.  This means greater sstate reuse, as instead of native builds
-being dependent on the host system they're able to be shared between all
-hosts.  There is a reference tarball hosted on www.yoctoproject.org, and
-the URL can be overridden by distros if you would prefer to build your own.
-
-We enable this in Poky so that we get greater reuse on the autobuilders,
-and due to some issues with the C++ ABI the eSDK generation in master now
-requires uninative to be enabled.  The question is: do we now enable
-uninative by default in oe-core's nodistro (pointing at the yoctoproject
-tarball), or do we keep it disabled by default and require the user to
-enable uninative if they wish to build an eSDK?
-
-Personally I'm torn: I don't like eSDK not working out of the box, but I
-don't really like oe-core nodistro depending on uninative.  Though enabling
-uninative globally does mean everything works out of the box, so following
-the principle of Least Surprise that's what we should do.
-
-Ross
-
---001a1142a3eaf695ce0541828ea1
-Content-Type: text/html; charset=UTF-8
+--3ljX3IHs9EQq9ixxgCl7SEJmbCFMQ26wv
+Content-Type: text/plain; charset=windows-1252
+Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">Hi,<div><br></div><div>Background: uninative is a class th=
-at downloads a precompiled host glibc for use in the sysroot, thus isolatin=
-g the native sysroot from the host environment.=C2=A0 This means greater ss=
-tate reuse, as instead of native builds being dependent on the host system =
-they&#39;re able to be shared between all hosts.=C2=A0 There is a reference=
- tarball hosted on <a href=3D"http://www.yoctoproject.org">www.yoctoproject=
-.org</a>, and the URL can be overridden by distros if you would prefer to b=
-uild your own.</div><div><br></div><div>We enable this in Poky so that we g=
-et greater reuse on the autobuilders, and due to some issues with the C++ A=
-BI the eSDK generation in master now requires uninative to be enabled.=C2=
-=A0 The question is: do we now enable uninative by default in oe-core&#39;s=
- nodistro (pointing at the yoctoproject tarball), or do we keep it disabled=
- by default and require the user to enable uninative if they wish to build =
-an eSDK?</div><div><br></div><div>Personally I&#39;m torn: I don&#39;t like=
- eSDK not working out of the box, but I don&#39;t really like oe-core nodis=
-tro depending on uninative.=C2=A0 Though enabling uninative globally does m=
-ean everything works out of the box, so following the principle of Least Su=
-rprise that&#39;s what we should do.</div><div><br></div><div>Ross</div></d=
-iv>
 
---001a1142a3eaf695ce0541828ea1--
+
+On 11/17/16 9:31 AM, Burton, Ross wrote:
+> Hi,
+>=20
+> Background: uninative is a class that downloads a precompiled host glib=
+c for
+> use in the sysroot, thus isolating the native sysroot from the host
+> environment.  This means greater sstate reuse, as instead of native bui=
+lds
+> being dependent on the host system they're able to be shared between al=
+l
+> hosts.  There is a reference tarball hosted on www.yoctoproject.org
+> <http://www.yoctoproject.org>, and the URL can be overridden by distros=
+ if you
+> would prefer to build your own.
+>=20
+> We enable this in Poky so that we get greater reuse on the autobuilders=
+, and
+> due to some issues with the C++ ABI the eSDK generation in master now r=
+equires
+> uninative to be enabled.  The question is: do we now enable uninative b=
+y
+> default in oe-core's nodistro (pointing at the yoctoproject tarball), o=
+r do we
+> keep it disabled by default and require the user to enable uninative if=
+ they
+> wish to build an eSDK?
+>=20
+> Personally I'm torn: I don't like eSDK not working out of the box, but =
+I don't
+> really like oe-core nodistro depending on uninative.  Though enabling
+> uninative globally does mean everything works out of the box, so follow=
+ing the
+> principle of Least Surprise that's what we should do.
+
+If we are supporing e-SDK in OE-Core then we should enable uninative too
+on the same lines.
+
+It does improve the user experience so I am in favor of adding it
+unconditionally. May be tarball can be hosted on oe mirrors as well for
+redundancy
+
+>=20
+> Ross
+>=20
+>=20
+
+
+--3ljX3IHs9EQq9ixxgCl7SEJmbCFMQ26wv--
+
+--IVHmtg215F3jnkTm6xP3IKgAKanSbGvJP
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+Comment: GPGTools - https://gpgtools.org
+
+iEYEARECAAYFAlgt8boACgkQuwUzVZGdMxR43ACfZEiWwj3mskDJIcZcSjaKN7Je
+ktAAoIDYpdwyDx1Ij4Rk+m06bXr5rrP1
+=zGsM
+-----END PGP SIGNATURE-----
+
+--IVHmtg215F3jnkTm6xP3IKgAKanSbGvJP--
