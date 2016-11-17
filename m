@@ -1,46 +1,45 @@
-Return-Path: <fabio.berton@ossystems.com.br>
-Received: from mail-qk0-f195.google.com (mail-qk0-f195.google.com
-	[209.85.220.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 285C260589
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wm0-f51.google.com (mail-wm0-f51.google.com [74.125.82.51])
+	by mail.openembedded.org (Postfix) with ESMTP id 681E3601A4
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Nov 2016 15:27:01 +0000 (UTC)
-Received: by mail-qk0-f195.google.com with SMTP id n204so26696750qke.2
+	Thu, 17 Nov 2016 15:50:39 +0000 (UTC)
+Received: by mail-wm0-f51.google.com with SMTP id f82so154495167wmf.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Nov 2016 07:27:03 -0800 (PST)
+	Thu, 17 Nov 2016 07:50:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id:organization;
-	bh=5Pn8AiFdv4ZRUwj+x/PJ5JJThg28cu3kbajwjAfsT4I=;
-	b=PdC2+HySu3wciyORypYaYrZ5WZqp9C5RAjIpxZVqJGkSHUDVUtlX2Qxy0yNEhmjE+k
-	bKyOE9mbvUHcSJlXYmQZ9R8fm5oOyBb0AB1fJnBLKOwEkJmK5JJyV4iqnnyFa9UMmbt+
-	TUPDWBDaiACkfA5OXdeVLuhP4DAU4BGX4fHejMXpGe4XDr06sWURxJxtlMtbXh3gQMG+
-	LgtraalX4qHh5Ql267tZ1f1vpDubHKLoJ81E4kNtw+BnqiIkJHWc9KTPTHfdSQcWYOoY
-	VLkhxRHIRA7AIq8kOeXGi5DjJFY2npLSP17mxgZK/lxSAl/OYB/Fmdi8Q7V7hsa8blFk
-	bU3Q==
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=5yuFBELmCA6vEZ5IdNNvD0w6VrJNIHmvipmM2NGT0iM=;
+	b=USjI8eyNYWS+QWtOdiyGkobQadHGAr12iyta8d33RqylgXbxyj63WeujkIc0FK7cHF
+	elyKdXMERBptvVK03gpFBINs2z/2ZaDgbkgjjh59pqVmGcj6KaOntU7+Uatd9I3RYjzI
+	ck7GX6Bq8q8epxEhrAz3UH/agaHAmOUDY1kersx8y+TXzuZl3Fj90o84H0bMfeR790n5
+	L5zErxBDQzU2fhj3sK9Qako6Nwn2spswjPYnhx9HVrbsh6MaibZZSJCO2tnL45u0yxl9
+	W8DGgGP+xOnhMODkDffSgaxo4N7Rv4uMidZP+unDJur3sv7ipxwXuBJkRiCAeGQqu4Cw
+	1K9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:organization;
-	bh=5Pn8AiFdv4ZRUwj+x/PJ5JJThg28cu3kbajwjAfsT4I=;
-	b=FZxo/EjH0XaqEhv0csPnJVy18TrW0po/UIAshPcsOICRPTZZw2VSUYUh3+DbNOtvZi
-	tCyc2XkxB570yE4ljNpUDJerog1jkhW3vPeQghZo2w/3d4txA48LDIo/wrPhrEwwKYOL
-	EBq78X8Um5VkWt4NI2pJ5XRaq068jvbtVOB97hunemG4D4mECRwbzQ8ytN286p2eQySP
-	jeqXZm61imMCKXnBkeTIXTifZ5F0AIxCLzYno8wQp+Tca1J/cckqagtxpWjh6j0ZrVpE
-	3ByNQx8tV7OAfYm8lRI8Df5S91IU6A/iXNUy1ReDzm0H6xfF36PONzZfVFQ/mIu67Pzj
-	2yTA==
-X-Gm-Message-State: AKaTC02oc5J4atNeBrBsjme8cKJDTFBCxGX8YAWZS3mnnaxHavd/WzjNBpFxk/1I41i/9A==
-X-Received: by 10.233.220.71 with SMTP id q68mr4385892qkf.8.1479396422763;
-	Thu, 17 Nov 2016 07:27:02 -0800 (PST)
-Received: from monster.lab.ossystems.com.br ([181.220.123.3])
-	by smtp.gmail.com with ESMTPSA id 73sm1691597qky.2.2016.11.17.07.27.00
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=5yuFBELmCA6vEZ5IdNNvD0w6VrJNIHmvipmM2NGT0iM=;
+	b=j14B7gIzAO8yelKaMEtoCVghUaY4A3+YnGaFQaE7DRE57hFXa+yKAzaY2jPR3PHq49
+	jsZAWqLU0JQcIsX4NbYVrsHYBBKJ5M1Gm9/PkynMWftC+f5LSNyQCN90g6NpgMoJ5wOX
+	2UuI+/sxfHtBbqCs7zMvydpUtWdxuzHpOaXl7J2VcCDJPY9MdHlaz0kps0MtJmwdlMj1
+	KgikUqgbtmvxOwuBNGWj0DAfIjKYVjCIP9p7H7zj1VYRknO3TkhxUVGnlZCxq5m1DXuT
+	q3eMLuzYVP5yo9Azx5xDI+3r6FJjxazHuAltzTPwQv+Pf4xR0/TPz735nKaqkHLY3Rj8
+	XaPQ==
+X-Gm-Message-State: ABUngvdckLr535NpYRlXIABJY61vYK+WPMLxzM6yrL25T+47jdHDXrADTU2O7jf95Dksezvg
+X-Received: by 10.28.150.75 with SMTP id y72mr18236940wmd.47.1479397840075;
+	Thu, 17 Nov 2016 07:50:40 -0800 (PST)
+Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
+	by smtp.gmail.com with ESMTPSA id 14sm4448462wmk.1.2016.11.17.07.50.39
+	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 17 Nov 2016 07:27:01 -0800 (PST)
-From: Fabio Berton <fabio.berton@ossystems.com.br>
+	Thu, 17 Nov 2016 07:50:39 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 17 Nov 2016 13:26:34 -0200
-Message-Id: <1479396394-26134-1-git-send-email-fabio.berton@ossystems.com.br>
-X-Mailer: git-send-email 2.1.4
-Organization: O.S. Systems Software LTDA.
-Subject: [PATCH] libpcap: Fix build when PACKAGECONFIG ipv6 is not enable
+Date: Thu, 17 Nov 2016 15:50:35 +0000
+Message-Id: <1479397835-26630-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 2.8.1
+Subject: [PATCH][RFC] classes: add gitupstream class
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,175 +52,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 17 Nov 2016 15:27:03 -0000
+X-List-Received-Date: Thu, 17 Nov 2016 15:50:41 -0000
 
-Add patches to fix error:
-/
-| ERROR: oe_runmake failed
-| config.status: creating pcap-config.tmp
-| mv pcap-config.tmp pcap-config
-| chmod a+x pcap-config
-| ../libpcap-1.8.1/gencode.c: In function 'pcap_compile':
-| ../libpcap-1.8.1/gencode.c:693:8: error: 'compiler_state_t
-| {aka struct _compiler_state}' has no member named 'ai'
-|   cstate.ai = NULL;
-|         ^
-| ../libpcap-1.8.1/gencode.c: In function 'gen_gateway':
-| ../libpcap-1.8.1/gencode.c:4914:13: error: 'cstate' undeclared
-| (first use in this function)
-|    bpf_error(cstate, "direction applied to 'gateway'");
-|              ^~~~~~
-| ../libpcap-1.8.1/gencode.c:4914:13: note: each undeclared identifier is
-| reported only once for each function it appears in
-\
+This class lets you use BBCLASSEXTEND to add a variant of the recipe that
+fetches from git instead of a tarball.
 
-Patches were submitted to upstream [1]
+For example:
 
-[1] https://github.com/the-tcpdump-group/libpcap/pull/541
+ BBCLASSEXTEND = "gitupstream"
+ SRC_URI_class-gitupstream = "git://git.example.com/example"
+ SRCREV_class-gitupstream = "abcd1234"
 
-Signed-off-by: Fabio Berton <fabio.berton@ossystems.com.br>
+This variant will have DEFAULT_PREFERENCE set to -1 so it needs to be selected
+to be used, and any git-specific tweaks can be done with the class-gitupstream
+override, for example:
+
+ DEPENDS_append_class-gitupstream = " gperf-native"
+
+ do_configure_prepend_class-gitupstream() {
+    touch ${S}/README
+ }
+
+It currently only supports creating a git variant of the target recipe, not
+native or nativesdk.
+
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- ...r_state_t.ai-usage-when-INET6-is-not-defi.patch | 41 +++++++++++++
- ...02-Add-missing-compiler_state_t-parameter.patch | 67 ++++++++++++++++++++++
- meta/recipes-connectivity/libpcap/libpcap_1.8.1.bb |  2 +
- 3 files changed, 110 insertions(+)
- create mode 100644 meta/recipes-connectivity/libpcap/libpcap/0001-Fix-compiler_state_t.ai-usage-when-INET6-is-not-defi.patch
- create mode 100644 meta/recipes-connectivity/libpcap/libpcap/0002-Add-missing-compiler_state_t-parameter.patch
+ meta/classes/gitupstream.bbclass | 23 +++++++++++++++++++++++
+ 1 file changed, 23 insertions(+)
+ create mode 100644 meta/classes/gitupstream.bbclass
 
-diff --git a/meta/recipes-connectivity/libpcap/libpcap/0001-Fix-compiler_state_t.ai-usage-when-INET6-is-not-defi.patch b/meta/recipes-connectivity/libpcap/libpcap/0001-Fix-compiler_state_t.ai-usage-when-INET6-is-not-defi.patch
+diff --git a/meta/classes/gitupstream.bbclass b/meta/classes/gitupstream.bbclass
 new file mode 100644
-index 0000000..edb6ae5
+index 0000000..64aab61
 --- /dev/null
-+++ b/meta/recipes-connectivity/libpcap/libpcap/0001-Fix-compiler_state_t.ai-usage-when-INET6-is-not-defi.patch
-@@ -0,0 +1,41 @@
-+From 64aa033a061c43fc15c711f2490ae41d23b868c3 Mon Sep 17 00:00:00 2001
-+From: Fabio Berton <fabio.berton@ossystems.com.br>
-+Date: Thu, 17 Nov 2016 09:44:42 -0200
-+Subject: [PATCH 1/2] Fix compiler_state_t.ai usage when INET6 is not defined
-+Organization: O.S. Systems Software LTDA.
++++ b/meta/classes/gitupstream.bbclass
+@@ -0,0 +1,23 @@
++CLASSOVERRIDE = "class-gitupstream"
 +
-+Fix error:
++# TODO doesn't let you gitupstream a native recipe yet
 +
-+/
-+| ../libpcap-1.8.1/gencode.c: In function 'pcap_compile':
-+| ../libpcap-1.8.1/gencode.c:693:8: error: 'compiler_state_t
-+| {aka struct _compiler_state}' has no member named 'ai'
-+|   cstate.ai = NULL;
-+\
++python gitupstream_virtclass_handler () {
++    # Do nothing if this is inherited, as it's for BBCLASSEXTEND
++    if "gitupstream" not in (e.data.getVar('BBCLASSEXTEND', True) or ""):
++        bb.warn("Don't inherit gitupstream, use BBCLASSEXTEND")
++        return
 +
-+Upstream-Status: Submitted [1]
++    # TODO sanity check somehow?
 +
-+[1] https://github.com/the-tcpdump-group/libpcap/pull/541
++    d.setVar("DEFAULT_PREFERENCE", "-1")
++    d.setVar("S", "${WORKDIR}/git")
 +
-+Signed-off-by: Fabio Berton <fabio.berton@ossystems.com.br>
-+---
-+ gencode.c | 2 ++
-+ 1 file changed, 2 insertions(+)
-+
-+diff --git a/gencode.c b/gencode.c
-+index a887f27..e103c70 100644
-+--- a/gencode.c
-++++ b/gencode.c
-+@@ -690,7 +690,9 @@ pcap_compile(pcap_t *p, struct bpf_program *program,
-+ 	}
-+ 	initchunks(&cstate);
-+ 	cstate.no_optimize = 0;
-++#ifdef INET6
-+ 	cstate.ai = NULL;
-++#endif
-+ 	cstate.ic.root = NULL;
-+ 	cstate.ic.cur_mark = 0;
-+ 	cstate.bpf_pcap = p;
-+-- 
-+2.1.4
-+
-diff --git a/meta/recipes-connectivity/libpcap/libpcap/0002-Add-missing-compiler_state_t-parameter.patch b/meta/recipes-connectivity/libpcap/libpcap/0002-Add-missing-compiler_state_t-parameter.patch
-new file mode 100644
-index 0000000..032b265
---- /dev/null
-+++ b/meta/recipes-connectivity/libpcap/libpcap/0002-Add-missing-compiler_state_t-parameter.patch
-@@ -0,0 +1,67 @@
-+From 50ec0a088d5924a8305b2d70dcba71b0942dee1a Mon Sep 17 00:00:00 2001
-+From: Fabio Berton <fabio.berton@ossystems.com.br>
-+Date: Thu, 17 Nov 2016 09:47:29 -0200
-+Subject: [PATCH 2/2] Add missing compiler_state_t parameter
-+Organization: O.S. Systems Software LTDA.
-+
-+Fix error:
-+
-+/
-+|../libpcap-1.8.1/gencode.c: In function 'gen_gateway':
-+|../libpcap-1.8.1/gencode.c:4914:13: error: 'cstate' undeclared
-+| (first use in this function)
-+|    bpf_error(cstate, "direction applied to 'gateway'");
-+\
-+
-+Upstream-Status: Submitted [1]
-+
-+[1] https://github.com/the-tcpdump-group/libpcap/pull/541
-+
-+Signed-off-by: Fabio Berton <fabio.berton@ossystems.com.br>
-+---
-+ gencode.c | 15 ++++++++-------
-+ 1 file changed, 8 insertions(+), 7 deletions(-)
-+
-+diff --git a/gencode.c b/gencode.c
-+index e103c70..f07c0be 100644
-+--- a/gencode.c
-++++ b/gencode.c
-+@@ -523,7 +523,7 @@ static struct block *gen_host6(compiler_state_t *, struct in6_addr *,
-+     struct in6_addr *, int, int, int);
-+ #endif
-+ #ifndef INET6
-+-static struct block *gen_gateway(const u_char *, bpf_u_int32 **, int, int);
-++static struct block *gen_gateway(compiler_state_t *, const u_char *, bpf_u_int32 **, int, int);
-+ #endif
-+ static struct block *gen_ipfrag(compiler_state_t *);
-+ static struct block *gen_portatom(compiler_state_t *, int, bpf_int32);
-+@@ -4904,11 +4904,12 @@ gen_host6(compiler_state_t *cstate, struct in6_addr *addr,
-+ 
-+ #ifndef INET6
-+ static struct block *
-+-gen_gateway(eaddr, alist, proto, dir)
-+-	const u_char *eaddr;
-+-	bpf_u_int32 **alist;
-+-	int proto;
-+-	int dir;
-++gen_gateway(cstate, eaddr, alist, proto, dir)
-++    compiler_state_t *cstate;
-++    const u_char *eaddr;
-++    bpf_u_int32 **alist;
-++    int proto;
-++    int dir;
-+ {
-+ 	struct block *b0, *b1, *tmp;
-+ 
-+@@ -6472,7 +6473,7 @@ gen_scode(compiler_state_t *cstate, const char *name, struct qual q)
-+ 		alist = pcap_nametoaddr(name);
-+ 		if (alist == NULL || *alist == NULL)
-+ 			bpf_error(cstate, "unknown host '%s'", name);
-+-		b = gen_gateway(eaddr, alist, proto, dir);
-++		b = gen_gateway(cstate, eaddr, alist, proto, dir);
-+ 		free(eaddr);
-+ 		return b;
-+ #else
-+-- 
-+2.1.4
-+
-diff --git a/meta/recipes-connectivity/libpcap/libpcap_1.8.1.bb b/meta/recipes-connectivity/libpcap/libpcap_1.8.1.bb
-index 9072fe0..e9db28a 100644
---- a/meta/recipes-connectivity/libpcap/libpcap_1.8.1.bb
-+++ b/meta/recipes-connectivity/libpcap/libpcap_1.8.1.bb
-@@ -2,6 +2,8 @@ require libpcap.inc
- 
- SRC_URI += " \
-     file://libpcap-pkgconfig-support.patch \
-+    file://0001-Fix-compiler_state_t.ai-usage-when-INET6-is-not-defi.patch \
-+    file://0002-Add-missing-compiler_state_t-parameter.patch \
- "
- 
- SRC_URI[md5sum] = "3d48f9cd171ff12b0efd9134b52f1447"
++    # Modify the SRCREV, if the recipe hasn't used PV_class-gitupstream to
++    # assign a +gitX PV already.
++    pv = d.getVar("PV", True)
++    if "+git" not in pv:
++        d.setVar("PV", pv + "+git${SRCPV}")
++}
++addhandler gitupstream_virtclass_handler
++gitupstream_virtclass_handler[eventmask] = "bb.event.RecipePreFinalise"
 -- 
-2.1.4
+2.8.1
 
 
