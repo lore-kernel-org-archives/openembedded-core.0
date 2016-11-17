@@ -1,43 +1,42 @@
-Return-Path: <andre.draszik@gmail.com>
-Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 2CE9A71A7F
+Return-Path: <nicolas.dechesne@linaro.org>
+Received: from mail-wm0-f50.google.com (mail-wm0-f50.google.com [74.125.82.50])
+	by mail.openembedded.org (Postfix) with ESMTP id 959706E65F
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Nov 2016 10:22:18 +0000 (UTC)
-Received: by mail-wm0-f65.google.com with SMTP id g23so19830947wme.1
+	Thu, 17 Nov 2016 11:33:52 +0000 (UTC)
+Received: by mail-wm0-f50.google.com with SMTP id f82so139753328wmf.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Nov 2016 02:22:20 -0800 (PST)
+	Thu, 17 Nov 2016 03:33:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=from:to:cc:subject:date:message-id;
+	bh=onqHugehHVEl/isuI+FXD8VXvG1aKKFrkYTu2XoiD9w=;
+	b=R0XFaXwXeVjlNkk5syu1BNCSQvJsEtA4gT8HCkE03t8q5Mv7NfwXDWkZB8svYoJjYS
+	ZnsHAJ+uYbXpeBX5AaI4FZQWumPlReCq7JOPEEt1Xl7DlXliL5HloMkfd0bE93J9i2cp
+	2RYVjysNhV8Fafl3Sf3k83CuJv9ZISpHW2kNE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=07hTXhh0kg8+yCERNIAqrMVozCodcJsSBHfpEG3yOeM=;
-	b=LhG8YnoD9IyFYqMFj2b2xKPa+QBUIlnGBK93YfO/uiOA3MUsf7dSILwrLaEUULDSAW
-	xydPfonsX/onCHOF7myb/Re11QL4fgF0w6ca6XrAIYESyjHpadtoILlzrrBSDOn91XmQ
-	hjP0of838frvetDB9awpR5vV2kfDcdwim5A0vse8TZb8FjJvnce71AEUZgdMDxb6M3is
-	yV+JeC+qA1Swvb7N/gD1ccTYrpBkcFXUv+EjgX6AkBW1nZt+P7SpV8Db1s6upRJKOwq3
-	w6NoqoHNnNHNtz8venM/2rC/pyyKzwEa9CbKlLfxu47gCu2Uc/ygWffXkrtAmndmFeUy
-	PI7g==
-X-Gm-Message-State: AKaTC015ZPw2RlezY2Xun6roooXCccyBzd86/TYbFHT3LESBG+GVlUGhHTPIz/oinozYFQ==
-X-Received: by 10.194.31.167 with SMTP id b7mr1758300wji.168.1479378139738;
-	Thu, 17 Nov 2016 02:22:19 -0800 (PST)
-Received: from tfsielt31850 ([77.107.218.170])
-	by smtp.gmail.com with ESMTPSA id
-	bj1sm2454842wjc.17.2016.11.17.02.22.18
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Thu, 17 Nov 2016 02:22:19 -0800 (PST)
-Message-ID: <1479378138.27546.1.camel@andred.net>
-From: =?ISO-8859-1?Q?Andr=E9?= Draszik <git@andred.net>
-To: Denys Dmytriyenko <denis@denix.org>
-Date: Thu, 17 Nov 2016 10:22:18 +0000
-In-Reply-To: <20161116201836.GA26131@denix.org>
-References: <20160817152538.14181-1-git@andred.net>
-	<20160818075626.15973-1-git@andred.net>
-	<20160818075626.15973-2-git@andred.net>
-	<20161116201836.GA26131@denix.org>
-X-Mailer: Evolution 3.22.1-2 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v2 1/3] module.bbclass: use Module.symvers for dependants
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=onqHugehHVEl/isuI+FXD8VXvG1aKKFrkYTu2XoiD9w=;
+	b=cf+Fud0wwtBsR5tibHsQ727U8bDgePg6a5fUMgb7+P2Zc0k1i5UFTLUFFIfPEEK4kL
+	44YfsG8uX5BXnRxl23v7AEXQyljep+4cLbvXuUfBU1MyTBRNyh4QSIOZitM/BBG+id9j
+	J4IdrDheBRAqn4BtQGwyMs0kRvu2TcWD8zxkaAVbbgZreTxtP718rvenXSygOoc7iyG2
+	NCiRIbmcHRzq2b7tQTVxlYfDQnppTxaspID7HCP0iW4zJcag8A/tpCzg87GSEvmKeS3U
+	Ca/bzgE+luI/+We9gXQ5puAo6Ll38AHcTAgakAZgiyVOPfvsz/MjEyL1ZeGQK3gnYqX7
+	/f2Q==
+X-Gm-Message-State: ABUngvfElxxBVW/PUvxIG1+PbHfuRKf/9mHqykSdEqAl/hb9irM9kzEkcVrVCu3YVH1m+Ycc
+X-Received: by 10.28.86.131 with SMTP id k125mr3782899wmb.89.1479382433100;
+	Thu, 17 Nov 2016 03:33:53 -0800 (PST)
+Received: from hackbox.linaro.org ([81.128.185.36])
+	by smtp.gmail.com with ESMTPSA id x5sm2758503wje.36.2016.11.17.03.33.52
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Thu, 17 Nov 2016 03:33:52 -0800 (PST)
+From: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 17 Nov 2016 11:33:45 +0000
+Message-Id: <1479382425-3578-1-git-send-email-nicolas.dechesne@linaro.org>
+X-Mailer: git-send-email 2.7.0
+Cc: Nicolas Dechesne <nicolas.dechesne@linaro.org>,
+	Koen Kooi <koen.kooi@linaro.org>
+Subject: [morty][PATCH] libbsd 0.8.3: BBCLASSEXTEND to native and nativesdk
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,38 +49,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 17 Nov 2016 10:22:19 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 17 Nov 2016 11:33:55 -0000
 
-Hi,
+From: Koen Kooi <koen.kooi@linaro.org>
 
-On Wed, 2016-11-16 at 15:18 -0500, Denys Dmytriyenko wrote:
-> On Thu, Aug 18, 2016 at 08:56:24AM +0100, André Draszik wrote:
-> >  
-> > @@ -24,6 +34,11 @@ module_do_install() {
-> >  	           CC="${KERNEL_CC}" LD="${KERNEL_LD}" \
-> >  	           O=${STAGING_KERNEL_BUILDDIR} \
-> >  	           ${MODULES_INSTALL_TARGET}
-> > +
-> > +	install -d -m0755 ${D}${includedir}/${BPN}
-> > +	cp -a --no-preserve=ownership ${B}/Module.symvers
-> > ${D}${includedir}/${BPN}
-> 
-> Hmm, why is Module.symvers expected to be in the root of ${B}? This seems
-> like 
-> a very artificial assumption/requirement!
+Android-tools depends on it and to build the native versions of fastboot, adb, mkbootimg and others libbsd needs to support native builds.
 
-[...]
+Signed-off-by: Koen Kooi <koen.kooi@linaro.org>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+(cherry picked from commit b02cef58ee35dd277fff48538ce2803df1cbc4d5)
+Signed-off-by: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+---
+ meta/recipes-support/libbsd/libbsd_0.8.3.bb | 2 ++
+ 1 file changed, 2 insertions(+)
 
-> I wonder if this should have been rolled into ${MODULES_INSTALL_TARGET} 
-> step...
-
-What about adding a (lazy ?=) variable to be able to override the location
-of Module.symvers within ${B}, or alternatively using find to automatically
-detect it? I guess there could also be more than one in theory? Do you have
-something different in mind?
-
-A.
+diff --git a/meta/recipes-support/libbsd/libbsd_0.8.3.bb b/meta/recipes-support/libbsd/libbsd_0.8.3.bb
+index 92121ef..6f734ab 100644
+--- a/meta/recipes-support/libbsd/libbsd_0.8.3.bb
++++ b/meta/recipes-support/libbsd/libbsd_0.8.3.bb
+@@ -41,3 +41,5 @@ SRC_URI[md5sum] = "e935c1bb6cc98a4a43cb1da22795493a"
+ SRC_URI[sha256sum] = "934b634f4dfd865b6482650b8f522c70ae65c463529de8be907b53c89c3a34a8"
+ 
+ inherit autotools pkgconfig
++
++BBCLASSEXTEND = "native nativesdk"
+-- 
+2.7.0
 
 
