@@ -1,27 +1,25 @@
-Return-Path: <Yi.Zhao@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id A6E256FFCE
+Return-Path: <jussi.kukkonen@intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 7C187606CA
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Nov 2016 08:08:18 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id uAH88KMu029253
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Nov 2016 00:08:20 -0800 (PST)
-Received: from localhost (128.224.162.198) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.294.0;
-	Thu, 17 Nov 2016 00:08:19 -0800
-From: Yi Zhao <yi.zhao@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 17 Nov 2016 16:08:10 +0800
-Message-ID: <1479370090-26155-3-git-send-email-yi.zhao@windriver.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1479370090-26155-1-git-send-email-yi.zhao@windriver.com>
-References: <1479370090-26155-1-git-send-email-yi.zhao@windriver.com>
-MIME-Version: 1.0
-X-Originating-IP: [128.224.162.198]
-Subject: [PATCH 2/2] tiff: Security fix CVE-2016-3632
+	Thu, 17 Nov 2016 08:56:18 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by orsmga101.jf.intel.com with ESMTP; 17 Nov 2016 00:56:18 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.31,504,1473145200"; d="scan'208";a="1086475330"
+Received: from linux.intel.com ([10.54.29.200])
+	by fmsmga002.fm.intel.com with ESMTP; 17 Nov 2016 00:56:17 -0800
+Received: from theory.fi.intel.com (theory.fi.intel.com [10.237.72.53])
+	by linux.intel.com (Postfix) with ESMTP id 6CDDD6A4006;
+	Thu, 17 Nov 2016 00:55:37 -0800 (PST)
+From: Jussi Kukkonen <jussi.kukkonen@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 17 Nov 2016 10:56:04 +0200
+Message-Id: <1479372964-21409-1-git-send-email-jussi.kukkonen@intel.com>
+X-Mailer: git-send-email 2.1.4
+In-Reply-To: <cover.1479301275.git.jussi.kukkonen@intel.com>
+References: <cover.1479301275.git.jussi.kukkonen@intel.com>
+Subject: [PATCH] libdrm: Upgrade 2.4.71 -> 2.4.73
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,81 +32,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 17 Nov 2016 08:08:18 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 17 Nov 2016 08:56:21 -0000
 
-CVE-2016-3632 libtiff: The _TIFFVGetField function in tif_dirinfo.c in
-LibTIFF 4.0.6 and earlier allows remote attackers to cause a denial of
-service (out-of-bounds write) or execute arbitrary code via a crafted
-TIFF image.
-
-External References:
-https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-3632
-http://bugzilla.maptools.org/show_bug.cgi?id=2549
-https://bugzilla.redhat.com/show_bug.cgi?id=1325095
-
-The patch is from RHEL7.
-
-Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
+Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
 ---
- .../libtiff/files/CVE-2016-3632.patch              | 34 ++++++++++++++++++++++
- meta/recipes-multimedia/libtiff/tiff_4.0.6.bb      |  1 +
- 2 files changed, 35 insertions(+)
- create mode 100644 meta/recipes-multimedia/libtiff/files/CVE-2016-3632.patch
 
-diff --git a/meta/recipes-multimedia/libtiff/files/CVE-2016-3632.patch b/meta/recipes-multimedia/libtiff/files/CVE-2016-3632.patch
-new file mode 100644
-index 0000000..a839250
---- /dev/null
-+++ b/meta/recipes-multimedia/libtiff/files/CVE-2016-3632.patch
-@@ -0,0 +1,34 @@
-+From d3f9829a37661749b200760ad6525f77cf77d77a Mon Sep 17 00:00:00 2001
-+From: =?UTF-8?q?Nikola=20Forr=C3=B3?= <nforro@redhat.com>
-+Date: Mon, 11 Jul 2016 16:04:34 +0200
-+Subject: [PATCH 4/8] Fix CVE-2016-3632
-+
-+CVE-2016-3632 libtiff: The _TIFFVGetField function in tif_dirinfo.c in
-+LibTIFF 4.0.6 and earlier allows remote attackers to cause a denial of service
-+(out-of-bounds write) or execute arbitrary code via a crafted TIFF image.
-+
-+CVE: CVE-2016-3632
-+Upstream-Status: Backport [RedHat RHEL7]
-+
-+Signed-off-by: Yi Zhao <yi.zhao@windirver.com>
-+---
-+ tools/thumbnail.c | 3 ++-
-+ 1 file changed, 2 insertions(+), 1 deletion(-)
-+
-+diff --git a/tools/thumbnail.c b/tools/thumbnail.c
-+index fd1cba5..75e7009 100644
-+--- a/tools/thumbnail.c
-++++ b/tools/thumbnail.c
-+@@ -253,7 +253,8 @@ static struct cpTag {
-+     { TIFFTAG_WHITEPOINT,		2, TIFF_RATIONAL },
-+     { TIFFTAG_PRIMARYCHROMATICITIES,	(uint16) -1,TIFF_RATIONAL },
-+     { TIFFTAG_HALFTONEHINTS,		2, TIFF_SHORT },
-+-    { TIFFTAG_BADFAXLINES,		1, TIFF_LONG },
-++    // disable BADFAXLINES, CVE-2016-3632
-++    //{ TIFFTAG_BADFAXLINES,		1, TIFF_LONG },
-+     { TIFFTAG_CLEANFAXDATA,		1, TIFF_SHORT },
-+     { TIFFTAG_CONSECUTIVEBADFAXLINES,	1, TIFF_LONG },
-+     { TIFFTAG_INKSET,			1, TIFF_SHORT },
-+-- 
-+2.7.4
-+
-diff --git a/meta/recipes-multimedia/libtiff/tiff_4.0.6.bb b/meta/recipes-multimedia/libtiff/tiff_4.0.6.bb
-index edd560f..9b4aff3 100644
---- a/meta/recipes-multimedia/libtiff/tiff_4.0.6.bb
-+++ b/meta/recipes-multimedia/libtiff/tiff_4.0.6.bb
-@@ -16,6 +16,7 @@ SRC_URI = "http://download.osgeo.org/libtiff/tiff-${PV}.tar.gz \
-            file://CVE-2016-3623.patch \
-            file://CVE-2016-3622.patch \
-            file://CVE-2016-3658.patch \
-+           file://CVE-2016-3632.patch \
+I've pushed this into the mesa-piglit update branch:
+
+  git://git.yoctoproject.org/poky-contrib jku/mesa-piglit
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=jku/mesa-piglit
+
+Thanks,
+ Jussi
+
+
+ meta/recipes-graphics/drm/{libdrm_2.4.71.bb => libdrm_2.4.73.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-graphics/drm/{libdrm_2.4.71.bb => libdrm_2.4.73.bb} (93%)
+
+diff --git a/meta/recipes-graphics/drm/libdrm_2.4.71.bb b/meta/recipes-graphics/drm/libdrm_2.4.73.bb
+similarity index 93%
+rename from meta/recipes-graphics/drm/libdrm_2.4.71.bb
+rename to meta/recipes-graphics/drm/libdrm_2.4.73.bb
+index 152cf55..3315014 100644
+--- a/meta/recipes-graphics/drm/libdrm_2.4.71.bb
++++ b/meta/recipes-graphics/drm/libdrm_2.4.73.bb
+@@ -16,8 +16,8 @@ SRC_URI = "http://dri.freedesktop.org/libdrm/${BP}.tar.bz2 \
+            file://0001-configure.ac-Allow-explicit-enabling-of-cunit-tests.patch \
            "
  
- SRC_URI[md5sum] = "d1d2e940dea0b5ad435f21f03d96dd72"
+-SRC_URI[md5sum] = "776bccc84618b616fc57a7143836ae7a"
+-SRC_URI[sha256sum] = "c66287ddeee5f46ea8f8880b94b80acb3bbc33ba6321d17767eef145046df9b8"
++SRC_URI[md5sum] = "bc1cee09cde72ffe3b952e8f50ccdaa8"
++SRC_URI[sha256sum] = "96bfd39242fe168017d95f22e141645a35591f5902a7d98c2fa4ca8c31df5e4d"
+ 
+ inherit autotools pkgconfig manpages
+ 
 -- 
-2.7.4
+2.1.4
 
 
