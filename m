@@ -1,33 +1,25 @@
-Return-Path: <denis@denix.org>
-Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.17])
-	by mail.openembedded.org (Postfix) with ESMTP id 336AE6093A
+Return-Path: <Yi.Zhao@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 20A1B600B3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Nov 2016 04:08:50 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by mailout4.zoneedit.com (Postfix) with ESMTP id 3E94C20ADD;
-	Thu, 17 Nov 2016 04:08:52 +0000 (UTC)
-Received: from mailout4.zoneedit.com ([127.0.0.1])
-	by localhost (zmo03-pco.easydns.vpn [127.0.0.1]) (amavisd-new,
-	port 10024)
-	with ESMTP id Vn9nprwryl_I; Thu, 17 Nov 2016 04:08:52 +0000 (UTC)
-Received: from gandalf.denix.org (pool-100-15-95-79.washdc.fios.verizon.net
-	[100.15.95.79])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mailout4.zoneedit.com (Postfix) with ESMTPSA id 1B15120567;
-	Thu, 17 Nov 2016 04:08:51 +0000 (UTC)
-Received: by gandalf.denix.org (Postfix, from userid 1000)
-	id 3F5781621A4; Wed, 16 Nov 2016 23:08:50 -0500 (EST)
-Date: Wed, 16 Nov 2016 23:08:50 -0500
-From: Denys Dmytriyenko <denis@denix.org>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Message-ID: <20161117040850.GC26131@denix.org>
-References: <1479296981.28508.18.camel@linuxfoundation.org>
+	Thu, 17 Nov 2016 05:27:28 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id uAH5RTu4015450
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 16 Nov 2016 21:27:29 -0800 (PST)
+Received: from localhost (128.224.162.198) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.294.0;
+	Wed, 16 Nov 2016 21:27:28 -0800
+From: Yi Zhao <yi.zhao@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 17 Nov 2016 13:27:26 +0800
+Message-ID: <1479360446-8915-1-git-send-email-yi.zhao@windriver.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-In-Reply-To: <1479296981.28508.18.camel@linuxfoundation.org>
-User-Agent: Mutt/1.5.20 (2009-06-14)
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: Morty maintainer
+X-Originating-IP: [128.224.162.198]
+Subject: [PATCH] e2fsprogs: fix hardcoded path for ptest script
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,21 +32,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 17 Nov 2016 04:08:51 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Thu, 17 Nov 2016 05:27:30 -0000
+Content-Type: text/plain
 
-On Wed, Nov 16, 2016 at 11:49:41AM +0000, Richard Purdie wrote:
-> Armin has kindly volunteered to maintain the morty stable release
-> branch and has already put together a great series.
-> 
-> I don't want to overload Armin so if anyone else wants to step forward,
-> let me know and we can discuss it. Right now its looking likely Armin
-> will be the maintainer though (thanks Armin!).
+The hardcoded path would cause failure on mulitilib:
+ls: cannot access '/usr/lib/e2fsprogs/ptest/test/[a-zA-Z]_*': No such file or directory
+./test_script: line 34: /usr/lib/e2fsprogs/ptest/test/test_post: No such file or directory
 
-I'd like to offer Armin my help with this task, as I'm not sure I'll be able 
-to completely replace him yet. Will that work?
+Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
+---
+ meta/recipes-devtools/e2fsprogs/e2fsprogs/ptest.patch | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
+diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs/ptest.patch b/meta/recipes-devtools/e2fsprogs/e2fsprogs/ptest.patch
+index ef1ce58..77e8822 100644
+--- a/meta/recipes-devtools/e2fsprogs/e2fsprogs/ptest.patch
++++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs/ptest.patch
+@@ -7,7 +7,7 @@ index 60cf655..ce220f1 100644
+  	@echo "HTREE=y" >> test_one
+  	@echo "QUOTA=y" >> test_one
+ -	@echo "SRCDIR=@srcdir@" >> test_one
+-+	@echo "SRCDIR=/usr/lib/e2fsprogs/ptest/test" >> test_one
+++	@echo "SRCDIR=${prefix}${libdir}/e2fsprogs/ptest/test" >> test_one
+  	@echo "DIFF_OPTS=@UNI_DIFF_OPTS@" >> test_one
+  	@cat $(srcdir)/test_one.in >> test_one
+  	@chmod +x test_one
+@@ -16,7 +16,7 @@ index 60cf655..ce220f1 100644
+  	@echo "Creating test_script..."
+  	@echo "#!/bin/sh" > test_script
+ -	@echo "SRCDIR=@srcdir@" >> test_script
+-+	@echo "SRCDIR=/usr/lib/e2fsprogs/ptest/test" >> test_script
+++	@echo "SRCDIR=${prefix}${libdir}/e2fsprogs/ptest/test" >> test_script
+  	@cat $(srcdir)/test_script.in >> test_script
+  	@chmod +x test_script
+  
 -- 
-Denys
+2.7.4
+
 
