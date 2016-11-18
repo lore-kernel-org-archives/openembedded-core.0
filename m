@@ -1,46 +1,48 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f182.google.com (mail-qk0-f182.google.com
-	[209.85.220.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 8FD3871AD8
+Return-Path: <trini@konsulko.com>
+Received: from mail-qk0-f174.google.com (mail-qk0-f174.google.com
+	[209.85.220.174])
+	by mail.openembedded.org (Postfix) with ESMTP id 156AA719E1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Nov 2016 20:12:48 +0000 (UTC)
-Received: by mail-qk0-f182.google.com with SMTP id n204so278102737qke.2
+	Fri, 18 Nov 2016 20:23:07 +0000 (UTC)
+Received: by mail-qk0-f174.google.com with SMTP id n21so278118729qka.3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Nov 2016 12:12:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=u1zTJ4cgHpvKHlb01XLiZjKt+vGVNARXOIfr8getqno=;
-	b=I7VIzWcTlvmkUDyRUFyvNMzG/PiZ/UWcWyut5sYo+0oegmFiJegyCyHNflAMzgpHEx
-	XO+O166Jee6EqxuKgL9aEsxRsNYKrFAbngcu1ri+/lformECGzN7+U1yIqfLxDySHffL
-	vW4a6/VXWkC19Fr34BRL+LTj7CosGQ/lNivQKbtv4hHc+Rgd535miT9xfOt+7mgiyZoE
-	o0198HUiUPPf+JDk2WfSQhwfT6mMpVOTnTf+0XHcuSYL2KVvn0ZlkNwlqRCocOF001T7
-	FhSmgliXgDUuH9TbnRAd5V1aS6egqx3O9sfuxOckUXzy+l6l/iG6icTvNld03nk9WYsa
-	Euaw==
+	Fri, 18 Nov 2016 12:23:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=konsulko.com; s=google;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-disposition:in-reply-to:user-agent;
+	bh=zwnfjcJL9k99k+nTiYOfGagM7DQRGCpxP8CiCg/ztAw=;
+	b=rO5l6IEWxSm3x0UC9M+7h6aPEp5mCJomjiwUXVGmZRKxevnr/Ro6QdPxb/+Zl03fsM
+	VT7O16xb/S/Tu7uApE6fpw0cD0SxuiJyfColaRt8XkGmQ+daSa28w1OQ0K2p8YG97j2N
+	oFvwVe+Q8oYlwpdkosxrdoxhW7qkhVEmk+ZWs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=u1zTJ4cgHpvKHlb01XLiZjKt+vGVNARXOIfr8getqno=;
-	b=SrvcZZxf083uagmrKHcFdyyxoeXbjaPXrTRXKrAhrdJFWlzpe2p5iHgg1lNt7UZPaD
-	PIUPD4T6i6Ldvm8uV+wKapC1hRBlvbeQMrXwR/5X076OzFaQfo3PAutosSpkYxd7rUta
-	10Ub1gML8uKnOCF74bQe4vENntd6xgeo15I/7+wCgIA4mLqvaFtmKB2+PzDrFDKRxBvW
-	v3NY6984p9o96n8QRPAuUSP6mtKpev/Y02PR8jl2J+1xjhUPcgdasJE7p+s2nswacAv4
-	GglsX2dGbiajEJMHzEMa+zNWqanFFzy0e0kqQXHivsat2MbEdpWJxr6gppddzUXIJvg4
-	WYzA==
-X-Gm-Message-State: AKaTC00KmiUJVBTl7Ut/3RbAXnwxwSsCkxA+LQy80jryOOWAVO2aRMOaxaNRp2FNO0Vwb2B0Ho86oBTHm1DZIPEX
-X-Received: by 10.55.207.78 with SMTP id e75mr2317935qkj.36.1479499969042;
-	Fri, 18 Nov 2016 12:12:49 -0800 (PST)
+	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to:user-agent;
+	bh=zwnfjcJL9k99k+nTiYOfGagM7DQRGCpxP8CiCg/ztAw=;
+	b=IQMGpRolNgyxB5NWm1vdEs1BSTicZVC8ADRRNOKUcKciyUuYBvRUyv5MiLPGKmqTPs
+	rOs+kp02M4iydQSSEWgjCgKrLDW7Px4yzcfMpyZ76EHEAbGplQ5zrCe/uSJjqQtuTVVG
+	LEgv8gdU8OiB/SD3XzXM4Ed8/8q+VJUQSPobRLJ0Nvj42V0/toLYfuXbEUxEnklQm9sT
+	j0s/jEL4r/RxO3XCYLltR16rmYwtZMeJS0nEJAApWwY4jUkbtL49VtY6w11Fpw07pi4y
+	TAE032P9806hDx7sZZFKodBA99YTjIgsCIuE+gqODVmcq3eM4KE6oaw7RY3F8T6XWvt4
+	a2LA==
+X-Gm-Message-State: AKaTC00VY3RwMO9sdvE+4hH3c+OQViyGTN4BMTQeebMBqL+HbhVgF6SQh9RZiYp4bOQjpA==
+X-Received: by 10.55.5.65 with SMTP id 62mr2026158qkf.308.1479500587307;
+	Fri, 18 Nov 2016 12:23:07 -0800 (PST)
+Received: from bill-the-cat (cpe-75-180-228-133.ec.res.rr.com.
+	[75.180.228.133]) by smtp.gmail.com with ESMTPSA id
+	h47sm4864793qtc.27.2016.11.18.12.22.36
+	(version=TLS1_2 cipher=AES128-SHA bits=128/128);
+	Fri, 18 Nov 2016 12:22:36 -0800 (PST)
+Date: Fri, 18 Nov 2016 15:22:05 -0500
+From: Tom Rini <trini@konsulko.com>
+To: Nathan Lynch <nathan_lynch@mentor.com>
+Message-ID: <20161118202205.GP2546@bill-the-cat>
+References: <1479415791-28938-1-git-send-email-nathan_lynch@mentor.com>
 MIME-Version: 1.0
-Received: by 10.140.85.136 with HTTP; Fri, 18 Nov 2016 12:12:28 -0800 (PST)
-In-Reply-To: <20161118193748.4850-1-dev@codyps.com>
-References: <20161118193748.4850-1-dev@codyps.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 18 Nov 2016 20:12:28 +0000
-Message-ID: <CAJTo0LYvMEV8v4H1cp1jq2tHmUVY1r9BQfbZJigZxnRLdyOT8A@mail.gmail.com>
-To: Cody P Schafer <dev@codyps.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] cantarell-fonts: add inherit pkgconfig to get pkgconfig dependency
+In-Reply-To: <1479415791-28938-1-git-send-email-nathan_lynch@mentor.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] busybox: enable fractional sleep arguments
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,49 +55,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 18 Nov 2016 20:12:48 -0000
-Content-Type: multipart/alternative; boundary=001a1145b7b819fe5b054198ee4c
+X-List-Received-Date: Fri, 18 Nov 2016 20:23:09 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
---001a1145b7b819fe5b054198ee4c
-Content-Type: text/plain; charset=UTF-8
+On Thu, Nov 17, 2016 at 02:49:51PM -0600, Nathan Lynch wrote:
+> Fractional durations (e.g. 0.5s) for the sleep command are useful and
+> not terribly uncommon in practice, especially in scripts associated
+> with test cases (e.g. mdadm, lttng-tools).  Enable FEATURE_FLOAT_SLEEP
+> by default in order to avoid having to patch every instance of a
+> script using a fractional sleep.
+> 
+> The busybox binary gains a few hundred bytes in text (armv5e shown):
+> 
+> $ size -x busybox.nosuid.{before,after}
+>    text	   data	    bss	    dec	    hex	filename
+> 0x89382	  0x71d	 0x2250	 572655	  8bcef	busybox.nosuid.before
+> 0x8954e	  0x721	 0x2250	 573119	  8bebf	busybox.nosuid.after
+> 
+> Signed-off-by: Nathan Lynch <nathan_lynch@mentor.com>
 
-On 18 November 2016 at 19:37, Cody P Schafer <dev@codyps.com> wrote:
+It's also something I've seen customer use as well in their scripts so
+this would remove the need to add it to the local layer.
 
-> Without this, do_configure can fail with:
->
->         | ../git/configure: line 2381: syntax error near unexpected token
-> `0.19'
->         | ../git/configure: line 2381: `PKG_PROG_PKG_CONFIG(0.19)'
->
-> If pkgconfig-native happens to be added to the sysroot too late.
->
+Reviewed-by: Tom Rini <trini@konsulko.com>
 
-Looking at upstream's configure there's no reason why it calls that macro,
-so you could submit a patch to remove that line upstream and then just bump
-the SRCREV.
+-- 
+Tom
 
-Ross
-
---001a1145b7b819fe5b054198ee4c
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 18 November 2016 at 19:37, Cody P Schafer <span dir=3D"ltr">&lt;<a href=
-=3D"mailto:dev@codyps.com" target=3D"_blank">dev@codyps.com</a>&gt;</span> =
-wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bord=
-er-left:1px #ccc solid;padding-left:1ex"><div id=3D":2x7" class=3D"a3s aXjC=
-H m1587905ecede8ae0">Without this, do_configure can fail with:<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 | ../git/configure: line 2381: syntax error nea=
-r unexpected token `0.19&#39;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 | ../git/configure: line 2381: `PKG_PROG_PKG_CO=
-NFIG(0.19)&#39;<br>
-<br>
-If pkgconfig-native happens to be added to the sysroot too late.</div></blo=
-ckquote></div><br>Looking at upstream&#39;s configure there&#39;s no reason=
- why it calls that macro, so you could submit a patch to remove that line u=
-pstream and then just bump the SRCREV.</div><div class=3D"gmail_extra"><br>=
-</div><div class=3D"gmail_extra">Ross</div></div>
-
---001a1145b7b819fe5b054198ee4c--
