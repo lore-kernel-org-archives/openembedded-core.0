@@ -1,49 +1,49 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qt0-f172.google.com (mail-qt0-f172.google.com
-	[209.85.216.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 9B24B601A5
+Return-Path: <rehsack@gmail.com>
+Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 5E813719BF
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Nov 2016 13:00:14 +0000 (UTC)
-Received: by mail-qt0-f172.google.com with SMTP id w33so155570246qtc.3
+	Fri, 18 Nov 2016 13:03:39 +0000 (UTC)
+Received: by mail-wm0-f65.google.com with SMTP id u144so6041157wmu.0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Nov 2016 05:00:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=ST0rd6vFNHFXJWhMLkyZkvzzSk7YkyAJ6agz/e82//A=;
-	b=evJplV4W5MUC9eyiBWIdVjV3NynS25emsF7WKZJvrgTkfxPJ+cecy58cVd2E0YQAnt
-	z7oLAU5FqV/KfTUZ97s3yFToKev/w1Mcfd1X58/VWFxH0Ziqdp7FchY8Jqx+emXYGU/0
-	TbfcaV3yD26eBrDx0Ze1H1Cd538+WCMrfL3sWloJiN1keBIyMRjAB6nwMXzdASf56gkj
-	yvAaBqEwnp/jmlnqEGo+ARMq8d53XmRWNCf5o18vAzHxZIAd/t6YdozKWNRBGjkU98A+
-	WVPb4Au3UXB+P0ixbMDk1okrrHWVlgME3oKOb3YSoFX4z6ilgQbKhb9mZxT/3BNff7rp
-	P6nQ==
+	Fri, 18 Nov 2016 05:03:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:subject:from:in-reply-to:date:cc:message-id:references
+	:to; bh=8vjLt6Sn/7ZepE3DIgkolPHS5MZiSM892phe1u9UGiY=;
+	b=Wi/Be/rv9oOODWCJtc6p88JqW0wHUJ7Fu4sDWUy2yIvaTLZA+C/9H69Fnn33KDfxpE
+	s7+9ZKTD+j9EMF04wKsxeOUxng0StFC6INbho5crCltrh2j1gtxHK9uXA04HWL1LlNj9
+	VYjTmkfAfiED1uNreRSGRjiltgXof25UAgjvcVGQTPqYfJtNBRBVIOxj784Oo0liqaMS
+	yQyI7E3I7H9MVxwtaz/Tsq8PqIviTssgI9+7Mb0PrEUndrNLfix9zYf8H10mau9OUFe0
+	nbEEFZ6yX6IbPPdfLuPobDmFX3qwnEuP0HsYkZ6cbw/e+LAdLMtvRwcd3E9ooIMWpYsl
+	+m1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=ST0rd6vFNHFXJWhMLkyZkvzzSk7YkyAJ6agz/e82//A=;
-	b=QYXiAKvSevVhEvF9zBRmJZBnjsKtU5vsxrEBeWBsbzQ9/Vp7vi97Rv6pmxs/GUCunv
-	RoidtOkEslXCs8pUZPLWZ4WsgnjczMcwwdzVvvgcg9G8Nu7UOn5BU620686ObQHqClkn
-	4kVIMopbuKOdV3VXeYBwWUhTO5ebnWtsjvlh/Fs/LBeSPBoj2pRSpWLGwcRxAG8sswE2
-	2lmBZAVuJbmYu1wpisbIuHr6MfEf1jrzOEohc4ZM1oC9W2C7nQbs07f8Rgj8/2FpmvoQ
-	2zCO9FeQpzXBv8dMxWohnWi0F3f7Twz3tf3UDrp20E0WOPpuMsDdqINpwrxHtpLj6lFc
-	qJIA==
-X-Gm-Message-State: AKaTC01kFiqs3Wh3MyV27r/0I5aOnKW/0F++lIoMclo7CjzIi6jSoLXh2vX+T31qS5YcLL8M26w5BUM/7IBpeU/u
-X-Received: by 10.237.49.230 with SMTP id 93mr5918004qth.109.1479474015417;
-	Fri, 18 Nov 2016 05:00:15 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.140.85.136 with HTTP; Fri, 18 Nov 2016 04:59:54 -0800 (PST)
-In-Reply-To: <475C95148A21B945A7A18605A8298B991028E82D@fmsmsx107.amr.corp.intel.com>
-References: <1479257423-4281-1-git-send-email-francisco.j.pedraza.gonzalez@intel.com>
-	<CAJTo0LbxF0sdYqmK3ttUyaiyTPmg+ME9qbSS1NnpcA4H7iQLaQ@mail.gmail.com>
-	<358803d5-7678-9c6e-2017-9007263d02d5@linux.intel.com>
-	<475C95148A21B945A7A18605A8298B991028E82D@fmsmsx107.amr.corp.intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 18 Nov 2016 12:59:54 +0000
-Message-ID: <CAJTo0LZZ2bV3NpkPyWdwkSuoiYACpo2oze69a49GEN99Y9Yoxg@mail.gmail.com>
-To: "Pedraza Gonzalez, Francisco J" <francisco.j.pedraza.gonzalez@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] Test needed to verify postinst script order.
+	h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
+	:message-id:references:to;
+	bh=8vjLt6Sn/7ZepE3DIgkolPHS5MZiSM892phe1u9UGiY=;
+	b=EP7p868ALc4xLwxHWnUAptblwrZOz4ZN0DN/2oDMyd4zdIuQLj2AUcRPoLdhpdzq73
+	DSBIfwA9y2RQSF24apEGhorG09XJSdf/tEHIs5DoFkZE5s+ilCkubNbRvwOUhQyIUfQE
+	ZY/ixoszuuEFQK1tVOOvnYSivML6w+m92BRBXMKIa3ikHo6ehz+RJXiXBgL3joS/t2hJ
+	F+L2FhWqT4hSzjSXdjTEd2RAOT7mUjs3Os+fqZXhuuJmZyXVi6Lhwa9gDa34OoBj1+bT
+	/yHKNCz240mi/ZtJMc+gFJkx8nqEybHPU5QdkPzfbEpSBl4nUsuEKtF+ubz/kYLYSv53
+	yQ9Q==
+X-Gm-Message-State: AKaTC00LaINOq16X5VXPTibrMAjBoTB3W/nhzENwSEBzvlG8veY6lwAif8bgma4zM7Q08Q==
+X-Received: by 10.194.115.70 with SMTP id jm6mr5768329wjb.140.1479474221112;
+	Fri, 18 Nov 2016 05:03:41 -0800 (PST)
+Received: from [192.168.10.204] ([62.157.143.22])
+	by smtp.gmail.com with ESMTPSA id d8sm3257992wmi.21.2016.11.18.05.03.40
+	(version=TLS1 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Fri, 18 Nov 2016 05:03:40 -0800 (PST)
+Mime-Version: 1.0 (Mac OS X Mail 9.3 \(3124\))
+From: Jens Rehsack <rehsack@gmail.com>
+In-Reply-To: <1479472068.27546.12.camel@andred.net>
+Date: Fri, 18 Nov 2016 14:03:39 +0100
+Message-Id: <01757D4C-B847-4311-A9AA-21B19450DE0F@gmail.com>
+References: <alpine.LFD.2.20.1611180634400.3556@localhost.localdomain>
+	<1479472068.27546.12.camel@andred.net>
+To: =?utf-8?Q?Andr=C3=A9_Draszik?= <git@andred.net>
+X-Mailer: Apple Mail (2.3124)
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: small number of perl modules that can't be cross-compiled
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,66 +56,100 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 18 Nov 2016 13:00:14 -0000
-Content-Type: multipart/alternative; boundary=94eb2c1251e224e518054192e322
+X-List-Received-Date: Fri, 18 Nov 2016 13:03:40 -0000
+X-Groupsio-MsgNum: 89570
+Content-Type: multipart/signed;
+	boundary="Apple-Mail=_74A2D9C5-A3FF-4DF9-A332-F47396CBDF4E";
+	protocol="application/pgp-signature"; micalg=pgp-sha512
 
---94eb2c1251e224e518054192e322
-Content-Type: text/plain; charset=UTF-8
-
-On 17 November 2016 at 18:20, Pedraza Gonzalez, Francisco J <
-francisco.j.pedraza.gonzalez@intel.com> wrote:
-
-> Ross: Could you please give more details about PACKAGE_CLASSES?, I am not
-> very familiar with.
->
-
-See
-http://www.yoctoproject.org/docs/2.2/ref-manual/ref-manual.html#var-PACKAGE_CLASSES
-
-By setting it to "package_rpm package_ipk package_deb" you'll be build
-packages for all formats, and then rotating the value so each format is
-first when you build an image it will be built with each type of package.
-
-For example:
-
-for classes in ("package_rpm package_deb package_ipk",
-                      "package_deb package_rpm package_ipk",
-                       "package_ipk package_deb package_rpm"):
-  PACKAGE_CLASSES=classes
-  bitbake()
-  qemu()
-
-Ross
-
---94eb2c1251e224e518054192e322
-Content-Type: text/html; charset=UTF-8
+--Apple-Mail=_74A2D9C5-A3FF-4DF9-A332-F47396CBDF4E
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=utf-8
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 17 November 2016 at 18:20, Pedraza Gonzalez, Francisco J <span dir=3D"lt=
-r">&lt;<a href=3D"mailto:francisco.j.pedraza.gonzalez@intel.com" target=3D"=
-_blank">francisco.j.pedraza.gonzalez@intel.com</a>&gt;</span> wrote:<br><bl=
-ockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-lef=
-t-width:1px;border-left-color:rgb(204,204,204);border-left-style:solid;padd=
-ing-left:1ex"><div id=3D"gmail-:2pw" class=3D"gmail-a3s gmail-aXjCH gmail-m=
-15873850a2ae3072">Ross: Could you please give more details about PACKAGE_CL=
-ASSES?, I am not very familiar with.<br></div></blockquote></div><br>See <a=
- href=3D"http://www.yoctoproject.org/docs/2.2/ref-manual/ref-manual.html#va=
-r-PACKAGE_CLASSES">http://www.yoctoproject.org/docs/2.2/ref-manual/ref-manu=
-al.html#var-PACKAGE_CLASSES</a><br></div><div class=3D"gmail_extra"><br></d=
-iv><div class=3D"gmail_extra">By setting it to &quot;package_rpm package_ip=
-k package_deb&quot; you&#39;ll be build packages for all formats, and then =
-rotating the value so each format is first when you build an image it will =
-be built with each type of package.</div><div class=3D"gmail_extra"><br></d=
-iv><div class=3D"gmail_extra">For example:</div><div class=3D"gmail_extra">=
-<br></div><div class=3D"gmail_extra">for classes in (&quot;package_rpm pack=
-age_deb package_ipk&quot;,</div><div class=3D"gmail_extra">=C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;packag=
-e_deb package_rpm package_ipk&quot;,</div><div class=3D"gmail_extra">=C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0&quot;package_ipk package_deb package_rpm&quot;):<br></div><div class=3D=
-"gmail_extra"><div class=3D"gmail_extra">=C2=A0 PACKAGE_CLASSES=3Dclasses</=
-div><div class=3D"gmail_extra">=C2=A0 bitbake()</div><div class=3D"gmail_ex=
-tra">=C2=A0 qemu()</div><div><br></div><div>Ross</div></div></div>
 
---94eb2c1251e224e518054192e322--
+> Am 18.11.2016 um 13:27 schrieb Andr=C3=A9 Draszik <git@andred.net>:
+>=20
+> On Fri, 2016-11-18 at 06:41 -0500, Robert P. J. Day wrote:
+>>   after OE recipfying over 100 perl modules from CPAN, i'm down to
+>> less than a dozen that are going to take more work, and a small =
+number
+>> of those seem to be simply badly written in that they don't support
+>> cross-compilation for my target choice of "qemuppc". example
+>> boilerplate recipe i put together produces this:
+>>=20
+>> $ make libauthen-pam-perl
+>> ... snip ...
+>> Checking if your kit is complete...
+>> Looks good
+>> checking for gcc... powerpc-wrs-linux-gcc -m32 -mhard-float =
+-mcpu=3D7400
+>> --
+>> =
+sysroot=3D/home/rpjday/WRL/builds/msm/nov17/bitbake_build/tmp/sysroots/qem=
+up
+>> pc
+>> checking for C compiler default output file name... a.out
+>> checking whether the C compiler works... configure: error: cannot run
+>> C compiled programs.
+>> If you meant to cross compile, use `--host'.
+>> See `config.log' for more details.
+>=20
+> It'd be useful to see config.log, ...
+>=20
+>> Error in configuring the Authen::PAM module.
+>> ... snip ...
+>>=20
+>>   so i'm assuming the source itself for Authen::PAM:
+>>=20
+>> https://metacpan.org/pod/Authen::PAM
+>>=20
+>> is somehow flawed in that it doesn't properly recognize
+>> cross-compilation, would that be it?
+>=20
+> ... there is at least one issue in Authen-PAM-0.16/configure.ac, I =
+would
+> say, in that it tries to detect RTLD_GLOBAL support based on the =
+host's
+> perl. So it's likely there are more flaws.
+
+Looks as if Makefile.PL doesn't pass all reasonable flags to ./configure =
+call.
+Maybe you should send the Author to http://act.yapc.eu/lpw2016/talk/6966 =
+or
+at least send him =
+http://www.netbsd.org/~sno/talks/nrpm/Cross-Compiling-For-Perl-Hackers.pdf=
+ :)
+
+Cheers
+--
+Jens Rehsack - rehsack@gmail.com
+
+
+--Apple-Mail=_74A2D9C5-A3FF-4DF9-A332-F47396CBDF4E
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+	filename=signature.asc
+Content-Type: application/pgp-signature;
+	name=signature.asc
+Content-Description: Message signed with OpenPGP using GPGMail
+
+-----BEGIN PGP SIGNATURE-----
+Comment: GPGTools - https://gpgtools.org
+
+iQIcBAEBCgAGBQJYLvwrAAoJEESZlq7c5Qqd7RgP/3ssU4vQwF/CWkTncT9IIsE7
+oIbGUs21hnYZsPbPz5TekYP78bXk+OeX2NVHqVX/cvbZLwtRmjkoXqwFo2TwJKfs
+zVCOluX5lrfzhRGD4zWqtzu8KnWq4BCmezgUQyAriCIl3wxl35f3iwEUY3yXbawm
+SucVI9+HeEzZ9M8Hm8e2XyJzBWeFunbEWdyjKoLsxtuMd5TajWmESKm820fVCxu3
+6t7qfNU/ln4nzB+9gX6THfXAQthV8wkE4tJc/r7ha2K06FxYiyYHzvKrEOY6Tryu
+0yAV16JlMAA5UYJFkav7jf5KSOrI8iAb3D6DuCPGq+xNFL3Cio/+9YooAmYJaGzR
+Dxd7+cmG5X4u3riuJVJbaHxA9P26t3L1m8YDcedSb+8t/aTdjSNCbuSYdHQXwBsH
+/MCLK/DsVeRgazxqz6Bg+ZbhKXYLpP97C+mnW1xVbMeZK2CnRAjHPWu+RWbIUv/6
+nrMUXzGiCzEFbh+ZUbFRyzuzzTPQym8HJJq2xJy80d9pU/V0QQ2OGCBChCJwwqDf
+/UX5tyQEjsT/gORP7YVNWBfQh6f0/aScx3HTOKYtSUtsqznUNZBwRxQhD4FtrpA/
+KDkFgUCCCOXazndsTtwSN8+YAoeNLyDbwulLj2CsR40gmHJDNDN98Y+dPFKLpIxB
+oqf5GZt2LChdUIfbZy1B
+=Mle9
+-----END PGP SIGNATURE-----
+
+--Apple-Mail=_74A2D9C5-A3FF-4DF9-A332-F47396CBDF4E--
