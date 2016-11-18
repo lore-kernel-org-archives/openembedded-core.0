@@ -1,58 +1,46 @@
-Return-Path: <patrick.ohly@intel.com>
-Received: from mail-it0-f43.google.com (mail-it0-f43.google.com
-	[209.85.214.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 500C3719F4
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qk0-f173.google.com (mail-qk0-f173.google.com
+	[209.85.220.173])
+	by mail.openembedded.org (Postfix) with ESMTP id 7A1BB607A4
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Nov 2016 12:34:58 +0000 (UTC)
-Received: by mail-it0-f43.google.com with SMTP id l8so24368814iti.1
+	Fri, 18 Nov 2016 12:39:17 +0000 (UTC)
+Received: by mail-qk0-f173.google.com with SMTP id q130so260819937qke.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Nov 2016 04:35:00 -0800 (PST)
+	Fri, 18 Nov 2016 04:39:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:organization:mime-version:content-transfer-encoding;
-	bh=RCTCSTwE7803Rvg6+r66jznVb6zAk2lzWaBk6W446Ys=;
-	b=fEdzQh2Ylw/B1pdHAQJMiPF+mz+J9IbM5jofkhRySS2s1v/NBUFJnfTW+rV2vV4PTz
-	6CiF3VGw+IL8/wBSSEQCMxl6UWAjldGVXJR64oX4EvOAjnHIuGjvslAYlgNiQA5WBs8B
-	i4nOLRcTKNk3+a4DwkU8Ptmm3vfcdDZMRs/YCEA79BYzE9GsUsxtTbgynpI2q/dXK2OW
-	hCLij5Ge0YoszKa55QfIjbM2r/Uw5GP5hzCIBVoAKsq6h8HnRRAPQ7IFpzQes8NV6S2T
-	CVyvMlCiqgwDYWoZuFagTogwcyLJFHnUll9DhunLUJLMNyuPM7spzo3UpAuJZzRM8Ydn
-	JFPA==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=tmjQzF3f9/fZQhH3VeTjol2wE7IkFA8/H9Pgj4y5Aow=;
+	b=KrhCSQTFOCRjooPZsc7Zd6mppVFc7YVxLaiufmAvf51KbgQ/b16IadAQP92e1e1eDZ
+	H8VfSMLsMdQZesfX7oYY4aSfg/WX42b9Gm38DF6PCp3nKVrAzZzm5mbPwpw3EZTCjGxz
+	RnhHi4vY2PTQopLyzRIL1yhTrWhU2Pcs5mmZbe5jft1Go52TPt3T8FQZEjIubvFTLudM
+	qEct+z029OZdpF9w1hNBQbrUubw/lKR4KV8IPIzQV4Ligk5BgQ8tA+b+dI822BiD7nxh
+	4MG8dmejeYDw5wrHeviGZsEf88728KlhOlzaoq5Fc9Afg6JedyZlWzP/5UModTKmvBU2
+	LK2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:organization:mime-version:content-transfer-encoding;
-	bh=RCTCSTwE7803Rvg6+r66jznVb6zAk2lzWaBk6W446Ys=;
-	b=BtwIX93d8g7v0cxCcvG91zFw079LAuANmR/aTwKYF7SXAfB/9rYWKiIAkdvvwT+CHt
-	zP4jeAlKd2Y6oB5JMfslRfGQECa9gz8wyM4mcfJLQpnSJigQtsBY5Qf6SPRPtM2gHDVX
-	KZU5eBy5oM4HDFukqESU1fxJy7N6QbiqIgKRIA597Grw1RPVG9g+FJeGIPe0xIe+fmZ8
-	I9CZ3ZCmabmF4n5YT/c7t6wVZlXqGTFevGj6Z7oVDEA1rL3W1/aIFyITTUcPWs+5Est6
-	nABVPUat/xKObYGa1/zfBIe+qbk3RZRn24BrZP5U3zcRRRpSFhXfuKTQiK6Zovequ1Tf
-	uJwQ==
-X-Gm-Message-State: ABUngvf0FqVpmxTT0iwdE25b/1r6oK49EliZVUlNji3ANu9+shnA9RDmrXuDL7C+v59qIbKY
-X-Received: by 10.36.20.4 with SMTP id 4mr8277977itg.93.1479472500322;
-	Fri, 18 Nov 2016 04:35:00 -0800 (PST)
-Received: from pohly-mobl1 (p5DE8EE38.dip0.t-ipconnect.de. [93.232.238.56])
-	by smtp.gmail.com with ESMTPSA id l3sm2936735ioa.7.2016.11.18.04.34.58
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 18 Nov 2016 04:34:59 -0800 (PST)
-Message-ID: <1479472496.27625.22.camel@intel.com>
-From: Patrick Ohly <patrick.ohly@intel.com>
-To: Christopher Larson <clarson@kergoth.com>
-Date: Fri, 18 Nov 2016 13:34:56 +0100
-In-Reply-To: <CABcZANnL5MxwQmiZZ0i8CGHaYxsD9zapNfcyB_a37OoigHq2oA@mail.gmail.com>
-References: <1479396394-26134-1-git-send-email-fabio.berton@ossystems.com.br>
-	<CABcZANmh+pV4Xxwi2UY7fA+BctpVXRvM6gLcgMJEx-rwODMi4g@mail.gmail.com>
-	<CAAPZna2pDLyq6PH6sb8c0J_Bxa2Pi+FNNZw_tVJ38o90mGsEJw@mail.gmail.com>
-	<CABcZAN=55DOHHy0fMJi6pPaR+TuwgwfErOd7YBAN=s_e9D0rwA@mail.gmail.com>
-	<CAAPZna2dHKqh-rDSo6UGu0uP=CBLRHaGbhC-c=OisccQ4HUUsQ@mail.gmail.com>
-	<CABcZANnL5MxwQmiZZ0i8CGHaYxsD9zapNfcyB_a37OoigHq2oA@mail.gmail.com>
-Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
-X-Mailer: Evolution 3.12.9-1+b1 
-Mime-Version: 1.0
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] libpcap: Fix build when PACKAGECONFIG ipv6 is not enable
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=tmjQzF3f9/fZQhH3VeTjol2wE7IkFA8/H9Pgj4y5Aow=;
+	b=HYsycjdvyClYmQDUY8ea9Goigg1l1W9VW8Rv4zJ2Opvqq6UKWEx/6hPWo23zUNKKLC
+	rtoitaxblM0cQ5Ot05HHB9p6R6w+ETlBfJsyEXX40x48Mj/vajinXjOLunU8+AiBvjWO
+	8r3yc+iUVTIV4y/pmuofPyxGIpEgydvYnklz4aptcArVPjpdGVYV5oOxvdEGE13KKNQx
+	PLjd4mH8Ltv2wQ7r6AaFgjK2AYgI+By58duRoLQ3VyT0odArOdEqoWqz6pS0Pfimgbf/
+	lPsyU7mB+wH+PiHXRhAMhZAG4UK7qrJMiPSLdxcxFbSJLyUSvU2ft9JYQ6QcUEJqsu0u
+	xnSw==
+X-Gm-Message-State: AKaTC02J1jcn50HW58nvYk1OtrGiiqeSDdkgk5yqwpGp/iRKPiYIKW5Iamlq6CdrSvUGhEWc56hzQ0DeKlKR9SMH
+X-Received: by 10.55.31.157 with SMTP id n29mr9410996qkh.221.1479472758355;
+	Fri, 18 Nov 2016 04:39:18 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.140.85.136 with HTTP; Fri, 18 Nov 2016 04:38:57 -0800 (PST)
+In-Reply-To: <20161116174748.26994-1-raj.khem@gmail.com>
+References: <20161116174748.26994-1-raj.khem@gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 18 Nov 2016 12:38:57 +0000
+Message-ID: <CAJTo0LYgH6_T5Y-YO1Px5eyYFLiud9SQvG1vHGRoebwkhVhdKg@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/5] systemd: Upgrade to 232
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -65,45 +53,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 18 Nov 2016 12:34:59 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 18 Nov 2016 12:39:17 -0000
+Content-Type: multipart/alternative; boundary=001a1147f22837be9905419298f7
 
-On Thu, 2016-11-17 at 09:24 -0700, Christopher Larson wrote:
-> 
-> On Thu, Nov 17, 2016 at 9:21 AM, Fabio Berton
-> <fabio.berton@ossystems.com.br> wrote:
->         No, I created a patch, git format-patch and then edit
->         generated files with Upstream-Status tag and added to recipe.
->         Is this wrong?
-> 
-> As I indicated in my first reply, it’s best to put the tag outside the
-> generated patch (above it, or below the —-), as it isn’t part of the
-> commit, only part of the patch file.
+--001a1147f22837be9905419298f7
+Content-Type: text/plain; charset=UTF-8
 
-Now I'm confused. My understanding was that
-http://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines#Patch_Header_Recommendations explicitly asks for Upstream-Status in the patch header.
+On 16 November 2016 at 17:47, Khem Raj <raj.khem@gmail.com> wrote:
 
-Taking an existing example, is
-http://cgit.openembedded.org/openembedded-core/tree/meta/recipes-core/systemd/systemd/0001-core-device.c-Change-the-default-device-timeout-to-2.patch doing it wrong?
+> * Drop support for rcS.d SysV init scripts.
+>   These are prone to cause dependency loops, and almost all packages with
+>   rcS scripts now ship a native systemd service.
+>
+> * Drop mount propagation patch, it only happens with libseccomp, OE doesnt
+>   enable it
+>
+> * kdbus option has disappeared from configure
+>
+> * Ignore dev-so for PN now since systemd introduced private .so see
+>   https://github.com/systemd/systemd/issues/3810
+>
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+>
 
->  It’s minor, and you don’t need to re-submit, but in general the tag
-> is not part of the commit message. For example, if your patch was
-> applied to a git repository with git-am, it’d be in the commit
-> message, which should not be the case.
+Because systemd-boot basically include the systemd recipe, this breaks
+systemd-boot.
 
-Yes, that's indeed the effect. That has pros (the Upstream-Status tag is
-preserved when working with devtool) and cons (patch as attached to a
-recipe is not the same as the patch upstream).
+Can we think up a way to handle systemd/systemd-boot without breaking every
+upgrade?
 
--- 
-Best Regards, Patrick Ohly
+Ross
 
-The content of this message is my personal opinion only and although
-I am an employee of Intel, the statements I make here in no way
-represent Intel's position on the issue, nor am I authorized to speak
-on behalf of Intel on this matter.
+--001a1147f22837be9905419298f7
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 16 November 2016 at 17:47, Khem Raj <span dir=3D"ltr">&lt;<a href=3D"mai=
+lto:raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt;</span>=
+ wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bor=
+der-left:1px #ccc solid;padding-left:1ex"><div id=3D":211" class=3D"a3s aXj=
+CH m1586e434069ed0cd">* Drop support for rcS.d SysV init scripts.<br>
+=C2=A0 These are prone to cause dependency loops, and almost all packages w=
+ith<br>
+=C2=A0 rcS scripts now ship a native <span class=3D"il">systemd</span> serv=
+ice.<br>
+<br>
+* Drop mount propagation patch, it only happens with libseccomp, OE doesnt<=
+br>
+=C2=A0 enable it<br>
+<br>
+* kdbus option has disappeared from configure<br>
+<br>
+* Ignore dev-so for PN now since <span class=3D"il">systemd</span> introduc=
+ed private .so see<br>
+=C2=A0 <a href=3D"https://github.com/systemd/systemd/issues/3810" rel=3D"no=
+referrer" target=3D"_blank">https://github.com/<span class=3D"il">systemd</=
+span>/<wbr><span class=3D"il">systemd</span>/issues/3810</a><br>
+<br>
+Signed-off-by: Khem Raj &lt;<a href=3D"mailto:raj.khem@gmail.com">raj.khem@=
+gmail.com</a>&gt;</div></blockquote></div><br>Because systemd-boot basicall=
+y include the systemd recipe, this breaks systemd-boot.</div><div class=3D"=
+gmail_extra"><br></div><div class=3D"gmail_extra">Can we think up a way to =
+handle systemd/systemd-boot without breaking every upgrade?</div><div class=
+=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
 
-
-
+--001a1147f22837be9905419298f7--
