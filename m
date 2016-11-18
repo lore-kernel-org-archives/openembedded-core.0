@@ -1,30 +1,49 @@
-Return-Path: <rpjday@crashcourse.ca>
-Received: from smtp485.redcondor.net (smtp485.redcondor.net [208.80.204.85])
-	by mail.openembedded.org (Postfix) with ESMTP id 7638D71A93
+Return-Path: <rehsack@gmail.com>
+Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 7C91E6059F
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Nov 2016 12:47:55 +0000 (UTC)
-Received: from astoria.ccjclearline.com ([64.235.106.9])
-	by smtp485.redcondor.net ({3be039ea-4351-44b0-a8af-642c38b25916})
-	via TCP (outbound) with ESMTPS id 20161118124747289_0485;
-	Fri, 18 Nov 2016 12:47:47 +0000
-X-RC-FROM: <rpjday@crashcourse.ca>
-Received: from [174.118.92.171] (port=54844 helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
-	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
-	id 1c7iZr-0003u3-Lg; Fri, 18 Nov 2016 07:47:35 -0500
-Date: Fri, 18 Nov 2016 07:46:28 -0500 (EST)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@localhost.localdomain
-To: =?ISO-8859-15?Q?Andr=E9_Draszik?= <git@andred.net>
-In-Reply-To: <1479472068.27546.12.camel@andred.net>
-Message-ID: <alpine.LFD.2.20.1611180742360.16475@localhost.localdomain>
-References: <alpine.LFD.2.20.1611180634400.3556@localhost.localdomain>
-	<1479472068.27546.12.camel@andred.net>
-User-Agent: Alpine 2.20 (LFD 67 2015-01-07)
-MIME-Version: 1.0
-X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
+	Fri, 18 Nov 2016 12:58:39 +0000 (UTC)
+Received: by mail-wm0-f68.google.com with SMTP id u144so5990633wmu.0
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 18 Nov 2016 04:58:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:subject:from:in-reply-to:date:cc:message-id:references
+	:to; bh=4PhwMf25oHWEaTbfSGQOp3HFFn1JFVHEqhXAsd4/wlg=;
+	b=0/ps6+aVni/HYYDi2njMgEhh+LsmFYS6Rl2aEvRJfF4bCNXnCdykE8opp7G6TVtMZG
+	3DdSeW4H/GcoMG5pgJjFQBhBhAooUsZXO/ENh7czuUg+iqqklMf8JQLUaKDT2qSZy/BJ
+	vpWYeEks3x5zWNDsTJEYYsqi1/h91rAv0w+kExxNqIZS784ZFGRFoYDSGB4maKXiJya2
+	s2i1HWrsE7lC0sGVAsia+aiGFjHkAmc4jYptaEoK+QPZb869IenvGrCwWa87Gx13vLGD
+	6XbeucIUuE0pnwIP2TVYKq+L4Arn1zqizM34TED1oCRv/lOSG3gz4xb5osJ02T0nAzyc
+	v2Qw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
+	:message-id:references:to;
+	bh=4PhwMf25oHWEaTbfSGQOp3HFFn1JFVHEqhXAsd4/wlg=;
+	b=ROMmilBduMZRgDWF/O2DdSkPRPqLSdU4WMSkAI6yrS1KDUIZuPCDCXLpLBat2EBk7Y
+	WWi8cP1pJQgQnLOL5gBg3b6J6x/yid5zdmdf4MnW6LcX8Wf9x80TWAQfheILJrht6wz3
+	DEFOSRX980W+VHIKFKH7RoAM9VvdE1DL3SmKUq1F4WVkBbvYcj/5Dynwf5p4t7+pxv7J
+	eq1gylyLHeTPR/dSpigYmo8bjMLu9KpU/edOFRZ4kEFW+TyrnukhGaEv966txaAO/DXL
+	j/07i/6489XYcGOiB8rVzWflrflAkb2wASekOlbRDFpVBZl8U8+owWGLxLeu8pyhniXY
+	LXvA==
+X-Gm-Message-State: AKaTC02RQ5CMMVpck8Ct7z5A0AsTuAi8QcaYcWxnqXb4ELE+9plJPnPcQp1kTT9LZFKKNw==
+X-Received: by 10.194.235.198 with SMTP id uo6mr6929746wjc.40.1479473920444;
+	Fri, 18 Nov 2016 04:58:40 -0800 (PST)
+Received: from [192.168.10.204] ([62.157.143.22])
+	by smtp.gmail.com with ESMTPSA id
+	197sm3257255wmy.16.2016.11.18.04.58.39
+	(version=TLS1 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Fri, 18 Nov 2016 04:58:39 -0800 (PST)
+Mime-Version: 1.0 (Mac OS X Mail 9.3 \(3124\))
+From: Jens Rehsack <rehsack@gmail.com>
+In-Reply-To: <alpine.LFD.2.20.1611180513530.24565@localhost.localdomain>
+Date: Fri, 18 Nov 2016 13:58:38 +0100
+Message-Id: <3A38245A-188C-4A9E-9BD8-14E3BCAC9F19@gmail.com>
+References: <alpine.LFD.2.20.1611180513530.24565@localhost.localdomain>
+To: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-Mailer: Apple Mail (2.3124)
 Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: small number of perl modules that can't be cross-compiled
+Subject: Re: perl packaging, Makefile.PL versus Build.PL?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,88 +56,97 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 18 Nov 2016 12:47:57 -0000
-Content-Type: multipart/mixed; BOUNDARY="8323328-1995416444-1479473191=:16475"
+X-List-Received-Date: Fri, 18 Nov 2016 12:58:40 -0000
+X-Groupsio-MsgNum: 89568
+Content-Type: multipart/signed;
+	boundary="Apple-Mail=_34F72F38-1941-48B6-B473-BA9BF69B9678";
+	protocol="application/pgp-signature"; micalg=pgp-sha512
 
---8323328-1995416444-1479473191=:16475
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
+--Apple-Mail=_34F72F38-1941-48B6-B473-BA9BF69B9678
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=us-ascii
 
-On Fri, 18 Nov 2016, André Draszik wrote:
 
-> On Fri, 2016-11-18 at 06:41 -0500, Robert P. J. Day wrote:
-> >   after OE recipfying over 100 perl modules from CPAN, i'm down to
-> > less than a dozen that are going to take more work, and a small number
-> > of those seem to be simply badly written in that they don't support
-> > cross-compilation for my target choice of "qemuppc". example
-> > boilerplate recipe i put together produces this:
-> >
-> > $ make libauthen-pam-perl
-> > ... snip ...
-> > Checking if your kit is complete...
-> > Looks good
-> > checking for gcc... powerpc-wrs-linux-gcc -m32 -mhard-float -mcpu=7400
-> > --
-> > sysroot=/home/rpjday/WRL/builds/msm/nov17/bitbake_build/tmp/sysroots/qemup
-> > pc
-> > checking for C compiler default output file name... a.out
-> > checking whether the C compiler works... configure: error: cannot run
-> > C compiled programs.
-> > If you meant to cross compile, use `--host'.
-> > See `config.log' for more details.
->
-> It'd be useful to see config.log, ...
+> Am 18.11.2016 um 11:24 schrieb Robert P. J. Day =
+<rpjday@crashcourse.ca>:
+>=20
+>=20
+>  still going to have a few more questions on the standards for
+> packaging perl source into OE recipes, here's the first one.
+>=20
+>  as i read it, there are two build standards for perl source in OE:
+>=20
+>  cpan.bbclass:		Makefile.PL build-based
+>  cpan_build.bbclass:	(newer) Build.PL build-based
 
-  see bottom.
+Err: Wrong - Module::Build has been written after ExtUtil::MakeMaker =
+exists,
+but it has been removed from Perl core, because ExtUtils::MakeMaker is
+much better maintained and has better compatibilities (even if it still
+can improved ^^)
 
-> > Error in configuring the Authen::PAM module.
-> > ... snip ...
-> >
-> >   so i'm assuming the source itself for Authen::PAM:
-> >
-> > https://metacpan.org/pod/Authen::PAM
-> >
-> > is somehow flawed in that it doesn't properly recognize
-> > cross-compilation, would that be it?
->
-> ... there is at least one issue in Authen-PAM-0.16/configure.ac, I would
-> say, in that it tries to detect RTLD_GLOBAL support based on the host's
-> perl. So it's likely there are more flaws.
+> so if one peruses the source at CPAN, it should be obvious which build
+> system is relevant, no? so what about source that has *both* those
+> files?
+>=20
+>  https://metacpan.org/pod/Parse::DMIDecode
 
-  that's pretty much all i wanted to confirm at this point -- that it
-wasn't something stupid i was doing; rather, the source itself is
-flawed, and that's not the only example.
+Look into it: =
+https://metacpan.org/source/NICOLAW/Parse-DMIDecode-0.03/Makefile.PL
+shows clearly, that the Makefile.PL is a wrapper for cpan shells which =
+don't
+support Build.PL (very old, but when Nicola uploaded it in 2007, 5.8 was =
+bleeding
+edge and 5.004 or 5.005 were widely spread.
 
-rday
+You can also refer to =
+https://github.com/rehsack/Packager-Utils/blob/master/lib/Packager/Utils/R=
+ole/Packages/Bitbake.pm#L507-L517 for some inspiration.
 
-DEBUG: Executing python function sysroot_cleansstate
-DEBUG: Python function sysroot_cleansstate finished
-DEBUG: Executing shell function do_configure
-*** Module name IN: /home/rpjday/WRL/builds/msm/nov17/bitbake_build/tmp/sysroots/qemuppc/usr/lib/perl/5.22.0/Cwd.pm
-*** p1: /home/rpjday/WRL/builds/msm/nov17/bitbake_build/tmp/sysroots/qemuppc/usr/lib/  p3: perl/5.22.0/  p5: Cwd.pm
-*** Module name OUT: /home/rpjday/WRL/builds/msm/nov17/bitbake_build/tmp/sysroots/x86_64-linux/usr/lib/perl-native/perl/5.22.0/Cwd.pm
-*** Module name IN: /home/rpjday/WRL/builds/msm/nov17/bitbake_build/tmp/sysroots/qemuppc/usr/lib/perl/5.22.0/Encode.pm
-*** p1: /home/rpjday/WRL/builds/msm/nov17/bitbake_build/tmp/sysroots/qemuppc/usr/lib/  p3: perl/5.22.0/  p5: Encode.pm
-*** Module name OUT: /home/rpjday/WRL/builds/msm/nov17/bitbake_build/tmp/sysroots/x86_64-linux/usr/lib/perl-native/perl/5.22.0/Encode.pm
-*** Module name IN: /home/rpjday/WRL/builds/msm/nov17/bitbake_build/tmp/sysroots/qemuppc/usr/lib/perl/5.22.0/I18N/Langinfo.pm
-*** p1: /home/rpjday/WRL/builds/msm/nov17/bitbake_build/tmp/sysroots/qemuppc/usr/lib/  p3: perl/5.22.0/  p5: I18N/Langinfo.pm
-*** Module name OUT: /home/rpjday/WRL/builds/msm/nov17/bitbake_build/tmp/sysroots/x86_64-linux/usr/lib/perl-native/perl/5.22.0/I18N/Langinfo.pm
-*** Module name IN: /home/rpjday/WRL/builds/msm/nov17/bitbake_build/tmp/sysroots/qemuppc/usr/lib/perl/5.22.0/B.pm
-*** p1: /home/rpjday/WRL/builds/msm/nov17/bitbake_build/tmp/sysroots/qemuppc/usr/lib/  p3: perl/5.22.0/  p5: B.pm
-*** Module name OUT: /home/rpjday/WRL/builds/msm/nov17/bitbake_build/tmp/sysroots/x86_64-linux/usr/lib/perl-native/perl/5.22.0/B.pm
-*** Module name IN: /home/rpjday/WRL/builds/msm/nov17/bitbake_build/tmp/sysroots/qemuppc/usr/lib/perl/5.22.0/List/Util.pm
-*** p1: /home/rpjday/WRL/builds/msm/nov17/bitbake_build/tmp/sysroots/qemuppc/usr/lib/  p3: perl/5.22.0/  p5: List/Util.pm
-*** Module name OUT: /home/rpjday/WRL/builds/msm/nov17/bitbake_build/tmp/sysroots/x86_64-linux/usr/lib/perl-native/perl/5.22.0/List/Util.pm
-Checking if your kit is complete...
-Looks good
-checking for gcc... powerpc-wrs-linux-gcc -m32 -mhard-float -mcpu=7400 --sysroot=/home/rpjday/WRL/builds/msm/nov17/bitbake_build/tmp/sysroots/qemuppc
-checking for C compiler default output file name... a.out
-checking whether the C compiler works... configure: error: cannot run C compiled programs.
-If you meant to cross compile, use `--host'.
-See `config.log' for more details.
-Error in configuring the Authen::PAM module.
-WARNING: /home/rpjday/WRL/builds/msm/nov17/bitbake_build/tmp/work/ppc7400-wrs-linux/libauthen-pam-perl/0.16-r0/temp/do_configure/run.do_configure.16119:1 exit 25 from
-  perl Makefile.PL INSTALLDIRS=vendor
-ERROR: Function failed: do_configure (log file is located at /home/rpjday/WRL/builds/msm/nov17/bitbake_build/tmp/work/ppc7400-wrs-linux/libauthen-pam-perl/0.16-r0/temp/do_configure/log.do_configure.16119)
+> which has both of those install scripts in the top-level directory,
+> although the INSTALL file clearly refers to the newer build system:
+>=20
+>  perl Build.PL
+>  perl Build
+>  perl Build test
+>  perl Build install
+>=20
+> does it make any logical sense for both of those files to be there?
+> backward compatibility? any other reason? or am i just wildly
+> misunderstanding something?
 
---8323328-1995416444-1479473191=:16475--
+For some people: yes. For others: No.
+
+Cheers
+--
+Jens Rehsack - rehsack@gmail.com
+
+
+--Apple-Mail=_34F72F38-1941-48B6-B473-BA9BF69B9678
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+	filename=signature.asc
+Content-Type: application/pgp-signature;
+	name=signature.asc
+Content-Description: Message signed with OpenPGP using GPGMail
+
+-----BEGIN PGP SIGNATURE-----
+Comment: GPGTools - https://gpgtools.org
+
+iQIcBAEBCgAGBQJYLvr+AAoJEESZlq7c5Qqdr7cP/i4aHoTQGWnVFv/ADoP/OP7i
+nd1oNogNpBySzt9EdWZvs6xRitPhiUNxUMQH/nP8UbvbeyvGwaTDC789mscjb2Uj
+s03wbjD47NFxANwNXoQPJBnZmloVBMJ53vwBmcI1tdd1W8GFvvY/+9y/22o0C1ee
+PtXdDvkZ+Mper7Zg4M+BspjoODLJweZs25OrycaEOcEDj86eCQywDw8XVvYdi2VX
+VoxIIydtkBIegMvK/GENBiANO6KD+jfTY7IIz2aISomiOVkp+bflqR4ymjV08gde
+X4k6FiNvEKqBMjXYK3RGFNV86hlN1ZAyoqxy+g67l0QQheiZvEe8zaG9jqkDdmWk
+uwziEjBdQdWo/bYuKz0HzwKAG6V8rYlwkS2XTjBTi8Y+gTFGF/4nqUi7FI5qOY7R
+DF2qylL6uLuchR0GgeK+aNxgONeyfMcFa1PG+q5xtn4FJxDCFOMZcQad8H52ejFh
+hCG+kXR5BUe7uWPbnki8aMfN59vSOVGgAw43XlDKlXtfzE9I3TvyIorribONvxJG
+V3HZbWXSaZ84Vowfqt8LdbcUyxtjnGFUg1oUrxtK8tnRjt7ZLAfOTyGrxA70Pqui
+NnaYDNV/aVmB3iVRzTwteSxAcolkeAIrLpUdT5rLGEK5pfCl9T7YnKUnu0Jc0cJh
+Si69nwI1Jbn3IKGZzmKr
+=dW7P
+-----END PGP SIGNATURE-----
+
+--Apple-Mail=_34F72F38-1941-48B6-B473-BA9BF69B9678--
