@@ -1,42 +1,32 @@
-Return-Path: <andre.draszik@gmail.com>
-Received: from mail-wm0-f66.google.com (mail-wm0-f66.google.com [74.125.82.66])
-	by mail.openembedded.org (Postfix) with ESMTP id A2DEC6AC00
+Return-Path: <rpjday@crashcourse.ca>
+Received: from smtp486.redcondor.net (smtp486.redcondor.net [208.80.204.86])
+	by mail.openembedded.org (Postfix) with ESMTP id 4B1C6719C8
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Nov 2016 14:50:56 +0000 (UTC)
-Received: by mail-wm0-f66.google.com with SMTP id g23so6958593wme.1
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Nov 2016 06:50:58 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=rW3y30ED3k6gNV3aN3bSjR8w43L+8cfxfoP5tfI+4OQ=;
-	b=ZQva4IGlEhwfXdt1iMok2OAoSiyYP/KxnZqCYAHN9HLFF1owGcMxF/rdwQVfQ0JNHA
-	N475PPgh0yqfFJv1TjYDArh0hfTNgbnD3y96Xv5UKOuDd+JfYP7iiPH5zwD8M6fQnI9T
-	C6TKNuhb4djXo/qwhIJqQyMkUAZXtaldxDaPBXKrlGSDMq8Qfs83JBu5CVi4t7KQxMbe
-	cro55hOy9OmEVqjYzHZ0e1c2AIRQ00Tu2r7Q8NHJ3vH3Bu4x3j7Vq9qoUiyyikBR1A4h
-	ghLSukFqupXiFwZCxgBIeoCodsZvmoH1CeNejhKf0uEtQaUZLy8loKAkOrEMKnaOI9nf
-	lbWQ==
-X-Gm-Message-State: AKaTC00rVlkRnvVOSaXHLf7KANzn/3WnwIpJ/DVlijkZ5w/EoPF/MjFxw0vjPcctNLA/xA==
-X-Received: by 10.28.69.17 with SMTP id s17mr506977wma.141.1479480657258;
-	Fri, 18 Nov 2016 06:50:57 -0800 (PST)
-Received: from tfsielt31850 ([77.107.218.170])
-	by smtp.gmail.com with ESMTPSA id
-	w65sm3716595wmd.23.2016.11.18.06.50.56
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Fri, 18 Nov 2016 06:50:56 -0800 (PST)
-Message-ID: <1479480655.27546.16.camel@andred.net>
-From: =?ISO-8859-1?Q?Andr=E9?= Draszik <git@andred.net>
-To: "Robert P. J. Day" <rpjday@crashcourse.ca>
-Date: Fri, 18 Nov 2016 14:50:55 +0000
-In-Reply-To: <alpine.LFD.2.20.1611180908440.18681@localhost.localdomain>
+	Fri, 18 Nov 2016 14:56:56 +0000 (UTC)
+Received: from astoria.ccjclearline.com ([64.235.106.9])
+	by smtp486.redcondor.net ({6695537a-536a-45f9-a249-877c85428649})
+	via TCP (outbound) with ESMTPS id 20161118145636291_0486;
+	Fri, 18 Nov 2016 14:56:36 +0000
+X-RC-FROM: <rpjday@crashcourse.ca>
+Received: from [174.118.92.171] (port=60708 helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
+	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
+	id 1c7kab-0006rx-6I; Fri, 18 Nov 2016 09:56:29 -0500
+Date: Fri, 18 Nov 2016 09:55:22 -0500 (EST)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@localhost.localdomain
+To: =?ISO-8859-15?Q?Andr=E9_Draszik?= <git@andred.net>
+In-Reply-To: <1479480655.27546.16.camel@andred.net>
+Message-ID: <alpine.LFD.2.20.1611180954500.19358@localhost.localdomain>
 References: <alpine.LFD.2.20.1611180634400.3556@localhost.localdomain>
 	<1479472068.27546.12.camel@andred.net>
 	<alpine.LFD.2.20.1611180742360.16475@localhost.localdomain>
 	<1479474900.27546.14.camel@andred.net>
 	<alpine.LFD.2.20.1611180908440.18681@localhost.localdomain>
-X-Mailer: Evolution 3.22.1-2 
-Mime-Version: 1.0
+	<1479480655.27546.16.camel@andred.net>
+User-Agent: Alpine 2.20 (LFD 67 2015-01-07)
+MIME-Version: 1.0
+X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
 Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
 Subject: Re: small number of perl modules that can't be cross-compiled
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -51,71 +41,85 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 18 Nov 2016 14:50:56 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 18 Nov 2016 14:56:59 -0000
+Content-Type: multipart/mixed; BOUNDARY="8323328-559712597-1479480924=:19358"
 
-On Fri, 2016-11-18 at 09:09 -0500, Robert P. J. Day wrote:
-> On Fri, 18 Nov 2016, André Draszik wrote:
-> 
-> > On Fri, 2016-11-18 at 07:46 -0500, Robert P. J. Day wrote:
-> > > On Fri, 18 Nov 2016, André Draszik wrote:
-> > > 
-> > > > On Fri, 2016-11-18 at 06:41 -0500, Robert P. J. Day wrote:
-> > > > >   after OE recipfying over 100 perl modules from CPAN, i'm down to
-> > > > > less than a dozen that are going to take more work, and a small
-> > > > > number
-> > > > > of those seem to be simply badly written in that they don't
-> > > > > support
-> > > > > cross-compilation for my target choice of "qemuppc". example
-> > > > > boilerplate recipe i put together produces this:
-> > > > > 
-> > > > > $ make libauthen-pam-perl
-> > > > > ... snip ...
-> > > > > Checking if your kit is complete...
-> > > > > Looks good
-> > > > > checking for gcc... powerpc-wrs-linux-gcc -m32 -mhard-float
-> > > > > -mcpu=7400
-> > > > > --
-> > > > > sysroot=/home/rpjday/WRL/builds/msm/nov17/bitbake_build/tmp/sysroo
-> > > > > ts/q
-> > > > > emup
-> > > > > pc
-> > > > > checking for C compiler default output file name... a.out
-> > > > > checking whether the C compiler works... configure: error: cannot
-> > > > > run
-> > > > > C compiled programs.
-> > > > > If you meant to cross compile, use `--host'.
-> > > > > See `config.log' for more details.
-> > > > 
-> > > > It'd be useful to see config.log, ...
-> > > 
-> > >   see bottom.
-> > 
-> > That message is referring to config.log from autotools, not the
-> > bitbake do_configure.log. Should be somewhere below ${B}
-> 
->   sorry, my mistake ... see below:
-> 
-> This file contains any messages produced by compilers while
-> running configure, to aid debugging if configure makes a mistake.
-> 
-> It was created by Authen::PAM configure 0.16, which was
-> generated by GNU Autoconf 2.59.  Invocation command line was
-> 
->   $ ./configure
+--8323328-559712597-1479480924=:19358
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
 
-I think the issues are in your recipe. You should see *many* arguments to
-configure. In particular --build= --host= --target=, but many more.
+On Fri, 18 Nov 2016, André Draszik wrote:
 
-Also, this explains that message:
+> On Fri, 2016-11-18 at 09:09 -0500, Robert P. J. Day wrote:
+> > On Fri, 18 Nov 2016, André Draszik wrote:
+> >
+> > > On Fri, 2016-11-18 at 07:46 -0500, Robert P. J. Day wrote:
+> > > > On Fri, 18 Nov 2016, André Draszik wrote:
+> > > >
+> > > > > On Fri, 2016-11-18 at 06:41 -0500, Robert P. J. Day wrote:
+> > > > > >   after OE recipfying over 100 perl modules from CPAN, i'm down to
+> > > > > > less than a dozen that are going to take more work, and a small
+> > > > > > number
+> > > > > > of those seem to be simply badly written in that they don't
+> > > > > > support
+> > > > > > cross-compilation for my target choice of "qemuppc". example
+> > > > > > boilerplate recipe i put together produces this:
+> > > > > >
+> > > > > > $ make libauthen-pam-perl
+> > > > > > ... snip ...
+> > > > > > Checking if your kit is complete...
+> > > > > > Looks good
+> > > > > > checking for gcc... powerpc-wrs-linux-gcc -m32 -mhard-float
+> > > > > > -mcpu=7400
+> > > > > > --
+> > > > > > sysroot=/home/rpjday/WRL/builds/msm/nov17/bitbake_build/tmp/sysroo
+> > > > > > ts/q
+> > > > > > emup
+> > > > > > pc
+> > > > > > checking for C compiler default output file name... a.out
+> > > > > > checking whether the C compiler works... configure: error: cannot
+> > > > > > run
+> > > > > > C compiled programs.
+> > > > > > If you meant to cross compile, use `--host'.
+> > > > > > See `config.log' for more details.
+> > > > >
+> > > > > It'd be useful to see config.log, ...
+> > > >
+> > > >   see bottom.
+> > >
+> > > That message is referring to config.log from autotools, not the
+> > > bitbake do_configure.log. Should be somewhere below ${B}
+> >
+> >   sorry, my mistake ... see below:
+> >
+> > This file contains any messages produced by compilers while
+> > running configure, to aid debugging if configure makes a mistake.
+> >
+> > It was created by Authen::PAM configure 0.16, which was
+> > generated by GNU Autoconf 2.59.  Invocation command line was
+> >
+> >   $ ./configure
+>
+> I think the issues are in your recipe. You should see *many* arguments to
+> configure. In particular --build= --host= --target=, but many more.
+>
+> Also, this explains that message:
+>
+> configure:1697: error: cannot run C compiled programs.
+> If you meant to cross compile, use `--host'.
 
-configure:1697: error: cannot run C compiled programs.
-If you meant to cross compile, use `--host'.
+  i realize that now, so that will be today's project. thanks.
 
+rday
 
+-- 
 
-Cheers,
-Andre'
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
 
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
 
+--8323328-559712597-1479480924=:19358--
