@@ -1,32 +1,29 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 75E9260269;
-	Fri, 18 Nov 2016 08:03:32 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	uAI83Txk024725; Fri, 18 Nov 2016 08:03:29 GMT
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id Az-lcDw8am9M; Fri, 18 Nov 2016 08:03:29 +0000 (GMT)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	uAI83QiT024720
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Fri, 18 Nov 2016 08:03:27 GMT
-Message-ID: <1479456206.28508.104.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Koen Kooi <koen@dominion.thruhere.net>, "Burton, Ross"
-	<ross.burton@intel.com>
-Date: Fri, 18 Nov 2016 08:03:26 +0000
-In-Reply-To: <AA4AB54F-B782-4CFC-9E77-512EAFE73399@dominion.thruhere.net>
-References: <CAJTo0LbvGwRpzxfOL0505w+Vz=Jhf6O3QOr5Z8SX9XaFqaZ7eg@mail.gmail.com>
-	<AA4AB54F-B782-4CFC-9E77-512EAFE73399@dominion.thruhere.net>
-X-Mailer: Evolution 3.18.5.2-0ubuntu3 
-Mime-Version: 1.0
-Cc: openembedded-architecture
-	<openembedded-architecture@lists.openembedded.org>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [Openembedded-architecture] Enabling uninative by default in oe-core?
+Return-Path: <rpjday@crashcourse.ca>
+Received: from smtp685.redcondor.net (smtp685.redcondor.net [208.80.206.85])
+	by mail.openembedded.org (Postfix) with ESMTP id 2B17960745
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 18 Nov 2016 10:25:43 +0000 (UTC)
+Received: from astoria.ccjclearline.com ([64.235.106.9])
+	by smtp685.redcondor.net ({20c8e40f-6b6c-4c9e-abff-1640ea7bf404})
+	via TCP (outbound) with ESMTPS id 20161118102543425_0685
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 18 Nov 2016 02:25:43 -0800
+X-RC-FROM: <rpjday@crashcourse.ca>
+X-RC-RCPT: <openembedded-core@lists.openembedded.org>
+Received: from [174.118.92.171] (port=51148 helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
+	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
+	id 1c7gMT-00084a-B7 for openembedded-core@lists.openembedded.org;
+	Fri, 18 Nov 2016 05:25:37 -0500
+Date: Fri, 18 Nov 2016 05:24:31 -0500 (EST)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@localhost.localdomain
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Message-ID: <alpine.LFD.2.20.1611180513530.24565@localhost.localdomain>
+User-Agent: Alpine 2.20 (LFD 67 2015-01-07)
+MIME-Version: 1.0
+X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
+Subject: perl packaging, Makefile.PL versus Build.PL?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,33 +36,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 18 Nov 2016 08:03:34 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 18 Nov 2016 10:25:44 -0000
+Content-Type: text/plain; charset=US-ASCII
 
-On Fri, 2016-11-18 at 08:15 +0100, Koen Kooi wrote:
-> > 
-> > Op 17 nov. 2016, om 18:31 heeft Burton, Ross <ross.burton@intel.com
-> > > het volgende geschreven:
-> > 
-> > Hi,
-> > 
-> > Background: uninative is a class that downloads a precompiled host
-> > glibc 
-> Why can’t OE build it on-demand? What’s next, requiring prebuilt
-> toolchains?
 
-Its a chicken and egg problem.
+  still going to have a few more questions on the standards for
+packaging perl source into OE recipes, here's the first one.
 
-We could add a special "uninativesdk" BBCLASSEXTEND range of targets,
-then require that it built before we build anything native (or anything
-that needs a native tool). This would push build times up 'a little'
-and I suspect might not be popular. So the reason we "can't" is that
-its impractical, not an absolute technical constraint.
+  as i read it, there are two build standards for perl source in OE:
 
-Cheers,
+  cpan.bbclass:		Makefile.PL build-based
+  cpan_build.bbclass:	(newer) Build.PL build-based
 
-Richard
+so if one peruses the source at CPAN, it should be obvious which build
+system is relevant, no? so what about source that has *both* those
+files?
 
+  https://metacpan.org/pod/Parse::DMIDecode
+
+which has both of those install scripts in the top-level directory,
+although the INSTALL file clearly refers to the newer build system:
+
+  perl Build.PL
+  perl Build
+  perl Build test
+  perl Build install
+
+does it make any logical sense for both of those files to be there?
+backward compatibility? any other reason? or am i just wildly
+misunderstanding something?
+
+rday
+
+-- 
+
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
+
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
 
 
