@@ -1,39 +1,30 @@
-Return-Path: <andre.draszik@gmail.com>
-Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 9667D71AA2
+Return-Path: <rpjday@crashcourse.ca>
+Received: from smtp484.redcondor.net (smtp484.redcondor.net [208.80.204.84])
+	by mail.openembedded.org (Postfix) with ESMTP id B57BE719CF
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Nov 2016 13:15:00 +0000 (UTC)
-Received: by mail-wm0-f68.google.com with SMTP id m203so6094291wma.3
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Nov 2016 05:15:02 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=07W974+dT54tEWsih5pCE0mgoeifwfFeoN2T7t9KxvY=;
-	b=PqmA51ZwPbLP5Sb5agbMyFTbIPAmEsIS0QKVT7/egWlfC80Qk81SVAfv8lF2Ts649Z
-	tpPiXFjN5ZsBb31Kv+pOj7PChiUEs9c4zvihLyhZujarettOJlRaHq/f805L433/u6qL
-	E3bNsDjc67Tb9E2Cdo3KBiYXYmxaohaYTUJHmVe6RKGU45m4KKInQMIwKFHX+10i9WpK
-	rWVJxNPKPsjRrNzlhMzaTwlUUOwih6/+xe4LYEmldmyvE2C5spV3bmv6kLiTMW73gw+Q
-	xuToW3MRf0lV2cWQkAcS5KVqESlOU0oM2wlQW8MqtLbt1sby2UVDtVjAsunMtjvyhAOc
-	ZKVw==
-X-Gm-Message-State: AKaTC00K5TVgP9hNzOUJ4dNWRRkCNiigsnaYhMnaC7GAadg1s8DrA3jvYfMstoJiUJD0uw==
-X-Received: by 10.28.92.21 with SMTP id q21mr10690wmb.71.1479474901697;
-	Fri, 18 Nov 2016 05:15:01 -0800 (PST)
-Received: from tfsielt31850 ([77.107.218.170])
-	by smtp.gmail.com with ESMTPSA id u18sm3365569wmd.1.2016.11.18.05.15.00
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Fri, 18 Nov 2016 05:15:01 -0800 (PST)
-Message-ID: <1479474900.27546.14.camel@andred.net>
-From: =?ISO-8859-1?Q?Andr=E9?= Draszik <git@andred.net>
-To: "Robert P. J. Day" <rpjday@crashcourse.ca>
-Date: Fri, 18 Nov 2016 13:15:00 +0000
-In-Reply-To: <alpine.LFD.2.20.1611180742360.16475@localhost.localdomain>
+	Fri, 18 Nov 2016 14:10:27 +0000 (UTC)
+Received: from astoria.ccjclearline.com ([64.235.106.9])
+	by smtp484.redcondor.net ({c48374e7-08df-40d9-a0de-96cc9883a037})
+	via TCP (outbound) with ESMTPS id 20161118141027812_0484;
+	Fri, 18 Nov 2016 14:10:27 +0000
+X-RC-FROM: <rpjday@crashcourse.ca>
+Received: from [174.118.92.171] (port=58440 helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
+	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
+	id 1c7jru-0002s9-Cg; Fri, 18 Nov 2016 09:10:18 -0500
+Date: Fri, 18 Nov 2016 09:09:10 -0500 (EST)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@localhost.localdomain
+To: =?ISO-8859-15?Q?Andr=E9_Draszik?= <git@andred.net>
+In-Reply-To: <1479474900.27546.14.camel@andred.net>
+Message-ID: <alpine.LFD.2.20.1611180908440.18681@localhost.localdomain>
 References: <alpine.LFD.2.20.1611180634400.3556@localhost.localdomain>
 	<1479472068.27546.12.camel@andred.net>
 	<alpine.LFD.2.20.1611180742360.16475@localhost.localdomain>
-X-Mailer: Evolution 3.22.1-2 
-Mime-Version: 1.0
+	<1479474900.27546.14.camel@andred.net>
+User-Agent: Alpine 2.20 (LFD 67 2015-01-07)
+MIME-Version: 1.0
+X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
 Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
 Subject: Re: small number of perl modules that can't be cross-compiled
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -48,43 +39,224 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 18 Nov 2016 13:15:02 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 18 Nov 2016 14:10:28 -0000
+Content-Type: multipart/mixed; BOUNDARY="8323328-1795001743-1479478153=:18681"
 
-On Fri, 2016-11-18 at 07:46 -0500, Robert P. J. Day wrote:
-> On Fri, 18 Nov 2016, André Draszik wrote:
-> 
-> > On Fri, 2016-11-18 at 06:41 -0500, Robert P. J. Day wrote:
-> > >   after OE recipfying over 100 perl modules from CPAN, i'm down to
-> > > less than a dozen that are going to take more work, and a small number
-> > > of those seem to be simply badly written in that they don't support
-> > > cross-compilation for my target choice of "qemuppc". example
-> > > boilerplate recipe i put together produces this:
-> > > 
-> > > $ make libauthen-pam-perl
-> > > ... snip ...
-> > > Checking if your kit is complete...
-> > > Looks good
-> > > checking for gcc... powerpc-wrs-linux-gcc -m32 -mhard-float -mcpu=7400
-> > > --
-> > > sysroot=/home/rpjday/WRL/builds/msm/nov17/bitbake_build/tmp/sysroots/q
-> > > emup
-> > > pc
-> > > checking for C compiler default output file name... a.out
-> > > checking whether the C compiler works... configure: error: cannot run
-> > > C compiled programs.
-> > > If you meant to cross compile, use `--host'.
-> > > See `config.log' for more details.
-> > 
-> > It'd be useful to see config.log, ...
-> 
->   see bottom.
+--8323328-1795001743-1479478153=:18681
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
 
-That message is referring to config.log from autotools, not the bitbake
-do_configure.log. Should be somewhere below ${B}
+On Fri, 18 Nov 2016, André Draszik wrote:
 
-Cheers,
-a.
+> On Fri, 2016-11-18 at 07:46 -0500, Robert P. J. Day wrote:
+> > On Fri, 18 Nov 2016, André Draszik wrote:
+> >
+> > > On Fri, 2016-11-18 at 06:41 -0500, Robert P. J. Day wrote:
+> > > >   after OE recipfying over 100 perl modules from CPAN, i'm down to
+> > > > less than a dozen that are going to take more work, and a small number
+> > > > of those seem to be simply badly written in that they don't support
+> > > > cross-compilation for my target choice of "qemuppc". example
+> > > > boilerplate recipe i put together produces this:
+> > > >
+> > > > $ make libauthen-pam-perl
+> > > > ... snip ...
+> > > > Checking if your kit is complete...
+> > > > Looks good
+> > > > checking for gcc... powerpc-wrs-linux-gcc -m32 -mhard-float -mcpu=7400
+> > > > --
+> > > > sysroot=/home/rpjday/WRL/builds/msm/nov17/bitbake_build/tmp/sysroots/q
+> > > > emup
+> > > > pc
+> > > > checking for C compiler default output file name... a.out
+> > > > checking whether the C compiler works... configure: error: cannot run
+> > > > C compiled programs.
+> > > > If you meant to cross compile, use `--host'.
+> > > > See `config.log' for more details.
+> > >
+> > > It'd be useful to see config.log, ...
+> >
+> >   see bottom.
+>
+> That message is referring to config.log from autotools, not the
+> bitbake do_configure.log. Should be somewhere below ${B}
+
+  sorry, my mistake ... see below:
+
+This file contains any messages produced by compilers while
+running configure, to aid debugging if configure makes a mistake.
+
+It was created by Authen::PAM configure 0.16, which was
+generated by GNU Autoconf 2.59.  Invocation command line was
+
+  $ ./configure
+
+## --------- ##
+## Platform. ##
+## --------- ##
+
+hostname = localhost.localdomain
+uname -m = x86_64
+uname -r = 4.7.7-100.fc23.x86_64
+uname -s = Linux
+uname -v = #1 SMP Fri Oct 7 22:16:13 UTC 2016
+
+/usr/bin/uname -p = x86_64
+/bin/uname -X     = unknown
+
+/bin/arch              = x86_64
+/usr/bin/arch -k       = unknown
+/usr/convex/getsysinfo = unknown
+hostinfo               = unknown
+/bin/machine           = unknown
+/usr/bin/oslevel       = unknown
+/bin/universe          = unknown
+
+PATH: /home/rpjday/WRL/builds/msm/nov17/bitbake_build/tmp/sysroots/x86_64-linux/usr/bin/perl-native
+PATH: /home/rpjday/WRL/builds/msm/nov17/layers/oe-core/scripts
+PATH: /home/rpjday/WRL/builds/msm/nov17/bitbake_build/tmp/sysroots/x86_64-linux/usr/bin/powerpc-wrs-linux
+PATH: /home/rpjday/WRL/builds/msm/nov17/bitbake_build/tmp/sysroots/qemuppc/usr/bin/crossscripts
+PATH: /home/rpjday/WRL/builds/msm/nov17/bitbake_build/tmp/sysroots/x86_64-linux/usr/sbin
+PATH: /home/rpjday/WRL/builds/msm/nov17/bitbake_build/tmp/sysroots/x86_64-linux/usr/bin
+PATH: /home/rpjday/WRL/builds/msm/nov17/bitbake_build/tmp/sysroots/x86_64-linux/sbin
+PATH: /home/rpjday/WRL/builds/msm/nov17/bitbake_build/tmp/sysroots/x86_64-linux/bin
+PATH: /home/rpjday/WRL/builds/msm/nov17/layers/oe-core/scripts
+PATH: /home/rpjday/WRL/builds/msm/nov17/bitbake/bin
+PATH: /home/rpjday/WRL/builds/msm/nov17/bitbake_build/buildtools/sysroots/x86_64-wrlinuxsdk-linux/usr/bin
+PATH: /home/rpjday/WRL/builds/msm/nov17/layers/wrlinux/scripts
+PATH: /home/rpjday/WRL/builds/msm/nov17/scripts
+PATH: /scripts
+PATH: /home/rpjday/oe/dist/bin/bb/bin
+PATH: /home/rpjday/oe/dist/bin/bb/bin
+PATH: /usr/local/bin
+PATH: /usr/local/sbin
+PATH: /usr/bin
+PATH: /usr/sbin
+PATH: /home/rpjday/.local/bin
+PATH: /home/rpjday/bin
+PATH: /home/rpjday/WRL/builds/msm/nov17/layers/wrlinux/scripts
+PATH: /home/rpjday/WRL/builds/msm/nov17/layers/wrlcompat/scripts
+PATH: /home/rpjday/WRL/builds/msm/nov17/layers/local/scripts
 
 
+## ----------- ##
+## Core tests. ##
+## ----------- ##
+
+configure:1313: checking for gcc
+configure:1339: result: powerpc-wrs-linux-gcc -m32 -mhard-float -mcpu=7400 --sysroot=/home/rpjday/WRL/builds/msm/nov17/bitbake_build/tmp/sysroots/qemuppc
+configure:1583: checking for C compiler version
+configure:1586: powerpc-wrs-linux-gcc -m32 -mhard-float -mcpu=7400 --sysroot=/home/rpjday/WRL/builds/msm/nov17/bitbake_build/tmp/sysroots/qemuppc --version </dev/null >&5
+powerpc-wrs-linux-gcc (Wind River Linux 5.2.0-8.0-qemuppc) 5.2.0
+Copyright (C) 2015 Free Software Foundation, Inc.
+This is free software; see the source for copying conditions.  There is NO
+warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+configure:1589: $? = 0
+configure:1591: powerpc-wrs-linux-gcc -m32 -mhard-float -mcpu=7400 --sysroot=/home/rpjday/WRL/builds/msm/nov17/bitbake_build/tmp/sysroots/qemuppc -v </dev/null >&5
+Using built-in specs.
+COLLECT_GCC=powerpc-wrs-linux-gcc
+COLLECT_LTO_WRAPPER=/home/rpjday/WRL/builds/msm/nov17/bitbake_build/tmp/sysroots/x86_64-linux/usr/libexec/powerpc-wrs-linux/gcc/powerpc-wrs-linux/5.2.0/lto-wrapper
+Target: powerpc-wrs-linux
+Configured with: /home/rpjday/WRL/builds/msm/nov17/bitbake_build/tmp/work-shared/gcc-5.2.0-r0/gcc-5.2.0/configure --build=x86_64-linux --host=x86_64-linux --target=powerpc-wrs-linux --prefix=/home/rpjday/WRL/builds/msm/nov17/bitbake_build/tmp/sysroots/x86_64-linux/usr --exec_prefix=/home/rpjday/WRL/builds/msm/nov17/bitbake_build/tmp/sysroots/x86_64-linux/usr --bindir=/home/rpjday/WRL/builds/msm/nov17/bitbake_build/tmp/sysroots/x86_64-linux/usr/bin/powerpc-wrs-linux --sbindir=/home/rpjday/WRL/builds/msm/nov17/bitbake_build/tmp/sysroots/x86_64-linux/usr/bin/powerpc-wrs-linux --libexecdir=/home/rpjday/WRL/builds/msm/nov17/bitbake_build/tmp/sysroots/x86_64-linux/usr/libexec/powerpc-wrs-linux --datadir=/home/rpjday/WRL/builds/msm/nov17/bitbake_build/tmp/sysroots/x86_64-linux/usr/share --sysconfdir=/home/rpjday/WRL/builds/msm/nov17/bitbake_build/tmp/sysroots/x86_64-linux/etc --sharedstatedir=/home/rpjday/WRL/builds/msm/nov17/bitbake_build/tmp/sysroots/x86_64-linux/com --localstatedir=/home/rpjday/WRL/builds/msm/nov17/bitbake_build/tmp/sysroots/x86_64-linux/var --libdir=/home/rpjday/WRL/builds/msm/nov17/bitbake_build/tmp/sysroots/x86_64-linux/usr/lib/powerpc-wrs-linux --includedir=/home/rpjday/WRL/builds/msm/nov17/bitbake_build/tmp/sysroots/x86_64-linux/usr/include --oldincludedir=/home/rpjday/WRL/builds/msm/nov17/bitbake_build/tmp/sysroots/x86_64-linux/usr/include --infodir=/home/rpjday/WRL/builds/msm/nov17/bitbake_build/tmp/sysroots/x86_64-linux/usr/share/info --mandir=/home/rpjday/WRL/builds/msm/nov17/bitbake_build/tmp/sysroots/x86_64-linux/usr/share/man --disable-silent-rules --disable-dependency-tracking --with-libtool-sysroot=/home/rpjday/WRL/builds/msm/nov17/bitbake_build/tmp/sysroots/x86_64-linux --enable-clocale=generic --with-gnu-ld --enable-shared --enable-languages=c,c++ --enable-threads=posix --disable-multilib --enable-c99 --enable-long-long --enable-symvers=gnu --enable-libstdcxx-pch --program-prefix=powerpc-wrs-linux- --without-local-prefix --enable-lto --enable-libssp --disable-bootstrap --disable-libmudflap --with-system-zlib --with-linker-hash-style=gnu --enable-linker-build-id --with-ppl=no --with-cloog=no --enable-checking=release --enable-cheaders=c_global --without-isl --with-gxx-include-dir=/not/exist/usr/include/c++/5.2.0 --with-sysroot=/not/exist --with-build-sysroot=/home/rpjday/WRL/builds/msm/nov17/bitbake_build/tmp/sysroots/qemuppc --enable-secureplt --with-long-double-128 --enable-targets=powerpc64 --enable-poison-system-directories --with-mpfr=/home/rpjday/WRL/builds/msm/nov17/bitbake_build/tmp/sysroots/x86_64-linux/usr --with-system-zlib --disable-nls --enable-__cxa_atexit --with-pkgversion='Wind River Linux 5.2.0-8.0-qemuppc' --with-bugurl=support@windriver.com
+Thread model: posix
+gcc version 5.2.0 (Wind River Linux 5.2.0-8.0-qemuppc)
+configure:1594: $? = 0
+configure:1596: powerpc-wrs-linux-gcc -m32 -mhard-float -mcpu=7400 --sysroot=/home/rpjday/WRL/builds/msm/nov17/bitbake_build/tmp/sysroots/qemuppc -V </dev/null >&5
+powerpc-wrs-linux-gcc: error: unrecognized command line option '-V'
+powerpc-wrs-linux-gcc: fatal error: no input files
+compilation terminated.
+configure:1599: $? = 1
+configure:1622: checking for C compiler default output file name
+configure:1625: powerpc-wrs-linux-gcc -m32 -mhard-float -mcpu=7400 --sysroot=/home/rpjday/WRL/builds/msm/nov17/bitbake_build/tmp/sysroots/qemuppc  -O2 -pipe -g   -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed conftest.c  >&5
+configure:1628: $? = 0
+configure:1674: result: a.out
+configure:1679: checking whether the C compiler works
+configure:1685: ./a.out
+./configure: line 1686: ./a.out: cannot execute binary file: Exec format error
+configure:1688: $? = 126
+configure:1697: error: cannot run C compiled programs.
+If you meant to cross compile, use `--host'.
+See `config.log' for more details.
+
+## ---------------- ##
+## Cache variables. ##
+## ---------------- ##
+
+ac_cv_env_CC_set=set
+ac_cv_env_CC_value='powerpc-wrs-linux-gcc -m32 -mhard-float -mcpu=7400 --sysroot=/home/rpjday/WRL/builds/msm/nov17/bitbake_build/tmp/sysroots/qemuppc'
+ac_cv_env_CFLAGS_set=set
+ac_cv_env_CFLAGS_value=' -O2 -pipe -g '
+ac_cv_env_CPPFLAGS_set=set
+ac_cv_env_CPPFLAGS_value=
+ac_cv_env_CPP_set=set
+ac_cv_env_CPP_value='powerpc-wrs-linux-gcc -E --sysroot=/home/rpjday/WRL/builds/msm/nov17/bitbake_build/tmp/sysroots/qemuppc -m32 -mhard-float -mcpu=7400'
+ac_cv_env_LDFLAGS_set=set
+ac_cv_env_LDFLAGS_value='-Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed'
+ac_cv_env_build_alias_set=
+ac_cv_env_build_alias_value=
+ac_cv_env_host_alias_set=
+ac_cv_env_host_alias_value=
+ac_cv_env_target_alias_set=
+ac_cv_env_target_alias_value=
+ac_cv_exeext=
+ac_cv_prog_ac_ct_CC='powerpc-wrs-linux-gcc -m32 -mhard-float -mcpu=7400 --sysroot=/home/rpjday/WRL/builds/msm/nov17/bitbake_build/tmp/sysroots/qemuppc'
+
+## ----------------- ##
+## Output variables. ##
+## ----------------- ##
+
+CC='powerpc-wrs-linux-gcc -m32 -mhard-float -mcpu=7400 --sysroot=/home/rpjday/WRL/builds/msm/nov17/bitbake_build/tmp/sysroots/qemuppc'
+CFLAGS=' -O2 -pipe -g '
+CPP='powerpc-wrs-linux-gcc -E --sysroot=/home/rpjday/WRL/builds/msm/nov17/bitbake_build/tmp/sysroots/qemuppc -m32 -mhard-float -mcpu=7400'
+CPPFLAGS=''
+DEFS=''
+DL_LOAD_FLAGS=''
+ECHO_C=''
+ECHO_N='-n'
+ECHO_T=''
+EXEEXT=''
+LDFLAGS='-Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed'
+LIBOBJS=''
+LIBS=''
+LTLIBOBJS=''
+OBJEXT=''
+PACKAGE_BUGREPORT=''
+PACKAGE_NAME='Authen::PAM'
+PACKAGE_STRING='Authen::PAM 0.16'
+PACKAGE_TARNAME='Authen-PAM'
+PACKAGE_VERSION='0.16'
+PATH_SEPARATOR=':'
+SHELL='/bin/sh'
+ac_ct_CC='powerpc-wrs-linux-gcc -m32 -mhard-float -mcpu=7400 --sysroot=/home/rpjday/WRL/builds/msm/nov17/bitbake_build/tmp/sysroots/qemuppc'
+bindir='${exec_prefix}/bin'
+build_alias=''
+datadir='${prefix}/share'
+exec_prefix='NONE'
+host_alias=''
+includedir='${prefix}/include'
+infodir='${prefix}/info'
+libdir='${exec_prefix}/lib'
+libexecdir='${exec_prefix}/libexec'
+localstatedir='${prefix}/var'
+mandir='${prefix}/man'
+oldincludedir='/usr/include'
+prefix='NONE'
+program_transform_name='s,x,x,'
+sbindir='${exec_prefix}/sbin'
+sharedstatedir='${prefix}/com'
+sysconfdir='${prefix}/etc'
+target_alias=''
+
+## ----------- ##
+## confdefs.h. ##
+## ----------- ##
+
+#define PACKAGE_BUGREPORT ""
+#define PACKAGE_NAME "Authen::PAM"
+#define PACKAGE_STRING "Authen::PAM 0.16"
+#define PACKAGE_TARNAME "Authen-PAM"
+#define PACKAGE_VERSION "0.16"
+
+configure: exit 1
+
+--8323328-1795001743-1479478153=:18681--
