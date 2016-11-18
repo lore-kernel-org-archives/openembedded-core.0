@@ -1,34 +1,37 @@
-Return-Path: <rpjday@crashcourse.ca>
-Received: from smtp486.redcondor.net (smtp486.redcondor.net [208.80.204.86])
-	by mail.openembedded.org (Postfix) with ESMTP id 4B1C6719C8
+Return-Path: <andre.draszik@gmail.com>
+Received: from mail-wm0-f66.google.com (mail-wm0-f66.google.com [74.125.82.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 045B260111
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Nov 2016 14:56:56 +0000 (UTC)
-Received: from astoria.ccjclearline.com ([64.235.106.9])
-	by smtp486.redcondor.net ({6695537a-536a-45f9-a249-877c85428649})
-	via TCP (outbound) with ESMTPS id 20161118145636291_0486;
-	Fri, 18 Nov 2016 14:56:36 +0000
-X-RC-FROM: <rpjday@crashcourse.ca>
-Received: from [174.118.92.171] (port=60708 helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
-	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
-	id 1c7kab-0006rx-6I; Fri, 18 Nov 2016 09:56:29 -0500
-Date: Fri, 18 Nov 2016 09:55:22 -0500 (EST)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@localhost.localdomain
-To: =?ISO-8859-15?Q?Andr=E9_Draszik?= <git@andred.net>
-In-Reply-To: <1479480655.27546.16.camel@andred.net>
-Message-ID: <alpine.LFD.2.20.1611180954500.19358@localhost.localdomain>
-References: <alpine.LFD.2.20.1611180634400.3556@localhost.localdomain>
-	<1479472068.27546.12.camel@andred.net>
-	<alpine.LFD.2.20.1611180742360.16475@localhost.localdomain>
-	<1479474900.27546.14.camel@andred.net>
-	<alpine.LFD.2.20.1611180908440.18681@localhost.localdomain>
-	<1479480655.27546.16.camel@andred.net>
-User-Agent: Alpine 2.20 (LFD 67 2015-01-07)
+	Fri, 18 Nov 2016 16:06:50 +0000 (UTC)
+Received: by mail-wm0-f66.google.com with SMTP id m203so7566829wma.3
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 18 Nov 2016 08:06:52 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=B81wD3WUtfHxkRxL+p9mPwtPz9b53wCXL3p6baIQagc=;
+	b=eu3JGmwTpU/R9VyEaSr5rhHrMejvhXAoPNQ+YqwlluMgvj6Y3vnymvVNrduxK/C3E0
+	UE0BUjgFhoo7ijuN4lfps9Wdvq9yK5xg0J95JrU+eCgbQhM458WOsfnm3BbetF2Sqmv1
+	XCHJ4gvaViUYWCE8oSvdnopfbm2fufpVpgwCjVaVMHO0KzeTACJ5+J0JsdMZ77QUq7UV
+	uCT0wo3aQf64uRb6Pxl9AFZxq+KS2JJKZ/0Frww5yIH/qEa0UE6+N+7qWcToihW87MPl
+	KqKyHE5CTlayugdEySm1BXlt4WCD2gx5CIj7RA4DHGaROQkIJreSlZ2nDZhz1hvMLGkK
+	gLEA==
+X-Gm-Message-State: AKaTC02BN2Az6bE7Qf/BxfZUHix2L3zdxbc8+W9/huSic7+THviOH05f3aKSe0awCvCYBg==
+X-Received: by 10.194.235.131 with SMTP id um3mr250899wjc.161.1479485211473;
+	Fri, 18 Nov 2016 08:06:51 -0800 (PST)
+Received: from tfsielt31850.tycofs.com ([77.107.218.170])
+	by smtp.gmail.com with ESMTPSA id b15sm4111621wma.5.2016.11.18.08.06.50
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 18 Nov 2016 08:06:50 -0800 (PST)
+From: =?UTF-8?q?Andr=C3=A9=20Draszik?= <git@andred.net>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 18 Nov 2016 16:06:49 +0000
+Message-Id: <20161118160649.9559-1-git@andred.net>
+X-Mailer: git-send-email 2.10.2
 MIME-Version: 1.0
-X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: small number of perl modules that can't be cross-compiled
+Subject: [PATCH] ofono: update 1.18 -> 1.19
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,85 +44,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 18 Nov 2016 14:56:59 -0000
-Content-Type: multipart/mixed; BOUNDARY="8323328-559712597-1479480924=:19358"
-
---8323328-559712597-1479480924=:19358
+X-List-Received-Date: Fri, 18 Nov 2016 16:06:51 -0000
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
+Content-Transfer-Encoding: 8bit
 
-On Fri, 18 Nov 2016, André Draszik wrote:
+From: André Draszik <adraszik@tycoint.com>
 
-> On Fri, 2016-11-18 at 09:09 -0500, Robert P. J. Day wrote:
-> > On Fri, 18 Nov 2016, André Draszik wrote:
-> >
-> > > On Fri, 2016-11-18 at 07:46 -0500, Robert P. J. Day wrote:
-> > > > On Fri, 18 Nov 2016, André Draszik wrote:
-> > > >
-> > > > > On Fri, 2016-11-18 at 06:41 -0500, Robert P. J. Day wrote:
-> > > > > >   after OE recipfying over 100 perl modules from CPAN, i'm down to
-> > > > > > less than a dozen that are going to take more work, and a small
-> > > > > > number
-> > > > > > of those seem to be simply badly written in that they don't
-> > > > > > support
-> > > > > > cross-compilation for my target choice of "qemuppc". example
-> > > > > > boilerplate recipe i put together produces this:
-> > > > > >
-> > > > > > $ make libauthen-pam-perl
-> > > > > > ... snip ...
-> > > > > > Checking if your kit is complete...
-> > > > > > Looks good
-> > > > > > checking for gcc... powerpc-wrs-linux-gcc -m32 -mhard-float
-> > > > > > -mcpu=7400
-> > > > > > --
-> > > > > > sysroot=/home/rpjday/WRL/builds/msm/nov17/bitbake_build/tmp/sysroo
-> > > > > > ts/q
-> > > > > > emup
-> > > > > > pc
-> > > > > > checking for C compiler default output file name... a.out
-> > > > > > checking whether the C compiler works... configure: error: cannot
-> > > > > > run
-> > > > > > C compiled programs.
-> > > > > > If you meant to cross compile, use `--host'.
-> > > > > > See `config.log' for more details.
-> > > > >
-> > > > > It'd be useful to see config.log, ...
-> > > >
-> > > >   see bottom.
-> > >
-> > > That message is referring to config.log from autotools, not the
-> > > bitbake do_configure.log. Should be somewhere below ${B}
-> >
-> >   sorry, my mistake ... see below:
-> >
-> > This file contains any messages produced by compilers while
-> > running configure, to aid debugging if configure makes a mistake.
-> >
-> > It was created by Authen::PAM configure 0.16, which was
-> > generated by GNU Autoconf 2.59.  Invocation command line was
-> >
-> >   $ ./configure
->
-> I think the issues are in your recipe. You should see *many* arguments to
-> configure. In particular --build= --host= --target=, but many more.
->
-> Also, this explains that message:
->
-> configure:1697: error: cannot run C compiled programs.
-> If you meant to cross compile, use `--host'.
+In particular, this fixes a crash on shutdown.
 
-  i realize that now, so that will be today's project. thanks.
+From upstream's ChangeLog:
+ver 1.19:
+        Fix issue with DHCP parsing and Huawei modems.
+        Fix issue with detecting Huawei E3372 modem.
+        Fix issue with handling serving cell info.
+        Fix issue with handling SIM SC facility lock.
+        Fix issue with Android RIL PIN retry logic.
+        Fix issue with Android RIL and RAT handling.
+        Add support for Android RIL cell broadcast.
+        Add support for SoFIA 3GR thermal management.
 
-rday
+Signed-off-by: André Draszik <adraszik@tycoint.com>
+---
+ meta/recipes-connectivity/ofono/{ofono_1.18.bb => ofono_1.19.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-connectivity/ofono/{ofono_1.18.bb => ofono_1.19.bb} (52%)
 
+diff --git a/meta/recipes-connectivity/ofono/ofono_1.18.bb b/meta/recipes-connectivity/ofono/ofono_1.19.bb
+similarity index 52%
+rename from meta/recipes-connectivity/ofono/ofono_1.18.bb
+rename to meta/recipes-connectivity/ofono/ofono_1.19.bb
+index b070731..adebd71 100644
+--- a/meta/recipes-connectivity/ofono/ofono_1.18.bb
++++ b/meta/recipes-connectivity/ofono/ofono_1.19.bb
+@@ -4,7 +4,7 @@ SRC_URI  = "\
+   ${KERNELORG_MIRROR}/linux/network/${BPN}/${BP}.tar.xz \
+   file://ofono \
+ "
+-SRC_URI[md5sum] = "0a6b37c8ace891cb2a7ca5d121043a0a"
+-SRC_URI[sha256sum] = "53cdbf342913f46bce4827241c60e24255a3d43a94945edf77482ae5b312d51f"
++SRC_URI[md5sum] = "a5f8803ace110511b6ff5a2b39782e8b"
++SRC_URI[sha256sum] = "a0e09bdd8b53b8d2e4b54f1863ecd9aebe4786477a6cbf8f655496e8edb31c81"
+ 
+ CFLAGS_append_libc-uclibc = " -D_GNU_SOURCE"
 -- 
+2.10.2
 
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
 
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
-
---8323328-559712597-1479480924=:19358--
