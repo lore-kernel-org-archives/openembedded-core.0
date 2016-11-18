@@ -1,53 +1,31 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pg0-f66.google.com (mail-pg0-f66.google.com [74.125.83.66])
-	by mail.openembedded.org (Postfix) with ESMTP id A1C54719E4
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Nov 2016 17:35:25 +0000 (UTC)
-Received: by mail-pg0-f66.google.com with SMTP id e9so20828996pgc.1
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Nov 2016 09:35:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=subject:to:references:cc:from:organization:message-id:date
-	:user-agent:mime-version:in-reply-to;
-	bh=tdBauhvOUVfhOYKTbLK3tDYysLQEiRGEgq0jOxXlP+Y=;
-	b=rdaYYZbpXT9GtXwa2m6gxinvAniWASMfwy/aleNY5Cn8EqDL6O4n+i4FhwMiUht2Ly
-	7fK1Qbz+beEoYzXKaW9EupdLazzjcN4bn/soTe1pBypYWsZNeobM5B2czVsGGjDoH2R7
-	RbDkjyFet57isN6V7zhZssUcHNL8hdKQzXt1YGksBmnpaQyuLhhd/H+LIYhnLfYUq6rR
-	QnNUb2nzUrh989UQAAzCsK80dl/B/DBRTG0hwiHxzV10uiaAMDSzDJYt8SGwmFLIHh3h
-	MhTnreQ0vhTgqxjaxK0zt7TtxcdhX8uc0BuoHXPiYJblsAkFFP8tTNTU0QaFoWWXFc12
-	+Y8g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:subject:to:references:cc:from:organization
-	:message-id:date:user-agent:mime-version:in-reply-to;
-	bh=tdBauhvOUVfhOYKTbLK3tDYysLQEiRGEgq0jOxXlP+Y=;
-	b=Vj+W9PPTyLfEEMmRpzydWQ/dojItNKzn7Xw/KCrJwrZlQzZs+vb9FYOYN6egL/kbw5
-	MrN/oMQsOp9uJFQWMQduVvAWm74/4ROKTaR+iFg/zHt+CncDvmcCAQ1HFb79Xzm/LSl8
-	YBqszORxFdY3nhsjww/2BdErOa7QpQcHmeNaPZniSTDTmAMVjGhhCQ1VSE/Eh6LXfJGn
-	kd7cHmpodC6ZmwcV8wwBoNAF7UgbDq+RdbaaqUCW14rGEIkMyOUQTBpixcVCmiNQKO5L
-	XRMy0oIqBVAzD4oEIT4MT9tFwjYlRVr/F4bn92g6l6wy/9lfjHOuFEMhFIFk/izzSuZn
-	z5mw==
-X-Gm-Message-State: AKaTC016VDYXrIiOZzj3eEvXAF2eddx12iSyNgVhZBKM5BteSG3kgywAKySlcUzO+QbLlg==
-X-Received: by 10.98.17.80 with SMTP id z77mr1165418pfi.166.1479490527686;
-	Fri, 18 Nov 2016 09:35:27 -0800 (PST)
-Received: from CACSVMO-14452.local ([2601:646:8882:b8c:c4:5d55:7c7:2db8])
-	by smtp.gmail.com with ESMTPSA id
-	c22sm1319919pgn.12.2016.11.18.09.35.26
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 18 Nov 2016 09:35:27 -0800 (PST)
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <20161116174748.26994-1-raj.khem@gmail.com>
-	<CAJTo0LYgH6_T5Y-YO1Px5eyYFLiud9SQvG1vHGRoebwkhVhdKg@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Organization: himvis.com
-Message-ID: <f17e9743-9231-4032-f154-f87649ec3cb9@gmail.com>
-Date: Fri, 18 Nov 2016 09:35:26 -0800
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.12; rv:50.0)
-	Gecko/20100101 Thunderbird/50.0
-MIME-Version: 1.0
-In-Reply-To: <CAJTo0LYgH6_T5Y-YO1Px5eyYFLiud9SQvG1vHGRoebwkhVhdKg@mail.gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/5] systemd: Upgrade to 232
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id E97C471ACF;
+	Fri, 18 Nov 2016 18:06:11 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	uAII67j3011784; Fri, 18 Nov 2016 18:06:07 GMT
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id mKkXEJNEmhmc; Fri, 18 Nov 2016 18:06:07 +0000 (GMT)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	uAII652T011780
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Fri, 18 Nov 2016 18:06:07 GMT
+Message-ID: <1479492365.28508.113.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: akuster808 <akuster808@gmail.com>, "Burton, Ross" <ross.burton@intel.com>,
+	OE-core <openembedded-core@lists.openembedded.org>,
+	openembedded-architecture
+	<openembedded-architecture@lists.openembedded.org>
+Date: Fri, 18 Nov 2016 18:06:05 +0000
+In-Reply-To: <70e3fff2-d9a5-37c3-5e14-5dbcc4e4d37b@gmail.com>
+References: <CAJTo0LbvGwRpzxfOL0505w+Vz=Jhf6O3QOr5Z8SX9XaFqaZ7eg@mail.gmail.com>
+	<70e3fff2-d9a5-37c3-5e14-5dbcc4e4d37b@gmail.com>
+X-Mailer: Evolution 3.18.5.2-0ubuntu3 
+Mime-Version: 1.0
+Subject: Re: [Openembedded-architecture] Enabling uninative by default in oe-core?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,84 +38,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 18 Nov 2016 17:35:26 -0000
-X-Groupsio-MsgNum: 89579
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature";
-	boundary="oBvObTadhIPWSRHU6C68iGP39Nh2NfXWU"
+X-List-Received-Date: Fri, 18 Nov 2016 18:06:12 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
---oBvObTadhIPWSRHU6C68iGP39Nh2NfXWU
-Content-Type: multipart/mixed; boundary="Bc5AxiALUKe3Ha9JUS8b2uOTbHnRA9t9f";
- protected-headers="v1"
-From: Khem Raj <raj.khem@gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Message-ID: <f17e9743-9231-4032-f154-f87649ec3cb9@gmail.com>
-Subject: Re: [OE-core] [PATCH 1/5] systemd: Upgrade to 232
-References: <20161116174748.26994-1-raj.khem@gmail.com>
- <CAJTo0LYgH6_T5Y-YO1Px5eyYFLiud9SQvG1vHGRoebwkhVhdKg@mail.gmail.com>
-In-Reply-To: <CAJTo0LYgH6_T5Y-YO1Px5eyYFLiud9SQvG1vHGRoebwkhVhdKg@mail.gmail.com>
+On Fri, 2016-11-18 at 08:28 -0800, akuster808 wrote:
+> On 11/17/2016 09:31 AM, Burton, Ross wrote:
+> > Background: uninative is a class that downloads a precompiled host
+> > glibc for use in the sysroot, thus isolating the native sysroot
+> > from the host environment.  This means greater sstate reuse, as
+> > instead of native builds being dependent on the host system they're
+> > able to be shared between all hosts.  There is a reference tarball
+> > hosted on www.yoctoproject.org, and the URL can be overridden by
+> > distros if you would prefer to build your own.
+> > 
+> > We enable this in Poky so that we get greater reuse on the
+> > autobuilders, and due to some issues with the C++ ABI the eSDK
+> > generation in master now requires uninative to be enabled.  The
+> > question is: do we now enable uninative by default in oe-core's
+> > nodistro (pointing at the yoctoproject tarball), or do we keep it
+> > disabled by default and require the user to enable uninative if
+> > they wish to build an eSDK?
+>  
+> If Poky wants the default to use a prebuilt uninative that is fine,
+> but it should be not be the default in OE.  In the spirit of Bitbake,
+> uninative should be a build dependency for eSDK with the option of
+> using a prebuilt one.
 
---Bc5AxiALUKe3Ha9JUS8b2uOTbHnRA9t9f
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+Its not that simple. Using uninative requires certain options passed in
+when compiling native recipes for example, e.g. to pick particular C++
+abis. If you start the build without those set (since uninative is
+disabled), you can't get native sstate built in the right way for it to
+work with eSDK. We could of course add a new BBCLASSEXTEND, "native2"
+which is native specially for use in the eSDK but that seems silly.
 
+I guess we could move the configuration uninative requires into global
+bitbake.conf but not require the actual binary shim to be enabled. That
+would let eSDK work in OE-Core just not make OE-Core require uninative.
+It would mean the compiler options for native would be a little
+different. That might be an acceptable compromise?
 
+> > Though enabling uninative globally does mean everything works out
+> > of the box, so following the principle of Least Surprise that's
+> > what we should do.
+>  
+> I see there are multiple versions, which one works with which
+> release?
 
-On 11/18/16 4:38 AM, Burton, Ross wrote:
->=20
-> On 16 November 2016 at 17:47, Khem Raj <raj.khem@gmail.com
-> <mailto:raj.khem@gmail.com>> wrote:
->=20
->     * Drop support for rcS.d SysV init scripts.
->       These are prone to cause dependency loops, and almost all package=
-s with
->       rcS scripts now ship a native systemd service.
->=20
->     * Drop mount propagation patch, it only happens with libseccomp, OE=
- doesnt
->       enable it
->=20
->     * kdbus option has disappeared from configure
->=20
->     * Ignore dev-so for PN now since systemd introduced private .so see=
+The one configured in meta/conf/distro/include/yocto-uninative.inc.
+By putting a standard include there its easy for anyone to opt into
+this should they wish to.
 
->       https://github.com/systemd/systemd/issues/3810
->     <https://github.com/systemd/systemd/issues/3810>
->=20
->     Signed-off-by: Khem Raj <raj.khem@gmail.com <mailto:raj.khem@gmail.=
-com>>
->=20
->=20
-> Because systemd-boot basically include the systemd recipe, this breaks
-> systemd-boot.
->=20
-> Can we think up a way to handle systemd/systemd-boot without breaking e=
-very
-> upgrade?
+Cheers,
 
-I have been booting systemd 232 on multiple devices how did it got missed=
- to
-compile this ?
+Richard
 
->=20
-> Ross
-
-
---Bc5AxiALUKe3Ha9JUS8b2uOTbHnRA9t9f--
-
---oBvObTadhIPWSRHU6C68iGP39Nh2NfXWU
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-Comment: GPGTools - https://gpgtools.org
-
-iEYEARECAAYFAlgvO94ACgkQuwUzVZGdMxT8WQCfc2OQD2i/yk3XPDvq/YXHPwhR
-K9AAn3a825gKbIcBeMFhcNt9nMj+WBNR
-=CaJi
------END PGP SIGNATURE-----
-
---oBvObTadhIPWSRHU6C68iGP39Nh2NfXWU--
