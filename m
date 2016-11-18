@@ -1,46 +1,35 @@
-Return-Path: <trini@konsulko.com>
-Received: from mail-qk0-f176.google.com (mail-qk0-f176.google.com
-	[209.85.220.176])
-	by mail.openembedded.org (Postfix) with ESMTP id 273C071A07
+Return-Path: <marex@denx.de>
+Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.10])
+	by mail.openembedded.org (Postfix) with ESMTP id 0B0C871AC8
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Nov 2016 20:25:51 +0000 (UTC)
-Received: by mail-qk0-f176.google.com with SMTP id q130so278299373qke.1
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Nov 2016 12:25:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=konsulko.com; s=google;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-disposition:in-reply-to:user-agent;
-	bh=+7uZ0KgbHv0L3E/j7uP46i0YoUB98Z2X5/f0E/VhvCU=;
-	b=aPytZqsIEBN9T7oOL8k9xWDVsL2H4RXM+JBPScZZXZolgd3Ds03slo2aokseFppOOr
-	8dAZRkB2KMo+vBRXs45Hqf4kNZf4GqJBvVayH09c1NUmCzoKYff4pz62yocDspYUAzIf
-	iHaaj+EaKAnc5prsMObJPS9ZHu8KVneUiL5NM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=+7uZ0KgbHv0L3E/j7uP46i0YoUB98Z2X5/f0E/VhvCU=;
-	b=OqEuhin8IDXMFWat5wLxZ2v+IB/5XYnhGogG1gO+oSgH9WKgEVN63j/MXRA8g5YHFm
-	kg4JszrA6TOadwt0epbLr5fz+2OdjqpLNG96Sv6toDZ7E5rz/XqD28hvPAe0rfCd96iL
-	i3kNpBGCX7BoAotkM5ioRZLHN+u+BstzKd0PhC6E8qsZ23CsbuRzErVfkiDYS78EbjWJ
-	Cuz6713mFWNWWPjx4/nDSV10u2u4Oa9kyTxOev7eAnVHhA1J8dsy0E74NxEC1E7ShfwO
-	UurAyz5I9IeDRk2IxF1OiHPIa64Jw8pp64aWxr+ln0gPgg76SS/L3NgsSjBmneGsBpKW
-	9Tog==
-X-Gm-Message-State: AKaTC02YCtDKioWeyGLNWuNoqBCtrfPmWOl1dZOOVsEa4P0PcDiGDeAxeZmWNpB3WNG2pw==
-X-Received: by 10.55.24.7 with SMTP id j7mr2016187qkh.206.1479500750898;
-	Fri, 18 Nov 2016 12:25:50 -0800 (PST)
-Received: from bill-the-cat (cpe-75-180-228-133.ec.res.rr.com.
-	[75.180.228.133])
-	by smtp.gmail.com with ESMTPSA id 96sm4840206qkz.40.2016.11.18.12.25.20
-	(version=TLS1_2 cipher=AES128-SHA bits=128/128);
-	Fri, 18 Nov 2016 12:25:20 -0800 (PST)
-Date: Fri, 18 Nov 2016 15:24:49 -0500
-From: Tom Rini <trini@konsulko.com>
-To: Marek Vasut <marex@denx.de>
-Message-ID: <20161118202449.GQ2546@bill-the-cat>
+	Fri, 18 Nov 2016 20:30:55 +0000 (UTC)
+Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
+	by mail-out.m-online.net (Postfix) with ESMTP id 3tL8lL0fc2z3hjZR;
+	Fri, 18 Nov 2016 21:30:54 +0100 (CET)
+Received: from localhost (dynscan1.mnet-online.de [192.168.6.68])
+	by mail.m-online.net (Postfix) with ESMTP id 3tL8lK6tGLzvkWL;
+	Fri, 18 Nov 2016 21:30:53 +0100 (CET)
+X-Virus-Scanned: amavisd-new at mnet-online.de
+Received: from mail.mnet-online.de ([192.168.8.182])
+	by localhost (dynscan1.mail.m-online.net [192.168.6.68]) (amavisd-new,
+	port 10024)
+	with ESMTP id FXyLviNTPifl; Fri, 18 Nov 2016 21:30:52 +0100 (CET)
+X-Auth-Info: icPOYEb8Eb/iQLzKn9RVp6K154CTkPgLL6okhOuL7s8=
+Received: from [IPv6:::1] (unknown [195.140.253.167])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mail.mnet-online.de (Postfix) with ESMTPSA;
+	Fri, 18 Nov 2016 21:30:52 +0100 (CET)
+To: Denys Dmytriyenko <denis@denix.org>
 References: <20161118192955.17284-1-marex@denx.de>
+	<20161118194439.GF26131@denix.org>
+From: Marek Vasut <marex@denx.de>
+Message-ID: <96a66f71-61e3-6386-c463-6f7df9c60d43@denx.de>
+Date: Fri, 18 Nov 2016 21:30:52 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Icedove/45.4.0
 MIME-Version: 1.0
-In-Reply-To: <20161118192955.17284-1-marex@denx.de>
-User-Agent: Mutt/1.5.21 (2010-09-15)
+In-Reply-To: <20161118194439.GF26131@denix.org>
 Cc: openembedded-core@lists.openembedded.org
 Subject: Re: [PATCH] u-boot: Update to v2016.11 release
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -55,21 +44,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 18 Nov 2016 20:25:52 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Fri, 18 Nov 2016 20:30:57 -0000
+Content-Type: text/plain; charset=windows-1252
+Content-Transfer-Encoding: 7bit
 
-On Fri, Nov 18, 2016 at 08:29:55PM +0100, Marek Vasut wrote:
-
-> Upgrade U-Boot to the latest version.
+On 11/18/2016 08:44 PM, Denys Dmytriyenko wrote:
+> On Fri, Nov 18, 2016 at 08:29:55PM +0100, Marek Vasut wrote:
+>> Upgrade U-Boot to the latest version.
+>>
+>> Signed-off-by: Marek Vasut <marex@denx.de>
+>> Cc: Richard Purdie <richard.purdie@linuxfoundation.org>
+>> Cc: Denys Dmytriyenko <denis@denix.org>
 > 
-> Signed-off-by: Marek Vasut <marex@denx.de>
-> Cc: Richard Purdie <richard.purdie@linuxfoundation.org>
-> Cc: Denys Dmytriyenko <denis@denix.org>
-> Cc: Ross Burton <ross.burton@intel.com>
+> Acked-by: Denys Dmytriyenko <denys@ti.com>
+> 
+> 
+>> Cc: Ross Burton <ross.burton@intel.com>
+>> ---
+>>
+>> diff --git a/meta/recipes-bsp/u-boot/u-boot-common_2016.09.01.inc b/meta/recipes-bsp/u-boot/u-boot-common_2016.11.inc
+>> similarity index 71%
+>> rename from meta/recipes-bsp/u-boot/u-boot-common_2016.09.01.inc
+>> rename to meta/recipes-bsp/u-boot/u-boot-common_2016.11.inc
+>> index f706a6b..84adc1c 100644
+>> --- a/meta/recipes-bsp/u-boot/u-boot-common_2016.09.01.inc
+>> +++ b/meta/recipes-bsp/u-boot/u-boot-common_2016.11.inc
+>> @@ -7,8 +7,8 @@ PE = "1"
+>>  
+>>  # We use the revision in order to avoid having to fetch it from the
+>>  # repo during parse
+>> -SRCREV = "f3363c060497515ca8b71451cb56f3ec0abacaa9"
+>> +SRCREV = "29e0cfb4f77f7aa369136302cee14a91e22dca71"
+>>  
+>> -SRC_URI = "git://git.denx.de/u-boot.git;branch=u-boot-2016.09.y"
+>> +SRC_URI = "git://git.denx.de/u-boot.git"
+> 
+> Will it branch off into own branch eventually?Does master ever get 
+> re-written? I guess as long as this commit always stays in master, it should 
+> be fine.
 
-Reviewed-by: Tom Rini <trini@konsulko.com>
+Master never gets rewritten and the commit is always in master, unless
+we screw something up bad and need to make a fixup release (which
+happens almost never :-)), in which case that goes into separate branch.
 
 -- 
-Tom
+Best regards,
+Marek Vasut
 
