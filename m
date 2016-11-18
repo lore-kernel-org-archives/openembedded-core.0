@@ -1,54 +1,49 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pg0-f66.google.com (mail-pg0-f66.google.com [74.125.83.66])
-	by mail.openembedded.org (Postfix) with ESMTP id B8CB471A95;
-	Thu, 17 Nov 2016 23:22:26 +0000 (UTC)
-Received: by mail-pg0-f66.google.com with SMTP id e9so18382119pgc.1;
-	Thu, 17 Nov 2016 15:22:28 -0800 (PST)
+Return-Path: <kergoth@gmail.com>
+Received: from mail-oi0-f67.google.com (mail-oi0-f67.google.com
+	[209.85.218.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 3DA9871AB1
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 18 Nov 2016 00:59:57 +0000 (UTC)
+Received: by mail-oi0-f67.google.com with SMTP id f201so4611495oib.0
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 17 Nov 2016 16:59:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=subject:to:references:cc:from:organization:message-id:date
-	:user-agent:mime-version:in-reply-to;
-	bh=egQPxnJs33AWSFIni4OxGQ8y+dcQQnVLxWTJ2p/E5iY=;
-	b=GokXdvBaKHHomgZbhcQxM9n+OoT5e8hHejKvJPMW3M050Lti7zvCRPiY1ZYYrRoNnr
-	Qn9rObJauHoGw8rREfzYj/YRFhS77RscbiQMY4nwjxDT8RNwiNgmTUlwZTxxlmkmf4M7
-	EC7cwY/bwceBgdZWpVOj260h7CcO4JwniKv1CTCJfBnv20UkLzy+xvN95LWbZi1dA07y
-	seHM2UAHQN0XyNhbqTexjLrM+Wuu+fM2YMGLuYEe1J33hmoCavjg3HnFLIoy8w5sTmBc
-	UbsInGc48lSXhRNHW88ltEK7yGbhm+g/I7Ub4dKuA9bQ+tlOxXD3ImK6Z8K+Crrpno8U
-	O+7w==
+	h=mime-version:sender:in-reply-to:references:from:date:message-id
+	:subject:to:cc;
+	bh=fpE433fJ0wiioLQJq/FKYAUliQT5aZG0f7An5b5pXr0=;
+	b=to3e/bWIF22RvS8pnAgYKQkwe5egb8Pvx2JBsEigOViRAkxog9ilEdrKHaKfG3MALG
+	Y2c34tAjNB1TdrEByJ3oiV8bUPqp6S5JrqpkIHyE+RFdfS4VnXP+JcK3xKwt3weHnJ2U
+	hjaCRYlSHPpyjUkhuHod+3hgztjzHt07InwlPH6Zd3mj2/od61EJuYWPDnS9qmUScr+R
+	g+Z71/v47VD11VzqvzEPiS4Mky85g9/alh/HlRMn7MFZuQ6Z8IqU3LpAfRUY2KwBk1cM
+	Cwz1CejkSQ1M3ERi/DxStDgPAP6W0TIG3zSVxfNfdKrYIX81BQAtZJ9BCCyV0u95bBME
+	Oe4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:subject:to:references:cc:from:organization
-	:message-id:date:user-agent:mime-version:in-reply-to;
-	bh=egQPxnJs33AWSFIni4OxGQ8y+dcQQnVLxWTJ2p/E5iY=;
-	b=IohVOZ21EO1jJ1MyKWMPr9TE+327FmV8Q/aa513r6lG8KL1Flbj+OoQsQltDQisVIk
-	vAHMtFq3j8SD05zvpcO94DN55fj3QPnt8ugU2pZ0NsWNj4Lz/rJI6p50yiIecHNNnuMN
-	JFsQgw7uMvXXluYzextX4OOhqvGBg26giSXOb+RgJwCkWWT+iPWbKoEUfWCrkIo1jL9g
-	rEQ2x9Xqe2fqhujRtd61iircrvMFmIu/UJet6T+qf47uPQd1hTgegnV4jdkH9teJ7D5A
-	ZarNlHO54t/Zfazgo9qJVpJMbmTznVb0MYT+OL+HIRUVQrFfm9RfBnBNuhXyOZ7ZAlnk
-	3jew==
-X-Gm-Message-State: ABUngvdhUs5WfjSBb4EAU4a0NCYyTnoN5pYfLwnk8TyN4hzwAu/YsbKEgwZHrRwkkITxlA==
-X-Received: by 10.99.185.78 with SMTP id v14mr12245970pgo.179.1479424948349;
-	Thu, 17 Nov 2016 15:22:28 -0800 (PST)
-Received: from CACSVMO-14452.local ([2601:646:8882:b8c:952d:89df:6fe0:f7d9])
-	by smtp.gmail.com with ESMTPSA id
-	a66sm10872085pfa.64.2016.11.17.15.22.27
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 17 Nov 2016 15:22:27 -0800 (PST)
-To: Denys Dmytriyenko <denis@denix.org>
-References: <CAJTo0LbvGwRpzxfOL0505w+Vz=Jhf6O3QOr5Z8SX9XaFqaZ7eg@mail.gmail.com>
-	<4181f25d-a2bc-bb94-2b94-4d18ad654ab8@gmail.com>
-	<20161117185001.GE26131@denix.org>
-From: Khem Raj <raj.khem@gmail.com>
-Organization: himvis.com
-Message-ID: <ac552119-5afe-85a8-08a1-8a8ac3e0cf1d@gmail.com>
-Date: Thu, 17 Nov 2016 15:22:26 -0800
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.12; rv:50.0)
-	Gecko/20100101 Thunderbird/50.0
+	h=x-gm-message-state:mime-version:sender:in-reply-to:references:from
+	:date:message-id:subject:to:cc;
+	bh=fpE433fJ0wiioLQJq/FKYAUliQT5aZG0f7An5b5pXr0=;
+	b=QOtFlh/E5wzK97P4Hps0esmo7mmSJblNpg4i4utuqox47sMl13JOlCDC7YYQo1JeLE
+	jSPKSZojTMJSB4fFMM8D2incRydybjaKLfBhxm9OAPTJEYJYhJ0pcCLfAzCyPrEz3xiP
+	SWFCDorPVlRLhmaaRbykXIUZICiMgiHuLFXJw0wYaAokKdjWheTdB2t0l5wN89kjtn+c
+	5XHfQgTvPse4MOQjbodYCCthRo5S8C0pcdLSp9x7Kq2k/YldocVHRKcqwCNmr9Ss4wBB
+	zm7Gg2F9W2ZBxhoFm9Un+r5q06b1pV89kQtX7B+A4K/dXvEp65Lav3rRIPAQRGWJa1uQ
+	Qo9A==
+X-Gm-Message-State: AKaTC01yHM6PKMUwGux7f3dBpkZJqCEPTzefs+GRPW0MFCA0bjtwA7KQHAXT0zPl9vcJweQEFP3h1TfOwd6t6g==
+X-Received: by 10.202.231.68 with SMTP id e65mr2985023oih.200.1479430799275;
+	Thu, 17 Nov 2016 16:59:59 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20161117185001.GE26131@denix.org>
-Cc: openembedded-architecture
-	<openembedded-architecture@lists.openembedded.org>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [Openembedded-architecture] Enabling uninative by default in oe-core?
+Sender: kergoth@gmail.com
+Received: by 10.157.35.65 with HTTP; Thu, 17 Nov 2016 16:59:38 -0800 (PST)
+In-Reply-To: <1479423992.28508.99.camel@linuxfoundation.org>
+References: <CAJ86T=U8RB13J_we2bte22bFQKwnahCe3v5L6na9SDPKm6O8bA@mail.gmail.com>
+	<1479423992.28508.99.camel@linuxfoundation.org>
+From: Christopher Larson <clarson@kergoth.com>
+Date: Thu, 17 Nov 2016 17:59:38 -0700
+X-Google-Sender-Auth: zEixPYDK8LxxO4x2ucOalI5jDF0
+Message-ID: <CABcZANkrmRksUCq6M+cenETY1ak=YvSGzXudxPprY+2nfkJKWQ@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: Modifying SRC_URI from anonymous python
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,111 +56,162 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 17 Nov 2016 23:22:28 -0000
-X-Groupsio-MsgNum: 89554
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature";
-	boundary="lMk4NieRnbD3gk4a9aU9VxjVLMxigSqcA"
+X-List-Received-Date: Fri, 18 Nov 2016 00:59:58 -0000
+Content-Type: multipart/alternative; boundary=001a1141ba2442b9b9054188d399
 
---lMk4NieRnbD3gk4a9aU9VxjVLMxigSqcA
-Content-Type: multipart/mixed; boundary="CaWHH6cw7Q1vAwAsrXJPGLXVrVNiOw7jX";
- protected-headers="v1"
-From: Khem Raj <raj.khem@gmail.com>
-To: Denys Dmytriyenko <denis@denix.org>
-Cc: "Burton, Ross" <ross.burton@intel.com>,
- OE-core <openembedded-core@lists.openembedded.org>,
- openembedded-architecture <openembedded-architecture@lists.openembedded.org>
-Message-ID: <ac552119-5afe-85a8-08a1-8a8ac3e0cf1d@gmail.com>
-Subject: Re: [Openembedded-architecture] [OE-core] Enabling uninative by
- default in oe-core?
-References: <CAJTo0LbvGwRpzxfOL0505w+Vz=Jhf6O3QOr5Z8SX9XaFqaZ7eg@mail.gmail.com>
- <4181f25d-a2bc-bb94-2b94-4d18ad654ab8@gmail.com>
- <20161117185001.GE26131@denix.org>
-In-Reply-To: <20161117185001.GE26131@denix.org>
+--001a1141ba2442b9b9054188d399
+Content-Type: text/plain; charset=UTF-8
 
---CaWHH6cw7Q1vAwAsrXJPGLXVrVNiOw7jX
-Content-Type: text/plain; charset=windows-1252
-Content-Language: en-US
+On Thu, Nov 17, 2016 at 4:06 PM, Richard Purdie <
+richard.purdie@linuxfoundation.org> wrote:
+
+> On Thu, 2016-11-17 at 13:28 -0800, Andre McCurdy wrote:
+> > I have a supplier who provides recipes which set SRC_URI to their
+> > private git servers. To make those same recipes usable by others (ie
+> > me), some anonymous python is used to transform the default SRC_URI
+> > (elements which contain private git URLs are replaced, patches and
+> > other files are left as-is).
+> >
+> > This apparently worked in OE 2.0 but from 2.1 onwards the anonymous
+> > python which modifies SRC_URI races with the anonymous python in
+> > base.bbclass which parses SRC_URI to determine additional
+> > do_fetch/do_unpack dependencies and whether or not to call
+> > fetch2.get_srcrev().
+>
+> I suspect we made some changes around that time to ensure determinism
+> in the order certain things happened.
+>
+> >  Specifically I get failures because
+> > fetch2.get_srcrev() sees the original SRC_URI and tries to resolve
+> > AUTOREV from a repo to which I don't have access.
+> >
+> > The proposed solution from the supplier is this patch to
+> > base.bbclass:
+> >
+> > @@ -598,7 +598,7 @@ python () {
+> >              d.appendVarFlag('do_unpack', 'depends', '
+> > file-native:do_populate_sysroot')
+> >
+> >      if needsrcrev:
+> > -        d.setVar("SRCPV", "${@bb.fetch2.get_srcrev(d)}")
+> > +        d.setVar("SRCPV", "${@bb.fetch2.get_srcrev(d)}",
+> > parsing=True)
+> >
+> >      set_packagetriplet(d)
+>
+>
+> parsing=True is a bitbake internal thing, its not documented and
+> shouldn't be used outside the bitbake codebase. In hindsight, naming
+> could have been better.
+>
+> > After reading the setVar source I'm not very clear how or why this
+> > works, but it looks dubious. What is parsing=True intended to do?
+>
+> Its internal bitbake data store stuff, don't use or rely on it. It
+> might happen to work here but its just luck.
+>
+> > Is it documented somewhere that modifying SRC_URI from anonymous
+> > python isn't allowed? I've now seen two suppliers both independently
+> > run into the same problem when updating to OE 2.1.
+>
+> We have an open bug related to anonymous python ordering. Its hard to
+> fix easily as something can indicate it wants to run last, but then
+> everything wants to run last. As Chris mentions, you can use an earlier
+> event handler as one way to work around it.
+
+
+I think our best bet there is to move toward more explicit event handler
+naming and dependency handling amongst event handlers.
+-- 
+Christopher Larson
+clarson at kergoth dot com
+Founder - BitBake, OpenEmbedded, OpenZaurus
+Maintainer - Tslib
+Senior Software Engineer, Mentor Graphics
+
+--001a1141ba2442b9b9054188d399
+Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On Thu, Nov 17, 2016 at 4:06 PM, Richard Purdie <span dir=3D"ltr">&lt;<a hr=
+ef=3D"mailto:richard.purdie@linuxfoundation.org" target=3D"_blank">richard.=
+purdie@linuxfoundation.org</a>&gt;</span> wrote:<br><blockquote class=3D"gm=
+ail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-le=
+ft:1ex"><span class=3D"">On Thu, 2016-11-17 at 13:28 -0800, Andre McCurdy w=
+rote:<br>
+&gt; I have a supplier who provides recipes which set SRC_URI to their<br>
+&gt; private git servers. To make those same recipes usable by others (ie<b=
+r>
+&gt; me), some anonymous python is used to transform the default SRC_URI<br=
+>
+&gt; (elements which contain private git URLs are replaced, patches and<br>
+&gt; other files are left as-is).<br>
+&gt;<br>
+&gt; This apparently worked in OE 2.0 but from 2.1 onwards the anonymous<br=
+>
+&gt; python which modifies SRC_URI races with the anonymous python in<br>
+&gt; base.bbclass which parses SRC_URI to determine additional<br>
+&gt; do_fetch/do_unpack dependencies and whether or not to call<br>
+&gt; fetch2.get_srcrev().<br>
+<br>
+</span>I suspect we made some changes around that time to ensure determinis=
+m<br>
+in the order certain things happened.<br>
+<span class=3D""><br>
+&gt;=C2=A0 Specifically I get failures because<br>
+&gt; fetch2.get_srcrev() sees the original SRC_URI and tries to resolve<br>
+&gt; AUTOREV from a repo to which I don&#39;t have access.<br>
+&gt;<br>
+&gt; The proposed solution from the supplier is this patch to<br>
+&gt; base.bbclass:<br>
+&gt;<br>
+&gt; @@ -598,7 +598,7 @@ python () {<br>
+&gt; =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0d.appendVarFlag(&#39;<wbr>do_unpack&#39;, &#39;depends&#39;, &#39;=
+<br>
+&gt; file-native:do_populate_<wbr>sysroot&#39;)<br>
+&gt;<br>
+&gt; =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0if needsrcrev:<br>
+&gt; -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0d.setVar(&quot;SRCPV&=
+quot;, &quot;${@bb.fetch2.get_srcrev(d)}&quot;)<br>
+&gt; +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0d.setVar(&quot;SRCPV&=
+quot;, &quot;${@bb.fetch2.get_srcrev(d)}&quot;,<br>
+&gt; parsing=3DTrue)<br>
+&gt;<br>
+&gt; =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0set_packagetriplet(d)<br>
+<br>
+<br>
+</span>parsing=3DTrue is a bitbake internal thing, its not documented and<b=
+r>
+shouldn&#39;t be used outside the bitbake codebase. In hindsight, naming<br=
+>
+could have been better.<br>
+<span class=3D""><br>
+&gt; After reading the setVar source I&#39;m not very clear how or why this=
+<br>
+&gt; works, but it looks dubious. What is parsing=3DTrue intended to do?<br=
+>
+<br>
+</span>Its internal bitbake data store stuff, don&#39;t use or rely on it. =
+It<br>
+might happen to work here but its just luck.<br>
+<span class=3D""><br>
+&gt; Is it documented somewhere that modifying SRC_URI from anonymous<br>
+&gt; python isn&#39;t allowed? I&#39;ve now seen two suppliers both indepen=
+dently<br>
+&gt; run into the same problem when updating to OE 2.1.<br>
+<br>
+</span>We have an open bug related to anonymous python ordering. Its hard t=
+o<br>
+fix easily as something can indicate it wants to run last, but then<br>
+everything wants to run last. As Chris mentions, you can use an earlier<br>
+event handler as one way to work around it.</blockquote></div><br>I think o=
+ur best bet there is to move toward more explicit event handler naming and =
+dependency handling amongst event handlers.<br>-- <br><div class=3D"gmail_s=
+ignature" data-smartmail=3D"gmail_signature">Christopher Larson<br>clarson =
+at kergoth dot com<br>Founder - BitBake, OpenEmbedded, OpenZaurus<br>Mainta=
+iner - Tslib<br>Senior Software Engineer, Mentor Graphics</div>
+</div></div>
 
-
-On 11/17/16 10:50 AM, Denys Dmytriyenko wrote:
-> On Thu, Nov 17, 2016 at 10:06:46AM -0800, Khem Raj wrote:
->>
->>
->> On 11/17/16 9:31 AM, Burton, Ross wrote:
->>> Hi,
->>>
->>> Background: uninative is a class that downloads a precompiled host gl=
-ibc for
->>> use in the sysroot, thus isolating the native sysroot from the host
->>> environment.  This means greater sstate reuse, as instead of native b=
-uilds
->>> being dependent on the host system they're able to be shared between =
-all
->>> hosts.  There is a reference tarball hosted on www.yoctoproject.org
->>> <http://www.yoctoproject.org>, and the URL can be overridden by distr=
-os if you
->>> would prefer to build your own.
->>>
->>> We enable this in Poky so that we get greater reuse on the autobuilde=
-rs, and
->>> due to some issues with the C++ ABI the eSDK generation in master now=
- requires
->>> uninative to be enabled.  The question is: do we now enable uninative=
- by
->>> default in oe-core's nodistro (pointing at the yoctoproject tarball),=
- or do we
->>> keep it disabled by default and require the user to enable uninative =
-if they
->>> wish to build an eSDK?
->>>
->>> Personally I'm torn: I don't like eSDK not working out of the box, bu=
-t I don't
->>> really like oe-core nodistro depending on uninative.  Though enabling=
-
->>> uninative globally does mean everything works out of the box, so foll=
-owing the
->>> principle of Least Surprise that's what we should do.
->>
->> If we are supporing e-SDK in OE-Core then we should enable uninative t=
-oo
->> on the same lines.
->>
->> It does improve the user experience so I am in favor of adding it
->> unconditionally. May be tarball can be hosted on oe mirrors as well fo=
-r
->> redundancy
->=20
-> I still believe this new feature is moving to become mandatory a bit to=
-o=20
-> soon...
-
-perhaps keeping it optional for 1 release would be acceptable ? it also m=
-eans
-that we may not be able to develop core features using this and it would =
-also
-mean more testing matrix, which I believe is fine. Since we know non unin=
-ative
-version wont get as much coverage.
-
->=20
-
-
---CaWHH6cw7Q1vAwAsrXJPGLXVrVNiOw7jX--
-
---lMk4NieRnbD3gk4a9aU9VxjVLMxigSqcA
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-Comment: GPGTools - https://gpgtools.org
-
-iEYEARECAAYFAlguO7IACgkQuwUzVZGdMxTrswCeMVKuumSn65QctXmd6uLq3UUi
-z5MAnjq6PwGsF5GX8bwrtUaikL++QFd5
-=GChy
------END PGP SIGNATURE-----
-
---lMk4NieRnbD3gk4a9aU9VxjVLMxigSqcA--
+--001a1141ba2442b9b9054188d399--
