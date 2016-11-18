@@ -1,37 +1,51 @@
-Return-Path: <andre.draszik@gmail.com>
-Received: from mail-wm0-f66.google.com (mail-wm0-f66.google.com [74.125.82.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 045B260111
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Nov 2016 16:06:50 +0000 (UTC)
-Received: by mail-wm0-f66.google.com with SMTP id m203so7566829wma.3
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Nov 2016 08:06:52 -0800 (PST)
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pg0-f65.google.com (mail-pg0-f65.google.com [74.125.83.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 40AF26AC37;
+	Fri, 18 Nov 2016 16:28:25 +0000 (UTC)
+Received: by mail-pg0-f65.google.com with SMTP id 3so21075017pgd.0;
+	Fri, 18 Nov 2016 08:28:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=subject:to:references:from:message-id:date:user-agent:mime-version
+	:in-reply-to; bh=5C4FGA1h1h+36jWYMD2jdIsqNHie4kRx8FjHyTo4m7Q=;
+	b=rzM3sev3gaHk58tHZ9oUoc4q35dMQouyd/I5HmShbYY0DUQ9WIK4gZKeS7YXanjXo4
+	EDee7KxH111gceQ0MAfh4tEvyjFIkxg/A+bftUaHy/IJ4v+KOnKHwsvFhTuz6rSMirrD
+	XkFwc/TeIjDmZ8uXrAsY/FVccL8UBYbBw0pWcSPmreGiJQ0olWAKKvQnJdgcC0X8MbWt
+	n+VqpwDyopjQvLJYAsIxZhbIocFT2JgeMoU1qcVjB+sA6txt2zf+NppBlG63tCg3jWmE
+	6tqVX+V6prSCq3Id+LXiF1wWIIwBDg21K74Xk9uFrxpct1M53g2IY/sYy/wS6DvSNNTy
+	WxyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=B81wD3WUtfHxkRxL+p9mPwtPz9b53wCXL3p6baIQagc=;
-	b=eu3JGmwTpU/R9VyEaSr5rhHrMejvhXAoPNQ+YqwlluMgvj6Y3vnymvVNrduxK/C3E0
-	UE0BUjgFhoo7ijuN4lfps9Wdvq9yK5xg0J95JrU+eCgbQhM458WOsfnm3BbetF2Sqmv1
-	XCHJ4gvaViUYWCE8oSvdnopfbm2fufpVpgwCjVaVMHO0KzeTACJ5+J0JsdMZ77QUq7UV
-	uCT0wo3aQf64uRb6Pxl9AFZxq+KS2JJKZ/0Frww5yIH/qEa0UE6+N+7qWcToihW87MPl
-	KqKyHE5CTlayugdEySm1BXlt4WCD2gx5CIj7RA4DHGaROQkIJreSlZ2nDZhz1hvMLGkK
-	gLEA==
-X-Gm-Message-State: AKaTC02BN2Az6bE7Qf/BxfZUHix2L3zdxbc8+W9/huSic7+THviOH05f3aKSe0awCvCYBg==
-X-Received: by 10.194.235.131 with SMTP id um3mr250899wjc.161.1479485211473;
-	Fri, 18 Nov 2016 08:06:51 -0800 (PST)
-Received: from tfsielt31850.tycofs.com ([77.107.218.170])
-	by smtp.gmail.com with ESMTPSA id b15sm4111621wma.5.2016.11.18.08.06.50
-	for <openembedded-core@lists.openembedded.org>
+	h=x-gm-message-state:subject:to:references:from:message-id:date
+	:user-agent:mime-version:in-reply-to;
+	bh=5C4FGA1h1h+36jWYMD2jdIsqNHie4kRx8FjHyTo4m7Q=;
+	b=V+VuETm4aSeIxQ9lw624D8lrcDY6ksKrfzBl2G+y4OwmbgvtFh58Bs+3JmncAcdU9h
+	uN7aUDeINGUQSQmOe19VTlD0ReKTJ39q1uyoPcaMki2IJ22N+1KTS7soqRoeDdB3Za5b
+	33DRP4SpTLJxDznnLYdslp/qVuxYPnYNrUurUPOTuKE0wl6ewZhIykqf1aoMPnl6NVN7
+	1DUnNtSGyPbP0V31I38D91jcJ0cawCSJAXXc6A04/QdwlC+c6GnvtZRIxxiilwHbLG7N
+	Qp3wqpOxfIsd7AROU+rXR0u7KLDOcGW5T4sdr2Ka7qh1wYbgVsD03znT0PfmWhwZrm6Q
+	F6ZA==
+X-Gm-Message-State: AKaTC00awoPlCcKDCZnPhNBMoTmw9hYJE4Sk+3n6F4mcNuVfCweHadKNA9wmINGWLSNhuw==
+X-Received: by 10.99.99.195 with SMTP id x186mr1148418pgb.100.1479486506930;
+	Fri, 18 Nov 2016 08:28:26 -0800 (PST)
+Received: from ?IPv6:2601:202:4001:9ea0:31d0:92df:f69d:58e2?
+	([2601:202:4001:9ea0:31d0:92df:f69d:58e2])
+	by smtp.gmail.com with ESMTPSA id
+	c15sm19171340pfd.36.2016.11.18.08.28.26
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 18 Nov 2016 08:06:50 -0800 (PST)
-From: =?UTF-8?q?Andr=C3=A9=20Draszik?= <git@andred.net>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 18 Nov 2016 16:06:49 +0000
-Message-Id: <20161118160649.9559-1-git@andred.net>
-X-Mailer: git-send-email 2.10.2
+	Fri, 18 Nov 2016 08:28:26 -0800 (PST)
+To: "Burton, Ross" <ross.burton@intel.com>,
+	OE-core <openembedded-core@lists.openembedded.org>,
+	openembedded-architecture
+	<openembedded-architecture@lists.openembedded.org>
+References: <CAJTo0LbvGwRpzxfOL0505w+Vz=Jhf6O3QOr5Z8SX9XaFqaZ7eg@mail.gmail.com>
+From: akuster808 <akuster808@gmail.com>
+Message-ID: <70e3fff2-d9a5-37c3-5e14-5dbcc4e4d37b@gmail.com>
+Date: Fri, 18 Nov 2016 08:28:25 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.4.0
 MIME-Version: 1.0
-Subject: [PATCH] ofono: update 1.18 -> 1.19
+In-Reply-To: <CAJTo0LbvGwRpzxfOL0505w+Vz=Jhf6O3QOr5Z8SX9XaFqaZ7eg@mail.gmail.com>
+Subject: Re: Enabling uninative by default in oe-core?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,49 +58,161 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 18 Nov 2016 16:06:51 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 18 Nov 2016 16:28:28 -0000
+Content-Type: multipart/alternative;
+	boundary="------------E3E2CD36355D9475B57E6E63"
+
+--------------E3E2CD36355D9475B57E6E63
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
+
+
+
+On 11/17/2016 09:31 AM, Burton, Ross wrote:
+> Hi,
+>
+> Background: uninative is a class that downloads a precompiled host 
+> glibc for use in the sysroot, thus isolating the native sysroot from 
+> the host environment.  This means greater sstate reuse, as instead of 
+> native builds being dependent on the host system they're able to be 
+> shared between all hosts.  There is a reference tarball hosted on 
+> www.yoctoproject.org <http://www.yoctoproject.org>, and the URL can be 
+> overridden by distros if you would prefer to build your own.
+>
+> We enable this in Poky so that we get greater reuse on the 
+> autobuilders, and due to some issues with the C++ ABI the eSDK 
+> generation in master now requires uninative to be enabled. The 
+> question is: do we now enable uninative by default in oe-core's 
+> nodistro (pointing at the yoctoproject tarball), or do we keep it 
+> disabled by default and require the user to enable uninative if they 
+> wish to build an eSDK?
+
+If Poky wants the default to use a prebuilt uninative that is fine, but 
+it should be not be the default in OE.  In the spirit of Bitbake, 
+uninative should be a build dependency for eSDK with the option of using 
+a prebuilt one.
+
+>
+> Personally I'm torn: I don't like eSDK not working out of the box, but 
+> I don't really like oe-core nodistro depending on uninative.
+
+Well Bitbake does not work out of the box on every host either. There 
+are packages needing to exist on the host as a prerequisite. I see this 
+in the same light.
+Do we make "Buildtools" a  requirement to use Bitbake?
+
+
+||||||
+> Though enabling uninative globally does mean everything works out of 
+> the box, so following the principle of Least Surprise that's what we 
+> should do.
+
+I see there are multiple versions, which one works with which release?
+
+
+- Armin
+>
+> Ross
+>
+>
+
+
+--------------E3E2CD36355D9475B57E6E63
+Content-Type: text/html; charset=windows-1252
 Content-Transfer-Encoding: 8bit
 
-From: Andr√© Draszik <adraszik@tycoint.com>
+<html>
+  <head>
+    <meta content="text/html; charset=windows-1252"
+      http-equiv="Content-Type">
+  </head>
+  <body bgcolor="#FFFFFF" text="#000000">
+    <p><br>
+    </p>
+    <br>
+    <div class="moz-cite-prefix">On 11/17/2016 09:31 AM, Burton, Ross
+      wrote:<br>
+    </div>
+    <blockquote
+cite="mid:CAJTo0LbvGwRpzxfOL0505w+Vz=Jhf6O3QOr5Z8SX9XaFqaZ7eg@mail.gmail.com"
+      type="cite">
+      <div dir="ltr">Hi,
+        <div><br>
+        </div>
+        <div>Background: uninative is a class that downloads a
+          precompiled host glibc for use in the sysroot, thus isolating
+          the native sysroot from the host environment.† This means
+          greater sstate reuse, as instead of native builds being
+          dependent on the host system they're able to be shared between
+          all hosts.† There is a reference tarball hosted on <a
+            moz-do-not-send="true" href="http://www.yoctoproject.org">www.yoctoproject.org</a>,
+          and the URL can be overridden by distros if you would prefer
+          to build your own.</div>
+        <div><br>
+        </div>
+        <div>We enable this in Poky so that we get greater reuse on the
+          autobuilders, and due to some issues with the C++ ABI the eSDK
+          generation in master now requires uninative to be enabled.†
+          The question is: do we now enable uninative by default in
+          oe-core's nodistro (pointing at the yoctoproject tarball), or
+          do we keep it disabled by default and require the user to
+          enable uninative if they wish to build an eSDK?</div>
+      </div>
+    </blockquote>
+    <br>
+    If Poky wants the default to use a prebuilt uninative that is fine,
+    but it should be not be the default in OE.† In the spirit of
+    Bitbake, uninative should be a build dependency for eSDK with the
+    option of using a prebuilt one.<br>
+    <br>
+    <blockquote
+cite="mid:CAJTo0LbvGwRpzxfOL0505w+Vz=Jhf6O3QOr5Z8SX9XaFqaZ7eg@mail.gmail.com"
+      type="cite">
+      <div dir="ltr">
+        <div><br>
+        </div>
+        <div>Personally I'm torn: I don't like eSDK not working out of
+          the box, but I don't really like oe-core nodistro depending on
+          uninative.† </div>
+      </div>
+    </blockquote>
+    <br>
+    Well Bitbake does not work out of the box on every host either.
+    There are packages needing to exist on the host as a prerequisite. I
+    see this in the same light.<br>
+    Do we make "Buildtools" a† requirement to use Bitbake? <br>
+    <br>
+    <br>
+    <code></code><code></code><code class="filename"></code>
+    <blockquote
+cite="mid:CAJTo0LbvGwRpzxfOL0505w+Vz=Jhf6O3QOr5Z8SX9XaFqaZ7eg@mail.gmail.com"
+      type="cite">
+      <div dir="ltr">
+        <div>Though enabling uninative globally does mean everything
+          works out of the box, so following the principle of Least
+          Surprise that's what we should do.</div>
+      </div>
+    </blockquote>
+    <br>
+    I see there are multiple versions, which one works with which
+    release?<br>
+    <br>
+    <br>
+    - Armin<br>
+    <blockquote
+cite="mid:CAJTo0LbvGwRpzxfOL0505w+Vz=Jhf6O3QOr5Z8SX9XaFqaZ7eg@mail.gmail.com"
+      type="cite">
+      <div dir="ltr">
+        <div><br>
+        </div>
+        <div>Ross</div>
+      </div>
+      <br>
+      <fieldset class="mimeAttachmentHeader"></fieldset>
+      <br>
+    </blockquote>
+    <br>
+  </body>
+</html>
 
-In particular, this fixes a crash on shutdown.
-
-From upstream's ChangeLog:
-ver 1.19:
-        Fix issue with DHCP parsing and Huawei modems.
-        Fix issue with detecting Huawei E3372 modem.
-        Fix issue with handling serving cell info.
-        Fix issue with handling SIM SC facility lock.
-        Fix issue with Android RIL PIN retry logic.
-        Fix issue with Android RIL and RAT handling.
-        Add support for Android RIL cell broadcast.
-        Add support for SoFIA 3GR thermal management.
-
-Signed-off-by: Andr√© Draszik <adraszik@tycoint.com>
----
- meta/recipes-connectivity/ofono/{ofono_1.18.bb => ofono_1.19.bb} | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-connectivity/ofono/{ofono_1.18.bb => ofono_1.19.bb} (52%)
-
-diff --git a/meta/recipes-connectivity/ofono/ofono_1.18.bb b/meta/recipes-connectivity/ofono/ofono_1.19.bb
-similarity index 52%
-rename from meta/recipes-connectivity/ofono/ofono_1.18.bb
-rename to meta/recipes-connectivity/ofono/ofono_1.19.bb
-index b070731..adebd71 100644
---- a/meta/recipes-connectivity/ofono/ofono_1.18.bb
-+++ b/meta/recipes-connectivity/ofono/ofono_1.19.bb
-@@ -4,7 +4,7 @@ SRC_URI  = "\
-   ${KERNELORG_MIRROR}/linux/network/${BPN}/${BP}.tar.xz \
-   file://ofono \
- "
--SRC_URI[md5sum] = "0a6b37c8ace891cb2a7ca5d121043a0a"
--SRC_URI[sha256sum] = "53cdbf342913f46bce4827241c60e24255a3d43a94945edf77482ae5b312d51f"
-+SRC_URI[md5sum] = "a5f8803ace110511b6ff5a2b39782e8b"
-+SRC_URI[sha256sum] = "a0e09bdd8b53b8d2e4b54f1863ecd9aebe4786477a6cbf8f655496e8edb31c81"
- 
- CFLAGS_append_libc-uclibc = " -D_GNU_SOURCE"
--- 
-2.10.2
-
-
+--------------E3E2CD36355D9475B57E6E63--
