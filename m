@@ -1,35 +1,46 @@
-Return-Path: <obi@opendreambox.org>
-Received: from mail.dream-property.net (mail.dream-property.net
-	[82.149.226.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 120BF71ADD
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-ua0-f181.google.com (mail-ua0-f181.google.com
+	[209.85.217.181])
+	by mail.openembedded.org (Postfix) with ESMTP id B54E171AB3
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 19 Nov 2016 14:06:17 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by mail.dream-property.net (Postfix) with ESMTP id CB96731C07ED;
-	Sat, 19 Nov 2016 15:06:17 +0100 (CET)
-X-Virus-Scanned: Debian amavisd-new at mail.dream-property.net
-Received: from mail.dream-property.net ([127.0.0.1])
-	by localhost (mail.dream-property.net [127.0.0.1]) (amavisd-new,
-	port 10024)
-	with LMTP id LqXrj52-Es8N; Sat, 19 Nov 2016 15:06:15 +0100 (CET)
-Received: from [172.22.22.61] (55d458e8.access.ecotel.net [85.212.88.232])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by mail.dream-property.net (Postfix) with ESMTPSA id B52E931C0ACA;
-	Sat, 19 Nov 2016 15:06:14 +0100 (CET)
-To: =?UTF-8?B?QW7DrWJhbCBMaW3Ds24=?= <anibal.limon@linux.intel.com>,
-	Linus Wallgren <linus.wallgren@scypho.com>,
-	openembedded-core@lists.openembedded.org
-References: <20161116163315.18662-1-linus.wallgren@scypho.com>
-	<582E2C46.9090605@linux.intel.com>
-From: Andreas Oberritter <obi@opendreambox.org>
-Message-ID: <68b087d8-d920-eb83-8b53-7e561fd419cb@opendreambox.org>
-Date: Sat, 19 Nov 2016 15:06:14 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.4.0
+	Sat, 19 Nov 2016 17:43:15 +0000 (UTC)
+Received: by mail-ua0-f181.google.com with SMTP id b35so195758428uaa.3
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 19 Nov 2016 09:43:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=MsEtYUyUWsRNnVnkEWf7jP4RW1yMTGF/lTNMy7aQZKk=;
+	b=LmMP3nZdocGEKA5ti3/WKC1gHolbtbmSP58Dxub0ugNrAnEcNacRBcgZu9GjbsZYBt
+	P3OczSfCmaDfkIjF2p/yHC3U5mW8qYXPXTT/XrdFwq7MpsZflMhub20t7aC5soRDENRy
+	YNWDzuNxddApDHo/F6ZpMP4n/Oxoxt6IM+TibBJkPrkm07Aa+C+ERh8pWlIafMEivrLC
+	cEyeKWyDz+YcB+Vz1tJVZdZNDMnqWAqUZmYhaPMG3Yjb571m+PW3PraW3c0UdIf6avV+
+	BrDZJMznkDy3EnaqrQSyoPuXXxiR3ErSQrxXFTdcnWGNBnRzmhD3pTukDl6aatr734QF
+	CoAQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=MsEtYUyUWsRNnVnkEWf7jP4RW1yMTGF/lTNMy7aQZKk=;
+	b=H8Plhiez5nFmOqtT+gWe9v+M3KqV6+J+ZjDgHt11nJ9gYaPc0e2q/88auCIA+xrFbH
+	7Qo7AeeYFCVnrbsx2RSyUaW+G7YFpkFYx5C9hYPMcyloL1HrriYoSIPrOmPEFN0lwKYy
+	/AqJLnoBIp3ehKFq5RuRxjp+avbAXGoMF+4j1I0VjzDy/r5XOpz3zL75SyLmIHDJbpyT
+	UAaOtKcIvNEu+0Xvt2tlpVgbKZoCDVuoV89B35gdDU34uuauh0ExGsMEWZzBaL5HbTPr
+	EeHLg5/PwNmbuGP7wWQ28F8m+10qurfAJ/TmkkDLhBCtGXcKgaCeooZUObR4NWy5D6Gb
+	78ow==
+X-Gm-Message-State: AKaTC03jv6luteuO66YNvkEW1O3g9jZOBiNI/A//ireb3NqZxcMlhFJgWcxtolDaDpN6S9sftafnPr3pzvBvtA==
+X-Received: by 10.176.1.17 with SMTP id 17mr2460387uak.143.1479577397008; Sat,
+	19 Nov 2016 09:43:17 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <582E2C46.9090605@linux.intel.com>
-Subject: Re: [PATCH] apt-package: Include maintenance scripts
+Received: by 10.176.5.136 with HTTP; Sat, 19 Nov 2016 09:42:46 -0800 (PST)
+In-Reply-To: <20161119021100.29350-1-jackie.huang@windriver.com>
+References: <20161119021100.29350-1-jackie.huang@windriver.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Sat, 19 Nov 2016 09:42:46 -0800
+Message-ID: <CAMKF1spNggU8ChOA9gCUm3BRWME8E8e6AjAYaKAjeJzr=J-EVA@mail.gmail.com>
+To: jhuang0 <jackie.huang@windriver.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] ltp: fix an incorrect macro checking
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,73 +53,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 19 Nov 2016 14:06:18 -0000
-Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Sat, 19 Nov 2016 17:43:16 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On 17.11.2016 23:16, Aníbal Limón wrote:
-> Your patch looks good, only missing one thing you need to conditional
-> those lines to only work when systemd is enabled in DISTRO_FEATURES, see
-> example:
-> 
-> http://git.yoctoproject.org/cgit/cgit.cgi/poky/tree/meta/recipes-support/consolekit/consolekit_0.4.6.bb#n26
+On Fri, Nov 18, 2016 at 6:11 PM,  <jackie.huang@windriver.com> wrote:
+> From: Jackie Huang <jackie.huang@windriver.com>
+>
+> The previous patch added a check but incorrectly
+> change the elif to if, then it always return 0
+> for cpuid if the machine is not __i386__
+>
+> getcpu01    1  TFAIL  :  getcpu01.c:140: getcpu() returned wrong value expected cpuid:7, returned value cpuid: 0
+>
+> After this fix:
+> getcpu01    1  TPASS  :  getcpu() returned proper cpuid:7, node id:0
+>
 
-No, because systemd.bbclass, which consolekit doesn't inherit, deletes
-all files in systemd_unitdir if systemd is not in distro features.
-
-> On 11/16/2016 10:33 AM, Linus Wallgren wrote:
->> Apt can run multiple tasks daily, such as for example clean, update,
->> autoclean, unattended-upgrades etc.
->>
->> [YOCTO #10669]
->>
->> Signed-off-by: Linus Wallgren <linus.wallgren@scypho.com>
->> ---
->>  meta/recipes-devtools/apt/apt-package.inc | 15 ++++++++++++++-
->>  1 file changed, 14 insertions(+), 1 deletion(-)
->>
->> diff --git a/meta/recipes-devtools/apt/apt-package.inc b/meta/recipes-devtools/apt/apt-package.inc
->> index a553aa2..38cd558 100644
->> --- a/meta/recipes-devtools/apt/apt-package.inc
->> +++ b/meta/recipes-devtools/apt/apt-package.inc
->> @@ -32,13 +32,19 @@ FILES_${PN} = "${bindir}/apt-cdrom ${bindir}/apt-get \
->>  	       ${bindir}/apt-config ${bindir}/apt-cache \
->>  	       ${libdir}/apt ${libdir}/libapt*.so.* \
->>  	       ${localstatedir} ${sysconfdir} \
->> -	       ${libdir}/dpkg"
->> +	       ${libdir}/dpkg \
->> +	       ${systemd_unitdir}/system \
->> +           "
->>  FILES_${PN}-utils = "${bindir}/apt-sortpkgs ${bindir}/apt-extracttemplates"
->>  FILES_${PN}-doc = "${@get_files_apt_doc(d, bb, d.getVar('apt-manpages', True))} \
->>  		   ${docdir}/apt"
->>  FILES_${PN}-utils-doc = "${@get_files_apt_doc(d, bb, d.getVar('apt-utils-manpages', True))}"
->>  FILES_${PN}-dev = "${libdir}/libapt*.so ${includedir}"
->>  
->> +inherit systemd
->> +
->> +SYSTEMD_SERVICE_${PN} = "apt-daily.timer"
->> +
->>  do_install () {
->>  	set -x
->>  	install -d ${D}${bindir}
->> @@ -75,4 +81,11 @@ do_install () {
->>  
->>  	install -d ${D}${includedir}/apt-pkg/
->>  	install -m 0644 include/apt-pkg/*.h ${D}${includedir}/apt-pkg/
->> +
->> +    install -d ${D}${systemd_unitdir}/system/
->> +    install -m 0644 ${S}/debian/apt.systemd.daily ${D}/usr/lib/apt/
->> +    install -m 0644 ${S}/debian/apt-daily.service ${D}${systemd_unitdir}/system/
->> +    install -m 0644 ${S}/debian/apt-daily.timer ${D}${systemd_unitdir}/system/
->> +    install -d ${D}${sysconfdir}/cron.daily/
->> +    install -m 0755 ${S}/debian/apt.apt-compat.cron.daily ${D}${sysconfdir}/cron.daily/
->>  }
->>
-
-Please consider using tabs for consistency with the rest of the recipe.
-
-Regards,
-Andreas
-
+This is ok.
 
