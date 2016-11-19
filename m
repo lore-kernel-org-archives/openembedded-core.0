@@ -1,30 +1,35 @@
-Return-Path: <herve.jourdain@neuf.fr>
-Received: from smtp26.services.sfr.fr (smtp26.services.sfr.fr [93.17.128.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 3276471AF4
+Return-Path: <obi@opendreambox.org>
+Received: from mail.dream-property.net (mail.dream-property.net
+	[82.149.226.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 120BF71ADD
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 19 Nov 2016 12:50:54 +0000 (UTC)
-Received: from localhost.localdomain (111-250-155-21.dynamic.hinet.net
-	[111.250.155.21])
-	by msfrf2635.sfr.fr (SMTP Server) with ESMTP id 872381C0034E7;
-	Sat, 19 Nov 2016 13:50:55 +0100 (CET)
-Received: from localhost.localdomain (111-250-155-21.dynamic.hinet.net
-	[111.250.155.21])	(using TLSv1.2
-	with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))	(No client
-	certificate requested)	(Authenticated sender: herve.jourdain@neuf.fr)
-	by msfrf2635.sfr.fr (SMTP Server) with ESMTPSA;
-	Sat, 19 Nov 2016 13:50:54 +0100 (CET)
-Authentication-Results: sfr.fr; auth=pass (LOGIN)
-	smtp.auth=herve.jourdain@neuf.fr
-From: Herve Jourdain <herve.jourdain@neuf.fr>
-To: openembedded-core@lists.openembedded.org
-Date: Sat, 19 Nov 2016 20:50:33 +0800
-Message-Id: <1479559833-128256-2-git-send-email-herve.jourdain@neuf.fr>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1479559833-128256-1-git-send-email-herve.jourdain@neuf.fr>
-References: <1479559833-128256-1-git-send-email-herve.jourdain@neuf.fr>
-X-sfr-mailing: LEGIT
+	Sat, 19 Nov 2016 14:06:17 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by mail.dream-property.net (Postfix) with ESMTP id CB96731C07ED;
+	Sat, 19 Nov 2016 15:06:17 +0100 (CET)
+X-Virus-Scanned: Debian amavisd-new at mail.dream-property.net
+Received: from mail.dream-property.net ([127.0.0.1])
+	by localhost (mail.dream-property.net [127.0.0.1]) (amavisd-new,
+	port 10024)
+	with LMTP id LqXrj52-Es8N; Sat, 19 Nov 2016 15:06:15 +0100 (CET)
+Received: from [172.22.22.61] (55d458e8.access.ecotel.net [85.212.88.232])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by mail.dream-property.net (Postfix) with ESMTPSA id B52E931C0ACA;
+	Sat, 19 Nov 2016 15:06:14 +0100 (CET)
+To: =?UTF-8?B?QW7DrWJhbCBMaW3Ds24=?= <anibal.limon@linux.intel.com>,
+	Linus Wallgren <linus.wallgren@scypho.com>,
+	openembedded-core@lists.openembedded.org
+References: <20161116163315.18662-1-linus.wallgren@scypho.com>
+	<582E2C46.9090605@linux.intel.com>
+From: Andreas Oberritter <obi@opendreambox.org>
+Message-ID: <68b087d8-d920-eb83-8b53-7e561fd419cb@opendreambox.org>
+Date: Sat, 19 Nov 2016 15:06:14 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.4.0
 MIME-Version: 1.0
-Subject: [PATCH v2 1/1] Add a tune file for cortexa53, valid for 32 bits and 64 bits
+In-Reply-To: <582E2C46.9090605@linux.intel.com>
+Subject: Re: [PATCH] apt-package: Include maintenance scripts
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,43 +42,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 19 Nov 2016 12:50:54 -0000
+X-List-Received-Date: Sat, 19 Nov 2016 14:06:18 -0000
+Content-Type: text/plain; charset=windows-1252
+Content-Transfer-Encoding: 8bit
 
-Signed-off-by: Herve Jourdain <herve.jourdain@neuf.fr>
----
- meta/conf/machine/include/tune-cortexa53.inc | 22 ++++++++++++++++++++++
- 1 file changed, 22 insertions(+)
- create mode 100644 meta/conf/machine/include/tune-cortexa53.inc
+On 17.11.2016 23:16, Aníbal Limón wrote:
+> Your patch looks good, only missing one thing you need to conditional
+> those lines to only work when systemd is enabled in DISTRO_FEATURES, see
+> example:
+> 
+> http://git.yoctoproject.org/cgit/cgit.cgi/poky/tree/meta/recipes-support/consolekit/consolekit_0.4.6.bb#n26
 
-diff --git a/meta/conf/machine/include/tune-cortexa53.inc b/meta/conf/machine/include/tune-cortexa53.inc
-new file mode 100644
-index 0000000..ff5edb6
---- /dev/null
-+++ b/meta/conf/machine/include/tune-cortexa53.inc
-@@ -0,0 +1,22 @@
-+DEFAULTTUNE ?= "cortexa53-32"
-+
-+require conf/machine/include/arm/arch-armv8.inc
-+
-+TUNEVALID[cortexa53] = "Enable Cortex-A53 specific processor optimizations"
-+TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'cortexa53', ' -mcpu=cortex-a53 ', '',d)}"
-+
-+# Extra tune selections
-+AVAILTUNES += "cortexa53-32"
-+ARMPKGARCH_tune-cortexa53-32 ?= "cortexa53"
-+TUNE_FEATURES_tune-cortexa53-32 = "${TUNE_FEATURES_tune-armv7ve-neon-vfpv4} cortexa53"
-+BASE_LIB_tune-cortexa53-32 = "lib"
-+TUNE_PKGARCH_tune-cortexa53-32 = "cortexa53-32"
-+PACKAGE_EXTRA_ARCHS_tune-cortexa53-32 = "${PACKAGE_EXTRA_ARCHS_tune-armv7ve-neon-vfpv4} cortexa53-32 cortexa53-neon-vfpv4"
-+
-+AVAILTUNES += "cortexa53-64"
-+ARMPKGARCH_tune-cortexa53-64 ?= "cortexa53"
-+TUNE_FEATURES_tune-cortexa53-64 = "${TUNE_FEATURES_tune-aarch64} cortexa53"
-+BASE_LIB_tune-cortexa53-64 = "lib64"
-+TUNE_PKGARCH_tune-cortexa53-64 = "cortexa53-64"
-+PACKAGE_EXTRA_ARCHS_tune-cortexa53-64 = "${PACKAGE_EXTRA_ARCHS_tune-aarch64} cortexa53-64"
-+
--- 
-2.7.4
+No, because systemd.bbclass, which consolekit doesn't inherit, deletes
+all files in systemd_unitdir if systemd is not in distro features.
+
+> On 11/16/2016 10:33 AM, Linus Wallgren wrote:
+>> Apt can run multiple tasks daily, such as for example clean, update,
+>> autoclean, unattended-upgrades etc.
+>>
+>> [YOCTO #10669]
+>>
+>> Signed-off-by: Linus Wallgren <linus.wallgren@scypho.com>
+>> ---
+>>  meta/recipes-devtools/apt/apt-package.inc | 15 ++++++++++++++-
+>>  1 file changed, 14 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/meta/recipes-devtools/apt/apt-package.inc b/meta/recipes-devtools/apt/apt-package.inc
+>> index a553aa2..38cd558 100644
+>> --- a/meta/recipes-devtools/apt/apt-package.inc
+>> +++ b/meta/recipes-devtools/apt/apt-package.inc
+>> @@ -32,13 +32,19 @@ FILES_${PN} = "${bindir}/apt-cdrom ${bindir}/apt-get \
+>>  	       ${bindir}/apt-config ${bindir}/apt-cache \
+>>  	       ${libdir}/apt ${libdir}/libapt*.so.* \
+>>  	       ${localstatedir} ${sysconfdir} \
+>> -	       ${libdir}/dpkg"
+>> +	       ${libdir}/dpkg \
+>> +	       ${systemd_unitdir}/system \
+>> +           "
+>>  FILES_${PN}-utils = "${bindir}/apt-sortpkgs ${bindir}/apt-extracttemplates"
+>>  FILES_${PN}-doc = "${@get_files_apt_doc(d, bb, d.getVar('apt-manpages', True))} \
+>>  		   ${docdir}/apt"
+>>  FILES_${PN}-utils-doc = "${@get_files_apt_doc(d, bb, d.getVar('apt-utils-manpages', True))}"
+>>  FILES_${PN}-dev = "${libdir}/libapt*.so ${includedir}"
+>>  
+>> +inherit systemd
+>> +
+>> +SYSTEMD_SERVICE_${PN} = "apt-daily.timer"
+>> +
+>>  do_install () {
+>>  	set -x
+>>  	install -d ${D}${bindir}
+>> @@ -75,4 +81,11 @@ do_install () {
+>>  
+>>  	install -d ${D}${includedir}/apt-pkg/
+>>  	install -m 0644 include/apt-pkg/*.h ${D}${includedir}/apt-pkg/
+>> +
+>> +    install -d ${D}${systemd_unitdir}/system/
+>> +    install -m 0644 ${S}/debian/apt.systemd.daily ${D}/usr/lib/apt/
+>> +    install -m 0644 ${S}/debian/apt-daily.service ${D}${systemd_unitdir}/system/
+>> +    install -m 0644 ${S}/debian/apt-daily.timer ${D}${systemd_unitdir}/system/
+>> +    install -d ${D}${sysconfdir}/cron.daily/
+>> +    install -m 0755 ${S}/debian/apt.apt-compat.cron.daily ${D}${sysconfdir}/cron.daily/
+>>  }
+>>
+
+Please consider using tabs for consistency with the rest of the recipe.
+
+Regards,
+Andreas
 
 
