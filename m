@@ -1,46 +1,47 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-ua0-f181.google.com (mail-ua0-f181.google.com
-	[209.85.217.181])
-	by mail.openembedded.org (Postfix) with ESMTP id B54E171AB3
+Received: from mail-ua0-f195.google.com (mail-ua0-f195.google.com
+	[209.85.217.195])
+	by mail.openembedded.org (Postfix) with ESMTP id ECD2971951
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 19 Nov 2016 17:43:15 +0000 (UTC)
-Received: by mail-ua0-f181.google.com with SMTP id b35so195758428uaa.3
+	Sat, 19 Nov 2016 17:51:05 +0000 (UTC)
+Received: by mail-ua0-f195.google.com with SMTP id 20so21191088uak.0
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 19 Nov 2016 09:43:17 -0800 (PST)
+	Sat, 19 Nov 2016 09:51:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=MsEtYUyUWsRNnVnkEWf7jP4RW1yMTGF/lTNMy7aQZKk=;
-	b=LmMP3nZdocGEKA5ti3/WKC1gHolbtbmSP58Dxub0ugNrAnEcNacRBcgZu9GjbsZYBt
-	P3OczSfCmaDfkIjF2p/yHC3U5mW8qYXPXTT/XrdFwq7MpsZflMhub20t7aC5soRDENRy
-	YNWDzuNxddApDHo/F6ZpMP4n/Oxoxt6IM+TibBJkPrkm07Aa+C+ERh8pWlIafMEivrLC
-	cEyeKWyDz+YcB+Vz1tJVZdZNDMnqWAqUZmYhaPMG3Yjb571m+PW3PraW3c0UdIf6avV+
-	BrDZJMznkDy3EnaqrQSyoPuXXxiR3ErSQrxXFTdcnWGNBnRzmhD3pTukDl6aatr734QF
-	CoAQ==
+	:cc; bh=8LSBxpTA1KUlByjN0J0pj/uTT5Kmwsn2RSJ69tQpsKQ=;
+	b=kSueBo2FNaZlWFjySzdNm0gX+xsM3AZNBBydgJDFUOWwO2k058n0+4+Oi9h39oMBCX
+	kAoskvbcfdfA4k3xhcBO5Wtv3Pq7wbTRTi0MFw3C3Ref1hRHO3McaS5R08MOFSqYHNh0
+	qP3GgRKDrViYeIuJeOdOjFDn5sS2YttfL4YoqpnxVeItpKCE37czYgJWq1DsmAfnQVGZ
+	AX3DycmF87n7FOVOg5I/6sgO3fIwRQa32w9MAhEz9NvtCBOa8E2b33SXmHtwteadJAAz
+	me5u7tBCT3BXScB8W2XAn1BO4jBK0vl7vlURUDhfj6P7JhOZTsQO7LeywJmiwWv/69DO
+	mvvg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=MsEtYUyUWsRNnVnkEWf7jP4RW1yMTGF/lTNMy7aQZKk=;
-	b=H8Plhiez5nFmOqtT+gWe9v+M3KqV6+J+ZjDgHt11nJ9gYaPc0e2q/88auCIA+xrFbH
-	7Qo7AeeYFCVnrbsx2RSyUaW+G7YFpkFYx5C9hYPMcyloL1HrriYoSIPrOmPEFN0lwKYy
-	/AqJLnoBIp3ehKFq5RuRxjp+avbAXGoMF+4j1I0VjzDy/r5XOpz3zL75SyLmIHDJbpyT
-	UAaOtKcIvNEu+0Xvt2tlpVgbKZoCDVuoV89B35gdDU34uuauh0ExGsMEWZzBaL5HbTPr
-	EeHLg5/PwNmbuGP7wWQ28F8m+10qurfAJ/TmkkDLhBCtGXcKgaCeooZUObR4NWy5D6Gb
-	78ow==
-X-Gm-Message-State: AKaTC03jv6luteuO66YNvkEW1O3g9jZOBiNI/A//ireb3NqZxcMlhFJgWcxtolDaDpN6S9sftafnPr3pzvBvtA==
-X-Received: by 10.176.1.17 with SMTP id 17mr2460387uak.143.1479577397008; Sat,
-	19 Nov 2016 09:43:17 -0800 (PST)
+	bh=8LSBxpTA1KUlByjN0J0pj/uTT5Kmwsn2RSJ69tQpsKQ=;
+	b=S9VMiEOZqejssm1SHtC29R9owK8nuE7JJSg9XobT+G3ygGvbsSrqE6T1did8sWx64/
+	8IVN4xzhSZFqNdbR5vzZvlETyN83PG+i/gN2S5EyJO33M0v7guMzr5bDhuPX7SqVq0mP
+	2SzcTWTiIz7occrkaPuhb1uEpA2ND5U79memZl/iES183I9xRLRN+2M8aHC0DC0iGhQE
+	3szsoeRD2EHrLCdYKUYwdZ5BLyLPXm8lPU6FqZpiy7e5JX1WiZh66u03qpjX152p77cC
+	/EkkvwrL45LN/6eThIsUCZOethBU3widm0mWtON/lq3Yo5iNgUk2Uafv1GNnt/buygGF
+	zX2A==
+X-Gm-Message-State: AKaTC022L0htzJ5Xtb79DlzNZvjrjBp3edzh9cl/0Jzq2QjsyRIDiJ3KqpaCpr3M1ob3OngoeGFCFnapoZPufg==
+X-Received: by 10.176.82.181 with SMTP id v50mr2763197uav.31.1479577867053;
+	Sat, 19 Nov 2016 09:51:07 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.176.5.136 with HTTP; Sat, 19 Nov 2016 09:42:46 -0800 (PST)
-In-Reply-To: <20161119021100.29350-1-jackie.huang@windriver.com>
-References: <20161119021100.29350-1-jackie.huang@windriver.com>
+Received: by 10.176.5.136 with HTTP; Sat, 19 Nov 2016 09:50:36 -0800 (PST)
+In-Reply-To: <1479559833-128256-2-git-send-email-herve.jourdain@neuf.fr>
+References: <1479559833-128256-1-git-send-email-herve.jourdain@neuf.fr>
+	<1479559833-128256-2-git-send-email-herve.jourdain@neuf.fr>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Sat, 19 Nov 2016 09:42:46 -0800
-Message-ID: <CAMKF1spNggU8ChOA9gCUm3BRWME8E8e6AjAYaKAjeJzr=J-EVA@mail.gmail.com>
-To: jhuang0 <jackie.huang@windriver.com>
+Date: Sat, 19 Nov 2016 09:50:36 -0800
+Message-ID: <CAMKF1so0YG5cy49tG2Efm-arFfxDbEoZgrP_5JNM9+ch_pr=cg@mail.gmail.com>
+To: Herve Jourdain <herve.jourdain@neuf.fr>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] ltp: fix an incorrect macro checking
+Subject: Re: [PATCH v2 1/1] Add a tune file for cortexa53, valid for 32 bits and 64 bits
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,21 +54,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 19 Nov 2016 17:43:16 -0000
+X-List-Received-Date: Sat, 19 Nov 2016 17:51:06 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On Fri, Nov 18, 2016 at 6:11 PM,  <jackie.huang@windriver.com> wrote:
-> From: Jackie Huang <jackie.huang@windriver.com>
->
-> The previous patch added a check but incorrectly
-> change the elif to if, then it always return 0
-> for cpuid if the machine is not __i386__
->
-> getcpu01    1  TFAIL  :  getcpu01.c:140: getcpu() returned wrong value expected cpuid:7, returned value cpuid: 0
->
-> After this fix:
-> getcpu01    1  TPASS  :  getcpu() returned proper cpuid:7, node id:0
->
+This seems fine to me. There is a tune checker that Martin has, it would be good
+to run that and see if this new tune is tested.
 
-This is ok.
+http://git.openembedded.org/openembedded-core-contrib/log/?h=jansa/tune2-test
+
+
+On Sat, Nov 19, 2016 at 4:50 AM, Herve Jourdain <herve.jourdain@neuf.fr> wrote:
+> Signed-off-by: Herve Jourdain <herve.jourdain@neuf.fr>
+> ---
+>  meta/conf/machine/include/tune-cortexa53.inc | 22 ++++++++++++++++++++++
+>  1 file changed, 22 insertions(+)
+>  create mode 100644 meta/conf/machine/include/tune-cortexa53.inc
+>
+> diff --git a/meta/conf/machine/include/tune-cortexa53.inc b/meta/conf/machine/include/tune-cortexa53.inc
+> new file mode 100644
+> index 0000000..ff5edb6
+> --- /dev/null
+> +++ b/meta/conf/machine/include/tune-cortexa53.inc
+> @@ -0,0 +1,22 @@
+> +DEFAULTTUNE ?= "cortexa53-32"
+> +
+> +require conf/machine/include/arm/arch-armv8.inc
+> +
+> +TUNEVALID[cortexa53] = "Enable Cortex-A53 specific processor optimizations"
+> +TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'cortexa53', ' -mcpu=cortex-a53 ', '',d)}"
+> +
+> +# Extra tune selections
+> +AVAILTUNES += "cortexa53-32"
+> +ARMPKGARCH_tune-cortexa53-32 ?= "cortexa53"
+> +TUNE_FEATURES_tune-cortexa53-32 = "${TUNE_FEATURES_tune-armv7ve-neon-vfpv4} cortexa53"
+> +BASE_LIB_tune-cortexa53-32 = "lib"
+> +TUNE_PKGARCH_tune-cortexa53-32 = "cortexa53-32"
+> +PACKAGE_EXTRA_ARCHS_tune-cortexa53-32 = "${PACKAGE_EXTRA_ARCHS_tune-armv7ve-neon-vfpv4} cortexa53-32 cortexa53-neon-vfpv4"
+> +
+> +AVAILTUNES += "cortexa53-64"
+> +ARMPKGARCH_tune-cortexa53-64 ?= "cortexa53"
+> +TUNE_FEATURES_tune-cortexa53-64 = "${TUNE_FEATURES_tune-aarch64} cortexa53"
+> +BASE_LIB_tune-cortexa53-64 = "lib64"
+> +TUNE_PKGARCH_tune-cortexa53-64 = "cortexa53-64"
+> +PACKAGE_EXTRA_ARCHS_tune-cortexa53-64 = "${PACKAGE_EXTRA_ARCHS_tune-aarch64} cortexa53-64"
+> +
+> --
+> 2.7.4
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
