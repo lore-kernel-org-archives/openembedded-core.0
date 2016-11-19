@@ -1,48 +1,29 @@
-Return-Path: <daniel.diaz@linaro.org>
-Received: from mail-oi0-f53.google.com (mail-oi0-f53.google.com
-	[209.85.218.53])
-	by mail.openembedded.org (Postfix) with ESMTP id 6634F6060F
+Return-Path: <rpjday@crashcourse.ca>
+Received: from smtp486.redcondor.net (smtp486.redcondor.net [208.80.204.86])
+	by mail.openembedded.org (Postfix) with ESMTP id DB25F60746
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 19 Nov 2016 02:47:06 +0000 (UTC)
-Received: by mail-oi0-f53.google.com with SMTP id b126so71177457oia.2
+	Sat, 19 Nov 2016 09:38:02 +0000 (UTC)
+Received: from astoria.ccjclearline.com ([64.235.106.9])
+	by smtp486.redcondor.net ({6695537a-536a-45f9-a249-877c85428649})
+	via TCP (outbound) with ESMTPS id 20161119093719681_0486
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Nov 2016 18:47:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=subject:to:references:from:message-id:date:user-agent:mime-version
-	:in-reply-to:content-transfer-encoding;
-	bh=n+ZsErPjyVKNWN1rR3Oh9Vg3Vt3jUeJrvR04PJ2pEcw=;
-	b=De+OpR4zPmxq8+ZDw7E6+bJt7MHe4p5XiAY0lxSu0ehuekWgAHVTC2wd4gjkWAaXEn
-	5HLUdUSD6ntDsoIsA0vtmV1FMAPUERCRUIDD16jdL7RfH3mbJ/6aE53WapmJaZoVfwjt
-	xFxxjFECFRfc4V0DffRGOQhZIhMLCCBKdW+Yo=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:subject:to:references:from:message-id:date
-	:user-agent:mime-version:in-reply-to:content-transfer-encoding;
-	bh=n+ZsErPjyVKNWN1rR3Oh9Vg3Vt3jUeJrvR04PJ2pEcw=;
-	b=mfMSbaY+Gd67mqVgZf33tcVwV0KR7bMIQwBxwxjeIGiMvxs6V8LQugMmaSJkxWUyfM
-	xRSBS4POIS9nA5tuml3P8xozYqsk4XKbKsJ2MZlVlPaDzJE3AQtbPSZuF9pOuGFFpnrD
-	aFl32P/8WyHZewE+kcDPbZ25ZQto0O7PjsbYaVOFLTf7KRjSj7ZIm+hI7mN6zNmNc2Vi
-	OIpZ9+fsGFZOB69l/gvm6T7WCwUuNpR/Sb+NkggiiZGsUAuMh6F+p8uYPBBFQXOihfye
-	xjtPjcXqFx0AHbAc0mcqnhf7Polh9kCODwraNAlxoe+3EE935RMp5egtNXELSq252JjG
-	lzOw==
-X-Gm-Message-State: AKaTC038Bd+afHngDgBqi1dHbbY1ShwyAyAKT1Wy/mhkj0VsU9RVAMvahObc0y6QXtF0xZyc
-X-Received: by 10.157.3.102 with SMTP id 93mr2037044otv.30.1479523627165;
-	Fri, 18 Nov 2016 18:47:07 -0800 (PST)
-Received: from [192.168.17.36] (CableLink64-18.telefonia.InterCable.net.
-	[201.172.64.18]) by smtp.gmail.com with ESMTPSA id
-	t184sm3492042oie.21.2016.11.18.18.47.06
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 18 Nov 2016 18:47:06 -0800 (PST)
-To: Tomas Novotny <tomas@novotny.cz>, openembedded-core@lists.openembedded.org
-References: <20161118191252.43d474b6@tomas.local.tbs-biometrics.cz>
-From: =?UTF-8?Q?Daniel_D=c3=adaz?= <daniel.diaz@linaro.org>
-Message-ID: <f03bba38-3ac8-ee96-b272-4db2ccdae28e@linaro.org>
-Date: Fri, 18 Nov 2016 20:47:05 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.4.0
+	Sat, 19 Nov 2016 09:37:19 +0000
+X-RC-FROM: <rpjday@crashcourse.ca>
+X-RC-RCPT: <openembedded-core@lists.openembedded.org>
+Received: from [174.118.92.171] (port=44442 helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
+	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
+	id 1c825B-0005n5-HK for openembedded-core@lists.openembedded.org;
+	Sat, 19 Nov 2016 04:37:13 -0500
+Date: Sat, 19 Nov 2016 04:36:06 -0500 (EST)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@localhost.localdomain
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Message-ID: <alpine.LFD.2.20.1611190432210.22441@localhost.localdomain>
+User-Agent: Alpine 2.20 (LFD 67 2015-01-07)
 MIME-Version: 1.0
-In-Reply-To: <20161118191252.43d474b6@tomas.local.tbs-biometrics.cz>
-Subject: Re: Loss of a wayland socket by a systemd user session
+X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
+Subject: more perl stuff: is "perl-module-rpm" still borked?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,31 +36,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 19 Nov 2016 02:47:09 -0000
-Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: 8bit
-
-Hello!
+X-List-Received-Date: Sat, 19 Nov 2016 09:38:04 -0000
+Content-Type: text/plain; charset=US-ASCII
 
 
-On 11/18/2016 12:12 PM, Tomas Novotny wrote:
-> I'm using weston and its 'weston-start' script shipped with oe-core (morty).
-> It works perfectly until root is logged in. The problematic path is:
-[...]
+  from recipes-devtools/rpm/rpm_5.4.16.bb:
 
-We've seen that [1]. If you have PAM, you can modify weston-start to
-pass `-u root' to weston-launch [2].
+SUMMARY_perl-module-rpm = "Perl bindings for apps which will manipulate RPM packages"
+DESCRIPTION_perl-modules-rpm = "The perl-modules-rpm package contains a module that permits applications \
+written in the Perl programming language to use the interface \
+supplied by the RPM Package Manager libraries."
 
-You can also try this systemd service unit and launch Weston directly:
-  https://github.com/mrchapp/meta-96boards/commit/ac3e11e
+... snip ...
 
-Greetings!
+# Perl modules are not built, but they could be enabled fairly easily
+# the perl module creation and installation would need to be patched.
+# (currently has host perl contamination issues)
+WITH_PERL = "--with-perl --without-perlembed --without-perl-urpm"
+WITHOUT_PERL = "--without-perl --without-perl-urpm"
+PACKAGECONFIG[perl] = "${WITH_PERL},${WITHOUT_PERL},perl,"
 
-Daniel Díaz
-daniel.diaz@linaro.org
+  so, still broken?
 
+rday
 
-[1] https://bugs.linaro.org/show_bug.cgi?id=2576
-[2] https://github.com/mrchapp/meta-96boards/commit/ee71b7e
+-- 
+
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
+
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
 
 
