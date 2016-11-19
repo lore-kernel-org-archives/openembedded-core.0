@@ -1,32 +1,28 @@
 Return-Path: <herve.jourdain@neuf.fr>
-Received: from smtp26.services.sfr.fr (smtp26.services.sfr.fr [93.17.128.1])
-	by mail.openembedded.org (Postfix) with ESMTP id 9664E6E64A
+Received: from smtp26.services.sfr.fr (smtp26.services.sfr.fr [93.17.128.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 9031C71AE6
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 19 Nov 2016 12:49:49 +0000 (UTC)
-Received: from nbhjo (42-72-253-93.EMOME-IP.hinet.net [42.72.253.93])
-	by msfrf2617.sfr.fr (SMTP Server) with ESMTP id 3F5E41C002042
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 19 Nov 2016 13:49:48 +0100 (CET)
-Received: from nbhjo (42-72-253-93.EMOME-IP.hinet.net [42.72.253.93])	(using
-	TLSv1.2
-	with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))	(No client
+	Sat, 19 Nov 2016 12:50:50 +0000 (UTC)
+Received: from localhost.localdomain (111-250-155-21.dynamic.hinet.net
+	[111.250.155.21])
+	by msfrf2635.sfr.fr (SMTP Server) with ESMTP id 4F0851C00343E;
+	Sat, 19 Nov 2016 13:50:51 +0100 (CET)
+Received: from localhost.localdomain (111-250-155-21.dynamic.hinet.net
+	[111.250.155.21])	(using TLSv1.2
+	with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))	(No client
 	certificate requested)	(Authenticated sender: herve.jourdain@neuf.fr)
-	by msfrf2617.sfr.fr (SMTP Server) with ESMTPSA
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 19 Nov 2016 13:49:46 +0100 (CET)
+	by msfrf2635.sfr.fr (SMTP Server) with ESMTPSA;
+	Sat, 19 Nov 2016 13:50:49 +0100 (CET)
 Authentication-Results: sfr.fr; auth=pass (LOGIN)
 	smtp.auth=herve.jourdain@neuf.fr
 From: Herve Jourdain <herve.jourdain@neuf.fr>
 To: openembedded-core@lists.openembedded.org
-References: <1479552674-23762-1-git-send-email-herve.jourdain@neuf.fr>
-In-Reply-To: <1479552674-23762-1-git-send-email-herve.jourdain@neuf.fr>
-Date: Sat, 19 Nov 2016 13:49:38 +0100
-Message-ID: <002401d24263$670286a0$350793e0$@neuf.fr>
-MIME-Version: 1.0
-X-Mailer: Microsoft Outlook 15.0
-thread-index: AQF4ii4SPmdynm04eHOqpmJQkqdMcaGTslSw
+Date: Sat, 19 Nov 2016 20:50:32 +0800
+Message-Id: <1479559833-128256-1-git-send-email-herve.jourdain@neuf.fr>
+X-Mailer: git-send-email 2.7.4
 X-sfr-mailing: LEGIT
-Subject: Re: [PATCH 0/1] Add a tune file for cortexa53, valid for 32 bits and 64 bits
+MIME-Version: 1.0
+Subject: [PATCH v2 0/1] Add a tune file for cortexa53, valid for 32 bits and 64 bits
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,20 +35,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 19 Nov 2016 12:49:50 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
-Content-Language: fr
-
-Please disregard this patch, v2 coming...
-
------Original Message-----
-From: Herve Jourdain [mailto:herve.jourdain@neuf.fr] 
-Sent: samedi 19 novembre 2016 11:51
-To: openembedded-core@lists.openembedded.org
-Cc: Herve Jourdain <herve.jourdain@neuf.fr>
-Subject: [oe-core][PATCH 0/1] Add a tune file for cortexa53, valid for 32
-bits and 64 bits
+X-List-Received-Date: Sat, 19 Nov 2016 12:50:50 -0000
 
 Tune file for ARM Cortex-A53, supporting 32 bits and 64 bits configuration
 
