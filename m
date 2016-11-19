@@ -1,29 +1,28 @@
-Return-Path: <rpjday@crashcourse.ca>
-Received: from smtp486.redcondor.net (smtp486.redcondor.net [208.80.204.86])
-	by mail.openembedded.org (Postfix) with ESMTP id DB25F60746
+Return-Path: <herve.jourdain@neuf.fr>
+Received: from smtp26.services.sfr.fr (smtp26.services.sfr.fr [93.17.128.10])
+	by mail.openembedded.org (Postfix) with ESMTP id 2FD8D6FFCE
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 19 Nov 2016 09:38:02 +0000 (UTC)
-Received: from astoria.ccjclearline.com ([64.235.106.9])
-	by smtp486.redcondor.net ({6695537a-536a-45f9-a249-877c85428649})
-	via TCP (outbound) with ESMTPS id 20161119093719681_0486
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 19 Nov 2016 09:37:19 +0000
-X-RC-FROM: <rpjday@crashcourse.ca>
-X-RC-RCPT: <openembedded-core@lists.openembedded.org>
-Received: from [174.118.92.171] (port=44442 helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
-	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
-	id 1c825B-0005n5-HK for openembedded-core@lists.openembedded.org;
-	Sat, 19 Nov 2016 04:37:13 -0500
-Date: Sat, 19 Nov 2016 04:36:06 -0500 (EST)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@localhost.localdomain
-To: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Message-ID: <alpine.LFD.2.20.1611190432210.22441@localhost.localdomain>
-User-Agent: Alpine 2.20 (LFD 67 2015-01-07)
+	Sat, 19 Nov 2016 10:58:43 +0000 (UTC)
+Received: from localhost.localdomain (111-250-155-21.dynamic.hinet.net
+	[111.250.155.21])
+	by msfrf2626.sfr.fr (SMTP Server) with ESMTP id 5D5AF1C001004;
+	Sat, 19 Nov 2016 11:51:35 +0100 (CET)
+Received: from localhost.localdomain (111-250-155-21.dynamic.hinet.net
+	[111.250.155.21])	(using TLSv1.2
+	with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))	(No client
+	certificate requested)	(Authenticated sender: herve.jourdain@neuf.fr)
+	by msfrf2626.sfr.fr (SMTP Server) with ESMTPSA;
+	Sat, 19 Nov 2016 11:51:33 +0100 (CET)
+Authentication-Results: sfr.fr; auth=pass (LOGIN)
+	smtp.auth=herve.jourdain@neuf.fr
+From: Herve Jourdain <herve.jourdain@neuf.fr>
+To: openembedded-core@lists.openembedded.org
+Date: Sat, 19 Nov 2016 18:51:13 +0800
+Message-Id: <1479552674-23762-1-git-send-email-herve.jourdain@neuf.fr>
+X-Mailer: git-send-email 2.7.4
+X-sfr-mailing: LEGIT
 MIME-Version: 1.0
-X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
-Subject: more perl stuff: is "perl-module-rpm" still borked?
+Subject: [PATCH 0/1] Add a tune file for cortexa53, valid for 32 bits and 64 bits
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,38 +35,18 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 19 Nov 2016 09:38:04 -0000
-Content-Type: text/plain; charset=US-ASCII
+X-List-Received-Date: Sat, 19 Nov 2016 10:58:44 -0000
 
+Tune file for ARM Cortex-A53, supporting 32 bits and 64 bits configuration
 
-  from recipes-devtools/rpm/rpm_5.4.16.bb:
+Herve Jourdain (1):
+  Add a tune file for cortexa53, valid for 32 bits and 64 bits
 
-SUMMARY_perl-module-rpm = "Perl bindings for apps which will manipulate RPM packages"
-DESCRIPTION_perl-modules-rpm = "The perl-modules-rpm package contains a module that permits applications \
-written in the Perl programming language to use the interface \
-supplied by the RPM Package Manager libraries."
-
-... snip ...
-
-# Perl modules are not built, but they could be enabled fairly easily
-# the perl module creation and installation would need to be patched.
-# (currently has host perl contamination issues)
-WITH_PERL = "--with-perl --without-perlembed --without-perl-urpm"
-WITHOUT_PERL = "--without-perl --without-perl-urpm"
-PACKAGECONFIG[perl] = "${WITH_PERL},${WITHOUT_PERL},perl,"
-
-  so, still broken?
-
-rday
+ meta/conf/machine/include/tune-cortexa53.inc | 22 ++++++++++++++++++++++
+ 1 file changed, 22 insertions(+)
+ create mode 100644 meta/conf/machine/include/tune-cortexa53.inc
 
 -- 
-
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
-
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
+2.7.4
 
 
