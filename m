@@ -1,32 +1,28 @@
 Return-Path: <herve.jourdain@neuf.fr>
-Received: from smtp26.services.sfr.fr (smtp26.services.sfr.fr [93.17.128.1])
-	by mail.openembedded.org (Postfix) with ESMTP id A5E1C71978
+Received: from smtp26.services.sfr.fr (smtp26.services.sfr.fr [93.17.128.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 5611171979
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 20 Nov 2016 08:08:01 +0000 (UTC)
-Received: from nbhjo (111-82-100-69.EMOME-IP.hinet.net [111.82.100.69])
-	by msfrf2614.sfr.fr (SMTP Server) with ESMTP id BDD4D1C000406
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 20 Nov 2016 09:08:02 +0100 (CET)
-Received: from nbhjo (111-82-100-69.EMOME-IP.hinet.net [111.82.100.69])	(using
-	TLSv1.2
-	with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))	(No client
+	Sun, 20 Nov 2016 12:10:37 +0000 (UTC)
+Received: from localhost.localdomain (111-250-155-21.dynamic.hinet.net
+	[111.250.155.21])
+	by msfrf2629.sfr.fr (SMTP Server) with ESMTP id 2344C1C000425;
+	Sun, 20 Nov 2016 13:10:38 +0100 (CET)
+Received: from localhost.localdomain (111-250-155-21.dynamic.hinet.net
+	[111.250.155.21])	(using TLSv1.2
+	with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))	(No client
 	certificate requested)	(Authenticated sender: herve.jourdain@neuf.fr)
-	by msfrf2614.sfr.fr (SMTP Server) with ESMTPSA
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 20 Nov 2016 09:08:01 +0100 (CET)
+	by msfrf2629.sfr.fr (SMTP Server) with ESMTPSA;
+	Sun, 20 Nov 2016 13:10:36 +0100 (CET)
 Authentication-Results: sfr.fr; auth=pass (LOGIN)
 	smtp.auth=herve.jourdain@neuf.fr
 From: Herve Jourdain <herve.jourdain@neuf.fr>
 To: openembedded-core@lists.openembedded.org
-References: <1479559833-128256-1-git-send-email-herve.jourdain@neuf.fr>
-In-Reply-To: <1479559833-128256-1-git-send-email-herve.jourdain@neuf.fr>
-Date: Sun, 20 Nov 2016 09:07:54 +0100
-Message-ID: <003501d24305$351baf70$9f530e50$@neuf.fr>
-MIME-Version: 1.0
-X-Mailer: Microsoft Outlook 15.0
-thread-index: AQIZuPqIOKLcPxAJ7Pf8pqxZRGdymqBSmB5Q
+Date: Sun, 20 Nov 2016 20:10:20 +0800
+Message-Id: <1479643823-11675-1-git-send-email-herve.jourdain@neuf.fr>
+X-Mailer: git-send-email 2.7.4
 X-sfr-mailing: LEGIT
-Subject: Re: [PATCH v2 0/1] Add a tune file for cortexa53, valid for 32 bits and 64 bits
+MIME-Version: 1.0
+Subject: [PATCH v3 0/3] Add a tune file for cortexa53, valid for 32 bits and 64 bits
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,33 +35,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 20 Nov 2016 08:08:01 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
-Content-Language: fr
+X-List-Received-Date: Sun, 20 Nov 2016 12:10:40 -0000
 
-Please disregard this patch, it's not working fine for 32bits (cortex-a53
-must have armv8+crc as arch), v3 coming soon.
+Add a tune file for cortexa53, valid for 32 bits and 64 bits
+It requires adding options in arch-armv8.inc to support 32 bits options
 
-Sorry for that.
-
-Herve
-
------Original Message-----
-From: Herve Jourdain [mailto:herve.jourdain@neuf.fr] 
-Sent: samedi 19 novembre 2016 13:51
-To: openembedded-core@lists.openembedded.org
-Cc: Herve Jourdain <herve.jourdain@neuf.fr>
-Subject: [oe-core][PATCH v2 0/1] Add a tune file for cortexa53, valid for 32
-bits and 64 bits
-
-Tune file for ARM Cortex-A53, supporting 32 bits and 64 bits configuration
-
-Herve Jourdain (1):
+Herve Jourdain (3):
+  arch-arm64.inc: include arch-armv7ve instead of arch-armv7a
+  arch-armv8.inc: add support for 32bits armv8 options
   Add a tune file for cortexa53, valid for 32 bits and 64 bits
 
- meta/conf/machine/include/tune-cortexa53.inc | 22 ++++++++++++++++++++++
- 1 file changed, 22 insertions(+)
+ meta/conf/machine/include/arm/arch-arm64.inc |  2 +-
+ meta/conf/machine/include/arm/arch-armv8.inc | 60 ++++++++++++++++++++++++++++
+ meta/conf/machine/include/tune-cortexa53.inc | 43 ++++++++++++++++++++
+ 3 files changed, 104 insertions(+), 1 deletion(-)
  create mode 100644 meta/conf/machine/include/tune-cortexa53.inc
 
 -- 
