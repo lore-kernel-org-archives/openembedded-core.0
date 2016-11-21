@@ -1,27 +1,20 @@
-Return-Path: <dmitry.rozhkov@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 88055601D3
+Return-Path: <markus.lehtonen@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 1F4206071F
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Nov 2016 12:57:10 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by orsmga101.jf.intel.com with ESMTP; 21 Nov 2016 04:57:11 -0800
+	Mon, 21 Nov 2016 15:07:19 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by fmsmga102.fm.intel.com with ESMTP; 21 Nov 2016 07:07:13 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.31,675,1473145200"; d="scan'208";a="903926379"
-Received: from linux.intel.com ([10.54.29.200])
-	by orsmga003.jf.intel.com with ESMTP; 21 Nov 2016 04:57:11 -0800
-Received: from drozhkov-desk.fi.intel.com (drozhkov-desk.fi.intel.com
-	[10.237.72.60])
-	by linux.intel.com (Postfix) with ESMTP id CD5096A4006;
-	Mon, 21 Nov 2016 04:56:29 -0800 (PST)
-Message-ID: <1479733029.29591.30.camel@linux.intel.com>
-From: Dmitry Rozhkov <dmitry.rozhkov@linux.intel.com>
-To: Khem Raj <raj.khem@gmail.com>, openembedded-core@lists.openembedded.org
-Date: Mon, 21 Nov 2016 14:57:09 +0200
-In-Reply-To: <20161110061149.20570-1-raj.khem@gmail.com>
-References: <20161110061149.20570-1-raj.khem@gmail.com>
-X-Mailer: Evolution 3.18.5.2 (3.18.5.2-1.fc23) 
-Mime-Version: 1.0
-Subject: Re: [RFT][PATCH] systemd: Upgrade to 232
+X-IronPort-AV: E=Sophos;i="5.31,675,1473145200"; d="scan'208";a="789098706"
+Received: from marquiz.fi.intel.com ([10.237.72.155])
+	by FMSMGA003.fm.intel.com with ESMTP; 21 Nov 2016 07:07:12 -0800
+From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 21 Nov 2016 17:07:09 +0200
+Message-Id: <1479740831-661-1-git-send-email-markus.lehtonen@linux.intel.com>
+X-Mailer: git-send-email 2.6.6
+Subject: [PATCH 0/2] Stop using update-alternatives to manage syslog init script
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,51 +27,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 21 Nov 2016 12:57:10 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 21 Nov 2016 15:07:20 -0000
 
-Hi Raj,
+Managing (SysV) init scripts with update-alternatives seems to be a bad idea.
+Package scriptlets (i.e. preinst/postinst/prerm/postrm) in oe-core are
+constructed from multiple fragments originating from separate bbclasses. Thus,
+the exact final scriptlet(s) depend on the inheritance order of the classes and
+is thus delicate by design. Especially in the case of init scripts we always
+seem to break some use cases, whatever inheritance order we use. E.g.
+update-rc.d fails because init script (link) is not yet present or daemon
+start/stop fails because init script (link) is not yet/anymore present. Also,
+for reference, no other packages than the syslog packages seem to use
+update-alternatives for managing init scripts.
 
-Could you please add this change
+This patchset fixes the problem by removing the update-alternatives mechanism
+from syslog packages and making them conflict with each other so that they
+cannot be installed on the system at the same time.
+
+[YOCTO #10433]
+
+The following changes since commit a675b2c89e477af088faee9b3be96eae19a85f0b:
+
+  sanity.bbclass: fix logging of an error (2016-11-15 15:18:50 +0000)
+
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib marquiz/fixes-10433
+  http://git.openembedded.org/openembedded-core-contrib/log/?h=marquiz/fixes-10433
 
 
-diff --git a/meta/recipes-core/systemd/systemd_232.bb b/meta/recipes-
-core/systemd/systemd_232.bb
-index 892a109..def6e05 100644
---- a/meta/recipes-core/systemd/systemd_232.bb
-+++ b/meta/recipes-core/systemd/systemd_232.bb
-@@ -275,7 +275,7 @@ python populate_packages_prepend (){
-     systemdlibdir = d.getVar("rootlibdir", True)
-     do_split_packages(d, systemdlibdir, '^lib(.*)\.so\.*', 'lib%s',
-'Systemd %s library', extra_depends='', allow_links=True)
- }
--PACKAGES_DYNAMIC += "^lib(udev|systemd).*"
-+PACKAGES_DYNAMIC += "^lib(udev|systemd|nss).*"
- 
- PACKAGES =+ "\
-     ${PN}-gui \
+Markus Lehtonen (2):
+  busybox: don't manage sysv init script with update-alternatives
+  sysklogd: don't use update-alternatives
 
+ meta/conf/distro/include/default-providers.inc |  1 +
+ meta/recipes-core/busybox/busybox.inc          | 26 +++++++-------------------
+ meta/recipes-extended/sysklogd/sysklogd.inc    | 15 +++------------
+ 3 files changed, 11 insertions(+), 31 deletions(-)
 
-to the patch, so libnss-resolve would be packaged properly.
-
-BR,
-Dmitry
-
-On Wed, 2016-11-09 at 22:11 -0800, Khem Raj wrote:
-> * Drop support for rcS.d SysV init scripts.
->   These are prone to cause dependency loops, and almost all packages
-> with
->   rcS scripts now ship a native systemd service.
-> 
-> * Drop mount propagation patch, it only happens with libseccomp, OE
-> doesnt
->   enable it
-> 
-> * kdbus option has disappeared from configure
-> 
-> * Ignore dev-so for PN now since systemd introduced private .so see
->   https://github.com/systemd/systemd/issues/3810
-> 
+-- 
+2.6.6
 
 
