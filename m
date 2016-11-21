@@ -1,22 +1,25 @@
-Return-Path: <markus.lehtonen@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 4EE076071F
+Return-Path: <diego.ml@zoho.com>
+Received: from sender153-mail.zoho.com (sender153-mail.zoho.com
+	[74.201.84.153])
+	by mail.openembedded.org (Postfix) with ESMTP id 701446FEF3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Nov 2016 15:07:20 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga102.fm.intel.com with ESMTP; 21 Nov 2016 07:07:14 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.31,675,1473145200"; d="scan'208";a="789098715"
-Received: from marquiz.fi.intel.com ([10.237.72.155])
-	by FMSMGA003.fm.intel.com with ESMTP; 21 Nov 2016 07:07:13 -0800
-From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
+	Mon, 21 Nov 2016 16:15:09 +0000 (UTC)
+DomainKey-Signature: a=rsa-sha1; q=dns; c=nofws; s=zapps768; d=zoho.com; 
+	h=from:to:cc:subject:date:message-id; 
+	b=HQHD0Uej+RkV2bQx1rpg0OpaQhsXZzV5SMLUoLir3oK4nfubTewedyqiwiKXm9wEL+AX3rVno3qC
+	xu/BoFtQ05Q4GmwDKCky6DD4qfIO2XHY+1xsS494nJbM8+RN6ZX8  
+Received: from ip-172-31-0-222.eu-west-1.compute.internal
+	(ec2-52-48-117-71.eu-west-1.compute.amazonaws.com
+	[52.48.117.71]) by mx.zohomail.com
+	with SMTPS id 147974490851188.43121335723697;
+	Mon, 21 Nov 2016 08:15:08 -0800 (PST)
+From: Diego Rondini <diego.ml@zoho.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 21 Nov 2016 17:07:10 +0200
-Message-Id: <1479740831-661-2-git-send-email-markus.lehtonen@linux.intel.com>
-X-Mailer: git-send-email 2.6.6
-In-Reply-To: <1479740831-661-1-git-send-email-markus.lehtonen@linux.intel.com>
-References: <1479740831-661-1-git-send-email-markus.lehtonen@linux.intel.com>
-Subject: [PATCH 1/2] busybox: don't manage sysv init script with update-alternatives
+Date: Mon, 21 Nov 2016 16:22:18 +0000
+Message-Id: <1479745338-9397-1-git-send-email-diego.ml@zoho.com>
+X-Mailer: git-send-email 1.9.1
+Cc: Diego Rondini <diego.ml@zoho.com>
+Subject: [PATCH v3] xinput-calibrator: use up-to-date git version
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,104 +32,99 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 21 Nov 2016 15:07:20 -0000
+X-List-Received-Date: Mon, 21 Nov 2016 16:15:10 -0000
 
-This has proved to be a bad idea. Some package srciptlet
-(preinst/postinst/prerm/postrm) seems to break whatever we try to do.
-Basically the failures happend because the expeceted init script is not
-present when the scriptlet tries to run update-rc.d or start or stop the
-service. Another indication that it is a bad idea is that no other
-system service package seems to manage init scripts with
-update-alternatives.
+Use up-to-date version from git. While currently there aren't official releases
+newer than 0.7.5, quite some new features have been added in git, for example
+the ability to disable the calibration screen timeout.
+Additionally depend on libxrandr, so that xinput_calibrator can use the library
+directly to obtain the geometry, instead of parsing the output of the xrandr
+binary (parsing of the output can easily break, for example when the output
+name is made up of two words instead of one).
 
-The patch also adds a new virtual package, i.e. VIRTUAL-RUNTIME_syslog.
-
-[YOCTO #10433]
-
-Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
+Signed-off-by: Diego Rondini <diego.ml@zoho.com>
 ---
- meta/conf/distro/include/default-providers.inc |  1 +
- meta/recipes-core/busybox/busybox.inc          | 26 +++++++-------------------
- 2 files changed, 8 insertions(+), 19 deletions(-)
+ .../add-geometry-input-when-calibrating.patch      | 34 ----------------------
+ .../xinput-calibrator/xinput-calibrator_git.bb     |  9 +++---
+ 2 files changed, 4 insertions(+), 39 deletions(-)
+ delete mode 100644 meta/recipes-graphics/xinput-calibrator/xinput-calibrator/add-geometry-input-when-calibrating.patch
 
-diff --git a/meta/conf/distro/include/default-providers.inc b/meta/conf/distro/include/default-providers.inc
-index ece4d8b..b1d245f 100644
---- a/meta/conf/distro/include/default-providers.inc
-+++ b/meta/conf/distro/include/default-providers.inc
-@@ -28,6 +28,7 @@ VIRTUAL-RUNTIME_getopt ?= "util-linux-getopt"
- VIRTUAL-RUNTIME_wireless-tools ?= "iw wireless-tools"
- VIRTUAL-RUNTIME_base-utils ?= "busybox"
- VIRTUAL-RUNTIME_base-utils-hwclock ?= "busybox-hwclock"
-+VIRTUAL-RUNTIME_syslog ?= "busybox-syslog"
+diff --git a/meta/recipes-graphics/xinput-calibrator/xinput-calibrator/add-geometry-input-when-calibrating.patch b/meta/recipes-graphics/xinput-calibrator/xinput-calibrator/add-geometry-input-when-calibrating.patch
+deleted file mode 100644
+index 9dc94ae..0000000
+--- a/meta/recipes-graphics/xinput-calibrator/xinput-calibrator/add-geometry-input-when-calibrating.patch
++++ /dev/null
+@@ -1,34 +0,0 @@
+-From 1cb83759632bb218559c4d0d65ff79f868c03dc5 Mon Sep 17 00:00:00 2001
+-From: "Maxin B. John" <maxin.john@intel.com>
+-Date: Tue, 9 Aug 2016 17:03:31 +0300
+-Subject: [PATCH] add geometry input when calibrating
+-
+-Send monitor geometry to xinput_calibrator when running the script
+-Update:
+-        Remove bashism
+-
+-Upstream-Status: Inappropriate [no longer maintained]
+-
+-Signed-off-by: Jonathan David <jonathan.david@ni.com>
+-Signed-off-by: Maxin B. John <maxin.john@intel.com>
+----
+- scripts/xinput_calibrator_pointercal.sh | 3 ++-
+- 1 file changed, 2 insertions(+), 1 deletion(-)
+-
+-diff --git a/scripts/xinput_calibrator_pointercal.sh b/scripts/xinput_calibrator_pointercal.sh
+-index fccb197..fea7c2f 100755
+---- a/scripts/xinput_calibrator_pointercal.sh
+-+++ b/scripts/xinput_calibrator_pointercal.sh
+-@@ -24,7 +24,8 @@ if [ -e $CALFILE ] ; then
+-   fi
+- fi
+- 
+--CALDATA=`$BINARY --output-type xinput -v | tee $LOGFILE | grep '    xinput set' | sed 's/^    //g; s/$/;/g'`
+-+RESOLUTION=$(xrandr | awk -F '[[:space:]+]' '/ connected/ { if ($3 != "primary") print $3; if ($3 == "primary") print $4 }')
+-+CALDATA=`$BINARY --geometry $RESOLUTION --output-type xinput -v | tee $LOGFILE | grep '    xinput set' | sed 's/^    //g; s/$/;/g'`
+- if [ ! -z "$CALDATA" ] ; then
+-   echo $CALDATA > $CALFILE
+-   echo "Calibration data stored in $CALFILE (log in $LOGFILE)"
+--- 
+-2.4.0
+-
+diff --git a/meta/recipes-graphics/xinput-calibrator/xinput-calibrator_git.bb b/meta/recipes-graphics/xinput-calibrator/xinput-calibrator_git.bb
+index 57c3a7a..68e62ea 100644
+--- a/meta/recipes-graphics/xinput-calibrator/xinput-calibrator_git.bb
++++ b/meta/recipes-graphics/xinput-calibrator/xinput-calibrator_git.bb
+@@ -2,7 +2,7 @@ SUMMARY = "Touchscreen calibration program for X11"
+ HOMEPAGE = "http://www.freedesktop.org/wiki/Software/xinput_calibrator"
+ LICENSE = "MIT-X"
+ LIC_FILES_CHKSUM = "file://src/calibrator.cpp;endline=22;md5=1bcba08f67cdb56f34021557898e4b5a"
+-DEPENDS = "virtual/libx11 libxi"
++DEPENDS = "virtual/libx11 libxi libxrandr"
  
- #
- # Default recipe providers
-diff --git a/meta/recipes-core/busybox/busybox.inc b/meta/recipes-core/busybox/busybox.inc
-index b2f1960..cbcff9e 100644
---- a/meta/recipes-core/busybox/busybox.inc
-+++ b/meta/recipes-core/busybox/busybox.inc
-@@ -23,6 +23,8 @@ EXTRA_OEMAKE = "CC='${CC}' LD='${CCLD}' V=1 ARCH=${TARGET_ARCH} CROSS_COMPILE=${
+ PV = "0.7.5+git${SRCPV}"
+ PR = "r6"
+@@ -11,11 +11,10 @@ inherit autotools pkgconfig distro_features_check
+ # depends on virtual/libx11
+ REQUIRED_DISTRO_FEATURES = "x11"
  
- PACKAGES =+ "${PN}-httpd ${PN}-udhcpd ${PN}-udhcpc ${PN}-syslog ${PN}-mdev ${PN}-hwclock"
+-SRCREV = "c01c5af807cb4b0157b882ab07a893df9a810111"
++SRCREV = "03dadf55109bd43d3380f040debe9f82f66f2f35"
+ SRC_URI = "git://github.com/tias/xinput_calibrator.git \
+            file://30xinput_calibrate.sh \
+-           file://Allow-xinput_calibrator_pointercal.sh-to-be-run-as-n.patch \
+-           file://add-geometry-input-when-calibrating.patch"
++           file://Allow-xinput_calibrator_pointercal.sh-to-be-run-as-n.patch"
  
-+RCONFLICTS_${PN}-syslog = "sysklogd"
-+
- FILES_${PN}-httpd = "${sysconfdir}/init.d/busybox-httpd /srv/www"
- FILES_${PN}-syslog = "${sysconfdir}/init.d/syslog* ${sysconfdir}/syslog-startup.conf* ${sysconfdir}/syslog.conf* ${systemd_unitdir}/system/syslog.service ${sysconfdir}/default/busybox-syslog"
- FILES_${PN}-mdev = "${sysconfdir}/init.d/mdev ${sysconfdir}/mdev.conf ${sysconfdir}/mdev/*"
-@@ -45,7 +47,7 @@ SYSTEMD_SERVICE_${PN}-syslog = "busybox-syslog.service"
- CONFFILES_${PN}-syslog = "${sysconfdir}/syslog-startup.conf.${BPN}"
- CONFFILES_${PN}-mdev = "${sysconfdir}/mdev.conf"
+ S = "${WORKDIR}/git"
  
--RRECOMMENDS_${PN} = "${PN}-syslog ${PN}-udhcpc"
-+RRECOMMENDS_${PN} = "${VIRTUAL-RUNTIME_syslog} ${PN}-udhcpc"
- 
- inherit cml1 systemd update-rc.d ptest
- 
-@@ -238,9 +240,9 @@ do_install () {
- 	fi
- 
- 	if grep -q "CONFIG_SYSLOGD=y" ${B}/.config; then
--		install -m 0755 ${WORKDIR}/syslog ${D}${sysconfdir}/init.d/syslog.${BPN}
--		install -m 644 ${WORKDIR}/syslog-startup.conf ${D}${sysconfdir}/syslog-startup.conf.${BPN}
--		install -m 644 ${WORKDIR}/syslog.conf ${D}${sysconfdir}/syslog.conf.${BPN}
-+		install -m 0755 ${WORKDIR}/syslog ${D}${sysconfdir}/init.d/syslog
-+		install -m 644 ${WORKDIR}/syslog-startup.conf ${D}${sysconfdir}/syslog-startup.conf
-+		install -m 644 ${WORKDIR}/syslog.conf ${D}${sysconfdir}/syslog.conf
- 	fi
- 	if grep "CONFIG_CROND=y" ${B}/.config; then
- 		install -m 0755 ${WORKDIR}/busybox-cron ${D}${sysconfdir}/init.d/
-@@ -312,7 +314,7 @@ do_install () {
- 
-     # Remove the sysvinit specific configuration file for systemd systems to avoid confusion
-     if ${@bb.utils.contains('DISTRO_FEATURES', 'sysvinit', 'false', 'true', d)}; then
--	rm -f ${D}${sysconfdir}/syslog-startup.conf.${BPN}
-+	rm -f ${D}${sysconfdir}/syslog-startup.conf
-     fi
+@@ -34,5 +33,5 @@ do_install_append() {
  }
  
-@@ -326,20 +328,6 @@ inherit update-alternatives
- 
- ALTERNATIVE_PRIORITY = "50"
- 
--ALTERNATIVE_${PN}-syslog += "syslog-conf"
--ALTERNATIVE_LINK_NAME[syslog-conf] = "${sysconfdir}/syslog.conf"
--
--python () {
--    if bb.utils.contains('DISTRO_FEATURES', 'sysvinit', True, False, d):
--        pn = d.getVar('PN', True)
--        d.appendVar('ALTERNATIVE_%s-syslog' % (pn), ' syslog-init')
--        d.setVarFlag('ALTERNATIVE_LINK_NAME', 'syslog-init', '%s/init.d/syslog' % (d.getVar('sysconfdir', True)))
--        d.setVarFlag('ALTERNATIVE_TARGET', 'syslog-init', '%s/init.d/syslog.%s' % (d.getVar('sysconfdir', True), d.getVar('BPN', True)))
--        d.appendVar('ALTERNATIVE_%s-syslog' % (pn), ' syslog-startup-conf')
--        d.setVarFlag('ALTERNATIVE_LINK_NAME', 'syslog-startup-conf', '%s/syslog-startup.conf' % (d.getVar('sysconfdir', True)))
--        d.setVarFlag('ALTERNATIVE_TARGET', 'syslog-startup-conf', '%s/syslog-startup.conf.%s' % (d.getVar('sysconfdir', True), d.getVar('BPN', True)))
--}
--
- python do_package_prepend () {
-     # We need to load the full set of busybox provides from the /etc/busybox.links
-     # Use this to see the update-alternatives with the right information
+ FILES_${PN} += "${sysconfdir}/xdg/autostart"
+-RDEPENDS_${PN} = "xinput formfactor xrandr"
++RDEPENDS_${PN} = "xinput formfactor"
+ RRECOMMENDS_${PN} = "pointercal-xinput"
 -- 
-2.6.6
+1.9.1
+
 
 
