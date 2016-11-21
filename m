@@ -1,20 +1,22 @@
 Return-Path: <markus.lehtonen@linux.intel.com>
 Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 1F4206071F
+	by mail.openembedded.org (Postfix) with ESMTP id 406C371A15
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Nov 2016 15:07:19 +0000 (UTC)
+	Mon, 21 Nov 2016 15:07:20 +0000 (UTC)
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga102.fm.intel.com with ESMTP; 21 Nov 2016 07:07:13 -0800
+	by fmsmga102.fm.intel.com with ESMTP; 21 Nov 2016 07:07:15 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.31,675,1473145200"; d="scan'208";a="789098706"
+X-IronPort-AV: E=Sophos;i="5.31,675,1473145200"; d="scan'208";a="789098718"
 Received: from marquiz.fi.intel.com ([10.237.72.155])
-	by FMSMGA003.fm.intel.com with ESMTP; 21 Nov 2016 07:07:12 -0800
+	by FMSMGA003.fm.intel.com with ESMTP; 21 Nov 2016 07:07:14 -0800
 From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 21 Nov 2016 17:07:09 +0200
-Message-Id: <1479740831-661-1-git-send-email-markus.lehtonen@linux.intel.com>
+Date: Mon, 21 Nov 2016 17:07:11 +0200
+Message-Id: <1479740831-661-3-git-send-email-markus.lehtonen@linux.intel.com>
 X-Mailer: git-send-email 2.6.6
-Subject: [PATCH 0/2] Stop using update-alternatives to manage syslog init script
+In-Reply-To: <1479740831-661-1-git-send-email-markus.lehtonen@linux.intel.com>
+References: <1479740831-661-1-git-send-email-markus.lehtonen@linux.intel.com>
+Subject: [PATCH 2/2] sysklogd: don't use update-alternatives
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,42 +31,57 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Mon, 21 Nov 2016 15:07:20 -0000
 
-Managing (SysV) init scripts with update-alternatives seems to be a bad idea.
-Package scriptlets (i.e. preinst/postinst/prerm/postrm) in oe-core are
-constructed from multiple fragments originating from separate bbclasses. Thus,
-the exact final scriptlet(s) depend on the inheritance order of the classes and
-is thus delicate by design. Especially in the case of init scripts we always
-seem to break some use cases, whatever inheritance order we use. E.g.
-update-rc.d fails because init script (link) is not yet present or daemon
-start/stop fails because init script (link) is not yet/anymore present. Also,
-for reference, no other packages than the syslog packages seem to use
-update-alternatives for managing init scripts.
-
-This patchset fixes the problem by removing the update-alternatives mechanism
-from syslog packages and making them conflict with each other so that they
-cannot be installed on the system at the same time.
+Using update-alternatives for managing init scripts has proved to be
+problematic. Thus, don't use this method and just conflict with
+busybox-syslog, instead.
 
 [YOCTO #10433]
 
-The following changes since commit a675b2c89e477af088faee9b3be96eae19a85f0b:
+Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
+---
+ meta/recipes-extended/sysklogd/sysklogd.inc | 15 +++------------
+ 1 file changed, 3 insertions(+), 12 deletions(-)
 
-  sanity.bbclass: fix logging of an error (2016-11-15 15:18:50 +0000)
-
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib marquiz/fixes-10433
-  http://git.openembedded.org/openembedded-core-contrib/log/?h=marquiz/fixes-10433
-
-
-Markus Lehtonen (2):
-  busybox: don't manage sysv init script with update-alternatives
-  sysklogd: don't use update-alternatives
-
- meta/conf/distro/include/default-providers.inc |  1 +
- meta/recipes-core/busybox/busybox.inc          | 26 +++++++-------------------
- meta/recipes-extended/sysklogd/sysklogd.inc    | 15 +++------------
- 3 files changed, 11 insertions(+), 31 deletions(-)
-
+diff --git a/meta/recipes-extended/sysklogd/sysklogd.inc b/meta/recipes-extended/sysklogd/sysklogd.inc
+index 5c15ffe..de47e08 100644
+--- a/meta/recipes-extended/sysklogd/sysklogd.inc
++++ b/meta/recipes-extended/sysklogd/sysklogd.inc
+@@ -11,7 +11,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=8ca43cbc842c2336e835926c2166c28b \
+                     file://klogd.c;beginline=2;endline=19;md5=7e87ed0ae6142de079bce738c10c899d \
+                    "
+ 
+-inherit update-rc.d update-alternatives
++inherit update-rc.d
+ 
+ SRC_URI = "http://www.infodrom.org/projects/sysklogd/download/sysklogd-${PV}.tar.gz \
+            file://no-strip-install.patch \
+@@ -22,6 +22,8 @@ SRC_URI = "http://www.infodrom.org/projects/sysklogd/download/sysklogd-${PV}.tar
+ 
+ SRC_URI_append_e500v2 = " file://no-vectorization.patch"
+ 
++RCONFLICTS_${PN} = "busybox-syslog"
++
+ INITSCRIPT_NAME = "syslog"
+ CONFFILES_${PN} = "${sysconfdir}/syslog.conf.${BPN}"
+ 
+@@ -41,17 +43,6 @@ do_install () {
+ 	install -m 755 ${WORKDIR}/sysklogd ${D}${sysconfdir}/init.d/syslog
+ }
+ 
+-# sysklogd package has no internal systemd support, so we weigh busybox's
+-# sysklogd utility over it in case of systemd
+-ALTERNATIVE_PRIORITY = "${@bb.utils.contains('DISTRO_FEATURES','systemd','10','100',d)}"
+-
+-ALTERNATIVE_${PN} = "syslogd klogd syslog-init syslog-conf"
+-
+-ALTERNATIVE_LINK_NAME[syslogd] = "${base_sbindir}/syslogd"
+-ALTERNATIVE_LINK_NAME[klogd] = "${base_sbindir}/klogd"
+-ALTERNATIVE_LINK_NAME[syslog-init] = "${sysconfdir}/init.d/syslog"
+-ALTERNATIVE_LINK_NAME[syslog-conf] = "${sysconfdir}/syslog.conf"
+-
+ pkg_prerm_${PN} () {
+ 	if test "x$D" = "x"; then
+ 	if test "$1" = "upgrade" -o "$1" = "remove"; then
 -- 
 2.6.6
 
