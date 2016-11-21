@@ -1,25 +1,47 @@
-Return-Path: <diego.ml@zoho.com>
-Received: from sender153-mail.zoho.com (sender153-mail.zoho.com
-	[74.201.84.153])
-	by mail.openembedded.org (Postfix) with ESMTP id 701446FEF3
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-vk0-f67.google.com (mail-vk0-f67.google.com
+	[209.85.213.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 8C8A871987
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Nov 2016 16:15:09 +0000 (UTC)
-DomainKey-Signature: a=rsa-sha1; q=dns; c=nofws; s=zapps768; d=zoho.com; 
-	h=from:to:cc:subject:date:message-id; 
-	b=HQHD0Uej+RkV2bQx1rpg0OpaQhsXZzV5SMLUoLir3oK4nfubTewedyqiwiKXm9wEL+AX3rVno3qC
-	xu/BoFtQ05Q4GmwDKCky6DD4qfIO2XHY+1xsS494nJbM8+RN6ZX8  
-Received: from ip-172-31-0-222.eu-west-1.compute.internal
-	(ec2-52-48-117-71.eu-west-1.compute.amazonaws.com
-	[52.48.117.71]) by mx.zohomail.com
-	with SMTPS id 147974490851188.43121335723697;
-	Mon, 21 Nov 2016 08:15:08 -0800 (PST)
-From: Diego Rondini <diego.ml@zoho.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 21 Nov 2016 16:22:18 +0000
-Message-Id: <1479745338-9397-1-git-send-email-diego.ml@zoho.com>
-X-Mailer: git-send-email 1.9.1
-Cc: Diego Rondini <diego.ml@zoho.com>
-Subject: [PATCH v3] xinput-calibrator: use up-to-date git version
+	Mon, 21 Nov 2016 16:26:40 +0000 (UTC)
+Received: by mail-vk0-f67.google.com with SMTP id w194so24865627vkw.3
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 21 Nov 2016 08:26:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=hHTpXUj4OOf7fLAzSgapeYImsXj63L5LXNzUqmQARs0=;
+	b=U0bTxEgJ+445ncnXjj8ffeamRO0Qnch3aIvfFs1Ur7BmE//5espF2T/mxXgzIeEoN0
+	1qkTLcZgKH1oCbzDWDEBLOvr8WnAJ2pb6NJphPmFl388g8Cz5Wuy42DJGJMMIazDALpY
+	MD0v1pm7d0tfVEwF3P509j8V8OanbWHznc2jpMGvhd5tFh3eG5ZM2jxxtuwJqIPL84pM
+	BKDeX7sbFcCECi7/k//6O2/+V42A9EiRPRkPYjQh7+B0+qhEa4FqWkri8GvDuZ4GJyP1
+	4QJv81J9OrgmJsMxngjmjuAwQIUolhVCFVecL9aDoa2qLGRslmEIKZuc0bVmkOXYNUN/
+	PIJA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=hHTpXUj4OOf7fLAzSgapeYImsXj63L5LXNzUqmQARs0=;
+	b=buucGO6KgO3SiIKi3oxIFaRTE7VGHJSa7ZsmNeQDCw+VcSBRYbOjLt1VdBlQmGCGqc
+	0dl9zve0WLtCcfVHb6kegqdccQUwh1qzOahYgpmZH0yvoYBDsC+j3BuQ9ixAMPzyysqD
+	0oUQ71PP+bUGzX3Qa6YuyQQSjCBbI+Rw6xu9IWNOw5GMrHgWKbzeK6QrzzBd6xP/DsWG
+	HQ5rWhfBQGJpWuEsq0FykgbsCOvO6Cy5rM5azmNNIgwXqeHzoZm5hOsGND9HVZpGBZu4
+	9hu9loPM0MR5m3HG8HsqsbJdNWBhdBKM/gsI9vD1XI9IOwq0RFLNu3ZeMpKd3C6N9rhJ
+	FIBg==
+X-Gm-Message-State: AKaTC035yk/LLnypXThnPYB+PQR1QKqVhOeKZTXCkOJsEdxXx0erM8kllQcblsORtMVLsR0EoOclVW1e0yB0qA==
+X-Received: by 10.31.168.7 with SMTP id r7mr6903865vke.148.1479745601579; Mon,
+	21 Nov 2016 08:26:41 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.176.5.136 with HTTP; Mon, 21 Nov 2016 08:26:11 -0800 (PST)
+In-Reply-To: <1479733029.29591.30.camel@linux.intel.com>
+References: <20161110061149.20570-1-raj.khem@gmail.com>
+	<1479733029.29591.30.camel@linux.intel.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Mon, 21 Nov 2016 08:26:11 -0800
+Message-ID: <CAMKF1sqz1rYBG0Hg5r0QVe1g-4P2O1ZtCZ5gtpnty6WGofdagw@mail.gmail.com>
+To: Dmitry Rozhkov <dmitry.rozhkov@linux.intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [RFT][PATCH] systemd: Upgrade to 232
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,99 +54,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 21 Nov 2016 16:15:10 -0000
+X-List-Received-Date: Mon, 21 Nov 2016 16:26:40 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Use up-to-date version from git. While currently there aren't official releases
-newer than 0.7.5, quite some new features have been added in git, for example
-the ability to disable the calibration screen timeout.
-Additionally depend on libxrandr, so that xinput_calibrator can use the library
-directly to obtain the geometry, instead of parsing the output of the xrandr
-binary (parsing of the output can easily break, for example when the output
-name is made up of two words instead of one).
+Thanks, I have added it will be part of V2
 
-Signed-off-by: Diego Rondini <diego.ml@zoho.com>
----
- .../add-geometry-input-when-calibrating.patch      | 34 ----------------------
- .../xinput-calibrator/xinput-calibrator_git.bb     |  9 +++---
- 2 files changed, 4 insertions(+), 39 deletions(-)
- delete mode 100644 meta/recipes-graphics/xinput-calibrator/xinput-calibrator/add-geometry-input-when-calibrating.patch
-
-diff --git a/meta/recipes-graphics/xinput-calibrator/xinput-calibrator/add-geometry-input-when-calibrating.patch b/meta/recipes-graphics/xinput-calibrator/xinput-calibrator/add-geometry-input-when-calibrating.patch
-deleted file mode 100644
-index 9dc94ae..0000000
---- a/meta/recipes-graphics/xinput-calibrator/xinput-calibrator/add-geometry-input-when-calibrating.patch
-+++ /dev/null
-@@ -1,34 +0,0 @@
--From 1cb83759632bb218559c4d0d65ff79f868c03dc5 Mon Sep 17 00:00:00 2001
--From: "Maxin B. John" <maxin.john@intel.com>
--Date: Tue, 9 Aug 2016 17:03:31 +0300
--Subject: [PATCH] add geometry input when calibrating
--
--Send monitor geometry to xinput_calibrator when running the script
--Update:
--        Remove bashism
--
--Upstream-Status: Inappropriate [no longer maintained]
--
--Signed-off-by: Jonathan David <jonathan.david@ni.com>
--Signed-off-by: Maxin B. John <maxin.john@intel.com>
-----
-- scripts/xinput_calibrator_pointercal.sh | 3 ++-
-- 1 file changed, 2 insertions(+), 1 deletion(-)
--
--diff --git a/scripts/xinput_calibrator_pointercal.sh b/scripts/xinput_calibrator_pointercal.sh
--index fccb197..fea7c2f 100755
----- a/scripts/xinput_calibrator_pointercal.sh
--+++ b/scripts/xinput_calibrator_pointercal.sh
--@@ -24,7 +24,8 @@ if [ -e $CALFILE ] ; then
--   fi
-- fi
-- 
---CALDATA=`$BINARY --output-type xinput -v | tee $LOGFILE | grep '    xinput set' | sed 's/^    //g; s/$/;/g'`
--+RESOLUTION=$(xrandr | awk -F '[[:space:]+]' '/ connected/ { if ($3 != "primary") print $3; if ($3 == "primary") print $4 }')
--+CALDATA=`$BINARY --geometry $RESOLUTION --output-type xinput -v | tee $LOGFILE | grep '    xinput set' | sed 's/^    //g; s/$/;/g'`
-- if [ ! -z "$CALDATA" ] ; then
--   echo $CALDATA > $CALFILE
--   echo "Calibration data stored in $CALFILE (log in $LOGFILE)"
---- 
--2.4.0
--
-diff --git a/meta/recipes-graphics/xinput-calibrator/xinput-calibrator_git.bb b/meta/recipes-graphics/xinput-calibrator/xinput-calibrator_git.bb
-index 57c3a7a..68e62ea 100644
---- a/meta/recipes-graphics/xinput-calibrator/xinput-calibrator_git.bb
-+++ b/meta/recipes-graphics/xinput-calibrator/xinput-calibrator_git.bb
-@@ -2,7 +2,7 @@ SUMMARY = "Touchscreen calibration program for X11"
- HOMEPAGE = "http://www.freedesktop.org/wiki/Software/xinput_calibrator"
- LICENSE = "MIT-X"
- LIC_FILES_CHKSUM = "file://src/calibrator.cpp;endline=22;md5=1bcba08f67cdb56f34021557898e4b5a"
--DEPENDS = "virtual/libx11 libxi"
-+DEPENDS = "virtual/libx11 libxi libxrandr"
- 
- PV = "0.7.5+git${SRCPV}"
- PR = "r6"
-@@ -11,11 +11,10 @@ inherit autotools pkgconfig distro_features_check
- # depends on virtual/libx11
- REQUIRED_DISTRO_FEATURES = "x11"
- 
--SRCREV = "c01c5af807cb4b0157b882ab07a893df9a810111"
-+SRCREV = "03dadf55109bd43d3380f040debe9f82f66f2f35"
- SRC_URI = "git://github.com/tias/xinput_calibrator.git \
-            file://30xinput_calibrate.sh \
--           file://Allow-xinput_calibrator_pointercal.sh-to-be-run-as-n.patch \
--           file://add-geometry-input-when-calibrating.patch"
-+           file://Allow-xinput_calibrator_pointercal.sh-to-be-run-as-n.patch"
- 
- S = "${WORKDIR}/git"
- 
-@@ -34,5 +33,5 @@ do_install_append() {
- }
- 
- FILES_${PN} += "${sysconfdir}/xdg/autostart"
--RDEPENDS_${PN} = "xinput formfactor xrandr"
-+RDEPENDS_${PN} = "xinput formfactor"
- RRECOMMENDS_${PN} = "pointercal-xinput"
--- 
-1.9.1
-
-
+On Mon, Nov 21, 2016 at 4:57 AM, Dmitry Rozhkov
+<dmitry.rozhkov@linux.intel.com> wrote:
+> Hi Raj,
+>
+> Could you please add this change
+>
+>
+> diff --git a/meta/recipes-core/systemd/systemd_232.bb b/meta/recipes-
+> core/systemd/systemd_232.bb
+> index 892a109..def6e05 100644
+> --- a/meta/recipes-core/systemd/systemd_232.bb
+> +++ b/meta/recipes-core/systemd/systemd_232.bb
+> @@ -275,7 +275,7 @@ python populate_packages_prepend (){
+>      systemdlibdir = d.getVar("rootlibdir", True)
+>      do_split_packages(d, systemdlibdir, '^lib(.*)\.so\.*', 'lib%s',
+> 'Systemd %s library', extra_depends='', allow_links=True)
+>  }
+> -PACKAGES_DYNAMIC += "^lib(udev|systemd).*"
+> +PACKAGES_DYNAMIC += "^lib(udev|systemd|nss).*"
+>
+>  PACKAGES =+ "\
+>      ${PN}-gui \
+>
+>
+> to the patch, so libnss-resolve would be packaged properly.
+>
+> BR,
+> Dmitry
+>
+> On Wed, 2016-11-09 at 22:11 -0800, Khem Raj wrote:
+>> * Drop support for rcS.d SysV init scripts.
+>>   These are prone to cause dependency loops, and almost all packages
+>> with
+>>   rcS scripts now ship a native systemd service.
+>>
+>> * Drop mount propagation patch, it only happens with libseccomp, OE
+>> doesnt
+>>   enable it
+>>
+>> * kdbus option has disappeared from configure
+>>
+>> * Ignore dev-so for PN now since systemd introduced private .so see
+>>   https://github.com/systemd/systemd/issues/3810
+>>
+>
 
