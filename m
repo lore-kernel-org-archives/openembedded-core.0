@@ -1,25 +1,42 @@
-Return-Path: <maxin.john@intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 6DA9171A08
+Return-Path: <andre.draszik@gmail.com>
+Received: from mail-wj0-f193.google.com (mail-wj0-f193.google.com
+	[209.85.210.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 5DFFD60796
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Nov 2016 12:22:45 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga102.jf.intel.com with ESMTP; 21 Nov 2016 04:22:24 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.31,675,1473145200"; d="scan'208";a="1071526790"
-Received: from linux.intel.com ([10.54.29.200])
-	by fmsmga001.fm.intel.com with ESMTP; 21 Nov 2016 04:22:24 -0800
-Received: from mbabyjoh-desk.fi.intel.com (mbabyjoh-desk.fi.intel.com
-	[10.237.72.71])
-	by linux.intel.com (Postfix) with ESMTP id 19F816A4006
+	Mon, 21 Nov 2016 12:44:00 +0000 (UTC)
+Received: by mail-wj0-f193.google.com with SMTP id xy5so3741507wjc.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Nov 2016 04:21:42 -0800 (PST)
-From: "Maxin B. John" <maxin.john@intel.com>
+	Mon, 21 Nov 2016 04:44:01 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=mNFqzDHi2NExMF1F2vxXbZINSoBFIowBf7ZCFRGoX68=;
+	b=j8urcAxCH7jyPk/hnir6PKJgvKrch8Stta/MyQc83GXF+YNeO1m2x59bBc5J141kTP
+	qusnBXu+zl3535fdg+dFImNywb2I60VNMA0/iEPGze7E//w7bT8UnjU8k1y8REDsEzjZ
+	y2VN4bFoBwcOiZRpYVYuXJ3Q417vGVWuqDAd31aKz3/02enA16eH9qiPQmbOtFasIUC0
+	+kKR1bWITen7LgNgBaxDdJ9CMq3zV7RW4MZTvTjS2xneDfggEBno7AGxRS+jVxr7Ht27
+	nSaE9WeUG+D30orAhWy2Q1OQCkx3EqdisqxOP+y/V9vneb43aO9kbXkB2RuokGUNCe8h
+	qh+w==
+X-Gm-Message-State: AKaTC01Q07qgFVo7n+xjd4teYUxAgQk2pXtOTu/iZCP9/0MIglTTOqUXiMmhpwjYG9cUCg==
+X-Received: by 10.194.79.5 with SMTP id f5mr11363193wjx.13.1479732240815;
+	Mon, 21 Nov 2016 04:44:00 -0800 (PST)
+Received: from tfsielt31850 ([77.107.218.170])
+	by smtp.gmail.com with ESMTPSA id
+	w18sm19362316wme.9.2016.11.21.04.44.00
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Mon, 21 Nov 2016 04:44:00 -0800 (PST)
+Message-ID: <1479732239.18484.3.camel@andred.net>
+From: =?ISO-8859-1?Q?Andr=E9?= Draszik <git@andred.net>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 21 Nov 2016 14:22:47 +0200
-Message-Id: <1479730971-23120-1-git-send-email-maxin.john@intel.com>
-X-Mailer: git-send-email 2.4.0
-Subject: [PATCH 1/5] bluez5: upgrade to 5.43
+Date: Mon, 21 Nov 2016 12:43:59 +0000
+In-Reply-To: <1479730971-23120-3-git-send-email-maxin.john@intel.com>
+References: <1479730971-23120-1-git-send-email-maxin.john@intel.com>
+	<1479730971-23120-3-git-send-email-maxin.john@intel.com>
+X-Mailer: Evolution 3.22.1-2 
+Mime-Version: 1.0
+Subject: Re: [PATCH 3/5] ofono: upgrade to 1.19
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,33 +49,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 21 Nov 2016 12:22:46 -0000
+X-List-Received-Date: Mon, 21 Nov 2016 12:44:02 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Signed-off-by: Maxin B. John <maxin.john@intel.com>
----
- meta/recipes-connectivity/bluez5/{bluez5_5.42.bb => bluez5_5.43.bb} | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-connectivity/bluez5/{bluez5_5.42.bb => bluez5_5.43.bb} (89%)
+On Mon, 2016-11-21 at 14:22 +0200, Maxin B. John wrote:
+> Signed-off-by: Maxin B. John <maxin.john@intel.com>
+> ---
+>  meta/recipes-connectivity/ofono/{ofono_1.18.bb => ofono_1.19.bb} | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>  rename meta/recipes-connectivity/ofono/{ofono_1.18.bb => ofono_1.19.bb}
+> (52%)
 
-diff --git a/meta/recipes-connectivity/bluez5/bluez5_5.42.bb b/meta/recipes-connectivity/bluez5/bluez5_5.43.bb
-similarity index 89%
-rename from meta/recipes-connectivity/bluez5/bluez5_5.42.bb
-rename to meta/recipes-connectivity/bluez5/bluez5_5.43.bb
-index e6ab9b6..e10b82d 100644
---- a/meta/recipes-connectivity/bluez5/bluez5_5.42.bb
-+++ b/meta/recipes-connectivity/bluez5/bluez5_5.43.bb
-@@ -2,8 +2,8 @@ require bluez5.inc
- 
- REQUIRED_DISTRO_FEATURES = "bluez5"
- 
--SRC_URI[md5sum] = "cc8c53133d5be0d6c126e00cf2529028"
--SRC_URI[sha256sum] = "4f166fed80fc017396d6f2b3cae5185520875ab456d1c74d6b4eaa4da0e16109"
-+SRC_URI[md5sum] = "698def88df96840dfbb0858bb6d73350"
-+SRC_URI[sha256sum] = "16c9c05d2a1da644ce3570d975ada3643d2e60c007a955bac09c0a0efeb58d15"
- 
- # noinst programs in Makefile.tools that are conditional on READLINE
- # support
--- 
-2.4.0
+I had sent an update for this already
+http://lists.openembedded.org/pipermail/openembedded-core/2016-November/1289
+71.html
+
+:-)
+
+Cheers,
+Andre'
 
 
