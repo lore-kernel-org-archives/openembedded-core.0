@@ -1,47 +1,28 @@
-Return-Path: <fabio.berton@ossystems.com.br>
-Received: from mail-qk0-f196.google.com (mail-qk0-f196.google.com
-	[209.85.220.196])
-	by mail.openembedded.org (Postfix) with ESMTP id D8C186FEFA
+Return-Path: <linus@scypho.com>
+Received: from mx-out02.mykolab.com (mx.kolabnow.com [95.128.36.1])
+	by mail.openembedded.org (Postfix) with ESMTP id C49AD60190
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Nov 2016 20:47:13 +0000 (UTC)
-Received: by mail-qk0-f196.google.com with SMTP id y205so16613978qkb.1
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Nov 2016 12:47:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id:organization;
-	bh=vjP99+HucBK7gk1OiSymXjA+0nXcfsqs3tLVJEPMaKM=;
-	b=QdY7zj1+MgdzOV0yA6a4noJNSjw8ewOsnSIoNeZRyMonMpzZ878PKS7EfdJjMUKTvV
-	6Q2GHAzQBAc03AOZnSgPbxowm6yLkZ9xNvfNyRblxuRPyJYoN4CtrGZjjUX1yeothHog
-	NVyHrFogtIca537pKatP8zbXFJJx00/q1uUsLYKumdrlB9vOtLdlpoaUhmdeTwAHRLXE
-	JAAR1pXZTSwi281vaLH+A1xLO+p7c9JNd/sX+Dpw8PDgg5Ea5X3/qVPwAUR5jl0SO2+h
-	TiuVTqU1xp3idJynbkBEkmuFi876301cHMWvBWEgM02eJ02IyOfWLwfe2rNLVAYrQXA3
-	zQMw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:organization;
-	bh=vjP99+HucBK7gk1OiSymXjA+0nXcfsqs3tLVJEPMaKM=;
-	b=ZckE55u+GI73mnWML6/ZmtgTVFWDMB5PG0+7wD6qWRjDBzG3Gh0SN6BcNumgQONJI8
-	LNqxXPq3p3feXIhXKoI6PUi7MfF2LwSSdexRnP7/5SyYb9FX99M8ON/H33rXZ3LQgWZo
-	55q/Pv5me24gQHCAEx5RENKqU6T1XPgirdqEh5MqFsHfWjqTIpHjSQcdpEx19F6j4Ait
-	3bi/P1Gy+ipLviMOfFO+gQa++CmZmqjapJFwiutmk3RDvBfnFDCcsLcBoQJGJSBMqkDR
-	qw1xy3JMBlumVE0jWk1TuDHkZRkcSmdeA11VgP5GAsnzwSzkje6G3EX7GrgIREH/QU0O
-	gKXg==
-X-Gm-Message-State: AKaTC01G3pvYr4iNq8IX9hzH2B44aOhrkri4M0wzU/WJZtukKpm2szwBu/Vs1w/MU65Ogg==
-X-Received: by 10.55.153.4 with SMTP id b4mr20304906qke.163.1479761234927;
-	Mon, 21 Nov 2016 12:47:14 -0800 (PST)
-Received: from monster.lab.ossystems.com.br ([189.114.111.135])
-	by smtp.gmail.com with ESMTPSA id
-	z29sm12117299qtz.16.2016.11.21.12.47.12
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 21 Nov 2016 12:47:13 -0800 (PST)
-From: Fabio Berton <fabio.berton@ossystems.com.br>
+	Mon, 21 Nov 2016 20:58:32 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at kolabnow.com
+X-Spam-Flag: NO
+X-Spam-Score: -2.9
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 tagged_above=-10 required=6.31
+	tests=[ALL_TRUSTED=-1, BAYES_00=-1.9] autolearn=ham
+Received: from mx05.mykolab.com (mx05.mykolab.com [10.20.7.161])
+	by mx-out02.mykolab.com (Postfix) with ESMTPS id A4D3561771;
+	Mon, 21 Nov 2016 21:58:30 +0100 (CET)
+Received: from linus by linus.scypho.com with local (Exim 4.87)
+	(envelope-from <linus@linus.scypho.com>)
+	id 1c8vfY-0000s9-85; Mon, 21 Nov 2016 21:58:28 +0100
+From: Linus Wallgren <linus.wallgren@scypho.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 21 Nov 2016 18:46:56 -0200
-Message-Id: <1479761216-14138-1-git-send-email-fabio.berton@ossystems.com.br>
-X-Mailer: git-send-email 2.1.4
-Organization: O.S. Systems Software LTDA.
-Subject: [PATCH] libgpg-error: Update to version 1.25
+Date: Mon, 21 Nov 2016 21:57:49 +0100
+Message-Id: <20161121205749.3306-1-linus.wallgren@scypho.com>
+In-Reply-To: <68b087d8-d920-eb83-8b53-7e561fd419cb@opendreambox.org>
+References: <68b087d8-d920-eb83-8b53-7e561fd419cb@opendreambox.org>
+Cc: Linus Wallgren <linus.wallgren@scypho.com>
+Subject: [PATCHv2] apt-package: Include maintenance scripts
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,45 +35,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 21 Nov 2016 20:47:16 -0000
+X-List-Received-Date: Mon, 21 Nov 2016 20:58:34 -0000
 
-License checksum changes are not related to license changes.
+Apt can run multiple tasks daily, such as for example clean, update,
+autoclean, unattended-upgrades etc.
 
-Signed-off-by: Fabio Berton <fabio.berton@ossystems.com.br>
+[YOCTO #10669]
+
+Signed-off-by: Linus Wallgren <linus.wallgren@scypho.com>
 ---
- .../libgpg-error/{libgpg-error_1.24.bb => libgpg-error_1.25.bb}    | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
- rename meta/recipes-support/libgpg-error/{libgpg-error_1.24.bb => libgpg-error_1.25.bb} (86%)
+ meta/recipes-devtools/apt/apt-package.inc | 15 ++++++++++++++-
+ 1 file changed, 14 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-support/libgpg-error/libgpg-error_1.24.bb b/meta/recipes-support/libgpg-error/libgpg-error_1.25.bb
-similarity index 86%
-rename from meta/recipes-support/libgpg-error/libgpg-error_1.24.bb
-rename to meta/recipes-support/libgpg-error/libgpg-error_1.25.bb
-index 84a882a..9d402ff 100644
---- a/meta/recipes-support/libgpg-error/libgpg-error_1.24.bb
-+++ b/meta/recipes-support/libgpg-error/libgpg-error_1.25.bb
-@@ -5,7 +5,7 @@ BUGTRACKER = "https://bugs.g10code.com/gnupg/index"
- LICENSE = "GPLv2+ & LGPLv2.1+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552 \
-                     file://COPYING.LIB;md5=2d5025d4aa3495befef8f17206a5b0a1 \
--                    file://src/gpg-error.h.in;endline=23;md5=cf562f60b9dba7df20d6ee3f97ea1d5a \
-+                    file://src/gpg-error.h.in;endline=23;md5=64af9846baaf852793fd3a5af393acbf \
-                     file://src/init.c;endline=20;md5=872b2389fe9bae7ffb80d2b91225afbc"
+diff --git a/meta/recipes-devtools/apt/apt-package.inc b/meta/recipes-devtools/apt/apt-package.inc
+index a553aa2..c17048a 100644
+--- a/meta/recipes-devtools/apt/apt-package.inc
++++ b/meta/recipes-devtools/apt/apt-package.inc
+@@ -32,13 +32,19 @@ FILES_${PN} = "${bindir}/apt-cdrom ${bindir}/apt-get \
+ 	       ${bindir}/apt-config ${bindir}/apt-cache \
+ 	       ${libdir}/apt ${libdir}/libapt*.so.* \
+ 	       ${localstatedir} ${sysconfdir} \
+-	       ${libdir}/dpkg"
++	       ${libdir}/dpkg \
++	       ${systemd_unitdir}/system \
++           "
+ FILES_${PN}-utils = "${bindir}/apt-sortpkgs ${bindir}/apt-extracttemplates"
+ FILES_${PN}-doc = "${@get_files_apt_doc(d, bb, d.getVar('apt-manpages', True))} \
+ 		   ${docdir}/apt"
+ FILES_${PN}-utils-doc = "${@get_files_apt_doc(d, bb, d.getVar('apt-utils-manpages', True))}"
+ FILES_${PN}-dev = "${libdir}/libapt*.so ${includedir}"
  
- 
-@@ -15,8 +15,9 @@ UPSTREAM_CHECK_URI = "https://gnupg.org/download/index.html"
- SRC_URI = "${GNUPG_MIRROR}/libgpg-error/libgpg-error-${PV}.tar.bz2 \
-            file://pkgconfig.patch \
- 	  "
--SRC_URI[md5sum] = "feb42198c0aaf3b28eabe8f41a34b983"
--SRC_URI[sha256sum] = "9268e1cc487de5e6e4460fca612a06e4f383072ac43ae90603e5e46783d3e540"
++inherit systemd
 +
-+SRC_URI[md5sum] = "d9fa545922a5060cbfbd87464bc31686"
-+SRC_URI[sha256sum] = "f628f75843433b38b05af248121beb7db5bd54bb2106f384edac39934261320c"
++SYSTEMD_SERVICE_${PN} = "apt-daily.timer"
++
+ do_install () {
+ 	set -x
+ 	install -d ${D}${bindir}
+@@ -75,4 +81,11 @@ do_install () {
  
- BINCONFIG = "${bindir}/gpg-error-config"
- 
+ 	install -d ${D}${includedir}/apt-pkg/
+ 	install -m 0644 include/apt-pkg/*.h ${D}${includedir}/apt-pkg/
++
++	install -d ${D}${systemd_unitdir}/system/
++	install -m 0644 ${S}/debian/apt.systemd.daily ${D}/usr/lib/apt/
++	install -m 0644 ${S}/debian/apt-daily.service ${D}${systemd_unitdir}/system/
++	install -m 0644 ${S}/debian/apt-daily.timer ${D}${systemd_unitdir}/system/
++	install -d ${D}${sysconfdir}/cron.daily/
++	install -m 0755 ${S}/debian/apt.apt-compat.cron.daily ${D}${sysconfdir}/cron.daily/
+ }
 -- 
-2.1.4
+2.10.2
 
 
