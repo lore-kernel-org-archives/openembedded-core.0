@@ -1,23 +1,50 @@
-Return-Path: <ml@embed.me.uk>
-Received: from owm.eumx.net (eumx.net [91.82.101.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 8DD706AC4B
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-vk0-f67.google.com (mail-vk0-f67.google.com
+	[209.85.213.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 96CA4719E3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Nov 2016 16:10:17 +0000 (UTC)
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <5c4588bd-53f6-6086-0443-faed9c0732cc@embed.me.uk>
-	<CAJTo0LY4eFrus=dOy4PzbauML6iz4qzpCKrw9rp-pLCy6YiscQ@mail.gmail.com>
-	<1c31ec07-55d1-3a33-fc5f-6047c940d950@embed.me.uk>
-	<CAJTo0LYsnuFVtpz72y=8zGAY3+pjn6z3WoAcwwODWhrPvkhX+w@mail.gmail.com>
-From: Jack Mitchell <ml@embed.me.uk>
-Message-ID: <36f0f90f-5052-1551-1dd4-05b180e43ad7@embed.me.uk>
-Date: Tue, 22 Nov 2016 16:09:10 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.4.0
+	Tue, 22 Nov 2016 16:35:27 +0000 (UTC)
+Received: by mail-vk0-f67.google.com with SMTP id l126so2334219vkh.0
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 22 Nov 2016 08:35:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=ijrrvANzSXeo9UlnJEykgiD/i/Lj6SMUmHCummiNdQE=;
+	b=CtHC3/24oayQRIXtBjTRIMjvhBlmBhYp6StMv9pq29q8zRUQuvLlcYKKzA/s3NEh2y
+	BMoeZ5YYio/cp/YcOz6Jy1tOMQf9klDdTXO9P5DRPBah1a8k+4eXjKVyuibfPyZDB/OG
+	AJ2XILlTI68mppjz43K6pROdZjfGFN9bhHSihk1jdh4CAVIJEQil979O9Ldllzu1ntB/
+	Rb4PVEmlQbEISeQ7cevsc4DKeJID3MnD8SSfpIRZ13eMO4X+Y5Z4uJqW/LXaHZ6uTOE1
+	cPLRVBtlwF8vO7vTOz0hF0dsNbIcF4RTKLwyg39QF0XZVpVwNodBwG+8I28VtfAz+QZl
+	EzqA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=ijrrvANzSXeo9UlnJEykgiD/i/Lj6SMUmHCummiNdQE=;
+	b=iBFE3+7Jf6kNCpYMIqrO4sDL6nRfNnY7cS6Cdr2sUCiyXhlKp4fsR3sSBrVepQt1/A
+	PNuMqi3InnlvTboyDK84uKkudty1fP5MN+qvDyxintJpGce2j23+mzMMJmBIeDOOvqJT
+	XXZjvm2idqCpfppKFA66G5iZ/Rp/I+kIiM3TCP7zdxI4EWKupPv6xc6GJUdYhP2xBwQM
+	uWWA45QZ9jXjmcmzehSikonBkZ3z0rUTot1yLxDrig/ZlNTMPLbCTkowiTs+3a7YJY88
+	wKUBKp23vaOfaOHgiHlm74REoDYJ1nWYVAGRMpeIkBjI9vxpFyxvAxutf2/nITOQu/Cu
+	1X1g==
+X-Gm-Message-State: AKaTC00RTIyoadE3h0bEjpsXaNkukB70IgRQrSz6cufyHV0ptXjF1MCluTrLKBJEhnL4BhDG7tl6Mrd4tMf4rg==
+X-Received: by 10.31.108.144 with SMTP id j16mr8068790vki.93.1479832528734;
+	Tue, 22 Nov 2016 08:35:28 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <CAJTo0LYsnuFVtpz72y=8zGAY3+pjn6z3WoAcwwODWhrPvkhX+w@mail.gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: distro checking and lsb_release
+Received: by 10.176.5.136 with HTTP; Tue, 22 Nov 2016 08:34:58 -0800 (PST)
+In-Reply-To: <CAJTo0LZbASS4RinqtPaPk3bojynYD1jNFnE0y67ULzqO_pxJNg@mail.gmail.com>
+References: <20161116174748.26994-1-raj.khem@gmail.com>
+	<20161116174748.26994-2-raj.khem@gmail.com>
+	<CAJTo0Laq+KdjYoNvTM3DV+X8aGGdfWyJM=1z830=8T1orbqaJQ@mail.gmail.com>
+	<eb6aeb51-c0c5-fe39-f3e1-ac1dfede129b@gmail.com>
+	<CAJTo0Lb7jorMUq-8D-tkBTK0bP45AOtP_tBS2PTGGxPrUWbc8g@mail.gmail.com>
+	<CAJTo0LZbASS4RinqtPaPk3bojynYD1jNFnE0y67ULzqO_pxJNg@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Tue, 22 Nov 2016 08:34:58 -0800
+Message-ID: <CAMKF1sr9h6f=evBq8NT2e+HoEVRswwHO_016oGjsnOvCGHF+wQ@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/5] taglib: Update to 1.11.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,77 +57,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 Nov 2016 16:10:18 -0000
-Content-Type: multipart/alternative;
-	boundary="------------72D478FE58743882B3EBE30E"
+X-List-Received-Date: Tue, 22 Nov 2016 16:35:27 -0000
+Content-Type: text/plain; charset=UTF-8
 
---------------72D478FE58743882B3EBE30E
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+HAVE_BOOST_BYTESWAP is infact the right fix if we want to disable
+boost byteswap. It will then fall back to finding them in compiler
+which should be ok for OE since we have new enough compiler. Thanks
+for helping out here.
 
-On 22/11/16 15:32, Burton, Ross wrote:
+On Tue, Nov 22, 2016 at 3:20 AM, Burton, Ross <ross.burton@intel.com> wrote:
 >
-> On 22 November 2016 at 15:11, Jack Mitchell <ml@embed.me.uk
-> <mailto:ml@embed.me.uk>>wrote:
+> On 22 November 2016 at 10:44, Burton, Ross <ross.burton@intel.com> wrote:
+>>
+>> No but I've an example where boost doesnt build at all and this breaks
+>> core-image-sato (IA x32)...
+>>
+>> Building all of boost just for a macro seems rather unfortunate.
 >
->         >    distro_id = distro_data['DISTRIB_ID']
->              release = distro_data['DISTRIB_RELEASE']
->     TypeError: 'NoneType' object is not subscriptable
 >
+> Found the magic -D options to convince taglib that boost definitely isn't
+> present and verified that it does the same thing with and without boost in
+> the sysroot so I just sent a v2.
 >
-> You're using arch which doesn't set those fields.  There's a patch on
-> the list which should be in master shortly.
+> Ross
+>
 
-Ah, OK. Installing the lsb-release package does fix this for me in the
-shortrun though.
-
-Cheers.
-
---------------72D478FE58743882B3EBE30E
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: 8bit
-
-<html>
-  <head>
-    <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-  </head>
-  <body bgcolor="#FFFFFF" text="#000000">
-    <tt>On 22/11/16 15:32, Burton, Ross wrote:</tt><tt><br>
-    </tt>
-    <blockquote
-cite="mid:CAJTo0LYsnuFVtpz72y=8zGAY3+pjn6z3WoAcwwODWhrPvkhX+w@mail.gmail.com"
-      type="cite">
-      <div dir="ltr">
-        <div class="gmail_extra"><tt><br>
-          </tt>
-          <div class="gmail_quote"><tt>On 22 November 2016 at 15:11,
-              Jack Mitchell </tt><tt><span dir="ltr">&lt;<a
-                  moz-do-not-send="true" href="mailto:ml@embed.me.uk"
-                  target="_blank">ml@embed.me.uk</a>&gt;</span></tt><tt>
-              wrote:</tt><tt><br>
-            </tt>
-            <blockquote class="gmail_quote" style="margin:0 0 0
-              .8ex;border-left:1px #ccc solid;padding-left:1ex"><tt>   
-                &gt;    distro_id = distro_data['DISTRIB_ID']</tt><tt><br>
-              </tt><tt> </tt><tt>         release =
-                distro_data['DISTRIB_RELEASE']</tt><tt><br>
-              </tt> <tt>TypeError: 'NoneType' object is not
-                subscriptable</tt><tt><br>
-              </tt></blockquote>
-          </div>
-          <tt><br>
-          </tt><tt>You're using arch which doesn't set those fields. 
-            There's a patch on the list which should be in master
-            shortly.</tt></div>
-      </div>
-    </blockquote>
-    <br>
-    <tt>Ah, OK. Installing the lsb-release package does fix this for me
-      in the shortrun though.<br>
-      <br>
-      Cheers.<br>
-    </tt><tt></tt>
-  </body>
-</html>
-
---------------72D478FE58743882B3EBE30E--
