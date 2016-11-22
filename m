@@ -1,26 +1,49 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id D7D46719DC
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qt0-f171.google.com (mail-qt0-f171.google.com
+	[209.85.216.171])
+	by mail.openembedded.org (Postfix) with ESMTP id A8D82719BB
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Nov 2016 10:09:48 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id uAMA9oLA009782
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	Tue, 22 Nov 2016 10:44:36 +0000 (UTC)
+Received: by mail-qt0-f171.google.com with SMTP id w33so7937729qtc.3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Nov 2016 02:09:50 -0800
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.209) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.294.0; Tue, 22 Nov 2016 02:09:49 -0800
-From: Chen Qi <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 22 Nov 2016 18:10:33 +0800
-Message-ID: <87627ca7e420aa246453d691b387db654be9ce69.1479809328.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1479809328.git.Qi.Chen@windriver.com>
-References: <cover.1479809328.git.Qi.Chen@windriver.com>
+	Tue, 22 Nov 2016 02:44:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=nmJNxTtu9pbBRTKdLFi4i8SYzUWkTNU+LBUIo0/gGNs=;
+	b=x/ZPmSLyOTWcWLXaWoBVZlPXFxV6d95HtlLq8/j6bs7sIQhxwHB/UXrdp8neM5qR/p
+	5axUoZsu4kRKD8zO56Dm3+on5xMISHv8mp7DTqI7xF4849sWCjLwbayMTXLmbpEwXOTX
+	wyhD8H6/3LCtoh+js7UTEd0aa4Jfs56Me1h3+JGC3ZFfM5wXxkIo7jfrAUqo2l3Aca6c
+	Dpd3KCGla868quVJKtdt4WJsPjO8xL+3gyC7845sZeaYidFoN4+eAYuR/uAacRs7eyRj
+	MyJlvSoOugnZNyQGNJ5vPFPjoYumWnwBowo5rSHrm1FZUdUk0fzdC0F6J1uE6MR/IhPu
+	mBdg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=nmJNxTtu9pbBRTKdLFi4i8SYzUWkTNU+LBUIo0/gGNs=;
+	b=YZ5R7E/3rgjN1EFiAUlj7XShCUQX54F8F8CEOnuofipop6QkX+qhMkfEKhNIqzeFFY
+	gbL7PIEgjw8JCmfYMKbE6+He3rbqRKgYkrRgV3TI0qUms5v9shfDKXr9RrWjJ0sfJYjQ
+	rIGTAi8K28xxb5NLvJwnsb1jc5c6M2xSjW9xSXBz6YAv36X4ycvqAd8sCTqhCArcadki
+	nTV30nxyBGVT2FDJTaUDRdBmnuOhJeLm7ffEc1j6e/DvcxC69L9cUyWsa8Pt9O6f29Kq
+	P7osUh4jfhPnEx0KpkD+tf9l9mzCNpTwPob1+e0HJ3kjRZGOyUaaI3CqpgKpBY4GWRBP
+	pDuA==
+X-Gm-Message-State: AKaTC033bwUYzI2RbMR5awRauKi5871S67MezGOoO1RJliVMiWYhnZ/AMnxHnXl+PbT6/UN65ktPGK0c6+FtecKr
+X-Received: by 10.237.34.46 with SMTP id n43mr12165127qtc.105.1479811478242;
+	Tue, 22 Nov 2016 02:44:38 -0800 (PST)
 MIME-Version: 1.0
-Subject: [PATCH 4/4] package.bbclass: support persistent /var/log
+Received: by 10.140.85.136 with HTTP; Tue, 22 Nov 2016 02:44:17 -0800 (PST)
+In-Reply-To: <eb6aeb51-c0c5-fe39-f3e1-ac1dfede129b@gmail.com>
+References: <20161116174748.26994-1-raj.khem@gmail.com>
+	<20161116174748.26994-2-raj.khem@gmail.com>
+	<CAJTo0Laq+KdjYoNvTM3DV+X8aGGdfWyJM=1z830=8T1orbqaJQ@mail.gmail.com>
+	<eb6aeb51-c0c5-fe39-f3e1-ac1dfede129b@gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 22 Nov 2016 10:44:17 +0000
+Message-ID: <CAJTo0Lb7jorMUq-8D-tkBTK0bP45AOtP_tBS2PTGGxPrUWbc8g@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/5] taglib: Update to 1.11.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,112 +56,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 Nov 2016 10:09:49 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 22 Nov 2016 10:44:37 -0000
+Content-Type: multipart/alternative; boundary=001a11377e187f3a200541e1759b
 
-Add a new file, fs-perms-persistent-log.txt, which treats /var/log
-as a directory instead of a link.
+--001a11377e187f3a200541e1759b
+Content-Type: text/plain; charset=UTF-8
 
-Modify package.bbclass to use this file if VOLATILE_LOG_DIR is not set to "yes".
+On 22 November 2016 at 03:46, Khem Raj <raj.khem@gmail.com> wrote:
 
-[YOCTO #6132]
+> its a build time dependency. Do we have a usecase/images where taglib is
+> used
+> and boost is just pulled into build because of taglib ?
+>
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
----
- meta/classes/package.bbclass           |  2 +-
- meta/files/fs-perms-persistent-log.txt | 69 ++++++++++++++++++++++++++++++++++
- 2 files changed, 70 insertions(+), 1 deletion(-)
- create mode 100644 meta/files/fs-perms-persistent-log.txt
+No but I've an example where boost doesnt build at all and this breaks
+core-image-sato (IA x32)...
 
-diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
-index a6f0a7a..9a423f8 100644
---- a/meta/classes/package.bbclass
-+++ b/meta/classes/package.bbclass
-@@ -733,7 +733,7 @@ python fixup_perms () {
-         bbpath = d.getVar('BBPATH', True)
-         fs_perms_tables = d.getVar('FILESYSTEM_PERMS_TABLES', True)
-         if not fs_perms_tables:
--            fs_perms_tables = 'files/fs-perms.txt'
-+            fs_perms_tables = ['files/fs-perms-persistent-log.txt', 'files/fs-perms.txt'][d.getVar('VOLATILE_LOG_DIR', True) == 'yes']
-         for conf_file in fs_perms_tables.split():
-             str += " %s" % bb.utils.which(bbpath, conf_file)
-         return str
-diff --git a/meta/files/fs-perms-persistent-log.txt b/meta/files/fs-perms-persistent-log.txt
-new file mode 100644
-index 0000000..2487a68
---- /dev/null
-+++ b/meta/files/fs-perms-persistent-log.txt
-@@ -0,0 +1,69 @@
-+# This file contains a list of files and directories with known permissions.
-+# It is used by the packaging class to ensure that the permissions, owners and
-+# group of listed files and directories are in sync across the system.
-+#
-+# The format of this file 
-+#
-+#<path>	<mode>	<uid>	<gid>	<walk>	<fmode>	<fuid>	<fgid>
-+#
-+# or
-+#
-+#<path> link <target>
-+#
-+# <path>: directory path
-+# <mode>: mode for directory
-+# <uid>:  uid for directory
-+# <gid>:  gid for directory
-+# <walk>: recursively walk the directory?  true or false
-+# <fmode>: if walking, new mode for files
-+# <fuid>:  if walking, new uid for files
-+# <fgid>:  if walking, new gid for files
-+# <target>: turn the directory into a symlink point to target
-+#
-+# in mode, uid or gid, a "-" means don't change any existing values
-+#
-+# /usr/src		0755	root	root	false	-	-	-
-+# /usr/share/man	0755	root	root	true	0644	root	root
-+
-+# Note: all standard config directories are automatically assigned "0755 root root false - - -"
-+
-+# Documentation should always be corrected
-+${mandir}		0755	root	root	true	0644	root	root
-+${infodir}		0755	root	root	true	0644	root	root
-+${docdir}		0755	root	root	true	0644	root	root
-+${datadir}/gtk-doc	0755	root	root	true	0644	root	root
-+
-+# Fixup locales
-+${datadir}/locale	0755	root	root	true	0644	root	root
-+
-+# Cleanup headers
-+${includedir}		0755	root	root	true	0644	root	root
-+${oldincludedir}	0755	root	root	true	0644	root	root
-+
-+# Cleanup debug src
-+/usr/src/debug		0755	root	root	true	-	root	root
-+
-+# Items from base-files
-+# Links
-+${localstatedir}/run	link	/run
-+${localstatedir}/lock	link	/run/lock
-+${localstatedir}/tmp	link	volatile/tmp
-+
-+/home				0755	root	root	false - - -
-+/srv				0755	root	root	false - - -
-+${prefix}/src			0755	root	root	false - - -
-+${localstatedir}/local		0755	root	root	false - - -
-+
-+# Special permissions from base-files
-+# Set 1777
-+/tmp				01777	root	root	false - - -
-+${localstatedir}/volatile/tmp	01777	root	root	false - - -
-+
-+# Set 0700
-+${ROOT_HOME}			0700	root	root	false - - -
-+
-+# Set 755-lsb
-+/srv				0755	root	root	false - - -
-+
-+# Set 2775-lsb
-+/var/mail			02775	root	mail	false - - -
--- 
-1.9.1
+Building all of boost just for a macro seems rather unfortunate.
 
+Ross
 
+--001a11377e187f3a200541e1759b
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 22 November 2016 at 03:46, Khem Raj <span dir=3D"ltr">&lt;<a href=3D"mai=
+lto:raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt;</span>=
+ wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bor=
+der-left:1px #ccc solid;padding-left:1ex"><div id=3D":2gk" class=3D"a3s aXj=
+CH m1588a246718df4be">its a build time dependency. Do we have a usecase/ima=
+ges where taglib is used<br>
+and boost is just pulled into build because of taglib ?<br></div></blockquo=
+te></div><br>No but I&#39;ve an example where boost doesnt build at all and=
+ this breaks core-image-sato (IA x32)...</div><div class=3D"gmail_extra"><b=
+r></div><div class=3D"gmail_extra">Building all of boost just for a macro s=
+eems rather unfortunate.</div><div class=3D"gmail_extra"><br></div><div cla=
+ss=3D"gmail_extra">Ross</div></div>
+
+--001a11377e187f3a200541e1759b--
