@@ -1,46 +1,50 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f42.google.com (mail-wm0-f42.google.com [74.125.82.42])
-	by mail.openembedded.org (Postfix) with ESMTP id DEC6B60589
+Received: from mail-qk0-f179.google.com (mail-qk0-f179.google.com
+	[209.85.220.179])
+	by mail.openembedded.org (Postfix) with ESMTP id 613A26074F
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Nov 2016 11:19:22 +0000 (UTC)
-Received: by mail-wm0-f42.google.com with SMTP id t79so19405682wmt.0
+	Tue, 22 Nov 2016 11:20:46 +0000 (UTC)
+Received: by mail-qk0-f179.google.com with SMTP id n21so18357422qka.3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Nov 2016 03:19:24 -0800 (PST)
+	Tue, 22 Nov 2016 03:20:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=bAiZgmo4hkelQ3kiA3Ga6wzdAfaHLlycFcjaVNipcY0=;
-	b=jrSEl1thQGwM48X1MqOmvWt96yDfOtHE9KqvaCu3i99PI7vH9wqidT4Z7qtoK4TMd5
-	oxY+Ofu87YK3IBKg27wdoXCbh2qvwHMc8iYmR/AQf8Xm8jimd6GcaALcm2ZNmpKRC5If
-	SOKWYnMWQ9VmOWi/d4yJA4vl3eKvlHUj9jnLCy5KZ6PM1a6rOANp8t+xXV8pc5deQ03J
-	EO6PlYneNhb6TKSE6HpbAM0K1nSvF60h8XcYo8vyTt3Z/aKwX7XMZCfbagW/OtoXgAwF
-	kH/ZRpbb3cCHvWaWZ6oaOyFVFB3wD7QZL8Q953h1fiH2yGuc4DFZ2Q1MYxqn3tKJo+8U
-	41VQ==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=jqtRav1RBpEML2svWXIASx/p7ckBmG1eAA0xkQU6g9A=;
+	b=HNWeCPejVjXAOJZKpiGn3aFq2IVvxZijVMgq8cA9v1Yo1KOewnaQz+yuz4/hGZtnPz
+	LQQqWQXBeiRRz3bDQq2FjowtetCpdIpx8H8A/FTGljTT7z0mamaFZQZj2BsdzSaCVjRf
+	dm2zHqvHvryD8/ZFJaHvvgGgEq74hHBgs8WB/JSqp2CpHQl45zCh1/2R4dLtp8TeagEY
+	NBAJ+nydZhHYERPZxSFjt9mmZx0v4XdrMompVNJZE8eLPc0qSD0DdV7fhZEf+UQmwZhD
+	693XLxg7bJfpf9IYxQTu/Pjadfy5+bzSQvxtPgVgsrhiVRLmyR1dfKfv6KUdVXWUQDC6
+	uyfg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=bAiZgmo4hkelQ3kiA3Ga6wzdAfaHLlycFcjaVNipcY0=;
-	b=I0orT+p+b9raSmsCRrtZqW+BCckJkDH0Qopf7TXLX84f0AG9HMLWgshxS4uk83i3RW
-	0g2SDjB1v0VCpsoeXLv7NvMYjjW8g+Lc0tznNsYN4D/7I0iR8X8q+NSiVjxU8nQiSPzH
-	A+CFiVjiOalDIMTjdCiQW4QqE30utw3Ns/LVn0sD/lBWCQxqUAuH9w5G2UlA0UuUylvP
-	RcYrcn22uv5cd2Nkzut6QbarxuZOgb4S2lAg1Y51caWRDt08C7ztDs4OgHaa7F7GmfCs
-	5nKOBTTsfO/CL45f52sjaF0u2f4vxBphR6KnhUm9/2einH25EC6Z9xUJu9eiNleJoL63
-	FsoQ==
-X-Gm-Message-State: AKaTC00KWDnA5HEeuZqb41OJPKeOJ5uBtypcwDnX52dtLPa4TnNACP5wN1PDi9W4uxO+I8XC
-X-Received: by 10.28.167.139 with SMTP id q133mr1996944wme.15.1479813563282;
-	Tue, 22 Nov 2016 03:19:23 -0800 (PST)
-Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id
-	b7sm30314245wjm.39.2016.11.22.03.19.22
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 22 Nov 2016 03:19:22 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 22 Nov 2016 11:19:20 +0000
-Message-Id: <1479813560-8696-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 2.8.1
-Subject: [PATCH] taglib: Update to 1.11.1
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=jqtRav1RBpEML2svWXIASx/p7ckBmG1eAA0xkQU6g9A=;
+	b=RfYoSH6RvaOv9h/TN1lIZR6OwTpOk5/U02Rxx0EMT7FuLmVMvqYPX6gSAMyGf5UWvc
+	UxOQsc/p9yT/igxGLJHUcMu47AC4l5C7DzjM7OhuSKeEq2D+sfdVqgUOWuh9fpsq55k0
+	py8ZIiC9ZQq5IoD8NSjaNeY6wUAZ1X/6y4HMjP9gV3PMeeXAz9NFamiX7E5hyNHLFrmy
+	9tqxZjyIKg7TruCWDNWGHV5lWEIk/VHY2/3ah0xFSS/Mikx9gTyXGKdb/cALnC3DJ0D3
+	wwczkg3s7+/G2B32XcV+mBVVNZkeGszqTczxZ4jACVG9aMGEQwtvo27RsF8rekmfmwmv
+	Jrnw==
+X-Gm-Message-State: AKaTC031wt28pHkrWuLmp1L3/DXnjUss9nNeHAjV/8j23tQvqen1VmT5cdv3w9v8OVvhU2NwgiRmPgK66FbY/vaQ
+X-Received: by 10.55.207.78 with SMTP id e75mr25144942qkj.36.1479813648309;
+	Tue, 22 Nov 2016 03:20:48 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.140.85.136 with HTTP; Tue, 22 Nov 2016 03:20:27 -0800 (PST)
+In-Reply-To: <CAJTo0Lb7jorMUq-8D-tkBTK0bP45AOtP_tBS2PTGGxPrUWbc8g@mail.gmail.com>
+References: <20161116174748.26994-1-raj.khem@gmail.com>
+	<20161116174748.26994-2-raj.khem@gmail.com>
+	<CAJTo0Laq+KdjYoNvTM3DV+X8aGGdfWyJM=1z830=8T1orbqaJQ@mail.gmail.com>
+	<eb6aeb51-c0c5-fe39-f3e1-ac1dfede129b@gmail.com>
+	<CAJTo0Lb7jorMUq-8D-tkBTK0bP45AOtP_tBS2PTGGxPrUWbc8g@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 22 Nov 2016 11:20:27 +0000
+Message-ID: <CAJTo0LZbASS4RinqtPaPk3bojynYD1jNFnE0y67ULzqO_pxJNg@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/5] taglib: Update to 1.11.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,63 +57,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 Nov 2016 11:19:23 -0000
+X-List-Received-Date: Tue, 22 Nov 2016 11:20:48 -0000
+Content-Type: multipart/alternative; boundary=001a1145b7b8d771ec0541e1f6a8
 
-Forcibly disable Boost as the macros it looks for are also present in our C++
-standard library.
+--001a1145b7b8d771ec0541e1f6a8
+Content-Type: text/plain; charset=UTF-8
 
-Enable c++11 in cmake as well as in CXXFLAGS [Khem Raj]
+On 22 November 2016 at 10:44, Burton, Ross <ross.burton@intel.com> wrote:
 
-CXXFLAGS is required due to a cmake bug where it does not honor CMAKE_CXX_FLAGS
-during configure time checks [Khem Raj]
+> No but I've an example where boost doesnt build at all and this breaks
+> core-image-sato (IA x32)...
+>
+> Building all of boost just for a macro seems rather unfortunate.
+>
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- .../taglib/{taglib_1.11.bb => taglib_1.11.1.bb}           | 15 ++++++++++-----
- 1 file changed, 10 insertions(+), 5 deletions(-)
- rename meta/recipes-support/taglib/{taglib_1.11.bb => taglib_1.11.1.bb} (68%)
+Found the magic -D options to convince taglib that boost definitely isn't
+present and verified that it does the same thing with and without boost in
+the sysroot so I just sent a v2.
 
-diff --git a/meta/recipes-support/taglib/taglib_1.11.bb b/meta/recipes-support/taglib/taglib_1.11.1.bb
-similarity index 68%
-rename from meta/recipes-support/taglib/taglib_1.11.bb
-rename to meta/recipes-support/taglib/taglib_1.11.1.bb
-index c29bda9..ee1b523 100644
---- a/meta/recipes-support/taglib/taglib_1.11.bb
-+++ b/meta/recipes-support/taglib/taglib_1.11.1.bb
-@@ -9,8 +9,8 @@ LIC_FILES_CHKSUM = "file://COPYING.LGPL;md5=4fbd65380cdd255951079008b364516c \
- DEPENDS = "zlib"
- 
- SRC_URI = "http://taglib.github.io/releases/${BP}.tar.gz"
--SRC_URI[md5sum] = "be39fa2054df40664cb557126ad7cf7c"
--SRC_URI[sha256sum] = "ed4cabb3d970ff9a30b2620071c2b054c4347f44fc63546dbe06f97980ece288"
-+SRC_URI[md5sum] = "cee7be0ccfc892fa433d6c837df9522a"
-+SRC_URI[sha256sum] = "b6d1a5a610aae6ff39d93de5efd0fdc787aa9e9dc1e7026fa4c961b26563526b"
- 
- UPSTREAM_CHECK_URI = "http://github.com/taglib/taglib/releases/"
- 
-@@ -21,13 +21,18 @@ inherit cmake pkgconfig binconfig-disabled
- PACKAGES =+ "${PN}-c"
- FILES_${PN}-c = "${libdir}/libtag_c.so.*"
- 
--EXTRA_OECMAKE = "-DBUILD_SHARED_LIBS=ON -DLIB_SUFFIX=${@d.getVar('baselib', True).replace('lib', '')}"
-+EXTRA_OECMAKE = "-DBUILD_SHARED_LIBS=ON \
-+                 -DCMAKE_DISABLE_FIND_PACKAGE_Boost=TRUE \
-+                 -DHAVE_BOOST_BYTESWAP=FALSE \
-+                 -DCMAKE_CXX_STANDARD=11 \
-+                 -DCMAKE_CXX_STANDARD_REQUIRED=OFF \
-+                 -DLIB_SUFFIX=${@d.getVar('baselib', True).replace('lib', '')} \
-+"
-+CXXFLAGS += "-std=c++11"
- 
- do_configure_prepend () {
- 	rm -f ${S}/admin/ltmain.sh
- 	rm -f ${S}/admin/libtool.m4.in
--	# Don't have a floating dependeny on boost
--	sed -i -e "s/atomic.hpp/atomic-not-exist.hpp/" ${S}/ConfigureChecks.cmake ${S}/taglib/toolkit/trefcounter.cpp
- }
- 
- # without -fPIC depending packages failed with many error like:
--- 
-2.8.1
+Ross
 
+--001a1145b7b8d771ec0541e1f6a8
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 22 November 2016 at 10:44, Burton, Ross <span dir=3D"ltr">&lt;<a href=3D=
+"mailto:ross.burton@intel.com" target=3D"_blank">ross.burton@intel.com</a>&=
+gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 =
+0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div class=3D"gmail_ext=
+ra">No but I&#39;ve an example where boost doesnt build at all and this bre=
+aks core-image-sato (IA x32)...</div><div class=3D"gmail_extra"><br></div><=
+div class=3D"gmail_extra">Building all of boost just for a macro seems rath=
+er unfortunate.</div></blockquote><div><br></div><div>Found the magic -D op=
+tions to convince taglib that boost definitely isn&#39;t present and verifi=
+ed that it does the same thing with and without boost in the sysroot so I j=
+ust sent a v2.</div><div><br></div><div>Ross=C2=A0</div></div><br></div></d=
+iv>
+
+--001a1145b7b8d771ec0541e1f6a8--
