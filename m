@@ -1,49 +1,20 @@
-Return-Path: <maciej.borzecki@rndity.com>
-Received: from mail-wm0-f49.google.com (mail-wm0-f49.google.com [74.125.82.49])
-	by mail.openembedded.org (Postfix) with ESMTP id 884386E666
+Return-Path: <ml@embed.me.uk>
+Received: from owm.eumx.net (eumx.net [91.82.101.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 586896FFEF
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Nov 2016 15:02:23 +0000 (UTC)
-Received: by mail-wm0-f49.google.com with SMTP id t79so29697246wmt.0
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Nov 2016 07:02:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=rndity-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=ZP1gkP1rROCO9e5TUcA+8waEWyIwEUjUMHK9ALb/o5E=;
-	b=08bcN/f1DEvKbuvkWKRVB6gFtg3xAVIcn92pXbVOngAYFQqIBBfdHma9M+d0Nib/ek
-	6UKroE8e0UALySXumCjAM9baVDdxFPReBXUeFitHgIPtDpCaFFCcqZ7rvynGrfPGk5eB
-	Bx1EPXRM1kh4GJQbf2cGbINLqhcDYgRrG2d/e0lGlnycBY+ZFncq4EgZdgRycMAPzOH8
-	aiKEwN381o8oIctrrWX02+QqkSt04s3HXZ7zlLv5g7Z4UKqaHTw2VEZJqY8L8/PhOam5
-	jkU2S76CObO/+vh7eB+kBSyBa0oCXgl+PbAMfIgmiFd8h2463PBJTTPyQR2kwLwJWDVA
-	0rOA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=ZP1gkP1rROCO9e5TUcA+8waEWyIwEUjUMHK9ALb/o5E=;
-	b=QQrQx7qRYBbll1ZBJ8TUJ24vhOZLhcww31fBzBotnD6bEEPcFaAFVbjU20GE8zRQ25
-	6GTarwQcjBKeYH9lMj1WLxZ1cLqgmRwAXyQcLGTz7+ZwaPnRFDFKkrGXbS4d0VqC1Vbp
-	P6BfBZmv/p52vGV/EAvUERRrZhLuOwisnw7nvflLb6DcXMGBjZc95U1jEp0ffRc2oNPn
-	jYYiedbV341y5GHe9XhZYGNJsVoC6TTUxZWFcaqxl05+xauXVy1uTXKJ2/UzY89icdSU
-	jfWhu0F0njQ47LUjJV0OUqNo0NMdHXqrL6JTdhBQ1crknb+u+FUj7PeOCa7sDnvjlXHS
-	kp4A==
-X-Gm-Message-State: AKaTC01QxjzL5hywL/y+Wby4teO/Ur2WW7d9HFOrTbjsgdILk1i2ekeJ1JPbgvbUQsPP1rRvOXxh1Lzx7Tx/5Q==
-X-Received: by 10.28.104.213 with SMTP id d204mr2688378wmc.101.1479826944251; 
-	Tue, 22 Nov 2016 07:02:24 -0800 (PST)
+	Tue, 22 Nov 2016 15:12:27 +0000 (UTC)
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+References: <5c4588bd-53f6-6086-0443-faed9c0732cc@embed.me.uk>
+	<CAJTo0LY4eFrus=dOy4PzbauML6iz4qzpCKrw9rp-pLCy6YiscQ@mail.gmail.com>
+From: Jack Mitchell <ml@embed.me.uk>
+Message-ID: <1c31ec07-55d1-3a33-fc5f-6047c940d950@embed.me.uk>
+Date: Tue, 22 Nov 2016 15:11:17 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.4.0
 MIME-Version: 1.0
-Received: by 10.28.15.9 with HTTP; Tue, 22 Nov 2016 07:02:03 -0800 (PST)
-In-Reply-To: <CAJTo0LaJZkpg_z6uSz3oMAH-bE7x6-hth94okNG+2GzsGy913w@mail.gmail.com>
-References: <cover.1479203195.git.maciej.borzecki@rndity.com>
-	<eb38d44adc6f103f898ee7a8859d7ef046df4402.1479203195.git.maciej.borzecki@rndity.com>
-	<CAJTo0LaJZkpg_z6uSz3oMAH-bE7x6-hth94okNG+2GzsGy913w@mail.gmail.com>
-From: =?UTF-8?Q?Maciej_Borz=C4=99cki?= <maciej.borzecki@rndity.com>
-Date: Tue, 22 Nov 2016 16:02:03 +0100
-Message-ID: <CAD4b0_JOLmdGF+ufTkn2V_ANiLUkxZHzWqvACT4ptUEtKGZUnQ@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
-	Maciej Borzecki <maciek.borzecki@gmail.com>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v3 09/11] wic: selftest: add tests for --fixed-size partition flags
+In-Reply-To: <CAJTo0LY4eFrus=dOy4PzbauML6iz4qzpCKrw9rp-pLCy6YiscQ@mail.gmail.com>
+Subject: Re: distro checking and lsb_release
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,49 +27,224 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 Nov 2016 15:02:23 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 22 Nov 2016 15:12:29 -0000
+Content-Type: multipart/alternative;
+	boundary="------------EB1E8E27B7A7CC996ED8E0E5"
 
-On Tue, Nov 22, 2016 at 3:47 PM, Burton, Ross <ross.burton@intel.com> wrote:
+--------------EB1E8E27B7A7CC996ED8E0E5
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+
+On 22/11/16 14:25, Burton, Ross wrote:
+
 >
-> On 15 November 2016 at 09:52, Maciej Borzecki <maciej.borzecki@rndity.com>
-> wrote:
->>
->> wic has a new flag for setting a fixed parition size --fixed-size. Add
->> tests that verify if partition is indeed sized properly and that errors
->> are signaled when there is not enough space to fit partition data.
+> On 22 November 2016 at 14:07, Jack Mitchell <ml@embed.me.uk
+> <mailto:ml@embed.me.uk>>wrote:
+>
+>     With the recent changes to distro checking the lsb_release binary
+>     is now
+>     required. I tried adding this to SANITY_REQUIRED_UTILITIES however it
+>     seems as though the distro check is done before the SanityEvent is
+>     triggered. Where would be the best place to check this binary is
+>     available to prevent an ugly python traceback?
 >
 >
-> Just failed on the AB:
->
-> FAIL: test_fixed_size (oeqa.selftest.wic.Wic)
-> ----------------------------------------------------------------------
-> Traceback (most recent call last):
->   File
-> "/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-oe-selftest/build/meta/lib/oeqa/selftest/wic.py",
-> line 418, in test_fixed_size
->     self.assertEqual(0, res.status)
-> AssertionError: 0 != 127
->
-> Might be useful to print res.output in the failure. :)
->
+> It shouldn't be required at all.  What error are you getting?
 
-A bit weird. The test failed on this:
+You can also run generated qemu images with a command like 'runqemu qemux86'
+ERROR: Execution of event handler 'base_eventhandler' failed
+Traceback (most recent call last):
+  File
+"/home/jack/work/build/build-build/openembedded/oe-core.git/meta/classes/base.bbclass",
+line 214, in base_eventhandler(e=<bb.event.ConfigParsed object at
+0x7fb511f75438>):
+             if not e.data.getVar("NATIVELSBSTRING", False):
+    >            e.data.setVar("NATIVELSBSTRING",
+lsb_distro_identifier(e.data))
+             e.data.setVar('BB_VERSION', bb.__version__)
+  File
+"/home/jack/work/build/build-build/openembedded/oe-core.git/meta/classes/base.bbclass",
+line 47, in lsb_distro_identifier(d=<bb.data_smart.DataSmart object at
+0x7fb5124079b0>):
+                 pass
+    >    return oe.lsb.distro_identifier(adjust_func)
+    
+  File
+"/home/jack/work/build/build-build/openembedded/oe-core.git/meta/lib/oe/lsb.py",
+line 99, in distro_identifier(adjust_hook=None):
+    
+    >    distro_id = distro_data['DISTRIB_ID']
+         release = distro_data['DISTRIB_RELEASE']
+TypeError: 'NoneType' object is not subscriptable
 
-        # verify partition size with wic
-        res = runCmd("parted -m %s unit mib p 2>/dev/null" % wicimg,
-ignore_status=True)
-        self.assertEqual(0, res.status)
+ERROR: Error parsing configuration files
+Traceback (most recent call last):
+  File
+"/home/jack/work/build/build-build/openembedded/bitbake.git/lib/bb/event.py",
+line 124, in fire_class_handlers(event=<bb.event.ConfigParsed object at
+0x7fb511f75438>, d=<bb.data_smart.DataSmart object at 0x7fb5124079b0>):
+                         continue
+    >            execute_handler(name, handler, event, d)
+    
+  File
+"/home/jack/work/build/build-build/openembedded/bitbake.git/lib/bb/event.py",
+line 96, in execute_handler(name='base_eventhandler', handler=<function
+base_eventhandler at 0x7fb511fd02f0>, event=<bb.event.ConfigParsed
+object at 0x7fb511f75438>, d=<bb.data_smart.DataSmart object at
+0x7fb5124079b0>):
+         try:
+    >        ret = handler(event)
+         except (bb.parse.SkipRecipe, bb.BBHandledException):
+  File
+"/home/jack/work/build/build-build/openembedded/oe-core.git/meta/classes/base.bbclass",
+line 214, in base_eventhandler(e=<bb.event.ConfigParsed object at
+0x7fb511f75438>):
+             if not e.data.getVar("NATIVELSBSTRING", False):
+    >            e.data.setVar("NATIVELSBSTRING",
+lsb_distro_identifier(e.data))
+             e.data.setVar('BB_VERSION', bb.__version__)
+  File
+"/home/jack/work/build/build-build/openembedded/oe-core.git/meta/classes/base.bbclass",
+line 47, in lsb_distro_identifier(d=<bb.data_smart.DataSmart object at
+0x7fb5124079b0>):
+                 pass
+    >    return oe.lsb.distro_identifier(adjust_func)
+    
+  File
+"/home/jack/work/build/build-build/openembedded/oe-core.git/meta/lib/oe/lsb.py",
+line 99, in distro_identifier(adjust_hook=None):
+    
+    >    distro_id = distro_data['DISTRIB_ID']
+         release = distro_data['DISTRIB_RELEASE']
+TypeError: 'NoneType' object is not subscriptable
 
-So the image is there. It was listed by glob(), which is a directly
-before runing parted. Also wic has built it (because the test would have
-failed even earlier). However, when parted gets there, it either fails
-to understand `unit mib p` (unlikely), or the disk image is just not
-there anymore.
 
-Is there a chance these tests are run in parallel?
 
--- 
-Maciej Borzecki
-RnDity
+--------------EB1E8E27B7A7CC996ED8E0E5
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: 8bit
 
+<html>
+  <head>
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+  </head>
+  <body bgcolor="#FFFFFF" text="#000000">
+    <p><tt>On 22/11/16 14:25, Burton, Ross wrote:</tt><tt><br>
+      </tt></p>
+    <blockquote
+cite="mid:CAJTo0LY4eFrus=dOy4PzbauML6iz4qzpCKrw9rp-pLCy6YiscQ@mail.gmail.com"
+      type="cite">
+      <div dir="ltr">
+        <div class="gmail_extra"><tt><br>
+          </tt>
+          <div class="gmail_quote"><tt>On 22 November 2016 at 14:07,
+              Jack Mitchell </tt><tt><span dir="ltr">&lt;<a
+                  moz-do-not-send="true" href="mailto:ml@embed.me.uk"
+                  target="_blank">ml@embed.me.uk</a>&gt;</span></tt><tt>
+              wrote:</tt><tt><br>
+            </tt>
+            <blockquote class="gmail_quote" style="margin:0 0 0
+              .8ex;border-left:1px #ccc solid;padding-left:1ex">
+              <div id=":1r5" class="a3s aXjCH m1588c658056630c2"><tt>With
+                  the recent changes to distro checking the lsb_release
+                  binary is now</tt><tt><br>
+                </tt><tt>
+                  required. I tried adding this to
+                  SANITY_REQUIRED_UTILITIES however it</tt><tt><br>
+                </tt><tt>
+                  seems as though the distro check is done before the
+                  SanityEvent is</tt><tt><br>
+                </tt><tt>
+                  triggered. Where would be the best place to check this
+                  binary is</tt><tt><br>
+                </tt><tt>
+                  available to prevent an ugly python traceback?</tt><tt><br>
+                </tt></div>
+            </blockquote>
+          </div>
+          <tt><br>
+          </tt><tt>It shouldn't be required at all.  What error are you
+            getting?</tt></div>
+      </div>
+    </blockquote>
+    <tt><br>
+    </tt><tt>You can also run generated qemu images with a command like
+      'runqemu qemux86'</tt><tt><br>
+    </tt><tt>ERROR: Execution of event handler 'base_eventhandler'
+      failed</tt><tt><br>
+    </tt><tt>Traceback (most recent call last):</tt><tt><br>
+    </tt><tt>  File
+"/home/jack/work/build/build-build/openembedded/oe-core.git/meta/classes/base.bbclass",
+      line 214, in base_eventhandler(e=&lt;bb.event.ConfigParsed object
+      at 0x7fb511f75438&gt;):</tt><tt><br>
+    </tt><tt>             if not e.data.getVar("NATIVELSBSTRING",
+      False):</tt><tt><br>
+    </tt><tt>    &gt;            e.data.setVar("NATIVELSBSTRING",
+      lsb_distro_identifier(e.data))</tt><tt><br>
+    </tt><tt>             e.data.setVar('BB_VERSION', bb.__version__)</tt><tt><br>
+    </tt><tt>  File
+"/home/jack/work/build/build-build/openembedded/oe-core.git/meta/classes/base.bbclass",
+      line 47, in lsb_distro_identifier(d=&lt;bb.data_smart.DataSmart
+      object at 0x7fb5124079b0&gt;):</tt><tt><br>
+    </tt><tt>                 pass</tt><tt><br>
+    </tt><tt>    &gt;    return oe.lsb.distro_identifier(adjust_func)</tt><tt><br>
+    </tt><tt>     </tt><tt><br>
+    </tt><tt>  File
+"/home/jack/work/build/build-build/openembedded/oe-core.git/meta/lib/oe/lsb.py",
+      line 99, in distro_identifier(adjust_hook=None):</tt><tt><br>
+    </tt><tt>     </tt><tt><br>
+    </tt><tt>    &gt;    distro_id = distro_data['DISTRIB_ID']</tt><tt><br>
+    </tt><tt>         release = distro_data['DISTRIB_RELEASE']</tt><tt><br>
+    </tt><tt>TypeError: 'NoneType' object is not subscriptable</tt><tt><br>
+    </tt><tt><br>
+    </tt><tt>ERROR: Error parsing configuration files</tt><tt><br>
+    </tt><tt>Traceback (most recent call last):</tt><tt><br>
+    </tt><tt>  File
+"/home/jack/work/build/build-build/openembedded/bitbake.git/lib/bb/event.py",
+      line 124, in fire_class_handlers(event=&lt;bb.event.ConfigParsed
+      object at 0x7fb511f75438&gt;, d=&lt;bb.data_smart.DataSmart object
+      at 0x7fb5124079b0&gt;):</tt><tt><br>
+    </tt><tt>                         continue</tt><tt><br>
+    </tt><tt>    &gt;            execute_handler(name, handler, event,
+      d)</tt><tt><br>
+    </tt><tt>     </tt><tt><br>
+    </tt><tt>  File
+"/home/jack/work/build/build-build/openembedded/bitbake.git/lib/bb/event.py",
+      line 96, in execute_handler(name='base_eventhandler',
+      handler=&lt;function base_eventhandler at 0x7fb511fd02f0&gt;,
+      event=&lt;bb.event.ConfigParsed object at 0x7fb511f75438&gt;,
+      d=&lt;bb.data_smart.DataSmart object at 0x7fb5124079b0&gt;):</tt><tt><br>
+    </tt><tt>         try:</tt><tt><br>
+    </tt><tt>    &gt;        ret = handler(event)</tt><tt><br>
+    </tt><tt>         except (bb.parse.SkipRecipe,
+      bb.BBHandledException):</tt><tt><br>
+    </tt><tt>  File
+"/home/jack/work/build/build-build/openembedded/oe-core.git/meta/classes/base.bbclass",
+      line 214, in base_eventhandler(e=&lt;bb.event.ConfigParsed object
+      at 0x7fb511f75438&gt;):</tt><tt><br>
+    </tt><tt>             if not e.data.getVar("NATIVELSBSTRING",
+      False):</tt><tt><br>
+    </tt><tt>    &gt;            e.data.setVar("NATIVELSBSTRING",
+      lsb_distro_identifier(e.data))</tt><tt><br>
+    </tt><tt>             e.data.setVar('BB_VERSION', bb.__version__)</tt><tt><br>
+    </tt><tt>  File
+"/home/jack/work/build/build-build/openembedded/oe-core.git/meta/classes/base.bbclass",
+      line 47, in lsb_distro_identifier(d=&lt;bb.data_smart.DataSmart
+      object at 0x7fb5124079b0&gt;):</tt><tt><br>
+    </tt><tt>                 pass</tt><tt><br>
+    </tt><tt>    &gt;    return oe.lsb.distro_identifier(adjust_func)</tt><tt><br>
+    </tt><tt>     </tt><tt><br>
+    </tt><tt>  File
+"/home/jack/work/build/build-build/openembedded/oe-core.git/meta/lib/oe/lsb.py",
+      line 99, in distro_identifier(adjust_hook=None):</tt><tt><br>
+    </tt><tt>     </tt><tt><br>
+    </tt><tt>    &gt;    distro_id = distro_data['DISTRIB_ID']</tt><tt><br>
+    </tt><tt>         release = distro_data['DISTRIB_RELEASE']</tt><tt><br>
+    </tt><tt>TypeError: 'NoneType' object is not subscriptable</tt><tt><br>
+    </tt><tt><br>
+    </tt><tt><br>
+    </tt>
+  </body>
+</html>
+
+--------------EB1E8E27B7A7CC996ED8E0E5--
