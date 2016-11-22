@@ -1,23 +1,55 @@
-Return-Path: <mariano.lopez@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 1C353719C7
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pf0-f196.google.com (mail-pf0-f196.google.com
+	[209.85.192.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 3E16465C8F
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Nov 2016 16:49:15 +0000 (UTC)
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-	by orsmga101.jf.intel.com with ESMTP; 22 Nov 2016 08:49:16 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.31,533,1473145200"; d="scan'208";a="34380069"
-Received: from yctb01.ostc.intel.com (HELO yctb01.otcr.intel.com)
-	([10.54.69.55])
-	by orsmga005.jf.intel.com with ESMTP; 22 Nov 2016 08:49:16 -0800
-From: mariano.lopez@linux.intel.com
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 22 Nov 2016 08:46:11 +0000
-Message-Id: <672fdd07e6fc763ef96522fca4170240f515f1f6.1479804050.git.mariano.lopez@linux.intel.com>
-X-Mailer: git-send-email 2.6.6
-In-Reply-To: <cover.1479804050.git.mariano.lopez@linux.intel.com>
-References: <cover.1479804050.git.mariano.lopez@linux.intel.com>
-Subject: [PATCH 1/1] nfs-utils: 1.3.3 -> 1.3.4
+	Tue, 22 Nov 2016 16:53:07 +0000 (UTC)
+Received: by mail-pf0-f196.google.com with SMTP id y68so1697308pfb.1
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 22 Nov 2016 08:53:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=subject:to:references:cc:from:message-id:date:user-agent
+	:mime-version:in-reply-to:content-transfer-encoding;
+	bh=hi0bQKjGi1PGFIynY1c/Fv4/1YVwY6xqngfh8iDfaUo=;
+	b=1BvfbJBo1yi9n5crJiN8OYEWrGNNIuqyamdiy22Dptxs+hOaO6glkJifivGpJRsNuA
+	4b+zkMqRv8DHZN9aUMBsI3MEhd5uGSwCzUoNh5NnoyYq8VPQSS65HzG3Grvv1/Chp1+V
+	Pn+xBTDmwjwLeSu+KAiHcESACnGOBYn0RrGJ/VyW8yXtPPr+H36Ci+byrhiTKcM4DDo4
+	7/e7Gcm5Yh6UAJdmlgLivrzj1uQ4g7Yzhpw0+rjSE5zQA85wSsr+DXMEJyt16NQBj5Rp
+	GCZTx3jcUEF2rQC5UQsccSCCQfWH85suZwnmGnT8z98o18nh4m1CZxzVgxrVY8ozHumm
+	AcCA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:subject:to:references:cc:from:message-id:date
+	:user-agent:mime-version:in-reply-to:content-transfer-encoding;
+	bh=hi0bQKjGi1PGFIynY1c/Fv4/1YVwY6xqngfh8iDfaUo=;
+	b=I0U3A91nyiZWGSfnetId0FHmBPB4zt9NJUFI0ZFyZL+dIdfby8jSNYE/blg1NteSHK
+	uv8EKoRjNdcNoKkkx2gxrb4o1d6aV6CBWbPzxSYGHd5Qxf4qrz8LCi6Rq/z2PiCoo1E5
+	MrOkzMDYPFeIMyQTtQdFBrCjEAbUmNHlwN+Ngsj3oNT8yLGkBPINMphvtf5o8ESq7acE
+	R1sBUqY6pcGv+CeuTUkyoqMmWa2wZrJtcHpf3eIfbslHS73zHfkzsw/WKxA73373jlpb
+	yYaaGBUiQHySP1/kWMpVQlW1MOxak7Lm/xWcHJEGqZGrvo0tmsp8tHDeHw+e+UStUYWz
+	gK1A==
+X-Gm-Message-State: AKaTC001nD3qc6WJGkyPTZ+CClAWo61z+Bcw7L+7LkY3VG+/KbmXu3sEGEjVVqKuFqYNLA==
+X-Received: by 10.84.169.169 with SMTP id h38mr1506320plb.48.1479833589231;
+	Tue, 22 Nov 2016 08:53:09 -0800 (PST)
+Received: from ?IPv6:2601:202:4001:9ea0:81c9:bbf5:f92d:a3d8?
+	([2601:202:4001:9ea0:81c9:bbf5:f92d:a3d8])
+	by smtp.gmail.com with ESMTPSA id
+	h7sm28536124pgn.13.2016.11.22.08.53.08
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 22 Nov 2016 08:53:08 -0800 (PST)
+To: Bruce Ashfield <bruce.ashfield@windriver.com>,
+	richard.purdie@linuxfoundation.org
+References: <cover.1479830169.git.bruce.ashfield@windriver.com>
+	<1656a2c98cd4f8113972d3c86870dc1eaf323760.1479830169.git.bruce.ashfield@windriver.com>
+From: akuster808 <akuster808@gmail.com>
+Message-ID: <dc66e7b7-8723-ec27-bdc5-1462d76c3798@gmail.com>
+Date: Tue, 22 Nov 2016 08:53:07 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.4.0
+MIME-Version: 1.0
+In-Reply-To: <1656a2c98cd4f8113972d3c86870dc1eaf323760.1479830169.git.bruce.ashfield@windriver.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 7/7] kern-tools: error checking and tree generation fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,210 +62,93 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 Nov 2016 16:49:16 -0000
+X-List-Received-Date: Tue, 22 Nov 2016 16:53:08 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 
-From: Mariano Lopez <mariano.lopez@linux.intel.com>
+Bruce,
 
-Signed-off-by: Mariano Lopez <mariano.lopez@linux.intel.com>
----
- .../files/nfs-utils-debianize-start-statd.patch    |  23 +++--
- ...tatd-fix-a-segfault-caused-by-improper-us.patch | 113 ---------------------
- .../{nfs-utils_1.3.3.bb => nfs-utils_1.3.4.bb}     |   5 +-
- 3 files changed, 14 insertions(+), 127 deletions(-)
- delete mode 100644 meta/recipes-connectivity/nfs-utils/nfs-utils/0001-nfs-utils-statd-fix-a-segfault-caused-by-improper-us.patch
- rename meta/recipes-connectivity/nfs-utils/{nfs-utils_1.3.3.bb => nfs-utils_1.3.4.bb} (96%)
 
-diff --git a/meta/recipes-connectivity/nfs-utils/files/nfs-utils-debianize-start-statd.patch b/meta/recipes-connectivity/nfs-utils/files/nfs-utils-debianize-start-statd.patch
-index 8500229..ede0dce 100644
---- a/meta/recipes-connectivity/nfs-utils/files/nfs-utils-debianize-start-statd.patch
-+++ b/meta/recipes-connectivity/nfs-utils/files/nfs-utils-debianize-start-statd.patch
-@@ -9,17 +9,18 @@ Signed-off-by: Li Wang <li.wang@windriver.com>
- Signed-off-by: Roy Li <rongqing.li@windriver.com>
- Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
- ---
-- utils/statd/start-statd | 9 ++++++++-
-- 1 file changed, 8 insertions(+), 1 deletion(-)
-+ utils/statd/start-statd | 10 +++++++++-
-+ 1 file changed, 9 insertions(+), 1 deletion(-)
- 
- diff --git a/utils/statd/start-statd b/utils/statd/start-statd
--index ec9383b..3969b8c 100755
-+index 2fd6039..f591b34 100755
- --- a/utils/statd/start-statd
- +++ b/utils/statd/start-statd
--@@ -6,6 +6,13 @@
-- # site.
-- PATH="/sbin:/usr/sbin:/bin:/usr/bin"
-- 
-+@@ -17,6 +17,14 @@ then
-+     # statd already running - must have been slow to respond.
-+     exit 0
-+ fi
-++
- +# Read config
- +DEFAULTFILE=/etc/default/nfs-common
- +NEED_IDMAPD=
-@@ -28,14 +29,14 @@ index ec9383b..3969b8c 100755
- +fi
- +
-  # First try systemd if it's installed.
-- if systemctl --help >/dev/null 2>&1; then
-+ if [ -d /run/systemd/system ]; then
-      # Quit only if the call worked.
--@@ -13,4 +20,4 @@ if systemctl --help >/dev/null 2>&1; then
-- fi
-+@@ -25,4 +33,4 @@ fi
-  
-+ cd /
-  # Fall back to launching it ourselves.
- -exec rpc.statd --no-notify
- +exec rpc.statd --no-notify $STATDOPTS
- -- 
--1.9.1
-+2.6.6
- 
-diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils/0001-nfs-utils-statd-fix-a-segfault-caused-by-improper-us.patch b/meta/recipes-connectivity/nfs-utils/nfs-utils/0001-nfs-utils-statd-fix-a-segfault-caused-by-improper-us.patch
-deleted file mode 100644
-index de0b045..0000000
---- a/meta/recipes-connectivity/nfs-utils/nfs-utils/0001-nfs-utils-statd-fix-a-segfault-caused-by-improper-us.patch
-+++ /dev/null
-@@ -1,113 +0,0 @@
--Upstream-Status: Pending
--
--Subject: nfs-utils/statd: fix a segfault caused by improper usage of RPC interface
--
--There is a hack which uses the bottom-level RPC improperly as below
--in the current statd implementation:
--insert a socket in the svc_fdset without a corresponding transport handle
--and passes the socket to the svc_getreqset subroutine, this usage causes
--a segfault of statd on a huge amount of sm-notifications.
--
--Fix the issue by separating the non-RPC-server sock from RPC dispatcher.
--
--Signed-off-by: Shan Hai <shan.hai@windriver.com>
--Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-----
-- utils/statd/rmtcall.c | 1 -
-- utils/statd/statd.c   | 5 +++--
-- utils/statd/statd.h   | 2 +-
-- utils/statd/svc_run.c | 8 ++++++--
-- 4 files changed, 10 insertions(+), 6 deletions(-)
--
--diff --git a/utils/statd/rmtcall.c b/utils/statd/rmtcall.c
--index fd576d9..cde091b 100644
----- a/utils/statd/rmtcall.c
--+++ b/utils/statd/rmtcall.c
--@@ -104,7 +104,6 @@ statd_get_socket(void)
-- 	if (sockfd < 0)
-- 		return -1;
-- 
---	FD_SET(sockfd, &SVC_FDSET);
-- 	return sockfd;
-- }
-- 
--diff --git a/utils/statd/statd.c b/utils/statd/statd.c
--index 51a016e..e21a259 100644
----- a/utils/statd/statd.c
--+++ b/utils/statd/statd.c
--@@ -247,6 +247,7 @@ int main (int argc, char **argv)
-- 	int port = 0, out_port = 0;
-- 	int nlm_udp = 0, nlm_tcp = 0;
-- 	struct rlimit rlim;
--+	int notify_sockfd;
-- 
-- 	int pipefds[2] = { -1, -1};
-- 	char status;
--@@ -473,7 +474,7 @@ int main (int argc, char **argv)
-- 		}
-- 
-- 	/* Make sure we have a privilege port for calling into the kernel */
---	if (statd_get_socket() < 0)
--+	if ((notify_sockfd = statd_get_socket()) < 0)
-- 		exit(1);
-- 
-- 	/* If sm-notify didn't take all the state files, load
--@@ -528,7 +529,7 @@ int main (int argc, char **argv)
-- 		 * Handle incoming requests:  SM_NOTIFY socket requests, as
-- 		 * well as callbacks from lockd.
-- 		 */
---		my_svc_run();	/* I rolled my own, Olaf made it better... */
--+		my_svc_run(notify_sockfd);	/* I rolled my own, Olaf made it better... */
-- 
-- 		/* Only get here when simulating a crash so we should probably
-- 		 * start sm-notify running again.  As we have already dropped
--diff --git a/utils/statd/statd.h b/utils/statd/statd.h
--index a1d8035..231ac7e 100644
----- a/utils/statd/statd.h
--+++ b/utils/statd/statd.h
--@@ -28,7 +28,7 @@ extern _Bool	statd_present_address(const struct sockaddr *sap, char *buf,
-- __attribute__((__malloc__))
-- extern char *	statd_canonical_name(const char *hostname);
-- 
---extern void	my_svc_run(void);
--+extern void	my_svc_run(int);
-- extern void	notify_hosts(void);
-- extern void	shuffle_dirs(void);
-- extern int	statd_get_socket(void);
--diff --git a/utils/statd/svc_run.c b/utils/statd/svc_run.c
--index d98ecee..28c1ad6 100644
----- a/utils/statd/svc_run.c
--+++ b/utils/statd/svc_run.c
--@@ -78,7 +78,7 @@ my_svc_exit(void)
--  * The heart of the server.  A crib from libc for the most part...
--  */
-- void
---my_svc_run(void)
--+my_svc_run(int sockfd)
-- {
-- 	FD_SET_TYPE	readfds;
-- 	int             selret;
--@@ -96,6 +96,8 @@ my_svc_run(void)
-- 		}
-- 
-- 		readfds = SVC_FDSET;
--+		/* Set notify sockfd for waiting for reply */
--+		FD_SET(sockfd, &readfds);
-- 		if (notify) {
-- 			struct timeval	tv;
-- 
--@@ -125,8 +127,10 @@ my_svc_run(void)
-- 
-- 		default:
-- 			selret -= process_reply(&readfds);
---			if (selret)
--+			if (selret) {
--+				FD_CLR(sockfd, &readfds);
-- 				svc_getreqset(&readfds);
--+			}
-- 		}
-- 	}
-- }
---- 
--1.9.1
--
-diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils_1.3.3.bb b/meta/recipes-connectivity/nfs-utils/nfs-utils_1.3.4.bb
-similarity index 96%
-rename from meta/recipes-connectivity/nfs-utils/nfs-utils_1.3.3.bb
-rename to meta/recipes-connectivity/nfs-utils/nfs-utils_1.3.4.bb
-index 8540503..bf6c9fa 100644
---- a/meta/recipes-connectivity/nfs-utils/nfs-utils_1.3.3.bb
-+++ b/meta/recipes-connectivity/nfs-utils/nfs-utils_1.3.4.bb
-@@ -31,12 +31,11 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/nfs-utils/${PV}/nfs-utils-${PV}.tar.x
-            file://proc-fs-nfsd.mount \
-            file://nfs-utils-Do-not-pass-CFLAGS-to-gcc-while-building.patch \
-            file://nfs-utils-debianize-start-statd.patch \
--           file://0001-nfs-utils-statd-fix-a-segfault-caused-by-improper-us.patch \
-            file://bugfix-adjust-statd-service-name.patch \
- "
- 
--SRC_URI[md5sum] = "cd6b568c2e9301cc3bfac09d87fbbc0b"
--SRC_URI[sha256sum] = "700d689c5622c87953c34102e5befafc4d3c811e676852238f0dd79c9c0c084d"
-+SRC_URI[md5sum] = "54e4119043ec8507a2a0e054cf2889a4"
-+SRC_URI[sha256sum] = "b42a5bc0a8d80d04650030ceb9a11f08f4acfbcb1ee297f657fb94e339c45975"
- 
- # Only kernel-module-nfsd is required here (but can be built-in)  - the nfsd module will
- # pull in the remainder of the dependencies.
--- 
-2.6.6
+On 11/22/2016 07:59 AM, Bruce Ashfield wrote:
+> During processing of the kernel meta data the kern tools were
+> not properly exiting on syntax errors or invalid commands.
+
+Does Morty need this?
+-Armin
+>
+> Noticing and debugging these issues wasn't trivial. To make this
+> easier, we now trap the error and dump the offending meta-data
+> for the user to see.
+>
+> There was also an issue with creating branches during tree
+> generation, which is resolved by always switching to the
+> active branch.
+>
+> The following are the commit logs of the changes themselves:
+>
+> [
+>    commit b36f6f9a5695f2084b83823393e13ca42284bed9
+>    Author: Paul Gortmaker <paul.gortmaker@windriver.com>
+>    Date:   Sat Oct 22 17:23:25 2016 -0400
+>
+>        kgit-scc: dont mention meta-repo in help ; it doesnt exist
+>
+>        Signed-off-by: Paul Gortmaker <paul.gortmaker@windriver.com>
+>        Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+>
+>    commit 08463d684c1952e74c25344cddace4c3f24c739d
+>    Author: Bruce Ashfield <bruce.ashfield@windriver.com>
+>    Date:   Mon Oct 31 14:30:12 2016 -0400
+>
+>        scc: exit on error
+>
+>        If there is an error in the processing of the input files, scc
+>        should exit and inform the user.
+>
+>        scc is executed on a combined/preprocessed file and as a result
+>        it doesn't have the granularity to see each input file individually.
+>
+>        Rather than moving preprocessing into scc (from spp), we can trap
+>        the line number of the error and dump context around the line.
+>        This gives the user a pointer to the input file and the specific
+>        line that caused the problem.
+>
+>        Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+>
+>    commit bf99953e8ac14cee653e559f2d4a6022c847a182
+>    Author: Bruce Ashfield <bruce.ashfield@windriver.com>
+>    Date:   Fri Oct 28 21:23:27 2016 -0400
+>
+>        kgit-meta: always checkout branches on branch commands
+>
+>        During a tree generation we must always make the branch active when
+>        we see any kind of branch command. This ensures that any subsequent
+>        patches are applied in the proper context.
+>
+>        Previously, only branch creation was changing the active branch, and
+>        this mean that tree generation was not determinstic and relied
+>        on the order of processing to generate a correct tree.
+>
+>        Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+> ]
+>
+> Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+> ---
+>   meta/recipes-kernel/kern-tools/kern-tools-native_git.bb | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb b/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
+> index d8041ddd38c5..88b1aee729c9 100644
+> --- a/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
+> +++ b/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
+> @@ -4,7 +4,7 @@ LIC_FILES_CHKSUM = "file://git/tools/kgit;beginline=5;endline=9;md5=a6c2fa8aef1b
+>   
+>   DEPENDS = "git-native"
+>   
+> -SRCREV = "9a3995ee8daabf37e92e1b51b133cf8582d85809"
+> +SRCREV = "b36f6f9a5695f2084b83823393e13ca42284bed9"
+>   PR = "r12"
+>   PV = "0.2+git${SRCPV}"
+>   
 
 
