@@ -1,49 +1,53 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qt0-f171.google.com (mail-qt0-f171.google.com
-	[209.85.216.171])
-	by mail.openembedded.org (Postfix) with ESMTP id A8D82719BB
+Return-Path: <patrick.ohly@intel.com>
+Received: from mail-it0-f47.google.com (mail-it0-f47.google.com
+	[209.85.214.47])
+	by mail.openembedded.org (Postfix) with ESMTP id 3049A601D3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Nov 2016 10:44:36 +0000 (UTC)
-Received: by mail-qt0-f171.google.com with SMTP id w33so7937729qtc.3
+	Tue, 22 Nov 2016 11:10:06 +0000 (UTC)
+Received: by mail-it0-f47.google.com with SMTP id j191so8899234ita.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Nov 2016 02:44:38 -0800 (PST)
+	Tue, 22 Nov 2016 03:10:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=nmJNxTtu9pbBRTKdLFi4i8SYzUWkTNU+LBUIo0/gGNs=;
-	b=x/ZPmSLyOTWcWLXaWoBVZlPXFxV6d95HtlLq8/j6bs7sIQhxwHB/UXrdp8neM5qR/p
-	5axUoZsu4kRKD8zO56Dm3+on5xMISHv8mp7DTqI7xF4849sWCjLwbayMTXLmbpEwXOTX
-	wyhD8H6/3LCtoh+js7UTEd0aa4Jfs56Me1h3+JGC3ZFfM5wXxkIo7jfrAUqo2l3Aca6c
-	Dpd3KCGla868quVJKtdt4WJsPjO8xL+3gyC7845sZeaYidFoN4+eAYuR/uAacRs7eyRj
-	MyJlvSoOugnZNyQGNJ5vPFPjoYumWnwBowo5rSHrm1FZUdUk0fzdC0F6J1uE6MR/IhPu
-	mBdg==
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:organization:mime-version:content-transfer-encoding;
+	bh=qLCjTkULuSEP47GeDgqBkOAvjo5Yqbq+MIPSejMYCq0=;
+	b=KTfDy87WG1ytRplBCoTjQqYdZ5hkyr8wfJzHNmmkv8XLVBISiqr0hov91X29I2TAXf
+	7WsvpsrCaWQCjN7rPYkO9lyyv13PczDz4N77TQ2IlT5bKEdcFDk2chf8jF1wfUmHa02B
+	f5shc05nbPc0owTOnRdh45cPjEAMS9ByS36TR0sXFUgQiDWrw3TQPF0jjfK79TCcYqEy
+	emHSkVicA+pnhpAuRW8MsbNQzWhpxpInEsXnJGbuJ/HWNPmGtb5TBqofrx0gjpb8FbR0
+	6LKyC06YoiEnYpqg/rBa/26oMwlyDeWCrOnh4s4hTUb8jWgd1jAqcxPhBA1fyWG5Yc2L
+	Q6Bg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=nmJNxTtu9pbBRTKdLFi4i8SYzUWkTNU+LBUIo0/gGNs=;
-	b=YZ5R7E/3rgjN1EFiAUlj7XShCUQX54F8F8CEOnuofipop6QkX+qhMkfEKhNIqzeFFY
-	gbL7PIEgjw8JCmfYMKbE6+He3rbqRKgYkrRgV3TI0qUms5v9shfDKXr9RrWjJ0sfJYjQ
-	rIGTAi8K28xxb5NLvJwnsb1jc5c6M2xSjW9xSXBz6YAv36X4ycvqAd8sCTqhCArcadki
-	nTV30nxyBGVT2FDJTaUDRdBmnuOhJeLm7ffEc1j6e/DvcxC69L9cUyWsa8Pt9O6f29Kq
-	P7osUh4jfhPnEx0KpkD+tf9l9mzCNpTwPob1+e0HJ3kjRZGOyUaaI3CqpgKpBY4GWRBP
-	pDuA==
-X-Gm-Message-State: AKaTC033bwUYzI2RbMR5awRauKi5871S67MezGOoO1RJliVMiWYhnZ/AMnxHnXl+PbT6/UN65ktPGK0c6+FtecKr
-X-Received: by 10.237.34.46 with SMTP id n43mr12165127qtc.105.1479811478242;
-	Tue, 22 Nov 2016 02:44:38 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.140.85.136 with HTTP; Tue, 22 Nov 2016 02:44:17 -0800 (PST)
-In-Reply-To: <eb6aeb51-c0c5-fe39-f3e1-ac1dfede129b@gmail.com>
-References: <20161116174748.26994-1-raj.khem@gmail.com>
-	<20161116174748.26994-2-raj.khem@gmail.com>
-	<CAJTo0Laq+KdjYoNvTM3DV+X8aGGdfWyJM=1z830=8T1orbqaJQ@mail.gmail.com>
-	<eb6aeb51-c0c5-fe39-f3e1-ac1dfede129b@gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 22 Nov 2016 10:44:17 +0000
-Message-ID: <CAJTo0Lb7jorMUq-8D-tkBTK0bP45AOtP_tBS2PTGGxPrUWbc8g@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/5] taglib: Update to 1.11.1
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:organization:mime-version:content-transfer-encoding;
+	bh=qLCjTkULuSEP47GeDgqBkOAvjo5Yqbq+MIPSejMYCq0=;
+	b=GDuwAdQ0FtJSRfGeA8Zj+oXhqUnHwicalKAhQhULoRx40C6gEihsXCn+W9u3KcJoHe
+	O5FxCH7OfEeU6pqK+XwVP6VwH6XWnjXtdv2ihYdJkxPSx95bNrOuWGwXLAQdmi3Or3VT
+	BGeyujEUf21A+OYPrioMtPZ9+nopIxSvpjbQSgly7bd3+stsJeA3ofR06MKeXFNcCfha
+	+xQR96DCDKCbaJAnwW9BN37BG/GtC+zbMEoSI6xxNAwx0U72k6Hk7YfCUhIarPhZxEuo
+	E5t300PX8BOVW3nXbSmlofCGfUMjtvotOdwQlY2uFKHx6DrxL/Qqw6xTylMkin+Ats/H
+	1sWw==
+X-Gm-Message-State: AKaTC03299zVgbV1Ur7BDOibYSQ+Ug9NFye9KNsSzbc7/WtDbLhKAsnMP2yf7fxpnqbKtVec
+X-Received: by 10.36.129.9 with SMTP id q9mr1894513itd.24.1479813007996;
+	Tue, 22 Nov 2016 03:10:07 -0800 (PST)
+Received: from pohly-mobl1 (p57A56926.dip0.t-ipconnect.de. [87.165.105.38])
+	by smtp.gmail.com with ESMTPSA id y20sm9536556ioy.8.2016.11.22.03.10.06
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 22 Nov 2016 03:10:06 -0800 (PST)
+Message-ID: <1479813004.3239.19.camel@intel.com>
+From: Patrick Ohly <patrick.ohly@intel.com>
+To: Kristian Amlie <kristian.amlie@mender.io>, Eduard Bartosh
+	<eduard.bartosh@intel.com>
+Date: Tue, 22 Nov 2016 12:10:04 +0100
+In-Reply-To: <a90e8685-f087-5ee2-888b-aa537ebd94c4@mender.io>
+References: <a90e8685-f087-5ee2-888b-aa537ebd94c4@mender.io>
+Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
+X-Mailer: Evolution 3.12.9-1+b1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: Contents of non-rootfs partitions
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,42 +60,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 Nov 2016 10:44:37 -0000
-Content-Type: multipart/alternative; boundary=001a11377e187f3a200541e1759b
+X-List-Received-Date: Tue, 22 Nov 2016 11:10:07 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
---001a11377e187f3a200541e1759b
-Content-Type: text/plain; charset=UTF-8
+On Tue, 2016-11-22 at 10:05 +0100, Kristian Amlie wrote:
+> Hey
+> 
+> In Mender we are using a dual rootfs partition layout (A/B layout)
+> with a persistent data partition on the side. We're using wic to do
+> the actual image building.
+> 
+> However, putting files into this data partition is not a
+> straightforward operation ATM. All recipes in OE put files into the
+> rootfs only, and we'd like there to be a way to specify that files
+> should go into the data partition.
+> 
+> I haven't seen any straightforward way to do this in OE. Some
+> suggestions for how it could be done:
+> 
+> * A "DATA_FILES" variable (like "IMAGE_BOOT_FILES"), where you can
+> list files you'd like to be included. This is very straightforward,
+> but has the disadvantage of being a bit hairy when paths are involved,
+> and it doesn't allow for much logic.
+> 
+> * Keep a special "data" directory, something similar to sysroot, where
+> recipes could install files into in order to have it included on the
+> data partition. We could potentially have a bbclass for use in recipes
+> to make this more streamlined.
+> 
+> * Have a special recipe that users can bbappend, which specifically
+> install to the data partition (this might also need a "data"
+> directory, like above).
 
-On 22 November 2016 at 03:46, Khem Raj <raj.khem@gmail.com> wrote:
+All of these introduce some special mechanism. Let me propose something
+that might integrate better with the existing tooling:
 
-> its a build time dependency. Do we have a usecase/images where taglib is
-> used
-> and boost is just pulled into build because of taglib ?
->
+The "rootfs" directory gets redefined as representing the entire virtual
+file system. When creating a disk image, it gets split up into different
+partitions based on the image configuration.
 
-No but I've an example where boost doesnt build at all and this breaks
-core-image-sato (IA x32)...
+For example, the /home or /data directories in the rootfs could hold the
+content that in some image configurations goes into separate partitions.
 
-Building all of boost just for a macro seems rather unfortunate.
+The advantage of this approach is that the tooling for staging content
+for image creation does not need to be changed. The same staged content
+then can be used to create different images, potentially even using
+different partition layouts.
 
-Ross
+To implement this approach with wic, wic needs to be taught how to
+exclude directories from the main rootfs. Ideally, the mkfs.* tools
+should also support that without having to make an intermediate copy of
+the files for a certain partition, but initially wic could create
+temporary directory trees.
 
---001a11377e187f3a200541e1759b
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+-- 
+Best Regards, Patrick Ohly
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 22 November 2016 at 03:46, Khem Raj <span dir=3D"ltr">&lt;<a href=3D"mai=
-lto:raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt;</span>=
- wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bor=
-der-left:1px #ccc solid;padding-left:1ex"><div id=3D":2gk" class=3D"a3s aXj=
-CH m1588a246718df4be">its a build time dependency. Do we have a usecase/ima=
-ges where taglib is used<br>
-and boost is just pulled into build because of taglib ?<br></div></blockquo=
-te></div><br>No but I&#39;ve an example where boost doesnt build at all and=
- this breaks core-image-sato (IA x32)...</div><div class=3D"gmail_extra"><b=
-r></div><div class=3D"gmail_extra">Building all of boost just for a macro s=
-eems rather unfortunate.</div><div class=3D"gmail_extra"><br></div><div cla=
-ss=3D"gmail_extra">Ross</div></div>
+The content of this message is my personal opinion only and although
+I am an employee of Intel, the statements I make here in no way
+represent Intel's position on the issue, nor am I authorized to speak
+on behalf of Intel on this matter.
 
---001a11377e187f3a200541e1759b--
+
+
+
