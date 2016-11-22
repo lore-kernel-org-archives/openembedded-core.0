@@ -1,53 +1,49 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pg0-f67.google.com (mail-pg0-f67.google.com [74.125.83.67])
-	by mail.openembedded.org (Postfix) with ESMTP id C3E7B6069D
+Return-Path: <kristian.amlie@mender.io>
+Received: from mail-wm0-f49.google.com (mail-wm0-f49.google.com [74.125.82.49])
+	by mail.openembedded.org (Postfix) with ESMTP id 7447B6093A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Nov 2016 03:51:07 +0000 (UTC)
-Received: by mail-pg0-f67.google.com with SMTP id 3so706190pgd.0
+	Tue, 22 Nov 2016 09:05:22 +0000 (UTC)
+Received: by mail-wm0-f49.google.com with SMTP id t79so13442729wmt.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Nov 2016 19:51:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=subject:to:references:cc:from:organization:message-id:date
-	:user-agent:mime-version:in-reply-to;
-	bh=jTBRVXYvPc095XzjJ4Ah9483H7cLLjnr3uj4asc6lxM=;
-	b=wh3ZF/LdriSymIEdefEveq3LIn/Mmyj5OiWYRXDBSiOmpjJ6++c0KYUe+DYrDO548I
-	9hlv5vLtZ3MsI59F887+88sSL9lO9ZsFrObyTlGmR3GzCm9BbiN5I4cUB5A+QsmY8nx2
-	2h+YARkJE834Eq0HAyJEfKmW6U281uWgfVw1lnjvqayFN0QzbS2IjmFsj9Op9tXCmYgM
-	FI1XBxsDwjnbAbu5OPUhFrspIy/YagCuRI34kJewt6Kl+XMiL3ddEM29mszt58Kgq8Nk
-	XpkZo8Spo/slvTm6pmnwCthhmQpRPxPlWx25xKATjTwoMRiQJ89Kss0aWwEd8ul/DECy
-	M3yA==
+	Tue, 22 Nov 2016 01:05:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=mender-io.20150623.gappssmtp.com; s=20150623;
+	h=to:from:subject:cc:message-id:date:user-agent:mime-version
+	:content-transfer-encoding;
+	bh=PctfqYiYrpoUrmI0ri7mVPiFX14pWmVPjAPJWiNedM0=;
+	b=KEemIy4udHwfDP47u9UBy876BiXaM0pJiIFByTW5aHX3crdZomUTRbIZhepx8/v3+o
+	UQNZyD4ItEMnzhTkAktayvbR2wFDfEdvH737TZ0ektq3V3nKm8k2MkAUXlmRrl0s0i5T
+	+c3Txnl4vTYpjKKQXiYcT337lHNKKDmz4N0PzDG9gIKr5bNQlLA23tWt4AdL6I6KMJmM
+	dSMZEpzRjb4Sd3sj9JygvMd+twsaPpZ1YidRFMq5G/TvUs4bqn5hkeSs2o7rQ9H9cFE4
+	nNOz9YiotndOau6yCQrWpGTMwzhgGHev1Jjz9CzxxKxGVVdnqWiUu7I6fdLNjL1f6Kmk
+	x34w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:subject:to:references:cc:from:organization
-	:message-id:date:user-agent:mime-version:in-reply-to;
-	bh=jTBRVXYvPc095XzjJ4Ah9483H7cLLjnr3uj4asc6lxM=;
-	b=b2RKTLXA9qeNm3OAwZGsdMQZzaLAP2Xuq6BCJXybbwsdyDpuZVt9KlokU79CmN56c8
-	mu3SVEHX/9YXbYk6b4d4KjhX6yFv3eQ1ldnohcP4lMhxra5dNuoIJT8tJRH995xmI5I/
-	lsm9L9U9LJImevzHIWENCbiSTpl9nq5eOPfHbn8cijSmjVGfg/by62Wlnd+TvIxelK67
-	2wVocdq+SQT+mr6TYpQq+E8ily7j5Q66BAY9PwUuVj1xJAjm/CMiZUSCYfFyqvBGD0IX
-	DzvE299/l5zuzp1+U0gsTYWg8zmStf+Ob2qRZRWFzYtiDKwSSKJl81jHdsLRdljeIRt2
-	itzg==
-X-Gm-Message-State: AKaTC00D94x6jwOcMimSRD8LbOuiP/N2VMVJIcR9YrBwPaWlrXiGtP+FHTzavCnQpHcOpA==
-X-Received: by 10.99.168.10 with SMTP id o10mr39168677pgf.105.1479786668799;
-	Mon, 21 Nov 2016 19:51:08 -0800 (PST)
-Received: from CACSVMO-14452.local ([2601:646:8882:b8c:79bd:3a31:4354:fac0])
-	by smtp.gmail.com with ESMTPSA id
-	y134sm40671026pfg.81.2016.11.21.19.51.07
+	h=x-gm-message-state:to:from:subject:cc:message-id:date:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=PctfqYiYrpoUrmI0ri7mVPiFX14pWmVPjAPJWiNedM0=;
+	b=IonM2qhc45HfPvsKwqhiT+l5Xccij/oqW8bbin/6hN9DEKJnZYsCw/sOb3F7h3gV1d
+	6p1/dfC4M//imjYVrpl+597RXS3kM5i+PVQeJppqPlpAMH7fEw2P1CK2rX/B3WxXDKll
+	XWugdv1I6OuaXnTW9VOurP29qfGnLx+oo/E7bkqFL4PUXvkxGyJKWDJNMvW955bKFyi1
+	hITOIGIarMCDfU0w5F6MOC58/STbaSIYvCoEXO+YC47CSMNsHhp9aCZwgvCS2XckPEnp
+	IVssvLbj2s58oUG9LliphWTWgK2XphoROYnXtnAzfwJxuHwo2agX0GoyrWsAIT5Sx2Bs
+	iKtw==
+X-Gm-Message-State: AKaTC03Ylh2xuFyb13lBKR90NVk2Sif9JW6tAKdtOH/V97CotbN//GQpuj2fXka3RBIo4Q==
+X-Received: by 10.25.216.28 with SMTP id p28mr3971037lfg.16.1479805523410;
+	Tue, 22 Nov 2016 01:05:23 -0800 (PST)
+Received: from [10.25.0.170] ([195.159.140.90])
+	by smtp.googlemail.com with ESMTPSA id
+	89sm6124793lja.16.2016.11.22.01.05.22
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 21 Nov 2016 19:51:08 -0800 (PST)
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <20161116174748.26994-1-raj.khem@gmail.com>
-	<CAJTo0LYgH6_T5Y-YO1Px5eyYFLiud9SQvG1vHGRoebwkhVhdKg@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Organization: himvis.com
-Message-ID: <fee9f44e-4dd3-9286-a1e2-2f4e5ca2a74b@gmail.com>
-Date: Mon, 21 Nov 2016 19:51:07 -0800
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.12; rv:50.0)
-	Gecko/20100101 Thunderbird/50.0
+	Tue, 22 Nov 2016 01:05:22 -0800 (PST)
+To: openembedded-core@lists.openembedded.org
+From: Kristian Amlie <kristian.amlie@mender.io>
+Message-ID: <a90e8685-f087-5ee2-888b-aa537ebd94c4@mender.io>
+Date: Tue, 22 Nov 2016 10:05:22 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.4.0
 MIME-Version: 1.0
-In-Reply-To: <CAJTo0LYgH6_T5Y-YO1Px5eyYFLiud9SQvG1vHGRoebwkhVhdKg@mail.gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/5] systemd: Upgrade to 232
+Subject: Contents of non-rootfs partitions
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,82 +56,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 Nov 2016 03:51:07 -0000
-X-Groupsio-MsgNum: 89639
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature";
-	boundary="vTlld25oMMRQeKrUwgEW0PTIimwDl0lJE"
-
---vTlld25oMMRQeKrUwgEW0PTIimwDl0lJE
-Content-Type: multipart/mixed; boundary="fEE2nVgVx9u5xsTPqbrIKPmGs8JjwpdrE";
- protected-headers="v1"
-From: Khem Raj <raj.khem@gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Message-ID: <fee9f44e-4dd3-9286-a1e2-2f4e5ca2a74b@gmail.com>
-Subject: Re: [OE-core] [PATCH 1/5] systemd: Upgrade to 232
-References: <20161116174748.26994-1-raj.khem@gmail.com>
- <CAJTo0LYgH6_T5Y-YO1Px5eyYFLiud9SQvG1vHGRoebwkhVhdKg@mail.gmail.com>
-In-Reply-To: <CAJTo0LYgH6_T5Y-YO1Px5eyYFLiud9SQvG1vHGRoebwkhVhdKg@mail.gmail.com>
-
---fEE2nVgVx9u5xsTPqbrIKPmGs8JjwpdrE
+X-List-Received-Date: Tue, 22 Nov 2016 09:05:25 -0000
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
+Hey
 
+In Mender we are using a dual rootfs partition layout (A/B layout) with a persistent data partition on the side. We're using wic to do the actual image building.
 
-On 11/18/16 4:38 AM, Burton, Ross wrote:
->=20
-> On 16 November 2016 at 17:47, Khem Raj <raj.khem@gmail.com
-> <mailto:raj.khem@gmail.com>> wrote:
->=20
->     * Drop support for rcS.d SysV init scripts.
->       These are prone to cause dependency loops, and almost all package=
-s with
->       rcS scripts now ship a native systemd service.
->=20
->     * Drop mount propagation patch, it only happens with libseccomp, OE=
- doesnt
->       enable it
->=20
->     * kdbus option has disappeared from configure
->=20
->     * Ignore dev-so for PN now since systemd introduced private .so see=
+However, putting files into this data partition is not a straightforward operation ATM. All recipes in OE put files into the rootfs only, and we'd like there to be a way to specify that files should go into the data partition.
 
->       https://github.com/systemd/systemd/issues/3810
->     <https://github.com/systemd/systemd/issues/3810>
->=20
->     Signed-off-by: Khem Raj <raj.khem@gmail.com <mailto:raj.khem@gmail.=
-com>>
->=20
->=20
-> Because systemd-boot basically include the systemd recipe, this breaks
-> systemd-boot.
->=20
-> Can we think up a way to handle systemd/systemd-boot without breaking e=
-very
-> upgrade?
+I haven't seen any straightforward way to do this in OE. Some suggestions for how it could be done:
 
-Is it a runtime break ? I just built systemd-boot for turbot/64bit succes=
-sfully
->=20
-> Ross
+* A "DATA_FILES" variable (like "IMAGE_BOOT_FILES"), where you can list files you'd like to be included. This is very straightforward, but has the disadvantage of being a bit hairy when paths are involved, and it doesn't allow for much logic.
 
+* Keep a special "data" directory, something similar to sysroot, where recipes could install files into in order to have it included on the data partition. We could potentially have a bbclass for use in recipes to make this more streamlined.
 
---fEE2nVgVx9u5xsTPqbrIKPmGs8JjwpdrE--
+* Have a special recipe that users can bbappend, which specifically install to the data partition (this might also need a "data" directory, like above).
 
---vTlld25oMMRQeKrUwgEW0PTIimwDl0lJE
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
+It's also possible that this should be generalized further so that it doesn't only apply to a data partition, but to any non-rootfs partition.
 
------BEGIN PGP SIGNATURE-----
-Comment: GPGTools - https://gpgtools.org
+I'm willing to invest some time in this, but I thought I'd gather some opinions first.
 
-iEYEARECAAYFAlgzwKsACgkQuwUzVZGdMxSHYwCdFn5Zrxtg5H+/PDs+Q2dzgMh0
-bQoAn22/80OgE17zQ6bwV02UgZH3KwY9
-=sGu2
------END PGP SIGNATURE-----
+Thoughts?
 
---vTlld25oMMRQeKrUwgEW0PTIimwDl0lJE--
+-- 
+Kristian
+
