@@ -1,50 +1,55 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qt0-f175.google.com (mail-qt0-f175.google.com
-	[209.85.216.175])
-	by mail.openembedded.org (Postfix) with ESMTP id AE61860125
+Return-Path: <kristian.amlie@mender.io>
+Received: from mail-qk0-f182.google.com (mail-qk0-f182.google.com
+	[209.85.220.182])
+	by mail.openembedded.org (Postfix) with ESMTP id 63150719A1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Nov 2016 11:42:51 +0000 (UTC)
-Received: by mail-qt0-f175.google.com with SMTP id w33so8788609qtc.3
+	Tue, 22 Nov 2016 11:54:53 +0000 (UTC)
+Received: by mail-qk0-f182.google.com with SMTP id q130so19691025qke.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Nov 2016 03:42:53 -0800 (PST)
+	Tue, 22 Nov 2016 03:54:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=Jx9Tn5DsnIaz/pSJTRO6S0VAPOx+c6JqVTFuVsVzaEc=;
-	b=u5vCjN1SuCaJlPhSHuhB6FEFShWDrHU8Q9f9/nPANDSt33F4Gg3hp494jkIpPr1TPn
-	U+6Zk0NKnRc6/xS1ZQIOrY7OadpZ3eiH11bPIs2sgcp5ggI06q/XEk8hKrIz5TX+uMLc
-	c2GRQrBEg4rFeS5dB9sgRTAZUsS5eamGAeMy96s5esvq8byoF4LHeXizC5a+H1u5pKJc
-	VuM17w5hrBLRzHmNBpySZFVUeTaLwwqLz/J10oGitOlnUrR3k6HJVnPzL0JqeCX+bvDy
-	Fww5pKBHnG12+F+T2IBARfGpIeaH/nKKAPPuEoQGr9RIkhdavCjazkcpeOyPG7l/FZHL
-	bxDw==
+	d=mender-io.20150623.gappssmtp.com; s=20150623;
+	h=subject:to:references:cc:from:message-id:date:user-agent
+	:mime-version:in-reply-to:content-transfer-encoding;
+	bh=qB1B9HrGWe3kki1zq5PTVRf87NHoYW/N7yNKq9JYcNQ=;
+	b=F6s8iw1kez7CDsdxwMDCzySn0i47K+6uZguJLkmp7ogrM5ZLJ4G9GJtFy4zrWl5LLQ
+	lTFiK857KjVUlc6cVUSpUq4oaOcQK33u3sYYi5u7+iaxDWwGYPkWCcZ0u65HovdDydWH
+	7RuFYfsjAq2bNMWNnS+3KQV6Wtc7vRptUMoDR7inCNLMLgY4Siu2Wpi6rOQELPiZ7Cxd
+	EcPIvKlmYbxNTSdcPMvohVs5DMyW9gbQgLSJ59U23XgQeJfOIb1MoCuZeyTceAg+2PW1
+	5vP19vAEnBBsE1zfMk17UWfS0jLLHyhD5UIpqDAWHJXTjQ29/He0wV8jPXSwp7GYwljU
+	BuJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=Jx9Tn5DsnIaz/pSJTRO6S0VAPOx+c6JqVTFuVsVzaEc=;
-	b=c0yHJjNSx1BuJbPvuGs0YYSS2D8XWqw5GJhYF1DWd31Ex0aVBQm+zcdPYPs0d7ps9c
-	cxu76uow3j2qDSZpx29lvDb9vKpssEPL7wsmE+2r1KzwPeP2u7E5YCF3uDc5FHY+yOWE
-	stcDZbY33sgdDWV2OFo85IqyGoJPtVe+OgVO/0Y/Dt2898/vkySrjE1tBLyeU2lfHjKm
-	zSUqcO6vHq2nC29dz5AP6DKVnEZ1heAKQ2hTZX4GGM/V6Cu3SfPd7zkVOF2lW1g3u1dh
-	waHDOMz0I/xPV8/dyMj/2MAMmPHGN7ncYJeCUhoADj1C+yAou3J8qZ+UiexaUPzGRD+Z
-	JpWQ==
-X-Gm-Message-State: AKaTC03fgPVGWFUn74NRDkgyZILnBguDgFHpzGjwrrewOlmAEO/94UC42cG2+vR9h5Zi44Go8YP6Zc2TfI+n2zEo
-X-Received: by 10.237.49.230 with SMTP id 93mr10871194qth.109.1479814972621;
-	Tue, 22 Nov 2016 03:42:52 -0800 (PST)
+	h=x-gm-message-state:subject:to:references:cc:from:message-id:date
+	:user-agent:mime-version:in-reply-to:content-transfer-encoding;
+	bh=qB1B9HrGWe3kki1zq5PTVRf87NHoYW/N7yNKq9JYcNQ=;
+	b=AsHWXKNcaQRxfkx85eyfL231RGNDWlMy5fwOiSaUZYvJwbHFCLvMsROYVXCmzeDYib
+	6GKbEGurVwiPtuX4A+bKuYtM0p1fo8xp7q7E2qUwU4TlzSOhPobKL5aIKcNZqVKGzsOb
+	COhMQ51TgQTNDr0B/ex61dPy7yKP9ICuZriQzmE2YYZOfap2iYjxZ/GugVjqr0/LPUB5
+	V5kwQBpMOM34KlIHLx6KyS8ZLPxLnCtj+8yrZySMxlx0LtpZBf9vzxEJXq4FJ+9bkeXn
+	/JJq3rUOVn1XV2XacGf4eQyMEd24OTNQnCT9S6v78fsbSlSdWXQOCy34ozPUBBS8xfLQ
+	okLw==
+X-Gm-Message-State: AKaTC01swKsNt414p8fEuMGe4Ozs+GBfIxQWS3VQ7umq2UkQA7WZlvS8mqJ5tBK0Bt8wlQ==
+X-Received: by 10.46.0.229 with SMTP id e98mr11446094lji.33.1479815694050;
+	Tue, 22 Nov 2016 03:54:54 -0800 (PST)
+Received: from [10.25.0.170] ([195.159.140.90])
+	by smtp.googlemail.com with ESMTPSA id
+	20sm1299045ljb.37.2016.11.22.03.54.53
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 22 Nov 2016 03:54:53 -0800 (PST)
+To: Patrick Ohly <patrick.ohly@intel.com>,
+	Eduard Bartosh <eduard.bartosh@intel.com>
+References: <a90e8685-f087-5ee2-888b-aa537ebd94c4@mender.io>
+	<1479813004.3239.19.camel@intel.com>
+From: Kristian Amlie <kristian.amlie@mender.io>
+Message-ID: <6913e4bf-96dc-eefa-d214-9df5cde181b8@mender.io>
+Date: Tue, 22 Nov 2016 12:54:52 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.4.0
 MIME-Version: 1.0
-Received: by 10.140.85.136 with HTTP; Tue, 22 Nov 2016 03:42:32 -0800 (PST)
-In-Reply-To: <CABcZANmqH9gEhO67-9_0fEinU6FhMxRsgaC0hcVrkxd9_cH1HA@mail.gmail.com>
-References: <1479296396-724-1-git-send-email-enrico.scholz@sigma-chemnitz.de>
-	<CABcZANmqH9gEhO67-9_0fEinU6FhMxRsgaC0hcVrkxd9_cH1HA@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 22 Nov 2016 11:42:32 +0000
-Message-ID: <CAJTo0Lb9cJk5Qos0CLkvvrW0QCecVY-0io9rnp1rkHfCZpQrdg@mail.gmail.com>
-To: Christopher Larson <clarson@kergoth.com>
-Cc: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>,
-	Enrico Scholz <enrico.scholz@ensc.de>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] sanity: removed broken compiler check
+In-Reply-To: <1479813004.3239.19.camel@intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: Contents of non-rootfs partitions
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,40 +62,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 Nov 2016 11:42:52 -0000
-Content-Type: multipart/alternative; boundary=94eb2c1251e2c6e09a0541e2458d
+X-List-Received-Date: Tue, 22 Nov 2016 11:54:53 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
 
---94eb2c1251e2c6e09a0541e2458d
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+On 22/11/16 12:10, Patrick Ohly wrote:
+>> ...
+> 
+> All of these introduce some special mechanism. Let me propose something
+> that might integrate better with the existing tooling:
+> 
+> The "rootfs" directory gets redefined as representing the entire virtual
+> file system. When creating a disk image, it gets split up into different
+> partitions based on the image configuration.
+> 
+> For example, the /home or /data directories in the rootfs could hold the
+> content that in some image configurations goes into separate partitions.
+> 
+> The advantage of this approach is that the tooling for staging content
+> for image creation does not need to be changed. The same staged content
+> then can be used to create different images, potentially even using
+> different partition layouts.
 
-On 22 November 2016 at 03:22, Christopher Larson <clarson@kergoth.com>
-wrote:
+That's a very good idea. I think it beats all of my suggestions!
 
-> Is there a reason check_app_exists() wasn=E2=80=99t fixed to handle symli=
-nks
-> instead?
->
+> To implement this approach with wic, wic needs to be taught how to
+> exclude directories from the main rootfs. Ideally, the mkfs.* tools
+> should also support that without having to make an intermediate copy of
+> the files for a certain partition, but initially wic could create
+> temporary directory trees.
 
-Agreed, the check should handle splitting the argument and links, instead
-of removing a key sanity check.
+Yes, some work would be needed here, but ultimately it would be contained within wic and related tools, which is a good thing.
 
-Ross
+-- 
+Kristian
 
---94eb2c1251e2c6e09a0541e2458d
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 22 November 2016 at 03:22, Christopher Larson <span dir=3D"ltr">&lt;<a h=
-ref=3D"mailto:clarson@kergoth.com" target=3D"_blank">clarson@kergoth.com</a=
->&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 =
-0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div class=3D"gmail_e=
-xtra">Is there a reason check_app_exists() wasn=E2=80=99t fixed to handle s=
-ymlinks instead?<span class=3D"HOEnZb"><font color=3D"#888888"><br></font><=
-/span></div></blockquote></div><br>Agreed, the check should handle splittin=
-g the argument and links, instead of removing a key sanity check.</div><div=
- class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div=
->
-
---94eb2c1251e2c6e09a0541e2458d--
