@@ -1,49 +1,46 @@
-Return-Path: <kristian.amlie@mender.io>
-Received: from mail-wm0-f49.google.com (mail-wm0-f49.google.com [74.125.82.49])
-	by mail.openembedded.org (Postfix) with ESMTP id 7447B6093A
+Return-Path: <ricardo.ribalda@gmail.com>
+Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 2110871978
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Nov 2016 09:05:22 +0000 (UTC)
-Received: by mail-wm0-f49.google.com with SMTP id t79so13442729wmt.0
+	Tue, 22 Nov 2016 09:49:05 +0000 (UTC)
+Received: by mail-wm0-f65.google.com with SMTP id u144so2480818wmu.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Nov 2016 01:05:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=mender-io.20150623.gappssmtp.com; s=20150623;
-	h=to:from:subject:cc:message-id:date:user-agent:mime-version
-	:content-transfer-encoding;
-	bh=PctfqYiYrpoUrmI0ri7mVPiFX14pWmVPjAPJWiNedM0=;
-	b=KEemIy4udHwfDP47u9UBy876BiXaM0pJiIFByTW5aHX3crdZomUTRbIZhepx8/v3+o
-	UQNZyD4ItEMnzhTkAktayvbR2wFDfEdvH737TZ0ektq3V3nKm8k2MkAUXlmRrl0s0i5T
-	+c3Txnl4vTYpjKKQXiYcT337lHNKKDmz4N0PzDG9gIKr5bNQlLA23tWt4AdL6I6KMJmM
-	dSMZEpzRjb4Sd3sj9JygvMd+twsaPpZ1YidRFMq5G/TvUs4bqn5hkeSs2o7rQ9H9cFE4
-	nNOz9YiotndOau6yCQrWpGTMwzhgGHev1Jjz9CzxxKxGVVdnqWiUu7I6fdLNjL1f6Kmk
-	x34w==
+	Tue, 22 Nov 2016 01:49:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=/hB543zk9+Uwg9KX46vq/doerfjFrs0U0+6Eioz7dx8=;
+	b=SLAnXt028r9ruUBnNzYnYm7eE3Y0HTCTjIt8aCthS3onM6C14ve9v4r5NUxulCl3XJ
+	trA30QN46S1PYhkBhWUiA1Fpe2SEOhLP3TpNtbBwtbQsKHS9o/uA/6NPSVljFvjkAXl8
+	tFj6Us8SWXXIH2enPCwbRgmhAnwbgnRlTuM6QTwTeFzyh7Xjhs+q3eFmqcS9IZBIoZjK
+	Pk838zZ3xZdR5K6ZF5AVXe6ceD3sh2lz2cg2QGbR8QdU1adq4vpgq/Q3HJlX9k0Ve4lZ
+	CJ5uHkYqcTMPaaptRthZp0k1PbPdrR+Iubn03GLqal1yhKXBpufRNfskngA4rwwB/vxw
+	IGjg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:to:from:subject:cc:message-id:date:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=PctfqYiYrpoUrmI0ri7mVPiFX14pWmVPjAPJWiNedM0=;
-	b=IonM2qhc45HfPvsKwqhiT+l5Xccij/oqW8bbin/6hN9DEKJnZYsCw/sOb3F7h3gV1d
-	6p1/dfC4M//imjYVrpl+597RXS3kM5i+PVQeJppqPlpAMH7fEw2P1CK2rX/B3WxXDKll
-	XWugdv1I6OuaXnTW9VOurP29qfGnLx+oo/E7bkqFL4PUXvkxGyJKWDJNMvW955bKFyi1
-	hITOIGIarMCDfU0w5F6MOC58/STbaSIYvCoEXO+YC47CSMNsHhp9aCZwgvCS2XckPEnp
-	IVssvLbj2s58oUG9LliphWTWgK2XphoROYnXtnAzfwJxuHwo2agX0GoyrWsAIT5Sx2Bs
-	iKtw==
-X-Gm-Message-State: AKaTC03Ylh2xuFyb13lBKR90NVk2Sif9JW6tAKdtOH/V97CotbN//GQpuj2fXka3RBIo4Q==
-X-Received: by 10.25.216.28 with SMTP id p28mr3971037lfg.16.1479805523410;
-	Tue, 22 Nov 2016 01:05:23 -0800 (PST)
-Received: from [10.25.0.170] ([195.159.140.90])
-	by smtp.googlemail.com with ESMTPSA id
-	89sm6124793lja.16.2016.11.22.01.05.22
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=/hB543zk9+Uwg9KX46vq/doerfjFrs0U0+6Eioz7dx8=;
+	b=c7v/5aE6wPtx8F2v9vckzO28XA6Dv6aCXCt3iCG1b7lP4yXKcoHVyUcNuec3z4ZcV9
+	DqI9xftmrqsNi6WOaWxJGFzUiTaX//KKBMF0XpguvdS7Z8mbnR0uT730EaSTH6wNzaeW
+	h0OOCVO3h0RzhILnhc2TqausTiNtLiiM1x6H334tq8OdD71nYSHDyMXlJ8myC+3bxaEW
+	Lj90BTPPBL3FYzfR4bYQ+91MaUZ5lFaoVcvrZs3NrRv7OYQGooXiOCjMKWReqDVocZtH
+	tbClCN2kHq5HoyvM+peuk1k/arlvusP0sMlS7M3keNlEStggjJZZbHqigfvcDc89HYMJ
+	sIHg==
+X-Gm-Message-State: AKaTC01y7rtzh6TFGwBT+nz97aWEFHMn+rSGPRBHnM/YL88qTo4vtPPCXe4SRmzQfPVzBQ==
+X-Received: by 10.28.95.85 with SMTP id t82mr1468674wmb.56.1479808146027;
+	Tue, 22 Nov 2016 01:49:06 -0800 (PST)
+Received: from neopili.qtec.com
+	(cpe.xe-3-0-1-778.vbrnqe10.dk.customer.tdc.net. [80.197.57.18])
+	by smtp.gmail.com with ESMTPSA id
+	m145sm1993375wma.3.2016.11.22.01.49.04
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 22 Nov 2016 01:05:22 -0800 (PST)
-To: openembedded-core@lists.openembedded.org
-From: Kristian Amlie <kristian.amlie@mender.io>
-Message-ID: <a90e8685-f087-5ee2-888b-aa537ebd94c4@mender.io>
-Date: Tue, 22 Nov 2016 10:05:22 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.4.0
-MIME-Version: 1.0
-Subject: Contents of non-rootfs partitions
+	Tue, 22 Nov 2016 01:49:05 -0800 (PST)
+From: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
+To: openembedded-core@lists.openembedded.org, oss.burton@intel.com,
+	william.c.randle@intel.com
+Date: Tue, 22 Nov 2016 10:49:02 +0100
+Message-Id: <20161122094902.28965-1-ricardo.ribalda@gmail.com>
+X-Mailer: git-send-email 2.10.2
+Subject: [PATCH] grub-efi: Force no-pie build
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,30 +53,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 Nov 2016 09:05:25 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 22 Nov 2016 09:49:06 -0000
 
-Hey
+PIE is enabled by default on the latest Debian LD. Disable it for
+grub-efi. Otherwise:
 
-In Mender we are using a dual rootfs partition layout (A/B layout) with a persistent data partition on the side. We're using wic to do the actual image building.
+| /usr/bin/ld: -r and -pie may not be used together
+| collect2: error: ld returned 1 exit status
+| Makefile:61382: recipe for target 'trig.module' failed
+| make[3]: *** [trig.module] Error 1
 
-However, putting files into this data partition is not a straightforward operation ATM. All recipes in OE put files into the rootfs only, and we'd like there to be a way to specify that files should go into the data partition.
+Signed-off-by: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
+---
+ meta/recipes-bsp/grub/grub-efi_2.00.bb | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-I haven't seen any straightforward way to do this in OE. Some suggestions for how it could be done:
-
-* A "DATA_FILES" variable (like "IMAGE_BOOT_FILES"), where you can list files you'd like to be included. This is very straightforward, but has the disadvantage of being a bit hairy when paths are involved, and it doesn't allow for much logic.
-
-* Keep a special "data" directory, something similar to sysroot, where recipes could install files into in order to have it included on the data partition. We could potentially have a bbclass for use in recipes to make this more streamlined.
-
-* Have a special recipe that users can bbappend, which specifically install to the data partition (this might also need a "data" directory, like above).
-
-It's also possible that this should be generalized further so that it doesn't only apply to a data partition, but to any non-rootfs partition.
-
-I'm willing to invest some time in this, but I thought I'd gather some opinions first.
-
-Thoughts?
-
+diff --git a/meta/recipes-bsp/grub/grub-efi_2.00.bb b/meta/recipes-bsp/grub/grub-efi_2.00.bb
+index 5a0dc954a3bf..9d07a31de7ce 100644
+--- a/meta/recipes-bsp/grub/grub-efi_2.00.bb
++++ b/meta/recipes-bsp/grub/grub-efi_2.00.bb
+@@ -2,12 +2,14 @@ require grub2.inc
+ 
+ DEPENDS_class-target = "grub-efi-native"
+ RDEPENDS_${PN}_class-target = "diffutils freetype"
+-PR = "r3"
++PE = "1"
+ 
+ SRC_URI += " \
+            file://cfg \
+           "
+ 
++BUILD_LDFLAGS += "-no-pie"
++
+ S = "${WORKDIR}/grub-${PV}"
+ 
+ # Determine the target arch for the grub modules
 -- 
-Kristian
+2.10.2
+
 
