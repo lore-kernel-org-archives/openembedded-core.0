@@ -1,50 +1,50 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f179.google.com (mail-qk0-f179.google.com
-	[209.85.220.179])
-	by mail.openembedded.org (Postfix) with ESMTP id 613A26074F
+Received: from mail-qt0-f175.google.com (mail-qt0-f175.google.com
+	[209.85.216.175])
+	by mail.openembedded.org (Postfix) with ESMTP id AE61860125
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Nov 2016 11:20:46 +0000 (UTC)
-Received: by mail-qk0-f179.google.com with SMTP id n21so18357422qka.3
+	Tue, 22 Nov 2016 11:42:51 +0000 (UTC)
+Received: by mail-qt0-f175.google.com with SMTP id w33so8788609qtc.3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Nov 2016 03:20:48 -0800 (PST)
+	Tue, 22 Nov 2016 03:42:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=jqtRav1RBpEML2svWXIASx/p7ckBmG1eAA0xkQU6g9A=;
-	b=HNWeCPejVjXAOJZKpiGn3aFq2IVvxZijVMgq8cA9v1Yo1KOewnaQz+yuz4/hGZtnPz
-	LQQqWQXBeiRRz3bDQq2FjowtetCpdIpx8H8A/FTGljTT7z0mamaFZQZj2BsdzSaCVjRf
-	dm2zHqvHvryD8/ZFJaHvvgGgEq74hHBgs8WB/JSqp2CpHQl45zCh1/2R4dLtp8TeagEY
-	NBAJ+nydZhHYERPZxSFjt9mmZx0v4XdrMompVNJZE8eLPc0qSD0DdV7fhZEf+UQmwZhD
-	693XLxg7bJfpf9IYxQTu/Pjadfy5+bzSQvxtPgVgsrhiVRLmyR1dfKfv6KUdVXWUQDC6
-	uyfg==
+	:cc; bh=Jx9Tn5DsnIaz/pSJTRO6S0VAPOx+c6JqVTFuVsVzaEc=;
+	b=u5vCjN1SuCaJlPhSHuhB6FEFShWDrHU8Q9f9/nPANDSt33F4Gg3hp494jkIpPr1TPn
+	U+6Zk0NKnRc6/xS1ZQIOrY7OadpZ3eiH11bPIs2sgcp5ggI06q/XEk8hKrIz5TX+uMLc
+	c2GRQrBEg4rFeS5dB9sgRTAZUsS5eamGAeMy96s5esvq8byoF4LHeXizC5a+H1u5pKJc
+	VuM17w5hrBLRzHmNBpySZFVUeTaLwwqLz/J10oGitOlnUrR3k6HJVnPzL0JqeCX+bvDy
+	Fww5pKBHnG12+F+T2IBARfGpIeaH/nKKAPPuEoQGr9RIkhdavCjazkcpeOyPG7l/FZHL
+	bxDw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=jqtRav1RBpEML2svWXIASx/p7ckBmG1eAA0xkQU6g9A=;
-	b=RfYoSH6RvaOv9h/TN1lIZR6OwTpOk5/U02Rxx0EMT7FuLmVMvqYPX6gSAMyGf5UWvc
-	UxOQsc/p9yT/igxGLJHUcMu47AC4l5C7DzjM7OhuSKeEq2D+sfdVqgUOWuh9fpsq55k0
-	py8ZIiC9ZQq5IoD8NSjaNeY6wUAZ1X/6y4HMjP9gV3PMeeXAz9NFamiX7E5hyNHLFrmy
-	9tqxZjyIKg7TruCWDNWGHV5lWEIk/VHY2/3ah0xFSS/Mikx9gTyXGKdb/cALnC3DJ0D3
-	wwczkg3s7+/G2B32XcV+mBVVNZkeGszqTczxZ4jACVG9aMGEQwtvo27RsF8rekmfmwmv
-	Jrnw==
-X-Gm-Message-State: AKaTC031wt28pHkrWuLmp1L3/DXnjUss9nNeHAjV/8j23tQvqen1VmT5cdv3w9v8OVvhU2NwgiRmPgK66FbY/vaQ
-X-Received: by 10.55.207.78 with SMTP id e75mr25144942qkj.36.1479813648309;
-	Tue, 22 Nov 2016 03:20:48 -0800 (PST)
+	bh=Jx9Tn5DsnIaz/pSJTRO6S0VAPOx+c6JqVTFuVsVzaEc=;
+	b=c0yHJjNSx1BuJbPvuGs0YYSS2D8XWqw5GJhYF1DWd31Ex0aVBQm+zcdPYPs0d7ps9c
+	cxu76uow3j2qDSZpx29lvDb9vKpssEPL7wsmE+2r1KzwPeP2u7E5YCF3uDc5FHY+yOWE
+	stcDZbY33sgdDWV2OFo85IqyGoJPtVe+OgVO/0Y/Dt2898/vkySrjE1tBLyeU2lfHjKm
+	zSUqcO6vHq2nC29dz5AP6DKVnEZ1heAKQ2hTZX4GGM/V6Cu3SfPd7zkVOF2lW1g3u1dh
+	waHDOMz0I/xPV8/dyMj/2MAMmPHGN7ncYJeCUhoADj1C+yAou3J8qZ+UiexaUPzGRD+Z
+	JpWQ==
+X-Gm-Message-State: AKaTC03fgPVGWFUn74NRDkgyZILnBguDgFHpzGjwrrewOlmAEO/94UC42cG2+vR9h5Zi44Go8YP6Zc2TfI+n2zEo
+X-Received: by 10.237.49.230 with SMTP id 93mr10871194qth.109.1479814972621;
+	Tue, 22 Nov 2016 03:42:52 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.140.85.136 with HTTP; Tue, 22 Nov 2016 03:20:27 -0800 (PST)
-In-Reply-To: <CAJTo0Lb7jorMUq-8D-tkBTK0bP45AOtP_tBS2PTGGxPrUWbc8g@mail.gmail.com>
-References: <20161116174748.26994-1-raj.khem@gmail.com>
-	<20161116174748.26994-2-raj.khem@gmail.com>
-	<CAJTo0Laq+KdjYoNvTM3DV+X8aGGdfWyJM=1z830=8T1orbqaJQ@mail.gmail.com>
-	<eb6aeb51-c0c5-fe39-f3e1-ac1dfede129b@gmail.com>
-	<CAJTo0Lb7jorMUq-8D-tkBTK0bP45AOtP_tBS2PTGGxPrUWbc8g@mail.gmail.com>
+Received: by 10.140.85.136 with HTTP; Tue, 22 Nov 2016 03:42:32 -0800 (PST)
+In-Reply-To: <CABcZANmqH9gEhO67-9_0fEinU6FhMxRsgaC0hcVrkxd9_cH1HA@mail.gmail.com>
+References: <1479296396-724-1-git-send-email-enrico.scholz@sigma-chemnitz.de>
+	<CABcZANmqH9gEhO67-9_0fEinU6FhMxRsgaC0hcVrkxd9_cH1HA@mail.gmail.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 22 Nov 2016 11:20:27 +0000
-Message-ID: <CAJTo0LZbASS4RinqtPaPk3bojynYD1jNFnE0y67ULzqO_pxJNg@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/5] taglib: Update to 1.11.1
+Date: Tue, 22 Nov 2016 11:42:32 +0000
+Message-ID: <CAJTo0Lb9cJk5Qos0CLkvvrW0QCecVY-0io9rnp1rkHfCZpQrdg@mail.gmail.com>
+To: Christopher Larson <clarson@kergoth.com>
+Cc: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>,
+	Enrico Scholz <enrico.scholz@ensc.de>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] sanity: removed broken compiler check
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,42 +57,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 Nov 2016 11:20:48 -0000
-Content-Type: multipart/alternative; boundary=001a1145b7b8d771ec0541e1f6a8
+X-List-Received-Date: Tue, 22 Nov 2016 11:42:52 -0000
+Content-Type: multipart/alternative; boundary=94eb2c1251e2c6e09a0541e2458d
 
---001a1145b7b8d771ec0541e1f6a8
+--94eb2c1251e2c6e09a0541e2458d
 Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On 22 November 2016 at 10:44, Burton, Ross <ross.burton@intel.com> wrote:
+On 22 November 2016 at 03:22, Christopher Larson <clarson@kergoth.com>
+wrote:
 
-> No but I've an example where boost doesnt build at all and this breaks
-> core-image-sato (IA x32)...
+> Is there a reason check_app_exists() wasn=E2=80=99t fixed to handle symli=
+nks
+> instead?
 >
-> Building all of boost just for a macro seems rather unfortunate.
->
 
-Found the magic -D options to convince taglib that boost definitely isn't
-present and verified that it does the same thing with and without boost in
-the sysroot so I just sent a v2.
+Agreed, the check should handle splitting the argument and links, instead
+of removing a key sanity check.
 
 Ross
 
---001a1145b7b8d771ec0541e1f6a8
+--94eb2c1251e2c6e09a0541e2458d
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 22 November 2016 at 10:44, Burton, Ross <span dir=3D"ltr">&lt;<a href=3D=
-"mailto:ross.burton@intel.com" target=3D"_blank">ross.burton@intel.com</a>&=
-gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 =
-0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div class=3D"gmail_ext=
-ra">No but I&#39;ve an example where boost doesnt build at all and this bre=
-aks core-image-sato (IA x32)...</div><div class=3D"gmail_extra"><br></div><=
-div class=3D"gmail_extra">Building all of boost just for a macro seems rath=
-er unfortunate.</div></blockquote><div><br></div><div>Found the magic -D op=
-tions to convince taglib that boost definitely isn&#39;t present and verifi=
-ed that it does the same thing with and without boost in the sysroot so I j=
-ust sent a v2.</div><div><br></div><div>Ross=C2=A0</div></div><br></div></d=
-iv>
+On 22 November 2016 at 03:22, Christopher Larson <span dir=3D"ltr">&lt;<a h=
+ref=3D"mailto:clarson@kergoth.com" target=3D"_blank">clarson@kergoth.com</a=
+>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 =
+0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div class=3D"gmail_e=
+xtra">Is there a reason check_app_exists() wasn=E2=80=99t fixed to handle s=
+ymlinks instead?<span class=3D"HOEnZb"><font color=3D"#888888"><br></font><=
+/span></div></blockquote></div><br>Agreed, the check should handle splittin=
+g the argument and links, instead of removing a key sanity check.</div><div=
+ class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div=
+>
 
---001a1145b7b8d771ec0541e1f6a8--
+--94eb2c1251e2c6e09a0541e2458d--
