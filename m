@@ -1,24 +1,26 @@
 Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 61CEE6FF84
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 946F06FF84
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Nov 2016 10:09:45 +0000 (UTC)
+	Tue, 22 Nov 2016 10:09:46 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id uAMA9efu011847
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id uAMA9kQI009779
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Nov 2016 02:09:45 -0800 (PST)
+	Tue, 22 Nov 2016 02:09:46 -0800
 Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.209) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.294.0; Tue, 22 Nov 2016 02:09:39 -0800
+	14.3.294.0; Tue, 22 Nov 2016 02:09:45 -0800
 From: Chen Qi <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 22 Nov 2016 18:10:29 +0800
-Message-ID: <cover.1479809328.git.Qi.Chen@windriver.com>
+Date: Tue, 22 Nov 2016 18:10:30 +0800
+Message-ID: <a5dede5bea6263f3df277a18f24f638e26bd7315.1479809328.git.Qi.Chen@windriver.com>
 X-Mailer: git-send-email 1.9.1
+In-Reply-To: <cover.1479809328.git.Qi.Chen@windriver.com>
+References: <cover.1479809328.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/4] Persistent /var/log support
+Subject: [PATCH 1/4] bitbake.conf: add VOLATILE_LOG_DIR variable
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,30 +36,33 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Tue, 22 Nov 2016 10:09:46 -0000
 Content-Type: text/plain
 
-The following changes since commit a675b2c89e477af088faee9b3be96eae19a85f0b:
+The default value is "yes" which results in the /var/log being a link
+pointing to /var/volatile/log which is on tmpfs.
 
-  sanity.bbclass: fix logging of an error (2016-11-15 15:18:50 +0000)
+The user could override this value to "no" which causes /var/log to be
+a directory on persistent storage.
 
-are available in the git repository at:
+[YOCTO #6132]
 
-  git://git.openembedded.org/openembedded-core-contrib ChenQi/persistent-var-log
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=ChenQi/persistent-var-log
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+---
+ meta/conf/bitbake.conf | 3 +++
+ 1 file changed, 3 insertions(+)
 
-Chen Qi (4):
-  bitbake.conf: add VOLATILE_LOG_DIR variable
-  base-files: respect VOLATILE_LOG_DIR
-  initscripts: support persistent /var/log
-  package.bbclass: support persistent /var/log
-
- meta/classes/package.bbclass                       |  2 +-
- meta/conf/bitbake.conf                             |  3 +
- meta/files/fs-perms-persistent-log.txt             | 69 ++++++++++++++++++++++
- meta/recipes-core/base-files/base-files_3.0.14.bb  |  4 +-
- .../initscripts/initscripts-1.0/volatiles          |  1 -
- meta/recipes-core/initscripts/initscripts_1.0.bb   |  3 +
- 6 files changed, 78 insertions(+), 4 deletions(-)
- create mode 100644 meta/files/fs-perms-persistent-log.txt
-
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 1472e8f..794f422 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -83,6 +83,9 @@ USRBINPATH_class-nativesdk = "/usr/bin"
+ # Root home directory
+ ROOT_HOME ??= "/home/root"
+ 
++# If set to "yes", /var/log links to /var/volatile/log; otherwise, /var/log is on persistent storage.
++VOLATILE_LOG_DIR ?= "yes"
++
+ ##################################################################
+ # Architecture-dependent build variables.
+ ##################################################################
 -- 
 1.9.1
 
