@@ -1,55 +1,61 @@
-Return-Path: <kristian.amlie@mender.io>
-Received: from mail-qk0-f182.google.com (mail-qk0-f182.google.com
-	[209.85.220.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 63150719A1
+Return-Path: <enrico.scholz@sigma-chemnitz.de>
+Received: from mail.cvg.de (mail.cvg.de [62.153.82.30])
+	by mail.openembedded.org (Postfix) with ESMTP id B2FFC719F7
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Nov 2016 11:54:53 +0000 (UTC)
-Received: by mail-qk0-f182.google.com with SMTP id q130so19691025qke.1
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Nov 2016 03:54:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=mender-io.20150623.gappssmtp.com; s=20150623;
-	h=subject:to:references:cc:from:message-id:date:user-agent
-	:mime-version:in-reply-to:content-transfer-encoding;
-	bh=qB1B9HrGWe3kki1zq5PTVRf87NHoYW/N7yNKq9JYcNQ=;
-	b=F6s8iw1kez7CDsdxwMDCzySn0i47K+6uZguJLkmp7ogrM5ZLJ4G9GJtFy4zrWl5LLQ
-	lTFiK857KjVUlc6cVUSpUq4oaOcQK33u3sYYi5u7+iaxDWwGYPkWCcZ0u65HovdDydWH
-	7RuFYfsjAq2bNMWNnS+3KQV6Wtc7vRptUMoDR7inCNLMLgY4Siu2Wpi6rOQELPiZ7Cxd
-	EcPIvKlmYbxNTSdcPMvohVs5DMyW9gbQgLSJ59U23XgQeJfOIb1MoCuZeyTceAg+2PW1
-	5vP19vAEnBBsE1zfMk17UWfS0jLLHyhD5UIpqDAWHJXTjQ29/He0wV8jPXSwp7GYwljU
-	BuJA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:subject:to:references:cc:from:message-id:date
-	:user-agent:mime-version:in-reply-to:content-transfer-encoding;
-	bh=qB1B9HrGWe3kki1zq5PTVRf87NHoYW/N7yNKq9JYcNQ=;
-	b=AsHWXKNcaQRxfkx85eyfL231RGNDWlMy5fwOiSaUZYvJwbHFCLvMsROYVXCmzeDYib
-	6GKbEGurVwiPtuX4A+bKuYtM0p1fo8xp7q7E2qUwU4TlzSOhPobKL5aIKcNZqVKGzsOb
-	COhMQ51TgQTNDr0B/ex61dPy7yKP9ICuZriQzmE2YYZOfap2iYjxZ/GugVjqr0/LPUB5
-	V5kwQBpMOM34KlIHLx6KyS8ZLPxLnCtj+8yrZySMxlx0LtpZBf9vzxEJXq4FJ+9bkeXn
-	/JJq3rUOVn1XV2XacGf4eQyMEd24OTNQnCT9S6v78fsbSlSdWXQOCy34ozPUBBS8xfLQ
-	okLw==
-X-Gm-Message-State: AKaTC01swKsNt414p8fEuMGe4Ozs+GBfIxQWS3VQ7umq2UkQA7WZlvS8mqJ5tBK0Bt8wlQ==
-X-Received: by 10.46.0.229 with SMTP id e98mr11446094lji.33.1479815694050;
-	Tue, 22 Nov 2016 03:54:54 -0800 (PST)
-Received: from [10.25.0.170] ([195.159.140.90])
-	by smtp.googlemail.com with ESMTPSA id
-	20sm1299045ljb.37.2016.11.22.03.54.53
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 22 Nov 2016 03:54:53 -0800 (PST)
-To: Patrick Ohly <patrick.ohly@intel.com>,
-	Eduard Bartosh <eduard.bartosh@intel.com>
-References: <a90e8685-f087-5ee2-888b-aa537ebd94c4@mender.io>
-	<1479813004.3239.19.camel@intel.com>
-From: Kristian Amlie <kristian.amlie@mender.io>
-Message-ID: <6913e4bf-96dc-eefa-d214-9df5cde181b8@mender.io>
-Date: Tue, 22 Nov 2016 12:54:52 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.4.0
+	Tue, 22 Nov 2016 12:01:52 +0000 (UTC)
+Received: from mail-mta-0.intern.sigma-chemnitz.de
+	(mail-mta-0.intern.sigma-chemnitz.de [192.168.12.76])
+	by mailout-1.intern.sigma-chemnitz.de (8.14.7/8.14.7) with ESMTP id
+	uAMC1qqN030072
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256
+	verify=OK) for <openembedded-core@lists.openembedded.org>;
+	Tue, 22 Nov 2016 13:01:52 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sigma-chemnitz.de;
+	s=v2012061000; t=1479816112;
+	bh=Ja5D3APrtLzdMwd/3GbvHY2XsYLXNGdd8zIoYyL90wY=;
+	h=From:To:Cc:Subject:References:Date:In-Reply-To:Message-ID:
+	MIME-Version:Content-Type:Content-Transfer-Encoding:Sender;
+	b=dfONJduh/MJpJp8sSWzJc2S7Ujsdvy1sV7AXYBvJVUllf+HtTFV07ETY1IwGPQBT8
+	Y/lj5kxnCEjSmqL48+uSSTMmQoXygaou5lb8L6436NY8S3BYYHyFi3WhoeENotsz+J
+	yct53JbzViyd9Ll5+g3kdjVgmnNEu10CfCXIrtMo=
+Received: from reddoxx.intern.sigma-chemnitz.de
+	(reddoxx.intern.sigma-chemnitz.de [192.168.0.193])
+	by mail-mta-0.intern.sigma-chemnitz.de (8.14.7/8.14.7) with ESMTP id
+	uAMC1eAn019672 for <openembedded-core@lists.openembedded.org> from
+	enrico.scholz@sigma-chemnitz.de; Tue, 22 Nov 2016 13:01:41 +0100
+Received: from mail-msa-0.intern.sigma-chemnitz.de ( [192.168.12.77]) by
+	reddoxx.intern.sigma-chemnitz.de
+	(Reddoxx engine) with SMTP id 370C78BD02F;
+	Tue, 22 Nov 2016 13:01:39 +0100
+Received: from ensc-virt.intern.sigma-chemnitz.de
+	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
+	by mail-msa-0.intern.sigma-chemnitz.de (8.14.7/8.14.7) with ESMTP id
+	uAMC1dPa019667
+	(version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
+	Tue, 22 Nov 2016 13:01:39 +0100
+Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
+	4.86_2) (envelope-from <ensc@sigma-chemnitz.de>)
+	id 1c99la-0007Sd-Vh; Tue, 22 Nov 2016 13:01:39 +0100
+From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+To: "Burton\, Ross" <ross.burton@intel.com>
+References: <1479296396-724-1-git-send-email-enrico.scholz@sigma-chemnitz.de>
+	<CABcZANmqH9gEhO67-9_0fEinU6FhMxRsgaC0hcVrkxd9_cH1HA@mail.gmail.com>
+	<CAJTo0Lb9cJk5Qos0CLkvvrW0QCecVY-0io9rnp1rkHfCZpQrdg@mail.gmail.com>
+Date: Tue, 22 Nov 2016 13:01:38 +0100
+In-Reply-To: <CAJTo0Lb9cJk5Qos0CLkvvrW0QCecVY-0io9rnp1rkHfCZpQrdg@mail.gmail.com>
+	(Ross Burton's message of "Tue, 22 Nov 2016 11:42:32 +0000")
+Message-ID: <lyoa17n2ot.fsf@ensc-virt.intern.sigma-chemnitz.de>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/25.1 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <1479813004.3239.19.camel@intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: Contents of non-rootfs partitions
+Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+X-Spam-Score: -2.8
+X-Spam-Level: --
+X-Spam-Tests: AWL,BAYES_00,DKIM_ADSP_ALL,RP_MATCHES_RCVD,SPF_NEUTRAL
+X-Scanned-By: MIMEDefang 2.78
+Cc: Christopher Larson <clarson@kergoth.com>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] sanity: removed broken compiler check
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,38 +68,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 Nov 2016 11:54:53 -0000
+X-List-Received-Date: Tue, 22 Nov 2016 12:01:53 -0000
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
 
-On 22/11/16 12:10, Patrick Ohly wrote:
->> ...
-> 
-> All of these introduce some special mechanism. Let me propose something
-> that might integrate better with the existing tooling:
-> 
-> The "rootfs" directory gets redefined as representing the entire virtual
-> file system. When creating a disk image, it gets split up into different
-> partitions based on the image configuration.
-> 
-> For example, the /home or /data directories in the rootfs could hold the
-> content that in some image configurations goes into separate partitions.
-> 
-> The advantage of this approach is that the tooling for staging content
-> for image creation does not need to be changed. The same staged content
-> then can be used to create different images, potentially even using
-> different partition layouts.
+"Burton, Ross" <ross.burton@intel.com> writes:
 
-That's a very good idea. I think it beats all of my suggestions!
+>> Is there a reason check_app_exists() wasn=E2=80=99t fixed to handle syml=
+inks
+>> instead?
+>
+> Agreed, the check should handle splitting the argument and links, instead
+> of removing a key sanity check.
 
-> To implement this approach with wic, wic needs to be taught how to
-> exclude directories from the main rootfs. Ideally, the mkfs.* tools
-> should also support that without having to make an intermediate copy of
-> the files for a certain partition, but initially wic could create
-> temporary directory trees.
+Is this check really so useful? gcc + g++ are elementary tools which can
+be expected.
 
-Yes, some work would be needed here, but ultimately it would be contained within wic and related tools, which is a good thing.
+The check is just broken and there is no workaround (except crafting
+'conf/sanity_info' manually).
 
--- 
-Kristian
+
+Enrico
 
