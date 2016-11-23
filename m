@@ -1,47 +1,34 @@
-Return-Path: <ulfalizer@gmail.com>
-Received: from mail-ua0-f182.google.com (mail-ua0-f182.google.com
-	[209.85.217.182])
-	by mail.openembedded.org (Postfix) with ESMTP id A9962607F8
+Return-Path: <ed.bartosh@linux.intel.com>
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+	by mail.openembedded.org (Postfix) with ESMTP id A0FC571A71
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Nov 2016 12:00:11 +0000 (UTC)
-Received: by mail-ua0-f182.google.com with SMTP id 51so11010084uai.1
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Nov 2016 04:00:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=/l2rARtoomhiwfVZoXn6XgBewsdEwN2am2DS+QjSXLI=;
-	b=xNfHY+rNq2hQ+PHdEpcCoa6amLSHrmVUG912sAKhwCqpJrb7zkPHToDLbcHcm9oFet
-	GeoafINBaovduDlygDZVwmwTRNxgELoZvNkTg8d8heFHndNMCBrbiEXq18XUZvLFkbgZ
-	Dojx1XZ9iaapvn8y3q/u64Dp/ZohOMEbnxkV3MSc4y6AMz6TxZGerm90Tj4HMkB8sJd4
-	q2IfJ7Gmtj8EkT7qU6N886NWKMmGLYHSmKRxYZnZqq/FsxYMTBRsAG8AKwDobtEHGGqt
-	rZGURux9tqoCtsOpwHfDqty3PTBd77aNPuD0dWehFRaZWw0oE2tnaqjAmJITIIHaAJl1
-	4qkQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=/l2rARtoomhiwfVZoXn6XgBewsdEwN2am2DS+QjSXLI=;
-	b=C70GSC/iCpmUggbOzC6FMBnlOtwPFgTPaAe8/ADdkpQjMdfcCeOjTW8AS+YVAS3ZNQ
-	ogdZ4ACMGhXKuSZh7itqgyYqSW/CEgeJH7iiTiv/bP907gxPwZQWXx+acMEF3bNACXmf
-	wauH4vUTDhzbtxeTJZMt4c1JBb9pTyYnxhGTLNo7rOkdUHkIEUFYUBXx3ii6kjILkBK0
-	teNF1Zo8pl4Q38M4mVGOkDCsiDehuN7KghZaoODguNg3Y56Z2WR6ydJLh5/IC6t0Tmvi
-	pnWsfonWyPa3UHZGOPlQOUSvk5DzLbcmnS6pt9wl7qqIRzIDPmLwRwMjZnovB7fQPqPK
-	WTfQ==
-X-Gm-Message-State: AKaTC02gM+H336ziHNadhF0Kiz3sesG27PQ8KnHygols3AYYxpcOiyvkD+N70/+EXLreJ4R6MaTXuS5eJLhv/w==
-X-Received: by 10.176.82.214 with SMTP id w22mr1772799uaw.167.1479902412710;
-	Wed, 23 Nov 2016 04:00:12 -0800 (PST)
+	Wed, 23 Nov 2016 12:08:22 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by orsmga104.jf.intel.com with ESMTP; 23 Nov 2016 04:08:22 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.31,538,1473145200"; d="scan'208";a="904712626"
+Received: from linux.intel.com ([10.54.29.200])
+	by orsmga003.jf.intel.com with ESMTP; 23 Nov 2016 04:08:24 -0800
+Received: from linux.intel.com (vmed.fi.intel.com [10.237.72.38])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by linux.intel.com (Postfix) with ESMTP id A2B8E6A4082;
+	Wed, 23 Nov 2016 04:07:41 -0800 (PST)
+Date: Wed, 23 Nov 2016 14:08:16 +0200
+From: Ed Bartosh <ed.bartosh@linux.intel.com>
+To: Kristian Amlie <kristian.amlie@mender.io>
+Message-ID: <20161123120816.GC12545@linux.intel.com>
+Reply-To: ed.bartosh@linux.intel.com
+References: <a90e8685-f087-5ee2-888b-aa537ebd94c4@mender.io>
+	<1479813004.3239.19.camel@intel.com>
+	<6913e4bf-96dc-eefa-d214-9df5cde181b8@mender.io>
 MIME-Version: 1.0
-Received: by 10.103.117.129 with HTTP; Wed, 23 Nov 2016 04:00:12 -0800 (PST)
-In-Reply-To: <alpine.LFD.2.20.1611230633180.8293@ca624034.mitel.com>
-References: <alpine.LFD.2.20.1611230540200.7856@ca624034.mitel.com>
-	<CAJTo0LZvk-Ssv3Bc5rSYSuYCm2rQma4Vwv2jvh5zdE7cCPE0Vg@mail.gmail.com>
-	<alpine.LFD.2.20.1611230633180.8293@ca624034.mitel.com>
-From: Ulf Magnusson <ulfalizer@gmail.com>
-Date: Wed, 23 Nov 2016 13:00:12 +0100
-Message-ID: <CAFkk2KRQ+vv+X9paB+ZLCuFobAVpXyi7gaV7P5kwgX3hja9Rhg@mail.gmail.com>
-To: "Robert P. J. Day" <rpjday@crashcourse.ca>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: migrating simple tarballs over to OE recipes?
+In-Reply-To: <6913e4bf-96dc-eefa-d214-9df5cde181b8@mender.io>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: Eduard Bartosh <eduard.bartosh@intel.com>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: Contents of non-rootfs partitions
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,35 +41,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 23 Nov 2016 12:00:11 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 23 Nov 2016 12:08:24 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Wed, Nov 23, 2016 at 12:34 PM, Robert P. J. Day
-<rpjday@crashcourse.ca> wrote:
-> On Wed, 23 Nov 2016, Burton, Ross wrote:
+On Tue, Nov 22, 2016 at 12:54:52PM +0100, Kristian Amlie wrote:
+> On 22/11/16 12:10, Patrick Ohly wrote:
+> >> ...
+> > 
+> > All of these introduce some special mechanism. Let me propose something
+> > that might integrate better with the existing tooling:
+> > 
+> > The "rootfs" directory gets redefined as representing the entire virtual
+> > file system. When creating a disk image, it gets split up into different
+> > partitions based on the image configuration.
+> > 
+> > For example, the /home or /data directories in the rootfs could hold the
+> > content that in some image configurations goes into separate partitions.
+> > 
+> > The advantage of this approach is that the tooling for staging content
+> > for image creation does not need to be changed. The same staged content
+> > then can be used to create different images, potentially even using
+> > different partition layouts.
+> 
+> That's a very good idea. I think it beats all of my suggestions!
+> 
+> > To implement this approach with wic, wic needs to be taught how to
+> > exclude directories from the main rootfs. Ideally, the mkfs.* tools
+> > should also support that without having to make an intermediate copy of
+> > the files for a certain partition, but initially wic could create
+> > temporary directory trees.
+> 
+> Yes, some work would be needed here, but ultimately it would be contained within wic and related tools, which is a good thing.
 >
->>
->> On 23 November 2016 at 10:42, Robert P. J. Day <rpjday@crashcourse.ca> wrote:
->>         colleague has a pile of tarballs that were used to customize an x86
->>       centos system, wants to move all that to OE with as little fuss as
->>       possible, i guess the simplest way is to just create recipes that have
->>       the same tarball in the files/ directory, and write a trivial
->>       do_install() task that untars it into the root fs, yes?
->>
->>
->> Pretty much, yeah.
->>
->> If you've a large pile and they're all effectively the same then a
->> little class can automate it even more.
->
->   already going down that road, just wanted to make sure i hadn't
-> overlooked something obvious.
->
-> rday
 
-bin_package.bbclass might be useful as well, especially if the files
-are already arranged like in the rootfs inside the tarballs.
+I support the idea. Let's discuss the details of implementation and
+create a bug in bugzilla to track the development 
 
-Cheers,
-Ulf
+This can be done by extending existing rootfs plugin. It should be able
+to do 2 things:
+
+- populate content of one rootfs directory to the partition. We can
+  extend syntax of --rootfs-dir parameter to specify optional directory path to use
+
+- exclude rootfs directories when populating partitions. I'd propose to
+  introduce --exclude-dirs wks parser option to handle this.
+
+Example of wks file with proposed new options:
+part /     --source rootfs --rootfs-dir=core-image-minimal       --ondisk sda --fstype=ext4 --label root --align 1024 --exclude-dirs data --exclude-dirs home
+part /data --source rootfs --rootfs-dir=core-image-minimal:/home --ondisk sda --fstype=ext4 --label data --align 1024
+part /home --source rootfs --rootfs-dir=core-image-minimal:/data --ondisk sda --fstype=ext4 --label data --align 1024
+
+Does this make sense?
+
+Any other ideas?
+
+--
+Regards,
+Ed
 
