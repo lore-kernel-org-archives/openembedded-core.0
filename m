@@ -1,50 +1,44 @@
-Return-Path: <maciej.borzecki@rndity.com>
-Received: from mail-wm0-f48.google.com (mail-wm0-f48.google.com [74.125.82.48])
-	by mail.openembedded.org (Postfix) with ESMTP id 288CE719B7
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pg0-f68.google.com (mail-pg0-f68.google.com [74.125.83.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 44E086B6EA
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Nov 2016 09:24:52 +0000 (UTC)
-Received: by mail-wm0-f48.google.com with SMTP id f82so14341280wmf.1
+	Wed, 23 Nov 2016 09:28:11 +0000 (UTC)
+Received: by mail-pg0-f68.google.com with SMTP id p66so680166pga.2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Nov 2016 01:24:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=rndity-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=L+mb0EeNNtkHQZeSFYbKydbtWzCXO4Jwu6qazx48mxA=;
-	b=M5pXZxt4/uAgdR7hEVEaHQS3La68RcBpax26HvEQjVTV31yPUFQpWVtdLUrssNXwfe
-	BMD+c7SRwVD8asKO9gZ8bLEgYdPT1kmDIBDoPGoRw13d+7e1VOiaJLWVu2XKiPSYqq+8
-	/qLa0PbOIwpknc/tkOPObWPW8rZ3zIPruDzkCjWaDKnyOfygNhWrgjdVHKpsRhmqie0S
-	7QZjvPgBJ5Z63u27pFBp0LEStHHgRWwTGQbcd4cwlJNgftAova5G0UjvCobzYO7gImBA
-	6qfGZojjqEmLYPTq3a3kjqJXOgrvsokALISt7jRFeOftPMhQHedegpwWBl7wK9ivWVR5
-	urUw==
+	Wed, 23 Nov 2016 01:28:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=gQFRoxKguXLy1WcZCursgFk9+ncwJnY/Kt9X2/+JPkI=;
+	b=TjpCqGYbnpxWM9P0DzjJmBCf3jViXaQFhSnd9+x4X51j2h6Dfmd2PZE9bBrHkiA/+O
+	LusGyU/9+WZepxXhDkOznkQWumPisMdyOkOjvJeYgz4d6ucirIXBblgLFC/iEup+z5x6
+	J9aMAeVbF/3if5i3f6A9HX21jxV7PdtmviEgoyN17J1n9tXGTYZ3AMaBly/Cb6F705TS
+	HJycLmZB0IMJeOkHT5IWzY6RY2qj0/aQ8GozDiVsLITGHf9vYQddGFHNiHfTNmxqnZVv
+	Fp+DXfho/EkA52pBNulnvQRE8753ev8RRMGDSzq2eu89MRWvkwiCkkGjDWWqacEoqKb9
+	aCdA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=L+mb0EeNNtkHQZeSFYbKydbtWzCXO4Jwu6qazx48mxA=;
-	b=Fu1okjMvXHO6s1mTtAnMkFUHhP4q8WP/3km1CcW+Q1yR8qXqzUcQOLMtmE6IjWf4oa
-	bbi2xNDY3x3ZGjO/h6qp/bC2IflmN7l191B+o6jNocrGcLP7d9HDzr6ri8ymKUkUhUzR
-	TezhF/4b34UJi08lcG5FsescmYsldb8s4VyrrtiKUKKRsLQ/d70fg23IwB0r1Rg2d+B+
-	v/fKFyAwqFFRR/2iEXRgwjyLRB4AT2+qZ3v8bPU0Hte4mY0PvBqozKXW2lTjOKPZWqim
-	Z3LqJ+as9iYRu8NMjLEEUSclAPlTVwdt4BUXuJuGqhsX1582oHyn+dDwgcmAleptCo0o
-	nq3g==
-X-Gm-Message-State: AKaTC00pZvQVNeoLkVUyX3qVDkl3OUwFa8rgAUK8XbK4e3+KB4onv/JEo4MLjqU5Nc5p7hBf12EMPo7X0+t7/Q==
-X-Received: by 10.28.54.214 with SMTP id y83mr2212248wmh.45.1479893093261;
-	Wed, 23 Nov 2016 01:24:53 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.28.15.9 with HTTP; Wed, 23 Nov 2016 01:24:32 -0800 (PST)
-In-Reply-To: <776827b7-ca3e-e319-c2f0-b8b15bef4fb2@pengutronix.de>
-References: <a90e8685-f087-5ee2-888b-aa537ebd94c4@mender.io>
-	<1479813004.3239.19.camel@intel.com>
-	<6913e4bf-96dc-eefa-d214-9df5cde181b8@mender.io>
-	<776827b7-ca3e-e319-c2f0-b8b15bef4fb2@pengutronix.de>
-From: =?UTF-8?Q?Maciej_Borz=C4=99cki?= <maciej.borzecki@rndity.com>
-Date: Wed, 23 Nov 2016 10:24:32 +0100
-Message-ID: <CAD4b0_LrF=sQMV3r+3Kb8hqxcqD9U_LBMesxCyby+FGS7YssFQ@mail.gmail.com>
-To: Enrico Joerns <ejo@pengutronix.de>
-Cc: Eduard Bartosh <eduard.bartosh@intel.com>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: Contents of non-rootfs partitions
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=gQFRoxKguXLy1WcZCursgFk9+ncwJnY/Kt9X2/+JPkI=;
+	b=RtMnJPEdGI3Ng3WSEj4UFa978HFFRomUaEQIStCkUvfkRm1JlVVM2Pxry4mML5AqIz
+	aJ20I+4a2wTDoh9Gf+/pkJFt7zwvKfg/FXpCq7EfM0S0o39+hju6kPOMSjYgAKZoa5rn
+	7lI47rwqsmk7HLcHHDSeClOhz8ET3UhxK2ylXgteULY+Mu7daF8T5yoOZMSIsfSS6B2k
+	gznDkVMD/1PopShdqtWc5aHO/NvVplpSjNcm79RON/tDwdB0T7qlwN2BrEp0cw9lBdsa
+	O94aguFl+1Jjvf5WNdYcEYinEAV/dS/nNL+B1Odk47Thneao+kh9Dagn/WTs5Mw1vJWZ
+	kuLg==
+X-Gm-Message-State: AKaTC03R8YCcevWIDA7GjQ1KCCqc4qnkL/O3P8U84DKsZw6MY2OylCD0KzFTlhbVFjjbmw==
+X-Received: by 10.84.197.1 with SMTP id m1mr4564009pld.75.1479893292997;
+	Wed, 23 Nov 2016 01:28:12 -0800 (PST)
+Received: from localhost.localdomain (c-76-102-32-192.hsd1.ca.comcast.net.
+	[76.102.32.192]) by smtp.gmail.com with ESMTPSA id
+	c22sm33216727pgn.12.2016.11.23.01.28.12
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 23 Nov 2016 01:28:12 -0800 (PST)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 23 Nov 2016 01:28:06 -0800
+Message-Id: <20161123092807.28693-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.10.2
+Subject: [PATCH 1/2] arch-arm64.inc: Include arch-armv7ve.inc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,93 +51,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 23 Nov 2016 09:24:53 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 23 Nov 2016 09:28:11 -0000
 
-On Wed, Nov 23, 2016 at 9:40 AM, Enrico Joerns <ejo@pengutronix.de> wrote:
-> On 11/22/2016 12:54 PM, Kristian Amlie wrote:
->>
->> On 22/11/16 12:10, Patrick Ohly wrote:
->>>>
->>>> ...
->>>
->>>
->>> All of these introduce some special mechanism. Let me propose something
->>> that might integrate better with the existing tooling:
->>>
->>> The "rootfs" directory gets redefined as representing the entire virtual
->>> file system. When creating a disk image, it gets split up into different
->>> partitions based on the image configuration.
->>>
->>> For example, the /home or /data directories in the rootfs could hold the
->>> content that in some image configurations goes into separate partitions.
->>>
->>> The advantage of this approach is that the tooling for staging content
->>> for image creation does not need to be changed. The same staged content
->>> then can be used to create different images, potentially even using
->>> different partition layouts.
->>
->>
->> That's a very good idea. I think it beats all of my suggestions!
->
->
-> I totally agree with this solution, because it is the same approach we are
-> already using for several years.
->
-> Instead of wic we are using the genimage tool
-> (http://public.pengutronix.de/software/genimage/) together with a Yocto
-> class for easing image creation, but its pretty much the same concerning its
-> base purpose.
->
-> We called the option to split up 'mountpoint' while assuming that the
-> splitted partition will be mounted to the same location in the file system
-> it was taken from.
->
-> An example configuration would look like this (stripped down to the
-> essential parts):
->
->   image my-disk-image {
->           [...]
->           partition root {
->                   image = "rootfs.ext4"
->                   [...]
->           }
->
->           partition home {
->                   image = "home.ext4"
->                   [...]
->           }
->   }
->
->   image rootfs.ext4 {
->           [...]
->           mountpoint = "/"
->   }
->
->   image home.ext4 {
->           [...]
->           mountpoint = "/home"
->   }
->
-> Maybe a similar approach could be used in wic, too.
+All armv8 implementations from a53 - a73 supports
+virtual extentions
 
-I went through the README from genimage repo
-https://git.pengutronix.de/cgit/genimage/tree/README. Definitely looks
-interesting and covers storage medias that are not supported by wic
-right now. The split option does not seem to be documented though. If I
-understood you correctly, the partition is seeded with data from
-location specified by `mountpoint` inside IMAGE_ROOTFS. Is that correct?
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ meta/conf/machine/include/arm/arch-arm64.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-I see there's a large overlap in functionality with wic (at least for
-block devices), so perhaps the best way would be introduce genimage as
-another IMAGE_CMD.
-
-I've quickly checked at https://layers.openembedded.org and there are no
-recipes for genimage/libconfuse listed there. Do happen to have done
-integration with OE in some private repo already? Would it be possible
-for you to post the relevant patches?
-
+diff --git a/meta/conf/machine/include/arm/arch-arm64.inc b/meta/conf/machine/include/arm/arch-arm64.inc
+index 9440698..9eeffac 100644
+--- a/meta/conf/machine/include/arm/arch-arm64.inc
++++ b/meta/conf/machine/include/arm/arch-arm64.inc
+@@ -1,6 +1,6 @@
+ DEFAULTTUNE ?= "aarch64"
+ 
+-require conf/machine/include/arm/arch-armv7a.inc
++require conf/machine/include/arm/arch-armv7ve.inc
+ 
+ TUNEVALID[aarch64] = "Enable instructions for aarch64"
+ 
 -- 
-Maciej Borzecki
-RnDity
+2.10.2
+
 
