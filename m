@@ -1,22 +1,24 @@
 Return-Path: <alejandro.hernandez@linux.intel.com>
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 2962271ACD
+	by mail.openembedded.org (Postfix) with ESMTP id 4A6AA71B17
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Nov 2016 23:08:39 +0000 (UTC)
+	Wed, 23 Nov 2016 23:08:40 +0000 (UTC)
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
-	by orsmga102.jf.intel.com with ESMTP; 23 Nov 2016 15:08:40 -0800
+	by orsmga102.jf.intel.com with ESMTP; 23 Nov 2016 15:08:41 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.31,540,1473145200"; d="scan'208";a="34905238"
+X-IronPort-AV: E=Sophos;i="5.31,540,1473145200"; d="scan'208";a="34905242"
 Received: from unknown (HELO aehernan-MOBL1.zpn.intel.com) ([10.219.18.92])
 	by orsmga005.jf.intel.com with ESMTP; 23 Nov 2016 15:08:40 -0800
 From: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 23 Nov 2016 17:08:38 -0600
-Message-Id: <96af72889ea11f0cd68962a045cdd8378edf96ec.1479942307.git.alejandro.hernandez@linux.intel.com>
+Date: Wed, 23 Nov 2016 17:08:39 -0600
+Message-Id: <771a469670822242eb6029a523b1c120699c4860.1479942307.git.alejandro.hernandez@linux.intel.com>
 X-Mailer: git-send-email 2.10.1
+In-Reply-To: <96af72889ea11f0cd68962a045cdd8378edf96ec.1479942307.git.alejandro.hernandez@linux.intel.com>
+References: <96af72889ea11f0cd68962a045cdd8378edf96ec.1479942307.git.alejandro.hernandez@linux.intel.com>
 In-Reply-To: <cover.1479942307.git.alejandro.hernandez@linux.intel.com>
 References: <cover.1479942307.git.alejandro.hernandez@linux.intel.com>
-Subject: [PATCH 1/2] systemd-boot: Completely replaces gummiboot with systemd-boot
+Subject: [PATCH 2/2] Remove old gummiboot recipe, class and wks file
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,308 +33,346 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 23 Nov 2016 23:08:40 -0000
 
-After systemd-boot was introduced, its been tested for a while with no major
-issues being found until now, this patch completely replaces all gummiboot
-instances with systemd-boot ones, taking the next step into cleaning
-up systemd-boot/gummiboot.
+Since the gummiboot project is no longer being maintained
+and we are using systemd-boot as a replacement instead,
+we can now clean up all remaining gummiboot files.
 
 [YOCTO #10332]
 
 Signed-off-by: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
 ---
- meta/classes/fs-uuid.bbclass                       |  2 +-
- meta/classes/systemd-boot.bbclass                  |  4 +---
- meta/conf/distro/include/distro_alias.inc          |  2 +-
- meta/lib/oeqa/controllers/masterimage.py           |  4 ++--
- meta/lib/oeqa/selftest/wic.py                      |  6 ++---
- meta/recipes-bsp/systemd-boot/systemd-boot.bb      |  2 +-
- .../initrdscripts/files/init-install-efi-testfs.sh | 12 +++++-----
- .../initrdscripts/files/init-install-efi.sh        | 12 +++++-----
- scripts/contrib/mkefidisk.sh                       | 26 +++++++++++-----------
- scripts/lib/wic/plugins/source/bootimg-efi.py      | 22 +++++++++---------
- 10 files changed, 44 insertions(+), 48 deletions(-)
+ meta/classes/gummiboot.bbclass                     | 121 ---------------------
+ ...-C-syntax-errors-for-function-declaration.patch |  74 -------------
+ .../gummiboot/gummiboot/fix-objcopy.patch          |  45 --------
+ meta/recipes-bsp/gummiboot/gummiboot_git.bb        |  39 -------
+ scripts/lib/wic/canned-wks/mkgummidisk.wks         |  11 --
+ 5 files changed, 290 deletions(-)
+ delete mode 100644 meta/classes/gummiboot.bbclass
+ delete mode 100644 meta/recipes-bsp/gummiboot/gummiboot/0001-console-Fix-C-syntax-errors-for-function-declaration.patch
+ delete mode 100644 meta/recipes-bsp/gummiboot/gummiboot/fix-objcopy.patch
+ delete mode 100644 meta/recipes-bsp/gummiboot/gummiboot_git.bb
+ delete mode 100644 scripts/lib/wic/canned-wks/mkgummidisk.wks
 
-diff --git a/meta/classes/fs-uuid.bbclass b/meta/classes/fs-uuid.bbclass
-index bd2613c..1d5d0c3 100644
---- a/meta/classes/fs-uuid.bbclass
-+++ b/meta/classes/fs-uuid.bbclass
-@@ -13,7 +13,7 @@ def get_rootfs_uuid(d):
-     bb.fatal('Could not determine filesystem UUID of %s' % rootfs)
- 
- # Replace the special <<uuid-of-rootfs>> inside a string (like the
--# root= APPEND string in a syslinux.cfg or gummiboot entry) with the
-+# root= APPEND string in a syslinux.cfg or systemd-boot entry) with the
- # actual UUID of the rootfs. Does nothing if the special string
- # is not used.
- def replace_rootfs_uuid(d, string):
-diff --git a/meta/classes/systemd-boot.bbclass b/meta/classes/systemd-boot.bbclass
-index 05244c7..3398218 100644
---- a/meta/classes/systemd-boot.bbclass
-+++ b/meta/classes/systemd-boot.bbclass
-@@ -4,9 +4,7 @@
- 
- # systemd-boot.bbclass - The "systemd-boot" is essentially the gummiboot merged into systemd.
- #                        The original standalone gummiboot project is dead without any more
--#                        maintenance. As a start point, we replace all gummitboot occurrences
--#                        with systemd-boot in gummiboot.bbclass to have a base version of this
--#                        systemd-boot.bbclass.
-+#                        maintenance.
- #
- # Set EFI_PROVIDER = "systemd-boot" to use systemd-boot on your live images instead of grub-efi
- # (images built by image-live.bbclass or image-vm.bbclass)
-diff --git a/meta/conf/distro/include/distro_alias.inc b/meta/conf/distro/include/distro_alias.inc
-index 10efb09..9c82854 100644
---- a/meta/conf/distro/include/distro_alias.inc
-+++ b/meta/conf/distro/include/distro_alias.inc
-@@ -135,7 +135,7 @@ DISTRO_PN_ALIAS_pn-gtk-doc = "Fedora=gtk-doc Ubuntu=gtk-doc"
- DISTRO_PN_ALIAS_pn-gtk-engines = "Fedora=gtk2-engines OpenSuSE=gtk2-engines Ubuntu=gtk2-engines Mandriva=gtk-engines2 Debian=gtk2-engines"
- DISTRO_PN_ALIAS_pn-gtk-sato-engine = "OpenedHand"
- DISTRO_PN_ALIAS_pn-gtk-icon-utils-native = "OSPDT"
--DISTRO_PN_ALIAS_pn-gummiboot = "Debian=gummiboot Fedora=gummiboot"
-+DISTRO_PN_ALIAS_pn-systemd-boot = "Ubuntu=systemd-boot Fedora=systemd-boot"
- DISTRO_PN_ALIAS_pn-hello-mod = "OE-Core"
- DISTRO_PN_ALIAS_pn-hostap-conf = "OE-Core"
- DISTRO_PN_ALIAS_pn-hwlatdetect = "OSPDT"
-diff --git a/meta/lib/oeqa/controllers/masterimage.py b/meta/lib/oeqa/controllers/masterimage.py
-index 9ce3bf8..7fcbb6d 100644
---- a/meta/lib/oeqa/controllers/masterimage.py
-+++ b/meta/lib/oeqa/controllers/masterimage.py
-@@ -159,10 +159,10 @@ class MasterImageHardwareTarget(oeqa.targetcontrol.BaseTarget, metaclass=ABCMeta
-         self.power_cycle(self.connection)
- 
- 
--class GummibootTarget(MasterImageHardwareTarget):
-+class SystemdbootTarget(MasterImageHardwareTarget):
- 
-     def __init__(self, d):
--        super(GummibootTarget, self).__init__(d)
-+        super(SystemdbootTarget, self).__init__(d)
-         # this the value we need to set in the LoaderEntryOneShot EFI variable
-         # so the system boots the 'test' bootloader label and not the default
-         # The first four bytes are EFI bits, and the rest is an utf-16le string
-diff --git a/meta/lib/oeqa/selftest/wic.py b/meta/lib/oeqa/selftest/wic.py
-index faac11e..61081cc 100644
---- a/meta/lib/oeqa/selftest/wic.py
-+++ b/meta/lib/oeqa/selftest/wic.py
-@@ -243,9 +243,9 @@ class Wic(oeSelfTest):
-         self.assertEqual(1, len(glob(self.resultdir + "%s-*direct" % image)))
- 
-     @testcase(1349)
--    def test_mkgummidisk(self):
--        """Test creation of mkgummidisk image"""
--        image = "mkgummidisk"
-+    def test_systemd-bootdisk(self):
-+        """Test creation of systemd-bootdisk image"""
-+        image = "systemd-bootdisk"
-         self.assertEqual(0, runCmd("wic create %s -e core-image-minimal" \
-                                    % image).status)
-         self.assertEqual(1, len(glob(self.resultdir + "%s-*direct" % image)))
-diff --git a/meta/recipes-bsp/systemd-boot/systemd-boot.bb b/meta/recipes-bsp/systemd-boot/systemd-boot.bb
-index 7036664..602052c 100644
---- a/meta/recipes-bsp/systemd-boot/systemd-boot.bb
-+++ b/meta/recipes-bsp/systemd-boot/systemd-boot.bb
-@@ -15,7 +15,7 @@ EXTRA_OECONF = " --enable-gnuefi \
-                  --disable-manpages \
-                "
- 
--# Imported from gummiboot recipe
-+# Imported from the old gummiboot recipe
- TUNE_CCARGS_remove = "-mfpmath=sse"
- COMPATIBLE_HOST = "(x86_64.*|i.86.*)-linux"
- 
-diff --git a/meta/recipes-core/initrdscripts/files/init-install-efi-testfs.sh b/meta/recipes-core/initrdscripts/files/init-install-efi-testfs.sh
-index b562109..9c4b263 100644
---- a/meta/recipes-core/initrdscripts/files/init-install-efi-testfs.sh
-+++ b/meta/recipes-core/initrdscripts/files/init-install-efi-testfs.sh
-@@ -171,19 +171,19 @@ if [ -f /run/media/$1/EFI/BOOT/grub.cfg ]; then
- fi
- 
- if [ -d /run/media/$1/loader ]; then
--    GUMMIBOOT_CFGS="/ssd/loader/entries/*.conf"
--    # copy config files for gummiboot
-+    SYSTEMDBOOT_CFGS="/ssd/loader/entries/*.conf"
-+    # copy config files for systemd-boot
-     cp -dr /run/media/$1/loader /ssd
-     # delete the install entry
-     rm -f /ssd/loader/entries/install.conf
-     # delete the initrd lines
--    sed -i "/initrd /d" $GUMMIBOOT_CFGS
-+    sed -i "/initrd /d" $SYSTEMDBOOT_CFGS
-     # delete any LABEL= strings
--    sed -i "s/ LABEL=[^ ]*/ /" $GUMMIBOOT_CFGS
-+    sed -i "s/ LABEL=[^ ]*/ /" $SYSTEMDBOOT_CFGS
-     # delete any root= strings
--    sed -i "s/ root=[^ ]*/ /" $GUMMIBOOT_CFGS
-+    sed -i "s/ root=[^ ]*/ /" $SYSTEMDBOOT_CFGS
-     # add the root= and other standard boot options
--    sed -i "s@options *@options root=$rootfs rw $rootwait quiet @" $GUMMIBOOT_CFGS
-+    sed -i "s@options *@options root=$rootfs rw $rootwait quiet @" $SYSTEMDBOOT_CFGS
-     # Add the test label
-     echo -ne "title test\nlinux /test-kernel\noptions root=$testfs rw $rootwait quiet\n" > /ssd/loader/entries/test.conf
- fi
-diff --git a/meta/recipes-core/initrdscripts/files/init-install-efi.sh b/meta/recipes-core/initrdscripts/files/init-install-efi.sh
-index ffb709c..5ad3a60 100644
---- a/meta/recipes-core/initrdscripts/files/init-install-efi.sh
-+++ b/meta/recipes-core/initrdscripts/files/init-install-efi.sh
-@@ -245,19 +245,19 @@ fi
- 
- if [ -d /run/media/$1/loader ]; then
-     rootuuid=$(blkid -o value -s PARTUUID ${rootfs})
--    GUMMIBOOT_CFGS="/boot/loader/entries/*.conf"
--    # copy config files for gummiboot
-+    SYSTEMDBOOT_CFGS="/boot/loader/entries/*.conf"
-+    # copy config files for systemd-boot
-     cp -dr /run/media/$1/loader /boot
-     # delete the install entry
-     rm -f /boot/loader/entries/install.conf
-     # delete the initrd lines
--    sed -i "/initrd /d" $GUMMIBOOT_CFGS
-+    sed -i "/initrd /d" $SYSTEMDBOOT_CFGS
-     # delete any LABEL= strings
--    sed -i "s/ LABEL=[^ ]*/ /" $GUMMIBOOT_CFGS
-+    sed -i "s/ LABEL=[^ ]*/ /" $SYSTEMDBOOT_CFGS
-     # delete any root= strings
--    sed -i "s/ root=[^ ]*/ /" $GUMMIBOOT_CFGS
-+    sed -i "s/ root=[^ ]*/ /" $SYSTEMDBOOT_CFGS
-     # add the root= and other standard boot options
--    sed -i "s@options *@options root=PARTUUID=$rootuuid rw $rootwait quiet @" $GUMMIBOOT_CFGS
-+    sed -i "s@options *@options root=PARTUUID=$rootuuid rw $rootwait quiet @" $SYSTEMDBOOT_CFGS
- fi
- 
- umount /tgt_root
-diff --git a/scripts/contrib/mkefidisk.sh b/scripts/contrib/mkefidisk.sh
-index a175895..800733f 100755
---- a/scripts/contrib/mkefidisk.sh
-+++ b/scripts/contrib/mkefidisk.sh
-@@ -384,7 +384,7 @@ EFIDIR="$BOOTFS_MNT/EFI/BOOT"
- cp $HDDIMG_MNT/vmlinuz $BOOTFS_MNT >$OUT 2>&1 || error "Failed to copy vmlinuz"
- # Copy the efi loader and configs (booti*.efi and grub.cfg if it exists)
- cp -r $HDDIMG_MNT/EFI $BOOTFS_MNT >$OUT 2>&1 || error "Failed to copy EFI dir"
--# Silently ignore a missing gummiboot loader dir (we might just be a GRUB image)
-+# Silently ignore a missing systemd-boot loader dir (we might just be a GRUB image)
- cp -r $HDDIMG_MNT/loader $BOOTFS_MNT >$OUT 2>&1
- 
- # Update the boot loaders configurations for an installed image
-@@ -410,25 +410,25 @@ if [ -e "$GRUB_CFG" ]; then
- 	sed -i "s@vmlinuz @vmlinuz root=$TARGET_ROOTFS ro rootwait console=ttyS0 console=tty0 @" $GRUB_CFG
- fi
- 
--# Look for a gummiboot installation
--GUMMI_ENTRIES="$BOOTFS_MNT/loader/entries"
--GUMMI_CFG="$GUMMI_ENTRIES/boot.conf"
--if [ -d "$GUMMI_ENTRIES" ]; then
--	info "Configuring Gummiboot"
-+# Look for a systemd-boot installation
-+SYSTEMD_BOOT_ENTRIES="$BOOTFS_MNT/loader/entries"
-+SYSTEMD_BOOT_CFG="$SYSTEMD_BOOT_ENTRIES/boot.conf"
-+if [ -d "$SYSTEMD_BOOT_ENTRIES" ]; then
-+	info "Configuring SystemD-boot"
- 	# remove the install target if it exists
--	rm $GUMMI_ENTRIES/install.conf >$OUT 2>&1
-+	rm $SYSTEMD_BOOT_ENTRIES/install.conf >$OUT 2>&1
- 
--	if [ ! -e "$GUMMI_CFG" ]; then
--		echo "ERROR: $GUMMI_CFG not found"
-+	if [ ! -e "$SYSTEMD_BOOT_CFG" ]; then
-+		echo "ERROR: $SYSTEMD_BOOT_CFG not found"
- 	fi
- 
--	sed -i "/initrd /d" $GUMMI_CFG
--	sed -i "s@ root=[^ ]*@ @" $GUMMI_CFG
--	sed -i "s@options *LABEL=boot @options LABEL=Boot root=$TARGET_ROOTFS ro rootwait console=ttyS0 console=tty0 @" $GUMMI_CFG
-+	sed -i "/initrd /d" $SYSTEMD_BOOT_CFG
-+	sed -i "s@ root=[^ ]*@ @" $SYSTEMD_BOOT_CFG
-+	sed -i "s@options *LABEL=boot @options LABEL=Boot root=$TARGET_ROOTFS ro rootwait console=ttyS0 console=tty0 @" $SYSTEMD_BOOT_CFG
- fi
- 
- # Ensure we have at least one EFI bootloader configured
--if [ ! -e $GRUB_CFG ] && [ ! -e $GUMMI_CFG ]; then
-+if [ ! -e $GRUB_CFG ] && [ ! -e $SYSTEMD_BOOT_CFG ]; then
- 	die "No EFI bootloader configuration found"
- fi
- 
-diff --git a/scripts/lib/wic/plugins/source/bootimg-efi.py b/scripts/lib/wic/plugins/source/bootimg-efi.py
-index 4adb80b..305e910 100644
---- a/scripts/lib/wic/plugins/source/bootimg-efi.py
-+++ b/scripts/lib/wic/plugins/source/bootimg-efi.py
-@@ -36,7 +36,7 @@ from wic.utils.oe.misc import exec_cmd, exec_native_cmd, get_bitbake_var, \
- class BootimgEFIPlugin(SourcePlugin):
-     """
-     Create EFI boot partition.
--    This plugin supports GRUB 2 and gummiboot bootloaders.
-+    This plugin supports GRUB 2 and systemd-boot bootloaders.
-     """
- 
-     name = 'bootimg-efi'
-@@ -82,7 +82,7 @@ class BootimgEFIPlugin(SourcePlugin):
-         cfg.close()
- 
-     @classmethod
--    def do_configure_gummiboot(cls, hdddir, creator, cr_workdir):
-+    def do_configure_systemdboot(cls, hdddir, creator, cr_workdir):
-         """
-         Create loader-specific systemd-boot/gummiboot config
-         """
-@@ -98,7 +98,7 @@ class BootimgEFIPlugin(SourcePlugin):
-         loader_conf += "default boot\n"
-         loader_conf += "timeout %d\n" % bootloader.timeout
- 
--        msger.debug("Writing gummiboot config %s/hdd/boot/loader/loader.conf" \
-+        msger.debug("Writing systemd-boot config %s/hdd/boot/loader/loader.conf" \
-                         % cr_workdir)
-         cfg = open("%s/hdd/boot/loader/loader.conf" % cr_workdir, "w")
-         cfg.write(loader_conf)
-@@ -109,16 +109,16 @@ class BootimgEFIPlugin(SourcePlugin):
-         if configfile:
-             custom_cfg = get_custom_config(configfile)
-             if custom_cfg:
--                # Use a custom configuration for gummiboot
-+                # Use a custom configuration for systemd-boot
-                 boot_conf = custom_cfg
-                 msger.debug("Using custom configuration file "
--                        "%s for gummiboots's boot.conf" % configfile)
-+                        "%s for systemd-boots's boot.conf" % configfile)
-             else:
-                 msger.error("configfile is specified but failed to "
-                         "get it from %s." % configfile)
- 
-         if not custom_cfg:
--            # Create gummiboot configuration using parameters from wks file
-+            # Create systemd-boot configuration using parameters from wks file
-             kernel = "/bzImage"
- 
-             boot_conf = ""
-@@ -127,7 +127,7 @@ class BootimgEFIPlugin(SourcePlugin):
-             boot_conf += "options LABEL=Boot root=%s %s\n" % \
-                              (creator.rootdev, bootloader.append)
- 
--        msger.debug("Writing gummiboot config %s/hdd/boot/loader/entries/boot.conf" \
-+        msger.debug("Writing systemd-boot config %s/hdd/boot/loader/entries/boot.conf" \
-                         % cr_workdir)
-         cfg = open("%s/hdd/boot/loader/entries/boot.conf" % cr_workdir, "w")
-         cfg.write(boot_conf)
-@@ -149,9 +149,8 @@ class BootimgEFIPlugin(SourcePlugin):
-         try:
-             if source_params['loader'] == 'grub-efi':
-                 cls.do_configure_grubefi(hdddir, creator, cr_workdir)
--            elif source_params['loader'] == 'gummiboot' \
--                 or source_params['loader'] == 'systemd-boot':
--                cls.do_configure_gummiboot(hdddir, creator, cr_workdir)
-+            elif source_params['loader'] == 'systemd-boot':
-+                cls.do_configure_systemdboot(hdddir, creator, cr_workdir)
-             else:
-                 msger.error("unrecognized bootimg-efi loader: %s" % source_params['loader'])
-         except KeyError:
-@@ -190,8 +189,7 @@ class BootimgEFIPlugin(SourcePlugin):
-                 exec_cmd(cp_cmd, True)
-                 shutil.move("%s/grub.cfg" % cr_workdir,
-                             "%s/hdd/boot/EFI/BOOT/grub.cfg" % cr_workdir)
--            elif source_params['loader'] == 'gummiboot' \
--                 or source_params['loader'] == 'systemd-boot':
-+            elif source_params['loader'] == 'systemd-boot':
-                 cp_cmd = "cp %s/EFI/BOOT/* %s/EFI/BOOT" % (bootimg_dir, hdddir)
-                 exec_cmd(cp_cmd, True)
-             else:
+diff --git a/meta/classes/gummiboot.bbclass b/meta/classes/gummiboot.bbclass
+deleted file mode 100644
+index 4f2dea6..0000000
+--- a/meta/classes/gummiboot.bbclass
++++ /dev/null
+@@ -1,121 +0,0 @@
+-# Copyright (C) 2014 Intel Corporation
+-#
+-# Released under the MIT license (see COPYING.MIT)
+-
+-# gummiboot.bbclass - equivalent of grub-efi.bbclass
+-# Set EFI_PROVIDER = "gummiboot" to use gummiboot on your live images instead of grub-efi
+-# (images built by image-live.bbclass or image-vm.bbclass)
+-
+-do_bootimg[depends] += "${MLPREFIX}gummiboot:do_deploy"
+-do_bootdirectdisk[depends] += "${MLPREFIX}gummiboot:do_deploy"
+-
+-EFIDIR = "/EFI/BOOT"
+-
+-GUMMIBOOT_CFG ?= "${S}/loader.conf"
+-GUMMIBOOT_ENTRIES ?= ""
+-GUMMIBOOT_TIMEOUT ?= "10"
+-
+-# Need UUID utility code.
+-inherit fs-uuid
+-
+-efi_populate() {
+-        DEST=$1
+-
+-        EFI_IMAGE="gummibootia32.efi"
+-        DEST_EFI_IMAGE="bootia32.efi"
+-        if [ "${TARGET_ARCH}" = "x86_64" ]; then
+-            EFI_IMAGE="gummibootx64.efi"
+-            DEST_EFI_IMAGE="bootx64.efi"
+-        fi
+-
+-        install -d ${DEST}${EFIDIR}
+-        # gummiboot requires these paths for configuration files
+-        # they are not customizable so no point in new vars
+-        install -d ${DEST}/loader
+-        install -d ${DEST}/loader/entries
+-        install -m 0644 ${DEPLOY_DIR_IMAGE}/${EFI_IMAGE} ${DEST}${EFIDIR}/${DEST_EFI_IMAGE}
+-        EFIPATH=$(echo "${EFIDIR}" | sed 's/\//\\/g')
+-        printf 'fs0:%s\%s\n' "$EFIPATH" "$DEST_EFI_IMAGE" >${DEST}/startup.nsh
+-        install -m 0644 ${GUMMIBOOT_CFG} ${DEST}/loader/loader.conf
+-        for i in ${GUMMIBOOT_ENTRIES}; do
+-            install -m 0644 ${i} ${DEST}/loader/entries
+-        done
+-}
+-
+-efi_iso_populate() {
+-        iso_dir=$1
+-        efi_populate $iso_dir
+-        mkdir -p ${EFIIMGDIR}/${EFIDIR}
+-        cp $iso_dir/${EFIDIR}/* ${EFIIMGDIR}${EFIDIR}
+-        cp $iso_dir/vmlinuz ${EFIIMGDIR}
+-        EFIPATH=$(echo "${EFIDIR}" | sed 's/\//\\/g')
+-        echo "fs0:${EFIPATH}\\${DEST_EFI_IMAGE}" > ${EFIIMGDIR}/startup.nsh
+-        if [ -f "$iso_dir/initrd" ] ; then
+-            cp $iso_dir/initrd ${EFIIMGDIR}
+-        fi
+-}
+-
+-efi_hddimg_populate() {
+-        efi_populate $1
+-}
+-
+-python build_efi_cfg() {
+-    s = d.getVar("S", True)
+-    labels = d.getVar('LABELS', True)
+-    if not labels:
+-        bb.debug(1, "LABELS not defined, nothing to do")
+-        return
+-
+-    if labels == []:
+-        bb.debug(1, "No labels, nothing to do")
+-        return
+-
+-    cfile = d.getVar('GUMMIBOOT_CFG', True)
+-    try:
+-         cfgfile = open(cfile, 'w')
+-    except OSError:
+-        bb.fatal('Unable to open %s' % cfile)
+-
+-    cfgfile.write('# Automatically created by OE\n')
+-    cfgfile.write('default %s\n' % (labels.split()[0]))
+-    timeout = d.getVar('GUMMIBOOT_TIMEOUT', True)
+-    if timeout:
+-        cfgfile.write('timeout %s\n' % timeout)
+-    else:
+-        cfgfile.write('timeout 10\n')
+-    cfgfile.close()
+-
+-    for label in labels.split():
+-        localdata = d.createCopy()
+-
+-        overrides = localdata.getVar('OVERRIDES', True)
+-        if not overrides:
+-            bb.fatal('OVERRIDES not defined')
+-
+-        entryfile = "%s/%s.conf" % (s, label)
+-        d.appendVar("GUMMIBOOT_ENTRIES", " " + entryfile)
+-        try:
+-            entrycfg = open(entryfile, "w")
+-        except OSError:
+-            bb.fatal('Unable to open %s' % entryfile)
+-        localdata.setVar('OVERRIDES', label + ':' + overrides)
+-        bb.data.update_data(localdata)
+-
+-        entrycfg.write('title %s\n' % label)
+-        entrycfg.write('linux /vmlinuz\n')
+-
+-        append = localdata.getVar('APPEND', True)
+-        initrd = localdata.getVar('INITRD', True)
+-
+-        if initrd:
+-            entrycfg.write('initrd /initrd\n')
+-        lb = label
+-        if label == "install":
+-            lb = "install-efi"
+-        entrycfg.write('options LABEL=%s ' % lb)
+-        if append:
+-            append = replace_rootfs_uuid(d, append)
+-            entrycfg.write('%s' % append)
+-        entrycfg.write('\n')
+-        entrycfg.close()
+-}
+diff --git a/meta/recipes-bsp/gummiboot/gummiboot/0001-console-Fix-C-syntax-errors-for-function-declaration.patch b/meta/recipes-bsp/gummiboot/gummiboot/0001-console-Fix-C-syntax-errors-for-function-declaration.patch
+deleted file mode 100644
+index fa50bc4..0000000
+--- a/meta/recipes-bsp/gummiboot/gummiboot/0001-console-Fix-C-syntax-errors-for-function-declaration.patch
++++ /dev/null
+@@ -1,74 +0,0 @@
+-From 55957faf1272c8f5f304909faeebf647a78e3701 Mon Sep 17 00:00:00 2001
+-From: Khem Raj <raj.khem@gmail.com>
+-Date: Wed, 9 Sep 2015 07:19:45 +0000
+-Subject: [PATCH] console: Fix C syntax errors for function declaration
+-
+-To address this, the semicolons after the function parameters should be
+-replaced by commas, and the last one should be omitted
+-
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+----
+-Upstream-Status: Pending
+-
+- src/efi/console.c | 26 +++++++++++++-------------
+- 1 file changed, 13 insertions(+), 13 deletions(-)
+-
+-diff --git a/src/efi/console.c b/src/efi/console.c
+-index 6206c80..66aa88f 100644
+---- a/src/efi/console.c
+-+++ b/src/efi/console.c
+-@@ -27,8 +27,8 @@
+- struct _EFI_SIMPLE_TEXT_INPUT_EX_PROTOCOL;
+- 
+- typedef EFI_STATUS (EFIAPI *EFI_INPUT_RESET_EX)(
+--        struct _EFI_SIMPLE_TEXT_INPUT_EX_PROTOCOL *This;
+--        BOOLEAN ExtendedVerification;
+-+        struct _EFI_SIMPLE_TEXT_INPUT_EX_PROTOCOL *This,
+-+        BOOLEAN ExtendedVerification
+- );
+- 
+- typedef UINT8 EFI_KEY_TOGGLE_STATE;
+-@@ -44,29 +44,29 @@ typedef struct {
+- } EFI_KEY_DATA;
+- 
+- typedef EFI_STATUS (EFIAPI *EFI_INPUT_READ_KEY_EX)(
+--        struct _EFI_SIMPLE_TEXT_INPUT_EX_PROTOCOL *This;
+--        EFI_KEY_DATA *KeyData;
+-+        struct _EFI_SIMPLE_TEXT_INPUT_EX_PROTOCOL *This,
+-+        EFI_KEY_DATA *KeyData
+- );
+- 
+- typedef EFI_STATUS (EFIAPI *EFI_SET_STATE)(
+--        struct _EFI_SIMPLE_TEXT_INPUT_EX_PROTOCOL *This;
+--        EFI_KEY_TOGGLE_STATE *KeyToggleState;
+-+        struct _EFI_SIMPLE_TEXT_INPUT_EX_PROTOCOL *This,
+-+        EFI_KEY_TOGGLE_STATE *KeyToggleState
+- );
+- 
+- typedef EFI_STATUS (EFIAPI *EFI_KEY_NOTIFY_FUNCTION)(
+--        EFI_KEY_DATA *KeyData;
+-+        EFI_KEY_DATA *KeyData
+- );
+- 
+- typedef EFI_STATUS (EFIAPI *EFI_REGISTER_KEYSTROKE_NOTIFY)(
+--        struct _EFI_SIMPLE_TEXT_INPUT_EX_PROTOCOL *This;
+--        EFI_KEY_DATA KeyData;
+--        EFI_KEY_NOTIFY_FUNCTION KeyNotificationFunction;
+--        VOID **NotifyHandle;
+-+        struct _EFI_SIMPLE_TEXT_INPUT_EX_PROTOCOL *This,
+-+        EFI_KEY_DATA KeyData,
+-+        EFI_KEY_NOTIFY_FUNCTION KeyNotificationFunction,
+-+        VOID **NotifyHandle
+- );
+- 
+- typedef EFI_STATUS (EFIAPI *EFI_UNREGISTER_KEYSTROKE_NOTIFY)(
+--        struct _EFI_SIMPLE_TEXT_INPUT_EX_PROTOCOL *This;
+--        VOID *NotificationHandle;
+-+        struct _EFI_SIMPLE_TEXT_INPUT_EX_PROTOCOL *This,
+-+        VOID *NotificationHandle
+- );
+- 
+- typedef struct _EFI_SIMPLE_TEXT_INPUT_EX_PROTOCOL {
+--- 
+-2.5.1
+-
+diff --git a/meta/recipes-bsp/gummiboot/gummiboot/fix-objcopy.patch b/meta/recipes-bsp/gummiboot/gummiboot/fix-objcopy.patch
+deleted file mode 100644
+index 49f5593..0000000
+--- a/meta/recipes-bsp/gummiboot/gummiboot/fix-objcopy.patch
++++ /dev/null
+@@ -1,45 +0,0 @@
+-From 0f7f9e3bb1d0e1b93f3ad8a1d5d7bdd3fbf27494 Mon Sep 17 00:00:00 2001
+-From: Robert Yang <liezhi.yang@windriver.com>
+-Date: Thu, 27 Mar 2014 07:20:33 +0000
+-Subject: [PATCH] Makefile.am: use objcopy from the env
+-
+-It uses the "objcopy" directly, which is not suitable for cross compile.
+-
+-Upstream-Status: Pending
+-
+-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+----
+- Makefile.am | 4 +++-
+- 1 file changed, 3 insertions(+), 1 deletion(-)
+-
+-Index: git/Makefile.am
+-===================================================================
+---- git.orig/Makefile.am
+-+++ git/Makefile.am
+-@@ -19,6 +19,8 @@
+- ACLOCAL_AMFLAGS = -I m4 ${ACLOCAL_FLAGS}
+- AM_MAKEFLAGS = --no-print-directory
+- 
+-+OBJCOPY ?= objcopy
+-+
+- gummibootlibdir = $(prefix)/lib/gummiboot
+- 
+- AM_CPPFLAGS = -include config.h
+-@@ -148,7 +150,7 @@ $(gummiboot_solib): $(gummiboot_objects)
+- .DELETE_ON_ERROR: $(gummboot_solib)
+- 
+- $(gummiboot): $(gummiboot_solib)
+--	$(AM_V_GEN) objcopy -j .text -j .sdata -j .data -j .dynamic \
+-+	$(AM_V_GEN) $(OBJCOPY) -j .text -j .sdata -j .data -j .dynamic \
+- 	  -j .dynsym -j .rel -j .rela -j .reloc \
+- 	  --target=efi-app-$(ARCH) $< $@
+- 
+-@@ -183,7 +185,7 @@ $(stub_solib): $(stub_objects)
+- .DELETE_ON_ERROR: $(gummboot_solib)
+- 
+- $(stub): $(stub_solib)
+--	$(AM_V_GEN) objcopy -j .text -j .sdata -j .data -j .dynamic \
+-+	$(AM_V_GEN) $(OBJCOPY) -j .text -j .sdata -j .data -j .dynamic \
+- 	  -j .dynsym -j .rel -j .rela -j .reloc \
+- 	  --target=efi-app-$(ARCH) $< $@
+- 
+diff --git a/meta/recipes-bsp/gummiboot/gummiboot_git.bb b/meta/recipes-bsp/gummiboot/gummiboot_git.bb
+deleted file mode 100644
+index c684b83..0000000
+--- a/meta/recipes-bsp/gummiboot/gummiboot_git.bb
++++ /dev/null
+@@ -1,39 +0,0 @@
+-SUMMARY = "Gummiboot is a simple UEFI boot manager which executes configured EFI images."
+-HOMEPAGE = "http://freedesktop.org/wiki/Software/gummiboot"
+-
+-LICENSE = "LGPLv2.1"
+-LIC_FILES_CHKSUM = "file://LICENSE;md5=4fbd65380cdd255951079008b364516c"
+-
+-DEPENDS = "gnu-efi util-linux"
+-
+-inherit autotools pkgconfig manpages
+-inherit deploy
+-
+-PV = "48+git${SRCPV}"
+-SRCREV = "2bcd919c681c952eb867ef1bdb458f1bc49c2d55"
+-SRC_URI = "git://anongit.freedesktop.org/gummiboot \
+-           file://fix-objcopy.patch \
+-           file://0001-console-Fix-C-syntax-errors-for-function-declaration.patch \
+-          "
+-
+-PACKAGECONFIG[manpages] = "--enable-manpages, --disable-manpages, libxslt-native xmlto-native"
+-
+-# Note: Add COMPATIBLE_HOST here is only because it depends on gnu-efi
+-# which has set the COMPATIBLE_HOST, the gummiboot itself may work on
+-# more hosts.
+-COMPATIBLE_HOST = "(x86_64.*|i.86.*)-linux"
+-
+-S = "${WORKDIR}/git"
+-
+-EXTRA_OECONF = "--with-efi-includedir=${STAGING_INCDIR} \
+-                --with-efi-ldsdir=${STAGING_LIBDIR} \
+-                --with-efi-libdir=${STAGING_LIBDIR}"
+-
+-EXTRA_OEMAKE += "gummibootlibdir=${libdir}/gummiboot"
+-
+-TUNE_CCARGS_remove = "-mfpmath=sse"
+-
+-do_deploy () {
+-        install ${B}/gummiboot*.efi ${DEPLOYDIR}
+-}
+-addtask deploy before do_build after do_compile
+diff --git a/scripts/lib/wic/canned-wks/mkgummidisk.wks b/scripts/lib/wic/canned-wks/mkgummidisk.wks
+deleted file mode 100644
+index f3ae090..0000000
+--- a/scripts/lib/wic/canned-wks/mkgummidisk.wks
++++ /dev/null
+@@ -1,11 +0,0 @@
+-# short-description: Create an EFI disk image
+-# long-description: Creates a partitioned EFI disk image that the user
+-# can directly dd to boot media.
+-
+-part /boot --source bootimg-efi --sourceparams="loader=gummiboot" --ondisk sda --label msdos --active --align 1024
+-
+-part / --source rootfs --ondisk sda --fstype=ext4 --label platform --align 1024
+-
+-part swap --ondisk sda --size 44 --label swap1 --fstype=swap
+-
+-bootloader --ptable gpt --timeout=5  --append="rootwait rootfstype=ext4 console=ttyS0,115200 console=tty0"
 -- 
 2.10.1
 
