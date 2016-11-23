@@ -1,54 +1,46 @@
-Return-Path: <patrick.ohly@intel.com>
-Received: from mail-oi0-f44.google.com (mail-oi0-f44.google.com
-	[209.85.218.44])
-	by mail.openembedded.org (Postfix) with ESMTP id 73466600EA
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qk0-f180.google.com (mail-qk0-f180.google.com
+	[209.85.220.180])
+	by mail.openembedded.org (Postfix) with ESMTP id DD51760807
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Nov 2016 11:16:54 +0000 (UTC)
-Received: by mail-oi0-f44.google.com with SMTP id w63so10676113oiw.0
+	Wed, 23 Nov 2016 11:22:10 +0000 (UTC)
+Received: by mail-qk0-f180.google.com with SMTP id n204so11167393qke.2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Nov 2016 03:16:56 -0800 (PST)
+	Wed, 23 Nov 2016 03:22:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:organization:mime-version:content-transfer-encoding;
-	bh=VCD59lYgvzbaHQDrqw6feF4QKA9VhyrvoUM2YDLxepk=;
-	b=APadueUJGeYicclazS6A7hhTwa4TcPHQjmP0TY6b32bghRcZeohUd67LvpMa8Xu1rS
-	80B5GKT9mwAYpK1fKNzdodiWp/8gK7i8tf1Y6Xrzil066+Kwa8A/ClgJkMRL/OqTsnDz
-	oBSasBOPVmV4FxLob3OcY46nYOsaI9XnJbQ8eOqGOaKaO/ABcPUTc0VMn+whGdDtEJcW
-	rMTwKVME5YeYpDNXf+AY5w5eQKb/wJkCCKwOY4TY9EKLxkG3GZPHw6A+SbfQRQk1g2Tz
-	inpTZ3hsRQqzqdRKn7xtE0NQqhpkdKcslwVRCyVM/z1QCEcPKxuX0MSdpcOLRkpCZABi
-	myJw==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=AtLK9zsZD5Py0ImEupTOMbbcKmYmVmkk/57eNg15GHY=;
+	b=NVdVb/IW5bIjxolEnZh69Q5UOUQPk3J7oqpTCHLRJ2ADP4Q/M2GNGKuLRGIGiuAPAc
+	yIOtzWsrmVtPQmhtgJV/ehq06z5QsDzNtxE/P5rxOEPxBhr3Gm6qXgUmovr43BdbnbX/
+	CftVgrd0krUT2ERqAH0XhiJNhVoG+FlP3YGTgkWjQT3J4KpM9UIDevuYoPgwVXXZ9vcr
+	6ZimPehMKMbwC9wLs5CpWvEdbbeqnZDgHphhY7cnWsTBOU72NW/zhbQZzMZKeCBP/TqB
+	G0AsWIliSPurA8Cb5WCi2Jkuxl013eaKMpMlVur9Qjz11S5XNxeuSkTOSznvyt1Yogqq
+	pepQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:organization:mime-version:content-transfer-encoding;
-	bh=VCD59lYgvzbaHQDrqw6feF4QKA9VhyrvoUM2YDLxepk=;
-	b=AdV265LgAuHsadg02XoX11P0feq3LbfggUIMuFN1g4jSGfqr/qNVK4tmV1Fr5PtyfS
-	heI95C3jY5mAQy1j0qZOOzYD+e3TasXOiClSPi0u99dC5mfyrwZo9+wQwlOqAlx01E/7
-	2piZ6ZYmKZj4zhL5+BtntqJfxWwh4uX5PbZf0Iiayr1lRsC0QlJPlq97m6tekH4mPxQq
-	8akb8X2w25pWDOXWHSEbr9/h7EkBY5oE6NIeAKgsWqk/+4aOUQsWH7oVHF+mx1xqiDlf
-	9H35F2T4CiVDgo/s8D6vAOGBQHtCb+YHvjyU+wp9k4Zyl0+yW0hsnUFV8op4ljS1ixOf
-	M8xQ==
-X-Gm-Message-State: AKaTC00hvU8rGRJhBz5zor7zaVX03Supp7FYnRq5IMlyMERCsZcyr6pHncoYij9vVjLTIlbO
-X-Received: by 10.202.78.76 with SMTP id c73mr1290713oib.65.1479899815818;
-	Wed, 23 Nov 2016 03:16:55 -0800 (PST)
-Received: from pohly-mobl1 (p57A56BE1.dip0.t-ipconnect.de. [87.165.107.225])
-	by smtp.gmail.com with ESMTPSA id
-	e184sm10351098oig.7.2016.11.23.03.16.53
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 23 Nov 2016 03:16:54 -0800 (PST)
-Message-ID: <1479899811.31880.37.camel@intel.com>
-From: Patrick Ohly <patrick.ohly@intel.com>
-To: Robert Yang <liezhi.yang@windriver.com>
-Date: Wed, 23 Nov 2016 12:16:51 +0100
-In-Reply-To: <e1b37a8090d9fe6d93d6f68301d5c89a45a93b37.1479871728.git.liezhi.yang@windriver.com>
-References: <cover.1479871728.git.liezhi.yang@windriver.com>
-	<e1b37a8090d9fe6d93d6f68301d5c89a45a93b37.1479871728.git.liezhi.yang@windriver.com>
-Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
-X-Mailer: Evolution 3.12.9-1+b1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 2/2] base-passwd: set root's default password to 'root'
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=AtLK9zsZD5Py0ImEupTOMbbcKmYmVmkk/57eNg15GHY=;
+	b=Cb8O8xqP8OPMw1JFW3R9Cw7PexR0Qa8ndaJI/biZo1tbf1abBWoNSRAE2a6sx4Tj+e
+	VeRAA/21GzYpaibuNcmm/2MSsEIs/IjuVDImR5QXWoXBtrWT7TpWse6TWeYz408d+Dpb
+	uKdoT55zh38gvUIAv0dEDGix5KeKySPIoQ3tPM73GACoe6ejpQSYo+DZSWCCuAqkKvQe
+	VgTmjmYT3WK9PHWpYUfOAqFfHT+9va0x6kBPdmFFgUFpzlLfGRg7R5phDZz8RZ9c7hhd
+	3sgxuMHdttPBlxW55Qxq+x1y9jZ8mA/vpIkHi8P7H9tB6OUFD/u/cfKloz1SQzEE8V/w
+	fifw==
+X-Gm-Message-State: AKaTC02c8y1qALnMCHFQZFtOyqmha46ixs16cDmepYiUaAHJRXxzNgVxwVQex+W+BE+ECstuDnJ7QnXNOemHksIw
+X-Received: by 10.55.31.157 with SMTP id n29mr1880830qkh.221.1479900131791;
+	Wed, 23 Nov 2016 03:22:11 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.140.85.136 with HTTP; Wed, 23 Nov 2016 03:21:51 -0800 (PST)
+In-Reply-To: <alpine.LFD.2.20.1611230540200.7856@ca624034.mitel.com>
+References: <alpine.LFD.2.20.1611230540200.7856@ca624034.mitel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 23 Nov 2016 11:21:51 +0000
+Message-ID: <CAJTo0LZvk-Ssv3Bc5rSYSuYCm2rQma4Vwv2jvh5zdE7cCPE0Vg@mail.gmail.com>
+To: "Robert P. J. Day" <rpjday@crashcourse.ca>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: migrating simple tarballs over to OE recipes?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,43 +53,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 23 Nov 2016 11:16:57 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 23 Nov 2016 11:22:12 -0000
+Content-Type: multipart/alternative; boundary=001a1147f228a8b1690541f61918
 
-On Tue, 2016-11-22 at 23:49 -0800, Robert Yang wrote:
-> [YOCTO #10710]
-> 
-> Otherwise, we can't login as root when debug-tweaks is not in
-> IMAGE_FEATURES, and there is no other users to login by default, so
-> there is no way to login.
+--001a1147f228a8b1690541f61918
+Content-Type: text/plain; charset=UTF-8
 
-Wait a second, are you really suggesting that OE-core should have a
-default root password in its default configuration?
+On 23 November 2016 at 10:42, Robert P. J. Day <rpjday@crashcourse.ca>
+wrote:
 
-That's very bad practice and I'm against doing it this way. Having a
-default password is one of the common vulnerabilities in actual devices
-on the market today. OE-core should make it hard to make that mistake,
-not actively introduce it.
+>   colleague has a pile of tarballs that were used to customize an x86
+> centos system, wants to move all that to OE with as little fuss as
+> possible, i guess the simplest way is to just create recipes that have
+> the same tarball in the files/ directory, and write a trivial
+> do_install() task that untars it into the root fs, yes?
+>
 
-So if you think that having a root password set (instead of empty), then
-at least make it an opt-in behavior that explicitly has to be selected.
-Make it an image feature so that images with and without default
-password can be build in the same build configuration. Changing
-base-passwd doesn't achieve that.
+Pretty much, yeah.
 
-Even then I'm still wondering what the benefit of a well-known password
-compared to no password is. Both are equally insecure, so someone who
-wants to allow logins might as well go with "empty password".
+If you've a large pile and they're all effectively the same then a little
+class can automate it even more.
 
--- 
-Best Regards, Patrick Ohly
+Ross
 
-The content of this message is my personal opinion only and although
-I am an employee of Intel, the statements I make here in no way
-represent Intel's position on the issue, nor am I authorized to speak
-on behalf of Intel on this matter.
+--001a1147f228a8b1690541f61918
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 23 November 2016 at 10:42, Robert P. J. Day <span dir=3D"ltr">&lt;<a hre=
+f=3D"mailto:rpjday@crashcourse.ca" target=3D"_blank">rpjday@crashcourse.ca<=
+/a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:=
+0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":13k" cl=
+ass=3D"a3s aXjCH m15890ded001bbcd4">=C2=A0 colleague has a pile of tarballs=
+ that were used to customize an x86<br>
+centos system, wants to move all that to OE with as little fuss as<br>
+possible, i guess the simplest way is to just create recipes that have<br>
+the same tarball in the files/ directory, and write a trivial<br>
+do_install() task that untars it into the root fs, yes?<br></div></blockquo=
+te></div><br>Pretty much, yeah.</div><div class=3D"gmail_extra"><br></div><=
+div class=3D"gmail_extra">If you&#39;ve a large pile and they&#39;re all ef=
+fectively the same then a little class can automate it even more.</div><div=
+ class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div=
+>
 
-
-
+--001a1147f228a8b1690541f61918--
