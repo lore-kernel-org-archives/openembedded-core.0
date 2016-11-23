@@ -1,52 +1,29 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wj0-f196.google.com (mail-wj0-f196.google.com
-	[209.85.210.196])
-	by mail.openembedded.org (Postfix) with ESMTP id BC339605BE
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Nov 2016 18:10:37 +0000 (UTC)
-Received: by mail-wj0-f196.google.com with SMTP id xy5so1610171wjc.1
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Nov 2016 10:10:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:date:to:cc:subject:message-id:references:mime-version
-	:content-disposition:in-reply-to:user-agent;
-	bh=KzaWACqIqDGOt2WM65ga+md4kDXke/P9akN3yTgP6QM=;
-	b=c1cKwLykhMMtJMoYSfFP+cbTbVQgvvfLVdzSasYo7N0WFfnamAM2l+40eE2ucDZ2gB
-	mUUyxcRMJMPX3ijhcr9w7m5FoBUO6H0P1bCsDmwGaOfgArJ+iSGrsqgG6o/zVRxrTQmQ
-	7Hx7DXpGn63tnAkCr5ygezKUcVsQ+a1TDlcJFyyHj0jJ8tirpaX9Mc/pwEwYw/TnRzrT
-	MY+W6svWVXhULtyoM44n+cJMNC1pB3yXDiwlQ+TgWV5o2C+Mi7RO5P6o0uuSgWtm7bc/
-	LF8lNNlp9P1I5RDDZnZqMMMfXnwrrhmWjFg2CupcDGSLkdiuky9HhNkBc6ogEvpF7a0j
-	wZmQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:date:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=KzaWACqIqDGOt2WM65ga+md4kDXke/P9akN3yTgP6QM=;
-	b=TddhBuNPkrwOSu6NeK7ERFAwKASJx04eIE39J8HyIvRVe3V0ADcXctLkLcC5x1x/3c
-	OYxKd35PicfckmJiYX/3qnQHZWgDpnpal5Qr3wzDKgnDBgbBGzeDOssOEnDpEyVpALqx
-	D1WL+KPjmOjYwfpIbgQZ1ZzJG1lX3+/mri+X5q+Xs9eX4yZmEPkowY7vzm0PF2jl7gfM
-	C4Cz0PUmV9mgoLyy4so/oBW/TUW0ggyXcRUsDWU8hu0h+pQFKJrYDX7O0iTiwlPjGift
-	AVD1PQGatEHdxfekCpz5+BCFkPlk7WYYhzwJOeyaGs9hNRWq9FyObk8Cp3n1efeTxOqC
-	dwhQ==
-X-Gm-Message-State: AKaTC03/7lgkAlP234kWosxjs1p9d3M0iAk8hgwl50bkb1B33047ymyRIwbo0WNZlCM2zA==
-X-Received: by 10.194.75.161 with SMTP id d1mr4311889wjw.7.1479924638721;
-	Wed, 23 Nov 2016 10:10:38 -0800 (PST)
-Received: from localhost ([217.30.68.212]) by smtp.gmail.com with ESMTPSA id
-	ab10sm37545284wjc.45.2016.11.23.10.10.37
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Wed, 23 Nov 2016 10:10:37 -0800 (PST)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Wed, 23 Nov 2016 19:10:39 +0100
-To: Mark Hatle <mark.hatle@windriver.com>
-Message-ID: <20161123181039.GF3265@jama>
-References: <20161123174209.211349-1-mark.hatle@windriver.com>
-	<20161123174209.211349-2-mark.hatle@windriver.com>
+Return-Path: <Bruce.Ashfield@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 0B5E7719B3;
+	Wed, 23 Nov 2016 18:12:23 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id uANICOkT020329
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 23 Nov 2016 10:12:24 -0800 (PST)
+Received: from server.local (128.224.21.22) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.294.0;
+	Wed, 23 Nov 2016 10:12:23 -0800
+To: Martin Jansa <martin.jansa@gmail.com>,
+	<openembedded-core@lists.openembedded.org>
+References: <20161103133345.6936.13797@opal.openembedded.org>
+	<20161103133346.EC39750212@opal.openembedded.org>
+	<20161123171218.GE3265@jama>
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+Message-ID: <e3fde391-64a2-12b2-7dc8-5845bf9e699b@windriver.com>
+Date: Wed, 23 Nov 2016 13:12:22 -0500
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.12; rv:45.0)
+	Gecko/20100101 Thunderbird/45.5.0
 MIME-Version: 1.0
-In-Reply-To: <20161123174209.211349-2-mark.hatle@windriver.com>
-User-Agent: Mutt/1.7.1 (2016-10-04)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] meta/conf/layer.conf: Add recommended download layer
+In-Reply-To: <20161123171218.GE3265@jama>
+Cc: openembedded-commits@lists.openembedded.org
+Subject: Re: [oe-commits] [openembedded-core] 02/05: linux-yocto/4.8: update to 4.8.6
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,62 +36,150 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 23 Nov 2016 18:10:40 -0000
-X-Groupsio-MsgNum: 89770
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="NQTVMVnDVuULnIzU"
-Content-Disposition: inline
+X-List-Received-Date: Wed, 23 Nov 2016 18:12:25 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
 
---NQTVMVnDVuULnIzU
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 2016-11-23 12:12 PM, Martin Jansa wrote:
+> On Thu, Nov 03, 2016 at 01:33:47PM +0000, git@git.openembedded.org wrote:
+>> rpurdie pushed a commit to branch master-next
+>> in repository openembedded-core.
+>>
+>> commit 2a7d3173c7a05cd09bbcf5fe465403b2d4b2b589
+>> Author: Bruce Ashfield <bruce.ashfield@windriver.com>
+>> AuthorDate: Thu Nov 3 09:25:14 2016 -0400
+>>
+>>     linux-yocto/4.8: update to 4.8.6
+>>
+>>     Integrating the korg -stable release.
+>
+> Not sure if it's caused by this upgrade or one of kernel tooling
+> improvements, but now it fails to build for me in default qemux86
+> config:
 
-On Wed, Nov 23, 2016 at 11:42:09AM -0600, Mark Hatle wrote:
-> This is a Wind River specific patch and not generally applicable.
 
-Then why is it sent to oe-core ML?
+Interesting. The latest set of commits that I pushed are building with
+that same addon feature enabled.
 
->=20
-> Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
-> ---
->  meta/conf/layer.conf | 2 ++
->  1 file changed, 2 insertions(+)
->=20
-> diff --git a/meta/conf/layer.conf b/meta/conf/layer.conf
-> index 24b4df0..a94e524 100644
-> --- a/meta/conf/layer.conf
-> +++ b/meta/conf/layer.conf
-> @@ -11,6 +11,8 @@ BBFILE_PRIORITY_core =3D "5"
->  # cause compatibility issues with other layers
->  LAYERVERSION_core =3D "9"
-> =20
-> +LAYERRECOMMENDS_core =3D "oe-core-dl-2-2"
-> +
->  BBLAYERS_LAYERINDEX_NAME_core =3D "openembedded-core"
-> =20
->  # Set a variable to get to the top of the metadata location
-> --=20
-> 2.9.3
->=20
-> --=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+I can rewind to that older commit and see if something is broken, but
+the new tools and error checking shouldn't be coming into play with
+a commit of that vintage.
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+Bruce
 
---NQTVMVnDVuULnIzU
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
 
------BEGIN PGP SIGNATURE-----
+>
+> ERROR: linux-yocto-4.8.6+gitAUTOINC+87e5fc8b7c_9d5f74f941-r0 do_kernel_metadata: Function failed: do_kernel_metadata (log file is located at /OE/build/oe-core/tmp-glibc/work/qemux86-oe-linux/linux-yocto/4.8.6+gitAUTOINC+87e5fc8b7c_9d5f74f941-r0/temp/log.do_kernel_metadata.441)
+> ERROR: Logfile of failure stored in: /OE/build/oe-core/tmp-glibc/work/qemux86-oe-linux/linux-yocto/4.8.6+gitAUTOINC+87e5fc8b7c_9d5f74f941-r0/temp/log.do_kernel_metadata.441
+> Log data follows:
+> | DEBUG: Executing shell function do_kernel_metadata
+> | ERROR. input file "features/nfsd/nfsd-enable.scc" does not exist
+> | ERROR: could not process input files: features/nfsd/nfsd-enable.scc features/debug/printk.scc features/netfilter/netfilter.scc cfg/virtio.scc cfg/sound.scc cfg/paravirt_kvm.scc
+> |        See /tmp/tmp.tLkBgIybCS for details
+> | ERROR. input file "features/nfsd/nfsd-enable.scc" does not exist
+> | ERROR: could not process input files: features/nfsd/nfsd-enable.scc features/debug/printk.scc features/netfilter/netfilter.scc cfg/virtio.scc cfg/sound.scc cfg/paravirt_kvm.scc
+> |        See /tmp/tmp.T7cBZctbo1 for details
+> | ERROR: Function failed: do_kernel_metadata (log file is located at /OE/build/oe-core/tmp-glibc/work/qemux86-oe-linux/linux-yocto/4.8.6+gitAUTOINC+87e5fc8b7c_9d5f74f941-r0/temp/log.do_kernel_metadata.441)
+> ERROR: Task (/OE/build/oe-core/openembedded-core/meta/recipes-kernel/linux/linux-yocto_4.8.bb:do_kernel_metadata) failed with exit code '1'
+>
+>
+>
+>>
+>>     Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+>>     Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+>> ---
+>>  meta/recipes-kernel/linux/linux-yocto-rt_4.8.bb   |  6 +++---
+>>  meta/recipes-kernel/linux/linux-yocto-tiny_4.8.bb |  6 +++---
+>>  meta/recipes-kernel/linux/linux-yocto_4.8.bb      | 20 ++++++++++----------
+>>  3 files changed, 16 insertions(+), 16 deletions(-)
+>>
+>> diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_4.8.bb b/meta/recipes-kernel/linux/linux-yocto-rt_4.8.bb
+>> index e51c9cd..26b309d 100644
+>> --- a/meta/recipes-kernel/linux/linux-yocto-rt_4.8.bb
+>> +++ b/meta/recipes-kernel/linux/linux-yocto-rt_4.8.bb
+>> @@ -11,13 +11,13 @@ python () {
+>>          raise bb.parse.SkipPackage("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
+>>  }
+>>
+>> -SRCREV_machine ?= "4057556c041f6aac0d29aa3425587d414c9a0090"
+>> -SRCREV_meta ?= "83110d94edeb856a3667b62903ed4ae91c24117d"
+>
+>> +SRCREV_machine ?= "b99b6fac437104e206d30540a5cb12103049af1e"
+>> +SRCREV_meta ?= "87e5fc8b7cb387f197cdd098cdde4e96e9e8ed0d"
+>>
+>>  SRC_URI = "git://git.yoctoproject.org/linux-yocto-4.8.git;branch=${KBRANCH};name=machine \
+>>             git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.8;destsuffix=${KMETA}"
+>>
+>> -LINUX_VERSION ?= "4.8.3"
+>> +LINUX_VERSION ?= "4.8.6"
+>>
+>>  PV = "${LINUX_VERSION}+git${SRCPV}"
+>>
+>> diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_4.8.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_4.8.bb
+>> index c8ddbd9..63dd11b 100644
+>> --- a/meta/recipes-kernel/linux/linux-yocto-tiny_4.8.bb
+>> +++ b/meta/recipes-kernel/linux/linux-yocto-tiny_4.8.bb
+>> @@ -4,13 +4,13 @@ KCONFIG_MODE = "--allnoconfig"
+>>
+>>  require recipes-kernel/linux/linux-yocto.inc
+>>
+>> -LINUX_VERSION ?= "4.8.3"
+>> +LINUX_VERSION ?= "4.8.6"
+>>
+>>  KMETA = "kernel-meta"
+>>  KCONF_BSP_AUDIT_LEVEL = "2"
+>>
+>> -SRCREV_machine ?= "1adf9d36338dc3c63cdbf6f98bcbdc7bba42a794"
+>> -SRCREV_meta ?= "83110d94edeb856a3667b62903ed4ae91c24117d"
+>> +SRCREV_machine ?= "9d5f74f941c3ca234f58ff8e539f5ca64458c0a7"
+>> +SRCREV_meta ?= "87e5fc8b7cb387f197cdd098cdde4e96e9e8ed0d"
+>>
+>>  PV = "${LINUX_VERSION}+git${SRCPV}"
+>>
+>> diff --git a/meta/recipes-kernel/linux/linux-yocto_4.8.bb b/meta/recipes-kernel/linux/linux-yocto_4.8.bb
+>> index 13778b9..0369198 100644
+>> --- a/meta/recipes-kernel/linux/linux-yocto_4.8.bb
+>> +++ b/meta/recipes-kernel/linux/linux-yocto_4.8.bb
+>> @@ -11,20 +11,20 @@ KBRANCH_qemux86  ?= "standard/base"
+>>  KBRANCH_qemux86-64 ?= "standard/base"
+>>  KBRANCH_qemumips64 ?= "standard/mti-malta64"
+>>
+>> -SRCREV_machine_qemuarm ?= "4cc544ad09ad704322cb66fe4ba197a6a05dc71f"
+>> -SRCREV_machine_qemuarm64 ?= "1adf9d36338dc3c63cdbf6f98bcbdc7bba42a794"
+>> -SRCREV_machine_qemumips ?= "c285969d4f9376a671167ecf397578c8ad3e6a75"
+>> -SRCREV_machine_qemuppc ?= "1adf9d36338dc3c63cdbf6f98bcbdc7bba42a794"
+>> -SRCREV_machine_qemux86 ?= "1adf9d36338dc3c63cdbf6f98bcbdc7bba42a794"
+>> -SRCREV_machine_qemux86-64 ?= "1adf9d36338dc3c63cdbf6f98bcbdc7bba42a794"
+>> -SRCREV_machine_qemumips64 ?= "64f96ba530e58456070f26b0f3fcce3f64988b72"
+>> -SRCREV_machine ?= "1adf9d36338dc3c63cdbf6f98bcbdc7bba42a794"
+>> -SRCREV_meta ?= "83110d94edeb856a3667b62903ed4ae91c24117d"
+>> +SRCREV_machine_qemuarm ?= "94d3e8675e2fcb09f29814a33ccf79df06149104"
+>> +SRCREV_machine_qemuarm64 ?= "9d5f74f941c3ca234f58ff8e539f5ca64458c0a7"
+>> +SRCREV_machine_qemumips ?= "046ff6344eee25dcc0eea1214e0ad8771ddfabfb"
+>> +SRCREV_machine_qemuppc ?= "9d5f74f941c3ca234f58ff8e539f5ca64458c0a7"
+>> +SRCREV_machine_qemux86 ?= "9d5f74f941c3ca234f58ff8e539f5ca64458c0a7"
+>> +SRCREV_machine_qemux86-64 ?= "9d5f74f941c3ca234f58ff8e539f5ca64458c0a7"
+>> +SRCREV_machine_qemumips64 ?= "edcb167f91abc071cc98cbd762418ff7ab9d839b"
+>> +SRCREV_machine ?= "9d5f74f941c3ca234f58ff8e539f5ca64458c0a7"
+>> +SRCREV_meta ?= "87e5fc8b7cb387f197cdd098cdde4e96e9e8ed0d"
+>>
+>>  SRC_URI = "git://git.yoctoproject.org/linux-yocto-4.8.git;name=machine;branch=${KBRANCH}; \
+>>             git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.8;destsuffix=${KMETA}"
+>>
+>> -LINUX_VERSION ?= "4.8.3"
+>> +LINUX_VERSION ?= "4.8.6"
+>>
+>>  PV = "${LINUX_VERSION}+git${SRCPV}"
+>>
+>>
+>> --
+>> To stop receiving notification emails like this one, please contact
+>> the administrator of this repository.
+>> --
+>> _______________________________________________
+>> Openembedded-commits mailing list
+>> Openembedded-commits@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-commits
+>
 
-iF0EARECAB0WIQRU+ejDffEzV2Je2oc3VSO3ZXaAHAUCWDXbngAKCRA3VSO3ZXaA
-HBTTAJ9DQ0z8CyIJLOVtYKMxDRKOcJndywCgoeXD+Fm/KhPqgHnwPdNI7DBhDOc=
-=P2Ct
------END PGP SIGNATURE-----
 
---NQTVMVnDVuULnIzU--
