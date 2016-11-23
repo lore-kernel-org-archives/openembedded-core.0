@@ -1,56 +1,49 @@
-Return-Path: <kristian.amlie@mender.io>
-Received: from mail-qt0-f178.google.com (mail-qt0-f178.google.com
-	[209.85.216.178])
-	by mail.openembedded.org (Postfix) with ESMTP id 2355A60750
+Return-Path: <maciej.borzecki@rndity.com>
+Received: from mail-wm0-f48.google.com (mail-wm0-f48.google.com [74.125.82.48])
+	by mail.openembedded.org (Postfix) with ESMTP id 288CE719B7
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Nov 2016 09:04:31 +0000 (UTC)
-Received: by mail-qt0-f178.google.com with SMTP id n6so5518537qtd.1
+	Wed, 23 Nov 2016 09:24:52 +0000 (UTC)
+Received: by mail-wm0-f48.google.com with SMTP id f82so14341280wmf.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Nov 2016 01:04:33 -0800 (PST)
+	Wed, 23 Nov 2016 01:24:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=mender-io.20150623.gappssmtp.com; s=20150623;
-	h=subject:to:references:cc:from:message-id:date:user-agent
-	:mime-version:in-reply-to:content-transfer-encoding;
-	bh=C6AQ/zkF5R6WXYVxN1YgRrlFNt7TXksgCfj+Xu3gl1E=;
-	b=j9BlxAgyXsUqZP6MN91s0RMoPavlPNJONzsuk3J/jKb6watWImH1eFCo+mQCggp6WM
-	VJS1ag2+0XtI43/tndwicT3uWu5vgRIGi4/jxQleOOis3EhKvgKpI95P/YC0OmvF+Bgk
-	VBWn19z//fItt3nF25UggOHUf5l/7dkmiwDleN3kbHdEKHQeSIi1XK3VbF12+a1gii8w
-	kgeVPSBOj/75kIdLXw0/MEX8/WbFWuKdydjV0Iez9SdUqfhljCKQ0GY2njdj/FTgVoeV
-	pTil8deFalW5BzT9O7S1l0YT/6O27HA579jbZIP5qYBlgREIiVWkf9CZlmqoM/0xaPWP
-	MLWw==
+	d=rndity-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=L+mb0EeNNtkHQZeSFYbKydbtWzCXO4Jwu6qazx48mxA=;
+	b=M5pXZxt4/uAgdR7hEVEaHQS3La68RcBpax26HvEQjVTV31yPUFQpWVtdLUrssNXwfe
+	BMD+c7SRwVD8asKO9gZ8bLEgYdPT1kmDIBDoPGoRw13d+7e1VOiaJLWVu2XKiPSYqq+8
+	/qLa0PbOIwpknc/tkOPObWPW8rZ3zIPruDzkCjWaDKnyOfygNhWrgjdVHKpsRhmqie0S
+	7QZjvPgBJ5Z63u27pFBp0LEStHHgRWwTGQbcd4cwlJNgftAova5G0UjvCobzYO7gImBA
+	6qfGZojjqEmLYPTq3a3kjqJXOgrvsokALISt7jRFeOftPMhQHedegpwWBl7wK9ivWVR5
+	urUw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:subject:to:references:cc:from:message-id:date
-	:user-agent:mime-version:in-reply-to:content-transfer-encoding;
-	bh=C6AQ/zkF5R6WXYVxN1YgRrlFNt7TXksgCfj+Xu3gl1E=;
-	b=JjQWZxTLTOgvajm62p+kHQG33Ejvb4FKJy0kOkwAV0tTx6OfQhQKXjqgF0/7Z4k27U
-	e37vIMZD9DsSzM4bUA7o2prqDW1eHrWz6aOjN73IaUQ8fLzLBh6zsqvX4qaCP/uizB3z
-	6qI1lsvBYnn8gYFqNbscc3LIdvVXUdsYJD57pm+vM7Kfm7/U2gbYNEyPzbcOV3YYNte7
-	ptjYWtZnzvIu7BH9eCTbQpExGIIrQJ5pC3wzH6jWYRmoFaPSe3c9MhOvLKu1AmxhJ76k
-	Fje3eTV9c6jHFGWSKnf5v0EO7E9HVxxSkoSaTgP2a05YKTGmazNu97emqPnkuGgZ3n+z
-	pH2w==
-X-Gm-Message-State: AKaTC01TL5b3mRRVKucXLhsBHRN96xqht78pGpWD6zuDPq8Uo1NFwdewDqo3F90KfGcX/g==
-X-Received: by 10.25.134.139 with SMTP id i133mr452619lfd.79.1479891872748;
-	Wed, 23 Nov 2016 01:04:32 -0800 (PST)
-Received: from [10.25.0.170] ([195.159.140.90])
-	by smtp.googlemail.com with ESMTPSA id
-	18sm7039319ljj.7.2016.11.23.01.04.31
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 23 Nov 2016 01:04:31 -0800 (PST)
-To: Enrico Joerns <ejo@pengutronix.de>, Patrick Ohly
-	<patrick.ohly@intel.com>, Eduard Bartosh <eduard.bartosh@intel.com>
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=L+mb0EeNNtkHQZeSFYbKydbtWzCXO4Jwu6qazx48mxA=;
+	b=Fu1okjMvXHO6s1mTtAnMkFUHhP4q8WP/3km1CcW+Q1yR8qXqzUcQOLMtmE6IjWf4oa
+	bbi2xNDY3x3ZGjO/h6qp/bC2IflmN7l191B+o6jNocrGcLP7d9HDzr6ri8ymKUkUhUzR
+	TezhF/4b34UJi08lcG5FsescmYsldb8s4VyrrtiKUKKRsLQ/d70fg23IwB0r1Rg2d+B+
+	v/fKFyAwqFFRR/2iEXRgwjyLRB4AT2+qZ3v8bPU0Hte4mY0PvBqozKXW2lTjOKPZWqim
+	Z3LqJ+as9iYRu8NMjLEEUSclAPlTVwdt4BUXuJuGqhsX1582oHyn+dDwgcmAleptCo0o
+	nq3g==
+X-Gm-Message-State: AKaTC00pZvQVNeoLkVUyX3qVDkl3OUwFa8rgAUK8XbK4e3+KB4onv/JEo4MLjqU5Nc5p7hBf12EMPo7X0+t7/Q==
+X-Received: by 10.28.54.214 with SMTP id y83mr2212248wmh.45.1479893093261;
+	Wed, 23 Nov 2016 01:24:53 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.28.15.9 with HTTP; Wed, 23 Nov 2016 01:24:32 -0800 (PST)
+In-Reply-To: <776827b7-ca3e-e319-c2f0-b8b15bef4fb2@pengutronix.de>
 References: <a90e8685-f087-5ee2-888b-aa537ebd94c4@mender.io>
 	<1479813004.3239.19.camel@intel.com>
 	<6913e4bf-96dc-eefa-d214-9df5cde181b8@mender.io>
 	<776827b7-ca3e-e319-c2f0-b8b15bef4fb2@pengutronix.de>
-From: Kristian Amlie <kristian.amlie@mender.io>
-Message-ID: <15d3387f-3f73-fb6a-3e9a-0c68abb3739a@mender.io>
-Date: Wed, 23 Nov 2016 10:04:31 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.4.0
-MIME-Version: 1.0
-In-Reply-To: <776827b7-ca3e-e319-c2f0-b8b15bef4fb2@pengutronix.de>
-Cc: openembedded-core@lists.openembedded.org
+From: =?UTF-8?Q?Maciej_Borz=C4=99cki?= <maciej.borzecki@rndity.com>
+Date: Wed, 23 Nov 2016 10:24:32 +0100
+Message-ID: <CAD4b0_LrF=sQMV3r+3Kb8hqxcqD9U_LBMesxCyby+FGS7YssFQ@mail.gmail.com>
+To: Enrico Joerns <ejo@pengutronix.de>
+Cc: Eduard Bartosh <eduard.bartosh@intel.com>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
 Subject: Re: Contents of non-rootfs partitions
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -64,14 +57,16 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 23 Nov 2016 09:04:34 -0000
-Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 23 Nov 2016 09:24:53 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On 23/11/16 09:40, Enrico Joerns wrote:
+On Wed, Nov 23, 2016 at 9:40 AM, Enrico Joerns <ejo@pengutronix.de> wrote:
 > On 11/22/2016 12:54 PM, Kristian Amlie wrote:
+>>
 >> On 22/11/16 12:10, Patrick Ohly wrote:
+>>>>
 >>>> ...
+>>>
 >>>
 >>> All of these introduce some special mechanism. Let me propose something
 >>> that might integrate better with the existing tooling:
@@ -88,52 +83,67 @@ On 23/11/16 09:40, Enrico Joerns wrote:
 >>> then can be used to create different images, potentially even using
 >>> different partition layouts.
 >>
+>>
 >> That's a very good idea. I think it beats all of my suggestions!
-> 
-> I totally agree with this solution, because it is the same approach we
-> are already using for several years.
-
-Good! Sounds like there are several votes in favor of this proposal then.
-
+>
+>
+> I totally agree with this solution, because it is the same approach we are
+> already using for several years.
+>
 > Instead of wic we are using the genimage tool
 > (http://public.pengutronix.de/software/genimage/) together with a Yocto
-> class for easing image creation, but its pretty much the same concerning
-> its base purpose.
-> 
+> class for easing image creation, but its pretty much the same concerning its
+> base purpose.
+>
 > We called the option to split up 'mountpoint' while assuming that the
-> splitted partition will be mounted to the same location in the file
-> system it was taken from.
-> 
+> splitted partition will be mounted to the same location in the file system
+> it was taken from.
+>
 > An example configuration would look like this (stripped down to the
 > essential parts):
-> 
+>
 >   image my-disk-image {
 >           [...]
 >           partition root {
 >                   image = "rootfs.ext4"
 >                   [...]
 >           }
-> 
+>
 >           partition home {
 >                   image = "home.ext4"
 >                   [...]
 >           }
 >   }
-> 
+>
 >   image rootfs.ext4 {
 >           [...]
 >           mountpoint = "/"
 >   }
-> 
+>
 >   image home.ext4 {
 >           [...]
 >           mountpoint = "/home"
 >   }
-> 
+>
 > Maybe a similar approach could be used in wic, too.
 
-Yes, this looks very similar "in spirit" to what I'm thinking of right now.
+I went through the README from genimage repo
+https://git.pengutronix.de/cgit/genimage/tree/README. Definitely looks
+interesting and covers storage medias that are not supported by wic
+right now. The split option does not seem to be documented though. If I
+understood you correctly, the partition is seeded with data from
+location specified by `mountpoint` inside IMAGE_ROOTFS. Is that correct?
+
+I see there's a large overlap in functionality with wic (at least for
+block devices), so perhaps the best way would be introduce genimage as
+another IMAGE_CMD.
+
+I've quickly checked at https://layers.openembedded.org and there are no
+recipes for genimage/libconfuse listed there. Do happen to have done
+integration with OE in some private repo already? Would it be possible
+for you to post the relevant patches?
 
 -- 
-Kristian
+Maciej Borzecki
+RnDity
 
