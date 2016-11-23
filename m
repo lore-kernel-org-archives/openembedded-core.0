@@ -1,50 +1,50 @@
 Return-Path: <maciej.borzecki@rndity.com>
-Received: from mail-wm0-f52.google.com (mail-wm0-f52.google.com [74.125.82.52])
-	by mail.openembedded.org (Postfix) with ESMTP id 5C6B4607A3
+Received: from mail-wm0-f53.google.com (mail-wm0-f53.google.com [74.125.82.53])
+	by mail.openembedded.org (Postfix) with ESMTP id 72A62719F2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Nov 2016 11:39:45 +0000 (UTC)
-Received: by mail-wm0-f52.google.com with SMTP id f82so19818859wmf.1
+	Wed, 23 Nov 2016 11:47:50 +0000 (UTC)
+Received: by mail-wm0-f53.google.com with SMTP id t79so20016795wmt.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Nov 2016 03:39:47 -0800 (PST)
+	Wed, 23 Nov 2016 03:47:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=rndity-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=5/S+PLg5z4o30prQagjugzN0jEL3SfL4ySknDyT9ukc=;
-	b=Z+ou3lo3Q2sf4ZUvBLny2+jAKbzYJIXadRaX/xKe92uDWLGo9cqx2vwmL38YBeOQcK
-	LHo3G0btjbsUyOww5+OTHTqlpy5m4uapSV56fA9NV8PDA5zHgVSU05G6xjhlmUtDzpBY
-	ZennlKKv7NNH85V/JKAnmURhs+eqw4UlaDLUELTL3iZnbqVNz06QLybj703/k9KIqI/E
-	vTOY7A9OlzEOV6xxXj/un66CfJIIC4nRloeaANAZHDBnEXNsLpFj4dHgSgtRI0eQ9RQ9
-	0nMyQ/ENyZd9jY3WwTR4ybN8aQviQvVcoeB3jZoLaIlItVgmzeD8aytayf63UTKI+/BO
-	sFrA==
+	:cc; bh=7kLrkFkmVGo7gRROLgWLkNzxaWfZu9jswIBdyALRZww=;
+	b=S21eTqekjydryc0fDO6S042SsThpZyj0xb4++WwW3Dfg7bTwpV0tmgyA85EPtIZ5fU
+	Ov3AJGDNw5EVWV07cYMwSM7ft1vfgSsjIAP5Y5ftNMIMW5xw+XoGijKwlzzQtpVPZFQI
+	mGPpxWnqiIuKRAe9BCRL6bLZQWfH1fprSwo5/6EyauL92zPtGko05e4Gyp7PcI9zHpyj
+	b1DJwLqym2pfTB75Z3FOE7T8KW08+pi7I5XRtJpbQu6KcYC+ivjA+3bFRIvmEeckU+XM
+	rXl015j7DRxyMQ5TY/Rs5m5Ar1D6oglic4F3ryCbnbYq2Ku2S2AL06wBSAsqQrpE3FsX
+	PEnw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=5/S+PLg5z4o30prQagjugzN0jEL3SfL4ySknDyT9ukc=;
-	b=aItsixlG42eoyZuYG3UJS5bD+YYPOj6xYeb35Boyv4k+IRkYx9Rsx7jQRgLZp1D0Pv
-	OgYGSyxR+tu4n0lGsbhHnGKsmFxZn/EvIRMt62ffyK8kKfJ9GtS4ytEafDKQx9ZAO8cN
-	49UQ0yaEdOM2ebWrhrh6OQpNFGE1Lxc1jtULI72lGb/vaY4FCs8y/OK948JZ4onptHEi
-	moy3d23CzvZXiyBcRQuvM/Yo7hB8NyWgXicTooaxwO2EqZbAB4HeLUI6hT+v3z9jNFGO
-	hwGy3WanzE8b6zz5zC2A44j0QFk6nOmykGLA7T7mBxlrgN6by1+qxv41tqIl6oUiEHog
-	mBZw==
-X-Gm-Message-State: AKaTC00hsaZpLDLA6k9rX8YBiuXnsAmeGNtZDYNE+ouvwGuSf2JSAAs4Cim8d8msFX9DbzdvHEzbvkW/pS3KxQ==
-X-Received: by 10.194.148.4 with SMTP id to4mr2843904wjb.194.1479901186769;
-	Wed, 23 Nov 2016 03:39:46 -0800 (PST)
+	bh=7kLrkFkmVGo7gRROLgWLkNzxaWfZu9jswIBdyALRZww=;
+	b=YCEC6nt5RGEjJyn4v1MuTfzj9GFyRSKEBos8z/jnfykqX2nIvvYBDZXkk3NjG4ytW8
+	h5gX+z0E/aW8NGW4PmnuXlIJd+YWdsaO3Ab3ZkU4mCJQVeh6n4AEeCACtVBT0L3q7wXm
+	EBChhrmcZYvEts1GUDoOwnMhrNY68+SchFHMOPxLP9DXyoI4MQhXJ2mu6aqLziV27+gc
+	g4JL2mte9mqQHZTOVr1HtljMXS3meM09IlFS0v/CxJZngYaf9PIPkFnGXdZkSpNoDnxm
+	9K6Ze+4bMHUsT3I7lhbUSBYz6S40X3LO397CGCatk/vXajEE/Zsei8evizfyWq5RfjUR
+	31eQ==
+X-Gm-Message-State: AKaTC03iBWDZKu9BYSM/J0Kp9mKAFkqpjgbSRFIj9nGAiqjtguDV5EMW65hd0LCLw3XRh9kETJfgDxP+hvN1ww==
+X-Received: by 10.28.208.203 with SMTP id h194mr6723863wmg.45.1479901672155;
+	Wed, 23 Nov 2016 03:47:52 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.28.15.9 with HTTP; Wed, 23 Nov 2016 03:39:26 -0800 (PST)
-In-Reply-To: <20161123112356.GA12545@linux.intel.com>
+Received: by 10.28.15.9 with HTTP; Wed, 23 Nov 2016 03:47:31 -0800 (PST)
+In-Reply-To: <20161123113630.GB12545@linux.intel.com>
 References: <cover.1479887010.git.maciej.borzecki@rndity.com>
-	<fd75ccfd4bbd3420f72b32c815feb92b06b2b9fb.1479887010.git.maciej.borzecki@rndity.com>
-	<20161123112356.GA12545@linux.intel.com>
+	<7c765b6d3940a7b7dc9daeb32f712809a4b5464e.1479887010.git.maciej.borzecki@rndity.com>
+	<20161123113630.GB12545@linux.intel.com>
 From: =?UTF-8?Q?Maciej_Borz=C4=99cki?= <maciej.borzecki@rndity.com>
-Date: Wed, 23 Nov 2016 12:39:26 +0100
-Message-ID: <CAD4b0_JG7ApGTZ7BxHtfv53Z-T_jKQxN9fYrEBpcHvWaiRFsKg@mail.gmail.com>
+Date: Wed, 23 Nov 2016 12:47:31 +0100
+Message-ID: <CAD4b0_+QUgJyV0S8P1d7TzftR6kZEXa1rv6=o2xZ6YJU8DD8+A@mail.gmail.com>
 To: Ed Bartosh <ed.bartosh@linux.intel.com>
 Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
 	Maciej Borzecki <maciek.borzecki@gmail.com>,
 	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v4 5/7] wic: selftest: do not repeat core-image-minimal
+Subject: Re: [PATCH v4 7/7] wic: selftest: add tests for --fixed-size partition flags
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,54 +57,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 23 Nov 2016 11:39:46 -0000
+X-List-Received-Date: Wed, 23 Nov 2016 11:47:51 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On Wed, Nov 23, 2016 at 12:23 PM, Ed Bartosh <ed.bartosh@linux.intel.com> wrote:
-> On Wed, Nov 23, 2016 at 08:46:31AM +0100, Maciej Borzecki wrote:
->> Replace repeated core-image-minimal with Wic class field.
+On Wed, Nov 23, 2016 at 12:36 PM, Ed Bartosh <ed.bartosh@linux.intel.com> wrote:
+> Hi Maciej,
+>
+> Thank you for the patchset!
+> The changes and the tests look good to me.
+> I have little suggestions, but most of them just a matter of taste, so
+> feel free to ignore them.
+>
+> On Wed, Nov 23, 2016 at 08:46:33AM +0100, Maciej Borzecki wrote:
+>> wic has a new flag for setting a fixed parition size --fixed-size. Add
+>> tests that verify if partition is indeed sized properly and that errors
+>> are signaled when there is not enough space to fit partition data.
 >>
 >> Signed-off-by: Maciej Borzecki <maciej.borzecki@rndity.com>
 >> ---
->>  meta/lib/oeqa/selftest/wic.py | 111 +++++++++++++++++++++++++++---------------
->>  1 file changed, 73 insertions(+), 38 deletions(-)
+>>  meta/lib/oeqa/selftest/wic.py | 69 +++++++++++++++++++++++++++++++++++++++++++
+>>  1 file changed, 69 insertions(+)
 >>
 >> diff --git a/meta/lib/oeqa/selftest/wic.py b/meta/lib/oeqa/selftest/wic.py
->> index 2db14445956bc5adcf1e755844bbdb69edcb468f..37ed2c6de5a7f22f982f921476fa392304995b2e 100644
+>> index ad783043b92130a023fd70120becec479c6253a7..45f68df1e74828e11401f57dd732a88a50dd1f00 100644
 >> --- a/meta/lib/oeqa/selftest/wic.py
 >> +++ b/meta/lib/oeqa/selftest/wic.py
->> @@ -57,6 +57,8 @@ class Wic(oeSelfTest):
->>      resultdir = "/var/tmp/wic/build/"
->>      image_is_ready = False
+>> @@ -29,6 +29,7 @@ import unittest
+>>  from glob import glob
+>>  from shutil import rmtree
+>>  from functools import wraps
+>> +from tempfile import NamedTemporaryFile
 >>
->> +    OE_IMAGE = "core-image-minimal"
->> +
+>>  from oeqa.selftest.base import oeSelfTest
+>>  from oeqa.utils.commands import runCmd, bitbake, get_bb_var, runqemu
+>> @@ -61,6 +62,8 @@ class Wic(oeSelfTest):
+>>
 >>      def setUpLocal(self):
 >>          """This code is executed before each test method."""
+>> +        self.native_sysroot = get_bb_var('STAGING_DIR_NATIVE', 'core-image-minimal')
+>> +
 >>          arch = get_bb_var('HOST_ARCH', 'core-image-minimal')
->> @@ -75,7 +77,7 @@ class Wic(oeSelfTest):
->>                  tools += ' syslinux syslinux-native'
->>              bitbake(tools)
->>
->> -            bitbake('core-image-minimal')
->> +            bitbake(self.OE_IMAGE)
->>              Wic.image_is_ready = True
-> I'd agree with Ross here - it looks less readable.
-> How it would look if we decide to add test case for another image?
->
+>>          is_x86 = arch in ['i586', 'i686', 'x86_64']
+>>          if is_x86:
+>> @@ -378,3 +381,69 @@ class Wic(oeSelfTest):
+>>          self.assertEqual(0, runCmd("wic create %(wks)s -e %(image)s" \
+>>                                     % wic_cmd_vars).status)
+>>          self.assertEqual(1, len(glob(self.resultdir + "%s-*direct" % image)))
+>> +
+>> +    def _make_fixed_size_wks(self, size):
+>> +        """
+>> +        Create a wks of an image with a single partition. Size of the partition is set
+>> +        using --fixed-size flag. Returns a tuple: (path to wks file, wks image name)
+>> +        """
+>> +        with NamedTemporaryFile("w", suffix=".wks", delete=False) as tf:
+>> +            wkspath = tf.name
+>> +            tf.write("part " \
+>> +                     "--source rootfs --ondisk hda --align 4 --fixed-size %d "
+>> +                     "--fstype=ext4\n" % size)
+>> +        wksname = os.path.splitext(os.path.basename(wkspath))[0]
+>> +
+>> +        return (wkspath, wksname)
+> Would 'return wkspath, wksname' be a bit more readable?
 
-The usual way would be to:
+Agreed.
 
-class WicSatoImage(Wic):
-    OE_IMAGE = "core-image-sato"
-
-But I think you make a fair point. The patch introduces unnecessary
-complexity, and is not really needed right now. I'll drop this patch if next
-version will be necessary.
-
-Can you take a look at the rest of the patchset as well?
-
-Thanks,
 -- 
 Maciej Borzecki
 RnDity
