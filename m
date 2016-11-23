@@ -1,47 +1,54 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qt0-f182.google.com (mail-qt0-f182.google.com
-	[209.85.216.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 2DEC8719C8
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wj0-f194.google.com (mail-wj0-f194.google.com
+	[209.85.210.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 61C847198E
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Nov 2016 15:01:47 +0000 (UTC)
-Received: by mail-qt0-f182.google.com with SMTP id c47so13784442qtc.2
+	Wed, 23 Nov 2016 15:05:23 +0000 (UTC)
+Received: by mail-wj0-f194.google.com with SMTP id f8so1246380wje.2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Nov 2016 07:01:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=V0APs4JToMeFef8/UO1Z2t75OkK+1M0v02I0x988jMA=;
-	b=qV48zY6l7l1QXWdKTgbHiXiWCzfAAMXy8s4EtWmm0WB2vz32wYcpKJWGsbt2W8C4xv
-	KN6810l2YBr92/yF0MTIH5u68Q+/8FxVhwb7Q9551UBGCboFpfLIKqX+EAgimMdvLmE3
-	RehF1z9fLUgTiYTSbz0JcZ+L9FvEc8etEv3nc1Q/6H9Za129RA9hCvl8z0/TIkugRl3I
-	uPPBDTM1gj5gotAD57ILfQhbguqFXy2P6D3V/l3QkgEtJXC/UXmnuGSiQ4Ho4iVlxwCL
-	5u5Y7zYJvA/mYPpHrd72r2x9be+T1SzAxKEyA2QBZk8pke1phLNWfE4jaOCHmP2pJHxq
-	51uA==
+	Wed, 23 Nov 2016 07:05:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:date:to:cc:subject:message-id:references:mime-version
+	:content-disposition:in-reply-to:user-agent;
+	bh=0JzzjlhkYv7lbU4FQXFpWP/1JTuHWFr/boaIuTssutE=;
+	b=hG/DllZnFkrk7nXF30N3tA+cZVqjjRdfFhd/ET+PsBGkiJBnwNbNKQS67JKYmJRxV8
+	oDRKK1XV6zCw7k8vYe15LDxOU+NEq/sxyGfk82EMGp38yue3WRptRWQH8Kl0EUaJgTI/
+	FIx+fzZJZyW4hlYz4gbcU54vI8j9xdCENPljGBPBOVbznsNDJD0x68NE4kyhsxu9FI3D
+	g+XKp7WvUB1Jg1EP7XcMLcztQXUW3GpS7qrsI01u7LkKfE5eJr3hSEmclyF0OKWONvHf
+	hafcNO5tlYhfuoEjTSUq67cd1K/SyiINeeyR7aur3AmzZ+58MO2JlUWwBB8IbbylsUg5
+	qsFw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=V0APs4JToMeFef8/UO1Z2t75OkK+1M0v02I0x988jMA=;
-	b=YMTsaquCKPCwepDqKVSfjiIcTl041m8RGYRz/pOZmb38nLYC/xGK/ixi75Ie/tJtyB
-	ajuJ3BmJmkHH95YA8jZnQTwEpqlfuFQEOQmZS8aUb0vm7pILtC+MIZfmeCrHjSlkYz7w
-	I80wtNyT4BEbSoVSZMbFb+D+LsFhmYlJxDw6OhBK+KefZHpn14aoWkHvrtKD1s8k/3fm
-	XIx5XVGt9yHA1PpC3yS5q0LUgiqtr8FvBbJd9ajJlYPzdQkTePcWORZgagbrZO0LdnSl
-	9dBoMK3AvjWSZK6o5wpWT7XFzn1oTWLNQCIvQ1dvUqOCjeoudpQo1hQ1+Mv2EIDExRt1
-	ixWg==
-X-Gm-Message-State: AKaTC03/sxnXF4uQv5cu1q1e59s4rSIPF6bl0pYD0rP7l62m9TUvlnMrsf2ysIsiOIJDWMvQieacEvqaG41QRiEA
-X-Received: by 10.237.44.161 with SMTP id g30mr2932236qtd.144.1479913309273;
-	Wed, 23 Nov 2016 07:01:49 -0800 (PST)
+	h=x-gm-message-state:from:date:to:cc:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to:user-agent;
+	bh=0JzzjlhkYv7lbU4FQXFpWP/1JTuHWFr/boaIuTssutE=;
+	b=MC9OVItQyAfht7dujhrfT0QnWsYnsURncjX+dB7oV1SODtH1R3+IHIwbvwC6DAzpoP
+	f+ShXRvUFYvl7OrVouAaOhuhqZju5goAT/39nVhAwHJVhXAHcHU7ZM9GI9XHQwxxbp5p
+	UJ/D9gPIW2N+sMx2DoYX6Wrnmqazsw9Ffo1GtfqybiMMG6vIadlyUWY/O6SS049LslY2
+	bo4eEWabJN6zF77EQvckbpxGMl+ZwK5hE9FpKOp+SRQCcnPdTtcfoz9nQxeoB95g/Mvy
+	2jr5yVbq3xlOUl3AH5nY+U0z8U/jmqhP73PuQYxo8W75mtCgmt5TkxDasC0S/LkKaaHo
+	eIow==
+X-Gm-Message-State: AKaTC012wIvwrWDyfs0eV+JZ2oVDxYKZ5mIw+q/6zrTuRDC9jxPfQeqFtXfRnXoz351lpA==
+X-Received: by 10.194.54.99 with SMTP id i3mr3683892wjp.86.1479913524570;
+	Wed, 23 Nov 2016 07:05:24 -0800 (PST)
+Received: from localhost ([217.30.68.212]) by smtp.gmail.com with ESMTPSA id
+	i15sm36793512wjs.16.2016.11.23.07.05.23
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Wed, 23 Nov 2016 07:05:23 -0800 (PST)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Wed, 23 Nov 2016 16:05:25 +0100
+To: Ulf Magnusson <ulfalizer@gmail.com>
+Message-ID: <20161123150525.GA3265@jama>
+References: <alpine.LFD.2.20.1611230540200.7856@ca624034.mitel.com>
+	<CAJTo0LZvk-Ssv3Bc5rSYSuYCm2rQma4Vwv2jvh5zdE7cCPE0Vg@mail.gmail.com>
+	<alpine.LFD.2.20.1611230633180.8293@ca624034.mitel.com>
+	<CAFkk2KRQ+vv+X9paB+ZLCuFobAVpXyi7gaV7P5kwgX3hja9Rhg@mail.gmail.com>
 MIME-Version: 1.0
-Received: by 10.140.85.136 with HTTP; Wed, 23 Nov 2016 07:01:28 -0800 (PST)
-In-Reply-To: <672fdd07e6fc763ef96522fca4170240f515f1f6.1479804050.git.mariano.lopez@linux.intel.com>
-References: <cover.1479804050.git.mariano.lopez@linux.intel.com>
-	<672fdd07e6fc763ef96522fca4170240f515f1f6.1479804050.git.mariano.lopez@linux.intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 23 Nov 2016 15:01:28 +0000
-Message-ID: <CAJTo0LaJKMkxoAZ8jGHdfvQ7GDq3BORqxPfrQXNOy=E0b_b53Q@mail.gmail.com>
-To: Mariano Lopez <mariano.lopez@linux.intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] nfs-utils: 1.3.3 -> 1.3.4
+In-Reply-To: <CAFkk2KRQ+vv+X9paB+ZLCuFobAVpXyi7gaV7P5kwgX3hja9Rhg@mail.gmail.com>
+User-Agent: Mutt/1.7.1 (2016-10-04)
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: migrating simple tarballs over to OE recipes?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,72 +61,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 23 Nov 2016 15:01:50 -0000
-Content-Type: multipart/alternative; boundary=94eb2c12584819273c0541f92b25
+X-List-Received-Date: Wed, 23 Nov 2016 15:05:24 -0000
+X-Groupsio-MsgNum: 89760
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="Nq2Wo0NMKNjxTN9z"
+Content-Disposition: inline
 
---94eb2c12584819273c0541f92b25
-Content-Type: text/plain; charset=UTF-8
-
-On 22 November 2016 at 08:46, <mariano.lopez@linux.intel.com> wrote:
-
-> From: Mariano Lopez <mariano.lopez@linux.intel.com>
->
-> Signed-off-by: Mariano Lopez <mariano.lopez@linux.intel.com>
->
-
-ERROR: nfs-utils-1.3.4-r0 do_patch: Command Error: 'quilt --quiltrc
-/data/poky-master/tmp-glibc/sysroots/x86_64-linux/etc/quiltrc push' exited
-with 0  Output:
-Applying patch fix-protocol-minor-version-fall-back.patch
-patching file utils/mount/stropts.c
-Hunk #1 FAILED at 841.
-1 out of 1 hunk FAILED -- rejects in file utils/mount/stropts.c
-Patch fix-protocol-minor-version-fall-back.patch can be reverse-applied
-ERROR: nfs-utils-1.3.4-r0 do_patch: Function failed: patch_do_patch
-ERROR: Logfile of failure stored in:
-/data/poky-master/tmp-glibc/work/corei7-64-poky-linux/nfs-utils/1.3.4-r0/temp/log.do_patch.18084
-ERROR: Task
-(/home/ross/Yocto/poky/meta/recipes-connectivity/nfs-utils/nfs-utils_1.3.4.bb:do_patch)
-failed with exit code '1'
-
-I really wish I knew why some people quilt silently handles this and for
-others it throws an error.
-
-Ross
-
---94eb2c12584819273c0541f92b25
-Content-Type: text/html; charset=UTF-8
+--Nq2Wo0NMKNjxTN9z
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 22 November 2016 at 08:46,  <span dir=3D"ltr">&lt;<a href=3D"mailto:mari=
-ano.lopez@linux.intel.com" target=3D"_blank">mariano.lopez@linux.intel.com<=
-/a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:=
-0px 0px 0px 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);=
-border-left-style:solid;padding-left:1ex"><div id=3D"gmail-:2bj" class=3D"g=
-mail-a3s gmail-aXjCH gmail-m1588cfcb41b14d24">From: Mariano Lopez &lt;<a hr=
-ef=3D"mailto:mariano.lopez@linux.intel.com">mariano.lopez@linux.intel.com</=
-a><wbr>&gt;<br>
-<br>
-Signed-off-by: Mariano Lopez &lt;<a href=3D"mailto:mariano.lopez@linux.inte=
-l.com">mariano.lopez@linux.intel.com</a><wbr>&gt;</div></blockquote></div><=
-br><div class=3D"gmail_extra">ERROR: nfs-utils-1.3.4-r0 do_patch: Command E=
-rror: &#39;quilt --quiltrc /data/poky-master/tmp-glibc/sysroots/x86_64-linu=
-x/etc/quiltrc push&#39; exited with 0 =C2=A0Output:</div><div class=3D"gmai=
-l_extra">Applying patch fix-protocol-minor-version-fall-back.patch</div><di=
-v class=3D"gmail_extra">patching file utils/mount/stropts.c</div><div class=
-=3D"gmail_extra">Hunk #1 FAILED at 841.</div><div class=3D"gmail_extra">1 o=
-ut of 1 hunk FAILED -- rejects in file utils/mount/stropts.c</div><div clas=
-s=3D"gmail_extra">Patch fix-protocol-minor-version-fall-back.patch can be r=
-everse-applied</div><div class=3D"gmail_extra">ERROR: nfs-utils-1.3.4-r0 do=
-_patch: Function failed: patch_do_patch</div><div class=3D"gmail_extra">ERR=
-OR: Logfile of failure stored in: /data/poky-master/tmp-glibc/work/corei7-6=
-4-poky-linux/nfs-utils/1.3.4-r0/temp/log.do_patch.18084</div><div class=3D"=
-gmail_extra">ERROR: Task (/home/ross/Yocto/poky/meta/recipes-connectivity/n=
-fs-utils/nfs-utils_1.3.4.bb:do_patch) failed with exit code &#39;1&#39;</di=
-v><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">I really =
-wish I knew why some people quilt silently handles this and for others it t=
-hrows an error.</div><div class=3D"gmail_extra"><br></div><div class=3D"gma=
-il_extra">Ross</div></div></div>
+On Wed, Nov 23, 2016 at 01:00:12PM +0100, Ulf Magnusson wrote:
+> On Wed, Nov 23, 2016 at 12:34 PM, Robert P. J. Day
+> <rpjday@crashcourse.ca> wrote:
+> > On Wed, 23 Nov 2016, Burton, Ross wrote:
+> >
+> >>
+> >> On 23 November 2016 at 10:42, Robert P. J. Day <rpjday@crashcourse.ca>=
+ wrote:
+> >>         colleague has a pile of tarballs that were used to customize a=
+n x86
+> >>       centos system, wants to move all that to OE with as little fuss =
+as
+> >>       possible, i guess the simplest way is to just create recipes tha=
+t have
+> >>       the same tarball in the files/ directory, and write a trivial
+> >>       do_install() task that untars it into the root fs, yes?
+> >>
+> >>
+> >> Pretty much, yeah.
+> >>
+> >> If you've a large pile and they're all effectively the same then a
+> >> little class can automate it even more.
+> >
+> >   already going down that road, just wanted to make sure i hadn't
+> > overlooked something obvious.
+> >
+> > rday
+>=20
+> bin_package.bbclass might be useful as well, especially if the files
+> are already arranged like in the rootfs inside the tarballs.
 
---94eb2c12584819273c0541f92b25--
+If these files are overwriting files owned by some other packages, then
+you will loose that customization when the package is upgraded by
+package manager (unless those files are listed in CONFFILES). You need
+to use RREPLACES at least.
+
+> do_install() task that untars it into the root fs, yes?
+
+? do_install installs them to $D not root fs which doesn't even exist yet.
+
+You might also need to skip strip if there are also some binaries which are
+already stripped, skip ldflash qa check if they don't have matching hash
+type etc
+
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--Nq2Wo0NMKNjxTN9z
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iF0EARECAB0WIQRU+ejDffEzV2Je2oc3VSO3ZXaAHAUCWDWwNAAKCRA3VSO3ZXaA
+HItUAJ9H1Z2hQGEMV4Stqkl073xH6/kHygCfcL0Dy4cpZJpOqJfCLaxnL4he2EY=
+=NvQZ
+-----END PGP SIGNATURE-----
+
+--Nq2Wo0NMKNjxTN9z--
