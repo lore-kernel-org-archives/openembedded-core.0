@@ -1,54 +1,55 @@
 Return-Path: <kristian.amlie@mender.io>
-Received: from mail-qt0-f171.google.com (mail-qt0-f171.google.com
-	[209.85.216.171])
-	by mail.openembedded.org (Postfix) with ESMTP id 1B1CC70178
+Received: from mail-qt0-f178.google.com (mail-qt0-f178.google.com
+	[209.85.216.178])
+	by mail.openembedded.org (Postfix) with ESMTP id 2355A60750
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Nov 2016 09:01:47 +0000 (UTC)
-Received: by mail-qt0-f171.google.com with SMTP id c47so5454699qtc.2
+	Wed, 23 Nov 2016 09:04:31 +0000 (UTC)
+Received: by mail-qt0-f178.google.com with SMTP id n6so5518537qtd.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Nov 2016 01:01:49 -0800 (PST)
+	Wed, 23 Nov 2016 01:04:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=mender-io.20150623.gappssmtp.com; s=20150623;
 	h=subject:to:references:cc:from:message-id:date:user-agent
 	:mime-version:in-reply-to:content-transfer-encoding;
-	bh=BXp7hr5/MA3/v2ohfFXvQt52W0ypr1/VxVDnHzvJKII=;
-	b=fnyOgbnsKEZUT5qIS8eQq7irVtOuMiMIwUJC4kTxzxBeXGfNnXNVH/+4LhYVE6vJyp
-	PHGr0394wwEUQ/1G1Wb0vHwREvbZrAuz7WdDV4k0BE4zkPjjOIUHsY/VeM0lyThQwySq
-	x2ODpF1cbTjo0txthRrqgGO+4l4FjJZv4nGaZJUoOptJK6McOAqfACCe1gnBycJTapZW
-	bqhI3MpBIsBUq+yo7iqxEvYIZrNjHsogmdx4D1vY7TkJG3erwsKsDuAeH3M4SuegPsN/
-	uP/hae9pKX93WFaYgq5SNsWgLFdSs1e5BwB/Wfl/MMQbrjeLPXHBZwf+QFvHxktu2bS5
-	MoQg==
+	bh=C6AQ/zkF5R6WXYVxN1YgRrlFNt7TXksgCfj+Xu3gl1E=;
+	b=j9BlxAgyXsUqZP6MN91s0RMoPavlPNJONzsuk3J/jKb6watWImH1eFCo+mQCggp6WM
+	VJS1ag2+0XtI43/tndwicT3uWu5vgRIGi4/jxQleOOis3EhKvgKpI95P/YC0OmvF+Bgk
+	VBWn19z//fItt3nF25UggOHUf5l/7dkmiwDleN3kbHdEKHQeSIi1XK3VbF12+a1gii8w
+	kgeVPSBOj/75kIdLXw0/MEX8/WbFWuKdydjV0Iez9SdUqfhljCKQ0GY2njdj/FTgVoeV
+	pTil8deFalW5BzT9O7S1l0YT/6O27HA579jbZIP5qYBlgREIiVWkf9CZlmqoM/0xaPWP
+	MLWw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:subject:to:references:cc:from:message-id:date
 	:user-agent:mime-version:in-reply-to:content-transfer-encoding;
-	bh=BXp7hr5/MA3/v2ohfFXvQt52W0ypr1/VxVDnHzvJKII=;
-	b=i/EPJG+/3nlr/hNQq1Ws1ykTPRZrRX4pl89c4vBtiy3mZcytAoIY4awQJd+yLdYfvO
-	JeFFzURIpWlqz8M1q6NpSbRtv42se4WXTSmdFkLs9z+6pXWCRZpjb7xaWES2P0gjn1u9
-	CpHzrm7n42zaa5L/I/5il2zU4GI0AckV3JPYi1ZGB4SPMRQ6J/SZ9gfq2eE/TO0hWycI
-	J/c5E5STGoNQmjczhNCyQDQdYCxGf9CGuNwG3rOvmwOxla9o2TgySa1C0MmwxK6B9uSA
-	kvjhBuke4qmeDGhPKQ15bn0TiCTsZ1x5brlIDJY3yJtotn0AzsQZtbxUGRWKeDaDmH3t
-	gJig==
-X-Gm-Message-State: AKaTC00E4xBAjLL7ZuUmfkmYjHpM1v67wOZHHCovBUfT3KNEoQTlfMFXmb1mJ9WSvpVIZA==
-X-Received: by 10.25.206.3 with SMTP id e3mr558109lfg.42.1479891708724;
-	Wed, 23 Nov 2016 01:01:48 -0800 (PST)
+	bh=C6AQ/zkF5R6WXYVxN1YgRrlFNt7TXksgCfj+Xu3gl1E=;
+	b=JjQWZxTLTOgvajm62p+kHQG33Ejvb4FKJy0kOkwAV0tTx6OfQhQKXjqgF0/7Z4k27U
+	e37vIMZD9DsSzM4bUA7o2prqDW1eHrWz6aOjN73IaUQ8fLzLBh6zsqvX4qaCP/uizB3z
+	6qI1lsvBYnn8gYFqNbscc3LIdvVXUdsYJD57pm+vM7Kfm7/U2gbYNEyPzbcOV3YYNte7
+	ptjYWtZnzvIu7BH9eCTbQpExGIIrQJ5pC3wzH6jWYRmoFaPSe3c9MhOvLKu1AmxhJ76k
+	Fje3eTV9c6jHFGWSKnf5v0EO7E9HVxxSkoSaTgP2a05YKTGmazNu97emqPnkuGgZ3n+z
+	pH2w==
+X-Gm-Message-State: AKaTC01TL5b3mRRVKucXLhsBHRN96xqht78pGpWD6zuDPq8Uo1NFwdewDqo3F90KfGcX/g==
+X-Received: by 10.25.134.139 with SMTP id i133mr452619lfd.79.1479891872748;
+	Wed, 23 Nov 2016 01:04:32 -0800 (PST)
 Received: from [10.25.0.170] ([195.159.140.90])
 	by smtp.googlemail.com with ESMTPSA id
-	e37sm7004323lji.42.2016.11.23.01.01.47
+	18sm7039319ljj.7.2016.11.23.01.04.31
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 23 Nov 2016 01:01:47 -0800 (PST)
-To: Khem Raj <raj.khem@gmail.com>
+	Wed, 23 Nov 2016 01:04:31 -0800 (PST)
+To: Enrico Joerns <ejo@pengutronix.de>, Patrick Ohly
+	<patrick.ohly@intel.com>, Eduard Bartosh <eduard.bartosh@intel.com>
 References: <a90e8685-f087-5ee2-888b-aa537ebd94c4@mender.io>
-	<1d5954ab-1a9a-b73d-7f72-fbe84c8e2250@gmail.com>
-	<839768d8-710e-b4b0-88ad-1c5780f4c51d@mender.io>
-	<FDD8C344-D3E7-45B6-A463-2E4803B95572@gmail.com>
+	<1479813004.3239.19.camel@intel.com>
+	<6913e4bf-96dc-eefa-d214-9df5cde181b8@mender.io>
+	<776827b7-ca3e-e319-c2f0-b8b15bef4fb2@pengutronix.de>
 From: Kristian Amlie <kristian.amlie@mender.io>
-Message-ID: <3f864d97-817c-bef3-242d-64a68000f7dc@mender.io>
-Date: Wed, 23 Nov 2016 10:01:46 +0100
+Message-ID: <15d3387f-3f73-fb6a-3e9a-0c68abb3739a@mender.io>
+Date: Wed, 23 Nov 2016 10:04:31 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
 	Thunderbird/45.4.0
 MIME-Version: 1.0
-In-Reply-To: <FDD8C344-D3E7-45B6-A463-2E4803B95572@gmail.com>
+In-Reply-To: <776827b7-ca3e-e319-c2f0-b8b15bef4fb2@pengutronix.de>
 Cc: openembedded-core@lists.openembedded.org
 Subject: Re: Contents of non-rootfs partitions
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -63,41 +64,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 23 Nov 2016 09:01:48 -0000
+X-List-Received-Date: Wed, 23 Nov 2016 09:04:34 -0000
 Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 
-On 23/11/16 08:26, Khem Raj wrote:
-> 
->> On Nov 22, 2016, at 11:13 PM, Kristian Amlie <kristian.amlie@mender.io> wrote:
+On 23/11/16 09:40, Enrico Joerns wrote:
+> On 11/22/2016 12:54 PM, Kristian Amlie wrote:
+>> On 22/11/16 12:10, Patrick Ohly wrote:
+>>>> ...
+>>>
+>>> All of these introduce some special mechanism. Let me propose something
+>>> that might integrate better with the existing tooling:
+>>>
+>>> The "rootfs" directory gets redefined as representing the entire virtual
+>>> file system. When creating a disk image, it gets split up into different
+>>> partitions based on the image configuration.
+>>>
+>>> For example, the /home or /data directories in the rootfs could hold the
+>>> content that in some image configurations goes into separate partitions.
+>>>
+>>> The advantage of this approach is that the tooling for staging content
+>>> for image creation does not need to be changed. The same staged content
+>>> then can be used to create different images, potentially even using
+>>> different partition layouts.
 >>
->> On 23/11/16 00:45, Khem Raj wrote:
->>> Firstly, it needs to be defined what the data partition is about.
->>> 1. is it some pre-initialized/seeded data that can then be modified during
->>> subsequent boots ?
->>> 2. Is it read-only data which is then used to populate r/w data segments in
->>> RAM during boot
->>> 3. is it data that does not change over the course of install and reboots of
->>> the device
->>
->> It's preseeded, but modifiable data, that survives complete rootfs
->> updates. IOW if you overwrite either of your A/B rootfs partitions, the
->> data partition and its content survives.
+>> That's a very good idea. I think it beats all of my suggestions!
 > 
-> at some point this data segment will be seeded.
-> think of factory case. 
+> I totally agree with this solution, because it is the same approach we
+> are already using for several years.
 
-The creation of the initial partitioned image for the memory card
-preseeds the data partition. This is meant to be used in initial factory
-flashing (by which I mean literally "at the factory", not the factory
-reset button). Subsequent rootfs updates would not touch the data partition.
+Good! Sounds like there are several votes in favor of this proposal then.
 
-> So in such a case updates should not touch them unless user does a factory reset
-> which should clean it up
+> Instead of wic we are using the genimage tool
+> (http://public.pengutronix.de/software/genimage/) together with a Yocto
+> class for easing image creation, but its pretty much the same concerning
+> its base purpose.
+> 
+> We called the option to split up 'mountpoint' while assuming that the
+> splitted partition will be mounted to the same location in the file
+> system it was taken from.
+> 
+> An example configuration would look like this (stripped down to the
+> essential parts):
+> 
+>   image my-disk-image {
+>           [...]
+>           partition root {
+>                   image = "rootfs.ext4"
+>                   [...]
+>           }
+> 
+>           partition home {
+>                   image = "home.ext4"
+>                   [...]
+>           }
+>   }
+> 
+>   image rootfs.ext4 {
+>           [...]
+>           mountpoint = "/"
+>   }
+> 
+>   image home.ext4 {
+>           [...]
+>           mountpoint = "/home"
+>   }
+> 
+> Maybe a similar approach could be used in wic, too.
 
-Factory reset is not covered in my suggestion. While also important, I
-consider this a separate feature, which would require cooperation by the
-running OS. I hope it's acceptable to keep this out of the first patchset?
+Yes, this looks very similar "in spirit" to what I'm thinking of right now.
 
 -- 
 Kristian
