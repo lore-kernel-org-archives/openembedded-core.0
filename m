@@ -1,24 +1,20 @@
 Return-Path: <alejandro.hernandez@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 4A6AA71B17
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 54E337199E
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Nov 2016 23:08:40 +0000 (UTC)
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-	by orsmga102.jf.intel.com with ESMTP; 23 Nov 2016 15:08:41 -0800
+	Wed, 23 Nov 2016 23:09:56 +0000 (UTC)
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+	by fmsmga103.fm.intel.com with ESMTP; 23 Nov 2016 15:09:58 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.31,540,1473145200"; d="scan'208";a="34905242"
+X-IronPort-AV: E=Sophos;i="5.31,540,1473145200"; d="scan'208";a="33911159"
 Received: from unknown (HELO aehernan-MOBL1.zpn.intel.com) ([10.219.18.92])
-	by orsmga005.jf.intel.com with ESMTP; 23 Nov 2016 15:08:40 -0800
+	by orsmga004.jf.intel.com with ESMTP; 23 Nov 2016 15:09:57 -0800
 From: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 23 Nov 2016 17:08:39 -0600
-Message-Id: <771a469670822242eb6029a523b1c120699c4860.1479942307.git.alejandro.hernandez@linux.intel.com>
+Date: Wed, 23 Nov 2016 17:09:57 -0600
+Message-Id: <20161123230957.28159-1-alejandro.hernandez@linux.intel.com>
 X-Mailer: git-send-email 2.10.1
-In-Reply-To: <96af72889ea11f0cd68962a045cdd8378edf96ec.1479942307.git.alejandro.hernandez@linux.intel.com>
-References: <96af72889ea11f0cd68962a045cdd8378edf96ec.1479942307.git.alejandro.hernandez@linux.intel.com>
-In-Reply-To: <cover.1479942307.git.alejandro.hernandez@linux.intel.com>
-References: <cover.1479942307.git.alejandro.hernandez@linux.intel.com>
-Subject: [PATCH 2/2] Remove old gummiboot recipe, class and wks file
+Subject: [PATCH v2] systemd-boot: Remove old gummiboot recipe, class and wks file
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,7 +27,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 23 Nov 2016 23:08:40 -0000
+X-List-Received-Date: Wed, 23 Nov 2016 23:09:57 -0000
 
 Since the gummiboot project is no longer being maintained
 and we are using systemd-boot as a replacement instead,
