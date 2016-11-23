@@ -1,34 +1,46 @@
-Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
-	by mail.openembedded.org (Postfix) with ESMTP id A0FC571A71
+Return-Path: <michael.g.wood@intel.com>
+Received: from mail-wm0-f47.google.com (mail-wm0-f47.google.com [74.125.82.47])
+	by mail.openembedded.org (Postfix) with ESMTP id 5468D71975
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Nov 2016 12:08:22 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by orsmga104.jf.intel.com with ESMTP; 23 Nov 2016 04:08:22 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.31,538,1473145200"; d="scan'208";a="904712626"
-Received: from linux.intel.com ([10.54.29.200])
-	by orsmga003.jf.intel.com with ESMTP; 23 Nov 2016 04:08:24 -0800
-Received: from linux.intel.com (vmed.fi.intel.com [10.237.72.38])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by linux.intel.com (Postfix) with ESMTP id A2B8E6A4082;
-	Wed, 23 Nov 2016 04:07:41 -0800 (PST)
-Date: Wed, 23 Nov 2016 14:08:16 +0200
-From: Ed Bartosh <ed.bartosh@linux.intel.com>
-To: Kristian Amlie <kristian.amlie@mender.io>
-Message-ID: <20161123120816.GC12545@linux.intel.com>
-Reply-To: ed.bartosh@linux.intel.com
-References: <a90e8685-f087-5ee2-888b-aa537ebd94c4@mender.io>
-	<1479813004.3239.19.camel@intel.com>
-	<6913e4bf-96dc-eefa-d214-9df5cde181b8@mender.io>
-MIME-Version: 1.0
-In-Reply-To: <6913e4bf-96dc-eefa-d214-9df5cde181b8@mender.io>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: Eduard Bartosh <eduard.bartosh@intel.com>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: Contents of non-rootfs partitions
+	Wed, 23 Nov 2016 12:24:44 +0000 (UTC)
+Received: by mail-wm0-f47.google.com with SMTP id a197so75582330wmd.0
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 23 Nov 2016 04:24:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:cc:subject:date:message-id;
+	bh=qOzxX7BK2HbIR8iGjk3LQsywOp/opk0ikaVxQxIiUAk=;
+	b=mHgASq0godI01iSRpMgqiCrMgNYrPXBM2OHsRonrh0CptOfhi1kU5IhnkygvOUciXv
+	Ssjl1XPJvumjFfosyDLEI2ZpsHWbrp78k2UPH5NcNdDs1BmAHfHyZ4j0YcKvxwlt91vh
+	XB3ucfMHRXyPPqPGhnLbBcsjcHdTwkP6AW1L9EERpJg6lGKZazlYyv/FUqt7vouB4IOZ
+	j/PNpoRM03Xs/5iX/1R879tznWtp9KHYa9b96WzKVknTnQbV4JrMPG2QYBCNDRrPfpdR
+	NQ54n2QKC9tV5jS3OsBd4k3hSRtwM2J8j9p8oJOrstVf/JmZy/97ZbBx3xWGwG/iAkZn
+	3Vrg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=qOzxX7BK2HbIR8iGjk3LQsywOp/opk0ikaVxQxIiUAk=;
+	b=mWLsnRFG9yYHfZMRVdzG4TV3Lq+Mb/LExcnB0spGHGWBlfeL7FQtGqFrGdCIg30D6D
+	jFJyNDywa3zkhPMNBsvfIJuNpFJMTGWJble44pIjd8SIZvQhdlV0QmeVpzYqUcyNQsqF
+	ECs9+k4c1tKoabujwKjsRys7U08OAS+pgw3/w65JGRPL9o7Nc8s2mQP8uw4VAqXl+nWE
+	3FI+BCCbLnS5iNGS+bi8jh4MSZG+BlDeovasH0ghQ57jJYVZ/SavNl5N8Vt8HSF5RpBe
+	2yW/2EwEPHZCPleanphhdvnY/iH0qhf2cQZdbzovnxt3YXBa6xaGJTLyJtHN/dkwgSzf
+	f4Gg==
+X-Gm-Message-State: AKaTC00O+KfJKQYTK3vtpLJPROH1OUKCr+TVHqKrfKkffCSdJKTNq23JKR8NOW1OeVQ5YK9X
+X-Received: by 10.28.228.5 with SMTP id b5mr2926713wmh.129.1479903885735;
+	Wed, 23 Nov 2016 04:24:45 -0800 (PST)
+Received: from orion.home (host31-54-69-88.range31-54.btcentralplus.com.
+	[31.54.69.88]) by smtp.gmail.com with ESMTPSA id
+	cl10sm36194076wjb.4.2016.11.23.04.24.44
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 23 Nov 2016 04:24:45 -0800 (PST)
+From: Michael Wood <michael.g.wood@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 23 Nov 2016 12:24:35 +0000
+Message-Id: <1479903876-7268-1-git-send-email-michael.g.wood@intel.com>
+X-Mailer: git-send-email 2.7.4
+Cc: toaster@yoctoproject.org
+Subject: [PATCH 1/2] conf: Remove redundant toasterconf.json file
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,62 +53,101 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 23 Nov 2016 12:08:24 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Wed, 23 Nov 2016 12:24:45 -0000
 
-On Tue, Nov 22, 2016 at 12:54:52PM +0100, Kristian Amlie wrote:
-> On 22/11/16 12:10, Patrick Ohly wrote:
-> >> ...
-> > 
-> > All of these introduce some special mechanism. Let me propose something
-> > that might integrate better with the existing tooling:
-> > 
-> > The "rootfs" directory gets redefined as representing the entire virtual
-> > file system. When creating a disk image, it gets split up into different
-> > partitions based on the image configuration.
-> > 
-> > For example, the /home or /data directories in the rootfs could hold the
-> > content that in some image configurations goes into separate partitions.
-> > 
-> > The advantage of this approach is that the tooling for staging content
-> > for image creation does not need to be changed. The same staged content
-> > then can be used to create different images, potentially even using
-> > different partition layouts.
-> 
-> That's a very good idea. I think it beats all of my suggestions!
-> 
-> > To implement this approach with wic, wic needs to be taught how to
-> > exclude directories from the main rootfs. Ideally, the mkfs.* tools
-> > should also support that without having to make an intermediate copy of
-> > the files for a certain partition, but initially wic could create
-> > temporary directory trees.
-> 
-> Yes, some work would be needed here, but ultimately it would be contained within wic and related tools, which is a good thing.
->
+We no longer use this file to start toaster. Toaster's configuration is
+setup by Toaster itself using the standard Django data fixtures.
 
-I support the idea. Let's discuss the details of implementation and
-create a bug in bugzilla to track the development 
+Signed-off-by: Michael Wood <michael.g.wood@intel.com>
+---
+ meta/conf/toasterconf.json | 77 ----------------------------------------------
+ 1 file changed, 77 deletions(-)
+ delete mode 100644 meta/conf/toasterconf.json
 
-This can be done by extending existing rootfs plugin. It should be able
-to do 2 things:
+diff --git a/meta/conf/toasterconf.json b/meta/conf/toasterconf.json
+deleted file mode 100644
+index 796125b..0000000
+--- a/meta/conf/toasterconf.json
++++ /dev/null
+@@ -1,77 +0,0 @@
+-{
+-    "config": {
+-        "MACHINE"      : "qemux86",
+-        "DISTRO"       : "nodistro",
+-        "DL_DIR"       : "${TOPDIR}/../downloads",
+-        "IMAGE_FSTYPES": "ext4 jffs2 tar.bz2",
+-        "IMAGE_INSTALL_append": "",
+-        "PACKAGE_CLASSES": "package_rpm",
+-        "SSTATE_DIR"   : "${TOPDIR}/../sstate-cache"
+-    },
+-    "layersources": [
+-        {
+-            "name": "Local OpenEmbedded",
+-            "sourcetype": "local",
+-            "apiurl": "../../",
+-            "branches": ["HEAD", "master"],
+-            "layers": [
+-                {
+-                    "name": "openembedded-core",
+-                    "local_path": "meta",
+-                    "vcs_url": "remote:origin",
+-                    "dirpath": "meta"
+-                }
+-            ]
+-        },
+-        {
+-            "name": "OpenEmbedded",
+-            "sourcetype": "layerindex",
+-            "apiurl": "http://layers.openembedded.org/layerindex/api/",
+-            "branches": ["master"]
+-        },
+-        {
+-            "name": "Imported layers",
+-            "sourcetype": "imported",
+-            "apiurl": "",
+-            "branches": ["master", "HEAD"]
+-
+-        }
+-    ],
+-    "bitbake" : [
+-        {
+-            "name": "master",
+-            "giturl": "git://git.openembedded.org/bitbake",
+-            "branch": "master",
+-            "dirpath": ""
+-        },
+-        {
+-            "name": "HEAD",
+-            "giturl": "git://git.openembedded.org/bitbake",
+-            "branch": "HEAD",
+-            "dirpath": ""
+-        }
+-    ],
+-
+-    "defaultrelease": "master",
+-
+-    "releases": [
+-        {
+-            "name": "master",
+-            "description": "OpenEmbedded master",
+-            "bitbake": "master",
+-            "branch": "master",
+-            "defaultlayers": [ "openembedded-core" ],
+-            "layersourcepriority": { "Imported layers": 99, "Local OpenEmbedded" : 10, "OpenEmbedded" :  0 },
+-            "helptext": "Toaster will run your builds using the tip of the <a href=\"http://cgit.openembedded.org/openembedded-core/log/\">OpenEmbedded master</a> branch, where active development takes place. This is not a stable branch, so your builds might not work as expected."
+-        },
+-        {
+-            "name": "local",
+-            "description": "Local OpenEmbedded",
+-            "bitbake": "HEAD",
+-            "branch": "HEAD",
+-            "defaultlayers": [ "openembedded-core" ],
+-            "layersourcepriority": { "Imported layers": 99, "Local OpenEmbedded" : 10, "OpenEmbedded" :  0 },
+-            "helptext": "Toaster will run your builds with the version of OpenEmbedded that you have cloned or downloaded to your computer."
+-        }
+-    ]
+-}
+-- 
+2.7.4
 
-- populate content of one rootfs directory to the partition. We can
-  extend syntax of --rootfs-dir parameter to specify optional directory path to use
-
-- exclude rootfs directories when populating partitions. I'd propose to
-  introduce --exclude-dirs wks parser option to handle this.
-
-Example of wks file with proposed new options:
-part /     --source rootfs --rootfs-dir=core-image-minimal       --ondisk sda --fstype=ext4 --label root --align 1024 --exclude-dirs data --exclude-dirs home
-part /data --source rootfs --rootfs-dir=core-image-minimal:/home --ondisk sda --fstype=ext4 --label data --align 1024
-part /home --source rootfs --rootfs-dir=core-image-minimal:/data --ondisk sda --fstype=ext4 --label data --align 1024
-
-Does this make sense?
-
-Any other ideas?
-
---
-Regards,
-Ed
 
