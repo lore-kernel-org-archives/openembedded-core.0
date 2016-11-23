@@ -1,45 +1,52 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wm0-f66.google.com (mail-wm0-f66.google.com [74.125.82.66])
-	by mail.openembedded.org (Postfix) with ESMTP id CA96871A6E;
-	Wed, 23 Nov 2016 15:12:34 +0000 (UTC)
-Received: by mail-wm0-f66.google.com with SMTP id u144so2281976wmu.0;
-	Wed, 23 Nov 2016 07:12:36 -0800 (PST)
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pg0-f68.google.com (mail-pg0-f68.google.com [74.125.83.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 724CD719DB
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 23 Nov 2016 15:32:02 +0000 (UTC)
+Received: by mail-pg0-f68.google.com with SMTP id 3so1323537pgd.0
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 23 Nov 2016 07:32:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:date:to:subject:message-id:mime-version:content-disposition
-	:user-agent; bh=ivSSovXAATxy6qupKhN0KjBDSQeALsVbbcgP+hf5nC0=;
-	b=cDLkDVXEv8JHhNYJzkv+WN24PS627BKkSR9fKRRZDEgbWIRHAG8kd0wDaNH+XH51UR
-	/736DoqjGPcL/zYYDKeBrGQO/1DvSD6yqfJG6M2GPg90FLuAWOa73q0biu1dL/rwO9iS
-	KfXjWNU+8cruyyUjJc1V+wQdbU9/j+OS+t1tPMMTX/uqje3hvG/886jUl1tWByYw/7hT
-	hGd4ZCKACFjhoRQFpswnViGqTEAPzFeMGxWH8TslEIAky4gwzeu99IaxQN+YsE9AYFLR
-	btETDKK9RpUguLpOcrv5OQgrmwA1YZbZum19YF2ggr5TBP+0J5CK6q13UYvcjmC+s1Tx
-	c1Eg==
+	h=subject:to:references:from:message-id:date:user-agent:mime-version
+	:in-reply-to:content-transfer-encoding;
+	bh=82C4ImOKPb6fvllX0aht8WV46yz7ZSb2l7AkjolaQPk=;
+	b=n2MmxJ+IhQ/+eUgk/e6xERr4YPcSJL541aKOflEBkD1tay7uxMbhGLjA1si6eYgGdp
+	L+ooeaBaNPopW+80kb9/tDtglTJ4gYYP/kixcvn5IXptCIq2CdLiwX44myU26q/HtIxC
+	jyFTMnDMSjMh/de2Gw9gYwW5gEXxRWTdHE3AIl0/qduqrNEV3uawoGDf6CRt22ZFCiXB
+	0Vn7HtWIc9rrhMrjdBMzbKTpHvysEtElya7ZGkgoITokPQjdHHdkuhmyU7IKlVfXW+uf
+	wXPUtQBYfJwCO54csdfloUfYJ9Qeg9Iz13IRePN62mpmYso9HKAFUVyr2sFddHArs30U
+	h9sg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:date:to:subject:message-id:mime-version
-	:content-disposition:user-agent;
-	bh=ivSSovXAATxy6qupKhN0KjBDSQeALsVbbcgP+hf5nC0=;
-	b=fe/PF3Sj+dXpOVNyLOZyOE7Hg9nNSo1lFF8jxPiiJyfKlAvwqxrq8hHyDaUdutQT3T
-	/xa1vvj+mi9T0ImuPgZCZHXcnCGFPAiaHIgwn3dOSqUTYXXQcUX5AAOngjxC30qNYurS
-	Ite0XmYauVdR1luAXrT+i/U+zrmxVVarS23glXajcC810Kdj663R3yBG/6hXdzVo7eBc
-	HpkJeA3i7psUJmHb0P0OwOfj5viI/DgLrXBgljy82inXCxainDxrZ2bq4w8itfbnXttj
-	Z/xiYyE/o2umd1fZJvCXvWzcEJ2bIqzgXvwYXmvFltvJeLQwUneFc1Nh4m89zJgJeOnt
-	0FYQ==
-X-Gm-Message-State: AKaTC03pPQ3vSKMqcAampAbS8B2gk8y7r8CODlrENLgQX+uNEA/rQ82DcNpDBms9oKxO7g==
-X-Received: by 10.28.62.77 with SMTP id l74mr7544672wma.37.1479913954938;
-	Wed, 23 Nov 2016 07:12:34 -0800 (PST)
-Received: from localhost ([217.30.68.212]) by smtp.gmail.com with ESMTPSA id
-	kq7sm36789267wjb.30.2016.11.23.07.12.34
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Wed, 23 Nov 2016 07:12:34 -0800 (PST)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Wed, 23 Nov 2016 16:12:35 +0100
-To: openembedded-core@lists.openembedded.org,
-	openembedded-devel@lists.openembedded.org
-Message-ID: <20161123151235.GB3265@jama>
+	h=x-gm-message-state:subject:to:references:from:message-id:date
+	:user-agent:mime-version:in-reply-to:content-transfer-encoding;
+	bh=82C4ImOKPb6fvllX0aht8WV46yz7ZSb2l7AkjolaQPk=;
+	b=GHVf/+oEi++Uh0EJIepFJlgBHxKwIrOCi3G/Jzp8I/ETmzRKwAFUGZ5dACTOBiNWn9
+	R8CqofXBLwj8TInBCU4T6VzAZDya6QqcGh7djr9hZZqOeWfH9W45X09PNh8W4CpbepjI
+	VwvRrWmM2bVM6lz0QCb5oCOIaUnNW4G1X4TBJ69ysqccxVrkuMqfwnNFMcseWhWV7Osg
+	+Zup3OXoHnXZyirpPQqjXe+CT8n6cArwDf18KxBMAdr68eYfHfmVUA/X7R1Kel7H+9PY
+	9gLSG7DLesFnGW6Eh+gEAkC+mV357c+DW28p2hKjcz4l3zo6NRjQwoeNh5Trg15gClpI
+	rGHQ==
+X-Gm-Message-State: AKaTC01E9TsJa3UjKa+swNrpDhJgpSBUvurZWin0wpyX0Zorlrg87ODhVHa+6DpcavTq6A==
+X-Received: by 10.98.4.134 with SMTP id 128mr3407082pfe.156.1479915122045;
+	Wed, 23 Nov 2016 07:32:02 -0800 (PST)
+Received: from ?IPv6:2601:202:4001:9ea0:ea2a:eaff:fe0e:629e?
+	([2601:202:4001:9ea0:ea2a:eaff:fe0e:629e])
+	by smtp.gmail.com with ESMTPSA id
+	o29sm17357653pgn.28.2016.11.23.07.32.01
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 23 Nov 2016 07:32:01 -0800 (PST)
+To: openembedded-core@lists.openembedded.org
+References: <1479792499-19369-1-git-send-email-akuster@mvista.com>
+From: akuster808 <akuster808@gmail.com>
+Message-ID: <61bcea65-f891-2914-27a4-e788fc517cde@gmail.com>
+Date: Wed, 23 Nov 2016 07:32:00 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.4.0
 MIME-Version: 1.0
-User-Agent: Mutt/1.7.1 (2016-10-04)
-Subject: State of bitbake world 2016-11-22
+In-Reply-To: <1479792499-19369-1-git-send-email-akuster@mvista.com>
+Subject: Re: [Master][PATCH] libtiff: Update to 4.0.7
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,687 +59,1256 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 23 Nov 2016 15:12:35 -0000
-X-Groupsio-MsgNum: 89762
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="DKU6Jbt7q3WqK7+M"
-Content-Disposition: inline
+X-List-Received-Date: Wed, 23 Nov 2016 15:32:02 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
+
+The never made into patchwork. is there a bug there ? is there an issue 
+on how I submitted?
+
+- armin
+
+
+On 11/21/2016 09:28 PM, Armin Kuster wrote:
+> Major changes:
+> The libtiff tools bmp2tiff, gif2tiff, ras2tiff, sgi2tiff, sgisv, and ycbcr are completely removed from the distribution, used for demos.
+>
+> CVEs fixed:
+> CVE-2016-9297
+> CVE-2016-9448
+> CVE-2016-9273
+> CVE-2014-8127
+> CVE-2016-3658
+> CVE-2016-5875
+> CVE-2016-5652
+> CVE-2016-3632
+>
+> plus more that are not identified in the changelog.
+>
+> removed patches integrated into update.
+> more info: http://libtiff.maptools.org/v4.0.7.html
+>
+> Signed-off-by: Armin Kuster <akuster@mvista.com>
+> ---
+>   .../libtiff/files/CVE-2015-8665_8683.patch         | 137 ---------------
+>   .../libtiff/files/CVE-2015-8781.patch              | 195 ---------------------
+>   .../libtiff/files/CVE-2015-8784.patch              |  73 --------
+>   .../libtiff/files/CVE-2016-3186.patch              |  24 ---
+>   .../libtiff/files/CVE-2016-3622.patch              | 129 --------------
+>   .../libtiff/files/CVE-2016-3623.patch              |  52 ------
+>   .../libtiff/files/CVE-2016-3945.patch              | 118 -------------
+>   .../libtiff/files/CVE-2016-3990.patch              |  66 -------
+>   .../libtiff/files/CVE-2016-3991.patch              | 147 ----------------
+>   .../libtiff/files/CVE-2016-5321.patch              |  49 ------
+>   .../libtiff/files/CVE-2016-5323.patch              | 107 -----------
+>   .../libtiff/{tiff_4.0.6.bb => tiff_4.0.7.bb}       |  15 +-
+>   12 files changed, 2 insertions(+), 1110 deletions(-)
+>   delete mode 100644 meta/recipes-multimedia/libtiff/files/CVE-2015-8665_8683.patch
+>   delete mode 100644 meta/recipes-multimedia/libtiff/files/CVE-2015-8781.patch
+>   delete mode 100644 meta/recipes-multimedia/libtiff/files/CVE-2015-8784.patch
+>   delete mode 100644 meta/recipes-multimedia/libtiff/files/CVE-2016-3186.patch
+>   delete mode 100644 meta/recipes-multimedia/libtiff/files/CVE-2016-3622.patch
+>   delete mode 100644 meta/recipes-multimedia/libtiff/files/CVE-2016-3623.patch
+>   delete mode 100644 meta/recipes-multimedia/libtiff/files/CVE-2016-3945.patch
+>   delete mode 100644 meta/recipes-multimedia/libtiff/files/CVE-2016-3990.patch
+>   delete mode 100644 meta/recipes-multimedia/libtiff/files/CVE-2016-3991.patch
+>   delete mode 100644 meta/recipes-multimedia/libtiff/files/CVE-2016-5321.patch
+>   delete mode 100644 meta/recipes-multimedia/libtiff/files/CVE-2016-5323.patch
+>   rename meta/recipes-multimedia/libtiff/{tiff_4.0.6.bb => tiff_4.0.7.bb} (74%)
+>
+> diff --git a/meta/recipes-multimedia/libtiff/files/CVE-2015-8665_8683.patch b/meta/recipes-multimedia/libtiff/files/CVE-2015-8665_8683.patch
+> deleted file mode 100644
+> index 39c5059..0000000
+> --- a/meta/recipes-multimedia/libtiff/files/CVE-2015-8665_8683.patch
+> +++ /dev/null
+> @@ -1,137 +0,0 @@
+> -From f94a29a822f5528d2334592760fbb7938f15eb55 Mon Sep 17 00:00:00 2001
+> -From: erouault <erouault>
+> -Date: Sat, 26 Dec 2015 17:32:03 +0000
+> -Subject: [PATCH] * libtiff/tif_getimage.c: fix out-of-bound reads in
+> - TIFFRGBAImage interface in case of unsupported values of
+> - SamplesPerPixel/ExtraSamples for LogLUV / CIELab. Add explicit call to
+> - TIFFRGBAImageOK() in TIFFRGBAImageBegin(). Fix CVE-2015-8665 reported by
+> - limingxing and CVE-2015-8683 reported by zzf of Alibaba.
+> -
+> -Upstream-Status: Backport
+> -CVE: CVE-2015-8665
+> -CVE: CVE-2015-8683
+> -https://github.com/vadz/libtiff/commit/f94a29a822f5528d2334592760fbb7938f15eb55
+> -
+> -Signed-off-by: Armin Kuster <akuster@mvista.com>
+> -
+> ----
+> - ChangeLog              |  8 ++++++++
+> - libtiff/tif_getimage.c | 35 ++++++++++++++++++++++-------------
+> - 2 files changed, 30 insertions(+), 13 deletions(-)
+> -
+> -Index: tiff-4.0.6/libtiff/tif_getimage.c
+> -===================================================================
+> ---- tiff-4.0.6.orig/libtiff/tif_getimage.c
+> -+++ tiff-4.0.6/libtiff/tif_getimage.c
+> -@@ -182,20 +182,22 @@ TIFFRGBAImageOK(TIFF* tif, char emsg[102
+> - 				    "Planarconfiguration", td->td_planarconfig);
+> - 				return (0);
+> - 			}
+> --			if( td->td_samplesperpixel != 3 )
+> -+			if( td->td_samplesperpixel != 3 || colorchannels != 3 )
+> -             {
+> -                 sprintf(emsg,
+> --                        "Sorry, can not handle image with %s=%d",
+> --                        "Samples/pixel", td->td_samplesperpixel);
+> -+                        "Sorry, can not handle image with %s=%d, %s=%d",
+> -+                        "Samples/pixel", td->td_samplesperpixel,
+> -+                        "colorchannels", colorchannels);
+> -                 return 0;
+> -             }
+> - 			break;
+> - 		case PHOTOMETRIC_CIELAB:
+> --            if( td->td_samplesperpixel != 3 || td->td_bitspersample != 8 )
+> -+            if( td->td_samplesperpixel != 3 || colorchannels != 3 || td->td_bitspersample != 8 )
+> -             {
+> -                 sprintf(emsg,
+> --                        "Sorry, can not handle image with %s=%d and %s=%d",
+> -+                        "Sorry, can not handle image with %s=%d, %s=%d and %s=%d",
+> -                         "Samples/pixel", td->td_samplesperpixel,
+> -+                        "colorchannels", colorchannels,
+> -                         "Bits/sample", td->td_bitspersample);
+> -                 return 0;
+> -             }
+> -@@ -255,6 +257,9 @@ TIFFRGBAImageBegin(TIFFRGBAImage* img, T
+> - 	int colorchannels;
+> - 	uint16 *red_orig, *green_orig, *blue_orig;
+> - 	int n_color;
+> -+	
+> -+	if( !TIFFRGBAImageOK(tif, emsg) )
+> -+		return 0;
+> -
+> - 	/* Initialize to normal values */
+> - 	img->row_offset = 0;
+> -@@ -2508,29 +2513,33 @@ PickContigCase(TIFFRGBAImage* img)
+> - 		case PHOTOMETRIC_RGB:
+> - 			switch (img->bitspersample) {
+> - 				case 8:
+> --					if (img->alpha == EXTRASAMPLE_ASSOCALPHA)
+> -+					if (img->alpha == EXTRASAMPLE_ASSOCALPHA &&
+> -+						img->samplesperpixel >= 4)
+> - 						img->put.contig = putRGBAAcontig8bittile;
+> --					else if (img->alpha == EXTRASAMPLE_UNASSALPHA)
+> -+					else if (img->alpha == EXTRASAMPLE_UNASSALPHA &&
+> -+							 img->samplesperpixel >= 4)
+> - 					{
+> - 						if (BuildMapUaToAa(img))
+> - 							img->put.contig = putRGBUAcontig8bittile;
+> - 					}
+> --					else
+> -+					else if( img->samplesperpixel >= 3 )
+> - 						img->put.contig = putRGBcontig8bittile;
+> - 					break;
+> - 				case 16:
+> --					if (img->alpha == EXTRASAMPLE_ASSOCALPHA)
+> -+					if (img->alpha == EXTRASAMPLE_ASSOCALPHA &&
+> -+						img->samplesperpixel >=4 )
+> - 					{
+> - 						if (BuildMapBitdepth16To8(img))
+> - 							img->put.contig = putRGBAAcontig16bittile;
+> - 					}
+> --					else if (img->alpha == EXTRASAMPLE_UNASSALPHA)
+> -+					else if (img->alpha == EXTRASAMPLE_UNASSALPHA &&
+> -+							 img->samplesperpixel >=4 )
+> - 					{
+> - 						if (BuildMapBitdepth16To8(img) &&
+> - 						    BuildMapUaToAa(img))
+> - 							img->put.contig = putRGBUAcontig16bittile;
+> - 					}
+> --					else
+> -+					else if( img->samplesperpixel >=3 )
+> - 					{
+> - 						if (BuildMapBitdepth16To8(img))
+> - 							img->put.contig = putRGBcontig16bittile;
+> -@@ -2539,7 +2548,7 @@ PickContigCase(TIFFRGBAImage* img)
+> - 			}
+> - 			break;
+> - 		case PHOTOMETRIC_SEPARATED:
+> --			if (buildMap(img)) {
+> -+			if (img->samplesperpixel >=4 && buildMap(img)) {
+> - 				if (img->bitspersample == 8) {
+> - 					if (!img->Map)
+> - 						img->put.contig = putRGBcontig8bitCMYKtile;
+> -@@ -2635,7 +2644,7 @@ PickContigCase(TIFFRGBAImage* img)
+> - 			}
+> - 			break;
+> - 		case PHOTOMETRIC_CIELAB:
+> --			if (buildMap(img)) {
+> -+			if (img->samplesperpixel == 3 && buildMap(img)) {
+> - 				if (img->bitspersample == 8)
+> - 					img->put.contig = initCIELabConversion(img);
+> - 				break;
+> -Index: tiff-4.0.6/ChangeLog
+> -===================================================================
+> ---- tiff-4.0.6.orig/ChangeLog
+> -+++ tiff-4.0.6/ChangeLog
+> -@@ -1,3 +1,11 @@
+> -+2015-12-26  Even Rouault <even.rouault at spatialys.com>
+> -+
+> -+   * libtiff/tif_getimage.c: fix out-of-bound reads in TIFFRGBAImage
+> -+   interface in case of unsupported values of SamplesPerPixel/ExtraSamples
+> -+   for LogLUV / CIELab. Add explicit call to TIFFRGBAImageOK() in
+> -+   TIFFRGBAImageBegin(). Fix CVE-2015-8665 reported by limingxing and
+> -+   CVE-2015-8683 reported by zzf of Alibaba.
+> -+
+> - 2015-09-12  Bob Friesenhahn  <bfriesen@simple.dallas.tx.us>
+> -
+> - 	* libtiff 4.0.6 released.
+> diff --git a/meta/recipes-multimedia/libtiff/files/CVE-2015-8781.patch b/meta/recipes-multimedia/libtiff/files/CVE-2015-8781.patch
+> deleted file mode 100644
+> index 0846f0f..0000000
+> --- a/meta/recipes-multimedia/libtiff/files/CVE-2015-8781.patch
+> +++ /dev/null
+> @@ -1,195 +0,0 @@
+> -From aaab5c3c9d2a2c6984f23ccbc79702610439bc65 Mon Sep 17 00:00:00 2001
+> -From: erouault <erouault>
+> -Date: Sun, 27 Dec 2015 16:25:11 +0000
+> -Subject: [PATCH] * libtiff/tif_luv.c: fix potential out-of-bound writes in
+> - decode functions in non debug builds by replacing assert()s by regular if
+> - checks (bugzilla #2522). Fix potential out-of-bound reads in case of short
+> - input data.
+> -
+> -Upstream-Status: Backport
+> -
+> -https://github.com/vadz/libtiff/commit/aaab5c3c9d2a2c6984f23ccbc79702610439bc65
+> -hand applied Changelog changes
+> -
+> -CVE: CVE-2015-8781
+> -
+> -Signed-off-by: Armin Kuster <akuster@mvista.com>
+> ----
+> - ChangeLog         |  7 +++++++
+> - libtiff/tif_luv.c | 55 ++++++++++++++++++++++++++++++++++++++++++++-----------
+> - 2 files changed, 51 insertions(+), 11 deletions(-)
+> -
+> -Index: tiff-4.0.4/ChangeLog
+> -===================================================================
+> ---- tiff-4.0.4.orig/ChangeLog
+> -+++ tiff-4.0.4/ChangeLog
+> -@@ -1,3 +1,10 @@
+> -+2015-12-27  Even Rouault <even.rouault at spatialys.com>
+> -+
+> -+	* libtiff/tif_luv.c: fix potential out-of-bound writes in decode
+> -+	functions in non debug builds by replacing assert()s by regular if
+> -+	checks (bugzilla #2522).
+> -+	Fix potential out-of-bound reads in case of short input data.
+> -+
+> - 2015-12-26  Even Rouault <even.rouault at spatialys.com>
+> -
+> - 	* libtiff/tif_getimage.c: fix out-of-bound reads in TIFFRGBAImage
+> -Index: tiff-4.0.4/libtiff/tif_luv.c
+> -===================================================================
+> ---- tiff-4.0.4.orig/libtiff/tif_luv.c
+> -+++ tiff-4.0.4/libtiff/tif_luv.c
+> -@@ -202,7 +202,11 @@ LogL16Decode(TIFF* tif, uint8* op, tmsiz
+> - 	if (sp->user_datafmt == SGILOGDATAFMT_16BIT)
+> - 		tp = (int16*) op;
+> - 	else {
+> --		assert(sp->tbuflen >= npixels);
+> -+		if(sp->tbuflen < npixels) {
+> -+			TIFFErrorExt(tif->tif_clientdata, module,
+> -+						 "Translation buffer too short");
+> -+			return (0);
+> -+		}
+> - 		tp = (int16*) sp->tbuf;
+> - 	}
+> - 	_TIFFmemset((void*) tp, 0, npixels*sizeof (tp[0]));
+> -@@ -211,9 +215,11 @@ LogL16Decode(TIFF* tif, uint8* op, tmsiz
+> - 	cc = tif->tif_rawcc;
+> - 	/* get each byte string */
+> - 	for (shft = 2*8; (shft -= 8) >= 0; ) {
+> --		for (i = 0; i < npixels && cc > 0; )
+> -+		for (i = 0; i < npixels && cc > 0; ) {
+> - 			if (*bp >= 128) {		/* run */
+> --				rc = *bp++ + (2-128);   /* TODO: potential input buffer overrun when decoding corrupt or truncated data */
+> -+				if( cc < 2 )
+> -+					break;
+> -+				rc = *bp++ + (2-128);
+> - 				b = (int16)(*bp++ << shft);
+> - 				cc -= 2;
+> - 				while (rc-- && i < npixels)
+> -@@ -223,6 +229,7 @@ LogL16Decode(TIFF* tif, uint8* op, tmsiz
+> - 				while (--cc && rc-- && i < npixels)
+> - 					tp[i++] |= (int16)*bp++ << shft;
+> - 			}
+> -+		}
+> - 		if (i != npixels) {
+> - #if defined(__WIN32__) && (defined(_MSC_VER) || defined(__MINGW32__))
+> - 			TIFFErrorExt(tif->tif_clientdata, module,
+> -@@ -268,13 +275,17 @@ LogLuvDecode24(TIFF* tif, uint8* op, tms
+> - 	if (sp->user_datafmt == SGILOGDATAFMT_RAW)
+> - 		tp = (uint32 *)op;
+> - 	else {
+> --		assert(sp->tbuflen >= npixels);
+> -+		if(sp->tbuflen < npixels) {
+> -+			TIFFErrorExt(tif->tif_clientdata, module,
+> -+						 "Translation buffer too short");
+> -+			return (0);
+> -+		}
+> - 		tp = (uint32 *) sp->tbuf;
+> - 	}
+> - 	/* copy to array of uint32 */
+> - 	bp = (unsigned char*) tif->tif_rawcp;
+> - 	cc = tif->tif_rawcc;
+> --	for (i = 0; i < npixels && cc > 0; i++) {
+> -+	for (i = 0; i < npixels && cc >= 3; i++) {
+> - 		tp[i] = bp[0] << 16 | bp[1] << 8 | bp[2];
+> - 		bp += 3;
+> - 		cc -= 3;
+> -@@ -325,7 +336,11 @@ LogLuvDecode32(TIFF* tif, uint8* op, tms
+> - 	if (sp->user_datafmt == SGILOGDATAFMT_RAW)
+> - 		tp = (uint32*) op;
+> - 	else {
+> --		assert(sp->tbuflen >= npixels);
+> -+		if(sp->tbuflen < npixels) {
+> -+			TIFFErrorExt(tif->tif_clientdata, module,
+> -+						 "Translation buffer too short");
+> -+			return (0);
+> -+		}
+> - 		tp = (uint32*) sp->tbuf;
+> - 	}
+> - 	_TIFFmemset((void*) tp, 0, npixels*sizeof (tp[0]));
+> -@@ -334,11 +349,13 @@ LogLuvDecode32(TIFF* tif, uint8* op, tms
+> - 	cc = tif->tif_rawcc;
+> - 	/* get each byte string */
+> - 	for (shft = 4*8; (shft -= 8) >= 0; ) {
+> --		for (i = 0; i < npixels && cc > 0; )
+> -+		for (i = 0; i < npixels && cc > 0; ) {
+> - 			if (*bp >= 128) {		/* run */
+> -+				if( cc < 2 )
+> -+					break;
+> - 				rc = *bp++ + (2-128);
+> - 				b = (uint32)*bp++ << shft;
+> --				cc -= 2;                /* TODO: potential input buffer overrun when decoding corrupt or truncated data */
+> -+				cc -= 2;
+> - 				while (rc-- && i < npixels)
+> - 					tp[i++] |= b;
+> - 			} else {			/* non-run */
+> -@@ -346,6 +363,7 @@ LogLuvDecode32(TIFF* tif, uint8* op, tms
+> - 				while (--cc && rc-- && i < npixels)
+> - 					tp[i++] |= (uint32)*bp++ << shft;
+> - 			}
+> -+		}
+> - 		if (i != npixels) {
+> - #if defined(__WIN32__) && (defined(_MSC_VER) || defined(__MINGW32__))
+> - 			TIFFErrorExt(tif->tif_clientdata, module,
+> -@@ -413,6 +431,7 @@ LogLuvDecodeTile(TIFF* tif, uint8* bp, t
+> - static int
+> - LogL16Encode(TIFF* tif, uint8* bp, tmsize_t cc, uint16 s)
+> - {
+> -+	static const char module[] = "LogL16Encode";
+> - 	LogLuvState* sp = EncoderState(tif);
+> - 	int shft;
+> - 	tmsize_t i;
+> -@@ -433,7 +452,11 @@ LogL16Encode(TIFF* tif, uint8* bp, tmsiz
+> - 		tp = (int16*) bp;
+> - 	else {
+> - 		tp = (int16*) sp->tbuf;
+> --		assert(sp->tbuflen >= npixels);
+> -+		if(sp->tbuflen < npixels) {
+> -+			TIFFErrorExt(tif->tif_clientdata, module,
+> -+						 "Translation buffer too short");
+> -+			return (0);
+> -+		}
+> - 		(*sp->tfunc)(sp, bp, npixels);
+> - 	}
+> - 	/* compress each byte string */
+> -@@ -506,6 +529,7 @@ LogL16Encode(TIFF* tif, uint8* bp, tmsiz
+> - static int
+> - LogLuvEncode24(TIFF* tif, uint8* bp, tmsize_t cc, uint16 s)
+> - {
+> -+	static const char module[] = "LogLuvEncode24";
+> - 	LogLuvState* sp = EncoderState(tif);
+> - 	tmsize_t i;
+> - 	tmsize_t npixels;
+> -@@ -521,7 +545,11 @@ LogLuvEncode24(TIFF* tif, uint8* bp, tms
+> - 		tp = (uint32*) bp;
+> - 	else {
+> - 		tp = (uint32*) sp->tbuf;
+> --		assert(sp->tbuflen >= npixels);
+> -+		if(sp->tbuflen < npixels) {
+> -+			TIFFErrorExt(tif->tif_clientdata, module,
+> -+						 "Translation buffer too short");
+> -+			return (0);
+> -+		}
+> - 		(*sp->tfunc)(sp, bp, npixels);
+> - 	}
+> - 	/* write out encoded pixels */
+> -@@ -553,6 +581,7 @@ LogLuvEncode24(TIFF* tif, uint8* bp, tms
+> - static int
+> - LogLuvEncode32(TIFF* tif, uint8* bp, tmsize_t cc, uint16 s)
+> - {
+> -+	static const char module[] = "LogLuvEncode32";
+> - 	LogLuvState* sp = EncoderState(tif);
+> - 	int shft;
+> - 	tmsize_t i;
+> -@@ -574,7 +603,11 @@ LogLuvEncode32(TIFF* tif, uint8* bp, tms
+> - 		tp = (uint32*) bp;
+> - 	else {
+> - 		tp = (uint32*) sp->tbuf;
+> --		assert(sp->tbuflen >= npixels);
+> -+		if(sp->tbuflen < npixels) {
+> -+			TIFFErrorExt(tif->tif_clientdata, module,
+> -+						 "Translation buffer too short");
+> -+			return (0);
+> -+		}
+> - 		(*sp->tfunc)(sp, bp, npixels);
+> - 	}
+> - 	/* compress each byte string */
+> diff --git a/meta/recipes-multimedia/libtiff/files/CVE-2015-8784.patch b/meta/recipes-multimedia/libtiff/files/CVE-2015-8784.patch
+> deleted file mode 100644
+> index 0caf800..0000000
+> --- a/meta/recipes-multimedia/libtiff/files/CVE-2015-8784.patch
+> +++ /dev/null
+> @@ -1,73 +0,0 @@
+> -From b18012dae552f85dcc5c57d3bf4e997a15b1cc1c Mon Sep 17 00:00:00 2001
+> -From: erouault <erouault>
+> -Date: Sun, 27 Dec 2015 16:55:20 +0000
+> -Subject: [PATCH] * libtiff/tif_next.c: fix potential out-of-bound write in
+> - NeXTDecode() triggered by http://lcamtuf.coredump.cx/afl/vulns/libtiff5.tif
+> - (bugzilla #2508)
+> -
+> -Upstream-Status: Backport
+> -https://github.com/vadz/libtiff/commit/b18012dae552f85dcc5c57d3bf4e997a15b1cc1c
+> -hand applied Changelog changes
+> -
+> -CVE:  CVE-2015-8784
+> -Signed-off-by: Armin Kuster <akuster@mvista.com>
+> -
+> ----
+> - ChangeLog          |  6 ++++++
+> - libtiff/tif_next.c | 10 ++++++++--
+> - 2 files changed, 14 insertions(+), 2 deletions(-)
+> -
+> -Index: tiff-4.0.4/ChangeLog
+> -===================================================================
+> ---- tiff-4.0.4.orig/ChangeLog
+> -+++ tiff-4.0.4/ChangeLog
+> -@@ -1,5 +1,11 @@
+> - 2015-12-27  Even Rouault <even.rouault at spatialys.com>
+> -
+> -+	* libtiff/tif_next.c: fix potential out-of-bound write in NeXTDecode()
+> -+	triggered by http://lcamtuf.coredump.cx/afl/vulns/libtiff5.tif
+> -+	(bugzilla #2508)
+> -+
+> -+2015-12-27  Even Rouault <even.rouault at spatialys.com>
+> -+
+> - 	* libtiff/tif_luv.c: fix potential out-of-bound writes in decode
+> - 	functions in non debug builds by replacing assert()s by regular if
+> - 	checks (bugzilla #2522).
+> -Index: tiff-4.0.4/libtiff/tif_next.c
+> -===================================================================
+> ---- tiff-4.0.4.orig/libtiff/tif_next.c
+> -+++ tiff-4.0.4/libtiff/tif_next.c
+> -@@ -37,7 +37,7 @@
+> - 	case 0:	op[0]  = (unsigned char) ((v) << 6); break;	\
+> - 	case 1:	op[0] |= (v) << 4; break;	\
+> - 	case 2:	op[0] |= (v) << 2; break;	\
+> --	case 3:	*op++ |= (v);	   break;	\
+> -+	case 3:	*op++ |= (v);	   op_offset++; break;	\
+> - 	}					\
+> - }
+> -
+> -@@ -106,6 +106,7 @@ NeXTDecode(TIFF* tif, uint8* buf, tmsize
+> - 			uint32 imagewidth = tif->tif_dir.td_imagewidth;
+> -             if( isTiled(tif) )
+> -                 imagewidth = tif->tif_dir.td_tilewidth;
+> -+            tmsize_t op_offset = 0;
+> -
+> - 			/*
+> - 			 * The scanline is composed of a sequence of constant
+> -@@ -122,10 +123,15 @@ NeXTDecode(TIFF* tif, uint8* buf, tmsize
+> - 				 * bounds, potentially resulting in a security
+> - 				 * issue.
+> - 				 */
+> --				while (n-- > 0 && npixels < imagewidth)
+> -+				while (n-- > 0 && npixels < imagewidth && op_offset < scanline)
+> - 					SETPIXEL(op, grey);
+> - 				if (npixels >= imagewidth)
+> - 					break;
+> -+                if (op_offset >= scanline ) {
+> -+                    TIFFErrorExt(tif->tif_clientdata, module, "Invalid data for scanline %ld",
+> -+                        (long) tif->tif_row);
+> -+                    return (0);
+> -+                }
+> - 				if (cc == 0)
+> - 					goto bad;
+> - 				n = *bp++, cc--;
+> diff --git a/meta/recipes-multimedia/libtiff/files/CVE-2016-3186.patch b/meta/recipes-multimedia/libtiff/files/CVE-2016-3186.patch
+> deleted file mode 100644
+> index 4a08aba..0000000
+> --- a/meta/recipes-multimedia/libtiff/files/CVE-2016-3186.patch
+> +++ /dev/null
+> @@ -1,24 +0,0 @@
+> -Buffer overflow in the readextension function in gif2tiff.c
+> -allows remote attackers to cause a denial of service via a crafted GIF file.
+> -
+> -External References:
+> -https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-3186
+> -https://bugzilla.redhat.com/show_bug.cgi?id=1319503
+> -
+> -CVE: CVE-2016-3186
+> -Upstream-Status: Backport (RedHat)
+> -https://bugzilla.redhat.com/attachment.cgi?id=1144235&action=diff
+> -
+> -Signed-off-by: Yi Zhao <yi.zhao@windirver.com>
+> -
+> ---- tiff-4.0.6/tools/gif2tiff.c	2016-04-06 15:43:01.586048341 +0200
+> -+++ tiff-4.0.6/tools/gif2tiff.c	2016-04-06 15:48:05.523207710 +0200
+> -@@ -349,7 +349,7 @@
+> -     int status = 1;
+> -
+> -     (void) getc(infile);
+> --    while ((count = getc(infile)) && count <= 255)
+> -+    while ((count = getc(infile)) && count >= 0 && count <= 255)
+> -         if (fread(buf, 1, count, infile) != (size_t) count) {
+> -             fprintf(stderr, "short read from file %s (%s)\n",
+> -                     filename, strerror(errno));
+> diff --git a/meta/recipes-multimedia/libtiff/files/CVE-2016-3622.patch b/meta/recipes-multimedia/libtiff/files/CVE-2016-3622.patch
+> deleted file mode 100644
+> index 0c8b716..0000000
+> --- a/meta/recipes-multimedia/libtiff/files/CVE-2016-3622.patch
+> +++ /dev/null
+> @@ -1,129 +0,0 @@
+> -From 92d966a5fcfbdca67957c8c5c47b467aa650b286 Mon Sep 17 00:00:00 2001
+> -From: bfriesen <bfriesen>
+> -Date: Sat, 24 Sep 2016 23:11:55 +0000
+> -Subject: [PATCH] * libtiff/tif_getimage.c (TIFFRGBAImageOK): Reject attempts
+> - to read floating point images.
+> -
+> -* libtiff/tif_predict.c (PredictorSetup): Enforce bits-per-sample
+> -requirements of floating point predictor (3).  Fixes CVE-2016-3622
+> -"Divide By Zero in the tiff2rgba tool."
+> -
+> -CVE: CVE-2016-3622
+> -Upstream-Status: Backport
+> -https://github.com/vadz/libtiff/commit/92d966a5fcfbdca67957c8c5c47b467aa650b286
+> -
+> -Signed-off-by: Yi Zhao <yi.zhao@windirver.com>
+> ----
+> - ChangeLog              | 11 ++++++++++-
+> - libtiff/tif_getimage.c | 38 ++++++++++++++++++++------------------
+> - libtiff/tif_predict.c  | 11 ++++++++++-
+> - 3 files changed, 40 insertions(+), 20 deletions(-)
+> -
+> -diff --git a/ChangeLog b/ChangeLog
+> -index 26d6f47..a628277 100644
+> ---- a/ChangeLog
+> -+++ b/ChangeLog
+> -@@ -1,3 +1,12 @@
+> -+2016-09-24  Bob Friesenhahn  <bfriesen@simple.dallas.tx.us>
+> -+
+> -+	* libtiff/tif_getimage.c (TIFFRGBAImageOK): Reject attempts to
+> -+	read floating point images.
+> -+
+> -+	* libtiff/tif_predict.c (PredictorSetup): Enforce bits-per-sample
+> -+	requirements of floating point predictor (3).  Fixes CVE-2016-3622
+> -+	"Divide By Zero in the tiff2rgba tool."
+> -+
+> - 2016-08-15 Even Rouault <even.rouault at spatialys.com>
+> -
+> - 	* tools/rgb2ycbcr.c: validate values of -v and -h parameters to
+> -diff --git a/libtiff/tif_getimage.c b/libtiff/tif_getimage.c
+> -index 386cee0..3e689ee 100644
+> ---- a/libtiff/tif_getimage.c
+> -+++ b/libtiff/tif_getimage.c
+> -@@ -95,6 +95,10 @@ TIFFRGBAImageOK(TIFF* tif, char emsg[1024])
+> - 			    td->td_bitspersample);
+> - 			return (0);
+> - 	}
+> -+        if (td->td_sampleformat == SAMPLEFORMAT_IEEEFP) {
+> -+                sprintf(emsg, "Sorry, can not handle images with IEEE floating-point samples");
+> -+                return (0);
+> -+        }
+> - 	colorchannels = td->td_samplesperpixel - td->td_extrasamples;
+> - 	if (!TIFFGetField(tif, TIFFTAG_PHOTOMETRIC, &photometric)) {
+> - 		switch (colorchannels) {
+> -@@ -182,27 +186,25 @@ TIFFRGBAImageOK(TIFF* tif, char emsg[1024])
+> - 				    "Planarconfiguration", td->td_planarconfig);
+> - 				return (0);
+> - 			}
+> --			if( td->td_samplesperpixel != 3 || colorchannels != 3 )
+> --            {
+> --                sprintf(emsg,
+> --                        "Sorry, can not handle image with %s=%d, %s=%d",
+> --                        "Samples/pixel", td->td_samplesperpixel,
+> --                        "colorchannels", colorchannels);
+> --                return 0;
+> --            }
+> -+			if ( td->td_samplesperpixel != 3 || colorchannels != 3 ) {
+> -+                                sprintf(emsg,
+> -+                                        "Sorry, can not handle image with %s=%d, %s=%d",
+> -+                                        "Samples/pixel", td->td_samplesperpixel,
+> -+                                        "colorchannels", colorchannels);
+> -+                                return 0;
+> -+                        }
+> - 			break;
+> - 		case PHOTOMETRIC_CIELAB:
+> --            if( td->td_samplesperpixel != 3 || colorchannels != 3 || td->td_bitspersample != 8 )
+> --            {
+> --                sprintf(emsg,
+> --                        "Sorry, can not handle image with %s=%d, %s=%d and %s=%d",
+> --                        "Samples/pixel", td->td_samplesperpixel,
+> --                        "colorchannels", colorchannels,
+> --                        "Bits/sample", td->td_bitspersample);
+> --                return 0;
+> --            }
+> -+                        if ( td->td_samplesperpixel != 3 || colorchannels != 3 || td->td_bitspersample != 8 ) {
+> -+                                sprintf(emsg,
+> -+                                        "Sorry, can not handle image with %s=%d, %s=%d and %s=%d",
+> -+                                        "Samples/pixel", td->td_samplesperpixel,
+> -+                                        "colorchannels", colorchannels,
+> -+                                        "Bits/sample", td->td_bitspersample);
+> -+                                return 0;
+> -+                        }
+> - 			break;
+> --		default:
+> -+                default:
+> - 			sprintf(emsg, "Sorry, can not handle image with %s=%d",
+> - 			    photoTag, photometric);
+> - 			return (0);
+> -diff --git a/libtiff/tif_predict.c b/libtiff/tif_predict.c
+> -index 081eb11..555f2f9 100644
+> ---- a/libtiff/tif_predict.c
+> -+++ b/libtiff/tif_predict.c
+> -@@ -80,6 +80,15 @@ PredictorSetup(TIFF* tif)
+> - 				    td->td_sampleformat);
+> - 				return 0;
+> - 			}
+> -+                        if (td->td_bitspersample != 16
+> -+                            && td->td_bitspersample != 24
+> -+                            && td->td_bitspersample != 32
+> -+                            && td->td_bitspersample != 64) { /* Should 64 be allowed? */
+> -+                                TIFFErrorExt(tif->tif_clientdata, module,
+> -+                                             "Floating point \"Predictor\" not supported with %d-bit samples",
+> -+                                             td->td_bitspersample);
+> -+				return 0;
+> -+                            }
+> - 			break;
+> - 		default:
+> - 			TIFFErrorExt(tif->tif_clientdata, module,
+> -@@ -174,7 +183,7 @@ PredictorSetupDecode(TIFF* tif)
+> - 		}
+> - 		/*
+> - 		 * Allocate buffer to keep the decoded bytes before
+> --		 * rearranging in the ight order
+> -+		 * rearranging in the right order
+> - 		 */
+> - 	}
+> -
+> ---
+> -2.7.4
+> -
+> diff --git a/meta/recipes-multimedia/libtiff/files/CVE-2016-3623.patch b/meta/recipes-multimedia/libtiff/files/CVE-2016-3623.patch
+> deleted file mode 100644
+> index f554ac5..0000000
+> --- a/meta/recipes-multimedia/libtiff/files/CVE-2016-3623.patch
+> +++ /dev/null
+> @@ -1,52 +0,0 @@
+> -From bd024f07019f5d9fea236675607a69f74a66bc7b Mon Sep 17 00:00:00 2001
+> -From: erouault <erouault>
+> -Date: Mon, 15 Aug 2016 21:26:56 +0000
+> -Subject: [PATCH] * tools/rgb2ycbcr.c: validate values of -v and -h parameters
+> - to avoid potential divide by zero. Fixes CVE-2016-3623 (bugzilla #2569)
+> -
+> -CVE: CVE-2016-3623
+> -Upstream-Status: Backport
+> -https://github.com/vadz/libtiff/commit/bd024f07019f5d9fea236675607a69f74a66bc7b
+> -
+> -Signed-off-by: Yi Zhao <yi.zhao@windirver.com>
+> ----
+> - ChangeLog         | 5 +++++
+> - tools/rgb2ycbcr.c | 4 ++++
+> - 2 files changed, 9 insertions(+)
+> -
+> -diff --git a/ChangeLog b/ChangeLog
+> -index 5d60608..3e6642a 100644
+> ---- a/ChangeLog
+> -+++ b/ChangeLog
+> -@@ -1,5 +1,10 @@
+> - 2016-08-15 Even Rouault <even.rouault at spatialys.com>
+> -
+> -+	* tools/rgb2ycbcr.c: validate values of -v and -h parameters to
+> -+	avoid potential divide by zero. Fixes CVE-2016-3623 (bugzilla #2569)
+> -+
+> -+2016-08-15 Even Rouault <even.rouault at spatialys.com>
+> -+
+> - 	* tools/tiffcrop.c: Fix out-of-bounds write in loadImage().
+> - 	From patch libtiff-CVE-2016-3991.patch from
+> - 	libtiff-4.0.3-25.el7_2.src.rpm by Nikola Forro (bugzilla #2543)
+> -diff --git a/tools/rgb2ycbcr.c b/tools/rgb2ycbcr.c
+> -index 3829d6b..51f4259 100644
+> ---- a/tools/rgb2ycbcr.c
+> -+++ b/tools/rgb2ycbcr.c
+> -@@ -95,9 +95,13 @@ main(int argc, char* argv[])
+> - 			break;
+> - 		case 'h':
+> - 			horizSubSampling = atoi(optarg);
+> -+            if( horizSubSampling != 1 && horizSubSampling != 2 && horizSubSampling != 4 )
+> -+                usage(-1);
+> - 			break;
+> - 		case 'v':
+> - 			vertSubSampling = atoi(optarg);
+> -+            if( vertSubSampling != 1 && vertSubSampling != 2 && vertSubSampling != 4 )
+> -+                usage(-1);
+> - 			break;
+> - 		case 'r':
+> - 			rowsperstrip = atoi(optarg);
+> ---
+> -2.7.4
+> -
+> diff --git a/meta/recipes-multimedia/libtiff/files/CVE-2016-3945.patch b/meta/recipes-multimedia/libtiff/files/CVE-2016-3945.patch
+> deleted file mode 100644
+> index 4d965be..0000000
+> --- a/meta/recipes-multimedia/libtiff/files/CVE-2016-3945.patch
+> +++ /dev/null
+> @@ -1,118 +0,0 @@
+> -From 7c39352ccd9060d311d3dc9a1f1bc00133a160e6 Mon Sep 17 00:00:00 2001
+> -From: erouault <erouault>
+> -Date: Mon, 15 Aug 2016 20:06:40 +0000
+> -Subject: [PATCH] * tools/tiff2rgba.c: Fix integer overflow in size of
+> - allocated buffer, when -b mode is enabled, that could result in out-of-bounds
+> - write. Based initially on patch tiff-CVE-2016-3945.patch from
+> - libtiff-4.0.3-25.el7_2.src.rpm by Nikola Forro, with correction for invalid
+> - tests that rejected valid files.
+> -
+> -CVE: CVE-2016-3945
+> -Upstream-Status: Backport
+> -https://github.com/vadz/libtiff/commit/7c39352ccd9060d311d3dc9a1f1bc00133a160e6
+> -
+> -Signed-off-by: Yi Zhao <yi.zhao@windirver.com>
+> ----
+> - ChangeLog         |  8 ++++++++
+> - tools/tiff2rgba.c | 34 ++++++++++++++++++++++++++++++----
+> - 2 files changed, 38 insertions(+), 4 deletions(-)
+> -
+> -diff --git a/ChangeLog b/ChangeLog
+> -index 62dc1b5..9c0ab29 100644
+> ---- a/ChangeLog
+> -+++ b/ChangeLog
+> -@@ -1,3 +1,11 @@
+> -+2016-08-15 Even Rouault <even.rouault at spatialys.com>
+> -+
+> -+	* tools/tiff2rgba.c: Fix integer overflow in size of allocated
+> -+	buffer, when -b mode is enabled, that could result in out-of-bounds
+> -+	write. Based initially on patch tiff-CVE-2016-3945.patch from
+> -+	libtiff-4.0.3-25.el7_2.src.rpm by Nikola Forro, with correction for
+> -+	invalid tests that rejected valid files.
+> -+
+> - 2016-07-11 Even Rouault <even.rouault at spatialys.com>
+> -
+> - 	* tools/tiffcrop.c: Avoid access outside of stack allocated array
+> -diff --git a/tools/tiff2rgba.c b/tools/tiff2rgba.c
+> -index b7a81eb..16e3dc4 100644
+> ---- a/tools/tiff2rgba.c
+> -+++ b/tools/tiff2rgba.c
+> -@@ -147,6 +147,7 @@ cvt_by_tile( TIFF *in, TIFF *out )
+> -     uint32  row, col;
+> -     uint32  *wrk_line;
+> -     int	    ok = 1;
+> -+    uint32  rastersize, wrk_linesize;
+> -
+> -     TIFFGetField(in, TIFFTAG_IMAGEWIDTH, &width);
+> -     TIFFGetField(in, TIFFTAG_IMAGELENGTH, &height);
+> -@@ -163,7 +164,13 @@ cvt_by_tile( TIFF *in, TIFF *out )
+> -     /*
+> -      * Allocate tile buffer
+> -      */
+> --    raster = (uint32*)_TIFFmalloc(tile_width * tile_height * sizeof (uint32));
+> -+    rastersize = tile_width * tile_height * sizeof (uint32);
+> -+    if (tile_width != (rastersize / tile_height) / sizeof( uint32))
+> -+    {
+> -+	TIFFError(TIFFFileName(in), "Integer overflow when calculating raster buffer");
+> -+	exit(-1);
+> -+    }
+> -+    raster = (uint32*)_TIFFmalloc(rastersize);
+> -     if (raster == 0) {
+> -         TIFFError(TIFFFileName(in), "No space for raster buffer");
+> -         return (0);
+> -@@ -173,7 +180,13 @@ cvt_by_tile( TIFF *in, TIFF *out )
+> -      * Allocate a scanline buffer for swapping during the vertical
+> -      * mirroring pass.
+> -      */
+> --    wrk_line = (uint32*)_TIFFmalloc(tile_width * sizeof (uint32));
+> -+    wrk_linesize = tile_width * sizeof (uint32);
+> -+    if (tile_width != wrk_linesize / sizeof (uint32))
+> -+    {
+> -+        TIFFError(TIFFFileName(in), "Integer overflow when calculating wrk_line buffer");
+> -+	exit(-1);
+> -+    }
+> -+    wrk_line = (uint32*)_TIFFmalloc(wrk_linesize);
+> -     if (!wrk_line) {
+> -         TIFFError(TIFFFileName(in), "No space for raster scanline buffer");
+> -         ok = 0;
+> -@@ -249,6 +262,7 @@ cvt_by_strip( TIFF *in, TIFF *out )
+> -     uint32  row;
+> -     uint32  *wrk_line;
+> -     int	    ok = 1;
+> -+    uint32  rastersize, wrk_linesize;
+> -
+> -     TIFFGetField(in, TIFFTAG_IMAGEWIDTH, &width);
+> -     TIFFGetField(in, TIFFTAG_IMAGELENGTH, &height);
+> -@@ -263,7 +277,13 @@ cvt_by_strip( TIFF *in, TIFF *out )
+> -     /*
+> -      * Allocate strip buffer
+> -      */
+> --    raster = (uint32*)_TIFFmalloc(width * rowsperstrip * sizeof (uint32));
+> -+    rastersize = width * rowsperstrip * sizeof (uint32);
+> -+    if (width != (rastersize / rowsperstrip) / sizeof( uint32))
+> -+    {
+> -+	TIFFError(TIFFFileName(in), "Integer overflow when calculating raster buffer");
+> -+	exit(-1);
+> -+    }
+> -+    raster = (uint32*)_TIFFmalloc(rastersize);
+> -     if (raster == 0) {
+> -         TIFFError(TIFFFileName(in), "No space for raster buffer");
+> -         return (0);
+> -@@ -273,7 +293,13 @@ cvt_by_strip( TIFF *in, TIFF *out )
+> -      * Allocate a scanline buffer for swapping during the vertical
+> -      * mirroring pass.
+> -      */
+> --    wrk_line = (uint32*)_TIFFmalloc(width * sizeof (uint32));
+> -+    wrk_linesize = width * sizeof (uint32);
+> -+    if (width != wrk_linesize / sizeof (uint32))
+> -+    {
+> -+        TIFFError(TIFFFileName(in), "Integer overflow when calculating wrk_line buffer");
+> -+	exit(-1);
+> -+    }
+> -+    wrk_line = (uint32*)_TIFFmalloc(wrk_linesize);
+> -     if (!wrk_line) {
+> -         TIFFError(TIFFFileName(in), "No space for raster scanline buffer");
+> -         ok = 0;
+> ---
+> -2.7.4
+> -
+> diff --git a/meta/recipes-multimedia/libtiff/files/CVE-2016-3990.patch b/meta/recipes-multimedia/libtiff/files/CVE-2016-3990.patch
+> deleted file mode 100644
+> index 7bf52ee..0000000
+> --- a/meta/recipes-multimedia/libtiff/files/CVE-2016-3990.patch
+> +++ /dev/null
+> @@ -1,66 +0,0 @@
+> -From 6a4dbb07ccf92836bb4adac7be4575672d0ac5f1 Mon Sep 17 00:00:00 2001
+> -From: erouault <erouault>
+> -Date: Mon, 15 Aug 2016 20:49:48 +0000
+> -Subject: [PATCH] * libtiff/tif_pixarlog.c: Fix write buffer overflow in
+> - PixarLogEncode if more input samples are provided than expected by
+> - PixarLogSetupEncode. Idea based on libtiff-CVE-2016-3990.patch from
+> - libtiff-4.0.3-25.el7_2.src.rpm by Nikola Forro, but with different and
+> - simpler check. (bugzilla #2544)
+> -
+> -invalid tests that rejected valid files. (bugzilla #2545)
+> -
+> -CVE: CVE-2016-3990
+> -Upstream-Status: Backport
+> -https://github.com/vadz/libtiff/commit/6a4dbb07ccf92836bb4adac7be4575672d0ac5f1
+> -
+> -Signed-off-by: Yi Zhao <yi.zhao@windirver.com>
+> ----
+> - ChangeLog              | 10 +++++++++-
+> - libtiff/tif_pixarlog.c |  7 +++++++
+> - 2 files changed, 16 insertions(+), 1 deletion(-)
+> -
+> -diff --git a/ChangeLog b/ChangeLog
+> -index 9c0ab29..db4ea18 100644
+> ---- a/ChangeLog
+> -+++ b/ChangeLog
+> -@@ -1,10 +1,18 @@
+> - 2016-08-15 Even Rouault <even.rouault at spatialys.com>
+> -
+> -+	* libtiff/tif_pixarlog.c: Fix write buffer overflow in PixarLogEncode
+> -+	if more input samples are provided than expected by PixarLogSetupEncode.
+> -+	Idea based on libtiff-CVE-2016-3990.patch from
+> -+	libtiff-4.0.3-25.el7_2.src.rpm by Nikola Forro, but with different and
+> -+	simpler check. (bugzilla #2544)
+> -+
+> -+2016-08-15 Even Rouault <even.rouault at spatialys.com>
+> -+
+> - 	* tools/tiff2rgba.c: Fix integer overflow in size of allocated
+> - 	buffer, when -b mode is enabled, that could result in out-of-bounds
+> - 	write. Based initially on patch tiff-CVE-2016-3945.patch from
+> - 	libtiff-4.0.3-25.el7_2.src.rpm by Nikola Forro, with correction for
+> --	invalid tests that rejected valid files.
+> -+	invalid tests that rejected valid files. (bugzilla #2545)
+> -
+> - 2016-07-11 Even Rouault <even.rouault at spatialys.com>
+> -
+> -diff --git a/libtiff/tif_pixarlog.c b/libtiff/tif_pixarlog.c
+> -index e78f788..28329d1 100644
+> ---- a/libtiff/tif_pixarlog.c
+> -+++ b/libtiff/tif_pixarlog.c
+> -@@ -1141,6 +1141,13 @@ PixarLogEncode(TIFF* tif, uint8* bp, tmsize_t cc, uint16 s)
+> - 	}
+> -
+> - 	llen = sp->stride * td->td_imagewidth;
+> -+    /* Check against the number of elements (of size uint16) of sp->tbuf */
+> -+    if( n > td->td_rowsperstrip * llen )
+> -+    {
+> -+        TIFFErrorExt(tif->tif_clientdata, module,
+> -+                     "Too many input bytes provided");
+> -+        return 0;
+> -+    }
+> -
+> - 	for (i = 0, up = sp->tbuf; i < n; i += llen, up += llen) {
+> - 		switch (sp->user_datafmt)  {
+> ---
+> -2.7.4
+> -
+> diff --git a/meta/recipes-multimedia/libtiff/files/CVE-2016-3991.patch b/meta/recipes-multimedia/libtiff/files/CVE-2016-3991.patch
+> deleted file mode 100644
+> index 27dfd37..0000000
+> --- a/meta/recipes-multimedia/libtiff/files/CVE-2016-3991.patch
+> +++ /dev/null
+> @@ -1,147 +0,0 @@
+> -From e596d4e27c5afb7960dc360fdd3afd90ba0fb8ba Mon Sep 17 00:00:00 2001
+> -From: erouault <erouault>
+> -Date: Mon, 15 Aug 2016 21:05:40 +0000
+> -Subject: [PATCH 2/2] * tools/tiffcrop.c: Fix out-of-bounds write in
+> - loadImage(). From patch libtiff-CVE-2016-3991.patch from
+> - libtiff-4.0.3-25.el7_2.src.rpm by Nikola Forro (bugzilla #2543)
+> -
+> -CVE: CVE-2016-3991
+> -Upstream-Status: Backport
+> -https://github.com/vadz/libtiff/commit/e596d4e27c5afb7960dc360fdd3afd90ba0fb8ba
+> -
+> -Signed-off-by: Yi Zhao <yi.zhao@windirver.com>
+> ----
+> - ChangeLog        |  6 ++++++
+> - tools/tiffcrop.c | 59 +++++++++++++++++++++++++++++++++++++++++++++++++++++---
+> - 2 files changed, 62 insertions(+), 3 deletions(-)
+> -
+> -diff --git a/ChangeLog b/ChangeLog
+> -index db4ea18..5d60608 100644
+> ---- a/ChangeLog
+> -+++ b/ChangeLog
+> -@@ -1,5 +1,11 @@
+> - 2016-08-15 Even Rouault <even.rouault at spatialys.com>
+> -
+> -+	* tools/tiffcrop.c: Fix out-of-bounds write in loadImage().
+> -+	From patch libtiff-CVE-2016-3991.patch from
+> -+	libtiff-4.0.3-25.el7_2.src.rpm by Nikola Forro (bugzilla #2543)
+> -+
+> -+2016-08-15 Even Rouault <even.rouault at spatialys.com>
+> -+
+> - 	* libtiff/tif_pixarlog.c: Fix write buffer overflow in PixarLogEncode
+> - 	if more input samples are provided than expected by PixarLogSetupEncode.
+> - 	Idea based on libtiff-CVE-2016-3990.patch from
+> -diff --git a/tools/tiffcrop.c b/tools/tiffcrop.c
+> -index 27abc0b..ddba7b9 100644
+> ---- a/tools/tiffcrop.c
+> -+++ b/tools/tiffcrop.c
+> -@@ -798,6 +798,11 @@ static int readContigTilesIntoBuffer (TIFF* in, uint8* buf,
+> -     }
+> -
+> -   tile_buffsize = tilesize;
+> -+  if (tilesize == 0 || tile_rowsize == 0)
+> -+  {
+> -+     TIFFError("readContigTilesIntoBuffer", "Tile size or tile rowsize is zero");
+> -+     exit(-1);
+> -+  }
+> -
+> -   if (tilesize < (tsize_t)(tl * tile_rowsize))
+> -     {
+> -@@ -807,7 +812,12 @@ static int readContigTilesIntoBuffer (TIFF* in, uint8* buf,
+> -               tilesize, tl * tile_rowsize);
+> - #endif
+> -     tile_buffsize = tl * tile_rowsize;
+> --    }
+> -+    if (tl != (tile_buffsize / tile_rowsize))
+> -+    {
+> -+    	TIFFError("readContigTilesIntoBuffer", "Integer overflow when calculating buffer size.");
+> -+        exit(-1);
+> -+    }
+> -+    }
+> -
+> -   tilebuf = _TIFFmalloc(tile_buffsize);
+> -   if (tilebuf == 0)
+> -@@ -1210,6 +1220,12 @@ static int writeBufferToContigTiles (TIFF* out, uint8* buf, uint32 imagelength,
+> -       !TIFFGetField(out, TIFFTAG_BITSPERSAMPLE, &bps) )
+> -       return 1;
+> -
+> -+  if (tilesize == 0 || tile_rowsize == 0 || tl == 0 || tw == 0)
+> -+  {
+> -+    TIFFError("writeBufferToContigTiles", "Tile size, tile row size, tile width, or tile length is zero");
+> -+    exit(-1);
+> -+  }
+> -+
+> -   tile_buffsize = tilesize;
+> -   if (tilesize < (tsize_t)(tl * tile_rowsize))
+> -     {
+> -@@ -1219,6 +1235,11 @@ static int writeBufferToContigTiles (TIFF* out, uint8* buf, uint32 imagelength,
+> -               tilesize, tl * tile_rowsize);
+> - #endif
+> -     tile_buffsize = tl * tile_rowsize;
+> -+    if (tl != tile_buffsize / tile_rowsize)
+> -+    {
+> -+	TIFFError("writeBufferToContigTiles", "Integer overflow when calculating buffer size");
+> -+	exit(-1);
+> -+    }
+> -     }
+> -
+> -   tilebuf = _TIFFmalloc(tile_buffsize);
+> -@@ -5945,12 +5966,27 @@ loadImage(TIFF* in, struct image_data *image, struct dump_opts *dump, unsigned c
+> -     TIFFGetField(in, TIFFTAG_TILELENGTH, &tl);
+> -
+> -     tile_rowsize  = TIFFTileRowSize(in);
+> -+    if (ntiles == 0 || tlsize == 0 || tile_rowsize == 0)
+> -+    {
+> -+	TIFFError("loadImage", "File appears to be tiled, but the number of tiles, tile size, or tile rowsize is zero.");
+> -+	exit(-1);
+> -+    }
+> -     buffsize = tlsize * ntiles;
+> -+    if (tlsize != (buffsize / ntiles))
+> -+    {
+> -+	TIFFError("loadImage", "Integer overflow when calculating buffer size");
+> -+	exit(-1);
+> -+    }
+> -
+> --
+> -     if (buffsize < (uint32)(ntiles * tl * tile_rowsize))
+> -       {
+> -       buffsize = ntiles * tl * tile_rowsize;
+> -+      if (ntiles != (buffsize / tl / tile_rowsize))
+> -+      {
+> -+	TIFFError("loadImage", "Integer overflow when calculating buffer size");
+> -+	exit(-1);
+> -+      }
+> -+
+> - #ifdef DEBUG2
+> -       TIFFError("loadImage",
+> - 	        "Tilesize %u is too small, using ntiles * tilelength * tilerowsize %lu",
+> -@@ -5969,8 +6005,25 @@ loadImage(TIFF* in, struct image_data *image, struct dump_opts *dump, unsigned c
+> -     TIFFGetFieldDefaulted(in, TIFFTAG_ROWSPERSTRIP, &rowsperstrip);
+> -     stsize = TIFFStripSize(in);
+> -     nstrips = TIFFNumberOfStrips(in);
+> -+    if (nstrips == 0 || stsize == 0)
+> -+    {
+> -+	TIFFError("loadImage", "File appears to be striped, but the number of stipes or stripe size is zero.");
+> -+	exit(-1);
+> -+    }
+> -+
+> -     buffsize = stsize * nstrips;
+> --
+> -+    if (stsize != (buffsize / nstrips))
+> -+    {
+> -+	TIFFError("loadImage", "Integer overflow when calculating buffer size");
+> -+	exit(-1);
+> -+    }
+> -+    uint32 buffsize_check;
+> -+    buffsize_check = ((length * width * spp * bps) + 7);
+> -+    if (length != ((buffsize_check - 7) / width / spp / bps))
+> -+    {
+> -+	TIFFError("loadImage", "Integer overflow detected.");
+> -+	exit(-1);
+> -+    }
+> -     if (buffsize < (uint32) (((length * width * spp * bps) + 7) / 8))
+> -       {
+> -       buffsize =  ((length * width * spp * bps) + 7) / 8;
+> ---
+> -2.7.4
+> -
+> diff --git a/meta/recipes-multimedia/libtiff/files/CVE-2016-5321.patch b/meta/recipes-multimedia/libtiff/files/CVE-2016-5321.patch
+> deleted file mode 100644
+> index 63c6650..0000000
+> --- a/meta/recipes-multimedia/libtiff/files/CVE-2016-5321.patch
+> +++ /dev/null
+> @@ -1,49 +0,0 @@
+> -From d9783e4a1476b6787a51c5ae9e9b3156527589f0 Mon Sep 17 00:00:00 2001
+> -From: erouault <erouault>
+> -Date: Mon, 11 Jul 2016 21:26:03 +0000
+> -Subject: [PATCH 1/2] * tools/tiffcrop.c: Avoid access outside of stack
+> - allocated array on a tiled separate TIFF with more than 8 samples per pixel.
+> - Reported by Kaixiang Zhang of the Cloud Security Team, Qihoo 360
+> - (CVE-2016-5321, bugzilla #2558)
+> -
+> -CVE: CVE-2016-5321
+> -Upstream-Status: Backport
+> -https://github.com/vadz/libtiff/commit/d9783e4a1476b6787a51c5ae9e9b3156527589f0
+> -
+> -Signed-off-by: Yi Zhao <yi.zhao@windirver.com>
+> ----
+> - ChangeLog        | 7 +++++++
+> - tools/tiffcrop.c | 2 +-
+> - 2 files changed, 8 insertions(+), 1 deletion(-)
+> -
+> -diff --git a/ChangeLog b/ChangeLog
+> -index e98d54d..4e0302f 100644
+> ---- a/ChangeLog
+> -+++ b/ChangeLog
+> -@@ -1,3 +1,10 @@
+> -+2016-07-11 Even Rouault <even.rouault at spatialys.com>
+> -+
+> -+	* tools/tiffcrop.c: Avoid access outside of stack allocated array
+> -+	on a tiled separate TIFF with more than 8 samples per pixel.
+> -+	Reported by Kaixiang Zhang of the Cloud Security Team, Qihoo 360
+> -+	(CVE-2016-5321, bugzilla #2558)
+> -+
+> - 2015-12-27  Even Rouault <even.rouault at spatialys.com>
+> -
+> -	* libtiff/tif_next.c: fix potential out-of-bound write in NeXTDecode()
+> -diff --git a/tools/tiffcrop.c b/tools/tiffcrop.c
+> -index d959ae3..6fc8fc1 100644
+> ---- a/tools/tiffcrop.c
+> -+++ b/tools/tiffcrop.c
+> -@@ -989,7 +989,7 @@ static int  readSeparateTilesIntoBuffer (TIFF* in, uint8 *obuf,
+> -     nrow = (row + tl > imagelength) ? imagelength - row : tl;
+> -     for (col = 0; col < imagewidth; col += tw)
+> -       {
+> --      for (s = 0; s < spp; s++)
+> -+      for (s = 0; s < spp && s < MAX_SAMPLES; s++)
+> -         {  /* Read each plane of a tile set into srcbuffs[s] */
+> - 	tbytes = TIFFReadTile(in, srcbuffs[s], col, row, 0, s);
+> -         if (tbytes < 0  && !ignore)
+> ---
+> -2.7.4
+> -
+> diff --git a/meta/recipes-multimedia/libtiff/files/CVE-2016-5323.patch b/meta/recipes-multimedia/libtiff/files/CVE-2016-5323.patch
+> deleted file mode 100644
+> index 41eab91..0000000
+> --- a/meta/recipes-multimedia/libtiff/files/CVE-2016-5323.patch
+> +++ /dev/null
+> @@ -1,107 +0,0 @@
+> -From 2f79856097f423eb33796a15fcf700d2ea41bf31 Mon Sep 17 00:00:00 2001
+> -From: erouault <erouault>
+> -Date: Mon, 11 Jul 2016 21:38:31 +0000
+> -Subject: [PATCH 2/2] (CVE-2016-5321 / CVE-2016-5323 , bugzilla #2558 / #2559)
+> -
+> -CVE: CVE-2016-5323
+> -Upstream-Status: Backport
+> -https://github.com/vadz/libtiff/commit/2f79856097f423eb33796a15fcf700d2ea41bf31
+> -
+> -Signed-off-by: Yi Zhao <yi.zhao@windirver.com>
+> ----
+> - ChangeLog        |  2 +-
+> - tools/tiffcrop.c | 16 ++++++++--------
+> - 2 files changed, 9 insertions(+), 9 deletions(-)
+> -
+> -diff --git a/ChangeLog b/ChangeLog
+> -index 4e0302f..62dc1b5 100644
+> ---- a/ChangeLog
+> -+++ b/ChangeLog
+> -@@ -3,7 +3,7 @@
+> - 	* tools/tiffcrop.c: Avoid access outside of stack allocated array
+> - 	on a tiled separate TIFF with more than 8 samples per pixel.
+> - 	Reported by Kaixiang Zhang of the Cloud Security Team, Qihoo 360
+> --	(CVE-2016-5321, bugzilla #2558)
+> -+	(CVE-2016-5321 / CVE-2016-5323 , bugzilla #2558 / #2559)
+> -
+> - 2016-07-10 Even Rouault <even.rouault at spatialys.com>
+> -
+> -diff --git a/tools/tiffcrop.c b/tools/tiffcrop.c
+> -index 6fc8fc1..27abc0b 100644
+> ---- a/tools/tiffcrop.c
+> -+++ b/tools/tiffcrop.c
+> -@@ -3738,7 +3738,7 @@ combineSeparateSamples8bits (uint8 *in[], uint8 *out, uint32 cols,
+> -
+> -       matchbits = maskbits << (8 - src_bit - bps);
+> -       /* load up next sample from each plane */
+> --      for (s = 0; s < spp; s++)
+> -+      for (s = 0; (s < spp) && (s < MAX_SAMPLES); s++)
+> -         {
+> - 	src = in[s] + src_offset + src_byte;
+> -         buff1 = ((*src) & matchbits) << (src_bit);
+> -@@ -3837,7 +3837,7 @@ combineSeparateSamples16bits (uint8 *in[], uint8 *out, uint32 cols,
+> -       src_bit  = bit_offset % 8;
+> -
+> -       matchbits = maskbits << (16 - src_bit - bps);
+> --      for (s = 0; s < spp; s++)
+> -+      for (s = 0; (s < spp) && (s < MAX_SAMPLES); s++)
+> -         {
+> - 	src = in[s] + src_offset + src_byte;
+> -         if (little_endian)
+> -@@ -3947,7 +3947,7 @@ combineSeparateSamples24bits (uint8 *in[], uint8 *out, uint32 cols,
+> -       src_bit  = bit_offset % 8;
+> -
+> -       matchbits = maskbits << (32 - src_bit - bps);
+> --      for (s = 0; s < spp; s++)
+> -+      for (s = 0; (s < spp) && (s < MAX_SAMPLES); s++)
+> -         {
+> - 	src = in[s] + src_offset + src_byte;
+> -         if (little_endian)
+> -@@ -4073,7 +4073,7 @@ combineSeparateSamples32bits (uint8 *in[], uint8 *out, uint32 cols,
+> -       src_bit  = bit_offset % 8;
+> -
+> -       matchbits = maskbits << (64 - src_bit - bps);
+> --      for (s = 0; s < spp; s++)
+> -+      for (s = 0; (s < spp) && (s < MAX_SAMPLES); s++)
+> - 	{
+> - 	src = in[s] + src_offset + src_byte;
+> - 	if (little_endian)
+> -@@ -4263,7 +4263,7 @@ combineSeparateTileSamples8bits (uint8 *in[], uint8 *out, uint32 cols,
+> -
+> -       matchbits = maskbits << (8 - src_bit - bps);
+> -       /* load up next sample from each plane */
+> --      for (s = 0; s < spp; s++)
+> -+      for (s = 0; (s < spp) && (s < MAX_SAMPLES); s++)
+> -         {
+> - 	src = in[s] + src_offset + src_byte;
+> -         buff1 = ((*src) & matchbits) << (src_bit);
+> -@@ -4362,7 +4362,7 @@ combineSeparateTileSamples16bits (uint8 *in[], uint8 *out, uint32 cols,
+> -       src_bit  = bit_offset % 8;
+> -
+> -       matchbits = maskbits << (16 - src_bit - bps);
+> --      for (s = 0; s < spp; s++)
+> -+      for (s = 0; (s < spp) && (s < MAX_SAMPLES); s++)
+> -         {
+> - 	src = in[s] + src_offset + src_byte;
+> -         if (little_endian)
+> -@@ -4471,7 +4471,7 @@ combineSeparateTileSamples24bits (uint8 *in[], uint8 *out, uint32 cols,
+> -       src_bit  = bit_offset % 8;
+> -
+> -       matchbits = maskbits << (32 - src_bit - bps);
+> --      for (s = 0; s < spp; s++)
+> -+      for (s = 0; (s < spp) && (s < MAX_SAMPLES); s++)
+> -         {
+> - 	src = in[s] + src_offset + src_byte;
+> -         if (little_endian)
+> -@@ -4597,7 +4597,7 @@ combineSeparateTileSamples32bits (uint8 *in[], uint8 *out, uint32 cols,
+> -       src_bit  = bit_offset % 8;
+> -
+> -       matchbits = maskbits << (64 - src_bit - bps);
+> --      for (s = 0; s < spp; s++)
+> -+      for (s = 0; (s < spp) && (s < MAX_SAMPLES); s++)
+> - 	{
+> - 	src = in[s] + src_offset + src_byte;
+> - 	if (little_endian)
+> ---
+> -2.7.4
+> -
+> diff --git a/meta/recipes-multimedia/libtiff/tiff_4.0.6.bb b/meta/recipes-multimedia/libtiff/tiff_4.0.7.bb
+> similarity index 74%
+> rename from meta/recipes-multimedia/libtiff/tiff_4.0.6.bb
+> rename to meta/recipes-multimedia/libtiff/tiff_4.0.7.bb
+> index 796d86e..52fc553 100644
+> --- a/meta/recipes-multimedia/libtiff/tiff_4.0.6.bb
+> +++ b/meta/recipes-multimedia/libtiff/tiff_4.0.7.bb
+> @@ -4,21 +4,10 @@ LIC_FILES_CHKSUM = "file://COPYRIGHT;md5=34da3db46fab7501992f9615d7e158cf"
+>   
+>   SRC_URI = "http://download.osgeo.org/libtiff/tiff-${PV}.tar.gz \
+>              file://libtool2.patch \
+> -           file://CVE-2015-8665_8683.patch \
+> -           file://CVE-2015-8781.patch \
+> -           file://CVE-2015-8784.patch \
+> -           file://CVE-2016-3186.patch \
+> -           file://CVE-2016-5321.patch \
+> -           file://CVE-2016-5323.patch \
+> -           file://CVE-2016-3945.patch \
+> -           file://CVE-2016-3990.patch \
+> -           file://CVE-2016-3991.patch \
+> -           file://CVE-2016-3623.patch \
+> -           file://CVE-2016-3622.patch \
+>             "
+>   
+> -SRC_URI[md5sum] = "d1d2e940dea0b5ad435f21f03d96dd72"
+> -SRC_URI[sha256sum] = "4d57a50907b510e3049a4bba0d7888930fdfc16ce49f1bf693e5b6247370d68c"
+> +SRC_URI[md5sum] = "77ae928d2c6b7fb46a21c3a29325157b"
+> +SRC_URI[sha256sum] = "9f43a2cfb9589e5cecaa66e16bf87f814c945f22df7ba600d63aac4632c4f019"
+>   
+>   # exclude betas
+>   UPSTREAM_CHECK_REGEX = "tiff-(?P<pver>\d+(\.\d+)+).tar"
 
---DKU6Jbt7q3WqK7+M
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-=3D Number of issues - stats =3D=3D
-{| class=3D'wikitable'
-!|Date		     !!colspan=3D'3'|Failed tasks			    !!colspan=3D'6'|Failed depe=
-ncencies			 !!|Signatures		  !!colspan=3D'12'|QA !!Comment
-|-
-||		||qemuarm	||qemux86	||qemux86_64	||qemuarm||max||min	||qemux86||max||mi=
-n	||all 	||already-stripped	||libdir	||textrel	||build-deps	||file-rdeps	||=
-version-going-backwards	||host-user-contaminated	||installed-vs-shipped	||u=
-nknown-configure-option	||symlink-to-sysroot	||invalid-pkgconfig	||pkgname	=
-||=09
-|-
-||2016-11-22	||7	||8	||7	||15	||7	||7	||17	||8	||8	||0	||0		||0		||0		||0		=
-||0		||0		||0		||0		||0		||0		||0		||0		||=09
-|}
-
-http://www.openembedded.org/wiki/Bitbake_World_Status
-
-=3D=3D Failed tasks 2016-11-22 =3D=3D
-
-INFO: jenkins-job.sh-1.8.12 Complete log available at http://logs.nslu2-lin=
-ux.org/buildlogs/oe/world/pyro/log.report.20161123_045755.log
-
-=3D=3D=3D common (6) =3D=3D=3D
-    * meta-openembedded/meta-networking/recipes-support/wireshark/wireshark=
-_2.2.1.bb:do_compile
-    * meta-openembedded/meta-oe/recipes-connectivity/obexftp/obexftp_0.23.b=
-b:do_compile
-    * meta-openembedded/meta-oe/recipes-connectivity/obex/obex-data-server_=
-0.4.6.bb:do_compile
-    * meta-openembedded/meta-xfce/recipes-bindings/vala/xfce4-vala_4.10.3.b=
-b:do_configure
-    * meta-qt5/recipes-qt/qt5/qtenginio_git.bb:do_compile
-    * meta-qt5/recipes-qt/qt5/qtwayland_git.bb:do_compile
-
-=3D=3D=3D common-x86 (0) =3D=3D=3D
-
-=3D=3D=3D qemuarm (1) =3D=3D=3D
-    * openembedded-core/meta/recipes-sato/webkit/webkitgtk_2.14.1.bb:do_com=
-pile
-
-=3D=3D=3D qemux86 (2) =3D=3D=3D
-    * meta-browser/recipes-browser/chromium/chromium_52.0.2743.76.bb:do_com=
-pile
-    * meta-qt5/recipes-qt/qt5/qtwebengine_git.bb:do_compile
-
-=3D=3D=3D qemux86_64 (1) =3D=3D=3D
-    * openembedded-core/meta/recipes-graphics/libsdl2/libsdl2_2.0.5.bb:do_c=
-ompile
-
-=3D=3D=3D Number of failed tasks (22) =3D=3D=3D
-{| class=3Dwikitable
-|-
-|| qemuarm 	|| 7	 || http://logs.nslu2-linux.org/buildlogs/oe/world/pyro/lo=
-g.world.qemuarm.20161122_192238.log/ || http://errors.yoctoproject.org/Erro=
-rs/Build/24774/
-|-
-|| qemux86 	|| 8	 || http://logs.nslu2-linux.org/buildlogs/oe/world/pyro/lo=
-g.world.qemux86.20161122_210950.log/ || http://errors.yoctoproject.org/Erro=
-rs/Build/24775/
-|-
-|| qemux86_64 	|| 7	 || http://logs.nslu2-linux.org/buildlogs/oe/world/pyro=
-/log.world.qemux86-64.20161122_225152.log/ || http://errors.yoctoproject.or=
-g/Errors/Build/24781/
-|}
-
-=3D=3D=3D PNBLACKLISTs (117) =3D=3D=3D
-
-=3D=3D=3D QA issues (0) =3D=3D=3D
-{| class=3Dwikitable
-!| Count		||Issue
-|-
-||0	||already-stripped
-|-
-||0	||build-deps
-|-
-||0	||file-rdeps
-|-
-||0	||host-user-contaminated
-|-
-||0	||installed-vs-shipped
-|-
-||0	||invalid-pkgconfig
-|-
-||0	||libdir
-|-
-||0	||pkgname
-|-
-||0	||symlink-to-sysroot
-|-
-||0	||textrel
-|-
-||0	||unknown-configure-option
-|-
-||0	||version-going-backwards
-|}
-
-
-
-=3D=3D=3D Failed dependencies for qemuarm (15) =3D=3D=3D
-
-Complete log: http://logs.nslu2-linux.org/buildlogs/oe/world/pyro/log.depen=
-dencies.qemuarm.20161122_214852.log/
-Found differences:=20
-Found errors:=20
-    * ERROR: 15 issues were found in these recipes: obex-data-server obexft=
-p qtenginio qtwayland webkitgtk wireshark xfce4-vala
-
-=3D=3D=3D Recipes failing with maximal dependencies for qemuarm (7) =3D=3D=
-=3D
-    * obex-data-server -- http://logs.nslu2-linux.org/buildlogs/oe/world/py=
-ro/log.dependencies.qemuarm.20161122_214852.log//2_max/failed/obex-data-ser=
-ver.log
-    * obexftp -- http://logs.nslu2-linux.org/buildlogs/oe/world/pyro/log.de=
-pendencies.qemuarm.20161122_214852.log//2_max/failed/obexftp.log
-    * qtenginio -- http://logs.nslu2-linux.org/buildlogs/oe/world/pyro/log.=
-dependencies.qemuarm.20161122_214852.log//2_max/failed/qtenginio.log
-    * qtwayland -- http://logs.nslu2-linux.org/buildlogs/oe/world/pyro/log.=
-dependencies.qemuarm.20161122_214852.log//2_max/failed/qtwayland.log
-    * webkitgtk -- http://logs.nslu2-linux.org/buildlogs/oe/world/pyro/log.=
-dependencies.qemuarm.20161122_214852.log//2_max/failed/webkitgtk.log
-    * wireshark -- http://logs.nslu2-linux.org/buildlogs/oe/world/pyro/log.=
-dependencies.qemuarm.20161122_214852.log//2_max/failed/wireshark.log
-    * xfce4-vala -- http://logs.nslu2-linux.org/buildlogs/oe/world/pyro/log=
-=2Edependencies.qemuarm.20161122_214852.log//2_max/failed/xfce4-vala.log
-
-=3D=3D=3D Recipes failing with minimal dependencies for qemuarm (7) =3D=3D=
-=3D
-    * obex-data-server -- http://logs.nslu2-linux.org/buildlogs/oe/world/py=
-ro/log.dependencies.qemuarm.20161122_214852.log//3_min/failed/obex-data-ser=
-ver.log
-    * obexftp -- http://logs.nslu2-linux.org/buildlogs/oe/world/pyro/log.de=
-pendencies.qemuarm.20161122_214852.log//3_min/failed/obexftp.log
-    * qtenginio -- http://logs.nslu2-linux.org/buildlogs/oe/world/pyro/log.=
-dependencies.qemuarm.20161122_214852.log//3_min/failed/qtenginio.log
-    * qtwayland -- http://logs.nslu2-linux.org/buildlogs/oe/world/pyro/log.=
-dependencies.qemuarm.20161122_214852.log//3_min/failed/qtwayland.log
-    * webkitgtk -- http://logs.nslu2-linux.org/buildlogs/oe/world/pyro/log.=
-dependencies.qemuarm.20161122_214852.log//3_min/failed/webkitgtk.log
-    * wireshark -- http://logs.nslu2-linux.org/buildlogs/oe/world/pyro/log.=
-dependencies.qemuarm.20161122_214852.log//3_min/failed/wireshark.log
-    * xfce4-vala -- http://logs.nslu2-linux.org/buildlogs/oe/world/pyro/log=
-=2Edependencies.qemuarm.20161122_214852.log//3_min/failed/xfce4-vala.log
-
-=3D=3D=3D Failed dependencies for qemux86 (17) =3D=3D=3D
-
-Complete log: http://logs.nslu2-linux.org/buildlogs/oe/world/pyro/log.depen=
-dencies.qemux86.20161123_003406.log/
-Found differences:=20
-Found errors:=20
-    * ERROR: 17 issues were found in these recipes: chromium obex-data-serv=
-er obexftp qtenginio qtwayland qtwebengine wireshark xfce4-vala
-
-=3D=3D=3D Recipes failing with maximal dependencies for qemux86 (8) =3D=3D=
-=3D
-    * chromium -- http://logs.nslu2-linux.org/buildlogs/oe/world/pyro/log.d=
-ependencies.qemux86.20161123_003406.log//2_max/failed/chromium.log
-    * obex-data-server -- http://logs.nslu2-linux.org/buildlogs/oe/world/py=
-ro/log.dependencies.qemux86.20161123_003406.log//2_max/failed/obex-data-ser=
-ver.log
-    * obexftp -- http://logs.nslu2-linux.org/buildlogs/oe/world/pyro/log.de=
-pendencies.qemux86.20161123_003406.log//2_max/failed/obexftp.log
-    * qtenginio -- http://logs.nslu2-linux.org/buildlogs/oe/world/pyro/log.=
-dependencies.qemux86.20161123_003406.log//2_max/failed/qtenginio.log
-    * qtwayland -- http://logs.nslu2-linux.org/buildlogs/oe/world/pyro/log.=
-dependencies.qemux86.20161123_003406.log//2_max/failed/qtwayland.log
-    * qtwebengine -- http://logs.nslu2-linux.org/buildlogs/oe/world/pyro/lo=
-g.dependencies.qemux86.20161123_003406.log//2_max/failed/qtwebengine.log
-    * wireshark -- http://logs.nslu2-linux.org/buildlogs/oe/world/pyro/log.=
-dependencies.qemux86.20161123_003406.log//2_max/failed/wireshark.log
-    * xfce4-vala -- http://logs.nslu2-linux.org/buildlogs/oe/world/pyro/log=
-=2Edependencies.qemux86.20161123_003406.log//2_max/failed/xfce4-vala.log
-
-=3D=3D=3D Recipes failing with minimal dependencies for qemux86 (8) =3D=3D=
-=3D
-    * chromium -- http://logs.nslu2-linux.org/buildlogs/oe/world/pyro/log.d=
-ependencies.qemux86.20161123_003406.log//3_min/failed/chromium.log
-    * obex-data-server -- http://logs.nslu2-linux.org/buildlogs/oe/world/py=
-ro/log.dependencies.qemux86.20161123_003406.log//3_min/failed/obex-data-ser=
-ver.log
-    * obexftp -- http://logs.nslu2-linux.org/buildlogs/oe/world/pyro/log.de=
-pendencies.qemux86.20161123_003406.log//3_min/failed/obexftp.log
-    * qtenginio -- http://logs.nslu2-linux.org/buildlogs/oe/world/pyro/log.=
-dependencies.qemux86.20161123_003406.log//3_min/failed/qtenginio.log
-    * qtwayland -- http://logs.nslu2-linux.org/buildlogs/oe/world/pyro/log.=
-dependencies.qemux86.20161123_003406.log//3_min/failed/qtwayland.log
-    * qtwebengine -- http://logs.nslu2-linux.org/buildlogs/oe/world/pyro/lo=
-g.dependencies.qemux86.20161123_003406.log//3_min/failed/qtwebengine.log
-    * wireshark -- http://logs.nslu2-linux.org/buildlogs/oe/world/pyro/log.=
-dependencies.qemux86.20161123_003406.log//3_min/failed/wireshark.log
-    * xfce4-vala -- http://logs.nslu2-linux.org/buildlogs/oe/world/pyro/log=
-=2Edependencies.qemux86.20161123_003406.log//3_min/failed/xfce4-vala.log
-
-=3D=3D=3D Incorrect PACKAGE_ARCH or sstate signatures (0) =3D=3D=3D
-
-Complete log: http://logs.nslu2-linux.org/buildlogs/oe/world/pyro/log.signa=
-tures.20161123_035024.log/
-
-
-    * ERROR: Nothing RPROVIDES 'python-subprocess-native' (but virtual:nati=
-ve:/home/jenkins/oe/world/shr-core/meta-openembedded/meta-python/recipes-de=
-vtools/python/python-pycparser_2.17.bb RDEPENDS on or otherwise requires it)
-    * ERROR: Required build target 'meta-world-pkgdata' has no buildable pr=
-oviders.
-    * ERROR: no sigdata files were generated for MACHINE qemux86copy in /ho=
-me/jenkins/oe/world/shr-core/tmp-glibc/stamps
-    * ERROR: Nothing RPROVIDES 'python-subprocess-native' (but virtual:nati=
-ve:/home/jenkins/oe/world/shr-core/meta-openembedded/meta-python/recipes-de=
-vtools/python/python-pycparser_2.17.bb RDEPENDS on or otherwise requires it)
-    * ERROR: Required build target 'meta-world-pkgdata' has no buildable pr=
-oviders.
-    * ERROR: no sigdata files were generated for MACHINE qemux86 in /home/j=
-enkins/oe/world/shr-core/tmp-glibc/stamps
-    * ERROR: Nothing RPROVIDES 'python-subprocess-native' (but virtual:nati=
-ve:/home/jenkins/oe/world/shr-core/meta-openembedded/meta-python/recipes-de=
-vtools/python/python-pycparser_2.17.bb RDEPENDS on or otherwise requires it)
-    * ERROR: Required build target 'meta-world-pkgdata' has no buildable pr=
-oviders.
-    * ERROR: no sigdata files were generated for MACHINE qemuarm in /home/j=
-enkins/oe/world/shr-core/tmp-glibc/stamps
-
-
-PNBLACKLISTs:
-openembedded-core/:
-meta-browser:
-recipes-browser/chromium/cef3_280796.bb:PNBLACKLIST[cef3] ?=3D "BROKEN: fai=
-ls to build with gcc-6"
-meta-openembedded:
-meta-efl/recipes-efl/e17/diskio_svn.bb:PNBLACKLIST[diskio] ?=3D "broken: sw=
-itch to https://git.enlightenment.org/enlightenment/modules/diskio.git/ and=
- fix 0.0.1+svnr82070-r0.0/E-MODULES-EXTRA/diskio/e-module-diskio.edc:58. in=
-valid state name: 'off'. "default" state must always be first."
-meta-efl/recipes-efl/e17/elbow_git.bb:PNBLACKLIST[elbow] ?=3D "Depends on b=
-lacklisted webkit-efl"
-meta-efl/recipes-efl/e17/elmdentica_svn.bb:PNBLACKLIST[elmdentica] ?=3D "OL=
-D and depends on broken azy"
-meta-efl/recipes-efl/e17/emprint_svn.bb:PNBLACKLIST[emprint] ?=3D "if you w=
-ant to use these modules with E18, then you need to update it to git recipe=
- fetching newer sources from http://git.enlightenment.org/apps/emprint.git/"
-meta-efl/recipes-efl/e17/news_svn.bb:PNBLACKLIST[news] ?=3D "if you want to=
- use these modules with E18, then you need to update it to git recipe fetch=
-ing newer sources from http://git.enlightenment.org/enlightenment/modules/n=
-ews.git/"
-meta-efl/recipes-efl/e17/rage_svn.bb:PNBLACKLIST[rage] ?=3D "if you want to=
- use these modules with E18, then you need to update it to git recipe fetch=
-ing newer sources from  http://git.enlightenment.org/apps/rage.git/"
-meta-efl/recipes-efl/e17/screenshot_svn.bb:PNBLACKLIST[screenshot] ?=3D "de=
-pends on blacklisted emprint"
-meta-efl/recipes-efl/efl/azy_svn.bb:PNBLACKLIST[azy] ?=3D "OLD and doesn't =
-build with gcc-5"
-meta-efl/recipes-efl/efl/engrave_svn.bb:PNBLACKLIST[engrave] ?=3D "BROKEN: =
-fails to build with latest oe-core"
-meta-efl/recipes-efl/efl/entrance_svn.bb:PNBLACKLIST[entrance] ?=3D "broken=
-: switch to https://git.enlightenment.org/misc/entrance.git and fix 0.0.4+s=
-vnr82070-r7/entrance/data/themes/old/default.edc:678. invalid state name: '=
-defaault'. "default" state must always be first."
-meta-efl/recipes-efl/webkit/webkit-efl.inc:PNBLACKLIST[webkit-efl] ?=3D "Ol=
-d and unmaintaned fork with many security issues"
-meta-efl/recipes-navigation/mcnavi/mcnavi_0.3.4.bb:PNBLACKLIST[mcnavi] ?=3D=
- "BROKEN: latest version 0.3.4 is 3 years old and now broken with more stri=
-ct ejde_cc from efl-1.13"
-meta-filesystems/recipes-utils/dmapi/dmapi_2.2.12.bb:PNBLACKLIST[dmapi] ?=
-=3D "Depends on broken xfsprogs"
-meta-filesystems/recipes-utils/xfsdump/xfsdump_3.1.4.bb:PNBLACKLIST[xfsdump=
-] ?=3D "Depends on broken xfsprogs"
-meta-filesystems/recipes-utils/xfsprogs/xfsprogs_3.2.3.bb:PNBLACKLIST[xfspr=
-ogs] ?=3D "BROKEN: Needs upgrade to 4.5.0 version to be compatible with Ker=
-nel uapi changes from 4.5"
-meta-gnome/recipes-apps/epdfview/epdfview_0.1.8.bb:PNBLACKLIST[epdfview] ?=
-=3D "BROKEN: images are not displayed anymore"
-meta-gnome/recipes-apps/gnome-mplayer/gnome-mplayer_1.0.5.bb:PNBLACKLIST[gn=
-ome-mplayer] ?=3D "rdepends on blacklisted mplayer"
-meta-gnome/recipes-extended/gtk-theme-torturer/gtk-theme-torturer_git.bb:PN=
-BLACKLIST[gtk-theme-torturer] ?=3D "BROKEN: gmacros.h:182:53: error: size o=
-f array '_GStaticAssertCompileTimeAssertion_2' is negative"
-meta-gnome/recipes-gnome/gcalctool/gcalctool_5.32.0.bb:PNBLACKLIST[gcalctoo=
-l] ?=3D "broken at least since April 2013 http://permalink.gmane.org/gmane.=
-comp.handhelds.openembedded/57920 and nobody complained, it's also replaced=
- by gnome calculator"
-meta-gnome/recipes-gnome/gdm/gdm_2.32.2.bb:PNBLACKLIST[gdm] ?=3D "Depends o=
-n broken gnome-panel"
-meta-gnome/recipes-gnome/gnome-control-center/gnome-control-center_2.32.1.b=
-b:PNBLACKLIST[gnome-control-center] ?=3D "Depends on broken gnome-menus"
-meta-gnome/recipes-gnome/gnome-keyring/gnome-keyring_2.32.1.bb:PNBLACKLIST[=
-gnome-keyring] ?=3D "This version conflicts with gcr from oe-core"
-meta-gnome/recipes-gnome/gnome-menus/gnome-menus_2.30.5.bb:PNBLACKLIST[gnom=
-e-menus] ?=3D "BROKEN: fails to build because of python + conflicts with gn=
-ome-menu3"
-meta-gnome/recipes-gnome/gnome-panel/gnome-panel3_3.0.2.bb:PNBLACKLIST[gnom=
-e-panel3] ?=3D "CONFLICT: depends on libgweather3 which conflicts with libg=
-weather"
-meta-gnome/recipes-gnome/gnome-panel/gnome-panel3_3.0.2.bb:PNBLACKLIST[gnom=
-e-panel3] ?=3D "Depends on broken gnome-menus"
-meta-gnome/recipes-gnome/gnome-panel/gnome-panel_2.32.1.bb:PNBLACKLIST[gnom=
-e-panel] ?=3D "Depends on broken libgweather"
-meta-gnome/recipes-gnome/gnome-power-manager/gnome-power-manager_2.32.0.bb:=
-PNBLACKLIST[gnome-power-manager] ?=3D "BROKEN: not compatible with current =
-libnotify"
-meta-gnome/recipes-gnome/gnome-session/gnome-session_2.32.1.bb:PNBLACKLIST[=
-gnome-session] ?=3D "BROKEN: fails to build with gcc-6"
-meta-gnome/recipes-gnome/gnome/gnome-terminal_2.30.2.bb:PNBLACKLIST[gnome-t=
-erminal] ?=3D "BROKEN: fails to build with gcc-6"
-meta-gnome/recipes-gnome/gnome/libgnomecups_0.2.3.bb:PNBLACKLIST[libgnomecu=
-ps] ?=3D "Depends on broken libgnomeui"
-meta-gnome/recipes-gnome/gnome/libgnomeprint_2.18.8.bb:PNBLACKLIST[libgnome=
-print] ?=3D "Depends on broken libgnomecups"
-meta-gnome/recipes-gnome/gnumeric/gnumeric_1.12.0.bb:PNBLACKLIST[gnumeric] =
-?=3D "Depends on broken libgnomeprint"
-meta-gnome/recipes-gnome/gweather/libgweather3_3.0.2.bb:PNBLACKLIST[libgwea=
-ther3] ?=3D "CONFLICT: 876 files are conflicting with libgweather"
-meta-gnome/recipes-gnome/gweather/libgweather_2.30.3.bb:PNBLACKLIST[libgwea=
-ther] ?=3D "BROKEN: fails to build with gcc-6"
-meta-gnome/recipes-gnome/nautilus/nautilus3_3.2.1.bb:PNBLACKLIST[nautilus3]=
- ?=3D "BROKEN: fails to build, maybe missing dependency on gnome-desktop-ut=
-ils.h provider"
-meta-gnome/recipes-gnome/pimlico/tasks_0.19.bb:PNBLACKLIST[tasks] ?=3D "Fai=
-ls to build with gcc-6"
-meta-gnome/recipes-gnome/pimlico/tasks_git.bb:PNBLACKLIST[tasks] ?=3D "Fail=
-s to build with gcc-6"
-meta-gnome/recipes-gnome/system-tools/system-tools-backends_2.10.2.bb:PNBLA=
-CKLIST[system-tools-backends] ?=3D "does not build with distroless qemuarm =
-as reported in 'State of bitbake world' thread, nobody volunteered to fix t=
-hem"
-meta-gnome/recipes-gnome/zenity/zenity_2.32.1.bb:PNBLACKLIST[zenity] ?=3D "=
-BROKEN: doesn't build with B!=3DS"
-meta-gnome/recipes-support/goffice/goffice_0.10.1.bb:PNBLACKLIST[goffice] ?=
-=3D "BROKEN: fails to build with gcc-6"
-meta-gnome/recipes-support/tracker/tracker_0.14.2.bb:PNBLACKLIST[tracker] ?=
-=3D "BROKEN: fails to build with new binutils-2.27"
-meta-gpe/recipes-support/fbreader/fbreader_git.bb:PNBLACKLIST[fbreader] ?=
-=3D "BROKEN: fails to build with gcc-6"
-meta-multimedia/recipes-mediacentre/xbmc/xbmc_git.bb:PNBLACKLIST[xbmc] ?=3D=
- "/usr/include/c++/ctime:70:11: error: '::gmtime' has not been declared"
-meta-multimedia/recipes-mkv/mkvtoolnix/mkvtoolnix_git.bb:PNBLACKLIST[mkvtoo=
-lnix] ?=3D "BROKEN: Failx to build with gcc-5"
-meta-multimedia/recipes-multimedia/coriander/coriander_2.0.2.bb:PNBLACKLIST=
-[coriander] ?=3D "BROKEN: fails to use SDL probably because libsdl-config w=
-as removed, error: unknown type name 'SDL_Overlay'"
-meta-multimedia/recipes-multimedia/dleyna/renderer-service-upnp_0.3.0.bb:PN=
-BLACKLIST[renderer-service-upnp] ?=3D "BROKEN: doesn't build with B!=3DS (t=
-rying to install rendererconsole.py from ${B} instead of ${S})"
-meta-multimedia/recipes-multimedia/gstreamer-0.10/gst-ffmpeg_0.10.13.bb:PNB=
-LACKLIST[gst-ffmpeg] ?=3D "Not compatible with currently used ffmpeg 3"
-meta-multimedia/recipes-multimedia/gstreamer/gst123_0.3.1.bb:PNBLACKLIST[gs=
-t123] ?=3D "gst123 is still "sometimes" using wrong sysroot"
-meta-networking/recipes-daemons/dnrd/dnrd_2.20.3.bb:PNBLACKLIST[dnrd] ?=3D =
-"BROKEN: dnrd-2.20.3-r0 do_package: QA Issue: dnrd: Files/directories were =
-installed but not shipped in any package:"
-meta-networking/recipes-kernel/netmap/netmap-modules_git.bb:PNBLACKLIST[net=
-map-modules] ?=3D "BROKEN: not compatible with default kernel version 4.8"
-meta-networking/recipes-kernel/netmap/netmap_git.bb:PNBLACKLIST[netmap] ?=
-=3D "BROKEN: Tries to build kernel module and fails, either it should be di=
-sabled or there should be dependency on kernel like in netmap-modules"
-meta-networking/recipes-protocols/accel-ppp/accel-ppp_git.bb:PNBLACKLIST[ac=
-cel-ppp] ?=3D "BROKEN: fails to build with new binutils-2.27"
-meta-networking/recipes-support/lksctp-tools/lksctp-tools_1.0.17.bb:PNBLACK=
-LIST[lksctp-tools] ?=3D "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-gol=
-d', "BROKEN: fails to link against sctp_connectx symbol", '', d)}"
-meta-networking/recipes-support/nis/ypbind-mt_2.2.bb:PNBLACKLIST[ypbind-mt]=
- ?=3D "BROKEN: Depends on broken yp-tools"
-meta-oe/recipes-connectivity/bluez/bluez-hcidump_2.5.bb:PNBLACKLIST[bluez-h=
-cidump] ?=3D "${@bb.utils.contains('DISTRO_FEATURES', 'bluez5', 'bluez5 con=
-flicts with bluez4 and bluez5 is selected in DISTRO_FEATURES', '', d)}"
-meta-oe/recipes-connectivity/bluez/bluez4_4.101.bb:PNBLACKLIST[bluez4] ?=3D=
- "${@bb.utils.contains('DISTRO_FEATURES', 'bluez5', 'bluez5 conflicts with =
-bluez4 and bluez5 is selected in DISTRO_FEATURES', '', d)}"
-meta-oe/recipes-connectivity/bluez/gst-plugin-bluetooth_4.101.bb:PNBLACKLIS=
-T[gst-plugin-bluetooth] ?=3D "${@bb.utils.contains('DISTRO_FEATURES', 'blue=
-z5', 'bluez5 conflicts with bluez4 and bluez5 is selected in DISTRO_FEATURE=
-S', '', d)}"
-meta-oe/recipes-connectivity/soft66/soft66_git.bb:PNBLACKLIST[soft66] ?=3D =
-"BROKEN: depends on broken libftdi"
-meta-oe/recipes-connectivity/wvdial/wvdial_1.61.bb:PNBLACKLIST[wvdial] ?=3D=
- "Depends on broken wvstreams"
-meta-oe/recipes-connectivity/wvdial/wvstreams_4.6.1.bb:PNBLACKLIST[wvstream=
-s] ?=3D "BROKEN: fails to build with gcc-6"
-meta-oe/recipes-connectivity/zeroc-ice/zeroc-ice_3.5.1.bb:PNBLACKLIST[zeroc=
--ice] ?=3D "BROKEN: not compatible with default db version"
-meta-oe/recipes-core/fakeroot/fakeroot_1.18.4.bb:PNBLACKLIST[fakeroot] ?=3D=
- "BROKEN: QA Issue: -dev package contains non-symlink .so"
-meta-oe/recipes-devtools/cloud9/cloud9_0.6.bb:PNBLACKLIST[cloud9] ?=3D "Not=
- comatible with current nodejs 0.12, but upstream is working on it for v3"
-meta-oe/recipes-devtools/ltp-ddt/ltp-ddt_1.0.0.bb:PNBLACKLIST[ltp-ddt] ?=3D=
- "BROKEN: fails since last autotools.bbclass changes"
-meta-oe/recipes-devtools/packagekit/packagekit_0.5.6.bb:PNBLACKLIST[package=
-kit] ?=3D "BROKEN: depends on old deprecated libopkg which is currently dis=
-abled and will be removed soon"
-meta-oe/recipes-extended/subsurface/subsurface_git.bb:PNBLACKLIST[subsurfac=
-e] ?=3D "Needs to be upgraded for compatibility with new libdivecomputer"
-meta-oe/recipes-gnome/gtkextra/gtkextra_3.0.5.bb:PNBLACKLIST[gtkextra] ?=3D=
- "BROKEN: Fails to build with gcc-5"
-meta-oe/recipes-graphics/clutter/clutter-box2d_git.bb:PNBLACKLIST[clutter-b=
-ox2d] ?=3D "BROKEN: doesn't build with B!=3DS"
-meta-oe/recipes-graphics/fim/fim_0.4-rc1.bb:PNBLACKLIST[fim] ?=3D "BROKEN: =
-doesn't build with B!=3DS (flex: can't open lex.lex)"
-meta-oe/recipes-graphics/slim/slim_1.3.2.bb:PNBLACKLIST[slim] ?=3D "does no=
-t build with distroless qemuarm as reported in 'State of bitbake world' thr=
-ead, nobody volunteered to fix them"
-meta-oe/recipes-graphics/xorg-driver/xf86-input-mtev_git.bb:PNBLACKLIST[xf8=
-6-input-mtev] ?=3D "BROKEN: doesn't build with B!=3DS (Makefile without ${S=
-} in sed call)"
-meta-oe/recipes-graphics/xorg-driver/xf86-video-geode_2.11.16.bb:PNBLACKLIS=
-T[xf86-video-geode] ?=3D "BROKEN, fails to build"
-meta-oe/recipes-kernel/ktap/ktap-module_git.bb:PNBLACKLIST[ktap-module] ?=
-=3D "Not compatible with 3.19 kernel"
-meta-oe/recipes-kernel/ktap/ktap_git.bb:PNBLACKLIST[ktap] ?=3D "Depends on =
-blacklisted kernel-module-ktapvm"
-meta-oe/recipes-multimedia/mplayer/mplayer2_git.bb:PNBLACKLIST[mplayer2] ?=
-=3D "Not compatible with currently used ffmpeg 3"
-meta-oe/recipes-navigation/foxtrotgps/foxtrotgps_1.1.1.bb:PNBLACKLIST[foxtr=
-otgps] ?=3D "${@bb.utils.contains('DISTRO_FEATURES', 'bluez5', 'bluez5 conf=
-licts with bluez4 and bluez5 is selected in DISTRO_FEATURES', '', d)}"
-meta-oe/recipes-navigation/gdal/gdal_1.11.1.bb:PNBLACKLIST[gdal] ?=3D "BROK=
-EN: fails to build with gcc-5"
-meta-oe/recipes-navigation/gypsy/gypsy.inc:PNBLACKLIST[gypsy] ?=3D "${@bb.u=
-tils.contains('DISTRO_FEATURES', 'bluez5', 'bluez5 conflicts with bluez4 an=
-d bluez5 is selected in DISTRO_FEATURES', '', d)}"
-meta-oe/recipes-navigation/navit/navit.inc:PNBLACKLIST[navit] ?=3D "${@bb.u=
-tils.contains('DISTRO_FEATURES', 'bluez5', 'bluez5 conflicts with bluez4 an=
-d bluez5 is selected in DISTRO_FEATURES', '', d)}"
-meta-oe/recipes-sato/claws-mail/claws-mail_3.9.0.bb:PNBLACKLIST[claws-mail]=
- ?=3D "depends on blacklisted libetpan"
-meta-oe/recipes-sato/claws-mail/claws-plugin-gtkhtml2-viewer_0.31.bb:PNBLAC=
-KLIST[claws-plugin-gtkhtml2-viewer] ?=3D "depends on blacklisted claws-mail"
-meta-oe/recipes-sato/claws-mail/claws-plugin-mailmbox_1.15.bb:PNBLACKLIST[c=
-laws-plugin-mailmbox] ?=3D "depends on blacklisted claws-mail"
-meta-oe/recipes-sato/claws-mail/claws-plugin-rssyl_0.34.bb:PNBLACKLIST[claw=
-s-plugin-rssyl] ?=3D "depends on blacklisted claws-mail"
-meta-oe/recipes-support/apcupsd/apcupsd_3.14.10.bb:PNBLACKLIST[apcupsd] ?=
-=3D "BROKEN: doesn't build with B!=3DS"
-meta-oe/recipes-support/emacs/emacs_23.4.bb:PNBLACKLIST[emacs] ?=3D "qemu: =
-uncaught target signal 11 (Segmentation fault) - core dumped"
-meta-oe/recipes-support/fftw/benchfft_3.1.bb:PNBLACKLIST[benchfft] ?=3D "do=
-es not build with distroless qemuarm as reported in 'State of bitbake world=
-' thread, nobody volunteered to fix them"
-meta-oe/recipes-support/iksemel/iksemel_1.4.bb:PNBLACKLIST[iksemel] ?=3D "N=
-ot compatible with gnutls version 3.4 currently in oe-core"
-meta-oe/recipes-support/libdbi/libdbi-drivers_0.8.3-1.bb:PNBLACKLIST[libdbi=
--drivers] ?=3D "BROKEN: fails to build with gcc-5"
-meta-oe/recipes-support/libetpan/libetpan_0.57.bb:PNBLACKLIST[libetpan] ?=
-=3D "Not compatible with gnutls version 3.4 currently in oe-core"
-meta-oe/recipes-support/open-vcdiff/open-vcdiff_0.8.4.bb:PNBLACKLIST[open-v=
-cdiff] ?=3D "BROKEN: fails to build with gcc-6"
-meta-oe/recipes-support/opencv/opencv-samples_2.4.bb:PNBLACKLIST[opencv-sam=
-ples] ?=3D "Depends on blacklisted opencv"
-meta-oe/recipes-support/opencv/opencv_2.4.bb:PNBLACKLIST[opencv] ?=3D "Not =
-compatible with currently used ffmpeg 3"
-meta-oe/recipes-support/openmotif/openmotif_2.3.3.bb:PNBLACKLIST[openmotif]=
- ?=3D "BROKEN: doesn't build with B!=3DS"
-meta-oe/recipes-support/opensync/libsyncml_0.5.4.bb:PNBLACKLIST[libsyncml] =
-?=3D "${@bb.utils.contains('DISTRO_FEATURES', 'bluez5', 'bluez5 conflicts w=
-ith bluez4 and bluez5 is selected in DISTRO_FEATURES', '', d)}"
-meta-oe/recipes-support/openwbem/openwbem_3.2.3.bb:PNBLACKLIST[openwbem] ?=
-=3D "BROKEN: fails to build with gcc-6"
-meta-oe/recipes-support/pidgin/pidgin-otr_4.0.0.bb:PNBLACKLIST[pidgin-otr] =
-?=3D "depends on blacklisted pidgin"
-meta-oe/recipes-support/vala-terminal/vala-terminal_git.bb:PNBLACKLIST[vala=
--terminal] ?=3D "BROKEN: Doesn't work with B!=3DS, touch: cannot touch `src=
-/.stamp': No such file or directory"
-meta-oe/recipes-support/vboxguestdrivers/vboxguestdrivers_4.3.36.bb:PNBLACK=
-LIST[vboxguestdrivers] ?=3D "BROKEN: not compatible with default kernel ver=
-sion 4.8"
-meta-qt5:
-meta-smartphone:
-mns('DISTRO_FEATURES', 'bluez5', 'bluez5 conflicts with bluez4 and bluez5 i=
-s selected in DISTRO_FEATURES', '', d)}"
-meta-shr/recipes-shr/3rdparty/ffalarms_git.bb:PNBLACKLIST[ffalarms] =3D "Do=
-esn't build after vala upgrade from 0.24.0 to 0.26.1"
-meta-shr/recipes-shr/3rdparty/gwaterpas_0.3.bb:PNBLACKLIST[gwaterpas] ?=3D =
-"broken: depends on blacklisted fltk"
-meta-shr/recipes-shr/3rdparty/iliwi_git.bb:PNBLACKLIST[iliwi] =3D "Doesn't =
-build after vala upgrade from 0.24.0 to 0.26.1"
-meta-shr/recipes-shr/3rdparty/intone_git.bb:PNBLACKLIST[intone] =3D "rdepen=
-ds on blacklisted mplayer2"
-meta-shr/recipes-shr/3rdparty/jefliks_git.bb:PNBLACKLIST[jefliks] ?=3D "dep=
-ends on blacklisted iksemel"
-meta-shr/recipes-shr/3rdparty/openmoko-gps_svn.bb:PNBLACKLIST[openmoko-gps]=
- ?=3D "RDEPENDS on python-pygtk which was removed from oe-core"
-meta-shr/recipes-shr/3rdparty/pisi_0.5.3.bb:PNBLACKLIST[pisi] ?=3D "RDEPEND=
-S on python-pygtk which was removed from oe-core"
-meta-shr/recipes-shr/3rdparty/podboy_svn.bb:PNBLACKLIST[podboy] ?=3D "${@bb=
-=2Eutils.contains('DISTRO_FEATURES', 'bluez5', 'bluez5 conflicts with bluez=
-4 and bluez5 is selected in DISTRO_FEATURES', '', d)}"
-meta-shr/recipes-shr/3rdparty/sensmon_git.bb:PNBLACKLIST[sensmon] =3D "Does=
-n't build after vala upgrade from 0.24.0 to 0.26.1"
-meta-shr/recipes-shr/3rdparty/valacompass_git.bb:PNBLACKLIST[valacompass] =
-=3D "Doesn't build after vala upgrade from 0.24.0 to 0.26.1"
-meta-shr/recipes-shr/games/aceofpenguins_1.4.bb:PNBLACKLIST[aceofpenguins] =
-?=3D "BROKEN: fails to build with new binutils-2.27"
-meta-shr/recipes-shr/shr/shr-installer_git.bb:PNBLACKLIST[shr-installer] ?=
-=3D "Depends on blacklisted packagekit"
-meta-webos-ports:
-meta-luneos/recipes-luneos/luna-webappmanager/luna-webappmanager.bb:PNBLACK=
-LIST[luna-webappmanager] ?=3D "BROKEN: needs to be adapted to new qt-5.7"
-meta-luneui/recipes-luneui/luna-next/luna-next.bb:PNBLACKLIST[luna-next] ?=
-=3D "BROKEN: needs to be adapted to new qtwayland-5.7"
-PNBLACKLIST[android-system] =3D "depends on lxc from meta-virtualiazation w=
-hich isn't included in my world builds"
-PNBLACKLIST[bigbuckbunny-1080p] =3D "big and doesn't really need to be test=
-ed so much"
-PNBLACKLIST[bigbuckbunny-480p] =3D "big and doesn't really need to be teste=
-d so much"
-PNBLACKLIST[bigbuckbunny-720p] =3D "big and doesn't really need to be teste=
-d so much"
-PNBLACKLIST[bigbuckbunny-720p] =3D "big and doesn't really need to be teste=
-d so much"
-PNBLACKLIST[tearsofsteel-1080p] =3D "big and doesn't really need to be test=
-ed so much"
-PNBLACKLIST[build-appliance-image] =3D "tries to include whole downloads di=
-rectory in /home/builder/poky :/"
-PNBLACKLIST[linux-yocto-tiny-kexecboot] =3D "does weird sh!t breaking other=
- kernels and modules - broken for years"
-PNBLACKLIST[linux-yocto-tiny] =3D "does weird sh!t breaking other kernels a=
-nd modules - broken for years"
-
-
-QA issues by type:
-count: 0	issue: already-stripped
-
-
-count: 0	issue: libdir
-
-
-count: 0	issue: textrel
-
-
-count: 0	issue: build-deps
-
-
-count: 0	issue: file-rdeps
-
-
-count: 0	issue: version-going-backwards
-
-
-count: 0	issue: host-user-contaminated
-
-
-count: 0	issue: installed-vs-shipped
-
-
-count: 0	issue: unknown-configure-option
-
-
-count: 0	issue: symlink-to-sysroot
-
-
-count: 0	issue: invalid-pkgconfig
-
-
-count: 0	issue: pkgname
-
-
-
-=3D=3D Tested changes (not included in master yet) - bitbake =3D=3D
-latest upstream commit:=20
-91c3b34 lib/bb/cooker.py: fix for BBFILE_PATTERN =3D ""
-not included in master yet:=20
-4f95c8d world-image: add extra target
-
-=3D=3D Tested changes (not included in master yet) - openembedded-core =3D=
-=3D
-latest upstream commit:=20
-a675b2c sanity.bbclass: fix logging of an error
-not included in ma download URL
-84100ea edac-utils: fix systemd service
-f9ddaa5 python-cassandra-driver: add recipe for version 3.7.1
-1ffc684 python-spidev: add recipe for version 3.2
-66776d5 augeas: fix QA warning
-edcd9f8 fwknop: Initial add 2.6.9
-155cf80 libplist: Remove rpaths surgically
-27eb69c python-pyserial: remove serialjava.py
-001be5f samba: Fix build with musl
-e1b0fc1 lockdev: Pretend GNU libc on musl
-7ebe5a9 gnuplot: upgrade to 5.0.5
-67fc350 pyyaml: Enable nativesdk bake
-7c949f8 iozone3: 434 -> 465
-ff31cba libhugetlbfs: 1.19 -> 1.20
-77e3b4a phoronix-test-suite: 6.0.1 -> 6.6.1
-a0153d7 asio: DEPENDS on openssl
-970460a asio: fix a musl compilation warning
-600acf9 apache2: include .load files in modules.d
-92d1d26 openjpeg: rename the download file
-38da3c9 python-humanize, python3-humanize: Add recipe for version 0.5.1
-a380b48 ifenslave: make option '-h' work
-f2c73eb opencv: fix QA issue
-1961f08 libeigen: set tarball name as ${BP}.tar.bz2
-2761ac3 libowfat: add v0.31
-cf6410b lvm2: 2.02.138 -> 2.02.166
-dbaad94 opencv: checking existence of /usr/lib
-7a943a5 gtkmm: add x11 to REQUIRED_DISTRO_FEATURES
-b3c6c11 pavucontrol: add x11 to REQUIRED_DISTRO_FEATURES
-b6df437 libunique: add x11 to REQUIRED_DISTRO_FEATURES
-52f9235 dconf: add x11 to REQUIRED_DISTRO_FEATURES
-5ea4fd3 evince: add x11 to REQUIRED_DISTRO_FEATURES
-0fa89b7 gnome-disk-utility: add x11 to REQUIRED_DISTRO_FEATURES
-9d80fa7 gtksourceview2: add x11 to REQUIRED_DISTRO_FEATURES
-f933e39 libwnck: add x11 to REQUIRED_DISTRO_FEATURES
-6f993b4 libxklavier: add x11 to REQUIRED_DISTRO_FEATURES
-3536cbd packagegroup-xfce-base: add x11 to REQUIRED_DISTRO_FEATURES
-62c5a23 xfce4-pulseaudio-plugin: add x11 to REQUIRED_DISTRO_FEATURES
-3a62dbf thunar-plugin.bbclass: add x11 to REQUIRED_DISTRO_FEATURES
-bad19d5 xfce-panel-plugin.bbclass: add x11 to REQUIRED_DISTRO_FEATURES
-c896a90 xfce-app.bbclass: add x11 to REQUIRED_DISTRO_FEATURES
-592d0ea exo: add x11 to REQUIRED_DISTRO_FEATURES
-ad99e50 garcon: add x11 to REQUIRED_DISTRO_FEATURES
-030de03 gtk-xfce-engine: add x11 to REQUIRED_DISTRO_FEATURES
-778b2b0 libxfce4ui: add x11 to REQUIRED_DISTRO_FEATURES
-2e315c6 thunar: add x11 to REQUIRED_DISTRO_FEATURES
-41bc8ec thunar-volman: add x11 to REQUIRED_DISTRO_FEATURES
-a0e3239 xfce4-appfinder: add x11 to REQUIRED_DISTRO_FEATURES
-ba002fe xfce4-panel: add x11 to REQUIRED_DISTRO_FEATURES
-30ee7f4 xfce4-power-manager: add x11 to REQUIRED_DISTRO_FEATURES
-9005050 xfce4-session: add x11 to REQUIRED_DISTRO_FEATURES
-12b302d xfce4-settings: add x11 to REQUIRED_DISTRO_FEATURES
-e9c2a99 xfdesktop: add x11 to REQUIRED_DISTRO_FEATURES
-f36e38d xfwm4: add x11 to REQUIRED_DISTRO_FEATURES
-72270ae python-zopeinterface: update to version 4.3.2
-5f0d3e7 python-yappi: update to version 0.98
-86dd8a9 openobex: upgrade to 1.7.2
-6a1383f rsnapshot: fix host path in rsnapshot.conf.default
-3d4c986 python-vobject: update to version 0.9.3
-8d3db26 python-urllib3: update to version 1.19
-ee7e27f python-setuptools-scm: update to version 1.15.0
-f2abbd0 opencv: remove DEFAULT_PREFERENCE =3D "-1" for 3.1
-e881354 python-requests: update to version 2.12.0
-bd49cd8 samba: Fix qa issue and update ctdb-tests
-371f412 samba: correct sub-package name for multilib
-1aaab25 curlpp: fix qa issue of do_configure
-74e5171 mcelog: Add Kabylake client support
-a7282c8 python-pyserial: update to version 3.2.1
-e27050e python-pycparser: update to version 2.17
-3991dff python-pytz: update to version 2016.7
-7ecdb9c ncp: add v1.2.4
-006b197 android-tools: fix do_install
-09931a3 libdbus-c++: added recipe for it
-4523b4 syslog-ng: don't use update-alternatives to manage init script
-2cb2dec rsyslog: don't use update-alternatives to manage init script
-80179c1 dnsmasq: read the conf files found in dnsmasq.d
-d31796d dnsmasq: allow for dnsmasq instances to reuse default dnsmasq.conf
-
-=3D=3D Tested changes (not included in master yet) - meta-qt5 =3D=3D
-latest upstream commit:=20
-81fb771 Update Qt5's git repositories to match new locations
-not included in master yet:=20
-14d55dc Upgrade to Qt 5.8
-
-=3D=3D Tested changes (not included in master yet) - meta-browser =3D=3D
-latest upstream commit:=20
-1edcce7 chromium-wayland: skip when CHROMIUM_ENABLE_WAYLAND isn't enabled
-not included in master yet:=20
-
-=3D=3D Tested changes (not included in master yet) - meta-webos-ports =3D=3D
-latest upstream commit:=20
-6d82a3f libqofono: use the recipe from meta-qt5
-not included in master yet:=20
-
-=3D=3D Tested changes (not included in master yet) - meta-smartphone =3D=3D
-latest upstream commit:=20
-176f337  linux-hp-tenderloin: Update kernel
-not included in master yet:=20
-
---DKU6Jbt7q3WqK7+M
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iF0EARECAB0WIQRU+ejDffEzV2Je2oc3VSO3ZXaAHAUCWDWx4wAKCRA3VSO3ZXaA
-HCDYAJ9DZenXAJMjbJLfIQFgHqxQHv4zcwCgjJsIQPRvna+RpnCm2r0PjBHpXuM=
-=lzw+
------END PGP SIGNATURE-----
-
---DKU6Jbt7q3WqK7+M--
