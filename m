@@ -1,45 +1,30 @@
-Return-Path: <nathan@nathanrossi.com>
-Received: from mail-io0-f193.google.com (mail-io0-f193.google.com
-	[209.85.223.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 7AAE771A66
+Return-Path: <Yuanjie.Huang@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 5EA30719B3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Nov 2016 05:29:07 +0000 (UTC)
-Received: by mail-io0-f193.google.com with SMTP id h133so465811ioe.2
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Nov 2016 21:29:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=nathanrossi.com; s=google;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=1FvhDiUTX5Mt3BoDPz3gNvNdF2QlkCjUfGRXBYjYqkU=;
-	b=K0aAW88SDq6EfKx0s/npUKUmWnbyb/Xw1gVTMdvQ3C3GGyBf8kA/JZ38lh5+zZ86zd
-	itenMdYqIYH3M5wX28+S2u60zGc0ZhJoXDUsw0YPaulpcspJYnazZrM8FBR6/KaJGOJW
-	AHiF3HfXbizxPrN4d+UbOtoYBwhJqPxFwAukBMx8VEkC1YxMMPmy3XqYrGYnjD0kxT/E
-	EkARi5/hk5NCnd+5Rc8OTH0ZTbDBP0Zm1wD+A74m1gd3396U81wN+PXNfY0xL6+uFhR/
-	e6bOnnu9C42GICC6Kv2kk6TeDZkS4sddzTkfLzpRmfHo+h6MumQVWqnqThy+FOIyDE/G
-	Lquw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=1FvhDiUTX5Mt3BoDPz3gNvNdF2QlkCjUfGRXBYjYqkU=;
-	b=BuVyXjBAeZ34OXB+TGMpMFo09lHZjLFz+bkKM2IezNaBMNhg9XjjGZboo1MtvoX7BI
-	+qDIen68UCbBs2KUXqj6mpbwDVpDFH8SR9XO8DrfWh07Yu6Kuw76vWJzmQP8Wxs7vOAp
-	AdQpWFlZtly//3yse9PSTAZqp3y7PPUKaxQK5IZJNtBNMnlbD/0sBm0w/urkogXIvdGu
-	JuEb2lkNDQW6DkogEkAxiGrMoe1ZYExm9nDX1zRFDP1iHF9pHqIUUgYhhzmIaSLW94sg
-	PCgRaTlGbe+aLm6JcGjI9kH2coiN7xOSzExM6M0ilWSRJYAj4CPOA+04maffX76eziBL
-	8Nzg==
-X-Gm-Message-State: AKaTC03PGskzeDFoWM8mS1b48HNiSQziMBTVidzIhOlfAEA6OCDbnwD8pzsDo37wYEZnf8YLtuAZq5tJbgL7Ug==
-X-Received: by 10.107.46.227 with SMTP id u96mr1782655iou.58.1479878949552;
-	Tue, 22 Nov 2016 21:29:09 -0800 (PST)
+	Wed, 23 Nov 2016 06:49:47 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id uAN6nlWn008215
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
+	Tue, 22 Nov 2016 22:49:47 -0800
+Received: from [128.224.162.192] (128.224.162.192) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.294.0;
+	Tue, 22 Nov 2016 22:49:47 -0800
+To: Khem Raj <raj.khem@gmail.com>
+References: <20161123020049.22482-1-Yuanjie.Huang@windriver.com>
+	<7CEAD313-1930-44C6-92A5-29E922A3485A@gmail.com>
+	<0bb2fa3a-66ee-4fd7-100c-e990dd507a1d@windriver.com>
+	<76B00DDD-67D7-467A-84F7-67C0FB25EA62@gmail.com>
+From: Yuanjie Huang <yuanjie.huang@windriver.com>
+Message-ID: <926fbd84-941c-2eeb-d189-27133a6b0688@windriver.com>
+Date: Wed, 23 Nov 2016 14:49:45 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.4.0
 MIME-Version: 1.0
-Received: by 10.50.249.10 with HTTP; Tue, 22 Nov 2016 21:29:08 -0800 (PST)
-In-Reply-To: <20161021120728.22639-1-nathan@nathanrossi.com>
-References: <20161021120728.22639-1-nathan@nathanrossi.com>
-From: Nathan Rossi <nathan@nathanrossi.com>
-Date: Wed, 23 Nov 2016 15:29:08 +1000
-Message-ID: <CA+aJhH1F5M7pxXC7XCB8Et+-QaKGNbhAYpaA8Miu6dNvHtfrSA@mail.gmail.com>
-To: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] kernel-fitimage.bbclass: Check value of UBOOT_SIGN_ENABLE
+In-Reply-To: <76B00DDD-67D7-467A-84F7-67C0FB25EA62@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/1] gdb-cross: depends on flex-native and bison-native
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,38 +37,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 23 Nov 2016 05:29:08 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 23 Nov 2016 06:49:48 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Just pinging these patches, to see if there were any issues or
-comments. I realize I sent them just before a release so it was very
-likely they would get lost in the noise.
 
-Thanks,
-Nathan
+On 11/23/2016 11:38 AM, Khem Raj wrote:
+> are they regenerating code during configure ?
+No, code is generated during compilation. Corresponding c files are not 
+included in git repo, so these files are always compiled from flex/bison 
+source files.
+>> On Nov 22, 2016, at 7:22 PM, Yuanjie Huang <yuanjie.huang@windriver.com> wrote:
+>>
+>> Hi Raj,
+>>
+>> We observed gdb/ada-lex.l is processed by flex while gdb/c-exp.y, gdb/f-exp.y, gdb/go-exp.y and many others are handled by bison. Basically, all language-specific codes in gdb are generated.
+>>
+>> Best,
+>> Yuanjie
+>>
+>> On 11/23/2016 11:05 AM, Khem Raj wrote:
+>>>> On Nov 22, 2016, at 6:00 PM, Yuanjie Huang <Yuanjie.Huang@windriver.com> wrote:
+>>>>
+>>>> From: Yuanjie Huang <yuanjie.huang@windriver.com>
+>>>>
+>>>> Some source code of gdb is generated with flex or bison. Make both
+>>>> dependencies, to avoid compilation failure on host without them.
+>>> can you find out which parts those are ? what is it trying to do to need flex/yacc
+>>>> Signed-off-by: Yuanjie Huang <yuanjie.huang@windriver.com>
+>>>> ---
+>>>> meta/recipes-devtools/gdb/gdb-cross.inc | 2 +-
+>>>> 1 file changed, 1 insertion(+), 1 deletion(-)
+>>>>
+>>>> diff --git a/meta/recipes-devtools/gdb/gdb-cross.inc b/meta/recipes-devtools/gdb/gdb-cross.inc
+>>>> index 5fa7c33..a34223e 100644
+>>>> --- a/meta/recipes-devtools/gdb/gdb-cross.inc
+>>>> +++ b/meta/recipes-devtools/gdb/gdb-cross.inc
+>>>> @@ -1,6 +1,6 @@
+>>>> require gdb-common.inc
+>>>>
+>>>> -DEPENDS = "expat-native ncurses-native"
+>>>> +DEPENDS = "expat-native ncurses-native flex-native bison-native"
+>>>>
+>>>> inherit python3native
+>>>>
+>>>> -- 
+>>>> 2.7.4
+>>>>
+>>>> -- 
+>>>> _______________________________________________
+>>>> Openembedded-core mailing list
+>>>> Openembedded-core@lists.openembedded.org
+>>>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
-On 21 October 2016 at 22:07, Nathan Rossi <nathan@nathanrossi.com> wrote:
-> Check the value of UBOOT_SIGN_ENABLE, as it is defaulted to "0" which
-> for matches as True in python due to being a non-empty string.
->
-> Signed-off-by: Nathan Rossi <nathan@nathanrossi.com>
-> ---
->  meta/classes/kernel-fitimage.bbclass | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta/classes/kernel-fitimage.bbclass b/meta/classes/kernel-fitimage.bbclass
-> index 8580247f82..3bbf91f65a 100644
-> --- a/meta/classes/kernel-fitimage.bbclass
-> +++ b/meta/classes/kernel-fitimage.bbclass
-> @@ -26,7 +26,7 @@ python __anonymous () {
->          # Verified boot will sign the fitImage and append the public key to
->          # U-boot dtb. We ensure the U-Boot dtb is deployed before assembling
->          # the fitImage:
-> -        if d.getVar('UBOOT_SIGN_ENABLE', True):
-> +        if d.getVar('UBOOT_SIGN_ENABLE', True) == "1":
->              uboot_pn = d.getVar('PREFERRED_PROVIDER_u-boot', True) or 'u-boot'
->              d.appendVarFlag('do_assemble_fitimage', 'depends', ' %s:do_deploy' % uboot_pn)
->  }
-> --
-> 2.9.3
 
