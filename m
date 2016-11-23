@@ -1,31 +1,54 @@
-Return-Path: <ejo@pengutronix.de>
-Received: from metis.ext.4.pengutronix.de (metis.ext.4.pengutronix.de
-	[92.198.50.35])
-	by mail.openembedded.org (Postfix) with ESMTP id 0805F719D4
+Return-Path: <kristian.amlie@mender.io>
+Received: from mail-qt0-f171.google.com (mail-qt0-f171.google.com
+	[209.85.216.171])
+	by mail.openembedded.org (Postfix) with ESMTP id 1B1CC70178
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Nov 2016 08:40:05 +0000 (UTC)
-Received: from mango.hi.pengutronix.de ([2001:67c:670:100:76d4:35ff:fee8:98b3])
-	by metis.ext.pengutronix.de with esmtp (Exim 4.84_2)
-	(envelope-from <ejo@pengutronix.de>)
-	id 1c9T64-0008Ap-Jo; Wed, 23 Nov 2016 09:40:04 +0100
-To: Kristian Amlie <kristian.amlie@mender.io>,
-	Patrick Ohly <patrick.ohly@intel.com>,
-	Eduard Bartosh <eduard.bartosh@intel.com>
+	Wed, 23 Nov 2016 09:01:47 +0000 (UTC)
+Received: by mail-qt0-f171.google.com with SMTP id c47so5454699qtc.2
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 23 Nov 2016 01:01:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=mender-io.20150623.gappssmtp.com; s=20150623;
+	h=subject:to:references:cc:from:message-id:date:user-agent
+	:mime-version:in-reply-to:content-transfer-encoding;
+	bh=BXp7hr5/MA3/v2ohfFXvQt52W0ypr1/VxVDnHzvJKII=;
+	b=fnyOgbnsKEZUT5qIS8eQq7irVtOuMiMIwUJC4kTxzxBeXGfNnXNVH/+4LhYVE6vJyp
+	PHGr0394wwEUQ/1G1Wb0vHwREvbZrAuz7WdDV4k0BE4zkPjjOIUHsY/VeM0lyThQwySq
+	x2ODpF1cbTjo0txthRrqgGO+4l4FjJZv4nGaZJUoOptJK6McOAqfACCe1gnBycJTapZW
+	bqhI3MpBIsBUq+yo7iqxEvYIZrNjHsogmdx4D1vY7TkJG3erwsKsDuAeH3M4SuegPsN/
+	uP/hae9pKX93WFaYgq5SNsWgLFdSs1e5BwB/Wfl/MMQbrjeLPXHBZwf+QFvHxktu2bS5
+	MoQg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:subject:to:references:cc:from:message-id:date
+	:user-agent:mime-version:in-reply-to:content-transfer-encoding;
+	bh=BXp7hr5/MA3/v2ohfFXvQt52W0ypr1/VxVDnHzvJKII=;
+	b=i/EPJG+/3nlr/hNQq1Ws1ykTPRZrRX4pl89c4vBtiy3mZcytAoIY4awQJd+yLdYfvO
+	JeFFzURIpWlqz8M1q6NpSbRtv42se4WXTSmdFkLs9z+6pXWCRZpjb7xaWES2P0gjn1u9
+	CpHzrm7n42zaa5L/I/5il2zU4GI0AckV3JPYi1ZGB4SPMRQ6J/SZ9gfq2eE/TO0hWycI
+	J/c5E5STGoNQmjczhNCyQDQdYCxGf9CGuNwG3rOvmwOxla9o2TgySa1C0MmwxK6B9uSA
+	kvjhBuke4qmeDGhPKQ15bn0TiCTsZ1x5brlIDJY3yJtotn0AzsQZtbxUGRWKeDaDmH3t
+	gJig==
+X-Gm-Message-State: AKaTC00E4xBAjLL7ZuUmfkmYjHpM1v67wOZHHCovBUfT3KNEoQTlfMFXmb1mJ9WSvpVIZA==
+X-Received: by 10.25.206.3 with SMTP id e3mr558109lfg.42.1479891708724;
+	Wed, 23 Nov 2016 01:01:48 -0800 (PST)
+Received: from [10.25.0.170] ([195.159.140.90])
+	by smtp.googlemail.com with ESMTPSA id
+	e37sm7004323lji.42.2016.11.23.01.01.47
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 23 Nov 2016 01:01:47 -0800 (PST)
+To: Khem Raj <raj.khem@gmail.com>
 References: <a90e8685-f087-5ee2-888b-aa537ebd94c4@mender.io>
-	<1479813004.3239.19.camel@intel.com>
-	<6913e4bf-96dc-eefa-d214-9df5cde181b8@mender.io>
-From: Enrico Joerns <ejo@pengutronix.de>
-Message-ID: <776827b7-ca3e-e319-c2f0-b8b15bef4fb2@pengutronix.de>
-Date: Wed, 23 Nov 2016 09:40:00 +0100
+	<1d5954ab-1a9a-b73d-7f72-fbe84c8e2250@gmail.com>
+	<839768d8-710e-b4b0-88ad-1c5780f4c51d@mender.io>
+	<FDD8C344-D3E7-45B6-A463-2E4803B95572@gmail.com>
+From: Kristian Amlie <kristian.amlie@mender.io>
+Message-ID: <3f864d97-817c-bef3-242d-64a68000f7dc@mender.io>
+Date: Wed, 23 Nov 2016 10:01:46 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Icedove/45.4.0
+	Thunderbird/45.4.0
 MIME-Version: 1.0
-In-Reply-To: <6913e4bf-96dc-eefa-d214-9df5cde181b8@mender.io>
-X-SA-Exim-Connect-IP: 2001:67c:670:100:76d4:35ff:fee8:98b3
-X-SA-Exim-Mail-From: ejo@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
-	SAEximRunCond expanded to false
-X-PTX-Original-Recipient: openembedded-core@lists.openembedded.org
+In-Reply-To: <FDD8C344-D3E7-45B6-A463-2E4803B95572@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
 Subject: Re: Contents of non-rootfs partitions
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -40,78 +63,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 23 Nov 2016 08:40:06 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 23 Nov 2016 09:01:48 -0000
+Content-Type: text/plain; charset=windows-1252
+Content-Transfer-Encoding: 7bit
 
-On 11/22/2016 12:54 PM, Kristian Amlie wrote:
-> On 22/11/16 12:10, Patrick Ohly wrote:
->>> ...
+On 23/11/16 08:26, Khem Raj wrote:
+> 
+>> On Nov 22, 2016, at 11:13 PM, Kristian Amlie <kristian.amlie@mender.io> wrote:
 >>
->> All of these introduce some special mechanism. Let me propose something
->> that might integrate better with the existing tooling:
+>> On 23/11/16 00:45, Khem Raj wrote:
+>>> Firstly, it needs to be defined what the data partition is about.
+>>> 1. is it some pre-initialized/seeded data that can then be modified during
+>>> subsequent boots ?
+>>> 2. Is it read-only data which is then used to populate r/w data segments in
+>>> RAM during boot
+>>> 3. is it data that does not change over the course of install and reboots of
+>>> the device
 >>
->> The "rootfs" directory gets redefined as representing the entire virtual
->> file system. When creating a disk image, it gets split up into different
->> partitions based on the image configuration.
->>
->> For example, the /home or /data directories in the rootfs could hold the
->> content that in some image configurations goes into separate partitions.
->>
->> The advantage of this approach is that the tooling for staging content
->> for image creation does not need to be changed. The same staged content
->> then can be used to create different images, potentially even using
->> different partition layouts.
->
-> That's a very good idea. I think it beats all of my suggestions!
+>> It's preseeded, but modifiable data, that survives complete rootfs
+>> updates. IOW if you overwrite either of your A/B rootfs partitions, the
+>> data partition and its content survives.
+> 
+> at some point this data segment will be seeded.
+> think of factory case. 
 
-I totally agree with this solution, because it is the same approach we 
-are already using for several years.
+The creation of the initial partitioned image for the memory card
+preseeds the data partition. This is meant to be used in initial factory
+flashing (by which I mean literally "at the factory", not the factory
+reset button). Subsequent rootfs updates would not touch the data partition.
 
-Instead of wic we are using the genimage tool 
-(http://public.pengutronix.de/software/genimage/) together with a Yocto 
-class for easing image creation, but its pretty much the same concerning 
-its base purpose.
+> So in such a case updates should not touch them unless user does a factory reset
+> which should clean it up
 
-We called the option to split up 'mountpoint' while assuming that the 
-splitted partition will be mounted to the same location in the file 
-system it was taken from.
-
-An example configuration would look like this (stripped down to the 
-essential parts):
-
-   image my-disk-image {
-           [...]
-           partition root {
-                   image = "rootfs.ext4"
-                   [...]
-           }
-
-           partition home {
-                   image = "home.ext4"
-                   [...]
-           }
-   }
-
-   image rootfs.ext4 {
-           [...]
-           mountpoint = "/"
-   }
-
-   image home.ext4 {
-           [...]
-           mountpoint = "/home"
-   }
-
-Maybe a similar approach could be used in wic, too.
-
-
-Best regards, Enrico
+Factory reset is not covered in my suggestion. While also important, I
+consider this a separate feature, which would require cooperation by the
+running OS. I hope it's acceptable to keep this out of the first patchset?
 
 -- 
-Pengutronix e.K.                           | Enrico Jörns                |
-Industrial Linux Solutions                 | http://www.pengutronix.de/  |
-Peiner Str. 6-8, 31137 Hildesheim, Germany | Phone: +49-5121-206917-5080 |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
-
+Kristian
 
