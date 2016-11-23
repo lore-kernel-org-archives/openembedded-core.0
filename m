@@ -1,37 +1,25 @@
-Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id A153171A66
+Return-Path: <Zubair.Kakakhel@imgtec.com>
+Received: from mailapp01.imgtec.com (mailapp01.imgtec.com [195.59.15.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 4711A6072C
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Nov 2016 13:44:10 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by fmsmga101.fm.intel.com with ESMTP; 23 Nov 2016 05:44:12 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.31,538,1473145200"; 
-   d="scan'208";a="8429992"
-Received: from linux.intel.com ([10.54.29.200])
-	by orsmga002.jf.intel.com with ESMTP; 23 Nov 2016 05:44:11 -0800
-Received: from linux.intel.com (vmed.fi.intel.com [10.237.72.38])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by linux.intel.com (Postfix) with ESMTP id 86F266A4006;
-	Wed, 23 Nov 2016 05:43:29 -0800 (PST)
-Date: Wed, 23 Nov 2016 15:44:04 +0200
-From: Ed Bartosh <ed.bartosh@linux.intel.com>
-To: Kristian Amlie <kristian.amlie@mender.io>
-Message-ID: <20161123134404.GC13863@linux.intel.com>
-Reply-To: ed.bartosh@linux.intel.com
-References: <a90e8685-f087-5ee2-888b-aa537ebd94c4@mender.io>
-	<1479813004.3239.19.camel@intel.com>
-	<6913e4bf-96dc-eefa-d214-9df5cde181b8@mender.io>
-	<20161123120816.GC12545@linux.intel.com>
-	<5064cacc-e724-c7b8-9631-3d961c5a29f6@mender.io>
+	Wed, 23 Nov 2016 13:47:41 +0000 (UTC)
+Received: from HHMAIL01.hh.imgtec.org (unknown [10.100.10.19])
+	by Forcepoint Email with ESMTPS id 253EF80DB0897
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 23 Nov 2016 13:47:38 +0000 (GMT)
+Received: from zkakakhel-linux.le.imgtec.org (192.168.154.45) by
+	HHMAIL01.hh.imgtec.org (10.100.10.21) with Microsoft SMTP Server (TLS)
+	id 14.3.294.0; Wed, 23 Nov 2016 13:47:40 +0000
+From: Zubair Lutfullah Kakakhel <Zubair.Kakakhel@imgtec.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 23 Nov 2016 13:47:27 +0000
+Message-ID: <20161123134733.38276-2-Zubair.Kakakhel@imgtec.com>
+X-Mailer: git-send-email 2.10.2
+In-Reply-To: <20161123134733.38276-1-Zubair.Kakakhel@imgtec.com>
+References: <20161123134733.38276-1-Zubair.Kakakhel@imgtec.com>
 MIME-Version: 1.0
-In-Reply-To: <5064cacc-e724-c7b8-9631-3d961c5a29f6@mender.io>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: Eduard Bartosh <eduard.bartosh@intel.com>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: Contents of non-rootfs partitions
+X-Originating-IP: [192.168.154.45]
+Subject: [Patch 1/7] webkitgtk: Use MIPS MACHINE_OVERRIDES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,53 +32,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 23 Nov 2016 13:44:11 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Wed, 23 Nov 2016 13:47:42 -0000
+Content-Type: text/plain
 
-On Wed, Nov 23, 2016 at 02:08:28PM +0100, Kristian Amlie wrote:
-> On 23/11/16 13:08, Ed Bartosh wrote:
-> > On Tue, Nov 22, 2016 at 12:54:52PM +0100, Kristian Amlie wrote:
-> >> On 22/11/16 12:10, Patrick Ohly wrote:
-> >>>> ...
-> >>>
-> >>> All of these introduce some special mechanism. Let me propose something
-> >>> that might integrate better with the existing tooling:
-> >>>
-> >>> The "rootfs" directory gets redefined as representing the entire virtual
-> >>> file system. When creating a disk image, it gets split up into different
-> >>> partitions based on the image configuration.
-> >>>
-> >>> For example, the /home or /data directories in the rootfs could hold the
-> >>> content that in some image configurations goes into separate partitions.
-> >>>
-> >>> The advantage of this approach is that the tooling for staging content
-> >>> for image creation does not need to be changed. The same staged content
-> >>> then can be used to create different images, potentially even using
-> >>> different partition layouts.
-> >>
-> >> That's a very good idea. I think it beats all of my suggestions!
-> >>
-> >>> To implement this approach with wic, wic needs to be taught how to
-> >>> exclude directories from the main rootfs. Ideally, the mkfs.* tools
-> >>> should also support that without having to make an intermediate copy of
-> >>> the files for a certain partition, but initially wic could create
-> >>> temporary directory trees.
-> >>
-> >> Yes, some work would be needed here, but ultimately it would be contained within wic and related tools, which is a good thing.
-> >>
-> > 
-> > I support the idea. Let's discuss the details of implementation and
-> > create a bug in bugzilla to track the development 
-> 
-> Do you want me to create the ticket? (it'll be my first, so apologies in
-> advance if I omit something important)
-> 
-Yes, please create an issue in bugzilla and assign it to me. Don't
-worry. If you miss something other people will point to in in the
-comments :)
+The mipsarch* MACHINE_OVERRIDES can be used to pass the same
+parameters to MIPS pre-R2 and R6 ISA variants.
 
---
-Regards,
-Ed
+Use them to reduce duplication in supporting MIPS R6 ISA.
+
+Signed-off-by: Zubair Lutfullah Kakakhel <Zubair.Kakakhel@imgtec.com>
+---
+ meta/recipes-sato/webkit/webkitgtk_2.14.1.bb | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/meta/recipes-sato/webkit/webkitgtk_2.14.1.bb b/meta/recipes-sato/webkit/webkitgtk_2.14.1.bb
+index 1f2166c..3637e05 100644
+--- a/meta/recipes-sato/webkit/webkitgtk_2.14.1.bb
++++ b/meta/recipes-sato/webkit/webkitgtk_2.14.1.bb
+@@ -77,8 +77,7 @@ EXTRA_OECMAKE_append_armv4 = " -DENABLE_JIT=OFF "
+ # binutils 2.25.1 has a bug on aarch64:
+ # https://sourceware.org/bugzilla/show_bug.cgi?id=18430
+ EXTRA_OECMAKE_append_aarch64 = " -DUSE_LD_GOLD=OFF "
+-EXTRA_OECMAKE_append_mips = " -DUSE_LD_GOLD=OFF "
+-EXTRA_OECMAKE_append_mips64 = " -DUSE_LD_GOLD=OFF "
++EXTRA_OECMAKE_append_mipsarch = " -DUSE_LD_GOLD=OFF "
+ EXTRA_OECMAKE_append_toolchain-clang = " -DUSE_LD_GOLD=OFF "
+ 
+ # JIT not supported on MIPS either
+@@ -106,4 +105,5 @@ ARM_INSTRUCTION_SET_armv7ve = "thumb"
+ 
+ # WebKit2-4.0: ../../libgpg-error-1.21/src/posix-lock.c:119: get_lock_object: Assertion `!"sizeof lock obj"' failed.
+ # qemu: uncaught target signal 6 (Aborted) - core dumped
+-EXTRA_OECMAKE_append_mips64 = " -DENABLE_INTROSPECTION=OFF -DENABLE_GTKDOC=OFF"
++EXTRA_OECMAKE_append_mipsarchn32 = " -DENABLE_INTROSPECTION=OFF -DENABLE_GTKDOC=OFF"
++EXTRA_OECMAKE_append_mipsarchn64 = " -DENABLE_INTROSPECTION=OFF -DENABLE_GTKDOC=OFF"
+-- 
+2.10.2
+
 
