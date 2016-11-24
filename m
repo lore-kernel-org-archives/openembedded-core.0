@@ -1,58 +1,42 @@
-Return-Path: <patrick.ohly@intel.com>
-Received: from mail-io0-f174.google.com (mail-io0-f174.google.com
-	[209.85.223.174])
-	by mail.openembedded.org (Postfix) with ESMTP id 3622A606BF
+Return-Path: <freesilicon@gmail.com>
+Received: from mail-qk0-f196.google.com (mail-qk0-f196.google.com
+	[209.85.220.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 6E82171AF9
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Nov 2016 07:46:31 +0000 (UTC)
-Received: by mail-io0-f174.google.com with SMTP id c21so61872966ioj.1
+	Thu, 24 Nov 2016 08:24:09 +0000 (UTC)
+Received: by mail-qk0-f196.google.com with SMTP id y205so2678693qkb.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Nov 2016 23:46:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:organization:mime-version:content-transfer-encoding;
-	bh=0bIXdk8JdkeSpe8dlMyQaOjcPeJ/9BbMgdRRMu5uOJc=;
-	b=fNZj31v1v+r1FlRSwcqvpWhPaakPXQ9NVTGnRBj8jdvJmDGNO3z8unJb6zrJeOH4n3
-	Sk9ZE5RvI5Bws5844EMHuU0SNj77LsGXnVywZBztwqaGd0AWqBV7fSYEeDleTqlg6Z1u
-	ea1p5w5LSCnGkHhwES04yVmaQ3Tj5Dopd3H3YLGULhzpwwSIBWhoRivggbJERCTDub16
-	X9mAE752rzQ9Fj01B8Pr5h20V7ceX59mDWHUS1iXYw48BvbIJRDlH74UF9XlVb7cxtbo
-	3fUlf+tAi7w9QU8Llo41ZVoOBDPqDQR1o9hVhV2rLZOaS4eIiDQm1EghBDdGSgz9gkEA
-	lyMg==
+	Thu, 24 Nov 2016 00:24:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:from:date:message-id:subject:to:cc;
+	bh=cQTFachaCvKIP0TlWtli2AZguvklZXbhCNxFqfOpAUc=;
+	b=r8M+3hNx5tViXh3YkoikrhrFVEsFUpKr603Vn63Fnrr7UAn69VvTGo5AwtRQMdodLR
+	jdV5cpmfwGFY3WvZ4d1q5e971kJ7NRkMMtRGvVagA1LL1dfH6jlJQ+4jH0kzO/5xVuFv
+	88e2u9xR3tuZFIjEuruBrVxDNlkXAduSbZWVoDCHYJBd+91CVSTj+Nc8a/NoDgvnSCP0
+	ZPLJGgREtlpCl+AqFnsl/u7DwLGWArnFSpJ4dqt2G2MpWVUDIAB3Xq2oVOMj9OgtNODY
+	8apA+BI2fagFADvme+TF9oRLToDD7FSPibjCrzXC4LdM0db1q58nv6JWQ9X0hz8rcylC
+	++Wg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:organization:mime-version:content-transfer-encoding;
-	bh=0bIXdk8JdkeSpe8dlMyQaOjcPeJ/9BbMgdRRMu5uOJc=;
-	b=cF2bGxBa5wfZCJmJ1Sn63svGn456bKOniSHxmXQ7EmfI++mj/Yy52MA6JxfTBAIaCy
-	UVL4ztRp4z5t0+2rx1Hysqu1LvyL2GZy4ptpp+5rgy1pEwKk0jKmhd8nI16ckr+gEpYx
-	qLPjmc6wIDsyM5TwJ6Frt4PLM9Rqu5gErcpOcjn+DBu31bfCzISFujhw3vQqvVo1KQ8w
-	xcVZMS50IE7Ix44CWA/Dap9IGYffMBn6gdWoWvV2rYMoSSOXffMoCiak+xoJA1YgKpO3
-	EMecsAEIO+oiOPbiBJncg1RKMcVUjKOrxOOxt+BZi6TwBPqMySy147Z66I2PEBWE7tbj
-	b90Q==
-X-Gm-Message-State: AKaTC01Hl7pJPprEoNcrsldjLBRroQ7fzGB0MpwEv2nM54uid2lTy31zAGNHvEC8xlV8QNui
-X-Received: by 10.36.194.70 with SMTP id i67mr875853itg.21.1479973592683;
-	Wed, 23 Nov 2016 23:46:32 -0800 (PST)
-Received: from pohly-mobl1 (p5DE8D6D7.dip0.t-ipconnect.de. [93.232.214.215])
-	by smtp.gmail.com with ESMTPSA id
-	k198sm2323414itb.18.2016.11.23.23.46.30
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 23 Nov 2016 23:46:31 -0800 (PST)
-Message-ID: <1479973589.6873.15.camel@intel.com>
-From: Patrick Ohly <patrick.ohly@intel.com>
-To: Robert Yang <liezhi.yang@windriver.com>
-Date: Thu, 24 Nov 2016 08:46:29 +0100
-In-Reply-To: <27dbd493-5b76-657f-8a1d-57eabe9eebed@windriver.com>
-References: <cover.1479871728.git.liezhi.yang@windriver.com>
-	<1479899811.31880.37.camel@intel.com>
-	<adc8effe-1856-560a-a7fb-0d92138e1990@windriver.com>
-	<1525289.rQK3S6YPkZ@peggleto-mobl.ger.corp.intel.com>
-	<27dbd493-5b76-657f-8a1d-57eabe9eebed@windriver.com>
-Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
-X-Mailer: Evolution 3.12.9-1+b1 
-Mime-Version: 1.0
-Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 2/2] base-passwd: set root's default password to 'root'
+	h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+	bh=cQTFachaCvKIP0TlWtli2AZguvklZXbhCNxFqfOpAUc=;
+	b=PPLHQvD2tK1Ondf93mV9oCukWj0wEzEleTgnAKvCNCMOKbHZQOPVgAzFAOramvIzOX
+	B16G0iVquCOfMoG6IXroUjMJ9QzqLFrAtdlkMCg+6RkiLNJxZ+MjchVR5sXXQOzq3zmY
+	oLUFXXGUoN8d/p0qcpj0W7scAQt1GIzddLeWGJVqIJ7SDDtFhmg7UeDqJ0vmL1ADJ9Pd
+	Gdb1oyFXuRB/dy8vA/boAN3zMriHGTpOv9/byYFAmPklFoZYVyrV6rXbX3CW7jW8IIxM
+	Gm96HDzPoxFe5L7TfrPfkGEp102mKE3zduwuf9AYfjfYQolikA9osJSsoksXQ7eICXXI
+	+pUw==
+X-Gm-Message-State: AKaTC00yCEtM/fEi0WMPApnkTe5klD15vQHeVmdLRzIcdIRCAAehYD9nNrFNnjfpeg+sJ5SEy9LQmfmJ4H1Tsg==
+X-Received: by 10.55.149.134 with SMTP id x128mr726764qkd.263.1479975850478;
+	Thu, 24 Nov 2016 00:24:10 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.12.145.73 with HTTP; Thu, 24 Nov 2016 00:24:09 -0800 (PST)
+From: David Vincent <freesilicon@gmail.com>
+Date: Thu, 24 Nov 2016 09:24:09 +0100
+Message-ID: <CAKRNOGwhpqo55k08azMiPt9opo8mCFE_rRE1dxdkntz2eGsLMA@mail.gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: haris.okanovic@ni.com
+Subject: [PATCH v2] classes: Fix alternatives and rc.d ordering
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -65,32 +49,154 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 Nov 2016 07:46:32 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 24 Nov 2016 08:24:11 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Thu, 2016-11-24 at 11:38 +0800, Robert Yang wrote:
-> Currently, debug-tweaks is in EXTRA_IMAGE_FEATURES by default for poky, and
-> there is no passwd, so that user can login easily without a passwd, I think
-> that current status is more unsafe ?
+When using an alternative as an initscript, the ordering between
+update-rc.d and update-alternatives tasks during prerm and postinst
+tasks must always be the following in order to work:
+  * prerm:
+    - stop daemon
+    - remove alternative
 
-Both well-known password and no password are unsafe. User "root" with
-password "root" is not even "more" safe already now, because tools that
-brute-force logins try that. Choosing something else would be a bit
-safer for a short while until the tools add it to their dictionary.
+  * postinst:
+    - add alternative
+    - start daemon
 
-Poky is also targeting a different audience than OE-core. Poky can
-assume to be used in a secure environment, OE-core can't (because it
-might be used for all kinds of devices).
+This patchset adds comments to the scripts generated by both classes and
+organize the generated sections based on those comments.
 
+[YOCTO #10433]
+
+Signed-off-by: David Vincent <freesilicon@gmail.com>
+---
+ meta/classes/update-alternatives.bbclass | 27 +++++++++++++++++++++------
+ meta/classes/update-rc.d.bbclass         | 20 ++++++++++++++++++--
+ 2 files changed, 39 insertions(+), 8 deletions(-)
+
+diff --git a/meta/classes/update-alternatives.bbclass
+b/meta/classes/update-alternatives.bbclass
+index 1fdd681..bbd5a47 100644
+--- a/meta/classes/update-alternatives.bbclass
++++ b/meta/classes/update-alternatives.bbclass
+@@ -195,8 +195,8 @@ python populate_packages_updatealternatives () {
+     pkgdest = d.getVar('PKGD', True)
+     for pkg in (d.getVar('PACKAGES', True) or "").split():
+         # Create post install/removal scripts
+-        alt_setup_links = ""
+-        alt_remove_links = ""
++        alt_setup_links = "# Begin section update-alternatives\n"
++        alt_remove_links = "# Begin section update-alternatives\n"
+         for alt_name in (d.getVar('ALTERNATIVE_%s' % pkg, True) or "").split():
+             alt_link     = d.getVarFlag('ALTERNATIVE_LINK_NAME',
+alt_name, True)
+             alt_target   = d.getVarFlag('ALTERNATIVE_TARGET_%s' %
+pkg, alt_name, True) or d.getVarFlag('ALTERNATIVE_TARGET', alt_name,
+True)
+@@ -219,8 +219,11 @@ python populate_packages_updatealternatives () {
+             # Default to generate shell script.. eventually we may
+want to change this...
+             alt_target = os.path.normpath(alt_target)
+
+-            alt_setup_links  += '\tupdate-alternatives --install %s
+%s %s %s\n' % (alt_link, alt_name, alt_target, alt_priority)
+-            alt_remove_links += '\tupdate-alternatives --remove  %s
+%s\n' % (alt_name, alt_target)
++            alt_setup_links  += 'update-alternatives --install %s %s
+%s %s\n' % (alt_link, alt_name, alt_target, alt_priority)
++            alt_remove_links += 'update-alternatives --remove  %s
+%s\n' % (alt_name, alt_target)
++
++        alt_setup_links += "# End section update-alternatives\n"
++        alt_remove_links += "# End section update-alternatives\n"
+
+         if alt_setup_links:
+             # RDEPENDS setup
+@@ -232,12 +235,24 @@ python populate_packages_updatealternatives () {
+             bb.note('adding update-alternatives calls to
+postinst/prerm for %s' % pkg)
+             bb.note('%s' % alt_setup_links)
+             postinst = d.getVar('pkg_postinst_%s' % pkg, True) or '#!/bin/sh\n'
+-            postinst += alt_setup_links
++            postinst = postinst.splitlines(True)
++            try:
++                index = postinst.index('# Begin section update-rc.d\n')
++                postinst.insert(index, alt_setup_links)
++            except ValueError:
++                postinst.append(alt_setup_links)
++            postinst = ''.join(postinst)
+             d.setVar('pkg_postinst_%s' % pkg, postinst)
+
+             bb.note('%s' % alt_remove_links)
+             prerm = d.getVar('pkg_prerm_%s' % pkg, True) or '#!/bin/sh\n'
+-            prerm += alt_remove_links
++            prerm = prerm.splitlines(True)
++            try:
++                index = prerm.index('# End section update-rc.d\n')
++                prerm.insert(index + 1, alt_remove_links)
++            except ValueError:
++                prerm.append(alt_remove_links)
++            prerm = ''.join(prerm)
+             d.setVar('pkg_prerm_%s' % pkg, prerm)
+ }
+
+diff --git a/meta/classes/update-rc.d.bbclass b/meta/classes/update-rc.d.bbclass
+index 321924b..18df2dc 100644
+--- a/meta/classes/update-rc.d.bbclass
++++ b/meta/classes/update-rc.d.bbclass
+@@ -26,6 +26,7 @@ fi
+ }
+
+ updatercd_postinst() {
++# Begin section update-rc.d
+ if type update-rc.d >/dev/null 2>/dev/null; then
+  if [ -n "$D" ]; then
+  OPT="-r $D"
+@@ -34,12 +35,15 @@ if type update-rc.d >/dev/null 2>/dev/null; then
+  fi
+  update-rc.d $OPT ${INITSCRIPT_NAME} ${INITSCRIPT_PARAMS}
+ fi
++# End section update-rc.d
+ }
+
+ updatercd_prerm() {
++# Begin section update-rc.d
+ if [ -z "$D" -a -x "${INIT_D_DIR}/${INITSCRIPT_NAME}" ]; then
+  ${INIT_D_DIR}/${INITSCRIPT_NAME} stop || :
+ fi
++# End section update-rc.d
+ }
+
+ updatercd_postrm() {
+@@ -102,13 +106,25 @@ python populate_packages_updatercd () {
+         postinst = d.getVar('pkg_postinst_%s' % pkg, True)
+         if not postinst:
+             postinst = '#!/bin/sh\n'
+-        postinst += localdata.getVar('updatercd_postinst', True)
++        postinst = postinst.splitlines(True)
++        try:
++            index = postinst.index('# End section update-alternatives\n')
++            postinst.insert(index + 1,
+localdata.getVar('updatercd_postinst', True))
++        except ValueError:
++            postinst.append(localdata.getVar('updatercd_postinst', True))
++        postinst = ''.join(postinst)
+         d.setVar('pkg_postinst_%s' % pkg, postinst)
+
+         prerm = d.getVar('pkg_prerm_%s' % pkg, True)
+         if not prerm:
+             prerm = '#!/bin/sh\n'
+-        prerm += localdata.getVar('updatercd_prerm', True)
++        prerm = prerm.splitlines(True)
++        try:
++            index = prerm.index('# Begin section update-alternatives\n')
++            prerm.insert(index, localdata.getVar('updatercd_prerm', True))
++        except ValueError:
++            prerm.append(localdata.getVar('updatercd_prerm', True))
++        prerm = ''.join(prerm)
+         d.setVar('pkg_prerm_%s' % pkg, prerm)
+
+         postrm = d.getVar('pkg_postrm_%s' % pkg, True)
 -- 
-Best Regards, Patrick Ohly
-
-The content of this message is my personal opinion only and although
-I am an employee of Intel, the statements I make here in no way
-represent Intel's position on the issue, nor am I authorized to speak
-on behalf of Intel on this matter.
-
-
-
+2.10.2
 
