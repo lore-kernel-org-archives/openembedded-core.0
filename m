@@ -1,51 +1,27 @@
-Return-Path: <prvs=013698ca26=mike.looijmans@topicproducts.com>
-X-Greylist: delayed 1091 seconds by postgrey-1.34 at layers.openembedded.org;
-	Thu, 24 Nov 2016 10:29:34 UTC
-Received: from mx12-14.smtp.antispamcloud.com (mx12-14.smtp.antispamcloud.com
-	[46.165.232.184])
-	by mail.openembedded.org (Postfix) with ESMTP id A6832719DC
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 2E46071AC5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Nov 2016 10:29:34 +0000 (UTC)
-Received: from [37.74.225.130] (helo=TOP-EX01.TOPIC.LOCAL)
-	by mx12.antispamcloud.com with esmtps (TLSv1:ECDHE-RSA-AES128-SHA:128)
-	(Exim 4.86) (envelope-from <mike.looijmans@topicproducts.com>)
-	id 1c9qyh-0005Pf-3x for openembedded-core@lists.openembedded.org;
-	Thu, 24 Nov 2016 11:11:20 +0100
-Received: from [192.168.80.121] (192.168.80.121) by webmail.topic.nl
-	(192.168.10.102) with Microsoft SMTP Server id 14.3.224.2;
-	Thu, 24 Nov 2016 11:10:02 +0100
-To: <openembedded-core@lists.openembedded.org>
-From: Mike Looijmans <mike.looijmans@topic.nl>
-Organization: TOPIC
-Message-ID: <6df42b3b-66b7-25dc-faac-e26e19fefbfd@topic.nl>
-Date: Thu, 24 Nov 2016 11:10:02 +0100
+	Thu, 24 Nov 2016 10:29:48 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id uAOATnr2008092
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 24 Nov 2016 02:29:49 -0800 (PST)
+Received: from [128.224.162.183] (128.224.162.183) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.294.0;
+	Thu, 24 Nov 2016 02:29:48 -0800
+To: Todor Minchev <todor.minchev@linux.intel.com>,
+	<openembedded-core@lists.openembedded.org>
+References: <20161026170559.9444-1-todor.minchev@linux.intel.com>
+From: Robert Yang <liezhi.yang@windriver.com>
+Message-ID: <af42a388-f436-73cb-1cca-a2a04595ea2d@windriver.com>
+Date: Thu, 24 Nov 2016 18:29:47 +0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.4.0
+	Thunderbird/45.2.0
 MIME-Version: 1.0
-X-Originating-IP: [192.168.80.121]
-X-EXCLAIMER-MD-CONFIG: 9833cda7-5b21-4d34-9a38-8d025ddc3664
-X-EXCLAIMER-MD-BIFURCATION-INSTANCE: 0
-X-Filter-ID: s0sct1PQhAABKnZB5plbIbbvfIHzQjPVmPLZeVYSu3xU9luQrU+8/8qthi+0Jd/W6KAUC/fjyuDn
-	NXFr4uarw0hD9tOHsAupOgHE9PArDByM+/sFVMoIHnzxJpiwTwAmqWxCevbUegdCrqkn8BN/sbj/
-	kr1uWvhVMCtfj6/xQtWU2yOX8PQJGjCrFTzGoLEGAwQOxc4FVEmxDKJstwBd0YGfRvAza+EhCQTN
-	BNF2bc4ccBIk1Sag4dKiqCrF8eZZlyTbTpSJSkzczSD2RcFt/e/6EUxK+1ThVeXBHjTgRxsZI5tu
-	cMJDAlvdmgaeJouJzXIF1zGGhkHhilg9snEzcImMn3HzupCKW6oeZkU58X31H/aAwarQpYDOYx/6
-	JtUOwjf2M+bBLwNLnF2gf+AZ3cj9jBVCzdmhdpNvLM9EoHGCgFe8QCr3pk4nvBg39CKa3jR5NeVa
-	JQBh0uawl0Cg8g5H75jeYRQu46K9FQfOtW179c3UTBg+eMlI+Ad+hOdu2jl82F+q3WD+2SUCv7Qo
-	M7oSUn4IVvn2XtihDnFFPeASh5SHKlr9iAY0a+E99zzUIRFsicyJMEhQFtD8PLointZhy401wBd7
-	DB89ILX39iXENXOV4w3ogceBFWVtR+kMcpcEF40xDLsgivxXInCFWYgSiYX2GrAnrzOM7HcmsBOn
-	S9HUjFSJqqbImp9o8R6RMS+4ayUpOtEhdxekWDmK9g==
-X-Report-Abuse-To: spam@quarantine2.antispamcloud.com
-X-Originating-IP: 37.74.225.130
-X-SpamExperts-Domain: topic.nl
-X-SpamExperts-Username: 37.74.225.128/28
-Authentication-Results: antispamcloud.com;
-	auth=pass smtp.auth=37.74.225.128/28@topic.nl
-X-SpamExperts-Outgoing-Class: ham
-X-SpamExperts-Outgoing-Evidence: Combined (0.04)
-X-Classification: not-spam/combined
-X-Recommended-Action: accept
-Subject: Kernel: Builds use old version of defconfig
+In-Reply-To: <20161026170559.9444-1-todor.minchev@linux.intel.com>
+Subject: Re: [PATCH 1/1] runqemu: add user mode (SLIRP) support to x86 QEMU targets
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,63 +34,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 Nov 2016 10:29:34 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: quoted-printable
-
-=EF=BB=BFI'm currently experiencing a problem with "defconfig" files and th=
-e kernel.
-
-In short, when I make a change to the "defconfig" file, the kernel is rebui=
-lt=20
-(which is correct), but the resulting kernel has been built using the old=20
-defconfig from a previous build, instead of the new one.
-
-The kernel recipe just contains "file://defconfig" in its SRC_URI. The=20
-defconfig file is in the project's overlay.
-
-For example, I have a kernel with "CONFIG_DEVMEM" disabled:
-
-# gunzip < /proc/config.gz | grep DEVMEM
-# CONFIG_DEVMEM is not set
-
-Now, I change the defconfig to contain CONFIG_DEVMEM=3Dy and build the imag=
-e.=20
-The result:
-
-# gunzip < /proc/config.gz | grep DEVMEM
-# CONFIG_DEVMEM is not set
-
-So the change did not make it into the actual kernel, even though the kerne=
-l=20
-was rebuild as a result of the change.
-
-I run "bitbake -c cleansstate virtual/kernel" and build the image again:
-
-# gunzip < /proc/config.gz | grep DEVMEM
-CONFIG_DEVMEM=3Dy
-
-After cleaning, the result is correct and the new defconfig is active.
-
-I'm trying to figure out how this can happen, any help is welcome...
+X-List-Received-Date: Thu, 24 Nov 2016 10:29:49 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
 
 
-Kind regards,
+Hi Todor,
 
-Mike Looijmans
-System Expert
+On 10/27/2016 01:05 AM, Todor Minchev wrote:
+> Using 'slirp' as a command line option to runqemu will start QEMU
+> with user mode networking instead of creating tun/tap devices.
+> SLIRP does not require root access. By default port 2222 on the
+> host will be mapped to port 22 in the guest. The default port
+> mapping can be overwritten with the QB_SLIRP_OPT variable e.g.
+>
+> QB_SLIRP_OPT = "-net nic,model=e1000 -net user,hostfwd=tcp::2222-:22"
+>
+> Signed-off-by: Todor Minchev <todor.minchev@linux.intel.com>
+> ---
+>  meta/conf/machine/include/qemuboot-x86.inc | 1 +
+>  scripts/runqemu                            | 3 ++-
+>  2 files changed, 3 insertions(+), 1 deletion(-)
+>
+> diff --git a/meta/conf/machine/include/qemuboot-x86.inc b/meta/conf/machine/include/qemuboot-x86.inc
+> index 06ac983..0870294 100644
+> --- a/meta/conf/machine/include/qemuboot-x86.inc
+> +++ b/meta/conf/machine/include/qemuboot-x86.inc
+> @@ -13,3 +13,4 @@ QB_AUDIO_OPT = "-soundhw ac97,es1370"
+>  QB_KERNEL_CMDLINE_APPEND = "vga=0 uvesafb.mode_option=640x480-32 oprofile.timer=1 uvesafb.task_timeout=-1"
+>  # Add the 'virtio-rng-pci' device otherwise the guest may run out of entropy
+>  QB_OPT_APPEND = "-vga vmware -show-cursor -usb -usbdevice tablet -device virtio-rng-pci"
+> +QB_SLIRP_OPT = "-net nic,model=e1000 -net user,hostfwd=tcp::2222-:22"
 
-TOPIC Products
-Materiaalweg 4, NL-5681 RJ Best
-Postbus 440, NL-5680 AK Best
-Telefoon: +31 (0) 499 33 69 79
-E-mail: mike.looijmans@topicproducts.com
-Website: www.topicproducts.com
+It will causes errors when multiple qemus are running:
 
-Please consider the environment before printing this e-mail
+qemu-system-x86_64: -net user,hostfwd=tcp::2222-:22: could not set up host 
+forwarding rule 'tcp::2222-:22'
+qemu-system-x86_64: -net user,hostfwd=tcp::2222-:22: Device 'user' could not be 
+initialized
 
+This because the port are used by another qemu. I will move these
+code into runqemu, and check whether the port is available, add 1 if not
+until find a usable port. Default to forward 22, and user can add other
+ports.
 
+// Robert
 
-
-
+> diff --git a/scripts/runqemu b/scripts/runqemu
+> index dbe17ab..6952f32 100755
+> --- a/scripts/runqemu
+> +++ b/scripts/runqemu
+> @@ -542,7 +542,8 @@ class BaseConfig(object):
+>      def check_and_set(self):
+>          """Check configs sanity and set when needed"""
+>          self.validate_paths()
+> -        check_tun()
+> +        if not self.slirp_enabled:
+> +            check_tun()
+>          # Check audio
+>          if self.audio_enabled:
+>              if not self.get('QB_AUDIO_DRV'):
+>
 
