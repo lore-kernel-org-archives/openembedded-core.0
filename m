@@ -1,40 +1,59 @@
-Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id A0DA560069
+Return-Path: <patrick.ohly@intel.com>
+Received: from mail-io0-f179.google.com (mail-io0-f179.google.com
+	[209.85.223.179])
+	by mail.openembedded.org (Postfix) with ESMTP id 9FB0C7199B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Nov 2016 14:52:05 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by orsmga103.jf.intel.com with ESMTP; 24 Nov 2016 06:52:07 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.31,543,1473145200"; d="scan'208";a="790345857"
-Received: from linux.intel.com ([10.54.29.200])
-	by FMSMGA003.fm.intel.com with ESMTP; 24 Nov 2016 06:52:07 -0800
-Received: from linux.intel.com (vmed.fi.intel.com [10.237.72.38])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by linux.intel.com (Postfix) with ESMTP id 980346A4080;
-	Thu, 24 Nov 2016 06:51:24 -0800 (PST)
-Date: Thu, 24 Nov 2016 16:51:36 +0200
-From: Ed Bartosh <ed.bartosh@linux.intel.com>
-To: Kristian Amlie <kristian.amlie@mender.io>
-Message-ID: <20161124145136.GA31813@linux.intel.com>
-Reply-To: ed.bartosh@linux.intel.com
-References: <1479813004.3239.19.camel@intel.com>
-	<6913e4bf-96dc-eefa-d214-9df5cde181b8@mender.io>
-	<20161123120816.GC12545@linux.intel.com>
-	<5064cacc-e724-c7b8-9631-3d961c5a29f6@mender.io>
-	<20161123132229.GA13863@linux.intel.com>
-	<1479916616.31880.48.camel@intel.com>
-	<20161124061543.e2xpgh7zjir3oynk@pengutronix.de>
-	<fa1edaed-1498-160e-2015-8b7882c04877@mender.io>
-	<20161124132315.GA14497@linux.intel.com>
-	<1e1a7126-15dc-33be-a863-ea93063b554f@mender.io>
-MIME-Version: 1.0
-In-Reply-To: <1e1a7126-15dc-33be-a863-ea93063b554f@mender.io>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: Contents of non-rootfs partitions
+	Thu, 24 Nov 2016 14:54:55 +0000 (UTC)
+Received: by mail-io0-f179.google.com with SMTP id x94so82868492ioi.3
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 24 Nov 2016 06:54:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:organization:mime-version:content-transfer-encoding;
+	bh=kODTLAh4rU3nE1Uw7+qN3KYLMVp/WVHd5CNT49M7EwE=;
+	b=aaO/TgVxdHebR3YvsURzTM+SdH0G6vX0utknsXqO7oGWjhiSXcswC8VKXslEHkIO8m
+	G2r2QKWoYIbNCqk8ICBJV/2HTPWdsylKDwKHtLcQKDfkQIxIOPM9SqWfzyJ59FykcP4E
+	GxWRNtXzTkqTe4Jf4ZYZapnnobphaAm48L7GtcTmV6qzRFSSQvu0VAsTdqDocZ6EHXfb
+	SGbM2eYYwlkHR9fh7lQJgrUapCH9K4uQWSr9SrIyt7I15MqISJ6jjR2WskIYY0w+MydR
+	KSA6F+doaCzbd0RUx9BtV+l+zRi3rWdkNzDDZIjplZndF+84mUZTrwhEaY7MtdwxfuE8
+	jIfw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:organization:mime-version:content-transfer-encoding;
+	bh=kODTLAh4rU3nE1Uw7+qN3KYLMVp/WVHd5CNT49M7EwE=;
+	b=ltmv22oCPcDwPLSa+b2r2TI7ICSQwlElhVa5YETXLMFhpZh4faPmTE6EHeBNdACFuc
+	eddOAHdFtRP0MCCMOFfxHsyQAmACtln7GUC9L3+e1FLS+XTiJLBqVWpmRYrCEF346xYk
+	UgXjBxRTMhNH90V6+GzWaJliLHY+dk6e7Vx3zAtL9WrkTPyw5lEpAw3qfKf7CeO+TDw0
+	c3EoDRVDujtanV83cMiYDYIbKnMOufC4KDNY4dOPyDN2NQVVSp9CpaWI+mtZj97T6Hin
+	vRndAKGUJNjpovvhllmuSOfzwEtAhz3LVwC6UkhGMoAvXC9D/PUEaSPtwQU+OZZfXeAL
+	g4MQ==
+X-Gm-Message-State: AKaTC02sJA1eji9lvKMmEOB3jNxelD48h2lU3oWe4V6EjnKpSL5F5oBYjEPp3Y1xBdGDf8OZ
+X-Received: by 10.36.103.200 with SMTP id u191mr2525477itc.8.1479999296338;
+	Thu, 24 Nov 2016 06:54:56 -0800 (PST)
+Received: from pohly-mobl1 (p5DE8D035.dip0.t-ipconnect.de. [93.232.208.53])
+	by smtp.gmail.com with ESMTPSA id j69sm2828375itb.4.2016.11.24.06.54.52
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 24 Nov 2016 06:54:54 -0800 (PST)
+Message-ID: <1479999290.6873.44.camel@intel.com>
+From: Patrick Ohly <patrick.ohly@intel.com>
+To: Philip Balister <philip@balister.org>
+Date: Thu, 24 Nov 2016 15:54:50 +0100
+In-Reply-To: <d0a381df-850b-6a63-7f7e-47741618cf87@balister.org>
+References: <cover.1479871728.git.liezhi.yang@windriver.com>
+	<1479899811.31880.37.camel@intel.com>
+	<adc8effe-1856-560a-a7fb-0d92138e1990@windriver.com>
+	<1525289.rQK3S6YPkZ@peggleto-mobl.ger.corp.intel.com>
+	<27dbd493-5b76-657f-8a1d-57eabe9eebed@windriver.com>
+	<1479973589.6873.15.camel@intel.com>
+	<d0a381df-850b-6a63-7f7e-47741618cf87@balister.org>
+Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
+X-Mailer: Evolution 3.12.9-1+b1 
+Mime-Version: 1.0
+Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 2/2] base-passwd: set root's default password to 'root'
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,100 +66,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 Nov 2016 14:52:06 -0000
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 24 Nov 2016 14:54:55 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Thu, Nov 24, 2016 at 03:43:18PM +0100, Kristian Amlie wrote:
-> On 24/11/16 14:23, Ed Bartosh wrote:
-> > On Thu, Nov 24, 2016 at 08:38:46AM +0100, Kristian Amlie wrote:
-> >> On 24/11/16 07:15, Ulrich Ölmann wrote:
-> >>> Hi,
-> >>>
-> >>> On Wed, Nov 23, 2016 at 04:56:56PM +0100, Patrick Ohly wrote:
-> >>>> On Wed, 2016-11-23 at 15:22 +0200, Ed Bartosh wrote:
-> >>>>> On Wed, Nov 23, 2016 at 02:08:28PM +0100, Kristian Amlie wrote:
-> >>>>>> On 23/11/16 13:08, Ed Bartosh wrote:
-> >>>>>>> On Tue, Nov 22, 2016 at 12:54:52PM +0100, Kristian Amlie wrote:
-> >>>>>>> [...]
-> >>>>>>> This can be done by extending existing rootfs plugin. It should be able
-> >>>>>>> to do 2 things:
-> >>>>>>>
-> >>>>>>> - populate content of one rootfs directory to the partition. We can
-> >>>>>>>   extend syntax of --rootfs-dir parameter to specify optional directory path to use
-> >>>>>>>
-> >>>>>>> - exclude rootfs directories when populating partitions. I'd propose to
-> >>>>>>>   introduce --exclude-dirs wks parser option to handle this.
-> >>>>>>>
-> >>>>>>> Example of wks file with proposed new options:
-> >>>>>>> part /     --source rootfs --rootfs-dir=core-image-minimal       --ondisk sda --fstype=ext4 --label root --align 1024 --exclude-dirs data --exclude-dirs home
-> >>>>>>> part /data --source rootfs --rootfs-dir=core-image-minimal:/home --ondisk sda --fstype=ext4 --label data --align 1024
-> >>>>>>> part /home --source rootfs --rootfs-dir=core-image-minimal:/data --ondisk sda --fstype=ext4 --label data --align 1024
-> >>>>>>>
-> >>>>>>> Does this make sense?
-> >>>>>>
-> >>>>>> Looks good. The only thing I would question is that, in the interest of
-> >>>>>> reducing redundancy, maybe we should omit --exclude-dirs and have wic
-> >>>>>> figure this out by combining all the entries, since "--exclude-dirs
-> >>>>>> <dir>" and the corresponding "part <dir>" will almost always come in
-> >>>>>> pairs. Possibly we could mark the "/" partition with one single
-> >>>>>> --no-overlapping-dirs to force wic to make this consideration. Or do you
-> >>>>>> think that's too magical?
-> >>>>>>
-> >>>>> Tt's quite implicit from my point of view. However, if people like it we
-> >>>>> can implement it this way.
-> >>>>
-> >>>> I prefer the explicit --exclude-dirs. It's less surprising and perhaps
-> >>>> there are usages for having the same content in different partitions
-> >>>> (redundancy, factory reset, etc.).
-> >>>>
-> >>>> Excluding only the directory content but not the actual directory is
-> >>>> indeed a good point. I'm a bit undecided. When excluding only the
-> >>>> directory content, there's no way of building a rootfs without that
-> >>>> mount point, if that's desired. OTOH, when excluding also the directory,
-> >>>> the data would have to be staged under a different path in the rootfs
-> >>>> and the mount point would have to be a separate, empty directory.
-> >>>>
-> >>>> I'm leaning towards excluding the directory content and keeping the
-> >>>> directory.
-> >>>
-> >>> what about having both possibilities by leaning against the syntax that rsync
-> >>> uses to specify if a whole source directory or only it's contents shall be
-> >>> synced to some destination site (see [1])?
-> >>>
-> >>> In analogy to this to exclude only the contents of the directory named 'data'
-> >>> you would use
-> >>>
-> >>>   --exclude-dirs data/
-> >>>
-> >>> but to additionally exclude the dir itself as well it would read
-> >>>
-> >>>   --exclude-dirs data
-> >>
-> >> This is creative, but ultimately too unintuitive IMHO. Rsync is the only
-> >> tool which uses this syntax AFAIK, and it's a constant source of
-> >> confusion, especially when mixed with cp or similar commands.
-> >>
+On Thu, 2016-11-24 at 09:09 -0500, Philip Balister wrote:
+> On 11/24/2016 02:46 AM, Patrick Ohly wrote:
+> > On Thu, 2016-11-24 at 11:38 +0800, Robert Yang wrote:
+> >> Currently, debug-tweaks is in EXTRA_IMAGE_FEATURES by default for poky, and
+> >> there is no passwd, so that user can login easily without a passwd, I think
+> >> that current status is more unsafe ?
 > > 
-> > Would this way be less intuitive?
-> > --exclude-path data/*
-> > --exclude-path data
+> > Both well-known password and no password are unsafe. User "root" with
+> > password "root" is not even "more" safe already now, because tools that
+> > brute-force logins try that. Choosing something else would be a bit
+> > safer for a short while until the tools add it to their dictionary.
 > > 
-> > We can go even further with it allowing any level of directories:
-> > --exclude-path data/tmp/*
-> > --exclude-path data/db/tmp
-> > ...
+> > Poky is also targeting a different audience than OE-core. Poky can
+> > assume to be used in a secure environment, OE-core can't (because it
+> > might be used for all kinds of devices).
+> > 
 > 
-> I agree, this is pretty unambiguous and easy to understand.
-> 
-> But this raises the question: Should we go all the way and support
-> wildcards? Which might make it a bit complicated. Maybe support only
-> pure '*' for now?
+> That is the first time I've heard Poky is targeting an audience assumed
+> to be running in a secure environment.
 
-As it shouldn't be hard to implement I'd go for it.
+At least the default local.conf seems to be meant for that (easy-of-use
+for developers preferred over security in a hostile environment).
 
---
-Regards,
-Ed
+> Should we document what Poky this
+> somewhere? From where I sit, this seems to be an odd limitation.
+
+I'm not aware of a document explicitly documenting this either. I
+wouldn't call it a limitation, though: a real product could be built
+with a configuration that doesn't enable debug-tweaks.
+
+As Paul said before, more documentation about first boot, login
+mechanisms, security considerations, etc. certainly would be useful.
+
+-- 
+Best Regards, Patrick Ohly
+
+The content of this message is my personal opinion only and although
+I am an employee of Intel, the statements I make here in no way
+represent Intel's position on the issue, nor am I authorized to speak
+on behalf of Intel on this matter.
+
+
+
 
