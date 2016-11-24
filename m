@@ -1,49 +1,51 @@
-Return-Path: <patrick.ohly@intel.com>
-Received: from mail-io0-f181.google.com (mail-io0-f181.google.com
-	[209.85.223.181])
-	by mail.openembedded.org (Postfix) with ESMTP id 255776B6EA
+Return-Path: <prvs=013698ca26=mike.looijmans@topicproducts.com>
+X-Greylist: delayed 1091 seconds by postgrey-1.34 at layers.openembedded.org;
+	Thu, 24 Nov 2016 10:29:34 UTC
+Received: from mx12-14.smtp.antispamcloud.com (mx12-14.smtp.antispamcloud.com
+	[46.165.232.184])
+	by mail.openembedded.org (Postfix) with ESMTP id A6832719DC
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Nov 2016 10:29:08 +0000 (UTC)
-Received: by mail-io0-f181.google.com with SMTP id j65so72486034iof.0
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Nov 2016 02:29:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=nIatoUh4SHBt1L1uTN3IpWmfp4tD50/aXNY8Ber6QOA=;
-	b=lc3HY6C6H2AZfAapdJPhs0279TNEB8Ng6xxyN0WYW8nK+NsohjoTPlS8la5mLl36nQ
-	qz48dHP9WTXidL2r1Hi+5t9fdHmv33+OonyzYfF65FksQ07Ugd3f10nePQQ98b3RoW1z
-	q60XAZAtw6C5ZRhLqZB4bNVt9kpoHH8wWGWz70SXjSZk22X6ygrqw3vTPmb8xL0aSUZM
-	klFO8+9Kr2T7A+7I+qZhS60YQYg9dDL2aWdA+RKtnwKWr4kZv+OUWrFsNnhMAOQS/Yyf
-	6qgfWW7Dejx63Th3/S2HVm8Qke4m3YApU/bxWtUhcS+gC4dcm9GAdjhIGGcLU2zYRPBp
-	YSUg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=nIatoUh4SHBt1L1uTN3IpWmfp4tD50/aXNY8Ber6QOA=;
-	b=jspIErWhl1RnCp9CGLm3v8oJG6cCqo2VMJD1+BvZrBbPiEFB/D1oI5Xm4HjXeSjVQz
-	e5USwMJnu6i8L66dJtGrs79eH+rGmhO9FR/eGb7gpWIxWESbsPgihwrEgPIDuzRYlUOi
-	Jcl/d9oDBcd3JD+HNjFgFSkBeVd30dbw0SyWwT1ic4sBFQmuROR2r4xj9+m/zyTgnf+O
-	zGZqM7Nkq0wnMsLRTU5FdBPnrojSx5qy4vNZV1rxUOWD326nrzuquoaNGK8gKbQE67C9
-	baL/Jy+rbDWjxJxpNMUnznfeJbw9+uWxhnnCFCYvBW2Fnv68jsjOuCjVp83zRo2vmneV
-	UUiw==
-X-Gm-Message-State: AKaTC00Az8M/faVzPPailrsTCCjSY1pnuyAvShiSV2F4hxSoFLVT/giGsbw5jR3mgLWVf99z
-X-Received: by 10.107.59.87 with SMTP id i84mr1262771ioa.204.1479983350067;
-	Thu, 24 Nov 2016 02:29:10 -0800 (PST)
-Received: from pohly-desktop.fritz.box (p5DE8D6D7.dip0.t-ipconnect.de.
-	[93.232.214.215]) by smtp.gmail.com with ESMTPSA id
-	q82sm2510039itd.10.2016.11.24.02.29.08
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 24 Nov 2016 02:29:09 -0800 (PST)
-From: Patrick Ohly <patrick.ohly@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 24 Nov 2016 11:28:59 +0100
-Message-Id: <1479983339-2967-1-git-send-email-patrick.ohly@intel.com>
-X-Mailer: git-send-email 2.1.4
-In-Reply-To: <1479981089-2181-1-git-send-email-patrick.ohly@intel.com>
-References: <1479981089-2181-1-git-send-email-patrick.ohly@intel.com>
-Subject: [PATCH v2] pseudo: include fix for xattr corruption
+	Thu, 24 Nov 2016 10:29:34 +0000 (UTC)
+Received: from [37.74.225.130] (helo=TOP-EX01.TOPIC.LOCAL)
+	by mx12.antispamcloud.com with esmtps (TLSv1:ECDHE-RSA-AES128-SHA:128)
+	(Exim 4.86) (envelope-from <mike.looijmans@topicproducts.com>)
+	id 1c9qyh-0005Pf-3x for openembedded-core@lists.openembedded.org;
+	Thu, 24 Nov 2016 11:11:20 +0100
+Received: from [192.168.80.121] (192.168.80.121) by webmail.topic.nl
+	(192.168.10.102) with Microsoft SMTP Server id 14.3.224.2;
+	Thu, 24 Nov 2016 11:10:02 +0100
+To: <openembedded-core@lists.openembedded.org>
+From: Mike Looijmans <mike.looijmans@topic.nl>
+Organization: TOPIC
+Message-ID: <6df42b3b-66b7-25dc-faac-e26e19fefbfd@topic.nl>
+Date: Thu, 24 Nov 2016 11:10:02 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.4.0
+MIME-Version: 1.0
+X-Originating-IP: [192.168.80.121]
+X-EXCLAIMER-MD-CONFIG: 9833cda7-5b21-4d34-9a38-8d025ddc3664
+X-EXCLAIMER-MD-BIFURCATION-INSTANCE: 0
+X-Filter-ID: s0sct1PQhAABKnZB5plbIbbvfIHzQjPVmPLZeVYSu3xU9luQrU+8/8qthi+0Jd/W6KAUC/fjyuDn
+	NXFr4uarw0hD9tOHsAupOgHE9PArDByM+/sFVMoIHnzxJpiwTwAmqWxCevbUegdCrqkn8BN/sbj/
+	kr1uWvhVMCtfj6/xQtWU2yOX8PQJGjCrFTzGoLEGAwQOxc4FVEmxDKJstwBd0YGfRvAza+EhCQTN
+	BNF2bc4ccBIk1Sag4dKiqCrF8eZZlyTbTpSJSkzczSD2RcFt/e/6EUxK+1ThVeXBHjTgRxsZI5tu
+	cMJDAlvdmgaeJouJzXIF1zGGhkHhilg9snEzcImMn3HzupCKW6oeZkU58X31H/aAwarQpYDOYx/6
+	JtUOwjf2M+bBLwNLnF2gf+AZ3cj9jBVCzdmhdpNvLM9EoHGCgFe8QCr3pk4nvBg39CKa3jR5NeVa
+	JQBh0uawl0Cg8g5H75jeYRQu46K9FQfOtW179c3UTBg+eMlI+Ad+hOdu2jl82F+q3WD+2SUCv7Qo
+	M7oSUn4IVvn2XtihDnFFPeASh5SHKlr9iAY0a+E99zzUIRFsicyJMEhQFtD8PLointZhy401wBd7
+	DB89ILX39iXENXOV4w3ogceBFWVtR+kMcpcEF40xDLsgivxXInCFWYgSiYX2GrAnrzOM7HcmsBOn
+	S9HUjFSJqqbImp9o8R6RMS+4ayUpOtEhdxekWDmK9g==
+X-Report-Abuse-To: spam@quarantine2.antispamcloud.com
+X-Originating-IP: 37.74.225.130
+X-SpamExperts-Domain: topic.nl
+X-SpamExperts-Username: 37.74.225.128/28
+Authentication-Results: antispamcloud.com;
+	auth=pass smtp.auth=37.74.225.128/28@topic.nl
+X-SpamExperts-Outgoing-Class: ham
+X-SpamExperts-Outgoing-Evidence: Combined (0.04)
+X-Classification: not-spam/combined
+X-Recommended-Action: accept
+Subject: Kernel: Builds use old version of defconfig
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,94 +58,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 Nov 2016 10:29:09 -0000
+X-List-Received-Date: Thu, 24 Nov 2016 10:29:34 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: quoted-printable
 
-pseudo_1.8.1.bb gets the backported patch and pseudo_git.bb gets
-updated to include the commit.
+=EF=BB=BFI'm currently experiencing a problem with "defconfig" files and th=
+e kernel.
 
-Signed-off-by: Patrick Ohly <patrick.ohly@intel.com>
----
+In short, when I make a change to the "defconfig" file, the kernel is rebui=
+lt=20
+(which is correct), but the resulting kernel has been built using the old=20
+defconfig from a previous build, instead of the new one.
 
-Notes:
-    Change since V1:
-    Updated the commit message. It was still the one written
-    for the initial, broken upstream patch for the problem.
-    The attached patch works.
+The kernel recipe just contains "file://defconfig" in its SRC_URI. The=20
+defconfig file is in the project's overlay.
 
- .../pseudo/files/More-correctly-fix-xattrs.patch   | 37 ++++++++++++++++++++++
- meta/recipes-devtools/pseudo/pseudo_1.8.1.bb       |  1 +
- meta/recipes-devtools/pseudo/pseudo_git.bb         |  2 +-
- 3 files changed, 39 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-devtools/pseudo/files/More-correctly-fix-xattrs.patch
+For example, I have a kernel with "CONFIG_DEVMEM" disabled:
 
-diff --git a/meta/recipes-devtools/pseudo/files/More-correctly-fix-xattrs.patch b/meta/recipes-devtools/pseudo/files/More-correctly-fix-xattrs.patch
-new file mode 100644
-index 0000000..3d178f9
---- /dev/null
-+++ b/meta/recipes-devtools/pseudo/files/More-correctly-fix-xattrs.patch
-@@ -0,0 +1,37 @@
-+From 45eca34c754d416a38bee90fb2d3c110a0b6cc5f Mon Sep 17 00:00:00 2001
-+From: Seebs <seebs@seebs.net>
-+Date: Thu, 3 Nov 2016 11:36:12 -0500
-+Subject: [PATCH] More-correctly fix xattrs
-+
-+Fix provided by Patrick Ohly <patrick.ohly@intel.com>. This resolves
-+the actual cause of the path length mismatches, and explains why
-+I couldn't quite explain why the previous one had only sometimes
-+worked, also why it showed up on directories but not plain files.
-+
-+Signed-off-by: Seebs <seebs@seebs.net>
-+
-+Fixes [YOCTO #10623]
-+
-+Upstream-Status: Backport [commit 45eca34c754d416a38bee90fb2d3c110a0b6cc5f]
-+
-+Signed-off-by: Patrick Ohly <patrick.ohly@intel.com>
-+---
-+ pseudo_client.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/pseudo_client.c b/pseudo_client.c
-+index 6a08df3..b1a00fa 100644
-+--- a/pseudo_client.c
-++++ b/pseudo_client.c
-+@@ -1676,7 +1676,7 @@ pseudo_client_op(pseudo_op_t op, int access, int fd, int dirfd, const char *path
-+ 	 * empty path for that.
-+ 	 */
-+ 	if (path_extra_1) {
-+-		size_t full_len = path_extra_1len + 1 + pathlen;
-++		size_t full_len = path_extra_1len + 1 + pathlen - strip_slash;
-+ 		size_t partial_len = pathlen - 1 - strip_slash;
-+ 		if (path_extra_2) {
-+ 			full_len += path_extra_2len + 1;
-+-- 
-+2.1.4
-+
-diff --git a/meta/recipes-devtools/pseudo/pseudo_1.8.1.bb b/meta/recipes-devtools/pseudo/pseudo_1.8.1.bb
-index fb70034..90b53c0 100644
---- a/meta/recipes-devtools/pseudo/pseudo_1.8.1.bb
-+++ b/meta/recipes-devtools/pseudo/pseudo_1.8.1.bb
-@@ -10,6 +10,7 @@ SRC_URI = "http://downloads.yoctoproject.org/releases/pseudo/${BPN}-${PV}.tar.bz
-            file://0001-Quiet-diagnostics-during-startup-for-pseudo-d.patch \
-            file://0002-Use-correct-file-descriptor.patch \
-            file://0003-Fix-renameat-parallel-to-previous-fix-to-rename.patch \
-+           file://More-correctly-fix-xattrs.patch \
-            "
- 
- SRC_URI[md5sum] = "ee38e4fb62ff88ad067b1a5a3825bac7"
-diff --git a/meta/recipes-devtools/pseudo/pseudo_git.bb b/meta/recipes-devtools/pseudo/pseudo_git.bb
-index 8110b1a..ac923bb 100644
---- a/meta/recipes-devtools/pseudo/pseudo_git.bb
-+++ b/meta/recipes-devtools/pseudo/pseudo_git.bb
-@@ -1,6 +1,6 @@
- require pseudo.inc
- 
--SRCREV = "befc6dbd6469d428c9e0830dbe51bdf7ac39d9ae"
-+SRCREV = "45eca34c754d416a38bee90fb2d3c110a0b6cc5f"
- PV = "1.8.1+git${SRCPV}"
- 
- DEFAULT_PREFERENCE = "-1"
--- 
-2.1.4
+# gunzip < /proc/config.gz | grep DEVMEM
+# CONFIG_DEVMEM is not set
+
+Now, I change the defconfig to contain CONFIG_DEVMEM=3Dy and build the imag=
+e.=20
+The result:
+
+# gunzip < /proc/config.gz | grep DEVMEM
+# CONFIG_DEVMEM is not set
+
+So the change did not make it into the actual kernel, even though the kerne=
+l=20
+was rebuild as a result of the change.
+
+I run "bitbake -c cleansstate virtual/kernel" and build the image again:
+
+# gunzip < /proc/config.gz | grep DEVMEM
+CONFIG_DEVMEM=3Dy
+
+After cleaning, the result is correct and the new defconfig is active.
+
+I'm trying to figure out how this can happen, any help is welcome...
+
+
+Kind regards,
+
+Mike Looijmans
+System Expert
+
+TOPIC Products
+Materiaalweg 4, NL-5681 RJ Best
+Postbus 440, NL-5680 AK Best
+Telefoon: +31 (0) 499 33 69 79
+E-mail: mike.looijmans@topicproducts.com
+Website: www.topicproducts.com
+
+Please consider the environment before printing this e-mail
+
+
+
+
 
 
