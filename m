@@ -1,45 +1,46 @@
-Return-Path: <freesilicon@gmail.com>
-Received: from mail-wj0-f196.google.com (mail-wj0-f196.google.com
-	[209.85.210.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 9038960268
+Return-Path: <patrick.ohly@intel.com>
+Received: from mail-io0-f169.google.com (mail-io0-f169.google.com
+	[209.85.223.169])
+	by mail.openembedded.org (Postfix) with ESMTP id 17EED71AD0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Nov 2016 09:47:04 +0000 (UTC)
-Received: by mail-wj0-f196.google.com with SMTP id kp2so2862982wjc.0
+	Thu, 24 Nov 2016 09:51:23 +0000 (UTC)
+Received: by mail-io0-f169.google.com with SMTP id x94so70782614ioi.3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Nov 2016 01:47:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	Thu, 24 Nov 2016 01:51:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=from:to:cc:subject:date:message-id;
-	bh=4JY+j9lRd6ryyQpTEyajGdmoxqanjL/TeqPUB1eskE4=;
-	b=jHiBFZTxAfRS9RIKj53QQey3Q4PS7mgedTUWE6PscHa0vpqWgBzQrTjvtLkTLhl2Vm
-	w9vnkA2SUYHQ2jJk4m6iogq4DGxZBsDrfO6Q0dIW1Pty8j4L0WrVeVMqbJJx/Tp0SOen
-	1CLb6hNmmeHrkamMV72vXdYyXWlVPzo20A8xFyjSUzqkpt6q+Libb9mJkiOxnR3+f8hw
-	s+7YuowMbeK88VFahsz45z5Rc/eT2p7n42BbvqUsJdJmbIoT4BpR0JuobOaR1U3Erb9W
-	w+u0ghN2c0piQibI1CTmm8c9WkCTpSeRNb/tvvzsB97ZKQjb10hZZOsT+NnxvptWTi70
-	Zunw==
+	bh=0bg+5v7fGbyBlQkrgpcgNRFJ5ECliys8jElYIJoyNJY=;
+	b=r1X2qrxSY7bI27r0VFlJiwnmWsVSGAU4+7wygXQiAiBGkC4rLR6ANLSqHnq/GmKbqf
+	pXj6idTsNaA63m1Xo4pxvbYcO084raRoRvYH61zkdWuQuFWXUm+ONMk9QRWtOOycTE9G
+	DQ5O3AP86ciI1VAISnXTWjeoXTCSwcfPRuMfFdCAqQYkR048NRugjblDWX5NM8XVnipw
+	KhIOTaKJYE/p/qSrmATzjWyTTyrSFhRNhoAoDpXap5Qa55R6Zf/9fVeaJC/hXkZMHTgq
+	Ax7qvdFm+QrL0t+hQpDpYfxvCrAV+2tdidOzILQ5YfdIWOgC04uPOvdRwO5YSmq6jrWE
+	F3LA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=4JY+j9lRd6ryyQpTEyajGdmoxqanjL/TeqPUB1eskE4=;
-	b=S2JSfW6A7v2gZDl5kURM2xxd5mQuWrtLroT0ubhOG9JjqVnsKlJjZiqvQd8T9cVoPd
-	0CIX3M3KaCKXDON/3lUxnCSkkef/2lfRSm8fRPzBPqMWVv/zr1sbMUW5cwOdjODwPo8X
-	EnKCtYb1cnueVfHSQmhMf390o4wxv25s0SMGpoADkdVQTysGxSI4oOC94RmdiX/Zck7c
-	J56o5AqOipRj66FeDPicfyyURvuHr9by0XjQuTHLvX8RrSe16NSvBImoWFZZ+dPLU9jD
-	BwSyQMqSLDTK3BeNSmH0CX1qMxt7auIzIhx+ckdFCjWev+ZGPCJtDT7hMGVxBYuh+hqA
-	zu6g==
-X-Gm-Message-State: AKaTC02KQlAbnOcCTWuKWNZmplKabfS0hvd/z1l6/tEO2XU8YjVKsSX0iFk2lxL7gBhhXA==
-X-Received: by 10.194.100.225 with SMTP id fb1mr1431065wjb.128.1479980825211; 
-	Thu, 24 Nov 2016 01:47:05 -0800 (PST)
-Received: from localhost.localdomain ([185.47.80.46])
-	by smtp.gmail.com with ESMTPSA id
-	g184sm7278302wme.23.2016.11.24.01.47.04
+	bh=0bg+5v7fGbyBlQkrgpcgNRFJ5ECliys8jElYIJoyNJY=;
+	b=KIhIYuYTW42xqJup3pihXVp0h5eIiCqlBl4GlTRLoS3Lgq7ilzJkh/C/NvD6G48HLl
+	/phWgfk8xAXwTaYOVmP4ZYpg+AN48A5fTaRQe+d9pqkJtI+fWgy381YEtVeZNqkDNCcG
+	XZI2TtPEXwox9tToBp8MhAZ0fZgMlrKDgIa0gIe91HFJZC6xu/RvRjfUTqnR5npvOV9/
+	2B70BXtOjSDjWqpqNUKriy7KlKCmmJ6H/UT5MhebgeiLIBVJ4PVbM9wCjVQWzVIF2XDP
+	8hu0UZpSlHTOKrmJJjQjr1EhPRBPU7S6vQoLItcDW3Lh/4IbSfOAFHeRfF0fkjsdt3Qh
+	Pweg==
+X-Gm-Message-State: AKaTC03ZnkwsVAamegIagujvXdiwesaHGeelCYCVszdAAPcs7cj/9QCf+1ZQtgk8TkZT34E3
+X-Received: by 10.107.53.36 with SMTP id c36mr1235198ioa.55.1479981084476;
+	Thu, 24 Nov 2016 01:51:24 -0800 (PST)
+Received: from pohly-desktop.fritz.box (p5DE8D6D7.dip0.t-ipconnect.de.
+	[93.232.214.215]) by smtp.gmail.com with ESMTPSA id
+	u73sm2453223ita.22.2016.11.24.01.51.22
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 24 Nov 2016 01:47:04 -0800 (PST)
-From: David Vincent <freesilicon@gmail.com>
+	Thu, 24 Nov 2016 01:51:23 -0800 (PST)
+From: Patrick Ohly <patrick.ohly@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 24 Nov 2016 10:46:09 +0100
-Message-Id: <20161124094609.30386-1-freesilicon@gmail.com>
-X-Mailer: git-send-email 2.10.2
-Subject: [PATCH] slang: Disable parallel make install
+Date: Thu, 24 Nov 2016 10:51:13 +0100
+Message-Id: <1479981073-2134-1-git-send-email-patrick.ohly@intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH] qemuboot.bbclass: do not hook into do_rootfs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,28 +53,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 Nov 2016 09:47:05 -0000
+X-List-Received-Date: Thu, 24 Nov 2016 09:51:24 -0000
 
-Installation task fails if run in parallel. This case happens if we
-define PARALLEL_MAKEINST to a different value of PARALLEL_MAKE.
+Writing qemuboot.conf in write_qemuboot_conf() does not modify the
+rootfs and thus conceptually shouldn't be executed as part of rootfs
+creation.
 
-Signed-off-by: David Vincent <freesilicon@gmail.com>
+Running it as separate task is cleaner and fixes the problem of
+missing qemuboot.conf files for meta-swupd virtual images; those
+images replace do_rootfs and ROOTFS_POSTPROCESS_COMMANDs don't run at
+all.
+
+The task gets added such that it runs roughly at the same time as
+before. Probably it doesn't actually need to depend on do_rootfs, but
+this way we don't write a useless qemuboot.conf in cases where
+do_rootfs fails.
+
+Signed-off-by: Patrick Ohly <patrick.ohly@intel.com>
 ---
- meta/recipes-extended/slang/slang_2.3.0.bb | 1 +
- 1 file changed, 1 insertion(+)
+ meta/classes/qemuboot.bbclass | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-extended/slang/slang_2.3.0.bb b/meta/recipes-extended/slang/slang_2.3.0.bb
-index 52b2a63..d5967d2 100644
---- a/meta/recipes-extended/slang/slang_2.3.0.bb
-+++ b/meta/recipes-extended/slang/slang_2.3.0.bb
-@@ -53,5 +53,6 @@ do_install() {
- FILES_${PN} += "${libdir}/${BPN}/v2/modules/ ${datadir}/slsh/"
+diff --git a/meta/classes/qemuboot.bbclass b/meta/classes/qemuboot.bbclass
+index 39df3ad..8b1d4d0 100644
+--- a/meta/classes/qemuboot.bbclass
++++ b/meta/classes/qemuboot.bbclass
+@@ -42,7 +42,7 @@ QB_DEFAULT_FSTYPE ?= "ext4"
+ QB_OPT_APPEND ?= "-show-cursor"
  
- PARALLEL_MAKE = ""
-+PARALLEL_MAKEINST = ""
+ # Create qemuboot.conf
+-ROOTFS_POSTPROCESS_COMMAND += "write_qemuboot_conf; "
++addtask do_write_qemuboot_conf after do_rootfs before do_image
  
- BBCLASSEXTEND = "native"
+ def qemuboot_vars(d):
+     build_vars = ['MACHINE', 'TUNE_ARCH', 'DEPLOY_DIR_IMAGE',
+@@ -51,8 +51,8 @@ def qemuboot_vars(d):
+                 'STAGING_DIR_HOST']
+     return build_vars + [k for k in d.keys() if k.startswith('QB_')]
+ 
+-write_qemuboot_conf[vardeps] += "${@' '.join(qemuboot_vars(d))}"
+-python write_qemuboot_conf() {
++do_write_qemuboot_conf[vardeps] += "${@' '.join(qemuboot_vars(d))}"
++python do_write_qemuboot_conf() {
+     import configparser
+ 
+     qemuboot = "%s/%s.qemuboot.conf" % (d.getVar('DEPLOY_DIR_IMAGE', True), d.getVar('IMAGE_NAME', True))
 -- 
-2.10.2
+2.1.4
 
 
