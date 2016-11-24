@@ -1,30 +1,47 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 7479671AB2
+Return-Path: <uol@pengutronix.de>
+X-Greylist: delayed 964 seconds by postgrey-1.34 at layers.openembedded.org;
+	Thu, 24 Nov 2016 06:31:47 UTC
+Received: from metis.ext.4.pengutronix.de (metis.ext.4.pengutronix.de
+	[92.198.50.35])
+	by mail.openembedded.org (Postfix) with ESMTP id A820760119
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Nov 2016 03:38:41 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id uAO3cffU023953
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 23 Nov 2016 19:38:41 -0800 (PST)
-Received: from [128.224.162.183] (128.224.162.183) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.294.0;
-	Wed, 23 Nov 2016 19:38:41 -0800
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-References: <cover.1479871728.git.liezhi.yang@windriver.com>
-	<1479899811.31880.37.camel@intel.com>
-	<adc8effe-1856-560a-a7fb-0d92138e1990@windriver.com>
-	<1525289.rQK3S6YPkZ@peggleto-mobl.ger.corp.intel.com>
-From: Robert Yang <liezhi.yang@windriver.com>
-Message-ID: <27dbd493-5b76-657f-8a1d-57eabe9eebed@windriver.com>
-Date: Thu, 24 Nov 2016 11:38:39 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.2.0
+	Thu, 24 Nov 2016 06:31:47 +0000 (UTC)
+Received: from pty.hi.pengutronix.de ([2001:67c:670:100:1d::c5])
+	by metis.ext.pengutronix.de with esmtps
+	(TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.84_2)
+	(envelope-from <uol@pengutronix.de>) id 1c9nJv-00044o-PM
+	for openembedded-core@lists.openembedded.org;
+	Thu, 24 Nov 2016 07:15:43 +0100
+Received: from uol by pty.hi.pengutronix.de with local (Exim 4.84_2)
+	(envelope-from <uol@pengutronix.de>) id 1c9nJv-00077d-Gz
+	for openembedded-core@lists.openembedded.org;
+	Thu, 24 Nov 2016 07:15:43 +0100
+Date: Thu, 24 Nov 2016 07:15:43 +0100
+From: Ulrich =?iso-8859-1?Q?=D6lmann?= <u.oelmann@pengutronix.de>
+To: openembedded-core@lists.openembedded.org
+Message-ID: <20161124061543.e2xpgh7zjir3oynk@pengutronix.de>
+References: <a90e8685-f087-5ee2-888b-aa537ebd94c4@mender.io>
+	<1479813004.3239.19.camel@intel.com>
+	<6913e4bf-96dc-eefa-d214-9df5cde181b8@mender.io>
+	<20161123120816.GC12545@linux.intel.com>
+	<5064cacc-e724-c7b8-9631-3d961c5a29f6@mender.io>
+	<20161123132229.GA13863@linux.intel.com>
+	<1479916616.31880.48.camel@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <1525289.rQK3S6YPkZ@peggleto-mobl.ger.corp.intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 2/2] base-passwd: set root's default password to 'root'
+In-Reply-To: <1479916616.31880.48.camel@intel.com>
+X-Sent-From: Pengutronix Hildesheim
+X-URL: http://www.pengutronix.de/
+X-IRC: #ptxdist @freenode
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+X-Uptime: 06:49:32 up 13 days, 16:57,  7 users,  load average: 0.00, 0.00, 0.00
+User-Agent: Mutt/1.6.2-neo (2016-06-11)
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c5
+X-SA-Exim-Mail-From: uol@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+	SAEximRunCond expanded to false
+X-PTX-Original-Recipient: openembedded-core@lists.openembedded.org
+Subject: Re: Contents of non-rootfs partitions
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,81 +54,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 Nov 2016 03:38:44 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 24 Nov 2016 06:31:47 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
+Hi,
 
+On Wed, Nov 23, 2016 at 04:56:56PM +0100, Patrick Ohly wrote:
+> On Wed, 2016-11-23 at 15:22 +0200, Ed Bartosh wrote:
+> > On Wed, Nov 23, 2016 at 02:08:28PM +0100, Kristian Amlie wrote:
+> > > On 23/11/16 13:08, Ed Bartosh wrote:
+> > > > On Tue, Nov 22, 2016 at 12:54:52PM +0100, Kristian Amlie wrote:
+> > > > [...]
+> > > > This can be done by extending existing rootfs plugin. It should be able
+> > > > to do 2 things:
+> > > > 
+> > > > - populate content of one rootfs directory to the partition. We can
+> > > >   extend syntax of --rootfs-dir parameter to specify optional directory path to use
+> > > > 
+> > > > - exclude rootfs directories when populating partitions. I'd propose to
+> > > >   introduce --exclude-dirs wks parser option to handle this.
+> > > > 
+> > > > Example of wks file with proposed new options:
+> > > > part /     --source rootfs --rootfs-dir=core-image-minimal       --ondisk sda --fstype=ext4 --label root --align 1024 --exclude-dirs data --exclude-dirs home
+> > > > part /data --source rootfs --rootfs-dir=core-image-minimal:/home --ondisk sda --fstype=ext4 --label data --align 1024
+> > > > part /home --source rootfs --rootfs-dir=core-image-minimal:/data --ondisk sda --fstype=ext4 --label data --align 1024
+> > > > 
+> > > > Does this make sense?
+> > > 
+> > > Looks good. The only thing I would question is that, in the interest of
+> > > reducing redundancy, maybe we should omit --exclude-dirs and have wic
+> > > figure this out by combining all the entries, since "--exclude-dirs
+> > > <dir>" and the corresponding "part <dir>" will almost always come in
+> > > pairs. Possibly we could mark the "/" partition with one single
+> > > --no-overlapping-dirs to force wic to make this consideration. Or do you
+> > > think that's too magical?
+> > >
+> > Tt's quite implicit from my point of view. However, if people like it we
+> > can implement it this way.
+> 
+> I prefer the explicit --exclude-dirs. It's less surprising and perhaps
+> there are usages for having the same content in different partitions
+> (redundancy, factory reset, etc.).
+> 
+> Excluding only the directory content but not the actual directory is
+> indeed a good point. I'm a bit undecided. When excluding only the
+> directory content, there's no way of building a rootfs without that
+> mount point, if that's desired. OTOH, when excluding also the directory,
+> the data would have to be staged under a different path in the rootfs
+> and the mount point would have to be a separate, empty directory.
+> 
+> I'm leaning towards excluding the directory content and keeping the
+> directory.
 
-On 11/24/2016 11:18 AM, Paul Eggleton wrote:
-> On Thu, 24 Nov 2016 10:01:59 Robert Yang wrote:
->> On 11/23/2016 07:16 PM, Patrick Ohly wrote:
->>> On Tue, 2016-11-22 at 23:49 -0800, Robert Yang wrote:
->>>> [YOCTO #10710]
->>>>
->>>> Otherwise, we can't login as root when debug-tweaks is not in
->>>> IMAGE_FEATURES, and there is no other users to login by default, so
->>>> there is no way to login.
->>>
->>> Wait a second, are you really suggesting that OE-core should have a
->>> default root password in its default configuration?
->>>
->>> That's very bad practice and I'm against doing it this way. Having a
->>> default password is one of the common vulnerabilities in actual devices
->>> on the market today. OE-core should make it hard to make that mistake,
->>> not actively introduce it.
->>>
->>> So if you think that having a root password set (instead of empty), then
->>> at least make it an opt-in behavior that explicitly has to be selected.
->>> Make it an image feature so that images with and without default
->>> password can be build in the same build configuration. Changing
->>> base-passwd doesn't achieve that.
->>>
->>> Even then I'm still wondering what the benefit of a well-known password
->>> compared to no password is. Both are equally insecure, so someone who
->>> wants to allow logins might as well go with "empty password".
->>
->> The problem is that when debug-tweaks or empty-root-password is not in
->> IMAGE_FEATURE, there is no way to login by default, which will surprise
->> the user. How about:
->>
->> 1) Let user can set root passwd via a variable when building.
->>
->> Or/And
->>
->> 2) Warn the user at build time when the image is unable to login.
->
-> There are problems with both of these:
->
-> 1) I'm concerned that by making it trivially easy this will encourage users to
-> set a root password and forget they have done so. This may lead to yet more
-> products going out with default root passwords, and that is not a good thing.
->
-> 2) Having no root password in this scenario is not necessarily a mistake, it
-> may be intentional. If nobody ever needs to log into your device via a
-> terminal, then why would you need a root password set at all? In that scenario
-> you wouldn't want to be implying "this could be wrong, you should set a root
-> password".
+what about having both possibilities by leaning against the syntax that rsync
+uses to specify if a whole source directory or only it's contents shall be
+synced to some destination site (see [1])?
 
-Hi Paul,
+In analogy to this to exclude only the contents of the directory named 'data'
+you would use
 
-Currently, debug-tweaks is in EXTRA_IMAGE_FEATURES by default for poky, and
-there is no passwd, so that user can login easily without a passwd, I think
-that current status is more unsafe ? And when user realizes this, he
-wants to add a passwd, but sorry, there is no easy way.
-The anaconda installer's (used by Redhat) kickstart file can easily sets
-a passwd, you can even set an un-encrypted password, are there many complains
-about that ? When people can get your device (hardware), it's hard to prevent
-people login you device.
+  --exclude-dirs data/
 
-// Robert
+but to additionally exclude the dir itself as well it would read
 
->
-> If we need more documentation around this so that people understand how this
-> aspect works (and I don't doubt that we do, people do ask about it) then by
-> all means we should improved the documentation.
->
-> Cheers,
-> Paul
->
+  --exclude-dirs data
+
+Best regards
+Ulrich
+
+[1] http://man.cx/rsync(1)#heading6
+-- 
+Pengutronix e.K.                           |                             |
+Industrial Linux Solutions                 | http://www.pengutronix.de/  |
+Peiner Str. 6-8, 31137 Hildesheim, Germany | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
 
