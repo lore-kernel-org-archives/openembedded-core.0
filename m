@@ -1,51 +1,64 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f172.google.com (mail-qk0-f172.google.com
-	[209.85.220.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 97F8371AB8
+Return-Path: <patrick.ohly@intel.com>
+Received: from mail-io0-f170.google.com (mail-io0-f170.google.com
+	[209.85.223.170])
+	by mail.openembedded.org (Postfix) with ESMTP id CB78D71A01
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Nov 2016 16:15:16 +0000 (UTC)
-Received: by mail-qk0-f172.google.com with SMTP id n21so53741113qka.3
+	Thu, 24 Nov 2016 16:21:36 +0000 (UTC)
+Received: by mail-io0-f170.google.com with SMTP id x94so86426678ioi.3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Nov 2016 08:15:17 -0800 (PST)
+	Thu, 24 Nov 2016 08:21:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=PqQtlXnK2c/wgioopj/dro6y2fTSZPltgdE5vJVM2G8=;
-	b=MtUrYcHDF3RIa/Cenlo7f6rBo44Dvua2URwbRCu0BONJEOhYFrh4nBIpcgkH839cic
-	DD1Vj06NFCgBhrro8EcxHrGxhdDml4xaxPPGS+9QkqWLdAxb7oGNt8pFbYy9e8uMSSFI
-	W6SEWpxQPNPHw3e2wfb54AyR0xMyRDemcSqo3ogOrmdus+3DrA2Mhp4teFPR4tKwO4Lx
-	66GzS97pZbChDzNSg65jj/awJbnYgFlIc9HDQmVqwhMh9AM1URuH1NQYaWmXpvH8ndzv
-	sP+Sg+cIgPz6637NPzR0l7npJWzboaOFw4VQ0H8ZbnUQhdYPjTNKHDXvAknxIpQWTu5I
-	eA0Q==
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:organization:mime-version:content-transfer-encoding;
+	bh=fsL6rS9AzVXzE5jWGZvEDphqZyMJVeru9fM+BVmXwUo=;
+	b=dGPlw93E3SR9s/KWrZwi/Tue2fy04ju0uvEqshx85x4jk3IXmNssaOwHb4FoIz0qd+
+	H3lMnDaOOIO74crgMWkUCtnUX8KGilMLJTMKXl03J4eOFG1QJkBpZVXkbSFEDQ+6wvHY
+	H6l+obBgU9Uf1X0oBbjlZuZe/lsL+A92S5O9xBdMgUAspI8y1LgkMaH+l95fvN3mYfSI
+	yMUC7tIFQk5sSNUBsD+Fcvpoti2QuN1mzi9QITb7qNYhlKP4U+XMA9GhOEOSWsSa3mKk
+	kdq29mL0UGAN0zSaRVQM5n+ydYgCAmWCZAFzO587ifV2RuccE9Fwc5Lr/qLy46QAv6sn
+	X00Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=PqQtlXnK2c/wgioopj/dro6y2fTSZPltgdE5vJVM2G8=;
-	b=RbEFgbl6WOym34zgHS3LBz7HfSlq5t1sDV1SxFONT0M7gkK1IiwzbMWdfYPKOqXpea
-	dHVlbsWnk4LKUE3GrqzwkzNlE+VQtWHPRdCdPMNmEJ3XSX37HblKb5aORsCCCAnyL4m5
-	R1QCfVy3ciYCYIRrWSfyGN2z6Q47SkaLduR+VRjDDJkdgD4hc/2MapEkqU4wVPQLyxo5
-	jjtbG3IPrjvPOlPPom2Q1UUcIZAr5COOMYIPQo7KU/Sn4XTJS9U5xkY5nC0Hv+GdtSzG
-	ejg13FnoKrkPgfiM8SXJFR5YmugSkDHPIeV3fGO2ZCz6fm7GdnLVBZQHD9k3urclwd/D
-	EgtA==
-X-Gm-Message-State: AKaTC03DehKcq9rYIUnLQpvuCLgdUzZh5qMS0RfXwKZbngGSskIsSB9ZPY0cPrpzbuWoUYBkELB/LeFAY3kfivyn
-X-Received: by 10.55.5.145 with SMTP id 139mr2677901qkf.77.1480004117387; Thu,
-	24 Nov 2016 08:15:17 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.140.85.136 with HTTP; Thu, 24 Nov 2016 08:14:56 -0800 (PST)
-In-Reply-To: <fa116937-6c95-06a5-c63d-345cedcb304b@balister.org>
-References: <20161123174209.211349-1-mark.hatle@windriver.com>
-	<20161123174209.211349-2-mark.hatle@windriver.com>
-	<20161123181039.GF3265@jama>
-	<c06ab920-517b-b6b8-f2c8-e9ec8ae8714c@windriver.com>
-	<20161123185617.GH3265@jama>
-	<fa116937-6c95-06a5-c63d-345cedcb304b@balister.org>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 24 Nov 2016 16:14:56 +0000
-Message-ID: <CAJTo0LaG=UxRdVxG9c1ywqWTfKSH26t3a-aHU1X4rV6_q1G2ng@mail.gmail.com>
-To: Philip Balister <philip@balister.org>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] meta/conf/layer.conf: Add recommended download layer
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:organization:mime-version:content-transfer-encoding;
+	bh=fsL6rS9AzVXzE5jWGZvEDphqZyMJVeru9fM+BVmXwUo=;
+	b=lrnfsAanDTSUYPe0e3V75FxYTpEFV55dw0OoX0YYk980v6tOmhTeebFgI6mB47t5iX
+	FpW7JZYrHN63ORHJqUOQpF3AzPDcokUw74bja5xrGjh/M0CV+5PCC+rjZjO8UN5wansV
+	dFes7hOKD9ZipWzl536mU5Mp3K1gnb35xMn/xRPj8/ZLD1XZkMWeaHIUQzdIwrR4LFxx
+	46HelSPZA1inuawAUOJwxim24mDZqCGrFuuYISqMgOkP+KW5T7tFqBUv5/014s/Ypzm6
+	MT8/PML/lCFcJHq4g/mdYd8tfF4mwfgSagq5oQLjTGnFIitiz4L6Z+NoG1rLO1lx1weC
+	ykhA==
+X-Gm-Message-State: AKaTC03XDkPsLTaOywr7uSQYQlsfwtQCrhg/OzOZpwyF+QQm0GKU5Jc/cTXKo6WT+Vb0Qx0H
+X-Received: by 10.36.91.85 with SMTP id g82mr2870699itb.23.1480004497551;
+	Thu, 24 Nov 2016 08:21:37 -0800 (PST)
+Received: from pohly-mobl1 (p5DE8D035.dip0.t-ipconnect.de. [93.232.208.53])
+	by smtp.gmail.com with ESMTPSA id e13sm1945047itd.4.2016.11.24.08.21.35
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 24 Nov 2016 08:21:36 -0800 (PST)
+Message-ID: <1480004493.6873.51.camel@intel.com>
+From: Patrick Ohly <patrick.ohly@intel.com>
+To: Kristian Amlie <kristian.amlie@mender.io>
+Date: Thu, 24 Nov 2016 17:21:33 +0100
+In-Reply-To: <23608ccc-ebaa-f2a6-6b39-02121e7b4287@mender.io>
+References: <1479813004.3239.19.camel@intel.com>
+	<6913e4bf-96dc-eefa-d214-9df5cde181b8@mender.io>
+	<20161123120816.GC12545@linux.intel.com>
+	<5064cacc-e724-c7b8-9631-3d961c5a29f6@mender.io>
+	<20161123132229.GA13863@linux.intel.com>
+	<1479916616.31880.48.camel@intel.com>
+	<20161124061543.e2xpgh7zjir3oynk@pengutronix.de>
+	<fa1edaed-1498-160e-2015-8b7882c04877@mender.io>
+	<20161124132315.GA14497@linux.intel.com>
+	<1e1a7126-15dc-33be-a863-ea93063b554f@mender.io>
+	<20161124145136.GA31813@linux.intel.com>
+	<1bac8afc-7037-3891-7e3a-5a590dbed9e2@opendreambox.org>
+	<23608ccc-ebaa-f2a6-6b39-02121e7b4287@mender.io>
+Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
+X-Mailer: Evolution 3.12.9-1+b1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: Contents of non-rootfs partitions
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,44 +71,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 Nov 2016 16:15:16 -0000
-Content-Type: multipart/alternative; boundary=001a114c8f84aeeea305420e4fba
+X-List-Received-Date: Thu, 24 Nov 2016 16:21:38 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
---001a114c8f84aeeea305420e4fba
-Content-Type: text/plain; charset=UTF-8
+On Thu, 2016-11-24 at 16:51 +0100, Kristian Amlie wrote:
+> On 24/11/16 16:28, Andreas Oberritter wrote:
+> > Note that in a shell, "data/*" doesn't include "data/.*". So this syntax
+> > avoids the confusing rsync syntax in trade for another one. I'd prefer
+> > the rsync flavour, because "behaves like rsync" is easier to remember
+> > than "behaves like a shell glob, but differently". Confusion could be
+> > prevented with good documentation, FWIW.
+> 
+> This is turning into a bit of a bikeshed discussion. I have a slight
+> preference for the glob version, because I think it's less surprising,
+> but I'm fine either way.
+> 
+> I count myself and Ed in favor of glob version, Ulrich and Andreas in
+> favor of rsync version. Patrick, you wanna be tie breaker? :-)
 
-On 24 November 2016 at 14:03, Philip Balister <philip@balister.org> wrote:
+But I said I was undecided ;-} Okay, I vote for the rsync flavor.
 
-> It is useful for the larger community to see what vendors have to do.
-> Possibly we could decide vendor specific patches code benefit the larer
-> community. I'd much rather vendors over publish then under publish.
->
+-- 
+Best Regards, Patrick Ohly
 
-Yeah, exactly.
+The content of this message is my personal opinion only and although
+I am an employee of Intel, the statements I make here in no way
+represent Intel's position on the issue, nor am I authorized to speak
+on behalf of Intel on this matter.
 
-All I ask is that vendors, when sending patches they know are for
-compliance and don't expect to be merged for whatever reason, mark the
-patch appropriately.
 
-Ross
 
---001a114c8f84aeeea305420e4fba
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 24 November 2016 at 14:03, Philip Balister <span dir=3D"ltr">&lt;<a href=
-=3D"mailto:philip@balister.org" target=3D"_blank">philip@balister.org</a>&g=
-t;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0=
- .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":151" class=
-=3D"a3s aXjCH m15896bdc24855c9a">It is useful for the larger community to s=
-ee what vendors have to do.<br>
-Possibly we could decide vendor specific patches code benefit the larer<br>
-community. I&#39;d much rather vendors over publish then under publish.</di=
-v></blockquote></div><br>Yeah, exactly.</div><div class=3D"gmail_extra"><br=
-></div><div class=3D"gmail_extra">All I ask is that vendors, when sending p=
-atches they know are for compliance and don&#39;t expect to be merged for w=
-hatever reason, mark the patch appropriately.</div><div class=3D"gmail_extr=
-a"><br></div><div class=3D"gmail_extra">Ross</div></div>
-
---001a114c8f84aeeea305420e4fba--
