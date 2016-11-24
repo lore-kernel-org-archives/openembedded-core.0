@@ -1,24 +1,25 @@
 Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id F0BA460797
+	by mail.openembedded.org (Postfix) with ESMTP id 17E9E71B61
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Nov 2016 20:52:49 +0000 (UTC)
+	Thu, 24 Nov 2016 20:52:50 +0000 (UTC)
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga101.fm.intel.com with ESMTP; 24 Nov 2016 12:52:50 -0800
+	by fmsmga101.fm.intel.com with ESMTP; 24 Nov 2016 12:52:51 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.31,543,1473145200"; d="scan'208";a="1063828196"
+X-IronPort-AV: E=Sophos;i="5.31,543,1473145200"; d="scan'208";a="1063828199"
 Received: from lsandov1-mobl2.zpn.intel.com ([10.219.5.38])
 	by orsmga001.jf.intel.com with ESMTP; 24 Nov 2016 12:52:50 -0800
 From: leonardo.sandoval.gonzalez@linux.intel.com
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 24 Nov 2016 14:58:01 -0600
-Message-Id: <0da7db38df1c325040e9fa55ede5d5dbe0d24ae2.1480020435.git.leonardo.sandoval.gonzalez@linux.intel.com>
+Date: Thu, 24 Nov 2016 14:58:02 -0600
+Message-Id: <58d7f54fad6604e6963083745383be1bdfcff146.1480020435.git.leonardo.sandoval.gonzalez@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
-In-Reply-To: <cover.1476462963.git.leonardo.sandoval.gonzalez@linux.intel.com>
+In-Reply-To: <0da7db38df1c325040e9fa55ede5d5dbe0d24ae2.1480020435.git.leonardo.sandoval.gonzalez@linux.intel.com>
 References: <cover.1476462963.git.leonardo.sandoval.gonzalez@linux.intel.com>
+	<0da7db38df1c325040e9fa55ede5d5dbe0d24ae2.1480020435.git.leonardo.sandoval.gonzalez@linux.intel.com>
 In-Reply-To: <cover.1480020435.git.leonardo.sandoval.gonzalez@linux.intel.com>
 References: <cover.1480020435.git.leonardo.sandoval.gonzalez@linux.intel.com>
-Subject: [PATCH v2 01/13] selftest: base: new object member to store the DISTRO value
+Subject: [PATCH v2 02/13] selftest: bbtests: use minimal image so all distros can execute it
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,63 +36,32 @@ X-List-Received-Date: Thu, 24 Nov 2016 20:52:50 -0000
 
 From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
 
-Instead of quering it multiple times, query once and use it on
-test method skip checks. Also, rename current distro sstate object
-member to a more meaninful name.
+poky-tiny distro cannot build full-cmdline image, so use an image
+(core-image-minimal) that can be built in all distros.
 
 Signed-off-by: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
 ---
- meta/lib/oeqa/selftest/base.py   |  1 +
- meta/lib/oeqa/selftest/sstate.py | 10 +++++-----
- 2 files changed, 6 insertions(+), 5 deletions(-)
+ meta/lib/oeqa/selftest/bbtests.py | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/lib/oeqa/selftest/base.py b/meta/lib/oeqa/selftest/base.py
-index 26c93f9..b477db3 100644
---- a/meta/lib/oeqa/selftest/base.py
-+++ b/meta/lib/oeqa/selftest/base.py
-@@ -41,6 +41,7 @@ class oeSelfTest(unittest.TestCase):
-             self.testinc_path, self.testinc_bblayers_path,
-             self.machineinc_path, self.localconf_backup,
-             self.local_bblayers_backup]
-+        self.distro = get_bb_var('DISTRO')
-         super(oeSelfTest, self).__init__(methodName)
+diff --git a/meta/lib/oeqa/selftest/bbtests.py b/meta/lib/oeqa/selftest/bbtests.py
+index baae1e0..08cc401 100644
+--- a/meta/lib/oeqa/selftest/bbtests.py
++++ b/meta/lib/oeqa/selftest/bbtests.py
+@@ -114,11 +114,11 @@ class BitbakeTests(oeSelfTest):
  
-     def setUp(self):
-diff --git a/meta/lib/oeqa/selftest/sstate.py b/meta/lib/oeqa/selftest/sstate.py
-index 5989724..d27a45c 100644
---- a/meta/lib/oeqa/selftest/sstate.py
-+++ b/meta/lib/oeqa/selftest/sstate.py
-@@ -14,8 +14,8 @@ class SStateBase(oeSelfTest):
-     def setUpLocal(self):
-         self.temp_sstate_location = None
-         self.sstate_path = get_bb_var('SSTATE_DIR')
--        self.distro = get_bb_var('NATIVELSBSTRING')
--        self.distro_specific_sstate = os.path.join(self.sstate_path, self.distro)
-+        self.hostdistro = get_bb_var('NATIVELSBSTRING')
-+        self.distro_specific_sstate = os.path.join(self.sstate_path, self.hostdistro)
+     @testcase(167)
+     def test_bitbake_g(self):
+-        result = bitbake('-g core-image-full-cmdline')
++        result = bitbake('-g core-image-minimal')
+         for f in ['pn-buildlist', 'pn-depends.dot', 'package-depends.dot', 'task-depends.dot']:
+             self.addCleanup(os.remove, f)
+         self.assertTrue('NOTE: PN build list saved to \'pn-buildlist\'' in result.output, msg = "No dependency \"pn-buildlist\" file was generated for the given task target. bitbake output: %s" % result.output)
+-        self.assertTrue('openssh' in ftools.read_file(os.path.join(self.builddir, 'pn-buildlist')), msg = "No \"openssh\" dependency found in pn-buildlist file.")
++        self.assertTrue('busybox' in ftools.read_file(os.path.join(self.builddir, 'pn-buildlist')), msg = "No \"busybox\" dependency found in pn-buildlist file.")
  
-     # Creates a special sstate configuration with the option to add sstate mirrors
-     def config_sstate(self, temp_sstate_location=False, add_local_mirrors=[]):
-@@ -27,8 +27,8 @@ class SStateBase(oeSelfTest):
-             self.append_config(config_temp_sstate)
-             self.track_for_cleanup(temp_sstate_path)
-         self.sstate_path = get_bb_var('SSTATE_DIR')
--        self.distro = get_bb_var('NATIVELSBSTRING')
--        self.distro_specific_sstate = os.path.join(self.sstate_path, self.distro)
-+        self.hostdistro = get_bb_var('NATIVELSBSTRING')
-+        self.distro_specific_sstate = os.path.join(self.sstate_path, self.hostdistro)
- 
-         if add_local_mirrors:
-             config_set_sstate_if_not_set = 'SSTATE_MIRRORS ?= ""'
-@@ -42,7 +42,7 @@ class SStateBase(oeSelfTest):
-     def search_sstate(self, filename_regex, distro_specific=True, distro_nonspecific=True):
-         result = []
-         for root, dirs, files in os.walk(self.sstate_path):
--            if distro_specific and re.search("%s/[a-z0-9]{2}$" % self.distro, root):
-+            if distro_specific and re.search("%s/[a-z0-9]{2}$" % self.hostdistro, root):
-                 for f in files:
-                     if re.search(filename_regex, f):
-                         result.append(f)
+     @testcase(899)
+     def test_image_manifest(self):
 -- 
 2.1.4
 
