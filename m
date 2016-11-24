@@ -1,30 +1,22 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id E66B071A65
+Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 147AF6FFED
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Nov 2016 18:59:54 +0000 (UTC)
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-	by fmsmga101.fm.intel.com with ESMTP; 24 Nov 2016 10:59:56 -0800
+	Thu, 24 Nov 2016 20:50:25 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by orsmga101.jf.intel.com with ESMTP; 24 Nov 2016 12:50:27 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.31,543,1473145200"; d="scan'208";a="35297016"
-Received: from kimjoey-mobl.gar.corp.intel.com (HELO
-	peggleto-mobl.ger.corp.intel.com) ([10.255.156.104])
-	by fmsmga006.fm.intel.com with ESMTP; 24 Nov 2016 10:59:53 -0800
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Patrick Ohly <patrick.ohly@intel.com>,
-	Robert Yang <liezhi.yang@windriver.com>
-Date: Fri, 25 Nov 2016 07:59:51 +1300
-Message-ID: <5251131.puhPuqrAHf@peggleto-mobl.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.14.10 (Linux/4.7.10-100.fc23.x86_64; KDE/4.14.20; x86_64; ;
-	)
-In-Reply-To: <1479973589.6873.15.camel@intel.com>
-References: <cover.1479871728.git.liezhi.yang@windriver.com>
-	<27dbd493-5b76-657f-8a1d-57eabe9eebed@windriver.com>
-	<1479973589.6873.15.camel@intel.com>
-MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 2/2] base-passwd: set root's default password to 'root'
+X-IronPort-AV: E=Sophos;i="5.31,543,1473145200"; d="scan'208";a="905192452"
+Received: from lsandov1-mobl2.zpn.intel.com ([10.219.5.38])
+	by orsmga003.jf.intel.com with ESMTP; 24 Nov 2016 12:50:27 -0800
+From: leonardo.sandoval.gonzalez@linux.intel.com
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 24 Nov 2016 14:55:44 -0600
+Message-Id: <cover.1480020435.git.leonardo.sandoval.gonzalez@linux.intel.com>
+X-Mailer: git-send-email 2.1.4
+In-Reply-To: <cover.1476462963.git.leonardo.sandoval.gonzalez@linux.intel.com>
+References: <cover.1476462963.git.leonardo.sandoval.gonzalez@linux.intel.com>
+Subject: [PATCH v2 00/13] Skip selftests depending on distro and its features
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,38 +29,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 Nov 2016 18:59:55 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Thu, 24 Nov 2016 20:50:26 -0000
 
-On Thu, 24 Nov 2016 08:46:29 Patrick Ohly wrote:
-> On Thu, 2016-11-24 at 11:38 +0800, Robert Yang wrote:
-> > Currently, debug-tweaks is in EXTRA_IMAGE_FEATURES by default for poky,
-> > and
-> > there is no passwd, so that user can login easily without a passwd, I
-> > think
-> > that current status is more unsafe ?
-> 
-> Both well-known password and no password are unsafe. User "root" with
-> password "root" is not even "more" safe already now, because tools that
-> brute-force logins try that. Choosing something else would be a bit
-> safer for a short while until the tools add it to their dictionary.
-> 
-> Poky is also targeting a different audience than OE-core. Poky can
-> assume to be used in a secure environment, OE-core can't (because it
-> might be used for all kinds of devices).
+From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
 
-I don't think that's part of the design goals on either side, it's simply 
-about making development easier. The feature is clearly labelled "debug-
-tweaks" because it's for debugging not for production. It could be that we 
-should make it do other things like append a notice to /etc/issue to avoid 
-people leaving it on for production, if that is a concern.
+Originally, the selftests were defined for the 'poky' distro. However, there
+are more supported distros, including nodistro, poky-lsb and poky-tiny.
+These series takes into consideration the distro name and its features
+to skip certain tests.
 
-Cheers,
-Paul
+[YOCTO #8525]
+
+The following changes since commit 12a0ee049e453b6d0d2ce2f3fa981d1b6e02bd78:
+
+  dev-manual: Added note about RPM not dealing with post-install (2016-11-23 11:10:35 +0000)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib lsandov1/oe-selftest-distro-agnostic
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=lsandov1/oe-selftest-distro-agnostic
+
+Leonardo Sandoval (13):
+  selftest: base: new object member to store the DISTRO value
+  selftest: bbtests: use minimal image so all distros can execute it
+  selftest: bbtests: run non-gplv3 test only on relevant distros
+  selftest: buildoptions: skip read-only-image test depending on distro
+  selftest: buildoptions: skip test in case features are missing
+  selftest: devtool: use mraa instead of libmatchbox to lessen distro
+    requirements
+  selftest: imagefeatures: skip tests in case distro feature is missing
+  selftest: imagefeatures: skip bmap test in case of poky-tiny
+  selftest: recipetool: use mraa instead of libmatchbox to lessen distro
+    requirements
+  selftest: runtime-test: skip image-install test for poky-tiny
+  selftest: sstatetests: skip methods in case of poky-tiny or opengl is
+    missing
+  selftest: wic: skip tests for poky-tiny distro policy
+  selftest: bblayers: remove linux kernel checks for show-recipes check
+
+ meta/lib/oeqa/selftest/base.py          |  1 +
+ meta/lib/oeqa/selftest/bblayers.py      |  6 +---
+ meta/lib/oeqa/selftest/bbtests.py       |  8 +++--
+ meta/lib/oeqa/selftest/buildoptions.py  |  3 ++
+ meta/lib/oeqa/selftest/devtool.py       | 17 ++++++----
+ meta/lib/oeqa/selftest/imagefeatures.py |  9 +++++-
+ meta/lib/oeqa/selftest/recipetool.py    | 27 ++++++++++------
+ meta/lib/oeqa/selftest/runtime-test.py  |  2 ++
+ meta/lib/oeqa/selftest/sstate.py        | 10 +++---
+ meta/lib/oeqa/selftest/sstatetests.py   | 57 ++++++++++++++++++++++++++++-----
+ meta/lib/oeqa/selftest/wic.py           |  9 ++++++
+ 11 files changed, 112 insertions(+), 37 deletions(-)
 
 -- 
+2.1.4
 
-Paul Eggleton
-Intel Open Source Technology Centre
 
