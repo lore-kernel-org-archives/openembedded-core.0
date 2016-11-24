@@ -1,46 +1,46 @@
 Return-Path: <daniel.diaz@linaro.org>
-Received: from mail-oi0-f51.google.com (mail-oi0-f51.google.com
-	[209.85.218.51])
-	by mail.openembedded.org (Postfix) with ESMTP id 1C5C060268
+Received: from mail-oi0-f44.google.com (mail-oi0-f44.google.com
+	[209.85.218.44])
+	by mail.openembedded.org (Postfix) with ESMTP id 6923C719CD
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Nov 2016 22:08:50 +0000 (UTC)
-Received: by mail-oi0-f51.google.com with SMTP id y198so63554286oia.1
+	Thu, 24 Nov 2016 22:09:47 +0000 (UTC)
+Received: by mail-oi0-f44.google.com with SMTP id v84so63338389oie.3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Nov 2016 14:08:52 -0800 (PST)
+	Thu, 24 Nov 2016 14:09:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=from:to:cc:subject:date:message-id:mime-version
 	:content-transfer-encoding;
-	bh=nne/LHDGuT+B8CPzVDeoVrET2MCVnSOVYfLCANCEZow=;
-	b=AVnnXj6phOOQOTIBUnHpaWAoMI3e48xgFaiz0kQet/aM36vluZtCVPdi1ZNOfkQMiX
-	yoD60sPMIfeTyGjo0LG0yEXxflVjsjsrj1jHWsrEhlNyZbxeQIiBkVKutvabUDEBBeSQ
-	0e34MqEOE2rkYXp42PCpidM0zCbV7VPTzcGZY=
+	bh=r8KBHrE/xRYZgOLHUXMtjAT7QZXo8s91EZFC8HuAov8=;
+	b=Cr8B4BboLtSHtfmo07ZL8FK6cweOh/6LGePlfCi/MMHD8LUEi4mg9T3MVXAE4YyFbz
+	af9t33fYi8vC5ojbgTwaFdlylMyPDT/Homo8Wp2nRveq7XENOs1rLDoYdKP35PXK1uqE
+	VxJ/s2vodWP6tQDTEgiLI+TBtmIOSUj7OHLAE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
 	:content-transfer-encoding;
-	bh=nne/LHDGuT+B8CPzVDeoVrET2MCVnSOVYfLCANCEZow=;
-	b=MhnT71GBHSZA1W6nhZ3vtipVAM2eEoNd3XcIy8/36Tt1N5axFVDwE/102tgdQY3IiA
-	9zlEn1Z3vkzhbPXZ32clUhw6xCCHyQpE1WNbZRaLdGHims2OFjIy8OsgXVyF9ORfEAA7
-	rcr4yxNaos83aaqwiLEThj9UoEfZ6QBocHTsuZEVM0zAIPTWoWixcIvXuCM7RpE0Od8t
-	U1YU8j1ZMcXJl6U0y+N14F1wrBx/QoznfVHCuE6/QI7Bh+25MO/l0TR+sdENjlgCljBK
-	ondAmx5+dMipOBVB1HZpZ6Q9ZqfDjZV2/96ZgnrMertfIwlBbR4NL6Eox4+bcSmqL16h
-	4PNQ==
-X-Gm-Message-State: AKaTC01zF/QyiITj7CyaHIfj+sWVzfiOrDDSdEBbENiFp9aOtzXtgwgIHXSfJP7O/Zgu5/p2
-X-Received: by 10.202.3.139 with SMTP id 133mr2668581oid.31.1480025331066;
-	Thu, 24 Nov 2016 14:08:51 -0800 (PST)
+	bh=r8KBHrE/xRYZgOLHUXMtjAT7QZXo8s91EZFC8HuAov8=;
+	b=Pt1LzFQYdQ1/QDOlUWf0zmy2Pj7F0C02z+lYHsEV9X/rTncGVdse4+pfT9AijjpqtT
+	0YjjRd57KPvfeeht4e7KpQTq4cQ0Xg7FINUhUTnYRYdRZKCD1KwqC7gzuNZkqFHM1J5m
+	wtz5VqcbB37FfnjcYl8v+AocqveQj+B5bSpICMuJP4/rs+LGfkx27XIKMACXqx+8bMYv
+	YZ+qXsCRBXDP+yv/0UOhM0+BjqU9foVZo6x6lud4MTKcBi4uDuMNH40jriiO9FMhstaE
+	GpGWdG7Wn6RDPHAVl2bHnBdWrRpoPpN8m9dfH1AGHLv35HKLz1cuerE5DWCYnUz/vAq1
+	Wf2A==
+X-Gm-Message-State: AKaTC03E9kh9TwgGUFQowuj+YwVQgRlhSzkz1h75P6nwajYHK9Jmjc/1umTq35e1LuIbpVnr
+X-Received: by 10.157.21.112 with SMTP id z45mr3165272otz.70.1480025388250;
+	Thu, 24 Nov 2016 14:09:48 -0800 (PST)
 Received: from aura.cortijodelrio.net
 	(CableLink64-18.telefonia.InterCable.net. [201.172.64.18])
 	by smtp.googlemail.com with ESMTPSA id
-	c8sm12362055oia.14.2016.11.24.14.08.49
+	p48sm12300640ota.18.2016.11.24.14.09.46
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 24 Nov 2016 14:08:50 -0800 (PST)
+	Thu, 24 Nov 2016 14:09:47 -0800 (PST)
 From: =?UTF-8?q?Daniel=20D=C3=ADaz?= <daniel.diaz@linaro.org>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 24 Nov 2016 16:08:27 -0600
-Message-Id: <1480025307-13256-1-git-send-email-daniel.diaz@linaro.org>
+Date: Thu, 24 Nov 2016 16:09:31 -0600
+Message-Id: <1480025371-5354-1-git-send-email-daniel.diaz@linaro.org>
 X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-Subject: [PATCH v2][krogoth] weston: Add no-input-device patch to 1.9.0.
+Subject: [PATCH][morty] weston: Add no-input-device patch to 1.11.0.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,7 +53,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 Nov 2016 22:08:51 -0000
+X-List-Received-Date: Thu, 24 Nov 2016 22:09:47 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
@@ -72,20 +72,18 @@ environments.
 
 Signed-off-by: Daniel Díaz <daniel.diaz@linaro.org>
 ---
-v2: Reposted now that the patch made it to OE-Core master.
-
- ...ton-1.9-config-option-for-no-input-device.patch | 123 +++++++++++++++++++++
- meta/recipes-graphics/wayland/weston_1.9.0.bb      |   1 +
+ ...on-1.11-config-option-for-no-input-device.patch | 123 +++++++++++++++++++++
+ meta/recipes-graphics/wayland/weston_1.11.0.bb     |   1 +
  2 files changed, 124 insertions(+)
- create mode 100644 meta/recipes-graphics/wayland/weston/weston-1.9-config-option-for-no-input-device.patch
+ create mode 100644 meta/recipes-graphics/wayland/weston/weston-1.11-config-option-for-no-input-device.patch
 
-diff --git a/meta/recipes-graphics/wayland/weston/weston-1.9-config-option-for-no-input-device.patch b/meta/recipes-graphics/wayland/weston/weston-1.9-config-option-for-no-input-device.patch
+diff --git a/meta/recipes-graphics/wayland/weston/weston-1.11-config-option-for-no-input-device.patch b/meta/recipes-graphics/wayland/weston/weston-1.11-config-option-for-no-input-device.patch
 new file mode 100644
-index 0000000..61a54fd
+index 0000000..6f5ad66
 --- /dev/null
-+++ b/meta/recipes-graphics/wayland/weston/weston-1.9-config-option-for-no-input-device.patch
++++ b/meta/recipes-graphics/wayland/weston/weston-1.11-config-option-for-no-input-device.patch
 @@ -0,0 +1,123 @@
-+From 6c89292024cc08d4499916dc153c354175bd81c4 Mon Sep 17 00:00:00 2001
++From bbf2e6ebbd9c051775f43e1e3c3a2f41322342e8 Mon Sep 17 00:00:00 2001
 +From: =?UTF-8?q?Daniel=20D=C3=ADaz?= <daniel.diaz@linaro.org>
 +Date: Fri, 21 Oct 2016 14:03:13 -0500
 +Subject: [PATCH] Add configuration option for no input device.
@@ -123,7 +121,7 @@ index 0000000..61a54fd
 + 5 files changed, 21 insertions(+)
 +
 +diff --git a/man/weston.ini.man b/man/weston.ini.man
-+index a9b6026..668b16f 100644
++index d7c4a6f..c7d0f01 100644
 +--- a/man/weston.ini.man
 ++++ b/man/weston.ini.man
 +@@ -169,6 +169,11 @@ time, the one specified in the command-line will be used. On the other
@@ -139,10 +137,10 @@ index 0000000..61a54fd
 + .SH "LIBINPUT SECTION"
 + The
 +diff --git a/src/compositor.h b/src/compositor.h
-+index c4c81f0..292a412 100644
++index 0bbf458..476b650 100644
 +--- a/src/compositor.h
 ++++ b/src/compositor.h
-+@@ -701,6 +701,10 @@ struct weston_compositor {
++@@ -803,6 +803,10 @@ struct weston_compositor {
 + 
 + 	void *user_data;
 + 	void (*exit)(struct weston_compositor *c);
@@ -154,10 +152,10 @@ index 0000000..61a54fd
 + 
 + struct weston_buffer {
 +diff --git a/src/libinput-seat.c b/src/libinput-seat.c
-+index c9f9ed2..1c4c358 100644
++index 8ce0ee0..e1fdcf0 100644
 +--- a/src/libinput-seat.c
 ++++ b/src/libinput-seat.c
-+@@ -250,6 +250,12 @@ udev_input_enable(struct udev_input *input)
++@@ -255,6 +255,12 @@ udev_input_enable(struct udev_input *input)
 + 			devices_found = 1;
 + 	}
 + 
@@ -171,10 +169,10 @@ index 0000000..61a54fd
 + 		weston_log(
 + 			"warning: no input devices on entering Weston. "
 +diff --git a/src/main.c b/src/main.c
-+index a98570e..b8632e9 100644
++index 3279ac6..09905ea 100644
 +--- a/src/main.c
 ++++ b/src/main.c
-+@@ -658,6 +658,7 @@ int main(int argc, char *argv[])
++@@ -1298,6 +1298,7 @@ int main(int argc, char *argv[])
 + 	struct wl_client *primary_client;
 + 	struct wl_listener primary_client_destroyed;
 + 	struct weston_seat *seat;
@@ -182,19 +180,19 @@ index 0000000..61a54fd
 + 
 + 	const struct weston_option core_options[] = {
 + 		{ WESTON_OPTION_STRING, "backend", 'B', &backend },
-+@@ -737,6 +738,10 @@ int main(int argc, char *argv[])
++@@ -1373,6 +1374,10 @@ int main(int argc, char *argv[])
 + 	if (weston_compositor_init_config(ec, config) < 0)
-+ 		goto out_signals;
++ 		goto out;
 + 
 ++	weston_config_section_get_bool(section, "require-input",
 ++				       &require_input, true);
 ++	ec->require_input = require_input;
 ++
-+ 	if (backend_init(ec, &argc, argv, config) < 0) {
++ 	if (load_backend(ec, backend, &argc, argv, config) < 0) {
 + 		weston_log("fatal: failed to create compositor backend\n");
-+ 		goto out_signals;
++ 		goto out;
 +diff --git a/weston.ini.in b/weston.ini.in
-+index 06b51df..e9ef992 100644
++index 14a4c0c..d837fb5 100644
 +--- a/weston.ini.in
 ++++ b/weston.ini.in
 +@@ -2,6 +2,7 @@
@@ -208,18 +206,18 @@ index 0000000..61a54fd
 +-- 
 +1.9.1
 +
-diff --git a/meta/recipes-graphics/wayland/weston_1.9.0.bb b/meta/recipes-graphics/wayland/weston_1.9.0.bb
-index 16a788d..be8c0b7 100644
---- a/meta/recipes-graphics/wayland/weston_1.9.0.bb
-+++ b/meta/recipes-graphics/wayland/weston_1.9.0.bb
-@@ -13,6 +13,7 @@ SRC_URI = "http://wayland.freedesktop.org/releases/${BPN}-${PV}.tar.xz \
-            file://0001-make-error-portable.patch \
-            file://libsystemd.patch \
-            file://explicit-enable-disable-systemd.patch \
-+           file://weston-1.9-config-option-for-no-input-device.patch \
+diff --git a/meta/recipes-graphics/wayland/weston_1.11.0.bb b/meta/recipes-graphics/wayland/weston_1.11.0.bb
+index 3ad309d..9740ce9 100644
+--- a/meta/recipes-graphics/wayland/weston_1.11.0.bb
++++ b/meta/recipes-graphics/wayland/weston_1.11.0.bb
+@@ -14,6 +14,7 @@ SRC_URI = "https://wayland.freedesktop.org/releases/${BPN}-${PV}.tar.xz \
+            file://xwayland.weston-start \
+            file://make-weston-launch-exit-for-unrecognized-option.patch \
+            file://0001-weston-launch-Provide-a-default-version-that-doesn-t.patch \
++           file://weston-1.11-config-option-for-no-input-device.patch \
  "
- SRC_URI[md5sum] = "66bbba12f546570b4d97f676bc79a28e"
- SRC_URI[sha256sum] = "9c1b03f3184fa0b0dfdf67e215048085156e1a2ca344af6613fed36794ac48cf"
+ SRC_URI[md5sum] = "bc6f90a2039163804aecfa663b69c4c2"
+ SRC_URI[sha256sum] = "05e086e9f186a06843b9f7a5e1abf19347b1a6e4be26d7e74927abc17b6b7125"
 -- 
 1.9.1
 
