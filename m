@@ -1,42 +1,58 @@
-Return-Path: <umut@tezduyar.com>
+Return-Path: <patrick.ohly@intel.com>
 Received: from mail-io0-f172.google.com (mail-io0-f172.google.com
 	[209.85.223.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 361476067D
+	by mail.openembedded.org (Postfix) with ESMTP id 2B37371B58
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Nov 2016 11:07:37 +0000 (UTC)
-Received: by mail-io0-f172.google.com with SMTP id c21so69214973ioj.1
+	Thu, 24 Nov 2016 11:13:42 +0000 (UTC)
+Received: by mail-io0-f172.google.com with SMTP id j65so74192686iof.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Nov 2016 03:07:39 -0800 (PST)
+	Thu, 24 Nov 2016 03:13:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=tezduyar-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:from:date:message-id:subject:to;
-	bh=aXH+JWdvlDIkfxnucIT3JdVKfxcghvp7wNmnTKAigk4=;
-	b=hmnIFQSUBXhFtcrO/x8u1G8TQynJiN8eQ8zN9W+LLlZPylBhdaUyQOXOQ/BClZuWlc
-	ezaOhJoRW1jbv3gLDveE1i2x+CKhEsoK+3H/JAXcwkP4b+KYYSAGScCcHa/6TuFaAagg
-	XIioGP/i+daAdku8N9s6Xqw2xNO6d1pz3xs6jRkeF349WjZDnEVjSRCCgzU1Vh1Fsyh2
-	vjPeZFthXlMMz9zZA1GC91oA8PNF13230uYY3NsAEYTAVPlrkxrDo6jhRLq/vdfyzr5q
-	V9GAbWtsp/HC1ZmOTue3fgsk5N3+Csml93y492ZL+Ss0R+JYLpWcEJhslANBQhrbuBFB
-	jr4g==
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:organization:mime-version:content-transfer-encoding;
+	bh=9bej04XnLbkKDkPcTG8IBtUe5EleIMwNhyi6oQIQY8g=;
+	b=AAz8anAWJxG3HtApjPeV7c/q+ooRvorPAzeIzecSGSLbSKWtp/ORLE8GD3czc+8qeG
+	C5fZoJgQ83CdEeUjvjdFje+y+WLOjISlfhbEXTQBjdSoEfUxqC4+Zx5d7QtdMRwcIxyI
+	fSr3YM5PwV0A82JPV8mRC+CUQ12sny4Et4uD5gAllDEyQ4L9K5pUS1glReKsLqTPY1n3
+	Fg0buOXE4wEgKVPsb7lCFYZNG9zxUKLTQnbCELQ0+6dGhjLm1fetTMnScA6tY2CjlNEj
+	z0/ckIxId3m/FDq0j9iOg/hJ6WWHel4nt6sBhCCcz1S/v/OhKt0sobGawa0WSulsMxj6
+	At8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-	bh=aXH+JWdvlDIkfxnucIT3JdVKfxcghvp7wNmnTKAigk4=;
-	b=EYARNAFPMJ9M3svBR7yylyZkp/Aupm/+CS2RI+2xHt7QaY19Cfk8fv3gnvdTLp8+zJ
-	ZBUrLwOFf6kPxESRsf1ybDvaM0UvH4vZCbUMN5r9N/agttDdY8NU4n00ks3yGCEWMfsq
-	77ectPSD7ZpkwrEiQkwm5fnObbFAozH+FFVfJvNp1tFA9MqjiZF/XfAzaU/leBTnvCYj
-	yalDG49qZTyltX56C/KmH1kg27tDPYI1tePtNsyjGGe8mDnaX3s3/OdDwH+4rqwpaCf1
-	da2Jwk+BRaNoxQIWizQN+VfYW9chruoK2acM9bqBf0PD14xnpDKD2P0tjnMwF2+FMyqC
-	Ikew==
-X-Gm-Message-State: AKaTC00p0gGzWWbVwO8m2iEmX6975abUx2eRABlfR3s5p+6Ut+3nn2Aay2TBUt/7MA/QoDW4MZO57Zx2Z3t5Pw==
-X-Received: by 10.107.30.69 with SMTP id e66mr1422763ioe.62.1479985659040;
-	Thu, 24 Nov 2016 03:07:39 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.50.187.225 with HTTP; Thu, 24 Nov 2016 03:07:08 -0800 (PST)
-From: Umut Tezduyar Lindskog <umut@tezduyar.com>
-Date: Thu, 24 Nov 2016 12:07:08 +0100
-Message-ID: <CAFKnvs7vCQnU2=Qq9QNraoCoh7uCGO=whqDgjL6as4SKaohRzQ@mail.gmail.com>
-To: openembedded-core@lists.openembedded.org
-Subject: file paths in the production code
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:organization:mime-version:content-transfer-encoding;
+	bh=9bej04XnLbkKDkPcTG8IBtUe5EleIMwNhyi6oQIQY8g=;
+	b=LegeXX7o3IyrG+mpI8F0Vjq2S0G+ToBGaG1aQ8BG++fIssIA9vKm8M+F7m+qHLETy4
+	bRrteselvsKDL1wI9Ew8d3wU3khli8OV/5LFxoSFqZunyhzI6WDvPBwuI6UBUwNxW9/X
+	RXQUPZz65+faI8Cc387i5WS6Y+G1oH3bkjNUZDAPsEhyfSOuyy+Oagm+1MagUq0hU8YN
+	4BSB6XRLIc7VaMbnSVwr0b4eohRcl0BCbEOUQlu5XgBBUXp+wLwVKNxCZvW4aIpPamBG
+	5Guojgy4pxdq1ahBI9X+srUw/AfIPQZ4cdRXOMihxRm4EuuOZmpr+Q64ac8tRcttiVCM
+	1Z/Q==
+X-Gm-Message-State: AKaTC00AS1+7DtwxDwbHdYqls5mWh1dGoj/AHgLXLZxWsYZAPsfZ3f4ArdiNGgqPXUznptyC
+X-Received: by 10.36.40.139 with SMTP id h133mr1560890ith.40.1479986024302;
+	Thu, 24 Nov 2016 03:13:44 -0800 (PST)
+Received: from pohly-mobl1 (p5DE8D6D7.dip0.t-ipconnect.de. [93.232.214.215])
+	by smtp.gmail.com with ESMTPSA id
+	e68sm13192095ioj.39.2016.11.24.03.13.42
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 24 Nov 2016 03:13:43 -0800 (PST)
+Message-ID: <1479986020.6873.36.camel@intel.com>
+From: Patrick Ohly <patrick.ohly@intel.com>
+To: Mark Hatle <mark.hatle@windriver.com>
+Date: Thu, 24 Nov 2016 12:13:40 +0100
+In-Reply-To: <f2e7d5d6-7094-10b6-16bc-9398c8bb828e@windriver.com>
+References: <20161123174209.211349-1-mark.hatle@windriver.com>
+	<20161123174209.211349-2-mark.hatle@windriver.com>
+	<20161123181039.GF3265@jama>
+	<c06ab920-517b-b6b8-f2c8-e9ec8ae8714c@windriver.com>
+	<20161123185617.GH3265@jama>
+	<f2e7d5d6-7094-10b6-16bc-9398c8bb828e@windriver.com>
+Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
+X-Mailer: Evolution 3.12.9-1+b1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] meta/conf/layer.conf: Add recommended download layer
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,17 +65,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 Nov 2016 11:07:38 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 24 Nov 2016 11:13:44 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Hello,
+On Wed, 2016-11-23 at 13:42 -0600, Mark Hatle wrote:
+> On 11/23/16 12:56 PM, Martin Jansa wrote:
+> > "Have all patches applied to BitBake and OpenEmbedded-Core (if present)
+> > been submitted to the open source community?"
+> > 
+> > Shouldn't the wording be change to something like "all applicable
+> > patches" or "all generally useful patches"?
+> > 
+> > It seems strange to send project specific patches together with cover
+> > saying that they aren't generally applicable and shouldn't be merged,
+> > just because of this requirement.
+> 
+> It was done this way to prevent people from cheating and claiming something was
+> (effectively) not useful/applicable/etc when it some special secret sauce.
 
-Some open source softwares are one way or another including the file
-paths in the binaries which reside in non debug sectors. They won't
-get stripped out and shipped in the production code. It is quite a
-waste when the storage is scarce.
+Perhaps one could use [FYI] instead of [PATCH] in the mail subject to
+make the intention even clearer, and patchwork could get configured to
+not track such patches or at least not show them as new? Just a thought.
 
-Do you guys handle this problem?
+As it stands now, there's an entry for this patch that someone
+(Richard?) will have to close:
+https://patchwork.openembedded.org/series/4056/
 
-Umut
+-- 
+Best Regards, Patrick Ohly
+
+The content of this message is my personal opinion only and although
+I am an employee of Intel, the statements I make here in no way
+represent Intel's position on the issue, nor am I authorized to speak
+on behalf of Intel on this matter.
+
+
+
 
