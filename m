@@ -1,43 +1,43 @@
 Return-Path: <kristian.amlie@mender.io>
-Received: from mail-lf0-f48.google.com (mail-lf0-f48.google.com
-	[209.85.215.48])
-	by mail.openembedded.org (Postfix) with ESMTP id 6788271A1C
+Received: from mail-lf0-f42.google.com (mail-lf0-f42.google.com
+	[209.85.215.42])
+	by mail.openembedded.org (Postfix) with ESMTP id C15B2719CE
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Nov 2016 15:51:37 +0000 (UTC)
-Received: by mail-lf0-f48.google.com with SMTP id t196so31750792lff.3
+	Thu, 24 Nov 2016 15:52:31 +0000 (UTC)
+Received: by mail-lf0-f42.google.com with SMTP id t196so31767960lff.3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Nov 2016 07:51:39 -0800 (PST)
+	Thu, 24 Nov 2016 07:52:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=mender-io.20150623.gappssmtp.com; s=20150623;
 	h=subject:to:references:cc:from:message-id:date:user-agent
 	:mime-version:in-reply-to:content-transfer-encoding;
-	bh=tflRxHpZgE3ZE4mPdJsnsC4tk2DFGXX0ZS5TGhmsv1A=;
-	b=PCk8ED6qOKpd31RCfgUdEEnXUy1LBx0JR2KGcJ7uH8bTz5thuKm8TI+AuDMFf64mbb
-	Myb9LPNMW9X9ZU7ru+NeLCDEMRYNm6ElQygYcT9GJ5DQv07BHPhK0Z3gXmAGdmXOzfjY
-	O9zkj+7dQt3klievZ3aS/iSjwH/Wiax3BtCnJ/WGD0b9y+/xB7b+3EO+R9c/oWgEbBng
-	+fVsZgbDbLVbo7UOQJdJ+rlbTHR7b5gZXMiQ6WWHXA+eL78BIczcdMtwKvrgQHvXnQZw
-	2LaUHjcyxqNfacqoU2oxadbSeYwwJ2tv9ZdYHLZkXab+DGrHoyVHfhC2ldtgq8QAgYll
-	BacQ==
+	bh=KZ5MnfERvEIToUpBzWFOIjh+UC/IF0YToFRxtDDFtaw=;
+	b=vSelDgSDhjmlkV2K6cHnQU2pVaI23R6z9eIL+GPtm2PGkj2YddIafwbIdqT0+7Jmur
+	+WESYamij90eu5b6JFO0uyKnUZMrDNIfjzqAjwPE6RRnVRUIcZfjBj2BsvH7JjaNx2VX
+	jSa1i7hBxpNVl6xExzh8L2xAojghTFMeDO2TNQIwvyvzkt5aP99Z7MxGakn0PnD1eMzg
+	SBi5lDB6OeateBJIl00BxMi30gRhc44ds+YpnvhUrK8ir97YwwfGwWORnl4N8lhWz7kj
+	mC6oEnW2xsiWrK/OLesr+I+qv3dy2coJr8Vzt2mT1242jqBy3zQ5unJmJqF0DBd83Y9U
+	idZg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:subject:to:references:cc:from:message-id:date
 	:user-agent:mime-version:in-reply-to:content-transfer-encoding;
-	bh=tflRxHpZgE3ZE4mPdJsnsC4tk2DFGXX0ZS5TGhmsv1A=;
-	b=f3fPb4GA1XQpeChkp+KNn8GUHaCvTgmctzEUXUtzuDgHAEfjkrs3Fmd6+GTTp52Kes
-	H0Ba79bCtoTBkdXjyLIgpLnXdtm2dRFluf8qEbs5XBXumnNiPpjwzclFfA7X9g+CNeev
-	MWcZjCUZk3+cLfQklZSjiXABUR1oPL3JakI5GayDSlyQfJIsO/zjfFd7aLwJztzXCltP
-	b35Lt9oq7t8NYh7/Vb4uCDZ5ZxBDUK61Llbca+QS9tj7LnfxtVE/cU61qyupoYom/JHz
-	ck7y06OqMAJF422xVbsGgy54w8NPeEbJBinvbXQMl3Z0yd/6ThI/Y9wi9dOeqPtp91E5
-	NQCA==
-X-Gm-Message-State: AKaTC03ANCf9GX10Bp7M4Y916QvrAbwr4te+UW1gxfoTRLObl0Qfn+XjaVnxCWLV0kjFfQ==
-X-Received: by 10.25.198.132 with SMTP id w126mr1420095lff.175.1480002698455; 
-	Thu, 24 Nov 2016 07:51:38 -0800 (PST)
+	bh=KZ5MnfERvEIToUpBzWFOIjh+UC/IF0YToFRxtDDFtaw=;
+	b=fpFcF19C8ktPNDZ+Nc7lpiRnQdSz5JsDr4peX4o8T0xaZFJGWuTa0+In8h57lYz0Rh
+	4A8bbnQbG7SPNBldNLrUnvfM5SqGS54FnA/5mzKzxTZawHtODI3gSqwY3PHRhDfm4kJY
+	9hByEwgKjtQzuHft+Y1EzOdClVOpBan80siAHxp+m9Hv3xekfS9q80d5zkHADSeKLANu
+	YJKTIjRyN4HgKn72ssTQzhmuugwsN1268/+Eljfjnm6/TFuhyuUtboYDyY1wntWizDic
+	9PDOslOw8xp3noTYqKpSBkAaCmWlmZ41nFxZ8cUsU5g/UWsIkR6ZXie83U5aVa31/uW2
+	SDoA==
+X-Gm-Message-State: AKaTC03Kon1jPuO+JH9PTe1D1gm734yfJcts7EX/KsH0WXf7mKVH9Ds7OKgcrddXeJ1YWQ==
+X-Received: by 10.25.40.211 with SMTP id o202mr1420609lfo.183.1480002752035;
+	Thu, 24 Nov 2016 07:52:32 -0800 (PST)
 Received: from [192.168.1.14] ([176.111.205.58])
 	by smtp.googlemail.com with ESMTPSA id
-	i129sm8232540lfd.8.2016.11.24.07.51.36
+	5sm8382045ljf.18.2016.11.24.07.52.30
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 24 Nov 2016 07:51:37 -0800 (PST)
-To: Andreas Oberritter <obi@opendreambox.org>, ed.bartosh@linux.intel.com
+	Thu, 24 Nov 2016 07:52:31 -0800 (PST)
+To: Patrick Ohly <patrick.ohly@intel.com>, ed.bartosh@linux.intel.com
 References: <1479813004.3239.19.camel@intel.com>
 	<6913e4bf-96dc-eefa-d214-9df5cde181b8@mender.io>
 	<20161123120816.GC12545@linux.intel.com>
@@ -49,14 +49,14 @@ References: <1479813004.3239.19.camel@intel.com>
 	<20161124132315.GA14497@linux.intel.com>
 	<1e1a7126-15dc-33be-a863-ea93063b554f@mender.io>
 	<20161124145136.GA31813@linux.intel.com>
-	<1bac8afc-7037-3891-7e3a-5a590dbed9e2@opendreambox.org>
+	<1480001047.6873.49.camel@intel.com>
 From: Kristian Amlie <kristian.amlie@mender.io>
-Message-ID: <23608ccc-ebaa-f2a6-6b39-02121e7b4287@mender.io>
-Date: Thu, 24 Nov 2016 16:51:36 +0100
+Message-ID: <b7f31252-d444-2a6a-5572-ec032d5c68e2@mender.io>
+Date: Thu, 24 Nov 2016 16:52:30 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
 	Thunderbird/45.4.0
 MIME-Version: 1.0
-In-Reply-To: <1bac8afc-7037-3891-7e3a-5a590dbed9e2@opendreambox.org>
+In-Reply-To: <1480001047.6873.49.camel@intel.com>
 Cc: openembedded-core@lists.openembedded.org
 Subject: Re: Contents of non-rootfs partitions
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -71,23 +71,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 Nov 2016 15:51:38 -0000
-Content-Type: text/plain; charset=windows-1252
+X-List-Received-Date: Thu, 24 Nov 2016 15:52:32 -0000
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
 
-On 24/11/16 16:28, Andreas Oberritter wrote:
-> Note that in a shell, "data/*" doesn't include "data/.*". So this syntax
-> avoids the confusing rsync syntax in trade for another one. I'd prefer
-> the rsync flavour, because "behaves like rsync" is easier to remember
-> than "behaves like a shell glob, but differently". Confusion could be
-> prevented with good documentation, FWIW.
+On 24/11/16 16:24, Patrick Ohly wrote:
+> On Thu, 2016-11-24 at 16:51 +0200, Ed Bartosh wrote:
+>> On Thu, Nov 24, 2016 at 03:43:18PM +0100, Kristian Amlie wrote:
+>>> On 24/11/16 14:23, Ed Bartosh wrote:
+>>>> Would this way be less intuitive?
+>>>> --exclude-path data/*
+>>>> --exclude-path data
+>>>>
+>>>> We can go even further with it allowing any level of directories:
+>>>> --exclude-path data/tmp/*
+> 
+> Just to clarify, that is meant to also match data/tmp/.hidden-file,
+> right? I.e. fnmatch() without the special FNM_PERIOD flag.
 
-This is turning into a bit of a bikeshed discussion. I have a slight
-preference for the glob version, because I think it's less surprising,
-but I'm fine either way.
-
-I count myself and Ed in favor of glob version, Ulrich and Andreas in
-favor of rsync version. Patrick, you wanna be tie breaker? :-)
+Yes, I think that makes the most sense, even if it breaks with shell
+defaults.
 
 -- 
 Kristian
