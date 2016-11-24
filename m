@@ -1,47 +1,23 @@
-Return-Path: <patrick.ohly@intel.com>
-Received: from mail-io0-f173.google.com (mail-io0-f173.google.com
-	[209.85.223.173])
-	by mail.openembedded.org (Postfix) with ESMTP id C692B71AF0
+Return-Path: <obi@opendreambox.org>
+Received: from mail.dream-property.net (mail.dream-property.net
+	[82.149.226.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 7A8D76E5CB
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Nov 2016 15:24:09 +0000 (UTC)
-Received: by mail-io0-f173.google.com with SMTP id j65so84355166iof.0
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Nov 2016 07:24:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:organization:mime-version:content-transfer-encoding;
-	bh=mpOG8kvRbpc3F5Zy9t5XY2NC78cCquXR1O+uMtiH7DI=;
-	b=0KerJhwnzLuHyi6dQGEnfekIboKDtbDCb2iUuVT+f5vhiztHaI8jKCzzLKPBUqfVPs
-	bKBAMj82b2Z1pzduAfdsdmMaTWV0Gqy92blLU5evUaBBUO+6yTdrGD9yTtJgmWEk5Emg
-	Ma/jzqjSa3LRhxFUC7g2mdyAWgWiHr2o9cvZydG3bP3nL8jA/AFmu7syW4Ni7Uvla5qq
-	ciEVHniyc5uvNbc45SkYqx1V1feFf5qwg041xfcqLm+6ZvviBqX6INap09pPDPSBtQaA
-	eg81lOcWgeW3rq2oCcpPvPenCTc5hf6UbNx2xJXRz/OX5ysZ56mFI/QZpN3lyU9lInaB
-	ytJw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:organization:mime-version:content-transfer-encoding;
-	bh=mpOG8kvRbpc3F5Zy9t5XY2NC78cCquXR1O+uMtiH7DI=;
-	b=hQzbNle4bWOZ67UUtv4rNDhKfj4C+yZEm/yHMrLu8PcP4TTGIAvyrDSp++bKxf1wev
-	5s9MJZ9LO3BcTkUiUZsNMHtXKq92lzfv3RRIO3htjpeu4qB/R4YUjMaIWzkvdRTSUSkW
-	tzwc6KU7oUiFpl6R6ZC4UinyCgMQjWNC6a1fGYPcAGaW1/ZkMmDRMQaLZs5BlvjzQn8K
-	sRGIoWuMYWX4VBURBcoB3ZABohQnsueQbkBbOKdw58nqgDmmC+FIGAeWk2qXRX9rhrlA
-	dZTrX5SkY8sG5dQSseDDjCeenWuuOaCqtExVinaNH2cqETYez+lP/OlhaKItGgA+ahg7
-	uWHQ==
-X-Gm-Message-State: AKaTC00Ao/xodjxjIgij/nkz3xcCcDjwqG/VhBMNNaaattMXvgA/UuoXZF2a5AJ09iHBq9Nc
-X-Received: by 10.107.158.76 with SMTP id h73mr2605719ioe.152.1480001051350;
-	Thu, 24 Nov 2016 07:24:11 -0800 (PST)
-Received: from pohly-mobl1 (p5DE8D035.dip0.t-ipconnect.de. [93.232.208.53])
-	by smtp.gmail.com with ESMTPSA id
-	f24sm13529390iod.21.2016.11.24.07.24.09
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 24 Nov 2016 07:24:10 -0800 (PST)
-Message-ID: <1480001047.6873.49.camel@intel.com>
-From: Patrick Ohly <patrick.ohly@intel.com>
-To: ed.bartosh@linux.intel.com
-Date: Thu, 24 Nov 2016 16:24:07 +0100
-In-Reply-To: <20161124145136.GA31813@linux.intel.com>
+	Thu, 24 Nov 2016 15:28:12 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by mail.dream-property.net (Postfix) with ESMTP id B0E3D31C1136;
+	Thu, 24 Nov 2016 16:28:12 +0100 (CET)
+X-Virus-Scanned: Debian amavisd-new at mail.dream-property.net
+Received: from mail.dream-property.net ([127.0.0.1])
+	by localhost (mail.dream-property.net [127.0.0.1]) (amavisd-new,
+	port 10024)
+	with LMTP id 8a4yR5drHh6g; Thu, 24 Nov 2016 16:28:10 +0100 (CET)
+Received: from [172.22.22.61] (55d461ab.access.ecotel.net [85.212.97.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by mail.dream-property.net (Postfix) with ESMTPSA id 3C5F631C116D;
+	Thu, 24 Nov 2016 16:28:10 +0100 (CET)
+To: ed.bartosh@linux.intel.com, Kristian Amlie <kristian.amlie@mender.io>
 References: <1479813004.3239.19.camel@intel.com>
 	<6913e4bf-96dc-eefa-d214-9df5cde181b8@mender.io>
 	<20161123120816.GC12545@linux.intel.com>
@@ -53,9 +29,13 @@ References: <1479813004.3239.19.camel@intel.com>
 	<20161124132315.GA14497@linux.intel.com>
 	<1e1a7126-15dc-33be-a863-ea93063b554f@mender.io>
 	<20161124145136.GA31813@linux.intel.com>
-Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
-X-Mailer: Evolution 3.12.9-1+b1 
-Mime-Version: 1.0
+From: Andreas Oberritter <obi@opendreambox.org>
+Message-ID: <1bac8afc-7037-3891-7e3a-5a590dbed9e2@opendreambox.org>
+Date: Thu, 24 Nov 2016 16:28:09 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.4.0
+MIME-Version: 1.0
+In-Reply-To: <20161124145136.GA31813@linux.intel.com>
 Cc: openembedded-core@lists.openembedded.org
 Subject: Re: Contents of non-rootfs partitions
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -70,47 +50,105 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 Nov 2016 15:24:13 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 24 Nov 2016 15:28:14 -0000
+Content-Type: text/plain; charset=windows-1252
+Content-Transfer-Encoding: 8bit
 
-On Thu, 2016-11-24 at 16:51 +0200, Ed Bartosh wrote:
+On 24.11.2016 15:51, Ed Bartosh wrote:
 > On Thu, Nov 24, 2016 at 03:43:18PM +0100, Kristian Amlie wrote:
-> > On 24/11/16 14:23, Ed Bartosh wrote:
-> > > Would this way be less intuitive?
-> > > --exclude-path data/*
-> > > --exclude-path data
-> > > 
-> > > We can go even further with it allowing any level of directories:
-> > > --exclude-path data/tmp/*
-
-Just to clarify, that is meant to also match data/tmp/.hidden-file,
-right? I.e. fnmatch() without the special FNM_PERIOD flag.
-
-> > > --exclude-path data/db/tmp
-> > > ...
-> > 
-> > I agree, this is pretty unambiguous and easy to understand.
-> > 
-> > But this raises the question: Should we go all the way and support
-> > wildcards? Which might make it a bit complicated. Maybe support only
-> > pure '*' for now?
+>> On 24/11/16 14:23, Ed Bartosh wrote:
+>>> On Thu, Nov 24, 2016 at 08:38:46AM +0100, Kristian Amlie wrote:
+>>>> On 24/11/16 07:15, Ulrich Ölmann wrote:
+>>>>> Hi,
+>>>>>
+>>>>> On Wed, Nov 23, 2016 at 04:56:56PM +0100, Patrick Ohly wrote:
+>>>>>> On Wed, 2016-11-23 at 15:22 +0200, Ed Bartosh wrote:
+>>>>>>> On Wed, Nov 23, 2016 at 02:08:28PM +0100, Kristian Amlie wrote:
+>>>>>>>> On 23/11/16 13:08, Ed Bartosh wrote:
+>>>>>>>>> On Tue, Nov 22, 2016 at 12:54:52PM +0100, Kristian Amlie wrote:
+>>>>>>>>> [...]
+>>>>>>>>> This can be done by extending existing rootfs plugin. It should be able
+>>>>>>>>> to do 2 things:
+>>>>>>>>>
+>>>>>>>>> - populate content of one rootfs directory to the partition. We can
+>>>>>>>>>   extend syntax of --rootfs-dir parameter to specify optional directory path to use
+>>>>>>>>>
+>>>>>>>>> - exclude rootfs directories when populating partitions. I'd propose to
+>>>>>>>>>   introduce --exclude-dirs wks parser option to handle this.
+>>>>>>>>>
+>>>>>>>>> Example of wks file with proposed new options:
+>>>>>>>>> part /     --source rootfs --rootfs-dir=core-image-minimal       --ondisk sda --fstype=ext4 --label root --align 1024 --exclude-dirs data --exclude-dirs home
+>>>>>>>>> part /data --source rootfs --rootfs-dir=core-image-minimal:/home --ondisk sda --fstype=ext4 --label data --align 1024
+>>>>>>>>> part /home --source rootfs --rootfs-dir=core-image-minimal:/data --ondisk sda --fstype=ext4 --label data --align 1024
+>>>>>>>>>
+>>>>>>>>> Does this make sense?
+>>>>>>>>
+>>>>>>>> Looks good. The only thing I would question is that, in the interest of
+>>>>>>>> reducing redundancy, maybe we should omit --exclude-dirs and have wic
+>>>>>>>> figure this out by combining all the entries, since "--exclude-dirs
+>>>>>>>> <dir>" and the corresponding "part <dir>" will almost always come in
+>>>>>>>> pairs. Possibly we could mark the "/" partition with one single
+>>>>>>>> --no-overlapping-dirs to force wic to make this consideration. Or do you
+>>>>>>>> think that's too magical?
+>>>>>>>>
+>>>>>>> Tt's quite implicit from my point of view. However, if people like it we
+>>>>>>> can implement it this way.
+>>>>>>
+>>>>>> I prefer the explicit --exclude-dirs. It's less surprising and perhaps
+>>>>>> there are usages for having the same content in different partitions
+>>>>>> (redundancy, factory reset, etc.).
+>>>>>>
+>>>>>> Excluding only the directory content but not the actual directory is
+>>>>>> indeed a good point. I'm a bit undecided. When excluding only the
+>>>>>> directory content, there's no way of building a rootfs without that
+>>>>>> mount point, if that's desired. OTOH, when excluding also the directory,
+>>>>>> the data would have to be staged under a different path in the rootfs
+>>>>>> and the mount point would have to be a separate, empty directory.
+>>>>>>
+>>>>>> I'm leaning towards excluding the directory content and keeping the
+>>>>>> directory.
+>>>>>
+>>>>> what about having both possibilities by leaning against the syntax that rsync
+>>>>> uses to specify if a whole source directory or only it's contents shall be
+>>>>> synced to some destination site (see [1])?
+>>>>>
+>>>>> In analogy to this to exclude only the contents of the directory named 'data'
+>>>>> you would use
+>>>>>
+>>>>>   --exclude-dirs data/
+>>>>>
+>>>>> but to additionally exclude the dir itself as well it would read
+>>>>>
+>>>>>   --exclude-dirs data
+>>>>
+>>>> This is creative, but ultimately too unintuitive IMHO. Rsync is the only
+>>>> tool which uses this syntax AFAIK, and it's a constant source of
+>>>> confusion, especially when mixed with cp or similar commands.
+>>>>
+>>>
+>>> Would this way be less intuitive?
+>>> --exclude-path data/*
+>>> --exclude-path data
+>>>
+>>> We can go even further with it allowing any level of directories:
+>>> --exclude-path data/tmp/*
+>>> --exclude-path data/db/tmp
+>>> ...
+>>
+>> I agree, this is pretty unambiguous and easy to understand.
+>>
+>> But this raises the question: Should we go all the way and support
+>> wildcards? Which might make it a bit complicated. Maybe support only
+>> pure '*' for now?
 > 
 > As it shouldn't be hard to implement I'd go for it.
 
-Additional code implies additional testing. Remember that it also should
-better be supported by mkfs.ext4 and friends.
+Note that in a shell, "data/*" doesn't include "data/.*". So this syntax
+avoids the confusing rsync syntax in trade for another one. I'd prefer
+the rsync flavour, because "behaves like rsync" is easier to remember
+than "behaves like a shell glob, but differently". Confusion could be
+prevented with good documentation, FWIW.
 
-I'd rather start simple and only add additional complexity when needed.
-
--- 
-Best Regards, Patrick Ohly
-
-The content of this message is my personal opinion only and although
-I am an employee of Intel, the statements I make here in no way
-represent Intel's position on the issue, nor am I authorized to speak
-on behalf of Intel on this matter.
-
-
-
+Regards,
+Andreas
 
