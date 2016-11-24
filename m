@@ -1,41 +1,54 @@
-Return-Path: <freesilicon@gmail.com>
-Received: from mail-qt0-f180.google.com (mail-qt0-f180.google.com
-	[209.85.216.180])
-	by mail.openembedded.org (Postfix) with ESMTP id 6D75B71AFE
+Return-Path: <kergoth@gmail.com>
+Received: from mail-oi0-f65.google.com (mail-oi0-f65.google.com
+	[209.85.218.65])
+	by mail.openembedded.org (Postfix) with ESMTP id E8F946011C
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Nov 2016 23:54:44 +0000 (UTC)
-Received: by mail-qt0-f180.google.com with SMTP id p16so26347936qta.0
+	Thu, 24 Nov 2016 01:17:04 +0000 (UTC)
+Received: by mail-oi0-f65.google.com with SMTP id f201so2074183oib.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Nov 2016 15:54:46 -0800 (PST)
+	Wed, 23 Nov 2016 17:17:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:from:date:message-id:subject:to;
-	bh=Jt6oGmtEw7Dq/dMpjAUCvoCNTXJuKo/8Qm5ICUGw5sw=;
-	b=c3Wog3/iW2kmmvxB/QEabVXbZQZ78p/qHbENNYkkUJ2qK5vm/NUBoz/tyCuPMs3nPz
-	somz6NwmB4ZlA18isKCjnQv9Iy1U3WyIW0GvngbaBeDWcpwwczz6jmVcOlGrvvZLKoVY
-	iONpIVGyr0yVQvziPFMT5K3NTz1nOvP/Jl/iFDGwCujkwtmJFXbozR8j8NDNw5Ux1fuo
-	UXHhD1eKLq3bQfidxMUqsyqph3LF4N/GR7B/RULLBWUkZbOeOkBwRl5H7eJUuQkkYXfN
-	vV1IJWtg7jk7+RIRzdC6XNw9M0Uh41c5ObBq9qdEySiB1a46pDrZopn0vzGsJua/zawa
-	5SPw==
+	h=mime-version:sender:in-reply-to:references:from:date:message-id
+	:subject:to:cc;
+	bh=TDH2ipnSFDKZBr5MGNCCpzARGWqBKePiEpbAGSqVV5g=;
+	b=FHGT55QLmzSPLxBrc+wp69fZiStiuyr+7ZwVcA9uClP6kguPrw+wemyCpHUE80mh6p
+	a3r6SsVXK5+3usxOfMa/KOk6Ac+a7VmOI4Cs6pKTLNsvrEaawJv4nFaB6llmfVE3JnEq
+	YM/gbNIQ+qLinqUPoE0KyNh6AW8pn0Vsavzh3yRO0HdOGC269BdaXkZndIZGxKDNVFiT
+	4tGXhu3/YRqWmjdmMxwaNBxQYmUUyTOqrOTY482YL3m9C6nEnS5IerIrL8m1PHiATriB
+	vWyObjFTyGMZNs/HS3LEq+sdDs3J6KlQcEE2rcsHJ4ro8gUyg3kgTiQTFBZFhbDDctyc
+	FL3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-	bh=Jt6oGmtEw7Dq/dMpjAUCvoCNTXJuKo/8Qm5ICUGw5sw=;
-	b=mriMd8l4jtlA/awD/gaadA6XvTY2m8HCyw0594bnLu6fsZIwDRcej2wfDSKaznsIx5
-	/e6E55gu+BneAaLXB9uofWRVf5XKk8dgHWp582eM+uWqdb4Oz+riWsTYM2IgNsac+8EO
-	4XsveTYkysid9fEcs1V2zBaZMuoGQEadbQWXqskGzff9o7ZelPo2gPUAZPyH3n4e3BXk
-	EseA1ninjjJsRAdZg6z3ms0mw1ziERbt2KPR9HwFTrhfxIj6JyZHNzuLAj0hIEOC5uwH
-	zVt2OCaABFJ+VrtO+MeNfKHael+G22Axs8rKl/R9xfrnVkcyERcn6LVMlF9ESDWtSHXG
-	hS4Q==
-X-Gm-Message-State: AKaTC026/pLH5mRTUljwwBZbglSi/afU1j8mHIbxhoJUhr45MNj8YvsYATpG3oqTy94xtBHffgT6EUL8N/aeQQ==
-X-Received: by 10.200.39.51 with SMTP id g48mr5046446qtg.256.1479945285991;
-	Wed, 23 Nov 2016 15:54:45 -0800 (PST)
+	h=x-gm-message-state:mime-version:sender:in-reply-to:references:from
+	:date:message-id:subject:to:cc;
+	bh=TDH2ipnSFDKZBr5MGNCCpzARGWqBKePiEpbAGSqVV5g=;
+	b=fvcOEQmnuc2P/ZJgq/t/B5VjDbgP8q2wO3yISRy5yHx9OVVnmiXg52YleVnJpdhTPv
+	hogMWl9PjVzXnyOWhcsri13Ef3CK2/nmvcNda9K+e/9GFxlQRcXi51xKgiaMekCkkYIy
+	r1PxWplecaRKJLxt3Ezs0K9MhKHm+koIir/0WDFASSeLdENTfm+CmYU6l2xOVIJjoGgH
+	Ur4v+7yjioQF0taN5aISoYpLshesuo3Mp+drqiu2ktZFaJYWC0NisXbamleRlbBZBJBh
+	M8UTj9pWFDrgy6F7flDDt3t6HWwNKj7mAM8LQ5ZbyQ8+qiNElmzBIhXvGp2011fwx74B
+	NNkg==
+X-Gm-Message-State: AKaTC00+Ga4Df0hwnujj2Jc2H1P59enUv03jH7KAVFcJ3YiIjbr1qDLvmgAQGg3oleqxuqSswbg737bVKGTY0g==
+X-Received: by 10.157.17.174 with SMTP id v43mr3274601otf.251.1479950226014;
+	Wed, 23 Nov 2016 17:17:06 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.12.145.73 with HTTP; Wed, 23 Nov 2016 15:54:45 -0800 (PST)
-From: David Vincent <freesilicon@gmail.com>
-Date: Thu, 24 Nov 2016 00:54:45 +0100
-Message-ID: <CAKRNOGyDb+xpz=9CFtEFtpUwY-HPj3MHDYY8Jd4bbnbjE+nzeQ@mail.gmail.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] classes: Fix alternatives and rc.d ordering
+Sender: kergoth@gmail.com
+Received: by 10.157.35.65 with HTTP; Wed, 23 Nov 2016 17:16:45 -0800 (PST)
+In-Reply-To: <f2e7d5d6-7094-10b6-16bc-9398c8bb828e@windriver.com>
+References: <20161123174209.211349-1-mark.hatle@windriver.com>
+	<20161123174209.211349-2-mark.hatle@windriver.com>
+	<20161123181039.GF3265@jama>
+	<c06ab920-517b-b6b8-f2c8-e9ec8ae8714c@windriver.com>
+	<20161123185617.GH3265@jama>
+	<f2e7d5d6-7094-10b6-16bc-9398c8bb828e@windriver.com>
+From: Christopher Larson <clarson@kergoth.com>
+Date: Wed, 23 Nov 2016 18:16:45 -0700
+X-Google-Sender-Auth: z5HGSpIkPizo0LU-YrvV3Yxd6aU
+Message-ID: <CABcZANkiNi_+p3p67YLJr_pcxQLrTWzoFfVDNgrFneUHPvyeBg@mail.gmail.com>
+To: Mark Hatle <mark.hatle@windriver.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] meta/conf/layer.conf: Add recommended download layer
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,154 +61,131 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 23 Nov 2016 23:54:47 -0000
+X-List-Received-Date: Thu, 24 Nov 2016 01:17:09 -0000
+Content-Type: multipart/alternative; boundary=94eb2c18fcd481cc44054201c373
+
+--94eb2c18fcd481cc44054201c373
 Content-Type: text/plain; charset=UTF-8
 
-When using an alternative as an initscript, the ordering between
-update-rc.d and update-alternatives tasks during prerm and postinst
-tasks must always be the following in order to work:
-  * prerm:
-    - stop daemon
-    - remove alternative
+On Wed, Nov 23, 2016 at 12:42 PM, Mark Hatle <mark.hatle@windriver.com>
+wrote:
 
-  * postinst:
-    - add alternative
-    - start daemon
+> On 11/23/16 12:56 PM, Martin Jansa wrote:
+> > On Wed, Nov 23, 2016 at 12:38:42PM -0600, Mark Hatle wrote:
+> >> On 11/23/16 12:10 PM, Martin Jansa wrote:
+> >>> On Wed, Nov 23, 2016 at 11:42:09AM -0600, Mark Hatle wrote:
+> >>>> This is a Wind River specific patch and not generally applicable.
+> >>>
+> >>> Then why is it sent to oe-core ML?
+> >>
+> >> As noted in the cover letter, I'm required to by Yocto Project
+> compliance
+> >> requirements.
+> >>
+> >> As indicated LAST time I got scolded, I was told to indicate this in
+> the patch
+> >> summary email -- which I did.
+> >
+> > Sorry I've noticed the cover letter only after the response.
+> >
+> > So it's only because of this requirement from Yocto Project compliance?
+>
+> yes.
+>
+> > "Have all patches applied to BitBake and OpenEmbedded-Core (if present)
+> > been submitted to the open source community?"
+> >
+> > Shouldn't the wording be change to something like "all applicable
+> > patches" or "all generally useful patches"?
+> >
+> > It seems strange to send project specific patches together with cover
+> > saying that they aren't generally applicable and shouldn't be merged,
+> > just because of this requirement.
+>
+> It was done this way to prevent people from cheating and claiming
+> something was
+> (effectively) not useful/applicable/etc when it some special secret sauce.
+>
+> Even these patches while not generally applicable could give someone else
+> the
+> idea to duplicate (or improve) on our approach at providing layer specific
+> download layers.
+>
 
-This patchset adds comments to the scripts generated by both classes and
-organize the generated sections based on those comments.
-
-[YOCTO #10433]
-
-Signed-off-by: David Vincent <freesilicon@gmail.com>
----
- meta/classes/update-alternatives.bbclass | 27 +++++++++++++++++++++------
- meta/classes/update-rc.d.bbclass         | 20 ++++++++++++++++++--
- 2 files changed, 39 insertions(+), 8 deletions(-)
-
-diff --git a/meta/classes/update-alternatives.bbclass
-b/meta/classes/update-alternatives.bbclass
-index 1fdd681..e84a6cd 100644
---- a/meta/classes/update-alternatives.bbclass
-+++ b/meta/classes/update-alternatives.bbclass
-@@ -195,8 +195,8 @@ python populate_packages_updatealternatives () {
-     pkgdest = d.getVar('PKGD', True)
-     for pkg in (d.getVar('PACKAGES', True) or "").split():
-         # Create post install/removal scripts
--        alt_setup_links = ""
--        alt_remove_links = ""
-+        alt_setup_links = "# Begin section update-alternatives\n"
-+        alt_remove_links = "# Begin section update-alternatives\n"
-         for alt_name in (d.getVar('ALTERNATIVE_%s' % pkg, True) or "").split():
-             alt_link     = d.getVarFlag('ALTERNATIVE_LINK_NAME',
-alt_name, True)
-             alt_target   = d.getVarFlag('ALTERNATIVE_TARGET_%s' %
-pkg, alt_name, True) or d.getVarFlag('ALTERNATIVE_TARGET', alt_name,
-True)
-@@ -219,8 +219,11 @@ python populate_packages_updatealternatives () {
-             # Default to generate shell script.. eventually we may
-want to change this...
-             alt_target = os.path.normpath(alt_target)
-
--            alt_setup_links  += '\tupdate-alternatives --install %s
-%s %s %s\n' % (alt_link, alt_name, alt_target, alt_priority)
--            alt_remove_links += '\tupdate-alternatives --remove  %s
-%s\n' % (alt_name, alt_target)
-+            alt_setup_links  += 'update-alternatives --install %s %s
-%s %s\n' % (alt_link, alt_name, alt_target, alt_priority)
-+            alt_remove_links += 'update-alternatives --remove  %s
-%s\n' % (alt_name, alt_target)
-+
-+        alt_setup_links += "# End section update-alternatives\n"
-+        alt_remove_links += "# End section update-alternatives\n"
-
-         if alt_setup_links:
-             # RDEPENDS setup
-@@ -232,12 +235,24 @@ python populate_packages_updatealternatives () {
-             bb.note('adding update-alternatives calls to
-postinst/prerm for %s' % pkg)
-             bb.note('%s' % alt_setup_links)
-             postinst = d.getVar('pkg_postinst_%s' % pkg, True) or '#!/bin/sh\n'
--            postinst += alt_setup_links
-+            postinst = postinst.splitlines(True)
-+            try:
-+                index = postinst.index('# Begin section update-rc.d\n')
-+                postinst.insert(index, alt_setup_links)
-+            except ValueError:
-+                postinst.append(alt_setup_links)
-+            postinst = ''.join(postinst)
-             d.setVar('pkg_postinst_%s' % pkg, postinst)
-
-             bb.note('%s' % alt_remove_links)
-             prerm = d.getVar('pkg_prerm_%s' % pkg, True) or '#!/bin/sh\n'
--            prerm += alt_remove_links
-+            prerm = prerm.splitlines(True)
-+            try:
-+                index = prerm.index('# End section update-rc.d\n')
-+                prerm.insert(index + 1, alt_remove_links)
-+            except ValueError:
-+                prerm.append(alt_remove_links)
-+            prerm = ''.join(prerm)
-             d.setVar('pkg_prerm_%s' % pkg, prerm)
- }
-
-diff --git a/meta/classes/update-rc.d.bbclass b/meta/classes/update-rc.d.bbclass
-index 321924b..18df2dc 100644
---- a/meta/classes/update-rc.d.bbclass
-+++ b/meta/classes/update-rc.d.bbclass
-@@ -26,6 +26,7 @@ fi
- }
-
- updatercd_postinst() {
-+# Begin section update-rc.d
- if type update-rc.d >/dev/null 2>/dev/null; then
-  if [ -n "$D" ]; then
-  OPT="-r $D"
-@@ -34,12 +35,15 @@ if type update-rc.d >/dev/null 2>/dev/null; then
-  fi
-  update-rc.d $OPT ${INITSCRIPT_NAME} ${INITSCRIPT_PARAMS}
- fi
-+# End section update-rc.d
- }
-
- updatercd_prerm() {
-+# Begin section update-rc.d
- if [ -z "$D" -a -x "${INIT_D_DIR}/${INITSCRIPT_NAME}" ]; then
-  ${INIT_D_DIR}/${INITSCRIPT_NAME} stop || :
- fi
-+# End section update-rc.d
- }
-
- updatercd_postrm() {
-@@ -102,13 +106,25 @@ python populate_packages_updatercd () {
-         postinst = d.getVar('pkg_postinst_%s' % pkg, True)
-         if not postinst:
-             postinst = '#!/bin/sh\n'
--        postinst += localdata.getVar('updatercd_postinst', True)
-+        postinst = postinst.splitlines(True)
-+        try:
-+            index = postinst.index('# End section update-alternatives\n')
-+            postinst.insert(index + 1,
-localdata.getVar('updatercd_postinst', True))
-+        except ValueError:
-+            postinst.append(localdata.getVar('updatercd_postinst', True))
-+        postinst = ''.join(postinst)
-         d.setVar('pkg_postinst_%s' % pkg, postinst)
-
-         prerm = d.getVar('pkg_prerm_%s' % pkg, True)
-         if not prerm:
-             prerm = '#!/bin/sh\n'
--        prerm += localdata.getVar('updatercd_prerm', True)
-+        prerm = prerm.splitlines(True)
-+        try:
-+            index = prerm.index('# Begin section update-alternatives\n')
-+            prerm.insert(index, localdata.getVar('updatercd_prerm', True))
-+        except ValueError:
-+            prerm.append(localdata.getVar('updatercd_prerm', True))
-+        prerm = ''.join(prerm)
-         d.setVar('pkg_prerm_%s' % pkg, prerm)
-
-         postrm = d.getVar('pkg_postrm_%s' % pkg, True)
+More of an implementation question, but presumably you could have your
+setup scripts add the LAYERRECOMMENDS to bblayers.conf, rather than having
+it in your oe-core fork/branch, as an alternative.
 -- 
-2.10.2
+Christopher Larson
+clarson at kergoth dot com
+Founder - BitBake, OpenEmbedded, OpenZaurus
+Maintainer - Tslib
+Senior Software Engineer, Mentor Graphics
 
+--94eb2c18fcd481cc44054201c373
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><div class=3D"gmail_quote">On W=
+ed, Nov 23, 2016 at 12:42 PM, Mark Hatle <span dir=3D"ltr">&lt;<a href=3D"m=
+ailto:mark.hatle@windriver.com" target=3D"_blank">mark.hatle@windriver.com<=
+/a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:=
+0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><span class=3D"">On=
+ 11/23/16 12:56 PM, Martin Jansa wrote:<br>
+&gt; On Wed, Nov 23, 2016 at 12:38:42PM -0600, Mark Hatle wrote:<br>
+&gt;&gt; On 11/23/16 12:10 PM, Martin Jansa wrote:<br>
+&gt;&gt;&gt; On Wed, Nov 23, 2016 at 11:42:09AM -0600, Mark Hatle wrote:<br=
+>
+&gt;&gt;&gt;&gt; This is a Wind River specific patch and not generally appl=
+icable.<br>
+&gt;&gt;&gt;<br>
+&gt;&gt;&gt; Then why is it sent to oe-core ML?<br>
+&gt;&gt;<br>
+&gt;&gt; As noted in the cover letter, I&#39;m required to by Yocto Project=
+ compliance<br>
+&gt;&gt; requirements.<br>
+&gt;&gt;<br>
+&gt;&gt; As indicated LAST time I got scolded, I was told to indicate this =
+in the patch<br>
+&gt;&gt; summary email -- which I did.<br>
+&gt;<br>
+&gt; Sorry I&#39;ve noticed the cover letter only after the response.<br>
+&gt;<br>
+&gt; So it&#39;s only because of this requirement from Yocto Project compli=
+ance?<br>
+<br>
+</span>yes.<br>
+<span class=3D""><br>
+&gt; &quot;Have all patches applied to BitBake and OpenEmbedded-Core (if pr=
+esent)<br>
+&gt; been submitted to the open source community?&quot;<br>
+&gt;<br>
+&gt; Shouldn&#39;t the wording be change to something like &quot;all applic=
+able<br>
+&gt; patches&quot; or &quot;all generally useful patches&quot;?<br>
+&gt;<br>
+&gt; It seems strange to send project specific patches together with cover<=
+br>
+&gt; saying that they aren&#39;t generally applicable and shouldn&#39;t be =
+merged,<br>
+&gt; just because of this requirement.<br>
+<br>
+</span>It was done this way to prevent people from cheating and claiming so=
+mething was<br>
+(effectively) not useful/applicable/etc when it some special secret sauce.<=
+br>
+<br>
+Even these patches while not generally applicable could give someone else t=
+he<br>
+idea to duplicate (or improve) on our approach at providing layer specific<=
+br>
+download layers.<br></blockquote><div><br></div><div>More of an implementat=
+ion question, but presumably you could have your setup scripts add the LAYE=
+RRECOMMENDS to bblayers.conf, rather than having it in your oe-core fork/br=
+anch, as an alternative.</div></div>-- <br><div class=3D"gmail_signature" d=
+ata-smartmail=3D"gmail_signature">Christopher Larson<br>clarson at kergoth =
+dot com<br>Founder - BitBake, OpenEmbedded, OpenZaurus<br>Maintainer - Tsli=
+b<br>Senior Software Engineer, Mentor Graphics</div>
+</div></div>
+
+--94eb2c18fcd481cc44054201c373--
