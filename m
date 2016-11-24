@@ -1,35 +1,29 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 601B8719D7
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 9340B719CD
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Nov 2016 03:00:08 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id uAO302RM003341
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 23 Nov 2016 19:00:04 -0800 (PST)
-Received: from soho-mhatle-m.local (172.25.36.230) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.294.0;
-	Wed, 23 Nov 2016 19:00:01 -0800
-To: Christopher Larson <clarson@kergoth.com>
-References: <20161123174209.211349-1-mark.hatle@windriver.com>
-	<20161123174209.211349-2-mark.hatle@windriver.com>
-	<20161123181039.GF3265@jama>
-	<c06ab920-517b-b6b8-f2c8-e9ec8ae8714c@windriver.com>
-	<20161123185617.GH3265@jama>
-	<f2e7d5d6-7094-10b6-16bc-9398c8bb828e@windriver.com>
-	<CABcZANkiNi_+p3p67YLJr_pcxQLrTWzoFfVDNgrFneUHPvyeBg@mail.gmail.com>
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-Message-ID: <41839f84-c22d-04c6-94d5-1612379017bc@windriver.com>
-Date: Wed, 23 Nov 2016 21:00:00 -0600
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.12; rv:45.0)
-	Gecko/20100101 Thunderbird/45.5.0
+	Thu, 24 Nov 2016 03:18:24 +0000 (UTC)
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+	by fmsmga101.fm.intel.com with ESMTP; 23 Nov 2016 19:18:26 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.31,690,1473145200"; d="scan'208";a="34961115"
+Received: from paolienk-mobl4.gar.corp.intel.com (HELO
+	peggleto-mobl.ger.corp.intel.com) ([10.255.157.213])
+	by orsmga005.jf.intel.com with ESMTP; 23 Nov 2016 19:18:23 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Robert Yang <liezhi.yang@windriver.com>
+Date: Thu, 24 Nov 2016 16:18:21 +1300
+Message-ID: <1525289.rQK3S6YPkZ@peggleto-mobl.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.14.10 (Linux/4.7.10-100.fc23.x86_64; KDE/4.14.20; x86_64; ;
+	)
+In-Reply-To: <adc8effe-1856-560a-a7fb-0d92138e1990@windriver.com>
+References: <cover.1479871728.git.liezhi.yang@windriver.com>
+	<1479899811.31880.37.camel@intel.com>
+	<adc8effe-1856-560a-a7fb-0d92138e1990@windriver.com>
 MIME-Version: 1.0
-In-Reply-To: <CABcZANkiNi_+p3p67YLJr_pcxQLrTWzoFfVDNgrFneUHPvyeBg@mail.gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] meta/conf/layer.conf: Add recommended download layer
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 2/2] base-passwd: set root's default password to 'root'
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,71 +36,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 Nov 2016 03:00:09 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 24 Nov 2016 03:18:25 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On 11/23/16 7:16 PM, Christopher Larson wrote:
-> On Wed, Nov 23, 2016 at 12:42 PM, Mark Hatle <mark.hatle@windriver.com
-> <mailto:mark.hatle@windriver.com>> wrote:
+On Thu, 24 Nov 2016 10:01:59 Robert Yang wrote:
+> On 11/23/2016 07:16 PM, Patrick Ohly wrote:
+> > On Tue, 2016-11-22 at 23:49 -0800, Robert Yang wrote:
+> >> [YOCTO #10710]
+> >> 
+> >> Otherwise, we can't login as root when debug-tweaks is not in
+> >> IMAGE_FEATURES, and there is no other users to login by default, so
+> >> there is no way to login.
+> > 
+> > Wait a second, are you really suggesting that OE-core should have a
+> > default root password in its default configuration?
+> > 
+> > That's very bad practice and I'm against doing it this way. Having a
+> > default password is one of the common vulnerabilities in actual devices
+> > on the market today. OE-core should make it hard to make that mistake,
+> > not actively introduce it.
+> > 
+> > So if you think that having a root password set (instead of empty), then
+> > at least make it an opt-in behavior that explicitly has to be selected.
+> > Make it an image feature so that images with and without default
+> > password can be build in the same build configuration. Changing
+> > base-passwd doesn't achieve that.
+> > 
+> > Even then I'm still wondering what the benefit of a well-known password
+> > compared to no password is. Both are equally insecure, so someone who
+> > wants to allow logins might as well go with "empty password".
 > 
->     On 11/23/16 12:56 PM, Martin Jansa wrote:
->     > On Wed, Nov 23, 2016 at 12:38:42PM -0600, Mark Hatle wrote:
->     >> On 11/23/16 12:10 PM, Martin Jansa wrote:
->     >>> On Wed, Nov 23, 2016 at 11:42:09AM -0600, Mark Hatle wrote:
->     >>>> This is a Wind River specific patch and not generally applicable.
->     >>>
->     >>> Then why is it sent to oe-core ML?
->     >>
->     >> As noted in the cover letter, I'm required to by Yocto Project compliance
->     >> requirements.
->     >>
->     >> As indicated LAST time I got scolded, I was told to indicate this in the patch
->     >> summary email -- which I did.
->     >
->     > Sorry I've noticed the cover letter only after the response.
->     >
->     > So it's only because of this requirement from Yocto Project compliance?
+> The problem is that when debug-tweaks or empty-root-password is not in
+> IMAGE_FEATURE, there is no way to login by default, which will surprise
+> the user. How about:
 > 
->     yes.
+> 1) Let user can set root passwd via a variable when building.
 > 
->     > "Have all patches applied to BitBake and OpenEmbedded-Core (if present)
->     > been submitted to the open source community?"
->     >
->     > Shouldn't the wording be change to something like "all applicable
->     > patches" or "all generally useful patches"?
->     >
->     > It seems strange to send project specific patches together with cover
->     > saying that they aren't generally applicable and shouldn't be merged,
->     > just because of this requirement.
+> Or/And
 > 
->     It was done this way to prevent people from cheating and claiming something was
->     (effectively) not useful/applicable/etc when it some special secret sauce.
-> 
->     Even these patches while not generally applicable could give someone else the
->     idea to duplicate (or improve) on our approach at providing layer specific
->     download layers.
-> 
-> 
-> More of an implementation question, but presumably you could have your setup
-> scripts add the LAYERRECOMMENDS to bblayers.conf, rather than having it in your
-> oe-core fork/branch, as an alternative.
+> 2) Warn the user at build time when the image is unable to login.
 
-The recommends need to be indexed by the layer index program.  The layer index
-program processes one layer at a time, and there is no way to inject things.
+There are problems with both of these:
 
-I can manually add dependencies, however the next time I create a branch -- I
-have to do this again... and again... and again....   For our product we need to
-have the layer.conf setup properly so that the layer index will index the
-dependencies (including the recommended layers.)
+1) I'm concerned that by making it trivially easy this will encourage users to 
+set a root password and forget they have done so. This may lead to yet more 
+products going out with default root passwords, and that is not a good thing.
 
---Mark
+2) Having no root password in this scenario is not necessarily a mistake, it 
+may be intentional. If nobody ever needs to log into your device via a 
+terminal, then why would you need a root password set at all? In that scenario 
+you wouldn't want to be implying "this could be wrong, you should set a root 
+password".
 
-> -- 
-> Christopher Larson
-> clarson at kergoth dot com
-> Founder - BitBake, OpenEmbedded, OpenZaurus
-> Maintainer - Tslib
-> Senior Software Engineer, Mentor Graphics
+If we need more documentation around this so that people understand how this 
+aspect works (and I don't doubt that we do, people do ask about it) then by 
+all means we should improved the documentation.
 
+Cheers,
+Paul
+
+-- 
+
+Paul Eggleton
+Intel Open Source Technology Centre
 
