@@ -1,59 +1,63 @@
 Return-Path: <patrick.ohly@intel.com>
-Received: from mail-io0-f179.google.com (mail-io0-f179.google.com
-	[209.85.223.179])
-	by mail.openembedded.org (Postfix) with ESMTP id 9FB0C7199B
+Received: from mail-io0-f173.google.com (mail-io0-f173.google.com
+	[209.85.223.173])
+	by mail.openembedded.org (Postfix) with ESMTP id C692B71AF0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Nov 2016 14:54:55 +0000 (UTC)
-Received: by mail-io0-f179.google.com with SMTP id x94so82868492ioi.3
+	Thu, 24 Nov 2016 15:24:09 +0000 (UTC)
+Received: by mail-io0-f173.google.com with SMTP id j65so84355166iof.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Nov 2016 06:54:57 -0800 (PST)
+	Thu, 24 Nov 2016 07:24:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=message-id:subject:from:to:cc:date:in-reply-to:references
 	:organization:mime-version:content-transfer-encoding;
-	bh=kODTLAh4rU3nE1Uw7+qN3KYLMVp/WVHd5CNT49M7EwE=;
-	b=aaO/TgVxdHebR3YvsURzTM+SdH0G6vX0utknsXqO7oGWjhiSXcswC8VKXslEHkIO8m
-	G2r2QKWoYIbNCqk8ICBJV/2HTPWdsylKDwKHtLcQKDfkQIxIOPM9SqWfzyJ59FykcP4E
-	GxWRNtXzTkqTe4Jf4ZYZapnnobphaAm48L7GtcTmV6qzRFSSQvu0VAsTdqDocZ6EHXfb
-	SGbM2eYYwlkHR9fh7lQJgrUapCH9K4uQWSr9SrIyt7I15MqISJ6jjR2WskIYY0w+MydR
-	KSA6F+doaCzbd0RUx9BtV+l+zRi3rWdkNzDDZIjplZndF+84mUZTrwhEaY7MtdwxfuE8
-	jIfw==
+	bh=mpOG8kvRbpc3F5Zy9t5XY2NC78cCquXR1O+uMtiH7DI=;
+	b=0KerJhwnzLuHyi6dQGEnfekIboKDtbDCb2iUuVT+f5vhiztHaI8jKCzzLKPBUqfVPs
+	bKBAMj82b2Z1pzduAfdsdmMaTWV0Gqy92blLU5evUaBBUO+6yTdrGD9yTtJgmWEk5Emg
+	Ma/jzqjSa3LRhxFUC7g2mdyAWgWiHr2o9cvZydG3bP3nL8jA/AFmu7syW4Ni7Uvla5qq
+	ciEVHniyc5uvNbc45SkYqx1V1feFf5qwg041xfcqLm+6ZvviBqX6INap09pPDPSBtQaA
+	eg81lOcWgeW3rq2oCcpPvPenCTc5hf6UbNx2xJXRz/OX5ysZ56mFI/QZpN3lyU9lInaB
+	ytJw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
 	:references:organization:mime-version:content-transfer-encoding;
-	bh=kODTLAh4rU3nE1Uw7+qN3KYLMVp/WVHd5CNT49M7EwE=;
-	b=ltmv22oCPcDwPLSa+b2r2TI7ICSQwlElhVa5YETXLMFhpZh4faPmTE6EHeBNdACFuc
-	eddOAHdFtRP0MCCMOFfxHsyQAmACtln7GUC9L3+e1FLS+XTiJLBqVWpmRYrCEF346xYk
-	UgXjBxRTMhNH90V6+GzWaJliLHY+dk6e7Vx3zAtL9WrkTPyw5lEpAw3qfKf7CeO+TDw0
-	c3EoDRVDujtanV83cMiYDYIbKnMOufC4KDNY4dOPyDN2NQVVSp9CpaWI+mtZj97T6Hin
-	vRndAKGUJNjpovvhllmuSOfzwEtAhz3LVwC6UkhGMoAvXC9D/PUEaSPtwQU+OZZfXeAL
-	g4MQ==
-X-Gm-Message-State: AKaTC02sJA1eji9lvKMmEOB3jNxelD48h2lU3oWe4V6EjnKpSL5F5oBYjEPp3Y1xBdGDf8OZ
-X-Received: by 10.36.103.200 with SMTP id u191mr2525477itc.8.1479999296338;
-	Thu, 24 Nov 2016 06:54:56 -0800 (PST)
+	bh=mpOG8kvRbpc3F5Zy9t5XY2NC78cCquXR1O+uMtiH7DI=;
+	b=hQzbNle4bWOZ67UUtv4rNDhKfj4C+yZEm/yHMrLu8PcP4TTGIAvyrDSp++bKxf1wev
+	5s9MJZ9LO3BcTkUiUZsNMHtXKq92lzfv3RRIO3htjpeu4qB/R4YUjMaIWzkvdRTSUSkW
+	tzwc6KU7oUiFpl6R6ZC4UinyCgMQjWNC6a1fGYPcAGaW1/ZkMmDRMQaLZs5BlvjzQn8K
+	sRGIoWuMYWX4VBURBcoB3ZABohQnsueQbkBbOKdw58nqgDmmC+FIGAeWk2qXRX9rhrlA
+	dZTrX5SkY8sG5dQSseDDjCeenWuuOaCqtExVinaNH2cqETYez+lP/OlhaKItGgA+ahg7
+	uWHQ==
+X-Gm-Message-State: AKaTC00Ao/xodjxjIgij/nkz3xcCcDjwqG/VhBMNNaaattMXvgA/UuoXZF2a5AJ09iHBq9Nc
+X-Received: by 10.107.158.76 with SMTP id h73mr2605719ioe.152.1480001051350;
+	Thu, 24 Nov 2016 07:24:11 -0800 (PST)
 Received: from pohly-mobl1 (p5DE8D035.dip0.t-ipconnect.de. [93.232.208.53])
-	by smtp.gmail.com with ESMTPSA id j69sm2828375itb.4.2016.11.24.06.54.52
+	by smtp.gmail.com with ESMTPSA id
+	f24sm13529390iod.21.2016.11.24.07.24.09
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 24 Nov 2016 06:54:54 -0800 (PST)
-Message-ID: <1479999290.6873.44.camel@intel.com>
+	Thu, 24 Nov 2016 07:24:10 -0800 (PST)
+Message-ID: <1480001047.6873.49.camel@intel.com>
 From: Patrick Ohly <patrick.ohly@intel.com>
-To: Philip Balister <philip@balister.org>
-Date: Thu, 24 Nov 2016 15:54:50 +0100
-In-Reply-To: <d0a381df-850b-6a63-7f7e-47741618cf87@balister.org>
-References: <cover.1479871728.git.liezhi.yang@windriver.com>
-	<1479899811.31880.37.camel@intel.com>
-	<adc8effe-1856-560a-a7fb-0d92138e1990@windriver.com>
-	<1525289.rQK3S6YPkZ@peggleto-mobl.ger.corp.intel.com>
-	<27dbd493-5b76-657f-8a1d-57eabe9eebed@windriver.com>
-	<1479973589.6873.15.camel@intel.com>
-	<d0a381df-850b-6a63-7f7e-47741618cf87@balister.org>
+To: ed.bartosh@linux.intel.com
+Date: Thu, 24 Nov 2016 16:24:07 +0100
+In-Reply-To: <20161124145136.GA31813@linux.intel.com>
+References: <1479813004.3239.19.camel@intel.com>
+	<6913e4bf-96dc-eefa-d214-9df5cde181b8@mender.io>
+	<20161123120816.GC12545@linux.intel.com>
+	<5064cacc-e724-c7b8-9631-3d961c5a29f6@mender.io>
+	<20161123132229.GA13863@linux.intel.com>
+	<1479916616.31880.48.camel@intel.com>
+	<20161124061543.e2xpgh7zjir3oynk@pengutronix.de>
+	<fa1edaed-1498-160e-2015-8b7882c04877@mender.io>
+	<20161124132315.GA14497@linux.intel.com>
+	<1e1a7126-15dc-33be-a863-ea93063b554f@mender.io>
+	<20161124145136.GA31813@linux.intel.com>
 Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
 X-Mailer: Evolution 3.12.9-1+b1 
 Mime-Version: 1.0
-Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 2/2] base-passwd: set root's default password to 'root'
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: Contents of non-rootfs partitions
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -66,42 +70,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 Nov 2016 14:54:55 -0000
+X-List-Received-Date: Thu, 24 Nov 2016 15:24:13 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Thu, 2016-11-24 at 09:09 -0500, Philip Balister wrote:
-> On 11/24/2016 02:46 AM, Patrick Ohly wrote:
-> > On Thu, 2016-11-24 at 11:38 +0800, Robert Yang wrote:
-> >> Currently, debug-tweaks is in EXTRA_IMAGE_FEATURES by default for poky, and
-> >> there is no passwd, so that user can login easily without a passwd, I think
-> >> that current status is more unsafe ?
+On Thu, 2016-11-24 at 16:51 +0200, Ed Bartosh wrote:
+> On Thu, Nov 24, 2016 at 03:43:18PM +0100, Kristian Amlie wrote:
+> > On 24/11/16 14:23, Ed Bartosh wrote:
+> > > Would this way be less intuitive?
+> > > --exclude-path data/*
+> > > --exclude-path data
+> > > 
+> > > We can go even further with it allowing any level of directories:
+> > > --exclude-path data/tmp/*
+
+Just to clarify, that is meant to also match data/tmp/.hidden-file,
+right? I.e. fnmatch() without the special FNM_PERIOD flag.
+
+> > > --exclude-path data/db/tmp
+> > > ...
 > > 
-> > Both well-known password and no password are unsafe. User "root" with
-> > password "root" is not even "more" safe already now, because tools that
-> > brute-force logins try that. Choosing something else would be a bit
-> > safer for a short while until the tools add it to their dictionary.
+> > I agree, this is pretty unambiguous and easy to understand.
 > > 
-> > Poky is also targeting a different audience than OE-core. Poky can
-> > assume to be used in a secure environment, OE-core can't (because it
-> > might be used for all kinds of devices).
-> > 
+> > But this raises the question: Should we go all the way and support
+> > wildcards? Which might make it a bit complicated. Maybe support only
+> > pure '*' for now?
 > 
-> That is the first time I've heard Poky is targeting an audience assumed
-> to be running in a secure environment.
+> As it shouldn't be hard to implement I'd go for it.
 
-At least the default local.conf seems to be meant for that (easy-of-use
-for developers preferred over security in a hostile environment).
+Additional code implies additional testing. Remember that it also should
+better be supported by mkfs.ext4 and friends.
 
-> Should we document what Poky this
-> somewhere? From where I sit, this seems to be an odd limitation.
-
-I'm not aware of a document explicitly documenting this either. I
-wouldn't call it a limitation, though: a real product could be built
-with a configuration that doesn't enable debug-tweaks.
-
-As Paul said before, more documentation about first boot, login
-mechanisms, security considerations, etc. certainly would be useful.
+I'd rather start simple and only add additional complexity when needed.
 
 -- 
 Best Regards, Patrick Ohly
