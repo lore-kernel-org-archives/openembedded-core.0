@@ -1,51 +1,29 @@
-Return-Path: <clopez@igalia.com>
-Received: from smtp4.mundo-r.com (smtp3.mundo-r.com [212.51.32.191])
-	by mail.openembedded.org (Postfix) with ESMTP id 563D660291
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id DE817601A5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Nov 2016 01:44:02 +0000 (UTC)
-IronPort-PHdr: =?us-ascii?q?9a23=3Am/SMkxYFbJ+vm+RlBPQt6G//LSx+4OfEezUN459i?=
-	=?us-ascii?q?sYplN5qZr8q+bnLW6fgltlLVR4KTs6sC0LuN9fqwEjdfqb+681k6OKRWUBEEjc?=
-	=?us-ascii?q?hE1ycBO+WiTXPBEfjxciYhF95DXlI2t1uyMExSBdqsLwaK+i764jEdAAjwOhRo?=
-	=?us-ascii?q?LerpBIHSk9631+ev8JHPfglEnjSwbLd8IRmsswnctcYajIVgJ60s1hbHv3xEdv?=
-	=?us-ascii?q?hMy2h1P1yThRH85smx/J5n7Stdvu8q+tBDX6vnYak2VKRUAzs6PW874s3rrgTD?=
-	=?us-ascii?q?QhCU5nQASGUWkwFHDBbD4RrnQ5r+qCr6tu562CmHIc37SK0/VDq+46t3ThLjlS?=
-	=?us-ascii?q?EKPCM7/m7KkMx9lKJVrgy8qRJxwIDaZ5qYOOZicq7HYd8XX3ZNUtpXWidcAo28?=
-	=?us-ascii?q?dYwPD+8ZMOtGtYb9vV8OrRylBQKxGO7vziRHiWHs3a0m1OQqDAfI3As4H90QsX?=
-	=?us-ascii?q?Xfsc/7O7kIUe+rzajD0DLOYO9S2Tf68IjHbBEgrOqNXbJ/a8XRzUgvGBnfglqM?=
-	=?us-ascii?q?rozlOiqY2+IQuGaV6OpgUPigi28hqwxprDmg2NwjiorIhoIJxVDE6SZ5zJwyJd?=
-	=?us-ascii?q?2iR052Z8OvHphItyyCM4Z6X9kuT3x1tCs40LELvZq2cDIXxJknxxPTc/iKf5WS?=
-	=?us-ascii?q?7h7+SeqcIy10iG9qdb6lmhq/91WrxPfmWcmuyllKqzJIktzLtn8QyRPe8tOHSv?=
-	=?us-ascii?q?5h/ke53jaPyhzT5vlEIU8qkarbLIYswrAqmZoVsEXDHyn2l1vsgK+XeUUr4Oyo?=
-	=?us-ascii?q?6+X9bbn8upCcMIp0hhn/MqQohMO/Hfw1PwwTU2SB5Oiwyb/u8Vf9TbhOlPE6j6?=
-	=?us-ascii?q?nUvZDCKcQevKG5AgtV0og56xa4CjeryMgXnX0ALFJdZh2GjpPkO1DBIP/iCfe/?=
-	=?us-ascii?q?gk6jnC13yPDBO73tGo/NIWTbkLf9YbZ97FZRyA0rzd9B4ZJbFLQBL+ntVUDsqd?=
-	=?us-ascii?q?PXEAI2PxWozObgEtVyyJgTWWaOAq+CLKPSqkWE5uU3I+aSYo8apjP9JOM76PHz?=
-	=?us-ascii?q?kHA2h0IScbOu3ZsNZ3DrVshhdkKBbHzhh90MHWsHsk81S/bnoFmDSiJIIXGqUq?=
-	=?us-ascii?q?Qx4zs2BI6rAcHEXI/+rqaG2XKQF4dSYXsOI1SGHG30cM2gXO8BemqqL9VsgHRQ?=
-	=?us-ascii?q?XrymU4Iz/RChvQv7wvxsKe+CqX5Qjo7qyNUgv76brho17zEhV8k=3D?=
-X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-Anti-Spam-Result: =?us-ascii?q?A2CSAgDIRDZY/5tjdVteHgYMGQYMgw0BA?=
-	=?us-ascii?q?QEBAR9YgQKkB3oBkj6CDoIIGAyIGT8UAQEBAQEBAQEBAQFhKIIzGIJvAXwBgQE?=
-	=?us-ascii?q?JiGgBCZ1ukiWEEgGHd4Y+iXCCAAuDCgWaT4ZHijkCgXCOPQKHUookHjd1EwyCf?=
-	=?us-ascii?q?QxHG4FecQGIRgEBAQ?=
-X-IPAS-Result: =?us-ascii?q?A2CSAgDIRDZY/5tjdVteHgYMGQYMgw0BAQEBAR9YgQKkB3o?=
-	=?us-ascii?q?Bkj6CDoIIGAyIGT8UAQEBAQEBAQEBAQFhKIIzGIJvAXwBgQEJiGgBCZ1ukiWEE?=
-	=?us-ascii?q?gGHd4Y+iXCCAAuDCgWaT4ZHijkCgXCOPQKHUookHjd1EwyCfQxHG4FecQGIRgE?=
-	=?us-ascii?q?BAQ?=
-X-IronPort-AV: E=Sophos;i="5.31,689,1473112800"; d="scan'208";a="198872225"
-Received: from fanzine.igalia.com ([91.117.99.155])
-	by smtp4.mundo-r.com with ESMTP; 24 Nov 2016 02:44:02 +0100
-Received: from 1.14.117.91.dynamic.reverse-mundo-r.com ([91.117.14.1]
-	helo=trinity.local.igalia.com) by fanzine.igalia.com with esmtpsa 
-	(Cipher TLS1.2:ECDHE_RSA_AES_128_CBC_SHA256:128) (Exim)
-	id 1c9j50-0007YI-Vf for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Nov 2016 02:44:03 +0100
-From: Carlos Alberto Lopez Perez <clopez@igalia.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 24 Nov 2016 02:43:47 +0100
-Message-Id: <1479951827-6249-1-git-send-email-clopez@igalia.com>
-X-Mailer: git-send-email 2.1.4
-Subject: [PATCH] webkitgtk: update to 2.14.2
+	Thu, 24 Nov 2016 02:02:00 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id uAO221Ex003544
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
+	Wed, 23 Nov 2016 18:02:01 -0800
+Received: from [128.224.162.183] (128.224.162.183) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.294.0;
+	Wed, 23 Nov 2016 18:02:00 -0800
+To: Patrick Ohly <patrick.ohly@intel.com>
+References: <cover.1479871728.git.liezhi.yang@windriver.com>
+	<e1b37a8090d9fe6d93d6f68301d5c89a45a93b37.1479871728.git.liezhi.yang@windriver.com>
+	<1479899811.31880.37.camel@intel.com>
+From: Robert Yang <liezhi.yang@windriver.com>
+Message-ID: <adc8effe-1856-560a-a7fb-0d92138e1990@windriver.com>
+Date: Thu, 24 Nov 2016 10:01:59 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.2.0
+MIME-Version: 1.0
+In-Reply-To: <1479899811.31880.37.camel@intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 2/2] base-passwd: set root's default password to 'root'
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,33 +36,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 Nov 2016 01:44:04 -0000
+X-List-Received-Date: Thu, 24 Nov 2016 02:02:02 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Carlos Alberto Lopez Perez <clopez@igalia.com>
----
- meta/recipes-sato/webkit/{webkitgtk_2.14.1.bb => webkitgtk_2.14.2.bb} | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-sato/webkit/{webkitgtk_2.14.1.bb => webkitgtk_2.14.2.bb} (97%)
 
-diff --git a/meta/recipes-sato/webkit/webkitgtk_2.14.1.bb b/meta/recipes-sato/webkit/webkitgtk_2.14.2.bb
-similarity index 97%
-rename from meta/recipes-sato/webkit/webkitgtk_2.14.1.bb
-rename to meta/recipes-sato/webkit/webkitgtk_2.14.2.bb
-index 1f2166c..373df17 100644
---- a/meta/recipes-sato/webkit/webkitgtk_2.14.1.bb
-+++ b/meta/recipes-sato/webkit/webkitgtk_2.14.2.bb
-@@ -20,8 +20,8 @@ SRC_URI = "http://www.webkitgtk.org/releases/${BPN}-${PV}.tar.xz \
-            file://0001-Tweak-gtkdoc-settings-so-that-gtkdoc-generation-work.patch \
-            "
- 
--SRC_URI[md5sum] = "8d6c60dc41604d3bbd43165a674c07e5"
--SRC_URI[sha256sum] = "2e2d76c328de65bed6e0e4f096b2720a366654b27fc1af0830ece90bc4b7ceb5"
-+SRC_URI[md5sum] = "2fe3cadbc546d93ca68a13756c2be015"
-+SRC_URI[sha256sum] = "2edbcbd5105046aea55af9671c4de8deedb5b0e3567c618034d440a760675556"
- 
- inherit cmake pkgconfig gobject-introspection perlnative distro_features_check upstream-version-is-even gtk-doc
- 
--- 
-2.1.4
 
+On 11/23/2016 07:16 PM, Patrick Ohly wrote:
+> On Tue, 2016-11-22 at 23:49 -0800, Robert Yang wrote:
+>> [YOCTO #10710]
+>>
+>> Otherwise, we can't login as root when debug-tweaks is not in
+>> IMAGE_FEATURES, and there is no other users to login by default, so
+>> there is no way to login.
+>
+> Wait a second, are you really suggesting that OE-core should have a
+> default root password in its default configuration?
+>
+> That's very bad practice and I'm against doing it this way. Having a
+> default password is one of the common vulnerabilities in actual devices
+> on the market today. OE-core should make it hard to make that mistake,
+> not actively introduce it.
+>
+> So if you think that having a root password set (instead of empty), then
+> at least make it an opt-in behavior that explicitly has to be selected.
+> Make it an image feature so that images with and without default
+> password can be build in the same build configuration. Changing
+> base-passwd doesn't achieve that.
+>
+> Even then I'm still wondering what the benefit of a well-known password
+> compared to no password is. Both are equally insecure, so someone who
+> wants to allow logins might as well go with "empty password".
+
+The problem is that when debug-tweaks or empty-root-password is not in
+IMAGE_FEATURE, there is no way to login by default, which will surprise
+the user. How about:
+
+1) Let user can set root passwd via a variable when building.
+
+Or/And
+
+2) Warn the user at build time when the image is unable to login.
+
+// Robert
+
+>
 
