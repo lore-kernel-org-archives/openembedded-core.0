@@ -1,48 +1,42 @@
-Return-Path: <freesilicon@gmail.com>
-Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 931C271A62
+Return-Path: <umut@tezduyar.com>
+Received: from mail-io0-f172.google.com (mail-io0-f172.google.com
+	[209.85.223.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 361476067D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Nov 2016 10:51:13 +0000 (UTC)
-Received: by mail-wm0-f65.google.com with SMTP id a20so4619461wme.2
+	Thu, 24 Nov 2016 11:07:37 +0000 (UTC)
+Received: by mail-io0-f172.google.com with SMTP id c21so69214973ioj.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Nov 2016 02:51:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=iPjauSz9NowgD2iveh1x5MHPiD7XB40KXd3Wm0EveAU=;
-	b=O2sZKZr3PYD4KYmG1qZmHxUDc1dnjocZ2iSskCvi/N0k3v/hRzdMOJIeAImZP2ZuUk
-	vd64/F8JFZgiaGPdpRTtzKX15/+o181xxJh2D6Oy2rsaIhI1b2G/Wrm6LzjqEQqXb0ww
-	cNT4SSuI/K690Q6UQWe8+XHQVVTyODSy8off/GjYU7fUUtFpKqsMoK7FuKRhQKSOwVab
-	lF5qIjmK79FuuvP96Aq9G0ewbSrtEqb2FA++v7c1lYI59g9RA3ZOGzmxNUpCu1H6jq7a
-	OiYi9T1W6Z3NIWyeiZvtD/E0Sb/UEnY7BTJr6mMKbqRoz3OAjOHWKU5G4IK8WfaoJAqk
-	DNjg==
+	Thu, 24 Nov 2016 03:07:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=tezduyar-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:from:date:message-id:subject:to;
+	bh=aXH+JWdvlDIkfxnucIT3JdVKfxcghvp7wNmnTKAigk4=;
+	b=hmnIFQSUBXhFtcrO/x8u1G8TQynJiN8eQ8zN9W+LLlZPylBhdaUyQOXOQ/BClZuWlc
+	ezaOhJoRW1jbv3gLDveE1i2x+CKhEsoK+3H/JAXcwkP4b+KYYSAGScCcHa/6TuFaAagg
+	XIioGP/i+daAdku8N9s6Xqw2xNO6d1pz3xs6jRkeF349WjZDnEVjSRCCgzU1Vh1Fsyh2
+	vjPeZFthXlMMz9zZA1GC91oA8PNF13230uYY3NsAEYTAVPlrkxrDo6jhRLq/vdfyzr5q
+	V9GAbWtsp/HC1ZmOTue3fgsk5N3+Csml93y492ZL+Ss0R+JYLpWcEJhslANBQhrbuBFB
+	jr4g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=iPjauSz9NowgD2iveh1x5MHPiD7XB40KXd3Wm0EveAU=;
-	b=hWbqo0XMuONkDh8AfphNZuazH4z3d5KmgKEp7Gnxs33L1el5qS+T7WG2iD1xHDxNYe
-	hW11P4bgBmOVTTSwDGmaND+8yWdunp94QUSRfm9kogQxAq6UhScKY8hPnDXLrvr+AzGZ
-	05/7/Q6njN5qM5mkfXBUJdUFAxQWDcsqpUeGXhIUcu2SfjAgzGSz66mwh/GZH2fZZj2f
-	W2Q9nbpPrEoGgstH9Mo25Qyu8q0zLX1nzLUlqQ3sVSmOJVUetPrQZLkxsJ750OppoMfW
-	hNu0JIqEbmNTZ+uskGgCNIhVXNjtSRQYOFDFxcGwNe5HMU5Q76yA4a6HGyYJYcOUX5dx
-	zJxQ==
-X-Gm-Message-State: AKaTC01kTKH6aga/lkC/t9H4uanYorp+3KCHQgDOSv8I8ZT2ZVVc/9239gEXo59QDNlAvQ==
-X-Received: by 10.28.132.201 with SMTP id g192mr1743764wmd.134.1479984674235; 
-	Thu, 24 Nov 2016 02:51:14 -0800 (PST)
-Received: from localhost.localdomain ([185.47.80.46])
-	by smtp.gmail.com with ESMTPSA id
-	g197sm7566501wmd.15.2016.11.24.02.51.13
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 24 Nov 2016 02:51:13 -0800 (PST)
-From: David Vincent <freesilicon@gmail.com>
-To: openembedded-core@lists.openembedded.org, ross.burton@intel.com,
-	leonardo.sandoval.gonzalez@linux.intel.com, daniela.plascencia@intel.com
-Date: Thu, 24 Nov 2016 11:49:59 +0100
-Message-Id: <20161124104959.32350-1-freesilicon@gmail.com>
-X-Mailer: git-send-email 2.10.2
-In-Reply-To: <CAKRNOGzXLf_kfousHniKin-qqs2TURwOQQptDJTMHA9Gqe5now@mail.gmail.com>
-References: <CAKRNOGzXLf_kfousHniKin-qqs2TURwOQQptDJTMHA9Gqe5now@mail.gmail.com>
-Subject: [PATCH v3] rootfs: Modify RPM installation
+	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+	bh=aXH+JWdvlDIkfxnucIT3JdVKfxcghvp7wNmnTKAigk4=;
+	b=EYARNAFPMJ9M3svBR7yylyZkp/Aupm/+CS2RI+2xHt7QaY19Cfk8fv3gnvdTLp8+zJ
+	ZBUrLwOFf6kPxESRsf1ybDvaM0UvH4vZCbUMN5r9N/agttDdY8NU4n00ks3yGCEWMfsq
+	77ectPSD7ZpkwrEiQkwm5fnObbFAozH+FFVfJvNp1tFA9MqjiZF/XfAzaU/leBTnvCYj
+	yalDG49qZTyltX56C/KmH1kg27tDPYI1tePtNsyjGGe8mDnaX3s3/OdDwH+4rqwpaCf1
+	da2Jwk+BRaNoxQIWizQN+VfYW9chruoK2acM9bqBf0PD14xnpDKD2P0tjnMwF2+FMyqC
+	Ikew==
+X-Gm-Message-State: AKaTC00p0gGzWWbVwO8m2iEmX6975abUx2eRABlfR3s5p+6Ut+3nn2Aay2TBUt/7MA/QoDW4MZO57Zx2Z3t5Pw==
+X-Received: by 10.107.30.69 with SMTP id e66mr1422763ioe.62.1479985659040;
+	Thu, 24 Nov 2016 03:07:39 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.50.187.225 with HTTP; Thu, 24 Nov 2016 03:07:08 -0800 (PST)
+From: Umut Tezduyar Lindskog <umut@tezduyar.com>
+Date: Thu, 24 Nov 2016 12:07:08 +0100
+Message-ID: <CAFKnvs7vCQnU2=Qq9QNraoCoh7uCGO=whqDgjL6as4SKaohRzQ@mail.gmail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: file paths in the production code
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,134 +49,17 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 Nov 2016 10:51:13 -0000
+X-List-Received-Date: Thu, 24 Nov 2016 11:07:38 -0000
+Content-Type: text/plain; charset=UTF-8
 
-When using a custom RPM data directory instead of the default dir
-'/var/lib/rpm', the final image did not contain any of the database
-files in the expected location. This commit takes into account the
-'rpmlibdir' variable set into 'rootfs_rpm.bbclass'.
+Hello,
 
-Signed-off-by: David Vincent <freesilicon@gmail.com>
----
- meta/lib/oe/package_manager.py | 26 +++++++++++++++-----------
- meta/lib/oe/rootfs.py          |  3 ++-
- 2 files changed, 17 insertions(+), 12 deletions(-)
+Some open source softwares are one way or another including the file
+paths in the binaries which reside in non debug sectors. They won't
+get stripped out and shipped in the production code. It is quite a
+waste when the storage is scarce.
 
-diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
-index 7ba2e4d..6344543 100644
---- a/meta/lib/oe/package_manager.py
-+++ b/meta/lib/oe/package_manager.py
-@@ -352,7 +352,8 @@ class RpmPkgsList(PkgsList):
-         super(RpmPkgsList, self).__init__(d, rootfs_dir)
- 
-         self.rpm_cmd = bb.utils.which(os.getenv('PATH'), "rpm")
--        self.image_rpmlib = os.path.join(self.rootfs_dir, 'var/lib/rpm')
-+        self.rpm_libdir = self.d.getVar('rpmlibdir', True)
-+        self.image_rpmlib = os.path.join(self.rootfs_dir, self.rpm_libdir[1:])
- 
-         self.ml_prefix_list, self.ml_os_list = \
-             RpmIndexer(d, rootfs_dir).get_ml_prefix_and_os_list(arch_var, os_var)
-@@ -413,7 +414,7 @@ class RpmPkgsList(PkgsList):
- 
-     def list_pkgs(self):
-         cmd = self.rpm_cmd + ' --root ' + self.rootfs_dir
--        cmd += ' -D "_dbpath /var/lib/rpm" -qa'
-+        cmd += ' -D "_dbpath %s" -qa' % self.rpm_libdir
-         cmd += " --qf '[%{NAME} %{ARCH} %{VERSION} %{PACKAGEORIGIN}\n]'"
- 
-         try:
-@@ -681,7 +682,8 @@ class RpmPM(PackageManager):
-         self.solution_manifest = self.d.expand('${T}/saved/%s_solution' %
-                                                self.task_name)
-         self.saved_rpmlib = self.d.expand('${T}/saved/%s' % self.task_name)
--        self.image_rpmlib = os.path.join(self.target_rootfs, 'var/lib/rpm')
-+        self.rpm_libdir = self.d.getVar('rpmlibdir', True)
-+        self.image_rpmlib = os.path.join(self.target_rootfs, self.rpm_libdir[1:])
- 
-         if not os.path.exists(self.d.expand('${T}/saved')):
-             bb.utils.mkdirhier(self.d.expand('${T}/saved'))
-@@ -950,8 +952,8 @@ class RpmPM(PackageManager):
- 
-         # Create database so that smart doesn't complain (lazy init)
-         opt = "-qa"
--        cmd = "%s --root %s --dbpath /var/lib/rpm %s > /dev/null" % (
--              self.rpm_cmd, self.target_rootfs, opt)
-+        cmd = "%s --root %s --dbpath %s %s > /dev/null" % (
-+              self.rpm_cmd, self.target_rootfs, self.rpm_libdir, opt)
-         try:
-             subprocess.check_output(cmd, stderr=subprocess.STDOUT, shell=True)
-         except subprocess.CalledProcessError as e:
-@@ -960,8 +962,8 @@ class RpmPM(PackageManager):
-         # Import GPG key to RPM database of the target system
-         if self.d.getVar('RPM_SIGN_PACKAGES', True) == '1':
-             pubkey_path = self.d.getVar('RPM_GPG_PUBKEY', True)
--            cmd = "%s --root %s --dbpath /var/lib/rpm --import %s > /dev/null" % (
--                  self.rpm_cmd, self.target_rootfs, pubkey_path)
-+            cmd = "%s --root %s --dbpath %s --import %s > /dev/null" % (
-+                  self.rpm_cmd, self.target_rootfs, self.rpm_libdir, pubkey_path)
-             subprocess.check_output(cmd, stderr=subprocess.STDOUT, shell=True)
- 
-         # Configure smart
-@@ -969,7 +971,7 @@ class RpmPM(PackageManager):
-         bb.utils.remove(os.path.join(self.target_rootfs, 'var/lib/smart'),
-                         True)
-         self._invoke_smart('config --set rpm-root=%s' % self.target_rootfs)
--        self._invoke_smart('config --set rpm-dbpath=/var/lib/rpm')
-+        self._invoke_smart('config --set rpm-dbpath=%s' % self.rpm_libdir)
-         self._invoke_smart('config --set rpm-extra-macros._var=%s' %
-                            self.d.getVar('localstatedir', True))
-         cmd = "config --set rpm-extra-macros._tmppath=/%s/tmp" % (self.install_dir_name)
-@@ -1231,7 +1233,7 @@ class RpmPM(PackageManager):
-         if not with_dependencies:
-             cmd = "%s -e --nodeps " % self.rpm_cmd
-             cmd += "--root=%s " % self.target_rootfs
--            cmd += "--dbpath=/var/lib/rpm "
-+            cmd += "--dbpath=%s " % self.rpm_libdir
-             cmd += "--define='_cross_scriptlet_wrapper %s' " % \
-                    self.scriptlet_wrapper
-             cmd += "--define='_tmppath /%s/tmp' %s" % (self.install_dir_name, ' '.join(pkgs))
-@@ -1385,7 +1387,8 @@ class RpmPM(PackageManager):
-         saved_dir = self.target_rootfs + self.d.expand('${sysconfdir}/rpm-postinsts/') + new_pkg
- 
-         cmd = self.rpm_cmd + ' -q --scripts --root ' + self.target_rootfs
--        cmd += ' --dbpath=/var/lib/rpm ' + new_pkg
-+        cmd += ' --dbpath=%s ' %  self.rpm_libdir
-+        cmd += new_pkg
-         cmd += ' | sed -n -e "/^postinstall scriptlet (using .*):$/,/^.* scriptlet (using .*):$/ {/.*/p}"'
-         cmd += ' | sed -e "/postinstall scriptlet (using \(.*\)):$/d"'
-         cmd += ' -e "/^.* scriptlet (using .*):$/d" > %s' % saved_dir
-@@ -1417,7 +1420,8 @@ class RpmPM(PackageManager):
-     '''
-     def unlock_rpm_db(self):
-         # Remove rpm db lock files
--        rpm_db_locks = glob.glob('%s/var/lib/rpm/__db.*' % self.target_rootfs)
-+        rpm_db_locks = glob.glob('%s%s/__db.*' % (self.target_rootfs,
-+            self.rpm_libdir))
-         for f in rpm_db_locks:
-             bb.utils.remove(f, True)
- 
-diff --git a/meta/lib/oe/rootfs.py b/meta/lib/oe/rootfs.py
-index a348b97..7cf8ce8 100644
---- a/meta/lib/oe/rootfs.py
-+++ b/meta/lib/oe/rootfs.py
-@@ -426,6 +426,7 @@ class RpmRootfs(Rootfs):
- 
-     def _create(self):
-         pkgs_to_install = self.manifest.parse_initial_manifest()
-+        rpm_libdir = self.d.getVar('rpmlibdir', True)
-         rpm_pre_process_cmds = self.d.getVar('RPM_PREPROCESS_COMMANDS', True)
-         rpm_post_process_cmds = self.d.getVar('RPM_POSTPROCESS_COMMANDS', True)
- 
-@@ -473,7 +474,7 @@ class RpmRootfs(Rootfs):
-         if self.progress_reporter:
-             self.progress_reporter.next_stage()
- 
--        self._setup_dbg_rootfs(['/etc/rpm', '/var/lib/rpm', '/var/lib/smart'])
-+        self._setup_dbg_rootfs(['/etc/rpm', rpm_libdir, '/var/lib/smart'])
- 
-         execute_pre_post_process(self.d, rpm_post_process_cmds)
- 
--- 
-2.10.2
+Do you guys handle this problem?
 
+Umut
 
