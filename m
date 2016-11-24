@@ -1,51 +1,48 @@
-Return-Path: <prvs=013698ca26=mike.looijmans@topicproducts.com>
-Received: from mx12-14.smtp.antispamcloud.com (mx12-14.smtp.antispamcloud.com
-	[46.165.232.184])
-	by mail.openembedded.org (Postfix) with ESMTP id 68A6A60079
+Return-Path: <freesilicon@gmail.com>
+Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 931C271A62
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Nov 2016 10:33:02 +0000 (UTC)
-Received: from [37.74.225.130] (helo=TOP-EX01.TOPIC.LOCAL)
-	by mx12.antispamcloud.com with esmtps (TLSv1:ECDHE-RSA-AES128-SHA:128)
-	(Exim 4.86) (envelope-from <mike.looijmans@topicproducts.com>)
-	id 1c9rKx-0001fN-7O for openembedded-core@lists.openembedded.org;
-	Thu, 24 Nov 2016 11:33:03 +0100
-Received: from [192.168.80.121] (192.168.80.121) by webmail.topic.nl
-	(192.168.10.102) with Microsoft SMTP Server id 14.3.224.2;
-	Thu, 24 Nov 2016 11:33:00 +0100
-To: <openembedded-core@lists.openembedded.org>
-References: <6df42b3b-66b7-25dc-faac-e26e19fefbfd@topic.nl>
-From: Mike Looijmans <mike.looijmans@topic.nl>
-Organization: TOPIC
-Message-ID: <9147101c-f99a-92fc-d45c-0b67f477a57e@topic.nl>
-Date: Thu, 24 Nov 2016 11:32:59 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.4.0
-MIME-Version: 1.0
-In-Reply-To: <6df42b3b-66b7-25dc-faac-e26e19fefbfd@topic.nl>
-X-Originating-IP: [192.168.80.121]
-X-EXCLAIMER-MD-CONFIG: 9833cda7-5b21-4d34-9a38-8d025ddc3664
-X-EXCLAIMER-MD-BIFURCATION-INSTANCE: 0
-X-Filter-ID: s0sct1PQhAABKnZB5plbIbbvfIHzQjPVmPLZeVYSu3xU9luQrU+8/8qthi+0Jd/W6KAUC/fjyuDn
-	NXFr4uarw0hD9tOHsAupOgHE9PArDByM+/sFVMoIHnzxJpiwTwAmqWxCevbUegdCrqkn8BN/sbj/
-	kr1uWvhVMCtfj6/xQtWU2yOX8PQJGjCrFTzGoLEGAwQOxc4FVEmxDKJstwBd0WdHMLh2NQSCUAdm
-	kSL1TbIccBIk1Sag4dKiqCrF8eZZlyTbTpSJSkzczSD2RcFt/e/6EUxK+1ThVeXBHjTgRxsZI5tu
-	cMJDAlvdmgaeJouJzXIF1zGGhkHhilg9snEzcImMn3HzupCKW6oeZkU58X31H/aAwarQpYDOYx/6
-	JtUOwjf2M+bBLwNLnF2gf+AZ3cj9jBVCzdmhdpNvLM9EoHGCgFe8QCr3pk4nvBg39CKa3jR5NeVa
-	JQBh0uawl0Cg8g5H75jeYRQu46K9FQfOtW179c3UTBg+eMlI+Ad+hOdu2jl82F+q3WD+2SUCv7Qo
-	M7oSUn4IVvn2XtihDnFFPeASh5SHKlr9iAY0a+E99zzUIRFsicyJMEhQFtD8PLointZhy401wBd7
-	DB89ILX39iXENXOV4w3ogceBFWVtR+kMcpcEF40xDLsgivxXInCFWYgSiYX2GrAnrzOM7HcmsBOn
-	S9HUjFSJqqbImp9o8R6RMS+4ayUpOtEhdxekWDmK9g==
-X-Report-Abuse-To: spam@quarantine2.antispamcloud.com
-X-Originating-IP: 37.74.225.130
-X-SpamExperts-Domain: topic.nl
-X-SpamExperts-Username: 37.74.225.128/28
-Authentication-Results: antispamcloud.com;
-	auth=pass smtp.auth=37.74.225.128/28@topic.nl
-X-SpamExperts-Outgoing-Class: ham
-X-SpamExperts-Outgoing-Evidence: Combined (0.02)
-X-Classification: not-spam/combined
-X-Recommended-Action: accept
-Subject: Re: Kernel: Builds use old version of defconfig
+	Thu, 24 Nov 2016 10:51:13 +0000 (UTC)
+Received: by mail-wm0-f65.google.com with SMTP id a20so4619461wme.2
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 24 Nov 2016 02:51:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=iPjauSz9NowgD2iveh1x5MHPiD7XB40KXd3Wm0EveAU=;
+	b=O2sZKZr3PYD4KYmG1qZmHxUDc1dnjocZ2iSskCvi/N0k3v/hRzdMOJIeAImZP2ZuUk
+	vd64/F8JFZgiaGPdpRTtzKX15/+o181xxJh2D6Oy2rsaIhI1b2G/Wrm6LzjqEQqXb0ww
+	cNT4SSuI/K690Q6UQWe8+XHQVVTyODSy8off/GjYU7fUUtFpKqsMoK7FuKRhQKSOwVab
+	lF5qIjmK79FuuvP96Aq9G0ewbSrtEqb2FA++v7c1lYI59g9RA3ZOGzmxNUpCu1H6jq7a
+	OiYi9T1W6Z3NIWyeiZvtD/E0Sb/UEnY7BTJr6mMKbqRoz3OAjOHWKU5G4IK8WfaoJAqk
+	DNjg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=iPjauSz9NowgD2iveh1x5MHPiD7XB40KXd3Wm0EveAU=;
+	b=hWbqo0XMuONkDh8AfphNZuazH4z3d5KmgKEp7Gnxs33L1el5qS+T7WG2iD1xHDxNYe
+	hW11P4bgBmOVTTSwDGmaND+8yWdunp94QUSRfm9kogQxAq6UhScKY8hPnDXLrvr+AzGZ
+	05/7/Q6njN5qM5mkfXBUJdUFAxQWDcsqpUeGXhIUcu2SfjAgzGSz66mwh/GZH2fZZj2f
+	W2Q9nbpPrEoGgstH9Mo25Qyu8q0zLX1nzLUlqQ3sVSmOJVUetPrQZLkxsJ750OppoMfW
+	hNu0JIqEbmNTZ+uskGgCNIhVXNjtSRQYOFDFxcGwNe5HMU5Q76yA4a6HGyYJYcOUX5dx
+	zJxQ==
+X-Gm-Message-State: AKaTC01kTKH6aga/lkC/t9H4uanYorp+3KCHQgDOSv8I8ZT2ZVVc/9239gEXo59QDNlAvQ==
+X-Received: by 10.28.132.201 with SMTP id g192mr1743764wmd.134.1479984674235; 
+	Thu, 24 Nov 2016 02:51:14 -0800 (PST)
+Received: from localhost.localdomain ([185.47.80.46])
+	by smtp.gmail.com with ESMTPSA id
+	g197sm7566501wmd.15.2016.11.24.02.51.13
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Thu, 24 Nov 2016 02:51:13 -0800 (PST)
+From: David Vincent <freesilicon@gmail.com>
+To: openembedded-core@lists.openembedded.org, ross.burton@intel.com,
+	leonardo.sandoval.gonzalez@linux.intel.com, daniela.plascencia@intel.com
+Date: Thu, 24 Nov 2016 11:49:59 +0100
+Message-Id: <20161124104959.32350-1-freesilicon@gmail.com>
+X-Mailer: git-send-email 2.10.2
+In-Reply-To: <CAKRNOGzXLf_kfousHniKin-qqs2TURwOQQptDJTMHA9Gqe5now@mail.gmail.com>
+References: <CAKRNOGzXLf_kfousHniKin-qqs2TURwOQQptDJTMHA9Gqe5now@mail.gmail.com>
+Subject: [PATCH v3] rootfs: Modify RPM installation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,97 +55,134 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 Nov 2016 10:33:05 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 24 Nov 2016 10:51:13 -0000
 
-=EF=BB=BFOn 24-11-16 11:10, Mike Looijmans wrote:
-> I'm currently experiencing a problem with "defconfig" files and the kerne=
-l.
->
-> In short, when I make a change to the "defconfig" file, the kernel is reb=
-uilt
-> (which is correct), but the resulting kernel has been built using the old
-> defconfig from a previous build, instead of the new one.
->
-> The kernel recipe just contains "file://defconfig" in its SRC_URI. The
-> defconfig file is in the project's overlay.
->
-> For example, I have a kernel with "CONFIG_DEVMEM" disabled:
->
-> # gunzip < /proc/config.gz | grep DEVMEM
-> # CONFIG_DEVMEM is not set
->
-> Now, I change the defconfig to contain CONFIG_DEVMEM=3Dy and build the im=
-age.
-> The result:
->
-> # gunzip < /proc/config.gz | grep DEVMEM
-> # CONFIG_DEVMEM is not set
->
-> So the change did not make it into the actual kernel, even though the ker=
-nel
-> was rebuild as a result of the change.
->
-> I run "bitbake -c cleansstate virtual/kernel" and build the image again:
->
-> # gunzip < /proc/config.gz | grep DEVMEM
-> CONFIG_DEVMEM=3Dy
->
-> After cleaning, the result is correct and the new defconfig is active.
->
-> I'm trying to figure out how this can happen, any help is welcome...
+When using a custom RPM data directory instead of the default dir
+'/var/lib/rpm', the final image did not contain any of the database
+files in the expected location. This commit takes into account the
+'rpmlibdir' variable set into 'rootfs_rpm.bbclass'.
 
-What seems to be the problem is this code in kernel.bbclass:
+Signed-off-by: David Vincent <freesilicon@gmail.com>
+---
+ meta/lib/oe/package_manager.py | 26 +++++++++++++++-----------
+ meta/lib/oe/rootfs.py          |  3 ++-
+ 2 files changed, 17 insertions(+), 12 deletions(-)
 
-	# Copy defconfig to .config if .config does not exist. This allows
-	# recipes to manage the .config themselves in do_configure_prepend().
-	if [ -f "${WORKDIR}/defconfig" ] && [ ! -f "${B}/.config" ]; then
-		cp "${WORKDIR}/defconfig" "${B}/.config"
-	fi
-
-This keeps any existing ".config" file if it happens to still be in the $B=
-=20
-path, which is the case if you're rebuilding a kernel.
-
-I see two possible ways to fix this.
-
-1) During "cleanup" also remove the .config file in the build dir. However,=
-=20
-the build dir is probably kept alive for a reason? I also can't figure out =
-how=20
-that "cleanup" is being done.
-
-
-2) Remove the second part of the "if" statement, so it becomes:
-
-	# Copy defconfig to .config if "defconfig" exists. This allows
-	# recipes to manage the .config themselves in do_configure_prepend().
-	if [ -f "${WORKDIR}/defconfig" ]; then
-		cp "${WORKDIR}/defconfig" "${B}/.config"
-	fi
-
-I've tested that, and it solves my problem. However, it will probably break=
-=20
-other people's config mangling?
-
-
-Kind regards,
-
-Mike Looijmans
-System Expert
-
-TOPIC Products
-Materiaalweg 4, NL-5681 RJ Best
-Postbus 440, NL-5680 AK Best
-Telefoon: +31 (0) 499 33 69 79
-E-mail: mike.looijmans@topicproducts.com
-Website: www.topicproducts.com
-
-Please consider the environment before printing this e-mail
-
-
-
-
+diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
+index 7ba2e4d..6344543 100644
+--- a/meta/lib/oe/package_manager.py
++++ b/meta/lib/oe/package_manager.py
+@@ -352,7 +352,8 @@ class RpmPkgsList(PkgsList):
+         super(RpmPkgsList, self).__init__(d, rootfs_dir)
+ 
+         self.rpm_cmd = bb.utils.which(os.getenv('PATH'), "rpm")
+-        self.image_rpmlib = os.path.join(self.rootfs_dir, 'var/lib/rpm')
++        self.rpm_libdir = self.d.getVar('rpmlibdir', True)
++        self.image_rpmlib = os.path.join(self.rootfs_dir, self.rpm_libdir[1:])
+ 
+         self.ml_prefix_list, self.ml_os_list = \
+             RpmIndexer(d, rootfs_dir).get_ml_prefix_and_os_list(arch_var, os_var)
+@@ -413,7 +414,7 @@ class RpmPkgsList(PkgsList):
+ 
+     def list_pkgs(self):
+         cmd = self.rpm_cmd + ' --root ' + self.rootfs_dir
+-        cmd += ' -D "_dbpath /var/lib/rpm" -qa'
++        cmd += ' -D "_dbpath %s" -qa' % self.rpm_libdir
+         cmd += " --qf '[%{NAME} %{ARCH} %{VERSION} %{PACKAGEORIGIN}\n]'"
+ 
+         try:
+@@ -681,7 +682,8 @@ class RpmPM(PackageManager):
+         self.solution_manifest = self.d.expand('${T}/saved/%s_solution' %
+                                                self.task_name)
+         self.saved_rpmlib = self.d.expand('${T}/saved/%s' % self.task_name)
+-        self.image_rpmlib = os.path.join(self.target_rootfs, 'var/lib/rpm')
++        self.rpm_libdir = self.d.getVar('rpmlibdir', True)
++        self.image_rpmlib = os.path.join(self.target_rootfs, self.rpm_libdir[1:])
+ 
+         if not os.path.exists(self.d.expand('${T}/saved')):
+             bb.utils.mkdirhier(self.d.expand('${T}/saved'))
+@@ -950,8 +952,8 @@ class RpmPM(PackageManager):
+ 
+         # Create database so that smart doesn't complain (lazy init)
+         opt = "-qa"
+-        cmd = "%s --root %s --dbpath /var/lib/rpm %s > /dev/null" % (
+-              self.rpm_cmd, self.target_rootfs, opt)
++        cmd = "%s --root %s --dbpath %s %s > /dev/null" % (
++              self.rpm_cmd, self.target_rootfs, self.rpm_libdir, opt)
+         try:
+             subprocess.check_output(cmd, stderr=subprocess.STDOUT, shell=True)
+         except subprocess.CalledProcessError as e:
+@@ -960,8 +962,8 @@ class RpmPM(PackageManager):
+         # Import GPG key to RPM database of the target system
+         if self.d.getVar('RPM_SIGN_PACKAGES', True) == '1':
+             pubkey_path = self.d.getVar('RPM_GPG_PUBKEY', True)
+-            cmd = "%s --root %s --dbpath /var/lib/rpm --import %s > /dev/null" % (
+-                  self.rpm_cmd, self.target_rootfs, pubkey_path)
++            cmd = "%s --root %s --dbpath %s --import %s > /dev/null" % (
++                  self.rpm_cmd, self.target_rootfs, self.rpm_libdir, pubkey_path)
+             subprocess.check_output(cmd, stderr=subprocess.STDOUT, shell=True)
+ 
+         # Configure smart
+@@ -969,7 +971,7 @@ class RpmPM(PackageManager):
+         bb.utils.remove(os.path.join(self.target_rootfs, 'var/lib/smart'),
+                         True)
+         self._invoke_smart('config --set rpm-root=%s' % self.target_rootfs)
+-        self._invoke_smart('config --set rpm-dbpath=/var/lib/rpm')
++        self._invoke_smart('config --set rpm-dbpath=%s' % self.rpm_libdir)
+         self._invoke_smart('config --set rpm-extra-macros._var=%s' %
+                            self.d.getVar('localstatedir', True))
+         cmd = "config --set rpm-extra-macros._tmppath=/%s/tmp" % (self.install_dir_name)
+@@ -1231,7 +1233,7 @@ class RpmPM(PackageManager):
+         if not with_dependencies:
+             cmd = "%s -e --nodeps " % self.rpm_cmd
+             cmd += "--root=%s " % self.target_rootfs
+-            cmd += "--dbpath=/var/lib/rpm "
++            cmd += "--dbpath=%s " % self.rpm_libdir
+             cmd += "--define='_cross_scriptlet_wrapper %s' " % \
+                    self.scriptlet_wrapper
+             cmd += "--define='_tmppath /%s/tmp' %s" % (self.install_dir_name, ' '.join(pkgs))
+@@ -1385,7 +1387,8 @@ class RpmPM(PackageManager):
+         saved_dir = self.target_rootfs + self.d.expand('${sysconfdir}/rpm-postinsts/') + new_pkg
+ 
+         cmd = self.rpm_cmd + ' -q --scripts --root ' + self.target_rootfs
+-        cmd += ' --dbpath=/var/lib/rpm ' + new_pkg
++        cmd += ' --dbpath=%s ' %  self.rpm_libdir
++        cmd += new_pkg
+         cmd += ' | sed -n -e "/^postinstall scriptlet (using .*):$/,/^.* scriptlet (using .*):$/ {/.*/p}"'
+         cmd += ' | sed -e "/postinstall scriptlet (using \(.*\)):$/d"'
+         cmd += ' -e "/^.* scriptlet (using .*):$/d" > %s' % saved_dir
+@@ -1417,7 +1420,8 @@ class RpmPM(PackageManager):
+     '''
+     def unlock_rpm_db(self):
+         # Remove rpm db lock files
+-        rpm_db_locks = glob.glob('%s/var/lib/rpm/__db.*' % self.target_rootfs)
++        rpm_db_locks = glob.glob('%s%s/__db.*' % (self.target_rootfs,
++            self.rpm_libdir))
+         for f in rpm_db_locks:
+             bb.utils.remove(f, True)
+ 
+diff --git a/meta/lib/oe/rootfs.py b/meta/lib/oe/rootfs.py
+index a348b97..7cf8ce8 100644
+--- a/meta/lib/oe/rootfs.py
++++ b/meta/lib/oe/rootfs.py
+@@ -426,6 +426,7 @@ class RpmRootfs(Rootfs):
+ 
+     def _create(self):
+         pkgs_to_install = self.manifest.parse_initial_manifest()
++        rpm_libdir = self.d.getVar('rpmlibdir', True)
+         rpm_pre_process_cmds = self.d.getVar('RPM_PREPROCESS_COMMANDS', True)
+         rpm_post_process_cmds = self.d.getVar('RPM_POSTPROCESS_COMMANDS', True)
+ 
+@@ -473,7 +474,7 @@ class RpmRootfs(Rootfs):
+         if self.progress_reporter:
+             self.progress_reporter.next_stage()
+ 
+-        self._setup_dbg_rootfs(['/etc/rpm', '/var/lib/rpm', '/var/lib/smart'])
++        self._setup_dbg_rootfs(['/etc/rpm', rpm_libdir, '/var/lib/smart'])
+ 
+         execute_pre_post_process(self.d, rpm_post_process_cmds)
+ 
+-- 
+2.10.2
 
 
