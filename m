@@ -1,54 +1,51 @@
-Return-Path: <kergoth@gmail.com>
-Received: from mail-oi0-f65.google.com (mail-oi0-f65.google.com
-	[209.85.218.65])
-	by mail.openembedded.org (Postfix) with ESMTP id E8F946011C
+Return-Path: <clopez@igalia.com>
+Received: from smtp4.mundo-r.com (smtp3.mundo-r.com [212.51.32.191])
+	by mail.openembedded.org (Postfix) with ESMTP id 563D660291
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Nov 2016 01:17:04 +0000 (UTC)
-Received: by mail-oi0-f65.google.com with SMTP id f201so2074183oib.0
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Nov 2016 17:17:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:from:date:message-id
-	:subject:to:cc;
-	bh=TDH2ipnSFDKZBr5MGNCCpzARGWqBKePiEpbAGSqVV5g=;
-	b=FHGT55QLmzSPLxBrc+wp69fZiStiuyr+7ZwVcA9uClP6kguPrw+wemyCpHUE80mh6p
-	a3r6SsVXK5+3usxOfMa/KOk6Ac+a7VmOI4Cs6pKTLNsvrEaawJv4nFaB6llmfVE3JnEq
-	YM/gbNIQ+qLinqUPoE0KyNh6AW8pn0Vsavzh3yRO0HdOGC269BdaXkZndIZGxKDNVFiT
-	4tGXhu3/YRqWmjdmMxwaNBxQYmUUyTOqrOTY482YL3m9C6nEnS5IerIrL8m1PHiATriB
-	vWyObjFTyGMZNs/HS3LEq+sdDs3J6KlQcEE2rcsHJ4ro8gUyg3kgTiQTFBZFhbDDctyc
-	FL3g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:sender:in-reply-to:references:from
-	:date:message-id:subject:to:cc;
-	bh=TDH2ipnSFDKZBr5MGNCCpzARGWqBKePiEpbAGSqVV5g=;
-	b=fvcOEQmnuc2P/ZJgq/t/B5VjDbgP8q2wO3yISRy5yHx9OVVnmiXg52YleVnJpdhTPv
-	hogMWl9PjVzXnyOWhcsri13Ef3CK2/nmvcNda9K+e/9GFxlQRcXi51xKgiaMekCkkYIy
-	r1PxWplecaRKJLxt3Ezs0K9MhKHm+koIir/0WDFASSeLdENTfm+CmYU6l2xOVIJjoGgH
-	Ur4v+7yjioQF0taN5aISoYpLshesuo3Mp+drqiu2ktZFaJYWC0NisXbamleRlbBZBJBh
-	M8UTj9pWFDrgy6F7flDDt3t6HWwNKj7mAM8LQ5ZbyQ8+qiNElmzBIhXvGp2011fwx74B
-	NNkg==
-X-Gm-Message-State: AKaTC00+Ga4Df0hwnujj2Jc2H1P59enUv03jH7KAVFcJ3YiIjbr1qDLvmgAQGg3oleqxuqSswbg737bVKGTY0g==
-X-Received: by 10.157.17.174 with SMTP id v43mr3274601otf.251.1479950226014;
-	Wed, 23 Nov 2016 17:17:06 -0800 (PST)
-MIME-Version: 1.0
-Sender: kergoth@gmail.com
-Received: by 10.157.35.65 with HTTP; Wed, 23 Nov 2016 17:16:45 -0800 (PST)
-In-Reply-To: <f2e7d5d6-7094-10b6-16bc-9398c8bb828e@windriver.com>
-References: <20161123174209.211349-1-mark.hatle@windriver.com>
-	<20161123174209.211349-2-mark.hatle@windriver.com>
-	<20161123181039.GF3265@jama>
-	<c06ab920-517b-b6b8-f2c8-e9ec8ae8714c@windriver.com>
-	<20161123185617.GH3265@jama>
-	<f2e7d5d6-7094-10b6-16bc-9398c8bb828e@windriver.com>
-From: Christopher Larson <clarson@kergoth.com>
-Date: Wed, 23 Nov 2016 18:16:45 -0700
-X-Google-Sender-Auth: z5HGSpIkPizo0LU-YrvV3Yxd6aU
-Message-ID: <CABcZANkiNi_+p3p67YLJr_pcxQLrTWzoFfVDNgrFneUHPvyeBg@mail.gmail.com>
-To: Mark Hatle <mark.hatle@windriver.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] meta/conf/layer.conf: Add recommended download layer
+	Thu, 24 Nov 2016 01:44:02 +0000 (UTC)
+IronPort-PHdr: =?us-ascii?q?9a23=3Am/SMkxYFbJ+vm+RlBPQt6G//LSx+4OfEezUN459i?=
+	=?us-ascii?q?sYplN5qZr8q+bnLW6fgltlLVR4KTs6sC0LuN9fqwEjdfqb+681k6OKRWUBEEjc?=
+	=?us-ascii?q?hE1ycBO+WiTXPBEfjxciYhF95DXlI2t1uyMExSBdqsLwaK+i764jEdAAjwOhRo?=
+	=?us-ascii?q?LerpBIHSk9631+ev8JHPfglEnjSwbLd8IRmsswnctcYajIVgJ60s1hbHv3xEdv?=
+	=?us-ascii?q?hMy2h1P1yThRH85smx/J5n7Stdvu8q+tBDX6vnYak2VKRUAzs6PW874s3rrgTD?=
+	=?us-ascii?q?QhCU5nQASGUWkwFHDBbD4RrnQ5r+qCr6tu562CmHIc37SK0/VDq+46t3ThLjlS?=
+	=?us-ascii?q?EKPCM7/m7KkMx9lKJVrgy8qRJxwIDaZ5qYOOZicq7HYd8XX3ZNUtpXWidcAo28?=
+	=?us-ascii?q?dYwPD+8ZMOtGtYb9vV8OrRylBQKxGO7vziRHiWHs3a0m1OQqDAfI3As4H90QsX?=
+	=?us-ascii?q?Xfsc/7O7kIUe+rzajD0DLOYO9S2Tf68IjHbBEgrOqNXbJ/a8XRzUgvGBnfglqM?=
+	=?us-ascii?q?rozlOiqY2+IQuGaV6OpgUPigi28hqwxprDmg2NwjiorIhoIJxVDE6SZ5zJwyJd?=
+	=?us-ascii?q?2iR052Z8OvHphItyyCM4Z6X9kuT3x1tCs40LELvZq2cDIXxJknxxPTc/iKf5WS?=
+	=?us-ascii?q?7h7+SeqcIy10iG9qdb6lmhq/91WrxPfmWcmuyllKqzJIktzLtn8QyRPe8tOHSv?=
+	=?us-ascii?q?5h/ke53jaPyhzT5vlEIU8qkarbLIYswrAqmZoVsEXDHyn2l1vsgK+XeUUr4Oyo?=
+	=?us-ascii?q?6+X9bbn8upCcMIp0hhn/MqQohMO/Hfw1PwwTU2SB5Oiwyb/u8Vf9TbhOlPE6j6?=
+	=?us-ascii?q?nUvZDCKcQevKG5AgtV0og56xa4CjeryMgXnX0ALFJdZh2GjpPkO1DBIP/iCfe/?=
+	=?us-ascii?q?gk6jnC13yPDBO73tGo/NIWTbkLf9YbZ97FZRyA0rzd9B4ZJbFLQBL+ntVUDsqd?=
+	=?us-ascii?q?PXEAI2PxWozObgEtVyyJgTWWaOAq+CLKPSqkWE5uU3I+aSYo8apjP9JOM76PHz?=
+	=?us-ascii?q?kHA2h0IScbOu3ZsNZ3DrVshhdkKBbHzhh90MHWsHsk81S/bnoFmDSiJIIXGqUq?=
+	=?us-ascii?q?Qx4zs2BI6rAcHEXI/+rqaG2XKQF4dSYXsOI1SGHG30cM2gXO8BemqqL9VsgHRQ?=
+	=?us-ascii?q?XrymU4Iz/RChvQv7wvxsKe+CqX5Qjo7qyNUgv76brho17zEhV8k=3D?=
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-Anti-Spam-Result: =?us-ascii?q?A2CSAgDIRDZY/5tjdVteHgYMGQYMgw0BA?=
+	=?us-ascii?q?QEBAR9YgQKkB3oBkj6CDoIIGAyIGT8UAQEBAQEBAQEBAQFhKIIzGIJvAXwBgQE?=
+	=?us-ascii?q?JiGgBCZ1ukiWEEgGHd4Y+iXCCAAuDCgWaT4ZHijkCgXCOPQKHUookHjd1EwyCf?=
+	=?us-ascii?q?QxHG4FecQGIRgEBAQ?=
+X-IPAS-Result: =?us-ascii?q?A2CSAgDIRDZY/5tjdVteHgYMGQYMgw0BAQEBAR9YgQKkB3o?=
+	=?us-ascii?q?Bkj6CDoIIGAyIGT8UAQEBAQEBAQEBAQFhKIIzGIJvAXwBgQEJiGgBCZ1ukiWEE?=
+	=?us-ascii?q?gGHd4Y+iXCCAAuDCgWaT4ZHijkCgXCOPQKHUookHjd1EwyCfQxHG4FecQGIRgE?=
+	=?us-ascii?q?BAQ?=
+X-IronPort-AV: E=Sophos;i="5.31,689,1473112800"; d="scan'208";a="198872225"
+Received: from fanzine.igalia.com ([91.117.99.155])
+	by smtp4.mundo-r.com with ESMTP; 24 Nov 2016 02:44:02 +0100
+Received: from 1.14.117.91.dynamic.reverse-mundo-r.com ([91.117.14.1]
+	helo=trinity.local.igalia.com) by fanzine.igalia.com with esmtpsa 
+	(Cipher TLS1.2:ECDHE_RSA_AES_128_CBC_SHA256:128) (Exim)
+	id 1c9j50-0007YI-Vf for <openembedded-core@lists.openembedded.org>;
+	Thu, 24 Nov 2016 02:44:03 +0100
+From: Carlos Alberto Lopez Perez <clopez@igalia.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 24 Nov 2016 02:43:47 +0100
+Message-Id: <1479951827-6249-1-git-send-email-clopez@igalia.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH] webkitgtk: update to 2.14.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,131 +58,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 Nov 2016 01:17:09 -0000
-Content-Type: multipart/alternative; boundary=94eb2c18fcd481cc44054201c373
+X-List-Received-Date: Thu, 24 Nov 2016 01:44:04 -0000
 
---94eb2c18fcd481cc44054201c373
-Content-Type: text/plain; charset=UTF-8
+Signed-off-by: Carlos Alberto Lopez Perez <clopez@igalia.com>
+---
+ meta/recipes-sato/webkit/{webkitgtk_2.14.1.bb => webkitgtk_2.14.2.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-sato/webkit/{webkitgtk_2.14.1.bb => webkitgtk_2.14.2.bb} (97%)
 
-On Wed, Nov 23, 2016 at 12:42 PM, Mark Hatle <mark.hatle@windriver.com>
-wrote:
-
-> On 11/23/16 12:56 PM, Martin Jansa wrote:
-> > On Wed, Nov 23, 2016 at 12:38:42PM -0600, Mark Hatle wrote:
-> >> On 11/23/16 12:10 PM, Martin Jansa wrote:
-> >>> On Wed, Nov 23, 2016 at 11:42:09AM -0600, Mark Hatle wrote:
-> >>>> This is a Wind River specific patch and not generally applicable.
-> >>>
-> >>> Then why is it sent to oe-core ML?
-> >>
-> >> As noted in the cover letter, I'm required to by Yocto Project
-> compliance
-> >> requirements.
-> >>
-> >> As indicated LAST time I got scolded, I was told to indicate this in
-> the patch
-> >> summary email -- which I did.
-> >
-> > Sorry I've noticed the cover letter only after the response.
-> >
-> > So it's only because of this requirement from Yocto Project compliance?
->
-> yes.
->
-> > "Have all patches applied to BitBake and OpenEmbedded-Core (if present)
-> > been submitted to the open source community?"
-> >
-> > Shouldn't the wording be change to something like "all applicable
-> > patches" or "all generally useful patches"?
-> >
-> > It seems strange to send project specific patches together with cover
-> > saying that they aren't generally applicable and shouldn't be merged,
-> > just because of this requirement.
->
-> It was done this way to prevent people from cheating and claiming
-> something was
-> (effectively) not useful/applicable/etc when it some special secret sauce.
->
-> Even these patches while not generally applicable could give someone else
-> the
-> idea to duplicate (or improve) on our approach at providing layer specific
-> download layers.
->
-
-More of an implementation question, but presumably you could have your
-setup scripts add the LAYERRECOMMENDS to bblayers.conf, rather than having
-it in your oe-core fork/branch, as an alternative.
+diff --git a/meta/recipes-sato/webkit/webkitgtk_2.14.1.bb b/meta/recipes-sato/webkit/webkitgtk_2.14.2.bb
+similarity index 97%
+rename from meta/recipes-sato/webkit/webkitgtk_2.14.1.bb
+rename to meta/recipes-sato/webkit/webkitgtk_2.14.2.bb
+index 1f2166c..373df17 100644
+--- a/meta/recipes-sato/webkit/webkitgtk_2.14.1.bb
++++ b/meta/recipes-sato/webkit/webkitgtk_2.14.2.bb
+@@ -20,8 +20,8 @@ SRC_URI = "http://www.webkitgtk.org/releases/${BPN}-${PV}.tar.xz \
+            file://0001-Tweak-gtkdoc-settings-so-that-gtkdoc-generation-work.patch \
+            "
+ 
+-SRC_URI[md5sum] = "8d6c60dc41604d3bbd43165a674c07e5"
+-SRC_URI[sha256sum] = "2e2d76c328de65bed6e0e4f096b2720a366654b27fc1af0830ece90bc4b7ceb5"
++SRC_URI[md5sum] = "2fe3cadbc546d93ca68a13756c2be015"
++SRC_URI[sha256sum] = "2edbcbd5105046aea55af9671c4de8deedb5b0e3567c618034d440a760675556"
+ 
+ inherit cmake pkgconfig gobject-introspection perlnative distro_features_check upstream-version-is-even gtk-doc
+ 
 -- 
-Christopher Larson
-clarson at kergoth dot com
-Founder - BitBake, OpenEmbedded, OpenZaurus
-Maintainer - Tslib
-Senior Software Engineer, Mentor Graphics
+2.1.4
 
---94eb2c18fcd481cc44054201c373
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><div class=3D"gmail_quote">On W=
-ed, Nov 23, 2016 at 12:42 PM, Mark Hatle <span dir=3D"ltr">&lt;<a href=3D"m=
-ailto:mark.hatle@windriver.com" target=3D"_blank">mark.hatle@windriver.com<=
-/a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:=
-0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><span class=3D"">On=
- 11/23/16 12:56 PM, Martin Jansa wrote:<br>
-&gt; On Wed, Nov 23, 2016 at 12:38:42PM -0600, Mark Hatle wrote:<br>
-&gt;&gt; On 11/23/16 12:10 PM, Martin Jansa wrote:<br>
-&gt;&gt;&gt; On Wed, Nov 23, 2016 at 11:42:09AM -0600, Mark Hatle wrote:<br=
->
-&gt;&gt;&gt;&gt; This is a Wind River specific patch and not generally appl=
-icable.<br>
-&gt;&gt;&gt;<br>
-&gt;&gt;&gt; Then why is it sent to oe-core ML?<br>
-&gt;&gt;<br>
-&gt;&gt; As noted in the cover letter, I&#39;m required to by Yocto Project=
- compliance<br>
-&gt;&gt; requirements.<br>
-&gt;&gt;<br>
-&gt;&gt; As indicated LAST time I got scolded, I was told to indicate this =
-in the patch<br>
-&gt;&gt; summary email -- which I did.<br>
-&gt;<br>
-&gt; Sorry I&#39;ve noticed the cover letter only after the response.<br>
-&gt;<br>
-&gt; So it&#39;s only because of this requirement from Yocto Project compli=
-ance?<br>
-<br>
-</span>yes.<br>
-<span class=3D""><br>
-&gt; &quot;Have all patches applied to BitBake and OpenEmbedded-Core (if pr=
-esent)<br>
-&gt; been submitted to the open source community?&quot;<br>
-&gt;<br>
-&gt; Shouldn&#39;t the wording be change to something like &quot;all applic=
-able<br>
-&gt; patches&quot; or &quot;all generally useful patches&quot;?<br>
-&gt;<br>
-&gt; It seems strange to send project specific patches together with cover<=
-br>
-&gt; saying that they aren&#39;t generally applicable and shouldn&#39;t be =
-merged,<br>
-&gt; just because of this requirement.<br>
-<br>
-</span>It was done this way to prevent people from cheating and claiming so=
-mething was<br>
-(effectively) not useful/applicable/etc when it some special secret sauce.<=
-br>
-<br>
-Even these patches while not generally applicable could give someone else t=
-he<br>
-idea to duplicate (or improve) on our approach at providing layer specific<=
-br>
-download layers.<br></blockquote><div><br></div><div>More of an implementat=
-ion question, but presumably you could have your setup scripts add the LAYE=
-RRECOMMENDS to bblayers.conf, rather than having it in your oe-core fork/br=
-anch, as an alternative.</div></div>-- <br><div class=3D"gmail_signature" d=
-ata-smartmail=3D"gmail_signature">Christopher Larson<br>clarson at kergoth =
-dot com<br>Founder - BitBake, OpenEmbedded, OpenZaurus<br>Maintainer - Tsli=
-b<br>Senior Software Engineer, Mentor Graphics</div>
-</div></div>
-
---94eb2c18fcd481cc44054201c373--
