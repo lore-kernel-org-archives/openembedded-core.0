@@ -1,53 +1,29 @@
-Return-Path: <patrick.ohly@intel.com>
-Received: from mail-io0-f174.google.com (mail-io0-f174.google.com
-	[209.85.223.174])
-	by mail.openembedded.org (Postfix) with ESMTP id 66F1B71A23
+Return-Path: <rpjday@crashcourse.ca>
+Received: from smtp485.redcondor.net (smtp485.redcondor.net [208.80.204.85])
+	by mail.openembedded.org (Postfix) with ESMTP id 8EC5760068
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 25 Nov 2016 10:33:15 +0000 (UTC)
-Received: by mail-io0-f174.google.com with SMTP id c21so113952643ioj.1
+	Fri, 25 Nov 2016 10:48:46 +0000 (UTC)
+Received: from astoria.ccjclearline.com ([64.235.106.9])
+	by smtp485.redcondor.net ({3be039ea-4351-44b0-a8af-642c38b25916})
+	via TCP (outbound) with ESMTPS id 20161125104842600_0485
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 25 Nov 2016 02:33:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:organization:mime-version:content-transfer-encoding;
-	bh=IV8SqOWIBhFOGq93gi4FrJzVpSfGYVpSrHb8+iOOH0Q=;
-	b=XNZm77QQh5EO8PuThHss/sn61QonDVsAUJqnQuMCkKFk5OL50k0mXWl35b6uK26uq8
-	tGATIlvTjZJSb5vbloLsA6TkCXy1k56qM3VBa45Ti5H3S2eAxFyKU1decY22nWLH7KFg
-	HoUE89LLpOLXGEL2aaoeCO9LVKXDiBmJtYsUbvZBuHsp0ZaXVpY4cuMIeb8UvwQaV474
-	99+TritsnC6FCoqnq9hvQlOO0zodi7DHqUFlAVrBp24NS5W8jo6VNG6MI95LoCY9HEmR
-	Rq9TxOi23ovpMPTTMBq3+nB9Yy+GExSiW1IwMeYpNk+bHvuLQJB3jClgLSAmK+FqSPrG
-	L6OQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:organization:mime-version:content-transfer-encoding;
-	bh=IV8SqOWIBhFOGq93gi4FrJzVpSfGYVpSrHb8+iOOH0Q=;
-	b=C8HuwQDu3a68GXSQaouL5UWVAVWO+/vphOJCXKVizx4eSWXJ/cZM7lfijP4EvcPeKM
-	vNhmGpgRquwzU8Y/ulZJ2NB+PPGWh6B0Rw9S0Iahuh/9FVHo4+sKI9NaAQGYpnmzUVfa
-	Jxfn1EEDjsvwBALekY5Vxby5d2WfOV3voeHchKAIOAMWUK4k9aOLIPUaLIlqxOhLJOen
-	PONP3ejW+BWOFQXRgxfZx7Xe/JPeLDX3k+G8PPuy3oATV95T73/YFTiQDy8TH3GFMvO4
-	P/L1eXyZNaWEFGq/0DNTFJKC30eDk8o0og8W+lhnOejUH/fOO7esTp3dguBbebSTBTxq
-	S+0A==
-X-Gm-Message-State: AKaTC01snaFj7J3MgLarDhwvJuTZ7QlDeOjvL4Du7AUkNUbpfMzCHdCGswj85BLMkEG/coNc
-X-Received: by 10.36.14.21 with SMTP id 21mr6080938ite.79.1480069997293;
-	Fri, 25 Nov 2016 02:33:17 -0800 (PST)
-Received: from pohly-mobl1 (p5DE8CE2A.dip0.t-ipconnect.de. [93.232.206.42])
-	by smtp.gmail.com with ESMTPSA id
-	124sm1556027itl.15.2016.11.25.02.33.14
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 25 Nov 2016 02:33:16 -0800 (PST)
-Message-ID: <1480069993.6873.98.camel@intel.com>
-From: Patrick Ohly <patrick.ohly@intel.com>
-To: Kristian Amlie <kristian.amlie@mender.io>
-Date: Fri, 25 Nov 2016 11:33:13 +0100
-In-Reply-To: <1480068955-17053-1-git-send-email-kristian.amlie@mender.io>
-References: <1480068955-17053-1-git-send-email-kristian.amlie@mender.io>
-Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
-X-Mailer: Evolution 3.12.9-1+b1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v1] wic: Add --exclude-path option to rootfs source plugin.
+	Fri, 25 Nov 2016 10:48:42 +0000
+X-RC-FROM: <rpjday@crashcourse.ca>
+X-RC-RCPT: <openembedded-core@lists.openembedded.org>
+Received: from [216.191.234.70] (port=13925 helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
+	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
+	id 1cAE3Z-0001qN-0r for openembedded-core@lists.openembedded.org;
+	Fri, 25 Nov 2016 05:48:37 -0500
+Date: Fri, 25 Nov 2016 05:47:29 -0500 (EST)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@ca624034.mitel.com
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Message-ID: <alpine.LFD.2.20.1611250534120.31820@ca624034.mitel.com>
+User-Agent: Alpine 2.20 (LFD 67 2015-01-07)
+MIME-Version: 1.0
+X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
+Subject: YAPQ: OE recipe for Perl module Crypt::OpenSSL::X509?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,40 +36,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 25 Nov 2016 10:33:16 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 25 Nov 2016 10:48:46 -0000
+Content-Type: text/plain; charset=US-ASCII
 
-Hi!
 
-Wow, that was fast :-)
+  (side note: if there's a better place to ask about
+finding/tweaking/writing perl modules for an OE image, let me know.
+i've almost cleared my list of essential perl recipes, just a couple
+more i need pretty badly, so a couple more posts coming.)
 
-On Fri, 2016-11-25 at 11:15 +0100, Kristian Amlie wrote:
-> +            if os.stat(real_rootfs_dir).st_dev ==
-> os.stat(cr_workdir).st_dev:
-> +                # Optimization if both directories are on the same
-> file system:
-> +                # copy using hardlinks.
-> +                cp_args = "-al"
-> +            else:
-> +                cp_args = "-a"
-> +            exec_cmd("cp %s %s %s" % (cp_args, real_rootfs_dir,
-> new_rootfs))
+  for my qemuppc image, i need a (obviously cross-compiled version of)
+Crypt::OpenSSL::X509, which i can see at CPAN:
 
-Not a full review (I'll leave that to Ed), just one thing which caught
-my eye: when the rootfs contains xattrs, they get lost here.
+  https://metacpan.org/pod/Crypt::OpenSSL::X509
 
-Use oe.path.copyhardlinktree() instead, it also does the hardlinking
-trick.
+which has absolutely no hope of being cross-compiled based on the
+boilerplate recipe i threw together:
+
+  $ make libcrypt-openssl-x509-perl
+  ... snip ...
+  | cc1: error: include location "/usr/include/openssl" is unsafe for
+  cross-compilation [-Werror=poison-system-directories]
+  | cc1: all warnings being treated as errors
+  | Makefile:346: recipe for target 'X509.o' failed
+  | make: *** [X509.o] Error 1
+  | ERROR: oe_runmake failed
+  ... snip ...
+
+not at all surprising given this in Makefile.PL:
+
+  ... snip ...
+  requires_external_cc();
+    inc '-I/usr/include/openssl -I/usr/local/include/ssl -I/usr/local/ssl/include';
+    libs '-L/usr/lib -L/usr/local/lib -L/usr/local/ssl/lib -lcrypto';
+    ... snip ...
+
+so, clearly, i need to hack that source to support cross-compilation;
+i guess i can find another module to use as a template and take it
+from there, so two questions:
+
+  1) i'm willing to take a stab at rewriting that source to support
+     cross-compiling (for the educational experience), any
+     recommendation for a well-written reference module to use as a
+     starting point?
+
+  2) if someone already *has* such a recipe, hey, i'm more than happy
+     to use it, but i'll still take the time to figure out how to
+     write things like that properly.
+
+  any assistance gratefully accepted. one more perl question coming
+...
+
+rday
+
+p.s. i'm still poring over jens rehsack's guide to cross compiling
+perl:
+
+http://www.netbsd.org/~sno/talks/nrpm/Cross-Compiling-For-Perl-Hackers-Handout.pdf
+
+because, you know, copious free time. :-P
 
 -- 
-Best Regards, Patrick Ohly
 
-The content of this message is my personal opinion only and although
-I am an employee of Intel, the statements I make here in no way
-represent Intel's position on the issue, nor am I authorized to speak
-on behalf of Intel on this matter.
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
 
-
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
 
 
