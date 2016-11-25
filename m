@@ -1,47 +1,20 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f170.google.com (mail-qk0-f170.google.com
-	[209.85.220.170])
-	by mail.openembedded.org (Postfix) with ESMTP id E445B71988
+Return-Path: <jose.a.lamego@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 54D856AC00
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 25 Nov 2016 20:21:00 +0000 (UTC)
-Received: by mail-qk0-f170.google.com with SMTP id x190so87763446qkb.0
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 25 Nov 2016 12:21:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=GdLP8+4GUWnyd1DHnHRpwAFbTq4o36kY5hBlwWsuLXw=;
-	b=N1hFjNWYO7SRxUD2G0NO93ekrCu1kJOV8D5GfKzl0Ot5ZYWsEsBq8E9VryTCvm2fMF
-	hTMxgPYZHQHwZwoI94tFh0yP9cGjQfOkfplLLwAkwFgfHXsW9D4vTvjIwYQ1B6PxlOBp
-	A7j/fYancv4HTPw0ypdk2BjQ4mtUvbKnKjqWTeABQs0ANZabPlRRFG4RFZrqXQwIY50z
-	utJGGYCvKHXmTcuwyy8g+AEP0gTeouoyKTDHPjJI13ba4/2mgrfH2NPpBWLBgCillyqT
-	nwdrxx2gZAu8s4Oj3FSwvjpG8RheJG8RoiTwf2caCjSH6TMywFwWXfbHcQwpPcADI/GJ
-	CXSQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=GdLP8+4GUWnyd1DHnHRpwAFbTq4o36kY5hBlwWsuLXw=;
-	b=CMEQoE64aZ0bNUofnb3dBpjO87gOJgF/i1zpPVuGZvJuJ12moIaP0xNGDUZKvRnr5O
-	ZCYAEm11UGY63lP55gQTxB0Y8tPU7pAafVa8mKMxM8ZidVFjDO8NnkzanKG81SXvk3vq
-	2vLlTlQrXu29tk8IZ0SYhcEHGdk/PZbtOKQs9+1ysnZbmYjqhNFqY7tOtkOGJ0k3xpV1
-	itCWW3bR1x90sBjlNMtOJxudDbvJTXvc+NjpTHhLD2INphkzBJ+oEeo9p/Obr+to2yUX
-	qopbKmxiwKHaDi4iOdeu8nZlGh3E7bNlAsXwjwS8uBcI/qTeEzrsSTJVL3fadwhrvQ99
-	uZuw==
-X-Gm-Message-State: AKaTC00XKs5kyMxEPy4DTShTfOU2oxTQ2vEPdZto7Hk5c520FYt8vEiZu4NSKKfgHh/v+VqNEilS+0CmXtE9ckDK
-X-Received: by 10.55.8.20 with SMTP id 20mr9736307qki.3.1480105261623; Fri, 25
-	Nov 2016 12:21:01 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.140.85.136 with HTTP; Fri, 25 Nov 2016 12:20:41 -0800 (PST)
-In-Reply-To: <1480103880-1772-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
-References: <1480103880-1772-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 25 Nov 2016 20:20:41 +0000
-Message-ID: <CAJTo0LYPcTEjZ50CYyZtSaBZMst6qO29pGgMS2FeAU89fKYTEw@mail.gmail.com>
-To: huangqy <huangqy.fnst@cn.fujitsu.com>
-Cc: Wang Xin <wangxin2015.fnst@cn.fujitsu.com>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] ltp: 20160126 -> 20160920
+	Fri, 25 Nov 2016 20:30:53 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by orsmga101.jf.intel.com with ESMTP; 25 Nov 2016 12:30:55 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.31,696,1473145200"; d="scan'208";a="1090452112"
+Received: from jalamego-mobl2.zpn.intel.com ([10.219.5.31])
+	by fmsmga002.fm.intel.com with ESMTP; 25 Nov 2016 12:30:55 -0800
+From: Jose Lamego <jose.a.lamego@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 25 Nov 2016 14:30:43 -0600
+Message-Id: <1480105843-14729-1-git-send-email-jose.a.lamego@linux.intel.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [PATCH] scripts.send-pull-request: Avoid multiple chain headers
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,37 +27,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 25 Nov 2016 20:21:03 -0000
-Content-Type: multipart/alternative; boundary=001a114c9d60597de6054225dcdb
+X-List-Received-Date: Fri, 25 Nov 2016 20:30:54 -0000
 
---001a114c9d60597de6054225dcdb
-Content-Type: text/plain; charset=UTF-8
+When creating a patch set with cover letter using the
+send-pull-request script, both the "In-Reply-To" and "References"
+headers are appended twice in patch 2 and subsequent.
 
-On 25 November 2016 at 19:58, huangqy <huangqy.fnst@cn.fujitsu.com> wrote:
+This change appends only one header pointing to very first patch
+in series or to cover letter if available.
 
->  meta/recipes-extended/ltp/ltp_20160126.bb          | 118 ------
->
+[Yocto #10718]
 
-You forgot to add the new recipe to the git commit, so all this patch has
-is you deleting the old version.
+Signed-off-by: Jose Lamego <jose.a.lamego@linux.intel.com>
+---
+ scripts/send-pull-request | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Ross
+diff --git a/scripts/send-pull-request b/scripts/send-pull-request
+index 575549d..a660c37 100755
+--- a/scripts/send-pull-request
++++ b/scripts/send-pull-request
+@@ -162,7 +162,7 @@ PATCHES=$(echo $PDIR/*.patch)
+ if [ $AUTO_CL -eq 1 ]; then
+ 	# Send the cover letter to every recipient, both specified as well as
+ 	# harvested. Then remove it from the patches list.
+-	eval "git send-email $GIT_TO $GIT_CC $GIT_EXTRA_CC --confirm=always --no-chain-reply-to --suppress-cc=all $CL"
++	eval "git send-email $GIT_TO $GIT_CC $GIT_EXTRA_CC --confirm=always --no-thread --suppress-cc=all $CL"
+ 	if [ $? -eq 1 ]; then
+ 		echo "ERROR: failed to send cover-letter with automatic recipients."
+ 		exit 1
+-- 
+1.9.1
 
---001a114c9d60597de6054225dcdb
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 25 November 2016 at 19:58, huangqy <span dir=3D"ltr">&lt;<a href=3D"mail=
-to:huangqy.fnst@cn.fujitsu.com" target=3D"_blank">huangqy.fnst@cn.fujitsu.c=
-om</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"marg=
-in:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":1xn"=
- class=3D"a3s aXjCH m1589b6ac543cc43e">=C2=A0meta/recipes-extended/<span cl=
-ass=3D"il">ltp</span>/<a href=3D"http://ltp_20160126.bb" rel=3D"noreferrer"=
- target=3D"_blank">ltp_<wbr>20160126.bb</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 | 118 ------<br></div></blockquote></div><br>You forgot to add the new =
-recipe to the git commit, so all this patch has is you deleting the old ver=
-sion.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">=
-Ross</div></div>
-
---001a114c9d60597de6054225dcdb--
