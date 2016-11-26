@@ -1,30 +1,21 @@
-Return-Path: <Randy.MacLeod@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 5BD4E71B23
+Return-Path: <edwin.plauchu.camacho@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 3704360670
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 26 Nov 2016 00:06:17 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id uAQ06HMr022961
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 25 Nov 2016 16:06:17 -0800 (PST)
-Received: from [172.25.44.2] (172.25.44.2) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.294.0;
-	Fri, 25 Nov 2016 16:06:16 -0800
-To: Ross Burton <ross.burton@intel.com>,
-	<openembedded-core@lists.openembedded.org>, Armin Kuster
-	<akuster808@gmail.com>, "Burton, Ross" <ross.burton@intel.com>
-References: <1479837333-18054-1-git-send-email-ross.burton@intel.com>
-	<1479837333-18054-2-git-send-email-ross.burton@intel.com>
-From: Randy MacLeod <randy.macleod@windriver.com>
-Message-ID: <486c464b-5757-0788-f722-024b98390d8b@windriver.com>
-Date: Fri, 25 Nov 2016 19:06:14 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.4.0
-MIME-Version: 1.0
-In-Reply-To: <1479837333-18054-2-git-send-email-ross.burton@intel.com>
-X-Originating-IP: [172.25.44.2]
-Subject: Re: [PATCH][morty 2/2] Revert "epiphany: remove unnecessary libwnck3 dependency"
+	Sat, 26 Nov 2016 00:09:24 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by fmsmga102.fm.intel.com with ESMTP; 25 Nov 2016 16:09:25 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.31,697,1473145200"; d="scan'208";a="905532336"
+Received: from pianodaemon-contraption.zpn.intel.com ([10.219.128.75])
+	by orsmga003.jf.intel.com with ESMTP; 25 Nov 2016 16:09:25 -0800
+From: Edwin Plauchu <edwin.plauchu.camacho@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 25 Nov 2016 18:10:40 -0600
+Message-Id: <20161126001040.31696-1-edwin.plauchu.camacho@linux.intel.com>
+X-Mailer: git-send-email 2.9.3
+Cc: Edwin Plauchu <edwin.plauchu.camacho@intel.com>
+Subject: [PATCH] ruby: upgrade to 2.3.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,61 +28,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 26 Nov 2016 00:06:19 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sat, 26 Nov 2016 00:09:25 -0000
 
-Armin,
+From: Edwin Plauchu <edwin.plauchu.camacho@intel.com>
 
-Probably a US Thanksgiving glitch but...
+Signed-off-by: Edwin Plauchu <edwin.plauchu.camacho@intel.com>
+---
+ meta/recipes-devtools/ruby/ruby.inc                         | 2 +-
+ meta/recipes-devtools/ruby/{ruby_2.2.5.bb => ruby_2.3.1.bb} | 6 ++++--
+ 2 files changed, 5 insertions(+), 3 deletions(-)
+ rename meta/recipes-devtools/ruby/{ruby_2.2.5.bb => ruby_2.3.1.bb} (86%)
 
-Morty needs both these patches to have an, err build epiphany.
-
-I don't see a commit on morty or the non-existent morty-next.
-What's the plan?
-
-../Randy
-
-
-
-Is there a plan to
-On 2016-11-22 12:55 PM, Ross Burton wrote:
-> This version of epiphany still needs libwnck3.
->
-> This reverts commit fb5c4f181176710a4cfb3c875b5edb4e5aa5df73.
->
-> Signed-off-by: Ross Burton <ross.burton@intel.com>
-> ---
->  meta/recipes-gnome/epiphany/epiphany_3.20.3.bb | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
->
-> diff --git a/meta/recipes-gnome/epiphany/epiphany_3.20.3.bb b/meta/recipes-gnome/epiphany/epiphany_3.20.3.bb
-> index 9115892..eba480b 100644
-> --- a/meta/recipes-gnome/epiphany/epiphany_3.20.3.bb
-> +++ b/meta/recipes-gnome/epiphany/epiphany_3.20.3.bb
-> @@ -2,10 +2,11 @@ SUMMARY = "WebKit based web browser for GNOME"
->  LICENSE = "GPLv2+"
->  LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe"
->
-> -DEPENDS = "libsoup-2.4 webkitgtk gtk+3 iso-codes ca-certificates avahi libnotify gcr \
-> +DEPENDS = "libsoup-2.4 webkitgtk gtk+3 iso-codes ca-certificates avahi libnotify gcr libwnck3 \
->  	   gsettings-desktop-schemas gnome-desktop3 libxml2-native intltool-native"
->
->  inherit gnomebase gsettings distro_features_check upstream-version-is-even
-> +# libwnck3 is x11 only
->  REQUIRED_DISTRO_FEATURES = "x11"
->
->  SRC_URI += "file://0001-yelp.m4-drop-the-check-for-itstool.patch"
-> @@ -21,3 +22,4 @@ do_configure_prepend() {
->  FILES_${PN} += "${datadir}/appdata ${datadir}/dbus-1 ${datadir}/gnome-shell/search-providers"
->  RDEPENDS_${PN} = "iso-codes adwaita-icon-theme"
->  RRECOMMENDS_${PN} = "ca-certificates"
-> +
->
-
-
+diff --git a/meta/recipes-devtools/ruby/ruby.inc b/meta/recipes-devtools/ruby/ruby.inc
+index fde67e9..f38ebb0 100644
+--- a/meta/recipes-devtools/ruby/ruby.inc
++++ b/meta/recipes-devtools/ruby/ruby.inc
+@@ -11,7 +11,7 @@ LIC_FILES_CHKSUM = "\
+     file://COPYING;md5=837b32593517ae48b9c3b5c87a5d288c \
+     file://BSDL;md5=19aaf65c88a40b508d17ae4be539c4b5\
+     file://GPL;md5=b234ee4d69f5fce4486a80fdaf4a4263\
+-    file://LEGAL;md5=c440adb575ba4e6e2344c2630b6a5584\
++    file://LEGAL;md5=78e8a29b8cc93e042990dbbb5572b1e1\
+ "
+ 
+ DEPENDS = "ruby-native zlib openssl tcl libyaml db gdbm readline"
+diff --git a/meta/recipes-devtools/ruby/ruby_2.2.5.bb b/meta/recipes-devtools/ruby/ruby_2.3.1.bb
+similarity index 86%
+rename from meta/recipes-devtools/ruby/ruby_2.2.5.bb
+rename to meta/recipes-devtools/ruby/ruby_2.3.1.bb
+index 5a64582..299383a 100644
+--- a/meta/recipes-devtools/ruby/ruby_2.2.5.bb
++++ b/meta/recipes-devtools/ruby/ruby_2.3.1.bb
+@@ -1,7 +1,7 @@
+ require ruby.inc
+ 
+-SRC_URI[md5sum] = "bd8e349d4fb2c75d90817649674f94be"
+-SRC_URI[sha256sum] = "30c4b31697a4ca4ea0c8db8ad30cf45e6690a0f09687e5d483c933c03ca335e3"
++SRC_URI[md5sum] = "0d896c2e7fd54f722b399f407e48a4c6"
++SRC_URI[sha256sum] = "b87c738cb2032bf4920fef8e3864dc5cf8eae9d89d8d523ce0236945c5797dcd"
+ 
+ # it's unknown to configure script, but then passed to extconf.rb
+ # maybe it's not really needed as we're hardcoding the result with
+@@ -15,6 +15,8 @@ PACKAGECONFIG[valgrind] = "--with-valgrind=yes, --with-valgrind=no, valgrind"
+ PACKAGECONFIG[gpm] = "--with-gmp=yes, --with-gmp=no, gmp"
+ PACKAGECONFIG[ipv6] = ",--enable-wide-getaddrinfo,"
+ 
++EXTRA_AUTORECONF += "--exclude=aclocal"
++
+ EXTRA_OECONF = "\
+     --disable-versioned-paths \
+     --disable-rpath \
 -- 
-# Randy MacLeod. SMTS, Linux, Wind River
-Direct: 613.963.1350 | 350 Terry Fox Drive, Suite 200, Ottawa, ON, 
-Canada, K2K 2W5
+2.9.3
+
 
