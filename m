@@ -1,52 +1,52 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pg0-f67.google.com (mail-pg0-f67.google.com [74.125.83.67])
-	by mail.openembedded.org (Postfix) with ESMTP id E140D719E8
+Received: from mail-pg0-f68.google.com (mail-pg0-f68.google.com [74.125.83.68])
+	by mail.openembedded.org (Postfix) with ESMTP id CD45B71B51
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 26 Nov 2016 15:36:25 +0000 (UTC)
-Received: by mail-pg0-f67.google.com with SMTP id p66so8290410pga.2
+	Sat, 26 Nov 2016 15:39:24 +0000 (UTC)
+Received: by mail-pg0-f68.google.com with SMTP id p66so8295191pga.2
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 26 Nov 2016 07:36:27 -0800 (PST)
+	Sat, 26 Nov 2016 07:39:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=subject:to:references:from:message-id:date:user-agent:mime-version
 	:in-reply-to:content-transfer-encoding;
-	bh=jzL91dqA4l4TER4xC46G2FRlEcgVSZEgbVJDKfqLlwg=;
-	b=KpDN/wRmlhN86+JFiZgircw839PswceJ1hggUl3dvnGV3FpjYRhPxtbFNlYwaX+JJK
-	gXZCa7L+ABSZ0/1lyXMgMX1TYDZktfoiCCafcDEPMJCiPEgJltDhgdYfE1e1FqlsKw29
-	dINfRvMQXLpo9jHArew532++yTeu7i4uHtO8n0HRQWKwAkjbDDHlvtSDqMxBAffnInSF
-	lvHnYt8sbMN6L13s/Mdh4eAgnzzCwcWscfkzjdedbOVoFYsLuFxRuiE3Wmr+Jcv4uxJW
-	BcihPGE4zx5pi5kS7jHZbzNnCG7RMn88RS8jQ9KTrApOBs/+027nQZaEcnswzyGwkqvn
-	RXGA==
+	bh=Od8xY6GGiHc7gr4XBLRaWhrxUMU8LIp6kPfxjFFuPH4=;
+	b=oWu7RGQNAe7Vf3oxO5huNfZrx1rArUdRoncX2wtDq0Z+cxxpngV7m4mPPS0ac0rylI
+	X4kvt7jyqPHgM92clxX/fxbFhBxRtduhjQtDt0MDWnZFrBArm8ArGf0oZ419hDANEyxB
+	+3SuTi/imWjmJwxD3j7yJBK67t6Lrhq9LnC5GXNpYUbwECHlkAMaiAixcLhD4e/IdvhA
+	SX4RNiB+VJeVDnR5TWEETh0Gz4U/pqJhXXKztOc+sm1DQu9mNJE3aKtsIWTQQ9Jeib1N
+	AUqQDNsm2YxFHxBLRUpXDB5leaMl7QZpCAQdeGRnL8hTjw3vJb/UJ3tduxFHNf296EuJ
+	n//A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:subject:to:references:from:message-id:date
 	:user-agent:mime-version:in-reply-to:content-transfer-encoding;
-	bh=jzL91dqA4l4TER4xC46G2FRlEcgVSZEgbVJDKfqLlwg=;
-	b=QbINY7zxAG+0hq7SezF8p8xZKtBH58IwW6/tYRuLNTeMbovpSpapFkIaJ6wcPYtvRv
-	qLiNPEDbddGwjlvNEhQSvaEV+Obhhw2BvpHDQR9N9zM58EAkXB4FJ0gOqsdx5ZAU+TIO
-	odNugcgIMdAGw3VXPd2MR/eCFeot8qdu5LPScWoHe2ymXlZqnG9LJ/IRylHuCMEqG0+V
-	TouMZllgMaCOkImUTWe+mhDoSQ9JjJoME6dszBbrd+WMG4U/Nsehdpx7otTTEonbYMhm
-	aE+bC6ldv8hwPVFZPUvvTUOlUOMutBAWWg3nFtOs0/fb2NuJR//YCSS+YBQSk3+UXdTN
-	6V1A==
-X-Gm-Message-State: AKaTC03+YCeEwEnwZmPGagq5BCQzwm8TrjZwGFObs86ZJLXCcLF3+h187cPF9g2bVsSOSw==
-X-Received: by 10.84.209.143 with SMTP id y15mr29308397plh.96.1480174586834;
-	Sat, 26 Nov 2016 07:36:26 -0800 (PST)
+	bh=Od8xY6GGiHc7gr4XBLRaWhrxUMU8LIp6kPfxjFFuPH4=;
+	b=jZ7MWTlRkInUKTR6Guy7NRMj7qqtWg9rR5yZ2XkJ+uVIXSQE2jKR1SLNl7EuvVSjVZ
+	LnaDJ9mtliQKreQX91EDnY/ze0tpYH34V3tq3ysIYjg/GYb06arpLGH0tJFSrVta8xhT
+	kkwpisqd9KfTZTTdRW7z84dU7V4JojtO5gg+j2P6xT7xB3xPscydWozD7qjKTuqsnIhI
+	RlV0kOTfdzT9KlGAM5shHTd6DqRi1pqRj+9Z1L5x0+IUs3n2lNIXAUaCuy/xWgR9lpx4
+	NnJmZyv0skz+oRh4hBpf7rgQmZsJmJ9mhvoxw/0rKMkjJseVmdmx1ppE2JH2XXRvzQFQ
+	DyOw==
+X-Gm-Message-State: AKaTC00zM34dNVjRdq/dukPM2dSVPIXKP4PsgV6JkX4pyt7UVibPdhIA0smtWP5/j+lsUQ==
+X-Received: by 10.99.226.3 with SMTP id q3mr24366983pgh.37.1480174766419;
+	Sat, 26 Nov 2016 07:39:26 -0800 (PST)
 Received: from ?IPv6:2601:202:4001:9ea0:bcc3:6b30:3fc9:245b?
 	([2601:202:4001:9ea0:bcc3:6b30:3fc9:245b])
 	by smtp.googlemail.com with ESMTPSA id
-	b80sm75655810pfe.52.2016.11.26.07.36.23
+	y2sm75693409pff.82.2016.11.26.07.39.25
+	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sat, 26 Nov 2016 07:36:26 -0800 (PST)
-To: =?UTF-8?Q?Daniel_D=c3=adaz?= <daniel.diaz@linaro.org>,
-	openembedded-core@lists.openembedded.org
-References: <1480025371-5354-1-git-send-email-daniel.diaz@linaro.org>
+	Sat, 26 Nov 2016 07:39:26 -0800 (PST)
+To: openembedded-core@lists.openembedded.org
+References: <1480095303-15753-1-git-send-email-ross.burton@intel.com>
 From: akuster808 <akuster808@gmail.com>
-Message-ID: <1372f938-f9bf-3117-c4b8-2cbec65b2da1@gmail.com>
-Date: Sat, 26 Nov 2016 07:36:23 -0800
+Message-ID: <fd2535b9-5761-6024-357b-2b0442ed59ea@gmail.com>
+Date: Sat, 26 Nov 2016 07:39:25 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
 	Thunderbird/45.4.0
 MIME-Version: 1.0
-In-Reply-To: <1480025371-5354-1-git-send-email-daniel.diaz@linaro.org>
-Subject: Re: [PATCH][morty] weston: Add no-input-device patch to 1.11.0.
+In-Reply-To: <1480095303-15753-1-git-send-email-ross.burton@intel.com>
+Subject: Re: [PATCH][morty] lib/oe/qa: handle binaries with segments outside the first 4kb
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,176 +59,171 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 26 Nov 2016 15:36:26 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Sat, 26 Nov 2016 15:39:25 -0000
+Content-Type: text/plain; charset=windows-1252
+Content-Transfer-Encoding: 7bit
 
 
 
-On 11/24/2016 02:09 PM, Daniel Díaz wrote:
-> The included patch, backported from Weston master (and OE-Core
-> master since Weston 1.11.1, b6864b1), allows it to run without
-> any input device at launch. An ini option is introduced for
-> this purpose, so there is no behavioral change.
+On 11/25/2016 09:35 AM, Ross Burton wrote:
+> The ELF parser was assuming that the segment tables are in the first 4kb of the
+> binary.  Whilst this generally appears to be the case, there have been instances
+> where the segment table is elsewhere (offset 2MB, in this sample I have).  Solve
+> this problem by mmap()ing the file instead.
+> 
+> Also clean up the code a little whilst chasing the problem.
 
 merged to staging.
 Armin
 > 
-> Related change in weston.ini:
->   [core]
->   require-input=true
-> 
-> Default is true; setting it false allows Weston to run
-> without a keyboard or mouse, which is handy for automated
-> environments.
-> 
-> Signed-off-by: Daniel Díaz <daniel.diaz@linaro.org>
+> Signed-off-by: Ross Burton <ross.burton@intel.com>
 > ---
->  ...on-1.11-config-option-for-no-input-device.patch | 123 +++++++++++++++++++++
->  meta/recipes-graphics/wayland/weston_1.11.0.bb     |   1 +
->  2 files changed, 124 insertions(+)
->  create mode 100644 meta/recipes-graphics/wayland/weston/weston-1.11-config-option-for-no-input-device.patch
+>  meta/lib/oe/qa.py | 82 +++++++++++++++++++++++++++----------------------------
+>  1 file changed, 41 insertions(+), 41 deletions(-)
 > 
-> diff --git a/meta/recipes-graphics/wayland/weston/weston-1.11-config-option-for-no-input-device.patch b/meta/recipes-graphics/wayland/weston/weston-1.11-config-option-for-no-input-device.patch
-> new file mode 100644
-> index 0000000..6f5ad66
-> --- /dev/null
-> +++ b/meta/recipes-graphics/wayland/weston/weston-1.11-config-option-for-no-input-device.patch
-> @@ -0,0 +1,123 @@
-> +From bbf2e6ebbd9c051775f43e1e3c3a2f41322342e8 Mon Sep 17 00:00:00 2001
-> +From: =?UTF-8?q?Daniel=20D=C3=ADaz?= <daniel.diaz@linaro.org>
-> +Date: Fri, 21 Oct 2016 14:03:13 -0500
-> +Subject: [PATCH] Add configuration option for no input device.
-> +MIME-Version: 1.0
-> +Content-Type: text/plain; charset=UTF-8
-> +Content-Transfer-Encoding: 8bit
+> diff --git a/meta/lib/oe/qa.py b/meta/lib/oe/qa.py
+> index fbe719d..22d76dc 100644
+> --- a/meta/lib/oe/qa.py
+> +++ b/meta/lib/oe/qa.py
+> @@ -1,4 +1,4 @@
+> -import os, struct
+> +import os, struct, mmap
+>  
+>  class NotELFFileError(Exception):
+>      pass
+> @@ -23,9 +23,9 @@ class ELFFile:
+>      EV_CURRENT   = 1
+>  
+>      # possible values for EI_DATA
+> -    ELFDATANONE  = 0
+> -    ELFDATA2LSB  = 1
+> -    ELFDATA2MSB  = 2
+> +    EI_DATA_NONE  = 0
+> +    EI_DATA_LSB  = 1
+> +    EI_DATA_MSB  = 2
+>  
+>      PT_INTERP = 3
+>  
+> @@ -34,51 +34,46 @@ class ELFFile:
+>              #print "'%x','%x' %s" % (ord(expectation), ord(result), self.name)
+>              raise NotELFFileError("%s is not an ELF" % self.name)
+>  
+> -    def __init__(self, name, bits = 0):
+> +    def __init__(self, name):
+>          self.name = name
+> -        self.bits = bits
+>          self.objdump_output = {}
+>  
+> -    def open(self):
+> -        if not os.path.isfile(self.name):
+> -            raise NotELFFileError("%s is not a normal file" % self.name)
+> +    # Context Manager functions to close the mmap explicitly
+> +    def __enter__(self):
+> +        return self
 > +
-> +[Backported from master, 75b7197.]
+> +    def __exit__(self, exc_type, exc_value, traceback):
+> +        self.data.close()
+>  
+> +    def open(self):
+>          with open(self.name, "rb") as f:
+> -            # Read 4k which should cover most of the headers we're after
+> -            self.data = f.read(4096)
+> +            try:
+> +                self.data = mmap.mmap(f.fileno(), 0, access=mmap.ACCESS_READ)
+> +            except ValueError:
+> +                # This means the file is empty
+> +                raise NotELFFileError("%s is empty" % self.name)
+>  
+> +        # Check the file has the minimum number of ELF table entries
+>          if len(self.data) < ELFFile.EI_NIDENT + 4:
+>              raise NotELFFileError("%s is not an ELF" % self.name)
+>  
+> +        # ELF header
+>          self.my_assert(self.data[0], 0x7f)
+>          self.my_assert(self.data[1], ord('E'))
+>          self.my_assert(self.data[2], ord('L'))
+>          self.my_assert(self.data[3], ord('F'))
+> -        if self.bits == 0:
+> -            if self.data[ELFFile.EI_CLASS] == ELFFile.ELFCLASS32:
+> -                self.bits = 32
+> -            elif self.data[ELFFile.EI_CLASS] == ELFFile.ELFCLASS64:
+> -                self.bits = 64
+> -            else:
+> -                # Not 32-bit or 64.. lets assert
+> -                raise NotELFFileError("ELF but not 32 or 64 bit.")
+> -        elif self.bits == 32:
+> -            self.my_assert(self.data[ELFFile.EI_CLASS], ELFFile.ELFCLASS32)
+> -        elif self.bits == 64:
+> -            self.my_assert(self.data[ELFFile.EI_CLASS], ELFFile.ELFCLASS64)
+> +        if self.data[ELFFile.EI_CLASS] == ELFFile.ELFCLASS32:
+> +            self.bits = 32
+> +        elif self.data[ELFFile.EI_CLASS] == ELFFile.ELFCLASS64:
+> +            self.bits = 64
+>          else:
+> -            raise NotELFFileError("Must specify unknown, 32 or 64 bit size.")
+> +            # Not 32-bit or 64.. lets assert
+> +            raise NotELFFileError("ELF but not 32 or 64 bit.")
+>          self.my_assert(self.data[ELFFile.EI_VERSION], ELFFile.EV_CURRENT)
+>  
+> -        self.sex = self.data[ELFFile.EI_DATA]
+> -        if self.sex == ELFFile.ELFDATANONE:
+> -            raise NotELFFileError("self.sex == ELFDATANONE")
+> -        elif self.sex == ELFFile.ELFDATA2LSB:
+> -            self.sex = "<"
+> -        elif self.sex == ELFFile.ELFDATA2MSB:
+> -            self.sex = ">"
+> -        else:
+> -            raise NotELFFileError("Unknown self.sex")
+> +        self.endian = self.data[ELFFile.EI_DATA]
+> +        if self.endian not in (ELFFile.EI_DATA_LSB, ELFFile.EI_DATA_MSB):
+> +            raise NotELFFileError("Unexpected EI_DATA %x" % self.endian)
+>  
+>      def osAbi(self):
+>          return self.data[ELFFile.EI_OSABI]
+> @@ -90,16 +85,20 @@ class ELFFile:
+>          return self.bits
+>  
+>      def isLittleEndian(self):
+> -        return self.sex == "<"
+> +        return self.endian == ELFFile.EI_DATA_LSB
+>  
+>      def isBigEndian(self):
+> -        return self.sex == ">"
+> +        return self.endian == ELFFile.EI_DATA_MSB
 > +
-> +As it has been discussed in the past [1], running Weston
-> +without any input device at launch might be beneficial for
-> +some use cases.
+> +    def getStructEndian(self):
+> +        return {ELFFile.EI_DATA_LSB: "<",
+> +                ELFFile.EI_DATA_MSB: ">"}[self.endian]
+>  
+>      def getShort(self, offset):
+> -        return struct.unpack_from(self.sex+"H", self.data, offset)[0]
+> +        return struct.unpack_from(self.getStructEndian() + "H", self.data, offset)[0]
+>  
+>      def getWord(self, offset):
+> -        return struct.unpack_from(self.sex+"i", self.data, offset)[0]
+> +        return struct.unpack_from(self.getStructEndian() + "i", self.data, offset)[0]
+>  
+>      def isDynamic(self):
+>          """
+> @@ -118,7 +117,7 @@ class ELFFile:
+>  
+>      def machine(self):
+>          """
+> -        We know the sex stored in self.sex and we
+> +        We know the endian stored in self.endian and we
+>          know the position
+>          """
+>          return self.getShort(ELFFile.E_MACHINE)
+> @@ -166,6 +165,7 @@ def elf_machine_to_string(machine):
+>  
+>  if __name__ == "__main__":
+>      import sys
+> -    elf = ELFFile(sys.argv[1])
+> -    elf.open()
+> -    print(elf.isDynamic())
 > +
-> +Certainly, it's best for the vast majority of users (and
-> +the project) to require an input device to be present, as
-> +to avoid frustration and hassle, but for those brave souls
-> +that so prefer, this patch lets them run without any input
-> +device at all.
-> +
-> +This introduces a simple configuration in weston.ini:
-> +  [core]
-> +  require-input=true
-> +
-> +True is the default, so no behavioral change is introduced.
-> +
-> +[1] https://lists.freedesktop.org/archives/wayland-devel/2015-November/025193.html
-> +
-> +Signed-off-by: Daniel Díaz <daniel.diaz@linaro.org>
-> +---
-> + man/weston.ini.man  | 5 +++++
-> + src/compositor.h    | 4 ++++
-> + src/libinput-seat.c | 6 ++++++
-> + src/main.c          | 5 +++++
-> + weston.ini.in       | 1 +
-> + 5 files changed, 21 insertions(+)
-> +
-> +diff --git a/man/weston.ini.man b/man/weston.ini.man
-> +index d7c4a6f..c7d0f01 100644
-> +--- a/man/weston.ini.man
-> ++++ b/man/weston.ini.man
-> +@@ -169,6 +169,11 @@ time, the one specified in the command-line will be used. On the other
-> + hand, if none of these sets the value, default idle timeout will be
-> + set to 300 seconds.
-> + .RS
-> ++.PP
-> ++.RE
-> ++.TP 7
-> ++.BI "require-input=" true
-> ++require an input device for launch
-> + 
-> + .SH "LIBINPUT SECTION"
-> + The
-> +diff --git a/src/compositor.h b/src/compositor.h
-> +index 0bbf458..476b650 100644
-> +--- a/src/compositor.h
-> ++++ b/src/compositor.h
-> +@@ -803,6 +803,10 @@ struct weston_compositor {
-> + 
-> + 	void *user_data;
-> + 	void (*exit)(struct weston_compositor *c);
-> ++
-> ++	/* Whether to let the compositor run without any input device. */
-> ++	bool require_input;
-> ++
-> + };
-> + 
-> + struct weston_buffer {
-> +diff --git a/src/libinput-seat.c b/src/libinput-seat.c
-> +index 8ce0ee0..e1fdcf0 100644
-> +--- a/src/libinput-seat.c
-> ++++ b/src/libinput-seat.c
-> +@@ -255,6 +255,12 @@ udev_input_enable(struct udev_input *input)
-> + 			devices_found = 1;
-> + 	}
-> + 
-> ++	if (devices_found == 0 && !c->require_input) {
-> ++		weston_log("warning: no input devices found, but none required "
-> ++			   "as per configuration.\n");
-> ++		return 0;
-> ++	}
-> ++
-> + 	if (devices_found == 0) {
-> + 		weston_log(
-> + 			"warning: no input devices on entering Weston. "
-> +diff --git a/src/main.c b/src/main.c
-> +index 3279ac6..09905ea 100644
-> +--- a/src/main.c
-> ++++ b/src/main.c
-> +@@ -1298,6 +1298,7 @@ int main(int argc, char *argv[])
-> + 	struct wl_client *primary_client;
-> + 	struct wl_listener primary_client_destroyed;
-> + 	struct weston_seat *seat;
-> ++	int require_input;
-> + 
-> + 	const struct weston_option core_options[] = {
-> + 		{ WESTON_OPTION_STRING, "backend", 'B', &backend },
-> +@@ -1373,6 +1374,10 @@ int main(int argc, char *argv[])
-> + 	if (weston_compositor_init_config(ec, config) < 0)
-> + 		goto out;
-> + 
-> ++	weston_config_section_get_bool(section, "require-input",
-> ++				       &require_input, true);
-> ++	ec->require_input = require_input;
-> ++
-> + 	if (load_backend(ec, backend, &argc, argv, config) < 0) {
-> + 		weston_log("fatal: failed to create compositor backend\n");
-> + 		goto out;
-> +diff --git a/weston.ini.in b/weston.ini.in
-> +index 14a4c0c..d837fb5 100644
-> +--- a/weston.ini.in
-> ++++ b/weston.ini.in
-> +@@ -2,6 +2,7 @@
-> + #modules=xwayland.so,cms-colord.so
-> + #shell=desktop-shell.so
-> + #gbm-format=xrgb2101010
-> ++#require-input=true
-> + 
-> + [shell]
-> + background-image=/usr/share/backgrounds/gnome/Aqua.jpg
-> +-- 
-> +1.9.1
-> +
-> diff --git a/meta/recipes-graphics/wayland/weston_1.11.0.bb b/meta/recipes-graphics/wayland/weston_1.11.0.bb
-> index 3ad309d..9740ce9 100644
-> --- a/meta/recipes-graphics/wayland/weston_1.11.0.bb
-> +++ b/meta/recipes-graphics/wayland/weston_1.11.0.bb
-> @@ -14,6 +14,7 @@ SRC_URI = "https://wayland.freedesktop.org/releases/${BPN}-${PV}.tar.xz \
->             file://xwayland.weston-start \
->             file://make-weston-launch-exit-for-unrecognized-option.patch \
->             file://0001-weston-launch-Provide-a-default-version-that-doesn-t.patch \
-> +           file://weston-1.11-config-option-for-no-input-device.patch \
->  "
->  SRC_URI[md5sum] = "bc6f90a2039163804aecfa663b69c4c2"
->  SRC_URI[sha256sum] = "05e086e9f186a06843b9f7a5e1abf19347b1a6e4be26d7e74927abc17b6b7125"
+> +    with ELFFile(sys.argv[1]) as elf:
+> +        elf.open()
+> +        print(elf.isDynamic())
 > 
 
