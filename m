@@ -1,33 +1,24 @@
-Return-Path: <obi@opendreambox.org>
-Received: from mail.dream-property.net (mail.dream-property.net
-	[82.149.226.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 868A971B13
+Return-Path: <pab@pabigot.com>
+X-Greylist: delayed 441 seconds by postgrey-1.34 at layers.openembedded.org;
+	Sun, 27 Nov 2016 00:25:39 UTC
+Received: from p3plsmtpa07-06.prod.phx3.secureserver.net
+	(p3plsmtpa07-06.prod.phx3.secureserver.net [173.201.192.235])
+	by mail.openembedded.org (Postfix) with ESMTP id 5C81171A79
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 26 Nov 2016 20:59:20 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by mail.dream-property.net (Postfix) with ESMTP id 7DC7531C143A;
-	Sat, 26 Nov 2016 21:59:20 +0100 (CET)
-X-Virus-Scanned: Debian amavisd-new at mail.dream-property.net
-Received: from mail.dream-property.net ([127.0.0.1])
-	by localhost (mail.dream-property.net [127.0.0.1]) (amavisd-new,
-	port 10024)
-	with LMTP id PoYgevM80ONZ; Sat, 26 Nov 2016 21:59:18 +0100 (CET)
-Received: from [172.22.22.61] (55d45673.access.ecotel.net [85.212.86.115])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by mail.dream-property.net (Postfix) with ESMTPSA id C6F8C31C13C7;
-	Sat, 26 Nov 2016 21:59:17 +0100 (CET)
-To: Mark Asselstine <mark.asselstine@windriver.com>,
-	openembedded-core@lists.openembedded.org
-References: <1480047434-20600-1-git-send-email-mark.asselstine@windriver.com>
-From: Andreas Oberritter <obi@opendreambox.org>
-Message-ID: <b0072da0-ee70-0b57-7cf8-e1e800a591bc@opendreambox.org>
-Date: Sat, 26 Nov 2016 21:59:17 +0100
+	Sun, 27 Nov 2016 00:25:39 +0000 (UTC)
+Received: from [192.168.65.22] ([75.72.225.8]) by :SMTPAUTH: with SMTP
+	id AnACcK1Q4Ycl2AnACcdmZA; Sat, 26 Nov 2016 17:17:49 -0700
+To: OE-core <openembedded-core@lists.openembedded.org>
+From: "Peter A. Bigot" <pab@pabigot.com>
+Organization: Peter Bigot Consulting, LLC
+Message-ID: <b3516f43-75eb-2fa5-31c6-ad5e3a57d032@pabigot.com>
+Date: Sat, 26 Nov 2016 18:17:48 -0600
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
 	Thunderbird/45.4.0
 MIME-Version: 1.0
-In-Reply-To: <1480047434-20600-1-git-send-email-mark.asselstine@windriver.com>
-Subject: Re: [PATCH] systemd.bbclass: don't block on service restart
+X-CMAE-Envelope: MS4wfI2BIh51NLIKLbQ8ru72+Mn73yGwo+LPHShslGJv1OclV7jslEy/ePA2Ggw4xxUUv/sd1gGpuwCEqRWSNdAJjdNA6lcJ8sd0iHEep3ATrLoq2FsJgNbY
+	V1PAlTnC000JHssFt+U6WILJCgdJ3fjsP8XcEPbjDsYuPHO/G0l9HyI1jcngVfUDaDXt1G5s4Sdj8g==
+Subject: npm.bbclass support for deep native modules?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,57 +31,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 26 Nov 2016 20:59:21 -0000
-Content-Type: text/plain; charset=windows-1252
+X-List-Received-Date: Sun, 27 Nov 2016 00:25:40 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 25.11.2016 05:17, Mark Asselstine wrote:
-> The current class works fine when a recipe uses SYSTEMD_AUTO_ENABLE
-> 'enable' and has no on device pkg_postinst(), ie when the postinst is
-> run as part of rootfs creation.  However, when there is a component of
-> pkg_postinst() that is run on device the 'systemctl restart' is run as
-> part of the run_postinsts.service at boot. This results in the boot
-> spinning indefinitely with:
-> 
-> [ *** ] A start job is running for Run pending postinsts (7s / no limit)
-> 
-> The issue could potentially be that the packages service has an
-> 'After' clause which comes later in the boot, beyond
-> run_postinsts.service, creating a chicken before the egg
-> scenario. Even service files without an 'After' clause cause this
-> situation however. Despite this not being the cause of the issue this
-> fix will prevent this scenario from happenning.
-> 
-> Using strace we are able to find that during boot, when
-> run_postinsts.service is running attempting to start or restart any
-> service will result in the call get stuck on poll(). Since the
-> run_postinsts.service does not monitor the outcome of the call to
-> restart we can work around this by using '--no-block'.
-> 
-> Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
+I'm using the current head of morty and trying to get a handle on the
+new nodejs support in OE.
 
-I was going to submit the exact same patch soon. It also helps to
-complete system updates if a service fails to restart properly.
+I'm failing to build a recipe for statsd.  Starting with this:
 
-Acked-by: Andreas Oberritter <obi@opendreambox.org>
+     devtool add 'npm://registry.npmjs.org;name=statsd;version=0.8.0'
+     bitbake statsd
 
-> ---
->  meta/classes/systemd.bbclass | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/meta/classes/systemd.bbclass b/meta/classes/systemd.bbclass
-> index 7e51ed6..99a08a0 100644
-> --- a/meta/classes/systemd.bbclass
-> +++ b/meta/classes/systemd.bbclass
-> @@ -36,7 +36,7 @@ if type systemctl >/dev/null 2>/dev/null; then
->  	systemctl $OPTS ${SYSTEMD_AUTO_ENABLE} ${SYSTEMD_SERVICE}
->  
->  	if [ -z "$D" -a "${SYSTEMD_AUTO_ENABLE}" = "enable" ]; then
-> -		systemctl restart ${SYSTEMD_SERVICE}
-> +		systemctl --no-block restart ${SYSTEMD_SERVICE}
->  	fi
->  fi
->  }
-> 
+produces an error related to the modern-syslog dependency:
+
+  DEBUG: Executing shell function do_compile
+| npm ERR! Linux 4.4.0-47-generic
+| npm ERR! argv 
+"/mnt/devel/oe/omap/build-bb-morty-master/tmp/sysroots/x86_64-linux/usr/bin/node" 
+"/mnt/devel/oe/omap/build-bb-morty-master/tmp/sysroots/x86_64-linux/usr/bin/npm" 
+"--arch=arm" "--target_arch=arm" "--production" "--no-registry" "install"
+| npm ERR! node v4.6.1
+| npm ERR! npm  v2.15.9
+|
+| npm ERR! Registry not defined and registry files not found: 
+"/mnt/devel/oe/omap/build-bb-morty-master/tmp/work/cortexa8hf-neon-poky-linux-gnueabi/statsd/0.8.0-r0/npm_cache/noregistry/modern-syslog/.cache.json", 
+"/mnt/devel/oe/omap/build-bb-morty-master/tmp/work/cortexa8hf-neon-poky-linux-gnueabi/statsd/0.8.0-r0/npm_cache/modern-syslog/.cache.json".
+
+modern-syslog 1.1.2 needs node-gyp to build a native component and
+https://wiki.yoctoproject.org/wiki/TipsAndTricks/NPM notes that devtool
+can't detect such things.  Doing this works fine to build that package:
+
+     devtool add 'npm://registry.npmjs.org;name=modern-syslog;version=1.1.2'
+     bitbake modern-syslog
+
+but I'm having no luck getting "bitbake statsd" to find the result.
+I've added:
+
+     DEPENDS = "modern-syslog"
+
+to statsd_0.8.0.bb but that isn't helping.  It looks like I need some
+way to have the recipe install the prepared modern-syslog into the cache
+(or globally?) before baking statsd, but since the cache gets cleared in
+npm_do_compile() it's not clear how to make that happen.
+
+I'm very rusty with OE (two years away), so am I missing something or is
+this just beyond what the bitbake infrastructure can currently handle?
+If so, can somebody suggest a way to hand-patch the recipe, or outline
+how npm.bbclass might be extended to support this?
+
+Thanks.
+
+Peter
 
 
