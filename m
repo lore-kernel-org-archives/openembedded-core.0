@@ -1,24 +1,31 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 622E471A92
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id BA4C76B6F7
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Nov 2016 13:37:40 +0000 (UTC)
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-	by orsmga102.jf.intel.com with ESMTP; 28 Nov 2016 05:37:42 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.31,564,1473145200"; d="scan'208";a="36412297"
-Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by fmsmga005.fm.intel.com with ESMTP; 28 Nov 2016 05:37:41 -0800
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 28 Nov 2016 15:34:29 +0200
-Message-Id: <17f8337b613b13fdbd0cf8e3a4b8f9bc03ca672f.1480333940.git.alexander.kanavin@linux.intel.com>
-X-Mailer: git-send-email 2.10.2
-In-Reply-To: <cover.1480333940.git.alexander.kanavin@linux.intel.com>
-References: <cover.1480333940.git.alexander.kanavin@linux.intel.com>
-In-Reply-To: <cover.1480333940.git.alexander.kanavin@linux.intel.com>
-References: <cover.1480333940.git.alexander.kanavin@linux.intel.com>
-Subject: [PATCH 18/18] ffmpeg: update to 3.2.1
+	Mon, 28 Nov 2016 13:46:49 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	uASDjb55023200; Mon, 28 Nov 2016 13:45:45 GMT
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id WZXiNqWR14m5; Mon, 28 Nov 2016 13:45:45 +0000 (GMT)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	uASDjgNQ023207
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Mon, 28 Nov 2016 13:45:43 GMT
+Message-ID: <1480340742.28508.172.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patrick Ohly <patrick.ohly@intel.com>
+Date: Mon, 28 Nov 2016 13:45:42 +0000
+In-Reply-To: <1480339031.6873.181.camel@intel.com>
+References: <alpine.LFD.2.20.1611280544090.16875@localhost.localdomain>
+	<1480334664.28508.167.camel@linuxfoundation.org>
+	<1480339031.6873.181.camel@intel.com>
+X-Mailer: Evolution 3.18.5.2-0ubuntu3 
+Mime-Version: 1.0
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: ASSUME_PROVIDED versus SANITY_REQUIRED_UTILITIES versus "The Build Host Packages"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,33 +38,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 28 Nov 2016 13:37:40 -0000
+X-List-Received-Date: Mon, 28 Nov 2016 13:46:52 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
----
- meta/recipes-multimedia/ffmpeg/{ffmpeg_3.2.bb => ffmpeg_3.2.1.bb} | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-multimedia/ffmpeg/{ffmpeg_3.2.bb => ffmpeg_3.2.1.bb} (97%)
+On Mon, 2016-11-28 at 14:17 +0100, Patrick Ohly wrote:
+> I recently ran into a third usage of "file-native": swupd-server
+> links against libmagic from file and therefore has a DEPENDS =
+> "file". But building swupd-server-native didn't actually build file
+> because of ASSUME_PROVIDED and because I hadn't installed libmagic-
+> dev on my build host, the build was failing.
+> 
+> Is there a way to declare that ASSUME_PROVIDED does not apply to this
+> case? It sounds like there is a way (based on your comments about
+> building file-native when building file and the libbz2-devel
+> example), but it did not become clear to me how that works in
+> practice.
 
-diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_3.2.bb b/meta/recipes-multimedia/ffmpeg/ffmpeg_3.2.1.bb
-similarity index 97%
-rename from meta/recipes-multimedia/ffmpeg/ffmpeg_3.2.bb
-rename to meta/recipes-multimedia/ffmpeg/ffmpeg_3.2.1.bb
-index 1091952..86279f2 100644
---- a/meta/recipes-multimedia/ffmpeg/ffmpeg_3.2.bb
-+++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_3.2.1.bb
-@@ -16,8 +16,8 @@ LIC_FILES_CHKSUM = "file://COPYING.GPLv2;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
- SRC_URI = "https://www.ffmpeg.org/releases/${BP}.tar.xz \
-            file://mips64_cpu_detection.patch \
-           "
--SRC_URI[md5sum] = "3c065fb5baae1aeb1494a09ac984b2de"
--SRC_URI[sha256sum] = "88f70c1b8cab108f494ecbab5ba302cdb35d59a84cea88008b5fe49be068d5da"
-+SRC_URI[md5sum] = "10eaee7cca7d1e745eec6e4217772361"
-+SRC_URI[sha256sum] = "1ecf93da5d601e6fb3096c65cbe33fdaf042d690a3c50c4efadb0a9b74f2badf"
- 
- # Build fails when thumb is enabled: https://bugzilla.yoctoproject.org/show_bug.cgi?id=7717
- ARM_INSTRUCTION_SET = "arm"
--- 
-2.10.2
+If you look at the file recipe, you'll see:
 
+DEPENDS = "zlib file-replacement-native"
+
+
+> Or is it just a case of educating the developer that libmagic-dev
+> needs to be installed on the build host in addition to the file
+> command?
+
+No, DEPENDS on file-replacement-native.
+
+Cheers,
+
+Richard
 
