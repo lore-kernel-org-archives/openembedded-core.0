@@ -1,24 +1,20 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 5A28571A84
+	by mail.openembedded.org (Postfix) with ESMTP id 4C75D71A7B
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Nov 2016 13:37:24 +0000 (UTC)
+	Mon, 28 Nov 2016 13:37:22 +0000 (UTC)
 Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-	by orsmga102.jf.intel.com with ESMTP; 28 Nov 2016 05:37:25 -0800
+	by orsmga102.jf.intel.com with ESMTP; 28 Nov 2016 05:37:24 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.31,564,1473145200"; d="scan'208";a="36412228"
+X-IronPort-AV: E=Sophos;i="5.31,564,1473145200"; d="scan'208";a="36412220"
 Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by fmsmga005.fm.intel.com with ESMTP; 28 Nov 2016 05:37:25 -0800
+	by fmsmga005.fm.intel.com with ESMTP; 28 Nov 2016 05:37:23 -0800
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 28 Nov 2016 15:34:13 +0200
-Message-Id: <05e7f7590faa7e2c2b98911f7f6213fca82b7851.1480333940.git.alexander.kanavin@linux.intel.com>
+Date: Mon, 28 Nov 2016 15:34:11 +0200
+Message-Id: <cover.1480333940.git.alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.10.2
-In-Reply-To: <cover.1480333940.git.alexander.kanavin@linux.intel.com>
-References: <cover.1480333940.git.alexander.kanavin@linux.intel.com>
-In-Reply-To: <cover.1480333940.git.alexander.kanavin@linux.intel.com>
-References: <cover.1480333940.git.alexander.kanavin@linux.intel.com>
-Subject: [PATCH 02/18] sysprof: update to 3.22.2
+Subject: [PATCH 00/18] Recipe version updates
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,131 +29,86 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Mon, 28 Nov 2016 13:37:24 -0000
 
-Drop 0001-Forward-port-mips-arm-memory-barrier-patches.patch; upstream
-is using standard C11 facilities for this now.
+Various stuff that has piled up over the past few weeks.
+Epiphany update requires also webkitgtk update,
+so that patch is included, just in case.
 
-Drop 0001-callgraph-Use-U64_TO_POINTER.patch; it has been merged upstream.
+The following changes since commit 12a0ee049e453b6d0d2ce2f3fa981d1b6e02bd78:
 
-Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
----
+  dev-manual: Added note about RPM not dealing with post-install (2016-11-23 11:10:35 +0000)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib akanavin/package-version-updates
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=akanavin/package-version-updates
+
+Alexander Kanavin (17):
+  icu: update to 58.1
+  sysprof: update to 3.22.2
+  btrfs-tools: update to 4.8.4
+  ca-certificates: upgrade to 20161102
+  lighttpd: upgrade to 1.4.43
+  cmake: update to 3.7.0
+  gnome-desktop3: update to 3.22.2
+  upstream-version-is-even.bbclass: ensure that the full version is
+    matched.
+  gnutls: update to 3.5.6
+  gobject-introspection: update to 1.50.0
+  iso-codes: update to 3.71
+  msmtp: update to 1.6.6
+  npth: update to 1.3
+  vala: update to 0.34.3
+  rng-tools: use SOURCEFORGE_MIRROR in SRC_URI
+  epiphany: update to 3.22.3
+  ffmpeg: update to 3.2.1
+
+Carlos Alberto Lopez Perez (1):
+  webkitgtk: update to 2.14.2
+
+ meta/classes/upstream-version-is-even.bbclass      |  2 +-
+ .../{btrfs-tools_4.8.2.bb => btrfs-tools_4.8.4.bb} |  2 +-
+ ...cmake-native_3.6.2.bb => cmake-native_3.7.0.bb} |  1 +
+ meta/recipes-devtools/cmake/cmake.inc              |  8 ++---
+ .../cmake/{cmake_3.6.2.bb => cmake_3.7.0.bb}       |  1 +
+ .../vala/{vala_0.34.2.bb => vala_0.34.3.bb}        |  4 +--
+ .../{lighttpd_1.4.42.bb => lighttpd_1.4.43.bb}     |  4 +--
+ .../msmtp/{msmtp_1.6.5.bb => msmtp_1.6.6.bb}       |  4 +--
+ .../{epiphany_3.22.1.bb => epiphany_3.22.3.bb}     |  4 +--
+ ...desktop3_3.22.1.bb => gnome-desktop3_3.22.2.bb} |  4 +--
+ ...n_1.48.0.bb => gobject-introspection_1.50.0.bb} |  6 ++--
  ...ward-port-mips-arm-memory-barrier-patches.patch | 38 ----------------------
  .../files/0001-callgraph-Use-U64_TO_POINTER.patch  | 29 -----------------
  .../sysprof/{sysprof_git.bb => sysprof_3.22.2.bb}  | 12 ++-----
- 3 files changed, 3 insertions(+), 76 deletions(-)
+ .../ffmpeg/{ffmpeg_3.2.bb => ffmpeg_3.2.1.bb}      |  4 +--
+ .../{webkitgtk_2.14.1.bb => webkitgtk_2.14.2.bb}   |  4 +--
+ ...tes_20160104.bb => ca-certificates_20161102.bb} |  2 +-
+ .../gnutls/{gnutls_3.5.5.bb => gnutls_3.5.6.bb}    |  4 +--
+ meta/recipes-support/icu/icu.inc                   | 12 +++++--
+ .../icu/{icu_57.1.bb => icu_58.1.bb}               |  6 ++--
+ .../{iso-codes_3.70.bb => iso-codes_3.71.bb}       |  4 +--
+ .../npth/{npth_1.2.bb => npth_1.3.bb}              |  4 +--
+ meta/recipes-support/rng-tools/rng-tools_5.bb      |  2 +-
+ 23 files changed, 48 insertions(+), 113 deletions(-)
+ rename meta/recipes-devtools/btrfs-tools/{btrfs-tools_4.8.2.bb => btrfs-tools_4.8.4.bb} (95%)
+ rename meta/recipes-devtools/cmake/{cmake-native_3.6.2.bb => cmake-native_3.7.0.bb} (95%)
+ rename meta/recipes-devtools/cmake/{cmake_3.6.2.bb => cmake_3.7.0.bb} (97%)
+ rename meta/recipes-devtools/vala/{vala_0.34.2.bb => vala_0.34.3.bb} (56%)
+ rename meta/recipes-extended/lighttpd/{lighttpd_1.4.42.bb => lighttpd_1.4.43.bb} (94%)
+ rename meta/recipes-extended/msmtp/{msmtp_1.6.5.bb => msmtp_1.6.6.bb} (86%)
+ rename meta/recipes-gnome/epiphany/{epiphany_3.22.1.bb => epiphany_3.22.3.bb} (82%)
+ rename meta/recipes-gnome/gnome-desktop/{gnome-desktop3_3.22.1.bb => gnome-desktop3_3.22.2.bb} (83%)
+ rename meta/recipes-gnome/gobject-introspection/{gobject-introspection_1.48.0.bb => gobject-introspection_1.50.0.bb} (97%)
  delete mode 100644 meta/recipes-kernel/sysprof/files/0001-Forward-port-mips-arm-memory-barrier-patches.patch
  delete mode 100644 meta/recipes-kernel/sysprof/files/0001-callgraph-Use-U64_TO_POINTER.patch
  rename meta/recipes-kernel/sysprof/{sysprof_git.bb => sysprof_3.22.2.bb} (71%)
+ rename meta/recipes-multimedia/ffmpeg/{ffmpeg_3.2.bb => ffmpeg_3.2.1.bb} (97%)
+ rename meta/recipes-sato/webkit/{webkitgtk_2.14.1.bb => webkitgtk_2.14.2.bb} (97%)
+ rename meta/recipes-support/ca-certificates/{ca-certificates_20160104.bb => ca-certificates_20161102.bb} (98%)
+ rename meta/recipes-support/gnutls/{gnutls_3.5.5.bb => gnutls_3.5.6.bb} (60%)
+ rename meta/recipes-support/icu/{icu_57.1.bb => icu_58.1.bb} (77%)
+ rename meta/recipes-support/iso-codes/{iso-codes_3.70.bb => iso-codes_3.71.bb} (76%)
+ rename meta/recipes-support/npth/{npth_1.2.bb => npth_1.3.bb} (81%)
 
-diff --git a/meta/recipes-kernel/sysprof/files/0001-Forward-port-mips-arm-memory-barrier-patches.patch b/meta/recipes-kernel/sysprof/files/0001-Forward-port-mips-arm-memory-barrier-patches.patch
-deleted file mode 100644
-index 92e804f..0000000
---- a/meta/recipes-kernel/sysprof/files/0001-Forward-port-mips-arm-memory-barrier-patches.patch
-+++ /dev/null
-@@ -1,38 +0,0 @@
--From a2d385e504323641b1127821833c61e77301c90b Mon Sep 17 00:00:00 2001
--From: Jussi Kukkonen <jussi.kukkonen@intel.com>
--Date: Sat, 11 Jun 2016 22:45:37 +0300
--Subject: [PATCH] Forward port mips & arm memory barrier patches
--
--Upstream-Status: Pending
--Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
-----
-- lib/util/util.h | 15 +++++++++++++++
-- 1 file changed, 15 insertions(+)
--
--diff --git a/lib/util/util.h b/lib/util/util.h
--index 591722d..0768056 100644
----- a/lib/util/util.h
--+++ b/lib/util/util.h
--@@ -29,4 +29,19 @@
-- #define read_barrier()           asm volatile("" ::: "memory")
-- #endif
-- 
--+#ifdef __arm__
--+/*
--+ * Use the __kuser_memory_barrier helper in the CPU helper page. See
--+ * arch/arm/kernel/entry-armv.S in the kernel source for details.
--+ */
--+#define read_barrier()         ((void(*)(void))0xffff0fa0)()
--+#endif
--+
--+#ifdef __mips__
--+#define read_barrier()         asm volatile(".set   mips2\n\t" \
--+                                            "sync\n\t" \
--+                                            ".set   mips0" ::: "memory")
--+#endif
--+
--+
-- #endif /* SP_UTIL_H */
---- 
--2.1.4
--
-diff --git a/meta/recipes-kernel/sysprof/files/0001-callgraph-Use-U64_TO_POINTER.patch b/meta/recipes-kernel/sysprof/files/0001-callgraph-Use-U64_TO_POINTER.patch
-deleted file mode 100644
-index ac1384c..0000000
---- a/meta/recipes-kernel/sysprof/files/0001-callgraph-Use-U64_TO_POINTER.patch
-+++ /dev/null
-@@ -1,29 +0,0 @@
--From 05816e6f9cd65b2624bb04de65fdf61031c7017f Mon Sep 17 00:00:00 2001
--From: Jussi Kukkonen <jussi.kukkonen@intel.com>
--Date: Fri, 10 Jun 2016 14:01:54 +0300
--Subject: [PATCH] callgraph: Use U64_TO_POINTER
--
--This fixes a "cast to pointer from integer of different size" on i586.
--
--Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
--Upstream-Status: Pending
-----
-- lib/sp-callgraph-view.c | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--diff --git a/lib/sp-callgraph-view.c b/lib/sp-callgraph-view.c
--index 02cc17b..58315b0 100644
----- a/lib/sp-callgraph-view.c
--+++ b/lib/sp-callgraph-view.c
--@@ -135,7 +135,7 @@ build_functions_store (StackNode *node,
-- 
--   gtk_list_store_append (state->store, &iter);
--   gtk_list_store_set (state->store, &iter,
---                      COLUMN_NAME, (const gchar *)node->data,
--+                      COLUMN_NAME, U64_TO_POINTER(node->data),
--                       COLUMN_SELF, 100.0 * size / state->profile_size,
--                       COLUMN_TOTAL, 100.0 * total / state->profile_size,
--                       COLUMN_POINTER, node,
---- 
--2.1.4
--
-diff --git a/meta/recipes-kernel/sysprof/sysprof_git.bb b/meta/recipes-kernel/sysprof/sysprof_3.22.2.bb
-similarity index 71%
-rename from meta/recipes-kernel/sysprof/sysprof_git.bb
-rename to meta/recipes-kernel/sysprof/sysprof_3.22.2.bb
-index 8d8b626..a1ed7c8 100644
---- a/meta/recipes-kernel/sysprof/sysprof_git.bb
-+++ b/meta/recipes-kernel/sysprof/sysprof_3.22.2.bb
-@@ -7,20 +7,14 @@ inherit gnomebase gettext systemd
- 
- DEPENDS = "glib-2.0"
- 
--S = "${WORKDIR}/git"
--SRCREV = "9c6cec9b49766bf77c1713bc5a7c6d651e628068"
--PV = "3.20.0+git${SRCPV}"
--
--SRC_URI = "git://git.gnome.org/sysprof \
-+SRC_URI += " \
-            file://define-NT_GNU_BUILD_ID.patch \
-            file://0001-configure-Add-option-to-enable-disable-polkit.patch \
-            file://0001-Disable-check-for-polkit-for-UI.patch \
-            file://0001-Avoid-building-docs.patch \
--           file://0001-callgraph-Use-U64_TO_POINTER.patch \
--           file://0001-Forward-port-mips-arm-memory-barrier-patches.patch \
-           "
--SRC_URI[archive.md5sum] = "d56e8492033b60e247634731e7f760b9"
--SRC_URI[archive.sha256sum] = "4a338ad41bfffae87ef281f6e75c9660b3e0c6671bf5233be0c3f55a5e5b1ce5"
-+SRC_URI[archive.md5sum] = "2634bf35f5592e5e4520ccaba87e909e"
-+SRC_URI[archive.sha256sum] = "d57fb19a3e5d4ad37d5fb554dc93d9a03f332779c3bffd9c2aa8f176e85269d7"
- 
- AUTOTOOLS_AUXDIR = "${S}/build-aux"
- 
 -- 
 2.10.2
 
