@@ -1,24 +1,25 @@
-Return-Path: <Zhixiong.Chi@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 8A43F60939
+Return-Path: <Yi.Zhao@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id CD098719C7
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Nov 2016 09:52:14 +0000 (UTC)
+	Mon, 28 Nov 2016 09:55:55 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id uAS9qFku003066
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id uAS9tu19009384
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Nov 2016 01:52:15 -0800 (PST)
-Received: from pek-zchi-d1.corp.ad.wrs.com (128.224.162.239) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.294.0; Mon, 28 Nov 2016 01:52:14 -0800
-From: Zhixiong Chi <zhixiong.chi@windriver.com>
+	Mon, 28 Nov 2016 01:55:56 -0800
+Received: from localhost (128.224.162.198) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.294.0;
+	Mon, 28 Nov 2016 01:55:55 -0800
+From: Yi Zhao <yi.zhao@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 28 Nov 2016 17:52:13 +0800
-Message-ID: <1480326733-20535-1-git-send-email-zhixiong.chi@windriver.com>
-X-Mailer: git-send-email 1.9.1
+Date: Mon, 28 Nov 2016 17:55:40 +0800
+Message-ID: <1480326940-7571-1-git-send-email-yi.zhao@windriver.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Subject: [PATCH] tiff: Security fix CVE-2016-9539
+X-Originating-IP: [128.224.162.198]
+Subject: [PATCH] libxml2: Security fix CVE-2016-5131
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,104 +32,226 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 28 Nov 2016 09:52:17 -0000
+X-List-Received-Date: Mon, 28 Nov 2016 09:55:58 -0000
 Content-Type: text/plain
 
-tools/tiffcrop.c in libtiff 4.0.6 has an out-of-bounds read in
-readContigTilesIntoBuffer(). Reported as MSVR 35092.
+CVE-2016-5131 libxml2: Use-after-free vulnerability in libxml2 through
+2.9.4, as used in Google Chrome before 52.0.2743.82, allows remote
+attackers to cause a denial of service or possibly have unspecified
+other impact via vectors related to the XPointer range-to function.
 
 External References:
-https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-9539
+https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-5131
 
 Patch from:
-https://github.com/vadz/libtiff/commit/ae9365db1b271b62b35ce018eac8799b1d5e8a53
+https://git.gnome.org/browse/libxml2/commit/?id=9ab01a277d71f54d3143c2cf333c5c2e9aaedd9e
 
-Signed-off-by: Zhixiong Chi <zhixiong.chi@windriver.com>
+Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
 ---
- .../libtiff/files/CVE-2016-9539.patch              | 60 ++++++++++++++++++++++
- meta/recipes-multimedia/libtiff/tiff_4.0.6.bb      |  1 +
- 2 files changed, 61 insertions(+)
- create mode 100644 meta/recipes-multimedia/libtiff/files/CVE-2016-9539.patch
+ .../libxml/libxml2/libxml2-CVE-2016-5131.patch     | 180 +++++++++++++++++++++
+ meta/recipes-core/libxml/libxml2_2.9.4.bb          |   1 +
+ 2 files changed, 181 insertions(+)
+ create mode 100644 meta/recipes-core/libxml/libxml2/libxml2-CVE-2016-5131.patch
 
-diff --git a/meta/recipes-multimedia/libtiff/files/CVE-2016-9539.patch b/meta/recipes-multimedia/libtiff/files/CVE-2016-9539.patch
+diff --git a/meta/recipes-core/libxml/libxml2/libxml2-CVE-2016-5131.patch b/meta/recipes-core/libxml/libxml2/libxml2-CVE-2016-5131.patch
 new file mode 100644
-index 0000000..1d9be42
+index 0000000..9d47d02
 --- /dev/null
-+++ b/meta/recipes-multimedia/libtiff/files/CVE-2016-9539.patch
-@@ -0,0 +1,60 @@
-+From ae9365db1b271b62b35ce018eac8799b1d5e8a53 Mon Sep 17 00:00:00 2001
-+From: erouault <erouault>
-+Date: Fri, 14 Oct 2016 19:13:20 +0000
-+Subject: [PATCH ] * tools/tiffcrop.c: fix out-of-bound read of up to 3 bytes
-+ in readContigTilesIntoBuffer(). Reported as MSVR 35092 by Axel Souchet
-+ & Vishal Chauhan from the MSRC Vulnerabilities & Mitigations team.
++++ b/meta/recipes-core/libxml/libxml2/libxml2-CVE-2016-5131.patch
+@@ -0,0 +1,180 @@
++From 9ab01a277d71f54d3143c2cf333c5c2e9aaedd9e Mon Sep 17 00:00:00 2001
++From: Nick Wellnhofer <wellnhofer@aevum.de>
++Date: Tue, 28 Jun 2016 14:22:23 +0200
++Subject: [PATCH] Fix XPointer paths beginning with range-to
 +
-+CVE: CVE-2016-9539
++The old code would invoke the broken xmlXPtrRangeToFunction. range-to
++isn't really a function but a special kind of location step. Remove
++this function and always handle range-to in the XPath code.
 +
++The old xmlXPtrRangeToFunction could also be abused to trigger a
++use-after-free error with the potential for remote code execution.
++
++Found with afl-fuzz.
++
++Fixes CVE-2016-5131.
++
++CVE: CVE-2016-5131
 +Upstream-Status: Backport
-+https://github.com/vadz/libtiff/commit/ae9365db1b271b62b35ce018eac8799b1d5e8a53
++https://git.gnome.org/browse/libxml2/commit/?id=9ab01a277d71f54d3143c2cf333c5c2e9aaedd9e
 +
-+Signed-off-by: Zhixiong Chi <zhixiong.chi@windriver.com>
-+
++Signed-off-by: Yi Zhao <yi.zhao@windirver.com>
 +---
-+ ChangeLog        |  6 ++++++
-+ tools/tiffcrop.c | 11 ++++++++++-
-+ 2 files changed, 16 insertions(+), 1 deletion(-)
++ result/XPath/xptr/vidbase | 13 ++++++++
++ test/XPath/xptr/vidbase   |  1 +
++ xpath.c                   |  7 ++++-
++ xpointer.c                | 76 ++++-------------------------------------------
++ 4 files changed, 26 insertions(+), 71 deletions(-)
 +
-+Index: tiff-4.0.6/ChangeLog
-+===================================================================
-+--- tiff-4.0.6.orig/ChangeLog	2016-11-28 14:56:32.109283913 +0800
-++++ tiff-4.0.6/ChangeLog	2016-11-28 16:36:01.805325534 +0800
-+@@ -17,6 +17,12 @@
-+ 	Fixes http://bugzilla.maptools.org/show_bug.cgi?id=2500
-+ 	(CVE-2014-8127, duplicate: CVE-2016-3658)
++diff --git a/result/XPath/xptr/vidbase b/result/XPath/xptr/vidbase
++index 8b9e92d..f19193e 100644
++--- a/result/XPath/xptr/vidbase
+++++ b/result/XPath/xptr/vidbase
++@@ -17,3 +17,16 @@ Object is a Location Set:
++   To node
++     ELEMENT p
 + 
-++2016-10-14 Even Rouault <even.rouault at spatialys.com>
 ++
-++	* tools/tiffcrop.c: fix out-of-bound read of up to 3 bytes in
-++	readContigTilesIntoBuffer(). Reported as MSVR 35092 by Axel Souchet
-++	& Vishal Chauhan from the MSRC Vulnerabilities & Mitigations team.
+++========================
+++Expression: xpointer(range-to(id('chapter2')))
+++Object is a Location Set:
+++1 :   Object is a range :
+++  From node
+++     /
+++  To node
+++    ELEMENT chapter
+++      ATTRIBUTE id
+++        TEXT
+++          content=chapter2
 ++
-+ 2016-10-08 Even Rouault <even.rouault at spatialys.com>
++diff --git a/test/XPath/xptr/vidbase b/test/XPath/xptr/vidbase
++index b146383..884b106 100644
++--- a/test/XPath/xptr/vidbase
+++++ b/test/XPath/xptr/vidbase
++@@ -1,2 +1,3 @@
++ xpointer(id('chapter1')/p)
++ xpointer(id('chapter1')/p[1]/range-to(following-sibling::p[2]))
+++xpointer(range-to(id('chapter2')))
++diff --git a/xpath.c b/xpath.c
++index d992841..5a01b1b 100644
++--- a/xpath.c
+++++ b/xpath.c
++@@ -10691,13 +10691,18 @@ xmlXPathCompPathExpr(xmlXPathParserContextPtr ctxt) {
++ 		    lc = 1;
++ 		    break;
++ 		} else if ((NXT(len) == '(')) {
++-		    /* Note Type or Function */
+++		    /* Node Type or Function */
++ 		    if (xmlXPathIsNodeType(name)) {
++ #ifdef DEBUG_STEP
++ 		        xmlGenericError(xmlGenericErrorContext,
++ 				"PathExpr: Type search\n");
++ #endif
++ 			lc = 1;
+++#ifdef LIBXML_XPTR_ENABLED
+++                    } else if (ctxt->xptr &&
+++                               xmlStrEqual(name, BAD_CAST "range-to")) {
+++                        lc = 1;
+++#endif
++ 		    } else {
++ #ifdef DEBUG_STEP
++ 		        xmlGenericError(xmlGenericErrorContext,
++diff --git a/xpointer.c b/xpointer.c
++index 676c510..d74174a 100644
++--- a/xpointer.c
+++++ b/xpointer.c
++@@ -1332,8 +1332,6 @@ xmlXPtrNewContext(xmlDocPtr doc, xmlNodePtr here, xmlNodePtr origin) {
++     ret->here = here;
++     ret->origin = origin;
 + 
-+ 	* tools/tiffcp.c: fix out-of-bounds write on tiled images with odd
-+Index: tiff-4.0.6/tools/tiffcrop.c
-+===================================================================
-+--- tiff-4.0.6.orig/tools/tiffcrop.c	2016-11-28 14:56:31.433283908 +0800
-++++ tiff-4.0.6/tools/tiffcrop.c	2016-11-28 16:42:13.793328128 +0800
-+@@ -819,9 +819,18 @@
-+     }
-+     }
++-    xmlXPathRegisterFunc(ret, (xmlChar *)"range-to",
++-	                 xmlXPtrRangeToFunction);
++     xmlXPathRegisterFunc(ret, (xmlChar *)"range",
++ 	                 xmlXPtrRangeFunction);
++     xmlXPathRegisterFunc(ret, (xmlChar *)"range-inside",
++@@ -2243,76 +2241,14 @@ xmlXPtrRangeInsideFunction(xmlXPathParserContextPtr ctxt, int nargs) {
++  * @nargs:  the number of args
++  *
++  * Implement the range-to() XPointer function
+++ *
+++ * Obsolete. range-to is not a real function but a special type of location
+++ * step which is handled in xpath.c.
++  */
++ void
++-xmlXPtrRangeToFunction(xmlXPathParserContextPtr ctxt, int nargs) {
++-    xmlXPathObjectPtr range;
++-    const xmlChar *cur;
++-    xmlXPathObjectPtr res, obj;
++-    xmlXPathObjectPtr tmp;
++-    xmlLocationSetPtr newset = NULL;
++-    xmlNodeSetPtr oldset;
++-    int i;
++-
++-    if (ctxt == NULL) return;
++-    CHECK_ARITY(1);
++-    /*
++-     * Save the expression pointer since we will have to evaluate
++-     * it multiple times. Initialize the new set.
++-     */
++-    CHECK_TYPE(XPATH_NODESET);
++-    obj = valuePop(ctxt);
++-    oldset = obj->nodesetval;
++-    ctxt->context->node = NULL;
++-
++-    cur = ctxt->cur;
++-    newset = xmlXPtrLocationSetCreate(NULL);
++-
++-    for (i = 0; i < oldset->nodeNr; i++) {
++-	ctxt->cur = cur;
++-
++-	/*
++-	 * Run the evaluation with a node list made of a single item
++-	 * in the nodeset.
++-	 */
++-	ctxt->context->node = oldset->nodeTab[i];
++-	tmp = xmlXPathNewNodeSet(ctxt->context->node);
++-	valuePush(ctxt, tmp);
++-
++-	xmlXPathEvalExpr(ctxt);
++-	CHECK_ERROR;
++-
++-	/*
++-	 * The result of the evaluation need to be tested to
++-	 * decided whether the filter succeeded or not
++-	 */
++-	res = valuePop(ctxt);
++-	range = xmlXPtrNewRangeNodeObject(oldset->nodeTab[i], res);
++-	if (range != NULL) {
++-	    xmlXPtrLocationSetAdd(newset, range);
++-	}
++-
++-	/*
++-	 * Cleanup
++-	 */
++-	if (res != NULL)
++-	    xmlXPathFreeObject(res);
++-	if (ctxt->value == tmp) {
++-	    res = valuePop(ctxt);
++-	    xmlXPathFreeObject(res);
++-	}
++-
++-	ctxt->context->node = NULL;
++-    }
++-
++-    /*
++-     * The result is used as the new evaluation set.
++-     */
++-    xmlXPathFreeObject(obj);
++-    ctxt->context->node = NULL;
++-    ctxt->context->contextSize = -1;
++-    ctxt->context->proximityPosition = -1;
++-    valuePush(ctxt, xmlXPtrWrapLocationSet(newset));
+++xmlXPtrRangeToFunction(xmlXPathParserContextPtr ctxt,
+++                       int nargs ATTRIBUTE_UNUSED) {
+++    XP_ERROR(XPATH_EXPR_ERROR);
++ }
 + 
-+-  tilebuf = _TIFFmalloc(tile_buffsize);
-++  /* Add 3 padding bytes for extractContigSamplesShifted32bits */
-++  if( tile_buffsize > 0xFFFFFFFFU - 3 )
-++  {
-++      TIFFError("readContigTilesIntoBuffer", "Integer overflow when calculating buffer size.");
-++      exit(-1);
-++  }
-++  tilebuf = _TIFFmalloc(tile_buffsize + 3);
-+   if (tilebuf == 0)
-+     return 0;
-++  tilebuf[tile_buffsize] = 0;
-++  tilebuf[tile_buffsize+1] = 0;
-++  tilebuf[tile_buffsize+2] = 0;
-+ 
-+   dst_rowsize = ((imagewidth * bps * spp) + 7) / 8;  
-+   for (row = 0; row < imagelength; row += tl)
-diff --git a/meta/recipes-multimedia/libtiff/tiff_4.0.6.bb b/meta/recipes-multimedia/libtiff/tiff_4.0.6.bb
-index 3057121..3a7906a 100644
---- a/meta/recipes-multimedia/libtiff/tiff_4.0.6.bb
-+++ b/meta/recipes-multimedia/libtiff/tiff_4.0.6.bb
-@@ -18,6 +18,7 @@ SRC_URI = "http://download.osgeo.org/libtiff/tiff-${PV}.tar.gz \
-            file://CVE-2016-3658.patch \
-            file://CVE-2016-3632.patch \
-            file://CVE-2016-9540.patch \
-+           file://CVE-2016-9539.patch \
++ /**
++-- 
++2.7.4
++
+diff --git a/meta/recipes-core/libxml/libxml2_2.9.4.bb b/meta/recipes-core/libxml/libxml2_2.9.4.bb
+index 59874be..1fed90b 100644
+--- a/meta/recipes-core/libxml/libxml2_2.9.4.bb
++++ b/meta/recipes-core/libxml/libxml2_2.9.4.bb
+@@ -19,6 +19,7 @@ SRC_URI = "ftp://xmlsoft.org/libxml2/libxml2-${PV}.tar.gz;name=libtar \
+            file://run-ptest \
+            file://python-sitepackages-dir.patch \
+            file://libxml-m4-use-pkgconfig.patch \
++           file://libxml2-CVE-2016-5131.patch \
            "
  
- SRC_URI[md5sum] = "d1d2e940dea0b5ad435f21f03d96dd72"
+ SRC_URI[libtar.md5sum] = "ae249165c173b1ff386ee8ad676815f5"
 -- 
-1.9.1
+2.7.4
 
 
