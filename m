@@ -1,24 +1,24 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 5050471A66
+	by mail.openembedded.org (Postfix) with ESMTP id 4D7C771ACA
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Nov 2016 13:37:36 +0000 (UTC)
+	Mon, 28 Nov 2016 13:37:37 +0000 (UTC)
 Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-	by orsmga102.jf.intel.com with ESMTP; 28 Nov 2016 05:37:38 -0800
+	by orsmga102.jf.intel.com with ESMTP; 28 Nov 2016 05:37:39 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.31,564,1473145200"; d="scan'208";a="36412272"
+X-IronPort-AV: E=Sophos;i="5.31,564,1473145200"; d="scan'208";a="36412277"
 Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by fmsmga005.fm.intel.com with ESMTP; 28 Nov 2016 05:37:37 -0800
+	by fmsmga005.fm.intel.com with ESMTP; 28 Nov 2016 05:37:38 -0800
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 28 Nov 2016 15:34:25 +0200
-Message-Id: <b9e15d4bda108dc0c32012719d440fa84376ff57.1480333940.git.alexander.kanavin@linux.intel.com>
+Date: Mon, 28 Nov 2016 15:34:26 +0200
+Message-Id: <aa5056c91422e11fc1ae6d0e1c7b090640b285bc.1480333940.git.alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.10.2
 In-Reply-To: <cover.1480333940.git.alexander.kanavin@linux.intel.com>
 References: <cover.1480333940.git.alexander.kanavin@linux.intel.com>
 In-Reply-To: <cover.1480333940.git.alexander.kanavin@linux.intel.com>
 References: <cover.1480333940.git.alexander.kanavin@linux.intel.com>
-Subject: [PATCH 14/18] vala: update to 0.34.3
+Subject: [PATCH 15/18] rng-tools: use SOURCEFORGE_MIRROR in SRC_URI
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,29 +31,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 28 Nov 2016 13:37:36 -0000
+X-List-Received-Date: Mon, 28 Nov 2016 13:37:37 -0000
+
+This also fixes upstream version check.
 
 Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- meta/recipes-devtools/vala/{vala_0.34.2.bb => vala_0.34.3.bb} | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-devtools/vala/{vala_0.34.2.bb => vala_0.34.3.bb} (56%)
+ meta/recipes-support/rng-tools/rng-tools_5.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/vala/vala_0.34.2.bb b/meta/recipes-devtools/vala/vala_0.34.3.bb
-similarity index 56%
-rename from meta/recipes-devtools/vala/vala_0.34.2.bb
-rename to meta/recipes-devtools/vala/vala_0.34.3.bb
-index 8b77e57..a1c290a 100644
---- a/meta/recipes-devtools/vala/vala_0.34.2.bb
-+++ b/meta/recipes-devtools/vala/vala_0.34.3.bb
-@@ -4,5 +4,5 @@ SRC_URI += " file://0001-git-version-gen-don-t-append-dirty-if-we-re-not-in-g.pa
-              file://0001-vapigen.m4-use-PKG_CONFIG_SYSROOT_DIR.patch \
- "
+diff --git a/meta/recipes-support/rng-tools/rng-tools_5.bb b/meta/recipes-support/rng-tools/rng-tools_5.bb
+index 913a092..9329e8a 100644
+--- a/meta/recipes-support/rng-tools/rng-tools_5.bb
++++ b/meta/recipes-support/rng-tools/rng-tools_5.bb
+@@ -2,7 +2,7 @@ SUMMARY = "Random number generator daemon"
+ LICENSE = "GPLv2"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=0b6f033afe6db235e559456585dc8cdc"
  
--SRC_URI[md5sum] = "f9b4a0a10b76b56b0b6e914c506a6828"
--SRC_URI[sha256sum] = "765e9c2b429a66db93247940f8588319b43f35c173d057bcae5717a97d765c41"
-+SRC_URI[md5sum] = "71181dd25d06b0bedd378dc8fa7d6310"
-+SRC_URI[sha256sum] = "f0fad71aca03cdeadf749ca47f56296a4ddd1a25f4e2f09f0ff9e1e3afbcac3f"
+-SRC_URI = "http://heanet.dl.sourceforge.net/sourceforge/gkernel/${BP}.tar.gz \
++SRC_URI = "${SOURCEFORGE_MIRROR}/gkernel/${BP}.tar.gz \
+            file://0001-If-the-libc-is-lacking-argp-use-libargp.patch \
+            file://0002-Add-argument-to-control-the-libargp-dependency.patch \
+            file://underquote.patch \
 -- 
 2.10.2
 
