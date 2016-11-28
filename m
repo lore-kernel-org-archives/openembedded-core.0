@@ -1,24 +1,24 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 4B7B160761
+	by mail.openembedded.org (Postfix) with ESMTP id 5A28571A84
 	for <openembedded-core@lists.openembedded.org>;
 	Mon, 28 Nov 2016 13:37:24 +0000 (UTC)
 Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-	by orsmga102.jf.intel.com with ESMTP; 28 Nov 2016 05:37:24 -0800
+	by orsmga102.jf.intel.com with ESMTP; 28 Nov 2016 05:37:25 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.31,564,1473145200"; d="scan'208";a="36412223"
+X-IronPort-AV: E=Sophos;i="5.31,564,1473145200"; d="scan'208";a="36412228"
 Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by fmsmga005.fm.intel.com with ESMTP; 28 Nov 2016 05:37:24 -0800
+	by fmsmga005.fm.intel.com with ESMTP; 28 Nov 2016 05:37:25 -0800
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 28 Nov 2016 15:34:12 +0200
-Message-Id: <c5f189e17c96e6413d3e96a29f39c3440a410af2.1480333940.git.alexander.kanavin@linux.intel.com>
+Date: Mon, 28 Nov 2016 15:34:13 +0200
+Message-Id: <05e7f7590faa7e2c2b98911f7f6213fca82b7851.1480333940.git.alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.10.2
 In-Reply-To: <cover.1480333940.git.alexander.kanavin@linux.intel.com>
 References: <cover.1480333940.git.alexander.kanavin@linux.intel.com>
 In-Reply-To: <cover.1480333940.git.alexander.kanavin@linux.intel.com>
 References: <cover.1480333940.git.alexander.kanavin@linux.intel.com>
-Subject: [PATCH 01/18] icu: update to 58.1
+Subject: [PATCH 02/18] sysprof: update to 3.22.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,83 +33,131 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Mon, 28 Nov 2016 13:37:24 -0000
 
-The copyright for the software has been transferred to Unicode Inc from IBM,
-but the terms are same.
+Drop 0001-Forward-port-mips-arm-memory-barrier-patches.patch; upstream
+is using standard C11 facilities for this now.
 
-libiculx and libicule are no longer produced as they depend on an external
-package icu-le-hb (previous versions had an option of using an internal
-implementation which now has been dropped). I have verified that icu
-dependencies in oe-core and meta-oe still build.
+Drop 0001-callgraph-Use-U64_TO_POINTER.patch; it has been merged upstream.
 
 Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- meta/recipes-support/icu/icu.inc                      | 12 +++++++++---
- meta/recipes-support/icu/{icu_57.1.bb => icu_58.1.bb} |  6 +++---
- 2 files changed, 12 insertions(+), 6 deletions(-)
- rename meta/recipes-support/icu/{icu_57.1.bb => icu_58.1.bb} (77%)
+ ...ward-port-mips-arm-memory-barrier-patches.patch | 38 ----------------------
+ .../files/0001-callgraph-Use-U64_TO_POINTER.patch  | 29 -----------------
+ .../sysprof/{sysprof_git.bb => sysprof_3.22.2.bb}  | 12 ++-----
+ 3 files changed, 3 insertions(+), 76 deletions(-)
+ delete mode 100644 meta/recipes-kernel/sysprof/files/0001-Forward-port-mips-arm-memory-barrier-patches.patch
+ delete mode 100644 meta/recipes-kernel/sysprof/files/0001-callgraph-Use-U64_TO_POINTER.patch
+ rename meta/recipes-kernel/sysprof/{sysprof_git.bb => sysprof_3.22.2.bb} (71%)
 
-diff --git a/meta/recipes-support/icu/icu.inc b/meta/recipes-support/icu/icu.inc
-index cc6f222..f3dc1e0 100644
---- a/meta/recipes-support/icu/icu.inc
-+++ b/meta/recipes-support/icu/icu.inc
-@@ -26,6 +26,14 @@ EXTRA_OECONF = "--with-cross-build=${STAGING_ICU_DIR_NATIVE}"
- EXTRA_OECONF_class-native = ""
- EXTRA_OECONF_class-nativesdk = "--with-cross-build=${STAGING_ICU_DIR_NATIVE}"
+diff --git a/meta/recipes-kernel/sysprof/files/0001-Forward-port-mips-arm-memory-barrier-patches.patch b/meta/recipes-kernel/sysprof/files/0001-Forward-port-mips-arm-memory-barrier-patches.patch
+deleted file mode 100644
+index 92e804f..0000000
+--- a/meta/recipes-kernel/sysprof/files/0001-Forward-port-mips-arm-memory-barrier-patches.patch
++++ /dev/null
+@@ -1,38 +0,0 @@
+-From a2d385e504323641b1127821833c61e77301c90b Mon Sep 17 00:00:00 2001
+-From: Jussi Kukkonen <jussi.kukkonen@intel.com>
+-Date: Sat, 11 Jun 2016 22:45:37 +0300
+-Subject: [PATCH] Forward port mips & arm memory barrier patches
+-
+-Upstream-Status: Pending
+-Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
+----
+- lib/util/util.h | 15 +++++++++++++++
+- 1 file changed, 15 insertions(+)
+-
+-diff --git a/lib/util/util.h b/lib/util/util.h
+-index 591722d..0768056 100644
+---- a/lib/util/util.h
+-+++ b/lib/util/util.h
+-@@ -29,4 +29,19 @@
+- #define read_barrier()           asm volatile("" ::: "memory")
+- #endif
+- 
+-+#ifdef __arm__
+-+/*
+-+ * Use the __kuser_memory_barrier helper in the CPU helper page. See
+-+ * arch/arm/kernel/entry-armv.S in the kernel source for details.
+-+ */
+-+#define read_barrier()         ((void(*)(void))0xffff0fa0)()
+-+#endif
+-+
+-+#ifdef __mips__
+-+#define read_barrier()         asm volatile(".set   mips2\n\t" \
+-+                                            "sync\n\t" \
+-+                                            ".set   mips0" ::: "memory")
+-+#endif
+-+
+-+
+- #endif /* SP_UTIL_H */
+--- 
+-2.1.4
+-
+diff --git a/meta/recipes-kernel/sysprof/files/0001-callgraph-Use-U64_TO_POINTER.patch b/meta/recipes-kernel/sysprof/files/0001-callgraph-Use-U64_TO_POINTER.patch
+deleted file mode 100644
+index ac1384c..0000000
+--- a/meta/recipes-kernel/sysprof/files/0001-callgraph-Use-U64_TO_POINTER.patch
++++ /dev/null
+@@ -1,29 +0,0 @@
+-From 05816e6f9cd65b2624bb04de65fdf61031c7017f Mon Sep 17 00:00:00 2001
+-From: Jussi Kukkonen <jussi.kukkonen@intel.com>
+-Date: Fri, 10 Jun 2016 14:01:54 +0300
+-Subject: [PATCH] callgraph: Use U64_TO_POINTER
+-
+-This fixes a "cast to pointer from integer of different size" on i586.
+-
+-Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
+-Upstream-Status: Pending
+----
+- lib/sp-callgraph-view.c | 2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
+-
+-diff --git a/lib/sp-callgraph-view.c b/lib/sp-callgraph-view.c
+-index 02cc17b..58315b0 100644
+---- a/lib/sp-callgraph-view.c
+-+++ b/lib/sp-callgraph-view.c
+-@@ -135,7 +135,7 @@ build_functions_store (StackNode *node,
+- 
+-   gtk_list_store_append (state->store, &iter);
+-   gtk_list_store_set (state->store, &iter,
+--                      COLUMN_NAME, (const gchar *)node->data,
+-+                      COLUMN_NAME, U64_TO_POINTER(node->data),
+-                       COLUMN_SELF, 100.0 * size / state->profile_size,
+-                       COLUMN_TOTAL, 100.0 * total / state->profile_size,
+-                       COLUMN_POINTER, node,
+--- 
+-2.1.4
+-
+diff --git a/meta/recipes-kernel/sysprof/sysprof_git.bb b/meta/recipes-kernel/sysprof/sysprof_3.22.2.bb
+similarity index 71%
+rename from meta/recipes-kernel/sysprof/sysprof_git.bb
+rename to meta/recipes-kernel/sysprof/sysprof_3.22.2.bb
+index 8d8b626..a1ed7c8 100644
+--- a/meta/recipes-kernel/sysprof/sysprof_git.bb
++++ b/meta/recipes-kernel/sysprof/sysprof_3.22.2.bb
+@@ -7,20 +7,14 @@ inherit gnomebase gettext systemd
  
-+
-+# strtod_l() is not supported by musl; also xlocale.h is missing
-+# It is not possible to disable its use via configure switches or env vars
-+# so monkey patching is needed.
-+do_configure_prepend_libc-musl () {
-+    sed -i -e 's,DU_HAVE_STRTOD_L=1,DU_HAVE_STRTOD_L=0,' ${S}/configure.ac
-+}
-+
- PREPROCESS_RELOCATE_DIRS = "${datadir}/${BPN}/${PV}"
- do_install_append_class-native() {
- 	mkdir -p ${D}/${STAGING_ICU_DIR_NATIVE}/config
-@@ -36,15 +44,13 @@ do_install_append_class-native() {
- 	cp -r ${B}/tools ${D}/${STAGING_ICU_DIR_NATIVE}
- }
+ DEPENDS = "glib-2.0"
  
--PACKAGES =+ "libicudata libicuuc libicui18n libicule libiculx libicutu libicuio"
-+PACKAGES =+ "libicudata libicuuc libicui18n libicutu libicuio"
- 
- FILES_${PN}-dev += "${libdir}/${BPN}/"
- 
- FILES_libicudata = "${libdir}/libicudata.so.*"
- FILES_libicuuc = "${libdir}/libicuuc.so.*"
- FILES_libicui18n = "${libdir}/libicui18n.so.*"
--FILES_libicule = "${libdir}/libicule.so.*"
--FILES_libiculx = "${libdir}/libiculx.so.*"
- FILES_libicutu = "${libdir}/libicutu.so.*"
- FILES_libicuio = "${libdir}/libicuio.so.*"
- 
-diff --git a/meta/recipes-support/icu/icu_57.1.bb b/meta/recipes-support/icu/icu_58.1.bb
-similarity index 77%
-rename from meta/recipes-support/icu/icu_57.1.bb
-rename to meta/recipes-support/icu/icu_58.1.bb
-index 90c2b82..cc7c947 100644
---- a/meta/recipes-support/icu/icu_57.1.bb
-+++ b/meta/recipes-support/icu/icu_58.1.bb
-@@ -1,6 +1,6 @@
- require icu.inc
- 
--LIC_FILES_CHKSUM = "file://../LICENSE;md5=787d3b37867445c1cdd6f6167bd0e347"
-+LIC_FILES_CHKSUM = "file://../LICENSE;md5=1b3b75c1777cd49ad5c6a24cd338cfc9"
- 
- def icu_download_version(d):
-     pvsplit = d.getVar('PV', True).split('.')
-@@ -21,8 +21,8 @@ SRC_URI = "${BASE_SRC_URI} \
- SRC_URI_append_class-target = "\
-            file://0001-Disable-LDFLAGSICUDT-for-Linux.patch \
+-S = "${WORKDIR}/git"
+-SRCREV = "9c6cec9b49766bf77c1713bc5a7c6d651e628068"
+-PV = "3.20.0+git${SRCPV}"
+-
+-SRC_URI = "git://git.gnome.org/sysprof \
++SRC_URI += " \
+            file://define-NT_GNU_BUILD_ID.patch \
+            file://0001-configure-Add-option-to-enable-disable-polkit.patch \
+            file://0001-Disable-check-for-polkit-for-UI.patch \
+            file://0001-Avoid-building-docs.patch \
+-           file://0001-callgraph-Use-U64_TO_POINTER.patch \
+-           file://0001-Forward-port-mips-arm-memory-barrier-patches.patch \
            "
--SRC_URI[md5sum] = "976734806026a4ef8bdd17937c8898b9"
--SRC_URI[sha256sum] = "ff8c67cb65949b1e7808f2359f2b80f722697048e90e7cfc382ec1fe229e9581"
-+SRC_URI[md5sum] = "1901302aaff1c1633ef81862663d2917"
-+SRC_URI[sha256sum] = "0eb46ba3746a9c2092c8ad347a29b1a1b4941144772d13a88667a7b11ea30309"
+-SRC_URI[archive.md5sum] = "d56e8492033b60e247634731e7f760b9"
+-SRC_URI[archive.sha256sum] = "4a338ad41bfffae87ef281f6e75c9660b3e0c6671bf5233be0c3f55a5e5b1ce5"
++SRC_URI[archive.md5sum] = "2634bf35f5592e5e4520ccaba87e909e"
++SRC_URI[archive.sha256sum] = "d57fb19a3e5d4ad37d5fb554dc93d9a03f332779c3bffd9c2aa8f176e85269d7"
  
- UPSTREAM_CHECK_REGEX = "(?P<pver>\d+(\.\d+)+)/"
- UPSTREAM_CHECK_URI = "http://download.icu-project.org/files/icu4c/"
+ AUTOTOOLS_AUXDIR = "${S}/build-aux"
+ 
 -- 
 2.10.2
 
