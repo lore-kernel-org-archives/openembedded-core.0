@@ -1,24 +1,24 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 64A2671A66
+	by mail.openembedded.org (Postfix) with ESMTP id 658C471AA9
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Nov 2016 13:37:38 +0000 (UTC)
+	Mon, 28 Nov 2016 13:37:39 +0000 (UTC)
 Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-	by orsmga102.jf.intel.com with ESMTP; 28 Nov 2016 05:37:40 -0800
+	by orsmga102.jf.intel.com with ESMTP; 28 Nov 2016 05:37:41 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.31,564,1473145200"; d="scan'208";a="36412283"
+X-IronPort-AV: E=Sophos;i="5.31,564,1473145200"; d="scan'208";a="36412292"
 Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by fmsmga005.fm.intel.com with ESMTP; 28 Nov 2016 05:37:39 -0800
+	by fmsmga005.fm.intel.com with ESMTP; 28 Nov 2016 05:37:40 -0800
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 28 Nov 2016 15:34:27 +0200
-Message-Id: <90484a637dd3778bfeb6067f553be3309361cc6f.1480333940.git.alexander.kanavin@linux.intel.com>
+Date: Mon, 28 Nov 2016 15:34:28 +0200
+Message-Id: <9b62ae1e7ac3b9664f582b9f66261b963301679a.1480333940.git.alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.10.2
 In-Reply-To: <cover.1480333940.git.alexander.kanavin@linux.intel.com>
 References: <cover.1480333940.git.alexander.kanavin@linux.intel.com>
 In-Reply-To: <cover.1480333940.git.alexander.kanavin@linux.intel.com>
 References: <cover.1480333940.git.alexander.kanavin@linux.intel.com>
-Subject: [PATCH 16/18] webkitgtk: update to 2.14.2
+Subject: [PATCH 17/18] epiphany: update to 3.22.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,32 +33,29 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Mon, 28 Nov 2016 13:37:39 -0000
 
-From: Carlos Alberto Lopez Perez <clopez@igalia.com>
-
-Signed-off-by: Carlos Alberto Lopez Perez <clopez@igalia.com>
 Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- meta/recipes-sato/webkit/{webkitgtk_2.14.1.bb => webkitgtk_2.14.2.bb} | 4 ++--
+ .../recipes-gnome/epiphany/{epiphany_3.22.1.bb => epiphany_3.22.3.bb} | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-sato/webkit/{webkitgtk_2.14.1.bb => webkitgtk_2.14.2.bb} (97%)
+ rename meta/recipes-gnome/epiphany/{epiphany_3.22.1.bb => epiphany_3.22.3.bb} (82%)
 
-diff --git a/meta/recipes-sato/webkit/webkitgtk_2.14.1.bb b/meta/recipes-sato/webkit/webkitgtk_2.14.2.bb
-similarity index 97%
-rename from meta/recipes-sato/webkit/webkitgtk_2.14.1.bb
-rename to meta/recipes-sato/webkit/webkitgtk_2.14.2.bb
-index 1f2166c..373df17 100644
---- a/meta/recipes-sato/webkit/webkitgtk_2.14.1.bb
-+++ b/meta/recipes-sato/webkit/webkitgtk_2.14.2.bb
-@@ -20,8 +20,8 @@ SRC_URI = "http://www.webkitgtk.org/releases/${BPN}-${PV}.tar.xz \
-            file://0001-Tweak-gtkdoc-settings-so-that-gtkdoc-generation-work.patch \
-            "
+diff --git a/meta/recipes-gnome/epiphany/epiphany_3.22.1.bb b/meta/recipes-gnome/epiphany/epiphany_3.22.3.bb
+similarity index 82%
+rename from meta/recipes-gnome/epiphany/epiphany_3.22.1.bb
+rename to meta/recipes-gnome/epiphany/epiphany_3.22.3.bb
+index 2a9d200..9803a16 100644
+--- a/meta/recipes-gnome/epiphany/epiphany_3.22.1.bb
++++ b/meta/recipes-gnome/epiphany/epiphany_3.22.3.bb
+@@ -9,8 +9,8 @@ inherit gnomebase gsettings distro_features_check upstream-version-is-even
+ REQUIRED_DISTRO_FEATURES = "x11"
  
--SRC_URI[md5sum] = "8d6c60dc41604d3bbd43165a674c07e5"
--SRC_URI[sha256sum] = "2e2d76c328de65bed6e0e4f096b2720a366654b27fc1af0830ece90bc4b7ceb5"
-+SRC_URI[md5sum] = "2fe3cadbc546d93ca68a13756c2be015"
-+SRC_URI[sha256sum] = "2edbcbd5105046aea55af9671c4de8deedb5b0e3567c618034d440a760675556"
+ SRC_URI += "file://0001-yelp.m4-drop-the-check-for-itstool.patch"
+-SRC_URI[archive.md5sum] = "9b9b73601a32f5b11c02411952cec27a"
+-SRC_URI[archive.sha256sum] = "aab162ede54d71e583e382ab5e3567f28d81e0cd42719a11cad8008b56c5cc0e"
++SRC_URI[archive.md5sum] = "bfb6347acb91163aec3883bb3397372f"
++SRC_URI[archive.sha256sum] = "a11fe3495009f776e354bcafac3ab8fc52788f5bdb9d5ee2c2f1f2f021fb49c2"
  
- inherit cmake pkgconfig gobject-introspection perlnative distro_features_check upstream-version-is-even gtk-doc
+ EXTRA_OECONF += " --with-distributor-name=${DISTRO}"
  
 -- 
 2.10.2
