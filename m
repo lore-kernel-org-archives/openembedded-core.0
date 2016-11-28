@@ -1,28 +1,53 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id A13CF719E4
+Return-Path: <patrick.ohly@intel.com>
+Received: from mail-io0-f182.google.com (mail-io0-f182.google.com
+	[209.85.223.182])
+	by mail.openembedded.org (Postfix) with ESMTP id 28EF27197B
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Nov 2016 12:05:28 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	uASC4Rcl014886; Mon, 28 Nov 2016 12:04:27 GMT
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id Zd7aZQv_UGew; Mon, 28 Nov 2016 12:04:27 +0000 (GMT)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	uASC4O1f014883
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Mon, 28 Nov 2016 12:04:26 GMT
-Message-ID: <1480334664.28508.167.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: "Robert P. J. Day" <rpjday@crashcourse.ca>, OE Core mailing list
-	<openembedded-core@lists.openembedded.org>
-Date: Mon, 28 Nov 2016 12:04:24 +0000
-In-Reply-To: <alpine.LFD.2.20.1611280544090.16875@localhost.localdomain>
+	Mon, 28 Nov 2016 13:17:13 +0000 (UTC)
+Received: by mail-io0-f182.google.com with SMTP id m5so90505385ioe.3
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 28 Nov 2016 05:17:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:organization:mime-version:content-transfer-encoding;
+	bh=UptCDdIjcfsA7Uxosh7GAeIlGOTAAFgSc5wPTlAiuGc=;
+	b=dFdwonMPVcGy3R/VArgDx2muF10dmoafKtDvipUNoPcFJ0p7HldWyS73WFfvkf9Spx
+	yTg1h3qDjQ5vmaPOKFDfhkYom96xeW5Nk7SJZBD7oXuoHXuZBFg7TtmreXU1TGqXitNM
+	aPfKYBxGdK6ok3JvIs7BialW4muTpbf1vxlMsL0zqIksJuVAC/XxtcTVzNquDRg8z6K7
+	zqZzYAGLebRPAQufjcTR8NV+SvDksBy6k6TNCFd2mAKwV4CHTHTwmzeM47odfez9qS/b
+	zrmab4AkQveBEzSi2pWpi6frQ1AGrWmT1MIZiLrMCa6TrdbKn2IeuLXJ4Ur5Ump6Vwpv
+	TKwg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:organization:mime-version:content-transfer-encoding;
+	bh=UptCDdIjcfsA7Uxosh7GAeIlGOTAAFgSc5wPTlAiuGc=;
+	b=EkUqUrrtejJlRub/FlRcC4rtGpqfE7GVAR40IE5WMGv8hD4lvVcgzvpkCibpubG3No
+	polQHB4AZLPnBkwhVjTPLHlDD3yXRgGRWeCZMKACZsEDx0btbz74N9CDjUOR/QcwfgM8
+	SqMgXMGibeuTR0hy8tcfyjxoDsbEED4MjgmvongpRiPzYNKcpH7k5Th7udb8J38blYVk
+	Amb6YgBEkMrhJcLar+cC3dG+CxumPYI7xOQjQTs9fYYlNhEVCauZdqs+h0CRDvGHEB6k
+	ofa996YH9tD/b9OWwOHZfOYNQdEiXiOzvDnzhdyR65DUhOdVy7OJjFgAYDkCQKXk7vkX
+	80GQ==
+X-Gm-Message-State: AKaTC00gvQlnlTaglekiwibZkALl2ckdlP44J4eol1U5rJ2wNb0Zr6rdyQmo4uwsXXoKF5IZ
+X-Received: by 10.107.185.87 with SMTP id j84mr16618562iof.3.1480339035099;
+	Mon, 28 Nov 2016 05:17:15 -0800 (PST)
+Received: from pohly-mobl1 (p5DE8C83A.dip0.t-ipconnect.de. [93.232.200.58])
+	by smtp.gmail.com with ESMTPSA id
+	f24sm19838596iod.21.2016.11.28.05.17.13
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 28 Nov 2016 05:17:14 -0800 (PST)
+Message-ID: <1480339031.6873.181.camel@intel.com>
+From: Patrick Ohly <patrick.ohly@intel.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Date: Mon, 28 Nov 2016 14:17:11 +0100
+In-Reply-To: <1480334664.28508.167.camel@linuxfoundation.org>
 References: <alpine.LFD.2.20.1611280544090.16875@localhost.localdomain>
-X-Mailer: Evolution 3.18.5.2-0ubuntu3 
+	<1480334664.28508.167.camel@linuxfoundation.org>
+Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
+X-Mailer: Evolution 3.12.9-1+b1 
 Mime-Version: 1.0
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
 Subject: Re: ASSUME_PROVIDED versus SANITY_REQUIRED_UTILITIES versus "The Build Host Packages"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -36,44 +61,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 28 Nov 2016 12:05:33 -0000
+X-List-Received-Date: Mon, 28 Nov 2016 13:17:14 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-On Mon, 2016-11-28 at 06:20 -0500, Robert P. J. Day wrote:
->   a bit confused by what i'm seeing in a recent
-> qemuppc/core-image-minimal build on my fedora system regarding which
-> native packages are built, despite what's in bitbake.conf (using
-> current poky layer checkout).
+On Mon, 2016-11-28 at 12:04 +0000, Richard Purdie wrote:
+> On Mon, 2016-11-28 at 06:20 -0500, Robert P. J. Day wrote:
+> >   a bit confused by what i'm seeing in a recent
+> > qemuppc/core-image-minimal build on my fedora system regarding which
+> > native packages are built, despite what's in bitbake.conf (using
+> > current poky layer checkout).
+> > 
+> >   first, here's a snippet from bitbake.conf:
+> > 
+> >   ASSUME_PROVIDED = "\
+> >     bzip2-native \          <---
+> >     chrpath-native \
+> >     file-native \           <---
+> >     findutils-native \
+> >     git-native \
+> >     grep-native \
+> >     diffstat-native \
+> >     ... snip ...
+> > 
+> > suggesting that (among other things) bzip2-native and file-native
+> > shouldn't be built -- it's the developer's responsibility to install
+> > them, yes? but if i peek under tmp/work/x86_64-linux, i can see:
 > 
->   first, here's a snippet from bitbake.conf:
-> 
->   ASSUME_PROVIDED = "\
->     bzip2-native \          <---
->     chrpath-native \
->     file-native \           <---
->     findutils-native \
->     git-native \
->     grep-native \
->     diffstat-native \
->     ... snip ...
-> 
-> suggesting that (among other things) bzip2-native and file-native
-> shouldn't be built -- it's the developer's responsibility to install
-> them, yes? but if i peek under tmp/work/x86_64-linux, i can see:
+> There are two ways "file-native" can be used in a build. It can be used
+> as the host provided "file" command and it is also needed by the file
+> recipe to build file for the target.
 
-There are two ways "file-native" can be used in a build. It can be used
-as the host provided "file" command and it is also needed by the file
-recipe to build file for the target. We need to build file-native in
-order for the build for the target file command to build/work. This is
-why it gets built.
+I recently ran into a third usage of "file-native": swupd-server links
+against libmagic from file and therefore has a DEPENDS = "file". But
+building swupd-server-native didn't actually build file because of
+ASSUME_PROVIDED and because I hadn't installed libmagic-dev on my build
+host, the build was failing.
 
-With bzip2, we need libbz2 (native) during the build process and we
-don't ASSUME_PROVIDED libbz2-devel, hence it builds bzip2-native only
-for that piece. Confusing perhaps but necessary unfortunately.
+Is there a way to declare that ASSUME_PROVIDED does not apply to this
+case? It sounds like there is a way (based on your comments about
+building file-native when building file and the libbz2-devel example),
+but it did not become clear to me how that works in practice.
 
-Cheers,
+Or is it just a case of educating the developer that libmagic-dev needs
+to be installed on the build host in addition to the file command?
 
-Richard
+-- 
+Best Regards, Patrick Ohly
+
+The content of this message is my personal opinion only and although
+I am an employee of Intel, the statements I make here in no way
+represent Intel's position on the issue, nor am I authorized to speak
+on behalf of Intel on this matter.
+
+
 
 
