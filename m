@@ -1,24 +1,24 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 4D7C771ACA
+	by mail.openembedded.org (Postfix) with ESMTP id 64A2671A66
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Nov 2016 13:37:37 +0000 (UTC)
+	Mon, 28 Nov 2016 13:37:38 +0000 (UTC)
 Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-	by orsmga102.jf.intel.com with ESMTP; 28 Nov 2016 05:37:39 -0800
+	by orsmga102.jf.intel.com with ESMTP; 28 Nov 2016 05:37:40 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.31,564,1473145200"; d="scan'208";a="36412277"
+X-IronPort-AV: E=Sophos;i="5.31,564,1473145200"; d="scan'208";a="36412283"
 Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by fmsmga005.fm.intel.com with ESMTP; 28 Nov 2016 05:37:38 -0800
+	by fmsmga005.fm.intel.com with ESMTP; 28 Nov 2016 05:37:39 -0800
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 28 Nov 2016 15:34:26 +0200
-Message-Id: <aa5056c91422e11fc1ae6d0e1c7b090640b285bc.1480333940.git.alexander.kanavin@linux.intel.com>
+Date: Mon, 28 Nov 2016 15:34:27 +0200
+Message-Id: <90484a637dd3778bfeb6067f553be3309361cc6f.1480333940.git.alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.10.2
 In-Reply-To: <cover.1480333940.git.alexander.kanavin@linux.intel.com>
 References: <cover.1480333940.git.alexander.kanavin@linux.intel.com>
 In-Reply-To: <cover.1480333940.git.alexander.kanavin@linux.intel.com>
 References: <cover.1480333940.git.alexander.kanavin@linux.intel.com>
-Subject: [PATCH 15/18] rng-tools: use SOURCEFORGE_MIRROR in SRC_URI
+Subject: [PATCH 16/18] webkitgtk: update to 2.14.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,28 +31,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 28 Nov 2016 13:37:37 -0000
+X-List-Received-Date: Mon, 28 Nov 2016 13:37:39 -0000
 
-This also fixes upstream version check.
+From: Carlos Alberto Lopez Perez <clopez@igalia.com>
 
+Signed-off-by: Carlos Alberto Lopez Perez <clopez@igalia.com>
 Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- meta/recipes-support/rng-tools/rng-tools_5.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-sato/webkit/{webkitgtk_2.14.1.bb => webkitgtk_2.14.2.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-sato/webkit/{webkitgtk_2.14.1.bb => webkitgtk_2.14.2.bb} (97%)
 
-diff --git a/meta/recipes-support/rng-tools/rng-tools_5.bb b/meta/recipes-support/rng-tools/rng-tools_5.bb
-index 913a092..9329e8a 100644
---- a/meta/recipes-support/rng-tools/rng-tools_5.bb
-+++ b/meta/recipes-support/rng-tools/rng-tools_5.bb
-@@ -2,7 +2,7 @@ SUMMARY = "Random number generator daemon"
- LICENSE = "GPLv2"
- LIC_FILES_CHKSUM = "file://COPYING;md5=0b6f033afe6db235e559456585dc8cdc"
+diff --git a/meta/recipes-sato/webkit/webkitgtk_2.14.1.bb b/meta/recipes-sato/webkit/webkitgtk_2.14.2.bb
+similarity index 97%
+rename from meta/recipes-sato/webkit/webkitgtk_2.14.1.bb
+rename to meta/recipes-sato/webkit/webkitgtk_2.14.2.bb
+index 1f2166c..373df17 100644
+--- a/meta/recipes-sato/webkit/webkitgtk_2.14.1.bb
++++ b/meta/recipes-sato/webkit/webkitgtk_2.14.2.bb
+@@ -20,8 +20,8 @@ SRC_URI = "http://www.webkitgtk.org/releases/${BPN}-${PV}.tar.xz \
+            file://0001-Tweak-gtkdoc-settings-so-that-gtkdoc-generation-work.patch \
+            "
  
--SRC_URI = "http://heanet.dl.sourceforge.net/sourceforge/gkernel/${BP}.tar.gz \
-+SRC_URI = "${SOURCEFORGE_MIRROR}/gkernel/${BP}.tar.gz \
-            file://0001-If-the-libc-is-lacking-argp-use-libargp.patch \
-            file://0002-Add-argument-to-control-the-libargp-dependency.patch \
-            file://underquote.patch \
+-SRC_URI[md5sum] = "8d6c60dc41604d3bbd43165a674c07e5"
+-SRC_URI[sha256sum] = "2e2d76c328de65bed6e0e4f096b2720a366654b27fc1af0830ece90bc4b7ceb5"
++SRC_URI[md5sum] = "2fe3cadbc546d93ca68a13756c2be015"
++SRC_URI[sha256sum] = "2edbcbd5105046aea55af9671c4de8deedb5b0e3567c618034d440a760675556"
+ 
+ inherit cmake pkgconfig gobject-introspection perlnative distro_features_check upstream-version-is-even gtk-doc
+ 
 -- 
 2.10.2
 
