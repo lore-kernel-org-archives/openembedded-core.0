@@ -1,20 +1,29 @@
-Return-Path: <ml@embed.me.uk>
-Received: from owm.eumx.net (eumx.net [91.82.101.43])
-	by mail.openembedded.org (Postfix) with ESMTP id EE5C86072C
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id A13CF719E4
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Nov 2016 11:43:32 +0000 (UTC)
-To: openembedded-core@lists.openembedded.org
-References: <b3516f43-75eb-2fa5-31c6-ad5e3a57d032@pabigot.com>
-	<5308703.KLEPbEOQKq@peggleto-mobl.ger.corp.intel.com>
-	<f1da4624-99b2-46ec-a49d-892e2a491a8f@pabigot.com>
-From: Jack Mitchell <ml@embed.me.uk>
-Message-ID: <60774bca-c2fd-96eb-65a8-b0a2f722ade1@embed.me.uk>
-Date: Mon, 28 Nov 2016 11:44:47 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.5.0
-MIME-Version: 1.0
-In-Reply-To: <f1da4624-99b2-46ec-a49d-892e2a491a8f@pabigot.com>
-Subject: Re: npm.bbclass support for deep native modules?
+	Mon, 28 Nov 2016 12:05:28 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	uASC4Rcl014886; Mon, 28 Nov 2016 12:04:27 GMT
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id Zd7aZQv_UGew; Mon, 28 Nov 2016 12:04:27 +0000 (GMT)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	uASC4O1f014883
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Mon, 28 Nov 2016 12:04:26 GMT
+Message-ID: <1480334664.28508.167.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: "Robert P. J. Day" <rpjday@crashcourse.ca>, OE Core mailing list
+	<openembedded-core@lists.openembedded.org>
+Date: Mon, 28 Nov 2016 12:04:24 +0000
+In-Reply-To: <alpine.LFD.2.20.1611280544090.16875@localhost.localdomain>
+References: <alpine.LFD.2.20.1611280544090.16875@localhost.localdomain>
+X-Mailer: Evolution 3.18.5.2-0ubuntu3 
+Mime-Version: 1.0
+Subject: Re: ASSUME_PROVIDED versus SANITY_REQUIRED_UTILITIES versus "The Build Host Packages"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,114 +36,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 28 Nov 2016 11:43:33 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 28 Nov 2016 12:05:33 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
+On Mon, 2016-11-28 at 06:20 -0500, Robert P. J. Day wrote:
+>   a bit confused by what i'm seeing in a recent
+> qemuppc/core-image-minimal build on my fedora system regarding which
+> native packages are built, despite what's in bitbake.conf (using
+> current poky layer checkout).
+> 
+>   first, here's a snippet from bitbake.conf:
+> 
+>   ASSUME_PROVIDED = "\
+>     bzip2-native \          <---
+>     chrpath-native \
+>     file-native \           <---
+>     findutils-native \
+>     git-native \
+>     grep-native \
+>     diffstat-native \
+>     ... snip ...
+> 
+> suggesting that (among other things) bzip2-native and file-native
+> shouldn't be built -- it's the developer's responsibility to install
+> them, yes? but if i peek under tmp/work/x86_64-linux, i can see:
 
+There are two ways "file-native" can be used in a build. It can be used
+as the host provided "file" command and it is also needed by the file
+recipe to build file for the target. We need to build file-native in
+order for the build for the target file command to build/work. This is
+why it gets built.
 
-On 28/11/16 10:35, Peter A. Bigot wrote:
-> On 11/28/2016 04:11 AM, Paul Eggleton wrote:
->> Hi Peter,
->>
->> On Sat, 26 Nov 2016 18:17:48 Peter A. Bigot wrote:
->>> I'm using the current head of morty and trying to get a handle on the
->>> new nodejs support in OE.
->>>
->>> I'm failing to build a recipe for statsd.  Starting with this:
->>>
->>>       devtool add 'npm://registry.npmjs.org;name=statsd;version=0.8.0'
->>>       bitbake statsd
->>>
->>> produces an error related to the modern-syslog dependency:
->>>
->>>    DEBUG: Executing shell function do_compile
->>>
->>> | npm ERR! Linux 4.4.0-47-generic
->>> | npm ERR! argv
->>>
->>> "/mnt/devel/oe/omap/build-bb-morty-master/tmp/sysroots/x86_64-linux/usr/bin/
->>>
->>> node"
->>> "/mnt/devel/oe/omap/build-bb-morty-master/tmp/sysroots/x86_64-linux/usr/bin
->>>
->>> /npm" "--arch=arm" "--target_arch=arm" "--production" "--no-registry"
->>> "install"
->>> | npm ERR! node v4.6.1
->>> | npm ERR! npm  v2.15.9
->>>
->>> | npm ERR! Registry not defined and registry files not found:
->>> "/mnt/devel/oe/omap/build-bb-morty-master/tmp/work/cortexa8hf-neon-poky-linu
->>>
->>> x-gnueabi/statsd/0.8.0-r0/npm_cache/noregistry/modern-syslog/.cache.json",
->>>
->>> "/mnt/devel/oe/omap/build-bb-morty-master/tmp/work/cortexa8hf-neon-poky-lin
->>>
->>> ux-gnueabi/statsd/0.8.0-r0/npm_cache/modern-syslog/.cache.json".
->>>
->>> modern-syslog 1.1.2 needs node-gyp to build a native component and
->>> https://wiki.yoctoproject.org/wiki/TipsAndTricks/NPM notes that devtool
->>> can't detect such things.  Doing this works fine to build that package:
->>>
->>>       devtool add
->>> 'npm://registry.npmjs.org;name=modern-syslog;version=1.1.2'
->>> bitbake modern-syslog
->>>
->>> but I'm having no luck getting "bitbake statsd" to find the result.
->>> I've added:
->>>
->>>       DEPENDS = "modern-syslog"
->>>
->>> to statsd_0.8.0.bb but that isn't helping.  It looks like I need some
->>> way to have the recipe install the prepared modern-syslog into the cache
->>> (or globally?) before baking statsd, but since the cache gets cleared in
->>> npm_do_compile() it's not clear how to make that happen.
->>>
->>> I'm very rusty with OE (two years away), so am I missing something or is
->>> this just beyond what the bitbake infrastructure can currently handle?
->>> If so, can somebody suggest a way to hand-patch the recipe, or outline
->>> how npm.bbclass might be extended to support this?
->> Disclaimer - I'm the one who has been doing most of the recent work
->> with npm
->> support (aside from the node.js recipe and the original npm fetcher
->> plugin,
->> which were the work of others) however my knowledge of node.js is pretty
->> limited - most of it has been picked up along the way. So unfortunately I
->> can't immediately see why this isn't working. The thing that puzzles
->> me in
->> particular about the error you're seeing though is that we're explicitly
->> telling npm not to look for a registry, so why is it complaining about
->> the
->> lack of a registry?
->
-> Sorry, that wasn't clear.  statsd depends on modern-syslog but the
-> lockdown and shrinkwrap files generated by devtool don't include it.
-> From the Wiki:
->
-> "Devtool cannot detect native libraries in module dependencies, you
-> you'll need to manually add packages to recipe"
->
-> The Wiki doesn't go into detail of how that's supposed to be done. Is
-> the existing infrastructure supposed to be able to find
-> globally-installed modules?
->
-> I'm wondering whether https://yarnpkg.com/ or one of the other nodejs
-> dependency managers might be an alternative, as I believe npm's approach
-> to dependencies is not suited to level of lockdown needed by Yocto and
-> many other production systems.
->
-> Peter
-
-Hi Peter,
-
-I'm in a similar boat packaging a custom project with a very large 
-dependency tree. After looking at the available options and our current 
-struggles with npm, yarn was our next point of call. We haven't done 
-anything with it yet, but probably plan to in the near future.
-
-Not very helpful, but just a heads up that you're not the only one 
-fighting npm ;)
+With bzip2, we need libbz2 (native) during the build process and we
+don't ASSUME_PROVIDED libbz2-devel, hence it builds bzip2-native only
+for that piece. Confusing perhaps but necessary unfortunately.
 
 Cheers,
-Jack.
+
+Richard
+
 
