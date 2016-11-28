@@ -1,48 +1,50 @@
 Return-Path: <freesilicon@gmail.com>
-Received: from mail-wm0-f66.google.com (mail-wm0-f66.google.com [74.125.82.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 9FA3971B2C
+Received: from mail-wj0-f193.google.com (mail-wj0-f193.google.com
+	[209.85.210.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 59B0471B4C
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Nov 2016 16:13:07 +0000 (UTC)
-Received: by mail-wm0-f66.google.com with SMTP id u144so19765473wmu.0
+	Mon, 28 Nov 2016 16:13:32 +0000 (UTC)
+Received: by mail-wj0-f193.google.com with SMTP id he10so436355wjc.2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Nov 2016 08:13:09 -0800 (PST)
+	Mon, 28 Nov 2016 08:13:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=pcjcir3zfbrXfaW0qOf1HfZ9GIEWuKot27kcdOOr9AI=;
-	b=x3pr4HqnYiC7VJUWQBUVRbLkcSRjJ3FRhY7nQcGUsGVQG7SLYTF83BGSlcp5YEDbwO
-	x3fg0wFtBLoARFHGkUebLgaG25o7gVkYaJOmSkYf1EzCVg2iB9h7dKTPmOrIB7+q1ulv
-	WXukihOe/g0ukMzKyb378XlmXPRgsKmzIwUCafspdVJw03WBUqrFKlUfEjlCRGAlWJF/
-	Ch4HNBRmhnRNyt0lWb+qTyuIcPNqgzGY01afMILxbmP4owKVsxkrhB9uC/V4foMbXvpz
-	yf6WFMxwdPhIk+4Da1RJfhYJ45J84/rnuJVvRn+QOeW1lXWhSToUhFK+LPExvx5G5DIO
-	5eiw==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=CRWiAzSY6TEu6oxpagMwk1a8zrpNxGj7RlFQ5UMymo0=;
+	b=0rtzXLbu6W61ZkTINFcJWs8uRByuEVctgW0KVKLizEkTo+EwAAliwaLRVTDTMukyCR
+	uFw4VQsrC4gtV90uYIhayeMT122vzyPLyEoFwh/OWxjG+oAjuZ5ZeqAyN0TpfU51AhUK
+	LKWsX80Of1Iq+Mu8X5yO6E1cOBwtbuPXhu5n2RLyIKmS9RgXpfNbS6axFo1sSpv9b5M5
+	MFhp5PuDyxW+UTb/hDbY+Lj9GrOUN69C6vnnifSsyZAeRO0bDQirBUonwg2ZIjacu0+P
+	8UFMAt3pUslSuCjMaTHXt701vAiFUKZ26wRr3h0TJaS0EOHtueMOxCYSnKG9HwWGs62A
+	dKPQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=pcjcir3zfbrXfaW0qOf1HfZ9GIEWuKot27kcdOOr9AI=;
-	b=SEFXbLy0OA5DkMOBlD0j4Zyrp+PmF6tsdaKqva4tsnOTvIW0CvN9XMve7qiZUm5eXS
-	2tD/CfyiVeBYkz017NLiXWck8Z2KHsD/Fdtda7e6fnNa+iVj0Km5gtDu4PiM7TFGCT5P
-	VtLgst/GIsacKvAmvqFm7E0VlfuNJWHJQTYE9B0fOF8SU4ek5EptWB6PHAJf37Tzzr2U
-	7H6f1bYKvJv+is9+ALCf7amayOxmulYs24jKtxQz96c8dQuu+7BPL10IGKhWYaRB5vSU
-	+weCkEyDsxnmhBg05XKexODrSBQR1dsD5SGFpCMOaQcMC7OEq3671QRVxmwoIGq/q6TQ
-	bnew==
-X-Gm-Message-State: AKaTC03/4KEBy36T2xRoalJXeNqFAzd4iTW/Y9T7WHptwlwSMUxAKZAJ5iMHigNpz1c9jw==
-X-Received: by 10.28.31.23 with SMTP id f23mr21085425wmf.94.1480349588071;
-	Mon, 28 Nov 2016 08:13:08 -0800 (PST)
+	bh=CRWiAzSY6TEu6oxpagMwk1a8zrpNxGj7RlFQ5UMymo0=;
+	b=P1DhGUgayX0kw/M0XqJY4yBJoJMuG2eQFKOQgvugUf3qds/3U5m+p1Z9HU71zcz17V
+	MU+LPafHX38RjPDcekIdDfQU+uQDluV0CswADjh5bSOT5mkxOpQRyQ2sVKuLvCDHi4py
+	JcTmZjx+8xbOVjCZHvx7aGy6H+TvoqYdFI21eRic7mDYIpg8E4yHt+PGxXN8BMDdckrc
+	ah9PZDFVs3td9D6eZ+ZbTH2r5g6uVSG30cNyb3HUYk7zIRml55RenLVovzJnwiWc7CCe
+	qPY3idbZKsJsyDVtjs+WN0BLZD5Lh4CHw9v879zQnc7rRgOk7yHR5lH8AgSe1Cm8uh8T
+	3GjQ==
+X-Gm-Message-State: AKaTC03ygrVc9CipZweshFQWogJ2x7D032uGDwwdmufFj64EwkJIc8iTPKcbDIyL4l6OEw==
+X-Received: by 10.194.86.104 with SMTP id o8mr19420972wjz.196.1480349613897;
+	Mon, 28 Nov 2016 08:13:33 -0800 (PST)
 Received: from localhost.localdomain ([185.47.80.46])
 	by smtp.gmail.com with ESMTPSA id
-	u81sm29561114wmu.10.2016.11.28.08.13.07
+	u81sm29561114wmu.10.2016.11.28.08.13.33
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 28 Nov 2016 08:13:07 -0800 (PST)
+	Mon, 28 Nov 2016 08:13:33 -0800 (PST)
 From: David Vincent <freesilicon@gmail.com>
 To: openembedded-core@lists.openembedded.org, haris.okanovic@ni.com,
 	markus.lehtonen@linux.intel.com
-Date: Mon, 28 Nov 2016 17:11:49 +0100
-Message-Id: <20161128161150.28655-1-freesilicon@gmail.com>
+Date: Mon, 28 Nov 2016 17:11:50 +0100
+Message-Id: <20161128161150.28655-2-freesilicon@gmail.com>
 X-Mailer: git-send-email 2.10.2
-In-Reply-To: <20161124092636.9533-1-freesilicon@gmail.com>
+In-Reply-To: <20161128161150.28655-1-freesilicon@gmail.com>
 References: <20161124092636.9533-1-freesilicon@gmail.com>
-Subject: [PATCH v4] classes: Fix alternatives and rc.d ordering
+	<20161128161150.28655-1-freesilicon@gmail.com>
+Subject: [PATCH] classes: Fix alternatives and rc.d ordering
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,11 +57,146 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 28 Nov 2016 16:13:12 -0000
+X-List-Received-Date: Mon, 28 Nov 2016 16:13:33 -0000
 
+When using an alternative as an initscript, the ordering between
+update-rc.d and update-alternatives tasks during prerm and postinst
+tasks must always be the following in order to work:
+  * prerm:
+    - stop daemon
+    - remove alternative
 
-Changes since v3:
-	* Count the number of lines produced by update-alternatives to detect if
-	  lines were inserted. Failing to do so introduced bugs in native
-	  packages (e.g. binutils-cross-canadian-arm)
+  * postinst:
+    - add alternative
+    - start daemon
+
+This patchset adds comments to the scripts generated by both classes and
+organize the generated sections based on those comments.
+
+[YOCTO #10433]
+
+Signed-off-by: David Vincent <freesilicon@gmail.com>
+---
+ meta/classes/update-alternatives.bbclass | 29 ++++++++++++++++++++++-------
+ meta/classes/update-rc.d.bbclass         | 20 ++++++++++++++++++--
+ 2 files changed, 40 insertions(+), 9 deletions(-)
+
+diff --git a/meta/classes/update-alternatives.bbclass b/meta/classes/update-alternatives.bbclass
+index 1fdd681..65929e5 100644
+--- a/meta/classes/update-alternatives.bbclass
++++ b/meta/classes/update-alternatives.bbclass
+@@ -195,8 +195,8 @@ python populate_packages_updatealternatives () {
+     pkgdest = d.getVar('PKGD', True)
+     for pkg in (d.getVar('PACKAGES', True) or "").split():
+         # Create post install/removal scripts
+-        alt_setup_links = ""
+-        alt_remove_links = ""
++        alt_setup_links = "# Begin section update-alternatives\n"
++        alt_remove_links = "# Begin section update-alternatives\n"
+         for alt_name in (d.getVar('ALTERNATIVE_%s' % pkg, True) or "").split():
+             alt_link     = d.getVarFlag('ALTERNATIVE_LINK_NAME', alt_name, True)
+             alt_target   = d.getVarFlag('ALTERNATIVE_TARGET_%s' % pkg, alt_name, True) or d.getVarFlag('ALTERNATIVE_TARGET', alt_name, True)
+@@ -219,10 +219,13 @@ python populate_packages_updatealternatives () {
+             # Default to generate shell script.. eventually we may want to change this...
+             alt_target = os.path.normpath(alt_target)
+ 
+-            alt_setup_links  += '\tupdate-alternatives --install %s %s %s %s\n' % (alt_link, alt_name, alt_target, alt_priority)
+-            alt_remove_links += '\tupdate-alternatives --remove  %s %s\n' % (alt_name, alt_target)
++            alt_setup_links  += 'update-alternatives --install %s %s %s %s\n' % (alt_link, alt_name, alt_target, alt_priority)
++            alt_remove_links += 'update-alternatives --remove  %s %s\n' % (alt_name, alt_target)
+ 
+-        if alt_setup_links:
++        alt_setup_links += "# End section update-alternatives\n"
++        alt_remove_links += "# End section update-alternatives\n"
++
++        if len(alt_setup_links.splitlines()) > 2:
+             # RDEPENDS setup
+             provider = d.getVar('VIRTUAL-RUNTIME_update-alternatives', True)
+             if provider:
+@@ -232,12 +235,24 @@ python populate_packages_updatealternatives () {
+             bb.note('adding update-alternatives calls to postinst/prerm for %s' % pkg)
+             bb.note('%s' % alt_setup_links)
+             postinst = d.getVar('pkg_postinst_%s' % pkg, True) or '#!/bin/sh\n'
+-            postinst += alt_setup_links
++            postinst = postinst.splitlines(True)
++            try:
++                index = postinst.index('# Begin section update-rc.d\n')
++                postinst.insert(index, alt_setup_links)
++            except ValueError:
++                postinst.append(alt_setup_links)
++            postinst = ''.join(postinst)
+             d.setVar('pkg_postinst_%s' % pkg, postinst)
+ 
+             bb.note('%s' % alt_remove_links)
+             prerm = d.getVar('pkg_prerm_%s' % pkg, True) or '#!/bin/sh\n'
+-            prerm += alt_remove_links
++            prerm = prerm.splitlines(True)
++            try:
++                index = prerm.index('# End section update-rc.d\n')
++                prerm.insert(index + 1, alt_remove_links)
++            except ValueError:
++                prerm.append(alt_remove_links)
++            prerm = ''.join(prerm)
+             d.setVar('pkg_prerm_%s' % pkg, prerm)
+ }
+ 
+diff --git a/meta/classes/update-rc.d.bbclass b/meta/classes/update-rc.d.bbclass
+index 321924b..18df2dc 100644
+--- a/meta/classes/update-rc.d.bbclass
++++ b/meta/classes/update-rc.d.bbclass
+@@ -26,6 +26,7 @@ fi
+ }
+ 
+ updatercd_postinst() {
++# Begin section update-rc.d
+ if type update-rc.d >/dev/null 2>/dev/null; then
+ 	if [ -n "$D" ]; then
+ 		OPT="-r $D"
+@@ -34,12 +35,15 @@ if type update-rc.d >/dev/null 2>/dev/null; then
+ 	fi
+ 	update-rc.d $OPT ${INITSCRIPT_NAME} ${INITSCRIPT_PARAMS}
+ fi
++# End section update-rc.d
+ }
+ 
+ updatercd_prerm() {
++# Begin section update-rc.d
+ if [ -z "$D" -a -x "${INIT_D_DIR}/${INITSCRIPT_NAME}" ]; then
+ 	${INIT_D_DIR}/${INITSCRIPT_NAME} stop || :
+ fi
++# End section update-rc.d
+ }
+ 
+ updatercd_postrm() {
+@@ -102,13 +106,25 @@ python populate_packages_updatercd () {
+         postinst = d.getVar('pkg_postinst_%s' % pkg, True)
+         if not postinst:
+             postinst = '#!/bin/sh\n'
+-        postinst += localdata.getVar('updatercd_postinst', True)
++        postinst = postinst.splitlines(True)
++        try:
++            index = postinst.index('# End section update-alternatives\n')
++            postinst.insert(index + 1, localdata.getVar('updatercd_postinst', True))
++        except ValueError:
++            postinst.append(localdata.getVar('updatercd_postinst', True))
++        postinst = ''.join(postinst)
+         d.setVar('pkg_postinst_%s' % pkg, postinst)
+ 
+         prerm = d.getVar('pkg_prerm_%s' % pkg, True)
+         if not prerm:
+             prerm = '#!/bin/sh\n'
+-        prerm += localdata.getVar('updatercd_prerm', True)
++        prerm = prerm.splitlines(True)
++        try:
++            index = prerm.index('# Begin section update-alternatives\n')
++            prerm.insert(index, localdata.getVar('updatercd_prerm', True))
++        except ValueError:
++            prerm.append(localdata.getVar('updatercd_prerm', True))
++        prerm = ''.join(prerm)
+         d.setVar('pkg_prerm_%s' % pkg, prerm)
+ 
+         postrm = d.getVar('pkg_postrm_%s' % pkg, True)
+-- 
+2.10.2
+
 
