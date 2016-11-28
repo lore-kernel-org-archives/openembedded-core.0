@@ -1,56 +1,24 @@
-Return-Path: <kristian.amlie@mender.io>
-Received: from mail-lf0-f43.google.com (mail-lf0-f43.google.com
-	[209.85.215.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 92664719B7
+Return-Path: <Zhixiong.Chi@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 6CF9171A79
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Nov 2016 07:15:27 +0000 (UTC)
-Received: by mail-lf0-f43.google.com with SMTP id b14so89105010lfg.2
+	Mon, 28 Nov 2016 08:12:10 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id uAS8C6ei014362
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 27 Nov 2016 23:15:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=mender-io.20150623.gappssmtp.com; s=20150623;
-	h=subject:to:references:cc:from:message-id:date:user-agent
-	:mime-version:in-reply-to:content-transfer-encoding;
-	bh=ydWVRy8sTYG+0IAP2qHuPpAQiGRo5FJfv/AlOdYXN5c=;
-	b=vkBmAC9ljH4cBoYabjHB1ycNM+kseBqsJA+Ql9YmrRnHsYqufXV5NP6wTwVJdy/Hpc
-	xaBNP8vs0+7wD2Hg3nCZWNGEEQcwqlNUQq8uVN8ZL779vqgp5xWpWND/2muT+QuUjoCp
-	N5P+LM/UQckMHtS9POmY7mBKL2SxEJS1PMM5buvwIgFxoSXYbUSMmyR2+K+Qq9C4kW1w
-	7ZwTvPTlxVHM7DUoOESuY0U1+QFf6VVpylNdJgSd/H1ugRtVY421CSw2IC2TIUigyPuM
-	xLXSj9OZ1O51HIdUF9tJca6rR6AZhj59zACgVvURrBGqL6tLQNHNSoGnwJaATIhVHLM3
-	/GjA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:subject:to:references:cc:from:message-id:date
-	:user-agent:mime-version:in-reply-to:content-transfer-encoding;
-	bh=ydWVRy8sTYG+0IAP2qHuPpAQiGRo5FJfv/AlOdYXN5c=;
-	b=C1CJaEmFUMxIFPws2CanVi/cTZpVhGml0lVSHc+/xSw7mex+S02QrnlB1qQ41Y7y89
-	fUk5lZo8fhfVP5XFtd1tV0dUVcuK+6lnOG3u8fTLUJuV1kIJOnRTTfSBmx2eq6O/ieSD
-	0FcOsTjhFrTKh8slWaIn3FF27TSRu/heOqK9wUUkayOniZlRa5947gBaFfiWjm6TFVrr
-	z7b97JHFcLpeXZFOXmBJ7ZebaXBGUYphVhP5zs99WFwhOMSG5/kasqAlzvMrsY/QdW/s
-	mUuzlz2njT4KoUD2p2le0V5ZSmL4nAPgzvFjunNNnzZJLoMEEHMlNSpZlaKjBStl2IQL
-	LH4Q==
-X-Gm-Message-State: AKaTC01RjxvONiS1ruNn6dHNDk07BIdta63kk0MNP29oZq2phf1mJqq5e9gPXgk+783V4w==
-X-Received: by 10.46.0.218 with SMTP id e87mr8757697lji.54.1480317328230;
-	Sun, 27 Nov 2016 23:15:28 -0800 (PST)
-Received: from [10.25.0.170] ([195.159.140.90])
-	by smtp.googlemail.com with ESMTPSA id
-	q19sm12521406lfi.1.2016.11.27.23.15.27
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 27 Nov 2016 23:15:27 -0800 (PST)
-To: ed.bartosh@linux.intel.com
-References: <1480068955-17053-1-git-send-email-kristian.amlie@mender.io>
-	<1480069993.6873.98.camel@intel.com>
-	<f1699a69-1949-9cb3-8bef-adf9b68f385b@mender.io>
-	<20161125163103.GA4830@linux.intel.com>
-From: Kristian Amlie <kristian.amlie@mender.io>
-Message-ID: <e29489aa-8303-d8ac-be67-93d650d09f6d@mender.io>
-Date: Mon, 28 Nov 2016 08:15:26 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.4.0
+	Mon, 28 Nov 2016 00:12:10 -0800 (PST)
+Received: from pek-zchi-d1.corp.ad.wrs.com (128.224.162.239) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.3.294.0; Mon, 28 Nov 2016 00:12:05 -0800
+From: Zhixiong Chi <zhixiong.chi@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 28 Nov 2016 16:12:04 +0800
+Message-ID: <1480320724-7796-1-git-send-email-zhixiong.chi@windriver.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-In-Reply-To: <20161125163103.GA4830@linux.intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v1] wic: Add --exclude-path option to rootfs source plugin.
+Subject: [PATCH] tiff: Security fix CVE-2016-9540
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -63,78 +31,105 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 28 Nov 2016 07:15:29 -0000
-Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 28 Nov 2016 08:12:12 -0000
+Content-Type: text/plain
 
-On 25/11/16 17:31, Ed Bartosh wrote:
-> On Fri, Nov 25, 2016 at 01:07:34PM +0100, Kristian Amlie wrote:
->> On 25/11/16 11:33, Patrick Ohly wrote:
->>> On Fri, 2016-11-25 at 11:15 +0100, Kristian Amlie wrote:
->>>> +            if os.stat(real_rootfs_dir).st_dev ==
->>>> os.stat(cr_workdir).st_dev:
->>>> +                # Optimization if both directories are on the same
->>>> file system:
->>>> +                # copy using hardlinks.
->>>> +                cp_args = "-al"
->>>> +            else:
->>>> +                cp_args = "-a"
->>>> +            exec_cmd("cp %s %s %s" % (cp_args, real_rootfs_dir,
->>>> new_rootfs))
->>>
->>> Not a full review (I'll leave that to Ed), just one thing which caught
->>> my eye: when the rootfs contains xattrs, they get lost here.
->>>
->>> Use oe.path.copyhardlinktree() instead, it also does the hardlinking
->>> trick.
->>
->> Thanks, that's a good tip! I'll include that in the next patchset.
->>
-> 
-> Thank you for so fast implementation!
-> 
-> Sorry for not answering on original e-mail. I've lost it somehow.
-> 
-> My comments so far:
-> 
-> What's the reason of insisting that path must be absolute?
-> May be it's just me, but I find it a bit scaring to use absolute path in .wks
-> The patch is relative to the rootfs directory from my point of view.
-> 
-> It also looks quite strange in the code to insist on absolute path
-> +                if not os.path.isabs(path):
-> +                    msger.error("Must be absolute: --exclude-path=%s" %
-> 
-> and then immediately making it relative:
-> +
-> +                while os.path.isabs(path):
-> +                    path = path[1:]
+tools/tiffcp.c in libtiff 4.0.6 has an out-of-bounds write on tiled
+images with odd tile width versus image width. Reported as MSVR 35103,
+aka "cpStripToTile heap-buffer-overflow."
 
-Not really any strong reason. I just thought it was a logical thing to
-do from a user perspective: When you're making an image you're thinking
-about paths in the final image, and the path after "part" is absolute,
-so I thought this one should be too.
+External References:
+https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-9540
 
-The fact that it's made relative in the code is just an implementation
-detail to make join() work correctly.
+Patch from:
+https://github.com/vadz/libtiff/commit/5ad9d8016fbb60109302d558f7edb2cb2a3bb8e3
 
-I'm fine either way, so just let me know which you prefer.
+Signed-off-by: Zhixiong Chi <zhixiong.chi@windriver.com>
+---
+ .../libtiff/files/CVE-2016-9540.patch              | 60 ++++++++++++++++++++++
+ meta/recipes-multimedia/libtiff/tiff_4.0.6.bb      |  1 +
+ 2 files changed, 61 insertions(+)
+ create mode 100644 meta/recipes-multimedia/libtiff/files/CVE-2016-9540.patch
 
-> I know, this is just a matter of taste, but I'd not use brackets around
-> head, tail here. They're redundant and the code looks better without
-> them from my point of view.
-> +                    (head, tail) = os.path.split(remaining)
-
-Noted, I'll remove the brackets.
-
-> This causes rmtree to throw NotADirectoryError on files:
-> +                    for entry in os.listdir(full_path):
-> +                        shutil.rmtree(os.path.join(full_path, entry))
-
-Oh, nice catch. I will fix that one as well!
-
-Thanks for the review!
-
+diff --git a/meta/recipes-multimedia/libtiff/files/CVE-2016-9540.patch b/meta/recipes-multimedia/libtiff/files/CVE-2016-9540.patch
+new file mode 100644
+index 0000000..dddaa0c
+--- /dev/null
++++ b/meta/recipes-multimedia/libtiff/files/CVE-2016-9540.patch
+@@ -0,0 +1,60 @@
++From 5ad9d8016fbb60109302d558f7edb2cb2a3bb8e3 Mon Sep 17 00:00:00 2001
++From: erouault <erouault>
++Date: Sat, 8 Oct 2016 15:54:56 +0000
++Subject: [PATCH] fix CVE-2016-9540
++ * tools/tiffcp.c: fix out-of-bounds write on tiled images with odd
++ tile width vs image width. Reported as MSVR 35103
++ by Axel Souchet and Vishal Chauhan from the MSRC Vulnerabilities &
++ Mitigations team.
++
++CVE: CVE-2016-9540
++
++Upstream-Status: Backport
++https://github.com/vadz/libtiff/commit/5ad9d8016fbb60109302d558f7edb2cb2a3bb8e3
++
++Signed-off-by: Zhixiong Chi <zhixiong.chi@windriver.com>
++---
++ ChangeLog      | 7 +++++++
++ tools/tiffcp.c | 4 ++--
++ 2 files changed, 9 insertions(+), 2 deletions(-)
++
++Index: tiff-4.0.4/ChangeLog
++===================================================================
++--- tiff-4.0.4.orig/ChangeLog	2016-11-24 14:40:43.046867737 +0800
+++++ tiff-4.0.4/ChangeLog	2016-11-28 14:38:01.681276171 +0800
++@@ -17,6 +17,13 @@
++ 	Fixes http://bugzilla.maptools.org/show_bug.cgi?id=2500
++ 	(CVE-2014-8127, duplicate: CVE-2016-3658)
++ 
+++2016-10-08 Even Rouault <even.rouault at spatialys.com>
+++
+++	* tools/tiffcp.c: fix out-of-bounds write on tiled images with odd
+++	tile width vs image width. Reported as MSVR 35103
+++	by Axel Souchet and Vishal Chauhan from the MSRC Vulnerabilities &
+++	Mitigations team.
+++
++ 2016-09-24  Bob Friesenhahn  <bfriesen@simple.dallas.tx.us>
++
++ 	* libtiff/tif_getimage.c (TIFFRGBAImageOK): Reject attempts to
++Index: tiff-4.0.4/tools/tiffcp.c
++===================================================================
++--- tiff-4.0.4.orig/tools/tiffcp.c	2015-06-21 09:09:10.000000000 +0800
+++++ tiff-4.0.4/tools/tiffcp.c	2016-11-28 14:41:02.221277430 +0800
++@@ -1338,7 +1338,7 @@
++ 		uint32 colb = 0;
++ 		uint32 col;
++ 
++-		for (col = 0; col < imagewidth; col += tw) {
+++		for (col = 0; col < imagewidth && colb < imagew; col += tw) {
++ 			if (TIFFReadTile(in, tilebuf, col, row, 0, 0) < 0
++ 			    && !ignore) {
++ 				TIFFError(TIFFFileName(in),
++@@ -1523,7 +1523,7 @@
++ 		uint32 colb = 0;
++ 		uint32 col;
++ 
++-		for (col = 0; col < imagewidth; col += tw) {
+++		for (col = 0; col < imagewidth && colb < imagew; col += tw) {
++ 			/*
++ 			 * Tile is clipped horizontally.  Calculate
++ 			 * visible portion and skewing factors.
+diff --git a/meta/recipes-multimedia/libtiff/tiff_4.0.6.bb b/meta/recipes-multimedia/libtiff/tiff_4.0.6.bb
+index 9b4aff3..3057121 100644
+--- a/meta/recipes-multimedia/libtiff/tiff_4.0.6.bb
++++ b/meta/recipes-multimedia/libtiff/tiff_4.0.6.bb
+@@ -17,6 +17,7 @@ SRC_URI = "http://download.osgeo.org/libtiff/tiff-${PV}.tar.gz \
+            file://CVE-2016-3622.patch \
+            file://CVE-2016-3658.patch \
+            file://CVE-2016-3632.patch \
++           file://CVE-2016-9540.patch \
+           "
+ 
+ SRC_URI[md5sum] = "d1d2e940dea0b5ad435f21f03d96dd72"
 -- 
-Kristian
+1.9.1
+
 
