@@ -1,49 +1,52 @@
 Return-Path: <patrick.ohly@intel.com>
-Received: from mail-io0-f169.google.com (mail-io0-f169.google.com
-	[209.85.223.169])
-	by mail.openembedded.org (Postfix) with ESMTP id 3232671A8F
+Received: from mail-oi0-f44.google.com (mail-oi0-f44.google.com
+	[209.85.218.44])
+	by mail.openembedded.org (Postfix) with ESMTP id 13DF271AB2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Nov 2016 15:33:15 +0000 (UTC)
-Received: by mail-io0-f169.google.com with SMTP id a124so235479470ioe.2
+	Mon, 28 Nov 2016 15:33:18 +0000 (UTC)
+Received: by mail-oi0-f44.google.com with SMTP id y198so153976104oia.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Nov 2016 07:33:17 -0800 (PST)
+	Mon, 28 Nov 2016 07:33:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=UrDr7AMy/+ODoNa91JKuu4lLPVpCUFuDK9wgPMDN5xg=;
-	b=arC7iFHxtH228J8Yl6fqOaBJL3jrdDUuVXGw5UlXtFJoFqNahDnji1M9HVLfBlK7++
-	bJmfLMFm4uALXczZsmb2FA5b1z9ZPs6P8VK7XKW1y/zgvKreLpjTgHV6n9Z2XuaZiDAX
-	cbYFgkUK4JwHqunaAdPWsnjPDIzGa3zSXrnSJKAmiAT4i0R3xOziYrMgB66u4Ea2iP+t
-	0q8zIWUg57EsoQETuVGDLMWzL0tS0GTQ5UyY9Rhi+Gp2M8lEIR3Ft7WVimEZ4ayNqS7w
-	TKR4io84zfZXB1JJtVclezR6TRANF2ipD/rkcFAK/K5kzibL29FqU777XH1uoppxy111
-	Bs7w==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references
+	:in-reply-to:references;
+	bh=c9C4CyCc2KZTyk8Wcj/fBwmoHR2T/TT4bV1v6c1NvNM=;
+	b=j81ivvatxw9Rhj+f5IAJrqLFVRM0QhiTsnKaMzch613tmZvw3Fbb9NeiPLjBWKqp4n
+	PFUX7UMNMs7c2iw87nQnEsr4p1YX4bDKnVWajZ+xuVlmg8uSd3p0XcsE3ev8KQLnA2Zs
+	BjKl4lYE4kQR0wWdMsSwC4c6ocMBTer4j43KmVjbwCtKp7vwpvKLagC570sTKvhgnrWi
+	ZshK/73YGvo89QueGDXmVVdcNPIdXSOlP3tjHgQrcC6/MumgYjb++6lV5LtceywjXepx
+	OhAfiGiAyi5/pSqdG998lMFdBOnlvx+/bNY/VAPqrYzcmCZbGDszdB+mYA7IGJXvKOBb
+	7lFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=UrDr7AMy/+ODoNa91JKuu4lLPVpCUFuDK9wgPMDN5xg=;
-	b=m6rv2XEjKFldcQdZrSdWbCnTxbFcRq0jgmyOaHzEJsB/EQSsMzpeDddpOPvFTULDa0
-	/+0YBcVkzyGkhuN+K91xybxKWrStaslSKM1v4mfWhNXm/tFQPArZsUXi6/icrWBB2MD5
-	//XNR+jrFBxaVHwLuDIhGijiOnwyhwattrl2kmcU33XGhEjT3y4o+Yi3l0wj8dBPVGhR
-	NU9pwkOjc0ggry8gV6x9YuP/YsiG9pt4e2gTD0dmXbi9OmyVESE8zoFUMOmGIaO6i7KJ
-	Ns3TcZlKbxMYJoSA7KZpYvC2C/ZhE9aRhgZCxQqA0BhR2qhKR+THoiYqd4LAZLUl/ywH
-	ZP7g==
-X-Gm-Message-State: AKaTC02ituHf6OBdL1/SHRaW+1ZYcOuq1emb2zDnVDFqeMgY6p6kkpGvU7IvsAbB4IV7f5CH
-X-Received: by 10.36.181.83 with SMTP id j19mr18201220iti.13.1480347197044;
-	Mon, 28 Nov 2016 07:33:17 -0800 (PST)
+	:references:in-reply-to:references;
+	bh=c9C4CyCc2KZTyk8Wcj/fBwmoHR2T/TT4bV1v6c1NvNM=;
+	b=Ta0Y0LvhH1FiJQ6z8UhO7rG7aH4dY6I8kZXaHf3A4Z06PTpEERywaG4Ojdktve2Efp
+	Zt+KcwZ8AiAuwg1pn9NmUswWRjTIgNTVRIlrOPVy4oHWMbJHU8OWxCl/j08JYlXqkpP1
+	1DjLAE+8YGf5FvlhfzTpDES1acNOuY3qC8Fzc/05T97z8vjMXxec4hrJ85cngAfoLqkg
+	h1iyAtl3LyZ1mDtMtDVDTvJalC0F2ehNrCpkvjYgTvh5ImVSwmZsSxbxp1V3lJucuQXD
+	XtEZ/BZiK2nS7c2Vr2hKAhzP1U9RJWCAl8IKTl4sNY/7kjEqNkqJ8bJDv5+6T34ixv0E
+	NILw==
+X-Gm-Message-State: AKaTC003QEG0OPcMx45XuZJsSRXdsPssm8Sqah2X1ab1FGDI5uRU32OumuIBKlMKk1P6gtRZ
+X-Received: by 10.36.120.131 with SMTP id p125mr18812139itc.15.1480347199744; 
+	Mon, 28 Nov 2016 07:33:19 -0800 (PST)
 Received: from pohly-desktop.fritz.box (p5DE8C83A.dip0.t-ipconnect.de.
 	[93.232.200.58]) by smtp.gmail.com with ESMTPSA id
-	m83sm5332339ioi.11.2016.11.28.07.33.15
+	m83sm5332339ioi.11.2016.11.28.07.33.18
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 28 Nov 2016 07:33:16 -0800 (PST)
+	Mon, 28 Nov 2016 07:33:18 -0800 (PST)
 From: Patrick Ohly <patrick.ohly@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 28 Nov 2016 16:33:02 +0100
-Message-Id: <d96e4eb080323e3331ae743d1df3362a6c5a2309.1480346284.git.patrick.ohly@intel.com>
+Date: Mon, 28 Nov 2016 16:33:03 +0100
+Message-Id: <e21db55bfaa4b97647ee46f92946bd9b005e6330.1480346284.git.patrick.ohly@intel.com>
 X-Mailer: git-send-email 2.1.4
+In-Reply-To: <d96e4eb080323e3331ae743d1df3362a6c5a2309.1480346284.git.patrick.ohly@intel.com>
+References: <d96e4eb080323e3331ae743d1df3362a6c5a2309.1480346284.git.patrick.ohly@intel.com>
 In-Reply-To: <cover.1480346284.git.patrick.ohly@intel.com>
 References: <cover.1480346284.git.patrick.ohly@intel.com>
-Subject: [PATCH 01/11] buildstats: add system state sampling
+Subject: [PATCH 02/11] pybootchartgui/draw.py: allow moving process chart up and down
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,104 +59,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 28 Nov 2016 15:33:16 -0000
+X-List-Received-Date: Mon, 28 Nov 2016 15:33:19 -0000
 
-/proc/[diskstats|meminfo|stat] get sampled and written to the same
-proc_<filename>.log files as during normal bootchat logging. This will
-allow rendering the CPU, disk and memory usage charts.
+Substracting curr_y when determining the hight of the process chart is
+wrong because the height is independent of the position where the
+chart is about to be drawn. It happens to work at the moment because
+curr_y is always 10 when render_processes_chart() gets called. But it
+leads to a negative height when other charts are drawn above it, and
+then the grid gets drawn on top of those other charts.
 
-Right now sampling happens once a second, triggered by the heartbeat
-event.That produces quite a bit of data for long builds, which will be
-addressed in a separate commit by storing the data in a more compact
-form.
+Substracting some constant is relevant because otherwise the box is
+slightly larger than the process bars. Not sure exactly where that
+comes from (text height?); leg_s seems a suitable constant and happens
+to be 10, so everything still gets rendered exactly as before.
 
 Signed-off-by: Patrick Ohly <patrick.ohly@intel.com>
 ---
- meta/classes/buildstats.bbclass | 16 +++++++++++++
- meta/lib/buildstats.py          | 50 +++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 66 insertions(+)
- create mode 100644 meta/lib/buildstats.py
+ scripts/pybootchartgui/pybootchartgui/draw.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes/buildstats.bbclass b/meta/classes/buildstats.bbclass
-index 57ecc8f..2abc1a7 100644
---- a/meta/classes/buildstats.bbclass
-+++ b/meta/classes/buildstats.bbclass
-@@ -188,3 +188,19 @@ python run_buildstats () {
- addhandler run_buildstats
- run_buildstats[eventmask] = "bb.event.BuildStarted bb.event.BuildCompleted bb.build.TaskStarted bb.build.TaskSucceeded bb.build.TaskFailed"
+diff --git a/scripts/pybootchartgui/pybootchartgui/draw.py b/scripts/pybootchartgui/pybootchartgui/draw.py
+index 8c574be..2b5907b 100644
+--- a/scripts/pybootchartgui/pybootchartgui/draw.py
++++ b/scripts/pybootchartgui/pybootchartgui/draw.py
+@@ -415,7 +415,7 @@ def render_charts(ctx, options, clip, trace, curr_y, w, h, sec_w):
+ 	return curr_y
  
-+python runqueue_stats () {
-+    import buildstats
-+    from bb import event, runqueue
-+    # We should not record any samples before the first task has started,
-+    # because that's the first activity shown in the process chart.
-+    # Besides, at that point we are sure that the build variables
-+    # are available that we need to find the output directory.
-+    init = isinstance(e, bb.runqueue.runQueueTaskStarted)
-+    system_stats = buildstats.get_system_stats(d, init=init)
-+    if system_stats:
-+        # Ensure that we sample at important events.
-+        system_stats.sample(force=isinstance(e, bb.event.BuildCompleted))
-+}
-+
-+addhandler runqueue_stats
-+runqueue_stats[eventmask] = "bb.runqueue.runQueueTaskStarted bb.event.HeartbeatEvent bb.event.BuildCompleted"
-diff --git a/meta/lib/buildstats.py b/meta/lib/buildstats.py
-new file mode 100644
-index 0000000..1664c52
---- /dev/null
-+++ b/meta/lib/buildstats.py
-@@ -0,0 +1,50 @@
-+# Implements system state sampling. Called by buildstats.bbclass.
-+# Because it is a real Python module, it can hold persistent state,
-+# like open log files and the time of the last sampling.
-+
-+import time
-+
-+class SystemStats:
-+    def __init__(self, d):
-+        bn = d.getVar('BUILDNAME', True)
-+        bsdir = os.path.join(d.getVar('BUILDSTATS_BASE', True), bn)
-+        bb.utils.mkdirhier(bsdir)
-+
-+        self.proc_files = []
-+        for filename in ('diskstats', 'meminfo', 'stat'):
-+            # In practice, this class gets instantiated only once in
-+            # the bitbake cooker process.  Therefore 'append' mode is
-+            # not strictly necessary, but using it makes the class
-+            # more robust should two processes ever write
-+            # concurrently.
-+            self.proc_files.append((filename,
-+                                    open(os.path.join(bsdir, 'proc_%s.log' % filename), 'ab')))
-+        # Last time that we sampled data.
-+        self.last = 0
-+        # Minimum number of seconds between recording a sample. This
-+        # becames relevant when we get called very often while many
-+        # short tasks get started. Sampling during quiet periods
-+        # depends on the heartbeat event, which fires less often.
-+        self.min_seconds = 1
-+
-+    def sample(self, force):
-+        now = time.time()
-+        if (now - self.last > self.min_seconds) or force:
-+            for filename, output in self.proc_files:
-+                with open(os.path.join('/proc', filename), 'rb') as input:
-+                    data = input.read()
-+                    # Unbuffered raw write, less overhead and useful
-+                    # in case that we end up with concurrent writes.
-+                    os.write(output.fileno(),
-+                             ('%.0f\n' % now).encode('ascii') +
-+                             data +
-+                             b'\n')
-+            self.last = now
-+
-+_system_stats = None
-+
-+def get_system_stats(d, init):
-+    global _system_stats
-+    if not _system_stats and init:
-+        _system_stats = SystemStats(d)
-+    return _system_stats
+ def render_processes_chart(ctx, options, trace, curr_y, w, h, sec_w):
+-        chart_rect = [off_x, curr_y+header_h, w, h - 2 * off_y - (curr_y+header_h) + proc_h]
++        chart_rect = [off_x, curr_y+header_h, w, h - 2 * off_y - header_h - leg_s + proc_h]
+ 
+ 	draw_legend_box (ctx, "Configure", \
+ 			 TASK_COLOR_CONFIGURE, off_x  , curr_y + 45, leg_s)
 -- 
 2.1.4
 
