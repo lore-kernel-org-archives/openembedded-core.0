@@ -1,29 +1,46 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id BA4C76B6F7
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qk0-f169.google.com (mail-qk0-f169.google.com
+	[209.85.220.169])
+	by mail.openembedded.org (Postfix) with ESMTP id 4FEFB719A4
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Nov 2016 13:46:49 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	uASDjb55023200; Mon, 28 Nov 2016 13:45:45 GMT
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id WZXiNqWR14m5; Mon, 28 Nov 2016 13:45:45 +0000 (GMT)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	uASDjgNQ023207
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Mon, 28 Nov 2016 13:45:43 GMT
-Message-ID: <1480340742.28508.172.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patrick Ohly <patrick.ohly@intel.com>
-Date: Mon, 28 Nov 2016 13:45:42 +0000
+	Mon, 28 Nov 2016 14:10:14 +0000 (UTC)
+Received: by mail-qk0-f169.google.com with SMTP id n204so140466727qke.2
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 28 Nov 2016 06:10:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=yNh7gLDxPMUCHoM4ANVA7N7Fexq8LbmkyUXPeG4zPpE=;
+	b=Kn8OKbQUqNa9QXlpvt7kJqWviIxXOhUweuXeufpH3jk/MscUHUwEGl9y+b4iQ4Vwxk
+	kG0mTFPaf0HxR5mWlsHEHr+BcT0bXZFCJFgzaGEEvjWplBS3SeW+m27QZkyi5c9BmC5+
+	e80g3KKfBkvIrSlmNAKs9b8EnVBKzzvAUFFehUowXcjzh5mMwzeZ6vGYL6lXCraZOLx+
+	nIpioHtdQmQzyJox8qsQAUlllRBAkD0bCZymi28OUWEdmYlIimm4EE+eBVBMIDRrxUiV
+	+i1UClfjh2TQJvtzygw5tSV8ZPsyDYQoEQ+ukm5g/9BEosGrO7O3wSX0+T6yicCN8iu1
+	lGRg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=yNh7gLDxPMUCHoM4ANVA7N7Fexq8LbmkyUXPeG4zPpE=;
+	b=kSMe2lIfboMi/sOocog9hriP76O3f3LBcsLrAK4BRBEvcG/i5PVOa1G1C6/F8yeiNK
+	cx4O0k3qJy9+BGwn+T5Pzrg0CzK2kygP3ZNhOC4tUWdtsn2aq4d9w6DiqIHGnicRTTka
+	urSXYq+DL63CNgEzYsUwCOi0pOKrBODWoP+jcryXDcC9Mgr3ZAfgL9LI6sKL4zeTfWqd
+	lLQz2KLoyGk5N61BeyiZ2rQcWhDTJqPSVZSzvS8QAmt5Kk2xDmxQLUoQMLNyayxH3WFH
+	qa0DCnJbnnk5ipHgKu2hMXilG9MR7cUQGoa+X+cUFZbzWCuuaIb7QD3As++hlthaLkq/
+	gFbw==
+X-Gm-Message-State: AKaTC00ySn+8YAiHqJxOUmcb6aeBB88AyBDYAEHq+0D6Bt30t20MeYw/Fj6wF8RPCvWFRWr7MqRbHnUnMmFLsetL
+X-Received: by 10.55.5.145 with SMTP id 139mr18858348qkf.77.1480342216253;
+	Mon, 28 Nov 2016 06:10:16 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.140.85.136 with HTTP; Mon, 28 Nov 2016 06:09:55 -0800 (PST)
 In-Reply-To: <1480339031.6873.181.camel@intel.com>
 References: <alpine.LFD.2.20.1611280544090.16875@localhost.localdomain>
 	<1480334664.28508.167.camel@linuxfoundation.org>
 	<1480339031.6873.181.camel@intel.com>
-X-Mailer: Evolution 3.18.5.2-0ubuntu3 
-Mime-Version: 1.0
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 28 Nov 2016 14:09:55 +0000
+Message-ID: <CAJTo0LaLhqDT=f=6kREfmTTdvRYhjKrY3qOV3Op0a=EoxVNHmg@mail.gmail.com>
+To: Patrick Ohly <patrick.ohly@intel.com>
 Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
 Subject: Re: ASSUME_PROVIDED versus SANITY_REQUIRED_UTILITIES versus "The Build Host Packages"
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -38,35 +55,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 28 Nov 2016 13:46:52 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 28 Nov 2016 14:10:18 -0000
+Content-Type: multipart/alternative; boundary=001a114c8f84f259e005425d07d8
 
-On Mon, 2016-11-28 at 14:17 +0100, Patrick Ohly wrote:
-> I recently ran into a third usage of "file-native": swupd-server
-> links against libmagic from file and therefore has a DEPENDS =
-> "file". But building swupd-server-native didn't actually build file
-> because of ASSUME_PROVIDED and because I hadn't installed libmagic-
-> dev on my build host, the build was failing.
-> 
-> Is there a way to declare that ASSUME_PROVIDED does not apply to this
-> case? It sounds like there is a way (based on your comments about
-> building file-native when building file and the libbz2-devel
-> example), but it did not become clear to me how that works in
-> practice.
+--001a114c8f84f259e005425d07d8
+Content-Type: text/plain; charset=UTF-8
 
-If you look at the file recipe, you'll see:
+On 28 November 2016 at 13:17, Patrick Ohly <patrick.ohly@intel.com> wrote:
 
-DEPENDS = "zlib file-replacement-native"
+> I recently ran into a third usage of "file-native": swupd-server links
+> against libmagic from file and therefore has a DEPENDS = "file". But
+> building swupd-server-native didn't actually build file because of
+> ASSUME_PROVIDED and because I hadn't installed libmagic-dev on my build
+> host, the build was failing.
+>
 
+For this case you can use file-replacement-native to get a full file-native
+built.
 
-> Or is it just a case of educating the developer that libmagic-dev
-> needs to be installed on the build host in addition to the file
-> command?
+Ross
 
-No, DEPENDS on file-replacement-native.
+--001a114c8f84f259e005425d07d8
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Cheers,
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 28 November 2016 at 13:17, Patrick Ohly <span dir=3D"ltr">&lt;<a href=3D=
+"mailto:patrick.ohly@intel.com" target=3D"_blank">patrick.ohly@intel.com</a=
+>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 =
+0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":2xn" clas=
+s=3D"a3s aXjCH m158ab2c7a2c2b5ad">I recently ran into a third usage of &quo=
+t;file-native&quot;: swupd-server links<br>
+against libmagic from file and therefore has a DEPENDS =3D &quot;file&quot;=
+. But<br>
+building swupd-server-native didn&#39;t actually build file because of<br>
+ASSUME_PROVIDED and because I hadn&#39;t installed libmagic-dev on my build=
+<br>
+host, the build was failing.<br></div></blockquote></div><br>For this case =
+you can use file-replacement-native to get a full file-native built.</div><=
+div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></=
+div>
 
-Richard
-
+--001a114c8f84f259e005425d07d8--
