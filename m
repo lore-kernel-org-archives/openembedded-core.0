@@ -1,37 +1,29 @@
-Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 8686A6072C
+Return-Path: <rpjday@crashcourse.ca>
+Received: from smtp485.redcondor.net (smtp485.redcondor.net [208.80.204.85])
+	by mail.openembedded.org (Postfix) with ESMTP id 4439A6093E
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Nov 2016 11:18:54 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga102.fm.intel.com with ESMTP; 28 Nov 2016 03:18:55 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.31,563,1473145200"; d="scan'208";a="1065128742"
-Received: from linux.intel.com ([10.54.29.200])
-	by orsmga001.jf.intel.com with ESMTP; 28 Nov 2016 03:18:55 -0800
-Received: from linux.intel.com (vmed.fi.intel.com [10.237.72.38])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by linux.intel.com (Postfix) with ESMTP id 91EF26A4080;
-	Mon, 28 Nov 2016 03:18:11 -0800 (PST)
-Date: Mon, 28 Nov 2016 13:18:25 +0200
-From: Ed Bartosh <ed.bartosh@linux.intel.com>
-To: Kristian Amlie <kristian.amlie@mender.io>
-Message-ID: <20161128111825.GA16035@linux.intel.com>
-Reply-To: ed.bartosh@linux.intel.com
-References: <1480068955-17053-1-git-send-email-kristian.amlie@mender.io>
-	<1480069993.6873.98.camel@intel.com>
-	<f1699a69-1949-9cb3-8bef-adf9b68f385b@mender.io>
-	<20161125163103.GA4830@linux.intel.com>
-	<e29489aa-8303-d8ac-be67-93d650d09f6d@mender.io>
-	<20161128105236.GB15660@linux.intel.com>
-	<ae35149f-dc2d-fea5-e59e-a65dd3dce0ec@mender.io>
+	Mon, 28 Nov 2016 11:21:27 +0000 (UTC)
+Received: from astoria.ccjclearline.com ([64.235.106.9])
+	by smtp485.redcondor.net ({3be039ea-4351-44b0-a8af-642c38b25916})
+	via TCP (outbound) with ESMTPS id 20161128112127115_0485
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 28 Nov 2016 11:21:27 +0000
+X-RC-FROM: <rpjday@crashcourse.ca>
+X-RC-RCPT: <openembedded-core@lists.openembedded.org>
+Received: from [174.118.92.171] (port=59352 helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
+	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
+	id 1cBJzt-0007nX-Co for openembedded-core@lists.openembedded.org;
+	Mon, 28 Nov 2016 06:21:21 -0500
+Date: Mon, 28 Nov 2016 06:20:09 -0500 (EST)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@localhost.localdomain
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Message-ID: <alpine.LFD.2.20.1611280544090.16875@localhost.localdomain>
+User-Agent: Alpine 2.20 (LFD 67 2015-01-07)
 MIME-Version: 1.0
-In-Reply-To: <ae35149f-dc2d-fea5-e59e-a65dd3dce0ec@mender.io>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v1] wic: Add --exclude-path option to rootfs source plugin.
+X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
+Subject: ASSUME_PROVIDED versus SANITY_REQUIRED_UTILITIES versus "The Build Host Packages"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,56 +36,89 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 28 Nov 2016 11:18:57 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Mon, 28 Nov 2016 11:21:30 -0000
+Content-Type: text/plain; charset=US-ASCII
 
-On Mon, Nov 28, 2016 at 12:01:09PM +0100, Kristian Amlie wrote:
-> On 28/11/16 11:52, Ed Bartosh wrote:
-> > On Mon, Nov 28, 2016 at 08:15:26AM +0100, Kristian Amlie wrote:
-> >>>
-> >>> What's the reason of insisting that path must be absolute?
-> >>> May be it's just me, but I find it a bit scaring to use absolute path in .wks
-> >>> The patch is relative to the rootfs directory from my point of view.
-> >>>
-> >>> It also looks quite strange in the code to insist on absolute path
-> >>> +                if not os.path.isabs(path):
-> >>> +                    msger.error("Must be absolute: --exclude-path=%s" %
-> >>>
-> >>> and then immediately making it relative:
-> >>> +
-> >>> +                while os.path.isabs(path):
-> >>> +                    path = path[1:]
-> >>
-> >> Not really any strong reason. I just thought it was a logical thing to
-> >> do from a user perspective: When you're making an image you're thinking
-> >> about paths in the final image, and the path after "part" is absolute,
-> >> so I thought this one should be too.
-> >>
-> >> The fact that it's made relative in the code is just an implementation
-> >> detail to make join() work correctly.
-> >>
-> >> I'm fine either way, so just let me know which you prefer.
-> >>
-> > I'd prefer relative path as I think about --exclude-path as a path in
-> > the source rootfs directory that we want to exclude from copying to
-> > the target partition. However, I agree that that it can be also treated
-> > as a path to the target directory.
-> 
-> Ok!
-> 
-> I will get a new patchset up soon.
-> 
 
-Great!
+  a bit confused by what i'm seeing in a recent
+qemuppc/core-image-minimal build on my fedora system regarding which
+native packages are built, despite what's in bitbake.conf (using
+current poky layer checkout).
 
-I'd appreciate if you also do the following before sending v2:
- - check that your code doesn't regress pylint checks
- - add test case for your code to meta/lib/oeqa/selftest/wic.py
- - check that your code doesn't break oe-selftest --coverage -r wic and
-   doesn't regress test coverage
+  first, here's a snippet from bitbake.conf:
 
---
-Regards,
-Ed
+  ASSUME_PROVIDED = "\
+    bzip2-native \          <---
+    chrpath-native \
+    file-native \           <---
+    findutils-native \
+    git-native \
+    grep-native \
+    diffstat-native \
+    ... snip ...
+
+suggesting that (among other things) bzip2-native and file-native
+shouldn't be built -- it's the developer's responsibility to install
+them, yes? but if i peek under tmp/work/x86_64-linux, i can see:
+
+  ...
+  byacc-native/
+  bzip2-native/             <---
+  createrepo-native/
+  cross-localedef-native/
+  cryptodev-linux-native/
+  db-native/
+  dtc-native/
+  e2fsprogs-native/
+  elfutils-native/
+  expat-native/
+  file-native/              <---
+  flex-native/
+  ...
+
+so that's ... confusing.
+
+  add to that this bit in the YP Quick Start Guide at
+http://www.yoctoproject.org/docs/2.1/yocto-project-qs/yocto-project-qs.html:
+
+  "Build Host Packages
+  ...
+  Fedora
+
+     $ sudo dnf install gawk make wget tar bzip2 gzip python unzip perl patch \
+     diffutils diffstat git cpp gcc gcc-c++ glibc-devel texinfo chrpath \
+     ccache perl-Data-Dumper perl-Text-ParseWords perl-Thread-Queue perl-bignum socat \
+     findutils which SDL-devel xterm
+
+my understanding was that that list represented what the developer was
+required to install on his build host *manually* before going any
+further, so you can see "bzip2" in that list, but you don't see
+"file". given that the "file" command comes in its own package, should
+that list of allegedly mandatory Build Host Packages not include
+*everything* listed in ASSUME_PROVIDED?
+
+  finally, in sanity.bbclass, one reads:
+
+  SANITY_REQUIRED_UTILITIES ?= "patch diffstat makeinfo git bzip2 tar \
+      gzip gawk chrpath wget cpio perl file"
+
+which oddly *does* list the "file" command, but says nothing about
+"sed", which *is* mentioned in ASSUME_PROVIDED, but is also not
+mentioned in the "Build Host Packages" in the YP Quick Start Guide.
+
+  is it just me, or does some of this seem out of sync?
+
+rday
+
+-- 
+
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
+
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
+
+
 
