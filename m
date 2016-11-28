@@ -1,54 +1,24 @@
-Return-Path: <patrick.ohly@intel.com>
-Received: from mail-io0-f182.google.com (mail-io0-f182.google.com
-	[209.85.223.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 28EF27197B
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 4B7B160761
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Nov 2016 13:17:13 +0000 (UTC)
-Received: by mail-io0-f182.google.com with SMTP id m5so90505385ioe.3
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Nov 2016 05:17:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:organization:mime-version:content-transfer-encoding;
-	bh=UptCDdIjcfsA7Uxosh7GAeIlGOTAAFgSc5wPTlAiuGc=;
-	b=dFdwonMPVcGy3R/VArgDx2muF10dmoafKtDvipUNoPcFJ0p7HldWyS73WFfvkf9Spx
-	yTg1h3qDjQ5vmaPOKFDfhkYom96xeW5Nk7SJZBD7oXuoHXuZBFg7TtmreXU1TGqXitNM
-	aPfKYBxGdK6ok3JvIs7BialW4muTpbf1vxlMsL0zqIksJuVAC/XxtcTVzNquDRg8z6K7
-	zqZzYAGLebRPAQufjcTR8NV+SvDksBy6k6TNCFd2mAKwV4CHTHTwmzeM47odfez9qS/b
-	zrmab4AkQveBEzSi2pWpi6frQ1AGrWmT1MIZiLrMCa6TrdbKn2IeuLXJ4Ur5Ump6Vwpv
-	TKwg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:organization:mime-version:content-transfer-encoding;
-	bh=UptCDdIjcfsA7Uxosh7GAeIlGOTAAFgSc5wPTlAiuGc=;
-	b=EkUqUrrtejJlRub/FlRcC4rtGpqfE7GVAR40IE5WMGv8hD4lvVcgzvpkCibpubG3No
-	polQHB4AZLPnBkwhVjTPLHlDD3yXRgGRWeCZMKACZsEDx0btbz74N9CDjUOR/QcwfgM8
-	SqMgXMGibeuTR0hy8tcfyjxoDsbEED4MjgmvongpRiPzYNKcpH7k5Th7udb8J38blYVk
-	Amb6YgBEkMrhJcLar+cC3dG+CxumPYI7xOQjQTs9fYYlNhEVCauZdqs+h0CRDvGHEB6k
-	ofa996YH9tD/b9OWwOHZfOYNQdEiXiOzvDnzhdyR65DUhOdVy7OJjFgAYDkCQKXk7vkX
-	80GQ==
-X-Gm-Message-State: AKaTC00gvQlnlTaglekiwibZkALl2ckdlP44J4eol1U5rJ2wNb0Zr6rdyQmo4uwsXXoKF5IZ
-X-Received: by 10.107.185.87 with SMTP id j84mr16618562iof.3.1480339035099;
-	Mon, 28 Nov 2016 05:17:15 -0800 (PST)
-Received: from pohly-mobl1 (p5DE8C83A.dip0.t-ipconnect.de. [93.232.200.58])
-	by smtp.gmail.com with ESMTPSA id
-	f24sm19838596iod.21.2016.11.28.05.17.13
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 28 Nov 2016 05:17:14 -0800 (PST)
-Message-ID: <1480339031.6873.181.camel@intel.com>
-From: Patrick Ohly <patrick.ohly@intel.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Date: Mon, 28 Nov 2016 14:17:11 +0100
-In-Reply-To: <1480334664.28508.167.camel@linuxfoundation.org>
-References: <alpine.LFD.2.20.1611280544090.16875@localhost.localdomain>
-	<1480334664.28508.167.camel@linuxfoundation.org>
-Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
-X-Mailer: Evolution 3.12.9-1+b1 
-Mime-Version: 1.0
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: ASSUME_PROVIDED versus SANITY_REQUIRED_UTILITIES versus "The Build Host Packages"
+	Mon, 28 Nov 2016 13:37:24 +0000 (UTC)
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+	by orsmga102.jf.intel.com with ESMTP; 28 Nov 2016 05:37:24 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.31,564,1473145200"; d="scan'208";a="36412223"
+Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
+	by fmsmga005.fm.intel.com with ESMTP; 28 Nov 2016 05:37:24 -0800
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 28 Nov 2016 15:34:12 +0200
+Message-Id: <c5f189e17c96e6413d3e96a29f39c3440a410af2.1480333940.git.alexander.kanavin@linux.intel.com>
+X-Mailer: git-send-email 2.10.2
+In-Reply-To: <cover.1480333940.git.alexander.kanavin@linux.intel.com>
+References: <cover.1480333940.git.alexander.kanavin@linux.intel.com>
+In-Reply-To: <cover.1480333940.git.alexander.kanavin@linux.intel.com>
+References: <cover.1480333940.git.alexander.kanavin@linux.intel.com>
+Subject: [PATCH 01/18] icu: update to 58.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,59 +31,86 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 28 Nov 2016 13:17:14 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 28 Nov 2016 13:37:24 -0000
 
-On Mon, 2016-11-28 at 12:04 +0000, Richard Purdie wrote:
-> On Mon, 2016-11-28 at 06:20 -0500, Robert P. J. Day wrote:
-> >   a bit confused by what i'm seeing in a recent
-> > qemuppc/core-image-minimal build on my fedora system regarding which
-> > native packages are built, despite what's in bitbake.conf (using
-> > current poky layer checkout).
-> > 
-> >   first, here's a snippet from bitbake.conf:
-> > 
-> >   ASSUME_PROVIDED = "\
-> >     bzip2-native \          <---
-> >     chrpath-native \
-> >     file-native \           <---
-> >     findutils-native \
-> >     git-native \
-> >     grep-native \
-> >     diffstat-native \
-> >     ... snip ...
-> > 
-> > suggesting that (among other things) bzip2-native and file-native
-> > shouldn't be built -- it's the developer's responsibility to install
-> > them, yes? but if i peek under tmp/work/x86_64-linux, i can see:
-> 
-> There are two ways "file-native" can be used in a build. It can be used
-> as the host provided "file" command and it is also needed by the file
-> recipe to build file for the target.
+The copyright for the software has been transferred to Unicode Inc from IBM,
+but the terms are same.
 
-I recently ran into a third usage of "file-native": swupd-server links
-against libmagic from file and therefore has a DEPENDS = "file". But
-building swupd-server-native didn't actually build file because of
-ASSUME_PROVIDED and because I hadn't installed libmagic-dev on my build
-host, the build was failing.
+libiculx and libicule are no longer produced as they depend on an external
+package icu-le-hb (previous versions had an option of using an internal
+implementation which now has been dropped). I have verified that icu
+dependencies in oe-core and meta-oe still build.
 
-Is there a way to declare that ASSUME_PROVIDED does not apply to this
-case? It sounds like there is a way (based on your comments about
-building file-native when building file and the libbz2-devel example),
-but it did not become clear to me how that works in practice.
+Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+---
+ meta/recipes-support/icu/icu.inc                      | 12 +++++++++---
+ meta/recipes-support/icu/{icu_57.1.bb => icu_58.1.bb} |  6 +++---
+ 2 files changed, 12 insertions(+), 6 deletions(-)
+ rename meta/recipes-support/icu/{icu_57.1.bb => icu_58.1.bb} (77%)
 
-Or is it just a case of educating the developer that libmagic-dev needs
-to be installed on the build host in addition to the file command?
-
+diff --git a/meta/recipes-support/icu/icu.inc b/meta/recipes-support/icu/icu.inc
+index cc6f222..f3dc1e0 100644
+--- a/meta/recipes-support/icu/icu.inc
++++ b/meta/recipes-support/icu/icu.inc
+@@ -26,6 +26,14 @@ EXTRA_OECONF = "--with-cross-build=${STAGING_ICU_DIR_NATIVE}"
+ EXTRA_OECONF_class-native = ""
+ EXTRA_OECONF_class-nativesdk = "--with-cross-build=${STAGING_ICU_DIR_NATIVE}"
+ 
++
++# strtod_l() is not supported by musl; also xlocale.h is missing
++# It is not possible to disable its use via configure switches or env vars
++# so monkey patching is needed.
++do_configure_prepend_libc-musl () {
++    sed -i -e 's,DU_HAVE_STRTOD_L=1,DU_HAVE_STRTOD_L=0,' ${S}/configure.ac
++}
++
+ PREPROCESS_RELOCATE_DIRS = "${datadir}/${BPN}/${PV}"
+ do_install_append_class-native() {
+ 	mkdir -p ${D}/${STAGING_ICU_DIR_NATIVE}/config
+@@ -36,15 +44,13 @@ do_install_append_class-native() {
+ 	cp -r ${B}/tools ${D}/${STAGING_ICU_DIR_NATIVE}
+ }
+ 
+-PACKAGES =+ "libicudata libicuuc libicui18n libicule libiculx libicutu libicuio"
++PACKAGES =+ "libicudata libicuuc libicui18n libicutu libicuio"
+ 
+ FILES_${PN}-dev += "${libdir}/${BPN}/"
+ 
+ FILES_libicudata = "${libdir}/libicudata.so.*"
+ FILES_libicuuc = "${libdir}/libicuuc.so.*"
+ FILES_libicui18n = "${libdir}/libicui18n.so.*"
+-FILES_libicule = "${libdir}/libicule.so.*"
+-FILES_libiculx = "${libdir}/libiculx.so.*"
+ FILES_libicutu = "${libdir}/libicutu.so.*"
+ FILES_libicuio = "${libdir}/libicuio.so.*"
+ 
+diff --git a/meta/recipes-support/icu/icu_57.1.bb b/meta/recipes-support/icu/icu_58.1.bb
+similarity index 77%
+rename from meta/recipes-support/icu/icu_57.1.bb
+rename to meta/recipes-support/icu/icu_58.1.bb
+index 90c2b82..cc7c947 100644
+--- a/meta/recipes-support/icu/icu_57.1.bb
++++ b/meta/recipes-support/icu/icu_58.1.bb
+@@ -1,6 +1,6 @@
+ require icu.inc
+ 
+-LIC_FILES_CHKSUM = "file://../LICENSE;md5=787d3b37867445c1cdd6f6167bd0e347"
++LIC_FILES_CHKSUM = "file://../LICENSE;md5=1b3b75c1777cd49ad5c6a24cd338cfc9"
+ 
+ def icu_download_version(d):
+     pvsplit = d.getVar('PV', True).split('.')
+@@ -21,8 +21,8 @@ SRC_URI = "${BASE_SRC_URI} \
+ SRC_URI_append_class-target = "\
+            file://0001-Disable-LDFLAGSICUDT-for-Linux.patch \
+           "
+-SRC_URI[md5sum] = "976734806026a4ef8bdd17937c8898b9"
+-SRC_URI[sha256sum] = "ff8c67cb65949b1e7808f2359f2b80f722697048e90e7cfc382ec1fe229e9581"
++SRC_URI[md5sum] = "1901302aaff1c1633ef81862663d2917"
++SRC_URI[sha256sum] = "0eb46ba3746a9c2092c8ad347a29b1a1b4941144772d13a88667a7b11ea30309"
+ 
+ UPSTREAM_CHECK_REGEX = "(?P<pver>\d+(\.\d+)+)/"
+ UPSTREAM_CHECK_URI = "http://download.icu-project.org/files/icu4c/"
 -- 
-Best Regards, Patrick Ohly
-
-The content of this message is my personal opinion only and although
-I am an employee of Intel, the statements I make here in no way
-represent Intel's position on the issue, nor am I authorized to speak
-on behalf of Intel on this matter.
-
-
+2.10.2
 
 
