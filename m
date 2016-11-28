@@ -1,20 +1,29 @@
-Return-Path: <randy.e.witt@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id C296B71A75
+Return-Path: <jose.a.lamego@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 29D9471A72
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Nov 2016 20:11:32 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by fmsmga103.fm.intel.com with ESMTP; 28 Nov 2016 12:11:33 -0800
+	Mon, 28 Nov 2016 20:28:25 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga102.fm.intel.com with ESMTP; 28 Nov 2016 12:28:19 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.31,565,1473145200"; d="scan'208";a="10658006"
-Received: from bitbang.jf.intel.com ([10.7.199.68])
-	by orsmga002.jf.intel.com with ESMTP; 28 Nov 2016 12:11:32 -0800
-From: Randy Witt <randy.e.witt@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 28 Nov 2016 12:11:24 -0800
-Message-Id: <1480363884-6789-1-git-send-email-randy.e.witt@linux.intel.com>
-X-Mailer: git-send-email 2.7.4
-Subject: [PATCH] qemu*.conf: Add slirp support for all qemu machines
+X-IronPort-AV: E=Sophos;i="5.31,565,1473145200"; 
+	d="asc'?scan'208";a="1065339732"
+Received: from jalamego-mobl2.zpn.intel.com (HELO [10.219.5.155])
+	([10.219.5.155])
+	by orsmga001.jf.intel.com with ESMTP; 28 Nov 2016 12:28:18 -0800
+To: Patrick Ohly <patrick.ohly@intel.com>
+References: <1480105843-14729-1-git-send-email-jose.a.lamego@linux.intel.com>
+	<1480350180-9496-1-git-send-email-jose.a.lamego@linux.intel.com>
+	<1480362425.6873.209.camel@intel.com>
+From: Jose Lamego <jose.a.lamego@linux.intel.com>
+Message-ID: <967933e7-9f2e-a960-4699-e4e8f2d39e68@linux.intel.com>
+Date: Mon, 28 Nov 2016 14:28:12 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.4.0
+MIME-Version: 1.0
+In-Reply-To: <1480362425.6873.209.camel@intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH V2] scripts.send-pull-request: Avoid multiple chain headers
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,93 +36,117 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 28 Nov 2016 20:11:34 -0000
+X-List-Received-Date: Mon, 28 Nov 2016 20:28:26 -0000
+X-Groupsio-MsgNum: 89956
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature";
+	boundary="9s864uBRbkxSTSb0t4AAR0DkeOMTD8evG"
 
-This patch also moves the "-net user" part out of the config and
-into runqemu. This is done because the "-net user" portion isn't
-machine specific, and it contains what ports to forward.
+--9s864uBRbkxSTSb0t4AAR0DkeOMTD8evG
+Content-Type: multipart/mixed; boundary="4UEHiODnLR6dfKMxSgs5JQEFvKnWJN2qo";
+ protected-headers="v1"
+From: Jose Lamego <jose.a.lamego@linux.intel.com>
+To: Patrick Ohly <patrick.ohly@intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Message-ID: <967933e7-9f2e-a960-4699-e4e8f2d39e68@linux.intel.com>
+Subject: Re: [OE-core] [PATCH V2] scripts.send-pull-request: Avoid multiple
+ chain headers
+References: <1480105843-14729-1-git-send-email-jose.a.lamego@linux.intel.com>
+ <1480350180-9496-1-git-send-email-jose.a.lamego@linux.intel.com>
+ <1480362425.6873.209.camel@intel.com>
+In-Reply-To: <1480362425.6873.209.camel@intel.com>
 
-[ YOCTO #7887 ]
+--4UEHiODnLR6dfKMxSgs5JQEFvKnWJN2qo
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Randy Witt <randy.e.witt@linux.intel.com>
----
- meta/conf/machine/include/qemuboot-mips.inc | 1 +
- meta/conf/machine/include/qemuboot-x86.inc  | 2 +-
- meta/conf/machine/qemuarm.conf              | 1 +
- meta/conf/machine/qemuarm64.conf            | 2 +-
- meta/conf/machine/qemuppc.conf              | 1 +
- scripts/runqemu                             | 7 ++++++-
- 6 files changed, 11 insertions(+), 3 deletions(-)
+Agree. Please provide feedback about below comments and I will submit a
+v3 patch.
 
-diff --git a/meta/conf/machine/include/qemuboot-mips.inc b/meta/conf/machine/include/qemuboot-mips.inc
-index 0c60cf2..c85dc86 100644
---- a/meta/conf/machine/include/qemuboot-mips.inc
-+++ b/meta/conf/machine/include/qemuboot-mips.inc
-@@ -6,3 +6,4 @@ QB_KERNEL_CMDLINE_APPEND = "console=ttyS0 console=tty"
- # Add the 'virtio-rng-pci' device otherwise the guest may run out of entropy
- QB_OPT_APPEND = "-vga cirrus -show-cursor -usb -usbdevice tablet -device virtio-rng-pci"
- QB_SYSTEM_NAME = "qemu-system-${TUNE_ARCH}"
-+QB_SLIRP_OPT = "-device virtio-net-pci,netdev=net0"
-diff --git a/meta/conf/machine/include/qemuboot-x86.inc b/meta/conf/machine/include/qemuboot-x86.inc
-index 0870294..cc31dab 100644
---- a/meta/conf/machine/include/qemuboot-x86.inc
-+++ b/meta/conf/machine/include/qemuboot-x86.inc
-@@ -13,4 +13,4 @@ QB_AUDIO_OPT = "-soundhw ac97,es1370"
- QB_KERNEL_CMDLINE_APPEND = "vga=0 uvesafb.mode_option=640x480-32 oprofile.timer=1 uvesafb.task_timeout=-1"
- # Add the 'virtio-rng-pci' device otherwise the guest may run out of entropy
- QB_OPT_APPEND = "-vga vmware -show-cursor -usb -usbdevice tablet -device virtio-rng-pci"
--QB_SLIRP_OPT = "-net nic,model=e1000 -net user,hostfwd=tcp::2222-:22"
-+QB_SLIRP_OPT = "-device virtio-net-pci,netdev=net0"
-diff --git a/meta/conf/machine/qemuarm.conf b/meta/conf/machine/qemuarm.conf
-index 17402ef..974657b 100644
---- a/meta/conf/machine/qemuarm.conf
-+++ b/meta/conf/machine/qemuarm.conf
-@@ -18,3 +18,4 @@ QB_KERNEL_CMDLINE_APPEND = "console=ttyAMA0,115200 console=tty"
- QB_OPT_APPEND = "-show-cursor -usb -usbdevice tablet -device virtio-rng-pci"
- PREFERRED_VERSION_linux-yocto ??= "4.8%"
- QB_DTB = "${@base_version_less_or_equal('PREFERRED_VERSION_linux-yocto', '4.7', '', 'zImage-versatile-pb.dtb', d)}"
-+QB_SLIRP_OPT = "-device virtio-net-pci,netdev=net0"
-diff --git a/meta/conf/machine/qemuarm64.conf b/meta/conf/machine/qemuarm64.conf
-index df2010c..ebd360e 100644
---- a/meta/conf/machine/qemuarm64.conf
-+++ b/meta/conf/machine/qemuarm64.conf
-@@ -18,7 +18,7 @@ QB_KERNEL_CMDLINE_APPEND = "console=ttyAMA0,38400"
- # Add the 'virtio-rng-pci' device otherwise the guest may run out of entropy
- QB_OPT_APPEND = "-show-cursor -device virtio-rng-pci -monitor null"
- QB_TAP_OPT = "-netdev tap,id=net0,ifname=@TAP@,script=no,downscript=no -device virtio-net-device,netdev=net0,mac=@MAC@"
--QB_SLIRP_OPT = "-netdev user,id=net0 -device virtio-net-device,netdev=net0"
-+QB_SLIRP_OPT = "-device virtio-net-device,netdev=net0"
- QB_ROOTFS_OPT = "-drive id=disk0,file=@ROOTFS@,if=none,format=raw -device virtio-blk-device,drive=disk0"
- QB_SERIAL_OPT = "-device virtio-serial-device -chardev null,id=virtcon -device virtconsole,chardev=virtcon"
- QB_TCPSERIAL_OPT = " -device virtio-serial-device -chardev socket,id=virtcon,port=@PORT@,host=127.0.0.1 -device virtconsole,chardev=virtcon"
-diff --git a/meta/conf/machine/qemuppc.conf b/meta/conf/machine/qemuppc.conf
-index 8703c20..4711751 100644
---- a/meta/conf/machine/qemuppc.conf
-+++ b/meta/conf/machine/qemuppc.conf
-@@ -19,3 +19,4 @@ QB_KERNEL_CMDLINE_APPEND = "console=tty console=ttyS0"
- # Add the 'virtio-rng-pci' device otherwise the guest may run out of entropy
- QB_OPT_APPEND = "-show-cursor -usb -usbdevice tablet -device virtio-rng-pci"
- QB_TAP_OPT = "-netdev tap,id=net0,ifname=@TAP@,script=no,downscript=no -device virtio-net-pci,netdev=net0,mac=@MAC@"
-+QB_SLIRP_OPT = "-device virtio-net-pci,netdev=net0"
-diff --git a/scripts/runqemu b/scripts/runqemu
-index af25423..faab522 100755
---- a/scripts/runqemu
-+++ b/scripts/runqemu
-@@ -730,7 +730,12 @@ class BaseConfig(object):
-         if self.fstype == 'nfs':
-             self.setup_nfs()
-         self.kernel_cmdline_script += ' ip=dhcp'
--        self.set('NETWORK_CMD', self.get('QB_SLIRP_OPT'))
-+        network_cmd = self.get('QB_SLIRP_OPT')
-+
-+        # The network device created in qemuboot.conf is expected to be
-+        # id=net0
-+        network_cmd += ' -netdev user,id=net0,hostfwd=tcp::2222-:22'
-+        self.set('NETWORK_CMD', network_cmd)
- 
-     def setup_tap(self):
-         """Setup tap"""
--- 
-2.7.4
+On 11/28/2016 01:47 PM, Patrick Ohly wrote:
+> On Mon, 2016-11-28 at 10:23 -0600, Jose Lamego wrote:
+More than 1 "In-Reply-To" and "References" message headers are in
+violation of rfc2822 [1] and may cause that some email-related
+applications do not point to the appropriate root message in a
+conversation/series.
+
+>> When creating a patch set with cover letter using the
+>> send-pull-request script, both the "In-Reply-To" and "References"
+>> headers are appended twice in patch 2 and subsequent.
+>=20
+> The "why" part is missing in the commit header. "Why" is appending thos=
+e
+> twice a problem? Is it a bug in the script (because it violates some
+> RFC) or is it merely a workaround for a problem in other software (mail=
+
+> programs or Patchwork)?
+>=20
+> I know that this change is related to the issues that Patchwork has wit=
+h
+> identifying a patch series, but even with that background knowledge it
+> is not clear why this fix is the right solution.
+>=20
+This change appends only one header pointing to very first patch
+in series (patch #1) or to cover letter if available, which results in an=
+
+appropriate message-chain.
+
+[1] https://tools.ietf.org/html/rfc2822#section-3.6
+>>
+>> [YOCTO #10718]
+>>
+>> Signed-off-by: Jose Lamego <jose.a.lamego@linux.intel.com>
+>> ---
+>>  scripts/send-pull-request | 2 +-
+>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/scripts/send-pull-request b/scripts/send-pull-request
+>> index 575549d..a660c37 100755
+>> --- a/scripts/send-pull-request
+>> +++ b/scripts/send-pull-request
+>> @@ -162,7 +162,7 @@ PATCHES=3D$(echo $PDIR/*.patch)
+>>  if [ $AUTO_CL -eq 1 ]; then
+>>  	# Send the cover letter to every recipient, both specified as well a=
+s
+>>  	# harvested. Then remove it from the patches list.
+>> -	eval "git send-email $GIT_TO $GIT_CC $GIT_EXTRA_CC --confirm=3Dalway=
+s --no-chain-reply-to --suppress-cc=3Dall $CL"
+>> +	eval "git send-email $GIT_TO $GIT_CC $GIT_EXTRA_CC --confirm=3Dalway=
+s --no-thread --suppress-cc=3Dall $CL"
+>>  	if [ $? -eq 1 ]; then
+>>  		echo "ERROR: failed to send cover-letter with automatic recipients.=
+"
+>>  		exit 1
+>=20
+>=20
+> And I don't understand why this proposed change has the described
+> effect. Does changing the threading parameters change the output of "gi=
+t
+> send-email" and thus indirectly the mail headers of the following
+> patches?
+>=20
+
+--=20
+Jose Lamego | OTC Embedded Platforms & Tools | GDC
 
 
+--4UEHiODnLR6dfKMxSgs5JQEFvKnWJN2qo--
+
+--9s864uBRbkxSTSb0t4AAR0DkeOMTD8evG
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.22 (GNU/Linux)
+
+iQEcBAEBAgAGBQJYPJNjAAoJEFJAtowlSEbnpK8H+wVcA02sYM7PjdfBS3ntyLzH
+xULkFL8eWDsOuZeKjCxUbzLbDTJAJOGknCtCwQYI5ZAaAe+nr9in7mBrnjHAL1LM
+EHDUYRdo2Ryb0CRh5Xro+57jk8yMVP0zo93OXosZTM5WX93ZHWfL8xLmCWcZFZv2
+w1NuAYieT2xFKioZoeDvsCnnQY4D/2xttqLoBmTcAC7Whg4sahs/5/+YOMePZU3V
+ZNcnUMq/P299sDsHhpc+mKGgeF54EPrNuTD6HzRxA7qfgxG8OilCZ59/UTX3nyNb
+vLV23uQPlmlq1TaIjoMSrecHWrkc6NRKI78nG7J2oH30wrC5Q8bQaX+CZzF+YNs=
+=XkoY
+-----END PGP SIGNATURE-----
+
+--9s864uBRbkxSTSb0t4AAR0DkeOMTD8evG--
