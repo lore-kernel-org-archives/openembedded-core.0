@@ -1,24 +1,24 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 63B3E71A85
+	by mail.openembedded.org (Postfix) with ESMTP id 50A8071AA9
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Nov 2016 13:37:33 +0000 (UTC)
+	Mon, 28 Nov 2016 13:37:34 +0000 (UTC)
 Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-	by orsmga102.jf.intel.com with ESMTP; 28 Nov 2016 05:37:35 -0800
+	by orsmga102.jf.intel.com with ESMTP; 28 Nov 2016 05:37:36 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.31,564,1473145200"; d="scan'208";a="36412261"
+X-IronPort-AV: E=Sophos;i="5.31,564,1473145200"; d="scan'208";a="36412263"
 Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by fmsmga005.fm.intel.com with ESMTP; 28 Nov 2016 05:37:34 -0800
+	by fmsmga005.fm.intel.com with ESMTP; 28 Nov 2016 05:37:35 -0800
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 28 Nov 2016 15:34:22 +0200
-Message-Id: <5524c897d3b0730a9a8acc9d7dea5c33c0346d23.1480333940.git.alexander.kanavin@linux.intel.com>
+Date: Mon, 28 Nov 2016 15:34:23 +0200
+Message-Id: <61c0ee97b6b5f0ae2f65c9b2e4ca23a5b1545e2b.1480333940.git.alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.10.2
 In-Reply-To: <cover.1480333940.git.alexander.kanavin@linux.intel.com>
 References: <cover.1480333940.git.alexander.kanavin@linux.intel.com>
 In-Reply-To: <cover.1480333940.git.alexander.kanavin@linux.intel.com>
 References: <cover.1480333940.git.alexander.kanavin@linux.intel.com>
-Subject: [PATCH 11/18] iso-codes: update to 3.71
+Subject: [PATCH 12/18] msmtp: update to 1.6.6
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,32 +31,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 28 Nov 2016 13:37:33 -0000
+X-List-Received-Date: Mon, 28 Nov 2016 13:37:34 -0000
 
 Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- .../iso-codes/{iso-codes_3.70.bb => iso-codes_3.71.bb}                | 4 ++--
+ meta/recipes-extended/msmtp/{msmtp_1.6.5.bb => msmtp_1.6.6.bb} | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-support/iso-codes/{iso-codes_3.70.bb => iso-codes_3.71.bb} (76%)
+ rename meta/recipes-extended/msmtp/{msmtp_1.6.5.bb => msmtp_1.6.6.bb} (86%)
 
-diff --git a/meta/recipes-support/iso-codes/iso-codes_3.70.bb b/meta/recipes-support/iso-codes/iso-codes_3.71.bb
-similarity index 76%
-rename from meta/recipes-support/iso-codes/iso-codes_3.70.bb
-rename to meta/recipes-support/iso-codes/iso-codes_3.71.bb
-index 7edd8b7..6ff7e59 100644
---- a/meta/recipes-support/iso-codes/iso-codes_3.70.bb
-+++ b/meta/recipes-support/iso-codes/iso-codes_3.71.bb
-@@ -3,8 +3,8 @@ LICENSE = "LGPLv2.1"
- LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
+diff --git a/meta/recipes-extended/msmtp/msmtp_1.6.5.bb b/meta/recipes-extended/msmtp/msmtp_1.6.6.bb
+similarity index 86%
+rename from meta/recipes-extended/msmtp/msmtp_1.6.5.bb
+rename to meta/recipes-extended/msmtp/msmtp_1.6.6.bb
+index d0c39eb..e172193 100644
+--- a/meta/recipes-extended/msmtp/msmtp_1.6.5.bb
++++ b/meta/recipes-extended/msmtp/msmtp_1.6.6.bb
+@@ -12,8 +12,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
+ SRC_URI = "http://sourceforge.net/projects/msmtp/files/msmtp/${PV}/${BPN}-${PV}.tar.xz \
+           "
  
- SRC_URI = "https://pkg-isocodes.alioth.debian.org/downloads/iso-codes-${PV}.tar.xz"
--SRC_URI[md5sum] = "c61f8f02eecf978d3710ff594e43ca7e"
--SRC_URI[sha256sum] = "41e2fbaec2ed57e767b94f175d0dcd31b627aeb23b75cd604605a6fb6109d61f"
-+SRC_URI[md5sum] = "7401964329590ed5890006614b774651"
-+SRC_URI[sha256sum] = "013df6ac35fb0b9e3244c6a4f13a1090d61cb4478f7cd468bbf46be983ba1f74"
+-SRC_URI[md5sum] = "50a8c9bb72f8222779db6b4aae2965e0"
+-SRC_URI[sha256sum] = "76a0d60693c7e65d0c7a12f01d300882d280b1e1be0202f54730ae44d44a5006"
++SRC_URI[md5sum] = "82b0520b57db4b2cf05333d11fb5974d"
++SRC_URI[sha256sum] = "da15db1f62bd0201fce5310adb89c86188be91cd745b7cb3b62b81a501e7fb5e"
  
- # inherit gettext cannot be used, because it adds gettext-native to BASEDEPENDS which
- # are inhibited by allarch
+ inherit gettext autotools update-alternatives pkgconfig
+ 
 -- 
 2.10.2
 
