@@ -1,52 +1,59 @@
-Return-Path: <freesilicon@gmail.com>
-Received: from mail-wj0-f196.google.com (mail-wj0-f196.google.com
-	[209.85.210.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 7C3BE60685
+Return-Path: <kristian.amlie@mender.io>
+Received: from mail-lf0-f44.google.com (mail-lf0-f44.google.com
+	[209.85.215.44])
+	by mail.openembedded.org (Postfix) with ESMTP id DB3B96078E
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Nov 2016 10:59:17 +0000 (UTC)
-Received: by mail-wj0-f196.google.com with SMTP id xy5so13551528wjc.1
+	Mon, 28 Nov 2016 11:00:25 +0000 (UTC)
+Received: by mail-lf0-f44.google.com with SMTP id c13so93046445lfg.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Nov 2016 02:59:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:user-agent:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=Jo+BP65bIBIK70O4DYnAavfs47SFKtYppdsaeDWgbX8=;
-	b=rOz55pbUckxEWSoVFrUFLFNkyxqouXUOra1oDNMJ83OAZAHdtUjvIDIW9PP0Ry1Jme
-	errNhSGM78T2v3LGrQ7Izlch+l0APyydMThr77h/6A1ulYcs/Q2CJi43dQrqwnch3MHN
-	YB8+bOu0YRH+ljCTeT0AKUMR/paHjEUAvUZSbZk437zi4E/N9j+wLR6jidn0jjLV0GJ3
-	RjDKYjDfA6VIDy2TiXF4f04mW1qEHj0jns4s9CujWCvhLdJaL69bSY4w6r2k47b4drEL
-	wE7PKzLRioeQXwFTZ6ziRln0ame76YoFE+JqK4nlk4uoCE2+L7d2uRqKuqi5E6yOfFdl
-	aPSA==
+	Mon, 28 Nov 2016 03:00:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=mender-io.20150623.gappssmtp.com; s=20150623;
+	h=subject:to:references:cc:from:message-id:date:user-agent
+	:mime-version:in-reply-to:content-transfer-encoding;
+	bh=fAQyQORFQMm7TiQRiuR/4pNxf6UICQWFDRs0oq7iu2U=;
+	b=w5/59YIfv6ufpcbQXPWtsNcYdU6hpy3d8/Qi4USpX947uk2I7ehyZEjD1BMbR6vPlf
+	Sdekw1ro8sX9xwt7j0CyZYPeoBrjvhUlse0+OuyO0+97EhRQ3OIS1YnFp0jEwd8g7VGS
+	u2+oIPcPRd5KcwXVnQrqE5I3w6XjWfNMuAXyBFiKyuJh9Dt39Jewetfr7khBIKJKRaKm
+	rdg9OOoaxt43nBgcEJ2jtxu0UowI7/OY79eINWmWgYUWMVYabz5B3M+EVEvWkkNVDJ9s
+	bJFl+vE6JzFq+ldX0jWSImHnJsNmr3zgGOOyP1XhDmXnc764j728v7hqZ8UyKCVEIdBZ
+	LNPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:user-agent
-	:in-reply-to:references:mime-version:content-transfer-encoding;
-	bh=Jo+BP65bIBIK70O4DYnAavfs47SFKtYppdsaeDWgbX8=;
-	b=J6Giy5ZO6hWyErMR0zq/XMqS2XfkOqFzF4Fb2OGgIEDEBuAqa+T4iJZ9aFiP1fK+bP
-	LlofYszJTgFkoByysjHaRey0EgKYnU97UNzXjJIAPSRJmETo9EEgC3SkPob45VKeKWqq
-	2/nWu/MM38DpphiIrPvrM+N0MXXCv6edNiwajR5HhPeHmWb69Z5X/F6zkJm8zyxoNrlN
-	/xgCF74NYRrDWbOrje3BmAP0HhONqcHMPN2YCuOy4nnTjMM2WVzB7hVFKvHhN2Qzizml
-	CVa7QcNqJS9t+T9rFTV6xO6j7I4ZA411wnkEXCP3JBM6xFkZQiWJeTea/e5pZ38s80QN
-	AvSg==
-X-Gm-Message-State: AKaTC03yHnL2w7FI8X1kVqd5FIplbLhbQJzjA76rkjgQD5Qf1kP3XqBaEfDGcaO8tUQ2Ag==
-X-Received: by 10.194.103.100 with SMTP id fv4mr18360354wjb.102.1480330758063; 
-	Mon, 28 Nov 2016 02:59:18 -0800 (PST)
-Received: from crde-port-20.cahors.local ([185.47.80.46])
-	by smtp.gmail.com with ESMTPSA id
-	f67sm28262178wmd.13.2016.11.28.02.59.17
+	h=x-gm-message-state:subject:to:references:cc:from:message-id:date
+	:user-agent:mime-version:in-reply-to:content-transfer-encoding;
+	bh=fAQyQORFQMm7TiQRiuR/4pNxf6UICQWFDRs0oq7iu2U=;
+	b=MS1Gs6hz3/7XdlhANVgkjWWCRcMw44ihCEnVeEqk6+eClwOTcCULd95dtxiQ52Slti
+	2C9jg6maxfsDVqnLd5qxKUgHZEA6kyVQ3MprQ+EiXare7sPpc6GzG81LAo0mttgVtzDS
+	hFe7tC9+zApo5dr99rJLyMdSMsYsQTyvQatsdO2reYgKvChDXoaBnS+B/MNPgaMymi9Z
+	uiUf5z4N3QH0KebFyZ9O15zeoogKfQaRIq8cLuxy8liw8ENLc41dvYPjsI9QmwOTUCgP
+	r5kWC6lZPaetOexSgYVcf58hDc0AJjsb8cGpxreaD1eI0K2tmGPfO9bgqyuvWUGiRrEG
+	fycw==
+X-Gm-Message-State: AKaTC007Uu2gPEh+magQLv/wjOKcYDzqVoPQv8+V8FutquM3zuuHBOcZWMrvNteRkR4e7Q==
+X-Received: by 10.25.99.12 with SMTP id x12mr6400643lfb.174.1480330826319;
+	Mon, 28 Nov 2016 03:00:26 -0800 (PST)
+Received: from [10.25.0.170] ([195.159.140.90])
+	by smtp.googlemail.com with ESMTPSA id
+	a63sm12615718ljb.46.2016.11.28.03.00.25
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 28 Nov 2016 02:59:17 -0800 (PST)
-From: David Vincent <freesilicon@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 28 Nov 2016 11:59:11 +0100
-Message-ID: <1828681.KGajjQBiyB@crde-port-20.cahors.local>
-User-Agent: KMail/5.3.3 (Linux/4.8.9-1-default; KDE/5.28.0; x86_64; ; )
-In-Reply-To: <ea567625-caf4-487d-449f-31c2d1b36427@windriver.com>
-References: <CAKRNOGzXLf_kfousHniKin-qqs2TURwOQQptDJTMHA9Gqe5now@mail.gmail.com>
-	<CAJTo0LaJZesXW8ytS+nkVh2Sa1JGKzMsSN=MPvoqMQz5sezyAQ@mail.gmail.com>
-	<ea567625-caf4-487d-449f-31c2d1b36427@windriver.com>
+	Mon, 28 Nov 2016 03:00:25 -0800 (PST)
+To: ed.bartosh@linux.intel.com
+References: <1480068955-17053-1-git-send-email-kristian.amlie@mender.io>
+	<CAD4b0_KP1V77ny5yP+WVJMSVMojVKFQPa-Gq0-4-cne2e19dDQ@mail.gmail.com>
+	<2d3560fa-adce-8c5d-10c1-289d65b28da1@mender.io>
+	<20161125163332.GB4830@linux.intel.com>
+	<c74d1583-9f57-65d7-1631-36b29fb17165@mender.io>
+	<20161128104624.GA15660@linux.intel.com>
+From: Kristian Amlie <kristian.amlie@mender.io>
+Message-ID: <e7017333-5406-488e-04a1-ce90e2a99048@mender.io>
+Date: Mon, 28 Nov 2016 12:00:24 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.4.0
 MIME-Version: 1.0
-Subject: Re: [PATCH v3] rootfs: Modify RPM installation
+In-Reply-To: <20161128104624.GA15660@linux.intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v1] wic: Add --exclude-path option to rootfs source plugin.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,42 +66,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 28 Nov 2016 10:59:18 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Mon, 28 Nov 2016 11:00:26 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
 
-On vendredi 25 novembre 2016 13:09:30 CET Mark Hatle wrote:
-> On 11/25/16 12:17 PM, Burton, Ross wrote:
-> > On 24 November 2016 at 10:49, David Vincent <freesilicon@gmail.com
-> > 
-> > <mailto:freesilicon@gmail.com>> wrote:
-> >     -        self._setup_dbg_rootfs(['/etc/rpm', '/var/lib/rpm',
-> >     '/var/lib/smart']) +        self._setup_dbg_rootfs(['/etc/rpm',
-> >     rpm_libdir, '/var/lib/smart'])> 
-> > Can we extend the un-hardcoding so this uses ${localstatedir}/lib/smart,
-> > and rpmlibdir also uses ${localstatedir}?
+On 28/11/16 11:46, Ed Bartosh wrote:
+> On Mon, Nov 28, 2016 at 08:07:05AM +0100, Kristian Amlie wrote:
+>> On 25/11/16 17:33, Ed Bartosh wrote:
+>>> On Fri, Nov 25, 2016 at 01:35:53PM +0100, Kristian Amlie wrote:
+>>>> On 25/11/16 13:28, Maciej Borzęcki wrote:
+>>>>> On Fri, Nov 25, 2016 at 11:15 AM, Kristian Amlie
+>>>>>> +                # Disallow '..', because doing so could be quite disastrous
+>>>>>> +                # (we will delete the directory).
+>>>>>> +                remaining = path
+>>>>>> +                while True:
+>>>>>> +                    (head, tail) = os.path.split(remaining)
+>>>>>> +                    if tail == '..':
+>>>>>> +                        msger.error("'..' not allowed: --exclude-path=%s" % orig_path)
+>>>>>> +                    elif head == "":
+>>>>>> +                        break
+>>>>>> +                    remaining = head
+>>>>>
+>>>>> Why not do this instead?
+>>>>>
+>>>>>     if '..' in path:
+>>>>>         msger.error("'..' not allowed: --exclude-path=%s" % orig_path)
+>>>>>
+>>> would "'/..' in path" or something similar work?
+>>
+>> '/..my-file' is a valid file name, so no, it wouldn't work. I realize
+>> that this would be uncommon, and it makes the check more complex, so I'm
+>> ok with making it simpler if you want me to, but we have to trade
+>> simplicity for correctness in that case.
+>>
+> OK, makes sense.
 > 
-> The value for the rpm directory is hard coded into the configuration file.
-> Anything we do outside of that MUST match.  Inspect the rpm macros file for
-> the matching value.  (This is why /var/lib/rpm was hard coded in the past.)
-
-And that was the root cause of the problem when rpmlibdir is modified from its 
-default value. Maybe the rpmlibdir variable should be documented in the ref-
-manual for those who wants to tinker with it.
-
+> Would something like this work for you?
 > 
-> As for smart, I don't remember the rules offhand, so someone will need to
-> figure out if it's variable (compile time) or hard coded.
-> 
-> --Mark
-> 
-> > Also current master lets you not bother passing True to d.getVar() as that
-> > is the default now.
+>> mkdir -p /tmp/rootfs/bla/bla/bla/bla
+>> python -c "import os;print os.path.realpath('/tmp/rootfs/bla/../bla/../bla/../bla/../').startswith('/tmp/rootfs/')"
+> False
+>> python -c "import os;print os.path.realpath('/tmp/rootfs/bla/../bla/../bla/bla/../').startswith('/tmp/rootfs/')"
+> True
 
-So should I send a v4 ?
+Ah, that's a good idea, makes it much simpler, and is still correct. I
+will change to that.
 
-> > 
-> > Ross
-
-
+-- 
+Kristian
 
