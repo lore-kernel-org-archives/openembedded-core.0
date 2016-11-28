@@ -1,48 +1,46 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f169.google.com (mail-qk0-f169.google.com
-	[209.85.220.169])
-	by mail.openembedded.org (Postfix) with ESMTP id 4FEFB719A4
+Return-Path: <patrick.ohly@intel.com>
+Received: from mail-io0-f179.google.com (mail-io0-f179.google.com
+	[209.85.223.179])
+	by mail.openembedded.org (Postfix) with ESMTP id 72DC971AB7
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Nov 2016 14:10:14 +0000 (UTC)
-Received: by mail-qk0-f169.google.com with SMTP id n204so140466727qke.2
+	Mon, 28 Nov 2016 15:33:11 +0000 (UTC)
+Received: by mail-io0-f179.google.com with SMTP id m5so97690519ioe.3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Nov 2016 06:10:16 -0800 (PST)
+	Mon, 28 Nov 2016 07:33:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=yNh7gLDxPMUCHoM4ANVA7N7Fexq8LbmkyUXPeG4zPpE=;
-	b=Kn8OKbQUqNa9QXlpvt7kJqWviIxXOhUweuXeufpH3jk/MscUHUwEGl9y+b4iQ4Vwxk
-	kG0mTFPaf0HxR5mWlsHEHr+BcT0bXZFCJFgzaGEEvjWplBS3SeW+m27QZkyi5c9BmC5+
-	e80g3KKfBkvIrSlmNAKs9b8EnVBKzzvAUFFehUowXcjzh5mMwzeZ6vGYL6lXCraZOLx+
-	nIpioHtdQmQzyJox8qsQAUlllRBAkD0bCZymi28OUWEdmYlIimm4EE+eBVBMIDRrxUiV
-	+i1UClfjh2TQJvtzygw5tSV8ZPsyDYQoEQ+ukm5g/9BEosGrO7O3wSX0+T6yicCN8iu1
-	lGRg==
+	h=from:to:cc:subject:date:message-id;
+	bh=wEotuVAvkCSUgf7u5iTZQUDUt/FzyD1p7iLDDDXwU3g=;
+	b=qv6q7KGokCKqNd2lECV08lcF++dWmrnvNiNx4QGeLedN52962wDEl9dfioBjaLLWv3
+	GeuFaOA3gDYQHQW4+OhMnYhbZ4suDiOGImNtHieuEz+x3e226We7sRwU8k4J8ZxMlYGJ
+	4tlwmOFcnCwSoxYmrqsQoDnSJadzabnohQok5sD1gFNugbVDlSq9U8kWGN6jARd0W91h
+	RTm+Hu/VznXsi4s1VTD22Bb4ZQA2/g6eOZuyhbwFznW8P3kkLivNvPFRW98+AETVLXCj
+	LSl05jpFCFmAgb3mLi5yR2efc7eQcNP3ivDjuLjhBvtqylKCvlyqENzieQ+EOHq0gZRb
+	z/Fg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=yNh7gLDxPMUCHoM4ANVA7N7Fexq8LbmkyUXPeG4zPpE=;
-	b=kSMe2lIfboMi/sOocog9hriP76O3f3LBcsLrAK4BRBEvcG/i5PVOa1G1C6/F8yeiNK
-	cx4O0k3qJy9+BGwn+T5Pzrg0CzK2kygP3ZNhOC4tUWdtsn2aq4d9w6DiqIHGnicRTTka
-	urSXYq+DL63CNgEzYsUwCOi0pOKrBODWoP+jcryXDcC9Mgr3ZAfgL9LI6sKL4zeTfWqd
-	lLQz2KLoyGk5N61BeyiZ2rQcWhDTJqPSVZSzvS8QAmt5Kk2xDmxQLUoQMLNyayxH3WFH
-	qa0DCnJbnnk5ipHgKu2hMXilG9MR7cUQGoa+X+cUFZbzWCuuaIb7QD3As++hlthaLkq/
-	gFbw==
-X-Gm-Message-State: AKaTC00ySn+8YAiHqJxOUmcb6aeBB88AyBDYAEHq+0D6Bt30t20MeYw/Fj6wF8RPCvWFRWr7MqRbHnUnMmFLsetL
-X-Received: by 10.55.5.145 with SMTP id 139mr18858348qkf.77.1480342216253;
-	Mon, 28 Nov 2016 06:10:16 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.140.85.136 with HTTP; Mon, 28 Nov 2016 06:09:55 -0800 (PST)
-In-Reply-To: <1480339031.6873.181.camel@intel.com>
-References: <alpine.LFD.2.20.1611280544090.16875@localhost.localdomain>
-	<1480334664.28508.167.camel@linuxfoundation.org>
-	<1480339031.6873.181.camel@intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 28 Nov 2016 14:09:55 +0000
-Message-ID: <CAJTo0LaLhqDT=f=6kREfmTTdvRYhjKrY3qOV3Op0a=EoxVNHmg@mail.gmail.com>
-To: Patrick Ohly <patrick.ohly@intel.com>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: ASSUME_PROVIDED versus SANITY_REQUIRED_UTILITIES versus "The Build Host Packages"
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=wEotuVAvkCSUgf7u5iTZQUDUt/FzyD1p7iLDDDXwU3g=;
+	b=cpIqXsoDu4FLZXP9wlepl4YkgFEakSJZF+coFR9slpWw7SLipr0m0vtSz2mgEY7ezl
+	A/qn0+tCMwP/Ixce9J42vmCUAKSMiiOErQuOBsjJKFaDK7MprQyaFfeHgfZ5wanz4p4b
+	k/M2xeFYdeeShMmgAqpyj0dKnj+0sv+3sH1mFwTMuhqcRoWngk+/mFhpsaut5hfLg9XY
+	a0k8GJ5VlZqbi8Ug62cArFWMZj8KrFSidbA4T/p18uRnywejPMvLgJs5H25hfyA70Q0a
+	RKJiNFjv2J29U+wxwkep5rIdsaxGZmeuG2XpbchEl4TsipRRKS5xv2RV7mASjTO8FD1+
+	9z/g==
+X-Gm-Message-State: AKaTC02FxTNbKzg6wBNtrCN2PtYVe20iI4zKg8aDpKuLY6qUM1dw3qS2Q7pAaY7ax4j7xA1C
+X-Received: by 10.36.184.194 with SMTP id m185mr18639307ite.3.1480347192220;
+	Mon, 28 Nov 2016 07:33:12 -0800 (PST)
+Received: from pohly-desktop.fritz.box (p5DE8C83A.dip0.t-ipconnect.de.
+	[93.232.200.58]) by smtp.gmail.com with ESMTPSA id
+	n102sm19966747ioi.38.2016.11.28.07.33.10
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Mon, 28 Nov 2016 07:33:10 -0800 (PST)
+From: Patrick Ohly <patrick.ohly@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 28 Nov 2016 16:33:03 +0100
+Message-Id: <cover.1480346284.git.patrick.ohly@intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH 00/11] system statistics sampling
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,45 +53,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 28 Nov 2016 14:10:18 -0000
-Content-Type: multipart/alternative; boundary=001a114c8f84f259e005425d07d8
+X-List-Received-Date: Mon, 28 Nov 2016 15:33:14 -0000
 
---001a114c8f84f259e005425d07d8
-Content-Type: text/plain; charset=UTF-8
+These patches depend on the corresponding patches to bitbake.
 
-On 28 November 2016 at 13:17, Patrick Ohly <patrick.ohly@intel.com> wrote:
+buildstats.bbclass gets extended so that disk bandwidth and capacity,
+CPU and memory usage get sampled at regular time intervals by
+default. pybootchart had code for most of that data, which gets
+restored and re-enabled. The disk capacity graph is new.
 
-> I recently ran into a third usage of "file-native": swupd-server links
-> against libmagic from file and therefore has a DEPENDS = "file". But
-> building swupd-server-native didn't actually build file because of
-> ASSUME_PROVIDED and because I hadn't installed libmagic-dev on my build
-> host, the build was failing.
->
+The original pybootchart just stored raw dumps of the special files
+under /proc. bitbake builds run longer, so a more compact ("reduced")
+format is used.
 
-For this case you can use file-replacement-native to get a full file-native
-built.
+Logging disk capacity was mostly motivated by some work on enhancing
+rm_work.bbclass behavior, but could also be useful for others ("how
+much free space did my build need").
 
-Ross
+The following changes since commit 9f1fe76727e98e58fc9e46ea2b49cf5c0cb48e6c:
 
---001a114c8f84f259e005425d07d8
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+  libpcap: Fix build when PACKAGECONFIG ipv6 is not enable (2016-11-23 11:02:33 +0000)
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 28 November 2016 at 13:17, Patrick Ohly <span dir=3D"ltr">&lt;<a href=3D=
-"mailto:patrick.ohly@intel.com" target=3D"_blank">patrick.ohly@intel.com</a=
->&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 =
-0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":2xn" clas=
-s=3D"a3s aXjCH m158ab2c7a2c2b5ad">I recently ran into a third usage of &quo=
-t;file-native&quot;: swupd-server links<br>
-against libmagic from file and therefore has a DEPENDS =3D &quot;file&quot;=
-. But<br>
-building swupd-server-native didn&#39;t actually build file because of<br>
-ASSUME_PROVIDED and because I hadn&#39;t installed libmagic-dev on my build=
-<br>
-host, the build was failing.<br></div></blockquote></div><br>For this case =
-you can use file-replacement-native to get a full file-native built.</div><=
-div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></=
-div>
+are available in the git repository at:
 
---001a114c8f84f259e005425d07d8--
+  git://github.com/pohly/openembedded-core buildstats
+  https://github.com/pohly/openembedded-core/tree/buildstats
+
+Patrick Ohly (11):
+  buildstats: add system state sampling
+  pybootchartgui/draw.py: allow moving process chart up and down
+  pybootchartgui/draw.py: fix drawing of samples not starting at zero
+  pybootchartgui: show system utilization
+  pybootchartgui/draw.py: skip empty CPU and disk usage charts
+  buildstats: record disk space usage
+  pybootchartgui/parsing.py: fix error handling in meminfo parser
+  pybootchartgui: render disk space usage
+  pybootchartgui: simplify drawing of memory usage
+  buildstats: reduce amount of data stored for system utilization
+  pybootchartgui: support reading reduced /proc logs
+
+ meta/classes/buildstats.bbclass                  |  16 ++
+ meta/lib/buildstats.py                           | 156 ++++++++++++++++++
+ scripts/pybootchartgui/pybootchartgui/draw.py    | 192 ++++++++++++++++-------
+ scripts/pybootchartgui/pybootchartgui/parsing.py | 122 +++++++++++---
+ scripts/pybootchartgui/pybootchartgui/samples.py |  27 ++++
+ 5 files changed, 435 insertions(+), 78 deletions(-)
+ create mode 100644 meta/lib/buildstats.py
+
+-- 
+2.1.4
+
+
