@@ -1,58 +1,57 @@
-Return-Path: <prvs=0141995b2e=mike.looijmans@topicproducts.com>
-X-Greylist: delayed 1935 seconds by postgrey-1.34 at layers.openembedded.org;
-	Tue, 29 Nov 2016 08:30:51 UTC
-Received: from mx6-09.smtp.antispamcloud.com (mx6-09.smtp.antispamcloud.com
-	[95.211.2.200])
-	by mail.openembedded.org (Postfix) with ESMTP id ABD0771AB7
+Return-Path: <patrick.ohly@intel.com>
+Received: from mail-io0-f170.google.com (mail-io0-f170.google.com
+	[209.85.223.170])
+	by mail.openembedded.org (Postfix) with ESMTP id CE24671AB6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Nov 2016 08:30:51 +0000 (UTC)
-Received: from [37.74.225.130] (helo=TOP-EX01.TOPIC.LOCAL)
-	by mx6.antispamcloud.com with esmtps (TLSv1:ECDHE-RSA-AES128-SHA:128)
-	(Exim 4.86) (envelope-from <mike.looijmans@topicproducts.com>)
-	id 1cBdJ9-0000kp-C7; Tue, 29 Nov 2016 08:58:33 +0100
-Received: from [192.168.80.121] (192.168.80.121) by webmail.topic.nl
-	(192.168.10.102) with Microsoft SMTP Server id 14.3.224.2;
-	Tue, 29 Nov 2016 08:58:30 +0100
-To: Khem Raj <raj.khem@gmail.com>, Bruce Ashfield <bruce.ashfield@gmail.com>
-References: <6df42b3b-66b7-25dc-faac-e26e19fefbfd@topic.nl>
-	<9147101c-f99a-92fc-d45c-0b67f477a57e@topic.nl>
-	<CADkTA4N-PEZZdDh7nrzaXBQb7jm0-SUkGbpcShXcQAJKe5bfEg@mail.gmail.com>
-	<B3A9B210-3501-47BB-8B16-CC31C7A4BCC5@gmail.com>
-From: Mike Looijmans <mike.looijmans@topic.nl>
-Organization: TOPIC
-Message-ID: <de64dc20-cff3-5f25-7e66-55887e641e3e@topic.nl>
-Date: Tue, 29 Nov 2016 08:58:30 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.4.0
-MIME-Version: 1.0
-In-Reply-To: <B3A9B210-3501-47BB-8B16-CC31C7A4BCC5@gmail.com>
-X-Originating-IP: [192.168.80.121]
-X-EXCLAIMER-MD-CONFIG: 9833cda7-5b21-4d34-9a38-8d025ddc3664
-X-EXCLAIMER-MD-BIFURCATION-INSTANCE: 0
-X-Filter-ID: s0sct1PQhAABKnZB5plbIbbvfIHzQjPVmPLZeVYSu3xU9luQrU+8/8qthi+0Jd/W6KAUC/fjyuDn
-	NXFr4uarw5xo+yL19ZkIV8F4VBe+tCaqeJUWd0HiubIWOWFjsT3ac1G7xK3gxSPcF7yYBLgvIXk/
-	bVJ0XWECXvuiqkAs68ltP3IHr7mRRBdQ+rEKkqhnmNb6vV/9OcbV5CTmBwBTZeKGZApkiKnNYOLT
-	Iu2CQPjaBRK0rMNzZTSwTZAPbSs+k/RKYcawF5EyqxxarlByymhsaqFQ/ea47b1uq8lozVwCUf24
-	YVbkZ8UVNMoPwHH4YVEG/c9G1xPKGKsIrdK8O6/nTAF5gmi6SYm5pEeiDdhb5wxwq6a5JGTNj4jS
-	CHVbq1Nh30Fnu3fU1J6CuXj1ppFVgpT1b21uZVckGp0ccOY05guNsa2Nl1J/2pvGKzma2sWSLFwZ
-	4CJju5wll4p3LFNaAhoZRraaMNflySj+cWKLBDMrD7q/cJogwbqzsuok/AYaMlht8Ta56kt9vcRo
-	0PxpVuXaTJf4+evRuujKQaLWCwLygtcx5XY/0/S88MKZDuSdok4dfJvvgKS8xFacO87dr5uSpYo8
-	4vyLqDMs3KnrDMZSUZYgu1eIOjfHIjBKX2XX9bIsGDSYq5OAASmskVxxb52Ta22MKkYKziEOS1wT
-	K7ZuFu5WTL/45b4i4DZ+bZtH5JQSNlZ3ejz4I1THOXkxbFU0wjhtdR15L5J+1bxthWJcDArBQLlQ
-	+zm4f1mvXMZCrFUeI14mn3kw3+LRTg==
-X-Report-Abuse-To: spam@quarantine2.antispamcloud.com
-X-Originating-IP: 37.74.225.130
-X-SpamExperts-Domain: topic.nl
-X-SpamExperts-Username: 37.74.225.128/28
-Authentication-Results: antispamcloud.com;
-	auth=pass smtp.auth=37.74.225.128/28@topic.nl
-X-SpamExperts-Outgoing-Class: ham
-X-SpamExperts-Outgoing-Evidence: Combined (0.02)
-X-Classification: not-spam/combined
-X-Recommended-Action: accept
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: Kernel: Builds use old version of defconfig
+	Tue, 29 Nov 2016 08:51:10 +0000 (UTC)
+Received: by mail-io0-f170.google.com with SMTP id a124so277836603ioe.2
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 29 Nov 2016 00:51:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:organization:mime-version:content-transfer-encoding;
+	bh=dgeGumGqWVMP1dJmliKcgShSuTlSwGF0woR9zBl/+qM=;
+	b=Th92Ks/YBYhbJk58fSHyIocLg6NmlmJvhtAov2R5iMQ28OfRd5FOpinlpuvGIhYxBu
+	gxtAszVKP0lvHKJG9AhJN3pLGIlNnFRhifbE4cQWI1eOC1sl9v+8hrXRnkuzg4ygStxf
+	aD3UmxS+Qo9ofNMhtCcz/g/fH+aWcagyrYo/fpHkYEhDH1yajtYlhXJ+nXP+OcmuC2Qc
+	vq7zunUoOmHKu/qWTwDbZZpqsVvFvHVTymkmgokEux1MoEF0oS+DKwIED9RI8gBiHuBQ
+	F1sjMiLA+sIBZlOwiY3jRpSfXX8XJdShS+z8Opjd6qogTbLftgsm337pitjJ+0fcm1PQ
+	W2Zw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:organization:mime-version:content-transfer-encoding;
+	bh=dgeGumGqWVMP1dJmliKcgShSuTlSwGF0woR9zBl/+qM=;
+	b=bJRkJYjNeO3fWnfRxBPeuBoZWGR9QOuxZLe7mXiUkxTL8tm2ZD72Mawd3wKX2bxtGg
+	6lKt47txUKRxP8xE2ljZzMjSq902frLY2rRdGo9WHGM5aewD+dNGqr3I0ohwIbYdLjdK
+	lUFHR5Bf23o3N9dIuW6VkiUZvMOUG/IyzBSo9rm8fn38cIq/erXGkE7ktevXuB7eojj7
+	glUczj5vxD/ULA6cdaoMqSJVgW4O/2STmOIA4apU5XIMiuVIfcpHPfguPmy4JXpKqYrz
+	PwcRNVVTcfzz17wJurhwxIjAlr81DhsIhVgcjbZ16vXfzHuMTICJxmeJN6q7vihVzlK1
+	k7+w==
+X-Gm-Message-State: AKaTC01gYgNDmzoUaYwzFmN9j7mUX1bvyOR0re1nvr9Gvc16u4Uvj5V1koR9dvi0SAacG3vw
+X-Received: by 10.107.131.195 with SMTP id n64mr23257049ioi.161.1480409471648; 
+	Tue, 29 Nov 2016 00:51:11 -0800 (PST)
+Received: from pohly-mobl1 (p5DE8EEDB.dip0.t-ipconnect.de. [93.232.238.219])
+	by smtp.gmail.com with ESMTPSA id h17sm554532ith.17.2016.11.29.00.51.09
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 29 Nov 2016 00:51:10 -0800 (PST)
+Message-ID: <1480409468.6873.232.camel@intel.com>
+From: Patrick Ohly <patrick.ohly@intel.com>
+To: Jose Lamego <jose.a.lamego@linux.intel.com>
+Date: Tue, 29 Nov 2016 09:51:08 +0100
+In-Reply-To: <e4228247-306f-2fd6-6ba8-1c4e01e11a28@linux.intel.com>
+References: <1480105843-14729-1-git-send-email-jose.a.lamego@linux.intel.com>
+	<1480350180-9496-1-git-send-email-jose.a.lamego@linux.intel.com>
+	<1480362425.6873.209.camel@intel.com>
+	<967933e7-9f2e-a960-4699-e4e8f2d39e68@linux.intel.com>
+	<1480368843.6873.215.camel@intel.com>
+	<e4228247-306f-2fd6-6ba8-1c4e01e11a28@linux.intel.com>
+Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
+X-Mailer: Evolution 3.12.9-1+b1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH V2] scripts.send-pull-request: Avoid multiple chain headers
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -65,191 +64,76 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 Nov 2016 08:30:54 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 29 Nov 2016 08:51:11 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-=EF=BB=BFOn 29-11-16 03:03, Khem Raj wrote:
->
->> On Nov 24, 2016, at 5:55 AM, Bruce Ashfield <bruce.ashfield@gmail.com
->> <mailto:bruce.ashfield@gmail.com>> wrote:
->>
->>
->>
->> On Thu, Nov 24, 2016 at 5:32 AM, Mike Looijmans <mike.looijmans@topic.nl
->> <mailto:mike.looijmans@topic.nl>> wrote:
->>
->>     On 24-11-16 11:10, Mike Looijmans wrote:
->>
->>         I'm currently experiencing a problem with "defconfig" files and =
-the
->>         kernel.
->>
->>         In short, when I make a change to the "defconfig" file, the kern=
-el
->>         is rebuilt
->>         (which is correct), but the resulting kernel has been built usin=
-g
->>         the old
->>         defconfig from a previous build, instead of the new one.
->>
->>         The kernel recipe just contains "file://defconfig" in its SRC_UR=
-I. The
->>         defconfig file is in the project's overlay.
->>
->>         For example, I have a kernel with "CONFIG_DEVMEM" disabled:
->>
->>         # gunzip < /proc/config.gz | grep DEVMEM
->>         # CONFIG_DEVMEM is not set
->>
->>         Now, I change the defconfig to contain CONFIG_DEVMEM=3Dy and bui=
-ld the
->>         image.
->>         The result:
->>
->>         # gunzip < /proc/config.gz | grep DEVMEM
->>         # CONFIG_DEVMEM is not set
->>
->>         So the change did not make it into the actual kernel, even thoug=
-h
->>         the kernel
->>         was rebuild as a result of the change.
->>
->>         I run "bitbake -c cleansstate virtual/kernel" and build the imag=
-e again:
->>
->>         # gunzip < /proc/config.gz | grep DEVMEM
->>         CONFIG_DEVMEM=3Dy
->>
->>         After cleaning, the result is correct and the new defconfig is a=
-ctive.
->>
->>         I'm trying to figure out how this can happen, any help is welcom=
-e...
->>
->>
->>     What seems to be the problem is this code in kernel.bbclass:
->>
->>             # Copy defconfig to .config if .config does not exist. This =
-allows
->>             # recipes to manage the .config themselves in
->>     do_configure_prepend().
->>             if [ -f "${WORKDIR}/defconfig" ] && [ ! -f "${B}/.config" ];=
- then
->>                     cp "${WORKDIR}/defconfig" "${B}/.config"
->>             fi
->>
->>     This keeps any existing ".config" file if it happens to still be in =
-the
->>     $B path, which is the case if you're rebuilding a kernel.
->>
->>     I see two possible ways to fix this.
->>
->>     1) During "cleanup" also remove the .config file in the build dir.
->>     However, the build dir is probably kept alive for a reason? I also c=
-an't
->>     figure out how that "cleanup" is being done.
->>
->>
->>     2) Remove the second part of the "if" statement, so it becomes:
->>
->>             # Copy defconfig to .config if "defconfig" exists. This allo=
-ws
->>             # recipes to manage the .config themselves in
->>     do_configure_prepend().
->>             if [ -f "${WORKDIR}/defconfig" ]; then
->>                     cp "${WORKDIR}/defconfig" "${B}/.config"
->>             fi
->>
->>     I've tested that, and it solves my problem. However, it will probabl=
-y
->>     break other people's config mangling?
->>
->>
->> Yep, in particular all the fragment processing which has the capability =
-of
->> starting
->> with a defconfig and then apply fragments from any number of other place=
-s. When
->> that task completes, a full .config is in ${B}.  If that statement comes
->> along and
->> clobbers the .config =E2=80=A6
->
-> so you either assume that .config is valid once generated or you dont. Wh=
-en a
-> configure task
-> is triggered it should recreate .config everytime.
+On Mon, 2016-11-28 at 16:35 -0600, Jose Lamego wrote:
+> 
+> On 11/28/2016 03:34 PM, Patrick Ohly wrote:
+> > On Mon, 2016-11-28 at 14:28 -0600, Jose Lamego wrote:
+> >> Agree. Please provide feedback about below comments and I will submit a
+> >> v3 patch.
+> >>
+> >> On 11/28/2016 01:47 PM, Patrick Ohly wrote:
+> >>> On Mon, 2016-11-28 at 10:23 -0600, Jose Lamego wrote:
+> >> More than 1 "In-Reply-To" and "References" message headers are in
+> >> violation of rfc2822 [1] and may cause that some email-related
+> >> applications do not point to the appropriate root message in a
+> >> conversation/series.
+> > 
+> > Fixing that makes sense. Just add it as reason and the "why" part is
+> > covered.
+> > 
+> >>> And I don't understand why this proposed change has the described
+> >>> effect. Does changing the threading parameters change the output of "git
+> >>> send-email" and thus indirectly the mail headers of the following
+> >>> patches?
+> > 
+> > The "how" part still isn't clear to me. Perhaps I'm just dumb, but would
+> > you bear with me and explain a bit more how changing the sending of the
+> > cover letter affects sending of the patches?
 
-The problem seems to be that the class "do_configure" does things that shou=
-ld=20
-happen before and after things that the recipe would want to change.
+I've tried out your proposed change with
+  bash -x ../poky/scripts/send-pull-request --to=patrick.ohly@gmx.de -p pull-11827
+where pull-11827 is my recent bitbake submission.
 
-Copying defconfig or whatever means to create a .config should be first.
+The resulting emails are still broken because that one line that you
+modify isn't event used. It's under "if [ $AUTO_CL -eq 1 ]" and I am not
+using the -a option that enables that behavior.
 
-Next, the specific kernel recipe would want to mangle that configuration to=
-=20
-suit its needs, like applying fragments and such.
+Even when I use -a, the result is still broken.
 
-Then the makeoldconfig (or whatever) task should run.
+The root cause of the problem is that both create-pull-request and
+send-pull-request allow git to insert In-Reply-To headers.
 
+"git send-email --help" explicitly warns about that:
 
-The current system assumes that the kernel recipe creates a=20
-do_configure_prepend to do the mangling, which is rather counterintuitive, =
-one=20
-would expect to "append" extra actions.
+        It is up to the user to ensure that no In-Reply-To header already exists when git send-email is asked
+        to add it (especially note that git format-patch can be configured to do the threading itself). Failure
+        to do so may not produce the expected result in the recipient’s MUA.
 
-A structured approach would be to split the do_configure into two parts tha=
-t=20
-should run in sequence, and then kernel recipes can inject their actions by=
-=20
-appending to them as they see fit. The first task would create the .config=
-=20
-file by (forcibly) copying any defconfig or starting point. The second task=
-=20
-would call the kernel's make script to futher process it.
+>  What I'm doing
+> here is to include no reference to any root message at the first call,
+> then including a reference at the second call to the very first message
+> in the chain, which is either the cover letter or the patch #1.
 
-But this too would break existing recipes.
+No, that doesn't work. Whether the first call uses --no-thread or
+--no-chain-reply-to has no effect whatsoever, because when "git
+send-email" only sends a single email, it doesn't add headers, and the
+second call was left unmodified in your patch.
 
+The right fix (tested successfully here) is to use --no-thread in the
+second call which sends the sequence of patches. I'll send my  change
+for review separately.
 
+-- 
+Best Regards, Patrick Ohly
 
->>
->> I'm actually working in the 2.3 release cycle to make the fragment proce=
-ssing
->> be available to all kernels, which will likely solve this problem .. but=
- we
->> can't
->> wait for that.
->>
->> So I'm hoping that there's a way to make the behaviour cover both use ca=
-ses.
->>
->> Maybe someone with more bitbake knowledge can point out a way that can
->> detect if the task is being run due to a change in the task signature.
->>
->> Since if you've modified the defconfig, the task is being re-run for tha=
-t change
->> and at that point we could safely remove the .config (versus forcing it =
-on the
->> clean step).
-
-
-
-
-Kind regards,
-
-Mike Looijmans
-System Expert
-
-TOPIC Products
-Materiaalweg 4, NL-5681 RJ Best
-Postbus 440, NL-5680 AK Best
-Telefoon: +31 (0) 499 33 69 79
-E-mail: mike.looijmans@topicproducts.com
-Website: www.topicproducts.com
-
-Please consider the environment before printing this e-mail
-
-
+The content of this message is my personal opinion only and although
+I am an employee of Intel, the statements I make here in no way
+represent Intel's position on the issue, nor am I authorized to speak
+on behalf of Intel on this matter.
 
 
 
