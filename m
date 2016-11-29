@@ -1,28 +1,20 @@
-Return-Path: <california.l.sullivan@intel.com>
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-	by mail.openembedded.org (Postfix) with ESMTP id A696571A54
+Return-Path: <edwin.plauchu.camacho@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 32D2270178
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Nov 2016 21:08:09 +0000 (UTC)
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-	by fmsmga105.fm.intel.com with ESMTP; 29 Nov 2016 13:08:10 -0800
+	Tue, 29 Nov 2016 21:16:03 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga103.jf.intel.com with ESMTP; 29 Nov 2016 13:16:04 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.31,570,1473145200"; d="scan'208,217";a="36942747"
-Received: from clsulliv.jf.intel.com ([10.7.201.36])
-	by orsmga005.jf.intel.com with ESMTP; 29 Nov 2016 13:08:10 -0800
+X-IronPort-AV: E=Sophos;i="5.31,570,1473145200"; d="scan'208";a="11251349"
+Received: from pianodaemon-contraption.zpn.intel.com ([10.219.128.75])
+	by orsmga002.jf.intel.com with ESMTP; 29 Nov 2016 13:16:03 -0800
+From: Edwin Plauchu <edwin.plauchu.camacho@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-References: <1480444188-27310-1-git-send-email-leonardo.sandoval.gonzalez@linux.intel.com>
-	<CABcZANnQ87Q=h4-ponSyGP_-Q8bsRPfMOQ+UZWf0S7i85D2-GQ@mail.gmail.com>
-	<2a1fd093-8b07-1e04-4167-f52c0698446e@linux.intel.com>
-	<effe6688-33a7-7bda-8dea-471e58149824@intel.com>
-From: Cal Sullivan <california.l.sullivan@intel.com>
-Message-ID: <e91e2209-1d22-a53b-8cf4-e37eb86d9a14@intel.com>
-Date: Tue, 29 Nov 2016 13:08:10 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.2.0
-MIME-Version: 1.0
-In-Reply-To: <effe6688-33a7-7bda-8dea-471e58149824@intel.com>
-Cc: clarson@kergoth.com
-Subject: Re: [PATCH] sysvinit-inittab: fix getty device removal
+Date: Tue, 29 Nov 2016 15:17:20 -0600
+Message-Id: <20161129211720.12594-1-edwin.plauchu.camacho@linux.intel.com>
+X-Mailer: git-send-email 2.9.3
+Subject: [PATCH] texinfo upgrade to 6.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,265 +27,232 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 Nov 2016 21:08:11 -0000
-Content-Type: multipart/alternative;
-	boundary="------------5A1BF6445D313D0E6DF3B5EA"
+X-List-Received-Date: Tue, 29 Nov 2016 21:16:04 -0000
 
---------------5A1BF6445D313D0E6DF3B5EA
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 8bit
+Signed-off-by: Edwin Plauchu <edwin.plauchu.camacho@linux.intel.com>
 
-Oops, accidentally dropped CCs. See my reply below.
+---
+ .../texinfo/texinfo/dont-depend-on-help2man.patch  | 19 ++++---
+ .../texinfo/texinfo/texinfo-4.12-zlib.patch        | 65 +++++++++++++++-------
+ .../texinfo/{texinfo_6.0.bb => texinfo_6.3.bb}     |  5 +-
+ 3 files changed, 56 insertions(+), 33 deletions(-)
+ rename meta/recipes-extended/texinfo/{texinfo_6.0.bb => texinfo_6.3.bb} (93%)
 
-On 11/29/2016 01:05 PM, Cal Sullivan wrote:
->
->
-> On 11/29/2016 12:52 PM, Leonardo Sandoval wrote:
->>
->>
->>
->> On 11/29/2016 02:15 PM, Christopher Larson wrote:
->>>
->>> On Tue, Nov 29, 2016 at 11:29 AM, 
->>> <leonardo.sandoval.gonzalez@linux.intel.com 
->>> <mailto:leonardo.sandoval.gonzalez@linux.intel.com>> wrote:
->>>
->>>     From: Leonardo Sandoval
->>>     <leonardo.sandoval.gonzalez@linux.intel.com
->>>     <mailto:leonardo.sandoval.gonzalez@linux.intel.com>>
->>>
->>>     getty devices were not being removed in some cases because
->>>     device name
->>>     was not at the end of the line, for example a ttyS1 device:
->>>
->>>     S1:12345:respawn:/bin/start_getty 115200 ttyS1 vt102
->>>
->>>     Removing this limitation allows sed to remove any line containing
->>>     the device.
->>>
->>>     Signed-off-by: Leonardo Sandoval
->>>     <leonardo.sandoval.gonzalez@linux.intel.com
->>>     <mailto:leonardo.sandoval.gonzalez@linux.intel.com>>
->>>     ---
->>>      meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
->>>     <http://sysvinit-inittab_2.88dsf.bb> | 2 +-
->>>      1 file changed, 1 insertion(+), 1 deletion(-)
->>>
->>>     diff --git
->>>     a/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
->>>     <http://sysvinit-inittab_2.88dsf.bb>
->>>     b/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
->>>     <http://sysvinit-inittab_2.88dsf.bb>
->>>     index c219cbf..dd30f43 100644
->>>     --- a/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
->>>     <http://sysvinit-inittab_2.88dsf.bb>
->>>     +++ b/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
->>>     <http://sysvinit-inittab_2.88dsf.bb>
->>>     @@ -62,7 +62,7 @@ if [ "x$D" = "x" ] && [ -e /proc/consoles ]; then
->>>                     k=`echo ${i} | sed s/^.*\://g`
->>>                     if [ -z "`grep ${j} /proc/consoles`" ]; then
->>>                             if [ -z "${k}" ] || [ -z "`grep ${k}
->>>     /proc/consoles`" ] || [ ! -e /dev/${j} ]; then
->>>     -                               sed -i /^.*${j}$/d /etc/inittab
->>>     +                               sed -i /^.*${j}/d /etc/inittab
->>>
->>>
->>> This doesn’t check for the end of a word, so it’d match a partial as 
->>> well. Would that be a problem? i.e. ttyS1 vs ttyS10.
->>
->> That is the intention, that line removal is not tied to finding the 
->> device at the end of the line. With proposed patch, it removes the 
->> device, no matter where is located.
->>
-> Right, but look at this hypothetical example:
->
-> S1:12345:respawn:/bin/start_getty 115200 ttyS1 vt102
-> S10:12345:respawn:/bin/start_getty 115200 ttyS10
->
-> Both would match, when you only want the top to match. This is 
-> untested but likely more what we want:
->
-> sed -i /^.*${j}[\ $]/d /etc/inittab
->
-> That way we either match up to a space (end of word) or end of line.
->
-> ---
-> Cal
->
->>
->>> -- 
->>> Christopher Larson
->>> clarson at kergoth dot com
->>> Founder - BitBake, OpenEmbedded, OpenZaurus
->>> Maintainer - Tslib
->>> Senior Software Engineer, Mentor Graphics
->>
->>
->>
->
+diff --git a/meta/recipes-extended/texinfo/texinfo/dont-depend-on-help2man.patch b/meta/recipes-extended/texinfo/texinfo/dont-depend-on-help2man.patch
+index 0ce47ec..f418439 100644
+--- a/meta/recipes-extended/texinfo/texinfo/dont-depend-on-help2man.patch
++++ b/meta/recipes-extended/texinfo/texinfo/dont-depend-on-help2man.patch
+@@ -1,31 +1,32 @@
+-From 6f1f3912fcb900b3a3e6cbe3360306fade333497 Mon Sep 17 00:00:00 2001
+-From: Jussi Kukkonen <jussi.kukkonen@intel.com>
+-Date: Thu, 6 Aug 2015 14:55:08 +0300
++From e89b1c57d76f5cf5acbb0d0187374f7a77bce1e2 Mon Sep 17 00:00:00 2001
++From: Edwin Plauchu <edwin.plauchu.camacho@intel.com>
++Date: Tue, 29 Nov 2016 13:43:24 -0600
+ Subject: [PATCH] dont-depend-on-help2man
+ 
+ Upstream-Status: Inappropriate
+ 
+ Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
++Signed-off-by: Edwin Plauchu <edwin.plauchu.camacho@intel.com>
+ ---
+  doc/Makefile.am |  2 +-
+  man/Makefile.am | 12 ++++++------
+  2 files changed, 7 insertions(+), 7 deletions(-)
+ 
+ diff --git a/doc/Makefile.am b/doc/Makefile.am
+-index 7198a6b..4bba550 100644
++index 39db834..1bb2a4f
+ --- a/doc/Makefile.am
+ +++ b/doc/Makefile.am
+-@@ -40,7 +40,7 @@ refcard_files = refcard/Makefile refcard/txicmdcheck \
++@@ -38,7 +38,7 @@ refcard_files = refcard/Makefile refcard/txicmdcheck \
+  # Include our texinfo.tex, not Automake's.
+  EXTRA_DIST = epsf.tex texinfo.tex \
+               fdl.texi \
+ -	     $(man_MANS) $(TXI_XLATE) \
+ +	     $(TXI_XLATE) \
+- 	     $(refcard_files)
++              $(refcard_files) texinfo-tex-test.texi \
++              texinfo-ja.tex short-sample-ja.texi
+  
+- if INSTALL_WARNINGS
+ diff --git a/man/Makefile.am b/man/Makefile.am
+-index a08d603..bdfc9a4 100644
++index 6bfcb3d..a820c96
+ --- a/man/Makefile.am
+ +++ b/man/Makefile.am
+ @@ -13,24 +13,24 @@
+@@ -60,5 +61,5 @@ index a08d603..bdfc9a4 100644
+  # Maintainers should be able to regenerate.
+  MAINTAINERCLEANFILES = $(man_MANS)
+ -- 
+-2.1.4
++2.9.3
+ 
+diff --git a/meta/recipes-extended/texinfo/texinfo/texinfo-4.12-zlib.patch b/meta/recipes-extended/texinfo/texinfo/texinfo-4.12-zlib.patch
+index 41bd220..f25352c 100644
+--- a/meta/recipes-extended/texinfo/texinfo/texinfo-4.12-zlib.patch
++++ b/meta/recipes-extended/texinfo/texinfo/texinfo-4.12-zlib.patch
+@@ -1,19 +1,22 @@
+-From 20e1d8a9481dc13dd1d4d168b90e0ed2ff097b98 Mon Sep 17 00:00:00 2001
+-From: Jussi Kukkonen <jussi.kukkonen@intel.com>
+-Date: Thu, 6 Aug 2015 14:29:57 +0300
++From fe4f00459601efe0cfa75d92749a32237800a530 Mon Sep 17 00:00:00 2001
++From: Edwin Plauchu <edwin.plauchu.camacho@intel.com>
++Date: Tue, 29 Nov 2016 12:27:17 -0600
+ Subject: [PATCH] texinfo-4.12-zlib
+ 
+ Upstream-Status: Pending
++
++Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
++Signed-off-by: Edwin Plauchu <edwin.plauchu.camacho@intel.com>
+ ---
+- install-info/Makefile.in    |  2 +-
+- install-info/install-info.c | 67 +++++++++++++++++++++++++++------------------
+- 2 files changed, 42 insertions(+), 27 deletions(-)
++ install-info/Makefile.in    | 12 ++-----
++ install-info/install-info.c | 79 +++++++++++++++++++++++++++------------------
++ 2 files changed, 49 insertions(+), 42 deletions(-)
+ 
+ diff --git a/install-info/Makefile.in b/install-info/Makefile.in
+-index ad73abb..eaa2153 100644
++index 837d020..ba96579 100644
+ --- a/install-info/Makefile.in
+ +++ b/install-info/Makefile.in
+-@@ -241,7 +241,7 @@ am__installdirs = "$(DESTDIR)$(bindir)" "$(DESTDIR)$(bindir)"
++@@ -216,7 +208,7 @@ am__installdirs = "$(DESTDIR)$(bindir)" "$(DESTDIR)$(bindir)"
+  PROGRAMS = $(bin_PROGRAMS)
+  am_ginstall_info_OBJECTS = install-info.$(OBJEXT)
+  ginstall_info_OBJECTS = $(am_ginstall_info_OBJECTS)
+@@ -23,7 +26,7 @@ index ad73abb..eaa2153 100644
+  ginstall_info_DEPENDENCIES = $(top_builddir)/gnulib/lib/libgnu.a \
+  	$(am__DEPENDENCIES_1)
+ diff --git a/install-info/install-info.c b/install-info/install-info.c
+-index b454c15..4e39122 100644
++index e58189c..8617787 100644
+ --- a/install-info/install-info.c
+ +++ b/install-info/install-info.c
+ @@ -22,6 +22,7 @@
+@@ -43,7 +46,7 @@ index b454c15..4e39122 100644
+  open_possibly_compressed_file (char *filename,
+      void (*create_callback) (char *),
+ -    char **opened_filename, char **compression_program) 
+-+    char **opened_filename, char **compression_program, int *is_pipe) 
+++    char **opened_filename, char **compression_program, int *is_pipe)
+  {
+    char *local_opened_filename, *local_compression_program;
+    int nread;
+@@ -119,7 +122,7 @@ index b454c15..4e39122 100644
+            if (!f)
+              return 0;
+          }
+-@@ -767,12 +768,12 @@ open_possibly_compressed_file (char *filename,
++@@ -767,26 +768,26 @@ open_possibly_compressed_file (char *filename,
+  
+    /* Read first few bytes of file rather than relying on the filename.
+       If the file is shorter than this it can't be usable anyway.  */
+@@ -128,14 +131,34 @@ index b454c15..4e39122 100644
+ +  nread = gzread (f, data, sizeof (data));
+ +  if (nread != sizeof (data))
+      {
+-       /* Empty files don't set errno.  Calling code can check for
+-          this, so make sure errno == 0 just in case it isn't already. */
+ -      if (nread == 0)
+ +      if (nread >= 0)
+-         errno = 0;
+-       return 0;
+-     }
+-@@ -838,35 +839,40 @@ open_possibly_compressed_file (char *filename,
++         {
++           /* Try to create the file if its empty. */
++-          if (feof (f) && create_callback)
+++          if (gzeof(f) && create_callback)
++             {
++-              if (fclose (f) != 0)
+++              if (gzclose(f) != 0)
++                 return 0; /* unknown error closing file */
++ 
++-              if (remove (filename) != 0)
+++              if (remove(filename) != 0)
++                 return 0; /* unknown error deleting file */
++ 
++               (*create_callback) (filename);
++-              f = fopen (*opened_filename, FOPEN_RBIN);
+++              f = gzopen (*opened_filename, FOPEN_RBIN);
++               if (!f)
++                 return 0;
++-              nread = fread (data, sizeof (data), 1, f);
++-              if (nread == 0)
+++              nread = gzread(f, data, sizeof (data));
+++              if (nread >= 0)
++                 return 0;
++               goto determine_file_type; /* success */
++             }
++@@ -857,35 +858,40 @@ determine_file_type:
+      *compression_program = NULL;
+  
+    /* Seek back over the magic bytes.  */
+@@ -183,7 +206,7 @@ index b454c15..4e39122 100644
+      }
+  
+    return f;
+-@@ -885,7 +891,8 @@ readfile (char *filename, int *sizep,
++@@ -904,7 +910,8 @@ readfile (char *filename, int *sizep,
+      void (*create_callback) (char *), char **opened_filename,
+      char **compression_program)
+  {
+@@ -193,7 +216,7 @@ index b454c15..4e39122 100644
+    int filled = 0;
+    int data_size = 8192;
+    char *data = xmalloc (data_size);
+-@@ -893,14 +900,20 @@ readfile (char *filename, int *sizep,
++@@ -912,14 +919,20 @@ readfile (char *filename, int *sizep,
+    /* If they passed the space for the file name to return, use it.  */
+    f = open_possibly_compressed_file (filename, create_callback,
+                                       opened_filename,
+@@ -216,7 +239,7 @@ index b454c15..4e39122 100644
+        if (nread < 0)
+          return 0;
+        if (nread == 0)
+-@@ -919,8 +932,10 @@ readfile (char *filename, int *sizep,
++@@ -938,8 +951,10 @@ readfile (char *filename, int *sizep,
+    /* We need to close the stream, since on some systems the pipe created
+       by popen is simulated by a temporary file which only gets removed
+       inside pclose.  */
+@@ -229,5 +252,5 @@ index b454c15..4e39122 100644
+    *sizep = filled;
+    return data;
+ -- 
+-2.1.4
++2.9.3
+ 
+diff --git a/meta/recipes-extended/texinfo/texinfo_6.0.bb b/meta/recipes-extended/texinfo/texinfo_6.3.bb
+similarity index 93%
+rename from meta/recipes-extended/texinfo/texinfo_6.0.bb
+rename to meta/recipes-extended/texinfo/texinfo_6.3.bb
+index 8638bb1..cd9a844 100644
+--- a/meta/recipes-extended/texinfo/texinfo_6.0.bb
++++ b/meta/recipes-extended/texinfo/texinfo_6.3.bb
+@@ -30,15 +30,14 @@ TARGET_PATCH_class-native = ""
+ 
+ SRC_URI = "${GNU_MIRROR}/texinfo/${BP}.tar.gz \
+            file://texinfo-4.12-zlib.patch \
+-           file://disable-native-tools.patch \
+            file://link-zip.patch \
+            file://dont-depend-on-help2man.patch \
+            file://0001-Unset-need_charset_alias-when-building-for-musl.patch \
+            ${TARGET_PATCH} \
+           "
+ 
+-SRC_URI[md5sum] = "e1a2ef5dce5018b53f0f6eed45b247a7"
+-SRC_URI[sha256sum] = "83d3183290f34e7f958d209d0b20022c6fe9e921eb6fe94c27d988827d4878d2"
++SRC_URI[md5sum] = "9b08daca9bf8eccae9b0f884aba41f9e"
++SRC_URI[sha256sum] = "300a6ba4958c2dd4a6d5ce60f0a335daf7e379f5374f276f6ba31a221f02f606"
+ 
+ tex_texinfo = "texmf/tex/texinfo"
+ 
+-- 
+2.9.3
 
 
---------------5A1BF6445D313D0E6DF3B5EA
-Content-Type: text/html; charset=windows-1252
-Content-Transfer-Encoding: 8bit
-
-<html>
-  <head>
-    <meta content="text/html; charset=windows-1252"
-      http-equiv="Content-Type">
-  </head>
-  <body bgcolor="#FFFFFF" text="#000000">
-    <tt>Oops, accidentally dropped CCs. See my reply below.</tt><br>
-    <br>
-    <div class="moz-cite-prefix">On 11/29/2016 01:05 PM, Cal Sullivan
-      wrote:<br>
-    </div>
-    <blockquote
-      cite="mid:effe6688-33a7-7bda-8dea-471e58149824@intel.com"
-      type="cite">
-      <meta content="text/html; charset=windows-1252"
-        http-equiv="Content-Type">
-      <br>
-      <br>
-      <div class="moz-cite-prefix">On 11/29/2016 12:52 PM, Leonardo
-        Sandoval wrote:<br>
-      </div>
-      <blockquote
-        cite="mid:2a1fd093-8b07-1e04-4167-f52c0698446e@linux.intel.com"
-        type="cite">
-        <meta http-equiv="Content-Type" content="text/html;
-          charset=windows-1252">
-        <p><br>
-        </p>
-        <br>
-        <div class="moz-cite-prefix">On 11/29/2016 02:15 PM, Christopher
-          Larson wrote:<br>
-        </div>
-        <blockquote
-cite="mid:CABcZANnQ87Q=h4-ponSyGP_-Q8bsRPfMOQ+UZWf0S7i85D2-GQ@mail.gmail.com"
-          type="cite">
-          <div dir="ltr">
-            <div class="gmail_extra"><br>
-              <div class="gmail_quote">On Tue, Nov 29, 2016 at 11:29 AM,
-                <span dir="ltr">&lt;<a moz-do-not-send="true"
-                    href="mailto:leonardo.sandoval.gonzalez@linux.intel.com"
-                    target="_blank">leonardo.sandoval.gonzalez@linux.intel.com</a>&gt;</span>
-                wrote:<br>
-                <blockquote class="gmail_quote" style="margin:0 0 0
-                  .8ex;border-left:1px #ccc solid;padding-left:1ex">
-                  <div id=":2m0" class="a3s aXjCH m158b154f368e9e70">From:
-                    Leonardo Sandoval &lt;<a moz-do-not-send="true"
-                      href="mailto:leonardo.sandoval.gonzalez@linux.intel.com">leonardo.sandoval.gonzalez@<wbr>linux.intel.com</a>&gt;<br>
-                    <br>
-                    getty devices were not being removed in some cases
-                    because device name<br>
-                    was not at the end of the line, for example a ttyS1
-                    device:<br>
-                    <br>
-                    S1:12345:respawn:/bin/start_<wbr>getty 115200 ttyS1
-                    vt102<br>
-                    <br>
-                    Removing this limitation allows sed to remove any
-                    line containing<br>
-                    the device.<br>
-                    <br>
-                    Signed-off-by: Leonardo Sandoval &lt;<a
-                      moz-do-not-send="true"
-                      href="mailto:leonardo.sandoval.gonzalez@linux.intel.com">leonardo.sandoval.gonzalez@<wbr>linux.intel.com</a>&gt;<br>
-                    ---<br>
-                     meta/recipes-core/sysvinit/<a
-                      moz-do-not-send="true"
-                      href="http://sysvinit-inittab_2.88dsf.bb"
-                      rel="noreferrer" target="_blank">sys<wbr>vinit-inittab_2.88dsf.bb</a>
-                    | 2 +-<br>
-                     1 file changed, 1 insertion(+), 1 deletion(-)<br>
-                    <br>
-                    diff --git a/meta/recipes-core/sysvinit/<a
-                      moz-do-not-send="true"
-                      href="http://sysvinit-inittab_2.88dsf.bb"
-                      rel="noreferrer" target="_blank">s<wbr>ysvinit-inittab_2.88dsf.bb</a>
-                    b/meta/recipes-core/sysvinit/<a
-                      moz-do-not-send="true"
-                      href="http://sysvinit-inittab_2.88dsf.bb"
-                      rel="noreferrer" target="_blank">s<wbr>ysvinit-inittab_2.88dsf.bb</a><br>
-                    index c219cbf..dd30f43 100644<br>
-                    --- a/meta/recipes-core/sysvinit/<a
-                      moz-do-not-send="true"
-                      href="http://sysvinit-inittab_2.88dsf.bb"
-                      rel="noreferrer" target="_blank">s<wbr>ysvinit-inittab_2.88dsf.bb</a><br>
-                    +++ b/meta/recipes-core/sysvinit/<a
-                      moz-do-not-send="true"
-                      href="http://sysvinit-inittab_2.88dsf.bb"
-                      rel="noreferrer" target="_blank">s<wbr>ysvinit-inittab_2.88dsf.bb</a><br>
-                    @@ -62,7 +62,7 @@ if [ "x$D" = "x" ] &amp;&amp; [ -e
-                    /proc/consoles ]; then<br>
-                                    k=`echo ${i} | sed s/^.*\://g`<br>
-                                    if [ -z "`grep ${j} /proc/consoles`"
-                    ]; then<br>
-                                            if [ -z "${k}" ] || [ -z
-                    "`grep ${k} /proc/consoles`" ] || [ ! -e /dev/${j}
-                    ]; then<br>
-                    -                               sed -i /^.*${j}$/d
-                    /etc/inittab<br>
-                    +                               sed -i /^.*${j}/d
-                    /etc/inittab</div>
-                </blockquote>
-              </div>
-              <br>
-              This doesn’t check for the end of a word, so it’d match a
-              partial as well. Would that be a problem? i.e. ttyS1 vs
-              ttyS10.<br>
-            </div>
-          </div>
-        </blockquote>
-        <br>
-        That is the intention, that line removal is not tied to finding
-        the device at the end of the line. With proposed patch, it
-        removes the device, no matter where is located.<br>
-        <br>
-      </blockquote>
-      Right, but look at this hypothetical example:<br>
-      <br>
-      S1:12345:respawn:/bin/start_getty 115200 ttyS1 vt102<br>
-      S10:12345:respawn:/bin/start_getty 115200 ttyS10<br>
-      <br>
-      Both would match, when you only want the top to match. This is
-      untested but likely more what we want:<br>
-      <br>
-      sed -i /^.*${j}[\ $]/d /etc/inittab<br>
-      <br>
-      That way we either match up to a space (end of word) or end of
-      line.<br>
-      <br>
-      ---<br>
-      Cal<br>
-      <br>
-      <blockquote
-        cite="mid:2a1fd093-8b07-1e04-4167-f52c0698446e@linux.intel.com"
-        type="cite"> <br>
-        <blockquote
-cite="mid:CABcZANnQ87Q=h4-ponSyGP_-Q8bsRPfMOQ+UZWf0S7i85D2-GQ@mail.gmail.com"
-          type="cite">
-          <div dir="ltr">
-            <div class="gmail_extra">-- <br>
-              <div class="gmail_signature"
-                data-smartmail="gmail_signature">Christopher Larson<br>
-                clarson at kergoth dot com<br>
-                Founder - BitBake, OpenEmbedded, OpenZaurus<br>
-                Maintainer - Tslib<br>
-                Senior Software Engineer, Mentor Graphics</div>
-            </div>
-          </div>
-        </blockquote>
-        <br>
-        <br>
-        <fieldset class="mimeAttachmentHeader"></fieldset>
-        <br>
-      </blockquote>
-      <br>
-    </blockquote>
-    <br>
-  </body>
-</html>
-
---------------5A1BF6445D313D0E6DF3B5EA--
