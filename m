@@ -1,49 +1,51 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f170.google.com (mail-qk0-f170.google.com
-	[209.85.220.170])
-	by mail.openembedded.org (Postfix) with ESMTP id 06E8A719F4
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pg0-f66.google.com (mail-pg0-f66.google.com [74.125.83.66])
+	by mail.openembedded.org (Postfix) with ESMTP id E34D6719F2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Nov 2016 17:27:49 +0000 (UTC)
-Received: by mail-qk0-f170.google.com with SMTP id n21so181869917qka.3
+	Tue, 29 Nov 2016 17:33:28 +0000 (UTC)
+Received: by mail-pg0-f66.google.com with SMTP id e9so16948401pgc.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Nov 2016 09:27:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=3LE6rcuScvWP4+vxSE2vEsJdvK9uq8G6AnUbHBwmVf8=;
-	b=wJ25kPrKqIJafkjrhBM4masi4hUsfdMB5+h5WFDhnBbfx3+gxEaU8BQc5Om+cETQrD
-	U1Jst54xPtM/VCIiMK6v9d4yrigRhwkFcF/Ji4sY4FgxWHjqwpBv3O5rd80/hhCLE7zr
-	OenOcrfsggZhWGlMSIL6Vsdssx0lLNc1FS8eEsKfUFQHjt9Z/DHHwOXKSZFbJFFq53OT
-	JKFndc/qp2Sy4lh7vGVgjwrw1UXVvhhCtzNPqfe2/0YpSFCD4tbvybp6ojEtWRoHjaXI
-	9+ZKVZXVWjlyewk2rmTsP7wRtBlOKPvQ0TColHDshT6TALM3y9xGuPD55nwR6Ztod7N3
-	CDkw==
+	Tue, 29 Nov 2016 09:33:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:subject:from:in-reply-to:date:cc
+	:content-transfer-encoding:message-id:references:to;
+	bh=OfN97v4UgL/Z/gOjh1iNaV+lAU7EJfTXKpBoBxCMp0Q=;
+	b=p5d5cq0oWxKQ1K7YoKiSX21SwKlf2oYhkM2nDtaoLuyGG5N+vsgMb8okEVJOXcRoin
+	H1quIaHenOz2SB+kNthFxwcX97LXgLZ6mCVHFtlDPvl9ORATQSFYGEGYyMIdo6m5Kh3M
+	tTDOvecL9FEYC+vA7I4QGeZ8sEbh8XghB+dYPLsGqhmCY+1Sj3UwKlhrFWO6cdoIlPqJ
+	sPMIxipGtxFENuFkQn3y8tadSXRUN69oQbC/Zpf/YpqUuNHT+M4fux01muUlkiE3BwmF
+	7pLQgoKouQILOSrG75ZdjbesckJ1bsZ2TJEVL2/SMh7Ab3s0IBH15+JYWUNpacew6cy1
+	SDPg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=3LE6rcuScvWP4+vxSE2vEsJdvK9uq8G6AnUbHBwmVf8=;
-	b=lK6Wc8XMmpazv7upjr733nf54JF81WtrR97K6+MLld190ZCgQRGci8zAMtE2z6XgQ7
-	AUqN2XYBSfS/kPUgNxbqe+FSvgvQQwtPlMrCzQW0edbiCYpF/BKiYN/G0XimNVRmctpL
-	Wov5aQEKEIK1mjQDRllSbCxQisNV8NVe6RcHT3Cb0ZLYRqNmn7jUluJzUkDRNUYUwpd3
-	cTetJMNPUZrAPUCYlfds1gJdXIA5r/luud407K5mFfXB2Bq29eBB6NF2w4s5SqmjxEHm
-	UZSb6x9XxLNmYuqcQmnMaSO7ShayyQoYoH8rwHAak4sIgoB5oxjX1+koXxkzh14qdJsl
-	gq3w==
-X-Gm-Message-State: AKaTC02eus8AFkfZ5g0M3WX4Wk57POTzLDFww9/1azBE7hP+GI3q/YqEbcm0hykVMmoLLxn9bn4aP74SoKG9V2VQ
-X-Received: by 10.55.106.134 with SMTP id f128mr27422152qkc.121.1480440471192; 
-	Tue, 29 Nov 2016 09:27:51 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.140.106.99 with HTTP; Tue, 29 Nov 2016 09:27:30 -0800 (PST)
-In-Reply-To: <1708364.g3ONUbFma5@peggleto-mobl.ger.corp.intel.com>
-References: <alpine.LFD.2.20.1611280544090.16875@localhost.localdomain>
-	<alpine.LFD.2.20.1611290542100.24580@ca624034.mitel.com>
-	<CAJTo0LZrWkbyaDWb-8mfNZm2d3mqsqab4uwtNN6Q=dPEKXhiHg@mail.gmail.com>
-	<1708364.g3ONUbFma5@peggleto-mobl.ger.corp.intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 29 Nov 2016 17:27:30 +0000
-Message-ID: <CAJTo0LaRu_wSbjz1ACXs8KFzLav=x5aeaJDdbZEPEaWg2bx-Kw@mail.gmail.com>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: ASSUME_PROVIDED versus SANITY_REQUIRED_UTILITIES versus "The Build Host Packages"
+	h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
+	:content-transfer-encoding:message-id:references:to;
+	bh=OfN97v4UgL/Z/gOjh1iNaV+lAU7EJfTXKpBoBxCMp0Q=;
+	b=FXZmMFwJDfxkHcDI48yWRtU+PfKFvw7PPwMDeQTRl9Vs1PRbd5SWwC635u//U8i+Fi
+	OZ+gqLvmAvBevn2b73Ck93TqSNKVhghP+gzkeSSDOIEvJXQPkz+F6m9gCC/nzsiYjtrB
+	k0+DMxoUq0Jq0x7xhvL0ia01xp/nY6369mlJexKx1aR3wWhjNi1DYKyF9N9m/lIYFmzU
+	/KlXJ9lAOzWHHk9GAn99fN17gXWmjc5IzXyhRsYQNiqMWMYlHP1E1CX+dvXvqNKCwuVc
+	BQf9cCcAQlsaa6PAk2k7QHgG/h171HhUG0/ZJ3wtvXam2IvY2YeGH8egra3CuxwlVRd1
+	gJxg==
+X-Gm-Message-State: AKaTC02DSXTLHOnxQjh81pWkmdjzU2XwaypPyzxSHAb75zfdE/K1QM6mc6QQoxdxiqn4zA==
+X-Received: by 10.98.15.206 with SMTP id 75mr29019947pfp.105.1480440809836;
+	Tue, 29 Nov 2016 09:33:29 -0800 (PST)
+Received: from ?IPv6:2601:646:8882:b8c:a19b:b7db:ed72:12bc?
+	([2601:646:8882:b8c:a19b:b7db:ed72:12bc])
+	by smtp.gmail.com with ESMTPSA id
+	p67sm82310104pfb.2.2016.11.29.09.33.28
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 29 Nov 2016 09:33:29 -0800 (PST)
+Mime-Version: 1.0 (Mac OS X Mail 10.1 \(3251\))
+From: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <1480047434-20600-1-git-send-email-mark.asselstine@windriver.com>
+Date: Tue, 29 Nov 2016 09:33:28 -0800
+Message-Id: <BDB3BFFB-884E-49C8-AB7D-14473F96BE80@gmail.com>
+References: <1480047434-20600-1-git-send-email-mark.asselstine@windriver.com>
+To: Mark Asselstine <mark.asselstine@windriver.com>
+X-Mailer: Apple Mail (2.3251)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] systemd.bbclass: don't block on service restart
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,36 +58,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 Nov 2016 17:27:50 -0000
-Content-Type: multipart/alternative; boundary=001a114fddf665c8e4054273e845
-
---001a114fddf665c8e4054273e845
-Content-Type: text/plain; charset=UTF-8
-
-On 29 November 2016 at 17:24, Paul Eggleton <paul.eggleton@linux.intel.com>
-wrote:
-
-> How would you get access to that recipe-space information within
-> sanity.bbclass though?
->
-
-Yeah good point, that might be "a bit" tricky.
-
-Ross
-
---001a114fddf665c8e4054273e845
-Content-Type: text/html; charset=UTF-8
+X-List-Received-Date: Tue, 29 Nov 2016 17:33:29 -0000
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 29 November 2016 at 17:24, Paul Eggleton <span dir=3D"ltr">&lt;<a href=
-=3D"mailto:paul.eggleton@linux.intel.com" target=3D"_blank">paul.eggleton@l=
-inux.intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" s=
-tyle=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div=
- id=3D":ah" class=3D"a3s aXjCH m158b11d98590759a">How would you get access =
-to that recipe-space information within<br>
-sanity.bbclass though?<br></div></blockquote><div><br></div><div>Yeah good =
-point, that might be &quot;a bit&quot; tricky.</div><div><br></div><div>Ros=
-s=C2=A0</div></div></div></div>
 
---001a114fddf665c8e4054273e845--
+> On Nov 24, 2016, at 8:17 PM, Mark Asselstine =
+<mark.asselstine@windriver.com> wrote:
+>=20
+> The current class works fine when a recipe uses SYSTEMD_AUTO_ENABLE
+> 'enable' and has no on device pkg_postinst(), ie when the postinst is
+> run as part of rootfs creation.  However, when there is a component of
+> pkg_postinst() that is run on device the 'systemctl restart' is run as
+> part of the run_postinsts.service at boot. This results in the boot
+> spinning indefinitely with:
+>=20
+> [ *** ] A start job is running for Run pending postinsts (7s / no =
+limit)
+
+yeah usually it would be nice if there was some sort of timeout on =
+failed
+restarts
+
+>=20
+> The issue could potentially be that the packages service has an
+> 'After' clause which comes later in the boot, beyond
+> run_postinsts.service, creating a chicken before the egg
+> scenario. Even service files without an 'After' clause cause this
+> situation however. Despite this not being the cause of the issue this
+> fix will prevent this scenario from happenning.
+>=20
+> Using strace we are able to find that during boot, when
+> run_postinsts.service is running attempting to start or restart any
+> service will result in the call get stuck on poll(). Since the
+> run_postinsts.service does not monitor the outcome of the call to
+> restart we can work around this by using '--no-block'.
+>=20
+> Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
+> ---
+> meta/classes/systemd.bbclass | 2 +-
+> 1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/meta/classes/systemd.bbclass =
+b/meta/classes/systemd.bbclass
+> index 7e51ed6..99a08a0 100644
+> --- a/meta/classes/systemd.bbclass
+> +++ b/meta/classes/systemd.bbclass
+> @@ -36,7 +36,7 @@ if type systemctl >/dev/null 2>/dev/null; then
+> 	systemctl $OPTS ${SYSTEMD_AUTO_ENABLE} ${SYSTEMD_SERVICE}
+>=20
+> 	if [ -z "$D" -a "${SYSTEMD_AUTO_ENABLE}" =3D "enable" ]; then
+> -		systemctl restart ${SYSTEMD_SERVICE}
+> +		systemctl --no-block restart ${SYSTEMD_SERVICE}
+> 	fi
+> fi
+> }
+> --=20
+> 2.7.4
+>=20
+> --=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
+
