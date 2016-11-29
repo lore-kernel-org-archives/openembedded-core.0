@@ -1,18 +1,30 @@
-Return-Path: <ml@embed.me.uk>
-Received: from owm.eumx.net (eumx.net [91.82.101.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 20F7B71AFB
+Return-Path: <rpjday@crashcourse.ca>
+Received: from smtp486.redcondor.net (smtp486.redcondor.net [208.80.204.86])
+	by mail.openembedded.org (Postfix) with ESMTP id D020D71AF5
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Nov 2016 10:27:40 +0000 (UTC)
-To: openembedded-core@lists.openembedded.org
-References: <cover.1479809328.git.Qi.Chen@windriver.com>
-From: Jack Mitchell <ml@embed.me.uk>
-Message-ID: <f82a874a-0c75-d341-31f9-8dbeba5a4235@embed.me.uk>
-Date: Tue, 29 Nov 2016 10:28:56 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.5.0
+	Tue, 29 Nov 2016 10:48:31 +0000 (UTC)
+Received: from astoria.ccjclearline.com ([64.235.106.9])
+	by smtp486.redcondor.net ({6695537a-536a-45f9-a249-877c85428649})
+	via TCP (outbound) with ESMTPS id 20161129104831018_0486;
+	Tue, 29 Nov 2016 10:48:31 +0000
+X-RC-FROM: <rpjday@crashcourse.ca>
+Received: from [216.191.234.70] (port=29349 helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
+	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
+	id 1cBfxY-00076p-1X; Tue, 29 Nov 2016 05:48:24 -0500
+Date: Tue, 29 Nov 2016 05:47:11 -0500 (EST)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@ca624034.mitel.com
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+In-Reply-To: <1480334664.28508.167.camel@linuxfoundation.org>
+Message-ID: <alpine.LFD.2.20.1611290542100.24580@ca624034.mitel.com>
+References: <alpine.LFD.2.20.1611280544090.16875@localhost.localdomain>
+	<1480334664.28508.167.camel@linuxfoundation.org>
+User-Agent: Alpine 2.20 (LFD 67 2015-01-07)
 MIME-Version: 1.0
-In-Reply-To: <cover.1479809328.git.Qi.Chen@windriver.com>
-Subject: Re: [PATCH 0/4] Persistent /var/log support
+X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: ASSUME_PROVIDED versus SANITY_REQUIRED_UTILITIES versus "The Build Host Packages"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,40 +37,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 Nov 2016 10:27:42 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 29 Nov 2016 10:48:43 -0000
+Content-Type: multipart/mixed; BOUNDARY="587864349-516673264-1480416437=:24580"
 
+--587864349-516673264-1480416437=:24580
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
 
+On Mon, 28 Nov 2016, Richard Purdie wrote:
 
-On 22/11/16 10:10, Chen Qi wrote:
-> The following changes since commit a675b2c89e477af088faee9b3be96eae19a85f0b:
+> On Mon, 2016-11-28 at 06:20 -0500, Robert P. J. Day wrote:
+> >   a bit confused by what i'm seeing in a recent
+> > qemuppc/core-image-minimal build on my fedora system regarding which
+> > native packages are built, despite what's in bitbake.conf (using
+> > current poky layer checkout).
+> >
+> >   first, here's a snippet from bitbake.conf:
+> >
+> >   ASSUME_PROVIDED = "\
+> >     bzip2-native \          <---
+> >     chrpath-native \
+> >     file-native \           <---
+> >     findutils-native \
+> >     git-native \
+> >     grep-native \
+> >     diffstat-native \
+> >     ... snip ...
+> >
+> > suggesting that (among other things) bzip2-native and file-native
+> > shouldn't be built -- it's the developer's responsibility to install
+> > them, yes? but if i peek under tmp/work/x86_64-linux, i can see:
 >
->   sanity.bbclass: fix logging of an error (2016-11-15 15:18:50 +0000)
+> There are two ways "file-native" can be used in a build. It can be
+> used as the host provided "file" command and it is also needed by
+> the file recipe to build file for the target. We need to build
+> file-native in order for the build for the target file command to
+> build/work. This is why it gets built.
 >
-> are available in the git repository at:
->
->   git://git.openembedded.org/openembedded-core-contrib ChenQi/persistent-var-log
->   http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=ChenQi/persistent-var-log
->
-> Chen Qi (4):
->   bitbake.conf: add VOLATILE_LOG_DIR variable
->   base-files: respect VOLATILE_LOG_DIR
->   initscripts: support persistent /var/log
->   package.bbclass: support persistent /var/log
->
->  meta/classes/package.bbclass                       |  2 +-
->  meta/conf/bitbake.conf                             |  3 +
->  meta/files/fs-perms-persistent-log.txt             | 69 ++++++++++++++++++++++
->  meta/recipes-core/base-files/base-files_3.0.14.bb  |  4 +-
->  .../initscripts/initscripts-1.0/volatiles          |  1 -
->  meta/recipes-core/initscripts/initscripts_1.0.bb   |  3 +
->  6 files changed, 78 insertions(+), 4 deletions(-)
->  create mode 100644 meta/files/fs-perms-persistent-log.txt
->
+> With bzip2, we need libbz2 (native) during the build process and we
+> don't ASSUME_PROVIDED libbz2-devel, hence it builds bzip2-native
+> only for that piece. Confusing perhaps but necessary unfortunately.
 
-Ack from me, I don't know if this is the best way to do it, but it is 
-way way way too hard to get persistent logging in OE. I've had to 
-implement it in numerous ways, multiple times over the past few years 
-and it shouldn't be that hard.
+  ah, gotcha ... so in cases like that, even if a recipe needs to be
+*partially* built for libraries, that in no way affects the
+ASSUME_PROVIDED setting, correct? as in, once I ASSUME_PROVIDED
+"bzip2-native", then that *better* exist on my build host, correct?
 
+rday
+
+P.S. there is still some lack of sync amongst:
+
+  * ASSUME_PROVIDED
+  * sanity.bbclass
+  * YP quick start guide
+
+one example i mentioned is that the YP guide does not list "sed" as a
+build host requirement, but "sed-native" is in ASSUME_PROVIDED;
+however, it's not listed in SANITY_REQUIRED_UTILITIES. that seems
+inconsistent.
+
+-- 
+
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
+
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
+
+--587864349-516673264-1480416437=:24580--
