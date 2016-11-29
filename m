@@ -1,27 +1,31 @@
-Return-Path: <jiajie.hu@intel.com>
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id 5DBC871AC0
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id D6B946FFED
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Nov 2016 07:36:34 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga104.fm.intel.com with ESMTP; 28 Nov 2016 23:36:28 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.31,715,1473145200"; d="scan'208";a="1074903736"
-Received: from jiajiehu.sh.intel.com (HELO jiajiehu.localnet)
-	([10.239.160.136])
-	by fmsmga001.fm.intel.com with ESMTP; 28 Nov 2016 23:36:27 -0800
-From: Jiajie Hu <jiajie.hu@intel.com>
-To: Christopher Larson <clarson@kergoth.com>
-Date: Tue, 29 Nov 2016 15:37:26 +0800
-Message-ID: <1745772.zAqL5B44bX@jiajiehu>
-User-Agent: KMail/4.13.3 (Linux/4.4.0-47-generic; KDE/4.13.3; x86_64; ; )
-In-Reply-To: <CABcZANmmXvVNTiozc_y-i+efy7JZGphPezgbBRS8fZKfdtYnVA@mail.gmail.com>
-References: <1480388349-4206-1-git-send-email-jiajie.hu@intel.com>
-	<CABcZANmmXvVNTiozc_y-i+efy7JZGphPezgbBRS8fZKfdtYnVA@mail.gmail.com>
-MIME-Version: 1.0
-Cc: Patches and discussions about the oe-core layer
+	Tue, 29 Nov 2016 07:38:51 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id uAT7cqvW023814
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 28 Nov 2016 23:38:53 -0800 (PST)
+Received: from [128.224.162.183] (128.224.162.183) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.294.0;
+	Mon, 28 Nov 2016 23:38:52 -0800
+To: "Burton, Ross" <ross.burton@intel.com>, OE-core
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] devtool: execute associated functions while preparing the source tree
+References: <cover.1479363545.git.liezhi.yang@windriver.com>
+	<20161117065519.7693.7868@do.openembedded.org>
+	<CAJTo0LYTbP3h5T+YEMiESUCwq0YM6QXtj5+_nr0ZWMH1Z3mhNQ@mail.gmail.com>
+From: Robert Yang <liezhi.yang@windriver.com>
+Message-ID: <bdecee11-e5f5-d34d-fb09-f247dfb460d6@windriver.com>
+Date: Tue, 29 Nov 2016 15:38:50 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.2.0
+MIME-Version: 1.0
+In-Reply-To: <CAJTo0LYTbP3h5T+YEMiESUCwq0YM6QXtj5+_nr0ZWMH1Z3mhNQ@mail.gmail.com>
+Cc: "Lock, Joshua G" <joshua.g.lock@intel.com>,
+	Paul Eggleton <paul.eggleton@linux.intel.com>
+Subject: =?UTF-8?B?UmU6IOKclyBwYXRjaHRlc3Q6IGZhaWx1cmUgZm9yIEZpeGVzIGZvciBlU0RLIGFuZCB0ZXN0c2RrZXh0?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,21 +38,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 Nov 2016 07:36:35 -0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
+X-List-Received-Date: Tue, 29 Nov 2016 07:38:52 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Monday, November 28, 2016 11:04:40 PM Christopher Larson wrote:
-> This will do the commit after the first postfunc is done, so won=E2=80=
-=99t the
-> changes from the main func and the first postfunc both be included in=
- that
-> commit?
 
-I suppose all changes from the main func have already been committed in=
-=20
-exec_func. As an example, `devtool modify x11vnc`, where x11vnc comes f=
-rom=20
-meta-oe, seems to work as expected.
 
+On 11/17/2016 05:02 PM, Burton, Ross wrote:
+>
+> On 17 November 2016 at 06:55, Patchwork <patchwork@patchwork.openembedded.org
+> <mailto:patchwork@patchwork.openembedded.org>> wrote:
+>
+>     * Patch            [7/8] oeqa/sdkext/devtool.py: skip
+>     test_extend_autotools_recipe_creation when no libxml2
+>       Issue            Commit shortlog is too long [test_shortlog_length]
+>       Suggested fix    Edit shortlog so that it is 80 characters or less
+>     (currently 82 characters)
+>
+>
+> I'm not sure we've ever been super-strict on this, so I'm wondering if warning
+> over 90 is sensible so that we allow an extra two characters when function names
+> are long but still detect when someone has put an essay in the first line (which
+> does happen if the submitter isn't aware of the git convention).
+
+Ping, do I have to make the subject line shorter and resend the patches, please ?
+
+// Robert
+
+>
+> Ross
+>
+>
 
