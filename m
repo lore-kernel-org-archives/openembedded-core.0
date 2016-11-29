@@ -1,26 +1,54 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 892FB71AC8
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pg0-f67.google.com (mail-pg0-f67.google.com [74.125.83.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 3FA1860123
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Nov 2016 01:30:40 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id uAT1Ue1M031770
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	Tue, 29 Nov 2016 01:57:58 +0000 (UTC)
+Received: by mail-pg0-f67.google.com with SMTP id x23so14706832pgx.3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Nov 2016 17:30:40 -0800
-Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.294.0;
-	Mon, 28 Nov 2016 17:30:39 -0800
-From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 28 Nov 2016 17:30:38 -0800
-Message-ID: <b10dffaf537bc8bebc034d64afa1f477cd50cccc.1480383001.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 2.9.0
-In-Reply-To: <cover.1480383001.git.liezhi.yang@windriver.com>
-References: <cover.1480383001.git.liezhi.yang@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH 1/1] multilib.bbclass: update DEFAULTTUNE for image recipe
+	Mon, 28 Nov 2016 17:58:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:subject:from:in-reply-to:date:cc
+	:content-transfer-encoding:message-id:references:to;
+	bh=lDP4BuNjfhNTjYHAWPmb9LkHrgdJ3dNhsXAGqrf4t1Q=;
+	b=bfTcphwmYxCdmGGOF7Y5CyI6g+zrQYJMbgWTCSd27EM94Qr6ffTbiAdd2G7VaHFO/g
+	p0Xvic5JXKvgaNAq0X5GiR2ekH/1mWLnhGbzEz7zQb1q36g6/C8cHLNGO7Nqx0Kq9cLZ
+	iehnvQPlJEeXtKuM+1ss47chyyf2ArNl+uTriROVbcy4KajpXd8z26/LG+EJMnh6ghdt
+	RMWl6bUI4XhnxHEgJYyE9ZD8fQ3wdSpIJW8X53GfWms3ecjQUYbt3H6d6QMjA9T+sA6W
+	cJqpQBO0PqZZHFpQOuGi/QvuN/b4uwDIcr6+Q2+gz/VFMT80ydTRzdjcheVBDW808aa8
+	jOUg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
+	:content-transfer-encoding:message-id:references:to;
+	bh=lDP4BuNjfhNTjYHAWPmb9LkHrgdJ3dNhsXAGqrf4t1Q=;
+	b=ZtsfEA5aBdkZYji35Qjok2ulDEyj66a6Y1Jw9JYKk8cqGuYCgiQkcMVe1Q5RxA8ArY
+	wpQ3kIGX9Klj2U6d1/SNUMxZVqnMqg1IOylh9ORUYpNKUTW8eKMPPbQUen3Ga6STaK5w
+	kU8VyvpcKXHXJdeS+f5a5+qvQ+SiNJln4TNKp0szHLd03m0pdj18AwR40XI7e+QUVFrG
+	lJFl5k34fVT2dbB/aLw+cevNZqsORbCLc5XCiXtFjc7wdWUfZ2pxOMNR2mNPfbfd7zpw
+	Bm6gs62q1wSLksSwiSEtLfneMDVMFgi7PXAXg+tnLlFStjoUyW9mMFrq4+St3r71bUaX
+	fYmw==
+X-Gm-Message-State: AKaTC00W/hIVQKWSw6eL02CegI2yoWQ4EslSJ8zdJ646fYFGTFBklY7kyrv2tz7dkdJ94w==
+X-Received: by 10.98.88.4 with SMTP id m4mr24991351pfb.81.1480384679796;
+	Mon, 28 Nov 2016 17:57:59 -0800 (PST)
+Received: from ?IPv6:2601:646:8882:b8c:f08c:19b4:e718:7b0b?
+	([2601:646:8882:b8c:f08c:19b4:e718:7b0b])
+	by smtp.gmail.com with ESMTPSA id
+	a68sm72227609pgc.31.2016.11.28.17.57.58
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 28 Nov 2016 17:57:59 -0800 (PST)
+Mime-Version: 1.0 (Mac OS X Mail 10.1 \(3251\))
+From: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <5251131.puhPuqrAHf@peggleto-mobl.ger.corp.intel.com>
+Date: Mon, 28 Nov 2016 17:57:58 -0800
+Message-Id: <43EF9731-230A-4FEE-8D1F-D81BEB193D24@gmail.com>
+References: <cover.1479871728.git.liezhi.yang@windriver.com>
+	<27dbd493-5b76-657f-8a1d-57eabe9eebed@windriver.com>
+	<1479973589.6873.15.camel@intel.com>
+	<5251131.puhPuqrAHf@peggleto-mobl.ger.corp.intel.com>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+X-Mailer: Apple Mail (2.3251)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 2/2] base-passwd: set root's default password to 'root'
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,79 +61,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 Nov 2016 01:30:40 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 29 Nov 2016 01:57:59 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-Fixed:
-MACHINE = "qemux86-64"
-require conf/multilib.conf
-MULTILIBS = "multilib:lib32"
-DEFAULTTUNE_virtclass-multilib-lib32 = "x86"
 
-$ bitbake -e lib32-core-image-minimal | grep ^TUNE_ARCH=
-TUNE_ARCH="x86_64"
+> On Nov 24, 2016, at 10:59 AM, Paul Eggleton =
+<paul.eggleton@linux.intel.com> wrote:
+>=20
+> On Thu, 24 Nov 2016 08:46:29 Patrick Ohly wrote:
+>> On Thu, 2016-11-24 at 11:38 +0800, Robert Yang wrote:
+>>> Currently, debug-tweaks is in EXTRA_IMAGE_FEATURES by default for =
+poky,
+>>> and
+>>> there is no passwd, so that user can login easily without a passwd, =
+I
+>>> think
+>>> that current status is more unsafe ?
+>>=20
+>> Both well-known password and no password are unsafe. User "root" with
+>> password "root" is not even "more" safe already now, because tools =
+that
+>> brute-force logins try that. Choosing something else would be a bit
+>> safer for a short while until the tools add it to their dictionary.
+>>=20
+>> Poky is also targeting a different audience than OE-core. Poky can
+>> assume to be used in a secure environment, OE-core can't (because it
+>> might be used for all kinds of devices).
+>=20
+> I don't think that's part of the design goals on either side, it's =
+simply=20
+> about making development easier. The feature is clearly labelled =
+"debug-
+> tweaks" because it's for debugging not for production. It could be =
+that we=20
+> should make it do other things like append a notice to /etc/issue to =
+avoid=20
+> people leaving it on for production, if that is a concern.
+>=20
 
-This is incorrect, it should be i686 (or other 32 bit tunes), this makes
-we can't conditionlly install some packages, for example, the recipe-A
-sets:
-COMPATIBLE_HOST = "x86_64.*-linux"
-
-Then it only can be installed when TARGET_ARCH is x86_64:
-IMAGE_INSTALL_x86-64 += "package-A"
-
-But it would be error when "bitbake lib32-core-image-minimal":
-ERROR: lib32-recipe-A was skipped: incompatible with host i686-pokymllib32-linux (not in COMPATIBLE_HOST)
-
-This is because TARGET_ARCH is not updated to "i686" when multilib, this
-patch can fix the problem.
-
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
- meta/classes/multilib.bbclass | 16 +++++++++++-----
- 1 file changed, 11 insertions(+), 5 deletions(-)
-
-diff --git a/meta/classes/multilib.bbclass b/meta/classes/multilib.bbclass
-index d5a3128..5d2d048 100644
---- a/meta/classes/multilib.bbclass
-+++ b/meta/classes/multilib.bbclass
-@@ -23,6 +23,13 @@ python multilib_virtclass_handler () {
-     overrides = overrides.replace("pn-${PN}", "pn-${PN}:pn-" + pn)
-     e.data.setVar("OVERRIDES", overrides)
- 
-+    def multilib_set_default_tune():
-+        # DEFAULTTUNE can change TARGET_ARCH override so expand this now before update_data
-+        newtune = e.data.getVar("DEFAULTTUNE_" + "virtclass-multilib-" + variant, False)
-+        if newtune:
-+            e.data.setVar("DEFAULTTUNE", newtune)
-+            e.data.setVar('DEFAULTTUNE_ML_%s' % variant, newtune)
-+
-     if bb.data.inherits_class('image', e.data):
-         e.data.setVar("MLPREFIX", variant + "-")
-         e.data.setVar("PN", variant + "-" + e.data.getVar("PN", False))
-@@ -30,6 +37,9 @@ python multilib_virtclass_handler () {
-         target_vendor = e.data.getVar("TARGET_VENDOR_" + "virtclass-multilib-" + variant, False)
-         if target_vendor:
-             e.data.setVar("TARGET_VENDOR", target_vendor)
-+
-+        multilib_set_default_tune()
-+
-         return
- 
-     if bb.data.inherits_class('cross-canadian', e.data):
-@@ -65,11 +75,7 @@ python multilib_virtclass_handler () {
-             pkgs += " " + variant + "-" + pkg
-         e.data.setVar(whitelist, pkgs)
- 
--    # DEFAULTTUNE can change TARGET_ARCH override so expand this now before update_data
--    newtune = e.data.getVar("DEFAULTTUNE_" + "virtclass-multilib-" + variant, False)
--    if newtune:
--        e.data.setVar("DEFAULTTUNE", newtune)
--        e.data.setVar('DEFAULTTUNE_ML_%s' % variant, newtune)
-+    multilib_set_default_tune()
- }
- 
- addhandler multilib_virtclass_handler
--- 
-2.9.0
-
+Sometimes such goals can lead to problems. Making development easier by
+all means if you can ensure a hard error on production e.g. debug-tweaks =
+can
+then never be part of production images. Otherwise someone will forget =
+it
+and it will be discovered on millions of devices in field along with the =
+user
+project will be red-faced.=
 
