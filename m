@@ -1,30 +1,47 @@
-Return-Path: <rpjday@crashcourse.ca>
-Received: from smtp486.redcondor.net (smtp486.redcondor.net [208.80.204.86])
-	by mail.openembedded.org (Postfix) with ESMTP id D020D71AF5
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from mail-qt0-f196.google.com (mail-qt0-f196.google.com
+	[209.85.216.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 6A35A71AF1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Nov 2016 10:48:31 +0000 (UTC)
-Received: from astoria.ccjclearline.com ([64.235.106.9])
-	by smtp486.redcondor.net ({6695537a-536a-45f9-a249-877c85428649})
-	via TCP (outbound) with ESMTPS id 20161129104831018_0486;
-	Tue, 29 Nov 2016 10:48:31 +0000
-X-RC-FROM: <rpjday@crashcourse.ca>
-Received: from [216.191.234.70] (port=29349 helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
-	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
-	id 1cBfxY-00076p-1X; Tue, 29 Nov 2016 05:48:24 -0500
-Date: Tue, 29 Nov 2016 05:47:11 -0500 (EST)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@ca624034.mitel.com
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-In-Reply-To: <1480334664.28508.167.camel@linuxfoundation.org>
-Message-ID: <alpine.LFD.2.20.1611290542100.24580@ca624034.mitel.com>
-References: <alpine.LFD.2.20.1611280544090.16875@localhost.localdomain>
-	<1480334664.28508.167.camel@linuxfoundation.org>
-User-Agent: Alpine 2.20 (LFD 67 2015-01-07)
+	Tue, 29 Nov 2016 10:57:10 +0000 (UTC)
+Received: by mail-qt0-f196.google.com with SMTP id m48so14984342qta.2
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 29 Nov 2016 02:57:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=xt8vy6S3mL8EeCm7mQGSoq9sGPaPQrhSCz+TwDBiHZk=;
+	b=SizAe+pBa8z759iQ7GskpFClXqGEldNsMY1r9Fa9J6xymYYsdFzMe6B88xsrOltRzk
+	5vW/ksbXbXHFomfa5akzQo0dj/zeE1OT9nOJMPyj16WE5dDKoxEtxDPcj6bnS+iCkwwP
+	ExntJr7Q8EvyKWBpR7WY8mKdgmR60MoIYNYvNtgy8/rSJdmQ8L6EjU6r48GJiczGQgv8
+	jRRQmbxnBZryDDBLb+LVbORUu6URpA1EGZ4S//Ear1IgppBPmjqDU7YqOpTWTdGy4qHK
+	mWpGuZ2ohQCUJsxgo+KPBJEdYPx7n98puQ4KybfbkPctwsE5t1Ow8qadBD5TYHuVBSCd
+	CwtA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=xt8vy6S3mL8EeCm7mQGSoq9sGPaPQrhSCz+TwDBiHZk=;
+	b=lcOX43qJnfkyYy/407APIrt/0GYwtWvpkKDdvluxAv/wQQsSBQAmbE1Mwi0b8tuuxh
+	biNk76v7Ja4bzKRiFwJiSgguoZmhwxRudzEWvqaWdeIL9OEStumrIIvRBtDrflxf3RrT
+	MVN541PF4OaOUXATfSM4XhpDI1elluoSY/haWp9XzbdsE9s09ewgSEppt0PjquTk/qT0
+	e5yGHKkO+FCPvbQ+MkpceZzBF6RbbMWpisTUPSGjS9OqWRJ4vt3/q8kGtAkqqe89DRpW
+	ak2VknBJ46t56OTWlvO0w7KFRS/i04HqSc6AfqEpOCTqfTLq5iFJDz5KHeK8kAPDeayy
+	9OZg==
+X-Gm-Message-State: AKaTC02o4O11wmc9+CKU96ga8WIPapiHjzmQlqY/LipZgW6umUgQVldxvgawcMdtQFR5zLedlLU+dO8Tj7xb8g==
+X-Received: by 10.200.54.144 with SMTP id a16mr26302273qtc.104.1480417031539; 
+	Tue, 29 Nov 2016 02:57:11 -0800 (PST)
 MIME-Version: 1.0
-X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: ASSUME_PROVIDED versus SANITY_REQUIRED_UTILITIES versus "The Build Host Packages"
+Received: by 10.200.37.205 with HTTP; Tue, 29 Nov 2016 02:57:11 -0800 (PST)
+In-Reply-To: <9f9e1dd407b3b8014e02995989ef2375b8094457.1480410972.git.liezhi.yang@windriver.com>
+References: <cover.1480410972.git.liezhi.yang@windriver.com>
+	<9f9e1dd407b3b8014e02995989ef2375b8094457.1480410972.git.liezhi.yang@windriver.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Tue, 29 Nov 2016 05:57:11 -0500
+Message-ID: <CADkTA4M7q_FGt4f2sVnjJx2dXCnhY2yy-jTf7rqOwVu6is3gpA@mail.gmail.com>
+To: Robert Yang <liezhi.yang@windriver.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] kernel-devsrc: remove symlink source
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,73 +54,161 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 Nov 2016 10:48:43 -0000
-Content-Type: multipart/mixed; BOUNDARY="587864349-516673264-1480416437=:24580"
+X-List-Received-Date: Tue, 29 Nov 2016 10:57:11 -0000
+Content-Type: multipart/alternative; boundary=001a113fe98248d2a605426e7388
 
---587864349-516673264-1480416437=:24580
+--001a113fe98248d2a605426e7388
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
 
-On Mon, 28 Nov 2016, Richard Purdie wrote:
+On Tue, Nov 29, 2016 at 4:16 AM, Robert Yang <liezhi.yang@windriver.com>
+wrote:
 
-> On Mon, 2016-11-28 at 06:20 -0500, Robert P. J. Day wrote:
-> >   a bit confused by what i'm seeing in a recent
-> > qemuppc/core-image-minimal build on my fedora system regarding which
-> > native packages are built, despite what's in bitbake.conf (using
-> > current poky layer checkout).
-> >
-> >   first, here's a snippet from bitbake.conf:
-> >
-> >   ASSUME_PROVIDED = "\
-> >     bzip2-native \          <---
-> >     chrpath-native \
-> >     file-native \           <---
-> >     findutils-native \
-> >     git-native \
-> >     grep-native \
-> >     diffstat-native \
-> >     ... snip ...
-> >
-> > suggesting that (among other things) bzip2-native and file-native
-> > shouldn't be built -- it's the developer's responsibility to install
-> > them, yes? but if i peek under tmp/work/x86_64-linux, i can see:
+> Fixed:
+> $ rpm -qplv tmp/deploy/rpm/qemuppc/kernel-devsrc-1.0-r0.qemuppc.rpm |
+> grep kernel/source
+> /usr/src/kernel/source -> /buildarea/lyang1/test_yocto/
+> tmp/work/qemuppc-poky-linux/kernel-devsrc/1.0-r0/image/usr/src/kernel
 >
-> There are two ways "file-native" can be used in a build. It can be
-> used as the host provided "file" command and it is also needed by
-> the file recipe to build file for the target. We need to build
-> file-native in order for the build for the target file command to
-> build/work. This is why it gets built.
+> It is generated by kernel's "make clean _mrproper_scripts", the
+> kernel-devsrc includeds full sources, this symlink is not needed, and
+> the path is invalid on target, so remove it.
 >
-> With bzip2, we need libbz2 (native) during the build process and we
-> don't ASSUME_PROVIDED libbz2-devel, hence it builds bzip2-native
-> only for that piece. Confusing perhaps but necessary unfortunately.
+> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+> ---
+>  meta/recipes-kernel/linux/kernel-devsrc.bb | 7 +++++++
+>  1 file changed, 7 insertions(+)
+>
+> diff --git a/meta/recipes-kernel/linux/kernel-devsrc.bb
+> b/meta/recipes-kernel/linux/kernel-devsrc.bb
+> index 9fd2e08..b182936 100644
+> --- a/meta/recipes-kernel/linux/kernel-devsrc.bb
+> +++ b/meta/recipes-kernel/linux/kernel-devsrc.bb
+> @@ -53,6 +53,13 @@ do_install() {
+>          # architecture (since scripts and helpers are native format).
+>          KBUILD_OUTPUT="$kerneldir"
+>          oe_runmake -C $kerneldir CC="${KERNEL_CC}" LD="${KERNEL_LD}"
+> clean _mrproper_scripts
+> +        # make clean generates an absolute path symlink called "source"
+> +        # in $kerneldir points to $kerneldir, which doesn't make any
+> +        # sense, so remove it.
+> +        if [ -L $kerneldir/source ]; then
+> +            bbnote "Removing $kerneldir/source"
+>
 
-  ah, gotcha ... so in cases like that, even if a recipe needs to be
-*partially* built for libraries, that in no way affects the
-ASSUME_PROVIDED setting, correct? as in, once I ASSUME_PROVIDED
-"bzip2-native", then that *better* exist on my build host, correct?
+This message needs to be clarified. When that comes out, I'd read it and
+think
+"it is removing my kernel source".
 
-rday
+Maybe:
 
-P.S. there is still some lack of sync amongst:
+ bbnote "Removing $kerneldir/source symlink"
 
-  * ASSUME_PROVIDED
-  * sanity.bbclass
-  * YP quick start guide
+is better.
 
-one example i mentioned is that the YP guide does not list "sed" as a
-build host requirement, but "sed-native" is in ASSUME_PROVIDED;
-however, it's not listed in SANITY_REQUIRED_UTILITIES. that seems
-inconsistent.
+Bruce
+
+
+> +            rm -f $kerneldir/source
+> +        fi
+>
+>          # As of Linux kernel version 3.0.1, the clean target removes
+>          # arch/powerpc/lib/crtsavres.o which is present in
+> --
+> 2.9.0
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+
+
 
 -- 
+"Thou shalt not follow the NULL pointer, for chaos and madness await thee
+at its end"
 
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
+--001a113fe98248d2a605426e7388
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
+<div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><div class=3D"gmail_quo=
+te">On Tue, Nov 29, 2016 at 4:16 AM, Robert Yang <span dir=3D"ltr">&lt;<a h=
+ref=3D"mailto:liezhi.yang@windriver.com" target=3D"_blank">liezhi.yang@wind=
+river.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=
+=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">Fixed:<b=
+r>
+$ rpm -qplv tmp/deploy/rpm/qemuppc/kernel-<wbr>devsrc-1.0-r0.qemuppc.rpm | =
+grep kernel/source<br>
+/usr/src/kernel/source -&gt; /buildarea/lyang1/test_yocto/<wbr>tmp/work/qem=
+uppc-poky-linux/<wbr>kernel-devsrc/1.0-r0/image/<wbr>usr/src/kernel<br>
+<br>
+It is generated by kernel&#39;s &quot;make clean _mrproper_scripts&quot;, t=
+he<br>
+kernel-devsrc includeds full sources, this symlink is not needed, and<br>
+the path is invalid on target, so remove it.<br>
+<br>
+Signed-off-by: Robert Yang &lt;<a href=3D"mailto:liezhi.yang@windriver.com"=
+>liezhi.yang@windriver.com</a>&gt;<br>
+---<br>
+<span class=3D"">=C2=A0meta/recipes-kernel/linux/<a href=3D"http://kernel-d=
+evsrc.bb" rel=3D"noreferrer" target=3D"_blank">kern<wbr>el-devsrc.bb</a> | =
+7 +++++++<br>
+=C2=A01 file changed, 7 insertions(+)<br>
+<br>
+</span>diff --git a/meta/recipes-kernel/linux/<a href=3D"http://kernel-devs=
+rc.bb" rel=3D"noreferrer" target=3D"_blank">ke<wbr>rnel-devsrc.bb</a> b/met=
+a/recipes-kernel/linux/<a href=3D"http://kernel-devsrc.bb" rel=3D"noreferre=
+r" target=3D"_blank">ke<wbr>rnel-devsrc.bb</a><br>
+index 9fd2e08..b182936 100644<br>
+--- a/meta/recipes-kernel/linux/<a href=3D"http://kernel-devsrc.bb" rel=3D"=
+noreferrer" target=3D"_blank">ke<wbr>rnel-devsrc.bb</a><br>
++++ b/meta/recipes-kernel/linux/<a href=3D"http://kernel-devsrc.bb" rel=3D"=
+noreferrer" target=3D"_blank">ke<wbr>rnel-devsrc.bb</a><br>
+@@ -53,6 +53,13 @@ do_install() {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0# architecture (since scripts and helpers=
+ are native format).<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0KBUILD_OUTPUT=3D&quot;$kerneldir&quot;<br=
+>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0oe_runmake -C $kerneldir CC=3D&quot;${KER=
+NEL_CC}&quot; LD=3D&quot;${KERNEL_LD}&quot; clean _mrproper_scripts<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 # make clean generates an absolute path symlin=
+k called &quot;source&quot;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 # in $kerneldir points to $kerneldir, which do=
+esn&#39;t make any<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 # sense, so remove it.<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if [ -L $kerneldir/source ]; then<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 bbnote &quot;Removing $kerneldir=
+/source&quot;<br></blockquote><div><br></div><div>This message needs to be =
+clarified. When that comes out, I&#39;d read it and think<br></div><div>&qu=
+ot;it is removing my kernel source&quot;.<br><br></div><div>Maybe:<br><br><=
+/div><div>=C2=A0bbnote &quot;Removing $kerneldir/source symlink&quot;<br><b=
+r></div><div>is better.<br><br></div><div>Bruce<br></div><div>=C2=A0</div><=
+blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px=
+ #ccc solid;padding-left:1ex">
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 rm -f $kerneldir/source<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 fi<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0# As of Linux kernel version 3.0.1, the c=
+lean target removes<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0# arch/powerpc/lib/crtsavres.o which is p=
+resent in<br>
+<div class=3D"HOEnZb"><div class=3D"h5">--<br>
+2.9.0<br>
+<br>
+--<br>
+______________________________<wbr>_________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
+re@lists.<wbr>openembedded.org</a><br>
+<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
+" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/<wbr>m=
+ailman/listinfo/openembedded-<wbr>core</a><br>
+</div></div></blockquote></div><br><br clear=3D"all"><br>-- <br><div class=
+=3D"gmail_signature" data-smartmail=3D"gmail_signature">&quot;Thou shalt no=
+t follow the NULL pointer, for chaos and madness await thee at its end&quot=
+;</div>
+</div></div>
 
---587864349-516673264-1480416437=:24580--
+--001a113fe98248d2a605426e7388--
