@@ -1,25 +1,29 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 036BE6014F
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 456B171AC3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Nov 2016 13:51:16 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 29 Nov 2016 05:51:18 -0800
+	Tue, 29 Nov 2016 14:01:01 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by fmsmga101.fm.intel.com with ESMTP; 29 Nov 2016 06:01:03 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.31,717,1473145200"; d="scan'208";a="1065666802"
+X-IronPort-AV: E=Sophos;i="5.31,717,1473145200"; d="scan'208";a="11039421"
 Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
 	([10.237.68.161])
-	by orsmga001.jf.intel.com with ESMTP; 29 Nov 2016 05:51:15 -0800
-To: openembedded-core@lists.openembedded.org
-References: <1480354083-1495-1-git-send-email-ed.bartosh@linux.intel.com>
+	by orsmga002.jf.intel.com with ESMTP; 29 Nov 2016 06:01:01 -0800
+To: Khem Raj <raj.khem@gmail.com>
+References: <cover.1480333940.git.alexander.kanavin@linux.intel.com>
+	<cover.1480333940.git.alexander.kanavin@linux.intel.com>
+	<25f83a1bf177dde8db32ac494b4f0a82839ffb43.1480333940.git.alexander.kanavin@linux.intel.com>
+	<57D1D0A9-6C79-4556-A863-A6553364746E@gmail.com>
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <969465ac-9c0b-81b6-b0a8-69ee69613474@linux.intel.com>
-Date: Tue, 29 Nov 2016 15:51:21 +0200
+Message-ID: <0fb9060b-1019-fb87-3559-ffe8eb46efc7@linux.intel.com>
+Date: Tue, 29 Nov 2016 16:01:07 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
 	Icedove/45.4.0
 MIME-Version: 1.0
-In-Reply-To: <1480354083-1495-1-git-send-email-ed.bartosh@linux.intel.com>
-Subject: Re: [PATCH] buildhistory-diff: report directory renames
+In-Reply-To: <57D1D0A9-6C79-4556-A863-A6553364746E@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 06/18] cmake: update to 3.7.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,16 +36,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 Nov 2016 13:51:18 -0000
+X-List-Received-Date: Tue, 29 Nov 2016 14:01:02 -0000
 Content-Type: text/plain; charset=windows-1252; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 11/28/2016 07:28 PM, Ed Bartosh wrote:
-> The script detects directory renaming if two different
-> directories with the same set of files are added and removed.
+On 11/29/2016 01:24 AM, Khem Raj wrote:
+>
+>> On Nov 28, 2016, at 5:34 AM, Alexander Kanavin <alexander.kanavin@linux.intel.com> wrote:
+>>
+>> License is still 3-clause BSD.
+>
+> OK. what triggered the checksum change then ?
 
-What happens if the sets of files are slightly different? (e.g. a couple 
-of files are added or removed). Can we get some wiggle space here?
+They added a contributor list to Copyright.txt (I'll trim the lines that 
+are checksummed if that list will be constantly changing), and changed 
+the header in cmake.h from
+
+/*============================================================================
+   CMake - Cross Platform Makefile Generator
+   Copyright 2000-2009 Kitware, Inc., Insight Software Consortium
+
+   Distributed under the OSI-approved BSD License (the "License");
+   see accompanying file Copyright.txt for details.
+
+   This software is distributed WITHOUT ANY WARRANTY; without even the
+   implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+   See the License for more information.
+============================================================================*/
+
+to
+
+/* Distributed under the OSI-approved BSD 3-Clause License.  See 
+accompanying
+    file Copyright.txt or https://cmake.org/licensing for details.  */
 
 Alex
 
