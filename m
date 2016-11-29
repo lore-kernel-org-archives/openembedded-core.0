@@ -1,31 +1,49 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 0A03A71A61
+Return-Path: <kergoth@gmail.com>
+Received: from mail-oi0-f54.google.com (mail-oi0-f54.google.com
+	[209.85.218.54])
+	by mail.openembedded.org (Postfix) with ESMTP id 7D47571A9F
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Nov 2016 05:37:02 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id uAT5b1LM021902
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 28 Nov 2016 21:37:02 -0800 (PST)
-Received: from [128.224.162.183] (128.224.162.183) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.294.0;
-	Mon, 28 Nov 2016 21:37:01 -0800
-To: Paul Eggleton <paul.eggleton@linux.intel.com>, Khem Raj
-	<raj.khem@gmail.com>
-References: <cover.1479871728.git.liezhi.yang@windriver.com>
-	<43EF9731-230A-4FEE-8D1F-D81BEB193D24@gmail.com>
-	<a63e3bae-0fe1-1f52-88b6-d9c53c38f306@windriver.com>
-	<1910837.9fFbRdU0ck@peggleto-mobl.ger.corp.intel.com>
-From: Robert Yang <liezhi.yang@windriver.com>
-Message-ID: <90784e81-531a-1da8-4660-e4946916ca69@windriver.com>
-Date: Tue, 29 Nov 2016 13:36:58 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.2.0
+	Tue, 29 Nov 2016 06:04:59 +0000 (UTC)
+Received: by mail-oi0-f54.google.com with SMTP id y198so179045735oia.1
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 28 Nov 2016 22:05:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:from:date:message-id
+	:subject:to:cc;
+	bh=Ovo4IvuW69++IQbmadgJ60dtpfDVRSaVZUtc1+1cYTk=;
+	b=Z5oGZguL/yHt5tUvAHBvZVHkZp5GwY0EicsrFgmetFsbUJ1iiVNzQ7W1QtsSDCV1QA
+	sjskIM3bNkxLo36nBflVsuKV8NWs+57Jo5yyNRjNu3TI0K6AzoBdYFx/BOTN79B80n7o
+	tm+058J+arwcam7XzF6311/4DfXlEV/ASOQhiaQm+kRdRUQOSym7iH5nVLEa2Mvy5SUs
+	0zXA/2q8iJ84BPeLbgCTTWgwF3ZPPz4tH7stOUnEB09OnapYk2SM0VBT2ty0Vt7agMB0
+	a6kKEeIMRdDpWau3zUtI+EL9ELcuZJ5nCjbKMNoXqVXiWb7cF3kdAeqcKavf1hX5v8ZO
+	7Zyw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:sender:in-reply-to:references:from
+	:date:message-id:subject:to:cc;
+	bh=Ovo4IvuW69++IQbmadgJ60dtpfDVRSaVZUtc1+1cYTk=;
+	b=fajdXqbZBl4XOQ6cnD8KYY9UY3X6/vERPZrbi1+fZGtlA1skLsA6vOPvYyBwbVbKDF
+	rDeVaXYtWAaxDGONT+swMuCtWSDdTYGQC42qnG+rEAcKbygf13HXrarSe0hhwR4vJUVL
+	4n+7iyyhk81WKf5Dzc9ZRokh3pOzKvSIti5mQWmB/1ApOv3YlnIvjtliBZCltYxNYP8v
+	q5RetywTYOlkiEvSI7iqabe9KhwC6SnV0J4Xiu098CIvwZnUgK9KQg6GfeuTFsSE5eV7
+	Tt2g6d0HA7edl3tKhQGcmfXG4jytlBnx4RlvXSX1NHuqZe1htCJqnTSSgUNtORDAIe+v
+	+aZQ==
+X-Gm-Message-State: AKaTC029goI7MdDLF2/aC5N+WwFOQvuCNr1O1Uzr12uwwrQE/B+ETArY6ApdG501tgVbPACYkQcshl6hdG0J0A==
+X-Received: by 10.157.17.174 with SMTP id v43mr13693244otf.251.1480399500750; 
+	Mon, 28 Nov 2016 22:05:00 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <1910837.9fFbRdU0ck@peggleto-mobl.ger.corp.intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 2/2] base-passwd: set root's default password to 'root'
+Sender: kergoth@gmail.com
+Received: by 10.157.35.65 with HTTP; Mon, 28 Nov 2016 22:04:40 -0800 (PST)
+In-Reply-To: <1480388349-4206-1-git-send-email-jiajie.hu@intel.com>
+References: <1480388349-4206-1-git-send-email-jiajie.hu@intel.com>
+From: Christopher Larson <clarson@kergoth.com>
+Date: Mon, 28 Nov 2016 23:04:40 -0700
+X-Google-Sender-Auth: uENU74s4tjyzSLSYcOf9b3EvqTA
+Message-ID: <CABcZANmmXvVNTiozc_y-i+efy7JZGphPezgbBRS8fZKfdtYnVA@mail.gmail.com>
+To: Jiajie Hu <jiajie.hu@intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] devtool: execute associated functions while preparing the source tree
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,88 +56,205 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 Nov 2016 05:37:03 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 29 Nov 2016 06:05:00 -0000
+Content-Type: multipart/alternative; boundary=94eb2c18fcd45e36ac05426a5e2c
 
+--94eb2c18fcd45e36ac05426a5e2c
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+On Mon, Nov 28, 2016 at 7:59 PM, Jiajie Hu <jiajie.hu@intel.com> wrote:
 
-On 11/29/2016 11:45 AM, Paul Eggleton wrote:
-> On Tue, 29 Nov 2016 10:45:51 Robert Yang wrote:
->> On 11/29/2016 09:57 AM, Khem Raj wrote:
->>>> On Nov 24, 2016, at 10:59 AM, Paul Eggleton
->>>> <paul.eggleton@linux.intel.com> wrote:>>
->>>> On Thu, 24 Nov 2016 08:46:29 Patrick Ohly wrote:
->>>>> On Thu, 2016-11-24 at 11:38 +0800, Robert Yang wrote:
->>>>>> Currently, debug-tweaks is in EXTRA_IMAGE_FEATURES by default for poky,
->>>>>> and
->>>>>> there is no passwd, so that user can login easily without a passwd, I
->>>>>> think
->>>>>> that current status is more unsafe ?
->>>>>
->>>>> Both well-known password and no password are unsafe. User "root" with
->>>>> password "root" is not even "more" safe already now, because tools that
->>>>> brute-force logins try that. Choosing something else would be a bit
->>>>> safer for a short while until the tools add it to their dictionary.
->>>>>
->>>>> Poky is also targeting a different audience than OE-core. Poky can
->>>>> assume to be used in a secure environment, OE-core can't (because it
->>>>> might be used for all kinds of devices).
->>>>
->>>> I don't think that's part of the design goals on either side, it's simply
->>>> about making development easier. The feature is clearly labelled "debug-
->>>> tweaks" because it's for debugging not for production. It could be that
->>>> we
->>>> should make it do other things like append a notice to /etc/issue to
->>>> avoid
->>>> people leaving it on for production, if that is a concern.
->>>
->>> Sometimes such goals can lead to problems. Making development easier by
->>> all means if you can ensure a hard error on production e.g. debug-tweaks
->>> can then never be part of production images. Otherwise someone will
->>> forget it and it will be discovered on millions of devices in field along
->>> with the user project will be red-faced.
+> Execute prefuncs and postfuncs associated with the task while preparing
+> the source tree. If any changes are made to the source tree by these
+> prefuncs or postfuncs, a separate commit will be created so that the
+> changes won't get incorporated with other patches.
 >
-> Right. FWIW in mitigation I did write the raw material for the following
-> section of the YP manuals, though I don't know how many people have ended
-> up reading it:
+> Signed-off-by: Jiajie Hu <jiajie.hu@intel.com>
+> ---
+>  scripts/lib/devtool/standard.py | 23 ++++++++++++++++++++---
+>  1 file changed, 20 insertions(+), 3 deletions(-)
 >
-> http://www.yoctoproject.org/docs/current/dev-manual/dev-manual.html#making-images-more-secure
+> diff --git a/scripts/lib/devtool/standard.py b/scripts/lib/devtool/
+> standard.py
+> index e4d2a57..8302112 100644
+> --- a/scripts/lib/devtool/standard.py
+> +++ b/scripts/lib/devtool/standard.py
+> @@ -424,8 +424,7 @@ class BbTaskExecutor(object):
+>          self.rdata =3D rdata
+>          self.executed =3D []
 >
-> In there there is an explicit mention of disabling debug-tweaks. Looking
-> around the place it could be that we need more warnings about this being
-> on by default though.
+> -    def exec_func(self, func, report):
+> -        """Run bitbake task function"""
+> +    def _exec_func(self, func, report):
+>          if not func in self.executed:
+>              deps =3D self.rdata.getVarFlag(func, 'deps', False)
+>              if deps:
+> @@ -435,12 +434,25 @@ class BbTaskExecutor(object):
+>                  logger.info('Executing %s...' % func)
+>              fn =3D self.rdata.getVar('FILE', True)
+>              localdata =3D bb.build._task_data(fn, func, self.rdata)
+> +            prefuncs =3D localdata.getVarFlag(func, 'prefuncs', True)
+> +            postfuncs =3D localdata.getVarFlag(func, 'postfuncs', True)
+>              try:
+> +                for prefunc in (prefuncs or '').split():
+> +                    bb.build.exec_func(prefunc, localdata)
+> +                    yield prefunc
+>                  bb.build.exec_func(func, localdata)
+> +                for postfunc in (postfuncs or '').split():
+> +                    bb.build.exec_func(postfunc, localdata)
+> +                    yield postfunc
+>              except bb.build.FuncFailed as e:
+>                  raise DevtoolError(str(e))
+>              self.executed.append(func)
 >
->> Will something like IMAGE_FEATURES += "production" help here ?
+> +    def exec_func(self, func, report):
+> +        """Run bitbake task function"""
+> +        for step in self._exec_func(func, report):
+> +            pass
+> +
 >
-> I'd like to see something like this - at least give the user some way of
-> saying "I really am in production now, so error out on anything that I
-> shouldn't be doing there". I wonder if it potentially goes further than
-> just conflicting with things like debug-tweaks and empty-root-password.
+>  class PatchTaskExecutor(BbTaskExecutor):
+>      def __init__(self, rdata):
+> @@ -462,7 +474,12 @@ class PatchTaskExecutor(BbTaskExecutor):
+>                  else:
+>                      os.rmdir(patchdir)
 >
->> We may also need something like IMAGE_FEATURES += "test" to make it can work
->> with -ctestimage.
->
-> Not sure I follow your reasoning here - can you explain what this feature
-> would do?
-
-For example, the "bitbake <image> -ctestimage" requires a few pkgs installed,
-such as psplash-default, see the testcase in meta/lib/oeqa/runtime/smart.py:
-
-     def test_smart_install(self):
-         self.smart('remove -y psplash-default')
-         self.smart('install -y psplash-default')
-
-The test would fail without psplash-default installed, and also it requires
-sshd installed on the target. When IMAGE_FETURES += "test", we can install
-these required packages, I'm not sure this is a good idea, or maybe we can
-enhance testimge.bbclass to do it. Another way to fix the problem might be
-not hardcode the package name.
-
-// Robert
-
->
-> Cheers,
-> Paul
+> -        super(PatchTaskExecutor, self).exec_func(func, report)
+> +        for step in super(PatchTaskExecutor, self)._exec_func(func,
+> report):
+> +            if self.check_git and os.path.exists(srcsubdir):
+> +                stdout, _ =3D bb.process.run('git status --porcelain',
+> cwd=3Dsrcsubdir)
+> +                if stdout:
+> +                    bb.process.run('git add .; git %s commit -a -m
+> "Committing changes from %s\n\n%s"' % (' '.join(self.useroptions), step,
+> GitApplyTree.ignore_commit_prefix + ' - from %s' % step), cwd=3Dsrcsubdir=
+)
 >
 
+This will do the commit after the first postfunc is done, so won=E2=80=99t =
+the
+changes from the main func and the first postfunc both be included in that
+commit?
+--=20
+Christopher Larson
+clarson at kergoth dot com
+Founder - BitBake, OpenEmbedded, OpenZaurus
+Maintainer - Tslib
+Senior Software Engineer, Mentor Graphics
+
+--94eb2c18fcd45e36ac05426a5e2c
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On Mon, Nov 28, 2016 at 7:59 PM, Jiajie Hu <span dir=3D"ltr">&lt;<a href=3D=
+"mailto:jiajie.hu@intel.com" target=3D"_blank">jiajie.hu@intel.com</a>&gt;<=
+/span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8=
+ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":108" class=3D"a=
+3s aXjCH m158ae054f4967d05">Execute prefuncs and postfuncs associated with =
+the task while preparing<br>
+the source tree. If any changes are made to the source tree by these<br>
+prefuncs or postfuncs, a separate commit will be created so that the<br>
+changes won&#39;t get incorporated with other patches.<br>
+<br>
+Signed-off-by: Jiajie Hu &lt;<a href=3D"mailto:jiajie.hu@intel.com">jiajie.=
+hu@intel.com</a>&gt;<br>
+---<br>
+=C2=A0scripts/lib/devtool/standard.<wbr>py | 23 ++++++++++++++++++++---<br>
+=C2=A01 file changed, 20 insertions(+), 3 deletions(-)<br>
+<br>
+diff --git a/scripts/lib/devtool/<wbr>standard.py b/scripts/lib/devtool/<wb=
+r>standard.py<br>
+index e4d2a57..8302112 100644<br>
+--- a/scripts/lib/devtool/<wbr>standard.py<br>
++++ b/scripts/lib/devtool/<wbr>standard.py<br>
+@@ -424,8 +424,7 @@ <span class=3D"il">class</span> BbTaskExecutor(object):=
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.rdata =3D rdata<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.executed =3D []<br>
+<br>
+-=C2=A0 =C2=A0 def exec_func(self, func, report):<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;&quot;&quot;Run <span class=3D"il">bitba=
+ke</span> task function&quot;&quot;&quot;<br>
++=C2=A0 =C2=A0 def _exec_func(self, func, report):<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if not func in self.executed:<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0deps =3D self.rdata.getVarF=
+lag(func, &#39;deps&#39;, False)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if deps:<br>
+@@ -435,12 +434,25 @@ <span class=3D"il">class</span> BbTaskExecutor(object=
+):<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0<a href=3D"ht=
+tp://logger.info" rel=3D"noreferrer" target=3D"_blank">logger.info</a>(&#39=
+;Executing %s...&#39; % func)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0fn =3D self.rdata.getVar(&#=
+39;FILE&#39;, True)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0localdata =3D <span class=
+=3D"il">bb</span>.build._task_data(fn, func, self.rdata)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 prefuncs =3D localdata.getVarFla=
+g(func, &#39;prefuncs&#39;, True)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 postfuncs =3D localdata.getVarFl=
+ag(func, &#39;postfuncs&#39;, True)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0try:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 for prefunc in (pr=
+efuncs or &#39;&#39;).split():<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 <spa=
+n class=3D"il">bb</span>.build.exec_func(prefunc, localdata)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 yiel=
+d prefunc<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0<span class=
+=3D"il">bb</span>.build.exec_func(func, localdata)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 for postfunc in (p=
+ostfuncs or &#39;&#39;).split():<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 <spa=
+n class=3D"il">bb</span>.build.exec_func(postfunc, localdata)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 yiel=
+d postfunc<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0except <span class=3D"il">b=
+b</span>.build.FuncFailed as e:<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0raise Devtool=
+Error(str(e))<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.executed.append(func)<=
+br>
+<br>
++=C2=A0 =C2=A0 def exec_func(self, func, report):<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;&quot;&quot;Run <span class=3D"il">bitba=
+ke</span> task function&quot;&quot;&quot;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 for step in self._exec_func(func, report):<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 pass<br>
++<br>
+<br>
+=C2=A0<span class=3D"il">class</span> PatchTaskExecutor(<wbr>BbTaskExecutor=
+):<br>
+=C2=A0 =C2=A0 =C2=A0def __init__(self, rdata):<br>
+@@ -462,7 +474,12 @@ <span class=3D"il">class</span> PatchTaskExecutor(<wbr=
+>BbTaskExecutor):<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0else:<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0os.rmdir(patchdir)<br>
+<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 super(PatchTaskExecutor, self).exec_func(func,=
+ report)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 for step in super(PatchTaskExecutor, self)._ex=
+ec_func(func, report):<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if self.check_git and os.path.ex=
+ists(srcsubdir):<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 stdout, _ =3D <spa=
+n class=3D"il">bb</span>.process.run(&#39;git status --porcelain&#39;, cwd=
+=3Dsrcsubdir)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if stdout:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 <spa=
+n class=3D"il">bb</span>.process.run(&#39;git add .; git %s commit -a -m &q=
+uot;Committing changes from %s\n\n%s&quot;&#39; % (&#39; &#39;.join(self.us=
+eroptions), step, GitApplyTree.ignore_commit_<wbr>prefix + &#39; - from %s&=
+#39; % step), cwd=3Dsrcsubdir)</div></blockquote></div><br>This will do the=
+ commit after the first postfunc is done, so won=E2=80=99t the changes from=
+ the main func and the first postfunc both be included in that commit?<br>-=
+- <br><div class=3D"gmail_signature" data-smartmail=3D"gmail_signature">Chr=
+istopher Larson<br>clarson at kergoth dot com<br>Founder - BitBake, OpenEmb=
+edded, OpenZaurus<br>Maintainer - Tslib<br>Senior Software Engineer, Mentor=
+ Graphics</div>
+</div></div>
+
+--94eb2c18fcd45e36ac05426a5e2c--
