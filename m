@@ -1,57 +1,49 @@
 Return-Path: <patrick.ohly@intel.com>
-Received: from mail-io0-f170.google.com (mail-io0-f170.google.com
-	[209.85.223.170])
-	by mail.openembedded.org (Postfix) with ESMTP id CE24671AB6
+Received: from mail-io0-f178.google.com (mail-io0-f178.google.com
+	[209.85.223.178])
+	by mail.openembedded.org (Postfix) with ESMTP id 34FDB71AB8
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Nov 2016 08:51:10 +0000 (UTC)
-Received: by mail-io0-f170.google.com with SMTP id a124so277836603ioe.2
+	Tue, 29 Nov 2016 08:55:19 +0000 (UTC)
+Received: by mail-io0-f178.google.com with SMTP id c21so267236855ioj.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Nov 2016 00:51:12 -0800 (PST)
+	Tue, 29 Nov 2016 00:55:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:organization:mime-version:content-transfer-encoding;
-	bh=dgeGumGqWVMP1dJmliKcgShSuTlSwGF0woR9zBl/+qM=;
-	b=Th92Ks/YBYhbJk58fSHyIocLg6NmlmJvhtAov2R5iMQ28OfRd5FOpinlpuvGIhYxBu
-	gxtAszVKP0lvHKJG9AhJN3pLGIlNnFRhifbE4cQWI1eOC1sl9v+8hrXRnkuzg4ygStxf
-	aD3UmxS+Qo9ofNMhtCcz/g/fH+aWcagyrYo/fpHkYEhDH1yajtYlhXJ+nXP+OcmuC2Qc
-	vq7zunUoOmHKu/qWTwDbZZpqsVvFvHVTymkmgokEux1MoEF0oS+DKwIED9RI8gBiHuBQ
-	F1sjMiLA+sIBZlOwiY3jRpSfXX8XJdShS+z8Opjd6qogTbLftgsm337pitjJ+0fcm1PQ
-	W2Zw==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=1Nzn2Y+m/3ltd2evKWVjg38Ho+kCy2h7QsXz6z5biPY=;
+	b=NNYKDIJE1QB0FwnzOAf2De4QNtTzg+OIeH+lJw/dWCiAS8ciNTzDrT656LcQ7IdcTd
+	RnSNxPfzB3+V02trHO5YmX9GBH2m/kd91Sqi+IKRgv7pG3/t5T7e0jFOtZDVt9/HbBl2
+	WvaWTM2kYIXpZjNVF/30YQcnw3X7wIpt3G/qQIBP3GVwwj9LAYZ9dhsz3fobbySDz+eW
+	vNWv/+aPUzmRbaoINU8HIBz0OwdZ0YaLfsHaOnwp45jmp+yv7I+gGYGn/iH+HsckEy5I
+	r+CVkCwuqg4bgOM6Ok0tXlktc5F/Qzmfj4eQaZHqu/ckKf8Kswwi21VKAuTMV9V7ZS2t
+	N6zg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:organization:mime-version:content-transfer-encoding;
-	bh=dgeGumGqWVMP1dJmliKcgShSuTlSwGF0woR9zBl/+qM=;
-	b=bJRkJYjNeO3fWnfRxBPeuBoZWGR9QOuxZLe7mXiUkxTL8tm2ZD72Mawd3wKX2bxtGg
-	6lKt47txUKRxP8xE2ljZzMjSq902frLY2rRdGo9WHGM5aewD+dNGqr3I0ohwIbYdLjdK
-	lUFHR5Bf23o3N9dIuW6VkiUZvMOUG/IyzBSo9rm8fn38cIq/erXGkE7ktevXuB7eojj7
-	glUczj5vxD/ULA6cdaoMqSJVgW4O/2STmOIA4apU5XIMiuVIfcpHPfguPmy4JXpKqYrz
-	PwcRNVVTcfzz17wJurhwxIjAlr81DhsIhVgcjbZ16vXfzHuMTICJxmeJN6q7vihVzlK1
-	k7+w==
-X-Gm-Message-State: AKaTC01gYgNDmzoUaYwzFmN9j7mUX1bvyOR0re1nvr9Gvc16u4Uvj5V1koR9dvi0SAacG3vw
-X-Received: by 10.107.131.195 with SMTP id n64mr23257049ioi.161.1480409471648; 
-	Tue, 29 Nov 2016 00:51:11 -0800 (PST)
-Received: from pohly-mobl1 (p5DE8EEDB.dip0.t-ipconnect.de. [93.232.238.219])
-	by smtp.gmail.com with ESMTPSA id h17sm554532ith.17.2016.11.29.00.51.09
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 29 Nov 2016 00:51:10 -0800 (PST)
-Message-ID: <1480409468.6873.232.camel@intel.com>
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=1Nzn2Y+m/3ltd2evKWVjg38Ho+kCy2h7QsXz6z5biPY=;
+	b=lxqSsnG0qQdsu7ru7nYvm05e0lzyV09wCdOXOWIrZ8kcOvQWpxoCoxiu+U69QqeSY8
+	pwv+gn1GA+6d2vhg3lFRPO7fEGfoMLiyKUzM5pfmPAmo30zmmO7pIfr/8/Nro3rDR9YO
+	k1LAUyeBmT+jgXrukp9HmZKUnwXO9TyU8zP5Zu15rQcA/SRZWQ1ERZlabQc9BxwI4CQW
+	7K7l9AJ4MLtX/MaVpWadyukk1VukjI/JPr4LUe8IJTHZpXlp3ctbukTqU6+4pZv94fLk
+	aQksPUIAXn7Kwu1x4uzwSz6tm5rrPkKPbCJ5emUIk70+1tTRRkUXYjij4K9dxnedEQSQ
+	2sNw==
+X-Gm-Message-State: AKaTC01dxlIzC8UztmZwcqkecbrhZyaFdsC4gO1+fdMZH2eJxKLnY5BnTvMpz7OqzfSXdDuS
+X-Received: by 10.36.82.22 with SMTP id d22mr22505214itb.53.1480409720950;
+	Tue, 29 Nov 2016 00:55:20 -0800 (PST)
+Received: from pohly-desktop.fritz.box (p5DE8EEDB.dip0.t-ipconnect.de.
+	[93.232.238.219]) by smtp.gmail.com with ESMTPSA id
+	l73sm19093242ioe.37.2016.11.29.00.55.19
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Tue, 29 Nov 2016 00:55:20 -0800 (PST)
 From: Patrick Ohly <patrick.ohly@intel.com>
-To: Jose Lamego <jose.a.lamego@linux.intel.com>
-Date: Tue, 29 Nov 2016 09:51:08 +0100
-In-Reply-To: <e4228247-306f-2fd6-6ba8-1c4e01e11a28@linux.intel.com>
-References: <1480105843-14729-1-git-send-email-jose.a.lamego@linux.intel.com>
-	<1480350180-9496-1-git-send-email-jose.a.lamego@linux.intel.com>
-	<1480362425.6873.209.camel@intel.com>
-	<967933e7-9f2e-a960-4699-e4e8f2d39e68@linux.intel.com>
-	<1480368843.6873.215.camel@intel.com>
-	<e4228247-306f-2fd6-6ba8-1c4e01e11a28@linux.intel.com>
-Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
-X-Mailer: Evolution 3.12.9-1+b1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH V2] scripts.send-pull-request: Avoid multiple chain headers
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 29 Nov 2016 09:55:10 +0100
+Message-Id: <1480409710-3292-1-git-send-email-patrick.ohly@intel.com>
+X-Mailer: git-send-email 2.1.4
+In-Reply-To: <1480409468.6873.232.camel@intel.com>
+References: <1480409468.6873.232.camel@intel.com>
+Subject: [PATCH V3] scripts/send-pull-request: Avoid multiple chain headers
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -64,77 +56,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 Nov 2016 08:51:11 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 29 Nov 2016 08:55:20 -0000
 
-On Mon, 2016-11-28 at 16:35 -0600, Jose Lamego wrote:
-> 
-> On 11/28/2016 03:34 PM, Patrick Ohly wrote:
-> > On Mon, 2016-11-28 at 14:28 -0600, Jose Lamego wrote:
-> >> Agree. Please provide feedback about below comments and I will submit a
-> >> v3 patch.
-> >>
-> >> On 11/28/2016 01:47 PM, Patrick Ohly wrote:
-> >>> On Mon, 2016-11-28 at 10:23 -0600, Jose Lamego wrote:
-> >> More than 1 "In-Reply-To" and "References" message headers are in
-> >> violation of rfc2822 [1] and may cause that some email-related
-> >> applications do not point to the appropriate root message in a
-> >> conversation/series.
-> > 
-> > Fixing that makes sense. Just add it as reason and the "why" part is
-> > covered.
-> > 
-> >>> And I don't understand why this proposed change has the described
-> >>> effect. Does changing the threading parameters change the output of "git
-> >>> send-email" and thus indirectly the mail headers of the following
-> >>> patches?
-> > 
-> > The "how" part still isn't clear to me. Perhaps I'm just dumb, but would
-> > you bear with me and explain a bit more how changing the sending of the
-> > cover letter affects sending of the patches?
+When creating a patch set with cover letter using the
+send-pull-request script, both the "In-Reply-To" and "References"
+headers are appended twice in patch 2 and subsequent.
 
-I've tried out your proposed change with
-  bash -x ../poky/scripts/send-pull-request --to=patrick.ohly@gmx.de -p pull-11827
-where pull-11827 is my recent bitbake submission.
+That's because git-format-patch already inserted them and then
+git-send-email repeats that. Suppressing mail threading in
+git-send-email with --no-thread avoids the problem and is the
+right solution because it works regardless whether git-send-email is
+called once or twicee.
 
-The resulting emails are still broken because that one line that you
-modify isn't event used. It's under "if [ $AUTO_CL -eq 1 ]" and I am not
-using the -a option that enables that behavior.
+Repeating these headers is a violation of RFC 2822 and can confuse
+mail programs. For example, Patchwork does not detect a patch series
+problem when there are these extra headers.
 
-Even when I use -a, the result is still broken.
+[YOCTO #10718]
 
-The root cause of the problem is that both create-pull-request and
-send-pull-request allow git to insert In-Reply-To headers.
+Signed-off-by: Patrick Ohly <patrick.ohly@intel.com>
+---
+ scripts/send-pull-request | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
 
-"git send-email --help" explicitly warns about that:
-
-        It is up to the user to ensure that no In-Reply-To header already exists when git send-email is asked
-        to add it (especially note that git format-patch can be configured to do the threading itself). Failure
-        to do so may not produce the expected result in the recipient’s MUA.
-
->  What I'm doing
-> here is to include no reference to any root message at the first call,
-> then including a reference at the second call to the very first message
-> in the chain, which is either the cover letter or the patch #1.
-
-No, that doesn't work. Whether the first call uses --no-thread or
---no-chain-reply-to has no effect whatsoever, because when "git
-send-email" only sends a single email, it doesn't add headers, and the
-second call was left unmodified in your patch.
-
-The right fix (tested successfully here) is to use --no-thread in the
-second call which sends the sequence of patches. I'll send my  change
-for review separately.
-
+diff --git a/scripts/send-pull-request b/scripts/send-pull-request
+index 575549d..883deac 100755
+--- a/scripts/send-pull-request
++++ b/scripts/send-pull-request
+@@ -158,11 +158,16 @@ GIT_EXTRA_CC=$(for R in $EXTRA_CC; do echo -n "--cc='$R' "; done)
+ unset IFS
+ 
+ # Handoff to git-send-email. It will perform the send confirmation.
++# Mail threading was already handled by git-format-patch in
++# create-pull-request, so we must not allow git-send-email to
++# add In-Reply-To and References headers again.
+ PATCHES=$(echo $PDIR/*.patch)
+ if [ $AUTO_CL -eq 1 ]; then
+ 	# Send the cover letter to every recipient, both specified as well as
+ 	# harvested. Then remove it from the patches list.
+-	eval "git send-email $GIT_TO $GIT_CC $GIT_EXTRA_CC --confirm=always --no-chain-reply-to --suppress-cc=all $CL"
++	# --no-thread is redundant here (only sending a single message) and
++	# merely added for the sake of consistency.
++	eval "git send-email $GIT_TO $GIT_CC $GIT_EXTRA_CC --confirm=always --no-thread --suppress-cc=all $CL"
+ 	if [ $? -eq 1 ]; then
+ 		echo "ERROR: failed to send cover-letter with automatic recipients."
+ 		exit 1
+@@ -172,7 +177,7 @@ fi
+ 
+ # Send the patch to the specified recipients and, if -c was specified, those git
+ # finds in this specific patch.
+-eval "git send-email $GIT_TO $GIT_EXTRA_CC --confirm=always --no-chain-reply-to $GITSOBCC $PATCHES"
++eval "git send-email $GIT_TO $GIT_EXTRA_CC --confirm=always --no-thread $GITSOBCC $PATCHES"
+ if [ $? -eq 1 ]; then
+ 	echo "ERROR: failed to send patches."
+ 	exit 1
 -- 
-Best Regards, Patrick Ohly
-
-The content of this message is my personal opinion only and although
-I am an employee of Intel, the statements I make here in no way
-represent Intel's position on the issue, nor am I authorized to speak
-on behalf of Intel on this matter.
-
-
+2.1.4
 
 
