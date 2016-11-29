@@ -1,27 +1,26 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id 1069C6E668
+Return-Path: <randy.e.witt@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 5939271A06
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Nov 2016 18:01:34 +0000 (UTC)
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-	by fmsmga104.fm.intel.com with ESMTP; 29 Nov 2016 10:01:34 -0800
+	Tue, 29 Nov 2016 18:24:11 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga102.fm.intel.com with ESMTP; 29 Nov 2016 10:24:13 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.31,717,1473145200"; d="scan'208";a="197056037"
-Received: from cloo7-mobl1.amr.corp.intel.com (HELO
-	peggleto-mobl.ger.corp.intel.com) ([10.255.144.199])
-	by fmsmga004.fm.intel.com with ESMTP; 29 Nov 2016 10:01:31 -0800
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Jiajie Hu <jiajie.hu@intel.com>
-Date: Wed, 30 Nov 2016 07:01:30 +1300
-Message-ID: <4232623.fUgL5pQE4S@peggleto-mobl.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.14.10 (Linux/4.8.8-100.fc23.x86_64; KDE/4.14.20; x86_64; ;
-	)
-In-Reply-To: <1480388349-4206-1-git-send-email-jiajie.hu@intel.com>
-References: <1480388349-4206-1-git-send-email-jiajie.hu@intel.com>
+X-IronPort-AV: E=Sophos;i="5.31,717,1473145200"; d="scan'208";a="1065780019"
+Received: from bitbang.jf.intel.com (HELO [10.7.199.68]) ([10.7.199.68])
+	by orsmga001.jf.intel.com with ESMTP; 29 Nov 2016 10:24:13 -0800
+To: Robert Yang <liezhi.yang@windriver.com>,
+	openembedded-core@lists.openembedded.org
+References: <1480363884-6789-1-git-send-email-randy.e.witt@linux.intel.com>
+	<f4759de9-823a-bfcd-9305-e14438347631@windriver.com>
+From: Randy Witt <randy.e.witt@linux.intel.com>
+Message-ID: <7b78a4a8-3157-ed82-6efa-1ec699ec8a71@linux.intel.com>
+Date: Tue, 29 Nov 2016 10:24:13 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.4.0
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] devtool: execute associated functions while preparing the source tree
+In-Reply-To: <f4759de9-823a-bfcd-9305-e14438347631@windriver.com>
+Subject: Re: [PATCH] qemu*.conf: Add slirp support for all qemu machines
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,32 +33,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 Nov 2016 18:01:36 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Tue, 29 Nov 2016 18:24:12 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Jiajie,
 
-On Tue, 29 Nov 2016 10:59:09 Jiajie Hu wrote:
-> Execute prefuncs and postfuncs associated with the task while preparing
-> the source tree. If any changes are made to the source tree by these
-> prefuncs or postfuncs, a separate commit will be created so that the
-> changes won't get incorporated with other patches.
+>
+> "-device virtio-net-device,netdev=net0" and
+> "-netdev user,id=net0,hostfwd=tcp::2222-:22"
+>
+> Then there is no way for user to override the second part, and we can't
+> call the first part as a "QB_SLIRP_OPT" since it is only part of them,
+> so I won't break them into 2, and if the user defines QB_SLIRP_OPT
+> in there bsp conf file, then it will be replaced totally.
+>
 
-So this in itself looks reasonable in theory, but I have to warn you that when 
-we switch to tinfoil2 [1] these commits are going to be done via the metadata 
-instead, and beyond a possible hack that I'd really rather not think about 
-it's going to be a bit difficult to intercept the prefuncs/postfuncs there. At 
-least they will be executed though since with tinfoil2 we'll be going through 
-a much more standard path to run the tasks.
+I'm aware that this will only work for one instance, but currently it doesn't 
+work at all and it blocks a high priority bug. The only way to make it 100% 
+work, would be to have qemu do the binding of the port to a dynamic one and then 
+the user queries it after. Otherwise there is always a window where another 
+process could bind to the port.
 
-Cheers,
-Paul
+I don't think the bsp should be in the business of choosing which ports to 
+forward. And if it is, then it should be a separate option in the qemuboot.conf, 
+with just the "-netdev user" part because otherwise the user will always have to 
+modify qemuboot.conf just to forward different ports.
 
-[1] https://wiki.yoctoproject.org/wiki/Tinfoil2
+It makes more sense to let the user do something like "runqemu slirp=22,65,..." 
+and then return back the actual port used in the forwarding.
 
--- 
-
-Paul Eggleton
-Intel Open Source Technology Centre
 
