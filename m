@@ -1,32 +1,20 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 734CD6AC00
+Return-Path: <jiajie.hu@intel.com>
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+	by mail.openembedded.org (Postfix) with ESMTP id C480B71A6E
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Nov 2016 02:46:15 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id uAT2jsxw001474
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
-	Mon, 28 Nov 2016 18:45:54 -0800
-Received: from [128.224.162.183] (128.224.162.183) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.294.0;
-	Mon, 28 Nov 2016 18:45:53 -0800
-To: Khem Raj <raj.khem@gmail.com>, Paul Eggleton
-	<paul.eggleton@linux.intel.com>
-References: <cover.1479871728.git.liezhi.yang@windriver.com>
-	<27dbd493-5b76-657f-8a1d-57eabe9eebed@windriver.com>
-	<1479973589.6873.15.camel@intel.com>
-	<5251131.puhPuqrAHf@peggleto-mobl.ger.corp.intel.com>
-	<43EF9731-230A-4FEE-8D1F-D81BEB193D24@gmail.com>
-From: Robert Yang <liezhi.yang@windriver.com>
-Message-ID: <a63e3bae-0fe1-1f52-88b6-d9c53c38f306@windriver.com>
-Date: Tue, 29 Nov 2016 10:45:51 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.2.0
-MIME-Version: 1.0
-In-Reply-To: <43EF9731-230A-4FEE-8D1F-D81BEB193D24@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 2/2] base-passwd: set root's default password to 'root'
+	Tue, 29 Nov 2016 02:58:28 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga104.jf.intel.com with ESMTP; 28 Nov 2016 18:58:29 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.31,714,1473145200"; d="scan'208";a="1074826063"
+Received: from jiajiehu.sh.intel.com ([10.239.160.136])
+	by fmsmga001.fm.intel.com with ESMTP; 28 Nov 2016 18:58:28 -0800
+From: Jiajie Hu <jiajie.hu@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 29 Nov 2016 10:59:09 +0800
+Message-Id: <1480388349-4206-1-git-send-email-jiajie.hu@intel.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [PATCH] devtool: execute associated functions while preparing the source tree
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,51 +27,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 Nov 2016 02:46:17 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 29 Nov 2016 02:58:29 -0000
 
+Execute prefuncs and postfuncs associated with the task while preparing
+the source tree. If any changes are made to the source tree by these
+prefuncs or postfuncs, a separate commit will be created so that the
+changes won't get incorporated with other patches.
 
+Signed-off-by: Jiajie Hu <jiajie.hu@intel.com>
+---
+ scripts/lib/devtool/standard.py | 23 ++++++++++++++++++++---
+ 1 file changed, 20 insertions(+), 3 deletions(-)
 
-On 11/29/2016 09:57 AM, Khem Raj wrote:
->
->> On Nov 24, 2016, at 10:59 AM, Paul Eggleton <paul.eggleton@linux.intel.com> wrote:
->>
->> On Thu, 24 Nov 2016 08:46:29 Patrick Ohly wrote:
->>> On Thu, 2016-11-24 at 11:38 +0800, Robert Yang wrote:
->>>> Currently, debug-tweaks is in EXTRA_IMAGE_FEATURES by default for poky,
->>>> and
->>>> there is no passwd, so that user can login easily without a passwd, I
->>>> think
->>>> that current status is more unsafe ?
->>>
->>> Both well-known password and no password are unsafe. User "root" with
->>> password "root" is not even "more" safe already now, because tools that
->>> brute-force logins try that. Choosing something else would be a bit
->>> safer for a short while until the tools add it to their dictionary.
->>>
->>> Poky is also targeting a different audience than OE-core. Poky can
->>> assume to be used in a secure environment, OE-core can't (because it
->>> might be used for all kinds of devices).
->>
->> I don't think that's part of the design goals on either side, it's simply
->> about making development easier. The feature is clearly labelled "debug-
->> tweaks" because it's for debugging not for production. It could be that we
->> should make it do other things like append a notice to /etc/issue to avoid
->> people leaving it on for production, if that is a concern.
->>
->
-> Sometimes such goals can lead to problems. Making development easier by
-> all means if you can ensure a hard error on production e.g. debug-tweaks can
-> then never be part of production images. Otherwise someone will forget it
-> and it will be discovered on millions of devices in field along with the user
-> project will be red-faced.
+diff --git a/scripts/lib/devtool/standard.py b/scripts/lib/devtool/standard.py
+index e4d2a57..8302112 100644
+--- a/scripts/lib/devtool/standard.py
++++ b/scripts/lib/devtool/standard.py
+@@ -424,8 +424,7 @@ class BbTaskExecutor(object):
+         self.rdata = rdata
+         self.executed = []
+ 
+-    def exec_func(self, func, report):
+-        """Run bitbake task function"""
++    def _exec_func(self, func, report):
+         if not func in self.executed:
+             deps = self.rdata.getVarFlag(func, 'deps', False)
+             if deps:
+@@ -435,12 +434,25 @@ class BbTaskExecutor(object):
+                 logger.info('Executing %s...' % func)
+             fn = self.rdata.getVar('FILE', True)
+             localdata = bb.build._task_data(fn, func, self.rdata)
++            prefuncs = localdata.getVarFlag(func, 'prefuncs', True)
++            postfuncs = localdata.getVarFlag(func, 'postfuncs', True)
+             try:
++                for prefunc in (prefuncs or '').split():
++                    bb.build.exec_func(prefunc, localdata)
++                    yield prefunc
+                 bb.build.exec_func(func, localdata)
++                for postfunc in (postfuncs or '').split():
++                    bb.build.exec_func(postfunc, localdata)
++                    yield postfunc
+             except bb.build.FuncFailed as e:
+                 raise DevtoolError(str(e))
+             self.executed.append(func)
+ 
++    def exec_func(self, func, report):
++        """Run bitbake task function"""
++        for step in self._exec_func(func, report):
++            pass
++
+ 
+ class PatchTaskExecutor(BbTaskExecutor):
+     def __init__(self, rdata):
+@@ -462,7 +474,12 @@ class PatchTaskExecutor(BbTaskExecutor):
+                 else:
+                     os.rmdir(patchdir)
+ 
+-        super(PatchTaskExecutor, self).exec_func(func, report)
++        for step in super(PatchTaskExecutor, self)._exec_func(func, report):
++            if self.check_git and os.path.exists(srcsubdir):
++                stdout, _ = bb.process.run('git status --porcelain', cwd=srcsubdir)
++                if stdout:
++                    bb.process.run('git add .; git %s commit -a -m "Committing changes from %s\n\n%s"' % (' '.join(self.useroptions), step, GitApplyTree.ignore_commit_prefix + ' - from %s' % step), cwd=srcsubdir)
++
+         if self.check_git and os.path.exists(srcsubdir):
+             if func == 'do_patch':
+                 if os.path.exists(patchdir):
+-- 
+1.9.1
 
-Will something like IMAGE_FEATURES += "production" help here ? We may also
-need something like IMAGE_FEATURES += "test" to make it can work with
--ctestimage.
-
-// Robert
-
->
 
