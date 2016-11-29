@@ -1,29 +1,21 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
+Return-Path: <mariano.lopez@linux.intel.com>
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 456B171AC3
+	by mail.openembedded.org (Postfix) with ESMTP id 9FD0C71ABA
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Nov 2016 14:01:01 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by fmsmga101.fm.intel.com with ESMTP; 29 Nov 2016 06:01:03 -0800
+	Tue, 29 Nov 2016 14:42:56 +0000 (UTC)
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+	by fmsmga101.fm.intel.com with ESMTP; 29 Nov 2016 06:42:58 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.31,717,1473145200"; d="scan'208";a="11039421"
-Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
-	([10.237.68.161])
-	by orsmga002.jf.intel.com with ESMTP; 29 Nov 2016 06:01:01 -0800
-To: Khem Raj <raj.khem@gmail.com>
-References: <cover.1480333940.git.alexander.kanavin@linux.intel.com>
-	<cover.1480333940.git.alexander.kanavin@linux.intel.com>
-	<25f83a1bf177dde8db32ac494b4f0a82839ffb43.1480333940.git.alexander.kanavin@linux.intel.com>
-	<57D1D0A9-6C79-4556-A863-A6553364746E@gmail.com>
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <0fb9060b-1019-fb87-3559-ffe8eb46efc7@linux.intel.com>
-Date: Tue, 29 Nov 2016 16:01:07 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Icedove/45.4.0
-MIME-Version: 1.0
-In-Reply-To: <57D1D0A9-6C79-4556-A863-A6553364746E@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 06/18] cmake: update to 3.7.0
+X-IronPort-AV: E=Sophos;i="5.31,717,1473145200"; d="scan'208";a="36902308"
+Received: from ylu41-mobl2.amr.corp.intel.com (HELO
+	mlopezva-MOBL2.amr.corp.intel.com) ([10.254.1.198])
+	by fmsmga005.fm.intel.com with ESMTP; 29 Nov 2016 06:42:57 -0800
+From: mariano.lopez@linux.intel.com
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 29 Nov 2016 08:42:57 -0600
+Message-Id: <cover.1480429545.git.mariano.lopez@linux.intel.com>
+X-Mailer: git-send-email 2.7.3
+Subject: [PATCH 0/2] Add communication mechanism for sending test results
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,40 +28,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 Nov 2016 14:01:02 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 29 Nov 2016 14:42:59 -0000
 
-On 11/29/2016 01:24 AM, Khem Raj wrote:
->
->> On Nov 28, 2016, at 5:34 AM, Alexander Kanavin <alexander.kanavin@linux.intel.com> wrote:
->>
->> License is still 3-clause BSD.
->
-> OK. what triggered the checksum change then ?
+From: Mariano Lopez <mariano.lopez@linux.intel.com>
 
-They added a contributor list to Copyright.txt (I'll trim the lines that 
-are checksummed if that list will be constantly changing), and changed 
-the header in cmake.h from
 
-/*============================================================================
-   CMake - Cross Platform Makefile Generator
-   Copyright 2000-2009 Kitware, Inc., Insight Software Consortium
+These changes add a mechanism for sending test result to a remote
+repository for later consumption of the data from other clients.
 
-   Distributed under the OSI-approved BSD License (the "License");
-   see accompanying file Copyright.txt for details.
+These patches were tested in our local autobuilders.
 
-   This software is distributed WITHOUT ANY WARRANTY; without even the
-   implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-   See the License for more information.
-============================================================================*/
+The following changes since commit 12a0ee049e453b6d0d2ce2f3fa981d1b6e02bd78:
 
-to
+  dev-manual: Added note about RPM not dealing with post-install (2016-11-23 11:10:35 +0000)
 
-/* Distributed under the OSI-approved BSD 3-Clause License.  See 
-accompanying
-    file Copyright.txt or https://cmake.org/licensing for details.  */
+are available in the git repository at:
 
-Alex
+  git://git.yoctoproject.org/poky-contrib mariano/bug9954
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=mariano/bug9954
+
+Mariano Lopez (2):
+  oeqa/utils/metadata.py: Add metadata library
+  oe-selftest: Add option to submit test result to a git repository.
+
+ meta/lib/oeqa/utils/metadata.py | 77 ++++++++++++++++++++++++++++++++
+ scripts/oe-selftest             | 98 +++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 175 insertions(+)
+ create mode 100644 meta/lib/oeqa/utils/metadata.py
+
+-- 
+2.7.3
 
 
