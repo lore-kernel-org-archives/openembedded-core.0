@@ -1,18 +1,18 @@
 Return-Path: <obi@opendreambox.org>
 Received: from mail.saftware.de (mail.saftware.de [83.141.3.46])
-	by mail.openembedded.org (Postfix) with ESMTP id 71AF371B0C
+	by mail.openembedded.org (Postfix) with ESMTP id 0DFE971B02
 	for <openembedded-core@lists.openembedded.org>;
 	Wed, 30 Nov 2016 22:43:09 +0000 (UTC)
 Received: by t510.zcs.saftware.de (Postfix, from userid 1000)
-	id CF5D5B81F9D; Wed, 30 Nov 2016 23:43:06 +0100 (CET)
+	id EABE1B81FA0; Wed, 30 Nov 2016 23:43:06 +0100 (CET)
 From: Andreas Oberritter <obi@opendreambox.org>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 30 Nov 2016 23:43:03 +0100
-Message-Id: <1480545786-5069-3-git-send-email-obi@opendreambox.org>
+Date: Wed, 30 Nov 2016 23:43:05 +0100
+Message-Id: <1480545786-5069-5-git-send-email-obi@opendreambox.org>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1480545786-5069-1-git-send-email-obi@opendreambox.org>
 References: <1480545786-5069-1-git-send-email-obi@opendreambox.org>
-Subject: [PATCH 3/6] keyutils: new recipe (version 1.5.9)
+Subject: [PATCH 5/6] nfs-utils: don't try to load kernel module
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,54 +25,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 Nov 2016 22:43:09 -0000
+X-List-Received-Date: Wed, 30 Nov 2016 22:43:10 -0000
 
-Used by nfs-utils for nfsidmap, if available.
+This conflicts with KERNEL_MODULE_AUTOLOAD += "nfsd".
 
 Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
 ---
- .../nfs-utils/keyutils_1.5.9.bb                    | 32 ++++++++++++++++++++++
- 1 file changed, 32 insertions(+)
- create mode 100644 meta/recipes-connectivity/nfs-utils/keyutils_1.5.9.bb
+ meta/recipes-connectivity/nfs-utils/nfs-utils_1.3.4.bb | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/meta/recipes-connectivity/nfs-utils/keyutils_1.5.9.bb b/meta/recipes-connectivity/nfs-utils/keyutils_1.5.9.bb
-new file mode 100644
-index 0000000..8430bb2
---- /dev/null
-+++ b/meta/recipes-connectivity/nfs-utils/keyutils_1.5.9.bb
-@@ -0,0 +1,32 @@
-+SUMMARY = "Linux Key Management Utilities"
-+HOMEPAGE = "https://people.redhat.com/~dhowells/keyutils/"
-+LICENSE = "GPLv2+ & LGPLv2.1+"
-+LICENSE_${PN} = "GPLv2+"
-+LICENSE_lib${PN} = "LGPLv2.1+"
-+LIC_FILES_CHKSUM = "file://LICENCE.GPL;md5=5f6e72824f5da505c1f4a7197f004b45 \
-+                    file://LICENCE.LGPL;md5=7d1cacaa3ea752b72ea5e525df54a21f"
-+
-+SRC_URI = "https://people.redhat.com/~dhowells/keyutils/${BP}.tar.bz2"
-+SRC_URI[md5sum] = "7f8ac985c45086b5fbcd12cecd23cf07"
-+SRC_URI[sha256sum] = "4da2c5552c688b65ab14d4fd40fbdf720c8b396d8ece643e040cf6e707e083ae"
-+
-+EXTRA_OEMAKE = " \
-+    DESTDIR=${D} \
-+    ETCDIR=${sysconfdir} \
-+    BINDIR=${bindir} \
-+    SBINDIR=${sbindir} \
-+    SHAREDIR=${datadir}/${BPN} \
-+    MANDIR=${mandir} \
-+    INCLUDEDIR=${includedir} \
-+    LIBDIR=${base_libdir} \
-+    USRLIBDIR=${libdir} \
-+    BUILDFOR= \
-+"
-+
-+do_install() {
-+    oe_runmake install
-+}
-+
-+PACKAGES =+ "lib${PN}"
-+
-+FILES_lib${PN} = "${base_libdir}/lib*${SOLIBS}"
+diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils_1.3.4.bb b/meta/recipes-connectivity/nfs-utils/nfs-utils_1.3.4.bb
+index 018afb7..4355237 100644
+--- a/meta/recipes-connectivity/nfs-utils/nfs-utils_1.3.4.bb
++++ b/meta/recipes-connectivity/nfs-utils/nfs-utils_1.3.4.bb
+@@ -126,8 +126,6 @@ do_install_append () {
+ 		-e 's,@SYSCONFDIR@,${sysconfdir},g' \
+ 		${D}${systemd_unitdir}/system/*.service
+ 	if ${@bb.utils.contains('DISTRO_FEATURES','systemd','true','false',d)}; then
+-	    install -d ${D}${sysconfdir}/modules-load.d
+-	    echo "nfsd" > ${D}${sysconfdir}/modules-load.d/nfsd.conf
+ 	    install -m 0644 ${WORKDIR}/proc-fs-nfsd.mount ${D}${systemd_unitdir}/system/
+ 	    install -d ${D}${systemd_unitdir}/system/sysinit.target.wants/
+ 	    ln -sf ../proc-fs-nfsd.mount ${D}${systemd_unitdir}/system/sysinit.target.wants/proc-fs-nfsd.mount
 -- 
 2.7.4
 
