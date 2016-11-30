@@ -1,46 +1,39 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f171.google.com (mail-qk0-f171.google.com
-	[209.85.220.171])
-	by mail.openembedded.org (Postfix) with ESMTP id 321D471A96
+Return-Path: <ed.bartosh@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 77CF571A77
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Nov 2016 15:17:30 +0000 (UTC)
-Received: by mail-qk0-f171.google.com with SMTP id q130so25015373qke.1
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Nov 2016 07:17:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=GTZ4a33F+Id8qIi6PQwtbG5BMwM0syKh2v8v8N68EsQ=;
-	b=fnomFKC5HoE9SWMfwzkR9AL16lhae1SivWlVmOeeQYbJGZ/0luWvfPJrMx8khpKQS1
-	p4+685xsQh1aTe66j5bhPeF9Mz85J1ofIGmrvXO1qSTcaPqt4i/bu17WFEDA8xRxAhLL
-	uBOyKaL0AaxDAQ8B9z+DWBi50HwyZ7fLOc+0VAovx2LdwlcM0V8pbw3TKP4Rjum7AIRZ
-	M4zLg79gN/oBF3dQl8RrSU5Yk7hZrMhDfFM6MJjlQddANdioT/37fK8MLtN6qacdl+kr
-	yd1qO+fspoEA8h4YRrKcIfyno0pff2IA2wLu29jj0SrFM8/l1YYCvIzWgsVe2MSzGLSf
-	BItg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=GTZ4a33F+Id8qIi6PQwtbG5BMwM0syKh2v8v8N68EsQ=;
-	b=lmJvF7FDDQfvRptsHlJDdQPOgA76rcEQgPS+EKGmNd/+aE3CDC8w+JkKwOvvDD/2vt
-	Ag71dnjrXyQucR24xgRXqDjRLc4Sq+tn7/dV5+eaTDTtESDoc6XfB2Cin3CtO0zh5oXp
-	PBxcB6IJaYsEdrjuwksAPqsdBps67u3k3MhF377vzeGcGYih+Une8Bh5J7u39PNqWQft
-	sVOvPQ8HCW/dqcZAbWftK2wWeH2yeto/2+VmjRd9F65LxkDMAiXzYVE8UIf2axQblSpo
-	1WuK/wKfeprXi2YpYLnaa6y7aSJWAwoBZYvpCZP8w+HulNC/QGjgh0+JwQYRjBP6G+kb
-	5dnQ==
-X-Gm-Message-State: AKaTC03goeOizaOU7sD6Cs43i7IOnPVeTZhA1JYx2I3VOi+rSk55Ml+Kxkf7pukpCZAbPlrklUzNaNl4QEBtkbmS
-X-Received: by 10.55.39.88 with SMTP id n85mr28308644qkn.244.1480519051960;
-	Wed, 30 Nov 2016 07:17:31 -0800 (PST)
+	Wed, 30 Nov 2016 15:30:24 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by orsmga103.jf.intel.com with ESMTP; 30 Nov 2016 07:29:59 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.31,574,1473145200"; d="scan'208";a="1092644393"
+Received: from linux.intel.com ([10.54.29.200])
+	by fmsmga002.fm.intel.com with ESMTP; 30 Nov 2016 07:29:59 -0800
+Received: from linux.intel.com (vmed.fi.intel.com [10.237.72.38])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by linux.intel.com (Postfix) with ESMTP id CCD7A6A4080;
+	Wed, 30 Nov 2016 07:29:14 -0800 (PST)
+Date: Wed, 30 Nov 2016 17:29:23 +0200
+From: Ed Bartosh <ed.bartosh@linux.intel.com>
+To: Kristian Amlie <kristian.amlie@mender.io>
+Message-ID: <20161130152923.GA4811@linux.intel.com>
+Reply-To: ed.bartosh@linux.intel.com
+References: <1480068955-17053-1-git-send-email-kristian.amlie@mender.io>
+	<1480069993.6873.98.camel@intel.com>
+	<f1699a69-1949-9cb3-8bef-adf9b68f385b@mender.io>
+	<20161125163103.GA4830@linux.intel.com>
+	<e29489aa-8303-d8ac-be67-93d650d09f6d@mender.io>
+	<20161128105236.GB15660@linux.intel.com>
+	<ae35149f-dc2d-fea5-e59e-a65dd3dce0ec@mender.io>
+	<20161128111825.GA16035@linux.intel.com>
+	<420c72b7-b5dd-14f3-a4b0-c57eb3512252@mender.io>
 MIME-Version: 1.0
-Received: by 10.140.106.99 with HTTP; Wed, 30 Nov 2016 07:17:11 -0800 (PST)
-In-Reply-To: <20161130073953.18166-1-raj.khem@gmail.com>
-References: <20161130073953.18166-1-raj.khem@gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 30 Nov 2016 15:17:11 +0000
-Message-ID: <CAJTo0LYHeb28My6Ek5wBr-dv8budpprpXwZ84T5TYqW_Uj3SFQ@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] gstreamer1.0: Upgrade to 1.10.1
+In-Reply-To: <420c72b7-b5dd-14f3-a4b0-c57eb3512252@mender.io>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v1] wic: Add --exclude-path option to rootfs source plugin.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,32 +46,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 Nov 2016 15:17:31 -0000
-Content-Type: multipart/alternative; boundary=94eb2c094b162d2ab80542863438
+X-List-Received-Date: Wed, 30 Nov 2016 15:30:24 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
---94eb2c094b162d2ab80542863438
-Content-Type: text/plain; charset=UTF-8
+On Wed, Nov 30, 2016 at 02:30:12PM +0100, Kristian Amlie wrote:
+> On 28/11/16 12:18, Ed Bartosh wrote:
+> > I'd appreciate if you also do the following before sending v2:
+> >  - check that your code doesn't regress pylint checks
+> 
+> Is there an official process here? Sorry, it's not very well documented.
+No official process yet, I'm sorry. I can put it on wiki if it helps.
 
-Breaks if built from a empty sysroot with wayland enabled:
+> Just running pylint3 manually on the scripts/lib/wic folder gives
+> identical results, however, running on rootfs.py alone, the rating
+> increases:
+> 
+>   Your code has been rated at 5.67/10 (previous run: 2.26/10, +3.41)
+Looks good to me. Thanks.
+Running pylint on the files you've changed before and after the changes should be enough.
 
-gst-plugins-bad:
-| make[3]: *** No rule to make target 'viewporter-protocol.c', needed by
-'all'.  Stop.
+> >  - add test case for your code to meta/lib/oeqa/selftest/wic.py
+> >  - check that your code doesn't break oe-selftest --coverage -r wic and
+> >    doesn't regress test coverage
+> 
+> In the interest of saving me some build time, am I correct in assuming
+> that I need the "qemux86-64" MACHINE target for this to work? It appears
+> to be dependent on syslinux which has COMPATIBLE_HOSTS set to non-arm
+> only. Sorry, I'm a bit new to this framework.
+> 
 
-Also rtsp-server gains various runtime dependencies on util-linux, can you
-verify that these are expected and in the depends?
+You're right. oe-selftest requires qemux86-64 target.
 
-Ross
+Even if you usually work in different environment it makes sense to run
+oe-selftest to ensure that your changes don't breake it.
+This is because our maintainers use oe-selftest results as one of the
+acceptance criterias. It means that your changes would be be rejected anyway
+if they break oe-selftest, so it's better to check it in advance.
 
---94eb2c094b162d2ab80542863438
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+--
+Regards,
+Ed
 
-<div dir=3D"ltr">Breaks if built from a empty sysroot with wayland enabled:=
-<div><br></div><div>gst-plugins-bad:</div><div>| make[3]: *** No rule to ma=
-ke target &#39;viewporter-protocol.c&#39;, needed by &#39;all&#39;.=C2=A0 S=
-top.<br></div><div><br></div><div>Also rtsp-server gains various runtime de=
-pendencies on util-linux, can you verify that these are expected and in the=
- depends?</div><div><br></div><div>Ross</div></div>
-
---94eb2c094b162d2ab80542863438--
