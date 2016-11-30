@@ -1,30 +1,30 @@
 Return-Path: <huangqy.fnst@cn.fujitsu.com>
 Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
-	by mail.openembedded.org (Postfix) with ESMTP id 532BE600BB
+	by mail.openembedded.org (Postfix) with ESMTP id 2EF8460720
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Nov 2016 05:32:17 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.22,518,1449504000"; d="scan'208";a="13448494"
+	Wed, 30 Nov 2016 06:04:04 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.22,518,1449504000"; d="scan'208";a="13449677"
 Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 30 Nov 2016 13:32:13 +0800
+	by heian.cn.fujitsu.com with ESMTP; 30 Nov 2016 14:04:04 +0800
 Received: from G08CNEXCHPEKD01.g08.fujitsu.local (unknown [10.167.33.80])
-	by cn.fujitsu.com (Postfix) with ESMTP id E8CFC47AC8D3
+	by cn.fujitsu.com (Postfix) with ESMTP id A95E247A866F
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Nov 2016 13:32:14 +0800 (CST)
+	Wed, 30 Nov 2016 14:04:01 +0800 (CST)
 Received: from localhost.localdomain (10.167.226.81) by
 	G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.319.2; Wed, 30 Nov 2016 13:32:13 +0800
+	Server (TLS) id 14.3.319.2; Wed, 30 Nov 2016 14:04:00 +0800
 From: huangqy <huangqy.fnst@cn.fujitsu.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 30 Nov 2016 05:31:58 -0800
-Message-ID: <1480512718-10863-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
+Date: Wed, 30 Nov 2016 06:04:05 -0800
+Message-ID: <1480514645-11090-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
 X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
 X-Originating-IP: [10.167.226.81]
-X-yoursite-MailScanner-ID: E8CFC47AC8D3.AA1F6
+X-yoursite-MailScanner-ID: A95E247A866F.A84EC
 X-yoursite-MailScanner: Found to be clean
 X-yoursite-MailScanner-From: huangqy.fnst@cn.fujitsu.com
 X-Spam-Status: No
-Subject: [PATCH] bluez5: 5.42 -> 5.43
+Subject: [PATCH] iw: 4.7 -> 4.9
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,37 +37,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 Nov 2016 05:32:19 -0000
+X-List-Received-Date: Wed, 30 Nov 2016 06:04:06 -0000
 Content-Type: text/plain
 
 From: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
 
-Upgrade bluez5 from 5.42 to 5.43.
+Upgrade iw from 4.7 to 4.9.
 
 Signed-off-by: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
 ---
- meta/recipes-connectivity/bluez5/{bluez5_5.42.bb => bluez5_5.43.bb} | 4 ++--
+ meta/recipes-connectivity/iw/{iw_4.7.bb => iw_4.9.bb} | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-connectivity/bluez5/{bluez5_5.42.bb => bluez5_5.43.bb} (89%)
+ rename meta/recipes-connectivity/iw/{iw_4.7.bb => iw_4.9.bb} (86%)
 
-diff --git a/meta/recipes-connectivity/bluez5/bluez5_5.42.bb b/meta/recipes-connectivity/bluez5/bluez5_5.43.bb
-similarity index 89%
-rename from meta/recipes-connectivity/bluez5/bluez5_5.42.bb
-rename to meta/recipes-connectivity/bluez5/bluez5_5.43.bb
-index e6ab9b6..e10b82d 100644
---- a/meta/recipes-connectivity/bluez5/bluez5_5.42.bb
-+++ b/meta/recipes-connectivity/bluez5/bluez5_5.43.bb
-@@ -2,8 +2,8 @@ require bluez5.inc
+diff --git a/meta/recipes-connectivity/iw/iw_4.7.bb b/meta/recipes-connectivity/iw/iw_4.9.bb
+similarity index 86%
+rename from meta/recipes-connectivity/iw/iw_4.7.bb
+rename to meta/recipes-connectivity/iw/iw_4.9.bb
+index e9f4141..6daeb07 100644
+--- a/meta/recipes-connectivity/iw/iw_4.7.bb
++++ b/meta/recipes-connectivity/iw/iw_4.9.bb
+@@ -14,8 +14,8 @@ SRC_URI = "http://www.kernel.org/pub/software/network/iw/${BP}.tar.gz \
+            file://separate-objdir.patch \
+ "
  
- REQUIRED_DISTRO_FEATURES = "bluez5"
+-SRC_URI[md5sum] = "19d1edd276b2ac0c6cccfc7ae8d2b732"
+-SRC_URI[sha256sum] = "758092229f13d691968060a0ad41364ba8eb8da4503626c20233a5b1eb33b4d9"
++SRC_URI[md5sum] = "06e96ab7a5c652f8eaed6f71533a9e0f"
++SRC_URI[sha256sum] = "12f921f3dbe0f33c309f5f2891cccf5325c94bd48dceeb102de183f5f048a9e2"
  
--SRC_URI[md5sum] = "cc8c53133d5be0d6c126e00cf2529028"
--SRC_URI[sha256sum] = "4f166fed80fc017396d6f2b3cae5185520875ab456d1c74d6b4eaa4da0e16109"
-+SRC_URI[md5sum] = "698def88df96840dfbb0858bb6d73350"
-+SRC_URI[sha256sum] = "16c9c05d2a1da644ce3570d975ada3643d2e60c007a955bac09c0a0efeb58d15"
+ inherit pkgconfig
  
- # noinst programs in Makefile.tools that are conditional on READLINE
- # support
 -- 
 2.7.4
 
