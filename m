@@ -1,16 +1,18 @@
 Return-Path: <obi@opendreambox.org>
 Received: from mail.saftware.de (mail.saftware.de [83.141.3.46])
-	by mail.openembedded.org (Postfix) with ESMTP id C227E7199C
+	by mail.openembedded.org (Postfix) with ESMTP id A64A471AFD
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Nov 2016 22:43:07 +0000 (UTC)
+	Wed, 30 Nov 2016 22:43:08 +0000 (UTC)
 Received: by t510.zcs.saftware.de (Postfix, from userid 1000)
-	id 8C534B81F65; Wed, 30 Nov 2016 23:43:06 +0100 (CET)
+	id BC07FB806E6; Wed, 30 Nov 2016 23:43:06 +0100 (CET)
 From: Andreas Oberritter <obi@opendreambox.org>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 30 Nov 2016 23:43:01 +0100
-Message-Id: <1480545786-5069-1-git-send-email-obi@opendreambox.org>
+Date: Wed, 30 Nov 2016 23:43:02 +0100
+Message-Id: <1480545786-5069-2-git-send-email-obi@opendreambox.org>
 X-Mailer: git-send-email 2.7.4
-Subject: [PATCH 1/6] nfs-utils: systemd fixes
+In-Reply-To: <1480545786-5069-1-git-send-email-obi@opendreambox.org>
+References: <1480545786-5069-1-git-send-email-obi@opendreambox.org>
+Subject: [PATCH 2/6] nfs-utils: create package nfs-utils-mount
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -23,58 +25,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 Nov 2016 22:43:08 -0000
+X-List-Received-Date: Wed, 30 Nov 2016 22:43:09 -0000
 
-- Start daemons by default like the initscripts do, but only if
-  /etc/exports exists.
-- Inform systemd.bbclass about nfs-utils-client package.
+Contains just enough to mount and unmount nfs volumes, i.e.
+the same as nfs-utils-client before commit 39bb7e3 ("nfs-utils:
+separate package as Debain style").
+
+Drop nfs-utils-client's dependency on bash. It contains two shell
+scripts, /etc/init.d/nfscommon and /usr/sbin/start-statd, both
+using /bin/sh.
 
 Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
 ---
- meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-mountd.service | 1 +
- meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-server.service | 1 +
- meta/recipes-connectivity/nfs-utils/nfs-utils_1.3.4.bb           | 2 +-
- 3 files changed, 3 insertions(+), 1 deletion(-)
+ meta/recipes-connectivity/nfs-utils/nfs-utils_1.3.4.bb | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-mountd.service b/meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-mountd.service
-index 613ddc0..28b7388 100644
---- a/meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-mountd.service
-+++ b/meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-mountd.service
-@@ -2,6 +2,7 @@
- Description=NFS Mount Daemon
- After=rpcbind.service nfs-server.service
- Requires=rpcbind.service nfs-server.service
-+ConditionPathExists=@SYSCONFDIR@/exports
- 
- [Service]
- EnvironmentFile=-@SYSCONFDIR@/nfs-utils.conf
-diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-server.service b/meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-server.service
-index 147d7a7..b9dfe74 100644
---- a/meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-server.service
-+++ b/meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-server.service
-@@ -2,6 +2,7 @@
- Description=NFS Server
- Requires=rpcbind.service nfs-mountd.service
- After=rpcbind.service
-+ConditionPathExists=@SYSCONFDIR@/exports
- 
- [Service]
- Type=oneshot
 diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils_1.3.4.bb b/meta/recipes-connectivity/nfs-utils/nfs-utils_1.3.4.bb
-index 4d6d808..d4b401e 100644
+index d4b401e..eb8e99a 100644
 --- a/meta/recipes-connectivity/nfs-utils/nfs-utils_1.3.4.bb
 +++ b/meta/recipes-connectivity/nfs-utils/nfs-utils_1.3.4.bb
-@@ -48,9 +48,9 @@ INITSCRIPT_PARAMS_${PN}-client = "defaults 19 21"
+@@ -9,7 +9,6 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=95f3a93a5c3c7888de623b46ea085a84"
  
- inherit autotools-brokensep update-rc.d systemd pkgconfig
+ # util-linux for libblkid
+ DEPENDS = "libcap libnfsidmap libevent util-linux sqlite3 libtirpc"
+-RDEPENDS_${PN}-client = "rpcbind bash"
+ RDEPENDS_${PN} = "${PN}-client bash"
+ RRECOMMENDS_${PN} = "kernel-module-nfsd"
  
-+SYSTEMD_PACKAGES = "${PN} ${PN}-client"
- SYSTEMD_SERVICE_${PN} = "nfs-server.service nfs-mountd.service"
- SYSTEMD_SERVICE_${PN}-client = "nfs-statd.service"
--SYSTEMD_AUTO_ENABLE = "disable"
+@@ -71,7 +70,7 @@ PACKAGECONFIG[tcp-wrappers] = "--with-tcp-wrappers,--without-tcp-wrappers,tcp-wr
+ PACKAGECONFIG[nfsidmap] = "--enable-nfsidmap,--disable-nfsidmap,keyutils"
+ PACKAGECONFIG[ipv6] = "--enable-ipv6,--disable-ipv6,"
  
- # --enable-uuid is need for cross-compiling
- EXTRA_OECONF = "--with-statduser=rpcuser \
+-PACKAGES =+ "${PN}-client ${PN}-stats"
++PACKAGES =+ "${PN}-client ${PN}-mount ${PN}-stats"
+ 
+ CONFFILES_${PN}-client += "${localstatedir}/lib/nfs/etab \
+ 			   ${localstatedir}/lib/nfs/rmtab \
+@@ -79,7 +78,7 @@ CONFFILES_${PN}-client += "${localstatedir}/lib/nfs/etab \
+ 			   ${localstatedir}/lib/nfs/statd/state \
+ 			   ${sysconfdir}/nfsmount.conf"
+ 
+-FILES_${PN}-client = "${base_sbindir}/*mount.nfs* ${sbindir}/*statd \
++FILES_${PN}-client = "${sbindir}/*statd \
+ 		      ${sbindir}/rpc.idmapd ${sbindir}/sm-notify \
+ 		      ${sbindir}/showmount ${sbindir}/nfsstat \
+ 		      ${localstatedir}/lib/nfs \
+@@ -87,6 +86,10 @@ FILES_${PN}-client = "${base_sbindir}/*mount.nfs* ${sbindir}/*statd \
+ 		      ${sysconfdir}/nfsmount.conf \
+ 		      ${sysconfdir}/init.d/nfscommon \
+ 		      ${systemd_unitdir}/system/nfs-statd.service"
++RDEPENDS_${PN}-client = "${PN}-mount rpcbind"
++
++FILES_${PN}-mount = "${base_sbindir}/*mount.nfs*"
++
+ FILES_${PN}-stats = "${sbindir}/mountstats ${sbindir}/nfsiostat"
+ RDEPENDS_${PN}-stats = "python3-core"
+ 
 -- 
 2.7.4
 
