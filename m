@@ -1,49 +1,49 @@
 Return-Path: <patrick.ohly@intel.com>
-Received: from mail-io0-f176.google.com (mail-io0-f176.google.com
-	[209.85.223.176])
-	by mail.openembedded.org (Postfix) with ESMTP id 9E35471A98
+Received: from mail-io0-f172.google.com (mail-io0-f172.google.com
+	[209.85.223.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 1CDC871A60
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Nov 2016 09:50:25 +0000 (UTC)
-Received: by mail-io0-f176.google.com with SMTP id m5so201449525ioe.3
+	Wed, 30 Nov 2016 09:50:27 +0000 (UTC)
+Received: by mail-io0-f172.google.com with SMTP id m5so201450804ioe.3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Nov 2016 01:50:27 -0800 (PST)
+	Wed, 30 Nov 2016 01:50:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=qUCi8T1YDTcRff1lTSrknAQMmA9iz5Xj75aT47l+VNI=;
-	b=Pu8J9jFh4FNSgMi2p4AExdoUbRLCtlABQPgiq9Pzcz22yoB7jgE1NfaDlJvBJ7MZN9
-	UpcIT8b7XkVePvfos1wkuEhBXPL38MIgbtOgkkcSick7nEklJnBX5SWoIldtGRA8kKUS
-	0SXASA7ffjEyU32+dEPaZr0pW/JboWGQfxosn2x5U94fJ0QHAwtwAORl7TGJeq/YXOxJ
-	5nI0I696CVZ93pgrarEKyb3k2WyD92HAq+idDImTzVkCOkPbgcUG45d6n+cZwhj5XRTr
-	nTQleBFNMHrTDdO7GDeSesHa0dBFPfOgONECO6E55tN3SYdBvvZ0UeTUnOtp/3GESV1Y
-	AK0g==
+	bh=igo2ZzA2JIxA58IUph6tUOQD0vWM6ulxdBkXK/eBVl0=;
+	b=F7w0QQPjDd/OI+rLoxt2SN9bfIelvVqEIrJebCGSphdtHAWdKL3+hAIvz0oC+ozAM6
+	YHUVJBh52dU5hwLTU9xkyr2iFgKHaaw1rGpa5lrdTSJxwid5RBPtAtX/SzahyGV6lIqB
+	SAhZqlS8XOdmZEL5aDZ1zaXHB+pDzLZBmMHuSBpKNuLah7/Vz4sEPiyvgbNe2Hg0RhWJ
+	GJls0B0vXxqWp0HK1K6d+Akkp4f39SMLpk9lOQwaL7f0+MW2FMXEA2ZgmoSnm+XqFyOT
+	z1sz2asMjRMNVM2Dplt3zdRwLosqfZY/THtXav3k5Fvj3XKYePOPNQ//GWwEt8jepfsl
+	buQg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=qUCi8T1YDTcRff1lTSrknAQMmA9iz5Xj75aT47l+VNI=;
-	b=IwT3HMIV4w2Eagw9whDgq2G7qfbOjIHq1AywbvjztPL5WYm7kJPESPNamfo3ubQ4P+
-	UiQpW7Dv66kjNPCUtWkJm3bHQv4n/ukc3e30qDBj/BFiRbmfB8IpZ5XH+s7o3ULvzUHm
-	JKXxyGXdjfnYvl80rZkFsr5GdP5n49ynNmyGtle45QQhW6silw1b3EjRuVC+3i4JktYZ
-	Ty075qNV48ZFsBOdlik1W7UpVu57txR+bRUfylPwsbGlPyB/cNmfP5draZ0zE+5452n+
-	J9wlOkBxhRQIqr4f8HukzdWlJRkpNyIhIJ0jUBJjRmro2cKFuCjscExuaEPsXjVNX8Iu
-	ILxw==
-X-Gm-Message-State: AKaTC01JLBTTshnqqkfZMueDV2IWrKhQu7TDHNgK0EfbpCG/l08q52VSCMp4/qScUSnHz8Oy
-X-Received: by 10.36.101.5 with SMTP id u5mr27771898itb.45.1480499427028;
-	Wed, 30 Nov 2016 01:50:27 -0800 (PST)
+	bh=igo2ZzA2JIxA58IUph6tUOQD0vWM6ulxdBkXK/eBVl0=;
+	b=dmx/YKUyO1tGtdM9fh6mLdZmPp8tLJ/xRrfYpi+Eo9IEHnGNaM40KOaTik+NJ3g3Rv
+	T5gGkEMnJ2a2IsdYCRqPKTQm5NjYwMQpkLQ7Cbe5MEEfW219+3Q4UfeJjudYEaDuiP/a
+	qSvLaTBK4cr+yt1xDDDnqm1Tkb7dFHb/edzwpf3V0OYPtVpocozxUkdD6gJhtXKlnywz
+	oJaMEUtxlDC9qaI2b+4N6zHmHRD/uLrbvxe0E6RYp0ew8OJAHwyUSilRisAyd8B4IaL8
+	HA17iq3NU9SVDj1z+fSu4Np29B2m8e3F+9Eh/x/4JMtvC7MmUed+yRsFwLYGZWdo6k0V
+	p6fg==
+X-Gm-Message-State: AKaTC028SEphXP7jfqQhMoJoAvTV0qEKIH2Ck3/iKNdoWiqi/JdFNLsHZs39YLX6vZM7/MQD
+X-Received: by 10.107.175.94 with SMTP id y91mr26635642ioe.86.1480499428735;
+	Wed, 30 Nov 2016 01:50:28 -0800 (PST)
 Received: from pohly-desktop.fritz.box (p5DE8E1B8.dip0.t-ipconnect.de.
 	[93.232.225.184]) by smtp.gmail.com with ESMTPSA id
-	k128sm8496953iok.23.2016.11.30.01.50.25
+	k128sm8496953iok.23.2016.11.30.01.50.27
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 30 Nov 2016 01:50:26 -0800 (PST)
+	Wed, 30 Nov 2016 01:50:27 -0800 (PST)
 From: Patrick Ohly <patrick.ohly@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 30 Nov 2016 10:50:06 +0100
-Message-Id: <96bb83a34741f60727d5d2741731a16b0d4c14a9.1480499133.git.patrick.ohly@intel.com>
+Date: Wed, 30 Nov 2016 10:50:07 +0100
+Message-Id: <5d235b54236bbce9f33bfb36aa832301df6315bd.1480499133.git.patrick.ohly@intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1480499133.git.patrick.ohly@intel.com>
 References: <cover.1480499133.git.patrick.ohly@intel.com>
-Subject: [PATCH V2 06/11] buildstats: record disk space usage
+Subject: [PATCH V2 07/11] pybootchartgui/parsing.py: fix error handling in meminfo parser
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,89 +56,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 Nov 2016 09:50:26 -0000
+X-List-Received-Date: Wed, 30 Nov 2016 09:50:28 -0000
 
-Hooks into the new monitordisk.py event and records the used space for
-each volume. That is probably the only relevant value when it comes to
-visualizing the build and recording more would only increase disk
-usage.
+When matching fails, m.group(0) is invalid and can't be used in the
+error message.
 
 Signed-off-by: Patrick Ohly <patrick.ohly@intel.com>
 ---
- meta/classes/buildstats.bbclass |  4 ++--
- meta/lib/buildstats.py          | 22 +++++++++++++++++-----
- 2 files changed, 19 insertions(+), 7 deletions(-)
+ scripts/pybootchartgui/pybootchartgui/parsing.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes/buildstats.bbclass b/meta/classes/buildstats.bbclass
-index 9c0c37d..c6b77e6 100644
---- a/meta/classes/buildstats.bbclass
-+++ b/meta/classes/buildstats.bbclass
-@@ -204,11 +204,11 @@ python runqueue_stats () {
-     if system_stats:
-         # Ensure that we sample at important events.
-         done = isinstance(e, bb.event.BuildCompleted)
--        system_stats.sample(force=done)
-+        system_stats.sample(e, force=done)
-         if done:
-             system_stats.close()
-             d.delVar('_buildstats_system_stats')
- }
+diff --git a/scripts/pybootchartgui/pybootchartgui/parsing.py b/scripts/pybootchartgui/pybootchartgui/parsing.py
+index af68435..48eb048 100644
+--- a/scripts/pybootchartgui/pybootchartgui/parsing.py
++++ b/scripts/pybootchartgui/pybootchartgui/parsing.py
+@@ -498,7 +498,7 @@ def _parse_proc_meminfo_log(file):
+         for line in lines:
+             match = meminfo_re.match(line)
+             if not match:
+-                raise ParseError("Invalid meminfo line \"%s\"" % match.groups(0))
++                raise ParseError("Invalid meminfo line \"%s\"" % line)
+             sample.add_value(match.group(1), int(match.group(2)))
  
- addhandler runqueue_stats
--runqueue_stats[eventmask] = "bb.runqueue.sceneQueueTaskStarted bb.runqueue.runQueueTaskStarted bb.event.HeartbeatEvent bb.event.BuildCompleted"
-+runqueue_stats[eventmask] = "bb.runqueue.sceneQueueTaskStarted bb.runqueue.runQueueTaskStarted bb.event.HeartbeatEvent bb.event.BuildCompleted bb.event.MonitorDiskEvent"
-diff --git a/meta/lib/buildstats.py b/meta/lib/buildstats.py
-index 8ce4112..7c8b352 100644
---- a/meta/lib/buildstats.py
-+++ b/meta/lib/buildstats.py
-@@ -3,6 +3,7 @@
- # like open log files and the time of the last sampling.
- 
- import time
-+import bb.event
- 
- class SystemStats:
-     def __init__(self, d):
-@@ -19,8 +20,10 @@ class SystemStats:
-             # concurrently.
-             self.proc_files.append((filename,
-                                     open(os.path.join(bsdir, 'proc_%s.log' % filename), 'ab')))
--        # Last time that we sampled data.
--        self.last = 0
-+        self.monitor_disk = open(os.path.join(bsdir, 'monitor_disk.log'), 'ab')
-+        # Last time that we sampled /proc data resp. recorded disk monitoring data.
-+        self.last_proc = 0
-+        self.last_disk_monitor = 0
-         # Minimum number of seconds between recording a sample. This
-         # becames relevant when we get called very often while many
-         # short tasks get started. Sampling during quiet periods
-@@ -32,9 +35,9 @@ class SystemStats:
-         for _, output, _ in self.proc_files:
-             output.close()
- 
--    def sample(self, force):
-+    def sample(self, event, force):
-         now = time.time()
--        if (now - self.last > self.min_seconds) or force:
-+        if (now - self.last_proc > self.min_seconds) or force:
-             for filename, output in self.proc_files:
-                 with open(os.path.join('/proc', filename), 'rb') as input:
-                     data = input.read()
-@@ -44,4 +47,13 @@ class SystemStats:
-                              ('%.0f\n' % now).encode('ascii') +
-                              data +
-                              b'\n')
--            self.last = now
-+            self.last_proc = now
-+
-+        if isinstance(event, bb.event.MonitorDiskEvent) and \
-+           ((now - self.last_disk_monitor > self.min_seconds) or force):
-+            os.write(self.monitor_disk.fileno(),
-+                     ('%.0f\n' % now).encode('ascii') +
-+                     ''.join(['%s: %d\n' % (dev, sample.total_bytes - sample.free_bytes)
-+                              for dev, sample in event.disk_usage.items()]).encode('ascii') +
-+                     b'\n')
-+            self.last_disk_monitor = now
+         if sample.valid():
 -- 
 2.1.4
 
