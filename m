@@ -1,39 +1,46 @@
-Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 77CF571A77
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-ua0-f196.google.com (mail-ua0-f196.google.com
+	[209.85.217.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 4981671A72
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Nov 2016 15:30:24 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by orsmga103.jf.intel.com with ESMTP; 30 Nov 2016 07:29:59 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.31,574,1473145200"; d="scan'208";a="1092644393"
-Received: from linux.intel.com ([10.54.29.200])
-	by fmsmga002.fm.intel.com with ESMTP; 30 Nov 2016 07:29:59 -0800
-Received: from linux.intel.com (vmed.fi.intel.com [10.237.72.38])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by linux.intel.com (Postfix) with ESMTP id CCD7A6A4080;
-	Wed, 30 Nov 2016 07:29:14 -0800 (PST)
-Date: Wed, 30 Nov 2016 17:29:23 +0200
-From: Ed Bartosh <ed.bartosh@linux.intel.com>
-To: Kristian Amlie <kristian.amlie@mender.io>
-Message-ID: <20161130152923.GA4811@linux.intel.com>
-Reply-To: ed.bartosh@linux.intel.com
-References: <1480068955-17053-1-git-send-email-kristian.amlie@mender.io>
-	<1480069993.6873.98.camel@intel.com>
-	<f1699a69-1949-9cb3-8bef-adf9b68f385b@mender.io>
-	<20161125163103.GA4830@linux.intel.com>
-	<e29489aa-8303-d8ac-be67-93d650d09f6d@mender.io>
-	<20161128105236.GB15660@linux.intel.com>
-	<ae35149f-dc2d-fea5-e59e-a65dd3dce0ec@mender.io>
-	<20161128111825.GA16035@linux.intel.com>
-	<420c72b7-b5dd-14f3-a4b0-c57eb3512252@mender.io>
+	Wed, 30 Nov 2016 15:54:28 +0000 (UTC)
+Received: by mail-ua0-f196.google.com with SMTP id b35so17924023uaa.1
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 30 Nov 2016 07:54:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=98xl3JF06yl2pwqGQfP/edOokVuoWhxkCD0RDAUTrRQ=;
+	b=dE1x9qKAXXoxOzv/05cuG03jQdzujz/a7wsrMgOBJo5IitqA9qN5pqoRDA5sTXUYp6
+	ctnAma3hXNG3m/jU9nVkGiRUHz9hvkVGRQ8Q5znbznrBXd4Fq8RVR2qOtq4Ky1Ed5/ds
+	MeAK0e87sx2ghTb534dsLYq3lMUotZSZWx2ndaFjoJ4ViSWfoA9pqNHJQxSc4Xj6uNJ9
+	tmmPQSM3N95KDKsKtt61r+84rcvoOozcgLZ1vYlJO3ZGx6SB8U8z1fSSXRm1nsspXtiX
+	Wzm48i9iyG4vY9BAWoVqPry8BauhZlRClzLBm+Lmg8IsvmtGUN0R5WtOZLj8ax1WYovJ
+	c3Pg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=98xl3JF06yl2pwqGQfP/edOokVuoWhxkCD0RDAUTrRQ=;
+	b=KJpJXd3Gw00qD8SdmEEx44nhgnevpvlSMGJUYP8HMoXt2Ob+RuRL9dfoXq0ogtIb81
+	odcaCjegegG8dUj7jT0oCmSMInAUsD0XOV/MTmASf5IS8w7Y3y6ETkbjW5ms3sDtmGVW
+	POLHAVpXOGvfGxFnOOafS854cIo//QHcNmlUGJQLkVZI0mhwBEO4YN4MwCCCPNJMxRC8
+	ZpHY1GbxL42kDLgpykcmRu+yHGEeUGevEGa/m8uQ8HEeG66FCZkAyr+aZcbErapvW3dI
+	qMHl7mNRqYAjxaJr3kggiMGcW28brEHyfZbUKPQjOkpmd3Mz3ZLfmhRO9i+oEiCbJtR0
+	84fQ==
+X-Gm-Message-State: AKaTC01S3oeRmpQ2h9fLfenC/+CvEabraVtkuu+spyEp8XzCKzjgj8zdgHwbbQ/Tztmi7sG6gajEVBLsSUMObg==
+X-Received: by 10.159.48.146 with SMTP id j18mr25326576uab.6.1480521269089;
+	Wed, 30 Nov 2016 07:54:29 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <420c72b7-b5dd-14f3-a4b0-c57eb3512252@mender.io>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v1] wic: Add --exclude-path option to rootfs source plugin.
+Received: by 10.159.48.87 with HTTP; Wed, 30 Nov 2016 07:53:58 -0800 (PST)
+In-Reply-To: <CAJTo0LYHeb28My6Ek5wBr-dv8budpprpXwZ84T5TYqW_Uj3SFQ@mail.gmail.com>
+References: <20161130073953.18166-1-raj.khem@gmail.com>
+	<CAJTo0LYHeb28My6Ek5wBr-dv8budpprpXwZ84T5TYqW_Uj3SFQ@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 30 Nov 2016 07:53:58 -0800
+Message-ID: <CAMKF1so-tFm642AyEoh0hqNSGcKdnOWrSP67D5hvruxiUTqVug@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] gstreamer1.0: Upgrade to 1.10.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,45 +53,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 Nov 2016 15:30:24 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Wed, 30 Nov 2016 15:54:29 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Wed, Nov 30, 2016 at 02:30:12PM +0100, Kristian Amlie wrote:
-> On 28/11/16 12:18, Ed Bartosh wrote:
-> > I'd appreciate if you also do the following before sending v2:
-> >  - check that your code doesn't regress pylint checks
-> 
-> Is there an official process here? Sorry, it's not very well documented.
-No official process yet, I'm sorry. I can put it on wiki if it helps.
+On Wed, Nov 30, 2016 at 7:17 AM, Burton, Ross <ross.burton@intel.com> wrote:
+> Breaks if built from a empty sysroot with wayland enabled:
+>
+> gst-plugins-bad:
+> | make[3]: *** No rule to make target 'viewporter-protocol.c', needed by
+> 'all'.  Stop.
+>
+> Also rtsp-server gains various runtime dependencies on util-linux, can you
+> verify that these are expected and in the depends?
 
-> Just running pylint3 manually on the scripts/lib/wic folder gives
-> identical results, however, running on rootfs.py alone, the rating
-> increases:
-> 
->   Your code has been rated at 5.67/10 (previous run: 2.26/10, +3.41)
-Looks good to me. Thanks.
-Running pylint on the files you've changed before and after the changes should be enough.
+I havent done individual builds so there might be issues let me do
+these and send v2
 
-> >  - add test case for your code to meta/lib/oeqa/selftest/wic.py
-> >  - check that your code doesn't break oe-selftest --coverage -r wic and
-> >    doesn't regress test coverage
-> 
-> In the interest of saving me some build time, am I correct in assuming
-> that I need the "qemux86-64" MACHINE target for this to work? It appears
-> to be dependent on syslinux which has COMPATIBLE_HOSTS set to non-arm
-> only. Sorry, I'm a bit new to this framework.
-> 
-
-You're right. oe-selftest requires qemux86-64 target.
-
-Even if you usually work in different environment it makes sense to run
-oe-selftest to ensure that your changes don't breake it.
-This is because our maintainers use oe-selftest results as one of the
-acceptance criterias. It means that your changes would be be rejected anyway
-if they break oe-selftest, so it's better to check it in advance.
-
---
-Regards,
-Ed
+>
+> Ross
 
