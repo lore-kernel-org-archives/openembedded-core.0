@@ -1,21 +1,20 @@
-Return-Path: <edwin.plauchu.camacho@linux.intel.com>
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by mail.openembedded.org (Postfix) with ESMTP id 5BD8071ACD
+Return-Path: <jair.de.jesus.gonzalez.plascencia@linux.intel.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id EF1296072C
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Nov 2016 20:33:13 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by orsmga105.jf.intel.com with ESMTP; 30 Nov 2016 12:33:14 -0800
+	Wed, 30 Nov 2016 20:43:16 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga104.fm.intel.com with ESMTP; 30 Nov 2016 12:43:17 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.31,574,1473145200"; d="scan'208";a="907317999"
-Received: from pianodaemon-contraption.zpn.intel.com ([10.219.128.75])
-	by orsmga003.jf.intel.com with ESMTP; 30 Nov 2016 12:33:14 -0800
-From: Edwin Plauchu <edwin.plauchu.camacho@linux.intel.com>
+X-IronPort-AV: E=Sophos;i="5.31,574,1473145200"; d="scan'208";a="1075773452"
+Received: from jairdeje-mobl1.zpn.intel.com ([10.219.128.79])
+	by fmsmga001.fm.intel.com with ESMTP; 30 Nov 2016 12:43:17 -0800
+From: Jair Gonzalez <jair.de.jesus.gonzalez.plascencia@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 30 Nov 2016 14:34:32 -0600
-Message-Id: <20161130203432.2965-1-edwin.plauchu.camacho@linux.intel.com>
-X-Mailer: git-send-email 2.9.3
-Cc: Edwin Plauchu <edwin.plauchu.camacho@intel.com>
-Subject: [PATCH v3] python3-setuptools: upgrade to 29.0.1
+Date: Wed, 30 Nov 2016 14:43:02 -0600
+Message-Id: <1480538582-24953-1-git-send-email-jair.de.jesus.gonzalez.plascencia@linux.intel.com>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH 1/1] parselogs: Whitelist GPT warnings as the device is fully functional
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,45 +27,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 Nov 2016 20:33:13 -0000
+X-List-Received-Date: Wed, 30 Nov 2016 20:43:17 -0000
 
-From: Edwin Plauchu <edwin.plauchu.camacho@intel.com>
+The warning occurs when the GPT image is not the same size than the
+media into which it's being flashed, causing the backup GPT table
+not being at the end of the disk. However, this is expected as the
+image is created before having the information about the destination
+media. The error is harmless, so it will be whitelisted.
 
-It is a simultaneous upgrade for python 2 and 3 over setuptools.
+Fixes [YOCTO 10481].
 
-Signed-off-by: Edwin Plauchu <edwin.plauchu.camacho@intel.com>
+Signed-off-by: Jair Gonzalez <jair.de.jesus.gonzalez.plascencia@linux.intel.com>
 ---
- meta/recipes-devtools/python/python-setuptools.inc                    | 4 ++--
- .../{python-setuptools_28.8.0.bb => python-setuptools_29.0.1.bb}      | 0
- .../{python3-setuptools_28.8.0.bb => python3-setuptools_29.0.1.bb}    | 0
- 3 files changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-devtools/python/{python-setuptools_28.8.0.bb => python-setuptools_29.0.1.bb} (100%)
- rename meta/recipes-devtools/python/{python3-setuptools_28.8.0.bb => python3-setuptools_29.0.1.bb} (100%)
+ meta/lib/oeqa/runtime/parselogs.py | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-devtools/python/python-setuptools.inc b/meta/recipes-devtools/python/python-setuptools.inc
-index d3eef13..e76484a 100644
---- a/meta/recipes-devtools/python/python-setuptools.inc
-+++ b/meta/recipes-devtools/python/python-setuptools.inc
-@@ -9,8 +9,8 @@ SRCNAME = "setuptools"
+diff --git a/meta/lib/oeqa/runtime/parselogs.py b/meta/lib/oeqa/runtime/parselogs.py
+index 58f62da..8d396f8 100644
+--- a/meta/lib/oeqa/runtime/parselogs.py
++++ b/meta/lib/oeqa/runtime/parselogs.py
+@@ -43,6 +43,7 @@ common_errors = [
+     "controller can't do DEVSLP, turning off",
+     "stmmac_dvr_probe: warning: cannot get CSR clock",
+     "error: couldn\'t mount because of unsupported optional features",
++    "GPT: Use GNU Parted to correct GPT errors",
+     ]
  
- SRC_URI = "https://files.pythonhosted.org/packages/source/s/${SRCNAME}/${SRCNAME}-${PV}.tar.gz"
+ video_related = [
+@@ -69,7 +70,7 @@ qemux86_common = [
+     'tsc: HPET/PMTIMER calibration failed',
+ ] + common_errors
  
--SRC_URI[md5sum] = "43d6eb25f60e8a2682a8f826ce9e3f42"
--SRC_URI[sha256sum] = "432a1ad4044338c34c2d09b0ff75d509b9849df8cf329f4c1c7706d9c2ba3c61"
-+SRC_URI[md5sum] = "28ecfd0f2574b489b9a18343879a7324"
-+SRC_URI[sha256sum] = "b539118819a4857378398891fa5366e090690e46b3e41421a1e07d6e9fd8feb0"
+-ignore_errors = { 
++ignore_errors = {
+     'default' : common_errors,
+     'qemux86' : [
+         'Failed to access perfctr msr (MSR',
+@@ -201,7 +202,7 @@ class ParseLogsTest(oeRuntimeTest):
+         hwi += "*******************************\n"
+         return hwi
  
- UPSTREAM_CHECK_URI = "https://pypi.python.org/pypi/setuptools"
- 
-diff --git a/meta/recipes-devtools/python/python-setuptools_28.8.0.bb b/meta/recipes-devtools/python/python-setuptools_29.0.1.bb
-similarity index 100%
-rename from meta/recipes-devtools/python/python-setuptools_28.8.0.bb
-rename to meta/recipes-devtools/python/python-setuptools_29.0.1.bb
-diff --git a/meta/recipes-devtools/python/python3-setuptools_28.8.0.bb b/meta/recipes-devtools/python/python3-setuptools_29.0.1.bb
-similarity index 100%
-rename from meta/recipes-devtools/python/python3-setuptools_28.8.0.bb
-rename to meta/recipes-devtools/python/python3-setuptools_29.0.1.bb
+-    #go through the log locations provided and if it's a folder create a list with all the .log files in it, if it's a file just add 
++    #go through the log locations provided and if it's a folder create a list with all the .log files in it, if it's a file just add
+     #it to that list
+     def getLogList(self, log_locations):
+         logs = []
 -- 
-2.9.3
+2.7.4
 
 
