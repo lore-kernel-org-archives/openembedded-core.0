@@ -1,30 +1,30 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 6AD7571A60
+Return-Path: <huangqy.fnst@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
+	by mail.openembedded.org (Postfix) with ESMTP id 4383E71A30
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Nov 2016 03:15:12 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id uAU3FAoJ015502
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 29 Nov 2016 19:15:10 -0800 (PST)
-Received: from [128.224.162.183] (128.224.162.183) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.294.0;
-	Tue, 29 Nov 2016 19:15:10 -0800
-To: <openembedded-core@lists.openembedded.org>, Paul Eggleton
-	<paul.eggleton@linux.intel.com>,
-	"Burton, Ross" <ross.burton@intel.com>, Khem Raj <raj.khem@gmail.com>,
-	Mike Looijmans <mike.looijmans@topic.nl>, Patrick
-	Ohly <patrick.ohly@intel.com>
-References: <cover.1479871728.git.liezhi.yang@windriver.com>
-From: Robert Yang <liezhi.yang@windriver.com>
-Message-ID: <25721f64-19ae-7998-7e64-5e7a165347eb@windriver.com>
-Date: Wed, 30 Nov 2016 11:15:07 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.2.0
+	Wed, 30 Nov 2016 04:03:17 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.22,518,1449504000"; d="scan'208";a="13446138"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 30 Nov 2016 12:03:10 +0800
+Received: from G08CNEXCHPEKD01.g08.fujitsu.local (unknown [10.167.33.80])
+	by cn.fujitsu.com (Postfix) with ESMTP id 0147447AC8CB
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 30 Nov 2016 12:03:11 +0800 (CST)
+Received: from localhost.localdomain (10.167.226.81) by
+	G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
+	Server (TLS) id 14.3.319.2; Wed, 30 Nov 2016 12:03:09 +0800
+From: huangqy <huangqy.fnst@cn.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 30 Nov 2016 04:02:48 -0800
+Message-ID: <1480507368-10692-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-In-Reply-To: <cover.1479871728.git.liezhi.yang@windriver.com>
-Subject: Re: [PATCH 0/2] fix can't login when debug-tweaks is not in IMAGE_FEATURES
+X-Originating-IP: [10.167.226.81]
+X-yoursite-MailScanner-ID: 0147447AC8CB.A6B1D
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: huangqy.fnst@cn.fujitsu.com
+X-Spam-Status: No
+Subject: [PATCH] strace: 4.13 -> 4.14
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,52 +37,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 Nov 2016 03:15:13 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 30 Nov 2016 04:03:19 -0000
+Content-Type: text/plain
 
-Hello,
+From: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
 
-According to the discussions, here are things that we may do,
-please feel free to give your comments.
-1) Add an image feature like "production", which will conflict with
-    debug-tweaks, and check for some common security issues ?
+Upgrade strace from 4.13 to 4.14.
 
-2) Add a way like ROOT_PASSWD to let user can set root passwd easily ?
+Signed-off-by: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
+---
+ meta/recipes-devtools/strace/{strace_4.13.bb => strace_4.14.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-devtools/strace/{strace_4.13.bb => strace_4.14.bb} (91%)
 
-3) Do nothing, leave it as the current status.
+diff --git a/meta/recipes-devtools/strace/strace_4.13.bb b/meta/recipes-devtools/strace/strace_4.14.bb
+similarity index 91%
+rename from meta/recipes-devtools/strace/strace_4.13.bb
+rename to meta/recipes-devtools/strace/strace_4.14.bb
+index cae7f21..452925c 100644
+--- a/meta/recipes-devtools/strace/strace_4.13.bb
++++ b/meta/recipes-devtools/strace/strace_4.14.bb
+@@ -15,8 +15,8 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/strace/strace-${PV}.tar.xz \
+            file://mips-SIGEMT.patch \
+            "
+ 
+-SRC_URI[md5sum] = "4b78c7febdd24c79d5147824d1a080a3"
+-SRC_URI[sha256sum] = "d48f732576c91ece36a5843d63f9be054c40ef59f1e4773986042636861625d7"
++SRC_URI[md5sum] = "1e39b5f7583256d7dc21170b9da529ae"
++SRC_URI[sha256sum] = "5bed5110b243dce6864bedba269446c18c8c63f553cdd7fd4f808d89a764712f"
+ 
+ inherit autotools ptest bluetooth
+ 
+-- 
+2.7.4
 
-// Robert
 
-On 11/23/2016 03:49 PM, Robert Yang wrote:
-> Fixed 2 bugs:
-> - Can't login as root when debug-tweaks/empty-root-password is not in
->   IMAGE_FEATURES since no passwd.
-> - When set root passwd and debug-tweaks/empty-root-password is in
->   IMAGE_FEATURES, passwd is *required* to login.
->
-> Filed https://bugzilla.yoctoproject.org/show_bug.cgi?id=10710, and
-> marked doc changes required as yes.
->
-> // Robert
->
-> The following changes since commit a675b2c89e477af088faee9b3be96eae19a85f0b:
->
->   sanity.bbclass: fix logging of an error (2016-11-15 15:18:50 +0000)
->
-> are available in the git repository at:
->
->   git://git.openembedded.org/openembedded-core-contrib rbt/root
->   http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/root
->
-> Robert Yang (2):
->   rootfs-postcommands.bbclass: fix zap_empty_root_password
->   base-passwd: set root's default password to 'root'
->
->  meta/classes/rootfs-postcommands.bbclass                 |  8 ++++----
->  .../base-passwd/base-passwd/passwd_master.patch          | 16 ++++++++++++++++
->  meta/recipes-core/base-passwd/base-passwd_3.5.29.bb      |  1 +
->  3 files changed, 21 insertions(+), 4 deletions(-)
->  create mode 100644 meta/recipes-core/base-passwd/base-passwd/passwd_master.patch
->
+
 
