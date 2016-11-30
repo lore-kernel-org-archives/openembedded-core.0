@@ -1,49 +1,49 @@
 Return-Path: <patrick.ohly@intel.com>
-Received: from mail-io0-f173.google.com (mail-io0-f173.google.com
-	[209.85.223.173])
-	by mail.openembedded.org (Postfix) with ESMTP id 2C02C71AC5
+Received: from mail-io0-f179.google.com (mail-io0-f179.google.com
+	[209.85.223.179])
+	by mail.openembedded.org (Postfix) with ESMTP id C145F71AB9
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Nov 2016 09:50:30 +0000 (UTC)
-Received: by mail-io0-f173.google.com with SMTP id j65so339556419iof.0
+	Wed, 30 Nov 2016 09:50:32 +0000 (UTC)
+Received: by mail-io0-f179.google.com with SMTP id j65so339557719iof.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Nov 2016 01:50:32 -0800 (PST)
+	Wed, 30 Nov 2016 01:50:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=h5jfeBwqYjtzA8Os/r6r3MK1A71PXiMBVY6m4mQ6Mpo=;
-	b=zeW86/92jyyScZVyEFErD7t+Ou/0N4UU7ki2jvbWmi3xqwpRS3W7HFc/P2grFEKaTZ
-	YGfxd9yy4SjuWF2v+bqQwQZ/fiUupzKuoEQY7sS/DoEMbMkC1KYePbwDW+i/x0sMh5Ub
-	rSIdRoC+eSuS3CkZL/U6Pd9z3pp/7hUjou1IloydIaooTTH9fSZhqipCs0gAPbueLiZG
-	n4+vGy/Je7/doslq92E755d0TqqWnSzDY/cLr9yITvgJKxvhDSMPc0Ht0XyDdC3PS4Uc
-	k3NDewK4mPXPZi17pgZyXAu8wS8/hiwLDlE2fPEg7AaKwDJlKeqgpmwJuxyxFi33vctk
-	0zxA==
+	bh=P1XRMikDAtpqBj2T5qWpOu07HVwrF286Bscc4EpMF0M=;
+	b=ObmbadzCx5EUkzDiRh4ArN+qZhSOC8pGWYbbzUKv+8uqRyKPPOJ1ZVOa+XyjtQLkLk
+	cb+XKeses2pwZQtCgY9WelEXRDL17T54aNjz6EvUq2Dq8WQJWkTI18216nVpBnHE0CNs
+	nrjRhFnHLrNRSCHfGzaXtC05Xqs3z5px6ORR7bts6JHiLMhpBMP0acjQCPjB+LtXBeAe
+	BaK6yzH3A1kqr2VQujQZwJKEToPlW7LbkY6oSj0wvWyiBFbg5c9Dyc+0U0fwCPxDYlk/
+	Dkn12ERv8WCtFM0dhLXQffuFypvELgiwOoDP1lViv7iq/PrJ3LwWSknH/RdioTrMxtia
+	VowQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=h5jfeBwqYjtzA8Os/r6r3MK1A71PXiMBVY6m4mQ6Mpo=;
-	b=SIidbGXz+KhAgpJsabsqBPbs46qYSUhys20LlG3HhJ1cxV79LnHGVQgpG5U/kF9Rj6
-	SZr7Y9swpRpbWaU0o+ytLOIqAWI3jJodDzjKvJnvEMSkshiiO6nRJY+QR/A9os2Jrtwv
-	7q1n/MkcCP7BGepbT8ZA5VPHo9s+vaAG9RkMRaRMG6I3yoGUzcOVS/IGNrrlr8w1nUt0
-	j5lXPZD+wUpGmouqqBS32j1Z8hLtUbxa3p0O4j0FWrKMdpD6JM64tKaiwkkPa6Q5RiEY
-	XYRHafrrU8zwnAXe8gUE/eXAPoVCI2+7emt2YWtGnw+0M8ScoxvJzqgk72rtoH9gBv6x
-	YIKA==
-X-Gm-Message-State: AKaTC02vHlatEkH+tOmH3fS3P+snZFGHGzogBAFHlRFUk/NAqTdYxfgq0bQQIRJGB54MrV/3
-X-Received: by 10.107.128.75 with SMTP id b72mr28813525iod.192.1480499432298; 
-	Wed, 30 Nov 2016 01:50:32 -0800 (PST)
+	bh=P1XRMikDAtpqBj2T5qWpOu07HVwrF286Bscc4EpMF0M=;
+	b=E4SmOC89lZpo7cD9FZKR61H/K3TKHHZha0+KIy+QDO1vfo8EfxIalEwBBrTB5yiZK/
+	AvxwepU+BzAyb2dnvGL/qAJ4dCkMQFrc6CjA3pdyu3OrM6644xoaccxBWB+owhYu2Sma
+	wuEBc4XxbWNFxYLi1w8hCJn1CO7nQxUW2CPwrtN8d4M7sqTkhqVgETxg98GALlA7i4Ea
+	p5Rf1/P+2+JERBrQCfuFN6HxIebhlYoLzGZQUVCqGog0UJnlzC3KRedpe7PlZ56Jx9US
+	e8WHgwm7gxlwq74fcP+zM6vMvChFI1rLcyGCjag3w9YlRRyhvQu1u+odn2doQ1wO+P+1
+	Orzg==
+X-Gm-Message-State: AKaTC02CeIs3kX2R/pFAZDLaEpCgZ7Vm3BPUcGbzx6u3hgBzX51TIYDjdXulj8ubRLIIWDgw
+X-Received: by 10.36.155.194 with SMTP id o185mr27748294itd.71.1480499433993; 
+	Wed, 30 Nov 2016 01:50:33 -0800 (PST)
 Received: from pohly-desktop.fritz.box (p5DE8E1B8.dip0.t-ipconnect.de.
 	[93.232.225.184]) by smtp.gmail.com with ESMTPSA id
-	k128sm8496953iok.23.2016.11.30.01.50.30
+	k128sm8496953iok.23.2016.11.30.01.50.32
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 30 Nov 2016 01:50:31 -0800 (PST)
+	Wed, 30 Nov 2016 01:50:33 -0800 (PST)
 From: Patrick Ohly <patrick.ohly@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 30 Nov 2016 10:50:09 +0100
-Message-Id: <de6e08e3218c66d9927657267365d5fee40a0ed4.1480499133.git.patrick.ohly@intel.com>
+Date: Wed, 30 Nov 2016 10:50:10 +0100
+Message-Id: <2af32381c19ecbb6e822b8dfbbc7c5784f292d0f.1480499133.git.patrick.ohly@intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1480499133.git.patrick.ohly@intel.com>
 References: <cover.1480499133.git.patrick.ohly@intel.com>
-Subject: [PATCH V2 09/11] pybootchartgui: simplify drawing of memory usage
+Subject: [PATCH V2 10/11] buildstats: reduce amount of data stored for system utilization
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,96 +56,175 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 Nov 2016 09:50:31 -0000
+X-List-Received-Date: Wed, 30 Nov 2016 09:50:33 -0000
 
-The internal representation after parsing now matches exactly
-what the drawing code needs, thus speeding up drawing a bit.
-However, the main motivation is to store exactly that required
-information in a more compact file.
+Pre-processing /proc data during the build considerably reduces the
+amount of data written to disk: 176KB instead of 4.7MB for a 20
+minuted build. Parsing also becomes faster.
+
+The disk monitor log added another 16KB in that example build. The
+overall buildstat was 20MB, so the overhead for monitoring system
+utilization is small enough that it can be enabled by default.
 
 Signed-off-by: Patrick Ohly <patrick.ohly@intel.com>
 ---
- scripts/pybootchartgui/pybootchartgui/draw.py    | 12 ++++++------
- scripts/pybootchartgui/pybootchartgui/parsing.py |  2 +-
- scripts/pybootchartgui/pybootchartgui/samples.py | 16 ++++++++++++++++
- 3 files changed, 23 insertions(+), 7 deletions(-)
+ meta/lib/buildstats.py | 114 ++++++++++++++++++++++++++++++++++++++++++++-----
+ 1 file changed, 104 insertions(+), 10 deletions(-)
 
-diff --git a/scripts/pybootchartgui/pybootchartgui/draw.py b/scripts/pybootchartgui/pybootchartgui/draw.py
-index f0143ad..201ce45 100644
---- a/scripts/pybootchartgui/pybootchartgui/draw.py
-+++ b/scripts/pybootchartgui/pybootchartgui/draw.py
-@@ -463,25 +463,25 @@ def render_charts(ctx, options, clip, trace, curr_y, w, h, sec_w):
- 	chart_rect = (off_x, curr_y+30, w, meminfo_bar_h)
- 	mem_stats = trace.mem_stats
- 	if mem_stats and clip_visible (clip, chart_rect):
--		mem_scale = max(sample.records['MemTotal'] - sample.records['MemFree'] for sample in mem_stats)
-+		mem_scale = max(sample.buffers for sample in mem_stats)
- 		draw_legend_box(ctx, "Mem cached (scale: %u MiB)" % (float(mem_scale) / 1024), MEM_CACHED_COLOR, off_x, curr_y+20, leg_s)
- 		draw_legend_box(ctx, "Used", MEM_USED_COLOR, off_x + 240, curr_y+20, leg_s)
- 		draw_legend_box(ctx, "Buffers", MEM_BUFFERS_COLOR, off_x + 360, curr_y+20, leg_s)
--		draw_legend_line(ctx, "Swap (scale: %u MiB)" % max([(sample.records['SwapTotal'] - sample.records['SwapFree'])/1024 for sample in mem_stats]), \
-+		draw_legend_line(ctx, "Swap (scale: %u MiB)" % max([(sample.swap)/1024 for sample in mem_stats]), \
- 				 MEM_SWAP_COLOR, off_x + 480, curr_y+20, leg_s)
- 		draw_box_ticks(ctx, chart_rect, sec_w)
- 		draw_annotations(ctx, proc_tree, trace.times, chart_rect)
- 		draw_chart(ctx, MEM_BUFFERS_COLOR, True, chart_rect, \
--			   [(sample.time, sample.records['MemTotal'] - sample.records['MemFree']) for sample in trace.mem_stats], \
-+			   [(sample.time, sample.buffers) for sample in trace.mem_stats], \
- 			   proc_tree, [0, mem_scale])
- 		draw_chart(ctx, MEM_USED_COLOR, True, chart_rect, \
--			   [(sample.time, sample.records['MemTotal'] - sample.records['MemFree'] - sample.records['Buffers']) for sample in mem_stats], \
-+			   [(sample.time, sample.used) for sample in mem_stats], \
- 			   proc_tree, [0, mem_scale])
- 		draw_chart(ctx, MEM_CACHED_COLOR, True, chart_rect, \
--			   [(sample.time, sample.records['Cached']) for sample in mem_stats], \
-+			   [(sample.time, sample.cached) for sample in mem_stats], \
- 			   proc_tree, [0, mem_scale])
- 		draw_chart(ctx, MEM_SWAP_COLOR, False, chart_rect, \
--			   [(sample.time, float(sample.records['SwapTotal'] - sample.records['SwapFree'])) for sample in mem_stats], \
-+			   [(sample.time, float(sample.swap)) for sample in mem_stats], \
- 			   proc_tree, None)
+diff --git a/meta/lib/buildstats.py b/meta/lib/buildstats.py
+index 7c8b352..9e5b6be 100644
+--- a/meta/lib/buildstats.py
++++ b/meta/lib/buildstats.py
+@@ -3,6 +3,7 @@
+ # like open log files and the time of the last sampling.
  
- 		curr_y = curr_y + meminfo_bar_h
-diff --git a/scripts/pybootchartgui/pybootchartgui/parsing.py b/scripts/pybootchartgui/pybootchartgui/parsing.py
-index 301145a..1c8d8ef 100644
---- a/scripts/pybootchartgui/pybootchartgui/parsing.py
-+++ b/scripts/pybootchartgui/pybootchartgui/parsing.py
-@@ -503,7 +503,7 @@ def _parse_proc_meminfo_log(file):
-             sample.add_value(match.group(1), int(match.group(2)))
+ import time
++import re
+ import bb.event
  
-         if sample.valid():
--            mem_stats.append(sample)
-+            mem_stats.append(DrawMemSample(sample))
+ class SystemStats:
+@@ -12,14 +13,18 @@ class SystemStats:
+         bb.utils.mkdirhier(bsdir)
  
-     return mem_stats
+         self.proc_files = []
+-        for filename in ('diskstats', 'meminfo', 'stat'):
++        for filename, handler in (
++                ('diskstats', self._reduce_diskstats),
++                ('meminfo', self._reduce_meminfo),
++                ('stat', self._reduce_stat),
++        ):
+             # In practice, this class gets instantiated only once in
+             # the bitbake cooker process.  Therefore 'append' mode is
+             # not strictly necessary, but using it makes the class
+             # more robust should two processes ever write
+             # concurrently.
+-            self.proc_files.append((filename,
+-                                    open(os.path.join(bsdir, 'proc_%s.log' % filename), 'ab')))
++            destfile = os.path.join(bsdir, '%sproc_%s.log' % ('reduced_' if handler else '', filename))
++            self.proc_files.append((filename, open(destfile, 'ab'), handler))
+         self.monitor_disk = open(os.path.join(bsdir, 'monitor_disk.log'), 'ab')
+         # Last time that we sampled /proc data resp. recorded disk monitoring data.
+         self.last_proc = 0
+@@ -30,23 +35,112 @@ class SystemStats:
+         # depends on the heartbeat event, which fires less often.
+         self.min_seconds = 1
  
-diff --git a/scripts/pybootchartgui/pybootchartgui/samples.py b/scripts/pybootchartgui/pybootchartgui/samples.py
-index bedca41..9fc309b 100644
---- a/scripts/pybootchartgui/pybootchartgui/samples.py
-+++ b/scripts/pybootchartgui/pybootchartgui/samples.py
-@@ -53,6 +53,22 @@ class MemSample:
-         # discard incomplete samples
-         return [v for v in MemSample.used_values if v not in keys] == []
- 
-+class DrawMemSample:
-+    """
-+    Condensed version of a MemSample with exactly the values used by the drawing code.
-+    Initialized either from a valid MemSample or
-+    a tuple/list of buffer/used/cached/swap values.
-+    """
-+    def __init__(self, mem_sample):
-+        self.time = mem_sample.time
-+        if isinstance(mem_sample, MemSample):
-+            self.buffers = mem_sample.records['MemTotal'] - mem_sample.records['MemFree']
-+            self.used = mem_sample.records['MemTotal'] - mem_sample.records['MemFree'] - mem_sample.records['Buffers']
-+            self.cached = mem_sample.records['Cached']
-+            self.swap = mem_sample.records['SwapTotal'] - mem_sample.records['SwapFree']
-+        else:
-+            self.buffers, self.used, self.cached, self.swap = mem_sample
++        self.meminfo_regex = re.compile(b'^(MemTotal|MemFree|Buffers|Cached|SwapTotal|SwapFree):\s*(\d+)')
++        self.diskstats_regex = re.compile(b'^([hsv]d.|mtdblock\d|mmcblk\d|cciss/c\d+d\d+.*)$')
++        self.diskstats_ltime = None
++        self.diskstats_data = None
++        self.stat_ltimes = None
 +
- class DiskSpaceSample:
-     def __init__(self, time):
-         self.time = time
+     def close(self):
+         self.monitor_disk.close()
+         for _, output, _ in self.proc_files:
+             output.close()
+ 
++    def _reduce_meminfo(self, time, data):
++        """
++        Extracts 'MemTotal', 'MemFree', 'Buffers', 'Cached', 'SwapTotal', 'SwapFree'
++        and writes their values into a single line, in that order.
++        """
++        values = {}
++        for line in data.split(b'\n'):
++            m = self.meminfo_regex.match(line)
++            if m:
++                values[m.group(1)] = m.group(2)
++        if len(values) == 6:
++            return (time,
++                    b' '.join([values[x] for x in
++                               (b'MemTotal', b'MemFree', b'Buffers', b'Cached', b'SwapTotal', b'SwapFree')]) + b'\n')
++
++    def _diskstats_is_relevant_line(self, linetokens):
++        if len(linetokens) != 14:
++            return False
++        disk = linetokens[2]
++        return self.diskstats_regex.match(disk)
++
++    def _reduce_diskstats(self, time, data):
++        relevant_tokens = filter(self._diskstats_is_relevant_line, map(lambda x: x.split(), data.split(b'\n')))
++        diskdata = [0] * 3
++        reduced = None
++        for tokens in relevant_tokens:
++            # rsect
++            diskdata[0] += int(tokens[5])
++            # wsect
++            diskdata[1] += int(tokens[9])
++            # use
++            diskdata[2] += int(tokens[12])
++        if self.diskstats_ltime:
++            # We need to compute information about the time interval
++            # since the last sampling and record the result as sample
++            # for that point in the past.
++            interval = time - self.diskstats_ltime
++            if interval > 0:
++                sums = [ a - b for a, b in zip(diskdata, self.diskstats_data) ]
++                readTput = sums[0] / 2.0 * 100.0 / interval
++                writeTput = sums[1] / 2.0 * 100.0 / interval
++                util = float( sums[2] ) / 10 / interval
++                util = max(0.0, min(1.0, util))
++                reduced = (self.diskstats_ltime, (readTput, writeTput, util))
++
++        self.diskstats_ltime = time
++        self.diskstats_data = diskdata
++        return reduced
++
++
++    def _reduce_nop(self, time, data):
++        return (time, data)
++
++    def _reduce_stat(self, time, data):
++        if not data:
++            return None
++        # CPU times {user, nice, system, idle, io_wait, irq, softirq} from first line
++        tokens = data.split(b'\n', 1)[0].split()
++        times = [ int(token) for token in tokens[1:] ]
++        reduced = None
++        if self.stat_ltimes:
++            user = float((times[0] + times[1]) - (self.stat_ltimes[0] + self.stat_ltimes[1]))
++            system = float((times[2] + times[5] + times[6]) - (self.stat_ltimes[2] + self.stat_ltimes[5] + self.stat_ltimes[6]))
++            idle = float(times[3] - self.stat_ltimes[3])
++            iowait = float(times[4] - self.stat_ltimes[4])
++
++            aSum = max(user + system + idle + iowait, 1)
++            reduced = (time, (user/aSum, system/aSum, iowait/aSum))
++
++        self.stat_ltimes = times
++        return reduced
++
+     def sample(self, event, force):
+         now = time.time()
+         if (now - self.last_proc > self.min_seconds) or force:
+-            for filename, output in self.proc_files:
++            for filename, output, handler in self.proc_files:
+                 with open(os.path.join('/proc', filename), 'rb') as input:
+                     data = input.read()
+-                    # Unbuffered raw write, less overhead and useful
+-                    # in case that we end up with concurrent writes.
+-                    os.write(output.fileno(),
+-                             ('%.0f\n' % now).encode('ascii') +
+-                             data +
+-                             b'\n')
++                    if handler:
++                        reduced = handler(now, data)
++                    else:
++                        reduced = (now, data)
++                    if reduced:
++                        if isinstance(reduced[1], bytes):
++                            # Use as it is.
++                            data = reduced[1]
++                        else:
++                            # Convert to a single line.
++                            data = (' '.join([str(x) for x in reduced[1]]) + '\n').encode('ascii')
++                        # Unbuffered raw write, less overhead and useful
++                        # in case that we end up with concurrent writes.
++                        os.write(output.fileno(),
++                                 ('%.0f\n' % reduced[0]).encode('ascii') +
++                                 data +
++                                 b'\n')
+             self.last_proc = now
+ 
+         if isinstance(event, bb.event.MonitorDiskEvent) and \
 -- 
 2.1.4
 
