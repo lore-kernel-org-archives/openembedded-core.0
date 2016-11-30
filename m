@@ -1,20 +1,52 @@
-Return-Path: <jair.de.jesus.gonzalez.plascencia@linux.intel.com>
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id EF1296072C
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pf0-f194.google.com (mail-pf0-f194.google.com
+	[209.85.192.194])
+	by mail.openembedded.org (Postfix) with ESMTP id E7F386014F
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Nov 2016 20:43:16 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga104.fm.intel.com with ESMTP; 30 Nov 2016 12:43:17 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.31,574,1473145200"; d="scan'208";a="1075773452"
-Received: from jairdeje-mobl1.zpn.intel.com ([10.219.128.79])
-	by fmsmga001.fm.intel.com with ESMTP; 30 Nov 2016 12:43:17 -0800
-From: Jair Gonzalez <jair.de.jesus.gonzalez.plascencia@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 30 Nov 2016 14:43:02 -0600
-Message-Id: <1480538582-24953-1-git-send-email-jair.de.jesus.gonzalez.plascencia@linux.intel.com>
-X-Mailer: git-send-email 2.7.4
-Subject: [PATCH 1/1] parselogs: Whitelist GPT warnings as the device is fully functional
+	Wed, 30 Nov 2016 21:47:01 +0000 (UTC)
+Received: by mail-pf0-f194.google.com with SMTP id 144so10717412pfv.0
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 30 Nov 2016 13:47:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:subject:from:in-reply-to:date:cc
+	:content-transfer-encoding:message-id:references:to;
+	bh=a5nVUR7kvtHI1MxXf2OCh2VLVygqn3hb8IJpd9qQSnA=;
+	b=GMNH76PewkiEN964skjA34MbD4RRM6X8Qa7Y6WmX0ALz7513lkjHeWb8h3/yMGVecc
+	/0VdaKXWc9ZqUvL058edtuKQMnbisYLxU7SqaJUX1q8xUiM9rdNPixFnd3MFnmkOvgIZ
+	K1MyJFMTaIyng31XLvB+yfOl7dCPFXtYPwPgxz22P+vjiAZkgT+uJG696FefCl+KmNwm
+	0dPDETZIqz+Rlx0X8im1LQ8SNUDKsAfYtkNTwGgn/8o7BeqRPaNTqzc77fBNEL/Sf/6j
+	beVCsBa1K794+Et84Mr6OizQU6yAPTfLrOzkbQrSzm0ioSYyZiBjMy4UuqpFi2lvAuAe
+	VkPg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
+	:content-transfer-encoding:message-id:references:to;
+	bh=a5nVUR7kvtHI1MxXf2OCh2VLVygqn3hb8IJpd9qQSnA=;
+	b=BgJGZNBfnSECB+3hXSfU/K1dI2NCc0SEo4n1L35Zlt50V0Rvx5Pclt+4BxlsAHCkNZ
+	xmSyhJ/lOLHQdEujAX5dW9raPEzxZWRm8j1tzT6S4uDXd3fFR0gAhhzeMxT0sQnqN8n5
+	Yqmvm2AXILwp/1gohKJREWORppX8dmF+LtJjwYykAzYi6bsqTYP8mzIpfa65hhLmUWnm
+	y79I9UNypudLSZptOuWHxttw8Fcth8oqKbeazDxwUl2kewfM7yKgSffTx1XsIZA0te6z
+	LF8wyrcWuHM9HQYwpm0+VnSwaJemQqZ9slZ61sG+gy5ug/5WNS2B76bY45WV22wgcDFI
+	hHVA==
+X-Gm-Message-State: AKaTC010EYrQUuX9BoquV8skgP3OSm76uAkj6jC1W/WlhgNxOB2cfSfxNeonpT74nUex/g==
+X-Received: by 10.98.105.68 with SMTP id e65mr35736234pfc.10.1480542423189;
+	Wed, 30 Nov 2016 13:47:03 -0800 (PST)
+Received: from [192.168.0.130] (c-76-102-32-192.hsd1.ca.comcast.net.
+	[76.102.32.192]) by smtp.gmail.com with ESMTPSA id
+	r74sm105043543pfl.79.2016.11.30.13.47.02
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 30 Nov 2016 13:47:02 -0800 (PST)
+Mime-Version: 1.0 (Mac OS X Mail 10.1 \(3251\))
+From: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <CAJTo0LYHeb28My6Ek5wBr-dv8budpprpXwZ84T5TYqW_Uj3SFQ@mail.gmail.com>
+Date: Wed, 30 Nov 2016 13:47:00 -0800
+Message-Id: <8FBFB538-09E4-4681-9DB2-CBB870B9DC6F@gmail.com>
+References: <20161130073953.18166-1-raj.khem@gmail.com>
+	<CAJTo0LYHeb28My6Ek5wBr-dv8budpprpXwZ84T5TYqW_Uj3SFQ@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+X-Mailer: Apple Mail (2.3251)
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] gstreamer1.0: Upgrade to 1.10.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,52 +59,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 Nov 2016 20:43:17 -0000
+X-List-Received-Date: Wed, 30 Nov 2016 21:47:04 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-The warning occurs when the GPT image is not the same size than the
-media into which it's being flashed, causing the backup GPT table
-not being at the end of the disk. However, this is expected as the
-image is created before having the information about the destination
-media. The error is harmless, so it will be whitelisted.
 
-Fixes [YOCTO 10481].
+> On Nov 30, 2016, at 7:17 AM, Burton, Ross <ross.burton@intel.com> =
+wrote:
+>=20
+> Breaks if built from a empty sysroot with wayland enabled:
+>=20
+> gst-plugins-bad:
+> | make[3]: *** No rule to make target 'viewporter-protocol.c', needed =
+by 'all'.  Stop.
+>=20
 
-Signed-off-by: Jair Gonzalez <jair.de.jesus.gonzalez.plascencia@linux.intel.com>
----
- meta/lib/oeqa/runtime/parselogs.py | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+I am not able to reproduce it however I have added a dep on =
+wayland-protocols=20
 
-diff --git a/meta/lib/oeqa/runtime/parselogs.py b/meta/lib/oeqa/runtime/parselogs.py
-index 58f62da..8d396f8 100644
---- a/meta/lib/oeqa/runtime/parselogs.py
-+++ b/meta/lib/oeqa/runtime/parselogs.py
-@@ -43,6 +43,7 @@ common_errors = [
-     "controller can't do DEVSLP, turning off",
-     "stmmac_dvr_probe: warning: cannot get CSR clock",
-     "error: couldn\'t mount because of unsupported optional features",
-+    "GPT: Use GNU Parted to correct GPT errors",
-     ]
- 
- video_related = [
-@@ -69,7 +70,7 @@ qemux86_common = [
-     'tsc: HPET/PMTIMER calibration failed',
- ] + common_errors
- 
--ignore_errors = { 
-+ignore_errors = {
-     'default' : common_errors,
-     'qemux86' : [
-         'Failed to access perfctr msr (MSR',
-@@ -201,7 +202,7 @@ class ParseLogsTest(oeRuntimeTest):
-         hwi += "*******************************\n"
-         return hwi
- 
--    #go through the log locations provided and if it's a folder create a list with all the .log files in it, if it's a file just add 
-+    #go through the log locations provided and if it's a folder create a list with all the .log files in it, if it's a file just add
-     #it to that list
-     def getLogList(self, log_locations):
-         logs = []
--- 
-2.7.4
+> Also rtsp-server gains various runtime dependencies on util-linux, can =
+you verify that these are expected and in the depends?
+
+I did a clean build of util-linux and then rtsp-server it reported no =
+missing build time deps=20
+I am doing it for raspberrypi, how do you reproduce it.
+
+>=20
+> Ross
 
 
