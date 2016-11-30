@@ -1,30 +1,29 @@
-Return-Path: <huangqy.fnst@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
-	by mail.openembedded.org (Postfix) with ESMTP id CFD147199E
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 1D1836FFC8
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Nov 2016 08:37:12 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.22,518,1449504000"; d="scan'208";a="13456055"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 30 Nov 2016 16:37:06 +0800
-Received: from G08CNEXCHPEKD01.g08.fujitsu.local (unknown [10.167.33.80])
-	by cn.fujitsu.com (Postfix) with ESMTP id 6EAC647A866F
+	Wed, 30 Nov 2016 09:27:42 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id uAU9Rh15007580
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Nov 2016 16:37:07 +0800 (CST)
-Received: from localhost.localdomain (10.167.226.81) by
-	G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.319.2; Wed, 30 Nov 2016 16:37:06 +0800
-From: huangqy <huangqy.fnst@cn.fujitsu.com>
+	Wed, 30 Nov 2016 01:27:44 -0800 (PST)
+Received: from [128.224.162.209] (128.224.162.209) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.294.0;
+	Wed, 30 Nov 2016 01:27:43 -0800
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 30 Nov 2016 08:36:41 -0800
-Message-ID: <1480523801-795-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
-X-Mailer: git-send-email 2.7.4
+References: <cover.1479871728.git.liezhi.yang@windriver.com>
+	<25721f64-19ae-7998-7e64-5e7a165347eb@windriver.com>
+From: ChenQi <Qi.Chen@windriver.com>
+Message-ID: <bf6fedae-7935-936b-f844-4208f7e76eae@windriver.com>
+Date: Wed, 30 Nov 2016 17:28:47 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.4.0
 MIME-Version: 1.0
-X-Originating-IP: [10.167.226.81]
-X-yoursite-MailScanner-ID: 6EAC647A866F.A79F6
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: huangqy.fnst@cn.fujitsu.com
-X-Spam-Status: No
-Subject: [PATCH] msmtp: 1.6.5 -> 1.6.6
+In-Reply-To: <25721f64-19ae-7998-7e64-5e7a165347eb@windriver.com>
+X-Originating-IP: [128.224.162.209]
+Subject: Re: [PATCH 0/2] fix can't login when debug-tweaks is not in IMAGE_FEATURES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,40 +36,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 Nov 2016 08:37:14 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 30 Nov 2016 09:27:44 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-From: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
+We could make use of EXTRA_USERS_PARAMS here.
+More details are in meta/classes/extrausers.bbclass.
 
-Upgrade msmtp from 1.6.5 to 1.6.6.
+I haven't tested it myself, but maybe lines below could work:
+INHERIT += "extrausers"
+EXTRA_USERS_PARAMS = "\
+usermod -p 'root' root; \
+"
 
-Signed-off-by: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
----
- meta/recipes-extended/msmtp/{msmtp_1.6.5.bb => msmtp_1.6.6.bb} | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-extended/msmtp/{msmtp_1.6.5.bb => msmtp_1.6.6.bb} (86%)
+This info could also be found in local.conf.sample.extended.
 
-diff --git a/meta/recipes-extended/msmtp/msmtp_1.6.5.bb b/meta/recipes-extended/msmtp/msmtp_1.6.6.bb
-similarity index 86%
-rename from meta/recipes-extended/msmtp/msmtp_1.6.5.bb
-rename to meta/recipes-extended/msmtp/msmtp_1.6.6.bb
-index d0c39eb..e172193 100644
---- a/meta/recipes-extended/msmtp/msmtp_1.6.5.bb
-+++ b/meta/recipes-extended/msmtp/msmtp_1.6.6.bb
-@@ -12,8 +12,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
- SRC_URI = "http://sourceforge.net/projects/msmtp/files/msmtp/${PV}/${BPN}-${PV}.tar.xz \
-           "
- 
--SRC_URI[md5sum] = "50a8c9bb72f8222779db6b4aae2965e0"
--SRC_URI[sha256sum] = "76a0d60693c7e65d0c7a12f01d300882d280b1e1be0202f54730ae44d44a5006"
-+SRC_URI[md5sum] = "82b0520b57db4b2cf05333d11fb5974d"
-+SRC_URI[sha256sum] = "da15db1f62bd0201fce5310adb89c86188be91cd745b7cb3b62b81a501e7fb5e"
- 
- inherit gettext autotools update-alternatives pkgconfig
- 
--- 
-2.7.4
+Best Regards,
+Chen Qi
 
-
+On 11/30/2016 11:15 AM, Robert Yang wrote:
+> Hello,
+>
+> According to the discussions, here are things that we may do,
+> please feel free to give your comments.
+> 1) Add an image feature like "production", which will conflict with
+>    debug-tweaks, and check for some common security issues ?
+>
+> 2) Add a way like ROOT_PASSWD to let user can set root passwd easily ?
+>
+> 3) Do nothing, leave it as the current status.
+>
+> // Robert
+>
+> On 11/23/2016 03:49 PM, Robert Yang wrote:
+>> Fixed 2 bugs:
+>> - Can't login as root when debug-tweaks/empty-root-password is not in
+>>   IMAGE_FEATURES since no passwd.
+>> - When set root passwd and debug-tweaks/empty-root-password is in
+>>   IMAGE_FEATURES, passwd is *required* to login.
+>>
+>> Filed https://bugzilla.yoctoproject.org/show_bug.cgi?id=10710, and
+>> marked doc changes required as yes.
+>>
+>> // Robert
+>>
+>> The following changes since commit 
+>> a675b2c89e477af088faee9b3be96eae19a85f0b:
+>>
+>>   sanity.bbclass: fix logging of an error (2016-11-15 15:18:50 +0000)
+>>
+>> are available in the git repository at:
+>>
+>>   git://git.openembedded.org/openembedded-core-contrib rbt/root
+>> http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/root
+>>
+>> Robert Yang (2):
+>>   rootfs-postcommands.bbclass: fix zap_empty_root_password
+>>   base-passwd: set root's default password to 'root'
+>>
+>>  meta/classes/rootfs-postcommands.bbclass                 |  8 ++++----
+>>  .../base-passwd/base-passwd/passwd_master.patch          | 16 
+>> ++++++++++++++++
+>>  meta/recipes-core/base-passwd/base-passwd_3.5.29.bb      |  1 +
+>>  3 files changed, 21 insertions(+), 4 deletions(-)
+>>  create mode 100644 
+>> meta/recipes-core/base-passwd/base-passwd/passwd_master.patch
+>>
 
 
