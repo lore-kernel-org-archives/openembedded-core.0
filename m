@@ -1,16 +1,28 @@
-Return-Path: <obi@opendreambox.org>
-Received: from mail.saftware.de (mail.saftware.de [83.141.3.46])
-	by mail.openembedded.org (Postfix) with ESMTP id CB8DB71AC8
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id 6E50D71ACA
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Nov 2016 18:50:28 +0000 (UTC)
-Received: by t510.zcs.saftware.de (Postfix, from userid 1000)
-	id EED59B81F65; Wed, 30 Nov 2016 19:50:27 +0100 (CET)
-From: Andreas Oberritter <obi@opendreambox.org>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 30 Nov 2016 19:50:26 +0100
-Message-Id: <1480531827-11799-1-git-send-email-obi@opendreambox.org>
-X-Mailer: git-send-email 2.7.4
-Subject: [PATCH 1/2] bash: use update-alternatives for the bash binary
+	Wed, 30 Nov 2016 19:29:35 +0000 (UTC)
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+	by fmsmga104.fm.intel.com with ESMTP; 30 Nov 2016 11:29:36 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.31,574,1473145200"; d="scan'208";a="37351277"
+Received: from abhijitr-mobl2.gar.corp.intel.com (HELO
+	peggleto-mobl.ger.corp.intel.com) ([10.255.158.93])
+	by orsmga005.jf.intel.com with ESMTP; 30 Nov 2016 11:29:33 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org, ed.bartosh@linux.intel.com
+Date: Thu, 01 Dec 2016 08:29:31 +1300
+Message-ID: <6146107.hgZcsOnPEO@peggleto-mobl.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.14.10 (Linux/4.8.8-100.fc23.x86_64; KDE/4.14.20; x86_64; ;
+	)
+In-Reply-To: <20161130152923.GA4811@linux.intel.com>
+References: <1480068955-17053-1-git-send-email-kristian.amlie@mender.io>
+	<420c72b7-b5dd-14f3-a4b0-c57eb3512252@mender.io>
+	<20161130152923.GA4811@linux.intel.com>
+MIME-Version: 1.0
+Subject: Re: [PATCH v1] wic: Add --exclude-path option to rootfs source plugin.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -23,36 +35,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 Nov 2016 18:50:29 -0000
+X-List-Received-Date: Wed, 30 Nov 2016 19:29:37 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-Busybox may offer a bash applet. If enabled, the alternatives mechanism
-avoids breaking logins if bash gets deinstalled while /bin/bash is configured
-as a login shell.
+On Wed, 30 Nov 2016 17:29:23 Ed Bartosh wrote:
+> On Wed, Nov 30, 2016 at 02:30:12PM +0100, Kristian Amlie wrote:
+> > In the interest of saving me some build time, am I correct in assuming
+> > that I need the "qemux86-64" MACHINE target for this to work? It appears
+> > to be dependent on syslinux which has COMPATIBLE_HOSTS set to non-arm
+> > only. Sorry, I'm a bit new to this framework.
+> 
+> You're right. oe-selftest requires qemux86-64 target.
 
-Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
----
- meta/recipes-extended/bash/bash.inc | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+That's definitely not a design decision of oe-selftest. If we have certain 
+tests that can only work with a particular configuration, those tests need to 
+be explicitly skipped if that configuration is not active.
 
-diff --git a/meta/recipes-extended/bash/bash.inc b/meta/recipes-extended/bash/bash.inc
-index 1d08526..a05b987 100644
---- a/meta/recipes-extended/bash/bash.inc
-+++ b/meta/recipes-extended/bash/bash.inc
-@@ -14,9 +14,11 @@ EXTRA_OECONF = "--enable-job-control --without-bash-malloc"
- # This is what other major distros do. And this is what we wanted. See bug#5359 and bug#7137.
- CFLAGS += "-DNON_INTERACTIVE_LOGIN_SHELLS"
- 
--ALTERNATIVE_${PN} = "sh"
-+ALTERNATIVE_${PN} = "bash sh"
-+ALTERNATIVE_LINK_NAME[bash] = "${base_bindir}/bash"
-+ALTERNATIVE_TARGET[bash] = "${base_bindir}/bash"
- ALTERNATIVE_LINK_NAME[sh] = "${base_bindir}/sh"
--ALTERNATIVE_TARGET[sh] = "${base_bindir}/bash"
-+ALTERNATIVE_TARGET[sh] = "${base_bindir}/bash.${BPN}"
- ALTERNATIVE_PRIORITY = "100"
- 
- RDEPENDS_${PN} += "base-files"
+Cheers,
+Paul
+
+
 -- 
-2.7.4
 
+Paul Eggleton
+Intel Open Source Technology Centre
 
