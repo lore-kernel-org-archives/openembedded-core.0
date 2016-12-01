@@ -1,51 +1,21 @@
-Return-Path: <linus.svensson@axis.com>
-X-Greylist: delayed 308 seconds by postgrey-1.34 at layers.openembedded.org;
-	Thu, 01 Dec 2016 16:29:06 UTC
-Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 5C98271B2C
+Return-Path: <anibal.limon@linux.intel.com>
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+	by mail.openembedded.org (Postfix) with ESMTP id C993C71B25
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  1 Dec 2016 16:29:06 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by bastet.se.axis.com (Postfix) with ESMTP id 8F7AC1846D
-	for <openembedded-core@lists.openembedded.org>;
-	Thu,  1 Dec 2016 17:24:00 +0100 (CET)
-X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
-Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP id BBIosEMa9XXC
-	for <openembedded-core@lists.openembedded.org>;
-	Thu,  1 Dec 2016 17:24:00 +0100 (CET)
-Received: from boulder03.se.axis.com (boulder03.se.axis.com [10.0.8.17])
-	by bastet.se.axis.com (Postfix) with ESMTPS id 674121846A
-	for <openembedded-core@lists.openembedded.org>;
-	Thu,  1 Dec 2016 17:24:00 +0100 (CET)
-Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 4EA191E09E
-	for <openembedded-core@lists.openembedded.org>;
-	Thu,  1 Dec 2016 17:24:00 +0100 (CET)
-Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 42D6A1E09C
-	for <openembedded-core@lists.openembedded.org>;
-	Thu,  1 Dec 2016 17:24:00 +0100 (CET)
-Received: from seth.se.axis.com (unknown [10.0.2.172])
-	by boulder03.se.axis.com (Postfix) with ESMTP
-	for <openembedded-core@lists.openembedded.org>;
-	Thu,  1 Dec 2016 17:24:00 +0100 (CET)
-Received: from lnxlinussn.se.axis.com (lnxlinussn.se.axis.com [10.94.48.1])
-	by seth.se.axis.com (Postfix) with ESMTP id 365CE584
-	for <openembedded-core@lists.openembedded.org>;
-	Thu,  1 Dec 2016 17:24:00 +0100 (CET)
-Received: by lnxlinussn.se.axis.com (Postfix, from userid 21014)
-	id 2E7973A099; Thu,  1 Dec 2016 17:24:00 +0100 (CET)
-From: linus.svensson@axis.com
+	Thu,  1 Dec 2016 16:32:27 +0000 (UTC)
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+	by orsmga105.jf.intel.com with ESMTP; 01 Dec 2016 08:32:28 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.33,282,1477983600"; d="scan'208";a="36237585"
+Received: from alimonb-mobl1.zpn.intel.com ([10.219.5.149])
+	by orsmga004.jf.intel.com with ESMTP; 01 Dec 2016 08:32:26 -0800
+From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  1 Dec 2016 17:23:38 +0100
-Message-Id: <1480609418-3264-3-git-send-email-linus.svensson@axis.com>
+Date: Thu,  1 Dec 2016 10:34:25 -0600
+Message-Id: <1480610065-25697-1-git-send-email-anibal.limon@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
-In-Reply-To: <1480609418-3264-1-git-send-email-linus.svensson@axis.com>
-References: <1480609418-3264-1-git-send-email-linus.svensson@axis.com>
-X-TM-AS-GCONF: 00
-Subject: [PATCH 3/3] meson.bbclass: Add meson.bbclass
+MIME-Version: 1.0
+Subject: [PATCH] perl-native: Remove usage of -fstack-protector=strong
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,119 +28,152 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 01 Dec 2016 16:29:08 -0000
+X-List-Received-Date: Thu, 01 Dec 2016 16:32:27 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-From: Linus Svensson <linussn@axis.com>
+Some distributions (like opensuse421) supported by the project
+comes with older gcc releases, -fstack-protector=strong is supported
+by GCC>=4.9.
 
-Add a class for packages that uses the meson build system.
+This causes a build failure when install perl-native from a sstate that
+comes from a machine supporting -fstack-protector=strong [1].
 
-Meson uses a cross-file that contain needed tools and information about
-the host and target system. Such a file will be created in {WORKDIR}.
+So disable usage of this flag in perl-native builds, this patch could
+be removed when all supported distros comes with GCC>=4.9.
 
-Meson only allows installation directories to be specified as relative
-to prefix, except for sysconfdir, which can be absolute.
+[YOCTO #10338]
 
-This patch is based on a prototype patch by
-Ross Burton <ross.burton@intel.com>.
+[1] http://errors.yoctoproject.org/Errors/Details/109589/
 
-Signed-off-by: Linus Svensson <linussn@axis.com>
+Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
 ---
- meta/classes/meson.bbclass | 86 ++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 86 insertions(+)
- create mode 100644 meta/classes/meson.bbclass
+ meta/recipes-devtools/perl/perl-native_5.24.0.bb   |   1 +
+ ...emove-fstack-protector-strong-for-native-.patch | 103 +++++++++++++++++++++
+ 2 files changed, 104 insertions(+)
+ create mode 100644 meta/recipes-devtools/perl/perl/0001-Configure-Remove-fstack-protector-strong-for-native-.patch
 
-diff --git a/meta/classes/meson.bbclass b/meta/classes/meson.bbclass
+diff --git a/meta/recipes-devtools/perl/perl-native_5.24.0.bb b/meta/recipes-devtools/perl/perl-native_5.24.0.bb
+index af2ad7b..b1f0179 100644
+--- a/meta/recipes-devtools/perl/perl-native_5.24.0.bb
++++ b/meta/recipes-devtools/perl/perl-native_5.24.0.bb
+@@ -11,6 +11,7 @@ SRC_URI += "\
+            file://debian/errno_ver.diff \
+            file://dynaloaderhack.patch \
+            file://perl-PathTools-don-t-filter-out-blib-from-INC.patch \
++           file://0001-Configure-Remove-fstack-protector-strong-for-native-.patch \
+           "
+ 
+ SRC_URI[md5sum] = "59456ae4bd4b06cb6e57cb19a3b2d349"
+diff --git a/meta/recipes-devtools/perl/perl/0001-Configure-Remove-fstack-protector-strong-for-native-.patch b/meta/recipes-devtools/perl/perl/0001-Configure-Remove-fstack-protector-strong-for-native-.patch
 new file mode 100644
-index 0000000..5a04134
+index 0000000..7391ac5
 --- /dev/null
-+++ b/meta/classes/meson.bbclass
-@@ -0,0 +1,86 @@
-+inherit python3native
++++ b/meta/recipes-devtools/perl/perl/0001-Configure-Remove-fstack-protector-strong-for-native-.patch
+@@ -0,0 +1,103 @@
++Some distributions (like opensuse421) supported by the project
++comes with older gcc releases, -fstack-protector=strong is supported
++by GCC>=4.9.
 +
-+DEPENDS_append = " meson-native ninja-native"
++This causes a build failure when install perl-native from a sstate that
++comes from a machine supporting -fstack-protector=strong [1].
 +
-+# As Meson enforces out-of-tree builds we can just use cleandirs
-+B = "${WORKDIR}/build"
-+do_configure[cleandirs] = "${B}"
++So disable usage of this flag in perl-native builds, this patch could
++be removed when all supported distros comes with GCC>=4.9.
 +
-+# Where the meson.build build configuration is
-+MESON_SOURCEPATH = "${S}"
++[YOCTO #10338]
 +
-+# These variables in the environment override the *native* tools not the cross,
-+# so they need to be unexported.
-+CC[unexport] = "1"
++Upstream-status: Inappropriate [configuration]
 +
-+def noprefix(var, d):
-+    return d.getVar(var, True).replace(d.getVar('prefix', True) + '/', '', 1)
++[1] http://errors.yoctoproject.org/Errors/Details/109589/
 +
-+MESONOPTS = " --prefix ${prefix} \
-+              --bindir ${@noprefix('bindir', d)} \
-+              --datadir ${@noprefix('datadir', d)} \
-+              --libdir ${@noprefix('libdir', d)} \
-+              --libexecdir ${@noprefix('libexecdir', d)} \
-+              --includedir ${@noprefix('includedir', d)} \
-+              --mandir ${@noprefix('mandir', d)} \
-+              --localedir ${@noprefix('localedir', d)} \
-+              --sysconfdir ${sysconfdir}"
++Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
++---
++ Configure | 54 ------------------------------------------------------
++ 1 file changed, 54 deletions(-)
 +
-+MESON_C_ARGS = "${HOST_CC_ARCH}${TOOLCHAIN_OPTIONS}"
++diff --git a/Configure b/Configure
++index efbdcfd..d5bd98c 100755
++--- a/Configure
+++++ b/Configure
++@@ -5468,30 +5468,6 @@ default|recommended)
++ 		eval $checkccflag
++ 		;;
++ 	esac
++-
++-	# on x86_64 (at least) we require an extra library (libssp) in the
++-	# link command line. This library is not named, so I infer that it is
++-	# an implementation detail that may change. Hence the safest approach
++-	# is to add the flag to the flags passed to the compiler at link time,
++-	# as that way the compiler can do the right implementation dependant
++-	# thing. (NWC)
++-	case "$osname" in
++-	amigaos) ;; # -fstack-protector builds but doesn't work
++-	*)	case "$gccversion" in
++-		?*)	set stack-protector-strong -fstack-protector-strong
++-			eval $checkccflag
++-			case "$dflt" in
++-			*-fstack-protector-strong*) ;; # It got added.
++-			*) # Try the plain/older -fstack-protector.
++-			   set stack-protector -fstack-protector
++-			   eval $checkccflag
++-			   ;;
++-			esac
++-			;;
++-		esac
++-		;;
++-	esac
++-	;;
++ esac
++ 
++ case "$mips_type" in
++@@ -5634,21 +5610,6 @@ case "$ldflags" in
++ 	;;
++ *) dflt="$ldflags";;
++ esac
++-# See note above about -fstack-protector
++-case "$ccflags" in
++-*-fstack-protector-strong*)
++-	case "$dflt" in
++-	*-fstack-protector-strong*) ;; # Don't add it again
++-	*) dflt="$dflt -fstack-protector-strong" ;;
++-	esac
++-	;;
++-*-fstack-protector*)
++-	case "$dflt" in
++-	*-fstack-protector*) ;; # Don't add it again
++-	*) dflt="$dflt -fstack-protector" ;;
++-	esac
++-	;;
++-esac
++ 
++ : Try to guess additional flags to pick up local libraries.
++ for thislibdir in $libpth; do
++@@ -8571,21 +8532,6 @@ EOM
++ 	    ''|' ') dflt='none' ;;
++ 	esac
++ 
++-	case "$ldflags" in
++-	    *-fstack-protector-strong*)
++-		case "$dflt" in
++-		    *-fstack-protector-strong*) ;; # Don't add it again
++-		    *) dflt="$dflt -fstack-protector-strong" ;;
++-		esac
++-		;;
++-	    *-fstack-protector*)
++-		case "$dflt" in
++-		    *-fstack-protector*) ;; # Don't add it again
++-		    *) dflt="$dflt -fstack-protector" ;;
++-		esac
++-		;;
++-	esac
++-
++ 	rp="Any special flags to pass to $ld to create a dynamically loaded library?"
++ 	. ./myread
++ 	case "$ans" in
++-- 
++2.1.4
 +
-+MESON_HOST_ENDIAN = "${@bb.utils.contains('SITEINFO_ENDIANNESS', 'be', 'big', 'little', d)}"
-+MESON_TARGET_ENDIAN = "${@bb.utils.contains('TUNE_FEATURES', 'bigendian', 'big', 'little', d)}"
-+
-+EXTRA_OEMESON += "${PACKAGECONFIG_CONFARGS}"
-+
-+def meson_array(var, d):
-+    return "', '".join(d.getVar(var, True).split()).join(("'", "'"))
-+
-+addtask write_config before do_configure
-+do_write_config[vardeps] += "MESON_C_ARGS TOOLCHAIN_OPTIONS"
-+do_write_config() {
-+    # This needs to be Py to split the args into single-element lists
-+    cat >${WORKDIR}/meson.cross <<EOF
-+[binaries]
-+c = '${HOST_PREFIX}gcc'
-+cpp = '${HOST_PREFIX}gcc'
-+ar = '${HOST_PREFIX}ar'
-+ld = '${HOST_PREFIX}ld'
-+strip = '${HOST_PREFIX}strip'
-+readelf = '${HOST_PREFIX}readelf'
-+pkgconfig = 'pkg-config'
-+
-+[properties]
-+c_args = [${@meson_array('MESON_C_ARGS', d)}]
-+c_link_args = [${@meson_array('TOOLCHAIN_OPTIONS', d)}]
-+
-+[host_machine]
-+system = '${HOST_OS}'
-+cpu_family = '${HOST_ARCH}'
-+cpu = '${HOST_ARCH}'
-+endian = '${MESON_HOST_ENDIAN}'
-+
-+[target_machine]
-+system = '${TARGET_OS}'
-+cpu_family = '${TARGET_ARCH}'
-+cpu = '${TARGET_ARCH}'
-+endian = '${MESON_TARGET_ENDIAN}'
-+EOF
-+}
-+
-+meson_do_configure() {
-+    if ! meson ${MESONOPTS} "${MESON_SOURCEPATH}" "${B}" --cross-file ${WORKDIR}/meson.cross ${EXTRA_OEMESON}; then
-+        cat ${B}/meson-logs/meson-log.txt
-+        bbfatal_log meson failed
-+    fi
-+}
-+
-+meson_do_compile() {
-+    ninja ${PARALLEL_MAKE}
-+}
-+
-+meson_do_install() {
-+    DESTDIR='${D}' ninja ${PARALLEL_MAKEINST} install
-+}
-+
-+EXPORT_FUNCTIONS do_configure do_compile do_install
 -- 
 2.1.4
 
