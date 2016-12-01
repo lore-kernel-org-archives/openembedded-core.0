@@ -1,52 +1,45 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pg0-f68.google.com (mail-pg0-f68.google.com [74.125.83.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 115BA6AC3C
+Received: from mail-pf0-f170.google.com (mail-pf0-f170.google.com
+	[209.85.192.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 5731B71994
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  1 Dec 2016 08:45:47 +0000 (UTC)
-Received: by mail-pg0-f68.google.com with SMTP id e9so3984801pgc.1
+	Thu,  1 Dec 2016 09:15:01 +0000 (UTC)
+Received: by mail-pf0-f170.google.com with SMTP id i88so45103626pfk.2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 01 Dec 2016 00:45:49 -0800 (PST)
+	Thu, 01 Dec 2016 01:15:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:subject:from:in-reply-to:date:cc
-	:content-transfer-encoding:message-id:references:to;
-	bh=1jnTXvnVrEkeZi4uIxjzmI2UczGFcHCmqEJmLdwMPqo=;
-	b=rNaL4284tqIeZ7aoE8+o90kc5itS2RsrISOUxix8MVYd6YEUddEix8eRq6YjkVFMcD
-	FbJZHjMUGhjTDci3vqszbAEnQHtGqLQNdQqPnB6F3X9GBVYV1AhjLDShYa2Qh2e1X4v6
-	cNzUDSx/OpPF3g2n2OZjbaq5xDiVJRJF2XPyqHYux0tz3feA5EsB5oBAHVgA2lZ+AQzM
-	YvkmORXdM4VzJshFI2RQgDy5Iy48rhtwbVJ+sez5axRVgIlJSLu7tREumd6Ild4cDgzo
-	PcKrqwLoVEOtj41hjFgmixvsm6lhsuobFwaLEvOW5HhBAAnhTLlJX6lVSk9VdlKEghpB
-	h4cA==
+	h=from:to:cc:subject:date:message-id;
+	bh=+4hjZE2GINv3rfvnkoEkWyhbl9gDYcuzKkj8lVuvhlI=;
+	b=FYnaTTx3hloq54kmpvRSHrURmAO5K1cFhZICh6l9qIfLPX21xfv0kny/C4WTO5XvQd
+	5n/iPGb9pifeMBbcDT+RDYHqndx4w4x0f7jP3ayIp8kmsBVxVLkTNvcqZx2jLQsYB2Uc
+	AmCRJO0B0EQGI5p5XDqa3JjHhOJ+Io37cso2Ovo96daYcV/RW1DBzmdo31ibGJwwQYlC
+	5Y2Wm9Bt0V4emcaUjtT2gwNGKVYQNwHmPd/nbed5nvIjezxPxzUQ4ykZ4kCVP01hIImP
+	h8mqfa8QQGVDX3UtI2BQyi48bzaOQEy1JBnQU2YzahIPgZQ46CF1Dc/t7vEfEk1tRLLy
+	zJ9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
-	:content-transfer-encoding:message-id:references:to;
-	bh=1jnTXvnVrEkeZi4uIxjzmI2UczGFcHCmqEJmLdwMPqo=;
-	b=jnB3YnQsDgiklrrMWKDUxyXHgphR5jWex8qIg2hsimhtGPteFyOzZ5rE8mBujKr6E0
-	Qqr7CODlu34Tb9SEL7kRXZzJy6ZYzkdHUCx2j/mQodqgw0OnZLXlotddIX3qC4IKMknC
-	c4/U3cb4nU9/AN2D77iCZ2FPHg74J/H2+I05asYigeAZ1AMiLSTjzcjb9ym+5rD5KTto
-	Ai60PRLepRKTW54rr8NNLqr6D0t4vweVhbO9nTQ1JsHJbnAXhQWHq2PK/sYlF9cnpTS+
-	OX6KCW1hSP1kTMI4zvNVm19qhp/Pb5bRWcsVGawJNaltK30hXlksWjotgEjE6QA1STpN
-	mUhA==
-X-Gm-Message-State: AKaTC00rrSOb5wH8WV2fv6qK+pr0g7n55TKDarFagLn2YuyLnT0DUT1imC6fQL2ht57WxQ==
-X-Received: by 10.98.158.155 with SMTP id f27mr37446236pfk.165.1480581949537; 
-	Thu, 01 Dec 2016 00:45:49 -0800 (PST)
-Received: from ?IPv6:2601:646:8882:b8c:b12d:319:cff6:775c?
-	([2601:646:8882:b8c:b12d:319:cff6:775c])
-	by smtp.gmail.com with ESMTPSA id
-	c142sm108602336pfb.23.2016.12.01.00.45.48
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=+4hjZE2GINv3rfvnkoEkWyhbl9gDYcuzKkj8lVuvhlI=;
+	b=UsencYJIJ09GnOgc76nog43m/qOlcQyiX/9GtSpCy32gcry+h9jwhdmJxFblkfGfqq
+	PvWhjvJB6WbrjapEjHg77VEUupCowTvLjsv+8Ff4awsOlGRfafIdMx4HDTtftaRGPU3+
+	/ULNc0BYhnwQgDEs3Rr4BDNB3v2iC1SgvUf7+GqPrO+47/edhH0UWsv41Xycg7rhG1h1
+	eJ/JWIjUh3A2De2JZqOFQskjUhvvBnGmfmTB9bZuw32hmNJdni+kc/7EnX17xAXhH8ZQ
+	7doicb/kZ2OhTTXJYlMFWevj5D4lD212L7mbTcGHvj/0ANEx5I9YEiw+LNiErTEaPTUt
+	nxOw==
+X-Gm-Message-State: AKaTC02hkA2hupAz8NBBI5QxPX5txBEe9Y2PMt/gQpoBLW5oCLD8kCIxkVg4v9hei9AA+g==
+X-Received: by 10.84.218.70 with SMTP id f6mr55152423plm.142.1480583703416;
+	Thu, 01 Dec 2016 01:15:03 -0800 (PST)
+Received: from localhost.localdomain (c-76-102-32-192.hsd1.ca.comcast.net.
+	[76.102.32.192]) by smtp.gmail.com with ESMTPSA id
+	v193sm91014812pgb.37.2016.12.01.01.15.02
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 01 Dec 2016 00:45:48 -0800 (PST)
-Mime-Version: 1.0 (Mac OS X Mail 10.1 \(3251\))
+	Thu, 01 Dec 2016 01:15:02 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <CAJTo0LYHeb28My6Ek5wBr-dv8budpprpXwZ84T5TYqW_Uj3SFQ@mail.gmail.com>
-Date: Thu, 1 Dec 2016 00:45:47 -0800
-Message-Id: <E6E3DC4A-4DBF-4326-AEBD-CDA9C76CCA04@gmail.com>
-References: <20161130073953.18166-1-raj.khem@gmail.com>
-	<CAJTo0LYHeb28My6Ek5wBr-dv8budpprpXwZ84T5TYqW_Uj3SFQ@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-X-Mailer: Apple Mail (2.3251)
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] gstreamer1.0: Upgrade to 1.10.1
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  1 Dec 2016 01:14:57 -0800
+Message-Id: <20161201091457.6822-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.10.2
+Subject: [PATCH] gstreamer1.0-rtsp-server: Add libcheck to deps
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,30 +52,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 01 Dec 2016 08:45:48 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 01 Dec 2016 09:15:04 -0000
 
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> On Nov 30, 2016, at 7:17 AM, Burton, Ross <ross.burton@intel.com> =
-wrote:
->=20
-> Breaks if built from a empty sysroot with wayland enabled:
->=20
-> gst-plugins-bad:
-> | make[3]: *** No rule to make target 'viewporter-protocol.c', needed =
-by 'all'.  Stop.
-
-This one I was able to reproduce and fix. Sent the fix to ml.
-
->=20
-> Also rtsp-server gains various runtime dependencies on util-linux, can =
-you verify that these are expected and in the depends?
->=20
-
-Can you be more specific about this ? how to reproduce it ? what kind of =
-diagnostics do you see ?
-
-> Ross
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server.inc b/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server.inc
+index 13ba40d..7191f98 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server.inc
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server.inc
+@@ -3,7 +3,7 @@ HOMEPAGE = "http://cgit.freedesktop.org/gstreamer/gst-rtsp-server/"
+ SECTION = "multimedia"
+ LICENSE = "LGPLv2"
+ 
+-DEPENDS = "gstreamer1.0 libcgroup gstreamer1.0-plugins-base"
++DEPENDS = "gstreamer1.0 libcgroup gstreamer1.0-plugins-base libcheck"
+ 
+ PNREAL = "gst-rtsp-server"
+ 
+-- 
+2.10.2
 
 
