@@ -1,48 +1,26 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-ua0-f196.google.com (mail-ua0-f196.google.com
-	[209.85.217.196])
-	by mail.openembedded.org (Postfix) with ESMTP id CDC7271B40
+Return-Path: <benjamin.esquivel@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 2DEA871B38
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  1 Dec 2016 16:51:55 +0000 (UTC)
-Received: by mail-ua0-f196.google.com with SMTP id b35so21760245uaa.1
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 01 Dec 2016 08:51:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=Jfke9b8I8yfA7Us+C6QDBUSPVdokHsFpCcDfJXZ8Skw=;
-	b=x/pDSX1cV2u8vR1Vd5FLrIFWjeoXzWbxDzwad250+LU21b/7IHsANbLUrMUhNsQX0m
-	uOmJN9Jmiwbzet7YV6K2PieSQMGWzF8Rc8gK+SQ2l2MzJ2CnUZPXaTWVUbKFej42aXAw
-	guEtuldfDOKmUoJMrk8hTVxvmgygORtdXPS3BS/EHlwK7D2SKNI4lc0tnbZaoDTm16Yp
-	V6vvYFPGt4IuQ9L8FhYtRfSaX5+1POOW6ICWJHeYpKWkPcgSHp+IbJulDS8xpfKMHdK8
-	ZoZqyd6jkSiW2Mt/QrTPfn1ZRuBtamd5L2VMNJBt3ekQnlGOtb1aZnSs8JsRTfwt0yDm
-	n/9g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=Jfke9b8I8yfA7Us+C6QDBUSPVdokHsFpCcDfJXZ8Skw=;
-	b=Vq/wOmP8M82+Q/ieRVPCrtucp/YF0HlEkxbhwTNI20bk5KgnpBGuhfJu0HS21qRIfa
-	4A5nQWjAGkUPx/EzeS099gLeR7+f433DjgJzy2QunsQief0GkWZOVQgqnTPebUCJwI3V
-	Fs5LqqpcwhS0FPrdJy75htu0h+Bns1VhKt9oEWtajNQQBpPPaFOfrQ39nqxGMhpIoSQ9
-	IY5t0t+eDD0oI5ndRC6FZEREUk5lYgXhddQyMA1hg6hCrcVfz4cn+vat9b/FL+6LaAm8
-	/vr7iZSzc2zqELXpzI/JK0UCqigoYwDeGA31UI6dR/Q/xVvC07dK1suFNlgC6zxxCZf1
-	wxtw==
-X-Gm-Message-State: AKaTC00G9NtuNDAKH2MBo84IyNQ8mkzSrrdZdrnfFXcHVhXbTLBUPAozOal2lZQY+50oGIZdjvG17ix0hPxaiA==
-X-Received: by 10.176.1.17 with SMTP id 17mr24274246uak.143.1480611116798;
-	Thu, 01 Dec 2016 08:51:56 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.159.48.87 with HTTP; Thu, 1 Dec 2016 08:51:26 -0800 (PST)
-In-Reply-To: <2b3dfd87-29e5-f50a-a0a1-bedd604b2bd3@opendreambox.org>
-References: <1480549817-16636-1-git-send-email-obi@opendreambox.org>
-	<15B74A76-F494-49BC-9BB6-6D0479495860@gmail.com>
-	<2b3dfd87-29e5-f50a-a0a1-bedd604b2bd3@opendreambox.org>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 1 Dec 2016 08:51:26 -0800
-Message-ID: <CAMKF1spwRmH3KfQ3ZS1WvWiqDhhXqFK=Bw40zfgGUzP32ubdVw@mail.gmail.com>
-To: Andreas Oberritter <obi@opendreambox.org>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] libc-package.bbclass: split binary localedata even more if asked to
+	Thu,  1 Dec 2016 16:52:38 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 01 Dec 2016 08:52:40 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.33,282,1477983600"; d="scan'208";a="1093249376"
+Received: from besquive-mobl2.zpn.intel.com ([10.219.5.37])
+	by fmsmga002.fm.intel.com with ESMTP; 01 Dec 2016 08:52:40 -0800
+Message-ID: <1480611160.13546.2.camel@linux.intel.com>
+From: Benjamin Esquivel <benjamin.esquivel@linux.intel.com>
+Reply-To: benjamin.esquivel@linux.intel.com
+To: mariano.lopez@linux.intel.com, openembedded-core@lists.openembedded.org
+In-Reply-To: <53d2af537516d9f542729f80a1ec12c3484a4b3f.1480525452.git.mariano.lopez@linux.intel.com>
+References: <cover.1480525452.git.mariano.lopez@linux.intel.com>
+	<53d2af537516d9f542729f80a1ec12c3484a4b3f.1480525452.git.mariano.lopez@linux.intel.com>
+Organization: Intel Corporation
+Date: Thu, 01 Dec 2016 10:52:40 -0600
+Mime-Version: 1.0
+X-Mailer: Evolution 3.20.5 (3.20.5-1.fc24) 
+Subject: Re: [PATCHv2 3/3] oe-selftest: Add option to submit test result to a git repository.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,40 +33,196 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 01 Dec 2016 16:51:57 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 01 Dec 2016 16:52:39 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Thu, Dec 1, 2016 at 4:33 AM, Andreas Oberritter <obi@opendreambox.org> wrote:
-> On 01.12.2016 05:02, Khem Raj wrote:
->>
->>> On Nov 30, 2016, at 3:50 PM, Andreas Oberritter <obi@opendreambox.org> wrote:
->>>
->>> If GLIBC_SPLIT_LC_PACKAGES is set to a non-zero value, convert
->>> glibc-binary-localedata-XX-YY to be a meta package depending on
->>> glibc-binary-localedata-XX-YY-lc-address and so on. This enables
->>> saving quite some space if someone doesn't need LC_COLLATE for
->>> example.
->>>
->>> Some regex code was removed from output_locale_binary_rdepends,
->>> because legitimize_package_name already converts to lowercase.
->>>
->>
->> This looks ok. May be add some documentation around
->> GLIBC_SPLIT_LC_PACKAGES in extended local.conf sample.
->
-> OK, will send a v2.
->
->> I am worried about dependency changes, may be comparing old and new
->> would help.
->
-> The generated meta packages make sure that dependencies stay intact. I
-> didn't observe any deviation in my test builds, with or without setting
-> GLIBC_SPLIT_LC_PACKAGES to 1.
+Hi Mariano
 
-Thats comforting. did you also try a online package upgrade ?
-
->
-> Regards,
-> Andreas
->
+On Thu, 2016-12-01 at 09:37 -0600, mariano.lopez@linux.intel.com wrote:
+> From: Mariano Lopez <mariano.lopez@linux.intel.com>
+> 
+> This new option allows to commit the result to a git repository,
+> along with the results it will add a metadata file for information
+> of the current selftest run, such as: hostname, machine, distro,
+> distro version, host version, and layers.
+> 
+> This implementation will have a branch per different hostname,
+> testing branch, and machine.
+> 
+> To use this feature use:
+> 
+> oe-selftest <options> --repository <repository_link>
+> 
+> [YOCTO #9954]
+I think this version is okay :) have you tested it in an Autobuilder
+task? 
+> 
+> Signed-off-by: Mariano Lopez <mariano.lopez@linux.intel.com>
+> ---
+>  scripts/oe-selftest | 102
+> ++++++++++++++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 102 insertions(+)
+> 
+> diff --git a/scripts/oe-selftest b/scripts/oe-selftest
+> index deaa432..f4b861f 100755
+> --- a/scripts/oe-selftest
+> +++ b/scripts/oe-selftest
+> @@ -36,6 +36,7 @@ import re
+>  import fnmatch
+>  import collections
+>  import imp
+> +import git
+>  
+>  sys.path.insert(0, os.path.dirname(os.path.realpath(__file__)) +
+> '/lib')
+>  import scriptpath
+> @@ -46,6 +47,7 @@ import argparse_oe
+>  import oeqa.selftest
+>  import oeqa.utils.ftools as ftools
+>  from oeqa.utils.commands import runCmd, get_bb_var, get_test_layer
+> +from oeqa.utils.metadata import metadata_from_bb,
+> write_metadata_file
+>  from oeqa.selftest.base import oeSelfTest, get_available_machines
+>  
+>  try:
+> @@ -106,6 +108,8 @@ def get_args_parser():
+>                         help='List all tags that have been set to
+> test cases.')
+>      parser.add_argument('--machine', required=False, dest='machine',
+> choices=['random', 'all'], default=None,
+>                          help='Run tests on different machines
+> (random/all).')
+> +    parser.add_argument('--repository', required=False,
+> dest='repository', default='', action='store',
+> +                        help='Submit test results to a repository')
+>      return parser
+>  
+>  
+> @@ -572,6 +576,75 @@ def main():
+>  
+>          log.info("Finished")
+>  
+> +        if args.repository:
+> +            # Commit tests results to repository
+> +            metadata = metadata_from_bb()
+> +            git_dir = os.path.join(os.getcwd(), 'selftest')
+> +            if not os.path.isdir(git_dir):
+> +                os.mkdir(git_dir)
+> +
+> +            log.debug('Checking for git repository in %s' % git_dir)
+> +            try:
+> +                repo = git.Repo(git_dir)
+> +            except git.exc.InvalidGitRepositoryError:
+> +                log.debug("Couldn't find git repository %s; "
+> +                         "cloning from %s" % (git_dir,
+> args.repository))
+> +                repo = git.Repo.clone_from(args.repository, git_dir)
+> +
+> +            r_branches = repo.git.branch(r=True)
+> +            r_branches = set(r_branches.replace('origin/',
+> '').split())
+> +            l_branches = {str(branch) for branch in repo.branches}
+> +            branch = '%s/%s/%s' % (metadata['hostname'],
+> +                                   metadata['layers']['meta']['branc
+> h'],
+> +                                   metadata['machine'])
+> +
+> +            if branch in l_branches:
+> +                log.debug('Found branch in local repository,
+> checking out')
+> +                repo.git.checkout(branch)
+> +            elif branch in r_branches:
+> +                log.debug('Found branch in remote repository,
+> checking'
+> +                          ' out and pulling')
+> +                repo.git.checkout(branch)
+> +                repo.git.pull()
+> +            else:
+> +                log.debug('New branch %s' % branch)
+> +                repo.git.checkout('master')
+> +                repo.git.checkout(b=branch)
+> +
+> +            cleanResultsDir(repo)
+> +            xml_dir = os.path.join(os.getcwd(), log_prefix)
+> +            copyResultFiles(xml_dir, git_dir, repo)
+> +            metadata_file = os.path.join(git_dir, 'metadata.xml')
+> +            write_metadata_file(metadata_file, metadata)
+> +            repo.index.add([metadata_file])
+> +            repo.index.write()
+> +
+> +            # Get information for commit message
+> +            layer_info = ''
+> +            for layer, values in metadata['layers'].items():
+> +                layer_info = '%s%-17s = %s:%s\n' % (layer_info,
+> layer,
+> +                              values['branch'], values['revision'])
+> +            msg = 'Selftest for build %s of %s %s for machine %s on
+> %s\n\n%s' % (
+> +                   log_prefix[12:], metadata['distro'],
+> metadata['distro_version'],
+> +                   metadata['machine'], metadata['hostname'],
+> layer_info)
+> +
+> +            log.debug('Commiting results to local repository')
+> +            repo.index.commit(msg)
+> +            if not repo.is_dirty():
+> +                try:
+> +                    if branch in r_branches:
+> +                        log.debug('Pushing changes to remote
+> repository')
+> +                        repo.git.push()
+> +                    else:
+> +                        log.debug('Pushing changes to remote
+> repository '
+> +                                  'creating new branch')
+> +                        repo.git.push('-u', 'origin', branch)
+> +                except GitCommandError:
+> +                    log.error('Falied to push to remote repository')
+> +                    return 1
+> +            else:
+> +                log.error('Local repository is dirty, not pushing
+> commits')
+> +
+>          if result.wasSuccessful():
+>              return 0
+>          else:
+> @@ -655,6 +728,35 @@ def buildResultClass(args):
+>  
+>      return StampedResult
+>  
+> +def cleanResultsDir(repo):
+> +    """ Remove result files from directory """
+> +
+> +    xml_files = []
+> +    directory = repo.working_tree_dir
+> +    for f in os.listdir(directory):
+> +        path = os.path.join(directory, f)
+> +        if os.path.isfile(path) and path.endswith('.xml'):
+> +            xml_files.append(f)
+> +    repo.index.remove(xml_files, working_tree=True)
+> +
+> +def copyResultFiles(src, dst, repo):
+> +    """ Copy result files from src to dst removing the time stamp.
+> """
+> +
+> +    import shutil
+> +
+> +    re_time = re.compile("-[0-9]+")
+> +    file_list = []
+> +
+> +    for root, subdirs, files in os.walk(src):
+> +        tmp_dir = root.replace(src, '').lstrip('/')
+> +        for s in subdirs:
+> +            os.mkdir(os.path.join(dst, tmp_dir, s))
+> +        for f in files:
+> +            file_name = os.path.join(dst, tmp_dir, re_time.sub("",
+> f))
+> +            shutil.copy2(os.path.join(root, f), file_name)
+> +            file_list.append(file_name)
+> +    repo.index.add(file_list)
+> +
+>  class TestRunner(_TestRunner):
+>      """Test runner class aware of exporting tests."""
+>      def __init__(self, *args, **kwargs):
 
