@@ -1,34 +1,49 @@
-Return-Path: <obi@opendreambox.org>
-Received: from mail.dream-property.net (mail.dream-property.net
-	[82.149.226.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 1529F65D00
-	for <openembedded-core@lists.openembedded.org>;
-	Thu,  1 Dec 2016 19:42:24 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by mail.dream-property.net (Postfix) with ESMTP id DADD031C1BF9;
-	Thu,  1 Dec 2016 20:42:25 +0100 (CET)
-X-Virus-Scanned: Debian amavisd-new at mail.dream-property.net
-Received: from mail.dream-property.net ([127.0.0.1])
-	by localhost (mail.dream-property.net [127.0.0.1]) (amavisd-new,
-	port 10024)
-	with LMTP id yDMEtfi4AnXK; Thu,  1 Dec 2016 20:42:23 +0100 (CET)
-Received: from [172.22.22.61] (55d44d49.access.ecotel.net [85.212.77.73])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by mail.dream-property.net (Postfix) with ESMTPSA id 6639C31C1BB0;
-	Thu,  1 Dec 2016 20:42:23 +0100 (CET)
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <1480531827-11799-1-git-send-email-obi@opendreambox.org>
-	<CAJTo0Lbt2APOm5ZfMQqF3Rg16W-AyBPJTYZCdd_OsXPOH-9pDA@mail.gmail.com>
-From: Andreas Oberritter <obi@opendreambox.org>
-Message-ID: <732d2d88-9aab-375a-bcc5-d9cde762fb5a@opendreambox.org>
-Date: Thu, 1 Dec 2016 20:42:22 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.5.1
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-vk0-f49.google.com (mail-vk0-f49.google.com
+	[209.85.213.49])
+	by mail.openembedded.org (Postfix) with ESMTP id 684806FFA4;
+	Thu,  1 Dec 2016 19:59:27 +0000 (UTC)
+Received: by mail-vk0-f49.google.com with SMTP id p9so134628996vkd.3;
+	Thu, 01 Dec 2016 11:59:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to; 
+	bh=NfXwFwCxx+g9j6Uqp/wfk2zuUinjYgia+sn5ihCiWc8=;
+	b=kOi4TF77NP/8PVyrv+hu/lbqtuuSM1zL/50pVUf0TsKVPvD59DgipJkabMVzPkt2Yz
+	JE8zU3QnE3JFqz65YfSord2ESU0XLiIyWQaUVBZhmc+QUmKICMyxZb1lEpkm6b/ilfde
+	6hORcjEW5GmLhNnH1EDxEjdTjmCVXeZGyhqXxsDf1b5+5r85m8v1+cLblzdhJO3twspy
+	iO1SBshdoAqfIJG6xoBDRrLd1MSLWJwclRf+A5nEuI2j8EuNJv/edwSnno4ICZYm26ir
+	WqKh/jTOzKZPb1LVEtEkkZwL2lhIJrNRffx7dgUQAL4cK1FUp2dJFpJwIZPEb0x1eZSE
+	fK1g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to;
+	bh=NfXwFwCxx+g9j6Uqp/wfk2zuUinjYgia+sn5ihCiWc8=;
+	b=GqeMV31hXb84ogq3/YE4KtIheDNtcy8UkKSZ5Jmw4nsHiHa1Y4K85jhCPc3Lu6ISSj
+	6IsHMs0pWL5gVGNEGgAbmKo23bjQPazhL4FqVvBsTe3y8nsdRG3MaFZrnMxJ37+mCa6M
+	niVqQkiVID4Anv0beTyt1CxBdXcM2+EWf5NiBj9iJZ48aq2DG8PZ4In5E7TRHY4EAUDn
+	cJdB6t3O8HK+HTaSyii4hRlzhhAHcfnQGhDZbakt7hmrCfKWDU+bFsmGjZuWzV9iJCUL
+	t9BeDF4cXJm36VXQoXLUYbPG/uhGP11Pu43rtJe31W3O40k7fLlOwpVWyScoRiz14Oli
+	aKiA==
+X-Gm-Message-State: AKaTC03nRelIBVFXa/pZvnKs/ayV/JuCR6X9jpely+ZDyIDtXVRnqxLFHuRU9md9SOTlshowbxalj04We5/mJA==
+X-Received: by 10.31.234.199 with SMTP id i190mr14774433vkh.31.1480622368309; 
+	Thu, 01 Dec 2016 11:59:28 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <CAJTo0Lbt2APOm5ZfMQqF3Rg16W-AyBPJTYZCdd_OsXPOH-9pDA@mail.gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] bash: use update-alternatives for the bash binary
+Received: by 10.159.48.87 with HTTP; Thu, 1 Dec 2016 11:58:57 -0800 (PST)
+In-Reply-To: <CAJTo0LYTYa4A42+FA9Ou=bVA6ddH8gzVBpJZJvNfa9Jyb9QQfA@mail.gmail.com>
+References: <20161128225759.9756-1-raj.khem@gmail.com>
+	<CAJTo0LZ+2+MhZ4TepH1dDzC3LyG7gz70TNEzoDjXgaBTjvHOsg@mail.gmail.com>
+	<o1jct4$pvp$1@blaine.gmane.org>
+	<CAJTo0LYLgFFR+6d3SDkso6X28N00tVAnUGuJg4sPG-msMKWU6A@mail.gmail.com>
+	<8632C69E-1C6B-482D-AF15-965F55F0AF88@gmail.com>
+	<CAJTo0LYTYa4A42+FA9Ou=bVA6ddH8gzVBpJZJvNfa9Jyb9QQfA@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Thu, 1 Dec 2016 11:58:57 -0800
+Message-ID: <CAMKF1spw8bvo8guTWkhYeQcn+Vs0kU-2X5D-03etwOj3dGroaw@mail.gmail.com>
+To: openembeded-devel <openembedded-devel@lists.openembedded.org>, 
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [oe] [meta-oe][PATCH] libva: Import from meta-intel and update to 1.7.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,33 +56,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 01 Dec 2016 19:42:26 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 01 Dec 2016 19:59:27 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On 01.12.2016 18:41, Burton, Ross wrote:
-> 
-> On 30 November 2016 at 18:50, Andreas Oberritter <obi@opendreambox.org
-> <mailto:obi@opendreambox.org>> wrote:
-> 
->     Busybox may offer a bash applet. If enabled, the alternatives mechanism
-> 
-> 
-> Wait, what?  busybox can ship a /bin/bash that isn't bash?  That's
-> *hideous*!
+On Thu, Dec 1, 2016 at 9:19 AM, Burton, Ross <ross.burton@intel.com> wrote:
+> On 1 December 2016 at 03:42, Khem Raj <raj.khem@gmail.com> wrote:
+>
+>> >> If libva goes in, can we get libva-intel-driver in as well? Those go
+>> >> hand-in-glove currently.
+>> >>
+>> >
+>> > Khem, does the AMD BSP use that?  I'd have thought that bit was actually
+>> > meta-intel specific.
+>>
+>> its intel BSPs specific
+>
+>
+> So I'd endorse libva for oe-core, and the intel-driver remains in
+> meta-intel.
 
-That's what busybox is all about, isn't it? Shipping things that aren't
-the real thing with varying levels of compatibility (think sed, awk,
-grep for other tools in busybox that use some kind of interpreted
-language). Busybox' ash even supports some bash extensions.
+I am fine with proposal. This is time for someone to raise objections.
 
-FWIW, using /bin/bash as a login shell with busybox was the easiest way
-to get bash-completions working with bash installed in a normal rootfs
-(it doesn't work fully in POSIX mode) and get working logins in an
-initramfs image at the same time, where bash isn't installed.
-/etc/passwd is shared between both images.
-
-Regards,
-Andreas
-
+>
+> Ross
+> --
+> _______________________________________________
+> Openembedded-devel mailing list
+> Openembedded-devel@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-devel
 
