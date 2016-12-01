@@ -1,34 +1,18 @@
 Return-Path: <obi@opendreambox.org>
-Received: from mail.dream-property.net (mail.dream-property.net
-	[82.149.226.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 4F8CF62136
+Received: from mail.saftware.de (mail.saftware.de [83.141.3.46])
+	by mail.openembedded.org (Postfix) with ESMTP id C948762136
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  1 Dec 2016 12:33:46 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by mail.dream-property.net (Postfix) with ESMTP id 2E6E831C1B71;
-	Thu,  1 Dec 2016 13:33:48 +0100 (CET)
-X-Virus-Scanned: Debian amavisd-new at mail.dream-property.net
-Received: from mail.dream-property.net ([127.0.0.1])
-	by localhost (mail.dream-property.net [127.0.0.1]) (amavisd-new,
-	port 10024)
-	with LMTP id YeX8-8mbnLCa; Thu,  1 Dec 2016 13:33:46 +0100 (CET)
-Received: from [172.22.22.61] (55d44d49.access.ecotel.net [85.212.77.73])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by mail.dream-property.net (Postfix) with ESMTPSA id E480431C1B77;
-	Thu,  1 Dec 2016 13:33:45 +0100 (CET)
-To: Khem Raj <raj.khem@gmail.com>
-References: <1480549817-16636-1-git-send-email-obi@opendreambox.org>
-	<15B74A76-F494-49BC-9BB6-6D0479495860@gmail.com>
+	Thu,  1 Dec 2016 12:37:37 +0000 (UTC)
+Received: by t510.zcs.saftware.de (Postfix, from userid 1000)
+	id CC067B81C73; Thu,  1 Dec 2016 13:37:32 +0100 (CET)
 From: Andreas Oberritter <obi@opendreambox.org>
-Message-ID: <2b3dfd87-29e5-f50a-a0a1-bedd604b2bd3@opendreambox.org>
-Date: Thu, 1 Dec 2016 13:33:45 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.5.1
-MIME-Version: 1.0
-In-Reply-To: <15B74A76-F494-49BC-9BB6-6D0479495860@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] libc-package.bbclass: split binary localedata even more if asked to
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  1 Dec 2016 13:37:32 +0100
+Message-Id: <1480595852-17745-1-git-send-email-obi@opendreambox.org>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <2b3dfd87-29e5-f50a-a0a1-bedd604b2bd3@opendreambox.org>
+References: <2b3dfd87-29e5-f50a-a0a1-bedd604b2bd3@opendreambox.org>
+Subject: [PATCH v2] libc-package.bbclass: split binary localedata even more if asked to
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,37 +25,115 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 01 Dec 2016 12:33:47 -0000
-Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 01 Dec 2016 12:37:39 -0000
 
-On 01.12.2016 05:02, Khem Raj wrote:
-> 
->> On Nov 30, 2016, at 3:50 PM, Andreas Oberritter <obi@opendreambox.org> wrote:
->>
->> If GLIBC_SPLIT_LC_PACKAGES is set to a non-zero value, convert
->> glibc-binary-localedata-XX-YY to be a meta package depending on
->> glibc-binary-localedata-XX-YY-lc-address and so on. This enables
->> saving quite some space if someone doesn't need LC_COLLATE for
->> example.
->>
->> Some regex code was removed from output_locale_binary_rdepends,
->> because legitimize_package_name already converts to lowercase.
->>
-> 
-> This looks ok. May be add some documentation around 
-> GLIBC_SPLIT_LC_PACKAGES in extended local.conf sample.
+If GLIBC_SPLIT_LC_PACKAGES is set to a non-zero value, convert
+glibc-binary-localedata-XX-YY to be a meta package depending on
+glibc-binary-localedata-XX-YY-lc-address and so on. This enables
+saving quite some space if someone doesn't need LC_COLLATE for
+example.
 
-OK, will send a v2.
+Some regex code was removed from output_locale_binary_rdepends,
+because legitimize_package_name already converts to lowercase.
 
-> I am worried about dependency changes, may be comparing old and new
-> would help.
+Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
+---
+v2: Added description to local.conf.sample.extended.
 
-The generated meta packages make sure that dependencies stay intact. I
-didn't observe any deviation in my test builds, with or without setting
-GLIBC_SPLIT_LC_PACKAGES to 1.
+ meta/classes/libc-package.bbclass    | 39 +++++++++++++++++++++++-------------
+ meta/conf/local.conf.sample.extended |  7 +++++++
+ 2 files changed, 32 insertions(+), 14 deletions(-)
 
-Regards,
-Andreas
+diff --git a/meta/classes/libc-package.bbclass b/meta/classes/libc-package.bbclass
+index 2dc90c4..071978b 100644
+--- a/meta/classes/libc-package.bbclass
++++ b/meta/classes/libc-package.bbclass
+@@ -9,6 +9,8 @@
+ 
+ GLIBC_INTERNAL_USE_BINARY_LOCALE ?= "ondevice"
+ 
++GLIBC_SPLIT_LC_PACKAGES ?= "0"
++
+ python __anonymous () {
+     enabled = d.getVar("ENABLE_BINARY_LOCALE_GENERATION", True)
+ 
+@@ -219,13 +221,12 @@ python package_do_split_gconvs () {
+         (locale, encoding, locale))
+ 
+     def output_locale_binary_rdepends(name, pkgname, locale, encoding):
+-        m = re.match("(.*)\.(.*)", name)
+-        if m:
+-            libc_name = "%s.%s" % (m.group(1), m.group(2).lower())
+-        else:
+-            libc_name = name
+-        d.setVar('RDEPENDS_%s' % pkgname, legitimize_package_name('%s-binary-localedata-%s' \
+-            % (mlprefix+bpn, libc_name)))
++        dep = legitimize_package_name('%s-binary-localedata-%s' % (bpn, name))
++        lcsplit = d.getVar('GLIBC_SPLIT_LC_PACKAGES', True)
++        if lcsplit and int(lcsplit):
++            d.appendVar('PACKAGES', ' ' + dep)
++            d.setVar('ALLOW_EMPTY_%s' % dep, '1')
++        d.setVar('RDEPENDS_%s' % pkgname, mlprefix + dep)
+ 
+     commands = {}
+ 
+@@ -337,6 +338,11 @@ python package_do_split_gconvs () {
+             else:
+                 output_locale('%s.%s' % (base, charset), base, charset)
+ 
++    def metapkg_hook(file, pkg, pattern, format, basename):
++        name = basename.split('/', 1)[0]
++        metapkg = legitimize_package_name('%s-binary-localedata-%s' % (mlprefix+bpn, name))
++        d.appendVar('RDEPENDS_%s' % metapkg, ' ' + pkg)
++
+     if use_bin == "compile":
+         makefile = base_path_join(d.getVar("WORKDIR", True), "locale-tree", "Makefile")
+         m = open(makefile, "w")
+@@ -350,13 +356,18 @@ python package_do_split_gconvs () {
+         bb.build.exec_func("oe_runmake", d)
+         bb.note("collecting binary locales from locale tree")
+         bb.build.exec_func("do_collect_bins_from_locale_tree", d)
+-        do_split_packages(d, binary_locales_dir, file_regex='(.*)', \
+-            output_pattern=bpn+'-binary-localedata-%s', \
+-            description='binary locale definition for %s', extra_depends='', allow_dirs=True)
+-    elif use_bin == "precompiled":
+-        do_split_packages(d, binary_locales_dir, file_regex='(.*)', \
+-            output_pattern=bpn+'-binary-localedata-%s', \
+-            description='binary locale definition for %s', extra_depends='', allow_dirs=True)
++
++    if use_bin in ('compile', 'precompiled'):
++        lcsplit = d.getVar('GLIBC_SPLIT_LC_PACKAGES', True)
++        if lcsplit and int(lcsplit):
++            do_split_packages(d, binary_locales_dir, file_regex='^(.*/LC_\w+)', \
++                output_pattern=bpn+'-binary-localedata-%s', \
++                description='binary locale definition for %s', recursive=True,
++                hook=metapkg_hook, extra_depends='', allow_dirs=True, match_path=True)
++        else:
++            do_split_packages(d, binary_locales_dir, file_regex='(.*)', \
++                output_pattern=bpn+'-binary-localedata-%s', \
++                description='binary locale definition for %s', extra_depends='', allow_dirs=True)
+     else:
+         bb.note("generation of binary locales disabled. this may break i18n!")
+ 
+diff --git a/meta/conf/local.conf.sample.extended b/meta/conf/local.conf.sample.extended
+index 57f656a..f7cabf0 100644
+--- a/meta/conf/local.conf.sample.extended
++++ b/meta/conf/local.conf.sample.extended
+@@ -47,6 +47,13 @@
+ # less than 128MB RAM.
+ #ENABLE_BINARY_LOCALE_GENERATION = "1"
+ 
++# If GLIBC_SPLIT_LC_PACKAGES is set to a non-zero value, convert
++# glibc-binary-localedata-XX-YY to be a meta package depending on
++# glibc-binary-localedata-XX-YY-lc-address and so on. This enables
++# saving quite some space if someone doesn't need LC_COLLATE for
++# example.
++#GLIBC_SPLIT_LC_PACKAGES = "1"
++
+ # Set GLIBC_GENERATE_LOCALES to the locales you wish to generate should you not
+ # wish to perform the time-consuming step of generating all LIBC locales.
+ # NOTE: If removing en_US.UTF-8 you will also need to uncomment, and set
+-- 
+2.7.4
 
 
