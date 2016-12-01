@@ -1,16 +1,47 @@
-Return-Path: <ml@embed.me.uk>
-Received: from owm.eumx.net (eumx.net [91.82.101.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 087E671AEB
+Return-Path: <linus.svensson@axis.com>
+Received: from bes.se.axis.com (bes.se.axis.com [195.60.68.10])
+	by mail.openembedded.org (Postfix) with ESMTP id 9E03D60291
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  1 Dec 2016 16:17:24 +0000 (UTC)
-To: OE-core <openembedded-core@lists.openembedded.org>
-From: Jack Mitchell <ml@embed.me.uk>
-Message-ID: <68b7f401-a888-ff73-45d5-b0df76f170c4@embed.me.uk>
-Date: Thu, 1 Dec 2016 16:18:42 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.5.0
-MIME-Version: 1.0
-Subject: non-standard library locations and rpath
+	Thu,  1 Dec 2016 16:23:56 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bes.se.axis.com (Postfix) with ESMTP id 539832E734
+	for <openembedded-core@lists.openembedded.org>;
+	Thu,  1 Dec 2016 17:23:57 +0100 (CET)
+X-Virus-Scanned: Debian amavisd-new at bes.se.axis.com
+Received: from bes.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bes.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP id A1FM97dIVaBR
+	for <openembedded-core@lists.openembedded.org>;
+	Thu,  1 Dec 2016 17:23:56 +0100 (CET)
+Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
+	by bes.se.axis.com (Postfix) with ESMTPS id A0F262E722
+	for <openembedded-core@lists.openembedded.org>;
+	Thu,  1 Dec 2016 17:23:56 +0100 (CET)
+Received: from boulder02.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 8D9951A09C
+	for <openembedded-core@lists.openembedded.org>;
+	Thu,  1 Dec 2016 17:23:56 +0100 (CET)
+Received: from boulder02.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 82F051A09A
+	for <openembedded-core@lists.openembedded.org>;
+	Thu,  1 Dec 2016 17:23:56 +0100 (CET)
+Received: from seth.se.axis.com (unknown [10.0.2.172])
+	by boulder02.se.axis.com (Postfix) with ESMTP
+	for <openembedded-core@lists.openembedded.org>;
+	Thu,  1 Dec 2016 17:23:56 +0100 (CET)
+Received: from lnxlinussn.se.axis.com (lnxlinussn.se.axis.com [10.94.48.1])
+	by seth.se.axis.com (Postfix) with ESMTP id 7732B584
+	for <openembedded-core@lists.openembedded.org>;
+	Thu,  1 Dec 2016 17:23:56 +0100 (CET)
+Received: by lnxlinussn.se.axis.com (Postfix, from userid 21014)
+	id 604413A099; Thu,  1 Dec 2016 17:23:56 +0100 (CET)
+From: linus.svensson@axis.com
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  1 Dec 2016 17:23:36 +0100
+Message-Id: <1480609418-3264-1-git-send-email-linus.svensson@axis.com>
+X-Mailer: git-send-email 2.1.4
+X-TM-AS-GCONF: 00
+Subject: [PATCH 1/3] python3-native: Add python3-modules to RPROVIDES list
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -23,26 +54,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 01 Dec 2016 16:17:25 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 01 Dec 2016 16:23:56 -0000
 
-I'm having some troubles with shared library, shared library 
-dependencies and rpaths. I have libfoo, which depends on libbar when I 
-try to link libfoo with my app, it requires libbar to be found. libbar 
-is in a non-standard location, /usr/local/bar when I compiled libfoo, I 
-used -Wl,rpath-link ${STAGING_SYSROOT}/usr/local/bar and -Wl,rpath 
-/usr/local/bar. Now when I come to try link my app with libfoo, it fails 
-to link as it can't find libbar, which I assume means the rpath in 
-libfoo isn't being properly prepending with sysroot what is the proper 
-way to support this in OE? My library has the following rpath information:
+From: Linus Svensson <linussn@axis.com>
 
-0x0000000f (RPATH) Library rpath: [$ORIGIN/../lib:/usr/local/bar]
+Signed-off-by: Linus Svensson <linussn@axis.com>
+---
+ meta/recipes-devtools/python/python3-native_3.5.2.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-So why isn't the rpath being prepended with the sysroot when I compile 
-my app and link libfoo? The apps build system is using cmake, but this 
-should be a built in linker feature, correct?
+diff --git a/meta/recipes-devtools/python/python3-native_3.5.2.bb b/meta/recipes-devtools/python/python3-native_3.5.2.bb
+index 08802cd..7ac3942 100644
+--- a/meta/recipes-devtools/python/python3-native_3.5.2.bb
++++ b/meta/recipes-devtools/python/python3-native_3.5.2.bb
+@@ -54,6 +54,7 @@ RPROVIDES += " \
+     python3-json-native \
+     python3-lang-native \
+     python3-misc-native \
++    python3-modules-native \
+     python3-netclient-native \
+     python3-netserver-native \
+     python3-numbers-native \
+-- 
+2.1.4
 
-Cheers,
-Jack.
 
