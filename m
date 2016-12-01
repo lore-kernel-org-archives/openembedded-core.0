@@ -1,18 +1,51 @@
-Return-Path: <obi@opendreambox.org>
-Received: from mail.saftware.de (mail.saftware.de [83.141.3.46])
-	by mail.openembedded.org (Postfix) with ESMTP id 6E7936078E
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pf0-f174.google.com (mail-pf0-f174.google.com
+	[209.85.192.174])
+	by mail.openembedded.org (Postfix) with ESMTP id A35A06E650
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  1 Dec 2016 02:33:25 +0000 (UTC)
-Received: by t510.zcs.saftware.de (Postfix, from userid 1000)
-	id DE60EB81C73; Thu,  1 Dec 2016 03:33:23 +0100 (CET)
-From: Andreas Oberritter <obi@opendreambox.org>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  1 Dec 2016 03:33:23 +0100
-Message-Id: <1480559603-28235-1-git-send-email-obi@opendreambox.org>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1480542437-22778-1-git-send-email-obi@opendreambox.org>
-References: <1480542437-22778-1-git-send-email-obi@opendreambox.org>
-Subject: [PATCH v2] lighttpd: Add many packageconfig options
+	Thu,  1 Dec 2016 03:51:54 +0000 (UTC)
+Received: by mail-pf0-f174.google.com with SMTP id 189so43245932pfz.3
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 30 Nov 2016 19:51:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:subject:from:in-reply-to:date:cc
+	:content-transfer-encoding:message-id:references:to;
+	bh=10gwJ3vi9jeFJUi7W8SoB0wW4yJd40kyXRPtBlFNefQ=;
+	b=MBxJsx5LOsXo5HXEiErPf6+BLwL7SGS41q+bNApy3AF/ql3nzFHvv9iYvK+nCJN8WT
+	W+ewfXJfvvWQ66e3rbrC5Ed+1RSvhSNibmxCLmR5Xaga3djN1DxIoIAMDpAUCwOuJB49
+	LG2w/MqYq6vyN+Wl7GMepnshQQwRrrIv5WuYc/JqkkOzlYHr+JnUDSZXD+acf6tNc3GZ
+	63KbwbZEohcvfTVxvj2EdaWDgje7lyxQG56xKmP0fj/OLVrixvjLeB09Y0HBAa2+yjD4
+	bc4dx+FQchUq5Aw7Jir0QjzgJVeqYcGpFVPbR+bu/JNWjFNjf5R2D2sme9poTf4/2Ohf
+	USOA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
+	:content-transfer-encoding:message-id:references:to;
+	bh=10gwJ3vi9jeFJUi7W8SoB0wW4yJd40kyXRPtBlFNefQ=;
+	b=hhdIvZCDci01sQguzVt7KNXFke7mX7Z2PcRYcc7Mv70/KIBV0DODXRCU/Q5cMmQa7D
+	KQPxepSo5TqCFIi67zcxWX3HaqgRiuhd0QTa/jcukKwstRV+bCSXzzTTMGFT+7KIgbfi
+	Rb63bUb73aHPtOmmFnWjgrGLyyATIjiB+js41iJyhoOAD4F6mYMhCA5PGGGdNm8PLFQE
+	mwba+Dx9xlsTHVcn3/Rmz74BTrSTGoTOazAcHpoZmPka7ZeJfEPHs/B3C2VM270kxAQp
+	OkQw73fIlD0WKmar+KQNQKldIElGgXyIxcFMx7L4kUK/ChKhtK2jckCzTWuudgtnFvys
+	xdXQ==
+X-Gm-Message-State: AKaTC03mKWOwWRfB03PQUVGvm2MnUVfgEhLCs2WQYudDWWZlOBFlfiiZo8tKUfHOkxyWDw==
+X-Received: by 10.98.72.129 with SMTP id q1mr36710648pfi.169.1480564315700;
+	Wed, 30 Nov 2016 19:51:55 -0800 (PST)
+Received: from [192.168.0.130] (c-76-102-32-192.hsd1.ca.comcast.net.
+	[76.102.32.192]) by smtp.gmail.com with ESMTPSA id
+	a24sm89989005pfh.57.2016.11.30.19.51.54
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 30 Nov 2016 19:51:55 -0800 (PST)
+Mime-Version: 1.0 (Mac OS X Mail 10.1 \(3251\))
+From: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <alpine.LFD.2.20.1611300625420.7224@ca624034.mitel.com>
+Date: Wed, 30 Nov 2016 19:51:53 -0800
+Message-Id: <7B9B81D0-0F48-46A2-95FC-639A2EE0D555@gmail.com>
+References: <alpine.LFD.2.20.1611300625420.7224@ca624034.mitel.com>
+To: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-Mailer: Apple Mail (2.3251)
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: purpose of variables like "base_bindir_native"?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,76 +58,82 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 01 Dec 2016 02:33:28 -0000
+X-List-Received-Date: Thu, 01 Dec 2016 03:51:55 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-Respect largefile and xattr distro features.
 
-Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
----
-v2: In 1.4.42, upstream renamed --with-kerberos5 to --with-krb5
-    and introduced mod_authn_gssapi with a new dependency on krb5.
+> On Nov 30, 2016, at 3:34 AM, Robert P. J. Day <rpjday@crashcourse.ca> =
+wrote:
+>=20
+>=20
+>  i'm putting together a tutorial on the structure of the native
+> sysroot and how it's built and variables involved, and was poking
+> around in both bitbake.conf and native.bbclass, and i'm curious about
+> one or two things.
+>=20
+>  i could be totally wrong but it *seems* like there's native-related
+> content in bitbake.conf that could be moved over to native.bbclass to
+> reduce a little of the clutter. i'm perusing bitbake.conf and it's
+> hard to keep track of some of the variables just because there's both
+> native- and target- related settings in there. but i'll admit i
+> haven't finished my inspection.
+>=20
+>  on a more specific note, in the entire oe-core layer, there are two
+> references to the variable "base_bindir_native" (formatted for
+> aesthetics):
+>=20
+> $ grep -rw base_bindir_native *
+> meta/conf/bitbake.conf:base_bindir_native =3D "/bin"
+> meta/conf/bitbake.conf:PATH_prepend =3D
+> "${COREBASE}/scripts:i
+> ${STAGING_BINDIR_TOOLCHAIN}:
+> ${STAGING_BINDIR_CROSS}:
+> ${STAGING_DIR_NATIVE}${sbindir_native}:
+> ${STAGING_BINDIR_NATIVE}:
+> ${STAGING_DIR_NATIVE}${base_sbindir_native}:
+> ${STAGING_DIR_NATIVE}${base_bindir_native}:"      <----- there
+>=20
+>  so, given that that variable is set in bitbake.conf, and is only
+> referenced in that same file, what's the point of making it a
+> variable? doesn't hurt, of course, but when i see a variable, i
+> normally assume it's because it might be modified later somewhere, but
+> i don't see that happening here. is there a reason for it? same thing
+> could be said for "base_sbindir_native" as well.
+>=20
+>  thoughts?
 
- meta/recipes-extended/lighttpd/lighttpd_1.4.43.bb | 37 ++++++++++++++---------
- 1 file changed, 22 insertions(+), 15 deletions(-)
+you could modify it if you wished to then you just change one var in =
+local
+metadata
 
-diff --git a/meta/recipes-extended/lighttpd/lighttpd_1.4.43.bb b/meta/recipes-extended/lighttpd/lighttpd_1.4.43.bb
-index 322f212..38eaf70 100644
---- a/meta/recipes-extended/lighttpd/lighttpd_1.4.43.bb
-+++ b/meta/recipes-extended/lighttpd/lighttpd_1.4.43.bb
-@@ -6,7 +6,6 @@ LICENSE = "BSD"
- LIC_FILES_CHKSUM = "file://COPYING;md5=e4dac5c6ab169aa212feb5028853a579"
- 
- SECTION = "net"
--DEPENDS = "zlib libpcre"
- RDEPENDS_${PN} += " \
-                lighttpd-module-access \
-                lighttpd-module-accesslog \
-@@ -26,22 +25,30 @@ SRC_URI = "http://download.lighttpd.net/lighttpd/releases-1.4.x/lighttpd-${PV}.t
- SRC_URI[md5sum] = "95eda531c27b161ef8fa2b9bf4948caf"
- SRC_URI[sha256sum] = "fe0c4a06dd2408a83ee7a2bfedc45e09597f3313cbda82485507573ae8fa948a"
- 
--PACKAGECONFIG ??= "openssl \
-+PACKAGECONFIG ??= "openssl pcre zlib \
-     ${@bb.utils.contains('DISTRO_FEATURES', 'ipv6', 'ipv6', '', d)} \
-+    ${@bb.utils.contains('DISTRO_FEATURES', 'largefile', 'lfs', '', d)} \
-+    ${@bb.utils.contains('DISTRO_FEATURES', 'xattr', 'attr', '', d)} \
- "
--PACKAGECONFIG[openssl] = "--with-openssl, --without-openssl, openssl"
--PACKAGECONFIG[ipv6] = "--enable-ipv6,--disable-ipv6,"
--
--EXTRA_OECONF = " \
--             --without-bzip2 \
--             --without-ldap \
--             --without-lua \
--             --without-memcached \
--             --with-pcre \
--             --without-webdav-props \
--             --without-webdav-locks \
--             --disable-static \
--"
-+PACKAGECONFIG[lfs] = "--enable-lfs,--disable-lfs"
-+PACKAGECONFIG[ipv6] = "--enable-ipv6,--disable-ipv6"
-+PACKAGECONFIG[mmap] = "--enable-mmap,--disable-mmap"
-+PACKAGECONFIG[libev] = "--with-libev,--without-libev,libev"
-+PACKAGECONFIG[mysql] = "--with-mysql,--without-mysql,mariadb"
-+PACKAGECONFIG[ldap] = "--with-ldap,--without-ldap,openldap"
-+PACKAGECONFIG[attr] = "--with-attr,--without-attr,attr"
-+PACKAGECONFIG[valgrind] = "--with-valgrind,--without-valgrind,valgrind"
-+PACKAGECONFIG[openssl] = "--with-openssl,--without-openssl,openssl"
-+PACKAGECONFIG[krb5] = "--with-krb5,--without-krb5,krb5"
-+PACKAGECONFIG[pcre] = "--with-pcre,--without-pcre,libpcre"
-+PACKAGECONFIG[zlib] = "--with-zlib,--without-zlib,zlib"
-+PACKAGECONFIG[bzip2] = "--with-bzip2,--without-bzip2,bzip2"
-+PACKAGECONFIG[fam] = "--with-fam,--without-fam,gamin"
-+PACKAGECONFIG[webdav-props] = "--with-webdav-props,--without-webdav-props,libxml2 sqlite3"
-+PACKAGECONFIG[webdav-locks] = "--with-webdav-locks,--without-webdav-locks,util-linux"
-+PACKAGECONFIG[gdbm] = "--with-gdbm,--without-gdbm,gdbm"
-+PACKAGECONFIG[memcache] = "--with-memcached,--without-memcached,libmemcached"
-+PACKAGECONFIG[lua] = "--with-lua,--without-lua,lua5.1"
- 
- inherit autotools pkgconfig update-rc.d gettext systemd
- 
--- 
-2.7.4
+>=20
+> rday
+>=20
+> --=20
+>=20
+> =
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> Robert P. J. Day                                 Ottawa, Ontario, =
+CANADA
+>                        http://crashcourse.ca
+>=20
+> Twitter:                                       =
+http://twitter.com/rpjday
+> LinkedIn:                               =
+http://ca.linkedin.com/in/rpjday
+> =
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>=20
+>=20
+> --=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
 
