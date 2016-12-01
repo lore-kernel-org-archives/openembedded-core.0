@@ -1,51 +1,50 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f174.google.com (mail-pf0-f174.google.com
-	[209.85.192.174])
-	by mail.openembedded.org (Postfix) with ESMTP id A35A06E650
+Received: from mail-pg0-f66.google.com (mail-pg0-f66.google.com [74.125.83.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 9B6F76AC4B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  1 Dec 2016 03:51:54 +0000 (UTC)
-Received: by mail-pf0-f174.google.com with SMTP id 189so43245932pfz.3
+	Thu,  1 Dec 2016 04:02:22 +0000 (UTC)
+Received: by mail-pg0-f66.google.com with SMTP id 3so3252757pgd.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Nov 2016 19:51:56 -0800 (PST)
+	Wed, 30 Nov 2016 20:02:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:subject:from:in-reply-to:date:cc
 	:content-transfer-encoding:message-id:references:to;
-	bh=10gwJ3vi9jeFJUi7W8SoB0wW4yJd40kyXRPtBlFNefQ=;
-	b=MBxJsx5LOsXo5HXEiErPf6+BLwL7SGS41q+bNApy3AF/ql3nzFHvv9iYvK+nCJN8WT
-	W+ewfXJfvvWQ66e3rbrC5Ed+1RSvhSNibmxCLmR5Xaga3djN1DxIoIAMDpAUCwOuJB49
-	LG2w/MqYq6vyN+Wl7GMepnshQQwRrrIv5WuYc/JqkkOzlYHr+JnUDSZXD+acf6tNc3GZ
-	63KbwbZEohcvfTVxvj2EdaWDgje7lyxQG56xKmP0fj/OLVrixvjLeB09Y0HBAa2+yjD4
-	bc4dx+FQchUq5Aw7Jir0QjzgJVeqYcGpFVPbR+bu/JNWjFNjf5R2D2sme9poTf4/2Ohf
-	USOA==
+	bh=zLFoIUbc8cDQ3JE/rbKHuR992qq54xYMkBCzO+3hdSU=;
+	b=BcGNoJoNMPYwrtLH7f3bSChvmI200By+nO0mp2HAnm5+ABWXhqIlaM2BCYFWcpRzdn
+	LGyvuD3fvdA4x0rA0c7t3zdv3llNSc2Rbxn/XbT9WCU9vtPr/oVD8cKaTop37XScquw2
+	pPtJUB7QNXuWoIOvOum+7orL0c2c2OkZc4R3K8pfP3I59mXUmbs/6ca6JNW1TMd8qdHA
+	0Z88xyFi/na3Nh3Dw9qM2HWPVJpMIx/em4UZpw4PlsylzLtFMlt1Ejg91b2oGpoeZOC0
+	CdeMUfKwMEVAou+M1Z4xiJTXO4OlNzzRFYmonB1/kap+Yark+B5dVQ29VXAORRGGYhMI
+	tn8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
 	:content-transfer-encoding:message-id:references:to;
-	bh=10gwJ3vi9jeFJUi7W8SoB0wW4yJd40kyXRPtBlFNefQ=;
-	b=hhdIvZCDci01sQguzVt7KNXFke7mX7Z2PcRYcc7Mv70/KIBV0DODXRCU/Q5cMmQa7D
-	KQPxepSo5TqCFIi67zcxWX3HaqgRiuhd0QTa/jcukKwstRV+bCSXzzTTMGFT+7KIgbfi
-	Rb63bUb73aHPtOmmFnWjgrGLyyATIjiB+js41iJyhoOAD4F6mYMhCA5PGGGdNm8PLFQE
-	mwba+Dx9xlsTHVcn3/Rmz74BTrSTGoTOazAcHpoZmPka7ZeJfEPHs/B3C2VM270kxAQp
-	OkQw73fIlD0WKmar+KQNQKldIElGgXyIxcFMx7L4kUK/ChKhtK2jckCzTWuudgtnFvys
-	xdXQ==
-X-Gm-Message-State: AKaTC03mKWOwWRfB03PQUVGvm2MnUVfgEhLCs2WQYudDWWZlOBFlfiiZo8tKUfHOkxyWDw==
-X-Received: by 10.98.72.129 with SMTP id q1mr36710648pfi.169.1480564315700;
-	Wed, 30 Nov 2016 19:51:55 -0800 (PST)
+	bh=zLFoIUbc8cDQ3JE/rbKHuR992qq54xYMkBCzO+3hdSU=;
+	b=SspEcqbKBrSzH4mOMSSufYXv2C1YEheaqT6AJ9e44OgVhVzMVn6nABP27KnsvsxJWg
+	AgOeymfgv3socDRYu2RJYHGztpekdwhSGq/oaiDR3Kp8wr4hPJOMVgOKUEeJBjHQnHIX
+	uM8/2vzK1/NIMjL7RcNc9x/mzyl1wbLwnZZ/G1ssN062jbjFvkPVXd6qoeGj23GnL4aX
+	sbl7tJGvdui82PmT4mRYw0kmXzj5voEFwpNFDgQbJj2oAXKMj6n+FU114VysBe32Kd7i
+	WIBMN28ENItvy4/oxuceU3K95obIH4bue/rCHF1hAJXq9FWM4uGMie6OWJgEWEug3Hct
+	2mYA==
+X-Gm-Message-State: AKaTC02GpqV5ztGD9RMa5KOEWxJyNJC3v0pm6rvSom1lPcSNRHoFN58+goPw/Ji5tGuTpA==
+X-Received: by 10.84.206.37 with SMTP id f34mr80094206ple.35.1480564943672;
+	Wed, 30 Nov 2016 20:02:23 -0800 (PST)
 Received: from [192.168.0.130] (c-76-102-32-192.hsd1.ca.comcast.net.
 	[76.102.32.192]) by smtp.gmail.com with ESMTPSA id
-	a24sm89989005pfh.57.2016.11.30.19.51.54
+	y6sm24214025pge.16.2016.11.30.20.02.22
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 30 Nov 2016 19:51:55 -0800 (PST)
+	Wed, 30 Nov 2016 20:02:23 -0800 (PST)
 Mime-Version: 1.0 (Mac OS X Mail 10.1 \(3251\))
 From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <alpine.LFD.2.20.1611300625420.7224@ca624034.mitel.com>
-Date: Wed, 30 Nov 2016 19:51:53 -0800
-Message-Id: <7B9B81D0-0F48-46A2-95FC-639A2EE0D555@gmail.com>
-References: <alpine.LFD.2.20.1611300625420.7224@ca624034.mitel.com>
-To: "Robert P. J. Day" <rpjday@crashcourse.ca>
+In-Reply-To: <1480549817-16636-1-git-send-email-obi@opendreambox.org>
+Date: Wed, 30 Nov 2016 20:02:21 -0800
+Message-Id: <15B74A76-F494-49BC-9BB6-6D0479495860@gmail.com>
+References: <1480549817-16636-1-git-send-email-obi@opendreambox.org>
+To: Andreas Oberritter <obi@opendreambox.org>
 X-Mailer: Apple Mail (2.3251)
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: purpose of variables like "base_bindir_native"?
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] libc-package.bbclass: split binary localedata even more if asked to
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,77 +57,125 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 01 Dec 2016 03:51:55 -0000
+X-List-Received-Date: Thu, 01 Dec 2016 04:02:22 -0000
 Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
 
 
-> On Nov 30, 2016, at 3:34 AM, Robert P. J. Day <rpjday@crashcourse.ca> =
+> On Nov 30, 2016, at 3:50 PM, Andreas Oberritter <obi@opendreambox.org> =
 wrote:
 >=20
+> If GLIBC_SPLIT_LC_PACKAGES is set to a non-zero value, convert
+> glibc-binary-localedata-XX-YY to be a meta package depending on
+> glibc-binary-localedata-XX-YY-lc-address and so on. This enables
+> saving quite some space if someone doesn't need LC_COLLATE for
+> example.
 >=20
->  i'm putting together a tutorial on the structure of the native
-> sysroot and how it's built and variables involved, and was poking
-> around in both bitbake.conf and native.bbclass, and i'm curious about
-> one or two things.
+> Some regex code was removed from output_locale_binary_rdepends,
+> because legitimize_package_name already converts to lowercase.
 >=20
->  i could be totally wrong but it *seems* like there's native-related
-> content in bitbake.conf that could be moved over to native.bbclass to
-> reduce a little of the clutter. i'm perusing bitbake.conf and it's
-> hard to keep track of some of the variables just because there's both
-> native- and target- related settings in there. but i'll admit i
-> haven't finished my inspection.
->=20
->  on a more specific note, in the entire oe-core layer, there are two
-> references to the variable "base_bindir_native" (formatted for
-> aesthetics):
->=20
-> $ grep -rw base_bindir_native *
-> meta/conf/bitbake.conf:base_bindir_native =3D "/bin"
-> meta/conf/bitbake.conf:PATH_prepend =3D
-> "${COREBASE}/scripts:i
-> ${STAGING_BINDIR_TOOLCHAIN}:
-> ${STAGING_BINDIR_CROSS}:
-> ${STAGING_DIR_NATIVE}${sbindir_native}:
-> ${STAGING_BINDIR_NATIVE}:
-> ${STAGING_DIR_NATIVE}${base_sbindir_native}:
-> ${STAGING_DIR_NATIVE}${base_bindir_native}:"      <----- there
->=20
->  so, given that that variable is set in bitbake.conf, and is only
-> referenced in that same file, what's the point of making it a
-> variable? doesn't hurt, of course, but when i see a variable, i
-> normally assume it's because it might be modified later somewhere, but
-> i don't see that happening here. is there a reason for it? same thing
-> could be said for "base_sbindir_native" as well.
->=20
->  thoughts?
 
-you could modify it if you wished to then you just change one var in =
-local
-metadata
+This looks ok. May be add some documentation around=20
+GLIBC_SPLIT_LC_PACKAGES in extended local.conf sample.
+I am worried about dependency changes, may be comparing old and new
+would help.
 
+> Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
+> ---
+> meta/classes/libc-package.bbclass | 39 =
++++++++++++++++++++++++++--------------
+> 1 file changed, 25 insertions(+), 14 deletions(-)
 >=20
-> rday
+> diff --git a/meta/classes/libc-package.bbclass =
+b/meta/classes/libc-package.bbclass
+> index 2dc90c4..071978b 100644
+> --- a/meta/classes/libc-package.bbclass
+> +++ b/meta/classes/libc-package.bbclass
+> @@ -9,6 +9,8 @@
+>=20
+> GLIBC_INTERNAL_USE_BINARY_LOCALE ?=3D "ondevice"
+>=20
+> +GLIBC_SPLIT_LC_PACKAGES ?=3D "0"
+> +
+> python __anonymous () {
+>     enabled =3D d.getVar("ENABLE_BINARY_LOCALE_GENERATION", True)
+>=20
+> @@ -219,13 +221,12 @@ python package_do_split_gconvs () {
+>         (locale, encoding, locale))
+>=20
+>     def output_locale_binary_rdepends(name, pkgname, locale, =
+encoding):
+> -        m =3D re.match("(.*)\.(.*)", name)
+> -        if m:
+> -            libc_name =3D "%s.%s" % (m.group(1), m.group(2).lower())
+> -        else:
+> -            libc_name =3D name
+> -        d.setVar('RDEPENDS_%s' % pkgname, =
+legitimize_package_name('%s-binary-localedata-%s' \
+> -            % (mlprefix+bpn, libc_name)))
+> +        dep =3D legitimize_package_name('%s-binary-localedata-%s' % =
+(bpn, name))
+> +        lcsplit =3D d.getVar('GLIBC_SPLIT_LC_PACKAGES', True)
+> +        if lcsplit and int(lcsplit):
+> +            d.appendVar('PACKAGES', ' ' + dep)
+> +            d.setVar('ALLOW_EMPTY_%s' % dep, '1')
+> +        d.setVar('RDEPENDS_%s' % pkgname, mlprefix + dep)
+>=20
+>     commands =3D {}
+>=20
+> @@ -337,6 +338,11 @@ python package_do_split_gconvs () {
+>             else:
+>                 output_locale('%s.%s' % (base, charset), base, =
+charset)
+>=20
+> +    def metapkg_hook(file, pkg, pattern, format, basename):
+> +        name =3D basename.split('/', 1)[0]
+> +        metapkg =3D legitimize_package_name('%s-binary-localedata-%s' =
+% (mlprefix+bpn, name))
+> +        d.appendVar('RDEPENDS_%s' % metapkg, ' ' + pkg)
+> +
+>     if use_bin =3D=3D "compile":
+>         makefile =3D base_path_join(d.getVar("WORKDIR", True), =
+"locale-tree", "Makefile")
+>         m =3D open(makefile, "w")
+> @@ -350,13 +356,18 @@ python package_do_split_gconvs () {
+>         bb.build.exec_func("oe_runmake", d)
+>         bb.note("collecting binary locales from locale tree")
+>         bb.build.exec_func("do_collect_bins_from_locale_tree", d)
+> -        do_split_packages(d, binary_locales_dir, file_regex=3D'(.*)', =
+\
+> -            output_pattern=3Dbpn+'-binary-localedata-%s', \
+> -            description=3D'binary locale definition for %s', =
+extra_depends=3D'', allow_dirs=3DTrue)
+> -    elif use_bin =3D=3D "precompiled":
+> -        do_split_packages(d, binary_locales_dir, file_regex=3D'(.*)', =
+\
+> -            output_pattern=3Dbpn+'-binary-localedata-%s', \
+> -            description=3D'binary locale definition for %s', =
+extra_depends=3D'', allow_dirs=3DTrue)
+> +
+> +    if use_bin in ('compile', 'precompiled'):
+> +        lcsplit =3D d.getVar('GLIBC_SPLIT_LC_PACKAGES', True)
+> +        if lcsplit and int(lcsplit):
+> +            do_split_packages(d, binary_locales_dir, =
+file_regex=3D'^(.*/LC_\w+)', \
+> +                output_pattern=3Dbpn+'-binary-localedata-%s', \
+> +                description=3D'binary locale definition for %s', =
+recursive=3DTrue,
+> +                hook=3Dmetapkg_hook, extra_depends=3D'', =
+allow_dirs=3DTrue, match_path=3DTrue)
+> +        else:
+> +            do_split_packages(d, binary_locales_dir, =
+file_regex=3D'(.*)', \
+> +                output_pattern=3Dbpn+'-binary-localedata-%s', \
+> +                description=3D'binary locale definition for %s', =
+extra_depends=3D'', allow_dirs=3DTrue)
+>     else:
+>         bb.note("generation of binary locales disabled. this may break =
+i18n!")
 >=20
 > --=20
->=20
-> =
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> Robert P. J. Day                                 Ottawa, Ontario, =
-CANADA
->                        http://crashcourse.ca
->=20
-> Twitter:                                       =
-http://twitter.com/rpjday
-> LinkedIn:                               =
-http://ca.linkedin.com/in/rpjday
-> =
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->=20
+> 2.7.4
 >=20
 > --=20
 > _______________________________________________
