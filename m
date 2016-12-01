@@ -1,16 +1,18 @@
 Return-Path: <obi@opendreambox.org>
 Received: from mail.saftware.de (mail.saftware.de [83.141.3.46])
-	by mail.openembedded.org (Postfix) with ESMTP id AD5D071B12
+	by mail.openembedded.org (Postfix) with ESMTP id 6E7936078E
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Nov 2016 23:50:19 +0000 (UTC)
+	Thu,  1 Dec 2016 02:33:25 +0000 (UTC)
 Received: by t510.zcs.saftware.de (Postfix, from userid 1000)
-	id 399C6B8A512; Thu,  1 Dec 2016 00:50:18 +0100 (CET)
+	id DE60EB81C73; Thu,  1 Dec 2016 03:33:23 +0100 (CET)
 From: Andreas Oberritter <obi@opendreambox.org>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  1 Dec 2016 00:50:17 +0100
-Message-Id: <1480549817-16636-1-git-send-email-obi@opendreambox.org>
+Date: Thu,  1 Dec 2016 03:33:23 +0100
+Message-Id: <1480559603-28235-1-git-send-email-obi@opendreambox.org>
 X-Mailer: git-send-email 2.7.4
-Subject: [PATCH] libc-package.bbclass: split binary localedata even more if asked to
+In-Reply-To: <1480542437-22778-1-git-send-email-obi@opendreambox.org>
+References: <1480542437-22778-1-git-send-email-obi@opendreambox.org>
+Subject: [PATCH v2] lighttpd: Add many packageconfig options
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -23,92 +25,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 Nov 2016 23:50:20 -0000
+X-List-Received-Date: Thu, 01 Dec 2016 02:33:28 -0000
 
-If GLIBC_SPLIT_LC_PACKAGES is set to a non-zero value, convert
-glibc-binary-localedata-XX-YY to be a meta package depending on
-glibc-binary-localedata-XX-YY-lc-address and so on. This enables
-saving quite some space if someone doesn't need LC_COLLATE for
-example.
-
-Some regex code was removed from output_locale_binary_rdepends,
-because legitimize_package_name already converts to lowercase.
+Respect largefile and xattr distro features.
 
 Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
 ---
- meta/classes/libc-package.bbclass | 39 +++++++++++++++++++++++++--------------
- 1 file changed, 25 insertions(+), 14 deletions(-)
+v2: In 1.4.42, upstream renamed --with-kerberos5 to --with-krb5
+    and introduced mod_authn_gssapi with a new dependency on krb5.
 
-diff --git a/meta/classes/libc-package.bbclass b/meta/classes/libc-package.bbclass
-index 2dc90c4..071978b 100644
---- a/meta/classes/libc-package.bbclass
-+++ b/meta/classes/libc-package.bbclass
-@@ -9,6 +9,8 @@
+ meta/recipes-extended/lighttpd/lighttpd_1.4.43.bb | 37 ++++++++++++++---------
+ 1 file changed, 22 insertions(+), 15 deletions(-)
+
+diff --git a/meta/recipes-extended/lighttpd/lighttpd_1.4.43.bb b/meta/recipes-extended/lighttpd/lighttpd_1.4.43.bb
+index 322f212..38eaf70 100644
+--- a/meta/recipes-extended/lighttpd/lighttpd_1.4.43.bb
++++ b/meta/recipes-extended/lighttpd/lighttpd_1.4.43.bb
+@@ -6,7 +6,6 @@ LICENSE = "BSD"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=e4dac5c6ab169aa212feb5028853a579"
  
- GLIBC_INTERNAL_USE_BINARY_LOCALE ?= "ondevice"
+ SECTION = "net"
+-DEPENDS = "zlib libpcre"
+ RDEPENDS_${PN} += " \
+                lighttpd-module-access \
+                lighttpd-module-accesslog \
+@@ -26,22 +25,30 @@ SRC_URI = "http://download.lighttpd.net/lighttpd/releases-1.4.x/lighttpd-${PV}.t
+ SRC_URI[md5sum] = "95eda531c27b161ef8fa2b9bf4948caf"
+ SRC_URI[sha256sum] = "fe0c4a06dd2408a83ee7a2bfedc45e09597f3313cbda82485507573ae8fa948a"
  
-+GLIBC_SPLIT_LC_PACKAGES ?= "0"
-+
- python __anonymous () {
-     enabled = d.getVar("ENABLE_BINARY_LOCALE_GENERATION", True)
+-PACKAGECONFIG ??= "openssl \
++PACKAGECONFIG ??= "openssl pcre zlib \
+     ${@bb.utils.contains('DISTRO_FEATURES', 'ipv6', 'ipv6', '', d)} \
++    ${@bb.utils.contains('DISTRO_FEATURES', 'largefile', 'lfs', '', d)} \
++    ${@bb.utils.contains('DISTRO_FEATURES', 'xattr', 'attr', '', d)} \
+ "
+-PACKAGECONFIG[openssl] = "--with-openssl, --without-openssl, openssl"
+-PACKAGECONFIG[ipv6] = "--enable-ipv6,--disable-ipv6,"
+-
+-EXTRA_OECONF = " \
+-             --without-bzip2 \
+-             --without-ldap \
+-             --without-lua \
+-             --without-memcached \
+-             --with-pcre \
+-             --without-webdav-props \
+-             --without-webdav-locks \
+-             --disable-static \
+-"
++PACKAGECONFIG[lfs] = "--enable-lfs,--disable-lfs"
++PACKAGECONFIG[ipv6] = "--enable-ipv6,--disable-ipv6"
++PACKAGECONFIG[mmap] = "--enable-mmap,--disable-mmap"
++PACKAGECONFIG[libev] = "--with-libev,--without-libev,libev"
++PACKAGECONFIG[mysql] = "--with-mysql,--without-mysql,mariadb"
++PACKAGECONFIG[ldap] = "--with-ldap,--without-ldap,openldap"
++PACKAGECONFIG[attr] = "--with-attr,--without-attr,attr"
++PACKAGECONFIG[valgrind] = "--with-valgrind,--without-valgrind,valgrind"
++PACKAGECONFIG[openssl] = "--with-openssl,--without-openssl,openssl"
++PACKAGECONFIG[krb5] = "--with-krb5,--without-krb5,krb5"
++PACKAGECONFIG[pcre] = "--with-pcre,--without-pcre,libpcre"
++PACKAGECONFIG[zlib] = "--with-zlib,--without-zlib,zlib"
++PACKAGECONFIG[bzip2] = "--with-bzip2,--without-bzip2,bzip2"
++PACKAGECONFIG[fam] = "--with-fam,--without-fam,gamin"
++PACKAGECONFIG[webdav-props] = "--with-webdav-props,--without-webdav-props,libxml2 sqlite3"
++PACKAGECONFIG[webdav-locks] = "--with-webdav-locks,--without-webdav-locks,util-linux"
++PACKAGECONFIG[gdbm] = "--with-gdbm,--without-gdbm,gdbm"
++PACKAGECONFIG[memcache] = "--with-memcached,--without-memcached,libmemcached"
++PACKAGECONFIG[lua] = "--with-lua,--without-lua,lua5.1"
  
-@@ -219,13 +221,12 @@ python package_do_split_gconvs () {
-         (locale, encoding, locale))
- 
-     def output_locale_binary_rdepends(name, pkgname, locale, encoding):
--        m = re.match("(.*)\.(.*)", name)
--        if m:
--            libc_name = "%s.%s" % (m.group(1), m.group(2).lower())
--        else:
--            libc_name = name
--        d.setVar('RDEPENDS_%s' % pkgname, legitimize_package_name('%s-binary-localedata-%s' \
--            % (mlprefix+bpn, libc_name)))
-+        dep = legitimize_package_name('%s-binary-localedata-%s' % (bpn, name))
-+        lcsplit = d.getVar('GLIBC_SPLIT_LC_PACKAGES', True)
-+        if lcsplit and int(lcsplit):
-+            d.appendVar('PACKAGES', ' ' + dep)
-+            d.setVar('ALLOW_EMPTY_%s' % dep, '1')
-+        d.setVar('RDEPENDS_%s' % pkgname, mlprefix + dep)
- 
-     commands = {}
- 
-@@ -337,6 +338,11 @@ python package_do_split_gconvs () {
-             else:
-                 output_locale('%s.%s' % (base, charset), base, charset)
- 
-+    def metapkg_hook(file, pkg, pattern, format, basename):
-+        name = basename.split('/', 1)[0]
-+        metapkg = legitimize_package_name('%s-binary-localedata-%s' % (mlprefix+bpn, name))
-+        d.appendVar('RDEPENDS_%s' % metapkg, ' ' + pkg)
-+
-     if use_bin == "compile":
-         makefile = base_path_join(d.getVar("WORKDIR", True), "locale-tree", "Makefile")
-         m = open(makefile, "w")
-@@ -350,13 +356,18 @@ python package_do_split_gconvs () {
-         bb.build.exec_func("oe_runmake", d)
-         bb.note("collecting binary locales from locale tree")
-         bb.build.exec_func("do_collect_bins_from_locale_tree", d)
--        do_split_packages(d, binary_locales_dir, file_regex='(.*)', \
--            output_pattern=bpn+'-binary-localedata-%s', \
--            description='binary locale definition for %s', extra_depends='', allow_dirs=True)
--    elif use_bin == "precompiled":
--        do_split_packages(d, binary_locales_dir, file_regex='(.*)', \
--            output_pattern=bpn+'-binary-localedata-%s', \
--            description='binary locale definition for %s', extra_depends='', allow_dirs=True)
-+
-+    if use_bin in ('compile', 'precompiled'):
-+        lcsplit = d.getVar('GLIBC_SPLIT_LC_PACKAGES', True)
-+        if lcsplit and int(lcsplit):
-+            do_split_packages(d, binary_locales_dir, file_regex='^(.*/LC_\w+)', \
-+                output_pattern=bpn+'-binary-localedata-%s', \
-+                description='binary locale definition for %s', recursive=True,
-+                hook=metapkg_hook, extra_depends='', allow_dirs=True, match_path=True)
-+        else:
-+            do_split_packages(d, binary_locales_dir, file_regex='(.*)', \
-+                output_pattern=bpn+'-binary-localedata-%s', \
-+                description='binary locale definition for %s', extra_depends='', allow_dirs=True)
-     else:
-         bb.note("generation of binary locales disabled. this may break i18n!")
+ inherit autotools pkgconfig update-rc.d gettext systemd
  
 -- 
 2.7.4
