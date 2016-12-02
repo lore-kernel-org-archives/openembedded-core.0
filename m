@@ -1,45 +1,27 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-ua0-f193.google.com (mail-ua0-f193.google.com
-	[209.85.217.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 421306FEE0
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id C9E3A601A4
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  2 Dec 2016 07:09:18 +0000 (UTC)
-Received: by mail-ua0-f193.google.com with SMTP id 50so23849205uae.2
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 01 Dec 2016 23:09:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=K8KyKLdgaGof4eRI4cbXZCIl9q0QKMvLnMKWDUS/NXs=;
-	b=k5bBzYmB4q09dc2EJFgT6lsueaLTfZ/4zJdQpaIzx3McrdMaaxDh6REJrIaD6yS9pi
-	3pO+vpYAWtGsOPShcu/6Z/7eGJ8wZ8N4tL9OMb3T01Tk3WX4yhbpYOxy7tw3HAaLOAG5
-	6DfJ5o4tbjnZnQxyOq8KaMhk1/uEANj41QfB++U8IK51dyJ/SXGhflrqIkVJ/3yM+4xH
-	UySihdY4V9HjzceB0AZvhNXAkBl7yf5YwhctnobfehpypqTcYNShT0RueR5k50FFo5Bi
-	QWFPKz1rkmKT4a72gvyp1ReSTqxevgr1EQYD05y2u7g4AY2nSyk8yl/+/5LO1osAf59M
-	NvDQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=K8KyKLdgaGof4eRI4cbXZCIl9q0QKMvLnMKWDUS/NXs=;
-	b=RRRE/FU38+IggcLZIaxxzIRO41PrQj37fp6oW7lgjlqFMF+EvZN5INrjyJ9Uv2gzq+
-	dGpDFRFmPxXToTVsneyLplPrme96isNETVtz9qMIuCNvA4sppGcA+glZIlWK3aZPrZWK
-	5uKeqslrHX6/Ism+R7/eqnMt8nJD3ytI+ESxWVstiYLnAces6C0qcnpF+JUQYXOBbegN
-	+zuMPXZYTuvKFezN+n1kyHo6sPgqoTPAKTUf2/hj7qNwF9r7ewCwwDQw+Itu2ZQLFCiR
-	YsW1jmgFYAXa2PL9KPilIxCKCx7hhK7UhUKkM5cN4KNCdhXW+bvR1fvShlpMQ4gF1uBc
-	155g==
-X-Gm-Message-State: AKaTC02BbFiyqnCKZrh2LM+NukOacX1UX++q2w9DcI+hdqRYwdvenwpu954bdOI4/8cZe4h52WN3PCYZ8lI2fQ==
-X-Received: by 10.159.55.142 with SMTP id q14mr33434660uaq.107.1480662560179; 
-	Thu, 01 Dec 2016 23:09:20 -0800 (PST)
+	Fri,  2 Dec 2016 07:17:46 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id uB27Hj7B008654
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 1 Dec 2016 23:17:45 -0800 (PST)
+Received: from [128.224.162.183] (128.224.162.183) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.294.0;
+	Thu, 1 Dec 2016 23:17:44 -0800
+To: Michael Gloff <mgloff@emacinc.com>, OE Core
+	<openembedded-core@lists.openembedded.org>
+References: <CALXw4G5XD=N5QJg8OgvOGi-BDsAqUgmFqMddumdAq6MkC_LY5A@mail.gmail.com>
+From: Robert Yang <liezhi.yang@windriver.com>
+Message-ID: <39e9a81f-28ed-3a83-afdb-4ce3886e7830@windriver.com>
+Date: Fri, 2 Dec 2016 15:17:43 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.2.0
 MIME-Version: 1.0
-Received: by 10.159.48.87 with HTTP; Thu, 1 Dec 2016 23:08:49 -0800 (PST)
-In-Reply-To: <68b7f401-a888-ff73-45d5-b0df76f170c4@embed.me.uk>
-References: <68b7f401-a888-ff73-45d5-b0df76f170c4@embed.me.uk>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 1 Dec 2016 23:08:49 -0800
-Message-ID: <CAMKF1sqVdGwXPX-hg2NCgY-VxL_1bBVQL3vpzC00033ah1N7WQ@mail.gmail.com>
-To: Jack Mitchell <ml@embed.me.uk>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: non-standard library locations and rpath
+In-Reply-To: <CALXw4G5XD=N5QJg8OgvOGi-BDsAqUgmFqMddumdAq6MkC_LY5A@mail.gmail.com>
+Subject: Re: Debugfs + nfs-utils-client + ipkg
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,34 +34,111 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 02 Dec 2016 07:09:19 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 02 Dec 2016 07:17:47 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Thu, Dec 1, 2016 at 8:18 AM, Jack Mitchell <ml@embed.me.uk> wrote:
-> I'm having some troubles with shared library, shared library dependencies
-> and rpaths. I have libfoo, which depends on libbar when I try to link libfoo
-> with my app, it requires libbar to be found. libbar is in a non-standard
-> location, /usr/local/bar when I compiled libfoo, I used -Wl,rpath-link
-> ${STAGING_SYSROOT}/usr/local/bar and -Wl,rpath /usr/local/bar. Now when I
-> come to try link my app with libfoo, it fails to link as it can't find
-> libbar, which I assume means the rpath in libfoo isn't being properly
-> prepending with sysroot what is the proper way to support this in OE? My
-> library has the following rpath information:
->
-> 0x0000000f (RPATH) Library rpath: [$ORIGIN/../lib:/usr/local/bar]
->
-> So why isn't the rpath being prepended with the sysroot when I compile my
-> app and link libfoo? The apps build system is using cmake, but this should
-> be a built in linker feature, correct?
+Hi Michael,
 
-Only first path ( before :) is relative to location of binary at runtime
+On 12/02/2016 11:19 AM, Michael Gloff wrote:
+> I've run into an issue recently when trying to build an image along with the
+> companion debugfs. This error only occurs if 'nfs-utils-client' is added to
+> IMAGE_INSTALL and ipkg packages are selected. I don't get the error with RPM or
+> with removing nfs-utils-client. Also, I can see the missing files are present at
+> some point during do_rootfs, but then must be getting wiped out? I noticed this
+> in Krogoth first, but can reproduce in latest master. Any ideas?
+
+Maybe something is wrong with opkg, it only happens when files are in 
+/var/lib/foo, here is a *workaround*:
+
+diff --git a/meta/lib/oe/rootfs.py b/meta/lib/oe/rootfs.py
+index a348b97..ba072c0 100644
+--- a/meta/lib/oe/rootfs.py
++++ b/meta/lib/oe/rootfs.py
+@@ -951,7 +951,7 @@ class OpkgRootfs(DpkgOpkgRootfs):
+          if self.progress_reporter:
+              self.progress_reporter.next_stage()
+
+-        self._setup_dbg_rootfs(['/etc', '/var/lib/opkg', '/usr/lib/ssl'])
++        self._setup_dbg_rootfs(['/etc', '/var/lib/opkg', '/usr/lib/ssl', 
+'/var/lib/nfs'])
+
+          execute_pre_post_process(self.d, opkg_post_process_cmds)
+
+
+This is not a regular fix, you can file a bug here:
+https://bugzilla.yoctoproject.org/
+
+We may fix it later.
+
+// Robert
 
 >
-> Cheers,
-> Jack.
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> developer@OEBuilder:~/oe/recipes/poky/build$ bitbake core-image-minimal
+> Loading cache: 100%
+> |##########################################################################################################################################################|
+> Time: 0:00:00
+> Loaded 1304 entries from dependency cache.
+> NOTE: Resolving any missing task queue dependencies
+>
+> Build Configuration:
+> BB_VERSION        = "1.32.0"
+> BUILD_SYS         = "x86_64-linux"
+> NATIVELSBSTRING   = "universal"
+> TARGET_SYS        = "i586-poky-linux"
+> MACHINE           = "qemux86"
+> DISTRO            = "poky"
+> DISTRO_VERSION    = "2.2"
+> TUNE_FEATURES     = "m32 i586"
+> TARGET_FPU        = ""
+> meta
+> meta-poky
+> meta-yocto-bsp    = "master:9e63f81c78e284c9b325fe04a1b59e61c7ad8a1a"
+>
+> Initialising tasks: 100%
+> |#####################################################################################################################################################|
+> Time: 0:00:03
+> NOTE: Executing SetScene Tasks
+> NOTE: Executing RunQueue Tasks
+> ERROR: core-image-minimal-1.0-r0 do_rootfs: Cannot get the installed packages
+> list. Command
+> '/home/developer/oe/recipes/poky/build/tmp/sysroots/x86_64-linux/usr/bin/opkg -f
+> /home/developer/oe/recipes/poky/build/tmp/work/qemux86-poky-linux/core-image-minimal/1.0-r0/opkg.conf
+> -o
+> /home/developer/oe/recipes/poky/build/tmp/work/qemux86-poky-linux/core-image-minimal/1.0-r0/rootfs
+> --force_postinstall --prefer-arch-to-version   status' returned 0 and stderr:
+> Collected errors:
+>  * file_md5sum_alloc: Failed to open file
+> /home/developer/oe/recipes/poky/build/tmp/work/qemux86-poky-linux/core-image-minimal/1.0-r0/rootfs/var/lib/nfs/etab:
+> No such file or directory.
+>  * file_md5sum_alloc: Failed to open file
+> /home/developer/oe/recipes/poky/build/tmp/work/qemux86-poky-linux/core-image-minimal/1.0-r0/rootfs/var/lib/nfs/rmtab:
+> No such file or directory.
+>  * file_md5sum_alloc: Failed to open file
+> /home/developer/oe/recipes/poky/build/tmp/work/qemux86-poky-linux/core-image-minimal/1.0-r0/rootfs/var/lib/nfs/xtab:
+> No such file or directory.
+>  * file_md5sum_alloc: Failed to open file
+> /home/developer/oe/recipes/poky/build/tmp/work/qemux86-poky-linux/core-image-minimal/1.0-r0/rootfs/var/lib/nfs/statd/state:
+> No such file or directory.
+>
+> ERROR: core-image-minimal-1.0-r0 do_rootfs: Function failed: do_rootfs
+> ERROR: Logfile of failure stored in:
+> /home/developer/oe/recipes/poky/build/tmp/work/qemux86-poky-linux/core-image-minimal/1.0-r0/temp/log.do_rootfs.5361
+> ERROR: Task
+> (/home/developer/oe/recipes/poky/meta/recipes-core/images/core-image-minimal.bb:do_rootfs)
+> failed with exit code '1'
+> NOTE: Tasks Summary: Attempted 2168 tasks of which 2167 didn't need to be rerun
+> and 1 failed.
+>
+> Summary: 1 task failed:
+>
+> /home/developer/oe/recipes/poky/meta/recipes-core/images/core-image-minimal.bb:do_rootfs
+> Summary: There were 2 ERROR messages shown, returning a non-zero exit code.
+>
+> Thanks,
+>
+> Michael Gloff
+> mgloff@emacinc.com <mailto:mgloff@emacinc.com>
+>
+>
 
