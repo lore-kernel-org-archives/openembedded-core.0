@@ -1,30 +1,42 @@
-Return-Path: <huangqy.fnst@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
-	by mail.openembedded.org (Postfix) with ESMTP id 79D476022F
+Return-Path: <mgloff@emacinc.com>
+Received: from mail-ua0-f169.google.com (mail-ua0-f169.google.com
+	[209.85.217.169])
+	by mail.openembedded.org (Postfix) with ESMTP id 4997460761
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  2 Dec 2016 03:04:25 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.22,518,1449504000"; d="scan'208";a="13530140"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 02 Dec 2016 11:04:21 +0800
-Received: from G08CNEXCHPEKD01.g08.fujitsu.local (unknown [10.167.33.80])
-	by cn.fujitsu.com (Postfix) with ESMTP id 7396440056FC
+	Fri,  2 Dec 2016 03:20:01 +0000 (UTC)
+Received: by mail-ua0-f169.google.com with SMTP id 20so269156305uak.0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  2 Dec 2016 11:04:20 +0800 (CST)
-Received: from localhost.localdomain (10.167.226.81) by
-	G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.319.2; Fri, 2 Dec 2016 11:04:20 +0800
-From: huangqy <huangqy.fnst@cn.fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 2 Dec 2016 03:03:57 -0800
-Message-ID: <1480676637-3788-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
-X-Mailer: git-send-email 2.7.4
+	Thu, 01 Dec 2016 19:20:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=emacinc-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:from:date:message-id:subject:to;
+	bh=9Wh//QHKdHzeMzA8LQuAena7rTkguRG9r9LTi0CKD1g=;
+	b=fsenFMhQejgzAPc0jalyvrInkvZOlAqOG9XAVvl5/EwJQu1at32Sl/wz8davxzyQWT
+	qN79x1JluYhmXt85z9iY1DhWgNbMMzt7A4hsOOE7Y60SR5Oj9YDGS8PByv4AD8RWbzIj
+	1Z3lonH+9rouukrj/WuIw3mEZdUDXHhxEfNjkv36/Gel3rWvIZjZCg1m+VvcUilJ4D8R
+	qwmtGjWtxDP2QpXN5CPlk9N9qLAwvrOvQ1eRlRwh9g160AnfKiYe4idndTPOhWtumlSK
+	y1g4/jVlEutuHLkXDveZ90tvvOTFbXQFvo6Qy3uFdBAkxw8BPDjigvpO5kxZU1/D6KBd
+	DUiQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+	bh=9Wh//QHKdHzeMzA8LQuAena7rTkguRG9r9LTi0CKD1g=;
+	b=CWdISAQRQs+bbMIeNHjvLX8d4723X4Y9hDE0/VKmfGwppZqw1cfad0HozL5Hu889uu
+	yaWiPg6DItP0F1MMbDnRdweA8snWVy5llBKjHpAQvr+ynqVLuHepCOxXjiytAHh+m2AY
+	3u0XWDuIErF2DzszeZAHJdVkj8PJYyTeo74OweGy03DomlA5cjrHfyT2w5kxDgPzfMe3
+	ZWZ0+VoJ+I34bt1gI/DFyQhTOMnzGUl5PZD9Cv/HfAn/6ZjCBmnGrNCbLQAispxh7FZT
+	DvpoFWofSz6QDpkv5P5IwbA8q8OlhMVfetrAp/iEIGuRDxqCTw38xJX3kH7hoR2MYLbX
+	Jjww==
+X-Gm-Message-State: AKaTC01X5CO9vh4or5zKZ6SSq3l5L5k9WBWV8hOJYbFvVZn8jsXAi68dkXahmw9+GJHlT7qc+0DqZxPDtD0oJ27S
+X-Received: by 10.176.83.148 with SMTP id k20mr31595509uaa.64.1480648802865;
+	Thu, 01 Dec 2016 19:20:02 -0800 (PST)
 MIME-Version: 1.0
-X-Originating-IP: [10.167.226.81]
-X-yoursite-MailScanner-ID: 7396440056FC.A5726
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: huangqy.fnst@cn.fujitsu.com
-X-Spam-Status: No
-Subject: [PATCH] diffutils: 3.4 -> 3.5
+Received: by 10.176.4.10 with HTTP; Thu, 1 Dec 2016 19:19:22 -0800 (PST)
+From: Michael Gloff <mgloff@emacinc.com>
+Date: Thu, 1 Dec 2016 21:19:22 -0600
+Message-ID: <CALXw4G5XD=N5QJg8OgvOGi-BDsAqUgmFqMddumdAq6MkC_LY5A@mail.gmail.com>
+To: OE Core <openembedded-core@lists.openembedded.org>
+Subject: Debugfs + nfs-utils-client + ipkg
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,52 +49,147 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 02 Dec 2016 03:04:27 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 02 Dec 2016 03:20:02 -0000
+Content-Type: multipart/alternative; boundary=f403045dd8fceead860542a46925
 
-From: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
+--f403045dd8fceead860542a46925
+Content-Type: text/plain; charset=UTF-8
 
-Upgrade diffutils from 3.4 to 3.5.
+I've run into an issue recently when trying to build an image along with
+the companion debugfs. This error only occurs if 'nfs-utils-client' is
+added to IMAGE_INSTALL and ipkg packages are selected. I don't get the
+error with RPM or with removing nfs-utils-client. Also, I can see the
+missing files are present at some point during do_rootfs, but then must be
+getting wiped out? I noticed this in Krogoth first, but can reproduce in
+latest master. Any ideas?
 
-Signed-off-by: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
----
- .../0001-Unset-need_charset_alias-when-building-for-musl.patch        | 0
- .../diffutils/{diffutils-3.4 => diffutils-3.5}/run-ptest              | 0
- .../recipes-extended/diffutils/{diffutils_3.4.bb => diffutils_3.5.bb} | 4 ++--
- 3 files changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-extended/diffutils/{diffutils-3.4 => diffutils-3.5}/0001-Unset-need_charset_alias-when-building-for-musl.patch (100%)
- rename meta/recipes-extended/diffutils/{diffutils-3.4 => diffutils-3.5}/run-ptest (100%)
- rename meta/recipes-extended/diffutils/{diffutils_3.4.bb => diffutils_3.5.bb} (87%)
+developer@OEBuilder:~/oe/recipes/poky/build$ bitbake core-image-minimal
+Loading cache: 100%
+|##########################################################################################################################################################|
+Time: 0:00:00
+Loaded 1304 entries from dependency cache.
+NOTE: Resolving any missing task queue dependencies
 
-diff --git a/meta/recipes-extended/diffutils/diffutils-3.4/0001-Unset-need_charset_alias-when-building-for-musl.patch b/meta/recipes-extended/diffutils/diffutils-3.5/0001-Unset-need_charset_alias-when-building-for-musl.patch
-similarity index 100%
-rename from meta/recipes-extended/diffutils/diffutils-3.4/0001-Unset-need_charset_alias-when-building-for-musl.patch
-rename to meta/recipes-extended/diffutils/diffutils-3.5/0001-Unset-need_charset_alias-when-building-for-musl.patch
-diff --git a/meta/recipes-extended/diffutils/diffutils-3.4/run-ptest b/meta/recipes-extended/diffutils/diffutils-3.5/run-ptest
-similarity index 100%
-rename from meta/recipes-extended/diffutils/diffutils-3.4/run-ptest
-rename to meta/recipes-extended/diffutils/diffutils-3.5/run-ptest
-diff --git a/meta/recipes-extended/diffutils/diffutils_3.4.bb b/meta/recipes-extended/diffutils/diffutils_3.5.bb
-similarity index 87%
-rename from meta/recipes-extended/diffutils/diffutils_3.4.bb
-rename to meta/recipes-extended/diffutils/diffutils_3.5.bb
-index cb7092b..673f5d4 100644
---- a/meta/recipes-extended/diffutils/diffutils_3.4.bb
-+++ b/meta/recipes-extended/diffutils/diffutils_3.5.bb
-@@ -17,8 +17,8 @@ do_configure_prepend () {
- 	done
- }
- 
--SRC_URI[md5sum] = "df9ca465f30307cffd03da176a43a5d4"
--SRC_URI[sha256sum] = "db53c025f2ac3d217bcf753dad6dee7b410b33d0948495ff015aaf8b91189ce2"
-+SRC_URI[md5sum] = "569354697ff1cfc9a9de3781361015fa"
-+SRC_URI[sha256sum] = "dad398ccd5b9faca6b0ab219a036453f62a602a56203ac659b43e889bec35533"
- 
- inherit ptest
- 
--- 
-2.7.4
+Build Configuration:
+BB_VERSION        = "1.32.0"
+BUILD_SYS         = "x86_64-linux"
+NATIVELSBSTRING   = "universal"
+TARGET_SYS        = "i586-poky-linux"
+MACHINE           = "qemux86"
+DISTRO            = "poky"
+DISTRO_VERSION    = "2.2"
+TUNE_FEATURES     = "m32 i586"
+TARGET_FPU        = ""
+meta
+meta-poky
+meta-yocto-bsp    = "master:9e63f81c78e284c9b325fe04a1b59e61c7ad8a1a"
 
+Initialising tasks: 100%
+|#####################################################################################################################################################|
+Time: 0:00:03
+NOTE: Executing SetScene Tasks
+NOTE: Executing RunQueue Tasks
+ERROR: core-image-minimal-1.0-r0 do_rootfs: Cannot get the installed
+packages list. Command
+'/home/developer/oe/recipes/poky/build/tmp/sysroots/x86_64-linux/usr/bin/opkg
+-f
+/home/developer/oe/recipes/poky/build/tmp/work/qemux86-poky-linux/core-image-minimal/1.0-r0/opkg.conf
+-o
+/home/developer/oe/recipes/poky/build/tmp/work/qemux86-poky-linux/core-image-minimal/1.0-r0/rootfs
+--force_postinstall --prefer-arch-to-version   status' returned 0 and
+stderr:
+Collected errors:
+ * file_md5sum_alloc: Failed to open file
+/home/developer/oe/recipes/poky/build/tmp/work/qemux86-poky-linux/core-image-minimal/1.0-r0/rootfs/var/lib/nfs/etab:
+No such file or directory.
+ * file_md5sum_alloc: Failed to open file
+/home/developer/oe/recipes/poky/build/tmp/work/qemux86-poky-linux/core-image-minimal/1.0-r0/rootfs/var/lib/nfs/rmtab:
+No such file or directory.
+ * file_md5sum_alloc: Failed to open file
+/home/developer/oe/recipes/poky/build/tmp/work/qemux86-poky-linux/core-image-minimal/1.0-r0/rootfs/var/lib/nfs/xtab:
+No such file or directory.
+ * file_md5sum_alloc: Failed to open file
+/home/developer/oe/recipes/poky/build/tmp/work/qemux86-poky-linux/core-image-minimal/1.0-r0/rootfs/var/lib/nfs/statd/state:
+No such file or directory.
 
+ERROR: core-image-minimal-1.0-r0 do_rootfs: Function failed: do_rootfs
+ERROR: Logfile of failure stored in:
+/home/developer/oe/recipes/poky/build/tmp/work/qemux86-poky-linux/core-image-minimal/1.0-r0/temp/log.do_rootfs.5361
+ERROR: Task
+(/home/developer/oe/recipes/poky/meta/recipes-core/images/core-image-minimal.bb:do_rootfs)
+failed with exit code '1'
+NOTE: Tasks Summary: Attempted 2168 tasks of which 2167 didn't need to be
+rerun and 1 failed.
 
+Summary: 1 task failed:
 
+/home/developer/oe/recipes/poky/meta/recipes-core/images/core-image-minimal.bb:
+do_rootfs
+Summary: There were 2 ERROR messages shown, returning a non-zero exit code.
+
+Thanks,
+
+Michael Gloff
+mgloff@emacinc.com
+
+--f403045dd8fceead860542a46925
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div><div></div>I&#39;ve run into an issue recently when t=
+rying to build an image along with the companion debugfs. This error only o=
+ccurs if &#39;nfs-utils-client&#39; is added to IMAGE_INSTALL and ipkg pack=
+ages are selected. I don&#39;t get the error with RPM or with removing nfs-=
+utils-client. Also, I can see the missing files are present at some point d=
+uring do_rootfs, but then must be getting wiped out? I noticed this in Krog=
+oth first, but can reproduce in latest master. Any ideas?<br><br>developer@=
+OEBuilder:~/oe/recipes/poky/build$ bitbake core-image-minimal<br>Loading ca=
+che: 100% |################################################################=
+###########################################################################=
+###############| Time: 0:00:00<br>Loaded 1304 entries from dependency cache=
+.<br>NOTE: Resolving any missing task queue dependencies<br><br>Build Confi=
+guration:<br>BB_VERSION=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =3D &quot=
+;1.32.0&quot;<br>BUILD_SYS=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =
+=3D &quot;x86_64-linux&quot;<br>NATIVELSBSTRING=C2=A0=C2=A0 =3D &quot;unive=
+rsal&quot;<br>TARGET_SYS=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =3D &quo=
+t;i586-poky-linux&quot;<br>MACHINE=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 =3D &quot;qemux86&quot;<br>DISTRO=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =3D &quot;poky&quot;<br>DI=
+STRO_VERSION=C2=A0=C2=A0=C2=A0 =3D &quot;2.2&quot;<br>TUNE_FEATURES=C2=A0=
+=C2=A0=C2=A0=C2=A0 =3D &quot;m32 i586&quot;<br>TARGET_FPU=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0 =3D &quot;&quot;<br>meta<br>meta-poky<br>meta-yoct=
+o-bsp=C2=A0=C2=A0=C2=A0 =3D &quot;master:9e63f81c78e284c9b325fe04a1b59e61c7=
+ad8a1a&quot;<br><br>Initialising tasks: 100% |#############################=
+###########################################################################=
+#############################################| Time: 0:00:03<br>NOTE: Execu=
+ting SetScene Tasks<br>NOTE: Executing RunQueue Tasks<br>ERROR: core-image-=
+minimal-1.0-r0 do_rootfs: Cannot get the installed packages list. Command &=
+#39;/home/developer/oe/recipes/poky/build/tmp/sysroots/x86_64-linux/usr/bin=
+/opkg -f /home/developer/oe/recipes/poky/build/tmp/work/qemux86-poky-linux/=
+core-image-minimal/1.0-r0/opkg.conf -o /home/developer/oe/recipes/poky/buil=
+d/tmp/work/qemux86-poky-linux/core-image-minimal/1.0-r0/rootfs=C2=A0 --forc=
+e_postinstall --prefer-arch-to-version=C2=A0=C2=A0 status&#39; returned 0 a=
+nd stderr:<br>Collected errors:<br>=C2=A0* file_md5sum_alloc: Failed to ope=
+n file /home/developer/oe/recipes/poky/build/tmp/work/qemux86-poky-linux/co=
+re-image-minimal/1.0-r0/rootfs/var/lib/nfs/etab: No such file or directory.=
+<br>=C2=A0* file_md5sum_alloc: Failed to open file /home/developer/oe/recip=
+es/poky/build/tmp/work/qemux86-poky-linux/core-image-minimal/1.0-r0/rootfs/=
+var/lib/nfs/rmtab: No such file or directory.<br>=C2=A0* file_md5sum_alloc:=
+ Failed to open file /home/developer/oe/recipes/poky/build/tmp/work/qemux86=
+-poky-linux/core-image-minimal/1.0-r0/rootfs/var/lib/nfs/xtab: No such file=
+ or directory.<br>=C2=A0* file_md5sum_alloc: Failed to open file /home/deve=
+loper/oe/recipes/poky/build/tmp/work/qemux86-poky-linux/core-image-minimal/=
+1.0-r0/rootfs/var/lib/nfs/statd/state: No such file or directory.<br><br>ER=
+ROR: core-image-minimal-1.0-r0 do_rootfs: Function failed: do_rootfs<br>ERR=
+OR: Logfile of failure stored in: /home/developer/oe/recipes/poky/build/tmp=
+/work/qemux86-poky-linux/core-image-minimal/1.0-r0/temp/log.do_rootfs.5361<=
+br>ERROR: Task (/home/developer/oe/recipes/poky/meta/recipes-core/images/co=
+re-image-minimal.bb:do_rootfs) failed with exit code &#39;1&#39;<br>NOTE: T=
+asks Summary: Attempted 2168 tasks of which 2167 didn&#39;t need to be reru=
+n and 1 failed.<br><br>Summary: 1 task failed:<br>=C2=A0 /home/developer/oe=
+/recipes/poky/meta/recipes-core/images/core-image-minimal.bb:do_rootfs<br>S=
+ummary: There were 2 ERROR messages shown, returning a non-zero exit code.<=
+br><br></div><div>Thanks,<br><br></div><div>Michael Gloff<br></div><div><a =
+href=3D"mailto:mgloff@emacinc.com">mgloff@emacinc.com</a><br></div></div>
+
+--f403045dd8fceead860542a46925--
