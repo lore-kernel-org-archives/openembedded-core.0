@@ -1,40 +1,30 @@
-Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 6AEF3606CB
-	for <openembedded-core@lists.openembedded.org>;
-	Fri,  2 Dec 2016 15:07:42 +0000 (UTC)
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-	by orsmga101.jf.intel.com with ESMTP; 02 Dec 2016 07:06:08 -0800
+Return-Path: <sgw@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 7DE0C71BD8;
+	Fri,  2 Dec 2016 15:54:19 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by fmsmga103.fm.intel.com with ESMTP; 02 Dec 2016 07:54:21 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.33,287,1477983600"; d="scan'208";a="198300670"
-Received: from linux.intel.com ([10.54.29.200])
-	by fmsmga004.fm.intel.com with ESMTP; 02 Dec 2016 07:06:07 -0800
-Received: from linux.intel.com (vmed.fi.intel.com [10.237.72.38])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by linux.intel.com (Postfix) with ESMTP id 741996A4080;
-	Fri,  2 Dec 2016 07:05:22 -0800 (PST)
-Date: Fri, 2 Dec 2016 17:05:36 +0200
-From: Ed Bartosh <ed.bartosh@linux.intel.com>
-To: Kristian Amlie <kristian.amlie@mender.io>
-Message-ID: <20161202150536.GA23998@linux.intel.com>
-Reply-To: ed.bartosh@linux.intel.com
-References: <1480069993.6873.98.camel@intel.com>
-	<f1699a69-1949-9cb3-8bef-adf9b68f385b@mender.io>
-	<20161125163103.GA4830@linux.intel.com>
-	<e29489aa-8303-d8ac-be67-93d650d09f6d@mender.io>
-	<20161128105236.GB15660@linux.intel.com>
-	<ae35149f-dc2d-fea5-e59e-a65dd3dce0ec@mender.io>
-	<20161128111825.GA16035@linux.intel.com>
-	<420c72b7-b5dd-14f3-a4b0-c57eb3512252@mender.io>
-	<20161130152923.GA4811@linux.intel.com>
-	<6132a02c-5934-8680-5970-3455f5af1842@mender.io>
-MIME-Version: 1.0
-In-Reply-To: <6132a02c-5934-8680-5970-3455f5af1842@mender.io>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v1] wic: Add --exclude-path option to rootfs source plugin.
+X-IronPort-AV: E=Sophos;i="5.33,287,1477983600"; d="scan'208";a="793506923"
+Received: from swold-mobl2.amr.corp.intel.com ([10.255.68.21])
+	by FMSMGA003.fm.intel.com with ESMTP; 02 Dec 2016 07:54:21 -0800
+Message-ID: <1480694061.30023.78.camel@linux.intel.com>
+From: Saul Wold <sgw@linux.intel.com>
+To: Khem Raj <raj.khem@gmail.com>, openembeded-devel
+	<openembedded-devel@lists.openembedded.org>, Patches and discussions about
+	the oe-core layer <openembedded-core@lists.openembedded.org>
+Date: Fri, 02 Dec 2016 07:54:21 -0800
+In-Reply-To: <CAMKF1spw8bvo8guTWkhYeQcn+Vs0kU-2X5D-03etwOj3dGroaw@mail.gmail.com>
+References: <20161128225759.9756-1-raj.khem@gmail.com>
+	<CAJTo0LZ+2+MhZ4TepH1dDzC3LyG7gz70TNEzoDjXgaBTjvHOsg@mail.gmail.com>
+	<o1jct4$pvp$1@blaine.gmane.org>
+	<CAJTo0LYLgFFR+6d3SDkso6X28N00tVAnUGuJg4sPG-msMKWU6A@mail.gmail.com>
+	<8632C69E-1C6B-482D-AF15-965F55F0AF88@gmail.com>
+	<CAJTo0LYTYa4A42+FA9Ou=bVA6ddH8gzVBpJZJvNfa9Jyb9QQfA@mail.gmail.com>
+	<CAMKF1spw8bvo8guTWkhYeQcn+Vs0kU-2X5D-03etwOj3dGroaw@mail.gmail.com>
+X-Mailer: Evolution 3.20.5 (3.20.5-1.fc24) 
+Mime-Version: 1.0
+Subject: Re: [oe] [meta-oe][PATCH] libva: Import from meta-intel and update to 1.7.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,38 +37,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 02 Dec 2016 15:07:43 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Fri, 02 Dec 2016 15:54:20 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Fri, Dec 02, 2016 at 03:36:47PM +0100, Kristian Amlie wrote:
-> On 30/11/16 16:29, Ed Bartosh wrote:
-> >> ...
+On Thu, 2016-12-01 at 11:58 -0800, Khem Raj wrote:
+> On Thu, Dec 1, 2016 at 9:19 AM, Burton, Ross <ross.burton@intel.com>
+> wrote:
 > > 
-> > You're right. oe-selftest requires qemux86-64 target.
+> > On 1 December 2016 at 03:42, Khem Raj <raj.khem@gmail.com> wrote:
 > > 
-> > Even if you usually work in different environment it makes sense to run
-> > oe-selftest to ensure that your changes don't breake it.
-> > This is because our maintainers use oe-selftest results as one of the
-> > acceptance criterias. It means that your changes would be be rejected anyway
-> > if they break oe-selftest, so it's better to check it in advance.
+> > > 
+> > > > 
+> > > > > 
+> > > > > If libva goes in, can we get libva-intel-driver in as well?
+> > > > > Those go
+> > > > > hand-in-glove currently.
+> > > > > 
+> > > > 
+> > > > Khem, does the AMD BSP use that?  I'd have thought that bit was
+> > > > actually
+> > > > meta-intel specific.
+> > > 
+> > > its intel BSPs specific
+> > 
+> > 
+> > So I'd endorse libva for oe-core, and the intel-driver remains in
+> > meta-intel.
 > 
-> This is taking some time due to unrelated issues, but in the meantime:
+> I am fine with proposal. This is time for someone to raise
+> objections.
 > 
-> What are the thoughts on having a similar --exclude-path mechanism for
-> the standard rootfs building? IOW, the do_image_ext4 and friends?
+As meta-intel maintainer I am OK with this, makes more sense than going
+into meta-oe. Please be sure to include meta-intel@yoctoproject.org for
+this.
 
-That's a great idea! If source rootfs direcotry contains only requred
-content then we don't even need to change wic code. It's much better
-then implementing the same functionality in wic and in oe code.
+I'm wondering if we should also move the gstreamer-vaapi-1.0 recipe to
+oe-core to be with it's brethren?
 
-> Our usecase is that we use wic to build a complete image, using
-> --exclude-path to group things into partitions. And then we want to
-> build a regular ext4 image and use this as an update to the device, and
-> in this case we want the same content as wic generates, but in a raw
-> rootfs file instead.
+Sau!
 
---
-Regards,
-Ed
+> > 
+> > 
+> > Ross
+> > --
+> > _______________________________________________
+> > Openembedded-devel mailing list
+> > Openembedded-devel@lists.openembedded.org
+> > http://lists.openembedded.org/mailman/listinfo/openembedded-devel
 
