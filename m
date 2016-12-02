@@ -1,39 +1,20 @@
-Return-Path: <henry.bruce@intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 6C9BD607B3
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 6DD3B71BE7
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  2 Dec 2016 19:10:41 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by fmsmga102.fm.intel.com with ESMTP; 02 Dec 2016 11:10:43 -0800
+	Fri,  2 Dec 2016 19:13:59 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by orsmga103.jf.intel.com with ESMTP; 02 Dec 2016 11:14:01 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.33,288,1477983600"; d="scan'208";a="12801215"
-Received: from orsmsx106.amr.corp.intel.com ([10.22.225.133])
-	by orsmga002.jf.intel.com with ESMTP; 02 Dec 2016 11:10:43 -0800
-Received: from orsmsx116.amr.corp.intel.com (10.22.240.14) by
-	ORSMSX106.amr.corp.intel.com (10.22.225.133) with Microsoft SMTP Server
-	(TLS) id 14.3.248.2; Fri, 2 Dec 2016 11:10:43 -0800
-Received: from orsmsx104.amr.corp.intel.com ([169.254.4.62]) by
-	ORSMSX116.amr.corp.intel.com ([10.22.240.14]) with mapi id
-	14.03.0248.002; Fri, 2 Dec 2016 11:10:43 -0800
-From: "Bruce, Henry" <henry.bruce@intel.com>
-To: "pab@pabigot.com" <pab@pabigot.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>, "paul.eggleton@linux.intel.com"
-	<paul.eggleton@linux.intel.com>
-Thread-Topic: [OE-core] npm.bbclass support for deep native modules?
-Thread-Index: AQHSSEgePiQ7K+1Ev0ubtj4q5Yp3yKDutRUAgAAG2QCABtkngA==
-Date: Fri, 2 Dec 2016 19:10:41 +0000
-Message-ID: <1480705839.8273.22.camel@intel.com>
-References: <b3516f43-75eb-2fa5-31c6-ad5e3a57d032@pabigot.com>
-	<5308703.KLEPbEOQKq@peggleto-mobl.ger.corp.intel.com>
-	<f1da4624-99b2-46ec-a49d-892e2a491a8f@pabigot.com>
-In-Reply-To: <f1da4624-99b2-46ec-a49d-892e2a491a8f@pabigot.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.7.198.61]
-MIME-Version: 1.0
-Subject: Re: npm.bbclass support for deep native modules?
+X-IronPort-AV: E=Sophos;i="5.33,288,1477983600"; d="scan'208";a="908094770"
+Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
+	by orsmga003.jf.intel.com with ESMTP; 02 Dec 2016 11:14:00 -0800
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  2 Dec 2016 21:14:07 +0200
+Message-Id: <20161202191407.9892-1-alexander.kanavin@linux.intel.com>
+X-Mailer: git-send-email 2.10.2
+Subject: [PATCH v2] grub2: enforce -no-pie if supported by compiler
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,39 +27,82 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 02 Dec 2016 19:10:42 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <2DB14D74A292B942AB33B109FF8A2CF2@intel.com>
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Fri, 02 Dec 2016 19:14:00 -0000
 
-T24gTW9uLCAyMDE2LTExLTI4IGF0IDA0OjM1IC0wNjAwLCBQZXRlciBBLiBCaWdvdCB3cm90ZToN
-Cg0KSGkgUGV0ZXIsDQoNCkknbSBoZWxwaW5nIFBhdWwgd2l0aCB0aGlzLiBTYWRseSwgSSdtIG5v
-dCBtdWNoIG9mIGFuIG5wbSBleHBlcnQNCmVpdGhlciwgYnV0IHdhbnQgdG8gaW1wcm92ZSBzdXBw
-b3J0IGZvciBub2RlLmpzIGRldmVsb3BtZW50LsKgDQoNCj4gDQo+IFNvcnJ5LCB0aGF0IHdhc24n
-dCBjbGVhci7CoMKgc3RhdHNkIGRlcGVuZHMgb24gbW9kZXJuLXN5c2xvZyBidXQgdGhlwqANCj4g
-bG9ja2Rvd24gYW5kIHNocmlua3dyYXAgZmlsZXMgZ2VuZXJhdGVkIGJ5IGRldnRvb2wgZG9uJ3Qg
-aW5jbHVkZSBpdC4NCj4gRnJvbSB0aGUgV2lraToNCj4gDQo+ICJEZXZ0b29sIGNhbm5vdCBkZXRl
-Y3QgbmF0aXZlIGxpYnJhcmllcyBpbiBtb2R1bGUgZGVwZW5kZW5jaWVzLCB5b3XCoA0KPiB5b3Un
-bGwgbmVlZCB0byBtYW51YWxseSBhZGQgcGFja2FnZXMgdG8gcmVjaXBlIg0KPiANCj4gVGhlIFdp
-a2kgZG9lc24ndCBnbyBpbnRvIGRldGFpbCBvZiBob3cgdGhhdCdzIHN1cHBvc2VkIHRvIGJlIGRv
-bmUuIElzDQo+IHRoZSBleGlzdGluZyBpbmZyYXN0cnVjdHVyZSBzdXBwb3NlZCB0byBiZSBhYmxl
-IHRvIGZpbmTCoA0KPiBnbG9iYWxseS1pbnN0YWxsZWQgbW9kdWxlcz8NCg0KSSBiZWxpZXZlIHRo
-YXQgdGhpcyByZWZlcnMgdG8gbmF0aXZlIGNvZGUgZGVwZW5kaW5nIG9uIGFub3RoZXIgbmF0aXZl
-DQpsaWJyYXJ5IChlLmcuIGxpYmZvbykuIEluIHRoaXMgY2FzZSwgYSBwYWNrYWdlIGZvciBsaWJm
-b28gd291bGQgaGF2ZSB0bw0KYmUgYXZhaWxhYmxlIGFuZCBhZGRlZCB0byBERVBFTkRTLiBUaGlz
-IGlzIG5vdCBhcHBsaWNhYmxlIGZvciBtb2Rlcm4tDQpzeXNsb2cuIFBhdWwgLSBjb3JyZWN0IG1l
-IGlmIEkndmUgZ290IHRoaXMgd3JvbmcuDQoNCj4gSSdtIHdvbmRlcmluZyB3aGV0aGVyIGh0dHBz
-Oi8veWFybnBrZy5jb20vIG9yIG9uZSBvZiB0aGUgb3RoZXIgbm9kZWpzDQo+IGRlcGVuZGVuY3kg
-bWFuYWdlcnMgbWlnaHQgYmUgYW4gYWx0ZXJuYXRpdmUsIGFzIEkgYmVsaWV2ZSBucG0ncw0KPiBh
-cHByb2FjaCB0byBkZXBlbmRlbmNpZXMgaXMgbm90IHN1aXRlZCB0byBsZXZlbCBvZiBsb2NrZG93
-biBuZWVkZWQgYnkNCj4gWW9jdG8gYW5kIG1hbnkgb3RoZXIgcHJvZHVjdGlvbiBzeXN0ZW1zLg0K
-DQpHb29kIGlkZWEsIGJ1dCB3ZSBuZWVkIHRvIGJhbGFuY2UgdGhlIGNvbXBsZXhpdHkgb2YgYWRk
-aW5nIGFub3RoZXIgdG9vbA0KdnMuIGZpZ3VyaW5nIHRoaXMgb3V0IHdpdGggbnBtLg0KDQpCYWNr
-IHRvIHRoZSBwcm9ibGVtLiBJIGhhdmUgcmUtY3JlYXRlZCB0aGUgc3RhdHNkIGJ1aWxkIGZhaWx1
-cmUsIGFuZA0KYWdyZWUgd2l0aCB5b3VyIGRpYWdub3NpcywgYnV0IGRvbid0IGhhdmUgYW0gaW1t
-ZWRpYXRlIHNvbHV0aW9uLiDCoA0KDQpJIGhhdmUgb3BlbmVkIGEgYnVnICMxMDc2MCwgYW5kIGFk
-ZGVkIHlvdSB0byBDQyBsaXN0LiBMZXQncyB1c2UgdGhpcw0KYnVnIHRvIGNvbW11bmljYXRlIGZy
-b20gaGVyZW9uLg0KaHR0cHM6Ly9idWd6aWxsYS55b2N0b3Byb2plY3Qub3JnL3Nob3dfYnVnLmNn
-aT9pZD0xMDc2MA0KDQoNCkhlbnJ5DQo=
+Recent distros are enabling -pie by default; in case of grub
+we need to turn it off.
+
+Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+---
+ ...nforce-no-pie-if-the-compiler-supports-it.patch | 45 ++++++++++++++++++++++
+ meta/recipes-bsp/grub/grub2.inc                    |  1 +
+ 2 files changed, 46 insertions(+)
+ create mode 100644 meta/recipes-bsp/grub/files/0001-Enforce-no-pie-if-the-compiler-supports-it.patch
+
+diff --git a/meta/recipes-bsp/grub/files/0001-Enforce-no-pie-if-the-compiler-supports-it.patch b/meta/recipes-bsp/grub/files/0001-Enforce-no-pie-if-the-compiler-supports-it.patch
+new file mode 100644
+index 0000000..ccdbee2
+--- /dev/null
++++ b/meta/recipes-bsp/grub/files/0001-Enforce-no-pie-if-the-compiler-supports-it.patch
+@@ -0,0 +1,45 @@
++From 6186bcf1bcaaa0f16e79339e07c64c841d4d957d Mon Sep 17 00:00:00 2001
++From: Alexander Kanavin <alex.kanavin@gmail.com>
++Date: Fri, 2 Dec 2016 20:52:40 +0200
++Subject: [PATCH] Enforce -no-pie, if the compiler supports it.
++
++Add a -no-pie as recent (2 Dec 2016) Debian testing compiler
++seems to default to enabling PIE when linking. See
++https://wiki.ubuntu.com/SecurityTeam/PIE
++
++Upstream-Status: Pending
++Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
++---
++ acinclude.m4 | 2 +-
++ configure.ac | 2 +-
++ 2 files changed, 2 insertions(+), 2 deletions(-)
++
++diff --git a/acinclude.m4 b/acinclude.m4
++index 19200b0..a713923 100644
++--- a/acinclude.m4
+++++ b/acinclude.m4
++@@ -416,7 +416,7 @@ int main() {
++ 
++ [# `$CC -c -o ...' might not be portable.  But, oh, well...  Is calling
++ # `ac_compile' like this correct, after all?
++-if eval "$ac_compile -S -o conftest.s" 2> /dev/null; then]
+++if eval "$ac_compile -S -o conftest.s" 2> /dev/null && eval "$CC -dumpspecs 2>/dev/null | grep -e no-pie" ; then]
++   AC_MSG_RESULT([yes])
++   [# Should we clear up other files as well, having called `AC_LANG_CONFTEST'?
++   rm -f conftest.s
++diff --git a/configure.ac b/configure.ac
++index df20991..506c6b4 100644
++--- a/configure.ac
+++++ b/configure.ac
++@@ -603,7 +603,7 @@ grub_CHECK_PIE
++ [# Need that, because some distributions ship compilers that include
++ # `-fPIE' in the default specs.
++ if [ x"$pie_possible" = xyes ]; then
++-  TARGET_CFLAGS="$TARGET_CFLAGS -fno-PIE"
+++  TARGET_CFLAGS="$TARGET_CFLAGS -fno-PIE -no-pie"
++ fi]
++ 
++ # Position independent executable.
++-- 
++2.10.2
++
+diff --git a/meta/recipes-bsp/grub/grub2.inc b/meta/recipes-bsp/grub/grub2.inc
+index b10f633..f64198d 100644
+--- a/meta/recipes-bsp/grub/grub2.inc
++++ b/meta/recipes-bsp/grub/grub2.inc
+@@ -32,6 +32,7 @@ SRC_URI = "ftp://ftp.gnu.org/gnu/grub/grub-${PV}.tar.gz \
+            file://0001-Remove-direct-_llseek-code-and-require-long-filesyst.patch \
+            file://fix-texinfo.patch \
+            file://0001-grub-core-gettext-gettext.c-main_context-secondary_c.patch \
++           file://0001-Enforce-no-pie-if-the-compiler-supports-it.patch \
+             "
+ 
+ DEPENDS = "flex-native bison-native autogen-native"
+-- 
+2.10.2
+
 
