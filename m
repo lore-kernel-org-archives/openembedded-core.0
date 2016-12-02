@@ -1,26 +1,62 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 140CE6069C
+Return-Path: <peter.kjellerstedt@axis.com>
+X-Greylist: delayed 479 seconds by postgrey-1.34 at layers.openembedded.org;
+	Fri, 02 Dec 2016 10:49:32 UTC
+Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 0EA66606B2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  2 Dec 2016 08:34:33 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id uB28YZJt020725
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 2 Dec 2016 00:34:35 -0800 (PST)
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.209) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.294.0; Fri, 2 Dec 2016 00:34:34 -0800
-From: Chen Qi <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 2 Dec 2016 16:35:40 +0800
-Message-ID: <c960ecd5d830e6f0f4523eea04bbf418a9818fe9.1480667707.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1480667707.git.Qi.Chen@windriver.com>
-References: <cover.1480667707.git.Qi.Chen@windriver.com>
+	Fri,  2 Dec 2016 10:49:32 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bastet.se.axis.com (Postfix) with ESMTP id 5DB1518527;
+	Fri,  2 Dec 2016 11:41:34 +0100 (CET)
+X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
+Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024)
+	with LMTP id Xyx1LZ6AW+nI; Fri,  2 Dec 2016 11:41:33 +0100 (CET)
+Received: from boulder03.se.axis.com (boulder03.se.axis.com [10.0.8.17])
+	by bastet.se.axis.com (Postfix) with ESMTPS id 67CC718346;
+	Fri,  2 Dec 2016 11:41:33 +0100 (CET)
+Received: from boulder03.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 5201F1E08B;
+	Fri,  2 Dec 2016 11:41:33 +0100 (CET)
+Received: from boulder03.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 466781E08C;
+	Fri,  2 Dec 2016 11:41:33 +0100 (CET)
+Received: from seth.se.axis.com (unknown [10.0.2.172])
+	by boulder03.se.axis.com (Postfix) with ESMTP;
+	Fri,  2 Dec 2016 11:41:33 +0100 (CET)
+Received: from XBOX04.axis.com (xbox04.axis.com [10.0.5.18])
+	by seth.se.axis.com (Postfix) with ESMTP id 3A683305;
+	Fri,  2 Dec 2016 11:41:33 +0100 (CET)
+Received: from xbox11.axis.com (10.0.5.25) by XBOX04.axis.com (10.0.5.18) with
+	Microsoft SMTP Server (TLS) id 15.0.1210.3;
+	Fri, 2 Dec 2016 11:41:33 +0100
+Received: from XBOX02.axis.com (10.0.5.16) by xbox11.axis.com (10.0.5.25) with
+	Microsoft SMTP Server (TLS) id 15.0.1210.3;
+	Fri, 2 Dec 2016 11:41:33 +0100
+Received: from XBOX02.axis.com ([fe80::50c3:4d2f:4507:7776]) by
+	XBOX02.axis.com ([fe80::50c3:4d2f:4507:7776%21]) with mapi id
+	15.00.1210.000; Fri, 2 Dec 2016 11:41:32 +0100
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: Khem Raj <raj.khem@gmail.com>
+Thread-Topic: [OE-core] [PATCH 2/2 V5] systemd: Upgrade to 232
+Thread-Index: AQHSSb4hj1q4IDcZxUeXR0ao+wKtXqDy1SnQgABslwCAATON4A==
+Date: Fri, 2 Dec 2016 10:41:32 +0000
+Message-ID: <3b27f673ab1a42fe845122bb20761ec6@XBOX02.axis.com>
+References: <20161128212606.26139-1-raj.khem@gmail.com>
+	<6bd14a6cb6904f409632cae7f29ae287@XBOX02.axis.com>
+	<CAMKF1sqaZiS4hQZxBHGiRnfPMOp3CTv5Gmh=WjZBWYDZAR9H-A@mail.gmail.com>
+In-Reply-To: <CAMKF1sqaZiS4hQZxBHGiRnfPMOp3CTv5Gmh=WjZBWYDZAR9H-A@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.0.5.60]
 MIME-Version: 1.0
-Subject: [PATCH 1/1] git: upgrade to 2.11.0
+X-TM-AS-GCONF: 00
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/2 V5] systemd: Upgrade to 232
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,54 +69,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 02 Dec 2016 08:34:34 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 02 Dec 2016 10:49:33 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-Upgrade git to 2.11.0.
-
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
----
- meta/recipes-devtools/git/git_2.11.0.bb | 11 +++++++++++
- meta/recipes-devtools/git/git_2.9.3.bb  | 11 -----------
- 2 files changed, 11 insertions(+), 11 deletions(-)
- create mode 100644 meta/recipes-devtools/git/git_2.11.0.bb
- delete mode 100644 meta/recipes-devtools/git/git_2.9.3.bb
-
-diff --git a/meta/recipes-devtools/git/git_2.11.0.bb b/meta/recipes-devtools/git/git_2.11.0.bb
-new file mode 100644
-index 0000000..0ca8a38
---- /dev/null
-+++ b/meta/recipes-devtools/git/git_2.11.0.bb
-@@ -0,0 +1,11 @@
-+require git.inc
-+
-+EXTRA_OECONF += "ac_cv_snprintf_returns_bogus=no \
-+                 ac_cv_fread_reads_directories=${ac_cv_fread_reads_directories=yes} \
-+                 "
-+EXTRA_OEMAKE += "NO_GETTEXT=1"
-+
-+SRC_URI[tarball.md5sum] = "eac9324afcf4c95ab11acb2e2283e376"
-+SRC_URI[tarball.sha256sum] = "d3be9961c799562565f158ce5b836e2b90f38502d3992a115dfb653d7825fd7e"
-+SRC_URI[manpages.md5sum] = "cc86bfaf75174e3c8a10615e97bf3e55"
-+SRC_URI[manpages.sha256sum] = "437a0128acd707edce24e1a310ab2f09f9a09ee42de58a8e7641362012dcfe22"
-diff --git a/meta/recipes-devtools/git/git_2.9.3.bb b/meta/recipes-devtools/git/git_2.9.3.bb
-deleted file mode 100644
-index d59f3d2..0000000
---- a/meta/recipes-devtools/git/git_2.9.3.bb
-+++ /dev/null
-@@ -1,11 +0,0 @@
--require git.inc
--
--EXTRA_OECONF += "ac_cv_snprintf_returns_bogus=no \
--                 ac_cv_fread_reads_directories=${ac_cv_fread_reads_directories=yes} \
--                 "
--EXTRA_OEMAKE += "NO_GETTEXT=1"
--
--SRC_URI[tarball.md5sum] = "c783361be894b8bfa5373811b1b65602"
--SRC_URI[tarball.sha256sum] = "a252b6636b12d5ba57732c8469701544c26c2b1689933bd1b425e603cbb247c0"
--SRC_URI[manpages.md5sum] = "66fafd61d65f9d2d99581133170eb186"
--SRC_URI[manpages.sha256sum] = "8ea1a55b048fafbf0c0c6fcbca4b5b0f5e9917893221fc7345c09051d65832ce"
--- 
-1.9.1
-
+PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBLaGVtIFJhaiBbbWFpbHRvOnJh
+ai5raGVtQGdtYWlsLmNvbV0NCj4gU2VudDogZGVuIDEgZGVjZW1iZXIgMjAxNiAxNzo1MA0KPiBU
+bzogUGV0ZXIgS2plbGxlcnN0ZWR0DQo+IENjOiBvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVu
+ZW1iZWRkZWQub3JnDQo+IFN1YmplY3Q6IFJlOiBbT0UtY29yZV0gW1BBVENIIDIvMiBWNV0gc3lz
+dGVtZDogVXBncmFkZSB0byAyMzINCj4gDQo+IE9uIFRodSwgRGVjIDEsIDIwMTYgYXQgMToyOCBB
+TSwgUGV0ZXIgS2plbGxlcnN0ZWR0DQo+IDxwZXRlci5ramVsbGVyc3RlZHRAYXhpcy5jb20+IHdy
+b3RlOg0KPiA+PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiA+PiBGcm9tOiBvcGVuZW1i
+ZWRkZWQtY29yZS1ib3VuY2VzQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNCj4gPj4gW21haWx0bzpv
+cGVuZW1iZWRkZWQtY29yZS1ib3VuY2VzQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmddIE9uIEJlaGFs
+Zg0KPiBPZg0KPiA+PiBLaGVtIFJhag0KPiA+PiBTZW50OiBkZW4gMjggbm92ZW1iZXIgMjAxNiAy
+MjoyNg0KPiA+PiBUbzogb3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZw0K
+PiA+PiBTdWJqZWN0OiBbT0UtY29yZV0gW1BBVENIIDIvMiBWNV0gc3lzdGVtZDogVXBncmFkZSB0
+byAyMzINCj4gPj4NCj4gPj4gKiBEcm9wIHN1cHBvcnQgZm9yIHJjUy5kIFN5c1YgaW5pdCBzY3Jp
+cHRzLg0KPiA+PiAgIFRoZXNlIGFyZSBwcm9uZSB0byBjYXVzZSBkZXBlbmRlbmN5IGxvb3BzLCBh
+bmQgYWxtb3N0IGFsbCBwYWNrYWdlcw0KPiA+PiB3aXRoDQo+ID4+ICAgcmNTIHNjcmlwdHMgbm93
+IHNoaXAgYSBuYXRpdmUgc3lzdGVtZCBzZXJ2aWNlLg0KPiA+Pg0KPiA+PiAqIERyb3AgbW91bnQg
+cHJvcGFnYXRpb24gcGF0Y2gsIGl0IG9ubHkgaGFwcGVucyB3aXRoIGxpYnNlY2NvbXAsIE9FDQo+
+ID4+IGRvZXNudA0KPiA+PiAgIGVuYWJsZSBpdA0KPiA+Pg0KPiA+PiAqIGtkYnVzIG9wdGlvbiBo
+YXMgZGlzYXBwZWFyZWQgZnJvbSBjb25maWd1cmUNCj4gPj4NCj4gPj4gKiBJZ25vcmUgZGV2LXNv
+IGZvciBQTiBub3cgc2luY2Ugc3lzdGVtZCBpbnRyb2R1Y2VkIHByaXZhdGUgLnNvIHNlZQ0KPiA+
+PiAgIGh0dHBzOi8vZ2l0aHViLmNvbS9zeXN0ZW1kL3N5c3RlbWQvaXNzdWVzLzM4MTANCj4gPg0K
+PiA+IFJhdGhlciB0aGFuIGFkZGluZzoNCj4gPg0KPiA+IElOU0FORV9TS0lQXyR7UE59ICs9ICJk
+ZXYtc28iDQo+ID4NCj4gPiB3b3VsZCBpdCBub3QgYmUgbW9yZSBhcHByb3ByaWF0ZSB0byBhZGQN
+Cj4gPiAke3N5c3RlbWRfdW5pdGRpcn0vbGlic3lzdGVtZC1zaGFyZWQuc28gdG8gRklMRVNfJHtQ
+Tn0tZGV2LCBpLmUuOg0KPiA+DQo+ID4gLUZJTEVTXyR7UE59LWRldiArPSAiJHtiYXNlX2xpYmRp
+cn0vc2VjdXJpdHkvKi5sYSAke2RhdGFkaXJ9L2RidXMtDQo+IDEvaW50ZXJmYWNlcy8gJHtzeXNj
+b25mZGlyfS9ycG0vbWFjcm9zLnN5c3RlbWQiDQo+ID4gK0ZJTEVTXyR7UE59LWRldiArPSAiJHti
+YXNlX2xpYmRpcn0vc2VjdXJpdHkvKi5sYSAke2RhdGFkaXJ9L2RidXMtDQo+IDEvaW50ZXJmYWNl
+cy8gJHtzeXNjb25mZGlyfS9ycG0vbWFjcm9zLnN5c3RlbWQNCj4gJHtzeXN0ZW1kX3VuaXRkaXJ9
+L2xpYnN5c3RlbWQtc2hhcmVkLnNvIg0KPiA+DQo+ID4gVGhlIGJpbmFyaWVzIGFyZSBsaW5rZWQg
+d2l0aCBsaWJzeXN0ZW1kLXNoYXJlZC0yMzIuc28gd2hpY2ggZW5kcyB1cA0KPiA+IGluICR7UE59
+IGFzIHVzdWFsLg0KPiANCj4gQXMgbWVudGlvbmVkIHRoaXMgaXMgbm90IGEgdHlwaWNhbCAuc28g
+d2hpY2ggaXMgYSBzeW1saW5rIGFuZCBjYW4gYmUNCj4gc2hvdmVkIGludG8gLWRldiBwYWNrYWdl
+IGlmIHdlIGRvIHRoYXQsIHRoZW4gd2UgaGF2ZSB0byBpbmNsdWRlIC1kZXYgDQo+IHBhY2thZ2Ug
+aW50byBldmVyeSBpbWFnZSBjb250YWluaW5nIHN5c3RlbWQuDQoNCkFjdHVhbGx5LCBJIHRoaW5r
+IGl0IF9pc18gd29ya2luZyBsaWtlIGEgdHlwaWNhbCAuc28uIEl0IF9pc18gYSBzeW1saW5rIA0K
+YW5kIHRoZSBhcHBsaWNhdGlvbnMgYXJlIGxpbmtlZCB3aXRoIGxpYnN5c3RlbWQtc2hhcmVkLTIz
+Mi5zbywgbm90IA0KbGlic3lzdGVtZC1zaGFyZWQuc28sIGp1c3QgbGlrZSBvdGhlciBsaWJyYXJp
+ZXMgaW4gL2xpYiBhbmQgL3Vzci9saWIuIA0KU28gQUZBSUNULCBpdCB3b3JrcyBqdXN0IGxpa2Ug
+YWxsIHRoZSBvdGhlciAuc28gZmlsZXMgdGhhdCBlbmQgdXAgaW4gDQotZGV2Lg0KDQpJIGhhdmUg
+dmVyaWZpZWQgdGhhdCBidWlsZGluZyB3aXRoICR7c3lzdGVtZF91bml0ZGlyfS9saWJzeXN0ZW1k
+LXNoYXJlZC5zbyANCmFkZGVkIHRvIEZJTEVTXyR7UE59LWRldiB3b3JrcyBhcyBleHBlY3RlZCwg
+d2l0aG91dCBhZGRpbmcgYW55IA0KZGVwZW5kZW5jaWVzIG9uIHN5c3RlbWQtZGV2IHRoYXQgc2hv
+dWxkIG5vdCBiZSB0aGVyZS4NCg0KVGhlIG9ubHkgZGlmZmVyZW5jZSBjb21wYXJlZCB0byBvdGhl
+ciBsaWJyYXJpZXMgaW4gL2xpYiBhbmQgL3Vzci9saWIgaXMgDQp0aGF0IGxpYnN5c3RlbWQtc2hh
+cmVkLTIzMi5zbyByZW1haW5zIHBhY2thZ2VkIGluIHRoZSBzeXN0ZW1kIHBhY2thZ2UgDQpyYXRo
+ZXIgdGhhbiBpbiBhIHNlcGFyYXRlIGxpYiBwYWNrYWdlLCB3aGljaCBJIGJlbGlldmUgaXMgdGhl
+IHdheSB3ZSANCndhbnQgaXQgdG8gYmUgc2luY2UgaXQgaXMgYSBzeXN0ZW1kIGludGVybmFsIGxp
+YnJhcnkuDQoNCj4gPj4gKiBBZGQgbGlibnNzKiB0byBQQUNLQUdFU19EWU5BTUlDIGZvciBsaWJu
+c3MtcmVzb2x2ZSB0byB3b3JrDQo+IGNvcnJlY3RseQ0KPiA+Pg0KPiA+PiAqIEZvcndhcmQgcG9y
+dCBzeXN0ZW1kLWJvb3QgcGF0Y2hlcyB0byBzeXN0ZW1kLTIzMg0KPiA+Pg0KPiA+PiBTaWduZWQt
+b2ZmLWJ5OiBLaGVtIFJhaiA8cmFqLmtoZW1AZ21haWwuY29tPg0KPiA+DQo+ID4gLy9QZXRlcg0K
+DQovL1BldGVyDQoNCg0K
 
