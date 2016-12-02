@@ -1,54 +1,21 @@
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-io0-f193.google.com (mail-io0-f193.google.com
-	[209.85.223.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 428CA71BF0
+Return-Path: <edwin.plauchu.camacho@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 9C18F71BF4
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  2 Dec 2016 21:09:32 +0000 (UTC)
-Received: by mail-io0-f193.google.com with SMTP id r94so10260186ioe.1
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 02 Dec 2016 13:09:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
-	:in-reply-to:references;
-	bh=02sIzUEtf/LfdMIGDZA2GiW+tRzVW5IDFOChaUgEQhk=;
-	b=qMvcCPfFbdrHzxZOAKmRpt7JQj/Ve2XIrlzkpnjV4qIAG/mh8+/Eim/prMc3NOLI4k
-	SukMtp4AsBPAxhoVc+V7PwmLxJh52kyrjYBZd653+9zeOkaAjotWnIU48EBKqjiURFp7
-	Sj3TjeJvBemmQnCc2ee8otcty7KW4EkbjsgxaVilBEk70tmGdAoFq7hf11x8MspN+9FU
-	/1pHmQDomIyjJHw6Ny/FEB+UNoyaHpLpPgHTI6ie1iD5f6o1VKfhbvuSXIv8Tp6JFl2X
-	EMMTjjiOKw/7OmnNCLDcZG7Zxnm9R0X2+gluGdV+z/tnuofavg6RKipxycaZAZ6gktPy
-	m92Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
-	:in-reply-to:references:in-reply-to:references;
-	bh=02sIzUEtf/LfdMIGDZA2GiW+tRzVW5IDFOChaUgEQhk=;
-	b=g0t6x2rImi8A/MHFM6NljdU1D2Mn3dxdDVm0aacUoglknSJEqBiSI/5ioo5Jx9tyR8
-	8LTU7EyR5ZnKTdMWmzp1MP8ZyY2NtpSEzGr2DiGy11QfIjiUU8KmGtRmQD0PipuKfOfj
-	b3ebaIn8f+Uul7dbT6Y92fdrUfcG+C49ODlnB3qV4ykPHx6nPJbZPFUF85GCkG0l39We
-	/MxiLgcUVOOkF7cSnzHm10iQuwNq4vAJx54fmP+eXZma7p9b4g8VobOvtTuKs7P9Jzbn
-	i3rDI395tIBYpviMfKl45e79yFitiTpTLVsPKeLAeeBzmA5s0c/tjfpFiDK/GOn/k6ea
-	alDw==
-X-Gm-Message-State: AKaTC02L2GYdW3IuxtQHzv/BzgcnWU74SUoyTTMHx1pXZbO9TeA+ys4IVrl23RjKaH3Z+g==
-X-Received: by 10.107.145.69 with SMTP id t66mr39989185iod.203.1480712973933; 
-	Fri, 02 Dec 2016 13:09:33 -0800 (PST)
-Received: from localhost.localdomain
-	(CPEe8de27b71faa-CMbcc810032faf.cpe.net.cable.rogers.com.
-	[174.112.43.94]) by smtp.gmail.com with ESMTPSA id
-	i62sm1696438itb.12.2016.12.02.13.09.32
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 02 Dec 2016 13:09:32 -0800 (PST)
-Sender: Bruce Ashfield <bruce.ashfield@gmail.com>
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-To: richard.purdie@linuxfoundation.org
-Date: Fri,  2 Dec 2016 16:09:25 -0500
-Message-Id: <6cb1f5931485cc4ab5ea8b3768e46550b15ca1e1.1480711764.git.bruce.ashfield@windriver.com>
-X-Mailer: git-send-email 2.5.0
-In-Reply-To: <cover.1480711764.git.bruce.ashfield@windriver.com>
-References: <cover.1480711764.git.bruce.ashfield@windriver.com>
-In-Reply-To: <cover.1480711764.git.bruce.ashfield@windriver.com>
-References: <cover.1480711764.git.bruce.ashfield@windriver.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 4/4] kernel-yocto: exit on non-zero return code
+	Fri,  2 Dec 2016 21:35:05 +0000 (UTC)
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+	by orsmga102.jf.intel.com with ESMTP; 02 Dec 2016 13:35:07 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.33,288,1477983600"; d="scan'208";a="36607258"
+Received: from pianodaemon-contraption.zpn.intel.com ([10.219.128.75])
+	by orsmga004.jf.intel.com with ESMTP; 02 Dec 2016 13:35:07 -0800
+From: Edwin Plauchu <edwin.plauchu.camacho@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  2 Dec 2016 15:36:19 -0600
+Message-Id: <20161202213619.7459-1-edwin.plauchu.camacho@linux.intel.com>
+X-Mailer: git-send-email 2.9.3
+Cc: Edwin Plauchu <edwin.plauchu.camacho@intel.com>
+Subject: [PATCH v3] texinfo: upgrade from 6.0 to 6.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,34 +28,226 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 02 Dec 2016 21:09:32 -0000
+X-List-Received-Date: Fri, 02 Dec 2016 21:35:06 -0000
 
-Historically the processing of kernel meta data contained some
-commands that exited with a non-zero return code. Special processing
-was required to properly deal with their exit.
+From: Edwin Plauchu <edwin.plauchu.camacho@intel.com>
 
-That is no longer true, and instead of handling all return codes
-and doing an explicit 'exit' call, we can remove set -e from the
-routine and have all errors be trapped and stop processing.
-
-Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+Signed-off-by: Edwin Plauchu <edwin.plauchu.camacho@intel.com>
 ---
- meta/classes/kernel-yocto.bbclass | 1 -
- 1 file changed, 1 deletion(-)
+ .../texinfo/texinfo/dont-depend-on-help2man.patch  | 19 ++++---
+ .../texinfo/texinfo/texinfo-4.12-zlib.patch        | 65 +++++++++++++++-------
+ .../texinfo/{texinfo_6.0.bb => texinfo_6.3.bb}     |  4 +-
+ 3 files changed, 56 insertions(+), 32 deletions(-)
+ rename meta/recipes-extended/texinfo/{texinfo_6.0.bb => texinfo_6.3.bb} (95%)
 
-diff --git a/meta/classes/kernel-yocto.bbclass b/meta/classes/kernel-yocto.bbclass
-index 6160a29ecb76..7c32c9664610 100644
---- a/meta/classes/kernel-yocto.bbclass
-+++ b/meta/classes/kernel-yocto.bbclass
-@@ -61,7 +61,6 @@ def get_machine_branch(d, default):
-     return default
+diff --git a/meta/recipes-extended/texinfo/texinfo/dont-depend-on-help2man.patch b/meta/recipes-extended/texinfo/texinfo/dont-depend-on-help2man.patch
+index 0ce47ec..f418439 100644
+--- a/meta/recipes-extended/texinfo/texinfo/dont-depend-on-help2man.patch
++++ b/meta/recipes-extended/texinfo/texinfo/dont-depend-on-help2man.patch
+@@ -1,31 +1,32 @@
+-From 6f1f3912fcb900b3a3e6cbe3360306fade333497 Mon Sep 17 00:00:00 2001
+-From: Jussi Kukkonen <jussi.kukkonen@intel.com>
+-Date: Thu, 6 Aug 2015 14:55:08 +0300
++From e89b1c57d76f5cf5acbb0d0187374f7a77bce1e2 Mon Sep 17 00:00:00 2001
++From: Edwin Plauchu <edwin.plauchu.camacho@intel.com>
++Date: Tue, 29 Nov 2016 13:43:24 -0600
+ Subject: [PATCH] dont-depend-on-help2man
  
- do_kernel_metadata() {
--	set +e
- 	cd ${S}
- 	export KMETA=${KMETA}
+ Upstream-Status: Inappropriate
+ 
+ Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
++Signed-off-by: Edwin Plauchu <edwin.plauchu.camacho@intel.com>
+ ---
+  doc/Makefile.am |  2 +-
+  man/Makefile.am | 12 ++++++------
+  2 files changed, 7 insertions(+), 7 deletions(-)
+ 
+ diff --git a/doc/Makefile.am b/doc/Makefile.am
+-index 7198a6b..4bba550 100644
++index 39db834..1bb2a4f
+ --- a/doc/Makefile.am
+ +++ b/doc/Makefile.am
+-@@ -40,7 +40,7 @@ refcard_files = refcard/Makefile refcard/txicmdcheck \
++@@ -38,7 +38,7 @@ refcard_files = refcard/Makefile refcard/txicmdcheck \
+  # Include our texinfo.tex, not Automake's.
+  EXTRA_DIST = epsf.tex texinfo.tex \
+               fdl.texi \
+ -	     $(man_MANS) $(TXI_XLATE) \
+ +	     $(TXI_XLATE) \
+- 	     $(refcard_files)
++              $(refcard_files) texinfo-tex-test.texi \
++              texinfo-ja.tex short-sample-ja.texi
+  
+- if INSTALL_WARNINGS
+ diff --git a/man/Makefile.am b/man/Makefile.am
+-index a08d603..bdfc9a4 100644
++index 6bfcb3d..a820c96
+ --- a/man/Makefile.am
+ +++ b/man/Makefile.am
+ @@ -13,24 +13,24 @@
+@@ -60,5 +61,5 @@ index a08d603..bdfc9a4 100644
+  # Maintainers should be able to regenerate.
+  MAINTAINERCLEANFILES = $(man_MANS)
+ -- 
+-2.1.4
++2.9.3
+ 
+diff --git a/meta/recipes-extended/texinfo/texinfo/texinfo-4.12-zlib.patch b/meta/recipes-extended/texinfo/texinfo/texinfo-4.12-zlib.patch
+index 41bd220..f25352c 100644
+--- a/meta/recipes-extended/texinfo/texinfo/texinfo-4.12-zlib.patch
++++ b/meta/recipes-extended/texinfo/texinfo/texinfo-4.12-zlib.patch
+@@ -1,19 +1,22 @@
+-From 20e1d8a9481dc13dd1d4d168b90e0ed2ff097b98 Mon Sep 17 00:00:00 2001
+-From: Jussi Kukkonen <jussi.kukkonen@intel.com>
+-Date: Thu, 6 Aug 2015 14:29:57 +0300
++From fe4f00459601efe0cfa75d92749a32237800a530 Mon Sep 17 00:00:00 2001
++From: Edwin Plauchu <edwin.plauchu.camacho@intel.com>
++Date: Tue, 29 Nov 2016 12:27:17 -0600
+ Subject: [PATCH] texinfo-4.12-zlib
+ 
+ Upstream-Status: Pending
++
++Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
++Signed-off-by: Edwin Plauchu <edwin.plauchu.camacho@intel.com>
+ ---
+- install-info/Makefile.in    |  2 +-
+- install-info/install-info.c | 67 +++++++++++++++++++++++++++------------------
+- 2 files changed, 42 insertions(+), 27 deletions(-)
++ install-info/Makefile.in    | 12 ++-----
++ install-info/install-info.c | 79 +++++++++++++++++++++++++++------------------
++ 2 files changed, 49 insertions(+), 42 deletions(-)
+ 
+ diff --git a/install-info/Makefile.in b/install-info/Makefile.in
+-index ad73abb..eaa2153 100644
++index 837d020..ba96579 100644
+ --- a/install-info/Makefile.in
+ +++ b/install-info/Makefile.in
+-@@ -241,7 +241,7 @@ am__installdirs = "$(DESTDIR)$(bindir)" "$(DESTDIR)$(bindir)"
++@@ -216,7 +208,7 @@ am__installdirs = "$(DESTDIR)$(bindir)" "$(DESTDIR)$(bindir)"
+  PROGRAMS = $(bin_PROGRAMS)
+  am_ginstall_info_OBJECTS = install-info.$(OBJEXT)
+  ginstall_info_OBJECTS = $(am_ginstall_info_OBJECTS)
+@@ -23,7 +26,7 @@ index ad73abb..eaa2153 100644
+  ginstall_info_DEPENDENCIES = $(top_builddir)/gnulib/lib/libgnu.a \
+  	$(am__DEPENDENCIES_1)
+ diff --git a/install-info/install-info.c b/install-info/install-info.c
+-index b454c15..4e39122 100644
++index e58189c..8617787 100644
+ --- a/install-info/install-info.c
+ +++ b/install-info/install-info.c
+ @@ -22,6 +22,7 @@
+@@ -43,7 +46,7 @@ index b454c15..4e39122 100644
+  open_possibly_compressed_file (char *filename,
+      void (*create_callback) (char *),
+ -    char **opened_filename, char **compression_program) 
+-+    char **opened_filename, char **compression_program, int *is_pipe) 
+++    char **opened_filename, char **compression_program, int *is_pipe)
+  {
+    char *local_opened_filename, *local_compression_program;
+    int nread;
+@@ -119,7 +122,7 @@ index b454c15..4e39122 100644
+            if (!f)
+              return 0;
+          }
+-@@ -767,12 +768,12 @@ open_possibly_compressed_file (char *filename,
++@@ -767,26 +768,26 @@ open_possibly_compressed_file (char *filename,
+  
+    /* Read first few bytes of file rather than relying on the filename.
+       If the file is shorter than this it can't be usable anyway.  */
+@@ -128,14 +131,34 @@ index b454c15..4e39122 100644
+ +  nread = gzread (f, data, sizeof (data));
+ +  if (nread != sizeof (data))
+      {
+-       /* Empty files don't set errno.  Calling code can check for
+-          this, so make sure errno == 0 just in case it isn't already. */
+ -      if (nread == 0)
+ +      if (nread >= 0)
+-         errno = 0;
+-       return 0;
+-     }
+-@@ -838,35 +839,40 @@ open_possibly_compressed_file (char *filename,
++         {
++           /* Try to create the file if its empty. */
++-          if (feof (f) && create_callback)
+++          if (gzeof(f) && create_callback)
++             {
++-              if (fclose (f) != 0)
+++              if (gzclose(f) != 0)
++                 return 0; /* unknown error closing file */
++ 
++-              if (remove (filename) != 0)
+++              if (remove(filename) != 0)
++                 return 0; /* unknown error deleting file */
++ 
++               (*create_callback) (filename);
++-              f = fopen (*opened_filename, FOPEN_RBIN);
+++              f = gzopen (*opened_filename, FOPEN_RBIN);
++               if (!f)
++                 return 0;
++-              nread = fread (data, sizeof (data), 1, f);
++-              if (nread == 0)
+++              nread = gzread(f, data, sizeof (data));
+++              if (nread >= 0)
++                 return 0;
++               goto determine_file_type; /* success */
++             }
++@@ -857,35 +858,40 @@ determine_file_type:
+      *compression_program = NULL;
+  
+    /* Seek back over the magic bytes.  */
+@@ -183,7 +206,7 @@ index b454c15..4e39122 100644
+      }
+  
+    return f;
+-@@ -885,7 +891,8 @@ readfile (char *filename, int *sizep,
++@@ -904,7 +910,8 @@ readfile (char *filename, int *sizep,
+      void (*create_callback) (char *), char **opened_filename,
+      char **compression_program)
+  {
+@@ -193,7 +216,7 @@ index b454c15..4e39122 100644
+    int filled = 0;
+    int data_size = 8192;
+    char *data = xmalloc (data_size);
+-@@ -893,14 +900,20 @@ readfile (char *filename, int *sizep,
++@@ -912,14 +919,20 @@ readfile (char *filename, int *sizep,
+    /* If they passed the space for the file name to return, use it.  */
+    f = open_possibly_compressed_file (filename, create_callback,
+                                       opened_filename,
+@@ -216,7 +239,7 @@ index b454c15..4e39122 100644
+        if (nread < 0)
+          return 0;
+        if (nread == 0)
+-@@ -919,8 +932,10 @@ readfile (char *filename, int *sizep,
++@@ -938,8 +951,10 @@ readfile (char *filename, int *sizep,
+    /* We need to close the stream, since on some systems the pipe created
+       by popen is simulated by a temporary file which only gets removed
+       inside pclose.  */
+@@ -229,5 +252,5 @@ index b454c15..4e39122 100644
+    *sizep = filled;
+    return data;
+ -- 
+-2.1.4
++2.9.3
+ 
+diff --git a/meta/recipes-extended/texinfo/texinfo_6.0.bb b/meta/recipes-extended/texinfo/texinfo_6.3.bb
+similarity index 95%
+rename from meta/recipes-extended/texinfo/texinfo_6.0.bb
+rename to meta/recipes-extended/texinfo/texinfo_6.3.bb
+index 8638bb1..51199be 100644
+--- a/meta/recipes-extended/texinfo/texinfo_6.0.bb
++++ b/meta/recipes-extended/texinfo/texinfo_6.3.bb
+@@ -37,8 +37,8 @@ SRC_URI = "${GNU_MIRROR}/texinfo/${BP}.tar.gz \
+            ${TARGET_PATCH} \
+           "
+ 
+-SRC_URI[md5sum] = "e1a2ef5dce5018b53f0f6eed45b247a7"
+-SRC_URI[sha256sum] = "83d3183290f34e7f958d209d0b20022c6fe9e921eb6fe94c27d988827d4878d2"
++SRC_URI[md5sum] = "9b08daca9bf8eccae9b0f884aba41f9e"
++SRC_URI[sha256sum] = "300a6ba4958c2dd4a6d5ce60f0a335daf7e379f5374f276f6ba31a221f02f606"
+ 
+ tex_texinfo = "texmf/tex/texinfo"
  
 -- 
-2.5.0
+2.9.3
 
 
