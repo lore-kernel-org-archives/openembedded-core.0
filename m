@@ -1,45 +1,48 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pg0-f65.google.com (mail-pg0-f65.google.com [74.125.83.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 5B2F56057A
+Received: from mail-pg0-f68.google.com (mail-pg0-f68.google.com [74.125.83.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 1BCC46057A
 	for <openembedded-core@lists.openembedded.org>;
 	Fri,  2 Dec 2016 19:32:59 +0000 (UTC)
-Received: by mail-pg0-f65.google.com with SMTP id p66so8710560pga.2
+Received: by mail-pg0-f68.google.com with SMTP id p66so8710580pga.2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 02 Dec 2016 11:33:00 -0800 (PST)
+	Fri, 02 Dec 2016 11:33:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=ENwobFwneS9AZH9VNcdB2YphOG6xPHc3o4JfgcweYvg=;
-	b=tm/SixDT3CVfnNAsJGZqRBZu5QNwmTAmOE8Q0a89lcs4A8Q6WlO7dwHBL3MR4YM5p3
-	EkqYucZmWYY/Y5zv8TxOv0GFw7C11isi/sOi7z7uz8PA2a1EYbzk36bMz0rls8qbAH2G
-	WdXRJxwbn/F2x1WK9ce3FGLzrNBLaC+rB2B5MSIyN4n57yj/St0SJPp4pnREW38EkR8Z
-	WTXU/sqotYoAnHOrREmMXr30CHKhi2NDUuHNhRUv+XIK14XIksBCeGFA5/j30cl9J0Gy
-	42bT5UtWeJqzkR/joQc7CtF0rcfXzFiGjWIXFdhc4eBdX3s9KZmAHqaeLqwgWcc8c8C9
-	Sbfw==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=e5pT/jgR0xGhYSYW9WNd6wVpdzwbYHPGQplJmVwjQ48=;
+	b=NCwSpanemDadWKV3fMxji4JLDk5kcP7GM9rl7M7YATXUdpGz/M+NE9jk6manxJTWvJ
+	4yzF1WXSwRKCIs9tk2fiAg6UPclYQ2ddDFuZoM4IzvStBFKdUGUQ8PuPtkM3nhTdzx1N
+	KCHtC7aZT/hCZedEoAvOBG4lO19VZiDWK7Zx/Q9gBnxfGiCCXrR6CQ4Bzf0SZ2plGX/V
+	TR+dmfK6+R892Zn82B3/zK4/vTTx2WS74geDDZGHPauCpJQJbL7rrgwpxreRwUjht1me
+	AOWjBmlKEme9439aolSbwJb2C7m+WhCla7uRJA39u5hc6f5pJTFWnPj/IRGg2qLehVLb
+	cAhg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=ENwobFwneS9AZH9VNcdB2YphOG6xPHc3o4JfgcweYvg=;
-	b=Jel86VIHb3QfMyk/QQkbKklMJKkDo1QkEdpw0ZtUS32T870VWBYn8Mffsofm6vOKb6
-	5csa6+E5znT6cobBltwCGGtWmJ/2DwI2zIjJRUW5GDk5usxbqFeOnx96mqGm5P1tpep9
-	0uCKe0YkOOhd8jIgd5AaVSaUoCnL50oYp+roeYflzw0RqqieOnvfhNVh1w0EBH8IlrHw
-	eqoB1VdV2cucB6S5FalNoInA1FHdzq+J2MSnybPdI5/t+RMJIuSTR07fVeOYb2HtKy2c
-	hD2G08oTLZoj3ezgfjAHh8ViMZCt+uTq2YbrmO0ojo2fbXiQMAnm+S7gFEmvC2C7fJJ6
-	Gkxg==
-X-Gm-Message-State: AKaTC01F/H14XZpJhGGh+tQvV229KC5+1EH1PzMnTnhIN9BgarafO6tP8E5CFrI/mDa34A==
-X-Received: by 10.99.9.66 with SMTP id 63mr82002927pgj.84.1480707180622;
-	Fri, 02 Dec 2016 11:33:00 -0800 (PST)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=e5pT/jgR0xGhYSYW9WNd6wVpdzwbYHPGQplJmVwjQ48=;
+	b=nHzUfWaN3Ggt9PVnFXsPFFQddrQ276AIPcA2okgCTsreq3uZ46BB1WF0zs8kLVqaji
+	YKbyfCDen+Tvn9SP7TXJd8gK1w3cAdeThLYSUqTPXJGW85+xtIqH/ZkYhvKZpkA41/me
+	Gc+zMRlRnIslQ+keJHHS+jMC4Ru09zK7XP8KG9DI6pJhpMpfygjhotB+hJGBHuFbiwq1
+	HtzoDmcz19tsAUw3QNF72i6HTjdC+tsG+w0rOLDb59Iivqz++BMyxR1krRXP7ZigADva
+	WgEctwcR0CiQBHffyhB7QwPqjySpaiV3Ku008UKb1iuyDWaSWcdFYMzX9VZ7HEl9RvJr
+	zQIQ==
+X-Gm-Message-State: AKaTC02UmF0C/nI0CZN8WHJDZAcrjebu5jY7W59qFMLlFta+sxYPa0bFSSzfLjrSZ6uzqg==
+X-Received: by 10.99.99.195 with SMTP id x186mr83117334pgb.100.1480707181398; 
+	Fri, 02 Dec 2016 11:33:01 -0800 (PST)
 Received: from localhost.localdomain (c-76-102-32-192.hsd1.ca.comcast.net.
 	[76.102.32.192]) by smtp.gmail.com with ESMTPSA id
-	x90sm9532021pfk.73.2016.12.02.11.32.59
+	x90sm9532021pfk.73.2016.12.02.11.33.00
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
 	Fri, 02 Dec 2016 11:33:00 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  2 Dec 2016 11:32:52 -0800
-Message-Id: <20161202193253.12104-1-raj.khem@gmail.com>
+Date: Fri,  2 Dec 2016 11:32:53 -0800
+Message-Id: <20161202193253.12104-2-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.10.2
+In-Reply-To: <20161202193253.12104-1-raj.khem@gmail.com>
+References: <20161202193253.12104-1-raj.khem@gmail.com>
 Cc: meta-intel@yoctoproject.org
-Subject: [PATCH 1/2] libva: Import from meta-intel and update to 1.7.3
+Subject: [PATCH 2/2] gstreamer1.0-vaapi: Import from meta-intel
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,72 +55,123 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 02 Dec 2016 19:32:59 -0000
+X-List-Received-Date: Fri, 02 Dec 2016 19:33:00 -0000
 
-This recipe is used by intel and amd BSP layers
-additional copies are also there see
-https://layers.openembedded.org/layerindex/branch/master/recipes/?q=libva
+Update to 1.10.1 at the same time
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-graphics/libva/libva_1.7.3.bb | 48 ++++++++++++++++++++++++++++++
- 1 file changed, 48 insertions(+)
- create mode 100644 meta/recipes-graphics/libva/libva_1.7.3.bb
+ .../gstreamer/gstreamer1.0-vaapi.inc               | 36 ++++++++++++++++++
+ .../gstreamer1.0-vaapi/install-tests.patch         | 43 ++++++++++++++++++++++
+ .../gstreamer/gstreamer1.0-vaapi_1.10.1.bb         |  6 +++
+ 3 files changed, 85 insertions(+)
+ create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi.inc
+ create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi/install-tests.patch
+ create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.10.1.bb
 
-diff --git a/meta/recipes-graphics/libva/libva_1.7.3.bb b/meta/recipes-graphics/libva/libva_1.7.3.bb
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi.inc b/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi.inc
 new file mode 100644
-index 0000000..9994158
+index 0000000..6dea9cf
 --- /dev/null
-+++ b/meta/recipes-graphics/libva/libva_1.7.3.bb
-@@ -0,0 +1,48 @@
-+SUMMARY = "Video Acceleration (VA) API for Linux"
-+DESCRIPTION = "Video Acceleration API (VA API) is a library (libVA) \
-+and API specification which enables and provides access to graphics \
-+hardware (GPU) acceleration for video processing on Linux and UNIX \
-+based operating systems. Accelerated processing includes video \
-+decoding, video encoding, subpicture blending and rendering. The \
-+specification was originally designed by Intel for its GMA (Graphics \
-+Media Accelerator) series of GPU hardware, the API is however not \
-+limited to GPUs or Intel specific hardware, as other hardware and \
-+manufacturers can also freely use this API for hardware accelerated \
-+video decoding."
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi.inc
+@@ -0,0 +1,36 @@
++SUMMARY = "VA-API support to GStreamer"
++DESCRIPTION = "gstreamer-vaapi consists of a collection of VA-API \
++based plugins for GStreamer and helper libraries: `vaapidecode', \
++`vaapiconvert', and `vaapisink'."
 +
-+HOMEPAGE = "http://www.freedesktop.org/wiki/Software/vaapi"
-+BUGTRACKER = "https://bugs.freedesktop.org"
++REALPN = "gstreamer-vaapi"
++FILESPATH = "${@base_set_filespath(["${FILE_DIRNAME}/${REALPN}", "${FILE_DIRNAME}/${REALPN}"], d)}"
 +
-+SECTION = "x11"
-+LICENSE = "MIT"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=2e48940f94acb0af582e5ef03537800f"
++LICENSE = "LGPLv2.1+"
++LIC_FILES_CHKSUM = "file://COPYING.LIB;md5=4fbd65380cdd255951079008b364516c"
 +
-+SRC_URI = "http://www.freedesktop.org/software/vaapi/releases/libva/${BP}.tar.bz2"
-+SRC_URI[md5sum] = "dafb1d7d6449e850e9eb1a099895c683"
-+SRC_URI[sha256sum] = "22bc139498065a7950d966dbdb000cad04905cbd3dc8f3541f80d36c4670b9d9"
++DEPENDS = "libva"
 +
-+DEPENDS = "libdrm virtual/mesa virtual/libgles1 virtual/libgles2 virtual/egl"
++SRC_URI = "https://gstreamer.freedesktop.org/src/${REALPN}/${REALPN}-${PV}.tar.xz \
++          "
 +
-+inherit autotools pkgconfig
++S = "${WORKDIR}/${REALPN}-${PV}"
 +
-+EXTRA_OECONF = "--disable-dummy-driver"
++inherit autotools pkgconfig gtk-doc
 +
-+PACKAGECONFIG ??= "${@bb.utils.contains("DISTRO_FEATURES", "x11", "x11", "", d)} \
-+                   ${@bb.utils.contains("DISTRO_FEATURES", "wayland", "wayland", "", d)}"
-+PACKAGECONFIG[x11] = "--enable-x11,--disable-x11,virtual/libx11 libxext libxfixes"
++PACKAGES =+ "${PN}-tests"
++
++PACKAGECONFIG ??= "drm \
++                   ${@bb.utils.contains("DISTRO_FEATURES", "opengl x11", "glx", "", d)} \
++                   ${@bb.utils.contains("DISTRO_FEATURES", "wayland", "wayland", "", d)} \
++                   ${@bb.utils.contains("DISTRO_FEATURES", "x11", "x11", "", d)}"
++
++PACKAGECONFIG[drm] = "--enable-drm,--disable-drm,udev libdrm"
++PACKAGECONFIG[glx] = "--enable-glx,--disable-glx,virtual/mesa"
 +PACKAGECONFIG[wayland] = "--enable-wayland,--disable-wayland,wayland"
++PACKAGECONFIG[x11] = "--enable-x11,--disable-x11,virtual/libx11 libxrandr libxrender"
 +
-+PACKAGES =+ "${PN}-x11 ${PN}-tpi ${PN}-glx ${PN}-egl ${PN}-wayland"
++FILES_${PN} += "${libdir}/gstreamer-*/*.so"
++FILES_${PN}-dbg += "${libdir}/gstreamer-*/.debug"
++FILES_${PN}-dev += "${libdir}/gstreamer-*/*.la ${libdir}/gstreamer-*/*.a"
++FILES_${PN}-tests = "${bindir}/*"
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi/install-tests.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi/install-tests.patch
+new file mode 100644
+index 0000000..d7def3a
+--- /dev/null
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi/install-tests.patch
+@@ -0,0 +1,43 @@
++From 2791dfde0de0abe8100fa833dfe1a9c2e74c2629 Mon Sep 17 00:00:00 2001
++From: Jianxun Zhang <jianxun.zhang@linux.intel.com>
++Date: Thu, 21 Jan 2016 16:25:44 -0800
++Subject: [PATCH] Install tests
 +
-+RDEPENDS_${PN}-tpi =+ "${PN}"
-+RDEPENDS_${PN}-x11 =+ "${PN}"
-+RDEPENDS_${PN}-glx =+ "${PN}-x11"
-+RDEPENDS_${PN}-egl =+ "${PN}-x11"
++This patch is updated for 0.6.1
 +
-+FILES_${PN}-dbg += "${libdir}/dri/.debug"
++Upstream-Status: Inappropriate
 +
-+FILES_${PN}-x11 =+ "${libdir}/libva-x11*${SOLIBS}"
-+FILES_${PN}-tpi =+ "${libdir}/libva-tpi*${SOLIBS}"
-+FILES_${PN}-glx =+ "${libdir}/libva-glx*${SOLIBS}"
-+FILES_${PN}-egl =+ "${libdir}/libva-egl*${SOLIBS}"
-+FILES_${PN}-wayland =+ "${libdir}/libva-wayland*${SOLIBS}"
++Signed-off-by: Jianxun Zhang <jianxun.zhang@linux.intel.com>
++---
++ tests/Makefile.am | 6 +++---
++ 1 file changed, 3 insertions(+), 3 deletions(-)
++
++diff --git a/tests/Makefile.am b/tests/Makefile.am
++index 3637d92..7cc6a97 100644
++--- a/tests/Makefile.am
+++++ b/tests/Makefile.am
++@@ -1,4 +1,4 @@
++-noinst_PROGRAMS = \
+++bin_PROGRAMS = \
++ 	simple-decoder			\
++ 	test-decode			\
++ 	test-display			\
++@@ -9,13 +9,13 @@ noinst_PROGRAMS = \
++ 	$(NULL)
++ 
++ if USE_ENCODERS
++-noinst_PROGRAMS += \
+++bin_PROGRAMS += \
++ 	simple-encoder			\
++ 	$(NULL)
++ endif
++ 
++ if USE_GLX
++-noinst_PROGRAMS += \
+++bin_PROGRAMS += \
++ 	test-textures			\
++ 	$(NULL)
++ endif
++-- 
++1.9.1
++
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.10.1.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.10.1.bb
+new file mode 100644
+index 0000000..1c727f5
+--- /dev/null
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.10.1.bb
+@@ -0,0 +1,6 @@
++require gstreamer1.0-vaapi.inc
++
++SRC_URI[md5sum] = "514757933ff719a6b8206091f70e0221"
++SRC_URI[sha256sum] = "99aecaa609f37d65e12518b1e77cc70e3cc5dde0c7dfc8e83f508d7e64e1da34"
++
++DEPENDS += "gstreamer1.0 gstreamer1.0-plugins-base gstreamer1.0-plugins-bad"
 -- 
 2.10.2
 
