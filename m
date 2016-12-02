@@ -1,55 +1,39 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qt0-f170.google.com (mail-qt0-f170.google.com
-	[209.85.216.170])
-	by mail.openembedded.org (Postfix) with ESMTP id 8C2B871BB7
+Return-Path: <henry.bruce@intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 6C9BD607B3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  2 Dec 2016 16:14:18 +0000 (UTC)
-Received: by mail-qt0-f170.google.com with SMTP id p16so255461121qta.0
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 02 Dec 2016 08:14:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=VJ8P/GxEeD8/1gpRDjq1foNMAhpDiAmAYPYOnuhN01g=;
-	b=Y2NypEHY7XbkzYErLgAtPWXe0A+tLoZfVxhYCaA+YYTM5ck93sHM2BlFIg2EZvul/6
-	nVofPbIW5D0Kz3QLcMSuZ1rfDxRL+eG1obJIUfMYqPQ/nETR5T0ovzO5lOyRJ8OlAhGR
-	QrloHVZMF371Dy3UL1PBFInN4Xtg9ufFrq+FW0w4JD9nO79RVFSbRNl2vClSmujCtGzr
-	X7EpoEDgrvfrgAhy+eKbYj11hIjflr5hmubbrkWdGEmSSLqaQNxxIdBPQ8EdKhLcJV0h
-	4QD6IOjMeP7wQyPKQF11A9ReocMxy/0WsgWnKn+0lQP0LRfWUTWDjqkqmp45JzTsvTxS
-	vEMQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=VJ8P/GxEeD8/1gpRDjq1foNMAhpDiAmAYPYOnuhN01g=;
-	b=KCK9Al/rhjhCzb0gEG9bJzqzrlbGHmLA8NpzLAFErdg8rZOsxJG/5dsYBcWsvpdIqh
-	jiictbZKZaa9qRq/rbsz2aOo51ONB0E3iDYmbPn86NzTNoNKeQZsQGM7tnHtVNGSsLPp
-	4pAon6VsAnACiUBQ2L2512DusL+Bi8VB2NWN0unN2mSbh4TP3uOBju4tskuRGFAbZayx
-	ssuNAKGhKuLv1RLSOc/ha5ukNz8gCsrP7RaHBaCdNS7LNFhdmbSKl4EV3imW8vXMJ7Tu
-	VFhqVOWHo1n6i+BmqexPQ3if+dM7dh+x/pNeSzNr3wktopz2vzFsQrJGvnyQguX/B1NQ
-	CARw==
-X-Gm-Message-State: AKaTC01aloxBtj7igPK8F68NnetN2YhuJTPWvLt3flltB1RQ8xv6XCc73El0Lpr60hH2PX+VFIrMy229pt4c4u4p
-X-Received: by 10.237.37.77 with SMTP id w13mr43585767qtc.197.1480695260237;
-	Fri, 02 Dec 2016 08:14:20 -0800 (PST)
+	Fri,  2 Dec 2016 19:10:41 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by fmsmga102.fm.intel.com with ESMTP; 02 Dec 2016 11:10:43 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.33,288,1477983600"; d="scan'208";a="12801215"
+Received: from orsmsx106.amr.corp.intel.com ([10.22.225.133])
+	by orsmga002.jf.intel.com with ESMTP; 02 Dec 2016 11:10:43 -0800
+Received: from orsmsx116.amr.corp.intel.com (10.22.240.14) by
+	ORSMSX106.amr.corp.intel.com (10.22.225.133) with Microsoft SMTP Server
+	(TLS) id 14.3.248.2; Fri, 2 Dec 2016 11:10:43 -0800
+Received: from orsmsx104.amr.corp.intel.com ([169.254.4.62]) by
+	ORSMSX116.amr.corp.intel.com ([10.22.240.14]) with mapi id
+	14.03.0248.002; Fri, 2 Dec 2016 11:10:43 -0800
+From: "Bruce, Henry" <henry.bruce@intel.com>
+To: "pab@pabigot.com" <pab@pabigot.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>, "paul.eggleton@linux.intel.com"
+	<paul.eggleton@linux.intel.com>
+Thread-Topic: [OE-core] npm.bbclass support for deep native modules?
+Thread-Index: AQHSSEgePiQ7K+1Ev0ubtj4q5Yp3yKDutRUAgAAG2QCABtkngA==
+Date: Fri, 2 Dec 2016 19:10:41 +0000
+Message-ID: <1480705839.8273.22.camel@intel.com>
+References: <b3516f43-75eb-2fa5-31c6-ad5e3a57d032@pabigot.com>
+	<5308703.KLEPbEOQKq@peggleto-mobl.ger.corp.intel.com>
+	<f1da4624-99b2-46ec-a49d-892e2a491a8f@pabigot.com>
+In-Reply-To: <f1da4624-99b2-46ec-a49d-892e2a491a8f@pabigot.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.7.198.61]
 MIME-Version: 1.0
-Received: by 10.140.106.99 with HTTP; Fri, 2 Dec 2016 08:13:59 -0800 (PST)
-In-Reply-To: <1480694061.30023.78.camel@linux.intel.com>
-References: <20161128225759.9756-1-raj.khem@gmail.com>
-	<CAJTo0LZ+2+MhZ4TepH1dDzC3LyG7gz70TNEzoDjXgaBTjvHOsg@mail.gmail.com>
-	<o1jct4$pvp$1@blaine.gmane.org>
-	<CAJTo0LYLgFFR+6d3SDkso6X28N00tVAnUGuJg4sPG-msMKWU6A@mail.gmail.com>
-	<8632C69E-1C6B-482D-AF15-965F55F0AF88@gmail.com>
-	<CAJTo0LYTYa4A42+FA9Ou=bVA6ddH8gzVBpJZJvNfa9Jyb9QQfA@mail.gmail.com>
-	<CAMKF1spw8bvo8guTWkhYeQcn+Vs0kU-2X5D-03etwOj3dGroaw@mail.gmail.com>
-	<1480694061.30023.78.camel@linux.intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 2 Dec 2016 16:13:59 +0000
-Message-ID: <CAJTo0LYT3o+W+RVNwegA6aLHhi-VKcq7d5kn+djM2fdJ5bhQSw@mail.gmail.com>
-To: Saul Wold <sgw@linux.intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>,
-	openembeded-devel <openembedded-devel@lists.openembedded.org>
-Subject: Re: [oe] [meta-oe][PATCH] libva: Import from meta-intel and update to 1.7.3
+Subject: Re: npm.bbclass support for deep native modules?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,35 +46,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 02 Dec 2016 16:14:20 -0000
-Content-Type: multipart/alternative; boundary=001a114108ea01e97e0542af3b1d
+X-List-Received-Date: Fri, 02 Dec 2016 19:10:42 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <2DB14D74A292B942AB33B109FF8A2CF2@intel.com>
+Content-Transfer-Encoding: base64
 
---001a114108ea01e97e0542af3b1d
-Content-Type: text/plain; charset=UTF-8
+T24gTW9uLCAyMDE2LTExLTI4IGF0IDA0OjM1IC0wNjAwLCBQZXRlciBBLiBCaWdvdCB3cm90ZToN
+Cg0KSGkgUGV0ZXIsDQoNCkknbSBoZWxwaW5nIFBhdWwgd2l0aCB0aGlzLiBTYWRseSwgSSdtIG5v
+dCBtdWNoIG9mIGFuIG5wbSBleHBlcnQNCmVpdGhlciwgYnV0IHdhbnQgdG8gaW1wcm92ZSBzdXBw
+b3J0IGZvciBub2RlLmpzIGRldmVsb3BtZW50LsKgDQoNCj4gDQo+IFNvcnJ5LCB0aGF0IHdhc24n
+dCBjbGVhci7CoMKgc3RhdHNkIGRlcGVuZHMgb24gbW9kZXJuLXN5c2xvZyBidXQgdGhlwqANCj4g
+bG9ja2Rvd24gYW5kIHNocmlua3dyYXAgZmlsZXMgZ2VuZXJhdGVkIGJ5IGRldnRvb2wgZG9uJ3Qg
+aW5jbHVkZSBpdC4NCj4gRnJvbSB0aGUgV2lraToNCj4gDQo+ICJEZXZ0b29sIGNhbm5vdCBkZXRl
+Y3QgbmF0aXZlIGxpYnJhcmllcyBpbiBtb2R1bGUgZGVwZW5kZW5jaWVzLCB5b3XCoA0KPiB5b3Un
+bGwgbmVlZCB0byBtYW51YWxseSBhZGQgcGFja2FnZXMgdG8gcmVjaXBlIg0KPiANCj4gVGhlIFdp
+a2kgZG9lc24ndCBnbyBpbnRvIGRldGFpbCBvZiBob3cgdGhhdCdzIHN1cHBvc2VkIHRvIGJlIGRv
+bmUuIElzDQo+IHRoZSBleGlzdGluZyBpbmZyYXN0cnVjdHVyZSBzdXBwb3NlZCB0byBiZSBhYmxl
+IHRvIGZpbmTCoA0KPiBnbG9iYWxseS1pbnN0YWxsZWQgbW9kdWxlcz8NCg0KSSBiZWxpZXZlIHRo
+YXQgdGhpcyByZWZlcnMgdG8gbmF0aXZlIGNvZGUgZGVwZW5kaW5nIG9uIGFub3RoZXIgbmF0aXZl
+DQpsaWJyYXJ5IChlLmcuIGxpYmZvbykuIEluIHRoaXMgY2FzZSwgYSBwYWNrYWdlIGZvciBsaWJm
+b28gd291bGQgaGF2ZSB0bw0KYmUgYXZhaWxhYmxlIGFuZCBhZGRlZCB0byBERVBFTkRTLiBUaGlz
+IGlzIG5vdCBhcHBsaWNhYmxlIGZvciBtb2Rlcm4tDQpzeXNsb2cuIFBhdWwgLSBjb3JyZWN0IG1l
+IGlmIEkndmUgZ290IHRoaXMgd3JvbmcuDQoNCj4gSSdtIHdvbmRlcmluZyB3aGV0aGVyIGh0dHBz
+Oi8veWFybnBrZy5jb20vIG9yIG9uZSBvZiB0aGUgb3RoZXIgbm9kZWpzDQo+IGRlcGVuZGVuY3kg
+bWFuYWdlcnMgbWlnaHQgYmUgYW4gYWx0ZXJuYXRpdmUsIGFzIEkgYmVsaWV2ZSBucG0ncw0KPiBh
+cHByb2FjaCB0byBkZXBlbmRlbmNpZXMgaXMgbm90IHN1aXRlZCB0byBsZXZlbCBvZiBsb2NrZG93
+biBuZWVkZWQgYnkNCj4gWW9jdG8gYW5kIG1hbnkgb3RoZXIgcHJvZHVjdGlvbiBzeXN0ZW1zLg0K
+DQpHb29kIGlkZWEsIGJ1dCB3ZSBuZWVkIHRvIGJhbGFuY2UgdGhlIGNvbXBsZXhpdHkgb2YgYWRk
+aW5nIGFub3RoZXIgdG9vbA0KdnMuIGZpZ3VyaW5nIHRoaXMgb3V0IHdpdGggbnBtLg0KDQpCYWNr
+IHRvIHRoZSBwcm9ibGVtLiBJIGhhdmUgcmUtY3JlYXRlZCB0aGUgc3RhdHNkIGJ1aWxkIGZhaWx1
+cmUsIGFuZA0KYWdyZWUgd2l0aCB5b3VyIGRpYWdub3NpcywgYnV0IGRvbid0IGhhdmUgYW0gaW1t
+ZWRpYXRlIHNvbHV0aW9uLiDCoA0KDQpJIGhhdmUgb3BlbmVkIGEgYnVnICMxMDc2MCwgYW5kIGFk
+ZGVkIHlvdSB0byBDQyBsaXN0LiBMZXQncyB1c2UgdGhpcw0KYnVnIHRvIGNvbW11bmljYXRlIGZy
+b20gaGVyZW9uLg0KaHR0cHM6Ly9idWd6aWxsYS55b2N0b3Byb2plY3Qub3JnL3Nob3dfYnVnLmNn
+aT9pZD0xMDc2MA0KDQoNCkhlbnJ5DQo=
 
-On 2 December 2016 at 15:54, Saul Wold <sgw@linux.intel.com> wrote:
-
-> I'm wondering if we should also move the gstreamer-vaapi-1.0 recipe to
-> oe-core to be with it's brethren?
->
-
-Yes, I think so.
-
-Ross
-
---001a114108ea01e97e0542af3b1d
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 2 December 2016 at 15:54, Saul Wold <span dir=3D"ltr">&lt;<a href=3D"mai=
-lto:sgw@linux.intel.com" target=3D"_blank">sgw@linux.intel.com</a>&gt;</spa=
-n> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;b=
-order-left:1px #ccc solid;padding-left:1ex"><div id=3D":130" class=3D"a3s a=
-XjCH m158c03ea3f13ceaa">I&#39;m wondering if we should also move the gstrea=
-mer-vaapi-1.0 recipe to<br>
-oe-core to be with it&#39;s brethren?<br></div></blockquote></div><br>Yes, =
-I think so.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_e=
-xtra">Ross</div></div>
-
---001a114108ea01e97e0542af3b1d--
