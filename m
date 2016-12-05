@@ -1,24 +1,62 @@
-Return-Path: <markus.lehtonen@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id EB22E606CB
+Return-Path: <kristian.amlie@mender.io>
+Received: from mail-wm0-f54.google.com (mail-wm0-f54.google.com [74.125.82.54])
+	by mail.openembedded.org (Postfix) with ESMTP id CA831719C9
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  5 Dec 2016 09:35:08 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga103.jf.intel.com with ESMTP; 05 Dec 2016 01:35:09 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.33,747,1477983600"; d="scan'208";a="1068049829"
-Received: from marquiz.fi.intel.com ([10.237.72.155])
-	by orsmga001.jf.intel.com with ESMTP; 05 Dec 2016 01:35:08 -0800
-Message-ID: <1480930507.13463.35.camel@linux.intel.com>
-From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
-To: mariano.lopez@linux.intel.com, openembedded-core@lists.openembedded.org
-Date: Mon, 05 Dec 2016 11:35:07 +0200
-In-Reply-To: <fe5c6f63b0523cb18bb8a8ce4988895c82a063c4.1480525452.git.mariano.lopez@linux.intel.com>
-References: <cover.1480525452.git.mariano.lopez@linux.intel.com>
-	<fe5c6f63b0523cb18bb8a8ce4988895c82a063c4.1480525452.git.mariano.lopez@linux.intel.com>
-X-Mailer: Evolution 3.16.5 
-Mime-Version: 1.0
-Subject: Re: [PATCHv2 2/3] oeqa/utils/metadata.py: Add metadata library
+	Mon,  5 Dec 2016 10:23:56 +0000 (UTC)
+Received: by mail-wm0-f54.google.com with SMTP id a197so89616394wmd.0
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 05 Dec 2016 02:23:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=mender-io.20150623.gappssmtp.com; s=20150623;
+	h=subject:to:references:cc:from:message-id:date:user-agent
+	:mime-version:in-reply-to:content-transfer-encoding;
+	bh=XcJ78BRE1R3iqKRxapZQh6ncmRQIi4IqGbw0YX+7w7A=;
+	b=Ik2cVNR8Tafx5aCj70dKX/IJzGtkBS9EG2hTEpo+gd0y6cA3LHMANkwNgiDiAE+SIb
+	9OIxX2lsTMibdvMgb/LNQVHTqpryf9GLJt1+cLSjI+e7GuRrtqczveBPVas040zvIorY
+	7zC7otwDpJKlU+VmTr6xGhQQZD2FAh0QBJqj5ArTy9I9kcGQf/JjZs1NT2wPQBrTVJv7
+	FtJmb0OGRigs7p7WCyJo4Q7uqxoa2PXDb9BbeJQQRZE4kBeEKHK/YoaLRZ+OPGwmPlL/
+	xjlY8eRdv9cFLW0sri1ZBoi8q8r4nJ1kgy/2aXs6XZ3k5mSF08xmCO1So976EieLE75s
+	Q9zg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:subject:to:references:cc:from:message-id:date
+	:user-agent:mime-version:in-reply-to:content-transfer-encoding;
+	bh=XcJ78BRE1R3iqKRxapZQh6ncmRQIi4IqGbw0YX+7w7A=;
+	b=NqRK6WeXpF8Si0iHEJS5uh9FkWms4mniKsGgS66My91Thnsdy2si2Ar2bfpFlusTy8
+	Xd5EOdOcBZtxEBJeT/VMJ4ixgWMxifvndzZ7qVapPkDyWakHp2E20VQNSvekupEBVILY
+	mM6EBTL7B8ErWwZC7uJfZ4QdvrazdFiGY0GG8yg0CVrk1VYAcRdfXFn7+TfwxHXtG9v5
+	JwKTC52ETzlPtkLyNYQP5M2VjzJZ3/cpgWMlDJI7uyjKwgH9sX2Eytcz4RtHE6r8qlzb
+	LN3ddnMTchONjWalFg+HirBYzZwaHiA5N2292LQK1OGd3zXzWFnfdw9Eftc3zSRwP9Z0
+	wDhw==
+X-Gm-Message-State: AKaTC03fYtyWKADsKSHMUEwVx6VrpJVUiOBg9RmK/rTb6ypX+dz9HqUdRf0gMGpfXo1xJw==
+X-Received: by 10.25.161.77 with SMTP id k74mr1125096lfe.157.1480933437336;
+	Mon, 05 Dec 2016 02:23:57 -0800 (PST)
+Received: from [10.25.0.170] ([195.159.140.90])
+	by smtp.googlemail.com with ESMTPSA id
+	10sm2793107ljh.11.2016.12.05.02.23.56
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 05 Dec 2016 02:23:56 -0800 (PST)
+To: ed.bartosh@linux.intel.com
+References: <1480069993.6873.98.camel@intel.com>
+	<f1699a69-1949-9cb3-8bef-adf9b68f385b@mender.io>
+	<20161125163103.GA4830@linux.intel.com>
+	<e29489aa-8303-d8ac-be67-93d650d09f6d@mender.io>
+	<20161128105236.GB15660@linux.intel.com>
+	<ae35149f-dc2d-fea5-e59e-a65dd3dce0ec@mender.io>
+	<20161128111825.GA16035@linux.intel.com>
+	<420c72b7-b5dd-14f3-a4b0-c57eb3512252@mender.io>
+	<20161130152923.GA4811@linux.intel.com>
+	<6132a02c-5934-8680-5970-3455f5af1842@mender.io>
+	<20161202150536.GA23998@linux.intel.com>
+From: Kristian Amlie <kristian.amlie@mender.io>
+Message-ID: <90b17b8a-b0d4-4e54-d933-216106e632a4@mender.io>
+Date: Mon, 5 Dec 2016 11:23:55 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.4.0
+MIME-Version: 1.0
+In-Reply-To: <20161202150536.GA23998@linux.intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v1] wic: Add --exclude-path option to rootfs source plugin.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,81 +69,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 05 Dec 2016 09:35:10 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Mon, 05 Dec 2016 10:23:57 -0000
+Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 
-On Thu, 2016-12-01 at 09:37 -0600, mariano.lopez@linux.intel.com wrote:
-> From: Mariano Lopez <mariano.lopez@linux.intel.com>
+On 02/12/16 16:05, Ed Bartosh wrote:
+> On Fri, Dec 02, 2016 at 03:36:47PM +0100, Kristian Amlie wrote:
+>> What are the thoughts on having a similar --exclude-path mechanism for
+>> the standard rootfs building? IOW, the do_image_ext4 and friends?
 > 
-> Adds functions to get metadata from the host running the tests.
-> 
-> [YOCTO #9954]
-> 
-> Signed-off-by: Mariano Lopez <mariano.lopez@linux.intel.com>
-> ---
->  meta/lib/oeqa/utils/metadata.py | 83
-> +++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 83 insertions(+)
->  create mode 100644 meta/lib/oeqa/utils/metadata.py
-> 
-> diff --git a/meta/lib/oeqa/utils/metadata.py
-> b/meta/lib/oeqa/utils/metadata.py
-> new file mode 100644
-> index 0000000..ecbe763
-> --- /dev/null
-> +++ b/meta/lib/oeqa/utils/metadata.py
-> @@ -0,0 +1,83 @@
-> +# Copyright (C) 2016 Intel Corporation
-> +#
-> +# Released under the MIT license (see COPYING.MIT)
-> +#
-> +# Functions to get metadata from the testing host used
-> +# for analytics of test results.
-> +
-> +from git import Repo, InvalidGitRepositoryError, NoSuchPathError
+> That's a great idea! If source rootfs direcotry contains only requred
+> content then we don't even need to change wic code. It's much better
+> then implementing the same functionality in wic and in oe code.
 
-We introduce a dependency on GitPython(?) If we do this, it should at least
-be mentioned somewhere as a new required dependency. There is also
-oeqa.utils.git which could be used (and extended).
+Right, I didn't even consider it like that. But yeah, theoretically we
+could drop the wic variant if you only use fsimage in your wks file.
 
+But I think they sort of complement each other though. Since the rootfs
+plugin does exist in wic, it makes sense that it would also support
+--exclude-path. If you have a partition setup like this:
 
+part1: Everything except /usr
+part2: Everything inside /usr except /usr/share
+part3: /usr/share
 
-> +from collections import OrderedDict
-> +from collections.abc import MutableMapping
-> +from xml.dom.minidom import parseString
-> +from xml.etree.ElementTree import Element, tostring
-> +
-> +from oe.lsb import distro_identifier
-> +from oeqa.utils.commands import runCmd, get_bb_var, get_bb_vars
-> +
-> +metadata_vars = ['MACHINE', 'DISTRO', 'DISTRO_VERSION']
-> +
-> +def metadata_from_bb():
-> +    """ Returns test's metadata as OrderedDict.
-> +
-> +        Data will be gathered using bitbake -e thanks to get_bb_vars.
-> +    """
-> +
-> +    info_dict = OrderedDict()
-> +    hostname = runCmd('hostname')
-> +    info_dict['hostname'] = hostname.output
-> +    data_dict = get_bb_vars(metadata_vars)
-> +    for var in metadata_vars:
-> +        info_dict[var.lower()] = data_dict[var]
-> +    host_distro= distro_identifier()
-> +    host_distro, _, host_distro_release = host_distro.partition('-')
-> +    info_dict['host_distro'] = host_distro
-> +    info_dict['host_distro_release'] = host_distro_release
-> +    info_dict['layers'] = get_layers(get_bb_var('BBLAYERS'))
-> +    return info_dict
+This would not be possible without --exclude-path support in wic, since
+part2 would have to be constructed using the wic rootfs plugin, but
+would need to exclude /usr/share.
 
-I think it would be better to have a distro revision (i.e. the "main
-revision" or "revision of the main repository", for example oe-core or
-poky) and only list additional layers that are not included in the main
-repository.
+In any case, I will definitely look at implementing the do_image_ext4
+variant as well. I'll post more info about that when I have it.
 
-
-Thanks,
-  Markus
+-- 
+Kristian
 
