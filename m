@@ -1,40 +1,51 @@
-Return-Path: <avery.brian@gmail.com>
-Received: from mail-ua0-f179.google.com (mail-ua0-f179.google.com
-	[209.85.217.179])
-	by mail.openembedded.org (Postfix) with ESMTP id 4B6606011F;
-	Mon,  5 Dec 2016 18:04:11 +0000 (UTC)
-Received: by mail-ua0-f179.google.com with SMTP id 51so356406492uai.1;
-	Mon, 05 Dec 2016 10:04:13 -0800 (PST)
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-ua0-f195.google.com (mail-ua0-f195.google.com
+	[209.85.217.195])
+	by mail.openembedded.org (Postfix) with ESMTP id A63DF605FF
+	for <openembedded-core@lists.openembedded.org>;
+	Mon,  5 Dec 2016 18:19:13 +0000 (UTC)
+Received: by mail-ua0-f195.google.com with SMTP id 20so32895541uak.0
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 05 Dec 2016 10:19:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:from:date:message-id:subject:to;
-	bh=EeneTqGnhWRVntsIIionFAh4cnnCV7GnVvYU6Z6dNVg=;
-	b=BtblVGCrlWFxdJX3uMPy4wYRuvU5t/RjsbJzTgSL6ChJc5bxkMIzR959h8Cx0B8AWT
-	QBF+67ACUvNAg+BPL/01QOBKkm2yTG9yoJGSUKXwkbZrX+iWQmkDvcKl62zA69P2EXX3
-	08Rm05gxO0dhVDlfqpyVRW9s+THT+QhbHkwf0uvz3sYyH0jXNrIv0l54ZQmO4y+typAH
-	WbM4XNrYgVaW+VMro/gayI2ExK53gV4NPAcaECSHm48ywQGCP8rE/ZRMB7F4ch5qc7Gc
-	LlGIWvnLP1H6k98A3uAldmuWm83bnTmcxZshM+KGcdCuapT7N7QxKuKGlEjoHeTJ4g1T
-	CWzw==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=mmdMqLuDSNOxbD0+ThqsisqrExeA/dBiBC0CbYuZKjk=;
+	b=bEQ4bW/6Dl88wj/NIhZQKAiW1XDpDF0mwYUm2bKZKjtBBnedbyJaBFgf+rz8vECUxe
+	RlJGHDPtVGgQgxKrMZSokcvITyJqqEMpIEeGqlx4YjP+4Wsy5S0mW5a6tP0/JxDl6Z4J
+	V0sRiU0JXs2sdN3LL2V1WFcbIuVgv4TsOYZ023luXwU7HzwHsGrF9EQfBa3i9mAb5VQx
+	BUVKFNk97YwoWq1bCwjDklf/gjvweTfCSLyrRFxxhNE2wUHZlZwwg+UI3b/S9rbAdC7M
+	EIvpJ2iWwIp3xah5KsM/jszMoA5OypnHKQpOwY+llsIPlT5rkD8nGt4+Gpr1X9dLlURB
+	QU/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-	bh=EeneTqGnhWRVntsIIionFAh4cnnCV7GnVvYU6Z6dNVg=;
-	b=HqTHIH494eFK7/l+EjLwWqZSz4YwKKl/Sllcm85nnNB4so/52suXCer05eruq+AWKd
-	qed+ulXH74iAazfGnoXSEa7dEJcORVCc/ctmwHpUNoFyJPXqZXpSfJp6vlGBQf2LR0wM
-	OhHG8rIzSzI8Ld+tG7UZyoSJIIh8Fio8U15CrYRTbLKVI+sCnFx3WPLJsY0QTkDcUjMw
-	kyU21vdLRWXoly04vpAJ12dJyzSAyOVRP8dyzwZATE2hFTOJ/td0C5vetb93BlkQrw1h
-	ZGgu6OqmxTtZgZPP8cb29uzP0kwBrIZUMcnl5gNtJN8hhVbK+8XjdKzYmcYTY+bVKgN9
-	/ubA==
-X-Gm-Message-State: AKaTC03RzXs7E49wWT2Xih86sqR3E81N9LjkznBKtMcnJ45TOrVZs+iPwV/kHU3aWqnnbzZ/ZhT9n96j8wEEqQ==
-X-Received: by 10.159.33.193 with SMTP id 59mr43931608uac.28.1480961052560;
-	Mon, 05 Dec 2016 10:04:12 -0800 (PST)
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=mmdMqLuDSNOxbD0+ThqsisqrExeA/dBiBC0CbYuZKjk=;
+	b=fSFthMVZ+gFCNK6o7qYyvvzDXePPWgwMenVwdABsdls39s4bwXzPr0uauqxNm3QUDh
+	GO894GazIhfz4m7okKEaj67W85yP7gRjkg4H0EZ70/WqmWzB4CwImJzrzYlwhw9bISVQ
+	VO05auDh/qovQVL4SwOoLKUi+VWLnQoCMXFeUtCoFtlCEndb8QAjm0BLi0biZM1FNbht
+	Ew+gnT6QyKOZz25Ztk+HtqnU55LdLY0XmwekEvdQxquHRGa5uaI6wlcdel7uFptteY2V
+	+swv5v5G2iqq1MVIs0dNwCZ6Iv0qfsNn/LrL+c4MT15xcP8dwzEiNzgzGX4sMv0QdK3A
+	8ZBQ==
+X-Gm-Message-State: AKaTC02/sItoxnOFgrAM61POis21I71B0L+5eazS+gF46Hk7+c5wUv+PgVwFB9j6M8YAscPEs+l9y0zkYNbRAw==
+X-Received: by 10.159.55.142 with SMTP id q14mr46742218uaq.107.1480961954669; 
+	Mon, 05 Dec 2016 10:19:14 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.31.60.199 with HTTP; Mon, 5 Dec 2016 10:04:12 -0800 (PST)
-From: Brian Avery <avery.brian@gmail.com>
-Date: Mon, 5 Dec 2016 10:04:12 -0800
-Message-ID: <CAKV_0ei2fHx-byfoVD85KFEpKkA23jgoVC9PUyK=6gJZQGTugA@mail.gmail.com>
-To: openembedded-architecture@lists.openembedded.org, yocto@yoctoproject.org, 
-	openembedded-core@lists.openembedded.org
-Subject: RFC BuildAppliance future
+Received: by 10.159.48.87 with HTTP; Mon, 5 Dec 2016 10:18:44 -0800 (PST)
+In-Reply-To: <e98508b9-e5e0-3c43-2532-a4ac54d1326f@embed.me.uk>
+References: <68b7f401-a888-ff73-45d5-b0df76f170c4@embed.me.uk>
+	<CAMKF1sqVdGwXPX-hg2NCgY-VxL_1bBVQL3vpzC00033ah1N7WQ@mail.gmail.com>
+	<f8d7dc4e-2788-f061-447c-67916f215aab@embed.me.uk>
+	<b645b26d-a60f-f42e-8545-13d3b36b0596@embed.me.uk>
+	<CAMKF1sqWBAAdT7v7vky3-wEfxXZ-aDNe-JH_jzKgkB6_E8Da7g@mail.gmail.com>
+	<e98508b9-e5e0-3c43-2532-a4ac54d1326f@embed.me.uk>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Mon, 5 Dec 2016 10:18:44 -0800
+Message-ID: <CAMKF1srdL_p1BckDoZKw4bcY0fObUngf20St3q7bHUvGTx1dhA@mail.gmail.com>
+To: Jack Mitchell <ml@embed.me.uk>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: non-standard library locations and rpath
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,136 +58,97 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 05 Dec 2016 18:04:12 -0000
-Content-Type: multipart/alternative; boundary=001a113ad4e276d1920542ed1d49
-
---001a113ad4e276d1920542ed1d49
+X-List-Received-Date: Mon, 05 Dec 2016 18:19:14 -0000
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-  Please note, this is going out to 3 lists in an attempt to insure that no
-one who would be impacted by this change misses it. Implied spam apology
-included.
+On Mon, Dec 5, 2016 at 9:41 AM, Jack Mitchell <ml@embed.me.uk> wrote:
+>
+>
+> On 05/12/16 16:43, Khem Raj wrote:
+>>
+>> On Mon, Dec 5, 2016 at 2:54 AM, Jack Mitchell <ml@embed.me.uk> wrote:
+>>>
+>>>
+>>>
+>>> On 05/12/16 10:44, Jack Mitchell wrote:
+>>>>
+>>>>
+>>>> On 02/12/16 07:08, Khem Raj wrote:
+>>>>>
+>>>>>
+>>>>> On Thu, Dec 1, 2016 at 8:18 AM, Jack Mitchell <ml@embed.me.uk> wrote:
+>>>>>>
+>>>>>>
+>>>>>> I'm having some troubles with shared library, shared library
+>>>>>> dependencies
+>>>>>> and rpaths. I have libfoo, which depends on libbar when I try to link
+>>>>>> libfoo
+>>>>>> with my app, it requires libbar to be found. libbar is in a
+>>>>>> non-standard
+>>>>>> location, /usr/local/bar when I compiled libfoo, I used -Wl,rpath-link
+>>>>>> ${STAGING_SYSROOT}/usr/local/bar and -Wl,rpath /usr/local/bar. Now
+>>>>>> when I
+>>>>>> come to try link my app with libfoo, it fails to link as it can't find
+>>>>>> libbar, which I assume means the rpath in libfoo isn't being properly
+>>>>>> prepending with sysroot what is the proper way to support this in OE?
+>>>>>> My
+>>>>>> library has the following rpath information:
+>>>>>>
+>>>>>> 0x0000000f (RPATH) Library rpath: [$ORIGIN/../lib:/usr/local/bar]
+>>>>>>
+>>>>>> So why isn't the rpath being prepended with the sysroot when I
+>>>>>> compile my
+>>>>>> app and link libfoo? The apps build system is using cmake, but this
+>>>>>> should
+>>>>>> be a built in linker feature, correct?
+>>>>>
+>>>>>
+>>>>>
+>>>>> Only first path ( before :) is relative to location of binary at
+>>>>> runtime
+>>>>>
+>>>>
+>>>> Exactly, so how can you make an OE build use the rpaths of libs that
+>>>> point to the build sysroot. What I have at the moment is
+>>>>
+>>>> 0x0000000f (RPATH) Library rpath: [$ORIGIN/../lib:/usr/local/bar]
+>>>>
+>>>> Which would be correct if I was linking on the target. However when OE
+>>>> sees the rpath in it's cross compile environment it should prepend it
+>>>> with the build sysroot so you end up with something like
+>>>>
+>>>> 0x0000000f (RPATH) Library rpath:
+>>>> [$ORIGIN/../lib:/path/to/build/sysroot/usr/local/bar]
+>>>>
+>>>> And then the SDK should end up with something like
+>>>>
+>>>> 0x0000000f (RPATH) Library rpath:
+>>>> [$ORIGIN/../lib:/path/to/sdk/sysroot/usr/local/bar]
+>>>>
+>>>> Is this what is expected to happen, or am I stumbling into an
+>>>> unsupported scenario.
+>>>>
+>>>> Cheers,
+>>>
+>>>
+>>>
+>>> I think basically what I'm saying is that does the linker prepend it's
+>>> --sysroot value to absolute rpaths, and if not, should it?
+>>
+>>
+>> having absolute build paths into rpaths is not a good thing. Linker
+>> will search the libs during link in sysroot its configured to do so.
+>>
+>
+> Ok, that makes sense. So something like this would be more appropriate?
+>
+> rel_path = relative_path(mylib, otherlib)
+>
+> -Wl,-rpath $ORIGIN${relpath}
 
-  The Yocto Project currently provides a virtual machine image called the
-Build Appliance (
-https://downloads.yoctoproject.org/releases/yocto/yocto-2.2/build-appliance=
-/).
-This image can be run using either VirtualBox or VMware. It enables you to
-build and boot a custom embedded Linux image with the Yocto Project on a
-non-Linux development system.  It is not intended for day to day
-development use, but instead, is intended to allow users to =E2=80=9Ctry ou=
-t=E2=80=9D the
-tools even if they do not have access to a Linux system.
+This could work.
 
-  We are considering replacing the VM based Build Appliance with a set of
-containers (https://hub.docker.com/r/crops/poky/, or if you want a user
-interface (https://hub.docker.com/r/crops/toaster-master/ ).  These
-containers currently provide most of the functionality of the Build
-Appliance and should shortly be at feature parity with the Build
-Appliance.  We are actively adding to and supporting the containers as some
-of our developers are using them in their day to day development in order
-to benefit from the host isolation and ease with which other distributions
-can be tested.
+>
+>
+>
 
-  This is an RFC to see what features in the Build Appliance are important
-to you but would not be provided by the container solutions.  If the
-community would be just as content using the container approach as using
-the VM based Build Appliance image, then we=E2=80=99d be better off depreca=
-ting the
-Build Appliance and applying those resources elsewhere.  If there are
-important features the Build Appliance provides which the container
-solution does not, or cannot provide, we=E2=80=99d love to hear what they a=
-re!
-
-Thanks in advance for any feedback,
-
--Brian
-
-an Intel Employee
-
---001a113ad4e276d1920542ed1d49
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<p class=3D"MsoNormal" style=3D"margin-bottom:12.8pt"><span style=3D"font-s=
-ize:13pt;font-family:arial;color:rgb(26,26,26)">=C2=A0 Please note, this is=
- going out to 3 lists in an attempt to
-insure that no one who would be impacted by this change misses it. Implied =
-spam apology included.<span></span></span></p>
-
-<p class=3D"MsoNormal" style=3D"margin-bottom:12.8pt"><span style=3D"font-s=
-ize:13pt;font-family:arial;color:rgb(26,26,26)">=C2=A0 The Yocto Project cu=
-rrently provides a virtual machine image
-called the Build Appliance (<a href=3D"https://downloads.yoctoproject.org/r=
-eleases/yocto/yocto-2.2/build-appliance/"><span style=3D"color:rgb(16,60,19=
-2)">https://downloads.yoctoproject.org/releases/yocto/yocto-2.2/build-appli=
-ance/</span></a>).
-This image can be run using either VirtualBox or VMware. It enables you to
-build and boot a custom embedded Linux image with the Yocto Project on a
-non-Linux development system.=C2=A0 It is not
-intended for day to day development use, but instead, is intended to allow
-users to =E2=80=9Ctry out=E2=80=9D the tools even if they do not have acces=
-s to a Linux system.<span></span></span></p>
-
-<p class=3D"MsoNormal" style=3D"margin-bottom:12.8pt"><span style=3D"font-s=
-ize:13pt;font-family:arial;color:rgb(26,26,26)">=C2=A0 We are considering
-replacing the VM based Build Appliance with a set of containers (<a href=3D=
-"https://hub.docker.com/r/crops/poky/"><span style=3D"color:rgb(16,60,192)"=
->https://hub.docker.com/r/crops/poky/</span></a>,
-or if you want a user interface (<a href=3D"https://hub.docker.com/r/crops/=
-toaster-master/"><span style=3D"color:rgb(16,60,192)">https://hub.docker.co=
-m/r/crops/toaster-master/</span></a>
-).=C2=A0 These containers currently provide
-most of the functionality of the Build Appliance and should shortly be at
-feature parity with the Build Appliance.=C2=A0
-We are actively adding to and supporting the containers as some of our
-developers are using them in their day to day development in order to benef=
-it
-from the host isolation and ease with which other distributions can be
-tested.=C2=A0 <span></span></span></p>
-
-<p class=3D"MsoNormal" style=3D"margin-bottom:12.8pt"><span style=3D"font-s=
-ize:13pt;font-family:arial;color:rgb(26,26,26)">=C2=A0 This is an RFC to se=
-e what features in the Build Appliance are
-important to you but would not be provided by the container solutions.=C2=
-=A0 If the community would be just as content
-using the container approach as using the VM based Build Appliance image, t=
-hen
-we=E2=80=99d be better off deprecating the Build Appliance and applying tho=
-se resources
-elsewhere.=C2=A0 If there are important
-features the Build Appliance provides which the container solution does not=
-, or cannot provide, we=E2=80=99d love to hear
-what they are! <span></span></span></p>
-
-<p class=3D"MsoNormal" style=3D"margin-bottom:12.8pt"><span style=3D"font-s=
-ize:13pt;font-family:arial;color:rgb(26,26,26)">=E2=80=A8Thanks in advance =
-for any feedback,<span></span></span></p>
-
-<p class=3D"MsoNormal" style=3D"margin-bottom:12.8pt"><span style=3D"font-s=
-ize:13pt;font-family:arial;color:rgb(26,26,26)">-Brian<span></span></span><=
-/p>
-
-<p class=3D"MsoNormal">an Intel Employee<span></span></p>
-
-</div>
-
---001a113ad4e276d1920542ed1d49--
