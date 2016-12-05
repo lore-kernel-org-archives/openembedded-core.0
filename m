@@ -1,37 +1,52 @@
-Return-Path: <huangqy.fnst@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
-	by mail.openembedded.org (Postfix) with ESMTP id 29D7F71A20
+Return-Path: <patrick.ohly@intel.com>
+Received: from mail-io0-f176.google.com (mail-io0-f176.google.com
+	[209.85.223.176])
+	by mail.openembedded.org (Postfix) with ESMTP id 6CF4B600EA
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  5 Dec 2016 02:38:55 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.22,518,1449504000"; d="scan'208";a="13593328"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 05 Dec 2016 10:38:57 +0800
-Received: from G08CNEXCHPEKD03.g08.fujitsu.local (unknown [10.167.33.85])
-	by cn.fujitsu.com (Postfix) with ESMTP id 2398047AC8A1
+	Mon,  5 Dec 2016 07:26:13 +0000 (UTC)
+Received: by mail-io0-f176.google.com with SMTP id a124so582224955ioe.2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  5 Dec 2016 10:38:53 +0800 (CST)
-Received: from G08CNEXMBPEKD03.g08.fujitsu.local ([10.167.33.86]) by
-	G08CNEXCHPEKD03.g08.fujitsu.local ([10.167.33.85]) with mapi id
-	14.03.0319.002; Mon, 5 Dec 2016 10:38:56 +0800
-From: "Huang, Qiyu" <huangqy.fnst@cn.fujitsu.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH] strace: 4.13 -> 4.14
-Thread-Index: AQHSSr6pT0EyUyFLZUiqYTgl6cxm2qD4q+gw
-Date: Mon, 5 Dec 2016 02:38:56 +0000
-Message-ID: <97F7C8E70D26E94FA7E05578493F65C6D68FE3@G08CNEXMBPEKD03.g08.fujitsu.local>
-References: <1480507368-10692-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
-In-Reply-To: <1480507368-10692-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.167.226.81]
-MIME-Version: 1.0
-X-yoursite-MailScanner-ID: 2398047AC8A1.A73C3
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: huangqy.fnst@cn.fujitsu.com
-X-Spam-Status: No
-Subject: Re: [PATCH] strace: 4.13 -> 4.14
+	Sun, 04 Dec 2016 23:26:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:organization:mime-version:content-transfer-encoding;
+	bh=usOxoI9weIbclrCzYvgvRUpAQtKLEM75IwW4qL5ksu4=;
+	b=iqvW6pLZM29bdVrio/rgZXoWPu+mAFq3QcwzwXcA0tte+lbzmefjxZeP1uww5dKgd9
+	utVvi2BAehYN/kHR2PpTKKZHvZ9dBKQy2UFxCTWsPEa/Ld3CuN0+xsvp3RVWBxjg5SbA
+	n/Wbj5jurHNNZ6rtaOoX9jaHtaiytEgtGCvwVNrAWnIoAN5yYz4raIvVBdL2BwptpOT4
+	pHfd9ueUQnT7v98LceyvKoLqhvJ7E6cvL2+m9yJ6+IRdPl8cPXiDiC/EWFDXA4O/z/Py
+	JiOIUvumpiF1YBb5SXwlvo/DD4Cxi7tkXC9WiAccpVKrPyGsTGyFiN/cV9yfNxqKvVgP
+	vGtQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:organization:mime-version:content-transfer-encoding;
+	bh=usOxoI9weIbclrCzYvgvRUpAQtKLEM75IwW4qL5ksu4=;
+	b=egwgL8uYOjYeL16BcxYWBkE4m5Y9CEqsh3xlbcQMZUSTacqzrE7VcZkfmSW0auLgjr
+	1QMVnBDV9GS9azco05kXdA+/xiP3JMd9TB2tQ/DGIXmUNgpOSLQrZwW44OeYS+Qcn/Do
+	TAYoouEUCHLXKZOJ1dc0w6oGPpLupwBrwzTAzyb3aSbpE7+a1jfK2A7wnYFxKYwTheW/
+	LV+XD2E+mkk+uBmUr/H8IpiFt0f2PTlEBQXWa/sNIERQg9leOXepbeD9sg5iv/qurxlW
+	e5/4spqUjnzBqRVWA8MlE4PV+2rdgMOSjFfmBr3U+0B6Ywjnh7PAeetRQ/uafgDXM+Yr
+	Yijg==
+X-Gm-Message-State: AKaTC03Tn4cd3otRywuuOs9QDO04f/KmabTQwglkYdSn7kmhsvaF/zLUVXXpdxcHmV7kS0CP
+X-Received: by 10.107.132.140 with SMTP id o12mr49370105ioi.184.1480922775362; 
+	Sun, 04 Dec 2016 23:26:15 -0800 (PST)
+Received: from pohly-mobl1 (p5DE8D0EB.dip0.t-ipconnect.de. [93.232.208.235])
+	by smtp.gmail.com with ESMTPSA id p20sm5799747itc.8.2016.12.04.23.26.13
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Sun, 04 Dec 2016 23:26:14 -0800 (PST)
+Message-ID: <1480922772.17535.24.camel@intel.com>
+From: Patrick Ohly <patrick.ohly@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 05 Dec 2016 08:26:12 +0100
+In-Reply-To: <1480585246-3278-1-git-send-email-patrick.ohly@intel.com>
+References: <1480585246-3278-1-git-send-email-patrick.ohly@intel.com>
+Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
+X-Mailer: Evolution 3.12.9-1+b1 
+Mime-Version: 1.0
+Cc: Alexander Kanavin <alexander.kanavin@intel.com>
+Subject: Re: [PATCH] libarchive: enable non-recursive extract/list
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,44 +59,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 05 Dec 2016 02:38:56 -0000
-Content-Language: zh-CN
-Content-Type: text/plain; charset="gb2312"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Mon, 05 Dec 2016 07:26:14 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-cGluZw0KDQo+IC0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+IEZyb206
-IEh1YW5nLCBRaXl1L7vGIOf50+4NCj4gU2VudDogV2VkbmVzZGF5LCBOb3Zl
-bWJlciAzMCwgMjAxNiA4OjAzIFBNDQo+IFRvOiBvcGVuZW1iZWRkZWQtY29y
-ZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnDQo+IENjOiBIdWFuZywgUWl5dS+7
-xiDn+dPuIDxodWFuZ3F5LmZuc3RAY24uZnVqaXRzdS5jb20+DQo+IFN1Ympl
-Y3Q6IFtPRS1jb3JlXSBbUEFUQ0hdIHN0cmFjZTogNC4xMyAtPiA0LjE0DQo+
-IA0KPiBGcm9tOiBIdWFuZyBRaXl1IDxodWFuZ3F5LmZuc3RAY24uZnVqaXRz
-dS5jb20+DQo+IA0KPiBVcGdyYWRlIHN0cmFjZSBmcm9tIDQuMTMgdG8gNC4x
-NC4NCj4gDQo+IFNpZ25lZC1vZmYtYnk6IEh1YW5nIFFpeXUgPGh1YW5ncXku
-Zm5zdEBjbi5mdWppdHN1LmNvbT4NCj4gLS0tDQo+ICBtZXRhL3JlY2lwZXMt
-ZGV2dG9vbHMvc3RyYWNlL3tzdHJhY2VfNC4xMy5iYiA9PiBzdHJhY2VfNC4x
-NC5iYn0gfCA0ICsrLS0NCj4gIDEgZmlsZSBjaGFuZ2VkLCAyIGluc2VydGlv
-bnMoKyksIDIgZGVsZXRpb25zKC0pICByZW5hbWUNCj4gbWV0YS9yZWNpcGVz
-LWRldnRvb2xzL3N0cmFjZS97c3RyYWNlXzQuMTMuYmIgPT4gc3RyYWNlXzQu
-MTQuYmJ9ICg5MSUpDQo+IA0KPiBkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVz
-LWRldnRvb2xzL3N0cmFjZS9zdHJhY2VfNC4xMy5iYg0KPiBiL21ldGEvcmVj
-aXBlcy1kZXZ0b29scy9zdHJhY2Uvc3RyYWNlXzQuMTQuYmINCj4gc2ltaWxh
-cml0eSBpbmRleCA5MSUNCj4gcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWRl
-dnRvb2xzL3N0cmFjZS9zdHJhY2VfNC4xMy5iYg0KPiByZW5hbWUgdG8gbWV0
-YS9yZWNpcGVzLWRldnRvb2xzL3N0cmFjZS9zdHJhY2VfNC4xNC5iYg0KPiBp
-bmRleCBjYWU3ZjIxLi40NTI5MjVjIDEwMDY0NA0KPiAtLS0gYS9tZXRhL3Jl
-Y2lwZXMtZGV2dG9vbHMvc3RyYWNlL3N0cmFjZV80LjEzLmJiDQo+ICsrKyBi
-L21ldGEvcmVjaXBlcy1kZXZ0b29scy9zdHJhY2Uvc3RyYWNlXzQuMTQuYmIN
-Cj4gQEAgLTE1LDggKzE1LDggQEAgU1JDX1VSSSA9DQo+ICIke1NPVVJDRUZP
-UkdFX01JUlJPUn0vc3RyYWNlL3N0cmFjZS0ke1BWfS50YXIueHogXA0KPiAg
-ICAgICAgICAgICBmaWxlOi8vbWlwcy1TSUdFTVQucGF0Y2ggXA0KPiAgICAg
-ICAgICAgICAiDQo+IA0KPiAtU1JDX1VSSVttZDVzdW1dID0gIjRiNzhjN2Zl
-YmRkMjRjNzlkNTE0NzgyNGQxYTA4MGEzIg0KPiAtU1JDX1VSSVtzaGEyNTZz
-dW1dID0NCj4gImQ0OGY3MzI1NzZjOTFlY2UzNmE1ODQzZDYzZjliZTA1NGM0
-MGVmNTlmMWU0NzczOTg2MDQyNjM2ODYxNjI1ZDciDQo+ICtTUkNfVVJJW21k
-NXN1bV0gPSAiMWUzOWI1Zjc1ODMyNTZkN2RjMjExNzBiOWRhNTI5YWUiDQo+
-ICtTUkNfVVJJW3NoYTI1NnN1bV0gPQ0KPiAiNWJlZDUxMTBiMjQzZGNlNjg2
-NGJlZGJhMjY5NDQ2YzE4YzhjNjNmNTUzY2RkN2ZkNGY4MDhkODlhNzY0NzEy
-ZiINCj4gDQo+ICBpbmhlcml0IGF1dG90b29scyBwdGVzdCBibHVldG9vdGgN
-Cj4gDQo+IC0tDQo+IDIuNy40DQoNCgoK
+On Thu, 2016-12-01 at 10:40 +0100, Patrick Ohly wrote:
+> Required for meta-swupd performance enhancements: in meta-swupd, the
+> so called "mega" image contains a rootfs with all files that can
+> potentially be installed on a device. Other virtual image recipes need
+> a subset of those files or directories, and a partial extraction from
+> a single tar archive is faster than letting all virtual image recipes
+> share access to a directory under a single pseudo instance.
+> 
+> It may be necessary to extract a directory with all of its attributes
+> without the content of the directory, hence this patch. Upstream
+> agreed to consider merging such a patch (see
+> https://groups.google.com/forum/#!topic/libarchive-discuss/JO3hqSaAVfs)
+> but has been slow in actually commenting on it, so for now it has
+> to be carried as distro patch.
+
+Ping?
+
+Alexander, you touched libarchive most recently. Any thoughts on this?
+
+I could carry the patch also in meta-swupd, if that's preferred. It just
+doesn't feel very clean for such a layer to modify a core recipe like
+that.
+
+-- 
+Best Regards, Patrick Ohly
+
+The content of this message is my personal opinion only and although
+I am an employee of Intel, the statements I make here in no way
+represent Intel's position on the issue, nor am I authorized to speak
+on behalf of Intel on this matter.
+
+
+
 
