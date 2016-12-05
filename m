@@ -1,47 +1,28 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-vk0-f66.google.com (mail-vk0-f66.google.com
-	[209.85.213.66])
-	by mail.openembedded.org (Postfix) with ESMTP id E2E0D605FF
-	for <openembedded-core@lists.openembedded.org>;
-	Mon,  5 Dec 2016 18:23:47 +0000 (UTC)
-Received: by mail-vk0-f66.google.com with SMTP id w194so16616623vkw.3
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 05 Dec 2016 10:23:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=XXjcIsmfS5UGhVd9ah4sAPGKhUsnQWwMapT7WNI07XI=;
-	b=wndFxMbEXEQe1yYTQOt2W0YWSi3rTMv0YvHHA0qdwsGEDiEocV92oL31ujEFfPEn7V
-	kFE+iR8aEJ5QjZ1w/shNyY1PeV/IwvVEZDX7+8+44voyDRH1L+vYAk7AjMkI4Rl4g1Rj
-	cdmfVYjbKGE5HfXeCII/0cWWLhHiYFW6MJl4d5QnSCbnlwGV9+MBlB+ocams0iU2Ct+Z
-	KEknmMZCXv5bgx62YscJPptCPYcflIKnTIly/gklVOWZn798xmdCmDTPR0kOuT5KmZwS
-	KXV/OcOmnq+GtSdSQ7T9kCc5jbknWnnyS0iTMbNa6/M1STgpGDO89m1DZX26DMCJs7pl
-	0DwQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=XXjcIsmfS5UGhVd9ah4sAPGKhUsnQWwMapT7WNI07XI=;
-	b=ASFqROPDzNLFbDcsyR8jwcYfSPG+n+JztCAGw45slKvgb+SFwpJtd8YZYEp32VUiUg
-	YokB5W4tA5IKnsOMmdcw6Z/NvLyu3MYJPvMVC8AIwZ8qwfGdxvPm79cZxiBtd8SpWdaH
-	0DU+1be/TAkIMWJLa04AaV1tznUg6U+y22B51EWD6SXIwLcbilgII8IEP68fCJhGJUtR
-	geDzT4wm0Q0ixQmD59zkyGb4APAUBjg7PMmGNPCEbZDqcGL/ON0aOE0jflVb4yviykRI
-	JHh5Ll324SVLzlFPhrpC6TBH5r6wY00Lt2F4w0NqdEPrDDDO+S1sOOmDGB9MvGZQ5TNC
-	UejA==
-X-Gm-Message-State: AKaTC02MuIYsYeDeqrBSkA5eqIL3bWuuGXmqQ3k3g+gmF+W4WGexQ6GVUq2CD2WE0dOFdlGRnViGTgcJc8Pmig==
-X-Received: by 10.31.234.199 with SMTP id i190mr21739047vkh.31.1480962228985; 
-	Mon, 05 Dec 2016 10:23:48 -0800 (PST)
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 4D49B719B3;
+	Mon,  5 Dec 2016 18:37:13 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id uB5IbDUr029585
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
+	Mon, 5 Dec 2016 10:37:13 -0800
+Received: from soho-mhatle-m.local (172.25.36.230) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.294.0;
+	Mon, 5 Dec 2016 10:37:12 -0800
+To: Brian Avery <avery.brian@gmail.com>,
+	<openembedded-architecture@lists.openembedded.org>,
+	<yocto@yoctoproject.org>, <openembedded-core@lists.openembedded.org>
+References: <CAKV_0ei2fHx-byfoVD85KFEpKkA23jgoVC9PUyK=6gJZQGTugA@mail.gmail.com>
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+Message-ID: <2c6bdf61-0227-a6a8-5455-5533dbfbbd38@windriver.com>
+Date: Mon, 5 Dec 2016 12:37:11 -0600
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.12; rv:45.0)
+	Gecko/20100101 Thunderbird/45.5.1
 MIME-Version: 1.0
-Received: by 10.159.48.87 with HTTP; Mon, 5 Dec 2016 10:23:18 -0800 (PST)
-In-Reply-To: <981a3fcb8a50c6277be726177a5895c64296d2ac.1480949616.git.liezhi.yang@windriver.com>
-References: <cover.1480949616.git.liezhi.yang@windriver.com>
-	<981a3fcb8a50c6277be726177a5895c64296d2ac.1480949616.git.liezhi.yang@windriver.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 5 Dec 2016 10:23:18 -0800
-Message-ID: <CAMKF1so3kwUrinR7HWarC+CPd+1d1mby2_-H-5XE3XQb3PzZaw@mail.gmail.com>
-To: Robert Yang <liezhi.yang@windriver.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] diffutils: do_configure: fix "Argument list too long"
+In-Reply-To: <CAKV_0ei2fHx-byfoVD85KFEpKkA23jgoVC9PUyK=6gJZQGTugA@mail.gmail.com>
+Subject: Re: [Openembedded-architecture] RFC BuildAppliance future
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,47 +35,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 05 Dec 2016 18:23:48 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 05 Dec 2016 18:37:14 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Mon, Dec 5, 2016 at 6:54 AM, Robert Yang <liezhi.yang@windriver.com> wrote:
-> Fixed when len(TMPDIR) =  410:
-> aclocal: error: cannot open echo [snip]: Argument list too long
->
-> This is becuase it has a lot of m4 files, use relative path for them
-> can fix the problem.
->
-> It doesn't happen when MACHINE="qemux86", I think it is because
-> intel-x86-64 is longer than qemux86.
->
-> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-> ---
->  meta/recipes-extended/diffutils/diffutils_3.4.bb | 3 +++
->  1 file changed, 3 insertions(+)
->
-> diff --git a/meta/recipes-extended/diffutils/diffutils_3.4.bb b/meta/recipes-extended/diffutils/diffutils_3.4.bb
-> index cb7092b..be280ec 100644
-> --- a/meta/recipes-extended/diffutils/diffutils_3.4.bb
-> +++ b/meta/recipes-extended/diffutils/diffutils_3.4.bb
-> @@ -10,6 +10,9 @@ SRC_URI = "${GNU_MIRROR}/diffutils/diffutils-${PV}.tar.xz \
->
->  EXTRA_OECONF += "--without-libsigsegv-prefix"
->
-> +# Fix "Argument list too long" error when len(TMPDIR) = 410
-> +acpaths = "-I ./m4"
+On 12/5/16 12:04 PM, Brian Avery wrote:
+>   Please note, this is going out to 3 lists in an attempt to insure that no one
+> who would be impacted by this change misses it. Implied spam apology included.
+> 
+>   The Yocto Project currently provides a virtual machine image called the Build
+> Appliance
+> (https://downloads.yoctoproject.org/releases/yocto/yocto-2.2/build-appliance/).
+> This image can be run using either VirtualBox or VMware. It enables you to build
+> and boot a custom embedded Linux image with the Yocto Project on a non-Linux
+> development system.  It is not intended for day to day development use, but
+> instead, is intended to allow users to “try out” the tools even if they do not
+> have access to a Linux system.
 
-it looks ok if this work ok with externalsrc
+What are the requirements for a Windows user to use this, instead of the VM
+approach.  (In the past it was easy for a Windows user to get the VM, and just
+run it to test out things.)
 
-> +
->  do_configure_prepend () {
->         # Need to remove gettext macros with weird mix of versions
->         for i in codeset.m4 gettext_gl.m4 intlmacosx.m4 inttypes-pri.m4 lib-ld_gl.m4 lib-prefix_gl.m4 po_gl.m4 ssize_t.m4 wchar_t.m4 wint_t.m4; do
-> --
-> 2.9.0
->
-> --
+--Mark
+
+>   We are considering replacing the VM based Build Appliance with a set of
+> containers (https://hub.docker.com/r/crops/poky/, or if you want a user
+> interface (https://hub.docker.com/r/crops/toaster-master/ ).  These containers
+> currently provide most of the functionality of the Build Appliance and should
+> shortly be at feature parity with the Build Appliance.  We are actively adding
+> to and supporting the containers as some of our developers are using them in
+> their day to day development in order to benefit from the host isolation and
+> ease with which other distributions can be tested. 
+> 
+>   This is an RFC to see what features in the Build Appliance are important to
+> you but would not be provided by the container solutions.  If the community
+> would be just as content using the container approach as using the VM based
+> Build Appliance image, then we’d be better off deprecating the Build Appliance
+> and applying those resources elsewhere.  If there are important features the
+> Build Appliance provides which the container solution does not, or cannot
+> provide, we’d love to hear what they are!
+> 
+>  Thanks in advance for any feedback,
+> 
+> -Brian
+> 
+> an Intel Employee
+> 
+> 
+> 
 > _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> Openembedded-architecture mailing list
+> Openembedded-architecture@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-architecture
+> 
+
 
