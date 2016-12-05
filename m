@@ -1,52 +1,48 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pg0-f65.google.com (mail-pg0-f65.google.com [74.125.83.65])
-	by mail.openembedded.org (Postfix) with ESMTP id B72736007A
-	for <openembedded-core@lists.openembedded.org>;
-	Mon,  5 Dec 2016 19:08:38 +0000 (UTC)
-Received: by mail-pg0-f65.google.com with SMTP id e9so17225650pgc.1
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 05 Dec 2016 11:08:39 -0800 (PST)
+Return-Path: <avery.brian@gmail.com>
+Received: from mail-vk0-f65.google.com (mail-vk0-f65.google.com
+	[209.85.213.65])
+	by mail.openembedded.org (Postfix) with ESMTP id F2E9B60053;
+	Mon,  5 Dec 2016 19:22:58 +0000 (UTC)
+Received: by mail-vk0-f65.google.com with SMTP id w194so16716663vkw.3;
+	Mon, 05 Dec 2016 11:23:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:message-id:mime-version:subject:date:in-reply-to:cc:to
-	:references; bh=82RH8HqjDR54gaUvsZ6+xZimCv1w7Td8YLFlZOnPPWk=;
-	b=hJfu8peUs4dZExW7zz+0q6/ZKFRDIOFd9zheakxJxaDtMJ9ILMFuuyhvA1tlHZTYV2
-	6PslcxkFhuxho7MA4YcQaF+i2qjRTfdxruiHWLli5tVyfuh7yotRZx1huMtPCFJu0d25
-	YrVvGrqzSXkY9OFhoPLlbbnM12Okfj9Ndb/8k/9NgjLYM4exdFxqrI/YIMmvH0+wkVMF
-	uBlh4t0WlNFcd4rwxXvzuhNZSdkWwWcS6yjp5aaVGChMWnK5Lm7QbiAR8Le7/su0KdoP
-	C2JropUUsBEBt9wX3jtghPrN5wPq6Rr5hvn3EI8Uk3GoRizHwvUPQ7Q3SSFw++qe8iWg
-	hn4g==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=H52BFBY5kaS1m3UI8M4N1N2q3K+lmXqLGZk2mppYMaI=;
+	b=LzzIox0MhG5pUQB+A8GQlPazYmj4xGZV/E4X6FOUXp+f7E3YRlrHQKzp7Zwqarhjhv
+	KBMpphXVXaiG/jyIpgAXJOM1DLRz3PXTxOWBEF+F0QZXSX5gjUkCNMMqA/Zr1of6V8IO
+	uNq/H8WIYc4duOht9V5BlLb1PJHgombKj0CGDnoLxxI3Q8b4OwHnMpfbA16MitRKqbT7
+	3zg8I/KImsOr+/eCPdEV+XOzH5mXUZY0SDxmTwi4W5TqOTqk1HuHfgkRXbQ/2tICdasp
+	PVT8/vUsfGdATjGIF1+2FS+B75ghSTEHeWNNh7EhRdNweqwcNgJAT5Ue8M3CEVT56Yvt
+	GWxQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:message-id:mime-version:subject:date
-	:in-reply-to:cc:to:references;
-	bh=82RH8HqjDR54gaUvsZ6+xZimCv1w7Td8YLFlZOnPPWk=;
-	b=hJlaqcON6oHZm+6kHCu4i59Vaei7W5OA1W/utG9DbXFVh06eZwfr7qPggaZBw2NAVn
-	CjyXxWp6b5skstAfCpp6BX/LFaS3LEpOJjAOzXAuxK/VzhtykzMfemvrRC7FTJZ2P5cm
-	8EWoVnitEdtTzUqSrt141Sq3WyAwN0+m8oOZgc+YHShaNFiZMm4aqO3VBGBLtwNEqhkk
-	YcBKTOi1ANCn32o0m/ISfcVEZBanbdWyRKObgjYUxPrRvzLqrcNWJkdFxCTZA5l7i/qd
-	NwL3uuF04np6tZbCNZRR1CbNwg8e+yzv2n/71Dj2b0ys/ucv0L8PBhz6tzKChVHhC0s3
-	y3Gw==
-X-Gm-Message-State: AKaTC01bJrnwq2W5g70H7iiqYSHoDZOyklBrVa7rBuY9DcaVMD9kuNGXsZgCaY4hREWJyg==
-X-Received: by 10.98.52.71 with SMTP id b68mr59826855pfa.18.1480964919546;
-	Mon, 05 Dec 2016 11:08:39 -0800 (PST)
-Received: from ?IPv6:2601:646:8882:b8c:5415:7777:3f68:ee0e?
-	([2601:646:8882:b8c:5415:7777:3f68:ee0e])
-	by smtp.gmail.com with ESMTPSA id
-	u23sm29139362pfg.86.2016.12.05.11.08.38
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 05 Dec 2016 11:08:39 -0800 (PST)
-From: Khem Raj <raj.khem@gmail.com>
-Message-Id: <6D6B8004-668B-4C5B-96BE-7A231F365788@gmail.com>
-Mime-Version: 1.0 (Mac OS X Mail 10.1 \(3251\))
-Date: Mon, 5 Dec 2016 11:08:37 -0800
-In-Reply-To: <CAHiDW_ERJNEoc4OfTQtV6Bi3UPzQkt9RMPJDUx-RAVJnrj2feA@mail.gmail.com>
-To: Jussi Kukkonen <jussi.kukkonen@intel.com>
-References: <20161201083726.6160-1-raj.khem@gmail.com>
-	<CAHiDW_ERJNEoc4OfTQtV6Bi3UPzQkt9RMPJDUx-RAVJnrj2feA@mail.gmail.com>
-X-Mailer: Apple Mail (2.3251)
-Cc: Patches and discussions about the oe-core layer
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=H52BFBY5kaS1m3UI8M4N1N2q3K+lmXqLGZk2mppYMaI=;
+	b=cNKHAGomrvNXqppwnTXtKvJTx7wi8JsuRLeqVfhLPjQ5nzhLTiYTSfwiqg2TGhJlEx
+	fLbbR3JeiL4cnWtBX37EzqPfZHDh8n/sKx2fTdOMQmKadsNiJosioyglQuiJa4hFon9R
+	55+TpmfSwNt8+J/8BDATEbUmFGgVmffMOTlb447vJH7VY6xUulYSIp1Xe6MKmFFB+qW1
+	BdovJWDCKZ1xc5EHr022qVyVGVcSZX+u5KB6Kg+Yn21HDX5+NwoarnX8n5U4TJYNk/S8
+	AdczkAPeKrVox/UpQ24ygzlrovcfexNdTndZ77lMCewQT3sMoxQK3U77eaIWBS4unDEi
+	RnPQ==
+X-Gm-Message-State: AKaTC01J/gM3zQ2Rwyhu6FlGGpDm5czDJFxkxthqoaNKnVqpuIpfYAOxEPRSsV7vi+MPFEGZ2Eg1VbIwJl2GgA==
+X-Received: by 10.31.97.1 with SMTP id v1mr22327325vkb.108.1480965779801; Mon,
+	05 Dec 2016 11:22:59 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.31.60.199 with HTTP; Mon, 5 Dec 2016 11:22:59 -0800 (PST)
+In-Reply-To: <CAMKF1spKHmuzxvW=JtWp7LPRFfDkb24A4sdUp7-hL1dqU16Mgg@mail.gmail.com>
+References: <CAKV_0ei2fHx-byfoVD85KFEpKkA23jgoVC9PUyK=6gJZQGTugA@mail.gmail.com>
+	<CAMKF1spKHmuzxvW=JtWp7LPRFfDkb24A4sdUp7-hL1dqU16Mgg@mail.gmail.com>
+From: Brian Avery <avery.brian@gmail.com>
+Date: Mon, 5 Dec 2016 11:22:59 -0800
+Message-ID: <CAKV_0ej9ETbSwzqYR0fO4Jme5FkdVt5T40b_c57D7=P+toHxKQ@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: "yocto@yoctoproject.org" <yocto@yoctoproject.org>,
+	openembedded-architecture
+	<openembedded-architecture@lists.openembedded.org>,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] gstreamer1.0-plugins-bad: Add PKG_CONFIG_SYSROOT_DIR to output of pkg-config
+Subject: Re: [Openembedded-architecture] RFC BuildAppliance future
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,415 +55,391 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 05 Dec 2016 19:08:39 -0000
-Content-Type: multipart/alternative;
-	boundary="Apple-Mail=_CD756C5D-EAFC-42FA-90BD-3D9FF2146028"
+X-List-Received-Date: Mon, 05 Dec 2016 19:23:00 -0000
+Content-Type: multipart/alternative; boundary=001a114da5103acdca0542ee3773
 
---Apple-Mail=_CD756C5D-EAFC-42FA-90BD-3D9FF2146028
+--001a114da5103acdca0542ee3773
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=us-ascii
+
+Excellent Questions!
 
 
-> On Dec 5, 2016, at 5:20 AM, Jussi Kukkonen <jussi.kukkonen@intel.com> =
-wrote:
->=20
->=20
->=20
-> On 1 December 2016 at 10:37, Khem Raj <raj.khem@gmail.com =
-<mailto:raj.khem@gmail.com>> wrote:
-> When configure pokes for wayland-protocols isntallations it ended up
-> using the ones from host, which is because it did not account for =
-sysroot
-> prefix
->=20
-> Signed-off-by: Khem Raj <raj.khem@gmail.com =
-<mailto:raj.khem@gmail.com>>
-> ---
->  .../gstreamer/gstreamer1.0-plugins-bad.inc         |  2 +-
->  ...G_CONFIG_SYSROOT_DIR-to-pkg-config-output.patch | 37 =
-++++++++++++++++++++++
->  .../gstreamer/gstreamer1.0-plugins-bad_1.10.1.bb =
-<http://gstreamer1.0-plugins-bad_1.10.1.bb/>   |  1 +
->  3 files changed, 39 insertions(+), 1 deletion(-)
->  create mode 100644 =
-meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0001-Prepend-PK=
-G_CONFIG_SYSROOT_DIR-to-pkg-config-output.patch
->=20
-> diff --git =
-a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc =
-b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc
-> index d26a6a9..d3c5326 100644
-> --- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc
-> +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc
-> @@ -64,7 +64,7 @@ PACKAGECONFIG[srtp]            =3D =
-"--enable-srtp,--disable-srtp,libsrtp"
->  PACKAGECONFIG[uvch264]         =3D =
-"--enable-uvch264,--disable-uvch264,libusb1 libgudev"
->  PACKAGECONFIG[voaacenc]        =3D =
-"--enable-voaacenc,--disable-voaacenc,vo-aacenc"
->  PACKAGECONFIG[voamrwbenc]      =3D =
-"--enable-voamrwbenc,--disable-voamrwbenc,vo-amrwbenc"
-> -PACKAGECONFIG[wayland]         =3D =
-"--enable-wayland,--disable-wayland,wayland-native wayland"
-> +PACKAGECONFIG[wayland]         =3D =
-"--enable-wayland,--disable-wayland,wayland-native wayland =
-wayland-protocols"
->  PACKAGECONFIG[webp]            =3D =
-"--enable-webp,--disable-webp,libwebp"
->=20
->  # these plugins have not been ported to 1.0 (yet):
-> diff --git =
-a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0001-Prepend-=
-PKG_CONFIG_SYSROOT_DIR-to-pkg-config-output.patch =
-b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0001-Prepend-=
-PKG_CONFIG_SYSROOT_DIR-to-pkg-config-output.patch
-> new file mode 100644
-> index 0000000..eb789df
-> --- /dev/null
-> +++ =
-b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0001-Prepend-=
-PKG_CONFIG_SYSROOT_DIR-to-pkg-config-output.patch
-> @@ -0,0 +1,37 @@
-> +=46rom c271503d7e233428ac0323c51d6517113e26bef7 Mon Sep 17 00:00:00 =
-2001
-> +From: Khem Raj <raj.khem@gmail.com <mailto:raj.khem@gmail.com>>
-> +Date: Thu, 1 Dec 2016 00:27:13 -0800
-> +Subject: [PATCH] Prepend PKG_CONFIG_SYSROOT_DIR to pkg-config output
-> +
-> +In cross environment we have to prepend the sysroot to the path found =
-by
-> +pkgconfig since the path returned from pkgconfig does not have =
-sysroot prefixed
-> +it ends up using the files from host system. If build host has =
-wayland installed
-> +the build will succeed but if you dont have wayland-protocols =
-installed on build host then
-> +it wont find the files on build host
-> +
-> +This should work ok with non sysrooted builds too since in those =
-cases PKG_CONFIG_SYSROOT_DIR
-> +will be empty
-> +
-> +Upstream-Status: Pending
-> +
-> +Signed-off-by: Khem Raj <raj.khem@gmail.com =
-<mailto:raj.khem@gmail.com>>
-> +---
-> + configure.ac <http://configure.ac/> | 2 +-
-> + 1 file changed, 1 insertion(+), 1 deletion(-)
-> +
-> +diff --git a/configure.ac <http://configure.ac/> b/configure.ac =
-<http://configure.ac/>
-> +index f8ac96b..dc87b08 100644
-> +--- a/configure.ac <http://configure.ac/>
-> ++++ b/configure.ac <http://configure.ac/>
-> +@@ -2233,7 +2233,7 @@ AG_GST_CHECK_FEATURE(WAYLAND, [wayland sink], =
-wayland , [
-> +     PKG_CHECK_MODULES(WAYLAND_PROTOCOLS, wayland-protocols >=3D 1.4, =
-[
-> +       if test "x$wayland_scanner" !=3D "x"; then
-> +         HAVE_WAYLAND=3D"yes"
-> +-        AC_SUBST(WAYLAND_PROTOCOLS_DATADIR, `$PKG_CONFIG =
---variable=3Dpkgdatadir wayland-protocols`)
-> ++        AC_SUBST(WAYLAND_PROTOCOLS_DATADIR, =
-${PKG_CONFIG_SYSROOT_DIR}`$PKG_CONFIG --variable=3Dpkgdatadir =
-wayland-protocols`)
->=20
-> I believe this breaks multilib because wayland-protocols is allarch so =
-PKG_CONFIG_SYSROOT_DIR may then be incorrect.
 
-Realized my last reply is too terse. expanding on it a bit more.
-this is not really the case. Since PKG_CONFIG_SYSROOT_DIR is set to  =
-STAGING_DIR_HOST which is then set to ${STAGING_DIR}/${MACHINE} so =
-effectively its just
-reusing an existing var compared to your case where a new redundant =
-variable is introduced.=20
+Dogfooding =E2=80=93 Good point.  The
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D9502 bug is intended to
+address that. With this, we can build and test container images just as we
+can do with the Build Appliance. As an added win, those folks building
+Busybox based minimal sized containers would have a different way to do
+that...
 
-having said that, there could be a multilib issue if pkgdatadir thats in =
-.pc file from wayland-protocols package is using variables like =
-${libdir} which then are
-multilib dependent, if this is the case then we need to fix .pc file. =
-however when I look at the =
-<target-sysroot>/usr/share/pkgconfig/wayland-protocols.pc it has
 
-prefix=3D/usr
-datarootdir=3D${prefix}/share
-pkgdatadir=3D/usr/share/wayland-protocols
 
-seems to be free of multilib deps.
+OS availability: Docker is available for Windows, Mac, and Linux.  Were
+there fears about specific Linux distributions?
 
->=20
-> I've set "WAYLAND_PROTOCOLS_SYSROOT_DIR=3D${STAGING_DIR}/${MACHINE}" =
-in EXTRA_OECONF in other recipes and used that variable in the patches. =
-It's not pretty but seems to work.
->=20
-> Jussi
->=20
-> +       else
-> +         AC_MSG_RESULT([wayland-scanner is required to build the =
-wayland plugin])
-> +         HAVE_WAYLAND=3D"no"
-> +--
-> +2.10.2
-> +
-> diff --git =
-a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.10.1.bb =
-<http://gstreamer1.0-plugins-bad_1.10.1.bb/> =
-b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.10.1.bb =
-<http://gstreamer1.0-plugins-bad_1.10.1.bb/>
-> index 9cd892e..6c6f011 100644
-> --- =
-a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.10.1.bb =
-<http://gstreamer1.0-plugins-bad_1.10.1.bb/>
-> +++ =
-b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.10.1.bb =
-<http://gstreamer1.0-plugins-bad_1.10.1.bb/>
-> @@ -14,6 +14,7 @@ SRC_URI =3D " \
->      =
-file://0001-gstreamer-gl.pc.in-don-t-append-GL_CFLAGS-to-CFLAGS.patch \
->      file://0009-glimagesink-Downrank-to-marginal.patch \
->      =
-file://0001-introspection.m4-prefix-pkgconfig-paths-with-PKG_CON.patch \
-> +    =
-file://0001-Prepend-PKG_CONFIG_SYSROOT_DIR-to-pkg-config-output.patch \
->  "
->  SRC_URI[md5sum] =3D "491d2d5aab55ffc60c66e714d3d664ea"
->  SRC_URI[sha256sum] =3D =
-"133e0ed9fe21011b15d3898e3d3a9d17ab74eed31996da2e353353e688ca921d"
-> --
-> 2.10.2
->=20
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org =
-<mailto:Openembedded-core@lists.openembedded.org>
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core =
-<http://lists.openembedded.org/mailman/listinfo/openembedded-core>
 
---Apple-Mail=_CD756C5D-EAFC-42FA-90BD-3D9FF2146028
+
+It does not seem to be too much harder to try Docker on Windows than it was
+to try Virtualbox.  That being said, Docker is moving/changing more quickly
+so it may have more bumps in the road but more features too=E2=80=A6
+
+
+
+Windows explained more in depth or one of those bumps=E2=80=A6:
+
+  The answer is a little complicated, so please bear with me.  There are 2
+different versions of Docker for Windows.  The original version is known as
+=E2=80=9CDocker Toolbox=E2=80=9D https://www.docker.com/products/docker-too=
+lbox.  This is
+basically Docker running in a minimal VirtualBox Linux VM.  They made a
+separate host binary called docker-machine to help manage the images. This
+is, in my opinion, a little clunky and does add some complexity when
+switching from Docker running on Linux to Docker Toolbox running on
+Windows. The clunkiness is largely due to the VirtualBox VM being =E2=80=9C=
+between=E2=80=9D
+the host and the Docker Engine. This version is targeted to people whose
+Windows version does not meet the requirements specified below.
+
+
+
+  If you have 64bit Windows 10 Pro, Enterprise and Education (1511 November
+update, Build 10586 or later) and Microsoft Hyper-V, then you can download
+=E2=80=9CDocker for Windows=E2=80=9D https://docs.docker.com/docker-for-win=
+dows/.  This is
+a Docker implementation for Windows that relies on Hyper-V and a much
+smaller vm.  It is also better integrated into the host environment so that
+the discontinuity between the host side and the Docker  Engine is no longer
+as jarring.  For example, you get a disk tray icon for Docker, can set up
+http proxies for it, can manage how much memory and how many cpus it will
+get=E2=80=A6
+
+
+This (https://docs.docker.com/docker-for-mac/docker-toolbox/) is nice page
+that addresses the difference between the newer hypervisor approach and the
+older "Docker Toolbox aka VirtualBox" approach.  The page is discussing it
+from a Mac perspective but if you replace xhyve with Windows 10 Hyper-V,
+the page is relevant to Windows as well.
+
+
+
+The Mac implementation is functionally equivalent to =E2=80=9CDocker for Wi=
+ndows=E2=80=9D
+and is called =E2=80=9CDocker for Mac=E2=80=9D
+https://docs.docker.com/engine/installation/mac/.  It runs on a modified
+xhyve hypervisor.
+
+
+
+The Linux implementation runs as a container and uses the same kernel as
+the host.
+
+
+
+Thanks for the feedback and if I missed or shortchanged something please
+let me know,
+
+-Brian
+
+
+an intel employee
+
+On Mon, Dec 5, 2016 at 10:42 AM, Khem Raj <raj.khem@gmail.com> wrote:
+
+> On Mon, Dec 5, 2016 at 10:04 AM, Brian Avery <avery.brian@gmail.com>
+> wrote:
+> >   Please note, this is going out to 3 lists in an attempt to insure tha=
+t
+> no
+> > one who would be impacted by this change misses it. Implied spam apolog=
+y
+> > included.
+> >
+> >   The Yocto Project currently provides a virtual machine image called t=
+he
+> > Build Appliance
+> > (https://downloads.yoctoproject.org/releases/yocto/yocto-2.2/build-
+> appliance/).
+> > This image can be run using either VirtualBox or VMware. It enables you
+> to
+> > build and boot a custom embedded Linux image with the Yocto Project on =
+a
+> > non-Linux development system.  It is not intended for day to day
+> development
+> > use, but instead, is intended to allow users to =E2=80=9Ctry out=E2=80=
+=9D the tools even
+> if
+> > they do not have access to a Linux system.
+> >
+> >   We are considering replacing the VM based Build Appliance with a set =
+of
+> > containers (https://hub.docker.com/r/crops/poky/, or if you want a user
+> > interface (https://hub.docker.com/r/crops/toaster-master/ ).  These
+> > containers currently provide most of the functionality of the Build
+> > Appliance and should shortly be at feature parity with the Build
+> Appliance.
+> > We are actively adding to and supporting the containers as some of our
+> > developers are using them in their day to day development in order to
+> > benefit from the host isolation and ease with which other distributions
+> can
+> > be tested.
+> >
+> >   This is an RFC to see what features in the Build Appliance are
+> important
+> > to you but would not be provided by the container solutions.  If the
+> > community would be just as content using the container approach as usin=
+g
+> the
+> > VM based Build Appliance image, then we=E2=80=99d be better off depreca=
+ting the
+> > Build Appliance and applying those resources elsewhere.  If there are
+> > important features the Build Appliance provides which the container
+> solution
+> > does not, or cannot provide, we=E2=80=99d love to hear what they are!
+>
+> Personally, I dont use build appliance but I think using containers is a
+> good
+> step forward, provided, we can address all build host OSes that
+> virtual appliance
+> could.
+>
+> Build appliance is also a sort of "eat your own dog-food" for ensuring
+> that we
+> are doing ok on preparing cloud images for deployment. Hopefully we wont
+> lose that testing, may be we can add another image to cover that.
+>
+> >
+> > Thanks in advance for any feedback,
+> >
+> > -Brian
+> >
+> > an Intel Employee
+> >
+> >
+> > _______________________________________________
+> > Openembedded-architecture mailing list
+> > Openembedded-architecture@lists.openembedded.org
+> > http://lists.openembedded.org/mailman/listinfo/openembedded-architectur=
+e
+> >
+>
+
+--001a114da5103acdca0542ee3773
+Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/html;
-	charset=us-ascii
 
-<html><head><meta http-equiv=3D"Content-Type" content=3D"text/html =
-charset=3Dus-ascii"></head><body style=3D"word-wrap: break-word; =
--webkit-nbsp-mode: space; -webkit-line-break: after-white-space;" =
-class=3D""><br class=3D""><div><blockquote type=3D"cite" class=3D""><div =
-class=3D"">On Dec 5, 2016, at 5:20 AM, Jussi Kukkonen &lt;<a =
-href=3D"mailto:jussi.kukkonen@intel.com" =
-class=3D"">jussi.kukkonen@intel.com</a>&gt; wrote:</div><br =
-class=3D"Apple-interchange-newline"><div class=3D""><br =
-class=3D"Apple-interchange-newline"><br style=3D"font-family: =
-Times-Roman; font-size: 14px; font-style: normal; font-variant-caps: =
-normal; font-weight: normal; letter-spacing: normal; orphans: auto; =
-text-align: start; text-indent: 0px; text-transform: none; white-space: =
-normal; widows: auto; word-spacing: 0px; -webkit-text-stroke-width: =
-0px;" class=3D""><div class=3D"gmail_quote" style=3D"font-family: =
-Times-Roman; font-size: 14px; font-style: normal; font-variant-caps: =
-normal; font-weight: normal; letter-spacing: normal; orphans: auto; =
-text-align: start; text-indent: 0px; text-transform: none; white-space: =
-normal; widows: auto; word-spacing: 0px; -webkit-text-stroke-width: =
-0px;">On 1 December 2016 at 10:37, Khem Raj<span =
-class=3D"Apple-converted-space">&nbsp;</span><span dir=3D"ltr" =
-class=3D"">&lt;<a href=3D"mailto:raj.khem@gmail.com" target=3D"_blank" =
-class=3D"">raj.khem@gmail.com</a>&gt;</span><span =
-class=3D"Apple-converted-space">&nbsp;</span>wrote:<br =
-class=3D""><blockquote class=3D"gmail_quote" style=3D"margin: 0px 0px =
-0px 0.8ex; border-left-width: 1px; border-left-style: solid; =
-border-left-color: rgb(204, 204, 204); padding-left: 1ex;">When =
-configure pokes for wayland-protocols isntallations it ended up<br =
-class=3D"">using the ones from host, which is because it did not account =
-for sysroot<br class=3D"">prefix<br class=3D""><br =
-class=3D"">Signed-off-by: Khem Raj &lt;<a =
-href=3D"mailto:raj.khem@gmail.com" =
-class=3D"">raj.khem@gmail.com</a>&gt;<br class=3D"">---<br =
-class=3D"">&nbsp;.../gstreamer/gstreamer1.0-<wbr =
-class=3D"">plugins-bad.inc&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;|&nbsp; 2 =
-+-<br class=3D"">&nbsp;...G_CONFIG_SYSROOT_DIR-to-<wbr =
-class=3D"">pkg-config-output.patch | 37 ++++++++++++++++++++++<br =
-class=3D"">&nbsp;.../gstreamer/<a =
-href=3D"http://gstreamer1.0-plugins-bad_1.10.1.bb/" rel=3D"noreferrer" =
-target=3D"_blank" class=3D"">gstreamer1.0-<wbr =
-class=3D"">plugins-bad_1.10.1.bb</a>&nbsp; &nbsp;|&nbsp; 1 +<br =
-class=3D"">&nbsp;3 files changed, 39 insertions(+), 1 deletion(-)<br =
-class=3D"">&nbsp;create mode 100644 meta/recipes-multimedia/<wbr =
-class=3D"">gstreamer/gstreamer1.0-<wbr =
-class=3D"">plugins-bad/0001-Prepend-PKG_<wbr =
-class=3D"">CONFIG_SYSROOT_DIR-to-pkg-<wbr =
-class=3D"">config-output.patch<br class=3D""><br class=3D"">diff --git =
-a/meta/recipes-multimedia/<wbr class=3D"">gstreamer/gstreamer1.0-<wbr =
-class=3D"">plugins-bad.inc b/meta/recipes-multimedia/<wbr =
-class=3D"">gstreamer/gstreamer1.0-<wbr class=3D"">plugins-bad.inc<br =
-class=3D"">index d26a6a9..d3c5326 100644<br class=3D"">--- =
-a/meta/recipes-multimedia/<wbr class=3D"">gstreamer/gstreamer1.0-<wbr =
-class=3D"">plugins-bad.inc<br class=3D"">+++ =
-b/meta/recipes-multimedia/<wbr class=3D"">gstreamer/gstreamer1.0-<wbr =
-class=3D"">plugins-bad.inc<br class=3D"">@@ -64,7 +64,7 @@ =
-PACKAGECONFIG[srtp]&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; =3D =
-"--enable-srtp,--disable-srtp,<wbr class=3D"">libsrtp"<br =
-class=3D"">&nbsp;PACKAGECONFIG[uvch264]&nbsp; &nbsp; &nbsp; &nbsp; =
-&nbsp;=3D "--enable-uvch264,--disable-<wbr class=3D"">uvch264,libusb1 =
-libgudev"<br class=3D"">&nbsp;PACKAGECONFIG[voaacenc]&nbsp; &nbsp; =
-&nbsp; &nbsp; =3D "--enable-voaacenc,--disable-<wbr =
-class=3D"">voaacenc,vo-aacenc"<br =
-class=3D"">&nbsp;PACKAGECONFIG[voamrwbenc]&nbsp; &nbsp; &nbsp; =3D =
-"--enable-voamrwbenc,--<wbr class=3D"">disable-voamrwbenc,vo-<wbr =
-class=3D"">amrwbenc"<br class=3D"">-PACKAGECONFIG[wayland]&nbsp; &nbsp; =
-&nbsp; &nbsp; &nbsp;=3D "--enable-wayland,--disable-<wbr =
-class=3D"">wayland,wayland-native wayland"<br =
-class=3D"">+PACKAGECONFIG[wayland]&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;=3D =
-"--enable-wayland,--disable-<wbr class=3D"">wayland,wayland-native =
-wayland wayland-protocols"<br class=3D"">&nbsp;PACKAGECONFIG[webp]&nbsp; =
-&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; =3D =
-"--enable-webp,--disable-webp,<wbr class=3D"">libwebp"<br class=3D""><br =
-class=3D"">&nbsp;# these plugins have not been ported to 1.0 (yet):<br =
-class=3D"">diff --git a/meta/recipes-multimedia/<wbr =
-class=3D"">gstreamer/gstreamer1.0-<wbr =
-class=3D"">plugins-bad/0001-Prepend-PKG_<wbr =
-class=3D"">CONFIG_SYSROOT_DIR-to-pkg-<wbr class=3D"">config-output.patch =
-b/meta/recipes-multimedia/<wbr class=3D"">gstreamer/gstreamer1.0-<wbr =
-class=3D"">plugins-bad/0001-Prepend-PKG_<wbr =
-class=3D"">CONFIG_SYSROOT_DIR-to-pkg-<wbr =
-class=3D"">config-output.patch<br class=3D"">new file mode 100644<br =
-class=3D"">index 0000000..eb789df<br class=3D"">--- /dev/null<br =
-class=3D"">+++ b/meta/recipes-multimedia/<wbr =
-class=3D"">gstreamer/gstreamer1.0-<wbr =
-class=3D"">plugins-bad/0001-Prepend-PKG_<wbr =
-class=3D"">CONFIG_SYSROOT_DIR-to-pkg-<wbr =
-class=3D"">config-output.patch<br class=3D"">@@ -0,0 +1,37 @@<br =
-class=3D"">+=46rom c271503d7e233428ac0323c51d6517<wbr =
-class=3D"">113e26bef7 Mon Sep 17 00:00:00 2001<br class=3D"">+From: Khem =
-Raj &lt;<a href=3D"mailto:raj.khem@gmail.com" =
-class=3D"">raj.khem@gmail.com</a>&gt;<br class=3D"">+Date: Thu, 1 Dec =
-2016 00:27:13 -0800<br class=3D"">+Subject: [PATCH] Prepend =
-PKG_CONFIG_SYSROOT_DIR to pkg-config output<br class=3D"">+<br =
-class=3D"">+In cross environment we have to prepend the sysroot to the =
-path found by<br class=3D"">+pkgconfig since the path returned from =
-pkgconfig does not have sysroot prefixed<br class=3D"">+it ends up using =
-the files from host system. If build host has wayland installed<br =
-class=3D"">+the build will succeed but if you dont have =
-wayland-protocols installed on build host then<br class=3D"">+it wont =
-find the files on build host<br class=3D"">+<br class=3D"">+This should =
-work ok with non sysrooted builds too since in those cases =
-PKG_CONFIG_SYSROOT_DIR<br class=3D"">+will be empty<br class=3D"">+<br =
-class=3D"">+Upstream-Status: Pending<br class=3D"">+<br =
-class=3D"">+Signed-off-by: Khem Raj &lt;<a =
-href=3D"mailto:raj.khem@gmail.com" =
-class=3D"">raj.khem@gmail.com</a>&gt;<br class=3D"">+---<br =
-class=3D"">+<span class=3D"Apple-converted-space">&nbsp;</span><a =
-href=3D"http://configure.ac/" rel=3D"noreferrer" target=3D"_blank" =
-class=3D"">configure.ac</a><span =
-class=3D"Apple-converted-space">&nbsp;</span>| 2 +-<br class=3D"">+ 1 =
-file changed, 1 insertion(+), 1 deletion(-)<br class=3D"">+<br =
-class=3D"">+diff --git a/<a href=3D"http://configure.ac/" =
-rel=3D"noreferrer" target=3D"_blank" class=3D"">configure.ac</a><span =
-class=3D"Apple-converted-space">&nbsp;</span>b/<a =
-href=3D"http://configure.ac/" rel=3D"noreferrer" target=3D"_blank" =
-class=3D"">configure.ac</a><br class=3D"">+index f8ac96b..dc87b08 =
-100644<br class=3D"">+--- a/<a href=3D"http://configure.ac/" =
-rel=3D"noreferrer" target=3D"_blank" class=3D"">configure.ac</a><br =
-class=3D"">++++ b/<a href=3D"http://configure.ac/" rel=3D"noreferrer" =
-target=3D"_blank" class=3D"">configure.ac</a><br class=3D"">+@@ -2233,7 =
-+2233,7 @@ AG_GST_CHECK_FEATURE(WAYLAND, [wayland sink], wayland , [<br =
-class=3D"">+&nbsp; &nbsp; &nbsp;PKG_CHECK_MODULES(WAYLAND_<wbr =
-class=3D"">PROTOCOLS, wayland-protocols &gt;=3D 1.4, [<br =
-class=3D"">+&nbsp; &nbsp; &nbsp; &nbsp;if test "x$wayland_scanner" !=3D =
-"x"; then<br class=3D"">+&nbsp; &nbsp; &nbsp; &nbsp; =
-&nbsp;HAVE_WAYLAND=3D"yes"<br class=3D"">+-&nbsp; &nbsp; &nbsp; &nbsp; =
-AC_SUBST(WAYLAND_PROTOCOLS_<wbr class=3D"">DATADIR, `$PKG_CONFIG =
---variable=3Dpkgdatadir wayland-protocols`)<br class=3D"">++&nbsp; =
-&nbsp; &nbsp; &nbsp; AC_SUBST(WAYLAND_PROTOCOLS_<wbr class=3D"">DATADIR, =
-${PKG_CONFIG_SYSROOT_DIR}`$<wbr class=3D"">PKG_CONFIG =
---variable=3Dpkgdatadir wayland-protocols`)<br =
-class=3D""></blockquote><div class=3D""><br class=3D""></div><div =
-class=3D"">I believe this breaks multilib because wayland-protocols is =
-allarch so PKG_CONFIG_SYSROOT_DIR may then be =
-incorrect.</div></div></div></blockquote><div><br =
-class=3D""></div><div>Realized my last reply is too terse. expanding on =
-it a bit more.</div><div>this is not really the case. Since =
-PKG_CONFIG_SYSROOT_DIR is set to &nbsp;STAGING_DIR_HOST which is then =
-set to&nbsp;${STAGING_DIR}/${MACHINE} so effectively its =
-just</div><div>reusing an existing var compared to your case where a new =
-redundant variable is introduced.&nbsp;</div><div><br =
-class=3D""></div><div>having said that, there could be a multilib issue =
-if pkgdatadir thats in .pc file from wayland-protocols package is using =
-variables like ${libdir} which then are</div><div>multilib dependent, if =
-this is the case then we need to fix .pc file. however when I look at =
-the &lt;target-sysroot&gt;/usr/share/pkgconfig/wayland-protocols.pc it =
-has</div><div><br =
-class=3D""></div><div><div>prefix=3D/usr</div><div>datarootdir=3D${prefix}=
-/share</div><div>pkgdatadir=3D/usr/share/wayland-protocols</div><div><br =
-class=3D""></div><div>seems to be free of multilib deps.</div></div><br =
-class=3D""><blockquote type=3D"cite" class=3D""><div class=3D""><div =
-class=3D"gmail_quote" style=3D"font-family: Times-Roman; font-size: =
-14px; font-style: normal; font-variant-caps: normal; font-weight: =
-normal; letter-spacing: normal; orphans: auto; text-align: start; =
-text-indent: 0px; text-transform: none; white-space: normal; widows: =
-auto; word-spacing: 0px; -webkit-text-stroke-width: 0px;"><div =
-class=3D""><br class=3D""></div><div class=3D"">I've set =
-"WAYLAND_PROTOCOLS_SYSROOT_DIR=3D${STAGING_DIR}/${MACHINE}" =
-in&nbsp;EXTRA_OECONF in other recipes and used that variable in the =
-patches. It's not pretty but seems to work.<br class=3D""></div><div =
-class=3D""><br class=3D""></div><div class=3D"">Jussi</div><div =
-class=3D""><br class=3D""></div><blockquote class=3D"gmail_quote" =
-style=3D"margin: 0px 0px 0px 0.8ex; border-left-width: 1px; =
-border-left-style: solid; border-left-color: rgb(204, 204, 204); =
-padding-left: 1ex;">+&nbsp; &nbsp; &nbsp; &nbsp;else<br class=3D"">+&nbsp;=
- &nbsp; &nbsp; &nbsp; &nbsp;AC_MSG_RESULT([wayland-scanner is required =
-to build the wayland plugin])<br class=3D"">+&nbsp; &nbsp; &nbsp; &nbsp; =
-&nbsp;HAVE_WAYLAND=3D"no"<br class=3D"">+--<br class=3D"">+2.10.2<br =
-class=3D"">+<br class=3D"">diff --git a/meta/recipes-multimedia/<wbr =
-class=3D"">gstreamer/<a =
-href=3D"http://gstreamer1.0-plugins-bad_1.10.1.bb/" rel=3D"noreferrer" =
-target=3D"_blank" class=3D"">gstreamer1.0-<wbr =
-class=3D"">plugins-bad_1.10.1.bb</a><span =
-class=3D"Apple-converted-space">&nbsp;</span>b/meta/recipes-multimedia/<wb=
-r class=3D"">gstreamer/<a =
-href=3D"http://gstreamer1.0-plugins-bad_1.10.1.bb/" rel=3D"noreferrer" =
-target=3D"_blank" class=3D"">gstreamer1.0-<wbr =
-class=3D"">plugins-bad_1.10.1.bb</a><br class=3D"">index =
-9cd892e..6c6f011 100644<br class=3D"">--- a/meta/recipes-multimedia/<wbr =
-class=3D"">gstreamer/<a =
-href=3D"http://gstreamer1.0-plugins-bad_1.10.1.bb/" rel=3D"noreferrer" =
-target=3D"_blank" class=3D"">gstreamer1.0-<wbr =
-class=3D"">plugins-bad_1.10.1.bb</a><br class=3D"">+++ =
-b/meta/recipes-multimedia/<wbr class=3D"">gstreamer/<a =
-href=3D"http://gstreamer1.0-plugins-bad_1.10.1.bb/" rel=3D"noreferrer" =
-target=3D"_blank" class=3D"">gstreamer1.0-<wbr =
-class=3D"">plugins-bad_1.10.1.bb</a><br class=3D"">@@ -14,6 +14,7 @@ =
-SRC_URI =3D " \<br class=3D"">&nbsp; &nbsp; &nbsp;<a =
-href=3D"file://0001-gstreamer-gl.pc" =
-class=3D"">file://0001-gstreamer-gl.pc</a>.<wbr =
-class=3D"">in-don-t-append-GL_CFLAGS-to-<wbr class=3D"">CFLAGS.patch =
-\<br class=3D"">&nbsp; &nbsp; &nbsp;<a href=3D"file:///0009-glimagesink-" =
-class=3D"">file://0009-glimagesink-</a><wbr =
-class=3D"">Downrank-to-marginal.patch \<br class=3D"">&nbsp; &nbsp; =
-&nbsp;<a href=3D"file:///0001-introspection.m4-" =
-class=3D"">file://0001-introspection.m4-</a><wbr =
-class=3D"">prefix-pkgconfig-paths-with-<wbr class=3D"">PKG_CON.patch =
-\<br class=3D"">+&nbsp; &nbsp; <a href=3D"file:///0001-Prepend-PKG_" =
-class=3D"">file://0001-Prepend-PKG_</a><wbr =
-class=3D"">CONFIG_SYSROOT_DIR-to-pkg-<wbr class=3D"">config-output.patch =
-\<br class=3D"">&nbsp;"<br class=3D"">&nbsp;SRC_URI[md5sum] =3D "<wbr =
-class=3D"">491d2d5aab55ffc60c66e714d3d664<wbr class=3D"">ea"<br =
-class=3D"">&nbsp;SRC_URI[sha256sum] =3D "<wbr =
-class=3D"">133e0ed9fe21011b15d3898e3d3a9d<wbr =
-class=3D"">17ab74eed31996da2e353353e688ca<wbr class=3D"">921d"<br =
-class=3D""><span class=3D"gmail-HOEnZb"><font color=3D"#888888" =
-class=3D"">--<br class=3D"">2.10.2<br class=3D""><br class=3D"">--<br =
-class=3D"">______________________________<wbr =
-class=3D"">_________________<br class=3D"">Openembedded-core mailing =
-list<br class=3D""><a =
-href=3D"mailto:Openembedded-core@lists.openembedded.org" =
-class=3D"">Openembedded-core@lists.<wbr class=3D"">openembedded.org</a><br=
- class=3D""><a =
-href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core" =
-rel=3D"noreferrer" target=3D"_blank" =
-class=3D"">http://lists.openembedded.org/<wbr =
-class=3D"">mailman/listinfo/openembedded-<wbr =
-class=3D"">core</a></font></span></blockquote></div></div></blockquote></d=
-iv><br class=3D""></body></html>=
+<div dir=3D"ltr">
 
---Apple-Mail=_CD756C5D-EAFC-42FA-90BD-3D9FF2146028--
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<p class=3D"MsoNormal"><span style=3D"background-image:initial;background-p=
+osition:initial;background-size:initial;background-repeat:initial;backgroun=
+d-origin:initial;background-clip:initial">Excellent
+Questions!</span><span style=3D"font-size:10pt"><span></span></span></p>
+
+<p class=3D"MsoNormal"><span>=C2=A0</span></p>
+
+<p class=3D"MsoNormal">Dogfooding =E2=80=93 Good
+point.=C2=A0 The <a href=3D"https://bugzilla.yoctoproject.org/show_bug.cgi?=
+id=3D9502">https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D9502</a>
+bug is intended to address that. With this, we can build and test container=
+ images just as we can do with the Build Appliance. As an added win, those =
+folks building Busybox based minimal sized containers would have a differen=
+t way to do that...</p><p class=3D"MsoNormal">=C2=A0<span></span></p>
+
+<p class=3D"MsoNormal">OS availability: Docker
+is available for Windows, Mac, and Linux.=C2=A0 Were there fears about spec=
+ific Linux distributions?<span></span></p>
+
+<p class=3D"MsoNormal"><span>=C2=A0</span></p>
+
+<p class=3D"MsoNormal">It does not seem to be
+too much harder to try Docker on Windows than it was to try Virtualbox.=C2=
+=A0 That being said, Docker is moving/changing
+more quickly so it may have more bumps in the road but more features too=E2=
+=80=A6<span></span></p>
+
+<p class=3D"MsoNormal"><span>=C2=A0</span></p>
+
+<p class=3D"MsoNormal">Windows explained more in
+depth or one of those bumps=E2=80=A6: <span></span></p>
+
+<p class=3D"MsoNormal">=C2=A0 The answer is a little complicated, so please
+bear with me.=C2=A0 There are 2 different
+versions of Docker for Windows.=C2=A0 The
+original version is known as =E2=80=9CDocker Toolbox=E2=80=9D <a href=3D"ht=
+tps://www.docker.com/products/docker-toolbox">https://www.docker.com/produc=
+ts/docker-toolbox</a>.=C2=A0 This is basically Docker running in a minimal
+VirtualBox Linux VM.=C2=A0 They made a
+separate host binary called docker-machine to help manage the images. This =
+is,
+in my opinion, a little clunky and does add some complexity when switching =
+from
+Docker running on Linux to Docker Toolbox running on Windows. The clunkines=
+s is
+largely due to the VirtualBox VM being =E2=80=9Cbetween=E2=80=9D the host a=
+nd the Docker
+Engine. This version is targeted to people whose Windows version does not m=
+eet the requirements specified below.<span></span></p>
+
+<p class=3D"MsoNormal"><span>=C2=A0</span></p>
+
+<p class=3D"MsoNormal">=C2=A0 If you have=C2=A0<span style=3D"color:black;l=
+etter-spacing:0.25pt;background-image:initial;background-position:initial;b=
+ackground-size:initial;background-repeat:initial;background-origin:initial;=
+background-clip:initial;background-color:rgb(250,250,250)">64bit Windows 10=
+ Pro,
+Enterprise and Education (1511 November update, Build 10586 or later) and
+Microsoft Hyper-V, then you can download =E2=80=9CDocker for Windows=E2=80=
+=9D <a href=3D"https://docs.docker.com/docker-for-windows/">https://docs.do=
+cker.com/docker-for-windows/</a>.=C2=A0 This is a Docker implementation for=
+ Windows
+that relies on Hyper-V and a much smaller vm.=C2=A0
+It is also better integrated into the host environment so that the
+discontinuity between the host side and the Docker=C2=A0 Engine is no longe=
+r as jarring.=C2=A0 For example, you get a disk tray icon for
+Docker, can set up http proxies for it, can manage how much memory and how =
+many
+cpus it will get=E2=80=A6<span></span></span></p><p class=3D"MsoNormal"><sp=
+an style=3D"background-color:rgb(250,250,250);color:black;letter-spacing:0.=
+25pt"><br></span></p><p class=3D"MsoNormal"><span style=3D"background-color=
+:rgb(250,250,250);color:black;letter-spacing:0.25pt">This (</span><font col=
+or=3D"#000000"><span style=3D"letter-spacing:0.333333px"><a href=3D"https:/=
+/docs.docker.com/docker-for-mac/docker-toolbox/">https://docs.docker.com/do=
+cker-for-mac/docker-toolbox/</a>) is</span></font><span style=3D"background=
+-color:rgb(250,250,250);color:black;letter-spacing:0.25pt">=C2=A0nice page =
+that addresses the difference between the newer hypervisor approach and the=
+ older &quot;Docker Toolbox aka VirtualBox&quot; approach.=C2=A0 The page i=
+s discussing it from a Mac perspective but if you replace xhyve with Window=
+s 10 Hyper-V, the page is relevant to Windows as well.</span></p>
+
+<p class=3D"MsoNormal"><span style=3D"color:black;letter-spacing:0.25pt;bac=
+kground-image:initial;background-position:initial;background-size:initial;b=
+ackground-repeat:initial;background-origin:initial;background-clip:initial;=
+background-color:rgb(250,250,250)"><span>=C2=A0</span></span></p>
+
+<p class=3D"MsoNormal">The Mac implementation is
+functionally equivalent to =E2=80=9CDocker for Windows=E2=80=9D and is call=
+ed =E2=80=9CDocker for Mac=E2=80=9D <a href=3D"https://docs.docker.com/engi=
+ne/installation/mac/">https://docs.docker.com/engine/installation/mac/</a>.=
+=C2=A0 It runs on a modified xhyve hypervisor. =C2=A0<span></span></p>
+
+<p class=3D"MsoNormal"><span>=C2=A0</span></p>
+
+<p class=3D"MsoNormal">The Linux implementation
+runs as a container and uses the same kernel as the host.<span></span></p><=
+p class=3D"MsoNormal"><br></p><p class=3D"MsoNormal"><br></p><p class=3D"Ms=
+oNormal">Thanks for the feedback and if I missed or shortchanged something =
+please let me know,</p><p class=3D"MsoNormal">-Brian</p><p class=3D"MsoNorm=
+al"><br></p><p class=3D"MsoNormal">an intel employee</p>
+
+</div><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">On Mon, Dec=
+ 5, 2016 at 10:42 AM, Khem Raj <span dir=3D"ltr">&lt;<a href=3D"mailto:raj.=
+khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt;</span> wrote:<=
+br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left=
+:1px #ccc solid;padding-left:1ex"><div class=3D"HOEnZb"><div class=3D"h5">O=
+n Mon, Dec 5, 2016 at 10:04 AM, Brian Avery &lt;<a href=3D"mailto:avery.bri=
+an@gmail.com">avery.brian@gmail.com</a>&gt; wrote:<br>
+&gt;=C2=A0 =C2=A0Please note, this is going out to 3 lists in an attempt to=
+ insure that no<br>
+&gt; one who would be impacted by this change misses it. Implied spam apolo=
+gy<br>
+&gt; included.<br>
+&gt;<br>
+&gt;=C2=A0 =C2=A0The Yocto Project currently provides a virtual machine ima=
+ge called the<br>
+&gt; Build Appliance<br>
+&gt; (<a href=3D"https://downloads.yoctoproject.org/releases/yocto/yocto-2.=
+2/build-appliance/" rel=3D"noreferrer" target=3D"_blank">https://downloads.=
+<wbr>yoctoproject.org/releases/<wbr>yocto/yocto-2.2/build-<wbr>appliance/</=
+a>).<br>
+&gt; This image can be run using either VirtualBox or VMware. It enables yo=
+u to<br>
+&gt; build and boot a custom embedded Linux image with the Yocto Project on=
+ a<br>
+&gt; non-Linux development system.=C2=A0 It is not intended for day to day =
+development<br>
+&gt; use, but instead, is intended to allow users to =E2=80=9Ctry out=E2=80=
+=9D the tools even if<br>
+&gt; they do not have access to a Linux system.<br>
+&gt;<br>
+&gt;=C2=A0 =C2=A0We are considering replacing the VM based Build Appliance =
+with a set of<br>
+&gt; containers (<a href=3D"https://hub.docker.com/r/crops/poky/" rel=3D"no=
+referrer" target=3D"_blank">https://hub.docker.com/r/<wbr>crops/poky/</a>, =
+or if you want a user<br>
+&gt; interface (<a href=3D"https://hub.docker.com/r/crops/toaster-master/" =
+rel=3D"noreferrer" target=3D"_blank">https://hub.docker.com/r/<wbr>crops/to=
+aster-master/</a> ).=C2=A0 These<br>
+&gt; containers currently provide most of the functionality of the Build<br=
+>
+&gt; Appliance and should shortly be at feature parity with the Build Appli=
+ance.<br>
+&gt; We are actively adding to and supporting the containers as some of our=
+<br>
+&gt; developers are using them in their day to day development in order to<=
+br>
+&gt; benefit from the host isolation and ease with which other distribution=
+s can<br>
+&gt; be tested.<br>
+&gt;<br>
+&gt;=C2=A0 =C2=A0This is an RFC to see what features in the Build Appliance=
+ are important<br>
+&gt; to you but would not be provided by the container solutions.=C2=A0 If =
+the<br>
+&gt; community would be just as content using the container approach as usi=
+ng the<br>
+&gt; VM based Build Appliance image, then we=E2=80=99d be better off deprec=
+ating the<br>
+&gt; Build Appliance and applying those resources elsewhere.=C2=A0 If there=
+ are<br>
+&gt; important features the Build Appliance provides which the container so=
+lution<br>
+&gt; does not, or cannot provide, we=E2=80=99d love to hear what they are!<=
+br>
+<br>
+</div></div>Personally, I dont use build appliance but I think using contai=
+ners is a good<br>
+step forward, provided, we can address all build host OSes that<br>
+virtual appliance<br>
+could.<br>
+<br>
+Build appliance is also a sort of &quot;eat your own dog-food&quot; for ens=
+uring that we<br>
+are doing ok on preparing cloud images for deployment. Hopefully we wont<br=
+>
+lose that testing, may be we can add another image to cover that.<br>
+<span class=3D"im HOEnZb"><br>
+&gt;<br>
+&gt;=E2=80=A8Thanks in advance for any feedback,<br>
+&gt;<br>
+&gt; -Brian<br>
+&gt;<br>
+&gt; an Intel Employee<br>
+&gt;<br>
+&gt;<br>
+</span><div class=3D"HOEnZb"><div class=3D"h5">&gt; _______________________=
+_______<wbr>_________________<br>
+&gt; Openembedded-architecture mailing list<br>
+&gt; <a href=3D"mailto:Openembedded-architecture@lists.openembedded.org">Op=
+enembedded-architecture@<wbr>lists.openembedded.org</a><br>
+&gt; <a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded=
+-architecture" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedd=
+ed.org/<wbr>mailman/listinfo/openembedded-<wbr>architecture</a><br>
+&gt;<br>
+</div></div></blockquote></div><br></div>
+
+--001a114da5103acdca0542ee3773--
