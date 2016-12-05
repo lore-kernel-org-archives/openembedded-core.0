@@ -1,45 +1,46 @@
-Return-Path: <bill.randle@gmail.com>
-Received: from mail-wj0-f195.google.com (mail-wj0-f195.google.com
-	[209.85.210.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 56AC76E630
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qk0-f170.google.com (mail-qk0-f170.google.com
+	[209.85.220.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 07C17605BE
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  5 Dec 2016 15:45:43 +0000 (UTC)
-Received: by mail-wj0-f195.google.com with SMTP id he10so25718134wjc.2
+	Mon,  5 Dec 2016 16:16:49 +0000 (UTC)
+Received: by mail-qk0-f170.google.com with SMTP id n21so350999816qka.3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 05 Dec 2016 07:45:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	Mon, 05 Dec 2016 08:16:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=6acp7N+GdI3LGZ2fFpcmvhevynhObpvVJygmrk2aH4c=;
-	b=MiEIVxhhKuSxyrfWFQurQ6+u/LwArkM8sxanP61hcK4InTFXTW5Yjbhafl9xGlRj98
-	1YczqTQZSI8zQbaHmtSShokIAqvbw91sFCMZL9feCc+aG/9C8W+467z0lmbKjlhZNYwG
-	dIoNwj7xp3buMWVqPbcSW2G2p+8OQDOHrjhMwSml8ASqhtRQA17xRWCFePHcr7RJm6ra
-	IRGzXDkM6jdsIs4XdzDA5GMLk8sVIxG1/VoUuwzZZGO0qcQx5E/vv0LdTHBedPhog2MV
-	cvp3x8zfxgA7ycVp9BO2gJPBRT0tXfEFkEk36VUXF0q2S5b4tLL7l8naZYX9rgXQCVMD
-	47vQ==
+	:cc; bh=t4yPNTYFX2d0LieZeSF5ApF6pU4j23u6WHNX+vZu9Wg=;
+	b=wy+8XvC35ugwFa7XBEvHUs6QJCu/P+mSmKprK5SwWNV6Lj7qMiNRs7vV9q4fQy+t7b
+	omPZmnOrBmvjTu6hE2ik7D3q2rDpN9MWyXE4JCQoUrmd4OdoIpPXhlDOCZv/8/N3NyEA
+	urkBnNle9NTBhlKsVn8tgYq+EWqktNNMsgvDicx4ZFZg7qgejsztErVz/hgMK7C1obLM
+	UuptwLddihd7zlKZ92R/01dKRZSvRskx0c7+VdjClukpG+45o/ktqiCe4O0P5GwcfspD
+	BFUBYPO9O4T+ZWYFjilS9DWj4wKpgkgsxj0o5ahioR33sDHDZk4t7Nuk7UIjLYOQ+EnZ
+	g4vw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=6acp7N+GdI3LGZ2fFpcmvhevynhObpvVJygmrk2aH4c=;
-	b=d5FCK/RjA/ur4slvdQc0mjkPTZ467iM55Xtuw9w6E4FklFU1/dpKHCwMrnuKXn9VD1
-	0eUxsXcbCSiqcBTUrdGyN7Z0+dxtRrwqe7q7v7c6M4Aw5vdUQ493T0eFod+e3rIGynMh
-	UFOtB4BvZ+gCaaRKpJP/INaEVPoT5K3DS2dYWOdTFveAttkEb6wPA1hbswY+0i6WGuSL
-	kLpjoTnMZ9hpsEfYoqnmLuXUNf3tff9WzpZESWVQABipbMNJDCg8nVYSAUKH3kvL7Y/A
-	9Bj5mDNU5wdxRUQgJXX/qEWN32U5TR1rx/kIXEaanE91E8RxMt0/cMarpJ8cAPMC7sDy
-	N2bQ==
-X-Gm-Message-State: AKaTC03EEh+HXLslvs7ufsyZwnAW0XgrQ1Y6trgNu36apAKCQjr7GuavND5iVlRBAGmYIgdUbxFs6TP+ucPU5w==
-X-Received: by 10.194.71.228 with SMTP id y4mr57846761wju.136.1480952744159;
-	Mon, 05 Dec 2016 07:45:44 -0800 (PST)
+	bh=t4yPNTYFX2d0LieZeSF5ApF6pU4j23u6WHNX+vZu9Wg=;
+	b=W6i6BMpXAmNC8rq3iDHKR6rdLKVHozLt4itngucjNZM11MbFeFPgy32GuQqL63kS2J
+	2isK6WSts5AGituwDN3vj3q4hX6IM9uPNBlNEB2ACPjS5FxKGlAY4Tzu23Yu4pqNbN90
+	pMAlGr0DuLRB1JLxdc8PRcndncTD+WeRaBrOvKL3pos91SWxEYXjC4goCNvPy5yRW2aO
+	/zfby63Q3JB7gFTeze2Cfl6oycJ4bsZMMUZXfM5UeRP5yHe0S0NKNtdEUca+X9PG7GPm
+	Iv8esOQMmWS7fASj6nJI0sVfmkbsvIhXPy/Q40QlTIfn83WN9+yHySzlPdMtLuODgyvs
+	pTtQ==
+X-Gm-Message-State: AKaTC03DTxHJD6vEPgNubhhJwZ5xjjrgVGA6hyCKoJK0ZTF/ugA+F6V2D+lw/oLiix9uS+RJEyF9st+6mkVwHB+a
+X-Received: by 10.55.31.157 with SMTP id n29mr48574212qkh.221.1480954610940;
+	Mon, 05 Dec 2016 08:16:50 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.28.13.68 with HTTP; Mon, 5 Dec 2016 07:45:43 -0800 (PST)
-In-Reply-To: <20161118192955.17284-1-marex@denx.de>
-References: <20161118192955.17284-1-marex@denx.de>
-From: Bill Randle <bill.randle@gmail.com>
-Date: Mon, 5 Dec 2016 07:45:43 -0800
-Message-ID: <CA+n--H82VdwJ0MBP5mkRRroEfF5kie+n0ZdSd6P2yz2X+pqbPQ@mail.gmail.com>
-To: Ross Burton <ross.burton@intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] u-boot: Update to v2016.11 release
+Received: by 10.140.106.99 with HTTP; Mon, 5 Dec 2016 08:16:30 -0800 (PST)
+In-Reply-To: <1480508551-26893-1-git-send-email-obi@opendreambox.org>
+References: <1480508551-26893-1-git-send-email-obi@opendreambox.org>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 5 Dec 2016 16:16:30 +0000
+Message-ID: <CAJTo0Lb-snEZi_qqFW1_onvjK+_tJz47tDJtbAC4G3fum=DGmA@mail.gmail.com>
+To: Andreas Oberritter <obi@opendreambox.org>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/2] connman: Simplify and fix packaging of VPN plug-ins
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,62 +53,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 05 Dec 2016 15:45:43 -0000
+X-List-Received-Date: Mon, 05 Dec 2016 16:16:51 -0000
+Content-Type: multipart/alternative; boundary=001a1147f22883ba670542eb9de7
+
+--001a1147f22883ba670542eb9de7
 Content-Type: text/plain; charset=UTF-8
 
-On Fri, Nov 18, 2016 at 11:29 AM, Marek Vasut <marex@denx.de> wrote:
-> Upgrade U-Boot to the latest version.
->
-> Signed-off-by: Marek Vasut <marex@denx.de>
-> Cc: Richard Purdie <richard.purdie@linuxfoundation.org>
-> Cc: Denys Dmytriyenko <denis@denix.org>
-> Cc: Ross Burton <ross.burton@intel.com>
-> ---
->  .../{u-boot-common_2016.09.01.inc => u-boot-common_2016.11.inc}       | 4 ++--
->  .../{u-boot-fw-utils_2016.09.01.bb => u-boot-fw-utils_2016.11.bb}     | 0
->  .../{u-boot-mkimage_2016.09.01.bb => u-boot-mkimage_2016.11.bb}       | 0
->  meta/recipes-bsp/u-boot/{u-boot_2016.09.01.bb => u-boot_2016.11.bb}   | 0
->  4 files changed, 2 insertions(+), 2 deletions(-)
->  rename meta/recipes-bsp/u-boot/{u-boot-common_2016.09.01.inc => u-boot-common_2016.11.inc} (71%)
->  rename meta/recipes-bsp/u-boot/{u-boot-fw-utils_2016.09.01.bb => u-boot-fw-utils_2016.11.bb} (100%)
->  rename meta/recipes-bsp/u-boot/{u-boot-mkimage_2016.09.01.bb => u-boot-mkimage_2016.11.bb} (100%)
->  rename meta/recipes-bsp/u-boot/{u-boot_2016.09.01.bb => u-boot_2016.11.bb} (100%)
->
-> diff --git a/meta/recipes-bsp/u-boot/u-boot-common_2016.09.01.inc b/meta/recipes-bsp/u-boot/u-boot-common_2016.11.inc
-> similarity index 71%
-> rename from meta/recipes-bsp/u-boot/u-boot-common_2016.09.01.inc
-> rename to meta/recipes-bsp/u-boot/u-boot-common_2016.11.inc
-> index f706a6b..84adc1c 100644
-> --- a/meta/recipes-bsp/u-boot/u-boot-common_2016.09.01.inc
-> +++ b/meta/recipes-bsp/u-boot/u-boot-common_2016.11.inc
-> @@ -7,8 +7,8 @@ PE = "1"
->
->  # We use the revision in order to avoid having to fetch it from the
->  # repo during parse
-> -SRCREV = "f3363c060497515ca8b71451cb56f3ec0abacaa9"
-> +SRCREV = "29e0cfb4f77f7aa369136302cee14a91e22dca71"
->
-> -SRC_URI = "git://git.denx.de/u-boot.git;branch=u-boot-2016.09.y"
-> +SRC_URI = "git://git.denx.de/u-boot.git"
->
->  S = "${WORKDIR}/git"
-> diff --git a/meta/recipes-bsp/u-boot/u-boot-fw-utils_2016.09.01.bb b/meta/recipes-bsp/u-boot/u-boot-fw-utils_2016.11.bb
-> similarity index 100%
-> rename from meta/recipes-bsp/u-boot/u-boot-fw-utils_2016.09.01.bb
-> rename to meta/recipes-bsp/u-boot/u-boot-fw-utils_2016.11.bb
-> diff --git a/meta/recipes-bsp/u-boot/u-boot-mkimage_2016.09.01.bb b/meta/recipes-bsp/u-boot/u-boot-mkimage_2016.11.bb
-> similarity index 100%
-> rename from meta/recipes-bsp/u-boot/u-boot-mkimage_2016.09.01.bb
-> rename to meta/recipes-bsp/u-boot/u-boot-mkimage_2016.11.bb
-> diff --git a/meta/recipes-bsp/u-boot/u-boot_2016.09.01.bb b/meta/recipes-bsp/u-boot/u-boot_2016.11.bb
-> similarity index 100%
-> rename from meta/recipes-bsp/u-boot/u-boot_2016.09.01.bb
-> rename to meta/recipes-bsp/u-boot/u-boot_2016.11.bb
-> --
+On 30 November 2016 at 12:22, Andreas Oberritter <obi@opendreambox.org>
+wrote:
 
-Ross, any chance of getting this staged soon? I'm using it in a
-project and I checked poky/master-next and poky-contrib/ross/mut but
-don't see it there yet.
+> - Use simple static packaging.
+> - Move VPN runtime dependencies from connman to the individual plug-ins.
+> - Create a connmann-ppp package containing libppp-plugin.so, which is
+>   a shared library needed by l2tp and pptp plug-ins.
+> - Let connman suggest VPN packages instead of recommending them, so they
+>   don't get installed by default.
+> - Remove unknown configure options (--with-pptp --with-l2tp)
+>
 
-    -Bill
+Lines like this break with just oe-core:
 
++RDEPENDS_${PN}-plugin-vpn-l2tp = "${PN}-vpn ${PN}-ppp xl2tpd"
+
+ERROR: Nothing RPROVIDES 'vpnc' (but
+/home/ross/Yocto/poky/meta/recipes-connectivity/connman/connman_1.33.bb
+RDEPENDS on or otherwise requires it)
+NOTE: Runtime target 'vpnc' is unbuildable, removing...
+Missing or unbuildable dependency chain was: ['vpnc']
+ERROR: Required build target 'connman' has no buildable providers.
+Missing or unbuildable dependency chain was: ['connman', 'vpnc']
+
+(repeat for all the other RDEPENDS that are not in oe-core).
+
+Ross
+
+--001a1147f22883ba670542eb9de7
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 30 November 2016 at 12:22, Andreas Oberritter <span dir=3D"ltr">&lt;<a h=
+ref=3D"mailto:obi@opendreambox.org" target=3D"_blank">obi@opendreambox.org<=
+/a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:=
+0px 0px 0px 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);=
+border-left-style:solid;padding-left:1ex"><div id=3D"gmail-:2lp" class=3D"g=
+mail-a3s gmail-aXjCH gmail-m158b536ee4095b43">- Use simple static packaging=
+.<br>
+- Move VPN runtime dependencies from connman to the individual plug-ins.<br=
+>
+- Create a connmann-ppp package containing libppp-plugin.so, which is<br>
+=C2=A0 a shared library needed by l2tp and pptp plug-ins.<br>
+- Let connman suggest VPN packages instead of recommending them, so they<br=
+>
+=C2=A0 don&#39;t get installed by default.<br>
+- Remove unknown configure options (--with-pptp --with-l2tp)</div></blockqu=
+ote></div><div class=3D"gmail_extra"><br></div>Lines like this break with j=
+ust oe-core:</div><div class=3D"gmail_extra"><br>+RDEPENDS_${PN}-plugin-vpn=
+-l2tp =3D &quot;${PN}-vpn ${PN}-ppp xl2tpd&quot;<br></div><div class=3D"gma=
+il_extra"><br></div><div class=3D"gmail_extra"><div class=3D"gmail_extra">E=
+RROR: Nothing RPROVIDES &#39;vpnc&#39; (but /home/ross/Yocto/poky/meta/reci=
+pes-connectivity/connman/<a href=3D"http://connman_1.33.bb">connman_1.33.bb=
+</a> RDEPENDS on or otherwise requires it)</div><div class=3D"gmail_extra">=
+NOTE: Runtime target &#39;vpnc&#39; is unbuildable, removing...</div><div c=
+lass=3D"gmail_extra">Missing or unbuildable dependency chain was: [&#39;vpn=
+c&#39;]</div><div class=3D"gmail_extra">ERROR: Required build target &#39;c=
+onnman&#39; has no buildable providers.</div><div class=3D"gmail_extra">Mis=
+sing or unbuildable dependency chain was: [&#39;connman&#39;, &#39;vpnc&#39=
+;]</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">(re=
+peat for all the other RDEPENDS that are not in oe-core).</div><div class=
+=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div></div=
+>
+
+--001a1147f22883ba670542eb9de7--
