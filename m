@@ -1,41 +1,20 @@
-Return-Path: <sona.sarmadi@enea.com>
-Received: from smtp-out10.electric.net (smtp-out10.electric.net
-	[185.38.180.43])
-	by mail.openembedded.org (Postfix) with ESMTP id EE0DC607A2
+Return-Path: <ml@embed.me.uk>
+Received: from owm.eumx.net (eumx.net [91.82.101.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 35D10607A2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  5 Dec 2016 10:40:51 +0000 (UTC)
-Received: from 1cDqhX-0007hh-UR by out10d.electric.net with emc1-ok (Exim 4.87)
-	(envelope-from <sona.sarmadi@enea.com>) id 1cDqhX-0007jH-W6
-	for openembedded-core@lists.openembedded.org;
-	Mon, 05 Dec 2016 02:40:51 -0800
-Received: by emcmailer; Mon, 05 Dec 2016 02:40:51 -0800
-Received: from [192.36.1.72] (helo=mx-3.enea.com)
-	by out10d.electric.net with esmtps (TLSv1:AES128-SHA:128) (Exim 4.87)
-	(envelope-from <sona.sarmadi@enea.com>) id 1cDqhX-0007hh-UR
-	for openembedded-core@lists.openembedded.org;
-	Mon, 05 Dec 2016 02:40:51 -0800
-Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
-	(172.21.1.209) with Microsoft SMTP Server id 14.3.294.0; Mon, 5 Dec 2016
-	11:40:51 +0100
-From: Sona Sarmadi <sona.sarmadi@enea.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 5 Dec 2016 11:40:49 +0100
-Message-ID: <1480934449-50405-1-git-send-email-sona.sarmadi@enea.com>
-X-Mailer: git-send-email 1.9.1
+	Mon,  5 Dec 2016 10:43:15 +0000 (UTC)
+To: Khem Raj <raj.khem@gmail.com>
+References: <68b7f401-a888-ff73-45d5-b0df76f170c4@embed.me.uk>
+	<CAMKF1sqVdGwXPX-hg2NCgY-VxL_1bBVQL3vpzC00033ah1N7WQ@mail.gmail.com>
+From: Jack Mitchell <ml@embed.me.uk>
+Message-ID: <f8d7dc4e-2788-f061-447c-67916f215aab@embed.me.uk>
+Date: Mon, 5 Dec 2016 10:44:33 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.5.0
 MIME-Version: 1.0
-Received-SPF: None (SESTOEX03.enea.se: sona.sarmadi@enea.com does not
-	designate permitted sender hosts)
-X-Outbound-IP: 192.36.1.72
-X-Env-From: sona.sarmadi@enea.com
-X-Proto: esmtps
-X-Revdns: mx-3.enea.com
-X-HELO: mx-3.enea.com
-X-TLS: TLSv1:AES128-SHA:128
-X-Authenticated_ID: 
-X-PolicySMART: 6551647
-X-Virus-Status: Scanned by VirusSMART (c)
-X-Virus-Status: Scanned by VirusSMART (s)
-Subject: [PATCH][krogoth] bash: fix CVE-2016-7543
+In-Reply-To: <CAMKF1sqVdGwXPX-hg2NCgY-VxL_1bBVQL3vpzC00033ah1N7WQ@mail.gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: non-standard library locations and rpath
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,79 +27,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 05 Dec 2016 10:40:52 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 05 Dec 2016 10:43:16 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Specially crafted SHELLOPTS+PS4 variables allows command substitution
+On 02/12/16 07:08, Khem Raj wrote:
+> On Thu, Dec 1, 2016 at 8:18 AM, Jack Mitchell <ml@embed.me.uk> wrote:
+>> I'm having some troubles with shared library, shared library dependencies
+>> and rpaths. I have libfoo, which depends on libbar when I try to link libfoo
+>> with my app, it requires libbar to be found. libbar is in a non-standard
+>> location, /usr/local/bar when I compiled libfoo, I used -Wl,rpath-link
+>> ${STAGING_SYSROOT}/usr/local/bar and -Wl,rpath /usr/local/bar. Now when I
+>> come to try link my app with libfoo, it fails to link as it can't find
+>> libbar, which I assume means the rpath in libfoo isn't being properly
+>> prepending with sysroot what is the proper way to support this in OE? My
+>> library has the following rpath information:
+>>
+>> 0x0000000f (RPATH) Library rpath: [$ORIGIN/../lib:/usr/local/bar]
+>>
+>> So why isn't the rpath being prepended with the sysroot when I compile my
+>> app and link libfoo? The apps build system is using cmake, but this should
+>> be a built in linker feature, correct?
+>
+> Only first path ( before :) is relative to location of binary at runtime
+>
 
-References:
-https://bugzilla.redhat.com/show_bug.cgi?id=CVE-2016-7543
-http://lists.gnu.org/archive/html/bug-bash/2016-10/msg00009.html
+Exactly, so how can you make an OE build use the rpaths of libs that 
+point to the build sysroot. What I have at the moment is
 
-Signed-off-by: Sona Sarmadi <sona.sarmadi@enea.com>
----
- .../recipes-extended/bash/bash/CVE-2016-7543.patch | 38 ++++++++++++++++++++++
- meta/recipes-extended/bash/bash_4.3.30.bb          |  1 +
- 2 files changed, 39 insertions(+)
- create mode 100644 meta/recipes-extended/bash/bash/CVE-2016-7543.patch
+0x0000000f (RPATH) Library rpath: [$ORIGIN/../lib:/usr/local/bar]
 
-diff --git a/meta/recipes-extended/bash/bash/CVE-2016-7543.patch b/meta/recipes-extended/bash/bash/CVE-2016-7543.patch
-new file mode 100644
-index 0000000..7c9a9c6
---- /dev/null
-+++ b/meta/recipes-extended/bash/bash/CVE-2016-7543.patch
-@@ -0,0 +1,38 @@
-+bash: fix CVE-2016-7543
-+
-+Bug-Reference-URL:
-+http://lists.gnu.org/archive/html/bug-bash/2015-12/msg00054.html
-+
-+Bug-Description:
-+
-+If a malicious user can inject a value of $SHELLOPTS containing `xtrace'
-+and a value for $PS4 that includes a command substitution into a shell
-+running as root, bash will expand the command substitution as part of
-+expanding $PS4 when it executes a traced command.
-+
-+Patch (apply with `patch -p0'):
-+
-+CVE: CVE-2016-7543
-+Upstream-Status: Backport
-+[changes in patchlevel.h has been removed from original patch]
-+
-+Reference to upstream patch:
-+http://lists.gnu.org/archive/html/bug-bash/2016-10/msg00009.html
-+
-+Signed-off-by: Sona Sarmadi <sona.sarmadi@enea.com>
-+diff -Nurp a/variables.c b/variables.c
-+--- a/variables.c	2016-12-05 09:49:39.552587211 +0100
-++++ b/variables.c	2016-12-05 09:52:00.406522230 +0100
-+@@ -495,7 +495,11 @@ initialize_shell_variables (env, privmod
-+ #endif
-+       set_if_not ("PS2", secondary_prompt);
-+     }
-+-  set_if_not ("PS4", "+ ");
-++
-++  if (current_user.euid == 0)
-++    bind_variable ("PS4", "+ ", 0);
-++  else
-++    set_if_not ("PS4", "+ ");
-+ 
-+   /* Don't allow IFS to be imported from the environment. */
-+   temp_var = bind_variable ("IFS", " \t\n", 0);
-diff --git a/meta/recipes-extended/bash/bash_4.3.30.bb b/meta/recipes-extended/bash/bash_4.3.30.bb
-index fcd6caf..fdad39b 100644
---- a/meta/recipes-extended/bash/bash_4.3.30.bb
-+++ b/meta/recipes-extended/bash/bash_4.3.30.bb
-@@ -22,6 +22,7 @@ SRC_URI = "${GNU_MIRROR}/bash/${BP}.tar.gz;name=tarball \
-            file://run-ptest \
- 	   file://fix-run-builtins.patch \
-            file://CVE-2016-0634.patch;striplevel=0 \
-+           file://CVE-2016-7543.patch \
-            "
- 
- SRC_URI[tarball.md5sum] = "a27b3ee9be83bd3ba448c0ff52b28447"
--- 
-1.9.1
+Which would be correct if I was linking on the target. However when OE 
+sees the rpath in it's cross compile environment it should prepend it 
+with the build sysroot so you end up with something like
 
+0x0000000f (RPATH) Library rpath: 
+[$ORIGIN/../lib:/path/to/build/sysroot/usr/local/bar]
+
+And then the SDK should end up with something like
+
+0x0000000f (RPATH) Library rpath: 
+[$ORIGIN/../lib:/path/to/sdk/sysroot/usr/local/bar]
+
+Is this what is expected to happen, or am I stumbling into an 
+unsupported scenario.
+
+Cheers,
 
