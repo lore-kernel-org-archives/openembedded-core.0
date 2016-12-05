@@ -1,45 +1,49 @@
-Return-Path: <george.mccollister@gmail.com>
-Received: from mail-io0-f194.google.com (mail-io0-f194.google.com
-	[209.85.223.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 782416022F
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-ua0-f196.google.com (mail-ua0-f196.google.com
+	[209.85.217.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 47BBD719BD
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  5 Dec 2016 16:39:21 +0000 (UTC)
-Received: by mail-io0-f194.google.com with SMTP id s82so909838ioi.3
+	Mon,  5 Dec 2016 16:44:18 +0000 (UTC)
+Received: by mail-ua0-f196.google.com with SMTP id 50so32644526uae.2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 05 Dec 2016 08:39:23 -0800 (PST)
+	Mon, 05 Dec 2016 08:44:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=yZmqnVA3Ksl0HFVlM8E7BQ9AyqrNCW/f9GjCqi/2LFw=;
-	b=kP3O3QvcT0y96DRZx7O/wh3zgG1k76FlM2kvp63jyarmUs9S3qrowdJNeUxfevQ8Sm
-	xrQd0qZQeN8PquMOj6rRra3A3kkJjJLkdt646MrGnUDkilHIU8KA74TKhFKgbLD0bWkH
-	vpS2jYnlaIl+mCLeons44nwxdSMqyfHR1WqFMHP21j64ikOmpTv76EK3I1TW5eKZ+lcs
-	bC5PrHaz/TfX900+BkBIB8joapRnWry70Zxwu/sOW/qOZ8GRc2OwRf4uWDmCtF41RxAn
-	s/oqkVggD3ttoatDh4B/UuIY4ASQ0LhVH3mjLlbKXfoAUElP2yv16y7WbKC1W3FyQJM+
-	wVow==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=QUkO5az62CxLPMdRRBpiC68HL8DMVMyMbLrri2zABmA=;
+	b=xL1XxF6ZjrsshgAjxJYFzVcois4HAP2UZM8qxP4WENeXRwN/HknL1J1c+Y9qjri55L
+	XJrijQ6lfoUn3STbprbofxAYhDbbdwXvzdhtbmW5lgEK0Pqj5/PJUUkheB7Npb6bl0Nk
+	XKfwglifWCBMxngGSEy9AhccXHTAb1DLwmpCG30+A7n2cfkOj9qYcuYSfmCY5Lr6B2Xi
+	WqXm5BS8hj9Q4zp2Z/eny0ENTyoeb+Cnw54L6bm+N9orzalZK90FCNLbpWcgop34YEIH
+	N0b8xT76mFOzuxo3Qvsf12+rhgihXrXsdqLmdH8ceuT9/jdoi7qApHz7iqY8zvjMEJQy
+	UTcA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=yZmqnVA3Ksl0HFVlM8E7BQ9AyqrNCW/f9GjCqi/2LFw=;
-	b=SZ8g/9Ufdp8/TDi3K5T8a1bFSISQstazQjWtuZXvuL8zinqBnPzZDSrjqgPW8KadSf
-	tJN8CvpqD1hYXu6U/ZxtDrwM+XjBF3kJiN1dchgoiwr+vG7QEYRh3VkmllIhYKGGg2nz
-	E0g9zMe6vp7fuw/zDnqNjn7+sC0tB0Yp8hSmn8d22Ajr8FEAVxtnPIs4Ttaz5eM8JoC1
-	S9jUKjiWv+a3o9XOcWjwhi9IMLHpESUT/tJMPp4m4VxZSTkmgmdki4Tb7bWBNxX6Js9o
-	ouL23GP65Z8ATSoLYsVuFf96/wzjd0SKNtcOdcFIN7+Vd42QkwleacEV4yJNDNrZxpZS
-	3uvA==
-X-Gm-Message-State: AKaTC01HMEXSVbI4eArD0cHPFQhXmSLxMANcRNYf9eSpM6T1nLTLj0e0qekLgdBCs8S/cw==
-X-Received: by 10.107.140.65 with SMTP id o62mr13397068iod.17.1480955963409;
-	Mon, 05 Dec 2016 08:39:23 -0800 (PST)
-Received: from localhost.localdomain (216-21-169-52.slc.googlefiber.net.
-	[216.21.169.52])
-	by smtp.gmail.com with ESMTPSA id d186sm306964itc.7.2016.12.05.08.39.22
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 05 Dec 2016 08:39:22 -0800 (PST)
-From: George McCollister <george.mccollister@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon,  5 Dec 2016 10:38:27 -0600
-Message-Id: <20161205163827.21941-1-george.mccollister@gmail.com>
-X-Mailer: git-send-email 2.9.3
-Subject: [PATCH] gdb-cross-canadian: Depend on nativesdk-python3-misc
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=QUkO5az62CxLPMdRRBpiC68HL8DMVMyMbLrri2zABmA=;
+	b=mdvCln2eh7fuWQFJHFCOrYXWT7HI3RCK5knciuH6G2GtI/ECxWKlaRVg0kp/G6TGb2
+	UJuqHqcVGyr+1VD1iJ3yPJEFuHYXnHFDaK9PjopnRrKZurna4LmbgG/Vj/gRoM40g0Dk
+	sAZZ3UUUSRIxSKBBK7wew/adAO0y+PGxRAzGMyJxTi8KJLbIck4sBP8GMqbVgbyB0WqJ
+	7f9T5vmGhWubtdnz2Ag3P3rtv6tjZigpr1fyZrhbqI6/ZNU07hW5M/q7n5eAEh5DtGje
+	8g7fXt0HYCkQ6m+4ckkHGihMRX3UwVE37H8VmXn8bNFkE+oqndmwxn5UUkidjkn/KXb/
+	7g/w==
+X-Gm-Message-State: AKaTC03qxmdp8TlvvUUEbky26xBPPBPqc9ENtao7wXRt93bXB8J498gLdaewQJzo5ZgbChnnCUsV1PJmBm9PSA==
+X-Received: by 10.176.82.181 with SMTP id v50mr37548941uav.31.1480956260082;
+	Mon, 05 Dec 2016 08:44:20 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.159.48.87 with HTTP; Mon, 5 Dec 2016 08:43:49 -0800 (PST)
+In-Reply-To: <b645b26d-a60f-f42e-8545-13d3b36b0596@embed.me.uk>
+References: <68b7f401-a888-ff73-45d5-b0df76f170c4@embed.me.uk>
+	<CAMKF1sqVdGwXPX-hg2NCgY-VxL_1bBVQL3vpzC00033ah1N7WQ@mail.gmail.com>
+	<f8d7dc4e-2788-f061-447c-67916f215aab@embed.me.uk>
+	<b645b26d-a60f-f42e-8545-13d3b36b0596@embed.me.uk>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Mon, 5 Dec 2016 08:43:49 -0800
+Message-ID: <CAMKF1sqWBAAdT7v7vky3-wEfxXZ-aDNe-JH_jzKgkB6_E8Da7g@mail.gmail.com>
+To: Jack Mitchell <ml@embed.me.uk>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: non-standard library locations and rpath
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,36 +56,76 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 05 Dec 2016 16:39:23 -0000
+X-List-Received-Date: Mon, 05 Dec 2016 16:44:19 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Add missing dependency on nativesdk-python3-misc so the imp Python
-module is installed.
+On Mon, Dec 5, 2016 at 2:54 AM, Jack Mitchell <ml@embed.me.uk> wrote:
+>
+>
+> On 05/12/16 10:44, Jack Mitchell wrote:
+>>
+>> On 02/12/16 07:08, Khem Raj wrote:
+>>>
+>>> On Thu, Dec 1, 2016 at 8:18 AM, Jack Mitchell <ml@embed.me.uk> wrote:
+>>>>
+>>>> I'm having some troubles with shared library, shared library
+>>>> dependencies
+>>>> and rpaths. I have libfoo, which depends on libbar when I try to link
+>>>> libfoo
+>>>> with my app, it requires libbar to be found. libbar is in a non-standard
+>>>> location, /usr/local/bar when I compiled libfoo, I used -Wl,rpath-link
+>>>> ${STAGING_SYSROOT}/usr/local/bar and -Wl,rpath /usr/local/bar. Now
+>>>> when I
+>>>> come to try link my app with libfoo, it fails to link as it can't find
+>>>> libbar, which I assume means the rpath in libfoo isn't being properly
+>>>> prepending with sysroot what is the proper way to support this in OE? My
+>>>> library has the following rpath information:
+>>>>
+>>>> 0x0000000f (RPATH) Library rpath: [$ORIGIN/../lib:/usr/local/bar]
+>>>>
+>>>> So why isn't the rpath being prepended with the sysroot when I
+>>>> compile my
+>>>> app and link libfoo? The apps build system is using cmake, but this
+>>>> should
+>>>> be a built in linker feature, correct?
+>>>
+>>>
+>>> Only first path ( before :) is relative to location of binary at runtime
+>>>
+>>
+>> Exactly, so how can you make an OE build use the rpaths of libs that
+>> point to the build sysroot. What I have at the moment is
+>>
+>> 0x0000000f (RPATH) Library rpath: [$ORIGIN/../lib:/usr/local/bar]
+>>
+>> Which would be correct if I was linking on the target. However when OE
+>> sees the rpath in it's cross compile environment it should prepend it
+>> with the build sysroot so you end up with something like
+>>
+>> 0x0000000f (RPATH) Library rpath:
+>> [$ORIGIN/../lib:/path/to/build/sysroot/usr/local/bar]
+>>
+>> And then the SDK should end up with something like
+>>
+>> 0x0000000f (RPATH) Library rpath:
+>> [$ORIGIN/../lib:/path/to/sdk/sysroot/usr/local/bar]
+>>
+>> Is this what is expected to happen, or am I stumbling into an
+>> unsupported scenario.
+>>
+>> Cheers,
+>
+>
+> I think basically what I'm saying is that does the linker prepend it's
+> --sysroot value to absolute rpaths, and if not, should it?
 
-Before this patch, running gdb from the sdk would give the following
-error:
+having absolute build paths into rpaths is not a good thing. Linker
+will search the libs during link in sysroot its configured to do so.
 
-Python Exception <class 'ImportError'> No module named 'imp':
-
-Signed-off-by: George McCollister <george.mccollister@gmail.com>
----
- meta/recipes-devtools/gdb/gdb-cross-canadian.inc | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
-
-diff --git a/meta/recipes-devtools/gdb/gdb-cross-canadian.inc b/meta/recipes-devtools/gdb/gdb-cross-canadian.inc
-index e53081d..844daf2 100644
---- a/meta/recipes-devtools/gdb/gdb-cross-canadian.inc
-+++ b/meta/recipes-devtools/gdb/gdb-cross-canadian.inc
-@@ -14,7 +14,8 @@ GDBPROPREFIX = "--program-prefix='${TARGET_PREFIX}'"
- PACKAGECONFIG ??= "python readline"
- PACKAGECONFIG[python] = "--with-python=${WORKDIR}/python,--without-python,nativesdk-python3, \
-                          nativesdk-python3-core nativesdk-python3-lang nativesdk-python3-re \
--                         nativesdk-python3-codecs nativesdk-python3-netclient"
-+                         nativesdk-python3-codecs nativesdk-python3-netclient \
-+                         nativesdk-python3-misc"
- PACKAGECONFIG[readline] = "--with-system-readline,--without-system-readline,nativesdk-readline"
- 
- SSTATE_DUPWHITELIST += "${STAGING_DATADIR}/gdb"
--- 
-2.9.3
-
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
