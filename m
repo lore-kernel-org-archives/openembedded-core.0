@@ -1,24 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 378DA719B7
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 6BECB719B9
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  5 Dec 2016 14:54:40 +0000 (UTC)
+	Mon,  5 Dec 2016 14:54:41 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id uB5Esfbw006281
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id uB5Esg1I024033
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 5 Dec 2016 06:54:41 -0800 (PST)
+	Mon, 5 Dec 2016 06:54:42 -0800
 Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.294.0;
-	Mon, 5 Dec 2016 06:54:40 -0800
+	Mon, 5 Dec 2016 06:54:41 -0800
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 5 Dec 2016 06:54:38 -0800
-Message-ID: <cover.1480949616.git.liezhi.yang@windriver.com>
+Date: Mon, 5 Dec 2016 06:54:39 -0800
+Message-ID: <981a3fcb8a50c6277be726177a5895c64296d2ac.1480949616.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.9.0
+In-Reply-To: <cover.1480949616.git.liezhi.yang@windriver.com>
+References: <cover.1480949616.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/2] Fixes for diffutils and u-boot
+Subject: [PATCH 1/2] diffutils: do_configure: fix "Argument list too long"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,23 +36,34 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Mon, 05 Dec 2016 14:54:41 -0000
 Content-Type: text/plain
 
-The following changes since commit 11063a01d4511b2688ea7ba2d7359e4e07328c66:
+Fixed when len(TMPDIR) =  410:
+aclocal: error: cannot open echo [snip]: Argument list too long
 
-  ruby: upgrade to 2.3.1 (2016-11-30 15:47:17 +0000)
+This is becuase it has a lot of m4 files, use relative path for them
+can fix the problem.
 
-are available in the git repository at:
+It doesn't happen when MACHINE="qemux86", I think it is because
+intel-x86-64 is longer than qemux86.
 
-  git://git.openembedded.org/openembedded-core-contrib rbt/2fixes
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/2fixes
-
-Robert Yang (2):
-  diffutils: do_configure: fix "Argument list too long"
-  image.bbclass: inherit image_types_uboot when needed
-
- meta/classes/image.bbclass                       | 9 +++++++++
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+---
  meta/recipes-extended/diffutils/diffutils_3.4.bb | 3 +++
- 2 files changed, 12 insertions(+)
+ 1 file changed, 3 insertions(+)
 
+diff --git a/meta/recipes-extended/diffutils/diffutils_3.4.bb b/meta/recipes-extended/diffutils/diffutils_3.4.bb
+index cb7092b..be280ec 100644
+--- a/meta/recipes-extended/diffutils/diffutils_3.4.bb
++++ b/meta/recipes-extended/diffutils/diffutils_3.4.bb
+@@ -10,6 +10,9 @@ SRC_URI = "${GNU_MIRROR}/diffutils/diffutils-${PV}.tar.xz \
+ 
+ EXTRA_OECONF += "--without-libsigsegv-prefix"
+ 
++# Fix "Argument list too long" error when len(TMPDIR) = 410
++acpaths = "-I ./m4"
++
+ do_configure_prepend () {
+ 	# Need to remove gettext macros with weird mix of versions
+ 	for i in codeset.m4 gettext_gl.m4 intlmacosx.m4 inttypes-pri.m4 lib-ld_gl.m4 lib-prefix_gl.m4 po_gl.m4 ssize_t.m4 wchar_t.m4 wint_t.m4; do
 -- 
 2.9.0
 
