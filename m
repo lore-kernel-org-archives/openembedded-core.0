@@ -1,42 +1,18 @@
-Return-Path: <haris.okanovic@ni.com>
-X-Greylist: delayed 2172 seconds by postgrey-1.34 at layers.openembedded.org;
-	Mon, 05 Dec 2016 22:24:31 UTC
-Received: from ni.com (skprod2.natinst.com [130.164.80.23])
-	by mail.openembedded.org (Postfix) with ESMTP id 7E0216FFC7
+Return-Path: <obi@opendreambox.org>
+Received: from mail.saftware.de (mail.saftware.de [83.141.3.46])
+	by mail.openembedded.org (Postfix) with ESMTP id DCED67198F
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  5 Dec 2016 22:24:31 +0000 (UTC)
-Received: from us-aus-exch2.ni.corp.natinst.com
-	(us-aus-exch2.ni.corp.natinst.com [130.164.68.12])
-	by us-aus-skprod2.natinst.com (8.15.0.59/8.15.0.59) with ESMTPS id
-	uB5LmLwB021960
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 5 Dec 2016 15:48:21 -0600
-Received: from us-aus-exch5.ni.corp.natinst.com (130.164.68.15) by
-	us-aus-exch2.ni.corp.natinst.com (130.164.68.12) with Microsoft SMTP
-	Server (TLS) id 15.0.1156.6; Mon, 5 Dec 2016 15:48:21 -0600
-Received: from us-aus-exhub2.ni.corp.natinst.com (130.164.68.32) by
-	us-aus-exch5.ni.corp.natinst.com (130.164.68.15) with Microsoft SMTP
-	Server (TLS) id 15.0.1156.6; Mon, 5 Dec 2016 15:48:20 -0600
-Received: from harisdt.amer.corp.natinst.com (130.164.49.7) by
-	us-aus-exhub2.ni.corp.natinst.com (130.164.68.32) with Microsoft SMTP
-	Server
-	id 15.0.1156.6 via Frontend Transport; Mon, 5 Dec 2016 15:48:20 -0600
-From: Haris Okanovic <haris.okanovic@ni.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 5 Dec 2016 15:48:18 -0600
-Message-ID: <20161205214818.13342-1-haris.okanovic@ni.com>
-X-Mailer: git-send-email 2.10.1
-MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
-	definitions=2016-12-05_15:, , signatures=0
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
-	suspectscore=1
-	malwarescore=0 phishscore=0 adultscore=0 bulkscore=0 classifier=spam
-	adjust=0 reason=mlx scancount=1 engine=8.0.1-1609300000
-	definitions=main-1612050320
-Cc: haris.okanovic@ni.com
-Subject: [PATCH] run-postinsts: Print message before running deferred postinst scripts
+	Mon,  5 Dec 2016 22:41:57 +0000 (UTC)
+Received: by t510.zcs.saftware.de (Postfix, from userid 1000)
+	id CA90FB8B21C; Mon,  5 Dec 2016 23:41:53 +0100 (CET)
+From: Andreas Oberritter <obi@opendreambox.org>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  5 Dec 2016 23:41:53 +0100
+Message-Id: <1480977713-4663-1-git-send-email-obi@opendreambox.org>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <CAJTo0Lb-snEZi_qqFW1_onvjK+_tJz47tDJtbAC4G3fum=DGmA@mail.gmail.com>
+References: <CAJTo0Lb-snEZi_qqFW1_onvjK+_tJz47tDJtbAC4G3fum=DGmA@mail.gmail.com>
+Subject: [PATCH] connman: Simplify and fix packaging of VPN plug-ins
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,43 +25,176 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 05 Dec 2016 22:24:31 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 05 Dec 2016 22:41:58 -0000
 
-Opkg can defer running postinst scripts to first boot, which can take
-a while on some systems. The output of `opkg configure` (or whatever pm
-is used) is redirected to a file when logging is enabled
-(I.e. $POSTINST_LOGGING == 1), making the machine appear hung during
-this process. This change simply prints a wait message on the console
-to inform the user of this potentially long and silent operation so
-that they do not mistakenly reboot their machine.
+- Use simple static packaging.
+- Move VPN runtime dependencies from connman to the individual plug-ins.
+- Create a connmann-ppp package containing libppp-plugin.so, which is
+  a shared library needed by l2tp and pptp plug-ins.
+- Let connman suggest VPN packages instead of recommending them, so they
+  don't get installed by default.
+- Remove unknown configure options (--with-pptp --with-l2tp)
 
-Why not simply `tee` the output instead?
-Tee might be provided by BusyBox in some distros, which may need to run
-update-alternatives in the very postinst scripts being executed by this
-process. It's therefore not safe to assume Tee (or any other packaged
-util) is available until the configure process finishes.
-
-Signed-off-by: Haris Okanovic <haris.okanovic@ni.com>
+Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
 ---
- meta/recipes-devtools/run-postinsts/run-postinsts/run-postinsts | 3 +++
- 1 file changed, 3 insertions(+)
+ v2: Made dependencies from meta-networking conditional. Now the reported
+     errors should appear only if meta-network is not available and a
+     packageconfig option related to VPN was enabled.
 
-diff --git a/meta/recipes-devtools/run-postinsts/run-postinsts/run-postinsts b/meta/recipes-devtools/run-postinsts/run-postinsts/run-postinsts
-index 04ba394..660ddc2 100755
---- a/meta/recipes-devtools/run-postinsts/run-postinsts/run-postinsts
-+++ b/meta/recipes-devtools/run-postinsts/run-postinsts/run-postinsts
-@@ -46,6 +46,9 @@ if [ -z "$pi_dir" ]; then
- 	exit 0
- fi
+ Note: I can't build-test it right now, because python3-native has weird
+       conflicts populating sysroot. But this patch doesn't cause parse
+       errors, so I guess syntax is fine.
+
+ meta/recipes-connectivity/connman/connman.inc | 95 +++++++++------------------
+ 1 file changed, 32 insertions(+), 63 deletions(-)
+
+diff --git a/meta/recipes-connectivity/connman/connman.inc b/meta/recipes-connectivity/connman/connman.inc
+index 35a7eed..671d533 100644
+--- a/meta/recipes-connectivity/connman/connman.inc
++++ b/meta/recipes-connectivity/connman/connman.inc
+@@ -46,24 +46,17 @@ PACKAGECONFIG[wifi] = "--enable-wifi, --disable-wifi, wpa-supplicant, wpa-suppli
+ PACKAGECONFIG[bluez] = "--enable-bluetooth, --disable-bluetooth, ${BLUEZ}, ${BLUEZ}"
+ PACKAGECONFIG[3g] = "--enable-ofono, --disable-ofono, ofono, ofono"
+ PACKAGECONFIG[tist] = "--enable-tist,--disable-tist,"
+-PACKAGECONFIG[openvpn] = "--enable-openvpn --with-openvpn=${sbindir}/openvpn,--disable-openvpn,,openvpn"
+-PACKAGECONFIG[vpnc] = "--enable-vpnc --with-vpnc=${sbindir}/vpnc,--disable-vpnc,,vpnc"
+-PACKAGECONFIG[l2tp] = "--enable-l2tp --with-l2tp=${sbindir}/xl2tpd,--disable-l2tp,,xl2tpd"
+-PACKAGECONFIG[pptp] = "--enable-pptp --with-pptp=${sbindir}/pptp,--disable-pptp,,pptp-linux"
++PACKAGECONFIG[openvpn] = "--enable-openvpn --with-openvpn=${sbindir}/openvpn,--disable-openvpn"
++PACKAGECONFIG[vpnc] = "--enable-vpnc --with-vpnc=${sbindir}/vpnc,--disable-vpnc"
++PACKAGECONFIG[l2tp] = "--enable-l2tp,--disable-l2tp"
++PACKAGECONFIG[pptp] = "--enable-pptp,--disable-pptp"
+ # WISPr support for logging into hotspots, requires TLS
+ PACKAGECONFIG[wispr] = "--enable-wispr,--disable-wispr,gnutls,"
  
-+echo "Configuring packages on first boot...."
-+echo " (This may take several minutes. Please do not power off the machine.)"
+ INITSCRIPT_NAME = "connman"
+ INITSCRIPT_PARAMS = "start 05 5 2 3 . stop 22 0 1 6 ."
+ 
+-python __anonymous () {
+-    systemd_packages = "${PN}"
+-    pkgconfig = d.getVar('PACKAGECONFIG', True)
+-    if ('openvpn' or 'vpnc' or 'l2tp' or 'pptp') in pkgconfig.split():
+-        systemd_packages += " ${PN}-vpn"
+-    d.setVar('SYSTEMD_PACKAGES', systemd_packages)
+-}
+-
++SYSTEMD_PACKAGES = "${PN} ${PN}-vpn"
+ SYSTEMD_SERVICE_${PN} = "connman.service"
+ SYSTEMD_SERVICE_${PN}-vpn = "connman-vpn.service"
+ SYSTEMD_SERVICE_${PN}-wait-online = "connman-wait-online.service"
+@@ -103,36 +96,6 @@ RDEPENDS_${PN} = "\
+ 	dbus \
+ 	"
+ 
+-PACKAGES_DYNAMIC += "^${PN}-plugin-.*"
+-
+-def add_rdepends(bb, d, file, pkg, depmap, multilib_prefix, add_insane_skip):
+-    plugintype = pkg.split( '-' )[-1]
+-    if plugintype in depmap:
+-        rdepends = map(lambda x: multilib_prefix + x, \
+-                       depmap[plugintype].split())
+-        d.setVar("RDEPENDS_%s" % pkg, " ".join(rdepends))
+-    if add_insane_skip:
+-        d.appendVar("INSANE_SKIP_%s" % pkg, "dev-so")
+-
+-python populate_packages_prepend() {
+-    depmap = dict(pppd="ppp")
+-    multilib_prefix = (d.getVar("MLPREFIX", True) or "")
+-
+-    hook = lambda file,pkg,x,y,z: \
+-        add_rdepends(bb, d, file, pkg, depmap, multilib_prefix, False)
+-    plugin_dir = d.expand('${libdir}/connman/plugins/')
+-    plugin_name = d.expand('${PN}-plugin-%s')
+-    do_split_packages(d, plugin_dir, '^(.*).so$', plugin_name, \
+-        '${PN} plugin for %s', extra_depends='', hook=hook, prepend=True )
+-
+-    hook = lambda file,pkg,x,y,z: \
+-        add_rdepends(bb, d, file, pkg, depmap, multilib_prefix, True)
+-    plugin_dir = d.expand('${libdir}/connman/plugins-vpn/')
+-    plugin_name = d.expand('${PN}-plugin-vpn-%s')
+-    do_split_packages(d, plugin_dir, '^(.*).so$', plugin_name, \
+-        '${PN} VPN plugin for %s', extra_depends='', hook=hook, prepend=True )
+-}
+-
+ PACKAGES =+ "${PN}-tools ${PN}-tests ${PN}-client"
+ 
+ FILES_${PN}-tools = "${bindir}/wispr"
+@@ -152,7 +115,12 @@ FILES_${PN} = "${bindir}/* ${sbindir}/* ${libexecdir}/* ${libdir}/lib*.so.* \
+ 
+ FILES_${PN}-dev += "${libdir}/connman/*/*.la"
+ 
+-PACKAGES =+ "${PN}-vpn ${PN}-wait-online"
++PACKAGES =+ "${PN}-vpn ${PN}-wait-online \
++             ${PN}-ppp \
++             ${PN}-plugin-vpn-l2tp \
++             ${PN}-plugin-vpn-openvpn \
++             ${PN}-plugin-vpn-pptp \
++             ${PN}-plugin-vpn-vpnc"
+ 
+ SUMMARY_${PN}-vpn = "A daemon for managing VPN connections within embedded devices"
+ DESCRIPTION_${PN}-vpn = "The ConnMan VPN provides a daemon for \
+@@ -161,10 +129,10 @@ operating system.  The connman-vpnd handles all the VPN connections \
+ and starts/stops VPN client processes when necessary. The connman-vpnd \
+ provides a DBus API for managing VPN connections. All the different \
+ VPN technogies are implemented using plug-ins."
+-FILES_${PN}-vpn += "${sbindir}/connman-vpnd \
+-                    ${sysconfdir}/dbus-1/system.d/connman-vpn-dbus.conf \
+-                    ${datadir}/dbus-1/system-services/net.connman.vpn.service \
+-                    ${systemd_unitdir}/system/connman-vpn.service"
++FILES_${PN}-vpn = "${sbindir}/connman-vpnd \
++                   ${sysconfdir}/dbus-1/system.d/connman-vpn-dbus.conf \
++                   ${datadir}/dbus-1/system-services/net.connman.vpn.service \
++                   ${systemd_unitdir}/system/connman-vpn.service"
+ 
+ SUMMARY_${PN}-wait-online = "A program that will return once ConnMan has connected to a network"
+ DESCRIPTION_${PN}-wait-online = "A service that can be enabled so that \
+@@ -175,31 +143,32 @@ FILES_${PN}-wait-online += "${sbindir}/connmand-wait-online \
+ SUMMARY_${PN}-plugin-vpn-openvpn = "An OpenVPN plugin for ConnMan VPN"
+ DESCRIPTION_${PN}-plugin-vpn-openvpn = "The ConnMan OpenVPN plugin uses openvpn client \
+ to create a VPN connection to OpenVPN server."
+-FILES_${PN}-plugin-vpn-openvpn += "${libdir}/connman/scripts/openvpn-script \
+-                                   ${libdir}/connman/plugins-vpn/openvpn.so"
+-RDEPENDS_${PN}-plugin-vpn-openvpn += "${PN}-vpn"
+-RRECOMMENDS_${PN} += "${@bb.utils.contains('PACKAGECONFIG','openvpn','${PN}-plugin-vpn-openvpn', '', d)}"
++FILES_${PN}-plugin-vpn-openvpn = "${libdir}/connman/scripts/openvpn-script \
++                                  ${libdir}/connman/plugins-vpn/openvpn.so"
++RDEPENDS_${PN}-plugin-vpn-openvpn = "${PN}-vpn ${@bb.utils.contains('PACKAGECONFIG', 'openvpn', 'openvpn', '', d)}"
++RSUGGESTS_${PN} += "${@bb.utils.contains('PACKAGECONFIG','openvpn','${PN}-plugin-vpn-openvpn', '', d)}"
+ 
+ SUMMARY_${PN}-plugin-vpn-vpnc = "A vpnc plugin for ConnMan VPN"
+ DESCRIPTION_${PN}-plugin-vpn-vpnc = "The ConnMan vpnc plugin uses vpnc client \
+ to create a VPN connection to Cisco3000 VPN Concentrator."
+-FILES_${PN}-plugin-vpn-vpnc += "${libdir}/connman/scripts/openconnect-script \
+-                                ${libdir}/connman/plugins-vpn/vpnc.so"
+-RDEPENDS_${PN}-plugin-vpn-vpnc += "${PN}-vpn"
+-RRECOMMENDS_${PN} += "${@bb.utils.contains('PACKAGECONFIG','vpnc','${PN}-plugin-vpn-vpnc', '', d)}"
++FILES_${PN}-plugin-vpn-vpnc = "${libdir}/connman/scripts/openconnect-script \
++                               ${libdir}/connman/plugins-vpn/vpnc.so"
++RDEPENDS_${PN}-plugin-vpn-vpnc = "${PN}-vpn ${@bb.utils.contains('PACKAGECONFIG', 'vpnc', 'vpnc', '', d)}"
++RSUGGESTS_${PN} += "${@bb.utils.contains('PACKAGECONFIG','vpnc','${PN}-plugin-vpn-vpnc', '', d)}"
+ 
+ SUMMARY_${PN}-plugin-vpn-l2tp = "A L2TP plugin for ConnMan VPN"
+ DESCRIPTION_${PN}-plugin-vpn-l2tp = "The ConnMan L2TP plugin uses xl2tpd daemon \
+ to create a VPN connection to L2TP server."
+-FILES_${PN}-plugin-vpn-l2tp += "${libdir}/connman/scripts/libppp-plugin.so* \
+-                                ${libdir}/connman/plugins-vpn/l2tp.so"
+-RDEPENDS_${PN}-plugin-vpn-l2tp += "${PN}-vpn"
+-RRECOMMENDS_${PN} += "${@bb.utils.contains('PACKAGECONFIG','l2tp','${PN}-plugin-vpn-l2tp', '', d)}"
++FILES_${PN}-plugin-vpn-l2tp = "${libdir}/connman/plugins-vpn/l2tp.so"
++RDEPENDS_${PN}-plugin-vpn-l2tp = "${PN}-vpn ${PN}-ppp ${@bb.utils.contains('PACKAGECONFIG', 'l2tp', 'xl2tpd', '', d)}"
++RSUGGESTS_${PN} += "${@bb.utils.contains('PACKAGECONFIG','l2tp','${PN}-plugin-vpn-l2tp', '', d)}"
+ 
+ SUMMARY_${PN}-plugin-vpn-pptp = "A PPTP plugin for ConnMan VPN"
+ DESCRIPTION_${PN}-plugin-vpn-pptp = "The ConnMan PPTP plugin uses pptp-linux client \
+ to create a VPN connection to PPTP server."
+-FILES_${PN}-plugin-vpn-pptp += "${libdir}/connman/scripts/libppp-plugin.so* \
+-                                ${libdir}/connman/plugins-vpn/pptp.so"
+-RDEPENDS_${PN}-plugin-vpn-pptp += "${PN}-vpn"
+-RRECOMMENDS_${PN} += "${@bb.utils.contains('PACKAGECONFIG','pptp','${PN}-plugin-vpn-pptp', '', d)}"
++FILES_${PN}-plugin-vpn-pptp = "${libdir}/connman/plugins-vpn/pptp.so"
++RDEPENDS_${PN}-plugin-vpn-pptp = "${PN}-vpn ${PN}-ppp ${@bb.utils.contains('PACKAGECONFIG', 'pptp', 'pptp-linux', '', d)}"
++RSUGGESTS_${PN} += "${@bb.utils.contains('PACKAGECONFIG','pptp','${PN}-plugin-vpn-pptp', '', d)}"
 +
- [ -e #SYSCONFDIR#/default/postinst ] && . #SYSCONFDIR#/default/postinst
- 
- if [ "$POSTINST_LOGGING" = "1" ]; then
--- 
-2.10.1
-
++FILES_${PN}-ppp = "${libdir}/connman/scripts/libppp-plugin.so"
++RDEPENDS_${PN}-ppp = "ppp"
 
