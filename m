@@ -1,43 +1,49 @@
-Return-Path: <mikko.ylinen@intel.com>
-Received: from mail-qt0-f182.google.com (mail-qt0-f182.google.com
-	[209.85.216.182])
-	by mail.openembedded.org (Postfix) with ESMTP id DE25B719B3
+Return-Path: <schnitzeltony@googlemail.com>
+Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
+	by mail.openembedded.org (Postfix) with ESMTP id D6160719E7
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  6 Dec 2016 09:57:30 +0000 (UTC)
-Received: by mail-qt0-f182.google.com with SMTP id p16so340244692qta.0
+	Tue,  6 Dec 2016 10:33:46 +0000 (UTC)
+Received: by mail-wm0-f68.google.com with SMTP id g23so20607614wme.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 06 Dec 2016 01:57:32 -0800 (PST)
+	Tue, 06 Dec 2016 02:33:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:from:date:message-id:subject:to;
-	bh=avfle1L74QhXVEhu6hhN/f8qZgl+7F3NXtQeEmXEcIM=;
-	b=AFvDnp2HYS4SHDIMX8Q0zMehp+6JqjpEPBXxA/4ZTKxbXS7adigORXiy2iM88DWTGr
-	yVZtmIZ9YDisZXW34Jkha9LWaC1BF3J/S62vOJfFORtm0yQk/Ci9S2Ec4SWWVmEputBp
-	1D/TU6g80HAX0NiAiWRqsXDN6hcjQOIAqNlydzMBD1BlL/6/rnsII2CnsUXCfIzhO1q6
-	dwr65x1aTglqQ/ENxWSX7VMUEZGd4HGr3tHXrbeY6p4TBAlFqqCtBKD0q44NY62fds/G
-	UqWmweyRPIY2iFJw0u2zTLaaUVP64uacx1l1qipqENPyV4PmP5DmljQUQS21Ty2DmEzH
-	Wjag==
+	d=googlemail.com; s=20120113;
+	h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=BBS/td1MUdnZptkjKAC7IihCpIw8+dJQuUJyXG34lWk=;
+	b=K7ZLEgQ9jmJC6/dP+74NEb4zQwB0icTwxfqHZb9at+jdxILuebTqYhNLaPVRKsK+kP
+	Ex6t13IxkPE8wBZz8E4GpFjmUwAPdpiXI8nqqEAx5fVpmNtXumg7RV4WltZkEMQKeYPs
+	CMtFgrcYFrYuijzMnZk0Td+qy/7ASmEbe8qI4N3WZ+zZhuLiiQQ39YQiS3KFz3Z3VtdK
+	tcx01YWZU4JtkyrrMdg519u1k+1gF+Wt00BV5M+HUTdvxanDtnYxQzsgzhlwZh7spVfr
+	eU4qdk+28buBcJ9CEGEUQS+k6LqPT9mIBwjGPDW7RJ17z7sEHFOC/a84gU3ujsrva4Bd
+	wunw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-	bh=avfle1L74QhXVEhu6hhN/f8qZgl+7F3NXtQeEmXEcIM=;
-	b=FOHA4wC/yDTU1IQu1lh78gEmml2h/eYjv8W2+ScwvyAnvflSWpmD1Qr5D60B6jx3Ig
-	Gx0Vkw4sKswDRiuIbiudI5IuUkMtZ+LR3Skoy3bDscI9yCD+is+KSoiBiQTRALL1OmQC
-	uDd2W59dekDbrQa9tZ7zv/sOnPzU3w8mW/kCYIiwFTKKbFVK5X7nSFrSjp/7O2ppT7LX
-	YvPnmUSU6fiaOpg2dypK76kBe9RvXZ6nphUaFdwYFdrwkwJBQdRHOlyZ0StSoP7DY8O4
-	6AtHlbELx8mwJZ1BAF4U2hhNhvtAtrbAUH2sfh4VWBfUzDIcgoO0suv0t9Q1/16tIdE+
-	pCOg==
-X-Gm-Message-State: AKaTC01KEVgswyL9yitwpp9qwCXKiGcJcB5DBPSEUtGtkPTZGG1RlfARRJRAIuJO3ACekDvzl3ITA7aXPNFe6Jz4
-X-Received: by 10.200.37.52 with SMTP id 49mr52426272qtm.240.1481018251961;
-	Tue, 06 Dec 2016 01:57:31 -0800 (PST)
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=BBS/td1MUdnZptkjKAC7IihCpIw8+dJQuUJyXG34lWk=;
+	b=Tm3l43RtV/Xv9IpBMlSNAzoC8un+ABpHbtMhdZKtBsO6C7ajfX5wtwBBKL51d/bjvo
+	0bEYg64v/mabj9au640YQ2fr/ms70pOms8yACTAXMriKyi1DCgN/ITu0M6pnrpWOGYE6
+	Omzscev5I4orA+Thx85i0oPcO0hL45egdOhyUhD0B1RFwghOXLoo12odcRMciiXpUC/2
+	L0Zt41H79Jk9NIZ5Zp7z0352fCBetF5LqRfNNBSk0N3iS4HL4oZo4x1xspTqQxe4bvDT
+	BgNg+3cqjcodY32ZBONFuJqIfP192TJXmhqGGYsHNjiKeaz7Jz9gAKpLUEzhvlD+sgtc
+	Q1xw==
+X-Gm-Message-State: AKaTC01DhkwqaXxeXp4/EnwzRhy1jqgAbormSTQr9WK+yvwqWF9Xx50n/0iQwcyCfewelQ==
+X-Received: by 10.28.184.88 with SMTP id i85mr1885710wmf.49.1481020427806;
+	Tue, 06 Dec 2016 02:33:47 -0800 (PST)
+Received: from mueller-a-nb-linux.zera.local (mail2.zera.de. [62.225.102.139])
+	by smtp.googlemail.com with ESMTPSA id
+	f126sm3250654wme.22.2016.12.06.02.33.45
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 06 Dec 2016 02:33:47 -0800 (PST)
+From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@googlemail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  6 Dec 2016 11:33:31 +0100
+Message-Id: <1481020411-1975-1-git-send-email-schnitzeltony@googlemail.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Received: by 10.12.173.200 with HTTP; Tue, 6 Dec 2016 01:57:31 -0800 (PST)
-From: "Ylinen, Mikko" <mikko.ylinen@intel.com>
-Date: Tue, 6 Dec 2016 11:57:31 +0200
-Message-ID: <CAHZ0fbGcJPSjagwjxu08SxbaCAr50ucZ7WL3s-cMG2v4JaoNdg@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>, openembedded-core@lists.openembedded.org, 
-	meta-intel@yoctoproject.org
-Subject: Re: [PATCH 2/2] gstreamer1.0-vaapi: Import from meta-intel
+Subject: [PATCH] liburi-perl: update to 1.71
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,40 +56,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 06 Dec 2016 09:57:31 -0000
-Content-Type: multipart/alternative; boundary=001a1135b1ecd07fcc0542fa6eea
-
---001a1135b1ecd07fcc0542fa6eea
+X-List-Received-Date: Tue, 06 Dec 2016 10:33:48 -0000
 Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Hi,
+Old version was broken by perl update. It was found by investigating configure
+errors in meta-qt5-extra/kf5:
 
-On Fri, Dec 2, 2016 at 9:32 PM, Khem Raj <raj.khem@gmail.com> wrote:
+| [superandy@mueller-a-nb-linux 5.28.0-r0]$ /home/superandy/tmp/oe-core-glibc/sysroots/x86_64-linux/usr/bin/perl-native/perl -e "use URI::Escape"
+| \C no longer supported in regex; marked by <-- HERE in m/(\ <-- HERE C)/ at /home/superandy/tmp/oe-core-glibc/sysroots/x86_64-linux/usr/lib/perl-native/perl/vendor_perl/5.24.0/URI/Escape.pm line 205.
+| Compilation failed in require at -e line 1.
+| BEGIN failed--compilation aborted at -e line 1.
 
-> Update to 1.10.1 at the same time
->
+Signed-off-by: Andreas Müller <schnitzeltony@googlemail.com>
+---
+ .../perl/{liburi-perl_1.60.bb => liburi-perl_1.71.bb}            | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
+ rename meta/recipes-devtools/perl/{liburi-perl_1.60.bb => liburi-perl_1.71.bb} (64%)
 
-This suggests the versions should be kept in sync with the gstreamer
-versions:
-http://git.yoctoproject.org/cgit/cgit.cgi/meta-intel/commit/?id=3f51f61efe93c104ba7996f54f381c6c1a5e6546
+diff --git a/meta/recipes-devtools/perl/liburi-perl_1.60.bb b/meta/recipes-devtools/perl/liburi-perl_1.71.bb
+similarity index 64%
+rename from meta/recipes-devtools/perl/liburi-perl_1.60.bb
+rename to meta/recipes-devtools/perl/liburi-perl_1.71.bb
+index 8809a44..a800198 100644
+--- a/meta/recipes-devtools/perl/liburi-perl_1.60.bb
++++ b/meta/recipes-devtools/perl/liburi-perl_1.71.bb
+@@ -3,17 +3,18 @@ DESCRIPTION = "This package contains the URI.pm module with friends. \
+ The module implements the URI class. URI objects can be used to access \
+ and manipulate the various components that make up these strings."
+ 
++HOMEPAGE = "http://search.cpan.org/dist/URI/"
+ SECTION = "libs"
+ LICENSE = "Artistic-1.0 | GPL-1.0+"
+ 
+-LIC_FILES_CHKSUM = "file://README;beginline=26;endline=30;md5=6c33ae5c87fd1c4897714e122dd9c23d"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=c453e94fae672800f83bc1bd7a38b53f"
+ 
+ DEPENDS += "perl"
+ 
+-SRC_URI = "http://www.cpan.org/authors/id/G/GA/GAAS/URI-${PV}.tar.gz"
++SRC_URI = "http://www.cpan.org/authors/id/E/ET/ETHER/URI-${PV}.tar.gz"
+ 
+-SRC_URI[md5sum] = "70f739be8ce28b8baba7c5920ffee4dc"
+-SRC_URI[sha256sum] = "1f92d3dc64acb8845e9917c945e22b9a5275aeb9ff924eb7873c3b7a5c0d2377"
++SRC_URI[md5sum] = "247c3da29a794f72730e01aa5a715daf"
++SRC_URI[sha256sum] = "9c8eca0d7f39e74bbc14706293e653b699238eeb1a7690cc9c136fb8c2644115"
+ 
+ S = "${WORKDIR}/URI-${PV}"
+ 
+-- 
+2.7.4
 
 
--- Mikko
-
---001a1135b1ecd07fcc0542fa6eea
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Hi,<div class=3D"gmail_extra"><br><div class=3D"gmail_quot=
-e">On Fri, Dec 2, 2016 at 9:32 PM, Khem Raj <span dir=3D"ltr">&lt;<a href=
-=3D"mailto:raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt;=
-</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px=
- 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Update =
-to 1.10.1 at the same time<br></blockquote><div><br></div><div>This suggest=
-s the versions should be kept in sync with the gstreamer versions:</div><di=
-v><a href=3D"http://git.yoctoproject.org/cgit/cgit.cgi/meta-intel/commit/?i=
-d=3D3f51f61efe93c104ba7996f54f381c6c1a5e6546">http://git.yoctoproject.org/c=
-git/cgit.cgi/meta-intel/commit/?id=3D3f51f61efe93c104ba7996f54f381c6c1a5e65=
-46</a>=C2=A0</div><div><br></div><div>-- Mikko</div></div></div></div>
-
---001a1135b1ecd07fcc0542fa6eea--
