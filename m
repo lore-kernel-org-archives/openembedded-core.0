@@ -1,36 +1,36 @@
 Return-Path: <schnitzeltony@googlemail.com>
-Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 54355719BA
+Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
+	by mail.openembedded.org (Postfix) with ESMTP id A2075719C1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  6 Dec 2016 00:19:36 +0000 (UTC)
-Received: by mail-wm0-f67.google.com with SMTP id m203so18666309wma.3
+	Tue,  6 Dec 2016 00:19:37 +0000 (UTC)
+Received: by mail-wm0-f68.google.com with SMTP id g23so18725413wme.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 05 Dec 2016 16:19:38 -0800 (PST)
+	Mon, 05 Dec 2016 16:19:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=googlemail.com; s=20120113;
-	h=from:to:subject:date:message-id:mime-version
+	h=from:to:subject:date:message-id:in-reply-to:references:mime-version
 	:content-transfer-encoding;
-	bh=Gm4zEi1+ELydTvdVQc6SAPJXcOxqyB7UvMrZ0++XaoI=;
-	b=u6CLGSADPPtDOgpfoF7S9dmNEQct8VR+4dbD0muwHp7l1uvb8h5swBtsgA4WkoXDVY
-	guDLSZW5p5B+u86CpqYQ/idYIqNUCHKdrWWuky90HwI167rtIzDo28UbkRzZ56+qH18/
-	opnfsuq3gqiIgEyrhkDogUScJbj6JTGNLQvt4wUxFyXF/N5cMOsOi4fv/fcjt5+wlxsc
-	J1ANYHEVnlKNdz8iWKhzs+HzOR7MBbaJL/z9LqUFSxh/05xKv9uj2k+yhGah3qlZjNus
-	f2nl66Ve4f2K9/4U3wpNdU5IjfEII6qFWsMFurg7ccoxxx/t/bDZqC4Mk0DxVTqvLmCs
-	Vd8Q==
+	bh=yXWCvAQetbcgM5IpIqF8CXCQXb1J74ShOomsbi0WQyw=;
+	b=dRYhcLRH9pBnr+P9cxsKNIt+3cB/FDNud4Uhng6sCTCNdXalARjbCE6Mg+V5f/jrMX
+	rgmDkptDsoTbUmWXDohbu+7YncsxLWXHIKqebdsxjFRPzk6tqJSxvb7NKDFPb4PmrpCr
+	Op1cXPuWpYIDeVdbnobGib0aa9FpiUq1jv7bQQ9a7t0wZpb4gJ9ouG8GcaFtSPz/pG53
+	o3+gedw3Aw5XkGOR7iE+WNuqRCQVtYLCrGqLWiW2ftIn6NbQrYCLzLzLOzO2SMhnNkyl
+	dockchqCCCDCqsKXN1mispjsxxtXvCev7MK8W2qgej3Dp+el9LbQACjqYxV9TCvyPwwH
+	2kaw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=Gm4zEi1+ELydTvdVQc6SAPJXcOxqyB7UvMrZ0++XaoI=;
-	b=AkzglXrtgFBy+Hmt0emecPB+MLnRzz2VmJoNc4miBrJ1SdNCMiUZiR9CpYeKsuZxba
-	Es1dK4JUFpYutuPQldlueapWytBfqSM7XVOgiTbCvs+rTablxssAA2c1sUryjR9Ost4c
-	oHfGcatlUd31sNqNQCJ5lL9WP09BVHE4lIpK8ugv0OlOffwLP9KW3NTtBV3zczOj0UmO
-	T4yWqQhNAAdV1zpJpd7CBT1U9ua2hDycB2hWC0xrPItWOAe5HO5RFjE5m+hieJZrC3nd
-	qEzFJaTvPAxyNgT74l/JtZiN/JXO1VcHiKYtgF/zM0IDoBT8jlQfBxpdli3UEte+EaT7
-	oPTw==
-X-Gm-Message-State: AKaTC01ls2zFNHOtvWDIpF+9gX5p4gQ1Nqe8u/VlgC3wTF0sP8bWG6JL1ndLH40+0k+d8Q==
-X-Received: by 10.28.91.143 with SMTP id p137mr179607wmb.51.1480983577670;
-	Mon, 05 Dec 2016 16:19:37 -0800 (PST)
+	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=yXWCvAQetbcgM5IpIqF8CXCQXb1J74ShOomsbi0WQyw=;
+	b=lCR598Zdyz8NGyPi/aYPt5M6npjeywjOzQsr21lSnqQdKbQLFocHeSo/mBDK56sMvd
+	kXemOAEB7Mop43t/ExornuBMOhFu28G1YyENjPu2Z/WvXZguA7/4o4UFzhZbQtyc4uxa
+	jWs8dSrSMkIQDPEiqVd1cQZbCAxPzlfhtu7VmkliyIbLjKX7iIgNP6xn6xIc7mHubqtw
+	IB8By9iAMSStKTbHbszj5bpdPr2e0E/QP829n5F6OBL1V0V7ptROSdpnDXYUxJ23PFFQ
+	BjfgatLpxeZjSOSb4P/vEhsKScmeut++oCdbqJBbTPl4flsjPQ5iIiLjBS6jG1JAWAMs
+	eDcg==
+X-Gm-Message-State: AKaTC03L7Hcig3ZFnJKr7zr6cbsyNrg8BHahEpxuuWo1jLzqlnQlHQTE58nFh2D3NncWIw==
+X-Received: by 10.28.180.214 with SMTP id d205mr166766wmf.131.1480983578380;
+	Mon, 05 Dec 2016 16:19:38 -0800 (PST)
 Received: from localhost.localdomain (p579F7D52.dip0.t-ipconnect.de.
 	[87.159.125.82]) by smtp.googlemail.com with ESMTPSA id
 	u18sm1150972wmd.1.2016.12.05.16.19.37
@@ -39,11 +39,13 @@ Received: from localhost.localdomain (p579F7D52.dip0.t-ipconnect.de.
 	Mon, 05 Dec 2016 16:19:37 -0800 (PST)
 From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@googlemail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  6 Dec 2016 01:19:17 +0100
-Message-Id: <1480983561-11437-1-git-send-email-schnitzeltony@googlemail.com>
+Date: Tue,  6 Dec 2016 01:19:18 +0100
+Message-Id: <1480983561-11437-2-git-send-email-schnitzeltony@googlemail.com>
 X-Mailer: git-send-email 2.5.5
+In-Reply-To: <1480983561-11437-1-git-send-email-schnitzeltony@googlemail.com>
+References: <1480983561-11437-1-git-send-email-schnitzeltony@googlemail.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/5] mesa: update to 13.0.2
+Subject: [PATCH 2/5] libdrm: update to 2.4.74
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,34 +64,28 @@ Content-Transfer-Encoding: 8bit
 
 Signed-off-by: Andreas Müller <schnitzeltony@googlemail.com>
 ---
- meta/recipes-graphics/mesa/{mesa-gl_13.0.1.bb => mesa-gl_13.0.2.bb} | 0
- meta/recipes-graphics/mesa/{mesa_13.0.1.bb => mesa_13.0.2.bb}       | 4 ++--
- 2 files changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-graphics/mesa/{mesa-gl_13.0.1.bb => mesa-gl_13.0.2.bb} (100%)
- rename meta/recipes-graphics/mesa/{mesa_13.0.1.bb => mesa_13.0.2.bb} (91%)
+ meta/recipes-graphics/drm/{libdrm_2.4.73.bb => libdrm_2.4.74.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-graphics/drm/{libdrm_2.4.73.bb => libdrm_2.4.74.bb} (93%)
 
-diff --git a/meta/recipes-graphics/mesa/mesa-gl_13.0.1.bb b/meta/recipes-graphics/mesa/mesa-gl_13.0.2.bb
-similarity index 100%
-rename from meta/recipes-graphics/mesa/mesa-gl_13.0.1.bb
-rename to meta/recipes-graphics/mesa/mesa-gl_13.0.2.bb
-diff --git a/meta/recipes-graphics/mesa/mesa_13.0.1.bb b/meta/recipes-graphics/mesa/mesa_13.0.2.bb
-similarity index 91%
-rename from meta/recipes-graphics/mesa/mesa_13.0.1.bb
-rename to meta/recipes-graphics/mesa/mesa_13.0.2.bb
-index 7c9a4b7..ffdd5b4 100644
---- a/meta/recipes-graphics/mesa/mesa_13.0.1.bb
-+++ b/meta/recipes-graphics/mesa/mesa_13.0.2.bb
-@@ -17,8 +17,8 @@ SRC_URI = "ftp://ftp.freedesktop.org/pub/mesa/${PV}/mesa-${PV}.tar.xz \
-            file://0012-vc4-Try-compiling-our-FSes-in-multithreaded-mode-on-.patch \
- "
+diff --git a/meta/recipes-graphics/drm/libdrm_2.4.73.bb b/meta/recipes-graphics/drm/libdrm_2.4.74.bb
+similarity index 93%
+rename from meta/recipes-graphics/drm/libdrm_2.4.73.bb
+rename to meta/recipes-graphics/drm/libdrm_2.4.74.bb
+index 3315014..c67d356 100644
+--- a/meta/recipes-graphics/drm/libdrm_2.4.73.bb
++++ b/meta/recipes-graphics/drm/libdrm_2.4.74.bb
+@@ -16,8 +16,8 @@ SRC_URI = "http://dri.freedesktop.org/libdrm/${BP}.tar.bz2 \
+            file://0001-configure.ac-Allow-explicit-enabling-of-cunit-tests.patch \
+           "
  
--SRC_URI[md5sum] = "72b7f4d0c2407f367484abd201cb8276"
--SRC_URI[sha256sum] = "71962fb2bf77d33b0ad4a565b490dbbeaf4619099c6d9722f04a73187957a731"
-+SRC_URI[md5sum] = "9442c2dee914cde3d1f090371ab04113"
-+SRC_URI[sha256sum] = "a6ed622645f4ed61da418bf65adde5bcc4bb79023c36ba7d6b45b389da4416d5"
+-SRC_URI[md5sum] = "bc1cee09cde72ffe3b952e8f50ccdaa8"
+-SRC_URI[sha256sum] = "96bfd39242fe168017d95f22e141645a35591f5902a7d98c2fa4ca8c31df5e4d"
++SRC_URI[md5sum] = "31964aa15bdea1a40c5941d4ce0962ee"
++SRC_URI[sha256sum] = "d80dd5a76c401f4c8756dcccd999c63d7e0a3bad258d96a829055cfd86ef840b"
  
- #because we cannot rely on the fact that all apps will use pkgconfig,
- #make eglplatform.h independent of MESA_EGL_NO_X11_HEADER
+ inherit autotools pkgconfig manpages
+ 
 -- 
 2.5.5
 
