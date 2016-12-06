@@ -1,58 +1,49 @@
-Return-Path: <ola.x.nilsson@axis.com>
-X-Greylist: delayed 421 seconds by postgrey-1.34 at layers.openembedded.org;
-	Tue, 06 Dec 2016 07:44:18 UTC
-Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 24B02719B3
+Return-Path: <schnitzeltony@googlemail.com>
+Received: from mail-ua0-f193.google.com (mail-ua0-f193.google.com
+	[209.85.217.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 28F376FEF3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  6 Dec 2016 07:44:18 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by bastet.se.axis.com (Postfix) with ESMTP id 1FBE3180A2;
-	Tue,  6 Dec 2016 08:37:18 +0100 (CET)
-X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
-Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024)
-	with LMTP id hwKys3vuOPpd; Tue,  6 Dec 2016 08:37:17 +0100 (CET)
-Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
-	by bastet.se.axis.com (Postfix) with ESMTPS id 25F60182BB;
-	Tue,  6 Dec 2016 08:37:16 +0100 (CET)
-Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id E1E191A072;
-	Tue,  6 Dec 2016 08:37:16 +0100 (CET)
-Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id D6B021A070;
-	Tue,  6 Dec 2016 08:37:16 +0100 (CET)
-Received: from seth.se.axis.com (unknown [10.0.2.172])
-	by boulder02.se.axis.com (Postfix) with ESMTP;
-	Tue,  6 Dec 2016 08:37:16 +0100 (CET)
-Received: from XBOX03.axis.com (xbox03.axis.com [10.0.5.17])
-	by seth.se.axis.com (Postfix) with ESMTP id CAFE43DE;
-	Tue,  6 Dec 2016 08:37:16 +0100 (CET)
-Received: from XBOX01.axis.com (10.0.5.15) by XBOX03.axis.com (10.0.5.17) with
-	Microsoft SMTP Server (TLS) id 15.0.1210.3;
-	Tue, 6 Dec 2016 08:37:16 +0100
-Received: from XBOX01.axis.com ([fe80::9cb5:b14b:16f8:ddd6]) by
-	XBOX01.axis.com ([fe80::9cb5:b14b:16f8:ddd6%22]) with mapi id
-	15.00.1210.000; Tue, 6 Dec 2016 08:37:16 +0100
-From: Ola x Nilsson <ola.x.nilsson@axis.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [PATCH 0/4] Load devtool and reciptool plugins in a well-defined
-	manner
-Thread-Index: AQHSLq9vjtb+yriUDUOMcZod1Bq55KD6yTqg
-Date: Tue, 6 Dec 2016 07:37:16 +0000
-Message-ID: <3d0139cbc58340fea6f0ea733004c06a@XBOX01.axis.com>
-References: <1477393415-13053-1-git-send-email-olani@axis.com>
-In-Reply-To: <1477393415-13053-1-git-send-email-olani@axis.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.0.5.60]
+	Tue,  6 Dec 2016 08:00:49 +0000 (UTC)
+Received: by mail-ua0-f193.google.com with SMTP id 50so34786417uae.2
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 06 Dec 2016 00:00:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=googlemail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=j8JFA/A1NGSVI13Vp5cSK/gUPwvImIqs+Z4+eDTiSL4=;
+	b=MDsINofBT7hJkQzmFnE8qjLCGz7s0c8MBJ/z8aXj4ae44V5C4zXgQO27NXGzi6THHZ
+	reIa/dDfzqHX4eDiOO+IwJLmvB86B4Vcye7pHYjeag3lNaoJthGcpeD/O3tKTyuQWEup
+	MNe7p+gh3Ahc9GbhOB3YM0vMD9aCEJ+e5qidpo9KNuA2m4wi+FNSeVbWRFgvuhS2k9F0
+	0kN6zJjSl6oHVojNt+Nc5nkdEvF9xKBL62ClPNlnHvsGb180YBvccShniFxaRbFZX/rG
+	mJIdyKvoooSptJHPCRZ67891ve/v8CtmuvPTyj1kesJ+42P/qkHEbX+OHLQqqV1hAoWB
+	nf3g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=j8JFA/A1NGSVI13Vp5cSK/gUPwvImIqs+Z4+eDTiSL4=;
+	b=BDUC2aV8sPrumgnRclq+PfSCvGQmSi1fx9ton2KDywvbLU7om+vCHAemiKiClWq1Rz
+	ktm/xkoY6vIgPrfzULp3We4Nf78+WpDO2MfQEzArUi/SX5oVMuuwdfqInyawkTppqFcq
+	zZdUydNAHhmPTaBBTkgt7P+OZCKVQsLgAB6vEsa/Xci7BYA8l34kJGlenR897WULqdQv
+	w+f3bQPKSB8O1Fn28xgtGogBdCPpUlXZYbGq0jDSDEadIQf/aLSyDN7F3akqeuWN6EDj
+	K/8U6AOSkjPAtkEDaZcFNTFREU1wuN2azY55YwVll6bELfjZybR39mOWlBKvdzb+18JF
+	i60Q==
+X-Gm-Message-State: AKaTC03JB1HhSMdo/wek0Guu8oyrCrUrZk4tpAIaEHoizNeZYM1Yn3paLBYDk7HmShNGoWzd7kYfnf7M4MXORA==
+X-Received: by 10.176.84.147 with SMTP id p19mr3206411uaa.76.1481011251150;
+	Tue, 06 Dec 2016 00:00:51 -0800 (PST)
 MIME-Version: 1.0
-X-TM-AS-GCONF: 00
-Cc: "paul.eggleton@linux.intel.com" <paul.eggleton@linux.intel.com>
-Subject: Re: [PATCH 0/4] Load devtool and reciptool plugins in a well-defined manner
+Received: by 10.176.85.157 with HTTP; Tue, 6 Dec 2016 00:00:50 -0800 (PST)
+In-Reply-To: <CAMKF1sorwZg-yF5k8NJBtDakZHqCZr0H=jvLP8mx8bkcU2B3Gg@mail.gmail.com>
+References: <1480983561-11437-1-git-send-email-schnitzeltony@googlemail.com>
+	<1480983561-11437-3-git-send-email-schnitzeltony@googlemail.com>
+	<CAMKF1sorwZg-yF5k8NJBtDakZHqCZr0H=jvLP8mx8bkcU2B3Gg@mail.gmail.com>
+From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
+Date: Tue, 6 Dec 2016 09:00:50 +0100
+Message-ID: <CALbNGRTqROjBNZP=FsRMYUPn=sMbYYgAP6CAYmnjePKO3o4N=A@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 3/5] libsdl2: add EXTRA_OECONF[vardepsexclude] = "MACHINE"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -65,71 +56,14 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 06 Dec 2016 07:44:21 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 06 Dec 2016 08:00:51 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Ping?
+On Tue, Dec 6, 2016 at 1:24 AM, Khem Raj <raj.khem@gmail.com> wrote:
+> There probably is no need to use this additional variable. We can just use
+> PKG_CONFIG_SYSROOT
+Problem is not finding the wrong .pc files. Problem is that the output
+of pkg-config must be prefixed to find the protocols.
 
---=20
-Ola x Nilsson
-
-> -----Original Message-----
-> From: Ola x Nilsson [mailto:olani@axis.com]
-> Sent: den 25 oktober 2016 13:04
-> To: Ola x Nilsson; openembedded-core@lists.openembedded.org
-> Subject: [PATCH 0/4] Load devtool and reciptool plugins in a well-defined
-> manner
->=20
-> From: Ola x Nilsson <ola.x.nilsson@axis.com>
->=20
-> Make devtool and recipetool load plugins in a well-defined and expected
-> manner.
->=20
-> devtool and reciptool search for pluings first in scripts/lib/<tool> and =
-then in
-> BBPATH.  Each found plugin is loaded, which means that any plugin found
-> later in BBPATH shadows previously loaded plugins.
-> plugin_init is loaded for all plugins, no matter whether they are later
-> replaced.  register_plugin is called once for each time a plugin with a c=
-ertain
-> name is found, but it is always called on the last loaded plugin.
->=20
-> Change the scriptutils.load_plugins function to never load a plugin file =
-if one
-> with the same filename has already been loaded.  This means that the firs=
-t
-> found plugin wins.
->=20
-> Change the load order to first search BBPATH and then scripts/lib/tools. =
- This
-> means that plugins in scripts/lib/<tool> can be shadowed by plugins in la=
-yers.
->=20
-> Ola x Nilsson (4):
->   devtool: selftest: add test for devtool plugin loading
->   recipetool: selftest: Add test for recipetool plugin loading
->   devtool: Load plugins in a well defined order
->   recipetool: Load plugins in a well defined order
->=20
->  meta-selftest/lib/devtool/bbpath.py    | 44
-> ++++++++++++++++++++++++++++++++++
->  meta-selftest/lib/recipetool/bbpath.py | 41
-> +++++++++++++++++++++++++++++++
->  meta/lib/oeqa/selftest/devtool.py      | 43
-> +++++++++++++++++++++++++++++++++
->  meta/lib/oeqa/selftest/recipetool.py   | 44
-> ++++++++++++++++++++++++++++++++++
->  scripts/devtool                        |  3 ++-
->  scripts/lib/scriptutils.py             |  8 +++++--
->  scripts/recipetool                     |  4 ++--
->  7 files changed, 182 insertions(+), 5 deletions(-)  create mode 100644 m=
-eta-
-> selftest/lib/devtool/bbpath.py
->  create mode 100644 meta-selftest/lib/recipetool/bbpath.py
->=20
-> --
-> 2.1.4
-
+Andreas
 
