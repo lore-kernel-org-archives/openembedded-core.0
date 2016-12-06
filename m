@@ -1,26 +1,34 @@
-Return-Path: <anibal.limon@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 8F03E71A50
+Return-Path: <joe.slater@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 2C21A71B16
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  6 Dec 2016 21:54:39 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 06 Dec 2016 13:54:41 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.33,310,1477983600"; 
-	d="asc'?scan'208";a="1068817606"
-Received: from alimonb-mobl1.zpn.intel.com (HELO [10.219.5.142])
-	([10.219.5.142])
-	by orsmga001.jf.intel.com with ESMTP; 06 Dec 2016 13:54:40 -0800
-To: openembedded-core@lists.openembedded.org
-References: <cover.1481059445.git.anibal.limon@linux.intel.com>
-From: =?UTF-8?B?QW7DrWJhbCBMaW3Ds24=?= <anibal.limon@linux.intel.com>
-Message-ID: <5847341E.1020006@linux.intel.com>
-Date: Tue, 6 Dec 2016 15:56:46 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.3.0
+	Tue,  6 Dec 2016 22:23:39 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id uB6MNegG006828
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 6 Dec 2016 14:23:41 -0800
+Received: from ALA-MBB.corp.ad.wrs.com ([169.254.1.101]) by
+	ALA-HCB.corp.ad.wrs.com ([147.11.189.41]) with mapi id 14.03.0294.000;
+	Tue, 6 Dec 2016 14:23:40 -0800
+From: "Slater, Joseph" <joe.slater@windriver.com>
+To: "BURTON, ROSS" <ross.burton@intel.com>
+Thread-Topic: [OE-core] oetest.py construction of pkgmanifest is probably wrong
+Thread-Index: AdJPZ7LNu2kPkTmLQkyKwUAgyHPGWwAgcmUAAAlzrgA=
+Date: Tue, 6 Dec 2016 22:23:39 +0000
+Message-ID: <007BD92917A2324FA403BCF9A464CF84BF4DDF87@ALA-MBB.corp.ad.wrs.com>
+References: <007BD92917A2324FA403BCF9A464CF84BF4DD4D5@ALA-MBB.corp.ad.wrs.com>
+	<CAJTo0LbJHGvB347RYZip+4w73opHMQpm_yKMsmDfdSFgYBXjdg@mail.gmail.com>
+In-Reply-To: <CAJTo0LbJHGvB347RYZip+4w73opHMQpm_yKMsmDfdSFgYBXjdg@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [147.11.216.160]
 MIME-Version: 1.0
-In-Reply-To: <cover.1481059445.git.anibal.limon@linux.intel.com>
-Subject: Re: [PATCH 00/32] OEQA Framework Refactor & Improvements
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: oetest.py construction of pkgmanifest is probably wrong
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,241 +41,95 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 06 Dec 2016 21:54:40 -0000
-X-Groupsio-MsgNum: 90362
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature";
-	boundary="ppORtJDm12d1BJOUAX2GF80QRMrGcOOdE"
+X-List-Received-Date: Tue, 06 Dec 2016 22:23:40 -0000
+Content-Language: en-US
+Content-Type: multipart/alternative;
+	boundary="_000_007BD92917A2324FA403BCF9A464CF84BF4DDF87ALAMBBcorpadwrs_"
 
---ppORtJDm12d1BJOUAX2GF80QRMrGcOOdE
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+--_000_007BD92917A2324FA403BCF9A464CF84BF4DDF87ALAMBBcorpadwrs_
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-On 12/06/2016 03:43 PM, An=C3=ADbal Lim=C3=B3n wrote:
-> This patchset is related to OEQA Framework for details read the RFC sen=
-d to the
-> Openembedded architecture ML.
+SG0sIEkgc2VlIHRoaXMgd2hvbGUgdGhpbmcgaXMgYmVpbmcgcmUtd3JpdHRlbi4gIE1heWJlIHRo
+YXQgd2lsbCBmaXggaXQuICAgICAgSm9lDQoNCkZyb206IEJ1cnRvbiwgUm9zcyBbbWFpbHRvOnJv
+c3MuYnVydG9uQGludGVsLmNvbV0NClNlbnQ6IFR1ZXNkYXksIERlY2VtYmVyIDA2LCAyMDE2IDE6
+NTIgQU0NClRvOiBTbGF0ZXIsIEpvc2VwaA0KQ2M6IG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9w
+ZW5lbWJlZGRlZC5vcmcNClN1YmplY3Q6IFJlOiBbT0UtY29yZV0gb2V0ZXN0LnB5IGNvbnN0cnVj
+dGlvbiBvZiBwa2dtYW5pZmVzdCBpcyBwcm9iYWJseSB3cm9uZw0KDQoNCk9uIDYgRGVjZW1iZXIg
+MjAxNiBhdCAwMjoyNCwgU2xhdGVyLCBKb3NlcGggPGpvZS5zbGF0ZXJAd2luZHJpdmVyLmNvbTxt
+YWlsdG86am9lLnNsYXRlckB3aW5kcml2ZXIuY29tPj4gd3JvdGU6DQpUaGlzIHZhcmlhYmxlIGlz
+IGEgZGljdGlvbmFyeSB3aXRoIGVudHJpZXMgYmFzZWQgb24gcGFja2FnZSwgYnV0IGZvciBtdWx0
+aWxsaWIgYSBwYWNrYWdlIG1pZ2h0IGV4aXN0IGluIG9ubHkgc29tZSB2YXJpYW50cy4gIFBlcmhh
+cHMNCmVhY2ggZW50cnkgc2hvdWxkIGJlIGEgZGljdGlvbmFyeSBvZiBtdWx0aWxpYiB2YXJpYW50
+cz8NCg0KWWVhaCwgcHJvYmFibHkuICBHb3QgYSBwYXRjaD8gOikNCg0KUm9zcw0K
 
-Architecture thread,
+--_000_007BD92917A2324FA403BCF9A464CF84BF4DDF87ALAMBBcorpadwrs_
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-http://lists.openembedded.org/pipermail/openembedded-architecture/2016-De=
-cember/000351.html
+PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
+bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
+YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
+cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
+VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
+Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
+ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTQgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
+PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
+Q2FsaWJyaTsNCglwYW5vc2UtMToyIDE1IDUgMiAyIDIgNCAzIDIgNDt9DQpAZm9udC1mYWNlDQoJ
+e2ZvbnQtZmFtaWx5OlRhaG9tYTsNCglwYW5vc2UtMToyIDExIDYgNCAzIDUgNCA0IDIgNDt9DQov
+KiBTdHlsZSBEZWZpbml0aW9ucyAqLw0KcC5Nc29Ob3JtYWwsIGxpLk1zb05vcm1hbCwgZGl2Lk1z
+b05vcm1hbA0KCXttYXJnaW46MGluOw0KCW1hcmdpbi1ib3R0b206LjAwMDFwdDsNCglmb250LXNp
+emU6MTIuMHB0Ow0KCWZvbnQtZmFtaWx5OiJUaW1lcyBOZXcgUm9tYW4iLCJzZXJpZiI7fQ0KYTps
+aW5rLCBzcGFuLk1zb0h5cGVybGluaw0KCXttc28tc3R5bGUtcHJpb3JpdHk6OTk7DQoJY29sb3I6
+Ymx1ZTsNCgl0ZXh0LWRlY29yYXRpb246dW5kZXJsaW5lO30NCmE6dmlzaXRlZCwgc3Bhbi5Nc29I
+eXBlcmxpbmtGb2xsb3dlZA0KCXttc28tc3R5bGUtcHJpb3JpdHk6OTk7DQoJY29sb3I6cHVycGxl
+Ow0KCXRleHQtZGVjb3JhdGlvbjp1bmRlcmxpbmU7fQ0Kc3Bhbi5FbWFpbFN0eWxlMTcNCgl7bXNv
+LXN0eWxlLXR5cGU6cGVyc29uYWwtcmVwbHk7DQoJZm9udC1mYW1pbHk6IkNhbGlicmkiLCJzYW5z
+LXNlcmlmIjsNCgljb2xvcjojMUY0OTdEO30NCi5Nc29DaHBEZWZhdWx0DQoJe21zby1zdHlsZS10
+eXBlOmV4cG9ydC1vbmx5Ow0KCWZvbnQtZmFtaWx5OiJDYWxpYnJpIiwic2Fucy1zZXJpZiI7fQ0K
+QHBhZ2UgV29yZFNlY3Rpb24xDQoJe3NpemU6OC41aW4gMTEuMGluOw0KCW1hcmdpbjoxLjBpbiAx
+LjBpbiAxLjBpbiAxLjBpbjt9DQpkaXYuV29yZFNlY3Rpb24xDQoJe3BhZ2U6V29yZFNlY3Rpb24x
+O30NCi0tPjwvc3R5bGU+PCEtLVtpZiBndGUgbXNvIDldPjx4bWw+DQo8bzpzaGFwZWRlZmF1bHRz
+IHY6ZXh0PSJlZGl0IiBzcGlkbWF4PSIxMDI2IiAvPg0KPC94bWw+PCFbZW5kaWZdLS0+PCEtLVtp
+ZiBndGUgbXNvIDldPjx4bWw+DQo8bzpzaGFwZWxheW91dCB2OmV4dD0iZWRpdCI+DQo8bzppZG1h
+cCB2OmV4dD0iZWRpdCIgZGF0YT0iMSIgLz4NCjwvbzpzaGFwZWxheW91dD48L3htbD48IVtlbmRp
+Zl0tLT4NCjwvaGVhZD4NCjxib2R5IGxhbmc9IkVOLVVTIiBsaW5rPSJibHVlIiB2bGluaz0icHVy
+cGxlIj4NCjxkaXYgY2xhc3M9IldvcmRTZWN0aW9uMSI+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48
+c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1
+b3Q7LCZxdW90O3NhbnMtc2VyaWYmcXVvdDs7Y29sb3I6IzFGNDk3RCI+SG0sIEkgc2VlIHRoaXMg
+d2hvbGUgdGhpbmcgaXMgYmVpbmcgcmUtd3JpdHRlbi4mbmJzcDsgTWF5YmUgdGhhdCB3aWxsIGZp
+eCBpdC4mbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsgSm9lPG86cD48L286cD48L3NwYW4+
+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7
+Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OywmcXVvdDtzYW5zLXNlcmlmJnF1b3Q7O2Nv
+bG9yOiMxRjQ5N0QiPjxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4NCjxkaXYgc3R5bGU9ImJv
+cmRlcjpub25lO2JvcmRlci1sZWZ0OnNvbGlkIGJsdWUgMS41cHQ7cGFkZGluZzowaW4gMGluIDBp
+biA0LjBwdCI+DQo8ZGl2Pg0KPGRpdiBzdHlsZT0iYm9yZGVyOm5vbmU7Ym9yZGVyLXRvcDpzb2xp
+ZCAjQjVDNERGIDEuMHB0O3BhZGRpbmc6My4wcHQgMGluIDBpbiAwaW4iPg0KPHAgY2xhc3M9Ik1z
+b05vcm1hbCI+PGI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMC4wcHQ7Zm9udC1mYW1pbHk6JnF1
+b3Q7VGFob21hJnF1b3Q7LCZxdW90O3NhbnMtc2VyaWYmcXVvdDsiPkZyb206PC9zcGFuPjwvYj48
+c3BhbiBzdHlsZT0iZm9udC1zaXplOjEwLjBwdDtmb250LWZhbWlseTomcXVvdDtUYWhvbWEmcXVv
+dDssJnF1b3Q7c2Fucy1zZXJpZiZxdW90OyI+IEJ1cnRvbiwgUm9zcyBbbWFpbHRvOnJvc3MuYnVy
+dG9uQGludGVsLmNvbV0NCjxicj4NCjxiPlNlbnQ6PC9iPiBUdWVzZGF5LCBEZWNlbWJlciAwNiwg
+MjAxNiAxOjUyIEFNPGJyPg0KPGI+VG86PC9iPiBTbGF0ZXIsIEpvc2VwaDxicj4NCjxiPkNjOjwv
+Yj4gb3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZzxicj4NCjxiPlN1Ympl
+Y3Q6PC9iPiBSZTogW09FLWNvcmVdIG9ldGVzdC5weSBjb25zdHJ1Y3Rpb24gb2YgcGtnbWFuaWZl
+c3QgaXMgcHJvYmFibHkgd3Jvbmc8bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8L2Rpdj4NCjwvZGl2
+Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PG86cD4mbmJzcDs8L286cD48L3A+DQo8ZGl2Pg0KPGRp
+dj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxvOnA+Jm5ic3A7PC9vOnA+PC9wPg0KPGRpdj4NCjxw
+IGNsYXNzPSJNc29Ob3JtYWwiPk9uIDYgRGVjZW1iZXIgMjAxNiBhdCAwMjoyNCwgU2xhdGVyLCBK
+b3NlcGggJmx0OzxhIGhyZWY9Im1haWx0bzpqb2Uuc2xhdGVyQHdpbmRyaXZlci5jb20iIHRhcmdl
+dD0iX2JsYW5rIj5qb2Uuc2xhdGVyQHdpbmRyaXZlci5jb208L2E+Jmd0OyB3cm90ZTo8bzpwPjwv
+bzpwPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiIHN0eWxlPSJtc28tbWFyZ2luLXRvcC1hbHQ6
+YXV0bzttc28tbWFyZ2luLWJvdHRvbS1hbHQ6YXV0byI+VGhpcyB2YXJpYWJsZSBpcyBhIGRpY3Rp
+b25hcnkgd2l0aCBlbnRyaWVzIGJhc2VkIG9uIHBhY2thZ2UsIGJ1dCBmb3IgbXVsdGlsbGliIGEg
+cGFja2FnZSBtaWdodCBleGlzdCBpbiBvbmx5IHNvbWUgdmFyaWFudHMuJm5ic3A7IFBlcmhhcHM8
+bzpwPjwvbzpwPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiIHN0eWxlPSJtc28tbWFyZ2luLXRv
+cC1hbHQ6YXV0bzttc28tbWFyZ2luLWJvdHRvbS1hbHQ6YXV0byI+ZWFjaCBlbnRyeSBzaG91bGQg
+YmUgYSBkaWN0aW9uYXJ5IG9mIG11bHRpbGliIHZhcmlhbnRzPzxvOnA+PC9vOnA+PC9wPg0KPC9k
+aXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48YnI+DQpZZWFoLCBwcm9iYWJseS4mbmJzcDsgR290
+IGEgcGF0Y2g/IDopPG86cD48L286cD48L3A+DQo8L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNv
+Tm9ybWFsIj48bzpwPiZuYnNwOzwvbzpwPjwvcD4NCjwvZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJN
+c29Ob3JtYWwiPlJvc3M8bzpwPjwvbzpwPjwvcD4NCjwvZGl2Pg0KPC9kaXY+DQo8L2Rpdj4NCjwv
+ZGl2Pg0KPC9ib2R5Pg0KPC9odG1sPg0K
 
-
->=20
-> The following changes since commit 9e63f81c78e284c9b325fe04a1b59e61c7ad=
-8a1a:
->=20
->   bitbake: ast: remove BBVERSIONS support (2016-11-30 15:48:10 +0000)
->=20
-> are available in the git repository at:
->=20
->   git://git.yoctoproject.org/poky-contrib alimon/oeqa_sdk_migration
->   http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=3Dalimon/oeq=
-a_sdk_migration
->=20
-> An=C3=ADbal Lim=C3=B3n (28):
->   oeqa/core: Add base OEQA framework
->   oeqa/core: Add loader, context and decorator modules
->   oeqa/core/decorator: Add support for OETestDepends
->   oeqa/core/decorator: Add support for OETestDataDepends and
->     skipIfDataVar
->   scripts/oe-test: Add new oe-test script
->   oeqa/core/context: Add support of OETestContextExecutor
->   oeqa/core/cases: Add example test cases
->   oeqa/core: Add README
->   oe/data: Add export2json function
->   classes/rootfs-postcommands: Add write_image_test_data
->   classes/populate_sdk_base: Add write_sdk_test_data to postprocess
->   oeqa/core: Change name of d to td
->   oeqa/utils/path: Add remove_safe function
->   oeqa: Move common files to oeqa/files instead of runtime only
->   oeqa/sdk: Move test cases inside cases directory
->   oeqa/{runtime,sdk}/files: Move testsdkmakefile from runtime to sdk
->     module
->   oeqa/sdk: Add case and context modules for the SDK component
->   classes/testsdk: Migrates testsdk.bbclass to use new OESDKTestContext=
-
->   oeqa/utils: Move targetbuild to buildproject module
->   oeqa/utils: {Target,SDK,}BuildProject remove dependency of bb
->   oeqa/sdk/cases: Migrate tests to the new OEQA framework
->   classes/testsdk: Remove the need of TEST_LOG_DIR variable
->   oeqa/sdkext: Move test cases inside cases directory
->   oeqa/sdkext: Adds case and context modules.
->   classes/testsdk: Migrate to use the new OESDKExtTestContext
->   oeqa/sdkext/cases: Migrate test case to new OEQA framework
->   oeqa/runtime: Fix TargetBuildProject instances
->   oeqa: Fix files handling on runtime tests.
->=20
-> Mariano Lopez (4):
->   oeqa/core: Add utils module for OEQA framework
->   oeqa/core/decorator: Add support for OETestID and OETestTag
->   oeqa/core/decorator: Add support for OETimeout decorator
->   oeqa/core: Add tests for the OEQA framework
->=20
->  meta/classes/populate_sdk_base.bbclass             |   9 +-
->  meta/classes/rootfs-postcommands.bbclass           |  18 ++
->  meta/classes/testexport.bbclass                    |   5 +
->  meta/classes/testimage.bbclass                     |   4 +
->  meta/classes/testsdk.bbclass                       | 162 ++++++++-----=
--
->  meta/lib/oe/data.py                                |  28 +++
->  meta/lib/oeqa/core/README                          |  38 ++++
->  meta/lib/oeqa/core/__init__.py                     |   0
->  meta/lib/oeqa/core/case.py                         |  46 ++++
->  meta/lib/oeqa/core/cases/__init__.py               |   0
->  meta/lib/oeqa/core/cases/example/data.json         |   1 +
->  meta/lib/oeqa/core/cases/example/test_basic.py     |  20 ++
->  meta/lib/oeqa/core/context.py                      | 225 +++++++++++++=
-+++++++
->  meta/lib/oeqa/core/decorator/__init__.py           |  71 +++++++
->  meta/lib/oeqa/core/decorator/data.py               |  36 ++++
->  meta/lib/oeqa/core/decorator/depends.py            |  94 +++++++++
->  meta/lib/oeqa/core/decorator/oeid.py               |  23 ++
->  meta/lib/oeqa/core/decorator/oetag.py              |  24 +++
->  meta/lib/oeqa/core/decorator/oetimeout.py          |  25 +++
->  meta/lib/oeqa/core/exception.py                    |  14 ++
->  meta/lib/oeqa/core/loader.py                       | 235 +++++++++++++=
-++++++++
->  meta/lib/oeqa/core/runner.py                       |  76 +++++++
->  meta/lib/oeqa/core/tests/__init__.py               |   0
->  meta/lib/oeqa/core/tests/cases/data.py             |  20 ++
->  meta/lib/oeqa/core/tests/cases/depends.py          |  38 ++++
->  .../oeqa/core/tests/cases/loader/invalid/oeid.py   |  15 ++
->  .../oeqa/core/tests/cases/loader/valid/another.py  |   9 +
->  meta/lib/oeqa/core/tests/cases/oeid.py             |  18 ++
->  meta/lib/oeqa/core/tests/cases/oetag.py            |  18 ++
->  meta/lib/oeqa/core/tests/cases/timeout.py          |  18 ++
->  meta/lib/oeqa/core/tests/common.py                 |  35 +++
->  meta/lib/oeqa/core/tests/test_data.py              |  51 +++++
->  meta/lib/oeqa/core/tests/test_decorators.py        | 135 ++++++++++++
->  meta/lib/oeqa/core/tests/test_loader.py            |  86 ++++++++
->  meta/lib/oeqa/core/tests/test_runner.py            |  38 ++++
->  meta/lib/oeqa/core/utils/__init__.py               |   0
->  meta/lib/oeqa/core/utils/misc.py                   |  37 ++++
->  meta/lib/oeqa/core/utils/path.py                   |  19 ++
->  meta/lib/oeqa/core/utils/test.py                   |  71 +++++++
->  meta/lib/oeqa/{runtime =3D> }/files/test.c           |   0
->  meta/lib/oeqa/{runtime =3D> }/files/test.cpp         |   0
->  meta/lib/oeqa/{runtime =3D> }/files/test.pl          |   0
->  meta/lib/oeqa/{runtime =3D> }/files/test.py          |   0
->  meta/lib/oeqa/oetest.py                            |  92 +-------
->  meta/lib/oeqa/runtime/buildcvs.py                  |   9 +-
->  meta/lib/oeqa/runtime/buildgalculator.py           |   8 +-
->  meta/lib/oeqa/runtime/buildiptables.py             |   8 +-
->  meta/lib/oeqa/runtime/gcc.py                       |   4 +-
->  meta/lib/oeqa/runtime/perl.py                      |   2 +-
->  meta/lib/oeqa/runtime/python.py                    |   2 +-
->  meta/lib/oeqa/runtime/utils/__init__.py            |   0
->  meta/lib/oeqa/runtime/utils/targetbuildproject.py  |  33 +++
->  meta/lib/oeqa/sdk/__init__.py                      |   3 -
->  meta/lib/oeqa/sdk/case.py                          |  12 ++
->  meta/lib/oeqa/sdk/{ =3D> cases}/buildcvs.py          |  15 +-
->  meta/lib/oeqa/sdk/{ =3D> cases}/buildgalculator.py   |  28 ++-
->  meta/lib/oeqa/sdk/{ =3D> cases}/buildiptables.py     |  16 +-
->  meta/lib/oeqa/sdk/cases/gcc.py                     |  43 ++++
->  meta/lib/oeqa/sdk/cases/perl.py                    |  27 +++
->  meta/lib/oeqa/sdk/{ =3D> cases}/python.py            |  25 ++-
->  meta/lib/oeqa/sdk/context.py                       | 133 ++++++++++++
->  .../oeqa/{runtime =3D> sdk}/files/testsdkmakefile    |   0
->  meta/lib/oeqa/sdk/gcc.py                           |  36 ----
->  meta/lib/oeqa/sdk/perl.py                          |  28 ---
->  meta/lib/oeqa/sdk/utils/__init__.py                |   0
->  meta/lib/oeqa/sdk/utils/sdkbuildproject.py         |  45 ++++
->  meta/lib/oeqa/sdkext/__init__.py                   |   3 -
->  meta/lib/oeqa/sdkext/case.py                       |  21 ++
->  meta/lib/oeqa/sdkext/{ =3D> cases}/devtool.py        |  49 +++--
->  meta/lib/oeqa/sdkext/{ =3D> cases}/sdk_update.py     |  14 +-
->  meta/lib/oeqa/sdkext/context.py                    |  21 ++
->  meta/lib/oeqa/utils/buildproject.py                |  52 +++++
->  meta/lib/oeqa/utils/targetbuild.py                 | 135 ------------
->  scripts/oe-test                                    |  98 +++++++++
->  74 files changed, 2282 insertions(+), 442 deletions(-)
->  create mode 100644 meta/lib/oeqa/core/README
->  create mode 100644 meta/lib/oeqa/core/__init__.py
->  create mode 100644 meta/lib/oeqa/core/case.py
->  create mode 100644 meta/lib/oeqa/core/cases/__init__.py
->  create mode 100644 meta/lib/oeqa/core/cases/example/data.json
->  create mode 100644 meta/lib/oeqa/core/cases/example/test_basic.py
->  create mode 100644 meta/lib/oeqa/core/context.py
->  create mode 100644 meta/lib/oeqa/core/decorator/__init__.py
->  create mode 100644 meta/lib/oeqa/core/decorator/data.py
->  create mode 100644 meta/lib/oeqa/core/decorator/depends.py
->  create mode 100644 meta/lib/oeqa/core/decorator/oeid.py
->  create mode 100644 meta/lib/oeqa/core/decorator/oetag.py
->  create mode 100644 meta/lib/oeqa/core/decorator/oetimeout.py
->  create mode 100644 meta/lib/oeqa/core/exception.py
->  create mode 100644 meta/lib/oeqa/core/loader.py
->  create mode 100644 meta/lib/oeqa/core/runner.py
->  create mode 100644 meta/lib/oeqa/core/tests/__init__.py
->  create mode 100644 meta/lib/oeqa/core/tests/cases/data.py
->  create mode 100644 meta/lib/oeqa/core/tests/cases/depends.py
->  create mode 100644 meta/lib/oeqa/core/tests/cases/loader/invalid/oeid.=
-py
->  create mode 100644 meta/lib/oeqa/core/tests/cases/loader/valid/another=
-=2Epy
->  create mode 100644 meta/lib/oeqa/core/tests/cases/oeid.py
->  create mode 100644 meta/lib/oeqa/core/tests/cases/oetag.py
->  create mode 100644 meta/lib/oeqa/core/tests/cases/timeout.py
->  create mode 100644 meta/lib/oeqa/core/tests/common.py
->  create mode 100755 meta/lib/oeqa/core/tests/test_data.py
->  create mode 100755 meta/lib/oeqa/core/tests/test_decorators.py
->  create mode 100755 meta/lib/oeqa/core/tests/test_loader.py
->  create mode 100755 meta/lib/oeqa/core/tests/test_runner.py
->  create mode 100644 meta/lib/oeqa/core/utils/__init__.py
->  create mode 100644 meta/lib/oeqa/core/utils/misc.py
->  create mode 100644 meta/lib/oeqa/core/utils/path.py
->  create mode 100644 meta/lib/oeqa/core/utils/test.py
->  rename meta/lib/oeqa/{runtime =3D> }/files/test.c (100%)
->  rename meta/lib/oeqa/{runtime =3D> }/files/test.cpp (100%)
->  rename meta/lib/oeqa/{runtime =3D> }/files/test.pl (100%)
->  rename meta/lib/oeqa/{runtime =3D> }/files/test.py (100%)
->  create mode 100644 meta/lib/oeqa/runtime/utils/__init__.py
->  create mode 100644 meta/lib/oeqa/runtime/utils/targetbuildproject.py
->  create mode 100644 meta/lib/oeqa/sdk/case.py
->  rename meta/lib/oeqa/sdk/{ =3D> cases}/buildcvs.py (59%)
->  rename meta/lib/oeqa/sdk/{ =3D> cases}/buildgalculator.py (45%)
->  rename meta/lib/oeqa/sdk/{ =3D> cases}/buildiptables.py (58%)
->  create mode 100644 meta/lib/oeqa/sdk/cases/gcc.py
->  create mode 100644 meta/lib/oeqa/sdk/cases/perl.py
->  rename meta/lib/oeqa/sdk/{ =3D> cases}/python.py (46%)
->  create mode 100644 meta/lib/oeqa/sdk/context.py
->  rename meta/lib/oeqa/{runtime =3D> sdk}/files/testsdkmakefile (100%)
->  delete mode 100644 meta/lib/oeqa/sdk/gcc.py
->  delete mode 100644 meta/lib/oeqa/sdk/perl.py
->  create mode 100644 meta/lib/oeqa/sdk/utils/__init__.py
->  create mode 100644 meta/lib/oeqa/sdk/utils/sdkbuildproject.py
->  create mode 100644 meta/lib/oeqa/sdkext/case.py
->  rename meta/lib/oeqa/sdkext/{ =3D> cases}/devtool.py (73%)
->  rename meta/lib/oeqa/sdkext/{ =3D> cases}/sdk_update.py (69%)
->  create mode 100644 meta/lib/oeqa/sdkext/context.py
->  create mode 100644 meta/lib/oeqa/utils/buildproject.py
->  delete mode 100644 meta/lib/oeqa/utils/targetbuild.py
->  create mode 100755 scripts/oe-test
->=20
-
-
---ppORtJDm12d1BJOUAX2GF80QRMrGcOOdE
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
-
-iQIcBAEBAgAGBQJYRzQgAAoJEGJqcE9h3glgnAYQAJ8Y2foxQX0q3/0XzV6Maf8H
-d1XmqMF9ScL8FsxjByTc7LhYpID9pltazjMJ5z1jqiEbHsHKLeHmDD9cDFIj1e4n
-A/vejP6ztsiKbNKqtbclKQP5vY1GeZOXIzHj4MTjGkUfbGJHTz/JitN5unsE9V0C
-Y2zwHK61q07H53yu6fdnuKVdHuFgKfX2vnBXLEnh8dTI2ZjQDPftu/OR2RYWp+vI
-x7Ngr81dFNYtEcG6DE57WohErTFJ5wSqRKa8tqscOpLpbUY1t192CXJlN3eEIApi
-3DJD1ytKOWDlvyIBkCqi5RrBcAX3v2IRbzefPXpD8i7srHKn1MopPVxJJE/EqX7D
-q0JZ2m67PI4z+7x0dAKRBBwcq/gwzJw49r5ypSS7U/YfXiCSMP55xPbA4+cZA5vJ
-PuMiHnBmYv8vaX1GzB2dBOyYDHMoiKd6RyQ/QZZLZvSeTdzdhVt0xhIXdB0ivkND
-Gcf1oaqyQlL7Q+4ZIo2uMqxBhAmEYZlhIUb3wakIxHIPDno6332Wuy32I20N2v7H
-6kno+PZ7hokP74sEmjD1iOipFzBE9AAUGoTQdVnRUj0rgHXhdfgjubk6oUdjjH3B
-o+vAKQs1ODvWD8sZNX4uufXrjn00jYr3ThaSkwYobI6eH8ht9NrAdBiNMr2edwCr
-I4m8vsrSX1nlZm2JI8Me
-=+TbT
------END PGP SIGNATURE-----
-
---ppORtJDm12d1BJOUAX2GF80QRMrGcOOdE--
+--_000_007BD92917A2324FA403BCF9A464CF84BF4DDF87ALAMBBcorpadwrs_--
