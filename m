@@ -1,25 +1,25 @@
 Return-Path: <anibal.limon@linux.intel.com>
 Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id E70BF71A91
+	by mail.openembedded.org (Postfix) with ESMTP id 4865E71A91
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  6 Dec 2016 21:51:33 +0000 (UTC)
+	Tue,  6 Dec 2016 21:51:34 +0000 (UTC)
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
-	by fmsmga103.fm.intel.com with ESMTP; 06 Dec 2016 13:51:35 -0800
+	by fmsmga103.fm.intel.com with ESMTP; 06 Dec 2016 13:51:36 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.33,310,1477983600"; d="scan'208";a="39533322"
+X-IronPort-AV: E=Sophos;i="5.33,310,1477983600"; d="scan'208";a="39533323"
 Received: from alimonb-mobl1.zpn.intel.com ([10.219.5.142])
 	by orsmga005.jf.intel.com with ESMTP; 06 Dec 2016 13:51:35 -0800
 From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  6 Dec 2016 15:44:08 -0600
-Message-Id: <16705c26f3f393df501c94d36a2d174f082f1df2.1481059445.git.anibal.limon@linux.intel.com>
+Date: Tue,  6 Dec 2016 15:44:09 -0600
+Message-Id: <9f77b0640b87fecbf4bb71a7a12504c7d06132af.1481059445.git.anibal.limon@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1481059445.git.anibal.limon@linux.intel.com>
 References: <cover.1481059445.git.anibal.limon@linux.intel.com>
 In-Reply-To: <cover.1481059445.git.anibal.limon@linux.intel.com>
 References: <cover.1481059445.git.anibal.limon@linux.intel.com>
 MIME-Version: 1.0
-Subject: [PATCH 23/32] oeqa/utils: Move targetbuild to buildproject module
+Subject: [PATCH 24/32] oeqa/utils: {Target, SDK, }BuildProject remove dependency of bb
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,208 +36,137 @@ X-List-Received-Date: Tue, 06 Dec 2016 21:51:34 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-The new buildproject module will contain only BuildProject class
-a helper class for build source code.
+Don't use bitbake references inside utils modules, in order todo
+that changes getVar calls for arguments in the __init__ method like
+dl_dir for all the classes and testlogdir, builddatetime in
+SDKBUildProject.
 
-The remaining classes TargetBuildProject and SDKBuildProject was
-move to runtime and sdk respectively.
+Also don't export proxies inside _download_archive method, a good
+practice is to setup the proxies at init of the process instead of
+do it in this helper module.
 
+[YOCTO #10231]
 [YOCTO #10599]
 
 Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
-Signed-off-by: Mariano Lopez <mariano.lopez@linux.intel.com>
 ---
- meta/lib/oeqa/runtime/utils/__init__.py            |  0
- meta/lib/oeqa/runtime/utils/targetbuildproject.py  | 33 +++++++++++
- meta/lib/oeqa/sdk/utils/__init__.py                |  0
- meta/lib/oeqa/sdk/utils/sdkbuildproject.py         | 45 ++++++++++++++
- .../oeqa/utils/{targetbuild.py => buildproject.py} | 68 +---------------------
- 5 files changed, 79 insertions(+), 67 deletions(-)
- create mode 100644 meta/lib/oeqa/runtime/utils/__init__.py
- create mode 100644 meta/lib/oeqa/runtime/utils/targetbuildproject.py
- create mode 100644 meta/lib/oeqa/sdk/utils/__init__.py
- create mode 100644 meta/lib/oeqa/sdk/utils/sdkbuildproject.py
- rename meta/lib/oeqa/utils/{targetbuild.py => buildproject.py} (48%)
+ meta/lib/oeqa/runtime/utils/targetbuildproject.py |  6 ++---
+ meta/lib/oeqa/sdk/utils/sdkbuildproject.py        | 14 +++++-----
+ meta/lib/oeqa/utils/buildproject.py               | 31 +++++------------------
+ 3 files changed, 17 insertions(+), 34 deletions(-)
 
-diff --git a/meta/lib/oeqa/runtime/utils/__init__.py b/meta/lib/oeqa/runtime/utils/__init__.py
-new file mode 100644
-index 0000000..e69de29
 diff --git a/meta/lib/oeqa/runtime/utils/targetbuildproject.py b/meta/lib/oeqa/runtime/utils/targetbuildproject.py
-new file mode 100644
-index 0000000..138b5ef
---- /dev/null
+index 138b5ef..006d4d4 100644
+--- a/meta/lib/oeqa/runtime/utils/targetbuildproject.py
 +++ b/meta/lib/oeqa/runtime/utils/targetbuildproject.py
-@@ -0,0 +1,33 @@
-+# Copyright (C) 2016 Intel Corporation
-+# Released under the MIT license (see COPYING.MIT)
-+
-+from oeqa.utils.buildproject import BuildProject
-+
-+class TargetBuildProject(BuildProject):
-+
-+    def __init__(self, target, d, uri, foldername=None):
-+        self.target = target
-+        self.targetdir = "~/"
-+        BuildProject.__init__(self, d, uri, foldername, tmpdir="/tmp")
-+
-+    def download_archive(self):
-+
-+        self._download_archive()
-+
-+        (status, output) = self.target.copy_to(self.localarchive, self.targetdir)
-+        if status != 0:
-+            raise Exception("Failed to copy archive to target, output: %s" % output)
-+
-+        (status, output) = self.target.run('tar xf %s%s -C %s' % (self.targetdir, self.archive, self.targetdir))
-+        if status != 0:
-+            raise Exception("Failed to extract archive, output: %s" % output)
-+
-+        #Change targetdir to project folder
-+        self.targetdir = self.targetdir + self.fname
-+
-+    # The timeout parameter of target.run is set to 0 to make the ssh command
-+    # run with no timeout.
-+    def _run(self, cmd):
-+        return self.target.run(cmd, 0)[0]
-+
-+
-diff --git a/meta/lib/oeqa/sdk/utils/__init__.py b/meta/lib/oeqa/sdk/utils/__init__.py
-new file mode 100644
-index 0000000..e69de29
-diff --git a/meta/lib/oeqa/sdk/utils/sdkbuildproject.py b/meta/lib/oeqa/sdk/utils/sdkbuildproject.py
-new file mode 100644
-index 0000000..1aa8a69
---- /dev/null
-+++ b/meta/lib/oeqa/sdk/utils/sdkbuildproject.py
-@@ -0,0 +1,45 @@
-+# Copyright (C) 2016 Intel Corporation
-+# Released under the MIT license (see COPYING.MIT)
-+
-+import os
-+import subprocess
-+
-+from oeqa.utils.buildproject import BuildProject
-+
-+class SDKBuildProject(BuildProject):
-+
-+    def __init__(self, testpath, sdkenv, d, uri, foldername=None):
-+        self.sdkenv = sdkenv
-+        self.testdir = testpath
-+        self.targetdir = testpath
-+        bb.utils.mkdirhier(testpath)
-+        self.datetime = d.getVar('DATETIME', True)
-+        self.testlogdir = d.getVar("TEST_LOG_DIR", True)
-+        bb.utils.mkdirhier(self.testlogdir)
-+        self.logfile = os.path.join(self.testlogdir, "sdk_target_log.%s" % self.datetime)
-+        BuildProject.__init__(self, d, uri, foldername, tmpdir=testpath)
-+
-+    def download_archive(self):
-+
-+        self._download_archive()
-+
-+        cmd = 'tar xf %s%s -C %s' % (self.targetdir, self.archive, self.targetdir)
-+        subprocess.check_call(cmd, shell=True)
-+
-+        #Change targetdir to project folder
-+        self.targetdir = os.path.join(self.targetdir, self.fname)
-+
-+    def run_configure(self, configure_args='', extra_cmds=' gnu-configize; '):
-+        return super(SDKBuildProject, self).run_configure(configure_args=(configure_args or '$CONFIGURE_FLAGS'), extra_cmds=extra_cmds)
-+
-+    def run_install(self, install_args=''):
-+        return super(SDKBuildProject, self).run_install(install_args=(install_args or "DESTDIR=%s/../install" % self.targetdir))
-+
-+    def log(self, msg):
-+        if self.logfile:
-+            with open(self.logfile, "a") as f:
-+               f.write("%s\n" % msg)
-+
-+    def _run(self, cmd):
-+        self.log("Running . %s; " % self.sdkenv + cmd)
-+        return subprocess.call(". %s; " % self.sdkenv + cmd, shell=True)
-diff --git a/meta/lib/oeqa/utils/targetbuild.py b/meta/lib/oeqa/utils/buildproject.py
-similarity index 48%
-rename from meta/lib/oeqa/utils/targetbuild.py
-rename to meta/lib/oeqa/utils/buildproject.py
-index 59593f5..0e1ed8a 100644
---- a/meta/lib/oeqa/utils/targetbuild.py
-+++ b/meta/lib/oeqa/utils/buildproject.py
-@@ -1,4 +1,4 @@
--# Copyright (C) 2013 Intel Corporation
-+# Copyright (C) 2013-2016 Intel Corporation
- #
- # Released under the MIT license (see COPYING.MIT)
+@@ -5,13 +5,13 @@ from oeqa.utils.buildproject import BuildProject
  
-@@ -67,69 +67,3 @@ class BuildProject(metaclass=ABCMeta):
-         self._run('rm -rf %s' % self.targetdir)
-         subprocess.call('rm -f %s' % self.localarchive, shell=True)
-         pass
--
--class TargetBuildProject(BuildProject):
--
+ class TargetBuildProject(BuildProject):
+ 
 -    def __init__(self, target, d, uri, foldername=None):
--        self.target = target
--        self.targetdir = "~/"
++    def __init__(self, target, uri, foldername=None, dl_dir=None):
+         self.target = target
+         self.targetdir = "~/"
 -        BuildProject.__init__(self, d, uri, foldername, tmpdir="/tmp")
++        BuildProject.__init__(self, uri, foldername, tmpdir="/tmp",
++                dl_dir=dl_dir)
+ 
+     def download_archive(self):
 -
--    def download_archive(self):
--
--        self._download_archive()
--
--        (status, output) = self.target.copy_to(self.localarchive, self.targetdir)
--        if status != 0:
--            raise Exception("Failed to copy archive to target, output: %s" % output)
--
--        (status, output) = self.target.run('tar xf %s%s -C %s' % (self.targetdir, self.archive, self.targetdir))
--        if status != 0:
--            raise Exception("Failed to extract archive, output: %s" % output)
--
--        #Change targetdir to project folder
--        self.targetdir = self.targetdir + self.fname
--
--    # The timeout parameter of target.run is set to 0 to make the ssh command
--    # run with no timeout.
--    def _run(self, cmd):
--        return self.target.run(cmd, 0)[0]
--
--
--class SDKBuildProject(BuildProject):
+         self._download_archive()
+ 
+         (status, output) = self.target.copy_to(self.localarchive, self.targetdir)
+diff --git a/meta/lib/oeqa/sdk/utils/sdkbuildproject.py b/meta/lib/oeqa/sdk/utils/sdkbuildproject.py
+index 1aa8a69..cc34e0c 100644
+--- a/meta/lib/oeqa/sdk/utils/sdkbuildproject.py
++++ b/meta/lib/oeqa/sdk/utils/sdkbuildproject.py
+@@ -7,17 +7,17 @@ import subprocess
+ from oeqa.utils.buildproject import BuildProject
+ 
+ class SDKBuildProject(BuildProject):
 -
 -    def __init__(self, testpath, sdkenv, d, uri, foldername=None):
--        self.sdkenv = sdkenv
--        self.testdir = testpath
--        self.targetdir = testpath
++    def __init__(self, testpath, sdkenv, uri, testlogdir, builddatetime,
++            foldername=None, dl_dir=None):
+         self.sdkenv = sdkenv
+         self.testdir = testpath
+         self.targetdir = testpath
 -        bb.utils.mkdirhier(testpath)
 -        self.datetime = d.getVar('DATETIME', True)
 -        self.testlogdir = d.getVar("TEST_LOG_DIR", True)
 -        bb.utils.mkdirhier(self.testlogdir)
--        self.logfile = os.path.join(self.testlogdir, "sdk_target_log.%s" % self.datetime)
++        os.makedirs(testpath, exist_ok=True)
++        self.datetime = builddatetime
++        self.testlogdir = testlogdir
++        os.makedirs(self.testlogdir, exist_ok=True)
+         self.logfile = os.path.join(self.testlogdir, "sdk_target_log.%s" % self.datetime)
 -        BuildProject.__init__(self, d, uri, foldername, tmpdir=testpath)
++        BuildProject.__init__(self, uri, foldername, tmpdir=testpath, dl_dir=dl_dir)
+ 
+     def download_archive(self):
+ 
+diff --git a/meta/lib/oeqa/utils/buildproject.py b/meta/lib/oeqa/utils/buildproject.py
+index 0e1ed8a..386a927 100644
+--- a/meta/lib/oeqa/utils/buildproject.py
++++ b/meta/lib/oeqa/utils/buildproject.py
+@@ -6,17 +6,17 @@
+ 
+ import os
+ import re
+-import bb.utils
+ import subprocess
++import shutil
++
+ from abc import ABCMeta, abstractmethod
+ 
+ class BuildProject(metaclass=ABCMeta):
 -
--    def download_archive(self):
+-    def __init__(self, d, uri, foldername=None, tmpdir="/tmp/"):
+-        self.d = d
++    def __init__(self, uri, foldername=None, tmpdir="/tmp/", dl_dir=None):
+         self.uri = uri
+         self.archive = os.path.basename(uri)
+         self.localarchive = os.path.join(tmpdir,self.archive)
++        self.dl_dir = dl_dir
+         if foldername:
+             self.fname = foldername
+         else:
+@@ -24,27 +24,11 @@ class BuildProject(metaclass=ABCMeta):
+ 
+     # Download self.archive to self.localarchive
+     def _download_archive(self):
 -
--        self._download_archive()
+-        dl_dir = self.d.getVar("DL_DIR", True)
+-        if dl_dir and os.path.exists(os.path.join(dl_dir, self.archive)):
+-            bb.utils.copyfile(os.path.join(dl_dir, self.archive), self.localarchive)
++        if self.dl_dir and os.path.exists(os.path.join(self.dl_dir, self.archive)):
++            shutil.copyfile(os.path.join(self.dl_dir, self.archive), self.localarchive)
+             return
+ 
+-        exportvars = ['HTTP_PROXY', 'http_proxy',
+-                      'HTTPS_PROXY', 'https_proxy',
+-                      'FTP_PROXY', 'ftp_proxy',
+-                      'FTPS_PROXY', 'ftps_proxy',
+-                      'NO_PROXY', 'no_proxy',
+-                      'ALL_PROXY', 'all_proxy',
+-                      'SOCKS5_USER', 'SOCKS5_PASSWD']
 -
--        cmd = 'tar xf %s%s -C %s' % (self.targetdir, self.archive, self.targetdir)
--        subprocess.check_call(cmd, shell=True)
+-        cmd = ''
+-        for var in exportvars:
+-            val = self.d.getVar(var, True)
+-            if val:
+-                cmd = 'export ' + var + '=\"%s\"; %s' % (val, cmd)
 -
--        #Change targetdir to project folder
--        self.targetdir = os.path.join(self.targetdir, self.fname)
--
--    def run_configure(self, configure_args='', extra_cmds=' gnu-configize; '):
--        return super(SDKBuildProject, self).run_configure(configure_args=(configure_args or '$CONFIGURE_FLAGS'), extra_cmds=extra_cmds)
--
--    def run_install(self, install_args=''):
--        return super(SDKBuildProject, self).run_install(install_args=(install_args or "DESTDIR=%s/../install" % self.targetdir))
--
--    def log(self, msg):
--        if self.logfile:
--            with open(self.logfile, "a") as f:
--               f.write("%s\n" % msg)
--
--    def _run(self, cmd):
--        self.log("Running . %s; " % self.sdkenv + cmd)
--        return subprocess.call(". %s; " % self.sdkenv + cmd, shell=True)
+-        cmd = cmd + "wget -O %s %s" % (self.localarchive, self.uri)
++        cmd = "wget -O %s %s" % (self.localarchive, self.uri)
+         subprocess.check_call(cmd, shell=True)
+ 
+     # This method should provide a way to run a command in the desired environment.
+@@ -66,4 +50,3 @@ class BuildProject(metaclass=ABCMeta):
+     def clean(self):
+         self._run('rm -rf %s' % self.targetdir)
+         subprocess.call('rm -f %s' % self.localarchive, shell=True)
+-        pass
 -- 
 2.1.4
 
