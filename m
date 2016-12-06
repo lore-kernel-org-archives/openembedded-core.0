@@ -1,18 +1,18 @@
 Return-Path: <obi@opendreambox.org>
 Received: from mail.saftware.de (mail.saftware.de [83.141.3.46])
-	by mail.openembedded.org (Postfix) with ESMTP id 7EE856059F
+	by mail.openembedded.org (Postfix) with ESMTP id E78C36059F
 	for <openembedded-core@lists.openembedded.org>;
 	Tue,  6 Dec 2016 11:50:13 +0000 (UTC)
 Received: by t510.zcs.saftware.de (Postfix, from userid 1000)
-	id BDDAAB8B287; Tue,  6 Dec 2016 12:49:54 +0100 (CET)
+	id A7737B88DCE; Tue,  6 Dec 2016 12:49:54 +0100 (CET)
 From: Andreas Oberritter <obi@opendreambox.org>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  6 Dec 2016 12:49:48 +0100
-Message-Id: <1481024991-5882-31-git-send-email-obi@opendreambox.org>
+Date: Tue,  6 Dec 2016 12:49:47 +0100
+Message-Id: <1481024991-5882-30-git-send-email-obi@opendreambox.org>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1481024991-5882-1-git-send-email-obi@opendreambox.org>
 References: <1481024991-5882-1-git-send-email-obi@opendreambox.org>
-Subject: [PATCH 30/33] dpkg: use correct path for perl libraries
+Subject: [PATCH 29/33] dpkg: always install dpkg-configure.service
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,41 +25,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 06 Dec 2016 11:50:13 -0000
+X-List-Received-Date: Tue, 06 Dec 2016 11:50:14 -0000
+
+systemd.bbclass handles everything based on DISTRO_FEATURES.
 
 Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
 ---
- meta/recipes-devtools/dpkg/dpkg.inc | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+ meta/recipes-devtools/dpkg/dpkg.inc | 22 ++++++++--------------
+ 1 file changed, 8 insertions(+), 14 deletions(-)
 
 diff --git a/meta/recipes-devtools/dpkg/dpkg.inc b/meta/recipes-devtools/dpkg/dpkg.inc
-index 414ee5b..1c404fc 100644
+index db37a7b..414ee5b 100644
 --- a/meta/recipes-devtools/dpkg/dpkg.inc
 +++ b/meta/recipes-devtools/dpkg/dpkg.inc
-@@ -1,21 +1,19 @@
- SUMMARY = "Package maintenance system from Debian"
- SECTION = "base"
- LICENSE = "GPLv2+"
--DEPENDS = "perl"
- DEPENDS_append_class-native = " bzip2-replacement-native"
- PROVIDES = "virtual/update-alternatives"
+@@ -9,11 +9,7 @@ UPSTREAM_CHECK_URI = "${DEBIAN_MIRROR}/main/d/dpkg/"
  
- UPSTREAM_CHECK_URI = "${DEBIAN_MIRROR}/main/d/dpkg/"
+ inherit autotools gettext perlnative pkgconfig systemd
  
--inherit autotools gettext perlnative pkgconfig systemd
-+inherit autotools cpan-base gettext perlnative pkgconfig systemd
- 
- SYSTEMD_SERVICE_${PN} = "dpkg-configure.service"
+-python () {
+-    if not bb.utils.contains('DISTRO_FEATURES', 'sysvinit', True, False, d):
+-        pn = d.getVar('PN', True)
+-        d.setVar('SYSTEMD_SERVICE_%s' % (pn), 'dpkg-configure.service')
+-}
++SYSTEMD_SERVICE_${PN} = "dpkg-configure.service"
  
  export PERL = "${bindir}/perl"
  PERL_class-native = "${STAGING_BINDIR_NATIVE}/perl-native/perl"
+@@ -46,15 +42,13 @@ do_install_append_class-native() {
+ }
  
--export PERL_LIBDIR = "${libdir}/perl"
--PERL_LIBDIR_class-native = "${libdir}/perl-native/perl"
-+export PERL_LIBDIR = "${PERLLIBDIRS}/${PERLVERSION}"
+ do_install_append () {
+-	if ${@bb.utils.contains('DISTRO_FEATURES','sysvinit','false','true',d)};then
+-		install -d ${D}${systemd_unitdir}/system
+-		install -m 0644 ${WORKDIR}/dpkg-configure.service ${D}${systemd_unitdir}/system/
+-		sed -i -e 's,@BASE_BINDIR@,${base_bindir},g' \
+-			-e 's,@SYSCONFDIR@,${sysconfdir},g' \
+-			-e 's,@BINDIR@,${bindir},g' \
+-			-e 's,@SYSTEMD_UNITDIR@,${systemd_unitdir},g' \
+-			${D}${systemd_unitdir}/system/dpkg-configure.service
+-	fi
++    install -d ${D}${systemd_unitdir}/system
++    install -m 0644 ${WORKDIR}/dpkg-configure.service ${D}${systemd_unitdir}/system
++    sed -e 's,@BASE_BINDIR@,${base_bindir},g' \
++        -e 's,@SYSCONFDIR@,${sysconfdir},g' \
++        -e 's,@BINDIR@,${bindir},g' \
++        -e 's,@SYSTEMD_UNITDIR@,${systemd_unitdir},g' \
++        -i ${D}${systemd_unitdir}/system/dpkg-configure.service
+ }
  
- PACKAGECONFIG ??= "bzip2 gzip start-stop-daemon update-alternatives"
- PACKAGECONFIG[bzip2] = "--with-bz2,--without-bz2,bzip2"
+ PACKAGES =+ "dpkg-perl dselect libdpkg-perl start-stop-daemon update-alternatives-dpkg"
 -- 
 2.7.4
 
