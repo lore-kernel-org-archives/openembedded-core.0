@@ -1,30 +1,30 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 3BDFC6011B
+Return-Path: <joe.slater@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 2EFBA6011B
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  6 Dec 2016 02:11:36 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id uB62BarC017358
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 5 Dec 2016 18:11:36 -0800 (PST)
-Received: from [128.224.162.160] (128.224.162.160) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.294.0;
-	Mon, 5 Dec 2016 18:11:35 -0800
-To: Khem Raj <raj.khem@gmail.com>
-References: <cover.1480949616.git.liezhi.yang@windriver.com>
-	<981a3fcb8a50c6277be726177a5895c64296d2ac.1480949616.git.liezhi.yang@windriver.com>
-	<CAMKF1so3kwUrinR7HWarC+CPd+1d1mby2_-H-5XE3XQb3PzZaw@mail.gmail.com>
-From: Robert Yang <liezhi.yang@windriver.com>
-Message-ID: <a9bde40d-5322-c9e3-ac47-3801b520e80b@windriver.com>
-Date: Tue, 6 Dec 2016 10:11:34 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.2.0
-MIME-Version: 1.0
-In-Reply-To: <CAMKF1so3kwUrinR7HWarC+CPd+1d1mby2_-H-5XE3XQb3PzZaw@mail.gmail.com>
-Cc: Patches and discussions about the oe-core layer
+	Tue,  6 Dec 2016 02:24:31 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id uB62OW3e009227
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 5 Dec 2016 18:24:33 -0800
+Received: from ALA-MBB.corp.ad.wrs.com ([169.254.1.101]) by
+	ALA-HCA.corp.ad.wrs.com ([147.11.189.40]) with mapi id 14.03.0294.000;
+	Mon, 5 Dec 2016 18:24:32 -0800
+From: "Slater, Joseph" <joe.slater@windriver.com>
+To: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] diffutils: do_configure: fix "Argument list too long"
+Thread-Topic: oetest.py construction of pkgmanifest is probably wrong
+Thread-Index: AdJPZ7LNu2kPkTmLQkyKwUAgyHPGWw==
+Date: Tue, 6 Dec 2016 02:24:32 +0000
+Message-ID: <007BD92917A2324FA403BCF9A464CF84BF4DD4D5@ALA-MBB.corp.ad.wrs.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [147.11.216.160]
+MIME-Version: 1.0
+Subject: oetest.py construction of pkgmanifest is probably wrong
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,66 +37,82 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 06 Dec 2016 02:11:38 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 06 Dec 2016 02:24:32 -0000
+Content-Language: en-US
+Content-Type: multipart/alternative;
+	boundary="_000_007BD92917A2324FA403BCF9A464CF84BF4DD4D5ALAMBBcorpadwrs_"
 
+--_000_007BD92917A2324FA403BCF9A464CF84BF4DD4D5ALAMBBcorpadwrs_
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
+This variable is a dictionary with entries based on package, but for multil=
+lib a package might exist in only some variants.  Perhaps
+each entry should be a dictionary of multilib variants?
 
-On 12/06/2016 02:23 AM, Khem Raj wrote:
-> On Mon, Dec 5, 2016 at 6:54 AM, Robert Yang <liezhi.yang@windriver.com> wrote:
->> Fixed when len(TMPDIR) =  410:
->> aclocal: error: cannot open echo [snip]: Argument list too long
->>
->> This is becuase it has a lot of m4 files, use relative path for them
->> can fix the problem.
->>
->> It doesn't happen when MACHINE="qemux86", I think it is because
->> intel-x86-64 is longer than qemux86.
->>
->> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
->> ---
->>  meta/recipes-extended/diffutils/diffutils_3.4.bb | 3 +++
->>  1 file changed, 3 insertions(+)
->>
->> diff --git a/meta/recipes-extended/diffutils/diffutils_3.4.bb b/meta/recipes-extended/diffutils/diffutils_3.4.bb
->> index cb7092b..be280ec 100644
->> --- a/meta/recipes-extended/diffutils/diffutils_3.4.bb
->> +++ b/meta/recipes-extended/diffutils/diffutils_3.4.bb
->> @@ -10,6 +10,9 @@ SRC_URI = "${GNU_MIRROR}/diffutils/diffutils-${PV}.tar.xz \
->>
->>  EXTRA_OECONF += "--without-libsigsegv-prefix"
->>
->> +# Fix "Argument list too long" error when len(TMPDIR) = 410
->> +acpaths = "-I ./m4"
+Joe
+
+--_000_007BD92917A2324FA403BCF9A464CF84BF4DD4D5ALAMBBcorpadwrs_
+Content-Type: text/html; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+
+<html xmlns:v=3D"urn:schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-micr=
+osoft-com:office:office" xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
+xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" xmlns=3D"http:=
+//www.w3.org/TR/REC-html40">
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
 >
-> it looks ok if this work ok with externalsrc
+<meta name=3D"Generator" content=3D"Microsoft Word 14 (filtered medium)">
+<style><!--
+/* Font Definitions */
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;}
+/* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0in;
+	margin-bottom:.0001pt;
+	font-size:11.0pt;
+	font-family:"Calibri","sans-serif";}
+a:link, span.MsoHyperlink
+	{mso-style-priority:99;
+	color:blue;
+	text-decoration:underline;}
+a:visited, span.MsoHyperlinkFollowed
+	{mso-style-priority:99;
+	color:purple;
+	text-decoration:underline;}
+span.EmailStyle17
+	{mso-style-type:personal-compose;
+	font-family:"Calibri","sans-serif";
+	color:windowtext;}
+.MsoChpDefault
+	{mso-style-type:export-only;
+	font-family:"Calibri","sans-serif";}
+@page WordSection1
+	{size:8.5in 11.0in;
+	margin:1.0in 1.0in 1.0in 1.0in;}
+div.WordSection1
+	{page:WordSection1;}
+--></style><!--[if gte mso 9]><xml>
+<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
+</xml><![endif]--><!--[if gte mso 9]><xml>
+<o:shapelayout v:ext=3D"edit">
+<o:idmap v:ext=3D"edit" data=3D"1" />
+</o:shapelayout></xml><![endif]-->
+</head>
+<body lang=3D"EN-US" link=3D"blue" vlink=3D"purple">
+<div class=3D"WordSection1">
+<p class=3D"MsoNormal">This variable is a dictionary with entries based on =
+package, but for multillib a package might exist in only some variants.&nbs=
+p; Perhaps<o:p></o:p></p>
+<p class=3D"MsoNormal">each entry should be a dictionary of multilib varian=
+ts?<o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">Joe<o:p></o:p></p>
+</div>
+</body>
+</html>
 
-Hi Khem,
-
-What did mean about externalsrc, please ? Did you mean when B != S?
-If yes, it works well since it is for aclocal, which always runs in S.
-We have already such a fix in several recipes.
-
-meta/recipes-extended/tar/tar.inc:acpaths = "-I ./m4"
-meta/recipes-extended/wget/wget.inc:acpaths = "-I ./m4"
-meta/recipes-core/coreutils/coreutils_6.9.bb:acpaths = "-I ./m4"
-meta/recipes-core/coreutils/coreutils_8.25.bb:acpaths = "-I ./m4"
-
-// Robert
-
->
->> +
->>  do_configure_prepend () {
->>         # Need to remove gettext macros with weird mix of versions
->>         for i in codeset.m4 gettext_gl.m4 intlmacosx.m4 inttypes-pri.m4 lib-ld_gl.m4 lib-prefix_gl.m4 po_gl.m4 ssize_t.m4 wchar_t.m4 wint_t.m4; do
->> --
->> 2.9.0
->>
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
-
+--_000_007BD92917A2324FA403BCF9A464CF84BF4DD4D5ALAMBBcorpadwrs_--
