@@ -1,46 +1,52 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f169.google.com (mail-qk0-f169.google.com
-	[209.85.220.169])
-	by mail.openembedded.org (Postfix) with ESMTP id 9D37371A5E
-	for <openembedded-core@lists.openembedded.org>;
-	Tue,  6 Dec 2016 14:41:33 +0000 (UTC)
-Received: by mail-qk0-f169.google.com with SMTP id n21so381502102qka.3
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 06 Dec 2016 06:41:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=hI0ozH3z6X/RfQYyPgxBz3/Yh307GvgDcd98TKrDHek=;
-	b=Iz2DHurrHYd9ia+1Ah4Mo02WI5+r2BlVl9wF59QYMUyWBG7/i5GTWmEYvTTXUKImgQ
-	wexhiCztCHRrsNsuzVCuL0OuMSDAhQ7Q2QHa2HPMkOwi53hvaJt6TLzmpIPGMt+W2Ntc
-	W0BzC+yXlIjT/WEhWg6vkXOP0QEoJgsIy0ZU5TPY2YYQHs9AKOADIhrvoPA0X5QVPHek
-	/o9f0vOtjL5fTKDwFZLEwYjbE66EFK3Sn63YXh2uQ6DiF9gt1kM7KATZFRO300so2n/P
-	/uDsmIEjuvkfBzGYkCL+pXBnY62gTTXpmikSkba8q5/fzw59yj8ouQDGGp+XQB5Kq5PB
-	vhzA==
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wj0-f195.google.com (mail-wj0-f195.google.com
+	[209.85.210.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 620D271A5B;
+	Tue,  6 Dec 2016 14:43:57 +0000 (UTC)
+Received: by mail-wj0-f195.google.com with SMTP id xy5so44289889wjc.1;
+	Tue, 06 Dec 2016 06:43:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:date:to:cc:subject:message-id:references:mime-version
+	:content-disposition:in-reply-to:user-agent;
+	bh=mqdIer2FgPUN3UoQz9GgIjQczD3vvKgeoAi21yW2vnw=;
+	b=yv3HmPJTof+vafflyMC4/mk+sGmYgGToKlJqsvILXZtbF9WYmjbUBQO4DJs76gdaot
+	tS5WM0zqhvv+eXWoJZ9dLJ0EW11s1braA8P5lwNbo8qigFuP9tFJKI6I/PTO28aDNH/+
+	HdLfGewYDIk3KyeUCI30WAOJJeVqqnDdiurcllULfu2Jgu6Cu+0H2iQuwXulDRRDCCRc
+	mkFMOGbk1Hl0v+IcefddKZ8L+R7YiWDdFF1UhzXOniYzLUmuN5EREKRCEPl9jTGQ5nFC
+	6MgTBGwhQq7YGZeOWYI+a/Plx3TgC5fsbGjqyDdZo23uS437STZt/0o2fvXbqNsWi4WP
+	ZRMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=hI0ozH3z6X/RfQYyPgxBz3/Yh307GvgDcd98TKrDHek=;
-	b=K8PC2LcMecU7rWbomzvsquYXg4OZzUj84dS4stKrA2BLYC1rBarPr5HI+Hpt1QbI18
-	WWTA1LIj8RlmYzdzBH7aryual9DcLMqsb3EJIgifXBLenq/UzRoq1t2R2mlJ0X3DPNZq
-	5A1doCf49fBFD34iG+Oo5F18vEIXhmO+HEzrJjIiatPr51+iJcSoalwMO8BZJb4gKtHE
-	KHfDrAo6ChF7RoeElx1dsEVGEeQGTZv+V0SriZ1slw29KIqX/+b011fDGwELUo7vqObt
-	rHK4diRlNkyfK7sFCy1VOjGyVYeJ8hCzyr6siAPGgRdbdlCX2myhQdFstJbowiuqn2/5
-	4ENQ==
-X-Gm-Message-State: AKaTC00+qgHZT8tR81wDoH+8+v7VV9lfU16rLRZ9m1xXG3BCJQOrTriO6tJGth8opCmweDMRFE21RXq6sI27DZQj
-X-Received: by 10.55.75.17 with SMTP id y17mr47110929qka.26.1481035294560;
-	Tue, 06 Dec 2016 06:41:34 -0800 (PST)
+	h=x-gm-message-state:from:date:to:cc:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to:user-agent;
+	bh=mqdIer2FgPUN3UoQz9GgIjQczD3vvKgeoAi21yW2vnw=;
+	b=CsMqjodv1hqr54z8Y9dZUgNaYbAjK2CAMh0i0p/zc0zVn7fLpGqFtc0vUnEmknzKpe
+	3J9Ad4oRe2uAoKSE8MC7EH98StlbBsOXl0kN3W/ErR5ecmW9mepqLZIjWuDSwqN+oBtW
+	DQVo5/OXl7erLP1CrQ1Hzbig0FoQqfH2kC+t2d8MrZvbZCWOnj1itiyIL/jMKF68quZv
+	LBq2ACuqJ7BCndyMvFqk+kGOvrWoPq+1VZ6+HVuUCu88/wx5zwPX2Kb3SJJ1594SJmjl
+	7g3vuyejR3yMrfrc0me1OaKf0llfN6wSzKSwyo8B/McugGj9+zz6z0JD1ySo5Rlp2RBP
+	eKWQ==
+X-Gm-Message-State: AKaTC01y0TagiijLYKmBHJ/UFxplbJ+YkfAy37KFsUJ3M44warrR/B7yF8PnsAYFMI8jKA==
+X-Received: by 10.194.157.3 with SMTP id wi3mr54766705wjb.0.1481035438917;
+	Tue, 06 Dec 2016 06:43:58 -0800 (PST)
+Received: from localhost ([217.30.68.212]) by smtp.gmail.com with ESMTPSA id
+	n17sm26173805wjq.6.2016.12.06.06.43.58
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Tue, 06 Dec 2016 06:43:58 -0800 (PST)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Tue, 6 Dec 2016 15:44:00 +0100
+To: openembedded-core@lists.openembedded.org,
+	Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Message-ID: <20161206144400.GB3255@jama>
+References: <20161130154845.8882.9798@opal.openembedded.org>
+	<20161130154913.0EEAE50166@opal.openembedded.org>
+	<20161206134904.GA3255@jama>
 MIME-Version: 1.0
-Received: by 10.140.106.99 with HTTP; Tue, 6 Dec 2016 06:41:14 -0800 (PST)
-In-Reply-To: <1481063903-49514-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
-References: <1481063903-49514-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 6 Dec 2016 14:41:14 +0000
-Message-ID: <CAJTo0Lb3bMdhWvZeEhAx4pAH2WDWUmmB4sUK=hL=EDPmZ9Schg@mail.gmail.com>
-To: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] dhcp: 4.3.4 -> 4.3.5
+In-Reply-To: <20161206134904.GA3255@jama>
+User-Agent: Mutt/1.7.1 (2016-10-04)
+Cc: openembedded-commits@lists.openembedded.org
+Subject: Re: [oe-commits] [openembedded-core] 67/76: gnutls: update to 3.5.6
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,37 +59,130 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 06 Dec 2016 14:41:34 -0000
-Content-Type: multipart/alternative; boundary=001a114a88c8a1f77b0542fe66b7
+X-List-Received-Date: Tue, 06 Dec 2016 14:43:58 -0000
+X-Groupsio-MsgNum: 90287
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="1LKvkjL3sHcu1TtY"
+Content-Disposition: inline
 
---001a114a88c8a1f77b0542fe66b7
-Content-Type: text/plain; charset=UTF-8
-
-On 6 December 2016 at 22:38, Huang Qiyu <huangqy.fnst@cn.fujitsu.com> wrote:
-
-> +++ b/meta/recipes-connectivity/dhcp/binutils-gdb
-> @@ -0,0 +1 @@
-> +Subproject commit 39eeab253474493bc9477dbb2bd9c8041f05764b
->
-
-Can you resend without this bit?
-
-Ross
-
---001a114a88c8a1f77b0542fe66b7
-Content-Type: text/html; charset=UTF-8
+--1LKvkjL3sHcu1TtY
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 6 December 2016 at 22:38, Huang Qiyu <span dir=3D"ltr">&lt;<a href=3D"ma=
-ilto:huangqy.fnst@cn.fujitsu.com" target=3D"_blank">huangqy.fnst@cn.fujitsu=
-.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"ma=
-rgin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":2j=
-2" class=3D"a3s aXjCH m158d492ea644de5c">+++ b/meta/recipes-connectivity/<w=
-br>dhcp/binutils-gdb<br>
-@@ -0,0 +1 @@<br>
-+Subproject commit 39eeab253474493bc9477dbb2bd9c8<wbr>041f05764b<br></div><=
-/blockquote></div><br>Can you resend without this bit?</div><div class=3D"g=
-mail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
+On Tue, Dec 06, 2016 at 02:49:04PM +0100, Martin Jansa wrote:
+> On Wed, Nov 30, 2016 at 03:49:52PM +0000, git@git.openembedded.org wrote:
+> > rpurdie pushed a commit to branch master
+> > in repository openembedded-core.
+> >=20
+> > commit 27f306a752d15ec62d2821d0146be4ffa10b7013
+> > Author: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+> > AuthorDate: Mon Nov 28 15:34:20 2016 +0200
+> >=20
+> >     gnutls: update to 3.5.6
+> >    =20
+> >     Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+> >     Signed-off-by: Ross Burton <ross.burton@intel.com>
+>=20
+> Anyone else also seeing this?
+>=20
+> configure:9271: result: no
+> configure:9337: checking for NETTLE
+> configure:9345: $PKG_CONFIG --exists --print-errors "nettle >=3D 3.1"
+> configure:9348: $? =3D 0
+> configure:9363: $PKG_CONFIG --exists --print-errors "nettle >=3D 3.1"
+> configure:9366: $? =3D 0
+> configure:9412: result: yes
+> configure:9418: checking for HOGWEED
+> configure:9426: $PKG_CONFIG --exists --print-errors "hogweed >=3D 3.1"
+> Package hogweed was not found in the pkg-config search path.
+> Perhaps you should add the directory containing `hogweed.pc'
+> to the PKG_CONFIG_PATH environment variable
+> No package 'hogweed' found
+> configure:9429: $? =3D 1
+> configure:9444: $PKG_CONFIG --exists --print-errors "hogweed >=3D 3.1"
+> Package hogweed was not found in the pkg-config search path.
+> Perhaps you should add the directory containing `hogweed.pc'
+> to the PKG_CONFIG_PATH environment variable
+> No package 'hogweed' found
+> configure:9447: $? =3D 1
+> No package 'hogweed' found
+> configure:9475: result: no
+> configure:9478: error:
+>   ***
+>   *** Libhogweed (nettle's companion library) was not found. Note that
+> you must compile nettle with gmp support.
 
---001a114a88c8a1f77b0542fe66b7--
+Probably caused by nettle upgrade which no longer enables gmp with older
+gmp 4.2.1 used in non-GPLv3 builds.
+
+checking for __gmpz_powm_sec in -lgmp... no
+configure: WARNING: GNU MP not found, or too old. GMP-5.0 or later is neede=
+d, see http://gmplib.org/.
+    Support for public key algorithms will be unavailable.
+configure: Looking for assembler files in arm.
+
+switching to older nettle 2.7.1 doesn't help, because nettle 3.1 is require=
+d by gnutls..
+
+| checking for NETTLE... no
+| configure: error:
+|   ***
+|   *** Libnettle 3.1 was not found.
+
+ nettle 3.1 is required by gnutls..
+
+> >  meta/recipes-support/gnutls/{gnutls_3.5.5.bb =3D> gnutls_3.5.6.bb} | 4=
+ ++--
+> >  1 file changed, 2 insertions(+), 2 deletions(-)
+> >=20
+> > diff --git a/meta/recipes-support/gnutls/gnutls_3.5.5.bb b/meta/recipes=
+-support/gnutls/gnutls_3.5.6.bb
+> > similarity index 60%
+> > rename from meta/recipes-support/gnutls/gnutls_3.5.5.bb
+> > rename to meta/recipes-support/gnutls/gnutls_3.5.6.bb
+> > index d255959..2e70734 100644
+> > --- a/meta/recipes-support/gnutls/gnutls_3.5.5.bb
+> > +++ b/meta/recipes-support/gnutls/gnutls_3.5.6.bb
+> > @@ -4,6 +4,6 @@ SRC_URI +=3D "file://correct_rpl_gettimeofday_signature=
+=2Epatch \
+> >              file://0001-configure.ac-fix-sed-command.patch \
+> >              file://use-pkg-config-to-locate-zlib.patch \
+> >             "
+> > -SRC_URI[md5sum] =3D "fb84c4d7922c1545da8dda4dcb9487d4"
+> > -SRC_URI[sha256sum] =3D "86994fe7804ee16d2811e366b9bf2f75304f8e470ae0e3=
+716d60ffeedac0e529"
+> > +SRC_URI[md5sum] =3D "7a38b23757aae009c3eb5bb12fb0afda"
+> > +SRC_URI[sha256sum] =3D "6338b715bf31c758606ffa489c7f87ee1beab947114fbd=
+2ffefd73170a8c6b9a"
+> > =20
+> >=20
+> > --=20
+> > To stop receiving notification emails like this one, please contact
+> > the administrator of this repository.
+> > --=20
+> > _______________________________________________
+> > Openembedded-commits mailing list
+> > Openembedded-commits@lists.openembedded.org
+> > http://lists.openembedded.org/mailman/listinfo/openembedded-commits
+>=20
+> --=20
+> Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+
+
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--1LKvkjL3sHcu1TtY
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iF0EARECAB0WIQRU+ejDffEzV2Je2oc3VSO3ZXaAHAUCWEbOVAAKCRA3VSO3ZXaA
+HMEoAJ9P6ci72IAMg/21VaAGlSLshoZ/mACgmwRHbzV+NQaJlL1NiLyrHkr3BfY=
+=lo9W
+-----END PGP SIGNATURE-----
+
+--1LKvkjL3sHcu1TtY--
