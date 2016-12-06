@@ -1,18 +1,18 @@
 Return-Path: <obi@opendreambox.org>
 Received: from mail.saftware.de (mail.saftware.de [83.141.3.46])
-	by mail.openembedded.org (Postfix) with ESMTP id 671336059F
+	by mail.openembedded.org (Postfix) with ESMTP id 7EE856059F
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  6 Dec 2016 11:50:12 +0000 (UTC)
+	Tue,  6 Dec 2016 11:50:13 +0000 (UTC)
 Received: by t510.zcs.saftware.de (Postfix, from userid 1000)
-	id 8ED17B8B288; Tue,  6 Dec 2016 12:49:54 +0100 (CET)
+	id BDDAAB8B287; Tue,  6 Dec 2016 12:49:54 +0100 (CET)
 From: Andreas Oberritter <obi@opendreambox.org>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  6 Dec 2016 12:49:43 +0100
-Message-Id: <1481024991-5882-26-git-send-email-obi@opendreambox.org>
+Date: Tue,  6 Dec 2016 12:49:48 +0100
+Message-Id: <1481024991-5882-31-git-send-email-obi@opendreambox.org>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1481024991-5882-1-git-send-email-obi@opendreambox.org>
 References: <1481024991-5882-1-git-send-email-obi@opendreambox.org>
-Subject: [PATCH 25/33] dpkg: clean-up packaging of start-stop-daemon
+Subject: [PATCH 30/33] dpkg: use correct path for perl libraries
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,62 +25,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 06 Dec 2016 11:50:12 -0000
-
-Dpkg-start-stop is not an intuitive name. Just call the package
-start-stop-daemon. Don't rdepend on it, because it might be empty.
-
-Install start-stop-daemon to /sbin to match Debian and busybox.
+X-List-Received-Date: Tue, 06 Dec 2016 11:50:13 -0000
 
 Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
 ---
- meta/recipes-devtools/dpkg/dpkg.inc | 18 ++++++------------
- 1 file changed, 6 insertions(+), 12 deletions(-)
+ meta/recipes-devtools/dpkg/dpkg.inc | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
 diff --git a/meta/recipes-devtools/dpkg/dpkg.inc b/meta/recipes-devtools/dpkg/dpkg.inc
-index 2eabc30..be8c253 100644
+index 414ee5b..1c404fc 100644
 --- a/meta/recipes-devtools/dpkg/dpkg.inc
 +++ b/meta/recipes-devtools/dpkg/dpkg.inc
-@@ -32,7 +32,7 @@ PACKAGECONFIG[xz] = "--with-liblzma,--without-liblzma,xz"
+@@ -1,21 +1,19 @@
+ SUMMARY = "Package maintenance system from Debian"
+ SECTION = "base"
+ LICENSE = "GPLv2+"
+-DEPENDS = "perl"
+ DEPENDS_append_class-native = " bzip2-replacement-native"
+ PROVIDES = "virtual/update-alternatives"
  
- DPKG_DEB_COMPRESSOR ?= "${@bb.utils.contains('PACKAGECONFIG', 'xz', 'xz', 'gzip', d)}"
+ UPSTREAM_CHECK_URI = "${DEBIAN_MIRROR}/main/d/dpkg/"
  
--EXTRA_OECONF += "--with-dpkg-deb-compressor=${DPKG_DEB_COMPRESSOR}"
-+EXTRA_OECONF += "--sbindir=${base_sbindir} --with-dpkg-deb-compressor=${DPKG_DEB_COMPRESSOR}"
+-inherit autotools gettext perlnative pkgconfig systemd
++inherit autotools cpan-base gettext perlnative pkgconfig systemd
  
- EXTRA_OECONF += "TAR=tar"
- EXTRA_OECONF_append_class-target = " DEB_HOST_ARCH=${DPKG_ARCH}"
-@@ -65,10 +65,14 @@ do_install_append () {
- 	fi
- }
+ SYSTEMD_SERVICE_${PN} = "dpkg-configure.service"
  
--PACKAGES =+ "update-alternatives-dpkg"
-+PACKAGES =+ "start-stop-daemon update-alternatives-dpkg"
+ export PERL = "${bindir}/perl"
+ PERL_class-native = "${STAGING_BINDIR_NATIVE}/perl-native/perl"
  
- RDEPENDS_${PN} = "${VIRTUAL-RUNTIME_update-alternatives} run-postinsts perl"
- RDEPENDS_${PN}_class-native = ""
-+RRECOMMENDS_${PN} = "start-stop-daemon"
-+RRECOMMENDS_${PN}_class-native = ""
-+
-+FILES_start-stop-daemon = "${base_sbindir}/start-stop-daemon"
+-export PERL_LIBDIR = "${libdir}/perl"
+-PERL_LIBDIR_class-native = "${libdir}/perl-native/perl"
++export PERL_LIBDIR = "${PERLLIBDIRS}/${PERLVERSION}"
  
- FILES_update-alternatives-dpkg = "${bindir}/update-alternatives ${localstatedir}/lib/dpkg/alternatives ${sysconfdir}/alternatives"
- RPROVIDES_update-alternatives-dpkg = "update-alternatives"
-@@ -77,14 +81,4 @@ RCONFLICTS_update-alternatives-dpkg = "update-alternatives"
- PACKAGES += "${PN}-perl"
- FILES_${PN}-perl = "${libdir}/perl"
- 
--# Split out start-stop-daemon to its own package.  Note that it
--# is installed in a different directory than the one used for
--# the bitbake version.
--#
--PACKAGES =+ "${PN}-start-stop"
--FILES_${PN}-start-stop = "${sbindir}/start-stop-daemon"
--
--RDEPENDS_${PN} += "${PN}-start-stop"
--
--
- BBCLASSEXTEND = "native"
+ PACKAGECONFIG ??= "bzip2 gzip start-stop-daemon update-alternatives"
+ PACKAGECONFIG[bzip2] = "--with-bz2,--without-bz2,bzip2"
 -- 
 2.7.4
 
