@@ -1,24 +1,50 @@
-Return-Path: <Mark.Asselstine@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 4710671A82
+Return-Path: <twoerner@gmail.com>
+Received: from mail-io0-f193.google.com (mail-io0-f193.google.com
+	[209.85.223.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 11BA571A86
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  6 Dec 2016 19:25:16 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id uB6JPHuw002424
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	Tue,  6 Dec 2016 19:32:24 +0000 (UTC)
+Received: by mail-io0-f193.google.com with SMTP id j92so8935056ioi.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 6 Dec 2016 11:25:18 -0800
-Received: from yow-dellw-ma.wrs.com (128.224.56.18) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.294.0;
-	Tue, 6 Dec 2016 11:25:17 -0800
-From: Mark Asselstine <mark.asselstine@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 6 Dec 2016 14:25:14 -0500
-Message-ID: <1481052314-6776-1-git-send-email-mark.asselstine@windriver.com>
-X-Mailer: git-send-email 2.7.4
+	Tue, 06 Dec 2016 11:32:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-disposition:in-reply-to:user-agent;
+	bh=ZJjjOQUFyYJXki+jnKZ6gz8ReQ2z23rB3qANkOJA4Xs=;
+	b=SzJSEChc7VWfhsFfhC/Lzmp1tL9UGvtinTzN4vsVc2M7Q6mf8EVIP85HzwPxgRCQBo
+	s3q9rOENn11Az0tSr9zbJA/f/103C9Vje9KbHAc2MbsORGflm43TQj1ReN1Bn5JTgpsN
+	QFgg8Oj86KTWgou5g6d1KtDZtK2H5W5Xwh0jl6b5cGx5yJ/Ni6D7BSYKt3OviEew4GL7
+	+Tgxla5TOX4W5m0zhlGgLrt2A1U9zCyNpjXehJx0t/xxXpIqGNsZ0YEuFA15fccHuWfF
+	YAgjUiX5lBeZR1CXAg2J5M33bIplg7TE+AXGt9fyiVE+tVSb+7WEczKzalXYPgc9GR4U
+	rpTg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to:user-agent;
+	bh=ZJjjOQUFyYJXki+jnKZ6gz8ReQ2z23rB3qANkOJA4Xs=;
+	b=RLY7bHWiPapbzl7L30VgO3OOiXxGoNGeF/Go/Q+8vORlMZn2mM6PwojL1VoRbj0XxR
+	yHdl+TXmTSG8Nz3IAJLfq/1FYBrQY80dFsHxzy3IT/oAX//vX66n/GswBuWGkNzrO1L2
+	IHBD2dRs/jdBQlAS60ibZ0cd3bG7DKngdN+cVuL4nRB8274uPjwsv6TcyjDZv0GUMNrP
+	peewDLo3jUCs+3FnoWe4iSiI+WYiqfqkGfR3zBixUFzBeZJQRxxpMzxB+SWNXRWZxuPb
+	9ODdhGPwLkoxPL66Ev4aglbJw0Qd88hXQoi4xAFEy6PCiuci1AzaREy7Q1oZss/GlTcn
+	Flgw==
+X-Gm-Message-State: AKaTC03DD2lO3ygRkTJnxN0qFNVCqC+3rVxZexGLZ1Ei/YsgJTXeyx6mzdNQPTMD5YgZfw==
+X-Received: by 10.107.201.209 with SMTP id z200mr51643723iof.220.1481052746108;
+	Tue, 06 Dec 2016 11:32:26 -0800 (PST)
+Received: from openSUSE-i7.site ([45.72.150.99])
+	by smtp.gmail.com with ESMTPSA id 2sm9553851ioz.30.2016.12.06.11.32.22
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 06 Dec 2016 11:32:25 -0800 (PST)
+Date: Tue, 6 Dec 2016 14:32:16 -0500
+From: Trevor Woerner <twoerner@gmail.com>
+To: Bruce Ashfield <bruce.ashfield@windriver.com>
+Message-ID: <20161206193216.GA12058@openSUSE-i7.site>
+References: <cover.1480711764.git.bruce.ashfield@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH] sysstat: fixup pkg_postinst to allow SYSTEMD_AUTO_ENABLE to work
+In-Reply-To: <cover.1480711764.git.bruce.ashfield@windriver.com>
+User-Agent: Mutt/1.6.0 (2016-04-01)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 0/4] kernel-yocto: consolidated pull request
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,37 +57,14 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 06 Dec 2016 19:25:17 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 06 Dec 2016 19:32:26 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
-The logic added to the pkg_postinst in commit 6bf82c26f953 has the
-side effect of rendering SYSTEMD_AUTO_ENABLE ineffective. The systemd
-service will not be configured as 'enabled' either offline(do_rootfs)
-or during first boot. Since the volatiles, as used, in the
-pkg_postinst are unused with systemd we can simply skip the
-pkg_postinst when not using sysvinit.
+On Fri 2016-12-02 @ 04:09:21 PM, Bruce Ashfield wrote:
+> This pull request is mainly to fix a couple of bugs that were reported
+> on the mailing list recently, but it also includes some kernel version
+> updates that I *think* I sent previously.
 
-Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
----
- meta/recipes-extended/sysstat/sysstat.inc | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
-
-diff --git a/meta/recipes-extended/sysstat/sysstat.inc b/meta/recipes-extended/sysstat/sysstat.inc
-index bb5629d..fce2804 100644
---- a/meta/recipes-extended/sysstat/sysstat.inc
-+++ b/meta/recipes-extended/sysstat/sysstat.inc
-@@ -42,7 +42,9 @@ do_install() {
- 	sed -i -e 's#@LIBDIR@#${libdir}#g' ${D}${systemd_unitdir}/system/sysstat.service
- }
- 
--pkg_postinst_${PN} () {
-+OVERRIDES_append = "${@bb.utils.contains('DISTRO_FEATURES', 'sysvinit', ':sysvinit', '', d)}"
-+
-+pkg_postinst_${PN}_sysvinit () {
-         if [ -n "$D" ]; then
-                 exit 0
-         fi
--- 
-2.7.4
-
+Thanks Bruce, I've tested these and they look good.
 
