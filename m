@@ -1,18 +1,18 @@
 Return-Path: <obi@opendreambox.org>
 Received: from mail.saftware.de (mail.saftware.de [83.141.3.46])
-	by mail.openembedded.org (Postfix) with ESMTP id 8ABB571A66
+	by mail.openembedded.org (Postfix) with ESMTP id EA74471A65
 	for <openembedded-core@lists.openembedded.org>;
 	Tue,  6 Dec 2016 11:50:10 +0000 (UTC)
 Received: by t510.zcs.saftware.de (Postfix, from userid 1000)
-	id 515F9B8B286; Tue,  6 Dec 2016 12:49:54 +0100 (CET)
+	id 3B5C4B8B285; Tue,  6 Dec 2016 12:49:53 +0100 (CET)
 From: Andreas Oberritter <obi@opendreambox.org>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  6 Dec 2016 12:49:41 +0100
-Message-Id: <1481024991-5882-24-git-send-email-obi@opendreambox.org>
+Date: Tue,  6 Dec 2016 12:49:40 +0100
+Message-Id: <1481024991-5882-23-git-send-email-obi@opendreambox.org>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1481024991-5882-1-git-send-email-obi@opendreambox.org>
 References: <1481024991-5882-1-git-send-email-obi@opendreambox.org>
-Subject: [PATCH 23/33] dpkg: use PACKAGECONFIG
+Subject: [PATCH 22/33] package_manager/deb: implement BAD_RECOMMENDATIONS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,74 +25,83 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 06 Dec 2016 11:50:10 -0000
-
-Keep default dependencies as before. Set default compressor to xz
-if selected, gzip otherwise.
+X-List-Received-Date: Tue, 06 Dec 2016 11:50:11 -0000
 
 Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
 ---
- meta/recipes-devtools/dpkg/dpkg.inc | 31 ++++++++++++++++++-------------
- 1 file changed, 18 insertions(+), 13 deletions(-)
+ meta/classes/rootfs_deb.bbclass |  6 ------
+ meta/lib/oe/package_manager.py  | 27 +++++++++++++++++++++++++++
+ meta/lib/oe/rootfs.py           |  2 ++
+ 3 files changed, 29 insertions(+), 6 deletions(-)
 
-diff --git a/meta/recipes-devtools/dpkg/dpkg.inc b/meta/recipes-devtools/dpkg/dpkg.inc
-index 6769a70..5b5ea01 100644
---- a/meta/recipes-devtools/dpkg/dpkg.inc
-+++ b/meta/recipes-devtools/dpkg/dpkg.inc
-@@ -1,13 +1,10 @@
- SUMMARY = "Package maintenance system from Debian"
- LICENSE = "GPLv2.0+"
- SECTION = "base"
-+DEPENDS = "perl"
-+DEPENDS_append_class-native = " bzip2-replacement-native"
- PROVIDES = "virtual/update-alternatives"
+diff --git a/meta/classes/rootfs_deb.bbclass b/meta/classes/rootfs_deb.bbclass
+index f79fca6..18d0b83 100644
+--- a/meta/classes/rootfs_deb.bbclass
++++ b/meta/classes/rootfs_deb.bbclass
+@@ -13,12 +13,6 @@ do_rootfs[vardeps] += "PACKAGE_FEED_URIS"
+ do_rootfs[lockfiles] += "${DEPLOY_DIR_DEB}/deb.lock"
+ do_populate_sdk[lockfiles] += "${DEPLOY_DIR_DEB}/deb.lock"
  
--DEPENDS = "zlib bzip2 perl ncurses"
--DEPENDS_class-native = "bzip2-replacement-native zlib-native gettext-native perl-native"
--RDEPENDS_${PN} = "${VIRTUAL-RUNTIME_update-alternatives} xz run-postinsts perl"
--RDEPENDS_${PN}_class-native = "xz-native"
+-python rootfs_deb_bad_recommendations() {
+-    if d.getVar("BAD_RECOMMENDATIONS", True):
+-        bb.warn("Debian package install does not support BAD_RECOMMENDATIONS")
+-}
+-do_rootfs[prefuncs] += "rootfs_deb_bad_recommendations"
 -
- UPSTREAM_CHECK_URI = "${DEBIAN_MIRROR}/main/d/dpkg/"
+ DEB_POSTPROCESS_COMMANDS = ""
  
- inherit autotools gettext perlnative pkgconfig systemd
-@@ -24,14 +21,18 @@ PERL_class-native = "${STAGING_BINDIR_NATIVE}/perl-native/perl"
- export PERL_LIBDIR = "${libdir}/perl"
- PERL_LIBDIR_class-native = "${libdir}/perl-native/perl"
+ opkglibdir = "${localstatedir}/lib/opkg"
+diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
+index b18148b..6c5b7ef 100644
+--- a/meta/lib/oe/package_manager.py
++++ b/meta/lib/oe/package_manager.py
+@@ -2198,6 +2198,33 @@ class DpkgPM(OpkgDpkgPM):
  
--EXTRA_OECONF = "\
--		--disable-dselect \
--		--enable-start-stop-daemon \
--		--with-zlib \
--		--with-bz2 \
--		--without-liblzma \
--		--without-selinux \
--		"
-+PACKAGECONFIG ??= "bzip2 gzip start-stop-daemon update-alternatives"
-+PACKAGECONFIG[bzip2] = "--with-bz2,--without-bz2,bzip2"
-+PACKAGECONFIG[dselect] = "--enable-dselect,--disable-dselect,ncurses"
-+PACKAGECONFIG[gzip] = "--with-zlib,--without-zlib,zlib"
-+PACKAGECONFIG[selinux] = "--with-selinux,--without-selinux,libselinux"
-+PACKAGECONFIG[start-stop-daemon] = "--enable-start-stop-daemon,--disable-start-stop-daemon"
-+PACKAGECONFIG[update-alternatives] = "--enable-update-alternatives,--disable-update-alternatives"
-+PACKAGECONFIG[xz] = "--with-liblzma,--without-liblzma,xz"
-+
-+DPKG_DEB_COMPRESSOR ?= "${@bb.utils.contains('PACKAGECONFIG', 'xz', 'xz', 'gzip', d)}"
-+
-+EXTRA_OECONF += "--with-dpkg-deb-compressor=${DPKG_DEB_COMPRESSOR}"
+         return tmp_dir
  
- EXTRA_OECONF += "TAR=tar"
- EXTRA_OECONF_append_class-target = " DEB_HOST_ARCH=${DPKG_ARCH}"
-@@ -65,6 +66,10 @@ do_install_append () {
- }
++    def handle_bad_recommendations(self):
++        bad_recommendations = (self.d.getVar("BAD_RECOMMENDATIONS", True) or "").strip()
++        if not bad_recommendations:
++            return
++
++        status_file = self.target_rootfs + "/var/lib/dpkg/status"
++
++        with open(status_file + ".tmp", "w") as status:
++            for pkg in bad_recommendations.split():
++                pkg_info = ('apt-cache', 'show', pkg)
++
++                try:
++                    output = subprocess.check_output(pkg_info, stderr=subprocess.STDOUT).decode("utf-8")
++                except subprocess.CalledProcessError as e:
++                    bb.fatal("Cannot get package info. Command '%s' "
++                             "returned %d:\n%s" % (' '.join(pkg_info), e.returncode, e.output))
++
++                for line in output.splitlines():
++                    if not line:
++                        status.write("Status: hold ok not-installed\n\n")
++                        break
++
++                    if line.startswith(' ') or line.split(': ', 1)[0] not in ('Filename', 'Size', 'MD5sum', 'MSDOS-Filename'):
++                        status.write(line + "\n")
++
++        os.rename(status_file + ".tmp", status_file)
++
+ def generate_index_files(d):
+     classes = d.getVar('PACKAGE_CLASSES', True).replace("package_", "").split()
  
- PACKAGES =+ "update-alternatives-dpkg"
+diff --git a/meta/lib/oe/rootfs.py b/meta/lib/oe/rootfs.py
+index 4c82456..b2bb67b 100644
+--- a/meta/lib/oe/rootfs.py
++++ b/meta/lib/oe/rootfs.py
+@@ -663,6 +663,8 @@ class DpkgRootfs(DpkgOpkgRootfs):
+ 
+         self.pm.update()
+ 
++        self.pm.handle_bad_recommendations()
 +
-+RDEPENDS_${PN} = "${VIRTUAL-RUNTIME_update-alternatives} run-postinsts perl"
-+RDEPENDS_${PN}_class-native = ""
-+
- FILES_update-alternatives-dpkg = "${bindir}/update-alternatives ${localstatedir}/lib/dpkg/alternatives ${sysconfdir}/alternatives"
- RPROVIDES_update-alternatives-dpkg = "update-alternatives"
- RCONFLICTS_update-alternatives-dpkg = "update-alternatives"
+         if self.progress_reporter:
+             self.progress_reporter.next_stage()
+ 
 -- 
 2.7.4
 
