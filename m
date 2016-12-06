@@ -1,47 +1,54 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qt0-f170.google.com (mail-qt0-f170.google.com
-	[209.85.216.170])
-	by mail.openembedded.org (Postfix) with ESMTP id 592CD71A6D
+Return-Path: <patrick.ohly@intel.com>
+Received: from mail-io0-f174.google.com (mail-io0-f174.google.com
+	[209.85.223.174])
+	by mail.openembedded.org (Postfix) with ESMTP id 6FDCB71A69
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  6 Dec 2016 20:14:18 +0000 (UTC)
-Received: by mail-qt0-f170.google.com with SMTP id w33so357439322qtc.3
+	Tue,  6 Dec 2016 21:14:46 +0000 (UTC)
+Received: by mail-io0-f174.google.com with SMTP id c21so621834283ioj.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 06 Dec 2016 12:14:20 -0800 (PST)
+	Tue, 06 Dec 2016 13:14:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=alJOZr/+yvw4zYRsficLm40rIP/dAgazDuOF36hgqXI=;
-	b=YERA+Fhq3xTjczu/WOv8Nz860HRZn6ckUVK6rDxACh2LSHyPZEG8WrW8V/CUhnJ5NZ
-	BCVViRNA7fgjgzxwuKrbdKgwtw+22Z0osixUY6y7uf/Tao/7GNpmaIt4wur0YyQfiH5z
-	VZ8qFbT+GpL3i1tP/jCKD2JdvBzviOQ4Ji7yrds9fYu9uoH1/Z3QJS8aCabJu6rK915j
-	tIFJec7f7CydxF6OfPoVhCpklPcGY22V158/FBlUcorVAzUUdj4GdNpF94od3BwLAB7m
-	SdIWTCYiXi3kQvrx1ctHSRWry1UHQXmqU2fjFNv2M/JYLrNjqgX3Ye4Tbtg/SNP5JaSi
-	cIag==
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:organization:mime-version:content-transfer-encoding;
+	bh=XsPGjBsGQRg028c3dQBBrPbKIjC80dzgD++Cc9wCK2k=;
+	b=VzRb/Vil+R08vk2jAq2l0TmESGgputK0uJFD7161sXdR7Z6bR+Nc+DGZXHHMMX293Z
+	GR3HEGketPPbThro6bFnO37panxxyfExkB76NNDNSWhzX32ZwEYX/3Yyh0ONodkhZ8Zl
+	VAXpHWxsnChK2BdU9s2KD8u/g1hP2jf888j4HDUXs+zj0aQEIuGmoctmc7rEauaaJOPw
+	OOG42QsQaC4elicd1RRLqc18zBpnFWqxDY2mbeeVrfCRU+VuRIWcyVmGM0EksX5A5eza
+	U8hzRt0WW0abWPY66rfoBUd7UNFytg+9QGvWm7Ppfrjmef+EaZvThahY+0aSHLYM0bBE
+	AzDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=alJOZr/+yvw4zYRsficLm40rIP/dAgazDuOF36hgqXI=;
-	b=eniuF6a8Uq73PEuuOriEHClTWdWfBZyS4asDqYOknKXoZ6CcXk8zlBdhme+fIkwx65
-	rTF5KH1C78+tF875XEmttPa332rYrb9CxDSdSOzxCnBtBPPwPSo0eTVTxcnOCfb/Qpf9
-	QwlpjlEuwDiLN4c6Hu3aumsPzmlNnz4qJKCkdUyeI81APZmyiqVS/6udqkbM+hFijS9K
-	XSE+rh+blfcnhS42CCoP1tdOo4Mtc0hFE1ImR82nKAM4IYdv98563FgX3TAMSrZbyNgw
-	8hmAuilf6pA6esKQguREIOv5hW9+dThl07WC8zPGANchd2i7H0D4rKENHtMjeWPev5M5
-	ryUA==
-X-Gm-Message-State: AKaTC00PZDxKLPgaOr4NeSaZYHBifDfmO1x8Q4O7ZlnHmw2Iwhf0i6AqZPVI01LswCYEqxAbp7fsx5wY+CBY/355
-X-Received: by 10.237.44.161 with SMTP id g30mr58093506qtd.144.1481055259770; 
-	Tue, 06 Dec 2016 12:14:19 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.140.106.99 with HTTP; Tue, 6 Dec 2016 12:13:59 -0800 (PST)
-In-Reply-To: <1481024991-5882-29-git-send-email-obi@opendreambox.org>
-References: <1481024991-5882-1-git-send-email-obi@opendreambox.org>
-	<1481024991-5882-29-git-send-email-obi@opendreambox.org>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 6 Dec 2016 20:13:59 +0000
-Message-ID: <CAJTo0LbmQkctYKqyYvbHyd+Jf-j8gkdUpH-hcPWwggWN-jinyQ@mail.gmail.com>
-To: Andreas Oberritter <obi@opendreambox.org>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 28/33] dpkg: update packages and files to match Debian more closely
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:organization:mime-version:content-transfer-encoding;
+	bh=XsPGjBsGQRg028c3dQBBrPbKIjC80dzgD++Cc9wCK2k=;
+	b=BefXUC3ZNgFT7skcYpSddgiN+lRz/rE70Bfn1gKnzwFneeGI03mJxiXpZYhbDIZj7E
+	HGmmKtpauJW5f1Vkbdyyyq7D/lSd0ylfSorvzsLJVfy9ELN2WzRVXFQJ6LX1F7HU2RJl
+	BtKdx2N7uSRU+/jRDBmfDiT1HBZmIbKnZD5v+uuWeJOn78nJmwSun9nJesuzRUy619ey
+	sJKsjlDFFNCzQC5v2wdJJsa51okk79sygVgBmPEnG+5M/mKEvFRVVSXHx/Ou7R54olN4
+	QzZDaCIUl3qB4zdWh5KpTK6Hya+kGA2TjyOoxrg2Zgo4hC2YeuKdy8Z6viAfeQGvGmJr
+	PbMw==
+X-Gm-Message-State: AKaTC03Lu41Tr6h/NRWanRY42b1hGCDxBtK0VCgsq2MINB1E69mFsg1iuqk7/OVml9OUug5q
+X-Received: by 10.107.35.73 with SMTP id j70mr6112403ioj.195.1481058885151;
+	Tue, 06 Dec 2016 13:14:45 -0800 (PST)
+Received: from pohly-mobl1 (p57A5612C.dip0.t-ipconnect.de. [87.165.97.44])
+	by smtp.gmail.com with ESMTPSA id p20sm2107155itc.8.2016.12.06.13.14.43
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 06 Dec 2016 13:14:44 -0800 (PST)
+Message-ID: <1481058881.17535.58.camel@intel.com>
+From: Patrick Ohly <patrick.ohly@intel.com>
+To: Bruce Ashfield <bruce.ashfield@windriver.com>, Mikko Ylinen
+	<mikko.ylinen@intel.com>
+Date: Tue, 06 Dec 2016 22:14:41 +0100
+In-Reply-To: <48f1e3e16ca28e1194d6024689d000cb6ffc303c.1480711764.git.bruce.ashfield@windriver.com>
+References: <cover.1480711764.git.bruce.ashfield@windriver.com>
+	<48f1e3e16ca28e1194d6024689d000cb6ffc303c.1480711764.git.bruce.ashfield@windriver.com>
+Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
+X-Mailer: Evolution 3.12.9-1+b1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 3/4] kern-tools: fix processing for no branch meta-data
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,59 +61,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 06 Dec 2016 20:14:19 -0000
-Content-Type: multipart/alternative; boundary=94eb2c125848a6f56d0543030cc6
+X-List-Received-Date: Tue, 06 Dec 2016 21:14:48 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
---94eb2c125848a6f56d0543030cc6
-Content-Type: text/plain; charset=UTF-8
+On Fri, 2016-12-02 at 16:09 -0500, Bruce Ashfield wrote:
+> Lernel meta-data that has patches, but no branches, can trigger an
+> error due to no branch specific patch queue.
+> 
+> This error then cascades to more issues since the tools are using
+> a named file in /tmp to store and display error messages to the
+> user.
+> 
+> We fix both issues though the following kern tools tweaks:
+> 
+>   commit bd9e1d6c9b0a34ff3e19a06999aaf57ffadfd04c
+>   Author: Bruce Ashfield <bruce.ashfield@windriver.com>
+>   Date:   Fri Dec 2 13:09:40 2016 -0500
+> 
+>     scc: use mktemp for consolidated output capture
+> 
+>     To provide useful error messages the tools dump pre-processed
+>     files and messages to a temporary file. If multiple users are
+>     doing builds, this means they either race, or can have permissions
+>     issues.
+> 
+>     By creating the temporary file via mktemp, we avoid both issues.
+>     (We also make sure to clean these up on exit, or /tmp will get
+>     polluted quickly).
+> 
+>   commit a287da4bfe0b4acb8f2b0627bd8e7abd1a1dde26
+>   Author: Bruce Ashfield <bruce.ashfield@windriver.com>
+>   Date:   Fri Dec 2 13:08:08 2016 -0500
+> 
+>     patch: do not assume a branch specific patch queue is needed
+> 
+>     When processing input files per-branch and global patch queues are
+>     generated. If the meta-data has not created any branches in the
+>     repo, no branch specific queue is required.
+> 
+>     The tools assumed that one is always valid, and hence would throw a
+>     non-zero exit code and stop processing.
+> 
+>     By testing for a named per-branch queue, we avoid this issue.
 
-On 6 December 2016 at 11:49, Andreas Oberritter <obi@opendreambox.org>
-wrote:
+Ostro OS runs into the problem while trying to use current OE-core
+master:
 
-> +RRECOMMENDS_dpkg-perl = "gnupg gpgv"
->
+ .../patch.cmd: line 29: : No such file or directory
 
-With plain master this causes a build failure:
+| ERROR: Function failed: do_kernel_metadata (log file is located ...)
 
-ERROR: Multiple versions of gnupg are due to be built
-(/home/ross/Yocto/poky/meta/recipes-support/gnupg/gnupg_2.1.14.bb
-/home/ross/Yocto/poky/meta/recipes-support/gnupg/gnupg_1.4.7.bb). Only one
-version of a given PN should be built in any given build. You likely need
-to set PREFERRED_VERSION_gnupg to select the correct version or don't
-depend on multiple versions.
+This commit here fixed it for me. I see that it is already in Ross' mut2
+branch, so hopefully that'll land in master soon.
 
-As gnupg 1.4.7 provides gpgv, but 2.1.14 doesn't.
+-- 
+Best Regards, Patrick Ohly
 
-No idea where 2.1.14 should, what gpgv is, or what the solution is, as it's
-late and I'm going to crash on the sofa. :)
+The content of this message is my personal opinion only and although
+I am an employee of Intel, the statements I make here in no way
+represent Intel's position on the issue, nor am I authorized to speak
+on behalf of Intel on this matter.
 
-Ross
 
---94eb2c125848a6f56d0543030cc6
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 6 December 2016 at 11:49, Andreas Oberritter <span dir=3D"ltr">&lt;<a hr=
-ef=3D"mailto:obi@opendreambox.org" target=3D"_blank">obi@opendreambox.org</=
-a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0=
-px 0px 0px 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);b=
-order-left-style:solid;padding-left:1ex"><div id=3D"gmail-:2vj" class=3D"gm=
-ail-a3s gmail-aXjCH gmail-m158d3fb4458ccc43">+RRECOMMENDS_dpkg-perl =3D &qu=
-ot;gnupg <span class=3D"gmail-il">gpgv</span>&quot;<br></div></blockquote><=
-/div><br>With plain master this causes a build failure:</div><div class=3D"=
-gmail_extra"><br></div><div class=3D"gmail_extra">ERROR: Multiple versions =
-of gnupg are due to be built (/home/ross/Yocto/poky/meta/recipes-support/gn=
-upg/<a href=3D"http://gnupg_2.1.14.bb">gnupg_2.1.14.bb</a> /home/ross/Yocto=
-/poky/meta/recipes-support/gnupg/<a href=3D"http://gnupg_1.4.7.bb">gnupg_1.=
-4.7.bb</a>). Only one version of a given PN should be built in any given bu=
-ild. You likely need to set PREFERRED_VERSION_gnupg to select the correct v=
-ersion or don&#39;t depend on multiple versions.<br></div><div class=3D"gma=
-il_extra"><br></div><div class=3D"gmail_extra">As gnupg 1.4.7 provides gpgv=
-, but 2.1.14 doesn&#39;t.</div><div class=3D"gmail_extra"><br></div><div cl=
-ass=3D"gmail_extra">No idea where 2.1.14 should, what gpgv is, or what the =
-solution is, as it&#39;s late and I&#39;m going to crash on the sofa. :)</d=
-iv><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</di=
-v></div>
 
---94eb2c125848a6f56d0543030cc6--
