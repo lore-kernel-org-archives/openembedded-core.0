@@ -1,34 +1,30 @@
-Return-Path: <joe.slater@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 2C21A71B16
+Return-Path: <Randy.MacLeod@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id A8F0071B4B
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  6 Dec 2016 22:23:39 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id uB6MNegG006828
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 6 Dec 2016 14:23:41 -0800
-Received: from ALA-MBB.corp.ad.wrs.com ([169.254.1.101]) by
-	ALA-HCB.corp.ad.wrs.com ([147.11.189.41]) with mapi id 14.03.0294.000;
-	Tue, 6 Dec 2016 14:23:40 -0800
-From: "Slater, Joseph" <joe.slater@windriver.com>
-To: "BURTON, ROSS" <ross.burton@intel.com>
-Thread-Topic: [OE-core] oetest.py construction of pkgmanifest is probably wrong
-Thread-Index: AdJPZ7LNu2kPkTmLQkyKwUAgyHPGWwAgcmUAAAlzrgA=
-Date: Tue, 6 Dec 2016 22:23:39 +0000
-Message-ID: <007BD92917A2324FA403BCF9A464CF84BF4DDF87@ALA-MBB.corp.ad.wrs.com>
-References: <007BD92917A2324FA403BCF9A464CF84BF4DD4D5@ALA-MBB.corp.ad.wrs.com>
-	<CAJTo0LbJHGvB347RYZip+4w73opHMQpm_yKMsmDfdSFgYBXjdg@mail.gmail.com>
-In-Reply-To: <CAJTo0LbJHGvB347RYZip+4w73opHMQpm_yKMsmDfdSFgYBXjdg@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [147.11.216.160]
+	Tue,  6 Dec 2016 22:59:44 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id uB6MxVqT023696
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 6 Dec 2016 14:59:33 -0800 (PST)
+Received: from [172.25.44.2] (172.25.44.2) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.294.0;
+	Tue, 6 Dec 2016 14:59:31 -0800
+To: =?UTF-8?Q?Maciej_Borz=c4=99cki?= <maciej.borzecki@rndity.com>, "Robert P.
+	J. Day" <rpjday@crashcourse.ca>
+References: <alpine.LFD.2.20.1612060948001.9434@ca624034.mitel.com>
+	<CAD4b0_+EACruAvA839=YTu8=FHAjGcuMzFbaLugJZQD6NOjf2Q@mail.gmail.com>
+From: Randy MacLeod <randy.macleod@windriver.com>
+Message-ID: <879b42db-266b-f662-bb06-b8043dca08a5@windriver.com>
+Date: Tue, 6 Dec 2016 17:59:30 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.5.1
 MIME-Version: 1.0
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: oetest.py construction of pkgmanifest is probably wrong
+In-Reply-To: <CAD4b0_+EACruAvA839=YTu8=FHAjGcuMzFbaLugJZQD6NOjf2Q@mail.gmail.com>
+X-Originating-IP: [172.25.44.2]
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: what is the closest alternative to red hat's ABRT in OE?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,95 +37,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 06 Dec 2016 22:23:40 -0000
-Content-Language: en-US
-Content-Type: multipart/alternative;
-	boundary="_000_007BD92917A2324FA403BCF9A464CF84BF4DDF87ALAMBBcorpadwrs_"
+X-List-Received-Date: Tue, 06 Dec 2016 22:59:45 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
---_000_007BD92917A2324FA403BCF9A464CF84BF4DDF87ALAMBBcorpadwrs_
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+On 2016-12-06 11:02 AM, Maciej BorzDcki wrote:
+> On Tue, Dec 6, 2016 at 3:49 PM, Robert P. J. Day <rpjday@crashcourse.ca> wrote:
+>>
+>>   as in:
+>>
+>> https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/6/html/Deployment_Guide/ch-abrt.html
+>>
+>> specifically, to manage core files? i would have thought judicious use
+>> of "ulimit" would be the solution. others?
+>>
+>
+> If you're using systemd there is systemd-coredump(8).
+>
 
-SG0sIEkgc2VlIHRoaXMgd2hvbGUgdGhpbmcgaXMgYmVpbmcgcmUtd3JpdHRlbi4gIE1heWJlIHRo
-YXQgd2lsbCBmaXggaXQuICAgICAgSm9lDQoNCkZyb206IEJ1cnRvbiwgUm9zcyBbbWFpbHRvOnJv
-c3MuYnVydG9uQGludGVsLmNvbV0NClNlbnQ6IFR1ZXNkYXksIERlY2VtYmVyIDA2LCAyMDE2IDE6
-NTIgQU0NClRvOiBTbGF0ZXIsIEpvc2VwaA0KQ2M6IG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9w
-ZW5lbWJlZGRlZC5vcmcNClN1YmplY3Q6IFJlOiBbT0UtY29yZV0gb2V0ZXN0LnB5IGNvbnN0cnVj
-dGlvbiBvZiBwa2dtYW5pZmVzdCBpcyBwcm9iYWJseSB3cm9uZw0KDQoNCk9uIDYgRGVjZW1iZXIg
-MjAxNiBhdCAwMjoyNCwgU2xhdGVyLCBKb3NlcGggPGpvZS5zbGF0ZXJAd2luZHJpdmVyLmNvbTxt
-YWlsdG86am9lLnNsYXRlckB3aW5kcml2ZXIuY29tPj4gd3JvdGU6DQpUaGlzIHZhcmlhYmxlIGlz
-IGEgZGljdGlvbmFyeSB3aXRoIGVudHJpZXMgYmFzZWQgb24gcGFja2FnZSwgYnV0IGZvciBtdWx0
-aWxsaWIgYSBwYWNrYWdlIG1pZ2h0IGV4aXN0IGluIG9ubHkgc29tZSB2YXJpYW50cy4gIFBlcmhh
-cHMNCmVhY2ggZW50cnkgc2hvdWxkIGJlIGEgZGljdGlvbmFyeSBvZiBtdWx0aWxpYiB2YXJpYW50
-cz8NCg0KWWVhaCwgcHJvYmFibHkuICBHb3QgYSBwYXRjaD8gOikNCg0KUm9zcw0K
+You could try minicoredumper:
 
---_000_007BD92917A2324FA403BCF9A464CF84BF4DDF87ALAMBBcorpadwrs_
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: base64
+https://linutronix.de/minicoredumper/
 
-PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
-bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
-YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
-cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
-VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
-Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
-ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTQgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
-PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
-Q2FsaWJyaTsNCglwYW5vc2UtMToyIDE1IDUgMiAyIDIgNCAzIDIgNDt9DQpAZm9udC1mYWNlDQoJ
-e2ZvbnQtZmFtaWx5OlRhaG9tYTsNCglwYW5vc2UtMToyIDExIDYgNCAzIDUgNCA0IDIgNDt9DQov
-KiBTdHlsZSBEZWZpbml0aW9ucyAqLw0KcC5Nc29Ob3JtYWwsIGxpLk1zb05vcm1hbCwgZGl2Lk1z
-b05vcm1hbA0KCXttYXJnaW46MGluOw0KCW1hcmdpbi1ib3R0b206LjAwMDFwdDsNCglmb250LXNp
-emU6MTIuMHB0Ow0KCWZvbnQtZmFtaWx5OiJUaW1lcyBOZXcgUm9tYW4iLCJzZXJpZiI7fQ0KYTps
-aW5rLCBzcGFuLk1zb0h5cGVybGluaw0KCXttc28tc3R5bGUtcHJpb3JpdHk6OTk7DQoJY29sb3I6
-Ymx1ZTsNCgl0ZXh0LWRlY29yYXRpb246dW5kZXJsaW5lO30NCmE6dmlzaXRlZCwgc3Bhbi5Nc29I
-eXBlcmxpbmtGb2xsb3dlZA0KCXttc28tc3R5bGUtcHJpb3JpdHk6OTk7DQoJY29sb3I6cHVycGxl
-Ow0KCXRleHQtZGVjb3JhdGlvbjp1bmRlcmxpbmU7fQ0Kc3Bhbi5FbWFpbFN0eWxlMTcNCgl7bXNv
-LXN0eWxlLXR5cGU6cGVyc29uYWwtcmVwbHk7DQoJZm9udC1mYW1pbHk6IkNhbGlicmkiLCJzYW5z
-LXNlcmlmIjsNCgljb2xvcjojMUY0OTdEO30NCi5Nc29DaHBEZWZhdWx0DQoJe21zby1zdHlsZS10
-eXBlOmV4cG9ydC1vbmx5Ow0KCWZvbnQtZmFtaWx5OiJDYWxpYnJpIiwic2Fucy1zZXJpZiI7fQ0K
-QHBhZ2UgV29yZFNlY3Rpb24xDQoJe3NpemU6OC41aW4gMTEuMGluOw0KCW1hcmdpbjoxLjBpbiAx
-LjBpbiAxLjBpbiAxLjBpbjt9DQpkaXYuV29yZFNlY3Rpb24xDQoJe3BhZ2U6V29yZFNlY3Rpb24x
-O30NCi0tPjwvc3R5bGU+PCEtLVtpZiBndGUgbXNvIDldPjx4bWw+DQo8bzpzaGFwZWRlZmF1bHRz
-IHY6ZXh0PSJlZGl0IiBzcGlkbWF4PSIxMDI2IiAvPg0KPC94bWw+PCFbZW5kaWZdLS0+PCEtLVtp
-ZiBndGUgbXNvIDldPjx4bWw+DQo8bzpzaGFwZWxheW91dCB2OmV4dD0iZWRpdCI+DQo8bzppZG1h
-cCB2OmV4dD0iZWRpdCIgZGF0YT0iMSIgLz4NCjwvbzpzaGFwZWxheW91dD48L3htbD48IVtlbmRp
-Zl0tLT4NCjwvaGVhZD4NCjxib2R5IGxhbmc9IkVOLVVTIiBsaW5rPSJibHVlIiB2bGluaz0icHVy
-cGxlIj4NCjxkaXYgY2xhc3M9IldvcmRTZWN0aW9uMSI+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48
-c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1
-b3Q7LCZxdW90O3NhbnMtc2VyaWYmcXVvdDs7Y29sb3I6IzFGNDk3RCI+SG0sIEkgc2VlIHRoaXMg
-d2hvbGUgdGhpbmcgaXMgYmVpbmcgcmUtd3JpdHRlbi4mbmJzcDsgTWF5YmUgdGhhdCB3aWxsIGZp
-eCBpdC4mbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsgSm9lPG86cD48L286cD48L3NwYW4+
-PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7
-Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OywmcXVvdDtzYW5zLXNlcmlmJnF1b3Q7O2Nv
-bG9yOiMxRjQ5N0QiPjxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4NCjxkaXYgc3R5bGU9ImJv
-cmRlcjpub25lO2JvcmRlci1sZWZ0OnNvbGlkIGJsdWUgMS41cHQ7cGFkZGluZzowaW4gMGluIDBp
-biA0LjBwdCI+DQo8ZGl2Pg0KPGRpdiBzdHlsZT0iYm9yZGVyOm5vbmU7Ym9yZGVyLXRvcDpzb2xp
-ZCAjQjVDNERGIDEuMHB0O3BhZGRpbmc6My4wcHQgMGluIDBpbiAwaW4iPg0KPHAgY2xhc3M9Ik1z
-b05vcm1hbCI+PGI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMC4wcHQ7Zm9udC1mYW1pbHk6JnF1
-b3Q7VGFob21hJnF1b3Q7LCZxdW90O3NhbnMtc2VyaWYmcXVvdDsiPkZyb206PC9zcGFuPjwvYj48
-c3BhbiBzdHlsZT0iZm9udC1zaXplOjEwLjBwdDtmb250LWZhbWlseTomcXVvdDtUYWhvbWEmcXVv
-dDssJnF1b3Q7c2Fucy1zZXJpZiZxdW90OyI+IEJ1cnRvbiwgUm9zcyBbbWFpbHRvOnJvc3MuYnVy
-dG9uQGludGVsLmNvbV0NCjxicj4NCjxiPlNlbnQ6PC9iPiBUdWVzZGF5LCBEZWNlbWJlciAwNiwg
-MjAxNiAxOjUyIEFNPGJyPg0KPGI+VG86PC9iPiBTbGF0ZXIsIEpvc2VwaDxicj4NCjxiPkNjOjwv
-Yj4gb3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZzxicj4NCjxiPlN1Ympl
-Y3Q6PC9iPiBSZTogW09FLWNvcmVdIG9ldGVzdC5weSBjb25zdHJ1Y3Rpb24gb2YgcGtnbWFuaWZl
-c3QgaXMgcHJvYmFibHkgd3Jvbmc8bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8L2Rpdj4NCjwvZGl2
-Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PG86cD4mbmJzcDs8L286cD48L3A+DQo8ZGl2Pg0KPGRp
-dj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxvOnA+Jm5ic3A7PC9vOnA+PC9wPg0KPGRpdj4NCjxw
-IGNsYXNzPSJNc29Ob3JtYWwiPk9uIDYgRGVjZW1iZXIgMjAxNiBhdCAwMjoyNCwgU2xhdGVyLCBK
-b3NlcGggJmx0OzxhIGhyZWY9Im1haWx0bzpqb2Uuc2xhdGVyQHdpbmRyaXZlci5jb20iIHRhcmdl
-dD0iX2JsYW5rIj5qb2Uuc2xhdGVyQHdpbmRyaXZlci5jb208L2E+Jmd0OyB3cm90ZTo8bzpwPjwv
-bzpwPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiIHN0eWxlPSJtc28tbWFyZ2luLXRvcC1hbHQ6
-YXV0bzttc28tbWFyZ2luLWJvdHRvbS1hbHQ6YXV0byI+VGhpcyB2YXJpYWJsZSBpcyBhIGRpY3Rp
-b25hcnkgd2l0aCBlbnRyaWVzIGJhc2VkIG9uIHBhY2thZ2UsIGJ1dCBmb3IgbXVsdGlsbGliIGEg
-cGFja2FnZSBtaWdodCBleGlzdCBpbiBvbmx5IHNvbWUgdmFyaWFudHMuJm5ic3A7IFBlcmhhcHM8
-bzpwPjwvbzpwPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiIHN0eWxlPSJtc28tbWFyZ2luLXRv
-cC1hbHQ6YXV0bzttc28tbWFyZ2luLWJvdHRvbS1hbHQ6YXV0byI+ZWFjaCBlbnRyeSBzaG91bGQg
-YmUgYSBkaWN0aW9uYXJ5IG9mIG11bHRpbGliIHZhcmlhbnRzPzxvOnA+PC9vOnA+PC9wPg0KPC9k
-aXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48YnI+DQpZZWFoLCBwcm9iYWJseS4mbmJzcDsgR290
-IGEgcGF0Y2g/IDopPG86cD48L286cD48L3A+DQo8L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNv
-Tm9ybWFsIj48bzpwPiZuYnNwOzwvbzpwPjwvcD4NCjwvZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJN
-c29Ob3JtYWwiPlJvc3M8bzpwPjwvbzpwPjwvcD4NCjwvZGl2Pg0KPC9kaXY+DQo8L2Rpdj4NCjwv
-ZGl2Pg0KPC9ib2R5Pg0KPC9odG1sPg0K
+<quote>
+    The minicoredumper project provides a program that handles the
+    creation of core dump files on Linux. It can produce much smaller
+    core dump files by making use of sparse files, compression, and
+    allowing the user to configure what parts of the process memory
+    image should be dumped.
+</quote>
 
---_000_007BD92917A2324FA403BCF9A464CF84BF4DDF87ALAMBBcorpadwrs_--
+There's even a slightly out of date meta-oe recipe:
+
+http://cgit.openembedded.org/cgit.cgi/meta-openembedded/tree/meta-oe/recipes-kernel/minicoredumper/minicoredumper_1.0.2.bb?h=master
+
+
+Oh and Ubuntu uses apport:
+   https://wiki.ubuntu.com/Apport
+
+	--
+# Randy MacLeod. SMTS, Linux, Wind River
+Direct: 613.963.1350 | 350 Terry Fox Drive, Suite 200, Ottawa, ON, 
+Canada, K2K 2W5
+
