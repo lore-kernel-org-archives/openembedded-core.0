@@ -1,18 +1,18 @@
 Return-Path: <obi@opendreambox.org>
 Received: from mail.saftware.de (mail.saftware.de [83.141.3.46])
-	by mail.openembedded.org (Postfix) with ESMTP id 0614571A71
+	by mail.openembedded.org (Postfix) with ESMTP id 8199071A6E
 	for <openembedded-core@lists.openembedded.org>;
 	Tue,  6 Dec 2016 11:50:15 +0000 (UTC)
 Received: by t510.zcs.saftware.de (Postfix, from userid 1000)
-	id E19F2B8B28A; Tue,  6 Dec 2016 12:49:54 +0100 (CET)
+	id 0247FB8B28D; Tue,  6 Dec 2016 12:49:54 +0100 (CET)
 From: Andreas Oberritter <obi@opendreambox.org>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  6 Dec 2016 12:49:50 +0100
-Message-Id: <1481024991-5882-33-git-send-email-obi@opendreambox.org>
+Date: Tue,  6 Dec 2016 12:49:51 +0100
+Message-Id: <1481024991-5882-34-git-send-email-obi@opendreambox.org>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1481024991-5882-1-git-send-email-obi@opendreambox.org>
 References: <1481024991-5882-1-git-send-email-obi@opendreambox.org>
-Subject: [PATCH 32/33] apt: fix rpath error during configure
+Subject: [PATCH 33/33] apt: dselect depends on perl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,28 +27,24 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 06 Dec 2016 11:50:15 -0000
 
-| checking for shared library run path origin... /bin/sh: ../apt-1.0.10.1/buildlib/config.rpath: No such file or directory
-
 Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
 ---
- meta/recipes-devtools/apt/apt_1.2.12.bb | 3 +++
- 1 file changed, 3 insertions(+)
+ meta/recipes-devtools/apt/apt_1.2.12.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/meta/recipes-devtools/apt/apt_1.2.12.bb b/meta/recipes-devtools/apt/apt_1.2.12.bb
-index 4d781a2..5dc50a4 100644
+index 5dc50a4..0b640f9 100644
 --- a/meta/recipes-devtools/apt/apt_1.2.12.bb
 +++ b/meta/recipes-devtools/apt/apt_1.2.12.bb
-@@ -28,7 +28,10 @@ UPSTREAM_CHECK_URI = "${DEBIAN_MIRROR}/main/a/apt/"
+@@ -110,7 +110,7 @@ do_install_append_class-target() {
+ PACKAGES =+ "${PN}-dselect ${PN}-transport-https ${PN}-utils lib${PN}-inst lib${PN}-pkg"
  
- inherit autotools gettext useradd
+ RDEPENDS_${PN} = "dpkg debianutils"
+-RDEPENDS_${PN}-dselect = "bash"
++RDEPENDS_${PN}-dselect = "bash perl"
  
-+AUTOTOOLS_AUXDIR = "${S}/buildlib"
-+
- EXTRA_AUTORECONF = "--exclude=autopoint,autoheader"
-+EXTRA_OECONF = "--disable-rpath"
- 
- PACKAGECONFIG ??= "lzma"
- PACKAGECONFIG[lzma] = "ac_cv_lib_lzma_lzma_easy_encoder=yes,ac_cv_lib_lzma_lzma_easy_encoder=no,xz"
+ RRECOMMENDS_${PN} = "gnupg"
+ RRECOMMENDS_${PN}_class-native = ""
 -- 
 2.7.4
 
