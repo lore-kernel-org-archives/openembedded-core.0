@@ -1,18 +1,18 @@
 Return-Path: <obi@opendreambox.org>
 Received: from mail.saftware.de (mail.saftware.de [83.141.3.46])
-	by mail.openembedded.org (Postfix) with ESMTP id 71832719F9
+	by mail.openembedded.org (Postfix) with ESMTP id C11FD71A5E
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  6 Dec 2016 11:50:04 +0000 (UTC)
+	Tue,  6 Dec 2016 11:50:05 +0000 (UTC)
 Received: by t510.zcs.saftware.de (Postfix, from userid 1000)
-	id 8DD51B8B27E; Tue,  6 Dec 2016 12:49:53 +0100 (CET)
+	id B37F7B8B283; Tue,  6 Dec 2016 12:49:53 +0100 (CET)
 From: Andreas Oberritter <obi@opendreambox.org>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  6 Dec 2016 12:49:31 +0100
-Message-Id: <1481024991-5882-14-git-send-email-obi@opendreambox.org>
+Date: Tue,  6 Dec 2016 12:49:35 +0100
+Message-Id: <1481024991-5882-18-git-send-email-obi@opendreambox.org>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1481024991-5882-1-git-send-email-obi@opendreambox.org>
 References: <1481024991-5882-1-git-send-email-obi@opendreambox.org>
-Subject: [PATCH 13/33] apt: rewrite do_install
+Subject: [PATCH 17/33] apt: group variables (license, configuration, packaging)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,116 +25,90 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 06 Dec 2016 11:50:04 -0000
-
-Install missing files and directories (apt, apt-ftparchive,
-apt-helper, apt-mark, trusted.gpg.d).
+X-List-Received-Date: Tue, 06 Dec 2016 11:50:06 -0000
 
 Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
 ---
- meta/recipes-devtools/apt/apt_1.2.12.bb | 73 ++++++++++++++++++---------------
- 1 file changed, 41 insertions(+), 32 deletions(-)
+ meta/recipes-devtools/apt/apt_1.2.12.bb | 32 +++++++++++++++++---------------
+ 1 file changed, 17 insertions(+), 15 deletions(-)
 
 diff --git a/meta/recipes-devtools/apt/apt_1.2.12.bb b/meta/recipes-devtools/apt/apt_1.2.12.bb
-index c531a49..20c7cb4 100644
+index 3463a23..a350b36 100644
 --- a/meta/recipes-devtools/apt/apt_1.2.12.bb
 +++ b/meta/recipes-devtools/apt/apt_1.2.12.bb
-@@ -4,44 +4,55 @@ require apt.inc
+@@ -1,8 +1,8 @@
+ SUMMARY = "Advanced front-end for dpkg"
+ SECTION = "base"
+ LICENSE = "GPLv2.0+"
++LIC_FILES_CHKSUM = "file://COPYING.GPL;md5=0636e73ff0215e8d672dc4c32c317bb3"
+ DEPENDS = "curl db zlib"
+-RDEPENDS_${PN} = "dpkg bash debianutils"
  
- PACKAGES =+ "${PN}-utils"
- FILES_${PN} += "${libdir}/dpkg"
--FILES_${PN}-utils = "${bindir}/apt-sortpkgs ${bindir}/apt-extracttemplates"
+ SRC_URI = "http://snapshot.debian.org/archive/debian/20160526T162943Z/pool/main/a/${BPN}/${BPN}_${PV}.tar.xz \
+            file://use-host.patch \
+@@ -21,7 +21,6 @@ SRC_URI = "http://snapshot.debian.org/archive/debian/20160526T162943Z/pool/main/
+            "
+ SRC_URI[md5sum] = "80f6f0ef110a45a7e5af8a9d233fb0e7"
+ SRC_URI[sha256sum] = "e820d27cba73476df4abcff27dadd1b5847474bfe85f7e9202a9a07526973ea6"
+-LIC_FILES_CHKSUM = "file://COPYING.GPL;md5=0636e73ff0215e8d672dc4c32c317bb3"
+ 
+ # the package is taken from snapshots.debian.org; that source is static and goes stale
+ # so we check the latest upstream from a directory that does get updated
+@@ -31,6 +30,13 @@ inherit autotools gettext useradd
+ 
+ EXTRA_AUTORECONF = "--exclude=autopoint,autoheader"
+ 
++PACKAGECONFIG ??= "lzma"
++PACKAGECONFIG[lzma] = "ac_cv_lib_lzma_lzma_easy_encoder=yes,ac_cv_lib_lzma_lzma_easy_encoder=no,xz"
++PACKAGECONFIG[bz2] = "ac_cv_lib_bz2_BZ2_bzopen=yes,ac_cv_lib_bz2_BZ2_bzopen=no,bzip2"
++PACKAGECONFIG[lz4] = "ac_cv_lib_lz4_LZ4F_createCompressionContext=yes,ac_cv_lib_lz4_LZ4F_createCompressionContext=no,lz4"
++
++USE_NLS_class-native = "yes"
++
+ do_configure_prepend() {
+     rm -rf ${S}/buildlib/config.sub
+     rm -rf ${S}/buildlib/config.guess
+@@ -39,14 +45,6 @@ do_configure_prepend() {
+ USERADD_PACKAGES = "${PN}"
+ USERADD_PARAM_${PN} = "--system --no-create-home --home-dir /nonexistent --shell /bin/false --user-group _apt"
+ 
+-USE_NLS_class-native = "yes"
+-
+-PACKAGES =+ "${PN}-utils"
+-FILES_${PN} += "${libdir}/dpkg"
+-FILES_${PN}-utils = "${bindir}/apt-extracttemplates \
+-                     ${bindir}/apt-ftparchive \
+-                     ${bindir}/apt-sortpkgs"
+-
+ PROGRAMS = " \
+     apt apt-cache apt-cdrom apt-config apt-extracttemplates \
+     apt-ftparchive apt-get apt-key apt-mark apt-sortpkgs \
+@@ -94,11 +92,6 @@ do_install () {
+ 	install -d ${D}${localstatedir}/log/apt
+ }
+ 
+-PACKAGECONFIG ??= "lzma"
+-PACKAGECONFIG[lzma] = "ac_cv_lib_lzma_lzma_easy_encoder=yes,ac_cv_lib_lzma_lzma_easy_encoder=no,xz"
+-PACKAGECONFIG[bz2] = "ac_cv_lib_bz2_BZ2_bzopen=yes,ac_cv_lib_bz2_BZ2_bzopen=no,bzip2"
+-PACKAGECONFIG[lz4] = "ac_cv_lib_lz4_LZ4F_createCompressionContext=yes,ac_cv_lib_lz4_LZ4F_createCompressionContext=no,lz4"
+-
+ do_install_append_class-native() {
+     sed -e "s,@STAGING_DIR_NATIVE@,${STAGING_DIR_NATIVE},g" \
+         -e "s,@STAGING_BINDIR_NATIVE@,${STAGING_BINDIR_NATIVE},g" \
+@@ -111,4 +104,13 @@ do_install_append_class-target() {
+     echo 'APT::Architecture "${DPKG_ARCH}";' > ${D}${sysconfdir}/apt/apt.conf
+ }
+ 
++PACKAGES =+ "${PN}-utils"
++
++RDEPENDS_${PN} = "dpkg bash debianutils"
++
++FILES_${PN} += "${libdir}/dpkg"
 +FILES_${PN}-utils = "${bindir}/apt-extracttemplates \
 +                     ${bindir}/apt-ftparchive \
 +                     ${bindir}/apt-sortpkgs"
 +
-+PROGRAMS = " \
-+    apt apt-cache apt-cdrom apt-config apt-extracttemplates \
-+    apt-ftparchive apt-get apt-key apt-mark apt-sortpkgs \
-+"
- 
- do_install () {
--	set -x
- 	install -d ${D}${bindir}
--	install -m 0755 bin/apt-key ${D}${bindir}/
--	install -m 0755 bin/apt-cdrom ${D}${bindir}/
--	install -m 0755 bin/apt-get ${D}${bindir}/
--	install -m 0755 bin/apt-config ${D}${bindir}/
--	install -m 0755 bin/apt-cache ${D}${bindir}/
-+	for f in ${PROGRAMS}; do
-+		install -m 0755 bin/$f ${D}${bindir}
-+	done
-+
-+	install -d ${D}${docdir}/apt/examples
-+	install -m 0644 ${S}/doc/examples/* ${D}${docdir}/apt/examples
- 
--	install -m 0755 bin/apt-sortpkgs ${D}${bindir}/
--	install -m 0755 bin/apt-extracttemplates ${D}${bindir}/
-+	install -d ${D}${includedir}/apt-pkg
-+	install -m 0644 include/apt-pkg/*.h ${D}${includedir}/apt-pkg
- 
--	oe_libinstall -so -C bin libapt-pkg ${D}${libdir}
--	oe_libinstall -so -C bin libapt-inst ${D}${libdir}
-+	install -d ${D}${libdir}
-+	for f in inst pkg private; do
-+		oe_libinstall -so -C bin libapt-$f ${D}${libdir}
-+	done
-+
-+	install -d ${D}${libdir}/apt
-+	install -m 0755 bin/apt-helper ${D}${libdir}/apt
- 
- 	install -d ${D}${libdir}/apt/methods
--	install -m 0755 bin/methods/* ${D}${libdir}/apt/methods/
-+	install -m 0755 bin/methods/* ${D}${libdir}/apt/methods
- 
- 	install -d ${D}${libdir}/dpkg/methods/apt
--	install -m 0644 ${S}/dselect/desc.apt ${D}${libdir}/dpkg/methods/apt/ 
--	install -m 0644 ${S}/dselect/names ${D}${libdir}/dpkg/methods/apt/ 
--	install -m 0755 ${S}/dselect/install ${D}${libdir}/dpkg/methods/apt/ 
--	install -m 0755 ${S}/dselect/setup ${D}${libdir}/dpkg/methods/apt/ 
--	install -m 0755 ${S}/dselect/update ${D}${libdir}/dpkg/methods/apt/ 
--
--	install -d ${D}${sysconfdir}/apt
--	install -d ${D}${sysconfdir}/apt/apt.conf.d
--	install -d ${D}${sysconfdir}/apt/sources.list.d
--	install -d ${D}${sysconfdir}/apt/preferences.d
--	install -d ${D}${localstatedir}/lib/apt/lists/partial
--	install -d ${D}${localstatedir}/cache/apt/archives/partial
--	install -d ${D}${docdir}/apt/examples
--	install -m 0644 ${S}/doc/examples/* ${D}${docdir}/apt/examples/
-+	for f in desc.apt names; do
-+		install -m 0644 ${S}/dselect/$f ${D}${libdir}/dpkg/methods/apt
-+	done
-+	for f in install setup update; do
-+		install -m 0755 ${S}/dselect/$f ${D}${libdir}/dpkg/methods/apt
-+	done
-+
-+	for d in apt.conf.d preferences.d sources.list.d trusted.gpg.d; do
-+		install -d ${D}${sysconfdir}/apt/$d
-+	done
- 
--	install -d ${D}${includedir}/apt-pkg/
--	install -m 0644 include/apt-pkg/*.h ${D}${includedir}/apt-pkg/
-+	install -d ${D}${localstatedir}/cache/apt/archives/partial
-+	install -d ${D}${localstatedir}/lib/apt/lists/partial
-+	install -d ${D}${localstatedir}/lib/apt/mirrors/partial
-+	install -d ${D}${localstatedir}/lib/apt/periodic
-+	install -d ${D}${localstatedir}/log/apt
- }
- 
- PACKAGECONFIG ??= "lzma"
-@@ -49,9 +60,7 @@ PACKAGECONFIG[lzma] = "ac_cv_lib_lzma_lzma_easy_encoder=yes,ac_cv_lib_lzma_lzma_
- PACKAGECONFIG[bz2] = "ac_cv_lib_bz2_BZ2_bzopen=yes,ac_cv_lib_bz2_BZ2_bzopen=no,bzip2"
- PACKAGECONFIG[lz4] = "ac_cv_lib_lz4_LZ4F_createCompressionContext=yes,ac_cv_lib_lz4_LZ4F_createCompressionContext=no,lz4"
- 
--do_install_append() {
-+do_install_append_class-target() {
-     #Write the correct apt-architecture to apt.conf
--    APT_CONF=${D}/etc/apt/apt.conf
--    echo 'APT::Architecture "${DPKG_ARCH}";' > ${APT_CONF}
--    oe_libinstall -so -C bin libapt-private ${D}${libdir}/
-+    echo 'APT::Architecture "${DPKG_ARCH}";' > ${D}${sysconfdir}/apt/apt.conf
- }
+ BBCLASSEXTEND = "native"
 -- 
 2.7.4
 
