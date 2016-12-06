@@ -1,49 +1,35 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f181.google.com (mail-qk0-f181.google.com
-	[209.85.220.181])
-	by mail.openembedded.org (Postfix) with ESMTP id 971BC71A6A
+Return-Path: <obi@opendreambox.org>
+Received: from mail.dream-property.net (mail.dream-property.net
+	[82.149.226.172])
+	by mail.openembedded.org (Postfix) with ESMTP id DDB6E71A6A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  6 Dec 2016 16:06:40 +0000 (UTC)
-Received: by mail-qk0-f181.google.com with SMTP id n21so384335829qka.3
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 06 Dec 2016 08:06:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=KafLp5oMnXotEHcuX5KKhkKgElDdcAJNTwEbGeOtEgM=;
-	b=ff4P6XIGr1j67SEuo7S9nHwwl2lENmLKRvbzuLtFAO6aiIwQCU0L41u0eGLaFCqnnF
-	09pIMibWhCEiboyA0WyodEqZuSOGITATSDu+3nhS1scerJUMXQaLCHlRDyi1xNXu1yAS
-	K7ZmPgA5ypfpQ1+u1C3Aa4AKz+gSCxlIbOGg3NlcHVrlyvahGuLEG3EU7ykXvoYnLtcI
-	ad0eatG7k1TOXTxip3OfSbRHKUdT7HAUlzo63JhFxkqrPNaF/lT+hzFzs2uTAlfpjxCx
-	HgNu3WDj8xs2SRNDOxJ9AWcvsfqknoeQEQ9IbfZ4oBfMdd8nw27fL5IphhwAKjW9n7wk
-	gyvQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=KafLp5oMnXotEHcuX5KKhkKgElDdcAJNTwEbGeOtEgM=;
-	b=TxlG/t3yQ5z6J86SqZxtNhGHHyM4QyaI73fU4m2d3s989ZHrR9DdkOfUgxQbdIboCU
-	A2YkvZlCcFJyBzGDsQop828MqfQWB7DTMBySeg4hApk7h81/VGoe5nHpL/OdUBZwtE2f
-	/i+K1ofzU4rlF7hxyDuv1gJVvlrpyRvveaOyofzL87CHBAinIW+TkasoPlKpZ0u02tvd
-	lUmlWQjdOTfIHtIPPn7TOFW3ilkXmFYZX4f6/tZEfU2GV5PC/aCqwPSl69mEzu5YOpuJ
-	xJ818HoxhygOXXBufbIQ9VEIDcuIF/qE8mL3Y5pdAQJ8dDTHgy26uT1L/18/ygwFXhQ5
-	YSdg==
-X-Gm-Message-State: AKaTC00LeQJB51LGMrMILrruozqmj5YcVdG5S5h2KIxPP55XHiH9In57ad+t3pMoo2rs5luP02n6VEsMeUCGiqFT
-X-Received: by 10.55.75.17 with SMTP id y17mr47497085qka.26.1481040401725;
-	Tue, 06 Dec 2016 08:06:41 -0800 (PST)
+	Tue,  6 Dec 2016 16:08:17 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by mail.dream-property.net (Postfix) with ESMTP id EB23A31C21B2;
+	Tue,  6 Dec 2016 17:08:18 +0100 (CET)
+X-Virus-Scanned: Debian amavisd-new at mail.dream-property.net
+Received: from mail.dream-property.net ([127.0.0.1])
+	by localhost (mail.dream-property.net [127.0.0.1]) (amavisd-new,
+	port 10024)
+	with LMTP id EKhWN8dZ5_cw; Tue,  6 Dec 2016 17:08:16 +0100 (CET)
+Received: from [172.22.22.61] (55d40c51.access.ecotel.net [85.212.12.81])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by mail.dream-property.net (Postfix) with ESMTPSA id CE36331C21AA;
+	Tue,  6 Dec 2016 17:08:16 +0100 (CET)
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <1481024991-5882-1-git-send-email-obi@opendreambox.org>
+	<1481024991-5882-4-git-send-email-obi@opendreambox.org>
+	<CAJTo0LbCWZYmnaxDjKNr==nNvyXn0Y3nXnJanoQb5ccgZpWxpg@mail.gmail.com>
+From: Andreas Oberritter <obi@opendreambox.org>
+Message-ID: <eab1dd56-d37f-6e3d-f8f3-f5cfa1f99a52@opendreambox.org>
+Date: Tue, 6 Dec 2016 17:08:16 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.5.1
 MIME-Version: 1.0
-Received: by 10.140.106.99 with HTTP; Tue, 6 Dec 2016 08:06:21 -0800 (PST)
-In-Reply-To: <26165659-66e8-f334-2035-1b50001524cc@opendreambox.org>
-References: <1480545786-5069-1-git-send-email-obi@opendreambox.org>
-	<1480545786-5069-3-git-send-email-obi@opendreambox.org>
-	<CAJTo0LZxQO7B6V=MK9+XE1is=jNDFut8Fq+q7S9Mrov7FrLX5g@mail.gmail.com>
-	<26165659-66e8-f334-2035-1b50001524cc@opendreambox.org>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 6 Dec 2016 16:06:21 +0000
-Message-ID: <CAJTo0LYr1fUAPThGvLmWT_Jf0A+fzA302xHWfw4+NkY0d0FGGA@mail.gmail.com>
-To: Andreas Oberritter <obi@opendreambox.org>
+In-Reply-To: <CAJTo0LbCWZYmnaxDjKNr==nNvyXn0Y3nXnJanoQb5ccgZpWxpg@mail.gmail.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/6] keyutils: new recipe (version 1.5.9)
+Subject: Re: [PATCH 03/33] dpkg-native: hardcode SYSCONFDIR to /etc in update-alternatives
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,39 +42,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 06 Dec 2016 16:06:43 -0000
-Content-Type: multipart/alternative; boundary=001a114a88c80b64d50542ff9798
+X-List-Received-Date: Tue, 06 Dec 2016 16:08:18 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
 
---001a114a88c80b64d50542ff9798
-Content-Type: text/plain; charset=UTF-8
+On 06.12.2016 16:39, Burton, Ross wrote:
+> 
+> On 6 December 2016 at 11:49, Andreas Oberritter <obi@opendreambox.org
+> <mailto:obi@opendreambox.org>> wrote:
+> 
+>     +    sed -i -e 's|SYSCONFDIR|"/etc"|' ${S}/utils/update-alternatives.c
+> 
+> 
+> Hardcoding /etc is bad, can't you just remove the native sysroot prefix
+> from $sysconfdir?
 
-On 6 December 2016 at 16:03, Andreas Oberritter <obi@opendreambox.org>
-wrote:
+I guess ${sysconfdir_native} should work, unless someone overrides
+STAGING_ETCDIR_NATIVE. Would this be ok?
 
-> Apparently there's a recipe in meta-ivi which already has a fix. I'm
-> going to merge both recipes and resubmit.
->
+Regards,
+Andreas
 
-Thanks Andreas, feel free to just send v2 for just this patch, as the rest
-are sitting in my staging branch already.
-
-Ross
-
---001a114a88c80b64d50542ff9798
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 6 December 2016 at 16:03, Andreas Oberritter <span dir=3D"ltr">&lt;<a hr=
-ef=3D"mailto:obi@opendreambox.org" target=3D"_blank">obi@opendreambox.org</=
-a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0=
- 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":2ys" cla=
-ss=3D"a3s aXjCH m158d4e1ab08371af">Apparently there&#39;s a recipe in meta-=
-ivi which already has a fix. I&#39;m<br>
-going to merge both recipes and resubmit.<br></div></blockquote></div><div =
-class=3D"gmail_extra"><br></div>Thanks Andreas, feel free to just send v2 f=
-or just this patch, as the rest are sitting in my staging branch already.</=
-div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</d=
-iv></div>
-
---001a114a88c80b64d50542ff9798--
