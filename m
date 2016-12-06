@@ -1,25 +1,25 @@
 Return-Path: <anibal.limon@linux.intel.com>
 Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id BA01D71ADC
+	by mail.openembedded.org (Postfix) with ESMTP id BACA871ADF
 	for <openembedded-core@lists.openembedded.org>;
 	Tue,  6 Dec 2016 21:51:30 +0000 (UTC)
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
-	by fmsmga103.fm.intel.com with ESMTP; 06 Dec 2016 13:51:31 -0800
+	by fmsmga103.fm.intel.com with ESMTP; 06 Dec 2016 13:51:28 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.33,310,1477983600"; d="scan'208";a="39533295"
+X-IronPort-AV: E=Sophos;i="5.33,310,1477983600"; d="scan'208";a="39533273"
 Received: from alimonb-mobl1.zpn.intel.com ([10.219.5.142])
-	by orsmga005.jf.intel.com with ESMTP; 06 Dec 2016 13:51:31 -0800
+	by orsmga005.jf.intel.com with ESMTP; 06 Dec 2016 13:51:28 -0800
 From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  6 Dec 2016 15:43:58 -0600
-Message-Id: <01f354242a0761790728ac5827f118dab09e6ab1.1481059445.git.anibal.limon@linux.intel.com>
+Date: Tue,  6 Dec 2016 15:43:51 -0600
+Message-Id: <8f40cc770389026daa63e41c88c57d333304c453.1481059445.git.anibal.limon@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1481059445.git.anibal.limon@linux.intel.com>
 References: <cover.1481059445.git.anibal.limon@linux.intel.com>
 In-Reply-To: <cover.1481059445.git.anibal.limon@linux.intel.com>
 References: <cover.1481059445.git.anibal.limon@linux.intel.com>
 MIME-Version: 1.0
-Subject: [PATCH 13/32] oe/data: Add export2json function
+Subject: [PATCH 06/32] oeqa/core/decorator: Add support for OETimeout decorator
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,55 +36,52 @@ X-List-Received-Date: Tue, 06 Dec 2016 21:51:31 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-The export2json function export the variables contained in
-the data store to JSON format, the main usage for now will be
-to provide test data to QA framework.
+From: Mariano Lopez <mariano.lopez@linux.intel.com>
 
+The OETimeout provides support for specify certain timeout
+in seconds for a test case, if the timeout is reach the SIGALRM
+is sent and an exception is raised to notify the timeout.
+
+[YOCTO #10235]
+
+Signed-off-by: Mariano Lopez <mariano.lopez@linux.intel.com>
 Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
 ---
- meta/lib/oe/data.py | 28 ++++++++++++++++++++++++++++
- 1 file changed, 28 insertions(+)
+ meta/lib/oeqa/core/decorator/oetimeout.py | 25 +++++++++++++++++++++++++
+ 1 file changed, 25 insertions(+)
+ create mode 100644 meta/lib/oeqa/core/decorator/oetimeout.py
 
-diff --git a/meta/lib/oe/data.py b/meta/lib/oe/data.py
-index ee48950..db3bd6d 100644
---- a/meta/lib/oe/data.py
-+++ b/meta/lib/oe/data.py
-@@ -1,3 +1,4 @@
-+import json
- import oe.maketype
- 
- def typed_value(key, d):
-@@ -15,3 +16,30 @@ def typed_value(key, d):
-         return oe.maketype.create(d.getVar(key, True) or '', var_type, **flags)
-     except (TypeError, ValueError) as exc:
-         bb.msg.fatal("Data", "%s: %s" % (key, str(exc)))
+diff --git a/meta/lib/oeqa/core/decorator/oetimeout.py b/meta/lib/oeqa/core/decorator/oetimeout.py
+new file mode 100644
+index 0000000..a247583
+--- /dev/null
++++ b/meta/lib/oeqa/core/decorator/oetimeout.py
+@@ -0,0 +1,25 @@
++# Copyright (C) 2016 Intel Corporation
++# Released under the MIT license (see COPYING.MIT)
 +
-+def export2json(d, json_file, expand=True):
-+    data2export = {}
-+    keys2export = []
++import signal
++from . import OETestDecorator, registerDecorator
++from oeqa.core.exception import OEQATimeoutError
 +
-+    for key in d.keys():
-+        if key.startswith("_"):
-+            continue
-+        elif key.startswith("BB"):
-+            continue
-+        elif key.startswith("B_pn"):
-+            continue
-+        elif key.startswith("do_"):
-+            continue
-+        elif d.getVarFlag(key, "func", True):
-+            continue
++@registerDecorator
++class OETimeout(OETestDecorator):
++    attrs = ('oetimeout',)
 +
-+        keys2export.append(key)
++    def setUpDecorator(self):
++        timeout = self.oetimeout
++        def _timeoutHandler(signum, frame):
++            raise OEQATimeoutError("Timed out after %s "
++                    "seconds of execution" % timeout)
 +
-+    for key in keys2export:
-+        try:
-+            data2export[key] = d.getVar(key, expand)
-+        except bb.data_smart.ExpansionError:
-+            data2export[key] = ''
++        self.logger.debug("Setting up a %d second(s) timeout" % self.oetimeout)
++        self.alarmSignal = signal.signal(signal.SIGALRM, _timeoutHandler)
++        signal.alarm(self.oetimeout)
 +
-+    with open(json_file, "w") as f:
-+        json.dump(data2export, f, skipkeys=True, indent=4, sort_keys=True)
++    def tearDownDecorator(self):
++        signal.alarm(0)
++        signal.signal(signal.SIGALRM, self.alarmSignal)
++        self.logger.debug("Removed SIGALRM handler")
 -- 
 2.1.4
 
