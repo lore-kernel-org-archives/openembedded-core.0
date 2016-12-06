@@ -1,46 +1,49 @@
-Return-Path: <george.mccollister@gmail.com>
-Received: from mail-io0-f180.google.com (mail-io0-f180.google.com
-	[209.85.223.180])
-	by mail.openembedded.org (Postfix) with ESMTP id D533A719AC
+Return-Path: <schnitzeltony@googlemail.com>
+Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 54355719BA
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  6 Dec 2016 00:16:13 +0000 (UTC)
-Received: by mail-io0-f180.google.com with SMTP id c21so577240294ioj.1
+	Tue,  6 Dec 2016 00:19:36 +0000 (UTC)
+Received: by mail-wm0-f67.google.com with SMTP id m203so18666309wma.3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 05 Dec 2016 16:16:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=n1LWTsffq1muFFmGN7Bq7zZ8AGbtWUzd6n3Ho+P5OVs=;
-	b=v7hCRlhlSJzVzkneZFdc9PTjirYIf3pub5nZ6FKBr4lnzJYAGH5tPgJKMbcSvXjk3d
-	DBPe89uM8YiBws/H4cSVZQSnmO0eA5M5o1EX93sFFFm7RoM5shfbmwMd5gj4j4lbUHy9
-	uDCLrr8b8qszW65pYRwLqN/7shzXC1jj/uhCES+HmCk/14g41utxbdohTlhUSz5g5FMU
-	qdWaK3S7UFA97qnrxrauik+APggH5xjIHJG3Vsa1NihjPt9ZZ2UincZ6PbiHDxS8Nj/k
-	iQDGJSGcZcMkIgjP4a4vjGBgcYc0VELAPiIccD5rP8fLj/NGG6e9iVspw+wySGDi7mBc
-	kBiQ==
+	Mon, 05 Dec 2016 16:19:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=googlemail.com; s=20120113;
+	h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=Gm4zEi1+ELydTvdVQc6SAPJXcOxqyB7UvMrZ0++XaoI=;
+	b=u6CLGSADPPtDOgpfoF7S9dmNEQct8VR+4dbD0muwHp7l1uvb8h5swBtsgA4WkoXDVY
+	guDLSZW5p5B+u86CpqYQ/idYIqNUCHKdrWWuky90HwI167rtIzDo28UbkRzZ56+qH18/
+	opnfsuq3gqiIgEyrhkDogUScJbj6JTGNLQvt4wUxFyXF/N5cMOsOi4fv/fcjt5+wlxsc
+	J1ANYHEVnlKNdz8iWKhzs+HzOR7MBbaJL/z9LqUFSxh/05xKv9uj2k+yhGah3qlZjNus
+	f2nl66Ve4f2K9/4U3wpNdU5IjfEII6qFWsMFurg7ccoxxx/t/bDZqC4Mk0DxVTqvLmCs
+	Vd8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=n1LWTsffq1muFFmGN7Bq7zZ8AGbtWUzd6n3Ho+P5OVs=;
-	b=PnkF6OYqUTA9mGhTF/Yi5YqUj2DMjGzZ0RLXgpZ3QB36oag3f/sr0p7E4XPwUjgURD
-	sNyThTZxAKFiooYrMYBATLYV0wpD7KmQsTaD1Jged45GonMGA7HEarsOZteK3ZNeixVA
-	vcqbhNhZC6eiO3mT9V7YkVtfu19CsowsIDjNZxIUGCQnuYidaXn7XBmv6KGbzUx7qEv6
-	wVGfJ6kehJfdbmdT9D+v0bKbak1VpSqapq2KP8WISpcK8DGLrjbI283qHLiHvPPI2ZQM
-	nsGcrCeTQPcJ8v/UCCUbw7A9PQJDsQRQNV+1fS4eQsapAGPKAv30zGVbqBZIfbVXDW8S
-	df7g==
-X-Gm-Message-State: AKaTC00vkukBmesjxiqPLMamcoaNX5V2sy9D1Z8vH8vEPpnuTDsTH7POZul7ExPemBMzI9e/kmNyNOBu0GS0HQ==
-X-Received: by 10.107.9.93 with SMTP id j90mr52488218ioi.230.1480983374966;
-	Mon, 05 Dec 2016 16:16:14 -0800 (PST)
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=Gm4zEi1+ELydTvdVQc6SAPJXcOxqyB7UvMrZ0++XaoI=;
+	b=AkzglXrtgFBy+Hmt0emecPB+MLnRzz2VmJoNc4miBrJ1SdNCMiUZiR9CpYeKsuZxba
+	Es1dK4JUFpYutuPQldlueapWytBfqSM7XVOgiTbCvs+rTablxssAA2c1sUryjR9Ost4c
+	oHfGcatlUd31sNqNQCJ5lL9WP09BVHE4lIpK8ugv0OlOffwLP9KW3NTtBV3zczOj0UmO
+	T4yWqQhNAAdV1zpJpd7CBT1U9ua2hDycB2hWC0xrPItWOAe5HO5RFjE5m+hieJZrC3nd
+	qEzFJaTvPAxyNgT74l/JtZiN/JXO1VcHiKYtgF/zM0IDoBT8jlQfBxpdli3UEte+EaT7
+	oPTw==
+X-Gm-Message-State: AKaTC01ls2zFNHOtvWDIpF+9gX5p4gQ1Nqe8u/VlgC3wTF0sP8bWG6JL1ndLH40+0k+d8Q==
+X-Received: by 10.28.91.143 with SMTP id p137mr179607wmb.51.1480983577670;
+	Mon, 05 Dec 2016 16:19:37 -0800 (PST)
+Received: from localhost.localdomain (p579F7D52.dip0.t-ipconnect.de.
+	[87.159.125.82]) by smtp.googlemail.com with ESMTPSA id
+	u18sm1150972wmd.1.2016.12.05.16.19.37
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 05 Dec 2016 16:19:37 -0800 (PST)
+From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@googlemail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  6 Dec 2016 01:19:17 +0100
+Message-Id: <1480983561-11437-1-git-send-email-schnitzeltony@googlemail.com>
+X-Mailer: git-send-email 2.5.5
 MIME-Version: 1.0
-Received: by 10.36.64.199 with HTTP; Mon, 5 Dec 2016 16:16:14 -0800 (PST)
-In-Reply-To: <CAJTo0La_rfxyJRgJgjdknqXAACkqxRB3dgqdyiOv7VCa+z8rFA@mail.gmail.com>
-References: <20161205163827.21941-1-george.mccollister@gmail.com>
-	<CAJTo0La_rfxyJRgJgjdknqXAACkqxRB3dgqdyiOv7VCa+z8rFA@mail.gmail.com>
-From: George McCollister <george.mccollister@gmail.com>
-Date: Mon, 5 Dec 2016 18:16:14 -0600
-Message-ID: <CAFSKS=NvbpPaR038OS+uAK78HQt_DfKuNodJHTQ54Zi5aXV+Ng@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] gdb-cross-canadian: Depend on nativesdk-python3-misc
+Subject: [PATCH 1/5] mesa: update to 13.0.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,26 +56,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 06 Dec 2016 00:16:14 -0000
+X-List-Received-Date: Tue, 06 Dec 2016 00:19:37 -0000
 Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Mon, Dec 5, 2016 at 3:21 PM, Burton, Ross <ross.burton@intel.com> wrote:
->
-> On 5 December 2016 at 16:38, George McCollister
-> <george.mccollister@gmail.com> wrote:
->>
->> Add missing dependency on nativesdk-python3-misc so the imp Python
->> module is installed.
->
->
-> So imp is the Python-facing API for 'import', and python-misc is a grab-bag
-> of random stuff.  Should imp be moved to be in python3-importlib (where its
-> replacement already lives) or moved into python3-core?
+Signed-off-by: Andreas Müller <schnitzeltony@googlemail.com>
+---
+ meta/recipes-graphics/mesa/{mesa-gl_13.0.1.bb => mesa-gl_13.0.2.bb} | 0
+ meta/recipes-graphics/mesa/{mesa_13.0.1.bb => mesa_13.0.2.bb}       | 4 ++--
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-graphics/mesa/{mesa-gl_13.0.1.bb => mesa-gl_13.0.2.bb} (100%)
+ rename meta/recipes-graphics/mesa/{mesa_13.0.1.bb => mesa_13.0.2.bb} (91%)
 
-importlib is the replacement for imp (it's deprecated since version
-3.4) so this sounds reasonable to me. Shall I send a patch to add
-imp.py to python3-importlib and another to add python3-importlib to
-PACKAGECONFIG[python] in gdb-cross-canadian.inc?
+diff --git a/meta/recipes-graphics/mesa/mesa-gl_13.0.1.bb b/meta/recipes-graphics/mesa/mesa-gl_13.0.2.bb
+similarity index 100%
+rename from meta/recipes-graphics/mesa/mesa-gl_13.0.1.bb
+rename to meta/recipes-graphics/mesa/mesa-gl_13.0.2.bb
+diff --git a/meta/recipes-graphics/mesa/mesa_13.0.1.bb b/meta/recipes-graphics/mesa/mesa_13.0.2.bb
+similarity index 91%
+rename from meta/recipes-graphics/mesa/mesa_13.0.1.bb
+rename to meta/recipes-graphics/mesa/mesa_13.0.2.bb
+index 7c9a4b7..ffdd5b4 100644
+--- a/meta/recipes-graphics/mesa/mesa_13.0.1.bb
++++ b/meta/recipes-graphics/mesa/mesa_13.0.2.bb
+@@ -17,8 +17,8 @@ SRC_URI = "ftp://ftp.freedesktop.org/pub/mesa/${PV}/mesa-${PV}.tar.xz \
+            file://0012-vc4-Try-compiling-our-FSes-in-multithreaded-mode-on-.patch \
+ "
+ 
+-SRC_URI[md5sum] = "72b7f4d0c2407f367484abd201cb8276"
+-SRC_URI[sha256sum] = "71962fb2bf77d33b0ad4a565b490dbbeaf4619099c6d9722f04a73187957a731"
++SRC_URI[md5sum] = "9442c2dee914cde3d1f090371ab04113"
++SRC_URI[sha256sum] = "a6ed622645f4ed61da418bf65adde5bcc4bb79023c36ba7d6b45b389da4416d5"
+ 
+ #because we cannot rely on the fact that all apps will use pkgconfig,
+ #make eglplatform.h independent of MESA_EGL_NO_X11_HEADER
+-- 
+2.5.5
 
--George
 
