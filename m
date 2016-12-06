@@ -1,25 +1,25 @@
 Return-Path: <anibal.limon@linux.intel.com>
 Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id DACD471A86
+	by mail.openembedded.org (Postfix) with ESMTP id 4E95271A86
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  6 Dec 2016 21:51:31 +0000 (UTC)
+	Tue,  6 Dec 2016 21:51:32 +0000 (UTC)
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
-	by fmsmga103.fm.intel.com with ESMTP; 06 Dec 2016 13:51:33 -0800
+	by fmsmga103.fm.intel.com with ESMTP; 06 Dec 2016 13:51:34 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.33,310,1477983600"; d="scan'208";a="39533310"
+X-IronPort-AV: E=Sophos;i="5.33,310,1477983600"; d="scan'208";a="39533312"
 Received: from alimonb-mobl1.zpn.intel.com ([10.219.5.142])
 	by orsmga005.jf.intel.com with ESMTP; 06 Dec 2016 13:51:33 -0800
 From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  6 Dec 2016 15:44:03 -0600
-Message-Id: <bebe5f569c56c11e3991f55f315c8c8aebc6b90a.1481059445.git.anibal.limon@linux.intel.com>
+Date: Tue,  6 Dec 2016 15:44:04 -0600
+Message-Id: <7abb8e63d9500c7fe876811b12c69173e1b3693f.1481059445.git.anibal.limon@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1481059445.git.anibal.limon@linux.intel.com>
 References: <cover.1481059445.git.anibal.limon@linux.intel.com>
 In-Reply-To: <cover.1481059445.git.anibal.limon@linux.intel.com>
 References: <cover.1481059445.git.anibal.limon@linux.intel.com>
 MIME-Version: 1.0
-Subject: [PATCH 18/32] oeqa: Move common files to oeqa/files instead of runtime only
+Subject: [PATCH 19/32] oeqa/sdk: Move test cases inside cases directory
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,40 +36,60 @@ X-List-Received-Date: Tue, 06 Dec 2016 21:51:32 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Those files are used by runtime and sdk test cases, so move to
-base directory of oeqa module.
+For match with the new structure of the OEQA framework.
+
+In the new framework Test component base directory in this case
+sdk module will contain case and context implementations.
 
 [YOCTO #10599]
 
 Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
 Signed-off-by: Mariano Lopez <mariano.lopez@linux.intel.com>
 ---
- meta/lib/oeqa/{runtime => }/files/test.c   | 0
- meta/lib/oeqa/{runtime => }/files/test.cpp | 0
- meta/lib/oeqa/{runtime => }/files/test.pl  | 0
- meta/lib/oeqa/{runtime => }/files/test.py  | 0
- 4 files changed, 0 insertions(+), 0 deletions(-)
- rename meta/lib/oeqa/{runtime => }/files/test.c (100%)
- rename meta/lib/oeqa/{runtime => }/files/test.cpp (100%)
- rename meta/lib/oeqa/{runtime => }/files/test.pl (100%)
- rename meta/lib/oeqa/{runtime => }/files/test.py (100%)
+ meta/lib/oeqa/sdk/{ => cases}/__init__.py        | 0
+ meta/lib/oeqa/sdk/{ => cases}/buildcvs.py        | 0
+ meta/lib/oeqa/sdk/{ => cases}/buildgalculator.py | 0
+ meta/lib/oeqa/sdk/{ => cases}/buildiptables.py   | 0
+ meta/lib/oeqa/sdk/{ => cases}/gcc.py             | 0
+ meta/lib/oeqa/sdk/{ => cases}/perl.py            | 0
+ meta/lib/oeqa/sdk/{ => cases}/python.py          | 0
+ 7 files changed, 0 insertions(+), 0 deletions(-)
+ rename meta/lib/oeqa/sdk/{ => cases}/__init__.py (100%)
+ rename meta/lib/oeqa/sdk/{ => cases}/buildcvs.py (100%)
+ rename meta/lib/oeqa/sdk/{ => cases}/buildgalculator.py (100%)
+ rename meta/lib/oeqa/sdk/{ => cases}/buildiptables.py (100%)
+ rename meta/lib/oeqa/sdk/{ => cases}/gcc.py (100%)
+ rename meta/lib/oeqa/sdk/{ => cases}/perl.py (100%)
+ rename meta/lib/oeqa/sdk/{ => cases}/python.py (100%)
 
-diff --git a/meta/lib/oeqa/runtime/files/test.c b/meta/lib/oeqa/files/test.c
+diff --git a/meta/lib/oeqa/sdk/__init__.py b/meta/lib/oeqa/sdk/cases/__init__.py
 similarity index 100%
-rename from meta/lib/oeqa/runtime/files/test.c
-rename to meta/lib/oeqa/files/test.c
-diff --git a/meta/lib/oeqa/runtime/files/test.cpp b/meta/lib/oeqa/files/test.cpp
+rename from meta/lib/oeqa/sdk/__init__.py
+rename to meta/lib/oeqa/sdk/cases/__init__.py
+diff --git a/meta/lib/oeqa/sdk/buildcvs.py b/meta/lib/oeqa/sdk/cases/buildcvs.py
 similarity index 100%
-rename from meta/lib/oeqa/runtime/files/test.cpp
-rename to meta/lib/oeqa/files/test.cpp
-diff --git a/meta/lib/oeqa/runtime/files/test.pl b/meta/lib/oeqa/files/test.pl
+rename from meta/lib/oeqa/sdk/buildcvs.py
+rename to meta/lib/oeqa/sdk/cases/buildcvs.py
+diff --git a/meta/lib/oeqa/sdk/buildgalculator.py b/meta/lib/oeqa/sdk/cases/buildgalculator.py
 similarity index 100%
-rename from meta/lib/oeqa/runtime/files/test.pl
-rename to meta/lib/oeqa/files/test.pl
-diff --git a/meta/lib/oeqa/runtime/files/test.py b/meta/lib/oeqa/files/test.py
+rename from meta/lib/oeqa/sdk/buildgalculator.py
+rename to meta/lib/oeqa/sdk/cases/buildgalculator.py
+diff --git a/meta/lib/oeqa/sdk/buildiptables.py b/meta/lib/oeqa/sdk/cases/buildiptables.py
 similarity index 100%
-rename from meta/lib/oeqa/runtime/files/test.py
-rename to meta/lib/oeqa/files/test.py
+rename from meta/lib/oeqa/sdk/buildiptables.py
+rename to meta/lib/oeqa/sdk/cases/buildiptables.py
+diff --git a/meta/lib/oeqa/sdk/gcc.py b/meta/lib/oeqa/sdk/cases/gcc.py
+similarity index 100%
+rename from meta/lib/oeqa/sdk/gcc.py
+rename to meta/lib/oeqa/sdk/cases/gcc.py
+diff --git a/meta/lib/oeqa/sdk/perl.py b/meta/lib/oeqa/sdk/cases/perl.py
+similarity index 100%
+rename from meta/lib/oeqa/sdk/perl.py
+rename to meta/lib/oeqa/sdk/cases/perl.py
+diff --git a/meta/lib/oeqa/sdk/python.py b/meta/lib/oeqa/sdk/cases/python.py
+similarity index 100%
+rename from meta/lib/oeqa/sdk/python.py
+rename to meta/lib/oeqa/sdk/cases/python.py
 -- 
 2.1.4
 
