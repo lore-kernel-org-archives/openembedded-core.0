@@ -1,48 +1,51 @@
-Return-Path: <mikko.ylinen@intel.com>
-Received: from mail-qk0-f182.google.com (mail-qk0-f182.google.com
-	[209.85.220.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 3669D71A60
-	for <openembedded-core@lists.openembedded.org>;
-	Tue,  6 Dec 2016 12:24:20 +0000 (UTC)
-Received: by mail-qk0-f182.google.com with SMTP id n204so377444875qke.2
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 06 Dec 2016 04:24:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=/OsX0ZTDVlVUKmSHPWA6QlA8A4QSPAU5TdDM7NgumAI=;
-	b=KgFzMCXgPtCo+r9iWzl2RuqavJh3ZG1vF1fkp3lFpOGF9dovZwyjUUXpHjdfvvSNaX
-	z61Cw8b5iP7sddymOPD67jXWrFdz+U/BRvVGfRe80WmLmzz3p7jezJOCToL7OVfYSFiD
-	F0bZj0ZWax5Tt36qvuC3H2wrEUEGwUkYIsynDsQzOxi5bHTMrR0KnMwGjC7yQup3B+Ly
-	zzqSSdI5s46jZSVrRp3qmNn9azbS5sAJTjzYXeE+mIZLDMc/GNM67Q9fIZ8PZ1yoBLsU
-	arhBuy8G60D2j4yffCMehPThcLCE46ZxO+Qu1JOM0Oi/ELQ0pNVl5f4upO9d+s3PjXzy
-	3Hlg==
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wj0-f195.google.com (mail-wj0-f195.google.com
+	[209.85.210.195])
+	by mail.openembedded.org (Postfix) with ESMTP id D4EBE71A23;
+	Tue,  6 Dec 2016 13:49:02 +0000 (UTC)
+Received: by mail-wj0-f195.google.com with SMTP id he10so29802901wjc.2;
+	Tue, 06 Dec 2016 05:49:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:date:to:cc:subject:message-id:references:mime-version
+	:content-disposition:in-reply-to:user-agent;
+	bh=QJ93444xGWXw3kaOLw4fB3K5YgF9Vcc3LR2o/vPC8x0=;
+	b=hhs0Rr0MxHqHEco7XRQWzHwFlbK+i5I4aCjMJXnFK1dMMgK++z915/olWSBkIytMeV
+	franC49h3PYTAkefYMUPBWJgVaBfOCb89jX4zZNKWt/bjA7Xz9lLnrkId5Gr3aMO/1/0
+	DyJLuy5D4R4wU/80j7/4aoFTSxw6j4UeO1Wvoi1T6EJiy7lPkbHSLd0qObgbHMR00o3K
+	Qx5+Ke0JRwtcHB7vkXTOhl+9VZo3BqjX/xbQJovefbe3DthG0orDi7Cbob9GQGs50xVg
+	hunfITtKqxc7EqtJAWSOH/N1iRiNL718NmuqAYK/lf6Ms98kJQx07S7sRcWUHq6XTjrI
+	CZrw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=/OsX0ZTDVlVUKmSHPWA6QlA8A4QSPAU5TdDM7NgumAI=;
-	b=L6LyBxT1YuMols9Om35D+WMSIEYJZ6PQM9d0S93p3aVig+GyTbjUncGU9jwpISOdgC
-	9/uaP6srcWFTOogZm2Jaqvf//dA6/g6hbH1RuDFvq/bI+7viy9f2w7skE/fgt55KRBKq
-	RMwlSMEHIMdd0rBvTflF1sNH7kmyZROiTGBEyZA+xWcHXF1S4xd/QtS0p/KMA6dRcfJ1
-	qlnTkMmaVkPansZwtRUfMC9inHLhD/zKimRdJUyWuK8s+nZSJ+wlBQWDraElWo4JCqkl
-	/9wwG4I7rQ9wd58VeSWmRAL+xI0+rhZy19KOAkppTc+gq6ZnGoTqYTIr3LST7Pbd2okL
-	demA==
-X-Gm-Message-State: AKaTC00gHuw91NgwjcGtKNRBnwv7N1PhlOmGqGB8BMxwf+5Qkq8zoSFVcJPzT2hvwnI4T9SiRxoULSkmf0UPEYhs
-X-Received: by 10.233.221.135 with SMTP id r129mr53914547qkf.56.1481027062161; 
-	Tue, 06 Dec 2016 04:24:22 -0800 (PST)
+	h=x-gm-message-state:from:date:to:cc:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to:user-agent;
+	bh=QJ93444xGWXw3kaOLw4fB3K5YgF9Vcc3LR2o/vPC8x0=;
+	b=Mm2gpS8ZUJuWnlHyUGYXwN4lu5juXwXWvYCnQADCuc9n6hO2MCNXZqGvpAevSuURiD
+	Uc/UYcKQ0GShSzTlZifvj9OENNpGVc9m/usXolSs/wSu53315+ovDDuq0cUynJUbTDc1
+	rdo282Cf9mA31zIoQfxd/HwACPhRZNNOSf2M2/7HzF5FvdGfojFwcViZG0lyjgmHFRkN
+	MlK4X7SsqV5858kSOUN0fZbmBpjNB0n3g8+hJMsyA6AgYC2s8V/ujCc3NWQYNDLYLxp1
+	oDIrh0urWw7EpI2hjH2XEt65oifc0iNNMOdNnCcxsYOdu11MRyIi8fbZjBFrPy2A3w+H
+	lTlQ==
+X-Gm-Message-State: AKaTC01IFySvdrRiUH9ALVgVkZr1UZmMmRp9bVTo8OuPk84/706qydDHV6cw1tyiye7BfA==
+X-Received: by 10.194.136.166 with SMTP id qb6mr52852373wjb.42.1481032143220; 
+	Tue, 06 Dec 2016 05:49:03 -0800 (PST)
+Received: from localhost ([217.30.68.212]) by smtp.gmail.com with ESMTPSA id
+	x188sm4152080wmx.4.2016.12.06.05.49.02
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Tue, 06 Dec 2016 05:49:02 -0800 (PST)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Tue, 6 Dec 2016 14:49:04 +0100
+To: openembedded-core@lists.openembedded.org,
+	Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Message-ID: <20161206134904.GA3255@jama>
+References: <20161130154845.8882.9798@opal.openembedded.org>
+	<20161130154913.0EEAE50166@opal.openembedded.org>
 MIME-Version: 1.0
-Received: by 10.12.173.200 with HTTP; Tue, 6 Dec 2016 04:24:21 -0800 (PST)
-In-Reply-To: <CAJTo0LbB5_PkVd-XBH7ESUtiGvTi7ziqLjRr9FXjLp7zAVpvqw@mail.gmail.com>
-References: <CAHZ0fbGcJPSjagwjxu08SxbaCAr50ucZ7WL3s-cMG2v4JaoNdg@mail.gmail.com>
-	<CAJTo0LbB5_PkVd-XBH7ESUtiGvTi7ziqLjRr9FXjLp7zAVpvqw@mail.gmail.com>
-From: "Ylinen, Mikko" <mikko.ylinen@intel.com>
-Date: Tue, 6 Dec 2016 14:24:21 +0200
-Message-ID: <CAHZ0fbGUf4naEmiEvTPuEMT2LgRYKf+m70-rqon7ZReVrp9a3g@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: "meta-intel@yoctoproject.org" <meta-intel@yoctoproject.org>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [meta-intel] [PATCH 2/2] gstreamer1.0-vaapi: Import from meta-intel
+In-Reply-To: <20161130154913.0EEAE50166@opal.openembedded.org>
+User-Agent: Mutt/1.7.1 (2016-10-04)
+Cc: openembedded-commits@lists.openembedded.org
+Subject: Re: [oe-commits] [openembedded-core] 67/76: gnutls: update to 3.5.6
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,59 +58,107 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 06 Dec 2016 12:24:21 -0000
-Content-Type: multipart/alternative; boundary=94eb2c0438a8f1862c0542fc7bd9
+X-List-Received-Date: Tue, 06 Dec 2016 13:49:03 -0000
+X-Groupsio-MsgNum: 90282
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="gKMricLos+KVdGMg"
+Content-Disposition: inline
 
---94eb2c0438a8f1862c0542fc7bd9
-Content-Type: text/plain; charset=UTF-8
-
-Hi,
-
-On Tue, Dec 6, 2016 at 12:48 PM, Burton, Ross <ross.burton@intel.com> wrote:
-
->
-> On 6 December 2016 at 09:57, Ylinen, Mikko <mikko.ylinen@intel.com> wrote:
->
->> This suggests the versions should be kept in sync with the gstreamer
->> versions:
->> http://git.yoctoproject.org/cgit/cgit.cgi/meta-intel/commit/
->> ?id=3f51f61efe93c104ba7996f54f381c6c1a5e6546
->>
->
-> Khem sent a GStreamer upgrade a few days ago, so they'll all be merging at
-> once.  gst-vaapi 1.8 doesn't build with gst 1.10 anyway.
->
->
-OK, I had missed that. I only checked master was still using 1.8.x.
-
--- Mikko
-
---94eb2c0438a8f1862c0542fc7bd9
-Content-Type: text/html; charset=UTF-8
+--gKMricLos+KVdGMg
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">Hi,<br><div class=3D"gmail_extra"><br><div class=3D"gmail_=
-quote">On Tue, Dec 6, 2016 at 12:48 PM, Burton, Ross <span dir=3D"ltr">&lt;=
-<a href=3D"mailto:ross.burton@intel.com" target=3D"_blank">ross.burton@inte=
-l.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"m=
-argin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div dir=3D"l=
-tr"><div class=3D"gmail_extra"><span class=3D""><br><div class=3D"gmail_quo=
-te">On 6 December 2016 at 09:57, Ylinen, Mikko <span dir=3D"ltr">&lt;<a hre=
-f=3D"mailto:mikko.ylinen@intel.com" target=3D"_blank">mikko.ylinen@intel.co=
-m</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margi=
-n:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div>This suggest=
-s the versions should be kept in sync with the gstreamer versions:</div><di=
-v><a href=3D"http://git.yoctoproject.org/cgit/cgit.cgi/meta-intel/commit/?i=
-d=3D3f51f61efe93c104ba7996f54f381c6c1a5e6546" target=3D"_blank">http://git.=
-yoctoproject.org/cg<wbr>it/cgit.cgi/meta-intel/commit/<wbr>?id=3D3f51f61efe=
-93c104ba7996f54f<wbr>381c6c1a5e6546</a>=C2=A0</div><span class=3D"m_-136144=
-7690138155312HOEnZb"><font color=3D"#888888"><div></div></font></span></blo=
-ckquote></div><br></span>Khem sent a GStreamer upgrade a few days ago, so t=
-hey&#39;ll all be merging at once. =C2=A0gst-vaapi 1.8 doesn&#39;t build wi=
-th gst 1.10 anyway.</div><div class=3D"gmail_extra"><br></div><div class=3D=
-"gmail_extra"></div></div></blockquote></div><br></div><div class=3D"gmail_=
-extra">OK, I had missed that. I only checked master was still using 1.8.x.=
-=C2=A0</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra"=
->-- Mikko</div></div>
+On Wed, Nov 30, 2016 at 03:49:52PM +0000, git@git.openembedded.org wrote:
+> rpurdie pushed a commit to branch master
+> in repository openembedded-core.
+>=20
+> commit 27f306a752d15ec62d2821d0146be4ffa10b7013
+> Author: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+> AuthorDate: Mon Nov 28 15:34:20 2016 +0200
+>=20
+>     gnutls: update to 3.5.6
+>    =20
+>     Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+>     Signed-off-by: Ross Burton <ross.burton@intel.com>
 
---94eb2c0438a8f1862c0542fc7bd9--
+Anyone else also seeing this?
+
+configure:9271: result: no
+configure:9337: checking for NETTLE
+configure:9345: $PKG_CONFIG --exists --print-errors "nettle >=3D 3.1"
+configure:9348: $? =3D 0
+configure:9363: $PKG_CONFIG --exists --print-errors "nettle >=3D 3.1"
+configure:9366: $? =3D 0
+configure:9412: result: yes
+configure:9418: checking for HOGWEED
+configure:9426: $PKG_CONFIG --exists --print-errors "hogweed >=3D 3.1"
+Package hogweed was not found in the pkg-config search path.
+Perhaps you should add the directory containing `hogweed.pc'
+to the PKG_CONFIG_PATH environment variable
+No package 'hogweed' found
+configure:9429: $? =3D 1
+configure:9444: $PKG_CONFIG --exists --print-errors "hogweed >=3D 3.1"
+Package hogweed was not found in the pkg-config search path.
+Perhaps you should add the directory containing `hogweed.pc'
+to the PKG_CONFIG_PATH environment variable
+No package 'hogweed' found
+configure:9447: $? =3D 1
+No package 'hogweed' found
+configure:9475: result: no
+configure:9478: error:
+  ***
+  *** Libhogweed (nettle's companion library) was not found. Note that
+you must compile nettle with gmp support.
+
+
+> ---
+>  meta/recipes-support/gnutls/{gnutls_3.5.5.bb =3D> gnutls_3.5.6.bb} | 4 +=
++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/meta/recipes-support/gnutls/gnutls_3.5.5.bb b/meta/recipes-s=
+upport/gnutls/gnutls_3.5.6.bb
+> similarity index 60%
+> rename from meta/recipes-support/gnutls/gnutls_3.5.5.bb
+> rename to meta/recipes-support/gnutls/gnutls_3.5.6.bb
+> index d255959..2e70734 100644
+> --- a/meta/recipes-support/gnutls/gnutls_3.5.5.bb
+> +++ b/meta/recipes-support/gnutls/gnutls_3.5.6.bb
+> @@ -4,6 +4,6 @@ SRC_URI +=3D "file://correct_rpl_gettimeofday_signature.p=
+atch \
+>              file://0001-configure.ac-fix-sed-command.patch \
+>              file://use-pkg-config-to-locate-zlib.patch \
+>             "
+> -SRC_URI[md5sum] =3D "fb84c4d7922c1545da8dda4dcb9487d4"
+> -SRC_URI[sha256sum] =3D "86994fe7804ee16d2811e366b9bf2f75304f8e470ae0e371=
+6d60ffeedac0e529"
+> +SRC_URI[md5sum] =3D "7a38b23757aae009c3eb5bb12fb0afda"
+> +SRC_URI[sha256sum] =3D "6338b715bf31c758606ffa489c7f87ee1beab947114fbd2f=
+fefd73170a8c6b9a"
+> =20
+>=20
+> --=20
+> To stop receiving notification emails like this one, please contact
+> the administrator of this repository.
+> --=20
+> _______________________________________________
+> Openembedded-commits mailing list
+> Openembedded-commits@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-commits
+
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--gKMricLos+KVdGMg
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iF0EARECAB0WIQRU+ejDffEzV2Je2oc3VSO3ZXaAHAUCWEbB0AAKCRA3VSO3ZXaA
+HEdiAJ96s845xs4kMHTuNR+X3idp+CdyLACeLqQNayRa/n+Yictk9CsbxJlSzH4=
+=0X8p
+-----END PGP SIGNATURE-----
+
+--gKMricLos+KVdGMg--
