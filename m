@@ -1,49 +1,30 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 7CFE7719B5
+Return-Path: <huangqy.fnst@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
+	by mail.openembedded.org (Postfix) with ESMTP id AA405719B5
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  6 Dec 2016 15:01:51 +0000 (UTC)
-Received: by mail-wm0-f68.google.com with SMTP id m203so21988923wma.3;
-	Tue, 06 Dec 2016 07:01:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:date:to:cc:subject:message-id:mime-version:content-disposition
-	:in-reply-to:user-agent;
-	bh=NPoKESvrdX2RO5TKXsPfBiAbnWEIoVilCFej6XhHRRY=;
-	b=QAwjDFk6lKRY423ZKPlbTHLYQ+APCpgnLZoNNtCtd9icsbS+MgLLdAFAHgJSQ7Wf5i
-	7zlW9Lb8I0gwqr7Hx4symlYd9I8SPZ18U1BgmOtdxx/wTtTuPG0s0jiYn9rpYvTrorgW
-	vUk+vfNCW85DJwApGWCvDvgMvu+9Xpl9HGtSGhwfkL8XeQUounyAGlYhw88RssABs/zK
-	GyEzSsqxe7bBi4A6f2ZKOYRLLLFUUwoYXrSsX31GhDDsMlrhkaIoETyRPLI9baHOYzmc
-	6yNOXkjGot6KcQ0eoH4VGYTB52fYGmSqq5IodXky6Rvysyy0THDexnEjtrcf8S9us5Jl
-	xRUA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:date:to:cc:subject:message-id:mime-version
-	:content-disposition:in-reply-to:user-agent;
-	bh=NPoKESvrdX2RO5TKXsPfBiAbnWEIoVilCFej6XhHRRY=;
-	b=PfEV48+TByrqzJ8XNwb3GzIZf1aJwl6fwTdEoigjUjTxdgnnH72uYOFQv7PtHcISbn
-	enng4kjqq807uocMV5lMqI8SLcC8rvDFmTHfQeKEvV3xM02YCAVpxiW1CVkDcTUPaU4O
-	dPbaAxMCbphYbBJ67QtljwMYExe8LerxjT7v7+ZBq5taH9l54OXEIppLaAMRGCAsOpIt
-	3wzLCfX5CfQD+BFy0zZewEkBVuawRiKdrMRBKqrYnR8FBkdJExp9v4aYezoGbLlDtNSQ
-	Wa9YCNvBfBASOiujPIHRs1PEHtiMPVZg7NO3X7NymzrZ0GEovSeA1wJ7PsPse1/CBilG
-	LIHw==
-X-Gm-Message-State: AKaTC00OzU2WVXAWWy8dcNnEkbWIyNSrfh464CNv6215GayQKiEI9R4dTcCGmpiEKo7o5A==
-X-Received: by 10.28.138.135 with SMTP id m129mr3027202wmd.36.1481036513156;
-	Tue, 06 Dec 2016 07:01:53 -0800 (PST)
-Received: from localhost ([217.30.68.212]) by smtp.gmail.com with ESMTPSA id
-	138sm4411243wms.20.2016.12.06.07.01.52
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Tue, 06 Dec 2016 07:01:52 -0800 (PST)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Tue, 6 Dec 2016 16:01:55 +0100
-To: "Burton, Ross" <ross.burton@intel.com>
-Message-ID: <20161206150155.GC3255@jama>
+	Tue,  6 Dec 2016 15:05:19 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.22,518,1449504000"; d="scan'208";a="13658154"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 06 Dec 2016 23:05:21 +0800
+Received: from G08CNEXCHPEKD01.g08.fujitsu.local (unknown [10.167.33.80])
+	by cn.fujitsu.com (Postfix) with ESMTP id B239B467048A
+	for <openembedded-core@lists.openembedded.org>;
+	Tue,  6 Dec 2016 23:05:19 +0800 (CST)
+Received: from localhost.localdomain (10.167.226.81) by
+	G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
+	Server (TLS) id 14.3.319.2; Tue, 6 Dec 2016 23:05:19 +0800
+From: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 6 Dec 2016 15:05:05 -0800
+Message-ID: <1481065505-49663-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-In-Reply-To: <CAJTo0LbaSgpFSthT55QFroQ8Uc51x4KpOUK8GZK-8=NCf8oE8Q@mail.gmail.com>
-User-Agent: Mutt/1.7.1 (2016-10-04)
-Cc: penembedded-commits@lists.openembedded.org,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [oe-commits] [openembedded-core] 67/76: gnutls: update to 3.5.6
+X-Originating-IP: [10.167.226.81]
+X-yoursite-MailScanner-ID: B239B467048A.A5069
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: huangqy.fnst@cn.fujitsu.com
+X-Spam-Status: No
+Subject: [PATCH] less: 481 -> 487
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,58 +37,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 06 Dec 2016 15:01:53 -0000
-X-Groupsio-MsgNum: 90290
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="tqI+Z3u+9OQ7kwn0"
-Content-Disposition: inline
+X-List-Received-Date: Tue, 06 Dec 2016 15:05:22 -0000
+Content-Type: text/plain
 
---tqI+Z3u+9OQ7kwn0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Upgrade less from 481 to 487.
 
-On Tue, Dec 06, 2016 at 02:47:42PM +0000, Burton, Ross wrote:
-> On 6 December 2016 at 14:44, Martin Jansa <martin.jansa@gmail.com> wrote:
->=20
-> > Probably caused by nettle upgrade which no longer enables gmp with older
-> > gmp 4.2.1 used in non-GPLv3 builds.
-> >
->=20
-> I was going to say I don't see this.  Clearly we need to extend the
-> non-GPL3 testing.
->=20
-> As you can reproduce this, is there a simple fix?
+Signed-off-by: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
+---
+ meta/recipes-extended/less/{less_481.bb => less_487.bb} | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+ rename meta/recipes-extended/less/{less_481.bb => less_487.bb} (83%)
 
-Restoring nettle-3.2 (which got replaced with 3.3 in this commit:
-commit fc37c0787008437d94bccfaa91d0b84180a393c9
-Author: Fabio Berton <fabio.berton@ossystems.com.br>
-Date:   Mon Nov 21 18:17:24 2016 -0200
+diff --git a/meta/recipes-extended/less/less_481.bb b/meta/recipes-extended/less/less_487.bb
+similarity index 83%
+rename from meta/recipes-extended/less/less_481.bb
+rename to meta/recipes-extended/less/less_487.bb
+index 0fcd819..23ae484 100644
+--- a/meta/recipes-extended/less/less_481.bb
++++ b/meta/recipes-extended/less/less_487.bb
+@@ -21,14 +21,14 @@ SECTION = "console/utils"
+ 
+ LICENSE = "GPLv3+ | BSD-2-Clause"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504 \
+-                    file://LICENSE;md5=48c26a307f91af700e1f00585f215aaf"
++                    file://LICENSE;md5=2ef3e4b8dafc85612bc5254b8081e234"
+ DEPENDS = "ncurses"
+ 
+ SRC_URI = "http://www.greenwoodsoftware.com/${BPN}/${BPN}-${PV}.tar.gz \
+ 	  "
+ 
+-SRC_URI[md5sum] = "50ef46065c65257141a7340123527767"
+-SRC_URI[sha256sum] = "3fa38f2cf5e9e040bb44fffaa6c76a84506e379e47f5a04686ab78102090dda5"
++SRC_URI[md5sum] = "dcc8bf183a83b362d37fe9ef8df1fb60"
++SRC_URI[sha256sum] = "f3dc8455cb0b2b66e0c6b816c00197a71bf6d1787078adeee0bcf2aea4b12706"
+ 
+ UPSTREAM_CHECK_URI = "http://www.greenwoodsoftware.com/less/download.html"
+ 
+-- 
+2.7.4
 
-    nettle: Update to version 3.3
 
-    Signed-off-by: Fabio Berton <fabio.berton@ossystems.com.br>
-    Signed-off-by: Ross Burton <ross.burton@intel.com>
-)
 
-allows to use gmp-4.2.1 and nettle-3.2 is good enough for
-gnutls.do_configure.
 
-Now I need to check if LGPLv3 libnettle or libhogweed end in the image
-or not.
-
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---tqI+Z3u+9OQ7kwn0
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iF0EARECAB0WIQRU+ejDffEzV2Je2oc3VSO3ZXaAHAUCWEbS4gAKCRA3VSO3ZXaA
-HGiMAJ9pOuvtb1QQ4ijhKwITgTc6/JO6cgCfSa35GzaudyaimAgFuZIkSoYWqFM=
-=QE9r
------END PGP SIGNATURE-----
-
---tqI+Z3u+9OQ7kwn0--
