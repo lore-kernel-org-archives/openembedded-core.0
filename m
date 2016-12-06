@@ -1,23 +1,25 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 189716B6F7
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 92D5B719C1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  6 Dec 2016 08:55:21 +0000 (UTC)
+	Tue,  6 Dec 2016 08:55:24 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id uB68tMVM018455
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
-	Tue, 6 Dec 2016 00:55:22 -0800
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id uB68tONI009023
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 6 Dec 2016 00:55:24 -0800 (PST)
 Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.294.0;
-	Tue, 6 Dec 2016 00:55:21 -0800
+	Tue, 6 Dec 2016 00:55:22 -0800
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 6 Dec 2016 00:55:15 -0800
-Message-ID: <cover.1481014270.git.liezhi.yang@windriver.com>
+Date: Tue, 6 Dec 2016 00:55:16 -0800
+Message-ID: <16b03179d8e01629a21eb2f80dd2f957fb893013.1481014270.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.9.0
+In-Reply-To: <cover.1481014270.git.liezhi.yang@windriver.com>
+References: <cover.1481014270.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH V2 0/6] runqemu: fix for slirp, network device and hostfwd
+Subject: [PATCH V2 1/6] scripts/runqemu: fix checking for <file>.cpio.gz
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,42 +32,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 06 Dec 2016 08:55:22 -0000
+X-List-Received-Date: Tue, 06 Dec 2016 08:55:24 -0000
 Content-Type: text/plain
 
-* V2
-  - Add QB_NETWORK_DEVICE to set network device for both slirp and tap,
-    the idea is from Randy and Nathan.
-  - Use different mac sections for slirp and tap to fix conflicts when
-    running both of them on the same host.
+When "runqemu /path/to/<file>.cpio.gz", it used the last suffix "gz" as
+the fstype which was wrong. Check filename against self.fstypes firstly
+can fix the problem.
 
-* V1
-  - Initial version
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+---
+ scripts/runqemu | 22 ++++++++++++++++------
+ 1 file changed, 16 insertions(+), 6 deletions(-)
 
-The following changes since commit 11063a01d4511b2688ea7ba2d7359e4e07328c66:
-
-  ruby: upgrade to 2.3.1 (2016-11-30 15:47:17 +0000)
-
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib rbt/runqemu
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/runqemu
-
-Robert Yang (6):
-  scripts/runqemu: fix checking for <file>.cpio.gz
-  qemuboot.bbclass: use IMGDEPLOYDIR
-  runqemu-export-rootfs: fix inconsistent var names
-  runqemu: support mutiple qemus running when nfs
-  runqemu: fixes for slirp, network device and hostfwd
-  qemuboot.bbclass: add blank lines in comments
-
- meta/classes/qemuboot.bbclass              |  34 ++++++--
- meta/conf/machine/include/qemuboot-x86.inc |   1 -
- meta/conf/machine/qemuarm64.conf           |   1 -
- scripts/runqemu                            | 133 ++++++++++++++++++++++-------
- scripts/runqemu-export-rootfs              |  21 ++---
- 5 files changed, 140 insertions(+), 50 deletions(-)
-
+diff --git a/scripts/runqemu b/scripts/runqemu
+index af25423..c737eb2 100755
+--- a/scripts/runqemu
++++ b/scripts/runqemu
+@@ -269,19 +269,29 @@ class BaseConfig(object):
+             self.kernel =  p
+         elif os.path.exists(p) and (not os.path.isdir(p)) and re.search('-image-', os.path.basename(p)):
+             self.rootfs = p
+-            dirpath = os.path.dirname(p)
+-            m = re.search('(.*)\.(.*)$', p)
+-            if m:
+-                qb = '%s%s' % (re.sub('\.rootfs$', '', m.group(1)), '.qemuboot.conf')
++            # Check filename against self.fstypes can hanlde <file>.cpio.gz,
++            # otherwise, its type would be "gz", which is incorrect.
++            fst = ""
++            for t in self.fstypes:
++                if p.endswith(t):
++                    fst = t
++                    break
++            if not fst:
++                m = re.search('.*\.(.*)$', self.rootfs)
++                if m:
++                    fst =  m.group(1)
++            if fst:
++                self.check_arg_fstype(fst)
++                qb = re.sub('\.' + fst + "$", '', self.rootfs)
++                qb = '%s%s' % (re.sub('\.rootfs$', '', qb), '.qemuboot.conf')
+                 if os.path.exists(qb):
+                     self.qemuboot = qb
+                     self.qbconfload = True
+                 else:
+                     logger.warn("%s doesn't exist" % qb)
+-                fst = m.group(2)
+-                self.check_arg_fstype(fst)
+             else:
+                 raise Exception("Can't find FSTYPE from: %s" % p)
++
+         elif os.path.isdir(p) or re.search(':', arg) and re.search('/', arg):
+             if self.is_deploy_dir_image(p):
+                 logger.info('DEPLOY_DIR_IMAGE: %s' % p)
 -- 
 2.9.0
 
