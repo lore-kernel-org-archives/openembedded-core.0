@@ -1,28 +1,48 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 1FF5E719B0
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qk0-f173.google.com (mail-qk0-f173.google.com
+	[209.85.220.173])
+	by mail.openembedded.org (Postfix) with ESMTP id 4FE66719BD
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  6 Dec 2016 09:01:04 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id uB6913Jq018603
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
-	Tue, 6 Dec 2016 01:01:04 -0800
-Received: from [128.224.162.160] (128.224.162.160) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.294.0;
-	Tue, 6 Dec 2016 01:01:02 -0800
-To: Randy Witt <randy.e.witt@linux.intel.com>, Nathan Rossi
-	<nathan@nathanrossi.com>
-References: <cover.1481014270.git.liezhi.yang@windriver.com>
-From: Robert Yang <liezhi.yang@windriver.com>
-Message-ID: <b54c6e1b-dfb8-2753-74ff-ce42b65db95b@windriver.com>
-Date: Tue, 6 Dec 2016 17:01:01 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.2.0
+	Tue,  6 Dec 2016 09:14:45 +0000 (UTC)
+Received: by mail-qk0-f173.google.com with SMTP id x190so373444835qkb.0
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 06 Dec 2016 01:14:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=zCK1aPIqd44e2JdEXjqh3nr8kSFdenF5X4iIlEDx//I=;
+	b=TL2azDu6GyjpwqHTq30T7gBm3pmxZC4FkA/Ltm5GdZImuVJcKLPsDrJueWYK5UuufP
+	xqJj3HzkPGMAv+Rr8j1az3D3yrKyY/qEuBwyZnSO5241R2g94p0RZWEKqqLqcJnS+V02
+	V2qgdi9wVjpPRldCldvP7a4XLYv7azRfQKJoKDvafDRfLtwCy/esmAJMW/mWk+bA4avW
+	vVsjiEp4Ze4kP4fKqr9UbqSZbtUSjBP5qr5f3BnR6JbBKBBJP372PB0md62c/v0f4oet
+	0rPoysQdzwhYORYDkc9plO3NXFyqPtyJi+HfM2nlPJu3Co1+d5GAkDQtTSsPsfCi6G4N
+	9d1A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=zCK1aPIqd44e2JdEXjqh3nr8kSFdenF5X4iIlEDx//I=;
+	b=PDFZLSEr5/lUzm0rD7sAcQdPFL3i8FHVAr76NeRJcV9IrMCmuRFzl8JeX8B9jmDIyk
+	zeHT6MYTRmz2AwouY3ZeGnxiDv0wyClzBzVhLEDtJYcrb0gdSkx8OnElWwusW6hdZVC5
+	X0M9KwJZXjDFQXY55H2+ho23IssfwBU0/jEmqzIHxiozX53FbVMfG0Y1wqfrZ6+173Yt
+	wX2IYqoazwxj/5rLyI/Gv1MFwVXCxGQ21HMz4Xp+MlqIzXXk5kvatsTcPN5w84nVsv+q
+	NNl/4gHIL9G4lYpMSGgN1eBbyC7EF3ccJ1TJnv+GBzhMEtxxacQBvft4UpmRBkpAbn+p
+	gZEg==
+X-Gm-Message-State: AKaTC00dCOR/6qJAIV+y5fmlznmmLtFqvt5cTtffID+MrqhX3eyJlGaqIO6Rx1bq4U4MIUC3loy/AgnmHGmrT5kz
+X-Received: by 10.55.75.17 with SMTP id y17mr45918459qka.26.1481015687066;
+	Tue, 06 Dec 2016 01:14:47 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <cover.1481014270.git.liezhi.yang@windriver.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH V2 0/6] runqemu: fix for slirp, network device and hostfwd
+Received: by 10.140.106.99 with HTTP; Tue, 6 Dec 2016 01:14:26 -0800 (PST)
+In-Reply-To: <CAFSKS=NvbpPaR038OS+uAK78HQt_DfKuNodJHTQ54Zi5aXV+Ng@mail.gmail.com>
+References: <20161205163827.21941-1-george.mccollister@gmail.com>
+	<CAJTo0La_rfxyJRgJgjdknqXAACkqxRB3dgqdyiOv7VCa+z8rFA@mail.gmail.com>
+	<CAFSKS=NvbpPaR038OS+uAK78HQt_DfKuNodJHTQ54Zi5aXV+Ng@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 6 Dec 2016 09:14:26 +0000
+Message-ID: <CAJTo0Lb+Mu3ZvyyO+pZqrnZp0wr8Up1ejBkw1DC9weRCasXqDQ@mail.gmail.com>
+To: George McCollister <george.mccollister@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] gdb-cross-canadian: Depend on nativesdk-python3-misc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,50 +55,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 06 Dec 2016 09:01:06 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 06 Dec 2016 09:14:46 -0000
+Content-Type: multipart/alternative; boundary=001a114a88c8ef50090542f9d578
 
+--001a114a88c8ef50090542f9d578
+Content-Type: text/plain; charset=UTF-8
 
+On 6 December 2016 at 00:16, George McCollister <
+george.mccollister@gmail.com> wrote:
 
-On 12/06/2016 04:55 PM, Robert Yang wrote:
-> * V2
->   - Add QB_NETWORK_DEVICE to set network device for both slirp and tap,
->     the idea is from Randy and Nathan.
-
-Add Randy and Nathan in the loop, I had added them in git send-email,
-but there were not in the CC list, look strange.
-
-// Robert
-
->   - Use different mac sections for slirp and tap to fix conflicts when
->     running both of them on the same host.
->
-> * V1
->   - Initial version
->
-> The following changes since commit 11063a01d4511b2688ea7ba2d7359e4e07328c66:
->
->   ruby: upgrade to 2.3.1 (2016-11-30 15:47:17 +0000)
->
-> are available in the git repository at:
->
->   git://git.openembedded.org/openembedded-core-contrib rbt/runqemu
->   http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/runqemu
->
-> Robert Yang (6):
->   scripts/runqemu: fix checking for <file>.cpio.gz
->   qemuboot.bbclass: use IMGDEPLOYDIR
->   runqemu-export-rootfs: fix inconsistent var names
->   runqemu: support mutiple qemus running when nfs
->   runqemu: fixes for slirp, network device and hostfwd
->   qemuboot.bbclass: add blank lines in comments
->
->  meta/classes/qemuboot.bbclass              |  34 ++++++--
->  meta/conf/machine/include/qemuboot-x86.inc |   1 -
->  meta/conf/machine/qemuarm64.conf           |   1 -
->  scripts/runqemu                            | 133 ++++++++++++++++++++++-------
->  scripts/runqemu-export-rootfs              |  21 ++---
->  5 files changed, 140 insertions(+), 50 deletions(-)
+> importlib is the replacement for imp (it's deprecated since version
+> 3.4) so this sounds reasonable to me. Shall I send a patch to add
+> imp.py to python3-importlib and another to add python3-importlib to
+> PACKAGECONFIG[python] in gdb-cross-canadian.inc?
 >
 
+Yes, that sounds like the best idea to me.
+
+Ross
+
+--001a114a88c8ef50090542f9d578
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 6 December 2016 at 00:16, George McCollister <span dir=3D"ltr">&lt;<a hr=
+ef=3D"mailto:george.mccollister@gmail.com" target=3D"_blank">george.mccolli=
+ster@gmail.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" s=
+tyle=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div=
+ id=3D":1j5" class=3D"a3s aXjCH m158d17d44104c791">importlib is the replace=
+ment for imp (it&#39;s deprecated since version<br>
+3.4) so this sounds reasonable to me. Shall I send a patch to add<br>
+imp.py to python3-importlib and another to add python3-importlib to<br>
+PACKAGECONFIG[python] in gdb-cross-canadian.inc?<br></div></blockquote><div=
+><br></div><div>Yes, that sounds like the best idea to me.</div><div><br></=
+div><div>Ross=C2=A0</div></div><br></div></div>
+
+--001a114a88c8ef50090542f9d578--
