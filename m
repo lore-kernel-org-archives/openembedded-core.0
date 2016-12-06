@@ -1,46 +1,30 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qt0-f171.google.com (mail-qt0-f171.google.com
-	[209.85.216.171])
-	by mail.openembedded.org (Postfix) with ESMTP id 92EC371A19
+Return-Path: <huangqy.fnst@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
+	by mail.openembedded.org (Postfix) with ESMTP id D4E4671A19
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  6 Dec 2016 14:37:04 +0000 (UTC)
-Received: by mail-qt0-f171.google.com with SMTP id c47so347739583qtc.2
+	Tue,  6 Dec 2016 14:38:40 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.22,518,1449504000"; d="scan'208";a="13657358"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 06 Dec 2016 22:38:40 +0800
+Received: from G08CNEXCHPEKD01.g08.fujitsu.local (unknown [10.167.33.80])
+	by cn.fujitsu.com (Postfix) with ESMTP id 750BD4818553
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 06 Dec 2016 06:37:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=4vhNpbPU3gHwhZGgPTCdXXL7TMSWirBQxwnRh/GBKBg=;
-	b=esPhus70h3is14pVc2N3dUHeXX/SF5cWEsnyhipKlIIcUyFdO9ueztC59tAISHmJrV
-	fVXT5W44Akyv4+gu7IV7dmndgdz85F0FSMTiaBpKzzdRaD5ONJ+Ecbc6f5vrT8Xh6898
-	ar9qertxga6DlMQBZi4YlEI3UGEUtneCNU/5O8K6ysM8+zSK4XyLwYoSYVCxjE8euwze
-	j4G+1KHUDfyyV9euE9WbFupSA0g+5ZHS4x8xQ4g+rSkSZ+U/ktae8lbcO7TwqmwVhmlY
-	J73FDX1PGRD2lLm0NrDWe9ihlKyCPoGdmZzd4tbyLcOYhn5Ty3z0Xh23CuHwbCEhrPZC
-	AD0Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=4vhNpbPU3gHwhZGgPTCdXXL7TMSWirBQxwnRh/GBKBg=;
-	b=OO+zseX1WipDUmtIpoGB/yS8OnnUxyroMBrtSuxZKK+THdMbpa9ir66xpHqrr4mhg1
-	UdPpWzbweMAgwEvatsBs32od848aW3Geae7j8jSh35LpcsbXTL6GIN5jwD4K+3URRwCg
-	3+5oOWkh4eS0jyINEhhbtPAXMJxSELCkGOx7d3EPq70gmxV0TLDZawBvW8b7NJe5C4o4
-	L1RDd6Wtr5fPspH22kMAeuwIBFRENWQBtJAVa185QTD6oOOW5pihPHsEvFX9Wxsi9a1R
-	msL8pniynzVzMwlaYcoOGYw5ZVMDalAaO00jJbKQy/n+Do5Rd332SBYfwXK1ixyqmr2b
-	7cgA==
-X-Gm-Message-State: AKaTC02jSs+dJ4cPx5OTYQGpS8PtX0uKoSaQmGW8fcltrk94RJPLfvnxV4O95ABzOiO976voR3smRM8PWNTLkRT6
-X-Received: by 10.200.57.54 with SMTP id s51mr53731630qtb.68.1481035025356;
-	Tue, 06 Dec 2016 06:37:05 -0800 (PST)
+	Tue,  6 Dec 2016 22:38:37 +0800 (CST)
+Received: from localhost.localdomain (10.167.226.81) by
+	G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
+	Server (TLS) id 14.3.319.2; Tue, 6 Dec 2016 22:38:37 +0800
+From: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 6 Dec 2016 14:38:23 -0800
+Message-ID: <1481063903-49514-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Received: by 10.140.106.99 with HTTP; Tue, 6 Dec 2016 06:36:44 -0800 (PST)
-In-Reply-To: <1481024991-5882-1-git-send-email-obi@opendreambox.org>
-References: <1481024991-5882-1-git-send-email-obi@opendreambox.org>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 6 Dec 2016 14:36:44 +0000
-Message-ID: <CAJTo0La31Co0vhNd6bKwubxMOO_qD=-Uh2yi_oLYCumennVXFg@mail.gmail.com>
-To: Andreas Oberritter <obi@opendreambox.org>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 00/33] Accumulated patches for deb packaging
+X-Originating-IP: [10.167.226.81]
+X-yoursite-MailScanner-ID: 750BD4818553.A44F6
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: huangqy.fnst@cn.fujitsu.com
+X-Spam-Status: No
+Subject: [PATCH] dhcp: 4.3.4 -> 4.3.5
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,38 +37,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 06 Dec 2016 14:37:05 -0000
-Content-Type: multipart/alternative; boundary=001a113a01e89666440542fe5605
+X-List-Received-Date: Tue, 06 Dec 2016 14:38:42 -0000
+Content-Type: text/plain
 
---001a113a01e89666440542fe5605
-Content-Type: text/plain; charset=UTF-8
+Upgrade dhcp from 4.3.4 to 4.3.5.
 
-On 6 December 2016 at 11:49, Andreas Oberritter <obi@opendreambox.org>
-wrote:
+Signed-off-by: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
+---
+ meta/recipes-connectivity/dhcp/binutils-gdb                     | 1 +
+ meta/recipes-connectivity/dhcp/{dhcp_4.3.4.bb => dhcp_4.3.5.bb} | 4 ++--
+ 2 files changed, 3 insertions(+), 2 deletions(-)
+ create mode 160000 meta/recipes-connectivity/dhcp/binutils-gdb
+ rename meta/recipes-connectivity/dhcp/{dhcp_4.3.4.bb => dhcp_4.3.5.bb} (81%)
 
-> These are most of my patches which accumulated since our distro
-> switched from opkg to dpkg and apt two years ago. They were tested
-> thoroughly on dora and krogoth and just a little bit on master.
->
+diff --git a/meta/recipes-connectivity/dhcp/binutils-gdb b/meta/recipes-connectivity/dhcp/binutils-gdb
+new file mode 160000
+index 0000000..39eeab2
+--- /dev/null
++++ b/meta/recipes-connectivity/dhcp/binutils-gdb
+@@ -0,0 +1 @@
++Subproject commit 39eeab253474493bc9477dbb2bd9c8041f05764b
+diff --git a/meta/recipes-connectivity/dhcp/dhcp_4.3.4.bb b/meta/recipes-connectivity/dhcp/dhcp_4.3.5.bb
+similarity index 81%
+rename from meta/recipes-connectivity/dhcp/dhcp_4.3.4.bb
+rename to meta/recipes-connectivity/dhcp/dhcp_4.3.5.bb
+index 4151eb1..678c29a 100644
+--- a/meta/recipes-connectivity/dhcp/dhcp_4.3.4.bb
++++ b/meta/recipes-connectivity/dhcp/dhcp_4.3.5.bb
+@@ -11,8 +11,8 @@ SRC_URI += "file://dhcp-3.0.3-dhclient-dbus.patch;striplevel=0 \
+             file://remove-dhclient-script-bash-dependency.patch \
+            "
+ 
+-SRC_URI[md5sum] = "0138319fe2b788cf4bdf34fbeaf9ff54"
+-SRC_URI[sha256sum] = "f5115aee3dd3e6925de4ba47b80ab732ba48b481c8364b6ebade2d43698d607e"
++SRC_URI[md5sum] = "2b5e5b2fa31c2e27e487039d86f83d3f"
++SRC_URI[sha256sum] = "eb95936bf15d2393c55dd505bc527d1d4408289cec5a9fa8abb99f7577e7f954"
+ 
+ PACKAGECONFIG ?= ""
+ PACKAGECONFIG[bind-httpstats] = "--with-libxml2,--without-libxml2,libxml2"
+-- 
+2.7.4
 
-Is this on a branch somewhere?
 
-Ross
 
---001a113a01e89666440542fe5605
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 6 December 2016 at 11:49, Andreas Oberritter <span dir=3D"ltr">&lt;<a hr=
-ef=3D"mailto:obi@opendreambox.org" target=3D"_blank">obi@opendreambox.org</=
-a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0=
- 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":2gf" cla=
-ss=3D"a3s aXjCH m158d3f91d007e6d9">These are most of my patches which accum=
-ulated since our distro<br>
-switched from opkg to dpkg and apt two years ago. They were tested<br>
-thoroughly on dora and krogoth and just a little bit on master.<br></div></=
-blockquote></div><br>Is this on a branch somewhere?</div><div class=3D"gmai=
-l_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
-
---001a113a01e89666440542fe5605--
