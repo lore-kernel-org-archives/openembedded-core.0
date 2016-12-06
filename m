@@ -1,30 +1,46 @@
-Return-Path: <huangqy.fnst@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
-	by mail.openembedded.org (Postfix) with ESMTP id AA405719B5
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qt0-f179.google.com (mail-qt0-f179.google.com
+	[209.85.216.179])
+	by mail.openembedded.org (Postfix) with ESMTP id 403BA719B5
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  6 Dec 2016 15:05:19 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.22,518,1449504000"; d="scan'208";a="13658154"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 06 Dec 2016 23:05:21 +0800
-Received: from G08CNEXCHPEKD01.g08.fujitsu.local (unknown [10.167.33.80])
-	by cn.fujitsu.com (Postfix) with ESMTP id B239B467048A
+	Tue,  6 Dec 2016 15:07:31 +0000 (UTC)
+Received: by mail-qt0-f179.google.com with SMTP id w33so348201208qtc.3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  6 Dec 2016 23:05:19 +0800 (CST)
-Received: from localhost.localdomain (10.167.226.81) by
-	G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.319.2; Tue, 6 Dec 2016 23:05:19 +0800
-From: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 6 Dec 2016 15:05:05 -0800
-Message-ID: <1481065505-49663-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
-X-Mailer: git-send-email 2.7.4
+	Tue, 06 Dec 2016 07:07:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=C4eC6c6APH7rhh5szmfgYqQyQRx62O25xBfYZ/HQbDI=;
+	b=nSpE96QOTedpOZjOZoieozzr3pn+Cr8bLTMQ7tPwMBPJxwCzZot74NIP+BMUmD1Nt8
+	y+CXEvd28PcXDvhDjhKVueZxJQ0vB2mGllUZLvRZrb4g1KFY+9WnEAI6vMEEcedbhoVh
+	BjmaeRwgdYFT4JlirMyKRta2SrCnDayGWYxhaE2Hc/E9UnErKN/LPyUoO4bL9wUlZRhx
+	KmnsTtqT9N2n2QqYPZKXMmvE4KH6Rf0kAWPgz9yWc4ItBIrHKSoiy4HBizdktd7QcyLk
+	sHAZzo3lXS0tvU6dtKvOvkOfh6+6scOt2SS2L25gFcINmwrY5Ij8H02cDVCcIZZxYgVI
+	bsag==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=C4eC6c6APH7rhh5szmfgYqQyQRx62O25xBfYZ/HQbDI=;
+	b=YiPTLkpmjeFMzmTUxPdrD6eJIpgKgZpqk1TSjGyjt4rIv+1BzKfu+EF58NnQhwfvxe
+	QhF+OIhiSQ/bF80IHnCXi53/BAUOds2FzWhuAFauNXWZC1uP5oFuNCK1FzR4aKWIevAu
+	mT3RHFzCetL3q32jDOcKGmPIlCcZS9rrVRJS8xfX8H7z6NuPwKypFeS9yllOK05fqgvu
+	VzEnHjBsU+H0y1Jtc3HNpbo72mSWqUZlLNgCLzPR7OkaHbM4CvODXfu4xo28iyIkjYsB
+	Tah0dxbxfRTgb11KWpbaXSlynEEwhrYsEu1FVoDBEBI0+w+eldW/pw6efJYZWZpPkQNU
+	gB6A==
+X-Gm-Message-State: AKaTC02tUMMmC3BNBbCBt6P0rG7WY8rSPJ/bXbSLIwBP7o+aDt7+0WIk8zLwivR+xvUJkX8uP34TQbXPe3yrFwNh
+X-Received: by 10.237.34.46 with SMTP id n43mr60898886qtc.105.1481036852638;
+	Tue, 06 Dec 2016 07:07:32 -0800 (PST)
 MIME-Version: 1.0
-X-Originating-IP: [10.167.226.81]
-X-yoursite-MailScanner-ID: B239B467048A.A5069
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: huangqy.fnst@cn.fujitsu.com
-X-Spam-Status: No
-Subject: [PATCH] less: 481 -> 487
+Received: by 10.140.106.99 with HTTP; Tue, 6 Dec 2016 07:07:12 -0800 (PST)
+In-Reply-To: <1481065505-49663-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
+References: <1481065505-49663-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 6 Dec 2016 15:07:12 +0000
+Message-ID: <CAJTo0LbEYa6ywOiT6ZV2FvDC8LoM9VNaL3f-ACi6w6gxjwOaJQ@mail.gmail.com>
+To: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] less: 481 -> 487
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,45 +53,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 06 Dec 2016 15:05:22 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 06 Dec 2016 15:07:33 -0000
+Content-Type: multipart/alternative; boundary=001a11377e1880552b0542fec33b
 
-Upgrade less from 481 to 487.
+--001a11377e1880552b0542fec33b
+Content-Type: text/plain; charset=UTF-8
 
-Signed-off-by: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
----
- meta/recipes-extended/less/{less_481.bb => less_487.bb} | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
- rename meta/recipes-extended/less/{less_481.bb => less_487.bb} (83%)
+On 6 December 2016 at 23:05, Huang Qiyu <huangqy.fnst@cn.fujitsu.com> wrote:
 
-diff --git a/meta/recipes-extended/less/less_481.bb b/meta/recipes-extended/less/less_487.bb
-similarity index 83%
-rename from meta/recipes-extended/less/less_481.bb
-rename to meta/recipes-extended/less/less_487.bb
-index 0fcd819..23ae484 100644
---- a/meta/recipes-extended/less/less_481.bb
-+++ b/meta/recipes-extended/less/less_487.bb
-@@ -21,14 +21,14 @@ SECTION = "console/utils"
- 
- LICENSE = "GPLv3+ | BSD-2-Clause"
- LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504 \
--                    file://LICENSE;md5=48c26a307f91af700e1f00585f215aaf"
-+                    file://LICENSE;md5=2ef3e4b8dafc85612bc5254b8081e234"
- DEPENDS = "ncurses"
- 
- SRC_URI = "http://www.greenwoodsoftware.com/${BPN}/${BPN}-${PV}.tar.gz \
- 	  "
- 
--SRC_URI[md5sum] = "50ef46065c65257141a7340123527767"
--SRC_URI[sha256sum] = "3fa38f2cf5e9e040bb44fffaa6c76a84506e379e47f5a04686ab78102090dda5"
-+SRC_URI[md5sum] = "dcc8bf183a83b362d37fe9ef8df1fb60"
-+SRC_URI[sha256sum] = "f3dc8455cb0b2b66e0c6b816c00197a71bf6d1787078adeee0bcf2aea4b12706"
- 
- UPSTREAM_CHECK_URI = "http://www.greenwoodsoftware.com/less/download.html"
- 
--- 
-2.7.4
+> LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504 \
+> -                    file://LICENSE;md5=48c26a307f91af700e1f00585f215aaf"
+> +                    file://LICENSE;md5=2ef3e4b8dafc85612bc5254b8081e234"
+>
 
+Please resend with an explanation in the commit message as to why the
+LICENSE has changed (for example, because it was relicensed to GPLv3, or
+because the copyright years were updated, or the text was reformatted).
 
+Ross
 
+--001a11377e1880552b0542fec33b
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 6 December 2016 at 23:05, Huang Qiyu <span dir=3D"ltr">&lt;<a href=3D"ma=
+ilto:huangqy.fnst@cn.fujitsu.com" target=3D"_blank">huangqy.fnst@cn.fujitsu=
+.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"ma=
+rgin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":1m=
+u" class=3D"a3s aXjCH m158d4aba47836454">LIC_FILES_CHKSUM =3D &quot;file://=
+COPYING;md5=3D<wbr>d32239bcb673463ab874e80d47fae5<wbr>04 \<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file=
+://LICENSE;md5=3D<wbr>48c26a307f91af700e1f00585f215a<wbr>af&quot;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file=
+://LICENSE;md5=3D<wbr>2ef3e4b8dafc85612bc5254b8081e2<wbr>34&quot;</div></bl=
+ockquote></div><br>Please resend with an explanation in the commit message =
+as to why the LICENSE has changed (for example, because it was relicensed t=
+o GPLv3, or because the copyright years were updated, or the text was refor=
+matted).</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extr=
+a">Ross</div></div>
+
+--001a11377e1880552b0542fec33b--
