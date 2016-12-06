@@ -1,37 +1,18 @@
 Return-Path: <obi@opendreambox.org>
-Received: from mail.dream-property.net (mail.dream-property.net
-	[82.149.226.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 1F9A671A66
+Received: from mail.saftware.de (mail.saftware.de [83.141.3.46])
+	by mail.openembedded.org (Postfix) with ESMTP id 1B06871A61
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  6 Dec 2016 16:37:57 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by mail.dream-property.net (Postfix) with ESMTP id DD2FB31C21AF;
-	Tue,  6 Dec 2016 17:37:58 +0100 (CET)
-X-Virus-Scanned: Debian amavisd-new at mail.dream-property.net
-Received: from mail.dream-property.net ([127.0.0.1])
-	by localhost (mail.dream-property.net [127.0.0.1]) (amavisd-new,
-	port 10024)
-	with LMTP id BBC1zZGURmpF; Tue,  6 Dec 2016 17:37:56 +0100 (CET)
-Received: from [172.22.22.61] (55d40c51.access.ecotel.net [85.212.12.81])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by mail.dream-property.net (Postfix) with ESMTPSA id 72C5A31C21B5;
-	Tue,  6 Dec 2016 17:37:56 +0100 (CET)
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <1481024991-5882-1-git-send-email-obi@opendreambox.org>
-	<1481024991-5882-4-git-send-email-obi@opendreambox.org>
-	<CAJTo0LbCWZYmnaxDjKNr==nNvyXn0Y3nXnJanoQb5ccgZpWxpg@mail.gmail.com>
-	<eab1dd56-d37f-6e3d-f8f3-f5cfa1f99a52@opendreambox.org>
-	<CAJTo0LZJ8J4RGY+MEes6+9A7_kygoyR4b0kXrj+6NS=jxzdTtA@mail.gmail.com>
+	Tue,  6 Dec 2016 16:46:53 +0000 (UTC)
+Received: by t510.zcs.saftware.de (Postfix, from userid 1000)
+	id 41E94B87EF8; Tue,  6 Dec 2016 17:46:51 +0100 (CET)
 From: Andreas Oberritter <obi@opendreambox.org>
-Message-ID: <f71fad47-fad7-89f8-7b19-24840f4ff65f@opendreambox.org>
-Date: Tue, 6 Dec 2016 17:37:56 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.5.1
-MIME-Version: 1.0
-In-Reply-To: <CAJTo0LZJ8J4RGY+MEes6+9A7_kygoyR4b0kXrj+6NS=jxzdTtA@mail.gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 03/33] dpkg-native: hardcode SYSCONFDIR to /etc in update-alternatives
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  6 Dec 2016 17:46:51 +0100
+Message-Id: <1481042811-26430-1-git-send-email-obi@opendreambox.org>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <CAJTo0LYr1fUAPThGvLmWT_Jf0A+fzA302xHWfw4+NkY0d0FGGA@mail.gmail.com>
+References: <CAJTo0LYr1fUAPThGvLmWT_Jf0A+fzA302xHWfw4+NkY0d0FGGA@mail.gmail.com>
+Subject: [PATCH v2] keyutils: new recipe (version 1.5.9)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,37 +25,99 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 06 Dec 2016 16:37:58 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 06 Dec 2016 16:46:54 -0000
 
-On 06.12.2016 17:12, Burton, Ross wrote:
-> 
-> On 6 December 2016 at 16:08, Andreas Oberritter <obi@opendreambox.org
-> <mailto:obi@opendreambox.org>> wrote:
-> 
->     I guess ${sysconfdir_native} should work, unless someone overrides
->     STAGING_ETCDIR_NATIVE. Would this be ok?
-> 
-> 
-> If the recipe inherits native then the class reassigns:
-> 
-> sysconfdir = "${STAGING_ETCDIR_NATIVE}"
-> 
-> So you'll need to take sysconfdir, and strip off the staging directory.
+Used by nfs-utils for nfsidmap, if available. Includes a backported patch for
+musl and a description text from meta-ivi.
 
-I was asking because the result after stripping would essentially equal
-${sysconfdir_native}:
+Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
+---
+ .../0001-Include-limits.h-for-UINT_MAX.patch       | 30 ++++++++++++++++++
+ meta/recipes-support/keyutils/keyutils_1.5.9.bb    | 37 ++++++++++++++++++++++
+ 2 files changed, 67 insertions(+)
+ create mode 100644 meta/recipes-support/keyutils/keyutils/0001-Include-limits.h-for-UINT_MAX.patch
+ create mode 100644 meta/recipes-support/keyutils/keyutils_1.5.9.bb
 
-STAGING_ETCDIR_NATIVE = "${STAGING_DIR_NATIVE}${sysconfdir_native}"
-
-It wouldn't work if someone set it to "${STAGING_DIR_NATIVE}/foo"
-without adjusting sysconfdir_native, but on the other hand someone could
-just as well use "/path-outside-staging-dir-native/etc", which would
-break attempts to strip the prefix, too. I'd guess the assumption that
-STAGING_ETCDIR_NATIVE doesn't get changed alone should be safe.
-
-Regards,
-Andreas
+diff --git a/meta/recipes-support/keyutils/keyutils/0001-Include-limits.h-for-UINT_MAX.patch b/meta/recipes-support/keyutils/keyutils/0001-Include-limits.h-for-UINT_MAX.patch
+new file mode 100644
+index 0000000..b17153c
+--- /dev/null
++++ b/meta/recipes-support/keyutils/keyutils/0001-Include-limits.h-for-UINT_MAX.patch
+@@ -0,0 +1,30 @@
++Upstream-Status: Backport [git://git.kernel.org/pub/scm/linux/kernel/git/dhowells/keyutils.git master]
++
++From ab818a7f5818177a3da09fce6aa064ef648da372 Mon Sep 17 00:00:00 2001
++From: Felix Janda <felix.janda@posteo.de>
++Date: Sat, 4 Apr 2015 00:13:21 +0200
++Subject: [PATCH] Include <limits.h> for UINT_MAX
++
++Fixes building with musl libc.
++
++Signed-off-by: Felix Janda <felix.janda@posteo.de>
++Signed-off-by: David Howells <dhowells@redhat.com>
++---
++ key.dns_resolver.c | 1 +
++ 1 file changed, 1 insertion(+)
++
++diff --git a/key.dns_resolver.c b/key.dns_resolver.c
++index c2a9fe5..9c9d458 100644
++--- a/key.dns_resolver.c
+++++ b/key.dns_resolver.c
++@@ -42,6 +42,7 @@
++ #include <netinet/in.h>
++ #include <arpa/nameser.h>
++ #include <arpa/inet.h>
+++#include <limits.h>
++ #include <resolv.h>
++ #include <getopt.h>
++ #include <sys/types.h>
++-- 
++1.9.1
++
+diff --git a/meta/recipes-support/keyutils/keyutils_1.5.9.bb b/meta/recipes-support/keyutils/keyutils_1.5.9.bb
+new file mode 100644
+index 0000000..3c746d2
+--- /dev/null
++++ b/meta/recipes-support/keyutils/keyutils_1.5.9.bb
+@@ -0,0 +1,37 @@
++SUMMARY = "Linux Key Management Utilities"
++DESCRIPTION = "Keyutils is a set of utilities for managing the key retention \
++facility in the kernel, which can be used by filesystems, block devices and \
++more to gain and retain the authorization and encryption keys required to \
++perform secure operations."
++HOMEPAGE = "https://people.redhat.com/~dhowells/keyutils/"
++LICENSE = "GPLv2+ & LGPLv2.1+"
++LICENSE_${PN} = "GPLv2+"
++LICENSE_lib${PN} = "LGPLv2.1+"
++LIC_FILES_CHKSUM = "file://LICENCE.GPL;md5=5f6e72824f5da505c1f4a7197f004b45 \
++                    file://LICENCE.LGPL;md5=7d1cacaa3ea752b72ea5e525df54a21f"
++
++SRC_URI = "https://people.redhat.com/~dhowells/keyutils/${BP}.tar.bz2 \
++           file://0001-Include-limits.h-for-UINT_MAX.patch"
++SRC_URI[md5sum] = "7f8ac985c45086b5fbcd12cecd23cf07"
++SRC_URI[sha256sum] = "4da2c5552c688b65ab14d4fd40fbdf720c8b396d8ece643e040cf6e707e083ae"
++
++EXTRA_OEMAKE = " \
++    DESTDIR=${D} \
++    ETCDIR=${sysconfdir} \
++    BINDIR=${bindir} \
++    SBINDIR=${sbindir} \
++    SHAREDIR=${datadir}/${BPN} \
++    MANDIR=${mandir} \
++    INCLUDEDIR=${includedir} \
++    LIBDIR=${base_libdir} \
++    USRLIBDIR=${libdir} \
++    BUILDFOR= \
++"
++
++do_install() {
++    oe_runmake install
++}
++
++PACKAGES =+ "lib${PN}"
++
++FILES_lib${PN} = "${base_libdir}/lib*${SOLIBS}"
+-- 
+2.7.4
 
 
