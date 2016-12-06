@@ -1,25 +1,25 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 7FFA4719B0
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id E8428719B0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  6 Dec 2016 08:55:25 +0000 (UTC)
+	Tue,  6 Dec 2016 08:55:26 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id uB68tRuO009030
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id uB68tR2C014547
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
 	Tue, 6 Dec 2016 00:55:27 -0800 (PST)
 Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.294.0;
-	Tue, 6 Dec 2016 00:55:26 -0800
+	Tue, 6 Dec 2016 00:55:27 -0800
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 6 Dec 2016 00:55:19 -0800
-Message-ID: <d04c9145ce085b65cdf6ac2460f8a3ad9bd7cc79.1481014270.git.liezhi.yang@windriver.com>
+Date: Tue, 6 Dec 2016 00:55:20 -0800
+Message-ID: <2ecbdf8cca844fb9b76df48f80b0762811dd1b04.1481014270.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.9.0
 In-Reply-To: <cover.1481014270.git.liezhi.yang@windriver.com>
 References: <cover.1481014270.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH V2 4/6] runqemu: support mutiple qemus running when nfs
+Subject: [PATCH V2 5/6] runqemu: fixes for slirp, network device and hostfwd
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,166 +32,202 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 06 Dec 2016 08:55:25 -0000
+X-List-Received-Date: Tue, 06 Dec 2016 08:55:27 -0000
 Content-Type: text/plain
 
 Fixed:
-* In build1:
-  $ runqemu nfs qemux86-64
-  In build2:
-  $ runqemu nfs qemux86-64
+- Add QB_NETWORK_DEVICE to set network device, it will be used by both
+  slirp and tap.
+- Set QB_NETWORK_DEVICE to "-device virtio-net-pci" in qemuboot.bbclass
+  but runqemu will default to "-device e1000" when QB_NETWORK_DEVICE is
+  not set, this is because oe-core's qemu targets support
+  virtio-net-pci, but the one outside of oe-core may not,
+  "-device e1000" is more common.
+- Set hostfwd by default: 2222 -> 22, 2323 -> 23, and it will choose a
+  usable port when the one like 222 is being used. This can avoid
+  conflicts when multilib slirp qemus are running. We can forward more
+  ports by default if needed, and bsp.conf can custom it.
+- Use different mac sections for slirp and tap to fix conflicts when
+  running both of them on the same host.
 
-  It would fail before since the port numerbs and conf files are
-  conflicted, now make runqemu-export-rootfs work together with runqemu to
-  fix the problem.
+[YOCTO #7887]
 
-* And we don't need export PSEUDO_LOCALSTATEDIR in runqemu, the
-  runqemu-export-rootfs can handle it well based on NFS_EXPORT_DIR.
-
-* Remove "async" option from unfsd to fix warning in syslog:
-  Warning: unknown exports option `async' ignored
-
-* Fixed typos
-
-Both slirp and tap can work.
-
+CC: Nathan Rossi <nathan@nathanrossi.com>
+CC: Randy Witt <randy.e.witt@linux.intel.com>
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- scripts/runqemu               | 55 ++++++++++++++++++++++++++++---------------
- scripts/runqemu-export-rootfs | 10 ++++----
- 2 files changed, 41 insertions(+), 24 deletions(-)
+ meta/classes/qemuboot.bbclass              | 11 ++++--
+ meta/conf/machine/include/qemuboot-x86.inc |  1 -
+ meta/conf/machine/qemuarm64.conf           |  1 -
+ scripts/runqemu                            | 58 ++++++++++++++++++++++++++----
+ 4 files changed, 59 insertions(+), 12 deletions(-)
 
+diff --git a/meta/classes/qemuboot.bbclass b/meta/classes/qemuboot.bbclass
+index 1f78a98..1b94af9 100644
+--- a/meta/classes/qemuboot.bbclass
++++ b/meta/classes/qemuboot.bbclass
+@@ -18,11 +18,15 @@
+ # QB_AUDIO_OPT: qemu audio option, e.g., "-soundhw ac97,es1370", used
+ #               when QB_AUDIO_DRV is set.
+ # QB_KERNEL_ROOT: kernel's root, e.g., /dev/vda
++# QB_NETWORK_DEVICE: network device, e.g., "-device virtio-net-pci,netdev=net0,mac=@MAC@",
++#                    it needs work with QB_TAP_OPT and QB_SLIRP_OPT.
++#                    Note, runqemu will replace @MAC@ with a predefined mac, you can set
++#                    a custom one, but that may cause conflicts when multiple qemus are
++#                    running on the same host.
+ # QB_TAP_OPT: netowrk option for 'tap' mode, e.g.,
+-#             "-netdev tap,id=net0,ifname=@TAP@,script=no,downscript=no -device virtio-net-device,netdev=net0"
++#             "-netdev tap,id=net0,ifname=@TAP@,script=no,downscript=no"
+ #              Note, runqemu will replace "@TAP@" with the one which is used, such as tap0, tap1 ...
+-# QB_SLIRP_OPT: network option for SLIRP mode, e.g.,
+-#             "-netdev user,id=net0 -device virtio-net-device,netdev=net0"
++# QB_SLIRP_OPT: network option for SLIRP mode, e.g., -netdev user,id=net0"
+ # QB_ROOTFS_OPT: used as rootfs, e.g.,
+ #               "-drive id=disk0,file=@ROOTFS@,if=none,format=raw -device virtio-blk-device,drive=disk0"
+ #              Note, runqemu will replace "@ROOTFS@" with the one which is used, such as core-image-minimal-qemuarm64.ext4.
+@@ -40,6 +44,7 @@ QB_SERIAL_OPT ?= "-serial mon:stdio -serial null"
+ QB_DEFAULT_KERNEL ?= "${KERNEL_IMAGETYPE}"
+ QB_DEFAULT_FSTYPE ?= "ext4"
+ QB_OPT_APPEND ?= "-show-cursor"
++QB_NETWORK_DEVICE ?= "-device virtio-net-pci,netdev=net0,mac=@MAC@"
+ 
+ # Create qemuboot.conf
+ addtask do_write_qemuboot_conf after do_rootfs before do_image
+diff --git a/meta/conf/machine/include/qemuboot-x86.inc b/meta/conf/machine/include/qemuboot-x86.inc
+index 0870294..06ac983 100644
+--- a/meta/conf/machine/include/qemuboot-x86.inc
++++ b/meta/conf/machine/include/qemuboot-x86.inc
+@@ -13,4 +13,3 @@ QB_AUDIO_OPT = "-soundhw ac97,es1370"
+ QB_KERNEL_CMDLINE_APPEND = "vga=0 uvesafb.mode_option=640x480-32 oprofile.timer=1 uvesafb.task_timeout=-1"
+ # Add the 'virtio-rng-pci' device otherwise the guest may run out of entropy
+ QB_OPT_APPEND = "-vga vmware -show-cursor -usb -usbdevice tablet -device virtio-rng-pci"
+-QB_SLIRP_OPT = "-net nic,model=e1000 -net user,hostfwd=tcp::2222-:22"
+diff --git a/meta/conf/machine/qemuarm64.conf b/meta/conf/machine/qemuarm64.conf
+index df2010c..7a5570c 100644
+--- a/meta/conf/machine/qemuarm64.conf
++++ b/meta/conf/machine/qemuarm64.conf
+@@ -18,7 +18,6 @@ QB_KERNEL_CMDLINE_APPEND = "console=ttyAMA0,38400"
+ # Add the 'virtio-rng-pci' device otherwise the guest may run out of entropy
+ QB_OPT_APPEND = "-show-cursor -device virtio-rng-pci -monitor null"
+ QB_TAP_OPT = "-netdev tap,id=net0,ifname=@TAP@,script=no,downscript=no -device virtio-net-device,netdev=net0,mac=@MAC@"
+-QB_SLIRP_OPT = "-netdev user,id=net0 -device virtio-net-device,netdev=net0"
+ QB_ROOTFS_OPT = "-drive id=disk0,file=@ROOTFS@,if=none,format=raw -device virtio-blk-device,drive=disk0"
+ QB_SERIAL_OPT = "-device virtio-serial-device -chardev null,id=virtcon -device virtconsole,chardev=virtcon"
+ QB_TCPSERIAL_OPT = " -device virtio-serial-device -chardev socket,id=virtcon,port=@PORT@,host=127.0.0.1 -device virtconsole,chardev=virtcon"
 diff --git a/scripts/runqemu b/scripts/runqemu
-index c737eb2..a10270c 100755
+index a10270c..629b4ed 100755
 --- a/scripts/runqemu
 +++ b/scripts/runqemu
-@@ -690,17 +690,33 @@ class BaseConfig(object):
-             else:
-                 self.nfs_server = '192.168.7.1'
+@@ -84,7 +84,7 @@ of the following environment variables (in any order):
+ Examples:
+   runqemu qemuarm
+   runqemu tmp/deploy/images/qemuarm
+-  runqemu tmp/deploy/images/qemux86/.qemuboot.conf
++  runqemu tmp/deploy/images/qemux86/<qemuboot.conf>
+   runqemu qemux86-64 core-image-sato ext4
+   runqemu qemux86-64 wic-image-minimal wic
+   runqemu path/to/bzImage-qemux86.bin path/to/nfsrootdir/ serial
+@@ -147,6 +147,19 @@ def get_first_file(cmds):
+                     return f
+     return ''
  
--        nfs_instance = int(self.nfs_instance)
++def check_free_port(host, port):
++    """ Check whether the port is free or not """
++    import socket
++    from contextlib import closing
++
++    with closing(socket.socket(socket.AF_INET, socket.SOCK_STREAM)) as sock:
++        if sock.connect_ex((host, port)) == 0:
++            # Port is open, so not free
++            return False
++        else:
++            # Port is not open, so free
++            return True
++
+ class BaseConfig(object):
+     def __init__(self):
+         # Vars can be merged with .qemuboot.conf, use a dict to manage them.
+@@ -186,6 +199,15 @@ class BaseConfig(object):
+         self.snapshot = False
+         self.fstypes = ('ext2', 'ext3', 'ext4', 'jffs2', 'nfs', 'btrfs', 'cpio.gz', 'cpio', 'ramfs')
+         self.vmtypes = ('hddimg', 'hdddirect', 'wic', 'vmdk', 'qcow2', 'vdi', 'iso')
++        self.network_device = "-device e1000,netdev=net0,mac=@MAC@"
++        # Use different mac section for tap and slirp to avoid
++        # conflicts, e.g., when one is running with tap, the other is
++        # running with slirp.
++        # The last section is dynamic, which is for avoiding conflicts,
++        # when multiple qemus are running, e.g., when multiple tap or
++        # slirp qemus are running.
++        self.mac_tap = "52:54:00:12:34:"
++        self.mac_slirp = "52:54:00:12:35:"
+ 
+     def acquire_lock(self):
+         logger.info("Acquiring lockfile %s..." % self.lock)
+@@ -751,14 +773,35 @@ class BaseConfig(object):
+ 
+         self.nfs_running = True
+ 
 -
--        mountd_rpcport = 21111 + nfs_instance
--        nfsd_rpcport = 11111 + nfs_instance
--        nfsd_port = 3049 + 2 * nfs_instance
--        mountd_port = 3048 + 2 * nfs_instance
--        unfs_opts="nfsvers=3,port=%s,mountprog=%s,nfsprog=%s,udp,mountport=%s" % (nfsd_port, mountd_rpcport, nfsd_rpcport, mountd_port)
--        self.unfs_opts = unfs_opts
-+        # Figure out a new nfs_instance to allow multiple qemus running.
-+        cmd = "ps aux"
-+        ps = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE).stdout.read().decode('utf-8')
-+        pattern = '/bin/unfsd .* -i .*\.pid -e .*/exports([0-9]+) '
-+        all_instances = re.findall(pattern, ps, re.M)
-+        if all_instances:
-+            all_instances.sort(key=int)
-+            self.nfs_instance = int(all_instances.pop()) + 1
-+
-+        mountd_rpcport = 21111 + self.nfs_instance
-+        nfsd_rpcport = 11111 + self.nfs_instance
-+        nfsd_port = 3049 + 2 * self.nfs_instance
-+        mountd_port = 3048 + 2 * self.nfs_instance
-+
-+        # Export vars for runqemu-export-rootfs
-+        export_dict = {
-+            'NFS_INSTANCE': self.nfs_instance,
-+            'MOUNTD_RPCPORT': mountd_rpcport,
-+            'NFSD_RPCPORT': nfsd_rpcport,
-+            'NFSD_PORT': nfsd_port,
-+            'MOUNTD_PORT': mountd_port,
-+        }
-+        for k, v in export_dict.items():
-+            # Use '%s' since they are integers
-+            os.putenv(k, '%s' % v)
- 
--        p = '%s/.runqemu-sdk/pseudo' % os.getenv('HOME')
--        os.putenv('PSEUDO_LOCALSTATEDIR', p)
-+        self.unfs_opts="nfsvers=3,port=%s,mountprog=%s,nfsprog=%s,udp,mountport=%s" % (nfsd_port, mountd_rpcport, nfsd_rpcport, mountd_port)
- 
-         # Extract .tar.bz2 or .tar.bz if no self.nfs_dir
-         if not self.nfs_dir:
-@@ -728,7 +744,7 @@ class BaseConfig(object):
-                 self.nfs_dir = dest
- 
-         # Start the userspace NFS server
--        cmd = 'runqemu-export-rootfs restart %s' % self.nfs_dir
-+        cmd = 'runqemu-export-rootfs start %s' % self.nfs_dir
-         logger.info('Running %s...' % cmd)
-         if subprocess.call(cmd, shell=True) != 0:
-             raise Exception('Failed to run %s' % cmd)
-@@ -737,6 +753,8 @@ class BaseConfig(object):
- 
- 
      def setup_slirp(self):
-+        """Setup user networking"""
-+
+         """Setup user networking"""
+ 
          if self.fstype == 'nfs':
              self.setup_nfs()
          self.kernel_cmdline_script += ' ip=dhcp'
-@@ -804,14 +822,13 @@ class BaseConfig(object):
-             logger.error("Failed to setup tap device. Run runqemu-gen-tapdevs to manually create.")
-             return 1
-         self.tap = tap
--        n0 = tap[3:]
--        n1 = int(n0) * 2 + 1
--        n2 = n1 + 1
--        self.nfs_instance = n0
-+        tapnum = int(tap[3:])
-+        gateway = tapnum * 2 + 1
-+        client = gateway + 1
+-        self.set('NETWORK_CMD', self.get('QB_SLIRP_OPT'))
++        # Port mapping
++        hostfwd = ",hostfwd=tcp::2222-:22,hostfwd=tcp::2323-:23"
++        qb_slirp_opt_default = "-netdev user,id=net0%s" % hostfwd
++        qb_slirp_opt = self.get('QB_SLIRP_OPT') or qb_slirp_opt_default
++        # Figure out the port
++        ports = re.findall('hostfwd=[^-]*:([0-9]+)-[^,-]*', qb_slirp_opt)
++        ports = [int(i) for i in ports]
++        mac = 2
++        # Find a free port to avoid conflicts
++        for p in ports[:]:
++            p_new = p
++            while not check_free_port('localhost', p_new):
++                p_new += 1
++                mac += 1
++                while p_new in ports:
++                        p_new += 1
++                        mac += 1
++            if p != p_new:
++                ports.append(p_new)
++                qb_slirp_opt = re.sub(':%s-' % p, ':%s-' % p_new, qb_slirp_opt)
++                logger.info("Port forward changed: %s -> %s" % (p, p_new))
++        mac = "%s%02x" % (self.mac_slirp, mac)
++        self.set('NETWORK_CMD', '%s %s' % (self.network_device.replace('@MAC@', mac), qb_slirp_opt))
+ 
+     def setup_tap(self):
+         """Setup tap"""
+@@ -828,21 +871,22 @@ class BaseConfig(object):
          if self.fstype == 'nfs':
              self.setup_nfs()
--        self.kernel_cmdline_script += " ip=192.168.7.%s::192.168.7.%s:255.255.255.0" % (n2, n1)
--        mac = "52:54:00:12:34:%02x" % n2
-+        self.kernel_cmdline_script += " ip=192.168.7.%s::192.168.7.%s:255.255.255.0" % (client, gateway)
-+        mac = "52:54:00:12:34:%02x" % client
+         self.kernel_cmdline_script += " ip=192.168.7.%s::192.168.7.%s:255.255.255.0" % (client, gateway)
+-        mac = "52:54:00:12:34:%02x" % client
++        mac = "%s%02x" % (self.mac_tap, client)
          qb_tap_opt = self.get('QB_TAP_OPT')
          if qb_tap_opt:
-             qemu_tap_opt = qb_tap_opt.replace('@TAP@', tap).replace('@MAC@', mac)
-@@ -854,11 +871,11 @@ class BaseConfig(object):
-                         vm_drive = '-drive if=none,id=hd,file=%s,format=%s -device virtio-scsi-pci,id=scsi -device scsi-hd,drive=hd' \
-                                        % (self.rootfs, rootfs_format)
-                     elif subprocess.call(cmd2, shell=True) == 0:
--                        logger.info('Using scsi drive')
-+                        logger.info('Using ide drive')
-                         vm_drive = "%s,format=%s" % (self.rootfs, rootfs_format)
-                     else:
-                         logger.warn("Can't detect drive type %s" % self.rootfs)
--                        logger.warn('Tring to use virtio block drive')
-+                        logger.warn('Trying to use virtio block drive')
-                         vm_drive = '-drive if=virtio,file=%s,format=%s' % (self.rootfs, rootfs_format)
-                 self.rootfs_options = '%s -no-reboot' % vm_drive
-             self.kernel_cmdline = 'root=%s rw highres=off' % (self.get('QB_KERNEL_ROOT'))
-diff --git a/scripts/runqemu-export-rootfs b/scripts/runqemu-export-rootfs
-index 0dd3eba..7ebc071 100755
---- a/scripts/runqemu-export-rootfs
-+++ b/scripts/runqemu-export-rootfs
-@@ -78,13 +78,13 @@ if [ ! -d "$PSEUDO_LOCALSTATEDIR" ]; then
- fi
+-            qemu_tap_opt = qb_tap_opt.replace('@TAP@', tap).replace('@MAC@', mac)
++            qemu_tap_opt = qb_tap_opt.replace('@TAP@', tap)
+         else:
+-            qemu_tap_opt = "-device virtio-net-pci,netdev=net0,mac=%s -netdev tap,id=net0,ifname=%s,script=no,downscript=no" % (mac, self.tap)
++            qemu_tap_opt = "-netdev tap,id=net0,ifname=%s,script=no,downscript=no" % (self.tap)
  
- # rpc.mountd RPC port
--MOUNTD_RPCPORT=$[ 21111 + $NFS_INSTANCE ]
-+MOUNTD_RPCPORT=${MOUNTD_RPCPORT:=$[ 21111 + $NFS_INSTANCE ]}
- # rpc.nfsd RPC port
--NFSD_RPCPORT=$[ 11111 + $NFS_INSTANCE ]
-+NFSD_RPCPORT=${NFSD_RPCPORT:=$[ 11111 + $NFS_INSTANCE ]}
- # NFS server port number
--NFSD_PORT=$[ 3049 + 2 * $NFS_INSTANCE ]
-+NFSD_PORT=${NFSD_PORT:=$[ 3049 + 2 * $NFS_INSTANCE ]}
- # mountd port number
--MOUNTD_PORT=$[ 3048 + 2 * $NFS_INSTANCE ]
-+MOUNTD_PORT=${MOUNTD_PORT:=$[ 3048 + 2 * $NFS_INSTANCE ]}
+         if self.vhost_enabled:
+             qemu_tap_opt += ',vhost=on'
  
- ## For debugging you would additionally add
- ## --debug all
-@@ -109,7 +109,7 @@ case "$1" in
- 	fi
+-        self.set('NETWORK_CMD', qemu_tap_opt)
++        self.set('NETWORK_CMD', '%s %s' % (self.network_device.replace('@MAC@', mac), qemu_tap_opt))
  
- 	echo "Creating exports file..."
--	echo "$NFS_EXPORT_DIR (rw,async,no_root_squash,no_all_squash,insecure)" > $EXPORTS
-+	echo "$NFS_EXPORT_DIR (rw,no_root_squash,no_all_squash,insecure)" > $EXPORTS
- 
- 	echo "Starting User Mode nfsd"
- 	echo "  $PSEUDO $PSEUDO_OPTS $OECORE_NATIVE_SYSROOT/usr/bin/unfsd $UNFSD_OPTS"
+     def setup_network(self):
+         cmd = "stty -g"
+         self.saved_stty = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE).stdout.read().decode('utf-8')
++        self.network_device = self.get('QB_NETWORK_DEVICE') or self.network_device
+         if self.slirp_enabled:
+             self.setup_slirp()
+         else:
 -- 
 2.9.0
 
