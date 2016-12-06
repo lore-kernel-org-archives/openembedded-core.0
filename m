@@ -1,25 +1,25 @@
 Return-Path: <anibal.limon@linux.intel.com>
 Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id BACA871ADF
+	by mail.openembedded.org (Postfix) with ESMTP id D79C271A86
 	for <openembedded-core@lists.openembedded.org>;
 	Tue,  6 Dec 2016 21:51:30 +0000 (UTC)
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
-	by fmsmga103.fm.intel.com with ESMTP; 06 Dec 2016 13:51:28 -0800
+	by fmsmga103.fm.intel.com with ESMTP; 06 Dec 2016 13:51:32 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.33,310,1477983600"; d="scan'208";a="39533273"
+X-IronPort-AV: E=Sophos;i="5.33,310,1477983600"; d="scan'208";a="39533303"
 Received: from alimonb-mobl1.zpn.intel.com ([10.219.5.142])
-	by orsmga005.jf.intel.com with ESMTP; 06 Dec 2016 13:51:28 -0800
+	by orsmga005.jf.intel.com with ESMTP; 06 Dec 2016 13:51:32 -0800
 From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  6 Dec 2016 15:43:51 -0600
-Message-Id: <8f40cc770389026daa63e41c88c57d333304c453.1481059445.git.anibal.limon@linux.intel.com>
+Date: Tue,  6 Dec 2016 15:44:00 -0600
+Message-Id: <5c15a560ba735d8e68a109c86e244290e6e61eff.1481059445.git.anibal.limon@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1481059445.git.anibal.limon@linux.intel.com>
 References: <cover.1481059445.git.anibal.limon@linux.intel.com>
 In-Reply-To: <cover.1481059445.git.anibal.limon@linux.intel.com>
 References: <cover.1481059445.git.anibal.limon@linux.intel.com>
 MIME-Version: 1.0
-Subject: [PATCH 06/32] oeqa/core/decorator: Add support for OETimeout decorator
+Subject: [PATCH 15/32] classes/populate_sdk_base: Add write_sdk_test_data to postprocess
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,52 +36,42 @@ X-List-Received-Date: Tue, 06 Dec 2016 21:51:31 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Mariano Lopez <mariano.lopez@linux.intel.com>
+This function will generates testdata.json per SDK type.
 
-The OETimeout provides support for specify certain timeout
-in seconds for a test case, if the timeout is reach the SIGALRM
-is sent and an exception is raised to notify the timeout.
+[YOCTO #10231]
 
-[YOCTO #10235]
-
-Signed-off-by: Mariano Lopez <mariano.lopez@linux.intel.com>
 Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
 ---
- meta/lib/oeqa/core/decorator/oetimeout.py | 25 +++++++++++++++++++++++++
- 1 file changed, 25 insertions(+)
- create mode 100644 meta/lib/oeqa/core/decorator/oetimeout.py
+ meta/classes/populate_sdk_base.bbclass | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
 
-diff --git a/meta/lib/oeqa/core/decorator/oetimeout.py b/meta/lib/oeqa/core/decorator/oetimeout.py
-new file mode 100644
-index 0000000..a247583
---- /dev/null
-+++ b/meta/lib/oeqa/core/decorator/oetimeout.py
-@@ -0,0 +1,25 @@
-+# Copyright (C) 2016 Intel Corporation
-+# Released under the MIT license (see COPYING.MIT)
+diff --git a/meta/classes/populate_sdk_base.bbclass b/meta/classes/populate_sdk_base.bbclass
+index 220cde6..f0fc089 100644
+--- a/meta/classes/populate_sdk_base.bbclass
++++ b/meta/classes/populate_sdk_base.bbclass
+@@ -73,6 +73,13 @@ python write_target_sdk_manifest () {
+         output.write(format_pkg_list(pkgs, 'ver'))
+ }
+ 
++python write_sdk_test_data() {
++    from oe.data import export2json
++    testdata = "%s/%s.testdata.json" % (d.getVar('SDKDEPLOYDIR', True), d.getVar('TOOLCHAIN_OUTPUTNAME', True))
++    bb.utils.mkdirhier(os.path.dirname(testdata))
++    export2json(d, testdata)
++}
 +
-+import signal
-+from . import OETestDecorator, registerDecorator
-+from oeqa.core.exception import OEQATimeoutError
-+
-+@registerDecorator
-+class OETimeout(OETestDecorator):
-+    attrs = ('oetimeout',)
-+
-+    def setUpDecorator(self):
-+        timeout = self.oetimeout
-+        def _timeoutHandler(signum, frame):
-+            raise OEQATimeoutError("Timed out after %s "
-+                    "seconds of execution" % timeout)
-+
-+        self.logger.debug("Setting up a %d second(s) timeout" % self.oetimeout)
-+        self.alarmSignal = signal.signal(signal.SIGALRM, _timeoutHandler)
-+        signal.alarm(self.oetimeout)
-+
-+    def tearDownDecorator(self):
-+        signal.alarm(0)
-+        signal.signal(signal.SIGALRM, self.alarmSignal)
-+        self.logger.debug("Removed SIGALRM handler")
+ python write_host_sdk_manifest () {
+     from oe.sdk import sdk_list_installed_packages
+     from oe.utils import format_pkg_list
+@@ -84,7 +91,7 @@ python write_host_sdk_manifest () {
+         output.write(format_pkg_list(pkgs, 'ver'))
+ }
+ 
+-POPULATE_SDK_POST_TARGET_COMMAND_append = " write_target_sdk_manifest ; "
++POPULATE_SDK_POST_TARGET_COMMAND_append = " write_target_sdk_manifest ; write_sdk_test_data ; "
+ POPULATE_SDK_POST_HOST_COMMAND_append = " write_host_sdk_manifest; "
+ SDK_PACKAGING_COMMAND = "${@'${SDK_PACKAGING_FUNC};' if '${SDK_PACKAGING_FUNC}' else ''}"
+ SDK_POSTPROCESS_COMMAND = " create_sdk_files; check_sdk_sysroots; tar_sdk; ${SDK_PACKAGING_COMMAND} "
 -- 
 2.1.4
 
