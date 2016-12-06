@@ -1,51 +1,35 @@
-Return-Path: <george.mccollister@gmail.com>
-Received: from mail-yw0-f194.google.com (mail-yw0-f194.google.com
-	[209.85.161.194])
-	by mail.openembedded.org (Postfix) with ESMTP id B64B171A89
+Return-Path: <obi@opendreambox.org>
+Received: from mail.dream-property.net (mail.dream-property.net
+	[82.149.226.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 8AB4171A7B
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  6 Dec 2016 18:08:43 +0000 (UTC)
-Received: by mail-yw0-f194.google.com with SMTP id s68so29562293ywg.0
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 06 Dec 2016 10:08:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:in-reply-to:references;
-	bh=+S0Io9UqI6lWchC6GYhVuqzfaBFP0l3LkuSk39gWus8=;
-	b=x4r2zQ5MKxpPg9+R6C7i7njysbSohaySU7MZrXj1NO7QVYUc3daH+jLEcEbomXEWUM
-	32otpr9j3AwbYQQv4d7bvjkqYNur8ylKoJJdjQxa+QUhivh4SX5P0pD9nrO4BnnWxUA9
-	aOx9j4uK33NjTR68ONjXH2DD7cjtQ2O6+pUFl2yE8JJIPrhb+HZ7PNNMQ0LZy56NgTqG
-	oXWcVIhfrOKgtTebLpzrpcf7GH8tQcafydpdZFF6eqUE1PokxAwXH3CbOZnJRM0kn89Z
-	fv4wjGnD3Oqf7E5ALZFlGvhpVSJZzY0AVa3FDCv5wWhFg4M0Zxk+nVKDTJ1pMdMd+kYB
-	fckw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references:in-reply-to:references;
-	bh=+S0Io9UqI6lWchC6GYhVuqzfaBFP0l3LkuSk39gWus8=;
-	b=XgbG96P71KSV3K90ilYdqEYbYn61t8Wk6ZWOn4U0PagTdLal/59fDU5/mNzxM02o/A
-	AArXPF4W4JGaqyeeQEf1tLVpjAIC00NY2NMPPx3qYenPABa8Yzf35SL7UQbUDt6eA0ct
-	EsQg19xyUsVfusngsLzqhrFR1N4eA1b5Rz3qJJ/pe60CpfJVqQvh9LCd6PQYqWIPudZY
-	V1ZzDzikYhwKzhaFGFlKNw9lDhgNPCC4A8WnzBVTXf8JIj2Oqn388+iBjK47gOr1ABG3
-	UlfqWms0R/7s5aI4IdD/6VCDg3G3X0iHZeEqyM5BUDBIdj9I7OtGSyBf2ETbVFB1kdo+
-	c4iA==
-X-Gm-Message-State: AKaTC01R9Np9SB1eW/s9oD4n/2KyAJcaAgGkY3oO35TeNcsn4Kew5vVl3f3HTNsKwR1n+g==
-X-Received: by 10.36.76.85 with SMTP id a82mr3503406itb.67.1481047724347;
-	Tue, 06 Dec 2016 10:08:44 -0800 (PST)
-Received: from localhost.localdomain (216-21-169-52.slc.googlefiber.net.
-	[216.21.169.52])
-	by smtp.gmail.com with ESMTPSA id 17sm9417317ioh.12.2016.12.06.10.08.43
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 06 Dec 2016 10:08:43 -0800 (PST)
-From: George McCollister <george.mccollister@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  6 Dec 2016 12:08:31 -0600
-Message-Id: <21bd42735a2e34975a1b5686232676c3908624a9.1481047167.git.george.mccollister@gmail.com>
-X-Mailer: git-send-email 2.9.3
-In-Reply-To: <8b52033562719fb4654f2d0c1fa49357722ff27f.1481047167.git.george.mccollister@gmail.com>
-References: <8b52033562719fb4654f2d0c1fa49357722ff27f.1481047167.git.george.mccollister@gmail.com>
-In-Reply-To: <cover.1481047167.git.george.mccollister@gmail.com>
-References: <cover.1481047167.git.george.mccollister@gmail.com>
-Subject: [master][PATCH 2/2] gdb-cross-canadian: Depend on nativesdk-python3-importlib
+	Tue,  6 Dec 2016 18:20:57 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by mail.dream-property.net (Postfix) with ESMTP id 9468D31C21BC;
+	Tue,  6 Dec 2016 19:20:58 +0100 (CET)
+X-Virus-Scanned: Debian amavisd-new at mail.dream-property.net
+Received: from mail.dream-property.net ([127.0.0.1])
+	by localhost (mail.dream-property.net [127.0.0.1]) (amavisd-new,
+	port 10024)
+	with LMTP id 40PuV8R1rEy2; Tue,  6 Dec 2016 19:20:56 +0100 (CET)
+Received: from [172.22.22.61] (55d40c51.access.ecotel.net [85.212.12.81])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by mail.dream-property.net (Postfix) with ESMTPSA id 9996431C21CC;
+	Tue,  6 Dec 2016 19:20:55 +0100 (CET)
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <1481024991-5882-1-git-send-email-obi@opendreambox.org>
+	<1481024991-5882-21-git-send-email-obi@opendreambox.org>
+	<CAJTo0Lbx_TKJgWRnYGHHAja2uT8CNG+d=wyFJ-aBiZJ3zmWyFg@mail.gmail.com>
+From: Andreas Oberritter <obi@opendreambox.org>
+Message-ID: <e18eec82-26dc-3e09-74ea-82e1dcae8fea@opendreambox.org>
+Date: Tue, 6 Dec 2016 19:20:55 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.5.1
+MIME-Version: 1.0
+In-Reply-To: <CAJTo0Lbx_TKJgWRnYGHHAja2uT8CNG+d=wyFJ-aBiZJ3zmWyFg@mail.gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 20/33] package_manager/deb: let apt-get handle postinst scripts
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,36 +42,195 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 06 Dec 2016 18:08:44 -0000
+X-List-Received-Date: Tue, 06 Dec 2016 18:20:59 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
 
-Add missing dependency on nativesdk-python3-importlib so the imp Python
-module is installed.
+On 06.12.2016 18:26, Burton, Ross wrote:
+> Can you elaborate on why the old code can be deleted?
 
-Before this patch, running gdb from the sdk would give the following
-error:
+With all required environment variables and configuration options in
+apt.conf in place, apt-get is able to install packages offline, i.e.
+when creating the rootfs, including the execution of postinst scripts
+and updating the package database. This is new behaviour.
 
-Python Exception <class 'ImportError'> No module named 'imp':
+At the time the deleted code would have executed, its work was already
+done by apt-get.
 
-Signed-off-by: George McCollister <george.mccollister@gmail.com>
----
- meta/recipes-devtools/gdb/gdb-cross-canadian.inc | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
-
-diff --git a/meta/recipes-devtools/gdb/gdb-cross-canadian.inc b/meta/recipes-devtools/gdb/gdb-cross-canadian.inc
-index e53081d..3ff1989 100644
---- a/meta/recipes-devtools/gdb/gdb-cross-canadian.inc
-+++ b/meta/recipes-devtools/gdb/gdb-cross-canadian.inc
-@@ -14,7 +14,8 @@ GDBPROPREFIX = "--program-prefix='${TARGET_PREFIX}'"
- PACKAGECONFIG ??= "python readline"
- PACKAGECONFIG[python] = "--with-python=${WORKDIR}/python,--without-python,nativesdk-python3, \
-                          nativesdk-python3-core nativesdk-python3-lang nativesdk-python3-re \
--                         nativesdk-python3-codecs nativesdk-python3-netclient"
-+                         nativesdk-python3-codecs nativesdk-python3-netclient \
-+                         nativesdk-python3-importlib"
- PACKAGECONFIG[readline] = "--with-system-readline,--without-system-readline,nativesdk-readline"
- 
- SSTATE_DUPWHITELIST += "${STAGING_DATADIR}/gdb"
--- 
-2.9.3
+> 
+> Ross
+> 
+> On 6 December 2016 at 11:49, Andreas Oberritter <obi@opendreambox.org
+> <mailto:obi@opendreambox.org>> wrote:
+> 
+>     Signed-off-by: Andreas Oberritter <obi@opendreambox.org
+>     <mailto:obi@opendreambox.org>>
+>     ---
+>      meta/lib/oe/package_manager.py | 86
+>     ++++--------------------------------------
+>      meta/lib/oe/rootfs.py          |  6 +--
+>      2 files changed, 9 insertions(+), 83 deletions(-)
+> 
+>     diff --git a/meta/lib/oe/package_manager.py
+>     b/meta/lib/oe/package_manager.py
+>     index 4ef4f6d..12dff20 100644
+>     --- a/meta/lib/oe/package_manager.py
+>     +++ b/meta/lib/oe/package_manager.py
+>     @@ -1959,84 +1959,6 @@ class DpkgPM(OpkgDpkgPM):
+> 
+>              self.indexer = DpkgIndexer(self.d, self.deploy_dir)
+> 
+>     -    """
+>     -    This function will change a package's status in
+>     /var/lib/dpkg/status file.
+>     -    If 'packages' is None then the new_status will be applied to all
+>     -    packages
+>     -    """
+>     -    def mark_packages(self, status_tag, packages=None):
+>     -        status_file = self.target_rootfs + "/var/lib/dpkg/status"
+>     -
+>     -        with open(status_file, "r") as sf:
+>     -            with open(status_file + ".tmp", "w+") as tmp_sf:
+>     -                if packages is None:
+>     -                    tmp_sf.write(re.sub(r"Package:
+>     (.*?)\n((?:[^\n]+\n)*?)Status: (.*)(?:unpacked|installed)",
+>     -                                        r"Package: \1\n\2Status:
+>     \3%s" % status_tag,
+>     -                                        sf.read()))
+>     -                else:
+>     -                    if type(packages).__name__ != "list":
+>     -                        raise TypeError("'packages' should be a
+>     list object")
+>     -
+>     -                    status = sf.read()
+>     -                    for pkg in packages:
+>     -                        status = re.sub(r"Package:
+>     %s\n((?:[^\n]+\n)*?)Status: (.*)(?:unpacked|installed)" % pkg,
+>     -                                        r"Package: %s\n\1Status:
+>     \2%s" % (pkg, status_tag),
+>     -                                        status)
+>     -
+>     -                    tmp_sf.write(status)
+>     -
+>     -        os.rename(status_file + ".tmp", status_file)
+>     -
+>     -    """
+>     -    Run the pre/post installs for package "package_name". If
+>     package_name is
+>     -    None, then run all pre/post install scriptlets.
+>     -    """
+>     -    def run_pre_post_installs(self, package_name=None):
+>     -        info_dir = self.target_rootfs + "/var/lib/dpkg/info"
+>     -        ControlScript = collections.namedtuple("ControlScript",
+>     ["suffix", "name", "argument"])
+>     -        control_scripts = [
+>     -                ControlScript(".preinst", "Preinstall", "install"),
+>     -                ControlScript(".postinst", "Postinstall", "configure")]
+>     -        status_file = self.target_rootfs + "/var/lib/dpkg/status"
+>     -        installed_pkgs = []
+>     -
+>     -        with open(status_file, "r") as status:
+>     -            for line in status.read().split('\n'):
+>     -                m = re.match("^Package: (.*)", line)
+>     -                if m is not None:
+>     -                    installed_pkgs.append(m.group(1))
+>     -
+>     -        if package_name is not None and not package_name in
+>     installed_pkgs:
+>     -            return
+>     -
+>     -        os.environ['D'] = self.target_rootfs
+>     -        os.environ['OFFLINE_ROOT'] = self.target_rootfs
+>     -        os.environ['IPKG_OFFLINE_ROOT'] = self.target_rootfs
+>     -        os.environ['OPKG_OFFLINE_ROOT'] = self.target_rootfs
+>     -        os.environ['INTERCEPT_DIR'] =
+>     os.path.join(self.d.getVar('WORKDIR', True),
+>     -                                                   "intercept_scripts")
+>     -        os.environ['NATIVE_ROOT'] =
+>     self.d.getVar('STAGING_DIR_NATIVE', True)
+>     -
+>     -        failed_pkgs = []
+>     -        for pkg_name in installed_pkgs:
+>     -            for control_script in control_scripts:
+>     -                p_full = os.path.join(info_dir, pkg_name +
+>     control_script.suffix)
+>     -                if os.path.exists(p_full):
+>     -                    try:
+>     -                        bb.note("Executing %s for package: %s ..." %
+>     -                                 (control_script.name.lower(),
+>     pkg_name))
+>     -                        subprocess.check_output([p_full,
+>     control_script.argument],
+>     -                                stderr=subprocess.STDOUT)
+>     -                    except subprocess.CalledProcessError as e:
+>     -                        bb.note("%s for package %s failed with
+>     %d:\n%s" %
+>     -                                (control_script.name
+>     <http://control_script.name>, pkg_name, e.returncode,
+>     -                                    e.output.decode("utf-8")))
+>     -                        failed_pkgs.append(pkg_name)
+>     -                        break
+>     -
+>     -        if len(failed_pkgs):
+>     -            self.mark_packages("unpacked", failed_pkgs)
+>     -
+>          def update(self):
+>              os.environ['APT_CONFIG'] = self.apt_conf_file
+> 
+>     @@ -2058,6 +1980,14 @@ class DpkgPM(OpkgDpkgPM):
+> 
+>              os.environ['APT_CONFIG'] = self.apt_conf_file
+> 
+>     +        os.environ['D'] = self.target_rootfs
+>     +        os.environ['OFFLINE_ROOT'] = self.target_rootfs
+>     +        os.environ['IPKG_OFFLINE_ROOT'] = self.target_rootfs
+>     +        os.environ['OPKG_OFFLINE_ROOT'] = self.target_rootfs
+>     +        os.environ['INTERCEPT_DIR'] =
+>     os.path.join(self.d.getVar('WORKDIR', True),
+>     +                                                   "intercept_scripts")
+>     +        os.environ['NATIVE_ROOT'] =
+>     self.d.getVar('STAGING_DIR_NATIVE', True)
+>     +
+>              cmd = "%s %s install --force-yes --allow-unauthenticated
+>     %s" % \
+>                    (self.apt_get_cmd, self.apt_args, ' '.join(pkgs))
+> 
+>     diff --git a/meta/lib/oe/rootfs.py b/meta/lib/oe/rootfs.py
+>     index a348b97..4c82456 100644
+>     --- a/meta/lib/oe/rootfs.py
+>     +++ b/meta/lib/oe/rootfs.py
+>     @@ -685,10 +685,6 @@ class DpkgRootfs(DpkgOpkgRootfs):
+> 
+>              self.pm.fix_broken_dependencies()
+> 
+>     -        self.pm.mark_packages("installed")
+>     -
+>     -        self.pm.run_pre_post_installs()
+>     -
+>              execute_pre_post_process(self.d, deb_post_process_cmds)
+> 
+>              if self.progress_reporter:
+>     @@ -708,7 +704,7 @@ class DpkgRootfs(DpkgOpkgRootfs):
+>              return self._save_postinsts_common(dst_postinst_dir,
+>     src_postinst_dir)
+> 
+>          def _handle_intercept_failure(self, registered_pkgs):
+>     -        self.pm.mark_packages("unpacked", registered_pkgs.split())
+>     +        pass
+> 
+>          def _log_check(self):
+>              self._log_check_warn()
+>     --
+>     2.7.4
+> 
+>     --
+>     _______________________________________________
+>     Openembedded-core mailing list
+>     Openembedded-core@lists.openembedded.org
+>     <mailto:Openembedded-core@lists.openembedded.org>
+>     http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>     <http://lists.openembedded.org/mailman/listinfo/openembedded-core>
+> 
+> 
 
 
