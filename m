@@ -1,20 +1,49 @@
-Return-Path: <jose.perez.carranza@linux.intel.com>
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id 853BE71A5A
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qk0-f174.google.com (mail-qk0-f174.google.com
+	[209.85.220.174])
+	by mail.openembedded.org (Postfix) with ESMTP id 02B4A71A61
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  6 Dec 2016 17:18:21 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga104.fm.intel.com with ESMTP; 06 Dec 2016 09:18:21 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.33,310,1477983600"; d="scan'208";a="794936366"
-Received: from jgperezc.zpn.intel.com ([10.219.5.150])
-	by FMSMGA003.fm.intel.com with ESMTP; 06 Dec 2016 09:18:21 -0800
-From: jose.perez.carranza@linux.intel.com
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  6 Dec 2016 11:29:01 -0600
-Message-Id: <1481045341-32526-1-git-send-email-jose.perez.carranza@linux.intel.com>
-X-Mailer: git-send-email 2.1.4
-Subject: [PATCH] postinst: Add a test case to verify postinst scripts behavior
+	Tue,  6 Dec 2016 17:19:08 +0000 (UTC)
+Received: by mail-qk0-f174.google.com with SMTP id n204so386674239qke.2
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 06 Dec 2016 09:19:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=dSQuEyTi+dwz4Pp3R5m4LcZcCcU0cUZdmolrJKqbokE=;
+	b=OdFq26T++qtHvEwvZf/DdE4Xgrlr5kN520BMTgGIEEWbVrmkAPtpkGao4Gty8e/u1M
+	zglDu4H/CbnPX1wVdyYqcJKjXj4CLl4OXUn3m1Cc+LIS5eYyuJaFniEijU4UBiuYj9F+
+	d9zOmJudHJZWmYEFfeKCtgnWWZMbVETWbyntNMpis+uotooVklNEYwJnwVzw2iedsdak
+	ZFWH6OhKd5R9STOC5ptIsVMsnlS1y6nUsewblWd4pqG36KhR46qsGn3z92eSfi0zJqYj
+	pPYUwQ+pz3u8W6DYVgzrFS71W6WB7FPB+UhUtQ/j1PMMrKA1aBYGiBOaoTP7ZwYsw+k1
+	Ii9Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=dSQuEyTi+dwz4Pp3R5m4LcZcCcU0cUZdmolrJKqbokE=;
+	b=eN6DvVTaT41cqR+c3tHDKWaPBj+yhmbLERoJEq4XyYOOU8sb8NGko2Owrfd53QUDax
+	/lmykqh2Wl/95icaH8teg7JhqHpnFjDZwkoPTPlbXM7jOs+UDUipD8rFG4pl0xHqMyTS
+	mFv9LL4E9vXqQbzs9VHWSAb9aUH0n4OJctOmHiyynyom1vmj+MF4VcQFtwhq21dFdjBk
+	9MTraxHyvdM5xbD5RgjBfeh3R/rRYC2taZLKGpRHLOT0K/ysaSOq4xZwFGgH+CIaxS2n
+	HhC5La201b6kU89uNJCKPOK5xgJg8DjGtBoyX1vwae9WkSVumNS+gmUmlKFP5YOPIUAG
+	Y0Pw==
+X-Gm-Message-State: AKaTC019uo2GTNdLbVGutrndt+pqWUAGVzonJEqWUNkzxX5ctXSTdH0A506gjfkhghGYC7p4yJcfedRmTA/rarya
+X-Received: by 10.55.8.20 with SMTP id 20mr62898345qki.3.1481044749729; Tue,
+	06 Dec 2016 09:19:09 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.140.106.99 with HTTP; Tue, 6 Dec 2016 09:18:49 -0800 (PST)
+In-Reply-To: <6D6B8004-668B-4C5B-96BE-7A231F365788@gmail.com>
+References: <20161201083726.6160-1-raj.khem@gmail.com>
+	<CAHiDW_ERJNEoc4OfTQtV6Bi3UPzQkt9RMPJDUx-RAVJnrj2feA@mail.gmail.com>
+	<6D6B8004-668B-4C5B-96BE-7A231F365788@gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 6 Dec 2016 17:18:49 +0000
+Message-ID: <CAJTo0LaPBUCpN1DPDGQWTFrRoUfDOhHG2kq8Fh54JpZBwahBig@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] gstreamer1.0-plugins-bad: Add PKG_CONFIG_SYSROOT_DIR to output of pkg-config
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,110 +56,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 06 Dec 2016 17:18:22 -0000
+X-List-Received-Date: Tue, 06 Dec 2016 17:19:09 -0000
+Content-Type: multipart/alternative; boundary=001a114c9d60348dff0543009ab6
 
-From: Jose Perez Carranza <jose.perez.carranza@linux.intel.com>
+--001a114c9d60348dff0543009ab6
+Content-Type: text/plain; charset=UTF-8
 
-Add test case that verify behavior of postinst scripts at
-roofts time and when is delayed to the first boot directly
-on the target.
+On 5 December 2016 at 19:08, Khem Raj <raj.khem@gmail.com> wrote:
 
-Signed-off-by: Jose Perez Carranza <jose.perez.carranza@linux.intel.com>
----
- .../recipes-test/postinst/postinst_1.0.bb          |  2 +
- meta/lib/oeqa/selftest/runtime-test.py             | 61 ++++++++++++++++++++++
- 2 files changed, 63 insertions(+)
+> having said that, there could be a multilib issue if pkgdatadir thats in
+> .pc file from wayland-protocols package is using variables like ${libdir}
+> which then are
+> multilib dependent, if this is the case then we need to fix .pc file.
+> however when I look at the <target-sysroot>/usr/share/pkgconfig/wayland-protocols.pc
+> it has
+>
+> prefix=/usr
+> datarootdir=${prefix}/share
+> pkgdatadir=/usr/share/wayland-protocols
+>
+> seems to be free of multilib deps.
+>
 
-diff --git a/meta-selftest/recipes-test/postinst/postinst_1.0.bb b/meta-selftest/recipes-test/postinst/postinst_1.0.bb
-index 97a1987..6d49734 100644
---- a/meta-selftest/recipes-test/postinst/postinst_1.0.bb
-+++ b/meta-selftest/recipes-test/postinst/postinst_1.0.bb
-@@ -24,6 +24,7 @@ RDEPENDS_${PN}-delayed-t = "${PN}-delayed-p"
- # Main recipe post-install
- pkg_postinst_${PN}-at-rootfs () {
-     tfile="/etc/postinsta-test"
-+    touch "$D"/this-was-created-at-rootfstime
-     if test "x$D" != "x" then
-         # Need to run on first boot
-         exit 1
-@@ -42,6 +43,7 @@ pkg_postinst_${PN}-delayed-a () {
-       # Need to run on first boot
-       exit 1
-     else
-+      touch /etc/this-was-created-at-first-boot
-       if test -e $efile ; then
-         echo 'success' > $tfile
-       else
-diff --git a/meta/lib/oeqa/selftest/runtime-test.py b/meta/lib/oeqa/selftest/runtime-test.py
-index 1dbfae1..20caa97 100644
---- a/meta/lib/oeqa/selftest/runtime-test.py
-+++ b/meta/lib/oeqa/selftest/runtime-test.py
-@@ -155,3 +155,64 @@ postinst-delayed-t \
-                     elif found:
-                         self.assertEqual(idx, len(postinst_list), "Not found all postinsts")
-                         break
-+
-+    @testcase(1545)
-+    def test_postinst_roofs_and_boot(self):
-+        """
-+        Summary:        The purpose of this test case is to verify Post-installation
-+                        scripts are called when roofs is created and also test
-+                        that script can be delayed to run at first boot.
-+        Dependencies:   NA
-+        Steps:          1. Add proper configuration to local.conf file
-+                        2. Build a "core-image-full-cmdline" image
-+                        3. Verify that file created by postinst_rootfs recipe is
-+                           present on rootfs dir.
-+                        4. Boot the image created on qemu and verify that the file
-+                           created by postinst_boot recipe is present on image.
-+                        5. Clean the packages and image created to test with
-+                           different package managers
-+        Expected:       The files are successfully created during rootfs and boot
-+                        time for 3 different package managers: rpm,ipk,deb and
-+                        for initialization managers: sysvinit and systemd.
-+
-+        """
-+        file_rootfs_name = "this-was-created-at-rootfstime"
-+        fileboot_name = "this-was-created-at-first-boot"
-+        rootfs_pkg = 'postinst-at-rootfs'
-+        boot_pkg = 'postinst-delayed-a'
-+        #Step 1
-+        features = 'MACHINE = "qemux86"\n'
-+        features += 'CORE_IMAGE_EXTRA_INSTALL += "%s %s "\n'% (rootfs_pkg, boot_pkg)
-+        for init_manager in ("sysvinit", "systemd"):
-+            #for sysvinit no extra configuration is needed,
-+            if (init_manager is "systemd"):
-+                features += 'DISTRO_FEATURES_append = " systemd"\n'
-+                features += 'VIRTUAL-RUNTIME_init_manager = "systemd"\n'
-+                features += 'DISTRO_FEATURES_BACKFILL_CONSIDERED = "sysvinit"\n'
-+                features += 'VIRTUAL-RUNTIME_initscripts = ""\n'
-+            for classes in ("package_rpm package_deb package_ipk",
-+                            "package_deb package_rpm package_ipk",
-+                            "package_ipk package_deb package_rpm"):
-+                features += 'PACKAGE_CLASSES = "%s"\n' % classes
-+                self.write_config(features)
-+
-+                #Step 2
-+                bitbake('core-image-full-cmdline')
-+
-+                #Step 3
-+                file_rootfs_created = os.path.join(get_bb_var('IMAGE_ROOTFS',"core-image-full-cmdline"),
-+                                                   file_rootfs_name)
-+                found = os.path.isfile(file_rootfs_created)
-+                self.assertTrue(found, "File %s was not created at rootfs time by %s" % \
-+                                (file_rootfs_name, rootfs_pkg))
-+
-+                #Step 4
-+                testcommand = 'ls /etc/'+fileboot_name
-+                with runqemu('core-image-full-cmdline') as qemu:
-+                    sshargs = '-o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no'
-+                    result = runCmd('ssh %s root@%s %s' % (sshargs, qemu.ip, testcommand))
-+                    self.assertEqual(result.status, 0, 'File %s was not created at firts boot'% fileboot_name)
-+
-+                #Step 5
-+                bitbake(' %s %s -c cleanall' % (rootfs_pkg, boot_pkg))
-+                bitbake('core-image-full-cmdline -c cleanall')
--- 
-2.1.4
+Funnily enough this just failed in multilib on the AB (
+http://errors.yoctoproject.org/Errors/Details/111361/)
 
+Ross
 
+--001a114c9d60348dff0543009ab6
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 5 December 2016 at 19:08, Khem Raj <span dir=3D"ltr">&lt;<a href=3D"mail=
+to:raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt;</span> =
+wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8=
+ex;border-left-width:1px;border-left-color:rgb(204,204,204);border-left-sty=
+le:solid;padding-left:1ex"><div>having said that, there could be a multilib=
+ issue if pkgdatadir thats in .pc file from wayland-protocols package is us=
+ing variables like ${libdir} which then are</div><div>multilib dependent, i=
+f this is the case then we need to fix .pc file. however when I look at the=
+ &lt;target-sysroot&gt;/usr/share/<wbr>pkgconfig/wayland-protocols.pc it ha=
+s</div><div><br></div><div><div>prefix=3D/usr</div><div>datarootdir=3D${pre=
+fix}/share</div><div>pkgdatadir=3D/usr/share/wayland-<wbr>protocols</div><d=
+iv><br></div><div>seems to be free of multilib deps.</div></div></blockquot=
+e></div><br>Funnily enough this just failed in multilib on the AB (<a href=
+=3D"http://errors.yoctoproject.org/Errors/Details/111361/">http://errors.yo=
+ctoproject.org/Errors/Details/111361/</a>)</div><div class=3D"gmail_extra">=
+<br></div><div class=3D"gmail_extra">Ross</div></div>
+
+--001a114c9d60348dff0543009ab6--
