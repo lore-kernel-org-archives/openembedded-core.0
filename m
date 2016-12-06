@@ -1,25 +1,25 @@
 Return-Path: <anibal.limon@linux.intel.com>
 Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 363C671A86
+	by mail.openembedded.org (Postfix) with ESMTP id 6822A71A8C
 	for <openembedded-core@lists.openembedded.org>;
 	Tue,  6 Dec 2016 21:51:30 +0000 (UTC)
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
 	by fmsmga103.fm.intel.com with ESMTP; 06 Dec 2016 13:51:29 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.33,310,1477983600"; d="scan'208";a="39533276"
+X-IronPort-AV: E=Sophos;i="5.33,310,1477983600"; d="scan'208";a="39533283"
 Received: from alimonb-mobl1.zpn.intel.com ([10.219.5.142])
-	by orsmga005.jf.intel.com with ESMTP; 06 Dec 2016 13:51:28 -0800
+	by orsmga005.jf.intel.com with ESMTP; 06 Dec 2016 13:51:29 -0800
 From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  6 Dec 2016 15:43:52 -0600
-Message-Id: <c618fe69fce3d2a436b5633c88cada094651d71b.1481059445.git.anibal.limon@linux.intel.com>
+Date: Tue,  6 Dec 2016 15:43:54 -0600
+Message-Id: <d5587d0b3ac150cb6223849716fd44ab41381825.1481059445.git.anibal.limon@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1481059445.git.anibal.limon@linux.intel.com>
 References: <cover.1481059445.git.anibal.limon@linux.intel.com>
 In-Reply-To: <cover.1481059445.git.anibal.limon@linux.intel.com>
 References: <cover.1481059445.git.anibal.limon@linux.intel.com>
 MIME-Version: 1.0
-Subject: [PATCH 07/32] oeqa/core/decorator: Add support for OETestDataDepends and skipIfDataVar
+Subject: [PATCH 09/32] scripts/oe-test: Add new oe-test script
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,61 +36,126 @@ X-List-Received-Date: Tue, 06 Dec 2016 21:51:30 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-The OETestDataDepends decorator skips a test case if a variable
-isn't into test data (d).
+The new oe-test script will be use to run test components with
+one single script.
 
-The skipIfDataVar decorator skips a test case if a variable
-has certain value.
+The oe-test script search for test components inside meta/lib/oeqa,
+the test components needs to implement OETestContextExecutor inside
+context module in order to be supported by oe-test.
+
+[YOCTO #10230]
 
 Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
 Signed-off-by: Mariano Lopez <mariano.lopez@linux.intel.com>
 ---
- meta/lib/oeqa/core/decorator/data.py | 36 ++++++++++++++++++++++++++++++++++++
- 1 file changed, 36 insertions(+)
- create mode 100644 meta/lib/oeqa/core/decorator/data.py
+ scripts/oe-test | 98 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 98 insertions(+)
+ create mode 100755 scripts/oe-test
 
-diff --git a/meta/lib/oeqa/core/decorator/data.py b/meta/lib/oeqa/core/decorator/data.py
-new file mode 100644
-index 0000000..51ef6fe
+diff --git a/scripts/oe-test b/scripts/oe-test
+new file mode 100755
+index 0000000..9222dea
 --- /dev/null
-+++ b/meta/lib/oeqa/core/decorator/data.py
-@@ -0,0 +1,36 @@
++++ b/scripts/oe-test
+@@ -0,0 +1,98 @@
++#!/usr/bin/env python3
++
++# OpenEmbedded test tool
++#
 +# Copyright (C) 2016 Intel Corporation
 +# Released under the MIT license (see COPYING.MIT)
 +
-+from oeqa.core.exception import OEQAMissingVariable
++import os
++import sys
++import argparse
++import importlib
++import logging
 +
-+from . import OETestDecorator, registerDecorator
++scripts_path = os.path.dirname(os.path.realpath(__file__))
++lib_path = scripts_path + '/lib'
++sys.path = sys.path + [lib_path]
++import argparse_oe
++import scriptutils
++import scriptpath
++scriptpath.add_oe_lib_path()
 +
-+@registerDecorator
-+class skipIfDataVar(OETestDecorator):
-+    """
-+        Skip test based on value of a data store's variable.
++from oeqa.core.context import OETestContextExecutor
 +
-+        It will get the info of var from the data store and will
-+        check it against value; if are equal it will skip the test
-+        with msg as the reason.
-+    """
++logger = scriptutils.logger_create('oe-test')
 +
-+    attrs = ('var', 'value', 'msg')
++def _load_test_components(logger):
++    components = {}
 +
-+    def setUpDecorator(self):
-+        msg = 'Checking if %r value is %r to skip test' % (self.var, self.value)
-+        self.logger.debug(msg)
-+        if self.case.tc.d.get(self.var) == self.value:
-+            self.case.skipTest(self.msg)
++    for path in sys.path:
++        base_dir = os.path.join(path, 'oeqa')
++        if os.path.exists(base_dir) and os.path.isdir(base_dir):
++            for file in os.listdir(base_dir):
++                comp_name = file
++                comp_context = os.path.join(base_dir, file, 'context.py')
++                if os.path.exists(comp_context):
++                    comp_plugin = importlib.import_module('oeqa.%s.%s' % \
++                            (comp_name, 'context'))
++                    try:
++                        if not issubclass(comp_plugin._executor_class,
++                                OETestContextExecutor):
++                            raise TypeError("Component %s in %s, _executor_class "\
++                                "isn't derived from OETestContextExecutor."\
++                                % (comp_name, comp_context))
 +
-+@registerDecorator
-+class OETestDataDepends(OETestDecorator):
-+    attrs = ('data_depends',)
++                        components[comp_name] = comp_plugin._executor_class()
++                    except AttributeError:
++                        raise AttributeError("Component %s in %s don't have "\
++                                "_executor_class defined." % (comp_name, comp_context))
 +
-+    def setUpDecorator(self):
-+        for v in self.data_depends:
-+            try:
-+                value = self.case.d[v]
-+            except KeyError:
-+                raise OEQAMissingVariable("Test case need %s variable but"\
-+                        " isn't into d" % v)
++    return components
++
++def main():
++    parser = argparse_oe.ArgumentParser(description="OpenEmbedded test tool",
++                                        add_help=False,
++                                        epilog="Use %(prog)s <subcommand> --help to get help on a specific command")
++    parser.add_argument('-d', '--debug', help='Enable debug output', action='store_true')
++    parser.add_argument('-q', '--quiet', help='Print only errors', action='store_true')
++    global_args, unparsed_args = parser.parse_known_args()
++
++    # Help is added here rather than via add_help=True, as we don't want it to
++    # be handled by parse_known_args()
++    parser.add_argument('-h', '--help', action='help', default=argparse.SUPPRESS,
++                        help='show this help message and exit')
++
++    if global_args.debug:
++        logger.setLevel(logging.DEBUG)
++    elif global_args.quiet:
++        logger.setLevel(logging.ERROR)
++
++    components = _load_test_components(logger)
++
++    subparsers = parser.add_subparsers(dest="subparser_name", title='subcommands', metavar='<subcommand>')
++    subparsers.add_subparser_group('components', 'Test components')
++    subparsers.required = True
++    for comp_name in sorted(components.keys()):
++        comp = components[comp_name]
++        comp.register_commands(logger, subparsers)
++
++    try:
++        args = parser.parse_args(unparsed_args, namespace=global_args)
++        ret = args.func(logger, args)
++    except SystemExit as err:
++        if err.code != 0:
++            raise err
++        ret = err.code
++    except argparse_oe.ArgumentUsageError as ae:
++        parser.error_subcommand(ae.message, ae.subcommand)
++
++    return ret
++
++if __name__ == '__main__':
++    try:
++        ret = main()
++    except Exception:
++        ret = 1
++        import traceback
++        traceback.print_exc()
++    sys.exit(ret)
 -- 
 2.1.4
 
