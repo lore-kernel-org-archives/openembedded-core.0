@@ -1,18 +1,18 @@
 Return-Path: <obi@opendreambox.org>
 Received: from mail.saftware.de (mail.saftware.de [83.141.3.46])
-	by mail.openembedded.org (Postfix) with ESMTP id E67B0719F9
+	by mail.openembedded.org (Postfix) with ESMTP id AC0CC719EA
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  6 Dec 2016 11:49:58 +0000 (UTC)
+	Tue,  6 Dec 2016 11:49:59 +0000 (UTC)
 Received: by t510.zcs.saftware.de (Postfix, from userid 1000)
-	id C434EB88FF9; Tue,  6 Dec 2016 12:49:52 +0100 (CET)
+	id 2ACA1B87EF8; Tue,  6 Dec 2016 12:49:53 +0100 (CET)
 From: Andreas Oberritter <obi@opendreambox.org>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  6 Dec 2016 12:49:25 +0100
-Message-Id: <1481024991-5882-8-git-send-email-obi@opendreambox.org>
+Date: Tue,  6 Dec 2016 12:49:29 +0100
+Message-Id: <1481024991-5882-12-git-send-email-obi@opendreambox.org>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1481024991-5882-1-git-send-email-obi@opendreambox.org>
 References: <1481024991-5882-1-git-send-email-obi@opendreambox.org>
-Subject: [PATCH 07/33] apt-native: merge apt-native.inc into .bb
+Subject: [PATCH 11/33] apt: use default packaging rules for base package, prepend apt-utils
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,167 +29,37 @@ X-List-Received-Date: Tue, 06 Dec 2016 11:49:59 -0000
 
 Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
 ---
- meta/recipes-devtools/apt/apt-native.inc       | 70 ------------------------
- meta/recipes-devtools/apt/apt-native_1.2.12.bb | 74 ++++++++++++++++++++++++--
- 2 files changed, 71 insertions(+), 73 deletions(-)
- delete mode 100644 meta/recipes-devtools/apt/apt-native.inc
+ meta/recipes-devtools/apt/apt_1.2.12.bb | 10 ++--------
+ 1 file changed, 2 insertions(+), 8 deletions(-)
 
-diff --git a/meta/recipes-devtools/apt/apt-native.inc b/meta/recipes-devtools/apt/apt-native.inc
-deleted file mode 100644
-index 9fa206e..0000000
---- a/meta/recipes-devtools/apt/apt-native.inc
-+++ /dev/null
-@@ -1,70 +0,0 @@
--require apt.inc
--inherit native
--
--DEPENDS += "dpkg-native gettext-native db-native curl-native xz-native"
--PACKAGES = ""
--USE_NLS = "yes"
--
--SRC_URI += "file://db_linking_hack.patch \
--            file://0001-Revert-always-run-dpkg-configure-a-at-the-end-of-our.patch \
--            file://0001-remove-Wsuggest-attribute-from-CFLAGS.patch \
--            file://0001-fix-the-gcc-version-check.patch \
--"
--
--python do_install () {
--    bb.build.exec_func('do_install_base', d)
--    bb.build.exec_func('do_install_config', d)
--}
--
--python do_install_config () {
--    indir = os.path.dirname(d.getVar('FILE', True))
--    infile = open(oe.path.join(indir, 'files', 'apt.conf'), 'r')
--    data = infile.read()
--    infile.close()
--
--    data = d.expand(data)
--
--    outdir = oe.path.join(d.getVar('D', True), d.getVar('sysconfdir', True), 'apt')
--    if not os.path.exists(outdir):
--        os.makedirs(outdir)
--
--    outpath = oe.path.join(outdir, 'apt.conf.sample')
--    if not os.path.exists(outpath):
--        outfile = open(outpath, 'w')
--        outfile.write(data)
--        outfile.close()
--}
--
--do_install_base () {
--	install -d ${D}${bindir}
--	install -m 0755 bin/apt-cdrom ${D}${bindir}/
--	install -m 0755 bin/apt-get ${D}${bindir}/
--	install -m 0755 bin/apt-config ${D}${bindir}/
--	install -m 0755 bin/apt-cache ${D}${bindir}/
--	install -m 0755 bin/apt-sortpkgs ${D}${bindir}/
--	install -m 0755 bin/apt-extracttemplates ${D}${bindir}/
--	install -m 0755 bin/apt-ftparchive ${D}${bindir}/
--
--	oe_libinstall -so -C bin libapt-private ${D}${libdir}/
--
--	oe_libinstall -so -C bin libapt-pkg$GLIBC_VER$LIBSTDCPP_VER ${D}${libdir}/
--	oe_libinstall -so -C bin libapt-inst$GLIBC_VER$LIBSTDCPP_VER ${D}${libdir}/
--
--	install -d ${D}${libdir}/apt/methods
--	install -m 0755 bin/methods/* ${D}${libdir}/apt/methods/
--
--	install -d ${D}${libdir}/dpkg/methods/apt
--	install -m 0644 ${S}/dselect/desc.apt ${D}${libdir}/dpkg/methods/apt/ 
--	install -m 0644 ${S}/dselect/names ${D}${libdir}/dpkg/methods/apt/ 
--	install -m 0755 ${S}/dselect/install ${D}${libdir}/dpkg/methods/apt/ 
--	install -m 0755 ${S}/dselect/setup ${D}${libdir}/dpkg/methods/apt/ 
--	install -m 0755 ${S}/dselect/update ${D}${libdir}/dpkg/methods/apt/ 
--
--	install -d ${D}${sysconfdir}/apt
--	install -d ${D}${sysconfdir}/apt/apt.conf.d
--	install -d ${D}${sysconfdir}/apt/preferences.d
--	install -d ${D}${localstatedir}/lib/apt/lists/partial
--	install -d ${D}${localstatedir}/cache/apt/archives/partial
--
--	install -d ${D}${localstatedir}/log/apt/
--}
-diff --git a/meta/recipes-devtools/apt/apt-native_1.2.12.bb b/meta/recipes-devtools/apt/apt-native_1.2.12.bb
-index 1e660da..0edceeb 100644
---- a/meta/recipes-devtools/apt/apt-native_1.2.12.bb
-+++ b/meta/recipes-devtools/apt/apt-native_1.2.12.bb
-@@ -1,4 +1,72 @@
--require apt-native.inc
-+require apt.inc
-+inherit native
+diff --git a/meta/recipes-devtools/apt/apt_1.2.12.bb b/meta/recipes-devtools/apt/apt_1.2.12.bb
+index ba49571..ec93eb8 100644
+--- a/meta/recipes-devtools/apt/apt_1.2.12.bb
++++ b/meta/recipes-devtools/apt/apt_1.2.12.bb
+@@ -2,12 +2,8 @@ DEPENDS = "curl db zlib"
+ RDEPENDS_${PN} = "dpkg bash debianutils"
+ require apt.inc
  
--SRC_URI += "file://noconfigure.patch \
--            file://no-curl.patch"
-+DEPENDS += "dpkg-native gettext-native db-native curl-native xz-native"
-+PACKAGES = ""
-+USE_NLS = "yes"
-+
-+SRC_URI += "file://db_linking_hack.patch \
-+            file://0001-Revert-always-run-dpkg-configure-a-at-the-end-of-our.patch \
-+            file://0001-remove-Wsuggest-attribute-from-CFLAGS.patch \
-+            file://0001-fix-the-gcc-version-check.patch \
-+            file://noconfigure.patch \
-+            file://no-curl.patch \
-+"
-+
-+python do_install () {
-+    bb.build.exec_func('do_install_base', d)
-+    bb.build.exec_func('do_install_config', d)
-+}
-+
-+python do_install_config () {
-+    indir = os.path.dirname(d.getVar('FILE', True))
-+    infile = open(oe.path.join(indir, 'files', 'apt.conf'), 'r')
-+    data = infile.read()
-+    infile.close()
-+
-+    data = d.expand(data)
-+
-+    outdir = oe.path.join(d.getVar('D', True), d.getVar('sysconfdir', True), 'apt')
-+    if not os.path.exists(outdir):
-+        os.makedirs(outdir)
-+
-+    outpath = oe.path.join(outdir, 'apt.conf.sample')
-+    if not os.path.exists(outpath):
-+        outfile = open(outpath, 'w')
-+        outfile.write(data)
-+        outfile.close()
-+}
-+
-+do_install_base () {
-+	install -d ${D}${bindir}
-+	install -m 0755 bin/apt-cdrom ${D}${bindir}/
-+	install -m 0755 bin/apt-get ${D}${bindir}/
-+	install -m 0755 bin/apt-config ${D}${bindir}/
-+	install -m 0755 bin/apt-cache ${D}${bindir}/
-+	install -m 0755 bin/apt-sortpkgs ${D}${bindir}/
-+	install -m 0755 bin/apt-extracttemplates ${D}${bindir}/
-+	install -m 0755 bin/apt-ftparchive ${D}${bindir}/
-+
-+	oe_libinstall -so -C bin libapt-private ${D}${libdir}/
-+
-+	oe_libinstall -so -C bin libapt-pkg$GLIBC_VER$LIBSTDCPP_VER ${D}${libdir}/
-+	oe_libinstall -so -C bin libapt-inst$GLIBC_VER$LIBSTDCPP_VER ${D}${libdir}/
-+
-+	install -d ${D}${libdir}/apt/methods
-+	install -m 0755 bin/methods/* ${D}${libdir}/apt/methods/
-+
-+	install -d ${D}${libdir}/dpkg/methods/apt
-+	install -m 0644 ${S}/dselect/desc.apt ${D}${libdir}/dpkg/methods/apt/ 
-+	install -m 0644 ${S}/dselect/names ${D}${libdir}/dpkg/methods/apt/ 
-+	install -m 0755 ${S}/dselect/install ${D}${libdir}/dpkg/methods/apt/ 
-+	install -m 0755 ${S}/dselect/setup ${D}${libdir}/dpkg/methods/apt/ 
-+	install -m 0755 ${S}/dselect/update ${D}${libdir}/dpkg/methods/apt/ 
-+
-+	install -d ${D}${sysconfdir}/apt
-+	install -d ${D}${sysconfdir}/apt/apt.conf.d
-+	install -d ${D}${sysconfdir}/apt/preferences.d
-+	install -d ${D}${localstatedir}/lib/apt/lists/partial
-+	install -d ${D}${localstatedir}/cache/apt/archives/partial
-+
-+	install -d ${D}${localstatedir}/log/apt/
-+}
+-PACKAGES += "${PN}-utils"
+-FILES_${PN} = "${bindir}/apt-cdrom ${bindir}/apt-get \
+-	       ${bindir}/apt-config ${bindir}/apt-cache \
+-	       ${libdir}/apt ${libdir}/libapt*.so.* \
+-	       ${localstatedir} ${sysconfdir} \
+-	       ${libdir}/dpkg"
++PACKAGES =+ "${PN}-utils"
++FILES_${PN} += "${libdir}/dpkg"
+ FILES_${PN}-utils = "${bindir}/apt-sortpkgs ${bindir}/apt-extracttemplates"
+ FILES_${PN}-dev = "${libdir}/libapt*.so ${includedir}"
+ 
+@@ -54,8 +50,6 @@ PACKAGECONFIG[lzma] = "ac_cv_lib_lzma_lzma_easy_encoder=yes,ac_cv_lib_lzma_lzma_
+ PACKAGECONFIG[bz2] = "ac_cv_lib_bz2_BZ2_bzopen=yes,ac_cv_lib_bz2_BZ2_bzopen=no,bzip2"
+ PACKAGECONFIG[lz4] = "ac_cv_lib_lz4_LZ4F_createCompressionContext=yes,ac_cv_lib_lz4_LZ4F_createCompressionContext=no,lz4"
+ 
+-FILES_${PN} += "${bindir}/apt-key"
+-
+ do_install_append() {
+     #Write the correct apt-architecture to apt.conf
+     APT_CONF=${D}/etc/apt/apt.conf
 -- 
 2.7.4
 
