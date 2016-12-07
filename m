@@ -1,25 +1,25 @@
 Return-Path: <anibal.limon@linux.intel.com>
 Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id EAC9871B37
+	by mail.openembedded.org (Postfix) with ESMTP id 1104A71B57
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  7 Dec 2016 20:30:32 +0000 (UTC)
+	Wed,  7 Dec 2016 20:30:33 +0000 (UTC)
 Received: from fmsmga006.fm.intel.com ([10.253.24.20])
 	by fmsmga103.fm.intel.com with ESMTP; 07 Dec 2016 12:30:34 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.33,315,1477983600"; d="scan'208";a="40172570"
+X-IronPort-AV: E=Sophos;i="5.33,315,1477983600"; d="scan'208";a="40172573"
 Received: from alimonb-mobl1.zpn.intel.com ([10.219.5.142])
-	by fmsmga006.fm.intel.com with ESMTP; 07 Dec 2016 12:30:33 -0800
+	by fmsmga006.fm.intel.com with ESMTP; 07 Dec 2016 12:30:34 -0800
 From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  7 Dec 2016 14:32:14 -0600
-Message-Id: <d5587d0b3ac150cb6223849716fd44ab41381825.1481142664.git.anibal.limon@linux.intel.com>
+Date: Wed,  7 Dec 2016 14:32:15 -0600
+Message-Id: <99b8b2cad4303440f572a193ce198398b5ff52cb.1481142664.git.anibal.limon@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1481142664.git.anibal.limon@linux.intel.com>
 References: <cover.1481142664.git.anibal.limon@linux.intel.com>
 In-Reply-To: <cover.1481142664.git.anibal.limon@linux.intel.com>
 References: <cover.1481142664.git.anibal.limon@linux.intel.com>
 MIME-Version: 1.0
-Subject: [PATCHv2 09/32] scripts/oe-test: Add new oe-test script
+Subject: [PATCHv2 10/32] oeqa/core/context: Add support of OETestContextExecutor
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,126 +36,72 @@ X-List-Received-Date: Wed, 07 Dec 2016 20:30:33 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-The new oe-test script will be use to run test components with
-one single script.
+The OETestContextExecutor class supports to use oe-test for run core
+test component also is a base class for the other test components
+(runtime, sdk, selftest).
 
-The oe-test script search for test components inside meta/lib/oeqa,
-the test components needs to implement OETestContextExecutor inside
-context module in order to be supported by oe-test.
+Te principal functionality is to support cmdline parsing and execution
+of OETestContext, the test components could extend the common options
+to provide specific ones. The common options between test components
+are test data file, output log and test cases path's to scan.
+
+Also it initializes the logger to be passed to the whole OEQA framework.
 
 [YOCTO #10230]
 
 Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
 Signed-off-by: Mariano Lopez <mariano.lopez@linux.intel.com>
 ---
- scripts/oe-test | 98 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 98 insertions(+)
- create mode 100755 scripts/oe-test
+ meta/lib/oeqa/core/context.py | 20 ++++++++++----------
+ 1 file changed, 10 insertions(+), 10 deletions(-)
 
-diff --git a/scripts/oe-test b/scripts/oe-test
-new file mode 100755
-index 0000000..9222dea
---- /dev/null
-+++ b/scripts/oe-test
-@@ -0,0 +1,98 @@
-+#!/usr/bin/env python3
-+
-+# OpenEmbedded test tool
-+#
-+# Copyright (C) 2016 Intel Corporation
-+# Released under the MIT license (see COPYING.MIT)
-+
-+import os
-+import sys
-+import argparse
-+import importlib
-+import logging
-+
-+scripts_path = os.path.dirname(os.path.realpath(__file__))
-+lib_path = scripts_path + '/lib'
-+sys.path = sys.path + [lib_path]
-+import argparse_oe
-+import scriptutils
-+import scriptpath
-+scriptpath.add_oe_lib_path()
-+
-+from oeqa.core.context import OETestContextExecutor
-+
-+logger = scriptutils.logger_create('oe-test')
-+
-+def _load_test_components(logger):
-+    components = {}
-+
-+    for path in sys.path:
-+        base_dir = os.path.join(path, 'oeqa')
-+        if os.path.exists(base_dir) and os.path.isdir(base_dir):
-+            for file in os.listdir(base_dir):
-+                comp_name = file
-+                comp_context = os.path.join(base_dir, file, 'context.py')
-+                if os.path.exists(comp_context):
-+                    comp_plugin = importlib.import_module('oeqa.%s.%s' % \
-+                            (comp_name, 'context'))
-+                    try:
-+                        if not issubclass(comp_plugin._executor_class,
-+                                OETestContextExecutor):
-+                            raise TypeError("Component %s in %s, _executor_class "\
-+                                "isn't derived from OETestContextExecutor."\
-+                                % (comp_name, comp_context))
-+
-+                        components[comp_name] = comp_plugin._executor_class()
-+                    except AttributeError:
-+                        raise AttributeError("Component %s in %s don't have "\
-+                                "_executor_class defined." % (comp_name, comp_context))
-+
-+    return components
-+
-+def main():
-+    parser = argparse_oe.ArgumentParser(description="OpenEmbedded test tool",
-+                                        add_help=False,
-+                                        epilog="Use %(prog)s <subcommand> --help to get help on a specific command")
-+    parser.add_argument('-d', '--debug', help='Enable debug output', action='store_true')
-+    parser.add_argument('-q', '--quiet', help='Print only errors', action='store_true')
-+    global_args, unparsed_args = parser.parse_known_args()
-+
-+    # Help is added here rather than via add_help=True, as we don't want it to
-+    # be handled by parse_known_args()
-+    parser.add_argument('-h', '--help', action='help', default=argparse.SUPPRESS,
-+                        help='show this help message and exit')
-+
-+    if global_args.debug:
-+        logger.setLevel(logging.DEBUG)
-+    elif global_args.quiet:
-+        logger.setLevel(logging.ERROR)
-+
-+    components = _load_test_components(logger)
-+
-+    subparsers = parser.add_subparsers(dest="subparser_name", title='subcommands', metavar='<subcommand>')
-+    subparsers.add_subparser_group('components', 'Test components')
-+    subparsers.required = True
-+    for comp_name in sorted(components.keys()):
-+        comp = components[comp_name]
-+        comp.register_commands(logger, subparsers)
-+
-+    try:
-+        args = parser.parse_args(unparsed_args, namespace=global_args)
-+        ret = args.func(logger, args)
-+    except SystemExit as err:
-+        if err.code != 0:
-+            raise err
-+        ret = err.code
-+    except argparse_oe.ArgumentUsageError as ae:
-+        parser.error_subcommand(ae.message, ae.subcommand)
-+
-+    return ret
-+
-+if __name__ == '__main__':
-+    try:
-+        ret = main()
-+    except Exception:
-+        ret = 1
-+        import traceback
-+        traceback.print_exc()
-+    sys.exit(ret)
+diff --git a/meta/lib/oeqa/core/context.py b/meta/lib/oeqa/core/context.py
+index d5caf53..c7d6db3 100644
+--- a/meta/lib/oeqa/core/context.py
++++ b/meta/lib/oeqa/core/context.py
+@@ -148,7 +148,7 @@ class OETestContextExecutor(object):
+ 
+     default_cases = [os.path.join(os.path.abspath(os.path.dirname(__file__)),
+             'cases/example')]
+-    default_test_data = os.path.join(default_cases[0], 'data.json')
++    default_data = os.path.join(default_cases[0], 'data.json')
+ 
+     def register_commands(self, logger, subparsers):
+         self.parser = subparsers.add_parser(self.name, help=self.help,
+@@ -160,12 +160,12 @@ class OETestContextExecutor(object):
+                 default=self.default_output_log,
+                 help="results output log, default: %s" % self.default_output_log)
+ 
+-        if self.default_test_data:
+-            self.parser.add_argument('--test-data-file', action='store',
+-                    default=self.default_test_data,
+-                    help="data file to load, default: %s" % self.default_test_data)
++        if self.default_data:
++            self.parser.add_argument('--data-file', action='store',
++                    default=self.default_data,
++                    help="data file to load, default: %s" % self.default_data)
+         else:
+-            self.parser.add_argument('--test-data-file', action='store',
++            self.parser.add_argument('--data-file', action='store',
+                     help="data file to load")
+ 
+         if self.default_cases:
+@@ -197,11 +197,11 @@ class OETestContextExecutor(object):
+         self.tc_kwargs['run'] = {}
+ 
+         self.tc_kwargs['init']['logger'] = self._setup_logger(logger, args)
+-        if args.test_data_file:
+-            self.tc_kwargs['init']['td'] = json.load(
+-                    open(args.test_data_file, "r"))
++        if args.data_file:
++            self.tc_kwargs['init']['d'] = json.load(
++                    open(args.data_file, "r"))
+         else:
+-            self.tc_kwargs['init']['td'] = {}
++            self.tc_kwargs['init']['d'] = {}
+ 
+         self.module_paths = args.CASES_PATHS
+ 
 -- 
 2.1.4
 
