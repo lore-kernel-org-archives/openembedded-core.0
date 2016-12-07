@@ -1,30 +1,30 @@
 Return-Path: <huangqy.fnst@cn.fujitsu.com>
 Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
-	by mail.openembedded.org (Postfix) with ESMTP id D7AFD65CB6
+	by mail.openembedded.org (Postfix) with ESMTP id 098DD6025F
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  7 Dec 2016 10:11:34 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.22,518,1449504000"; d="scan'208";a="13689643"
+	Wed,  7 Dec 2016 10:12:05 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.22,518,1449504000"; d="scan'208";a="13689671"
 Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 07 Dec 2016 18:11:30 +0800
+	by heian.cn.fujitsu.com with ESMTP; 07 Dec 2016 18:12:06 +0800
 Received: from G08CNEXCHPEKD01.g08.fujitsu.local (unknown [10.167.33.80])
-	by cn.fujitsu.com (Postfix) with ESMTP id CC65546704A5
+	by cn.fujitsu.com (Postfix) with ESMTP id 27C404670074
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  7 Dec 2016 18:11:26 +0800 (CST)
+	Wed,  7 Dec 2016 18:12:02 +0800 (CST)
 Received: from localhost.localdomain (10.167.226.81) by
 	G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.319.2; Wed, 7 Dec 2016 18:11:27 +0800
+	Server (TLS) id 14.3.319.2; Wed, 7 Dec 2016 18:12:02 +0800
 From: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 7 Dec 2016 10:11:14 -0800
-Message-ID: <1481134274-52328-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
+Date: Wed, 7 Dec 2016 10:11:49 -0800
+Message-ID: <1481134309-52376-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
 X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
 X-Originating-IP: [10.167.226.81]
-X-yoursite-MailScanner-ID: CC65546704A5.A5F76
+X-yoursite-MailScanner-ID: 27C404670074.A2363
 X-yoursite-MailScanner: Found to be clean
 X-yoursite-MailScanner-From: huangqy.fnst@cn.fujitsu.com
 X-Spam-Status: No
-Subject: [PATCH v2] less: 481 -> 487
+Subject: [PATCH] cups: 2.1.4 -> 2.2.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,44 +37,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 07 Dec 2016 10:11:36 -0000
+X-List-Received-Date: Wed, 07 Dec 2016 10:12:06 -0000
 Content-Type: text/plain
 
-Upgrade less from 481 to 487.
+Upgrade cups from 2.1.4 to 2.1.1.
 
 License checksum changes are not related to license changes.
 
 Signed-off-by: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
 ---
- meta/recipes-extended/less/{less_481.bb => less_487.bb} | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
- rename meta/recipes-extended/less/{less_481.bb => less_487.bb} (83%)
+ meta/recipes-extended/cups/cups.inc      | 2 +-
+ meta/recipes-extended/cups/cups_2.1.4.bb | 6 ------
+ meta/recipes-extended/cups/cups_2.2.1.bb | 6 ++++++
+ 3 files changed, 7 insertions(+), 7 deletions(-)
+ delete mode 100644 meta/recipes-extended/cups/cups_2.1.4.bb
+ create mode 100644 meta/recipes-extended/cups/cups_2.2.1.bb
 
-diff --git a/meta/recipes-extended/less/less_481.bb b/meta/recipes-extended/less/less_487.bb
-similarity index 83%
-rename from meta/recipes-extended/less/less_481.bb
-rename to meta/recipes-extended/less/less_487.bb
-index 0fcd819..23ae484 100644
---- a/meta/recipes-extended/less/less_481.bb
-+++ b/meta/recipes-extended/less/less_487.bb
-@@ -21,14 +21,14 @@ SECTION = "console/utils"
+diff --git a/meta/recipes-extended/cups/cups.inc b/meta/recipes-extended/cups/cups.inc
+index 02b6358..e18980b 100644
+--- a/meta/recipes-extended/cups/cups.inc
++++ b/meta/recipes-extended/cups/cups.inc
+@@ -3,7 +3,7 @@ SECTION = "console/utils"
+ LICENSE = "GPLv2 & LGPLv2"
+ DEPENDS = "gnutls libpng jpeg dbus dbus-glib zlib libusb"
  
- LICENSE = "GPLv3+ | BSD-2-Clause"
- LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504 \
--                    file://LICENSE;md5=48c26a307f91af700e1f00585f215aaf"
-+                    file://LICENSE;md5=2ef3e4b8dafc85612bc5254b8081e234"
- DEPENDS = "ncurses"
- 
- SRC_URI = "http://www.greenwoodsoftware.com/${BPN}/${BPN}-${PV}.tar.gz \
- 	  "
- 
--SRC_URI[md5sum] = "50ef46065c65257141a7340123527767"
--SRC_URI[sha256sum] = "3fa38f2cf5e9e040bb44fffaa6c76a84506e379e47f5a04686ab78102090dda5"
-+SRC_URI[md5sum] = "dcc8bf183a83b362d37fe9ef8df1fb60"
-+SRC_URI[sha256sum] = "f3dc8455cb0b2b66e0c6b816c00197a71bf6d1787078adeee0bcf2aea4b12706"
- 
- UPSTREAM_CHECK_URI = "http://www.greenwoodsoftware.com/less/download.html"
- 
+-SRC_URI = "https://github.com/apple/cups/releases/download/release-${PV}/${BP}-source.tar.gz \
++SRC_URI = "https://github.com/apple/cups/releases/download/v${PV}/${BP}-source.tar.gz \
+            file://use_echo_only_in_init.patch \
+            file://0001-don-t-try-to-run-generated-binaries.patch \
+            file://cups_serverbin.patch \
+diff --git a/meta/recipes-extended/cups/cups_2.1.4.bb b/meta/recipes-extended/cups/cups_2.1.4.bb
+deleted file mode 100644
+index 0fab806..0000000
+--- a/meta/recipes-extended/cups/cups_2.1.4.bb
++++ /dev/null
+@@ -1,6 +0,0 @@
+-require cups.inc
+-
+-LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=6c5a350596fba02754bd96eb6df3afd0"
+-
+-SRC_URI[md5sum] = "9f9bf6e3b9c20a3519b4dc409666d6e7"
+-SRC_URI[sha256sum] = "4b14fd833180ac529ebebea766a09094c2568bf8426e219cb3a1715304ef728d"
+diff --git a/meta/recipes-extended/cups/cups_2.2.1.bb b/meta/recipes-extended/cups/cups_2.2.1.bb
+new file mode 100644
+index 0000000..7c5e776
+--- /dev/null
++++ b/meta/recipes-extended/cups/cups_2.2.1.bb
+@@ -0,0 +1,6 @@
++require cups.inc
++
++LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=f212b4338db0da8cb892e94bf2949460"
++
++SRC_URI[md5sum] = "a94da2a1e9dbdccb4f3836a38a431931"
++SRC_URI[sha256sum] = "83b8730aa977cc055e7410df6a3a682548994c113994ca630a16513017e419d5"
 -- 
 2.7.4
 
