@@ -1,25 +1,25 @@
 Return-Path: <anibal.limon@linux.intel.com>
 Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 1104A71B57
+	by mail.openembedded.org (Postfix) with ESMTP id 2BBD171B37
 	for <openembedded-core@lists.openembedded.org>;
 	Wed,  7 Dec 2016 20:30:33 +0000 (UTC)
 Received: from fmsmga006.fm.intel.com ([10.253.24.20])
 	by fmsmga103.fm.intel.com with ESMTP; 07 Dec 2016 12:30:34 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.33,315,1477983600"; d="scan'208";a="40172573"
+X-IronPort-AV: E=Sophos;i="5.33,315,1477983600"; d="scan'208";a="40172577"
 Received: from alimonb-mobl1.zpn.intel.com ([10.219.5.142])
 	by fmsmga006.fm.intel.com with ESMTP; 07 Dec 2016 12:30:34 -0800
 From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  7 Dec 2016 14:32:15 -0600
-Message-Id: <99b8b2cad4303440f572a193ce198398b5ff52cb.1481142664.git.anibal.limon@linux.intel.com>
+Date: Wed,  7 Dec 2016 14:32:16 -0600
+Message-Id: <fcd0a316dec2741d761ada06410d3b105b8e4c94.1481142664.git.anibal.limon@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1481142664.git.anibal.limon@linux.intel.com>
 References: <cover.1481142664.git.anibal.limon@linux.intel.com>
 In-Reply-To: <cover.1481142664.git.anibal.limon@linux.intel.com>
 References: <cover.1481142664.git.anibal.limon@linux.intel.com>
 MIME-Version: 1.0
-Subject: [PATCHv2 10/32] oeqa/core/context: Add support of OETestContextExecutor
+Subject: [PATCHv2 11/32] oeqa/core/cases: Add example test cases
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,72 +36,56 @@ X-List-Received-Date: Wed, 07 Dec 2016 20:30:33 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-The OETestContextExecutor class supports to use oe-test for run core
-test component also is a base class for the other test components
-(runtime, sdk, selftest).
-
-Te principal functionality is to support cmdline parsing and execution
-of OETestContext, the test components could extend the common options
-to provide specific ones. The common options between test components
-are test data file, output log and test cases path's to scan.
-
-Also it initializes the logger to be passed to the whole OEQA framework.
-
-[YOCTO #10230]
+Serves as an first input of how to the OEQA framework works.
 
 Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
 Signed-off-by: Mariano Lopez <mariano.lopez@linux.intel.com>
 ---
- meta/lib/oeqa/core/context.py | 20 ++++++++++----------
- 1 file changed, 10 insertions(+), 10 deletions(-)
+ meta/lib/oeqa/core/cases/__init__.py           |  0
+ meta/lib/oeqa/core/cases/example/data.json     |  1 +
+ meta/lib/oeqa/core/cases/example/test_basic.py | 20 ++++++++++++++++++++
+ 3 files changed, 21 insertions(+)
+ create mode 100644 meta/lib/oeqa/core/cases/__init__.py
+ create mode 100644 meta/lib/oeqa/core/cases/example/data.json
+ create mode 100644 meta/lib/oeqa/core/cases/example/test_basic.py
 
-diff --git a/meta/lib/oeqa/core/context.py b/meta/lib/oeqa/core/context.py
-index d5caf53..c7d6db3 100644
---- a/meta/lib/oeqa/core/context.py
-+++ b/meta/lib/oeqa/core/context.py
-@@ -148,7 +148,7 @@ class OETestContextExecutor(object):
- 
-     default_cases = [os.path.join(os.path.abspath(os.path.dirname(__file__)),
-             'cases/example')]
--    default_test_data = os.path.join(default_cases[0], 'data.json')
-+    default_data = os.path.join(default_cases[0], 'data.json')
- 
-     def register_commands(self, logger, subparsers):
-         self.parser = subparsers.add_parser(self.name, help=self.help,
-@@ -160,12 +160,12 @@ class OETestContextExecutor(object):
-                 default=self.default_output_log,
-                 help="results output log, default: %s" % self.default_output_log)
- 
--        if self.default_test_data:
--            self.parser.add_argument('--test-data-file', action='store',
--                    default=self.default_test_data,
--                    help="data file to load, default: %s" % self.default_test_data)
-+        if self.default_data:
-+            self.parser.add_argument('--data-file', action='store',
-+                    default=self.default_data,
-+                    help="data file to load, default: %s" % self.default_data)
-         else:
--            self.parser.add_argument('--test-data-file', action='store',
-+            self.parser.add_argument('--data-file', action='store',
-                     help="data file to load")
- 
-         if self.default_cases:
-@@ -197,11 +197,11 @@ class OETestContextExecutor(object):
-         self.tc_kwargs['run'] = {}
- 
-         self.tc_kwargs['init']['logger'] = self._setup_logger(logger, args)
--        if args.test_data_file:
--            self.tc_kwargs['init']['td'] = json.load(
--                    open(args.test_data_file, "r"))
-+        if args.data_file:
-+            self.tc_kwargs['init']['d'] = json.load(
-+                    open(args.data_file, "r"))
-         else:
--            self.tc_kwargs['init']['td'] = {}
-+            self.tc_kwargs['init']['d'] = {}
- 
-         self.module_paths = args.CASES_PATHS
- 
+diff --git a/meta/lib/oeqa/core/cases/__init__.py b/meta/lib/oeqa/core/cases/__init__.py
+new file mode 100644
+index 0000000..e69de29
+diff --git a/meta/lib/oeqa/core/cases/example/data.json b/meta/lib/oeqa/core/cases/example/data.json
+new file mode 100644
+index 0000000..21d6b16
+--- /dev/null
++++ b/meta/lib/oeqa/core/cases/example/data.json
+@@ -0,0 +1 @@
++{"ARCH": "x86", "IMAGE": "core-image-minimal"}
+\ No newline at end of file
+diff --git a/meta/lib/oeqa/core/cases/example/test_basic.py b/meta/lib/oeqa/core/cases/example/test_basic.py
+new file mode 100644
+index 0000000..8b404fe
+--- /dev/null
++++ b/meta/lib/oeqa/core/cases/example/test_basic.py
+@@ -0,0 +1,20 @@
++# Copyright (C) 2016 Intel Corporation
++# Released under the MIT license (see COPYING.MIT)
++
++from oeqa.core.case import OETestCase
++from oeqa.core.decorator.depends import OETestDepends
++
++class OETestExample(OETestCase):
++    def test_example(self):
++        self.logger.info('IMAGE: %s' % self.d.get('IMAGE'))
++        self.assertEqual('core-image-minimal', self.d.get('IMAGE'))
++        self.logger.info('ARCH: %s' % self.d.get('ARCH'))
++        self.assertEqual('x86', self.d.get('ARCH'))
++
++class OETestExampleDepend(OETestCase):
++    @OETestDepends(['OETestExample.test_example'])
++    def test_example_depends(self):
++        pass
++
++    def test_example_no_depends(self):
++        pass
 -- 
 2.1.4
 
