@@ -1,30 +1,30 @@
 Return-Path: <huangqy.fnst@cn.fujitsu.com>
 Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
-	by mail.openembedded.org (Postfix) with ESMTP id 84432719D9
+	by mail.openembedded.org (Postfix) with ESMTP id A668571984
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  7 Dec 2016 08:45:52 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.22,518,1449504000"; d="scan'208";a="13686590"
+	Wed,  7 Dec 2016 09:18:53 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.22,518,1449504000"; d="scan'208";a="13688002"
 Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 07 Dec 2016 16:45:49 +0800
+	by heian.cn.fujitsu.com with ESMTP; 07 Dec 2016 17:18:53 +0800
 Received: from G08CNEXCHPEKD01.g08.fujitsu.local (unknown [10.167.33.80])
-	by cn.fujitsu.com (Postfix) with ESMTP id AE34E4670495
+	by cn.fujitsu.com (Postfix) with ESMTP id 167BA46704A5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  7 Dec 2016 16:45:46 +0800 (CST)
+	Wed,  7 Dec 2016 17:18:53 +0800 (CST)
 Received: from localhost.localdomain (10.167.226.81) by
 	G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.319.2; Wed, 7 Dec 2016 16:45:46 +0800
+	Server (TLS) id 14.3.319.2; Wed, 7 Dec 2016 17:18:53 +0800
 From: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 7 Dec 2016 08:45:33 -0800
-Message-ID: <1481129133-52088-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
+Date: Wed, 7 Dec 2016 09:18:39 -0800
+Message-ID: <1481131119-52173-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
 X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
 X-Originating-IP: [10.167.226.81]
-X-yoursite-MailScanner-ID: AE34E4670495.A3362
+X-yoursite-MailScanner-ID: 167BA46704A5.A1F92
 X-yoursite-MailScanner: Found to be clean
 X-yoursite-MailScanner-From: huangqy.fnst@cn.fujitsu.com
 X-Spam-Status: No
-Subject: [PATCH v2] dhcp: 4.3.4 -> 4.3.5
+Subject: [PATCH] pciutils: 3.5.1 -> 3.5.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,35 +37,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 07 Dec 2016 08:45:54 -0000
+X-List-Received-Date: Wed, 07 Dec 2016 09:18:55 -0000
 Content-Type: text/plain
 
-Upgrade dhcp from 4.3.4 to 4.3.5.
+Upgrade pciutils from 3.5.1 to 3.5.2.
 
 Signed-off-by: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
 ---
- meta/recipes-connectivity/dhcp/{dhcp_4.3.4.bb => dhcp_4.3.5.bb} | 4 ++--
+ meta/recipes-bsp/pciutils/{pciutils_3.5.1.bb => pciutils_3.5.2.bb} | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-connectivity/dhcp/{dhcp_4.3.4.bb => dhcp_4.3.5.bb} (81%)
+ rename meta/recipes-bsp/pciutils/{pciutils_3.5.1.bb => pciutils_3.5.2.bb} (92%)
 
-diff --git a/meta/recipes-connectivity/dhcp/dhcp_4.3.4.bb b/meta/recipes-connectivity/dhcp/dhcp_4.3.5.bb
-similarity index 81%
-rename from meta/recipes-connectivity/dhcp/dhcp_4.3.4.bb
-rename to meta/recipes-connectivity/dhcp/dhcp_4.3.5.bb
-index 4151eb1..678c29a 100644
---- a/meta/recipes-connectivity/dhcp/dhcp_4.3.4.bb
-+++ b/meta/recipes-connectivity/dhcp/dhcp_4.3.5.bb
-@@ -11,8 +11,8 @@ SRC_URI += "file://dhcp-3.0.3-dhclient-dbus.patch;striplevel=0 \
-             file://remove-dhclient-script-bash-dependency.patch \
-            "
+diff --git a/meta/recipes-bsp/pciutils/pciutils_3.5.1.bb b/meta/recipes-bsp/pciutils/pciutils_3.5.2.bb
+similarity index 92%
+rename from meta/recipes-bsp/pciutils/pciutils_3.5.1.bb
+rename to meta/recipes-bsp/pciutils/pciutils_3.5.2.bb
+index d32b119..9a7297e 100644
+--- a/meta/recipes-bsp/pciutils/pciutils_3.5.1.bb
++++ b/meta/recipes-bsp/pciutils/pciutils_3.5.2.bb
+@@ -13,8 +13,8 @@ SRC_URI = "${KERNELORG_MIRROR}/software/utils/pciutils/pciutils-${PV}.tar.xz \
+            file://guess-fix.patch \
+            file://makefile.patch"
  
--SRC_URI[md5sum] = "0138319fe2b788cf4bdf34fbeaf9ff54"
--SRC_URI[sha256sum] = "f5115aee3dd3e6925de4ba47b80ab732ba48b481c8364b6ebade2d43698d607e"
-+SRC_URI[md5sum] = "2b5e5b2fa31c2e27e487039d86f83d3f"
-+SRC_URI[sha256sum] = "eb95936bf15d2393c55dd505bc527d1d4408289cec5a9fa8abb99f7577e7f954"
+-SRC_URI[md5sum] = "0879a8f7ac51f4e874cfc6b3521a13cc"
+-SRC_URI[sha256sum] = "2bf3a4605a562fb6b8b7673bff85a474a5cf383ed7e4bd8886b4f0939013d42f"
++SRC_URI[md5sum] = "1bf5b068bd9f7512e8c68b060b25a1b2"
++SRC_URI[sha256sum] = "3a99141a9f40528d0a0035665a06dc37ddb1ae341658e51b50a76ecf86235efc"
  
- PACKAGECONFIG ?= ""
- PACKAGECONFIG[bind-httpstats] = "--with-libxml2,--without-libxml2,libxml2"
+ inherit multilib_header
+ 
 -- 
 2.7.4
 
