@@ -1,25 +1,25 @@
 Return-Path: <anibal.limon@linux.intel.com>
 Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 9ADE471B68
+	by mail.openembedded.org (Postfix) with ESMTP id EE5B260110
 	for <openembedded-core@lists.openembedded.org>;
 	Wed,  7 Dec 2016 20:30:33 +0000 (UTC)
 Received: from fmsmga006.fm.intel.com ([10.253.24.20])
 	by fmsmga103.fm.intel.com with ESMTP; 07 Dec 2016 12:30:35 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.33,315,1477983600"; d="scan'208";a="40172581"
+X-IronPort-AV: E=Sophos;i="5.33,315,1477983600"; d="scan'208";a="40172585"
 Received: from alimonb-mobl1.zpn.intel.com ([10.219.5.142])
 	by fmsmga006.fm.intel.com with ESMTP; 07 Dec 2016 12:30:35 -0800
 From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  7 Dec 2016 14:32:18 -0600
-Message-Id: <01f354242a0761790728ac5827f118dab09e6ab1.1481142664.git.anibal.limon@linux.intel.com>
+Date: Wed,  7 Dec 2016 14:32:19 -0600
+Message-Id: <22d15560e34e41ae2565c189ecda5db15cd64ec4.1481142664.git.anibal.limon@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1481142664.git.anibal.limon@linux.intel.com>
 References: <cover.1481142664.git.anibal.limon@linux.intel.com>
 In-Reply-To: <cover.1481142664.git.anibal.limon@linux.intel.com>
 References: <cover.1481142664.git.anibal.limon@linux.intel.com>
 MIME-Version: 1.0
-Subject: [PATCHv2 13/32] oe/data: Add export2json function
+Subject: [PATCHv2 14/32] classes/rootfs-postcommands: Add write_image_test_data
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,59 +32,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 07 Dec 2016 20:30:33 -0000
+X-List-Received-Date: Wed, 07 Dec 2016 20:30:34 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-The export2json function export the variables contained in
-the data store to JSON format, the main usage for now will be
-to provide test data to QA framework.
+This function will generates testdata.json by image type.
+
+[YOCTO #10231]
 
 Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
 ---
- meta/lib/oe/data.py | 28 ++++++++++++++++++++++++++++
- 1 file changed, 28 insertions(+)
+ meta/classes/rootfs-postcommands.bbclass | 18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
 
-diff --git a/meta/lib/oe/data.py b/meta/lib/oe/data.py
-index ee48950..db3bd6d 100644
---- a/meta/lib/oe/data.py
-+++ b/meta/lib/oe/data.py
-@@ -1,3 +1,4 @@
-+import json
- import oe.maketype
+diff --git a/meta/classes/rootfs-postcommands.bbclass b/meta/classes/rootfs-postcommands.bbclass
+index 0c7ceea..5cfd2fe 100644
+--- a/meta/classes/rootfs-postcommands.bbclass
++++ b/meta/classes/rootfs-postcommands.bbclass
+@@ -14,6 +14,9 @@ ROOTFS_POSTPROCESS_COMMAND += "rootfs_update_timestamp ; "
+ # Tweak the mount options for rootfs in /etc/fstab if read-only-rootfs is enabled
+ ROOTFS_POSTPROCESS_COMMAND += '${@bb.utils.contains("IMAGE_FEATURES", "read-only-rootfs", "read_only_rootfs_hook; ", "",d)}'
  
- def typed_value(key, d):
-@@ -15,3 +16,30 @@ def typed_value(key, d):
-         return oe.maketype.create(d.getVar(key, True) or '', var_type, **flags)
-     except (TypeError, ValueError) as exc:
-         bb.msg.fatal("Data", "%s: %s" % (key, str(exc)))
++# Generates test data file with data store variables expanded in json format
++ROOTFS_POSTPROCESS_COMMAND += "write_image_test_data ; "
 +
-+def export2json(d, json_file, expand=True):
-+    data2export = {}
-+    keys2export = []
+ # Write manifest
+ IMAGE_MANIFEST = "${IMGDEPLOYDIR}/${IMAGE_NAME}.rootfs.manifest"
+ ROOTFS_POSTUNINSTALL_COMMAND =+ "write_image_manifest ; "
+@@ -278,3 +281,18 @@ rootfs_check_host_user_contaminated () {
+ rootfs_sysroot_relativelinks () {
+ 	sysroot-relativelinks.py ${SDK_OUTPUT}/${SDKTARGETSYSROOT}
+ }
 +
-+    for key in d.keys():
-+        if key.startswith("_"):
-+            continue
-+        elif key.startswith("BB"):
-+            continue
-+        elif key.startswith("B_pn"):
-+            continue
-+        elif key.startswith("do_"):
-+            continue
-+        elif d.getVarFlag(key, "func", True):
-+            continue
++# Generated test data json file
++python write_image_test_data() {
++    from oe.data import export2json
 +
-+        keys2export.append(key)
++    testdata = "%s/%s.testdata.json" % (d.getVar('DEPLOY_DIR_IMAGE', True), d.getVar('IMAGE_NAME', True))
++    testdata_link = "%s/%s.testdata.json" % (d.getVar('DEPLOY_DIR_IMAGE', True), d.getVar('IMAGE_LINK_NAME', True))
 +
-+    for key in keys2export:
-+        try:
-+            data2export[key] = d.getVar(key, expand)
-+        except bb.data_smart.ExpansionError:
-+            data2export[key] = ''
++    bb.utils.mkdirhier(os.path.dirname(testdata))
++    export2json(d, testdata)
 +
-+    with open(json_file, "w") as f:
-+        json.dump(data2export, f, skipkeys=True, indent=4, sort_keys=True)
++    if os.path.lexists(testdata_link):
++       os.remove(testdata_link)
++    os.symlink(os.path.basename(testdata), testdata_link)
++}
 -- 
 2.1.4
 
