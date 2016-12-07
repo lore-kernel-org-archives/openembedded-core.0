@@ -1,26 +1,24 @@
-Return-Path: <Qi.Chen@windriver.com>
+Return-Path: <Dengke.Du@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 9D07171AFF
+	by mail.openembedded.org (Postfix) with ESMTP id BE65571BD9
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  7 Dec 2016 01:44:42 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id uB71ihpe012898
+	Wed,  7 Dec 2016 01:57:41 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id uB71vgxG014377
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 6 Dec 2016 17:44:43 -0800 (PST)
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.184) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.294.0; Tue, 6 Dec 2016 17:44:43 -0800
-From: Chen Qi <Qi.Chen@windriver.com>
+	Tue, 6 Dec 2016 17:57:43 -0800 (PST)
+Received: from pek-lpgtest20.wrs.com (128.224.179.28) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.294.0; Tue, 6 Dec 2016 17:57:42 -0800
+From: Dengke Du <dengke.du@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 7 Dec 2016 09:45:37 +0800
-Message-ID: <e84742f21c96d0083db38ebe6cd9ac946e1fd952.1481075044.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1481075044.git.Qi.Chen@windriver.com>
-References: <cover.1481075044.git.Qi.Chen@windriver.com>
+Date: Wed, 7 Dec 2016 09:57:39 +0800
+Message-ID: <cover.1481075716.git.dengke.du@windriver.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Subject: [PATCH 1/1] libarchive: fix ALTERNATIVE_PRIORITY to avoid conflict
+Subject: [PATCH 0/2] archiver.bbclass: fix some errors for do_ar_original and do_ar_recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,33 +31,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 07 Dec 2016 01:44:43 -0000
+X-List-Received-Date: Wed, 07 Dec 2016 01:57:41 -0000
 Content-Type: text/plain
 
-'tar' utility from tar and bsdtar has the same alternative priority.
-'cpio' utility from cpio and bsdcpio has the same alternative priority.
+The following changes since commit 9e63f81c78e284c9b325fe04a1b59e61c7ad8a1a:
 
-Lower the ALTERNATIVE_PRIORITY to avoid conflict.
+  bitbake: ast: remove BBVERSIONS support (2016-11-30 15:48:10 +0000)
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
----
- meta/recipes-extended/libarchive/libarchive_3.2.2.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+are available in the git repository at:
 
-diff --git a/meta/recipes-extended/libarchive/libarchive_3.2.2.bb b/meta/recipes-extended/libarchive/libarchive_3.2.2.bb
-index cf66e9d..7917ce7 100644
---- a/meta/recipes-extended/libarchive/libarchive_3.2.2.bb
-+++ b/meta/recipes-extended/libarchive/libarchive_3.2.2.bb
-@@ -48,7 +48,7 @@ do_configure_prepend() {
- 	cp -R ${STAGING_INCDIR_NATIVE}/ext2fs ${WORKDIR}/extra-includes/
- }
- 
--ALTERNATIVE_PRIORITY = "100"
-+ALTERNATIVE_PRIORITY = "80"
- 
- PACKAGES =+ "bsdtar"
- FILES_bsdtar = "${bindir}/bsdtar"
+  git://git.openembedded.org/openembedded-core-contrib ddk/fix-some-error-for-archiver-bbclass
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=ddk/fix-some-error-for-archiver-bbclass
+
+Dengke Du (2):
+  archiver.bbclass: fix do_ar_original error for matchbox-desktop
+  archiver.bbclass: fix do_ar_recipe error for bonnie++ and
+    libsigc++-2.0
+
+ meta/classes/archiver.bbclass | 21 ++++++++++++++-------
+ 1 file changed, 14 insertions(+), 7 deletions(-)
+
 -- 
-1.9.1
+2.7.4
 
 
