@@ -1,32 +1,34 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 2D06260620
+Return-Path: <obi@opendreambox.org>
+Received: from mail.dream-property.net (mail.dream-property.net
+	[82.149.226.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 5D22D6093B
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  7 Dec 2016 15:14:42 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id uB7FEftZ030416
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
-	Wed, 7 Dec 2016 07:14:41 -0800
-Received: from [128.224.56.48] (128.224.56.48) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.294.0;
-	Wed, 7 Dec 2016 07:14:40 -0800
-To: Trevor Woerner <twoerner@gmail.com>, Paul Barker <paul@paulbarker.me.uk>
-References: <cover.1480711764.git.bruce.ashfield@windriver.com>
-	<48f1e3e16ca28e1194d6024689d000cb6ffc303c.1480711764.git.bruce.ashfield@windriver.com>
-	<1481058881.17535.58.camel@intel.com>
-	<20161206230222.5411d7b6@nuc.betafive.co.uk>
-	<CAHUNapQ847n7e=acLQ+hkLqziqaP8EQg5_0wrw5oJ9i9+Tw6tg@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-Message-ID: <1cf54657-0bce-6fa1-2b5b-a2e39ade1588@windriver.com>
-Date: Wed, 7 Dec 2016 10:14:40 -0500
+	Wed,  7 Dec 2016 15:31:01 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by mail.dream-property.net (Postfix) with ESMTP id 2BF0D31C22B8;
+	Wed,  7 Dec 2016 16:31:03 +0100 (CET)
+X-Virus-Scanned: Debian amavisd-new at mail.dream-property.net
+Received: from mail.dream-property.net ([127.0.0.1])
+	by localhost (mail.dream-property.net [127.0.0.1]) (amavisd-new,
+	port 10024)
+	with LMTP id TDKKIqR-OVzR; Wed,  7 Dec 2016 16:31:00 +0100 (CET)
+Received: from [172.22.22.61] (55d40b1f.access.ecotel.net [85.212.11.31])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by mail.dream-property.net (Postfix) with ESMTPSA id CD81B31C205B;
+	Wed,  7 Dec 2016 16:30:59 +0100 (CET)
+To: Alexander Kanavin <alexander.kanavin@linux.intel.com>,
+	openembedded-core@lists.openembedded.org
+References: <1481024991-5882-1-git-send-email-obi@opendreambox.org>
+	<5106886a-56c8-79f3-bd7a-aee780fd590b@linux.intel.com>
+From: Andreas Oberritter <obi@opendreambox.org>
+Message-ID: <fb6aaabe-3c7a-7e56-4e82-f36dd288c366@opendreambox.org>
+Date: Wed, 7 Dec 2016 16:30:59 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
 	Thunderbird/45.5.1
 MIME-Version: 1.0
-In-Reply-To: <CAHUNapQ847n7e=acLQ+hkLqziqaP8EQg5_0wrw5oJ9i9+Tw6tg@mail.gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/4] kern-tools: fix processing for no branch meta-data
+In-Reply-To: <5106886a-56c8-79f3-bd7a-aee780fd590b@linux.intel.com>
+Subject: Re: [PATCH 00/33] Accumulated patches for deb packaging
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,104 +41,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 07 Dec 2016 15:14:44 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
+X-List-Received-Date: Wed, 07 Dec 2016 15:31:02 -0000
+Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 
-On 2016-12-07 10:11 AM, Trevor Woerner wrote:
-> This patch does fix the raspberrypi issue, and it has been pushed, thankfully.
->
-> But I'm still seeing hard-coded filenames in /tmp that are messing up
-> the ability for more than one person to use a given build machine.
-> E.g.:
->
-> /tmp/patch.standard.arm-versatile-926ejs.queue
-> /tmp/patch.standard.mti-malta32.queue
-> /tmp/patch.standard.mti-malta64.queue
-> /tmp/patch.standard.preempt-rt.base.queue
-> /tmp/patch.standard.preempt-rt.queue
-> /tmp/patch.standard.queue
-> /tmp/patch.unused.queue
->
-> I think the malta ones are used for qemumips64, which is still failing
-> for this reason (multiple users)
+Hi Alex,
 
-Those are never supposed to go to /tmp/, they are targeted to ${S}
-of the kernel build.
+On 07.12.2016 13:25, Alexander Kanavin wrote:
+> On 12/06/2016 01:49 PM, Andreas Oberritter wrote:
+>> These are most of my patches which accumulated since our distro
+>> switched from opkg to dpkg and apt two years ago. They were tested
+>> thoroughly on dora and krogoth and just a little bit on master.
+> 
+> How about updating apt and dpkg to latest upstream releases at the same
+> time?
 
-It must be a side effect of the change I just did where the branch
-isn't defined.
+I don't see an advantage over updating at a later point in time.
 
-I'll whip up another patch.
-
-Bruce
-
->
-> On Tue, Dec 6, 2016 at 6:02 PM, Paul Barker <paul@paulbarker.me.uk> wrote:
->> On Tue, 06 Dec 2016 22:14:41 +0100
->> Patrick Ohly <patrick.ohly@intel.com> wrote:
->>
->>> On Fri, 2016-12-02 at 16:09 -0500, Bruce Ashfield wrote:
->>>> Lernel meta-data that has patches, but no branches, can trigger an
->>>> error due to no branch specific patch queue.
->>>>
->>>> This error then cascades to more issues since the tools are using
->>>> a named file in /tmp to store and display error messages to the
->>>> user.
->>>>
->>>> We fix both issues though the following kern tools tweaks:
->>>>
->>>>   commit bd9e1d6c9b0a34ff3e19a06999aaf57ffadfd04c
->>>>   Author: Bruce Ashfield <bruce.ashfield@windriver.com>
->>>>   Date:   Fri Dec 2 13:09:40 2016 -0500
->>>>
->>>>     scc: use mktemp for consolidated output capture
->>>>
->>>>     To provide useful error messages the tools dump pre-processed
->>>>     files and messages to a temporary file. If multiple users are
->>>>     doing builds, this means they either race, or can have permissions
->>>>     issues.
->>>>
->>>>     By creating the temporary file via mktemp, we avoid both issues.
->>>>     (We also make sure to clean these up on exit, or /tmp will get
->>>>     polluted quickly).
->>>>
->>>>   commit a287da4bfe0b4acb8f2b0627bd8e7abd1a1dde26
->>>>   Author: Bruce Ashfield <bruce.ashfield@windriver.com>
->>>>   Date:   Fri Dec 2 13:08:08 2016 -0500
->>>>
->>>>     patch: do not assume a branch specific patch queue is needed
->>>>
->>>>     When processing input files per-branch and global patch queues are
->>>>     generated. If the meta-data has not created any branches in the
->>>>     repo, no branch specific queue is required.
->>>>
->>>>     The tools assumed that one is always valid, and hence would throw a
->>>>     non-zero exit code and stop processing.
->>>>
->>>>     By testing for a named per-branch queue, we avoid this issue.
->>>
->>> Ostro OS runs into the problem while trying to use current OE-core
->>> master:
->>>
->>>  .../patch.cmd: line 29: : No such file or directory
->>>
->>> | ERROR: Function failed: do_kernel_metadata (log file is located ...)
->>>
->>> This commit here fixed it for me. I see that it is already in Ross' mut2
->>> branch, so hopefully that'll land in master soon.
->>>
->>
->> Ditto for meta-raspberrypi, the kernel doesn't build with current
->> oe-core master as discussed on the yocto@ list. This patch is needed
->> to fix things.
->>
->> Thanks,
->> Paul Barker
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Regards,
+Andreas
 
 
