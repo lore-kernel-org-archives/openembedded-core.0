@@ -1,26 +1,26 @@
 Return-Path: <Mingli.Yu@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 3536D71B70
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id E1CA771A05
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  7 Dec 2016 08:02:20 +0000 (UTC)
+	Wed,  7 Dec 2016 08:02:22 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id uB782KZt027138
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id uB782NOm019557
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 7 Dec 2016 00:02:21 -0800 (PST)
+	Wed, 7 Dec 2016 00:02:24 -0800
 Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.294.0; Wed, 7 Dec 2016 00:02:19 -0800
+	14.3.294.0; Wed, 7 Dec 2016 00:02:22 -0800
 From: <mingli.yu@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 7 Dec 2016 16:01:11 +0800
-Message-ID: <1481097673-8896-2-git-send-email-mingli.yu@windriver.com>
+Date: Wed, 7 Dec 2016 16:01:12 +0800
+Message-ID: <1481097673-8896-3-git-send-email-mingli.yu@windriver.com>
 X-Mailer: git-send-email 2.8.1
 In-Reply-To: <1481097673-8896-1-git-send-email-mingli.yu@windriver.com>
 References: <1481097673-8896-1-git-send-email-mingli.yu@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/3] tiff: Security fix CVE-2016-9535
+Subject: [PATCH 2/3] tiff: Security fix CVE-2016-9538
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,544 +33,109 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 07 Dec 2016 08:02:21 -0000
+X-List-Received-Date: Wed, 07 Dec 2016 08:02:23 -0000
 Content-Type: text/plain
 
 From: Mingli Yu <Mingli.Yu@windriver.com>
 
-* libtiff/tif_predict.h, libtiff/tif_predict.c:
-Replace assertions by runtime checks to avoid assertions in debug mode,
-or buffer overflows in release mode. Can happen when dealing with
-unusual tile size like YCbCr with subsampling.
+* tools/tiffcrop.c: fix read of undefined buffer in
+readContigStripsIntoBuffer() due to uint16 overflow.
 
 External References:
-http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-9535
+http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-9538
 
 Patch from:
-https://github.com/vadz/libtiff/commit/3ca657a8793dd011bf869695d72ad31c779c3cc1
-https://github.com/vadz/libtiff/commit/6a984bf7905c6621281588431f384e79d11a2e33
+https://github.com/vadz/libtiff/commit/43c0b81a818640429317c80fea1e66771e85024b#diff-c8b4b355f9b5c06d585b23138e1c185f
 
 Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
 ---
- .../libtiff/files/CVE-2016-9535-1.patch            | 423 +++++++++++++++++++++
- .../libtiff/files/CVE-2016-9535-2.patch            |  67 ++++
- meta/recipes-multimedia/libtiff/tiff_4.0.6.bb      |   2 +
- 3 files changed, 492 insertions(+)
- create mode 100644 meta/recipes-multimedia/libtiff/files/CVE-2016-9535-1.patch
- create mode 100644 meta/recipes-multimedia/libtiff/files/CVE-2016-9535-2.patch
+ .../libtiff/files/CVE-2016-9538.patch              | 67 ++++++++++++++++++++++
+ meta/recipes-multimedia/libtiff/tiff_4.0.6.bb      |  1 +
+ 2 files changed, 68 insertions(+)
+ create mode 100644 meta/recipes-multimedia/libtiff/files/CVE-2016-9538.patch
 
-diff --git a/meta/recipes-multimedia/libtiff/files/CVE-2016-9535-1.patch b/meta/recipes-multimedia/libtiff/files/CVE-2016-9535-1.patch
+diff --git a/meta/recipes-multimedia/libtiff/files/CVE-2016-9538.patch b/meta/recipes-multimedia/libtiff/files/CVE-2016-9538.patch
 new file mode 100644
-index 0000000..26fd0df
+index 0000000..e1141df
 --- /dev/null
-+++ b/meta/recipes-multimedia/libtiff/files/CVE-2016-9535-1.patch
-@@ -0,0 +1,423 @@
-+From 3ca657a8793dd011bf869695d72ad31c779c3cc1 Mon Sep 17 00:00:00 2001
-+From: erouault <erouault>
-+Date: Mon, 31 Oct 2016 17:24:26 +0000
-+Subject: [PATCH 1/2] Fix CVE-2016-9535
-+
-+* libtiff/tif_predict.h, libtiff/tif_predict.c: Replace
-+ assertions by runtime checks to avoid assertions in debug mode, or buffer
-+ overflows in release mode. Can happen when dealing with unusual tile size
-+ like YCbCr with subsampling. Reported as MSVR 35105 by Axel Souchet	&
-+ Vishal Chauhan from the MSRC Vulnerabilities & Mitigations team.
-+
-+CVE: CVE-2016-9535
-+Upstream-Status: Backport
-+https://github.com/vadz/libtiff/commit/3ca657a8793dd011bf869695d72ad31c779c3cc1
-+
-+Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
-+
-+---
-+ libtiff/tif_predict.c | 153 +++++++++++++++++++++++++++++++++++---------------
-+ libtiff/tif_predict.h |   6 +-
-+ 2 files changed, 121 insertions(+), 47 deletions(-)
-+
-+diff --git a/libtiff/tif_predict.c b/libtiff/tif_predict.c
-+index 555f2f9..b829259 100644
-+--- a/libtiff/tif_predict.c
-++++ b/libtiff/tif_predict.c
-+@@ -34,18 +34,18 @@
-+ 
-+ #define	PredictorState(tif)	((TIFFPredictorState*) (tif)->tif_data)
-+ 
-+-static void horAcc8(TIFF* tif, uint8* cp0, tmsize_t cc);
-+-static void horAcc16(TIFF* tif, uint8* cp0, tmsize_t cc);
-+-static void horAcc32(TIFF* tif, uint8* cp0, tmsize_t cc);
-+-static void swabHorAcc16(TIFF* tif, uint8* cp0, tmsize_t cc);
-+-static void swabHorAcc32(TIFF* tif, uint8* cp0, tmsize_t cc);
-+-static void horDiff8(TIFF* tif, uint8* cp0, tmsize_t cc);
-+-static void horDiff16(TIFF* tif, uint8* cp0, tmsize_t cc);
-+-static void horDiff32(TIFF* tif, uint8* cp0, tmsize_t cc);
-+-static void swabHorDiff16(TIFF* tif, uint8* cp0, tmsize_t cc);
-+-static void swabHorDiff32(TIFF* tif, uint8* cp0, tmsize_t cc);
-+-static void fpAcc(TIFF* tif, uint8* cp0, tmsize_t cc);
-+-static void fpDiff(TIFF* tif, uint8* cp0, tmsize_t cc);
-++static int horAcc8(TIFF* tif, uint8* cp0, tmsize_t cc);
-++static int horAcc16(TIFF* tif, uint8* cp0, tmsize_t cc);
-++static int horAcc32(TIFF* tif, uint8* cp0, tmsize_t cc);
-++static int swabHorAcc16(TIFF* tif, uint8* cp0, tmsize_t cc);
-++static int swabHorAcc32(TIFF* tif, uint8* cp0, tmsize_t cc);
-++static int horDiff8(TIFF* tif, uint8* cp0, tmsize_t cc);
-++static int horDiff16(TIFF* tif, uint8* cp0, tmsize_t cc);
-++static int horDiff32(TIFF* tif, uint8* cp0, tmsize_t cc);
-++static int swabHorDiff16(TIFF* tif, uint8* cp0, tmsize_t cc);
-++static int swabHorDiff32(TIFF* tif, uint8* cp0, tmsize_t cc);
-++static int fpAcc(TIFF* tif, uint8* cp0, tmsize_t cc);
-++static int fpDiff(TIFF* tif, uint8* cp0, tmsize_t cc);
-+ static int PredictorDecodeRow(TIFF* tif, uint8* op0, tmsize_t occ0, uint16 s);
-+ static int PredictorDecodeTile(TIFF* tif, uint8* op0, tmsize_t occ0, uint16 s);
-+ static int PredictorEncodeRow(TIFF* tif, uint8* bp, tmsize_t cc, uint16 s);
-+@@ -273,13 +273,19 @@ PredictorSetupEncode(TIFF* tif)
-+ /* - when storing into the byte stream, we explicitly mask with 0xff so */
-+ /*   as to make icc -check=conversions happy (not necessary by the standard) */
-+ 
-+-static void
-++static int
-+ horAcc8(TIFF* tif, uint8* cp0, tmsize_t cc)
-+ {
-+ 	tmsize_t stride = PredictorState(tif)->stride;
-+ 
-+ 	unsigned char* cp = (unsigned char*) cp0;
-+-	assert((cc%stride)==0);
-++    if((cc%stride)!=0)
-++    {
-++        TIFFErrorExt(tif->tif_clientdata, "horAcc8",
-++                     "%s", "(cc%stride)!=0");
-++        return 0;
-++    }
-++
-+ 	if (cc > stride) {
-+ 		/*
-+ 		 * Pipeline the most common cases.
-+@@ -321,26 +327,32 @@ horAcc8(TIFF* tif, uint8* cp0, tmsize_t cc)
-+ 			} while (cc>0);
-+ 		}
-+ 	}
-++	return 1;
-+ }
-+ 
-+-static void
-++static int
-+ swabHorAcc16(TIFF* tif, uint8* cp0, tmsize_t cc)
-+ {
-+ 	uint16* wp = (uint16*) cp0;
-+ 	tmsize_t wc = cc / 2;
-+ 
-+         TIFFSwabArrayOfShort(wp, wc);
-+-        horAcc16(tif, cp0, cc);
-++        return horAcc16(tif, cp0, cc);
-+ }
-+ 
-+-static void
-++static int
-+ horAcc16(TIFF* tif, uint8* cp0, tmsize_t cc)
-+ {
-+ 	tmsize_t stride = PredictorState(tif)->stride;
-+ 	uint16* wp = (uint16*) cp0;
-+ 	tmsize_t wc = cc / 2;
-+ 
-+-	assert((cc%(2*stride))==0);
-++    if((cc%(2*stride))!=0)
-++    {
-++        TIFFErrorExt(tif->tif_clientdata, "horAcc16",
-++                     "%s", "cc%(2*stride))!=0");
-++        return 0;
-++    }
-+ 
-+ 	if (wc > stride) {
-+ 		wc -= stride;
-+@@ -349,26 +361,32 @@ horAcc16(TIFF* tif, uint8* cp0, tmsize_t cc)
-+ 			wc -= stride;
-+ 		} while (wc > 0);
-+ 	}
-++	return 1;
-+ }
-+ 
-+-static void
-++static int
-+ swabHorAcc32(TIFF* tif, uint8* cp0, tmsize_t cc)
-+ {
-+ 	uint32* wp = (uint32*) cp0;
-+ 	tmsize_t wc = cc / 4;
-+ 
-+         TIFFSwabArrayOfLong(wp, wc);
-+-	horAcc32(tif, cp0, cc);
-++	return horAcc32(tif, cp0, cc);
-+ }
-+ 
-+-static void
-++static int
-+ horAcc32(TIFF* tif, uint8* cp0, tmsize_t cc)
-+ {
-+ 	tmsize_t stride = PredictorState(tif)->stride;
-+ 	uint32* wp = (uint32*) cp0;
-+ 	tmsize_t wc = cc / 4;
-+ 
-+-	assert((cc%(4*stride))==0);
-++    if((cc%(4*stride))!=0)
-++    {
-++        TIFFErrorExt(tif->tif_clientdata, "horAcc32",
-++                     "%s", "cc%(4*stride))!=0");
-++        return 0;
-++    }
-+ 
-+ 	if (wc > stride) {
-+ 		wc -= stride;
-+@@ -377,12 +395,13 @@ horAcc32(TIFF* tif, uint8* cp0, tmsize_t cc)
-+ 			wc -= stride;
-+ 		} while (wc > 0);
-+ 	}
-++	return 1;
-+ }
-+ 
-+ /*
-+  * Floating point predictor accumulation routine.
-+  */
-+-static void
-++static int
-+ fpAcc(TIFF* tif, uint8* cp0, tmsize_t cc)
-+ {
-+ 	tmsize_t stride = PredictorState(tif)->stride;
-+@@ -392,10 +411,15 @@ fpAcc(TIFF* tif, uint8* cp0, tmsize_t cc)
-+ 	uint8 *cp = (uint8 *) cp0;
-+ 	uint8 *tmp = (uint8 *)_TIFFmalloc(cc);
-+ 
-+-	assert((cc%(bps*stride))==0);
-++    if(cc%(bps*stride)!=0)
-++    {
-++        TIFFErrorExt(tif->tif_clientdata, "fpAcc",
-++                     "%s", "cc%(bps*stride))!=0");
-++        return 0;
-++    }
-+ 
-+ 	if (!tmp)
-+-		return;
-++		return 0;
-+ 
-+ 	while (count > stride) {
-+ 		REPEAT4(stride, cp[stride] =
-+@@ -417,6 +441,7 @@ fpAcc(TIFF* tif, uint8* cp0, tmsize_t cc)
-+ 		}
-+ 	}
-+ 	_TIFFfree(tmp);
-++    return 1;
-+ }
-+ 
-+ /*
-+@@ -432,8 +457,7 @@ PredictorDecodeRow(TIFF* tif, uint8* op0, tmsize_t occ0, uint16 s)
-+ 	assert(sp->decodepfunc != NULL);  
-+ 
-+ 	if ((*sp->decoderow)(tif, op0, occ0, s)) {
-+-		(*sp->decodepfunc)(tif, op0, occ0);
-+-		return 1;
-++		return (*sp->decodepfunc)(tif, op0, occ0);
-+ 	} else
-+ 		return 0;
-+ }
-+@@ -456,10 +480,16 @@ PredictorDecodeTile(TIFF* tif, uint8* op0, tmsize_t occ0, uint16 s)
-+ 	if ((*sp->decodetile)(tif, op0, occ0, s)) {
-+ 		tmsize_t rowsize = sp->rowsize;
-+ 		assert(rowsize > 0);
-+-		assert((occ0%rowsize)==0);
-++		if((occ0%rowsize) !=0)
-++        {
-++            TIFFErrorExt(tif->tif_clientdata, "PredictorDecodeTile",
-++                         "%s", "occ0%rowsize != 0");
-++            return 0;
-++        }
-+ 		assert(sp->decodepfunc != NULL);
-+ 		while (occ0 > 0) {
-+-			(*sp->decodepfunc)(tif, op0, rowsize);
-++			if( !(*sp->decodepfunc)(tif, op0, rowsize) )
-++                return 0;
-+ 			occ0 -= rowsize;
-+ 			op0 += rowsize;
-+ 		}
-+@@ -468,14 +498,19 @@ PredictorDecodeTile(TIFF* tif, uint8* op0, tmsize_t occ0, uint16 s)
-+ 		return 0;
-+ }
-+ 
-+-static void
-++static int
-+ horDiff8(TIFF* tif, uint8* cp0, tmsize_t cc)
-+ {
-+ 	TIFFPredictorState* sp = PredictorState(tif);
-+ 	tmsize_t stride = sp->stride;
-+ 	unsigned char* cp = (unsigned char*) cp0;
-+ 
-+-	assert((cc%stride)==0);
-++    if((cc%stride)!=0)
-++    {
-++        TIFFErrorExt(tif->tif_clientdata, "horDiff8",
-++                     "%s", "(cc%stride)!=0");
-++        return 0;
-++    }
-+ 
-+ 	if (cc > stride) {
-+ 		cc -= stride;
-+@@ -513,9 +548,10 @@ horDiff8(TIFF* tif, uint8* cp0, tmsize_t cc)
-+ 			} while ((cc -= stride) > 0);
-+ 		}
-+ 	}
-++	return 1;
-+ }
-+ 
-+-static void
-++static int
-+ horDiff16(TIFF* tif, uint8* cp0, tmsize_t cc)
-+ {
-+ 	TIFFPredictorState* sp = PredictorState(tif);
-+@@ -523,7 +559,12 @@ horDiff16(TIFF* tif, uint8* cp0, tmsize_t cc)
-+ 	uint16 *wp = (uint16*) cp0;
-+ 	tmsize_t wc = cc/2;
-+ 
-+-	assert((cc%(2*stride))==0);
-++    if((cc%(2*stride))!=0)
-++    {
-++        TIFFErrorExt(tif->tif_clientdata, "horDiff8",
-++                     "%s", "(cc%(2*stride))!=0");
-++        return 0;
-++    }
-+ 
-+ 	if (wc > stride) {
-+ 		wc -= stride;
-+@@ -533,20 +574,23 @@ horDiff16(TIFF* tif, uint8* cp0, tmsize_t cc)
-+ 			wc -= stride;
-+ 		} while (wc > 0);
-+ 	}
-++	return 1;
-+ }
-+ 
-+-static void
-++static int
-+ swabHorDiff16(TIFF* tif, uint8* cp0, tmsize_t cc)
-+ {
-+     uint16* wp = (uint16*) cp0;
-+     tmsize_t wc = cc / 2;
-+ 
-+-    horDiff16(tif, cp0, cc);
-++    if( !horDiff16(tif, cp0, cc) )
-++        return 0;
-+ 
-+     TIFFSwabArrayOfShort(wp, wc);
-++    return 1;
-+ }
-+ 
-+-static void
-++static int
-+ horDiff32(TIFF* tif, uint8* cp0, tmsize_t cc)
-+ {
-+ 	TIFFPredictorState* sp = PredictorState(tif);
-+@@ -554,7 +598,12 @@ horDiff32(TIFF* tif, uint8* cp0, tmsize_t cc)
-+ 	uint32 *wp = (uint32*) cp0;
-+ 	tmsize_t wc = cc/4;
-+ 
-+-	assert((cc%(4*stride))==0);
-++    if((cc%(4*stride))!=0)
-++    {
-++        TIFFErrorExt(tif->tif_clientdata, "horDiff32",
-++                     "%s", "(cc%(4*stride))!=0");
-++        return 0;
-++    }
-+ 
-+ 	if (wc > stride) {
-+ 		wc -= stride;
-+@@ -564,23 +613,26 @@ horDiff32(TIFF* tif, uint8* cp0, tmsize_t cc)
-+ 			wc -= stride;
-+ 		} while (wc > 0);
-+ 	}
-++	return 1;
-+ }
-+ 
-+-static void
-++static int
-+ swabHorDiff32(TIFF* tif, uint8* cp0, tmsize_t cc)
-+ {
-+     uint32* wp = (uint32*) cp0;
-+     tmsize_t wc = cc / 4;
-+ 
-+-    horDiff32(tif, cp0, cc);
-++    if( !horDiff32(tif, cp0, cc) )
-++        return 0;
-+ 
-+     TIFFSwabArrayOfLong(wp, wc);
-++    return 1;
-+ }
-+ 
-+ /*
-+  * Floating point predictor differencing routine.
-+  */
-+-static void
-++static int
-+ fpDiff(TIFF* tif, uint8* cp0, tmsize_t cc)
-+ {
-+ 	tmsize_t stride = PredictorState(tif)->stride;
-+@@ -590,10 +642,14 @@ fpDiff(TIFF* tif, uint8* cp0, tmsize_t cc)
-+ 	uint8 *cp = (uint8 *) cp0;
-+ 	uint8 *tmp = (uint8 *)_TIFFmalloc(cc);
-+ 
-+-	assert((cc%(bps*stride))==0);
-+-
-++    if((cc%(bps*stride))!=0)
-++    {
-++        TIFFErrorExt(tif->tif_clientdata, "fpDiff",
-++                     "%s", "(cc%(bps*stride))!=0");
-++        return 0;
-++    }
-+ 	if (!tmp)
-+-		return;
-++		return 0;
-+ 
-+ 	_TIFFmemcpy(tmp, cp0, cc);
-+ 	for (count = 0; count < wc; count++) {
-+@@ -613,6 +669,7 @@ fpDiff(TIFF* tif, uint8* cp0, tmsize_t cc)
-+ 	cp += cc - stride - 1;
-+ 	for (count = cc; count > stride; count -= stride)
-+ 		REPEAT4(stride, cp[stride] = (unsigned char)((cp[stride] - cp[0])&0xff); cp--)
-++    return 1;
-+ }
-+ 
-+ static int
-+@@ -625,7 +682,8 @@ PredictorEncodeRow(TIFF* tif, uint8* bp, tmsize_t cc, uint16 s)
-+ 	assert(sp->encoderow != NULL);
-+ 
-+ 	/* XXX horizontal differencing alters user's data XXX */
-+-	(*sp->encodepfunc)(tif, bp, cc);
-++	if( !(*sp->encodepfunc)(tif, bp, cc) )
-++        return 0;
-+ 	return (*sp->encoderow)(tif, bp, cc, s);
-+ }
-+ 
-+@@ -660,7 +718,12 @@ PredictorEncodeTile(TIFF* tif, uint8* bp0, tmsize_t cc0, uint16 s)
-+ 
-+ 	rowsize = sp->rowsize;
-+ 	assert(rowsize > 0);
-+-	assert((cc0%rowsize)==0);
-++	if((cc0%rowsize)!=0)
-++    {
-++        TIFFErrorExt(tif->tif_clientdata, "PredictorEncodeTile",
-++                     "%s", "(cc0%rowsize)!=0");
-++        return 0;
-++    }
-+ 	while (cc > 0) {
-+ 		(*sp->encodepfunc)(tif, bp, rowsize);
-+ 		cc -= rowsize;
-+diff --git a/libtiff/tif_predict.h b/libtiff/tif_predict.h
-+index 91330cc..9e485a4 100644
-+--- a/libtiff/tif_predict.h
-++++ b/libtiff/tif_predict.h
-+@@ -30,6 +30,8 @@
-+  * ``Library-private'' Support for the Predictor Tag
-+  */
-+ 
-++typedef int (*TIFFEncodeDecodeMethod)(TIFF* tif, uint8* buf, tmsize_t size);
-++
-+ /*
-+  * Codecs that want to support the Predictor tag must place
-+  * this structure first in their private state block so that
-+@@ -43,12 +45,12 @@ typedef struct {
-+ 	TIFFCodeMethod  encoderow;	/* parent codec encode/decode row */
-+ 	TIFFCodeMethod  encodestrip;	/* parent codec encode/decode strip */
-+ 	TIFFCodeMethod  encodetile;	/* parent codec encode/decode tile */ 
-+-	TIFFPostMethod  encodepfunc;	/* horizontal differencer */
-++	TIFFEncodeDecodeMethod  encodepfunc;	/* horizontal differencer */
-+ 
-+ 	TIFFCodeMethod  decoderow;	/* parent codec encode/decode row */
-+ 	TIFFCodeMethod  decodestrip;	/* parent codec encode/decode strip */
-+ 	TIFFCodeMethod  decodetile;	/* parent codec encode/decode tile */ 
-+-	TIFFPostMethod  decodepfunc;	/* horizontal accumulator */
-++	TIFFEncodeDecodeMethod  decodepfunc;	/* horizontal accumulator */
-+ 
-+ 	TIFFVGetMethod  vgetparent;	/* super-class method */
-+ 	TIFFVSetMethod  vsetparent;	/* super-class method */
-+-- 
-+2.9.3
-+
-diff --git a/meta/recipes-multimedia/libtiff/files/CVE-2016-9535-2.patch b/meta/recipes-multimedia/libtiff/files/CVE-2016-9535-2.patch
-new file mode 100644
-index 0000000..977dbf6
---- /dev/null
-+++ b/meta/recipes-multimedia/libtiff/files/CVE-2016-9535-2.patch
++++ b/meta/recipes-multimedia/libtiff/files/CVE-2016-9538.patch
 @@ -0,0 +1,67 @@
-+From 6a984bf7905c6621281588431f384e79d11a2e33 Mon Sep 17 00:00:00 2001
++From 43c0b81a818640429317c80fea1e66771e85024b Mon Sep 17 00:00:00 2001
 +From: erouault <erouault>
-+Date: Fri, 4 Nov 2016 09:19:13 +0000
-+Subject: [PATCH 2/2] Fix CVE-2016-9535
-+* libtiff/tif_predic.c: fix memory leaks in error code
-+ paths added in previous commit (fix for MSVR 35105)
++Date: Sat, 8 Oct 2016 15:04:31 +0000
++Subject: [PATCH] Fix CVE-2016-9538
++* tools/tiffcp.c: fix read of undefined variable in case of
++ missing required tags. Found on test case of MSVR 35100. * tools/tiffcrop.c:
++ fix read of undefined buffer in readContigStripsIntoBuffer() due to uint16
++ overflow. Probably not a security issue but I can be wrong. Reported as MSVR
++ 35100 by Axel Souchet from the MSRC Vulnerabilities & Mitigations team.
 +
-+CVE: CVE-2016-9535
++CVE: CVE-2016-9538
 +Upstream-Status: Backport
-+https://github.com/vadz/libtiff/commit/6a984bf7905c6621281588431f384e79d11a2e33
++https://github.com/vadz/libtiff/commit/43c0b81a818640429317c80fea1e66771e85024b#diff-c8b4b355f9b5c06d585b23138e1c185f
 +
 +Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
 +
 +---
-+ libtiff/tif_predict.c | 8 ++++++--
-+ 1 files changed, 11 insertions(+), 2 deletions(-)
++ tools/tiffcp.c   | 4 ++--
++ tools/tiffcrop.c | 9 ++++++---
++ 2 files changed, 17 insertions(+), 5 deletions(-)
 +
-+diff --git a/libtiff/tif_predict.c b/libtiff/tif_predict.c
-+index b829259..3f42f3b 100644
-+--- a/libtiff/tif_predict.c
-++++ b/libtiff/tif_predict.c
-+@@ -409,7 +409,7 @@ fpAcc(TIFF* tif, uint8* cp0, tmsize_t cc)
-+ 	tmsize_t wc = cc / bps;
-+ 	tmsize_t count = cc;
-+ 	uint8 *cp = (uint8 *) cp0;
-+-	uint8 *tmp = (uint8 *)_TIFFmalloc(cc);
-++	uint8 *tmp;
-+ 
-+     if(cc%(bps*stride)!=0)
-+     {
-+@@ -418,6 +418,7 @@ fpAcc(TIFF* tif, uint8* cp0, tmsize_t cc)
-+         return 0;
-+     }
-+ 
-++    tmp = (uint8 *)_TIFFmalloc(cc);
-+ 	if (!tmp)
-+ 		return 0;
-+ 
-+@@ -640,7 +641,7 @@ fpDiff(TIFF* tif, uint8* cp0, tmsize_t cc)
-+ 	tmsize_t wc = cc / bps;
-+ 	tmsize_t count;
-+ 	uint8 *cp = (uint8 *) cp0;
-+-	uint8 *tmp = (uint8 *)_TIFFmalloc(cc);
-++	uint8 *tmp;
-+ 
-+     if((cc%(bps*stride))!=0)
-+     {
-+@@ -648,6 +649,8 @@ fpDiff(TIFF* tif, uint8* cp0, tmsize_t cc)
-+                      "%s", "(cc%(bps*stride))!=0");
-+         return 0;
-+     }
-++
-++    tmp = (uint8 *)_TIFFmalloc(cc);
-+ 	if (!tmp)
-+ 		return 0;
-+ 
-+@@ -722,6 +725,7 @@ PredictorEncodeTile(TIFF* tif, uint8* bp0, tmsize_t cc0, uint16 s)
-+     {
-+         TIFFErrorExt(tif->tif_clientdata, "PredictorEncodeTile",
-+                      "%s", "(cc0%rowsize)!=0");
-++        _TIFFfree( working_copy );
-+         return 0;
-+     }
-+ 	while (cc > 0) {
++diff --git a/tools/tiffcp.c b/tools/tiffcp.c
++index ba2b715..4ad74d3 100644
++--- a/tools/tiffcp.c
+++++ b/tools/tiffcp.c
++@@ -592,8 +592,8 @@ static	copyFunc pickCopyFunc(TIFF*, TIFF*, uint16, uint16);
++ static int
++ tiffcp(TIFF* in, TIFF* out)
++ {
++-	uint16 bitspersample, samplesperpixel;
++-	uint16 input_compression, input_photometric;
+++	uint16 bitspersample, samplesperpixel = 1;
+++	uint16 input_compression, input_photometric = PHOTOMETRIC_MINISBLACK;
++ 	copyFunc cf;
++ 	uint32 width, length;
++ 	struct cpTag* p;
++diff --git a/tools/tiffcrop.c b/tools/tiffcrop.c
++index 7685566..eb6de77 100644
++--- a/tools/tiffcrop.c
+++++ b/tools/tiffcrop.c
++@@ -3628,7 +3628,7 @@ static int readContigStripsIntoBuffer (TIFF* in, uint8* buf)
++ {
++         uint8* bufp = buf;
++         int32  bytes_read = 0;
++-        uint16 strip, nstrips   = TIFFNumberOfStrips(in);
+++        uint32 strip, nstrips   = TIFFNumberOfStrips(in);
++         uint32 stripsize = TIFFStripSize(in);
++         uint32 rows = 0;
++         uint32 rps = TIFFGetFieldDefaulted(in, TIFFTAG_ROWSPERSTRIP, &rps);
++@@ -4711,9 +4711,12 @@ static int readSeparateStripsIntoBuffer (TIFF *in, uint8 *obuf, uint32 length,
++                                          uint32 width, uint16 spp,
++                                          struct dump_opts *dump)
++   {
++-  int i, j, bytes_per_sample, bytes_per_pixel, shift_width, result = 1;
+++  int i, bytes_per_sample, bytes_per_pixel, shift_width, result = 1;
+++  uint32 j;
++   int32  bytes_read = 0;
++-  uint16 bps, nstrips, planar, strips_per_sample;
+++  uint16 bps, planar;
+++  uint32 nstrips;
+++  uint32 strips_per_sample;
++   uint32 src_rowsize, dst_rowsize, rows_processed, rps;
++   uint32 rows_this_strip = 0;
++   tsample_t s;
 +-- 
 +2.9.3
 +
 diff --git a/meta/recipes-multimedia/libtiff/tiff_4.0.6.bb b/meta/recipes-multimedia/libtiff/tiff_4.0.6.bb
-index 3a7906a..7b5dd9c 100644
+index 7b5dd9c..8521fd7 100644
 --- a/meta/recipes-multimedia/libtiff/tiff_4.0.6.bb
 +++ b/meta/recipes-multimedia/libtiff/tiff_4.0.6.bb
-@@ -19,6 +19,8 @@ SRC_URI = "http://download.osgeo.org/libtiff/tiff-${PV}.tar.gz \
-            file://CVE-2016-3632.patch \
-            file://CVE-2016-9540.patch \
+@@ -21,6 +21,7 @@ SRC_URI = "http://download.osgeo.org/libtiff/tiff-${PV}.tar.gz \
             file://CVE-2016-9539.patch \
-+           file://CVE-2016-9535-1.patch \
-+           file://CVE-2016-9535-2.patch \
+            file://CVE-2016-9535-1.patch \
+            file://CVE-2016-9535-2.patch \
++           file://CVE-2016-9538.patch \
            "
  
  SRC_URI[md5sum] = "d1d2e940dea0b5ad435f21f03d96dd72"
