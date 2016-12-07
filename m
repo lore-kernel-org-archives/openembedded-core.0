@@ -1,25 +1,25 @@
 Return-Path: <anibal.limon@linux.intel.com>
 Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 4E1D871B57
+	by mail.openembedded.org (Postfix) with ESMTP id 9ADE471B68
 	for <openembedded-core@lists.openembedded.org>;
 	Wed,  7 Dec 2016 20:30:33 +0000 (UTC)
 Received: from fmsmga006.fm.intel.com ([10.253.24.20])
 	by fmsmga103.fm.intel.com with ESMTP; 07 Dec 2016 12:30:35 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.33,315,1477983600"; d="scan'208";a="40172579"
+X-IronPort-AV: E=Sophos;i="5.33,315,1477983600"; d="scan'208";a="40172581"
 Received: from alimonb-mobl1.zpn.intel.com ([10.219.5.142])
-	by fmsmga006.fm.intel.com with ESMTP; 07 Dec 2016 12:30:34 -0800
+	by fmsmga006.fm.intel.com with ESMTP; 07 Dec 2016 12:30:35 -0800
 From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  7 Dec 2016 14:32:17 -0600
-Message-Id: <7da94ed36b240c0042d28b53d55e4f26b635af81.1481142664.git.anibal.limon@linux.intel.com>
+Date: Wed,  7 Dec 2016 14:32:18 -0600
+Message-Id: <01f354242a0761790728ac5827f118dab09e6ab1.1481142664.git.anibal.limon@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1481142664.git.anibal.limon@linux.intel.com>
 References: <cover.1481142664.git.anibal.limon@linux.intel.com>
 In-Reply-To: <cover.1481142664.git.anibal.limon@linux.intel.com>
 References: <cover.1481142664.git.anibal.limon@linux.intel.com>
 MIME-Version: 1.0
-Subject: [PATCHv2 12/32] oeqa/core: Add README
+Subject: [PATCHv2 13/32] oe/data: Add export2json function
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,60 +36,55 @@ X-List-Received-Date: Wed, 07 Dec 2016 20:30:33 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-The README has an introduction and explains how to run the test suite
-and creates a new Test component.
+The export2json function export the variables contained in
+the data store to JSON format, the main usage for now will be
+to provide test data to QA framework.
 
 Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
-Signed-off-by: Mariano Lopez <mariano.lopez@linux.intel.com>
 ---
- meta/lib/oeqa/core/README | 38 ++++++++++++++++++++++++++++++++++++++
- 1 file changed, 38 insertions(+)
- create mode 100644 meta/lib/oeqa/core/README
+ meta/lib/oe/data.py | 28 ++++++++++++++++++++++++++++
+ 1 file changed, 28 insertions(+)
 
-diff --git a/meta/lib/oeqa/core/README b/meta/lib/oeqa/core/README
-new file mode 100644
-index 0000000..0c859fd
---- /dev/null
-+++ b/meta/lib/oeqa/core/README
-@@ -0,0 +1,38 @@
-+= OEQA Framework =
+diff --git a/meta/lib/oe/data.py b/meta/lib/oe/data.py
+index ee48950..db3bd6d 100644
+--- a/meta/lib/oe/data.py
++++ b/meta/lib/oe/data.py
+@@ -1,3 +1,4 @@
++import json
+ import oe.maketype
+ 
+ def typed_value(key, d):
+@@ -15,3 +16,30 @@ def typed_value(key, d):
+         return oe.maketype.create(d.getVar(key, True) or '', var_type, **flags)
+     except (TypeError, ValueError) as exc:
+         bb.msg.fatal("Data", "%s: %s" % (key, str(exc)))
 +
-+== Introduction ==
++def export2json(d, json_file, expand=True):
++    data2export = {}
++    keys2export = []
 +
-+This is the new OEQA framework the base clases of the framework
-+are in this module oeqa/core the subsequent components needs to
-+extend this classes.
++    for key in d.keys():
++        if key.startswith("_"):
++            continue
++        elif key.startswith("BB"):
++            continue
++        elif key.startswith("B_pn"):
++            continue
++        elif key.startswith("do_"):
++            continue
++        elif d.getVarFlag(key, "func", True):
++            continue
 +
-+A new/unique runner was created called oe-test and is under scripts/
-+oe-test, this new runner scans over oeqa module searching for test
-+components that supports OETestContextExecutor implemented in context
-+module (i.e. oeqa/core/context.py).
++        keys2export.append(key)
 +
-+For execute an example:
++    for key in keys2export:
++        try:
++            data2export[key] = d.getVar(key, expand)
++        except bb.data_smart.ExpansionError:
++            data2export[key] = ''
 +
-+$ source oe-init-build-env
-+$ oe-test core
-+
-+For list supported components:
-+
-+$ oe-test -h
-+
-+== Create new Test component ==
-+
-+Usally for add a new Test component the developer needs to extend
-+OETestContext/OETestContextExecutor in context.py and OETestCase in
-+case.py.
-+
-+== How to run the testing of the OEQA framework ==
-+
-+Run all tests:
-+
-+$ PATH=$PATH:../../ python3 -m unittest discover -s tests
-+
-+Run some test:
-+
-+$ cd tests/
-+$ ./test_data.py
++    with open(json_file, "w") as f:
++        json.dump(data2export, f, skipkeys=True, indent=4, sort_keys=True)
 -- 
 2.1.4
 
