@@ -1,54 +1,21 @@
-Return-Path: <clopez@igalia.com>
-Received: from smtp4.mundo-r.com (smtp3.mundo-r.com [212.51.32.191])
-	by mail.openembedded.org (Postfix) with ESMTP id E7BC9606B2
+Return-Path: <anibal.limon@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 5071060110
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  7 Dec 2016 20:17:29 +0000 (UTC)
-IronPort-PHdr: =?us-ascii?q?9a23=3AJPtgJxSDvWwQtOWCVsrGZwszydpsv+yvbD5Q0YIu?=
-	=?us-ascii?q?jvd0So/mwa6ybRSN2/xhgRfzUJnB7Loc0qyN4vumBDZLv87JmUtBWaQEbwUCh8?=
-	=?us-ascii?q?QSkl5oK+++Imq/EsTXaTcnFt9JTl5v8iLzG0FUHMHjew+a+SXqvnYdFRrlKAV6?=
-	=?us-ascii?q?OPn+FJLMgMSrzeCy/IDYbxlViDanb75/KBu7oR/Ru8UIjodvK7o9wQbVr3VVfO?=
-	=?us-ascii?q?hb2XlmLk+JkRbm4cew8p9j8yBOtP8k6sVNT6b0cbkmQLJBFDgpPHw768PttRnY?=
-	=?us-ascii?q?UAuA/WAcXXkMkhpJGAfK8hf3VYrsvyTgt+p93C6aPdDqTb0xRD+v4btnRAPuhS?=
-	=?us-ascii?q?waMTMy7WPZhdFqjK9DoByvuQFxzYDXbo+SNvV+cLjQcc8GSWdbQspcTTBNDp+6?=
-	=?us-ascii?q?YoASD+QBJ+FYr4zlqlYQtxS+Hw2sBOT0yjRVmnL22bY13Po7EQHa2wwrAtQAsH?=
-	=?us-ascii?q?PMrNrrNaYZTPq7w7fSzTrdbvJdxDDw55TMchAmufGDQ7NxfNHQyUkgDQzFilSQ?=
-	=?us-ascii?q?ppb/MzyJ0eQNtnGW4ux9XuyhjG4nrht+ojmpxso0hIjGmJkaylPF9SVl2oo1Is?=
-	=?us-ascii?q?e4SEFjbd+qDpRfrCKaN4pqQsMtX2Fouzw2yrocuZ60eiUB1ZcpxwbHZvGDboSE?=
-	=?us-ascii?q?+A/vWPuTLDtigH9ofKiziwuy/EWg0uHxUtS43ExXoiZYkNTArG0B2hPJ5sSaTP?=
-	=?us-ascii?q?Z2412v1iyV1w/J7+FJOUU0la3GJJE/2rMwjZ8TsVjbHi/xhUX2kLeadkU69eis?=
-	=?us-ascii?q?7OTqervmqYWaN451iwH+NLohlta+AeQ3KAcOW2mb9v6m2LL/+k35Ra1Gjvwwkq?=
-	=?us-ascii?q?bHrJDXPcAWqrOjDwNIz4ou6QyzAjOi3dgCgHUKLFJIdAqCj4fzOlHOJP74De24?=
-	=?us-ascii?q?g1SpiDpk2/TGPrr5AprTL3nOi7bhfbln5E5YyQo818pT6I5TCrEEOP7zQFP+tM?=
-	=?us-ascii?q?TEDh8lNAy52+HnCM1j2YMYR22PB7SWP73PvlCV+O0gPvCAa5MSuDbnNfco/Pru?=
-	=?us-ascii?q?jX4imV8BZqmlx5wXaGimEfRgPUqZZGHjjckcHmgXoAUxUfbmiFqYUT5cND6OWP?=
-	=?us-ascii?q?c7/jw9BYesAIvPS4zoi7ub0Q+/H4ZKfSZBEl2KHHLieomIVvtKbzidceF7lTlR?=
-	=?us-ascii?q?frG7T4g6nTiqvgLg170vCu3M9z9QjZ/52co9s+bXkgk/5xR1AM2Z0mjLRGZxyD?=
-	=?us-ascii?q?BbDwQq1bxy9BQugmyI1rJ11qRV?=
-X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-Anti-Spam-Result: =?us-ascii?q?A2DpAQAjbUhY/5tjdVteHAYMGQYMgxABA?=
-	=?us-ascii?q?QEBAR9agQakBVSHdIp8gg+CBymFeQKBez8UAQEBAQEBAQEBAQFhKIIzGIIdAQM?=
-	=?us-ascii?q?DSwE9HAMBAh0SIS4IGQkSiDoDGwEJqkeEEgGDLA2DaQEBCAEBAQEjgjGEDYcjQ?=
-	=?us-ascii?q?4QJgxUFmjI1hk6DEINbg2ICkDwCiVCENYQOHzd4Ew6DXRsYgUZxAYkfAQEB?=
-X-IPAS-Result: =?us-ascii?q?A2DpAQAjbUhY/5tjdVteHAYMGQYMgxABAQEBAR9agQakBVS?=
-	=?us-ascii?q?HdIp8gg+CBymFeQKBez8UAQEBAQEBAQEBAQFhKIIzGIIdAQMDSwE9HAMBAh0SI?=
-	=?us-ascii?q?S4IGQkSiDoDGwEJqkeEEgGDLA2DaQEBCAEBAQEjgjGEDYcjQ4QJgxUFmjI1hk6?=
-	=?us-ascii?q?DEINbg2ICkDwCiVCENYQOHzd4Ew6DXRsYgUZxAYkfAQEB?=
-X-IronPort-AV: E=Sophos;i="5.33,315,1477954800"; d="scan'208";a="87996289"
-Received: from fanzine.igalia.com ([91.117.99.155])
-	by smtp4.mundo-r.com with ESMTP; 07 Dec 2016 21:17:29 +0100
-Received: from 1.14.117.91.dynamic.reverse-mundo-r.com ([91.117.14.1]
-	helo=trinity.local.igalia.com) by fanzine.igalia.com with esmtpsa 
-	(Cipher TLS1.2:ECDHE_RSA_AES_128_CBC_SHA256:128) (Exim)
-	id 1cEief-00063T-H5 for <openembedded-core@lists.openembedded.org>;
-	Wed, 07 Dec 2016 21:17:29 +0100
-From: Carlos Alberto Lopez Perez <clopez@igalia.com>
+	Wed,  7 Dec 2016 20:30:29 +0000 (UTC)
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+	by fmsmga103.fm.intel.com with ESMTP; 07 Dec 2016 12:30:31 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.33,315,1477983600"; d="scan'208";a="40172547"
+Received: from alimonb-mobl1.zpn.intel.com ([10.219.5.142])
+	by fmsmga006.fm.intel.com with ESMTP; 07 Dec 2016 12:30:30 -0800
+From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  7 Dec 2016 21:17:07 +0100
-Message-Id: <1481141827-22451-1-git-send-email-clopez@igalia.com>
+Date: Wed,  7 Dec 2016 14:32:05 -0600
+Message-Id: <cover.1481142664.git.anibal.limon@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
-In-Reply-To: <CAMKF1srtVjVmEN0s2vKgw89g=LxJSG36eEkxFdhhouuxzg6KYQ@mail.gmail.com>
-References: <CAMKF1srtVjVmEN0s2vKgw89g=LxJSG36eEkxFdhhouuxzg6KYQ@mail.gmail.com>
-Subject: [PATCH] Revert "webkitgtk: drop patch 0001-WebKitMacros-Append-to-I-and-not-to-isystem.patch"
+MIME-Version: 1.0
+Subject: [PATCHv2 00/32] OEQA Framework Refactor & Improvements
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,224 +28,199 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 07 Dec 2016 20:17:30 -0000
+X-List-Received-Date: Wed, 07 Dec 2016 20:30:30 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-This reverts commit 812c52f654c1bccca033163100055e3a8b8cda6e.
+This patchset is related to OEQA Framework for details read the RFC send to the
+Openembedded architecture ML.
 
-Upstream fixed the issue with GCC. But the build still fails with Clang.
-Therefore reintroduce this patch until a better solution is found.
-Upstream bug: https://bugs.webkit.org/show_bug.cgi?id=161697
+http://lists.openembedded.org/pipermail/openembedded-architecture/2016-December/000351.html
 
-Signed-off-by: Carlos Alberto Lopez Perez <clopez@igalia.com>
----
- ...bKitMacros-Append-to-I-and-not-to-isystem.patch | 185 +++++++++++++++++++++
- meta/recipes-sato/webkit/webkitgtk_2.14.2.bb       |   1 +
- 2 files changed, 186 insertions(+)
- create mode 100644 meta/recipes-sato/webkit/files/0001-WebKitMacros-Append-to-I-and-not-to-isystem.patch
+This v2 fixes sdk extensible test case sdk_update.
 
-diff --git a/meta/recipes-sato/webkit/files/0001-WebKitMacros-Append-to-I-and-not-to-isystem.patch b/meta/recipes-sato/webkit/files/0001-WebKitMacros-Append-to-I-and-not-to-isystem.patch
-new file mode 100644
-index 0000000..a4face2
---- /dev/null
-+++ b/meta/recipes-sato/webkit/files/0001-WebKitMacros-Append-to-I-and-not-to-isystem.patch
-@@ -0,0 +1,185 @@
-+From 20ee11dd188e1538f8cdd17a289dc6f9c63a011e Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Sun, 17 Apr 2016 12:35:41 -0700
-+Subject: [PATCH] WebKitMacros: Append to -I and not to -isystem
-+
-+gcc-6 has now introduced stdlib.h in libstdc++ for better
-+compliance and its including the C library stdlib.h using
-+include_next which is sensitive to order of system header
-+include paths. Its infact better to not tinker with the
-+system header include paths at all. Since adding /usr/include
-+to -system is redundant and compiler knows about it moreover
-+now with gcc6 it interferes with compiler's functioning
-+and ends up with compile errors e.g.
-+
-+/usr/include/c++/6.0.0/cstdlib:75:25: fatal error: stdlib.h: No such file or directory
-+
-+This is also an issue with clang (when using libstdc++ >= 6)
-+
-+Upstream bug: https://bugs.webkit.org/show_bug.cgi?id=161697
-+
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+Upstream-Status: Pending
-+---
-+ Source/JavaScriptCore/shell/CMakeLists.txt             | 2 +-
-+ Source/WebCore/PlatformGTK.cmake                       | 6 +++---
-+ Source/WebKit2/PlatformGTK.cmake                       | 2 +-
-+ Source/cmake/WebKitMacros.cmake                        | 2 +-
-+ Tools/DumpRenderTree/TestNetscapePlugIn/CMakeLists.txt | 2 +-
-+ Tools/ImageDiff/CMakeLists.txt                         | 2 +-
-+ Tools/MiniBrowser/gtk/CMakeLists.txt                   | 2 +-
-+ Tools/TestWebKitAPI/PlatformGTK.cmake                  | 2 +-
-+ Tools/TestWebKitAPI/Tests/WebKit2Gtk/CMakeLists.txt    | 2 +-
-+ Tools/WebKitTestRunner/CMakeLists.txt                  | 2 +-
-+ 10 files changed, 12 insertions(+), 12 deletions(-)
-+
-+diff --git a/Source/JavaScriptCore/shell/CMakeLists.txt b/Source/JavaScriptCore/shell/CMakeLists.txt
-+index 155c797..80fe22b 100644
-+--- a/Source/JavaScriptCore/shell/CMakeLists.txt
-++++ b/Source/JavaScriptCore/shell/CMakeLists.txt
-+@@ -20,7 +20,7 @@ WEBKIT_INCLUDE_CONFIG_FILES_IF_EXISTS()
-+ 
-+ WEBKIT_WRAP_SOURCELIST(${JSC_SOURCES})
-+ include_directories(./ ${JavaScriptCore_INCLUDE_DIRECTORIES})
-+-include_directories(SYSTEM ${JavaScriptCore_SYSTEM_INCLUDE_DIRECTORIES})
-++include_directories(${JavaScriptCore_SYSTEM_INCLUDE_DIRECTORIES})
-+ add_executable(jsc ${JSC_SOURCES})
-+ target_link_libraries(jsc ${JSC_LIBRARIES})
-+ 
-+diff --git a/Source/WebCore/PlatformGTK.cmake b/Source/WebCore/PlatformGTK.cmake
-+index 567bd79..1fabea8 100644
-+--- a/Source/WebCore/PlatformGTK.cmake
-++++ b/Source/WebCore/PlatformGTK.cmake
-+@@ -340,7 +340,7 @@ if (ENABLE_PLUGIN_PROCESS_GTK2)
-+         ${GTK2_INCLUDE_DIRS}
-+         ${GDK2_INCLUDE_DIRS}
-+     )
-+-    target_include_directories(WebCorePlatformGTK2 SYSTEM PRIVATE
-++    target_include_directories(WebCorePlatformGTK2 PRIVATE
-+         ${WebCore_SYSTEM_INCLUDE_DIRECTORIES}
-+     )
-+     target_link_libraries(WebCorePlatformGTK2
-+@@ -365,7 +365,7 @@ WEBKIT_SET_EXTRA_COMPILER_FLAGS(WebCorePlatformGTK)
-+ target_include_directories(WebCorePlatformGTK PRIVATE
-+     ${WebCore_INCLUDE_DIRECTORIES}
-+ )
-+-target_include_directories(WebCorePlatformGTK SYSTEM PRIVATE
-++target_include_directories(WebCorePlatformGTK PRIVATE
-+     ${WebCore_SYSTEM_INCLUDE_DIRECTORIES}
-+     ${GTK_INCLUDE_DIRS}
-+     ${GDK_INCLUDE_DIRS}
-+@@ -383,7 +383,7 @@ include_directories(
-+     "${DERIVED_SOURCES_GOBJECT_DOM_BINDINGS_DIR}"
-+ )
-+ 
-+-include_directories(SYSTEM
-++include_directories(
-+     ${WebCore_SYSTEM_INCLUDE_DIRECTORIES}
-+ )
-+ 
-+diff --git a/Source/WebKit2/PlatformGTK.cmake b/Source/WebKit2/PlatformGTK.cmake
-+index e4805a4..c57df5d 100644
-+--- a/Source/WebKit2/PlatformGTK.cmake
-++++ b/Source/WebKit2/PlatformGTK.cmake
-+@@ -822,7 +822,7 @@ if (ENABLE_PLUGIN_PROCESS_GTK2)
-+     target_include_directories(WebKitPluginProcess2 PRIVATE
-+         ${WebKit2CommonIncludeDirectories}
-+     )
-+-    target_include_directories(WebKitPluginProcess2 SYSTEM PRIVATE
-++    target_include_directories(WebKitPluginProcess2 PRIVATE
-+          ${WebKit2CommonSystemIncludeDirectories}
-+          ${GTK2_INCLUDE_DIRS}
-+          ${GDK2_INCLUDE_DIRS}
-+diff --git a/Source/cmake/WebKitMacros.cmake b/Source/cmake/WebKitMacros.cmake
-+index 043e78e..8b3b642 100644
-+--- a/Source/cmake/WebKitMacros.cmake
-++++ b/Source/cmake/WebKitMacros.cmake
-+@@ -224,7 +224,7 @@ endmacro()
-+ 
-+ macro(WEBKIT_FRAMEWORK _target)
-+     include_directories(${${_target}_INCLUDE_DIRECTORIES})
-+-    include_directories(SYSTEM ${${_target}_SYSTEM_INCLUDE_DIRECTORIES})
-++    include_directories(${${_target}_SYSTEM_INCLUDE_DIRECTORIES})
-+     add_library(${_target} ${${_target}_LIBRARY_TYPE}
-+         ${${_target}_HEADERS}
-+         ${${_target}_SOURCES}
-+diff --git a/Tools/DumpRenderTree/TestNetscapePlugIn/CMakeLists.txt b/Tools/DumpRenderTree/TestNetscapePlugIn/CMakeLists.txt
-+index c431667..6dff244 100644
-+--- a/Tools/DumpRenderTree/TestNetscapePlugIn/CMakeLists.txt
-++++ b/Tools/DumpRenderTree/TestNetscapePlugIn/CMakeLists.txt
-+@@ -42,7 +42,7 @@ set(WebKitTestNetscapePlugin_SYSTEM_INCLUDE_DIRECTORIES
-+ )
-+ 
-+ include_directories(${WebKitTestNetscapePlugin_INCLUDE_DIRECTORIES})
-+-include_directories(SYSTEM ${WebKitTestNetscapePlugin_SYSTEM_INCLUDE_DIRECTORIES})
-++include_directories(${WebKitTestNetscapePlugin_SYSTEM_INCLUDE_DIRECTORIES})
-+ 
-+ set(WebKitTestNetscapePlugin_LIBRARIES
-+     ${X11_LIBRARIES}
-+diff --git a/Tools/ImageDiff/CMakeLists.txt b/Tools/ImageDiff/CMakeLists.txt
-+index b15443f..87e03bf 100644
-+--- a/Tools/ImageDiff/CMakeLists.txt
-++++ b/Tools/ImageDiff/CMakeLists.txt
-+@@ -14,6 +14,6 @@ set(IMAGE_DIFF_LIBRARIES
-+ WEBKIT_INCLUDE_CONFIG_FILES_IF_EXISTS()
-+ 
-+ include_directories(${IMAGE_DIFF_INCLUDE_DIRECTORIES})
-+-include_directories(SYSTEM ${IMAGE_DIFF_SYSTEM_INCLUDE_DIRECTORIES})
-++include_directories(${IMAGE_DIFF_SYSTEM_INCLUDE_DIRECTORIES})
-+ add_executable(ImageDiff ${IMAGE_DIFF_SOURCES})
-+ target_link_libraries(ImageDiff ${IMAGE_DIFF_LIBRARIES})
-+diff --git a/Tools/MiniBrowser/gtk/CMakeLists.txt b/Tools/MiniBrowser/gtk/CMakeLists.txt
-+index 0704bc6..619e5a5 100644
-+--- a/Tools/MiniBrowser/gtk/CMakeLists.txt
-++++ b/Tools/MiniBrowser/gtk/CMakeLists.txt
-+@@ -58,7 +58,7 @@ endif ()
-+ add_definitions(-DGDK_VERSION_MIN_REQUIRED=GDK_VERSION_3_6)
-+ 
-+ include_directories(${MiniBrowser_INCLUDE_DIRECTORIES})
-+-include_directories(SYSTEM ${MiniBrowser_SYSTEM_INCLUDE_DIRECTORIES})
-++include_directories(${MiniBrowser_SYSTEM_INCLUDE_DIRECTORIES})
-+ add_executable(MiniBrowser ${MiniBrowser_SOURCES})
-+ target_link_libraries(MiniBrowser ${MiniBrowser_LIBRARIES})
-+ 
-+diff --git a/Tools/TestWebKitAPI/PlatformGTK.cmake b/Tools/TestWebKitAPI/PlatformGTK.cmake
-+index 7552cc2..2eb44d5 100644
-+--- a/Tools/TestWebKitAPI/PlatformGTK.cmake
-++++ b/Tools/TestWebKitAPI/PlatformGTK.cmake
-+@@ -20,7 +20,7 @@ include_directories(
-+     ${WEBKIT2_DIR}/UIProcess/API/gtk
-+ )
-+ 
-+-include_directories(SYSTEM
-++include_directories(
-+     ${GDK3_INCLUDE_DIRS}
-+     ${GLIB_INCLUDE_DIRS}
-+     ${GTK3_INCLUDE_DIRS}
-+diff --git a/Tools/TestWebKitAPI/Tests/WebKit2Gtk/CMakeLists.txt b/Tools/TestWebKitAPI/Tests/WebKit2Gtk/CMakeLists.txt
-+index b0b4739..434e4ca 100644
-+--- a/Tools/TestWebKitAPI/Tests/WebKit2Gtk/CMakeLists.txt
-++++ b/Tools/TestWebKitAPI/Tests/WebKit2Gtk/CMakeLists.txt
-+@@ -23,7 +23,7 @@ include_directories(
-+     ${TOOLS_DIR}/TestWebKitAPI/gtk/WebKit2Gtk
-+ )
-+ 
-+-include_directories(SYSTEM
-++include_directories(
-+     ${ATSPI_INCLUDE_DIRS}
-+     ${GLIB_INCLUDE_DIRS}
-+     ${GSTREAMER_INCLUDE_DIRS}
-+diff --git a/Tools/WebKitTestRunner/CMakeLists.txt b/Tools/WebKitTestRunner/CMakeLists.txt
-+index 7db90f2..a4f917f 100644
-+--- a/Tools/WebKitTestRunner/CMakeLists.txt
-++++ b/Tools/WebKitTestRunner/CMakeLists.txt
-+@@ -116,7 +116,7 @@ GENERATE_BINDINGS(WebKitTestRunner_SOURCES
-+ WEBKIT_INCLUDE_CONFIG_FILES_IF_EXISTS()
-+ 
-+ include_directories(${WebKitTestRunner_INCLUDE_DIRECTORIES})
-+-include_directories(SYSTEM ${WebKitTestRunner_SYSTEM_INCLUDE_DIRECTORIES})
-++include_directories(${WebKitTestRunner_SYSTEM_INCLUDE_DIRECTORIES})
-+ 
-+ add_library(TestRunnerInjectedBundle SHARED ${WebKitTestRunnerInjectedBundle_SOURCES})
-+ target_link_libraries(TestRunnerInjectedBundle ${WebKitTestRunner_LIBRARIES})
-+-- 
-+2.9.3
-+
-diff --git a/meta/recipes-sato/webkit/webkitgtk_2.14.2.bb b/meta/recipes-sato/webkit/webkitgtk_2.14.2.bb
-index 280765c..1c327ba 100644
---- a/meta/recipes-sato/webkit/webkitgtk_2.14.2.bb
-+++ b/meta/recipes-sato/webkit/webkitgtk_2.14.2.bb
-@@ -18,6 +18,7 @@ SRC_URI = "http://www.webkitgtk.org/releases/${BPN}-${PV}.tar.xz \
-            file://ppc-musl-fix.patch \
-            file://0001-Fix-racy-parallel-build-of-WebKit2-4.0.gir.patch \
-            file://0001-Tweak-gtkdoc-settings-so-that-gtkdoc-generation-work.patch \
-+           file://0001-WebKitMacros-Append-to-I-and-not-to-isystem.patch \
-            "
- 
- SRC_URI[md5sum] = "2fe3cadbc546d93ca68a13756c2be015"
+The following changes since commit 9e63f81c78e284c9b325fe04a1b59e61c7ad8a1a:
+
+  bitbake: ast: remove BBVERSIONS support (2016-11-30 15:48:10 +0000)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib alimon/oeqa_sdk_migration
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=alimon/oeqa_sdk_migration
+
+Aníbal Limón (28):
+  oeqa/core: Add base OEQA framework
+  oeqa/core: Add loader, context and decorator modules
+  oeqa/core/decorator: Add support for OETestDepends
+  oeqa/core/decorator: Add support for OETestDataDepends and
+    skipIfDataVar
+  scripts/oe-test: Add new oe-test script
+  oeqa/core/context: Add support of OETestContextExecutor
+  oeqa/core/cases: Add example test cases
+  oeqa/core: Add README
+  oe/data: Add export2json function
+  classes/rootfs-postcommands: Add write_image_test_data
+  classes/populate_sdk_base: Add write_sdk_test_data to postprocess
+  oeqa/core: Change name of d to td
+  oeqa/utils/path: Add remove_safe function
+  oeqa: Move common files to oeqa/files instead of runtime only
+  oeqa/sdk: Move test cases inside cases directory
+  oeqa/{runtime,sdk}/files: Move testsdkmakefile from runtime to sdk
+    module
+  oeqa/sdk: Add case and context modules for the SDK component
+  classes/testsdk: Migrates testsdk.bbclass to use new OESDKTestContext
+  oeqa/utils: Move targetbuild to buildproject module
+  oeqa/utils: {Target,SDK,}BuildProject remove dependency of bb
+  oeqa/sdk/cases: Migrate tests to the new OEQA framework
+  classes/testsdk: Remove the need of TEST_LOG_DIR variable
+  oeqa/sdkext: Move test cases inside cases directory
+  oeqa/sdkext: Adds case and context modules.
+  classes/testsdk: Migrate to use the new OESDKExtTestContext
+  oeqa/sdkext/cases: Migrate test case to new OEQA framework
+  oeqa/runtime: Fix TargetBuildProject instances
+  oeqa: Fix files handling on runtime tests.
+
+Mariano Lopez (4):
+  oeqa/core: Add utils module for OEQA framework
+  oeqa/core/decorator: Add support for OETestID and OETestTag
+  oeqa/core/decorator: Add support for OETimeout decorator
+  oeqa/core: Add tests for the OEQA framework
+
+ meta/classes/populate_sdk_base.bbclass             |   9 +-
+ meta/classes/rootfs-postcommands.bbclass           |  18 ++
+ meta/classes/testexport.bbclass                    |   5 +
+ meta/classes/testimage.bbclass                     |   4 +
+ meta/classes/testsdk.bbclass                       | 162 ++++++++------
+ meta/lib/oe/data.py                                |  28 +++
+ meta/lib/oeqa/core/README                          |  38 ++++
+ meta/lib/oeqa/core/__init__.py                     |   0
+ meta/lib/oeqa/core/case.py                         |  46 ++++
+ meta/lib/oeqa/core/cases/__init__.py               |   0
+ meta/lib/oeqa/core/cases/example/data.json         |   1 +
+ meta/lib/oeqa/core/cases/example/test_basic.py     |  20 ++
+ meta/lib/oeqa/core/context.py                      | 225 ++++++++++++++++++++
+ meta/lib/oeqa/core/decorator/__init__.py           |  71 +++++++
+ meta/lib/oeqa/core/decorator/data.py               |  36 ++++
+ meta/lib/oeqa/core/decorator/depends.py            |  94 +++++++++
+ meta/lib/oeqa/core/decorator/oeid.py               |  23 ++
+ meta/lib/oeqa/core/decorator/oetag.py              |  24 +++
+ meta/lib/oeqa/core/decorator/oetimeout.py          |  25 +++
+ meta/lib/oeqa/core/exception.py                    |  14 ++
+ meta/lib/oeqa/core/loader.py                       | 235 +++++++++++++++++++++
+ meta/lib/oeqa/core/runner.py                       |  76 +++++++
+ meta/lib/oeqa/core/tests/__init__.py               |   0
+ meta/lib/oeqa/core/tests/cases/data.py             |  20 ++
+ meta/lib/oeqa/core/tests/cases/depends.py          |  38 ++++
+ .../oeqa/core/tests/cases/loader/invalid/oeid.py   |  15 ++
+ .../oeqa/core/tests/cases/loader/valid/another.py  |   9 +
+ meta/lib/oeqa/core/tests/cases/oeid.py             |  18 ++
+ meta/lib/oeqa/core/tests/cases/oetag.py            |  18 ++
+ meta/lib/oeqa/core/tests/cases/timeout.py          |  18 ++
+ meta/lib/oeqa/core/tests/common.py                 |  35 +++
+ meta/lib/oeqa/core/tests/test_data.py              |  51 +++++
+ meta/lib/oeqa/core/tests/test_decorators.py        | 135 ++++++++++++
+ meta/lib/oeqa/core/tests/test_loader.py            |  86 ++++++++
+ meta/lib/oeqa/core/tests/test_runner.py            |  38 ++++
+ meta/lib/oeqa/core/utils/__init__.py               |   0
+ meta/lib/oeqa/core/utils/misc.py                   |  37 ++++
+ meta/lib/oeqa/core/utils/path.py                   |  19 ++
+ meta/lib/oeqa/core/utils/test.py                   |  71 +++++++
+ meta/lib/oeqa/{runtime => }/files/test.c           |   0
+ meta/lib/oeqa/{runtime => }/files/test.cpp         |   0
+ meta/lib/oeqa/{runtime => }/files/test.pl          |   0
+ meta/lib/oeqa/{runtime => }/files/test.py          |   0
+ meta/lib/oeqa/oetest.py                            |  92 +-------
+ meta/lib/oeqa/runtime/buildcvs.py                  |   9 +-
+ meta/lib/oeqa/runtime/buildgalculator.py           |   8 +-
+ meta/lib/oeqa/runtime/buildiptables.py             |   8 +-
+ meta/lib/oeqa/runtime/gcc.py                       |   4 +-
+ meta/lib/oeqa/runtime/perl.py                      |   2 +-
+ meta/lib/oeqa/runtime/python.py                    |   2 +-
+ meta/lib/oeqa/runtime/utils/__init__.py            |   0
+ meta/lib/oeqa/runtime/utils/targetbuildproject.py  |  33 +++
+ meta/lib/oeqa/sdk/__init__.py                      |   3 -
+ meta/lib/oeqa/sdk/case.py                          |  12 ++
+ meta/lib/oeqa/sdk/{ => cases}/buildcvs.py          |  15 +-
+ meta/lib/oeqa/sdk/{ => cases}/buildgalculator.py   |  28 ++-
+ meta/lib/oeqa/sdk/{ => cases}/buildiptables.py     |  16 +-
+ meta/lib/oeqa/sdk/cases/gcc.py                     |  43 ++++
+ meta/lib/oeqa/sdk/cases/perl.py                    |  27 +++
+ meta/lib/oeqa/sdk/{ => cases}/python.py            |  25 ++-
+ meta/lib/oeqa/sdk/context.py                       | 133 ++++++++++++
+ .../oeqa/{runtime => sdk}/files/testsdkmakefile    |   0
+ meta/lib/oeqa/sdk/gcc.py                           |  36 ----
+ meta/lib/oeqa/sdk/perl.py                          |  28 ---
+ meta/lib/oeqa/sdk/utils/__init__.py                |   0
+ meta/lib/oeqa/sdk/utils/sdkbuildproject.py         |  45 ++++
+ meta/lib/oeqa/sdkext/__init__.py                   |   3 -
+ meta/lib/oeqa/sdkext/case.py                       |  21 ++
+ meta/lib/oeqa/sdkext/{ => cases}/devtool.py        |  49 +++--
+ meta/lib/oeqa/sdkext/{ => cases}/sdk_update.py     |  17 +-
+ meta/lib/oeqa/sdkext/context.py                    |  21 ++
+ meta/lib/oeqa/utils/buildproject.py                |  52 +++++
+ meta/lib/oeqa/utils/targetbuild.py                 | 135 ------------
+ scripts/oe-test                                    |  98 +++++++++
+ 74 files changed, 2284 insertions(+), 443 deletions(-)
+ create mode 100644 meta/lib/oeqa/core/README
+ create mode 100644 meta/lib/oeqa/core/__init__.py
+ create mode 100644 meta/lib/oeqa/core/case.py
+ create mode 100644 meta/lib/oeqa/core/cases/__init__.py
+ create mode 100644 meta/lib/oeqa/core/cases/example/data.json
+ create mode 100644 meta/lib/oeqa/core/cases/example/test_basic.py
+ create mode 100644 meta/lib/oeqa/core/context.py
+ create mode 100644 meta/lib/oeqa/core/decorator/__init__.py
+ create mode 100644 meta/lib/oeqa/core/decorator/data.py
+ create mode 100644 meta/lib/oeqa/core/decorator/depends.py
+ create mode 100644 meta/lib/oeqa/core/decorator/oeid.py
+ create mode 100644 meta/lib/oeqa/core/decorator/oetag.py
+ create mode 100644 meta/lib/oeqa/core/decorator/oetimeout.py
+ create mode 100644 meta/lib/oeqa/core/exception.py
+ create mode 100644 meta/lib/oeqa/core/loader.py
+ create mode 100644 meta/lib/oeqa/core/runner.py
+ create mode 100644 meta/lib/oeqa/core/tests/__init__.py
+ create mode 100644 meta/lib/oeqa/core/tests/cases/data.py
+ create mode 100644 meta/lib/oeqa/core/tests/cases/depends.py
+ create mode 100644 meta/lib/oeqa/core/tests/cases/loader/invalid/oeid.py
+ create mode 100644 meta/lib/oeqa/core/tests/cases/loader/valid/another.py
+ create mode 100644 meta/lib/oeqa/core/tests/cases/oeid.py
+ create mode 100644 meta/lib/oeqa/core/tests/cases/oetag.py
+ create mode 100644 meta/lib/oeqa/core/tests/cases/timeout.py
+ create mode 100644 meta/lib/oeqa/core/tests/common.py
+ create mode 100755 meta/lib/oeqa/core/tests/test_data.py
+ create mode 100755 meta/lib/oeqa/core/tests/test_decorators.py
+ create mode 100755 meta/lib/oeqa/core/tests/test_loader.py
+ create mode 100755 meta/lib/oeqa/core/tests/test_runner.py
+ create mode 100644 meta/lib/oeqa/core/utils/__init__.py
+ create mode 100644 meta/lib/oeqa/core/utils/misc.py
+ create mode 100644 meta/lib/oeqa/core/utils/path.py
+ create mode 100644 meta/lib/oeqa/core/utils/test.py
+ rename meta/lib/oeqa/{runtime => }/files/test.c (100%)
+ rename meta/lib/oeqa/{runtime => }/files/test.cpp (100%)
+ rename meta/lib/oeqa/{runtime => }/files/test.pl (100%)
+ rename meta/lib/oeqa/{runtime => }/files/test.py (100%)
+ create mode 100644 meta/lib/oeqa/runtime/utils/__init__.py
+ create mode 100644 meta/lib/oeqa/runtime/utils/targetbuildproject.py
+ create mode 100644 meta/lib/oeqa/sdk/case.py
+ rename meta/lib/oeqa/sdk/{ => cases}/buildcvs.py (59%)
+ rename meta/lib/oeqa/sdk/{ => cases}/buildgalculator.py (45%)
+ rename meta/lib/oeqa/sdk/{ => cases}/buildiptables.py (58%)
+ create mode 100644 meta/lib/oeqa/sdk/cases/gcc.py
+ create mode 100644 meta/lib/oeqa/sdk/cases/perl.py
+ rename meta/lib/oeqa/sdk/{ => cases}/python.py (46%)
+ create mode 100644 meta/lib/oeqa/sdk/context.py
+ rename meta/lib/oeqa/{runtime => sdk}/files/testsdkmakefile (100%)
+ delete mode 100644 meta/lib/oeqa/sdk/gcc.py
+ delete mode 100644 meta/lib/oeqa/sdk/perl.py
+ create mode 100644 meta/lib/oeqa/sdk/utils/__init__.py
+ create mode 100644 meta/lib/oeqa/sdk/utils/sdkbuildproject.py
+ create mode 100644 meta/lib/oeqa/sdkext/case.py
+ rename meta/lib/oeqa/sdkext/{ => cases}/devtool.py (73%)
+ rename meta/lib/oeqa/sdkext/{ => cases}/sdk_update.py (63%)
+ create mode 100644 meta/lib/oeqa/sdkext/context.py
+ create mode 100644 meta/lib/oeqa/utils/buildproject.py
+ delete mode 100644 meta/lib/oeqa/utils/targetbuild.py
+ create mode 100755 scripts/oe-test
+
 -- 
 2.1.4
 
