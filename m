@@ -1,30 +1,30 @@
 Return-Path: <huangqy.fnst@cn.fujitsu.com>
 Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
-	by mail.openembedded.org (Postfix) with ESMTP id 098DD6025F
+	by mail.openembedded.org (Postfix) with ESMTP id B497C6025F
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  7 Dec 2016 10:12:05 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.22,518,1449504000"; d="scan'208";a="13689671"
+	Wed,  7 Dec 2016 10:17:07 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.22,518,1449504000"; d="scan'208";a="13689788"
 Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 07 Dec 2016 18:12:06 +0800
+	by heian.cn.fujitsu.com with ESMTP; 07 Dec 2016 18:17:08 +0800
 Received: from G08CNEXCHPEKD01.g08.fujitsu.local (unknown [10.167.33.80])
-	by cn.fujitsu.com (Postfix) with ESMTP id 27C404670074
+	by cn.fujitsu.com (Postfix) with ESMTP id C4E274670074
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  7 Dec 2016 18:12:02 +0800 (CST)
+	Wed,  7 Dec 2016 18:17:03 +0800 (CST)
 Received: from localhost.localdomain (10.167.226.81) by
 	G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.319.2; Wed, 7 Dec 2016 18:12:02 +0800
+	Server (TLS) id 14.3.319.2; Wed, 7 Dec 2016 18:17:03 +0800
 From: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 7 Dec 2016 10:11:49 -0800
-Message-ID: <1481134309-52376-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
+Date: Wed, 7 Dec 2016 10:16:51 -0800
+Message-ID: <1481134611-52481-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
 X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
 X-Originating-IP: [10.167.226.81]
-X-yoursite-MailScanner-ID: 27C404670074.A2363
+X-yoursite-MailScanner-ID: C4E274670074.A4D15
 X-yoursite-MailScanner: Found to be clean
 X-yoursite-MailScanner-From: huangqy.fnst@cn.fujitsu.com
 X-Spam-Status: No
-Subject: [PATCH] cups: 2.1.4 -> 2.2.1
+Subject: [PATCH v2] cups: 2.1.4 -> 2.2.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,10 +37,10 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 07 Dec 2016 10:12:06 -0000
+X-List-Received-Date: Wed, 07 Dec 2016 10:17:08 -0000
 Content-Type: text/plain
 
-Upgrade cups from 2.1.4 to 2.1.1.
+Upgrade cups from 2.1.4 to 2.2.1.
 
 License checksum changes are not related to license changes.
 
