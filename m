@@ -1,51 +1,24 @@
-Return-Path: <twoerner@gmail.com>
-Received: from mail-qk0-f180.google.com (mail-qk0-f180.google.com
-	[209.85.220.180])
-	by mail.openembedded.org (Postfix) with ESMTP id 9006671B0B
-	for <openembedded-core@lists.openembedded.org>;
-	Wed,  7 Dec 2016 18:05:01 +0000 (UTC)
-Received: by mail-qk0-f180.google.com with SMTP id n21so422007702qka.3
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 07 Dec 2016 10:05:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=gZt3pkUU1VeJDt0VD+KUfqTvP55b9OfEyzgNfriiTHE=;
-	b=AJWd6qW50s2jLi+mAeNU0r1p+XIAtiUQvHm/1rdT8kjS0O/uOhpKMhrcSkc7VrUBDy
-	Z3oY35XwrvybW9F0rjXnhmwyhxAg9vhNargPc6icVPgr6K9FKr9avbHPqH9FptWJW1/A
-	d9E80wl7VUzrVfXWB++AXuePGzyjLn4n7StAT6btqP7UP25mW1nfq6MTjBu8bZ1pRe9e
-	NmJ03QtD6MuGBLTB+TEKmmvT0j0+i5vie9nsaa0fkmzMZ9sMsGUxkw9VVswdKk5+tqYA
-	ECeeSXmOEAtyZmPMmwq2tDzStyCzeuuZkXSpgzfarzuepX+bckAybv/x7fJKbnxNfJti
-	CC3Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=gZt3pkUU1VeJDt0VD+KUfqTvP55b9OfEyzgNfriiTHE=;
-	b=dmGV1dKFaqnUsYtO6YTeb/oO12npUlTFbopdWTY33Feqdhu9vTDlVypcgBmHtjyeN3
-	T4yS4LTBd3cS2iAwwx+yTWXgGIixwTW6ooLF5HxkcI+EbiHo1Krz3dusGpm5loyZQhYT
-	cLA9lKX1Phf0fFR+sPfDhx+2wOx9bPOnUsov3hEAowYKHTAiG3Rs2cDiDuxlxgE+bkYm
-	COX/66P+E/ztCVJgh3FBcP+zyyVTdrn1LdfE5/9Bpb68W9nhjyecUhZ9KNk5TjTETPmT
-	0Fmko059yE7o71b04qCbPpvdcCJbs7O6QBk5nTre86I1Lx1zUUAjxJvT9m514nMJBnI5
-	cMEg==
-X-Gm-Message-State: AKaTC00x2CKgKmK6UJsTwfubWbXF3RXHHaDpUW22XEihnEyXUIB0fD5Df5WcfO8lxDUSb0qKYO9X7Fg7uO6E0Q==
-X-Received: by 10.55.94.135 with SMTP id s129mr57555550qkb.124.1481133902550; 
-	Wed, 07 Dec 2016 10:05:02 -0800 (PST)
+Return-Path: <jason.wessel@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 78A8D6FFC7
+	for <Openembedded-core@lists.openembedded.org>;
+	Wed,  7 Dec 2016 18:31:01 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id uB7IV2N5019671
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <Openembedded-core@lists.openembedded.org>;
+	Wed, 7 Dec 2016 10:31:03 -0800 (PST)
+Received: from ala-lpggp2.wrs.com (147.11.105.123) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.294.0;
+	Wed, 7 Dec 2016 10:31:02 -0800
+From: Jason Wessel <jason.wessel@windriver.com>
+To: <Openembedded-core@lists.openembedded.org>
+Date: Wed, 7 Dec 2016 10:31:00 -0800
+Message-ID: <20161207183100.6260-1-jason.wessel@windriver.com>
+X-Mailer: git-send-email 2.10.1
 MIME-Version: 1.0
-Received: by 10.237.46.162 with HTTP; Wed, 7 Dec 2016 10:05:01 -0800 (PST)
-In-Reply-To: <78eef00e-4156-bdbf-cda1-688ae0495414@windriver.com>
-References: <cover.1480711764.git.bruce.ashfield@windriver.com>
-	<48f1e3e16ca28e1194d6024689d000cb6ffc303c.1480711764.git.bruce.ashfield@windriver.com>
-	<1481058881.17535.58.camel@intel.com>
-	<20161206230222.5411d7b6@nuc.betafive.co.uk>
-	<CAHUNapQ847n7e=acLQ+hkLqziqaP8EQg5_0wrw5oJ9i9+Tw6tg@mail.gmail.com>
-	<78eef00e-4156-bdbf-cda1-688ae0495414@windriver.com>
-From: Trevor Woerner <twoerner@gmail.com>
-Date: Wed, 7 Dec 2016 13:05:01 -0500
-Message-ID: <CAHUNapSr5a2cuKN1xiK=2K0S+zkwMA7J0ALfe1hUZAVgXv2Fpw@mail.gmail.com>
-To: Bruce Ashfield <bruce.ashfield@windriver.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/4] kern-tools: fix processing for no branch meta-data
+Subject: [PATCH] liburi-perl: Uprev from 1.60 to 1.71 to pickup bugfixes and compatibilty
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,14 +31,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 07 Dec 2016 18:05:01 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 07 Dec 2016 18:31:02 -0000
+Content-Type: text/plain
 
-On Wed, Dec 7, 2016 at 11:18 AM, Bruce Ashfield
-<bruce.ashfield@windriver.com> wrote:
-> With the attached patch, I see nothing else that is named  in /tmp/
->
-> If you have the cycles, can you give it a try and let me know ?
+The exo recipe from meta-oe no longer compiles and some parts of
+URI::Escape no longer work due to changes in perl 5.  The main reason
+for the uprev is to pickup the fix for this problem:
 
-Yes, I'm giving it a whirl right now. Thanks!
+ERROR: \C is in regex; marked by <-- HERE in m/(\C <-- HERE )/ at /perl5/URI/Escape.pm line 205.
+
+The perl 5.24 transitioned the \C regex from deprecated into a hard
+error.
+
+Signed-off-by: Jason Wessel <jason.wessel@windriver.com>
+---
+ .../perl/{liburi-perl_1.60.bb => liburi-perl_1.71.bb}             | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+ rename meta/recipes-devtools/perl/{liburi-perl_1.60.bb => liburi-perl_1.71.bb} (66%)
+
+diff --git a/meta/recipes-devtools/perl/liburi-perl_1.60.bb b/meta/recipes-devtools/perl/liburi-perl_1.71.bb
+similarity index 66%
+rename from meta/recipes-devtools/perl/liburi-perl_1.60.bb
+rename to meta/recipes-devtools/perl/liburi-perl_1.71.bb
+index 8809a44..1806d93 100644
+--- a/meta/recipes-devtools/perl/liburi-perl_1.60.bb
++++ b/meta/recipes-devtools/perl/liburi-perl_1.71.bb
+@@ -6,14 +6,14 @@ and manipulate the various components that make up these strings."
+ SECTION = "libs"
+ LICENSE = "Artistic-1.0 | GPL-1.0+"
+ 
+-LIC_FILES_CHKSUM = "file://README;beginline=26;endline=30;md5=6c33ae5c87fd1c4897714e122dd9c23d"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=c453e94fae672800f83bc1bd7a38b53f"
+ 
+ DEPENDS += "perl"
+ 
+-SRC_URI = "http://www.cpan.org/authors/id/G/GA/GAAS/URI-${PV}.tar.gz"
++SRC_URI = "http://www.cpan.org/authors/id/E/ET/ETHER/URI-${PV}.tar.gz"
+ 
+-SRC_URI[md5sum] = "70f739be8ce28b8baba7c5920ffee4dc"
+-SRC_URI[sha256sum] = "1f92d3dc64acb8845e9917c945e22b9a5275aeb9ff924eb7873c3b7a5c0d2377"
++SRC_URI[md5sum] = "247c3da29a794f72730e01aa5a715daf"
++SRC_URI[sha256sum] = "9c8eca0d7f39e74bbc14706293e653b699238eeb1a7690cc9c136fb8c2644115"
+ 
+ S = "${WORKDIR}/URI-${PV}"
+ 
+-- 
+2.10.1
+
 
