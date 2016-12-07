@@ -1,25 +1,27 @@
-Return-Path: <anibal.limon@linux.intel.com>
+Return-Path: <paul.eggleton@linux.intel.com>
 Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 8FAE371B66
+	by mail.openembedded.org (Postfix) with ESMTP id 2AE4C71BBD
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  7 Dec 2016 20:30:39 +0000 (UTC)
+	Wed,  7 Dec 2016 21:16:55 +0000 (UTC)
 Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-	by fmsmga103.fm.intel.com with ESMTP; 07 Dec 2016 12:30:41 -0800
+	by fmsmga103.fm.intel.com with ESMTP; 07 Dec 2016 13:16:57 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.33,315,1477983600"; d="scan'208";a="40172624"
-Received: from alimonb-mobl1.zpn.intel.com ([10.219.5.142])
-	by fmsmga006.fm.intel.com with ESMTP; 07 Dec 2016 12:30:41 -0800
-From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
+X-IronPort-AV: E=Sophos;i="5.33,315,1477983600"; d="scan'208";a="40186852"
+Received: from pudupa-mobl.gar.corp.intel.com (HELO
+	peggleto-mobl.ger.corp.intel.com) ([10.255.129.184])
+	by fmsmga006.fm.intel.com with ESMTP; 07 Dec 2016 13:16:47 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  7 Dec 2016 14:32:37 -0600
-Message-Id: <bcc368011bd37bd98d0a8706c702911bf295ece4.1481142664.git.anibal.limon@linux.intel.com>
-X-Mailer: git-send-email 2.1.4
-In-Reply-To: <cover.1481142664.git.anibal.limon@linux.intel.com>
-References: <cover.1481142664.git.anibal.limon@linux.intel.com>
-In-Reply-To: <cover.1481142664.git.anibal.limon@linux.intel.com>
-References: <cover.1481142664.git.anibal.limon@linux.intel.com>
+Date: Thu, 08 Dec 2016 10:16:44 +1300
+Message-ID: <2760910.PlGPul2nZt@peggleto-mobl.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.14.10 (Linux/4.8.10-100.fc23.x86_64; KDE/4.14.20; x86_64; ;
+	)
+In-Reply-To: <3d0139cbc58340fea6f0ea733004c06a@XBOX01.axis.com>
+References: <1477393415-13053-1-git-send-email-olani@axis.com>
+	<3d0139cbc58340fea6f0ea733004c06a@XBOX01.axis.com>
 MIME-Version: 1.0
-Subject: [PATCHv2 32/32] oeqa: Fix files handling on runtime tests.
+Subject: Re: [PATCH 0/4] Load devtool and reciptool plugins in a well-defined manner
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,100 +34,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 07 Dec 2016 20:30:39 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 07 Dec 2016 21:16:58 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-Common files was move to oeqa/files from oeqa/runtime/files
-because the same files are used across Runtime,SDK,eSDK tests.
+On Tue, 06 Dec 2016 07:37:16 Ola x Nilsson wrote:
+> Ping?
 
-Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
----
- meta/classes/testexport.bbclass | 5 +++++
- meta/lib/oeqa/oetest.py         | 1 +
- meta/lib/oeqa/runtime/gcc.py    | 4 ++--
- meta/lib/oeqa/runtime/perl.py   | 2 +-
- meta/lib/oeqa/runtime/python.py | 2 +-
- 5 files changed, 10 insertions(+), 4 deletions(-)
+I guess Ross / Richard were waiting for my ack - sorry about that.
 
-diff --git a/meta/classes/testexport.bbclass b/meta/classes/testexport.bbclass
-index 5147020..a3ccd63 100644
---- a/meta/classes/testexport.bbclass
-+++ b/meta/classes/testexport.bbclass
-@@ -87,6 +87,7 @@ def exportTests(d,tc):
-     #   - the contents of oeqa/utils and oeqa/runtime/files
-     #   - oeqa/oetest.py and oeqa/runexport.py (this will get copied to exportpath not exportpath/oeqa)
-     #   - __init__.py files
-+    bb.utils.mkdirhier(os.path.join(exportpath, "oeqa/files"))
-     bb.utils.mkdirhier(os.path.join(exportpath, "oeqa/runtime/files"))
-     bb.utils.mkdirhier(os.path.join(exportpath, "oeqa/utils"))
-     # copy test modules, this should cover tests in other layers too
-@@ -124,6 +125,10 @@ def exportTests(d,tc):
-         for f in files:
-             if f.endswith(".py"):
-                 shutil.copy2(os.path.join(root, f), os.path.join(exportpath, "oeqa/utils"))
-+    # copy oeqa/files/*
-+    for root, dirs, files in os.walk(os.path.join(oeqadir, "files")):
-+        for f in files:
-+            shutil.copy2(os.path.join(root, f), os.path.join(exportpath, "oeqa/files"))
-     # copy oeqa/runtime/files/*
-     for root, dirs, files in os.walk(os.path.join(oeqadir, "runtime/files")):
-         for f in files:
-diff --git a/meta/lib/oeqa/oetest.py b/meta/lib/oeqa/oetest.py
-index f9e9025..48bcafc 100644
---- a/meta/lib/oeqa/oetest.py
-+++ b/meta/lib/oeqa/oetest.py
-@@ -201,6 +201,7 @@ class TestContext(object):
-         self.testsrequired = self._get_test_suites_required()
- 
-         self.filesdir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "runtime/files")
-+        self.corefilesdir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "files")
-         self.imagefeatures = d.getVar("IMAGE_FEATURES", True).split()
-         self.distrofeatures = d.getVar("DISTRO_FEATURES", True).split()
- 
-diff --git a/meta/lib/oeqa/runtime/gcc.py b/meta/lib/oeqa/runtime/gcc.py
-index d90cd17..6edb89f 100644
---- a/meta/lib/oeqa/runtime/gcc.py
-+++ b/meta/lib/oeqa/runtime/gcc.py
-@@ -12,9 +12,9 @@ class GccCompileTest(oeRuntimeTest):
- 
-     @classmethod
-     def setUpClass(self):
--        oeRuntimeTest.tc.target.copy_to(os.path.join(oeRuntimeTest.tc.filesdir, "test.c"), "/tmp/test.c")
-+        oeRuntimeTest.tc.target.copy_to(os.path.join(oeRuntimeTest.tc.corefilesdir, "test.c"), "/tmp/test.c")
-         oeRuntimeTest.tc.target.copy_to(os.path.join(oeRuntimeTest.tc.filesdir, "testmakefile"), "/tmp/testmakefile")
--        oeRuntimeTest.tc.target.copy_to(os.path.join(oeRuntimeTest.tc.filesdir, "test.cpp"), "/tmp/test.cpp")
-+        oeRuntimeTest.tc.target.copy_to(os.path.join(oeRuntimeTest.tc.corefilesdir, "test.cpp"), "/tmp/test.cpp")
- 
-     @testcase(203)
-     def test_gcc_compile(self):
-diff --git a/meta/lib/oeqa/runtime/perl.py b/meta/lib/oeqa/runtime/perl.py
-index e044d0a..6bf98f1 100644
---- a/meta/lib/oeqa/runtime/perl.py
-+++ b/meta/lib/oeqa/runtime/perl.py
-@@ -12,7 +12,7 @@ class PerlTest(oeRuntimeTest):
- 
-     @classmethod
-     def setUpClass(self):
--        oeRuntimeTest.tc.target.copy_to(os.path.join(oeRuntimeTest.tc.filesdir, "test.pl"), "/tmp/test.pl")
-+        oeRuntimeTest.tc.target.copy_to(os.path.join(oeRuntimeTest.tc.corefilesdir, "test.pl"), "/tmp/test.pl")
- 
-     @testcase(1141)
-     def test_perl_exists(self):
-diff --git a/meta/lib/oeqa/runtime/python.py b/meta/lib/oeqa/runtime/python.py
-index 29a231c..93e822c 100644
---- a/meta/lib/oeqa/runtime/python.py
-+++ b/meta/lib/oeqa/runtime/python.py
-@@ -12,7 +12,7 @@ class PythonTest(oeRuntimeTest):
- 
-     @classmethod
-     def setUpClass(self):
--        oeRuntimeTest.tc.target.copy_to(os.path.join(oeRuntimeTest.tc.filesdir, "test.py"), "/tmp/test.py")
-+        oeRuntimeTest.tc.target.copy_to(os.path.join(oeRuntimeTest.tc.corefilesdir, "test.py"), "/tmp/test.py")
- 
-     @testcase(1145)
-     def test_python_exists(self):
+Acked-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+
+Cheers,
+Paul
+
 -- 
-2.1.4
 
+Paul Eggleton
+Intel Open Source Technology Centre
 
