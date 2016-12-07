@@ -1,25 +1,25 @@
 Return-Path: <anibal.limon@linux.intel.com>
 Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 51EB071B37
+	by mail.openembedded.org (Postfix) with ESMTP id EAC9871B37
 	for <openembedded-core@lists.openembedded.org>;
 	Wed,  7 Dec 2016 20:30:32 +0000 (UTC)
 Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-	by fmsmga103.fm.intel.com with ESMTP; 07 Dec 2016 12:30:33 -0800
+	by fmsmga103.fm.intel.com with ESMTP; 07 Dec 2016 12:30:34 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.33,315,1477983600"; d="scan'208";a="40172568"
+X-IronPort-AV: E=Sophos;i="5.33,315,1477983600"; d="scan'208";a="40172570"
 Received: from alimonb-mobl1.zpn.intel.com ([10.219.5.142])
 	by fmsmga006.fm.intel.com with ESMTP; 07 Dec 2016 12:30:33 -0800
 From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  7 Dec 2016 14:32:13 -0600
-Message-Id: <a8339e24d43392b7467829195e6482f06ae8a993.1481142664.git.anibal.limon@linux.intel.com>
+Date: Wed,  7 Dec 2016 14:32:14 -0600
+Message-Id: <d5587d0b3ac150cb6223849716fd44ab41381825.1481142664.git.anibal.limon@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1481142664.git.anibal.limon@linux.intel.com>
 References: <cover.1481142664.git.anibal.limon@linux.intel.com>
 In-Reply-To: <cover.1481142664.git.anibal.limon@linux.intel.com>
 References: <cover.1481142664.git.anibal.limon@linux.intel.com>
 MIME-Version: 1.0
-Subject: [PATCHv2 08/32] oeqa/core: Add tests for the OEQA framework
+Subject: [PATCHv2 09/32] scripts/oe-test: Add new oe-test script
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,607 +32,130 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 07 Dec 2016 20:30:32 -0000
+X-List-Received-Date: Wed, 07 Dec 2016 20:30:33 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Mariano Lopez <mariano.lopez@linux.intel.com>
+The new oe-test script will be use to run test components with
+one single script.
 
-This test suite covers the current functionality for the OEQA
-framework.
+The oe-test script search for test components inside meta/lib/oeqa,
+the test components needs to implement OETestContextExecutor inside
+context module in order to be supported by oe-test.
 
-For run certain test suite,
-
-$ cd meta/lib/oeqa/core/tests
-$ ./test_data.py
+[YOCTO #10230]
 
 Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
 Signed-off-by: Mariano Lopez <mariano.lopez@linux.intel.com>
 ---
- meta/lib/oeqa/core/tests/__init__.py               |   0
- meta/lib/oeqa/core/tests/cases/data.py             |  20 +++
- meta/lib/oeqa/core/tests/cases/depends.py          |  38 ++++++
- .../oeqa/core/tests/cases/loader/invalid/oeid.py   |  15 +++
- .../oeqa/core/tests/cases/loader/valid/another.py  |   9 ++
- meta/lib/oeqa/core/tests/cases/oeid.py             |  18 +++
- meta/lib/oeqa/core/tests/cases/oetag.py            |  18 +++
- meta/lib/oeqa/core/tests/cases/timeout.py          |  18 +++
- meta/lib/oeqa/core/tests/common.py                 |  35 ++++++
- meta/lib/oeqa/core/tests/test_data.py              |  51 ++++++++
- meta/lib/oeqa/core/tests/test_decorators.py        | 135 +++++++++++++++++++++
- meta/lib/oeqa/core/tests/test_loader.py            |  86 +++++++++++++
- meta/lib/oeqa/core/tests/test_runner.py            |  38 ++++++
- 13 files changed, 481 insertions(+)
- create mode 100644 meta/lib/oeqa/core/tests/__init__.py
- create mode 100644 meta/lib/oeqa/core/tests/cases/data.py
- create mode 100644 meta/lib/oeqa/core/tests/cases/depends.py
- create mode 100644 meta/lib/oeqa/core/tests/cases/loader/invalid/oeid.py
- create mode 100644 meta/lib/oeqa/core/tests/cases/loader/valid/another.py
- create mode 100644 meta/lib/oeqa/core/tests/cases/oeid.py
- create mode 100644 meta/lib/oeqa/core/tests/cases/oetag.py
- create mode 100644 meta/lib/oeqa/core/tests/cases/timeout.py
- create mode 100644 meta/lib/oeqa/core/tests/common.py
- create mode 100755 meta/lib/oeqa/core/tests/test_data.py
- create mode 100755 meta/lib/oeqa/core/tests/test_decorators.py
- create mode 100755 meta/lib/oeqa/core/tests/test_loader.py
- create mode 100755 meta/lib/oeqa/core/tests/test_runner.py
+ scripts/oe-test | 98 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 98 insertions(+)
+ create mode 100755 scripts/oe-test
 
-diff --git a/meta/lib/oeqa/core/tests/__init__.py b/meta/lib/oeqa/core/tests/__init__.py
-new file mode 100644
-index 0000000..e69de29
-diff --git a/meta/lib/oeqa/core/tests/cases/data.py b/meta/lib/oeqa/core/tests/cases/data.py
-new file mode 100644
-index 0000000..4d8fad0
+diff --git a/scripts/oe-test b/scripts/oe-test
+new file mode 100755
+index 0000000..9222dea
 --- /dev/null
-+++ b/meta/lib/oeqa/core/tests/cases/data.py
-@@ -0,0 +1,20 @@
++++ b/scripts/oe-test
+@@ -0,0 +1,98 @@
++#!/usr/bin/env python3
++
++# OpenEmbedded test tool
++#
 +# Copyright (C) 2016 Intel Corporation
 +# Released under the MIT license (see COPYING.MIT)
 +
-+from oeqa.core.case import OETestCase
-+from oeqa.core.decorator.oetag import OETestTag
-+from oeqa.core.decorator.data import OETestDataDepends
-+
-+class DataTest(OETestCase):
-+    data_vars = ['IMAGE', 'ARCH']
-+
-+    @OETestDataDepends(['MACHINE',])
-+    @OETestTag('dataTestOk')
-+    def testDataOk(self):
-+        self.assertEqual(self.d.get('IMAGE'), 'core-image-minimal')
-+        self.assertEqual(self.d.get('ARCH'), 'x86')
-+        self.assertEqual(self.d.get('MACHINE'), 'qemuarm')
-+
-+    @OETestTag('dataTestFail')
-+    def testDataFail(self):
-+        pass
-diff --git a/meta/lib/oeqa/core/tests/cases/depends.py b/meta/lib/oeqa/core/tests/cases/depends.py
-new file mode 100644
-index 0000000..17cdd90
---- /dev/null
-+++ b/meta/lib/oeqa/core/tests/cases/depends.py
-@@ -0,0 +1,38 @@
-+# Copyright (C) 2016 Intel Corporation
-+# Released under the MIT license (see COPYING.MIT)
-+
-+from oeqa.core.case import OETestCase
-+from oeqa.core.decorator.depends import OETestDepends
-+
-+class DependsTest(OETestCase):
-+
-+    def testDependsFirst(self):
-+        self.assertTrue(True, msg='How is this possible?')
-+
-+    @OETestDepends(['testDependsFirst'])
-+    def testDependsSecond(self):
-+        self.assertTrue(True, msg='How is this possible?')
-+
-+    @OETestDepends(['testDependsSecond'])
-+    def testDependsThird(self):
-+        self.assertTrue(True, msg='How is this possible?')
-+
-+    @OETestDepends(['testDependsSecond'])
-+    def testDependsFourth(self):
-+        self.assertTrue(True, msg='How is this possible?')
-+
-+    @OETestDepends(['testDependsThird', 'testDependsFourth'])
-+    def testDependsFifth(self):
-+        self.assertTrue(True, msg='How is this possible?')
-+
-+    @OETestDepends(['testDependsCircular3'])
-+    def testDependsCircular1(self):
-+        self.assertTrue(True, msg='How is this possible?')
-+
-+    @OETestDepends(['testDependsCircular1'])
-+    def testDependsCircular2(self):
-+        self.assertTrue(True, msg='How is this possible?')
-+
-+    @OETestDepends(['testDependsCircular2'])
-+    def testDependsCircular3(self):
-+        self.assertTrue(True, msg='How is this possible?')
-diff --git a/meta/lib/oeqa/core/tests/cases/loader/invalid/oeid.py b/meta/lib/oeqa/core/tests/cases/loader/invalid/oeid.py
-new file mode 100644
-index 0000000..038d445
---- /dev/null
-+++ b/meta/lib/oeqa/core/tests/cases/loader/invalid/oeid.py
-@@ -0,0 +1,15 @@
-+# Copyright (C) 2016 Intel Corporation
-+# Released under the MIT license (see COPYING.MIT)
-+
-+from oeqa.core.case import OETestCase
-+
-+class AnotherIDTest(OETestCase):
-+
-+    def testAnotherIdGood(self):
-+        self.assertTrue(True, msg='How is this possible?')
-+
-+    def testAnotherIdOther(self):
-+        self.assertTrue(True, msg='How is this possible?')
-+
-+    def testAnotherIdNone(self):
-+        self.assertTrue(True, msg='How is this possible?')
-diff --git a/meta/lib/oeqa/core/tests/cases/loader/valid/another.py b/meta/lib/oeqa/core/tests/cases/loader/valid/another.py
-new file mode 100644
-index 0000000..c9ffd17
---- /dev/null
-+++ b/meta/lib/oeqa/core/tests/cases/loader/valid/another.py
-@@ -0,0 +1,9 @@
-+# Copyright (C) 2016 Intel Corporation
-+# Released under the MIT license (see COPYING.MIT)
-+
-+from oeqa.core.case import OETestCase
-+
-+class AnotherTest(OETestCase):
-+
-+    def testAnother(self):
-+        self.assertTrue(True, msg='How is this possible?')
-diff --git a/meta/lib/oeqa/core/tests/cases/oeid.py b/meta/lib/oeqa/core/tests/cases/oeid.py
-new file mode 100644
-index 0000000..c2d3d32
---- /dev/null
-+++ b/meta/lib/oeqa/core/tests/cases/oeid.py
-@@ -0,0 +1,18 @@
-+# Copyright (C) 2016 Intel Corporation
-+# Released under the MIT license (see COPYING.MIT)
-+
-+from oeqa.core.case import OETestCase
-+from oeqa.core.decorator.oeid import OETestID
-+
-+class IDTest(OETestCase):
-+
-+    @OETestID(101)
-+    def testIdGood(self):
-+        self.assertTrue(True, msg='How is this possible?')
-+
-+    @OETestID(102)
-+    def testIdOther(self):
-+        self.assertTrue(True, msg='How is this possible?')
-+
-+    def testIdNone(self):
-+        self.assertTrue(True, msg='How is this possible?')
-diff --git a/meta/lib/oeqa/core/tests/cases/oetag.py b/meta/lib/oeqa/core/tests/cases/oetag.py
-new file mode 100644
-index 0000000..0cae02e
---- /dev/null
-+++ b/meta/lib/oeqa/core/tests/cases/oetag.py
-@@ -0,0 +1,18 @@
-+# Copyright (C) 2016 Intel Corporation
-+# Released under the MIT license (see COPYING.MIT)
-+
-+from oeqa.core.case import OETestCase
-+from oeqa.core.decorator.oetag import OETestTag
-+
-+class TagTest(OETestCase):
-+
-+    @OETestTag('goodTag')
-+    def testTagGood(self):
-+        self.assertTrue(True, msg='How is this possible?')
-+
-+    @OETestTag('otherTag')
-+    def testTagOther(self):
-+        self.assertTrue(True, msg='How is this possible?')
-+
-+    def testTagNone(self):
-+        self.assertTrue(True, msg='How is this possible?')
-diff --git a/meta/lib/oeqa/core/tests/cases/timeout.py b/meta/lib/oeqa/core/tests/cases/timeout.py
-new file mode 100644
-index 0000000..870c3157
---- /dev/null
-+++ b/meta/lib/oeqa/core/tests/cases/timeout.py
-@@ -0,0 +1,18 @@
-+# Copyright (C) 2016 Intel Corporation
-+# Released under the MIT license (see COPYING.MIT)
-+
-+from time import sleep
-+
-+from oeqa.core.case import OETestCase
-+from oeqa.core.decorator.oetimeout import OETimeout
-+
-+class TimeoutTest(OETestCase):
-+
-+    @OETimeout(1)
-+    def testTimeoutPass(self):
-+        self.assertTrue(True, msg='How is this possible?')
-+
-+    @OETimeout(1)
-+    def testTimeoutFail(self):
-+        sleep(2)
-+        self.assertTrue(True, msg='How is this possible?')
-diff --git a/meta/lib/oeqa/core/tests/common.py b/meta/lib/oeqa/core/tests/common.py
-new file mode 100644
-index 0000000..52b18a1
---- /dev/null
-+++ b/meta/lib/oeqa/core/tests/common.py
-@@ -0,0 +1,35 @@
-+# Copyright (C) 2016 Intel Corporation
-+# Released under the MIT license (see COPYING.MIT)
-+
++import os
 +import sys
-+import os
-+
-+import unittest
++import argparse
++import importlib
 +import logging
-+import os
 +
-+logger = logging.getLogger("oeqa")
-+logger.setLevel(logging.INFO)
-+consoleHandler = logging.StreamHandler()
-+formatter = logging.Formatter('OEQATest: %(message)s')
-+consoleHandler.setFormatter(formatter)
-+logger.addHandler(consoleHandler)
++scripts_path = os.path.dirname(os.path.realpath(__file__))
++lib_path = scripts_path + '/lib'
++sys.path = sys.path + [lib_path]
++import argparse_oe
++import scriptutils
++import scriptpath
++scriptpath.add_oe_lib_path()
 +
-+def setup_sys_path():
-+    directory = os.path.dirname(os.path.abspath(__file__))
-+    oeqa_lib = os.path.realpath(os.path.join(directory, '../../../'))
-+    if not oeqa_lib in sys.path:
-+        sys.path.insert(0, oeqa_lib)
++from oeqa.core.context import OETestContextExecutor
 +
-+class TestBase(unittest.TestCase):
-+    def setUp(self):
-+        self.logger = logger
-+        directory = os.path.dirname(os.path.abspath(__file__))
-+        self.cases_path = os.path.join(directory, 'cases')
++logger = scriptutils.logger_create('oe-test')
 +
-+    def _testLoader(self, d={}, modules=[], tests=[], filters={}):
-+        from oeqa.core.context import OETestContext
-+        tc = OETestContext(d, self.logger)
-+        tc.loadTests(self.cases_path, modules=modules, tests=tests,
-+                     filters=filters)
-+        return tc
-diff --git a/meta/lib/oeqa/core/tests/test_data.py b/meta/lib/oeqa/core/tests/test_data.py
-new file mode 100755
-index 0000000..320468c
---- /dev/null
-+++ b/meta/lib/oeqa/core/tests/test_data.py
-@@ -0,0 +1,51 @@
-+#!/usr/bin/env python3
++def _load_test_components(logger):
++    components = {}
 +
-+# Copyright (C) 2016 Intel Corporation
-+# Released under the MIT license (see COPYING.MIT)
++    for path in sys.path:
++        base_dir = os.path.join(path, 'oeqa')
++        if os.path.exists(base_dir) and os.path.isdir(base_dir):
++            for file in os.listdir(base_dir):
++                comp_name = file
++                comp_context = os.path.join(base_dir, file, 'context.py')
++                if os.path.exists(comp_context):
++                    comp_plugin = importlib.import_module('oeqa.%s.%s' % \
++                            (comp_name, 'context'))
++                    try:
++                        if not issubclass(comp_plugin._executor_class,
++                                OETestContextExecutor):
++                            raise TypeError("Component %s in %s, _executor_class "\
++                                "isn't derived from OETestContextExecutor."\
++                                % (comp_name, comp_context))
 +
-+import unittest
-+import logging
-+import os
++                        components[comp_name] = comp_plugin._executor_class()
++                    except AttributeError:
++                        raise AttributeError("Component %s in %s don't have "\
++                                "_executor_class defined." % (comp_name, comp_context))
 +
-+from common import setup_sys_path, TestBase
-+setup_sys_path()
++    return components
 +
-+from oeqa.core.exception import OEQAMissingVariable
-+from oeqa.core.utils.test import getCaseMethod, getSuiteCasesNames
++def main():
++    parser = argparse_oe.ArgumentParser(description="OpenEmbedded test tool",
++                                        add_help=False,
++                                        epilog="Use %(prog)s <subcommand> --help to get help on a specific command")
++    parser.add_argument('-d', '--debug', help='Enable debug output', action='store_true')
++    parser.add_argument('-q', '--quiet', help='Print only errors', action='store_true')
++    global_args, unparsed_args = parser.parse_known_args()
 +
-+class TestData(TestBase):
-+    modules = ['data']
++    # Help is added here rather than via add_help=True, as we don't want it to
++    # be handled by parse_known_args()
++    parser.add_argument('-h', '--help', action='help', default=argparse.SUPPRESS,
++                        help='show this help message and exit')
 +
-+    def test_data_fail_missing_variable(self):
-+        expectedException = "oeqa.core.exception.OEQAMissingVariable"
++    if global_args.debug:
++        logger.setLevel(logging.DEBUG)
++    elif global_args.quiet:
++        logger.setLevel(logging.ERROR)
 +
-+        tc = self._testLoader(modules=self.modules)
-+        self.assertEqual(False, tc.runTests().wasSuccessful())
-+        for test, data in tc._results['errors']:
-+            expect = False
-+            if expectedException in data:
-+                expect = True
++    components = _load_test_components(logger)
 +
-+            self.assertTrue(expect)
++    subparsers = parser.add_subparsers(dest="subparser_name", title='subcommands', metavar='<subcommand>')
++    subparsers.add_subparser_group('components', 'Test components')
++    subparsers.required = True
++    for comp_name in sorted(components.keys()):
++        comp = components[comp_name]
++        comp.register_commands(logger, subparsers)
 +
-+    def test_data_fail_wrong_variable(self):
-+        expectedError = 'AssertionError'
-+        d = {'IMAGE' : 'core-image-sato', 'ARCH' : 'arm'}
++    try:
++        args = parser.parse_args(unparsed_args, namespace=global_args)
++        ret = args.func(logger, args)
++    except SystemExit as err:
++        if err.code != 0:
++            raise err
++        ret = err.code
++    except argparse_oe.ArgumentUsageError as ae:
++        parser.error_subcommand(ae.message, ae.subcommand)
 +
-+        tc = self._testLoader(d=d, modules=self.modules)
-+        self.assertEqual(False, tc.runTests().wasSuccessful())
-+        for test, data in tc._results['failures']:
-+            expect = False
-+            if expectedError in data:
-+                expect = True
-+
-+            self.assertTrue(expect)
-+
-+    def test_data_ok(self):
-+        d = {'IMAGE' : 'core-image-minimal', 'ARCH' : 'x86', 'MACHINE' : 'qemuarm'}
-+
-+        tc = self._testLoader(d=d, modules=self.modules)
-+        self.assertEqual(True, tc.runTests().wasSuccessful())
++    return ret
 +
 +if __name__ == '__main__':
-+    unittest.main()
-diff --git a/meta/lib/oeqa/core/tests/test_decorators.py b/meta/lib/oeqa/core/tests/test_decorators.py
-new file mode 100755
-index 0000000..f7d11e8
---- /dev/null
-+++ b/meta/lib/oeqa/core/tests/test_decorators.py
-@@ -0,0 +1,135 @@
-+#!/usr/bin/env python3
-+
-+# Copyright (C) 2016 Intel Corporation
-+# Released under the MIT license (see COPYING.MIT)
-+
-+import signal
-+import unittest
-+
-+from common import setup_sys_path, TestBase
-+setup_sys_path()
-+
-+from oeqa.core.exception import OEQADependency
-+from oeqa.core.utils.test import getCaseMethod, getSuiteCasesNames, getSuiteCasesIDs
-+
-+class TestFilterDecorator(TestBase):
-+
-+    def _runFilterTest(self, modules, filters, expect, msg):
-+        tc = self._testLoader(modules=modules, filters=filters)
-+        test_loaded = set(getSuiteCasesNames(tc.suites))
-+        self.assertEqual(expect, test_loaded, msg=msg)
-+
-+    def test_oetag(self):
-+        # Get all cases without filtering.
-+        filter_all = {}
-+        test_all = {'testTagGood', 'testTagOther', 'testTagNone'}
-+        msg_all = 'Failed to get all oetag cases without filtering.'
-+
-+        # Get cases with 'goodTag'.
-+        filter_good = {'oetag':'goodTag'}
-+        test_good = {'testTagGood'}
-+        msg_good = 'Failed to get just one test filtering with "goodTag" oetag.'
-+
-+        # Get cases with an invalid tag.
-+        filter_invalid = {'oetag':'invalidTag'}
-+        test_invalid = set()
-+        msg_invalid = 'Failed to filter all test using an invalid oetag.'
-+
-+        tests = ((filter_all, test_all, msg_all),
-+                 (filter_good, test_good, msg_good),
-+                 (filter_invalid, test_invalid, msg_invalid))
-+
-+        for test in tests:
-+            self._runFilterTest(['oetag'], test[0], test[1], test[2])
-+
-+    def test_oeid(self):
-+        # Get all cases without filtering.
-+        filter_all = {}
-+        test_all = {'testIdGood', 'testIdOther', 'testIdNone'}
-+        msg_all = 'Failed to get all oeid cases without filtering.'
-+
-+        # Get cases with '101' oeid.
-+        filter_good = {'oeid': 101}
-+        test_good = {'testIdGood'}
-+        msg_good = 'Failed to get just one tes filtering with "101" oeid.'
-+
-+        # Get cases with an invalid id.
-+        filter_invalid = {'oeid':999}
-+        test_invalid = set()
-+        msg_invalid = 'Failed to filter all test using an invalid oeid.'
-+
-+        tests = ((filter_all, test_all, msg_all),
-+                 (filter_good, test_good, msg_good),
-+                 (filter_invalid, test_invalid, msg_invalid))
-+
-+        for test in tests:
-+            self._runFilterTest(['oeid'], test[0], test[1], test[2])
-+
-+class TestDependsDecorator(TestBase):
-+    modules = ['depends']
-+
-+    def test_depends_order(self):
-+        tests =  ['depends.DependsTest.testDependsFirst',
-+                  'depends.DependsTest.testDependsSecond',
-+                  'depends.DependsTest.testDependsThird',
-+                  'depends.DependsTest.testDependsFourth',
-+                  'depends.DependsTest.testDependsFifth']
-+        tests2 = list(tests)
-+        tests2[2], tests2[3] = tests[3], tests[2]
-+        tc = self._testLoader(modules=self.modules, tests=tests)
-+        test_loaded = getSuiteCasesIDs(tc.suites)
-+        result = True if test_loaded == tests or test_loaded == tests2 else False
-+        msg = 'Failed to order tests using OETestDepends decorator.\nTest order:'\
-+              ' %s.\nExpected:   %s\nOr:         %s' % (test_loaded, tests, tests2)
-+        self.assertTrue(result, msg=msg)
-+
-+    def test_depends_fail_missing_dependency(self):
-+        expect = "TestCase depends.DependsTest.testDependsSecond depends on "\
-+                 "depends.DependsTest.testDependsFirst and isn't available"
-+        tests =  ['depends.DependsTest.testDependsSecond']
-+        try:
-+            # Must throw OEQADependency because missing 'testDependsFirst'
-+            tc = self._testLoader(modules=self.modules, tests=tests)
-+            self.fail('Expected OEQADependency exception')
-+        except OEQADependency as e:
-+            result = True if expect in str(e) else False
-+            msg = 'Expected OEQADependency exception missing testDependsFirst test'
-+            self.assertTrue(result, msg=msg)
-+
-+    def test_depends_fail_circular_dependency(self):
-+        expect = 'have a circular dependency'
-+        tests =  ['depends.DependsTest.testDependsCircular1',
-+                  'depends.DependsTest.testDependsCircular2',
-+                  'depends.DependsTest.testDependsCircular3']
-+        try:
-+            # Must throw OEQADependency because circular dependency
-+            tc = self._testLoader(modules=self.modules, tests=tests)
-+            self.fail('Expected OEQADependency exception')
-+        except OEQADependency as e:
-+            result = True if expect in str(e) else False
-+            msg = 'Expected OEQADependency exception having a circular dependency'
-+            self.assertTrue(result, msg=msg)
-+
-+class TestTimeoutDecorator(TestBase):
-+    modules = ['timeout']
-+
-+    def test_timeout(self):
-+        tests = ['timeout.TimeoutTest.testTimeoutPass']
-+        msg = 'Failed to run test using OETestTimeout'
-+        alarm_signal = signal.getsignal(signal.SIGALRM)
-+        tc = self._testLoader(modules=self.modules, tests=tests)
-+        self.assertTrue(tc.runTests().wasSuccessful(), msg=msg)
-+        msg = "OETestTimeout didn't restore SIGALRM"
-+        self.assertIs(alarm_signal, signal.getsignal(signal.SIGALRM), msg=msg)
-+
-+    def test_timeout_fail(self):
-+        tests = ['timeout.TimeoutTest.testTimeoutFail']
-+        msg = "OETestTimeout test didn't timeout as expected"
-+        alarm_signal = signal.getsignal(signal.SIGALRM)
-+        tc = self._testLoader(modules=self.modules, tests=tests)
-+        self.assertFalse(tc.runTests().wasSuccessful(), msg=msg)
-+        msg = "OETestTimeout didn't restore SIGALRM"
-+        self.assertIs(alarm_signal, signal.getsignal(signal.SIGALRM), msg=msg)
-+
-+if __name__ == '__main__':
-+    unittest.main()
-diff --git a/meta/lib/oeqa/core/tests/test_loader.py b/meta/lib/oeqa/core/tests/test_loader.py
-new file mode 100755
-index 0000000..b79b8ba
---- /dev/null
-+++ b/meta/lib/oeqa/core/tests/test_loader.py
-@@ -0,0 +1,86 @@
-+#!/usr/bin/env python3
-+
-+# Copyright (C) 2016 Intel Corporation
-+# Released under the MIT license (see COPYING.MIT)
-+
-+import os
-+import unittest
-+
-+from common import setup_sys_path, TestBase
-+setup_sys_path()
-+
-+from oeqa.core.exception import OEQADependency
-+from oeqa.core.utils.test import getSuiteModules, getSuiteCasesIDs
-+
-+class TestLoader(TestBase):
-+
-+    def test_fail_empty_filter(self):
-+        filters = {'oetag' : ''}
-+        expect = 'Filter oetag specified is empty'
-+        msg = 'Expected TypeError exception for having invalid filter'
-+        try:
-+            # Must throw TypeError because empty filter
-+            tc = self._testLoader(filters=filters)
-+            self.fail(msg)
-+        except TypeError as e:
-+            result = True if expect in str(e) else False
-+            self.assertTrue(result, msg=msg)
-+
-+    def test_fail_invalid_filter(self):
-+        filters = {'invalid' : 'good'}
-+        expect = 'filter but not declared in any of'
-+        msg = 'Expected TypeError exception for having invalid filter'
-+        try:
-+            # Must throw TypeError because invalid filter
-+            tc = self._testLoader(filters=filters)
-+            self.fail(msg)
-+        except TypeError as e:
-+            result = True if expect in str(e) else False
-+            self.assertTrue(result, msg=msg)
-+
-+    def test_fail_duplicated_module(self):
-+        cases_path = self.cases_path
-+        invalid_path = os.path.join(cases_path, 'loader', 'invalid')
-+        self.cases_path = [self.cases_path, invalid_path]
-+        expect = 'Duplicated oeid module found in'
-+        msg = 'Expected ImportError exception for having duplicated module'
-+        try:
-+            # Must throw ImportEror because duplicated module
-+            tc = self._testLoader()
-+            self.fail(msg)
-+        except ImportError as e:
-+            result = True if expect in str(e) else False
-+            self.assertTrue(result, msg=msg)
-+        finally:
-+            self.cases_path = cases_path
-+
-+    def test_filter_modules(self):
-+        expected_modules = {'oeid', 'oetag'}
-+        tc = self._testLoader(modules=expected_modules)
-+        modules = getSuiteModules(tc.suites)
-+        msg = 'Expected just %s modules' % ', '.join(expected_modules)
-+        self.assertEqual(modules, expected_modules, msg=msg)
-+
-+    def test_filter_cases(self):
-+        modules = ['oeid', 'oetag', 'data']
-+        expected_cases = {'data.DataTest.testDataOk',
-+                          'oetag.TagTest.testTagGood',
-+                          'oeid.IDTest.testIdGood'}
-+        tc = self._testLoader(modules=modules, tests=expected_cases)
-+        cases = set(getSuiteCasesIDs(tc.suites))
-+        msg = 'Expected just %s cases' % ', '.join(expected_cases)
-+        self.assertEqual(cases, expected_cases, msg=msg)
-+
-+    def test_import_from_paths(self):
-+        cases_path = self.cases_path
-+        cases2_path = os.path.join(cases_path, 'loader', 'valid')
-+        expected_modules = {'oeid', 'another'}
-+        self.cases_path = [self.cases_path, cases2_path]
-+        tc = self._testLoader(modules=expected_modules)
-+        modules = getSuiteModules(tc.suites)
-+        self.cases_path = cases_path
-+        msg = 'Expected modules from two different paths'
-+        self.assertEqual(modules, expected_modules, msg=msg)
-+
-+if __name__ == '__main__':
-+    unittest.main()
-diff --git a/meta/lib/oeqa/core/tests/test_runner.py b/meta/lib/oeqa/core/tests/test_runner.py
-new file mode 100755
-index 0000000..a3f3861
---- /dev/null
-+++ b/meta/lib/oeqa/core/tests/test_runner.py
-@@ -0,0 +1,38 @@
-+#!/usr/bin/env python3
-+
-+# Copyright (C) 2016 Intel Corporation
-+# Released under the MIT license (see COPYING.MIT)
-+
-+import unittest
-+import logging
-+import tempfile
-+
-+from common import setup_sys_path, TestBase
-+setup_sys_path()
-+
-+from oeqa.core.runner import OEStreamLogger
-+
-+class TestRunner(TestBase):
-+    def test_stream_logger(self):
-+        fp = tempfile.TemporaryFile(mode='w+')
-+
-+        logging.basicConfig(format='%(message)s', stream=fp)
-+        logger = logging.getLogger()
-+        logger.setLevel(logging.INFO)
-+
-+        oeSL = OEStreamLogger(logger)
-+
-+        lines = ['init', 'bigline_' * 65535, 'morebigline_' * 65535 * 4, 'end']
-+        for line in lines:
-+            oeSL.write(line)
-+
-+        fp.seek(0)
-+        fp_lines = fp.readlines()
-+        for i, fp_line in enumerate(fp_lines):
-+            fp_line = fp_line.strip()
-+            self.assertEqual(lines[i], fp_line)
-+
-+        fp.close()
-+
-+if __name__ == '__main__':
-+    unittest.main()
++    try:
++        ret = main()
++    except Exception:
++        ret = 1
++        import traceback
++        traceback.print_exc()
++    sys.exit(ret)
 -- 
 2.1.4
 
