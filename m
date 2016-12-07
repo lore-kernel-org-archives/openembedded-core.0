@@ -1,25 +1,26 @@
-Return-Path: <mariano.lopez@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 2D46871A92
+Return-Path: <randy.e.witt@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 0633D71B0B
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  7 Dec 2016 17:05:23 +0000 (UTC)
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-	by orsmga102.jf.intel.com with ESMTP; 07 Dec 2016 09:05:25 -0800
+	Wed,  7 Dec 2016 17:58:53 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by fmsmga101.fm.intel.com with ESMTP; 07 Dec 2016 09:58:55 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.33,310,1477983600"; d="scan'208";a="39872277"
-Received: from unknown (HELO [10.219.5.165]) ([10.219.5.165])
-	by orsmga005.jf.intel.com with ESMTP; 07 Dec 2016 09:05:24 -0800
-To: Ross Burton <ross.burton@intel.com>,
+X-IronPort-AV: E=Sophos;i="5.33,314,1477983600"; d="scan'208";a="15005368"
+Received: from bitbang.jf.intel.com (HELO [10.7.199.68]) ([10.7.199.68])
+	by orsmga002.jf.intel.com with ESMTP; 07 Dec 2016 09:58:54 -0800
+To: Robert Yang <liezhi.yang@windriver.com>,
 	openembedded-core@lists.openembedded.org
-References: <1481129438-28306-1-git-send-email-ross.burton@intel.com>
-From: Mariano Lopez <mariano.lopez@linux.intel.com>
-Message-ID: <f224566f-576b-acad-e23b-ee401d9dc2ac@linux.intel.com>
-Date: Wed, 7 Dec 2016 11:05:39 -0600
+References: <cover.1481014270.git.liezhi.yang@windriver.com>
+	<2ecbdf8cca844fb9b76df48f80b0762811dd1b04.1481014270.git.liezhi.yang@windriver.com>
+From: Randy Witt <randy.e.witt@linux.intel.com>
+Message-ID: <4f79b40c-e1a8-3e62-0cbb-ea4c9d4176e4@linux.intel.com>
+Date: Wed, 7 Dec 2016 09:58:54 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.5.0
+	Thunderbird/45.5.1
 MIME-Version: 1.0
-In-Reply-To: <1481129438-28306-1-git-send-email-ross.burton@intel.com>
-Subject: Re: [PATCH 1/3] cve-check: allow recipes to override the product name
+In-Reply-To: <2ecbdf8cca844fb9b76df48f80b0762811dd1b04.1481014270.git.liezhi.yang@windriver.com>
+Subject: Re: [PATCH V2 5/6] runqemu: fixes for slirp, network device and hostfwd
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,22 +33,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 07 Dec 2016 17:05:25 -0000
-Content-Type: text/plain; charset=windows-1252
+X-List-Received-Date: Wed, 07 Dec 2016 17:58:54 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
 Content-Transfer-Encoding: 7bit
 
 
+>      def setup_slirp(self):
+>          """Setup user networking"""
+>
+>          if self.fstype == 'nfs':
+>              self.setup_nfs()
+>          self.kernel_cmdline_script += ' ip=dhcp'
+> -        self.set('NETWORK_CMD', self.get('QB_SLIRP_OPT'))
+> +        # Port mapping
+> +        hostfwd = ",hostfwd=tcp::2222-:22,hostfwd=tcp::2323-:23"
+> +        qb_slirp_opt_default = "-netdev user,id=net0%s" % hostfwd
+> +        qb_slirp_opt = self.get('QB_SLIRP_OPT') or qb_slirp_opt_default
+> +        # Figure out the port
+> +        ports = re.findall('hostfwd=[^-]*:([0-9]+)-[^,-]*', qb_slirp_opt)
+> +        ports = [int(i) for i in ports]
+> +        mac = 2
+> +        # Find a free port to avoid conflicts
+> +        for p in ports[:]:
+> +            p_new = p
+> +            while not check_free_port('localhost', p_new):
+> +                p_new += 1
+> +                mac += 1
+> +                while p_new in ports:
+> +                        p_new += 1
+> +                        mac += 1
+> +            if p != p_new:
+> +                ports.append(p_new)
+> +                qb_slirp_opt = re.sub(':%s-' % p, ':%s-' % p_new, qb_slirp_opt)
+> +                logger.info("Port forward changed: %s -> %s" % (p, p_new))
+Regardless if the port is changed or not, so that things like tests have an 
+easier time of figuring out the port mappings, would it be good add a flag that 
+prints out the entire list of ports used, or always do it? i.e. "Port forwarding 
+2222:22 2333:23.... It's not necessary of course, you can  always look at the 
+command line and then check to see if anything is remapped. But that's a bit 
+more work.
 
-On 07/12/16 10:50, Ross Burton wrote:
-> Add a new variable CVE_PRODUCT for the product name to look up in the NVD
-> database.  Default this to BPN, but allow recipes such as tiff (which is libtiff
-> in NVD) to override it.
->
-> Signed-off-by: Ross Burton <ross.burton@intel.com>
->
-I like the idea to be able to override the name that cve-check-tool
-checks. The only drawback would be the burden of adding these to needed
-recipes. This is still better to have to guess the correct name, or to
-check PROVIDES or RPROVIDES, there are just too much corner cases. So
-this solution has my approval.
+> +        mac = "%s%02x" % (self.mac_slirp, mac)
+> +        self.set('NETWORK_CMD', '%s %s' % (self.network_device.replace('@MAC@', mac), qb_slirp_opt))
+
 
