@@ -1,66 +1,49 @@
-Return-Path: <clopez@igalia.com>
-Received: from smtp4.mundo-r.com (smtp3.mundo-r.com [212.51.32.191])
-	by mail.openembedded.org (Postfix) with ESMTP id 358BC60234
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-vk0-f65.google.com (mail-vk0-f65.google.com
+	[209.85.213.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 430B971B23
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  7 Dec 2016 19:46:11 +0000 (UTC)
-IronPort-PHdr: =?us-ascii?q?9a23=3A3KZNZR0boSH/0fjysmDT+DRfVm0co7zxezQtwd8Z?=
-	=?us-ascii?q?seMeLvad9pjvdHbS+e9qxAeQG96KsLQZ0aGL4+jJYi8p2d65qncMcZhBBVcuqP?=
-	=?us-ascii?q?49uEgeOvODElDxN/XwbiY3T4xoXV5h+GynYwAOQJ6tL1LdrWev4jEMBx7xKRR6?=
-	=?us-ascii?q?JvjvGo7Vks+7y/2+94fdbghMijexe7N/IAu5oQjRtcQdnJdvJLs2xhbVuHVDZv?=
-	=?us-ascii?q?5YxXlvJVKdnhb84tm/8Zt++ClOuPwv6tBNX7zic6s3UbJXAjImM3so5MLwrhnM?=
-	=?us-ascii?q?URGP5noHXWoIlBdDHhXI4wv7Xpf1tSv6q/Z91SyHNsD4Ubw4RTKv5LpwRRT2lC?=
-	=?us-ascii?q?kIKSI28GDPisxxkq1bpg6hpwdiyILQeY2ZKeZycr/Ycd4cWGFPXNteVzZZD42h?=
-	=?us-ascii?q?cYUPAeoPPeFboYfzqVQBohmxChW3CePg1jNFnHj40bE03ukhFwzNwQwuH8gJsH?=
-	=?us-ascii?q?TRtNj4Kr0dUfqxzKnP1jXIcu9b2TPm54fWaBAhvfaMVq92f8rW0UkgCQLEhUiK?=
-	=?us-ascii?q?p4P7JTOayOUMuHWc4uV8UeKvjHYnpB9wozW0x8cshZPGhoYUyl/e7yl23IE1Jd?=
-	=?us-ascii?q?ihRUN9fNWqHpxQtySAOIt3RMMvW2FpuCEmxb0avp67ZDIKyJMlxxHBd/OHb5KE?=
-	=?us-ascii?q?4hX5VOaeOTt4i3NleK6/hxav6kes0PHzVs6x0FtMsyFLkcHMu2gJ2hDO8MSLV+?=
-	=?us-ascii?q?Zx80W71TuL0w3f8PxILEA0mKbDL5Mt36Q8mocOvUnBBCP6hUr7gLWLekgi5+Om?=
-	=?us-ascii?q?8f7oYq/8qZ+ZL4J0jwb+PbkwlcGnGuQ4NxQOX3Cc+eShyL3v5U35T6tOjv0xiq?=
-	=?us-ascii?q?TZvorVJcIap664BQ9azJwv6xewDzi81NQYnGMIIEhZdxKAiojlI1DOIPbmAvej?=
-	=?us-ascii?q?m1mhlCpny+rbMrH8AJjBNHzOnbP7cbpg60NRyBI/zdVF6JJVDrEBLujzWkj0tN?=
-	=?us-ascii?q?HAEhA5Nwu0w/75B9R8zY4eWG2PDbWdMKPTq1CE/P4gI+6JZIMNojbyN+Al5+Ly?=
-	=?us-ascii?q?jX8+gVIderGp0oURaH+mG/RpOFuWbmfxjdgfDGgGpxYxTOvwiFKcSjNTY3eyX7?=
-	=?us-ascii?q?kg5jEgEo6mCp/DSZ6rgLOf2Se0BYNZaX1bBV+SDHjkbYKEW+0DaCiKOM9ujiQE?=
-	=?us-ascii?q?VaS9S48mzRyurhX1y7h9IurX+i0Xq5fj2cN65+3Wjx4y9Dh0A96B3GGKSmEn1l?=
-	=?us-ascii?q?8PEhw20aU3m0V/ggOZ2Ko+gPxVEPRc4vpIVkExMpuKnMJgDNWncQvbetCSAH+i?=
-	=?us-ascii?q?SNi8HTZ5atUpzs1GW0tnFsfq2hvH2DKnEZcUmLWPBZVy+aXZiSuib/1hwmrLgf?=
-	=?us-ascii?q?Fyx2ItRdFCYCj/3vZy?=
-X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-Anti-Spam-Result: =?us-ascii?q?A2DnAgAYZkhY/5tjdVteGQEBAQEBAQEBA?=
-	=?us-ascii?q?QEBBwEBAQEBFAEBAQEBAQEBAQEBBwEBAQEBgw4BAQEBAR9agQeNSJcQknCCD4I?=
-	=?us-ascii?q?HKYUvSgKBez8UAQEBAQEBAQEBAQFhKIIzGgGCGwEFeRALGCMLVwYNCAKIbwEJq?=
-	=?us-ascii?q?mCLNQEBAQEBAQEDAQEBAQEBEw6CMYQNgX0IglaKKQWaZ4NggXxyik2Bc1CELYl?=
-	=?us-ascii?q?QkhMfNzBIEw6EEIFGihEBAQE?=
-X-IPAS-Result: =?us-ascii?q?A2DnAgAYZkhY/5tjdVteGQEBAQEBAQEBAQEBBwEBAQEBFAE?=
-	=?us-ascii?q?BAQEBAQEBAQEBBwEBAQEBgw4BAQEBAR9agQeNSJcQknCCD4IHKYUvSgKBez8UA?=
-	=?us-ascii?q?QEBAQEBAQEBAQFhKIIzGgGCGwEFeRALGCMLVwYNCAKIbwEJqmCLNQEBAQEBAQE?=
-	=?us-ascii?q?DAQEBAQEBEw6CMYQNgX0IglaKKQWaZ4NggXxyik2Bc1CELYlQkhMfNzBIEw6EE?=
-	=?us-ascii?q?IFGihEBAQE?=
-X-IronPort-AV: E=Sophos;i="5.33,315,1477954800"; 
-	d="asc'?scan'208";a="218505211"
-Received: from fanzine.igalia.com ([91.117.99.155])
-	by smtp4.mundo-r.com with ESMTP; 07 Dec 2016 20:46:11 +0100
-Received: from 1.14.117.91.dynamic.reverse-mundo-r.com ([91.117.14.1]
-	helo=[192.168.0.23]) by fanzine.igalia.com with esmtpsa 
-	(Cipher TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim)
-	id 1cEiAN-0005Ow-J9; Wed, 07 Dec 2016 20:46:11 +0100
-To: Khem Raj <raj.khem@gmail.com>
-References: <1478627553-13710-1-git-send-email-clopez@igalia.com>
-	<D1A701D4-6205-498C-9A83-C65F7542F91E@gmail.com>
-From: Carlos Alberto Lopez Perez <clopez@igalia.com>
-Openpgp: id=B5D2B50BC48EC7F1EE90D9AB965089CE6B95F882;
-	url=http://key.neutrino.es
-X-Enigmail-Draft-Status: N1110
-Organization: Igalia S.L.
-Message-ID: <33b8cb66-7285-cfbb-6424-f86b319bf24b@igalia.com>
-Date: Wed, 7 Dec 2016 20:46:02 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Icedove/45.4.0
+	Wed,  7 Dec 2016 19:46:35 +0000 (UTC)
+Received: by mail-vk0-f65.google.com with SMTP id x186so20409421vkd.2
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 07 Dec 2016 11:46:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=dzdu0VtpJgwpqOARVlG60xl+KldNG7f8bI/H0rEpms8=;
+	b=wvnI7coX0V8iobPYQHc80D3wcmtEDOPJT2ekpTfj5O6a4XwgYuxAXHBgudYtZlsYDJ
+	1OTzbWLImz0d7uaXWiDwvWbRZET21/y3kg1ffpGCI8aU5npdME6iZfxCG/xRVNTWKSDp
+	LSk/6k6MZ3Wd0VJ24ewEw2e4Wx8ge+Xy/9OpN+Q/RnPEGb2NJhFOlBcktr8ciMigXi1p
+	PrJUHFmzUiVaTHfJ8HcXcJjyuEh21AIlYnwklpsvurbfXyP/Hj3MWgqnoAcCu25gELJl
+	ULeLCGt8UfS+5bB9DGav4krgk1J30HwRLCr8O8zAegV7W11X/qYi0ngMv4tSPJnIMkhH
+	gq1w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=dzdu0VtpJgwpqOARVlG60xl+KldNG7f8bI/H0rEpms8=;
+	b=idCNvmFIK47lZEqjb1qNY72IvTDjC5Os9eBOanmEqZUF57YFHfseRH1wXHkR2xs/F9
+	JQBHhkURh9r/tHFpGNqHWxA7t58sdcmIIsJR5LaQ4M2KO6fBDYkJ/HLE7DwLU5W9Mvw/
+	0skuLZkTUbElhzLkOUWRqCHwOmEzcWd7GN/dMJuvSwLLUAyaFkP4gmvYR25P3Z8q0nXX
+	yzNCH1CJxrKKmYJ/41fDCMYD+amWIG100TlBjSYaeBRa9mVccqXEG1lHyffK2mLuKL98
+	7xYt3H9ZmO5eyDQnClmEyl/aaa2wfvHcoseu7i+wcLGqLtg60g2gLx78WNftlJlr3ASj
+	yWwA==
+X-Gm-Message-State: AKaTC012CzJdMX5wdWC8QR9wLtHBKh71oPLdvGK+VOaII+p3z1nNApyKHXP0VbxHOPys2GwfZEhZIyzX+tx+WQ==
+X-Received: by 10.31.115.205 with SMTP id o196mr17857509vkc.139.1481139997204; 
+	Wed, 07 Dec 2016 11:46:37 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <D1A701D4-6205-498C-9A83-C65F7542F91E@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] webkitgtk: drop patch 0001-WebKitMacros-Append-to-I-and-not-to-isystem.patch
+Received: by 10.159.48.87 with HTTP; Wed, 7 Dec 2016 11:46:06 -0800 (PST)
+In-Reply-To: <CAHiDW_G52CHLn9A9Hk8Z-m=LvmA5yzUbHjC-Rx9B9oQeZZW4qQ@mail.gmail.com>
+References: <20161201083726.6160-1-raj.khem@gmail.com>
+	<CAHiDW_ERJNEoc4OfTQtV6Bi3UPzQkt9RMPJDUx-RAVJnrj2feA@mail.gmail.com>
+	<6D6B8004-668B-4C5B-96BE-7A231F365788@gmail.com>
+	<CAHiDW_G52CHLn9A9Hk8Z-m=LvmA5yzUbHjC-Rx9B9oQeZZW4qQ@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 7 Dec 2016 11:46:06 -0800
+Message-ID: <CAMKF1sqk9bycNqvBaQduEGBWTY4N9QMmKN=HRpY-4j=vYa1S+Q@mail.gmail.com>
+To: Jussi Kukkonen <jussi.kukkonen@intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] gstreamer1.0-plugins-bad: Add PKG_CONFIG_SYSROOT_DIR to output of pkg-config
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -73,72 +56,150 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 07 Dec 2016 19:46:13 -0000
-X-Groupsio-MsgNum: 90410
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature";
-	boundary="mXGx0IwCAUgg4ftirFGRdoskoWhwQ65bQ"
+X-List-Received-Date: Wed, 07 Dec 2016 19:46:37 -0000
+Content-Type: text/plain; charset=UTF-8
 
---mXGx0IwCAUgg4ftirFGRdoskoWhwQ65bQ
-Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: quoted-printable
+On Wed, Dec 7, 2016 at 4:25 AM, Jussi Kukkonen <jussi.kukkonen@intel.com> wrote:
+>
+>
+> On 5 December 2016 at 21:08, Khem Raj <raj.khem@gmail.com> wrote:
+>>
+>>
+>> On Dec 5, 2016, at 5:20 AM, Jussi Kukkonen <jussi.kukkonen@intel.com>
+>> wrote:
+>>
+>>
+>>
+>> On 1 December 2016 at 10:37, Khem Raj <raj.khem@gmail.com> wrote:
+>>>
+>>> When configure pokes for wayland-protocols isntallations it ended up
+>>> using the ones from host, which is because it did not account for sysroot
+>>> prefix
+>>>
+>>> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+>>> ---
+>>>  .../gstreamer/gstreamer1.0-plugins-bad.inc         |  2 +-
+>>>  ...G_CONFIG_SYSROOT_DIR-to-pkg-config-output.patch | 37
+>>> ++++++++++++++++++++++
+>>>  .../gstreamer/gstreamer1.0-plugins-bad_1.10.1.bb   |  1 +
+>>>  3 files changed, 39 insertions(+), 1 deletion(-)
+>>>  create mode 100644
+>>> meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0001-Prepend-PKG_CONFIG_SYSROOT_DIR-to-pkg-config-output.patch
+>>>
+>>> diff --git
+>>> a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc
+>>> b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc
+>>> index d26a6a9..d3c5326 100644
+>>> --- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc
+>>> +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc
+>>> @@ -64,7 +64,7 @@ PACKAGECONFIG[srtp]            =
+>>> "--enable-srtp,--disable-srtp,libsrtp"
+>>>  PACKAGECONFIG[uvch264]         =
+>>> "--enable-uvch264,--disable-uvch264,libusb1 libgudev"
+>>>  PACKAGECONFIG[voaacenc]        =
+>>> "--enable-voaacenc,--disable-voaacenc,vo-aacenc"
+>>>  PACKAGECONFIG[voamrwbenc]      =
+>>> "--enable-voamrwbenc,--disable-voamrwbenc,vo-amrwbenc"
+>>> -PACKAGECONFIG[wayland]         =
+>>> "--enable-wayland,--disable-wayland,wayland-native wayland"
+>>> +PACKAGECONFIG[wayland]         =
+>>> "--enable-wayland,--disable-wayland,wayland-native wayland
+>>> wayland-protocols"
+>>>  PACKAGECONFIG[webp]            = "--enable-webp,--disable-webp,libwebp"
+>>>
+>>>  # these plugins have not been ported to 1.0 (yet):
+>>> diff --git
+>>> a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0001-Prepend-PKG_CONFIG_SYSROOT_DIR-to-pkg-config-output.patch
+>>> b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0001-Prepend-PKG_CONFIG_SYSROOT_DIR-to-pkg-config-output.patch
+>>> new file mode 100644
+>>> index 0000000..eb789df
+>>> --- /dev/null
+>>> +++
+>>> b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0001-Prepend-PKG_CONFIG_SYSROOT_DIR-to-pkg-config-output.patch
+>>> @@ -0,0 +1,37 @@
+>>> +From c271503d7e233428ac0323c51d6517113e26bef7 Mon Sep 17 00:00:00 2001
+>>> +From: Khem Raj <raj.khem@gmail.com>
+>>> +Date: Thu, 1 Dec 2016 00:27:13 -0800
+>>> +Subject: [PATCH] Prepend PKG_CONFIG_SYSROOT_DIR to pkg-config output
+>>> +
+>>> +In cross environment we have to prepend the sysroot to the path found by
+>>> +pkgconfig since the path returned from pkgconfig does not have sysroot
+>>> prefixed
+>>> +it ends up using the files from host system. If build host has wayland
+>>> installed
+>>> +the build will succeed but if you dont have wayland-protocols installed
+>>> on build host then
+>>> +it wont find the files on build host
+>>> +
+>>> +This should work ok with non sysrooted builds too since in those cases
+>>> PKG_CONFIG_SYSROOT_DIR
+>>> +will be empty
+>>> +
+>>> +Upstream-Status: Pending
+>>> +
+>>> +Signed-off-by: Khem Raj <raj.khem@gmail.com>
+>>> +---
+>>> + configure.ac | 2 +-
+>>> + 1 file changed, 1 insertion(+), 1 deletion(-)
+>>> +
+>>> +diff --git a/configure.ac b/configure.ac
+>>> +index f8ac96b..dc87b08 100644
+>>> +--- a/configure.ac
+>>> ++++ b/configure.ac
+>>> +@@ -2233,7 +2233,7 @@ AG_GST_CHECK_FEATURE(WAYLAND, [wayland sink],
+>>> wayland , [
+>>> +     PKG_CHECK_MODULES(WAYLAND_PROTOCOLS, wayland-protocols >= 1.4, [
+>>> +       if test "x$wayland_scanner" != "x"; then
+>>> +         HAVE_WAYLAND="yes"
+>>> +-        AC_SUBST(WAYLAND_PROTOCOLS_DATADIR, `$PKG_CONFIG
+>>> --variable=pkgdatadir wayland-protocols`)
+>>> ++        AC_SUBST(WAYLAND_PROTOCOLS_DATADIR,
+>>> ${PKG_CONFIG_SYSROOT_DIR}`$PKG_CONFIG --variable=pkgdatadir
+>>> wayland-protocols`)
+>>
+>>
+>> I believe this breaks multilib because wayland-protocols is allarch so
+>> PKG_CONFIG_SYSROOT_DIR may then be incorrect.
+>>
+>>
+>> Realized my last reply is too terse. expanding on it a bit more.
+>> this is not really the case. Since PKG_CONFIG_SYSROOT_DIR is set to
+>> STAGING_DIR_HOST which is then set to ${STAGING_DIR}/${MACHINE} so
+>> effectively its just
+>> reusing an existing var compared to your case where a new redundant
+>> variable is introduced.
+>>
+>> having said that, there could be a multilib issue if pkgdatadir thats in
+>> .pc file from wayland-protocols package is using variables like ${libdir}
+>> which then are
+>> multilib dependent, if this is the case then we need to fix .pc file.
+>> however when I look at the
+>> <target-sysroot>/usr/share/pkgconfig/wayland-protocols.pc it has
+>>
+>> prefix=/usr
+>> datarootdir=${prefix}/share
+>> pkgdatadir=/usr/share/wayland-protocols
+>>
+>> seems to be free of multilib deps.
+>>
+>
+> It's not about the .pc file, the issue is that if you build
+> lib32-gstreamer1.0-plugins-bad WAYLAND_PROTOCOLS_DATADIR will end up as (as
+> an example)
+>     $TMPDIR/sysroots/lib32-qemux86-64/usr/share/wayland-protocols/
+> but that's not where wayland protocols are. The actual path is
+>     $TMPDIR/sysroots/qemux86-64/usr/share/wayland-protocols/
+>
+> Maybe there should be a generic multilib fix for this but I can't figure out
+> what it would be...
 
-On 05/12/16 23:56, Khem Raj wrote:
-> Carlos
->=20
-> webkitgtk fails now e.g. see
->=20
-> http://errors.yoctoproject.org/Errors/Details/111221/ <http://errors.yo=
-ctoproject.org/Errors/Details/111221/>
->=20
-> fatal error: 'stdlib.h' file not found
-> #include_next <stdlib.h>
->=20
-> This is when building with clang, I think its too early to drop this pa=
-tch.=20
+hmmm is seems to me that 'all' packages should be common between
+all syroots, may be symlinks into multilib sysroots for all files could be
+a solution, of just staging function for 'all' packages should install it in
+both sysroots.
 
-Hi,
+>
+> Jussi
+>
+>
 
-I thought this was an issue only with GCC ...
-
-Some questions:
- * Which version of clang is used ?
- * The clang toolchain used is the one from the
-https://github.com/kraj/meta-clang layer ?
-
-
-I don't have a fix for it at this moment, and investigating it would
-require time. So I think is fine to reintroduce the patch
-0001-WebKitMacros-Append-to-I-and-not-to-isystem.patch (If possible,
-please change the commit message on the patch to tell that this an issue
-now only when building with clang).
-
-
-Thanks
-
-
---mXGx0IwCAUgg4ftirFGRdoskoWhwQ65bQ
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
-Comment: You can fetch my GnuPG key from http://key.neutrino.es
-
-iQIcBAEBCgAGBQJYSGb6AAoJEJZQic5rlfiCCsYQALPXqZcF1l/p3WaT6ytpqzVu
-PntA7mBK8cwBaAyLio0Vj4N4kASVlDNVlaWQPSV/h+jA5C7kwHwQpjgP4RHTjG8x
-fFCveqnQyYEs+X8Q5iKQCUg1f6Zcgc+/hFQsFNoJyNw43uogeiWvzNWKWEXlELP6
-2vUtgkv1MSflVSQ+dPGDTIAWuc+6CAYuz/Uq0adGRG/0qYrUD/EyhX8POHcmMa13
-thyLWFANqAUE0p1LRz5UhRR7hJHjVwy/lUZkW92xVyD9dYHuKGMkxmPllLM3nvXV
-mxeij9UrUi9UrdEhcBfhtQnt+mVFVj11+Bpw9M38HpHZDeexR8T+vjItWJrdv/V2
-nwlh2ne7VEbRq/bgAVcVrCy4XQXUd9jou3iONS97HyxN5MeR8Q4mJGElwguUBxiU
-o6iXpsSv0s0rNLeXgAoDSsq5YYpITuXw4cDyIlg1l17jSeJuNjESW5eXB0t5KVda
-iCIaye7uSRKrkJwVg1jCb9+CWH7iCAEVR9nH1t8igkw1Hm/FGbiDT+3f6BkYfC+P
-tD5ZoWi7mBBDD7MrXoBamBDjXOsh1/Idl4kRk85yf4g99d7FAKB1xgWanvptjLBX
-spzg7o2kvJmJ7urguTD1RtH/GFNCEcWYL08gnzegebDQi8iAl12B8uVgVdp++BSs
-863ECjD3w7CX6ee1mMpo
-=r5WU
------END PGP SIGNATURE-----
-
---mXGx0IwCAUgg4ftirFGRdoskoWhwQ65bQ--
