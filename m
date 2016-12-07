@@ -1,37 +1,37 @@
-Return-Path: <paul@paulbarker.me.uk>
-X-Greylist: delayed 4636 seconds by postgrey-1.34 at layers.openembedded.org;
-	Wed, 07 Dec 2016 00:19:42 UTC
-Received: from 16.mo3.mail-out.ovh.net (16.mo3.mail-out.ovh.net
-	[188.165.56.217])
-	by mail.openembedded.org (Postfix) with ESMTP id DC94871B25
+Return-Path: <obi@opendreambox.org>
+Received: from mail.dream-property.net (mail.dream-property.net
+	[82.149.226.172])
+	by mail.openembedded.org (Postfix) with ESMTP id C257371B47
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  7 Dec 2016 00:19:42 +0000 (UTC)
-Received: from player693.ha.ovh.net (b9.ovh.net [213.186.33.59])
-	by mo3.mail-out.ovh.net (Postfix) with ESMTP id 69B6F65CE8
-	for <openembedded-core@lists.openembedded.org>;
-	Wed,  7 Dec 2016 00:02:27 +0100 (CET)
-Received: from nuc.betafive.co.uk
-	(cpc11-shep11-2-0-cust130.8-3.cable.virginm.net [86.27.96.131])
-	(Authenticated sender: paul@betafive.co.uk)
-	by player693.ha.ovh.net (Postfix) with ESMTPSA id E200044006A;
-	Wed,  7 Dec 2016 00:02:22 +0100 (CET)
-Date: Tue, 6 Dec 2016 23:02:22 +0000
-From: Paul Barker <paul@paulbarker.me.uk>
-To: Patrick Ohly <patrick.ohly@intel.com>
-Message-ID: <20161206230222.5411d7b6@nuc.betafive.co.uk>
-In-Reply-To: <1481058881.17535.58.camel@intel.com>
-References: <cover.1480711764.git.bruce.ashfield@windriver.com>
-	<48f1e3e16ca28e1194d6024689d000cb6ffc303c.1480711764.git.bruce.ashfield@windriver.com>
-	<1481058881.17535.58.camel@intel.com>
-X-Mailer: Claws Mail 3.11.1 (GTK+ 2.24.25; x86_64-pc-linux-gnu)
+	Wed,  7 Dec 2016 01:24:10 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by mail.dream-property.net (Postfix) with ESMTP id 37B8531C21E3;
+	Wed,  7 Dec 2016 02:24:12 +0100 (CET)
+X-Virus-Scanned: Debian amavisd-new at mail.dream-property.net
+Received: from mail.dream-property.net ([127.0.0.1])
+	by localhost (mail.dream-property.net [127.0.0.1]) (amavisd-new,
+	port 10024)
+	with LMTP id SSlRebnkwy_v; Wed,  7 Dec 2016 02:24:10 +0100 (CET)
+Received: from [172.22.22.61] (55d40c51.access.ecotel.net [85.212.12.81])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by mail.dream-property.net (Postfix) with ESMTPSA id B8B6331C2250;
+	Wed,  7 Dec 2016 02:24:09 +0100 (CET)
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <1481024991-5882-1-git-send-email-obi@opendreambox.org>
+	<1481024991-5882-22-git-send-email-obi@opendreambox.org>
+	<CAJTo0Lb2fVvMAtrTFLQwMjWhubMyF_Cbz7ccDxgsdHPmKnwruw@mail.gmail.com>
+	<022c6339-1f2f-bd63-c8dc-1a6f74fa1eb2@opendreambox.org>
+	<CAJTo0LZ_oxdqybeKNjM=LU6vUm_v5-+9GOVUamL8Vf7XZufB5w@mail.gmail.com>
+From: Andreas Oberritter <obi@opendreambox.org>
+Message-ID: <21ea78e6-0e08-6754-7501-c5b23293c3f2@opendreambox.org>
+Date: Wed, 7 Dec 2016 02:24:09 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.5.1
 MIME-Version: 1.0
-X-Ovh-Tracer-Id: 4864732026087246273
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrfeelfedrhedugddtfecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
-Cc: Bruce Ashfield <bruce.ashfield@windriver.com>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 3/4] kern-tools: fix processing for no branch meta-data
+In-Reply-To: <CAJTo0LZ_oxdqybeKNjM=LU6vUm_v5-+9GOVUamL8Vf7XZufB5w@mail.gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 21/33] package_manager/deb: create Packages.xz
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,68 +44,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 07 Dec 2016 00:19:43 -0000
-Content-Type: text/plain; charset=US-ASCII
+X-List-Received-Date: Wed, 07 Dec 2016 01:24:13 -0000
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
 
-On Tue, 06 Dec 2016 22:14:41 +0100
-Patrick Ohly <patrick.ohly@intel.com> wrote:
+On 06.12.2016 19:46, Burton, Ross wrote:
+> 
+> On 6 December 2016 at 18:41, Andreas Oberritter <obi@opendreambox.org
+> <mailto:obi@opendreambox.org>> wrote:
+> 
+>     That's a good question. I guess I didn't add anything, because there's
+>     no direct dependency in place for gzip-native either.
+> 
+>     I don't know if it counts, but there's a dependency on apt-native and
+>     apt's source tarball, like many others, is compressed with xz. By
+>     default, apt also depends on xz because of PACKAGECONFIG = "lzma", but
+>     that may obviously get changed by users.
+> 
+> 
+> I guess the use of xz to create Packages.xz should depend on xz being
+> present, and then package_deb should explicitly add dependencies to the
+> relevant tasks (as it does for do_package and do_packageindex already).
 
-> On Fri, 2016-12-02 at 16:09 -0500, Bruce Ashfield wrote:
-> > Lernel meta-data that has patches, but no branches, can trigger an
-> > error due to no branch specific patch queue.
-> > 
-> > This error then cascades to more issues since the tools are using
-> > a named file in /tmp to store and display error messages to the
-> > user.
-> > 
-> > We fix both issues though the following kern tools tweaks:
-> > 
-> >   commit bd9e1d6c9b0a34ff3e19a06999aaf57ffadfd04c
-> >   Author: Bruce Ashfield <bruce.ashfield@windriver.com>
-> >   Date:   Fri Dec 2 13:09:40 2016 -0500
-> > 
-> >     scc: use mktemp for consolidated output capture
-> > 
-> >     To provide useful error messages the tools dump pre-processed
-> >     files and messages to a temporary file. If multiple users are
-> >     doing builds, this means they either race, or can have permissions
-> >     issues.
-> > 
-> >     By creating the temporary file via mktemp, we avoid both issues.
-> >     (We also make sure to clean these up on exit, or /tmp will get
-> >     polluted quickly).
-> > 
-> >   commit a287da4bfe0b4acb8f2b0627bd8e7abd1a1dde26
-> >   Author: Bruce Ashfield <bruce.ashfield@windriver.com>
-> >   Date:   Fri Dec 2 13:08:08 2016 -0500
-> > 
-> >     patch: do not assume a branch specific patch queue is needed
-> > 
-> >     When processing input files per-branch and global patch queues are
-> >     generated. If the meta-data has not created any branches in the
-> >     repo, no branch specific queue is required.
-> > 
-> >     The tools assumed that one is always valid, and hence would throw a
-> >     non-zero exit code and stop processing.
-> > 
-> >     By testing for a named per-branch queue, we avoid this issue.
-> 
-> Ostro OS runs into the problem while trying to use current OE-core
-> master:
-> 
->  .../patch.cmd: line 29: : No such file or directory
-> 
-> | ERROR: Function failed: do_kernel_metadata (log file is located ...)
-> 
-> This commit here fixed it for me. I see that it is already in Ross' mut2
-> branch, so hopefully that'll land in master soon.
-> 
+I'd prefer to be deterministic and cause an error if xz is not available
+for whatever reason. I'm going to add the necessary dependency to all
+callers of write_index() for deb.
 
-Ditto for meta-raspberrypi, the kernel doesn't build with current
-oe-core master as discussed on the yocto@ list. This patch is needed
-to fix things.
-
-Thanks,
-Paul Barker
+Regards,
+Andreas
 
