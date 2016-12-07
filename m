@@ -1,26 +1,26 @@
 Return-Path: <Mingli.Yu@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id E1CA771A05
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id B9A5271A05
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  7 Dec 2016 08:02:22 +0000 (UTC)
+	Wed,  7 Dec 2016 08:02:23 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id uB782NOm019557
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id uB782PCg023297
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 7 Dec 2016 00:02:24 -0800
+	Wed, 7 Dec 2016 00:02:25 -0800 (PST)
 Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.294.0; Wed, 7 Dec 2016 00:02:22 -0800
+	14.3.294.0; Wed, 7 Dec 2016 00:02:24 -0800
 From: <mingli.yu@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 7 Dec 2016 16:01:12 +0800
-Message-ID: <1481097673-8896-3-git-send-email-mingli.yu@windriver.com>
+Date: Wed, 7 Dec 2016 16:01:13 +0800
+Message-ID: <1481097673-8896-4-git-send-email-mingli.yu@windriver.com>
 X-Mailer: git-send-email 2.8.1
 In-Reply-To: <1481097673-8896-1-git-send-email-mingli.yu@windriver.com>
 References: <1481097673-8896-1-git-send-email-mingli.yu@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 2/3] tiff: Security fix CVE-2016-9538
+Subject: [PATCH 3/3] tiff: Fix several CVE issues
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,104 +38,321 @@ Content-Type: text/plain
 
 From: Mingli Yu <Mingli.Yu@windriver.com>
 
-* tools/tiffcrop.c: fix read of undefined buffer in
-readContigStripsIntoBuffer() due to uint16 overflow.
+Fix CVE-2016-9533, CVE-2016-9534, CVE-2016-9536 and
+CVE-2016-9537
 
 External References:
-http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-9538
+http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-9533
+http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-9534
+http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-9536
+http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-9537
 
 Patch from:
-https://github.com/vadz/libtiff/commit/43c0b81a818640429317c80fea1e66771e85024b#diff-c8b4b355f9b5c06d585b23138e1c185f
+https://github.com/vadz/libtiff/commit/83a4b92815ea04969d494416eaae3d4c6b338e4a#diff-c8b4b355f9b5c06d585b23138e1c185f
 
 Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
 ---
- .../libtiff/files/CVE-2016-9538.patch              | 67 ++++++++++++++++++++++
- meta/recipes-multimedia/libtiff/tiff_4.0.6.bb      |  1 +
- 2 files changed, 68 insertions(+)
- create mode 100644 meta/recipes-multimedia/libtiff/files/CVE-2016-9538.patch
+ .../libtiff/files/Fix_several_CVE_issues.patch     | 281 +++++++++++++++++++++
+ meta/recipes-multimedia/libtiff/tiff_4.0.6.bb      |   1 +
+ 2 files changed, 282 insertions(+)
+ create mode 100644 meta/recipes-multimedia/libtiff/files/Fix_several_CVE_issues.patch
 
-diff --git a/meta/recipes-multimedia/libtiff/files/CVE-2016-9538.patch b/meta/recipes-multimedia/libtiff/files/CVE-2016-9538.patch
+diff --git a/meta/recipes-multimedia/libtiff/files/Fix_several_CVE_issues.patch b/meta/recipes-multimedia/libtiff/files/Fix_several_CVE_issues.patch
 new file mode 100644
-index 0000000..e1141df
+index 0000000..bd587e6
 --- /dev/null
-+++ b/meta/recipes-multimedia/libtiff/files/CVE-2016-9538.patch
-@@ -0,0 +1,67 @@
-+From 43c0b81a818640429317c80fea1e66771e85024b Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-multimedia/libtiff/files/Fix_several_CVE_issues.patch
+@@ -0,0 +1,281 @@
++From 83a4b92815ea04969d494416eaae3d4c6b338e4a Mon Sep 17 00:00:00 2001
 +From: erouault <erouault>
-+Date: Sat, 8 Oct 2016 15:04:31 +0000
-+Subject: [PATCH] Fix CVE-2016-9538
-+* tools/tiffcp.c: fix read of undefined variable in case of
-+ missing required tags. Found on test case of MSVR 35100. * tools/tiffcrop.c:
-+ fix read of undefined buffer in readContigStripsIntoBuffer() due to uint16
-+ overflow. Probably not a security issue but I can be wrong. Reported as MSVR
-+ 35100 by Axel Souchet from the MSRC Vulnerabilities & Mitigations team.
++Date: Fri, 23 Sep 2016 22:12:18 +0000
++Subject: [PATCH] Fix several CVE issues
 +
-+CVE: CVE-2016-9538
++Fix CVE-2016-9533, CVE-2016-9534, CVE-2016-9536 and CVE-2016-9537
++
++* tools/tiffcrop.c: fix various out-of-bounds write
++ vulnerabilities in heap or stack allocated buffers. Reported as MSVR 35093,
++ MSVR 35096 and MSVR 35097. Discovered by Axel Souchet and Vishal Chauhan from
++ the MSRC Vulnerabilities & Mitigations team. * tools/tiff2pdf.c: fix
++ out-of-bounds write vulnerabilities in heap allocate buffer in
++ t2p_process_jpeg_strip(). Reported as MSVR 35098. Discovered by Axel Souchet
++ and Vishal Chauhan from the MSRC Vulnerabilities & Mitigations team. *
++ libtiff/tif_pixarlog.c: fix out-of-bounds write vulnerabilities in heap
++ allocated buffers. Reported as MSVR 35094. Discovered by Axel Souchet and
++ Vishal Chauhan from the MSRC Vulnerabilities & Mitigations team. *
++ libtiff/tif_write.c: fix issue in error code path of TIFFFlushData1() that
++ didn't reset the tif_rawcc and tif_rawcp members. I'm not completely sure if
++ that could happen in practice outside of the odd behaviour of t2p_seekproc()
++ of tiff2pdf). The report points that a better fix could be to check the
++ return value of TIFFFlushData1() in places where it isn't done currently, but
++ it seems this patch is enough. Reported as MSVR 35095. Discovered by Axel
++ Souchet & Vishal Chauhan & Suha Can from the MSRC Vulnerabilities &
++ Mitigations team.
++
++CVE: CVE-2016-9533, CVE-2016-9534, CVE-2016-9536, CVE-2016-9537
 +Upstream-Status: Backport
-+https://github.com/vadz/libtiff/commit/43c0b81a818640429317c80fea1e66771e85024b#diff-c8b4b355f9b5c06d585b23138e1c185f
++https://github.com/vadz/libtiff/commit/83a4b92815ea04969d494416eaae3d4c6b338e4a#diff-bdc795f6afeb9558c1012b3cfae729ef
 +
 +Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
 +
 +---
-+ tools/tiffcp.c   | 4 ++--
-+ tools/tiffcrop.c | 9 ++++++---
-+ 2 files changed, 17 insertions(+), 5 deletions(-)
++ libtiff/tif_pixarlog.c | 55 +++++++++++++++++++++-----------------------------
++ libtiff/tif_write.c    |  7 +++++++
++ tools/tiff2pdf.c       | 22 ++++++++++++++++++--
++ tools/tiffcrop.c       | 20 +++++++++++++++++-
++ 4 files changed, 92 insertions(+), 35 deletions(-)
 +
-+diff --git a/tools/tiffcp.c b/tools/tiffcp.c
-+index ba2b715..4ad74d3 100644
-+--- a/tools/tiffcp.c
-++++ b/tools/tiffcp.c
-+@@ -592,8 +592,8 @@ static	copyFunc pickCopyFunc(TIFF*, TIFF*, uint16, uint16);
-+ static int
-+ tiffcp(TIFF* in, TIFF* out)
-+ {
-+-	uint16 bitspersample, samplesperpixel;
-+-	uint16 input_compression, input_photometric;
-++	uint16 bitspersample, samplesperpixel = 1;
-++	uint16 input_compression, input_photometric = PHOTOMETRIC_MINISBLACK;
-+ 	copyFunc cf;
-+ 	uint32 width, length;
-+ 	struct cpTag* p;
++diff --git a/libtiff/tif_pixarlog.c b/libtiff/tif_pixarlog.c
++index 1fb8f3b..d1246c3 100644
++--- a/libtiff/tif_pixarlog.c
+++++ b/libtiff/tif_pixarlog.c
++@@ -983,17 +983,14 @@ horizontalDifferenceF(float *ip, int n, int stride, uint16 *wp, uint16 *FromLT2)
++ 		a1 = (int32) CLAMP(ip[3]); wp[3] = (uint16)((a1-a2) & mask); a2 = a1;
++ 	    }
++ 	} else {
++-	    ip += n - 1;	/* point to last one */
++-	    wp += n - 1;	/* point to last one */
++-	    n -= stride;
++-	    while (n > 0) {
++-		REPEAT(stride, wp[0] = (uint16) CLAMP(ip[0]);
++-				wp[stride] -= wp[0];
++-				wp[stride] &= mask;
++-				wp--; ip--)
++-		n -= stride;
++-	    }
++-	    REPEAT(stride, wp[0] = (uint16) CLAMP(ip[0]); wp--; ip--)
+++        REPEAT(stride, wp[0] = (uint16) CLAMP(ip[0]); wp++; ip++)
+++        n -= stride;
+++        while (n > 0) {
+++            REPEAT(stride,
+++                wp[0] = (uint16)(((int32)CLAMP(ip[0])-(int32)CLAMP(ip[-stride])) & mask);
+++                wp++; ip++)
+++            n -= stride;
+++        }
++ 	}
++     }
++ }
++@@ -1036,17 +1033,14 @@ horizontalDifference16(unsigned short *ip, int n, int stride,
++ 		a1 = CLAMP(ip[3]); wp[3] = (uint16)((a1-a2) & mask); a2 = a1;
++ 	    }
++ 	} else {
++-	    ip += n - 1;	/* point to last one */
++-	    wp += n - 1;	/* point to last one */
+++        REPEAT(stride, wp[0] = CLAMP(ip[0]); wp++; ip++)
++ 	    n -= stride;
++ 	    while (n > 0) {
++-		REPEAT(stride, wp[0] = CLAMP(ip[0]);
++-				wp[stride] -= wp[0];
++-				wp[stride] &= mask;
++-				wp--; ip--)
++-		n -= stride;
++-	    }
++-	    REPEAT(stride, wp[0] = CLAMP(ip[0]); wp--; ip--)
+++            REPEAT(stride,
+++                wp[0] = (uint16)((CLAMP(ip[0])-CLAMP(ip[-stride])) & mask);
+++                wp++; ip++)
+++            n -= stride;
+++        }
++ 	}
++     }
++ }
++@@ -1089,18 +1083,15 @@ horizontalDifference8(unsigned char *ip, int n, int stride,
++ 		ip += 4;
++ 	    }
++ 	} else {
++-	    wp += n + stride - 1;	/* point to last one */
++-	    ip += n + stride - 1;	/* point to last one */
++-	    n -= stride;
++-	    while (n > 0) {
++-		REPEAT(stride, wp[0] = CLAMP(ip[0]);
++-				wp[stride] -= wp[0];
++-				wp[stride] &= mask;
++-				wp--; ip--)
++-		n -= stride;
++-	    }
++-	    REPEAT(stride, wp[0] = CLAMP(ip[0]); wp--; ip--)
++-	}
+++        REPEAT(stride, wp[0] = CLAMP(ip[0]); wp++; ip++)
+++        n -= stride;
+++        while (n > 0) {
+++            REPEAT(stride,
+++                wp[0] = (uint16)((CLAMP(ip[0])-CLAMP(ip[-stride])) & mask);
+++                wp++; ip++)
+++            n -= stride;
+++        }
+++    }
++     }
++ }
++ 
++diff --git a/libtiff/tif_write.c b/libtiff/tif_write.c
++index f9a3fc0..d8fa802 100644
++--- a/libtiff/tif_write.c
+++++ b/libtiff/tif_write.c
++@@ -798,7 +798,14 @@ TIFFFlushData1(TIFF* tif)
++ 		if (!TIFFAppendToStrip(tif,
++ 		    isTiled(tif) ? tif->tif_curtile : tif->tif_curstrip,
++ 		    tif->tif_rawdata, tif->tif_rawcc))
+++        {
+++            /* We update those variables even in case of error since there's */
+++            /* code that doesn't really check the return code of this */
+++            /* function */
+++            tif->tif_rawcc = 0;
+++            tif->tif_rawcp = tif->tif_rawdata;
++ 			return (0);
+++        }
++ 		tif->tif_rawcc = 0;
++ 		tif->tif_rawcp = tif->tif_rawdata;
++ 	}
++diff --git a/tools/tiff2pdf.c b/tools/tiff2pdf.c
++index dcd5a7e..f8df6b5 100644
++--- a/tools/tiff2pdf.c
+++++ b/tools/tiff2pdf.c
++@@ -286,7 +286,7 @@ tsize_t t2p_readwrite_pdf_image_tile(T2P*, TIFF*, TIFF*, ttile_t);
++ int t2p_process_ojpeg_tables(T2P*, TIFF*);
++ #endif
++ #ifdef JPEG_SUPPORT
++-int t2p_process_jpeg_strip(unsigned char*, tsize_t*, unsigned char*, tsize_t*, tstrip_t, uint32);
+++int t2p_process_jpeg_strip(unsigned char*, tsize_t*, unsigned char*, tsize_t, tsize_t*, tstrip_t, uint32);
++ #endif
++ void t2p_tile_collapse_left(tdata_t, tsize_t, uint32, uint32, uint32);
++ void t2p_write_advance_directory(T2P*, TIFF*);
++@@ -2408,7 +2408,8 @@ tsize_t t2p_readwrite_pdf_image(T2P* t2p, TIFF* input, TIFF* output){
++ 				if(!t2p_process_jpeg_strip(
++ 					stripbuffer, 
++ 					&striplength, 
++-					buffer, 
+++					buffer,
+++                    t2p->tiff_datasize,
++ 					&bufferoffset, 
++ 					i, 
++ 					t2p->tiff_length)){
++@@ -3439,6 +3440,7 @@ int t2p_process_jpeg_strip(
++ 	unsigned char* strip, 
++ 	tsize_t* striplength, 
++ 	unsigned char* buffer, 
+++    tsize_t buffersize,
++ 	tsize_t* bufferoffset, 
++ 	tstrip_t no, 
++ 	uint32 height){
++@@ -3473,6 +3475,8 @@ int t2p_process_jpeg_strip(
++ 		}
++ 		switch( strip[i] ){
++ 			case 0xd8:	/* SOI - start of image */
+++                if( *bufferoffset + 2 > buffersize )
+++                    return(0);
++ 				_TIFFmemcpy(&(buffer[*bufferoffset]), &(strip[i-1]), 2);
++ 				*bufferoffset+=2;
++ 				break;
++@@ -3482,12 +3486,18 @@ int t2p_process_jpeg_strip(
++ 			case 0xc9:	/* SOF9 */
++ 			case 0xca:	/* SOF10 */
++ 				if(no==0){
+++                    if( *bufferoffset + datalen + 2 + 6 > buffersize )
+++                        return(0);
++ 					_TIFFmemcpy(&(buffer[*bufferoffset]), &(strip[i-1]), datalen+2);
+++                    if( *bufferoffset + 9 >= buffersize )
+++                        return(0);
++ 					ncomp = buffer[*bufferoffset+9];
++ 					if (ncomp < 1 || ncomp > 4)
++ 						return(0);
++ 					v_samp=1;
++ 					h_samp=1;
+++                    if( *bufferoffset + 11 + 3*(ncomp-1) >= buffersize )
+++                        return(0);
++ 					for(j=0;j<ncomp;j++){
++ 						uint16 samp = buffer[*bufferoffset+11+(3*j)];
++ 						if( (samp>>4) > h_samp) 
++@@ -3519,20 +3529,28 @@ int t2p_process_jpeg_strip(
++ 				break;
++ 			case 0xc4: /* DHT */
++ 			case 0xdb: /* DQT */
+++                if( *bufferoffset + datalen + 2 > buffersize )
+++                    return(0);
++ 				_TIFFmemcpy(&(buffer[*bufferoffset]), &(strip[i-1]), datalen+2);
++ 				*bufferoffset+=datalen+2;
++ 				break;
++ 			case 0xda: /* SOS */
++ 				if(no==0){
+++                    if( *bufferoffset + datalen + 2 > buffersize )
+++                        return(0);
++ 					_TIFFmemcpy(&(buffer[*bufferoffset]), &(strip[i-1]), datalen+2);
++ 					*bufferoffset+=datalen+2;
++ 				} else {
+++                    if( *bufferoffset + 2 > buffersize )
+++                        return(0);
++ 					buffer[(*bufferoffset)++]=0xff;
++ 					buffer[(*bufferoffset)++]=
++                                             (unsigned char)(0xd0 | ((no-1)%8));
++ 				}
++ 				i += datalen + 1;
++ 				/* copy remainder of strip */
+++                if( *bufferoffset + *striplength - i > buffersize )
+++                    return(0);
++ 				_TIFFmemcpy(&(buffer[*bufferoffset]), &(strip[i]), *striplength - i);
++ 				*bufferoffset+= *striplength - i;
++ 				return(1);
 +diff --git a/tools/tiffcrop.c b/tools/tiffcrop.c
-+index 7685566..eb6de77 100644
++index ebc4aba..7685566 100644
 +--- a/tools/tiffcrop.c
 ++++ b/tools/tiffcrop.c
-+@@ -3628,7 +3628,7 @@ static int readContigStripsIntoBuffer (TIFF* in, uint8* buf)
-+ {
-+         uint8* bufp = buf;
-+         int32  bytes_read = 0;
-+-        uint16 strip, nstrips   = TIFFNumberOfStrips(in);
-++        uint32 strip, nstrips   = TIFFNumberOfStrips(in);
-+         uint32 stripsize = TIFFStripSize(in);
-+         uint32 rows = 0;
-+         uint32 rps = TIFFGetFieldDefaulted(in, TIFFTAG_ROWSPERSTRIP, &rps);
-+@@ -4711,9 +4711,12 @@ static int readSeparateStripsIntoBuffer (TIFF *in, uint8 *obuf, uint32 length,
-+                                          uint32 width, uint16 spp,
-+                                          struct dump_opts *dump)
++@@ -5758,7 +5758,8 @@ loadImage(TIFF* in, struct image_data *image, struct dump_opts *dump, unsigned c
 +   {
-+-  int i, j, bytes_per_sample, bytes_per_pixel, shift_width, result = 1;
-++  int i, bytes_per_sample, bytes_per_pixel, shift_width, result = 1;
-++  uint32 j;
-+   int32  bytes_read = 0;
-+-  uint16 bps, nstrips, planar, strips_per_sample;
-++  uint16 bps, planar;
-++  uint32 nstrips;
-++  uint32 strips_per_sample;
-+   uint32 src_rowsize, dst_rowsize, rows_processed, rps;
-+   uint32 rows_this_strip = 0;
-+   tsample_t s;
++   uint32   i;
++   float    xres = 0.0, yres = 0.0;
++-  uint16   nstrips = 0, ntiles = 0, planar = 0;
+++  uint32   nstrips = 0, ntiles = 0;
+++  uint16   planar = 0;
++   uint16   bps = 0, spp = 0, res_unit = 0;
++   uint16   orientation = 0;
++   uint16   input_compression = 0, input_photometric = 0;
++@@ -6066,11 +6067,23 @@ loadImage(TIFF* in, struct image_data *image, struct dump_opts *dump, unsigned c
++   /* +3 : add a few guard bytes since reverseSamples16bits() can read a bit */
++   /* outside buffer */
++   if (!read_buff)
+++  {
+++    if( buffsize > 0xFFFFFFFFU - 3 )
+++    {
+++        TIFFError("loadImage", "Unable to allocate/reallocate read buffer");
+++        return (-1);
+++    }
++     read_buff = (unsigned char *)_TIFFmalloc(buffsize+3);
+++  }
++   else
++     {
++     if (prev_readsize < buffsize)
+++    {
+++      if( buffsize > 0xFFFFFFFFU - 3 )
++       {
+++          TIFFError("loadImage", "Unable to allocate/reallocate read buffer");
+++          return (-1);
+++      }
++       new_buff = _TIFFrealloc(read_buff, buffsize+3);
++       if (!new_buff)
++         {
++@@ -8912,6 +8925,11 @@ reverseSamplesBytes (uint16 spp, uint16 bps, uint32 width,
++     }
++ 
++   bytes_per_pixel  = ((bps * spp) + 7) / 8;
+++  if( bytes_per_pixel > sizeof(swapbuff) )
+++  {
+++    TIFFError("reverseSamplesBytes","bytes_per_pixel too large");
+++    return (1);
+++  }
++   switch (bps / 8)
++      {
++      case 8:  /* Use memcpy for multiple bytes per sample data */
 +-- 
 +2.9.3
 +
 diff --git a/meta/recipes-multimedia/libtiff/tiff_4.0.6.bb b/meta/recipes-multimedia/libtiff/tiff_4.0.6.bb
-index 7b5dd9c..8521fd7 100644
+index 8521fd7..5fccde9 100644
 --- a/meta/recipes-multimedia/libtiff/tiff_4.0.6.bb
 +++ b/meta/recipes-multimedia/libtiff/tiff_4.0.6.bb
-@@ -21,6 +21,7 @@ SRC_URI = "http://download.osgeo.org/libtiff/tiff-${PV}.tar.gz \
-            file://CVE-2016-9539.patch \
+@@ -22,6 +22,7 @@ SRC_URI = "http://download.osgeo.org/libtiff/tiff-${PV}.tar.gz \
             file://CVE-2016-9535-1.patch \
             file://CVE-2016-9535-2.patch \
-+           file://CVE-2016-9538.patch \
+            file://CVE-2016-9538.patch \
++           file://Fix_several_CVE_issues.patch \
            "
  
  SRC_URI[md5sum] = "d1d2e940dea0b5ad435f21f03d96dd72"
