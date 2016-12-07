@@ -1,26 +1,51 @@
-Return-Path: <randy.e.witt@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 0633D71B0B
+Return-Path: <twoerner@gmail.com>
+Received: from mail-qk0-f180.google.com (mail-qk0-f180.google.com
+	[209.85.220.180])
+	by mail.openembedded.org (Postfix) with ESMTP id 9006671B0B
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  7 Dec 2016 17:58:53 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by fmsmga101.fm.intel.com with ESMTP; 07 Dec 2016 09:58:55 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.33,314,1477983600"; d="scan'208";a="15005368"
-Received: from bitbang.jf.intel.com (HELO [10.7.199.68]) ([10.7.199.68])
-	by orsmga002.jf.intel.com with ESMTP; 07 Dec 2016 09:58:54 -0800
-To: Robert Yang <liezhi.yang@windriver.com>,
-	openembedded-core@lists.openembedded.org
-References: <cover.1481014270.git.liezhi.yang@windriver.com>
-	<2ecbdf8cca844fb9b76df48f80b0762811dd1b04.1481014270.git.liezhi.yang@windriver.com>
-From: Randy Witt <randy.e.witt@linux.intel.com>
-Message-ID: <4f79b40c-e1a8-3e62-0cbb-ea4c9d4176e4@linux.intel.com>
-Date: Wed, 7 Dec 2016 09:58:54 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.5.1
+	Wed,  7 Dec 2016 18:05:01 +0000 (UTC)
+Received: by mail-qk0-f180.google.com with SMTP id n21so422007702qka.3
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 07 Dec 2016 10:05:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=gZt3pkUU1VeJDt0VD+KUfqTvP55b9OfEyzgNfriiTHE=;
+	b=AJWd6qW50s2jLi+mAeNU0r1p+XIAtiUQvHm/1rdT8kjS0O/uOhpKMhrcSkc7VrUBDy
+	Z3oY35XwrvybW9F0rjXnhmwyhxAg9vhNargPc6icVPgr6K9FKr9avbHPqH9FptWJW1/A
+	d9E80wl7VUzrVfXWB++AXuePGzyjLn4n7StAT6btqP7UP25mW1nfq6MTjBu8bZ1pRe9e
+	NmJ03QtD6MuGBLTB+TEKmmvT0j0+i5vie9nsaa0fkmzMZ9sMsGUxkw9VVswdKk5+tqYA
+	ECeeSXmOEAtyZmPMmwq2tDzStyCzeuuZkXSpgzfarzuepX+bckAybv/x7fJKbnxNfJti
+	CC3Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=gZt3pkUU1VeJDt0VD+KUfqTvP55b9OfEyzgNfriiTHE=;
+	b=dmGV1dKFaqnUsYtO6YTeb/oO12npUlTFbopdWTY33Feqdhu9vTDlVypcgBmHtjyeN3
+	T4yS4LTBd3cS2iAwwx+yTWXgGIixwTW6ooLF5HxkcI+EbiHo1Krz3dusGpm5loyZQhYT
+	cLA9lKX1Phf0fFR+sPfDhx+2wOx9bPOnUsov3hEAowYKHTAiG3Rs2cDiDuxlxgE+bkYm
+	COX/66P+E/ztCVJgh3FBcP+zyyVTdrn1LdfE5/9Bpb68W9nhjyecUhZ9KNk5TjTETPmT
+	0Fmko059yE7o71b04qCbPpvdcCJbs7O6QBk5nTre86I1Lx1zUUAjxJvT9m514nMJBnI5
+	cMEg==
+X-Gm-Message-State: AKaTC00x2CKgKmK6UJsTwfubWbXF3RXHHaDpUW22XEihnEyXUIB0fD5Df5WcfO8lxDUSb0qKYO9X7Fg7uO6E0Q==
+X-Received: by 10.55.94.135 with SMTP id s129mr57555550qkb.124.1481133902550; 
+	Wed, 07 Dec 2016 10:05:02 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <2ecbdf8cca844fb9b76df48f80b0762811dd1b04.1481014270.git.liezhi.yang@windriver.com>
-Subject: Re: [PATCH V2 5/6] runqemu: fixes for slirp, network device and hostfwd
+Received: by 10.237.46.162 with HTTP; Wed, 7 Dec 2016 10:05:01 -0800 (PST)
+In-Reply-To: <78eef00e-4156-bdbf-cda1-688ae0495414@windriver.com>
+References: <cover.1480711764.git.bruce.ashfield@windriver.com>
+	<48f1e3e16ca28e1194d6024689d000cb6ffc303c.1480711764.git.bruce.ashfield@windriver.com>
+	<1481058881.17535.58.camel@intel.com>
+	<20161206230222.5411d7b6@nuc.betafive.co.uk>
+	<CAHUNapQ847n7e=acLQ+hkLqziqaP8EQg5_0wrw5oJ9i9+Tw6tg@mail.gmail.com>
+	<78eef00e-4156-bdbf-cda1-688ae0495414@windriver.com>
+From: Trevor Woerner <twoerner@gmail.com>
+Date: Wed, 7 Dec 2016 13:05:01 -0500
+Message-ID: <CAHUNapSr5a2cuKN1xiK=2K0S+zkwMA7J0ALfe1hUZAVgXv2Fpw@mail.gmail.com>
+To: Bruce Ashfield <bruce.ashfield@windriver.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 3/4] kern-tools: fix processing for no branch meta-data
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,47 +58,14 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 07 Dec 2016 17:58:54 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 07 Dec 2016 18:05:01 -0000
+Content-Type: text/plain; charset=UTF-8
 
-
->      def setup_slirp(self):
->          """Setup user networking"""
+On Wed, Dec 7, 2016 at 11:18 AM, Bruce Ashfield
+<bruce.ashfield@windriver.com> wrote:
+> With the attached patch, I see nothing else that is named  in /tmp/
 >
->          if self.fstype == 'nfs':
->              self.setup_nfs()
->          self.kernel_cmdline_script += ' ip=dhcp'
-> -        self.set('NETWORK_CMD', self.get('QB_SLIRP_OPT'))
-> +        # Port mapping
-> +        hostfwd = ",hostfwd=tcp::2222-:22,hostfwd=tcp::2323-:23"
-> +        qb_slirp_opt_default = "-netdev user,id=net0%s" % hostfwd
-> +        qb_slirp_opt = self.get('QB_SLIRP_OPT') or qb_slirp_opt_default
-> +        # Figure out the port
-> +        ports = re.findall('hostfwd=[^-]*:([0-9]+)-[^,-]*', qb_slirp_opt)
-> +        ports = [int(i) for i in ports]
-> +        mac = 2
-> +        # Find a free port to avoid conflicts
-> +        for p in ports[:]:
-> +            p_new = p
-> +            while not check_free_port('localhost', p_new):
-> +                p_new += 1
-> +                mac += 1
-> +                while p_new in ports:
-> +                        p_new += 1
-> +                        mac += 1
-> +            if p != p_new:
-> +                ports.append(p_new)
-> +                qb_slirp_opt = re.sub(':%s-' % p, ':%s-' % p_new, qb_slirp_opt)
-> +                logger.info("Port forward changed: %s -> %s" % (p, p_new))
-Regardless if the port is changed or not, so that things like tests have an 
-easier time of figuring out the port mappings, would it be good add a flag that 
-prints out the entire list of ports used, or always do it? i.e. "Port forwarding 
-2222:22 2333:23.... It's not necessary of course, you can  always look at the 
-command line and then check to see if anything is remapped. But that's a bit 
-more work.
+> If you have the cycles, can you give it a try and let me know ?
 
-> +        mac = "%s%02x" % (self.mac_slirp, mac)
-> +        self.set('NETWORK_CMD', '%s %s' % (self.network_device.replace('@MAC@', mac), qb_slirp_opt))
-
+Yes, I'm giving it a whirl right now. Thanks!
 
