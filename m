@@ -1,18 +1,18 @@
 Return-Path: <obi@opendreambox.org>
 Received: from mail.saftware.de (mail.saftware.de [83.141.3.46])
-	by mail.openembedded.org (Postfix) with ESMTP id AAA2671C9D
+	by mail.openembedded.org (Postfix) with ESMTP id A0ABE71C70
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  8 Dec 2016 21:48:18 +0000 (UTC)
+	Thu,  8 Dec 2016 21:48:19 +0000 (UTC)
 Received: by t510.zcs.saftware.de (Postfix, from userid 1000)
-	id D47B7B88DBB; Thu,  8 Dec 2016 22:48:00 +0100 (CET)
+	id EA93FB8805E; Thu,  8 Dec 2016 22:48:00 +0100 (CET)
 From: Andreas Oberritter <obi@opendreambox.org>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  8 Dec 2016 22:47:46 +0100
-Message-Id: <1481233677-27298-23-git-send-email-obi@opendreambox.org>
+Date: Thu,  8 Dec 2016 22:47:52 +0100
+Message-Id: <1481233677-27298-29-git-send-email-obi@opendreambox.org>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1481233677-27298-1-git-send-email-obi@opendreambox.org>
 References: <1481233677-27298-1-git-send-email-obi@opendreambox.org>
-Subject: [PATCH v2 22/33] package_manager/deb: implement BAD_RECOMMENDATIONS
+Subject: [PATCH v2 28/33] dpkg: update packages and files to match Debian more closely
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,83 +25,88 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 08 Dec 2016 21:48:18 -0000
+X-List-Received-Date: Thu, 08 Dec 2016 21:48:19 -0000
 
 Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
 ---
- meta/classes/rootfs_deb.bbclass |  6 ------
- meta/lib/oe/package_manager.py  | 27 +++++++++++++++++++++++++++
- meta/lib/oe/rootfs.py           |  2 ++
- 3 files changed, 29 insertions(+), 6 deletions(-)
+ v2: Drop gpgv from RRECOMMENDS and RSUGGESTS, gnupg implies it.
 
-diff --git a/meta/classes/rootfs_deb.bbclass b/meta/classes/rootfs_deb.bbclass
-index 332931e..bd8deaf 100644
---- a/meta/classes/rootfs_deb.bbclass
-+++ b/meta/classes/rootfs_deb.bbclass
-@@ -13,12 +13,6 @@ do_rootfs[vardeps] += "PACKAGE_FEED_URIS"
- do_rootfs[lockfiles] += "${DEPLOY_DIR_DEB}/deb.lock"
- do_populate_sdk[lockfiles] += "${DEPLOY_DIR_DEB}/deb.lock"
+ meta/recipes-devtools/dpkg/dpkg.inc | 53 +++++++++++++++++++++++++++++++++----
+ 1 file changed, 48 insertions(+), 5 deletions(-)
+
+diff --git a/meta/recipes-devtools/dpkg/dpkg.inc b/meta/recipes-devtools/dpkg/dpkg.inc
+index d2dc38e..09c962e 100644
+--- a/meta/recipes-devtools/dpkg/dpkg.inc
++++ b/meta/recipes-devtools/dpkg/dpkg.inc
+@@ -60,20 +60,63 @@ do_install_append () {
+ 	fi
+ }
  
--python rootfs_deb_bad_recommendations() {
--    if d.getVar("BAD_RECOMMENDATIONS", True):
--        bb.warn("Debian package install does not support BAD_RECOMMENDATIONS")
--}
--do_rootfs[prefuncs] += "rootfs_deb_bad_recommendations"
--
- DEB_POSTPROCESS_COMMANDS = ""
+-PACKAGES =+ "start-stop-daemon update-alternatives-dpkg"
++PACKAGES =+ "dpkg-perl dselect libdpkg-perl start-stop-daemon update-alternatives-dpkg"
  
- opkglibdir = "${localstatedir}/lib/opkg"
-diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
-index b18148b..6c5b7ef 100644
---- a/meta/lib/oe/package_manager.py
-+++ b/meta/lib/oe/package_manager.py
-@@ -2198,6 +2198,33 @@ class DpkgPM(OpkgDpkgPM):
+ RDEPENDS_${PN} = "${VIRTUAL-RUNTIME_update-alternatives} run-postinsts perl"
+ RDEPENDS_${PN}_class-native = ""
+ RRECOMMENDS_${PN} = "start-stop-daemon"
+ RRECOMMENDS_${PN}_class-native = ""
++RSUGGESTS_${PN} = "apt"
  
-         return tmp_dir
+-FILES_start-stop-daemon = "${base_sbindir}/start-stop-daemon"
++RDEPENDS_dpkg-perl = "binutils libdpkg-perl make xz"
++RRECOMMENDS_dpkg-perl = "gnupg"
++
++RDEPENDS_dselect = "dpkg"
++RSUGGESTS_dselect = "perl"
++
++RDEPENDS_libdpkg-perl = "dpkg libtimedate-perl perl"
++RRECOMMENDS_libdpkg-perl = "xz"
++RSUGGESTS_libdpkg-perl = "binutils gnupg"
  
-+    def handle_bad_recommendations(self):
-+        bad_recommendations = (self.d.getVar("BAD_RECOMMENDATIONS", True) or "").strip()
-+        if not bad_recommendations:
-+            return
-+
-+        status_file = self.target_rootfs + "/var/lib/dpkg/status"
-+
-+        with open(status_file + ".tmp", "w") as status:
-+            for pkg in bad_recommendations.split():
-+                pkg_info = ('apt-cache', 'show', pkg)
-+
-+                try:
-+                    output = subprocess.check_output(pkg_info, stderr=subprocess.STDOUT).decode("utf-8")
-+                except subprocess.CalledProcessError as e:
-+                    bb.fatal("Cannot get package info. Command '%s' "
-+                             "returned %d:\n%s" % (' '.join(pkg_info), e.returncode, e.output))
-+
-+                for line in output.splitlines():
-+                    if not line:
-+                        status.write("Status: hold ok not-installed\n\n")
-+                        break
-+
-+                    if line.startswith(' ') or line.split(': ', 1)[0] not in ('Filename', 'Size', 'MD5sum', 'MSDOS-Filename'):
-+                        status.write(line + "\n")
-+
-+        os.rename(status_file + ".tmp", status_file)
-+
- def generate_index_files(d):
-     classes = d.getVar('PACKAGE_CLASSES', True).replace("package_", "").split()
+-FILES_update-alternatives-dpkg = "${bindir}/update-alternatives ${localstatedir}/lib/dpkg/alternatives ${sysconfdir}/alternatives"
+ RPROVIDES_update-alternatives-dpkg = "update-alternatives"
+ RCONFLICTS_update-alternatives-dpkg = "update-alternatives"
  
-diff --git a/meta/lib/oe/rootfs.py b/meta/lib/oe/rootfs.py
-index 4c82456..b2bb67b 100644
---- a/meta/lib/oe/rootfs.py
-+++ b/meta/lib/oe/rootfs.py
-@@ -663,6 +663,8 @@ class DpkgRootfs(DpkgOpkgRootfs):
- 
-         self.pm.update()
- 
-+        self.pm.handle_bad_recommendations()
+-PACKAGES += "${PN}-perl"
+-FILES_${PN}-perl = "${libdir}/perl"
++FILES_dpkg-perl = " \
++    ${bindir}/dpkg-architecture \
++    ${bindir}/dpkg-buildflags \
++    ${bindir}/dpkg-buildpackage \
++    ${bindir}/dpkg-checkbuilddeps \
++    ${bindir}/dpkg-distaddfile \
++    ${bindir}/dpkg-genchanges \
++    ${bindir}/dpkg-gencontrol \
++    ${bindir}/dpkg-gensymbols \
++    ${bindir}/dpkg-mergechangelogs \
++    ${bindir}/dpkg-name \
++    ${bindir}/dpkg-parsechangelog \
++    ${bindir}/dpkg-scanpackages \
++    ${bindir}/dpkg-scansources \
++    ${bindir}/dpkg-shlibdeps \
++    ${bindir}/dpkg-source \
++    ${bindir}/dpkg-vendor \
++    ${datadir}/dpkg/*.mk \
++"
 +
-         if self.progress_reporter:
-             self.progress_reporter.next_stage()
++FILES_dselect = "${bindir}/dselect"
++
++FILES_libdpkg-perl = " \
++    ${libdir}/dpkg/parsechangelog \
++    ${libdir}/perl \
++"
++
++FILES_start-stop-daemon = "${base_sbindir}/start-stop-daemon"
++
++FILES_update-alternatives-dpkg = " \
++    ${sysconfdir}/alternatives \
++    ${bindir}/update-alternatives \
++    ${localstatedir}/lib/dpkg/alternatives \
++"
++
++PKG_dpkg-dev = "libdpkg-dev"
++PKG_dpkg-perl = "dpkg-dev"
  
+ BBCLASSEXTEND = "native"
 -- 
 2.7.4
 
