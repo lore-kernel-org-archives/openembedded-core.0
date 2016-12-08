@@ -1,48 +1,35 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f181.google.com (mail-qk0-f181.google.com
-	[209.85.220.181])
-	by mail.openembedded.org (Postfix) with ESMTP id 0841F60069
+Return-Path: <Bruce.Ashfield@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 6515760069
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  8 Dec 2016 15:24:25 +0000 (UTC)
-Received: by mail-qk0-f181.google.com with SMTP id x190so452634775qkb.0
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 08 Dec 2016 07:24:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=aGyuKSPEjyNtiwKK0nw770x9p+/iQD8mEz26AHj04K8=;
-	b=WybQoeQlOkIIQphAa/5TrPEfhPa5A//MKJpowP5lg+3OedjPJfcfHomhqPnQtFeuDq
-	ajkjw0xfBeh38xgnXWHV5mJ6N4WRz9RAbncy8dhobnnc/APLmyF9w+ik3kftk/LjLB13
-	TDJg22eJcYkD2b+UimASOIRuUolAQHHTFkbybqIq5s+DaqAQ0b7BITaQSaaczBftqpwd
-	3bsMHDPmcN11qupWAz6Eisba8W8ZqIJ8wWpNhkl33yTwdAwnEs7F9pnlGRvH0POr49vx
-	I+Puyrvz8WxiXrYXLoI7DbX9VSbwZ0smVblqFPYuAz6cdw5RQAH/x+Cu8Z7iRleTbd8D
-	VOvQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=aGyuKSPEjyNtiwKK0nw770x9p+/iQD8mEz26AHj04K8=;
-	b=UT0J+qoRDHzfvwpUXprEB2k44K5QpQjeViqzMS620vBgFIoWArGJKrII2ai4OfyG8N
-	CpI1hVlzHexahr1DLhFUDR8pJfWR4KYWLIIU7MIb9z8UCtgPPsgWf5dMOjSf202rpXvq
-	I0Sw62Rfv2ijcBb2AvFX4ChhH/gS/mOjjaS7cxyAbEift0oe2ivej+jWIgLBQmTQQYnK
-	n5dzkhZ5WJZkbBvPn7qtGBhqaoyz0QH4RsyLqGWHO0NB7MKae+rBDZZf5GR2dNv7qJhH
-	BtwNP0jC8uArhr0qLSQBrtMyM+UadP1BiEHNdY0hmfKoWqfOUOofg9vCSKXCTjIHOV0s
-	tQ5Q==
-X-Gm-Message-State: AKaTC01z3OSWPIbkO01BbuxCQyqua8nKHMS6NSYRSgw+tzdNXiQ7tYSmPOri1DmL/yVIC6fXR2Qxx41ykZziwaYz
-X-Received: by 10.55.5.145 with SMTP id 139mr65057384qkf.77.1481210666410;
-	Thu, 08 Dec 2016 07:24:26 -0800 (PST)
+	Thu,  8 Dec 2016 15:27:29 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id uB8FRTCP015823
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 8 Dec 2016 07:27:30 -0800 (PST)
+Received: from [128.224.56.48] (128.224.56.48) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.294.0;
+	Thu, 8 Dec 2016 07:27:29 -0800
+To: Trevor Woerner <twoerner@gmail.com>
+References: <cover.1480711764.git.bruce.ashfield@windriver.com>
+	<48f1e3e16ca28e1194d6024689d000cb6ffc303c.1480711764.git.bruce.ashfield@windriver.com>
+	<1481058881.17535.58.camel@intel.com>
+	<20161206230222.5411d7b6@nuc.betafive.co.uk>
+	<CAHUNapQ847n7e=acLQ+hkLqziqaP8EQg5_0wrw5oJ9i9+Tw6tg@mail.gmail.com>
+	<78eef00e-4156-bdbf-cda1-688ae0495414@windriver.com>
+	<CAHUNapSr5a2cuKN1xiK=2K0S+zkwMA7J0ALfe1hUZAVgXv2Fpw@mail.gmail.com>
+	<CAHUNapQxmOANi1FinaTiXH+J2VdyvH4g5y2zRJydBso6epf00A@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+Message-ID: <2d44063b-3262-bdc8-a01c-57990eddfb3f@windriver.com>
+Date: Thu, 8 Dec 2016 10:27:28 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.5.1
 MIME-Version: 1.0
-Received: by 10.140.106.99 with HTTP; Thu, 8 Dec 2016 07:24:06 -0800 (PST)
-In-Reply-To: <2760910.PlGPul2nZt@peggleto-mobl.ger.corp.intel.com>
-References: <1477393415-13053-1-git-send-email-olani@axis.com>
-	<3d0139cbc58340fea6f0ea733004c06a@XBOX01.axis.com>
-	<2760910.PlGPul2nZt@peggleto-mobl.ger.corp.intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 8 Dec 2016 15:24:06 +0000
-Message-ID: <CAJTo0LaYJ0+AyUb+-h1Kf5vbXuro=pq-2gNKXiO7Ea4mO3hMkg@mail.gmail.com>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/4] Load devtool and reciptool plugins in a well-defined manner
+In-Reply-To: <CAHUNapQxmOANi1FinaTiXH+J2VdyvH4g5y2zRJydBso6epf00A@mail.gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 3/4] kern-tools: fix processing for no branch meta-data
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,75 +42,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 08 Dec 2016 15:24:26 -0000
-Content-Type: multipart/alternative; boundary=001a114c8f849bf8790543273b5d
+X-List-Received-Date: Thu, 08 Dec 2016 15:27:30 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
---001a114c8f849bf8790543273b5d
-Content-Type: text/plain; charset=UTF-8
-
-Sorry, slipped down in my inbox.  Thanks for acking Paul, these are in
-staging now.
-
-Ross
-
-On 7 December 2016 at 21:16, Paul Eggleton <paul.eggleton@linux.intel.com>
-wrote:
-
-> On Tue, 06 Dec 2016 07:37:16 Ola x Nilsson wrote:
-> > Ping?
+On 2016-12-07 06:50 PM, Trevor Woerner wrote:
+> On Wed, Dec 7, 2016 at 1:05 PM, Trevor Woerner <twoerner@gmail.com> wrote:
+>> On Wed, Dec 7, 2016 at 11:18 AM, Bruce Ashfield
+>> <bruce.ashfield@windriver.com> wrote:
+>>> With the attached patch, I see nothing else that is named  in /tmp/
+>>>
+>>> If you have the cycles, can you give it a try and let me know ?
+>>
+>> Yes, I'm giving it a whirl right now. Thanks!
 >
-> I guess Ross / Richard were waiting for my ack - sorry about that.
+> That patch looks good, how soon can it land? ;-)
 >
-> Acked-by: Paul Eggleton <paul.eggleton@linux.intel.com>
->
-> Cheers,
-> Paul
->
-> --
->
-> Paul Eggleton
-> Intel Open Source Technology Centre
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> I'm sure there's still something in the build that is creating
+> temporary files in /tmp. I'm not sure which process is doing it, I
+> have no reason to suspect it's the kernel tools (in fact I think it
+> happens too early in the build to be the kernel tools), and the tmp
+> files that are created are named with temporary names (e.g.
+> /tmp/tmp.2wavbhTlDU) so they shouldn't interfere with multiple users
+> building on the same machine. Each build appears to create two such
+> temp files that aren't cleaned up at the end of the build. Not a big
+> deal. I don't think it's something new that was introduced recently
+> (but I'd have to do more investigation to verify).
+
+I did find one mktemp file that wasn't being cleaned up. I fixed
+it and updated my commit to include that fix.
+
+It'll all be out later today with my kernel version bumps + CVE
+series.
+
+Bruce
+
 >
 
---001a114c8f849bf8790543273b5d
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">Sorry, slipped down in my inbox.=C2=A0 Thanks for acking P=
-aul, these are in staging now.<div><br></div><div>Ross</div></div><div clas=
-s=3D"gmail_extra"><br><div class=3D"gmail_quote">On 7 December 2016 at 21:1=
-6, Paul Eggleton <span dir=3D"ltr">&lt;<a href=3D"mailto:paul.eggleton@linu=
-x.intel.com" target=3D"_blank">paul.eggleton@linux.intel.com</a>&gt;</span>=
- wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bor=
-der-left:1px #ccc solid;padding-left:1ex">On Tue, 06 Dec 2016 07:37:16 Ola =
-x Nilsson wrote:<br>
-&gt; Ping?<br>
-<br>
-I guess Ross / Richard were waiting for my ack - sorry about that.<br>
-<br>
-Acked-by: Paul Eggleton &lt;<a href=3D"mailto:paul.eggleton@linux.intel.com=
-">paul.eggleton@linux.intel.com</a><wbr>&gt;<br>
-<br>
-Cheers,<br>
-Paul<br>
-<span class=3D"HOEnZb"><font color=3D"#888888"><br>
---<br>
-<br>
-Paul Eggleton<br>
-Intel Open Source Technology Centre<br>
-</font></span><div class=3D"HOEnZb"><div class=3D"h5">--<br>
-______________________________<wbr>_________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
-re@lists.<wbr>openembedded.org</a><br>
-<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
-" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/<wbr>m=
-ailman/listinfo/openembedded-<wbr>core</a><br>
-</div></div></blockquote></div><br></div>
-
---001a114c8f849bf8790543273b5d--
