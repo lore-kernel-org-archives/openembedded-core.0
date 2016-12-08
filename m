@@ -1,18 +1,18 @@
 Return-Path: <obi@opendreambox.org>
 Received: from mail.saftware.de (mail.saftware.de [83.141.3.46])
-	by mail.openembedded.org (Postfix) with ESMTP id D4B5B71C70
+	by mail.openembedded.org (Postfix) with ESMTP id 0FBE571C9D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  8 Dec 2016 21:48:15 +0000 (UTC)
+	Thu,  8 Dec 2016 21:48:17 +0000 (UTC)
 Received: by t510.zcs.saftware.de (Postfix, from userid 1000)
-	id 7FB5BB88DB0; Thu,  8 Dec 2016 22:48:00 +0100 (CET)
+	id 9AFE6B85902; Thu,  8 Dec 2016 22:48:00 +0100 (CET)
 From: Andreas Oberritter <obi@opendreambox.org>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  8 Dec 2016 22:47:47 +0100
-Message-Id: <1481233677-27298-24-git-send-email-obi@opendreambox.org>
+Date: Thu,  8 Dec 2016 22:47:49 +0100
+Message-Id: <1481233677-27298-26-git-send-email-obi@opendreambox.org>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1481233677-27298-1-git-send-email-obi@opendreambox.org>
 References: <1481233677-27298-1-git-send-email-obi@opendreambox.org>
-Subject: [PATCH v2 23/33] dpkg: use PACKAGECONFIG
+Subject: [PATCH v2 25/33] dpkg: clean-up packaging of start-stop-daemon
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,77 +25,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 08 Dec 2016 21:48:16 -0000
+X-List-Received-Date: Thu, 08 Dec 2016 21:48:17 -0000
 
-Keep default dependencies as before. Set default compressor to xz
-if selected, gzip otherwise.
+Dpkg-start-stop is not an intuitive name. Just call the package
+start-stop-daemon. Don't rdepend on it, because it might be empty.
+
+Install start-stop-daemon to /sbin to match Debian and busybox.
 
 Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
 ---
- v2: Rebased (conflicted with PATCH v2 01/33)
-
- meta/recipes-devtools/dpkg/dpkg.inc | 30 ++++++++++++++++--------------
- 1 file changed, 16 insertions(+), 14 deletions(-)
+ meta/recipes-devtools/dpkg/dpkg.inc | 18 ++++++------------
+ 1 file changed, 6 insertions(+), 12 deletions(-)
 
 diff --git a/meta/recipes-devtools/dpkg/dpkg.inc b/meta/recipes-devtools/dpkg/dpkg.inc
-index 4fd0f2a..4e39fba 100644
+index cf09b35..bb3c4df 100644
 --- a/meta/recipes-devtools/dpkg/dpkg.inc
 +++ b/meta/recipes-devtools/dpkg/dpkg.inc
-@@ -1,13 +1,10 @@
- SUMMARY = "Package maintenance system from Debian"
- LICENSE = "GPLv2.0+"
- SECTION = "base"
-+DEPENDS = "perl"
-+DEPENDS_append_class-native = " bzip2-replacement-native"
- PROVIDES = "${@bb.utils.contains('PACKAGECONFIG', 'update-alternatives', 'virtual/update-alternatives', '', d)}"
+@@ -35,7 +35,7 @@ PACKAGECONFIG[xz] = "--with-liblzma,--without-liblzma,xz"
  
--DEPENDS = "zlib bzip2 perl ncurses"
--DEPENDS_class-native = "bzip2-replacement-native zlib-native gettext-native perl-native"
--RDEPENDS_${PN} = "${VIRTUAL-RUNTIME_update-alternatives} xz run-postinsts perl"
--RDEPENDS_${PN}_class-native = "xz-native"
--
- UPSTREAM_CHECK_URI = "${DEBIAN_MIRROR}/main/d/dpkg/"
+ DPKG_DEB_COMPRESSOR ?= "${@bb.utils.contains('PACKAGECONFIG', 'xz', 'xz', 'gzip', d)}"
  
- inherit autotools gettext perlnative pkgconfig systemd
-@@ -27,17 +24,18 @@ PERL_LIBDIR_class-native = "${libdir}/perl-native/perl"
- UA = "update-alternatives"
- UA_native = "${@['', 'update-alternatives'][d.getVar('PREFERRED_PROVIDER_virtual/update-alternatives-native', True) == 'dpkg-native']}"
- 
--PACKAGECONFIG ??= "${UA}"
-+PACKAGECONFIG ??= "bzip2 gzip start-stop-daemon ${UA}"
-+PACKAGECONFIG[bzip2] = "--with-bz2,--without-bz2,bzip2"
-+PACKAGECONFIG[dselect] = "--enable-dselect,--disable-dselect,ncurses"
-+PACKAGECONFIG[gzip] = "--with-zlib,--without-zlib,zlib"
-+PACKAGECONFIG[selinux] = "--with-selinux,--without-selinux,libselinux"
-+PACKAGECONFIG[start-stop-daemon] = "--enable-start-stop-daemon,--disable-start-stop-daemon"
- PACKAGECONFIG[update-alternatives] = "--enable-update-alternatives,--disable-update-alternatives"
-+PACKAGECONFIG[xz] = "--with-liblzma,--without-liblzma,xz"
-+
-+DPKG_DEB_COMPRESSOR ?= "${@bb.utils.contains('PACKAGECONFIG', 'xz', 'xz', 'gzip', d)}"
- 
--EXTRA_OECONF = "\
--		--disable-dselect \
--		--enable-start-stop-daemon \
--		--with-zlib \
--		--with-bz2 \
--		--without-liblzma \
--		--without-selinux \
--		"
-+EXTRA_OECONF += "--with-dpkg-deb-compressor=${DPKG_DEB_COMPRESSOR}"
+-EXTRA_OECONF += "--with-dpkg-deb-compressor=${DPKG_DEB_COMPRESSOR}"
++EXTRA_OECONF += "--sbindir=${base_sbindir} --with-dpkg-deb-compressor=${DPKG_DEB_COMPRESSOR}"
  
  EXTRA_OECONF += "TAR=tar"
  EXTRA_OECONF_append_class-target = " DEB_HOST_ARCH=${DPKG_ARCH}"
-@@ -71,6 +69,10 @@ do_install_append () {
+@@ -68,10 +68,14 @@ do_install_append () {
+ 	fi
  }
  
- PACKAGES =+ "update-alternatives-dpkg"
+-PACKAGES =+ "update-alternatives-dpkg"
++PACKAGES =+ "start-stop-daemon update-alternatives-dpkg"
+ 
+ RDEPENDS_${PN} = "${VIRTUAL-RUNTIME_update-alternatives} run-postinsts perl"
+ RDEPENDS_${PN}_class-native = ""
++RRECOMMENDS_${PN} = "start-stop-daemon"
++RRECOMMENDS_${PN}_class-native = ""
 +
-+RDEPENDS_${PN} = "${VIRTUAL-RUNTIME_update-alternatives} run-postinsts perl"
-+RDEPENDS_${PN}_class-native = ""
-+
++FILES_start-stop-daemon = "${base_sbindir}/start-stop-daemon"
+ 
  FILES_update-alternatives-dpkg = "${bindir}/update-alternatives ${localstatedir}/lib/dpkg/alternatives ${sysconfdir}/alternatives"
  RPROVIDES_update-alternatives-dpkg = "update-alternatives"
- RCONFLICTS_update-alternatives-dpkg = "update-alternatives"
+@@ -80,14 +84,4 @@ RCONFLICTS_update-alternatives-dpkg = "update-alternatives"
+ PACKAGES += "${PN}-perl"
+ FILES_${PN}-perl = "${libdir}/perl"
+ 
+-# Split out start-stop-daemon to its own package.  Note that it
+-# is installed in a different directory than the one used for
+-# the bitbake version.
+-#
+-PACKAGES =+ "${PN}-start-stop"
+-FILES_${PN}-start-stop = "${sbindir}/start-stop-daemon"
+-
+-RDEPENDS_${PN} += "${PN}-start-stop"
+-
+-
+ BBCLASSEXTEND = "native"
 -- 
 2.7.4
 
