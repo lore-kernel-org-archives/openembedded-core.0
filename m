@@ -1,29 +1,49 @@
-Return-Path: <anibal.limon@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id C1C4460745
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qk0-f175.google.com (mail-qk0-f175.google.com
+	[209.85.220.175])
+	by mail.openembedded.org (Postfix) with ESMTP id D1C576069D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  8 Dec 2016 16:05:58 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by fmsmga101.fm.intel.com with ESMTP; 08 Dec 2016 08:04:47 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.33,320,1477983600"; 
-	d="asc'?scan'208";a="15475402"
-Received: from alimonb-mobl1.zpn.intel.com (HELO [10.219.5.142])
-	([10.219.5.142])
-	by orsmga002.jf.intel.com with ESMTP; 08 Dec 2016 08:04:46 -0800
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <cover.1481142664.git.anibal.limon@linux.intel.com>
-	<2b7e685f6ff33f4c12d0f4d025db3689df43ad83.1481142664.git.anibal.limon@linux.intel.com>
-	<CAJTo0LYP1kqqLOy6w_L_bh1uAF8pta8d7mZQyJgF2r=zaiLUhg@mail.gmail.com>
-From: =?UTF-8?B?QW7DrWJhbCBMaW3Ds24=?= <anibal.limon@linux.intel.com>
-Message-ID: <5849851C.80102@linux.intel.com>
-Date: Thu, 8 Dec 2016 10:06:52 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.3.0
+	Thu,  8 Dec 2016 16:16:59 +0000 (UTC)
+Received: by mail-qk0-f175.google.com with SMTP id n21so454262675qka.3
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 08 Dec 2016 08:17:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=fkVKjhmtMi6pWXfrR25GnXl6XstYNi6gAoSsb2YrZj0=;
+	b=D087TERkydjRBHS7sZOQNA/OttdkGCBAgAxNU/7UBFV74nWb6dMc6BgcsB3zeQLm2m
+	gTXunXapwgZyuvcOO580cWzgrYxZXeUTvXDC7gQDMVQTwyD9KD2qNR5Znu5u7NmEHNwa
+	mLZEzrgtd5QRl6K9sAhuqfZv5RCk5SfFw9vTQv1knmBFUx7sLrTWKAzdZqcnnP2GSVvl
+	M6yE3JVOMfSomq3lj7wARWWTVVZO/9ICIQtRargDI2xT6RQo+X7z4lw2CSvQEl4YAd4j
+	9HzYjYX71FTL/BUb2rF4qyACk/vHn9HlXIBez2J9hBT/GEI0iDVq90HFXYkyApXpgXAH
+	9eJA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=fkVKjhmtMi6pWXfrR25GnXl6XstYNi6gAoSsb2YrZj0=;
+	b=cXX+FErizfNrsedx7s3BEZNZT6DpXG14UwmwhjxIjdQ+QTDPpeZe36s6D8M9VNvY9i
+	/RAtrR7+wTltLE4Jihjch7Z/Oe/WOH36RzGdsXFSi97OgSIEJ6ohOsWq6xDwPORV81Ag
+	4Vn0BDrsKPwfCjf8S7SGyK9FNhFvEDW+hqxrDNbObFCMcd55PArw9pkhJBf6MGAobhZI
+	gn1H38OHwcRFV90JkMaHidUUsn+msUdnLBMcNAr5jNeNBdaL4hxdsMphVJctjsKd2Lwl
+	WAPgBYo9eqXCFS+QUKXKhAe8XC5TCO/wwZRHYuxeMREpKGEXfnG0qooqP0UDGlldt8t9
+	jLMg==
+X-Gm-Message-State: AKaTC0121hidebtpXZ2R/AP5kVWnoPCYJxMXdpW9AKKoI83h1iJazdH59o9g80XapwRaPSRsPRQuL2W8Mbf++No0
+X-Received: by 10.55.207.78 with SMTP id e75mr75785577qkj.36.1481213810965;
+	Thu, 08 Dec 2016 08:16:50 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <CAJTo0LYP1kqqLOy6w_L_bh1uAF8pta8d7mZQyJgF2r=zaiLUhg@mail.gmail.com>
+Received: by 10.140.106.99 with HTTP; Thu, 8 Dec 2016 08:16:30 -0800 (PST)
+In-Reply-To: <62473423-1805-cbb9-240f-c070f729fe16@opendreambox.org>
+References: <1481024991-5882-1-git-send-email-obi@opendreambox.org>
+	<1481024991-5882-3-git-send-email-obi@opendreambox.org>
+	<CAJTo0LbsxuA6wMm8gY1LJJhxq15k10x9HoD0qBBHi4tSoQa8SA@mail.gmail.com>
+	<62473423-1805-cbb9-240f-c070f729fe16@opendreambox.org>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 8 Dec 2016 16:16:30 +0000
+Message-ID: <CAJTo0LbxmC2BBj0V2BXWo1UqJmgALSdSK=GmCh4dZeMyxFp3gg@mail.gmail.com>
+To: Andreas Oberritter <obi@opendreambox.org>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCHv2 16/32] oeqa/core: Change name of d to td
+Subject: Re: [PATCH 02/33] dpkg: update-alternatives-dpkg should conflict with other providers
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,58 +56,125 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 08 Dec 2016 16:05:59 -0000
-X-Groupsio-MsgNum: 90466
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature";
-	boundary="2WK2ABpxbF0x1QARvkErr09vGTCOKKftI"
+X-List-Received-Date: Thu, 08 Dec 2016 16:17:01 -0000
+Content-Type: multipart/alternative; boundary=001a1145b7b80a1acf054327f796
 
---2WK2ABpxbF0x1QARvkErr09vGTCOKKftI
-Content-Type: text/plain; charset=utf-8
+--001a1145b7b80a1acf054327f796
+Content-Type: text/plain; charset=UTF-8
+
+With PACKAGE_CLASSES="package_rpm package_deb" this happens:
+
+ERROR: dpkg-native-1.18.7-r0 do_populate_sysroot: The recipe dpkg-native is
+trying to install files into a shared area when those files already exist.
+Those files and their manifest location are:
+
+ /data/poky-master/tmp-glibc/sysroots/x86_64-linux/usr/bin/update-alternatives
+ Matched in b'manifest-x86_64-opkg-utils-native.populate_sysroot'
+
+Whilst I agree that building multiple package types at the same time is a
+bit weird, it's always worked in the past.
+
+Ross
+
+On 7 December 2016 at 01:30, Andreas Oberritter <obi@opendreambox.org>
+wrote:
+
+> On 06.12.2016 20:52, Burton, Ross wrote:
+> > This needs more than just RCONFLICTS:
+> >
+> > ERROR: dpkg-native-1.18.7-r0 do_populate_sysroot: The recipe dpkg-native
+> > is trying to install files into a shared area when those files already
+> > exist. Those files and their manifest location are:
+> >
+> >  /data/poky-master/tmp-glibc/sysroots/x86_64-linux/usr/bin/
+> update-alternatives
+> >
+> > I have both package_deb and package_rpm enabled, and have a build from
+> > master before trying your branch.
+>
+> I'm going to address this in "dpkg: implement offline mode for update-
+> alternatives" with the following additions:
+>
+> +PROVIDES = "${@bb.utils.contains('PACKAGECONFIG', 'update-alternatives',
+> 'virtual/update-alternatives', '', d)}"
+>
+> [...]
+>
+> +UA = "update-alternatives"
+> +UA_native = "${@['', 'update-alternatives'][d.getVar('PREFERRED_PROVIDER_
+> virtual/update-alternatives-native', True) == 'dpkg-native']}"
+> +
+> +PACKAGECONFIG ??= "${UA}"
+> +PACKAGECONFIG[update-alternatives] = "--enable-update-alternatives,
+> --disable-update-alternatives"
+>
+> Because update-alternative-dpkg and update-alternatives-opkg are using
+> incompatible databases, I don't think there are much better ways to
+> avoid this conflict.
+>
+> Regards,
+> Andreas
+>
+
+--001a1145b7b80a1acf054327f796
+Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-Sure, sending v3.
+<div dir=3D"ltr">With PACKAGE_CLASSES=3D&quot;package_rpm package_deb&quot;=
+ this happens:<div><br></div><div><div>ERROR: dpkg-native-1.18.7-r0 do_popu=
+late_sysroot: The recipe dpkg-native is trying to install files into a shar=
+ed area when those files already exist. Those files and their manifest loca=
+tion are:</div><div>=C2=A0 =C2=A0/data/poky-master/tmp-glibc/sysroots/x86_6=
+4-linux/usr/bin/update-alternatives</div><div>=C2=A0Matched in b&#39;manife=
+st-x86_64-opkg-utils-native.populate_sysroot&#39;</div></div><div><br></div=
+><div>Whilst I agree that building multiple package types at the same time =
+is a bit weird, it&#39;s always worked in the past.</div><div><br></div><di=
+v>Ross</div></div><div class=3D"gmail_extra"><br><div class=3D"gmail_quote"=
+>On 7 December 2016 at 01:30, Andreas Oberritter <span dir=3D"ltr">&lt;<a h=
+ref=3D"mailto:obi@opendreambox.org" target=3D"_blank">obi@opendreambox.org<=
+/a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:=
+0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><span class=3D"">On=
+ 06.12.2016 20:52, Burton, Ross wrote:<br>
+&gt; This needs more than just RCONFLICTS:<br>
+&gt;<br>
+&gt; ERROR: dpkg-native-1.18.7-r0 do_populate_sysroot: The recipe dpkg-nati=
+ve<br>
+&gt; is trying to install files into a shared area when those files already=
+<br>
+&gt; exist. Those files and their manifest location are:<br>
+&gt;<br>
+&gt;=C2=A0 /data/poky-master/tmp-glibc/<wbr>sysroots/x86_64-linux/usr/bin/<=
+wbr>update-alternatives<br>
+&gt;<br>
+&gt; I have both package_deb and package_rpm enabled, and have a build from=
+<br>
+&gt; master before trying your branch.<br>
+<br>
+</span>I&#39;m going to address this in &quot;dpkg: implement offline mode =
+for update-<br>
+alternatives&quot; with the following additions:<br>
+<br>
++PROVIDES =3D &quot;${@bb.utils.contains(&#39;<wbr>PACKAGECONFIG&#39;, &#39=
+;update-alternatives&#39;, &#39;virtual/update-alternatives&#39;, &#39;&#39=
+;, d)}&quot;<br>
+<br>
+[...]<br>
+<br>
++UA =3D &quot;update-alternatives&quot;<br>
++UA_native =3D &quot;${@[&#39;&#39;, &#39;update-alternatives&#39;][d.<wbr>=
+getVar(&#39;PREFERRED_PROVIDER_<wbr>virtual/update-alternatives-<wbr>native=
+&#39;, True) =3D=3D &#39;dpkg-native&#39;]}&quot;<br>
++<br>
++PACKAGECONFIG ??=3D &quot;${UA}&quot;<br>
++PACKAGECONFIG[update-<wbr>alternatives] =3D &quot;--enable-update-alternat=
+ives,<wbr>--disable-update-alternatives&quot;<br>
+<br>
+Because update-alternative-dpkg and update-alternatives-opkg are using<br>
+incompatible databases, I don&#39;t think there are much better ways to<br>
+avoid this conflict.<br>
+<br>
+Regards,<br>
+Andreas<br>
+</blockquote></div><br></div>
 
-	alimon
-
-On 12/08/2016 08:41 AM, Burton, Ross wrote:
-> On 7 December 2016 at 20:32, An=C3=ADbal Lim=C3=B3n <anibal.limon@linux=
-=2Eintel.com>
-> wrote:
->=20
->> The d variable references the test data into a test context, so
->> makes a more sense to call it: td (test data).
->>
->=20
-> Can you squash this into the commits where they are introduced (don't n=
-eed
-> to see your working, etc).
->=20
-> Ross
->=20
-
-
---2WK2ABpxbF0x1QARvkErr09vGTCOKKftI
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
-
-iQIcBAEBAgAGBQJYSYUeAAoJEGJqcE9h3glgxnAP/RGxTqAJ4dqZAHswJ06eYsZ5
-WPnhd01O1X4Rs5XcWCDEVAJK2zEQRNGv8HIkD6JISJqvA7fjUbngF9I8BNDeR7EK
-jA+Gzsmfw2sJETDSd0uUs7PIUO8P1F8VAIyElL17yvXd/mYm8LyBiCzscLRk3j8Y
-+MHcso6xsTeeVVtnYJ/KyvCxWTTG7q9qXDim4eak2VFV3I+pdSCc/FjdaQxf/vS0
-Ib1otsOKYhcd8TmE3Ax0dUadvZp76Mafvb8hVa6KCQ3PLbNr6vL02ffxAZxLMfJ4
-b6no/SWyGTfV31z9qTgBKF+DPze2sxtt3l61cz1H3ry4gSzkNjUOgEAGEbQJwPc3
-itdC9+P10qtKmk/BC5dVm8KHS6WoCGosRCCLwW0smJCfYO9raktiou0x9aaQ+TIV
-pzzq6/JIeNkHkcNMP1g8khvsBNOXYrpK9Y76jQRBO6jy6ijjR3AAlXkNtwWj10RT
-3rX0lsxUlvzDYsYv9yIN259EcBDqhC/6qjs5iVlKKQ3tRfgshY2PArkxaeVZp2Ro
-XOtYQLWrj+1nS3QU0COrsCAEjWjDcXrS7RSGYTLcbGy40FPAYl08N5Ci6gdSGRU8
-O8OvRyQXy2O/Yl2OunRBwX6to8RbOqt3ECOzE+ZCyzOYBbbr3PED12u5KS0Ilj/A
-cZx91HpBqmvHy6pL/Sef
-=z7QJ
------END PGP SIGNATURE-----
-
---2WK2ABpxbF0x1QARvkErr09vGTCOKKftI--
+--001a1145b7b80a1acf054327f796--
