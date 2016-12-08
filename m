@@ -1,23 +1,23 @@
 Return-Path: <anibal.limon@linux.intel.com>
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
-	by mail.openembedded.org (Postfix) with ESMTP id 3EA7271C50
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 46AA771C57
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  8 Dec 2016 16:18:55 +0000 (UTC)
+	Thu,  8 Dec 2016 16:18:54 +0000 (UTC)
 Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-	by orsmga104.jf.intel.com with ESMTP; 08 Dec 2016 08:18:55 -0800
+	by fmsmga103.fm.intel.com with ESMTP; 08 Dec 2016 08:18:56 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.33,320,1477983600"; d="scan'208";a="40496488"
+X-IronPort-AV: E=Sophos;i="5.33,320,1477983600"; d="scan'208";a="40496494"
 Received: from alimonb-mobl1.zpn.intel.com ([10.219.5.142])
 	by fmsmga006.fm.intel.com with ESMTP; 08 Dec 2016 08:18:55 -0800
 From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  8 Dec 2016 10:20:38 -0600
-Message-Id: <611b40950412e83f571c2639cc264298cb16e0a7.1481213961.git.anibal.limon@linux.intel.com>
+Date: Thu,  8 Dec 2016 10:20:39 -0600
+Message-Id: <7a58a7d4b2701b1eb71f207d090977e60307627a.1481213961.git.anibal.limon@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1481213961.git.anibal.limon@linux.intel.com>
 References: <cover.1481213961.git.anibal.limon@linux.intel.com>
 MIME-Version: 1.0
-Subject: [PATCHv3 10/30] oeqa/core/context: Add support of OETestContextExecutor
+Subject: [PATCHv3 11/30] oeqa/core/cases: Add example test cases
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,118 +34,56 @@ X-List-Received-Date: Thu, 08 Dec 2016 16:18:56 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-The OETestContextExecutor class supports to use oe-test for run core
-test component also is a base class for the other test components
-(runtime, sdk, selftest).
-
-Te principal functionality is to support cmdline parsing and execution
-of OETestContext, the test components could extend the common options
-to provide specific ones. The common options between test components
-are test data file, output log and test cases path's to scan.
-
-Also it initializes the logger to be passed to the whole OEQA framework.
-
-[YOCTO #10230]
+Serves as an first input of how to the OEQA framework works.
 
 Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
 Signed-off-by: Mariano Lopez <mariano.lopez@linux.intel.com>
 ---
- meta/lib/oeqa/core/context.py | 85 +++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 85 insertions(+)
+ meta/lib/oeqa/core/cases/__init__.py           |  0
+ meta/lib/oeqa/core/cases/example/data.json     |  1 +
+ meta/lib/oeqa/core/cases/example/test_basic.py | 20 ++++++++++++++++++++
+ 3 files changed, 21 insertions(+)
+ create mode 100644 meta/lib/oeqa/core/cases/__init__.py
+ create mode 100644 meta/lib/oeqa/core/cases/example/data.json
+ create mode 100644 meta/lib/oeqa/core/cases/example/test_basic.py
 
-diff --git a/meta/lib/oeqa/core/context.py b/meta/lib/oeqa/core/context.py
-index 3499994..316f90f 100644
---- a/meta/lib/oeqa/core/context.py
-+++ b/meta/lib/oeqa/core/context.py
-@@ -138,3 +138,88 @@ class OETestContext(object):
-                 self.logger.info("RESULTS - %s - Testcase %s: %s" % (case.id(),
-                     case.oe_id if hasattr(case, 'oeid') else '-1',
-                     'PASSED'))
+diff --git a/meta/lib/oeqa/core/cases/__init__.py b/meta/lib/oeqa/core/cases/__init__.py
+new file mode 100644
+index 0000000..e69de29
+diff --git a/meta/lib/oeqa/core/cases/example/data.json b/meta/lib/oeqa/core/cases/example/data.json
+new file mode 100644
+index 0000000..21d6b16
+--- /dev/null
++++ b/meta/lib/oeqa/core/cases/example/data.json
+@@ -0,0 +1 @@
++{"ARCH": "x86", "IMAGE": "core-image-minimal"}
+\ No newline at end of file
+diff --git a/meta/lib/oeqa/core/cases/example/test_basic.py b/meta/lib/oeqa/core/cases/example/test_basic.py
+new file mode 100644
+index 0000000..11cf380
+--- /dev/null
++++ b/meta/lib/oeqa/core/cases/example/test_basic.py
+@@ -0,0 +1,20 @@
++# Copyright (C) 2016 Intel Corporation
++# Released under the MIT license (see COPYING.MIT)
 +
-+class OETestContextExecutor(object):
-+    _context_class = OETestContext
++from oeqa.core.case import OETestCase
++from oeqa.core.decorator.depends import OETestDepends
 +
-+    name = 'core'
-+    help = 'core test component example'
-+    description = 'executes core test suite example'
++class OETestExample(OETestCase):
++    def test_example(self):
++        self.logger.info('IMAGE: %s' % self.td.get('IMAGE'))
++        self.assertEqual('core-image-minimal', self.td.get('IMAGE'))
++        self.logger.info('ARCH: %s' % self.td.get('ARCH'))
++        self.assertEqual('x86', self.td.get('ARCH'))
 +
-+    default_cases = [os.path.join(os.path.abspath(os.path.dirname(__file__)),
-+            'cases/example')]
-+    default_test_data = os.path.join(default_cases[0], 'data.json')
++class OETestExampleDepend(OETestCase):
++    @OETestDepends(['OETestExample.test_example'])
++    def test_example_depends(self):
++        pass
 +
-+    def register_commands(self, logger, subparsers):
-+        self.parser = subparsers.add_parser(self.name, help=self.help,
-+                description=self.description, group='components')
-+
-+        self.default_output_log = '%s-results-%s.log' % (self.name,
-+                time.strftime("%Y%m%d%H%M%S"))
-+        self.parser.add_argument('--output-log', action='store',
-+                default=self.default_output_log,
-+                help="results output log, default: %s" % self.default_output_log)
-+
-+        if self.default_test_data:
-+            self.parser.add_argument('--test-data-file', action='store',
-+                    default=self.default_test_data,
-+                    help="data file to load, default: %s" % self.default_test_data)
-+        else:
-+            self.parser.add_argument('--test-data-file', action='store',
-+                    help="data file to load")
-+
-+        if self.default_cases:
-+            self.parser.add_argument('CASES_PATHS', action='store',
-+                    default=self.default_cases, nargs='*',
-+                    help="paths to directories with test cases, default: %s"\
-+                            % self.default_cases)
-+        else:
-+            self.parser.add_argument('CASES_PATHS', action='store',
-+                    nargs='+', help="paths to directories with test cases")
-+
-+        self.parser.set_defaults(func=self.run)
-+
-+    def _setup_logger(self, logger, args):
-+        formatter = logging.Formatter('%(asctime)s - ' + self.name + \
-+                ' - %(levelname)s - %(message)s')
-+        sh = logger.handlers[0]
-+        sh.setFormatter(formatter)
-+        fh = logging.FileHandler(args.output_log)
-+        fh.setFormatter(formatter)
-+        logger.addHandler(fh)
-+
-+        return logger
-+
-+    def _process_args(self, logger, args):
-+        self.tc_kwargs = {}
-+        self.tc_kwargs['init'] = {}
-+        self.tc_kwargs['load'] = {}
-+        self.tc_kwargs['run'] = {}
-+
-+        self.tc_kwargs['init']['logger'] = self._setup_logger(logger, args)
-+        if args.test_data_file:
-+            self.tc_kwargs['init']['td'] = json.load(
-+                    open(args.test_data_file, "r"))
-+        else:
-+            self.tc_kwargs['init']['td'] = {}
-+
-+        self.module_paths = args.CASES_PATHS
-+
-+    def run(self, logger, args):
-+        self._process_args(logger, args)
-+
-+        self.tc = self._context_class(**self.tc_kwargs['init'])
-+        self.tc.loadTests(self.module_paths, **self.tc_kwargs['load'])
-+        rc = self.tc.runTests(**self.tc_kwargs['run'])
-+        self.tc.logSummary(rc, self.name)
-+        self.tc.logDetails()
-+
-+        output_link = os.path.join(os.path.dirname(args.output_log),
-+                "%s-results.log" % self.name)
-+        if os.path.exists(output_link):
-+            os.remove(output_link)
-+        os.symlink(args.output_log, output_link)
-+
-+        return rc
-+
-+_executor_class = OETestContextExecutor
++    def test_example_no_depends(self):
++        pass
 -- 
 2.1.4
 
