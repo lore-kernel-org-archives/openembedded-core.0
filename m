@@ -1,24 +1,47 @@
-Return-Path: <Awais_Belal@mentor.com>
-Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
-	by mail.openembedded.org (Postfix) with ESMTP id 21A0B719E3
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qk0-f175.google.com (mail-qk0-f175.google.com
+	[209.85.220.175])
+	by mail.openembedded.org (Postfix) with ESMTP id 5EC0E6E5FC
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  8 Dec 2016 14:09:42 +0000 (UTC)
-Received: from nat-ies.mentorg.com ([192.94.31.2]
-	helo=SVR-IES-FEM-01.mgc.mentorg.com)
-	by relay1.mentorg.com with esmtp 
-	id 1cEzOJ-0003Sl-VT from Awais_Belal@mentor.com 
-	for openembedded-core@lists.openembedded.org;
-	Thu, 08 Dec 2016 06:09:44 -0800
-Received: from awais-Precision-M4700.pkl.mentorg.com (137.202.0.76) by
-	SVR-IES-FEM-01.mgc.mentorg.com (137.202.0.104) with Microsoft SMTP
-	Server id 14.3.224.2; Thu, 8 Dec 2016 14:09:42 +0000
-From: Awais Belal <awais_belal@mentor.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 8 Dec 2016 19:09:39 +0500
-Message-ID: <1481206179-20877-1-git-send-email-awais_belal@mentor.com>
-X-Mailer: git-send-email 1.9.1
+	Thu,  8 Dec 2016 14:41:50 +0000 (UTC)
+Received: by mail-qk0-f175.google.com with SMTP id x190so451371963qkb.0
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 08 Dec 2016 06:41:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=tAQ1EyRcAECJWGqtLotEEI84n1dKfG2pEe55RGnophE=;
+	b=bCXL7dmKud6vn6vtJr8Z/Ua5RVYmA7mZMldXTgBFtPV4m+zseN9q28JiwSS1rLs5cm
+	bcaweXTMXUL7s2EGf1MF/1ZdZXtKjZo+kgU/SxayXl3CEal8BSxf1DWIjmQNOp43ihlv
+	KEL9gzIGwy2vFC+seN/aYe5FFduAPOnqRpjJeGi8ezzSeP+8XqbWaPOX915RQ2FpbFwG
+	zCLQYjaDmEuwEWcuzqukPOQzCaF0wKNQtgjutl/1r3CbqrEeM5BnbODEr/L73GDs4ZMG
+	9KRMIhV9aYb60SicSN18yavWmhMBbrhqzYKLvVIbIL1Iknv6XhBXsLo3WAp3OPoNNgNn
+	zlRQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=tAQ1EyRcAECJWGqtLotEEI84n1dKfG2pEe55RGnophE=;
+	b=MnGI7zkTKr2CYTFE4veLKPxeCBL9hxaLu8+X+J4J/0bXBFie7HQHhhrIQ41Mczg0OQ
+	qxF0GzEUX/PJsnynmCG1GoL+nkkNJ97Y84/rV//x+EtaOZuvmRa+auXTOU3pzwZ+jveY
+	dOwJgKEqhhbq9BBd7zrAMpIFfdjhUQkHVKO877LjHmjxO/CEEvAEXwE23wcWa+vF/VaE
+	yp8SVt7Y0bP/RDAcRKWZFMxOJ8ElU4y4np8UKvXzQ+o4U2Ru753Vmz697FUcME6TdZGZ
+	CYVFP9Y7wGYgwXxhFs0SXQWkYNIsoU1kFOhO4Pu3uER+FvNBq0Lmuk3vyicz9emce+f4
+	BvaQ==
+X-Gm-Message-State: AKaTC03lBb8q25XJis5oJBN1eQw0jDlrgH5X8HkNoaDb7ObWOCPcq7Q1y59dBVVPwpJmI8v9rRrpD6WDDxOWoKGg
+X-Received: by 10.55.207.78 with SMTP id e75mr75296955qkj.36.1481208103523;
+	Thu, 08 Dec 2016 06:41:43 -0800 (PST)
 MIME-Version: 1.0
-Subject: [master][morty] grub2: fix some quirks and div by zero
+Received: by 10.140.106.99 with HTTP; Thu, 8 Dec 2016 06:41:22 -0800 (PST)
+In-Reply-To: <2b7e685f6ff33f4c12d0f4d025db3689df43ad83.1481142664.git.anibal.limon@linux.intel.com>
+References: <cover.1481142664.git.anibal.limon@linux.intel.com>
+	<2b7e685f6ff33f4c12d0f4d025db3689df43ad83.1481142664.git.anibal.limon@linux.intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 8 Dec 2016 14:41:22 +0000
+Message-ID: <CAJTo0LYP1kqqLOy6w_L_bh1uAF8pta8d7mZQyJgF2r=zaiLUhg@mail.gmail.com>
+To: =?UTF-8?B?QW7DrWJhbCBMaW3Ds24=?= <anibal.limon@linux.intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCHv2 16/32] oeqa/core: Change name of d to td
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,173 +54,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 08 Dec 2016 14:09:43 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 08 Dec 2016 14:41:51 -0000
+Content-Type: multipart/alternative; boundary=001a1145b7b8d9c372054326a244
 
-Rather than erroring out on a single attempt while
-terminating EFI services, make a few retries because
-such quirks are found in a few implementations.
-Also fix a div by zero issue in the same framework
-which causes an infinite reboot on the target.
-Both patches included here are backports.
+--001a1145b7b8d9c372054326a244
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Awais Belal <awais_belal@mentor.com>
----
- ...ern-efi-mm.c-grub_efi_finish_boot_service.patch | 79 ++++++++++++++++++++++
- ...ern-efi-mm.c-grub_efi_get_memory_map-Neve.patch | 43 ++++++++++++
- meta/recipes-bsp/grub/grub2.inc                    |  2 +
- 3 files changed, 124 insertions(+)
- create mode 100644 meta/recipes-bsp/grub/files/0001-grub-core-kern-efi-mm.c-grub_efi_finish_boot_service.patch
- create mode 100644 meta/recipes-bsp/grub/files/0002-grub-core-kern-efi-mm.c-grub_efi_get_memory_map-Neve.patch
+On 7 December 2016 at 20:32, An=C3=ADbal Lim=C3=B3n <anibal.limon@linux.int=
+el.com>
+wrote:
 
-diff --git a/meta/recipes-bsp/grub/files/0001-grub-core-kern-efi-mm.c-grub_efi_finish_boot_service.patch b/meta/recipes-bsp/grub/files/0001-grub-core-kern-efi-mm.c-grub_efi_finish_boot_service.patch
-new file mode 100644
-index 0000000..abf08e1
---- /dev/null
-+++ b/meta/recipes-bsp/grub/files/0001-grub-core-kern-efi-mm.c-grub_efi_finish_boot_service.patch
-@@ -0,0 +1,79 @@
-+From b258761d11946b28a847dff0768c3f271e13d60a Mon Sep 17 00:00:00 2001
-+From: Awais Belal <awais_belal@mentor.com>
-+Date: Thu, 8 Dec 2016 18:21:12 +0500
-+Subject: [PATCH 1/2] * grub-core/kern/efi/mm.c
-+ (grub_efi_finish_boot_services):  Try terminating EFI services several times
-+ due to quirks in some  implementations.
-+
-+Upstream-status: Backport [ http://git.savannah.gnu.org/cgit/grub.git/patch/?id=e75fdee420a7ad95e9a465c9699adc2e2e970440 ]
-+
-+Signed-off-by: Awais Belal <awais_belal@mentor.com>
-+---
-+ grub-core/kern/efi/mm.c | 46 ++++++++++++++++++++++++++++++----------------
-+ 1 file changed, 30 insertions(+), 16 deletions(-)
-+
-+diff --git a/grub-core/kern/efi/mm.c b/grub-core/kern/efi/mm.c
-+index 461deb0..b00e0bc 100644
-+--- a/grub-core/kern/efi/mm.c
-++++ b/grub-core/kern/efi/mm.c
-+@@ -167,27 +167,41 @@ grub_efi_finish_boot_services (grub_efi_uintn_t *outbuf_size, void *outbuf,
-+ 			   apple, sizeof (apple)) == 0);
-+ #endif
-+ 
-+-  if (grub_efi_get_memory_map (&finish_mmap_size, finish_mmap_buf, &finish_key,
-+-			       &finish_desc_size, &finish_desc_version) < 0)
-+-    return grub_error (GRUB_ERR_IO, "couldn't retrieve memory map");
-++  while (1)
-++    {
-++      if (grub_efi_get_memory_map (&finish_mmap_size, finish_mmap_buf, &finish_key,
-++				   &finish_desc_size, &finish_desc_version) < 0)
-++	return grub_error (GRUB_ERR_IO, "couldn't retrieve memory map");
-+ 
-+-  if (outbuf && *outbuf_size < finish_mmap_size)
-+-    return grub_error (GRUB_ERR_IO, "memory map buffer is too small");
-++      if (outbuf && *outbuf_size < finish_mmap_size)
-++	return grub_error (GRUB_ERR_IO, "memory map buffer is too small");
-+ 
-+-  finish_mmap_buf = grub_malloc (finish_mmap_size);
-+-  if (!finish_mmap_buf)
-+-    return grub_errno;
-++      finish_mmap_buf = grub_malloc (finish_mmap_size);
-++      if (!finish_mmap_buf)
-++	return grub_errno;
-+ 
-+-  if (grub_efi_get_memory_map (&finish_mmap_size, finish_mmap_buf, &finish_key,
-+-			       &finish_desc_size, &finish_desc_version) <= 0)
-+-    return grub_error (GRUB_ERR_IO, "couldn't retrieve memory map");
-++      if (grub_efi_get_memory_map (&finish_mmap_size, finish_mmap_buf, &finish_key,
-++				   &finish_desc_size, &finish_desc_version) <= 0)
-++	{
-++	  grub_free (finish_mmap_buf);
-++	  return grub_error (GRUB_ERR_IO, "couldn't retrieve memory map");
-++	}
-+ 
-+-  b = grub_efi_system_table->boot_services;
-+-  status = efi_call_2 (b->exit_boot_services, grub_efi_image_handle,
-+-		       finish_key);
-+-  if (status != GRUB_EFI_SUCCESS)
-+-    return grub_error (GRUB_ERR_IO, "couldn't terminate EFI services");
-++      b = grub_efi_system_table->boot_services;
-++      status = efi_call_2 (b->exit_boot_services, grub_efi_image_handle,
-++			   finish_key);
-++      if (status == GRUB_EFI_SUCCESS)
-++	break;
-+ 
-++      if (status != GRUB_EFI_INVALID_PARAMETER)
-++	{
-++	  grub_free (finish_mmap_buf);
-++	  return grub_error (GRUB_ERR_IO, "couldn't terminate EFI services");
-++	}
-++
-++      grub_free (finish_mmap_buf);
-++      grub_printf ("Trying to terminate EFI services again\n");
-++    }
-+   grub_efi_is_finished = 1;
-+   if (outbuf_size)
-+     *outbuf_size = finish_mmap_size;
-+-- 
-+1.9.1
-+
-diff --git a/meta/recipes-bsp/grub/files/0002-grub-core-kern-efi-mm.c-grub_efi_get_memory_map-Neve.patch b/meta/recipes-bsp/grub/files/0002-grub-core-kern-efi-mm.c-grub_efi_get_memory_map-Neve.patch
-new file mode 100644
-index 0000000..0e735ff
---- /dev/null
-+++ b/meta/recipes-bsp/grub/files/0002-grub-core-kern-efi-mm.c-grub_efi_get_memory_map-Neve.patch
-@@ -0,0 +1,43 @@
-+From 630de45f3d5f9a2dda7fad99acd21449b8c4111d Mon Sep 17 00:00:00 2001
-+From: Awais Belal <awais_belal@mentor.com>
-+Date: Thu, 8 Dec 2016 18:27:01 +0500
-+Subject: [PATCH 2/2] * grub-core/kern/efi/mm.c (grub_efi_get_memory_map):
-+ Never  return a descriptor_size==0 to avoid potential divisions by zero.
-+
-+Upstream-status: Backport [ http://git.savannah.gnu.org/cgit/grub.git/commit/?id=69aee43fa64601cabf6efa9279c10d69b466662e ]
-+
-+Signed-off-by: Awais Belal <awais_belal@mentor.com>
-+---
-+ grub-core/kern/efi/mm.c | 5 +++++
-+ 1 file changed, 5 insertions(+)
-+
-+diff --git a/grub-core/kern/efi/mm.c b/grub-core/kern/efi/mm.c
-+index b00e0bc..9f1d194 100644
-+--- a/grub-core/kern/efi/mm.c
-++++ b/grub-core/kern/efi/mm.c
-+@@ -235,6 +235,7 @@ grub_efi_get_memory_map (grub_efi_uintn_t *memory_map_size,
-+   grub_efi_boot_services_t *b;
-+   grub_efi_uintn_t key;
-+   grub_efi_uint32_t version;
-++  grub_efi_uintn_t size;
-+ 
-+   if (grub_efi_is_finished)
-+     {
-+@@ -264,10 +265,14 @@ grub_efi_get_memory_map (grub_efi_uintn_t *memory_map_size,
-+     map_key = &key;
-+   if (! descriptor_version)
-+     descriptor_version = &version;
-++  if (! descriptor_size)
-++    descriptor_size = &size;
-+ 
-+   b = grub_efi_system_table->boot_services;
-+   status = efi_call_5 (b->get_memory_map, memory_map_size, memory_map, map_key,
-+ 			      descriptor_size, descriptor_version);
-++  if (*descriptor_size == 0)
-++    *descriptor_size = sizeof (grub_efi_memory_descriptor_t);
-+   if (status == GRUB_EFI_SUCCESS)
-+     return 1;
-+   else if (status == GRUB_EFI_BUFFER_TOO_SMALL)
-+-- 
-+1.9.1
-+
-diff --git a/meta/recipes-bsp/grub/grub2.inc b/meta/recipes-bsp/grub/grub2.inc
-index b10f633..677d860 100644
---- a/meta/recipes-bsp/grub/grub2.inc
-+++ b/meta/recipes-bsp/grub/grub2.inc
-@@ -32,6 +32,8 @@ SRC_URI = "ftp://ftp.gnu.org/gnu/grub/grub-${PV}.tar.gz \
-            file://0001-Remove-direct-_llseek-code-and-require-long-filesyst.patch \
-            file://fix-texinfo.patch \
-            file://0001-grub-core-gettext-gettext.c-main_context-secondary_c.patch \
-+           file://0001-grub-core-kern-efi-mm.c-grub_efi_finish_boot_service.patch \
-+           file://0002-grub-core-kern-efi-mm.c-grub_efi_get_memory_map-Neve.patch \
-             "
- 
- DEPENDS = "flex-native bison-native autogen-native"
--- 
-1.9.1
+> The d variable references the test data into a test context, so
+> makes a more sense to call it: td (test data).
+>
 
+Can you squash this into the commits where they are introduced (don't need
+to see your working, etc).
 
+Ross
+
+--001a1145b7b8d9c372054326a244
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 7 December 2016 at 20:32, An=C3=ADbal Lim=C3=B3n <span dir=3D"ltr">&lt;<=
+a href=3D"mailto:anibal.limon@linux.intel.com" target=3D"_blank">anibal.lim=
+on@linux.intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quot=
+e" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">=
+<div id=3D":21" class=3D"a3s aXjCH m158dafcd106879a7">The d variable refere=
+nces the test data into a test context, so<br>
+makes a more sense to call it: td (test data).<br></div></blockquote></div>=
+<br>Can you squash this into the commits where they are introduced (don&#39=
+;t need to see your working, etc).</div><div class=3D"gmail_extra"><br></di=
+v><div class=3D"gmail_extra">Ross</div></div>
+
+--001a1145b7b8d9c372054326a244--
