@@ -1,23 +1,23 @@
 Return-Path: <anibal.limon@linux.intel.com>
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id EA0A271C3E
+	by mail.openembedded.org (Postfix) with ESMTP id 0E52471C28
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  8 Dec 2016 16:20:07 +0000 (UTC)
+	Thu,  8 Dec 2016 16:20:08 +0000 (UTC)
 Received: from fmsmga006.fm.intel.com ([10.253.24.20])
 	by fmsmga101.fm.intel.com with ESMTP; 08 Dec 2016 08:19:02 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.33,320,1477983600"; d="scan'208";a="40496576"
+X-IronPort-AV: E=Sophos;i="5.33,320,1477983600"; d="scan'208";a="40496579"
 Received: from alimonb-mobl1.zpn.intel.com ([10.219.5.142])
 	by fmsmga006.fm.intel.com with ESMTP; 08 Dec 2016 08:19:02 -0800
 From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  8 Dec 2016 10:20:56 -0600
-Message-Id: <6be0dc3ea7db97d6a85d5c7a81df72a098ed4d2d.1481213961.git.anibal.limon@linux.intel.com>
+Date: Thu,  8 Dec 2016 10:20:57 -0600
+Message-Id: <e851c1a36be018c7c9ad5e3d2e4099438e7a07ea.1481213961.git.anibal.limon@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1481213961.git.anibal.limon@linux.intel.com>
 References: <cover.1481213961.git.anibal.limon@linux.intel.com>
 MIME-Version: 1.0
-Subject: [PATCHv3 28/30] oeqa/sdkext/cases: Migrate test case to new OEQA framework
+Subject: [PATCHv3 29/30] oeqa/runtime: Fix TargetBuildProject instances
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,196 +30,122 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 08 Dec 2016 16:20:08 -0000
+X-List-Received-Date: Thu, 08 Dec 2016 16:20:09 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Summary,
+TargetBuildProject was refactored to avoid bitbake dependency so
+the instance don't allow to pass data store anymore.
 
-- Changes base case class to OESDKExtTest.
-- Changes decorator classes to new ones.
-- Chnages variable names sdktestdir -> sdk_dir.
-- Added missing license to MIT.
+classes/testimage: Export proxies before run tests
+
+The TargetBuildProject based tests download archives from network.
 
 Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
 ---
- meta/lib/oeqa/sdk/cases/buildgalculator.py |  2 +-
- meta/lib/oeqa/sdk/cases/gcc.py             |  2 +-
- meta/lib/oeqa/sdkext/cases/devtool.py      | 49 ++++++++++++++++--------------
- meta/lib/oeqa/sdkext/cases/sdk_update.py   | 17 ++++++-----
- 4 files changed, 38 insertions(+), 32 deletions(-)
+ meta/classes/testimage.bbclass           | 4 ++++
+ meta/lib/oeqa/runtime/buildcvs.py        | 9 +++++----
+ meta/lib/oeqa/runtime/buildgalculator.py | 8 +++++---
+ meta/lib/oeqa/runtime/buildiptables.py   | 8 +++++---
+ 4 files changed, 19 insertions(+), 10 deletions(-)
 
-diff --git a/meta/lib/oeqa/sdk/cases/buildgalculator.py b/meta/lib/oeqa/sdk/cases/buildgalculator.py
-index bdc8b6a..b9b24ee 100644
---- a/meta/lib/oeqa/sdk/cases/buildgalculator.py
-+++ b/meta/lib/oeqa/sdk/cases/buildgalculator.py
-@@ -10,7 +10,7 @@ class GalculatorTest(OESDKTestCase):
-     def setUpClass(self):
-         if not (self.tc.hasTargetPackage("gtk+3") or\
-                 self.tc.hasTargetPackage("libgtk-3.0")):
--            raise unittest.SkipTest("%s class: SDK don't support gtk+3" % self.__name__)
-+            raise unittest.SkipTest("%s class: SDK don't support gtk+3" % self.__class__.__name__)
+diff --git a/meta/classes/testimage.bbclass b/meta/classes/testimage.bbclass
+index 6b6781d..89ed003 100644
+--- a/meta/classes/testimage.bbclass
++++ b/meta/classes/testimage.bbclass
+@@ -129,11 +129,15 @@ def testimage_main(d):
+     from oeqa.oetest import ImageTestContext
+     from oeqa.targetcontrol import get_target_controller
+     from oeqa.utils.dump import get_host_dumper
++    from bb.utils import export_proxies
  
+     pn = d.getVar("PN", True)
+     bb.utils.mkdirhier(d.getVar("TEST_LOG_DIR", True))
+     test_create_extract_dirs(d)
+ 
++    # runtime use network for download projects for build
++    export_proxies(d)
++
+     # we need the host dumper in test context
+     host_dumper = get_host_dumper(d)
+ 
+diff --git a/meta/lib/oeqa/runtime/buildcvs.py b/meta/lib/oeqa/runtime/buildcvs.py
+index fe6cbfb..a5ca3a5 100644
+--- a/meta/lib/oeqa/runtime/buildcvs.py
++++ b/meta/lib/oeqa/runtime/buildcvs.py
+@@ -1,6 +1,6 @@
+ from oeqa.oetest import oeRuntimeTest, skipModule
+ from oeqa.utils.decorators import *
+-from oeqa.utils.targetbuild import TargetBuildProject
++from oeqa.runtime.utils.targetbuildproject import TargetBuildProject
+ 
+ def setUpModule():
+     if not oeRuntimeTest.hasFeature("tools-sdk"):
+@@ -10,9 +10,10 @@ class BuildCvsTest(oeRuntimeTest):
+ 
+     @classmethod
+     def setUpClass(self):
+-        self.project = TargetBuildProject(oeRuntimeTest.tc.target, oeRuntimeTest.tc.d,
+-                        "http://ftp.gnu.org/non-gnu/cvs/source/feature/1.12.13/cvs-1.12.13.tar.bz2")
+-        self.project.download_archive()
++        dl_dir = oeRuntimeTest.tc.d.getVar('DL_DIR', True)
++        self.project = TargetBuildProject(oeRuntimeTest.tc.target,
++                        "http://ftp.gnu.org/non-gnu/cvs/source/feature/1.12.13/cvs-1.12.13.tar.bz2",
++                        dl_dir=dl_dir)
+ 
+     @testcase(205)
+     @skipUnlessPassed("test_ssh")
+diff --git a/meta/lib/oeqa/runtime/buildgalculator.py b/meta/lib/oeqa/runtime/buildgalculator.py
+index 220101d..20f0a79 100644
+--- a/meta/lib/oeqa/runtime/buildgalculator.py
++++ b/meta/lib/oeqa/runtime/buildgalculator.py
+@@ -1,6 +1,6 @@
+ from oeqa.oetest import oeRuntimeTest, skipModule
+ from oeqa.utils.decorators import *
+-from oeqa.utils.targetbuild import TargetBuildProject
++from oeqa.runtime.utils.targetbuildproject import TargetBuildProject
+ 
+ def setUpModule():
+     if not oeRuntimeTest.hasFeature("tools-sdk"):
+@@ -10,9 +10,11 @@ class GalculatorTest(oeRuntimeTest):
+     @testcase(1526)
+     @skipUnlessPassed("test_ssh")
      def test_galculator(self):
-         dl_dir = self.td.get('DL_DIR', None)
-diff --git a/meta/lib/oeqa/sdk/cases/gcc.py b/meta/lib/oeqa/sdk/cases/gcc.py
-index e06af4c..36725e3 100644
---- a/meta/lib/oeqa/sdk/cases/gcc.py
-+++ b/meta/lib/oeqa/sdk/cases/gcc.py
-@@ -20,7 +20,7 @@ class GccCompileTest(OESDKTestCase):
-         machine = self.td.get("MACHINE")
-         if not self.tc.hasHostPackage("packagegroup-cross-canadian-%s" % machine):
-             raise unittest.SkipTest("%s class: SDK doesn't contain a cross-canadian toolchain",
--                    self.__name__)
-+                    self.__class__.__name__)
++        dl_dir = oeRuntimeTest.tc.d.getVar('DL_DIR', True)
+         try:
+-            project = TargetBuildProject(oeRuntimeTest.tc.target, oeRuntimeTest.tc.d,
+-                                      "http://galculator.mnim.org/downloads/galculator-2.1.4.tar.bz2")
++            project = TargetBuildProject(oeRuntimeTest.tc.target,
++                                      "http://galculator.mnim.org/downloads/galculator-2.1.4.tar.bz2",
++                                      dl_dir=dl_dir)
+             project.download_archive()
  
-     def test_gcc_compile(self):
-         self._run('$CC %s/test.c -o %s/test -lm' % (self.tc.sdk_dir, self.tc.sdk_dir))
-diff --git a/meta/lib/oeqa/sdkext/cases/devtool.py b/meta/lib/oeqa/sdkext/cases/devtool.py
-index 65f41f6..da0050c 100644
---- a/meta/lib/oeqa/sdkext/cases/devtool.py
-+++ b/meta/lib/oeqa/sdkext/cases/devtool.py
-@@ -1,18 +1,22 @@
-+# Copyright (C) 2016 Intel Corporation
-+# Released under the MIT license (see COPYING.MIT)
-+
- import shutil
- import subprocess
--import urllib.request
--from oeqa.oetest import oeSDKExtTest
--from oeqa.utils.decorators import *
+             self.assertEqual(project.run_configure(), 0,
+diff --git a/meta/lib/oeqa/runtime/buildiptables.py b/meta/lib/oeqa/runtime/buildiptables.py
+index bc75d0a..a0e82f0 100644
+--- a/meta/lib/oeqa/runtime/buildiptables.py
++++ b/meta/lib/oeqa/runtime/buildiptables.py
+@@ -1,6 +1,6 @@
+ from oeqa.oetest import oeRuntimeTest, skipModule
+ from oeqa.utils.decorators import *
+-from oeqa.utils.targetbuild import TargetBuildProject
++from oeqa.runtime.utils.targetbuildproject import TargetBuildProject
  
--class DevtoolTest(oeSDKExtTest):
-+from oeqa.sdkext.case import OESDKExtTestCase
-+from oeqa.core.decorator.depends import OETestDepends
-+from oeqa.core.decorator.oeid import OETestID
-+
-+class DevtoolTest(OESDKExtTestCase):
+ def setUpModule():
+     if not oeRuntimeTest.hasFeature("tools-sdk"):
+@@ -10,8 +10,10 @@ class BuildIptablesTest(oeRuntimeTest):
+ 
      @classmethod
      def setUpClass(self):
--        self.myapp_src = os.path.join(self.tc.sdkextfilesdir, "myapp")
--        self.myapp_dst = os.path.join(self.tc.sdktestdir, "myapp")
-+        self.myapp_src = os.path.join(self.tc.esdk_files_dir, "myapp")
-+        self.myapp_dst = os.path.join(self.tc.sdk_dir, "myapp")
-         shutil.copytree(self.myapp_src, self.myapp_dst)
+-        self.project = TargetBuildProject(oeRuntimeTest.tc.target, oeRuntimeTest.tc.d,
+-                        "http://downloads.yoctoproject.org/mirror/sources/iptables-1.4.13.tar.bz2")
++        dl_dir = oeRuntimeTest.tc.d.getVar('DL_DIR', True)
++        self.project = TargetBuildProject(oeRuntimeTest.tc.target,
++                        "http://downloads.yoctoproject.org/mirror/sources/iptables-1.4.13.tar.bz2",
++                        dl_dir=dl_dir)
+         self.project.download_archive()
  
--        self.myapp_cmake_src = os.path.join(self.tc.sdkextfilesdir, "myapp_cmake")
--        self.myapp_cmake_dst = os.path.join(self.tc.sdktestdir, "myapp_cmake")
-+        self.myapp_cmake_src = os.path.join(self.tc.esdk_files_dir, "myapp_cmake")
-+        self.myapp_cmake_dst = os.path.join(self.tc.sdk_dir, "myapp_cmake")
-         shutil.copytree(self.myapp_cmake_src, self.myapp_cmake_dst)
- 
-     def _test_devtool_build(self, directory):
-@@ -37,31 +41,31 @@ class DevtoolTest(oeSDKExtTest):
- 
-     def test_devtool_location(self):
-         output = self._run('which devtool')
--        self.assertEqual(output.startswith(self.tc.sdktestdir), True, \
-+        self.assertEqual(output.startswith(self.tc.sdk_dir), True, \
-             msg="Seems that devtool isn't the eSDK one: %s" % output)
-     
--    @skipUnlessPassed('test_devtool_location')
-+    @OETestDepends(['test_devtool_location'])
-     def test_devtool_add_reset(self):
-         self._run('devtool add myapp %s' % self.myapp_dst)
-         self._run('devtool reset myapp')
-     
--    @testcase(1473)
--    @skipUnlessPassed('test_devtool_location')
-+    @OETestID(1473)
-+    @OETestDepends(['test_devtool_location'])
-     def test_devtool_build_make(self):
-         self._test_devtool_build(self.myapp_dst)
-     
--    @testcase(1474)
--    @skipUnlessPassed('test_devtool_location')
-+    @OETestID(1474)
-+    @OETestDepends(['test_devtool_location'])
-     def test_devtool_build_esdk_package(self):
-         self._test_devtool_build_package(self.myapp_dst)
- 
--    @testcase(1479)
--    @skipUnlessPassed('test_devtool_location')
-+    @OETestID(1479)
-+    @OETestDepends(['test_devtool_location'])
-     def test_devtool_build_cmake(self):
-         self._test_devtool_build(self.myapp_cmake_dst)
-     
--    @testcase(1482)
--    @skipUnlessPassed('test_devtool_location')
-+    @OETestID(1482)
-+    @OETestDepends(['test_devtool_location'])
-     def test_extend_autotools_recipe_creation(self):
-         req = 'https://github.com/rdfa/librdfa'
-         recipe = "bbexample"
-@@ -74,8 +78,8 @@ class DevtoolTest(oeSDKExtTest):
-             raise e
-         self._run('devtool reset %s' % recipe)
- 
--    @testcase(1484)
--    @skipUnlessPassed('test_devtool_location')
-+    @OETestID(1484)
-+    @OETestDepends(['test_devtool_location'])
-     def test_devtool_kernelmodule(self):
-         docfile = 'https://github.com/umlaeute/v4l2loopback.git'
-         recipe = 'v4l2loopback-driver'
-@@ -88,8 +92,8 @@ class DevtoolTest(oeSDKExtTest):
-             raise e
-         self._run('devtool reset %s' % recipe)
- 
--    @testcase(1478)
--    @skipUnlessPassed('test_devtool_location')
-+    @OETestID(1478)
-+    @OETestDepends(['test_devtool_location'])
-     def test_recipes_for_nodejs(self):
-         package_nodejs = "npm://registry.npmjs.org;name=winston;version=2.2.0"
-         self._run('devtool add %s ' % package_nodejs)
-@@ -101,7 +105,6 @@ class DevtoolTest(oeSDKExtTest):
-             raise e
-         self._run('devtool reset %s '% package_nodejs)
- 
--
-     @classmethod
-     def tearDownClass(self):
-         shutil.rmtree(self.myapp_dst)
-diff --git a/meta/lib/oeqa/sdkext/cases/sdk_update.py b/meta/lib/oeqa/sdkext/cases/sdk_update.py
-index 2ade839..2f8598b 100644
---- a/meta/lib/oeqa/sdkext/cases/sdk_update.py
-+++ b/meta/lib/oeqa/sdkext/cases/sdk_update.py
-@@ -1,23 +1,26 @@
-+# Copyright (C) 2016 Intel Corporation
-+# Released under the MIT license (see COPYING.MIT)
-+
- import os
- import shutil
- import subprocess
- 
--from oeqa.oetest import oeSDKExtTest
-+from oeqa.sdkext.case import OESDKExtTestCase
- from oeqa.utils.httpserver import HTTPService
- 
--class SdkUpdateTest(oeSDKExtTest):
--
-+class SdkUpdateTest(OESDKExtTestCase):
-     @classmethod
-     def setUpClass(self):
--        self.publish_dir = os.path.join(self.tc.sdktestdir, 'esdk_publish')
-+        self.publish_dir = os.path.join(self.tc.sdk_dir, 'esdk_publish')
-         if os.path.exists(self.publish_dir):
-             shutil.rmtree(self.publish_dir)
-         os.mkdir(self.publish_dir)
- 
--        tcname_new = self.tc.d.expand(
--            "${SDK_DEPLOY}/${TOOLCHAINEXT_OUTPUTNAME}-new.sh")
-+        base_tcname = "%s/%s" % (self.td.get("SDK_DEPLOY", ''),
-+            self.td.get("TOOLCHAINEXT_OUTPUTNAME", ''))
-+        tcname_new = "%s-new.sh" % base_tcname
-         if not os.path.exists(tcname_new):
--            tcname_new = self.tc.tcname
-+            tcname_new = "%s.sh" % base_tcname
- 
-         cmd = 'oe-publish-sdk %s %s' % (tcname_new, self.publish_dir)
-         subprocess.check_output(cmd, shell=True)
+     @testcase(206)
 -- 
 2.1.4
 
