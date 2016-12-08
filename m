@@ -1,18 +1,18 @@
 Return-Path: <obi@opendreambox.org>
 Received: from mail.saftware.de (mail.saftware.de [83.141.3.46])
-	by mail.openembedded.org (Postfix) with ESMTP id 2CBC071C70
+	by mail.openembedded.org (Postfix) with ESMTP id B650F71BF9
 	for <openembedded-core@lists.openembedded.org>;
 	Thu,  8 Dec 2016 21:48:20 +0000 (UTC)
 Received: by t510.zcs.saftware.de (Postfix, from userid 1000)
-	id 145E8B88DCE; Thu,  8 Dec 2016 22:48:00 +0100 (CET)
+	id 2AA58B88F50; Thu,  8 Dec 2016 22:48:00 +0100 (CET)
 From: Andreas Oberritter <obi@opendreambox.org>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  8 Dec 2016 22:47:53 +0100
-Message-Id: <1481233677-27298-30-git-send-email-obi@opendreambox.org>
+Date: Thu,  8 Dec 2016 22:47:50 +0100
+Message-Id: <1481233677-27298-27-git-send-email-obi@opendreambox.org>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1481233677-27298-1-git-send-email-obi@opendreambox.org>
 References: <1481233677-27298-1-git-send-email-obi@opendreambox.org>
-Subject: [PATCH v2 29/33] dpkg: always install dpkg-configure.service
+Subject: [PATCH v2 26/33] dpkg: remove unneeded do_configure override
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,55 +25,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 08 Dec 2016 21:48:20 -0000
+X-List-Received-Date: Thu, 08 Dec 2016 21:48:21 -0000
 
-systemd.bbclass handles everything based on DISTRO_FEATURES.
+Exporting PERL_LIBDIR is enough, compiler.m4 isn't needed.
 
 Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
 ---
- meta/recipes-devtools/dpkg/dpkg.inc | 22 ++++++++--------------
- 1 file changed, 8 insertions(+), 14 deletions(-)
+ meta/recipes-devtools/dpkg/dpkg.inc | 6 ------
+ 1 file changed, 6 deletions(-)
 
 diff --git a/meta/recipes-devtools/dpkg/dpkg.inc b/meta/recipes-devtools/dpkg/dpkg.inc
-index 09c962e..40cfc45 100644
+index bb3c4df..2575fbb 100644
 --- a/meta/recipes-devtools/dpkg/dpkg.inc
 +++ b/meta/recipes-devtools/dpkg/dpkg.inc
-@@ -9,11 +9,7 @@ UPSTREAM_CHECK_URI = "${DEBIAN_MIRROR}/main/d/dpkg/"
+@@ -44,12 +44,6 @@ do_configure_prepend_class-native() {
+     sed -i -e 's|SYSCONFDIR|"${sysconfdir_native}"|' ${S}/utils/update-alternatives.c
+ }
  
- inherit autotools gettext perlnative pkgconfig systemd
- 
--python () {
--    if not bb.utils.contains('DISTRO_FEATURES', 'sysvinit', True, False, d):
--        pn = d.getVar('PN', True)
--        d.setVar('SYSTEMD_SERVICE_%s' % (pn), 'dpkg-configure.service')
+-do_configure () {
+-    echo >> ${S}/m4/compiler.m4
+-    sed -i -e 's#PERL_LIBDIR=.*$#PERL_LIBDIR="${libdir}/perl"#' ${S}/configure
+-    autotools_do_configure
 -}
-+SYSTEMD_SERVICE_${PN} = "dpkg-configure.service"
- 
- export PERL = "${bindir}/perl"
- PERL_class-native = "${STAGING_BINDIR_NATIVE}/perl-native/perl"
-@@ -49,15 +45,13 @@ do_install_append_class-native() {
- }
- 
+-
  do_install_append () {
--	if ${@bb.utils.contains('DISTRO_FEATURES','sysvinit','false','true',d)};then
--		install -d ${D}${systemd_unitdir}/system
--		install -m 0644 ${WORKDIR}/dpkg-configure.service ${D}${systemd_unitdir}/system/
--		sed -i -e 's,@BASE_BINDIR@,${base_bindir},g' \
--			-e 's,@SYSCONFDIR@,${sysconfdir},g' \
--			-e 's,@BINDIR@,${bindir},g' \
--			-e 's,@SYSTEMD_UNITDIR@,${systemd_unitdir},g' \
--			${D}${systemd_unitdir}/system/dpkg-configure.service
--	fi
-+    install -d ${D}${systemd_unitdir}/system
-+    install -m 0644 ${WORKDIR}/dpkg-configure.service ${D}${systemd_unitdir}/system
-+    sed -e 's,@BASE_BINDIR@,${base_bindir},g' \
-+        -e 's,@SYSCONFDIR@,${sysconfdir},g' \
-+        -e 's,@BINDIR@,${bindir},g' \
-+        -e 's,@SYSTEMD_UNITDIR@,${systemd_unitdir},g' \
-+        -i ${D}${systemd_unitdir}/system/dpkg-configure.service
- }
- 
- PACKAGES =+ "dpkg-perl dselect libdpkg-perl start-stop-daemon update-alternatives-dpkg"
+ 	if [ "${PN}" = "dpkg-native" ]; then
+ 		sed -i -e 's|^#!.*${bindir}/perl-native.*/perl|#!/usr/bin/env nativeperl|' ${D}${bindir}/dpkg-*
 -- 
 2.7.4
 
