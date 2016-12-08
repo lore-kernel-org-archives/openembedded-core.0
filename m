@@ -1,35 +1,23 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 6515760069
+Return-Path: <ed.bartosh@linux.intel.com>
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+	by mail.openembedded.org (Postfix) with ESMTP id CADDB71BC4
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  8 Dec 2016 15:27:29 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id uB8FRTCP015823
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 8 Dec 2016 07:27:30 -0800 (PST)
-Received: from [128.224.56.48] (128.224.56.48) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.294.0;
-	Thu, 8 Dec 2016 07:27:29 -0800
-To: Trevor Woerner <twoerner@gmail.com>
-References: <cover.1480711764.git.bruce.ashfield@windriver.com>
-	<48f1e3e16ca28e1194d6024689d000cb6ffc303c.1480711764.git.bruce.ashfield@windriver.com>
-	<1481058881.17535.58.camel@intel.com>
-	<20161206230222.5411d7b6@nuc.betafive.co.uk>
-	<CAHUNapQ847n7e=acLQ+hkLqziqaP8EQg5_0wrw5oJ9i9+Tw6tg@mail.gmail.com>
-	<78eef00e-4156-bdbf-cda1-688ae0495414@windriver.com>
-	<CAHUNapSr5a2cuKN1xiK=2K0S+zkwMA7J0ALfe1hUZAVgXv2Fpw@mail.gmail.com>
-	<CAHUNapQxmOANi1FinaTiXH+J2VdyvH4g5y2zRJydBso6epf00A@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-Message-ID: <2d44063b-3262-bdc8-a01c-57990eddfb3f@windriver.com>
-Date: Thu, 8 Dec 2016 10:27:28 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.5.1
-MIME-Version: 1.0
-In-Reply-To: <CAHUNapQxmOANi1FinaTiXH+J2VdyvH4g5y2zRJydBso6epf00A@mail.gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/4] kern-tools: fix processing for no branch meta-data
+	Thu,  8 Dec 2016 15:27:37 +0000 (UTC)
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+	by orsmga104.jf.intel.com with ESMTP; 08 Dec 2016 07:27:38 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.33,320,1477983600"; d="scan'208";a="200470675"
+Received: from linux.intel.com ([10.54.29.200])
+	by fmsmga004.fm.intel.com with ESMTP; 08 Dec 2016 07:27:37 -0800
+Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.38])
+	by linux.intel.com (Postfix) with ESMTP id EC2106A4080;
+	Thu,  8 Dec 2016 07:26:50 -0800 (PST)
+From: Ed Bartosh <ed.bartosh@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  8 Dec 2016 17:27:23 +0200
+Message-Id: <1481210843-15173-1-git-send-email-ed.bartosh@linux.intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH] oe-run-native: standardize usage output
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,41 +30,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 08 Dec 2016 15:27:30 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 08 Dec 2016 15:27:37 -0000
 
-On 2016-12-07 06:50 PM, Trevor Woerner wrote:
-> On Wed, Dec 7, 2016 at 1:05 PM, Trevor Woerner <twoerner@gmail.com> wrote:
->> On Wed, Dec 7, 2016 at 11:18 AM, Bruce Ashfield
->> <bruce.ashfield@windriver.com> wrote:
->>> With the attached patch, I see nothing else that is named  in /tmp/
->>>
->>> If you have the cycles, can you give it a try and let me know ?
->>
->> Yes, I'm giving it a whirl right now. Thanks!
->
-> That patch looks good, how soon can it land? ;-)
->
-> I'm sure there's still something in the build that is creating
-> temporary files in /tmp. I'm not sure which process is doing it, I
-> have no reason to suspect it's the kernel tools (in fact I think it
-> happens too early in the build to be the kernel tools), and the tmp
-> files that are created are named with temporary names (e.g.
-> /tmp/tmp.2wavbhTlDU) so they shouldn't interfere with multiple users
-> building on the same machine. Each build appears to create two such
-> temp files that aren't cleaned up at the end of the build. Not a big
-> deal. I don't think it's something new that was introduced recently
-> (but I'd have to do more investigation to verify).
+Made usage output of oe-run-native to look similar to the
+output of other oe scripts.
 
-I did find one mktemp file that wasn't being cleaned up. I fixed
-it and updated my commit to include that fix.
+[YOCTO #10751]
 
-It'll all be out later today with my kernel version bumps + CVE
-series.
+Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
+---
+ scripts/oe-run-native | 11 +++++++++--
+ 1 file changed, 9 insertions(+), 2 deletions(-)
 
-Bruce
-
->
+diff --git a/scripts/oe-run-native b/scripts/oe-run-native
+index 496e34f..7e26ea3 100755
+--- a/scripts/oe-run-native
++++ b/scripts/oe-run-native
+@@ -22,8 +22,15 @@
+ #
+ 
+ if [ $# -lt 1 -o "$1" = '--help' -o "$1" = '-h' ] ; then
+-    echo "Usage: $0 <native tool> [parameters]"
+-    exit 1
++    echo 'oe-run-native: error: the following arguments are required: <native tool>'
++    echo 'Usage: oe-run-native tool [parameters]'
++    echo ''
++    echo 'OpenEmbedded run-native - runs native tools'
++    echo ''
++    echo 'arguments:'
++    echo '  tool                Native tool to run'
++    echo ''
++    exit 2
+ fi
+ 
+ SYSROOT_SETUP_SCRIPT=`which oe-find-native-sysroot 2> /dev/null`
+-- 
+2.1.4
 
 
