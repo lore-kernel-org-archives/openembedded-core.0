@@ -1,23 +1,23 @@
 Return-Path: <anibal.limon@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 09D9A71C7F
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id B90B971C09
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  8 Dec 2016 16:18:57 +0000 (UTC)
+	Thu,  8 Dec 2016 16:20:03 +0000 (UTC)
 Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-	by fmsmga103.fm.intel.com with ESMTP; 08 Dec 2016 08:18:59 -0800
+	by fmsmga101.fm.intel.com with ESMTP; 08 Dec 2016 08:18:59 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.33,320,1477983600"; d="scan'208";a="40496531"
+X-IronPort-AV: E=Sophos;i="5.33,320,1477983600"; d="scan'208";a="40496541"
 Received: from alimonb-mobl1.zpn.intel.com ([10.219.5.142])
-	by fmsmga006.fm.intel.com with ESMTP; 08 Dec 2016 08:18:58 -0800
+	by fmsmga006.fm.intel.com with ESMTP; 08 Dec 2016 08:18:59 -0800
 From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  8 Dec 2016 10:20:46 -0600
-Message-Id: <7ed2c4206df1dfc60f08107df13bcf32d97d1e1a.1481213961.git.anibal.limon@linux.intel.com>
+Date: Thu,  8 Dec 2016 10:20:48 -0600
+Message-Id: <4bdf55d649b2834ee520fb8fcb67bbefb5752e1f.1481213961.git.anibal.limon@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1481213961.git.anibal.limon@linux.intel.com>
 References: <cover.1481213961.git.anibal.limon@linux.intel.com>
 MIME-Version: 1.0
-Subject: [PATCHv3 18/30] oeqa/{runtime, sdk}/files: Move testsdkmakefile from runtime to sdk module
+Subject: [PATCHv3 20/30] classes/testsdk: Migrates testsdk.bbclass to use new OESDKTestContext
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,26 +30,116 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 08 Dec 2016 16:18:59 -0000
+X-List-Received-Date: Thu, 08 Dec 2016 16:20:04 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-It doesn't make sense to have files related to sdk module into runtime
-module.
-
-[YOCTO #10599]
+The functionality provided is the same with imporvements on code
+reuse and better interfaces.
 
 Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
-Signed-off-by: Mariano Lopez <mariano.lopez@linux.intel.com>
 ---
- meta/lib/oeqa/{runtime => sdk}/files/testsdkmakefile | 0
- 1 file changed, 0 insertions(+), 0 deletions(-)
- rename meta/lib/oeqa/{runtime => sdk}/files/testsdkmakefile (100%)
+ meta/classes/testsdk.bbclass | 67 ++++++++++++++++++++++++++++++++++++--------
+ 1 file changed, 55 insertions(+), 12 deletions(-)
 
-diff --git a/meta/lib/oeqa/runtime/files/testsdkmakefile b/meta/lib/oeqa/sdk/files/testsdkmakefile
-similarity index 100%
-rename from meta/lib/oeqa/runtime/files/testsdkmakefile
-rename to meta/lib/oeqa/sdk/files/testsdkmakefile
+diff --git a/meta/classes/testsdk.bbclass b/meta/classes/testsdk.bbclass
+index 06b4c50..959fb38 100644
+--- a/meta/classes/testsdk.bbclass
++++ b/meta/classes/testsdk.bbclass
+@@ -50,30 +50,74 @@ def run_test_context(CTestContext, d, testdir, tcname, pn, *args):
+ 
+ def testsdk_main(d):
+     import os
+-    import oeqa.sdk
+     import subprocess
+-    from oeqa.oetest import SDKTestContext
++    import json
++    import logging
++
++    from bb.utils import export_proxies
++    from oeqa.core.runner import OEStreamLogger
++    from oeqa.sdk.context import OESDKTestContext, OESDKTestContextExecutor
+ 
+     pn = d.getVar("PN", True)
+-    bb.utils.mkdirhier(d.getVar("TEST_LOG_DIR", True))
++    logger = logging.getLogger("BitBake")
++
++    # sdk use network for download projects for build
++    export_proxies(d)
++
++    test_log_dir = d.getVar("TEST_LOG_DIR", True)
++
++    bb.utils.mkdirhier(test_log_dir)
+ 
+     tcname = d.expand("${SDK_DEPLOY}/${TOOLCHAIN_OUTPUTNAME}.sh")
+     if not os.path.exists(tcname):
+         bb.fatal("The toolchain %s is not built. Build it before running the tests: 'bitbake <image> -c populate_sdk' ." % tcname)
+ 
+-    sdktestdir = d.expand("${WORKDIR}/testimage-sdk/")
+-    bb.utils.remove(sdktestdir, True)
+-    bb.utils.mkdirhier(sdktestdir)
++    tdname = d.expand("${SDK_DEPLOY}/${TOOLCHAIN_OUTPUTNAME}.testdata.json")
++    test_data = json.load(open(tdname, "r"))
++    test_data['TEST_LOG_DIR'] = test_log_dir
++
++    target_pkg_manifest = OESDKTestContextExecutor._load_manifest(
++        d.expand("${SDK_DEPLOY}/${TOOLCHAIN_OUTPUTNAME}.target.manifest"))
++    host_pkg_manifest = OESDKTestContextExecutor._load_manifest(
++        d.expand("${SDK_DEPLOY}/${TOOLCHAIN_OUTPUTNAME}.host.manifest"))
++
++    sdk_dir = d.expand("${WORKDIR}/testimage-sdk/")
++    bb.utils.remove(sdk_dir, True)
++    bb.utils.mkdirhier(sdk_dir)
+     try:
+-        subprocess.check_output("cd %s; %s <<EOF\n./tc\nY\nEOF" % (sdktestdir, tcname), shell=True)
++        subprocess.check_output("cd %s; %s <<EOF\n./\nY\nEOF" % (sdk_dir, tcname), shell=True)
+     except subprocess.CalledProcessError as e:
+         bb.fatal("Couldn't install the SDK:\n%s" % e.output.decode("utf-8"))
+ 
+-    try:
+-        run_test_context(SDKTestContext, d, sdktestdir, tcname, pn)
+-    finally:
+-        bb.utils.remove(sdktestdir, True)
++    fail = False
++    sdk_envs = OESDKTestContextExecutor._get_sdk_environs(sdk_dir)
++    for s in sdk_envs:
++        sdk_env = sdk_envs[s]
++        bb.plain("SDK testing environment: %s" % s)
++        tc = OESDKTestContext(td=test_data, logger=logger, sdk_dir=sdk_dir,
++            sdk_env=sdk_env, target_pkg_manifest=target_pkg_manifest,
++            host_pkg_manifest=host_pkg_manifest)
+ 
++        try:
++            tc.loadTests(OESDKTestContextExecutor.default_cases)
++        except Exception as e:
++            import traceback
++            bb.fatal("Loading tests failed:\n%s" % traceback.format_exc())
++
++        result = tc.runTests()
++
++        component = "%s %s" % (pn, OESDKTestContextExecutor.name)
++        context_msg = "%s:%s" % (os.path.basename(tcname), os.path.basename(sdk_env))
++
++        tc.logSummary(result, component, context_msg)
++        tc.logDetails()
++
++        if not result.wasSuccessful():
++            fail = True
++
++    if fail:
++        bb.fatal("%s - FAILED - check the task log and the commands log" % pn)
++  
+ testsdk_main[vardepsexclude] =+ "BB_ORIGENV"
+ 
+ python do_testsdk() {
+@@ -94,7 +138,6 @@ def testsdkext_main(d):
+     from oeqa.oetest import SDKTestContext, SDKExtTestContext
+     from oeqa.utils import avoid_paths_in_environ
+ 
+-
+     # extensible sdk use network
+     export_proxies(d)
+ 
 -- 
 2.1.4
 
