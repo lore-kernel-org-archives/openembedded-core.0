@@ -1,23 +1,23 @@
 Return-Path: <anibal.limon@linux.intel.com>
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id F17C26069D
+	by mail.openembedded.org (Postfix) with ESMTP id 4493F71BF9
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  8 Dec 2016 16:18:51 +0000 (UTC)
+	Thu,  8 Dec 2016 16:18:52 +0000 (UTC)
 Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-	by orsmga102.jf.intel.com with ESMTP; 08 Dec 2016 08:18:53 -0800
+	by orsmga102.jf.intel.com with ESMTP; 08 Dec 2016 08:18:54 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.33,320,1477983600"; d="scan'208";a="40496457"
+X-IronPort-AV: E=Sophos;i="5.33,320,1477983600"; d="scan'208";a="40496463"
 Received: from alimonb-mobl1.zpn.intel.com ([10.219.5.142])
 	by fmsmga006.fm.intel.com with ESMTP; 08 Dec 2016 08:18:53 -0800
 From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  8 Dec 2016 10:20:32 -0600
-Message-Id: <be22b2990c3cbefb53fb062b6c120ea2a2722c79.1481213961.git.anibal.limon@linux.intel.com>
+Date: Thu,  8 Dec 2016 10:20:33 -0600
+Message-Id: <6a96f7f7c5c4d1aacf93d3c78869f4dfd1462bb1.1481213961.git.anibal.limon@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1481213961.git.anibal.limon@linux.intel.com>
 References: <cover.1481213961.git.anibal.limon@linux.intel.com>
 MIME-Version: 1.0
-Subject: [PATCHv3 04/30] oeqa/core/decorator: Add support for OETestDepends
+Subject: [PATCHv3 05/30] oeqa/core/decorator: Add support for OETestID and OETestTag
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,123 +34,81 @@ X-List-Received-Date: Thu, 08 Dec 2016 16:18:52 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-The OETestDepends decorator could be used over test cases to
-define some dependency between them.
+From: Mariano Lopez <mariano.lopez@linux.intel.com>
 
-At loading time sorting the tests to grauntee that a test case
-executes before also raise an exception if found a circular
-dependency between test cases.
+These two decorators stores certain TAG or ID for the test case
+also provides support for filtering in loading step.
 
-At before test case run reviews if the dependency if meet, in the
-case of don't it skips the test case run.
+[YOCTO #10236]
 
-Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
 Signed-off-by: Mariano Lopez <mariano.lopez@linux.intel.com>
+Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
 ---
- meta/lib/oeqa/core/decorator/depends.py | 94 +++++++++++++++++++++++++++++++++
- 1 file changed, 94 insertions(+)
- create mode 100644 meta/lib/oeqa/core/decorator/depends.py
+ meta/lib/oeqa/core/decorator/oeid.py  | 23 +++++++++++++++++++++++
+ meta/lib/oeqa/core/decorator/oetag.py | 24 ++++++++++++++++++++++++
+ 2 files changed, 47 insertions(+)
+ create mode 100644 meta/lib/oeqa/core/decorator/oeid.py
+ create mode 100644 meta/lib/oeqa/core/decorator/oetag.py
 
-diff --git a/meta/lib/oeqa/core/decorator/depends.py b/meta/lib/oeqa/core/decorator/depends.py
+diff --git a/meta/lib/oeqa/core/decorator/oeid.py b/meta/lib/oeqa/core/decorator/oeid.py
 new file mode 100644
-index 0000000..195711c
+index 0000000..ea8017a
 --- /dev/null
-+++ b/meta/lib/oeqa/core/decorator/depends.py
-@@ -0,0 +1,94 @@
++++ b/meta/lib/oeqa/core/decorator/oeid.py
+@@ -0,0 +1,23 @@
 +# Copyright (C) 2016 Intel Corporation
 +# Released under the MIT license (see COPYING.MIT)
 +
-+from unittest import SkipTest
++from . import OETestFilter, registerDecorator
++from oeqa.core.utils.misc import intToList
 +
-+from oeqa.core.exception import OEQADependency
-+
-+from . import OETestDiscover, registerDecorator
-+
-+def _add_depends(registry, case, depends):
-+    module_name = case.__module__
-+    class_name = case.__class__.__name__
-+
-+    case_id = case.id()
-+
-+    for depend in depends:
-+        dparts = depend.split('.')
-+
-+        if len(dparts) == 1:
-+            depend_id = ".".join((module_name, class_name, dparts[0]))
-+        elif len(dparts) == 2:
-+            depend_id = ".".join((module_name, dparts[0], dparts[1]))
-+        else:
-+            depend_id = depend
-+
-+        if not case_id in registry:
-+            registry[case_id] = []
-+        if not depend_id in registry[case_id]:
-+            registry[case_id].append(depend_id)
-+
-+def _validate_test_case_depends(cases, depends):
-+    for case in depends:
-+        if not case in cases:
-+            continue
-+        for dep in depends[case]:
-+            if not dep in cases:
-+                raise OEQADependency("TestCase %s depends on %s and isn't available"\
-+                       ", cases available %s." % (case, dep, str(cases.keys())))
-+
-+def _order_test_case_by_depends(cases, depends):
-+    def _dep_resolve(graph, node, resolved, seen):
-+        seen.append(node)
-+        for edge in graph[node]:
-+            if edge not in resolved:
-+                if edge in seen:
-+                    raise OEQADependency("Test cases %s and %s have a circular" \
-+                                       " dependency." % (node, edge))
-+                _dep_resolve(graph, edge, resolved, seen)
-+        resolved.append(node)
-+
-+    dep_graph = {}
-+    dep_graph['__root__'] = cases.keys()
-+    for case in cases:
-+        if case in depends:
-+            dep_graph[case] = depends[case]
-+        else:
-+            dep_graph[case] = []
-+
-+    cases_ordered = []
-+    _dep_resolve(dep_graph, '__root__', cases_ordered, [])
-+    cases_ordered.remove('__root__')
-+
-+    return [cases[case_id] for case_id in cases_ordered]
-+
-+def _skipTestDependency(case, depends):
-+    results = case.tc._results
-+    skipReasons = ['errors', 'failures', 'skipped']
-+
-+    for reason in skipReasons:
-+        for test, _ in results[reason]:
-+            if test.id() in depends:
-+                raise SkipTest("Test case %s depends on %s and was in %s." \
-+                        % (case.id(), test.id(), reason))
++def _idFilter(oeid, filters):
++     return False if oeid in filters else True
 +
 +@registerDecorator
-+class OETestDepends(OETestDiscover):
-+    attrs = ('depends',)
++class OETestID(OETestFilter):
++    attrs = ('oeid',)
 +
 +    def bind(self, registry, case):
-+        super(OETestDepends, self).bind(registry, case)
-+        if not registry.get('depends'):
-+            registry['depends'] = {}
-+        _add_depends(registry['depends'], case, self.depends)
++        super(OETestID, self).bind(registry, case)
 +
-+    @staticmethod
-+    def discover(registry):
-+        if registry.get('depends'):
-+            _validate_test_case_depends(registry['cases'], registry['depends'])
-+            return _order_test_case_by_depends(registry['cases'], registry['depends'])
-+        else:
-+            return [registry['cases'][case_id] for case_id in registry['cases']]
++    def filtrate(self, filters):
++        if filters.get('oeid'):
++            filterx = intToList(filters['oeid'], 'oeid')
++            del filters['oeid']
++            if _idFilter(self.oeid, filterx):
++                return True
++        return False
+diff --git a/meta/lib/oeqa/core/decorator/oetag.py b/meta/lib/oeqa/core/decorator/oetag.py
+new file mode 100644
+index 0000000..ad38ab7
+--- /dev/null
++++ b/meta/lib/oeqa/core/decorator/oetag.py
+@@ -0,0 +1,24 @@
++# Copyright (C) 2016 Intel Corporation
++# Released under the MIT license (see COPYING.MIT)
 +
-+    def setUpDecorator(self):
-+        _skipTestDependency(self.case, self.depends)
++from . import OETestFilter, registerDecorator
++from oeqa.core.utils.misc import strToList
++
++def _tagFilter(tags, filters):
++    return False if set(tags) & set(filters) else True
++
++@registerDecorator
++class OETestTag(OETestFilter):
++    attrs = ('oetag',)
++
++    def bind(self, registry, case):
++        super(OETestTag, self).bind(registry, case)
++        self.oetag = strToList(self.oetag, 'oetag')
++
++    def filtrate(self, filters):
++        if filters.get('oetag'):
++            filterx = strToList(filters['oetag'], 'oetag')
++            del filters['oetag']
++            if _tagFilter(self.oetag, filterx):
++                return True
++        return False
 -- 
 2.1.4
 
